@@ -60,8 +60,10 @@ baseoff, instore, freg, ans, where
 #ifndef addressingtkey
 #define addressingtkey 1
 
-#include "common_types.h"
+#include "config.h"
 
+#include "installtypes.h"
+#include "localtypes.h"
 
 struct makeansst {
   int   lab;

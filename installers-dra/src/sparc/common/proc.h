@@ -102,6 +102,9 @@ $Log: proc.h,v $
 #ifndef PROCDECS_INCLUDED
 #define PROCDECS_INCLUDED
 
+#include "config.h"
+
+#include "installtypes.h"
 #include "addrtypes.h"
 #include "proctypes.h"
 #include "exptypes.h"

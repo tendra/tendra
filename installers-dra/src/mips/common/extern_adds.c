@@ -45,7 +45,6 @@ $Log: extern_adds.c,v $
 ***********************************************************************/
 #include "config.h"
 #include "extern_adds.h"
-#include "common_types.h"
 #include "procrectypes.h"
 #include "tags.h"
 #include "exp.h"

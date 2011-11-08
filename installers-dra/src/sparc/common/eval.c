@@ -143,11 +143,11 @@ $Log: eval.c,v $
 */
 
 #include <assert.h>
+#include <ctype.h>
 
 #include "config.h"
-#include <ctype.h>
+
 #include "addrtypes.h"
-#include "common_types.h"
 #include "tags.h"
 #include "expmacs.h"
 #include "exp.h"
@@ -171,6 +171,7 @@ $Log: eval.c,v $
 #include "eval.h"
 #ifdef NEWDWARF
 #include "dw2_config.h"
+#include "dw2_iface.h"
 #endif
 /*
     INFORMATION FOR OUTPUTTING DATA

@@ -102,7 +102,6 @@ in a register.
 #include <assert.h>
 
 #include "config.h"
-#include "common_types.h"
 #include "addrtypes.h"
 #include "proctypes.h"
 #include "labels.h"

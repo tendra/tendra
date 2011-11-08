@@ -73,7 +73,6 @@ $Log: is_worth.c,v $
 
 
 #include "config.h"
-#include "common_types.h"
 #include "tags.h"
 #include "expmacs.h"
 #include "exp.h"

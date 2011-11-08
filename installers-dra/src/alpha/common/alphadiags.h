@@ -79,6 +79,9 @@ $Log: alphadiags.h,v $
  *
 */
 
+#include "config.h"
+#include "exptypes.h"
+
 #include "exptypes.h"
 #include "diagtypes.h"
 extern int nofds;

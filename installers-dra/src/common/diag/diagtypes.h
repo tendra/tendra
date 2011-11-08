@@ -82,6 +82,10 @@ $Log: diagtypes.h,v $
 #ifndef diagtypes_key
 #define diagtypes_key 1
 
+#include "config.h"
+
+#include "installtypes.h"
+
 
 #ifdef NEWDIAGS
 
@@ -113,7 +117,9 @@ typedef int diag_type_unit;
 				/* end dummy defs */
 				/* forward defns for compiler pacification */
 
+#include "codetypes.h"
 #include "diagtypes1.h"
+#include "installtypes.h"
 
 
 				/* end forward defns */

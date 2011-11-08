@@ -108,6 +108,9 @@ $Log: needscan.h,v $
 #ifndef NEEDSCANDECS_H
 #define NEEDSCANDECS_H
 
+#include "config.h"
+
+#include "installtypes.h"
 #include "exptypes.h"
 
 

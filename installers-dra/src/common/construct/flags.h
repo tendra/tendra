@@ -82,8 +82,6 @@ $Log: flags.h,v $
 #ifndef flags_key
 #define flags_key
 
-#include "common_types.h"
-
 extern int do_inlining;
 extern int do_special_fns;
 extern int do_loopconsts;

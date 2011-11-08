@@ -92,7 +92,9 @@ Imported from DRA
 
 
 #include "config.h"
-#include "common_types.h"
+
+#include "codetypes.h"
+#include "exptypes.h"
 #include "codex.h"
 #include "diag_fns.h"
 #include "diagglob.h"

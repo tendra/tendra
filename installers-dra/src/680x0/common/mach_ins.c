@@ -116,7 +116,6 @@ Imported from DRA
 #include <shared/error.h>
 
 #include "config.h"
-#include "common_types.h"
 #include "instrs.h"
 #include "mach.h"
 #include "mach_ins.h"

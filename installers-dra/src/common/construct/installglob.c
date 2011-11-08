@@ -81,7 +81,6 @@ $Log: installglob.c,v $
 ***********************************************************************/
 
 #include "config.h"
-#include "common_types.h"
 
 #include "installglob.h"
 

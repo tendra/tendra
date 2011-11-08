@@ -87,7 +87,6 @@ $Log: guard.c,v $
 */
 
 #include "config.h"
-#include "common_types.h"
 #include "regmacs.h"
 #include "procrec.h"
 #include "addrtypes.h"

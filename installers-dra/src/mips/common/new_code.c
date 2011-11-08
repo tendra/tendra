@@ -186,7 +186,8 @@ minus unsigned with et
 ****************************************************************/
 
 #include "config.h"
-#include "common_types.h"
+
+#include "exptypes.h"
 #include "addrtypes.h"
 #include "tags.h"
 #include "expmacs.h"

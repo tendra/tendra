@@ -90,6 +90,9 @@ $Log: weights.h,v $
 #ifndef WEIGHTS_INCLUDED
 #define WEIGHTS_INCLUDED
 
+#include "config.h"
+
+#include "installtypes.h"
 #include "exptypes.h"
 #include "procrec.h"
 

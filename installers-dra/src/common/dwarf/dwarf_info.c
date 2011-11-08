@@ -90,7 +90,8 @@ $Log: dwarf_info.c,v $
 /* LOG 25/11/93 removed redundant expr_buf djch */
 
 #include "config.h"
-#include "common_types.h"
+
+#include "exptypes.h"
 #include "readglob.h"
 #include "table_fns.h"
 #include "basicread.h"

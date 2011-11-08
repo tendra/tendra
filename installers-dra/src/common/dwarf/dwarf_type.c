@@ -97,15 +97,17 @@ $Log: dwarf_type.c,v $
 /* LOG 7/9/93 changes for SPARC SVR4.2 to abstract asm directives djch */
 /* LOG 25/11/93 renamed SET to DOT_SET to free SET for pwc's use djch */
 
+#include <shared/xalloc.h>
+
 #include "config.h"
-#include "common_types.h"
+
+#include "codetypes.h"
 #include "installtypes.h"
 #include "machine.h"
 #include "out.h"
 #include "shapemacs.h"
 #include "expmacs.h"
 #include "basicread.h"
-#include <shared/xalloc.h>
 
 #include "dwarf_types.h"
 #include "dwarf_out.h"

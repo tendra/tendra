@@ -76,7 +76,6 @@ $Log: labels.c,v $
 
 #define SPARCTRANS_CODE
 #include "config.h"
-#include "common_types.h"
 #include "addrtypes.h"
 #include "regexps.h"
 #include "labels.h"

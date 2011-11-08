@@ -100,11 +100,13 @@ $Log: muldvrem.h,v $
 #ifndef MULDVREM_INCLUDED
 #define MULDVREM_INCLUDED
 
+#include "config.h"
+
+#include "installtypes.h"
 #include "exptypes.h"
 #include "addrtypes.h"
 #include "proctypes.h"
 #include "exptypes.h"
-#include "installtypes.h"
 
 extern bool is_muldivrem_call(exp);
 extern int call_muldivrem(exp, exp, space, int, int);

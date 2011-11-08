@@ -72,7 +72,8 @@ $Log: check_id.h,v $
 ***********************************************************************/
 
 
-#include "common_types.h"
+#include "config.h"
+#include "exptypes.h"
 
 extern int check_id(exp e, exp scope);
 extern int used_in(exp vardec, exp piece);

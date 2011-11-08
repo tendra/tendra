@@ -244,6 +244,8 @@ translat.c,v
 #include <shared/xalloc.h>
 
 #include "config.h"
+
+#include "codetypes.h"
 #include "exptypes.h"
 #include "flpt.h"
 #include "frames.h"

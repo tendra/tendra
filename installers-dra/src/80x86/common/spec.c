@@ -99,7 +99,8 @@ $Log: spec.c,v $
 **********************************************************************/
 
 #include "config.h"
-#include "common_types.h"
+
+#include "exptypes.h"
 #include "tags.h"
 #include "externs.h"
 #include "expmacs.h"

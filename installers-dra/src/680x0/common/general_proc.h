@@ -80,6 +80,12 @@ All general_proc tests passed
 --------------------------------------------------------------------------
 */
 
+#include "config.h"
+
+#include "installtypes.h"
+#include "exptypes.h"
+#include "localtypes.h"
+
 void apply_general_proc(exp e, where dest, ash stack);
 void tail_call(exp e, where dest, ash stack);
 void gcproc(exp p, char* pname, long cname, int is_ext, int reg_res, diag_global* di);

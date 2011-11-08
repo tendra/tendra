@@ -153,7 +153,8 @@ NEW DIAG STRUCTURE
 #include <stddef.h>
 
 #include "config.h"
-#include "common_types.h"
+
+#include "exptypes.h"
 #include "exp.h"
 #include "expmacs.h"
 #include "shapemacs.h"

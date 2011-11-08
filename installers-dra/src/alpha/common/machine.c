@@ -29,9 +29,10 @@
 
 
 #include "config.h"
-#include "common_types.h"
 #include "expmacs.h"
 #include "shapemacs.h"
+#include "installtypes.h"
+#include "localtypes.h"
 
 
 int

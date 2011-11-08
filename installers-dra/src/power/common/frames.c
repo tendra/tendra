@@ -79,6 +79,8 @@ $Log: frames.c,v $
 #include <shared/xalloc.h>
 
 #include "config.h"
+
+#include "exptypes.h"
 #include "memtdf.h"
 #include "codegen.h"
 #include "installglob.h"
@@ -103,6 +105,8 @@ $Log: frames.c,v $
 #include "readglob.h"
 #include "stack.h"
 #include "frames.h"
+#include "stack.h"
+
 long frame_offset(exp id)
 {
   exp init_exp = son(id);

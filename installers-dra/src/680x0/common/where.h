@@ -103,6 +103,12 @@ Imported from DRA
 #ifndef WHERE_INCLUDED
 #define WHERE_INCLUDED
 
+#include "config.h"
+
+#include "exptypes.h"
+#include "installtypes.h"
+
+
 /*
     STRUCTURE REPRESENTING ALLOCATED EXPRESSIONS
 

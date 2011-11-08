@@ -60,6 +60,19 @@
 #ifndef TOKTYPES_H
 #define TOKTYPES_H
 
+#include "config.h"
+
+#include "dg_first.h"
+#include "diaginfo.h"
+
+#include "exptypes.h"
+#include "installtypes.h"
+
+#include "dg_types.h"  /* new diags */
+#include "diagtypes.h" /* old diags */
+
+
+
 /* definitions of types used in read_fns.c */
 
 struct place_t {

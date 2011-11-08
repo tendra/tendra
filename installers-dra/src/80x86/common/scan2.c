@@ -182,7 +182,8 @@ $Log: scan2.c,v $
 
 
 #include "config.h"
-#include "common_types.h"
+
+#include "exptypes.h"
 #include "exp.h"
 #include "expmacs.h"
 #include "tags.h"

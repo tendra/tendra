@@ -81,9 +81,9 @@ $Log: special.c,v $
 */
 
 
-#define HPPATRANS_CODE
 #include "config.h"
-#include "common_types.h"
+
+#define HPPATRANS_CODE
 #include "exptypes.h"
 #include "expmacs.h"
 #include "codetypes.h"

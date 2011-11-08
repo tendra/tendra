@@ -117,7 +117,6 @@ $Log: evaluate.c,v $
 
 
 #include "config.h"
-#include "common_types.h"
 
 #include "tags.h"
 #include "basicread.h"
@@ -141,6 +140,7 @@ $Log: evaluate.c,v $
 #include "messages_8.h"
 #include "diag_fns.h"
 #include "f64.h"
+#include "diag_config.h"
 
 #include "evaluate.h"
 

@@ -107,6 +107,9 @@ $Log: error.c,v $
 #include <shared/error.h>
 
 #include "config.h"
+
+#include "codetypes.h"
+#include "exptypes.h"
 #include "memtdf.h"
 #include "codegen.h"
 #include "comment.h"

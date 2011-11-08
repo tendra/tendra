@@ -63,7 +63,8 @@
 #include <stdlib.h>
 
 #include "config.h"
-#include "common_types.h"
+
+#include "codetypes.h"
 #include "basicread.h"
 #include "ecodes.h"
 #include "externs.h"

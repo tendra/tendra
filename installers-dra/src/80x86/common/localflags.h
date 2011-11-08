@@ -57,6 +57,10 @@
         it may be put.
 */
 
+#include "config.h"
+
+#include "li_types.h"
+
 extern  int is80486;		/* compile for 80486 */
 extern  int is80586;		/* compile for 80586 */
 extern  int always_use_frame;	/* always use %ebp as a frame pointer */

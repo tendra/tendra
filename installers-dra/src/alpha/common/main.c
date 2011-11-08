@@ -99,7 +99,6 @@ $Log: driver.c,v $
 #include <stdlib.h>
 
 #include "config.h"
-#include "common_types.h"
 #include "basicread.h"
 #include "flags.h"
 #include "main_reads.h"

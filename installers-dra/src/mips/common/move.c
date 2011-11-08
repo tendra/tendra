@@ -68,7 +68,6 @@ Delivers register used if 1-word destination is instore; otherwise NOREG.
 #include "labels.h"
 #include "psu_ops.h"
 #include "bitsmacs.h"
-#include "common_types.h"
 #include "main.h"
 #include "guard.h"
 #include "maxminmacs.h"

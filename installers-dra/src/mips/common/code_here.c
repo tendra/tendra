@@ -63,7 +63,6 @@ in a register.
 ******************************************************************/
 
 #include "config.h"
-#include "common_types.h"
 #include "addrtypes.h"
 #include "procrectypes.h"
 #include "labels.h"

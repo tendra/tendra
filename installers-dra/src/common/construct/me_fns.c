@@ -83,7 +83,9 @@ $Log: me_fns.c,v $
 #include <stddef.h>
 
 #include "config.h"
-#include "common_types.h"
+
+#include "codetypes.h"
+#include "exptypes.h"
 #include "exp.h"
 #include "expmacs.h"
 #include "table_fns.h"

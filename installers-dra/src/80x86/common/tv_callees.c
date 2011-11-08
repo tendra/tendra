@@ -86,7 +86,6 @@ $Log: tv_callees.c,v $
 **********************************************************************/
 
 #include "config.h"
-#include "common_types.h"
 #include "installglob.h"
 #include "externs.h"
 #include "flags.h"

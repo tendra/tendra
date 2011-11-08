@@ -43,8 +43,11 @@ $Log: bstack.c,v $
  * Initial revision
  *
 ***********************************************************************/
-#include "config.h"
+
 #include <shared/xalloc.h>
+
+#include "config.h"
+
 #include "bstack.h"
 
 void

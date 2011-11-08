@@ -105,6 +105,12 @@ $Log: diagout.h,v $
 #ifndef DIAGOUT_H
 #define DIAGOUT_H	1
 
+#include "config.h"
+
+#include "installtypes.h"
+#include "config.h"
+#include "exptypes.h"
+
 extern void init_diag(void);
 extern void fixup_name(exp , dec * , dec *);
 extern void stab_bs(char *);

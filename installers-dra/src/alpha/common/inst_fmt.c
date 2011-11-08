@@ -96,7 +96,12 @@ $Log: inst_fmt.c,v $
  * Initial revision
  *
 */
+
+#include <shared/xalloc.h>
+
 #include "config.h"
+
+#include "exptypes.h"
 #include "inst_fmt.h"
 #include "main.h"
 #include "fail.h"
@@ -104,7 +109,6 @@ $Log: inst_fmt.c,v $
 #include "cross.h"
 #include "regexps.h"
 #include "alpha_ins.h"
-#include <shared/xalloc.h>
 #include "bool.h"
 #include "ibinasm.h"
 #include "out_ba.h"

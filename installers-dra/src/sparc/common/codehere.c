@@ -93,7 +93,6 @@ $Log: codehere.c,v $
 
 #define SPARCTRANS_CODE
 #include "config.h"
-#include "common_types.h"
 #include "addrtypes.h"
 #include "proctypes.h"
 #include "labels.h"
@@ -114,6 +113,7 @@ $Log: codehere.c,v $
 #include "move.h"
 #include "comment.h"
 #include "codehere.h"
+#include "diag_config.h"
 
 
 /*

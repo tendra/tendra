@@ -78,6 +78,9 @@ $Log: procrectypes.h,v $
 #ifndef procreckey
 #define procreckey 1
 
+#include "config.h"
+
+#include "installtypes.h"
 #include "exptypes.h"
 
 #define wfixno		32

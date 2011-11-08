@@ -97,7 +97,6 @@ $Log: dw2_lines.c,v $
 
 #include "config.h"
 #include <time.h>
-#include "common_types.h"
 #include "dg_globs.h"
 #include "dw2_config.h"
 #include "dw2_lines.h"

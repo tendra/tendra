@@ -81,7 +81,8 @@ $Log: inlinechoice.c,v $
 #include <assert.h>
 
 #include "config.h"
-#include "common_types.h"
+
+#include "exptypes.h"
 #include "installglob.h"
 #include "exp.h"
 #include "expmacs.h"

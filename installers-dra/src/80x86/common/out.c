@@ -61,7 +61,6 @@
 
 
 #include "config.h"
-#include "common_types.h"
 #include "basicread.h"
 #include "flags.h"
 #include "localflags.h"

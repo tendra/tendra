@@ -125,7 +125,8 @@ $Log: operand.c,v $
 
 
 #include "config.h"
-#include "common_types.h"
+
+#include "exptypes.h"
 #include "tags.h"
 #include "basicread.h"
 #include "expmacs.h"

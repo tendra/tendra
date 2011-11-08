@@ -58,5 +58,10 @@
 */
 
 
+#include "config.h"
+
+#include "installtypes.h"
+#include "exptypes.h"
+
 extern bool comp_eq_exp(exp a, exp b, exp laba, exp labb);
 

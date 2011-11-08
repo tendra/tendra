@@ -74,7 +74,6 @@ $Log: f64.c,v $
 
 
 #include "config.h"
-#include "common_types.h"
 #include "flpttypes.h"
 #include "messages_c.h"
 #include "flpt.h"

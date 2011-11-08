@@ -58,6 +58,9 @@
 */
 
 
+#include "config.h"
+#include "exptypes.h"
+
 extern int oddunary(exp, exp, exp *);
 extern int oddtest(exp, exp *, exp *, exp *);
 extern int last_statement(exp, exp *);

@@ -96,9 +96,11 @@ $Log: eval.h,v $
 #ifndef EVALDECS_INCLUDED
 #define EVALDECS_INCLUDED
 
+#include "config.h"
+
+#include "installtypes.h"
 #include "addrtypes.h"
 #include "flpttypes.h"
-#include "common_types.h"
 
 extern bool is_zero(exp);
 extern instore evaluated(exp, long, bool);

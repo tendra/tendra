@@ -68,8 +68,10 @@ $Log: proctypes.h,v $
 #ifndef PROCTYPES_INCLUDED
 #define PROCTYPES_INCLUDED
 
+#include "config.h"
+
+#include "installtypes.h"
 #include "exptypes.h"
-#include "common_types.h"
 
 
 typedef struct {

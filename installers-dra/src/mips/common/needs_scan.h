@@ -77,6 +77,7 @@ $Log: needs_scan.h,v $
 */
 
 
+#include "config.h"
 #include "exptypes.h"
 
 extern needs scan(exp * e, exp ** at);

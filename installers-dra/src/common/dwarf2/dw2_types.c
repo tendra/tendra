@@ -81,7 +81,6 @@ $Log: dw2_types.c,v $
 **********************************************************************/
 
 #include "config.h"
-#include "common_types.h"
 #include "dw2_config.h"
 #include "dw2_types.h"
 #include "dw2_codes.h"

@@ -52,6 +52,8 @@ $Log: special.c,v $
 
 
 #include "config.h"
+
+#include "exptypes.h"
 #include "expmacs.h"
 #include "addrtypes.h"
 #include "shapemacs.h"
@@ -66,7 +68,6 @@ $Log: special.c,v $
 #include "tags.h"
 #include "procrectypes.h"
 #include "bitsmacs.h"
-#include "common_types.h"
 #include "special.h"
 #include "basicread.h"
 

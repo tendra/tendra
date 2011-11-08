@@ -32,8 +32,10 @@
 ** float.c
 */
 
+#include <shared/xalloc.h>
+
 #include "config.h"
-#include "common_types.h"
+
 #include "flpttypes.h"
 #include "flpt.h"
 #include "expmacs.h"

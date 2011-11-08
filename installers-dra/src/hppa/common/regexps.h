@@ -98,6 +98,9 @@ $Log: regexps.h,v $
 #ifndef REGEXPS_INCLUDED
 #define REGEXPS_INCLUDED
 
+#include "config.h"
+
+#include "installtypes.h"
 #include "exptypes.h"
 
 typedef struct {

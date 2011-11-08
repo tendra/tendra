@@ -98,6 +98,9 @@ $Log: tempdecs.h,v $
 #ifndef TEMPDECS_INCLUDED
 #define TEMPDECS_INCLUDED
 
+#include "config.h"
+
+#include "installtypes.h"
 #include "exptypes.h"
 
 extern bool tempdecopt;

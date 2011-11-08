@@ -51,7 +51,6 @@ A clear bit indicates that the corresponding register is free for use.
 
 ******************************************************************/
 #include "config.h"
-#include "common_types.h"
 #include "procrectypes.h"
 #include "exptypes.h"
 #include "expmacs.h"

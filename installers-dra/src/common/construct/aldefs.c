@@ -74,7 +74,6 @@ $Log: aldefs.c,v $
 
 
 #include "config.h"
-#include "common_types.h"
 #include "installglob.h"
 #include "basicread.h"
 #include "messages_c.h"

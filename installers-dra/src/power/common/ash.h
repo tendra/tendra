@@ -106,6 +106,8 @@ $Log: ash.h,v $
 #define ASHDECS_H	1
 
 
+#include "config.h"
+
 #include "memtdf.h"
 
 #include "installtypes.h"

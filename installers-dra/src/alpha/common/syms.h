@@ -64,9 +64,12 @@
 
 */
 
-#include "common_types.h"
 extern int *symnos;
 extern int *tempsnos;
+
+#include "config.h"
+
+#include "installtypes.h"
 
 extern int  symnoforext(dec * t, int filen);
 extern int  symnoforstart(int i, int filen);

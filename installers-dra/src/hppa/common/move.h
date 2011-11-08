@@ -98,6 +98,8 @@ $Log: move.h,v $
 #ifndef MOVEDECS_INCLUDED
 #define MOVEDECS_INCLUDED
 
+#include "config.h"
+
 #include "installtypes.h"
 #include "addrtypes.h"
 #include "hppains.h"

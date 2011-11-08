@@ -128,6 +128,7 @@ stack, (this is obviously always available for parameters).
 
 
 #include "config.h"
+
 #include "exptypes.h"
 #include "expmacs.h"
 #include "codetypes.h"
@@ -135,7 +136,6 @@ stack, (this is obviously always available for parameters).
 #include "const.h"
 #include "exp.h"
 #include "tags.h"
-#include "common_types.h"
 #include "proctypes.h"
 #include "procrec.h"
 #include "bitsmacs.h"

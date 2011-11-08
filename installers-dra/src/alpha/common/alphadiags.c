@@ -94,8 +94,11 @@ alphadiags.c,v
 #include <stdlib.h>
 #include <string.h>
 
+#include <shared/xalloc.h>
+
 #include "config.h"
-#include "common_types.h"
+
+#include "codetypes.h"
 #include "exptypes.h"
 #include "shapemacs.h"
 #include "expmacs.h"
@@ -105,7 +108,6 @@ alphadiags.c,v
 #include "tags.h"
 #include "bitsmacs.h"
 #include "diagtypes.h"
-#include <shared/xalloc.h>
 #include "syms.h"
 #include "diag_fns.h"
 #include "locate.h"

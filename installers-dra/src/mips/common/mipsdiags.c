@@ -62,6 +62,8 @@ around the syms modules provided in the system library.
 
 
 ********************************************************************/
+#include <shared/xalloc.h>
+
 #include "config.h"
 #include "cross_config.h"
 
@@ -71,7 +73,7 @@ around the syms modules provided in the system library.
 #include CROSS_INCLUDE/symconst.h>
 #endif
 
-#include "common_types.h"
+#include "codetypes.h"
 #include "symtab.h"
 #include "exptypes.h"
 #include "shapemacs.h"
@@ -81,7 +83,6 @@ around the syms modules provided in the system library.
 #include "tags.h"
 #include "bitsmacs.h"
 #include "diagtypes.h"
-#include <shared/xalloc.h>
 #include "ibinasm.h"
 #include "out_ba.h"
 #include "syms.h"

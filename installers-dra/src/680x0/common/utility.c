@@ -101,7 +101,6 @@ Imported from DRA
 
 #include "config.h"
 #include <stdarg.h>
-#include "common_types.h"
 #include "basicread.h"
 #include "instrs.h"
 #include "utility.h"

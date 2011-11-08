@@ -76,10 +76,15 @@ $Log: flpt_fns.c,v $
 /* This file consists of the floating point and complex operations
    extracted from install_fns.c, to reduce compilation unit sizes */
 
-#include "config.h"
 #include <ctype.h>
 #include <time.h>
-#include "common_types.h"
+
+#include <shared/xalloc.h>
+
+#include "config.h"
+
+#include "codetypes.h"
+#include "exptypes.h"
 #include "basicread.h"
 #include "exp.h"
 #include "expmacs.h"
@@ -92,7 +97,6 @@ $Log: flpt_fns.c,v $
 #include "table_fns.h"
 #include "flpttypes.h"
 #include "flpt.h"
-#include <shared/xalloc.h>
 #include "shapemacs.h"
 #include "read_fns.h"
 #include "sortmacs.h"

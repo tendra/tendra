@@ -92,6 +92,12 @@ NEW DIAG STRUCTURE
 #define diag_fns_key 1
 
 
+#include "config.h"
+
+#include "exptypes.h"
+#include "dg_first.h"
+#include "diaginfo.h"
+#include "toktypes.h"
 
 
 extern void out_diagnose_prelude(void);

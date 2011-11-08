@@ -73,6 +73,9 @@ $Log: label_ops.h,v $
 #ifndef label_ops_key
 #define label_ops_key 1
 
+#include "config.h"
+#include "exptypes.h"
+
 extern int label_is_next(exp lab, exp e);
 extern exp short_next_jump(exp e);
 extern exp jump_dest(exp lab);

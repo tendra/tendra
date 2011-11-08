@@ -58,7 +58,6 @@ $Log: code_here.c,v $
 */
 
 #include "config.h"
-#include "common_types.h"
 #include "addresstypes.h"
 #include "procrectypes.h"
 #include "labels.h"

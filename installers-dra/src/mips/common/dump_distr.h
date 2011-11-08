@@ -72,7 +72,9 @@ $Log: dump_distr.h,v $
 ***********************************************************************/
 /* dump_distr.h */
 
-#include "common_types.h"
+#include "config.h"
+
+#include "installtypes.h"
 #include "procrectypes.h"
 
 extern  void dump_opt(exp rscope, space * tobd, space * pars);

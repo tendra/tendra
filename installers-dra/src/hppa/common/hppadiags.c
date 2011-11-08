@@ -200,8 +200,10 @@ d (section number). -ve values used to control
 #include <shared/xalloc.h>
 #include <shared/xalloc.h>
 
-#define HPPATRANS_CODE
 #include "config.h"
+
+#define HPPATRANS_CODE
+#include "codetypes.h"
 #include "addrtypes.h"
 #include "frames.h"
 #include "exptypes.h"

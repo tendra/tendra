@@ -60,6 +60,17 @@
 #ifndef READGLOB_H
 #define READGLOB_H
 
+#include "config.h"
+
+#include "installtypes.h"
+#include "toktypes.h"
+
+#include "dg_first.h"
+#include "diaginfo.h"
+#include "dg_types.h"  /* new diags */
+#include "diagtypes.h" /* old diags */
+
+
 /* the table of tags which are available at the capsule level */
 extern dec *capsule_tagtab;
 

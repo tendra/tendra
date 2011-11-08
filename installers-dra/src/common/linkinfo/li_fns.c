@@ -73,10 +73,11 @@ $Log: li_fns.c,v $
 
 
 
-
+#include <shared/xalloc.h>
 
 #include "config.h"
-#include "common_types.h"
+
+#include "exptypes.h"
 #include "flags.h"
 #include "messages_li.h"
 #include "natmacs.h"
@@ -94,7 +95,6 @@ extern weak_cell *weak_list;
 #include "out.h"
 #endif
 
-#include <shared/xalloc.h>
 #include "readglob.h"
 #include "basicread.h"
 #include "exp.h"

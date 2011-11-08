@@ -65,6 +65,9 @@
 */
 
 
+#include "config.h"
+
+#include "installtypes.h"
 #include "exptypes.h"
 
 

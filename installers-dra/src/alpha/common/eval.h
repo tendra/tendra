@@ -81,9 +81,11 @@ $Log: eval.h,v $
  *
 */
 
+#include "config.h"
+
+#include "localtypes.h"
 #include "addresstypes.h"
 #include "flpttypes.h"
-#include "common_types.h"
 #include "cross.h"
 
 extern int  next_data_lab(void);

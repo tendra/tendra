@@ -192,12 +192,12 @@ the proc independent (common to other  translators)
 #include <assert.h>
 
 #include "config.h"
+
 #include "exptypes.h"
 #include "exp.h"
 #include "expmacs.h"
 #include "tags.h"
 #include "new_tags.h"
-#include "common_types.h"
 #include "check.h"
 #include "proctypes.h"
 #include "bitsmacs.h"

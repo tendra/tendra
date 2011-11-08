@@ -31,7 +31,6 @@
 /* these are name tags fabricated by scan or tokens*/
 #ifndef EXTRATAGS
 #define EXTRATAGS
-#include "common_types.h"
 
 #define locptr_tag	249
 #define maxlike_tag 	250

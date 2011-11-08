@@ -379,9 +379,10 @@ $Log: makecode.c,v $
 
 #include <assert.h>
 
-#define SPARCTRANS_CODE
 #include "config.h"
-#include "common_types.h"
+
+#define SPARCTRANS_CODE
+#include "exptypes.h"
 #include "addrtypes.h"
 #include "tags.h"
 #include "extra_tags.h"
@@ -422,6 +423,7 @@ $Log: makecode.c,v $
 #include "szs_als.h"
 #include "new_tags.h"
 #include "f64.h"
+#include "diag_config.h"
 
 #ifdef NEWDIAGS
 #include "dg_aux.h"

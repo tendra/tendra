@@ -134,8 +134,6 @@ $Log: locate.c,v $
 #include "proc.h"
 #include "frames.h"
 
-#include "common_types.h"
-
 #include "locate.h"
 
 

@@ -80,6 +80,9 @@ $Log: regexps.h,v $
 */
 
 
+#include "config.h"
+
+#include "installtypes.h"
 #include "exptypes.h"
 #include "addrtypes.h"
 

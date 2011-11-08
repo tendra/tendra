@@ -78,6 +78,8 @@ $Log: dg_first.h,v $
 
 /* breaks type cycles */
 
+#include "config.h"
+
 
 typedef struct dg_name_t *dg_name;
 typedef struct dg_type_t *dg_type;

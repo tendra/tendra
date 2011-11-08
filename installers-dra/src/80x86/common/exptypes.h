@@ -60,6 +60,15 @@
 #ifndef EXPTYPES_H
 #define EXPTYPES_H
 
+#include "config.h"
+
+#include "codetypes.h"
+
+#include "dg_first.h"
+#include "diaginfo.h"
+
+
+
 typedef short prop;
 
 struct aldef_t;

@@ -86,7 +86,6 @@
 
 #include "config.h"
 #ifdef DEBUG_POWERTRANS
-#include "common_types.h"
 #include "exptypes.h"
 #include "expmacs.h"
 #include "exp.h"

@@ -98,6 +98,9 @@ $Log: special.h,v $
 #ifndef SPECIAL_INCLUDED
 #define SPECIAL_INCLUDED
 
+#include "config.h"
+
+#include "installtypes.h"
 #include "exp.h"
 #include "proctypes.h"
 #include "addrtypes.h"

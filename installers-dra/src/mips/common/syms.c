@@ -56,15 +56,15 @@ $Log: syms.c,v $
 #include "config.h"
 #include "cross_config.h"
 
+#include <shared/xalloc.h>
+
 #ifndef CROSS_INCLUDE
 #include <symconst.h>
 #else
 #include CROSS_INCLUDE/symconst.h>
 #endif
 
-#include "common_types.h"
 #include "symtab.h"
-#include <shared/xalloc.h>
 #include "flags.h"
 #include "expmacs.h"
 #include "shapemacs.h"
@@ -74,6 +74,7 @@ $Log: syms.c,v $
 #include "basicread.h"
 #include "mipsdiags.h"
 #include "new_symbol.h"
+#include "localtypes.h"
 
 extern long currentfile;
 

@@ -71,7 +71,6 @@ $Log: glopt.c,v $
 
 #define SPARCTRANS_CODE
 #include "config.h"
-#include "common_types.h"
 #include "tags.h"
 #include "externs.h"
 #include "expmacs.h"

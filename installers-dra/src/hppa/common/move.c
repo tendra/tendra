@@ -108,7 +108,6 @@ Delivers register used if 1-word destination is instore; otherwise NOREG.
 #include "labels.h"
 #include "comment.h"
 #include "bitsmacs.h"
-#include "common_types.h"
 #include "regmacs.h"
 #include "maxminmacs.h"
 #include "makecode.h"

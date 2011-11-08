@@ -91,6 +91,9 @@ $Log: const.h,v $
  *
  ************************************************************************/
 
+#include "config.h"
+#include "exptypes.h"
+
 #include "consttypes.h"
 
 extern void repeat_consts(void);

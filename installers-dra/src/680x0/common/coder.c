@@ -139,11 +139,13 @@ Imported from DRA
 */
 
 
+#include <limits.h>
+
 #include <shared/error.h>
+#include <shared/xalloc.h>
 
 #include "config.h"
-#include <limits.h>
-#include "common_types.h"
+#include "exptypes.h"
 #include "check.h"
 #include "exp.h"
 #include "expmacs.h"

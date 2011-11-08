@@ -75,7 +75,6 @@ $Log: machine.c,v $
 
 #define SPARCTRANS_CODE
 #include "config.h"
-#include "common_types.h"
 #include "expmacs.h"
 #include "shapemacs.h"
 #include "regable.h"

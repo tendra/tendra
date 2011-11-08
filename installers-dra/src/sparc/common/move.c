@@ -123,7 +123,6 @@ $Log: move.c,v $
 #include <assert.h>
 
 #include "config.h"
-#include "common_types.h"
 #include "sparcins.h"
 #include "inst_fmt.h"
 #include "addrtypes.h"

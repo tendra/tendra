@@ -100,6 +100,9 @@ $Log: translate.c,v $
  * Initial revision
  *
 ***********************************************************************/
+
+#include <shared/xalloc.h>
+
 #include "config.h"
 #include "cross_config.h"
 
@@ -109,7 +112,7 @@ $Log: translate.c,v $
 #include CROSS_INCLUDE/symconst.h>
 #endif
 
-#include "common_types.h"
+#include "codetypes.h"
 #include "symtab.h"
 #include "installglob.h"
 #include "tags.h"
@@ -130,7 +133,6 @@ $Log: translate.c,v $
 #include "ibinasm.h"
 #include "syms.h"
 #include "out_ba.h"
-#include <shared/xalloc.h>
 #include "new_symbol.h"
 #include "mipsdiags.h"
 #include "extern_adds.h"

@@ -105,6 +105,11 @@ $Log: muldvrem.h,v $
 #ifndef MULDVREMDECS_H
 #define MULDVREMDECS_H
 
+#include "config.h"
+
+#include "installtypes.h"
+#include "exptypes.h"
+
 #include "memtdf.h"
 #include "procrectypes.h"
 

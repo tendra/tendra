@@ -58,7 +58,6 @@
 */
 
 #include "config.h"
-#include "common_types.h"
 #include "install_fns.h"
 #include "arith_codes.h"
 

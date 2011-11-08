@@ -113,7 +113,12 @@ $Log: translat.h,v $
 
 #ifndef TRANSLAT_INCLUDED
 #define TRANSLAT_INCLUDED
+
+#include "config.h"
+
 #include "addrtypes.h"
+#include "localtypes.h"
+
 extern int optim_level;
 extern int g_reg_max;
 extern int maxfix_tregs;

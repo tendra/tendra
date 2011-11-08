@@ -60,6 +60,10 @@
 #ifndef OPERAND_H
 #define OPERAND_H
 
+#include "config.h"
+#include "exptypes.h"
+#include "localtypes.h"
+
 void operand(int sz, where wh, int b, int addr);
 
 extern int stack_dec;

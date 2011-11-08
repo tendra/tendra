@@ -84,7 +84,6 @@ $Log: dw2_common.c,v $
 **********************************************************************/
 
 #include "config.h"
-#include "common_types.h"
 #include "basicread.h"
 #include "install_fns.h"
 #include <shared/xalloc.h>

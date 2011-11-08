@@ -99,6 +99,9 @@ $Log: oprators.h,v $
 #ifndef OPRATORS_INCLUDED
 #define OPRATORS_INCLUDED
 
+#include "config.h"
+
+#include "installtypes.h"
 #include "exptypes.h"
 #include "addrtypes.h"
 

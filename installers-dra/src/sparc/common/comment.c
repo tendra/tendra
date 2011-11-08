@@ -77,7 +77,6 @@ $Log: comment.c,v $
 
 #define SPARCTRANS_CODE
 #include "config.h"
-#include "common_types.h"
 #include "comment.h"
 #include "const.h"
 #include "out.h"

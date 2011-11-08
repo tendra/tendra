@@ -314,7 +314,6 @@ $Log: proc.c,v $
 
 #define SPARCTRANS_CODE
 #include "config.h"
-#include "common_types.h"
 #include "addrtypes.h"
 #include "tags.h"
 #include "expmacs.h"
@@ -348,6 +347,7 @@ $Log: proc.c,v $
 #include "szs_als.h"
 #include "externs.h"
 #include "sparctrans.h"
+#include "diag_config.h"
 
 #ifdef NEWDIAGS
 #include "dg_globs.h"

@@ -60,7 +60,6 @@
 
 #include "config.h"
 #include "extern_adds.h"
-#include "common_types.h"
 #include "tags.h"
 #include "exp.h"
 #include "expmacs.h"

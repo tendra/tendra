@@ -111,7 +111,16 @@ $Log: dw2_config.h,v $
 #define dw2_config_key 1
 
 #include "config.h"
-#include "common_types.h"
+
+#include "dg_first.h"
+
+#include "diaginfo.h"
+#include "exptypes.h"
+#include "installtypes.h"
+#include "dg_types.h"		/* NEW DIAGS */
+
+#include "exptypes.h"
+#include "installtypes.h"
 #include "out.h"
 #include "assembler.h"
 #include "localflags.h"

@@ -57,8 +57,8 @@ $Log: oddtest.c,v $
 */
 
 #include "config.h"
+
 #include "tags.h"
-#include "common_types.h"
 #include "expmacs.h"
 #include "exptypes.h"
 #include "shapemacs.h"

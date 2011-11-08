@@ -77,6 +77,7 @@ $Log: mipsdiags.h,v $
 #ifndef MIPSDGDECS
 #define MIPSDGDECS
 
+#include "config.h"
 #include "exptypes.h"
 #include "diagtypes.h"
 extern int nofds;

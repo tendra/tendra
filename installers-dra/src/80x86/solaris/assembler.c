@@ -99,10 +99,12 @@ $Log: assembler.c,v $
 
 
 #include "config.h"
-#include "common_types.h"
+
+#include "exptypes.h"
 #include "out.h"
 #include "expmacs.h"
 #include "exp.h"
+#include "instr.h"
 #include "operand.h"
 #include "machine.h"
 #include "localflags.h"

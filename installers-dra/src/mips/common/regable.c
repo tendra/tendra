@@ -53,8 +53,9 @@ $Log: regable.c,v $
 
 
 #include "config.h"
+
+#include "localtypes.h"
 #include "expmacs.h"
-#include "common_types.h"
 #include "shapemacs.h"
 #include "tags.h"
 #include "regable.h"

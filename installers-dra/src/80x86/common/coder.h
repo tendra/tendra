@@ -60,6 +60,11 @@
 #ifndef CODER_H
 #define CODER_H
 
+#include "config.h"
+
+#include "exptypes.h"
+#include "localtypes.h"
+
 void coder(where dest, ash stack, exp e);
 void clean_stack(void);
 #ifdef NEWDIAGS

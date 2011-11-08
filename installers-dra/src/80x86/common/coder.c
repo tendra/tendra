@@ -259,9 +259,14 @@ $Log: coder.c,v $
 **********************************************************************/
 
 
-#include "config.h"
 #include <limits.h>
-#include "common_types.h"
+
+#include <shared/xalloc.h>
+
+#include "config.h"
+
+#include "codetypes.h"
+#include "exptypes.h"
 #include "weights.h"
 #include "basicread.h"
 #include "tags.h"
@@ -277,7 +282,6 @@ $Log: coder.c,v $
 #include "check.h"
 #include "flags.h"
 #include "codec.h"
-#include <shared/xalloc.h>
 #include "global_opt.h"
 #include "reg_record.h"
 #include "externs.h"
@@ -298,6 +302,7 @@ $Log: coder.c,v $
 #ifdef NEWDIAGS
 #include "dg_aux.h"
 #include "dg_globs.h"
+#include "diag_config.h"
 #endif
 
 #ifdef NEWDWARF

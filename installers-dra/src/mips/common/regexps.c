@@ -98,6 +98,8 @@ For trivial 'peephole' optimisations
 
 
 #include "config.h"
+
+#include "exptypes.h"
 #include "expmacs.h"
 #include "addrtypes.h"
 #include "tags.h"
@@ -105,7 +107,6 @@ For trivial 'peephole' optimisations
 #include "bitsmacs.h"
 #include "maxminmacs.h"
 #include "shapemacs.h"
-#include "common_types.h"
 #include "extratags.h"
 #include "check.h"
 #include "basicread.h"

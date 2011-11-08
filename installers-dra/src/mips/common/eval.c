@@ -115,7 +115,6 @@ into the table of externals (or 0 meaning anonymous). XXX
 *****************************************************************/
 
 #include "config.h"
-#include "common_types.h"
 #include "addrtypes.h"
 #include "tags.h"
 #include "expmacs.h"

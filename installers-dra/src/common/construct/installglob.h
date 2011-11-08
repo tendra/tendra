@@ -85,6 +85,12 @@ $Log: installglob.h,v $
 #ifndef installglob_key
 #define installglob_key 1
 
+#include "config.h"
+
+#include "exptypes.h"
+#include "toktypes.h"
+
+
 extern exp crt_repeat;
 extern exp repeat_list;
 extern exp global_case;

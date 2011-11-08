@@ -94,12 +94,16 @@
 
 #ifndef CROSS_H
 #define CROSS_H
+
 #include <limits.h>
-/*typedef char bool;*/
+
+#include "config.h"
+
+#include "installtypes.h"
 #include "output.h"
 #include "flpttypes.h"
 #include "exptypes.h"
-#include "common_types.h"
+
 extern flt64 exp_to_f64(exp);
 typedef int INT32;
 typedef unsigned int UINT32;

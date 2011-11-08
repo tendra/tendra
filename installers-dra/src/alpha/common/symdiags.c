@@ -40,8 +40,12 @@ static char vcid[] = "$Id: symdiags.c,v 1.2 1998/02/04 10:43:33 release Exp $";
   symbolic assembler files.  Only file and line number information 
   is available.
 */
+
+#include <shared/xalloc.h>
+
 #include "config.h"
-#include "common_types.h"
+
+#include "codetypes.h"
 #include "exptypes.h"
 #include "shapemacs.h"
 #include "expmacs.h"
@@ -51,7 +55,6 @@ static char vcid[] = "$Id: symdiags.c,v 1.2 1998/02/04 10:43:33 release Exp $";
 #include "tags.h"
 #include "bitsmacs.h"
 #include "diagtypes.h"
-#include <shared/xalloc.h>
 #include "ibinasm.h"
 #include "out_ba.h"
 #include "syms.h"

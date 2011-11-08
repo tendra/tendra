@@ -95,7 +95,8 @@ Imported from DRA
 
 
 #include "config.h"
-#include "common_types.h"
+
+#include "codetypes.h"
 #include "expmacs.h"
 #include "externs.h"
 #include "instrs.h"

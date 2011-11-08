@@ -57,6 +57,18 @@
         it may be put.
 */
 
+#include "config.h"
+
+#include "codetypes.h"
+
+#include "dg_first.h"
+
+#include "diaginfo.h"
+#include "exptypes.h"
+#include "installtypes.h"
+#include "dg_types.h"		/* NEW DIAGS */
+#include "diagtypes.h"		/* OLD DIAGS */
+
 
 /* 	$Id$	 */
 extern long add_type_to_aux(diag_type, long);

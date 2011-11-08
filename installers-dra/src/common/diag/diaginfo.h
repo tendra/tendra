@@ -89,6 +89,7 @@ NEW DIAG STRUCTURE
 #define diaginfo_key 1
 
 
+#include "config.h"
 
 typedef struct diag_info_t diag_info; /* let's break a type cycle */
 

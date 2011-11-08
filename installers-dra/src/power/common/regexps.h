@@ -105,6 +105,9 @@ $Log: regexps.h,v $
 #ifndef	REGEXPSDECS_H
 #define	REGEXPSDECS_H	1
 
+#include "config.h"
+
+#include "installtypes.h"
 #include "memtdf.h"
 
 /* number to add to floating point reg number for these functions */

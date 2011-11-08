@@ -110,7 +110,7 @@ the proc independent (common to other  translators)
 *************************************************************/
 
 #include "config.h"
-#include "common_types.h"
+
 #include "exptypes.h"
 #include "exp.h"
 #include "expmacs.h"

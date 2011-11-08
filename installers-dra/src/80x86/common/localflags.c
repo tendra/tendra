@@ -58,7 +58,6 @@
 */
 
 #include "config.h"
-#include "common_types.h"
 
 #include "localflags.h"
 

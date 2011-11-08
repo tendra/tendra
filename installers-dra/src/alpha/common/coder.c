@@ -249,11 +249,13 @@ $Log: coder.c,v $
    This is the principal code producing module
 */
 
+#include <shared/xalloc.h>
+
 #include <stdlib.h>
 
 #include "config.h"
+#include "exptypes.h"
 #include "coder.h"
-#include "common_types.h"
 #include "addresstypes.h"
 #include "tags.h"
 #include "expmacs.h"

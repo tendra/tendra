@@ -108,10 +108,13 @@ $Log: dg_aux.c,v $
 ***********************************************************************/
 
 
-#include "config.h"
-#include "common_types.h"
-#include "basicread.h"
 #include <shared/xalloc.h>
+
+#include "config.h"
+
+#include "codetypes.h"
+#include "exptypes.h"
+#include "basicread.h"
 #include "sortmacs.h"
 #include "expmacs.h"
 #include "tags.h"

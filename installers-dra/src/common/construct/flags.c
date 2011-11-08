@@ -81,7 +81,6 @@ $Log: flags.c,v $
 ***********************************************************************/
 
 #include "config.h"
-#include "common_types.h"
 #include "flags.h"
 
 int do_inlining = 1;		/* apply inlining optimisations */

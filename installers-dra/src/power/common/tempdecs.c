@@ -105,8 +105,9 @@ $Log: tempdecs.c,v $
 #include <shared/error.h>
 
 #include "config.h"
+
+#include "exptypes.h"
 #include "tags.h"
-#include "common_types.h"
 #include "exp.h"
 #include "const.h"
 #include "expmacs.h"
@@ -114,6 +115,7 @@ $Log: tempdecs.c,v $
 #include "regable.h"
 #include "tempdecs.h"
 #include "regmacs.h"
+#include "stack.h"
 
 /* to go in a switch as in case CASE_APPLYLIKE: */
 #define	CASE_APPLYLIKE	apply_tag: case round_tag:case apply_general_tag

@@ -84,7 +84,6 @@ $Log: getregs.c,v $
 #include <assert.h>
 
 #include "config.h"
-#include "common_types.h"
 #include "regmacs.h"
 #include "proctypes.h"
 #include "exptypes.h"

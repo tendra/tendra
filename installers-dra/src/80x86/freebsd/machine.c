@@ -61,7 +61,6 @@
 /* freebsd/machine.c */
 
 #include "config.h"
-#include "common_types.h"
 #include "expmacs.h"
 #include "exp.h"
 #include "shapemacs.h"

@@ -134,7 +134,6 @@ $Log: frames.c,v $
 
 #include "config.h"
 #include "bitsmacs.h"
-#include "common_types.h"
 #include "expmacs.h"
 #include "procrec.h"
 #include "tags.h"

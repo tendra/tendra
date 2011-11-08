@@ -95,7 +95,8 @@ $Log: reg_record.c,v $
 
 
 #include "config.h"
-#include "common_types.h"
+
+#include "exptypes.h"
 #include "operand.h"
 #include "tags.h"
 #include "exp.h"
@@ -104,6 +105,7 @@ $Log: reg_record.c,v $
 #include "shapemacs.h"
 #include "codermacs.h"
 #include "flags.h"
+#include "diag_config.h"
 
 #ifdef NEWDWARF
 #include "dw2_extra.h"

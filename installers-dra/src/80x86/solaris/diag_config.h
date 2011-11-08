@@ -97,6 +97,11 @@ $Log: diag_config.h,v $
 #ifndef diag_config_key
 #define diag_config_key
 
+#include "config.h"
+
+#include "dg_first.h"
+#include "diaginfo.h"
+
 
 typedef long OUTPUT_REC;
 

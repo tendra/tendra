@@ -102,6 +102,10 @@ Imported from DRA
 #ifndef MACH_OP_INCLUDED
 #define MACH_OP_INCLUDED
 
+#include "config.h"
+
+#include "installtypes.h"
+
 extern bool check_op(mach_op *, int);
 extern bool equal_op(mach_op *, mach_op *);
 extern void free_mach_op(mach_op *);

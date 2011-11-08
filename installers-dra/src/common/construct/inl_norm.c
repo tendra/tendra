@@ -86,8 +86,10 @@ NEW DIAG STRUCTURE
 
 #include <stdio.h>
 
+#include <shared/xalloc.h>
+
 #include "config.h"
-#include "common_types.h"
+
 #include "installglob.h"
 #include "exp.h"
 #include "expmacs.h"
@@ -100,7 +102,6 @@ NEW DIAG STRUCTURE
 #include "shapemacs.h"
 #include "glopt.h"
 #include "inline.h"
-#include <shared/xalloc.h>
 #ifdef NEWDIAGS
 #include "dg_aux.h"
 #endif

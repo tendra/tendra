@@ -104,7 +104,14 @@ Imported from DRA
 
 #ifndef OPERATIONS_INCLUDED
 #define OPERATIONS_INCLUDED
+
+#include "config.h"
+
+#include "installtypes.h"
+#include "exptypes.h"
+#include "localtypes.h"
 #include "ecodes.h"
+
 extern bool have_cond;
 extern bool D1_is_special;
 extern int crt_rmode;

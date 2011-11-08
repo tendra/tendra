@@ -125,7 +125,7 @@ Imported from DRA
 #include <shared/error.h>
 
 #include "config.h"
-#include "common_types.h"
+#include "exptypes.h"
 #include "exp.h"
 #include "expmacs.h"
 #include "flags.h"

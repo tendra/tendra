@@ -69,6 +69,14 @@ $Log: exptypes.h,v $
 #ifndef EXPTYPES_INCLUDED
 #define EXPTYPES_INCLUDED
 
+#include "config.h"
+
+#include "codetypes.h"
+
+#include "dg_first.h"
+#include "diaginfo.h"
+
+
 
 /*
     TYPE REPRESENTING EXPRESSION PROPERTIES

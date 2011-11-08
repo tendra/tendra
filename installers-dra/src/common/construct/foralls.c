@@ -81,9 +81,11 @@ make_stack_limit, env_size etc
 ***********************************************************************/
 
 
+#include <shared/xalloc.h>
 
 #include "config.h"
-#include "common_types.h"
+
+#include "exptypes.h"
 #include "tags.h"
 #include "expmacs.h"
 #include "exp.h"
@@ -96,7 +98,6 @@ make_stack_limit, env_size etc
 #include "flags.h"
 #include "me_fns.h"
 #include "basicread.h"
-#include <shared/xalloc.h>
 #include "externs.h"
 #include "foralls.h"
 

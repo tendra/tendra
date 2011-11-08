@@ -73,6 +73,10 @@ $Log: machine.h,v $
 #ifndef machine_key
 #define machine_key 1
 
+#include "config.h"
+
+#include "installtypes.h"
+
 extern int reg_result(shape sha);
 extern char *local_prefix;
 extern char *name_prefix;

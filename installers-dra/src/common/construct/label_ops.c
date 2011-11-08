@@ -88,7 +88,8 @@ $Log: label_ops.c,v $
 #include <stddef.h>
 
 #include "config.h"
-#include "common_types.h"
+
+#include "exptypes.h"
 #include "expmacs.h"
 #include "tags.h"
 #include "label_ops.h"

@@ -111,7 +111,6 @@ Imported from DRA
 
 
 #include "config.h"
-#include "common_types.h"
 #include "assembler.h"
 #include "exp.h"
 #include "expmacs.h"

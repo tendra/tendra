@@ -56,7 +56,7 @@ $Log: dump_distr.c,v $
 
 */
 #include "config.h"
-#include "common_types.h"
+
 #include "exptypes.h"
 #include "exp.h"
 #include "expmacs.h"
@@ -64,7 +64,6 @@ $Log: dump_distr.c,v $
 #include "bitsmacs.h"
 #include "new_tags.h"
 #include "procrectypes.h"
-#include "common_types.h"
 #include "shapemacs.h"
 #include "frames.h"
 #include "regable.h"

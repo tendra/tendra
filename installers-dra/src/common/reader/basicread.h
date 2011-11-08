@@ -60,6 +60,11 @@
 #ifndef BASICREAD_H
 #define BASICREAD_H
 
+#include "config.h"
+
+#include "installtypes.h"
+#include "toktypes.h"
+
 extern int crt_lno;
 extern char *crt_flnm;
 extern int crt_charno;

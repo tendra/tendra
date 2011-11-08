@@ -105,6 +105,8 @@ $Log: muldvrem.c,v $
 #include <shared/error.h>
 
 #include "config.h"
+
+#include "exptypes.h"
 #include "memtdf.h"
 #include "codegen.h"
 #include "geninst.h"

@@ -66,7 +66,6 @@ $Log: operators.c,v $
 #include "tags.h"
 #include "shapemacs.h"
 #include "bitsmacs.h"
-#include "common_types.h"
 #include "mips_ins.h"
 #include "operators.h"
 #include "psu_ops.h"

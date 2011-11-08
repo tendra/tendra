@@ -178,11 +178,13 @@ $Log: instr.c,v $
 **********************************************************************/
 
 
+#include <shared/xalloc.h>
+
 #include "config.h"
-#include "common_types.h"
+
+#include "exptypes.h"
 #include "out.h"
 #include "operand.h"
-#include "instrmacs.h"
 #include "expmacs.h"
 #include "exp.h"
 #include "instr386.h"
@@ -206,13 +208,14 @@ $Log: instr.c,v $
 #include "check.h"
 #include "label_ops.h"
 #include "externs.h"
-#include <shared/xalloc.h>
+#include "instrmacs.h"
 
 #include "instr.h"
 
 #ifdef NEWDWARF
 #include "dw2_config.h"
 #include "dw2_extra.h"
+#include "diag_config.h"
 #endif
 
 

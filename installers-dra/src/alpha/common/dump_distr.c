@@ -36,8 +36,10 @@ static char vcid[] = "$Id: dump_distr.c,v 1.1.1.1 1998/01/17 15:55:59 release Ex
 /* 
    dump_distrib.c
 */
+
 #include "config.h"
-#include "common_types.h"
+
+#include "exptypes.h"
 #include "exptypes.h"
 #include "exp.h"
 #include "expmacs.h"

@@ -33,8 +33,13 @@
 */
 #ifndef OUTOFLINE
 #define OUTOFLINE 1
+
+#include "config.h"
+
+#include "exptypes.h"
 #include "addresstypes.h"
-#include "common_types.h"
+#include "localtypes.h"
+
 typedef struct outofline_t {
   struct outofline_t * next;
   where dest;

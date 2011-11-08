@@ -129,8 +129,11 @@ $Log: translate.c,v $
 #include <string.h>
 #include <stdlib.h>
 
+#include <shared/xalloc.h>
+
 #include "config.h"
-#include "common_types.h"
+
+#include "codetypes.h"
 #include "installglob.h"
 #include "tags.h"
 #include "exp.h"
@@ -148,7 +151,6 @@ $Log: translate.c,v $
 #include "eval.h"
 #include "bitsmacs.h"
 #include "scan.h"
-#include <shared/xalloc.h>
 #include "main.h"
 #include "frames.h"
 #include "reg_defs.h"

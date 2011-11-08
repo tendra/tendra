@@ -49,6 +49,9 @@ $Log: makesymtab.c,v $
  * Initial revision
  *
 ***********************************************************************/
+
+#include <shared/xalloc.h>
+
 #include "config.h"
 #include "cross_config.h"
 
@@ -59,10 +62,9 @@ $Log: makesymtab.c,v $
 #endif
 
 #include "symtab.h"
-#include "common_types.h"
 #include "flags.h"
+#include "installtypes.h"
 #include "makesymtab.h"
-#include <shared/xalloc.h>
 
 extern bool BIGEND;
 int MAJOR_VERSION_as = 3;

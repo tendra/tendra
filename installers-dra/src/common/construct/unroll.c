@@ -77,7 +77,8 @@ $Log: unroll.c,v $
 #include <stddef.h>
 
 #include "config.h"
-#include "common_types.h"
+
+#include "exptypes.h"
 #include "basicread.h"
 #include "exp.h"
 #include "expmacs.h"

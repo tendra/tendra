@@ -100,7 +100,6 @@ $Log: locate.c,v $
 #include "getregs.h"
 #include "move.h"
 #include "handle_sregs.h"
-#include "common_types.h"
 #include "frames.h"
 #include "code_here.h"
 #include "locate.h"

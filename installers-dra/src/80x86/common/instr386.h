@@ -64,6 +64,11 @@
 #ifndef INSTR386_H
 #define INSTR386_H
 
+#include "config.h"
+
+#include "exptypes.h"
+#include "localtypes.h"
+
 void add(shape sha, where a1, where a2, where dest);
 void absop(shape sha, where a1, where dest);
 void maxop(shape sha, where a1, where a2, where dest);

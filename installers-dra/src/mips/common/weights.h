@@ -74,6 +74,7 @@ $Log: weights.h,v $
    externals for weights.c
 */
 
+#include "config.h"
 #include "exptypes.h"
 #include "procrectypes.h"
 

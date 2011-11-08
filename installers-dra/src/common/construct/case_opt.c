@@ -80,8 +80,11 @@ $Log: case_opt.c,v $
 
 #include <assert.h>
 
+#include <shared/xalloc.h>
+
 #include "config.h"
-#include "common_types.h"
+
+#include "exptypes.h"
 #include "installglob.h"
 #include "exp.h"
 #include "expmacs.h"
@@ -98,7 +101,6 @@ $Log: case_opt.c,v $
 #include "case_opt.h"
 #include "externs.h"
 #include "me_fns.h"
-#include <shared/xalloc.h>
 #include "install_fns.h"
 #include "szs_als.h"
 

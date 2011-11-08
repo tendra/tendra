@@ -111,6 +111,8 @@ $Log: proc.c,v $
 #include <shared/xalloc.h>
 
 #include "config.h"
+
+#include "exptypes.h"
 #include "memtdf.h"
 #include "codegen.h"
 #include "geninst.h"
@@ -125,6 +127,7 @@ $Log: proc.c,v $
 #include "parameter.h"
 #include "error.h"
 #include "dynamic_init.h"
+#include "stack.h"
 
 space do_callers(int,exp,space);
 void do_function_call(exp,space);

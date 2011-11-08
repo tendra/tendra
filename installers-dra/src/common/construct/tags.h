@@ -93,6 +93,12 @@ $Log: tags.h,v $
 ***********************************************************************/
 #ifndef c_diff
 
+#include "config.h"
+
+#include "installtypes.h"
+#include "dg_first.h"
+#include "diaginfo.h"
+
 #define ident_tag 1
 
 #define seq_tag 3

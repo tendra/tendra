@@ -35,7 +35,6 @@ static char vcid[] = "$Id: is_worth.c,v 1.1.1.1 1998/01/17 15:56:00 release Exp 
 #endif /* lint */
 
 #include "config.h"
-#include "common_types.h"
 #include "tags.h"
 #include "expmacs.h"
 #include "exp.h"

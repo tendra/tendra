@@ -43,7 +43,14 @@ $Log: exptypes.h,v $
 
 #ifndef exptypes_key
 #define exptypes_key 1
+
+#include "config.h"
+
+#include "codetypes.h"
+
+#include "dg_first.h"
 #include "diaginfo.h"
+
 
 
 typedef unsigned short prop;

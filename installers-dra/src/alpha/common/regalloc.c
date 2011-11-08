@@ -81,7 +81,6 @@ $Log: regalloc.c,v $
 #include "maxminmacs.h"
 #include "regable.h"
 #include "regmacs.h"
-#include "common_types.h"
 #include "frames.h"
 #include "reg_defs.h"
 #include "coder.h"

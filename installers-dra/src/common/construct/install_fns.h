@@ -71,6 +71,10 @@ $Log: install_fns.h,v $
  *
 ***********************************************************************/
 
+#include "config.h"
+
+#include "installtypes.h"
+
 extern shape ucharsh;
 extern shape scharsh;
 extern shape uwordsh;

@@ -48,11 +48,12 @@ conditionals with tests which only jump to nearest conditional outlab;
 initial call : comp_eq_exp(a,b,nilexp,nilexp)  */
 
 #include "config.h"
+
+#include "exptypes.h"
 #include "tags.h"
 #include "expmacs.h"
 #include "exptypes.h"
 #include "shapemacs.h"
-#include "common_types.h"
 #include "exp.h"
 #include "comp_eq_exp.h"
 

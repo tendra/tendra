@@ -125,7 +125,6 @@ $Log: regalloc.c,v $
 #include <assert.h>
 
 #include "config.h"
-#include "common_types.h"
 #include "expmacs.h"
 #include "tags.h"
 #include "proctypes.h"

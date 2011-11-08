@@ -115,7 +115,6 @@ $Log: weights.c,v $
 
 #include "config.h"
 #include <limits.h>
-#include "common_types.h"
 #include "expmacs.h"
 #include "tags.h"
 #include "exp.h"

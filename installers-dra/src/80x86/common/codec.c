@@ -165,15 +165,14 @@ $Log: codec.c,v $
 **********************************************************************/
 
 #include "config.h"
-#include "common_types.h"
 
+#include "exptypes.h"
 #include "expmacs.h"
 #include "exp.h"
 #include "instr386.h"
 #include "tags.h"
 #include "operand.h"
 #include "shapemacs.h"
-#include "instrmacs.h"
 #include "basicread.h"
 #include "flags.h"
 #include "coder.h"
@@ -185,6 +184,7 @@ $Log: codec.c,v $
 #include "reg_record.h"
 #include "readglob.h"
 #include "externs.h"
+#include "instrmacs.h"
 
 #include "codec.h"
 

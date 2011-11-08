@@ -60,6 +60,9 @@ If the entry generated is greater than 1 AUXU in length the index corresponding 
 
 
 ********************************************************************/
+
+#include <shared/xalloc.h>
+
 #include "config.h"
 #include "cross_config.h"
 
@@ -69,13 +72,12 @@ If the entry generated is greater than 1 AUXU in length the index corresponding 
 #include CROSS_INCLUDE/symconst.h>
 #endif
 
-#include "common_types.h"
+#include "codetypes.h"
 #include "shapemacs.h"
 #include "exp.h"
 #include "expmacs.h"
 #include "diagtypes.h"
 #include "diag_fns.h"
-#include <shared/xalloc.h>
 #include "symtab.h"
 #include "new_symbol.h"
 #include "basicread.h"

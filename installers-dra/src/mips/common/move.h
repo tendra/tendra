@@ -76,8 +76,10 @@ $Log: move.h,v $
 /* movedecs.h
 */
 
+#include "config.h"
+
+#include "installtypes.h"
 #include "addrtypes.h"
 #include "procrectypes.h"
-#include "common_types.h"
 
 extern int  move(ans a, where dest, space freeregs, bool sgned);

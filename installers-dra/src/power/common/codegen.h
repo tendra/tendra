@@ -93,6 +93,8 @@ $Log: codegen.h,v $
 #include "regable.h"
 #include "regexps.h"
 
+#include "localtypes.h"
 #include "installtypes.h"
 #include "inst_fmt.h"
+
 #endif

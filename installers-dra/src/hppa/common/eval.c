@@ -113,7 +113,6 @@ into the table of externals (or 0 meaning anonymous).
 
 #include "config.h"
 #include "addrtypes.h"
-#include "common_types.h"
 #include "tags.h"
 #include "expmacs.h"
 #include "exp.h"

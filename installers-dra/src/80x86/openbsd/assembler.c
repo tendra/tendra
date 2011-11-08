@@ -57,8 +57,13 @@
         it may be put.
 */
 
+#include <string.h>
+
+#include <shared/xalloc.h>
+
 #include "config.h"
-#include "common_types.h"
+
+#include "exptypes.h"
 #include "out.h"
 #include "expmacs.h"
 #include "exp.h"
@@ -72,9 +77,7 @@
 #include "assembler.h"
 #include "instr.h"
 #include "instr386.h"
-#include <shared/xalloc.h>
 #include "install_fns.h"
-#include <string.h>
 
 void
 dot_align(int n)

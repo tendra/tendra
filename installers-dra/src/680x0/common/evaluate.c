@@ -129,7 +129,6 @@ Imported from DRA
 #else
 #include <float.h>
 #endif
-#include "common_types.h"
 #include "assembler.h"
 #include "basicread.h"
 #include "expmacs.h"

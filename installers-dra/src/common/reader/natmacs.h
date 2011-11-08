@@ -60,6 +60,8 @@
 #ifndef NATMACS_H
 #define NATMACS_H
 
+#include "codetypes.h"
+
 #define natint(x)	((x).nat_val.small_nat)
 #define natbig(x)	((x).nat_val.big_nat)
 #define nat_issmall(x)	((x).issmall)

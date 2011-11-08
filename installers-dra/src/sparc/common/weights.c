@@ -106,8 +106,9 @@ $Log: weights.c,v $
   3) number of ident = 100 in which case allocate value on the 
      stack,(this is obviously always available for parameters).
 */
+
 #include "config.h"
-#include "common_types.h"
+
 #include "exptypes.h"
 #include "expmacs.h"
 #include "codetypes.h"

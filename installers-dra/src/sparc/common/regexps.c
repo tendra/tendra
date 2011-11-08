@@ -86,6 +86,7 @@ $Log: regexps.c,v $
 
 #define SPARCTRANS_CODE
 #include "config.h"
+#include "exptypes.h"
 #include "expmacs.h"
 #include "addrtypes.h"
 #include "tags.h"
@@ -93,7 +94,6 @@ $Log: regexps.c,v $
 #include "bitsmacs.h"
 #include "maxminmacs.h"
 #include "shapemacs.h"
-#include "common_types.h"
 #include "regmacs.h"
 #include "regexps.h"
 #include "comment.h"
@@ -101,6 +101,7 @@ $Log: regexps.c,v $
 #ifdef NEWDWARF
 #include "dw2_config.h"
 #include "dw2_extra.h"
+#include "dw2_iface.h"
 #endif
 
 

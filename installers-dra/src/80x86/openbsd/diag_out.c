@@ -60,8 +60,20 @@
 
 /* openbsd/diag_out.c */
 
+#include <shared/xalloc.h>
+
 #include "config.h"
-#include "common_types.h"
+
+#include "exptypes.h"
+#include "codetypes.h"
+#include "installtypes.h"
+#include "li_types.h"
+
+#include "dg_first.h"
+#include "diaginfo.h"
+#include "dg_types.h"  /* new diags */
+#include "diagtypes.h" /* old diags */
+
 #include "basicread.h"
 #include "out.h"
 #include "machine.h"
@@ -70,7 +82,6 @@
 #include "tags.h"
 #include "szs_als.h"
 #include "diagglob.h"
-#include <shared/xalloc.h>
 #include "exp.h"
 #include "mark_scope.h"
 #include "externs.h"

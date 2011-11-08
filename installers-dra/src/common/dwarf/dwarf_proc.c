@@ -85,7 +85,6 @@ $Log: dwarf_proc.c,v $
 /* LOG 25/11/93 removed redundant args with UNUSED djch */
 
 #include "config.h"
-#include "common_types.h"
 #include "installtypes.h"
 
 /* machine dependant */

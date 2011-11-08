@@ -84,7 +84,6 @@ $Log: frames.c,v $
 ***********************************************************************/
 
 #include "config.h"
-#include "common_types.h"
 #include "procrectypes.h"
 #include "expmacs.h"
 #include "tags.h"

@@ -60,6 +60,10 @@
 #ifndef WEIGHTS_H
 #define WEIGHTS_H
 
+#include "config.h"
+
+#include "exptypes.h"
+
 void init_weights(void);
 void comp_weights(exp e);
 int regable(exp e);

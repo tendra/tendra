@@ -68,7 +68,6 @@ $Log: getregs.c,v $
 
 
 #include "config.h"
-#include "common_types.h"
 #include "procrectypes.h"
 #include "exptypes.h"
 #include "procrecs.h"

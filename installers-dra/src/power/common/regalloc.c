@@ -99,6 +99,7 @@ number of ident = (word displacement in locals)*64 + R_SP
 #include "comment.h"
 
 #include "regalloc.h"
+#include "stack.h"
 
 
 

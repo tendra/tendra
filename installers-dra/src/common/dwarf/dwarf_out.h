@@ -74,6 +74,11 @@ $Log: dwarf_out.h,v $
  *
 **********************************************************************/
 
+#include "config.h"
+
+#include "installtypes.h"
+#include "diagtypes.h"
+
 extern void dwarf4(const char *t);
 extern void dwarf4n(int x);
 extern void dwarf2(char *c);

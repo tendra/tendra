@@ -51,7 +51,6 @@ First version.
 */
 
 #include "config.h"
-#include "common_types.h"
 #include "68k_globals.h"
 
 int not_in_params = 1;

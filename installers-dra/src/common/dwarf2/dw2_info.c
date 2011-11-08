@@ -90,7 +90,6 @@ $Log: dw2_info.c,v $
 **********************************************************************/
 
 #include "config.h"
-#include "common_types.h"
 #include "dg_aux.h"
 #include "dw2_config.h"
 #include "dw2_entries.h"

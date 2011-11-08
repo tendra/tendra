@@ -98,6 +98,9 @@ $Log: localtypes.h,v $
 #ifndef LOCALTYPES_INCLUDED
 #define LOCALTYPES_INCLUDED
 
+#include "config.h"
+
+#include "installtypes.h"
 #include "exptypes.h"
 
 typedef struct {

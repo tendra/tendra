@@ -128,8 +128,7 @@ the proc independent (common to other  translators)
 
 #include "comment.h"
 
-
-#include "common_types.h"
+#include "codetypes.h"
 #include "exptypes.h"
 #include "exp.h"
 #include "expmacs.h"

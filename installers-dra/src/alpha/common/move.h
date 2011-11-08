@@ -65,9 +65,11 @@
    movedecs.h
 */
 
+#include "config.h"
+
+#include "installtypes.h"
 #include "addresstypes.h"
 #include "procrectypes.h"
-#include "common_types.h"
 extern int  move(ans,where,space,bool);
 
 

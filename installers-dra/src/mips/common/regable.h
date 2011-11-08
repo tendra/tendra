@@ -74,8 +74,10 @@ $Log: regable.h,v $
    declares fixregable and floatregable
 */
 
+#include "config.h"
 
-#include "common_types.h"
+#include "installtypes.h"
+#include "exptypes.h"
 
 extern  bool fixregable(exp e);
 extern  bool floatregable(exp e);

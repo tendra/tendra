@@ -44,8 +44,14 @@
 
 #ifndef addressingtkey
 #define addressingtkey 1
+
+
+#include "config.h"
+
+#include "exptypes.h"
 #include "cross.h"
-#include "common_types.h"
+#include "installtypes.h"
+#include "localtypes.h"
 
 
 struct makeansst {

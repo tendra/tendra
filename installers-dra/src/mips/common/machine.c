@@ -42,9 +42,9 @@ $Log: machine.c,v $
 ***********************************************************************/
 
 #include "config.h"
-#include "common_types.h"
 #include "expmacs.h"
 #include "shapemacs.h"
+#include "installtypes.h"
 
 
 /* is the result of a procedure delivering

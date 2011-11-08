@@ -107,7 +107,11 @@ $Log: translat.h,v $
 
 #include <stdio.h>
 
+#include "config.h"
+
+#include "installtypes.h"
 #include "codegen.h"
+
 extern dec * diag_def;
 
 extern FILE *as_file;			/* assembler output file */

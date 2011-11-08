@@ -154,7 +154,6 @@ $Log: translate.c,v $
 
 
 #include "config.h"
-#include "common_types.h"
 #include "installglob.h"
 #include "tags.h"
 #include "exp.h"
@@ -187,6 +186,7 @@ $Log: translate.c,v $
 #include "dw2_iface.h"
 #include "dw2_config.h"
 #endif
+#include "diag_config.h"
 
 
 #define ptg(x) ((x)->ptf.glob)		/* addition to expmacs */

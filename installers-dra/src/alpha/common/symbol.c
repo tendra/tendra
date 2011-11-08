@@ -100,14 +100,16 @@ $Log: symbol.c,v $
 
 #include <string.h>
 
+#include <shared/xalloc.h>
+
 #include "config.h"
+
 #include "symtab.h" 	/* type definitions for translator
 			   produced debugging information
 			   to be incorporated into a .T file */
 #include "bstack.h"
 #include "makesymtab.h"
-#include <shared/xalloc.h>
-#include "common_types.h"
+#include "localtypes.h"
 #include "diagtypes.h"
 #include "expmacs.h"
 #include "symbol.h"

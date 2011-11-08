@@ -73,6 +73,7 @@
 #include "ins_data.h"
 #include "exptypes.h"
 #include "procrectypes.h"
+#include "installtypes.h"
 #if DO_SCHEDULE
 #include "scheduler.h"
 #endif

@@ -96,10 +96,11 @@ $Log: eval.c,v $
   externals.
 */
 
-#include "config.h"
 #include <shared/xalloc.h>
+
+#include "config.h"
+
 #include "addresstypes.h"
-#include "common_types.h"
 #include "tags.h"
 #include "expmacs.h"
 #include "exp.h"

@@ -75,14 +75,16 @@ $Log: pseudo.c,v $
  *
 */
 
+#include <shared/xalloc.h>
+
 #include "config.h"
+
 #include "cross.h"
 #include "frames.h"
 #include "pseudo.h"
 #include "ibinasm.h"
 #include "out_ba.h"
 #include "reg_defs.h"
-#include <shared/xalloc.h>
 #include "bool.h"
 #if DO_SCHEDULE
 #include "scheduler.h"

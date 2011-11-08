@@ -106,9 +106,10 @@ $Log: oprators.c,v $
 
 #include <assert.h>
 
-#define SPARCTRANS_CODE
 #include "config.h"
-#include "common_types.h"
+
+#define SPARCTRANS_CODE
+#include "exptypes.h"
 #include "codehere.h"
 #include "expmacs.h"
 #include "addrtypes.h"

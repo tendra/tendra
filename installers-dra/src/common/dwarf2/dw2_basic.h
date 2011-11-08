@@ -101,6 +101,13 @@ $Log: dw2_basic.h,v $
 #ifndef dw2_basic_key
 #define dw2_basic_key
 
+#include "dg_first.h"
+
+#include "diaginfo.h"
+#include "exptypes.h"
+#include "installtypes.h"
+#include "dg_types.h"		/* NEW DIAGS */
+
 extern void uleb128(unsigned long value);
 extern void sleb128(long value);
 extern int uleb128_length(unsigned long value);

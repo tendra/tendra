@@ -66,6 +66,9 @@
    externs from locate.c
 */
 
+#include "config.h"
+
+#include "installtypes.h"
 #include "exptypes.h"
 #include "addresstypes.h"
 #include "procrectypes.h"

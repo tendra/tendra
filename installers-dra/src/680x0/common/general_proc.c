@@ -98,11 +98,12 @@ Checking in before merging with Input Baseline changes.
 */
 
 
+#include <limits.h>
+
 #include <shared/error.h>
 
 #include "config.h"
-#include <limits.h>
-#include "common_types.h"
+#include "exptypes.h"
 #include "check.h"
 #include "exp.h"
 #include "expmacs.h"

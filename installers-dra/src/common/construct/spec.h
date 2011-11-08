@@ -73,6 +73,10 @@ $Log: spec.h,v $
 #ifndef spec_key
 #define spec_key 1
 
+#include "config.h"
+#include "exptypes.h"
+#include "localtypes.h"
+
 extern speci special_fn(exp a1, exp a2, shape s);
 
  /* a1 is the function, a2 is the arguments, s is the shape of the result.

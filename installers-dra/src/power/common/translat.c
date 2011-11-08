@@ -151,6 +151,7 @@ $Log: translat.c,v $
 #include <shared/xalloc.h>
 
 #include "config.h"
+
 #include "memtdf.h"
 #include "codegen.h"
 #include "installglob.h"
@@ -179,6 +180,7 @@ $Log: translat.c,v $
 #include "macro.h"
 #include "dynamic_init.h"
 #include "target_v.h"
+#include "stack.h"
 
 
 int optim_level;		/* optimisation level from -O# option */

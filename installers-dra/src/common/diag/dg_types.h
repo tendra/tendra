@@ -97,6 +97,9 @@ $Log: dg_types.h,v $
 #ifndef dg_types_key
 #define dg_types_key 1
 
+#include "config.h"
+
+#include "installtypes.h"
 #include "dg_first.h"
 
 

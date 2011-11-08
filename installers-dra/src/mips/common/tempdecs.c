@@ -53,8 +53,9 @@ $Log: tempdecs.c,v $
 */
 
 #include "config.h"
+
+#include "exptypes.h"
 #include "tags.h"
-#include "common_types.h"
 #include "exp.h"
 #include "const.h"
 #include "expmacs.h"

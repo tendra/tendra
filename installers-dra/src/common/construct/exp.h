@@ -73,6 +73,8 @@ $Log: exp.h,v $
 #ifndef expdecs_key
 #define expdecs_key 1
 
+#include "config.h"
+#include "exptypes.h"
 #include "codetypes.h"
 #include "installtypes.h"
 

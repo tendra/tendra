@@ -114,7 +114,6 @@ $Log: locate.c,v $
 
 #define SPARCTRANS_CODE
 #include "config.h"
-#include "common_types.h"
 #include "addrtypes.h"
 #include "expmacs.h"
 #include "tags.h"

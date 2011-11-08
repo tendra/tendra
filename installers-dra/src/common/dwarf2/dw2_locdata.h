@@ -74,6 +74,9 @@ $Log: dw2_locdata.h,v $
 #ifndef dw2_loc_key
 #define dw2_loc_key
 
+#include "config.h"
+#include "exptypes.h"
+
 typedef struct obl {
 	dg_name		obj;
 	int		islist;

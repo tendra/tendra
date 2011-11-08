@@ -76,6 +76,9 @@ $Log: new_code.h,v $
 /* new_codedecs.h
 */
 
+#include "config.h"
+
+#include "installtypes.h"
 #include "addrtypes.h"
 #include "procrectypes.h"
 #include "exptypes.h"

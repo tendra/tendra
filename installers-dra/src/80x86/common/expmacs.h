@@ -61,6 +61,11 @@
 #define EXPMACS_H
 
 
+#include "config.h"
+
+#include "exptypes.h"
+#include "installtypes.h"
+
 #define nilexp (exp)0
 
 /* main components of exp */

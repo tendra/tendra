@@ -92,6 +92,12 @@ Imported from DRA
 #define XDB_OUTPUT_INCLUDED
 
 
+#include "config.h"
+
+#include "exptypes.h"
+#include "installtypes.h"
+
+
 /*
     TYPE REPRENTING DIAGNOSTIC DIRECTIVES
 */

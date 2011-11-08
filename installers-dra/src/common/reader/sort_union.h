@@ -60,6 +60,14 @@
 #ifndef SORT_UNION_H
 #define SORT_UNION_H
 
+#include "config.h"
+
+#include "codetypes.h"
+#include "installtypes.h"
+#include "dg_first.h"
+#include "dg_types.h"
+
+
 /*
  * the union of the representations of all sorts:
  * used in table_fns for token application

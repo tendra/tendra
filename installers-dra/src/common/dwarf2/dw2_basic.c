@@ -111,7 +111,8 @@ $Log: dw2_basic.c,v $
 **********************************************************************/
 
 #include "config.h"
-#include "common_types.h"
+
+#include "exptypes.h"
 #include "dw2_config.h"
 #include "dw2_basic.h"
 #include "dw2_codes.h"

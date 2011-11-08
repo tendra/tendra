@@ -106,6 +106,8 @@ $Log: parameter.c,v $
 #include <shared/xalloc.h>
 
 #include "config.h"
+
+#include "exptypes.h"
 #include "memtdf.h"
 #include "codegen.h"
 #include "geninst.h"
@@ -118,6 +120,7 @@ $Log: parameter.c,v $
 #include "stack.h"
 #include "mem_copy.h"
 #include "parameter.h"
+#include "stack.h"
 
 bool suspected_varargs = 0;
 int saved_varargs_register=0;

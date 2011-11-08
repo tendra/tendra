@@ -108,6 +108,7 @@ $Log: diagout.c,v $
 #include <time.h>
 
 #include <shared/error.h>
+#include <shared/xalloc.h>
 
 #include "config.h"
 #include "cross_config.h"
@@ -120,7 +121,8 @@ $Log: diagout.c,v $
 #include <sys/debug.h>
 #endif
 
-#include "common_types.h"
+#include "codetypes.h"
+#include "exptypes.h"
 #include "memtdf.h"
 #include "installglob.h"
 #include "li_types.h"
@@ -134,7 +136,6 @@ $Log: diagout.c,v $
 #include "machine.h"
 #include "szs_als.h"
 #include "install_fns.h"
-#include <shared/xalloc.h>
 
 #include "maxminmacs.h"
 #include "proc.h"

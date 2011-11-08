@@ -63,6 +63,9 @@
 #ifndef ECODES_INCLUDED
 #define ECODES_INCLUDED
 
+#include "config.h"
+
+#include "installtypes.h"
 
 /* CODES FOR ACCESS */
 #define e_access_apply_token			1

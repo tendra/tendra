@@ -80,6 +80,16 @@ $Log: dg_globs.h,v $
 #ifndef dg_glob_key
 #define dg_glob_key
 
+#include "config.h"
+
+#include "dg_first.h"
+
+#include "diaginfo.h"
+#include "exptypes.h"
+#include "installtypes.h"
+#include "dg_types.h"		/* NEW DIAGS */
+#include "diag_config.h"
+
 extern dg_filename all_files;
 extern dg_compilation all_comp_units;
 extern int doing_inlining;

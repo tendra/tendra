@@ -93,11 +93,13 @@ NEW DIAG STRUCTURE
 ***********************************************************************/
 
 
+#include <shared/xalloc.h>
+
 #include "config.h"
-#include "common_types.h"
+
+#include "exptypes.h"
 #include "expmacs.h"
 #include "tags.h"
-#include <shared/xalloc.h>
 #include "externs.h"
 #include "dg_aux.h"
 #include "mark_scope.h"

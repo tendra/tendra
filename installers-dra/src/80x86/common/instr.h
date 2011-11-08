@@ -60,6 +60,11 @@
 #ifndef INSTR_H
 #define INSTR_H
 
+#include "config.h"
+#include "exptypes.h"
+#include "localtypes.h"
+#include "installtypes.h"
+
 void ins0(char *i);
 void ins1(char *i, int s1, where a1);
 void ins1lit(char *i, int s1, where a1);

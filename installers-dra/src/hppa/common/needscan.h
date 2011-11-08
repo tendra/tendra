@@ -98,6 +98,7 @@ $Log: needscan.h,v $
 #ifndef NEEDSCAN_INCLUDED
 #define NEEDSCAN_INCLUDED
 
+#include "config.h"
 #include "exptypes.h"
 #include "proctypes.h"
 

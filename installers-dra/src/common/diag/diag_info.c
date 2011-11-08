@@ -96,13 +96,14 @@ NEW DIAG STRUCTURE
 ***********************************************************************/
 
 
+#include <shared/xalloc.h>
+
 #include "config.h"
-#include "common_types.h"
+
 #include "readglob.h"
 #include "table_fns.h"
 #include "basicread.h"
 #include "sortmacs.h"
-#include <shared/xalloc.h>
 #ifdef NEWDIAGS
 #include "exp.h"
 #include "expmacs.h"

@@ -45,7 +45,11 @@ $Log: main.h,v $
 #ifndef MAIN
 #define MAIN
 
-#include "common_types.h"
+#include <stdio.h>
+
+#include "config.h"
+
+#include "installtypes.h"
 
 extern FILE * as_file;
 extern FILE * ba_file;

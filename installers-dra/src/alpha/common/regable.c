@@ -64,11 +64,12 @@ $Log: regable.c,v $
 
 
 #include "config.h"
+
 #include "expmacs.h"
-#include "common_types.h"
 #include "shapemacs.h"
 #include "regable.h"
 #include "tags.h"
+#include "localtypes.h"
 
 
 bool

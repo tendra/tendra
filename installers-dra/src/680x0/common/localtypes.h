@@ -61,6 +61,12 @@ Imported from DRA
 #define LOCALTYPES_INCLUDED
 
 
+#include "config.h"
+
+#include "installtypes.h"
+#include "exptypes.h"
+
+
 /*
     STRUCTURE REPRESENTING THE LAYOUT OF THE STACK
 

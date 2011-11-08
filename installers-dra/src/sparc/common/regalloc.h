@@ -93,6 +93,9 @@ $Log: regalloc.h,v $
 #ifndef REGALLOC_INCLUDED
 #define REGALLOC_INCLUDED
 
+#include "config.h"
+
+#include "installtypes.h"
 #include "exptypes.h"
 #include "proctypes.h"
 

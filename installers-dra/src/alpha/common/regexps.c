@@ -103,6 +103,8 @@ $Log: regexps.c,v $
 */
 
 #include "config.h"
+
+#include "exptypes.h"
 #include "expmacs.h"
 #include "addresstypes.h"
 #include "tags.h"
@@ -110,7 +112,6 @@ $Log: regexps.c,v $
 #include "bitsmacs.h"
 #include "maxminmacs.h"
 #include "shapemacs.h"
-#include "common_types.h"
 #include "extratags.h"
 #include "reg_defs.h"
 #include "regexps.h"

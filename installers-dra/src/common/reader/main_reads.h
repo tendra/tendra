@@ -63,6 +63,12 @@
 #ifndef MAIN_READS_INCLUDED
 #define MAIN_READS_INCLUDED
 
+#include "config.h"
+
+#include "installtypes.h"
+#include "toktypes.h"
+#include "li_types.h"
+
 
 /* SORT DECODING ROUTINES */
 extern access d_access(void);

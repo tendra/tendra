@@ -100,6 +100,10 @@ $Log: check.h,v $
 
 
 
+#include "config.h"
+#include "exptypes.h"
+#include "installtypes.h"
+
 extern int check(exp e, exp scope);
 extern int eq_exp(exp a, exp b);
 extern int dochvar(int i, shape t);

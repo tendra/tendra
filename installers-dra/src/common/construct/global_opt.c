@@ -83,7 +83,6 @@ $Log: global_opt.c,v $
 #include <stddef.h>
 
 #include "config.h"
-#include "common_types.h"
 #include "installglob.h"
 #include "exp.h"
 #include "expmacs.h"

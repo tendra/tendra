@@ -107,7 +107,6 @@ $Log: eval.h,v $
 
 #include "addresstypes.h"
 #include "flpttypes.h"
-#include "common_types.h"
 
 
 extern int next_data_lab(void);

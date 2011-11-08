@@ -63,6 +63,12 @@
 */
 #ifndef SYMDIAGS_H
 #define SYMDIAGS_H
+
+#include "config.h"
+
+#include "dg_first.h"
 #include "diaginfo.h"
+
 extern void output_symbolic_diagnostic(FILE *,diag_info *);
+
 #endif

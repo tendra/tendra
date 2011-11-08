@@ -42,8 +42,9 @@ static char vcid[] = "$Id: tempdecs.c,v 1.1.1.1 1998/01/17 15:56:01 release Exp 
 */
 
 #include "config.h"
+
+#include "exptypes.h"
 #include "tags.h"
-#include "common_types.h"
 #include "exp.h"
 #include "const.h"
 #include "expmacs.h"

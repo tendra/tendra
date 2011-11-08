@@ -116,6 +116,10 @@ $Log: diag_config.h,v $
 
 #include "config.h"
 
+#include "dg_first.h"
+#include "diaginfo.h"
+#include "exptypes.h"
+
 typedef long OUTPUT_REC;
 
 #ifdef NEWDIAGS

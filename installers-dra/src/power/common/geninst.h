@@ -77,6 +77,8 @@ $Log: geninst.h,v $
 
 /* needed by "addresstypes.h" */
 #include "config.h"
+
+#include "localtypes.h"
 #include "exptypes.h"
 #include "codetypes.h"
 #include "installtypes.h"

@@ -90,6 +90,11 @@ Imported from DRA
 #ifndef CODEC_INCLUDED
 #define CODEC_INCLUDED
 
+#include "config.h"
+
+#include "exptypes.h"
+#include "localtypes.h"
+
 extern void codec(where, ash, exp);
 extern exp sim_exp(shape, where);
 

@@ -108,7 +108,6 @@ $Log: dw2_iface.c,v $
 **********************************************************************/
 
 #include "config.h"
-#include "common_types.h"
 #include "basicread.h"
 #include "dg_globs.h"
 #include "tags.h"

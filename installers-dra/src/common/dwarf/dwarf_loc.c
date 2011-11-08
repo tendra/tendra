@@ -87,7 +87,6 @@ $Log: dwarf_loc.c,v $
 /* LOG 26/11/93 proc_no long -> int to shut up tdfc djch */
 
 #include "config.h"
-#include "common_types.h"
 #include "installtypes.h"
 
 /* machine dependent */

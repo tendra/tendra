@@ -133,7 +133,9 @@ signature bug
 #include <shared/xalloc.h>
 
 #include "config.h"
-#include "common_types.h"
+
+#include "codetypes.h"
+#include "exptypes.h"
 #include "basicread.h"
 #include "toktypes.h"
 #include "exp.h"

@@ -75,6 +75,9 @@ $Log: localtypes.h,v $
 #ifndef localtypes_key
 #define localtypes_key 1
 
+#include "config.h"
+
+#include "installtypes.h"
 #include "exptypes.h"
 
 struct asht {			/* structure definition for ash  */

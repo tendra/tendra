@@ -127,8 +127,20 @@ $Log: diag_out.c,v $
  *
 **********************************************************************/
 
+#include <shared/xalloc.h>
+
 #include "config.h"
-#include "common_types.h"
+
+#include "exptypes.h"
+#include "codetypes.h"
+#include "installtypes.h"
+#include "li_types.h"
+
+#include "dg_first.h"
+#include "diaginfo.h"
+#include "dg_types.h"  /* new diags */
+#include "diagtypes.h" /* old diags */
+
 #include "basicread.h"
 #include "out.h"
 #include "machine.h"
@@ -136,7 +148,6 @@ $Log: diag_out.c,v $
 #include "expmacs.h"
 #include "tags.h"
 #include "szs_als.h"
-#include <shared/xalloc.h>
 #include "exp.h"
 #include "externs.h"
 

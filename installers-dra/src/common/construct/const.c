@@ -114,8 +114,11 @@ Shift left + trap_tag
  *
  ************************************************************************/
 
+#include <shared/xalloc.h>
+
 #include "config.h"
-#include "common_types.h"
+
+#include "exptypes.h"
 #include "consttypes.h"
 #include "constmacs.h"
 #include "tags.h"
@@ -131,7 +134,6 @@ Shift left + trap_tag
 #include "is_worth.h"
 #include "flpt.h"
 #include "flpttypes.h"
-#include <shared/xalloc.h>
 #include "messages_c.h"
 #include "basicread.h"
 #include "me_fns.h"

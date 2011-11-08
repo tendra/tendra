@@ -96,6 +96,10 @@ Imported from DRA
 #ifndef CODEX_INCLUDED
 #define CODEX_INCLUDED
 
+#include "config.h"
+
+#include "installtypes.h"
+
 extern int ins(long, int, int, int);
 extern int insf(long, int, int, int);
 extern void libcall(char *);

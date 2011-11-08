@@ -170,6 +170,9 @@ $Log: sparcdiags.c,v $
 
 #define SPARCTRANS_CODE
 #include "config.h"
+
+#include "codetypes.h"
+#include "exptypes.h"
 #include "addrtypes.h"
 #include "exptypes.h"
 #include "shapemacs.h"

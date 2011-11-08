@@ -105,6 +105,7 @@ $Log: comment.h,v $
 #ifndef COMMENT_H
 #define COMMENT_H
 
+#include "config.h"
 
 #include "exptypes.h"
 #include "codetypes.h"

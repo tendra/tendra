@@ -91,6 +91,11 @@ Imported from DRA
 #ifndef XDB_BASICS_INCLUDED
 #define XDB_BASICS_INCLUDED
 
+#include "config.h"
+
+#include "dg_first.h"
+#include "diaginfo.h"
+
 extern void diag_prologue(void);
 extern void diag_epilogue(void);
 extern void diag_start(diag_info *, exp);

@@ -182,8 +182,9 @@ $Log: cproc.c,v $
 
 **********************************************************************/
 
+#include <shared/xalloc.h>
+
 #include "config.h"
-#include "common_types.h"
 #include "weights.h"
 #include "basicread.h"
 #include "tags.h"
@@ -199,7 +200,6 @@ $Log: cproc.c,v $
 #include "check.h"
 #include "flags.h"
 #include "codec.h"
-#include <shared/xalloc.h>
 #include "global_opt.h"
 #include "reg_record.h"
 #include "externs.h"
@@ -219,6 +219,7 @@ $Log: cproc.c,v $
 #include "dw2_info.h"
 #include "dw2_basic.h"
 #include "dw2_extra.h"
+#include "diag_config.h"
 #endif
 
 static exp returns_list;

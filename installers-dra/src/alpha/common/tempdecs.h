@@ -64,6 +64,9 @@
 
 /* tempdecsdecs.h */
 
+#include "config.h"
+
+#include "installtypes.h"
 #include "exptypes.h"
 
 extern  bool tempdecopt;

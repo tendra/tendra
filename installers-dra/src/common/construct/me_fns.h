@@ -71,6 +71,12 @@ $Log: me_fns.h,v $
  *
 ***********************************************************************/
 
+#include "config.h"
+
+#include "exptypes.h"
+#include "codetypes.h"
+#include "installtypes.h"
+
 extern exp me_u1(error_treatment ov_err, exp arg1, unsigned char nm);
 extern exp me_u2(exp arg1, unsigned char nm);
 extern exp me_u3(shape sha, exp arg1, unsigned char nm);

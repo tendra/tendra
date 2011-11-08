@@ -103,8 +103,12 @@ $Log: diag_fns.c,v $
 
 #include <stdlib.h>
 
+#include <shared/xalloc.h>
+
 #include "config.h"
-#include "common_types.h"
+
+#include "codetypes.h"
+#include "exptypes.h"
 #include "readglob.h"
 #include "table_fns.h"
 #include "basicread.h"
@@ -116,7 +120,6 @@ $Log: diag_fns.c,v $
 #include "natmacs.h"
 #include "install_fns.h"
 #include "diag_fns.h"
-#include <shared/xalloc.h>
 
 /*
  * This is a workaround for shared/xcalloc asserting count is non-zero, but the

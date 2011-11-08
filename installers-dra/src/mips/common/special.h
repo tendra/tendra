@@ -76,6 +76,9 @@ $Log: special.h,v $
 /*specialdecs.h
 */
 
+#include "config.h"
+#include "exptypes.h"
+
 #include "exp.h"
 #include "procrectypes.h"
 #include "addrtypes.h"

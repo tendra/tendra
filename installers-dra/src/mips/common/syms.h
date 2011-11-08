@@ -74,7 +74,10 @@ $Log: syms.h,v $
 
 */
 
-#include "common_types.h"
+#include "config.h"
+
+#include "installtypes.h"
+
 extern int *symnos;
 extern int *tempsnos;
 

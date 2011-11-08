@@ -97,7 +97,16 @@ Imported from DRA
 #include <shared/error.h>
 
 #include "config.h"
-#include "common_types.h"
+
+#include "dg_first.h"
+
+#include "diaginfo.h"
+#include "exptypes.h"
+#include "installtypes.h"
+#include "dg_types.h"		/* NEW DIAGS */
+#include "diagtypes.h"		/* OLD DIAGS */
+
+#include "exptypes.h"
 #include "assembler.h"
 #include "codex.h"
 #include "exp.h"
@@ -112,6 +121,7 @@ Imported from DRA
 #include "xdb_types.h"
 #include "xdb_output.h"
 #include "stab_types.h"
+
 extern int diag_override;
 
 

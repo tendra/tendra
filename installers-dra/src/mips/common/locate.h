@@ -77,6 +77,9 @@ $Log: locate.h,v $
     externs from locate.c
 */
 
+#include "config.h"
+
+#include "installtypes.h"
 #include "exptypes.h"
 #include "addrtypes.h"
 #include "procrectypes.h"

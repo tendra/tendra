@@ -65,8 +65,10 @@
 */
 
 
-#include "exptypes.h"
+#include "config.h"
 
+#include "installtypes.h"
+#include "exptypes.h"
 #include "addresstypes.h"
 
 struct regpeept {

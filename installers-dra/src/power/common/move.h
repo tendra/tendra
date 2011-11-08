@@ -105,6 +105,8 @@ $Log: move.h,v $
 #ifndef MOVEDECS_H
 #define MOVEDECS_H
 
+#include "config.h"
+
 #include "installtypes.h"
 #include "addresstypes.h"
 #include "instruct.h"

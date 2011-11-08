@@ -64,7 +64,6 @@
 static char vcid[] = "frames.c,v 1.5 1995/09/29 09:45:02 john Exp";
 #endif /* lint */
 #include "config.h"
-#include "common_types.h"
 #include "frames.h"
 #include "procrecs.h"
 #include "expmacs.h"

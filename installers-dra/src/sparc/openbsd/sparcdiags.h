@@ -108,6 +108,14 @@ $Log: sparcdiags.h,v $
 #ifndef SPARCDDECS_INCLUDED
 #define SPARCDDECS_INCLUDED
 
+#include "config.h"
+
+#include "dg_first.h"
+#include "diaginfo.h"
+
+#include "exptypes.h"
+#include "installtypes.h"
+
 #ifdef NEWDIAGS
 
 extern void init_stab(void);

@@ -63,6 +63,15 @@
 #ifndef EXTERNS_INCLUDED
 #define EXTERNS_INCLUDED
 
+#include "config.h"
+
+#include "dg_first.h"
+#include "codetypes.h"
+#include "installtypes.h"
+#include "dg_types.h"
+#include "diagtypes.h"
+#include "toktypes.h"
+#include "li_types.h"
 
 /* CONSTRUCTS FOR ACCESS */
 extern access f_access_apply_token(token, bitstream);

@@ -117,10 +117,10 @@ $Log: dw2_extra.c,v $
 **********************************************************************/
 
 #include "config.h"
-#include "common_types.h"
 
 #ifdef NEWDWARF
 
+#include "exptypes.h"
 #include "localtypes.h"
 #include "dg_aux.h"
 #include "dg_types.h"

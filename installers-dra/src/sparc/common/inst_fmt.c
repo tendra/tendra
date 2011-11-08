@@ -142,7 +142,6 @@ $Log: inst_fmt.c,v $
 #include <shared/xalloc.h>
 
 #include "config.h"
-#include "common_types.h"
 #include "addrtypes.h"
 #include "regexps.h"
 #include "regmacs.h"

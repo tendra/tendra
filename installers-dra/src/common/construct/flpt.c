@@ -88,13 +88,16 @@ $Log: flpt.c,v $
   Routines for handling the internal floating point representation.
 
  ***********************************************************************/
-#include "config.h"
+
 #include <limits.h>
 #include <stdlib.h>
-#include "common_types.h"
+
+#include <shared/xalloc.h>
+
+#include "config.h"
+
 #include "flpttypes.h"
 #include "exp.h"
-#include <shared/xalloc.h>
 #include "szs_als.h"
 #include "messages_c.h"
 #include "basicread.h"

@@ -84,7 +84,8 @@ $Log: spec_tok.c,v $
 */
 
 #include "config.h"
-#include "common_types.h"
+
+#include "codetypes.h"
 #include "basicread.h"
 #include "tags.h"
 #include "exp.h"

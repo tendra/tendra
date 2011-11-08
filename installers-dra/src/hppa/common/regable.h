@@ -98,7 +98,10 @@ $Log: regable.h,v $
 #ifndef REGABLE_INCLUDED
 #define REGABLE_INCLUDED
 
-#include "common_types.h"
+#include "config.h"
+
+#include "installtypes.h"
+#include "exptypes.h"
 
 extern bool fixregable(exp);
 extern bool floatregable(exp);

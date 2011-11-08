@@ -89,6 +89,7 @@ number of ident = (word displacement in locals)*64 + GR17
 #include <assert.h>
 
 #include "config.h"
+
 #include "expmacs.h"
 #include "tags.h"
 #include "proctypes.h"

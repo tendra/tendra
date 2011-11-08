@@ -74,5 +74,8 @@ $Log: case_opt.h,v $
  * Author :mjg
  */
 
+#include "config.h"
+#include "exptypes.h"
+
 extern exp case_optimisation(exp body, exp id, shape shape_of_case,
 			     exp control_expression);

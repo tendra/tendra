@@ -64,16 +64,17 @@ $Log: syms.c,v $
 */
 
 #include "config.h"
+
 #include <shared/xalloc.h>
+
 #include "flags.h"
-#include "common_types.h"
 #include "expmacs.h"
 #include "shapemacs.h"
 #include "syms.h"
 #include "tags.h"
-#include "common_types.h"
 #include "main.h"
 #include "alphadiags.h"
+#include "localtypes.h"
 #include "symbol.h"
 #include "cross_config.h"
 extern int currentfile;

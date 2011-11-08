@@ -64,6 +64,7 @@ Imported from DRA
 #define MACH_INCLUDED
 
 #include "flpttypes.h"
+#include "installtypes.h"
 
 
 /*

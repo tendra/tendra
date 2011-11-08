@@ -105,6 +105,12 @@ $Log: stack.h,v $
 #ifndef STACK_H
 #define STACK_H  1
 
+#include "config.h"
+
+#include "installtypes.h"
+#include "addresstypes.h"
+#include "procrectypes.h"
+
 #define ALIGNNEXT(bitposn, bitalign)	(((bitposn) + (bitalign) -1) & ~((bitalign) -1))
 #define ALLOCA_ALIGNMENT(n)((n+7) & ~7)
 

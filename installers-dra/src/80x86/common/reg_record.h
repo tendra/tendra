@@ -60,6 +60,9 @@
 #ifndef REG_RECORD_H
 #define REG_RECORD_H
 
+#include "config.h"
+#include "exptypes.h"
+
 extern reg_record crt_reg_record;
 
 void clear_reg_record(regcell * s);

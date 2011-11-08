@@ -89,6 +89,16 @@ $Log: dg_aux.h,v $
 #ifndef dg_aux_key
 #define dg_aux_key
 
+#include "config.h"
+
+#include "dg_first.h"
+
+#include "diaginfo.h"
+#include "exptypes.h"
+#include "installtypes.h"
+#include "dg_types.h"		/* NEW DIAGS */
+#include "toktypes.h"
+
 extern dg_name new_dg_name(dg_name_key k);
 extern dg_type new_dg_type(dg_type_key k);
 extern dg_info new_dg_info(dg_info_key k);

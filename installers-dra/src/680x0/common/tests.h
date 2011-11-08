@@ -93,6 +93,11 @@ Imported from DRA
 #ifndef TESTS_INCLUDED
 #define TESTS_INCLUDED
 
+#include "config.h"
+
+#include "exptypes.h"
+#include "installtypes.h"
+
 extern int cc_conventions;
 extern int do_sub_params;
 

@@ -123,8 +123,10 @@ $Log: muldvrem.c,v $
 
 #include <assert.h>
 
-#define HPPATRANS_CODE
 #include "config.h"
+
+#define HPPATRANS_CODE
+#include "exptypes.h"
 #include "needscan.h"
 #include "addrtypes.h"
 #include "tags.h"

@@ -73,7 +73,9 @@ $Log: symbol.h,v $
  *
 */
 
-#include "common_types.h"
+#include "config.h"
+
+#include "installtypes.h"
 
 void init_table_space(int, int);
     /* parameters - number of files to be translated and total number of

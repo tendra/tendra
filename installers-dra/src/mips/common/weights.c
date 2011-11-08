@@ -104,9 +104,10 @@ stack, (this is obviously always available for parameters).
 		332: scale = fno(e)*scale -> scale = fno(e);
 */
 
-#include "config.h"
 #include <limits.h>
-#include "common_types.h"
+
+#include "config.h"
+
 #include "exptypes.h"
 #include "exp.h"
 #include "expmacs.h"

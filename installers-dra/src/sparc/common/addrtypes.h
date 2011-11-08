@@ -77,7 +77,11 @@ $Log: addrtypes.h,v $
 #ifndef ADDRTYPES_INCLUDED
 #define ADDRTYPES_INCLUDED
 
-#include "common_types.h"
+#include "config.h"
+
+#include "installtypes.h"
+#include "localtypes.h"
+
 
 #define NOREG	100
 

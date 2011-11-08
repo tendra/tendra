@@ -84,7 +84,6 @@ $Log: operators.c,v $
 #include "tags.h"
 #include "shapemacs.h"
 #include "bitsmacs.h"
-#include "common_types.h"
 #include "alpha_ins.h"
 #include "f64.h"
 #include "reg_defs.h"

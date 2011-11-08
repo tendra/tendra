@@ -86,8 +86,8 @@ $Log: tempdecs.c,v $
 
 #define SPARCTRANS_CODE
 #include "config.h"
+#include "exptypes.h"
 #include "tags.h"
-#include "common_types.h"
 #include "exp.h"
 #include "const.h"
 #include "expmacs.h"

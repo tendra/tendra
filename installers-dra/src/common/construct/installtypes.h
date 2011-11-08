@@ -91,6 +91,16 @@ $Log: installtypes.h,v $
 #ifndef installtypes_key
 #define installtypes_key 1
 
+#include "config.h"
+
+#include "codetypes.h"
+
+#include "dg_first.h"
+#include "diaginfo.h"
+
+#include "exptypes.h"
+
+
 typedef exp otagexp;
 
 typedef struct otagexp_list_t {

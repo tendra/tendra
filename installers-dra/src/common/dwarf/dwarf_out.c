@@ -94,8 +94,11 @@ $Log: dwarf_out.c,v $
    get weak prototypes to work */
 /* LOG 25/11/93 removed redundant labbufe djch */
 
+#include <shared/xalloc.h>
+
 #include "config.h"
-#include "common_types.h"
+
+#include "codetypes.h"
 #include "installtypes.h"
 #include "machine.h"
 
@@ -111,7 +114,6 @@ $Log: dwarf_out.c,v $
 
 #include "shapemacs.h"
 
-#include <shared/xalloc.h>
 #include "dwarf_types.h"
 #include "dwarf_loc.h"
 #include "dwarf_mc.h"

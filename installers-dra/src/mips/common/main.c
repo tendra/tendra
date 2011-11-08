@@ -88,7 +88,6 @@ $Log: main.c,v $
 
 #include "config.h"
 #include "version.h"
-#include "common_types.h"
 #include "basicread.h"
 #include "flags.h"
 #include "main_reads.h"

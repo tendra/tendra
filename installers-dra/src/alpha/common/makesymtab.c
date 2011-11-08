@@ -37,10 +37,11 @@ static char vcid[] = "$Id: makesymtab.c,v 1.2 1998/02/04 10:43:31 release Exp $"
 #include <stdint.h>
 #include <stdio.h>
 
+#include <shared/xalloc.h>
+
 #include "config.h"
 #include "symtab.h"	
 #include "makesymtab.h"	
-#include <shared/xalloc.h>
 #include "cross_config.h"
 
 /* type definitions for translator produced debugging 

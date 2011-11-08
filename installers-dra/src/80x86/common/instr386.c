@@ -277,11 +277,11 @@ $Log: instr386.c,v $
 
 
 #include "config.h"
-#include "common_types.h"
+
+#include "exptypes.h"
 #include "operand.h"
 #include "instr.h"
 #include "shapemacs.h"
-#include "instrmacs.h"
 #include "tags.h"
 #include "exp.h"
 #include "basicread.h"
@@ -303,6 +303,7 @@ $Log: instr386.c,v $
 #include "f64.h"
 #include "installglob.h"
 #include "instr386.h"
+#include "instrmacs.h"
 
 #ifdef NEWDIAGS
 #include "dg_globs.h"
@@ -312,6 +313,7 @@ $Log: instr386.c,v $
 #include "dw2_config.h"
 #include "dw2_basic.h"
 #include "dw2_extra.h"
+#include "diag_config.h"
 #endif
 
 

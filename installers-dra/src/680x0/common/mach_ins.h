@@ -99,6 +99,10 @@ Imported from DRA
 #ifndef MACH_INS_INCLUDED
 #define MACH_INS_INCLUDED
 
+#include "config.h"
+
+#include "installtypes.h"
+
 extern void make_instr_aux(int, mach_op *, mach_op *, bitpattern, int);
 
 #define  make_instr(A, B, C, D)\

@@ -48,9 +48,11 @@ to transform to:
 	fexp ( (absbool(test) <<1) -1))
 where f is any sequence of unary operators including identity
 */
+
 #include "config.h"
+
+#include "exptypes.h"
 #include "tags.h"
-#include "common_types.h"
 #include "expmacs.h"
 #include "exptypes.h"
 #include "shapemacs.h"

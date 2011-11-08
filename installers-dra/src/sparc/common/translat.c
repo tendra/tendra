@@ -255,7 +255,6 @@ $Log: translat.c,v $
 #include <shared/xalloc.h>
 
 #include "config.h"
-#include "common_types.h"
 #include "flpt.h"
 #include "expmacs.h"
 #include "tags.h"
@@ -292,6 +291,7 @@ $Log: translat.c,v $
 #include "target_v.h"
 #include "locate.h"
 #include "sparctrans.h"
+#include "diag_config.h"
 #ifdef NEWDWARF
 #include "dw2_iface.h"
 #include "dw2_config.h"

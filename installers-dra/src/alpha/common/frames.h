@@ -65,7 +65,10 @@
 #ifndef FRAMES
 #define FRAMES
 
-#include "common_types.h"
+#include "config.h"
+
+#include "installtypes.h"
+
 
 extern bool Has_fp;
 

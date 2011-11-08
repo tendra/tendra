@@ -72,12 +72,14 @@ $Log: regable.c,v $
 
 
 #define HPPATRANS_CODE
+
 #include "config.h"
+
 #include "expmacs.h"
-#include "common_types.h"
 #include "shapemacs.h"
 #include "regable.h"
 #include "tags.h"
+#include "localtypes.h"
 
 /*
     DOES A VALUE OF SHAPE s FIT INTO A FIXED REGISTER?

@@ -67,7 +67,9 @@
 */
 
 
-#include "common_types.h"
+#include "config.h"
+
+#include "installtypes.h"
 
 extern  bool fixregable(exp e);
 extern  bool floatregable(exp e);

@@ -52,6 +52,9 @@ $Log: new_symbol.c,v $
  * Initial revision
  *
 ***********************************************************************/
+
+#include <shared/xalloc.h>
+
 #include "config.h"
 #include "cross_config.h"
 
@@ -61,12 +64,10 @@ $Log: new_symbol.c,v $
 #include CROSS_INCLUDE/symconst.h>
 #endif
 
-#include "common_types.h"
 #include "symtab.h"
 #include "bstack.h"
 #include "type_to_aux.h"
 #include "makesymtab.h"
-#include <shared/xalloc.h>
 #include "diagtypes.h"
 #include "flags.h"
 #include "new_symbol.h"

@@ -111,6 +111,9 @@ $Log: makecode.h,v $
 #ifndef MAKECODE_INCLUDED
 #define MAKECODE_INCLUDED
 
+#include "config.h"
+
+#include "installtypes.h"
 #include "proctypes.h"
 #include "exptypes.h"
 

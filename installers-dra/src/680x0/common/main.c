@@ -136,7 +136,6 @@ Imported from DRA
 #include <shared/error.h>
 
 #include "config.h"
-#include "common_types.h"
 #include "assembler.h"
 #include "basicread.h"
 #include "flpt.h"

@@ -72,7 +72,6 @@ any memory of its contents - see regexps.c
 #include "ibinasm.h"
 #include "out_ba.h"
 #include "syms.h"
-#include "common_types.h"
 #include "main.h"
 #include "basicread.h"
 #include "inst_fmt.h"

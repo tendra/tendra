@@ -76,7 +76,6 @@ $Log: new_symbol.h,v $
  * Initial revision
  *
 ***********************************************************************/
-#include "common_types.h"
 
 extern void init_table_space(long, long);
 /* parameters - number of files to be translated and total number of procedures. Sets up tables for symbol table etc storage	*/

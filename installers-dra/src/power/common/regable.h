@@ -105,7 +105,9 @@ $Log: regable.h,v $
 #ifndef REGABLEDECS_H
 #define REGABLEDECS_H
 
-#include "common_types.h"
+#include "config.h"
+
+#include "installtypes.h"
 
 extern bool fixregable(exp);
 extern bool floatregable(exp);

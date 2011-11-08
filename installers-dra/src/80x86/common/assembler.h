@@ -60,6 +60,10 @@
 #ifndef ASSEMBLER_H
 #define ASSEMBLER_H
 
+#include "config.h"
+#include "exptypes.h"
+#include "localtypes.h"
+
 void outbyte(void);
 void outshort(void);
 void outlong(void);

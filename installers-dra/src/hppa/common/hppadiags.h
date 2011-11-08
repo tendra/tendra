@@ -110,6 +110,13 @@ $Log: hppadiags.h,v $
 #ifndef HPPADDECS_INCLUDED
 #define HPPADDECS_INCLUDED
 
+#include "config.h"
+
+#include "installtypes.h"
+#include "dg_first.h"
+#include "diaginfo.h"
+#include "exptypes.h"
+
 extern void init_stab(void);
 extern void init_stab_aux(void);
 extern void stab_collect_files(filename);

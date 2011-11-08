@@ -99,8 +99,12 @@ $Log: dg_fns.c,v $
 ***********************************************************************/
 
 
+#include <shared/xalloc.h>
+
 #include "config.h"
-#include "common_types.h"
+
+#include "codetypes.h"
+#include "exptypes.h"
 #include "readglob.h"
 #include "table_fns.h"
 #include "basicread.h"
@@ -113,7 +117,6 @@ $Log: dg_fns.c,v $
 #include "dg_fns.h"
 #include "dg_aux.h"
 #include "dg_globs.h"
-#include <shared/xalloc.h>
 #include "toktypes.h"
 #include "flags.h"
 #include "externs.h"

@@ -259,8 +259,9 @@ $Log: makecode.c,v $
 
 #include <shared/xalloc.h>
 
-#define HPPATRANS_CODE
 #include "config.h"
+
+#define HPPATRANS_CODE
 #include "addrtypes.h"
 #include "tags.h"
 #include "new_tags.h"

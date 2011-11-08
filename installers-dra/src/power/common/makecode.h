@@ -105,6 +105,9 @@ $Log: makecode.h,v $
 #ifndef MAKECODEDECS_H
 #define MAKECODEDECS_H
 
+#include "config.h"
+
+#include "installtypes.h"
 #include "procrectypes.h"
 #include "exptypes.h"
 

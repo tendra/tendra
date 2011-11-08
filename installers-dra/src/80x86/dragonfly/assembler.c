@@ -60,8 +60,13 @@
 
 /* dragonfly/assembler.c */
 
+#include <shared/xalloc.h>
+
 #include "config.h"
-#include "common_types.h"
+
+#include "exptypes.h"
+#include "exp.h"
+#include "instr.h"
 #include "out.h"
 #include "expmacs.h"
 #include "operand.h"
