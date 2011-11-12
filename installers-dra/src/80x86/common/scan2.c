@@ -7,113 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/* 80x86/scan2.c */
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/01/17 15:55:52 $
-$Revision: 1.1.1.1 $
-$Log: scan2.c,v $
- * Revision 1.1.1.1  1998/01/17  15:55:52  release
- * First version to be checked into rolling release.
- *
- * Revision 1.31  1997/12/04  20:01:12  pwe
- * ANDF-DE V1.9
- *
- * Revision 1.30  1997/10/10  18:25:26  pwe
- * prep ANDF-DE revision
- *
- * Revision 1.29  1997/02/18  11:43:05  pwe
- * NEWDIAGS for debugging optimised code
- *
- * Revision 1.28  1996/12/10  15:11:49  pwe
- * prep NEWDIAGS
- *
- * Revision 1.27  1996/07/09  16:57:36  pwe
- * cont_arg offset from global const
- *
- * Revision 1.26  1996/07/09  09:43:56  pwe
- * caller env_offset if callees present, and tidy
- *
- * Revision 1.25  1996/05/20  14:30:42  pwe
- * improved 64-bit handling
- *
- * Revision 1.24  1996/05/13  12:52:07  pwe
- * undo premature commit
- *
- * Revision 1.22  1996/02/01  09:34:39  pwe
- * PIC oddities for AVS
- *
- * Revision 1.21  1996/01/31  12:24:26  pwe
- * is_crc v is_opnd  &  end_contop must not preceed move_reg
- *
- * Revision 1.20  1996/01/22  14:31:09  pwe
- * PIC const*const, contop top_tag & linux 64-bit ints
- *
- * Revision 1.19  1996/01/17  11:24:38  pwe
- * resurrect performance
- *
- * Revision 1.18  1995/12/19  13:34:11  pwe
- * PIC global idents, and static vars
- *
- * Revision 1.17  1995/12/01  10:48:37  pwe
- * PIC static variables
- *
- * Revision 1.16  1995/11/01  18:41:29  pwe
- * PIC tail_call and exception handling
- *
- * Revision 1.15  1995/10/25  17:41:22  pwe
- * PIC_code current_env and callees
- *
- * Revision 1.14  1995/10/16  17:45:50  pwe
- * frame alignments
- *
- * Revision 1.13  1995/09/13  14:25:23  pwe
- * tidy for gcc
- *
- * Revision 1.12  1995/09/05  16:25:08  pwe
- * specials and exception changes
- *
- * Revision 1.11  1995/08/30  16:06:54  pwe
- * prepare exception trapping
- *
- * Revision 1.10  1995/08/23  09:43:01  pwe
- * track fpu control word for trap etc
- *
- * Revision 1.9  1995/08/14  13:54:05  pwe
- * several corrections, tail calls and error jumps
- *
- * Revision 1.8  1995/08/04  08:29:44  pwe
- * 4.0 general procs implemented
- *
- * Revision 1.7  1995/03/10  18:11:58  pwe
- * offset_div_by_int chvar to 32 bit
- *
- * Revision 1.6  1995/03/02  17:46:04  pwe
- * revise conditions for calling make_bitfield_offset
- *
- * Revision 1.5  1995/02/24  16:11:14  pwe
- * dynamic offsets, including mixed bit/byte representations
- *
- * Revision 1.4  1995/02/02  15:17:26  pwe
- * implement offset_max as max
- *
- * Revision 1.3  1995/02/01  18:51:18  pwe
- * correct empty make_nof
- *
- * Revision 1.2  1995/01/30  12:56:46  pwe
- * Ownership -> PWE, tidy banners
- *
- * Revision 1.1  1994/10/27  14:15:22  jmf
- * Initial revision
- *
- * Revision 1.1  1994/07/12  14:40:36  jmf
- * Initial revision
- *
-**********************************************************************/
-
-
 /**********************************************************************
                             scan2.c
      Defines the scan through a program which
@@ -129,7 +22,6 @@ $Log: scan2.c,v $
      invalidates the use of &son(to) and &bro(to).
 
 **********************************************************************/
-
 
 #include "config.h"
 

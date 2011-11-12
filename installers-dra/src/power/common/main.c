@@ -8,37 +8,11 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-    
-    
-    
-    
-    
-
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/03/27 09:47:57 $
-$Revision: 1.3 $
-$Log: powertrans.c,v $
- * Revision 1.3  1998/03/27  09:47:57  release
- * Changes for 4.1.2 release.
- *
- * Revision 1.2  1998/02/04  15:48:35  release
- * Added OSF copyright message.
- *
- * Revision 1.1.1.1  1998/01/17  15:55:58  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1996/10/04  16:03:26  pwe
- * add banners and mod for PWE ownership
- *
-**********************************************************************/
-
-
 #include <stdio.h>
 #include <stdlib.h>
 
 #include "config.h"
+
 #include "flags.h"		/* for option flags */
 #include "tempdecs.h"	/* for tempdecopt */
 #include "comment.h"		/* for do_comment */

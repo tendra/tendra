@@ -7,27 +7,10 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/01/17 15:56:04 $
-$Revision: 1.1.1.1 $
-$Log: ibinasm.h,v $
- * Revision 1.1.1.1  1998/01/17  15:56:04  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1995/10/17  16:36:35  currie
- * Nugatory
- *
- * Revision 1.1  1995/04/13  09:33:41  currie
- * Initial revision
- *
-***********************************************************************/
 /****************************************************************** 
                ibinasm.h
    Structures and constants for outputting binary assembly format
 ******************************************************************/
-
 
 #ifndef IBINASM
 #define IBINASM

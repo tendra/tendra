@@ -7,37 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/01/17 15:55:47 $
-$Revision: 1.1.1.1 $
-$Log: installtypes.h,v $
- * Revision 1.1.1.1  1998/01/17  15:55:47  release
- * First version to be checked into rolling release.
- *
- * Revision 1.7  1996/11/12  10:42:24  currie
- * unsigned cases
- *
- * Revision 1.6  1996/01/08  11:49:26  currie
- * ishppa
- *
- * Revision 1.5  1995/10/06  14:42:00  currie
- * Env-offset alignments + new div with ET
- *
- * Revision 1.4  1995/09/19  16:06:52  currie
- * isAlpha!!
- *
- * Revision 1.3  1995/09/11  15:35:37  currie
- * caller params -ve
- *
- * Revision 1.2  1995/05/05  08:10:54  currie
- * initial_value + signtures
- *
- * Revision 1.1  1995/04/06  10:44:05  currie
- * Initial revision
- *
-***********************************************************************/
 #ifndef installtypes_key
 #define installtypes_key 1
 

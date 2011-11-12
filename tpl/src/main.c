@@ -7,50 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/02/06 17:05:20 $
-$Revision: 1.2 $
-$Log: main.c,v $
- * Revision 1.2  1998/02/06  17:05:20  release
- * Last minute pre-release polishing.
- *
- * Revision 1.1.1.1  1998/01/17  15:57:23  release
- * First version to be checked into rolling release.
- *
- * Revision 1.7  1995/09/05  16:27:51  currie
- * include files + 2r lex
- *
- * Revision 1.6  1995/09/04  10:30:42  currie
- * Update version
- *
- * Revision 1.5  1995/08/22  09:26:06  currie
- * stupid gcc!!
- *
- * Revision 1.4  1995/08/21  16:06:09  currie
- * build 4.2
- *
- * Revision 1.3  1995/08/15  16:21:41  currie
- * for build 4.1
- *
- * Revision 1.2  1995/06/08  09:13:53  currie
- * Added sigs to tokdecs/defs
- *
- * Revision 1.1  1995/04/07  14:29:07  currie
- * Initial revision
- *
- * Revision 1.1  1995/04/07  14:29:07  currie
- * Initial revision
- *
- * Revision 1.3  1995/03/24  13:08:18  currie
- * Remore unary + in keeps2
- *
- * Revision 1.2  1994/07/21  10:36:25  currie
- * Added banner
- *
-***********************************************************************/
 #include "config.h"
+
 #include "util.h"
 #include "namedecs.h"
 #include "lex.h"

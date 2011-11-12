@@ -7,63 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: pwe $
-$Date: 1998/03/11 11:03:35 $
-$Revision: 1.3 $
-$Log: dw2_abbrev.c,v $
- * Revision 1.3  1998/03/11  11:03:35  pwe
- * DWARF optimisation info
- *
- * Revision 1.2  1998/02/18  11:22:16  pwe
- * test corrections
- *
- * Revision 1.1.1.1  1998/01/17  15:55:48  release
- * First version to be checked into rolling release.
- *
- * Revision 1.7  1998/01/09  09:31:44  pwe
- * prep restructure
- *
- * Revision 1.6  1997/12/08  16:37:17  pwe
- * abbrev key & directory names
- *
- * Revision 1.5  1997/12/05  10:24:06  pwe
- * name change
- *
- * Revision 1.4  1997/12/04  19:41:58  pwe
- * ANDF-DE V1.9
- *
- * Revision 1.3  1997/11/06  09:22:35  pwe
- * ANDF-DE V1.8
- *
- * Revision 1.2  1997/10/23  09:28:02  pwe
- * ANDF-DE v1.7, extra diags
- *
- * Revision 1.1  1997/10/10  18:19:00  pwe
- * prep ANDF-DE revision
- *
- * Revision 1.6  1997/08/23  13:36:26  pwe
- * initial ANDF-DE
- *
- * Revision 1.5  1997/05/02  11:00:28  pwe
- * stmt_list is ref_addr
- *
- * Revision 1.4  1997/04/17  11:50:07  pwe
- * Sparc and 80x86 support
- *
- * Revision 1.3  1997/04/01  17:19:29  pwe
- * diagnose pl_tests and locate -> platform specific
- *
- * Revision 1.2  1997/03/24  11:10:12  pwe
- * struct bitfields
- *
- * Revision 1.1  1997/03/20  16:08:52  pwe
- * first version
- *
-**********************************************************************/
-
 #include "config.h"
+
 #include "dw2_config.h"
 #include "dw2_basic.h"
 #include "dw2_abbrev.h"

@@ -15,22 +15,6 @@
 **
 */
 
-/*
-$Log: szs_als.h,v $
- * Revision 1.1.1.1  1998/01/17  15:56:01  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1995/05/23  13:26:58  john
- * Changed alignments
- *
- * Revision 1.1.1.1  1995/03/23  10:39:24  john
- * Entered into CVS
- *
- * Revision 1.8  1995/03/23  10:16:19  john
- * Added MIN_PAR_ALIGNMENT
- *
-*/
-
 #define TOP_SZ (long)0
 #define TOP_ALIGN const_al1
 

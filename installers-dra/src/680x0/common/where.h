@@ -7,48 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/*
-			    VERSION INFORMATION
-			    ===================
---------------------------------------------------------------------------
-$Header: /u/g/release/CVSROOT/Source/src/installers/680x0/common/where.h,v 1.1.1.1 1998/01/17 15:55:50 release Exp $
---------------------------------------------------------------------------
-$Log: where.h,v $
- * Revision 1.1.1.1  1998/01/17  15:55:50  release
- * First version to be checked into rolling release.
- *
-Revision 1.2  1997/10/29 10:22:33  ma
-Replaced use_alloca with has_alloca.
-Revision 1.1.1.1  1997/10/13 12:43:01  ma
-First version.
-
-Revision 1.3  1997/10/13 08:50:22  ma
-Made all pl_tests for general proc & exception handling pass.
-
-Revision 1.2  1997/09/25 06:45:43  ma
-All general_proc tests passed
-
-Revision 1.1.1.1  1997/03/14 07:50:21  ma
-Imported from DRA
-
- * Revision 1.1.1.1  1996/09/20  10:57:00  john
- *
- * Revision 1.2  1996/07/05  14:30:26  john
- * Changes for spec 3.1
- *
- * Revision 1.1.1.1  1996/03/26  15:45:19  john
- *
- * Revision 1.2  94/02/21  16:07:24  16:07:24  ra (Robert Andrews)
- * Declare functions with no arguments with ( void ).  Make 0 into a long
- * in the definition of zw.
- *
- * Revision 1.1  93/02/22  17:17:07  17:17:07  ra (Robert Andrews)
- * Initial revision
- *
---------------------------------------------------------------------------
-*/
-
-
 #ifndef WHERE_INCLUDED
 #define WHERE_INCLUDED
 

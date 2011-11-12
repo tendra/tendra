@@ -7,11 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-#ifndef lint
-static char vcid[] = "$Id: makesymtab.c,v 1.2 1998/02/04 10:43:31 release Exp $";
-#endif /* lint */
-
 #include <stdint.h>
 #include <stdio.h>
 
@@ -30,32 +25,6 @@ static char vcid[] = "$Id: makesymtab.c,v 1.2 1998/02/04 10:43:31 release Exp $"
 #else
 #include CROSS_INCLUDE/symconst.h>
 #endif
-
-/*
-$Log: makesymtab.c,v $
- * Revision 1.2  1998/02/04  10:43:31  release
- * Changes during testing.
- *
- * Revision 1.1.1.1  1998/01/17  15:56:00  release
- * First version to be checked into rolling release.
- *
- * Revision 1.3  1995/06/28  10:25:22  john
- * Changed value in file header
- *
- * Revision 1.2  1995/05/23  10:57:04  john
- * Reformatting
- *
- * Revision 1.1.1.1  1995/03/23  10:39:30  john
- * Entered into CVS
- *
- * Revision 1.6  1995/01/26  13:44:02  john
- * Removed unused variables and fixed memory allocation
- *
- * Revision 1.5  1995/01/12  15:09:35  john
- * Generalised magic number
- *
-*/
-
 
 extern char diagnose;
 

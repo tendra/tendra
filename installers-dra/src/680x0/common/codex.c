@@ -7,62 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/*
-			    VERSION INFORMATION
-			    ===================
-
---------------------------------------------------------------------------
-$Header: /u/g/release/CVSROOT/Source/src/installers/680x0/common/codex.c,v 1.1.1.1 1998/01/17 15:55:49 release Exp $
---------------------------------------------------------------------------
-$Log: codex.c,v $
- * Revision 1.1.1.1  1998/01/17  15:55:49  release
- * First version to be checked into rolling release.
- *
-Revision 1.2  1997/10/29 10:22:08  ma
-Replaced use_alloca with has_alloca.
-
-Revision 1.1.1.1  1997/10/13 12:42:49  ma
-First version.
-
-Revision 1.6  1997/10/13 08:49:04  ma
-Made all pl_tests for general proc & exception handling pass.
-
-Revision 1.5  1997/09/25 06:44:55  ma
-All general_proc tests passed
-
-Revision 1.4  1997/06/18 12:04:50  ma
-Merged with Input Baseline changes.
-
-Revision 1.3  1997/06/18 10:09:26  ma
-Checking in before merging with Input Baseline changes.
-
-Revision 1.2  1997/04/20 11:30:21  ma
-Introduced gcproc.c & general_proc.[ch].
-Added cases for apply_general_proc next to apply_proc in all files.
-
-Revision 1.1.1.1  1997/03/14 07:50:11  ma
-Imported from DRA
-
- * Revision 1.1.1.1  1996/09/20  10:56:53  john
- *
- * Revision 1.2  1996/07/05  14:18:40  john
- * Changes for spec 3.1
- *
- * Revision 1.1.1.1  1996/03/26  15:45:09  john
- *
- * Revision 1.3  94/02/21  15:56:50  15:56:50  ra (Robert Andrews)
- * A couple of flags which used to be bool are now int.
- *
- * Revision 1.2  93/05/24  15:54:51  15:54:51  ra (Robert Andrews)
- * Don't recognise alloca by its tag name, but by its token name.
- *
- * Revision 1.1  93/02/22  17:15:25  17:15:25  ra (Robert Andrews)
- * Initial revision
- *
---------------------------------------------------------------------------
-*/
-
-
 #include <shared/error.h>
 
 #include "config.h"
@@ -97,15 +41,18 @@ Imported from DRA
 #include "translate.h"
 #include "codec.h"
 #include "install_fns.h"
+
 #if have_diagnostics
 #include "xdb_basics.h"
 #include "xdb_types.h"
 #include "xdb_output.h"
 #endif
+
 #ifndef tdf3
 #include "general_proc.h"
 #include "68k_globals.h"
 #endif
+
 extern bool have_cond;
 extern int do_peephole;
 extern int do_pic;

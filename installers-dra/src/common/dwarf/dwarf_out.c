@@ -7,43 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/02/04 10:43:38 $
-$Revision: 1.2 $
-$Log: dwarf_out.c,v $
- * Revision 1.2  1998/02/04  10:43:38  release
- * Changes during testing.
- *
- * Revision 1.1.1.1  1998/01/17  15:55:47  release
- * First version to be checked into rolling release.
- *
- * Revision 1.5  1997/03/24  12:44:29  pwe
- * outn int->long
- *
- * Revision 1.4  1997/02/19  12:53:47  pwe
- * NEWDIAGS for debugging optimised code
- *
- * Revision 1.3  1995/09/28  12:39:48  pwe
- * dwarf.h via import, and type changes for tcc checks
- *
- * Revision 1.2  1995/09/13  14:25:38  pwe
- * tidy for gcc
- *
- * Revision 1.1.1.1  1995/08/14  14:30:23  pwe
- * transferred from DJCH
- *
-**********************************************************************/
-
-/* extra fns for writing DWARF info */
-/* LOG 6/9/93 changes for sparc/ICL port of SVR4.2 djch
-   */
-/* LOG 7/9/93 this will only compile with -Ycommon, assuming 32 bit int
-   makes life a lot easier djch. several changes of long to int to
-   get weak prototypes to work */
-/* LOG 25/11/93 removed redundant labbufe djch */
-
 #include <shared/xalloc.h>
 
 #include "config.h"

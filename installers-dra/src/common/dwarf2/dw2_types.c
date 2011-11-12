@@ -7,65 +7,10 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-
-
-
-
-
-/**********************************************************************
-$Author: pwe $
-$Date: 1998/03/11 11:03:48 $
-$Revision: 1.4 $
-$Log: dw2_types.c,v $
- * Revision 1.4  1998/03/11  11:03:48  pwe
- * DWARF optimisation info
- *
- * Revision 1.3  1998/02/11  16:56:40  pwe
- * corrections
- *
- * Revision 1.2  1998/01/21  10:30:09  pwe
- * labdiff change
- *
- * Revision 1.1.1.1  1998/01/17  15:55:48  release
- * First version to be checked into rolling release.
- *
- * Revision 1.11  1998/01/09  09:31:36  pwe
- * prep restructure
- *
- * Revision 1.10  1997/12/08  19:20:28  pwe
- * absent v anon generic name
- *
- * Revision 1.9  1997/12/04  19:41:44  pwe
- * ANDF-DE V1.9
- *
- * Revision 1.8  1997/11/06  09:22:24  pwe
- * ANDF-DE V1.8
- *
- * Revision 1.7  1997/10/23  09:27:51  pwe
- * ANDF-DE v1.7, extra diags
- *
- * Revision 1.6  1997/10/10  18:18:45  pwe
- * prep ANDF-DE revision
- *
- * Revision 1.5  1997/08/23  13:36:56  pwe
- * initial ANDF-DE
- *
- * Revision 1.4  1997/06/16  16:23:57  pwe
- * correct sense of bitfield alignment
- *
- * Revision 1.3  1997/04/17  11:50:35  pwe
- * Sparc and 80x86 support
- *
- * Revision 1.2  1997/03/24  11:10:30  pwe
- * struct bitfields
- *
- * Revision 1.1  1997/03/20  16:09:30  pwe
- * first version
- *
-**********************************************************************/
+#include <shared/xalloc.h>
 
 #include "config.h"
+
 #include "dw2_config.h"
 #include "dw2_types.h"
 #include "dw2_codes.h"
@@ -73,7 +18,6 @@ $Log: dw2_types.c,v $
 #include "dw2_basic.h"
 #include "dw2_info.h"
 #include "shapemacs.h"
-#include <shared/xalloc.h>
 #include "diag_fns.h"
 #include "expmacs.h"
 #include "exp.h"

@@ -8,10 +8,6 @@
  */
 
 
-#ifndef lint
-static char vcid[] = "$Id: alpha_ins.c,v 1.1.1.1 1998/01/17 15:55:58 release Exp $";
-#endif /* lint */
-
 /*
   alpha_ins.c
 

@@ -7,36 +7,9 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-#ifndef lint
-static char vcid[] = "$Id: special.c,v 1.1.1.1 1998/01/17 15:56:01 release Exp $";
-#endif /* lint */
-
 /*
    special.c
    inlines some of the simpler standard library functions
-*/
-
-/*
-$Log: special.c,v $
- * Revision 1.1.1.1  1998/01/17  15:56:01  release
- * First version to be checked into rolling release.
- *
- * Revision 1.3  1995/08/21  08:46:29  john
- * Changed include files
- *
- * Revision 1.2  1995/03/29  14:06:06  john
- * Changes to keep tcheck happy
- *
- * Revision 1.1.1.1  1995/03/23  10:39:22  john
- * Entered into CVS
- *
- * Revision 1.5  1995/03/23  10:14:26  john
- * Minor change
- *
- * Revision 1.4  1995/01/31  14:25:53  john
- * Removed dead variable
- *
 */
 
 #include "config.h"

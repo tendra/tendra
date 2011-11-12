@@ -8,30 +8,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-    
-    
-    
-    
-    
-
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/02/04 15:48:45 $
-$Revision: 1.2 $
-$Log: exptypes.h,v $
- * Revision 1.2  1998/02/04  15:48:45  release
- * Added OSF copyright message.
- *
- * Revision 1.1.1.1  1998/01/17  15:55:56  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1996/10/04  16:00:43  pwe
- * add banners and mod for PWE ownership
- *
-**********************************************************************/
-
-
 #ifndef exptypes_key
 #define exptypes_key 1
 
@@ -41,7 +17,6 @@ $Log: exptypes.h,v $
 
 #include "dg_first.h"
 #include "diaginfo.h"
-
 
 
 typedef unsigned short prop;

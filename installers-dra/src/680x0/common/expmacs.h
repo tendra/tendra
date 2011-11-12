@@ -7,65 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-    
-/*
-			    VERSION INFORMATION
-			    ===================
-
---------------------------------------------------------------------------
-$Header: /u/g/release/CVSROOT/Source/src/installers/680x0/common/expmacs.h,v 1.1.1.1 1998/01/17 15:55:49 release Exp $
---------------------------------------------------------------------------
-$Log: expmacs.h,v $
- * Revision 1.1.1.1  1998/01/17  15:55:49  release
- * First version to be checked into rolling release.
- *
-Revision 1.1.1.1  1997/10/13 12:42:50  ma
-First version.
-
-Revision 1.5  1997/10/13 08:49:26  ma
-Made all pl_tests for general proc & exception handling pass.
-
-Revision 1.4  1997/09/25 06:45:01  ma
-All general_proc tests passed
-
-Revision 1.3  1997/06/18 12:04:52  ma
-Merged with Input Baseline changes.
-
-Revision 1.2  1997/06/18 10:09:29  ma
-Checking in before merging with Input Baseline changes.
-
-Revision 1.1.1.1  1997/03/14 07:50:12  ma
-Imported from DRA
-
- * Revision 1.1.1.1  1996/09/20  10:56:53  john
- *
- * Revision 1.2  1996/07/05  14:20:32  john
- * Changes for spec 3.1
- *
- * Revision 1.1.1.1  1996/03/26  15:45:11  john
- *
- * Revision 1.6  94/11/08  11:23:07  11:23:07  ra (Robert Andrews)
- * Added a couple of missing clear macros.
- * 
- * Revision 1.5  94/06/29  14:21:38  14:21:38  ra (Robert Andrews)
- * Added new flags for inlining and unrolling optimisations.
- * 
- * Revision 1.4  94/02/21  15:58:31  15:58:31  ra (Robert Andrews)
- * Added unrolled property.
- * 
- * Revision 1.3  93/11/19  16:20:08  16:20:08  ra (Robert Andrews)
- * Added support macros for big values.
- * 
- * Revision 1.2  93/04/19  13:33:09  13:33:09  ra (Robert Andrews)
- * Representation of alignments has changed.
- * 
- * Revision 1.1  93/02/22  17:15:37  17:15:37  ra (Robert Andrews)
- * Initial revision
- * 
---------------------------------------------------------------------------
-*/
-
-
 #ifndef EXPMACS_INCLUDED
 #define EXPMACS_INCLUDED
 

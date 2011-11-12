@@ -7,37 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-#ifndef lint
-static char vcid[] = "$Id: spec_tok.c,v 1.1.1.1 1998/01/17 15:56:01 release Exp $";
-#endif /* lint */
-
-/*
-$Log: spec_tok.c,v $
- * Revision 1.1.1.1  1998/01/17  15:56:01  release
- * First version to be checked into rolling release.
- *
- * Revision 1.5  1995/09/15  16:23:48  john
- * New exception handling
- *
- * Revision 1.4  1995/09/13  11:03:49  john
- * Fix
- *
- * Revision 1.3  1995/09/13  08:23:16  john
- * Addition for exception handling
- *
- * Revision 1.2  1995/05/16  10:55:42  john
- * Removed unused code.
- *
- * Revision 1.1.1.1  1995/03/23  10:39:36  john
- * Entered into CVS
- *
- * Revision 1.8  1995/01/26  13:49:51  john
- * Removed unused variable
- *
-*/
-
-
 #include "config.h"
 
 #include "codetypes.h"

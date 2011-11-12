@@ -8,27 +8,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/02/04 15:49:04 $
-$Revision: 1.2 $
-$Log: proc.c,v $
- * Revision 1.2  1998/02/04  15:49:04  release
- * Added OSF copyright message.
- *
- * Revision 1.1.1.1  1998/01/17  15:55:57  release
- * First version to be checked into rolling release.
- *
- * Revision 1.3  1996/10/11  08:36:59  pwe
- * permit unpadded size in dynamic callees
- *
- * Revision 1.2  1996/10/04  16:03:30  pwe
- * add banners and mod for PWE ownership
- *
-**********************************************************************/
-
-
 #include <signal.h>
 
 #include <shared/error.h>

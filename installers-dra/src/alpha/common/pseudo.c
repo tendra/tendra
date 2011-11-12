@@ -7,50 +7,9 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-#ifndef lint
-static char vcid[] = "$Id: pseudo.c,v 1.1.1.1 1998/01/17 15:56:01 release Exp $";
-#endif /* lint */
 /* 
    psu_ops.c
    Output various psuedo operations to assembler 
-*/
-
-/*
-$Log: pseudo.c,v $
- * Revision 1.1.1.1  1998/01/17  15:56:01  release
- * First version to be checked into rolling release.
- *
- * Revision 1.9  1995/12/04  09:12:44  john
- * Fix to diagnostics
- *
- * Revision 1.8  1995/08/30  16:14:58  john
- * Fix for use of AT register
- *
- * Revision 1.7  1995/05/23  13:25:06  john
- * Reformatting
- *
- * Revision 1.6  1995/05/16  10:54:43  john
- * Cosmetic changes
- *
- * Revision 1.5  1995/04/10  14:13:47  john
- * Minor changes
- *
- * Revision 1.4  1995/04/07  11:05:25  john
- * Changed assembler output.
- *
- * Revision 1.3  1995/03/29  14:08:19  john
- * Added inclusion of bool.h
- *
- * Revision 1.2  1995/03/29  10:31:38  john
- * Added code for handling of new noat/at block
- *
- * Revision 1.1.1.1  1995/03/23  10:39:18  john
- * Entered into CVS
- *
- * Revision 1.9  1995/03/23  10:11:35  john
- * Changed to support scheduler
- *
 */
 
 #include <shared/xalloc.h>
@@ -68,6 +27,7 @@ $Log: pseudo.c,v $
 #include "scheduler.h"
 #endif
 #include "inst_fmt.h"
+
 extern  FILE * as_file;
 extern bool in_noat_block;
 

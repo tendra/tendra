@@ -7,27 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-
-/*
-			    VERSION INFORMATION
-			    ===================
-
---------------------------------------------------------------------------
-$Header: /u/g/release/CVSROOT/Source/src/installers/sparc/common/inlinechoice.c,v 1.1.1.1 1998/01/17 15:55:54 release Exp $
---------------------------------------------------------------------------
-$Log: inlinechoice.c,v $
- * Revision 1.1.1.1  1998/01/17  15:55:54  release
- * First version to be checked into rolling release.
- *
- * Revision 1.4  1996/08/15  16:26:59  pwe
- * add missing file headers
- *
---------------------------------------------------------------------------
-*/
-
-
-
 #include <assert.h>
 
 #include "config.h"

@@ -7,54 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/*
-			    VERSION INFORMATION
-			    ===================
---------------------------------------------------------------------------
-$Header: /u/g/release/CVSROOT/Source/src/installers/680x0/common/output.c,v 1.1.1.1 1998/01/17 15:55:50 release Exp $
---------------------------------------------------------------------------
-$Log: output.c,v $
- * Revision 1.1.1.1  1998/01/17  15:55:50  release
- * First version to be checked into rolling release.
- *
-Revision 1.4  1997/11/13 08:27:18  ma
-All avs test passed (except add_to_ptr).
-
-Revision 1.3  1997/11/10 15:38:10  ma
-.
-
-Revision 1.2  1997/11/09 14:21:00  ma
-.
-
-Revision 1.1.1.1  1997/10/13 12:42:57  ma
-First version.
-
-Revision 1.3  1997/06/18 12:04:56  ma
-Merged with Input Baseline changes.
-
-Revision 1.2  1997/05/13 11:30:38  ma
-Introduced make_comment for debug.
-
-Revision 1.1.1.1  1997/03/14 07:50:16  ma
-Imported from DRA
-
- * Revision 1.2  1996/09/20  13:51:41  john
- * *** empty log message ***
- *
- * Revision 1.1.1.1  1996/09/20  10:56:58  john
- *
- * Revision 1.1.1.1  1996/03/26  15:45:16  john
- *
- * Revision 1.2  94/02/21  16:02:42  16:02:42  ra (Robert Andrews)
- * Put in an explicit cast.
- *
- * Revision 1.1  93/02/22  17:16:29  17:16:29  ra (Robert Andrews)
- * Initial revision
- *
---------------------------------------------------------------------------
-*/
-
-
 #include <shared/error.h>
 
 #include "config.h"

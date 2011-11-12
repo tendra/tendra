@@ -7,86 +7,10 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/*
-$Log: hppatrans.c,v $
- * Revision 1.1.1.1  1998/01/17  15:56:04  release
- * First version to be checked into rolling release.
- *
- * Revision 1.6  1996/04/18  11:09:12  wfs
- * Fixed a bug in "needscan.c" where "locptr_tag" was being wrapped around
- * the wrong exps.
- *
- * Revision 1.5  1996/01/30  15:36:29  wfs
- * Added the dynamic initialization files "dyn_begin.s" and "dyn_end.s" to
- * the hppatrans repository. The bl_install and bl_update scripts were
- * expanded to deal with these new "initcode" files.
- *
- * Revision 1.4  1996/01/08  12:01:50  wfs
- * Cosmetic changes to usage message in "hppatrans.c". "issparc" set to 0 in
- * "config.h". Change to "scan()" regarding the passing of 64 bit int params.
- *
- * Revision 1.3  1995/12/20  12:11:18  wfs
- * "-v" option disabled. "ManualPages" put under cvs control.
- *
- * Revision 1.2  1995/12/18  13:11:35  wfs
- * Put hppatrans uder cvs control. Major Changes made since last release
- * include:
- * (i) PIC code generation.
- * (ii) Profiling.
- * (iii) Dynamic Initialization.
- * (iv) Debugging of Exception Handling and Diagnostics.
- *
- * Revision 5.5  1995/10/30  12:57:56  wfs
- * Standardized the format of the warning messages.
- *
- * Revision 5.4  1995/10/25  14:32:46  wfs
- * Removed a few commented out instructions.
- *
- * Revision 5.3  1995/10/20  13:55:38  wfs
- * Changes for gcc compilation.
- *
- * Revision 5.2  1995/09/25  10:17:42  wfs
- * Added "#ifdef _SYMTAB_INCLUDED" provisios around any code which refers
- * to "hpux-symtab.h". We cannot legally distribute this header file.
- *
- * Revision 5.1  1995/09/15  12:29:03  wfs
- * Minor changes made to stop gcc compiler from complaining + changed
- * messages citing "hppatrans" to "trans".
- *
- * Revision 5.0  1995/08/25  13:42:58  wfs
- * Preperation for August 25 Glue release
- *
- * Revision 3.4  1995/08/25  11:22:17  wfs
- * Name of installer occuring in messages changed from "hppatrans" to
- * "trans"
- *
- * Revision 3.4  1995/08/25  11:22:17  wfs
- * Name of installer occuring in messages changed from "hppatrans" to
- * "trans"
- *
- * Revision 3.3  1995/08/25  09:36:12  wfs
- * some superflous code removed ( includingincluding the SunOS "-G" option).
- * minor alterations for diagnostics stuff.
- *
- * Revision 3.1  95/04/10  16:26:49  16:26:49  wfs (William Simmonds)
- * Apr95 tape version.
- *
- * Revision 3.0  95/03/30  11:17:27  11:17:27  wfs (William Simmonds)
- * Mar95 tape version with CRCR95_178 bug fix.
- *
- * Revision 2.0  95/03/15  15:27:34  15:27:34  wfs (William Simmonds)
- * spec 3.1 changes implemented, tests outstanding.
- *
- * Revision 1.1  95/01/17  13:58:43  13:58:43  wfs (William Simmonds)
- * Initial revision
- *
-*/
-
-
-
 #define HPPATRANS_CODE
+
 #include "config.h"
+
 #include "flags.h"		/* for option flags */
 #include "tempdecs.h"		/* for tempdecopt */
 #include "comment.h"		/* for do_comment */

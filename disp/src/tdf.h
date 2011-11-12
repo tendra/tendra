@@ -7,7 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
 #ifndef TDF_INCLUDED
 #define TDF_INCLUDED
 

@@ -7,55 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-
-
-/*
-			    VERSION INFORMATION
-			    ===================
-
---------------------------------------------------------------------------
-$Header: /u/g/release/CVSROOT/Source/src/installers/sparc/common/bitsmacs.h,v 1.1.1.1 1998/01/17 15:55:53 release Exp $
---------------------------------------------------------------------------
-$Log: bitsmacs.h,v $
- * Revision 1.1.1.1  1998/01/17  15:55:53  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1997/10/28  10:18:45  pwe
- * extra diags
- *
- * Revision 1.1.1.1  1995/03/13  10:18:27  john
- * Entered into CVS
- *
- * Revision 1.6  1994/11/28  13:51:43  djch
- * removed subvar on ic's advice.
- *
- * Revision 1.5  1994/07/04  09:24:54  djch
- * Jun94 tape version
- *
- * Revision 1.4  1994/05/25  14:18:21  djch
- * Added CREATE_instore_bits to shut up tcc
- *
- * Revision 1.3  1994/05/13  12:25:49  djch
- * Incorporates improvements from expt version
- * Remove redundant macros
- *
- * Revision 1.2  1994/05/03  15:01:06  djch
- * added inlined bit used in 3.0 common section
- *
- * Revision 1.3  93/08/27  11:21:13  11:21:13  ra (Robert Andrews)
- * Changed SetRev etc to use pset, altered some whitespace.
- * 
- * Revision 1.2  93/07/08  18:18:31  18:18:31  ra (Robert Andrews)
- * Minor reformatting.
- * 
- * Revision 1.1  93/06/24  14:57:57  14:57:57  ra (Robert Andrews)
- * Initial revision
- * 
---------------------------------------------------------------------------
-*/
-
-
 #ifndef BITSMACS_INCLUDED
 #define BITSMACS_INCLUDED
 

@@ -7,36 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-
-
-
-
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/01/17 15:56:06 $
-$Revision: 1.1.1.1 $
-$Log: regable.c,v $
- * Revision 1.1.1.1  1998/01/17  15:56:06  release
- * First version to be checked into rolling release.
- *
- * Revision 1.3  1995/12/12  09:02:19  currie
- * out_pars not regable
- *
- * Revision 1.2  1995/09/22  15:49:17  currie
- * added outpar
- *
- * Revision 1.1  1995/04/13  09:08:06  currie
- * Initial revision
- *
-***********************************************************************/
-/******************************************************************
-		regable.c
-
-******************************************************************/
-
-
 #include "config.h"
 
 #include "localtypes.h"

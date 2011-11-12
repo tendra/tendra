@@ -7,49 +7,10 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/*
-			    VERSION INFORMATION
-			    ===================
---------------------------------------------------------------------------
-$Header: /u/g/release/CVSROOT/Source/src/installers/680x0/common/weights.c,v 1.1.1.1 1998/01/17 15:55:50 release Exp $
---------------------------------------------------------------------------
-$Log: weights.c,v $
- * Revision 1.1.1.1  1998/01/17  15:55:50  release
- * First version to be checked into rolling release.
- *
-Revision 1.1.1.1  1997/10/13 12:43:00  ma
-First version.
-
-Revision 1.3  1997/09/25 06:45:40  ma
-All general_proc tests passed
-
-Revision 1.2  1997/04/20 11:30:41  ma
-Introduced gcproc.c & general_proc.[ch].
-Added cases for apply_general_proc next to apply_proc in all files.
-
-Revision 1.1.1.1  1997/03/14 07:50:20  ma
-Imported from DRA
-
- * Revision 1.1.1.1  1996/09/20  10:57:00  john
- *
- * Revision 1.2  1996/07/05  14:29:51  john
- * Changes for spec 3.1
- *
- * Revision 1.1.1.1  1996/03/26  15:45:19  john
- *
- * Revision 1.2  94/02/21  16:06:14  16:06:14  ra (Robert Andrews)
- * Put in an explicit cast.
- *
- * Revision 1.1  93/02/22  17:16:59  17:16:59  ra (Robert Andrews)
- * Initial revision
- *
---------------------------------------------------------------------------
-*/
-
-
 #include <shared/error.h>
 
 #include "config.h"
+
 #include "exp.h"
 #include "expmacs.h"
 #include "externs.h"

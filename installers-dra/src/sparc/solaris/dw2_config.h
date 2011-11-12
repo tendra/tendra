@@ -7,54 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/*
-			    VERSION INFORMATION
-			    ===================
-
---------------------------------------------------------------------------
-$Header: /u/g/release/CVSROOT/Source/src/installers/sparc/solaris/dw2_config.h,v 1.4 1998/03/15 16:00:50 pwe Exp $
---------------------------------------------------------------------------
-$Log: dw2_config.h,v $
- * Revision 1.4  1998/03/15  16:00:50  pwe
- * regtrack dwarf dagnostics added
- *
- * Revision 1.3  1998/03/11  11:04:05  pwe
- * DWARF optimisation info
- *
- * Revision 1.2  1998/02/18  11:22:29  pwe
- * test corrections
- *
- * Revision 1.1.1.1  1998/01/17  15:55:53  release
- * First version to be checked into rolling release.
- *
- * Revision 1.8  1998/01/09  15:00:05  pwe
- * prep restructure
- *
- * Revision 1.7  1997/12/04  19:54:49  pwe
- * ANDF-DE V1.9
- *
- * Revision 1.6  1997/10/28  10:19:24  pwe
- * extra diags
- *
- * Revision 1.5  1997/10/23  09:33:41  pwe
- * prep extra_diags
- *
- * Revision 1.4  1997/10/10  18:33:32  pwe
- * prep ANDF-DE revision
- *
- * Revision 1.3  1997/08/23  13:55:16  pwe
- * initial ANDF-DE
- *
- * Revision 1.2  1997/05/02  11:09:28  pwe
- * dwarf2 re return address offset
- *
- * Revision 1.1  1997/04/17  12:00:27  pwe
- * dwarf2 support
- *
---------------------------------------------------------------------------
-*/
-
 #ifndef dw2_config_key
 #define dw2_config_key 1
 

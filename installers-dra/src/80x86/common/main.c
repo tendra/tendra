@@ -8,6 +8,7 @@
  */
 
 #include "config.h"
+
 #include "basicread.h"
 #include "flags.h"
 #include "out.h"
@@ -30,10 +31,12 @@
 #include "reader_v.h"
 #include "construct_v.h"
 #include "operand.h"
+
 #ifdef NEWDIAGS
 #include "diag_v.h"
 #include "dg_version.h"
 #endif /* NEWDIAGS */
+
 #ifdef NEWDWARF
 #include "dw2_iface.h"
 #include "dw2_vsn.h"

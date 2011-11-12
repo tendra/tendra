@@ -7,42 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-
-
-/*
-			    VERSION INFORMATION
-			    ===================
-
---------------------------------------------------------------------------
-$Header: /u/g/release/CVSROOT/Source/src/installers/sparc/common/regmacs.h,v 1.1.1.1 1998/01/17 15:55:55 release Exp $
---------------------------------------------------------------------------
-$Log: regmacs.h,v $
- * Revision 1.1.1.1  1998/01/17  15:55:55  release
- * First version to be checked into rolling release.
- *
- * Revision 1.3  1995/12/15  10:27:01  john
- * Minor changes
- *
- * Revision 1.2  1995/05/26  13:01:37  john
- * Change for new spec
- *
- * Revision 1.1.1.1  1995/03/13  10:18:54  john
- * Entered into CVS
- *
- * Revision 1.2  1994/07/04  09:24:54  djch
- * Jun94 tape version
- *
- * Revision 1.1  1994/05/03  14:50:38  djch
- * Initial revision
- *
- * Revision 1.1  93/06/24  14:59:19  14:59:19  ra (Robert Andrews)
- * Initial revision
- * 
---------------------------------------------------------------------------
-*/
-
-
 #ifndef REGMACS_INCLUDED
 #define REGMACS_INCLUDED
 

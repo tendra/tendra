@@ -7,53 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/*
-$Log: regmacs.h,v $
- * Revision 1.1.1.1  1998/01/17  15:56:03  release
- * First version to be checked into rolling release.
- *
- * Revision 1.3  1996/01/10  17:18:57  wfs
- * Corrected definition of "IS_TREG" macro + cosmetic changes to needscan.c
- *
- * Revision 1.2  1995/12/18  13:12:32  wfs
- * Put hppatrans uder cvs control. Major Changes made since last release
- * include:
- * (i) PIC code generation.
- * (ii) Profiling.
- * (iii) Dynamic Initialization.
- * (iv) Debugging of Exception Handling and Diagnostics.
- *
- * Revision 5.0  1995/08/25  14:00:27  wfs
- * Preperation for August 95 Glue release
- *
- * Revision 4.0  1995/08/25  13:34:00  wfs
- * ..
- *
- * Revision 4.0  1995/08/25  13:34:00  wfs
- * ..
- *
- * Revision 3.4  1995/08/25  11:05:02  wfs
- * Major revision of internal register synonym's
- *
- * Revision 3.4  1995/08/25  11:05:02  wfs
- * Major revision of internal register synonym's
- *
- * Revision 3.1  95/04/10  16:28:07  16:28:07  wfs (William Simmonds)
- * Apr95 tape version.
- * 
- * Revision 3.0  95/03/30  11:18:56  11:18:56  wfs (William Simmonds)
- * Mar95 tape version with CRCR95_178 bug fix.
- * 
- * Revision 2.0  95/03/15  15:28:46  15:28:46  wfs (William Simmonds)
- * spec 3.1 changes implemented, tests outstanding.
- * 
- * Revision 1.1  95/01/11  13:43:36  13:43:36  wfs (William Simmonds)
- * Initial revision
- * 
-*/
-
-
 #ifndef REGMACS_INCLUDED
 #define REGMACS_INCLUDED
 

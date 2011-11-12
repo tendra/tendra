@@ -8,34 +8,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-    
-    
-    
-    
-    
-
-
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/02/04 15:49:10 $
-$Revision: 1.2 $
-$Log: szs_als.h,v $
- * Revision 1.2  1998/02/04  15:49:10  release
- * Added OSF copyright message.
- *
- * Revision 1.1.1.1  1998/01/17  15:55:58  release
- * First version to be checked into rolling release.
- *
- * Revision 1.3  1996/10/15  16:44:56  pwe
- * alloca alignment 64
- *
- * Revision 1.2  1996/10/04  16:04:34  pwe
- * add banners and mod for PWE ownership
- *
-**********************************************************************/
-
-
 #ifndef SZS_ALS_H
 #define SZS_ALS_H
 

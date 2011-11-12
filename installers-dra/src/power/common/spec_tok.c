@@ -8,41 +8,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-    
-    
-    
-    
-    
-
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/02/04 15:49:09 $
-$Revision: 1.2 $
-$Log: spec_tok.c,v $
- * Revision 1.2  1998/02/04  15:49:09  release
- * Added OSF copyright message.
- *
- * Revision 1.1.1.1  1998/01/17  15:55:58  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1996/10/04  16:04:23  pwe
- * add banners and mod for PWE ownership
- *
-**********************************************************************/
-
-
-/*
-^^^	21/12/92  jmf	Added ~div as special token
-^^^	26/03/93  jmf	Changes for new spec 2.1
-^^^	24/05/93  jmf	Added ~alloca as special token, not alloc
-^^^	10/06/93  jmf	Change long to int, remove extern declarations.
-^^^	19/08/93  jmf	Put arith_type, promote, sign_promote, convert
-^^^			into c_arith-type.h in machine directories.
-^^^	19/08/93  jmf	Set crt_lno in exp_to_source
-^^^	23/09/93  jmf	Use natmacs.h
-*/
-
 #include "config.h"
 
 #include "codetypes.h"

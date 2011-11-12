@@ -7,33 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/03/16 11:25:34 $
-$Revision: 1.2 $
-$Log: config.h,v $
- * Revision 1.2  1998/03/16  11:25:34  release
- * Modifications prior to version 4.1.2.
- *
- * Revision 1.1.1.1  1998/01/17  15:56:04  release
- * First version to be checked into rolling release.
- *
- * Revision 1.4  1995/09/20  08:26:49  currie
- * isAlpha
- *
- * Revision 1.3  1995/06/22  09:33:03  currie
- * Added has_rotate
- *
- * Revision 1.2  1995/05/18  16:29:54  currie
- * Introduced has_bitfield_ops
- *
- * Revision 1.1  1995/04/13  09:33:41  currie
- * Initial revision
- *
-***********************************************************************/
-
-
 #ifndef config_key
 #define config_key 1
 

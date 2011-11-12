@@ -7,10 +7,10 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
 #include <shared/xalloc.h>
 
 #include "config.h"
+
 #include "types.h"
 #include "basic.h"
 #include "binding.h"

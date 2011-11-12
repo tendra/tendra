@@ -7,21 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/01/17 15:56:06 $
-$Revision: 1.1.1.1 $
-$Log: out_ba.h,v $
- * Revision 1.1.1.1  1998/01/17  15:56:06  release
- * First version to be checked into rolling release.
- *
- * Revision 1.1  1995/04/13  09:08:06  currie
- * Initial revision
- *
-***********************************************************************/
-/* out_badecs.h */
 #include "ibinasm.h"
+
 extern void out_common(asmsym symno, unsigned asmtype);
 extern void out_ent(asmsym symno, unsigned asmtype, unsigned lexlev);
 extern void out_frame (asmsym symno, unsigned asmtype, asmint frameoffset,

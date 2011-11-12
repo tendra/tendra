@@ -7,12 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-    
-    
-    
-    
-    
-
 /*
  * common.h - Primitive definitions common to several interfaces.
  *

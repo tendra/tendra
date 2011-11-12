@@ -7,51 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-
-
-/*
-			    VERSION INFORMATION
-			    ===================
-
---------------------------------------------------------------------------
-$Header: /u/g/release/CVSROOT/Source/src/installers/sparc/sunos/sparcdiags.h,v 1.1.1.1 1998/01/17 15:55:56 release Exp $
---------------------------------------------------------------------------
-$Log: sparcdiags.h,v $
- * Revision 1.1.1.1  1998/01/17  15:55:56  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1997/04/04  15:23:56  pwe
- * tidy re old DWARF interface
- *
- * Revision 1.1  1997/03/24  17:10:16  pwe
- * reorganise solaris/sunos split
- *
- * Revision 1.1.1.1  1995/03/13  10:18:55  john
- * Entered into CVS
- *
- * Revision 1.3  1994/07/04  09:24:54  djch
- * Jun94 tape version
- *
- * Revision 1.2  1994/07/04  08:35:54  djch
- * extra param to stabd
- *
- * Revision 1.1  1994/05/03  14:50:40  djch
- * Initial revision
- *
- * Revision 1.3  93/07/05  18:26:02  18:26:02  ra (Robert Andrews)
- * Include diag_fns.h for DWARF.
- *
- * Revision 1.2  93/06/29  14:31:11  14:31:11  ra (Robert Andrews)
- * Minor renaming of diagnostic routines.
- *
- * Revision 1.1  93/06/24  14:59:20  14:59:20  ra (Robert Andrews)
- * Initial revision
- *
---------------------------------------------------------------------------
-*/
-
-
 #ifndef SPARCDDECS_INCLUDED
 #define SPARCDDECS_INCLUDED
 

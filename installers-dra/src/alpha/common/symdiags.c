@@ -7,10 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-#ifndef lint
-static char vcid[] = "$Id: symdiags.c,v 1.2 1998/02/04 10:43:33 release Exp $";
-#endif /* lint */
 /*
   symdiags.c
 

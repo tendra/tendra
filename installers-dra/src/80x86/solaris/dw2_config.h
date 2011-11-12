@@ -7,56 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: pwe $
-$Date: 1998/03/15 16:00:28 $
-$Revision: 1.4 $
-$Log: dw2_config.h,v $
- * Revision 1.4  1998/03/15  16:00:28  pwe
- * regtrack dwarf dagnostics added
- *
- * Revision 1.3  1998/03/11  11:03:14  pwe
- * DWARF optimisation info
- *
- * Revision 1.2  1998/02/18  11:22:07  pwe
- * test corrections
- *
- * Revision 1.1.1.1  1998/01/17  15:55:53  release
- * First version to be checked into rolling release.
- *
- * Revision 1.10  1998/01/09  14:47:57  pwe
- * prep restructure
- *
- * Revision 1.9  1997/12/04  20:01:33  pwe
- * ANDF-DE V1.9
- *
- * Revision 1.8  1997/10/28  10:26:51  pwe
- * correct extra diags / locations
- *
- * Revision 1.7  1997/10/23  09:37:32  pwe
- * extra_diags
- *
- * Revision 1.6  1997/10/10  18:26:05  pwe
- * prep ANDF-DE revision
- *
- * Revision 1.5  1997/08/23  13:46:07  pwe
- * initial ANDF-DE
- *
- * Revision 1.4  1997/04/17  11:56:09  pwe
- * dwarf2 improvements
- *
- * Revision 1.3  1997/04/02  10:33:46  pwe
- * diagnose pl_tests
- *
- * Revision 1.2  1997/03/24  11:15:50  pwe
- * dwarf2 option/default
- *
- * Revision 1.1  1997/03/20  16:24:41  pwe
- * dwarf2
- *
-**********************************************************************/
-
 #ifndef dw2_config_key
 #define dw2_config_key 1
 

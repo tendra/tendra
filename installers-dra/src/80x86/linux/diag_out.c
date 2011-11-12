@@ -7,58 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/* linux/diag_out.c */
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/03/27 09:47:50 $
-$Revision: 1.2 $
-$Log: diag_out.c,v $
- * Revision 1.2  1998/03/27  09:47:50  release
- * Changes for 4.1.2 release.
- *
- * Revision 1.1.1.1  1998/01/17  15:55:52  release
- * First version to be checked into rolling release.
- *
- * Revision 1.12  1997/04/02  10:33:21  pwe
- * diagnose pl_tests
- *
- * Revision 1.11  1997/03/24  12:43:26  pwe
- * outn int->long
- *
- * Revision 1.10  1996/10/29  14:55:32  pwe
- * correct linux/elf stabs for global variables
- *
- * Revision 1.9  1996/07/05  09:07:43  pwe
- * correct stabs enums
- *
- * Revision 1.8  1996/05/09  17:30:47  pwe
- * shift invalidate_dest, and stabs postlude
- *
- * Revision 1.7  1996/04/19  16:14:16  pwe
- * simplified use of global id = id, correcting linux call problem
- *
- * Revision 1.6  1996/03/13  13:43:26  pwe
- * diags for long long
- *
- * Revision 1.5  1996/02/08  13:45:29  pwe
- * Linux elf v aout option
- *
- * Revision 1.4  1995/12/20  11:13:54  pwe
- * stabs local variable scopes
- *
- * Revision 1.3  1995/11/30  10:19:43  pwe
- * diag struct struct
- *
- * Revision 1.2  1995/03/28  14:28:53  pwe
- * correct diagnose empty file
- *
- * Revision 1.1  1995/03/17  18:29:52  pwe
- * stabs diagnostics for solaris and linux
- *
-**********************************************************************/
-
 #include <shared/xalloc.h>
 
 #include "config.h"

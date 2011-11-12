@@ -9,6 +9,7 @@
 
 
 #include "config.h"
+
 #include "types.h"
 #include "alignment.h"
 #include "check.h"

@@ -7,48 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/*
-			    VERSION INFORMATION
-			    ===================
-
---------------------------------------------------------------------------
-$Header: /u/g/release/CVSROOT/Source/src/installers/680x0/common/general_proc.c,v 1.1.1.1 1998/01/17 15:55:49 release Exp $
---------------------------------------------------------------------------
-$Log: general_proc.c,v $
- * Revision 1.1.1.1  1998/01/17  15:55:49  release
- * First version to be checked into rolling release.
- *
-Revision 1.4  1997/11/09 14:08:39  ma
-Added preseve stack.
-
-Revision 1.3  1997/10/29 10:22:14  ma
-Replaced use_alloca with has_alloca.
-
-Revision 1.2  1997/10/17 12:13:57  ma
-Cleaned up.
-
-Revision 1.1.1.1  1997/10/13 12:42:52  ma
-First version.
-
-Revision 1.6  1997/10/13 11:43:36  ma
-Declared scan2.h
-
-Revision 1.5  1997/10/13 08:49:29  ma
-Made all pl_tests for general proc & exception handling pass.
-
-Revision 1.4  1997/09/25 06:45:05  ma
-All general_proc tests passed
-
-Revision 1.3  1997/06/24 10:56:02  ma
-Added changes for "Plumhall Patch"
-
-Revision 1.2  1997/06/18 10:09:31  ma
-Checking in before merging with Input Baseline changes.
-
---------------------------------------------------------------------------
-*/
-
-
 #include <limits.h>
 
 #include <shared/error.h>

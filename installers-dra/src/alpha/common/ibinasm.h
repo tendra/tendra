@@ -7,26 +7,11 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/* 	ibinasm.h,v 1.2 1995/05/23 10:56:37 john Exp	 */
 /*
   ibinasm.h
   
   This file provides information required for the alpha 
   binary assembler format.
-*/
-
-/*
-ibinasm.h,v
- * Revision 1.2  1995/05/23  10:56:37  john
- * Reformatting
- *
- * Revision 1.1.1.1  1995/03/23  10:39:32  john
- * Entered into CVS
- *
- * Revision 1.4  1995/03/23  10:05:09  john
- * Added guard
- *
 */
 
 #ifndef IBINASM_H

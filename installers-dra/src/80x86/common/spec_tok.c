@@ -7,50 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/* 80x86/spec_tok.c */
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/01/17 15:55:52 $
-$Revision: 1.1.1.1 $
-$Log: spec_tok.c,v $
- * Revision 1.1.1.1  1998/01/17  15:55:52  release
- * First version to be checked into rolling release.
- *
- * Revision 1.9  1997/10/10  18:25:29  pwe
- * prep ANDF-DE revision
- *
- * Revision 1.8  1997/08/23  13:45:42  pwe
- * initial ANDF-DE
- *
- * Revision 1.7  1997/03/20  16:24:07  pwe
- * dwarf2
- *
- * Revision 1.6  1997/02/18  11:43:08  pwe
- * NEWDIAGS for debugging optimised code
- *
- * Revision 1.5  1996/12/13  14:39:33  pwe
- * prep NEWDIAGS
- *
- * Revision 1.4  1996/12/10  15:11:52  pwe
- * prep NEWDIAGS
- *
- * Revision 1.3  1996/10/29  14:04:49  pwe
- * remove inbuilt C promote etc, for inclusion of long long
- *
- * Revision 1.2  1995/01/30  12:56:52  pwe
- * Ownership -> PWE, tidy banners
- *
- * Revision 1.1  1994/10/27  14:15:22  jmf
- * Initial revision
- *
- * Revision 1.1  1994/07/12  14:41:50  jmf
- * Initial revision
- *
-**********************************************************************/
-
-
 #include "config.h"
 
 #include "codetypes.h"
@@ -71,7 +27,6 @@ $Log: spec_tok.c,v $
 #include "natmacs.h"
 #include "spec_tok.h"
 #include "dg_fns.h"
-
 
 /* intercepts specially defined tokens */
 

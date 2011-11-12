@@ -7,35 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/* 80x86/inlinechoice.c */
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/01/17 15:55:51 $
-$Revision: 1.1.1.1 $
-$Log: inlinechoice.c,v $
- * Revision 1.1.1.1  1998/01/17  15:55:51  release
- * First version to be checked into rolling release.
- *
- * Revision 1.8  1996/12/04  17:58:36  pwe
- * correct to allow inlining at >1 location
- *
- * Revision 1.7  1995/09/28  12:45:17  pwe
- * tidy for tcc
- *
- * Revision 1.6  1995/08/04  08:29:20  pwe
- * 4.0 general procs implemented
- *
- * Revision 1.5  1995/02/22  13:34:31  pwe
- * no inline if application shape differs from return shape of proc
- *
- * Revision 1.4  1995/01/30  12:56:15  pwe
- * Ownership -> PWE, tidy banners
- *
-**********************************************************************/
-
-
 #include "config.h"
 
 #include "exptypes.h"

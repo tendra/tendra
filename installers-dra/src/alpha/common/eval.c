@@ -7,66 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-#ifndef lint
-static char vcid[] = "$Id: eval.c,v 1.1.1.1 1998/01/17 15:55:59 release Exp $";
-#endif /* lint */
-
-/*
-$Log: eval.c,v $
- * Revision 1.1.1.1  1998/01/17  15:55:59  release
- * First version to be checked into rolling release.
- *
- * Revision 1.11  1996/02/15  09:52:38  john
- * Added offset constructions
- *
- * Revision 1.10  1995/08/30  16:14:28  john
- * Fix for new string_tag
- *
- * Revision 1.9  1995/08/21  08:44:13  john
- * Changed include files
- *
- * Revision 1.8  1995/07/27  09:36:52  john
- * Reformatting & changes for spec 4.0
- *
- * Revision 1.7  1995/05/23  10:56:11  john
- * Changes for 64 bit support
- *
- * Revision 1.6  1995/05/16  10:47:33  john
- * Changes for spec 3.1
- *
- * Revision 1.5  1995/04/10  14:12:57  john
- * Minor changes
- *
- * Revision 1.4  1995/04/07  11:02:02  john
- * Re-arranged the assembler output routines
- *
- * Revision 1.3  1995/04/04  08:17:46  john
- * Fixed evaluation of compounds containing bitfields
- *
- * Revision 1.2  1995/03/29  14:01:22  john
- * Changes to keep tcheck happy
- *
- * Revision 1.1.1.1  1995/03/23  10:39:06  john
- * Entered into CVS
- *
- * Revision 1.16  1995/03/23  10:03:54  john
- * Added support for scheduler + fixes for AVS
- *
- * Revision 1.15  1995/01/31  14:21:53  john
- * Minor change
- *
- * Revision 1.14  1995/01/26  13:39:07  john
- * Various portability improvements
- *
- * Revision 1.13  1995/01/20  13:43:12  john
- * Added default case to oneval
- *
- * Revision 1.12  1995/01/12  15:14:43  john
- * Removed dead code
- *
-*/
-
 /*
   eval.c
   This file contains functions which output data to the assembler

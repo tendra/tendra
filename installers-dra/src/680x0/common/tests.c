@@ -7,60 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/*
-			    VERSION INFORMATION
-			    ===================
---------------------------------------------------------------------------
-$Header: /u/g/release/CVSROOT/Source/src/installers/680x0/common/tests.c,v 1.1.1.1 1998/01/17 15:55:50 release Exp $
---------------------------------------------------------------------------
-$Log: tests.c,v $
- * Revision 1.1.1.1  1998/01/17  15:55:50  release
- * First version to be checked into rolling release.
- *
-Revision 1.2  1997/11/09 14:15:09  ma
-Removed issigned. Use is_signed instead.
-
-Revision 1.1.1.1  1997/10/13 12:42:59  ma
-First version.
-
-Revision 1.5  1997/10/13 08:50:11  ma
-Made all pl_tests for general proc & exception handling pass.
-
-Revision 1.4  1997/09/25 06:45:35  ma
-All general_proc tests passed
-
-Revision 1.3  1997/04/20 11:30:39  ma
-Introduced gcproc.c & general_proc.[ch].
-Added cases for apply_general_proc next to apply_proc in all files.
-
-Revision 1.2  1997/03/20 12:46:24  ma
-Now tag ids are kept in unsigned chars (MAX tag id > 127).
-
-Revision 1.1.1.1  1997/03/14 07:50:18  ma
-Imported from DRA
-
- * Revision 1.1.1.1  1996/09/20  10:56:59  john
- *
- * Revision 1.2  1996/07/05  14:26:52  john
- * Changes for spec 3.1
- *
- * Revision 1.1.1.1  1996/03/26  15:45:17  john
- *
- * Revision 1.3  94/02/21  16:04:20  16:04:20  ra (Robert Andrews)
- * A number of values which were previously bool are now int.
- *
- * Revision 1.2  93/05/24  16:00:03  16:00:03  ra (Robert Andrews)
- * The optimisation which check_anyway is designed to test for has
- * returned.  Some tuning is required.
- *
- * Revision 1.1  93/02/22  17:16:44  17:16:44  ra (Robert Andrews)
- * Initial revision
- *
---------------------------------------------------------------------------
-*/
-
-
 #include "config.h"
+
 #include "assembler.h"
 #include "exp.h"
 #include "expmacs.h"

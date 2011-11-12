@@ -7,7 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
 #ifndef OSSG_INCLUDED
 #define OSSG_INCLUDED
 

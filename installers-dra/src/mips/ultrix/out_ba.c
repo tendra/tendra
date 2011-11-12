@@ -7,41 +7,21 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-
-
-
-
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/02/04 10:43:49 $
-$Revision: 1.2 $
-$Log: out_ba.c,v $
- * Revision 1.2  1998/02/04  10:43:49  release
- * Changes during testing.
- *
- * Revision 1.1.1.1  1998/01/17  15:56:04  release
- * First version to be checked into rolling release.
- *
- * Revision 1.1  1995/04/13  09:33:41  currie
- * Initial revision
- *
-***********************************************************************/
 /* ****************************************************************
                               out_ba.c
    Procs for outputting binary assembly files.
    Each record in binasm is 16 bytes, coded in various ways depending
    on class of instruction or directtive.
 *****************************************************************/
+
 #include "config.h"
+
 #include "ibinasm.h"
 #include "out_ba.h"
 
 extern  FILE * ba_file;
 
 static  binasm ba;
-
 
 
 #define  OUT out_one(  ba.data)

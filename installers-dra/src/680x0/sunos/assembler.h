@@ -8,42 +8,6 @@
  */
 
 /*
-			    VERSION INFORMATION
-			    ===================
---------------------------------------------------------------------------
-$Header: /u/g/release/CVSROOT/Source/src/installers/680x0/sunos/assembler.h,v 1.2 1998/02/04 10:43:25 release Exp $
---------------------------------------------------------------------------
-$Log: assembler.h,v $
- * Revision 1.2  1998/02/04  10:43:25  release
- * Changes during testing.
- *
- * Revision 1.1.1.1  1998/01/17  15:55:50  release
- * First version to be checked into rolling release.
- *
-Revision 1.1.1.1  1997/10/13 12:42:47  ma
-First version.
-
-Revision 1.2  1997/06/18 12:04:47  ma
-Merged with Input Baseline changes.
-
-Revision 1.1.1.1  1997/03/14 07:50:10  ma
-Imported from DRA
-
- * Revision 1.2  1996/09/20  13:51:23  john
- * *** empty log message ***
- *
- * Revision 1.1.1.1  1996/09/20  10:56:52  john
- *
- * Revision 1.1.1.1  1996/03/26  15:45:08  john
- *
- * Revision 1.1  93/02/22  17:15:10  17:15:10  ra (Robert Andrews)
- * Initial revision
- *
---------------------------------------------------------------------------
-*/
-
-
-/*
     TARGET CONFIGURATION FILE
 
     If NEXT is defined, the system will use the GNU assembler (gas)

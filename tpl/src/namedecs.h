@@ -7,25 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/01/17 15:57:25 $
-$Revision: 1.1.1.1 $
-$Log: namedecs.h,v $
- * Revision 1.1.1.1  1998/01/17  15:57:25  release
- * First version to be checked into rolling release.
- *
- * Revision 1.1  1995/04/07  14:29:07  currie
- * Initial revision
- *
- * Revision 1.3  1994/12/01  15:35:51  currie
- * Fixed common_tagdefs
- *
- * Revision 1.2  1994/07/21  10:36:27  currie
- * Added banner
- *
-***********************************************************************/
 #ifndef NAMEDECS_INCLUDED
 #define NAMEDECS_INCLUDED
 

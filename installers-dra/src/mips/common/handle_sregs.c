@@ -8,29 +8,6 @@
  */
 
 
-
-
-
-
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/01/17 15:56:05 $
-$Revision: 1.1.1.1 $
-$Log: handle_sregs.c,v $
- * Revision 1.1.1.1  1998/01/17  15:56:05  release
- * First version to be checked into rolling release.
- *
- * Revision 1.3  1995/09/12  10:59:24  currie
- * gcc pedanttry
- *
- * Revision 1.2  1995/08/16  16:06:45  currie
- * Shortened some .h names
- *
- * Revision 1.1  1995/04/13  09:08:06  currie
- * Initial revision
- *
-***********************************************************************/
 /* handle_sregs.c
 	handle_sregs dumps and recovers the s-registers;
 	the registers to be dumped are expressed as bits in a long eg
@@ -39,9 +16,8 @@ $Log: handle_sregs.c,v $
 
 ****************************************************************/
 
-
-
 #include "config.h"
+
 #include "mips_ins.h"
 #include "inst_fmt.h"
 #include "addrtypes.h"

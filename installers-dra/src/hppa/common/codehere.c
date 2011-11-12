@@ -7,58 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/*
-$Log: codehere.c,v $
- * Revision 1.1.1.1  1998/01/17  15:56:02  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1995/12/18  13:10:58  wfs
- * Put hppatrans uder cvs control. Major Changes made since last release
- * include:
- * (i) PIC code generation.
- * (ii) Profiling.
- * (iii) Dynamic Initialization.
- * (iv) Debugging of Exception Handling and Diagnostics.
- *
- * Revision 5.2  1995/10/09  13:06:48  wfs
- * Cosmetic changes.
- *
- * Revision 5.1  1995/09/25  09:44:17  wfs
- * *** empty log message ***
- *
- * Revision 5.0  1995/08/25  13:42:58  wfs
- * Preperation for August 25 Glue release
- *
- * Revision 3.5  1995/08/25  09:10:21  wfs
- * *** empty log message ***
- *
- * Revision 3.5  1995/08/25  09:10:21  wfs
- * *** empty log message ***
- *
- * Revision 3.4  1995/08/25  09:04:24  wfs
- * internal register synonyms changed to be closer to the hppa's
- * register names
- *
- * Revision 3.1  95/04/10  16:25:50  16:25:50  wfs (William Simmonds)
- * Apr95 tape version.
- * 
- * Revision 3.0  95/03/30  11:14:28  11:14:28  wfs (William Simmonds)
- * Mar95 tape version with CRCR95_178 bug fix.
- * 
- * Revision 2.0  95/03/15  15:25:17  15:25:17  wfs (William Simmonds)
- * spec 3.1 changes implemented, tests outstanding.
- * 
- * Revision 1.2  95/01/17  17:20:33  17:20:33  wfs (William Simmonds)
- * Changed name of an included header file.
- * 
- * Revision 1.1  95/01/11  13:02:40  13:02:40  wfs (William Simmonds)
- * Initial revision
- * 
-*/
-
-
-#define HPPATRANS_CODE
 /******************************************************************
 		code_here
 
@@ -78,10 +26,12 @@ in a register.
 
 ******************************************************************/
 
-
 #include <assert.h>
 
+#define HPPATRANS_CODE
+
 #include "config.h"
+
 #include "addrtypes.h"
 #include "proctypes.h"
 #include "labels.h"

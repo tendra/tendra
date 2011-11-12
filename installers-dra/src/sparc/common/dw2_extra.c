@@ -7,64 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-
-/*
-			    VERSION INFORMATION
-			    ===================
-
---------------------------------------------------------------------------
-$Header: /u/g/release/CVSROOT/Source/src/installers/sparc/common/dw2_extra.c,v 1.5 1998/03/15 16:00:41 pwe Exp $
---------------------------------------------------------------------------
-$Log: dw2_extra.c,v $
- * Revision 1.5  1998/03/15  16:00:41  pwe
- * regtrack dwarf dagnostics added
- *
- * Revision 1.4  1998/03/11  11:03:53  pwe
- * DWARF optimisation info
- *
- * Revision 1.3  1998/02/18  11:22:25  pwe
- * test corrections
- *
- * Revision 1.2  1998/01/21  10:30:11  pwe
- * labdiff change
- *
- * Revision 1.1.1.1  1998/01/17  15:55:53  release
- * First version to be checked into rolling release.
- *
- * Revision 1.1  1998/01/09  14:59:26  pwe
- * prep restructure
- *
- * Revision 1.9  1997/12/08  19:25:26  pwe
- * chfl param
- *
- * Revision 1.8  1997/12/04  19:54:52  pwe
- * ANDF-DE V1.9
- *
- * Revision 1.7  1997/11/06  09:29:29  pwe
- * ANDF-DE V1.8
- *
- * Revision 1.6  1997/10/28  10:19:28  pwe
- * extra diags
- *
- * Revision 1.5  1997/10/23  09:33:43  pwe
- * prep extra_diags
- *
- * Revision 1.4  1997/10/10  18:33:35  pwe
- * prep ANDF-DE revision
- *
- * Revision 1.3  1997/08/23  13:55:18  pwe
- * initial ANDF-DE
- *
- * Revision 1.2  1997/05/02  11:09:32  pwe
- * dwarf2 re return address offset
- *
- * Revision 1.1  1997/04/17  12:00:30  pwe
- * dwarf2 support
- *
---------------------------------------------------------------------------
-*/
-
 #include <assert.h>
 
 #include "config.h"

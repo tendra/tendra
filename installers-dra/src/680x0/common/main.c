@@ -7,85 +7,10 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/*
-			    VERSION INFORMATION
-			    ===================
---------------------------------------------------------------------------
-$Header: /u/g/release/CVSROOT/Source/src/installers/680x0/sunos/main.c,v 1.2 1998/02/06 17:04:20 release Exp $
---------------------------------------------------------------------------
-$Log: main.c,v $
- * Revision 1.2  1998/02/06  17:04:20  release
- * Last minute pre-release polishing.
- *
- * Revision 1.1.1.1  1998/01/17  15:55:51  release
- * First version to be checked into rolling release.
- *
-Revision 1.1.1.1  1997/10/13 12:42:56  ma
-First version.
-
-Revision 1.5  1997/10/13 08:49:39  ma
-Made all pl_tests for general proc & exception handling pass.
-
-Revision 1.4  1997/09/25 06:45:19  ma
-All general_proc tests passed
-
-Revision 1.3  1997/06/18 10:09:40  ma
-Checking in before merging with Input Baseline changes.
-
-Revision 1.2  1997/04/20 11:30:33  ma
-Introduced gcproc.c & general_proc.[ch].
-Added cases for apply_general_proc next to apply_proc in all files.
-
-Revision 1.1.1.1  1997/03/14 07:50:15  ma
-Imported from DRA
-
- * Revision 1.1.1.1  1996/09/20  10:56:55  john
- *
- * Revision 1.3  1996/09/13  13:47:17  john
- * Removed my_check_routines
- *
- * Revision 1.2  1996/07/05  14:23:07  john
- * Changed version reporting
- *
- * Revision 1.1.1.1  1996/03/26  15:45:15  john
- *
- * Revision 1.9  94/06/30  11:52:52  11:52:52  ra (Robert Andrews)
- * Print version numbers from common section as well as machine dependent
- * version number.
- *
- * Revision 1.8  94/06/29  14:22:32  14:22:32  ra (Robert Andrews)
- * Changed version number.  Added support for common installer command-line
- * options.
- *
- * Revision 1.7  94/02/21  16:01:03  16:01:03  ra (Robert Andrews)
- * A number of flags which used to be bool are now int.
- *
- * Revision 1.6  93/11/19  16:22:12  16:22:12  ra (Robert Andrews)
- * Changed version number to 0.5.
- *
- * Revision 1.5  93/05/24  15:57:30  15:57:30  ra (Robert Andrews)
- * version has been renamed version_str.  New flags for reporting version
- * numbers of input capsules and hptrans version (on stderr).
- *
- * Revision 1.4  93/04/19  13:42:20  13:42:20  ra (Robert Andrews)
- * New version number for March93 spec.
- *
- * Revision 1.3  93/04/19  13:35:03  13:35:03  ra (Robert Andrews)
- * Representation of alignments has changed.
- *
- * Revision 1.2  93/02/26  17:01:08  17:01:08  ra (Robert Andrews)
- * Added version.h, an automatically generated file which contains
- * an overall RCS revision number and the date of this revision.
- *
- * Revision 1.1  93/02/26  16:21:57  16:21:57  ra (Robert Andrews)
- * Initial revision
- *
---------------------------------------------------------------------------
-*/
-
 #include <shared/error.h>
 
 #include "config.h"
+
 #include "assembler.h"
 #include "basicread.h"
 #include "flpt.h"
@@ -109,10 +34,12 @@ Imported from DRA
 #include "reader_v.h"
 #include "construct_v.h"
 #include "where.h"
+
 #if have_diagnostics
 #include "xdb_basics.h"
 #include "xdb_output.h"
 #endif
+
 extern int errors;
 extern int max_errors;
 

@@ -7,45 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/01/17 15:55:46 $
-$Revision: 1.1.1.1 $
-$Log: diag_info.c,v $
- * Revision 1.1.1.1  1998/01/17  15:55:46  release
- * First version to be checked into rolling release.
- *
- * Revision 1.9  1998/01/11  18:45:07  pwe
- * consistent new/old diags
- *
- * Revision 1.8  1998/01/09  09:30:04  pwe
- * prep restructure
- *
- * Revision 1.7  1997/12/04  19:36:41  pwe
- * ANDF-DE V1.9
- *
- * Revision 1.6  1997/11/06  09:17:56  pwe
- * ANDF-DE V1.8
- *
- * Revision 1.5  1997/10/23  09:21:23  pwe
- * ANDF-DE V1.7 and extra diags
- *
- * Revision 1.4  1997/08/23  13:27:06  pwe
- * initial ANDF-DE
- *
- * Revision 1.3  1997/03/20  17:04:52  currie
- * Dwarf2 diags
- *
-Revision 1.2  1997/02/18 12:55:51  currie
-NEW DIAG STRUCTURE
-
- * Revision 1.1  1995/04/06  10:42:55  currie
- * Initial revision
- *
-***********************************************************************/
-
-
 #include <shared/xalloc.h>
 
 #include "config.h"

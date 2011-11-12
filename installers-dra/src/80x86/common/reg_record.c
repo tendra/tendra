@@ -7,43 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/* 80x86/reg_record.c */
-
-/**********************************************************************
-$Author: pwe $
-$Date: 1998/03/15 16:00:22 $
-$Revision: 1.3 $
-
-$Log: reg_record.c,v $
- * Revision 1.3  1998/03/15  16:00:22  pwe
- * regtrack dwarf dagnostics added
- *
- * Revision 1.2  1998/02/02  11:18:25  pwe
- * 80x86 shape_overlap correction
- *
- * Revision 1.1.1.1  1998/01/17  15:55:52  release
- * First version to be checked into rolling release.
- *
- * Revision 1.4  1996/12/10  15:41:17  pwe
- * check condition at invalidate_dest
- *
- * Revision 1.3  1995/04/03  08:30:28  pwe
- * invalidate regs if overlap, eg if bitfield on byte boundaries
- *
- * Revision 1.2  1995/01/30  12:56:44  pwe
- * Ownership -> PWE, tidy banners
- *
- * Revision 1.1  1994/10/27  14:15:22  jmf
- * Initial revision
- *
- * Revision 1.1  1994/07/12  14:39:53  jmf
- * Initial revision
- *
-**********************************************************************/
-
-
-
 #include "config.h"
 
 #include "exptypes.h"

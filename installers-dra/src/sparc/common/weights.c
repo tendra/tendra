@@ -8,51 +8,6 @@
  */
 
 
-
-
-/*
-			    VERSION INFORMATION
-			    ===================
-
---------------------------------------------------------------------------
-$Header: /u/g/release/CVSROOT/Source/src/installers/sparc/common/weights.c,v 1.1.1.1 1998/01/17 15:55:55 release Exp $
---------------------------------------------------------------------------
-$Log: weights.c,v $
- * Revision 1.1.1.1  1998/01/17  15:55:55  release
- * First version to be checked into rolling release.
- *
- * Revision 1.3  1997/08/23  13:54:46  pwe
- * initial ANDF-DE
- *
- * Revision 1.2  1995/05/26  13:02:31  john
- * Change for new spec
- *
- * Revision 1.1.1.1  1995/03/13  10:19:00  john
- * Entered into CVS
- *
- * Revision 1.2  1994/07/07  16:11:33  djch
- * Jul94 tape
- *
- * Revision 1.1  1994/05/03  14:50:02  djch
- * Initial revision
- *
- * Revision 1.4  94/02/21  16:14:22  16:14:22  ra (Robert Andrews)
- * Correct a stupid error which crept in somewhere.
- * 
- * Revision 1.3  93/08/27  11:40:50  11:40:50  ra (Robert Andrews)
- * A couple of explicit integer casts.
- * 
- * Revision 1.2  93/08/13  14:49:05  14:49:05  ra (Robert Andrews)
- * Reformatted.
- * 
- * Revision 1.1  93/06/24  14:59:39  14:59:39  ra (Robert Andrews)
- * Initial revision
- * 
---------------------------------------------------------------------------
-*/
-
-
-#define SPARCTRANS_CODE
 /*
   Allocation of register weights
 
@@ -86,6 +41,8 @@ $Log: weights.c,v $
   3) number of ident = 100 in which case allocate value on the 
      stack,(this is obviously always available for parameters).
 */
+
+#define SPARCTRANS_CODE
 
 #include "config.h"
 

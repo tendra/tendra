@@ -7,57 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/03/17 16:54:17 $
-$Revision: 1.6 $
-$Log: dg_aux.c,v $
- * Revision 1.6  1998/03/17  16:54:17  release
- * Couple of minor fixes.
- *
- * Revision 1.5  1998/03/17  16:34:58  pwe
- * correction for non-NEWDIAGS
- *
- * Revision 1.4  1998/03/15  16:00:29  pwe
- * regtrack dwarf dagnostics added
- *
- * Revision 1.3  1998/03/11  11:03:28  pwe
- * DWARF optimisation info
- *
- * Revision 1.2  1998/02/18  11:22:13  pwe
- * test corrections
- *
- * Revision 1.1.1.1  1998/01/17  15:55:46  release
- * First version to be checked into rolling release.
- *
- * Revision 1.8  1998/01/11  18:44:46  pwe
- * consistent new/old diags
- *
- * Revision 1.7  1998/01/09  09:29:40  pwe
- * prep restructure
- *
- * Revision 1.6  1997/12/04  19:36:13  pwe
- * ANDF-DE V1.9
- *
- * Revision 1.5  1997/11/06  09:17:33  pwe
- * ANDF-DE V1.8
- *
- * Revision 1.4  1997/10/28  10:12:26  pwe
- * local location support
- *
- * Revision 1.3  1997/10/23  09:20:57  pwe
- * ANDF-DE V1.7 and extra diags
- *
- * Revision 1.2  1997/10/10  18:16:33  pwe
- * prep ANDF-DE revision
- *
- * Revision 1.1  1997/08/23  13:26:36  pwe
- * initial ANDF-DE
- *
-***********************************************************************/
-
-
 #include <shared/xalloc.h>
 
 #include "config.h"

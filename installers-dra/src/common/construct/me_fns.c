@@ -7,29 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/01/17 15:55:47 $
-$Revision: 1.1.1.1 $
-$Log: me_fns.c,v $
- * Revision 1.1.1.1  1998/01/17  15:55:47  release
- * First version to be checked into rolling release.
- *
- * Revision 1.4  1996/10/29  10:10:51  currie
- * 512 bit alignment for hppa
- *
- * Revision 1.3  1995/07/05  09:26:35  currie
- * continue wrong
- *
- * Revision 1.2  1995/05/05  08:10:56  currie
- * initial_value + signtures
- *
- * Revision 1.1  1995/04/06  10:44:05  currie
- * Initial revision
- *
-***********************************************************************/
-
 #include <stddef.h>
 
 #include "config.h"

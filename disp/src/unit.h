@@ -7,7 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
 #ifndef UNIT_INCLUDED
 #define UNIT_INCLUDED
 

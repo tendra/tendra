@@ -7,39 +7,10 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/01/17 15:57:23 $
-$Revision: 1.1.1.1 $
-$Log: lex.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:23  release
- * First version to be checked into rolling release.
- *
- * Revision 1.4  1995/09/05  16:27:49  currie
- * include files + 2r lex
- *
- * Revision 1.3  1995/08/15  16:14:38  currie
- * for build 4.0
- *
- * Revision 1.2  1995/06/08  09:13:51  currie
- * Added sigs to tokdecs/defs
- *
- * Revision 1.1  1995/04/07  14:29:07  currie
- * Initial revision
- *
- * Revision 1.1  1995/04/07  14:29:07  currie
- * Initial revision
- *
- * Revision 1.3  1994/12/05  10:13:02  currie
- * Extended size of input buffer
- *
- * Revision 1.2  1994/07/21  10:36:20  currie
- * Added banner
- *
-***********************************************************************/
+#include <shared/xalloc.h>
 
 #include "config.h"
+
 #include "util.h"
 #include "defs.h"
 #include "includes.h"
@@ -47,8 +18,6 @@ $Log: lex.c,v $
 #include "syntax.h"
 #include "reserved.h"
 #include "consfile.h"
-
-#include <shared/xalloc.h>
 
 
 typedef struct FStack_struct{

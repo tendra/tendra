@@ -8,61 +8,16 @@
  */
 
 
-
-/*
-			    VERSION INFORMATION
-			    ===================
-
---------------------------------------------------------------------------
-$Header: /u/g/release/CVSROOT/Source/src/installers/sparc/common/getregs.c,v 1.1.1.1 1998/01/17 15:55:54 release Exp $
---------------------------------------------------------------------------
-$Log: getregs.c,v $
- * Revision 1.1.1.1  1998/01/17  15:55:54  release
- * First version to be checked into rolling release.
- *
- * Revision 1.4  1997/08/23  13:53:43  pwe
- * initial ANDF-DE
- *
- * Revision 1.3  1996/09/18  12:03:33  pwe
- * fixed PIC_code
- *
- * Revision 1.2  1995/05/26  12:58:14  john
- * Reformatting
- *
- * Revision 1.1.1.1  1995/03/13  10:18:36  john
- * Entered into CVS
- *
- * Revision 1.2  1994/07/07  16:11:33  djch
- * Jul94 tape
- *
- * Revision 1.2  1994/07/07  16:11:33  djch
- * Jul94 tape
- *
- * Revision 1.1  1994/05/03  14:49:35  djch
- * Initial revision
- *
- * Revision 1.3  93/08/27  11:25:51  11:25:51  ra (Robert Andrews)
- * Tell lint that settempregs doesn't use its argument.
- * 
- * Revision 1.2  93/07/12  15:13:35  15:13:35  ra (Robert Andrews)
- * Reformatted.
- * 
- * Revision 1.1  93/06/24  14:58:20  14:58:20  ra (Robert Andrews)
- * Initial revision
- * 
---------------------------------------------------------------------------
-*/
-
-
-#define SPARCTRANS_CODE
-
 /*
     Routines for choosing temporary registers.
 */
 
 #include <assert.h>
 
+#define SPARCTRANS_CODE
+
 #include "config.h"
+
 #include "regmacs.h"
 #include "proctypes.h"
 #include "exptypes.h"

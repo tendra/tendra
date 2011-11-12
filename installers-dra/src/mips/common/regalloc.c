@@ -7,34 +7,13 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-
-
-
-
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/01/17 15:56:06 $
-$Revision: 1.1.1.1 $
-$Log: regalloc.c,v $
- * Revision 1.1.1.1  1998/01/17  15:56:06  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1995/09/22  15:49:18  currie
- * added outpar
- *
- * Revision 1.1  1995/04/13  09:08:06  currie
- * Initial revision
- *
-***********************************************************************/
 /****************************************************************
 		regalloc.c
 
 	The main procedure defined here is reg_alloc which
 allocates registers and stack space for a proc exp. After the application of
-weights to the body reg_alloc re-codes the number field of each ident within it. Paralloc in paralloc.c does the corresponding work for the
-parameters.
+weights to the body reg_alloc re-codes the number field of each ident within it.
+Paralloc in paralloc.c does the corresponding work for the parameters.
 	At the end of reg_alloc:-
 1) props of ident contains inreg_bits or infreg_bits and number = 0
 then the value will be in a t reg to be chosen in make_code
@@ -44,8 +23,6 @@ or floatpnt s reg (divided by 2)
 number of ident = (word displacement in locals)*64 + 29
 
 *****************************************************************/
-
-
 
 #include "config.h"
 

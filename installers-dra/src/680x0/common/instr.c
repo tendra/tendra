@@ -7,74 +7,10 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/*
-			    VERSION INFORMATION
-			    ===================
-
---------------------------------------------------------------------------
-$Header: /u/g/release/CVSROOT/Source/src/installers/680x0/common/instr.c,v 1.1.1.1 1998/01/17 15:55:49 release Exp $
---------------------------------------------------------------------------
-$Log: instr.c,v $
- * Revision 1.1.1.1  1998/01/17  15:55:49  release
- * First version to be checked into rolling release.
- *
-Revision 1.4  1997/11/13 08:27:12  ma
-All avs test passed (except add_to_ptr).
-
-Revision 1.3  1997/11/09 14:10:04  ma
-Added comment.
-
-Revision 1.2  1997/10/29 10:22:18  ma
-Replaced use_alloca with has_alloca.
-
-Revision 1.1.1.1  1997/10/13 12:42:54  ma
-First version.
-
-Revision 1.6  1997/10/13 08:49:32  ma
-Made all pl_tests for general proc & exception handling pass.
-
-Revision 1.5  1997/09/25 06:45:09  ma
-All general_proc tests passed
-
-Revision 1.4  1997/06/18 12:04:54  ma
-Merged with Input Baseline changes.
-
-Revision 1.3  1997/06/18 10:09:34  ma
-Checking in before merging with Input Baseline changes.
-
-Revision 1.2  1997/04/20 11:30:29  ma
-Introduced gcproc.c & general_proc.[ch].
-Added cases for apply_general_proc next to apply_proc in all files.
-
-Revision 1.1.1.1  1997/03/14 07:50:13  ma
-Imported from DRA
-
- * Revision 1.1.1.1  1996/09/20  10:57:00  john
- *
- * Revision 1.3  1996/07/30  16:31:02  john
- * Removed offset conversion
- *
- * Revision 1.2  1996/07/05  14:20:49  john
- * Changes for spec 3.1
- *
- * Revision 1.1.1.1  1996/03/26  15:45:12  john
- *
- * Revision 1.3  94/02/21  15:59:15  15:59:15  ra (Robert Andrews)
- * Make a couple of integer literals into longs.
- *
- * Revision 1.2  93/11/19  16:21:50  16:21:50  ra (Robert Andrews)
- * Added proc_tag case.
- *
- * Revision 1.1  93/02/22  17:15:50  17:15:50  ra (Robert Andrews)
- * Initial revision
- *
---------------------------------------------------------------------------
-*/
-
-
 #include <shared/error.h>
 
 #include "config.h"
+
 #include "exp.h"
 #include "expmacs.h"
 #include "install_fns.h"

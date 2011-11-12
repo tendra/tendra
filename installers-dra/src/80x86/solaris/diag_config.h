@@ -7,43 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/* sol86/diag_config.h */
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/01/17 15:55:52 $
-$Revision: 1.1.1.1 $
-$Log: diag_config.h,v $
- * Revision 1.1.1.1  1998/01/17  15:55:52  release
- * First version to be checked into rolling release.
- *
- * Revision 1.9  1998/01/09  14:47:46  pwe
- * prep restructure
- *
- * Revision 1.8  1997/10/23  09:37:26  pwe
- * extra_diags
- *
- * Revision 1.7  1997/08/23  13:46:01  pwe
- * initial ANDF-DE
- *
- * Revision 1.6  1997/04/02  10:33:40  pwe
- * diagnose pl_tests
- *
- * Revision 1.5  1997/03/20  16:24:32  pwe
- * dwarf2
- *
- * Revision 1.4  1995/03/17  18:31:25  pwe
- * stabs diagnostics for solaris and linux
- *
- * Revision 1.3  1995/01/30  12:57:35  pwe
- * Ownership -> PWE, tidy banners
- *
- * Revision 1.2  1994/07/13  07:46:54  jmf
- * Added Log
- *
-**********************************************************************/
-
 #ifndef diag_config_key
 #define diag_config_key
 

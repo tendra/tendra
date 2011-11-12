@@ -7,53 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-
-
-/*
-			    VERSION INFORMATION
-			    ===================
-
---------------------------------------------------------------------------
-$Header: /u/g/release/CVSROOT/Source/src/installers/sparc/common/addrtypes.h,v 1.1.1.1 1998/01/17 15:55:53 release Exp $
---------------------------------------------------------------------------
-$Log: addrtypes.h,v $
- * Revision 1.1.1.1  1998/01/17  15:55:53  release
- * First version to be checked into rolling release.
- *
- * Revision 1.1.1.1  1995/03/13  10:18:27  john
- * Entered into CVS
- *
- * Revision 1.4  1994/07/04  09:24:17  djch
- * Jun94 tape version
- *
- * Revision 1.3  1994/05/25  14:17:48  djch
- * Added CREATE_instore_bits to shut up tcc
- *
- * Revision 1.2  1994/05/13  12:25:08  djch
- * Incorporates improvements from expt version
- * Separated instore and instore_bits -  macros to convert bits<->bytes etc.
- *
- * Revision 1.1  1994/05/03  14:50:03  djch
- * Initial revision
- *
- * Revision 1.1  94/05/03  14:47:38  djch
- * Initial revision
- * 
- * Revision 1.1  94/05/03  14:45:48  djch
- * Initial revision
- * 
- * Revision 1.2  93/08/27  11:20:17  11:20:17  ra (Robert Andrews)
- * Added comments, reordered fields in union to match disriminant
- * enumeration type.
- * 
- * Revision 1.1  93/06/24  14:57:56  14:57:56  ra (Robert Andrews)
- * Initial revision
- * 
---------------------------------------------------------------------------
-*/
-
-
 #ifndef ADDRTYPES_INCLUDED
 #define ADDRTYPES_INCLUDED
 

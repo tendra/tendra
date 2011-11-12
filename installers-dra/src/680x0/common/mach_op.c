@@ -7,48 +7,10 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/*
-			    VERSION INFORMATION
-			    ===================
---------------------------------------------------------------------------
-$Header: /u/g/release/CVSROOT/Source/src/installers/680x0/common/mach_op.c,v 1.1.1.1 1998/01/17 15:55:49 release Exp $
---------------------------------------------------------------------------
-$Log: mach_op.c,v $
- * Revision 1.1.1.1  1998/01/17  15:55:49  release
- * First version to be checked into rolling release.
- *
-Revision 1.2  1997/10/29 10:22:21  ma
-Replaced use_alloca with has_alloca.
-
-Revision 1.1.1.1  1997/10/13 12:42:55  ma
-First version.
-
-Revision 1.3  1997/09/25 06:45:15  ma
-All general_proc tests passed
-
-Revision 1.2  1997/06/18 10:09:37  ma
-Checking in before merging with Input Baseline changes.
-
-Revision 1.1.1.1  1997/03/14 07:50:15  ma
-Imported from DRA
-
- * Revision 1.2  1996/09/20  13:51:39  john
- * *** empty log message ***
- *
- * Revision 1.1.1.1  1996/09/20  10:56:55  john
- *
- * Revision 1.1.1.1  1996/03/26  15:45:14  john
- *
- * Revision 1.1  93/02/22  17:16:07  17:16:07  ra (Robert Andrews)
- * Initial revision
- *
---------------------------------------------------------------------------
-*/
-
-
 #include <shared/error.h>
 
 #include "config.h"
+
 #include "instrs.h"
 #include "mach.h"
 #include "mach_ins.h"

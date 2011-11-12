@@ -7,108 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-
-/*
-			    VERSION INFORMATION
-			    ===================
-
---------------------------------------------------------------------------
-$Header: /u/g/release/CVSROOT/Source/src/installers/sparc/common/inst_fmt.c,v 1.1.1.1 1998/01/17 15:55:54 release Exp $
---------------------------------------------------------------------------
-$Log: inst_fmt.c,v $
- * Revision 1.1.1.1  1998/01/17  15:55:54  release
- * First version to be checked into rolling release.
- *
- * Revision 1.12  1997/11/06  09:28:50  pwe
- * ANDF-DE V1.8
- *
- * Revision 1.11  1997/10/10  18:32:25  pwe
- * prep ANDF-DE revision
- *
- * Revision 1.10  1997/08/23  13:53:49  pwe
- * initial ANDF-DE
- *
- * Revision 1.9  1997/04/17  11:59:39  pwe
- * dwarf2 support
- *
- * Revision 1.8  1996/09/18  12:03:38  pwe
- * fixed PIC_code
- *
- * Revision 1.7  1995/12/15  10:12:47  john
- * Minor change
- *
- * Revision 1.6  1995/08/31  15:55:06  john
- * Added function for calculation of floating_max
- *
- * Revision 1.5  1995/07/18  09:38:37  john
- * New functions for return_to_label
- *
- * Revision 1.4  1995/07/14  16:30:59  john
- * Minor fix
- *
- * Revision 1.3  1995/06/14  15:33:09  john
- * Reformatting
- *
- * Revision 1.2  1995/05/26  12:58:38  john
- * Reformatting
- *
- * Revision 1.1.1.1  1995/03/13  10:18:39  john
- * Entered into CVS
- *
- * Revision 1.7  1995/01/24  16:56:34  john
- * Added special regs to the register set
- *
- * Revision 1.6  1994/12/21  12:11:38  djch
- * Added maxmin functions for int max/min. Uses the delay slot...
- *
- * Revision 1.5  1994/12/01  13:16:01  djch
- * Added lr_ins to load a label address to a register
- * Added lngjmp to code the long jump construct
- * Added br_abs to get efficient jump in abs (except with SunOS as)
- *
- * Revision 1.4  1994/07/07  16:11:33  djch
- * Jul94 tape
- *
- * Revision 1.3  1994/07/04  08:20:45  djch
- * added asserts to spot uninitialized labels
- *
- * Revision 1.2  1994/05/13  12:31:14  djch
- * Incorporates improvements from expt version
- * Fixed printf strings to remove long, added CONST to extj_special_ins
- *
- * Revision 1.1  1994/05/03  14:49:38  djch
- * Initial revision
- *
- * Revision 1.7  93/09/27  14:45:39  14:45:39  ra (Robert Andrews)
- * The label prefix is now given by lab_prefix rather than by being
- * hardwired in.
- * 
- * Revision 1.6  93/08/27  11:27:19  11:27:19  ra (Robert Andrews)
- * Added a couple of explicit integer casts, ext_name now takes a long.
- * 
- * Revision 1.5  93/07/12  15:14:20  15:14:20  ra (Robert Andrews)
- * A couple of things should have been CONST.
- * 
- * Revision 1.4  93/07/08  18:21:11  18:21:11  ra (Robert Andrews)
- * Reformatted.
- * 
- * Revision 1.3  93/07/05  18:19:49  18:19:49  ra (Robert Andrews)
- * Reformatted a couple of routines.  Added support for Position Independent
- * Code (PIC) in set_ins.
- * 
- * Revision 1.2  93/06/29  14:26:39  14:26:39  ra (Robert Andrews)
- * Included a couple of explicit casts.
- * 
- * Revision 1.1  93/06/24  14:58:28  14:58:28  ra (Robert Andrews)
- * Initial revision
- * 
---------------------------------------------------------------------------
-*/
-
-
-#define SPARCTRANS_CODE
-
 /*
     This file contains procedures for outputting various SPARC instruction
     formats to the external file - as_file.  Each procedure produces
@@ -120,7 +18,10 @@ $Log: inst_fmt.c,v $
 
 #include <shared/xalloc.h>
 
+#define SPARCTRANS_CODE
+
 #include "config.h"
+
 #include "addrtypes.h"
 #include "regexps.h"
 #include "regmacs.h"

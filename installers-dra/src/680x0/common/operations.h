@@ -7,50 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/*
-			    VERSION INFORMATION
-			    ===================
---------------------------------------------------------------------------
-$Header: /u/g/release/CVSROOT/Source/src/installers/680x0/common/operations.h,v 1.1.1.1 1998/01/17 15:55:49 release Exp $
---------------------------------------------------------------------------
-$Log: operations.h,v $
- * Revision 1.1.1.1  1998/01/17  15:55:49  release
- * First version to be checked into rolling release.
- *
-Revision 1.1.1.1  1997/10/13 12:42:56  ma
-First version.
-Revision 1.3  1997/10/13 08:49:41  ma
-Made all pl_tests for general proc & exception handling pass.
-
-Revision 1.2  1997/09/25 06:45:21  ma
-All general_proc tests passed
-
-Revision 1.1.1.1  1997/03/14 07:50:15  ma
-Imported from DRA
-
- * Revision 1.1.1.1  1996/09/20  10:56:57  john
- *
- * Revision 1.2  1996/07/05  14:23:29  john
- * Changes for spec 3.1
- *
- * Revision 1.1.1.1  1996/03/26  15:45:15  john
- *
- * Revision 1.4  94/11/16  10:37:07  10:37:07  ra (Robert Andrews)
- * Added support for integer absolute.
- *
- * Revision 1.3  94/06/29  14:23:06  14:23:06  ra (Robert Andrews)
- * Declare maximum and minimum operations.
- *
- * Revision 1.2  93/03/03  14:47:52  14:47:52  ra (Robert Andrews)
- * Added error handling routines.
- *
- * Revision 1.1  93/02/22  17:16:15  17:16:15  ra (Robert Andrews)
- * Initial revision
- *
---------------------------------------------------------------------------
-*/
-
-
 #ifndef OPERATIONS_INCLUDED
 #define OPERATIONS_INCLUDED
 

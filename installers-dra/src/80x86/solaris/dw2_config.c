@@ -7,44 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/03/17 16:54:15 $
-$Revision: 1.4 $
-$Log: dw2_config.c,v $
- * Revision 1.4  1998/03/17  16:54:15  release
- * Couple of minor fixes.
- *
- * Revision 1.3  1998/03/11  11:03:13  pwe
- * DWARF optimisation info
- *
- * Revision 1.2  1998/01/21  10:30:02  pwe
- * labdiff change
- *
- * Revision 1.1.1.1  1998/01/17  15:55:52  release
- * First version to be checked into rolling release.
- *
- * Revision 1.6  1998/01/09  14:47:55  pwe
- * prep restructure
- *
- * Revision 1.5  1997/12/04  20:01:30  pwe
- * ANDF-DE V1.9
- *
- * Revision 1.4  1997/10/23  09:37:29  pwe
- * extra_diags
- *
- * Revision 1.3  1997/10/10  18:26:02  pwe
- * prep ANDF-DE revision
- *
- * Revision 1.2  1997/03/24  11:15:46  pwe
- * dwarf2 option/default
- *
- * Revision 1.1  1997/03/20  16:24:39  pwe
- * dwarf2
- *
-**********************************************************************/
-
 #include "dw2_config.h"
 #include "flags.h"
 #include "machine.h"

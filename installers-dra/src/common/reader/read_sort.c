@@ -7,31 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/01/17 15:55:45 $
-$Revision: 1.1.1.1 $
-$Log: read_sort.c,v $
- * Revision 1.1.1.1  1998/01/17  15:55:45  release
- * First version to be checked into rolling release.
- *
- * Revision 1.3  1997/12/04  19:50:03  pwe
- * ANDF-DE V1.9
- *
- * Revision 1.2  1997/08/23  13:30:52  pwe
- * no invert order, and initial ANDF-DE
- *
- * Revision 1.1  1995/04/06  10:43:34  currie
- * Initial revision
- *
-***********************************************************************/
-
-
-
 /* defines read_sort, which calls the decoder routine for the sort
    given by sn and delivers the result inserted into the union tokval */
-
 
 #include "config.h"
 

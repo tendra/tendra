@@ -7,45 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/*
-			    VERSION INFORMATION
-			    ===================
---------------------------------------------------------------------------
-$Header: /u/g/release/CVSROOT/Source/src/installers/680x0/common/xdb_types.c,v 1.1.1.1 1998/01/17 15:55:49 release Exp $
---------------------------------------------------------------------------
-$Log: xdb_types.c,v $
- * Revision 1.1.1.1  1998/01/17  15:55:49  release
- * First version to be checked into rolling release.
- *
-Revision 1.1.1.1  1997/10/13 12:43:02  ma
-First version.
-
-Revision 1.1.1.1  1997/03/14 07:50:23  ma
-Imported from DRA
-
- * Revision 1.1.1.1  1996/09/20  10:57:02  john
- *
- * Revision 1.2  1996/07/05  14:36:42  john
- * Fix to diagnostics
- *
- * Revision 1.1  95/03/08  16:46:33  ra
- * Added missing files.
- *
- * Revision 1.4  94/02/21  16:09:42  16:09:42  ra (Robert Andrews)
- * Put in a number of explicit casts.
- *
- * Revision 1.3  93/11/19  16:25:34  16:25:34  ra (Robert Andrews)
- * Bitfields should have the correct size, not 32.
- *
- * Revision 1.2  93/04/19  13:40:05  13:40:05  ra (Robert Andrews)
- * struct_fields and union_fields have been renamed diag_field.
- *
- * Revision 1.1  93/02/22  17:17:29  17:17:29  ra (Robert Andrews)
- * Initial revision
- *
---------------------------------------------------------------------------
-*/
-
 #include <time.h>
 
 #include <shared/error.h>

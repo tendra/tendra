@@ -7,74 +7,12 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
 /*
   inst_fmt_2.c
 
   This file contains a set of procedures to output assembler 
   instructions in both binary and symbolic formats and to call 
   the code scheduler at appropriate points.
-*/
-
-/*
-$Log: inst_fmt.c,v $
- * Revision 1.1.1.1  1998/01/17  15:56:00  release
- * First version to be checked into rolling release.
- *
- * Revision 1.17  1997/09/05  12:22:47  john
- * Change to jmp
- *
- * Revision 1.16  1996/02/15  09:53:16  john
- * Changed integer_jump_fn
- *
- * Revision 1.15  1995/12/04  09:12:33  john
- * Portability fixes
- *
- * Revision 1.14  1995/11/13  12:43:30  john
- * Minor change
- *
- * Revision 1.13  1995/10/16  12:07:46  john
- * Change to alignment calculation
- *
- * Revision 1.12  1995/09/04  16:23:37  john
- * Fix to general procs
- *
- * Revision 1.11  1995/08/30  16:14:51  john
- * Fix for use of AT register
- *
- * Revision 1.10  1995/08/21  08:44:49  john
- * Changed include files
- *
- * Revision 1.9  1995/05/25  15:33:10  john
- * Cosmetic changes
- *
- * Revision 1.8  1995/05/23  10:56:51  john
- * Changes for 64 bit support
- *
- * Revision 1.7  1995/05/16  10:52:34  john
- * Now uses correct register names (where supported by the assembler).
- *
- * Revision 1.6  1995/04/10  14:13:18  john
- * Minor changes
- *
- * Revision 1.5  1995/04/07  11:03:45  john
- * Changes to assembler output, plus change to floating point operations.
- *
- * Revision 1.4  1995/03/29  14:07:36  john
- * Fixed error in noat block handling
- *
- * Revision 1.3  1995/03/29  10:30:51  john
- * Added resources for scheduler
- *
- * Revision 1.2  1995/03/28  12:44:30  john
- * Changed resources for scheduler
- *
- * Revision 1.1.1.1  1995/03/23  10:39:11  john
- * Entered into CVS
- *
- * Revision 1.1  1995/03/23  10:06:32  john
- * Initial revision
- *
 */
 
 #include <shared/xalloc.h>

@@ -7,21 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-
-/**********************************************************************
-$Author: pwe $
-$Date: 1998/03/15 16:00:36 $
-$Revision: 1.2 $
-$Log: dw2_locdata.c,v $
- * Revision 1.2  1998/03/15  16:00:36  pwe
- * regtrack dwarf dagnostics added
- *
- * Revision 1.1  1998/03/11  11:03:46  pwe
- * DWARF optimisation info
- *
-**********************************************************************/
-
 #include <shared/xalloc.h>
 
 #include "config.h"

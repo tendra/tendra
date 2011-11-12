@@ -7,32 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: pwe $
-$Date: 1998/03/11 11:03:50 $
-$Revision: 1.3 $
-$Log: basicread.c,v $
- * Revision 1.3  1998/03/11  11:03:50  pwe
- * DWARF optimisation info
- *
- * Revision 1.2  1998/02/04  10:43:39  release
- * Changes during testing.
- *
- * Revision 1.1.1.1  1998/01/17  15:55:45  release
- * First version to be checked into rolling release.
- *
- * Revision 1.3  1996/06/18  09:21:14  currie
- * C torture long nats
- *
-Revision 1.2  1995/07/06 09:14:29  currie
-MAGIC NO
-
- * Revision 1.1  1995/04/06  10:43:34  currie
- * Initial revision
- *
-***********************************************************************/
-
 #include <stdio.h>
 #include <stdlib.h>
 

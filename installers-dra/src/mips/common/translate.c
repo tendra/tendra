@@ -7,50 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/02/04 10:43:45 $
-$Revision: 1.2 $
-$Log: translate.c,v $
- * Revision 1.2  1998/02/04  10:43:45  release
- * Changes during testing.
- *
- * Revision 1.1.1.1  1998/01/17  15:56:07  release
- * First version to be checked into rolling release.
- *
- * Revision 1.11  1996/04/24  08:55:54  currie
- * Case may require 3 regs
- *
- * Revision 1.10  1996/01/17  11:27:11  currie
- * proc with no diagnostics
- *
- * Revision 1.9  1996/01/12  10:06:14  currie
- * AVS - env_offset + main declared but not d3efined
- *
- * Revision 1.8  1995/10/25  13:48:29  currie
- * change to position of .glob
- *
- * Revision 1.7  1995/10/02  10:30:35  currie
- * env_offset + -g (PIC)
- *
- * Revision 1.6  1995/09/20  14:23:10  currie
- * callee-list blunder + fix for silliness in ultrix assembler
- *
- * Revision 1.4  1995/09/12  10:59:45  currie
- * gcc pedanttry
- *
- * Revision 1.3  1995/08/16  16:07:14  currie
- * Shortened some .h names
- *
- * Revision 1.2  1995/06/28  12:15:26  currie
- * New make_stack_limit etc
- *
- * Revision 1.1  1995/04/13  09:08:06  currie
- * Initial revision
- *
-***********************************************************************/
-
 #include <shared/xalloc.h>
 
 #include "config.h"

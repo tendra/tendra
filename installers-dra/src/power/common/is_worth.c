@@ -8,31 +8,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-    
-    
-    
-    
-    
-
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/02/04 15:48:52 $
-$Revision: 1.2 $
-$Log: is_worth.c,v $
- * Revision 1.2  1998/02/04  15:48:52  release
- * Added OSF copyright message.
- *
- * Revision 1.1.1.1  1998/01/17  15:55:57  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1996/10/04  16:01:38  pwe
- * add banners and mod for PWE ownership
- *
-**********************************************************************/
-
-
 #include "config.h"
+
 #include "tags.h"
 #include "expmacs.h"
 #include "exp.h"

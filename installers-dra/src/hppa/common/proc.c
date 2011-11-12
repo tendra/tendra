@@ -7,123 +7,12 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/*
-$Log: proc.c,v $
- * Revision 1.1.1.1  1998/01/17  15:56:03  release
- * First version to be checked into rolling release.
- *
- * Revision 1.15  1996/12/09  12:52:46  wfs
- *    Prevented the superfluous "loading" to GR0.
- *
- * Revision 1.14  1996/11/14  15:22:24  wfs
- *    Fixed a bug in regexps.c which was common to most of the installers and
- * has only just come to light due to PWE's work on powertrans. (There was
- * previously only a patch.) Cosmetic changes to other files.
- *
- * Revision 1.13  1996/09/05  11:05:11  wfs
- * "dynamic_init" boolean variable removed - must always be considered true.
- *
- * Revision 1.12  1996/08/30  09:02:32  wfs
- * Various fixes of bugs arising from avs and pl_tdf tests.
- *
- * Revision 1.11  1996/03/28  10:53:19  wfs
- * Bug fixes to scan(), peephole optimisations in proc.c, and enum diagnostics.
- *
- * Revision 1.10  1996/03/08  11:52:27  wfs
- * Another typo in "proc.c".
- *
- * Revision 1.9  1996/03/08  11:31:14  wfs
- * typo in "proc.c" dynamic initialization code.
- *
- * Revision 1.8  1996/03/06  17:40:27  wfs
- * Corrected typo in last bug fix.
- *
- * Revision 1.7  1996/03/06  17:26:30  wfs
- * Fixed a bug in the profiling option.
- *
- * Revision 1.6  1996/01/30  15:36:31  wfs
- * Added the dynamic initialization files "dyn_begin.s" and "dyn_end.s" to
- * the hppatrans repository. The bl_install and bl_update scripts were
- * expanded to deal with these new "initcode" files.
- *
- * Revision 1.5  1996/01/19  14:13:20  wfs
- * Added "bool" type to an extern declaration in "frames.h".
- *
- * Revision 1.4  1996/01/11  14:46:33  wfs
- * Fixed bug in "ass_tag" case of scan(). Removed superfluous macro and comment.
- *
- * Revision 1.3  1995/12/19  16:52:51  wfs
- * Reinstated the "__main" call and a ".CODE" directive when producing gdb
- * diagnostic code.
- *
- * Revision 1.2  1995/12/18  13:12:18  wfs
- * Put hppatrans uder cvs control. Major Changes made since last release
- * include:
- * (i) PIC code generation.
- * (ii) Profiling.
- * (iii) Dynamic Initialization.
- * (iv) Debugging of Exception Handling and Diagnostics.
- *
- * Revision 5.5  1995/10/20  14:10:06  wfs
- * gcc compilation changes.
- *
- * Revision 5.4  1995/10/11  16:00:23  wfs
- * Moved all of the "apply_tag" stuff to "makecode.c".
- *
- * Revision 5.3  1995/10/09  10:41:02  wfs
- * Only one return from a procedure when producing diagnostics. White space
- * changes.
- *
- * Revision 5.2  1995/09/25  10:50:50  wfs
- * A "ghostscript" bug fix.
- *
- * Revision 5.1  1995/09/15  13:09:18  wfs
- * Finished the implementation of the exception token and stack limit
- * stuff + minor cosmetic changes.
- *
- * Revision 5.0  1995/08/25  13:42:58  wfs
- * Preperation for August 25 Glue release
- *
- * Revision 3.3  1995/08/25  10:21:17  wfs
- * A fairly major revision. A lot of the code which set up the frame
- * specific variables has been moved to "frames.c". 3.1 and 4.0 stuff
- * such as "return_to_label" and "untidy_return" have been incorporated.
- * Register synonyms changed. A lot of superfluous code was removed
- * after the register allocation stuff was changed.
- *
- * Revision 3.3  1995/08/25  10:21:17  wfs
- * A fairly major revision. A lot of the code which set up the frame
- * specific variables has been moved to "frames.c". 3.1 and 4.0 stuff
- * such as "return_to_label" and "untidy_return" have been incorporated.
- * Register synonyms changed. A lot of superfluous code was removed
- * after the register allocation stuff was changed.
- *
- * Revision 3.1  95/04/10  16:27:45  16:27:45  wfs (William Simmonds)
- * Apr95 tape version.
- *
- * Revision 3.0  95/03/30  11:18:36  11:18:36  wfs (William Simmonds)
- * Mar95 tape version with CRCR95_178 bug fix.
- *
- * Revision 2.0  95/03/15  15:28:27  15:28:27  wfs (William Simmonds)
- * spec 3.1 changes implemented, tests outstanding.
- *
- * Revision 1.3  95/02/22  11:28:47  11:28:47  wfs (William Simmonds)
- * Added Has_ll, changed the base register of mem_temp0 to R_FP.
- *
- * Revision 1.2  95/01/17  17:30:24  17:30:24  wfs (William Simmonds)
- * Changed name of an included header file.
- *
- * Revision 1.1  95/01/11  13:14:46  13:14:46  wfs (William Simmonds)
- * Initial revision
- *
- */
-
-
 #include <assert.h>
 
 #define HPPATRANS_CODE
+
 #include "config.h"
+
 #include "addrtypes.h"
 #include "tags.h"
 #include "expmacs.h"

@@ -7,50 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: pwe $
-$Date: 1998/03/11 11:03:24 $
-$Revision: 1.3 $
-$Log: exp.c,v $
- * Revision 1.3  1998/03/11  11:03:24  pwe
- * DWARF optimisation info
- *
- * Revision 1.2  1998/02/18  11:22:10  pwe
- * test corrections
- *
- * Revision 1.1.1.1  1998/01/17  15:55:46  release
- * First version to be checked into rolling release.
- *
- * Revision 1.7  1998/01/09  09:28:45  pwe
- * prep restructure
- *
- * Revision 1.6  1997/10/23  09:24:10  pwe
- * extra diags
- *
- * Revision 1.5  1997/02/18  12:56:23  currie
- * NEW DIAG STRUCTURE
- *
- * Revision 1.4  1996/07/23  12:28:37  currie
- * copying env_offsets
- *
-Revision 1.3  1996/04/19 10:42:28  currie
-Globals flags in copy
-
- * Revision 1.2  1995/10/11  17:10:00  currie
- * avs errors
- *
- * Revision 1.1  1995/04/06  10:44:05  currie
- * Initial revision
- *
- * Revision 1.1  1995/04/06  10:44:05  currie
- * Initial revision
- *
-***********************************************************************/
-
-
-
-
 #include <shared/xalloc.h>
 
 #include "config.h"

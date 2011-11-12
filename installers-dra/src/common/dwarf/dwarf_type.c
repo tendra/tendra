@@ -7,46 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/02/04 10:43:38 $
-$Revision: 1.2 $
-$Log: dwarf_type.c,v $
- * Revision 1.2  1998/02/04  10:43:38  release
- * Changes during testing.
- *
- * Revision 1.1.1.1  1998/01/17  15:55:48  release
- * First version to be checked into rolling release.
- *
- * Revision 1.7  1996/07/05  09:03:58  pwe
- * correction for enums
- *
- * Revision 1.6  1996/03/13  13:50:37  pwe
- * diags for long long
- *
- * Revision 1.5  1995/11/28  13:40:31  pwe
- * int more likely than long for 32 bit
- *
- * Revision 1.4  1995/09/28  12:40:00  pwe
- * dwarf.h via import, and type changes for tcc checks
- *
- * Revision 1.3  1995/09/13  16:13:18  pwe
- * tidy for gcc
- *
- * Revision 1.2  1995/09/13  14:25:41  pwe
- * tidy for gcc
- *
- * Revision 1.1.1.1  1995/08/14  14:30:25  pwe
- * transferred from DJCH
- *
-**********************************************************************/
-
-/* LOG 3/6/93 added extra message to is_fund_dwarf when using
-   non-diag libraries djch */
-/* LOG 7/9/93 changes for SPARC SVR4.2 to abstract asm directives djch */
-/* LOG 25/11/93 renamed SET to DOT_SET to free SET for pwc's use djch */
-
 #include <shared/xalloc.h>
 
 #include "config.h"

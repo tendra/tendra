@@ -7,9 +7,10 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <limits.h>
 
 #include "config.h"
-#include <limits.h>
+
 #include "system.h"
 #include "version.h"
 #include "c_types.h"

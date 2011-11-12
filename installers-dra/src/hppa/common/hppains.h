@@ -7,67 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/*
-$Log: hppains.h,v $
- * Revision 1.1.1.1  1998/01/17  15:56:02  release
- * First version to be checked into rolling release.
- *
- * Revision 1.4  1996/11/14  15:22:15  wfs
- *    Fixed a bug in regexps.c which was common to most of the installers and
- * has only just come to light due to PWE's work on powertrans. (There was
- * previously only a patch.) Cosmetic changes to other files.
- *
- * Revision 1.3  1996/08/30  09:02:20  wfs
- * Various fixes of bugs arising from avs and pl_tdf tests.
- *
- * Revision 1.2  1995/12/18  13:11:34  wfs
- * Put hppatrans uder cvs control. Major Changes made since last release
- * include:
- * (i) PIC code generation.
- * (ii) Profiling.
- * (iii) Dynamic Initialization.
- * (iv) Debugging of Exception Handling and Diagnostics.
- *
- * Revision 5.2  1995/10/09  13:10:27  wfs
- * Cosmetic changes.
- *
- * Revision 5.1  1995/09/15  14:05:29  wfs
- * Minor changes to stop gcc compiler from complaining.
- *
- * Revision 5.0  1995/08/25  13:56:17  wfs
- * Preperation for August 95 Glue release
- *
- * Revision 4.0  1995/08/25  13:34:00  wfs
- * *** empty log message ***
- *
- * Revision 4.0  1995/08/25  13:34:00  wfs
- * *** empty log message ***
- *
- * Revision 3.4  1995/08/25  11:04:28  wfs
- * Mostly cosmetic changes
- *
- * Revision 3.4  1995/08/25  11:04:28  wfs
- * Mostly cosmetic changes
- *
- * Revision 3.1  95/04/10  16:26:48  16:26:48  wfs (William Simmonds)
- * Apr95 tape version.
- * 
- * Revision 3.0  95/03/30  11:17:25  11:17:25  wfs (William Simmonds)
- * Mar95 tape version with CRCR95_178 bug fix.
- * 
- * Revision 2.0  95/03/15  15:27:12  15:27:12  wfs (William Simmonds)
- * spec 3.1 changes implemented, tests outstanding.
- * 
- * Revision 1.2  95/01/25  12:18:45  12:18:45  wfs (William Simmonds)
- * Added floating point exception code macros.
- * 
- * Revision 1.1  95/01/17  14:05:57  14:05:57  wfs (William Simmonds)
- * Initial revision
- * 
-*/
-
-
 #ifndef HPPAINS_INCLUDED
 #define HPPAINS_INCLUDED
 

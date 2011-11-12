@@ -7,93 +7,12 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-
-
-/*
-			    VERSION INFORMATION
-			    ===================
-
---------------------------------------------------------------------------
-$Header: /u/g/release/CVSROOT/Source/src/installers/sparc/common/special.c,v 1.1.1.1 1998/01/17 15:55:55 release Exp $
---------------------------------------------------------------------------
-$Log: special.c,v $
- * Revision 1.1.1.1  1998/01/17  15:55:55  release
- * First version to be checked into rolling release.
- *
- * Revision 1.10  1996/08/28  17:36:21  pwe
- * fixed local_alloc_check use of registers
- *
- * Revision 1.9  1996/03/29  14:41:54  john
- * Fixed for zero-sized alloca
- *
- * Revision 1.8  1996/01/17  12:04:41  john
- * Fix to local_alloc check
- *
- * Revision 1.7  1995/12/15  10:28:02  john
- * Changes local_alloc stack check
- *
- * Revision 1.6  1995/11/15  16:57:21  john
- * Stack check now uses unsigned test
- *
- * Revision 1.5  1995/09/22  15:58:42  john
- * Fix to stack check
- *
- * Revision 1.4  1995/09/20  12:40:28  john
- * Portability fix
- *
- * Revision 1.3  1995/09/19  14:32:37  john
- * Added checkstack to alloca_tag
- *
- * Revision 1.2  1995/09/15  16:18:43  john
- * New exception handling
- *
- * Revision 1.1.1.1  1995/03/13  10:18:58  john
- * Entered into CVS
- *
- * Revision 1.2  1994/07/07  16:11:33  djch
- * Jul94 tape
- *
- * Revision 1.2  1994/07/07  16:11:33  djch
- * Jul94 tape
- *
- * Revision 1.1  1994/05/03  14:49:58  djch
- * Initial revision
- *
- * Revision 1.8  93/09/27  14:56:39  14:56:39  ra (Robert Andrews)
- * Changed the names of a couple of my built-in functions.
- * 
- * Revision 1.7  93/08/27  11:39:21  11:39:21  ra (Robert Andrews)
- * A couple of lint-like changes.
- * 
- * Revision 1.6  93/08/13  14:47:14  14:47:14  ra (Robert Andrews)
- * Reformatted.
- * 
- * Revision 1.5  93/07/14  11:22:35  11:22:35  ra (Robert Andrews)
- * Add library_key to determine presence of TDF support library.
- * 
- * Revision 1.4  93/07/12  15:18:57  15:18:57  ra (Robert Andrews)
- * Added support for special_routines, which is used to handle built-in
- * system calls like .mul and TDF library calls like L.div1 (used to
- * implement div1).
- * 
- * Revision 1.3  93/07/05  18:28:48  18:28:48  ra (Robert Andrews)
- * Made distinction between the System V assembler and the System V ABI.
- * 
- * Revision 1.2  93/06/29  14:35:30  14:35:30  ra (Robert Andrews)
- * Have to include regexps.h.
- * 
- * Revision 1.1  93/06/24  14:59:27  14:59:27  ra (Robert Andrews)
- * Initial revision
- * 
---------------------------------------------------------------------------
-*/
-
-
 #include <assert.h>
 
 #define SPARCTRANS_CODE
+
 #include "config.h"
+
 #include "exptypes.h"
 #include "expmacs.h"
 #include "codetypes.h"

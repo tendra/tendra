@@ -7,99 +7,11 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-
-
-/*
-			    VERSION INFORMATION
-			    ===================
-
---------------------------------------------------------------------------
-$Header: /u/g/release/CVSROOT/Source/src/installers/sparc/common/expmacs.h,v 1.1.1.1 1998/01/17 15:55:54 release Exp $
---------------------------------------------------------------------------
-$Log: expmacs.h,v $
- * Revision 1.1.1.1  1998/01/17  15:55:54  release
- * First version to be checked into rolling release.
- *
- * Revision 1.12  1997/10/10  18:32:21  pwe
- * prep ANDF-DE revision
- *
- * Revision 1.11  1997/04/24  14:22:26  pwe
- * added constovf
- *
- * Revision 1.10  1997/03/26  13:04:16  pwe
- * general proc compatibility
- *
- * Revision 1.9  1997/02/18  11:47:47  pwe
- * NEWDIAGS for debugging optimised code
- *
- * Revision 1.8  1995/12/15  10:12:16  john
- * Added new properties
- *
- * Revision 1.7  1995/09/27  13:18:57  john
- * Fixed call_is_untidy
- *
- * Revision 1.6  1995/09/25  16:34:01  john
- * Fixed macros
- *
- * Revision 1.5  1995/09/15  16:14:21  john
- * *** empty log message ***
- *
- * Revision 1.4  1995/07/14  16:30:39  john
- * Changed definition of optop macro
- *
- * Revision 1.3  1995/06/30  08:28:50  john
- * New macro
- *
- * Revision 1.2  1995/05/26  12:57:34  john
- * Changes for new spec (3.1)
- *
- * Revision 1.1.1.1  1995/03/13  10:18:33  john
- * Entered into CVS
- *
- * Revision 1.8  1995/01/19  14:02:05  john
- * Changed definition of isov
- *
- * Revision 1.7  1994/12/05  11:24:31  djch
- * Added clearinlined, needed for reuse of inlined bit in needscan
- *
- * Revision 1.6  1994/11/18  13:49:17  djch
- * Changed ptst to test against zero (before it could fail when assigned to char)
- * Revised (set)test_number to only affect bottom 4 bits.
- *
- * Revision 1.5  1994/07/04  09:24:54  djch
- * Jun94 tape version
- *
- * Revision 1.4  1994/05/17  14:22:09  djch
- * added istoinline for jmf's inliner
- *
- * Revision 1.3  1994/05/13  12:28:36  djch
- * Incorporates improvements from expt version
- * New macros for jmf's unrolling.
- *
- * Revision 1.2  1994/05/03  15:05:08  djch
- * added setinlined etc macros for 3.0 common. Now also includes bitsmacs.h
- *
- * Revision 1.4  93/09/27  14:43:58  14:43:58  ra (Robert Andrews)
- * Put an explicit cast in optop.
- * 
- * Revision 1.3  93/08/27  11:24:57  11:24:57  ra (Robert Andrews)
- * Changed defintions of pset etc to make integer casts explicit.
- * 
- * Revision 1.2  93/07/08  18:19:37  18:19:37  ra (Robert Andrews)
- * Added setbigval etc - support for large integers.
- * 
- * Revision 1.1  93/06/24  14:58:12  14:58:12  ra (Robert Andrews)
- * Initial revision
- * 
---------------------------------------------------------------------------
-*/
-
-
 #ifndef EXPMACS_INCLUDED
 #define EXPMACS_INCLUDED
 
 #include "bitsmacs.h"
+
 /*
     THE NIL EXPRESSION
 */

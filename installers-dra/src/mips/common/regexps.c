@@ -7,45 +7,11 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/01/17 15:56:06 $
-$Revision: 1.1.1.1 $
-$Log: regexps.c,v $
- * Revision 1.1.1.1  1998/01/17  15:56:06  release
- * First version to be checked into rolling release.
- *
- * Revision 1.7  1996/01/25  17:07:21  currie
- * Alias with bit-fields
- *
- * Revision 1.6  1996/01/08  17:05:33  currie
- * current_env in depends_on
- *
- * Revision 1.5  1995/10/20  10:48:03  currie
- * avs -slow + attempts to cheat buggy scheduler
- *
- * Revision 1.4  1995/09/12  10:59:41  currie
- * gcc pedanttry
- *
- * Revision 1.3  1995/09/04  10:11:57  currie
- * e changes !
- *
- * Revision 1.2  1995/08/16  16:07:08  currie
- * Shortened some .h names
- *
- * Revision 1.1  1995/04/13  09:08:06  currie
- * Initial revision
- *
-***********************************************************************/
-
 /* regexps.c
 
 For trivial 'peephole' optimisations
 
 */
-
-
 
 #include "config.h"
 

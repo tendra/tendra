@@ -8,124 +8,6 @@
  */
 
 
-/* 80x86/cproc.c */
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/03/16 11:25:21 $
-$Revision: 1.4 $
-$Log: cproc.c,v $
- * Revision 1.4  1998/03/16  11:25:21  release
- * Modifications prior to version 4.1.2.
- *
- * Revision 1.3  1998/03/15  16:00:14  pwe
- * regtrack dwarf dagnostics added
- *
- * Revision 1.2  1998/03/11  11:03:03  pwe
- * DWARF optimisation info
- *
- * Revision 1.1.1.1  1998/01/17  15:55:51  release
- * First version to be checked into rolling release.
- *
- * Revision 1.31  1997/10/23  09:36:56  pwe
- * extra_diags
- *
- * Revision 1.30  1997/10/10  18:25:03  pwe
- * prep ANDF-DE revision
- *
- * Revision 1.29  1997/08/23  13:45:28  pwe
- * initial ANDF-DE
- *
- * Revision 1.28  1997/05/02  11:04:47  pwe
- * minor dwarf2 corrections
- *
- * Revision 1.27  1997/04/17  11:55:43  pwe
- * dwarf2 improvements
- *
- * Revision 1.26  1997/04/02  10:33:10  pwe
- * diagnose pl_tests
- *
- * Revision 1.25  1997/03/24  11:15:08  pwe
- * dwarf2 option/default
- *
- * Revision 1.24  1997/03/20  16:23:35  pwe
- * dwarf2
- *
- * Revision 1.23  1996/12/13  14:39:19  pwe
- * prep NEWDIAGS
- *
- * Revision 1.22  1996/11/08  16:19:02  pwe
- * check_stack to check before modifying stack
- *
- * Revision 1.21  1996/10/31  12:02:33  pwe
- * correct env_offset used in constant evaluation
- *
- * Revision 1.20  1996/10/29  13:50:51  pwe
- * correct space for patched instructions
- *
- * Revision 1.19  1996/10/08  07:58:56  pwe
- * revised correction to env_offset v id out_of_line
- *
- * Revision 1.18  1996/10/07  13:31:06  pwe
- * push make_value, and env_offset v id out_of_line
- *
- * Revision 1.17  1996/07/31  12:56:53  pwe
- * restore alloca stack after longjump
- *
- * Revision 1.16  1996/07/09  09:43:35  pwe
- * caller env_offset if callees present, and tidy
- *
- * Revision 1.15  1996/02/08  13:45:12  pwe
- * Linux elf v aout option
- *
- * Revision 1.14  1996/01/10  09:19:03  pwe
- * profile const & envoffset correction
- *
- * Revision 1.13  1996/01/05  16:25:22  pwe
- * env_size and env_offset within constant expressions
- *
- * Revision 1.12  1995/12/22  09:34:27  pwe
- * solaris diags for stack objects
- *
- * Revision 1.11  1995/12/21  13:47:02  pwe
- * trap for missing pops (sco problem)
- *
- * Revision 1.10  1995/10/13  15:19:47  pwe
- * solaris PIC and linux tcc
- *
- * Revision 1.9  1995/10/09  15:14:09  pwe
- * dynamic initialisation etc
- *
- * Revision 1.8  1995/09/05  16:24:45  pwe
- * specials and exception changes
- *
- * Revision 1.7  1995/08/30  16:06:24  pwe
- * prepare exception trapping
- *
- * Revision 1.6  1995/08/23  09:42:39  pwe
- * track fpu control word for trap etc
- *
- * Revision 1.5  1995/08/14  13:53:30  pwe
- * several corrections, tail calls and error jumps
- *
- * Revision 1.4  1995/08/04  08:29:09  pwe
- * 4.0 general procs implemented
- *
- * Revision 1.3  1995/04/13  11:38:57  pwe
- * odd_bits clean for proc ending with bottom
- *
- * Revision 1.2  1995/01/30  12:56:04  pwe
- * Ownership -> PWE, tidy banners
- *
- * Revision 1.1  1994/10/27  14:15:22  jmf
- * Initial revision
- *
- * Revision 1.1  1994/07/12  14:29:47  jmf
- * Initial revision
- *
-**********************************************************************/
-
-
 /**********************************************************************
    cproc produces the code for the procedure defined by which has
    name pname.
@@ -135,6 +17,7 @@ $Log: cproc.c,v $
 #include <shared/xalloc.h>
 
 #include "config.h"
+
 #include "weights.h"
 #include "basicread.h"
 #include "tags.h"

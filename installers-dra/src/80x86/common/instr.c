@@ -7,116 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/* 80x86/instr.c */
-
-/**********************************************************************
-$Author: pwe $
-$Date: 1998/03/15 16:00:19 $
-$Revision: 1.2 $
-$Log: instr.c,v $
- * Revision 1.2  1998/03/15  16:00:19  pwe
- * regtrack dwarf dagnostics added
- *
- * Revision 1.1.1.1  1998/01/17  15:55:51  release
- * First version to be checked into rolling release.
- *
- * Revision 1.28  1997/04/17  11:55:47  pwe
- * dwarf2 improvements
- *
- * Revision 1.27  1997/03/24  11:15:13  pwe
- * dwarf2 option/default
- *
- * Revision 1.26  1997/03/20  16:23:41  pwe
- * dwarf2
- *
- * Revision 1.25  1997/02/18  11:42:52  pwe
- * NEWDIAGS for debugging optimised code
- *
- * Revision 1.24  1996/12/13  14:39:27  pwe
- * prep NEWDIAGS
- *
- * Revision 1.23  1996/07/09  09:43:39  pwe
- * caller env_offset if callees present, and tidy
- *
- * Revision 1.22  1996/05/20  14:30:11  pwe
- * improved 64-bit handling
- *
- * Revision 1.21  1996/05/13  12:51:55  pwe
- * undo premature commit
- *
- * Revision 1.19  1996/01/17  11:24:31  pwe
- * resurrect performance
- *
- * Revision 1.18  1995/11/01  18:41:14  pwe
- * PIC tail_call and exception handling
- *
- * Revision 1.17  1995/10/24  17:02:43  pwe
- * local calls to avoid PLT, Solaris constraint
- *
- * Revision 1.16  1995/10/16  14:55:19  pwe
- * stack change v fpucon
- *
- * Revision 1.15  1995/09/26  16:46:48  pwe
- * compare with zero to ignore previous overflow
- *
- * Revision 1.14  1995/09/15  17:39:13  pwe
- * tidy and correct fistp
- *
- * Revision 1.13  1995/09/08  12:51:07  pwe
- * exceptions improved
- *
- * Revision 1.12  1995/09/06  16:29:20  pwe
- * exceptions now OK
- *
- * Revision 1.11  1995/09/05  16:24:51  pwe
- * specials and exception changes
- *
- * Revision 1.10  1995/09/01  17:30:05  pwe
- * traps and Build scripts
- *
- * Revision 1.9  1995/08/30  16:06:33  pwe
- * prepare exception trapping
- *
- * Revision 1.8  1995/08/23  09:42:42  pwe
- * track fpu control word for trap etc
- *
- * Revision 1.7  1995/08/14  13:53:36  pwe
- * several corrections, tail calls and error jumps
- *
- * Revision 1.6  1995/08/04  08:29:23  pwe
- * 4.0 general procs implemented
- *
- * Revision 1.5  1995/04/12  17:05:54  pwe
- * name_prefix required for call_libfn
- *
- * Revision 1.4  1995/02/16  18:47:08  pwe
- * transformed subtract inverts, sets and adds carry in case of error_jump
- *
- * Revision 1.3  1995/01/30  12:56:18  pwe
- * Ownership -> PWE, tidy banners
- *
- * Revision 1.2  1994/11/08  09:55:03  jmf
- * Unknown?
- *
- * Revision 1.1  1994/10/27  14:15:22  jmf
- * Initial revision
- *
- * Revision 1.4  1994/08/08  15:54:29  jmf
- * Dont keep_short after label
- *
- * Revision 1.3  1994/07/15  13:59:23  jmf
- * Change fstack popping to use fstp st(0).
- *
- * Revision 1.2  1994/07/12  15:19:18  jmf
- * No change
- *
- * Revision 1.1  1994/07/12  14:33:55  jmf
- * Initial revision
- *
-**********************************************************************/
-
-
 /**********************************************************************
                            instr.c
 
@@ -126,7 +16,6 @@ $Log: instr.c,v $
 
 
 **********************************************************************/
-
 
 #include <shared/xalloc.h>
 

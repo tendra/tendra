@@ -7,43 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/*
-			    VERSION INFORMATION
-			    ===================
---------------------------------------------------------------------------
-$Header: /u/g/release/CVSROOT/Source/src/installers/680x0/common/stab_types.c,v 1.1.1.1 1998/01/17 15:55:50 release Exp $
---------------------------------------------------------------------------
-$Log: stab_types.c,v $
- * Revision 1.1.1.1  1998/01/17  15:55:50  release
- * First version to be checked into rolling release.
- *
-Revision 1.1.1.1  1997/10/13 12:43:01  ma
-First version.
-
-Revision 1.1.1.1  1997/03/14 07:50:22  ma
-Imported from DRA
-
- * Revision 1.1.1.1  1996/09/20  10:57:01  john
- *
- * Revision 1.2  1996/07/05  14:31:36  john
- * Removed copyright message
- *
- * Revision 1.1  95/03/08  16:46:11  ra
- * Added missing files.
- *
- * Revision 1.3  94/02/21  16:08:10  16:08:10  ra (Robert Andrews)
- * Clear up a couple of long-int confusions.
- *
- * Revision 1.2  93/04/19  13:38:52  13:38:52  ra (Robert Andrews)
- * struct_fields and union_fields have been renamed diag_field.
- *
- * Revision 1.1  93/02/22  17:17:11  17:17:11  ra (Robert Andrews)
- * Initial revision
- *
---------------------------------------------------------------------------
-*/
-
-
 #include "config.h"
 
 #include "codetypes.h"

@@ -7,38 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/* 80x86/spec.c */
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/01/17 15:55:52 $
-$Revision: 1.1.1.1 $
-$Log: spec.c,v $
- * Revision 1.1.1.1  1998/01/17  15:55:52  release
- * First version to be checked into rolling release.
- *
- * Revision 1.4  1995/09/06  16:29:32  pwe
- * exceptions now OK
- *
- * Revision 1.3  1995/09/05  16:25:12  pwe
- * specials and exception changes
- *
- * Revision 1.2  1995/01/30  12:56:51  pwe
- * Ownership -> PWE, tidy banners
- *
- * Revision 1.1  1994/10/27  14:15:22  jmf
- * Initial revision
- *
- * Revision 1.2  1994/07/12  15:21:29  jmf
- * exit, abort and longjmp produce bottom shape.
- *
- * Revision 1.1  1994/07/12  14:41:19  jmf
- * Initial revision
- *
-**********************************************************************/
-
-
 /**********************************************************************
 
                                spec.c

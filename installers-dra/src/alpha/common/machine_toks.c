@@ -7,11 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-#ifndef lint
-static char vcid[] = "$Id: machine_toks.c,v 1.1.1.1 1998/01/17 15:56:00 release Exp $";
-#endif /* lint */
-
 /*
   This function recognises special tokens used by the 
   alpha installer 

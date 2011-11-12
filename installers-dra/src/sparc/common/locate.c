@@ -7,92 +7,12 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-
-/*
-			    VERSION INFORMATION
-			    ===================
-
---------------------------------------------------------------------------
-$Header: /u/g/release/CVSROOT/Source/src/installers/sparc/common/locate.c,v 1.1.1.1 1998/01/17 15:55:54 release Exp $
---------------------------------------------------------------------------
-$Log: locate.c,v $
- * Revision 1.1.1.1  1998/01/17  15:55:54  release
- * First version to be checked into rolling release.
- *
- * Revision 1.11  1997/08/23  13:53:55  pwe
- * initial ANDF-DE
- *
- * Revision 1.10  1997/02/18  11:47:54  pwe
- * NEWDIAGS for debugging optimised code
- *
- * Revision 1.9  1996/03/20  16:13:56  john
- * Reformatting
- *
- * Revision 1.8  1996/01/23  10:31:13  john
- * Fix to handle env_offset in locate
- *
- * Revision 1.7  1995/12/15  10:24:59  john
- * Changed env_offset calculation
- *
- * Revision 1.6  1995/11/24  11:41:22  john
- * Change to caller location
- *
- * Revision 1.5  1995/11/02  18:03:43  john
- * Stopped using local reg to access data
- *
- * Revision 1.4  1995/07/14  16:31:26  john
- * Minor change
- *
- * Revision 1.3  1995/06/14  15:34:08  john
- * Fixed error in calculating offset for local_reg based address.
- *
- * Revision 1.2  1995/05/26  12:59:16  john
- * Changes for new spec (3.1)
- *
- * Revision 1.1.1.1  1995/03/13  10:18:42  john
- * Entered into CVS
- *
- * Revision 1.5  1994/12/01  13:47:39  djch
- * Create boff_env_offset to get the stack offset of an ident. Needs to trace the
- * parent proc.
- *
- * Revision 1.4  1994/07/04  10:48:58  djch
- * Jun94 tape version
- *
- * Revision 1.3  1994/05/25  14:15:07  djch
- * Added CREATE_instore_bits to shut up tcc
- *
- * Revision 1.2  1994/05/13  12:34:45  djch
- * Incorporates improvements from expt version
- * Use of new macros in addrtypes.h
- *
- * Revision 1.1  1994/05/03  14:49:41  djch
- * Initial revision
- *
- * Revision 1.5  93/08/27  11:29:36  11:29:36  ra (Robert Andrews)
- * Added a couple of explicit integer casts.
- * 
- * Revision 1.4  93/08/13  14:38:14  14:38:14  ra (Robert Andrews)
- * Reformatted.
- * 
- * 
- * Revision 1.3  93/07/05  18:20:37  18:20:37  ra (Robert Andrews)
- * Reordered include files.
- * 
- * Revision 1.2  93/06/29  14:27:11  14:27:11  ra (Robert Andrews)
- * Changed failer to fail.
- * 
- * Revision 1.1  93/06/24  14:58:37  14:58:37  ra (Robert Andrews)
- * Initial revision
- * 
---------------------------------------------------------------------------
-*/
-
 #include <assert.h>
 
 #define SPARCTRANS_CODE
+
 #include "config.h"
+
 #include "addrtypes.h"
 #include "expmacs.h"
 #include "tags.h"

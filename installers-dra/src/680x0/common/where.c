@@ -7,64 +7,10 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/*
-			    VERSION INFORMATION
-			    ===================
---------------------------------------------------------------------------
-$Header: /u/g/release/CVSROOT/Source/src/installers/680x0/common/where.c,v 1.1.1.1 1998/01/17 15:55:50 release Exp $
---------------------------------------------------------------------------
-$Log: where.c,v $
- * Revision 1.1.1.1  1998/01/17  15:55:50  release
- * First version to be checked into rolling release.
- *
-Revision 1.3  1997/11/09 14:07:59  ma
-Removed issigned function.
-
-Revision 1.2  1997/10/29 10:22:32  ma
-Replaced use_alloca with has_alloca.
-
-Revision 1.1.1.1  1997/10/13 12:43:01  ma
-First version.
-
-Revision 1.5  1997/10/13 08:50:19  ma
-Made all pl_tests for general proc & exception handling pass.
-
-Revision 1.4  1997/09/25 06:45:41  ma
-All general_proc tests passed
-
-Revision 1.3  1997/06/18 10:09:46  ma
-Checking in before merging with Input Baseline changes.
-
-Revision 1.2  1997/04/20 11:30:43  ma
-Introduced gcproc.c & general_proc.[ch].
-Added cases for apply_general_proc next to apply_proc in all files.
-
-Revision 1.1.1.1  1997/03/14 07:50:21  ma
-Imported from DRA
-
- * Revision 1.1.1.1  1996/09/20  10:57:00  john
- *
- * Revision 1.2  1996/07/05  14:30:14  john
- * Changes for spec 3.1
- *
- * Revision 1.1.1.1  1996/03/26  15:45:19  john
- *
- * Revision 1.3  94/02/21  16:06:54  16:06:54  ra (Robert Andrews)
- * Change the argument to find_reg_ind to an int.
- *
- * Revision 1.2  93/03/03  14:51:05  14:51:05  ra (Robert Andrews)
- * Use correct number of registers in initialization routine.
- *
- * Revision 1.1  93/02/22  17:17:05  17:17:05  ra (Robert Andrews)
- * Initial revision
- *
---------------------------------------------------------------------------
-*/
-
-
 #include <shared/error.h>
 
 #include "config.h"
+
 #include "exptypes.h"
 #include "exp.h"
 #include "expmacs.h"

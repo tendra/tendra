@@ -7,29 +7,10 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
 /*   alphadgdecs.h   - definitions in alphadgdecs.c  */
 
-/*
-$Log: alphadiags.h,v $
- * Revision 1.1.1.1  1998/01/17  15:55:58  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1995/05/23  10:52:12  john
- * Minor cosmetic change
- *
- * Revision 1.1.1.1  1995/03/23  10:39:31  john
- * Entered into CVS
- *
- * Revision 1.3  1995/01/31  14:23:47  john
- * Changed some declaration to use int rather than long
- *
- * Revision 1.2  1995/01/26  13:36:00  john
- * Changed prototypes
- *
-*/
-
 #include "config.h"
+
 #include "exptypes.h"
 
 #include "exptypes.h"

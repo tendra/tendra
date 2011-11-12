@@ -7,45 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/*
-$Log: weights.c,v $
- * Revision 1.1.1.1  1998/01/17  15:56:03  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1995/12/18  13:12:46  wfs
- * Put hppatrans uder cvs control. Major Changes made since last release
- * include:
- * (i) PIC code generation.
- * (ii) Profiling.
- * (iii) Dynamic Initialization.
- * (iv) Debugging of Exception Handling and Diagnostics.
- *
- * Revision 5.0  1995/08/25  13:42:58  wfs
- * Preperation for August 25 Glue release
- *
- * Revision 3.4  1995/08/25  10:41:19  wfs
- * A few refinements necessary for 3.1 and 4.0 compatability.
- *
- * Revision 3.4  1995/08/25  10:41:19  wfs
- * A few refinements necessary for 3.1 and 4.0 compatability.
- *
- * Revision 3.1  95/04/10  16:28:41  16:28:41  wfs (William Simmonds)
- * Apr95 tape version.
- *
- * Revision 3.0  95/03/30  11:19:16  11:19:16  wfs (William Simmonds)
- * Mar95 tape version with CRCR95_178 bug fix.
- *
- * Revision 2.0  95/03/15  15:29:06  15:29:06  wfs (William Simmonds)
- * spec 3.1 changes implemented, tests outstanding.
- *
- * Revision 1.1  95/01/11  13:19:42  13:19:42  wfs (William Simmonds)
- * Initial revision
- *
- */
-
-
-#define HPPATRANS_CODE
 /******************************************************************
 		weights.c
 
@@ -76,6 +37,7 @@ stack, (this is obviously always available for parameters).
 
 ******************************************************************/
 
+#define HPPATRANS_CODE
 
 #include "config.h"
 

@@ -7,31 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/02/04 10:46:41 $
-$Revision: 1.2 $
-$Log: units.h,v $
- * Revision 1.2  1998/02/04  10:46:41  release
- * Changes during testing.
- *
- * Revision 1.1.1.1  1998/01/17  15:57:25  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1995/09/04  10:29:26  currie
- * tld units instead of tld2
- *
- * Revision 1.1  1995/04/07  14:29:07  currie
- * Initial revision
- *
- * Revision 1.1  1995/04/07  14:29:07  currie
- * Initial revision
- *
- * Revision 1.2  1994/07/21  10:36:42  currie
- * Added banner
- *
-***********************************************************************/
 #ifndef UNITS_INCLUDED
 #define UNITS_INCLUDED
 

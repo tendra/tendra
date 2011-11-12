@@ -7,65 +7,12 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-
-
-/*
-			    VERSION INFORMATION
-			    ===================
-
---------------------------------------------------------------------------
-$Header: /u/g/release/CVSROOT/Source/src/installers/sparc/common/regexps.c,v 1.2 1998/03/15 16:00:45 pwe Exp $
---------------------------------------------------------------------------
-$Log: regexps.c,v $
- * Revision 1.2  1998/03/15  16:00:45  pwe
- * regtrack dwarf dagnostics added
- *
- * Revision 1.1.1.1  1998/01/17  15:55:55  release
- * First version to be checked into rolling release.
- *
- * Revision 1.4  1996/11/15  18:43:38  pwe
- * possible alias with bitfields
- *
- * Revision 1.3  1996/04/17  08:26:26  john
- * Fixed bug with mixed current envs
- *
- * Revision 1.2  1995/12/15  10:26:51  john
- * Fixed to handle current_env
- *
- * Revision 1.1.1.1  1995/03/13  10:18:54  john
- * Entered into CVS
- *
- * Revision 1.4  1994/11/21  14:29:46  djch
- * Added bug fix from ifc to couldbe where globals might not be noticed.
- *
- * Revision 1.3  1994/07/07  16:11:33  djch
- * Jul94 tape
- *
- * Revision 1.2  1994/05/13  13:07:58  djch
- * Incorporates improvements from expt version
- * added optimization not to forget things which are invariant.
- *
- * Revision 1.1  1994/05/03  14:49:52  djch
- * Initial revision
- *
- * Revision 1.3  93/08/27  11:37:27  11:37:27  ra (Robert Andrews)
- * A couple of lint-like changes.
- * 
- * Revision 1.2  93/08/13  14:45:27  14:45:27  ra (Robert Andrews)
- * Reformatted.
- * 
- * Revision 1.1  93/06/24  14:59:14  14:59:14  ra (Robert Andrews)
- * Initial revision
- * 
---------------------------------------------------------------------------
-*/
-
-
 #include <assert.h>
 
 #define SPARCTRANS_CODE
+
 #include "config.h"
+
 #include "exptypes.h"
 #include "expmacs.h"
 #include "addrtypes.h"
@@ -78,6 +25,7 @@ $Log: regexps.c,v $
 #include "regexps.h"
 #include "comment.h"
 #include "flags.h"
+
 #ifdef NEWDWARF
 #include "dw2_config.h"
 #include "dw2_extra.h"

@@ -7,52 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/* 	expmacs.h,v 1.10 1995/09/29 07:54:42 john Exp	 */
-
-/*
-expmacs.h,v
- * Revision 1.10  1995/09/29  07:54:42  john
- * Added call_has_vcallers
- *
- * Revision 1.9  1995/09/25  08:59:54  john
- * Added new macros
- *
- * Revision 1.8  1995/09/15  16:23:25  john
- * New exception handling
- *
- * Revision 1.7  1995/09/04  16:22:04  john
- * Fix to general procs
- *
- * Revision 1.6  1995/07/27  09:37:55  john
- * Changed optop & added call_is_untidy
- *
- * Revision 1.5  1995/06/30  07:59:22  john
- * New macro
- *
- * Revision 1.4  1995/06/28  10:23:55  john
- * Incorporated definitions which were formerly in extra_expmacs.h
- *
- * Revision 1.3  1995/06/21  14:25:22  john
- * Changed value of machine division markers to accomodate new spec.
- *
- * Revision 1.2  1995/05/16  10:47:59  john
- * Additions for spec 3.1
- *
- * Revision 1.1.1.1  1995/03/23  10:39:06  john
- * Entered into CVS
- *
- * Revision 1.13  1995/03/23  10:04:16  john
- * Added definition of clearinlined
- *
- * Revision 1.12  1995/01/19  14:01:26  john
- * Changed definition of isov
- *
- * Revision 1.11  1995/01/12  15:13:53  john
- * Changed definition of test_number
- *
-*/
 #include "fail.h"
+
 #ifndef expmacs_key
 #define expmacs_key 1
 

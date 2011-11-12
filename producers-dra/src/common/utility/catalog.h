@@ -7,10 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
 #ifndef CATALOG_INCLUDED
 #define CATALOG_INCLUDED
-
 
 /*
     ERROR CATALOGUE

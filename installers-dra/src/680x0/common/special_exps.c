@@ -7,32 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/*
-			    VERSION INFORMATION
-			    ===================
-
---------------------------------------------------------------------------
-$Header: /u/g/release/CVSROOT/Source/src/installers/680x0/common/special_exps.c,v 1.1.1.1 1998/01/17 15:55:50 release Exp $
---------------------------------------------------------------------------
-$Log: special_exps.c,v $
- * Revision 1.1.1.1  1998/01/17  15:55:50  release
- * First version to be checked into rolling release.
- *
-Revision 1.2  1997/10/29 10:22:29  ma
-Replaced use_alloca with has_alloca.
-
-Revision 1.1.1.1  1997/10/13 12:42:58  ma
-First version.
-
-Revision 1.1  1997/09/24 08:25:43  ma
-First version
-
-
---------------------------------------------------------------------------
-*/
-
-
 #include "config.h"
+
 #include "exp.h"
 #include "expmacs.h"
 #include "exptypes.h"

@@ -7,58 +7,10 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-
-/*
-			    VERSION INFORMATION
-			    ===================
-
---------------------------------------------------------------------------
-$Header: /u/g/release/CVSROOT/Source/src/installers/sparc/common/regable.c,v 1.1.1.1 1998/01/17 15:55:55 release Exp $
---------------------------------------------------------------------------
-$Log: regable.c,v $
- * Revision 1.1.1.1  1998/01/17  15:55:55  release
- * First version to be checked into rolling release.
- *
- * Revision 1.6  1996/09/06  16:50:35  pwe
- * fix outpar doubles for postlude
- *
- * Revision 1.5  1995/12/15  10:26:39  john
- * Made caller_names non-regable
- *
- * Revision 1.4  1995/09/25  16:35:45  john
- * Fix for outpar
- *
- * Revision 1.3  1995/05/26  13:01:16  john
- * Reformatting
- *
- * Revision 1.2  1995/03/28  12:24:40  john
- * Stopped putting arrays in registers
- *
- * Revision 1.1.1.1  1995/03/13  10:18:53  john
- * Entered into CVS
- *
- * Revision 1.3  1994/12/01  13:36:27  djch
- * Fix fixregable and floatregable to avoid envoffset's
- *
- * Revision 1.2  1994/07/07  16:11:33  djch
- * Jul94 tape
- *
- * Revision 1.1  1994/05/03  14:49:50  djch
- * Initial revision
- *
- * Revision 1.2  93/09/27  14:54:38  14:54:38  ra (Robert Andrews)
- * Long double values should not be put in registers (yet),
- * 
- * Revision 1.1  93/06/24  14:59:08  14:59:08  ra (Robert Andrews)
- * Initial revision
- * 
---------------------------------------------------------------------------
-*/
-
-
 #define SPARCTRANS_CODE
+
 #include "config.h"
+
 #include "expmacs.h"
 #include "shapemacs.h"
 #include "tags.h"

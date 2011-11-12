@@ -8,33 +8,12 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-    
-    
-    
-    
-    
+/* dynamic_init.c does all the dynamic initialisation code */
 
+#include <shared/error.h>
 
-/**********************************************************************
-$Author: release $
-$Date: 1998/02/04 15:48:43 $
-$Revision: 1.2 $
-$Log: dynamic_init.c,v $
- * Revision 1.2  1998/02/04  15:48:43  release
- * Added OSF copyright message.
- *
- * Revision 1.1.1.1  1998/01/17  15:55:56  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1996/10/04  16:00:18  pwe
- * add banners and mod for PWE ownership
- *
-**********************************************************************/
-
-
-/* dynamic_init.c does all the dynamic initialisation code
- */
 #include "config.h"
+
 #include "memtdf.h"
 #include "codegen.h"
 #include "geninst.h"
@@ -46,7 +25,6 @@ $Log: dynamic_init.c,v $
 #include "proc.h"
 #include "stack.h"
 #include "parameter.h"
-#include <shared/error.h>
 #include "installglob.h"
 #include "dynamic_init.h"
 

@@ -7,78 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/*
-$Log: eval.c,v $
- * Revision 1.1.1.1  1998/01/17  15:56:02  release
- * First version to be checked into rolling release.
- *
- * Revision 1.5  1996/08/30  09:02:17  wfs
- * Various fixes of bugs arising from avs and pl_tdf tests.
- *
- * Revision 1.4  1996/03/22  16:02:29  wfs
- * bigval bug fix.
- *
- * Revision 1.3  1996/03/15  15:04:13  wfs
- * 64 bit int corrections.
- *
- * Revision 1.2  1995/12/18  13:11:09  wfs
- * Put hppatrans uder cvs control. Major Changes made since last release
- * include:
- * (i) PIC code generation.
- * (ii) Profiling.
- * (iii) Dynamic Initialization.
- * (iv) Debugging of Exception Handling and Diagnostics.
- *
- * Revision 5.5  1995/10/20  13:43:11  wfs
- * gcc compilation changes.
- *
- * Revision 5.4  1995/10/11  15:51:09  wfs
- * Changed the evaluation of "env_size_tag".
- *
- * Revision 5.3  1995/10/09  13:02:39  wfs
- * Cosmetic changes.
- *
- * Revision 5.2  1995/09/20  11:22:55  wfs
- * Corrected a "switch" parameter which was causing problems with
- * "eqntott" and "espresso".
- *
- * Revision 5.1  1995/09/15  12:12:53  wfs
- * Minor changes to stop gcc complaining + 64 bit int stuff.
- *
- * Revision 5.0  1995/08/25  13:42:58  wfs
- * Preperation for August 25 Glue release
- *
- * Revision 3.4  1995/08/25  09:14:08  wfs
- * included extra check to ensure global general_proc plabels were
- * output correctly
- *
- * Revision 3.4  1995/08/25  09:14:08  wfs
- * included extra check to ensure global general_proc plabels were
- * output correctly
- *
- * Revision 3.1  95/04/10  16:26:06  16:26:06  wfs (William Simmonds)
- * Apr95 tape version.
- * 
- * Revision 3.0  95/03/30  11:16:31  11:16:31  wfs (William Simmonds)
- * Mar95 tape version with CRCR95_178 bug fix.
- * 
- * Revision 2.0  95/03/15  15:25:38  15:25:38  wfs (William Simmonds)
- * spec 3.1 changes implemented, tests outstanding.
- * 
- * Revision 1.3  95/01/27  09:30:13  09:30:13  wfs (William Simmonds)
- * Corrected bug in evaluated which was preventing the initialization
- * of global id_tags.
- * 
- * Revision 1.2  95/01/17  17:22:16  17:22:16  wfs (William Simmonds)
- * Name of included header file changed.
- * 
- * Revision 1.1  95/01/11  13:04:22  13:04:22  wfs (William Simmonds)
- * Initial revision.
- * 
-*/
-
-
 #define HPPATRANS_CODE
+
 /*****************************************************************
 		eval.c
 
@@ -91,6 +21,7 @@ into the table of externals (or 0 meaning anonymous).
 #include <ctype.h>
 
 #include "config.h"
+
 #include "addrtypes.h"
 #include "tags.h"
 #include "expmacs.h"

@@ -7,65 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/* 80x86/evaluate.c */
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/01/17 15:55:51 $
-$Revision: 1.1.1.1 $
-$Log: evaluate.c,v $
- * Revision 1.1.1.1  1998/01/17  15:55:51  release
- * First version to be checked into rolling release.
- *
- * Revision 1.14  1997/04/21  08:07:04  pwe
- * init large arrays
- *
- * Revision 1.13  1997/03/20  16:23:38  pwe
- * dwarf2
- *
- * Revision 1.12  1996/02/01  09:34:36  pwe
- * PIC oddities for AVS
- *
- * Revision 1.11  1996/01/22  14:31:05  pwe
- * PIC const*const, contop top_tag & linux 64-bit ints
- *
- * Revision 1.10  1996/01/10  17:54:07  pwe
- * PIC constant array offsets
- *
- * Revision 1.9  1996/01/10  09:19:08  pwe
- * profile const & envoffset correction
- *
- * Revision 1.8  1996/01/05  16:25:30  pwe
- * env_size and env_offset within constant expressions
- *
- * Revision 1.7  1995/08/30  16:06:27  pwe
- * prepare exception trapping
- *
- * Revision 1.6  1995/08/04  08:29:15  pwe
- * 4.0 general procs implemented
- *
- * Revision 1.5  1995/03/10  17:45:13  pwe
- * collection of signed/unsigned small bitfields
- *
- * Revision 1.4  1995/02/20  13:37:19  pwe
- * correct alignment within n_of bitfield
- *
- * Revision 1.3  1995/02/20  12:19:21  pwe
- * alignment within n_of bitfield
- *
- * Revision 1.2  1995/01/30  12:56:07  pwe
- * Ownership -> PWE, tidy banners
- *
- * Revision 1.1  1994/10/27  14:15:22  jmf
- * Initial revision
- *
- * Revision 1.1  1994/07/12  14:30:23  jmf
- * Initial revision
- *
-**********************************************************************/
-
-
 #include "config.h"
 
 #include "tags.h"

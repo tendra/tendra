@@ -7,125 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/*
-$Log: needscan.c,v $
- * Revision 1.1.1.1  1998/01/17  15:56:03  release
- * First version to be checked into rolling release.
- *
- * Revision 1.18  1996/11/29  10:38:05  wfs
- *    Change to "needscan.c" - compound parameters of size > 32 and < 64 were
- * not being properly aligned on the stack.
- *
- * Revision 1.17  1996/08/30  09:02:27  wfs
- * Various fixes of bugs arising from avs and pl_tdf tests.
- *
- * Revision 1.16  1996/08/06  10:50:11  wfs
- * bug fixes to pic code, enum diagnostics enabled.
- *
- * Revision 1.15  1996/04/18  11:09:15  wfs
- * Fixed a bug in "needscan.c" where "locptr_tag" was being wrapped around
- * the wrong exps.
- *
- * Revision 1.14  1996/03/28  10:53:14  wfs
- * Bug fixes to scan(), peephole optimisations in proc.c, and enum diagnostics.
- *
- * Revision 1.13  1996/03/22  13:34:12  wfs
- * Corrections to the dynamic initialization stuff in translat.c + bad
- * needscan.c code deleted.
- *
- * Revision 1.12  1996/03/14  16:18:44  wfs
- * tophed is not valregable + ptr position in apply_general case of scan() + superfluous "set -x" in bl_install script.
- *
- * Revision 1.11  1996/03/06  17:26:27  wfs
- * Fixed a bug in the profiling option.
- *
- * Revision 1.10  1996/03/04  18:15:10  wfs
- * Bug fix in scan(). diagnose=1 made all idents visible - but bitfields cannot
- * be visible.
- *
- * Revision 1.9  1996/03/04  13:19:09  wfs
- * Changes to hppatrans.1 manual + Mike Gerrard's needscan bug fix.
- *
- * Revision 1.8  1996/01/18  15:17:38  wfs
- * Left out a ";" in "needscan.c".
- *
- * Revision 1.7  1996/01/18  15:09:42  wfs
- * Corrected a syntax error in "needscan.c".
- *
- * Revision 1.6  1996/01/18  14:58:18  wfs
- * The "-default" option of "build" now sets BE_VERBOSE="true". Made a change
- * to the "apply_tag" case in scan() to ensure that space is reserved for
- * long double procedure call results even if they are not used.
- *
- * Revision 1.5  1996/01/11  14:46:31  wfs
- * Fixed bug in "ass_tag" case of scan(). Removed superfluous macro and comment.
- *
- * Revision 1.4  1996/01/10  17:18:53  wfs
- * Corrected definition of "IS_TREG" macro + cosmetic changes to needscan.c
- *
- * Revision 1.3  1996/01/08  12:01:58  wfs
- * Cosmetic changes to usage message in "hppatrans.c". "issparc" set to 0 in
- * "config.h". Change to "scan()" regarding the passing of 64 bit int params.
- *
- * Revision 1.2  1995/12/18  13:12:09  wfs
- * Put hppatrans uder cvs control. Major Changes made since last release
- * include:
- * (i) PIC code generation.
- * (ii) Profiling.
- * (iii) Dynamic Initialization.
- * (iv) Debugging of Exception Handling and Diagnostics.
- *
- * Revision 5.6  1995/10/23  15:47:23  wfs
- * Positioning of byte and halfwords on the stack was incomplete.
- *
- * Revision 5.5  1995/10/20  14:07:32  wfs
- * gcc compilation changes.
- *
- * Revision 5.4  1995/10/11  15:59:12  wfs
- * Cosmetic changes.
- *
- * Revision 5.3  1995/10/05  08:56:38  wfs
- * "isoutpar" check applied to parameters.
- *
- * Revision 5.2  1995/09/25  10:45:17  wfs
- * Two bug fixes.
- *
- * Revision 5.1  1995/09/15  13:01:15  wfs
- * Changes to "ident_tag" case. "trap_tag" case added.
- *
- * Revision 5.0  1995/08/25  13:42:58  wfs
- * Preperation for August 25 Glue release
- *
- * Revision 3.3  1995/08/25  10:14:21  wfs
- * A major revision. New 3.1 and 4.0 cases. "ident_tag" case rewritten
- * for the parameters. Register synonyms changed. MJG's bug fix
- * incorporated
- *
- * Revision 3.3  1995/08/25  10:14:21  wfs
- * A major revision. New 3.1 and 4.0 cases. "ident_tag" case rewritten
- * for the parameters. Register synonyms changed. MJG's bug fix
- * incorporated
- *
- * Revision 3.1  95/04/10  16:27:33  16:27:33  wfs (William Simmonds)
- * Apr95 tape version.
- *
- * Revision 3.0  95/03/30  11:18:27  11:18:27  wfs (William Simmonds)
- * Mar95 tape version with CRCR95_178 bug fix.
- *
- * Revision 2.0  95/03/15  15:28:17  15:28:17  wfs (William Simmonds)
- * spec 3.1 changes implemented, tests outstanding.
- *
- * Revision 1.2  95/01/17  17:29:49  17:29:49  wfs (William Simmonds)
- *
- *
- * Revision 1.1  95/01/11  13:13:54  13:13:54  wfs (William Simmonds)
- * Initial revision
- *
-*/
-
-
-#define HPPATRANS_CODE
 /*******************************************************************
 
 		needscan.c
@@ -140,6 +21,8 @@ the proc independent (common to other  translators)
 
 
 #include <assert.h>
+
+#define HPPATRANS_CODE
 
 #include "config.h"
 

@@ -7,25 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: pwe $
-$Date: 1998/03/11 11:03:40 $
-$Revision: 1.3 $
-$Log: dw2_entries.c,v $
- * Revision 1.3  1998/03/11  11:03:40  pwe
- * DWARF optimisation info
- *
- * Revision 1.2  1998/02/18  11:22:18  pwe
- * test corrections
- *
- * Revision 1.1.1.1  1998/01/17  15:55:48  release
- * First version to be checked into rolling release.
- *
-**********************************************************************/
-
-
 #include "config.h"
+
 #include "dw2_entries.h"
 #include "dw2_config.h"
 #include "dw2_basic.h"

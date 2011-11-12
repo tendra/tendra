@@ -8,30 +8,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/02/04 15:49:08 $
-$Revision: 1.2 $
-$Log: regexps.c,v $
- * Revision 1.2  1998/02/04  15:49:08  release
- * Added OSF copyright message.
- *
- * Revision 1.1.1.1  1998/01/17  15:55:57  release
- * First version to be checked into rolling release.
- *
- * Revision 1.4  1996/11/18  15:50:28  pwe
- * correct alias with bitfields, and case odds
- *
- * Revision 1.3  1996/10/11  10:51:19  pwe
- * clear_dep_reg v current-env_tag
- *
- * Revision 1.2  1996/10/04  16:04:08  pwe
- * add banners and mod for PWE ownership
- *
-**********************************************************************/
-
-
 #include <shared/error.h>
 
 #include "config.h"

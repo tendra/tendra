@@ -7,16 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/*
-			    VERSION INFORMATION
-			    ===================
---------------------------------------------------------------------------
-$Header: /u/g/release/CVSROOT/Source/src/installers/680x0/common/special_exps.h,v 1.1.1.1 1998/01/17 15:55:50 release Exp $
---------------------------------------------------------------------------
-$Log:
---------------------------------------------------------------------------
-*/
-
 #ifndef __SPECIAL_EXPS__
 #define __SPECIAL_EXPS__
 

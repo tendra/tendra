@@ -7,62 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/*
-			    VERSION INFORMATION
-			    ===================
---------------------------------------------------------------------------
-$Header: /u/g/release/CVSROOT/Source/src/installers/680x0/common/trans.c,v 1.1.1.1 1998/01/17 15:55:49 release Exp $
---------------------------------------------------------------------------
-$Log: trans.c,v $
- * Revision 1.1.1.1  1998/01/17  15:55:49  release
- * First version to be checked into rolling release.
- *
-Revision 1.2  1997/10/29 10:22:31  ma
-Replaced use_alloca with has_alloca.
-
-Revision 1.1.1.1  1997/10/13 12:43:00  ma
-First version.
-
-Revision 1.6  1997/10/13 08:50:13  ma
-Made all pl_tests for general proc & exception handling pass.
-
-Revision 1.5  1997/09/25 06:45:36  ma
-All general_proc tests passed
-
-Revision 1.4  1997/06/18 12:04:59  ma
-Merged with Input Baseline changes.
-
-Revision 1.3  1997/06/18 10:09:45  ma
-Checking in before merging with Input Baseline changes.
-
-Revision 1.2  1997/04/20 11:30:40  ma
-Introduced gcproc.c & general_proc.[ch].
-Added cases for apply_general_proc next to apply_proc in all files.
-
-Revision 1.1.1.1  1997/03/14 07:50:19  ma
-Imported from DRA
-
- * Revision 1.1.1.1  1996/09/20  10:56:59  john
- *
- * Revision 1.2  1996/07/05  14:28:02  john
- * Changes for spec 3.1
- *
- * Revision 1.1.1.1  1996/03/26  15:45:18  john
- *
- * Revision 1.3  94/02/21  16:05:07  16:05:07  ra (Robert Andrews)
- * Just declare scan2 traditionally.
- *
- * Revision 1.2  93/11/19  16:23:34  16:23:34  ra (Robert Andrews)
- * Reformatted mark_unaliased.
- *
- * Revision 1.1  93/02/22  17:16:50  17:16:50  ra (Robert Andrews)
- * Initial revision
- *
---------------------------------------------------------------------------
-*/
-
-
 #include "config.h"
+
 #include "exptypes.h"
 #include "expmacs.h"
 #include "exp.h"

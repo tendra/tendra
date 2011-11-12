@@ -7,36 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/*
-			    VERSION INFORMATION
-			    ===================
---------------------------------------------------------------------------
-$Header: /u/g/release/CVSROOT/Source/src/installers/680x0/common/xdb_basics.h,v 1.1.1.1 1998/01/17 15:55:50 release Exp $
---------------------------------------------------------------------------
-$Log: xdb_basics.h,v $
- * Revision 1.1.1.1  1998/01/17  15:55:50  release
- * First version to be checked into rolling release.
- *
-Revision 1.1.1.1  1997/10/13 12:43:02  ma
-First version.
-Revision 1.1.1.1  1997/03/14 07:50:23  ma
-Imported from DRA
-
- * Revision 1.1.1.1  1996/09/20  10:57:01  john
- *
- * Revision 1.2  1996/07/05  14:35:27  john
- * Fix to diagnostics
- *
- * Revision 1.1  95/03/08  16:46:22  ra
- * Added missing files.
- *
- * Revision 1.1  93/02/22  17:17:22  17:17:22  ra (Robert Andrews)
- * Initial revision
- *
---------------------------------------------------------------------------
-*/
-
-
 #ifndef XDB_BASICS_INCLUDED
 #define XDB_BASICS_INCLUDED
 

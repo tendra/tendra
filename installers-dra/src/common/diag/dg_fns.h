@@ -7,20 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/01/17 15:55:46 $
-$Revision: 1.1.1.1 $
-$Log: dg_fns.h,v $
- * Revision 1.1.1.1  1998/01/17  15:55:46  release
- * First version to be checked into rolling release.
- *
- * Revision 1.1  1997/08/23  13:26:49  pwe
- * initial ANDF-DE
- *
-***********************************************************************/
-
 #ifndef dg_fns_key
 #define dg_fns_key 1
 

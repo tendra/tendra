@@ -7,54 +7,14 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/*
-			    VERSION INFORMATION
-			    ===================
-
---------------------------------------------------------------------------
-$Header: /u/g/release/CVSROOT/Source/src/installers/680x0/common/utility.c,v 1.1.1.1 1998/01/17 15:55:49 release Exp $
---------------------------------------------------------------------------
-$Log: utility.c,v $
- * Revision 1.1.1.1  1998/01/17  15:55:49  release
- * First version to be checked into rolling release.
- *
-Revision 1.1.1.1  1997/10/13 12:43:00  ma
-First version.
-
-Revision 1.3  1997/10/13 08:50:16  ma
-Made all pl_tests for general proc & exception handling pass.
-
-Revision 1.2  1997/03/20 12:52:20  ma
-Removed #if 0 and #endif around used definitions.
-
-Revision 1.1.1.1  1997/03/14 07:50:19  ma
-Imported from DRA
-
- * Revision 1.1.1.1  1996/09/20  10:56:59  john
- *
- * Revision 1.1.1.1  1996/03/26  15:45:18  john
- *
- * Revision 1.4  94/11/08  11:24:26  11:24:26  ra (Robert Andrews)
- * Changed error reporting format slightly.
- *
- * Revision 1.3  94/02/21  16:05:37  16:05:37  ra (Robert Andrews)
- * Clear up a long-int confusion.
- *
- * Revision 1.2  93/04/19  13:37:53  13:37:53  ra (Robert Andrews)
- * Line numbers in error reports were wrong.
- *
- * Revision 1.1  93/02/22  17:16:55  17:16:55  ra (Robert Andrews)
- * Initial revision
- *
---------------------------------------------------------------------------
-*/
-
+#include <stdarg.h>
 
 #include "config.h"
-#include <stdarg.h>
+
 #include "basicread.h"
 #include "instrs.h"
 #include "utility.h"
+
 extern long crt_line_num;
 extern char *crt_fname;
 extern char *progname;

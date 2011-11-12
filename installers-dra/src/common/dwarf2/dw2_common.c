@@ -7,36 +7,12 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: pwe $
-$Date: 1998/03/11 11:03:40 $
-$Revision: 1.2 $
-$Log: dw2_common.c,v $
- * Revision 1.2  1998/03/11  11:03:40  pwe
- * DWARF optimisation info
- *
- * Revision 1.1.1.1  1998/01/17  15:55:48  release
- * First version to be checked into rolling release.
- *
- * Revision 1.4  1997/12/04  19:42:02  pwe
- * ANDF-DE V1.9
- *
- * Revision 1.3  1997/11/06  09:22:39  pwe
- * ANDF-DE V1.8
- *
- * Revision 1.2  1997/10/23  09:28:05  pwe
- * ANDF-DE v1.7, extra diags
- *
- * Revision 1.1  1997/10/10  18:19:06  pwe
- * prep ANDF-DE revision
- *
-**********************************************************************/
+#include <shared/xalloc.h>
 
 #include "config.h"
+
 #include "basicread.h"
 #include "install_fns.h"
-#include <shared/xalloc.h>
 #include "dg_aux.h"
 #include "externs.h"
 #include "dg_globs.h"

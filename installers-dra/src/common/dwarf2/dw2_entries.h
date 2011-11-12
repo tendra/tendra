@@ -7,53 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: pwe $
-$Date: 1998/03/11 11:03:41 $
-$Revision: 1.3 $
-$Log: dw2_entries.h,v $
- * Revision 1.3  1998/03/11  11:03:41  pwe
- * DWARF optimisation info
- *
- * Revision 1.2  1998/02/18  11:22:19  pwe
- * test corrections
- *
- * Revision 1.1.1.1  1998/01/17  15:55:48  release
- * First version to be checked into rolling release.
- *
- * Revision 1.10  1998/01/09  09:31:25  pwe
- * prep restructure
- *
- * Revision 1.9  1997/12/04  19:41:21  pwe
- * ANDF-DE V1.9
- *
- * Revision 1.8  1997/11/06  09:22:03  pwe
- * ANDF-DE V1.8
- *
- * Revision 1.7  1997/10/23  09:27:32  pwe
- * ANDF-DE v1.7, extra diags
- *
- * Revision 1.6  1997/10/10  18:18:29  pwe
- * prep ANDF-DE revision
- *
- * Revision 1.5  1997/08/23  13:36:36  pwe
- * initial ANDF-DE
- *
- * Revision 1.4  1997/04/17  11:50:20  pwe
- * Sparc and 80x86 support
- *
- * Revision 1.3  1997/04/01  17:19:38  pwe
- * diagnose pl_tests and locate -> platform specific
- *
- * Revision 1.2  1997/03/24  11:10:23  pwe
- * struct bitfields
- *
- * Revision 1.1  1997/03/20  16:09:08  pwe
- * first version
- *
-**********************************************************************/
-
 #ifndef entries_tag
 #define entries_tag 1
 

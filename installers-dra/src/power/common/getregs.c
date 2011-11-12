@@ -8,42 +8,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-    
-    
-    
-    
-    
-
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/02/04 15:48:47 $
-$Revision: 1.2 $
-$Log: getregs.c,v $
- * Revision 1.2  1998/02/04  15:48:47  release
- * Added OSF copyright message.
- *
- * Revision 1.1.1.1  1998/01/17  15:55:56  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1996/10/04  16:01:04  pwe
- * add banners and mod for PWE ownership
- *
-**********************************************************************/
-
-
-/******************************************************************
-		getregs.c
-
-	Routines for choosing temporary registers. The next free
-register is chosen cyclically from available t regs.
-
-	The parameter is usually taken from a value of type space
-(which has bits for fixed and floating regs).  A clear bit indicates
-that the corresponding register is free for use.
-
-******************************************************************/
-
 #include <shared/error.h>
 
 #include "config.h"

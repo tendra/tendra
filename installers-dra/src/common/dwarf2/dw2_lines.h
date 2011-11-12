@@ -7,26 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/01/17 15:55:48 $
-$Revision: 1.1.1.1 $
-$Log: dw2_lines.h,v $
- * Revision 1.1.1.1  1998/01/17  15:55:48  release
- * First version to be checked into rolling release.
- *
- * Revision 1.3  1997/10/28  10:14:33  pwe
- * local location corrections
- *
- * Revision 1.2  1997/08/23  13:36:53  pwe
- * initial ANDF-DE
- *
- * Revision 1.1  1997/03/20  16:09:27  pwe
- * first version
- *
-**********************************************************************/
-
 #ifndef dw2_lines_key
 #define dw2_lines_key
 

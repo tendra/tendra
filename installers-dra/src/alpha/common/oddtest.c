@@ -7,11 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-#ifndef lint
-static char vcid[] = "$Id: oddtest.c,v 1.1.1.1 1998/01/17 15:56:00 release Exp $";
-#endif /* lint */
-
 /* 
    Pattern in oddtest.pat
    this is intended to be the pattern for:
@@ -19,19 +14,6 @@ static char vcid[] = "$Id: oddtest.c,v 1.1.1.1 1998/01/17 15:56:00 release Exp $
    to transform to:
    fexp ( (absbool(test) <<1) -1))
    where f is any sequence of unary operators including identity
-*/
-
-/*
-$Log: oddtest.c,v $
- * Revision 1.1.1.1  1998/01/17  15:56:00  release
- * First version to be checked into rolling release.
- *
- * Revision 1.1.1.1  1995/03/23  10:39:15  john
- * Entered into CVS
- *
- * Revision 1.3  1995/01/26  13:45:30  john
- * Removed unused label
- *
 */
 
 #include "config.h"

@@ -7,30 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-#ifndef lint
-static char vcid[] = "$Id: bstack.c,v 1.1.1.1 1998/01/17 15:55:58 release Exp $";
-#endif /* lint */
-
-/*
-$Log: bstack.c,v $
- * Revision 1.1.1.1  1998/01/17  15:55:58  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1995/03/29  14:00:46  john
- * Removed unneeded inclusion of malloc.h
- *
- * Revision 1.1.1.1  1995/03/23  10:39:09  john
- * Entered into CVS
- *
- * Revision 1.3  1995/01/26  13:37:07  john
- * Added missing declaration of free
- *
- * Revision 1.2  1995/01/12  15:15:53  john
- * Added malloc.h header
- *
-*/
-
 #include <shared/xalloc.h>
 
 #include "config.h"

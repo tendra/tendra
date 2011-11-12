@@ -7,76 +7,15 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-#ifndef lint
-static char vcid[] = "$Id: driver.c,v 1.2 1998/02/06 17:04:28 release Exp $";
-#endif /* lint */
-
 /*
   driver.c
   Provides the driver function for the TDF->DEC Alpha translator.
-  JM  17/9/93
 */
-
-/*
-$Log: driver.c,v $
- * Revision 1.2  1998/02/06  17:04:28  release
- * Last minute pre-release polishing.
- *
- * Revision 1.1.1.1  1998/01/17  15:56:01  release
- * First version to be checked into rolling release.
- *
- * Revision 1.10  1996/03/25  14:56:18  john
- * introduced do_extern_adds
- *
- * Revision 1.9  1995/09/06  09:00:42  john
- * removed old command line argument parsing
- *
- * Revision 1.8  1995/06/28  10:23:36  john
- * Added RELEASE info to version information
- *
- * Revision 1.7  1995/06/13  14:00:22  john
- * Changed denormal constant handling
- *
- * Revision 1.6  1995/05/23  10:55:35  john
- * Removed unneeded header file.
- *
- * Revision 1.5  1995/05/16  10:46:51  john
- * Fixed error message
- *
- * Revision 1.4  1995/04/07  11:01:18  john
- * Added new command line arg processing.  Changed handling of IEEE denormals
- *
- * Revision 1.3  1995/03/29  14:06:52  john
- * Added inclusion of bool.h
- *
- * Revision 1.2  1995/03/29  10:30:10  john
- * Added option to control handling of denormalised numbers.
- *
- * Revision 1.1.1.1  1995/03/23  10:39:30  john
- * Entered into CVS
- *
- * Revision 1.21  1995/03/03  15:22:35  john
- * Added scheduling code
- *
- * Revision 1.20  1995/02/13  08:58:39  john
- * Turned foralls optimisation off, by default.
- *
- * Revision 1.19  1995/01/26  13:38:35  john
- * Added symboldecs.h to list of included files
- *
- * Revision 1.18  1995/01/18  11:44:33  john
- * Added : to version numbers
- *
- * Revision 1.17  1995/01/12  15:07:12  john
- * Minor change
- *
-*/
-
 
 #include <stdlib.h>
 
 #include "config.h"
+
 #include "basicread.h"
 #include "flags.h"
 #include "main_reads.h"
@@ -93,6 +32,7 @@ $Log: driver.c,v $
 #include "construct_v.h"
 #include "symbol.h"
 #include "bool.h"
+
 FILE *as_file;		/* assembly file */
 FILE *ba_file;
 

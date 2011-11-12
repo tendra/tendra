@@ -7,7 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
 @use all
 @special external
 @special sortname
@@ -32,6 +31,7 @@
 #include <assert.h>
 
 #include "config.h"
+
 #include "types.h"
 #include "basic.h"
 #include "binding.h"

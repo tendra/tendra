@@ -7,62 +7,10 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/*
-			    VERSION INFORMATION
-			    ===================
---------------------------------------------------------------------------
-$Header: /u/g/release/CVSROOT/Source/src/installers/680x0/common/ops_logic.c,v 1.1.1.1 1998/01/17 15:55:49 release Exp $
---------------------------------------------------------------------------
-$Log: ops_logic.c,v $
- * Revision 1.1.1.1  1998/01/17  15:55:49  release
- * First version to be checked into rolling release.
- *
-Revision 1.2  1997/11/09 14:23:43  ma
-Now is_signed is used instead of issigned.
-
-Revision 1.1.1.1  1997/10/13 12:42:57  ma
-First version.
-
-Revision 1.2  1997/09/25 06:45:26  ma
-All general_proc tests passed
-
-Revision 1.1.1.1  1997/03/14 07:50:15  ma
-Imported from DRA
-
- * Revision 1.1.1.1  1996/09/20  10:57:00  john
- *
- * Revision 1.2  1996/07/05  14:24:36  john
- * Changes for spec 3.1
- *
- * Revision 1.1.1.1  1996/03/26  15:45:16  john
- *
- * Revision 1.6  94/06/29  14:23:47  14:23:47  ra (Robert Andrews)
- * Changed a few moves to change_varieties (consequent to changes in
- * bitfields).
- *
- * Revision 1.5  94/02/21  16:01:48  16:01:48  ra (Robert Andrews)
- * A couple of arguments should be int, not long.
- *
- * Revision 1.4  93/11/19  16:22:37  16:22:37  ra (Robert Andrews)
- * Minor correction to bitfields of complex operands.
- *
- * Revision 1.3  93/03/08  15:30:22  15:30:22  ra (Robert Andrews)
- * Emulate cc by mapping ( a << b ) to ( a << ( b % 64 ) ) when b is
- * a constant.
- *
- * Revision 1.2  93/03/03  14:49:37  14:49:37  ra (Robert Andrews)
- * Started adding support for error treatments.
- *
- * Revision 1.1  93/02/22  17:16:23  17:16:23  ra (Robert Andrews)
- * Initial revision
- *
---------------------------------------------------------------------------
-*/
-
-
 #include <shared/error.h>
 
 #include "config.h"
+
 #include "exptypes.h"
 #include "assembler.h"
 #include "basicread.h"

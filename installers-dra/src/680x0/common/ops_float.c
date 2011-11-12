@@ -7,60 +7,10 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/*
-			    VERSION INFORMATION
-			    ===================
---------------------------------------------------------------------------
-$Header: /u/g/release/CVSROOT/Source/src/installers/680x0/common/ops_float.c,v 1.1.1.1 1998/01/17 15:55:49 release Exp $
---------------------------------------------------------------------------
-$Log: ops_float.c,v $
- * Revision 1.1.1.1  1998/01/17  15:55:49  release
- * First version to be checked into rolling release.
- *
-Revision 1.3  1997/11/09 14:04:53  ma
-round_with_mode rewritten.
-
-Revision 1.2  1997/10/29 10:22:24  ma
-Replaced use_alloca with has_alloca.
-
-Revision 1.1.1.1  1997/10/13 12:42:56  ma
-First version.
-
-Revision 1.4  1997/10/13 08:49:44  ma
-Made all pl_tests for general proc & exception handling pass.
-
-Revision 1.3  1997/09/25 06:45:23  ma
-All general_proc tests passed
-
-Revision 1.2  1997/06/18 12:04:55  ma
-Merged with Input Baseline changes.
-
- * Revision 1.3  1997/06/06  14:36:26  john
- * Fixed rounding modes
- *
- * Revision 1.2  1997/06/05  10:55:48  john
- * Fix to unsigned conversion
- *
- * Revision 1.1.1.1  1997/04/25  12:32:40  john
- *
- * Revision 1.2  1996/07/05  14:23:53  john
- * Changes for spec 3.1
- *
- * Revision 1.1.1.1  1996/03/26  15:45:15  john
- *
- * Revision 1.2  93/03/03  14:48:21  14:48:21  ra (Robert Andrews)
- * Started adding support for error treatments.
- *
- * Revision 1.1  93/02/22  17:16:17  17:16:17  ra (Robert Andrews)
- * Initial revision
- *
---------------------------------------------------------------------------
-*/
-
-
 #include <shared/error.h>
 
 #include "config.h"
+
 #include "assembler.h"
 #include "basicread.h"
 #include "check.h"

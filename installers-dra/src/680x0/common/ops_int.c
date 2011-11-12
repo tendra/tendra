@@ -7,91 +7,10 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/*
-			    VERSION INFORMATION
-			    ===================
-
---------------------------------------------------------------------------
-$Header: /u/g/release/CVSROOT/Source/src/installers/680x0/common/ops_int.c,v 1.1.1.1 1998/01/17 15:55:49 release Exp $
---------------------------------------------------------------------------
-$Log: ops_int.c,v $
- * Revision 1.1.1.1  1998/01/17  15:55:49  release
- * First version to be checked into rolling release.
- *
-Revision 1.5  1997/11/13 08:27:15  ma
-All avs test passed (except add_to_ptr).
-
-Revision 1.4  1997/11/10 15:38:07  ma
-.
-
-Revision 1.3  1997/11/09 14:12:27  ma
-Fixed max_min & splitted add_const into add_const and sub_const to make
-error handling work.
-
-Revision 1.2  1997/10/29 10:22:26  ma
-Replaced use_alloca with has_alloca.
-
-Revision 1.1.1.1  1997/10/13 12:42:56  ma
-First version.
-
-Revision 1.6  1997/10/13 08:49:47  ma
-Made all pl_tests for general proc & exception handling pass.
-
-Revision 1.5  1997/09/25 06:45:24  ma
-All general_proc tests passed
-
-Revision 1.4  1997/06/24 10:56:06  ma
-Added changes for "Plumhall Patch"
-
-Revision 1.3  1997/06/18 10:09:42  ma
-Checking in before merging with Input Baseline changes.
-
-Revision 1.2  1997/04/20 11:30:34  ma
-Introduced gcproc.c & general_proc.[ch].
-Added cases for apply_general_proc next to apply_proc in all files.
-
-Revision 1.1.1.1  1997/03/14 07:50:16  ma
-Imported from DRA
-
- * Revision 1.1.1.1  1996/09/20  10:56:57  john
- *
- * Revision 1.3  1996/07/30  16:31:23  john
- * Removed offset conversion
- *
- * Revision 1.2  1996/07/05  14:24:16  john
- * Changes for spec 3.1
- *
- * Revision 1.1.1.1  1996/03/26  15:45:15  john
- *
- * Revision 1.7  94/11/16  10:37:25  10:37:25  ra (Robert Andrews)
- * Added support for integer absolute.
- *
- * Revision 1.6  94/11/08  11:23:45  11:23:45  ra (Robert Andrews)
- * The operations addq and subq on A-registers do not set the condition
- * flags.
- *
- * Revision 1.5  94/06/29  14:23:27  14:23:27  ra (Robert Andrews)
- * Added maximum and minimum operations.
- *
- * Revision 1.4  94/02/21  16:01:29  16:01:29  ra (Robert Andrews)
- * Made a couple of integer literals into longs.
- *
- * Revision 1.3  93/04/19  13:35:28  13:35:28  ra (Robert Andrews)
- * Change_varieties in division routines were the wrong way round.
- *
- * Revision 1.2  93/03/03  14:49:05  14:49:05  ra (Robert Andrews)
- * Started adding support for error treatments.
- *
- * Revision 1.1  93/02/22  17:16:20  17:16:20  ra (Robert Andrews)
- * Initial revision
- *
---------------------------------------------------------------------------
-*/
-
-
 #include <shared/error.h>
 
 #include "config.h"
+
 #include "assembler.h"
 #include "basicread.h"
 #include "check.h"

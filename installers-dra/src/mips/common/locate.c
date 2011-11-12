@@ -7,33 +7,14 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/01/17 15:56:06 $
-$Revision: 1.1.1.1 $
-$Log: locate.c,v $
- * Revision 1.1.1.1  1998/01/17  15:56:06  release
- * First version to be checked into rolling release.
- *
- * Revision 1.3  1995/09/12  10:59:30  currie
- * gcc pedanttry
- *
- * Revision 1.2  1995/08/16  16:06:50  currie
- * Shortened some .h names
- *
- * Revision 1.1  1995/04/13  09:08:06  currie
- * Initial revision
- *
-***********************************************************************/
 /* locate.c
      discovers "where" an "exp" is;
      The where coding of an address tells one whether the result of
       evaluating an exp is in a register or directly or literally in store,
 */
 
-
 #include "config.h"
+
 #include "addrtypes.h"
 #include "expmacs.h"
 #include "tags.h"

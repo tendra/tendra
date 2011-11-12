@@ -7,41 +7,12 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+/*  syms.c   - produce symbol numbers for binasm (dense numbers) */
 
-
-
-
-
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/02/04 10:43:44 $
-$Revision: 1.2 $
-$Log: syms.c,v $
- * Revision 1.2  1998/02/04  10:43:44  release
- * Changes during testing.
- *
- * Revision 1.1.1.1  1998/01/17  15:56:07  release
- * First version to be checked into rolling release.
- *
- * Revision 1.3  1995/09/12  10:59:44  currie
- * gcc pedanttry
- *
- * Revision 1.2  1995/05/05  08:13:07  currie
- * initial_value + signtures
- *
- * Revision 1.1  1995/04/13  09:08:06  currie
- * Initial revision
- *
-***********************************************************************/
-/*  syms.c   - produce symbol numbers for binasm (dense numbers)
-
-*/
+#include <shared/xalloc.h>
 
 #include "config.h"
 #include "cross_config.h"
-
-#include <shared/xalloc.h>
 
 #ifndef CROSS_INCLUDE
 #include <symconst.h>

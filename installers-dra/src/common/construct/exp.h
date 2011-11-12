@@ -7,27 +7,14 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/01/17 15:55:46 $
-$Revision: 1.1.1.1 $
-$Log: exp.h,v $
- * Revision 1.1.1.1  1998/01/17  15:55:46  release
- * First version to be checked into rolling release.
- *
- * Revision 1.1  1995/04/06  10:44:05  currie
- * Initial revision
- *
-***********************************************************************/
 #ifndef expdecs_key
 #define expdecs_key 1
 
 #include "config.h"
+
 #include "exptypes.h"
 #include "codetypes.h"
 #include "installtypes.h"
-
 
 extern exp getexp (shape s, exp b, int l, exp sn, exp p, prop pr, int n,
 		   unsigned char tg);

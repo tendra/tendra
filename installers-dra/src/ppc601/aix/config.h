@@ -8,36 +8,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-    
-    
-    
-    
-    
-
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/03/16 11:25:35 $
-$Revision: 1.4 $
-$Log: config.h,v $
- * Revision 1.4  1998/03/16  11:25:35  release
- * Modifications prior to version 4.1.2.
- *
- * Revision 1.3  1998/02/04  15:48:34  release
- * Added OSF copyright message.
- *
- * Revision 1.2  1998/02/04  10:43:51  release
- * Changes during testing.
- *
- * Revision 1.1.1.1  1998/01/17  15:55:58  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1996/10/04  16:00:03  pwe
- * add banners and mod for PWE ownership
- *
-**********************************************************************/
-
-
 #ifndef CONFIG_H
 #define CONFIG_H		1
 

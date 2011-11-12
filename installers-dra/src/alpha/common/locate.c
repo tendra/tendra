@@ -7,44 +7,15 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-#ifndef lint
-static char vcid[] = "$Id$";
-#endif /* lint */
-
 /*
    locate.c
    This file provides functions to locate an exp.
 */
 
-/*
-$Log: locate.c,v $
- * Revision 1.1.1.1  1998/01/17  15:56:00  release
- * First version to be checked into rolling release.
- *
- * Revision 1.4  1995/08/21  08:45:04  john
- * Changed include files
- *
- * Revision 1.3  1995/07/27  10:09:06  john
- * Modified due to change in general proc handling
- *
- * Revision 1.2  1995/05/16  10:53:23  john
- * Changes for spec 3.1
- *
- * Revision 1.1.1.1  1995/03/23  10:39:12  john
- * Entered into CVS
- *
- * Revision 1.9  1995/03/23  10:21:00  john
- * Changes for bitfields & offsets
- *
- * Revision 1.8  1995/01/26  13:43:16  john
- * Removed some unused variables
- *
-*/
-
 #include <stdio.h>
 
 #include "config.h"
+
 #include "addresstypes.h"
 #include "expmacs.h"
 #include "tags.h"

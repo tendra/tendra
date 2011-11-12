@@ -7,28 +7,13 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <shared/xalloc.h>
 
-/**********************************************************************
-$Author: release $
-$Date: 1998/01/17 15:57:24 $
-$Revision: 1.1.1.1 $
-$Log: includes.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:24  release
- * First version to be checked into rolling release.
- *
- * Revision 1.1  1995/04/07  14:29:07  currie
- * Initial revision
- *
- * Revision 1.2  1994/07/21  10:36:16  currie
- * Added banner
- *
-***********************************************************************/
 #include "config.h"
+
 #include "util.h"
 #include "includes.h"
 #include "errors.h"
-
-#include <shared/xalloc.h>
 
 char *file_name;
 static Path *inc_paths;

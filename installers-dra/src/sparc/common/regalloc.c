@@ -7,83 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/*
-			    VERSION INFORMATION
-			    ===================
-
---------------------------------------------------------------------------
-$Header: /u/g/release/CVSROOT/Source/src/installers/sparc/common/regalloc.c,v 1.1.1.1 1998/01/17 15:55:55 release Exp $
---------------------------------------------------------------------------
-$Log: regalloc.c,v $
- * Revision 1.1.1.1  1998/01/17  15:55:55  release
- * First version to be checked into rolling release.
- *
- * Revision 1.9  1997/08/23  13:54:34  pwe
- * initial ANDF-DE
- *
- * Revision 1.8  1997/03/26  13:04:52  pwe
- * general proc compatibility
- *
- * Revision 1.7  1996/08/22  16:47:15  pwe
- * correct accessing for double params
- *
- * Revision 1.6  1995/11/07  09:53:31  john
- * Change to general procs
- *
- * Revision 1.5  1995/10/24  17:16:15  john
- * Fixed stupid mistake in register allocation
- *
- * Revision 1.4  1995/09/22  13:07:17  john
- * Protected local reg
- *
- * Revision 1.3  1995/08/22  15:29:15  john
- * Change to compound_tag
- *
- * Revision 1.2  1995/05/26  13:01:29  john
- * Change for new spec
- *
- * Revision 1.1.1.1  1995/03/13  10:18:53  john
- * Entered into CVS
- *
- * Revision 1.4  1994/12/01  13:25:47  djch
- * Alter allocator to ensure env_offset'd go on the stack.
- *
- * Revision 1.3  1994/10/26  13:44:54  djch
- * *** empty log message ***
- *
- * Revision 1.2  1994/05/03  15:10:48  djch
- * From the expt version, fixes bug where fixdump sometimes got real reg numbers,
- * sometimes sreg numbers
- *
- * Revision 1.2  1994/05/03  15:10:48  djch
- * From the expt version, fixes bug where fixdump sometimes got real reg numbers,
- * sometimes sreg numbers
- *
- * Revision 1.2  94/02/15  11:20:27  djch
- * fixed wrong bit set in fixdump for inreg_bits exps, added comments
- * 
- * Revision 1.1  94/01/13  12:13:56  djch
- * Initial revision
- * 
- * Revision 1.4  93/08/27  11:36:44  11:36:44  ra (Robert Andrews)
- * A couple of lint-like changes.  Use of pset etc to set properties.
- * 
- * Revision 1.3  93/08/13  14:44:36  14:44:36  ra (Robert Andrews)
- * Reformatted comment.
- * 
- * Revision 1.2  93/07/05  18:24:39  18:24:39  ra (Robert Andrews)
- * Reformatted file.  Added support for PIC by means of the avoid_L7
- * flag which causes register L7 not to be allocated.
- * 
- * Revision 1.1  93/06/24  14:59:11  14:59:11  ra (Robert Andrews)
- * Initial revision
- * 
---------------------------------------------------------------------------
-*/
-
-
-#define SPARCTRANS_CODE
 /*
   The main procedure defined here is reg_alloc which allocates 
   registers and stack space for a procedure expression.  After the 
@@ -104,7 +27,10 @@ $Log: regalloc.c,v $
 
 #include <assert.h>
 
+#define SPARCTRANS_CODE
+
 #include "config.h"
+
 #include "expmacs.h"
 #include "tags.h"
 #include "proctypes.h"

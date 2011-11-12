@@ -7,28 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/01/17 15:55:45 $
-$Revision: 1.1.1.1 $
-$Log: readglob.c,v $
- * Revision 1.1.1.1  1998/01/17  15:55:45  release
- * First version to be checked into rolling release.
- *
- * Revision 1.3  1997/08/23  13:30:56  pwe
- * no invert order, and initial ANDF-DE
- *
- * Revision 1.2  1997/02/18  12:56:06  currie
- * NEW DIAG STRUCTURE
- *
- * Revision 1.1  1995/04/06  10:43:34  currie
- * Initial revision
- *
-***********************************************************************/
 #include "config.h"
-
-
 
 #include "readglob.h"
 

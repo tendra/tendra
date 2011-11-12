@@ -7,37 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-#ifndef lint
-static char vcid[] = "$Id$";
-#endif /* lint */
-
-/*
-$Log: inlinechoice.c,v $
- * Revision 1.1.1.1  1998/01/17  15:56:00  release
- * First version to be checked into rolling release.
- *
- * Revision 1.3  1995/09/29  09:45:14  john
- * Added apply_general case
- *
- * Revision 1.2  1995/03/29  14:03:39  john
- * Changes to keep tcheck happy
- *
- * Revision 1.1.1.1  1995/03/23  10:39:36  john
- * Entered into CVS
- *
- * Revision 1.10  1995/03/23  10:05:39  john
- * Minor modification
- *
- * Revision 1.9  1995/01/26  13:41:41  john
- * Removed dead code.
- *
- * Revision 1.8  1995/01/20  15:12:59  john
- * Repaced literal with #define
- *
-*/
-
-
 #include "config.h"
 
 #include "exptypes.h"

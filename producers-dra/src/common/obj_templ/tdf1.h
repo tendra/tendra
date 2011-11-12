@@ -7,12 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-    
-    
-    
-    
-    
-
 /*
     AUTOMATICALLY GENERATED FROM TDF %VA.%VB
     BY %ZX (VERSION %ZV), DO NOT EDIT

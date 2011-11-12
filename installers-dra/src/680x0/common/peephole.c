@@ -7,40 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/*
-			    VERSION INFORMATION
-			    ===================
---------------------------------------------------------------------------
-$Header: /u/g/release/CVSROOT/Source/src/installers/680x0/common/peephole.c,v 1.1.1.1 1998/01/17 15:55:50 release Exp $
---------------------------------------------------------------------------
-$Log: peephole.c,v $
- * Revision 1.1.1.1  1998/01/17  15:55:50  release
- * First version to be checked into rolling release.
- *
-Revision 1.1.1.1  1997/10/13 12:42:58  ma
-First version.
-
-Revision 1.2  1997/06/18 12:04:58  ma
-Merged with Input Baseline changes.
-
-Revision 1.1.1.1  1997/03/14 07:50:17  ma
-Imported from DRA
-
- * Revision 1.2  1996/09/20  13:51:43  john
- * *** empty log message ***
- *
- * Revision 1.1.1.1  1996/09/20  10:56:58  john
- *
- * Revision 1.1.1.1  1996/03/26  15:45:16  john
- *
- * Revision 1.1  93/02/22  17:16:34  17:16:34  ra (Robert Andrews)
- * Initial revision
- *
---------------------------------------------------------------------------
-*/
-
-
 #include "config.h"
+
 #include "assembler.h"
 #include "instrs.h"
 #include "exp.h"

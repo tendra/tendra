@@ -7,42 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/01/17 15:55:46 $
-$Revision: 1.1.1.1 $
-$Log: mark_scope.c,v $
- * Revision 1.1.1.1  1998/01/17  15:55:46  release
- * First version to be checked into rolling release.
- *
- * Revision 1.8  1998/01/09  09:30:07  pwe
- * prep restructure
- *
- * Revision 1.7  1997/10/28  10:12:38  pwe
- * local location support
- *
- * Revision 1.6  1997/10/23  09:21:26  pwe
- * ANDF-DE V1.7 and extra diags
- *
- * Revision 1.5  1997/08/23  13:27:24  pwe
- * initial ANDF-DE
- *
- * Revision 1.4  1997/04/02  12:55:05  currie
- * includes before ifdef
- *
-Revision 1.3  1997/03/20 17:04:53  currie
-Dwarf2 diags
-
-Revision 1.2  1997/02/18 12:55:52  currie
-NEW DIAG STRUCTURE
-
- * Revision 1.1  1995/04/06  10:42:55  currie
- * Initial revision
- *
-***********************************************************************/
-
-
 #include <shared/xalloc.h>
 
 #include "config.h"

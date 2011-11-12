@@ -7,41 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: pwe $
-$Date: 1998/03/11 11:03:21 $
-$Revision: 1.3 $
-$Log: const.c,v $
- * Revision 1.3  1998/03/11  11:03:21  pwe
- * DWARF optimisation info
- *
- * Revision 1.2  1998/01/29  16:59:07  pwe
- * hold2
- *
- * Revision 1.1.1.1  1998/01/17  15:55:46  release
- * First version to be checked into rolling release.
- *
- * Revision 1.5  1998/01/09  09:28:40  pwe
- * prep restructure
- *
- * Revision 1.4  1997/10/10  18:15:21  pwe
- * prep ANDF-DE revision
- *
- * Revision 1.3  1996/11/04  15:15:13  currie
- * no err-jumps in const extraction
- *
-Revision 1.2  1995/08/15 08:25:29  currie
-Shift left + trap_tag
-
- * Revision 1.1  1995/04/06  10:44:05  currie
- * Initial revision
- *
-***********************************************************************/
-
-
-
-
 /************************************************************************
  *                         const.c
  *  This file defines the routines which implement the TDF-to-TDF

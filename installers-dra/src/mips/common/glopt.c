@@ -7,39 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-
-
-
-
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/01/17 15:56:05 $
-$Revision: 1.1.1.1 $
-$Log: glopt.c,v $
- * Revision 1.1.1.1  1998/01/17  15:56:05  release
- * First version to be checked into rolling release.
- *
- * Revision 1.4  1995/09/12  10:59:22  currie
- * gcc pedanttry
- *
- * Revision 1.3  1995/08/16  16:06:39  currie
- * Shortened some .h names
- *
- * Revision 1.2  1995/08/09  10:53:37  currie
- * apply_general bug
- *
- * Revision 1.1  1995/04/13  09:08:06  currie
- * Initial revision
- *
-***********************************************************************/
-
-
-
-
-
 #include "config.h"
+
 #include "tags.h"
 #include "externs.h"
 #include "expmacs.h"

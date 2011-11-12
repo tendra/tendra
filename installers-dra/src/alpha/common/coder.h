@@ -7,28 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/*
-$Log: coder.h,v $
- * Revision 1.1.1.1  1998/01/17  15:55:59  release
- * First version to be checked into rolling release.
- *
- * Revision 1.3  1995/08/21  08:44:07  john
- * Changed include files
- *
- * Revision 1.2  1995/07/27  09:32:24  john
- * New structure for postlude handling
- *
- * Revision 1.1.1.1  1995/03/23  10:39:29  john
- * Entered into CVS
- *
- * Revision 1.4  1995/03/23  10:01:57  john
- * Added support for scheduler
- *
- * Revision 1.3  1995/01/26  13:38:00  john
- * Changed declaration of fscopefile
- *
-*/
-
 #ifndef CODER_H
 #define CODER_H
 

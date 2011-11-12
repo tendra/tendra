@@ -7,34 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-
-
-
-
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/02/04 10:43:42 $
-$Revision: 1.2 $
-$Log: makesymtab.c,v $
- * Revision 1.2  1998/02/04  10:43:42  release
- * Changes during testing.
- *
- * Revision 1.1.1.1  1998/01/17  15:56:06  release
- * First version to be checked into rolling release.
- *
- * Revision 1.3  1995/11/23  13:17:22  currie
- * Cache real consts + get text file name right in diags
- *
- * Revision 1.2  1995/09/12  10:59:32  currie
- * gcc pedanttry
- *
- * Revision 1.1  1995/04/13  09:08:06  currie
- * Initial revision
- *
-***********************************************************************/
-
 #include <shared/xalloc.h>
 
 #include "config.h"

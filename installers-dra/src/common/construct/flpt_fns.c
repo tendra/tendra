@@ -7,22 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/01/17 15:55:47 $
-$Revision: 1.1.1.1 $
-$Log: flpt_fns.c,v $
- * Revision 1.1.1.1  1998/01/17  15:55:47  release
- * First version to be checked into rolling release.
- *
- * Revision 1.1  1997/11/04  18:23:43  pwe
- * split install_fns with new flpt_fns
- *
-***********************************************************************/
-
-
-
 /* This file consists of the floating point and complex operations
    extracted from install_fns.c, to reduce compilation unit sizes */
 

@@ -7,32 +7,10 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/01/17 15:55:47 $
-$Revision: 1.1.1.1 $
-$Log: global_opt.c,v $
- * Revision 1.1.1.1  1998/01/17  15:55:47  release
- * First version to be checked into rolling release.
- *
- * Revision 1.4  1995/09/27  12:39:23  currie
- * Peters PIC code
- *
- * Revision 1.3  1995/09/19  11:51:45  currie
- * Changed name of init fn +gcc static bug
- *
- * Revision 1.2  1995/06/09  08:37:40  currie
- * loose name tag with diags
- *
- * Revision 1.1  1995/04/06  10:44:05  currie
- * Initial revision
- *
-***********************************************************************/
-
 #include <stddef.h>
 
 #include "config.h"
+
 #include "installglob.h"
 #include "exp.h"
 #include "expmacs.h"

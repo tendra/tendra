@@ -7,8 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
 #include "config.h"
+
 #include "c_types.h"
 #include "exp_ops.h"
 #include "error.h"

@@ -7,72 +7,12 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/*
-			    VERSION INFORMATION
-			    ===================
-
---------------------------------------------------------------------------
-$Header: /u/g/release/CVSROOT/Source/src/installers/sparc/common/codehere.c,v 1.2 1998/03/11 11:03:52 pwe Exp $
---------------------------------------------------------------------------
-$Log: codehere.c,v $
- * Revision 1.2  1998/03/11  11:03:52  pwe
- * DWARF optimisation info
- *
- * Revision 1.1.1.1  1998/01/17  15:55:53  release
- * First version to be checked into rolling release.
- *
- * Revision 1.6  1997/08/23  13:53:36  pwe
- * initial ANDF-DE
- *
- * Revision 1.5  1997/04/17  11:59:31  pwe
- * dwarf2 support
- *
- * Revision 1.4  1995/09/29  09:42:04  john
- * Fix to apply
- *
- * Revision 1.3  1995/07/18  09:38:23  john
- * Implemented return_to_label
- *
- * Revision 1.2  1995/05/26  12:56:29  john
- * Reformatting
- *
- * Revision 1.1.1.1  1995/03/13  10:18:28  john
- * Entered into CVS
- *
- * Revision 1.3  1994/07/07  16:11:33  djch
- * Jul94 tape
- *
- * Revision 1.3  1994/07/07  16:11:33  djch
- * Jul94 tape
- *
- * Revision 1.2  1994/05/25  14:20:10  djch
- * added assert for extra sanity
- *
- * Revision 1.1  1994/05/03  14:49:29  djch
- * Initial revision
- *
- * Revision 1.4  93/08/27  11:22:06  11:22:06  ra (Robert Andrews)
- * Got rid of sp argument to is_reg_operand, a couple of lint-like
- * changes.
- * 
- * Revision 1.3  93/08/13  14:35:08  14:35:08  ra (Robert Andrews)
- * Reformatted.
- * 
- * Revision 1.2  93/06/29  14:22:26  14:22:26  ra (Robert Andrews)
- * Made an integer cast explicit.
- * 
- * Revision 1.1  93/06/24  14:57:59  14:57:59  ra (Robert Andrews)
- * Initial revision
- * 
---------------------------------------------------------------------------
-*/
-
-
 #include <assert.h>
 
 #define SPARCTRANS_CODE
+
 #include "config.h"
+
 #include "addrtypes.h"
 #include "proctypes.h"
 #include "labels.h"

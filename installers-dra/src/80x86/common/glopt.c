@@ -7,34 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/* 80x86/glopt.c */
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/01/17 15:55:51 $
-$Revision: 1.1.1.1 $
-$Log: glopt.c,v $
- * Revision 1.1.1.1  1998/01/17  15:55:51  release
- * First version to be checked into rolling release.
- *
- * Revision 1.3  1996/01/17  11:24:28  pwe
- * resurrect performance
- *
- * Revision 1.2  1995/01/30  12:56:13  pwe
- * Ownership -> PWE, tidy banners
- *
- * Revision 1.1  1994/10/27  14:15:22  jmf
- * Initial revision
- *
- * Revision 1.1  1994/07/12  14:32:29  jmf
- * Initial revision
- *
-**********************************************************************/
-
-
-
 #include "config.h"
+
 #include "tags.h"
 #include "externs.h"
 #include "expmacs.h"

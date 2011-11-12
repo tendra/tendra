@@ -7,38 +7,11 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/* 	alphadiags.c,v 1.3 1995/06/28 10:19:06 john Exp	 */
-
-#ifndef lint
-static char vcid[] = "alphadiags.c,v 1.3 1995/06/28 10:19:06 john Exp";
-#endif /* lint */
-
-
 /*
   alphadiags.c
   This file contains functions to handle code diagnostics for
   alpha/OSF1. (largely based on the mips installer version
   'mipsdiags.c').
-*/
-
-/*
-alphadiags.c,v
- * Revision 1.3  1995/06/28  10:19:06  john
- * Reformatting
- *
- * Revision 1.2  1995/05/23  10:52:24  john
- * Fix to non 64 bit machines
- *
- * Revision 1.1.1.1  1995/03/23  10:39:01  john
- * Entered into CVS
- *
- * Revision 1.7  1995/01/31  14:24:24  john
- * Various portability changes
- *
- * Revision 1.6  1995/01/26  13:36:38  john
- * Minor portability improvements
- *
 */
 
 #include <stdlib.h>

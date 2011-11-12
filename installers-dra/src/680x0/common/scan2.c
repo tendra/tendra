@@ -8,61 +8,6 @@
  */
 
 /*
-			    VERSION INFORMATION
-			    ===================
---------------------------------------------------------------------------
-$Header: /u/g/release/CVSROOT/Source/src/installers/680x0/common/scan2.c,v 1.1.1.1 1998/01/17 15:55:50 release Exp $
---------------------------------------------------------------------------
-$Log: scan2.c,v $
- * Revision 1.1.1.1  1998/01/17  15:55:50  release
- * First version to be checked into rolling release.
- *
-Revision 1.1.1.1  1997/10/13 12:42:57  ma
-First version.
-
-Revision 1.4  1997/09/25 06:45:31  ma
-All general_proc tests passed
-
-Revision 1.3  1997/06/24 10:56:09  ma
-Added changes for "Plumhall Patch"
-
-Revision 1.2  1997/04/20 11:30:38  ma
-Introduced gcproc.c & general_proc.[ch].
-Added cases for apply_general_proc next to apply_proc in all files.
-
-Revision 1.1.1.1  1997/03/14 07:50:17  ma
-Imported from DRA
-
- * Revision 1.1.1.1  1996/09/20  10:56:58  john
- *
- * Revision 1.3  1996/07/30  16:32:16  john
- * Added offset conversion
- *
- * Revision 1.2  1996/07/05  14:26:12  john
- * Changes for spec 3.1
- *
- * Revision 1.1.1.1  1996/03/26  15:45:17  john
- *
- * Revision 1.5  94/11/16  10:37:51  10:37:51  ra (Robert Andrews)
- * Added support for integer absolute.
- *
- * Revision 1.4  94/06/29  14:25:38  14:25:38  ra (Robert Andrews)
- * Added div0, rem0, max and min for TDF 3.0.
- *
- * Revision 1.3  94/02/21  16:03:43  16:03:43  ra (Robert Andrews)
- * The long argument to ap_argsc is better as an int.
- *
- * Revision 1.2  93/04/19  13:36:21  13:36:21  ra (Robert Andrews)
- * offset_pad_exp has disappeared in March93 spec.
- *
- * Revision 1.1  93/02/22  17:16:39  17:16:39  ra (Robert Andrews)
- * Initial revision
- *
---------------------------------------------------------------------------
-*/
-
-
-/*
     SCAN2
 
     Scans through the program and puts all the arguments of operations
@@ -70,8 +15,8 @@ Imported from DRA
 
 */
 
-
 #include "config.h"
+
 #include "exp.h"
 #include "expmacs.h"
 #include "exptypes.h"

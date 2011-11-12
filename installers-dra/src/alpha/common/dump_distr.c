@@ -7,11 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-#ifndef lint
-static char vcid[] = "$Id: dump_distr.c,v 1.1.1.1 1998/01/17 15:55:59 release Exp $";
-#endif /* lint */
-
 #include "config.h"
 
 #include "exptypes.h"

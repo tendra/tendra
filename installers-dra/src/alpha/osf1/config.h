@@ -7,46 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/*
-$Log: config.h,v $
- * Revision 1.2  1998/03/16  11:25:30  release
- * Modifications prior to version 4.1.2.
- *
- * Revision 1.1.1.1  1998/01/17  15:56:01  release
- * First version to be checked into rolling release.
- *
- * Revision 1.7  1995/09/20  10:46:48  john
- * Changes isAlpha macro
- *
- * Revision 1.6  1995/09/13  11:03:44  john
- * Added HAS_MAGIC flag
- *
- * Revision 1.5  1995/07/27  09:34:50  john
- * Set diagnose_registers macro
- *
- * Revision 1.4  1995/06/28  10:23:17  john
- * New option: has_rotate
- *
- * Revision 1.3  1995/06/13  13:59:54  john
- * Changed default value of DO_SCHEDULE
- *
- * Revision 1.2  1995/05/23  10:54:18  john
- * New configuration flag : has_bitfield_ops
- *
- * Revision 1.1.1.1  1995/03/23  10:39:04  john
- * Entered into CVS
- *
- * Revision 1.18  1995/03/23  10:02:34  john
- * Added DO_SCHEDULE macro
- *
- * Revision 1.17  1995/01/31  14:24:50  john
- * Moved some definitions into TenDRA.h
- *
- * Revision 1.16  1995/01/10  09:39:16  john
- * Added definition of value_of_null
- *
-*/
 #ifndef config_key
 #define config_key 1
 

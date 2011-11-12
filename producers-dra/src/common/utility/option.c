@@ -7,10 +7,10 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-#include "config.h"
 #include <limits.h>
 #include <stdarg.h>
+
+#include "config.h"
 #include "c_types.h"
 #include "err_ops.h"
 #include "exp_ops.h"

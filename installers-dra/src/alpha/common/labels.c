@@ -7,11 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-#ifndef lint
-static char vcid[] = "$Id: labels.c,v 1.1.1.1 1998/01/17 15:56:00 release Exp $";
-#endif /* lint */
-
 /*   
   labels.c
   create and set program labels;
@@ -19,25 +14,10 @@ static char vcid[] = "$Id: labels.c,v 1.1.1.1 1998/01/17 15:56:00 release Exp $"
   the registers - see regexps.c
 */
 
-/*
-$Log: labels.c,v $
- * Revision 1.1.1.1  1998/01/17  15:56:00  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1995/04/07  11:04:31  john
- * Changes to assembler output.
- *
- * Revision 1.1.1.1  1995/03/23  10:39:12  john
- * Entered into CVS
- *
- * Revision 1.4  1995/03/23  10:08:36  john
- * Added support for scheduler
- *
-*/
-
 #include <shared/xalloc.h>
 
 #include "config.h"
+
 #include "regexps.h"
 #include "ibinasm.h"
 #include "out_ba.h"

@@ -7,24 +7,11 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/*
-$Log: shape_range.h,v $
- * Revision 1.1.1.1  1998/01/17  15:56:01  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1995/05/23  13:26:27  john
- * Changed 64 bit test
- *
- * Revision 1.1.1.1  1995/03/23  10:39:21  john
- * Entered into CVS
- *
- * Revision 1.3  1995/01/31  14:25:18  john
- * Minor changes
- *
-*/
 #ifndef SHAPE_RANGE_H
 #define SHAPE_RANGE_H
+
 #include "cross.h"
+
 #if FS_64_BIT
 #define scmm_max 127L
 #define scmm_min -128L
@@ -67,4 +54,5 @@ $Log: shape_range.h,v $
 #define u64mm_max {0xffffffff,0xffffffff}
 #define u64mm_min {0,0}
 #endif /* ifdef alpha */
+
 #endif

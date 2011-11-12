@@ -7,26 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/02/04 10:43:44 $
-$Revision: 1.2 $
-$Log: new_symbol.h,v $
- * Revision 1.2  1998/02/04  10:43:44  release
- * Changes during testing.
- *
- * Revision 1.1.1.1  1998/01/17  15:56:06  release
- * First version to be checked into rolling release.
- *
- * Revision 1.1  1995/08/16  15:45:41  currie
- * Initial revision
- *
- * Revision 1.1  1995/04/13  09:08:06  currie
- * Initial revision
- *
-***********************************************************************/
-
 extern void init_table_space(long, long);
 /* parameters - number of files to be translated and total number of procedures. Sets up tables for symbol table etc storage	*/
 

@@ -7,9 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
 /*
-*   version.h contains the current version number of hppa/trans
+ *   version.h contains the current version number of hppa/trans
  */
 
 #ifndef VERSION_H

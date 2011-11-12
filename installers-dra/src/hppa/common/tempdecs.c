@@ -7,57 +7,13 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/*
-$Log: tempdecs.c,v $
- * Revision 1.1.1.1  1998/01/17  15:56:03  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1995/12/18  13:12:40  wfs
- * Put hppatrans uder cvs control. Major Changes made since last release
- * include:
- * (i) PIC code generation.
- * (ii) Profiling.
- * (iii) Dynamic Initialization.
- * (iv) Debugging of Exception Handling and Diagnostics.
- *
- * Revision 5.2  1995/10/20  14:14:22  wfs
- * #included "muldvrem.h" for gcc compilation.
- *
- * Revision 5.1  1995/09/07  15:44:58  wfs
- * Fixed bug in "APPLYLIKE".
- *
- * Revision 5.0  1995/08/25  13:42:58  wfs
- * Preperation for August 25 Glue release
- *
- * Revision 3.4  1995/08/25  10:34:20  wfs
- * Refinement of "APPLYLIKE" required for 3.1 and 4.0 compatability
- *
- * Revision 3.4  1995/08/25  10:34:20  wfs
- * Refinement of "APPLYLIKE" required for 3.1 and 4.0 compatability
- *
- * Revision 3.1  95/04/10  16:28:30  16:28:30  wfs (William Simmonds)
- * Apr95 tape version.
- * 
- * Revision 3.0  95/03/30  11:19:06  11:19:06  wfs (William Simmonds)
- * Mar95 tape version with CRCR95_178 bug fix.
- * 
- * Revision 2.0  95/03/15  15:28:59  15:28:59  wfs (William Simmonds)
- * spec 3.1 changes implemented, tests outstanding.
- * 
- * Revision 1.1  95/01/11  13:19:10  13:19:10  wfs (William Simmonds)
- * Initial revision
- * 
-*/
-
-
-#define HPPATRANS_CODE
 /* tempdec.c - is the value in the declaration required over proc calls ?
     if it isn't, declaration can be allocated in t-reg, rather than
     s-reg.
 
 */
 
+#define HPPATRANS_CODE
 
 #include "config.h"
 

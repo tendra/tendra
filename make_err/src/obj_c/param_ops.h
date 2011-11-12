@@ -7,11 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-
-
-
-
 /*
     AUTOMATICALLY GENERATED FROM ALGEBRA errors (VERSION 1.0)
     BY calculus (VERSION 1.3)

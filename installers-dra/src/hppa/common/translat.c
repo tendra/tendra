@@ -7,110 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/*
-translat.c,v
- * Revision 1.8  1996/09/06  10:38:21  wfs
- * bug fixes to "offset.pl" and cosmetic changes to the dynamic initialization
- * code.
- *
- * Revision 1.7  1996/09/05  11:05:13  wfs
- * "dynamic_init" boolean variable removed - must always be considered true.
- *
- * Revision 1.6  1996/08/30  09:02:35  wfs
- * Various fixes of bugs arising from avs and pl_tdf tests.
- *
- * Revision 1.5  1996/03/22  13:34:14  wfs
- * Corrections to the dynamic initialization stuff in translat.c + bad
- * needscan.c code deleted.
- *
- * Revision 1.4  1996/01/30  15:36:32  wfs
- * Added the dynamic initialization files "dyn_begin.s" and "dyn_end.s" to
- * the hppatrans repository. The bl_install and bl_update scripts were
- * expanded to deal with these new "initcode" files.
- *
- * Revision 1.3  1995/12/19  16:52:54  wfs
- * Reinstated the "__main" call and a ".CODE" directive when producing gdb
- * diagnostic code.
- *
- * Revision 1.2  1995/12/18  13:12:42  wfs
- * Put hppatrans uder cvs control. Major Changes made since last release
- * include:
- * (i) PIC code generation.
- * (ii) Profiling.
- * (iii) Dynamic Initialization.
- * (iv) Debugging of Exception Handling and Diagnostics.
- *
- * Revision 5.10  1995/10/25  14:37:12  wfs
- * Removed references to nonexistant diag_info of unused static procs.
- *
- * Revision 5.9  1995/10/20  14:15:44  wfs
- * gcc compilation changes.
- *
- * Revision 5.8  1995/10/16  14:43:24  wfs
- * *** empty log message ***
- *
- * Revision 5.7  1995/10/09  12:54:58  wfs
- * Cosmetic changes.
- *
- * Revision 5.6  1995/10/05  09:03:06  wfs
- * Refinements to procedure translation ordering - can now translate
- * according to source file ordering (for XDB) or can translate global
- * procedures first (aids compilation and linking of large programs such
- * as tdfc's "trans_unit.c").
- *
- * Revision 5.5  1995/09/27  13:42:43  wfs
- * Changes to "translate_capsule()". Can now more easily choose the order
- * of procedure translation - necessary for XDB diagnostics. Tidied up.
- *
- * Revision 5.4  1995/09/26  12:52:00  wfs
- * Removal of some temporary code related to XDB diagnostics.
- *
- * Revision 5.3  1995/09/25  10:59:21  wfs
- * Added "#ifdef _SYMTAB_INCLUDED" provisios around any code which refers
- * to "hpux-symtab.h". We cannot legally distribute this header file.
- *
- * Revision 5.2  1995/09/21  14:13:36  wfs
- * Removed a superfluous printf.
- *
- * Revision 5.1  1995/09/15  13:20:41  wfs
- * Minor name changes to avoid conflict with variables in system
- * headers during gcc compilation.
- *
- * Revision 5.0  1995/08/25  13:42:58  wfs
- * Preperation for August 25 Glue release
- *
- * Revision 3.3  1995/08/25  10:37:30  wfs
- * "find_tg" added. Changes to the diagnostics interface. Cosmetic
- * changes. Register allocation is done differently now.
- *
- * Revision 3.3  1995/08/25  10:37:30  wfs
- * "find_tg" added. Changes to the diagnostics interface. Cosmetic
- * changes. Register allocation is done differently now.
- *
- * Revision 3.1  95/04/10  16:28:36  16:28:36  wfs (William Simmonds)
- * Apr95 tape version.
- *
- * Revision 3.0  95/03/30  11:19:09  11:19:09  wfs (William Simmonds)
- * Mar95 tape version with CRCR95_178 bug fix.
- *
- * Revision 2.0  95/03/15  15:29:03  15:29:03  wfs (William Simmonds)
- * spec 3.1 changes implemented, tests outstanding.
- *
- * Revision 1.3  95/02/10  11:38:54  11:38:54  wfs (William Simmonds)
- * Rewrote the inner level initializations previously handled by calls
- * to evaluated().
- *
- * Revision 1.2  95/01/17  17:31:02  17:31:02  wfs (William Simmonds)
- * Changed name of an included header file.
- *
- * Revision 1.1  95/01/11  12:59:09  12:59:09  wfs (William Simmonds)
- * Initial revision
- *
-*/
-
-
-#define HPPATRANS_CODE
 /*
  *  Translation is controlled by translate() in this module.
  *
@@ -194,6 +90,8 @@ translat.c,v
 #include <assert.h>
 
 #include <shared/xalloc.h>
+
+#define HPPATRANS_CODE
 
 #include "config.h"
 

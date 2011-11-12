@@ -7,40 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/01/17 15:55:47 $
-$Revision: 1.1.1.1 $
-$Log: tags.h,v $
- * Revision 1.1.1.1  1998/01/17  15:55:47  release
- * First version to be checked into rolling release.
- *
- * Revision 1.9  1997/10/28  12:04:40  pwe
- * comment only
- *
- * Revision 1.8  1997/10/10  18:15:44  pwe
- * prep ANDF-DE revision
- *
- * Revision 1.7  1995/08/31  14:19:02  currie
- * mjg mods
- *
- * Revision 1.6  1995/08/15  08:25:35  currie
- * Shift left + trap_tag
- *
- * Revision 1.5  1995/08/09  10:33:09  currie
- * otagexp list reorganised
- *
- * Revision 1.4  1995/06/26  13:04:40  currie
- * make_stack_limit, env_size etc
- *
- * Revision 1.2  1995/05/05  08:10:58  currie
- * initial_value + signtures
- *
- * Revision 1.1  1995/04/06  10:44:05  currie
- * Initial revision
- *
-***********************************************************************/
 #ifndef c_diff
 
 #include "config.h"

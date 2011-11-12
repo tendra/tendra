@@ -7,25 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/01/17 15:55:46 $
-$Revision: 1.1.1.1 $
-$Log: case_opt.c,v $
- * Revision 1.1.1.1  1998/01/17  15:55:46  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1996/11/18  14:36:49  currie
- * case_opt fixes
- *
- * Revision 1.1  1995/04/06  10:44:05  currie
- * Initial revision
- *
-***********************************************************************/
 /************************************************************
   OPTIMIZATION of case_tag's
-  Author: mjg
 ************************************************************/
 
 #include <assert.h>

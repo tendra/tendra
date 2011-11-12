@@ -20,22 +20,6 @@
   made is returned.
 */
 
-/*
-$Log: type_to_aux.c,v $
- * Revision 1.2  1998/02/04  10:43:34  release
- * Changes during testing.
- *
- * Revision 1.1.1.1  1998/01/17  15:56:01  release
- * First version to be checked into rolling release.
- *
- * Revision 1.3  1995/06/13  14:02:59  john
- * Fixed error
- *
- * Revision 1.2  1995/05/23  13:30:58  john
- * Reformatting
- *
-*/
-
 #include <shared/xalloc.h>
 
 #include "config.h"

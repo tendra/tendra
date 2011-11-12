@@ -7,46 +7,10 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: pwe $
-$Date: 1998/01/21 10:30:07 $
-$Revision: 1.2 $
-$Log: dw2_lines.c,v $
- * Revision 1.2  1998/01/21  10:30:07  pwe
- * labdiff change
- *
- * Revision 1.1.1.1  1998/01/17  15:55:48  release
- * First version to be checked into rolling release.
- *
- * Revision 1.8  1997/12/08  16:37:07  pwe
- * abbrev key & directory names
- *
- * Revision 1.7  1997/12/04  19:41:40  pwe
- * ANDF-DE V1.9
- *
- * Revision 1.6  1997/11/06  09:22:21  pwe
- * ANDF-DE V1.8
- *
- * Revision 1.5  1997/10/28  10:14:30  pwe
- * local location corrections
- *
- * Revision 1.4  1997/10/23  09:27:48  pwe
- * ANDF-DE v1.7, extra diags
- *
- * Revision 1.3  1997/08/23  13:36:51  pwe
- * initial ANDF-DE
- *
- * Revision 1.2  1997/04/17  11:50:32  pwe
- * Sparc and 80x86 support
- *
- * Revision 1.1  1997/03/20  16:09:24  pwe
- * first version
- *
-**********************************************************************/
+#include <time.h>
 
 #include "config.h"
-#include <time.h>
+
 #include "dg_globs.h"
 #include "dw2_config.h"
 #include "dw2_lines.h"

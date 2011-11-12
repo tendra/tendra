@@ -7,31 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/01/17 15:55:47 $
-$Revision: 1.1.1.1 $
-$Log: flpt.c,v $
- * Revision 1.1.1.1  1998/01/17  15:55:47  release
- * First version to be checked into rolling release.
- *
- * Revision 1.4  1996/01/10  14:58:48  currie
- * BIGEND var params chars & shorts
- *
- * Revision 1.3  1995/09/11  13:58:37  currie
- * gcc pedantry
- *
- * Revision 1.2  1995/08/09  08:59:57  currie
- * round bug
- *
- * Revision 1.1  1995/04/06  10:44:05  currie
- * Initial revision
- *
-***********************************************************************/
-
-
-
 /***********************************************************************
                                 flpt.c
 

@@ -7,65 +7,12 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-
-
-/*
-			    VERSION INFORMATION
-			    ===================
-
---------------------------------------------------------------------------
-$Header: /u/g/release/CVSROOT/Source/src/installers/sparc/common/tempdecs.c,v 1.1.1.1 1998/01/17 15:55:55 release Exp $
---------------------------------------------------------------------------
-$Log: tempdecs.c,v $
- * Revision 1.1.1.1  1998/01/17  15:55:55  release
- * First version to be checked into rolling release.
- *
- * Revision 1.5  1997/02/18  11:48:33  pwe
- * NEWDIAGS for debugging optimised code
- *
- * Revision 1.4  1995/10/27  10:52:20  john
- * Fix to general procs
- *
- * Revision 1.3  1995/09/29  09:23:20  john
- * Fixed APPLYLIKE
- *
- * Revision 1.2  1995/05/26  13:02:10  john
- * Reformatting
- *
- * Revision 1.1.1.1  1995/03/13  10:18:59  john
- * Entered into CVS
- *
- * Revision 1.3  1994/12/01  13:24:05  djch
- * Break id scan on env_offset_tag as well as name_tag
- * Add goto_lv and long_jump to set of transfer operations
- *
- * Revision 1.2  1994/07/07  16:11:33  djch
- * Jul94 tape
- *
- * Revision 1.1  1994/05/03  14:50:00  djch
- * Initial revision
- *
- * Revision 1.4  93/08/27  11:39:39  11:39:39  ra (Robert Andrews)
- * A couple of lint-like changes.  Use of pset etc to set properties.
- * 
- * Revision 1.3  93/08/13  14:48:00  14:48:00  ra (Robert Andrews)
- * Reformatted.
- * 
- * Revision 1.2  93/06/29  14:36:10  14:36:10  ra (Robert Andrews)
- * Have to include muldvrem.h.
- * 
- * Revision 1.1  93/06/24  14:59:33  14:59:33  ra (Robert Andrews)
- * Initial revision
- * 
---------------------------------------------------------------------------
-*/
-
-
 #include <stddef.h>
 
 #define SPARCTRANS_CODE
+
 #include "config.h"
+
 #include "exptypes.h"
 #include "tags.h"
 #include "exp.h"

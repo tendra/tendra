@@ -14,35 +14,9 @@
   symbolic representation, the second is its binasm representation.
 */
 
-/*
-$Log: alpha_ins.h,v $
- * Revision 1.1.1.1  1998/01/17  15:56:01  release
- * First version to be checked into rolling release.
- *
- * Revision 1.1  1995/08/21  08:42:47  john
- * Changed include file
- *
- * Revision 1.3  1995/06/21  14:24:35  john
- * Added declarations for exception-raising operations
- *
- * Revision 1.2  1995/04/07  11:00:34  john
- * Added some special floating point ops
- *
- * Revision 1.1.1.1  1995/03/23  10:39:01  john
- * Entered into CVS
- *
- * Revision 1.6  1995/03/23  09:58:03  john
- * Instruction now include class information (added for scheduling
- * support)
- *
- * Revision 1.5  1995/01/26  13:33:55  john
- * Added some instructions
- *
-*/
-
-
 #ifndef ALPHA_INSTR_DECS
 #define ALPHA_INSTR_DECS
+
 #include "ibinasm.h"
 #include "instypes.h"
 #define PASTE(a,b) a##b

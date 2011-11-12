@@ -7,69 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-#ifndef lint
-static char vcid[] = "$Id: move.c,v 1.2 1998/02/04 10:43:31 release Exp $";
-#endif /* lint */
-
-/*
-$Log: move.c,v $
- * Revision 1.2  1998/02/04  10:43:31  release
- * Changes during testing.
- *
- * Revision 1.1.1.1  1998/01/17  15:56:00  release
- * First version to be checked into rolling release.
- *
- * Revision 1.13  1996/02/15  09:54:57  john
- * Fix to word load/store
- *
- * Revision 1.12  1996/01/23  16:58:16  john
- * Fix to aligments
- *
- * Revision 1.11  1995/10/30  10:17:19  john
- * Fix to unaligned loads
- *
- * Revision 1.10  1995/10/16  12:08:23  john
- * Change to alignment calculation
- *
- * Revision 1.9  1995/08/21  08:45:41  john
- * Changed include files
- *
- * Revision 1.8  1995/07/27  10:09:29  john
- * Moved register allocation
- *
- * Revision 1.7  1995/06/28  10:25:35  john
- * Reformatting
- *
- * Revision 1.6  1995/06/13  14:01:25  john
- * Fixed a pair of bugs with reg <-> memory moves
- *
- * Revision 1.5  1995/05/25  15:33:16  john
- * Cosmetic changes
- *
- * Revision 1.4  1995/05/23  10:57:12  john
- * Reformatting
- *
- * Revision 1.3  1995/05/16  10:54:02  john
- * Cosmetic change
- *
- * Revision 1.2  1995/03/29  14:03:56  john
- * Changes to keep tcheck happy
- *
- * Revision 1.1.1.1  1995/03/23  10:39:13  john
- * Entered into CVS
- *
- * Revision 1.23  1995/03/23  09:55:17  john
- * Changed handling of bitfields
- *
- * Revision 1.22  1995/01/26  13:44:55  john
- * Removed unused variables
- *
- * Revision 1.21  1995/01/12  11:49:19  john
- * Fixed assertion
- *
-*/
-
 /*
   move.c
   This file contains code to move a value from src to dest, 
@@ -79,6 +16,7 @@ $Log: move.c,v $
 */
 
 #include "config.h"
+
 #include "alpha_ins.h"
 #include "inst_fmt.h"
 #include "addresstypes.h"

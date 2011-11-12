@@ -7,34 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/01/17 15:55:47 $
-$Revision: 1.1.1.1 $
-$Log: label_ops.c,v $
- * Revision 1.1.1.1  1998/01/17  15:55:47  release
- * First version to be checked into rolling release.
- *
- * Revision 1.5  1997/08/06  10:58:32  currie
- * Catch overflowed constants, PlumHall requirement
- *
- * Revision 1.4  1997/04/18  10:58:47  currie
- * another pathelogical case
- *
- * Revision 1.3  1996/05/21  12:53:54  currie
- * Pathological gotos
- *
- * Revision 1.2  1995/10/11  17:10:07  currie
- * avs errors
- *
- * Revision 1.1  1995/04/06  10:44:05  currie
- * Initial revision
- *
-***********************************************************************/
-
-
-
 #include <stddef.h>
 
 #include "config.h"

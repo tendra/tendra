@@ -7,19 +7,14 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-#ifndef lint
-static char vcid[] = "$Id: guard.c,v 1.1.1.1 1998/01/17 15:56:00 release Exp $";
-#endif /* lint */
-
 /*
   guard.c
    
   These routines are provided to guard registers from use.
 */
 
-
 #include "config.h"
+
 #include "fail.h"
 #include "procrecs.h"
 #include "addresstypes.h"

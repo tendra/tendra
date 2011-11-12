@@ -7,31 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/01/17 15:55:47 $
-$Revision: 1.1.1.1 $
-$Log: installglob.h,v $
- * Revision 1.1.1.1  1998/01/17  15:55:47  release
- * First version to be checked into rolling release.
- *
- * Revision 1.5  1997/08/23  13:24:27  pwe
- * no invert order, and NEWDIAGS inlining
- *
- * Revision 1.4  1996/10/29  10:10:51  currie
- * 512 bit alignment for hppa
- *
- * Revision 1.3  1995/09/19  16:06:51  currie
- * isAlpha!!
- *
- * Revision 1.2  1995/07/06  09:14:01  currie
- * rem & VERSION
- *
- * Revision 1.1  1995/04/06  10:44:05  currie
- * Initial revision
- *
-***********************************************************************/
 #ifndef installglob_key
 #define installglob_key 1
 

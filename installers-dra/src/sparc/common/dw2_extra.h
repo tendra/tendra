@@ -7,24 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/*
-			    VERSION INFORMATION
-			    ===================
-
---------------------------------------------------------------------------
-$Header: /u/g/release/CVSROOT/Source/src/installers/sparc/common/dw2_extra.h,v 1.1 1998/03/15 16:00:42 pwe Exp $
---------------------------------------------------------------------------
-$Log: dw2_extra.h,v $
- * Revision 1.1  1998/03/15  16:00:42  pwe
- * regtrack dwarf dagnostics added
- *
---------------------------------------------------------------------------
-*/
-
 	/* Sparc specific declarations are listed here.
 	   Declarations visible to common/dwarf2 are in dw2_config.h */
-
 
 #ifndef dw2_extra_key
 #define dw2_extra_key 1

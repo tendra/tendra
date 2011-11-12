@@ -8,37 +8,6 @@
  */
 
 /**********************************************************************
-$Author: pwe $
-$Date: 1998/03/11 11:03:39 $
-$Revision: 1.2 $
-$Log: dw2_codes.h,v $
- * Revision 1.2  1998/03/11  11:03:39  pwe
- * DWARF optimisation info
- *
- * Revision 1.1.1.1  1998/01/17  15:55:48  release
- * First version to be checked into rolling release.
- *
- * Revision 1.6  1997/12/05  10:23:58  pwe
- * name change
- *
- * Revision 1.5  1997/12/04  19:41:18  pwe
- * ANDF-DE V1.9
- *
- * Revision 1.4  1997/10/23  09:27:28  pwe
- * ANDF-DE v1.7, extra diags
- *
- * Revision 1.3  1997/10/10  18:18:26  pwe
- * prep ANDF-DE revision
- *
- * Revision 1.2  1997/04/17  11:50:17  pwe
- * Sparc and 80x86 support
- *
- * Revision 1.1  1997/03/20  16:09:05  pwe
- * first version
- *
-**********************************************************************/
-
-/**********************************************************************
 The identifier names and values in the first part of this file were derived from
 
 DWARF Debugging Information Format, Revision 2.0.0, July 27, 1993

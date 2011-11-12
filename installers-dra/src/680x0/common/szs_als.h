@@ -7,47 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
     
-/*
-	 		    VERSION INFORMATION
-	 		    ===================
-
---------------------------------------------------------------------------
-$Header: /u/g/release/CVSROOT/Source/src/installers/680x0/common/szs_als.h,v 1.1.1.1 1998/01/17 15:55:50 release Exp $
---------------------------------------------------------------------------
-$Log: szs_als.h,v $
- * Revision 1.1.1.1  1998/01/17  15:55:50  release
- * First version to be checked into rolling release.
- *
-Revision 1.2  1997/11/13 08:27:19  ma
-All avs test passed (except add_to_ptr).
-
-Revision 1.1.1.1  1997/10/13 12:42:59  ma
-First version.
-
-Revision 1.3  1997/10/13 08:50:09  ma
-Made all pl_tests for general proc & exception handling pass.
-
-Revision 1.2  1997/09/25 06:45:33  ma
-All general_proc tests passed
-
-Revision 1.1.1.1  1997/03/14 07:50:18  ma
-Imported from DRA
-
- * Revision 1.1.1.1  1996/09/20  10:56:58  john
- *
- * Revision 1.1.1.1  1996/03/26  15:45:17  john
- *
- * Revision 1.2  93/04/19  13:37:07  13:37:07  ra (Robert Andrews)
- * Representation of alignments has changed.  New alignments required
- * by March93 spec.
- * 
- * Revision 1.1  93/02/22  17:16:41  17:16:41  ra (Robert Andrews)
- * Initial revision
- * 
---------------------------------------------------------------------------
-*/
-
-
 #ifndef SZS_ALS_INCLUDED
 #define SZS_ALS_INCLUDED
 

@@ -7,10 +7,10 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
 #include <shared/error.h>
 
 #include "config.h"
+
 #include "types.h"
 #include "ascii.h"
 #include "basic.h"

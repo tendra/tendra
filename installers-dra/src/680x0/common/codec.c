@@ -7,74 +7,10 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/*
-			    VERSION INFORMATION
-			    ===================
---------------------------------------------------------------------------
-$Header: /u/g/release/CVSROOT/Source/src/installers/680x0/common/codec.c,v 1.1.1.1 1998/01/17 15:55:49 release Exp $
---------------------------------------------------------------------------
-$Log: codec.c,v $
- * Revision 1.1.1.1  1998/01/17  15:55:49  release
- * First version to be checked into rolling release.
- *
-Revision 1.3  1997/11/13 08:27:09  ma
-All avs test passed (except add_to_ptr).
-
-Revision 1.2  1997/11/09 14:06:53  ma
-Rounding mode represented with names.
-
-Revision 1.1.1.1  1997/10/13 12:42:47  ma
-First version.
-
-Revision 1.5  1997/10/13 08:48:58  ma
-Made all pl_tests for general proc & exception handling pass.
-
-Revision 1.4  1997/09/25 06:44:49  ma
-All general_proc tests passed
-
-Revision 1.3  1997/06/18 10:09:22  ma
-Checking in before merging with Input Baseline changes.
-
-Revision 1.2  1997/04/20 11:30:17  ma
-Introduced gcproc.c & general_proc.[ch].
-Added cases for apply_general_proc next to apply_proc in all files.
-
-Revision 1.1.1.1  1997/03/14 07:50:10  ma
-Imported from DRA
-
- * Revision 1.1.1.1  1996/09/20  10:56:52  john
- *
- * Revision 1.3  1996/07/30  16:29:34  john
- * Fixed bug, discarding side-effecting operations
- *
- * Revision 1.2  1996/07/05  14:16:20  john
- * Changes for spec 3.1
- *
- * Revision 1.1.1.1  1996/03/26  15:45:08  john
- *
- * Revision 1.5  94/11/16  10:36:02  10:36:02  ra (Robert Andrews)
- * Added integer absolute construct.
- * -
- *
- * Revision 1.4  94/06/29  14:18:00  14:18:00  ra (Robert Andrews)
- * Added div0, rem0, max and min for TDF 3.0.
- *
- * Revision 1.3  93/11/19  16:14:42  16:14:42  ra (Robert Andrews)
- * Corrected order of arguments in offset_subtract.
- *
- * Revision 1.2  93/03/03  14:46:05  14:46:05  ra (Robert Andrews)
- * Added error handling routines.
- *
- * Revision 1.1  93/02/22  17:15:17  17:15:17  ra (Robert Andrews)
- * Initial revision
- *
---------------------------------------------------------------------------
-*/
-
-
 #include <shared/error.h>
 
 #include "config.h"
+
 #include "exptypes.h"
 #include "exp.h"
 #include "expmacs.h"
@@ -1161,3 +1097,4 @@ TDF libraries.  If this was right sh ( e ) would be slongsh.
 		return;
 	}
 }
+

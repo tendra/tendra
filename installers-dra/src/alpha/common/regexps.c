@@ -7,49 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-#ifndef lint
-static char vcid[] = "$Id$";
-#endif /* lint */
-
-/*
-   regexps.c
-*/
-
-/*
-$Log: regexps.c,v $
- * Revision 1.1.1.1  1998/01/17  15:56:01  release
- * First version to be checked into rolling release.
- *
- * Revision 1.7  1996/01/17  09:31:37  john
- * Fix to support current_env dependancy
- *
- * Revision 1.6  1995/12/04  09:13:11  john
- * Fix to dependancy check
- *
- * Revision 1.5  1995/10/16  12:09:21  john
- * Change to alignment calculation
- *
- * Revision 1.4  1995/08/21  08:46:20  john
- * Changed include files
- *
- * Revision 1.3  1995/05/16  10:55:17  john
- * Cosmetic change
- *
- * Revision 1.2  1995/03/29  14:05:14  john
- * Changes to keep tcheck happy
- *
- * Revision 1.1.1.1  1995/03/23  10:39:20  john
- * Entered into CVS
- *
- * Revision 1.7  1995/03/13  11:44:19  john
- * Removed bitad case
- *
- * Revision 1.6  1995/01/26  13:48:31  john
- * Removed unused variable
- *
-*/
-
 #include "config.h"
 
 #include "exptypes.h"

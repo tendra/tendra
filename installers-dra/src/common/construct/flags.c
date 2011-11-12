@@ -7,30 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/01/17 15:55:47 $
-$Revision: 1.1.1.1 $
-$Log: flags.c,v $
- * Revision 1.1.1.1  1998/01/17  15:55:47  release
- * First version to be checked into rolling release.
- *
- * Revision 1.4  1997/10/23  09:24:18  pwe
- * extra diags
- *
- * Revision 1.3  1997/10/10  18:15:25  pwe
- * prep ANDF-DE revision
- *
- * Revision 1.2  1997/02/18  12:56:24  currie
- * NEW DIAG STRUCTURE
- *
- * Revision 1.1  1995/04/06  10:44:05  currie
- * Initial revision
- *
-***********************************************************************/
-
 #include "config.h"
+
 #include "flags.h"
 
 int do_inlining = 1;		/* apply inlining optimisations */

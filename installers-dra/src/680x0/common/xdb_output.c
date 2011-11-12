@@ -7,43 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/*
-			    VERSION INFORMATION
-			    ===================
---------------------------------------------------------------------------
-$Header: /u/g/release/CVSROOT/Source/src/installers/680x0/common/xdb_output.c,v 1.1.1.1 1998/01/17 15:55:50 release Exp $
---------------------------------------------------------------------------
-$Log: xdb_output.c,v $
- * Revision 1.1.1.1  1998/01/17  15:55:50  release
- * First version to be checked into rolling release.
- *
-Revision 1.1.1.1  1997/10/13 12:43:02  ma
-First version.
-
-Revision 1.1.1.1  1997/03/14 07:50:23  ma
-Imported from DRA
-
- * Revision 1.1.1.1  1996/09/20  10:57:01  john
- *
- * Revision 1.2  1996/07/05  14:35:40  john
- * Fix to diagnostics
- *
- * Revision 1.1  95/03/08  16:46:25  ra
- * Added missing files.
- *
- * Revision 1.3  94/02/21  16:09:13  16:09:13  ra (Robert Andrews)
- * Put in a number of explicit casts.
- *
- * Revision 1.2  93/04/19  13:39:31  13:39:31  ra (Robert Andrews)
- * crt_fname and crt_line_num are no longer static.
- *
- * Revision 1.1  93/02/22  17:17:25  17:17:25  ra (Robert Andrews)
- * Initial revision
- *
---------------------------------------------------------------------------
-*/
-
-
 #include <shared/error.h>
 
 #include "config.h"

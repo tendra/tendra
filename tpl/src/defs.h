@@ -7,31 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/01/17 15:57:24 $
-$Revision: 1.1.1.1 $
-$Log: defs.h,v $
- * Revision 1.1.1.1  1998/01/17  15:57:24  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1995/06/08  09:13:48  currie
- * Added sigs to tokdecs/defs
- *
- * Revision 1.1  1995/04/07  14:29:07  currie
- * Initial revision
- *
- * Revision 1.1  1995/04/07  14:29:07  currie
- * Initial revision
- *
- * Revision 1.3  1994/12/05  10:12:59  currie
- * Extended size of input buffer
- *
- * Revision 1.2  1994/07/21  10:36:07  currie
- * Added banner
- *
-***********************************************************************/
 #ifndef DEFS_INCLUDED
 #define DEFS_INCLUDED
 

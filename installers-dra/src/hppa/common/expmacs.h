@@ -7,59 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/*
-$Log: expmacs.h,v $
- * Revision 1.1.1.1  1998/01/17  15:56:02  release
- * First version to be checked into rolling release.
- *
- * Revision 1.3  1997/08/04  14:44:53  wfs
- * "PROPERTIES OF VAL_TAG CONSTRUCT" insert as requested by PWE
- *
- * Revision 1.2  1995/12/18  13:11:12  wfs
- * Put hppatrans uder cvs control. Major Changes made since last release
- * include:
- * (i) PIC code generation.
- * (ii) Profiling.
- * (iii) Dynamic Initialization.
- * (iv) Debugging of Exception Handling and Diagnostics.
- *
- * Revision 5.2  1995/09/26  13:07:27  wfs
- * *** empty log message ***
- *
- * Revision 5.1  95/09/23  18:36:35  18:36:35  wfs
- * Added the "outpar" macros.
- * 
- * Revision 5.0  1995/08/25  13:42:58  wfs
- * Preperation for August 25 Glue release
- *
- * Revision 3.4  1995/08/25  11:12:16  wfs
- * *** empty log message ***
- *
- * Revision 3.4  1995/08/25  11:12:16  wfs
- * *** empty log message ***
- *
- * Revision 3.1  95/04/10  16:26:09  16:26:09  wfs (William Simmonds)
- * Apr95 tape version.
- * 
- * Revision 3.0  95/03/30  11:16:54  11:16:54  wfs (William Simmonds)
- * Mar95 tape version with CRCR95_178 bug fix.
- * 
- * Revision 2.0  95/03/15  15:25:44  15:25:44  wfs (William Simmonds)
- * spec 3.1 changes implemented, tests outstanding.
- * 
- * Revision 1.3  95/01/23  18:33:50  18:33:50  wfs (William Simmonds)
- * corrected bug in setjmp_dest macro
- * 
- * Revision 1.2  95/01/19  15:33:43  15:33:43  wfs (William Simmonds)
- * Changed definition of isov macro.
- * 
- * Revision 1.1  95/01/11  13:37:40  13:37:40  wfs (William Simmonds)
- * Initial revision
- * 
-*/
-
-
 #ifndef EXPMACS_INCLUDED
 #define EXPMACS_INCLUDED
 

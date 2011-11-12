@@ -7,74 +7,10 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-
-
-
-
-
-/**********************************************************************
-$Author: pwe $
-$Date: 1998/03/15 16:00:35 $
-$Revision: 1.5 $
-$Log: dw2_info.c,v $
- * Revision 1.5  1998/03/15  16:00:35  pwe
- * regtrack dwarf dagnostics added
- *
- * Revision 1.4  1998/03/11  11:03:43  pwe
- * DWARF optimisation info
- *
- * Revision 1.3  1998/02/18  11:22:20  pwe
- * test corrections
- *
- * Revision 1.2  1998/01/21  10:30:06  pwe
- * labdiff change
- *
- * Revision 1.1.1.1  1998/01/17  15:55:48  release
- * First version to be checked into rolling release.
- *
- * Revision 1.13  1998/01/09  09:31:32  pwe
- * prep restructure
- *
- * Revision 1.12  1997/12/04  19:41:31  pwe
- * ANDF-DE V1.9
- *
- * Revision 1.11  1997/11/06  09:22:14  pwe
- * ANDF-DE V1.8
- *
- * Revision 1.10  1997/10/28  10:14:22  pwe
- * local location corrections
- *
- * Revision 1.9  1997/10/23  09:27:40  pwe
- * ANDF-DE v1.7, extra diags
- *
- * Revision 1.8  1997/10/10  18:18:38  pwe
- * prep ANDF-DE revision
- *
- * Revision 1.7  1997/08/23  13:36:45  pwe
- * initial ANDF-DE
- *
- * Revision 1.6  1997/06/25  13:05:39  pwe
- * constant global floats as well as local
- *
- * Revision 1.5  1997/06/25  12:16:16  pwe
- * constant floats supported, 4-byte only
- *
- * Revision 1.4  1997/04/17  11:50:25  pwe
- * Sparc and 80x86 support
- *
- * Revision 1.3  1997/04/04  15:17:13  pwe
- * another (long)
- *
- * Revision 1.2  1997/04/01  17:19:40  pwe
- * diagnose pl_tests and locate -> platform specific
- *
- * Revision 1.1  1997/03/20  16:09:18  pwe
- * first version
- *
-**********************************************************************/
+#include <shared/xalloc.h>
 
 #include "config.h"
+
 #include "dg_aux.h"
 #include "dw2_config.h"
 #include "dw2_entries.h"
@@ -92,7 +28,6 @@ $Log: dw2_info.c,v $
 #include "flpt.h"
 #include "flpttypes.h"
 #include "externs.h"
-#include <shared/xalloc.h>
 #include "dg_globs.h"
 #include "f64.h"
 #include "dw2_locdata.h"

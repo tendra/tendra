@@ -7,33 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/01/17 15:56:05 $
-$Revision: 1.1.1.1 $
-$Log: frames.c,v $
- * Revision 1.1.1.1  1998/01/17  15:56:05  release
- * First version to be checked into rolling release.
- *
- * Revision 1.6  1995/09/26  09:05:02  currie
- * Has_no_vcallers condition wrong
- *
- * Revision 1.4  1995/09/12  10:59:21  currie
- * gcc pedanttry
- *
- * Revision 1.3  1995/06/28  12:15:22  currie
- * New make_stack_limit etc
- *
- * Revision 1.2  1995/05/05  08:12:52  currie
- * initial_value + signtures
- *
- * Revision 1.1  1995/04/13  09:08:06  currie
- * Initial revision
- *
-***********************************************************************/
-
 #include "config.h"
+
 #include "procrectypes.h"
 #include "expmacs.h"
 #include "tags.h"

@@ -7,12 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-    
-    
-    
-    
-    
-
 #ifndef ENCODING_INCLUDED
 #define ENCODING_INCLUDED
 

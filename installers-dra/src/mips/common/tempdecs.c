@@ -7,36 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-
-
-
-
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/01/17 15:56:07 $
-$Revision: 1.1.1.1 $
-$Log: tempdecs.c,v $
- * Revision 1.1.1.1  1998/01/17  15:56:07  release
- * First version to be checked into rolling release.
- *
- * Revision 1.3  1995/10/02  10:30:34  currie
- * env_offset + -g (PIC)
- *
- * Revision 1.2  1995/07/07  09:52:40  currie
- * apply_general in tempdecs
- *
- * Revision 1.1  1995/04/13  09:08:06  currie
- * Initial revision
- *
-***********************************************************************/
-/*  tempdec.c - is the value in the declaration required over  proc calls ?
-	if it isn't, declaration can be allocated in t-reg, rather than
-	s-reg.
-
-*/
-
 #include "config.h"
 
 #include "exptypes.h"

@@ -7,62 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/* 80x86/operand.c */
-
-/**********************************************************************
-$Author: pwe $
-$Date: 1998/02/18 11:22:05 $
-$Revision: 1.2 $
-$Log: operand.c,v $
- * Revision 1.2  1998/02/18  11:22:05  pwe
- * test corrections
- *
- * Revision 1.1.1.1  1998/01/17  15:55:52  release
- * First version to be checked into rolling release.
- *
- * Revision 1.12  1996/04/19  16:14:05  pwe
- * simplified use of global id = id, correcting linux call problem
- *
- * Revision 1.11  1995/08/30  16:06:50  pwe
- * prepare exception trapping
- *
- * Revision 1.10  1995/08/23  09:42:58  pwe
- * track fpu control word for trap etc
- *
- * Revision 1.9  1995/08/04  08:29:41  pwe
- * 4.0 general procs implemented
- *
- * Revision 1.8  1995/04/05  12:35:18  pwe
- * operator precedence in eq_where_exp
- *
- * Revision 1.7  1995/04/03  08:30:24  pwe
- * invalidate regs if overlap, eg if bitfield on byte boundaries
- *
- * Revision 1.6  1995/03/24  09:21:39  pwe
- * global proc renaming avoided for SCO
- *
- * Revision 1.5  1995/03/03  10:12:36  pwe
- * makeval is legal but arbitrary operand (for C)
- *
- * Revision 1.4  1995/02/24  16:11:12  pwe
- * dynamic offsets, including mixed bit/byte representations
- *
- * Revision 1.3  1995/02/21  11:47:59  pwe
- * Corrected move(offset) for movecont
- *
- * Revision 1.2  1995/01/30  12:56:36  pwe
- * Ownership -> PWE, tidy banners
- *
- * Revision 1.1  1994/10/27  14:15:22  jmf
- * Initial revision
- *
- * Revision 1.1  1994/07/12  14:38:12  jmf
- * Initial revision
- *
-**********************************************************************/
-
-
 /*********************************************************************
                               operand.c
 
@@ -72,7 +16,6 @@ $Log: operand.c,v $
 
 
 *********************************************************************/
-
 
 #include "config.h"
 

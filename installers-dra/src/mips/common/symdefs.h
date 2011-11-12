@@ -7,19 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/01/17 15:56:07 $
-$Revision: 1.1.1.1 $
-$Log: symdefs.h,v $
- * Revision 1.1.1.1  1998/01/17  15:56:07  release
- * First version to be checked into rolling release.
- *
- * Revision 1.1  1995/04/13  09:08:06  currie
- * Initial revision
- *
-***********************************************************************/
 sc[0]="Nil";
 sc[1]="Text";
 sc[2]="Data";

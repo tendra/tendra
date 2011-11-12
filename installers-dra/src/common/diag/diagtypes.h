@@ -7,28 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/01/17 15:55:46 $
-$Revision: 1.1.1.1 $
-$Log: diagtypes.h,v $
- * Revision 1.1.1.1  1998/01/17  15:55:46  release
- * First version to be checked into rolling release.
- *
- * Revision 1.4  1998/01/11  18:45:10  pwe
- * consistent new/old diags
- *
- * Revision 1.3  1997/12/04  19:36:45  pwe
- * ANDF-DE V1.9
- *
- * Revision 1.2  1997/08/23  13:27:17  pwe
- * initial ANDF-DE
- *
- * Revision 1.1  1995/04/06  10:42:55  currie
- * Initial revision
- *
-***********************************************************************/
 #ifndef diagtypes_key
 #define diagtypes_key 1
 

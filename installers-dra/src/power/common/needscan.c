@@ -8,30 +8,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/02/04 15:49:01 $
-$Revision: 1.2 $
-$Log: needscan.c,v $
- * Revision 1.2  1998/02/04  15:49:01  release
- * Added OSF copyright message.
- *
- * Revision 1.1.1.1  1998/01/17  15:55:57  release
- * First version to be checked into rolling release.
- *
- * Revision 1.4  1996/10/14  17:31:56  pwe
- * include called callees in env_size
- *
- * Revision 1.3  1996/10/14  15:53:31  pwe
- * preserve regresult during postlude
- *
- * Revision 1.2  1996/10/04  16:03:03  pwe
- * add banners and mod for PWE ownership
- *
-**********************************************************************/
-
-
 /******************************************************************
 
 		needs_scan.c

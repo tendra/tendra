@@ -7,68 +7,15 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/*
-$Log: regexps.c,v $
- * Revision 1.1.1.1  1998/01/17  15:56:03  release
- * First version to be checked into rolling release.
- *
- * Revision 1.4  1996/11/14  15:22:26  wfs
- *    Fixed a bug in regexps.c which was common to most of the installers and
- * has only just come to light due to PWE's work on powertrans. (There was
- * previously only a patch.) Cosmetic changes to other files.
- *
- * Revision 1.3  1996/01/23  15:26:07  wfs
- * "current_env_tag" in "dependson()".
- *
- * Revision 1.2  1995/12/18  13:12:30  wfs
- * Put hppatrans uder cvs control. Major Changes made since last release
- * include:
- * (i) PIC code generation.
- * (ii) Profiling.
- * (iii) Dynamic Initialization.
- * (iv) Debugging of Exception Handling and Diagnostics.
- *
- * Revision 5.2  1995/10/20  14:11:15  wfs
- * gcc compilation changes.
- *
- * Revision 5.1  1995/09/15  13:13:36  wfs
- * Mike Gerrard's bug fix incorporated.
- *
- * Revision 5.0  1995/08/25  13:42:58  wfs
- * Preperation for August 25 Glue release
- *
- * Revision 3.4  1995/08/25  10:29:56  wfs
- * Register synonyms changed
- *
- * Revision 3.4  1995/08/25  10:29:56  wfs
- * Register synonyms changed
- *
- * Revision 3.1  95/04/10  16:28:04  16:28:04  wfs (William Simmonds)
- * Apr95 tape version.
- *
- * Revision 3.0  95/03/30  11:18:54  11:18:54  wfs (William Simmonds)
- * Mar95 tape version with CRCR95_178 bug fix.
- *
- * Revision 2.0  95/03/15  15:28:43  15:28:43  wfs (William Simmonds)
- * spec 3.1 changes implemented, tests outstanding.
- *
- * Revision 1.1  95/01/11  13:16:12  13:16:12  wfs (William Simmonds)
- * Initial revision
- *
- */
-
-
-#define HPPATRANS_CODE
 /* regexps.c
 
 For trivial 'peephole' optimisations
 
 */
 
-
-
 #include <assert.h>
+
+#define HPPATRANS_CODE
 
 #include "config.h"
 

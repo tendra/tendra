@@ -7,27 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-#ifndef lint
-static char vcid[] = "$Id: cross.c,v 1.1.1.1 1998/01/17 15:55:59 release Exp $";
-#endif /* lint */
-
-/*
-$Log: cross.c,v $
- * Revision 1.1.1.1  1998/01/17  15:55:59  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1995/05/23  10:54:34  john
- * Cosmetic changes
- *
- * Revision 1.1.1.1  1995/03/23  10:39:05  john
- * Entered into CVS
- *
- * Revision 1.8  1995/01/12  15:03:36  john
- * Minor Fix
- *
-*/
-
 /*
   cross.c
 

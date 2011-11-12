@@ -7,20 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: pwe $
-$Date: 1998/03/15 16:00:37 $
-$Revision: 1.2 $
-$Log: dw2_locdata.h,v $
- * Revision 1.2  1998/03/15  16:00:37  pwe
- * regtrack dwarf dagnostics added
- *
- * Revision 1.1  1998/03/11  11:03:47  pwe
- * DWARF optimisation info
- *
-**********************************************************************/
-
 #ifndef dw2_loc_key
 #define dw2_loc_key
 

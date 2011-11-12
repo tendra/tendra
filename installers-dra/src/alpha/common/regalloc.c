@@ -7,12 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-#ifndef lint
-static char vcid[] = "$Id: regalloc.c,v 1.1.1.1 1998/01/17 15:56:01 release Exp $";
-#endif /* lint */
-
-
 /*
   regalloc.c
 
@@ -25,32 +19,8 @@ static char vcid[] = "$Id: regalloc.c,v 1.1.1.1 1998/01/17 15:56:01 release Exp 
   props(ident) is instore => no = displacement*64+SP.
 */
 
-/*
-$Log: regalloc.c,v $
- * Revision 1.1.1.1  1998/01/17  15:56:01  release
- * First version to be checked into rolling release.
- *
- * Revision 1.5  1995/08/23  16:07:20  john
- * Changed comment
- *
- * Revision 1.4  1995/05/25  15:33:27  john
- * Fixed register allocation
- *
- * Revision 1.3  1995/05/23  13:25:44  john
- * Changed to use FIRST_S_REG rather than constant
- *
- * Revision 1.2  1995/05/16  10:55:06  john
- * Changes for spec 3.1
- *
- * Revision 1.1.1.1  1995/03/23  10:39:19  john
- * Entered into CVS
- *
- * Revision 1.7  1995/03/23  10:13:26  john
- * Fix to register allocation
- *
-*/
-
 #include "config.h"
+
 #include "expmacs.h"
 #include "tags.h"
 #include "procrectypes.h"
@@ -227,3 +197,4 @@ regalloc(exp e, int freefixed, int freefloat, int stack)
 	return def;
       }
 }	
+

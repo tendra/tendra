@@ -7,10 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-#ifndef lint
-static char vcid[] = "nil";
-#endif /* lint */
 /*
   symbol.c
 
@@ -18,35 +14,6 @@ static char vcid[] = "nil";
   (the .t file).  This code is based on the MIPS translator file
   new_symbol.c
 */
-
-/*
-$Log: symbol.c,v $
- * Revision 1.2  1998/02/04  10:43:32  release
- * Changes during testing.
- *
- * Revision 1.1.1.1  1998/01/17  15:56:01  release
- * First version to be checked into rolling release.
- *
- * Revision 1.4  1995/08/21  08:46:39  john
- * Changed include files
- *
- * Revision 1.3  1995/05/16  10:55:52  john
- * Cosmetic changes
- *
- * Revision 1.2  1995/04/07  11:06:12  john
- * Renamed some parameters
- *
- * Revision 1.1.1.1  1995/03/23  10:39:30  john
- * Entered into CVS
- *
- * Revision 1.4  1995/01/31  14:26:22  john
- * Variour portability improvements
- *
- * Revision 1.3  1995/01/12  15:10:27  john
- * Changed error messages
- *
-*/
-
 
 #include <string.h>
 

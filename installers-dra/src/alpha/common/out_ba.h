@@ -7,25 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/*
-$Log: out_ba.h,v $
- * Revision 1.1.1.1  1998/01/17  15:56:00  release
- * First version to be checked into rolling release.
- *
- * Revision 1.3  1995/05/23  13:24:09  john
- * Change for 64 bit support
- *
- * Revision 1.2  1995/04/10  14:13:34  john
- * Minor changes
- *
- * Revision 1.1.1.1  1995/03/23  10:39:33  john
- * Entered into CVS
- *
- * Revision 1.2  1995/03/23  10:10:12  john
- * Changed prototypes (part of change to support scheduler).
- *
-*/
-
 #include <stdio.h>
 
 #include "ibinasm.h"

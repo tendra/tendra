@@ -7,21 +7,13 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/* 	handle_sregs.c,v 1.3 1995/08/21 08:44:43 john Exp	 */
-
-#ifndef lint
-static char vcid[] = "handle_sregs.c,v 1.3 1995/08/21 08:44:43 john Exp";
-#endif /* lint */
-
 /*
   handle_sregs.c
   This file contains code to handle preserved registers.
 */
 
-
-
 #include "config.h"
+
 #include "alpha_ins.h"
 #include "inst_fmt.h"
 #include "addresstypes.h"

@@ -8,26 +8,9 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/02/04 15:48:44 $
-$Revision: 1.2 $
-$Log: error.h,v $
- * Revision 1.2  1998/02/04  15:48:44  release
- * Added OSF copyright message.
- *
- * Revision 1.1.1.1  1998/01/17  15:55:56  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1996/10/04  16:00:28  pwe
- * add banners and mod for PWE ownership
- *
-**********************************************************************/
-
-
 #ifndef ERROR_H
 #define ERROR_H
+
 extern void init_proc_errors(exp);
 extern void output_error_labels(void);
 extern long get_nil_access_lab(void);
@@ -55,4 +38,5 @@ extern void do_trap(exp);
 #define NO_ERROR_TREATMENT(x)(optop(x)!=0)
 #define ERROR_TREATMENT(x)(optop(x) ==0)
 #define ERROR_TREATMENT_IS_TRAP(x)((errhandle(x) &3) ==3)
+
 #endif

@@ -7,24 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-
-
-
-
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/01/17 15:56:05 $
-$Revision: 1.1.1.1 $
-$Log: labels.c,v $
- * Revision 1.1.1.1  1998/01/17  15:56:05  release
- * First version to be checked into rolling release.
- *
- * Revision 1.1  1995/04/13  09:08:06  currie
- * Initial revision
- *
-***********************************************************************/
 /*   labels.c
 	create and set program labels;
 	The setting of a label clears all memory of the contents of
@@ -32,6 +14,7 @@ $Log: labels.c,v $
 */
 
 #include "config.h"
+
 #include "regexps.h"
 #include "ibinasm.h"
 #include "out_ba.h"

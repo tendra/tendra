@@ -12,12 +12,14 @@
 
 #include <shared/error.h>
 #include <shared/xalloc.h>
+
 #include "obj_c/errors.h"
 #include "obj_c/entry_ops.h"
 #include "obj_c/map_ops.h"
 #include "obj_c/msg_ops.h"
 #include "obj_c/name_ops.h"
 #include "obj_c/param_ops.h"
+
 #include "lex.h"
 #include "process.h"
 

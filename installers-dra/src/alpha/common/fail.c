@@ -7,36 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-#ifndef lint
-static char vcid[] = "$Id: fail.c,v 1.1.1.1 1998/01/17 15:56:00 release Exp $";
-#endif /* lint */
-
-/*
-$Log: fail.c,v $
- * Revision 1.1.1.1  1998/01/17  15:56:00  release
- * First version to be checked into rolling release.
- *
- * Revision 1.5  1995/09/13  08:22:59  john
- * Addition for exception handling
- *
- * Revision 1.4  1995/09/06  09:00:58  john
- * removed old command line argument parsing
- *
- * Revision 1.3  1995/05/16  10:48:19  john
- * Cosmetic changes
- *
- * Revision 1.2  1995/03/29  14:07:18  john
- * Added a couple of breaks
- *
- * Revision 1.1.1.1  1995/03/23  10:39:07  john
- * Entered into CVS
- *
- * Revision 1.5  1995/01/12  15:04:26  john
- * Changed message formats
- *
-*/
-
 /*
    fail.c
 

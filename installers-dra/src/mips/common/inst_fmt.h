@@ -7,32 +7,12 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/01/17 15:56:05 $
-$Revision: 1.1.1.1 $
-$Log: inst_fmt.h,v $
- * Revision 1.1.1.1  1998/01/17  15:56:05  release
- * First version to be checked into rolling release.
- *
- * Revision 1.3  1995/09/12  10:59:27  currie
- * gcc pedanttry
- *
- * Revision 1.2  1995/08/16  16:06:48  currie
- * Shortened some .h names
- *
- * Revision 1.1  1995/04/13  09:08:06  currie
- * Initial revision
- *
-***********************************************************************/
 /* inst_fmtdecs.h
     procs for outputting various MIPS instruction formats to external files
     as_file and ba_file
 */
 
 #include "addrtypes.h"
-
 
 extern void ls_ins(char *ins, int reg, baseoff a);
 extern void mon_ins(char *ins, int dest, int src);

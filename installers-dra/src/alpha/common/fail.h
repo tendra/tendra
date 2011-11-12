@@ -7,23 +7,11 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/*
-$Log: fail.h,v $
- * Revision 1.1.1.1  1998/01/17  15:56:00  release
- * First version to be checked into rolling release.
- *
- * Revision 1.1.1.1  1995/03/23  10:39:07  john
- * Entered into CVS
- *
- * Revision 1.12  1995/01/12  15:05:48  john
- * Changed error messages
- *
-*/
-
-
 #ifndef FAIL_H
 #define FAIL_H
+
 #define MAX_WARNINGS 10
+
 typedef enum {FILE_OPEN,
 	      USEAGE,
 	      OVERFLOW,

@@ -7,35 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/* 80x86/tv_callees.c */
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/01/17 15:55:52 $
-$Revision: 1.1.1.1 $
-$Log: tv_callees.c,v $
- * Revision 1.1.1.1  1998/01/17  15:55:52  release
- * First version to be checked into rolling release.
- *
- * Revision 1.5  1995/10/18  11:24:35  pwe
- * diag struct
- *
- * Revision 1.4  1995/10/16  17:45:55  pwe
- * frame alignments
- *
- * Revision 1.3  1995/08/30  16:06:57  pwe
- * prepare exception trapping
- *
- * Revision 1.2  1995/08/14  13:54:08  pwe
- * several corrections, tail calls and error jumps
- *
- * Revision 1.1  1995/08/04  08:29:50  pwe
- * 4.0 general procs implemented
- *
-**********************************************************************/
-
 #include "config.h"
+
 #include "installglob.h"
 #include "externs.h"
 #include "flags.h"
@@ -44,7 +17,6 @@ $Log: tv_callees.c,v $
 #include "expmacs.h"
 #include "exp.h"
 #include "tv_callees.h"
-
 
 void transform_var_callees
 (void)

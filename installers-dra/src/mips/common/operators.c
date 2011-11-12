@@ -7,39 +7,12 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-
-
-
-
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/01/17 15:56:06 $
-$Revision: 1.1.1.1 $
-$Log: operators.c,v $
- * Revision 1.1.1.1  1998/01/17  15:56:06  release
- * First version to be checked into rolling release.
- *
- * Revision 1.4  1995/09/21  15:42:55  currie
- * silly reordering by as again
- *
- * Revision 1.3  1995/09/20  14:23:06  currie
- * callee-list blunder + fix for silliness in ultrix assembler
- *
- * Revision 1.2  1995/08/16  16:07:04  currie
- * Shortened some .h names
- *
- * Revision 1.1  1995/04/13  09:08:06  currie
- * Initial revision
- *
-***********************************************************************/
 /* operators.c
 	produces code for common operations
 */
 
-
 #include "config.h"
+
 #include "code_here.h"
 #include "expmacs.h"
 #include "addrtypes.h"

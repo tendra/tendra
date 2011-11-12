@@ -7,10 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef lint
-static char vcid[] = "frames.c,v 1.5 1995/09/29 09:45:02 john Exp";
-#endif /* lint */
 #include "config.h"
+
 #include "frames.h"
 #include "procrecs.h"
 #include "expmacs.h"
@@ -20,6 +18,7 @@ static char vcid[] = "frames.c,v 1.5 1995/09/29 09:45:02 john Exp";
 #include "fail.h"
 #include "cross.h"
 #include "bool.h"
+
 extern int bitsin(int32);
 extern exp father(exp);
 

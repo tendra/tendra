@@ -7,12 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-#ifndef lint
-static char vcid[] = "$Id: tempdecs.c,v 1.1.1.1 1998/01/17 15:56:01 release Exp $";
-#endif /* lint */
-
-
 /*  
   tempdec.c - is the value in the declaration required over  
   proc calls ?  If it isn't, declaration can be allocated 

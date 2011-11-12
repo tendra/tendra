@@ -7,38 +7,10 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <shared/xalloc.h>
 
-/**********************************************************************
-$Author: release $
-$Date: 1998/02/04 10:46:41 $
-$Revision: 1.2 $
-$Log: units.c,v $
- * Revision 1.2  1998/02/04  10:46:41  release
- * Changes during testing.
- *
- * Revision 1.1.1.1  1998/01/17  15:57:25  release
- * First version to be checked into rolling release.
- *
- * Revision 1.4  1995/09/05  16:27:54  currie
- * include files + 2r lex
- *
- * Revision 1.3  1995/09/04  10:29:24  currie
- * tld units instead of tld2
- *
- * Revision 1.2  1995/08/21  16:00:59  currie
- * put <stdlib> at top of headers
- *
- * Revision 1.1  1995/04/07  14:29:07  currie
- * Initial revision
- *
- * Revision 1.1  1995/04/07  14:29:07  currie
- * Initial revision
- *
- * Revision 1.2  1994/07/21  10:36:40  currie
- * Added banner
- *
-***********************************************************************/
 #include "config.h"
+
 #include "util.h"
 #include "readstreams.h"
 #include "streams.h"
@@ -49,8 +21,6 @@ $Log: units.c,v $
 #include "errors.h"
 #include "defs.h"
 #include "syntax.h"
-
-#include <shared/xalloc.h>
 
 
 FILE *out_file;

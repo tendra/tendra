@@ -7,33 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/02/04 10:43:38 $
-$Revision: 1.2 $
-$Log: dwarf_proc.c,v $
- * Revision 1.2  1998/02/04  10:43:38  release
- * Changes during testing.
- *
- * Revision 1.1.1.1  1998/01/17  15:55:48  release
- * First version to be checked into rolling release.
- *
- * Revision 1.3  1997/04/01  17:20:32  pwe
- * diagnose pl_tests
- *
- * Revision 1.2  1995/09/28  12:39:56  pwe
- * dwarf.h via import, and type changes for tcc checks
- *
- * Revision 1.1.1.1  1995/08/14  14:30:24  pwe
- * transferred from DJCH
- *
-**********************************************************************/
-
-/* LOG 7/9/93 changes for SPARC SVR4.2 djch
-   */
-/* LOG 25/11/93 removed redundant args with UNUSED djch */
-
 #include "config.h"
 #include "installtypes.h"
 

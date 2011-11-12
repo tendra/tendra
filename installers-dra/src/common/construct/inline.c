@@ -7,41 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: pwe $
-$Date: 1998/03/11 11:03:24 $
-$Revision: 1.4 $
-$Log: inline.c,v $
- * Revision 1.4  1998/03/11  11:03:24  pwe
- * DWARF optimisation info
- *
- * Revision 1.3  1998/02/18  11:22:11  pwe
- * test corrections
- *
- * Revision 1.2  1998/01/20  17:14:23  release
- * Parameter named 'formal' confused SCO cc.
- *
- * Revision 1.1.1.1  1998/01/17  15:55:47  release
- * First version to be checked into rolling release.
- *
- * Revision 1.5  1997/10/23  09:24:25  pwe
- * extra diags
- *
- * Revision 1.4  1997/08/23  13:24:09  pwe
- * no invert order, and NEWDIAGS inlining
- *
-Revision 1.3  1997/03/20 17:05:12  currie
-Dwarf2 diags
-
-Revision 1.2  1997/02/18 12:56:28  currie
-NEW DIAG STRUCTURE
-
-Revision 1.1  1995/04/06 10:44:05  currie
-Initial revision
-
-***********************************************************************/
-
 #include <stddef.h>
 
 #include "config.h"

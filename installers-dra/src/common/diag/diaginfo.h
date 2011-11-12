@@ -7,32 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/01/17 15:55:46 $
-$Revision: 1.1.1.1 $
-$Log: diaginfo.h,v $
- * Revision 1.1.1.1  1998/01/17  15:55:46  release
- * First version to be checked into rolling release.
- *
- * Revision 1.5  1997/08/23  13:27:14  pwe
- * initial ANDF-DE
- *
- * Revision 1.4  1997/03/20  17:12:33  currie
- * small blunder
- *
-Revision 1.3  1997/03/20 17:04:53  currie
-Dwarf2 diags
-
-Revision 1.2  1997/02/18 12:55:52  currie
-NEW DIAG STRUCTURE
-
- * Revision 1.1  1995/04/06  10:42:55  currie
- * Initial revision
- *
-***********************************************************************/
-
 #ifndef NEWDIAGS
 
 #ifndef diaginfo_key

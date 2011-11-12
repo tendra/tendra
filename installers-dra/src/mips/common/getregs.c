@@ -7,24 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-
-
-
-
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/01/17 15:56:05 $
-$Revision: 1.1.1.1 $
-$Log: getregs.c,v $
- * Revision 1.1.1.1  1998/01/17  15:56:05  release
- * First version to be checked into rolling release.
- *
- * Revision 1.1  1995/04/13  09:08:06  currie
- * Initial revision
- *
-***********************************************************************/
 /******************************************************************
 		getregs.c
 
@@ -35,7 +17,9 @@ fixed point and 4-10 and 16-18 in floating point (a factor of 2 is involved here
 A clear bit indicates that the corresponding register is free for use.
 
 ******************************************************************/
+
 #include "config.h"
+
 #include "procrectypes.h"
 #include "exptypes.h"
 #include "expmacs.h"

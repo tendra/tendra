@@ -7,32 +7,10 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <shared/xalloc.h>
 
-/**********************************************************************
-$Author: release $
-$Date: 1998/01/17 15:57:25 $
-$Revision: 1.1.1.1 $
-$Log: standardsh.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:25  release
- * First version to be checked into rolling release.
- *
- * Revision 1.3  1995/08/21  16:00:58  currie
- * put <stdlib> at top of headers
- *
- * Revision 1.2  1995/06/08  09:13:54  currie
- * Added sigs to tokdecs/defs
- *
- * Revision 1.1  1995/04/07  14:29:07  currie
- * Initial revision
- *
- * Revision 1.1  1995/04/07  14:29:07  currie
- * Initial revision
- *
- * Revision 1.2  1994/07/21  10:36:36  currie
- * Added banner
- *
-***********************************************************************/
 #include "config.h"
+
 #include "util.h"
 #include "streams.h"
 #include "units.h"
@@ -41,8 +19,6 @@ $Log: standardsh.c,v $
 #include "defs.h"
 #include "errors.h"
 #include "standardsh.h"
-
-#include <shared/xalloc.h>
 
 static Name *intshtok = (Name *)0;
 static Name *longshtok = (Name *)0;

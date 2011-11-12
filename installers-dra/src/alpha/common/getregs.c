@@ -7,45 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-#ifndef lint
-static char vcid[] = "$Id: getregs.c,v 1.1.1.1 1998/01/17 15:56:00 release Exp $";
-#endif /* lint */
-
-/*
-  getregs.c
-*/
-
-/*
-$Log: getregs.c,v $
- * Revision 1.1.1.1  1998/01/17  15:56:00  release
- * First version to be checked into rolling release.
- *
- * Revision 1.6  1995/11/13  12:43:05  john
- * Changed register allocation
- *
- * Revision 1.5  1995/10/27  12:42:28  john
- * changed to allow use of result reg
- *
- * Revision 1.4  1995/08/04  15:50:27  john
- * Minor change
- *
- * Revision 1.3  1995/07/27  10:08:04  john
- * Fix to choosefix
- *
- * Revision 1.2  1995/05/16  10:48:58  john
- * Cosmetic changes
- *
- * Revision 1.1.1.1  1995/03/23  10:39:09  john
- * Entered into CVS
- *
- * Revision 1.6  1995/01/12  15:07:53  john
- * Changed error reporting
- *
-*/
-
-
 #include "config.h"
+
 #include "procrectypes.h"
 #include "exptypes.h"
 #include "procrecs.h"

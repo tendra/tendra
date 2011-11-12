@@ -7,32 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/01/17 15:56:05 $
-$Revision: 1.1.1.1 $
-$Log: expmacs.h,v $
- * Revision 1.1.1.1  1998/01/17  15:56:05  release
- * First version to be checked into rolling release.
- *
- * Revision 1.6  1997/08/06  10:59:10  currie
- * const overflow prop
- *
-Revision 1.5  1995/09/22 15:49:14  currie
-added outpar
-
- * Revision 1.4  1995/07/05  09:25:49  currie
- * continue wrong
- *
- * Revision 1.3  1995/07/03  15:31:49  currie
- * untidy call
- *
- * Revision 1.1  1995/04/13  09:08:06  currie
- * Initial revision
- *
-***********************************************************************/
-
 #ifndef expmacs_key
 #define expmacs_key 1
 

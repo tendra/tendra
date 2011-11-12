@@ -7,38 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/02/04 10:43:37 $
-$Revision: 1.2 $
-$Log: dwarf_info.c,v $
- * Revision 1.2  1998/02/04  10:43:37  release
- * Changes during testing.
- *
- * Revision 1.1.1.1  1998/01/17  15:55:47  release
- * First version to be checked into rolling release.
- *
- * Revision 1.4  1997/06/02  08:28:44  pwe
- * correction re NEWDIAGS
- *
- * Revision 1.3  1997/02/19  12:53:41  pwe
- * NEWDIAGS for debugging optimised code
- *
- * Revision 1.2  1995/09/28  12:39:37  pwe
- * dwarf.h via import, and type changes for tcc checks
- *
- * Revision 1.1.1.1  1995/08/14  14:30:21  pwe
- * transferred from DJCH
- *
-**********************************************************************/
-
-/* LOG 4 July 1994 added dwarf_types.h to unify with sparc version */
-/* LOG 6/9/93 changes for sparc/ICL port of SVR4.2 djch
- comment char is not #... introduced COMMENT_2 macros */
-
-/* LOG 25/11/93 removed redundant expr_buf djch */
-
 #include "config.h"
 
 #include "exptypes.h"

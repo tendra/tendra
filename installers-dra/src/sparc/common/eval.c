@@ -7,122 +7,14 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-
-/*
-			    VERSION INFORMATION
-			    ===================
-
---------------------------------------------------------------------------
-$Header: /u/g/release/CVSROOT/Source/src/installers/sparc/common/eval.c,v 1.1.1.1 1998/01/17 15:55:54 release Exp $
---------------------------------------------------------------------------
-$Log: eval.c,v $
- * Revision 1.1.1.1  1998/01/17  15:55:54  release
- * First version to be checked into rolling release.
- *
- * Revision 1.15  1997/10/23  09:32:48  pwe
- * prep extra_diags
- *
- * Revision 1.14  1997/10/10  18:32:13  pwe
- * prep ANDF-DE revision
- *
- * Revision 1.13  1997/04/18  11:47:50  pwe
- * init large arrays
- *
- * Revision 1.12  1997/04/17  11:59:35  pwe
- * dwarf2 support
- *
- * Revision 1.11  1997/02/18  11:47:42  pwe
- * NEWDIAGS for debugging optimised code
- *
- * Revision 1.10  1996/12/19  12:59:53  pwe
- * SUNOS link from library with dynamic init
- *
- * Revision 1.9  1996/03/20  16:14:04  john
- * Reformatting
- *
- * Revision 1.8  1996/01/24  18:10:51  john
- * Added several constructs to eval
- *
- * Revision 1.7  1995/12/15  10:12:05  john
- * portability change
- *
- * Revision 1.6  1995/10/04  09:00:24  john
- * Added 64 bit constants
- *
- * Revision 1.5  1995/08/24  16:38:49  john
- * Changed to string_tag
- *
- * Revision 1.4  1995/07/14  16:30:21  john
- * Reformatting
- *
- * Revision 1.3  1995/05/26  12:57:27  john
- * Changes for new spec (3.1)
- *
- * Revision 1.2  1995/04/20  08:04:57  john
- * Fix to bitfields
- *
- * Revision 1.1.1.1  1995/03/13  10:18:32  john
- * Entered into CVS
- *
- * Revision 1.5  1995/01/06  13:54:51  john
- * Changed name of variable, because of clash with identical type name.
- *
- * Revision 1.4  1994/12/01  13:28:00  djch
- * Globals can be inited to env_offsets. Call boff_env_offset to get this
- *
- * Revision 1.3  1994/07/07  16:11:33  djch
- * Jul94 tape
- *
- * Revision 1.2  1994/05/25  14:16:36  djch
- * removed realrep, now use jmf's real2longs_IEEE
- *
- * Revision 1.1  1994/05/03  14:49:34  djch
- * Initial revision
- *
- * Revision 1.9  93/11/19  16:28:46  16:28:46  ra (Robert Andrews)
- * Added chvar_tag case.
- * 
- * Revision 1.8  93/09/27  14:42:49  14:42:49  ra (Robert Andrews)
- * Extend floating-point constants to deal with long doubles.  Add
- * know_size flag (see translat.c).
- * 
- * Revision 1.7  93/08/27  11:23:50  11:23:50  ra (Robert Andrews)
- * A number of lint-like changes.
- * 
- * Revision 1.6  93/08/18  11:10:06  11:10:06  ra (Robert Andrews)
- * Added minptr case to constant evaluation routine (Grenoble bug) to
- * allow constants of the form external - external.
- * 
- * Revision 1.5  93/07/12  15:12:25  15:12:25  ra (Robert Andrews)
- * Minor reformatting.
- * 
- * Revision 1.4  93/07/09  16:12:31  16:12:31  ra (Robert Andrews)
- * Reformatted.  Added support for little-endian machines (I've heard that
- * a little-endian SPARC is in the pipeline).  Changed is_zero to use
- * is_comm.
- * 
- * Revision 1.3  93/07/05  18:18:47  18:18:47  ra (Robert Andrews)
- * Made distinction between the System V assembler and the System V ABI.
- * 
- * Revision 1.2  93/06/29  14:24:07  14:24:07  ra (Robert Andrews)
- * Changed method of representing characters in strings.
- * 
- * Revision 1.1  93/06/24  14:58:09  14:58:09  ra (Robert Andrews)
- * Initial revision
- * 
---------------------------------------------------------------------------
-*/
-
-
-#define SPARCTRANS_CODE
-
 /*
     This file contains routines for outputting constant initialisations.
 */
 
 #include <assert.h>
 #include <ctype.h>
+
+#define SPARCTRANS_CODE
 
 #include "config.h"
 

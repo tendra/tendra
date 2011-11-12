@@ -7,11 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-#ifndef lint
-static char vcid[] = "$Id: out_ba.c,v 1.1.1.1 1998/01/17 15:56:01 release Exp $";
-#endif /* lint */
-
 /*
    out_ba.c
   
@@ -19,41 +14,6 @@ static char vcid[] = "$Id: out_ba.c,v 1.1.1.1 1998/01/17 15:56:01 release Exp $"
    in binary assembler format.
 
 */
-
-/*
-$Log: out_ba.c,v $
- * Revision 1.1.1.1  1998/01/17  15:56:01  release
- * First version to be checked into rolling release.
- *
- * Revision 1.7  1995/09/06  09:01:10  john
- * removed old command line argument parsing
- *
- * Revision 1.6  1995/06/28  10:26:00  john
- * Some reformatting
- *
- * Revision 1.5  1995/05/23  13:24:02  john
- * Change for 64 bit support
- *
- * Revision 1.4  1995/04/10  14:13:27  john
- * Minor changes
- *
- * Revision 1.3  1995/04/07  11:05:10  john
- * Fixed assembler output.
- *
- * Revision 1.2  1995/03/29  14:07:58  john
- * Changed strings.h to string.h
- *
- * Revision 1.1.1.1  1995/03/23  10:39:32  john
- * Entered into CVS
- *
- * Revision 1.5  1995/03/23  10:09:21  john
- * Added support for scheduler
- *
- * Revision 1.4  1995/01/26  13:46:39  john
- * Removed unused variable
- *
-*/
-
 
 #include <shared/xalloc.h>
 

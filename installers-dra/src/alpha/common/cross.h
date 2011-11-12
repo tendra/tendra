@@ -20,25 +20,6 @@
   represented by a set of functions, defined in cross.c
 */
 
-/*
-  cross.h,v
- * Revision 1.3  1995/05/23  10:54:50  john
- * Minor fixes to 64 bit support
- *
- * Revision 1.2  1995/05/16  10:46:21  john
- * Cosmetic change
- *
- * Revision 1.1.1.1  1995/03/23  10:39:05  john
- * Entered into CVS
- *
- * Revision 1.11  1995/03/23  10:03:18  john
- * Corrected some definitions
- *
- * Revision 1.10  1995/01/26  13:32:13  john
- * Corrected a few macro definitions
- *
-*/
-
 #ifndef CROSS_H
 #define CROSS_H
 

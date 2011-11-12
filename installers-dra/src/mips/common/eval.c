@@ -7,55 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/01/17 15:56:05 $
-$Revision: 1.1.1.1 $
-$Log: eval.c,v $
- * Revision 1.1.1.1  1998/01/17  15:56:05  release
- * First version to be checked into rolling release.
- *
- * Revision 1.13  1996/07/16  15:59:47  currie
- * alloca alignment
- *
-Revision 1.12  1996/06/17 12:38:31  currie
-Bitsfield in eval
-
-Revision 1.11  1996/06/13 09:20:37  currie
-Bitf compound starting at non-0 offset
-
-Revision 1.10  1996/06/04 15:42:05  currie
-include general_proc_tag in make_compound
-
- * Revision 1.9  1996/01/09  12:00:36  currie
- * var callee par in reg
- *
- * Revision 1.8  1995/12/08  11:20:04  currie
- * Constant offsets + allocaerr_lab
- *
- * Revision 1.7  1995/10/25  13:48:19  currie
- * change to position of .glob
- *
- * Revision 1.6  1995/09/12  10:59:18  currie
- * gcc pedanttry
- *
- * Revision 1.5  1995/08/16  16:06:35  currie
- * Shortened some .h names
- *
- * Revision 1.4  1995/08/15  09:19:14  currie
- * Dynamic callees + trap_tag
- *
- * Revision 1.3  1995/08/09  10:53:36  currie
- * apply_general bug
- *
- * Revision 1.2  1995/06/28  12:15:19  currie
- * New make_stack_limit etc
- *
- * Revision 1.1  1995/04/13  09:08:06  currie
- * Initial revision
- *
-***********************************************************************/
 /*****************************************************************
 		eval.c
 
@@ -65,6 +16,7 @@ into the table of externals (or 0 meaning anonymous). XXX
 *****************************************************************/
 
 #include "config.h"
+
 #include "addrtypes.h"
 #include "tags.h"
 #include "expmacs.h"

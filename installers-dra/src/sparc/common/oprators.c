@@ -7,87 +7,12 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-
-/*
-			    VERSION INFORMATION
-			    ===================
-
---------------------------------------------------------------------------
-$Header: /u/g/release/CVSROOT/Source/src/installers/sparc/common/oprators.c,v 1.1.1.1 1998/01/17 15:55:55 release Exp $
---------------------------------------------------------------------------
-$Log: oprators.c,v $
- * Revision 1.1.1.1  1998/01/17  15:55:55  release
- * First version to be checked into rolling release.
- *
- * Revision 1.9  1997/10/10  18:32:50  pwe
- * prep ANDF-DE revision
- *
- * Revision 1.8  1997/08/23  13:54:24  pwe
- * initial ANDF-DE
- *
- * Revision 1.7  1997/02/18  11:48:13  pwe
- * NEWDIAGS for debugging optimised code
- *
- * Revision 1.6  1996/08/27  14:54:38  pwe
- * Q_functions destroy flpt regs
- *
- * Revision 1.5  1996/03/20  16:12:37  john
- * Reformatting
- *
- * Revision 1.4  1995/07/27  16:32:04  john
- * Fix for quad op
- *
- * Revision 1.3  1995/07/14  16:33:04  john
- * Changes for new error handling
- *
- * Revision 1.2  1995/05/26  13:00:16  john
- * Reformatting
- *
- * Revision 1.1.1.1  1995/03/13  10:18:50  john
- * Entered into CVS
- *
- * Revision 1.5  1994/12/21  11:47:13  djch
- * added labeldecs.h to declare set_label
- *
- * Revision 1.4  1994/12/01  13:18:59  djch
- * Altered abs code to generate a label, and pass to br_abs. .+8 is allowed by
- * the SPARC asm manual, not by /bin/as...
- *
- * Revision 1.3  1994/11/28  16:55:06  djch
- * added code for absop to generate efficient abs code
- *
- * Revision 1.2  1994/07/07  16:11:33  djch
- * Jul94 tape
- *
- * Revision 1.1  1994/05/03  14:49:47  djch
- * Initial revision
- *
- * Revision 1.5  93/09/27  14:52:20  14:52:20  ra (Robert Andrews)
- * Added quad_op, the main routine for dealing with long double
- * operations.  Modified fop to allow for long doubles.
- * 
- * Revision 1.4  93/08/27  11:34:44  11:34:44  ra (Robert Andrews)
- * A couple of lint-like changes.
- * 
- * Revision 1.3  93/07/08  18:22:32  18:22:32  ra (Robert Andrews)
- * Reformatted.
- * 
- * Revision 1.2  93/06/29  14:30:03  14:30:03  ra (Robert Andrews)
- * Now use ins_p to represent instructions.
- * 
- * Revision 1.1  93/06/24  14:58:57  14:58:57  ra (Robert Andrews)
- * Initial revision
- * 
---------------------------------------------------------------------------
-*/
-
-
 #include <assert.h>
 
 #include "config.h"
 
 #define SPARCTRANS_CODE
+
 #include "exptypes.h"
 #include "codehere.h"
 #include "expmacs.h"

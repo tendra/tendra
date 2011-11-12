@@ -7,11 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-#ifndef lint
-static char vcid[] = "$Id: operators.c,v 1.1.1.1 1998/01/17 15:56:01 release Exp $";
-#endif /* lint */
-
 /* 
    operators.c
    produces code for common operations
@@ -19,38 +14,8 @@ static char vcid[] = "$Id: operators.c,v 1.1.1.1 1998/01/17 15:56:01 release Exp
    to do : add support for VAX floating types.
 */
 
-/*
-$Log: operators.c,v $
- * Revision 1.1.1.1  1998/01/17  15:56:01  release
- * First version to be checked into rolling release.
- *
- * Revision 1.6  1996/06/19  15:15:03  john
- * Fix for discarded operations
- *
- * Revision 1.5  1995/09/29  07:55:05  john
- * Fixed condition for setting Has_no_vcallers
- *
- * Revision 1.4  1995/08/21  08:46:01  john
- * Changed include files
- *
- * Revision 1.3  1995/06/21  14:25:32  john
- * Reformatting
- *
- * Revision 1.2  1995/05/16  10:54:12  john
- * Cosmetic change
- *
- * Revision 1.1.1.1  1995/03/23  10:39:15  john
- * Entered into CVS
- *
- * Revision 1.9  1995/01/26  13:45:57  john
- * Removed unused variable
- *
- * Revision 1.8  1995/01/12  15:12:36  john
- * Removed dead code
- *
-*/
-
 #include "config.h"
+
 #include "code_here.h"
 #include "expmacs.h"
 #include "addresstypes.h"
@@ -67,6 +32,7 @@ $Log: operators.c,v $
 #include "reg_defs.h"
 #include "cross.h"
 #include "operators.h"
+
 bool testover = 0;		/* always 0 for C */
 
 void

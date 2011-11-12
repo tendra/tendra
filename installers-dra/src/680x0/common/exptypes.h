@@ -7,47 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-    
-/*
-			    VERSION INFORMATION
-			    ===================
-
---------------------------------------------------------------------------
-$Header: /u/g/release/CVSROOT/Source/src/installers/680x0/common/exptypes.h,v 1.1.1.1 1998/01/17 15:55:49 release Exp $
---------------------------------------------------------------------------
-$Log: exptypes.h,v $
- * Revision 1.1.1.1  1998/01/17  15:55:49  release
- * First version to be checked into rolling release.
- *
-Revision 1.1.1.1  1997/10/13 12:42:52  ma
-First version.
-
-Revision 1.2  1997/09/25 06:45:03  ma
-All general_proc tests passed
-
-Revision 1.1.1.1  1997/03/14 07:50:12  ma
-Imported from DRA
-
- * Revision 1.2  1996/09/20  13:51:30  john
- * *** empty log message ***
- *
- * Revision 1.1.1.1  1996/09/20  10:56:53  john
- *
- * Revision 1.1.1.1  1996/03/26  15:45:11  john
- *
- * Revision 1.3  93/11/19  16:20:53  16:20:53  ra (Robert Andrews)
- * Added unsigned integral field to exp union.
- * 
- * Revision 1.2  93/04/19  13:33:30  13:33:30  ra (Robert Andrews)
- * Added extra field to expno to allow for new representation of alignments.
- * 
- * Revision 1.1  93/02/22  17:15:39  17:15:39  ra (Robert Andrews)
- * Initial revision
- * 
---------------------------------------------------------------------------
-*/
-
-
 #ifndef EXPTYPES_INCLUDED
 #define EXPTYPES_INCLUDED
 

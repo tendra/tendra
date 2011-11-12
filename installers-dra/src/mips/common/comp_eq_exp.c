@@ -7,27 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-
-
-
-
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/01/17 15:56:05 $
-$Revision: 1.1.1.1 $
-$Log: comp_eq_exp.c,v $
- * Revision 1.1.1.1  1998/01/17  15:56:05  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1995/09/12  10:59:14  currie
- * gcc pedanttry
- *
- * Revision 1.1  1995/04/13  09:08:06  currie
- * Initial revision
- *
-***********************************************************************/
 /* a rather more complicated equivalence of expressions - allows sequences and
 conditionals with tests which only jump to nearest conditional outlab;
 initial call : comp_eq_exp(a,b,nilexp,nilexp)  */

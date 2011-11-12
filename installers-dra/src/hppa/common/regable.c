@@ -7,50 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/*
-$Log: regable.c,v $
- * Revision 1.1.1.1  1998/01/17  15:56:03  release
- * First version to be checked into rolling release.
- *
- * Revision 1.3  1996/03/14  16:18:48  wfs
- * tophed is not valregable + ptr position in apply_general case of scan() + superfluous "set -x" in bl_install script.
- *
- * Revision 1.2  1995/12/18  13:12:25  wfs
- * Put hppatrans uder cvs control. Major Changes made since last release
- * include:
- * (i) PIC code generation.
- * (ii) Profiling.
- * (iii) Dynamic Initialization.
- * (iv) Debugging of Exception Handling and Diagnostics.
- *
- * Revision 5.1  1995/10/05  08:59:34  wfs
- * "isoutpar" check added to "fixregable()" and "floatregable()".
- *
- * Revision 5.0  1995/08/25  13:42:58  wfs
- * Preperation for August 25 Glue release
- *
- * Revision 3.4  1995/08/25  10:25:41  wfs
- * *** empty log message ***
- *
- * Revision 3.4  1995/08/25  10:25:41  wfs
- * *** empty log message ***
- *
- * Revision 3.1  95/04/10  16:27:56  16:27:56  wfs (William Simmonds)
- * Apr95 tape version.
- * 
- * Revision 3.0  95/03/30  11:18:47  11:18:47  wfs (William Simmonds)
- * Mar95 tape version with CRCR95_178 bug fix.
- * 
- * Revision 2.0  95/03/15  15:28:37  15:28:37  wfs (William Simmonds)
- * spec 3.1 changes implemented, tests outstanding.
- * 
- * Revision 1.1  95/01/11  13:15:06  13:15:06  wfs (William Simmonds)
- * Initial revision
- * 
-*/
-
-
 #define HPPATRANS_CODE
 
 #include "config.h"

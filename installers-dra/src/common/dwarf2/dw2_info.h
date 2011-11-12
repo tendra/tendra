@@ -7,50 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: pwe $
-$Date: 1998/03/11 11:03:45 $
-$Revision: 1.3 $
-$Log: dw2_info.h,v $
- * Revision 1.3  1998/03/11  11:03:45  pwe
- * DWARF optimisation info
- *
- * Revision 1.2  1998/02/18  11:22:22  pwe
- * test corrections
- *
- * Revision 1.1.1.1  1998/01/17  15:55:48  release
- * First version to be checked into rolling release.
- *
- * Revision 1.9  1997/12/04  19:41:37  pwe
- * ANDF-DE V1.9
- *
- * Revision 1.8  1997/11/06  09:22:18  pwe
- * ANDF-DE V1.8
- *
- * Revision 1.7  1997/10/28  10:14:26  pwe
- * local location corrections
- *
- * Revision 1.6  1997/10/23  09:27:45  pwe
- * ANDF-DE v1.7, extra diags
- *
- * Revision 1.5  1997/10/10  18:18:42  pwe
- * prep ANDF-DE revision
- *
- * Revision 1.4  1997/08/23  13:36:48  pwe
- * initial ANDF-DE
- *
- * Revision 1.3  1997/04/17  11:50:29  pwe
- * Sparc and 80x86 support
- *
- * Revision 1.2  1997/04/01  17:19:43  pwe
- * diagnose pl_tests and locate -> platform specific
- *
- * Revision 1.1  1997/03/20  16:09:21  pwe
- * first version
- *
-**********************************************************************/
-
 #ifndef dw2_info_key
 #define dw2_info_key
 

@@ -7,47 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/*
-			    VERSION INFORMATION
-			    ===================
---------------------------------------------------------------------------
-$Header: /u/g/release/CVSROOT/Source/src/installers/680x0/common/mach_op.h,v 1.1.1.1 1998/01/17 15:55:49 release Exp $
---------------------------------------------------------------------------
-$Log: mach_op.h,v $
- * Revision 1.1.1.1  1998/01/17  15:55:49  release
- * First version to be checked into rolling release.
- *
-Revision 1.2  1997/10/29 10:22:23  ma
-Replaced use_alloca with has_alloca.
-Revision 1.1.1.1  1997/10/13 12:42:55  ma
-First version.
-
-Revision 1.3  1997/09/25 06:45:17  ma
-All general_proc tests passed
-
-Revision 1.2  1997/06/18 10:09:39  ma
-Checking in before merging with Input Baseline changes.
-
-Revision 1.1.1.1  1997/03/14 07:50:15  ma
-Imported from DRA
-
- * Revision 1.2  1996/09/20  13:51:40  john
- * *** empty log message ***
- *
- * Revision 1.1.1.1  1996/09/20  10:56:55  john
- *
- * Revision 1.1.1.1  1996/03/26  15:45:15  john
- *
- * Revision 1.2  94/02/21  16:00:39  16:00:39  ra (Robert Andrews)
- * Declare functions with no arguments using ( void ).
- *
- * Revision 1.1  93/02/22  17:16:09  17:16:09  ra (Robert Andrews)
- * Initial revision
- *
---------------------------------------------------------------------------
-*/
-
-
 #ifndef MACH_OP_INCLUDED
 #define MACH_OP_INCLUDED
 

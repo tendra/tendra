@@ -7,19 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/01/17 15:56:07 $
-$Revision: 1.1.1.1 $
-$Log: weights.c,v $
- * Revision 1.1.1.1  1998/01/17  15:56:07  release
- * First version to be checked into rolling release.
- *
- * Revision 1.1  1995/04/13  09:08:06  currie
- * Initial revision
- *
-***********************************************************************/
 /******************************************************************
 		weights.c
 
@@ -49,10 +36,6 @@ one will be used for this tag (parameter).
 stack, (this is obviously always available for parameters).
 
 ******************************************************************/
-/* ALTERATIONS
-	25/3/93	   scale in labst_tag in weightsv is already evaluated
-		332: scale = fno(e)*scale -> scale = fno(e);
-*/
 
 #include <limits.h>
 

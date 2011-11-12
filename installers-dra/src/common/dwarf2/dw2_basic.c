@@ -7,59 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: pwe $
-$Date: 1998/03/15 16:00:32 $
-$Revision: 1.4 $
-$Log: dw2_basic.c,v $
- * Revision 1.4  1998/03/15  16:00:32  pwe
- * regtrack dwarf dagnostics added
- *
- * Revision 1.3  1998/03/11  11:03:37  pwe
- * DWARF optimisation info
- *
- * Revision 1.2  1998/01/21  10:30:04  pwe
- * labdiff change
- *
- * Revision 1.1.1.1  1998/01/17  15:55:48  release
- * First version to be checked into rolling release.
- *
- * Revision 1.11  1997/12/08  16:36:59  pwe
- * abbrev key & directory names
- *
- * Revision 1.10  1997/12/04  19:41:10  pwe
- * ANDF-DE V1.9
- *
- * Revision 1.9  1997/11/06  09:21:57  pwe
- * ANDF-DE V1.8
- *
- * Revision 1.8  1997/10/23  09:27:23  pwe
- * ANDF-DE v1.7, extra diags
- *
- * Revision 1.7  1997/10/10  18:18:19  pwe
- * prep ANDF-DE revision
- *
- * Revision 1.6  1997/08/23  13:36:31  pwe
- * initial ANDF-DE
- *
- * Revision 1.5  1997/05/13  08:02:25  pwe
- * Signed LEB128 corrected
- *
- * Revision 1.4  1997/04/17  11:50:11  pwe
- * Sparc and 80x86 support
- *
- * Revision 1.3  1997/04/01  17:19:33  pwe
- * diagnose pl_tests and locate -> platform specific
- *
- * Revision 1.2  1997/03/24  11:10:17  pwe
- * struct bitfields
- *
- * Revision 1.1  1997/03/20  16:08:59  pwe
- * first version
- *
-**********************************************************************/
-
 #include "config.h"
 
 #include "exptypes.h"

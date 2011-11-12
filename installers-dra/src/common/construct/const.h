@@ -7,21 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/01/17 15:55:46 $
-$Revision: 1.1.1.1 $
-$Log: const.h,v $
- * Revision 1.1.1.1  1998/01/17  15:55:46  release
- * First version to be checked into rolling release.
- *
- * Revision 1.1  1995/04/06  10:44:05  currie
- * Initial revision
- *
-***********************************************************************/
-
-
 /************************************************************************
  *                         constdecs.h
  *  This file declares the routines which detect constant expressions and
@@ -42,8 +27,8 @@ $Log: const.h,v $
  ************************************************************************/
 
 #include "config.h"
-#include "exptypes.h"
 
+#include "exptypes.h"
 #include "consttypes.h"
 
 extern void repeat_consts(void);

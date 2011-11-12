@@ -7,48 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-
-
-/*
-			    VERSION INFORMATION
-			    ===================
-
---------------------------------------------------------------------------
-$Header: /u/g/release/CVSROOT/Source/src/installers/sparc/common/proc.h,v 1.1.1.1 1998/01/17 15:55:55 release Exp $
---------------------------------------------------------------------------
-$Log: proc.h,v $
- * Revision 1.1.1.1  1998/01/17  15:55:55  release
- * First version to be checked into rolling release.
- *
- * Revision 1.5  1997/03/26  13:04:49  pwe
- * general proc compatibility
- *
- * Revision 1.4  1995/11/07  09:51:32  john
- * New extern
- *
- * Revision 1.3  1995/07/14  16:33:37  john
- * New macro
- *
- * Revision 1.2  1995/05/26  13:00:34  john
- * Changes for new spec (3.1)
- *
- * Revision 1.1.1.1  1995/03/13  10:18:51  john
- * Entered into CVS
- *
- * Revision 1.2  1994/07/04  09:24:54  djch
- * Jun94 tape version
- *
- * Revision 1.1  1994/05/03  14:50:31  djch
- * Initial revision
- *
- * Revision 1.1  93/06/24  14:59:03  14:59:03  ra (Robert Andrews)
- * Initial revision
- *
---------------------------------------------------------------------------
-*/
-
-
 #ifndef PROCDECS_INCLUDED
 #define PROCDECS_INCLUDED
 

@@ -7,65 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-
-
-/*
-			    VERSION INFORMATION
-			    ===================
-
---------------------------------------------------------------------------
-$Header: /u/g/release/CVSROOT/Source/src/installers/sparc/common/inst_fmt.h,v 1.1.1.1 1998/01/17 15:55:54 release Exp $
---------------------------------------------------------------------------
-$Log: inst_fmt.h,v $
- * Revision 1.1.1.1  1998/01/17  15:55:54  release
- * First version to be checked into rolling release.
- *
- * Revision 1.6  1997/10/10  18:32:29  pwe
- * prep ANDF-DE revision
- *
- * Revision 1.5  1995/09/13  11:00:55  john
- * New prototype
- *
- * Revision 1.4  1995/07/18  09:38:50  john
- * New functions for return_to_label
- *
- * Revision 1.3  1995/07/14  16:31:16  john
- * Changed prototype name
- *
- * Revision 1.2  1995/05/26  12:58:48  john
- * New prototype
- *
- * Revision 1.1.1.1  1995/03/13  10:18:39  john
- * Entered into CVS
- *
- * Revision 1.5  1994/12/21  12:10:54  djch
- * added maxmin functions
- *
- * Revision 1.4  1994/12/01  13:17:17  djch
- * Added 3 new fns
- *
- * Revision 1.3  1994/07/04  09:24:54  djch
- * Jun94 tape version
- *
- * Revision 1.2  1994/05/13  12:32:10  djch
- * Incorporates improvements from expt version
- * changed extj_special_ins to match
- *
- * Revision 1.1  1994/05/03  14:50:19  djch
- * Initial revision
- *
- * Revision 1.2  93/08/27  11:28:10  11:28:10  ra (Robert Andrews)
- *  ext_name now takes an int not a long (I got the comment in inst_fmt.c
- * wrong).
- *
- * Revision 1.1  93/06/24  14:58:30  14:58:30  ra (Robert Andrews)
- * Initial revision
- *
---------------------------------------------------------------------------
-*/
-
-
 #ifndef INST_FMT_INCLUDED
 #define INST_FMT_INCLUDED
 

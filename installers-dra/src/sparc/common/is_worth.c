@@ -7,64 +7,12 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-
-/*
-			    VERSION INFORMATION
-			    ===================
-
---------------------------------------------------------------------------
-$Header: /u/g/release/CVSROOT/Source/src/installers/sparc/common/is_worth.c,v 1.1.1.1 1998/01/17 15:55:54 release Exp $
---------------------------------------------------------------------------
-$Log: is_worth.c,v $
- * Revision 1.1.1.1  1998/01/17  15:55:54  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1995/12/15  11:12:14  john
- * Change for 64 bit values
- *
- * Revision 1.1.1.1  1995/03/13  10:18:40  john
- * Entered into CVS
- *
- * Revision 1.4  1994/07/07  16:11:33  djch
- * Jul94 tape
- *
- * Revision 1.3  1994/06/22  09:50:43  djch
- * added check for val_tag to avoid derefing father if nil - jmf may not have
- * connected the bro field, and we read it to get operator name.
- *
- * Revision 1.2  1994/05/13  12:33:17  djch
- * Incorporates improvements from expt version
- * Added bracket to make structure clearer
- *
- * Revision 1.1  1994/05/03  14:49:39  djch
- * Initial revision
- *
- * Revision 1.5  94/02/21  16:11:11  16:11:11  ra (Robert Andrews)
- * is_worth now returns an int, not a bool.
- * 
- * Revision 1.4  93/11/19  16:29:18  16:29:18  ra (Robert Andrews)
- * Never remove constant multiplicand from loops - it introduces a call
- * when we could get away with shifts and adds.
- * 
- * Revision 1.3  93/08/27  11:29:07  11:29:07  ra (Robert Andrews)
- * Added a couple of explicit integer casts.
- * 
- * Revision 1.2  93/07/14  11:18:46  11:18:46  ra (Robert Andrews)
- * Reformatted.  Changed cont_tag case to deal with reff_0's (because
- * remove_zero_offsets is 0 they are not being removed by check).
- * 
- * Revision 1.1  93/06/24  14:58:31  14:58:31  ra (Robert Andrews)
- * Initial revision
- * 
---------------------------------------------------------------------------
-*/
-
-
 #include <stdlib.h>
 
 #define SPARCTRANS_CODE
+
 #include "config.h"
+
 #include "tags.h"
 #include "expmacs.h"
 #include "exp.h"

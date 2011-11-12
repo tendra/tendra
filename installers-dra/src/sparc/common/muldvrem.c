@@ -7,100 +7,12 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-
-/*
-			    VERSION INFORMATION
-			    ===================
-
---------------------------------------------------------------------------
-$Header: /u/g/release/CVSROOT/Source/src/installers/sparc/common/muldvrem.c,v 1.1.1.1 1998/01/17 15:55:55 release Exp $
---------------------------------------------------------------------------
-$Log: muldvrem.c,v $
- * Revision 1.1.1.1  1998/01/17  15:55:55  release
- * First version to be checked into rolling release.
- *
- * Revision 1.11  1997/08/23  13:54:14  pwe
- * initial ANDF-DE
- *
- * Revision 1.10  1996/11/06  15:59:17  pwe
- * correct previous multneeds correction
- *
- * Revision 1.9  1996/11/06  11:18:50  pwe
- * multneeds correction in case of error treatment
- *
- * Revision 1.8  1996/06/20  14:20:59  john
- * Fixed special division
- *
- * Revision 1.7  1996/04/17  08:25:54  john
- * Changed div2 trap treatment
- *
- * Revision 1.6  1995/12/15  10:25:37  john
- * Portability changes
- *
- * Revision 1.5  1995/09/19  14:31:42  john
- * Changed treatment of trap error handling for division
- *
- * Revision 1.4  1995/07/14  16:32:26  john
- * Changes for new error handling
- *
- * Revision 1.3  1995/06/29  08:20:03  john
- * Reformatting
- *
- * Revision 1.2  1995/05/26  12:59:51  john
- * Reformatting
- *
- * Revision 1.1.1.1  1995/03/13  10:18:45  john
- * Entered into CVS
- *
- * Revision 1.5  1994/12/01  13:26:38  djch
- * movecont is a function call, so add to is_muldivrem
- *
- * Revision 1.4  1994/07/07  16:11:33  djch
- * Jul94 tape
- *
- * Revision 1.3  1994/06/17  14:54:05  djch
- * removed other_div, since divs can nest.
- * added div0, rem0, and the easy case of sra for signed div1.
- *
- * Revision 1.2  1994/05/13  12:59:22  djch
- * Incorporates improvements from expt version
- * moved two asserts (which likediv may violate)
- *
- * Revision 1.1  1994/05/03  14:49:45  djch
- * Initial revision
- *
- * Revision 1.6  93/09/27  14:49:35  14:49:35  ra (Robert Andrews)
- * clear_sun_call_divrem_regs is now global rather than static.  Extended
- * is_muldivrem_call to deal with those long double operations which
- * are implemented using system calls.
- *
- * Revision 1.5  93/08/27  11:32:37  11:32:37  ra (Robert Andrews)
- * Added a number of explicit integer casts.  Use pnset etc to set
- * needs properties.
- *
- * Revision 1.4  93/08/18  11:13:26  11:13:26  ra (Robert Andrews)
- * Only the whitespace has changed ...
- *
- * Revision 1.3  93/08/13  14:41:32  14:41:32  ra (Robert Andrews)
- * Reformatted.
- *
- * Revision 1.2  93/07/12  15:15:41  15:15:41  ra (Robert Andrews)
- * Added partial support for div1 and rem1.  Changed system calls to use
- * call_special_routine.
- *
- * Revision 1.1  93/06/24  14:58:50  14:58:50  ra (Robert Andrews)
- * Initial revision
- *
---------------------------------------------------------------------------
-*/
-
-
 #include <assert.h>
 
 #include "config.h"
 
 #define SPARCTRANS_CODE
+
 #include "exptypes.h"
 #include "needscan.h"
 #include "addrtypes.h"

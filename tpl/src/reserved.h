@@ -7,28 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/01/17 15:57:25 $
-$Revision: 1.1.1.1 $
-$Log: reserved.h,v $
- * Revision 1.1.1.1  1998/01/17  15:57:25  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1995/08/15  16:14:35  currie
- * for build 4.0
- *
- * Revision 1.1  1995/04/07  14:29:07  currie
- * Initial revision
- *
- * Revision 1.1  1995/04/07  14:29:07  currie
- * Initial revision
- *
- * Revision 1.2  1994/07/21  10:35:48  currie
- * Added banner
- *
-***********************************************************************/
 #define no_of_terminals 103
 
 /* note that the table is sorted into alphabetical order */

@@ -7,86 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-
-/*
-			    VERSION INFORMATION
-			    ===================
-
---------------------------------------------------------------------------
-$Header: /u/g/release/CVSROOT/Source/src/installers/sparc/common/move.c,v 1.1.1.1 1998/01/17 15:55:54 release Exp $
---------------------------------------------------------------------------
-$Log: move.c,v $
- * Revision 1.1.1.1  1998/01/17  15:55:54  release
- * First version to be checked into rolling release.
- *
- * Revision 1.8  1997/08/23  13:54:10  pwe
- * initial ANDF-DE
- *
- * Revision 1.7  1996/10/03  08:51:12  pwe
- * PIC global/large offset, and PIC case guardregs
- *
- * Revision 1.6  1996/08/22  16:47:05  pwe
- * correct accessing for double params
- *
- * Revision 1.5  1996/02/29  17:39:30  john
- * Fix to double load
- *
- * Revision 1.4  1996/02/27  11:20:28  john
- * *** empty log message ***
- *
- * Revision 1.3  1996/01/24  18:11:05  john
- * Removed assertion
- *
- * Revision 1.2  1995/05/26  12:59:39  john
- * Reformatting
- *
- * Revision 1.1.1.1  1995/03/13  10:18:44  john
- * Entered into CVS
- *
- * Revision 1.7  1994/12/01  13:35:24  djch
- * va_alist can generate 4byte aligned doubles on the stack... Always indexed by
- * -8, so generated 2 loads for these..
- *
- * Revision 1.6  1994/07/07  16:11:33  djch
- * Jul94 tape
- *
- * Revision 1.5  1994/06/22  09:52:52  djch
- * temporary fix to put temporary bitfields in the bottom of the word - one day
- * much of the code could go
- *
- * Revision 1.4  1994/05/25  14:13:03  djch
- * Added CREATE_instore_bits to shut up tcc
- *
- * Revision 1.3  1994/05/19  08:59:05  djch
- * added empty {} to pacify tcc
- *
- * Revision 1.2  1994/05/13  12:39:32  djch
- * Incorporates improvements from expt version
- * use new macros from addrtypes.h, added defaults to switchs
- *
- * Revision 1.1  1994/05/03  14:49:44  djch
- * Initial revision
- *
- * Revision 1.4  93/08/27  11:31:58  11:31:58  ra (Robert Andrews)
- * Added a couple of explicit integer casts.
- * 
- * Revision 1.3  93/07/15  12:32:46  12:32:46  ra (Robert Andrews)
- * Reformatted.  Changed critical value for introducing a loop for a large
- * move from 8 to 12.
- * 
- * Revision 1.2  93/07/05  18:22:05  18:22:05  ra (Robert Andrews)
- * Reformatted slightly.
- * 
- * Revision 1.1  93/06/24  14:58:45  14:58:45  ra (Robert Andrews)
- * Initial revision
- * 
---------------------------------------------------------------------------
-*/
-
-
-#define SPARCTRANS_CODE
-
 /*
   The procedure move produces code to move a value from a to the
   destination dest.  This takes the form of a switch test on the
@@ -101,7 +21,10 @@ $Log: move.c,v $
 
 #include <assert.h>
 
+#define SPARCTRANS_CODE
+
 #include "config.h"
+
 #include "sparcins.h"
 #include "inst_fmt.h"
 #include "addrtypes.h"

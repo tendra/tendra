@@ -7,82 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/*
-$Log: frames.c,v $
- * Revision 1.1.1.1  1998/01/17  15:56:02  release
- * First version to be checked into rolling release.
- *
- * Revision 1.6  1996/11/14  15:22:13  wfs
- *    Fixed a bug in regexps.c which was common to most of the installers and
- * has only just come to light due to PWE's work on powertrans. (There was
- * previously only a patch.) Cosmetic changes to other files.
- *
- * Revision 1.5  1996/10/24  15:51:14  wfs
- * Added "~alloc_size" special token. Minor change to alloca_tag - only need
- * one word for storage of pointer. Major change to round_tag (rounding to
- * unsigned chars) in the fix of avs bug.
- *
- * Revision 1.4  1996/09/06  10:38:19  wfs
- * bug fixes to "offset.pl" and cosmetic changes to the dynamic initialization
- * code.
- *
- * Revision 1.3  1996/09/05  11:05:08  wfs
- * "dynamic_init" boolean variable removed - must always be considered true.
- *
- * Revision 1.2  1995/12/18  13:11:19  wfs
- * Put hppatrans uder cvs control. Major Changes made since last release
- * include:
- * (i) PIC code generation.
- * (ii) Profiling.
- * (iii) Dynamic Initialization.
- * (iv) Debugging of Exception Handling and Diagnostics.
- *
- * Revision 5.5  1995/10/11  15:52:57  wfs
- * "Has_no_vcallers" was defined incorrectly.
- *
- * Revision 5.4  1995/10/09  13:04:27  wfs
- * Cosmetic changes.
- *
- * Revision 5.3  1995/09/15  14:47:07  wfs
- * Removed "#include "extra_expmacs.h"".
- *
- * Revision 5.2  1995/09/15  12:20:09  wfs
- * "extra_expmacs.h" included + minor variable name changes and
- * initializations.
- *
- * Revision 5.1  1995/09/07  15:41:49  wfs
- * Removed "extra_expmacs.h" include.
- *
- * Revision 5.0  1995/08/25  13:42:58  wfs
- * Preperation for August 25 Glue release
- *
- * Revision 3.4  1995/08/25  09:20:13  wfs
- * All the stuff (formerly in "proc.c") which set up the variables
- * for stack frames has been moved to frames.c. Substantial comments
- * have been added.
- *
- * Revision 3.4  1995/08/25  09:20:13  wfs
- * All the stuff (formerly in "proc.c") which set up the variables
- * for stack frames has been moved to frames.c. Substantial comments
- * have been added.
- *
- * Revision 3.1  95/04/10  16:26:26  16:26:26  wfs (William Simmonds)
- * Apr95 tape version.
- *
- * Revision 3.0  95/03/30  11:17:06  11:17:06  wfs (William Simmonds)
- * Mar95 tape version with CRCR95_178 bug fix.
- *
- * Revision 2.0  95/03/15  15:26:53  15:26:53  wfs (William Simmonds)
- * spec 3.1 changes implemented, tests outstanding.
- *
- * Revision 1.1  95/01/11  13:06:47  13:06:47  wfs (William Simmonds)
- * Initial revision
- *
-*/
-
-
 #include "config.h"
+
 #include "bitsmacs.h"
 #include "expmacs.h"
 #include "procrec.h"

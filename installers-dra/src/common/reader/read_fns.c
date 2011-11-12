@@ -7,75 +7,12 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-$Author: release $
-$Date: 1998/01/17 15:55:45 $
-$Revision: 1.1.1.1 $
-$Log: read_fns.c,v $
- * Revision 1.1.1.1  1998/01/17  15:55:45  release
- * First version to be checked into rolling release.
- *
- * Revision 1.16  1998/01/09  09:24:58  pwe
- * correct for dg_tags local to tagdef unit
- *
- * Revision 1.15  1997/12/04  19:49:59  pwe
- * ANDF-DE V1.9
- *
- * Revision 1.14  1997/11/04  18:30:02  pwe
- * ANDF-DE V1.8
- *
- * Revision 1.13  1997/08/23  13:30:47  pwe
- * no invert order, and initial ANDF-DE
- *
- * Revision 1.12  1996/10/21  08:54:10  currie
- * long_jump_access
- *
-Revision 1.11  1996/06/17 15:30:45  currie
-tok signatures
-
-Revision 1.10  1996/06/04 15:40:52  currie
-minor bug with repeated defs
-
-Revision 1.9  1996/05/17 10:57:32  currie
-signature bug
-
- * Revision 1.8  1995/10/11  17:09:17  currie
- * transfer token
- *
- * Revision 1.7  1995/09/27  12:39:49  currie
- * Peters PIC code
- *
- * Revision 1.6  1995/09/15  13:28:09  currie
- * add_prefix
- *
- * Revision 1.5  1995/09/11  15:36:20  currie
- * gcc pedantry
- *
- * Revision 1.4  1995/06/22  09:21:10  currie
- * Signatures on tokens
- *
- * Revision 1.3  1995/06/08  14:55:27  currie
- * changes inherited from v3
- *
- * Revision 1.2  1995/05/05  08:12:13  currie
- * initial_value + signtures
- *
- * Revision 1.1  1995/04/06  10:43:34  currie
- * Initial revision
- *
-***********************************************************************/
-
-
-
-
 /* this file contains the definitions of some of the functions
    called from decoder.c to set up the in-store representations of TDF.
    It defines those functions which are independent of the actual
    representation, particularly the token substitution and
    unit handling
 */
-
 
 #include <string.h>
 #include <stdio.h>

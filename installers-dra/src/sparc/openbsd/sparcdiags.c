@@ -7,127 +7,12 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/*
-			    VERSION INFORMATION
-			    ===================
-
---------------------------------------------------------------------------
-$Header: /u/g/release/CVSROOT/Source/src/installers/sparc/solaris/sparcdiags.c,v 1.3 1998/03/11 11:04:07 pwe Exp $
---------------------------------------------------------------------------
-$Log: sparcdiags.c,v $
- * Revision 1.3  1998/03/11  11:04:07  pwe
- * DWARF optimisation info
- *
- * Revision 1.2  1998/02/04  15:50:11  pwe
- * STABS for void*
- *
- * Revision 1.1.1.1  1998/01/17  15:55:53  release
- * First version to be checked into rolling release.
- *
- * Revision 1.5  1998/01/09  15:00:12  pwe
- * prep restructure
- *
- * Revision 1.4  1997/08/23  13:55:22  pwe
- * initial ANDF-DE
- *
- * Revision 1.3  1997/04/04  15:23:42  pwe
- * tidy re old DWARF interface
- *
- * Revision 1.2  1997/04/01  17:17:42  pwe
- * diagnose pl_tests
- *
- * Revision 1.1  1997/03/24  17:10:03  pwe
- * reorganise solaris/sunos split
- *
- * Revision 1.11  1997/02/18  11:48:22  pwe
- * NEWDIAGS for debugging optimised code
- *
- * Revision 1.10  1996/09/10  14:36:55  pwe
- * fix diags - nested scope, param struct and leaf return
- *
- * Revision 1.9  1996/09/09  08:39:55  pwe
- * correct stabs enums
- *
- * Revision 1.8  1995/12/15  10:27:23  john
- * Fixed error in previous fix
- *
- * Revision 1.7  1995/11/23  15:21:31  john
- * Fix for diagnostics (nested structures)
- *
- * Revision 1.6  1995/07/03  09:30:13  john
- * Fixed error
- *
- * Revision 1.5  1995/06/29  08:20:22  john
- * Reformatting
- *
- * Revision 1.4  1995/06/27  08:47:38  john
- * Some reformatting
- *
- * Revision 1.3  1995/04/20  08:06:36  john
- * Minor change
- *
- * Revision 1.2  1995/03/27  12:50:40  john
- * Fix for c-style varargs handling
- *
- * Revision 1.1.1.1  1995/03/13  10:18:56  john
- * Entered into CVS
- *
- * Revision 1.7  1995/01/11  16:40:35  john
- * Fixed bug in diagnostics (for change request CR95_40)
- *
- * Revision 1.6  1995/01/11  09:59:32  john
- * Fixed bug in diagnostics (for change request CR94_224)
- *
- * Revision 1.5  1994/07/07  16:11:33  djch
- * Jul94 tape
- *
- * Revision 1.4  1994/07/04  08:29:06  djch
- * added extra parameter to stabd (section number). -ve values used to control
- * not putting out stabd (sometimes) in solaris; line #s go in the stabs.
- * added assert(0) to catch uninitialized items.
- *
- * Revision 1.3  1994/06/22  09:48:33  djch
- * Changes for solaris - line #s in functions are relative to start of fns,
- * global decls have line # in the stabs, and no stabn, and local labels are .LL,
- * not LL
- *
- * Revision 1.2  1994/05/13  13:08:39  djch
- * Incorporates improvements from expt version
- * changed format strings to remove longs..
- *
- * Revision 1.1  1994/05/03  14:49:53  djch
- * Initial revision
- *
- * Revision 1.6  93/09/27  14:55:15  14:55:15  ra (Robert Andrews)
- * Only whitespace.
- *
- * Revision 1.5  93/08/27  11:37:55  11:37:55  ra (Robert Andrews)
- * A couple of lint-like changes.
- *
- * Revision 1.4  93/08/13  14:45:51  14:45:51  ra (Robert Andrews)
- * Allow the stabs for long double to vary depending on DOUBLE_SZ.
- *
- * Revision 1.3  93/07/05  18:26:29  18:26:29  ra (Robert Andrews)
- * A couple of minor corrections.  Introduced stab_ptrs to avoid duplication
- * of basic pointer types.
- *
- * Revision 1.2  93/06/29  14:32:54  14:32:54  ra (Robert Andrews)
- * Fairly major rewrite and reformat.  There were a number of errors which
- * meant that the diagnostics were not previously working.
- *
- * Revision 1.1  93/06/24  14:59:22  14:59:22  ra (Robert Andrews)
- * Initial revision
- *
---------------------------------------------------------------------------
-*/
-
-
 #include <assert.h>
 
 #include <shared/xalloc.h>
 
 #define SPARCTRANS_CODE
+
 #include "config.h"
 
 #include "codetypes.h"

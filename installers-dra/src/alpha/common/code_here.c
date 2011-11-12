@@ -7,35 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-#ifndef lint
-static char vcid[] = "$Id: code_here.c,v 1.1.1.1 1998/01/17 15:55:58 release Exp $";
-#endif /* lint */
-
-/*
-** code_here.c
-*/
-
-/*
-$Log: code_here.c,v $
- * Revision 1.1.1.1  1998/01/17  15:55:58  release
- * First version to be checked into rolling release.
- *
- * Revision 1.3  1995/08/21  08:42:55  john
- * Changed include files
- *
- * Revision 1.2  1995/05/23  10:53:17  john
- * Changes for spec 3.1
- *
- * Revision 1.1.1.1  1995/03/23  10:39:02  john
- * Entered into CVS
- *
- * Revision 1.7  1995/03/23  09:59:49  john
- * Fixed so the assignment of a := (top_tag) gives zero.
- *
-*/
-
 #include "config.h"
+
 #include "addresstypes.h"
 #include "procrectypes.h"
 #include "labels.h"

@@ -8,8 +8,10 @@
  */
 
 
-#include "config.h"
 #include <limits.h>
+
+#include "config.h"
+
 #include "c_types.h"
 #include "error.h"
 #include "char.h"
