@@ -1,6 +1,9 @@
-# TenDRA make build infrastructure
-#
 # $Id$
+
+# Copyright 2010-2011, The TenDRA Project.
+#
+# See doc/copyright/ for the full copyright terms.
+
 
 .if !defined(_TENDRA_WORK_API_MK_)
 _TENDRA_WORK_API_MK_=1

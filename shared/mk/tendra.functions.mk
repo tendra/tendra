@@ -1,6 +1,9 @@
-# TenDRA make functions
-#
 # $Id$
+
+# Copyright 2004-2011, The TenDRA Project.
+#
+# See doc/copyright/ for the full copyright terms.
+
 
 .if !defined(_TENDRA_FUNCTIONS_MK_)
 _TENDRA_FUNCTIONS_MK_=1

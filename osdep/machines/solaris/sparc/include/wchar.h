@@ -1,3 +1,11 @@
+/* $Id$ */
+
+/*
+ * Copyright 2011, The TenDRA Project.
+ *
+ * See doc/copyright/ for the full copyright terms.
+ */
+
 #ifndef _HACKED_WCHAR_H
 #define _HACKED_WCHAR_H
 

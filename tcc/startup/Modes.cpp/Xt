@@ -1,3 +1,12 @@
+/* $Id$ */
+
+/*
+ * Copyright 2011, The TenDRA Project.
+ *
+ * See doc/copyright/ for the full copyright terms.
+ */
+
+
 // START-UP FILE FOR PRE-ISO C++
 #include "Xc"
 

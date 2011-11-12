@@ -1,3 +1,11 @@
+/* $Id$ */
+
+/*
+ * Copyright 2011, The TenDRA Project.
+ *
+ * See doc/copyright/ for the full copyright terms.
+ */
+
 /*
  * An example of exception handling.
  *
@@ -9,8 +17,6 @@
  * other functions (which is not illustrated, again for brevity).
  *
  * The reader is encouraged to experiment by modifying this file.
- *
- * $Id$
  */
 
 #include <stdlib.h>

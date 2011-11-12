@@ -1,3 +1,12 @@
+/* $Id$ */
+
+/*
+ * Copyright 2011, The TenDRA Project.
+ *
+ * See doc/copyright/ for the full copyright terms.
+ */
+
+
 #ifndef H_LEXI_CCODE_INCLUDED
 #define H_LEXI_CCODE_INCLUDED
 

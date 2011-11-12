@@ -1,3 +1,11 @@
+/* $Id$ */
+
+/*
+ * Copyright 2011, The TenDRA Project.
+ *
+ * See doc/copyright/ for the full copyright terms.
+ */
+
 #ifndef __TDF_SYS_INCLUDED
 #define __TDF_SYS_INCLUDED
 

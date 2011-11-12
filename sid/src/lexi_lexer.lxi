@@ -1,6 +1,13 @@
+/* $Id$ */
+
+/*
+ * Copyright 2011, The TenDRA Project.
+ *
+ * See doc/copyright/ for the full copyright terms.
+ */
+
 /*
  * The lexical analyser for Sid's grammar parser.
- * $Id$
  */
 
 ACTION <eof_in_comment>;

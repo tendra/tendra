@@ -1,3 +1,11 @@
+/* $Id$ */
+
+/*
+ * Copyright 2011, The TenDRA Project.
+ *
+ * See doc/copyright/ for the full copyright terms.
+ */
+
 %prefixes%
 
 	terminal = T_ ;
@@ -9,6 +17,14 @@
 	Bool -> int;
 
 %header% @{
+
+	/* $Id$ */
+
+	/*
+	 * Copyright 2011, The TenDRA Project.
+	 *
+	 * See doc/copyright/ for the full copyright terms.
+	 */
 
 	#include "lexer.h"
 
@@ -26,6 +42,14 @@
 	#define RESTORE_LEXER    ( tok = save_tok )
 
 @}, @{
+
+	/* $Id$ */
+
+	/*
+	 * Copyright 2011, The TenDRA Project.
+	 *
+	 * See doc/copyright/ for the full copyright terms.
+	 */
 
 @};
 

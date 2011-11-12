@@ -1,7 +1,11 @@
-# TenDRA make build infrastructure
-# XXX: due to go, when tspec is split off
-#
 # $Id$
+
+# Copyright 2010-2011, The TenDRA Project.
+#
+# See doc/copyright/ for the full copyright terms.
+
+
+# XXX: due to go, when tspec is split off
 
 .if !defined(_TENDRA_WORK_STARTUP_MK_)
 _TENDRA_WORK_STARTUP_MK_=1

@@ -1,0 +1,53 @@
+/* $Id$ */
+
+/*
+ * Copyright 2011, The TenDRA Project.
+ * Copyright 1997, United Kingdom Secretary of State for Defence.
+ *
+ * See doc/copyright/ for the full copyright terms.
+ */
+
+
+/*
+    LEXICAL ANALYSER FOR MAKE_ERR
+
+    This file describes the lexical analyser used by make_err.
+*/
+
+/* Character groups */
+GROUP white = " \t\n\r" ;
+GROUP alpha = {A-Z} + {a-z} + "_" ;
+GROUP digit = {0-9} ;
+GROUP alphanum = "[alpha][digit]" ;
+
+/* Simple symbols */
+TOKEN "|" -> $or ;
+TOKEN "(" -> $open-round ;
+TOKEN ")" -> $close-round ;
+TOKEN "{" -> $open-brace ;
+TOKEN "}" -> $close-brace ;
+TOKEN "," -> $comma ;
+TOKEN ":" -> $colon ;
+TOKEN "=" -> $equal ;
+TOKEN "->" -> $arrow ;
+TOKEN "\e" -> $eof ;
+
+/* Comments, strings and identifiers */
+TOKEN "/*" -> get_comment () ;
+TOKEN "\"" -> get_string () ;
+TOKEN "[alpha]" -> get_identifier () ;
+
+/* Keywords */
+KEYWORD "ALT_NAME" -> $alt-name ;
+KEYWORD "DATABASE_NAME" -> $db-name ;
+KEYWORD "ENTRIES" -> $entries ;
+KEYWORD "KEY" -> $key ;
+KEYWORD "KEYS" -> $keys ;
+KEYWORD "PREFIX" -> $prefix ;
+KEYWORD "PROPERTIES" -> $properties ;
+KEYWORD "RIG" -> $rig ;
+KEYWORD "TYPES" -> $types ;
+KEYWORD "USAGE" -> $usage ;
+KEYWORD "compiler_output" -> $comp-output ;
+KEYWORD "from_compiler" -> $from-comp ;
+KEYWORD "from_database" -> $from-db ;

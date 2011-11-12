@@ -1,6 +1,12 @@
 /* $Id$ */
 
 /*
+ * Copyright 2011, The TenDRA Project.
+ *
+ * See doc/copyright/ for the full copyright terms.
+ */
+
+/*
  * Dependencies for building.
  * TODO: consider showing build dependencies on the same graph, in a different colour.
  */

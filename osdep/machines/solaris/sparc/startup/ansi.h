@@ -1,3 +1,11 @@
+/* $Id$ */
+
+/*
+ * Copyright 2011, The TenDRA Project.
+ *
+ * See doc/copyright/ for the full copyright terms.
+ */
+
 #pragma TenDRA begin
 #pragma TenDRA no external declaration allow
 #pragma TenDRA directive assert allow

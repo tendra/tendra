@@ -4,41 +4,13 @@
  * and
  *	syntax.act
  * by:
- *	/Users/kate/svn/tendra1/obj-regen/bin/sid
+ *	sid
  */
 
 /* BEGINNING OF HEADER */
 
-#line 219 "syntax.act"
+#line 170 "syntax.act"
 
-/*
-    		 Crown Copyright (c) 1997
-
-    This TenDRA(r) Computer Program is subject to Copyright
-    owned by the United Kingdom Secretary of State for Defence
-    acting through the Defence Evaluation and Research Agency
-    (DERA).  It is made available to Recipients with a
-    royalty-free licence for its use, reproduction, transfer
-    to other parties and amendment for any purpose not excluding
-    product development provided that any such use et cetera
-    shall be deemed to be acceptance of the following conditions:-
-
-	(1) Its Recipients shall ensure that this Notice is
-	reproduced upon any copies or amended versions of it;
-
-	(2) Any amended version of it shall be clearly marked to
-	show both the nature of and the organisation responsible
-	for the relevant amendment or amendments;
-
-	(3) Its onward transfer from a recipient to another
-	party shall be deemed to be that party's acceptance of
-	these conditions;
-
-	(4) DERA gives no warranty or assurance as to its
-	quality or suitability for any purpose and DERA accepts
-	no liability whatsoever in relation to any use to which
-	it may be put.
-*/
 
 
 #include "config.h"
@@ -152,7 +124,7 @@ unsigned long MAJOR_NO = major_version;
 unsigned long MINOR_NO = minor_version;
 
 
-#line 156 "syntax.c"
+#line 128 "syntax.c"
 
 /* BEGINNING OF FUNCTION DECLARATIONS */
 
@@ -314,20 +286,20 @@ ZL2_label:;
 
 			/* BEGINNING OF ACTION: gentok1_dec */
 			{
-#line 1179 "syntax.act"
+#line 1101 "syntax.act"
 
     (ZIa) = lex_v.val.tokname;
     (ZIa)->isused = 1;
-#line 322 "syntax.c"
+#line 294 "syntax.c"
 			}
 			/* END OF ACTION: gentok1_dec */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: gentok2 */
 			{
-#line 1184 "syntax.act"
+#line 1106 "syntax.act"
 
     expand_tok((ZIa), &(ZIa)->sort);
-#line 331 "syntax.c"
+#line 303 "syntax.c"
 			}
 			/* END OF ACTION: gentok2 */
 		}
@@ -336,7 +308,7 @@ ZL2_label:;
 		{
 			/* BEGINNING OF ACTION: label1 */
 			{
-#line 1480 "syntax.act"
+#line 1402 "syntax.act"
 
     char * n =lex_v.val.name;
     Labdec * x = find_lab(n);
@@ -348,7 +320,7 @@ ZL2_label:;
     }
     g_labdec = x;
     o_make_label(out_tdfint32(LOCNAME(x->idname)));
-#line 352 "syntax.c"
+#line 324 "syntax.c"
 			}
 			/* END OF ACTION: label1 */
 			ADVANCE_LEXER;
@@ -364,10 +336,10 @@ ZL1:;
 	{
 		/* BEGINNING OF ACTION: syntax_error */
 		{
-#line 2471 "syntax.act"
+#line 2393 "syntax.act"
 
     fail("Syntax error");
-#line 371 "syntax.c"
+#line 343 "syntax.c"
 		}
 		/* END OF ACTION: syntax_error */
 	}
@@ -382,10 +354,10 @@ ZR641(PTR_Tokdec *ZI640)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: gentok2 */
 			{
-#line 1184 "syntax.act"
+#line 1106 "syntax.act"
 
     expand_tok((*ZI640), &(*ZI640)->sort);
-#line 389 "syntax.c"
+#line 361 "syntax.c"
 			}
 			/* END OF ACTION: gentok2 */
 		}
@@ -398,20 +370,20 @@ ZR641(PTR_Tokdec *ZI640)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: gentok2 */
 			{
-#line 1184 "syntax.act"
+#line 1106 "syntax.act"
 
     expand_tok((*ZI640), &(*ZI640)->sort);
-#line 405 "syntax.c"
+#line 377 "syntax.c"
 			}
 			/* END OF ACTION: gentok2 */
 			/* BEGINNING OF ACTION: mint1_dec */
 			{
-#line 1536 "syntax.act"
+#line 1458 "syntax.act"
 
     /* (ZIb) uninitialised */
     (ZIa) = *current_TDF;
     INIT_TDF(current_TDF);
-#line 415 "syntax.c"
+#line 387 "syntax.c"
 			}
 			/* END OF ACTION: mint1_dec */
 			switch (CURRENT_TERMINAL) {
@@ -428,12 +400,12 @@ ZR641(PTR_Tokdec *ZI640)
 			}
 			/* BEGINNING OF ACTION: mint2 */
 			{
-#line 1542 "syntax.act"
+#line 1464 "syntax.act"
 
     (ZIb) = *current_TDF;
     INIT_TDF(current_TDF);
     o_make_int(append_TDF(&(ZIb),1), append_TDF(&(ZIa),1));
-#line 437 "syntax.c"
+#line 409 "syntax.c"
 			}
 			/* END OF ACTION: mint2 */
 			switch (CURRENT_TERMINAL) {
@@ -465,10 +437,10 @@ ZRfull__sortname(void)
 	{
 		/* BEGINNING OF ACTION: sortname1 */
 		{
-#line 1884 "syntax.act"
+#line 1806 "syntax.act"
 
     g_sname.sort = lex_v.t;
-#line 472 "syntax.c"
+#line 444 "syntax.c"
 		}
 		/* END OF ACTION: sortname1 */
 		/* BEGINNING OF INLINE: sortname */
@@ -595,10 +567,10 @@ ZR643(int *ZI642)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: gencons2 */
 			{
-#line 1160 "syntax.act"
+#line 1082 "syntax.act"
 
    (constructs[(*ZI642)].f)();
-#line 602 "syntax.c"
+#line 574 "syntax.c"
 			}
 			/* END OF ACTION: gencons2 */
 		}
@@ -611,20 +583,20 @@ ZR643(int *ZI642)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: gencons2 */
 			{
-#line 1160 "syntax.act"
+#line 1082 "syntax.act"
 
    (constructs[(*ZI642)].f)();
-#line 618 "syntax.c"
+#line 590 "syntax.c"
 			}
 			/* END OF ACTION: gencons2 */
 			/* BEGINNING OF ACTION: mint1_dec */
 			{
-#line 1536 "syntax.act"
+#line 1458 "syntax.act"
 
     /* (ZIb) uninitialised */
     (ZIa) = *current_TDF;
     INIT_TDF(current_TDF);
-#line 628 "syntax.c"
+#line 600 "syntax.c"
 			}
 			/* END OF ACTION: mint1_dec */
 			switch (CURRENT_TERMINAL) {
@@ -641,12 +613,12 @@ ZR643(int *ZI642)
 			}
 			/* BEGINNING OF ACTION: mint2 */
 			{
-#line 1542 "syntax.act"
+#line 1464 "syntax.act"
 
     (ZIb) = *current_TDF;
     INIT_TDF(current_TDF);
     o_make_int(append_TDF(&(ZIb),1), append_TDF(&(ZIa),1));
-#line 650 "syntax.c"
+#line 622 "syntax.c"
 			}
 			/* END OF ACTION: mint2 */
 			switch (CURRENT_TERMINAL) {
@@ -681,10 +653,10 @@ ZR645(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: expneg1_dec */
 			{
-#line 819 "syntax.act"
+#line 741 "syntax.act"
 
     SET_TDF((ZIb), &(ZIa));
-#line 688 "syntax.c"
+#line 660 "syntax.c"
 			}
 			/* END OF ACTION: expneg1_dec */
 			read_exp ();
@@ -694,11 +666,11 @@ ZR645(void)
 			}
 			/* BEGINNING OF ACTION: expnegate2 */
 			{
-#line 823 "syntax.act"
+#line 745 "syntax.act"
 
     RESET_TDF((ZIb));
     o_negate(o_wrap, append_TDF(&(ZIa),1));
-#line 702 "syntax.c"
+#line 674 "syntax.c"
 			}
 			/* END OF ACTION: expnegate2 */
 			switch (CURRENT_TERMINAL) {
@@ -723,12 +695,12 @@ ZR645(void)
 			}
 			/* BEGINNING OF ACTION: mint1_dec */
 			{
-#line 1536 "syntax.act"
+#line 1458 "syntax.act"
 
     /* (ZIb) uninitialised */
     (ZIa) = *current_TDF;
     INIT_TDF(current_TDF);
-#line 732 "syntax.c"
+#line 704 "syntax.c"
 			}
 			/* END OF ACTION: mint1_dec */
 			switch (CURRENT_TERMINAL) {
@@ -745,12 +717,12 @@ ZR645(void)
 			}
 			/* BEGINNING OF ACTION: mint2 */
 			{
-#line 1542 "syntax.act"
+#line 1464 "syntax.act"
 
     (ZIb) = *current_TDF;
     INIT_TDF(current_TDF);
     o_make_int(append_TDF(&(ZIb),1), append_TDF(&(ZIa),1));
-#line 754 "syntax.c"
+#line 726 "syntax.c"
 			}
 			/* END OF ACTION: mint2 */
 			switch (CURRENT_TERMINAL) {
@@ -774,7 +746,7 @@ ZR645(void)
 
 			/* BEGINNING OF ACTION: fden2_dec */
 			{
-#line 1000 "syntax.act"
+#line 922 "syntax.act"
 
     /* (ZIc), (ZId) uninitialised */
     (ZIf) = 1;
@@ -783,7 +755,7 @@ ZR645(void)
     out_tdfstring_bytes(fformat(lex_v.val.name,lnum), 8, UI(lnum));
     RESET_TDF((ZIe));
     SET_TDF((ZIe), &(ZIb));
-#line 787 "syntax.c"
+#line 759 "syntax.c"
 			}
 			/* END OF ACTION: fden2_dec */
 			ADVANCE_LEXER;
@@ -800,11 +772,11 @@ ZR645(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: fden3 */
 			{
-#line 1010 "syntax.act"
+#line 932 "syntax.act"
 
     RESET_TDF((ZIe));
     SET_TDF((ZIe), &(ZIc));
-#line 808 "syntax.c"
+#line 780 "syntax.c"
 			}
 			/* END OF ACTION: fden3 */
 			read_floating_variety ();
@@ -814,11 +786,11 @@ ZR645(void)
 			}
 			/* BEGINNING OF ACTION: fden4 */
 			{
-#line 1015 "syntax.act"
+#line 937 "syntax.act"
 
     RESET_TDF((ZIe));
     SET_TDF((ZIe), &(ZId));
-#line 822 "syntax.c"
+#line 794 "syntax.c"
 			}
 			/* END OF ACTION: fden4 */
 			ZRrounding__mode__opt ();
@@ -828,7 +800,7 @@ ZR645(void)
 			}
 			/* BEGINNING OF ACTION: fden5 */
 			{
-#line 1020 "syntax.act"
+#line 942 "syntax.act"
 
     RESET_TDF((ZIe));
     o_make_floating(append_TDF(&(ZIc),1),
@@ -837,7 +809,7 @@ ZR645(void)
 		    o_make_string(append_TDF(&(ZIa), 1)),
 		    o_make_nat(out_tdfint32((ZIg))),
 		    append_TDF(&(ZIb), 1));
-#line 841 "syntax.c"
+#line 813 "syntax.c"
 			}
 			/* END OF ACTION: fden5 */
 			switch (CURRENT_TERMINAL) {
@@ -889,11 +861,11 @@ ZL2_variety:;
 						ADVANCE_LEXER;
 						/* BEGINNING OF ACTION: gencond1_dec */
 						{
-#line 1141 "syntax.act"
+#line 1063 "syntax.act"
 
     /* (ZIb), (ZIc) uninitialised */
     SET_TDF((ZId), &(ZIa));
-#line 897 "syntax.c"
+#line 869 "syntax.c"
 						}
 						/* END OF ACTION: gencond1_dec */
 						switch (CURRENT_TERMINAL) {
@@ -910,11 +882,11 @@ ZL2_variety:;
 						}
 						/* BEGINNING OF ACTION: gencond2 */
 						{
-#line 1146 "syntax.act"
+#line 1068 "syntax.act"
 
     RESET_TDF((ZId));
     SET_TDF((ZId), &(ZIb));
-#line 918 "syntax.c"
+#line 890 "syntax.c"
 						}
 						/* END OF ACTION: gencond2 */
 						switch (CURRENT_TERMINAL) {
@@ -931,11 +903,11 @@ ZL2_variety:;
 						}
 						/* BEGINNING OF ACTION: gencond3 */
 						{
-#line 1151 "syntax.act"
+#line 1073 "syntax.act"
 
     RESET_TDF((ZId));
     SET_TDF((ZId), &(ZIc));
-#line 939 "syntax.c"
+#line 911 "syntax.c"
 						}
 						/* END OF ACTION: gencond3 */
 						switch (CURRENT_TERMINAL) {
@@ -952,12 +924,12 @@ ZL2_variety:;
 						}
 						/* BEGINNING OF ACTION: variety1 */
 						{
-#line 2402 "syntax.act"
+#line 2324 "syntax.act"
 
     RESET_TDF((ZId));
     o_var_cond(append_TDF(&(ZIa),1), append_TDF(&(ZIb),1),
 	       append_TDF(&(ZIc),1));
-#line 961 "syntax.c"
+#line 933 "syntax.c"
 						}
 						/* END OF ACTION: variety1 */
 						switch (CURRENT_TERMINAL) {
@@ -993,19 +965,19 @@ ZL2_variety:;
 
 			/* BEGINNING OF ACTION: gencons1_dec */
 			{
-#line 1156 "syntax.act"
+#line 1078 "syntax.act"
 
     (ZIa) = lex_v.val.v;
-#line 1000 "syntax.c"
+#line 972 "syntax.c"
 			}
 			/* END OF ACTION: gencons1_dec */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: gencons2 */
 			{
-#line 1160 "syntax.act"
+#line 1082 "syntax.act"
 
    (constructs[(ZIa)].f)();
-#line 1009 "syntax.c"
+#line 981 "syntax.c"
 			}
 			/* END OF ACTION: gencons2 */
 		}
@@ -1016,20 +988,20 @@ ZL2_variety:;
 
 			/* BEGINNING OF ACTION: gentok1_dec */
 			{
-#line 1179 "syntax.act"
+#line 1101 "syntax.act"
 
     (ZIa) = lex_v.val.tokname;
     (ZIa)->isused = 1;
-#line 1024 "syntax.c"
+#line 996 "syntax.c"
 			}
 			/* END OF ACTION: gentok1_dec */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: gentok2 */
 			{
-#line 1184 "syntax.act"
+#line 1106 "syntax.act"
 
     expand_tok((ZIa), &(ZIa)->sort);
-#line 1033 "syntax.c"
+#line 1005 "syntax.c"
 			}
 			/* END OF ACTION: gentok2 */
 		}
@@ -1043,11 +1015,11 @@ ZL2_variety:;
 
 			/* BEGINNING OF ACTION: variety2_dec */
 			{
-#line 2408 "syntax.act"
+#line 2330 "syntax.act"
 
     /* (ZIb) uninitialised */
     SET_TDF((ZIc), &(ZIa));
-#line 1051 "syntax.c"
+#line 1023 "syntax.c"
 			}
 			/* END OF ACTION: variety2_dec */
 			ZRsigned__nat__body ();
@@ -1057,11 +1029,11 @@ ZL2_variety:;
 			}
 			/* BEGINNING OF ACTION: variety3 */
 			{
-#line 2413 "syntax.act"
+#line 2335 "syntax.act"
 
     RESET_TDF((ZIc));
     SET_TDF((ZIc), &(ZIb));
-#line 1065 "syntax.c"
+#line 1037 "syntax.c"
 			}
 			/* END OF ACTION: variety3 */
 			switch (CURRENT_TERMINAL) {
@@ -1078,11 +1050,11 @@ ZL2_variety:;
 			}
 			/* BEGINNING OF ACTION: variety4 */
 			{
-#line 2418 "syntax.act"
+#line 2340 "syntax.act"
 
     RESET_TDF((ZIc));
     o_var_limits(append_TDF(&(ZIa),1), append_TDF(&(ZIb),1));
-#line 1086 "syntax.c"
+#line 1058 "syntax.c"
 			}
 			/* END OF ACTION: variety4 */
 		}
@@ -1097,10 +1069,10 @@ ZL1:;
 	{
 		/* BEGINNING OF ACTION: syntax_error */
 		{
-#line 2471 "syntax.act"
+#line 2393 "syntax.act"
 
     fail("Syntax error");
-#line 1104 "syntax.c"
+#line 1076 "syntax.c"
 		}
 		/* END OF ACTION: syntax_error */
 	}
@@ -1119,12 +1091,12 @@ ZR646(void)
 
 			/* BEGINNING OF ACTION: call1_dec */
 			{
-#line 401 "syntax.act"
+#line 323 "syntax.act"
 
     /* (ZIb), (ZIc), (ZId) uninitialised */
     (ZIa) = *current_TDF;
     INIT_TDF(current_TDF);
-#line 1128 "syntax.c"
+#line 1100 "syntax.c"
 			}
 			/* END OF ACTION: call1_dec */
 			ADVANCE_LEXER;
@@ -1135,11 +1107,11 @@ ZR646(void)
 			}
 			/* BEGINNING OF ACTION: call2 */
 			{
-#line 407 "syntax.act"
+#line 329 "syntax.act"
 
     (ZIb) = *current_TDF;
     INIT_TDF(current_TDF);
-#line 1143 "syntax.c"
+#line 1115 "syntax.c"
 			}
 			/* END OF ACTION: call2 */
 			switch (CURRENT_TERMINAL) {
@@ -1162,11 +1134,11 @@ ZR646(void)
 
 			/* BEGINNING OF ACTION: tcall1_dec */
 			{
-#line 2202 "syntax.act"
+#line 2124 "syntax.act"
 
     (ZIa) = *current_TDF;
     INIT_TDF(current_TDF);
-#line 1170 "syntax.c"
+#line 1142 "syntax.c"
 			}
 			/* END OF ACTION: tcall1_dec */
 			ADVANCE_LEXER;
@@ -1185,14 +1157,14 @@ ZR646(void)
 			}
 			/* BEGINNING OF ACTION: tcall2 */
 			{
-#line 2211 "syntax.act"
+#line 2133 "syntax.act"
 
     TDF cees;
     cees = *current_TDF;
     INIT_TDF(current_TDF);
     o_tail_call(do_procprops(g_ce_v*2),
 		append_TDF(&(ZIa),1), append_TDF(&cees,1));
-#line 1196 "syntax.c"
+#line 1168 "syntax.c"
 			}
 			/* END OF ACTION: tcall2 */
 			switch (CURRENT_TERMINAL) {
@@ -1232,10 +1204,10 @@ ZRtok__formal__list__opt(void)
 		{
 			/* BEGINNING OF ACTION: tok_fml_opt1 */
 			{
-#line 2383 "syntax.act"
+#line 2305 "syntax.act"
 
     g_tokpars = (Tokpar*)0;
-#line 1239 "syntax.c"
+#line 1211 "syntax.c"
 			}
 			/* END OF ACTION: tok_fml_opt1 */
 		}
@@ -1257,7 +1229,7 @@ ZR647(void)
 		{
 			/* BEGINNING OF ACTION: expstar1 */
 			{
-#line 904 "syntax.act"
+#line 826 "syntax.act"
 
     char * n = lex_v.val.name;
     Tagdec * x = find_tag(n);
@@ -1271,7 +1243,7 @@ ZR647(void)
 	    o_shape_apply_token(make_tok(&x->sh.shtok), {});
 	} else { append_TDF(&x->sh.tdfsh, 0); },
 	o_obtain_tag(make_tag(&x->idname.name)));
-#line 1275 "syntax.c"
+#line 1247 "syntax.c"
 			}
 			/* END OF ACTION: expstar1 */
 			ADVANCE_LEXER;
@@ -1285,11 +1257,11 @@ ZR647(void)
 
 			/* BEGINNING OF ACTION: expstar2_dec */
 			{
-#line 907 "syntax.act"
+#line 829 "syntax.act"
 
     /* (ZIb) uninitialised */
     SET_TDF((ZIc), &(ZIa));
-#line 1293 "syntax.c"
+#line 1265 "syntax.c"
 			}
 			/* END OF ACTION: expstar2_dec */
 			ADVANCE_LEXER;
@@ -1306,11 +1278,11 @@ ZR647(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: expstar3 */
 			{
-#line 912 "syntax.act"
+#line 834 "syntax.act"
 
     RESET_TDF((ZIc));
     SET_TDF((ZIc), &(ZIb));
-#line 1314 "syntax.c"
+#line 1286 "syntax.c"
 			}
 			/* END OF ACTION: expstar3 */
 			ZRunary__exp ();
@@ -1320,11 +1292,11 @@ ZR647(void)
 			}
 			/* BEGINNING OF ACTION: expstar4 */
 			{
-#line 917 "syntax.act"
+#line 839 "syntax.act"
 
     RESET_TDF((ZIc));
     o_contents(append_TDF(&(ZIa),1), append_TDF(&(ZIb),1));
-#line 1328 "syntax.c"
+#line 1300 "syntax.c"
 			}
 			/* END OF ACTION: expstar4 */
 		}
@@ -1355,14 +1327,14 @@ ZR648(void)
 
 			/* BEGINNING OF ACTION: expcond1_dec */
 			{
-#line 705 "syntax.act"
+#line 627 "syntax.act"
 
     /* (ZIb), (ZIc) uninitialised */
     (ZIe) = defaultlab;
     (ZIf) = labdecs;
     defaultlab = -1;
     SET_TDF((ZId), &(ZIa));
-#line 1366 "syntax.c"
+#line 1338 "syntax.c"
 			}
 			/* END OF ACTION: expcond1_dec */
 			ADVANCE_LEXER;
@@ -1373,11 +1345,11 @@ ZR648(void)
 			}
 			/* BEGINNING OF ACTION: expcond2 */
 			{
-#line 713 "syntax.act"
+#line 635 "syntax.act"
 
     RESET_TDF((ZId));
     SET_TDF((ZId), &(ZIb));
-#line 1381 "syntax.c"
+#line 1353 "syntax.c"
 			}
 			/* END OF ACTION: expcond2 */
 			switch (CURRENT_TERMINAL) {
@@ -1394,12 +1366,12 @@ ZR648(void)
 			}
 			/* BEGINNING OF ACTION: expcond3 */
 			{
-#line 718 "syntax.act"
+#line 640 "syntax.act"
 
     (ZIc) = optlab;
     defaultlab = (ZIe);
     tidy_labels((ZIf));
-#line 1403 "syntax.c"
+#line 1375 "syntax.c"
 			}
 			/* END OF ACTION: expcond3 */
 			ZRexp__sequence ();
@@ -1409,13 +1381,13 @@ ZR648(void)
 			}
 			/* BEGINNING OF ACTION: expcond4 */
 			{
-#line 724 "syntax.act"
+#line 646 "syntax.act"
 
     INIT_TDF((ZId));
     RESET_TDF((ZId));
     o_conditional(append_TDF(&(ZIc),1),
 		  append_TDF(&(ZIa),1), append_TDF(&(ZIb),1));
-#line 1419 "syntax.c"
+#line 1391 "syntax.c"
 			}
 			/* END OF ACTION: expcond4 */
 			switch (CURRENT_TERMINAL) {
@@ -1437,21 +1409,21 @@ ZR648(void)
 
 			/* BEGINNING OF ACTION: query_type1 */
 			{
-#line 1674 "syntax.act"
+#line 1596 "syntax.act"
 
     query_t = lex_query;
-#line 1444 "syntax.c"
+#line 1416 "syntax.c"
 			}
 			/* END OF ACTION: query_type1 */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: exptst1_dec */
 			{
-#line 944 "syntax.act"
+#line 866 "syntax.act"
 
     /* (ZIb), (ZIc) uninitialised */
     (ZIe) = query_t;
     SET_TDF((ZId),&(ZIa));
-#line 1455 "syntax.c"
+#line 1427 "syntax.c"
 			}
 			/* END OF ACTION: exptst1_dec */
 			read_exp ();
@@ -1461,11 +1433,11 @@ ZR648(void)
 			}
 			/* BEGINNING OF ACTION: exptst2 */
 			{
-#line 950 "syntax.act"
+#line 872 "syntax.act"
 
     RESET_TDF((ZId));
     SET_TDF((ZId),&(ZIb));
-#line 1469 "syntax.c"
+#line 1441 "syntax.c"
 			}
 			/* END OF ACTION: exptst2 */
 			read_ntest ();
@@ -1475,11 +1447,11 @@ ZR648(void)
 			}
 			/* BEGINNING OF ACTION: exptst3 */
 			{
-#line 955 "syntax.act"
+#line 877 "syntax.act"
 
     RESET_TDF((ZId));
     SET_TDF((ZId), &(ZIc))
-#line 1483 "syntax.c"
+#line 1455 "syntax.c"
 			}
 			/* END OF ACTION: exptst3 */
 			read_exp ();
@@ -1490,7 +1462,7 @@ ZR648(void)
 			}
 			/* BEGINNING OF ACTION: exptst4 */
 			{
-#line 960 "syntax.act"
+#line 882 "syntax.act"
 
     RESET_TDF((ZId));
     switch ((ZIe)) {
@@ -1519,7 +1491,7 @@ ZR648(void)
 	    break;
 	default: fail("Don't understand test");
     }
-#line 1523 "syntax.c"
+#line 1495 "syntax.c"
 			}
 			/* END OF ACTION: exptst4 */
 			switch (CURRENT_TERMINAL) {
@@ -1551,14 +1523,14 @@ ZR650(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: varietychar */
 			{
-#line 2428 "syntax.act"
+#line 2350 "syntax.act"
 
     o_var_limits(
 	o_make_signed_nat(out_tdfbool(issigned),
 	    out_tdfint32(UL((issigned)?MINSC:0))),
 	o_make_signed_nat(out_tdfbool(0),
 	    out_tdfint32(UL((issigned)?MAXSC:MAXUSC))));
-#line 1562 "syntax.c"
+#line 1534 "syntax.c"
 			}
 			/* END OF ACTION: varietychar */
 		}
@@ -1568,14 +1540,14 @@ ZR650(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: varietyint */
 			{
-#line 2436 "syntax.act"
+#line 2358 "syntax.act"
 
     o_var_limits(
 	o_make_signed_nat(out_tdfbool(issigned),
 	    out_tdfint32(UL((issigned)?MINSI:0))),
 	o_make_signed_nat(out_tdfbool(0),
 	    out_tdfint32(UL((issigned)?MAXSI:MAXUSI))));
-#line 1579 "syntax.c"
+#line 1551 "syntax.c"
 			}
 			/* END OF ACTION: varietyint */
 		}
@@ -1585,14 +1557,14 @@ ZR650(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: varietylong */
 			{
-#line 2444 "syntax.act"
+#line 2366 "syntax.act"
 
     o_var_limits(
 	o_make_signed_nat(out_tdfbool(issigned),
 	    out_tdfint32(UL((issigned)?MINSL:0))),
 	o_make_signed_nat(out_tdfbool(0),
 	    out_tdfint32(UL((issigned)?MAXSL:MAXUSL))));
-#line 1596 "syntax.c"
+#line 1568 "syntax.c"
 			}
 			/* END OF ACTION: varietylong */
 		}
@@ -1602,14 +1574,14 @@ ZR650(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: varietyshort */
 			{
-#line 2459 "syntax.act"
+#line 2381 "syntax.act"
 
     o_var_limits(
 	o_make_signed_nat(out_tdfbool(issigned),
 	    out_tdfint32(UL((issigned)?MINSS:0))),
 	o_make_signed_nat(out_tdfbool(0),
 	    out_tdfint32(UL((issigned)?MAXSS:MAXUSS))));
-#line 1613 "syntax.c"
+#line 1585 "syntax.c"
 			}
 			/* END OF ACTION: varietyshort */
 		}
@@ -1658,10 +1630,10 @@ ZRsignature__opt(void)
 			}
 			/* BEGINNING OF ACTION: newstr_opt1 */
 			{
-#line 1568 "syntax.act"
+#line 1490 "syntax.act"
 
     current_TDF->no=1;
-#line 1665 "syntax.c"
+#line 1637 "syntax.c"
 			}
 			/* END OF ACTION: newstr_opt1 */
 		}
@@ -1699,10 +1671,10 @@ ZRexp__sequence(void)
 			}
 			/* BEGINNING OF ACTION: exp_sls2 */
 			{
-#line 678 "syntax.act"
+#line 600 "syntax.act"
 
     current_TDF->no =1;
-#line 1706 "syntax.c"
+#line 1678 "syntax.c"
 			}
 			/* END OF ACTION: exp_sls2 */
 			ZR628 ();
@@ -1716,11 +1688,11 @@ ZRexp__sequence(void)
 		{
 			/* BEGINNING OF ACTION: exp_sls1 */
 			{
-#line 674 "syntax.act"
+#line 596 "syntax.act"
 
     current_TDF->no =1;
     o_make_top;
-#line 1724 "syntax.c"
+#line 1696 "syntax.c"
 			}
 			/* END OF ACTION: exp_sls1 */
 			ZR628 ();
@@ -1750,10 +1722,10 @@ ZRrange(void)
 
 		/* BEGINNING OF ACTION: range1_dec */
 		{
-#line 1693 "syntax.act"
+#line 1615 "syntax.act"
 
     SET_TDF((ZIa), &g_lower);
-#line 1757 "syntax.c"
+#line 1729 "syntax.c"
 		}
 		/* END OF ACTION: range1_dec */
 		ZRsigned__nat__body ();
@@ -1778,11 +1750,11 @@ ZR654(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: shapechar */
 			{
-#line 1754 "syntax.act"
+#line 1676 "syntax.act"
 
     Name * shtok = tokforcharsh(issigned);
     o_shape_apply_token(make_tok(shtok), {});
-#line 1786 "syntax.c"
+#line 1758 "syntax.c"
 			}
 			/* END OF ACTION: shapechar */
 		}
@@ -1792,11 +1764,11 @@ ZR654(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: shapeint */
 			{
-#line 1769 "syntax.act"
+#line 1691 "syntax.act"
 
     Name * shtok = tokforintsh(issigned);
     o_shape_apply_token(make_tok(shtok), {});
-#line 1800 "syntax.c"
+#line 1772 "syntax.c"
 			}
 			/* END OF ACTION: shapeint */
 		}
@@ -1806,11 +1778,11 @@ ZR654(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: shapelong */
 			{
-#line 1774 "syntax.act"
+#line 1696 "syntax.act"
 
     Name * shtok = tokforlongsh(issigned);
     o_shape_apply_token(make_tok(shtok), {});
-#line 1814 "syntax.c"
+#line 1786 "syntax.c"
 			}
 			/* END OF ACTION: shapelong */
 		}
@@ -1820,11 +1792,11 @@ ZR654(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: shapeshort */
 			{
-#line 1784 "syntax.act"
+#line 1706 "syntax.act"
 
     Name * shtok = tokforshortsh(issigned);
     o_shape_apply_token(make_tok(shtok), {});
-#line 1828 "syntax.c"
+#line 1800 "syntax.c"
 			}
 			/* END OF ACTION: shapeshort */
 		}
@@ -1849,7 +1821,7 @@ ZR655(TDF *ZIa, PTR_TDF *ZIb)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: otagexp3 */
 			{
-#line 1641 "syntax.act"
+#line 1563 "syntax.act"
 
     char* n = lex_v.val.name;
     Tagdec * x = find_tag(n);
@@ -1860,7 +1832,7 @@ ZR655(TDF *ZIa, PTR_TDF *ZIb)
     x->next = g_app_tags; g_app_tags = x;
     RESET_TDF((*ZIb));
     o_make_otagexp(OPTION(make_tag(&x->idname.name)),append_TDF(&(*ZIa),1));
-#line 1864 "syntax.c"
+#line 1836 "syntax.c"
 			}
 			/* END OF ACTION: otagexp3 */
 			switch (CURRENT_TERMINAL) {
@@ -1876,11 +1848,11 @@ ZR655(TDF *ZIa, PTR_TDF *ZIb)
 		{
 			/* BEGINNING OF ACTION: otagexp2 */
 			{
-#line 1629 "syntax.act"
+#line 1551 "syntax.act"
 
     RESET_TDF((*ZIb));
     o_make_otagexp({}, append_TDF(&(*ZIa),1));
-#line 1884 "syntax.c"
+#line 1856 "syntax.c"
 			}
 			/* END OF ACTION: otagexp2 */
 		}
@@ -1906,10 +1878,10 @@ ZRrange__label__list(void)
 
 		/* BEGINNING OF ACTION: rllist1_dec */
 		{
-#line 1713 "syntax.act"
+#line 1635 "syntax.act"
 
     SET_TDF((ZIb),&(ZIa));
-#line 1913 "syntax.c"
+#line 1885 "syntax.c"
 		}
 		/* END OF ACTION: rllist1_dec */
 		ZRrange ();
@@ -1982,13 +1954,13 @@ read_shape(void)
 
 		/* BEGINNING OF ACTION: genhold1_dec */
 		{
-#line 1164 "syntax.act"
+#line 1086 "syntax.act"
 
     (ZIc) = (current_TDF->first == current_TDF->last &&
 	      current_TDF->first->usage == 0 &&
 	      current_TDF->first->offst == 0);
     if (!(ZIc)) { SET_TDF((ZIb), &(ZIa)); }
-#line 1992 "syntax.c"
+#line 1964 "syntax.c"
 		}
 		/* END OF ACTION: genhold1_dec */
 		ZRshape__body ();
@@ -1998,14 +1970,14 @@ read_shape(void)
 		}
 		/* BEGINNING OF ACTION: genhold2 */
 		{
-#line 1171 "syntax.act"
+#line 1093 "syntax.act"
 
     if (!(ZIc)) {
 	SET((ZIb));
 	RESET_TDF((ZIb));
 	append_TDF(&(ZIa),1);
     }
-#line 2009 "syntax.c"
+#line 1981 "syntax.c"
 		}
 		/* END OF ACTION: genhold2 */
 	}
@@ -2014,10 +1986,10 @@ ZL1:;
 	{
 		/* BEGINNING OF ACTION: syntax_error */
 		{
-#line 2471 "syntax.act"
+#line 2393 "syntax.act"
 
     fail("Syntax error");
-#line 2021 "syntax.c"
+#line 1993 "syntax.c"
 		}
 		/* END OF ACTION: syntax_error */
 	}
@@ -2032,10 +2004,10 @@ ZR657(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: untidy3 */
 			{
-#line 2395 "syntax.act"
+#line 2317 "syntax.act"
 
     g_unt = 3;
-#line 2039 "syntax.c"
+#line 2011 "syntax.c"
 			}
 			/* END OF ACTION: untidy3 */
 		}
@@ -2044,10 +2016,10 @@ ZR657(void)
 		{
 			/* BEGINNING OF ACTION: untidy2 */
 			{
-#line 2391 "syntax.act"
+#line 2313 "syntax.act"
 
     g_unt = 1;
-#line 2051 "syntax.c"
+#line 2023 "syntax.c"
 			}
 			/* END OF ACTION: untidy2 */
 		}
@@ -2071,10 +2043,10 @@ ZRaccess__list(void)
 		}
 		/* BEGINNING OF ACTION: acc_l1 */
 		{
-#line 267 "syntax.act"
+#line 189 "syntax.act"
 
     current_TDF->no=1;
-#line 2078 "syntax.c"
+#line 2050 "syntax.c"
 		}
 		/* END OF ACTION: acc_l1 */
 		ZR627 ();
@@ -2103,11 +2075,11 @@ ZR660(TDF *ZIa, TDF *ZIb, TDF *ZIc, TDF *ZId)
 			}
 			/* BEGINNING OF ACTION: call3 */
 			{
-#line 412 "syntax.act"
+#line 334 "syntax.act"
 
     (*ZIc) = *current_TDF;
     INIT_TDF(current_TDF);
-#line 2111 "syntax.c"
+#line 2083 "syntax.c"
 			}
 			/* END OF ACTION: call3 */
 			ZRvarpar__opt ();
@@ -2117,7 +2089,7 @@ ZR660(TDF *ZIa, TDF *ZIb, TDF *ZIc, TDF *ZId)
 			}
 			/* BEGINNING OF ACTION: call4 */
 			{
-#line 417 "syntax.act"
+#line 339 "syntax.act"
 
     (*ZId) = *current_TDF;
     INIT_TDF(current_TDF);
@@ -2125,7 +2097,7 @@ ZR660(TDF *ZIa, TDF *ZIb, TDF *ZIc, TDF *ZId)
 	    { append_TDF(&(*ZIc), 1); current_TDF->no = (*ZIc).no; },
 	      if ((*ZId).no !=0) { OPTION(append_TDF(&(*ZId),1)); }
 	   );
-#line 2129 "syntax.c"
+#line 2101 "syntax.c"
 			}
 			/* END OF ACTION: call4 */
 			switch (CURRENT_TERMINAL) {
@@ -2151,14 +2123,14 @@ ZR660(TDF *ZIa, TDF *ZIb, TDF *ZIc, TDF *ZId)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: gcall1_dec */
 			{
-#line 1101 "syntax.act"
+#line 1023 "syntax.act"
 
     /* (ZIe), (ZIf), (ZIg) uninitialised */
     /* (ZIh), (ZIi), (ZIk) uninitialised */
     (ZIj) = g_app_tags;
     (ZIl) = tagdecs;
     g_app_tags = (Tagdec*)0;
-#line 2162 "syntax.c"
+#line 2134 "syntax.c"
 			}
 			/* END OF ACTION: gcall1_dec */
 			ZRotagexp__list__opt ();
@@ -2169,14 +2141,14 @@ ZR660(TDF *ZIa, TDF *ZIb, TDF *ZIc, TDF *ZId)
 			}
 			/* BEGINNING OF ACTION: gcall2 */
 			{
-#line 1109 "syntax.act"
+#line 1031 "syntax.act"
 
     (ZIe) = *current_TDF;
     INIT_TDF(current_TDF);
     (ZIh) = g_cr_v;
     (ZIk) = g_app_tags;
     g_app_tags = (ZIj);
-#line 2180 "syntax.c"
+#line 2152 "syntax.c"
 			}
 			/* END OF ACTION: gcall2 */
 			switch (CURRENT_TERMINAL) {
@@ -2194,7 +2166,7 @@ ZR660(TDF *ZIa, TDF *ZIb, TDF *ZIc, TDF *ZId)
 			}
 			/* BEGINNING OF ACTION: gcall3 */
 			{
-#line 1117 "syntax.act"
+#line 1039 "syntax.act"
 
     (ZIf) = *current_TDF;
     (ZIi) = g_ce_v;
@@ -2205,7 +2177,7 @@ ZR660(TDF *ZIa, TDF *ZIb, TDF *ZIc, TDF *ZId)
 	x->next = tagdecs;
 	tagdecs = x;
     }
-#line 2209 "syntax.c"
+#line 2181 "syntax.c"
 			}
 			/* END OF ACTION: gcall3 */
 			ZRpostlude__opt ();
@@ -2226,7 +2198,7 @@ ZR660(TDF *ZIa, TDF *ZIb, TDF *ZIc, TDF *ZId)
 			}
 			/* BEGINNING OF ACTION: gcall4 */
 			{
-#line 1129 "syntax.act"
+#line 1051 "syntax.act"
 
     (ZIg) = *current_TDF;
     INIT_TDF(current_TDF);
@@ -2237,7 +2209,7 @@ ZR660(TDF *ZIa, TDF *ZIb, TDF *ZIc, TDF *ZId)
 	{ append_TDF(&(ZIe),1); current_TDF->no = (ZIe).no; },
 	append_TDF(&(ZIf),1),
 	append_TDF(&(ZIg), 1))
-#line 2241 "syntax.c"
+#line 2213 "syntax.c"
 			}
 			/* END OF ACTION: gcall4 */
 		}
@@ -2262,10 +2234,10 @@ ZRtagshacc__list__opt(void)
 	{
 		/* BEGINNING OF ACTION: tagshacc_l1 */
 		{
-#line 2195 "syntax.act"
+#line 2117 "syntax.act"
 
     current_TDF->no =0;
-#line 2269 "syntax.c"
+#line 2241 "syntax.c"
 		}
 		/* END OF ACTION: tagshacc_l1 */
 		ZR664 ();
@@ -2288,14 +2260,14 @@ ZR661(TDF *ZIa, PTR_TDF *ZIb)
 		{
 			/* BEGINNING OF ACTION: rllist2 */
 			{
-#line 1717 "syntax.act"
+#line 1639 "syntax.act"
 
     RESET_TDF((*ZIb));
     o_make_caselim(append_TDF(&(*ZIa),1),
 		   append_TDF(&g_lower, g_has_upper),
 		   append_TDF(&g_upper,1));
     current_TDF->no = 1;
-#line 2299 "syntax.c"
+#line 2271 "syntax.c"
 			}
 			/* END OF ACTION: rllist2 */
 		}
@@ -2304,13 +2276,13 @@ ZR661(TDF *ZIa, PTR_TDF *ZIb)
 		{
 			/* BEGINNING OF ACTION: rllist3 */
 			{
-#line 1725 "syntax.act"
+#line 1647 "syntax.act"
 
     RESET_TDF((*ZIb));
     o_make_caselim(append_TDF(&(*ZIa),1),
 		   append_TDF(&g_lower, g_has_upper),
 		   append_TDF(&g_upper,1));
-#line 2314 "syntax.c"
+#line 2286 "syntax.c"
 			}
 			/* END OF ACTION: rllist3 */
 			ADVANCE_LEXER;
@@ -2321,10 +2293,10 @@ ZR661(TDF *ZIa, PTR_TDF *ZIb)
 			}
 			/* BEGINNING OF ACTION: rllist4 */
 			{
-#line 1733 "syntax.act"
+#line 1655 "syntax.act"
 
     current_TDF->no++;
-#line 2328 "syntax.c"
+#line 2300 "syntax.c"
 			}
 			/* END OF ACTION: rllist4 */
 		}
@@ -2349,10 +2321,10 @@ ZRlabdest__opt(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: dest_o1_dec */
 			{
-#line 530 "syntax.act"
+#line 452 "syntax.act"
 
     SET_TDF((ZIa), &optlab);
-#line 2356 "syntax.c"
+#line 2328 "syntax.c"
 			}
 			/* END OF ACTION: dest_o1_dec */
 			read_label ();
@@ -2362,10 +2334,10 @@ ZRlabdest__opt(void)
 			}
 			/* BEGINNING OF ACTION: dest_opt2 */
 			{
-#line 534 "syntax.act"
+#line 456 "syntax.act"
 
     RESET_TDF((ZIa));
-#line 2369 "syntax.c"
+#line 2341 "syntax.c"
 			}
 			/* END OF ACTION: dest_opt2 */
 		}
@@ -2374,14 +2346,14 @@ ZRlabdest__opt(void)
 		{
 			/* BEGINNING OF ACTION: lset_o1 */
 			{
-#line 1517 "syntax.act"
+#line 1439 "syntax.act"
 
     TDF * hold;
     SET_TDF(hold, &optlab);
     if (defaultlab==-1)defaultlab = next_label();
     o_make_label(out_tdfint32(UL(defaultlab)));
     RESET_TDF(hold);
-#line 2385 "syntax.c"
+#line 2357 "syntax.c"
 			}
 			/* END OF ACTION: lset_o1 */
 		}
@@ -2404,11 +2376,11 @@ ZR662(PTR_TDF *ZIa)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: range3 */
 			{
-#line 1703 "syntax.act"
+#line 1625 "syntax.act"
 
     RESET_TDF((*ZIa));
     SET_TDF((*ZIa), &g_upper);
-#line 2412 "syntax.c"
+#line 2384 "syntax.c"
 			}
 			/* END OF ACTION: range3 */
 			ZRsigned__nat__body ();
@@ -2418,11 +2390,11 @@ ZR662(PTR_TDF *ZIa)
 			}
 			/* BEGINNING OF ACTION: range4 */
 			{
-#line 1708 "syntax.act"
+#line 1630 "syntax.act"
 
     RESET_TDF((*ZIa));
     g_has_upper=1;
-#line 2426 "syntax.c"
+#line 2398 "syntax.c"
 			}
 			/* END OF ACTION: range4 */
 		}
@@ -2431,12 +2403,12 @@ ZR662(PTR_TDF *ZIa)
 		{
 			/* BEGINNING OF ACTION: range2 */
 			{
-#line 1697 "syntax.act"
+#line 1619 "syntax.act"
 
     RESET_TDF((*ZIa));
     g_upper = g_lower;
     g_has_upper=0;
-#line 2440 "syntax.c"
+#line 2412 "syntax.c"
 			}
 			/* END OF ACTION: range2 */
 		}
@@ -2458,10 +2430,10 @@ ZRalignment__list__opt(void)
 		{
 			/* BEGINNING OF ACTION: al_list_opt1 */
 			{
-#line 309 "syntax.act"
+#line 231 "syntax.act"
 
     o_alignment(o_top);
-#line 2465 "syntax.c"
+#line 2437 "syntax.c"
 			}
 			/* END OF ACTION: al_list_opt1 */
 		}
@@ -2475,13 +2447,13 @@ ZRalignment__list__opt(void)
 
 			/* BEGINNING OF ACTION: genhold1_dec */
 			{
-#line 1164 "syntax.act"
+#line 1086 "syntax.act"
 
     (ZIc) = (current_TDF->first == current_TDF->last &&
 	      current_TDF->first->usage == 0 &&
 	      current_TDF->first->offst == 0);
     if (!(ZIc)) { SET_TDF((ZIb), &(ZIa)); }
-#line 2485 "syntax.c"
+#line 2457 "syntax.c"
 			}
 			/* END OF ACTION: genhold1_dec */
 			ZRalignment__list ();
@@ -2491,14 +2463,14 @@ ZRalignment__list__opt(void)
 			}
 			/* BEGINNING OF ACTION: genhold2 */
 			{
-#line 1171 "syntax.act"
+#line 1093 "syntax.act"
 
     if (!(ZIc)) {
 	SET((ZIb));
 	RESET_TDF((ZIb));
 	append_TDF(&(ZIa),1);
     }
-#line 2502 "syntax.c"
+#line 2474 "syntax.c"
 			}
 			/* END OF ACTION: genhold2 */
 		}
@@ -2526,10 +2498,10 @@ ZR663(void)
 			}
 			/* BEGINNING OF ACTION: offexpl2 */
 			{
-#line 1610 "syntax.act"
+#line 1532 "syntax.act"
 
     current_TDF->no+=2;
-#line 2533 "syntax.c"
+#line 2505 "syntax.c"
 			}
 			/* END OF ACTION: offexpl2 */
 		}
@@ -2538,10 +2510,10 @@ ZR663(void)
 		{
 			/* BEGINNING OF ACTION: offexpl1 */
 			{
-#line 1606 "syntax.act"
+#line 1528 "syntax.act"
 
     current_TDF->no = 2;
-#line 2545 "syntax.c"
+#line 2517 "syntax.c"
 			}
 			/* END OF ACTION: offexpl1 */
 		}
@@ -2584,11 +2556,11 @@ ZL2_string:;
 						ADVANCE_LEXER;
 						/* BEGINNING OF ACTION: gencond1_dec */
 						{
-#line 1141 "syntax.act"
+#line 1063 "syntax.act"
 
     /* (ZIb), (ZIc) uninitialised */
     SET_TDF((ZId), &(ZIa));
-#line 2592 "syntax.c"
+#line 2564 "syntax.c"
 						}
 						/* END OF ACTION: gencond1_dec */
 						switch (CURRENT_TERMINAL) {
@@ -2605,11 +2577,11 @@ ZL2_string:;
 						}
 						/* BEGINNING OF ACTION: gencond2 */
 						{
-#line 1146 "syntax.act"
+#line 1068 "syntax.act"
 
     RESET_TDF((ZId));
     SET_TDF((ZId), &(ZIb));
-#line 2613 "syntax.c"
+#line 2585 "syntax.c"
 						}
 						/* END OF ACTION: gencond2 */
 						switch (CURRENT_TERMINAL) {
@@ -2632,11 +2604,11 @@ ZL2_string:;
 						ADVANCE_LEXER;
 						/* BEGINNING OF ACTION: gencond3 */
 						{
-#line 1151 "syntax.act"
+#line 1073 "syntax.act"
 
     RESET_TDF((ZId));
     SET_TDF((ZId), &(ZIc));
-#line 2640 "syntax.c"
+#line 2612 "syntax.c"
 						}
 						/* END OF ACTION: gencond3 */
 						read_string ();
@@ -2646,12 +2618,12 @@ ZL2_string:;
 						}
 						/* BEGINNING OF ACTION: newstring2 */
 						{
-#line 1576 "syntax.act"
+#line 1498 "syntax.act"
 
     RESET_TDF((ZId));
     o_string_cond(append_TDF(&(ZIa),1), append_TDF(&(ZIb),1),
 		  append_TDF(&(ZIc),1));
-#line 2655 "syntax.c"
+#line 2627 "syntax.c"
 						}
 						/* END OF ACTION: newstring2 */
 						switch (CURRENT_TERMINAL) {
@@ -2676,19 +2648,19 @@ ZL2_string:;
 
 			/* BEGINNING OF ACTION: gencons1_dec */
 			{
-#line 1156 "syntax.act"
+#line 1078 "syntax.act"
 
     (ZIa) = lex_v.val.v;
-#line 2683 "syntax.c"
+#line 2655 "syntax.c"
 			}
 			/* END OF ACTION: gencons1_dec */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: gencons2 */
 			{
-#line 1160 "syntax.act"
+#line 1082 "syntax.act"
 
    (constructs[(ZIa)].f)();
-#line 2692 "syntax.c"
+#line 2664 "syntax.c"
 			}
 			/* END OF ACTION: gencons2 */
 		}
@@ -2699,20 +2671,20 @@ ZL2_string:;
 
 			/* BEGINNING OF ACTION: gentok1_dec */
 			{
-#line 1179 "syntax.act"
+#line 1101 "syntax.act"
 
     (ZIa) = lex_v.val.tokname;
     (ZIa)->isused = 1;
-#line 2707 "syntax.c"
+#line 2679 "syntax.c"
 			}
 			/* END OF ACTION: gentok1_dec */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: gentok2 */
 			{
-#line 1184 "syntax.act"
+#line 1106 "syntax.act"
 
     expand_tok((ZIa), &(ZIa)->sort);
-#line 2716 "syntax.c"
+#line 2688 "syntax.c"
 			}
 			/* END OF ACTION: gentok2 */
 		}
@@ -2721,11 +2693,11 @@ ZL2_string:;
 		{
 			/* BEGINNING OF ACTION: newstring1 */
 			{
-#line 1573 "syntax.act"
+#line 1495 "syntax.act"
 
     char * s = lex_v.val.name;
     o_make_string(out_tdfstring_bytes(s, 8, UI(strlen(s))));
-#line 2729 "syntax.c"
+#line 2701 "syntax.c"
 			}
 			/* END OF ACTION: newstring1 */
 			ADVANCE_LEXER;
@@ -2741,10 +2713,10 @@ ZL1:;
 	{
 		/* BEGINNING OF ACTION: syntax_error */
 		{
-#line 2471 "syntax.act"
+#line 2393 "syntax.act"
 
     fail("Syntax error");
-#line 2748 "syntax.c"
+#line 2720 "syntax.c"
 		}
 		/* END OF ACTION: syntax_error */
 	}
@@ -2788,10 +2760,10 @@ ZRotagexp__list(void)
 		}
 		/* BEGINNING OF ACTION: otagel1 */
 		{
-#line 1614 "syntax.act"
+#line 1536 "syntax.act"
 
     current_TDF->no = 1;
-#line 2795 "syntax.c"
+#line 2767 "syntax.c"
 		}
 		/* END OF ACTION: otagel1 */
 		ZR626 ();
@@ -2815,10 +2787,10 @@ ZRvariety__sign(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: signedornot1 */
 			{
-#line 1870 "syntax.act"
+#line 1792 "syntax.act"
 
     issigned = 1;
-#line 2822 "syntax.c"
+#line 2794 "syntax.c"
 			}
 			/* END OF ACTION: signedornot1 */
 		}
@@ -2828,10 +2800,10 @@ ZRvariety__sign(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: signedornot2 */
 			{
-#line 1874 "syntax.act"
+#line 1796 "syntax.act"
 
     issigned = 0;
-#line 2835 "syntax.c"
+#line 2807 "syntax.c"
 			}
 			/* END OF ACTION: signedornot2 */
 		}
@@ -2840,10 +2812,10 @@ ZRvariety__sign(void)
 		{
 			/* BEGINNING OF ACTION: signedornot1 */
 			{
-#line 1870 "syntax.act"
+#line 1792 "syntax.act"
 
     issigned = 1;
-#line 2847 "syntax.c"
+#line 2819 "syntax.c"
 			}
 			/* END OF ACTION: signedornot1 */
 		}
@@ -2867,10 +2839,10 @@ ZR668(void)
 			}
 			/* BEGINNING OF ACTION: llist4 */
 			{
-#line 1504 "syntax.act"
+#line 1426 "syntax.act"
 
     g_lablist.no++;
-#line 2874 "syntax.c"
+#line 2846 "syntax.c"
 			}
 			/* END OF ACTION: llist4 */
 		}
@@ -2879,10 +2851,10 @@ ZR668(void)
 		{
 			/* BEGINNING OF ACTION: llist3 */
 			{
-#line 1500 "syntax.act"
+#line 1422 "syntax.act"
 
     g_lablist.no = 1;
-#line 2886 "syntax.c"
+#line 2858 "syntax.c"
 			}
 			/* END OF ACTION: llist3 */
 		}
@@ -2904,12 +2876,12 @@ ZR669(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_Tagdec *ZId, int *ZIe)
 		{
 			/* BEGINNING OF ACTION: intro2 */
 			{
-#line 1265 "syntax.act"
+#line 1187 "syntax.act"
 
     RESET_TDF((*ZIc));
     SET_TDF((*ZIc), &(*ZIb));
     (*ZIe) = g_has_vis;
-#line 2913 "syntax.c"
+#line 2885 "syntax.c"
 			}
 			/* END OF ACTION: intro2 */
 			ADVANCE_LEXER;
@@ -2920,7 +2892,7 @@ ZR669(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_Tagdec *ZId, int *ZIe)
 			}
 			/* BEGINNING OF ACTION: intro4 */
 			{
-#line 1277 "syntax.act"
+#line 1199 "syntax.act"
 
     RESET_TDF((*ZIc));
     intro_acc = (*ZIa);
@@ -2934,7 +2906,7 @@ ZR669(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_Tagdec *ZId, int *ZIe)
     }
     (*ZId)->next = localdecs;
     localdecs = (*ZId);
-#line 2938 "syntax.c"
+#line 2910 "syntax.c"
 			}
 			/* END OF ACTION: intro4 */
 		}
@@ -2943,12 +2915,12 @@ ZR669(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_Tagdec *ZId, int *ZIe)
 		{
 			/* BEGINNING OF ACTION: intro3 */
 			{
-#line 1271 "syntax.act"
+#line 1193 "syntax.act"
 
     RESET_TDF((*ZIc));
     SET_TDF((*ZIc), &(*ZId)->sh.tdfsh);
     (*ZId)->hassh=2;
-#line 2952 "syntax.c"
+#line 2924 "syntax.c"
 			}
 			/* END OF ACTION: intro3 */
 			ADVANCE_LEXER;
@@ -2959,12 +2931,12 @@ ZR669(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_Tagdec *ZId, int *ZIe)
 			}
 			/* BEGINNING OF ACTION: intro2 */
 			{
-#line 1265 "syntax.act"
+#line 1187 "syntax.act"
 
     RESET_TDF((*ZIc));
     SET_TDF((*ZIc), &(*ZIb));
     (*ZIe) = g_has_vis;
-#line 2968 "syntax.c"
+#line 2940 "syntax.c"
 			}
 			/* END OF ACTION: intro2 */
 			ZR670 (ZIa, ZIb, ZIc, ZId, ZIe);
@@ -2999,7 +2971,7 @@ ZR670(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_Tagdec *ZId, int *ZIe)
 			}
 			/* BEGINNING OF ACTION: intro4 */
 			{
-#line 1277 "syntax.act"
+#line 1199 "syntax.act"
 
     RESET_TDF((*ZIc));
     intro_acc = (*ZIa);
@@ -3013,7 +2985,7 @@ ZR670(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_Tagdec *ZId, int *ZIe)
     }
     (*ZId)->next = localdecs;
     localdecs = (*ZId);
-#line 3017 "syntax.c"
+#line 2989 "syntax.c"
 			}
 			/* END OF ACTION: intro4 */
 		}
@@ -3022,15 +2994,15 @@ ZR670(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_Tagdec *ZId, int *ZIe)
 		{
 			/* BEGINNING OF ACTION: intro6 */
 			{
-#line 1307 "syntax.act"
+#line 1229 "syntax.act"
 
     o_make_value(append_TDF(&(*ZId)->sh.tdfsh, 0));
-#line 3029 "syntax.c"
+#line 3001 "syntax.c"
 			}
 			/* END OF ACTION: intro6 */
 			/* BEGINNING OF ACTION: intro4 */
 			{
-#line 1277 "syntax.act"
+#line 1199 "syntax.act"
 
     RESET_TDF((*ZIc));
     intro_acc = (*ZIa);
@@ -3044,7 +3016,7 @@ ZR670(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_Tagdec *ZId, int *ZIe)
     }
     (*ZId)->next = localdecs;
     localdecs = (*ZId);
-#line 3048 "syntax.c"
+#line 3020 "syntax.c"
 			}
 			/* END OF ACTION: intro4 */
 		}
@@ -3076,10 +3048,10 @@ ZL1:;
 	{
 		/* BEGINNING OF ACTION: syntax_error */
 		{
-#line 2471 "syntax.act"
+#line 2393 "syntax.act"
 
     fail("Syntax error");
-#line 3083 "syntax.c"
+#line 3055 "syntax.c"
 		}
 		/* END OF ACTION: syntax_error */
 	}
@@ -3099,7 +3071,7 @@ ZR672(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_char *ZId)
 			}
 			/* BEGINNING OF ACTION: exp2 */
 			{
-#line 586 "syntax.act"
+#line 508 "syntax.act"
 
     INIT_TDF((*ZIc));
     RESET_TDF((*ZIc));
@@ -3124,7 +3096,7 @@ ZR672(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_char *ZId)
     } else if (strcmp((*ZId), ".max.") ==0) {
 	o_offset_max(append_TDF(&(*ZIa),1), append_TDF(&(*ZIb),1));
     } else { fail("%s not an addrop", (*ZId)); }
-#line 3128 "syntax.c"
+#line 3100 "syntax.c"
 			}
 			/* END OF ACTION: exp2 */
 		}
@@ -3139,12 +3111,12 @@ ZR672(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_char *ZId)
 			}
 			/* BEGINNING OF ACTION: exp6 */
 			{
-#line 666 "syntax.act"
+#line 588 "syntax.act"
 
     INIT_TDF((*ZIc));
     RESET_TDF((*ZIc));
     o_assign(append_TDF(&(*ZIa),1), append_TDF(&(*ZIb),1));
-#line 3148 "syntax.c"
+#line 3120 "syntax.c"
 			}
 			/* END OF ACTION: exp6 */
 		}
@@ -3159,7 +3131,7 @@ ZR672(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_char *ZId)
 			}
 			/* BEGINNING OF ACTION: exp3 */
 			{
-#line 612 "syntax.act"
+#line 534 "syntax.act"
 
     INIT_TDF((*ZIc));
     RESET_TDF((*ZIc));
@@ -3170,7 +3142,7 @@ ZR672(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_char *ZId)
     } else if (strcmp((*ZId), "Xor") ==0) {
 	o_xor(append_TDF(&(*ZIa),1), append_TDF(&(*ZIb),1));
     } else { fail("%s not a logop", (*ZId)); }
-#line 3174 "syntax.c"
+#line 3146 "syntax.c"
 			}
 			/* END OF ACTION: exp3 */
 		}
@@ -3207,7 +3179,7 @@ ZR672(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_char *ZId)
 			}
 			/* BEGINNING OF ACTION: exp5 */
 			{
-#line 624 "syntax.act"
+#line 546 "syntax.act"
 
     INIT_TDF((*ZIc));
     RESET_TDF((*ZIc));
@@ -3248,7 +3220,7 @@ ZR672(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_char *ZId)
 	o_floating_div(o_continue, append_TDF(&(*ZIa),1),
 		       append_TDF(&(*ZIb),1));
     } else { fail("%s not an arithop", (*ZId)); }
-#line 3252 "syntax.c"
+#line 3224 "syntax.c"
 			}
 			/* END OF ACTION: exp5 */
 		}
@@ -3291,10 +3263,10 @@ ZL2_token:;
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: tok2_dec */
 			{
-#line 2245 "syntax.act"
+#line 2167 "syntax.act"
 
     (ZIa) = g_tok_defn;
-#line 3298 "syntax.c"
+#line 3270 "syntax.c"
 			}
 			/* END OF ACTION: tok2_dec */
 			ZRtok__def__body ();
@@ -3304,11 +3276,11 @@ ZL2_token:;
 			}
 			/* BEGINNING OF ACTION: tok3 */
 			{
-#line 2250 "syntax.act"
+#line 2172 "syntax.act"
 
     o_use_tokdef(append_TDF(&g_tok_defn,1));
     g_tok_defn = (ZIa);
-#line 3312 "syntax.c"
+#line 3284 "syntax.c"
 			}
 			/* END OF ACTION: tok3 */
 		}
@@ -3321,7 +3293,7 @@ ZL2_token:;
 		{
 			/* BEGINNING OF ACTION: tok1 */
 			{
-#line 2242 "syntax.act"
+#line 2164 "syntax.act"
 
     Tokdec * td = lex_v.val.tokname;
     if (td->isparam) {
@@ -3330,7 +3302,7 @@ ZL2_token:;
 	make_tok(&td->idname.name);
     }
     /* token should only be expanded as parameter of a token */
-#line 3334 "syntax.c"
+#line 3306 "syntax.c"
 			}
 			/* END OF ACTION: tok1 */
 			/* BEGINNING OF INLINE: tok_item */
@@ -3438,10 +3410,10 @@ ZL1:;
 	{
 		/* BEGINNING OF ACTION: syntax_error */
 		{
-#line 2471 "syntax.act"
+#line 2393 "syntax.act"
 
     fail("Syntax error");
-#line 3445 "syntax.c"
+#line 3417 "syntax.c"
 		}
 		/* END OF ACTION: syntax_error */
 	}
@@ -3455,12 +3427,12 @@ ZR673(void)
 		{
 			/* BEGINNING OF ACTION: snl1 */
 			{
-#line 1919 "syntax.act"
+#line 1841 "syntax.act"
 
     g_tokpars = xmalloc(sizeof *g_tokpars);
     g_tokpars->par = g_sname;
     g_tokpars->next = (Tokpar*)0;
-#line 3464 "syntax.c"
+#line 3436 "syntax.c"
 			}
 			/* END OF ACTION: snl1 */
 		}
@@ -3471,10 +3443,10 @@ ZR673(void)
 
 			/* BEGINNING OF ACTION: snl2_dec */
 			{
-#line 1922 "syntax.act"
+#line 1844 "syntax.act"
 
     (ZIa) = g_sname;
-#line 3478 "syntax.c"
+#line 3450 "syntax.c"
 			}
 			/* END OF ACTION: snl2_dec */
 			ADVANCE_LEXER;
@@ -3485,13 +3457,13 @@ ZR673(void)
 			}
 			/* BEGINNING OF ACTION: snl3 */
 			{
-#line 1927 "syntax.act"
+#line 1849 "syntax.act"
 
     Tokpar * x = xmalloc(sizeof *x);
     x->par = (ZIa);
     x->next = g_tokpars;
     g_tokpars = x;
-#line 3495 "syntax.c"
+#line 3467 "syntax.c"
 			}
 			/* END OF ACTION: snl3 */
 		}
@@ -3536,11 +3508,11 @@ ZL2_nat__not__int:;
 						ADVANCE_LEXER;
 						/* BEGINNING OF ACTION: gencond1_dec */
 						{
-#line 1141 "syntax.act"
+#line 1063 "syntax.act"
 
     /* (ZIb), (ZIc) uninitialised */
     SET_TDF((ZId), &(ZIa));
-#line 3544 "syntax.c"
+#line 3516 "syntax.c"
 						}
 						/* END OF ACTION: gencond1_dec */
 						switch (CURRENT_TERMINAL) {
@@ -3557,11 +3529,11 @@ ZL2_nat__not__int:;
 						}
 						/* BEGINNING OF ACTION: gencond2 */
 						{
-#line 1146 "syntax.act"
+#line 1068 "syntax.act"
 
     RESET_TDF((ZId));
     SET_TDF((ZId), &(ZIb));
-#line 3565 "syntax.c"
+#line 3537 "syntax.c"
 						}
 						/* END OF ACTION: gencond2 */
 						switch (CURRENT_TERMINAL) {
@@ -3578,11 +3550,11 @@ ZL2_nat__not__int:;
 						}
 						/* BEGINNING OF ACTION: gencond3 */
 						{
-#line 1151 "syntax.act"
+#line 1073 "syntax.act"
 
     RESET_TDF((ZId));
     SET_TDF((ZId), &(ZIc));
-#line 3586 "syntax.c"
+#line 3558 "syntax.c"
 						}
 						/* END OF ACTION: gencond3 */
 						switch (CURRENT_TERMINAL) {
@@ -3599,12 +3571,12 @@ ZL2_nat__not__int:;
 						}
 						/* BEGINNING OF ACTION: nat1 */
 						{
-#line 1548 "syntax.act"
+#line 1470 "syntax.act"
 
     RESET_TDF((ZId));
     o_nat_cond(append_TDF(&(ZIa),1), append_TDF(&(ZIb),1),
 	       append_TDF(&(ZIc),1));
-#line 3608 "syntax.c"
+#line 3580 "syntax.c"
 						}
 						/* END OF ACTION: nat1 */
 						switch (CURRENT_TERMINAL) {
@@ -3629,19 +3601,19 @@ ZL2_nat__not__int:;
 
 			/* BEGINNING OF ACTION: gencons1_dec */
 			{
-#line 1156 "syntax.act"
+#line 1078 "syntax.act"
 
     (ZIa) = lex_v.val.v;
-#line 3636 "syntax.c"
+#line 3608 "syntax.c"
 			}
 			/* END OF ACTION: gencons1_dec */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: gencons2 */
 			{
-#line 1160 "syntax.act"
+#line 1082 "syntax.act"
 
    (constructs[(ZIa)].f)();
-#line 3645 "syntax.c"
+#line 3617 "syntax.c"
 			}
 			/* END OF ACTION: gencons2 */
 		}
@@ -3652,20 +3624,20 @@ ZL2_nat__not__int:;
 
 			/* BEGINNING OF ACTION: gentok1_dec */
 			{
-#line 1179 "syntax.act"
+#line 1101 "syntax.act"
 
     (ZIa) = lex_v.val.tokname;
     (ZIa)->isused = 1;
-#line 3660 "syntax.c"
+#line 3632 "syntax.c"
 			}
 			/* END OF ACTION: gentok1_dec */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: gentok2 */
 			{
-#line 1184 "syntax.act"
+#line 1106 "syntax.act"
 
     expand_tok((ZIa), &(ZIa)->sort);
-#line 3669 "syntax.c"
+#line 3641 "syntax.c"
 			}
 			/* END OF ACTION: gentok2 */
 		}
@@ -3690,11 +3662,11 @@ ZRshape__body(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: shapedouble */
 			{
-#line 1759 "syntax.act"
+#line 1681 "syntax.act"
 
     Name * shtok = tokfordoublesh();
     o_shape_apply_token(make_tok(shtok), {});
-#line 3698 "syntax.c"
+#line 3670 "syntax.c"
 			}
 			/* END OF ACTION: shapedouble */
 		}
@@ -3704,11 +3676,11 @@ ZRshape__body(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: shapefloat */
 			{
-#line 1764 "syntax.act"
+#line 1686 "syntax.act"
 
     Name * shtok = tokforfloatsh();
     o_shape_apply_token(make_tok(shtok), {});
-#line 3712 "syntax.c"
+#line 3684 "syntax.c"
 			}
 			/* END OF ACTION: shapefloat */
 		}
@@ -3721,10 +3693,10 @@ ZRshape__body(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: shptr1_dec */
 			{
-#line 1808 "syntax.act"
+#line 1730 "syntax.act"
 
     SET_TDF((ZIb), &(ZIa));
-#line 3728 "syntax.c"
+#line 3700 "syntax.c"
 			}
 			/* END OF ACTION: shptr1_dec */
 			read_shape ();
@@ -3734,11 +3706,11 @@ ZRshape__body(void)
 			}
 			/* BEGINNING OF ACTION: shapeptr2 */
 			{
-#line 1777 "syntax.act"
+#line 1699 "syntax.act"
 
     RESET_TDF((ZIb));
     o_pointer(o_alignment(append_TDF(&(ZIa),1)));
-#line 3742 "syntax.c"
+#line 3714 "syntax.c"
 			}
 			/* END OF ACTION: shapeptr2 */
 		}
@@ -3770,19 +3742,19 @@ ZRshape__body(void)
 
 			/* BEGINNING OF ACTION: gencons1_dec */
 			{
-#line 1156 "syntax.act"
+#line 1078 "syntax.act"
 
     (ZIa) = lex_v.val.v;
-#line 3777 "syntax.c"
+#line 3749 "syntax.c"
 			}
 			/* END OF ACTION: gencons1_dec */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: gencons2 */
 			{
-#line 1160 "syntax.act"
+#line 1082 "syntax.act"
 
    (constructs[(ZIa)].f)();
-#line 3786 "syntax.c"
+#line 3758 "syntax.c"
 			}
 			/* END OF ACTION: gencons2 */
 		}
@@ -3793,20 +3765,20 @@ ZRshape__body(void)
 
 			/* BEGINNING OF ACTION: gentok1_dec */
 			{
-#line 1179 "syntax.act"
+#line 1101 "syntax.act"
 
     (ZIa) = lex_v.val.tokname;
     (ZIa)->isused = 1;
-#line 3801 "syntax.c"
+#line 3773 "syntax.c"
 			}
 			/* END OF ACTION: gentok1_dec */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: gentok2 */
 			{
-#line 1184 "syntax.act"
+#line 1106 "syntax.act"
 
     expand_tok((ZIa), &(ZIa)->sort);
-#line 3810 "syntax.c"
+#line 3782 "syntax.c"
 			}
 			/* END OF ACTION: gentok2 */
 		}
@@ -3846,10 +3818,10 @@ ZRrepeat__starter__opt(void)
 		{
 			/* BEGINNING OF ACTION: strtr1 */
 			{
-#line 1934 "syntax.act"
+#line 1856 "syntax.act"
 
     o_make_top;
-#line 3853 "syntax.c"
+#line 3825 "syntax.c"
 			}
 			/* END OF ACTION: strtr1 */
 		}
@@ -3871,13 +3843,13 @@ ZR674(void)
 		{
 			/* BEGINNING OF ACTION: sortname2 */
 			{
-#line 1891 "syntax.act"
+#line 1813 "syntax.act"
 
     if (g_sname.sort == token_sort) {
 	fail("Token pars require result and parameter sorts");
     }
     g_sname.toksort= (TokSort*)0;
-#line 3881 "syntax.c"
+#line 3853 "syntax.c"
 			}
 			/* END OF ACTION: sortname2 */
 		}
@@ -3890,7 +3862,7 @@ ZR674(void)
 
 			/* BEGINNING OF ACTION: sortname3_dec */
 			{
-#line 1894 "syntax.act"
+#line 1816 "syntax.act"
 
     /* (ZIb) uninitialised */
     (ZIc) = g_tokpars;
@@ -3898,7 +3870,7 @@ ZR674(void)
     if (g_sname.sort != token_sort) {
 	fail("Only token pars require result and parameter sorts");
     }
-#line 3902 "syntax.c"
+#line 3874 "syntax.c"
 			}
 			/* END OF ACTION: sortname3_dec */
 			ADVANCE_LEXER;
@@ -3915,10 +3887,10 @@ ZR674(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: sortname4 */
 			{
-#line 1903 "syntax.act"
+#line 1825 "syntax.act"
 
     (ZIb) = g_tokpars;
-#line 3922 "syntax.c"
+#line 3894 "syntax.c"
 			}
 			/* END OF ACTION: sortname4 */
 			ZRfull__sortname ();
@@ -3928,7 +3900,7 @@ ZR674(void)
 			}
 			/* BEGINNING OF ACTION: sortname5 */
 			{
-#line 1909 "syntax.act"
+#line 1831 "syntax.act"
 
     TokSort * ts = xmalloc(sizeof *ts);
     ts->ressort = g_sname;
@@ -3936,7 +3908,7 @@ ZR674(void)
     g_tokpars = (ZIc);
     (ZIa).toksort = ts;
     g_sname = (ZIa);
-#line 3940 "syntax.c"
+#line 3912 "syntax.c"
 			}
 			/* END OF ACTION: sortname5 */
 		}
@@ -3964,7 +3936,7 @@ ZL2_field__list:;
 
 		/* BEGINNING OF ACTION: field1_dec */
 		{
-#line 1032 "syntax.act"
+#line 954 "syntax.act"
 
     char * dotn = append_string(".",lex_v.val.name);
     char * n = lex_v.val.name;
@@ -3985,7 +3957,7 @@ ZL2_field__list:;
     (ZIc)->sort.pars->next = (Tokpar*)0;
     (ZIb)->next = (ZIc);
     SET_TDF((ZIa), &g_shape);
-#line 3989 "syntax.c"
+#line 3961 "syntax.c"
 		}
 		/* END OF ACTION: field1_dec */
 		switch (CURRENT_TERMINAL) {
@@ -4009,7 +3981,7 @@ ZL2_field__list:;
 		}
 		/* BEGINNING OF ACTION: field2 */
 		{
-#line 1053 "syntax.act"
+#line 975 "syntax.act"
 
     int tn;
     RESET_TDF((ZIa));
@@ -4037,7 +4009,7 @@ ZL2_field__list:;
     INC_LIST;
     (ZIc)->next = tokdecs;
     tokdecs = (ZIb);
-#line 4041 "syntax.c"
+#line 4013 "syntax.c"
 		}
 		/* END OF ACTION: field2 */
 		/* BEGINNING OF INLINE: 682 */
@@ -4072,10 +4044,10 @@ ZR675(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: shapetokchar */
 			{
-#line 1797 "syntax.act"
+#line 1719 "syntax.act"
 
     * g_shtokname = *(tokforcharsh(issigned));
-#line 4079 "syntax.c"
+#line 4051 "syntax.c"
 			}
 			/* END OF ACTION: shapetokchar */
 		}
@@ -4085,10 +4057,10 @@ ZR675(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: shapetokint */
 			{
-#line 1801 "syntax.act"
+#line 1723 "syntax.act"
 
     * g_shtokname = *(tokforintsh(issigned));
-#line 4092 "syntax.c"
+#line 4064 "syntax.c"
 			}
 			/* END OF ACTION: shapetokint */
 		}
@@ -4098,10 +4070,10 @@ ZR675(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: shapetoklong */
 			{
-#line 1805 "syntax.act"
+#line 1727 "syntax.act"
 
     * g_shtokname = *(tokforlongsh(issigned));
-#line 4105 "syntax.c"
+#line 4077 "syntax.c"
 			}
 			/* END OF ACTION: shapetoklong */
 		}
@@ -4111,10 +4083,10 @@ ZR675(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: shtokshrt */
 			{
-#line 1829 "syntax.act"
+#line 1751 "syntax.act"
 
     * g_shtokname = *(tokforshortsh(issigned));
-#line 4118 "syntax.c"
+#line 4090 "syntax.c"
 			}
 			/* END OF ACTION: shtokshrt */
 		}
@@ -4154,11 +4126,11 @@ ZR676(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: gencond1_dec */
 			{
-#line 1141 "syntax.act"
+#line 1063 "syntax.act"
 
     /* (ZIb), (ZIc) uninitialised */
     SET_TDF((ZId), &(ZIa));
-#line 4162 "syntax.c"
+#line 4134 "syntax.c"
 			}
 			/* END OF ACTION: gencond1_dec */
 			switch (CURRENT_TERMINAL) {
@@ -4175,11 +4147,11 @@ ZR676(void)
 			}
 			/* BEGINNING OF ACTION: gencond2 */
 			{
-#line 1146 "syntax.act"
+#line 1068 "syntax.act"
 
     RESET_TDF((ZId));
     SET_TDF((ZId), &(ZIb));
-#line 4183 "syntax.c"
+#line 4155 "syntax.c"
 			}
 			/* END OF ACTION: gencond2 */
 			switch (CURRENT_TERMINAL) {
@@ -4196,11 +4168,11 @@ ZR676(void)
 			}
 			/* BEGINNING OF ACTION: gencond3 */
 			{
-#line 1151 "syntax.act"
+#line 1073 "syntax.act"
 
     RESET_TDF((ZId));
     SET_TDF((ZId), &(ZIc));
-#line 4204 "syntax.c"
+#line 4176 "syntax.c"
 			}
 			/* END OF ACTION: gencond3 */
 			switch (CURRENT_TERMINAL) {
@@ -4217,12 +4189,12 @@ ZR676(void)
 			}
 			/* BEGINNING OF ACTION: shape1 */
 			{
-#line 1746 "syntax.act"
+#line 1668 "syntax.act"
 
     RESET_TDF((ZId));
     o_shape_cond(append_TDF(&(ZIa),1), append_TDF(&(ZIb),1),
 		 append_TDF(&(ZIc),1));
-#line 4226 "syntax.c"
+#line 4198 "syntax.c"
 			}
 			/* END OF ACTION: shape1 */
 			switch (CURRENT_TERMINAL) {
@@ -4253,12 +4225,12 @@ ZR677(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_Tagdec *ZId, PTR_char *ZIe, int *ZIf
 		{
 			/* BEGINNING OF ACTION: tag_def2 */
 			{
-#line 2070 "syntax.act"
+#line 1992 "syntax.act"
 
     RESET_TDF((*ZIc));
     if (!(*ZId)->hassh)fail("No declaration shape for %s", (*ZIe));
     SET_TDF((*ZIc), &(*ZIa));
-#line 4262 "syntax.c"
+#line 4234 "syntax.c"
 			}
 			/* END OF ACTION: tag_def2 */
 			ADVANCE_LEXER;
@@ -4269,7 +4241,7 @@ ZR677(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_Tagdec *ZId, PTR_char *ZIe, int *ZIf
 			}
 			/* BEGINNING OF ACTION: tag_def3 */
 			{
-#line 2076 "syntax.act"
+#line 1998 "syntax.act"
 
     RESET_TDF((*ZIc));
     o_make_var_tagdef(out_tdfint32(UL(non_local(&(*ZId)->idname.name, tag_ent))),
@@ -4278,7 +4250,7 @@ ZR677(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_Tagdec *ZId, PTR_char *ZIe, int *ZIf
 	append_TDF(&(*ZIa), 1));
     INC_LIST;
     (*ZId)->isdeffed = 1;
-#line 4282 "syntax.c"
+#line 4254 "syntax.c"
 			}
 			/* END OF ACTION: tag_def3 */
 		}
@@ -4287,12 +4259,12 @@ ZR677(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_Tagdec *ZId, PTR_char *ZIe, int *ZIf
 		{
 			/* BEGINNING OF ACTION: tag_def4 */
 			{
-#line 2086 "syntax.act"
+#line 2008 "syntax.act"
 
     RESET_TDF((*ZIc));
     if ((*ZId)->hassh)fail("Two declaration shapes for %s", (*ZIe));
     g_shtokname = &(*ZId)->sh.shtok;
-#line 4296 "syntax.c"
+#line 4268 "syntax.c"
 			}
 			/* END OF ACTION: tag_def4 */
 			ADVANCE_LEXER;
@@ -4303,10 +4275,10 @@ ZR677(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_Tagdec *ZId, PTR_char *ZIe, int *ZIf
 			}
 			/* BEGINNING OF ACTION: tag_def5 */
 			{
-#line 2092 "syntax.act"
+#line 2014 "syntax.act"
 
     SET_TDF((*ZIc), &(*ZIa));
-#line 4310 "syntax.c"
+#line 4282 "syntax.c"
 			}
 			/* END OF ACTION: tag_def5 */
 			ZR680 (ZIa, ZIb, ZIc, ZId, ZIf);
@@ -4344,10 +4316,10 @@ ZRrounding__mode__opt(void)
 		{
 			/* BEGINNING OF ACTION: rmodeopt1 */
 			{
-#line 1743 "syntax.act"
+#line 1665 "syntax.act"
 
     o_to_nearest;
-#line 4351 "syntax.c"
+#line 4323 "syntax.c"
 			}
 			/* END OF ACTION: rmodeopt1 */
 		}
@@ -4369,12 +4341,12 @@ ZR678(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_Tagdec *ZId, PTR_char *ZIe, int *ZIf
 		{
 			/* BEGINNING OF ACTION: tag_def2 */
 			{
-#line 2070 "syntax.act"
+#line 1992 "syntax.act"
 
     RESET_TDF((*ZIc));
     if (!(*ZId)->hassh)fail("No declaration shape for %s", (*ZIe));
     SET_TDF((*ZIc), &(*ZIa));
-#line 4378 "syntax.c"
+#line 4350 "syntax.c"
 			}
 			/* END OF ACTION: tag_def2 */
 			ADVANCE_LEXER;
@@ -4385,7 +4357,7 @@ ZR678(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_Tagdec *ZId, PTR_char *ZIe, int *ZIf
 			}
 			/* BEGINNING OF ACTION: ctag_def3 */
 			{
-#line 501 "syntax.act"
+#line 423 "syntax.act"
 
     RESET_TDF((*ZIc));
     (*ZId)->iscommon = 1;
@@ -4394,7 +4366,7 @@ ZR678(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_Tagdec *ZId, PTR_char *ZIe, int *ZIf
 	append_TDF(&(*ZIa), 1));
     INC_LIST;
     (*ZId)->isdeffed = 1;
-#line 4398 "syntax.c"
+#line 4370 "syntax.c"
 			}
 			/* END OF ACTION: ctag_def3 */
 		}
@@ -4403,12 +4375,12 @@ ZR678(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_Tagdec *ZId, PTR_char *ZIe, int *ZIf
 		{
 			/* BEGINNING OF ACTION: tag_def4 */
 			{
-#line 2086 "syntax.act"
+#line 2008 "syntax.act"
 
     RESET_TDF((*ZIc));
     if ((*ZId)->hassh)fail("Two declaration shapes for %s", (*ZIe));
     g_shtokname = &(*ZId)->sh.shtok;
-#line 4412 "syntax.c"
+#line 4384 "syntax.c"
 			}
 			/* END OF ACTION: tag_def4 */
 			ADVANCE_LEXER;
@@ -4419,10 +4391,10 @@ ZR678(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_Tagdec *ZId, PTR_char *ZIe, int *ZIf
 			}
 			/* BEGINNING OF ACTION: tag_def5 */
 			{
-#line 2092 "syntax.act"
+#line 2014 "syntax.act"
 
     SET_TDF((*ZIc), &(*ZIa));
-#line 4426 "syntax.c"
+#line 4398 "syntax.c"
 			}
 			/* END OF ACTION: tag_def5 */
 			ZR681 (ZIa, ZIb, ZIc, ZId, ZIf);
@@ -4456,13 +4428,13 @@ ZRnonst__shape(void)
 
 		/* BEGINNING OF ACTION: genhold1_dec */
 		{
-#line 1164 "syntax.act"
+#line 1086 "syntax.act"
 
     (ZIc) = (current_TDF->first == current_TDF->last &&
 	      current_TDF->first->usage == 0 &&
 	      current_TDF->first->offst == 0);
     if (!(ZIc)) { SET_TDF((ZIb), &(ZIa)); }
-#line 4466 "syntax.c"
+#line 4438 "syntax.c"
 		}
 		/* END OF ACTION: genhold1_dec */
 		ZRnonst__shape__body ();
@@ -4472,14 +4444,14 @@ ZRnonst__shape(void)
 		}
 		/* BEGINNING OF ACTION: genhold2 */
 		{
-#line 1171 "syntax.act"
+#line 1093 "syntax.act"
 
     if (!(ZIc)) {
 	SET((ZIb));
 	RESET_TDF((ZIb));
 	append_TDF(&(ZIa),1);
     }
-#line 4483 "syntax.c"
+#line 4455 "syntax.c"
 		}
 		/* END OF ACTION: genhold2 */
 	}
@@ -4498,12 +4470,12 @@ ZR679(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_Tagdec *ZId, PTR_char *ZIe, int *ZIf
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: tag_def2 */
 			{
-#line 2070 "syntax.act"
+#line 1992 "syntax.act"
 
     RESET_TDF((*ZIc));
     if (!(*ZId)->hassh)fail("No declaration shape for %s", (*ZIe));
     SET_TDF((*ZIc), &(*ZIa));
-#line 4507 "syntax.c"
+#line 4479 "syntax.c"
 			}
 			/* END OF ACTION: tag_def2 */
 			read_exp ();
@@ -4513,7 +4485,7 @@ ZR679(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_Tagdec *ZId, PTR_char *ZIe, int *ZIf
 			}
 			/* BEGINNING OF ACTION: tag_def8 */
 			{
-#line 2134 "syntax.act"
+#line 2056 "syntax.act"
 
     RESET_TDF((*ZIc));
     o_make_id_tagdef(out_tdfint32(UL(non_local(&(*ZId)->idname.name, tag_ent))),
@@ -4521,7 +4493,7 @@ ZR679(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_Tagdec *ZId, PTR_char *ZIe, int *ZIf
 	append_TDF(&(*ZIa), 1));
     INC_LIST;
     (*ZId)->isdeffed = 1;
-#line 4525 "syntax.c"
+#line 4497 "syntax.c"
 			}
 			/* END OF ACTION: tag_def8 */
 		}
@@ -4530,12 +4502,12 @@ ZR679(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_Tagdec *ZId, PTR_char *ZIe, int *ZIf
 		{
 			/* BEGINNING OF ACTION: tag_def4 */
 			{
-#line 2086 "syntax.act"
+#line 2008 "syntax.act"
 
     RESET_TDF((*ZIc));
     if ((*ZId)->hassh)fail("Two declaration shapes for %s", (*ZIe));
     g_shtokname = &(*ZId)->sh.shtok;
-#line 4539 "syntax.c"
+#line 4511 "syntax.c"
 			}
 			/* END OF ACTION: tag_def4 */
 			ADVANCE_LEXER;
@@ -4546,10 +4518,10 @@ ZR679(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_Tagdec *ZId, PTR_char *ZIe, int *ZIf
 			}
 			/* BEGINNING OF ACTION: tag_def5 */
 			{
-#line 2092 "syntax.act"
+#line 2014 "syntax.act"
 
     SET_TDF((*ZIc), &(*ZIa));
-#line 4553 "syntax.c"
+#line 4525 "syntax.c"
 			}
 			/* END OF ACTION: tag_def5 */
 			switch (CURRENT_TERMINAL) {
@@ -4566,7 +4538,7 @@ ZR679(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_Tagdec *ZId, PTR_char *ZIe, int *ZIf
 			}
 			/* BEGINNING OF ACTION: tag_def9 */
 			{
-#line 2143 "syntax.act"
+#line 2065 "syntax.act"
 
     RESET_TDF((*ZIc));
     o_make_id_tagdef(out_tdfint32(UL(local_name(&(*ZId)->idname.name, tag_ent))),
@@ -4583,7 +4555,7 @@ ZR679(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_Tagdec *ZId, PTR_char *ZIe, int *ZIf
     }
     (*ZId)->isdeffed=1; (*ZId)->hassh =1;
     if (!(*ZIf)) { (*ZId)->next = tagdecs; tagdecs = (*ZId); }
-#line 4587 "syntax.c"
+#line 4559 "syntax.c"
 			}
 			/* END OF ACTION: tag_def9 */
 		}
@@ -4641,10 +4613,10 @@ read_error_code(void)
 
 		/* BEGINNING OF ACTION: gencons1_dec */
 		{
-#line 1156 "syntax.act"
+#line 1078 "syntax.act"
 
     (ZIa) = lex_v.val.v;
-#line 4648 "syntax.c"
+#line 4620 "syntax.c"
 		}
 		/* END OF ACTION: gencons1_dec */
 		switch (CURRENT_TERMINAL) {
@@ -4656,10 +4628,10 @@ read_error_code(void)
 		ADVANCE_LEXER;
 		/* BEGINNING OF ACTION: gencons2 */
 		{
-#line 1160 "syntax.act"
+#line 1082 "syntax.act"
 
    (constructs[(ZIa)].f)();
-#line 4663 "syntax.c"
+#line 4635 "syntax.c"
 		}
 		/* END OF ACTION: gencons2 */
 	}
@@ -4668,10 +4640,10 @@ ZL1:;
 	{
 		/* BEGINNING OF ACTION: syntax_error */
 		{
-#line 2471 "syntax.act"
+#line 2393 "syntax.act"
 
     fail("Syntax error");
-#line 4675 "syntax.c"
+#line 4647 "syntax.c"
 		}
 		/* END OF ACTION: syntax_error */
 	}
@@ -4695,10 +4667,10 @@ ZRpostlude__opt(void)
 		{
 			/* BEGINNING OF ACTION: plude1 */
 			{
-#line 1647 "syntax.act"
+#line 1569 "syntax.act"
 
     o_make_top;
-#line 4702 "syntax.c"
+#line 4674 "syntax.c"
 			}
 			/* END OF ACTION: plude1 */
 		}
@@ -4726,7 +4698,7 @@ ZR680(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_Tagdec *ZId, int *ZIf)
 			}
 			/* BEGINNING OF ACTION: tag_def6 */
 			{
-#line 2096 "syntax.act"
+#line 2018 "syntax.act"
 
     RESET_TDF((*ZIc));
     o_make_var_tagdef(out_tdfint32(UL(local_name(&(*ZId)->idname.name, tag_ent))),
@@ -4744,7 +4716,7 @@ ZR680(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_Tagdec *ZId, int *ZIf)
     }
     (*ZId)->isdeffed=1; (*ZId)->hassh =1;
     if (!(*ZIf)) { (*ZId)->next = tagdecs; tagdecs = (*ZId); }
-#line 4748 "syntax.c"
+#line 4720 "syntax.c"
 			}
 			/* END OF ACTION: tag_def6 */
 		}
@@ -4753,15 +4725,15 @@ ZR680(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_Tagdec *ZId, int *ZIf)
 		{
 			/* BEGINNING OF ACTION: tag_def10 */
 			{
-#line 2030 "syntax.act"
+#line 1952 "syntax.act"
 
     o_make_value(o_shape_apply_token(make_tok(&(*ZId)->sh.shtok), {}));
-#line 4760 "syntax.c"
+#line 4732 "syntax.c"
 			}
 			/* END OF ACTION: tag_def10 */
 			/* BEGINNING OF ACTION: tag_def6 */
 			{
-#line 2096 "syntax.act"
+#line 2018 "syntax.act"
 
     RESET_TDF((*ZIc));
     o_make_var_tagdef(out_tdfint32(UL(local_name(&(*ZId)->idname.name, tag_ent))),
@@ -4779,7 +4751,7 @@ ZR680(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_Tagdec *ZId, int *ZIf)
     }
     (*ZId)->isdeffed=1; (*ZId)->hassh =1;
     if (!(*ZIf)) { (*ZId)->next = tagdecs; tagdecs = (*ZId); }
-#line 4783 "syntax.c"
+#line 4755 "syntax.c"
 			}
 			/* END OF ACTION: tag_def6 */
 		}
@@ -4811,10 +4783,10 @@ ZRexponent__opt(void)
 		{
 			/* BEGINNING OF ACTION: eopt1 */
 			{
-#line 543 "syntax.act"
+#line 465 "syntax.act"
 
     o_make_signed_nat(out_tdfbool(0), out_tdfint32(UL(0)));
-#line 4818 "syntax.c"
+#line 4790 "syntax.c"
 			}
 			/* END OF ACTION: eopt1 */
 		}
@@ -4842,7 +4814,7 @@ ZR681(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_Tagdec *ZId, int *ZIf)
 			}
 			/* BEGINNING OF ACTION: ctag_def6 */
 			{
-#line 511 "syntax.act"
+#line 433 "syntax.act"
 
     RESET_TDF((*ZIc));
     (*ZId)->iscommon = 1;
@@ -4860,7 +4832,7 @@ ZR681(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_Tagdec *ZId, int *ZIf)
     }
     (*ZId)->isdeffed=1; (*ZId)->hassh =1;
     if (!(*ZIf)) { (*ZId)->next = tagdecs; tagdecs = (*ZId); }
-#line 4864 "syntax.c"
+#line 4836 "syntax.c"
 			}
 			/* END OF ACTION: ctag_def6 */
 		}
@@ -4869,15 +4841,15 @@ ZR681(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_Tagdec *ZId, int *ZIf)
 		{
 			/* BEGINNING OF ACTION: tag_def10 */
 			{
-#line 2030 "syntax.act"
+#line 1952 "syntax.act"
 
     o_make_value(o_shape_apply_token(make_tok(&(*ZId)->sh.shtok), {}));
-#line 4876 "syntax.c"
+#line 4848 "syntax.c"
 			}
 			/* END OF ACTION: tag_def10 */
 			/* BEGINNING OF ACTION: ctag_def6 */
 			{
-#line 511 "syntax.act"
+#line 433 "syntax.act"
 
     RESET_TDF((*ZIc));
     (*ZId)->iscommon = 1;
@@ -4895,7 +4867,7 @@ ZR681(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_Tagdec *ZId, int *ZIf)
     }
     (*ZId)->isdeffed=1; (*ZId)->hassh =1;
     if (!(*ZIf)) { (*ZId)->next = tagdecs; tagdecs = (*ZId); }
-#line 4899 "syntax.c"
+#line 4871 "syntax.c"
 			}
 			/* END OF ACTION: ctag_def6 */
 		}
@@ -4924,14 +4896,14 @@ ZRclosed__exp(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: explab1_dec */
 			{
-#line 795 "syntax.act"
+#line 717 "syntax.act"
 
     /* (ZIb) uninitialised */
     (ZIe) = labdecs;
     (ZIc) = g_lablist;
     INIT_TDF(&g_lablist);
     SET_TDF((ZId), &(ZIa));
-#line 4935 "syntax.c"
+#line 4907 "syntax.c"
 			}
 			/* END OF ACTION: explab1_dec */
 			switch (CURRENT_TERMINAL) {
@@ -4948,11 +4920,11 @@ ZRclosed__exp(void)
 			}
 			/* BEGINNING OF ACTION: explab2 */
 			{
-#line 803 "syntax.act"
+#line 725 "syntax.act"
 
     RESET_TDF((ZId));
     SET_TDF((ZId), &(ZIb));
-#line 4956 "syntax.c"
+#line 4928 "syntax.c"
 			}
 			/* END OF ACTION: explab2 */
 			switch (CURRENT_TERMINAL) {
@@ -4975,7 +4947,7 @@ ZRclosed__exp(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: explab3 */
 			{
-#line 808 "syntax.act"
+#line 730 "syntax.act"
 
     RESET_TDF((ZId));
     o_labelled({ append_TDF(&g_lablist,1);
@@ -4985,7 +4957,7 @@ ZRclosed__exp(void)
 		    current_TDF->no = g_lablist.no;});
     tidy_labels((ZIe));
     g_lablist = (ZIc);
-#line 4989 "syntax.c"
+#line 4961 "syntax.c"
 			}
 			/* END OF ACTION: explab3 */
 		}
@@ -5018,14 +4990,14 @@ ZRclosed__exp(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: expcond1_dec */
 			{
-#line 705 "syntax.act"
+#line 627 "syntax.act"
 
     /* (ZIb), (ZIc) uninitialised */
     (ZIe) = defaultlab;
     (ZIf) = labdecs;
     defaultlab = -1;
     SET_TDF((ZId), &(ZIa));
-#line 5029 "syntax.c"
+#line 5001 "syntax.c"
 			}
 			/* END OF ACTION: expcond1_dec */
 			switch (CURRENT_TERMINAL) {
@@ -5042,11 +5014,11 @@ ZRclosed__exp(void)
 			}
 			/* BEGINNING OF ACTION: expcond2 */
 			{
-#line 713 "syntax.act"
+#line 635 "syntax.act"
 
     RESET_TDF((ZId));
     SET_TDF((ZId), &(ZIb));
-#line 5050 "syntax.c"
+#line 5022 "syntax.c"
 			}
 			/* END OF ACTION: expcond2 */
 			switch (CURRENT_TERMINAL) {
@@ -5063,12 +5035,12 @@ ZRclosed__exp(void)
 			}
 			/* BEGINNING OF ACTION: expcond3 */
 			{
-#line 718 "syntax.act"
+#line 640 "syntax.act"
 
     (ZIc) = optlab;
     defaultlab = (ZIe);
     tidy_labels((ZIf));
-#line 5072 "syntax.c"
+#line 5044 "syntax.c"
 			}
 			/* END OF ACTION: expcond3 */
 			ZRexp__sequence ();
@@ -5078,13 +5050,13 @@ ZRclosed__exp(void)
 			}
 			/* BEGINNING OF ACTION: expcond4 */
 			{
-#line 724 "syntax.act"
+#line 646 "syntax.act"
 
     INIT_TDF((ZId));
     RESET_TDF((ZId));
     o_conditional(append_TDF(&(ZIc),1),
 		  append_TDF(&(ZIa),1), append_TDF(&(ZIb),1));
-#line 5088 "syntax.c"
+#line 5060 "syntax.c"
 			}
 			/* END OF ACTION: expcond4 */
 			switch (CURRENT_TERMINAL) {
@@ -5108,12 +5080,12 @@ ZRclosed__exp(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: exprep1_dec */
 			{
-#line 868 "syntax.act"
+#line 790 "syntax.act"
 
     /* (ZIb), (ZIc), (ZIf) uninitialised */
     (ZIe) = labdecs;
     SET_TDF((ZId), &(ZIa));
-#line 5117 "syntax.c"
+#line 5089 "syntax.c"
 			}
 			/* END OF ACTION: exprep1_dec */
 			ZRrepeat__starter__opt ();
@@ -5123,11 +5095,11 @@ ZRclosed__exp(void)
 			}
 			/* BEGINNING OF ACTION: exprep2 */
 			{
-#line 874 "syntax.act"
+#line 796 "syntax.act"
 
     (ZIf) = defaultlab;
     defaultlab = -1;
-#line 5131 "syntax.c"
+#line 5103 "syntax.c"
 			}
 			/* END OF ACTION: exprep2 */
 			switch (CURRENT_TERMINAL) {
@@ -5144,12 +5116,12 @@ ZRclosed__exp(void)
 			}
 			/* BEGINNING OF ACTION: exprep3 */
 			{
-#line 879 "syntax.act"
+#line 801 "syntax.act"
 
     (ZIc) = optlab;
     RESET_TDF((ZId));
     SET_TDF((ZId), &(ZIb));
-#line 5153 "syntax.c"
+#line 5125 "syntax.c"
 			}
 			/* END OF ACTION: exprep3 */
 			ZRexp__sequence ();
@@ -5159,13 +5131,13 @@ ZRclosed__exp(void)
 			}
 			/* BEGINNING OF ACTION: exprep4 */
 			{
-#line 885 "syntax.act"
+#line 807 "syntax.act"
 
     RESET_TDF((ZId));
     o_repeat(append_TDF(&(ZIc),1), append_TDF(&(ZIa),1), append_TDF(&(ZIb),1));
     tidy_labels((ZIe));
     defaultlab = (ZIf);
-#line 5169 "syntax.c"
+#line 5141 "syntax.c"
 			}
 			/* END OF ACTION: exprep4 */
 			switch (CURRENT_TERMINAL) {
@@ -5189,10 +5161,10 @@ ZRclosed__exp(void)
 
 			/* BEGINNING OF ACTION: expdec1_dec */
 			{
-#line 747 "syntax.act"
+#line 669 "syntax.act"
 
     (ZIa) = localdecs;
-#line 5196 "syntax.c"
+#line 5168 "syntax.c"
 			}
 			/* END OF ACTION: expdec1_dec */
 			ZRtag__intro ();
@@ -5202,14 +5174,14 @@ ZRclosed__exp(void)
 			}
 			/* BEGINNING OF ACTION: ibody1_dec */
 			{
-#line 1238 "syntax.act"
+#line 1160 "syntax.act"
 
     (ZIg) = localdecs->isvar;
     (ZIb) = intro_acc;
     (ZIc) = intro_init;
     (ZIf) = localdecs->idname.name;
     SET_TDF((ZIe), &(ZId));
-#line 5213 "syntax.c"
+#line 5185 "syntax.c"
 			}
 			/* END OF ACTION: ibody1_dec */
 			ZRclosed__exp ();
@@ -5219,7 +5191,7 @@ ZRclosed__exp(void)
 			}
 			/* BEGINNING OF ACTION: introbody2 */
 			{
-#line 1311 "syntax.act"
+#line 1233 "syntax.act"
 
     RESET_TDF((ZIe));
     if ((ZIg)) {
@@ -5231,15 +5203,15 @@ ZRclosed__exp(void)
 		    make_tag(&(ZIf)), append_TDF(&(ZIc),1),
 		    append_TDF(&(ZId),1));
     }
-#line 5235 "syntax.c"
+#line 5207 "syntax.c"
 			}
 			/* END OF ACTION: introbody2 */
 			/* BEGINNING OF ACTION: expdec2 */
 			{
-#line 751 "syntax.act"
+#line 673 "syntax.act"
 
     localdecs = (ZIa);
-#line 5243 "syntax.c"
+#line 5215 "syntax.c"
 			}
 			/* END OF ACTION: expdec2 */
 		}
@@ -5283,11 +5255,11 @@ ZL2_bool:;
 
 						/* BEGINNING OF ACTION: gencond1_dec */
 						{
-#line 1141 "syntax.act"
+#line 1063 "syntax.act"
 
     /* (ZIb), (ZIc) uninitialised */
     SET_TDF((ZId), &(ZIa));
-#line 5291 "syntax.c"
+#line 5263 "syntax.c"
 						}
 						/* END OF ACTION: gencond1_dec */
 						ADVANCE_LEXER;
@@ -5311,11 +5283,11 @@ ZL2_bool:;
 						ADVANCE_LEXER;
 						/* BEGINNING OF ACTION: gencond2 */
 						{
-#line 1146 "syntax.act"
+#line 1068 "syntax.act"
 
     RESET_TDF((ZId));
     SET_TDF((ZId), &(ZIb));
-#line 5319 "syntax.c"
+#line 5291 "syntax.c"
 						}
 						/* END OF ACTION: gencond2 */
 						read_bool ();
@@ -5331,11 +5303,11 @@ ZL2_bool:;
 						ADVANCE_LEXER;
 						/* BEGINNING OF ACTION: gencond3 */
 						{
-#line 1151 "syntax.act"
+#line 1073 "syntax.act"
 
     RESET_TDF((ZId));
     SET_TDF((ZId), &(ZIc));
-#line 5339 "syntax.c"
+#line 5311 "syntax.c"
 						}
 						/* END OF ACTION: gencond3 */
 						read_bool ();
@@ -5345,12 +5317,12 @@ ZL2_bool:;
 						}
 						/* BEGINNING OF ACTION: bool1 */
 						{
-#line 369 "syntax.act"
+#line 291 "syntax.act"
 
     RESET_TDF((ZId));
     o_bool_cond(append_TDF(&(ZIa),1), append_TDF(&(ZIb),1),
 		append_TDF(&(ZIc),1));
-#line 5354 "syntax.c"
+#line 5326 "syntax.c"
 						}
 						/* END OF ACTION: bool1 */
 						switch (CURRENT_TERMINAL) {
@@ -5375,19 +5347,19 @@ ZL2_bool:;
 
 			/* BEGINNING OF ACTION: gencons1_dec */
 			{
-#line 1156 "syntax.act"
+#line 1078 "syntax.act"
 
     (ZIa) = lex_v.val.v;
-#line 5382 "syntax.c"
+#line 5354 "syntax.c"
 			}
 			/* END OF ACTION: gencons1_dec */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: gencons2 */
 			{
-#line 1160 "syntax.act"
+#line 1082 "syntax.act"
 
    (constructs[(ZIa)].f)();
-#line 5391 "syntax.c"
+#line 5363 "syntax.c"
 			}
 			/* END OF ACTION: gencons2 */
 		}
@@ -5398,20 +5370,20 @@ ZL2_bool:;
 
 			/* BEGINNING OF ACTION: gentok1_dec */
 			{
-#line 1179 "syntax.act"
+#line 1101 "syntax.act"
 
     (ZIa) = lex_v.val.tokname;
     (ZIa)->isused = 1;
-#line 5406 "syntax.c"
+#line 5378 "syntax.c"
 			}
 			/* END OF ACTION: gentok1_dec */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: gentok2 */
 			{
-#line 1184 "syntax.act"
+#line 1106 "syntax.act"
 
     expand_tok((ZIa), &(ZIa)->sort);
-#line 5415 "syntax.c"
+#line 5387 "syntax.c"
 			}
 			/* END OF ACTION: gentok2 */
 		}
@@ -5426,10 +5398,10 @@ ZL1:;
 	{
 		/* BEGINNING OF ACTION: syntax_error */
 		{
-#line 2471 "syntax.act"
+#line 2393 "syntax.act"
 
     fail("Syntax error");
-#line 5433 "syntax.c"
+#line 5405 "syntax.c"
 		}
 		/* END OF ACTION: syntax_error */
 	}
@@ -5500,11 +5472,11 @@ ZL2_ntest:;
 						ADVANCE_LEXER;
 						/* BEGINNING OF ACTION: gencond1_dec */
 						{
-#line 1141 "syntax.act"
+#line 1063 "syntax.act"
 
     /* (ZIb), (ZIc) uninitialised */
     SET_TDF((ZId), &(ZIa));
-#line 5508 "syntax.c"
+#line 5480 "syntax.c"
 						}
 						/* END OF ACTION: gencond1_dec */
 						switch (CURRENT_TERMINAL) {
@@ -5521,11 +5493,11 @@ ZL2_ntest:;
 						}
 						/* BEGINNING OF ACTION: gencond2 */
 						{
-#line 1146 "syntax.act"
+#line 1068 "syntax.act"
 
     RESET_TDF((ZId));
     SET_TDF((ZId), &(ZIb));
-#line 5529 "syntax.c"
+#line 5501 "syntax.c"
 						}
 						/* END OF ACTION: gencond2 */
 						switch (CURRENT_TERMINAL) {
@@ -5542,11 +5514,11 @@ ZL2_ntest:;
 						}
 						/* BEGINNING OF ACTION: gencond3 */
 						{
-#line 1151 "syntax.act"
+#line 1073 "syntax.act"
 
     RESET_TDF((ZId));
     SET_TDF((ZId), &(ZIc));
-#line 5550 "syntax.c"
+#line 5522 "syntax.c"
 						}
 						/* END OF ACTION: gencond3 */
 						switch (CURRENT_TERMINAL) {
@@ -5563,12 +5535,12 @@ ZL2_ntest:;
 						}
 						/* BEGINNING OF ACTION: ntest1 */
 						{
-#line 1582 "syntax.act"
+#line 1504 "syntax.act"
 
     RESET_TDF((ZId));
     o_ntest_cond(append_TDF(&(ZIa),1), append_TDF(&(ZIb),1),
 		 append_TDF(&(ZIc),1));
-#line 5572 "syntax.c"
+#line 5544 "syntax.c"
 						}
 						/* END OF ACTION: ntest1 */
 						switch (CURRENT_TERMINAL) {
@@ -5593,20 +5565,20 @@ ZL2_ntest:;
 
 			/* BEGINNING OF ACTION: gentok1_dec */
 			{
-#line 1179 "syntax.act"
+#line 1101 "syntax.act"
 
     (ZIa) = lex_v.val.tokname;
     (ZIa)->isused = 1;
-#line 5601 "syntax.c"
+#line 5573 "syntax.c"
 			}
 			/* END OF ACTION: gentok1_dec */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: gentok2 */
 			{
-#line 1184 "syntax.act"
+#line 1106 "syntax.act"
 
     expand_tok((ZIa), &(ZIa)->sort);
-#line 5610 "syntax.c"
+#line 5582 "syntax.c"
 			}
 			/* END OF ACTION: gentok2 */
 		}
@@ -5615,7 +5587,7 @@ ZL2_ntest:;
 		{
 			/* BEGINNING OF ACTION: ntest2 */
 			{
-#line 1602 "syntax.act"
+#line 1524 "syntax.act"
 
     char * n = lex_v.val.name;
     if (strcmp(n,"!<") ==0) { o_not_less_than; }
@@ -5631,7 +5603,7 @@ ZL2_ntest:;
     else if (strcmp(n,">=") ==0) { o_greater_than_or_equal; }
     else if (strcmp(n,"Comparable") ==0) { o_comparable; }
     else { fail("%s is not a comparison", n); }
-#line 5635 "syntax.c"
+#line 5607 "syntax.c"
 			}
 			/* END OF ACTION: ntest2 */
 			ADVANCE_LEXER;
@@ -5647,10 +5619,10 @@ ZL1:;
 	{
 		/* BEGINNING OF ACTION: syntax_error */
 		{
-#line 2471 "syntax.act"
+#line 2393 "syntax.act"
 
     fail("Syntax error");
-#line 5654 "syntax.c"
+#line 5626 "syntax.c"
 		}
 		/* END OF ACTION: syntax_error */
 	}
@@ -5684,11 +5656,11 @@ ZL2_bitfield__variety:;
 
 						/* BEGINNING OF ACTION: gencond1_dec */
 						{
-#line 1141 "syntax.act"
+#line 1063 "syntax.act"
 
     /* (ZIb), (ZIc) uninitialised */
     SET_TDF((ZId), &(ZIa));
-#line 5692 "syntax.c"
+#line 5664 "syntax.c"
 						}
 						/* END OF ACTION: gencond1_dec */
 						ADVANCE_LEXER;
@@ -5712,11 +5684,11 @@ ZL2_bitfield__variety:;
 						ADVANCE_LEXER;
 						/* BEGINNING OF ACTION: gencond2 */
 						{
-#line 1146 "syntax.act"
+#line 1068 "syntax.act"
 
     RESET_TDF((ZId));
     SET_TDF((ZId), &(ZIb));
-#line 5720 "syntax.c"
+#line 5692 "syntax.c"
 						}
 						/* END OF ACTION: gencond2 */
 						read_bitfield_variety ();
@@ -5732,11 +5704,11 @@ ZL2_bitfield__variety:;
 						ADVANCE_LEXER;
 						/* BEGINNING OF ACTION: gencond3 */
 						{
-#line 1151 "syntax.act"
+#line 1073 "syntax.act"
 
     RESET_TDF((ZId));
     SET_TDF((ZId), &(ZIc));
-#line 5740 "syntax.c"
+#line 5712 "syntax.c"
 						}
 						/* END OF ACTION: gencond3 */
 						read_bitfield_variety ();
@@ -5746,12 +5718,12 @@ ZL2_bitfield__variety:;
 						}
 						/* BEGINNING OF ACTION: bvariety1 */
 						{
-#line 380 "syntax.act"
+#line 302 "syntax.act"
 
     RESET_TDF((ZId));
     o_bfvar_cond(append_TDF(&(ZIa),1), append_TDF(&(ZIb),1),
 		 append_TDF(&(ZIc),1));
-#line 5755 "syntax.c"
+#line 5727 "syntax.c"
 						}
 						/* END OF ACTION: bvariety1 */
 						switch (CURRENT_TERMINAL) {
@@ -5780,11 +5752,11 @@ ZL2_bitfield__variety:;
 
 			/* BEGINNING OF ACTION: bvar3_dec */
 			{
-#line 375 "syntax.act"
+#line 297 "syntax.act"
 
     /* (ZIb) uninitialised */
     SET_TDF((ZIc), &(ZIa));
-#line 5788 "syntax.c"
+#line 5760 "syntax.c"
 			}
 			/* END OF ACTION: bvar3_dec */
 			ZRbitfield__sign ();
@@ -5794,11 +5766,11 @@ ZL2_bitfield__variety:;
 			}
 			/* BEGINNING OF ACTION: bvariety4 */
 			{
-#line 391 "syntax.act"
+#line 313 "syntax.act"
 
     RESET_TDF((ZIc));
     SET_TDF((ZIc), &(ZIb));
-#line 5802 "syntax.c"
+#line 5774 "syntax.c"
 			}
 			/* END OF ACTION: bvariety4 */
 			read_nat ();
@@ -5808,11 +5780,11 @@ ZL2_bitfield__variety:;
 			}
 			/* BEGINNING OF ACTION: bvariety5 */
 			{
-#line 396 "syntax.act"
+#line 318 "syntax.act"
 
     RESET_TDF((ZIc));
     o_bfvar_bits(append_TDF(&(ZIa),1), append_TDF(&(ZIb), 1));
-#line 5816 "syntax.c"
+#line 5788 "syntax.c"
 			}
 			/* END OF ACTION: bvariety5 */
 		}
@@ -5823,19 +5795,19 @@ ZL2_bitfield__variety:;
 
 			/* BEGINNING OF ACTION: gencons1_dec */
 			{
-#line 1156 "syntax.act"
+#line 1078 "syntax.act"
 
     (ZIa) = lex_v.val.v;
-#line 5830 "syntax.c"
+#line 5802 "syntax.c"
 			}
 			/* END OF ACTION: gencons1_dec */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: gencons2 */
 			{
-#line 1160 "syntax.act"
+#line 1082 "syntax.act"
 
    (constructs[(ZIa)].f)();
-#line 5839 "syntax.c"
+#line 5811 "syntax.c"
 			}
 			/* END OF ACTION: gencons2 */
 		}
@@ -5846,20 +5818,20 @@ ZL2_bitfield__variety:;
 
 			/* BEGINNING OF ACTION: gentok1_dec */
 			{
-#line 1179 "syntax.act"
+#line 1101 "syntax.act"
 
     (ZIa) = lex_v.val.tokname;
     (ZIa)->isused = 1;
-#line 5854 "syntax.c"
+#line 5826 "syntax.c"
 			}
 			/* END OF ACTION: gentok1_dec */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: gentok2 */
 			{
-#line 1184 "syntax.act"
+#line 1106 "syntax.act"
 
     expand_tok((ZIa), &(ZIa)->sort);
-#line 5863 "syntax.c"
+#line 5835 "syntax.c"
 			}
 			/* END OF ACTION: gentok2 */
 		}
@@ -5874,10 +5846,10 @@ ZL1:;
 	{
 		/* BEGINNING OF ACTION: syntax_error */
 		{
-#line 2471 "syntax.act"
+#line 2393 "syntax.act"
 
     fail("Syntax error");
-#line 5881 "syntax.c"
+#line 5853 "syntax.c"
 		}
 		/* END OF ACTION: syntax_error */
 	}
@@ -5922,11 +5894,11 @@ ZL2_signed__nat__body:;
 						ADVANCE_LEXER;
 						/* BEGINNING OF ACTION: gencond1_dec */
 						{
-#line 1141 "syntax.act"
+#line 1063 "syntax.act"
 
     /* (ZIb), (ZIc) uninitialised */
     SET_TDF((ZId), &(ZIa));
-#line 5930 "syntax.c"
+#line 5902 "syntax.c"
 						}
 						/* END OF ACTION: gencond1_dec */
 						switch (CURRENT_TERMINAL) {
@@ -5943,11 +5915,11 @@ ZL2_signed__nat__body:;
 						}
 						/* BEGINNING OF ACTION: gencond2 */
 						{
-#line 1146 "syntax.act"
+#line 1068 "syntax.act"
 
     RESET_TDF((ZId));
     SET_TDF((ZId), &(ZIb));
-#line 5951 "syntax.c"
+#line 5923 "syntax.c"
 						}
 						/* END OF ACTION: gencond2 */
 						switch (CURRENT_TERMINAL) {
@@ -5964,11 +5936,11 @@ ZL2_signed__nat__body:;
 						}
 						/* BEGINNING OF ACTION: gencond3 */
 						{
-#line 1151 "syntax.act"
+#line 1073 "syntax.act"
 
     RESET_TDF((ZId));
     SET_TDF((ZId), &(ZIc));
-#line 5972 "syntax.c"
+#line 5944 "syntax.c"
 						}
 						/* END OF ACTION: gencond3 */
 						switch (CURRENT_TERMINAL) {
@@ -5985,12 +5957,12 @@ ZL2_signed__nat__body:;
 						}
 						/* BEGINNING OF ACTION: signed_nat1 */
 						{
-#line 1832 "syntax.act"
+#line 1754 "syntax.act"
 
     RESET_TDF((ZId));
     o_signed_nat_cond(append_TDF(&(ZIa),1), append_TDF(&(ZIb),1),
 		      append_TDF(&(ZIc),1));
-#line 5994 "syntax.c"
+#line 5966 "syntax.c"
 						}
 						/* END OF ACTION: signed_nat1 */
 						switch (CURRENT_TERMINAL) {
@@ -6018,10 +5990,10 @@ ZL2_signed__nat__body:;
 			}
 			/* BEGINNING OF ACTION: signed_nat2 */
 			{
-#line 1839 "syntax.act"
+#line 1761 "syntax.act"
 
     o_make_signed_nat(out_tdfbool(0), out_tdfint32(intvalue));
-#line 6025 "syntax.c"
+#line 5997 "syntax.c"
 			}
 			/* END OF ACTION: signed_nat2 */
 		}
@@ -6032,19 +6004,19 @@ ZL2_signed__nat__body:;
 
 			/* BEGINNING OF ACTION: gencons1_dec */
 			{
-#line 1156 "syntax.act"
+#line 1078 "syntax.act"
 
     (ZIa) = lex_v.val.v;
-#line 6039 "syntax.c"
+#line 6011 "syntax.c"
 			}
 			/* END OF ACTION: gencons1_dec */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: gencons2 */
 			{
-#line 1160 "syntax.act"
+#line 1082 "syntax.act"
 
    (constructs[(ZIa)].f)();
-#line 6048 "syntax.c"
+#line 6020 "syntax.c"
 			}
 			/* END OF ACTION: gencons2 */
 		}
@@ -6055,20 +6027,20 @@ ZL2_signed__nat__body:;
 
 			/* BEGINNING OF ACTION: gentok1_dec */
 			{
-#line 1179 "syntax.act"
+#line 1101 "syntax.act"
 
     (ZIa) = lex_v.val.tokname;
     (ZIa)->isused = 1;
-#line 6063 "syntax.c"
+#line 6035 "syntax.c"
 			}
 			/* END OF ACTION: gentok1_dec */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: gentok2 */
 			{
-#line 1184 "syntax.act"
+#line 1106 "syntax.act"
 
     expand_tok((ZIa), &(ZIa)->sort);
-#line 6072 "syntax.c"
+#line 6044 "syntax.c"
 			}
 			/* END OF ACTION: gentok2 */
 		}
@@ -6077,10 +6049,10 @@ ZL2_signed__nat__body:;
 		{
 			/* BEGINNING OF ACTION: signed_nat4 */
 			{
-#line 1847 "syntax.act"
+#line 1769 "syntax.act"
 
     o_make_signed_nat(out_tdfbool(0), out_tdfint32(cLINE));
-#line 6084 "syntax.c"
+#line 6056 "syntax.c"
 			}
 			/* END OF ACTION: signed_nat4 */
 			ADVANCE_LEXER;
@@ -6093,11 +6065,11 @@ ZL2_signed__nat__body:;
 
 			/* BEGINNING OF ACTION: signed_nat7_dec */
 			{
-#line 1859 "syntax.act"
+#line 1781 "syntax.act"
 
     SET_TDF((ZIb), &(ZIa));
     if (strcmp(lex_v.val.name, "+"))fail("Only + or - on NATs");
-#line 6101 "syntax.c"
+#line 6073 "syntax.c"
 			}
 			/* END OF ACTION: signed_nat7_dec */
 			ADVANCE_LEXER;
@@ -6108,11 +6080,11 @@ ZL2_signed__nat__body:;
 			}
 			/* BEGINNING OF ACTION: signed_nat8 */
 			{
-#line 1864 "syntax.act"
+#line 1786 "syntax.act"
 
     RESET_TDF((ZIb));
     o_snat_from_nat(o_false, append_TDF(&(ZIa),1));
-#line 6116 "syntax.c"
+#line 6088 "syntax.c"
 			}
 			/* END OF ACTION: signed_nat8 */
 		}
@@ -6136,14 +6108,14 @@ ZRlabset__opt(void)
 		{
 			/* BEGINNING OF ACTION: lset_o1 */
 			{
-#line 1517 "syntax.act"
+#line 1439 "syntax.act"
 
     TDF * hold;
     SET_TDF(hold, &optlab);
     if (defaultlab==-1)defaultlab = next_label();
     o_make_label(out_tdfint32(UL(defaultlab)));
     RESET_TDF(hold);
-#line 6147 "syntax.c"
+#line 6119 "syntax.c"
 			}
 			/* END OF ACTION: lset_o1 */
 		}
@@ -6154,12 +6126,12 @@ ZRlabset__opt(void)
 
 			/* BEGINNING OF ACTION: lset_o2_dec */
 			{
-#line 1520 "syntax.act"
+#line 1442 "syntax.act"
 
     SET_TDF((ZIa), &optlab);
     g_labdec = (Labdec*)0;
     if (defaultlab != -1) { fail("This conditional uses a default jump"); }
-#line 6163 "syntax.c"
+#line 6135 "syntax.c"
 			}
 			/* END OF ACTION: lset_o2_dec */
 			ADVANCE_LEXER;
@@ -6176,7 +6148,7 @@ ZRlabset__opt(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: lset_o3 */
 			{
-#line 1532 "syntax.act"
+#line 1454 "syntax.act"
 
     if (g_labdec != (Labdec*)0) {
 	if (g_labdec->declared) {
@@ -6185,7 +6157,7 @@ ZRlabset__opt(void)
 	g_labdec->declared = 1;
     }
     RESET_TDF((ZIa));
-#line 6189 "syntax.c"
+#line 6161 "syntax.c"
 			}
 			/* END OF ACTION: lset_o3 */
 		}
@@ -6211,11 +6183,11 @@ ZRkeep__item(void)
 		{
 			/* BEGINNING OF ACTION: keep1 */
 			{
-#line 1326 "syntax.act"
+#line 1248 "syntax.act"
 
     Tokdec * k = lex_v.val.tokname;
     k->iskept = 1;
-#line 6219 "syntax.c"
+#line 6191 "syntax.c"
 			}
 			/* END OF ACTION: keep1 */
 			/* BEGINNING OF INLINE: tok_item */
@@ -6317,7 +6289,7 @@ ZRkeep__item(void)
 		{
 			/* BEGINNING OF ACTION: keep2 */
 			{
-#line 1340 "syntax.act"
+#line 1262 "syntax.act"
 
     char * n = lex_v.val.name;
     Tagdec * t = find_tag(n);
@@ -6330,7 +6302,7 @@ ZRkeep__item(void)
 	}
 	a->iskept = 1;
     }
-#line 6334 "syntax.c"
+#line 6306 "syntax.c"
 			}
 			/* END OF ACTION: keep2 */
 			ADVANCE_LEXER;
@@ -6365,7 +6337,7 @@ ZRstruct__def(void)
 		ADVANCE_LEXER;
 		/* BEGINNING OF ACTION: struct1_dec */
 		{
-#line 1938 "syntax.act"
+#line 1860 "syntax.act"
 
     char * n = lex_v.val.name;
     (ZIa) = find_tok(n);
@@ -6375,7 +6347,7 @@ ZRstruct__def(void)
     (ZIa)->sort.ressort.sort = shape_sort; (ZIa)->sort.pars = (Tokpar*)0;
     (ZIa)->isdeffed = 1; (ZIa)->isused=0; (ZIa)->iskept=0;
     g_lastfield = -1;
-#line 6379 "syntax.c"
+#line 6351 "syntax.c"
 		}
 		/* END OF ACTION: struct1_dec */
 		switch (CURRENT_TERMINAL) {
@@ -6399,7 +6371,7 @@ ZRstruct__def(void)
 		}
 		/* BEGINNING OF ACTION: struct2 */
 		{
-#line 1948 "syntax.act"
+#line 1870 "syntax.act"
 
     o_make_tokdef(out_tdfint32(LOCNAME((ZIa)->idname)), {},
 	o_token_def(o_shape, {},
@@ -6410,7 +6382,7 @@ ZRstruct__def(void)
     INC_LIST;
     (ZIa)->next = tokdecs;
     tokdecs = (ZIa);
-#line 6414 "syntax.c"
+#line 6386 "syntax.c"
 		}
 		/* END OF ACTION: struct2 */
 		switch (CURRENT_TERMINAL) {
@@ -6439,10 +6411,10 @@ ZRnonst__shape__body(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: shptr1_dec */
 			{
-#line 1808 "syntax.act"
+#line 1730 "syntax.act"
 
     SET_TDF((ZIb), &(ZIa));
-#line 6446 "syntax.c"
+#line 6418 "syntax.c"
 			}
 			/* END OF ACTION: shptr1_dec */
 			read_shape ();
@@ -6452,11 +6424,11 @@ ZRnonst__shape__body(void)
 			}
 			/* BEGINNING OF ACTION: shapeptr2 */
 			{
-#line 1777 "syntax.act"
+#line 1699 "syntax.act"
 
     RESET_TDF((ZIb));
     o_pointer(o_alignment(append_TDF(&(ZIa),1)));
-#line 6460 "syntax.c"
+#line 6432 "syntax.c"
 			}
 			/* END OF ACTION: shapeptr2 */
 		}
@@ -6477,19 +6449,19 @@ ZRnonst__shape__body(void)
 
 			/* BEGINNING OF ACTION: gencons1_dec */
 			{
-#line 1156 "syntax.act"
+#line 1078 "syntax.act"
 
     (ZIa) = lex_v.val.v;
-#line 6484 "syntax.c"
+#line 6456 "syntax.c"
 			}
 			/* END OF ACTION: gencons1_dec */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: gencons2 */
 			{
-#line 1160 "syntax.act"
+#line 1082 "syntax.act"
 
    (constructs[(ZIa)].f)();
-#line 6493 "syntax.c"
+#line 6465 "syntax.c"
 			}
 			/* END OF ACTION: gencons2 */
 		}
@@ -6500,20 +6472,20 @@ ZRnonst__shape__body(void)
 
 			/* BEGINNING OF ACTION: gentok1_dec */
 			{
-#line 1179 "syntax.act"
+#line 1101 "syntax.act"
 
     (ZIa) = lex_v.val.tokname;
     (ZIa)->isused = 1;
-#line 6508 "syntax.c"
+#line 6480 "syntax.c"
 			}
 			/* END OF ACTION: gentok1_dec */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: gentok2 */
 			{
-#line 1184 "syntax.act"
+#line 1106 "syntax.act"
 
     expand_tok((ZIa), &(ZIa)->sort);
-#line 6517 "syntax.c"
+#line 6489 "syntax.c"
 			}
 			/* END OF ACTION: gentok2 */
 		}
@@ -6555,19 +6527,19 @@ ZL2_tag:;
 
 			/* BEGINNING OF ACTION: gencons1_dec */
 			{
-#line 1156 "syntax.act"
+#line 1078 "syntax.act"
 
     (ZIa) = lex_v.val.v;
-#line 6562 "syntax.c"
+#line 6534 "syntax.c"
 			}
 			/* END OF ACTION: gencons1_dec */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: gencons2 */
 			{
-#line 1160 "syntax.act"
+#line 1082 "syntax.act"
 
    (constructs[(ZIa)].f)();
-#line 6571 "syntax.c"
+#line 6543 "syntax.c"
 			}
 			/* END OF ACTION: gencons2 */
 		}
@@ -6578,20 +6550,20 @@ ZL2_tag:;
 
 			/* BEGINNING OF ACTION: gentok1_dec */
 			{
-#line 1179 "syntax.act"
+#line 1101 "syntax.act"
 
     (ZIa) = lex_v.val.tokname;
     (ZIa)->isused = 1;
-#line 6586 "syntax.c"
+#line 6558 "syntax.c"
 			}
 			/* END OF ACTION: gentok1_dec */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: gentok2 */
 			{
-#line 1184 "syntax.act"
+#line 1106 "syntax.act"
 
     expand_tok((ZIa), &(ZIa)->sort);
-#line 6595 "syntax.c"
+#line 6567 "syntax.c"
 			}
 			/* END OF ACTION: gentok2 */
 		}
@@ -6600,14 +6572,14 @@ ZL2_tag:;
 		{
 			/* BEGINNING OF ACTION: tag1 */
 			{
-#line 1969 "syntax.act"
+#line 1891 "syntax.act"
 
     char * n =lex_v.val.name;
     Tagdec * x = find_tag(n);
     if (x == (Tagdec*)0) { fail("Ident %s not declared", n); }
     x->isused = 1;
     make_tag(&x->idname.name);
-#line 6611 "syntax.c"
+#line 6583 "syntax.c"
 			}
 			/* END OF ACTION: tag1 */
 			ADVANCE_LEXER;
@@ -6623,10 +6595,10 @@ ZL1:;
 	{
 		/* BEGINNING OF ACTION: syntax_error */
 		{
-#line 2471 "syntax.act"
+#line 2393 "syntax.act"
 
     fail("Syntax error");
-#line 6630 "syntax.c"
+#line 6602 "syntax.c"
 		}
 		/* END OF ACTION: syntax_error */
 	}
@@ -6656,13 +6628,13 @@ ZRvariety__opt(void)
 		{
 			/* BEGINNING OF ACTION: varietyopt1 */
 			{
-#line 2451 "syntax.act"
+#line 2373 "syntax.act"
 
     /* unsigned char */
     o_var_limits(
 	o_make_signed_nat(out_tdfbool(0), out_tdfint32(UL(0))),
 	o_make_signed_nat(out_tdfbool(0), out_tdfint32(UL(255))));
-#line 6666 "syntax.c"
+#line 6638 "syntax.c"
 			}
 			/* END OF ACTION: varietyopt1 */
 		}
@@ -6688,10 +6660,10 @@ read_nat_option(void)
 
 			/* BEGINNING OF ACTION: natopt_dec */
 			{
-#line 1563 "syntax.act"
+#line 1485 "syntax.act"
 
     SET_TDF((ZIb), &(ZIa));
-#line 6695 "syntax.c"
+#line 6667 "syntax.c"
 			}
 			/* END OF ACTION: natopt_dec */
 			read_nat ();
@@ -6701,11 +6673,11 @@ read_nat_option(void)
 			}
 			/* BEGINNING OF ACTION: natopt1 */
 			{
-#line 1558 "syntax.act"
+#line 1480 "syntax.act"
 
     RESET_TDF((ZIb));
     OPTION(append_TDF(&(ZIa),1));
-#line 6709 "syntax.c"
+#line 6681 "syntax.c"
 			}
 			/* END OF ACTION: natopt1 */
 		}
@@ -6720,10 +6692,10 @@ ZL1:;
 	{
 		/* BEGINNING OF ACTION: syntax_error */
 		{
-#line 2471 "syntax.act"
+#line 2393 "syntax.act"
 
     fail("Syntax error");
-#line 6727 "syntax.c"
+#line 6699 "syntax.c"
 		}
 		/* END OF ACTION: syntax_error */
 	}
@@ -6750,10 +6722,10 @@ ZRsortname__list__opt(void)
 		{
 			/* BEGINNING OF ACTION: empty_snl */
 			{
-#line 539 "syntax.act"
+#line 461 "syntax.act"
 
     g_tokpars = (Tokpar*)0;
-#line 6757 "syntax.c"
+#line 6729 "syntax.c"
 			}
 			/* END OF ACTION: empty_snl */
 		}
@@ -6777,13 +6749,13 @@ ZL2_floating__variety:;
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: fvardouble */
 			{
-#line 1091 "syntax.act"
+#line 1013 "syntax.act"
 
     o_flvar_parms(o_make_nat(out_tdfint32(UL(2))),
 		  o_make_nat(out_tdfint32(UL(MANT_DOUBLE))),
 		  o_make_nat(out_tdfint32(UL(MINEXP_DOUBLE))),
 		  o_make_nat(out_tdfint32(UL(MAXEXP_DOUBLE))));
-#line 6787 "syntax.c"
+#line 6759 "syntax.c"
 			}
 			/* END OF ACTION: fvardouble */
 		}
@@ -6793,13 +6765,13 @@ ZL2_floating__variety:;
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: fvarfloat */
 			{
-#line 1098 "syntax.act"
+#line 1020 "syntax.act"
 
     o_flvar_parms(o_make_nat(out_tdfint32(UL(2))),
 		  o_make_nat(out_tdfint32(UL(MANT_FLOAT))),
 		  o_make_nat(out_tdfint32(UL(MINEXP_FLOAT))),
 		  o_make_nat(out_tdfint32(UL(MAXEXP_FLOAT))));
-#line 6803 "syntax.c"
+#line 6775 "syntax.c"
 			}
 			/* END OF ACTION: fvarfloat */
 		}
@@ -6827,11 +6799,11 @@ ZL2_floating__variety:;
 
 						/* BEGINNING OF ACTION: gencond1_dec */
 						{
-#line 1141 "syntax.act"
+#line 1063 "syntax.act"
 
     /* (ZIb), (ZIc) uninitialised */
     SET_TDF((ZId), &(ZIa));
-#line 6835 "syntax.c"
+#line 6807 "syntax.c"
 						}
 						/* END OF ACTION: gencond1_dec */
 						ADVANCE_LEXER;
@@ -6855,11 +6827,11 @@ ZL2_floating__variety:;
 						ADVANCE_LEXER;
 						/* BEGINNING OF ACTION: gencond2 */
 						{
-#line 1146 "syntax.act"
+#line 1068 "syntax.act"
 
     RESET_TDF((ZId));
     SET_TDF((ZId), &(ZIb));
-#line 6863 "syntax.c"
+#line 6835 "syntax.c"
 						}
 						/* END OF ACTION: gencond2 */
 						read_floating_variety ();
@@ -6875,11 +6847,11 @@ ZL2_floating__variety:;
 						ADVANCE_LEXER;
 						/* BEGINNING OF ACTION: gencond3 */
 						{
-#line 1151 "syntax.act"
+#line 1073 "syntax.act"
 
     RESET_TDF((ZId));
     SET_TDF((ZId), &(ZIc));
-#line 6883 "syntax.c"
+#line 6855 "syntax.c"
 						}
 						/* END OF ACTION: gencond3 */
 						read_floating_variety ();
@@ -6889,12 +6861,12 @@ ZL2_floating__variety:;
 						}
 						/* BEGINNING OF ACTION: fvar1 */
 						{
-#line 1081 "syntax.act"
+#line 1003 "syntax.act"
 
     RESET_TDF((ZId));
     o_flvar_cond(append_TDF(&(ZIa),1), append_TDF(&(ZIb),1),
 		 append_TDF(&(ZIc),1));
-#line 6898 "syntax.c"
+#line 6870 "syntax.c"
 						}
 						/* END OF ACTION: fvar1 */
 						switch (CURRENT_TERMINAL) {
@@ -6919,19 +6891,19 @@ ZL2_floating__variety:;
 
 			/* BEGINNING OF ACTION: gencons1_dec */
 			{
-#line 1156 "syntax.act"
+#line 1078 "syntax.act"
 
     (ZIa) = lex_v.val.v;
-#line 6926 "syntax.c"
+#line 6898 "syntax.c"
 			}
 			/* END OF ACTION: gencons1_dec */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: gencons2 */
 			{
-#line 1160 "syntax.act"
+#line 1082 "syntax.act"
 
    (constructs[(ZIa)].f)();
-#line 6935 "syntax.c"
+#line 6907 "syntax.c"
 			}
 			/* END OF ACTION: gencons2 */
 		}
@@ -6942,20 +6914,20 @@ ZL2_floating__variety:;
 
 			/* BEGINNING OF ACTION: gentok1_dec */
 			{
-#line 1179 "syntax.act"
+#line 1101 "syntax.act"
 
     (ZIa) = lex_v.val.tokname;
     (ZIa)->isused = 1;
-#line 6950 "syntax.c"
+#line 6922 "syntax.c"
 			}
 			/* END OF ACTION: gentok1_dec */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: gentok2 */
 			{
-#line 1184 "syntax.act"
+#line 1106 "syntax.act"
 
     expand_tok((ZIa), &(ZIa)->sort);
-#line 6959 "syntax.c"
+#line 6931 "syntax.c"
 			}
 			/* END OF ACTION: gentok2 */
 		}
@@ -6970,10 +6942,10 @@ ZL1:;
 	{
 		/* BEGINNING OF ACTION: syntax_error */
 		{
-#line 2471 "syntax.act"
+#line 2393 "syntax.act"
 
     fail("Syntax error");
-#line 6977 "syntax.c"
+#line 6949 "syntax.c"
 		}
 		/* END OF ACTION: syntax_error */
 	}
@@ -6993,7 +6965,7 @@ ZRtagshacc(void)
 
 		/* BEGINNING OF ACTION: tagsa1_dec */
 		{
-#line 2161 "syntax.act"
+#line 2083 "syntax.act"
 
     /* (ZId) uninitialised */
     char * n =lex_v.val.name;
@@ -7004,7 +6976,7 @@ ZRtagshacc(void)
     NEW_IDNAME((ZIc)->idname, n, tag_ent);
     g_has_vis =0;
     SET_TDF((ZIb), &(ZIa));
-#line 7008 "syntax.c"
+#line 6980 "syntax.c"
 		}
 		/* END OF ACTION: tagsa1_dec */
 		switch (CURRENT_TERMINAL) {
@@ -7021,12 +6993,12 @@ ZRtagshacc(void)
 		}
 		/* BEGINNING OF ACTION: tagshacc2 */
 		{
-#line 2173 "syntax.act"
+#line 2095 "syntax.act"
 
     RESET_TDF((ZIb));
     SET_TDF((ZIb), &(ZIc)->sh.tdfsh);
     (ZId) = g_has_vis;
-#line 7030 "syntax.c"
+#line 7002 "syntax.c"
 		}
 		/* END OF ACTION: tagshacc2 */
 		switch (CURRENT_TERMINAL) {
@@ -7043,7 +7015,7 @@ ZRtagshacc(void)
 		}
 		/* BEGINNING OF ACTION: tagshacc3 */
 		{
-#line 2179 "syntax.act"
+#line 2101 "syntax.act"
 
     RESET_TDF((ZIb));
     o_make_tagshacc(append_TDF(&(ZIc)->sh.tdfsh, 0),
@@ -7057,7 +7029,7 @@ ZRtagshacc(void)
     }
     (ZIc)->next = localdecs;
     localdecs = (ZIc);
-#line 7061 "syntax.c"
+#line 7033 "syntax.c"
 		}
 		/* END OF ACTION: tagshacc3 */
 	}
@@ -7117,10 +7089,10 @@ ZL2_nat:;
 			}
 			/* BEGINNING OF ACTION: nat2 */
 			{
-#line 1555 "syntax.act"
+#line 1477 "syntax.act"
 
     o_make_nat(out_tdfint32(intvalue));
-#line 7124 "syntax.c"
+#line 7096 "syntax.c"
 			}
 			/* END OF ACTION: nat2 */
 		}
@@ -7144,10 +7116,10 @@ ZL1:;
 	{
 		/* BEGINNING OF ACTION: syntax_error */
 		{
-#line 2471 "syntax.act"
+#line 2393 "syntax.act"
 
     fail("Syntax error");
-#line 7151 "syntax.c"
+#line 7123 "syntax.c"
 		}
 		/* END OF ACTION: syntax_error */
 	}
@@ -7182,11 +7154,11 @@ ZL2_alignment:;
 						ADVANCE_LEXER;
 						/* BEGINNING OF ACTION: gencond1_dec */
 						{
-#line 1141 "syntax.act"
+#line 1063 "syntax.act"
 
     /* (ZIb), (ZIc) uninitialised */
     SET_TDF((ZId), &(ZIa));
-#line 7190 "syntax.c"
+#line 7162 "syntax.c"
 						}
 						/* END OF ACTION: gencond1_dec */
 						switch (CURRENT_TERMINAL) {
@@ -7209,11 +7181,11 @@ ZL2_alignment:;
 						ADVANCE_LEXER;
 						/* BEGINNING OF ACTION: gencond2 */
 						{
-#line 1146 "syntax.act"
+#line 1068 "syntax.act"
 
     RESET_TDF((ZId));
     SET_TDF((ZId), &(ZIb));
-#line 7217 "syntax.c"
+#line 7189 "syntax.c"
 						}
 						/* END OF ACTION: gencond2 */
 						read_alignment ();
@@ -7229,11 +7201,11 @@ ZL2_alignment:;
 						ADVANCE_LEXER;
 						/* BEGINNING OF ACTION: gencond3 */
 						{
-#line 1151 "syntax.act"
+#line 1073 "syntax.act"
 
     RESET_TDF((ZId));
     SET_TDF((ZId), &(ZIc));
-#line 7237 "syntax.c"
+#line 7209 "syntax.c"
 						}
 						/* END OF ACTION: gencond3 */
 						read_alignment ();
@@ -7243,12 +7215,12 @@ ZL2_alignment:;
 						}
 						/* BEGINNING OF ACTION: alignment1 */
 						{
-#line 354 "syntax.act"
+#line 276 "syntax.act"
 
     RESET_TDF((ZId));
     o_alignment_cond(append_TDF(&(ZIa),1), append_TDF(&(ZIb),1),
 		     append_TDF(&(ZIc),1));
-#line 7252 "syntax.c"
+#line 7224 "syntax.c"
 						}
 						/* END OF ACTION: alignment1 */
 						switch (CURRENT_TERMINAL) {
@@ -7290,10 +7262,10 @@ ZL2_alignment:;
 
 			/* BEGINNING OF ACTION: alment2_dec */
 			{
-#line 365 "syntax.act"
+#line 287 "syntax.act"
 
     SET_TDF((ZIb), &(ZIa));
-#line 7297 "syntax.c"
+#line 7269 "syntax.c"
 			}
 			/* END OF ACTION: alment2_dec */
 			read_al_tag ();
@@ -7303,11 +7275,11 @@ ZL2_alignment:;
 			}
 			/* BEGINNING OF ACTION: alignment3 */
 			{
-#line 360 "syntax.act"
+#line 282 "syntax.act"
 
     RESET_TDF((ZIb));
     o_obtain_al_tag(append_TDF(&(ZIa), 1));
-#line 7311 "syntax.c"
+#line 7283 "syntax.c"
 			}
 			/* END OF ACTION: alignment3 */
 		}
@@ -7318,19 +7290,19 @@ ZL2_alignment:;
 
 			/* BEGINNING OF ACTION: gencons1_dec */
 			{
-#line 1156 "syntax.act"
+#line 1078 "syntax.act"
 
     (ZIa) = lex_v.val.v;
-#line 7325 "syntax.c"
+#line 7297 "syntax.c"
 			}
 			/* END OF ACTION: gencons1_dec */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: gencons2 */
 			{
-#line 1160 "syntax.act"
+#line 1082 "syntax.act"
 
    (constructs[(ZIa)].f)();
-#line 7334 "syntax.c"
+#line 7306 "syntax.c"
 			}
 			/* END OF ACTION: gencons2 */
 		}
@@ -7341,20 +7313,20 @@ ZL2_alignment:;
 
 			/* BEGINNING OF ACTION: gentok1_dec */
 			{
-#line 1179 "syntax.act"
+#line 1101 "syntax.act"
 
     (ZIa) = lex_v.val.tokname;
     (ZIa)->isused = 1;
-#line 7349 "syntax.c"
+#line 7321 "syntax.c"
 			}
 			/* END OF ACTION: gentok1_dec */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: gentok2 */
 			{
-#line 1184 "syntax.act"
+#line 1106 "syntax.act"
 
     expand_tok((ZIa), &(ZIa)->sort);
-#line 7358 "syntax.c"
+#line 7330 "syntax.c"
 			}
 			/* END OF ACTION: gentok2 */
 		}
@@ -7369,10 +7341,10 @@ ZL1:;
 	{
 		/* BEGINNING OF ACTION: syntax_error */
 		{
-#line 2471 "syntax.act"
+#line 2393 "syntax.act"
 
     fail("Syntax error");
-#line 7376 "syntax.c"
+#line 7348 "syntax.c"
 		}
 		/* END OF ACTION: syntax_error */
 	}
@@ -7392,10 +7364,10 @@ ZRvarpar__opt(void)
 			}
 			/* BEGINNING OF ACTION: vpar1 */
 			{
-#line 2463 "syntax.act"
+#line 2385 "syntax.act"
 
     current_TDF->no=1;
-#line 7399 "syntax.c"
+#line 7371 "syntax.c"
 			}
 			/* END OF ACTION: vpar1 */
 		}
@@ -7404,10 +7376,10 @@ ZRvarpar__opt(void)
 		{
 			/* BEGINNING OF ACTION: vpar2 */
 			{
-#line 2467 "syntax.act"
+#line 2389 "syntax.act"
 
     current_TDF->no=0;
-#line 7411 "syntax.c"
+#line 7383 "syntax.c"
 			}
 			/* END OF ACTION: vpar2 */
 		}
@@ -7479,7 +7451,7 @@ ZRproc__def(void)
 		ADVANCE_LEXER;
 		/* BEGINNING OF ACTION: tag_def7_dec */
 		{
-#line 2115 "syntax.act"
+#line 2037 "syntax.act"
 
     /* (ZIa) uninitialised */
     (ZIe) =lex_v.val.name;
@@ -7497,7 +7469,7 @@ ZRproc__def(void)
 	(ZIf) = 0;
     }
     SET_TDF((ZIc), &(ZIb));
-#line 7501 "syntax.c"
+#line 7473 "syntax.c"
 		}
 		/* END OF ACTION: tag_def7_dec */
 		switch (CURRENT_TERMINAL) {
@@ -7516,11 +7488,11 @@ ZRproc__def(void)
 		ADVANCE_LEXER;
 		/* BEGINNING OF ACTION: proc_def1 */
 		{
-#line 1650 "syntax.act"
+#line 1572 "syntax.act"
 
     RESET_TDF((ZIc));
     SET_TDF((ZIc), &(ZIa));
-#line 7524 "syntax.c"
+#line 7496 "syntax.c"
 		}
 		/* END OF ACTION: proc_def1 */
 		ZRproc__def__body ();
@@ -7530,7 +7502,7 @@ ZRproc__def(void)
 		}
 		/* BEGINNING OF ACTION: proc_def2 */
 		{
-#line 1655 "syntax.act"
+#line 1577 "syntax.act"
 
     RESET_TDF((ZIc));
     o_make_id_tagdef(out_tdfint32(UL(local_name(&(ZId)->idname.name, tag_ent))),
@@ -7547,7 +7519,7 @@ ZRproc__def(void)
     }
     (ZId)->isdeffed=1;
     if (!(ZIf)) {(ZId)->next = tagdecs; tagdecs = (ZId);}
-#line 7551 "syntax.c"
+#line 7523 "syntax.c"
 		}
 		/* END OF ACTION: proc_def2 */
 	}
@@ -7571,10 +7543,10 @@ read_error_code_list(void)
 		}
 		/* BEGINNING OF ACTION: errc1 */
 		{
-#line 547 "syntax.act"
+#line 469 "syntax.act"
 
     current_TDF->no = 1;
-#line 7578 "syntax.c"
+#line 7550 "syntax.c"
 		}
 		/* END OF ACTION: errc1 */
 		ZR625 ();
@@ -7588,10 +7560,10 @@ ZL1:;
 	{
 		/* BEGINNING OF ACTION: syntax_error */
 		{
-#line 2471 "syntax.act"
+#line 2393 "syntax.act"
 
     fail("Syntax error");
-#line 7595 "syntax.c"
+#line 7567 "syntax.c"
 		}
 		/* END OF ACTION: syntax_error */
 	}
@@ -7606,10 +7578,10 @@ ZRcallee__var__opt(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: cevaropt2 */
 			{
-#line 459 "syntax.act"
+#line 381 "syntax.act"
 
     g_ce_v = 1;
-#line 7613 "syntax.c"
+#line 7585 "syntax.c"
 			}
 			/* END OF ACTION: cevaropt2 */
 		}
@@ -7618,10 +7590,10 @@ ZRcallee__var__opt(void)
 		{
 			/* BEGINNING OF ACTION: cevaropt1 */
 			{
-#line 455 "syntax.act"
+#line 377 "syntax.act"
 
     g_ce_v = 0;
-#line 7625 "syntax.c"
+#line 7597 "syntax.c"
 			}
 			/* END OF ACTION: cevaropt1 */
 		}
@@ -7645,7 +7617,7 @@ ZRtag__dec(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: tag_dec1_dec */
 			{
-#line 1972 "syntax.act"
+#line 1894 "syntax.act"
 
     /* (ZIb) uninitialised */
     char * n =lex_v.val.name;
@@ -7656,7 +7628,7 @@ ZRtag__dec(void)
     (ZId)->isdeffed = 0; (ZId)->hassh = 1; (ZId)->iskept=0; (ZId)->iscommon=0;
     (ZId)->isused = 0;
     SET_TDF((ZIc), &(ZIa));
-#line 7660 "syntax.c"
+#line 7632 "syntax.c"
 			}
 			/* END OF ACTION: tag_dec1_dec */
 			switch (CURRENT_TERMINAL) {
@@ -7673,11 +7645,11 @@ ZRtag__dec(void)
 			}
 			/* BEGINNING OF ACTION: tag_dec6 */
 			{
-#line 2025 "syntax.act"
+#line 1947 "syntax.act"
 
     RESET_TDF((ZIc));
     SET_TDF((ZIc), &(ZIb));
-#line 7681 "syntax.c"
+#line 7653 "syntax.c"
 			}
 			/* END OF ACTION: tag_dec6 */
 			ZRsignature__opt ();
@@ -7687,10 +7659,10 @@ ZRtag__dec(void)
 			}
 			/* BEGINNING OF ACTION: tag_dec2 */
 			{
-#line 1984 "syntax.act"
+#line 1906 "syntax.act"
 
     g_shtokname = &(ZId)->sh.shtok;
-#line 7694 "syntax.c"
+#line 7666 "syntax.c"
 			}
 			/* END OF ACTION: tag_dec2 */
 			switch (CURRENT_TERMINAL) {
@@ -7707,7 +7679,7 @@ ZRtag__dec(void)
 			}
 			/* BEGINNING OF ACTION: tag_dec5 */
 			{
-#line 2012 "syntax.act"
+#line 1934 "syntax.act"
 
     RESET_TDF((ZIc));
     (ZId)->iscommon = 1;
@@ -7719,7 +7691,7 @@ ZRtag__dec(void)
     (ZId)->next = tagdecs;
     (ZId)->isvar = 1;
     tagdecs = (ZId);
-#line 7723 "syntax.c"
+#line 7695 "syntax.c"
 			}
 			/* END OF ACTION: tag_dec5 */
 		}
@@ -7734,7 +7706,7 @@ ZRtag__dec(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: tag_dec1_dec */
 			{
-#line 1972 "syntax.act"
+#line 1894 "syntax.act"
 
     /* (ZIb) uninitialised */
     char * n =lex_v.val.name;
@@ -7745,7 +7717,7 @@ ZRtag__dec(void)
     (ZId)->isdeffed = 0; (ZId)->hassh = 1; (ZId)->iskept=0; (ZId)->iscommon=0;
     (ZId)->isused = 0;
     SET_TDF((ZIc), &(ZIa));
-#line 7749 "syntax.c"
+#line 7721 "syntax.c"
 			}
 			/* END OF ACTION: tag_dec1_dec */
 			switch (CURRENT_TERMINAL) {
@@ -7762,11 +7734,11 @@ ZRtag__dec(void)
 			}
 			/* BEGINNING OF ACTION: tag_dec6 */
 			{
-#line 2025 "syntax.act"
+#line 1947 "syntax.act"
 
     RESET_TDF((ZIc));
     SET_TDF((ZIc), &(ZIb));
-#line 7770 "syntax.c"
+#line 7742 "syntax.c"
 			}
 			/* END OF ACTION: tag_dec6 */
 			ZRsignature__opt ();
@@ -7776,10 +7748,10 @@ ZRtag__dec(void)
 			}
 			/* BEGINNING OF ACTION: tag_dec2 */
 			{
-#line 1984 "syntax.act"
+#line 1906 "syntax.act"
 
     g_shtokname = &(ZId)->sh.shtok;
-#line 7783 "syntax.c"
+#line 7755 "syntax.c"
 			}
 			/* END OF ACTION: tag_dec2 */
 			switch (CURRENT_TERMINAL) {
@@ -7796,7 +7768,7 @@ ZRtag__dec(void)
 			}
 			/* BEGINNING OF ACTION: tag_dec4 */
 			{
-#line 2000 "syntax.act"
+#line 1922 "syntax.act"
 
     RESET_TDF((ZIc));
     o_make_id_tagdec(out_tdfint32(LOCNAME((ZId)->idname)),
@@ -7807,7 +7779,7 @@ ZRtag__dec(void)
     (ZId)->next = tagdecs;
     (ZId)->isvar = 0;
     tagdecs = (ZId);
-#line 7811 "syntax.c"
+#line 7783 "syntax.c"
 			}
 			/* END OF ACTION: tag_dec4 */
 		}
@@ -7822,7 +7794,7 @@ ZRtag__dec(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: tag_dec1_dec */
 			{
-#line 1972 "syntax.act"
+#line 1894 "syntax.act"
 
     /* (ZIb) uninitialised */
     char * n =lex_v.val.name;
@@ -7833,7 +7805,7 @@ ZRtag__dec(void)
     (ZId)->isdeffed = 0; (ZId)->hassh = 1; (ZId)->iskept=0; (ZId)->iscommon=0;
     (ZId)->isused = 0;
     SET_TDF((ZIc), &(ZIa));
-#line 7837 "syntax.c"
+#line 7809 "syntax.c"
 			}
 			/* END OF ACTION: tag_dec1_dec */
 			switch (CURRENT_TERMINAL) {
@@ -7850,11 +7822,11 @@ ZRtag__dec(void)
 			}
 			/* BEGINNING OF ACTION: tag_dec6 */
 			{
-#line 2025 "syntax.act"
+#line 1947 "syntax.act"
 
     RESET_TDF((ZIc));
     SET_TDF((ZIc), &(ZIb));
-#line 7858 "syntax.c"
+#line 7830 "syntax.c"
 			}
 			/* END OF ACTION: tag_dec6 */
 			ZRsignature__opt ();
@@ -7864,10 +7836,10 @@ ZRtag__dec(void)
 			}
 			/* BEGINNING OF ACTION: tag_dec2 */
 			{
-#line 1984 "syntax.act"
+#line 1906 "syntax.act"
 
     g_shtokname = &(ZId)->sh.shtok;
-#line 7871 "syntax.c"
+#line 7843 "syntax.c"
 			}
 			/* END OF ACTION: tag_dec2 */
 			switch (CURRENT_TERMINAL) {
@@ -7884,7 +7856,7 @@ ZRtag__dec(void)
 			}
 			/* BEGINNING OF ACTION: tag_dec3 */
 			{
-#line 1988 "syntax.act"
+#line 1910 "syntax.act"
 
     RESET_TDF((ZIc));
     o_make_var_tagdec(out_tdfint32(LOCNAME((ZId)->idname)),
@@ -7895,7 +7867,7 @@ ZRtag__dec(void)
     (ZId)->next = tagdecs;
     (ZId)->isvar = 1;
     tagdecs = (ZId);
-#line 7899 "syntax.c"
+#line 7871 "syntax.c"
 			}
 			/* END OF ACTION: tag_dec3 */
 		}
@@ -7926,7 +7898,7 @@ ZRtag__intro(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: intro1_dec */
 			{
-#line 1254 "syntax.act"
+#line 1176 "syntax.act"
 
     /* (ZIb), (ZIe) uninitialised */
     char* n = lex_v.val.name;
@@ -7936,7 +7908,7 @@ ZRtag__intro(void)
     NEW_IDNAME((ZId)->idname, n, tag_ent);
     g_has_vis = 0;
     SET_TDF((ZIc), &(ZIa));
-#line 7940 "syntax.c"
+#line 7912 "syntax.c"
 			}
 			/* END OF ACTION: intro1_dec */
 			switch (CURRENT_TERMINAL) {
@@ -7953,12 +7925,12 @@ ZRtag__intro(void)
 			}
 			/* BEGINNING OF ACTION: intro2 */
 			{
-#line 1265 "syntax.act"
+#line 1187 "syntax.act"
 
     RESET_TDF((ZIc));
     SET_TDF((ZIc), &(ZIb));
     (ZIe) = g_has_vis;
-#line 7962 "syntax.c"
+#line 7934 "syntax.c"
 			}
 			/* END OF ACTION: intro2 */
 			switch (CURRENT_TERMINAL) {
@@ -7975,7 +7947,7 @@ ZRtag__intro(void)
 			}
 			/* BEGINNING OF ACTION: intro5 */
 			{
-#line 1292 "syntax.act"
+#line 1214 "syntax.act"
 
     RESET_TDF((ZIc));
     intro_acc = (ZIa);
@@ -7989,7 +7961,7 @@ ZRtag__intro(void)
     }
     (ZId)->next = localdecs;
     localdecs = (ZId);
-#line 7993 "syntax.c"
+#line 7965 "syntax.c"
 			}
 			/* END OF ACTION: intro5 */
 		}
@@ -8005,7 +7977,7 @@ ZRtag__intro(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: intro1_dec */
 			{
-#line 1254 "syntax.act"
+#line 1176 "syntax.act"
 
     /* (ZIb), (ZIe) uninitialised */
     char* n = lex_v.val.name;
@@ -8015,7 +7987,7 @@ ZRtag__intro(void)
     NEW_IDNAME((ZId)->idname, n, tag_ent);
     g_has_vis = 0;
     SET_TDF((ZIc), &(ZIa));
-#line 8019 "syntax.c"
+#line 7991 "syntax.c"
 			}
 			/* END OF ACTION: intro1_dec */
 			switch (CURRENT_TERMINAL) {
@@ -8059,7 +8031,7 @@ read_exp(void)
 
 		/* BEGINNING OF ACTION: exphold1_dec */
 		{
-#line 759 "syntax.act"
+#line 681 "syntax.act"
 
     (ZIc) = (current_TDF->first == current_TDF->last &&
 	      current_TDF->first->usage == 0 &&
@@ -8067,7 +8039,7 @@ read_exp(void)
     (ZId) = cLINE;
     (ZIe) = bind;
     if (!(ZIc) || line_no_tok != -1) { SET_TDF((ZIb), &(ZIa)); }
-#line 8071 "syntax.c"
+#line 8043 "syntax.c"
 		}
 		/* END OF ACTION: exphold1_dec */
 		ZRexp__body ();
@@ -8077,7 +8049,7 @@ read_exp(void)
 		}
 		/* BEGINNING OF ACTION: exphold2 */
 		{
-#line 768 "syntax.act"
+#line 690 "syntax.act"
 
     if (!(ZIc) || line_no_tok != -1) {
 	SET((ZIb));
@@ -8095,7 +8067,7 @@ read_exp(void)
 		});
 	 } else append_TDF(&(ZIa),1);
     }
-#line 8099 "syntax.c"
+#line 8071 "syntax.c"
 		}
 		/* END OF ACTION: exphold2 */
 	}
@@ -8104,10 +8076,10 @@ ZL1:;
 	{
 		/* BEGINNING OF ACTION: syntax_error */
 		{
-#line 2471 "syntax.act"
+#line 2393 "syntax.act"
 
     fail("Syntax error");
-#line 8111 "syntax.c"
+#line 8083 "syntax.c"
 		}
 		/* END OF ACTION: syntax_error */
 	}
@@ -8129,7 +8101,7 @@ ZRtag__def(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: tag_def1_dec */
 			{
-#line 2051 "syntax.act"
+#line 1973 "syntax.act"
 
     /* (ZIa) uninitialised */
     (ZIe) =lex_v.val.name;
@@ -8147,7 +8119,7 @@ ZRtag__def(void)
 	(ZIf)=0;
     }
     SET_TDF((ZIc), &(ZIb));
-#line 8151 "syntax.c"
+#line 8123 "syntax.c"
 			}
 			/* END OF ACTION: tag_def1_dec */
 			switch (CURRENT_TERMINAL) {
@@ -8177,7 +8149,7 @@ ZRtag__def(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: tag_def7_dec */
 			{
-#line 2115 "syntax.act"
+#line 2037 "syntax.act"
 
     /* (ZIa) uninitialised */
     (ZIe) =lex_v.val.name;
@@ -8195,7 +8167,7 @@ ZRtag__def(void)
 	(ZIf) = 0;
     }
     SET_TDF((ZIc), &(ZIb));
-#line 8199 "syntax.c"
+#line 8171 "syntax.c"
 			}
 			/* END OF ACTION: tag_def7_dec */
 			switch (CURRENT_TERMINAL) {
@@ -8227,7 +8199,7 @@ ZRtag__def(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: tag_def1_dec */
 			{
-#line 2051 "syntax.act"
+#line 1973 "syntax.act"
 
     /* (ZIa) uninitialised */
     (ZIe) =lex_v.val.name;
@@ -8245,7 +8217,7 @@ ZRtag__def(void)
 	(ZIf)=0;
     }
     SET_TDF((ZIc), &(ZIb));
-#line 8249 "syntax.c"
+#line 8221 "syntax.c"
 			}
 			/* END OF ACTION: tag_def1_dec */
 			switch (CURRENT_TERMINAL) {
@@ -8262,11 +8234,11 @@ ZRtag__def(void)
 			}
 			/* BEGINNING OF ACTION: tgdef10_dec */
 			{
-#line 2215 "syntax.act"
+#line 2137 "syntax.act"
 
     RESET_TDF((ZIc));
     SET_TDF((ZIc), &(ZIg));
-#line 8270 "syntax.c"
+#line 8242 "syntax.c"
 			}
 			/* END OF ACTION: tgdef10_dec */
 			ZRvariety__opt ();
@@ -8282,7 +8254,7 @@ ZRtag__def(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: tgdef11_dec */
 			{
-#line 2220 "syntax.act"
+#line 2142 "syntax.act"
 
     (ZIh) = lex_v.val.name;
     if ((ZId)->hassh)fail("Two declaration shapes for %s", (ZIe));
@@ -8290,7 +8262,7 @@ ZRtag__def(void)
     SET_TDF((ZIc), &(ZIa));
     o_make_nof_int(append_TDF(&(ZIg), 0),
 	o_make_string(out_tdfstring_bytes((ZIh), 8, UI(strlen((ZIh)) +1))));
-#line 8294 "syntax.c"
+#line 8266 "syntax.c"
 			}
 			/* END OF ACTION: tgdef11_dec */
 			switch (CURRENT_TERMINAL) {
@@ -8302,7 +8274,7 @@ ZRtag__def(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: tag_def12 */
 			{
-#line 2034 "syntax.act"
+#line 1956 "syntax.act"
 
     RESET_TDF((ZIc));
     o_make_var_tagdef(out_tdfint32(UL(local_name(&(ZId)->idname.name, tag_ent))),
@@ -8318,7 +8290,7 @@ ZRtag__def(void)
     }
     (ZId)->isdeffed=1;
     if (!(ZIf)) { (ZId)->next = tagdecs; tagdecs = (ZId); }
-#line 8322 "syntax.c"
+#line 8294 "syntax.c"
 			}
 			/* END OF ACTION: tag_def12 */
 		}
@@ -8335,7 +8307,7 @@ ZRtag__def(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: tag_def1_dec */
 			{
-#line 2051 "syntax.act"
+#line 1973 "syntax.act"
 
     /* (ZIa) uninitialised */
     (ZIe) =lex_v.val.name;
@@ -8353,7 +8325,7 @@ ZRtag__def(void)
 	(ZIf)=0;
     }
     SET_TDF((ZIc), &(ZIb));
-#line 8357 "syntax.c"
+#line 8329 "syntax.c"
 			}
 			/* END OF ACTION: tag_def1_dec */
 			switch (CURRENT_TERMINAL) {
@@ -8408,10 +8380,10 @@ ZRotagexp__list__opt(void)
 		{
 			/* BEGINNING OF ACTION: otagel_opt1 */
 			{
-#line 1622 "syntax.act"
+#line 1544 "syntax.act"
 
     current_TDF->no = 0;
-#line 8415 "syntax.c"
+#line 8387 "syntax.c"
 			}
 			/* END OF ACTION: otagel_opt1 */
 		}
@@ -8436,7 +8408,7 @@ ZRtok__formal__list(void)
 
 		/* BEGINNING OF ACTION: tok_fml1_dec */
 		{
-#line 2361 "syntax.act"
+#line 2283 "syntax.act"
 
     char * n = lex_v.val.name;
     (ZIa) = find_tok(n);
@@ -8444,7 +8416,7 @@ ZRtok__formal__list(void)
     (ZIa) = xmalloc(sizeof *(ZIa)); NEW_IDNAME((ZIa)->idname, n, tok_ent);
     (ZIa)->isdeffed = 1; (ZIa)->isused = 0; (ZIa)->iskept=0;
     (ZIa)->next = (Tokdec*)0;
-#line 8448 "syntax.c"
+#line 8420 "syntax.c"
 		}
 		/* END OF ACTION: tok_fml1_dec */
 		switch (CURRENT_TERMINAL) {
@@ -8468,12 +8440,12 @@ ZRtok__formal__list(void)
 		}
 		/* BEGINNING OF ACTION: tok_fml2 */
 		{
-#line 2369 "syntax.act"
+#line 2291 "syntax.act"
 
     (ZIa)->sort.ressort = g_sname;
     (ZIa)->sort.pars = (Tokpar*)0;  /* no pars in formal pars */
     g_tokformals = (ZIa);
-#line 8477 "syntax.c"
+#line 8449 "syntax.c"
 		}
 		/* END OF ACTION: tok_fml2 */
 		ZR629 ();
@@ -8497,10 +8469,10 @@ ZRuntidy__opt(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: untidy4 */
 			{
-#line 2399 "syntax.act"
+#line 2321 "syntax.act"
 
     g_unt = 2;
-#line 8504 "syntax.c"
+#line 8476 "syntax.c"
 			}
 			/* END OF ACTION: untidy4 */
 		}
@@ -8519,10 +8491,10 @@ ZRuntidy__opt(void)
 		{
 			/* BEGINNING OF ACTION: untidy1 */
 			{
-#line 2387 "syntax.act"
+#line 2309 "syntax.act"
 
     g_unt = 0;
-#line 8526 "syntax.c"
+#line 8498 "syntax.c"
 			}
 			/* END OF ACTION: untidy1 */
 		}
@@ -8545,10 +8517,10 @@ ZRcaller__var__opt(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: crvaropt2 */
 			{
-#line 482 "syntax.act"
+#line 404 "syntax.act"
 
     g_cr_v = 1;
-#line 8552 "syntax.c"
+#line 8524 "syntax.c"
 			}
 			/* END OF ACTION: crvaropt2 */
 		}
@@ -8557,10 +8529,10 @@ ZRcaller__var__opt(void)
 		{
 			/* BEGINNING OF ACTION: crvaropt1 */
 			{
-#line 478 "syntax.act"
+#line 400 "syntax.act"
 
     g_cr_v = 0;
-#line 8564 "syntax.c"
+#line 8536 "syntax.c"
 			}
 			/* END OF ACTION: crvaropt1 */
 		}
@@ -8590,7 +8562,7 @@ ZRproc__def__body(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: gproc1_dec */
 			{
-#line 1188 "syntax.act"
+#line 1110 "syntax.act"
 
     /* (ZIb), (ZIc), (ZId) uninitialised */
     /* (ZIf), (ZIg) (ZIh) uninitialised */
@@ -8599,7 +8571,7 @@ ZRproc__def__body(void)
     localdecs = (Tagdec*)0;
     labdecs = (Labdec *)0;
     SET_TDF((ZIe), &(ZIa));
-#line 8603 "syntax.c"
+#line 8575 "syntax.c"
 			}
 			/* END OF ACTION: gproc1_dec */
 			read_shape ();
@@ -8609,11 +8581,11 @@ ZRproc__def__body(void)
 			}
 			/* BEGINNING OF ACTION: gproc2 */
 			{
-#line 1198 "syntax.act"
+#line 1120 "syntax.act"
 
     RESET_TDF((ZIe));
     SET_TDF((ZIe), &(ZIb));
-#line 8617 "syntax.c"
+#line 8589 "syntax.c"
 			}
 			/* END OF ACTION: gproc2 */
 			switch (CURRENT_TERMINAL) {
@@ -8631,12 +8603,12 @@ ZRproc__def__body(void)
 			}
 			/* BEGINNING OF ACTION: gproc3 */
 			{
-#line 1203 "syntax.act"
+#line 1125 "syntax.act"
 
     RESET_TDF((ZIe));
     SET_TDF((ZIe), &(ZIc));
     (ZIf) = g_cr_v;
-#line 8640 "syntax.c"
+#line 8612 "syntax.c"
 			}
 			/* END OF ACTION: gproc3 */
 			switch (CURRENT_TERMINAL) {
@@ -8654,12 +8626,12 @@ ZRproc__def__body(void)
 			}
 			/* BEGINNING OF ACTION: gproc4 */
 			{
-#line 1209 "syntax.act"
+#line 1131 "syntax.act"
 
     RESET_TDF((ZIe));
     SET_TDF((ZIe), &(ZId));
     (ZIg) = g_ce_v;
-#line 8663 "syntax.c"
+#line 8635 "syntax.c"
 			}
 			/* END OF ACTION: gproc4 */
 			switch (CURRENT_TERMINAL) {
@@ -8676,10 +8648,10 @@ ZRproc__def__body(void)
 			}
 			/* BEGINNING OF ACTION: gproc5 */
 			{
-#line 1215 "syntax.act"
+#line 1137 "syntax.act"
 
     (ZIh) = g_unt;
-#line 8683 "syntax.c"
+#line 8655 "syntax.c"
 			}
 			/* END OF ACTION: gproc5 */
 			ZRclosed__exp ();
@@ -8689,7 +8661,7 @@ ZRproc__def__body(void)
 			}
 			/* BEGINNING OF ACTION: gproc6 */
 			{
-#line 1219 "syntax.act"
+#line 1141 "syntax.act"
 
     RESET_TDF((ZIe));
     o_make_general_proc(append_TDF(&(ZIa),1),
@@ -8707,7 +8679,7 @@ ZRproc__def__body(void)
     }
     localdecs = (ZIi);
     labdecs = (ZIj);
-#line 8711 "syntax.c"
+#line 8683 "syntax.c"
 			}
 			/* END OF ACTION: gproc6 */
 		}
@@ -8726,7 +8698,7 @@ ZRproc__def__body(void)
 
 			/* BEGINNING OF ACTION: expproc1_dec */
 			{
-#line 828 "syntax.act"
+#line 750 "syntax.act"
 
     /* (ZIa), (ZIb), (ZIc) uninitialised */
     (ZIf) = localdecs;
@@ -8734,7 +8706,7 @@ ZRproc__def__body(void)
     localdecs = (Tagdec*)0;
     labdecs = (Labdec *)0;
     SET_TDF((ZIe), &(ZId));
-#line 8738 "syntax.c"
+#line 8710 "syntax.c"
 			}
 			/* END OF ACTION: expproc1_dec */
 			read_shape ();
@@ -8744,11 +8716,11 @@ ZRproc__def__body(void)
 			}
 			/* BEGINNING OF ACTION: expproc2 */
 			{
-#line 837 "syntax.act"
+#line 759 "syntax.act"
 
     RESET_TDF((ZIe));
     SET_TDF((ZIe), &(ZIa))
-#line 8752 "syntax.c"
+#line 8724 "syntax.c"
 			}
 			/* END OF ACTION: expproc2 */
 			switch (CURRENT_TERMINAL) {
@@ -8765,11 +8737,11 @@ ZRproc__def__body(void)
 			}
 			/* BEGINNING OF ACTION: expproc3 */
 			{
-#line 842 "syntax.act"
+#line 764 "syntax.act"
 
     RESET_TDF((ZIe));
     SET_TDF((ZIe), &(ZIb));
-#line 8773 "syntax.c"
+#line 8745 "syntax.c"
 			}
 			/* END OF ACTION: expproc3 */
 			ZRvarintro__opt ();
@@ -8779,11 +8751,11 @@ ZRproc__def__body(void)
 			}
 			/* BEGINNING OF ACTION: expproc4 */
 			{
-#line 847 "syntax.act"
+#line 769 "syntax.act"
 
     RESET_TDF((ZIe));
     SET_TDF((ZIe), &(ZIc));
-#line 8787 "syntax.c"
+#line 8759 "syntax.c"
 			}
 			/* END OF ACTION: expproc4 */
 			switch (CURRENT_TERMINAL) {
@@ -8800,7 +8772,7 @@ ZRproc__def__body(void)
 			}
 			/* BEGINNING OF ACTION: expproc5 */
 			{
-#line 852 "syntax.act"
+#line 774 "syntax.act"
 
     RESET_TDF((ZIe));
     o_make_proc(append_TDF(&(ZId),1),
@@ -8815,7 +8787,7 @@ ZRproc__def__body(void)
     }
     localdecs = (ZIf);
     labdecs = (ZIg);
-#line 8819 "syntax.c"
+#line 8791 "syntax.c"
 			}
 			/* END OF ACTION: expproc5 */
 		}
@@ -8850,12 +8822,12 @@ ZRlabelled__list(void)
 		ADVANCE_LEXER;
 		/* BEGINNING OF ACTION: llist1_dec */
 		{
-#line 1483 "syntax.act"
+#line 1405 "syntax.act"
 
     (ZIb) = current_TDF;
     INIT_TDF(&(ZIa));
     current_TDF = &g_lablist;
-#line 8859 "syntax.c"
+#line 8831 "syntax.c"
 		}
 		/* END OF ACTION: llist1_dec */
 		read_label ();
@@ -8865,7 +8837,7 @@ ZRlabelled__list(void)
 		}
 		/* BEGINNING OF ACTION: llist2 */
 		{
-#line 1495 "syntax.act"
+#line 1417 "syntax.act"
 
     if (g_labdec != (Labdec*)0) {
 	if (g_labdec->declared) {
@@ -8874,7 +8846,7 @@ ZRlabelled__list(void)
 	g_labdec->declared = 1;
     }
     current_TDF = &(ZIa);
-#line 8878 "syntax.c"
+#line 8850 "syntax.c"
 		}
 		/* END OF ACTION: llist2 */
 		switch (CURRENT_TERMINAL) {
@@ -8891,11 +8863,11 @@ ZRlabelled__list(void)
 		}
 		/* BEGINNING OF ACTION: llist5 */
 		{
-#line 1507 "syntax.act"
+#line 1429 "syntax.act"
 
     RESET_TDF((ZIb));
     append_TDF(&(ZIa), 1);
-#line 8899 "syntax.c"
+#line 8871 "syntax.c"
 		}
 		/* END OF ACTION: llist5 */
 		ZR668 ();
@@ -8963,11 +8935,11 @@ ZRbitfield__sign(void)
 			}
 			/* BEGINNING OF ACTION: bvariety2 */
 			{
-#line 388 "syntax.act"
+#line 310 "syntax.act"
 
     if (issigned) { o_true; }
     else { o_false; }
-#line 8971 "syntax.c"
+#line 8943 "syntax.c"
 			}
 			/* END OF ACTION: bvariety2 */
 		}
@@ -9001,7 +8973,7 @@ ZRtok__dec(void)
 		ADVANCE_LEXER;
 		/* BEGINNING OF ACTION: tok_dec1_dec */
 		{
-#line 2255 "syntax.act"
+#line 2177 "syntax.act"
 
     char *n = lex_v.val.name;
     (ZIc) = find_tok(n);
@@ -9010,7 +8982,7 @@ ZRtok__dec(void)
     (ZIc) = xmalloc(sizeof *(ZIc));
     NEW_IDNAME((ZIc)->idname, n, tok_ent);
     SET_TDF((ZIb), &(ZIa));
-#line 9014 "syntax.c"
+#line 8986 "syntax.c"
 		}
 		/* END OF ACTION: tok_dec1_dec */
 		switch (CURRENT_TERMINAL) {
@@ -9056,7 +9028,7 @@ ZRtok__dec(void)
 		}
 		/* BEGINNING OF ACTION: tok_dec2 */
 		{
-#line 2264 "syntax.act"
+#line 2186 "syntax.act"
 
     RESET_TDF((ZIb));
     (ZIc)->sort.ressort = g_sname;
@@ -9068,7 +9040,7 @@ ZRtok__dec(void)
 	if ((ZIa).no != 0) { OPTION(append_TDF(&(ZIa), 1)); },
 	out_toksort(&(ZIc)->sort));
     INC_LIST;
-#line 9072 "syntax.c"
+#line 9044 "syntax.c"
 		}
 		/* END OF ACTION: tok_dec2 */
 	}
@@ -9093,10 +9065,10 @@ ZL2_exp__comma__list:;
 		}
 		/* BEGINNING OF ACTION: expl2 */
 		{
-#line 792 "syntax.act"
+#line 714 "syntax.act"
 
     current_TDF->no++;
-#line 9100 "syntax.c"
+#line 9072 "syntax.c"
 		}
 		/* END OF ACTION: expl2 */
 		/* BEGINNING OF INLINE: 624 */
@@ -9157,10 +9129,10 @@ ZRtok__def(void)
 
 		/* BEGINNING OF ACTION: tok_def0 */
 		{
-#line 2278 "syntax.act"
+#line 2200 "syntax.act"
 
     search_for_toks = 0;
-#line 9164 "syntax.c"
+#line 9136 "syntax.c"
 		}
 		/* END OF ACTION: tok_def0 */
 		switch (CURRENT_TERMINAL) {
@@ -9172,7 +9144,7 @@ ZRtok__def(void)
 		ADVANCE_LEXER;
 		/* BEGINNING OF ACTION: tok_def1_dec */
 		{
-#line 2282 "syntax.act"
+#line 2204 "syntax.act"
 
     char *n = lex_v.val.name;
     (ZId) = find_tok(n);
@@ -9188,7 +9160,7 @@ ZRtok__def(void)
 	(ZIe) = 0;
     }
     SET_TDF((ZIc), &(ZIb));
-#line 9192 "syntax.c"
+#line 9164 "syntax.c"
 		}
 		/* END OF ACTION: tok_def1_dec */
 		switch (CURRENT_TERMINAL) {
@@ -9212,7 +9184,7 @@ ZRtok__def(void)
 		}
 		/* BEGINNING OF ACTION: tok_def2 */
 		{
-#line 2298 "syntax.act"
+#line 2220 "syntax.act"
 
     RESET_TDF((ZIc));
     (ZId)->sort = g_toksort;
@@ -9223,7 +9195,7 @@ ZRtok__def(void)
     INC_LIST;
     if (!(ZIe)) { (ZId)->next = tokdecs; tokdecs = (ZId); (ZId)->isused=0; }
     g_tok_defn = (ZIa);
-#line 9227 "syntax.c"
+#line 9199 "syntax.c"
 		}
 		/* END OF ACTION: tok_def2 */
 	}
@@ -9247,11 +9219,11 @@ ZL2_unary__exp:;
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: cseexp1_dec */
 			{
-#line 485 "syntax.act"
+#line 407 "syntax.act"
 
     /* (ZIb) uninitialised */
     SET_TDF((ZIc), &(ZIa));
-#line 9255 "syntax.c"
+#line 9227 "syntax.c"
 			}
 			/* END OF ACTION: cseexp1_dec */
 			read_exp ();
@@ -9267,11 +9239,11 @@ ZL2_unary__exp:;
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: cseexp2 */
 			{
-#line 490 "syntax.act"
+#line 412 "syntax.act"
 
     RESET_TDF((ZIc));
     SET_TDF((ZIc), &(ZIb));
-#line 9275 "syntax.c"
+#line 9247 "syntax.c"
 			}
 			/* END OF ACTION: cseexp2 */
 			ZRrange__label__list ();
@@ -9281,12 +9253,12 @@ ZL2_unary__exp:;
 			}
 			/* BEGINNING OF ACTION: cseexp3 */
 			{
-#line 495 "syntax.act"
+#line 417 "syntax.act"
 
     RESET_TDF((ZIc));
     o_case(o_false, append_TDF(&(ZIa),1),
 	   { append_TDF(&(ZIb),1); current_TDF->no = (ZIb).no; });
-#line 9290 "syntax.c"
+#line 9262 "syntax.c"
 			}
 			/* END OF ACTION: cseexp3 */
 			switch (CURRENT_TERMINAL) {
@@ -9314,11 +9286,11 @@ ZL2_unary__exp:;
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: expcons1_dec */
 			{
-#line 731 "syntax.act"
+#line 653 "syntax.act"
 
     /* (ZIb) uninitialised */
     SET_TDF((ZIc), &(ZIa));
-#line 9322 "syntax.c"
+#line 9294 "syntax.c"
 			}
 			/* END OF ACTION: expcons1_dec */
 			read_exp ();
@@ -9328,11 +9300,11 @@ ZL2_unary__exp:;
 			}
 			/* BEGINNING OF ACTION: expcons2 */
 			{
-#line 736 "syntax.act"
+#line 658 "syntax.act"
 
     RESET_TDF((ZIc));
     SET_TDF((ZIc), &(ZIb));
-#line 9336 "syntax.c"
+#line 9308 "syntax.c"
 			}
 			/* END OF ACTION: expcons2 */
 			switch (CURRENT_TERMINAL) {
@@ -9356,12 +9328,12 @@ ZL2_unary__exp:;
 			}
 			/* BEGINNING OF ACTION: expcons3 */
 			{
-#line 741 "syntax.act"
+#line 663 "syntax.act"
 
     RESET_TDF((ZIc));
     o_make_compound(append_TDF(&(ZIa),1),
 		    { append_TDF(&(ZIb),1); current_TDF->no = (ZIb).no; });
-#line 9365 "syntax.c"
+#line 9337 "syntax.c"
 			}
 			/* END OF ACTION: expcons3 */
 			switch (CURRENT_TERMINAL) {
@@ -9397,11 +9369,11 @@ ZL2_unary__exp:;
 						ADVANCE_LEXER;
 						/* BEGINNING OF ACTION: gencond1_dec */
 						{
-#line 1141 "syntax.act"
+#line 1063 "syntax.act"
 
     /* (ZIb), (ZIc) uninitialised */
     SET_TDF((ZId), &(ZIa));
-#line 9405 "syntax.c"
+#line 9377 "syntax.c"
 						}
 						/* END OF ACTION: gencond1_dec */
 						switch (CURRENT_TERMINAL) {
@@ -9418,11 +9390,11 @@ ZL2_unary__exp:;
 						}
 						/* BEGINNING OF ACTION: gencond2 */
 						{
-#line 1146 "syntax.act"
+#line 1068 "syntax.act"
 
     RESET_TDF((ZId));
     SET_TDF((ZId), &(ZIb));
-#line 9426 "syntax.c"
+#line 9398 "syntax.c"
 						}
 						/* END OF ACTION: gencond2 */
 						switch (CURRENT_TERMINAL) {
@@ -9439,11 +9411,11 @@ ZL2_unary__exp:;
 						}
 						/* BEGINNING OF ACTION: gencond3 */
 						{
-#line 1151 "syntax.act"
+#line 1073 "syntax.act"
 
     RESET_TDF((ZId));
     SET_TDF((ZId), &(ZIc));
-#line 9447 "syntax.c"
+#line 9419 "syntax.c"
 						}
 						/* END OF ACTION: gencond3 */
 						switch (CURRENT_TERMINAL) {
@@ -9460,12 +9432,12 @@ ZL2_unary__exp:;
 						}
 						/* BEGINNING OF ACTION: exp1 */
 						{
-#line 574 "syntax.act"
+#line 496 "syntax.act"
 
     RESET_TDF((ZId));
     o_exp_cond(append_TDF(&(ZIa),1), append_TDF(&(ZIb),1),
 	       append_TDF(&(ZIc),1));
-#line 9469 "syntax.c"
+#line 9441 "syntax.c"
 						}
 						/* END OF ACTION: exp1 */
 						switch (CURRENT_TERMINAL) {
@@ -9495,10 +9467,10 @@ ZL2_unary__exp:;
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: query_type2 */
 			{
-#line 1678 "syntax.act"
+#line 1600 "syntax.act"
 
     query_t = lex_float__query;
-#line 9502 "syntax.c"
+#line 9474 "syntax.c"
 			}
 			/* END OF ACTION: query_type2 */
 			switch (CURRENT_TERMINAL) {
@@ -9510,12 +9482,12 @@ ZL2_unary__exp:;
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: exptst1_dec */
 			{
-#line 944 "syntax.act"
+#line 866 "syntax.act"
 
     /* (ZIb), (ZIc) uninitialised */
     (ZIe) = query_t;
     SET_TDF((ZId),&(ZIa));
-#line 9519 "syntax.c"
+#line 9491 "syntax.c"
 			}
 			/* END OF ACTION: exptst1_dec */
 			read_exp ();
@@ -9525,11 +9497,11 @@ ZL2_unary__exp:;
 			}
 			/* BEGINNING OF ACTION: exptst2 */
 			{
-#line 950 "syntax.act"
+#line 872 "syntax.act"
 
     RESET_TDF((ZId));
     SET_TDF((ZId),&(ZIb));
-#line 9533 "syntax.c"
+#line 9505 "syntax.c"
 			}
 			/* END OF ACTION: exptst2 */
 			read_ntest ();
@@ -9539,11 +9511,11 @@ ZL2_unary__exp:;
 			}
 			/* BEGINNING OF ACTION: exptst3 */
 			{
-#line 955 "syntax.act"
+#line 877 "syntax.act"
 
     RESET_TDF((ZId));
     SET_TDF((ZId), &(ZIc))
-#line 9547 "syntax.c"
+#line 9519 "syntax.c"
 			}
 			/* END OF ACTION: exptst3 */
 			read_exp ();
@@ -9554,7 +9526,7 @@ ZL2_unary__exp:;
 			}
 			/* BEGINNING OF ACTION: exptst4 */
 			{
-#line 960 "syntax.act"
+#line 882 "syntax.act"
 
     RESET_TDF((ZId));
     switch ((ZIe)) {
@@ -9583,7 +9555,7 @@ ZL2_unary__exp:;
 	    break;
 	default: fail("Don't understand test");
     }
-#line 9587 "syntax.c"
+#line 9559 "syntax.c"
 			}
 			/* END OF ACTION: exptst4 */
 			switch (CURRENT_TERMINAL) {
@@ -9600,10 +9572,10 @@ ZL2_unary__exp:;
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: expfail1 */
 			{
-#line 756 "syntax.act"
+#line 678 "syntax.act"
 
     o_fail_installer(read_string());
-#line 9607 "syntax.c"
+#line 9579 "syntax.c"
 			}
 			/* END OF ACTION: expfail1 */
 		}
@@ -9619,14 +9591,14 @@ ZL2_unary__exp:;
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: explab1_dec */
 			{
-#line 795 "syntax.act"
+#line 717 "syntax.act"
 
     /* (ZIb) uninitialised */
     (ZIe) = labdecs;
     (ZIc) = g_lablist;
     INIT_TDF(&g_lablist);
     SET_TDF((ZId), &(ZIa));
-#line 9630 "syntax.c"
+#line 9602 "syntax.c"
 			}
 			/* END OF ACTION: explab1_dec */
 			switch (CURRENT_TERMINAL) {
@@ -9643,11 +9615,11 @@ ZL2_unary__exp:;
 			}
 			/* BEGINNING OF ACTION: explab2 */
 			{
-#line 803 "syntax.act"
+#line 725 "syntax.act"
 
     RESET_TDF((ZId));
     SET_TDF((ZId), &(ZIb));
-#line 9651 "syntax.c"
+#line 9623 "syntax.c"
 			}
 			/* END OF ACTION: explab2 */
 			switch (CURRENT_TERMINAL) {
@@ -9670,7 +9642,7 @@ ZL2_unary__exp:;
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: explab3 */
 			{
-#line 808 "syntax.act"
+#line 730 "syntax.act"
 
     RESET_TDF((ZId));
     o_labelled({ append_TDF(&g_lablist,1);
@@ -9680,7 +9652,7 @@ ZL2_unary__exp:;
 		    current_TDF->no = g_lablist.no;});
     tidy_labels((ZIe));
     g_lablist = (ZIc);
-#line 9684 "syntax.c"
+#line 9656 "syntax.c"
 			}
 			/* END OF ACTION: explab3 */
 		}
@@ -9722,10 +9694,10 @@ ZL2_unary__exp:;
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: query_type5 */
 			{
-#line 1690 "syntax.act"
+#line 1612 "syntax.act"
 
     query_t = lex_offset__query;
-#line 9729 "syntax.c"
+#line 9701 "syntax.c"
 			}
 			/* END OF ACTION: query_type5 */
 			switch (CURRENT_TERMINAL) {
@@ -9737,12 +9709,12 @@ ZL2_unary__exp:;
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: exptst1_dec */
 			{
-#line 944 "syntax.act"
+#line 866 "syntax.act"
 
     /* (ZIb), (ZIc) uninitialised */
     (ZIe) = query_t;
     SET_TDF((ZId),&(ZIa));
-#line 9746 "syntax.c"
+#line 9718 "syntax.c"
 			}
 			/* END OF ACTION: exptst1_dec */
 			read_exp ();
@@ -9752,11 +9724,11 @@ ZL2_unary__exp:;
 			}
 			/* BEGINNING OF ACTION: exptst2 */
 			{
-#line 950 "syntax.act"
+#line 872 "syntax.act"
 
     RESET_TDF((ZId));
     SET_TDF((ZId),&(ZIb));
-#line 9760 "syntax.c"
+#line 9732 "syntax.c"
 			}
 			/* END OF ACTION: exptst2 */
 			read_ntest ();
@@ -9766,11 +9738,11 @@ ZL2_unary__exp:;
 			}
 			/* BEGINNING OF ACTION: exptst3 */
 			{
-#line 955 "syntax.act"
+#line 877 "syntax.act"
 
     RESET_TDF((ZId));
     SET_TDF((ZId), &(ZIc))
-#line 9774 "syntax.c"
+#line 9746 "syntax.c"
 			}
 			/* END OF ACTION: exptst3 */
 			read_exp ();
@@ -9781,7 +9753,7 @@ ZL2_unary__exp:;
 			}
 			/* BEGINNING OF ACTION: exptst4 */
 			{
-#line 960 "syntax.act"
+#line 882 "syntax.act"
 
     RESET_TDF((ZId));
     switch ((ZIe)) {
@@ -9810,7 +9782,7 @@ ZL2_unary__exp:;
 	    break;
 	default: fail("Don't understand test");
     }
-#line 9814 "syntax.c"
+#line 9786 "syntax.c"
 			}
 			/* END OF ACTION: exptst4 */
 			switch (CURRENT_TERMINAL) {
@@ -9852,11 +9824,11 @@ ZL2_unary__exp:;
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: chvar1_dec */
 			{
-#line 462 "syntax.act"
+#line 384 "syntax.act"
 
     /* (ZIb) uninitialised */
     SET_TDF((ZIc), &(ZIa));
-#line 9860 "syntax.c"
+#line 9832 "syntax.c"
 			}
 			/* END OF ACTION: chvar1_dec */
 			read_variety ();
@@ -9866,11 +9838,11 @@ ZL2_unary__exp:;
 			}
 			/* BEGINNING OF ACTION: chvar2 */
 			{
-#line 467 "syntax.act"
+#line 389 "syntax.act"
 
     RESET_TDF((ZIc));
     SET_TDF((ZIc), &(ZIb));
-#line 9874 "syntax.c"
+#line 9846 "syntax.c"
 			}
 			/* END OF ACTION: chvar2 */
 			switch (CURRENT_TERMINAL) {
@@ -9887,11 +9859,11 @@ ZL2_unary__exp:;
 			}
 			/* BEGINNING OF ACTION: chvar3 */
 			{
-#line 472 "syntax.act"
+#line 394 "syntax.act"
 
     RESET_TDF((ZIc));
     o_change_variety(o_wrap, append_TDF(&(ZIa),1), append_TDF(&(ZIb),1));
-#line 9895 "syntax.c"
+#line 9867 "syntax.c"
 			}
 			/* END OF ACTION: chvar3 */
 		}
@@ -9917,10 +9889,10 @@ ZL2_unary__exp:;
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: query_type4 */
 			{
-#line 1686 "syntax.act"
+#line 1608 "syntax.act"
 
     query_t = lex_proc__query;
-#line 9924 "syntax.c"
+#line 9896 "syntax.c"
 			}
 			/* END OF ACTION: query_type4 */
 			switch (CURRENT_TERMINAL) {
@@ -9932,12 +9904,12 @@ ZL2_unary__exp:;
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: exptst1_dec */
 			{
-#line 944 "syntax.act"
+#line 866 "syntax.act"
 
     /* (ZIb), (ZIc) uninitialised */
     (ZIe) = query_t;
     SET_TDF((ZId),&(ZIa));
-#line 9941 "syntax.c"
+#line 9913 "syntax.c"
 			}
 			/* END OF ACTION: exptst1_dec */
 			read_exp ();
@@ -9947,11 +9919,11 @@ ZL2_unary__exp:;
 			}
 			/* BEGINNING OF ACTION: exptst2 */
 			{
-#line 950 "syntax.act"
+#line 872 "syntax.act"
 
     RESET_TDF((ZId));
     SET_TDF((ZId),&(ZIb));
-#line 9955 "syntax.c"
+#line 9927 "syntax.c"
 			}
 			/* END OF ACTION: exptst2 */
 			read_ntest ();
@@ -9961,11 +9933,11 @@ ZL2_unary__exp:;
 			}
 			/* BEGINNING OF ACTION: exptst3 */
 			{
-#line 955 "syntax.act"
+#line 877 "syntax.act"
 
     RESET_TDF((ZId));
     SET_TDF((ZId), &(ZIc))
-#line 9969 "syntax.c"
+#line 9941 "syntax.c"
 			}
 			/* END OF ACTION: exptst3 */
 			read_exp ();
@@ -9976,7 +9948,7 @@ ZL2_unary__exp:;
 			}
 			/* BEGINNING OF ACTION: exptst4 */
 			{
-#line 960 "syntax.act"
+#line 882 "syntax.act"
 
     RESET_TDF((ZId));
     switch ((ZIe)) {
@@ -10005,7 +9977,7 @@ ZL2_unary__exp:;
 	    break;
 	default: fail("Don't understand test");
     }
-#line 10009 "syntax.c"
+#line 9981 "syntax.c"
 			}
 			/* END OF ACTION: exptst4 */
 			switch (CURRENT_TERMINAL) {
@@ -10028,10 +10000,10 @@ ZL2_unary__exp:;
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: query_type3 */
 			{
-#line 1682 "syntax.act"
+#line 1604 "syntax.act"
 
     query_t = lex_ptr__query;
-#line 10035 "syntax.c"
+#line 10007 "syntax.c"
 			}
 			/* END OF ACTION: query_type3 */
 			switch (CURRENT_TERMINAL) {
@@ -10043,12 +10015,12 @@ ZL2_unary__exp:;
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: exptst1_dec */
 			{
-#line 944 "syntax.act"
+#line 866 "syntax.act"
 
     /* (ZIb), (ZIc) uninitialised */
     (ZIe) = query_t;
     SET_TDF((ZId),&(ZIa));
-#line 10052 "syntax.c"
+#line 10024 "syntax.c"
 			}
 			/* END OF ACTION: exptst1_dec */
 			read_exp ();
@@ -10058,11 +10030,11 @@ ZL2_unary__exp:;
 			}
 			/* BEGINNING OF ACTION: exptst2 */
 			{
-#line 950 "syntax.act"
+#line 872 "syntax.act"
 
     RESET_TDF((ZId));
     SET_TDF((ZId),&(ZIb));
-#line 10066 "syntax.c"
+#line 10038 "syntax.c"
 			}
 			/* END OF ACTION: exptst2 */
 			read_ntest ();
@@ -10072,11 +10044,11 @@ ZL2_unary__exp:;
 			}
 			/* BEGINNING OF ACTION: exptst3 */
 			{
-#line 955 "syntax.act"
+#line 877 "syntax.act"
 
     RESET_TDF((ZId));
     SET_TDF((ZId), &(ZIc))
-#line 10080 "syntax.c"
+#line 10052 "syntax.c"
 			}
 			/* END OF ACTION: exptst3 */
 			read_exp ();
@@ -10087,7 +10059,7 @@ ZL2_unary__exp:;
 			}
 			/* BEGINNING OF ACTION: exptst4 */
 			{
-#line 960 "syntax.act"
+#line 882 "syntax.act"
 
     RESET_TDF((ZId));
     switch ((ZIe)) {
@@ -10116,7 +10088,7 @@ ZL2_unary__exp:;
 	    break;
 	default: fail("Don't understand test");
     }
-#line 10120 "syntax.c"
+#line 10092 "syntax.c"
 			}
 			/* END OF ACTION: exptst4 */
 			switch (CURRENT_TERMINAL) {
@@ -10150,12 +10122,12 @@ ZL2_unary__exp:;
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: exprep1_dec */
 			{
-#line 868 "syntax.act"
+#line 790 "syntax.act"
 
     /* (ZIb), (ZIc), (ZIf) uninitialised */
     (ZIe) = labdecs;
     SET_TDF((ZId), &(ZIa));
-#line 10159 "syntax.c"
+#line 10131 "syntax.c"
 			}
 			/* END OF ACTION: exprep1_dec */
 			ZRrepeat__starter__opt ();
@@ -10165,11 +10137,11 @@ ZL2_unary__exp:;
 			}
 			/* BEGINNING OF ACTION: exprep2 */
 			{
-#line 874 "syntax.act"
+#line 796 "syntax.act"
 
     (ZIf) = defaultlab;
     defaultlab = -1;
-#line 10173 "syntax.c"
+#line 10145 "syntax.c"
 			}
 			/* END OF ACTION: exprep2 */
 			switch (CURRENT_TERMINAL) {
@@ -10186,12 +10158,12 @@ ZL2_unary__exp:;
 			}
 			/* BEGINNING OF ACTION: exprep3 */
 			{
-#line 879 "syntax.act"
+#line 801 "syntax.act"
 
     (ZIc) = optlab;
     RESET_TDF((ZId));
     SET_TDF((ZId), &(ZIb));
-#line 10195 "syntax.c"
+#line 10167 "syntax.c"
 			}
 			/* END OF ACTION: exprep3 */
 			ZRexp__sequence ();
@@ -10201,13 +10173,13 @@ ZL2_unary__exp:;
 			}
 			/* BEGINNING OF ACTION: exprep4 */
 			{
-#line 885 "syntax.act"
+#line 807 "syntax.act"
 
     RESET_TDF((ZId));
     o_repeat(append_TDF(&(ZIc),1), append_TDF(&(ZIa),1), append_TDF(&(ZIb),1));
     tidy_labels((ZIe));
     defaultlab = (ZIf);
-#line 10211 "syntax.c"
+#line 10183 "syntax.c"
 			}
 			/* END OF ACTION: exprep4 */
 			switch (CURRENT_TERMINAL) {
@@ -10232,12 +10204,12 @@ ZL2_unary__exp:;
 			}
 			/* BEGINNING OF ACTION: mint1_dec */
 			{
-#line 1536 "syntax.act"
+#line 1458 "syntax.act"
 
     /* (ZIb) uninitialised */
     (ZIa) = *current_TDF;
     INIT_TDF(current_TDF);
-#line 10241 "syntax.c"
+#line 10213 "syntax.c"
 			}
 			/* END OF ACTION: mint1_dec */
 			switch (CURRENT_TERMINAL) {
@@ -10254,12 +10226,12 @@ ZL2_unary__exp:;
 			}
 			/* BEGINNING OF ACTION: mint2 */
 			{
-#line 1542 "syntax.act"
+#line 1464 "syntax.act"
 
     (ZIb) = *current_TDF;
     INIT_TDF(current_TDF);
     o_make_int(append_TDF(&(ZIb),1), append_TDF(&(ZIa),1));
-#line 10263 "syntax.c"
+#line 10235 "syntax.c"
 			}
 			/* END OF ACTION: mint2 */
 			switch (CURRENT_TERMINAL) {
@@ -10286,10 +10258,10 @@ ZL2_unary__exp:;
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: szexp1_dec */
 			{
-#line 1960 "syntax.act"
+#line 1882 "syntax.act"
 
     SET_TDF((ZIb), &(ZIa));
-#line 10293 "syntax.c"
+#line 10265 "syntax.c"
 			}
 			/* END OF ACTION: szexp1_dec */
 			read_shape ();
@@ -10299,12 +10271,12 @@ ZL2_unary__exp:;
 			}
 			/* BEGINNING OF ACTION: sizeexp2 */
 			{
-#line 1877 "syntax.act"
+#line 1799 "syntax.act"
 
     RESET_TDF((ZIb));
     o_offset_pad(o_alignment(append_TDF(&(ZIa), 0)),
 		 o_shape_offset(append_TDF(&(ZIa), 1)));
-#line 10308 "syntax.c"
+#line 10280 "syntax.c"
 			}
 			/* END OF ACTION: sizeexp2 */
 			switch (CURRENT_TERMINAL) {
@@ -10338,20 +10310,20 @@ ZL2_unary__exp:;
 			}
 			/* BEGINNING OF ACTION: signed_nat2 */
 			{
-#line 1839 "syntax.act"
+#line 1761 "syntax.act"
 
     o_make_signed_nat(out_tdfbool(0), out_tdfint32(intvalue));
-#line 10345 "syntax.c"
+#line 10317 "syntax.c"
 			}
 			/* END OF ACTION: signed_nat2 */
 			/* BEGINNING OF ACTION: mint1_dec */
 			{
-#line 1536 "syntax.act"
+#line 1458 "syntax.act"
 
     /* (ZIb) uninitialised */
     (ZIa) = *current_TDF;
     INIT_TDF(current_TDF);
-#line 10355 "syntax.c"
+#line 10327 "syntax.c"
 			}
 			/* END OF ACTION: mint1_dec */
 			switch (CURRENT_TERMINAL) {
@@ -10368,12 +10340,12 @@ ZL2_unary__exp:;
 			}
 			/* BEGINNING OF ACTION: mint2 */
 			{
-#line 1542 "syntax.act"
+#line 1464 "syntax.act"
 
     (ZIb) = *current_TDF;
     INIT_TDF(current_TDF);
     o_make_int(append_TDF(&(ZIb),1), append_TDF(&(ZIa),1));
-#line 10377 "syntax.c"
+#line 10349 "syntax.c"
 			}
 			/* END OF ACTION: mint2 */
 			switch (CURRENT_TERMINAL) {
@@ -10394,13 +10366,13 @@ ZL2_unary__exp:;
 			}
 			/* BEGINNING OF ACTION: exptag1 */
 			{
-#line 941 "syntax.act"
+#line 863 "syntax.act"
 
     TDF tg;
     tg = *current_TDF;
     INIT_TDF(current_TDF);
     o_obtain_tag(append_TDF(&tg,1));
-#line 10404 "syntax.c"
+#line 10376 "syntax.c"
 			}
 			/* END OF ACTION: exptag1 */
 			ZR646 ();
@@ -10422,10 +10394,10 @@ ZL2_unary__exp:;
 
 			/* BEGINNING OF ACTION: expdec1_dec */
 			{
-#line 747 "syntax.act"
+#line 669 "syntax.act"
 
     (ZIa) = localdecs;
-#line 10429 "syntax.c"
+#line 10401 "syntax.c"
 			}
 			/* END OF ACTION: expdec1_dec */
 			ZRtag__intro ();
@@ -10435,14 +10407,14 @@ ZL2_unary__exp:;
 			}
 			/* BEGINNING OF ACTION: ibody1_dec */
 			{
-#line 1238 "syntax.act"
+#line 1160 "syntax.act"
 
     (ZIg) = localdecs->isvar;
     (ZIb) = intro_acc;
     (ZIc) = intro_init;
     (ZIf) = localdecs->idname.name;
     SET_TDF((ZIe), &(ZId));
-#line 10446 "syntax.c"
+#line 10418 "syntax.c"
 			}
 			/* END OF ACTION: ibody1_dec */
 			ZRclosed__exp ();
@@ -10452,7 +10424,7 @@ ZL2_unary__exp:;
 			}
 			/* BEGINNING OF ACTION: introbody2 */
 			{
-#line 1311 "syntax.act"
+#line 1233 "syntax.act"
 
     RESET_TDF((ZIe));
     if ((ZIg)) {
@@ -10464,15 +10436,15 @@ ZL2_unary__exp:;
 		    make_tag(&(ZIf)), append_TDF(&(ZIc),1),
 		    append_TDF(&(ZId),1));
     }
-#line 10468 "syntax.c"
+#line 10440 "syntax.c"
 			}
 			/* END OF ACTION: introbody2 */
 			/* BEGINNING OF ACTION: expdec2 */
 			{
-#line 751 "syntax.act"
+#line 673 "syntax.act"
 
     localdecs = (ZIa);
-#line 10476 "syntax.c"
+#line 10448 "syntax.c"
 			}
 			/* END OF ACTION: expdec2 */
 		}
@@ -10485,11 +10457,11 @@ ZL2_unary__exp:;
 
 			/* BEGINNING OF ACTION: expstr1_dec */
 			{
-#line 922 "syntax.act"
+#line 844 "syntax.act"
 
     /* (ZIb) uninitialised */
     SET_TDF((ZIc), &(ZIa));
-#line 10493 "syntax.c"
+#line 10465 "syntax.c"
 			}
 			/* END OF ACTION: expstr1_dec */
 			read_string ();
@@ -10499,11 +10471,11 @@ ZL2_unary__exp:;
 			}
 			/* BEGINNING OF ACTION: expstr2 */
 			{
-#line 927 "syntax.act"
+#line 849 "syntax.act"
 
     RESET_TDF((ZIc));
     SET_TDF((ZIc), &(ZIb));
-#line 10507 "syntax.c"
+#line 10479 "syntax.c"
 			}
 			/* END OF ACTION: expstr2 */
 			switch (CURRENT_TERMINAL) {
@@ -10526,11 +10498,11 @@ ZL2_unary__exp:;
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: expstring2 */
 			{
-#line 932 "syntax.act"
+#line 854 "syntax.act"
 
     RESET_TDF((ZIc));
     o_make_nof_int(append_TDF(&(ZIb), 1), append_TDF(&(ZIa), 1););
-#line 10534 "syntax.c"
+#line 10506 "syntax.c"
 			}
 			/* END OF ACTION: expstring2 */
 		}
@@ -10547,7 +10519,7 @@ ZL2_unary__exp:;
 
 			/* BEGINNING OF ACTION: fden1_dec */
 			{
-#line 990 "syntax.act"
+#line 912 "syntax.act"
 
     /* (ZIc), (ZId) uninitialised */
     (ZIf) = 0;
@@ -10556,7 +10528,7 @@ ZL2_unary__exp:;
     out_tdfstring_bytes(fformat(lex_v.val.name,lnum), 8, UI(lnum));
     RESET_TDF((ZIe));
     SET_TDF((ZIe), &(ZIb));
-#line 10560 "syntax.c"
+#line 10532 "syntax.c"
 			}
 			/* END OF ACTION: fden1_dec */
 			ADVANCE_LEXER;
@@ -10573,11 +10545,11 @@ ZL2_unary__exp:;
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: fden3 */
 			{
-#line 1010 "syntax.act"
+#line 932 "syntax.act"
 
     RESET_TDF((ZIe));
     SET_TDF((ZIe), &(ZIc));
-#line 10581 "syntax.c"
+#line 10553 "syntax.c"
 			}
 			/* END OF ACTION: fden3 */
 			read_floating_variety ();
@@ -10587,11 +10559,11 @@ ZL2_unary__exp:;
 			}
 			/* BEGINNING OF ACTION: fden4 */
 			{
-#line 1015 "syntax.act"
+#line 937 "syntax.act"
 
     RESET_TDF((ZIe));
     SET_TDF((ZIe), &(ZId));
-#line 10595 "syntax.c"
+#line 10567 "syntax.c"
 			}
 			/* END OF ACTION: fden4 */
 			ZRrounding__mode__opt ();
@@ -10601,7 +10573,7 @@ ZL2_unary__exp:;
 			}
 			/* BEGINNING OF ACTION: fden5 */
 			{
-#line 1020 "syntax.act"
+#line 942 "syntax.act"
 
     RESET_TDF((ZIe));
     o_make_floating(append_TDF(&(ZIc),1),
@@ -10610,7 +10582,7 @@ ZL2_unary__exp:;
 		    o_make_string(append_TDF(&(ZIa), 1)),
 		    o_make_nat(out_tdfint32((ZIg))),
 		    append_TDF(&(ZIb), 1));
-#line 10614 "syntax.c"
+#line 10586 "syntax.c"
 			}
 			/* END OF ACTION: fden5 */
 			switch (CURRENT_TERMINAL) {
@@ -10628,10 +10600,10 @@ ZL2_unary__exp:;
 
 			/* BEGINNING OF ACTION: gencons1_dec */
 			{
-#line 1156 "syntax.act"
+#line 1078 "syntax.act"
 
     (ZI642) = lex_v.val.v;
-#line 10635 "syntax.c"
+#line 10607 "syntax.c"
 			}
 			/* END OF ACTION: gencons1_dec */
 			ZR643 (&ZI642);
@@ -10647,11 +10619,11 @@ ZL2_unary__exp:;
 
 			/* BEGINNING OF ACTION: gentok1_dec */
 			{
-#line 1179 "syntax.act"
+#line 1101 "syntax.act"
 
     (ZI640) = lex_v.val.tokname;
     (ZI640)->isused = 1;
-#line 10655 "syntax.c"
+#line 10627 "syntax.c"
 			}
 			/* END OF ACTION: gentok1_dec */
 			ZR641 (&ZI640);
@@ -10668,21 +10640,21 @@ ZL2_unary__exp:;
 
 			/* BEGINNING OF ACTION: signed_nat4 */
 			{
-#line 1847 "syntax.act"
+#line 1769 "syntax.act"
 
     o_make_signed_nat(out_tdfbool(0), out_tdfint32(cLINE));
-#line 10675 "syntax.c"
+#line 10647 "syntax.c"
 			}
 			/* END OF ACTION: signed_nat4 */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: mint1_dec */
 			{
-#line 1536 "syntax.act"
+#line 1458 "syntax.act"
 
     /* (ZIb) uninitialised */
     (ZIa) = *current_TDF;
     INIT_TDF(current_TDF);
-#line 10686 "syntax.c"
+#line 10658 "syntax.c"
 			}
 			/* END OF ACTION: mint1_dec */
 			switch (CURRENT_TERMINAL) {
@@ -10699,12 +10671,12 @@ ZL2_unary__exp:;
 			}
 			/* BEGINNING OF ACTION: mint2 */
 			{
-#line 1542 "syntax.act"
+#line 1464 "syntax.act"
 
     (ZIb) = *current_TDF;
     INIT_TDF(current_TDF);
     o_make_int(append_TDF(&(ZIb),1), append_TDF(&(ZIa),1));
-#line 10708 "syntax.c"
+#line 10680 "syntax.c"
 			}
 			/* END OF ACTION: mint2 */
 			switch (CURRENT_TERMINAL) {
@@ -10725,11 +10697,11 @@ ZL2_unary__exp:;
 
 			/* BEGINNING OF ACTION: signed_nat7_dec */
 			{
-#line 1859 "syntax.act"
+#line 1781 "syntax.act"
 
     SET_TDF((ZI638), &(ZI637));
     if (strcmp(lex_v.val.name, "+"))fail("Only + or - on NATs");
-#line 10733 "syntax.c"
+#line 10705 "syntax.c"
 			}
 			/* END OF ACTION: signed_nat7_dec */
 			ADVANCE_LEXER;
@@ -10740,21 +10712,21 @@ ZL2_unary__exp:;
 			}
 			/* BEGINNING OF ACTION: signed_nat8 */
 			{
-#line 1864 "syntax.act"
+#line 1786 "syntax.act"
 
     RESET_TDF((ZI638));
     o_snat_from_nat(o_false, append_TDF(&(ZI637),1));
-#line 10748 "syntax.c"
+#line 10720 "syntax.c"
 			}
 			/* END OF ACTION: signed_nat8 */
 			/* BEGINNING OF ACTION: mint1_dec */
 			{
-#line 1536 "syntax.act"
+#line 1458 "syntax.act"
 
     /* (ZIb) uninitialised */
     (ZIa) = *current_TDF;
     INIT_TDF(current_TDF);
-#line 10758 "syntax.c"
+#line 10730 "syntax.c"
 			}
 			/* END OF ACTION: mint1_dec */
 			switch (CURRENT_TERMINAL) {
@@ -10771,12 +10743,12 @@ ZL2_unary__exp:;
 			}
 			/* BEGINNING OF ACTION: mint2 */
 			{
-#line 1542 "syntax.act"
+#line 1464 "syntax.act"
 
     (ZIb) = *current_TDF;
     INIT_TDF(current_TDF);
     o_make_int(append_TDF(&(ZIb),1), append_TDF(&(ZIa),1));
-#line 10780 "syntax.c"
+#line 10752 "syntax.c"
 			}
 			/* END OF ACTION: mint2 */
 			switch (CURRENT_TERMINAL) {
@@ -10814,10 +10786,10 @@ ZL2_tagshacc__list:;
 		}
 		/* BEGINNING OF ACTION: tagshacc_l2 */
 		{
-#line 2199 "syntax.act"
+#line 2121 "syntax.act"
 
     current_TDF->no++;
-#line 10821 "syntax.c"
+#line 10793 "syntax.c"
 		}
 		/* END OF ACTION: tagshacc_l2 */
 		/* BEGINNING OF INLINE: 623 */
@@ -10852,10 +10824,10 @@ ZRshapetok(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: shtokdb */
 			{
-#line 1821 "syntax.act"
+#line 1743 "syntax.act"
 
     * g_shtokname = *(tokfordoublesh());
-#line 10859 "syntax.c"
+#line 10831 "syntax.c"
 			}
 			/* END OF ACTION: shtokdb */
 		}
@@ -10865,10 +10837,10 @@ ZRshapetok(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: shtokflt */
 			{
-#line 1825 "syntax.act"
+#line 1747 "syntax.act"
 
     * g_shtokname = *(tokforfloatsh());
-#line 10872 "syntax.c"
+#line 10844 "syntax.c"
 			}
 			/* END OF ACTION: shtokflt */
 		}
@@ -10893,14 +10865,14 @@ ZRshapetok(void)
 
 			/* BEGINNING OF ACTION: shtok1_dec */
 			{
-#line 1812 "syntax.act"
+#line 1734 "syntax.act"
 
     (ZIa) = current_TDF;
     (ZId) = current_Unit;
     select_tokdef_unit();
     * g_shtokname = next_name(tok_ent);
     SET_TDF((ZIc), &(ZIb));
-#line 10904 "syntax.c"
+#line 10876 "syntax.c"
 			}
 			/* END OF ACTION: shtok1_dec */
 			ZRnonst__shape ();
@@ -10910,7 +10882,7 @@ ZRshapetok(void)
 			}
 			/* BEGINNING OF ACTION: shapetok2 */
 			{
-#line 1787 "syntax.act"
+#line 1709 "syntax.act"
 
     RESET_TDF((ZIc));
     o_make_tokdef(out_tdfint32(UL(g_shtokname->unit_name)), {},
@@ -10918,7 +10890,7 @@ ZRshapetok(void)
     INC_LIST;
     current_Unit = (ZId);
     RESET_TDF((ZIa));
-#line 10922 "syntax.c"
+#line 10894 "syntax.c"
 			}
 			/* END OF ACTION: shapetok2 */
 		}
@@ -10982,11 +10954,11 @@ ZL2_error__treatment:;
 
 						/* BEGINNING OF ACTION: gencond1_dec */
 						{
-#line 1141 "syntax.act"
+#line 1063 "syntax.act"
 
     /* (ZIb), (ZIc) uninitialised */
     SET_TDF((ZId), &(ZIa));
-#line 10990 "syntax.c"
+#line 10962 "syntax.c"
 						}
 						/* END OF ACTION: gencond1_dec */
 						ADVANCE_LEXER;
@@ -11010,11 +10982,11 @@ ZL2_error__treatment:;
 						ADVANCE_LEXER;
 						/* BEGINNING OF ACTION: gencond2 */
 						{
-#line 1146 "syntax.act"
+#line 1068 "syntax.act"
 
     RESET_TDF((ZId));
     SET_TDF((ZId), &(ZIb));
-#line 11018 "syntax.c"
+#line 10990 "syntax.c"
 						}
 						/* END OF ACTION: gencond2 */
 						read_error_treatment ();
@@ -11030,11 +11002,11 @@ ZL2_error__treatment:;
 						ADVANCE_LEXER;
 						/* BEGINNING OF ACTION: gencond3 */
 						{
-#line 1151 "syntax.act"
+#line 1073 "syntax.act"
 
     RESET_TDF((ZId));
     SET_TDF((ZId), &(ZIc));
-#line 11038 "syntax.c"
+#line 11010 "syntax.c"
 						}
 						/* END OF ACTION: gencond3 */
 						read_error_treatment ();
@@ -11044,12 +11016,12 @@ ZL2_error__treatment:;
 						}
 						/* BEGINNING OF ACTION: errt1 */
 						{
-#line 554 "syntax.act"
+#line 476 "syntax.act"
 
     RESET_TDF((ZId));
     o_errt_cond(append_TDF(&(ZIa),1), append_TDF(&(ZIb),1),
 		append_TDF(&(ZIc),1));
-#line 11053 "syntax.c"
+#line 11025 "syntax.c"
 						}
 						/* END OF ACTION: errt1 */
 						switch (CURRENT_TERMINAL) {
@@ -11076,10 +11048,10 @@ ZL2_error__treatment:;
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: errt2_dec */
 			{
-#line 560 "syntax.act"
+#line 482 "syntax.act"
 
     SET_TDF((ZIb), &(ZIa));
-#line 11083 "syntax.c"
+#line 11055 "syntax.c"
 			}
 			/* END OF ACTION: errt2_dec */
 			read_error_code_list ();
@@ -11089,11 +11061,11 @@ ZL2_error__treatment:;
 			}
 			/* BEGINNING OF ACTION: errt5 */
 			{
-#line 569 "syntax.act"
+#line 491 "syntax.act"
 
     RESET_TDF((ZIb));
     o_trap({append_TDF(&(ZIa),1); current_TDF->no = (ZIa).no; });
-#line 11097 "syntax.c"
+#line 11069 "syntax.c"
 			}
 			/* END OF ACTION: errt5 */
 			switch (CURRENT_TERMINAL) {
@@ -11112,10 +11084,10 @@ ZL2_error__treatment:;
 
 			/* BEGINNING OF ACTION: errt2_dec */
 			{
-#line 560 "syntax.act"
+#line 482 "syntax.act"
 
     SET_TDF((ZIb), &(ZIa));
-#line 11119 "syntax.c"
+#line 11091 "syntax.c"
 			}
 			/* END OF ACTION: errt2_dec */
 			read_label ();
@@ -11125,11 +11097,11 @@ ZL2_error__treatment:;
 			}
 			/* BEGINNING OF ACTION: errt3 */
 			{
-#line 564 "syntax.act"
+#line 486 "syntax.act"
 
     RESET_TDF((ZIb));
     o_error_jump(append_TDF(&(ZIa),1));
-#line 11133 "syntax.c"
+#line 11105 "syntax.c"
 			}
 			/* END OF ACTION: errt3 */
 		}
@@ -11140,19 +11112,19 @@ ZL2_error__treatment:;
 
 			/* BEGINNING OF ACTION: gencons1_dec */
 			{
-#line 1156 "syntax.act"
+#line 1078 "syntax.act"
 
     (ZIa) = lex_v.val.v;
-#line 11147 "syntax.c"
+#line 11119 "syntax.c"
 			}
 			/* END OF ACTION: gencons1_dec */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: gencons2 */
 			{
-#line 1160 "syntax.act"
+#line 1082 "syntax.act"
 
    (constructs[(ZIa)].f)();
-#line 11156 "syntax.c"
+#line 11128 "syntax.c"
 			}
 			/* END OF ACTION: gencons2 */
 		}
@@ -11163,20 +11135,20 @@ ZL2_error__treatment:;
 
 			/* BEGINNING OF ACTION: gentok1_dec */
 			{
-#line 1179 "syntax.act"
+#line 1101 "syntax.act"
 
     (ZIa) = lex_v.val.tokname;
     (ZIa)->isused = 1;
-#line 11171 "syntax.c"
+#line 11143 "syntax.c"
 			}
 			/* END OF ACTION: gentok1_dec */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: gentok2 */
 			{
-#line 1184 "syntax.act"
+#line 1106 "syntax.act"
 
     expand_tok((ZIa), &(ZIa)->sort);
-#line 11180 "syntax.c"
+#line 11152 "syntax.c"
 			}
 			/* END OF ACTION: gentok2 */
 		}
@@ -11191,10 +11163,10 @@ ZL1:;
 	{
 		/* BEGINNING OF ACTION: syntax_error */
 		{
-#line 2471 "syntax.act"
+#line 2393 "syntax.act"
 
     fail("Syntax error");
-#line 11198 "syntax.c"
+#line 11170 "syntax.c"
 		}
 		/* END OF ACTION: syntax_error */
 	}
@@ -11213,11 +11185,11 @@ ZRcallee(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: callee3_dec */
 			{
-#line 435 "syntax.act"
+#line 357 "syntax.act"
 
     /* (ZIb) uninitialised */
     SET_TDF((ZIc), &(ZIa));
-#line 11221 "syntax.c"
+#line 11193 "syntax.c"
 			}
 			/* END OF ACTION: callee3_dec */
 			switch (CURRENT_TERMINAL) {
@@ -11234,11 +11206,11 @@ ZRcallee(void)
 			}
 			/* BEGINNING OF ACTION: callee4 */
 			{
-#line 440 "syntax.act"
+#line 362 "syntax.act"
 
     RESET_TDF((ZIc));
     SET_TDF((ZIc), &(ZIb));
-#line 11242 "syntax.c"
+#line 11214 "syntax.c"
 			}
 			/* END OF ACTION: callee4 */
 			switch (CURRENT_TERMINAL) {
@@ -11255,11 +11227,11 @@ ZRcallee(void)
 			}
 			/* BEGINNING OF ACTION: callee5 */
 			{
-#line 445 "syntax.act"
+#line 367 "syntax.act"
 
     RESET_TDF((ZIc));
     o_make_dynamic_callees(append_TDF(&(ZIa),1), append_TDF(&(ZIb),1));
-#line 11263 "syntax.c"
+#line 11235 "syntax.c"
 			}
 			/* END OF ACTION: callee5 */
 			switch (CURRENT_TERMINAL) {
@@ -11276,10 +11248,10 @@ ZRcallee(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: callee6 */
 			{
-#line 451 "syntax.act"
+#line 373 "syntax.act"
 
     o_same_callees;
-#line 11283 "syntax.c"
+#line 11255 "syntax.c"
 			}
 			/* END OF ACTION: callee6 */
 		}
@@ -11291,10 +11263,10 @@ ZRcallee(void)
 
 			/* BEGINNING OF ACTION: callee1_dec */
 			{
-#line 426 "syntax.act"
+#line 348 "syntax.act"
 
     SET_TDF((ZIb), &(ZIa));
-#line 11298 "syntax.c"
+#line 11270 "syntax.c"
 			}
 			/* END OF ACTION: callee1_dec */
 			read_exp_list ();
@@ -11304,11 +11276,11 @@ ZRcallee(void)
 			}
 			/* BEGINNING OF ACTION: callee2 */
 			{
-#line 430 "syntax.act"
+#line 352 "syntax.act"
 
     RESET_TDF((ZIb));
     o_make_callee_list({ append_TDF(&(ZIa),1); current_TDF->no = (ZIa).no;});
-#line 11312 "syntax.c"
+#line 11284 "syntax.c"
 			}
 			/* END OF ACTION: callee2 */
 		}
@@ -11346,7 +11318,7 @@ ZL2_al__tag:;
 		{
 			/* BEGINNING OF ACTION: al_tag1 */
 			{
-#line 323 "syntax.act"
+#line 245 "syntax.act"
 
     char * n =lex_v.val.name;
     Al_tagdec * x = find_al_tag(n);
@@ -11359,7 +11331,7 @@ ZL2_al__tag:;
     }
     x->isused =1;
     make_al_tag(&x->idname.name);
-#line 11363 "syntax.c"
+#line 11335 "syntax.c"
 			}
 			/* END OF ACTION: al_tag1 */
 			ADVANCE_LEXER;
@@ -11371,20 +11343,20 @@ ZL2_al__tag:;
 
 			/* BEGINNING OF ACTION: gentok1_dec */
 			{
-#line 1179 "syntax.act"
+#line 1101 "syntax.act"
 
     (ZIa) = lex_v.val.tokname;
     (ZIa)->isused = 1;
-#line 11379 "syntax.c"
+#line 11351 "syntax.c"
 			}
 			/* END OF ACTION: gentok1_dec */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: gentok2 */
 			{
-#line 1184 "syntax.act"
+#line 1106 "syntax.act"
 
     expand_tok((ZIa), &(ZIa)->sort);
-#line 11388 "syntax.c"
+#line 11360 "syntax.c"
 			}
 			/* END OF ACTION: gentok2 */
 		}
@@ -11399,10 +11371,10 @@ ZL1:;
 	{
 		/* BEGINNING OF ACTION: syntax_error */
 		{
-#line 2471 "syntax.act"
+#line 2393 "syntax.act"
 
     fail("Syntax error");
-#line 11406 "syntax.c"
+#line 11378 "syntax.c"
 		}
 		/* END OF ACTION: syntax_error */
 	}
@@ -11417,10 +11389,10 @@ read_exp_list(void)
 	{
 		/* BEGINNING OF ACTION: expl1 */
 		{
-#line 788 "syntax.act"
+#line 710 "syntax.act"
 
     current_TDF->no=0;
-#line 11424 "syntax.c"
+#line 11396 "syntax.c"
 		}
 		/* END OF ACTION: expl1 */
 		ZR656 ();
@@ -11434,10 +11406,10 @@ ZL1:;
 	{
 		/* BEGINNING OF ACTION: syntax_error */
 		{
-#line 2471 "syntax.act"
+#line 2393 "syntax.act"
 
     fail("Syntax error");
-#line 11441 "syntax.c"
+#line 11413 "syntax.c"
 		}
 		/* END OF ACTION: syntax_error */
 	}
@@ -11533,12 +11505,12 @@ ZL2_622:;
 
 			/* BEGINNING OF ACTION: al_list1_dec */
 			{
-#line 294 "syntax.act"
+#line 216 "syntax.act"
 
     (ZIb) = current_TDF;
     (ZIa) = *current_TDF;
     INIT_TDF(current_TDF);
-#line 11542 "syntax.c"
+#line 11514 "syntax.c"
 			}
 			/* END OF ACTION: al_list1_dec */
 			ADVANCE_LEXER;
@@ -11549,14 +11521,14 @@ ZL2_622:;
 			}
 			/* BEGINNING OF ACTION: al_list2 */
 			{
-#line 302 "syntax.act"
+#line 224 "syntax.act"
 
     TDF second;
     second = *current_TDF;
     INIT_TDF((ZIb));
     RESET_TDF((ZIb));
     o_unite_alignments(append_TDF(&(ZIa),1), append_TDF(&second,1));
-#line 11560 "syntax.c"
+#line 11532 "syntax.c"
 			}
 			/* END OF ACTION: al_list2 */
 			/* BEGINNING OF INLINE: 622 */
@@ -11586,10 +11558,10 @@ ZRtok__def__body(void)
 
 		/* BEGINNING OF ACTION: tok_dn1_dec */
 		{
-#line 2310 "syntax.act"
+#line 2232 "syntax.act"
 
     (ZIa) = g_tokformals;
-#line 11593 "syntax.c"
+#line 11565 "syntax.c"
 		}
 		/* END OF ACTION: tok_dn1_dec */
 		switch (CURRENT_TERMINAL) {
@@ -11617,7 +11589,7 @@ ZRtok__def__body(void)
 		}
 		/* BEGINNING OF ACTION: tok_dn2 */
 		{
-#line 2356 "syntax.act"
+#line 2278 "syntax.act"
 
     Tokdec * old_tokdecs = tokdecs;
     Tokdec * tokformals = g_tokformals;
@@ -11662,7 +11634,7 @@ ZRtok__def__body(void)
     RESET_TDF(hold);
     tokdecs = old_tokdecs;
     g_tokformals = (ZIa);
-#line 11666 "syntax.c"
+#line 11638 "syntax.c"
 		}
 		/* END OF ACTION: tok_dn2 */
 	}
@@ -11680,10 +11652,10 @@ ZRinteger(void)
 		{
 			/* BEGINNING OF ACTION: integer1 */
 			{
-#line 1247 "syntax.act"
+#line 1169 "syntax.act"
 
     intvalue = UL(stoi(lex_v.val.name, lnum));
-#line 11687 "syntax.c"
+#line 11659 "syntax.c"
 			}
 			/* END OF ACTION: integer1 */
 			ADVANCE_LEXER;
@@ -11693,10 +11665,10 @@ ZRinteger(void)
 		{
 			/* BEGINNING OF ACTION: integer2 */
 			{
-#line 1251 "syntax.act"
+#line 1173 "syntax.act"
 
     intvalue = UL(lex_v.val.v);
-#line 11700 "syntax.c"
+#line 11672 "syntax.c"
 			}
 			/* END OF ACTION: integer2 */
 			ADVANCE_LEXER;
@@ -11742,11 +11714,11 @@ ZL2_transfer__mode:;
 						ADVANCE_LEXER;
 						/* BEGINNING OF ACTION: gencond1_dec */
 						{
-#line 1141 "syntax.act"
+#line 1063 "syntax.act"
 
     /* (ZIb), (ZIc) uninitialised */
     SET_TDF((ZId), &(ZIa));
-#line 11750 "syntax.c"
+#line 11722 "syntax.c"
 						}
 						/* END OF ACTION: gencond1_dec */
 						switch (CURRENT_TERMINAL) {
@@ -11763,11 +11735,11 @@ ZL2_transfer__mode:;
 						}
 						/* BEGINNING OF ACTION: gencond2 */
 						{
-#line 1146 "syntax.act"
+#line 1068 "syntax.act"
 
     RESET_TDF((ZId));
     SET_TDF((ZId), &(ZIb));
-#line 11771 "syntax.c"
+#line 11743 "syntax.c"
 						}
 						/* END OF ACTION: gencond2 */
 						switch (CURRENT_TERMINAL) {
@@ -11784,11 +11756,11 @@ ZL2_transfer__mode:;
 						}
 						/* BEGINNING OF ACTION: gencond3 */
 						{
-#line 1151 "syntax.act"
+#line 1073 "syntax.act"
 
     RESET_TDF((ZId));
     SET_TDF((ZId), &(ZIc));
-#line 11792 "syntax.c"
+#line 11764 "syntax.c"
 						}
 						/* END OF ACTION: gencond3 */
 						switch (CURRENT_TERMINAL) {
@@ -11805,12 +11777,12 @@ ZL2_transfer__mode:;
 						}
 						/* BEGINNING OF ACTION: tmode1 */
 						{
-#line 2229 "syntax.act"
+#line 2151 "syntax.act"
 
     RESET_TDF((ZId));
     o_transfer_mode_cond(append_TDF(&(ZIa),1), append_TDF(&(ZIb),1),
 			 append_TDF(&(ZIc),1));
-#line 11814 "syntax.c"
+#line 11786 "syntax.c"
 						}
 						/* END OF ACTION: tmode1 */
 						switch (CURRENT_TERMINAL) {
@@ -11835,19 +11807,19 @@ ZL2_transfer__mode:;
 
 			/* BEGINNING OF ACTION: gencons1_dec */
 			{
-#line 1156 "syntax.act"
+#line 1078 "syntax.act"
 
     (ZIa) = lex_v.val.v;
-#line 11842 "syntax.c"
+#line 11814 "syntax.c"
 			}
 			/* END OF ACTION: gencons1_dec */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: gencons2 */
 			{
-#line 1160 "syntax.act"
+#line 1082 "syntax.act"
 
    (constructs[(ZIa)].f)();
-#line 11851 "syntax.c"
+#line 11823 "syntax.c"
 			}
 			/* END OF ACTION: gencons2 */
 		}
@@ -11858,20 +11830,20 @@ ZL2_transfer__mode:;
 
 			/* BEGINNING OF ACTION: gentok1_dec */
 			{
-#line 1179 "syntax.act"
+#line 1101 "syntax.act"
 
     (ZIa) = lex_v.val.tokname;
     (ZIa)->isused = 1;
-#line 11866 "syntax.c"
+#line 11838 "syntax.c"
 			}
 			/* END OF ACTION: gentok1_dec */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: gentok2 */
 			{
-#line 1184 "syntax.act"
+#line 1106 "syntax.act"
 
     expand_tok((ZIa), &(ZIa)->sort);
-#line 11875 "syntax.c"
+#line 11847 "syntax.c"
 			}
 			/* END OF ACTION: gentok2 */
 		}
@@ -11886,10 +11858,10 @@ ZL1:;
 	{
 		/* BEGINNING OF ACTION: syntax_error */
 		{
-#line 2471 "syntax.act"
+#line 2393 "syntax.act"
 
     fail("Syntax error");
-#line 11893 "syntax.c"
+#line 11865 "syntax.c"
 		}
 		/* END OF ACTION: syntax_error */
 	}
@@ -11924,11 +11896,11 @@ ZL2_rounding__mode:;
 						ADVANCE_LEXER;
 						/* BEGINNING OF ACTION: gencond1_dec */
 						{
-#line 1141 "syntax.act"
+#line 1063 "syntax.act"
 
     /* (ZIb), (ZIc) uninitialised */
     SET_TDF((ZId), &(ZIa));
-#line 11932 "syntax.c"
+#line 11904 "syntax.c"
 						}
 						/* END OF ACTION: gencond1_dec */
 						switch (CURRENT_TERMINAL) {
@@ -11951,11 +11923,11 @@ ZL2_rounding__mode:;
 						ADVANCE_LEXER;
 						/* BEGINNING OF ACTION: gencond2 */
 						{
-#line 1146 "syntax.act"
+#line 1068 "syntax.act"
 
     RESET_TDF((ZId));
     SET_TDF((ZId), &(ZIb));
-#line 11959 "syntax.c"
+#line 11931 "syntax.c"
 						}
 						/* END OF ACTION: gencond2 */
 						read_rounding_mode ();
@@ -11971,11 +11943,11 @@ ZL2_rounding__mode:;
 						ADVANCE_LEXER;
 						/* BEGINNING OF ACTION: gencond3 */
 						{
-#line 1151 "syntax.act"
+#line 1073 "syntax.act"
 
     RESET_TDF((ZId));
     SET_TDF((ZId), &(ZIc));
-#line 11979 "syntax.c"
+#line 11951 "syntax.c"
 						}
 						/* END OF ACTION: gencond3 */
 						read_rounding_mode ();
@@ -11985,12 +11957,12 @@ ZL2_rounding__mode:;
 						}
 						/* BEGINNING OF ACTION: rmode1 */
 						{
-#line 1736 "syntax.act"
+#line 1658 "syntax.act"
 
     RESET_TDF((ZId));
     o_rounding_mode_cond(append_TDF(&(ZIa),1), append_TDF(&(ZIb),1),
 			 append_TDF(&(ZIc),1));
-#line 11994 "syntax.c"
+#line 11966 "syntax.c"
 						}
 						/* END OF ACTION: rmode1 */
 						switch (CURRENT_TERMINAL) {
@@ -12015,19 +11987,19 @@ ZL2_rounding__mode:;
 
 			/* BEGINNING OF ACTION: gencons1_dec */
 			{
-#line 1156 "syntax.act"
+#line 1078 "syntax.act"
 
     (ZIa) = lex_v.val.v;
-#line 12022 "syntax.c"
+#line 11994 "syntax.c"
 			}
 			/* END OF ACTION: gencons1_dec */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: gencons2 */
 			{
-#line 1160 "syntax.act"
+#line 1082 "syntax.act"
 
    (constructs[(ZIa)].f)();
-#line 12031 "syntax.c"
+#line 12003 "syntax.c"
 			}
 			/* END OF ACTION: gencons2 */
 		}
@@ -12038,20 +12010,20 @@ ZL2_rounding__mode:;
 
 			/* BEGINNING OF ACTION: gentok1_dec */
 			{
-#line 1179 "syntax.act"
+#line 1101 "syntax.act"
 
     (ZIa) = lex_v.val.tokname;
     (ZIa)->isused = 1;
-#line 12046 "syntax.c"
+#line 12018 "syntax.c"
 			}
 			/* END OF ACTION: gentok1_dec */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: gentok2 */
 			{
-#line 1184 "syntax.act"
+#line 1106 "syntax.act"
 
     expand_tok((ZIa), &(ZIa)->sort);
-#line 12055 "syntax.c"
+#line 12027 "syntax.c"
 			}
 			/* END OF ACTION: gentok2 */
 		}
@@ -12066,10 +12038,10 @@ ZL1:;
 	{
 		/* BEGINNING OF ACTION: syntax_error */
 		{
-#line 2471 "syntax.act"
+#line 2393 "syntax.act"
 
     fail("Syntax error");
-#line 12073 "syntax.c"
+#line 12045 "syntax.c"
 		}
 		/* END OF ACTION: syntax_error */
 	}
@@ -12090,10 +12062,10 @@ ZL2_625:;
 			}
 			/* BEGINNING OF ACTION: errc2 */
 			{
-#line 551 "syntax.act"
+#line 473 "syntax.act"
 
     current_TDF->no++;
-#line 12097 "syntax.c"
+#line 12069 "syntax.c"
 			}
 			/* END OF ACTION: errc2 */
 			/* BEGINNING OF INLINE: 625 */
@@ -12121,10 +12093,10 @@ ZL2_626:;
 		{
 			/* BEGINNING OF ACTION: otagel2 */
 			{
-#line 1618 "syntax.act"
+#line 1540 "syntax.act"
 
     current_TDF->no++;
-#line 12128 "syntax.c"
+#line 12100 "syntax.c"
 			}
 			/* END OF ACTION: otagel2 */
 			ADVANCE_LEXER;
@@ -12179,11 +12151,11 @@ ZL2_access:;
 						ADVANCE_LEXER;
 						/* BEGINNING OF ACTION: gencond1_dec */
 						{
-#line 1141 "syntax.act"
+#line 1063 "syntax.act"
 
     /* (ZIb), (ZIc) uninitialised */
     SET_TDF((ZId), &(ZIa));
-#line 12187 "syntax.c"
+#line 12159 "syntax.c"
 						}
 						/* END OF ACTION: gencond1_dec */
 						switch (CURRENT_TERMINAL) {
@@ -12200,11 +12172,11 @@ ZL2_access:;
 						}
 						/* BEGINNING OF ACTION: gencond2 */
 						{
-#line 1146 "syntax.act"
+#line 1068 "syntax.act"
 
     RESET_TDF((ZId));
     SET_TDF((ZId), &(ZIb));
-#line 12208 "syntax.c"
+#line 12180 "syntax.c"
 						}
 						/* END OF ACTION: gencond2 */
 						switch (CURRENT_TERMINAL) {
@@ -12227,11 +12199,11 @@ ZL2_access:;
 						ADVANCE_LEXER;
 						/* BEGINNING OF ACTION: gencond3 */
 						{
-#line 1151 "syntax.act"
+#line 1073 "syntax.act"
 
     RESET_TDF((ZId));
     SET_TDF((ZId), &(ZIc));
-#line 12235 "syntax.c"
+#line 12207 "syntax.c"
 						}
 						/* END OF ACTION: gencond3 */
 						read_access ();
@@ -12241,12 +12213,12 @@ ZL2_access:;
 						}
 						/* BEGINNING OF ACTION: access1 */
 						{
-#line 284 "syntax.act"
+#line 206 "syntax.act"
 
     RESET_TDF((ZId));
     o_access_cond(append_TDF(&(ZIa),1), append_TDF(&(ZIb),1),
 		  append_TDF(&(ZIc),1));
-#line 12250 "syntax.c"
+#line 12222 "syntax.c"
 						}
 						/* END OF ACTION: access1 */
 						switch (CURRENT_TERMINAL) {
@@ -12271,27 +12243,27 @@ ZL2_access:;
 
 			/* BEGINNING OF ACTION: gencons1_dec */
 			{
-#line 1156 "syntax.act"
+#line 1078 "syntax.act"
 
     (ZIa) = lex_v.val.v;
-#line 12278 "syntax.c"
+#line 12250 "syntax.c"
 			}
 			/* END OF ACTION: gencons1_dec */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: access2 */
 			{
-#line 290 "syntax.act"
+#line 212 "syntax.act"
 
     if (strcmp(constructs[(ZIa)].name, "visible") ==0) { g_has_vis = 1; }
-#line 12287 "syntax.c"
+#line 12259 "syntax.c"
 			}
 			/* END OF ACTION: access2 */
 			/* BEGINNING OF ACTION: gencons2 */
 			{
-#line 1160 "syntax.act"
+#line 1082 "syntax.act"
 
    (constructs[(ZIa)].f)();
-#line 12295 "syntax.c"
+#line 12267 "syntax.c"
 			}
 			/* END OF ACTION: gencons2 */
 		}
@@ -12302,20 +12274,20 @@ ZL2_access:;
 
 			/* BEGINNING OF ACTION: gentok1_dec */
 			{
-#line 1179 "syntax.act"
+#line 1101 "syntax.act"
 
     (ZIa) = lex_v.val.tokname;
     (ZIa)->isused = 1;
-#line 12310 "syntax.c"
+#line 12282 "syntax.c"
 			}
 			/* END OF ACTION: gentok1_dec */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: gentok2 */
 			{
-#line 1184 "syntax.act"
+#line 1106 "syntax.act"
 
     expand_tok((ZIa), &(ZIa)->sort);
-#line 12319 "syntax.c"
+#line 12291 "syntax.c"
 			}
 			/* END OF ACTION: gentok2 */
 		}
@@ -12330,10 +12302,10 @@ ZL1:;
 	{
 		/* BEGINNING OF ACTION: syntax_error */
 		{
-#line 2471 "syntax.act"
+#line 2393 "syntax.act"
 
     fail("Syntax error");
-#line 12337 "syntax.c"
+#line 12309 "syntax.c"
 		}
 		/* END OF ACTION: syntax_error */
 	}
@@ -12352,13 +12324,13 @@ ZL2_627:;
 
 			/* BEGINNING OF ACTION: acc_l2_dec */
 			{
-#line 270 "syntax.act"
+#line 192 "syntax.act"
 
     (ZIc) = current_TDF;
     (ZIa) = *current_TDF;
     INIT_TDF(&(ZIb));
     RESET_TDF(&(ZIb));
-#line 12362 "syntax.c"
+#line 12334 "syntax.c"
 			}
 			/* END OF ACTION: acc_l2_dec */
 			ADVANCE_LEXER;
@@ -12369,13 +12341,13 @@ ZL2_627:;
 			}
 			/* BEGINNING OF ACTION: acc_l3 */
 			{
-#line 277 "syntax.act"
+#line 199 "syntax.act"
 
     INIT_TDF((ZIc));
     RESET_TDF((ZIc));
     o_add_accesses(append_TDF(&(ZIa),1), append_TDF(&(ZIb), 1));
     current_TDF->no = 1;
-#line 12379 "syntax.c"
+#line 12351 "syntax.c"
 			}
 			/* END OF ACTION: acc_l3 */
 			/* BEGINNING OF INLINE: 627 */
@@ -12406,10 +12378,10 @@ ZL2_628:;
 
 			/* BEGINNING OF ACTION: exp_sls3_dec */
 			{
-#line 681 "syntax.act"
+#line 603 "syntax.act"
 
     SET_TDF((ZIb), &(ZIa));
-#line 12413 "syntax.c"
+#line 12385 "syntax.c"
 			}
 			/* END OF ACTION: exp_sls3_dec */
 			ADVANCE_LEXER;
@@ -12434,7 +12406,7 @@ ZL2_628:;
 						}
 						/* BEGINNING OF ACTION: exp_sls4 */
 						{
-#line 685 "syntax.act"
+#line 607 "syntax.act"
 
     RESET_TDF((ZIb));
     if (lex_v.t == lex_semi) {
@@ -12449,7 +12421,7 @@ ZL2_628:;
 	    append_TDF(&(ZIa),1));
 	/* cheats LIST in o_sequence */
     }
-#line 12453 "syntax.c"
+#line 12425 "syntax.c"
 						}
 						/* END OF ACTION: exp_sls4 */
 						/* BEGINNING OF INLINE: 628 */
@@ -12461,15 +12433,15 @@ ZL2_628:;
 					{
 						/* BEGINNING OF ACTION: exp_sls5 */
 						{
-#line 702 "syntax.act"
+#line 624 "syntax.act"
 
     o_make_top;
-#line 12468 "syntax.c"
+#line 12440 "syntax.c"
 						}
 						/* END OF ACTION: exp_sls5 */
 						/* BEGINNING OF ACTION: exp_sls4 */
 						{
-#line 685 "syntax.act"
+#line 607 "syntax.act"
 
     RESET_TDF((ZIb));
     if (lex_v.t == lex_semi) {
@@ -12484,7 +12456,7 @@ ZL2_628:;
 	    append_TDF(&(ZIa),1));
 	/* cheats LIST in o_sequence */
     }
-#line 12488 "syntax.c"
+#line 12460 "syntax.c"
 						}
 						/* END OF ACTION: exp_sls4 */
 						/* BEGINNING OF INLINE: 628 */
@@ -12520,7 +12492,7 @@ ZL2_629:;
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: tok_fml1_dec */
 			{
-#line 2361 "syntax.act"
+#line 2283 "syntax.act"
 
     char * n = lex_v.val.name;
     (ZIa) = find_tok(n);
@@ -12528,7 +12500,7 @@ ZL2_629:;
     (ZIa) = xmalloc(sizeof *(ZIa)); NEW_IDNAME((ZIa)->idname, n, tok_ent);
     (ZIa)->isdeffed = 1; (ZIa)->isused = 0; (ZIa)->iskept=0;
     (ZIa)->next = (Tokdec*)0;
-#line 12532 "syntax.c"
+#line 12504 "syntax.c"
 			}
 			/* END OF ACTION: tok_fml1_dec */
 			switch (CURRENT_TERMINAL) {
@@ -12552,13 +12524,13 @@ ZL2_629:;
 			}
 			/* BEGINNING OF ACTION: tok_fml3 */
 			{
-#line 2375 "syntax.act"
+#line 2297 "syntax.act"
 
     (ZIa)->sort.ressort = g_sname;
     (ZIa)->sort.pars = (Tokpar*)0; /* no pars in formal pars */
     (ZIa)->next = g_tokformals;
     g_tokformals = (ZIa);
-#line 12562 "syntax.c"
+#line 12534 "syntax.c"
 			}
 			/* END OF ACTION: tok_fml3 */
 			/* BEGINNING OF INLINE: 629 */
@@ -12586,18 +12558,18 @@ ZR630(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: keeps1 */
 			{
-#line 1347 "syntax.act"
+#line 1269 "syntax.act"
 
     int i;
     for (i=0; i<NO_OF_ENTITIES; i++) {
 	INIT_TDF(lk_externs+i);
     }
-#line 12596 "syntax.c"
+#line 12568 "syntax.c"
 			}
 			/* END OF ACTION: keeps1 */
 			/* BEGINNING OF ACTION: keeps2 */
 			{
-#line 1467 "syntax.act"
+#line 1389 "syntax.act"
 
     CONT_STREAM(&units[tld2_unit].tdf, out_tdfint32(UL(1)));
     if (line_no_tok != -1) {
@@ -12716,7 +12688,7 @@ ZR630(void)
 	);
 	make_tdf_file(&caps, out_file);
     }
-#line 12720 "syntax.c"
+#line 12692 "syntax.c"
 			}
 			/* END OF ACTION: keeps2 */
 		}
@@ -12733,13 +12705,13 @@ ZR630(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: keeps1 */
 			{
-#line 1347 "syntax.act"
+#line 1269 "syntax.act"
 
     int i;
     for (i=0; i<NO_OF_ENTITIES; i++) {
 	INIT_TDF(lk_externs+i);
     }
-#line 12743 "syntax.c"
+#line 12715 "syntax.c"
 			}
 			/* END OF ACTION: keeps1 */
 			ZRkeep__list__opt ();
@@ -12762,7 +12734,7 @@ ZR630(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: keeps2 */
 			{
-#line 1467 "syntax.act"
+#line 1389 "syntax.act"
 
     CONT_STREAM(&units[tld2_unit].tdf, out_tdfint32(UL(1)));
     if (line_no_tok != -1) {
@@ -12881,7 +12853,7 @@ ZR630(void)
 	);
 	make_tdf_file(&caps, out_file);
     }
-#line 12885 "syntax.c"
+#line 12857 "syntax.c"
 			}
 			/* END OF ACTION: keeps2 */
 		}
@@ -12911,12 +12883,12 @@ ZR632(void)
 
 			/* BEGINNING OF ACTION: exp1_dec */
 			{
-#line 580 "syntax.act"
+#line 502 "syntax.act"
 
     (ZId) = lex_v.val.name;
     (ZIa) = *current_TDF;
     SET_TDF((ZIc), &(ZIb));
-#line 12920 "syntax.c"
+#line 12892 "syntax.c"
 			}
 			/* END OF ACTION: exp1_dec */
 			ZR672 (&ZIa, &ZIb, &ZIc, &ZId);
@@ -12990,11 +12962,11 @@ ZL2_633:;
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: gencond1_dec */
 			{
-#line 1141 "syntax.act"
+#line 1063 "syntax.act"
 
     /* (ZIb), (ZIc) uninitialised */
     SET_TDF((ZId), &(ZIa));
-#line 12998 "syntax.c"
+#line 12970 "syntax.c"
 			}
 			/* END OF ACTION: gencond1_dec */
 			switch (CURRENT_TERMINAL) {
@@ -13011,11 +12983,11 @@ ZL2_633:;
 			}
 			/* BEGINNING OF ACTION: gencond2 */
 			{
-#line 1146 "syntax.act"
+#line 1068 "syntax.act"
 
     RESET_TDF((ZId));
     SET_TDF((ZId), &(ZIb));
-#line 13019 "syntax.c"
+#line 12991 "syntax.c"
 			}
 			/* END OF ACTION: gencond2 */
 			switch (CURRENT_TERMINAL) {
@@ -13032,11 +13004,11 @@ ZL2_633:;
 			}
 			/* BEGINNING OF ACTION: gencond3 */
 			{
-#line 1151 "syntax.act"
+#line 1073 "syntax.act"
 
     RESET_TDF((ZId));
     SET_TDF((ZId), &(ZIc));
-#line 13040 "syntax.c"
+#line 13012 "syntax.c"
 			}
 			/* END OF ACTION: gencond3 */
 			switch (CURRENT_TERMINAL) {
@@ -13053,12 +13025,12 @@ ZL2_633:;
 			}
 			/* BEGINNING OF ACTION: signed_nat1 */
 			{
-#line 1832 "syntax.act"
+#line 1754 "syntax.act"
 
     RESET_TDF((ZId));
     o_signed_nat_cond(append_TDF(&(ZIa),1), append_TDF(&(ZIb),1),
 		      append_TDF(&(ZIc),1));
-#line 13062 "syntax.c"
+#line 13034 "syntax.c"
 			}
 			/* END OF ACTION: signed_nat1 */
 			switch (CURRENT_TERMINAL) {
@@ -13102,7 +13074,7 @@ ZRal__tag__def(void)
 		ADVANCE_LEXER;
 		/* BEGINNING OF ACTION: al_tgdf1_dec */
 		{
-#line 339 "syntax.act"
+#line 261 "syntax.act"
 
     char * n =lex_v.val.name;
     (ZIa) = find_al_tag(n);
@@ -13117,7 +13089,7 @@ ZRal__tag__def(void)
     if ((ZIa)->isdeffed) { fail("Al_tag %s defined twice", n); }
     (ZIa)->isdeffed = 1;
     SET_TDF((ZIc), &(ZIb));
-#line 13121 "syntax.c"
+#line 13093 "syntax.c"
 		}
 		/* END OF ACTION: al_tgdf1_dec */
 		switch (CURRENT_TERMINAL) {
@@ -13141,7 +13113,7 @@ ZRal__tag__def(void)
 		}
 		/* BEGINNING OF ACTION: al_tagdef2 */
 		{
-#line 326 "syntax.act"
+#line 248 "syntax.act"
 
     RESET_TDF((ZIc));
     o_make_al_tagdef(if ((ZId)) {
@@ -13152,7 +13124,7 @@ ZRal__tag__def(void)
 			  append_TDF(&(ZIb), 1)
 			);
     INC_LIST;
-#line 13156 "syntax.c"
+#line 13128 "syntax.c"
 		}
 		/* END OF ACTION: al_tagdef2 */
 	}
@@ -13174,10 +13146,10 @@ ZRotagexp(void)
 
 		/* BEGINNING OF ACTION: otagexp1_dec */
 		{
-#line 1625 "syntax.act"
+#line 1547 "syntax.act"
 
     SET_TDF((ZIb), &(ZIa));
-#line 13181 "syntax.c"
+#line 13153 "syntax.c"
 		}
 		/* END OF ACTION: otagexp1_dec */
 		read_exp ();
@@ -13212,10 +13184,10 @@ ZL1:;
 	{
 		/* BEGINNING OF ACTION: syntax_error */
 		{
-#line 2471 "syntax.act"
+#line 2393 "syntax.act"
 
     fail("Syntax error");
-#line 13219 "syntax.c"
+#line 13191 "syntax.c"
 		}
 		/* END OF ACTION: syntax_error */
 	}
@@ -13234,10 +13206,10 @@ ZR634(void)
 			}
 			/* BEGINNING OF ACTION: signed_nat3 */
 			{
-#line 1843 "syntax.act"
+#line 1765 "syntax.act"
 
     o_make_signed_nat(out_tdfbool(1), out_tdfint32(intvalue));
-#line 13241 "syntax.c"
+#line 13213 "syntax.c"
 			}
 			/* END OF ACTION: signed_nat3 */
 		}
@@ -13249,10 +13221,10 @@ ZR634(void)
 
 			/* BEGINNING OF ACTION: signed_nat5_dec */
 			{
-#line 1850 "syntax.act"
+#line 1772 "syntax.act"
 
     SET_TDF((ZIb), &(ZIa));
-#line 13256 "syntax.c"
+#line 13228 "syntax.c"
 			}
 			/* END OF ACTION: signed_nat5_dec */
 			ZRnat__not__int ();
@@ -13262,11 +13234,11 @@ ZR634(void)
 			}
 			/* BEGINNING OF ACTION: signed_nat6 */
 			{
-#line 1854 "syntax.act"
+#line 1776 "syntax.act"
 
     RESET_TDF((ZIb));
     o_snat_from_nat(o_true, append_TDF(&(ZIa),1));
-#line 13270 "syntax.c"
+#line 13242 "syntax.c"
 			}
 			/* END OF ACTION: signed_nat6 */
 		}
@@ -13284,8 +13256,8 @@ ZL1:;
 
 /* BEGINNING OF TRAILER */
 
-#line 2474 "syntax.act"
+#line 2396 "syntax.act"
 
-#line 13290 "syntax.c"
+#line 13262 "syntax.c"
 
 /* END OF FILE */
