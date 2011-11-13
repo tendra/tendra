@@ -13,6 +13,7 @@
 #include <unistd.h>
 
 #include <shared/error.h>
+#include <shared/getopt.h>
 
 #include "adt/tree.h"
 

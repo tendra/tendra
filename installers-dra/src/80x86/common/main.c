@@ -7,6 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <shared/getopt.h>
+
 #include "config.h"
 
 #include "basicread.h"

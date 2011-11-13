@@ -7,18 +7,11 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifdef _LINUX26
-/* Enable posix2, required for getopt */
-#define _POSIX_C_SOURCE 2
-#include <unistd.h>
-#undef _POSIX_C_SOURCE
-#else
-#include <unistd.h>
-#endif
-
-extern int optind;
+#include <stddef.h>
 
 #include <shared/error.h>
+#include <shared/getopt.h>
+
 #include "obj_c/errors.h"
 #include "lex.h"
 #include "process.h"
