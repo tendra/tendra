@@ -20,14 +20,6 @@
 
 #line 151 "syntax.act"
 
-/*
-    		 Crown Copyright (c) 1997
-    
-    
-    
-    
-    
-
 #include <stdlib.h>
 #include <string.h>
 
