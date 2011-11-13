@@ -1,3 +1,17 @@
+/*
+ * Automatically generated from the files:
+ *	syntax.sid
+ * and
+ *	syntax.act
+ * by:
+ *	/Users/kate/svn/tendra20/obj-regen/bin/sid
+ */
+
+/* BEGINNING OF HEADER */
+
+#line 154 "syntax.act"
+
+
 /* $Id$ */
 
 /*
@@ -7,32 +21,10 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/*
- * Automatically generated from the files:
- *	syntax.sid
- * and
- *	syntax.act
- * by:
- *	/Users/kate/svn/tendra1/obj-regen/bin/sid
- */
-/* BEGINNING OF HEADER */
-
-#line 185 "syntax.act"
-
-/*
-    		 Crown Copyright (c) 1997
-    
-    
-    
-    
-    
-
-
 #ifndef SYNTAX_INCLUDED
 #define SYNTAX_INCLUDED
 
-#line 48 "syntax.h"
+#line 28 "syntax.h"
 
 /* BEGINNING OF FUNCTION DECLARATIONS */
 
@@ -86,9 +78,9 @@ extern void read_calculus(void);
 
 /* BEGINNING OF TRAILER */
 
-#line 1154 "syntax.act"
+#line 1123 "syntax.act"
 
 #endif
-#line 105 "syntax.h"
+#line 85 "syntax.h"
 
 /* END OF FILE */

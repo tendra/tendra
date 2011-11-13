@@ -1,13 +1,6 @@
 /* $Id$ */
 
 /*
- * Copyright 2011, The TenDRA Project.
- * Copyright 1997, United Kingdom Secretary of State for Defence.
- *
- * See doc/copyright/ for the full copyright terms.
- */
-
-/*
     AUTOMATICALLY GENERATED FROM ALGEBRA tdf (VERSION 1.0)
     BY calculus (VERSION 1.3)
 */

@@ -1,30 +1,30 @@
-/* $Id$ */
-
-/*
- * Copyright 2002-2011, The TenDRA Project.
- * Copyright 1997, United Kingdom Secretary of State for Defence.
- *
- * See doc/copyright/ for the full copyright terms.
- */
-
-
 /*
  * Automatically generated from the files:
  *	syntax.sid
  * and
  *	syntax.act
  * by:
- *	/Users/kate/svn/tendra1/obj-regen/bin/sid
+ *	/Users/kate/svn/tendra20/obj-regen/bin/sid
  */
+
 /* BEGINNING OF HEADER */
 
-#line 148 "syntax.act"
+#line 116 "syntax.act"
 
+
+/* $Id$ */
+
+/*
+ * Copyright 2011, The TenDRA Project.
+ * Copyright 1997, United Kingdom Secretary of State for Defence.
+ *
+ * See doc/copyright/ for the full copyright terms.
+ */
 
 #ifndef SYNTAX_INCLUDED
 #define SYNTAX_INCLUDED
 
-#line 48 "syntax.h"
+#line 28 "syntax.h"
 
 /* BEGINNING OF FUNCTION DECLARATIONS */
 
@@ -67,9 +67,9 @@ extern void read_spec(SPECIFICATION *);
 
 /* BEGINNING OF TRAILER */
 
-#line 338 "syntax.act"
+#line 306 "syntax.act"
 
 #endif
-#line 94 "syntax.h"
+#line 74 "syntax.h"
 
 /* END OF FILE */

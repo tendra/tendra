@@ -1,22 +1,24 @@
-/* $Id$ */
-
-/*
- * Copyright 2002-2011, The TenDRA Project.
- *
- * See doc/copyright/ for the full copyright terms.
- */
-
 /*
  * Automatically generated from the files:
  *	lctsyntax.sid
  * and
  *	lctsyntax.act
  * by:
- *	/Users/kate/svn/tendra1/obj-regen/bin/sid
+ *	/Users/kate/svn/tendra20/obj-regen/bin/sid
  */
+
 /* BEGINNING OF HEADER */
 
-#line 160 "lctsyntax.act"
+#line 124 "lctsyntax.act"
+
+
+/* $Id$ */
+
+/*
+ * Copyright 2011, The TenDRA Project.
+ *
+ * See doc/copyright/ for the full copyright terms.
+ */
 
  #ifndef LCT_SYNTAX_HEADER_INCLUDED
  #define LCT_SYNTAX_HEADER_INCLUDED
@@ -48,7 +50,7 @@ extern lexer_parse_tree* lxi_top_level;
 extern lct_parse_tree global_lct_parse_tree ;
 
 extern void init_lct_parse_tree(lct_parse_tree*);
-#line 75 "lctsyntax.h"
+#line 54 "lctsyntax.h"
 
 /* BEGINNING OF FUNCTION DECLARATIONS */
 
@@ -83,9 +85,9 @@ extern void read_lct_unit(void);
 
 /* BEGINNING OF TRAILER */
 
-#line 490 "lctsyntax.act"
+#line 454 "lctsyntax.act"
 
 #endif
-#line 113 "lctsyntax.h"
+#line 92 "lctsyntax.h"
 
 /* END OF FILE */

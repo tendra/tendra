@@ -40,8 +40,6 @@ extern NStringT lct_token_nstring;
 #define RESTORE_LCT_LEXER          (crt_lct_token = saved_lct_token)
 #include <stdbool.h>
 
- * This struct holds state for the lexer; its representation is
- * private, but present here for ease of allocation.
 struct lexi_lct_state {
 	int (*zone)(struct lexi_lct_state *);
 

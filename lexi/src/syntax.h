@@ -1,25 +1,25 @@
-/* $Id$ */
-
-/*
- * Copyright 2002-2011, The TenDRA Project.
- * Copyright 1997, United Kingdom Secretary of State for Defence.
- *
- * See doc/copyright/ for the full copyright terms.
- */
-
-
 /*
  * Automatically generated from the files:
  *	syntax.sid
  * and
  *	syntax.act
  * by:
- *	/Users/kate/svn/tendra1/obj-regen/bin/sid
+ *	/Users/kate/svn/tendra20/obj-regen/bin/sid
  */
+
 /* BEGINNING OF HEADER */
 
-#line 176 "syntax.act"
+#line 145 "syntax.act"
 
+
+/* $Id$ */
+
+/*
+ * Copyright 2011, The TenDRA Project.
+ * Copyright 1997, United Kingdom Secretary of State for Defence.
+ *
+ * See doc/copyright/ for the full copyright terms.
+ */
 
 #ifndef SYNTAX_INCLUDED
 #define SYNTAX_INCLUDED
@@ -29,7 +29,7 @@
 extern char *token_prefix ;
 typedef zone* zoneP;
 
-#line 53 "syntax.h"
+#line 33 "syntax.h"
 
 /* BEGINNING OF FUNCTION DECLARATIONS */
 
@@ -80,9 +80,9 @@ extern void read_lex(zoneP);
 
 /* BEGINNING OF TRAILER */
 
-#line 974 "syntax.act"
+#line 943 "syntax.act"
 
 #endif
-#line 107 "syntax.h"
+#line 87 "syntax.h"
 
 /* END OF FILE */

@@ -4,13 +4,22 @@
  * and
  *	syntax.act
  * by:
- *	sid
+ *	/Users/kate/svn/tendra20/obj-regen/bin/sid
  */
 
 /* BEGINNING OF HEADER */
 
-#line 179 "syntax.act"
+#line 196 "syntax.act"
 
+
+/* $Id$ */
+
+/*
+ * Copyright 2002-2011, The TenDRA Project.
+ * Copyright 1997, United Kingdom Secretary of State for Defence.
+ *
+ * See doc/copyright/ for the full copyright terms.
+ */
 
 #ifndef SYNTAX_INCLUDED
 #define SYNTAX_INCLUDED
@@ -19,7 +28,7 @@ extern int do_pp;
 extern int search_for_toks;
 extern unsigned long MAJOR_NO;
 extern unsigned long MINOR_NO;
-#line 23 "syntax.h"
+#line 32 "syntax.h"
 
 /* BEGINNING OF FUNCTION DECLARATIONS */
 
@@ -183,9 +192,9 @@ extern void read_program(void);
 
 /* BEGINNING OF TRAILER */
 
-#line 2398 "syntax.act"
+#line 2415 "syntax.act"
 
 #endif
-#line 190 "syntax.h"
+#line 199 "syntax.h"
 
 /* END OF FILE */

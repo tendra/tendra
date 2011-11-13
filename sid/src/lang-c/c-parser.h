@@ -7,6 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+/*
  * Automatically generated from the files:
  *	c-parser.sid
  * and
