@@ -22,6 +22,7 @@
 #include <shared/error.h>
 #include <shared/xalloc.h>
 #include <shared/check.h>
+#include <shared/string.h>
 
 #include "adt/char.h"
 #include "adt/instruction.h"
@@ -202,14 +203,17 @@ output_keywords(lexer_parse_tree* top_level, FILE *output, FILE *output_h)
 static void 
 output_locals(LocalNamesT* locals, unsigned int d, FILE* lex_output )
 {
-	assert(locals != NULL);
-	assert(lex_output != NULL);
-
 	const char* prefixvar = "ZV";
 	const char* prefixtype = "ZT";
 	char* st;
-	char* s = xmalloc_nof(char, locals->max_depth+1);
+	char* s;
 	LocalNamesIteratorT it ;
+
+	assert(locals != NULL);
+	assert(lex_output != NULL);
+
+	s = xmalloc_nof(char, locals->max_depth+1);
+
 	for (localnames_begin(&it, locals); 
 	    it.p; 
 	    localnamesiterator_next(&it)) {
@@ -239,6 +243,8 @@ output_locals(LocalNamesT* locals, unsigned int d, FILE* lex_output )
 static void 
 output_action(FILE* lex_output, lexer_parse_tree* top_level, EntryT* action, args_list* lhs, args_list* rhs, unsigned int d)
 {
+	NameTransT trans;
+
 	assert(lex_output != NULL);
 	assert(top_level != NULL);
 	assert(action != NULL);
@@ -246,7 +252,6 @@ output_action(FILE* lex_output, lexer_parse_tree* top_level, EntryT* action, arg
 	assert(rhs != NULL);
 
 	/* TODO assert(entry_is_action(action)) */
-	NameTransT trans;
 	/* Semi Inefficient : we will recreate the translator stack each time we output the same action:
 	    this will never be the same translator stack, however the sort will always give the same permutation:
 	    an optimization should be possible here. I don't see it as necessary for the moment.*/
@@ -654,11 +659,11 @@ output_char_groups(zone *z, character *p, int in_pre_pass, unsigned int n, unsig
 static void
 output_pass(zone *z, character *p, int in_pre_pass, unsigned int n, unsigned int d)
 {
-	assert(z != NULL);
-	assert(p != NULL);
-
 	int w1 = (n == 0 && !in_pre_pass);
 	int w2 = (n == 0 && in_pre_pass);
+
+	assert(z != NULL);
+	assert(p != NULL);
 
 	output_indent(lex_output, d);
 	if (!in_pre_pass && z->zone_pre_pass) {
@@ -1120,6 +1125,7 @@ c_output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 	size_t groupwidth;
 	const char *grouptype;
 	const char *grouphex;
+	struct lxi_additional_argument* add_arg;
 
 	assert(!strcmp(opt->language, "C90") || !strcmp(opt->language, "C99"));
 	language = !strcmp(opt->language, "C90") ? C90 : C99;
@@ -1198,7 +1204,7 @@ c_output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 	      "\tint (*zone)(struct %sstate *);\n",
 		opt->lexi_prefix, opt->lexi_prefix);
 	output_buffer_storage(top_level);
-	struct lxi_additional_argument* add_arg;
+
 	for(add_arg = global_lct_parse_tree.arg_head; add_arg != NULL; add_arg = add_arg->next) {
 		fprintf(lex_output_h, "\t%s %s;\n", add_arg->ctype, add_arg->name);
 	}

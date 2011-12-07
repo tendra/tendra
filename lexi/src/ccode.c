@@ -127,8 +127,10 @@ ccodeitem_output(FILE* file, CcodeItemT* ccode_item, NameTransT* trans, int d)
 			to = nametrans_translate(trans, ccodeitem_name(ccode_item));
 			arg_output(to, true, d,file);
 			break;
-		//			fprintf(file,"/* Not implemented yet: Identifier @s. Have to recover passing name. */", s);
-			//			DEALLOCATE(s)
+/* XXX:
+			fprintf(file,"/" "* Not implemented yet: Identifier @s. Have to recover passing name. *" "/", s);
+			DEALLOCATE(s)
+*/
 			break;
 	}
 }

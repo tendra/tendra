@@ -334,8 +334,9 @@ arg-ignore : () -> (a:ARG) = @{
 
 <make-action-inst> : ( z: ZONE, i:IDENTIFIER, l:ARGS_LIST, r:ARGS_LIST) -> (inst:INSTRUCTION)  = @{
 	NStringT key;
+	EntryT* entry;
 	nstring_copy_cstring(&key, @i);
-	EntryT* entry = table_get_entry(tree_get_table(@z->top_level), &key);
+	entry = table_get_entry(tree_get_table(@z->top_level), &key);
 	if(entry) {
 		if(entry_is_action(entry)) {
 			/* TODO: Inefficient code follows: */
@@ -410,16 +411,20 @@ arg-ignore : () -> (a:ARG) = @{
 			++(@il->nb_return_terminal);
 		}
 		if(@i->type == action_call) {
+			args_list* rhs;
+			args_list* lhs;
+			EntryT* entryaction;
+			ActionT* action;
+			arg* p;
+			TypeTupleEntryT* q;
+
 			@il->nb_return_terminal+=@i->u.act.lhs->nb_return_terminal;
 			if(@il->nb_return_terminal>1)
 				error(ERROR_SERIOUS, "Only one terminal may be returned per token");
-			EntryT* entryaction = @i->u.act.called_act;
-			ActionT* action = entry_get_action(entryaction);
-			args_list* rhs = @i->u.act.rhs;
-			args_list* lhs = @i->u.act.lhs;
-
-			arg* p;
-			TypeTupleEntryT* q;
+			entryaction = @i->u.act.called_act;
+			action = entry_get_action(entryaction);
+			rhs = @i->u.act.rhs;
+			lhs = @i->u.act.lhs;
 
 			/* CHECKING RHS COMPATIBILITY */ 
 			for ( p = rhs->head, q = action->inputs.head; p!=NULL && q!=NULL; p=p->next, q=q->next) {
@@ -466,7 +471,7 @@ arg-ignore : () -> (a:ARG) = @{
 					entrytype = lexer_int_type(@z->top_level);
 		 			break;
 				case arg_none:
-					break; //Error already detected, do nothing and leave p->lexitype = NULL
+					break; /* Error already detected, do nothing and leave p->lexitype = NULL */
 				case arg_ignore:
 				case arg_return_terminal:
 					UNREACHED;
@@ -482,8 +487,8 @@ arg-ignore : () -> (a:ARG) = @{
 						char* s3 = p->is_reference ? "&" : "";
 						char* s4 = nstring_to_cstring(entry_key(q->type));
 						char* s5 = q->is_reference ? "&" : "";
-						char* s6 = "";
-						char* s7 = "";
+						char* s6 = "unknown";
+						char* s7 = "unknown";
 						switch(p->type) {
 						case arg_terminal:
 							s6 = "$"; 
@@ -720,7 +725,7 @@ arg-ignore : () -> (a:ARG) = @{
 			@zparent->type = typezone_general_zone;
 			break;
 		case typezone_pure_function:
-			break; //do nothing
+			break; /* do nothing */
 
 	}
 @};
@@ -763,9 +768,9 @@ arg-ignore : () -> (a:ARG) = @{
 
 <make-type> : ( z:ZONE, i:IDENTIFIER ) -> () = @{
 	NStringT str;
+	EntryT* entry;
 	nstring_copy_cstring(&str,@i);
 	xfree(@i);
-	EntryT* entry;
 	entry=table_get_entry(tree_get_table(@z->top_level), &str);
 	if(entry != NULL) {
 		nstring_destroy(&str);
@@ -785,8 +790,8 @@ arg-ignore : () -> (a:ARG) = @{
 
 <make-action> : ( z:ZONE, i:IDENTIFIER, params:TYPETUPLE&, results:TYPETUPLE&) -> () = @{
 	NStringT str;
-	nstring_copy_cstring(&str, @i);
 	EntryT* entry;
+	nstring_copy_cstring(&str, @i);
 	entry=table_get_entry(tree_get_table(@z->top_level), &str);
 	if(entry != NULL) {
 		nstring_destroy(&str);
@@ -814,10 +819,11 @@ arg-ignore : () -> (a:ARG) = @{
 @};
 
 <append-tuple> : (z:ZONE, a:TYPETUPLE&, id:IDENTIFIER, type:IDENTIFIER, isref:BOOL) -> () =@{
+	EntryT* entry;
 	NStringT tstr, istr;
 	nstring_copy_cstring(&tstr,@type);
 	nstring_copy_cstring(&istr,@id);
-	EntryT* entry = table_get_entry(tree_get_table(@z->top_level), &tstr);
+	entry = table_get_entry(tree_get_table(@z->top_level), &tstr);
 	if(entry == NULL) {
 		 error(ERROR_SERIOUS, "Unknown type %s", @type);
 		 nstring_destroy(&istr);

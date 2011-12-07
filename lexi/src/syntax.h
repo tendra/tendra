@@ -4,7 +4,7 @@
  * and
  *	syntax.act
  * by:
- *	/Users/kate/svn/tendra20/obj-regen/bin/sid
+ *	/home/kate/svn/tendra17-lessfixes/obj-regen/bin/sid
  */
 
 /* BEGINNING OF HEADER */
@@ -80,7 +80,7 @@ extern void read_lex(zoneP);
 
 /* BEGINNING OF TRAILER */
 
-#line 943 "syntax.act"
+#line 949 "syntax.act"
 
 #endif
 #line 87 "syntax.h"

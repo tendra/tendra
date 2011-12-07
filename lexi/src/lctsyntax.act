@@ -222,9 +222,11 @@ code-string : () -> (s:BIGSTRING) = @{
 				}
 			}
 		} else {
-			char* pi = nstring_to_cstring(@&i);
+			char* pi;
+			char* pe;
+			pi = nstring_to_cstring(@&i);
 			nstring_destroy(@&i);
-			char* pe =  nstring_to_cstring(entry_key(@e));
+			pe = nstring_to_cstring(entry_key(@e));
 			error(ERROR_SERIOUS, "Identifier @@%s is neither an input nor an output " 
 					     "parameter of action %s", pi, pe );
 			DEALLOCATE(pi);
@@ -324,8 +326,9 @@ code-string : () -> (s:BIGSTRING) = @{
 	@e=table_get_entry(tree_get_table(lxi_top_level), @&i);
 	if(@e) {
 		if(!entry_is_action(@e)) {
+			char* pi;
 			@e=NULL; /*TODO skip to end of action */
-			char* pi = nstring_to_cstring(@&i);
+			pi = nstring_to_cstring(@&i);
 			error(ERROR_SERIOUS,"%s is not an action", pi);
 			DEALLOCATE(pi);
 		}

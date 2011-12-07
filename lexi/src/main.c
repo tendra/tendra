@@ -71,9 +71,9 @@ process_lxi_file(char *nm,lexer_parse_tree* top_level)
 static void 
 process_lct_file (lexer_parse_tree* parse_tree, char* fn) 
 {
+	FILE* lct_file;
 
 	crt_line_no = 1 ;
-	FILE* lct_file;
 	if (!(lct_file=fopen(fn,"r"))) {
 		error(ERROR_SERIOUS, "Can't open input file, '%s'", fn);
 		return; /*error message*/
@@ -116,9 +116,8 @@ int
 main(int argc, char **argv)
 {
 	int optc;
-	lexer_parse_tree *top_level;
- 	cmd_line_options_init(&options);
 	int i;
+	struct outputs *output;
 
 #define COMMON_OPTIONS "C:t:l:p:i:vh"
 	struct outputs {
@@ -134,8 +133,11 @@ main(int argc, char **argv)
 		{ "test", 1, 0, NULL, COMMON_OPTIONS	},
 	};
 
+	lexer_parse_tree *top_level;
+ 	cmd_line_options_init(&options);
+
 	/* Default to C90 output */
-	struct outputs *output = &outputs[0];
+	output = &outputs[0];
 
 	/* Process arguments */
 	set_progname(argv [0], "2.0");

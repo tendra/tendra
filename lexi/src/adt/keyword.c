@@ -36,10 +36,11 @@ struct keyword_tag {
 void
 add_keyword(zone* z, const char *nm, instruction* instr)
 {
+    keyword *p = z->keywords, *q = NULL;
+
 	assert(nm != NULL);
 	assert(strlen(nm) > 0);
 
-    keyword *p = z->keywords, *q = NULL;
     while (p) {
 	int c = strcmp(nm, p->name);
 	if (c == 0) {

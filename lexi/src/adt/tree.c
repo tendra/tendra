@@ -183,13 +183,16 @@ void
 set_predefined_char_lexi_type(lexer_parse_tree* top_level, char* lexi_type, char* c_type)
 {
 	NStringT str;
-	nstring_copy_cstring(&str, lexi_type);
 	NStringT cstr;
+	EntryT *entry;
+	TypeT *type;
+
+	nstring_copy_cstring(&str, lexi_type);
 	nstring_copy_cstring(&cstr, c_type);
 
 	/* TODO assert(table_get_entry(tree_get_table(top_level), &str) == NULL) */
-       	EntryT* entry = table_add_type(tree_get_table(top_level), &str, true);
-	TypeT* type = entry_get_type(entry);
+	entry = table_add_type(tree_get_table(top_level), &str, true);
+	type = entry_get_type(entry);
 	type_map(type, &cstr);
 	top_level->lexi_char_type = entry;
 }
@@ -198,13 +201,16 @@ void
 set_predefined_string_lexi_type(lexer_parse_tree* top_level, char* lexi_type, char* c_type)
 {
 	NStringT str;
-	nstring_copy_cstring(&str, lexi_type);
 	NStringT cstr;
+	EntryT *entry;
+	TypeT *type;
+
+	nstring_copy_cstring(&str, lexi_type);
 	nstring_copy_cstring(&cstr, c_type);
 
 	/* TODO assert(table_get_entry(tree_get_table(top_level), &str) == NULL) */
-       	EntryT* entry = table_add_type(tree_get_table(top_level), &str, true);
-	TypeT* type = entry_get_type(entry);
+	entry = table_add_type(tree_get_table(top_level), &str, true);
+	type = entry_get_type(entry);
 	type_map(type, &cstr);
 	top_level->lexi_string_type = entry;
 }
@@ -213,10 +219,12 @@ void
 set_predefined_terminal_lexi_type(lexer_parse_tree* top_level, char* lexi_type)
 {
 	NStringT str;
+	EntryT* entry;
+
 	nstring_copy_cstring(&str, lexi_type);
 
 	/* TODO assert(table_get_entry(tree_get_table(top_level), &str) == NULL) */
-       	EntryT* entry = table_add_type(tree_get_table(top_level), &str, true);
+	entry = table_add_type(tree_get_table(top_level), &str, true);
 	top_level->lexi_terminal_type = entry;
 }
 
@@ -224,13 +232,16 @@ void
 set_predefined_int_lexi_type(lexer_parse_tree* top_level, char* lexi_type, char* c_type)
 {
 	NStringT str;
-	nstring_copy_cstring(&str, lexi_type);
 	NStringT cstr;
+	EntryT *entry;
+	TypeT *type;
+
+	nstring_copy_cstring(&str, lexi_type);
 	nstring_copy_cstring(&cstr, c_type);
 
 	/* TODO assert(table_get_entry(tree_get_table(top_level), &str) == NULL) */
-       	EntryT* entry = table_add_type(tree_get_table(top_level), &str, true);
-	TypeT* type = entry_get_type(entry);
+	entry = table_add_type(tree_get_table(top_level), &str, true);
+	type = entry_get_type(entry);
 	type_map(type, &cstr);
 	top_level->lexi_int_type = entry;
 }

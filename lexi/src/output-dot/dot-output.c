@@ -176,10 +176,10 @@ output_zone(cmd_line_options *opt, lexer_parse_tree *top_level,  zone *z)
 }
 
 void dot_output_all(cmd_line_options *opt, lexer_parse_tree *top_level) {
+	FILE_list_entry* file_list ;
+
 	assert(opt != NULL);
 	assert(top_level != NULL);
-
-	FILE_list_entry* file_list ;
 
 	for(file_list = tree_get_copyright_list(top_level); 
             file_list != NULL; 
