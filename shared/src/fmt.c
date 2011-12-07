@@ -49,28 +49,19 @@ void (*fmtf[256])(FILE *, void *);
 	specificiation. It will consume as many further character as it needs, up to
 	but not including the conversion specifier.
 
-	The argument ap is expected to point to the current va_list; this may be
-	moved along by way of va_arg() if appropiate (namely for a precision of '*').
-
 	A pointer to the conversion specifier is returned. (That is, a pointer to
 	the next character after the precision has been dealt with.)
 
  */
 static const char *
-readprecision(const char *p, int *precision, va_list *ap)
+readprecision(const char *p, int *precision)
 {
 	char *ep;
 	long int l;
 
 	assert(p);
-	assert(*p);
-	assert(precision);
-
-	/* precision passed as parameter */
-	if ('*' == *p) {
-		*precision = va_arg(*ap, int);
-		return p + 1;
-	}
+	assert(*p != '\0');
+	assert(precision != NULL);
 
 	/* no precision; e.g. "%.s" */
 	if (!isdigit((unsigned char) *p)) {
@@ -112,7 +103,7 @@ readprecision(const char *p, int *precision, va_list *ap)
 void vefprintf(FILE *fp, const char *fmt, va_list ap) {
 	const char *p;
 
-	assert(fmt);
+	assert(fmt != NULL);
 
 	for (p = fmt; *p; p++) {
 		int precision = -1;
@@ -121,12 +112,18 @@ void vefprintf(FILE *fp, const char *fmt, va_list ap) {
 		switch (*p) {
 		case '%':
 			p++;
-			assert(*p);
+			assert(*p != '\0');
 
-
-			/* readprecision() nudges ap along for a precision of ".*" */
 			if ('.' == *p) {
-				p = readprecision(p + 1, &precision, &ap);
+				p++;
+
+				if ('*' == *p) {
+					/* precision passed as parameter */
+					precision = va_arg(ap, int);
+				} else {
+					p = readprecision(p, &precision);
+				}
+
 				assert(precision >= 0);
 			}
 
@@ -137,7 +134,7 @@ void vefprintf(FILE *fp, const char *fmt, va_list ap) {
 			if ('l' == *p) {
 				mlong = 1;
 				p++;
-				assert(*p);
+				assert(*p != '\0');
 			}
 
 			assert(mlong == 0 || (*p == 'd' || *p == 'u' || *p == 'x'));
