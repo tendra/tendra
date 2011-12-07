@@ -7,8 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
 #include "config.h"
+
 #include "tags.h"
 #include "externs.h"
 #include "expmacs.h"

@@ -2980,6 +2980,8 @@ read_dg_exp(exp body)
 	within_diags = 1;
 	diag = d_dg();
 	within_diags = was_within_diags;
+#else
+	return nilexp;
 #endif
 	return f_dg_exp(body, diag);
 }

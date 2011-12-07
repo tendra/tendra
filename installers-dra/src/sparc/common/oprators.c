@@ -37,6 +37,7 @@
 #include "proc.h"
 #include "labels.h"
 #include "oprators.h"
+#include "comment.h"
 
 /*
     CORRECT POSSIBLE OVERFLOWS IN REGISTER r

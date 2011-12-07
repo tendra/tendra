@@ -54,7 +54,7 @@
  /* any constant larger than permissable X offset in 2**n +- X */
 
 extern long trap_label(exp);
-extern comib_ins(ins_p,int,int,int);
+extern void comib_ins(ins_p,int,int,int);
 /*
  * Utility functions.
  */

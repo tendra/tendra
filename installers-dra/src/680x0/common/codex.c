@@ -161,6 +161,7 @@ speci special_fn
     dec *d = brog(son(a1));
     char *id = d->dec_u.dec_val.dec_id;
     spec_fn.is_special = 0;
+    spec_fn.special_exp;
 
     if (id == null) return spec_fn;
 
@@ -309,9 +310,9 @@ void area
 void libcall
 (char *nm)
 {
-    int lab;
     mach_op *p = make_extern_data(nm, 0);
 #if 0 /*float_to_unsigned*/
+    int lab;
     if ((have_overflow() || have_continue()) && !strcmp(nm,float_to_unsigned)) {
       /* we need to ensure that the value in %fp0 is not outside the valid
 	 range for an unsigned int, otherwise there will be a floating

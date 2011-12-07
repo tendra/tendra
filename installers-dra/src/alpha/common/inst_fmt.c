@@ -15,6 +15,8 @@
   the code scheduler at appropriate points.
 */
 
+#include <stdlib.h>
+
 #include <shared/xalloc.h>
 
 #include "config.h"

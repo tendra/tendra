@@ -4512,13 +4512,14 @@ tailrecurse:
 
 	  operate_fmt_immediate(i_sll,r,shleng,rr);
 
-	  if ((m & (m - 1))!= 0)
+	  if ((m & (m - 1))!= 0) {
 	    if (optop(e)) {
 	      operate_fmt(((m & (m + 1)) == 0)? i_subq : i_addq, rr, r, rr);
 	    }
 	    else{
 	      operate_fmt(((m& (m+1)) ==0)? i_subqv : i_addqv, rr, r, rr);
 	    }
+	  }
 	  if (!optop(e) && !error_treatment_is_trap(e)) {
 	    check_exception(e,sp);
 	  }

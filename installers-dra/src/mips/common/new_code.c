@@ -688,8 +688,9 @@ makeans make_code
   /* produce code for expression e, putting its result in dest using
      t-regs given by sp. If non-zero, exitlab is the label of where the
      code is to continue */
-  long  constval;
+  long constval;
   makeans mka;
+
 tailrecurse:
   mka.lab = exitlab;
   mka.regmove = NOREG;
@@ -1015,7 +1016,7 @@ tailrecurse:
 		no(son(second)) = no(son(pt(g)));
 		return make_code(first, sp, dest, exitlab);
 	      }
-	if (test = testlast (first, second) /* I mean it */ ) {
+	if ((test = testlast (first, second)) /* I mean it */ ) {
 	  /* effectively an empty then part */
 	  int   l = (exitlab != 0)? exitlab : new_label();
 	  bool rev = IsRev(test);
@@ -2524,7 +2525,6 @@ tailrecurse:
 	if (is_signed(sh(son(e)))) {
 	  int   over = 0;	/* use branches - tests are already
 				   ordered */
-	  bool usw;
 	  lims = maxmin(sh(son(e)));
 	  for (;;) {
 	    int   lab = no(son(pt(z)));

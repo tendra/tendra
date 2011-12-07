@@ -175,7 +175,9 @@ code_it(dec *my_def)
 {
   exp tg = my_def -> dec_u.dec_val.dec_exp;
   char *id = my_def -> dec_u.dec_val.dec_id;
+#if DO_SCHEDULE
   char * outline;
+#endif
   int symdef = my_def ->dec_u.dec_val.sym_number;
   bool extnamed =  my_def -> dec_u.dec_val.extnamed;
   static  space tempspace = {
@@ -364,7 +366,9 @@ translate_capsule(void)
   dec * my_def;
   int noprocs;
   int i;
+#if DO_SCHEDULE
   char * outline = (char*)xcalloc(80,sizeof(char));
+#endif
   extern exp* usages;
   setregalt (nowhere.answhere, NO_REG);
   nowhere.ashwhere.ashsize = 0;

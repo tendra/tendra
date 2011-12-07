@@ -990,9 +990,8 @@ safe_eval(exp e, exp escape_route)
   case rep_tag:
   case solve_tag:
   case case_tag:
-      SET(res);
       failer(CONSTC_ERROR);
-      break;
+      return nilexp;
   case name_tag:
   case env_offset_tag:
   case general_env_offset_tag:

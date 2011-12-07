@@ -206,8 +206,7 @@ specialmake(int i, exp par, space sp, where dest, int exitlab)
       /* asm is dangerous; as the least precaution, zap register tracking. */
       clear_all();
       fprintf(outf,"!  asm:\n" ) ;
-      fprintf(outf,s) ;
-      fputc('\n',outf);
+      fprintf(outf, "%s\n", s) ;
       break;
     }
 

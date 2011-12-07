@@ -7,11 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/*
-** float.c
-*/
-
 #include <shared/xalloc.h>
 
 #include "config.h"

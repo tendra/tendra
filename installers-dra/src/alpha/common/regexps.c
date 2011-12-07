@@ -7,6 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <stdlib.h>
+
 #include "config.h"
 
 #include "exptypes.h"
@@ -217,7 +219,7 @@ void keepexp
    case insomereg:
    case insomefreg: {
      failer("Keep ? reg");
-     break;
+     return;
    }
    case inreg:
     {
@@ -235,7 +237,6 @@ void keepexp
       if (pos < 0 || pos > 30)
 	return;
     }
-
   };
   if (pos==0 || pos == 32) return;
   regexps[pos].keptexp = e;

@@ -850,7 +850,7 @@ void do_fmop_error_jump(exp e, int fs, int fd)
   {
    case fabs_tag:ins=i_fabs;break;
    case fneg_tag:ins=i_fneg;break;
-   default:fail("Unknown error jump for fmop");break;
+   default:fail("Unknown error jump for fmop");
   }
   rrf_ins(ins,fs,fd);
   mcrfs_ins(CRF0,0);

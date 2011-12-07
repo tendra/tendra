@@ -23,6 +23,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <time.h>
+#include <string.h>
 
 #include <shared/xalloc.h>
 
@@ -5976,8 +5977,8 @@ add_caselim_list(caselim_list list, caselim elem, int index)
 {
 	/* see the documentation for the representation of cases */
 	exp ht;
-	int  low;
-	int  high;
+	int low;
+	int high;
 	exp lowval = getexp(slongsh, nilexp, 0, nilexp, nilexp, 0, 0, 0);
 	/* UNUSED(list); */
 	UNUSED(index);

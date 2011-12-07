@@ -3492,7 +3492,7 @@ freg fregfrmdest(bool dble, where * dest, space sp)
 
 static int get_next_mlv_number(void)
 {
-  static next_lv_number=0;
+  static int next_lv_number=0;
   next_lv_number++;
   return next_lv_number;
 }

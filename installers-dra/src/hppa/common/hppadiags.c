@@ -1066,6 +1066,7 @@ void stabd
 /*
     OUTPUT INITIAL DIAGNOSTICS FOR A DIAGNOSE_TAG
 
+*/
 /* ARGSUSED */ void stab_begin
 (diag_info * d, int proc_no, exp e)
 {
@@ -1715,7 +1716,10 @@ static DNTTPOINTER out_dt_shape
 
       case DIAG_TYPE_ARRAY:
 	{
-	   DNTTPOINTER indextype,elemtype,p=NIL;
+	   DNTTPOINTER elemtype,p=NIL;
+#ifdef _SYMTAB_INCLUDED
+	   DNTTPOINTER indextype;
+#endif
 #if 0
 	   long str = no(dt->data.array.stride);
 #endif
@@ -1936,7 +1940,9 @@ static DNTTPOINTER out_dt_shape
 	   enum_values_list enumvals = dt->data.t_enum.values;
 	   enum_values *enumarr = (enumvals->array);
 	   int nvals = enumvals->len;
+#ifdef _SYMTAB_INCLUDED
 	   char *nm = dt->data.t_enum.nme.ints.chars;
+#endif
 	   int i;
 	   DNTTPOINTER p = NIL;
 	   long non;

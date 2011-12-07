@@ -1943,8 +1943,8 @@ int two_contops
 void move
 (shape sha, where from, where to)
 {
-  int  sz;
-  int  c, c1;
+  int sz;
+  int c, c1;
   int isco = 0;
   exp fe = from.where_exp;
   exp te = to.where_exp;

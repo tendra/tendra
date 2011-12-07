@@ -30,6 +30,7 @@
 #include "expmacs.h"
 #include "bitsmacs.h"
 #include "getregs.h"
+#include "comment.h"
 
 
 /*

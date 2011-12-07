@@ -2118,8 +2118,10 @@ void dw2_code_info
       if (d->data.i_rvs.u.tg) {
 	dg_info h;
 	if (d->data.i_rvs.u.tg->key != DGK_INFO || (
-		h = d->data.i_rvs.u.tg->p.info, h->key != DGA_RVS))
-	  failer ("incompatible rendezvous sequence");
+		h = d->data.i_rvs.u.tg->p.info, h->key != DGA_RVS)) {
+	    failer ("incompatible rendezvous sequence");
+	    break;
+	  }
 	d->data.i_rvs.u.iv = h->data.i_rvs.u.iv;
 	h->data.i_rvs.u.iv = d;
 	h->data.i_rvs.holder = 1;

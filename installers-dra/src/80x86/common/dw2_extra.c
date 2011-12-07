@@ -605,7 +605,7 @@ void dw2_locate_val
       break;
     }
     case WH_STR: {
-      loc_s l;
+      loc_s l = { 0 };
       l.key = L_GLOB;
       l.s = v.u.s;
       l.off = v.o;

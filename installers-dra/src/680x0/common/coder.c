@@ -448,32 +448,6 @@ static where rscope_dest;
 
 
 /*
-    PUSH A SET OF PROCEDURE ARGUMENTS
-
-    The arguments are given by a bro-list starting with t.  They are
-    coded in reverse order.
-*/
-
-static void
-code_pars(where w, ash stack, exp t)
-{
-	long sz = shape_size(sh(t));
-	if (last(t)) {
-		/* Code last argument */
-		coder(w, stack, t);
-		stack_dec -= round(sz, param_align);
-	} else {
-		/* Code the following arguments */
-		code_pars(w, stack, bro(t));
-		/* And then this one */
-		coder(w, stack, t);
-		stack_dec -= round(sz, param_align);
-	}
-	return;
-}
-
-
-/*
     PRODUCE CODE FOR A SOLVE STATEMENT
 
     The solve statement with starter s, labelled statements l, destination
@@ -740,7 +714,7 @@ caser(exp arg, long already)
 static void
 reset_stack_pointer(void)
 {
-	mach_op *op1, *op2, *op3;
+	mach_op *op1, *op2;
 	make_comment("reset stack pointer ...");
 	update_stack();
 
@@ -1701,12 +1675,13 @@ coder(where dest, ash stack, exp e)
 
 		/* Allocate (checked or not) */
 
-		if (!allocation_done)
+		if (!allocation_done) {
 			if (checkalloc(e)) {
 				checkalloc_stack(size_w, 1);
 			} else {
 				sub(slongsh, size_w, SP, SP);
 			}
+		}
 
 		/* The result of the construct is SP */
 
@@ -1768,7 +1743,6 @@ coder(where dest, ash stack, exp e)
 		return;
 	}
 	case local_free_all_tag: {
-		mach_op *op1, *op2;
 		must_use_bp = 1;
 		make_comment("local_free_all ...");
 		reset_stack_pointer();

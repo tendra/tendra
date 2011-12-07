@@ -1897,7 +1897,7 @@ ptr is labelled exp
 	 return scan(e, at);
        }
        else
-	 if (name(*e) == offset_mult_tag && n > 1 && (n& (n-1)) == 0)
+	 if (name(*e) == offset_mult_tag && n > 1 && (n& (n-1)) == 0) {
 	   if (name(op1) == and_tag
 	      && name(son(op1)) == shr_tag &&
 	      name(bro(son(op1))) ==val_tag) {
@@ -1940,6 +1940,7 @@ ptr is labelled exp
 	     no(op2) = n;
 	     return scan(&son(*e), at);
 	   }
+	 }
      }
      return non_commutative_scan(e, at);
 

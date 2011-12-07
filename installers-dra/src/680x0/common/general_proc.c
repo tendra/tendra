@@ -812,8 +812,6 @@ void apply_general_proc
 {
 
    /* Procedure applications */
-   exp t;
-   ash st;
    where tmp_dest;
    mach_op *op1, *op2;
    long comp_size = 0;
@@ -1178,7 +1176,6 @@ void tail_call
    exp proc        = son(e);
    exp pcallees     = bro(proc);
    exp callee_args = son(pcallees);
-   int longs;
    mach_op *op1, *op2;
    long new_callees_size;
    bool use_push = 1;
@@ -1341,7 +1338,6 @@ void general_epilogue
    bitpattern fmsk = 0;
    bitpattern fsmsk = fregs(regsinproc & save_msk);
    bool d1_free;
-   bool save_d1 = 0;
    bool uses_link = 0;
 
    make_comment("Epilogue");
@@ -1771,7 +1767,6 @@ void output_env_size
 (dec* proc, long envsize)
 {
    mach_op *op1, *op2;
-   long offval;
 
    make_comment("env_size comes here:");
    op1 = make_lab_data((long)proc, 0);

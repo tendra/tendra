@@ -23,8 +23,8 @@
 #define crit_decsatapp	5
 #define apply_cost      3
 
-static int  complexity(exp e, int count, int newdecs);
-static last_new_decs = -999;
+static int complexity(exp e, int count, int newdecs);
+static int last_new_decs = -999;
 
 /*
     APPLY COMPLEXITY TO A LIST OF EXPRESSIONS

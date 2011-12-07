@@ -177,15 +177,18 @@ static void out_dt_TypeDef_no_recurse(diag_type);
 static void out_dt_TypeDef(diag_type);
 static void out_dt_NewTypeId(diag_type, int);
 static void out_dt_TypeId(diag_type);
-static void stab_internal_types(diag_type, bool);
 static void stab_types(void);
 
+#if defined(__AIX) || defined(CROSS_INCLUDE)
+static void stab_internal_types(diag_type, bool);
 static void number_and_stab_basicshapes(void);
+static void stab_basicshape(shape,char * ,int,int);
+#endif
+
 static void number_structs_and_unions(void);
 static void stab_structs_and_unions(void);
 static void number_typedefs(void);
 static void stab_typedefs(void);
-static void stab_basicshape(shape,char * ,int,int);
 
 
 /*(See diag_config.h)
@@ -1802,6 +1805,7 @@ again:
 }
 
 
+#if defined(__AIX) || defined(CROSS_INCLUDE)
 /*
  * Output a .stabx for all internal struct/unions not already processed.
  * This avoids extremely long stabstrings from internal struct/unions being
@@ -1891,23 +1895,24 @@ static void stab_internal_types(diag_type dt, bool stabthislevel)
     }
   }
 }
+#endif
 
 
+#if defined(__AIX) || defined(CROSS_INCLUDE)
 /*
  * Generate stab for a basic type, for which there is a standard IBM AIX StabNo.
  */
 static void stab_basicshape
 (shape sha, char *typename, int tdf_typeidnum, int ibm_typeidnum)
 {
-#if defined(__AIX) || defined(CROSS_INCLUDE)
   int n = next_typen();
 
   ASSERT(tdf_typeidnum == n);
 
   fprintf(as_file, "\t.stabx\t\"%s:t%d=%d", typename, tdf_typeidnum, ibm_typeidnum);
   fprintf(as_file, "\",%d,%d,%d\n", 0, C_DECL, 0);
-#endif
 }
+#endif
 
 
 /*

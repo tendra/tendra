@@ -44,8 +44,9 @@ speci special_fn
   dec* dp = brog(son(a1));
   char *id = dp -> dec_u.dec_val.dec_id;
   spr.is_special = 0;
-  if (id == (char *)0)
+  if (id == (char *)0) {
     return spr;
+  }
   id += prefix_length;
 
   if (a2 != nilexp && last(a2) && !strcmp(id, "__trans386_special")) {

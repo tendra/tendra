@@ -418,8 +418,9 @@ static regu alloc_reg_big
     ru.ru_regs = mask;
     ru.ru_reg_free = rs | mask;
   }
-  else
+  else {
     ru.can_do = 0;
+  }
 
   return ru;
 }
@@ -873,9 +874,9 @@ void coder
       {
 	exp def = son(e);
 	exp body = bro(def);
-	int  sz;
+	int sz;
 	dcl dc;
-	int  old_fstack_pos;
+	int old_fstack_pos;
 	if (isinlined(e) && dest.where_off == 0 &&
 		name(dest.where_exp) == ident_tag &&
 		(!has_intnl_call(e) || ptno(dest.where_exp)!= reg_pl ||

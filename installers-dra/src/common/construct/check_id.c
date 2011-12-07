@@ -436,8 +436,10 @@ check_id(exp e, exp scope)
   int is_vis = (all_variables_visible || isvis(e));
   exp def = son(e);
   exp body = bro(def);
+#if load_ptr_pars
   int looping;
   exp t1;
+#endif
 
   if (no(e) == 0) {
     if (!isvis(e) && !isenvoff(e) && !isglob(e) && !isparam(e)) {

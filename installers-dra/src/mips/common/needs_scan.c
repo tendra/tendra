@@ -1454,7 +1454,6 @@ ptr is labelled exp
 	needs x;
 	shape s;
 	exp * arg = &son(*e);
-	exp r, ss, t;
 	s = sh (* (arg));
 	a = ashof (s);
 	props(*e) = 0; /* clear possibility of tlrecirsion; may be set later */
@@ -2269,7 +2268,7 @@ ptr is labelled exp
     		return scan(e, at);
 	    }
 	    else
-	    if ( name(*e) == offset_mult_tag && n > 1 && (n&(n-1))== 0)
+	    if ( name(*e) == offset_mult_tag && n > 1 && (n&(n-1))== 0) {
 	      if( name(op1) == and_tag
 		      && name(son(op1))== shr_tag &&
 		      name(bro(son(op1)))==val_tag ) {
@@ -2302,6 +2301,7 @@ ptr is labelled exp
 		no(op2) = n;
 		return scan(&son(*e), at);
 	     }
+	   }
     	}
 	return likediv (e, at);
 

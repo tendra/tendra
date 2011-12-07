@@ -100,8 +100,7 @@ fail(char * mess)
 {
     if ( do_comment ) {
 	fprintf(outf, "!! TRANSLATION FAILED : " ) ;
-	fprintf(outf, mess ) ;
-	fputc('\n',outf);
+	fprintf(outf, "%s\n", mess ) ;
 	fflush ( outf ) ;
     }
     fprintf ( stderr, "trans : internal error '%s'\n", mess ) ;

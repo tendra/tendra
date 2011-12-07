@@ -114,7 +114,6 @@ last_statement(exp x, exp *f)
    *f = z;
   tlab1:
   return 1;
-  flab0: return 0;
 }
 
 /* looks for things like

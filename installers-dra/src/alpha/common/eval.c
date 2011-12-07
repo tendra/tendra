@@ -388,7 +388,9 @@ void
 oneval(INT64 val, int al, int rep)
 {
   char *store_type;
+#if DO_SCHEDULE
   char * outline = (char*)NULL;
+#endif
   static int lastal = -1;
   unsigned int bval;
   if(al!=lastal){

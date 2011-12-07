@@ -17,6 +17,8 @@
   independent (common to other  translators)
 */
 
+#include <stdio.h>
+
 #include "config.h"
 
 #include "exptypes.h"

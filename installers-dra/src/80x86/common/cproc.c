@@ -124,7 +124,6 @@ static void out_pops
 (int tot_sp, int push_space, int extra, int dpos)
 {
 #ifdef NEWDWARF
-  int st;
   long dwl0 = 0, dwl1 = 0, dwl2 = 0, dwl3 = 0, dwl4 = 0;
 #endif
   tot_sp -= extra;
@@ -274,7 +273,6 @@ int cproc
   int tot_sp;
   int param_pos;
   int byte_stack_align = stack_align / 8;
-  int   st;
   long  old_pos1,
         old_pos1a,
         old_pos2,
@@ -416,14 +414,18 @@ int cproc
     dot_align(4);
 
   if (diagnose)
+    {
 #ifdef NEWDWARF
     DIAG_PROC_BEGIN(diag_props, global, cname, pname, p);
 #else
     diag_proc_begin(diag_props, global, cname, pname);
 #endif
+    };
 
   if (cname == -1)
-    outs(pname);
+    {
+      outs(pname);
+    }
   else
     {
       outs(local_prefix);

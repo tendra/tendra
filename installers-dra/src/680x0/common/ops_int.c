@@ -1597,7 +1597,6 @@ static void maxmin
 {
     where d;
     bool sw;
-    long sz = shape_size(sha);
     long lab = next_lab();
     exp jt = simple_exp(0);
     ptno(jt) = lab;

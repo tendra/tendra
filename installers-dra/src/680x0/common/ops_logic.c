@@ -568,39 +568,6 @@ adjust_bitf(exp e)
 
 
 /*
-    FIND POSITION OF A CONTENTS BITFIELD
-*/
-
-static long
-contents_bitf(exp e)
-{
-	char n = name(e);
-	if (n == name_tag || n == reff_tag) {
-		return adjust_bitf(e);
-	}
-	if (n == ident_tag) {
-		exp s = son(e);
-		exp b = bro(s);
-		if (name(b) == reff_tag) {
-			return adjust_bitf(b);
-		}
-		if (name(b) == ident_tag) {
-			return contents_bitf(b);
-		}
-		if (name(b) == name_tag && son(b) == e &&
-		    name(s) == name_tag) {
-			return contents_bitf(son(s));
-		}
-		if (name(s) == name_tag) {
-			return adjust_bitf(s);
-		}
-	}
-	error(ERROR_SERIOUS, "Illegal bitfield operation");
-	return 0;
-}
-
-
-/*
     FIND POSITION OF A BITFIELD OPERATION
 */
 

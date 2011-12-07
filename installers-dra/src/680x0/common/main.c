@@ -50,7 +50,9 @@ extern int max_errors;
 
 static char *version_str = "0.6";
 static char *revision = REVISION_STRING;
+#ifdef EBUG
 static char *revdate = DATE_STRING;
+#endif
 int normal_version = 1;
 
 
@@ -88,9 +90,11 @@ static char *seek_line_id;
 #endif
 
 int diag_override;
+#if have_diagnostics
 static int diag_stab_override = 0;
 static int diag_xdb_new_override = 0;
 static int diag_xdb_old_override = 0;
+#endif
 
 
 

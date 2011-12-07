@@ -14,6 +14,8 @@
    to do : add support for VAX floating types.
 */
 
+#include <stdlib.h>
+
 #include "config.h"
 
 #include "code_here.h"

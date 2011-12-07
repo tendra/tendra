@@ -460,6 +460,7 @@ void restore_link_register(void)
     }
     else 
     {
+      /* XXX: assert instead? */
       fail("Shouldn't be calling this function without R_TP or R_FP");
     }
     ld_ro_ins(i_l,saved_lr,R_TMP0);comment("restore LR");

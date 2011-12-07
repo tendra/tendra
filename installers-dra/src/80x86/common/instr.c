@@ -650,7 +650,6 @@ void simple_set_label
     failer("redundant jump");
 #endif
 #ifndef NEWDIAGS
-  int   st = 0;
   /* eliminate immediately previous jump to this label */
   if (!diagnose && labno == last_jump_label) {
 		out_set_pos(last_jump_pos);

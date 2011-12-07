@@ -7,6 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <string.h>
+
 #include <shared/xalloc.h>
 
 #include "config.h"
@@ -1460,6 +1462,7 @@ dg_extracted(exp nm, exp old)
 	if (name(nm) != name_tag ||
 	    (dx = after_dg_context(son(nm)), !(*dx)->this_tag)) {
 		failer("make_optim error");
+		return;
 	}
 	dg_detach(old, nm, -1, DGD_EXTRACT, 1, 0, (*dx)->this_tag);
 	if (con_start != con_end) {

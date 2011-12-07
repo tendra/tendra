@@ -861,7 +861,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
 {
 #endif
   makeans mka ;
-  static exceptions_initialised;
+  static int exceptions_initialised;
   mka.lab = exitlab ;
   mka.regmove = NOREG ;
   insection ( text_section ) ;
@@ -2652,7 +2652,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
     ans aa ;
     space nsp ;
     int li, ln = 1 ;
-    int lab1, lab2, error_lab ;
+    int lab1, lab2, error_lab;
     int sfr = -1, dfr, tfr, error_set = 1;
     int r = GETREG ( dest, sp ) ;
     int s = shape_size ( sh ( son ( e ) ) ) ;
@@ -2797,7 +2797,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
 	  rrf_ins ( i_fcmpd, tfr << 1, dfr << 1 ) ;
 	  fbr_ins ( i_fbe, lab2 ) ;
 	  /* If not adjust the result by one */
-	  if(!optop(e) & name(sh(e)) == ulonghd) {
+	  if(!optop(e) && name(sh(e)) == ulonghd) {
 	    /* watch out for unwanted wrap on addition */
 	    condri_ins(i_be,r,-1,error_lab);
 	  }

@@ -359,7 +359,9 @@ long *realrep
 (exp e)
 {
     int i, n, ex;
+#if (FBASE == 10)
     double d, m;
+#endif
     char bits[128];
     static long longs[4];
     int exp_bits, mant_bits;

@@ -25,6 +25,7 @@
 #include "labels.h"
 #include "frames.h"
 #include "oprators.h"
+#include "comment.h"
 
 #define isdbl(e)((bool)(name(e)!= shrealhd))
 

@@ -442,4 +442,7 @@ start:
 	}			/* end switch dest */
       }				/* end notinreg a */
   }				/* end switch a */
+
+  UNREACHED;
+  return NOREG;
 }

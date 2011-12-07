@@ -38,10 +38,6 @@ number of ident = (word displacement in locals)*64 + R_SP
 #include "stack.h"
 
 
-
-#define ALIGNNEXT(bitposn, bitalign)	(((bitposn)+(bitalign)-1) & ~((bitalign)-1))
-
-
 spacereq zerospace = {0, 0, 0, 0x0};
 
 /*****************************************************************
@@ -351,7 +347,7 @@ spacereq regalloc(exp e, int freefixed, int freefloat, long stack)
 	def = regalloc(s, freefixed, freefloat, stack);
 	if (def.obtain == s)
 	{
-	  if (props(def.obtain)&inreg_bits !=0)
+	  if ((props(def.obtain)&inreg_bits) !=0)
 	  {
 	    freefixed--;
 	  }
@@ -367,7 +363,7 @@ spacereq regalloc(exp e, int freefixed, int freefloat, long stack)
 	  def = maxspace(def, regalloc(s, freefixed, freefloat, stack));
 	  if (def.obtain==s)
 	  {
-	    if (props(def.obtain)&inreg_bits !=0)
+	    if ((props(def.obtain)&inreg_bits) !=0)
 	    {
 	      freefixed--;
 	    }

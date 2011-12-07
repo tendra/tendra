@@ -41,7 +41,7 @@ void outdivsym(void);
 
 void out_initialiser(char *id);
 
-#if islinux || isfreebsd || isopenbsd || isnetbsd
+#if islinux || isfreebsd || isopenbsd || isnetbsd || isdragonfly
 #if islinux
 void set_linux_format (int elf); /* machine.c */
 #endif

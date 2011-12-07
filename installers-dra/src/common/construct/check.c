@@ -1938,7 +1938,6 @@ docmp_f(int test_no, exp a, exp b)
 	int eq = 0;
 	int less = 0;
 	int gr = 0;
-	int c;
 
 	if (shape_size(sh(a)) <= 32) {
 		return docmp(sha, (unsigned char)test_no, no(a), no(b));
@@ -1977,27 +1976,17 @@ docmp_f(int test_no, exp a, exp b)
 		}
 	}
 
-	switch (test_no)EXHAUSTIVE {
-	case 1:
-		c = gr;
-		break;
-	case 2:
-		c = gr | eq;
-		break;
-	case 3:
-		c = less;
-		break;
-	case 4:
-		c = less | eq;
-		break;
-	case 5:
-		c = eq;
-		break;
-	case 6:
-		c = !eq;
-		break;
+	switch (test_no) EXHAUSTIVE {
+	case 1: return gr   ;
+	case 2: return gr   | eq;
+	case 3: return less ;
+	case 4: return less | eq;
+	case 5: return        eq;
+	case 6: return       !eq;
 	}
-	return c;
+
+	UNREACHED;
+	return -1;
 }
 
 
@@ -3896,6 +3885,7 @@ check(exp e, exp scope)
 					exp p = son(son(sq));
 					exp q;
 					exp res;
+
 					while (p != son(sq)) {
 						if (name(p) != ass_tag ||
 						    name(son(p)) != name_tag ||
@@ -4620,8 +4610,9 @@ check(exp e, exp scope)
 
 	case test_tag: {
 		exp arg1, arg2;
-		int n;
-		int bl;
+#if little_end & has_byte_ops
+		int n, bl;
+#endif
 		unsigned char nt = test_number(e);
 		arg1 = son(e);
 		arg2 = bro(arg1);
@@ -5036,6 +5027,7 @@ check(exp e, exp scope)
 			int changed = 0;
 			exp t = son(e);
 			exp z;
+
 			do {
 				exp up;
 				t = bro(t);

@@ -982,7 +982,7 @@ unwind(exp loop, exp contset, exp incr, int incval)
 	if (n == 0) {
 		s = NULL;
 	} else {
-		struct en *s = (struct en *)xcalloc(n, sizeof(struct en));
+		s = (struct en *)xcalloc(n, sizeof(struct en));
 	}
 	for (i=0; i<n; i++) {
 	    /* sort cont([reff (disp) cont(X)) into s */

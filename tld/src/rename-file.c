@@ -23,6 +23,8 @@
  * which is terminated by a semi-colon.
  */
 
+#include <stdio.h>
+#include <string.h>
 #include <errno.h>
 #include <ctype.h>
 

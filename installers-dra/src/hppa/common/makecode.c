@@ -1779,7 +1779,7 @@ makeans make_code
      {
 	/* effectively an empty then part */
 	int l = (exitlab != 0)? exitlab : new_label();
-	bool rev = IsRev(test);
+	bool rev = !!IsRev(test);
 	ptno(test) = -l;  /* make test jump to exitlab - see test_tag: */
 	props(test) = notbranch[props(test)];
 	if (rev)

@@ -171,38 +171,6 @@ ash ashof
   return a;
 }
 
-
-/* is shape 'sha' of unknown size? */
-static bool varsize
-(shape sha)
-{
-  switch (name(sha))
-  {
-    case cpdhd:
-    {
-      shape t = son(sha);
-
-      if (t == nilexp)
-	return 1;
-      if (varsize(sh(t)))
-	return 1;
-      while (!last(t))
-      {
-	t = bro(t);
-	if (varsize(sh(t)))
-	  return 1;
-      }
-      return 0;
-    }
-
-  case nofhd:
-    return 1;
-
-  default:
-    return 0;
-  }
-}
-
 void insection
 (enum section s)
 {

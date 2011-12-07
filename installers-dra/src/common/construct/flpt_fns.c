@@ -12,6 +12,7 @@
 
 #include <ctype.h>
 #include <time.h>
+#include <stdlib.h>
 
 #include <shared/xalloc.h>
 
@@ -1448,7 +1449,7 @@ f_make_floating(floating_variety fv, rounding_mode rm, bool sign,
   }
 
   if (snatneg(expo)) {
-    exponent =- exponent;
+    exponent = -exponent;
   }
 
   for (i = 0; i < lg; ++i) {

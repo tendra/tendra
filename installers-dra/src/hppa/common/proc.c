@@ -152,7 +152,7 @@ static void code_for_ret
    else
    {
       baseoff b;
-      b.base= (Has_vsp ? EP : SP); b.offset=- (frame_sz>>3);
+      b.base= (Has_vsp ? EP : SP); b.offset = -(frame_sz>>3);
       ld_ins(i_lo,0,b,SP);
    }
    restore_sregs();

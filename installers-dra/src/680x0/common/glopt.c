@@ -48,7 +48,7 @@ glopt(dec *dp)
                     if (name(source_def) == string_tag &&
                          ptno(source_def) == 8) {
                        char * s = nostr(source_def);
-                       long n, j;
+                       long j;
                        int l = shape_size(sha) / 8;
                        for (j=0; j < l && s[j] != 0; ++j){
 			       ;
@@ -111,7 +111,7 @@ glopt(dec *dp)
                     shape sha = sh(st_def);
                     if (name(st_def) == string_tag && ptno(st_def) == 8) {
                        char * s = nostr(st_def);
-                       long n, j;
+                       long j;
                        int l = shape_size(sha) / 8;
                        for (j=0; j < l && s[j] != 0; ++j) {
 			       ;

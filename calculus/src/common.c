@@ -8,6 +8,7 @@
  */
 
 #include <stdlib.h>
+#include <string.h>
 
 #include <shared/error.h>
 #include <shared/xalloc.h>

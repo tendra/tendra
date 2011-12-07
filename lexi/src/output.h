@@ -28,6 +28,7 @@ enum output_comment {
 	OUTPUT INDENTATION
 
 	This routine outputs an indentation of d.
+*/
 
 void
 output_indent(FILE *, unsigned int depth);

@@ -481,9 +481,6 @@ codec(where dest, ash stack, exp e)
 	}
 #ifndef tdf3
 	case addptr_tag: {
-		exp pointer = son(e);
-		exp offset  = son(pointer);
-
 		make_comment("addptr_tag ...");
 		mova(zw(e), dest);
 		make_comment("addptr_tag done");
@@ -1017,7 +1014,6 @@ TDF libraries.  If this was right sh ( e ) would be slongsh.
 
 		if (name(e) == reff_tag && shape_size(sh(e)) != 32) {
 			/* Deal with pointers to bitfields */
-			exp s;
 			where d;
 			/* s = sim_exp(sh(e), D0); */
 			d = mw(dest.wh_exp, dest.wh_off + 32);

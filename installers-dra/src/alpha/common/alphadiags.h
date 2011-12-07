@@ -7,8 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/*   alphadgdecs.h   - definitions in alphadgdecs.c  */
-
 #include "config.h"
 
 #include "exptypes.h"
@@ -18,7 +16,7 @@
 extern int nofds;
 extern int *file_dnos;		/* dense nos for files */
 extern void collect_files(filename f);
-extern current_file;		/* dense no of current source file */
+extern int current_file;		/* dense no of current source file */
 extern void stab_file(int i);	/* symtab entry for file source file i */
 extern void stabd(int findex, int lno);/*.. entry for linenos */
 extern void diagbr_open(int findex);/* .. entry for open scope */

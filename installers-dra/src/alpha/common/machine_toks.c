@@ -12,6 +12,8 @@
   alpha installer 
 */
 
+#include <string.h>
+
 #include "config.h"
 
 int

@@ -132,8 +132,10 @@ where equiv_reg
   where res;
   res.where_exp = nilexp;
 
-  if (w.where_off != 0)
+  if (w.where_off != 0) {
     return res;
+  }
+
   for (i = 0; i < no_fixed_regs; i++) {
     regcell * p = &crt_reg_record[i];
     if ((p -> regcell_key & 1) &&

@@ -205,7 +205,7 @@ int main
    if (errflg)
      {
        if (!versionflg)		/* no complaints for -v */
-	 fprintf(stderr, usage_mess);
+	 fprintf(stderr, "%s", usage_mess);
        exit(EXIT_FAILURE);
      }
 

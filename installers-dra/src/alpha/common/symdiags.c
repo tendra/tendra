@@ -15,6 +15,8 @@
   is available.
 */
 
+#include <string.h>
+
 #include <shared/xalloc.h>
 
 #include "config.h"

@@ -684,7 +684,6 @@ static void evalone(exp e, int bitposn)
        * when tuples were without specified offsets for each field.
        * Really, this code should be totally rewritten.
        */
-      int maxalign = a.ashalign;
       exp off = son(e);
       exp tup = bro(off);
       ash tupa;

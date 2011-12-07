@@ -260,7 +260,6 @@ proc_type(char *s)
 void
 outend(void)
 {
-  int st;
   outs(".text");
   outnl();
   dot_align(16);
