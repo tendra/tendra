@@ -19,11 +19,12 @@ _TENDRA_COMPILER_MK_=1
 # The following compilers may be specified by setting their corresponding
 # environment variables when calling make(1):
 #
-#  ${TCC}   - TenDRA
-#  ${GCC}   - The GNU Compiler Collection
-#  ${PCC}   - The Portable C Compiler
-#  ${CLANG} - The Clang C compiler
-#  ${HPCC}  - HP's ANSI C Compiler
+#  ${TCC}    - TenDRA
+#  ${GCC}    - The GNU Compiler Collection
+#  ${PCC}    - The Portable C Compiler
+#  ${CLANG}  - The Clang C compiler
+#  ${HPCC}   - HP's ANSI C Compiler
+#  ${TINYCC} - The Tiny C Compiler
 #
 # If none of the above are set, no compiler-specific default options are used
 # (either globally, or per directory).
@@ -98,6 +99,9 @@ CFLAGS+=	${GCCOPTS}
 CXXFLAGS+=	${GXXOPTS}
 CCOPTS+=	-pedantic -O2 -Wall
 
+# This gives too many false positives for convoluted code
+CCOPTS+=	-Wno-uninitialized
+
 . elif defined(CLANG)
 
 CLANGOPTS?=	-std=c89
@@ -106,10 +110,9 @@ CLANGXXOPTS?=	-std=c89
 CC:=	${CLANG}
 CXX:=	${CLANG}
 
-# Note that -O4 appears to be unreliable on some systems.
 CFLAGS+=	${CLANGOPTS}
 CXXFLAGS+=	${CLANGXXOPTS}
-CCOPTS+=	-pedantic -O3
+CCOPTS+=	-pedantic -O4
 
 . elif defined(PCC)
 
@@ -133,6 +136,14 @@ CXX:=	${HPCC}
 CFLAGS+=	${HPCCOPTS}
 CXXFLAGS+=	${HPXXOPTS}
 CCOPTS+=
+
+. elif defined(TINYCC)
+
+TINYCCOPTS?=	-Wunsupported -Wwrite-strings -Wall
+#TINYCCXXOPTS?=
+
+CC:=	${TINYCC}
+#CXX:=	${TINYCC}
 
 . else
 
