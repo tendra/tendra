@@ -23,12 +23,106 @@
 		<title>Shapes</title>
 
 		<para>There are ten different basic constructors for the SORT SHAPE
-			from bitfield to top as shown in table 3.  SHAPEs arising from those
+			from bitfield to top as shown in table 3.	<!-- TODO: link -->
+			SHAPEs arising from those
 			constructors are used as qualifiers (just using an upper case
 			version of the constructor name) to various SORTs in the definition;
 			for example, EXP TOP is an expression with top SHAPE. This is just
 			used for definitional purposes only; there is no SORT SHAPENAME as
 			one has SORTNAME.</para>
+
+		<!--
+			I am not sure that this is the right place for this table;
+			a reference to the origional table (which was a .gif file)
+			was missing from the 4.1.2 HTML documents.
+		-->
+		<table>
+			<col align="left"/>
+			<col align="left"/>
+			<col align="left"/>
+			<col align="left"/>
+
+			<thead>
+				<tr>
+					<th><code>SHAPE</code></th>
+					<th>Qualifier <code>SORT</code></th>
+					<th>Usage</th>
+					<th><code>ALIGNMENT</code></th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr>
+					<td><code>BITFIELD(<replaceable>v</replaceable>)</code></td>
+					<td><code>BITFIELD_VARIETY</code></td>
+					<td>As in C bitfields, e.g. <code>int x:5</code></td>
+					<td><code>{<replaceable>v</replaceable>}</code></td>
+				</tr>
+
+				<tr>
+					<td><code>BOTTOM</code></td>
+					<td role="na" align="center">&ndash;</td>
+					<td>It never gets here, e.g. <code>goto</code></td>
+					<td role="na">(none)</td>
+				</tr>
+
+				<tr>
+					<td><code>COMPOUND(<replaceable>sz</replaceable>)</code></td>
+					<td><code>OFFSET(<replaceable>x</replaceable>,&nbsp;<replaceable>y</replaceable>)</code></td>
+					<td>Structs or unions; <code>OFFSET</code> <replaceable>sz</replaceable> is size</td>
+					<td><replaceable>x</replaceable> &#8839; set-union of field alignments</td>
+				</tr>
+
+				<tr>
+					<td><code>FLOATING(<replaceable>fv</replaceable>)</code></td>
+					<td><code>FLOATING_VARIETY</code></td>
+					<td>Floating point numbers</td>
+					<td><code>{<replaceable>fv</replaceable>}</code></td>
+				</tr>
+
+				<tr>
+					<td><code>INTEGER(<replaceable>v</replaceable>)</code></td>
+					<td><code>VARIETY</code></td>
+					<td>Integers, including chars</td>
+					<td><code>{<replaceable>v</replaceable>}</code></td>
+				</tr>
+
+				<tr>
+					<td><code>NOF(<replaceable>n</replaceable>,&nbsp;<replaceable>s</replaceable>)</code></td>
+					<td><code>(NAT,&nbsp;SHAPE)</code></td>
+					<td>Tuple of <replaceable>n</replaceable> values of <code>SHAPE</code> <replaceable>s</replaceable></td>
+					<td><code>{alignment(<replaceable>s</replaceable>)}</code></td>
+				</tr>
+
+				<tr>
+					<td><code>OFFSET(<replaceable>a1</replaceable>,&nbsp;<replaceable>a2</replaceable>)</code></td>
+					<td><code>(ALIGNMENT,&nbsp;ALIGNMENT)</code></td>
+					<td>Offsets in memory; <replaceable>a1</replaceable> &#8839; <replaceable>a2</replaceable></td>
+					<td><code>{offset}</code></td>
+				</tr>
+
+				<tr>
+					<td><code>POINTER(<replaceable>a</replaceable>)</code></td>
+					<td><code>ALIGNMENT</code></td>
+					<td>Pointers in memory</td>
+					<td><code>{pointer}</code></td>
+				</tr>
+
+				<tr>
+					<td><code>PROC</code></td>
+					<td role="na" align="center">&ndash;</td>
+					<td>Procedure values</td>
+					<td><code>{proc}</code></td>
+				</tr>
+
+				<tr>
+					<td><code>TOP</code></td>
+					<td role="na" align="center">&ndash;</td>
+					<td>No value; e.g. the result of assign</td>
+					<td><code>{ }</code></td>
+				</tr>
+			</tbody>
+		</table>
 
 		<para>In the TDF specification of EXPs, you will observe that all EXPs
 			in constructor signatures are all qualified by the SHAPE name; for

@@ -12,7 +12,7 @@
 		syntactic units like &lt;Expression&gt;, &lt;Identifier&gt; etc. A
 		SORT bears the same relation to TDF as these syntactic units bear to
 		the language; roughly speaking, the syntactic unit &lt;Expression&gt;
-		corresponds to the SORT EXP and &lt;Identifier&gt; to TAG . However,
+		corresponds to the SORT EXP and &lt;Identifier&gt; to TAG. However,
 		instead of using BNF to compose syntactic units from others, TDF uses
 		explicit constructors to compose its SORTs; each constructor uses
 		other pieces of TDF of specified SORTs to make a piece of its result
@@ -77,12 +77,107 @@
 			which allows translate time conditional expansion of the
 			SORT.</para>
 
-		<figure>
+		<table>
 			<title>First class <code>SORT</code>s</title>
 
-			<!-- TODO: convert to <table> -->
-			<graphic fileref="images/guidetable3.png"/>
-		</figure>
+			<col align="left"/>
+			<col align="left"/>
+			<col align="center"/>
+			<col align="left"/>
+			<col align="left"/>
+
+			<thead>
+				<tr>
+					<th><code>SORT</code></th>
+					<th>Usage</th>
+					<th role="gap"/>
+					<th><code>SORT</code></th>
+					<th>Usage</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr>
+					<td><code>ACCESS</code></td>
+					<td>Properties of <code>TAG</code>s</td>
+					<td role="gap"/>
+					<td><code>AL_TAG</code></td>
+					<td>Name for alignment</td>
+				</tr>
+
+				<tr>
+					<td><code>ALIGNMENT</code></td>
+					<td>Abstraction of data alignment</td>
+					<td role="gap"/>
+					<td><code>BITFIELD_VARIETY</code></td>
+					<td>Gives number of bits in bit-field with sign</td>
+				</tr>
+
+				<tr>
+					<td><code>BOOL</code></td>
+					<td><code>true</code> or <code>false</code></td>
+					<td role="gap"/>
+					<td><code>ERROR_TREATMENT</code></td>
+					<td>How to handle errors in operations</td>
+				</tr>
+
+				<tr>
+					<td><code>EXP</code></td>
+					<td>Piece of &tdf; program, manipulating values</td>
+					<td role="gap"/>
+					<td><code>FLOATING_VARIETY</code></td>
+					<td>Kind of floating point number of unbounded size</td>
+				</tr>
+
+				<tr>
+					<td><code>LABEL</code></td>
+					<td>Mark on <code>EXP</code> to jump to</td>
+					<td role="gap"/>
+					<td><code>NAT</code></td>
+					<td>Non-negative static number of unbounded size</td>
+				</tr>
+
+				<tr>
+					<td><code>NTEST</code></td>
+					<td>Test in comparisons</td>
+					<td role="gap"/>
+					<td><code>PROCPROPS</code></td>
+					<td>Properties of calls and definitions of procedures</td>
+				</tr>
+
+				<tr>
+					<td><code>ROUNDING_MODE</code></td>
+					<td>How to round floating point operations</td>
+					<td role="gap"/>
+					<td><code>SHAPE</code></td>
+					<td>Abstraction of size and representation of values</td>
+				</tr>
+
+				<tr>
+					<td><code>SIGNED_NAT</code></td>
+					<td>Static number of unbounded size</td>
+					<td role="gap"/>
+					<td><code>STRING</code></td>
+					<td>Static string of n-bit integers</td>
+				</tr>
+
+				<tr>
+					<td><code>TAG</code></td>
+					<td>Name for a value in run-time program</td>
+					<td role="gap"/>
+					<td><code>TRANSFER_MODE</code></td>
+					<td>Controls special contents and assignment operations</td>
+				</tr>
+
+				<tr>
+					<td><code>TOKEN</code></td>
+					<td>Installation-time function</td>
+					<td role="gap"/>
+					<td><code>VARIETY</code></td>
+					<td>Kind of integer used in run-time program</td>
+				</tr>
+			</tbody>
+		</table>
 
 		<para>Every TOKEN has a result SORT, i.e. the SORT of its resulting
 			expansion and before it can be expanded, one must have its parameter
@@ -230,7 +325,7 @@ s:         SORTNAME
 	<section>
 		<title>Second class SORTs</title>
 
-		<para>Second class SORTs (given in table 2) cannot be
+		<para>Second class SORTs (given in table 2<!-- TODO: link -->) cannot be
 			TOKENised. These are the "syntactic units" of TDF which the user
 			cannot extend; he can only produce them using the constructors
 			defined in core-TDF.</para>
@@ -244,6 +339,188 @@ s:         SORTNAME
 			will not apply to SLIST or to the other SORTs which have implicit
 			constructions. These include BITSTREAM, BYTESTREAM, TDFINT, TDFIDENT
 			and TDFSTRING.</para>
+
+		<table>
+			<title><code>SORT</code>s without <code>SORTNAME</code>s</title>
+
+			<col align="left"/>
+			<col align="left"/>
+			<col align="middle"/>
+			<col align="left"/>
+			<col align="left"/>
+
+			<thead>
+				<tr>
+					<th><code>SORT</code></th>
+					<th>Usage</th>
+					<th role="gap"/>
+					<th><code>SORT</code></th>
+					<th>Usage</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr>
+					<td><code>AL_TAGDEF</code></td>
+					<td>Alignment name definition</td>
+					<td role="gap"/>
+					<td><code>AL_TAGDEF_PROPS</code></td>
+					<td>Body of <code>UNIT</code> containing <code>AL_TAGDEF</code>s</td>
+				</tr>
+
+				<tr>
+					<td><code>BITSTREAM</code></td>
+					<td>Encapsulation of a bit encoding</td>
+					<td role="gap"/>
+					<td><code>BYTESTREAM</code></td>
+					<td>Encapsulation of a byte encoding</td>
+				</tr>
+
+				<tr>
+					<td><code>CALLEES</code></td>
+					<td>Actual callee parameters</td>
+					<td role="gap"/>
+					<td><code>CAPSULE</code></td>
+					<td>Independent piece of &tdf; program</td>
+				</tr>
+
+				<tr>
+					<td><code>CAPSULE_LINE</code></td>
+					<td>Number and kind of linkable entities in <code>CAPSULE</code></td>
+					<td role="gap"/>
+					<td><code>CASELIM</code></td>
+					<td>Bounds in <code>case</code> constructor</td>
+				</tr>
+
+				<tr>
+					<td><code>ERROR_CODE</code></td>
+					<td>Encoding for exceptions</td>
+					<td role="gap"/>
+					<td><code>EXTERNAL</code></td>
+					<td>External name used to connect <code>CAPSULE</code> name</td>
+				</tr>
+
+				<tr>
+					<td><code>EXTERN_LINK</code></td>
+					<td>List of <code>LINKEXTERN</code>s in <code>CAPSULE</code></td>
+					<td role="gap"/>
+					<td><code>GROUP</code></td>
+					<td>List of <code>UNIT</code>s with same identification</td>
+				</tr>
+
+				<tr>
+					<td><code>LINK</code></td>
+					<td>Connects names in <code>CAPSULE</code></td>
+					<td role="gap"/>
+					<td><code>LINKEXTERN</code></td>
+					<td>Used to connect <code>CAPSULE</code> names to outside world</td>
+				</tr>
+
+				<tr>
+					<td><code>LINKS</code></td>
+					<td>List of <code>LINK</code>s</td>
+					<td role="gap"/>
+					<td><code>LIST(AUX)</code></td>
+					<td>List of <code>AUX</code> <code>SORT</code>s; may have <code>SORTNAME</code> later</td>
+				</tr>
+
+				<tr>
+					<td><code>OTAGEXP</code></td>
+					<td>Describes a formal parameter</td>
+					<td role="gap"/>
+					<td><code>PROPS</code></td>
+					<td>Program info in a <code>UNIT</code></td>
+				</tr>
+
+				<tr>
+					<td><code>SLIST(AUX)</code></td>
+					<td>List of <code>AUX</code> <code>SORT</code>s; will not have <code>SORTNAME</code> later</td>
+					<td role="gap"/>
+					<td><code>SORTNAME</code></td>
+					<td><code>SORT</code> which can be parameter of <code>TOKEN</code></td>
+				</tr>
+
+				<tr>
+					<td><code>TAGACC</code></td>
+					<td>Used in constructing proc formals</td>
+					<td role="gap"/>
+					<td><code>TAGDEC</code></td>
+					<td>Declaration of <code>TAG</code> at <code>UNIT</code> level</td>
+				</tr>
+
+				<tr>
+					<td><code>TAGDEC_PROPS</code></td>
+					<td>Body of <code>UNIT</code> containing <code>TAGDEC</code>s</td>
+					<td role="gap"/>
+					<td><code>TAGDEF</code></td>
+					<td>Definition of <code>TAG</code> at <code>UNIT</code> level</td>
+				</tr>
+
+				<tr>
+					<td><code>TAGDEF_PROPS</code></td>
+					<td>Body of <code>UNIT</code> containing <code>TAG</code> <code>DEF</code>s</td>
+					<td role="gap"/>
+					<td><code>TAGSHACC</code></td>
+					<td>A formal parameter</td>
+				</tr>
+
+				<tr>
+					<td><code>TDFBOOL</code></td>
+					<td>&tdf; encoding of a boolean</td>
+					<td role="gap"/>
+					<td><code>TDFIDENT</code></td>
+					<td>&tdf; encoding of a byte string</td>
+				</tr>
+
+				<tr>
+					<td><code>TDFINT</code></td>
+					<td>&tdf; encoding of an integer</td>
+					<td role="gap"/>
+					<td><code>TDFSTRING</code></td>
+					<td>&tdf; encoding of an n-bit byte string</td>
+				</tr>
+
+				<tr>
+					<td><code>TOKDEC</code></td>
+					<td>Declaration of a <code>TOKEN</code></td>
+					<td role="gap"/>
+					<td><code>TOKDEC_PROPS</code></td>
+					<td>Body of <code>UNIT</code> contianing <code>TOKDEC</code>s</td>
+				</tr>
+
+				<tr>
+					<td><code>TOKDEF</code></td>
+					<td>Definition of a <code>TOKEN</code></td>
+					<td role="gap"/>
+					<td><code>TOKDEF_PROPS</code></td>
+					<td>Body of <code>UNIT</code> contianing <code>TOKDEF</code>s</td>
+				</tr>
+
+				<tr>
+					<td><code>TOKEN_DEFN</code></td>
+					<td>Defines <code>TOKEN</code> expansion</td>
+					<td role="gap"/>
+					<td><code>TOKFORMALS</code></td>
+					<td>Sort and name for parameters in <code>TOKEN_DEFN</code></td>
+				</tr>
+
+				<tr>
+					<td><code>UNIQUE</code></td>
+					<td>World-wide name</td>
+					<td role="gap"/>
+					<td><code>UNIT</code></td>
+					<td>Components of <code>CAPSULE</code> with <code>LINK</code>s to other <code>UNIT</code>s</td>
+				</tr>
+
+				<tr>
+					<td><code>VERSION</code></td>
+					<td>Version number of &tdf;</td>
+					<td role="gap"/>
+					<td><code>VERSION_PROPS</code></td>
+					<td>Body of <code>UNIT</code> contianing version information</td>
+				</tr>
+			</tbody>
+		</table>
 	</section>
 </chapter>
 
