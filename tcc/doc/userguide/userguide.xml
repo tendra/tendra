@@ -40,6 +40,15 @@
 
 		<revhistory>
 			<revision role="docs">
+				<date>29-03-2012</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Removed compilation scheme diagrams; these were
+						duplicates already provided by &tdf-portability.doc;.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="docs">
 				<date>13-08-2010</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
