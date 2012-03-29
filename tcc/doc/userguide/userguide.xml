@@ -62,7 +62,6 @@
 
 	<xi:include href="preface-function.xml"/>
 
-	<xi:include href="strategy.xml"/>
 	<xi:include href="design.xml"/>
 	<xi:include href="environments.xml"/>
 	<xi:include href="components.xml"/>

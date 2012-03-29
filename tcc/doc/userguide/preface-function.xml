@@ -34,13 +34,22 @@
 		compilation environment to be specified to &tcc; in a way that
 		it cannot be to &cc;.</para>
 
+	<para>Before discussing &tcc; itself in detail, it is necessary to
+		understand the compilation strategy that it is designed to
+		implement.
+		This was discussed at length in [1], which readers are urged
+		to consult before moving on to the details of
+		this implementation.</para>
+		<!-- TODO: footnotes -->
+
 	<para>There are two basic components to this paper.
-		The first describes the &tdf; compilation strategy and how it is
+		The first describes this compilation strategy and how it is
 		implemented by &tcc;.
 		The second is a Quick Reference section at the end of the paper,
 		which is intended to be a &tcc; user's manual.
 		For even quicker reference, &tcc; will print a list of all its
 		command-line options (with a brief description) if invoked with
 		the <userinput>-query</userinput> option.</para>
+
 </preface>
 

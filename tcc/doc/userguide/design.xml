@@ -20,18 +20,6 @@
 <chapter>
 	<title>The Overall Design of &tcc;</title>
 
-	<para>Having discussed the compilation strategy &tcc; is designed
-		to implement, let us move on to describe the details of this
-		implementation.
-		The basic compilation path is shown in Fig. 3, which corresponds
-		to Fig. 2.</para>
-
-	<figure>
-		<title>&tdf; Compilation Path</title>
-		<graphic align="center"
-			fileref="images/tcc_scheme.gif"/>
-	</figure>
-
 	<section>
 		<title>Specifying the &api;</title>
 
