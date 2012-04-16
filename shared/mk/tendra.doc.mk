@@ -91,7 +91,6 @@ DOC_SRC=	${DOC}.xml
 DOC_INDEX=	index.${DOC_EXT}
 DOC_CSS=	css
 DOC_JS= 	js
-DOC_IMAGES= 	images
 
 .if !defined(NODOCS)
 DOC_IMGDEPS!=	${XSLTPROC} ${XMLOPTS} ${XSLTOPTS} ${XSLT_IMGS} ${DOC_SRC}
@@ -112,33 +111,6 @@ ${OBJ_DDIR}/${DOC}/${DOC_MAN}: ${DOC_SRC}
 	@${ECHO} "==> Transforming ${WRKDIR}/${MAN}"
 	${XSLTPROC} ${XMLOPTS} ${XSLTOPTS} -o ${.TARGET} ${XSLT_ROFF} ${.ALLSRC}
 .endif
-
-
-#
-# Images
-#
-.for img in ${DOC_IMGDEPS}
-. if exists(${img})
-${OBJ_DDIR}/${DOC}/${img}: ${img}
-	@${ECHO} "==> Copying raster image ${WRKDIR}/${img:T}"
-	@${CONDCREATE} ${OBJ_DDIR}/${DOC}/${img:H}
-	cp ${.ALLSRC} ${.TARGET}
-. elif exists(${img:R}.dia)
-${OBJ_DDIR}/${DOC}/${img}: ${img:R}.dia
-	@${ECHO} "==> Rendering vector image ${WRKDIR}/${img:T}"
-	@${CONDCREATE} ${OBJ_DDIR}/${DOC}/${img:H}
-	${DIA} -e ${.TARGET} -t ${img:E} ${.ALLSRC}
-. elif exists(${img:R}.dot)
-${OBJ_DDIR}/${DOC}/${img}: ${img:R}.dot
-	@${ECHO} "==> Rendering vector image ${WRKDIR}/${img:T}"
-	@${CONDCREATE} ${OBJ_DDIR}/${DOC}/${img:H}
-	${DOT} -T${img:E} -o ${.TARGET} ${.ALLSRC}
-. else
-.BEGIN:
-	@${ECHO} 'unrecognised image dependency: ${WRKDIR}/${img:T}'
-	@${EXIT} 1;
-. endif
-.endfor
 
 
 #
@@ -172,8 +144,8 @@ all:: ${OBJ_DDIR}/${DOC}/${DOC_CSS} ${OBJ_DDIR}/${DOC}/${DOC_JS}
 all:: ${OBJ_DDIR}/${DOC}/${DOC_MAN}
 . endif
 . if defined(DOC_IMGDEPS)
-all:: ${DOC_IMGDEPS:C/^/${OBJ_DDIR}\/${DOC}\//}
-. endif
+all:: ${DOC_IMGDEPS}
+.  endif
 .endif
 
 
@@ -192,12 +164,6 @@ install:: all
 	cp ${OBJ_DDIR}/${DOC}/${DOC_JS}/*.js   "${_PREFIX_HTML}/${DOC_OUT}/${DOC_JS}/"
 	cp ${OBJ_DDIR}/${DOC}/${DOC_CSS}/*.css "${_PREFIX_HTML}/${DOC_OUT}/${DOC_CSS}/"
 . endif
-. if "${DOC_IMGDEPS}" != ""
-	@${CONDCREATE} "${_PREFIX_HTML}/${DOC_OUT}/${DOC_IMAGES}"
-. endif
-. for img in ${DOC_IMGDEPS}
-	cp ${OBJ_DDIR}/${DOC}/${DOC_IMAGES}/${img:T} "${_PREFIX_HTML}/${DOC_OUT}/${DOC_IMAGES}/"
-. endfor
 	cp ${OBJ_DDIR}/${DOC}/*.${DOC_EXT} "${_PREFIX_HTML}/${DOC_OUT}/"
 .endif
 

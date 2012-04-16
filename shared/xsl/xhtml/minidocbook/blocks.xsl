@@ -29,7 +29,7 @@
 	</xsl:template>
 
 	<xsl:template match="graphic">
-		<img src="{@fileref}"/>
+		<xsl:copy-of select="document(@fileref)"/>
 	</xsl:template>
 
 	<xsl:template match="figure">

@@ -178,3 +178,110 @@ p.cmdsynopsis div.args {
 	color: #444;
 }
 
+
+/*
+ * SVG figures
+ */
+
+@media screen {
+	svg.figure {
+		color-rendering: optimizeQuality;
+		image-rendering: optimizeQuality;
+		text-rendering:  optimizeLegibility;
+		shape-rendering: crispEdges;
+	}
+}
+
+@media print {
+	svg.figure {
+		color-rendering: optimizeQuality;
+		image-rendering: optimizeQuality;
+		text-rendering:  geometricPrecision;
+		shape-rendering: geometricPrecision;
+	}
+}
+
+svg.figure text {
+	fill: #444;
+	font-size: 90%;
+}
+
+svg.figure line,
+svg.figure polyline,
+svg.figure path {
+	stroke-linejoin: round;
+}
+
+svg.figure .dashed {
+	stroke-dasharray: 2 2;
+	stroke-dashoffset: 1;
+	stroke: #aaa;
+}
+
+svg.figure text {
+	fill: #444;
+}
+
+svg.figure rect,
+svg.figure circle,
+svg.figure line,
+svg.figure polyline,
+svg.figure polygon,
+svg.figure path {
+	stroke: #888;
+	stroke-width: 1px;
+	stroke-linecap: butt;
+}
+
+svg.figure text.na {
+	fill: #aaa;
+}
+
+svg.figure g.region text {
+	fill: #aaa;
+	text-transform: lowercase;
+	font-variant: small-caps;
+}
+
+svg.figure rect.region,
+svg.figure g.region rect,
+svg.figure g.region line {
+	stroke: #ddd;
+}
+
+svg.figure rect,
+svg.figure circle,
+svg.figure polyline,
+svg.figure polygon,
+svg.figure path {
+	fill: none;
+}
+
+svg.figure polyline.arrow {
+	shape-rendering: geometricPrecision;
+	stroke-linecap: round;
+}
+
+svg.figure text {
+	alignment-baseline: middle;
+}
+
+svg.figure g.shaded rect,
+svg.figure g.shaded circle,
+svg.figure g.shaded polygon {
+	fill: #e7e7e7;
+}
+
+svg.figure text.shaded,
+svg.figure g.shaded text {
+	fill: #888;
+}
+
+svg.figure text.code {
+	font-family: bitstream vera sans, monaco, monospace;
+}
+
+svg.figure text.big {
+	font-size: 1.5em;
+}
+
