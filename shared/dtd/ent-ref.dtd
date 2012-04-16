@@ -81,10 +81,12 @@ TODO: maybe -dg and -ug for dev/user guides? maybe just -dev -->
 <!ENTITY calculus-userguide.doc "<ulink url='%docs;/calculus-userguide/'><citetitle>Calculus Users' Guide</citetitle></ulink>">
 <!ENTITY tchk.doc           "<ulink url='%docs;/tchk/'><citetitle>TCheck - The TenDRA Static Checker</citetitle></ulink>">
 <!ENTITY pl_tdf.doc         "<ulink url='%docs;/pl_tdf/'><citetitle>&pl_tdf; Definition</citetitle></ulink>">
-<!ENTITY tspec.doc          "<ulink url='%docs;/pl_tdf/'><citetitle>tspec - An &api; Specification Tool</citetitle></ulink>">
+<!ENTITY tspec.doc          "<ulink url='%docs;/tspec/'><citetitle>tspec - An &api; Specification Tool</citetitle></ulink>">
 <!ENTITY newapis.doc        "<ulink url='%docs;/newapis/'><citetitle>Adding new &api;s with tspec</citetitle></ulink>">
 <!ENTITY unix-validation.doc "<ulink url='%docs;/unix-validation/'><citetitle>Validation of TenDRA Capability to Implement a UNIX-like Operating System</citetitle></ulink>">
-<!ENTITY style.doc           "<ulink url='%docs;/style//'><citetitle>Style Guide</citetitle></ulink>">
+<!ENTITY style.doc           "<ulink url='%docs;/style/'><citetitle>Style Guide</citetitle></ulink>">
+<!ENTITY orientation.doc     "<ulink url='%docs;/orientation/'><citetitle>Orientation Guide</citetitle></ulink>">
+<!ENTITY porting.doc         "<ulink url='%docs;/porting/'><citetitle>Porting TenDRA to Different Operating Systems</citetitle></ulink>">
 
 <!ENTITY tdf-portability.doc   "<ulink url='%docs;/tdf-portability/'><citetitle>TDF and Portability</citetitle></ulink>">
 <!ENTITY tdf-spec.doc          "<ulink url='%docs;/tdf-spec/'><citetitle>&tdf; Specification</citetitle></ulink>">
