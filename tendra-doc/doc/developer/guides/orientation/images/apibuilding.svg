@@ -1,0 +1,183 @@
+<?xml version="1.0"?>
+
+<!-- $Id$ -->
+
+<svg
+	xmlns="http://www.w3.org/2000/svg"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+
+	class="figure"
+	width="770" height="785"
+	transform="translate(.5 .5)">
+
+	<defs>
+		<marker id="apibuilding:arrow"
+				markerWidth="5" markerHeight="5"
+				markerUnits="userSpaceOnUse"
+				refX="5" refY="2.5"
+				orient="auto">
+			<polyline points="0,0 5,2.5 0,5" class="arrow"/>
+		</marker>
+	</defs>
+
+	<g transform="translate(180 30)">
+		<polyline points="10,-30 -20,-30 -20,30 20,30 20,-20 10,-20 10,-30 20,-20"/>
+		<g text-anchor="middle" style="font-weight: bold;">
+			<text y="-5">API</text>
+			<text y="5">Spec</text>
+		</g>
+
+		<g transform="translate(-10 55)" text-anchor="end">
+			<text>Transcription</text>
+		</g>
+
+		<line y1="30" y2="80" class="dashed"/>
+		<line y1="75" y2="80"  marker-end="url(#apibuilding:arrow)"/>
+	</g>
+
+	<g transform="translate(180 140)">
+		<rect x="-80" y="-30" width="160" height="60"/>
+		<g transform="translate(-70 -10)" text-anchor="start" style="font-weight: bold;">
+			<text y="-5">Tspec Abstract</text>
+			<text y="5">API Description</text>
+		</g>
+		<text x="75" y="10" text-anchor="end">tspec/{base,extension}/</text>
+		<text x="75" y="20" text-anchor="end">$api/*.tspec</text>
+
+		<g transform="translate(-10 55)" text-anchor="end">
+			<text y="-5">Transformation</text>
+			<text y="5" class="code">tspec</text>
+		</g>
+
+		<path d="M 0,30 l 0,40 q 0,10 -10,10 l -80,0 q -10,0 -10,10 l 0,20"
+			marker-end="url(#apibuilding:arrow)"/>
+		<path d="M 0,70 q 0,10 10,10 l 80,0 q 10,0 10,10 l 0,20"
+			marker-end="url(#apibuilding:arrow)"/>
+	</g>
+
+	<g transform="translate(80 280)">
+		<rect x="-80" y="-30" width="160" height="75"/>
+		<g transform="translate(-70 -10)" text-anchor="start" style="font-weight: bold;">
+			<text y="-5">Target-independent</text>
+			<text y="5">API headers</text>
+		</g>
+		<g transform="translate(-70 -10)" text-anchor="start">
+			<text y="20">(tspec &quot;include output file&quot;)</text>
+		</g>
+		<text x="75" y="25" text-anchor="end">$PREFIX_TSPEC/TenDRA/</text>
+		<text x="75" y="35" text-anchor="end">include/$api/*.h</text>
+
+		<line y1="45" y2="85" marker-end="url(#apibuilding:arrow)"/>
+	</g>
+
+	<g transform="translate(80 380)">
+		<circle r="15"/>
+		<text text-anchor="middle">A</text>
+	</g>
+
+	<g transform="translate(280 280)">
+		<rect x="-80" y="-30" width="160" height="75"/>
+		<g transform="translate(-70 -10)" text-anchor="start" style="font-weight: bold;">
+			<text y="-5">Target-independent</text>
+			<text y="5">API compilation rig</text>
+		</g>
+		<g transform="translate(-70 -10)" text-anchor="start">
+			<text y="20">(tspec &quot;source output file&quot;)</text>
+		</g>
+		<text x="75" y="25" text-anchor="end">tspec/{base,extension}/</text>
+		<text x="75" y="35" text-anchor="end">$api/*.tspec</text>
+
+		<path d="M 0,45 l 0,180 q 0,10 10,10 l 180,0 q 10,0 10,10"/>
+	</g>
+
+	<g transform="translate(480 280)">
+		<rect x="-80" y="-30" width="160" height="75"/>
+		<g transform="translate(-70 -10)" text-anchor="start" style="font-weight: bold;">
+			<text y="-5">System headers</text>
+		</g>
+		<text x="75" text-anchor="end">/usr/include/*.h</text>
+
+		<g transform="translate(-70 30)" text-anchor="start">
+			<text y="-5">Included after hacks (if any)</text>
+			<text y="5">and after startup headers</text>
+		</g>
+
+		<line y1="45" y2="290" marker-end="url(#apibuilding:arrow)"/>
+
+		<g transform="translate(10 265)" text-anchor="start">
+			<text y="-5">Production</text>
+			<text y="5" class="code">tcc -Ymakelib</text>
+		</g>
+
+	</g>
+
+	<g transform="translate(680 280)">
+		<rect x="-80" y="-30" width="160" height="75"/>
+		<g transform="translate(-70 -10)" text-anchor="start" style="font-weight: bold;">
+			<text y="-5">Startup headers</text>
+		</g>
+		<text x="75" text-anchor="end">osdep/machines/$os/$cpu/</text>
+		<text x="75" y="10" text-anchor="end">startup/$api.h</text>
+
+		<g transform="translate(-70 30)" text-anchor="start">
+			<text y="-5">These set various assertions</text>
+			<text y="5">and define __$os__ etc</text>
+		</g>
+
+		<path d="M 0,45 l 0,180 q 0,10 -10,10 l -180,0 q -10,0 -10,10"/>
+	</g>
+
+	<g transform="translate(580 415)">
+		<rect x="-80" y="-30" width="160" height="75"/>
+		<g transform="translate(-70 -10)" text-anchor="start" style="font-weight: bold;">
+			<text y="-5">Hacked includes</text>
+		</g>
+		<text x="75" text-anchor="end">osdep/machines/$os/$cpu/</text>
+		<text x="75" y="10" text-anchor="end">include/$api.h</text>
+
+		<g transform="translate(-70 30)" text-anchor="start">
+			<text y="-5">These go on to include sys.</text>
+			<text y="5">headers by #include_next</text>
+		</g>
+
+		<path d="M 0,45 l 0,15 q 0,10 -10,10 l -80,0 q -10,0 -10,10"      class="dashed"/>
+
+		<path d="M 0,-30 l 0,-15 q 0,-10 -10,-10 l -80,0 q -10,0 -10,-10" class="dashed"/>
+		<line y1="-35" y2="-30" marker-end="url(#apibuilding:arrow)"/>
+
+		<text text-anchor="middle" x="-40" y="-70" class="code">#include_next</text>
+	</g>
+
+	<g transform="translate(480 600)">
+		<rect x="-80" y="-30" width="160" height="50"/>
+		<g transform="translate(-70 -10)" text-anchor="start" style="font-weight: bold;">
+			<text y="-5">API TDF capsules</text>
+		</g>
+		<text x="75" text-anchor="end">osdep/obj/machines/$os/</text>
+		<text x="75" y="10" text-anchor="end">$cpu/api/apis/$api.api/*.j</text>
+
+		<line y1="20" y2="70" marker-end="url(#apibuilding:arrow)"/>
+
+		<g transform="translate(10 45)" text-anchor="start">
+			<text y="-5">TDF linking</text>
+			<text y="5" class="code">tld</text>
+		</g>
+	</g>
+
+	<g transform="translate(480 700)">
+		<rect x="-80" y="-30" width="160" height="40"/>
+		<g transform="translate(-70 -10)" text-anchor="start" style="font-weight: bold;">
+			<text y="-5">API TDF libraries</text>
+		</g>
+		<text x="75" text-anchor="end">$PREFIX_API/$api.tl</text>
+
+		<line y1="10" y2="50" marker-end="url(#apibuilding:arrow)"/>
+	</g>
+
+	<g transform="translate(480 765)">
+		<circle r="15"/>
+		<text text-anchor="middle">F</text>
+	</g>
+
+</svg>
+

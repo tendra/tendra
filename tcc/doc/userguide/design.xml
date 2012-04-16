@@ -409,7 +409,7 @@
 		<figure>
 			<title>&tdf; Full Compilation Path</title>
 			<graphic align="center"
-				fileref="images/tcc_files.gif"/>
+				fileref="images/tcc_files.svg"/>
 		</figure>
 	</section>
 
@@ -426,7 +426,7 @@
 			it only shows the left hand, or program, half of the
 			main compilation diagram.
 			The solid arrows show the default compilation paths;
-			the shaded arrows are only followed if &tcc; is so
+			the dashed arrows are only followed if &tcc; is so
 			instructed by means of command-line options.
 			Let us consider those paths in this diagram which have
 			not so far been mentioned.</para>

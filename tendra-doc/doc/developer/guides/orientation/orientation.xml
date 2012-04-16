@@ -16,10 +16,22 @@
 		</author>
 
 		<copyright>
+			<year>2012</year>
 			<year>2008</year>
 
 			<holder>The TenDRA Project</holder>
 		</copyright>
+
+		<revhistory>
+			<revision role="dev">
+				<date>2012-04-13</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Reworked existing vector images for consistency
+						between documents.</para>
+				</revdescription>
+			</revision>
+		</revhistory>
 	</articleinfo>
 
 	<section>
@@ -213,7 +225,7 @@ TODO: consider showing as three large graphs; build, runtime and regeneration - 
 		<figure>
 			<title>Build dependencies</title>
 
-			<graphic fileref="images/dep-build.png"/>
+			<graphic fileref="images/dep-build.svg"/>
 		</figure>
 
 		<para>Note that <quote><code>cc</code></quote> here represents the
@@ -225,7 +237,7 @@ TODO: consider showing as three large graphs; build, runtime and regeneration - 
 		<figure>
 			<title>Runtime dependencies</title>
 
-			<graphic fileref="images/dep-run.png"/>
+			<graphic fileref="images/dep-run.svg"/>
 		</figure>
 
 		<para>These runtime dependencies require the respective tools to be
@@ -244,7 +256,7 @@ TODO: consider showing as three large graphs; build, runtime and regeneration - 
 		<figure>
 			<title>Developer regeneration dependencies</title>
 
-			<graphic fileref="images/dep-regen.png"/>
+			<graphic fileref="images/dep-regen.svg"/>
 		</figure>
 
 		<para>These dependencies are not relevant to package managers or
@@ -295,7 +307,7 @@ TODO: consider showing as three large graphs; build, runtime and regeneration - 
 			<figure>
 				<title>Build dependencies for bootstrap</title>
 
-				<graphic fileref="images/dep-bootstrap-build.png"/>
+				<graphic fileref="images/dep-bootstrap-build.svg"/>
 			</figure>
 
 			<para>Bootstrapping is of course traditional for compilers; it is
@@ -305,7 +317,7 @@ TODO: consider showing as three large graphs; build, runtime and regeneration - 
 
 			<para>The runtime dependencies for using this minimal bootstrap
 				compiler are the same as the dependencies for those same tools
-				in general use, as illustrated in <!-- TODO: link to dep-run.png -->
+				in general use, as illustrated in <!-- TODO: link to dep-run.svg-->
 				.</para>
 		</section>
 
@@ -321,12 +333,15 @@ TODO: consider showing as three large graphs; build, runtime and regeneration - 
 
 		<para>The &api; checking is one of the more interesting areas of
 			TenDRA. An overview of the process of building &api;s is
-			given in <xref linkend="apibuilding"/>.</para>
+			given in <xref linkend="apibuilding"/>.
+			This diagram expands on the top-right and bottom-right
+			quadrants of the &tdf; compilation phases described in
+			&tdf-portability.doc;.</para>
 
 		<figure id="apibuilding">
-			<title>Files Involved For Building &api;s</title>
+			<title>Files Involved for Building &api;s</title>
 
-			<graphic fileref="images/apibuilding.png"/>
+			<graphic fileref="images/apibuilding.svg"/>
 		</figure>
 
 		<para>An &api; consists of abstract specifications of a set of
@@ -380,7 +395,9 @@ TODO: consider showing as three large graphs; build, runtime and regeneration - 
 			that machine. Hence for &ultrix;, which (apparently) has a
 			<code>ssize_t</code> incompatible to the <code>posix1</code>
 			&api;'s, <dt:source href="/tendra/src/lib/machines/ultrix/mips/startup/posix1.h">the Startup header for &ultrix;</dt:source> defines <code>__WRONG_POSIX1_SYS_TYPES_H_SSIZE_T</code> and hence <code>ssize_t</code> is omitted when
-			compiling the &tspec; &api; Source into the &api; &tdf; Tokens.</para>
+			compiling the &tspec; &api; Source into the &api; &tdf; Tokens.
+			See &porting.doc; for a worked example of making use of
+			these macros.</para>
 
 		<para>The compiled &api; &tdf; Tokens are linked together into
 			<code>.tl</code> libraries; each library represents an
@@ -390,16 +407,16 @@ TODO: consider showing as three large graphs; build, runtime and regeneration - 
 	</section>
 
 	<section>
-		<title>Compiling</title>
+		<title>Production of TDF</title>
 
 		<para>Based on the files installed, the process of compilation is
-			outlined in <xref linkend="compilation"/>. These steps may be
+			outlined in <xref linkend="production"/>. These steps may be
 			seen by executing <code>tcc -dry</code>.</para>
 
-		<figure id="compilation">
-			<title>Files involved during compilation</title>
+		<figure id="production">
+			<title>Files involved during production</title>
 
-			<graphic fileref="images/compilation.png"/>
+			<graphic fileref="images/production.svg"/>
 		</figure>
 
 		<para>C is used as an example here, though similar things
@@ -456,12 +473,22 @@ int main(void) {
 			As long as the target system provides the same subset in its
 			<code>$api.tl</code>, the code will link and execute as expected.
 			For details on this, see <dt:doc name="tdfandportability"/>.</para>
+	</section>
+
+	<section>
+		<title>Installation of TDF</title>
 
 		<para>The final step of linking also brings in any system-specific
 			libraries which may be required (such as <code>crt0.o</code>),
-			and of course any user-specified libraries, if given. These are
-			not illustrated.</para>
-		<!-- TODO: do show crt0.o and friends - and do show $PREFIX_SYS -->
+			and of course any user-specified libraries, if given.
+			These are illustrated representatively and their exact details
+			differ per platform.</para>
+
+		<figure id="installation">
+			<title>Files involved during installation</title>
+
+			<graphic fileref="images/installation.svg"/>
+		</figure>
 	</section>
 
 </article>

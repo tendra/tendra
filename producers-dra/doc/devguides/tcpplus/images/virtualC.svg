@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+
+<!-- $Id$ -->
+
+<svg
+	xmlns="http://www.w3.org/2000/svg"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+
+	class="figure"
+	width="440" height="220"
+	transform="translate(.5 .5)">
+
+	<defs>
+		<marker id="virtualC:arrow"
+				markerWidth="5" markerHeight="5"
+				markerUnits="userSpaceOnUse"
+				refX="5" refY="2.5"
+				orient="auto">
+			<polyline points="0,0 5,2.5 0,5" class="arrow"/>
+		</marker>
+
+		<g id="virtualC:ptrA">
+			<rect x="-40" y="-15" height="30" width="80"/>
+			<text text-anchor="middle" class="code">ptr A</text>
+		</g>
+
+		<g id="virtualC:A">
+			<rect x="-40" y="-25" height="50" width="80"/>
+			<text text-anchor="middle" class="big">A</text>
+		</g>
+
+		<g id="virtualC:C">
+			<rect x="-40" y="-25" height="50" width="80"/>
+			<text text-anchor="middle" class="big">C</text>
+		</g>
+
+		<g id="virtualC:vptrCA">
+			<rect x="-40" y="-15" height="30" width="80"/>
+			<text text-anchor="middle" class="code">vptr C::A</text>
+		</g>
+
+		<g id="virtualC:vtblCA">
+			<rect x="-40" y="-15" height="30" width="80"/>
+			<text text-anchor="middle" class="code">vtbl C::A</text>
+		</g>
+
+		<g id="virtualC:vptrC">
+			<rect x="-40" y="-15" height="30" width="80"/>
+			<text text-anchor="middle" class="code">vptr C</text>
+		</g>
+
+		<g id="virtualC:vtblC">
+			<rect x="-40" y="-15" height="30" width="80"/>
+			<text text-anchor="middle" class="code">vtbl C</text>
+		</g>
+
+		<g id="virtualC:typeidC">
+			<rect x="-40" y="-15" height="30" width="80"/>
+			<text text-anchor="middle" class="code">typeid C</text>
+		</g>
+
+		<g id="virtualC:across">
+			<line x1="-40" x2="40" marker-end="url(#virtualC:arrow)"/>
+		</g>
+
+		<g id="virtualC:acrossup">
+			<polyline points="-40,0 0,0 0,-100"/>
+		</g>
+
+		<g id="virtualC:chaindown">
+			<polyline points="0,0 -15,0 -15,115 0,115"
+				marker-end="url(#virtualC:arrow)"/>
+		</g>
+	</defs>
+
+	<g transform="translate(70, 20)">
+		<use y="0"  xlink:href="#virtualC:ptrA"/>
+		<use y="40" xlink:href="#virtualC:C"/>
+		<use y="80" xlink:href="#virtualC:vptrC"/>
+
+		<use y="80" x="80"  xlink:href="#virtualC:across"/>
+		<use y="80" x="160" xlink:href="#virtualC:vtblC"/>
+		<use y="80" x="240" xlink:href="#virtualC:across"/>
+		<use y="80" x="320" xlink:href="#virtualC:typeidC"/>
+
+		<use y="0"  x="-40" xlink:href="#virtualC:chaindown"/>
+	</g>
+
+	<g transform="translate(70, 120)">
+		<use y="40" xlink:href="#virtualC:A"/>
+		<use y="80" xlink:href="#virtualC:vptrCA"/>
+
+		<use y="80" x="80"  xlink:href="#virtualC:across"/>
+		<use y="80" x="160" xlink:href="#virtualC:vtblCA"/>
+		<use y="80" x="240" xlink:href="#virtualC:acrossup"/>
+	</g>
+
+</svg>
+

@@ -1,0 +1,155 @@
+<?xml version="1.0"?>
+
+<!-- $Id$ -->
+
+<svg
+	xmlns="http://www.w3.org/2000/svg"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+
+	class="figure"
+	width="560" height="545"
+	transform="translate(.5 .5)">
+
+	<defs>
+		<marker id="trad_scheme:arrow"
+				markerWidth="5" markerHeight="5"
+				markerUnits="userSpaceOnUse"
+				refX="5" refY="2.5"
+				orient="auto">
+			<polyline points="0,0 5,2.5 0,5" class="arrow"/>
+		</marker>
+	</defs>
+
+	<g transform="translate(260 115)" class="region">
+		<rect x="-250" y="-110" height="535" width="530" rx="5" ry="5"/>
+		<line x1="-250" x2="280" class="region"/>
+		<line y1="-110" y2="425" class="region"/>
+
+		<text x="-10" y="-100" text-anchor="end">Target-independent</text>
+		<text x="-10" y="-90" text-anchor="end">program source</text>
+
+		<text x="10"  y="-100" text-anchor="start">Target-independent</text>
+		<text x="10"  y="-90" text-anchor="start">API description</text>
+
+		<text x="-10" y="10"   text-anchor="end">Target-dependent</text>
+		<text x="-10" y="20"   text-anchor="end">program compilation</text>
+
+		<text x="10"  y="10"   text-anchor="start">Target-dependent</text>
+		<text x="10"  y="20"   text-anchor="start">API implementation</text>
+	</g>
+
+	<g transform="translate(100 55)">
+		<g transform="translate(0 15)">
+			<rect x="-65" y="-20" width="130" height="40"/>
+			<g transform="translate(-55 -5)" text-anchor="start" style="font-weight: bold;">
+				<text y="-5">Portable program</text>
+				<text y="5">source</text>
+			</g>
+			<text x="60" y="10" text-anchor="end">.c/.cc</text>	<!-- TODO: monospace -->
+
+			<line y1="20" y2="135" marker-end="url(#trad_scheme:arrow)"/>
+
+			<g transform="translate(-10 110)" text-anchor="end">
+				<text y="-5">Preprocess</text>
+				<text y="5" class="code">cpp</text>	<!-- TODO: not monospace / -->
+			</g>
+		</g>
+
+		<g transform="translate(0 170)">
+			<rect x="-65" y="-20" width="130" height="40"/>
+			<g transform="translate(-55 -10)" text-anchor="start" style="font-weight: bold;">
+				<text>Target-dependent</text>
+				<text y="10">program</text>
+			</g>
+			<text x="60" y="10" text-anchor="end">.i/.ii</text>
+
+			<line y1="20" y2="70" marker-end="url(#trad_scheme:arrow)"/>
+
+			<g transform="translate(-10 45)" text-anchor="end">
+				<text y="-5">Compile</text>
+				<text y="5" class="code">cc</text>
+			</g>
+		</g>
+
+		<g transform="translate(0 260)">
+			<rect x="-65" y="-20" width="130" height="40"/>
+			<g transform="translate(-55 -10)" text-anchor="start" style="font-weight: bold;">
+				<text>Assembly source</text>
+			</g>
+			<text x="60" y="10" text-anchor="end">.s</text>
+
+			<line y1="20" y2="70" marker-end="url(#trad_scheme:arrow)"/>
+
+			<g transform="translate(-10 45)" text-anchor="end">
+				<text y="-5">Assemble</text>
+				<text y="5" class="code">as</text>
+			</g>
+		</g>
+
+		<g transform="translate(0 350)">
+			<rect x="-65" y="-20" width="130" height="40"/>
+			<g transform="translate(-55 -10)" text-anchor="start" style="font-weight: bold;">
+				<text>Binary object</text>
+			</g>
+			<text x="60" y="10" text-anchor="end">.o</text>
+
+			<line y1="20" y2="70" marker-end="url(#trad_scheme:arrow)"/>
+
+			<g transform="translate(-10 45)" text-anchor="end">
+				<text y="-5">Link</text>
+				<text y="5" class="code">ld</text>
+			</g>
+		</g>
+
+		<g transform="translate(0 440)">
+			<rect x="-65" y="-20" width="130" height="40"/>
+			<g transform="translate(-55 -10)" text-anchor="start" style="font-weight: bold;">
+				<text>Executable</text>
+			</g>
+		</g>
+	</g>
+
+	<g transform="translate(380 55)">
+		<g transform="translate(0 15)">
+			<polyline points="10,-30 -20,-30 -20,30 20,30 20,-20 10,-20 10,-30 20,-20"/>
+			<g text-anchor="middle" style="font-weight: bold;">
+				<text y="-5">API</text>
+				<text y="5">Spec</text>
+			</g>
+
+			<line x1="-20" x2="-215" class="dashed"/>
+			<path d="M 20,0 l 100,0 q 10,0 10,10 l 0,355 q 0,10 -10,10 l -55,0" class="dashed"/>
+			<path d="M 130,100 q 0,10 -10,10 l -55,0" class="dashed"/>
+
+			<!-- workaround for markers inheriting stroke-dasharray -->
+			<line transform="translate(-210 0)" x2="-5" marker-end="url(#trad_scheme:arrow)"/>
+			<line transform="translate(70 110)" x2="-5" marker-end="url(#trad_scheme:arrow)"/>
+			<line transform="translate(70 375)" x2="-5" marker-end="url(#trad_scheme:arrow)"/>
+
+			<text y="-10" x="-160" text-anchor="middle">Conformance</text>
+			<text y="245" x="125" text-anchor="end">Implementation</text>
+		</g>
+
+		<g transform="translate(0 120)">
+			<rect x="-65" y="-20" width="130" height="40"/>
+			<g transform="translate(-55 -10)" text-anchor="start" style="font-weight: bold;">
+				<text>System headers</text>
+			</g>
+			<text x="60" y="10" text-anchor="end">.h</text>
+
+			<path d="M -65,0 l -205,0 q -10,0 -10,10"/>
+		</g>
+
+		<g transform="translate(0 390)">
+			<rect x="-65" y="-20" width="130" height="40"/>
+			<g transform="translate(-55 -10)" text-anchor="start" style="font-weight: bold;">
+				<text>System libraries</text>
+			</g>
+			<text x="60" y="10" text-anchor="end">.o/.a/.so</text>
+
+			<path d="M -65,0 l -205,0 q -10,0 -10,10"/>
+		</g>
+	</g>
+
+</svg>
+

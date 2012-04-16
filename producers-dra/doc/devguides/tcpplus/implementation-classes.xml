@@ -25,7 +25,7 @@
 		<figure>
 			<title>Class A</title>
 
-			<graphic fileref="images/class.png"/>
+			<graphic fileref="images/class.svg"/>
 		</figure>
 
 		<para>where the <emphasis>A</emphasis> component consists of the non-static data members and
@@ -122,7 +122,7 @@ class D : public B, public C {
 		<figure>
 			<title>Class D</title>
 
-			<graphic fileref="images/graph.png"/>
+			<graphic fileref="images/graph.svg"/>
 		</figure>
 
 
@@ -134,7 +134,7 @@ class D : public B, public C {
 			<figure>
 				<title>Class A</title>
 
-				<graphic fileref="images/classA.png"/>
+				<graphic fileref="images/classA.svg"/>
 			</figure>
 
 			<para>as above.  Class <emphasis>B</emphasis> inherits all the members of class <emphasis>A</emphasis>
@@ -147,7 +147,7 @@ class D : public B, public C {
 			<figure>
 				<title>Class B</title>
 
-				<graphic fileref="images/classB.png"/>
+				<graphic fileref="images/classB.svg"/>
 			</figure>
 
 			<para>where <emphasis>A</emphasis> denotes those members inherited
@@ -182,7 +182,7 @@ class D : public B, public C {
 			<figure>
 				<title>Class C</title>
 
-				<graphic fileref="images/classC.png"/>
+				<graphic fileref="images/classC.svg"/>
 			</figure>
 		</section>
 
@@ -202,7 +202,7 @@ class D : public B, public C {
 			<figure>
 				<title>Class D</title>
 
-				<graphic fileref="images/classD.png"/>
+				<graphic fileref="images/classD.svg"/>
 			</figure>
 
 			<para>Note that there are two copies of <emphasis>A</emphasis> in <emphasis>D</emphasis> because virtual
@@ -250,7 +250,7 @@ class D : public B, public C {
 			<figure>
 				<title>Class D</title>
 
-				<graphic fileref="images/diamond.png"/>
+				<graphic fileref="images/diamond.svg"/>
 			</figure>
 
 			<para>As before <emphasis>A</emphasis> is given by:</para>
@@ -258,7 +258,7 @@ class D : public B, public C {
 			<figure>
 				<title>Class A</title>
 
-				<graphic fileref="images/classA.png"/>
+				<graphic fileref="images/classA.svg"/>
 			</figure>
 
 			<para>but now <emphasis>B</emphasis> is given by:</para>
@@ -266,7 +266,7 @@ class D : public B, public C {
 			<figure>
 				<title>Class B</title>
 
-				<graphic fileref="images/virtualB.png"/>
+				<graphic fileref="images/virtualB.svg"/>
 			</figure>
 
 			<para>Rather than having the sub-object of class <emphasis>A</emphasis> directly as part
@@ -289,7 +289,7 @@ class D : public B, public C {
 			<figure>
 				<title>Class C</title>
 
-				<graphic fileref="images/virtualC.png"/>
+				<graphic fileref="images/virtualC.svg"/>
 			</figure>
 
 			<para>Now the class <emphasis>D</emphasis> is given by:</para>
@@ -297,7 +297,7 @@ class D : public B, public C {
 			<figure>
 				<title>Class D</title>
 
-				<graphic fileref="images/virtualD.png"/>
+				<graphic fileref="images/virtualD.svg"/>
 			</figure>
 
 			<para>Note that there is a single <emphasis>A</emphasis> sub-object of <emphasis>D</emphasis> referenced

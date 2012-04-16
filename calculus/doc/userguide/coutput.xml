@@ -32,7 +32,7 @@
 
 		<figure>
 			<title>Packing of types in calculus</title>
-			<graphic align="center" fileref="images/calculus.png"/>
+			<graphic align="center" fileref="images/calculus.svg"/>
 		</figure>
 
 		<para>Primitive types are implemented by a <code>typedef</code> defining

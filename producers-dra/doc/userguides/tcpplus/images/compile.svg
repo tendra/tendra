@@ -1,0 +1,117 @@
+<?xml version="1.0"?>
+
+<!-- $Id$ -->
+
+<svg
+	xmlns="http://www.w3.org/2000/svg"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+
+	class="figure"
+	width="610" height="310"
+	transform="translate(.5 .5)">
+
+	<defs>
+		<marker id="compile:arrow"
+				markerWidth="5" markerHeight="5"
+				markerUnits="userSpaceOnUse"
+				refX="5" refY="2.5"
+				orient="auto">
+			<polyline points="0,0 5,2.5 0,5" class="arrow"/>
+		</marker>
+
+		<g id="compile:spec_chain">
+			<g transform="translate(0 120)" class="shaded">
+				<rect x="-25" y="-15" width="50" height="30"/>
+				<line y1="15" y2="45" marker-end="url(#compile:arrow)"/>
+			</g>
+
+			<g transform="translate(0 180)" class="shaded">
+				<rect x="-25" y="-15" width="50" height="30"/>
+				<path d="M 0,15 l 0,15 q 0,10 -10,10"/>
+			</g>
+		</g>
+
+		<g id="compile:obj_chain">
+			<rect x="-25" y="-15" width="50" height="30"/>
+
+			<line y1="15" y2="105" marker-end="url(#compile:arrow)"/>
+
+			<path d="M 0,15 l 0,5 q 0,10 10,10 l 30,0"
+				marker-end="url(#compile:arrow)"/>
+
+			<g transform="translate(40 15)" class="shaded">
+				<rect width="50" height="30"/>
+				<path d="M 25,30 l 0,5 q 0,10 10,10"/>
+			</g>
+
+			<g transform="translate(0 120)">
+				<rect x="-25" y="-15" width="50" height="30"/>
+				<line y1="15" y2="45" marker-end="url(#compile:arrow)"/>
+			</g>
+
+			<g transform="translate(0 180)">
+				<rect x="-25" y="-15" width="50" height="30"/>
+				<path d="M 0,15 l 0,15 q 0,10 10,10"/>
+			</g>
+		</g>
+	</defs>
+
+	<g transform="translate(60 30)">
+		<g text-anchor="end">
+			<text y="30"  class="code">tcpplus</text>
+			<text y="150" class="code">trans, as</text>
+		</g>
+
+		<g transform="translate(10 0)" text-anchor="middle">
+			<use xlink:href="#compile:obj_chain"/>
+
+			<text class="code">a.cc</text>
+			<text class="code" y="120">a.j</text>
+			<text class="code" y="180">a.o</text>
+			<text class="code shaded" x="65" y="30">a.K</text>
+		</g>
+
+		<g transform="translate(160 0)" text-anchor="middle">
+			<use xlink:href="#compile:obj_chain"/>
+
+			<text class="code">b.cc</text>
+			<text class="code" y="120">b.j</text>
+			<text class="code" y="180">b.o</text>
+			<text class="code shaded" x="65" y="30">b.K</text>
+		</g>
+
+		<g transform="translate(310 0)" text-anchor="middle">
+			<use xlink:href="#compile:obj_chain"/>
+
+			<text class="code">c.cc</text>
+			<text class="code" y="120">c.j</text>
+			<text class="code" y="180">c.o</text>
+			<text class="code shaded" x="65" y="30">c.K</text>
+		</g>
+
+		<g transform="translate(460 0)" text-anchor="middle">
+			<use xlink:href="#compile:spec_chain"/>
+
+			<text y="120" class="code shaded">x.j</text>
+			<text y="180" class="code shaded">x.o</text>
+		</g>
+
+		<g transform="translate(520 60)" class="shaded">
+			<rect x="-25" y="-15" width="50" height="30"/>
+			<line x1="-440" x2="-25" marker-end="url(#compile:arrow)"/>
+			<path d="M -70,0 q 10,0 10,10 l 0,35" marker-end="url(#compile:arrow)"/>
+			<text class="code" text-anchor="middle">x.K</text>
+		</g>
+
+		<text x="420" y="50" text-andhor="middle">spec linker</text>
+
+		<g transform="translate(375 220)">
+			<line x1="-355" x2="75"/>
+			<path d="M -10,0 q 10,0 10,10 l 0,15" marker-end="url(#compile:arrow)"/>
+			<rect x="-25" y="25" width="50" height="30"/>
+			<text y="40" text-anchor="middle" class="code">a.out</text>
+		</g>
+	</g>
+
+</svg>
+

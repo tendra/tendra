@@ -1,0 +1,173 @@
+<?xml version="1.0"?>
+
+<!-- $Id$ -->
+
+<svg
+	xmlns="http://www.w3.org/2000/svg"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+
+	class="figure"
+	width="500" height="455"
+	transform="translate(.5 .5)">
+
+	<defs>
+		<marker id="calculus:arrow"
+				markerWidth="5" markerHeight="5"
+				markerUnits="userSpaceOnUse"
+				refX="5" refY="2.5"
+				orient="auto">
+			<polyline points="0,0 5,2.5 0,5" class="arrow"/>
+		</marker>
+
+		<g id="calculus:prim">
+			<rect x="-25" y="-15" height="30" width="50"/>
+			<text text-anchor="middle" class="code">prim</text>
+		</g>
+
+		<g id="calculus:enum">
+			<rect x="-25" y="-15" height="30" width="50"/>
+			<text text-anchor="middle" class="code">enum</text>
+		</g>
+
+		<g id="calculus:ptr">
+			<rect x="-25" y="-15" height="30" width="50"/>
+			<text text-anchor="middle" class="code">ptr</text>
+		</g>
+
+		<g id="calculus:tag">
+			<rect x="-25" y="-15" height="30" width="50"/>
+			<text text-anchor="middle" class="code">tag</text>
+		</g>
+
+		<g id="calculus:dim">
+			<rect x="-25" y="-15" height="30" width="50"/>
+			<text text-anchor="middle" class="code">dim</text>
+		</g>
+
+		<g id="calculus:empty" class="shaded">
+			<rect x="-25" y="-15" height="30" width="50"/>
+		</g>
+
+		<g id="calculus:ellipsis" class="dashed">
+			<line x1="-25" y1="-15" x2="25" y2="-15"/>
+			<line x1="-25" y1="15" x2="25" y2="15"/>
+		</g>
+
+		<g id="calculus:across">
+			<line x1="-25" x2="25" marker-end="url(#calculus:arrow)"/>
+		</g>
+
+		<g id="calculus:down">
+			<line y1="-15" y2="5" marker-end="url(#calculus:arrow)"/>
+		</g>
+
+		<g id="calculus:skip">
+			<polyline points="0,15 0,25 100,25 100,0"/>
+		</g>
+	</defs>
+
+	<g transform="translate(50, 20)">
+		<text x="15" text-anchor="end" class="code">PRIM = </text>
+
+		<use x="50" xlink:href="#calculus:prim"/>
+	</g>
+
+	<g transform="translate(50, 70)">
+		<text x="15" text-anchor="end" class="code">ENUM = </text>
+
+		<use x="50" xlink:href="#calculus:enum"/>
+	</g>
+
+	<g transform="translate(50, 120)">
+		<text x="15" text-anchor="end" class="code">STRUCT = </text>
+
+		<use x="50"  xlink:href="#calculus:empty"/>
+		<use x="100" xlink:href="#calculus:empty"/>
+		<use x="150" xlink:href="#calculus:empty"/>
+		<use x="200" xlink:href="#calculus:empty"/>
+		<use x="250" xlink:href="#calculus:empty"/>
+		<use x="300" xlink:href="#calculus:empty"/>
+		<use x="350" xlink:href="#calculus:ellipsis"/>
+		<use x="400" xlink:href="#calculus:empty"/>
+	</g>
+
+	<g transform="translate(50, 170)">
+		<text x="15" text-anchor="end" class="code">UNION = </text>
+
+		<use x="50"  xlink:href="#calculus:ptr"/>
+		<use x="100" xlink:href="#calculus:across"/>
+		<use x="150" xlink:href="#calculus:tag"/>
+		<use x="200" xlink:href="#calculus:empty"/>
+		<use x="250" xlink:href="#calculus:empty"/>
+		<use x="300" xlink:href="#calculus:empty"/>
+		<use x="350" xlink:href="#calculus:ellipsis"/>
+		<use x="400" xlink:href="#calculus:empty"/>
+	</g>
+
+	<g transform="translate(50, 220)">
+		<text x="15" text-anchor="end" class="code">PTR = </text>
+
+		<use x="50"  xlink:href="#calculus:ptr"/>
+		<use x="100" xlink:href="#calculus:across"/>
+		<use x="150" xlink:href="#calculus:ptr"/>
+		<use x="200" xlink:href="#calculus:across"/>
+		<use x="250" xlink:href="#calculus:empty"/>
+		<use x="300" xlink:href="#calculus:empty"/>
+		<use x="350" xlink:href="#calculus:ellipsis"/>
+		<use x="400" xlink:href="#calculus:empty"/>
+	</g>
+
+	<g transform="translate(50, 270)">
+		<text x="15" text-anchor="end" class="code">LIST = </text>
+
+		<use x="50"  xlink:href="#calculus:ptr"/>
+		<use x="100" xlink:href="#calculus:across"/>
+		<use x="150" xlink:href="#calculus:ptr"/>
+		<use x="200" xlink:href="#calculus:ptr"/>
+		<use x="250" xlink:href="#calculus:across"/>
+		<use x="300" xlink:href="#calculus:empty"/>
+		<use x="350" xlink:href="#calculus:ellipsis"/>
+		<use x="400" xlink:href="#calculus:empty"/>
+
+		<use x="150" y="30" xlink:href="#calculus:down"/>
+
+		<use x="150" y="50" xlink:href="#calculus:ptr"/>
+		<use x="200" y="50" xlink:href="#calculus:ptr"/>
+		<use x="250" y="50" xlink:href="#calculus:across"/>
+		<use x="300" y="50" xlink:href="#calculus:empty"/>
+		<use x="350" y="50" xlink:href="#calculus:ellipsis"/>
+		<use x="400" y="50" xlink:href="#calculus:empty"/>
+	</g>
+
+	<g transform="translate(50, 370)">
+		<text x="15" text-anchor="end" class="code">VEC = </text>
+
+		<use x="50"  xlink:href="#calculus:dim"/>
+		<use x="100" xlink:href="#calculus:ptr"/>
+		<use x="150" xlink:href="#calculus:ptr"/>
+		<use x="200" xlink:href="#calculus:across"/>
+		<use x="250" xlink:href="#calculus:empty"/>
+		<use x="300" xlink:href="#calculus:empty"/>
+		<use x="350" xlink:href="#calculus:ellipsis"/>
+		<use x="400" xlink:href="#calculus:empty"/>
+
+		<use x="100" xlink:href="#calculus:skip"/>
+	</g>
+
+	<g transform="translate(50, 420)">
+		<text x="15" text-anchor="end" class="code">VEC_PTR = </text>
+
+		<use x="50"  xlink:href="#calculus:ptr"/>
+		<use x="100" xlink:href="#calculus:ptr"/>
+		<use x="150" xlink:href="#calculus:across"/>
+		<use x="200" xlink:href="#calculus:empty"/>
+		<use x="250" xlink:href="#calculus:empty"/>
+		<use x="300" xlink:href="#calculus:empty"/>
+		<use x="350" xlink:href="#calculus:ellipsis"/>
+		<use x="400" xlink:href="#calculus:empty"/>
+
+		<use x="50" xlink:href="#calculus:skip"/>
+	</g>
+
+</svg>
+

@@ -14,7 +14,7 @@
 	<figure>
 		<title>Try Stack</title>
 
-		<graphic fileref="images/try.png"/>
+		<graphic fileref="images/try.svg"/>
 	</figure>
 
 	<para>At any point in the execution of the program there is a stack of currently

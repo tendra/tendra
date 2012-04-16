@@ -1,0 +1,102 @@
+<?xml version="1.0"?>
+
+<!-- $Id$ -->
+
+<svg
+	xmlns="http://www.w3.org/2000/svg"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+
+	class="figure"
+	width="540" height="240"
+	transform="translate(.5 .5)">
+
+	<defs>
+		<marker id="class:arrow"
+				markerWidth="5" markerHeight="5"
+				markerUnits="userSpaceOnUse"
+				refX="5" refY="2.5"
+				orient="auto">
+			<polyline points="0,0 5,2.5 0,5" class="arrow"/>
+		</marker>
+
+		<marker id="class:limit"
+			markerWidth="5" markerHeight="5"
+			markerUnits="userSpaceOnUse"
+			refX="0" refY="2.5"
+			orient="auto">
+
+			<line y1="0" y2="5"/>
+		</marker>
+
+		<g id="class:A">
+			<rect x="-40" y="-25" height="50" width="80"/>
+			<text text-anchor="middle" class="big">A</text>
+		</g>
+
+		<g id="class:vptrA">
+			<rect x="-40" y="-15" height="30" width="80"/>
+			<text text-anchor="middle" class="code">vptr A</text>
+		</g>
+
+		<g id="class:typeidA">
+			<rect x="-40" y="-15" height="30" width="80"/>
+			<text text-anchor="middle" class="code">typeid A</text>
+		</g>
+
+		<g id="class:ptrtypeidA">
+			<rect x="-50" y="-15" height="30" width="100"/>
+			<text text-anchor="middle" class="code">ptr typeid A</text>
+		</g>
+
+		<g id="class:voffA">
+			<rect x="-50" y="-15" height="30" width="100"/>
+			<text text-anchor="middle" class="code">voff A</text>
+		</g>
+
+		<g id="class:vfunc1">
+			<rect x="-50" y="-15" height="30" width="100"/>
+			<text text-anchor="middle" class="code">vfunc1</text>
+		</g>
+
+		<g id="class:vfunc2">
+			<rect x="-50" y="-15" height="30" width="100"/>
+			<text text-anchor="middle" class="code">vfunc2</text>
+		</g>
+
+		<g id="class:vfuncn">
+			<rect x="-50" y="-15" height="30" width="100"/>
+			<text text-anchor="middle" class="code">vfuncn</text>
+		</g>
+
+		<g id="class:ellipsis">
+			<rect x="-50" y="-15" height="30" width="100"/>
+			<text text-anchor="middle" class="code">...</text>
+		</g>
+
+		<g id="class:across">
+			<line x1="-40" x2="40" marker-end="url(#class:arrow)"/>
+		</g>
+	</defs>
+
+	<g transform="translate(110, -10)">
+		<line x1="-55" x2="-55" y1="15" y2="65"
+			marker-start="url(#class:limit)" marker-end="url(#class:limit)"/>
+		<text x="-65" y="40" text-anchor="end" class="code">voff A</text>
+
+		<use y="40" xlink:href="#class:A"/>
+		<use y="80" xlink:href="#class:vptrA"/>
+
+		<use y="80" x="80"  xlink:href="#class:across"/>
+		<use y="80" x="170" xlink:href="#class:ptrtypeidA"/>
+		<use y="110" x="170" xlink:href="#class:voffA"/>
+		<use y="140" x="170" xlink:href="#class:vfunc1"/>
+		<use y="170" x="170" xlink:href="#class:vfunc2"/>
+		<use y="200" x="170" xlink:href="#class:ellipsis"/>
+		<use y="230" x="170" xlink:href="#class:vfuncn"/>
+
+		<use y="80" x="260"  xlink:href="#class:across"/>
+		<use y="80" x="340"  xlink:href="#class:typeidA"/>
+	</g>
+
+</svg>
+

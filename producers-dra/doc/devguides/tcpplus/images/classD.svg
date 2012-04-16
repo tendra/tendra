@@ -1,0 +1,180 @@
+<?xml version="1.0"?>
+
+<!-- $Id$ -->
+
+<svg
+	xmlns="http://www.w3.org/2000/svg"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+
+	class="figure"
+	width="540" height="410"
+	transform="translate(.5 .5)">
+
+	<defs>
+		<marker id="classD:arrow"
+				markerWidth="5" markerHeight="5"
+				markerUnits="userSpaceOnUse"
+				refX="5" refY="2.5"
+				orient="auto">
+			<polyline points="0,0 5,2.5 0,5" class="arrow"/>
+		</marker>
+
+		<marker id="classD:limit"
+			markerWidth="5" markerHeight="5"
+			markerUnits="userSpaceOnUse"
+			refX="0" refY="2.5"
+			orient="auto">
+
+			<line y1="0" y2="5"/>
+		</marker>
+
+		<g id="classD:A">
+			<rect x="-50" y="-25" height="50" width="100"/>
+			<text text-anchor="middle" class="big">A</text>
+		</g>
+
+		<g id="classD:B">
+			<rect x="-50" y="-25" height="50" width="100"/>
+			<text text-anchor="middle" class="big">B</text>
+		</g>
+
+		<g id="classD:C">
+			<rect x="-50" y="-25" height="50" width="100"/>
+			<text text-anchor="middle" class="big">C</text>
+		</g>
+
+		<g id="classD:D">
+			<rect x="-50" y="-25" height="50" width="100"/>
+			<text text-anchor="middle" class="big">D</text>
+		</g>
+
+
+		<g id="classD:vptrDBA">
+			<rect x="-50" y="-15" height="30" width="100"/>
+			<text text-anchor="middle" class="code">vptr D::B::A</text>
+		</g>
+
+		<g id="classD:vptrDB" class="shaded">
+			<rect x="-50" y="-15" height="30" width="100"/>
+			<text text-anchor="middle" class="code">vptr D::B</text>
+		</g>
+
+		<g id="classD:vptrDCA">
+			<rect x="-50" y="-15" height="30" width="100"/>
+			<text text-anchor="middle" class="code">vptr D::C::A</text>
+		</g>
+
+		<g id="classD:vptrDC" class="shaded">
+			<rect x="-50" y="-15" height="30" width="100"/>
+			<text text-anchor="middle" class="code">vptr D::C</text>
+		</g>
+
+		<g id="classD:vptrD" class="shaded">
+			<rect x="-50" y="-15" height="30" width="100"/>
+			<text text-anchor="middle" class="code">vptr D</text>
+		</g>
+
+
+		<g id="classD:vtblDBA" class="shaded">
+			<rect x="-50" y="-15" height="30" width="100"/>
+			<text text-anchor="middle" class="code">vtbl D::B::A</text>
+		</g>
+
+		<g id="classD:vtblDB" class="shaded">
+			<rect x="-50" y="-15" height="30" width="100"/>
+			<text text-anchor="middle" class="code">vtbl D::B</text>
+		</g>
+
+		<g id="classD:vtblDCA" class="shaded">
+			<rect x="-50" y="-15" height="30" width="100"/>
+			<text text-anchor="middle" class="code">vtbl D::C::A</text>
+		</g>
+
+		<g id="classD:vtblDC">
+			<rect x="-50" y="-15" height="30" width="100"/>
+			<text text-anchor="middle" class="code">vtbl D::C</text>
+		</g>
+
+		<g id="classD:vtblD">
+			<rect x="-50" y="-15" height="30" width="100"/>
+			<text text-anchor="middle" class="code">vtbl D</text>
+		</g>
+
+		<g id="classD:typeidD">
+			<rect x="-40" y="-15" height="30" width="80"/>
+			<text text-anchor="middle" class="code">typeid D</text>
+		</g>
+
+
+		<g id="classD:across">
+			<line x1="-40" x2="40" marker-end="url(#classD:arrow)"/>
+		</g>
+
+		<g id="classD:right">
+			<line x1="-40" x2="0"/>
+		</g>
+
+		<g id="classD:downright">
+			<polyline points="-40,0 0,0 0,320"/>
+		</g>
+
+		<g id="classD:up">
+			<line y1="65" y2="15" marker-end="url(#classD:arrow)"/>
+		</g>
+
+		<g id="classD:down">
+			<line y1="15" y2="65" marker-end="url(#classD:arrow)"/>
+		</g>
+
+		<g id="classD:updown">
+			<line y1="15" y2="65" marker-end="url(#classD:arrow)"/>
+			<line y1="20" y2="15" marker-end="url(#classD:arrow)"/>
+		</g>
+	</defs>
+
+    <g transform="translate(140, -10)">
+		<line x1="-65" x2="-65" y1="15" y2="175"
+			marker-start="url(#classD:limit)" marker-end="url(#classD:limit)"/>
+		<text x="-75" y="95" text-anchor="end" class="code">delta D::C</text>
+
+		<use y="40"  xlink:href="#classD:A"/>
+		<use y="80"  xlink:href="#classD:vptrDBA"/>
+		<use y="120" xlink:href="#classD:B"/>
+		<use y="160" xlink:href="#classD:vptrDB"/>
+		<use y="200" xlink:href="#classD:A"/>
+		<use y="240" xlink:href="#classD:vptrDCA"/>
+		<use y="280" xlink:href="#classD:C"/>
+		<use y="320" xlink:href="#classD:vptrDC"/>
+		<use y="360" xlink:href="#classD:D"/>
+		<use y="400" xlink:href="#classD:vptrD"/>
+
+
+		<use y="80"  x="90"  xlink:href="#classD:across"/>
+		<use y="80"  x="180" xlink:href="#classD:vtblDBA"/>
+		<use y="80"  x="180" xlink:href="#classD:updown"/>
+		<use y="80"  x="270" xlink:href="#classD:downright"/>
+
+		<use y="160" x="90"  xlink:href="#classD:across"/>
+		<use y="160" x="180" xlink:href="#classD:vtblDB"/>
+		<use y="160" x="180" xlink:href="#classD:up"/>
+		<use y="160" x="270" xlink:href="#classD:right"/>
+
+		<use y="240" x="90"  xlink:href="#classD:across"/>
+		<use y="240" x="180" xlink:href="#classD:vtblDCA"/>
+		<use y="240" x="180" xlink:href="#classD:updown"/>
+		<use y="240" x="270" xlink:href="#classD:right"/>
+
+		<use y="320" x="90"  xlink:href="#classD:across"/>
+		<use y="320" x="180" xlink:href="#classD:vtblDC"/>
+		<use y="320" x="180" xlink:href="#classD:down"/>
+		<use y="320" x="270" xlink:href="#classD:right"/>
+
+		<use y="400" x="90"  xlink:href="#classD:across"/>
+		<use y="400" x="180" xlink:href="#classD:vtblD"/>
+		<use y="400" x="270" xlink:href="#classD:across"/>
+
+		<use y="400" x="350"  xlink:href="#classD:typeidD"/>
+	</g>
+
+</svg>
+

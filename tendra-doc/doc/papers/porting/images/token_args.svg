@@ -1,0 +1,137 @@
+<?xml version="1.0"?>
+
+<!-- $Id$ -->
+
+<svg
+	xmlns="http://www.w3.org/2000/svg"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+
+	class="figure"
+	width="530" height="185"
+	transform="translate(.5 .5)">
+
+	<defs>
+		<g id="token_args:wide">
+			<circle r="5" cy="-15"/>
+			<line y2="-10"/>
+			<line x1="-30" x2="30"/>
+		</g>
+
+		<g id="token_args:halfwide">
+			<circle r="5" cy="-15"/>
+			<line y2="-10"/>
+			<line x1="-20" x2="20"/>
+		</g>
+
+		<g id="token_args:narrow">
+			<line y1="-20" y2="-30"/>
+			<circle cy="-15" r="5"/>
+			<line y2="-10"/>
+			<polyline points="-10,10 -10,0 10,0 10,10"/>
+		</g>
+
+		<g id="token_args:narrow-notop">
+			<circle cy="-15" r="5"/>
+			<line y2="-10"/>
+			<polyline points="-10,10 -10,0 10,0 10,10"/>
+		</g>
+
+		<g id="token_args:downmore">
+			<line y1="10" y2="-10"/>
+		</g>
+
+		<g id="token_args:down">
+			<line y2="-10"/>
+		</g>
+
+		<g id="token_args:triangle" class="shaded">
+			<polygon points="0,-20 -5,-10 5,-10 0,-20"/>
+		</g>
+
+		<g id="token_args:square" class="shaded">
+			<rect x="-5" y="-20" width="10" height="10"/>
+		</g>
+
+		<g id="token_args:circle">
+			<circle cy="-15" r="5"/>
+		</g>
+	</defs>
+
+	<g transform="translate(60, 25)">
+		<use x="0" y="0" xlink:href="#token_args:wide"/>
+
+		<use x="-30" y="30"  xlink:href="#token_args:narrow"/>
+		<use x="-20" y="60"  xlink:href="#token_args:circle"/>
+		<use x="-40" y="60"  xlink:href="#token_args:circle"/>
+		<use x="-40" y="60"  xlink:href="#token_args:down"/>
+		<use x="-40" y="80"  xlink:href="#token_args:square"/>
+		<use x="-40" y="80"  xlink:href="#token_args:down"/>
+		<use x="-40" y="100" xlink:href="#token_args:circle"/>
+
+		<use x="30" y="30" xlink:href="#token_args:narrow"/>
+		<use x="20" y="60" xlink:href="#token_args:circle"/>
+		<use x="40" y="60" xlink:href="#token_args:square"/>
+
+		<use x="40" y="80"  xlink:href="#token_args:narrow"/>
+		<use x="30" y="110" xlink:href="#token_args:circle"/>
+		<use x="50" y="110" xlink:href="#token_args:circle"/>
+
+		<text y="135" text-anchor="middle">tree containing</text>
+		<text x="10" y="145" text-anchor="end">tokens (</text>
+		<use  x="18" y="160" xlink:href="#token_args:square"/>
+		<text x="26" y="145" text-anchor="start">)</text>
+	</g>
+
+	<text transform="translate(50, 25)" x="100" y="135" text-anchor="middle">+</text>
+
+	<g transform="translate(220, 25)">
+		<g transform="translate(0, 40)">
+			<use x="-20" xlink:href="#token_args:square"/>
+			<use x="-20" xlink:href="#token_args:downmore"/>
+			<use x="-20" y="30" xlink:href="#token_args:triangle"/>
+
+			<text text-anchor="middle">=</text>
+
+			<use x="30" xlink:href="#token_args:narrow-notop"/>
+			<use x="20" y="30" xlink:href="#token_args:triangle"/>
+			<use x="40" y="30" xlink:href="#token_args:triangle"/>
+		</g>
+
+		<text x="10" y="130" text-anchor="middle">token definition</text>
+		<text x="10" y="140" text-anchor="middle">with one formal</text>
+		<text x="29" y="150" text-anchor="end">argument (</text>
+		<use  x="37" y="165" xlink:href="#token_args:triangle"/>
+		<text x="45" y="150" text-anchor="start">)</text>
+	</g>
+
+	<text transform="translate(60, 25)" x="250" y="135" text-anchor="middle">=</text>
+
+	<g transform="translate(400, 25)">
+		<use x="0" y="0" xlink:href="#token_args:wide"/>
+
+		<use x="-30" y="30"  xlink:href="#token_args:narrow"/>
+		<use x="-20" y="60"  xlink:href="#token_args:circle"/>
+		<use x="-40" y="60"  xlink:href="#token_args:circle"/>
+		<use x="-40" y="60"  xlink:href="#token_args:downmore"/>
+		<use x="-40" y="90"  xlink:href="#token_args:narrow-notop"/>
+		<use x="-50" y="120" xlink:href="#token_args:circle"/>
+		<use x="-30" y="120" xlink:href="#token_args:circle"/>
+
+		<use x="30" y="30" xlink:href="#token_args:narrow"/>
+		<use x="20" y="60" xlink:href="#token_args:circle"/>
+
+		<use x="40" y="60"  xlink:href="#token_args:halfwide"/>
+
+		<use x="20" y="90"  xlink:href="#token_args:narrow"/>
+		<use x="10" y="120" xlink:href="#token_args:circle"/>
+		<use x="30" y="120" xlink:href="#token_args:circle"/>
+
+		<use x="60" y="90"  xlink:href="#token_args:narrow"/>
+		<use x="50" y="120" xlink:href="#token_args:circle"/>
+		<use x="70" y="120" xlink:href="#token_args:circle"/>
+
+		<text x="10" y="135" text-anchor="middle">expanded tree</text>
+	</g>
+
+</svg>
+

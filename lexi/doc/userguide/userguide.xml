@@ -34,6 +34,7 @@
 		<pubdate>2007</pubdate>
 
 		<copyright>
+			<year>2012</year>
 			<year>2011</year>
 			<year>2010</year>
 			<year>2009</year>
@@ -45,6 +46,15 @@
 		<!-- TODO remove obsoleted parts as each feature is changed -->
 
 		<revhistory>
+			<revision role="dev">
+				<date>2012-04-13</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Reworked existing vector images for consistency
+						between documents.</para>
+				</revdescription>
+			</revision>
+
 			<revision role="buildsystem">
 				<date>2010-07-29</date>
 				<authorinitials>kate</authorinitials>
@@ -603,16 +613,16 @@ firstly define lexemes
 			<figure id="tokenstream">
 				<title>Forming a Token Stream</title>
 				<graphic align="center"
-					fileref="images/tokens.png"/>
+					fileref="images/tokens.svg"/>
 			</figure>
 
 			<para>In this example, the lexer skips over whitespace characters
-				(indicated in the input text by grey with a dotted underline),
-				and categorises the remaining characters (indicated with a cyan
-				background and a solid underline) according to their spelling. For
-				example, a series of digits is categorised into the
+				(indicated in the input text with a shaded background)
+				and categorises the remaining characters according
+				to their spelling.
+				For example, a series of digits is categorised into the
 				<literal>&lt;literal&gt;</literal> type. Notice that whitespace
-				is optional; there happens to be non between the
+				is optional; there happens to be none between the
 				<quote><literal>53</literal></quote> and
 				<quote><literal>;</literal></quote> tokens.</para>
 

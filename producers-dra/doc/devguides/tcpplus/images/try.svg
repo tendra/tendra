@@ -1,0 +1,134 @@
+<?xml version="1.0"?>
+
+<!-- $Id$ -->
+
+<svg
+	xmlns="http://www.w3.org/2000/svg"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+
+	class="figure"
+	width="450" height="470"
+	transform="translate(.5 .5)">
+
+	<defs>
+		<marker id="try:arrow"
+				markerWidth="5" markerHeight="5"
+				markerUnits="userSpaceOnUse"
+				refX="5" refY="2.5"
+				orient="auto">
+			<polyline points="0,0 5,2.5 0,5" class="arrow"/>
+		</marker>
+
+		<g id="try:current" class="shaded">
+			<rect x="-40" y="-15" height="30" width="80"/>
+			<text text-anchor="middle">current</text>
+		</g>
+
+		<g id="try:end" class="shaded">
+			<rect x="-40" y="-15" height="30" width="80"/>
+			<text text-anchor="middle">end</text>
+		</g>
+
+		<g id="try:terminate" class="shaded">
+			<rect x="-40" y="-15" height="30" width="80"/>
+			<text text-anchor="middle">terminate</text>
+		</g>
+
+		<g id="try:object">
+			<rect x="-40" y="-15" height="30" width="80"/>
+			<text text-anchor="middle">object</text>
+		</g>
+
+		<g id="try:destroy">
+			<rect x="-40" y="-15" height="30" width="80"/>
+			<text text-anchor="middle">destroy</text>
+		</g>
+
+		<g id="try:try">
+			<rect x="-40" y="-15" height="30" width="80"/>
+			<text text-anchor="middle">try</text>
+		</g>
+
+		<g id="try:catch">
+			<rect x="-40" y="-15" height="30" width="80"/>
+			<text text-anchor="middle">catch</text>
+		</g>
+
+		<g id="try:across">
+			<line x1="-40" x2="40" marker-end="url(#try:arrow)"/>
+		</g>
+
+		<g id="try:down1">
+			<line y1="15" y2="35" marker-end="url(#try:arrow)"/>
+		</g>
+
+		<g id="try:down2">
+			<line y1="15" y2="55" marker-end="url(#try:arrow)"/>
+		</g>
+	</defs>
+
+	<g transform="translate(50, 20)">
+		<use xlink:href="#try:current"/>
+
+		<use xlink:href="#try:down1"/>
+	</g>
+
+	<g transform="translate(50, 70)">
+		<use x="0"   xlink:href="#try:object"/>
+		<use x="80"  xlink:href="#try:across"/>
+		<use x="160" xlink:href="#try:destroy"/>
+
+		<use xlink:href="#try:down2"/>
+	</g>
+
+	<g transform="translate(50, 140)">
+		<use x="0"   xlink:href="#try:object"/>
+		<use x="80"  xlink:href="#try:across"/>
+		<use x="160" xlink:href="#try:destroy"/>
+
+		<use xlink:href="#try:down1"/>
+	</g>
+
+	<g transform="translate(50, 190)">
+		<use x="0"   xlink:href="#try:try"/>
+		<use x="80"  xlink:href="#try:across"/>
+		<use x="160" xlink:href="#try:catch"/>
+		<use x="240" xlink:href="#try:catch"/>
+		<use x="320" xlink:href="#try:catch"/>
+
+		<use xlink:href="#try:down1"/>
+	</g>
+
+	<g transform="translate(50, 240)">
+		<use x="0"   xlink:href="#try:object"/>
+		<use x="80"  xlink:href="#try:across"/>
+		<use x="160" xlink:href="#try:destroy"/>
+
+		<use xlink:href="#try:down2"/>
+	</g>
+
+	<g transform="translate(50, 310)">
+		<use x="0"   xlink:href="#try:try"/>
+		<use x="80"  xlink:href="#try:across"/>
+		<use x="160" xlink:href="#try:catch"/>
+		<use x="240" xlink:href="#try:catch"/>
+
+		<use xlink:href="#try:down2"/>
+	</g>
+
+	<g transform="translate(50, 380)">
+		<use x="0"   xlink:href="#try:object"/>
+		<use x="80"  xlink:href="#try:across"/>
+		<use x="160" xlink:href="#try:destroy"/>
+
+		<use xlink:href="#try:down1"/>
+	</g>
+
+	<g transform="translate(50, 430)">
+		<use x="0"   xlink:href="#try:end"/>
+		<use x="80"  xlink:href="#try:across"/>
+		<use x="160" xlink:href="#try:terminate"/>
+	</g>
+
+</svg>
+

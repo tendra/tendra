@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+
+<!-- $Id$ -->
+
+<svg
+	xmlns="http://www.w3.org/2000/svg"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+
+	class="figure"
+	width="440" height="170"
+	transform="translate(.5 .5)">
+
+	<defs>
+		<marker id="classB:arrow"
+				markerWidth="5" markerHeight="5"
+				markerUnits="userSpaceOnUse"
+				refX="5" refY="2.5"
+				orient="auto">
+			<polyline points="0,0 5,2.5 0,5" class="arrow"/>
+		</marker>
+
+		<g id="classB:A">
+			<rect x="-40" y="-25" height="50" width="80"/>
+			<text text-anchor="middle" class="big">A</text>
+		</g>
+
+		<g id="classB:B">
+			<rect x="-40" y="-25" height="50" width="80"/>
+			<text text-anchor="middle" class="big">B</text>
+		</g>
+
+		<g id="classB:vptrB" class="shaded">
+			<rect x="-40" y="-15" height="30" width="80"/>
+			<text text-anchor="middle" class="code">vptr B</text>
+		</g>
+
+		<g id="classB:vptrBA">
+			<rect x="-40" y="-15" height="30" width="80"/>
+			<text text-anchor="middle" class="code">vptr B::A</text>
+		</g>
+
+		<g id="classB:vtblBA" class="shaded">
+			<rect x="-40" y="-15" height="30" width="80"/>
+			<text text-anchor="middle" class="code">vtbl B::A</text>
+		</g>
+
+		<g id="classB:vtblB">
+			<rect x="-40" y="-15" height="30" width="80"/>
+			<text text-anchor="middle" class="code">vtbl B</text>
+		</g>
+
+		<g id="classB:typeidB">
+			<rect x="-40" y="-15" height="30" width="80"/>
+			<text text-anchor="middle" class="code">typeid B</text>
+		</g>
+
+		<g id="classB:across">
+			<line x1="-40" x2="40" marker-end="url(#classB:arrow)"/>
+		</g>
+
+		<g id="classB:updown">
+			<line y1="-25" y2="25"  marker-end="url(#classB:arrow)"/>
+			<line y1="-20" y2="-25" marker-end="url(#classB:arrow)"/>
+		</g>
+
+		<g id="classB:downright">
+			<polyline points="-40,-40 0,-40 0,40"/>
+		</g>
+	</defs>
+
+	<g transform="translate(70, -10)">
+		<use y="40"  xlink:href="#classB:A"/>
+		<use y="80"  xlink:href="#classB:vptrBA"/>
+		<use y="120" xlink:href="#classB:B"/>
+		<use y="160" xlink:href="#classB:vptrB"/>
+
+		<use y="80" x="80"  xlink:href="#classB:across"/>
+		<use y="80" x="160" xlink:href="#classB:vtblBA"/>
+		<use y="120" x="160" xlink:href="#classB:updown"/>
+		<use y="120" x="240" xlink:href="#classB:downright"/>
+
+		<use y="160" x="80"  xlink:href="#classB:across"/>
+		<use y="160" x="160" xlink:href="#classB:vtblB"/>
+
+		<use y="160" x="240"  xlink:href="#classB:across"/>
+		<use y="160" x="320"  xlink:href="#classB:typeidB"/>
+	</g>
+
+</svg>
+

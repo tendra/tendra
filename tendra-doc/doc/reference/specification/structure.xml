@@ -61,7 +61,7 @@
 
 		<figure>
 			<title>Capsule groups</title>
-			<graphic fileref="images/capsule4.gif"/>
+			<graphic fileref="images/capsule4.svg"/>
 		</figure>
 
 		<para>The order is as follows:</para>
@@ -147,7 +147,7 @@
 
 		<figure>
 			<title>Capsule tags</title>
-			<graphic fileref="images/capsule1.gif"/>
+			<graphic fileref="images/capsule1.svg"/>
 		</figure>
 
 		<para>In just the same way, there are tables of tokens and alignment tags at the
@@ -160,7 +160,7 @@
 
 		<figure>
 			<title>Unit tags</title>
-			<graphic fileref="images/capsule2.gif"/>
+			<graphic fileref="images/capsule2.svg"/>
 		</figure>
 
 		<para>Again the same technique is used for tokens and alignment tags.</para>
@@ -171,7 +171,7 @@
 
 		<figure>
 			<title>Links from multiple units</title>
-			<graphic fileref="images/capsule3.gif"/>
+			<graphic fileref="images/capsule3.svg"/>
 		</figure>
 
 		<para>The same technique is used for tokens and alignment tags.</para>

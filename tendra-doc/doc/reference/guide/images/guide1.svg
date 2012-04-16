@@ -1,0 +1,151 @@
+<?xml version="1.0"?>
+
+<!-- $Id$ -->
+
+<svg
+	xmlns="http://www.w3.org/2000/svg"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+
+	class="figure"
+	width="505" height="340"
+	transform="translate(.5 .5)">
+
+	<defs>
+		<marker id="guide1:limit"
+			markerWidth="5" markerHeight="5"
+			markerUnits="userSpaceOnUse"
+			refX="0" refY="2.5"
+			orient="auto">
+
+			<line y1="0" y2="5"/>
+		</marker>
+
+		<g id="guide1:local_vars">
+			<rect x="-60" y="-15" height="30" width="120"/>
+			<text x="-50" text-anchor="start" class="code">local_vars</text>
+		</g>
+
+		<g id="guide1:lks">
+			<rect x="-60" y="-15" height="30" width="120"/>
+			<text x="-50" text-anchor="start" class="code">lks</text>
+		</g>
+
+		<g id="guide1:properties">
+			<rect x="-60" y="-15" height="30" width="120"/>
+			<text x="-50" text-anchor="start" class="code">properties</text>
+		</g>
+
+		<g id="guide1:sep">
+			<line x1="-60" x2="60"/>
+		</g>
+
+		<g id="guide1:ellipsis">
+			<line x1="-60" x2="60" class="dashed"/>
+		</g>
+
+		<g id="guide1:external_links">
+			<use y="10" xlink:href="#guide1:ellipsis"/>
+			<rect x="-40" y="-10" height="40" width="80"/>
+		</g>
+	</defs>
+
+	<g transform="translate(65, 90)">
+		<text text-anchor="middle">UNIT</text>
+
+		<g transform="translate(60 30)">
+			<line class="dashed" x2="65" y1="-15" y2="-110"/>
+			<line class="dashed" x2="65" y1="15"  y2="-55"/>
+		</g>
+
+		<g transform="translate(60 60)">
+			<line class="dashed" x2="65" y1="-15" y2="-60"/>
+			<line class="dashed" x2="65" y1="15"  y2="60"/>
+		</g>
+
+		<g transform="translate(60 90)">
+			<line class="dashed" x2="65" y1="-15" y2="80"/>
+			<line class="dashed" x2="65" y1="15"  y2="120"/>
+		</g>
+
+		<use y="30" xlink:href="#guide1:local_vars"/>
+		<use y="60" xlink:href="#guide1:lks"/>
+		<use y="90" xlink:href="#guide1:properties"/>
+	</g>
+
+	<g transform="translate(250, 5)">
+		<text x="85" y="10" text-anchor="start">In order given by CAPSULE</text>
+		<text x="85" y="23" text-anchor="start">&quot;capsule_linkage&quot;</text>
+
+		<use y="20" xlink:href="#guide1:sep"/>
+		<use y="40" xlink:href="#guide1:sep"/>
+
+		<line x1="40" x2="40" y2="60"/>
+		<rect x="-60" height="60" width="120"/>
+
+		<text x="-50" y="10" text-anchor="start" class="code">&quot;tag&quot;</text>
+		<text x="-50" y="30" text-anchor="start" class="code">&quot;token&quot;</text>
+		<text x="-50" y="50" text-anchor="start" class="code">&quot;al_tag&quot;</text>
+
+		<text x="50" y="10" text-anchor="middle" class="code">5</text>
+		<text x="50" y="30" text-anchor="middle" class="code">6</text>
+		<text x="50" y="50" text-anchor="middle" class="code">7</text>
+	</g>
+
+	<g transform="translate(250, 90)">
+		<text x="85" y="10" text-anchor="start">Links between UNIT namespace</text>
+		<text x="85" y="23" text-anchor="start">and CAPSULE namespace</text>
+
+		<use y="20"  xlink:href="#guide1:ellipsis"/>
+		<use y="40"  xlink:href="#guide1:sep"/>
+		<use y="60"  xlink:href="#guide1:ellipsis"/>
+		<use y="80"  xlink:href="#guide1:sep"/>
+		<use y="100" xlink:href="#guide1:ellipsis"/>
+
+		<rect x="-60" height="120" width="120"/>
+
+		<text x="-50" y="10" text-anchor="start" class="code">tag LINKs</text>
+		<text x="-50" y="50" text-anchor="start" class="code">token LINKs</text>
+		<text x="-50" y="90" text-anchor="start" class="code">al_tag LINKs</text>
+	</g>
+
+	<g transform="translate(250, 245)">
+		<text text-anchor="middle">TAGDEF_PROPS</text>
+
+		<g transform="translate(60 30)">
+			<line class="dashed" x2="65" y1="5"  y2="-20"/>
+			<line class="dashed" x2="65" y1="25" y2="60"/>
+		</g>
+
+		<g marker-start="url(#guide1:limit)" marker-end="url(#guide1:limit)">
+			<line x1="-75" x2="-75" y1="15" y2="55"/>
+		</g>
+
+		<text x="-85" y="35" text-anchor="end">BYTESTREAM</text>
+
+		<use y="35" xlink:href="#guide1:sep"/>
+
+		<line x1="40" x2="40" y1="15" y2="35"/>
+		<rect y="15" x="-60" height="40" width="120"/>
+
+		<text x="-50" y="25" text-anchor="start" class="code">no_labels</text>
+		<text x="-50" y="45" text-anchor="start" class="code">tds</text>
+
+		<text x="50" y="25" text-anchor="middle" class="code">3</text>
+	</g>
+
+	<g transform="translate(435, 255)">
+		<text x="85" y="10" text-anchor="start">UNITs of the same kind</text>
+		<text x="85" y="23" text-anchor="start">grouped together in the order</text>
+		<text x="85" y="36" text-anchor="start">given by &quot;prop_names&quot;</text>
+
+		<use y="20"  xlink:href="#guide1:ellipsis"/>
+		<use y="40"  xlink:href="#guide1:ellipsis"/>
+		<use y="60"  xlink:href="#guide1:ellipsis"/>
+
+		<rect x="-60" height="80" width="120"/>
+
+		<text x="-50" y="10" text-anchor="start" class="code">TAGDEFs of UNIT</text>
+	</g>
+
+</svg>
+

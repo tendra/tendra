@@ -59,11 +59,11 @@
 				<xref linkend="tdf_link"/>, the
 				fourth variable of the first unit is identified with the first
 				variable of the third unit, and both are associated with the
-				fourth external name.</para>
+				fourth external name (indicated).</para>
 
 			<figure id="tdf_link">
 				<title>&tdf; Capsule Structure</title>
-				<graphic fileref="images/tdf_link.png"/>
+				<graphic fileref="images/tdf_link.svg"/>
 			</figure>
 
 			<para>This capsule structure means that the combination of a number of
@@ -86,15 +86,15 @@
 				&tdf; also provides another mechanism which allows for the
 				combination of program at the syntax tree level, namely
 				<code>tokens</code>. Virtually any node of the &tdf; tree may be a
-				token : a place holder which stands for a subtree. Before the &tdf;
+				token: a place holder which stands for a subtree. Before the &tdf;
 				can be decoded fully the definition of this token must be
 				provided. The token definition is then macro substituted for the
 				token in the decoding process to form the complete tree (see
-				<xref linkend="token"/>.</para>
+				<xref linkend="token"/>).</para>
 
 			<figure id="token">
 				<title>&tdf; Tokens</title>
-				<graphic fileref="images/token.png"/>
+				<graphic fileref="images/token.svg"/>
 			</figure>
 
 			<para>Tokens may also take arguments (see <xref linkend="token_args"/>).
@@ -102,8 +102,8 @@
 				for the formal parameters in the token definition.</para>
 
 			<figure id="token_args">
-				<title>&tdf; Tokens (with Arguments)</title>
-				<graphic fileref="images/token_args.png"/>
+				<title>&tdf; Tokens (with arguments)</title>
+				<graphic fileref="images/token_args.svg"/>
 			</figure>
 
 			<para>As mentioned above, tokens are one of the types of variable
@@ -162,7 +162,7 @@
 
 		<figure id="tdf_scheme">
 			<title>&tdf; Compilation Phases</title>
-			<graphic fileref="images/tdf_scheme.png"/>
+			<graphic fileref="images/tdf_scheme.svg"/>
 		</figure>
 
 		<section id="S27">
@@ -207,6 +207,10 @@
 				former are the names used to represent the objects within C, and
 				the latter the names used within &tdf; to represent the tokens
 				corresponding to these objects.</para>
+
+			<para>See the &orientation.doc; for details of how the
+				target-independent &api; headers and the corresponding
+				&tdf; libraries are generated.</para>
 		</section>
 
 		<section id="S28">
@@ -284,7 +288,11 @@
 				the definition of the token corresponding to the C type
 				<code>char</code> from this. It will be the <code>variety</code>
 				(the &tdf; abstraction of integer types) consisting of all integers
-				between these values.</para>
+				between these values.
+				These tokens comprise a producer-specific
+				&ldquo;Language Programing Interface&rdquo;,
+				and are implemented as &lpi; &tdf; libraries (not illustrated)
+				which are linked in alongside the &api; &tdf; libraries.</para>
 
 			<para>Note that what we are doing in the main library build is
 				checking the actual implementation of the &api; against the
@@ -318,22 +326,27 @@
 			<para>In order to help clarify exactly what is happening where,
 				<xref linkend="eg_scheme"/>
 				shows a simple example superimposed on the &tdf; compilation
-				diagram.</para>
+				diagram.
+				Selected relevant contents of TDF capsules are notated using
+				<code>tnc -p</code> syntax.
+				Specifics of the <code>libc</code> implementation are omitted
+				for brevity and are indicated by an ellipsis.</para>
 
 			<figure id="eg_scheme">
 				<title>Example Compilation</title>
-				<graphic fileref="images/eg_scheme.png"/>
+				<graphic fileref="images/eg_scheme.svg"/>
 			</figure>
 
 			<para>The program to be translated is simply:</para>
 
-			<programlisting language="c">FILE f ;</programlisting>
+			<programlisting language="c">#include &lt;stdio.h&gt;
+FILE f ;</programlisting>
 
 			<para>and the &api; is as above, so that <code>FILE</code> is an
 				abstract type. This &api; is described as target independent headers
 				containing the <code>#pragma token</code> statements given above.
 				The producer combines the program with the target independent
-				headers to produce a target independent capsule which declares a
+				headers to produce a target independent capsule which defines a
 				tag <code>f</code> whose shape is given by the token representing
 				<code>FILE</code>, but leaves this token undefined. In the &api;
 				implementation, the local definition of the type <code>FILE</code>
@@ -641,9 +654,8 @@
 		<section id="S36">
 			<title>The &tdf; Installers</title>
 
-			<para>>The
-				&tdf; installer on a given machine typically consists of four
-				phases: &tdf; linking, which has already been discussed,
+			<para>The &tdf; installer on a given machine typically consists
+				of four phases: &tdf; linking, which has already been discussed,
 				translating &tdf; to assembly source code, translating assembly
 				source code to a binary object file, and linking binary object
 				files with the system libraries to form the final executable. The

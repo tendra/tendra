@@ -167,14 +167,18 @@
 
 		<para>Some understanding of how the system works is useful in trying
 			to work round problems. Rather than presenting system headers
-			directly to TenDRA, relevant headers are cherry-picked per &api;.
+			directly to TenDRA, relevant headers are cherry-picked per &api;
+			and used to construct a TDF mapping of the abstract &api; to the
+			system-specific implementations of those constructs.</para>
 
-		</para>
+		<para>See the &orientation.doc; for context on how this all fits
+			together, and what file types are involved. Here is a worked
+			example for our purposes of porting the &api; building:</para>
 
 		<figure>
-			<title>Files Involved For &api; Building</title>
+			<title>Files Involved for &api; Building</title>
 
-			<graphic fileref="images/startup.png"/>
+			<graphic fileref="images/startup.svg"/>
 		</figure>
 
 		<para>Headers are included in the following order:</para>

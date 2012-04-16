@@ -116,10 +116,10 @@
 		<figure>
 			<title>Compilation Scheme</title>
 
-			<graphic fileref="images/compile.png"/>
+			<graphic fileref="images/compile.svg"/>
 		</figure>
 
-		<para>Each C++ source file, <code>a.C</code> say, is processed using
+		<para>Each C++ source file, <code>a.cc</code> say, is processed using
 			<code>tcpplus</code> to give an output TDF capsule, <code>a.j</code>,
 			which is passed to the installer phase of <code>tcc</code>.  The capsule
 			is linked with any target dependent token definition libraries, translated

@@ -24,6 +24,7 @@
 		</authorgroup>
 
 		<copyright>
+			<year>2012</year>
 			<year>2004</year>
 			<year>2005</year>
 			<holder>The TenDRA Project</holder>
@@ -35,6 +36,17 @@
 		</copyright>
 
 		<revhistory>
+			<revision role="dev">
+				<date>2012-04-13</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Converted remaining raster images
+						to a vector format.
+						Reworked existing vector images for consistency
+						between documents.</para>
+				</revdescription>
+			</revision>
+
 			<revision role="version">
 				<date>1998-07-30</date>
 				<authorinitials>DERA</authorinitials>

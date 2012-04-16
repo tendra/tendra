@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+
+<!-- $Id$ -->
+
+<svg
+	xmlns="http://www.w3.org/2000/svg"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+
+	class="figure"
+	width="440" height="220"
+	transform="translate(.5 .5)">
+
+	<defs>
+		<marker id="virtualB:arrow"
+				markerWidth="5" markerHeight="5"
+				markerUnits="userSpaceOnUse"
+				refX="5" refY="2.5"
+				orient="auto">
+			<polyline points="0,0 5,2.5 0,5" class="arrow"/>
+		</marker>
+
+		<g id="virtualB:ptrA">
+			<rect x="-40" y="-15" height="30" width="80"/>
+			<text text-anchor="middle" class="code">ptr A</text>
+		</g>
+
+		<g id="virtualB:A">
+			<rect x="-40" y="-25" height="50" width="80"/>
+			<text text-anchor="middle" class="big">A</text>
+		</g>
+
+		<g id="virtualB:B">
+			<rect x="-40" y="-25" height="50" width="80"/>
+			<text text-anchor="middle" class="big">B</text>
+		</g>
+
+		<g id="virtualB:vptrBA">
+			<rect x="-40" y="-15" height="30" width="80"/>
+			<text text-anchor="middle" class="code">vptr B::A</text>
+		</g>
+
+		<g id="virtualB:vtblBA">
+			<rect x="-40" y="-15" height="30" width="80"/>
+			<text text-anchor="middle" class="code">vtbl B::A</text>
+		</g>
+
+		<g id="virtualB:vptrB">
+			<rect x="-40" y="-15" height="30" width="80"/>
+			<text text-anchor="middle" class="code">vptr B</text>
+		</g>
+
+		<g id="virtualB:vtblB">
+			<rect x="-40" y="-15" height="30" width="80"/>
+			<text text-anchor="middle" class="code">vtbl B</text>
+		</g>
+
+		<g id="virtualB:typeidB">
+			<rect x="-40" y="-15" height="30" width="80"/>
+			<text text-anchor="middle" class="code">typeid B</text>
+		</g>
+
+		<g id="virtualB:across">
+			<line x1="-40" x2="40" marker-end="url(#virtualB:arrow)"/>
+		</g>
+
+		<g id="virtualB:acrossup">
+			<polyline points="-40,0 0,0 0,-100"/>
+		</g>
+
+		<g id="virtualB:chaindown">
+			<polyline points="0,0 -15,0 -15,115 0,115"
+				marker-end="url(#virtualB:arrow)"/>
+		</g>
+	</defs>
+
+	<g transform="translate(70, 20)">
+		<use y="0"  xlink:href="#virtualB:ptrA"/>
+		<use y="40" xlink:href="#virtualB:B"/>
+		<use y="80" xlink:href="#virtualB:vptrB"/>
+
+		<use y="80" x="80"  xlink:href="#virtualB:across"/>
+		<use y="80" x="160" xlink:href="#virtualB:vtblB"/>
+		<use y="80" x="240" xlink:href="#virtualB:across"/>
+		<use y="80" x="320" xlink:href="#virtualB:typeidB"/>
+
+		<use y="0"  x="-40" xlink:href="#virtualB:chaindown"/>
+	</g>
+
+	<g transform="translate(70, 120)">
+		<use y="40" xlink:href="#virtualB:A"/>
+		<use y="80" xlink:href="#virtualB:vptrBA"/>
+
+		<use y="80" x="80"  xlink:href="#virtualB:across"/>
+		<use y="80" x="160" xlink:href="#virtualB:vtblBA"/>
+		<use y="80" x="240" xlink:href="#virtualB:acrossup"/>
+	</g>
+
+</svg>
+

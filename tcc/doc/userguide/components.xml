@@ -821,7 +821,7 @@
 			<figure>
 				<title>Mips Compilation Path</title>
 				<graphic align="center"
-					fileref="images/mips_files.gif"/>
+					fileref="images/mips_files.svg"/>
 			</figure>
 
 			<para>&mipstrans; translates each input target dependent

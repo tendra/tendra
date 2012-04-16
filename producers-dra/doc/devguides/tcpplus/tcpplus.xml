@@ -27,6 +27,7 @@
 		<pubdate>1998</pubdate>
 
 		<copyright>
+			<year>2012</year>
 			<year>2011</year>
 			<year>2010</year>
 			<year>2007</year>
@@ -41,6 +42,17 @@
 		</copyright>
 
 		<revhistory>
+			<revision role="dev">
+				<date>2012-04-13</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Converted remaining raster images
+						to a vector format.
+						Reworked existing vector images for consistency
+						between documents.</para>
+				</revdescription>
+			</revision>
+
 			<revision role="docs">
 				<date>2010-02-21</date>
 				<authorinitials>kate</authorinitials>

@@ -1,0 +1,180 @@
+<?xml version="1.0"?>
+
+<!-- $Id$ -->
+
+<svg
+	xmlns="http://www.w3.org/2000/svg"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+
+	class="figure"
+	width="450" height="200"
+	transform="translate(.5 .5)">
+
+	<defs>
+		<marker id="tokens:arrow"
+				markerWidth="5" markerHeight="5"
+				markerUnits="userSpaceOnUse"
+				refX="5" refY="2.5"
+				orient="auto">
+			<polyline points="0,0 5,2.5 0,5" class="arrow"/>
+		</marker>
+
+		<g id="tokens:A">
+			<rect x="-40" y="-25" height="50" width="80"/>
+			<text text-anchor="middle" class="big">A</text>
+		</g>
+
+		<g id="tokens:vptrA">
+			<rect x="-40" y="-15" height="30" width="80"/>
+			<text text-anchor="middle" class="code">vptr A</text>
+		</g>
+
+		<g id="tokens:typeidA">
+			<rect x="-40" y="-15" height="30" width="80"/>
+			<text text-anchor="middle" class="code">typeid A</text>
+		</g>
+
+		<g id="tokens:ptrtypeidA">
+			<rect x="-50" y="-15" height="30" width="100"/>
+			<text text-anchor="middle" class="code">ptr typeid A</text>
+		</g>
+
+		<g id="tokens:voffA">
+			<rect x="-50" y="-15" height="30" width="100"/>
+			<text text-anchor="middle" class="code">voff A</text>
+		</g>
+
+		<g id="tokens:vfunc1">
+			<rect x="-50" y="-15" height="30" width="100"/>
+			<text text-anchor="middle" class="code">vfunc1</text>
+		</g>
+
+		<g id="tokens:vfunc2">
+			<rect x="-50" y="-15" height="30" width="100"/>
+			<text text-anchor="middle" class="code">vfunc2</text>
+		</g>
+
+		<g id="tokens:vfuncn">
+			<rect x="-50" y="-15" height="30" width="100"/>
+			<text text-anchor="middle" class="code">vfuncn</text>
+		</g>
+
+		<g id="tokens:ellipsis">
+			<rect x="-50" y="-15" height="30" width="100"/>
+			<text text-anchor="middle" class="code">...</text>
+		</g>
+
+		<g id="tokens:across">
+			<line x1="-40" x2="40" marker-end="url(#tokens:arrow)"/>
+		</g>
+
+		<g id="tokens:space" class="shaded">
+			<rect x="-8" y="-10" height="20" width="15"/>
+		</g>
+	</defs>
+
+	<g transform="translate(190 15)" text-anchor="middle">
+		<g transform="translate(-120 0)">
+			<line y1="-10" y2="-10" x1="-8" x2="7" class="dashed"/>
+			<line y1="10"  y2="10"  x1="-8" x2="7" class="dashed"/>
+		</g>
+		<g transform="translate(-105 0)">
+			<rect x="-8" y="-10" height="20" width="15"/>
+			<text class="code">i</text>
+		</g>
+		<g transform="translate(-90 0)">
+			<rect x="-8" y="-10" height="20" width="15"/>
+			<text class="code">n</text>
+		</g>
+		<g transform="translate(-75 0)">
+			<rect x="-8" y="-10" height="20" width="15"/>
+			<text class="code">t</text>
+		</g>
+		<use x="-60" xlink:href="#tokens:space"/>
+		<use x="-45" xlink:href="#tokens:space"/>
+		<g transform="translate(-30 0)">
+			<rect x="-8" y="-10" height="20" width="15"/>
+			<text class="code">i</text>
+		</g>
+		<use x="-15" xlink:href="#tokens:space"/>
+		<g transform="translate(0 0)">
+			<rect x="-8" y="-10" height="20" width="15"/>
+			<text class="code">=</text>
+		</g>
+		<use x="15" xlink:href="#tokens:space"/>
+		<g transform="translate(30 0)">
+			<rect x="-8" y="-10" height="20" width="15"/>
+			<text class="code">5</text>
+		</g>
+		<g transform="translate(45 0)">
+			<rect x="-8" y="-10" height="20" width="15"/>
+			<text class="code">3</text>
+		</g>
+		<g transform="translate(60 0)">
+			<rect x="-8" y="-10" height="20" width="15"/>
+			<text class="code">;</text>
+		</g>
+		<g transform="translate(75 0)">
+			<line y1="-10" y2="-10" x1="-8" x2="7" class="dashed"/>
+			<line y1="10"  y2="10"  x1="-8" x2="7" class="dashed"/>
+		</g>
+
+		<path d="M -105,10 l 0,20" marker-end="url(#tokens:arrow)"/>
+		<path d="M -90,10 l 0,20"  marker-end="url(#tokens:arrow)"/>
+		<path d="M -75,10 l 0,10 q 0,10 -10,10 l -65,0 q -10,0 -10,10 l 0,30"
+			marker-end="url(#tokens:arrow)"/>
+		<path d="M -30,10 l 0,25 q 0,10 -10,10 l -30,0 q -10,0 -10,10 l 0,15"
+			marker-end="url(#tokens:arrow)"/>
+		<line y1="10" y2="70" marker-end="url(#tokens:arrow)"/>
+		<path d="M 30,10 l 0,25 q 0,10 10,10 l 30,0 q 10,0 10,10 l 0,15"
+			marker-end="url(#tokens:arrow)"/>
+		<path d="M 45,10 l 0,35"  marker-end="url(#tokens:arrow)"/>
+		<path d="M 60,10 l 0,10 q 0,10 10,10 l 80,0 q 10,0 10,10 l 0,30"
+			marker-end="url(#tokens:arrow)"/>
+
+		<g transform="translate(-160 90)">
+			<rect x="-30" y="-20" width="60" height="40"/>
+			<text y="-10">&lt;type&gt;</text>
+			<text y="5">&quot;int&quot;</text>
+			<line x1="30" x2="50" class="dashed"/>
+			<line x1="45" x2="50" marker-end="url(#tokens:arrow)"/>
+		</g>
+
+		<g transform="translate(-80 90)">
+			<rect x="-30" y="-20" width="60" height="40"/>
+			<text y="-10">&lt;ident&gt;</text>
+			<text y="5">&quot;i&quot;</text>
+			<line x1="30" x2="50" class="dashed"/>
+			<line x1="45" x2="50" marker-end="url(#tokens:arrow)"/>
+		</g>
+
+		<g transform="translate(0 90)">
+			<rect x="-30" y="-20" width="60" height="40"/>
+			<text y="-10">&lt;assign&gt;</text>
+			<line x1="30" x2="50" class="dashed"/>
+			<line x1="45" x2="50" marker-end="url(#tokens:arrow)"/>
+		</g>
+
+		<g transform="translate(80 90)">
+			<rect x="-30" y="-20" width="60" height="40"/>
+			<text y="-10">&lt;literal&gt;</text>
+			<text y="5">&quot;53&quot;</text>
+			<line x1="30" x2="50" class="dashed"/>
+			<line x1="45" x2="50" marker-end="url(#tokens:arrow)"/>
+		</g>
+
+		<g transform="translate(160 90)">
+			<rect x="-30" y="-20" width="60" height="40"/>
+			<text y="-10">&lt;sep&gt;</text>
+			<path d="M 30,0 l 20,0 q 10,0 10,10 l 0,40" class="dashed"/>
+			<line x1="60" x2="60" y1="45" y2="50" marker-end="url(#tokens:arrow)"/>
+		</g>
+
+		<g transform="translate(220 160)">
+			<rect x="-30" y="-20" width="60" height="40"/>
+			<text>Parser</text>
+		</g>
+	</g>
+
+</svg>
+

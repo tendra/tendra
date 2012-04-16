@@ -1,0 +1,150 @@
+<?xml version="1.0"?>
+
+<!-- $Id$ -->
+
+<svg
+	xmlns="http://www.w3.org/2000/svg"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+
+	class="figure"
+	width="635" height="275"
+	transform="translate(.5 .5)">
+
+	<defs>
+		<marker id="db:arrow"
+				markerWidth="5" markerHeight="5"
+				markerUnits="userSpaceOnUse"
+				refX="5" refY="2.5"
+				orient="auto">
+			<polyline points="0,0 5,2.5 0,5" class="arrow"/>
+		</marker>
+
+		<line id="db:up"   y1="-15" y2="-40"/>
+		<line id="db:down" y1="40"  y2="15"
+			marker-end="url(#db:arrow)"/>
+		<line id="db:moredown" y1="85"  y2="15"
+			marker-end="url(#db:arrow)"/>
+	</defs>
+
+	<g transform="translate(290 130)" text-anchor="middle">
+		<g transform="translate(-160 -170)">
+			<line y1="100" y2="100" x1="-100" x2="380"/>
+
+			<g transform="translate(-100 60)">
+				<rect x="-30" y="-15" width="60" height="30"/>
+				<text style="code">disp</text>
+				<use xlink:href="#db:down"/>
+			</g>
+
+			<g transform="translate(-20 60)">
+				<rect x="-30" y="-15" width="60" height="30"/>
+				<text style="code">libexds</text>
+				<use xlink:href="#db:down"/>
+			</g>
+
+			<g transform="translate(60 60)">
+				<rect x="-30" y="-15" width="60" height="30"/>
+				<text style="code">lexi</text>
+				<use xlink:href="#db:down"/>
+			</g>
+
+			<g transform="translate(140 60)">
+				<rect x="-30" y="-15" width="60" height="30"/>
+				<text style="code">sid</text>
+				<use xlink:href="#db:down"/>
+			</g>
+
+			<g transform="translate(220 60)">
+				<rect x="-30" y="-15" width="60" height="30"/>
+				<text style="code">calculus</text>
+				<use xlink:href="#db:down"/>
+			</g>
+
+			<g transform="translate(300 60)">
+				<rect x="-30" y="-15" width="60" height="30"/>
+				<text style="code">make_tdf</text>
+				<use xlink:href="#db:down"/>
+			</g>
+
+			<g transform="translate(380 60)">
+				<rect x="-30" y="-15" width="60" height="30"/>
+				<text style="code">make_err</text>
+				<use xlink:href="#db:down"/>
+			</g>
+		</g>
+
+		<g transform="translate(310 -80)">
+			<rect x="-30" y="-15" width="60" height="30"/>
+			<text style="code">osdep</text>
+			<line y1="40" y2="15" marker-end="url(#db:arrow)"/>
+		</g>
+
+		<line y1="-40" y2="-40" x1="-170" x2="310"/>
+
+		<g transform="translate(-200 0)">
+			<g transform="translate(30 0)">
+				<use xlink:href="#db:up"/>
+				<rect x="-30" y="-15" width="60" height="30"/>
+				<text style="code">tpl</text>
+				<use xlink:href="#db:moredown"/>
+			</g>
+
+			<g transform="translate(110 0)">
+				<use xlink:href="#db:up"/>
+				<rect x="-30" y="-15" width="60" height="30"/>
+				<text style="code">tld</text>
+				<use xlink:href="#db:moredown"/>
+			</g>
+
+			<g transform="translate(190 0)">
+				<use xlink:href="#db:up"/>
+				<rect x="-30" y="-15" width="60" height="30"/>
+				<text style="code">tcc</text>
+				<use xlink:href="#db:moredown"/>
+			</g>
+		</g>
+
+		<g transform="translate(100 0)">
+			<use xlink:href="#db:up"/>
+			<rect x="-50" y="-15" width="100" height="30"/>
+			<text y="-5" style="code">tdfc</text>
+			<text y="5" style="code">(producers-dra)</text>
+			<use x="35" xlink:href="#db:moredown"/>
+		</g>
+
+		<g transform="translate(220 0)">
+			<use xlink:href="#db:up"/>
+			<rect x="-50" y="-15" width="100" height="30"/>
+			<text y="-5" style="code">trans</text>
+			<text y="5" style="code">(installers-dra)</text>
+			<use xlink:href="#db:moredown"/>
+		</g>
+
+		<g transform="translate(290 50)">
+			<line y1="-15" y2="-90"/>
+			<rect x="-50" y="-15" width="100" height="30"/>
+			<text y="-5">skeletal tcc</text>
+			<text y="5">directories</text>
+		</g>
+
+		<g transform="translate(50 50)">
+			<line x1="-15" x2="-15" y1="-15" y2="-90"/>
+			<line x1="15"  x2="15"  y1="-15" y2="-35"
+				marker-end="url(#db:arrow)"/>
+			<rect x="-30" y="-15" width="60" height="30"/>
+			<text style="code">tnc</text>
+			<line y1="35" y2="15" marker-end="url(#db:arrow)"/>
+		</g>
+
+		<line y1="85" y2="85" x1="-190" x2="220"/>
+
+		<g transform="translate(-205 125)">
+			<line x1="-15" x2="-15" y1="-15" y2="-195"/>
+			<use x="15" xlink:href="#db:up"/>
+			<rect x="-30" y="-15" width="60" height="30"/>
+			<text style="code">cc</text>
+		</g>
+	</g>
+
+</svg>
+

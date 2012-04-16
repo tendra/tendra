@@ -83,7 +83,7 @@
 
 		<figure>
 			<title>TDF Production, Linking and Translating</title>
-			<graphic fileref="images/guide3.png"/>
+			<graphic fileref="images/guide3.svg"/>
 		</figure>
 
 		<para>There will be CAPSULEs for each API on each platform giving the

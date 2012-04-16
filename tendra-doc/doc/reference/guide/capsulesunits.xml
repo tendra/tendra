@@ -26,12 +26,12 @@
 		<para>The only constructor for a CAPSULE is make_capsule. Its basic
 			function is to compose together UNITs which contain the declarations
 			and definitions of the program. The signature of make_capsule looks
-			rather daunting and is probable best represented graphically.</para>
+			rather daunting and is probably best represented graphically.</para>
 
 		<figure>
 			<title><code>make_capsule</code></title>
 
-			<graphic fileref="images/guide2.png"/>
+			<graphic fileref="images/guide2.svg"/>
 		</figure>
 
 		<para>The diagram gives an example of a CAPSULE using the same
@@ -151,7 +151,7 @@
 
 			<figure>
 				<title><code>make_unit</code></title>
-				<graphic fileref="images/guide1.png"/>
+				<graphic fileref="images/guide1.svg"/>
 			</figure>
 
 			<para>First we give the limits of the various name-spaces local to

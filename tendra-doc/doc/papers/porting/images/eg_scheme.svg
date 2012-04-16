@@ -1,0 +1,282 @@
+<?xml version="1.0"?>
+
+<!-- $Id$ -->
+
+<svg
+	xmlns="http://www.w3.org/2000/svg"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+
+	class="figure"
+	width="580" height="900"
+	transform="translate(.5 .5)">
+
+	<defs>
+		<marker id="eg_scheme:arrow"
+				markerWidth="5" markerHeight="5"
+				markerUnits="userSpaceOnUse"
+				refX="5" refY="2.5"
+				orient="auto">
+			<polyline points="0,0 5,2.5 0,5" class="arrow"/>
+		</marker>
+
+		<g id="eg_scheme:tokdec" text-anchor="start">
+			<text y="10" class="code">( make_tokdec</text>
+			<text y="20" class="code">&#xA0; ansi.stdio.FILE</text>
+			<text y="30" class="code">&#xA0; -</text>
+			<text y="40" class="code">&#xA0; shape )</text>
+
+			<text x="130" y="10">FILE token</text>
+			<text x="130" y="20">declaration</text>
+		</g>
+
+		<g id="eg_scheme:tokdef" text-anchor="start">
+			<text y="10" class="code">( make_tokdef</text>
+			<text y="20" class="code"> &#xA0; ansi.stdio.FILE</text>
+			<text y="30" class="code"> &#xA0; -</text>
+			<text y="40" class="code"> &#xA0; shape ... )</text>
+
+			<text x="130" y="10">FILE token</text>
+			<text x="130" y="20">definition</text>
+		</g>
+
+		<g id="eg_scheme:tagdef" text-anchor="start">
+			<text y="10" class="code">( make_var_tagdef f</text>
+			<text y="20" class="code">&#xA0; - -</text>
+			<text y="30" class="code">&#xA0; ( make_value</text>
+			<text y="40" class="code">&#xA0; &#xA0; ansi.stdio.FILE</text>
+			<text y="50" class="code">&#xA0; &#xA0; ) )</text>
+
+			<text x="130" y="10">f tag</text>
+			<text x="130" y="20">definition</text>
+		</g>
+	</defs>
+
+	<g transform="translate(260 365)" class="region">
+		<rect x="-250" y="-360" height="890" width="550" rx="5" ry="5"/>
+		<line x1="-250" x2="300" class="region"/>
+		<line y1="-360" y2="530" class="region"/>
+
+		<text x="-10" y="-350" text-anchor="end">Target-independent</text>
+		<text x="-10" y="-340" text-anchor="end">program production</text>
+
+		<text x="10"  y="-350" text-anchor="start">Target-independent</text>
+		<text x="10"  y="-340" text-anchor="start">API description</text>
+
+		<text x="-10" y="10"   text-anchor="end">Target-dependent</text>
+		<text x="-10" y="20"   text-anchor="end">program installation</text>
+
+		<text x="10"  y="10"   text-anchor="start">Target-dependent</text>
+		<text x="10"  y="20"   text-anchor="start">API implementation</text>
+	</g>
+
+	<g transform="translate(100 145)">
+		<g transform="translate(0 -80)">
+			<rect x="-65" y="-25" width="130" height="50"/>
+
+			<line y1="25" y2="145" marker-end="url(#eg_scheme:arrow)"/>
+
+			<g transform="translate(-10 120)" text-anchor="end">
+				<text class="code">tdfc</text>
+			</g>
+
+			<g transform="translate(0 -5)">
+				<text x="60" y="-10" text-anchor="end">a.c</text>	<!-- TODO: monospace -->
+
+				<line x1="-65" x2="65" class="dashed"/>
+
+				<text x="-60" y="10" text-anchor="start" class="code">#include &lt;stdio.h&gt;</text>
+				<text x="-60" y="20" text-anchor="start" class="code">FILE f;</text>
+			</g>
+		</g>
+
+		<g transform="translate(0 110)">
+			<rect x="-65" y="-45" width="130" height="130"/>
+
+			<line y1="85" y2="215" marker-end="url(#eg_scheme:arrow)"/>
+
+			<g transform="translate(-10 190)" text-anchor="end">
+				<text class="code">tld</text>
+			</g>
+
+			<g transform="translate(0 -25)">
+				<text x="60" y="-10" text-anchor="end">a.j</text>
+
+				<line x1="-65" x2="65" class="dashed"/>
+
+				<use xlink:href="#eg_scheme:tokdec" transform="translate(-60 0)"/>
+				<use xlink:href="#eg_scheme:tagdef" transform="translate(-60 50)"/>
+			</g>
+		</g>
+
+		<g transform="translate(0 370)">
+			<rect x="-65" y="-45" width="130" height="130"/>
+
+			<line y1="85" y2="135" marker-end="url(#eg_scheme:arrow)"/>
+
+			<g transform="translate(-10 110)" text-anchor="end">
+				<text class="code">trans</text>
+			</g>
+
+			<g transform="translate(0 -25)">
+				<text x="60" y="-10" text-anchor="end">a.t</text>
+
+				<line x1="-65" x2="65" class="dashed"/>
+
+				<use xlink:href="#eg_scheme:tokdef" transform="translate(-60 0)"/>
+				<use xlink:href="#eg_scheme:tagdef" transform="translate(-60 50)"/>
+			</g>
+		</g>
+
+		<g transform="translate(0 525)">
+			<rect x="-65" y="-20" width="130" height="40"/>
+
+			<line y1="20" y2="70" marker-end="url(#eg_scheme:arrow)"/>
+
+			<g transform="translate(-10 45)" text-anchor="end">
+				<text class="code">as</text>
+			</g>
+
+			<g>
+				<text x="60" y="-10" text-anchor="end">a.s</text>
+
+				<line x1="-65" x2="65" class="dashed"/>
+
+				<text x="-60" y="10" text-anchor="start" class="na">(assembler)</text>
+			</g>
+		</g>
+
+		<g transform="translate(0 615)">
+			<rect x="-65" y="-20" width="130" height="40"/>
+
+			<line y1="20" y2="70" marker-end="url(#eg_scheme:arrow)"/>
+
+			<g transform="translate(-10 45)" text-anchor="end">
+				<text class="code">ld</text>
+			</g>
+
+			<g>
+				<text x="60" y="-10" text-anchor="end">a.o</text>
+
+				<line x1="-65" x2="65" class="dashed"/>
+
+				<text x="-60" y="10" text-anchor="start" class="na">(binary)</text>
+			</g>
+		</g>
+
+		<g transform="translate(0 705)">
+			<rect x="-65" y="-20" width="130" height="40"/>
+
+			<g>
+				<text x="60" y="-10" text-anchor="end">a.out</text>
+
+				<line x1="-65" x2="65" class="dashed"/>
+
+				<text x="-60" y="10" text-anchor="start" class="na">(binary)</text>
+			</g>
+		</g>
+	</g>
+
+	<g transform="translate(380 150)">
+		<g transform="translate(0 -80)">
+			<polyline points="10,-30 -20,-30 -20,30 20,30 20,-20 10,-20 10,-30 20,-20"/>
+			<g text-anchor="middle">
+				<text y="-5">ISO</text>
+				<text y="5">C90</text>
+			</g>
+
+			<text text-anchor="left" x="30" y="20">&#8220;FILE is a type&#8221;</text>
+
+			<line x1="-20" x2="-215" class="dashed"/>
+			<line y1="30"  y2="85"   class="dashed"/>
+			<path d="M 20,0 l 120,0 q 10,0 10,10 l 0,710 q 0,10 -10,10 l -75,0" class="dashed"/>
+			<path d="M 150,630 q 0,10 -10,10 l -75,0" class="dashed"/>
+
+			<!-- workaround for markers inheriting stroke-dasharray -->
+			<line transform="translate(-210 0)" x2="-5" marker-end="url(#eg_scheme:arrow)"/>
+			<line transform="translate( 0  85)" y1="-5" marker-end="url(#eg_scheme:arrow)"/>
+			<line transform="translate(70 640)" x2="-5" marker-end="url(#eg_scheme:arrow)"/>
+			<line transform="translate(70 730)" x2="-5" marker-end="url(#eg_scheme:arrow)"/>
+
+			<text x="-5" y="60" text-anchor="end" class="code">tspec</text>
+
+			<text y="-10" x="-160" text-anchor="middle">Conformance</text>
+			<text y="685" x="145" text-anchor="end">Implementation</text>
+		</g>
+
+		<g transform="translate(0 30)">
+			<rect x="-65" y="-25" width="130" height="50"/>
+
+			<line y1="25" y2="230" marker-end="url(#eg_scheme:arrow)"/>
+			<path d="M -65,0 l -205,0 q -10,0 -10,10"/>
+
+			<text y="125" x="-5" text-anchor="end">Library building</text>
+
+			<g transform="translate(0 -5)">
+				<text x="60" y="-10" text-anchor="end">tspec/.../stdio.h</text>
+
+				<line x1="-65" x2="65" class="dashed"/>
+
+				<g transform="translate(-60 0)" text-anchor="start">
+					<text y="10" class="code">#pragma token \</text>
+					<text y="20" class="code"> &#xA0; TYPE FILE #</text>
+
+					<text x="130" y="10">FILE token</text>
+					<text x="130" y="20">declaration</text>
+				</g>
+			</g>
+		</g>
+
+		<g transform="translate(0 290)">
+			<rect x="-65" y="-30" width="130" height="70"/>
+
+			<path d="M -65,0 l -205,0 q -10,0 -10,10"/>
+
+			<g transform="translate(0 -10)">
+				<text x="60" y="-10" text-anchor="end">ansi.tl</text>
+
+				<line x1="-65" x2="65" class="dashed"/>
+
+				<g transform="translate(-60 0)" text-anchor="start">
+					<text y="10" class="code">( make_tokdef</text>
+					<text y="20" class="code"> &#xA0; ansi.stdio.FILE</text>
+					<text y="30" class="code"> &#xA0; -</text>
+					<text y="40" class="code"> &#xA0; shape ... )</text>
+
+					<text x="130" y="10">FILE token</text>
+					<text x="130" y="20">definition</text>
+				</g>
+			</g>
+		</g>
+
+		<g transform="translate(0 560)">
+			<rect x="-65" y="-20" width="130" height="40"/>
+
+			<line y1="-20" y2="-230" marker-end="url(#eg_scheme:arrow)"/>
+
+			<g>
+				<text x="60" y="-10" text-anchor="end">/usr/include/stdio.h</text>
+
+				<line x1="-65" x2="65" class="dashed"/>
+
+				<g transform="translate(-60 0)" text-anchor="start">
+					<text y="10" class="code">typedef ... FILE;</text>
+				</g>
+			</g>
+		</g>
+
+		<g transform="translate(0 650)">
+			<rect x="-65" y="-20" width="130" height="40"/>
+			<path d="M -65,0 l -205,0 q -10,0 -10,10"/>
+
+			<g>
+				<text x="60" y="-10" text-anchor="end">libc.so</text>
+
+				<line x1="-65" x2="65" class="dashed"/>
+
+				<text x="-60" y="10" text-anchor="start" class="na">(definition of FILE)</text>
+			</g>
+		</g>
+	</g>
+
+</svg>
+

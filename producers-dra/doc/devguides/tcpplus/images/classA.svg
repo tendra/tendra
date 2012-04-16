@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+
+<!-- $Id$ -->
+
+<svg
+	xmlns="http://www.w3.org/2000/svg"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+
+	class="figure"
+	width="440" height="90"
+	transform="translate(.5 .5)">
+
+	<defs>
+		<marker id="classA:arrow"
+				markerWidth="5" markerHeight="5"
+				markerUnits="userSpaceOnUse"
+				refX="5" refY="2.5"
+				orient="auto">
+			<polyline points="0,0 5,2.5 0,5" class="arrow"/>
+		</marker>
+
+		<g id="classA:A">
+			<rect x="-40" y="-25" height="50" width="80"/>
+			<text text-anchor="middle" class="big">A</text>
+		</g>
+
+		<g id="classA:vptrA">
+			<rect x="-40" y="-15" height="30" width="80"/>
+			<text text-anchor="middle" class="code">vptr A</text>
+		</g>
+
+		<g id="classA:vtblA">
+			<rect x="-40" y="-15" height="30" width="80"/>
+			<text text-anchor="middle" class="code">vtbl A</text>
+		</g>
+
+		<g id="classA:typeidA">
+			<rect x="-40" y="-15" height="30" width="80"/>
+			<text text-anchor="middle" class="code">typeid A</text>
+		</g>
+
+		<g id="classA:across">
+			<line x1="-40" x2="40" marker-end="url(#classA:arrow)"/>
+		</g>
+	</defs>
+
+	<g transform="translate(70, -10)">
+		<use y="40" xlink:href="#classA:A"/>
+		<use y="80" xlink:href="#classA:vptrA"/>
+
+		<use y="80" x="80"  xlink:href="#classA:across"/>
+		<use y="80" x="160" xlink:href="#classA:vtblA"/>
+
+		<use y="80" x="240"  xlink:href="#classA:across"/>
+		<use y="80" x="320"  xlink:href="#classA:typeidA"/>
+	</g>
+
+</svg>
+

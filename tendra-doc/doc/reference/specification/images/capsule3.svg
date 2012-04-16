@@ -1,0 +1,292 @@
+<?xml version="1.0"?>
+
+<!-- $Id$ -->
+
+<svg
+	xmlns="http://www.w3.org/2000/svg"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+
+	class="figure"
+	width="645" height="465"
+	transform="translate(.5 .5)">
+
+	<defs>
+		<marker id="capsule3:arrow"
+				markerWidth="5" markerHeight="5"
+				markerUnits="userSpaceOnUse"
+				refX="5" refY="2.5"
+				orient="auto">
+			<polyline points="0,0 5,2.5 0,5" class="arrow"/>
+		</marker>
+
+		<g id="capsule3:elided">
+			<line y1="-10" y2="-20" x1="-60" x2="-60"/>
+			<line y1="-10" y2="10"  x1="-60" x2="-60" class="dashed"/>
+			<line y1="10"  y2="20"  x1="-60" x2="-60"/>
+
+			<line y1="-10" y2="-20" x1="60" x2="60"/>
+			<line y1="-10" y2="10"  x1="60" x2="60" class="dashed"/>
+			<line y1="10"  y2="20"  x1="60" x2="60"/>
+		</g>
+
+		<g id="capsule3:suspension">
+			<line y1="-5" y2="5" x1="-40" x2="-40"/>
+			<line y1="-5" y2="5" x1="40"  x2="40"/>
+		</g>
+
+		<g id="capsule3:prop_names">
+			<rect x="-60" y="-15" height="30" width="120"/>
+			<text x="-50" text-anchor="start" class="code">prop_names</text>
+		</g>
+
+		<g id="capsule3:capsule_linking">
+			<rect x="-60" y="-15" height="30" width="120"/>
+			<text x="-50" text-anchor="start" class="code">capsule_linking</text>
+		</g>
+
+		<g id="capsule3:external_linkage">
+			<rect x="-60" y="-15" height="30" width="120"/>
+			<text x="-50" text-anchor="start" class="code">external_linkage</text>
+		</g>
+
+		<g id="capsule3:groups">
+			<rect x="-60" y="-15" height="30" width="120"/>
+			<text x="-50" text-anchor="start" class="code">groups</text>
+		</g>
+
+		<g id="capsule3:group_unit">
+			<use y="10" xlink:href="#capsule3:ellipsis"/>
+			<use y="30" xlink:href="#capsule3:ellipsis"/>
+			<use y="50" xlink:href="#capsule3:ellipsis"/>
+			<rect x="-50" y="-10" height="80" width="100"/>
+		</g>
+
+		<g id="capsule3:ellipsis2">
+			<line x1="-20" x2="20" class="dashed"/>
+		</g>
+
+		<g id="capsule3:ellipsis">
+			<line x1="-50" x2="50" class="dashed"/>
+		</g>
+
+		<g id="capsule3:local_vars">
+			<rect x="-50" y="-15" height="30" width="100"/>
+			<text x="-40" text-anchor="start" class="code">local_vars</text>
+		</g>
+
+		<g id="capsule3:lks">
+			<rect x="-50" y="-15" height="30" width="100"/>
+			<text x="-40" text-anchor="start" class="code">lks</text>
+		</g>
+
+		<g id="capsule3:properties">
+			<rect x="-50" y="-15" height="30" width="100"/>
+			<text x="-40" text-anchor="start" class="code">properties</text>
+		</g>
+
+		<g id="capsule3:capsule_tags">
+			<use y="10" xlink:href="#capsule3:ellipsis"/>
+			<use y="30" xlink:href="#capsule3:ellipsis"/>
+			<use y="50" xlink:href="#capsule3:ellipsis"/>
+			<rect x="-50" y="-10" height="80" width="100"/>
+		</g>
+
+		<g id="capsule3:unit1_tags">
+			<use y="10" xlink:href="#capsule3:ellipsis"/>
+			<use y="30" xlink:href="#capsule3:ellipsis"/>
+			<use y="50" xlink:href="#capsule3:ellipsis"/>
+			<rect x="-50" y="-10" height="80" width="100"/>
+		</g>
+
+		<g id="capsule3:unit2_tags">
+			<use y="10" xlink:href="#capsule3:ellipsis"/>
+			<use y="30" xlink:href="#capsule3:ellipsis"/>
+			<rect x="-50" y="-10" height="60" width="100"/>
+		</g>
+
+		<g id="capsule3:external_links">
+			<rect x="-50" y="-10" height="20" width="100"/>
+		</g>
+
+		<g id="capsule3:unit1_links">
+			<use y="10" xlink:href="#capsule3:ellipsis2"/>
+			<use y="30" xlink:href="#capsule3:ellipsis2"/>
+			<rect x="-20" y="-10" height="60" width="40"/>
+		</g>
+
+		<g id="capsule3:unit2_links">
+			<use y="10" xlink:href="#capsule3:ellipsis2"/>
+			<rect x="-20" y="-10" height="40" width="40"/>
+		</g>
+
+		<g id="capsule3:unit">
+			<text y="5" text-anchor="middle">UNIT</text>
+
+			<use y="30" xlink:href="#capsule3:local_vars"/>
+			<use y="60" xlink:href="#capsule3:lks"/>
+			<use y="90" xlink:href="#capsule3:properties"/>
+		</g>
+	</defs>
+
+	<g transform="translate(65, 50)">
+		<text y="5" text-anchor="middle">CAPSULE</text>
+
+		<g transform="translate(60 60)">
+			<line class="dashed" x2="65" y1="-15" y2="-100"/>
+			<line class="dashed" x2="65" y1="15"  y2="-20"/>
+		</g>
+
+		<g transform="translate(60 90)">
+			<line class="dashed" x2="65" y1="-15" y2="10"/>
+			<line class="dashed" x2="65" y1="15"  y2="30"/>
+		</g>
+
+		<g transform="translate(60 120)">
+			<line class="dashed" x2="65" y1="-15" y2="45"/>
+			<line class="dashed" x2="65" y1="15"  y2="125"/>
+		</g>
+
+		<use y="30"  xlink:href="#capsule3:prop_names"/>
+		<use y="60"  xlink:href="#capsule3:capsule_linking"/>
+		<use y="90"  xlink:href="#capsule3:external_linkage"/>
+		<use y="120" xlink:href="#capsule3:groups"/>
+	</g>
+
+	<g transform="translate(240, -10)">
+		<use y="30"  xlink:href="#capsule3:capsule_tags"/>
+
+		<text x="-40" y="30" text-anchor="start" class="code">0</text>
+		<text x="-40" y="50" text-anchor="start" class="code">1</text>
+		<text x="-40" y="70" text-anchor="start" class="code">2</text>
+		<text x="-40" y="90" text-anchor="start" class="code">3</text>
+	</g>
+
+	<g transform="translate(240, 130)">
+		<text y="10" text-anchor="middle">SLIST(EXTERN_LINK)</text>
+
+		<use y="30" xlink:href="#capsule3:external_links"/>
+
+		<text x="-40" y="30" text-anchor="middle" class="code">2</text>
+
+		<line x1="-30" x2="-30" y1="20" y2="40"/>
+
+		<text x="-25" y="30" text-anchor="start" class="code">&quot;printf&quot;</text>
+
+		<polyline points="-50,30 -70,30 -70,-70 -50,-70"
+			marker-end="url(#capsule3:arrow)"/>
+	</g>
+
+	<g transform="translate(240, 195)">
+		<text y="10" text-anchor="middle">Various UNITs</text>
+
+		<use y="30"  xlink:href="#capsule3:group_unit"/>
+
+		<text x="-40" y="30" text-anchor="start">Unit 1</text>
+		<text x="-40" y="50" text-anchor="start">Unit 2</text>
+		<text x="-40" y="70" text-anchor="start">Unit 3</text>
+		<text x="-40" y="90" text-anchor="start">Unit 4</text>
+
+		<g transform="translate(50 40)">
+			<line class="dashed" x2="65" y1="-20" y2="-100"/>
+			<line class="dashed" x2="65" y1="0"   y2="-10"/>
+		</g>
+
+		<g transform="translate(50 80)">
+			<line class="dashed" x2="65" y1="-20" y2="50"/>
+			<line class="dashed" x2="65" y1="0"   y2="140"/>
+		</g>
+	</g>
+
+	<g transform="translate(405, 120)">
+		<use xlink:href="#capsule3:unit"/>
+
+		<g transform="translate(50 60)">
+			<line class="dashed" x2="95" y1="-15" y2="-110"/>
+			<line class="dashed" x2="95" y1="15"  y2="-50"/>
+		</g>
+
+		<g transform="translate(50 90)">
+			<line class="dashed" x2="65" y1="-15" y2="-40"/>
+			<line class="dashed" x2="65" y1="15"  y2="40"/>
+		</g>
+	</g>
+
+	<g transform="translate(570, 70)">
+		<text y="-10" text-anchor="middle">Various LINKs</text>
+
+		<use y="10" xlink:href="#capsule3:unit1_links"/>
+
+		<text x="-10" y="10" text-anchor="middle" class="na">&#x2013;</text>
+		<text x="-10" y="30" text-anchor="middle" class="na">&#x2013;</text>
+		<text x="-10" y="50" text-anchor="middle" class="code">2</text>
+
+		<line x1="0" x2="0" y1="0" y2="60"/>
+
+		<text x="10" y="10" text-anchor="middle" class="na">&#x2013;</text>
+		<text x="10" y="30" text-anchor="middle" class="na">&#x2013;</text>
+		<text x="10" y="50" text-anchor="middle" class="code">2</text>
+
+		<polyline points="-20,50 -80,50 -80,-15 -280,-15"
+			marker-end="url(#capsule3:arrow)"/>
+
+		<polyline points="20,50 70,50 70,150 50,150"
+			marker-end="url(#capsule3:arrow)"/>
+	</g>
+
+	<g transform="translate(570, 150)">
+		<text y="10" text-anchor="middle">BYTESTREAM PROPS</text>
+
+		<use y="30"  xlink:href="#capsule3:unit1_tags"/>
+
+		<text x="-40" y="30"  text-anchor="start" class="code">0 &#xA0;EXP/TOKEN</text>
+		<text x="-40" y="50"  text-anchor="start" class="code">1 &#xA0;etc</text>
+		<text x="-40" y="70"  text-anchor="start" class="code">2</text>
+		<text x="-40" y="90"  text-anchor="start" class="code">3</text>
+	</g>
+
+	<g transform="translate(405, 310)">
+		<use xlink:href="#capsule3:unit"/>
+
+		<g transform="translate(50 60)">
+			<line class="dashed" x2="95" y1="-15" y2="-60"/>
+			<line class="dashed" x2="95" y1="15"  y2="-20"/>
+		</g>
+
+		<g transform="translate(50 90)">
+			<line class="dashed" x2="65" y1="-15" y2="-10"/>
+			<line class="dashed" x2="65" y1="15"  y2="50"/>
+		</g>
+	</g>
+
+	<g transform="translate(570, 290)">
+		<text y="10" text-anchor="middle">Various LINKs</text>
+
+		<use y="30" xlink:href="#capsule3:unit2_links"/>
+
+		<text x="-10" y="30" text-anchor="middle" class="code">2</text>
+		<text x="-10" y="50" text-anchor="middle" class="na">&#x2013;</text>
+
+		<line x1="0" x2="0" y1="20" y2="60"/>
+
+		<text x="10" y="30" text-anchor="middle" class="code">1</text>
+		<text x="10" y="50" text-anchor="middle" class="na">&#x2013;</text>
+
+		<polyline points="-20,30 -90,30 -90,-225 -280,-225"
+			marker-end="url(#capsule3:arrow)"/>
+
+		<polyline points="20,30 70,30 70,130 50,130"
+			marker-end="url(#capsule3:arrow)"/>
+	</g>
+
+	<g transform="translate(570, 370)">
+		<text y="10" text-anchor="middle">BYTESTREAM PROPS</text>
+
+		<use y="30" xlink:href="#capsule3:unit2_tags"/>
+
+		<text x="-40" y="30"  text-anchor="start" class="code">0 &#xA0;EXP/TOKEN</text>
+		<text x="-40" y="50"  text-anchor="start" class="code">1 &#xA0;etc</text>
+		<text x="-40" y="70"  text-anchor="start" class="code">2</text>
+	</g>
+
+</svg>
+

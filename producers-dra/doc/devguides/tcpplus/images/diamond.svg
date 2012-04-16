@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+
+<!-- $Id$ -->
+
+<svg
+	xmlns="http://www.w3.org/2000/svg"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+
+	class="figure"
+	width="100" height="100"
+	transform="translate(.5 .5)">
+
+	<defs>
+		<marker id="diamond:arrow"
+				markerWidth="5" markerHeight="5"
+				markerUnits="userSpaceOnUse"
+				refX="5" refY="2.5"
+				orient="auto">
+			<polyline points="0,0 5,2.5 0,5" class="arrow"/>
+		</marker>
+	</defs>
+
+	<g transform="translate(50, 50)" text-anchor="middle">
+		<text y="-40">D</text>
+		<text x="-40">B</text>
+		<text x="40">C</text>
+		<text y="40">A</text>
+
+		<line y1="-30" x1="-10" y2="-10" x2="-30"
+			marker-end="url(#diamond:arrow)"/>
+		<line y1="-30" x1="10" y2="-10" x2="30"
+			marker-end="url(#diamond:arrow)"/>
+		<line y1="10" x1="-30" y2="30" x2="-10"
+			marker-end="url(#diamond:arrow)"/>
+		<line y1="10" x1="30" y2="30" x2="10"
+			marker-end="url(#diamond:arrow)"/>
+	</g>
+
+</svg>
+

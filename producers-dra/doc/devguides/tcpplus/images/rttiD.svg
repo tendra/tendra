@@ -1,0 +1,161 @@
+<?xml version="1.0"?>
+
+<!-- $Id$ -->
+
+<svg
+	xmlns="http://www.w3.org/2000/svg"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+
+	class="figure"
+	width="520" height="200"
+	transform="translate(.5 .5)">
+
+	<defs>
+		<marker id="rttiD:arrow"
+				markerWidth="5" markerHeight="5"
+				markerUnits="userSpaceOnUse"
+				refX="5" refY="2.5"
+				orient="auto">
+			<polyline points="0,0 5,2.5 0,5" class="arrow"/>
+		</marker>
+
+		<g id="rttiD:empty" class="shaded">
+			<rect x="-10" y="-10" height="20" width="20"/>
+		</g>
+
+		<g id="rttiD:3">
+			<rect x="-10" y="-10" height="20" width="20"/>
+			<text text-anchor="middle" class="code">3</text>
+		</g>
+
+		<g id="rttiD:0">
+			<rect x="-10" y="-10" height="20" width="20"/>
+			<text text-anchor="middle" class="code">0</text>
+		</g>
+
+		<g id="rttiD:1">
+			<rect x="-10" y="-10" height="20" width="20"/>
+			<text text-anchor="middle" class="code">1</text>
+		</g>
+
+		<g id="rttiD:A">
+			<rect x="-20" y="-10" height="20" width="40"/>
+			<text text-anchor="middle" class="code">&quot;A&quot;</text>
+		</g>
+
+		<g id="rttiD:B">
+			<rect x="-20" y="-10" height="20" width="40"/>
+			<text text-anchor="middle" class="code">&quot;B&quot;</text>
+		</g>
+
+		<g id="rttiD:C">
+			<rect x="-20" y="-10" height="20" width="40"/>
+			<text text-anchor="middle" class="code">&quot;C&quot;</text>
+		</g>
+
+		<g id="rttiD:D">
+			<rect x="-20" y="-10" height="20" width="40"/>
+			<text text-anchor="middle" class="code">&quot;D&quot;</text>
+		</g>
+
+		<g id="rttiD:BA">
+			<rect x="-20" y="-10" height="20" width="40"/>
+			<text text-anchor="middle" class="code">B::A</text>
+		</g>
+
+		<g id="rttiD:CA">
+			<rect x="-20" y="-10" height="20" width="40"/>
+			<text text-anchor="middle" class="code">C::A</text>
+		</g>
+
+		<g id="rttiD:DB">
+			<rect x="-20" y="-10" height="20" width="40"/>
+			<text text-anchor="middle" class="code">D::B</text>
+		</g>
+
+		<g id="rttiD:DC">
+			<rect x="-20" y="-10" height="20" width="40"/>
+			<text text-anchor="middle" class="code">D::C</text>
+		</g>
+
+		<g id="rttiD:down">
+			<rect x="-10" y="-10" height="20" width="20"/>
+			<line y2="30" marker-end="url(#rttiD:arrow)"/>
+		</g>
+
+		<g id="rttiD:downleft">
+			<rect x="-10" y="-10" height="20" width="20"/>
+			<polyline points="0,0 0,20 -190,20"/>
+		</g>
+
+		<g id="rttiD:across">
+			<rect x="-10" y="-10" height="20" width="20"/>
+			<line x2="80" marker-end="url(#rttiD:arrow)"/>
+		</g>
+
+	</defs>
+
+	<g transform="translate(55, 20)">
+		<text x="10" text-anchor="end" class="code">typeid D = </text>
+
+		<use x="30" xlink:href="#rttiD:3"/>
+		<use x="60" xlink:href="#rttiD:D"/>
+		<use x="90" xlink:href="#rttiD:down"/>
+	</g>
+
+	<g transform="translate(55, 60)">
+		<use x="90" xlink:href="#rttiD:down"/>
+		<use x="120" xlink:href="#rttiD:DB"/>
+		<use x="150" xlink:href="#rttiD:0"/>
+		<use x="170" xlink:href="#rttiD:0"/>
+		<use x="190" xlink:href="#rttiD:across"/>
+
+		<use x="280" xlink:href="#rttiD:down"/>
+		<use x="310" xlink:href="#rttiD:DC"/>
+		<use x="340" xlink:href="#rttiD:0"/>
+		<use x="360" xlink:href="#rttiD:0"/>
+		<use x="380" xlink:href="#rttiD:empty"/>
+	</g>
+
+	<g transform="translate(55, 100)">
+		<text x="70" text-anchor="end" class="code">typeid B = </text>
+
+		<use x="90" xlink:href="#rttiD:3"/>
+		<use x="120" xlink:href="#rttiD:B"/>
+		<use x="150" xlink:href="#rttiD:down"/>
+	</g>
+
+	<g transform="translate(245, 100)">
+		<text x="70" text-anchor="end" class="code">typeid C = </text>
+
+		<use x="90" xlink:href="#rttiD:3"/>
+		<use x="120" xlink:href="#rttiD:C"/>
+		<use x="150" xlink:href="#rttiD:down"/>
+	</g>
+
+	<g transform="translate(125, 140)">
+		<use x="80" xlink:href="#rttiD:down"/>
+		<use x="110" xlink:href="#rttiD:BA"/>
+		<use x="140" xlink:href="#rttiD:0"/>
+		<use x="160" xlink:href="#rttiD:1"/>
+		<use x="180" xlink:href="#rttiD:empty"/>
+	</g>
+
+	<g transform="translate(315, 140)">
+		<use x="80" xlink:href="#rttiD:downleft"/>
+		<use x="110" xlink:href="#rttiD:CA"/>
+		<use x="140" xlink:href="#rttiD:0"/>
+		<use x="160" xlink:href="#rttiD:1"/>
+		<use x="180" xlink:href="#rttiD:empty"/>
+	</g>
+
+	<g transform="translate(125, 180)">
+		<text x="60" text-anchor="end" class="code">typeid A = </text>
+
+		<use x="80" xlink:href="#rttiD:3"/>
+		<use x="110" xlink:href="#rttiD:A"/>
+		<use x="140" xlink:href="#rttiD:empty"/>
+	</g>
+
+</svg>
+

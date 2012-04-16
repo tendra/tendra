@@ -1,0 +1,166 @@
+<?xml version="1.0"?>
+
+<!-- $Id$ -->
+
+<svg
+	xmlns="http://www.w3.org/2000/svg"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+
+	class="figure"
+	width="440" height="410"
+	transform="translate(.5 .5)">
+
+	<defs>
+		<marker id="virtualD:arrow"
+				markerWidth="5" markerHeight="5"
+				markerUnits="userSpaceOnUse"
+				refX="5" refY="2.5"
+				orient="auto">
+			<polyline points="0,0 5,2.5 0,5" class="arrow"/>
+		</marker>
+
+		<g id="virtualD:ptrA">
+			<rect x="-40" y="-15" height="30" width="80"/>
+			<text text-anchor="middle" class="code">ptr A</text>
+		</g>
+
+		<g id="virtualD:A">
+			<rect x="-40" y="-25" height="50" width="80"/>
+			<text text-anchor="middle" class="big">A</text>
+		</g>
+
+		<g id="virtualD:B">
+			<rect x="-40" y="-25" height="50" width="80"/>
+			<text text-anchor="middle" class="big">B</text>
+		</g>
+
+		<g id="virtualD:C">
+			<rect x="-40" y="-25" height="50" width="80"/>
+			<text text-anchor="middle" class="big">C</text>
+		</g>
+
+		<g id="virtualD:D">
+			<rect x="-40" y="-25" height="50" width="80"/>
+			<text text-anchor="middle" class="big">D</text>
+		</g>
+
+		<g id="virtualD:vptrDA">
+			<rect x="-40" y="-15" height="30" width="80"/>
+			<text text-anchor="middle" class="code">vptr D::A</text>
+		</g>
+
+		<g id="virtualD:vptrDB">
+			<rect x="-40" y="-15" height="30" width="80"/>
+			<text text-anchor="middle" class="code">vptr D::B</text>
+		</g>
+
+		<g id="virtualD:vptrCA">
+			<rect x="-40" y="-15" height="30" width="80"/>
+			<text text-anchor="middle" class="code">vptr C::A</text>
+		</g>
+
+		<g id="virtualD:vtblDA">
+			<rect x="-40" y="-15" height="30" width="80"/>
+			<text text-anchor="middle" class="code">vtbl D::A</text>
+		</g>
+
+		<g id="virtualD:vtblDB" class="shaded">
+			<rect x="-40" y="-15" height="30" width="80"/>
+			<text text-anchor="middle" class="code">vtbl D::B</text>
+		</g>
+
+		<g id="virtualD:vtblDC">
+			<rect x="-40" y="-15" height="30" width="80"/>
+			<text text-anchor="middle" class="code">vtbl D::C</text>
+		</g>
+
+		<g id="virtualD:vptrDC">
+			<rect x="-40" y="-15" height="30" width="80"/>
+			<text text-anchor="middle" class="code">vptr D::C</text>
+		</g>
+
+		<g id="virtualD:vptrD" class="shaded">
+			<rect x="-40" y="-15" height="30" width="80"/>
+			<text text-anchor="middle" class="shaded">vptr D</text>
+		</g>
+
+		<g id="virtualD:vtblC">
+			<rect x="-40" y="-15" height="30" width="80"/>
+			<text text-anchor="middle" class="code">vtbl C</text>
+		</g>
+
+		<g id="virtualD:vtblD">
+			<rect x="-40" y="-15" height="30" width="80"/>
+			<text text-anchor="middle" class="code">vtbl D</text>
+		</g>
+
+		<g id="virtualD:typeidD">
+			<rect x="-40" y="-15" height="30" width="80"/>
+			<text text-anchor="middle" class="code">typeid D</text>
+		</g>
+
+		<g id="virtualD:up">
+			<line y1="35" y2="-45" marker-end="url(#virtualD:arrow)"/>
+		</g>
+
+		<g id="virtualD:down">
+			<line y1="-25" y2="25" marker-end="url(#virtualD:arrow)"/>
+		</g>
+
+		<g id="virtualD:across">
+			<line x1="-40" x2="40" marker-end="url(#virtualD:arrow)"/>
+		</g>
+
+		<g id="virtualD:acrossup">
+			<polyline points="-40,0 0,0 0,-100"/>
+		</g>
+
+		<g id="virtualD:chaindown">
+			<polyline points="-15,110 0,110"/>
+			<polyline points="0,0 -15,0 -15,305 0,305"
+				marker-end="url(#virtualD:arrow)"/>
+		</g>
+
+		<g id="virtualD:links">
+			<polyline points="-40,-80 0,-80"/>
+			<polyline points="-40,-190 0,-190 0,100 -40,100"/>
+		</g>
+	</defs>
+
+	<g transform="translate(70, 20)">
+		<use y="0"   xlink:href="#virtualD:ptrA"/>
+		<use y="40"  xlink:href="#virtualD:B"/>
+		<use y="80"  xlink:href="#virtualD:vptrDB"/>
+		<use y="110" xlink:href="#virtualD:ptrA"/>
+		<use y="150" xlink:href="#virtualD:C"/>
+		<use y="190" xlink:href="#virtualD:vptrDC"/>
+		<use y="230" xlink:href="#virtualD:D"/>
+		<use y="270" xlink:href="#virtualD:vptrD"/>
+
+		<use y="80" x="80"  xlink:href="#virtualD:across"/>
+		<use y="80" x="160" xlink:href="#virtualD:vtblDB"/>
+
+		<use y="190" x="80"  xlink:href="#virtualD:across"/>
+		<use y="190" x="160" xlink:href="#virtualD:vtblDC"/>
+		<use y="140" x="160" xlink:href="#virtualD:up"/>
+		<use y="230" x="160" xlink:href="#virtualD:down"/>
+
+		<use y="270" x="80"  xlink:href="#virtualD:across"/>
+		<use y="270" x="160" xlink:href="#virtualD:vtblD"/>
+		<use y="270" x="240" xlink:href="#virtualD:across"/>
+		<use y="270" x="320" xlink:href="#virtualD:typeidD"/>
+		<use y="270" x="240" xlink:href="#virtualD:links"/>
+
+		<use y="0"   x="-40" xlink:href="#virtualD:chaindown"/>
+	</g>
+
+	<g transform="translate(70, 310)">
+		<use y="40"  xlink:href="#virtualD:A"/>
+		<use y="80"  xlink:href="#virtualD:vptrDA"/>
+
+		<use y="80" x="80" xlink:href="#virtualD:across"/>
+		<use y="80" x="160" xlink:href="#virtualD:vtblDA"/>
+	</g>
+
+</svg>
+

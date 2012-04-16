@@ -204,7 +204,7 @@ extern int fputs(const char *, FILE *);</programlisting>
 
 			<figure id="trad_scheme">
 				<title>Traditional Compilation Phases</title>
-				<graphic fileref="images/trad_scheme.png"/>
+				<graphic fileref="images/trad_scheme.svg"/>
 			</figure>
 
 			<para>So, we write our target independent program (top left),

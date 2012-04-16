@@ -1,0 +1,138 @@
+<?xml version="1.0"?>
+
+<!-- $Id$ -->
+
+<svg
+	xmlns="http://www.w3.org/2000/svg"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+
+	class="figure"
+	width="635" height="200"
+	transform="translate(.5 .5)">
+
+	<defs>
+		<marker id="drun:arrow"
+				markerWidth="5" markerHeight="5"
+				markerUnits="userSpaceOnUse"
+				refX="5" refY="2.5"
+				orient="auto">
+			<polyline points="0,0 5,2.5 0,5" class="arrow"/>
+		</marker>
+
+		<line id="drun:up"   y1="-15" y2="-40"/>
+		<line id="drun:down" y1="40"  y2="15"
+			marker-end="url(#drun:arrow)"/>
+	</defs>
+
+	<g transform="translate(430 100)" text-anchor="middle">
+		<g transform="translate(-80 -80)">
+			<g transform="translate(-240 0)">
+				<rect x="-30" y="-15" width="60" height="30"/>
+				<text style="code">calculus</text>
+			</g>
+	
+			<g transform="translate(-160 0)">
+				<rect x="-30" y="-15" width="60" height="30"/>
+				<text style="code">make_err</text>
+			</g>
+	
+			<g transform="translate(-80 0)">
+				<rect x="-30" y="-15" width="60" height="30"/>
+				<text style="code">make_tdf</text>
+			</g>
+	
+			<g transform="translate(40 0)">
+				<rect x="-30" y="-15" width="60" height="30"/>
+				<text style="code">tcc</text>
+				<use xlink:href="#drun:down"/>
+			</g>
+		</g>
+
+		<line y1="-40" y2="-40" x1="-400" x2="160"/>
+
+		<g transform="translate(-400 0)">
+			<use xlink:href="#drun:up"/>
+			<rect x="-30" y="-15" width="60" height="30"/>
+			<text style="code">lexi</text>
+			<use xlink:href="#drun:down"/>
+		</g>
+
+		<g transform="translate(-320 0)">
+			<use xlink:href="#drun:up"/>
+			<rect x="-30" y="-15" width="60" height="30"/>
+			<text style="code">sid</text>
+			<use xlink:href="#drun:down"/>
+		</g>
+
+		<g transform="translate(-240 0)">
+			<use xlink:href="#drun:up"/>
+			<rect x="-30" y="-15" width="60" height="30"/>
+			<text style="code">tld</text>
+			<use xlink:href="#drun:down"/>
+		</g>
+
+		<g transform="translate(-160 0)">
+			<use xlink:href="#drun:up"/>
+			<rect x="-30" y="-15" width="60" height="30"/>
+			<text style="code">disp</text>
+		</g>
+
+		<g transform="translate(-80 0)">
+			<use xlink:href="#drun:up"/>
+			<rect x="-30" y="-15" width="60" height="30"/>
+			<text style="code">tld</text>
+		</g>
+
+		<g transform="translate(0 0)">
+			<use xlink:href="#drun:up"/>
+			<rect x="-30" y="-15" width="60" height="30"/>
+			<text style="code">tspec</text>
+		</g>
+
+		<g transform="translate(80 0)">
+			<use xlink:href="#drun:up"/>
+			<rect x="-30" y="-15" width="60" height="30"/>
+			<text style="code">tpl</text>
+		</g>
+
+		<g transform="translate(160 0)">
+			<use xlink:href="#drun:up"/>
+			<rect x="-30" y="-15" width="60" height="30"/>
+			<text style="code">tnc</text>
+		</g>
+
+		<g transform="translate(0 50)">
+			<g transform="translate(-280 30)">
+				<line y1="-40" y2="-40" x1="-120" x2="40"/>
+	
+				<use xlink:href="#drun:up"/>
+				<rect x="-30" y="-15" width="60" height="30"/>
+				<text style="code">libexds</text>
+			</g>
+	
+			<g transform="translate(-120 0)">
+				<line y1="-15" y2="-90" marker-end="url(#drun:arrow)"/>
+				<rect x="-30" y="-15" width="60" height="30"/>
+				<text style="code">osdep</text>
+			</g>
+	
+			<g transform="translate(20 0)">
+				<line x1="20" x2="20" y1="-15" y2="-90"
+					marker-end="url(#drun:arrow)"/>
+				<rect x="-50" y="-15" width="100" height="30"/>
+				<text y="-5" style="code">tdfc</text>
+				<text y="5" style="code">(producers-dra)</text>
+			</g>
+	
+			<g transform="translate(140 0)">
+				<line x1="-20" x2="-20" y1="-15" y2="-90"
+					marker-end="url(#drun:arrow)"/>
+				<rect x="-50" y="-15" width="100" height="30"/>
+				<text y="-5" style="code">trans</text>
+				<text y="5" style="code">(installers-dra)</text>
+			</g>
+		</g>
+	</g>
+
+</svg>
+
