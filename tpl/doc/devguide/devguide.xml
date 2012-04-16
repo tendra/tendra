@@ -36,7 +36,7 @@
 
         <revhistory>
 			<revision role="version">
-				<date>21-02-2010</date>
+				<date>2010-02-21</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>Moved out tpl as a standalone tool.</para>
@@ -44,7 +44,7 @@
 			</revision>
 
 			<revision role="version">
-				<date>29-05-2007</date>
+				<date>2007-05-29</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>Moved out tpl to form the start of the ANDFutils
@@ -53,7 +53,7 @@
 			</revision>
 
 			<revision role="docs">
-				<date>04-12-2007</date>
+				<date>2007-12-04</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>Converted to DocBook.</para>
@@ -61,7 +61,7 @@
 			</revision>
 
 			<revision role="dev">
-				<date>09-07-2006</date>
+				<date>2006-07-09</date>
 				<authorinitials>asmodai</authorinitials>
 				<revdescription>
 					<para>Converted from OSSG to ANSI C.</para>
@@ -69,7 +69,7 @@
 			</revision>
 
 			<revision role="version">
-				<date>24-07-2004</date>
+				<date>2004-07-24</date>
 				<authorinitials>asmodai</authorinitials>
 				<revdescription>
 					<para>Rename pl to tpl, to keep from clashing with some other
@@ -78,7 +78,7 @@
 			</revision>
 
 			<revision role="version">
-				<date>30-07-1998</date>
+				<date>1998-07-30</date>
 				<revnumber>pl 5.0</revnumber>
 				<authorinitials>DERA</authorinitials>
 				<revdescription>

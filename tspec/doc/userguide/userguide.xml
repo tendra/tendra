@@ -41,7 +41,7 @@
 
 		<revhistory>
 			<revision role="docs">
-				<date>14-09-2007</date>
+				<date>2007-09-14</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>Added example of nested subsets.</para>
@@ -49,7 +49,7 @@
 			</revision>
 
 			<revision role="dev">
-				<date>21-05-2007</date>
+				<date>2007-05-21</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>Remaining conversion to DocBook.</para>
@@ -69,7 +69,7 @@
 			</revision>
 
 			<revision role="dev">
-				<date>05-05-2005</date>
+				<date>2005-05-05</date>
 				<authorinitials>asmodai</authorinitials>
 				<revdescription>
 					<para>Initial conversion to DocBook.</para>
@@ -95,7 +95,7 @@
 			</revision>
 
 			<revision role="version">
-				<date>30-07-1998</date>
+				<date>1998-07-30</date>
 				<revnumber>Tspec 2.8</revnumber>
 				<authorinitials>DERA</authorinitials>
 				<revdescription>

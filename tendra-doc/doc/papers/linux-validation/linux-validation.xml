@@ -55,7 +55,7 @@
 
 		<revhistory>
 			<revision role="version">
-				<date>30-07-1998</date>
+				<date>1998-07-30</date>
 				<authorinitials>DERA</authorinitials>
 				<revdescription>
 					<para>TenDRA 4.1.2 release.</para>
@@ -63,7 +63,7 @@
 			</revision>
 
 			<revision role="version">
-				<date>30-07-1996</date>
+				<date>1996-07-30</date>
 				<authorinitials>OSFRI</authorinitials>
 				<revdescription>
 					<para>Initial revision.</para>

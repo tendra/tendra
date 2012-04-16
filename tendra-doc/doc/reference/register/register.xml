@@ -32,7 +32,7 @@
 
 		<revhistory>
 			<revision role="version">
-				<date>21-02-2010</date>
+				<date>2010-02-21</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>Moved out andfutils to standalone tools.</para>
@@ -40,7 +40,7 @@
 			</revision>
 
 			<revision role="version">
-				<date>02-12-2007</date>
+				<date>2007-12-02</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>Moved out andfutils as a standalone package.</para>
@@ -48,7 +48,7 @@
 			</revision>
 
 			<revision role="dev">
-				<date>01-08-2007</date>
+				<date>2007-08-01</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>Converted to DocBook.</para>
@@ -56,7 +56,7 @@
 			</revision>
 
 			<revision role="version">
-				<date>30-07-1998</date>
+				<date>1998-07-30</date>
 				<authorinitials>DERA</authorinitials>
 				<revdescription>
 					<para>TenDRA 4.1.2 release.</para>

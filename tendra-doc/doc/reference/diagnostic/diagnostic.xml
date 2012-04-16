@@ -40,7 +40,7 @@
 
 		<revhistory>
 			<revision role="dev">
-				<date>21-10-2011</date>
+				<date>2011-10-21</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>Remaining conversion to DocBook.</para>
@@ -48,7 +48,7 @@
 			</revision>
 
 			<revision role="dev">
-				<date>15-04-2005</date>
+				<date>2005-04-15</date>
 				<authorinitials>asmodai</authorinitials>
 				<revdescription>
 					<para>Initial conversion to DocBook.</para>
@@ -56,7 +56,7 @@
 			</revision>
 
 			<revision role="version">
-				<date>30-07-1998</date>
+				<date>1998-07-30</date>
 				<authorinitials>DERA</authorinitials>
 				<revdescription>
 					<para>TenDRA 4.1.2 release.</para>

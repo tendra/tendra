@@ -38,7 +38,7 @@
 
 		<revhistory>
 			<revision role="version">
-				<date>21-02-2010</date>
+				<date>2010-02-21</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>Moved out the DRA producers as a standalone tool.</para>
@@ -46,7 +46,7 @@
 			</revision>
 
 			<revision role="docs">
-				<date>25-03-2008</date>
+				<date>2008-03-25</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>Moved out a description of the symbol table semantics
@@ -60,7 +60,7 @@
 			</revision>
 
 			<revision role="docs">
-				<date>24-03-2008</date>
+				<date>2008-03-24</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>Split off various sections to the
@@ -70,7 +70,7 @@
 			</revision>
 
 			<revision role="dev">
-				<date>24-03-2008</date>
+				<date>2008-03-24</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>Converted to DocBook.</para>
@@ -78,7 +78,7 @@
 			</revision>
 
 			<revision role="dev">
-				<date>01-09-2006</date>
+				<date>2006-09-01</date>
 				<authorinitials>asmodai</authorinitials>
 				<revdescription>
 						<para>Converted from OSSG to ANSI C.</para>
@@ -86,7 +86,7 @@
 			</revision>
 
 			<revision role="buildsystem">
-				<date>06-06-2004</date>
+				<date>2004-06-06</date>
 				<authorinitials>asmodai</authorinitials>
 				<revdescription>
 						<para>Converted to a new build system.</para>
@@ -94,7 +94,7 @@
 			</revision>
 
 			<revision role="version">
-				<date>30-07-1998</date>
+				<date>1998-07-30</date>
 				<revnumber>tdfc2 1.8.2</revnumber>
 				<authorinitials>DERA</authorinitials>
 				<revdescription>

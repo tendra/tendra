@@ -34,7 +34,7 @@
 
 		<revhistory>
 			<revision role="version">
-				<date>21-02-2010</date>
+				<date>2010-02-21</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>Moved out tnc as a standalone tool.</para>
@@ -42,7 +42,7 @@
 			</revision>
 
 			<revision role="docs">
-				<date>03-12-2007</date>
+				<date>2007-12-03</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>Converted to DocBook.</para>
@@ -50,7 +50,7 @@
 			</revision>
 
 			<revision role="version">
-				<date>02-10-2007</date>
+				<date>2007-10-02</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>Moved out tnc to join ANDFutils.</para>
@@ -58,7 +58,7 @@
 			</revision>
 
 			<revision role="dev">
-				<date>26-08-2005</date>
+				<date>2005-08-26</date>
 				<authorinitials>asmodai</authorinitials>
 				<revdescription>
 					<para>Converted from OSSG to ANSI C.</para>
@@ -66,7 +66,7 @@
 			</revision>
 
 			<revision role="buildsystem">
-				<date>03-06-2004</date>
+				<date>2004-06-03</date>
 				<authorinitials>asmodai</authorinitials>
 				<revdescription>
 					<para>Converted to a new build system.</para>
@@ -76,7 +76,7 @@
 			</revision>
 
 			<revision role="version">
-				<date>30-07-1998</date>
+				<date>1998-07-30</date>
 				<revnumber>tnc 1.9</revnumber>
 				<authorinitials>DERA</authorinitials>
 				<revdescription>

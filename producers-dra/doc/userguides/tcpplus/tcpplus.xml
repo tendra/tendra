@@ -44,7 +44,7 @@
 
 		<revhistory>
 			<revision role="dev">
-				<date>11-09-2011</date>
+				<date>2011-09-11</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>Remove <code>extra.err</code>.
@@ -57,7 +57,7 @@
 			</revision>
 
 			<revision role="docs">
-				<date>10-01-2011</date>
+				<date>2011-01-10</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>Restructured &tcpplus-userguide.doc;.</para>
@@ -65,7 +65,7 @@
 			</revision>
 
 			<revision role="buildsystem">
-				<date>01-08-2010</date>
+				<date>2010-08-01</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>Some normalisation for makefile variables, now I'm done moving things around;
@@ -84,7 +84,7 @@
 			</revision>
 
 			<revision role="version">
-				<date>01-08-2010</date>
+				<date>2010-08-01</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>Move out the C++ LPI token implementations and the C++ (minimal) standard library
@@ -93,7 +93,7 @@
 			</revision>
 
 			<revision role="version">
-				<date>21-02-2010</date>
+				<date>2010-02-21</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>Moved out the DRA producers as a standalone tool.</para>
@@ -101,7 +101,7 @@
 			</revision>
 
 			<revision role="docs">
-				<date>25-03-2008</date>
+				<date>2008-03-25</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>Moved out the &ldquo;invocation&rdquo; chapter and
@@ -118,7 +118,7 @@
 			</revision>
 
 			<revision role="docs">
-				<date>01-10-2007</date>
+				<date>2007-10-01</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>Moved out the &tcpplus-devguide.doc; into a
@@ -127,7 +127,7 @@
 			</revision>
 
 			<revision role="dev">
-				<date>01-11-2007</date>
+				<date>2007-11-01</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>Conversion of images to a vector format.
@@ -136,7 +136,7 @@
 			</revision>
 
 			<revision role="dev">
-				<date>29-09-2007</date>
+				<date>2007-09-29</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>Remaining conversion to DocBook.</para>
@@ -144,7 +144,7 @@
 			</revision>
 
 			<revision role="featurechange">
-				<date>17-07-2007</date>
+				<date>2007-07-17</date>
 				<authorinitials>truedfx</authorinitials>
 				<revdescription>
 					<para>Suppose three files are being used.</para>
@@ -172,7 +172,7 @@ int main(void) {}</programlisting>
 			</revision>
 
 			<revision role="dev">
-				<date>17-07-2007</date>
+				<date>2007-07-17</date>
 				<authorinitials>truedfx</authorinitials>
 				<revdescription>
 					<para>Even when preprocessing, pragmas should be evaluated, because they
@@ -186,7 +186,7 @@ int main(void) {}</programlisting>
 			</revision>
 
 			<revision role="dev">
-				<date>17-07-2007</date>
+				<date>2007-07-17</date>
 				<authorinitials>truedfx</authorinitials>
 				<revdescription>
 					<para>When a function contains declarations, these are generated in the
@@ -201,7 +201,7 @@ int main(void) {}</programlisting>
 			</revision>
 
 			<revision role="dev">
-				<date>17-07-2007</date>
+				<date>2007-07-17</date>
 				<authorinitials>truedfx</authorinitials>
 				<revdescription>
 					<para>Calculate some more types of expressions during parsing.
@@ -220,7 +220,7 @@ int main(void) {}</programlisting>
 			</revision>
 
 			<revision role="featurechange">
-				<date>17-07-2007</date>
+				<date>2007-07-17</date>
 				<authorinitials>truedfx</authorinitials>
 				<revdescription>
 					<para>Allow <code>literal</code> to prefix an expression to indicate that the expression
@@ -238,7 +238,7 @@ int main(void) {}</programlisting>
 			</revision>
 
 			<revision role="featurechange">
-				<date>17-07-2007</date>
+				<date>2007-07-17</date>
 				<authorinitials>truedfx</authorinitials>
 				<revdescription>
 					<para>Support anonymous unions as an extension in C. The code to handle these
@@ -256,7 +256,7 @@ int main(void) {}</programlisting>
 
 
 			<revision role="dev">
-				<date>03-05-2005</date>
+				<date>2005-05-03</date>
 				<authorinitials>asmodai</authorinitials>
 				<revdescription>
 					<para>Initial conversion to DocBook.</para>
@@ -264,7 +264,7 @@ int main(void) {}</programlisting>
 			</revision>
 
 			<revision role="version">
-				<date>30-07-1998</date>
+				<date>1998-07-30</date>
 				<revnumber>tcpplus 1.8.2</revnumber>
 				<authorinitials>DERA</authorinitials>
 				<revdescription>

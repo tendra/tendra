@@ -33,7 +33,7 @@
 
 		<revhistory>
 			<revision role="version">
-				<date>21-02-2010</date>
+				<date>2010-02-21</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>Moved out the DRA producers as a standalone tool.</para>
@@ -41,7 +41,7 @@
 			</revision>
 
 			<revision role="docs">
-				<date>25-03-2008</date>
+				<date>2008-03-25</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>A start on a new document;
@@ -53,7 +53,7 @@
 			</revision>
 
 			<revision role="version">
-				<date>30-07-1998</date>
+				<date>1998-07-30</date>
 				<revnumber>tdfc2/tcpplus 1.8.2</revnumber>
 				<authorinitials>DERA</authorinitials>
 				<revdescription>

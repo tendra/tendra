@@ -42,7 +42,7 @@
 
 		<revhistory>
 			<revision role="docs">
-				<date>21-02-2010</date>
+				<date>2010-02-21</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>Restructuring, in order to get rid of the style guide.</para>
@@ -50,7 +50,7 @@
 			</revision>
 
 			<revision role="docs">
-				<date>26-08-2010</date>
+				<date>2010-08-26</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>Split up implementation details
@@ -59,7 +59,7 @@
 			</revision>
 
 			<revision role="version">
-				<date>21-02-2010</date>
+				<date>2010-02-21</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>Moved out the DRA producers as a standalone tool.</para>
@@ -67,7 +67,7 @@
 			</revision>
 
 			<revision role="docs">
-				<date>01-10-2007</date>
+				<date>2007-10-01</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>Moved out the &tcpplus-devguide.doc; into a
@@ -76,7 +76,7 @@
 			</revision>
 
 			<revision role="dev">
-				<date>29-09-2007</date>
+				<date>2007-09-29</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>Remaining conversion to DocBook.</para>
@@ -84,7 +84,7 @@
 			</revision>
 
 			<revision role="dev">
-				<date>03-05-2005</date>
+				<date>2005-05-03</date>
 				<authorinitials>asmodai</authorinitials>
 				<revdescription>
 					<para>Initial conversion to DocBook.</para>
@@ -92,7 +92,7 @@
 			</revision>
 
 			<revision role="version">
-				<date>30-07-1998</date>
+				<date>1998-07-30</date>
 				<revnumber>tcpplus 1.8.2</revnumber>
 				<authorinitials>DERA</authorinitials>
 				<revdescription>

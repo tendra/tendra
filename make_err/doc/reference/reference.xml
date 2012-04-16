@@ -35,7 +35,7 @@
 
 		<revhistory>
 			<revision role="version">
-				<date>01-10-2007</date>
+				<date>2007-10-01</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>Split off from the &tcpplus-userguide.doc;.</para>
@@ -43,7 +43,7 @@
 			</revision>
 
 			<revision role="version">
-				<date>30-07-1998</date>
+				<date>1998-07-30</date>
 				<revnumber>make_err 1.1</revnumber>
 				<authorinitials>DERA</authorinitials>
 				<revdescription>

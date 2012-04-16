@@ -46,7 +46,7 @@
 
 		<revhistory>
 			<revision role="buildsystem">
-				<date>29-07-2010</date>
+				<date>2010-07-29</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>The dependency on libexds is now resolved internally
@@ -55,7 +55,7 @@
 			</revision>
 
 			<revision role="featurechange">
-				<date>24-04-2009</date>
+				<date>2009-04-24</date>
 				<authorinitials>kevin</authorinitials>
 				<revdescription>
 					<para>Removed <code>##</code>.</para>
@@ -63,7 +63,7 @@
 			</revision>
 
 			<revision role="featurechange">
-				<date>01-12-2008</date>
+				<date>2008-12-01</date>
 				<authorinitials>kevin</authorinitials>
 				<revdescription>
 					<para>Implemented group merge.</para>
@@ -71,7 +71,7 @@
 			</revision>
 
 			<revision role="featurechange">
-				<date>17-11-2008</date>
+				<date>2008-11-17</date>
 				<authorinitials>kevin</authorinitials>
 				<revdescription>
 					<para>Added <code>ARGUMENT name:ctype;</code></para>
@@ -79,7 +79,7 @@
 			</revision>
 
 			<revision role="featurechange">
-				<date>02-11-2008</date>
+				<date>2008-11-02</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>EOF is no longer permitted in groups.</para>
@@ -94,7 +94,7 @@
 			</revision>
 
 			<revision role="featurechange">
-				<date>26-09-2008</date>
+				<date>2008-09-26</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>Removed legacy support for tokens mapping to functions (and in particular,
@@ -118,7 +118,7 @@
 			</revision>
 
 			<revision role="featurechange">
-				<date>10-07-2008</date>
+				<date>2008-07-10</date>
 				<authorinitials>kevin</authorinitials>
 				<revdescription>
 					<para>Added the &ldquo;test&rdquo; language.</para>
@@ -126,7 +126,7 @@
 			</revision>
 
 			<revision role="featurechange">
-				<date>24-06-2008</date>
+				<date>2008-06-24</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>The <filename>.lct</filename> headers are now output after
@@ -139,7 +139,7 @@
 			</revision>
 
 			<revision role="featurechange">
-				<date>24-06-2008</date>
+				<date>2008-06-24</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>Added a new command line option, <code>-i</code>, for
@@ -157,7 +157,7 @@
 			</revision>
 
 			<revision role="featurechange">
-				<date>25-05-2008</date>
+				<date>2008-05-25</date>
 				<authorinitials>kevin</authorinitials>
 				<revdescription>
 					<para>Added <filename>.lct</filename> actions files.
@@ -172,7 +172,7 @@
 			</revision>
 
 			<revision role="featurechange">
-				<date>22-01-2008</date>
+				<date>2008-01-22</date>
 				<authorinitials>kevin</authorinitials>
 				<revdescription>
 					<para>Added <code>[...)</code> range markers for zones.
@@ -181,7 +181,7 @@
 			</revision>
 
 			<revision role="featurechange">
-				<date>09-01-2008</date>
+				<date>2008-01-09</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>Added Graphivz &ldquo;Dot&rdquo; output.</para>
@@ -189,7 +189,7 @@
 			</revision>
 
 			<revision role="featurechange">
-				<date>08-01-2008</date>
+				<date>2008-01-08</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para><code>lexi_group()</code> now returns a <code>bool</code>
@@ -198,7 +198,7 @@
 			</revision>
 
 			<revision role="featurechange">
-				<date>08-01-2008</date>
+				<date>2008-01-08</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>Added <code>-a</code>; assertions are now disabled by default.</para>
@@ -206,7 +206,7 @@
 			</revision>
 
 			<revision role="featurechange">
-				<date>08-01-2008</date>
+				<date>2008-01-08</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>Added C99 as an output language.</para>
@@ -214,7 +214,7 @@
 			</revision>
 
 			<revision role="dev">
-				<date>08-01-2008</date>
+				<date>2008-01-08</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>Added support for multiple output files,
@@ -224,7 +224,7 @@
 			</revision>
 
 			<revision role="featurechange">
-				<date>05-01-2008</date>
+				<date>2008-01-05</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>Unknown tokens are now provided by
@@ -234,7 +234,7 @@
 			</revision>
 
 			<revision role="featurechange">
-				<date>05-01-2008</date>
+				<date>2008-01-05</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para><code>LEX_EOF</code> is now known as
@@ -243,7 +243,7 @@
 			</revision>
 
 			<revision role="featurechange">
-				<date>25-11-2007</date>
+				<date>2007-11-25</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>Moved the token buffer into lexi_state.
@@ -253,7 +253,7 @@
 			</revision>
 
 			<revision role="featurechange">
-				<date>24-11-2007</date>
+				<date>2007-11-24</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>The state for zones is now maintained as part of a slightly
@@ -268,7 +268,7 @@
 			</revision>
 
 			<revision role="featurechange">
-				<date>24-11-2007</date>
+				<date>2007-11-24</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>Added -l for the output language.</para>
@@ -276,7 +276,7 @@
 			</revision>
 
 			<revision role="featurechange">
-				<date>24-11-2007</date>
+				<date>2007-11-24</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>The group-querying functions are now behind a single interface,
@@ -292,7 +292,7 @@
 			</revision>
 
 			<revision role="featurechange">
-				<date>22-11-2007</date>
+				<date>2007-11-22</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>Reworked prefix generation.
@@ -302,7 +302,7 @@
 			</revision>
 
 			<revision role="featurechange">
-				<date>22-11-2007</date>
+				<date>2007-11-22</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>Removed single-file output; the generated header is now
@@ -311,7 +311,7 @@
 			</revision>
 
 			<revision role="featurechange">
-				<date>21-11-2007</date>
+				<date>2007-11-21</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>Implemented an alternate keywords mechanism.
@@ -325,7 +325,7 @@
 			</revision>
 
 			<revision role="featurechange">
-				<date>19-11-2007</date>
+				<date>2007-11-19</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>Removed <code>lookup_char()</code> in favour of passing the
@@ -335,7 +335,7 @@
 			</revision>
 
 			<revision role="featurechange">
-				<date>15-10-2007</date>
+				<date>2007-10-15</date>
 				<authorinitials>kevin</authorinitials>
 				<revdescription>
 					<para>Added the -p prefix option.</para>
@@ -343,7 +343,7 @@
 			</revision>
 
 			<revision role="featurechange">
-				<date>14-10-2007</date>
+				<date>2007-10-14</date>
 				<authorinitials>kevin</authorinitials>
 				<revdescription>
 					<para>Added <code>COPYRIGHT</code> and the <code>-C</code>
@@ -354,7 +354,7 @@
 			</revision>
 
 			<revision role="featurechange">
-				<date>11-10-2007</date>
+				<date>2007-10-11</date>
 				<authorinitials>kevin</authorinitials>
 				<revdescription>
 					<para>Added <code>[^...]</code> for complements of groups.</para>
@@ -362,7 +362,7 @@
 			</revision>
 
 			<revision role="featurechange">
-				<date>10-10-2007</date>
+				<date>2007-10-10</date>
 				<authorinitials>kevin</authorinitials>
 				<revdescription>
 					<para>Added <code>#n</code> and a literal string for function
@@ -371,7 +371,7 @@
 			</revision>
 
 			<revision role="featurechange">
-				<date>10-10-2007</date>
+				<date>2007-10-10</date>
 				<authorinitials>kevin</authorinitials>
 				<revdescription>
 					<para>Added optional support for a generated C header file.</para>
@@ -379,7 +379,7 @@
 			</revision>
 
 			<revision role="featurechange">
-				<date>05-10-2007</date>
+				<date>2007-10-05</date>
 				<authorinitials>kevin</authorinitials>
 				<revdescription>
 					<para>Added support for groups in zones.</para>
@@ -387,7 +387,7 @@
 			</revision>
 
 			<revision role="featurechange">
-				<date>24-09-2007</date>
+				<date>2007-09-24</date>
 				<authorinitials>kevin</authorinitials>
 				<revdescription>
 					<para>Added zones.</para>
@@ -397,7 +397,7 @@
 			</revision>
 
 			<revision role="featurechange">
-				<date>15-09-2007</date>
+				<date>2007-09-15</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>Merged in support for up to (and including) 31 groups.
@@ -409,7 +409,7 @@
 			</revision>
 
 			<revision role="featurechange">
-				<date>10-08-2007</date>
+				<date>2007-08-10</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>Lexi now maintains its own internal fixed-length buffer
@@ -425,7 +425,7 @@
 			</revision>
 
 			<revision role="version">
-				<date>29-07-2007</date>
+				<date>2007-07-29</date>
 				<revnumber>Lexi 1.3</revnumber>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
@@ -434,7 +434,7 @@
 			</revision>
 
 			<revision role="docs">
-				<date>07-07-2007</date>
+				<date>2007-07-07</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>Wrote the Lexi Users' Guide.</para>
@@ -446,7 +446,7 @@
 			</revision>
 
 			<revision role="featurechange">
-				<date>03-06-2007</date>
+				<date>2007-06-03</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>Added examples.</para>
@@ -454,7 +454,7 @@
 			</revision>
 
 			<revision role="dev">
-				<date>07-05-2007</date>
+				<date>2007-07-05</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>Converted from OSSG to ANSI C.</para>
@@ -462,7 +462,7 @@
 			</revision>
 
 			<revision role="featurechange">
-				<date>26-04-2007</date>
+				<date>2007-04-26</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>Added <code>-h</code>.</para>
@@ -470,7 +470,7 @@
 			</revision>
 
 			<revision role="version">
-				<date>25-04-2007</date>
+				<date>2007-04-25</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>Moved out Lexi to a standalone tool.</para>
@@ -478,7 +478,7 @@
 			</revision>
 
 			<revision role="version">
-				<date>21-09-2004</date>
+				<date>2004-09-21</date>
 				<revnumber>Lexi 1.2</revnumber>
 				<authorinitials>asmodai</authorinitials>
 				<revdescription>
@@ -492,7 +492,7 @@
 			</revision>
 
 			<revision role="version">
-				<date>30-07-1998</date>
+				<date>1998-07-30</date>
 				<revnumber>Lexi 1.1</revnumber>
 				<authorinitials>DERA</authorinitials>
 				<revdescription>

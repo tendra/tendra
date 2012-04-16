@@ -34,7 +34,7 @@
 
 		<revhistory>
 			<revision role="version">
-				<date>21-02-2010</date>
+				<date>2010-02-21</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>Moved out the DRA producers as a standalone tool.</para>
@@ -42,7 +42,7 @@
 			</revision>
 
 			<revision role="docs">
-				<date>25-03-2008</date>
+				<date>2008-03-25</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>Moved out a description of the symbol table semantics
@@ -52,7 +52,7 @@
 			</revision>
 
 			<revision role="version">
-				<date>30-07-1998</date>
+				<date>1998-07-30</date>
 				<revnumber>tcpplus 1.8.2</revnumber>
 				<authorinitials>DERA</authorinitials>
 				<revdescription>
