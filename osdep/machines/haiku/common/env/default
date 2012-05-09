@@ -1,6 +1,6 @@
 /* $Id$ */
 
-+AS		"/boot/develop/tools/gnupro/bin/as -O"
++AS		"/boot/develop/tools/gnupro/bin/as"
 +CC		"/bin/cc -O2"
 
 +SYS_LIBC	"-L/boot/system/lib -lroot"
