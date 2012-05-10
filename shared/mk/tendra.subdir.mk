@@ -27,7 +27,7 @@ _TENDRA_SUBDIR_MK_=1
 .for entry in ${SUBDIR}
 . if !exists(${.CURDIR}/${entry})
 .BEGIN:
-	@${ECHO} '$${SUBDIR} was not found; possibly you have an unsupported system.'
+	@${ECHO} '$${SUBDIR} "${.CURDIR}/${entry}" was not found; possibly you have an unsupported system.'
 	@${ECHO} 'See shared/mk/tendra.makedefs.mk for supported systems.'
 	@${EXIT} 1;
 . endif
