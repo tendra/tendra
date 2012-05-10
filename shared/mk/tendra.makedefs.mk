@@ -68,19 +68,21 @@ MD_BLDARCH!=                             \
         i?86|i86pc)    echo 80x86;;      \
         sparc|sparc64) echo sparc;;      \
         9000/7*)       echo hppa;;       \
+        socppc|macppc) echo ppc601;;     \
         *)             echo unknown;;    \
     esac;
 
 MD_BLDARCHBITS!=                         \
     case "${HOSTARCH}" in                \
-        alpha)        echo 64;;          \
-        amd64|x86_64) echo 64;;          \
-        BePC)         echo 32;;          \
-        i?86|i86pc)   echo 32;;          \
-        sparc)        echo 32;;          \
-        sparc64)      echo 64;;          \
-        9000/7*)      echo 64;;          \
-        *)            echo unknown;;     \
+        alpha)         echo 64;;         \
+        amd64|x86_64)  echo 64;;         \
+        BePC)          echo 32;;         \
+        i?86|i86pc)    echo 32;;         \
+        sparc)         echo 32;;         \
+        sparc64)       echo 64;;         \
+        9000/7*)       echo 64;;         \
+        socppc|macppc) echo 32;;         \
+        *)             echo unknown;;    \
     esac;
 
 MD_OSFAM!=                               \
