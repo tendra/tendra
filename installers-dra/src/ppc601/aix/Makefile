@@ -8,7 +8,9 @@
 # note power/, not ppc601/
 PART_CFLAGS+=	-I ${BASE_DIR}/src/common/linkinfo
 PART_CFLAGS+=	-I ${BASE_DIR}/src/power/common
-PART_CFLAGS+=	-I ${BASE_DIR}/src/power/aix
+
+# note ppc601
+PART_CFLAGS+=	-I ${BASE_DIR}/src/ppc601/aix
 
 # note power/, not ppc601/
 PARTS+=	src/common/shared
