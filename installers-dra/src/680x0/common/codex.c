@@ -161,7 +161,7 @@ speci special_fn
     dec *d = brog(son(a1));
     char *id = d->dec_u.dec_val.dec_id;
     spec_fn.is_special = 0;
-    spec_fn.special_exp;
+    spec_fn.special_exp = NULL;
 
     if (id == null) return spec_fn;
 
