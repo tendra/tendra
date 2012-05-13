@@ -39,12 +39,14 @@ VERSION!=	${UNAME} -r
 
 .if ${SYSTEM} == Linux
 . if (exists(/lib/libc.so.6))
-GLIBC_VER!=	/lib/libc.so.6 | sed -n 's/^.* version \(.*\), .*$$/\1/p' | tr . _
+GLIBC_VER!= /lib/libc.so.6 | sed -n 's/^.* version \(.*\), .*$$/\1/p' | tr . _
+GLIBC_NAME!= /lib/libc.so.6 | grep EGLIBC > /dev/null && echo -n E; echo GLIBC
 . else
-GLIBC_VER!=	ldd --version | sed -n 's/^ldd (GNU libc) //p' | tr . _
+GLIBC_VER!= ldd --version | sed -n 's/^ldd (\(GNU libc\|.* EGLIBC .*\)) //p' | tr . _
+GLIBC_NAME!= ldd --version | grep EGLIBC > /dev/null && echo -n E; echo GLIBC
 . endif
 
-LIBC_VER?=	GLIBC_${GLIBC_VER}
+LIBC_VER?= ${GLIBC_NAME}_${GLIBC_VER}
 .endif
 
 MD_EXECFMT!=                             \
@@ -122,8 +124,9 @@ MD_OSVER!=                               \
 
 MD_LIBCVER!=                             \
     case "${LIBC_VER}" in                \
-        GLIBC_2_12_*) echo GLIBC2_12;;   \
-        *)            echo unknown;;     \
+        EGLIBC_2_11_*) echo EGLIBC2_11;; \
+        GLIBC_2_12_*)  echo GLIBC2_12;;  \
+        *)             echo unknown;;    \
     esac;
 
 .endif	# !defined(_TENDRA_MAKEDEFS_MK_)
