@@ -47,7 +47,3 @@
 #define __WRONG_ANSI_STDARG_H_VA_ARGS	/* i don't know what to do about va_list */
 #endif
 
-#ifdef _GLIBC2_14
-#define __WRONG_ANSI_SIGNAL_H	/* can't use type specifiers 'char' with '__signed__' */
-#endif
-
