@@ -26,9 +26,7 @@
 #ifdef _GLIBC2_14
 #define __WRONG_POSIX_GRP_H	/* incompatible dev_t */
 #define __WRONG_POSIX_SYS_STAT_H	/* incompatible dev_t */
-#define __WRONG_POSIX_STDIO_H_CTUID	/* i don't know what to do about va_list */
 #define __WRONG_POSIX_SYS_WAIT_H	/* incompatible dev_t */
-#define __WRONG_POSIX_STDIO_H	/* i don't know what to do about va_list */
 #define __WRONG_POSIX_FCNTL_H	/* incompatible dev_t */
 #define __WRONG_POSIX_PWD_H	/* incompatible dev_t */
 #define __WRONG_POSIX_UTIME_H	/* incompatible dev_t */

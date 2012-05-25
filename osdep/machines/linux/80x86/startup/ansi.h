@@ -48,14 +48,6 @@
 #endif
 
 #ifdef _GLIBC2_14
-#define __WRONG_ANSI_STDARG_H_VA_ARGS	/* i don't know what to do about va_list */
-#define __WRONG_ANSI_STDIO_H_SEEK_CONSTS	/* i don't know what to do about va_list */
-#define __WRONG_ANSI_ASSERT_H_FAIL	/* i don't know what to do about va_list */
-#define __WRONG_ANSI_STDIO_H_EOF	/* i don't know what to do about va_list */
-#define __WRONG_ANSI_STDIO_H_RENAME	/* i don't know what to do about va_list */
-#define __WRONG_ANSI_STDIO_H	/* i don't know what to do about va_list */
-#define __WRONG_ANSI_STDIO_H_TMP_MAX	/* i don't know what to do about va_list */
 #define __WRONG_ANSI_SIGNAL_H	/* can't use type specifiers 'char' with '__signed__' */
-#define __WRONG_ANSI_STDIO_H_FILE	/* i don't know what to do about va_list */
 #endif
 
