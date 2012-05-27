@@ -14,7 +14,6 @@
 #endif
 #endif
 
-
 #include_next <math.h>
 
 #endif

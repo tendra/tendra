@@ -3,7 +3,6 @@
 #ifndef __HACKED_STDIO_H
 #define __HACKED_STDIO_H
 
-
 #ifdef _GLIBC2_12
 #ifdef __BUILDING_TDF_ANSI_STDIO_H_EOF
 
@@ -11,7 +10,6 @@
 
 #endif
 #endif
-
 
 #include_next <stdio.h>
 

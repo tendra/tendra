@@ -9,7 +9,6 @@
 #define __signed__ signed
 #endif
 
-
 #include_next <asm-generic/int-ll64.h>
 
 #endif

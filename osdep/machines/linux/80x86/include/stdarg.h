@@ -35,7 +35,7 @@ typedef __gnuc_va_list va_list;
  
 #pragma TenDRA ident ... allow
 
-#define va_start(ap, arg) ((void) (ap = __va_start(...)))
+#define va_start(__ap, __arg) ((void) ((__ap) = __va_start(...)))
 
 #else
 
@@ -46,10 +46,10 @@ typedef __gnuc_va_list va_list;
 /* note char * is compatible to void * above */
 typedef char *va_list;
 
-#define __va_round(T)     (((sizeof (T) + 3) / 4) * 4)
-#define va_start(ap, arg) (ap = &(arg) + __va_round(arg))
-#define va_end(ap)        ((void) 0)
-#define va_arg(ap, T)     (ap += __va_round(T), *((t *) ((ap) - __va_round(T))))
+#define __va_round(__T)       (((sizeof (__T) + 3) / 4) * 4)
+#define va_start(__ap, __arg) ((__ap) = &(__arg) + __va_round((__arg)))
+#define va_end(__ap)          ((void) 0)
+#define va_arg(__ap, __T)     ((__ap += __va_round(__T), *((__T *) ((__ap) - __va_round(__T)))))
 
 #endif
 #endif
