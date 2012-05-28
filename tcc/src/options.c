@@ -125,7 +125,7 @@ struct optmap main_optmap[] = {
 
 	/* Less common options */
 	{ "-A+-",           "AOC$0",            "unasserts all built-in predicates"           },
-	{ "-A+$",           "D#pragma$saccept$sdirective$sassert$n"
+	{ "-A+$",           "D#pragma$sTenDRA$sdirective$sassert$sallow$n"
 	                    "|D#assert$s$1$n|AOC$0", "asserts a predicate"                    },
 	{ "-B+$",           "1ON|Io$0",         "passed to the system linker"                 },
 	{ "-C",             "AOC$0",            "preserves comments when preprocessing"       },
