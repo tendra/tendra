@@ -18,7 +18,6 @@
 
 +API_NAME		"-Aansi"
 +API			"-R<PREFIX_INCLUDE>/ansi.d"
-+ENVDIR			"<PREFIX_ENV>"
 +INFO			"ANSI@(X3.159)"
 +TEMP			"<PREFIX_TMP>"
 +VERSION		""
