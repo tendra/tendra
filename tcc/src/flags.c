@@ -31,7 +31,7 @@
 const char *api_info = "unknown";
 const char *api_output = API_ANAL_NAME;
 const char *dump_opts = NULL;
-const char *environ_dir = ".";
+const char *environ_dir = "";
 const char *final_name = NULL;
 const char *machine_name = "unknown";
 const char *name_E_file = ENDUP_NAME;

@@ -33,7 +33,7 @@
  * searched for tcc environments.
  */
 
-static char *envpath = ".";
+static char *envpath = "";
 
 /*
  * ENVIRONMENT
@@ -62,7 +62,7 @@ find_envpath(void)
 		IGNORE sprintf(p, "%s:", tcc_env);
 		p += strlen(p);
 	}
-	IGNORE sprintf(p, "%s:.", environ_dir);
+	IGNORE sprintf(p, "%s", environ_dir);
 	if (!streq(buffer, envpath)) {
 		envpath = xstrdup(buffer);
 	}
@@ -108,7 +108,6 @@ static int
 read_env_aux(const char *nm, struct hash **h)
 {
 	FILE *f;
-	char *ep, *q;
 	int   line_num;
 
 	assert(nm != NULL);
@@ -120,16 +119,25 @@ read_env_aux(const char *nm, struct hash **h)
 	} else if (*nm == '/') {
 		f = fopen(nm, "r");
 	} else {
-		ep = envpath;
-		do {
-			q = buffer;
-			while (*ep && *ep != ':') {
-				*(q++) = *(ep++);
+		const char *s;
+		const char *e;
+
+		s = envpath;
+
+		for (e = s; *s != '\0'; s = e + (e == s)) {
+			e = s + strcspn(s, ":");
+
+			if (e == s) {
+				continue;
 			}
-			*(q++) = '/';
-			IGNORE strcpy(q, nm);
+
+			IGNORE sprintf(buffer, "%.*s/%s", (int) (e - s), s, nm);
+
 			f = fopen(buffer, "r");
-		} while (f == NULL && *(ep++));
+			if (f != NULL) {
+				break;
+			}
+		}
 	}
 
 	if (f == NULL) {
