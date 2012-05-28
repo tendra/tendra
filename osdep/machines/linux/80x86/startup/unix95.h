@@ -8,9 +8,6 @@
 
 #include "ansi.h"
 
-#define _XOPEN_SOURCE 1
-#define _XOPEN_SOURCE_EXTENDED 1
-
 #ifdef _GLIBC2_14
 #define __WRONG_UNIX95_NETINET_IN_H /* incompatible msghdr.msg_iovlen */
 #define __WRONG_UNIX95_ARPA_INET_H /* incompatible msghdr.msg_iovlen */

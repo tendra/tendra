@@ -57,6 +57,12 @@ HACKS+=	-I${BASE_DIR}/machines/${OSFAM}/${BLDARCH}/include
 . endif
 
 
+# These are included first so that the hacked includes may #undef
+# or override them if neccessary.
+. if exists(${PREFIX_TSPEC}/TenDRA/feature/${api}.h)
+JOPTS${api}+=	-f${PREFIX_TSPEC}/TenDRA/feature/${api}.h
+. endif
+
 . if exists(${STARTUP_MACH}/${api}.h)
 JOPTS${api}+=	-f${STARTUP_MACH}/${api}.h
 . endif

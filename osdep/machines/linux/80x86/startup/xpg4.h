@@ -8,9 +8,6 @@
 
 #include "ansi.h"
 
-#define _XOPEN_SOURCE 1
-#define _XOPEN_VERSION 4
-
 #ifdef _GLIBC2_14
 #define __WRONG_XPG4_WCHAR_H /* incompatible fputwc and friends */
 #define __WRONG_XPG4_SYS_SHM_H_SHM_PROTO /* incompatible shm.shmid_ds.shm_segsz */

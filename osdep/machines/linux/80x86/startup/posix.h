@@ -2,9 +2,6 @@
 
 #include "ansi.h"
 
-#define _POSIX_SOURCE		1
-#define _POSIX_C_SOURCE		1
-
 #ifdef _GLIBC2_12
 #define __WRONG_POSIX_SETJMP_H	/* partial */
 #define __WRONG_POSIX_SIGNAL_H	/* partial */
