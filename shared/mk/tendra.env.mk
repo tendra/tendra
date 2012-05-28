@@ -66,7 +66,7 @@ ${OBJ_DIR}/env/${env}:
 # User-facing targets
 #
 
-.if defined(ENVCOMMON)
+.if defined(ENVCOMMON) || defined(ENVSTANDALONE)
 . for env in ${ENVFILE}
 all:: ${OBJ_DIR}/env/${env:R}
 . endfor
@@ -76,13 +76,13 @@ all:: ${OBJ_DIR}/env/${env:R}
 clean::
 	${RMFILE} ${ENVFILE:C/^/${OBJ_DIR}\/env\//}
 
-.if defined(ENVCOMMON)
+.if defined(ENVCOMMON) || defined(ENVSTANDALONE)
 . for env in ${ENVFILE}
 install:: ${OBJ_DIR}/env/${env}
 . endfor
 .endif
 
-.if defined(ENVCOMMON)
+.if defined(ENVCOMMON) || defined(ENVSTANDALONE)
 install::
 	@${ECHO} "==> Installing ${WRKDIR} environments"
 	@${CONDCREATE} "${PREFIX_ENV}"
