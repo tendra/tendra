@@ -6,11 +6,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/* TODO: move to -Ymakelib */
-#pragma TenDRA begin
-#pragma TenDRA no external declaration allow
-#pragma TenDRA directive include_next allow
-
 /* TODO: split these by os/cpu, and move up to common/ directories */
 #ifndef __NO_BUILTIN_ASSERTIONS
 #pragma TenDRA directive assert allow
