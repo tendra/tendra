@@ -11,6 +11,7 @@
 +CRT0			""
 +CRT1			""
 +CRTN			""
++CRTP_N			""
 +SYS_LIB		"-ltsl"
 +SYS_LIBC		"-lc"
 +SYS_LINK		"-L<PREFIX_SYS>"

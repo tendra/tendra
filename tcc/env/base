@@ -24,6 +24,9 @@
 +RMFILE         "/bin/rm"
 +TOUCH          "/usr/bin/touch"
 
++BUILD_ARCH	"builtin/build_archive"
++SPLIT_ARCH	"builtin/split_archive"
+
 +STARTUP_DIR		"-I<PREFIX_STARTUP>/Bounds.ansi -I<PREFIX_STARTUP>/Modes"
 +STARTUP		"-f<PREFIX_STARTUP>/Modes/Xc"
 +STARTUP_CPP_DIR	"-I<PREFIX_STARTUP>/Bounds.ansi -I<PREFIX_STARTUP>/Modes.cpp"
