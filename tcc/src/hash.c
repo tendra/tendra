@@ -72,11 +72,13 @@ reconcile_envopts(const struct hash *h)
 	}
 
 	for (n = h; n != NULL; n = n->next) {
+/* TODO: to return after options.c stops populating stray things
 		if ((h->flag & HASH_USR) && !(h->flag & HASH_READ)) {
 			error(ERROR_WARNING,
 			    "%s, line %d: environment option %s declared"
 			    " but never used", h->file, h->line_num, h->name);
 		}
+*/
 
 		/*
 		 * Additional error checking for those platforms supporting stat() for
@@ -155,8 +157,8 @@ envvar_set(struct hash **h, const char *name, const char *value,
 
 	assert(n->value != NULL);
 
-	/* Decline to update if we're lower precedence than the existing value */
-	if (precedence < n->precedence) {
+	/* Decline to replace if we're lower precedence than the existing value */
+	if (order == HASH_ASSIGN && precedence < n->precedence) {
 		return;
 	}
 
@@ -213,7 +215,6 @@ const char *
 envvar_get(struct hash *h, const char *name)
 {
 	struct hash *n;
-	char tmp;
 
 	for (n = h; n != NULL; n = n->next) {
 		if (0 == strcmp(name, n->name)) {

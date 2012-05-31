@@ -92,7 +92,7 @@ main_end(void)
 	    !(exit_status != EXIT_SUCCESS && flag_keep_err)) {
 		made_tempdir = 0;
 		cmd_string(NULL);
-		cmd_list(exec_rmdir);
+		cmd_env("RMDIR");
 		cmd_string(tempdir);
 		IGNORE execute(no_filename, no_filename);
 	}

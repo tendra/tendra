@@ -79,7 +79,7 @@ temp_mkdir(const char *dir, const char *prefix)
 	int l;
 
 	for (l = 0; temp_retry(&l, buf, sizeof buf, dir, prefix); l++) {
-		cmd_list(exec_mkdir);
+		cmd_env("MKDIR");
 		cmd_string(buf);
 
 		IGNORE execute(no_filename, no_filename);

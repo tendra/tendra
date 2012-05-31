@@ -194,36 +194,36 @@ remove_startup(void)
 {
 	if (table_keep(STARTUP_FILE)) {
 		if (startup_name) {
-			cmd_list(exec_move);
+			cmd_env("MOVE");
 			cmd_string(startup_name);
 			cmd_string(name_h_file);
 			IGNORE execute(no_filename, no_filename);
 		}
 		if (endup_name) {
-			cmd_list(exec_move);
+			cmd_env("MOVE");
 			cmd_string(endup_name);
 			cmd_string(name_E_file);
 			IGNORE execute(no_filename, no_filename);
 		}
 		if (tokdef_name) {
-			cmd_list(exec_move);
+			cmd_env("MOVE");
 			cmd_string(tokdef_name);
 			cmd_string(name_p_file);
 			IGNORE execute(no_filename, no_filename);
 		}
 	} else {
 		if (startup_name) {
-			cmd_list(exec_rmfile);
+			cmd_env("RMFILE");
 			cmd_string(startup_name);
 			IGNORE execute(no_filename, no_filename);
 		}
 		if (endup_name) {
-			cmd_list(exec_rmfile);
+			cmd_env("RMFILE");
 			cmd_string(endup_name);
 			IGNORE execute(no_filename, no_filename);
 		}
 		if (tokdef_name) {
-			cmd_list(exec_rmfile);
+			cmd_env("RMFILE");
 			cmd_string(tokdef_name);
 			IGNORE execute(no_filename, no_filename);
 		}

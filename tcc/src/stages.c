@@ -25,6 +25,7 @@
 #include "suffix.h"
 #include "utility.h"
 #include "table.h"
+#include "environ.h"
 
 
 /*
@@ -56,11 +57,11 @@ do_move(filename *from, filename *to)
 		if (strcmp(from->name, to->name) == 0) {
 			return to;
 		}
-		cmd_list(exec_move);
+		cmd_env("MOVE");
 		cmd_filename(from);
 		cmd_filename(to);
 	} else {
-		cmd_list(exec_cat);
+		cmd_env("CAT");
 		cmd_filename(from);
 	}
 	return execute(from, to);
@@ -79,7 +80,7 @@ do_keep(filename *p)
 {
 	if (p->storage == TEMP_FILE) {
 		filename *q = make_filename(p, p->type, PRESERVED_FILE);
-		cmd_list(exec_move);
+		cmd_env("MOVE");
 		cmd_filename(p);
 		cmd_filename(q);
 		IGNORE execute(no_filename, no_filename);
@@ -166,9 +167,9 @@ producer_options(int pp)
 {
 	int is_c = (pp == PRODUCE_ID || pp == PREPROC_ID);
 
-	if (!flag_nepc && std_prod_portfile) {
+	if (!flag_nepc && envvar_get(envvars, "PORTABILITY") != NULL) {
 		cmd_string("-n");
-		cmd_string(std_prod_portfile->s);
+		cmd_env("PORTABILITY");
 	}
 	if (flag_diag) {
 		if (flag_diag == 1) {
@@ -182,31 +183,31 @@ producer_options(int pp)
 	}
 	if (flag_startup) {
 		if (is_c) {
-			cmd_list(std_prod_startup);
-			cmd_list(usr_prod_startup);
+			cmd_env("STARTUP");
+			cmd_env("USR_STARTUP");
 		} else {
-			cmd_list(std_cpp_prod_startup);
-			cmd_list(usr_cpp_prod_startup);
+			cmd_env("STARTUP_CPP");
+			cmd_env("USR_STARTUP_CPP");
 		}
 		if (startup_opt) {
 			cmd_string(startup_opt);
 		}
-		cmd_list(usr_prod_foptions);
-		cmd_list(usr_prod_eoptions);
+		cmd_env("USR_PROD_FOPTIONS");
+		cmd_env("USR_PROD_EOPTIONS");
 		if (endup_opt) {
 			cmd_string(endup_opt);
 		}
 	}
-	cmd_list(usr_prod_incldirs);
+	cmd_env("USR_INCL");
 	if (!is_c) {
-		cmd_list(std_cpp_prod_incldirs);
+		cmd_env("INCL_CPP");
 	}
-	cmd_list(std_prod_incldirs);
+	cmd_env("INCL");
 	if (flag_startup) {
 		if (is_c) {
-			cmd_list(std_prod_startdirs);
+			cmd_env("STARTUP_DIR");
 		} else {
-			cmd_list(std_cpp_prod_startdirs);
+			cmd_env("STARTUP_CPP_DIR");
 		}
 	}
 	if (checker) {
@@ -235,7 +236,7 @@ do_produce(filename *input)
 		return input;
 	}
 	output = make_filename(input, INDEP_TDF, where(INDEP_TDF));
-	cmd_list(exec_produce);
+	cmd_env("TDFC");
 	if (allow_specs == 1) {
 		spec = make_filename(input, C_SPEC, where(C_SPEC));
 		if (dump_opts) {
@@ -245,7 +246,7 @@ do_produce(filename *input)
 			cmd_string(spec->name);
 		}
 	}
-	cmd_list(opt_produce);
+	cmd_env("FLAG_TDFC");
 	producer_options(PRODUCE_ID);
 	cmd_filename(input);
 	cmd_filename(output);
@@ -263,7 +264,7 @@ do_produce(filename *input)
 	}
 	if (allow_specs == 2) {
 		spec = make_filename(input, C_SPEC, where(C_SPEC));
-		cmd_list(exec_touch);
+		cmd_env("TOUCH");
 		cmd_filename(spec);
 		cmd_string("-k");
 		spec = execute(no_filename, spec);
@@ -296,8 +297,8 @@ do_preproc(filename *input)
 	} else {
 		output = NULL;
 	}
-	cmd_list(exec_preproc);
-	cmd_list(opt_preproc);
+	cmd_env("TDFCPP");
+	cmd_env("FLAG_TDFCPP");
 	producer_options(PREPROC_ID);
 	cmd_filename(input);
 	if (output) {
@@ -324,7 +325,7 @@ do_cpp_produce(filename *input)
 		return input;
 	}
 	output = make_filename(input, INDEP_TDF, where(INDEP_TDF));
-	cmd_list(exec_cpp_produce);
+	cmd_env("TCPPLUS");
 	if (allow_specs == 1) {
 		spec = make_filename(input, CPP_SPEC, where(CPP_SPEC));
 		if (dump_opts) {
@@ -334,7 +335,7 @@ do_cpp_produce(filename *input)
 			cmd_string(spec->name);
 		}
 	}
-	cmd_list(opt_cpp_produce);
+	cmd_env("FLAG_TCPPLUS");
 	producer_options(CPP_PRODUCE_ID);
 	cmd_filename(input);
 	cmd_filename(output);
@@ -356,7 +357,7 @@ do_cpp_produce(filename *input)
 	}
 	if (allow_specs == 2 && output) {
 		spec = make_filename(input, CPP_SPEC, where(CPP_SPEC));
-		cmd_list(exec_touch);
+		cmd_env("TOUCH");
 		cmd_filename(spec);
 		cmd_string("-k");
 		spec = execute(no_filename, spec);
@@ -389,8 +390,8 @@ do_cpp_preproc(filename *input)
 	} else {
 		output = NULL;
 	}
-	cmd_list(exec_cpp_preproc);
-	cmd_list(opt_cpp_preproc);
+	cmd_env("TCPPLUSPP");
+	cmd_env("FLAG_TCPPLUSPP");
 	producer_options(CPP_PREPROC_ID);
 	cmd_filename(input);
 	if (output != NULL) {
@@ -417,12 +418,12 @@ do_tdf_link(filename *input)
 		return input;
 	}
 	output = make_filename(input, DEP_TDF, where(DEP_TDF));
-	cmd_list(exec_tdf_link);
-	cmd_list(opt_tdf_link);
-	cmd_list(usr_tdf_link_libdirs);
-	cmd_list(std_tdf_link_libdirs);
-	cmd_list(usr_tdf_link_libs);
-	cmd_list(std_tdf_link_libs);
+	cmd_env("TLD");
+	cmd_env("FLAG_TLD");
+	cmd_env("USR_LINK");
+	cmd_env("LINK");
+	cmd_env("USR_LIB");
+	cmd_env("LIB");
 	cmd_string("-o");
 	cmd_filename(output);
 	cmd_filename(input);
@@ -456,8 +457,8 @@ do_tdf_build(filename *input)
 	}
 	keep = where(INDEP_TDF_COMPLEX);
 	output = uniq_filename(name_j_file, INDEP_TDF, keep, input);
-	cmd_list(exec_tdf_link);
-	cmd_list(opt_tdf_link);
+	cmd_env("TLD");
+	cmd_env("FLAG_TLD");
 	if (flag_merge_all) {
 		cmd_string("-a");
 		cmd_string("-k");
@@ -497,7 +498,7 @@ do_translate(filename *input)
 		output = make_filename(input, t, where(t));
 		output->type = BINARY_OBJ;
 	}
-	cmd_list(exec_translate);
+	cmd_env("TRANS");
 	if (flag_diag) {
 		if (flag_diag == 2) {
 			cmd_string("-J");
@@ -519,7 +520,7 @@ do_translate(filename *input)
 		}
 		cmd_string(vflag);
 	}
-	cmd_list(opt_translate);
+	cmd_env("FLAG_TRANS");
 
 	if (use_mips_assembler || use_alpha_assembler) {
 		/* Deal with the mips assembler */
@@ -581,8 +582,8 @@ do_assemble(filename *input)
 	if (input->aux && input->aux->type == MIPS_G_FILE &&
 	    input->aux->aux && input->aux->aux->type == MIPS_T_FILE) {
 		/* Deal with the mips assembler */
-		cmd_list(exec_assemble_mips);
-		cmd_list(opt_assemble_mips);
+		cmd_env("AS1");
+		cmd_env("FLAG_AS1");
 		cmd_string("-o");
 		cmd_filename(output);
 		cmd_filename(input->aux);
@@ -590,25 +591,14 @@ do_assemble(filename *input)
 		cmd_filename(input->aux->aux);
 	} else {
 		/* Deal with normal assemblers */
-		cmd_list(exec_assemble);
-		cmd_list(opt_assemble);
+		cmd_env("AS");
+		cmd_env("FLAG_AS");
 		cmd_string("-o");
 		cmd_filename(output);
 		cmd_filename(input);
 	}
 	return execute(input, output);
 }
-
-
-/*
- * LIST OF LIBRARIES
- *
- * This is set by linker_options to be the list of libraries passed to the
- * linker. Needs to be passed twice in the case of DYNLINK with shared
- * libaries.
- */
-
-static list *dl_libs = NULL;
 
 
 /*
@@ -637,32 +627,32 @@ static void
 linker_options(filename *input, filename *output)
 {
 	if (use_system_cc) {
-		cmd_list(exec_cc);
+		cmd_env("CC");
 		if (flag_diag) {
 			cmd_string("-g");
 		}
 		if (flag_strip) {
 			cmd_string("-s");
 		}
-		cmd_list(opt_cc);
+		cmd_env("FLAG_CC");
 		cmd_string("-o");
 		cmd_filename(output);
 	} else {
-		cmd_list(exec_link);
+		cmd_env("LD");
 		if (dl_state == 1) {
 			cmd_string("-r");
 		} else {
-			cmd_list(std_link_entry);
+			cmd_env("LINK_ENTRY");
 		}
 		if (flag_strip && (dl_state != 1)) {
 			cmd_string("-s");
 		}
-		cmd_list(opt_link);
+		cmd_env("FLAG_LINK");
 		cmd_string("-o");
 		cmd_filename(output);
 		if ((dl_state == 0) || (dl_state & use_dynlink)!= 0) {
-			cmd_list(std_link_crt0);
-			cmd_list(std_link_crt1);
+			cmd_env("CRT0");
+			cmd_env("CRT1");
 		}
 	}
 	if (use_hp_linker) {
@@ -680,7 +670,7 @@ linker_options(filename *input, filename *output)
 				 * Save up -l options for inclusion after any
 				 * -L options.
 				 */
-				dl_libs = add_item(dl_libs, arg);
+				envvar_set(&envvars, "DL_LIBS", arg, HASH_APPEND, HASH_SYSENV);
 			} else {
 				cmd_string(arg);
 			}
@@ -694,13 +684,13 @@ linker_options(filename *input, filename *output)
 				 * Save up -l options for inclusion after any
 				 * -L options.
 				 */
-				dl_libs = add_item(dl_libs, arg);
+				envvar_set(&envvars, "DL_LIBS", arg, HASH_APPEND, HASH_SYSENV);
 			} else if (dl_state && (p->storage == INPUT_OPTION)) {
 				/*
 				 * Add input options to user link options for
 				 * subsequent use.
 				 */
-				opt_link = add_item(opt_link, arg);
+				envvar_set(&envvars, "FLAG_LINK", arg, HASH_APPEND, HASH_SYSENV);
 				cmd_string(arg);
 			} else {
 				cmd_string(arg);
@@ -709,19 +699,24 @@ linker_options(filename *input, filename *output)
 	}
 	if (!use_system_cc) {
 		/* usr_link_libdirs forms part of input */
-		cmd_list(std_link_libdirs);
+		cmd_env("SYS_LINK");
 	}
 	/* now include the -l options */
-	if (dl_libs != NULL) {
-		cmd_list(dl_libs);
+	/*
+	 * This is set by linker_options to be the list of libraries passed to the
+	 * linker. Needs to be passed twice in the case of DYNLINK with shared
+	 * libaries.
+	 */
+	if (envvar_get(envvars, "DL_LIBS") != NULL) {
+		cmd_env("DL_LIBS");
 	}
 	if (!use_system_cc) {
 		/* usr_link_libs forms part of input */
-		cmd_list(std_link_libs);
-		cmd_list(std_link_c_libs);
+		cmd_env("SYS_LIB");
+		cmd_env("SYS_LIBC");
 		if ((dl_state == 0) || (dl_state & use_dynlink)!= 0) {
-			cmd_list(std_link_crtp_n);
-			cmd_list(std_link_crtn);
+			cmd_env("CRTP_N");
+			cmd_env("CRTN");
 		}
 	}
 	dl_state++;
@@ -755,8 +750,8 @@ do_dynlink(filename *input)
 	}
 	if (!exec_error) {
 		output = make_filename(no_filename, AS_SOURCE, TEMP_FILE);
-		cmd_list(exec_dynlink);
-		cmd_list(opt_dynlink);
+		cmd_env("DYN_LINK");
+		cmd_env("FLAG_DYN_LINK");
 		SET(linked_ofiles);
 		cmd_filename(linked_ofiles);
 		cmd_filename(output);
@@ -827,9 +822,9 @@ do_notation(filename *input)
 		keep = TEMP_FILE;
 	}
 	output = make_filename(input, INDEP_TDF, keep);
-	cmd_list(exec_notation);
-	cmd_list(opt_notation);
-	cmd_list(usr_prod_incldirs);
+	cmd_env("TNC");
+	cmd_env("FLAG_TNC");
+	cmd_env("USR_INCL");
 	cmd_filename(input);
 	cmd_filename(output);
 	return execute(input, output);
@@ -851,9 +846,9 @@ do_pl_tdf(filename *input)
 		return input;
 	}
 	output = make_filename(input, INDEP_TDF, where(INDEP_TDF));
-	cmd_list(exec_pl_tdf);
-	cmd_list(opt_pl_tdf);
-	cmd_list(usr_pl_tdf_incldirs);
+	cmd_env("PL_TDF");
+	cmd_env("FLAG_PL_TDF");
+	cmd_env("USR_PL_TDF_INCLDIRS");
 	if (flag_diag) {
 		cmd_string("-g");
 	}
@@ -878,11 +873,11 @@ do_pretty(filename *input)
 		return input;
 	}
 	output = make_filename(input, PRETTY_TDF, where(PRETTY_TDF));
-	cmd_list(exec_pretty);
+	cmd_env("DISP");
 	if (flag_diag) {
 		cmd_string("-g");
 	}
-	cmd_list(opt_pretty);
+	cmd_env("FLAG_DISP");
 	cmd_filename(input);
 	cmd_filename(output);
 	return execute(input, output);
@@ -901,7 +896,7 @@ do_split_arch(filename *input)
 	if (input == NULL) {
 		return input;
 	}
-	cmd_list(exec_split_arch);
+	cmd_env("SPLIT_ARCH");
 	cmd_filename(input);
 	return execute(input, no_filename);
 }
@@ -931,12 +926,12 @@ do_build_arch(filename *input)
 	keep = where(TDF_ARCHIVE);
 	output = uniq_filename(TDF_ARCHIVE_NAME, TDF_ARCHIVE, keep,
 			       no_filename);
-	cmd_list(exec_build_arch);
+	cmd_env("BUILD_ARCH");
 	cmd_filename(output);
 	cmd_filename(input);
-	if (opt_archive) {
+	if (envvar_get(envvars, "FLAG_ARCHIVE")) {
 		cmd_string(ARCHIVE_OPTION_START);
-		cmd_list(opt_archive);
+		cmd_env("FLAG_ARCHIVE");
 	}
 	output = execute(input, output);
 	if (output) {
@@ -970,7 +965,7 @@ do_build_file(filename *input, enum filetype t)
 	input->type = UNKNOWN_TYPE;
 	output = make_filename(input, t, where(t));
 	input->type = s;
-	cmd_list(exec_build_arch);
+	cmd_env("BUILD_ARCH");
 	cmd_filename(output);
 	cmd_filename(input);
 	if (allow_specs == 2) {
@@ -1019,13 +1014,13 @@ do_link_specs(filename *input, enum filetype t)
 		if (t == C_SPEC_1 || t == C_SPEC_2) {
 			spec_file = uniq_filename(name_k_file, C_SPEC, keep,
 						  input);
-			cmd_list(exec_spec_link);
-			cmd_list(opt_spec_link);
+			cmd_env("SPEC_LINK");
+			cmd_env("FLAG_SPEC_LINK");
 		} else {
 			spec_file = uniq_filename(name_K_file, CPP_SPEC, keep,
 						  input);
-			cmd_list(exec_cpp_spec_link);
-			cmd_list(opt_cpp_spec_link);
+			cmd_env("CPP_SPEC_LINK");
+			cmd_env("FLAG_CPP_SPEC_LINK");
 		}
 		if (checker) {
 			cmd_string("-c");
@@ -1052,13 +1047,13 @@ do_link_specs(filename *input, enum filetype t)
 					       input);
 		}
 		if (allow_specs == 1) {
-			cmd_list(exec_dump_link);
-			cmd_list(opt_dump_link);
+			cmd_env("DUMP_LINK");
+			cmd_env("FLAG_DUMP_LINK");
 			cmd_filename(input);
 			cmd_filename(output);
 			output = execute(input, output);
 		} else {
-			cmd_list(exec_touch);
+			cmd_env("TOUCH");
 			cmd_filename(uniq_tempfile);
 			cmd_string("-k");
 			output = execute(no_filename, output);
@@ -1098,12 +1093,12 @@ do_cc(filename *input, enum filetype t)
 		flag = "-c";
 		output->type = BINARY_OBJ;
 	}
-	cmd_list(exec_cc);
+	cmd_env("CC");
 	cmd_string(flag);
 	if (flag_diag) {
 		cmd_string("-g");
 	}
-	cmd_list(opt_cc);
+	cmd_env("FLAG_CC");
 	if (use_sparc_cc == 2 && output) {
 		filename *real_output;
 		real_output = make_filename(input, output->type,

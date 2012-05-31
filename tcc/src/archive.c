@@ -28,6 +28,7 @@
 #include "flags.h"
 #include "options.h"
 #include "utility.h"
+#include "environ.h"
 
 
 /*
@@ -290,9 +291,19 @@ is_archive(const char *nm)
 void
 process_archive_opt(void)
 {
-	list *p;
-	for (p = opt_joiner; p != NULL; p = p->next) {
-		const char *opt = p->s;
+	const char *opt;
+	const char *opt_joiner;
+	char *s;
+
+	opt_joiner = envvar_get(envvars, "FLAG_ARCHIVER");
+	if (opt_joiner == NULL) {
+		return;
+	}
+
+	s = xstrdup(opt_joiner);
+
+	/* TODO: getopt */
+	for (opt = strtok(s, " "); opt != NULL; opt = strtok(NULL, " ")) {
 		if (strcmp(opt, "-copy") == 0 || strcmp(opt, "-c") == 0) {
 			archive_links = 0;
 			link_specs = 0;
@@ -315,7 +326,6 @@ process_archive_opt(void)
 			error(ERROR_WARNING, "Unknown archiver option, '%s'", opt);
 		}
 	}
-	opt_joiner = NULL;
 }
 
 
@@ -430,7 +440,6 @@ split_archive(const char *arch, filename **ret)
 {
     boolean go = 1;
     char *emsg = NULL;
-    list *opts = NULL;
     filename *q = NULL;
     filename *output = NULL;
     boolean need_moves = 0;
@@ -564,7 +573,7 @@ split_archive(const char *arch, filename **ret)
 		if (verbose) {
 			comment(1, "... extract option %s\n", p);
 		}
-		opts = add_item(opts, p);
+		envvar_set(&envvars, "FLAG_INSTALL", p, HASH_APPEND, HASH_CLI);
 	    }
 	    go = 0;
 	} else {
@@ -597,10 +606,6 @@ archive_error:
 	    }
     }
     *ret = output;
-    if (opts) {
-	    process_options(opts, main_optmap, HASH_CLI);
-	    opt_archive = add_list(opt_archive, opts);
-    }
     if (emsg) {
 	    return 1;
     }

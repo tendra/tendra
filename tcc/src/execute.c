@@ -30,6 +30,7 @@
 #include "flags.h"
 #include "main.h"
 #include "utility.h"
+#include "environ.h"
 
 
 /*
@@ -120,16 +121,40 @@ cmd_filename(const filename *p)
 
 
 /*
- * ADD A LIST TO THE CURRENT COMMAND
+ * ADD AN ENVIRONMENT VARIABLE TO THE CURRENT COMMAND
  *
- * This routine adds the list of strings given by p to the command array.
+ * This routine adds the contents of the environment variable given by p to the
+ * command array.
  */
 
 void
-cmd_list(const list *p)
+cmd_env(const char *name)
 {
-	for (; p != NULL; p = p->next) {
-		cmd_string(p->s);
+	const char *value;
+	const char *s;
+	char *tmp;
+
+	value = envvar_get(envvars, name);
+	if (value == NULL) {
+		if (0 == strncmp(name, "FLAG_", 5)) {
+			return;
+		}
+
+		if (0 == strncmp(name, "USR_", 4)) {
+			return;
+		}
+
+		error(ERROR_FATAL, "Undefined variable <%s>", name);
+	}
+
+	tmp = xstrdup(value);
+
+	for (s = strtok(tmp, " "); s != NULL; s = strtok(NULL, " ")) {
+		if (strlen(s) == 0) {
+			continue;
+		}
+
+		cmd_string(s);
 	}
 }
 

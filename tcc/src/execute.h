@@ -25,7 +25,7 @@ extern void	 process_delayed_signal(void);
 extern void	 reset_exec_error(void);
 extern void	 cmd_string(const char *);
 extern void	 cmd_filename(const filename *);
-extern void	 cmd_list(const list *);
+extern void	 cmd_env(const char *name);
 extern void	 kill_stray(void);
 extern void	 remove_junk(void);
 extern filename *execute(filename *, filename *);

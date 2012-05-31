@@ -346,7 +346,6 @@ static boolean debug_options = 0;
  * These values may be used for temporary storage by the option interpreter.
  */
 static boolean xx_bool = 0;
-static list *xx_list = NULL;
 static const char *xx_string = NULL;
 
 
@@ -482,128 +481,153 @@ lookup_bool(const char *s)
 
 
 /*
- * CONVERT A TWO LETTER CODE INTO A LIST
+ * CONVERT A TWO LETTER CODE INTO AN ENVIRONMENT VARIABLE
  *
  * This routine takes a two letter code, s, and returns a pointer to the
- * corresponding list variable. This routine needs to be kept in step with
+ * corresponding variable name. This routine needs to be kept in step with
  * Table 4.
  */
-static list **
-lookup_list(const char *s)
+static const char *
+lookup_env(const char *s)
 {
 	size_t i;
 
 	struct {
 		boolean checkeronly;
 		char s[3];
-		list **l;
+		const char *envvar;
 	} t[] = {
-		{ 0,   "BB",                    &exec_build_arch        },
-		{ 0,   "BS",                    &exec_split_arch        },
+		{ 0,   "BB",                    "BUILD_ARCH"         },
+		{ 0,   "BS",                    "SPLIT_ARCH"         },
 
-		{ 0, { 'E', ASSEMBLE_ID      }, &exec_assemble          },
-		{ 0, { 'E', ASSEMBLE_MIPS_ID }, &exec_assemble_mips     },
-		{ 0, { 'E', CAT_ID           }, &exec_cat               },
-		{ 0, { 'E', CC_ID            }, &exec_cc                },
-		{ 0, { 'E', CPP_PREPROC_ID   }, &exec_cpp_preproc       },
-		{ 0, { 'E', CPP_PRODUCE_ID   }, &exec_cpp_produce       },
-		{ 0, { 'E', CPP_SPEC_LINK_ID }, &exec_cpp_spec_link     },
-		{ 0, { 'E', DUMP_ANAL_ID     }, &exec_dump_anal         },
-		{ 0, { 'E', DUMP_LINK_ID     }, &exec_dump_link         },
-		{ 0, { 'E', DYNLINK_ID       }, &exec_dynlink           },
-		{ 0, { 'E', LINK_ID          }, &exec_link              },
-		{ 0, { 'E', MKDIR_ID         }, &exec_mkdir             },
-		{ 0, { 'E', MOVE_ID          }, &exec_move              },
-		{ 0, { 'E', NOTATION_ID      }, &exec_notation          },
-		{ 0, { 'E', PL_TDF_ID        }, &exec_pl_tdf            },
-		{ 0, { 'E', PREPROC_ID       }, &exec_preproc           },
-		{ 0, { 'E', PRETTY_ID        }, &exec_pretty            },
-		{ 0, { 'E', PRODUCE_ID       }, &exec_produce           },
-		{ 0, { 'E', RMDIR_ID         }, &exec_rmdir             },
-		{ 0, { 'E', RMFILE_ID        }, &exec_rmfile            },
-		{ 0, { 'E', SPEC_LINK_ID     }, &exec_spec_link         },
-		{ 0, { 'E', TDF_LINK_ID      }, &exec_tdf_link          },
-		{ 0, { 'E', TOUCH_ID         }, &exec_touch             },
-		{ 0, { 'E', TRANSLATE_ID     }, &exec_translate         },
+		/*
+		 * EXECUTABLES
+		 *
+		 * These variables give the values of the various executables comprising the
+		 * system. For example, exec_produce gives the location of the C to TDF
+		 * producer.
+		 */
+		{ 0, { 'E', ASSEMBLE_ID      }, "AS"                 },
+		{ 0, { 'E', ASSEMBLE_MIPS_ID }, "AS1"                },
+		{ 0, { 'E', CAT_ID           }, "CAT"                },
+		{ 0, { 'E', CC_ID            }, "CC"                 },
+		{ 0, { 'E', CPP_PREPROC_ID   }, "TCPPLUSPP"          },
+		{ 0, { 'E', CPP_PRODUCE_ID   }, "TCPPLUSPP"          },
+		{ 0, { 'E', CPP_SPEC_LINK_ID }, "CPP_SPEC_LINK"      },
+		{ 0, { 'E', DUMP_ANAL_ID     }, "DUMP_ANAL"          },
+		{ 0, { 'E', DUMP_LINK_ID     }, "DUMP_LINK"          },
+		{ 0, { 'E', DYNLINK_ID       }, "DYN_LINK"           },
+		{ 0, { 'E', LINK_ID          }, "LD"                 },
+		{ 0, { 'E', MKDIR_ID         }, "MKDIR"              },
+		{ 0, { 'E', MOVE_ID          }, "MOVE"               },
+		{ 0, { 'E', NOTATION_ID      }, "TNC"                },
+		{ 0, { 'E', PL_TDF_ID        }, "TPL"                },
+		{ 0, { 'E', PREPROC_ID       }, "TDFCPP"             },
+		{ 0, { 'E', PRETTY_ID        }, "DISP"               },
+		{ 0, { 'E', PRODUCE_ID       }, "TDFC"               },
+		{ 0, { 'E', RMDIR_ID         }, "RMDIR"              },
+		{ 0, { 'E', RMFILE_ID        }, "RMFILE"             },
+		{ 0, { 'E', SPEC_LINK_ID     }, "SPEC_LINK"          },
+		{ 0, { 'E', TDF_LINK_ID      }, "TLD"                },
+		{ 0, { 'E', TOUCH_ID         }, "TOUCH"              },
+		{ 0, { 'E', TRANSLATE_ID     }, "TRANS"              },
 
-		{ 1, { 'Q', PRODUCE_ID       }, &opt_produce            },
-		{ 1, { 'Q', CPP_PRODUCE_ID   }, &opt_cpp_produce        },
-		{ 1, { 'Q', SPEC_LINK_ID     }, &opt_spec_link          },
-		{ 1, { 'Q', CPP_SPEC_LINK_ID }, &opt_cpp_spec_link      },
-		{ 1, { 'Q', ARCHIVER_ID      }, &opt_joiner             },
-		{ 1, { 'Q', CC_ID            }, &opt_cc                 },
-		{ 0, { 'Q', PRODUCE_ID       }, &opt_produce            },
-		{ 0, { 'Q', PREPROC_ID       }, &opt_preproc            },
-		{ 0, { 'Q', CPP_PRODUCE_ID   }, &opt_cpp_produce        },
-		{ 0, { 'Q', CPP_PREPROC_ID   }, &opt_cpp_preproc        },
-		{ 0, { 'Q', TDF_LINK_ID      }, &opt_tdf_link           },
-		{ 0, { 'Q', TRANSLATE_ID     }, &opt_translate          },
-		{ 0, { 'Q', ASSEMBLE_ID      }, &opt_assemble           },
-		{ 0, { 'Q', DYNLINK_ID       }, &opt_dynlink            },
-		{ 0, { 'Q', LINK_ID          }, &opt_link               },
-		{ 0, { 'Q', PRETTY_ID        }, &opt_pretty             },
-		{ 0, { 'Q', NOTATION_ID      }, &opt_notation           },
-		{ 0, { 'Q', PL_TDF_ID        }, &opt_pl_tdf             },
-		{ 0, { 'Q', ASSEMBLE_MIPS_ID }, &opt_assemble_mips      },
-		{ 0, { 'Q', SPEC_LINK_ID     }, &opt_spec_link          },
-		{ 0, { 'Q', CPP_SPEC_LINK_ID }, &opt_cpp_spec_link      },
-		{ 0, { 'Q', INSTALL_ID       }, &opt_archive            },
-		{ 0, { 'Q', ARCHIVER_ID      }, &opt_joiner             },
-		{ 0, { 'Q', CC_ID            }, &opt_cc                 },
-		{ 0, { 'Q', DUMP_ANAL_ID     }, &opt_dump_anal          },
-		{ 0, { 'Q', DUMP_LINK_ID     }, &opt_dump_link          },
+		/*
+		 * EXECUTABLE OPTIONS
+		 *
+		 * These lists record the command-line options which are passed directly to the
+		 * various executables.
+		 */
+		{ 1, { 'Q', PRODUCE_ID       }, "FLAG_TDFC"          },
+		{ 1, { 'Q', CPP_PRODUCE_ID   }, "FLAG_TCPPLUSPP"     },
+		{ 1, { 'Q', SPEC_LINK_ID     }, "FLAG_SPEC_LINK"     },
+		{ 1, { 'Q', CPP_SPEC_LINK_ID }, "FLAG_CPP_SPEC_LINK" },
+		{ 1, { 'Q', ARCHIVER_ID      }, "FLAG_AR"            },
+		{ 1, { 'Q', CC_ID            }, "FLAG_CC"            },
+		{ 0, { 'Q', PRODUCE_ID       }, "FLAG_TDFC"          },
+		{ 0, { 'Q', PREPROC_ID       }, "FLAG_TDFCPP"        },
+		{ 0, { 'Q', CPP_PRODUCE_ID   }, "FLAG_TCPPLUSPP"     },
+		{ 0, { 'Q', CPP_PREPROC_ID   }, "FLAG_TCPPLUSPP"     },
+		{ 0, { 'Q', TDF_LINK_ID      }, "FLAG_TLD"           },
+		{ 0, { 'Q', TRANSLATE_ID     }, "FLAG_TRANS"         },
+		{ 0, { 'Q', ASSEMBLE_ID      }, "FLAG_AS"            },
+		{ 0, { 'Q', DYNLINK_ID       }, "FLAG_DYN_LINK"      },
+		{ 0, { 'Q', LINK_ID          }, "FLAG_LINK"          },
+		{ 0, { 'Q', PRETTY_ID        }, "FLAG_DISP"          },
+		{ 0, { 'Q', NOTATION_ID      }, "FLAG_TNC"           },
+		{ 0, { 'Q', PL_TDF_ID        }, "FLAG_PL_TDF"        },
+		{ 0, { 'Q', ASSEMBLE_MIPS_ID }, "FLAG_AS1"           },
+		{ 0, { 'Q', SPEC_LINK_ID     }, "FLAG_SPEC_LINK"     },
+		{ 0, { 'Q', CPP_SPEC_LINK_ID }, "FLAG_CPP_SPEC_LINK" },
+		{ 0, { 'Q', INSTALL_ID       }, "FLAG_INSTALL"       },
+		{ 0, { 'Q', ARCHIVER_ID      }, "FLAG_ARCHIVER"      },
+		{ 0, { 'Q', CC_ID            }, "FLAG_CC"            },
+		{ 0, { 'Q', DUMP_ANAL_ID     }, "FLAG_DUMP_ANAL"     },
+		{ 0, { 'Q', DUMP_LINK_ID     }, "FLAG_DUMP_LINK"     },
 
-		{ 0, { 'O', PRODUCE_ID       }, &opt_produce            },
-		{ 0, { 'O', PREPROC_ID       }, &opt_preproc            },
-		{ 0, { 'O', CPP_PRODUCE_ID   }, &opt_cpp_produce        },
-		{ 0, { 'O', CPP_PREPROC_ID   }, &opt_cpp_preproc        },
-		{ 0, { 'O', TDF_LINK_ID      }, &opt_tdf_link           },
-		{ 0, { 'O', TRANSLATE_ID     }, &opt_translate          },
-		{ 0, { 'O', ASSEMBLE_ID      }, &opt_assemble           },
-		{ 0, { 'O', DYNLINK_ID       }, &opt_dynlink            },
-		{ 0, { 'O', LINK_ID          }, &opt_link               },
-		{ 0, { 'O', PRETTY_ID        }, &opt_pretty             },
-		{ 0, { 'O', NOTATION_ID      }, &opt_notation           },
-		{ 0, { 'O', PL_TDF_ID        }, &opt_pl_tdf             },
-		{ 0, { 'O', ASSEMBLE_MIPS_ID }, &opt_assemble_mips      },
-		{ 0, { 'O', SPEC_LINK_ID     }, &opt_spec_link          },
-		{ 0, { 'O', CPP_SPEC_LINK_ID }, &opt_cpp_spec_link      },
-		{ 0, { 'O', INSTALL_ID       }, &opt_archive            },
-		{ 0, { 'O', ARCHIVER_ID      }, &opt_joiner             },
-		{ 0, { 'O', CC_ID            }, &opt_cc                 },
-		{ 0, { 'O', DUMP_ANAL_ID     }, &opt_dump_anal          },
-		{ 0, { 'O', DUMP_LINK_ID     }, &opt_dump_link          },
+		{ 0, { 'O', PRODUCE_ID       }, "FLAG_TDFC"          },
+		{ 0, { 'O', PREPROC_ID       }, "FLAG_TDFCPP"        },
+		{ 0, { 'O', CPP_PRODUCE_ID   }, "FLAG_TCPPLUSPP"     },
+		{ 0, { 'O', CPP_PREPROC_ID   }, "FLAG_TCPPLUSPP"     },
+		{ 0, { 'O', TDF_LINK_ID      }, "FLAG_TLD"           },
+		{ 0, { 'O', TRANSLATE_ID     }, "FLAG_TRANS"         },
+		{ 0, { 'O', ASSEMBLE_ID      }, "FLAG_AS"            },
+		{ 0, { 'O', DYNLINK_ID       }, "FLAG_DYN_LINK"      },
+		{ 0, { 'O', LINK_ID          }, "FLAG_LINK"          },
+		{ 0, { 'O', PRETTY_ID        }, "FLAG_DISP"          },
+		{ 0, { 'O', NOTATION_ID      }, "FLAG_TNC"           },
+		{ 0, { 'O', PL_TDF_ID        }, "FLAG_PL_TDF"        },
+		{ 0, { 'O', ASSEMBLE_MIPS_ID }, "FLAG_AS1"           },
+		{ 0, { 'O', SPEC_LINK_ID     }, "FLAG_SPEC_LINK"     },
+		{ 0, { 'O', CPP_SPEC_LINK_ID }, "FLAG_CPP_SPEC_LINK" },
+		{ 0, { 'O', INSTALL_ID       }, "FLAG_INSTALL"       },
+		{ 0, { 'O', ARCHIVER_ID      }, "FLAG_ARCHIVER"      },
+		{ 0, { 'O', CC_ID            }, "FLAG_CC"            },
+		{ 0, { 'O', DUMP_ANAL_ID     }, "FLAG_DUMP_ANAL"     },
+		{ 0, { 'O', DUMP_LINK_ID     }, "FLAG_DUMP_LINK"     },
 
-		{ 0,   "SI",                    &std_prod_incldirs      },
-		{ 0,   "SP",                    &std_prod_portfile      },
-		{ 0,   "Sd",                    &std_prod_startdirs     },
-		{ 0,   "Ss",                    &std_prod_startup       },
-		{ 0,   "Si",                    &std_cpp_prod_incldirs  },
-		{ 0,   "SD",                    &std_cpp_prod_startdirs },
-		{ 0,   "SS",                    &std_cpp_prod_startup   },
-		{ 0,   "SJ",                    &std_tdf_link_libdirs   },
-		{ 0,   "Sj",                    &std_tdf_link_libs      },
-		{ 0,   "S0",                    &std_link_crt0          },
-		{ 0,   "S1",                    &std_link_crt1          },
-		{ 0,   "S2",                    &std_link_crtn          },
-		{ 0,   "S3",                    &std_link_crtp_n        },
-		{ 0,   "SL",                    &std_link_libdirs       },
-		{ 0,   "Sl",                    &std_link_libs          },
-		{ 0,   "Sc",                    &std_link_c_libs        },
-		{ 0,   "Se",                    &std_link_entry         },
+		/*
+		 * BUILT-IN OPTIONS
+		 *
+		 * These lists of options are built into the system, although they may be
+		 * altered by environments and command-line options.
+		 */
+		{ 0,   "SI", "INCL"                },
+		{ 0,   "SP", "PORTABILITY"         },
+		{ 0,   "Sd", "STARTUP_DIR"         },
+		{ 0,   "Ss", "STARTUP"             },
+		{ 0,   "Si", "INCL_CPP"            },
+		{ 0,   "SD", "STARTUP_CPP_DIR"     },
+		{ 0,   "SS", "STARTUP_CPP"         },
+		{ 0,   "SJ", "LINK"                },
+		{ 0,   "Sj", "LIB"                 },
+		{ 0,   "S0", "CRT0"                },
+		{ 0,   "S1", "CRT1"                },
+		{ 0,   "S2", "CRTN"                },
+		{ 0,   "S3", "CRTP_N"              },
+		{ 0,   "SL", "SYS_LINK"            },
+		{ 0,   "Sl", "SYS_LIB"             },
+		{ 0,   "Sc", "SYS_LIBC"            },
+		{ 0,   "Se", "LINK_ENTRY"          },
 
-		{ 0,   "UI",                    &usr_prod_incldirs      },
-		{ 0,   "Us",                    &usr_prod_startup       },
-		{ 0,   "Ue",                    &usr_prod_eoptions      },
-		{ 0,   "Uf",                    &usr_prod_foptions      },
-		{ 0,   "UP",                    &usr_pl_tdf_incldirs    },
-		{ 0,   "UJ",                    &usr_tdf_link_libdirs   },
-		{ 0,   "Uj",                    &usr_tdf_link_libs      },
-		{ 0,   "UL",                    &usr_link_libdirs       },
-		{ 0,   "Ul",                    &usr_link_libs          },
+		/*
+		 * COMMAND-LINE OPTIONS
+		 *
+		 * These lists of options are those specified on the command-line.
+		 */
+		/* TODO: maybe these can just use the std_ equivalents instead */
+		{ 0,   "UI", "USR_INCL"            },
+		{ 0,   "Us", "USR_STARTUP"         },
+		{ 0,   "Ue", "USR_PROD_EOPTIONS"   },
+		{ 0,   "Uf", "USR_PROD_FOPTIONS"   },
+		{ 0,   "UP", "USR_PL_TDF_INCLDIRS" },
+		{ 0,   "UJ", "USR_LINK"            },
+		{ 0,   "Uj", "USR_LIB"             },
+		{ 0,   "UL", "USR_SYS_LINK"        },
+		{ 0,   "Ul", "USR_SYS_LIB"         },
 
-		{ 0,   "XO",                    &opt_unknown            },
-		{ 0,   "XX",                    &xx_list                }
+		{ 0,   "XO", "OPT_UNKNOWN"         },
+		{ 0,   "XX", "XX_LIST"             }
 	};
 
 	assert(s != NULL);
@@ -614,7 +638,7 @@ lookup_list(const char *s)
 		}
 
 		if (0 == strncmp(t[i].s, s, 2)) {
-			return t[i].l;
+			return t[i].envvar;
 		}
 	}
 
@@ -998,18 +1022,18 @@ match_option(char *in, char *out, const char *opt, args_out *res)
 			}
 
 			case 'L': {
-				list *pt;
-				list **sp;
+				const char *sp;
 
-				sp = lookup_list(p + 1);
-				if (sp == NULL) return MATCH_OUT_ERR;
+				sp = lookup_env(p + 1);
+				if (sp != NULL) {
+					size_t l;
 
-				for (pt = *sp; pt; pt = pt->next) {
-					int l = (int)strlen(pt->s);
-					IGNORE strncpy(q, pt->s,(size_t)l);
+					l = strlen(sp);
+					IGNORE strncpy(q, sp, l);
 					q += l;
 					*(q++) = ' ';
 				}
+
 				p += 2;
 				break;
 			}
@@ -1109,17 +1133,9 @@ interpret_cmd(const char *cmd, enum hash_precedence precedence)
 			}
 			comment(1, "%s=\"%d\"\n", cmd + 4, *bp);
 		} else {
-			list *p;
-			list **sp = lookup_list(cmd + 1);
+			const char *sp = lookup_env(cmd + 1);
 			if (sp == NULL) return;
-			comment(1, "%s=\"", cmd + 3);
-			for (p = *sp; p != NULL; p = p->next) {
-				comment(1, "%s", p->s);
-				if (p->next) {
-					comment(1, " ");
-				}
-			}
-			comment(1, "\"\n");
+			comment(1, "%s=\"%s\"\n", cmd + 3, sp);
 		}
 		return;
 	}
@@ -1138,32 +1154,40 @@ interpret_cmd(const char *cmd, enum hash_precedence precedence)
 
 	/* Change list */
 	case 'A': {
-		list **sp = lookup_list(cmd + 1);
-		if (sp == NULL) {
+		const char *var;
+
+		var = lookup_env(cmd + 1);
+		if (var == NULL) {
 			return;
 		}
-		*sp = add_list(*sp, make_list(cmd + 3));
+
+		envvar_set(&envvars, var, cmd + 3, HASH_APPEND, HASH_CLI);
 		return;
 	}
 
 	/* Change list */
 	case 'B': {
-		list **sp = lookup_list(cmd + 1);
-		if (sp == NULL) {
+		const char *var;
+
+		var = lookup_env(cmd + 1);
+		if (var == NULL) {
 			return;
 		}
-		*sp = add_list(make_list(cmd + 3), *sp);
+
+		envvar_set(&envvars, var, cmd + 3, HASH_PREPEND, HASH_CLI);
 		return;
 	}
 
 	/* Change list */
 	case 'L': {
-		list **sp = lookup_list(cmd + 1);
-		if (sp == NULL) {
+		const char *var;
+
+		var = lookup_env(cmd + 1);
+		if (var == NULL) {
 			return;
 		}
-		free_list(*sp);
-		*sp = make_list(cmd + 3);
+
+		envvar_set(&envvars, var, cmd + 3, HASH_ASSIGN, HASH_CLI);
 		return;
 	}
 
@@ -1327,19 +1351,11 @@ interpret_cmd(const char *cmd, enum hash_precedence precedence)
 		}
 
 		case 'L': {
-			list **sp = lookup_list(cmd + 2), *pt;
+			const char *sp = lookup_env(cmd + 2);
 			if (sp == NULL) {
 				return;
 			}
-			comment(1, "%c%c =", cmd[2], cmd[3]);
-			for (pt = *sp; pt != NULL; pt = pt->next) {
-				if (pt->s) {
-					comment(1, " %s", pt->s);
-				} else {
-					comment(1, " (NULL)");
-				}
-			}
-			comment(1, "\n");
+			comment(1, "%c%c = \"%s\"\n", cmd[2], cmd[3], sp);
 			return;
 		}
 
