@@ -1,0 +1,50 @@
+/* $Id: lexi_lexer.lxi 2694 2011-11-12 16:44:57Z kate $ */
+
+/*
+ * Copyright 2012, The TenDRA Project.
+ *
+ * See doc/copyright/ for the full copyright terms.
+ */
+
+ACTION <buf_init>;
+ACTION <buf_push>: (:CHARACTER) -> ();
+ACTION <buf_esc>:  (:CHARACTER) -> ();
+ACTION <buf_fini>;
+
+ACTION <ref_init>;
+ACTION <ref_push>: (:CHARACTER) -> ();
+ACTION <ref_fini>;
+
+ZONE comment: "/*" ... "*/" {
+	GROUP white = "";
+	TOKEN DEFAULT -> $$;
+}
+
+ZONE string: "\"" -> <buf_init> ... "\"" -> <buf_fini>, $string {
+	GROUP white = "";
+	TOKEN DEFAULT -> <buf_push>(#0);
+
+	TOKEN "\\\"" -> <buf_push>(#1);
+	TOKEN "\\\\" -> <buf_push>(#0), <buf_push>(#0);
+	TOKEN "\\n"  -> <buf_esc>(#1);
+	TOKEN "\\t"  -> <buf_esc>(#1);
+
+	/* TODO: do <abc> substitutions here, in the lexer. it's a nested zone */
+	ZONE reference: "<" -> <ref_init> ... ">" -> <ref_fini> {
+		GROUP white = "";
+		TOKEN DEFAULT -> <ref_push>(#0);
+	}
+}
+
+GROUP ident  = {A-Z} + {0-9} + "_";
+ZONE name: "[ident]" -> <buf_init>, <buf_push>(#0) [...) "[^ident]" -> <buf_fini>, $name {
+	GROUP white = "";
+	TOKEN "[ident]" -> <buf_push>(#0);
+}
+
+TOKEN "<" -> $prepend;
+TOKEN ">" -> $append;
+TOKEN "+" -> $replace;
+
+TOKEN "\e" -> $eof;
+

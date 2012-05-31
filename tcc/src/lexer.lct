@@ -1,0 +1,150 @@
+/* $Id: lexi_lexer.lct 2694 2011-11-12 16:44:57Z kate $ */
+
+/*
+ * Copyright 2012, The TenDRA Project.
+ *
+ * See doc/copyright/ for the full copyright terms.
+ */
+
+ARGUMENT lex_state: lex_state;
+
+HEADERS = @{
+
+	#include <assert.h>
+	#include <stdio.h>
+
+	#include <shared/error.h>
+
+	#include "lexer.h"
+	#include "environ.h"
+
+	#define lexi_unknown_token lex_unknown_token
+
+	static int lexi_getchar(struct lexi_state *state) {
+		int c;
+
+		assert(state != NULL);
+		assert(state->lex_state.file != NULL);
+
+		c = fgetc(state->lex_state.file);
+		if (c == EOF) {
+			return LEXI_EOF;
+		}
+
+		return c;
+	}
+
+	static void buf_push(struct lex_state *state, char c) {
+		assert(state != NULL);
+
+		if (state->bufp == state->buf + sizeof state->buf - 1) {
+			error(ERROR_FATAL, "buffer overflow");
+		}
+
+		*state->bufp++ = c;
+	}
+
+	static void ref_push(struct lex_state *state, char c) {
+		assert(state != NULL);
+
+		if (state->refp == state->buf + sizeof state->buf - 1) {
+			error(ERROR_FATAL, "buffer overflow");
+		}
+
+		*state->refp++ = c;
+	}
+
+@} , @{
+
+	#include <stdio.h>
+
+	#include "hash.h"
+
+	typedef struct lex_state lex_state;
+
+	enum {
+		lex_eof     = EOF,
+		lex_append  = HASH_APPEND,
+		lex_prepend = HASH_PREPEND,
+		lex_replace = HASH_ASSIGN,
+		lex_name,
+		lex_string,
+		lex_unknown_token
+	};
+
+	struct lex_state {
+		FILE *file;
+		char ref[1024];
+		char buf[1024];
+		char *bufp;
+		char *refp;
+	};
+
+@};
+
+TRAILERS = @{
+
+	void lex_init(struct lexi_state *state, FILE *f) {
+		assert(state != NULL);
+		assert(f != NULL);
+
+		lexi_init(state, state->lex_state);
+
+		state->lex_state.file = f;
+	}
+
+@},@{
+
+	void lex_init(struct lexi_state *state, FILE *f);
+
+@};
+
+
+ACTION buf_init = @{
+	state->lex_state.bufp = state->lex_state.buf;
+@};
+
+ACTION buf_push: (c :CHARACTER) -> () = @{
+	buf_push(&state->lex_state, @c);
+@};
+
+ACTION buf_esc: (c :CHARACTER) -> () = @{
+	switch (@c) {
+	case 'n': buf_push(&state->lex_state, '\n'); break;
+	case 't': buf_push(&state->lex_state, '\t'); break;
+
+	default:
+		error(ERROR_FATAL, "unrecognised escape");
+	}
+@};
+
+ACTION buf_fini = @{
+	*state->lex_state.bufp++ = '\0';
+@};
+ 
+
+ACTION ref_init = @{
+	state->lex_state.refp = state->lex_state.ref;
+@};
+
+ACTION ref_push: (c :CHARACTER) -> () = @{
+	ref_push(&state->lex_state, @c);
+@};
+
+ACTION ref_fini = @{
+	const char *var;
+	const char *p;
+
+	*state->lex_state.refp++ = '\0';
+
+	var = envvar_get(envvars, state->lex_state.ref);
+	if (var == NULL) {
+		/* TODO: file and line */
+		error(ERROR_FATAL, "Undefined variable <%s>", state->lex_state.ref);
+	}
+
+	for (p = var; *p != '\0'; p++) {
+		buf_push(&state->lex_state, *p);
+	}
+@};
+ 

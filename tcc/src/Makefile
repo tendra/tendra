@@ -40,6 +40,7 @@ SRCS+=	environ.c
 SRCS+=	execute.c
 SRCS+=	filename.c
 SRCS+=	flags.c
+SRCS+=	lexer.c
 SRCS+=	list.c
 SRCS+=	main.c
 SRCS+=	options.c
@@ -58,4 +59,6 @@ WRAPPER=	tcc.sh
 EXEC_BIN=	${PREFIX_LIBEXEC}
 
 .include <tendra.prog.mk>
+
+# ../../lexi/obj/src/lexi -a -t lex_ -p lexi_ -l c90 lexer.lxi lexer.lct lexer.c lexer.h
 

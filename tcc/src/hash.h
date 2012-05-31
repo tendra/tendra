@@ -49,7 +49,7 @@ envvar_set(struct hash **, const char *, const char *,
 extern unsigned int
 envvar_flags(const struct hash *, const char *);
 extern const char *
-envvar_dereference(struct hash *, const char *, char *, const char *, int);
+envvar_get(struct hash *h, const char *name);
 
 extern int
 envvar_hash(const char *, size_t, size_t);

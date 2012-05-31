@@ -204,43 +204,27 @@ envvar_flags(const struct hash *h, const char *name)
 /*
  * GET A VARIABLE
  *
- * Lookup value for tccenv(5) variables. This function takes in an escape
- * sequence from an env file, and attempts to find a definition. For example,
- * <PREFIX> may be passed in, and be mapped to the value supplied previously
- * by -y arguments.
+ * Lookup value for tccenv(5) variables.
  *
  * This function performs all error handling; it will return a valid char *,
  * or fail.
  */
 const char *
-envvar_dereference(struct hash *h, const char *name, char *end,
-	const char *nm, int line_num)
+envvar_get(struct hash *h, const char *name)
 {
 	struct hash *n;
 	char tmp;
 
-	/* temporarily replace '>' with '\0' to facilitate lookup */
-	/* TODO: modify the key_match function instead */
-	/* TODO: or do this in the caller */
-	tmp = *end;
-	*end = '\0';
-
 	for (n = h; n != NULL; n = n->next) {
 		if (0 == strcmp(name, n->name)) {
 			n->flag |= HASH_READ;
-			break;
+
+			assert(n->value != NULL);
+
+			return n->value;
 		}
 	}
 
-	*end = tmp;
-
-	if (n == NULL) {
-		/* TODO: %.*s based on *end */
-		error(ERROR_FATAL, "Undefined variable <%s> in %s line %d",
-			  name, nm, line_num);
-	}
-
-	assert(n->value != NULL);
-
-	return n->value;
+	return NULL;
 }
+
