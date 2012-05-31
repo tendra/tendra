@@ -25,6 +25,8 @@
 #include "utility.h"
 #include "hash.h"
 #include "lexer.h"
+#include "list.h"
+#include "options.h"
 
 
 /*
@@ -201,6 +203,19 @@ read_env(const char *nm)
 			}
 
 			value = xstrdup(state.lex_state.buf);
+		}
+
+		/* +FLAG is a special case */
+		if (0 == strcmp(name, "FLAG")) {
+			list *opts;
+
+			/* TODO: only permit the order to be HASH_APPEND */
+
+			opts = make_list(value);
+			process_options(opts, main_optmap, HASH_TCCENV);
+			free_list(opts);
+
+			continue;
 		}
 
 		envvar_set(&envvars, name, value, order, HASH_TCCENV);
