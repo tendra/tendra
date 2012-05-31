@@ -22,7 +22,10 @@
 */
 
 
+#if DEBUG
 #include <stdio.h>
+#endif
+
 #include "ossg.h"
 
 #if defined(__TenDRA__)
