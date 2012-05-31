@@ -35,15 +35,7 @@
 #include "temp.h"
 
 
-/*
- * CURRENT VERSION NUMBER
- *
- * Version 4.0 of tcc is a complete rewrite from version 3.x. The revision
- * number is automatically generated from the RCS revision and is stored in
- * version.h.
- */
-
-#define VERSION_STRING		"Version: 4.0"
+#define VERSION_STRING		"Version: 5.0"
 
 #ifndef RELEASE
 #define RELEASE			"unknown"
