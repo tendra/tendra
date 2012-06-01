@@ -155,12 +155,8 @@
 #include &lt;header&gt;</programlisting>
 
 		<para>There are other methods whereby the source output file may be
-			changed into a set of token definitions. For example, in
-			<code>c:sys.h</code> the <code>METHOD</code> file property (see
-			<link linkend="Properties">section 5.4</link>) is set to
-			<code>TNC</code>, causing the <code>tnc</code> program to be invoked
-			to produce the definitions for the basic C tokens for the system. As
-			another example consider:</para>
+			changed into a set of token definitions. For example,
+			consider:</para>
 
 		<programlisting language="tspec">$METHOD = "TNC" ;
 +MACRO double fl_abs ( double ) ;
