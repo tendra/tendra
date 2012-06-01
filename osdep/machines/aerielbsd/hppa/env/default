@@ -1,0 +1,6 @@
+/* $Id$ */
+
++MACHINE	"aerielbsd-*-hppa"
+
+>FLAG_TRANS	"-G1"
+

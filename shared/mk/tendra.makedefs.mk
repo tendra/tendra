@@ -57,6 +57,7 @@ MD_EXECFMT!=                             \
         Linux)     echo elf;;            \
         NetBSD)    echo elf;;            \
         OpenBSD)   echo elf;;            \
+        AerieBSD)  echo elf;;            \
         SunOS)     echo elf;;            \
         HP-UX)     echo parisc;;         \
         *)         echo unknown;;        \
@@ -70,6 +71,7 @@ MD_BLDARCH!=                             \
         i?86|i86pc)    echo 80x86;;      \
         sparc|sparc64) echo sparc;;      \
         9000/7*)       echo hppa;;       \
+        hppa)          echo hppa;;       \
         socppc|macppc) echo ppc601;;     \
         *)             echo unknown;;    \
     esac;
@@ -83,6 +85,7 @@ MD_BLDARCHBITS!=                         \
         sparc)         echo 32;;         \
         sparc64)       echo 64;;         \
         9000/7*)       echo 64;;         \
+        hppa)          echo 32;;         \
         socppc|macppc) echo 32;;         \
         *)             echo unknown;;    \
     esac;
@@ -95,6 +98,7 @@ MD_OSFAM!=                               \
         Linux)     echo linux;;          \
         NetBSD)    echo netbsd;;         \
         OpenBSD)   echo openbsd;;        \
+        AerieBSD)  echo aerielbsd;;      \
         SunOS)     echo solaris;;        \
         Haiku)     echo haiku;;          \
         HP-UX)     echo hpux;;           \
@@ -116,6 +120,7 @@ MD_OSVER!=                               \
         OpenBSD.3*)    echo OPENBSD3;;   \
         OpenBSD.4*)    echo OPENBSD4;;   \
         OpenBSD.5*)    echo OPENBSD5;;   \
+        AerieBSD.1*)   echo AERIELBSD1;; \
         SunOS.5.10*)   echo SUNOS510;;   \
         SunOS.5.11*)   echo SUNOS511;;   \
         Haiku.1*)      echo HAIKU1;;     \
