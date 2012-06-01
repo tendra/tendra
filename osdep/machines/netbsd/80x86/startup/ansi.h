@@ -3,8 +3,6 @@
 #define _ANSI_SOURCE   1
 
 #pragma TenDRA begin
-#pragma TenDRA directive assert allow
-#pragma TenDRA directive unassert allow
 #pragma TenDRA directive include_next allow
 #pragma TenDRA longlong type allow
 #pragma TenDRA no external declaration allow

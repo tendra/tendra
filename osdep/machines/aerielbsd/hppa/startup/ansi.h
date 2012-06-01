@@ -8,8 +8,6 @@
 
 /* TODO: split these by os/cpu, and move up to common/ directories */
 #ifndef __NO_BUILTIN_ASSERTIONS
-#pragma TenDRA directive assert allow
-#pragma TenDRA directive unassert allow
 #assert machine(i386)
 #assert cpu(i386)
 #assert system(unix)
