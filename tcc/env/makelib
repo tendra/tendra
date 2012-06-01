@@ -2,8 +2,7 @@
 >TLD		"-mc"
 +FLAG		"-Fj"
 
->FLAG "--@D#pragma@TenDRA@begin\n"
->FLAG "--@D#pragma@TenDRA@no@external@declaration@allow\n"
+/* for hacked includes */
 >FLAG "--@D#pragma@TenDRA@directive@include_next@allow\n"
 
 /* for tspec-generated source */
