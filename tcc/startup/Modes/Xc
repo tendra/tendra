@@ -18,10 +18,6 @@
 #include "../Literal/ansi.pf"
 #include "../Promotion/ansi.pf"
 
-#define __ANDF__ 1
-#define __TenDRA__ 1
-#define __OPENLINT__ 1
-
 #pragma TenDRA weak prototype analysis off
 #pragma TenDRA incompatible interface declaration warning
 

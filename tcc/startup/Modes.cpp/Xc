@@ -15,10 +15,6 @@
 #line 1 "<start-up>"
 #pragma TenDRA begin
 
-// BUILT-IN MACROS
-#define __ANDF__	1
-#define __TenDRA__	1
-
 // LITERAL AND PROMOTION INFORMATION
 #include "../Literal/ansi.pf"
 #ifdef __ushort_to_int

@@ -22,11 +22,6 @@
 #include "../Literal/ansi.pf"
 #include "../Promotion/ansi.pf"
 
-#define __ANDF__ 1
-#define __TenDRA__ 1
-#define __OPENLINT__ 1
-
-
 /* Xs level checks, but set to warn */
 #pragma TenDRA complete struct/union analysis warning
 #pragma TenDRA conversion analysis (int-int implicit) warning

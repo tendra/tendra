@@ -10,7 +10,7 @@
     STARTUP FILE FOR COMPILATION MODE XT
 
     Xt represents traditional C.  It is quite useless for portability
-    checking and is old provided for compiling old code.
+    checking and is only provided for compiling old code.
 */
 
 #pragma TenDRA declaration block Xt__startup begin
@@ -22,9 +22,6 @@
 
 #undef __STDC__
 #define __STDC__ 0
-#define __ANDF__ 1
-#define __TenDRA__ 1
-#define __OPENLINT__ 1
 
 #pragma TenDRA weak prototype analysis off
 #pragma TenDRA incompatible interface declaration allow
