@@ -3,7 +3,6 @@
 #ifndef __HACKED_MACHINE__TYPES_H
 #define __HACKED_MACHINE__TYPES_H
 
-/* C99isms */
 #ifdef _AERIELBSD1
 #include <sys/cdefs.h> /* for __signed */
 #endif

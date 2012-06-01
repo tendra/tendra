@@ -9,7 +9,7 @@
  * Unfortunately it's not in an #ifndef guard, and so ee can't override
  * just that macro.
  */
-#ifdef _OPENBSD5_1
+#ifdef _AERIELBSD1
 
 #define NULL 0
 
