@@ -552,7 +552,7 @@ void translate_capsule
      i++;
   }
   main_globals_index = i;
-  if (main_globals_index == 0) {
+  if (main_globals_index != 0) {
     main_globals = (dec**)xcalloc(main_globals_index,sizeof(dec*));
   } else {
     main_globals = NULL;
