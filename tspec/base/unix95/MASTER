@@ -10,7 +10,6 @@ $UNIQUE = 1 ;
 $VERSION = "2.7" ;
 +BASE_API ;
 
-+IMPLEMENT "ansi", "dummy/sys.h.tspec" ;
 +IMPLEMENT "unix95", "arpa/inet.h.tspec" ;		# Networking
 +IMPLEMENT "unix95", "assert.h.tspec" ;
 +IMPLEMENT "unix95", "cpio.h.tspec" ;

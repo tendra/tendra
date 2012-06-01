@@ -9,7 +9,6 @@ TSPEC_FLAGS+=   -a
 TSPEC_FLAGS+=	-I${BASE_DIR}/extension
 
 APIS+=	bsd_extn
-APIS+=	dummy
 APIS+=	gcc
 APIS+=	cpp
 #APIS+=	motif/1_2

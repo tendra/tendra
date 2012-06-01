@@ -10,7 +10,6 @@ $UNIQUE = 1 ;
 $VERSION = "2.6" ;
 +BASE_API ;
 
-+IMPLEMENT "ansi", "dummy/sys.h.tspec" ;
 +IMPLEMENT "posix1", "assert.h.tspec" ;
 +IMPLEMENT "posix1", "ctype.h.tspec" ;
 +IMPLEMENT "posix1", "dirent.h.tspec" ;
