@@ -120,7 +120,34 @@ main_middle(void)
 static void
 main_start(char *prog)
 {
-	const struct optmap *t;
+	size_t i;
+
+	struct {
+		const char *name;
+		const char *value;
+	} a[] = {
+		{ "PREFIX",         PREFIX         },
+		{ "PREFIX_BIN",     PREFIX_BIN     },
+		{ "PREFIX_LIB",     PREFIX_LIB     },
+		{ "PREFIX_LIBEXEC", PREFIX_LIBEXEC },
+		{ "PREFIX_SHARE",   PREFIX_SHARE   },
+		{ "PREFIX_INCLUDE", PREFIX_INCLUDE },
+		{ "PREFIX_MAN",     PREFIX_MAN     },
+		{ "PREFIX_TSPEC",   PREFIX_TSPEC   },
+		{ "PREFIX_STARTUP", PREFIX_STARTUP },
+		{ "PREFIX_ENV",     PREFIX_ENV     },
+		{ "PREFIX_API",     PREFIX_API     },
+		{ "PREFIX_LPI",     PREFIX_LPI     },
+		{ "PREFIX_SYS",     PREFIX_SYS     },
+		{ "PREFIX_TMP",     PREFIX_TMP     },
+
+		/* Platform-specific things */
+		{ "MD_EXECFORMAT",  EXECFORMAT     },
+		{ "MD_BLDARCH",     BLDARCH        },
+		{ "MD_BLDARCHBITS", BLDARCHBITS    },
+		{ "MD_OSFAM",       OSFAM          },
+		{ "MD_OSVER",       OSVER          }
+	};
 
 	atexit(main_end);
 
@@ -131,18 +158,8 @@ main_start(char *prog)
 
 	srand(time(NULL));
 
-    /* initialize hash table with tccenv keys */
-	for (t = environ_optmap; t->in != NULL; t++) {
-		char *name;
-
-		if (t->explain == NULL) {
-			continue;
-		}
-
-		name = xstrdup(t->in + 1);
-		name[strcspn(name, " ")] = '\0';
-
-		envvar_set(&envvars, name, t->explain,
+	for (i = 0; i < sizeof a / sizeof *a; i++) {
+		envvar_set(&envvars, a[i].name, a[i].value,
 			HASH_ASSIGN, HASH_DEFAULT);
 	}
 

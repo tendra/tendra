@@ -142,7 +142,7 @@ envvar_set(struct hash **h, const char *name, const char *value,
 	if (n == NULL) {
 		n = xmalloc(sizeof *n);
 
-		n->flag       = option_istccopt(name) ? 0 : HASH_USR;
+		n->flag       = 0;
 		n->name       = xstrdup(name);
 		n->value      = xstrdup(value);
 		n->file       = NULL;	/* TODO */

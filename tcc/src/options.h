@@ -40,7 +40,6 @@ struct optmap {
  */
 
 extern struct optmap main_optmap[];
-extern struct optmap environ_optmap[];
 
 
 /*
@@ -60,13 +59,6 @@ extern void process_options(list *, struct optmap *, enum hash_precedence);
  */
 
 extern filename *input_files;
-
-
-/*
- * FIND IF A VARIABLE IS A TCCENV VARIABLE
- */
-
-extern boolean option_istccopt(const char *name);
 
 
 #endif /* OPTIONS_H */
