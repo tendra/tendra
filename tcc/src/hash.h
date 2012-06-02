@@ -18,12 +18,6 @@
  * Hash implementation
  */
 
-enum hash_flag {
-	HASH_USR    = 1 << 0,
-	HASH_READ   = 1 << 1
-	/* TODO: possibly add a flag saying the value is just a default */
-};
-
 /* TODO: explain */
 enum hash_precedence {
 	HASH_DEFAULT = 0,
@@ -46,8 +40,6 @@ extern void dump_env(const struct hash *);
 void
 envvar_set(struct hash **, const char *, const char *,
 	enum hash_order, enum hash_precedence);
-extern unsigned int
-envvar_flags(const struct hash *, const char *);
 extern const char *
 envvar_get(struct hash *h, const char *name);
 

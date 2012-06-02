@@ -33,7 +33,6 @@ struct hash {
 	struct hash *next;
 	const char *value;
 	const char *name;
-	unsigned int flag;
 	const char *file;
 	int  line_num;
 	enum hash_precedence precedence;
@@ -72,14 +71,6 @@ reconcile_envopts(const struct hash *h)
 	}
 
 	for (n = h; n != NULL; n = n->next) {
-/* TODO: to return after options.c stops populating stray things
-		if ((h->flag & HASH_USR) && !(h->flag & HASH_READ)) {
-			error(ERROR_WARNING,
-			    "%s, line %d: environment option %s declared"
-			    " but never used", h->file, h->line_num, h->name);
-		}
-*/
-
 		/*
 		 * Additional error checking for those platforms supporting stat() for
 		 * variables which represent paths on the filesystem.
@@ -113,8 +104,7 @@ dump_env(const struct hash *h)
 	IGNORE printf("Environment dump:\n");
 
 	for (n = h; n != NULL; n = n->next) {
-		IGNORE printf("\t%c%-18.*s = %s\n",
-			(~n->flag & HASH_USR)  ? '$' : ' ',
+		IGNORE printf("\t%-18.*s = %s\n",
 			(int) strcspn(n->name, "$"), n->name, n->value);
 	}
 }
@@ -142,7 +132,6 @@ envvar_set(struct hash **h, const char *name, const char *value,
 	if (n == NULL) {
 		n = xmalloc(sizeof *n);
 
-		n->flag       = 0;
 		n->name       = xstrdup(name);
 		n->value      = xstrdup(value);
 		n->file       = NULL;	/* TODO */
@@ -185,25 +174,6 @@ envvar_set(struct hash **h, const char *name, const char *value,
 }
 
 /*
- * GET THE FLAGS FOR A VARIABLE
- */
-unsigned int
-envvar_flags(const struct hash *h, const char *name)
-{
-	const struct hash *n;
-
-	assert(name != NULL);
-
-	for (n = h; n != NULL; n = n->next) {
-		if (0 == strcmp(name, n->name)) {
-			return n->flag;
-		}
-	}
-
-	return 0;
-}
-
-/*
  * GET A VARIABLE
  *
  * Lookup value for tccenv(5) variables.
@@ -218,8 +188,6 @@ envvar_get(struct hash *h, const char *name)
 
 	for (n = h; n != NULL; n = n->next) {
 		if (0 == strcmp(name, n->name)) {
-			n->flag |= HASH_READ;
-
 			assert(n->value != NULL);
 
 			return n->value;
