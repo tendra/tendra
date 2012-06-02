@@ -36,4 +36,5 @@
 +MACHINE		"*-*-*"
 
 +FLAG	"-D__TenDRA__"
++FLAG	"-Ydefault"
 

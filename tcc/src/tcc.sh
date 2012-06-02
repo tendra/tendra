@@ -1,5 +1,4 @@
 #!/bin/sh
 
-exec -PREFIX_LIBEXEC-/tcc \
-    -Ybase -Ydefault ${@+"$@"}
+exec -PREFIX_LIBEXEC-/tcc ${@+"$@"}
 

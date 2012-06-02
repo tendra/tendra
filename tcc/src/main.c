@@ -179,6 +179,8 @@ main_start(char *prog)
 			HASH_APPEND, HASH_SYSENV);
 	}
 
+	read_env("base");
+
 	initialise_options();
 }
 
