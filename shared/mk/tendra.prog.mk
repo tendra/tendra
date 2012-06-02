@@ -27,7 +27,6 @@ _TENDRA_WORK_PROG_MK_=1
 
 
 EXEC_BIN?=	${PREFIX}/bin
-WRAP_BIN?=	${PREFIX}/bin
 
 #.if !empty(LIBS)
 #LDOPTS+=	-L${PREFIX}/lib
@@ -38,13 +37,6 @@ ${OBJ_SDIR}/${PROG}: ${OBJS}
 	@${ECHO} "==> Linking ${WRKDIR}/${PROG}"
 	${CC} ${LDOPTS} -o ${.TARGET} ${OBJS} ${LIBS}
 
-.if defined(WRAPPER)
-${OBJ_SDIR}/${WRAPPER}: ${WRAPPER}
-	@${CONDCREATE} "${OBJ_SDIR}"
-	@${ECHO} "==> Setting paths for ${WRKDIR}/${WRAPPER}"
-	${SUBSTVARS} ${WRAPPER} > ${.TARGET}
-.endif
-
 
 
 #
@@ -52,28 +44,16 @@ ${OBJ_SDIR}/${WRAPPER}: ${WRAPPER}
 #
 
 all:: ${OBJ_SDIR}/${PROG}
-.if defined(WRAPPER)
-all:: ${OBJ_SDIR}/${WRAPPER}
-.endif
 
 
 clean::
 	${RMFILE} ${OBJ_SDIR}/${PROG} ${PROG}.core core
-.if defined(WRAPPER)
-	${RMFILE} ${OBJ_SDIR}/${WRAPPER}
-.endif
 
 
 install:: all
 	@${CONDCREATE} "${EXEC_BIN}"
-.if defined(WRAPPER)
-	@${CONDCREATE} "${WRAP_BIN}"
-.endif
 	@${ECHO} "==> Installing ${WRKDIR}/${PROG}"
 	${INSTALL} -m 755 ${OBJ_SDIR}/${PROG} ${EXEC_BIN}/${PROG}
-.if defined(WRAPPER)
-	${INSTALL} -m 755 ${OBJ_SDIR}/${WRAPPER} ${WRAP_BIN}/${PROG}
-.endif
 
 
 
