@@ -30,15 +30,6 @@
 
 
 /*
- * THE CURRENT ENVIRONMENTS PATH
- *
- * The environment path is a colon-separated list of directories which are
- * searched for tcc environments.
- */
-
-static char *envpath = "";
-
-/*
  * ENVIRONMENT
  *
  * This list carries the associative array of environment variables set through
@@ -46,44 +37,6 @@ static char *envpath = "";
  */
 struct hash *envvars;
 int environ_count;
-
-
-/*
- * UPDATE THE ENVIRONMENTS PATH
- *
- * This routine initialises and updates the environments path. This is given by
- * the contents of the system variable TCCENV, plus the default directory
- * (environ_dir), plus the current directory.
- */
-
-void
-find_envpath(void)
-{
-	char *p = buffer;
-	char *tcc_env = getenv(TCCENV_VAR);
-	if (tcc_env) {
-		IGNORE sprintf(p, "%s:", tcc_env);
-		p += strlen(p);
-	}
-	IGNORE sprintf(p, "%s", environ_dir);
-	if (!streq(buffer, envpath)) {
-		envpath = xstrdup(buffer);
-	}
-}
-
-
-/*
- * PRINT THE ENVIRONMENTS PATH
- *
- * This routine prints the environment path.
- */
-
-void
-show_envpath(void)
-{
-	find_envpath();
-	printf("Environment path is '%s'", envpath);
-}
 
 
 /*
@@ -118,7 +71,7 @@ read_env(const char *nm)
 		const char *s;
 		const char *e;
 
-		s = envpath;
+		s = envvar_get(envvars, "ENVPATH");
 
 		for (e = s; *s != '\0'; s = e + (e == s)) {
 			e = s + strcspn(s, ":");

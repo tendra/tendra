@@ -163,6 +163,22 @@ main_start(char *prog)
 			HASH_ASSIGN, HASH_DEFAULT);
 	}
 
+	{
+		const char *tcc_env;
+
+		envvar_set(&envvars, "ENVPATH", PREFIX_ENV,
+			HASH_ASSIGN, HASH_DEFAULT);
+
+		tcc_env = getenv(TCCENV_VAR);
+		if (tcc_env != NULL) {
+			envvar_set(&envvars, "ENVPATH", tcc_env,
+				HASH_ASSIGN, HASH_TCCENV);
+		}
+
+		envvar_set(&envvars, "ENVPATH", PREFIX_TSPEC "/TenDRA/env",
+			HASH_APPEND, HASH_SYSENV);
+	}
+
 	initialise_options();
 }
 

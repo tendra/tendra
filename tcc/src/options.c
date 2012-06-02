@@ -152,7 +152,6 @@ struct optmap main_optmap[] = {
 	{ "-query",         "Q",                "causes a list of options to be printed"      },
 	{ "-s?:+$",         "SS$1$2|1SO",       "specifies a suffix override"                 },
 	{ "-show_errors",   "1SE",              "causes error producing commands to be shown" },
-	{ "-show_env",      "CSE",              "causes the environment path to be printed"   },
 	{ "-special+$",     "SXX$1|CSP",        "allows various internal options"             },
 	{ "-startup+$",     "@D$1$n",           "specifies a start-up option"                 },
 	{ "-target+$",      "AOC-target|AOC$1", "provided for cc compatibility"               },
@@ -639,9 +638,7 @@ lookup_proc(const char *s)
 	} t[] = {
 		{ "AP", add_pragma_aux },
 		{ "AT", add_token_aux  },
-		{ "FE", find_envpath   },
 		{ "PV", print_version  },
-		{ "SE", show_envpath   },
 		{ "SM", set_machine    },
 		{ "SP", special_option }
 	};

@@ -261,7 +261,6 @@ set_machine(void)
 void
 initialise_options(void)
 {
-	find_envpath();
 	if (checker) {
 		allow_specs = 1;
 	}
@@ -458,7 +457,6 @@ update_options(void)
 		}
 	}
 
-	/* A couple of housekeeping routines */
+	/* A housekeeping routine */
 	close_startup();
-	find_envpath();
 }

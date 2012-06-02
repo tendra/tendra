@@ -117,6 +117,7 @@ envvar_set(struct hash **h, const char *name, const char *value,
 	enum hash_order order, enum hash_precedence precedence)
 {
 	struct hash *n;
+	char sep;
 
 	assert(h != NULL);
 	assert(name != NULL);
@@ -153,6 +154,8 @@ envvar_set(struct hash **h, const char *name, const char *value,
 
 	n->precedence = precedence;
 
+	sep = strstr(name, "PATH") ? ':' : ' ';
+
 	/* Case 2.  Update with a value */
 	switch (order) {
 	case HASH_ASSIGN:
@@ -160,11 +163,11 @@ envvar_set(struct hash **h, const char *name, const char *value,
 		break;
 
 	case HASH_APPEND:
-		n->value = string_append(n->value, value, ' ');
+		n->value = string_append(n->value, value, sep);
 		break;
 
 	case HASH_PREPEND:
-		n->value = string_append(value, n->value, ' ');
+		n->value = string_append(value, n->value, sep);
 		break;
 
 	default:

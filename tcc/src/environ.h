@@ -21,8 +21,6 @@
  */
 
 extern void	read_env(const char *);
-extern void	find_envpath(void);
-extern void	show_envpath(void);
 
 
 #define TCC_TBLSIZE 119
