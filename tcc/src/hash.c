@@ -51,13 +51,6 @@ reconcile_envopts(const struct hash *h)
 	const struct hash *n;
 
 	/*
-	 * If no -Y args were given whatsoever, give a warning even without
-	 * verbose being set.
-	 */
-	if (environ_count == 0)
-		error(ERROR_USAGE, "not invoked with any -Y env arguments");
-
-	/*
 	 * If the global env table is NULL, no -Y args succeeded, or none were
 	 * given.
 	 */

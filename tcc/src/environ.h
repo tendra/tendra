@@ -27,7 +27,6 @@ extern void	read_env(const char *);
 #define TCC_KEYSIZE  27
 
 extern struct hash *envvars;	/* global set of env keys/values */
-extern int environ_count;		/* how many -Y env loads are attempted */
 
 
 /*

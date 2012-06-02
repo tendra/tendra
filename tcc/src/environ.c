@@ -36,7 +36,6 @@
  * environment files.
  */
 struct hash *envvars;
-int environ_count;
 
 
 /*
@@ -51,9 +50,6 @@ read_env(const char *nm)
 {
 	struct lexi_state state;
 	FILE *f;
-
-	/* note attempt to load -Y env file */
-	environ_count++;
 
 	/* Find the environment */
 	if (*nm == 0) {
