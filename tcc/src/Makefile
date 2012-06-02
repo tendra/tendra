@@ -55,8 +55,6 @@ SRCS+=	temp.c
 
 
 PROG=		tcc
-WRAPPER=	tcc.sh
-EXEC_BIN=	${PREFIX_LIBEXEC}
 
 .include <tendra.prog.mk>
 
