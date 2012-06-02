@@ -3,14 +3,14 @@
 #ifndef __HACKED_ASM_SIGCONTEXT_H
 #define __HACKED_ASM_SIGCONTEXT_H
 
-#ifdef _GLIBC2_14
+#if defined(_GLIBC2_14) || defined(_GLIBC2_15)
 #pragma TenDRA begin
 #pragma TenDRA anonymous union allow
 #endif
 
 #include_next <asm/sigcontext.h>
 
-#ifdef _GLIBC2_14
+#if defined(_GLIBC2_14) || defined(_GLIBC2_15)
 #pragma TenDRA end
 #endif
 

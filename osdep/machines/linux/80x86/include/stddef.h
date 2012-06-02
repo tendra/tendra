@@ -7,7 +7,7 @@
  * glibc does not provide this header; it is expected to be provided by gcc.
  * The definitions here must be compatible.
  */
-#ifdef _GLIBC2_14
+#if defined(_GLIBC2_14) || defined(_GLIBC2_15)
 
 #define NULL 0
 

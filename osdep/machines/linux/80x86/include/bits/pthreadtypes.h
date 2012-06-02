@@ -3,14 +3,14 @@
 #ifndef __HACKED_BITS_PTHREADTYPES_H
 #define __HACKED_BITS_PTHREADTYPES_H
 
-#ifdef _GLIBC2_14
+#if defined(_GLIBC2_14) || defined(_GLIBC2_15)
 #pragma TenDRA begin
 #pragma TenDRA anonymous union allow
 #endif
 
 #include_next <bits/pthreadtypes.h>
 
-#ifdef _GLIBC2_14
+#if defined(_GLIBC2_14) || defined(_GLIBC2_15)
 #pragma TenDRA end
 #endif
 
