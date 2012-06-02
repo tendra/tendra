@@ -240,7 +240,7 @@
 			and the final segment of which consists of the default
 			environments directory, which is built into &tcc;
 			at compile-time, and the current working directory.
-			The option <option>-show_env</option>
+			The option <option>-vd</option>
 			causes &tcc; to print this environment search path.
 			If the environment cannot be found, then a warning is
 			issued.</para>

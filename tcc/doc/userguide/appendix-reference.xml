@@ -716,10 +716,6 @@
 					<td>Causes error producing commands to be shown</td>
 				</tr>
 				<tr>
-					<td><option>-show_env</option></td>
-					<td>Causes the environment path to be printed</td>
-				</tr>
-				<tr>
 					<td><option>-special&nbsp;&repstring;</option></td>
 					<td>Allows various internal options</td>
 				</tr>

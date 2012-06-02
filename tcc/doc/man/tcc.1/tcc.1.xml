@@ -91,7 +91,6 @@
 	<!ENTITY cc_only.opt "<option>-cc_only</option>">
 
 	<!ENTITY not_ansi.opt      "<option>-not_ansi</option>">
-	<!ENTITY show_env.opt      "<option>-show_env</option>">
 	<!ENTITY api_check.opt     "<option>-api_check</option>">
 	<!ENTITY keep_errors.opt   "<option>-keep_errors</option>">
 	<!ENTITY show_errors.opt   "<option>-show_errors</option>">
@@ -263,7 +262,6 @@
 
 			<sbr/>
 
-			<arg choice="opt">&show_env.opt;</arg>
 			<arg choice="opt">&show_errors.opt;</arg>
 			<arg choice="opt">&vb.opt;</arg>
 			<arg choice="opt">&vd.opt;</arg>
@@ -1029,7 +1027,7 @@
 						&tcc; environments path which is a list of directories
 						separated by colons.
 						This search path can be printed using
-						<option>-show_env</option>.</para>
+						<option>-vd</option>.</para>
 
 					<para>There are certain standard environments, for example,
 						<literal>ansi</literal>, representing the &ansi; &api; (this is
@@ -1345,20 +1343,6 @@
 					<para>Specifies that files with suffix &suffix.arg; are
 						interpreted as having type indicated by
 						&letter.arg;.</para>
-				</listitem>
-			</varlistentry>
-
-			<varlistentry>
-				<term>&show_env.opt;</term>
-
-				<listitem>
-					<para>Prints the &tcc; environments path.
-						This is a list of directories separated by colons.
-						The first element of the list is always the system default
-						environments directory and the last element is always the
-						current working directory.
-						The other elements may be specified by the user by means of
-						the <varname>TCCENV</varname> system variable.</para>
 				</listitem>
 			</varlistentry>
 
