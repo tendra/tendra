@@ -51,7 +51,7 @@ bool do_tlrecursion = 0;	/* eventually to be moved to flagsdescs.h */
 
 
 /* only advertise options in manual page, other debugging options available as well */
-static char usage_mess[] = "usage ( s = 0|1 ): trans [-As] [-Bs] [-Cs] [-D] [-d] [-Es] [-Fs] [-Gs] [-H] [-h] [-Is] [-K] [-Ms] [-O] [-P] [-Q] [-Rs] [-T] [-Us] [-V] [-v] [-W] [-X] [-Z] TDF-capsule output-as-file\n";
+static char usage_mess[] = "usage ( s = 0|1 ): trans [-As] [-Bs] [-Cs] [-D] [-d] [-Es] [-Fs] [-Gs] [-H] [-h] [-Is] [-K] [-Ms] [-O] [-P] [-Q] [-Rs] [-T] [-Us] [-V] [-v] [-W] [-Z] TDF-capsule output-as-file\n";
 
 static int init_trans(char *, char *) ; /* forward reference */
 
@@ -104,7 +104,7 @@ int main
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"ABCDEFGHIKNOPQRTUVWXZ" "dh")) != -1) {
+			"ABCDEFGHIKNOPQRTUVWZ" "dh")) != -1) {
 			switch (c) {
 			case 'A': do_alloca = 1; break;
 			case 'B': flpt_const_overflow_fail = 1; break;
@@ -163,17 +163,6 @@ int main
 				break;
 
 			case 'W': break;
-			case 'X':
-				/* disable all optimisations */
-				tempdecopt = 0;
-				do_inlining = 0;
-				do_loopconsts = 0;
-				do_foralls = 0;
-				do_tlrecursion = 0;
-				do_unroll = 0;
-				OPTIM = 0;
-				break;
-
 			case 'Z': report_versions = 1; break;
 
 			case 'h':

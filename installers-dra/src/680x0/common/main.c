@@ -68,11 +68,6 @@ int do_pic = 0;
 static int do_quit = 0;
 static int do_sep_units = 0;
 static int ignore_errors = 0;
-#ifdef EBUG
-int optimize = 0;
-#else
-static int optimize = 1;
-#endif
 static int report_trans_version = 0;
 static int report_tdf_versions = 0;
 
@@ -132,7 +127,7 @@ int main
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"ABCDEFG:HIK:MOPQRUVWXZ"
+			"ABCDEFG:HIK:MOPQRUVWZ"
 #ifdef EBUG
 			"L:l:"
 #endif
@@ -152,14 +147,13 @@ int main
 			case 'I': do_inlining = 1;              break;
 			case 'K':                               break;
 			case 'M': strict_fl_div = 1;            break;
-			case 'O': optimize = 1;                 break;
+			case 'O':                               break;
 			case 'P': do_profile = 1;               break;
 			case 'Q': do_quit = 1;                  break;
 			case 'R': round_after_flop = 1;         break;
 			case 'U': do_unroll = 1;                break;
 			case 'V': report_trans_version = 1;     break;
 			case 'W':                               break;
-			case 'X': optimize = 0;                 break;
 			case 'Z': report_tdf_versions = 1;      break;
 
 			case 'c': cc_conventions = 1;           break;
@@ -264,7 +258,11 @@ int main
 #endif
 
     /* Switch off optimizations if required */
-    if (diagnose || !optimize) {
+    if (diagnose
+#ifdef EBUG
+    || 1
+#endif
+    ) {
 	do_inlining = 0;
 	do_loopconsts = 0;
 	do_foralls = 0;

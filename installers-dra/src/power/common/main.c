@@ -92,7 +92,7 @@ int main(int argc, char **argv)
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"ABCEFGHIK:MO:PQRUVWXZ" "c")) != -1) {
+			"ABCEFGHIK:MO:PQRUVWZ" "c")) != -1) {
 			switch (c) {
 			case 'A': do_alloca = 1;                break;
 			case 'B': flpt_const_overflow_fail = 1; break;	
@@ -143,18 +143,6 @@ int main(int argc, char **argv)
 				break;
       
 			case 'W': break;
-
-			case 'X':
-				/* disable all optimisations */
-				optim_level = 0 ;
-				tempdecopt = 0 ;
-				do_inlining = 0 ;
-				do_loopconsts = 0 ;
-				do_foralls = 0 ;
-				do_tlrecursion = 0 ;
-				do_unroll = 0;
-				break ;
-
 			case 'Z': report_versions = 1 ; break ;
 
 			case 'c': do_comment = 1 ; break ;

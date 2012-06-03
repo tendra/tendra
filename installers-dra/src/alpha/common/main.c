@@ -111,7 +111,7 @@ main(int argc, char *argv[])
 	{
 		int c;
 
-		while ((c = getopt(argc, argv, "ABCDEFG:HIK:MPQRSUVWXZ" "usd:")) != -1) {
+		while ((c = getopt(argc, argv, "ABCDEFG:HIK:MPQRSUVWZ" "usd:")) != -1) {
 			switch (c) {
 			case 'A': do_alloca = 1;     break;
 			case 'B': /* big floating point constants -> infinity */ break;
@@ -123,16 +123,6 @@ main(int argc, char *argv[])
 
 			case 'H':
 				diagnose      = 1;
-			case 'X':
-#ifdef USE_OLD_UNROLLER
-				dostrengths   = 0;
-#endif
-				do_inlining   = 0;
-				do_loopconsts = 0;
-				do_foralls    = 0;
-				do_dump_opt   = 0;
-				do_alloca     = 0;
-				break;
 
 			case 'I': do_inlining = 1; break;
 			case 'K':

@@ -169,7 +169,7 @@ main ( int argc, char ** argv )
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"ABCDEFGH:IJK:MNO:PQRTUVWXZ"
+			"ABCDEFGH:IJK:MNO:PQRTUVWZ"
 			"acgli:r:tun")) != -1) {
 			switch (c) {
 			case 'A': do_alloca = 1;                break;
@@ -253,16 +253,6 @@ main ( int argc, char ** argv )
 				break;
 	     
 			case 'W': break;
-			case 'X':
-				optim_level = 0 ;
-				tempdecopt = 0 ;
-				do_inlining = 0 ;
-				do_loopconsts = 0 ;
-				do_foralls = 0 ;
-				do_tlrecursion = 0 ;
-				do_unroll = 0;
-				break;
-
 			case 'Z': report_versions = 1; break;
 
 			case 'a' : sysV_abi = 1; g_reg_max = 4; break;

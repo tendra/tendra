@@ -74,7 +74,6 @@ int   main
   char *aname;
   char *dname;
   bool withs = 0;
-  bool no_opts = 0;
   bool override_diags = 0;
   PIC_code = 0;
 
@@ -94,7 +93,7 @@ int   main
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"ABCDEFG:HIK:MPQRSUVWXZ"
+			"ABCDEFG:HIK:MPQRSUVWZ"
 			"edil")) != -1) {
 			switch (c) {
 			case 'A': do_alloca = 1;                break;
@@ -161,7 +160,6 @@ int   main
 				}
 
 			case 'W': writable_strings = 1; break;
-			case 'X': no_opts = 1;          break;
 
 			case 'Z': /* prints on stderr the versions of all the capsules
 				from which this capsule was made */
@@ -186,7 +184,7 @@ int   main
 	}
 
   if (override_diags)diagnose = 0;
-  if (diagnose || no_opts) {		/* line numbering goes to hell with
+  if (diagnose) {		/* line numbering goes to hell with
 				   optimisations */
 
         do_inlining = 0;
