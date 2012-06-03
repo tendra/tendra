@@ -99,10 +99,10 @@ int main(int argc, char **argv)
 
 			case 'M': strict_fl_div = 1; break ;
 
-			case 'O':                       break;
-			case 'P': do_profile = 1;       break;	      
-			case 'Q': exit(EXIT_SUCCESS);   break;
-			case 'R': round_after_flop = 1; break;
+			case 'O': optim = optim_flags(optarg); break;
+			case 'P': do_profile = 1;              break;	      
+			case 'Q': exit(EXIT_SUCCESS);          break;
+			case 'R': round_after_flop = 1;        break;
       
 			case 'V':
 				fprintf(stderr, "DERA TDF translator (TDF version %d.%d)\n",

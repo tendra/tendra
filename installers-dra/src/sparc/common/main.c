@@ -163,7 +163,7 @@ main ( int argc, char ** argv )
 
 		while ((c = getopt(argc, argv,
 			"ABDEGH:JK:MNO:PQRTVWZ"
-			"acgli:r:un")) != -1) {
+			"acglo:i:r:un")) != -1) {
 			switch (c) {
 			case 'A': do_alloca = 1;                break;
 			case 'B': flpt_const_overflow_fail = 1; break;	
@@ -187,20 +187,13 @@ main ( int argc, char ** argv )
 				break;
 #endif
 
-			case 'K':                    break;
-			case 'M': strict_fl_div = 1; break;
-			case 'N': do_prom = 1;       break;
-
-			case 'O':
-				/* optimisation level */
-				optim_level = atoi(optarg);
-				if ( optim_level < 0 ) optim_level = 0 ;
-				if ( optim_level > 4 ) optim_level = 4 ;
-				break;
-	
-			case 'P': do_profile = 1;       break;	      
-			case 'Q': exit(EXIT_SUCCESS);   break;
-			case 'R': round_after_flop = 1; break;
+			case 'K':                              break;
+			case 'M': strict_fl_div = 1;           break;
+			case 'N': do_prom = 1;                 break;
+			case 'O': optim = optim_flags(optarg); break;
+			case 'P': do_profile = 1;              break;	      
+			case 'Q': exit(EXIT_SUCCESS);          break;
+			case 'R': round_after_flop = 1;        break;
 
 #ifdef NEWDWARF
 			case 'T':
@@ -259,6 +252,13 @@ main ( int argc, char ** argv )
 				default:
 					fprintf(stderr,"Incorrect inline option %c\n",arg[2]);
 				}
+				break;
+
+			case 'o':
+				/* optimisation level */
+				optim_level = atoi(optarg);
+				if ( optim_level < 0 ) optim_level = 0 ;
+				if ( optim_level > 4 ) optim_level = 4 ;
 				break;
 
 			case 'r':

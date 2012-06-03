@@ -96,7 +96,7 @@ int main
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"ABDEGHKNOPQRVWZ" "dh")) != -1) {
+			"ABDEGHKNO:PQRVWZ" "dh")) != -1) {
 			switch (c) {
 			case 'A': do_alloca = 1; break;
 			case 'B': flpt_const_overflow_fail = 1; break;
@@ -128,8 +128,8 @@ int main
 				break;
 
 			case 'K': break;
-			case 'M': strict_fl_div = 1; break;
-			case 'O':                    break;
+			case 'M': strict_fl_div = 1;           break;
+			case 'O': optim = optim_flags(optarg); break;
 			case 'P':
 				do_profile = 1;
 				break;

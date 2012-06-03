@@ -89,7 +89,7 @@ int   main
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"ABDEG:HK:MPQRSVWZ"
+			"ABDEG:HK:MO:PQRSVWZ"
 			"ei")) != -1) {
 			switch (c) {
 			case 'A': do_alloca = 1;                break;
@@ -103,12 +103,13 @@ int   main
 				do_alloca = 0; /* dbx does not understand variable frame sizes */
 				break;
 
-			case 'K': /* only MIPS */       break;
-			case 'M': strict_fl_div = 1;    break;
-			case 'P': do_profile = 1;       break;
+			case 'K': /* only MIPS */               break;
+			case 'M': strict_fl_div = 1;            break;
+			case 'O': optim = optim_flags(optarg);  break;
+			case 'P': do_profile = 1;               break;
 			case 'Q': exit(EXIT_FAILURE);
-			case 'R': round_after_flop = 1; break;
-			case 'S': withs = 1;            break;
+			case 'R': round_after_flop = 1;         break;
+			case 'S': withs = 1;                    break;
 
 			case 'V':
 				{

@@ -23,3 +23,13 @@
 +TEMP			"<PREFIX_TMP>"
 +VERSION		""
 
+/*
+ * All optimisations are enabled by default. If this breaks something,
+ * it is a genuine bug.
+ */
+<FLAG_TDFC	"-O"
+<FLAG_TDFCPP	"-O"
+<FLAG_TCPPLUS	"-O"
+<FLAG_TCPPLUSPP	"-O"
+<FLAG_TRANS	"-Oa"
+

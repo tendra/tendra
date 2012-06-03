@@ -128,9 +128,9 @@ main(int argc, char **argv)
 	 * XXX: Some arguments are undocumented in trans.1, check
 	 */
 #ifdef NEWDWARF
-	optstring = "A:B:D:EG:H:" "J" "K:M:NPQR:" "T" "VW:Z" "abcdfghik:s";
+	optstring = "A:B:D:EG:H:" "J" "K:M:NO:PQR:" "T" "VW:Z" "abcdfghik:s";
 #else
-	optstring = "A:B:D:EG:H:"     "K:M:NPQR:"     "VW:Z" "abcdfghik:s";
+	optstring = "A:B:D:EG:H:"     "K:M:NO:PQR:"     "VW:Z" "abcdfghik:s";
 #endif
 
 	while ((ch = getopt(argc, argv, optstring)) != -1) {
@@ -212,6 +212,9 @@ main(int argc, char **argv)
 			break;
 		case 'N':
 			do_prom = 1;
+			break;
+		case 'O':
+			optim = optim_flags(optarg);
 			break;
 		case 'P':
 			do_profile = 1;

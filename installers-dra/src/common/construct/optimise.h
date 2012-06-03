@@ -27,6 +27,7 @@ enum optim {
 extern enum optim optim;
 
 extern void opt_all_exps(void);
+extern enum optim optim_flags(const char *);
 
 #endif
 

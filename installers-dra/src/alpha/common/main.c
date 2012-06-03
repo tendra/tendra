@@ -109,7 +109,7 @@ main(int argc, char *argv[])
 	{
 		int c;
 
-		while ((c = getopt(argc, argv, "ABDEFG:HK:MPQRSVWZ" "usd:")) != -1) {
+		while ((c = getopt(argc, argv, "ABDEFG:HK:MO:PQRSVWZ" "usd:")) != -1) {
 			switch (c) {
 			case 'A': do_alloca = 1;     break;
 			case 'B': /* big floating point constants -> infinity */ break;
@@ -125,6 +125,7 @@ main(int argc, char *argv[])
 				break;
 
 			case 'M': strict_fl_div = 1;                 break;
+			case 'O': optim = optim_flags(optarg);       break;
 			case 'P': do_profile = 1;                    break;
 			case 'Q': exit(EXIT_SUCCESS);                break;
 			case 'R': round_after_flop = 1;              break;

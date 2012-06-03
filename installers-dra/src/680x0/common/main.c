@@ -127,7 +127,7 @@ int main
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"ABDEG:HK:MOPQRVWZ"
+			"ABDEG:HK:MO:PQRVWZ"
 #ifdef EBUG
 			"L:l:"
 #endif
@@ -144,7 +144,7 @@ int main
 			case 'H': diagnose = 1;                 break;
 			case 'K':                               break;
 			case 'M': strict_fl_div = 1;            break;
-			case 'O':                               break;
+			case 'O': optim = optim_flags(optarg);  break;
 			case 'P': do_profile = 1;               break;
 			case 'Q': do_quit = 1;                  break;
 			case 'R': round_after_flop = 1;         break;
