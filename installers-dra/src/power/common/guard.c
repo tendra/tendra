@@ -1,7 +1,7 @@
 /* $Id$ */
 
 /*
- * Copyright 2011, The TenDRA Project.
+ * Copyright 2011-2012, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
  * Copyright 1993, Open Software Foundation, Inc.
  *
@@ -27,8 +27,8 @@ second operand.
 
 #include "config.h"
 #include "codegen.h"
+#include "optimise.h"
 
-#include "tempdecs.h"	/* for tempdecopt */
 #include "comment.h"
 
 #include "guard.h"
@@ -69,7 +69,7 @@ space guardfreg(int r, space sp)
 space needreg(int r, space sp)
 {
   /* tempdec() can allocate t regs if dead over calls, so dont fail */
-  if (!(tempdecopt && IS_TREG(r)) && (sp.fixed&RMASK(r))!=0)
+  if (!(optim & OPTIM_TEMPDEC && IS_TREG(r)) && (sp.fixed&RMASK(r))!=0)
   {
     COMMENT1("needreg: %d", r);
     fail("needreg: fixed reg already in use");
@@ -80,7 +80,7 @@ space needreg(int r, space sp)
 space needfreg(int r, space sp)
 {
   /* tempdec() can allocate t regs if dead over calls, so dont fail */
-  if (!(tempdecopt && IS_FLT_TREG(r)) && (sp.flt&RMASK(r))!=0)
+  if (!(optim & OPTIM_TEMPDEC && IS_FLT_TREG(r)) && (sp.flt&RMASK(r))!=0)
   {
     COMMENT1("needfreg: %d", r);
     fail("needfreg: float reg already in use");

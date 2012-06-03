@@ -1,7 +1,7 @@
 /* $Id$ */
 
 /*
- * Copyright 2002-2011, The TenDRA Project.
+ * Copyright 2002-2012, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
  *
  * See doc/copyright/ for the full copyright terms.
@@ -52,6 +52,7 @@ the proc independent (common to other  translators)
 #include "frames.h"
 #include "extratags.h"
 #include "needscan.h"
+#include "optimise.h"
 
 
 /* used by scan to set initial parameter positions */
@@ -59,7 +60,6 @@ extern alignment long_to_al(unsigned long);
 extern int specialopt(exp);
 
 extern long notbranch[];	/* in makecode.c */
-extern bool do_tlrecursion;
 extern int nexps;
 
 extern procrec *cpr;
@@ -1965,7 +1965,7 @@ ptr is labelled exp
       exp lst;
 
       rscope_level++;
-#if 0 /* only needed when (do_tlrecursion!=0) */
+#if 0 /* only needed when OPTIM_TAIL is set */
       (void) last_statement(son(*e), &lst);	/* always true */
       if (name(lst) == res_tag)
       {
@@ -2721,9 +2721,9 @@ number is number of proc (useful for indexing)
      maxfix = maxfix_tregs;
      maxfloat = MAXFLOAT_TREGS;
 
-     assert(do_tlrecursion==0);
+     assert(~optim & OPTIM_TAIL);
 
-     callerfortr = do_tlrecursion && !proc_has_setjmp(stare) &&
+     callerfortr = optim & OPTIM_TAIL && !proc_has_setjmp(stare) &&
 		   !proc_has_alloca(stare) && !proc_has_lv(stare) &&
 		   !proc_uses_crt_env(stare);
 

@@ -1,7 +1,7 @@
 /* $Id$ */
 
 /*
- * Copyright 2002-2011, The TenDRA Project.
+ * Copyright 2002-2012, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
  * Copyright 1993, Open Software Foundation, Inc.
  *
@@ -24,6 +24,7 @@
 #include "flags.h"
 #include "translat.h"
 #include "eval.h"
+#include "optimise.h"
 
 #include "makecode.h"
 #include "frames.h"
@@ -255,7 +256,6 @@ typedef struct
 
 #define	NQUEUE			3	/* any number < nmumber
 					 * next_creg() manages (0,1,6,7) */
-#if !do_case_transforms
 static bc_info bqueue[NQUEUE];
 
 static int bqueuepos;		/* next free slot in queue */
@@ -329,10 +329,8 @@ static void flush_branch_queue(void)
 
   clear_branch_queue();
 }
-#endif
 
-#if do_case_transforms
-static void case_tag_code(int caseint_reg, exp e, space sp)
+static void case_tag_code_transform(int caseint_reg, exp e, space sp)
 {
 
   long u;
@@ -407,10 +405,7 @@ static void case_tag_code(int caseint_reg, exp e, space sp)
   return;
 }
 
-
-
-#else
-static void case_tag_code(int caseint_reg, exp e, space sp)
+static void case_tag_code_notransform(int caseint_reg, exp e, space sp)
 {
   mm lims;
   exp z = bro(son(e));
@@ -731,7 +726,15 @@ static void case_tag_code(int caseint_reg, exp e, space sp)
     }
   }
 }
-#endif
+
+static void case_tag_code(int caseint_reg, exp e, space sp)
+{
+	if (optim & OPTIM_CASE) {
+		return case_tag_code_transform(caseint_reg, e, sp);
+	} else {
+		return case_tag_code_notransform(caseint_reg, e, sp);
+	}
+}
 
 /*
  * Evaluate and generate the compare instruction for a test_tag,

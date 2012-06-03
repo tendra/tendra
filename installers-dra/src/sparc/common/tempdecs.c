@@ -1,7 +1,7 @@
 /* $Id$ */
 
 /*
- * Copyright 2011, The TenDRA Project.
+ * Copyright 2011-2012, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
  *
  * See doc/copyright/ for the full copyright terms.
@@ -21,6 +21,7 @@
 #include "bitsmacs.h"
 #include "muldvrem.h"
 #include "tempdecs.h"
+#include "optimise.h"
 
 
 /*
@@ -30,13 +31,6 @@
 #define APPLYLIKE( e ) ( name ( e ) == apply_tag || \
 			 name ( e ) == apply_general_tag || \
 			 is_muldivrem_call ( e ) )
-
-
-/*
-  FLAG : APPLY TEMPDEF OPTIMISATION?
-*/
-
-bool tempdecopt ;
 
 
 /*
@@ -206,7 +200,7 @@ simple_seq ( exp e, exp id ){
 bool 
 tempdec ( exp e, bool enoughs ){
   exp p ;
-  if ( !tempdecopt ) return 0;
+  if ( ~optim & OPTIM_TEMPDEC ) return 0;
   nouses = 0 ;
   useinpar = 0 ;
   if ( isvar ( e ) ) {

@@ -1,7 +1,7 @@
 /* $Id$ */
 
 /*
- * Copyright 2002-2011, The TenDRA Project.
+ * Copyright 2002-2012, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
  *
  * See doc/copyright/ for the full copyright terms.
@@ -99,7 +99,6 @@ extern void setbuf(FILE *, char *);
 #define use_long_double		0
 #endif
 
-#define do_case_transforms 0
 #define jump_table_density 10
 #define non_default_entries 4
 #define non_default_destinations 2

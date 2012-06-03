@@ -1,7 +1,7 @@
 /* $Id$ */
 
 /*
- * Copyright 2002-2011, The TenDRA Project.
+ * Copyright 2002-2012, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
  *
  * See doc/copyright/ for the full copyright terms.
@@ -58,6 +58,7 @@
 #include "case_opt.h"
 #include "install_fns.h"
 #include "externs.h"
+#include "optimise.h"
 
 #ifdef NEWDIAGS
 #include "dg_fns.h"
@@ -1650,10 +1651,8 @@ f_bitfield_contents_with_mode(transfer_mode md, bitfield_variety bf, exp p,
 }
 
 
-#if do_case_transforms
-
 exp
-f_case(bool exhaustive, exp control, caselim_list branches)
+f_case_transform(bool exhaustive, exp control, caselim_list branches)
 {
 	exp r, ht;
 	shape case_shape;
@@ -1740,10 +1739,8 @@ f_case(bool exhaustive, exp control, caselim_list branches)
 	return hold_check(id);
 }
 
-#else /* do_case_transforms */
-
-exp
-f_case(bool exhaustive, exp control, caselim_list branches)
+static exp
+f_case_notransform(bool exhaustive, exp control, caselim_list branches)
 {
 	exp r, ht;
 	shape case_shape;
@@ -1810,7 +1807,16 @@ f_case(bool exhaustive, exp control, caselim_list branches)
 
 	return r;
 }
-#endif /* do_case_transforms */
+
+exp
+f_case(bool exhaustive, exp control, caselim_list branches)
+{
+	if (optim & OPTIM_CASE) {
+		return f_case_transform(exhaustive, control, branches);
+	} else {
+		return f_case_notransform(exhaustive, control, branches);
+	}
+}
 
 
 exp

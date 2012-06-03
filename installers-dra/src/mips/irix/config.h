@@ -1,7 +1,7 @@
 /* $Id$ */
 
 /*
- * Copyright 2011, The TenDRA Project.
+ * Copyright 2011-2012, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
  *
  * See doc/copyright/ for the full copyright terms.
@@ -63,7 +63,6 @@
 
 #define keep_PIC_vars 1
 
-#define do_case_transforms 0
 /* Parameters for TDF->TDF case_optimisation */
 
 #define jump_table_density 10        /* between 0 and 100 */

@@ -1,7 +1,7 @@
 /* $Id$ */
 
 /*
- * Copyright 2002-2011, The TenDRA Project.
+ * Copyright 2002-2012, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
  *
  * See doc/copyright/ for the full copyright terms.
@@ -41,6 +41,7 @@
 #include "translate.h"
 #include "codec.h"
 #include "install_fns.h"
+#include "optimise.h"
 
 #if have_diagnostics
 #include "xdb_basics.h"
@@ -54,7 +55,6 @@
 #endif
 
 extern bool have_cond;
-extern int do_peephole;
 extern int do_pic;
 extern ast add_shape_to_stack(ash, shape);
 
@@ -934,7 +934,7 @@ void cproc
     epilogue(0);
 #endif
     /* Apply peephole optimizations and return */
-    if (do_peephole)peephole();
+    if (optim & OPTIM_PEEPHOLE)peephole();
 
     /* Diagnostics for end of procedure */
 #if have_diagnostics

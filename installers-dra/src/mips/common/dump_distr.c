@@ -1,7 +1,7 @@
 /* $Id$ */
 
 /*
- * Copyright 2011, The TenDRA Project.
+ * Copyright 2011-2012, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
  *
  * See doc/copyright/ for the full copyright terms.
@@ -33,8 +33,7 @@
 #include "frames.h"
 #include "regable.h"
 #include "dump_distr.h"
-
-bool do_dump_opt = 1;		/*  may be unset by -d flag */
+#include "optimise.h"
 
 static  space zsp = {
   0, 0
@@ -491,7 +490,7 @@ dump_opt(exp rscope, space * tobd, space * pars)
 
   notregs = 10;
   notfregs = 8;			/* no of t-regs != par regs */
-  if (!do_dump_opt || No_S || sameregs (tobd, &dmpd) ||
+  if (~optim & OPTIM_DUMP || No_S || sameregs (tobd, &dmpd) ||
   	name(rscope)!=proc_tag) {
     placedump ( arg, &dmpd, tobd, tobd);
   }

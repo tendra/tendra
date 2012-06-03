@@ -1,7 +1,7 @@
 /* $Id$ */
 
 /*
- * Copyright 2011, The TenDRA Project.
+ * Copyright 2011-2012, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
  *
  * See doc/copyright/ for the full copyright terms.
@@ -138,7 +138,6 @@ extern dec *diag_def;
 
 
 
-int optim_level;		/* optimisation level from -O# option */
 int maxfix_tregs;		/* the number of t regs allocatable */
 
 char *proc_name;

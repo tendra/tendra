@@ -1,7 +1,7 @@
 /* $Id$ */
 
 /*
- * Copyright 2011, The TenDRA Project.
+ * Copyright 2011-2012, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
  *
  * See doc/copyright/ for the full copyright terms.
@@ -34,6 +34,7 @@ used by make_code for the second operand.
 #include "tempdecs.h"
 #include "comment.h"
 #include "guard.h"
+#include "optimise.h"
 
 
 /*******************************************************************
@@ -75,7 +76,7 @@ needreg(int r, space sp)
 {
   /* tempdec() can allocate t regs if dead over calls, so dont fail */
 #if 0 /* !!!! */
-  if (!(tempdecopt && IS_TREG(r)) && (sp.fixed & RMASK(r)) != 0)
+  if (!(optim & OPTIM_TEMPDEC && IS_TREG(r)) && (sp.fixed & RMASK(r)) != 0)
   {
     comment1("needreg: %d", r);
     fail("needreg: fixed reg already in use");
@@ -89,7 +90,7 @@ needfreg(int r, space sp)
 {
 #if 0 /* !!!! */
   /* tempdec() can allocate t regs if dead over calls, so dont fail */
-  if (!(tempdecopt && IS_FLT_TREG(r)) && (sp.flt & RMASK(r)) != 0)
+  if (!(optim & OPTIM_TEMPDEC && IS_FLT_TREG(r)) && (sp.flt & RMASK(r)) != 0)
   {
     comment1("needfreg: %d", r);
     fail("needfreg: float reg already in use");

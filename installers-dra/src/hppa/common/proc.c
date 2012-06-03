@@ -1,7 +1,7 @@
 /* $Id$ */
 
 /*
- * Copyright 2011, The TenDRA Project.
+ * Copyright 2011-2012, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
  *
  * See doc/copyright/ for the full copyright terms.
@@ -47,6 +47,7 @@
 #include "misc.h"
 #include "hppadiags.h"
 #include "loc_signal.h"
+#include "optimise.h"
 
 #define RES    1
 #define TO_LAB 2
@@ -228,7 +229,7 @@ makeans make_proc_tag_code
 	      (Uses_crt_env && (!leaf || proc_has_checkstack(e)
 				       || Has_checkalloc)));
 
-   if (OPTIM)
+   if (optim & OPTIM_PEEPHOLE)
    {
       lines=BLOCK;
       pCode = (pIn*)malloc(BLOCK*sizeof(pIn));
@@ -525,7 +526,7 @@ makeans make_proc_tag_code
   }
 
 
-  if (OPTIM)
+  if (optim & OPTIM_PEEPHOLE)
   {
      /*
      *   Jump and "peephole" optimisations

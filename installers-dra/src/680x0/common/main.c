@@ -35,6 +35,7 @@
 #include "reader_v.h"
 #include "construct_v.h"
 #include "where.h"
+#include "optimise.h"
 
 #if have_diagnostics
 #include "xdb_basics.h"
@@ -63,7 +64,6 @@ int normal_version = 1;
     EXTRA COMPILATION FLAGS
 */
 
-int do_peephole = 0;
 int do_pic = 0;
 static int do_quit = 0;
 static int do_sep_units = 0;
@@ -127,31 +127,27 @@ int main
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"ABCDEFG:HIK:MOPQRUVWZ"
+			"ABDEG:HK:MOPQRVWZ"
 #ifdef EBUG
 			"L:l:"
 #endif
 #if have_diagnostics
 			"dnt"
 #endif
-			"cegioprsu")) != -1) {
+			"cegiosu")) != -1) {
 			switch (c) {
 			case 'A': do_alloca = 1;                break;
 			case 'B': flpt_const_overflow_fail = 1; break;
-			case 'C': do_loopconsts = 1;            break;
 			case 'D': do_pic = 1;                   break;
 			case 'E': extra_checks = 0;             break;
-			case 'F': do_foralls = 1;               break;
 			case 'G':                               break;
 			case 'H': diagnose = 1;                 break;
-			case 'I': do_inlining = 1;              break;
 			case 'K':                               break;
 			case 'M': strict_fl_div = 1;            break;
 			case 'O':                               break;
 			case 'P': do_profile = 1;               break;
 			case 'Q': do_quit = 1;                  break;
 			case 'R': round_after_flop = 1;         break;
-			case 'U': do_unroll = 1;                break;
 			case 'V': report_trans_version = 1;     break;
 			case 'W':                               break;
 			case 'Z': report_tdf_versions = 1;      break;
@@ -160,8 +156,6 @@ int main
 			case 'e': ignore_errors = 1;            break;
 			case 'g': cc_conventions = 0;           break;
 			case 'i': output_immediately = 1;       break;
-			case 'p': do_peephole = 1;              break;
-			case 'r': do_sub_params = 1;            break;
 			case 's': do_special_fns = 1;           break;
 			case 'u': do_sep_units = 1;             break;
 
@@ -263,11 +257,7 @@ int main
     || 1
 #endif
     ) {
-	do_inlining = 0;
-	do_loopconsts = 0;
-	do_foralls = 0;
-	do_peephole = 0;
-	do_unroll = 0;
+	optim = 0;
     }
 
     /* Check on separate units */

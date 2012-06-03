@@ -1,7 +1,7 @@
 /* $Id$ */
 
 /*
- * Copyright 2011, The TenDRA Project.
+ * Copyright 2011-2012, The TenDRA Project.
  * Copyright 1996, United Kingdom Secretary of State for Defence.
  *
  * See doc/copyright/ for the full copyright terms.
@@ -16,6 +16,8 @@
 #include "tags.h"
 #include "tests.h"
 #include "is_worth.h"
+#include "optimise.h"
+
 #ifndef tdf3
 #include "68k_globals.h"
 #endif
@@ -258,22 +260,13 @@ issigned(shape sha)
 }
 #endif
 
-/*
-    CHECK ON DECLARATION FOR PARAMETER SUBSTITUTION
-
-    This routine checks if the declaration e should be substituted
-    for all its uses or not.
-*/
-
-int do_sub_params = 1;
-
 int
 check_anyway(exp e)
 {
 #ifndef tdf3
 	return 0;
 #else
-	if (do_sub_params) {
+	if (optim & OPTIM_INLINE_EXPS) {
 		setismarked(e);
 		if (no(e) > 2) {
 			return 1;

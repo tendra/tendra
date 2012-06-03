@@ -1,7 +1,7 @@
 /* $Id$ */
 
 /*
- * Copyright 2002-2011, The TenDRA Project.
+ * Copyright 2002-2012, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
  *
  * See doc/copyright/ for the full copyright terms.
@@ -26,7 +26,9 @@
 #include "global_opt.h"
 #include "inl_norm.h"
 #include "unroll.h"
+#include "optimise.h"
 
+enum optim optim;
 
 /* PROCEDURES */
 
@@ -87,11 +89,11 @@ opt_all_exps(void)
 
 #if 0
 	/* take constant expression out of loops */
-	if (do_loopconsts)
+	if (optim & OPTIM_LOOPCONSTS)
 		repeat_consts();
 #endif
 
-	if (do_unroll) {
+	if (optim & OPTIM_UNROLL) {
 		unroller();
 	}
 
@@ -107,13 +109,13 @@ opt_all_exps(void)
 
 #if 1
 	/* take constant expression out of loops */
-	if (do_loopconsts) {
+	if (optim & OPTIM_LOOPCONSTS) {
 		repeat_consts();
 	}
 #endif
 
 	/* replace indexing on loop variable by incremented pointer access */
-	if (do_foralls) {
+	if (optim & OPTIM_FORALLS) {
 		forall_opt();
 	}
 

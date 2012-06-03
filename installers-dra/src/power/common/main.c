@@ -16,17 +16,15 @@
 #include "config.h"
 
 #include "flags.h"		/* for option flags */
-#include "tempdecs.h"	/* for tempdecopt */
 #include "comment.h"		/* for do_comment */
-#include "translat.h"	/* for optim_level, translate() */
 #include "installglob.h"
 #include "reader_v.h"		/* for reader_revison */
 #include "construct_v.h"	/* for construct_revision */
 #include "target_v.h"		/* for comiple_date */
 #include "macro.h"
+#include "optimise.h"
 
 int architecture=COMMON_CODE;	
-bool do_tlrecursion;		/* expected by needscan.c */
 
 int main(int argc, char **argv)
 {
@@ -59,12 +57,7 @@ int main(int argc, char **argv)
 				   output easier to read*/
   
   do_alloca = 0;		/* Use builtin alloca */
-  do_inlining = 0;		/* Do inlining of functions */
   do_special_fns = 0;		/* Builtin procs used */
-  do_loopconsts = 0;		/* Take constant expression out of loops */
-  do_foralls = 0;		/* Replace indexing on loop variable by
-				 * incremented pointer access.
-				 */
   redo_structfns = 1;		/* procs delivering structs 
 				 * recast to extra param
 				 * for call struct/union return convention 
@@ -74,34 +67,24 @@ int main(int argc, char **argv)
   extra_checks = 1;		/* Do extra portability checks */
   separate_units = 0;		/* Translate units separately */
   all_variables_visible = 0;	/* Set vis flag for all declarations */
-  do_unroll=1;                  /* Do unrolling of loops */
   flpt_const_overflow_fail = 1;	/* Constant floating point arithmetic
 				 * fails installation, if overflow 
 				 */
   strict_fl_div = 1;		/* Don't mult by 1/constant */
   round_after_flop = 1;		/* Round every time */
-  
-  do_tlrecursion = 0;		/* Do proc tail recursion optimisation 
-				 * (see needscan.c)
-				 */
-  tempdecopt = 1;		/* (see tempdecs.c) */
   do_comment = 0;		/* (see comment.c) */
-  optim_level = 2;		/* Optimize level */
   
 	{
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"ABCEFGHIK:MO:PQRUVWZ" "c")) != -1) {
+			"ABEGHK:MO:PQRVWZ" "c")) != -1) {
 			switch (c) {
 			case 'A': do_alloca = 1;                break;
 			case 'B': flpt_const_overflow_fail = 1; break;	
-			case 'C': do_loopconsts = 1;            break;
 			case 'E': extra_checks = 0;             break;
-			case 'F': do_foralls = 1;               break;
 			case 'G':                               break;
 			case 'H': diagnose = 1;                 break;
-			case 'I': do_inlining = 1;              break;
 
 			case 'K': 
 				if (optarg[0] == 'R') {
@@ -116,17 +99,10 @@ int main(int argc, char **argv)
 
 			case 'M': strict_fl_div = 1; break ;
 
-			case 'O':
-				/* optimisation level */
-				optim_level = atoi(optarg) ;
-				if ( optim_level < 0 ) optim_level = 0 ;
-				if ( optim_level > 4 ) optim_level = 4 ;
-				break;
-      
+			case 'O':                       break;
 			case 'P': do_profile = 1;       break;	      
 			case 'Q': exit(EXIT_SUCCESS);   break;
 			case 'R': round_after_flop = 1; break;
-			case 'U': do_unroll = 1;        break;
       
 			case 'V':
 				fprintf(stderr, "DERA TDF translator (TDF version %d.%d)\n",
@@ -177,15 +153,9 @@ int main(int argc, char **argv)
   
   /* switch off certain optimisations in diagnostics mode */
   if ( diagnose ) {
-    optim_level = 0 ;
-    tempdecopt = 0 ;
-    do_inlining = 0 ;
-    do_loopconsts = 0 ;
-    do_foralls = 0 ;
-    do_unroll=0;
-    do_tlrecursion = 0;
     do_special_fns = 0;		/* no builtins */
     all_variables_visible = 1;	/* set vis flag for all declarations */
+    optim = 0;
   }
   return translate(infname, outfname);
 }

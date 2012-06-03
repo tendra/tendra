@@ -1,7 +1,7 @@
 /* $Id$ */
 
 /*
- * Copyright 2002-2011, The TenDRA Project.
+ * Copyright 2002-2012, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
  * Copyright 1993, Open Software Foundation, Inc.
  *
@@ -25,7 +25,6 @@ extern FILE *as_file;			/* assembler output file */
 dec **main_globals;			/* the globals decs array */
 
 
-extern int optim_level;			/* optimisation level from -O# option */
 extern int maxfix_tregs;		/* the number of t regs allocatable */
 
 

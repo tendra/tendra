@@ -1,7 +1,7 @@
 /* $Id$ */
 
 /*
- * Copyright 2002-2011, The TenDRA Project.
+ * Copyright 2002-2012, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
  *
  * See doc/copyright/ for the full copyright terms.
@@ -10,10 +10,7 @@
 #ifndef flags_key
 #define flags_key
 
-extern int do_inlining;
 extern int do_special_fns;
-extern int do_loopconsts;
-extern int do_foralls;
 extern int redo_structfns;
 extern int redo_structparams;
 extern int diagnose;

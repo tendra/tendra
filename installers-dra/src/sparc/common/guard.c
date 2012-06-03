@@ -1,7 +1,7 @@
 /* $Id$ */
 
 /*
- * Copyright 2011, The TenDRA Project.
+ * Copyright 2011-2012, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
  *
  * See doc/copyright/ for the full copyright terms.
@@ -24,9 +24,9 @@
 #include "regmacs.h"
 #include "procrec.h"
 #include "addrtypes.h"
-#include "tempdecs.h"
 #include "comment.h"
 #include "guard.h"
+#include "optimise.h"
 
 
 /*
@@ -63,7 +63,7 @@ space
 needreg ( int r, space sp )
 {
 #if 0
-    if ( !( tempdecopt && IS_TREG ( r ) ) &&
+    if ( !( optim & OPTIM_TEMPDEC && IS_TREG ( r ) ) &&
 	  ( sp.fixed & RMASK ( r ) ) != 0 ) {
 	fail ( "needreg : fixed register already in use" ) ;
     }
@@ -82,7 +82,7 @@ space
 needfreg ( int r, space sp )
 {
 #if 0
-    if ( !( tempdecopt && IS_FLT_TREG ( r ) ) &&
+    if ( !( optim & OPTIM_TEMPDEC && IS_FLT_TREG ( r ) ) &&
 	  ( sp.flt & RMASK ( r ) ) != 0 ) {
 	fail ( "needfreg : float register already in use" ) ;
     }

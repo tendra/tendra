@@ -34,6 +34,7 @@
 #include "construct_v.h"
 #include "symbol.h"
 #include "bool.h"
+#include "optimise.h"
 
 FILE *as_file;		/* assembly file */
 FILE *ba_file;
@@ -82,7 +83,6 @@ out_rename(char *oldid, char *newid)
 
 
 bool BIGEND = (little_end == 0);
-bool do_tlrecursion = 1;
 int currentfile = -1;
 int mainfile=0;
 int majorno = 3;
@@ -98,9 +98,7 @@ main(int argc, char *argv[])
 	char *dname;	/* name of file to hold symbol table */
 	char *baname;
 	char *tname;
-	do_inlining=0;
 	redo_structfns=1;
-	do_foralls=0;
 	do_alloca=0;
 #if DO_NEW_DIVISION 
 	use_umulh_for_div = 1;
@@ -111,20 +109,17 @@ main(int argc, char *argv[])
 	{
 		int c;
 
-		while ((c = getopt(argc, argv, "ABCDEFG:HIK:MPQRSUVWZ" "usd:")) != -1) {
+		while ((c = getopt(argc, argv, "ABDEFG:HK:MPQRSVWZ" "usd:")) != -1) {
 			switch (c) {
 			case 'A': do_alloca = 1;     break;
 			case 'B': /* big floating point constants -> infinity */ break;
-			case 'C': do_loopconsts = 1; break;
 			case 'D': failer("no PIC code available"); exit(EXIT_FAILURE);
 			case 'E': extra_checks = 0;  break;
-			case 'F': do_foralls = 1;    break;
 			case 'G':                    break;
 
 			case 'H':
 				diagnose      = 1;
 
-			case 'I': do_inlining = 1; break;
 			case 'K':
 				fprintf(stderr,"alphatrans: [-K..] -> only one kind of processor is supported\n");
 				break;
@@ -134,7 +129,6 @@ main(int argc, char *argv[])
 			case 'Q': exit(EXIT_SUCCESS);                break;
 			case 'R': round_after_flop = 1;              break;
 			case 'S': produce_symbolic_assembler = TRUE; break;
-			case 'U': do_unroll = 1;                     break;
 			case 'V': printinfo(); infoopt = TRUE;       break;
 			case 'W': writable_strings = 1;              break;
 			case 'Z': report_versions = 1;               break;
@@ -199,6 +193,9 @@ main(int argc, char *argv[])
   baname = argv[argc-2];
   dname = argv[argc-1];
   tname = argv[argc-3];
+
+  /* This does not work on the alpha */
+  optim &= ~OPTIM_CASE;
 
   ba_file = open_file(baname,WRITE);
   if(!initreader (tname)) alphafail(OPENING_T_FILE,tname);

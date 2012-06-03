@@ -1,7 +1,7 @@
 /* $Id$ */
 
 /*
- * Copyright 2002-2011, The TenDRA Project.
+ * Copyright 2002-2012, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
  * Copyright 1993, Open Software Foundation, Inc.
  *
@@ -93,8 +93,6 @@ static int freefloat;
 
 static int stparam, fixparam, floatparam;
 
-
-extern bool do_tlrecursion;
 
 static bool nonevis = 1;
 static bool rep_tag_scanned;

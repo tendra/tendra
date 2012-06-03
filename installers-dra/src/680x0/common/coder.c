@@ -1,7 +1,7 @@
 /* $Id$ */
 
 /*
- * Copyright 2002-2011, The TenDRA Project.
+ * Copyright 2002-2012, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
  *
  * See doc/copyright/ for the full copyright terms.
@@ -44,12 +44,12 @@
 #include "ops_shared.h"
 #include "general_proc.h"
 #include "68k_globals.h"
+#include "optimise.h"
 
 #if have_diagnostics
 #include "xdb_basics.h"
 #endif
 
-extern int do_peephole;
 extern int normal_version;
 static int extra_weight = 0;
 
@@ -880,7 +880,7 @@ coder(where dest, ash stack, exp e)
 		/* Look for peephole optimizations */
 		if (dc.is_new && pt(e) == reg_pl) {
 			regsinuse &= ~dc.num;
-			if (!output_immediately && p && do_peephole) {
+			if (!output_immediately && p && optim & OPTIM_PEEPHOLE) {
 				if (used_twice && post_inc_check(p, no(e))) {
 					regsinproc = rg;
 					return;

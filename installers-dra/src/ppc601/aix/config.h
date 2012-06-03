@@ -1,7 +1,7 @@
 /* $Id$ */
 
 /*
- * Copyright 2011, The TenDRA Project.
+ * Copyright 2011-2012, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
  * Copyright 1993, Open Software Foundation, Inc.
  *
@@ -78,7 +78,6 @@
 #define non_default_entries     4
 #define non_default_destinations 3
 #endif
-#define do_case_transforms      1
 /* complex numbers */
 #define substitute_complex      1
 #define has_bitfield_ops        0

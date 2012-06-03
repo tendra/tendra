@@ -1,7 +1,7 @@
 /* $Id$ */
 
 /*
- * Copyright 2002-2011, The TenDRA Project.
+ * Copyright 2002-2012, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
  *
  * See doc/copyright/ for the full copyright terms.
@@ -20,6 +20,7 @@
 #include "exp.h"
 #include "installglob.h"
 #include "shapemacs.h"
+#include "optimise.h"
 
 
 /* label_is_next returns 1 if lab is a labst which immediately
@@ -28,7 +29,7 @@
 int
 label_is_next(exp lab, exp e)
 {
-	if (!indirect_jumps) {
+	if (~optim & OPTIM_JUMPS) {
 		return 0;
 	}
 	while (last(e)) {
@@ -75,7 +76,7 @@ down(exp e)
 static exp
 next_jump(exp e)
 {
-	if (!indirect_jumps) {
+	if (~optim & OPTIM_JUMPS) {
 		return nilexp;
 	}
 
@@ -109,7 +110,7 @@ next_jump(exp e)
 exp
 short_next_jump(exp e)
 {
-	if (!indirect_jumps) {
+	if (~optim & OPTIM_JUMPS) {
 		return nilexp;
 	}
 

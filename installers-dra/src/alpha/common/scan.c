@@ -1,7 +1,7 @@
 /* $Id$ */
 
 /*
- * Copyright 2011, The TenDRA Project.
+ * Copyright 2011-2012, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
  *
  * See doc/copyright/ for the full copyright terms.
@@ -47,6 +47,7 @@
 #include "coder.h"
 #include "szs_als.h"
 #include "scan.h"
+#include "optimise.h"
 
 int maxfix, maxfloat;		/* the maximum number of t-regs */
 static int stparam, fixparam, floatparam;
@@ -56,7 +57,6 @@ static int numparams=0;
 extern alignment long_to_al(int);
 
 extern long notbranch[6];
-extern bool do_tlrecursion;
 
 static bool rscope_level = 0;
 static bool nonevis = 1;
@@ -2043,7 +2043,7 @@ needs scan
       exp * bat;
       needs body;
       exp stare = *(e);
-      callerfortr = do_tlrecursion && !proc_has_setjmp(stare)
+      callerfortr = optim & OPTIM_TAIL && !proc_has_setjmp(stare)
 	&& !proc_has_alloca(stare) && !proc_has_lv(stare) &&
 	!proc_uses_crt_env(stare);
       callerfortr=0;

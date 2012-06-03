@@ -1,7 +1,7 @@
 /* $Id$ */
 
 /*
- * Copyright 2011, The TenDRA Project.
+ * Copyright 2011-2012, The TenDRA Project.
  * Copyright 1996, United Kingdom Secretary of State for Defence.
  *
  * See doc/copyright/ for the full copyright terms.
@@ -44,6 +44,7 @@
 #include "68k_globals.h"
 #include "installglob.h"
 #include "special_exps.h"
+#include "optimise.h"
 
 /* externals */
 
@@ -68,7 +69,6 @@ static void place_arguments(exp args, ash stack, long start);
 extern ast add_shape_to_stack(ash stack, shape s);
 extern void prologue(void);
 extern void out_profile(bool save_a1);
-extern int do_peephole;
 extern int do_pic;
 
 void gcproc
@@ -269,7 +269,7 @@ void gcproc
   general_epilogue(uses_callers_pointer, has_checkstack);
 
   /* Apply peephole optimizations and return */
-  if (do_peephole)peephole();
+  if (optim & OPTIM_PEEPHOLE)peephole();
 
   /* Diagnostics for end of procedure */
 #if have_diagnostics

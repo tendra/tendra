@@ -1,7 +1,7 @@
 /* $Id$ */
 
 /*
- * Copyright 2002-2011, The TenDRA Project.
+ * Copyright 2002-2012, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
  *
  * See doc/copyright/ for the full copyright terms.
@@ -14,9 +14,7 @@
 #include "config.h"
 
 #include "flags.h"		/* for option flags */
-#include "tempdecs.h"		/* for tempdecopt */
 #include "comment.h"		/* for do_comment */
-#include "translat.h"		/* for optim_level, translate () */
 #include "main_reads.h"		/* for d_capsule */
 #include "basicread.h"	/* for good_trans */
 #include "addrtypes.h"		/* for where */
@@ -33,6 +31,7 @@
 #include "externs.h"
 #include "hppadiags.h"
 #include "frames.h"
+#include "optimise.h"
 
 #ifdef __DATE__
 #define compile_date __DATE__
@@ -41,13 +40,17 @@
 #endif
 
 extern int good_trans;
-int OPTIM=1;
 int gdb,xdb,gcc_assembler;
 
 char *local_prefix, *name_prefix;
 
-bool do_tlrecursion = 0;	/* eventually to be moved to flagsdescs.h */
-
+/*
+ * XXX: Some of the conditional optimisations local to this installer are
+ * miscategorised as OPTIM_PEEPHOLE (which I'm using here for general purpose
+ * optimisations, rather than introduce a new category specifically for
+ * hppatrans). In particular the jump table optimisations ought to be split
+ * out to OPTIM_JUMPS instead.
+ */
 
 
 /* only advertise options in manual page, other debugging options available as well */
@@ -73,15 +76,10 @@ int main
 
    /* set defaults for options */
 
-   do_unroll = 0;                   /* do unroll loops */
-   do_inlining = 0;                /* do inline */
    do_special_fns = 0;            /* do special functions */
-   do_loopconsts = 0;	         /* remove constants from loops */
-   do_foralls = 0;	        /* do foralls optimisation */
    gcc_assembler = 0;
    xdb = 0;
    gdb = 0;
-   OPTIM = 1;
 
   redo_structfns = 0;	  /* procs delivering structs recast to extra param */
   redo_structparams = 1; /* struct and union value parameters indirected   */
@@ -90,25 +88,18 @@ int main
   do_alloca = 0;      /* inline alloca       */
   PIC_code = 0;
 
-  /* from tempdecs.c */
-  tempdecopt = 1;		/* unset by -T option */
-
   /* from comment.c */
   do_comment = 0;		/* implement -C option */
-
-  /* from translat.c */
-  optim_level = 2;		/* default equiv to -O2 */
 
 
 	{
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"ABCDEFGHIKNOPQRTUVWZ" "dh")) != -1) {
+			"ABDEGHKNOPQRVWZ" "dh")) != -1) {
 			switch (c) {
 			case 'A': do_alloca = 1; break;
 			case 'B': flpt_const_overflow_fail = 1; break;
-			case 'C': do_loopconsts = 1; break;
 			case 'D':
 				/* -D emulates cc's +Z flag */
 				PIC_code = 1;
@@ -122,7 +113,6 @@ int main
 				break;
 
 			case 'E': extra_checks = 0; break;
-			case 'F': do_foralls = 1; break;
 			case 'G': gcc_assembler = 1; break;
 
 			case 'H':
@@ -137,18 +127,15 @@ int main
 #endif
 				break;
 
-			case 'I': do_inlining = 1; break;
 			case 'K': break;
 			case 'M': strict_fl_div = 1; break;
-			case 'O': /* optim_level not applicable to hp_pa */ break;
+			case 'O':                    break;
 			case 'P':
 				do_profile = 1;
 				break;
 
 			case 'Q': exit(EXIT_SUCCESS); break;
 			case 'R': round_after_flop = 1; break;
-			case 'T' : /* tempdecopt = 0, not applicable to hp_pa */ break;
-			case 'U': do_unroll = 1; break;
 
 			case 'V':
 				fprintf(stderr,"DERA TDF->HP PA-RISC translator %d.%d: "
@@ -212,17 +199,13 @@ int main
    /* Switch off certain optimisations when in diagnostics mode. */
    if (diagnose)
    {
-      optim_level = 0;
-      tempdecopt = 0;
-      do_inlining = 0;
-      do_loopconsts = 0;
-      do_foralls = 0;
-      do_tlrecursion = 0;
-      do_unroll = 0;
-      OPTIM = 0;
+      optim = 0 ;
       if (gdb)
          gcc_assembler = 1;
    }
+
+   /* not implemented */
+   optim &= ~OPTIM_TAIL;
 
    /* init nowhere */
   setregalt(nowhere.answhere, 0);

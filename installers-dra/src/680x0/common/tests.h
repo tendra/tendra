@@ -1,7 +1,7 @@
 /* $Id$ */
 
 /*
- * Copyright 2002-2011, The TenDRA Project.
+ * Copyright 2002-2012, The TenDRA Project.
  * Copyright 1996, United Kingdom Secretary of State for Defence.
  *
  * See doc/copyright/ for the full copyright terms.
@@ -16,7 +16,6 @@
 #include "installtypes.h"
 
 extern int cc_conventions;
-extern int do_sub_params;
 
 extern bool no_side(exp);
 extern bool push_arg(exp);

@@ -16,7 +16,6 @@
 #include "config.h"
 
 #include "flags.h"
-#include "tempdecs.h"
 #include "comment.h"
 #include "translat.h"
 #include "main_reads.h"	
@@ -31,6 +30,7 @@
 #include "externs.h"
 #include "special.h"
 #include "labels.h"
+#include "optimise.h"
 
 #include "target_v.h"
 #include "reader_v.h"
@@ -66,11 +66,6 @@ char *local_prefix = "", *name_prefix = "" ;
 */
 
 extern int redo_structparams ;
-bool do_tlrecursion = 0 ;
-#if 0
-bool do_innerprocs = 0 ;
-#endif
-
 extern int crit_inline;
 extern int crit_decs;
 extern int crit_decsatapp;
@@ -133,12 +128,7 @@ main ( int argc, char ** argv )
   setbuf ( stderr, NULL ) ;
 
   /* set defaults for options */
-  do_inlining = 0 ;			/* do inline */
   do_special_fns = 0 ;			/* do special functions */
-  do_loopconsts = 0 ;			/* do loop constant extraction */
-  do_foralls = 0;			/* do do foralls optimisation */
-  do_unroll = 0;			/* do unroll loops */
-  
   redo_structfns = 0 ;			/* structure results are normal */
   redo_structparams = 0 ;		/* structure parameters are odd */
   diagnose = 0 ;			/* not in diagnostics mode */
@@ -152,12 +142,15 @@ main ( int argc, char ** argv )
   do_profile = 0 ;			/* not in profiling mode */
   PIC_code = 0 ;			/* don't do PIC */
   do_alloca = 0 ;			/* inline alloca */
-  tempdecopt = 1 ;			/* do the tempdec optimisation */
   sysV_abi = SYSV_ABI ;			/* SYSV version */
   sysV_assembler = SYSV_AS ;		/* SYSV version */
-  optim_level = 2 ;			/* default, equivalent to -O2 */
   g_reg_max = ( sysV_abi ? 4 : 7 ) ;	/* number of G registers */
 
+  /*
+   * Note that this does not belong in common/construct/optimise.h as this is
+   * a concept specific to sparc; it controls the ".optim" pseudo-op.
+   */
+  optim_level = 2 ;			/* default, equivalent to -O2 */
     
   flpt_const_overflow_fail = 1;		/* constant floating point arithmetic
 					   fails installation, if overflow */
@@ -169,15 +162,13 @@ main ( int argc, char ** argv )
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"ABCDEFGH:IJK:MNO:PQRTUVWZ"
-			"acgli:r:tun")) != -1) {
+			"ABDEGH:JK:MNO:PQRTVWZ"
+			"acgli:r:un")) != -1) {
 			switch (c) {
 			case 'A': do_alloca = 1;                break;
 			case 'B': flpt_const_overflow_fail = 1; break;	
-			case 'C': do_loopconsts = 1;            break;
 			case 'D': PIC_code = 1;                 break;
 			case 'E': extra_checks = 1;             break;
-			case 'F': do_foralls = 1;               break;
 			case 'G':                               break;
 
 			case 'H':
@@ -187,8 +178,6 @@ main ( int argc, char ** argv )
 					diag_visible = 1;
 #endif
 				break;
-
-			case 'I': do_inlining = 1; break;
 
 #ifdef NEWDWARF
 			case 'J':
@@ -222,8 +211,6 @@ main ( int argc, char ** argv )
 				break;
 #endif
 
-			case 'U': do_unroll = 1; break;
-	
 			case 'V':
 				IGNORE fprintf(stderr, "DERA ANDF Sparc translator (TDF version %d.%d)\n",
 		    			MAJOR_VERSION, MINOR_VERSION);
@@ -281,8 +268,6 @@ main ( int argc, char ** argv )
 				if ( g_reg_max > 7 ) g_reg_max = 7 ;
 				break ;
 
-			case 't': tempdecopt = 0; break;
-	
 			case 'u' :
 				separate_units = 1;
 #if 0	
@@ -337,12 +322,12 @@ main ( int argc, char ** argv )
     if ( diagnose ) {
 #endif
       optim_level = 0 ;
-      tempdecopt = 0 ;
-      do_inlining = 0 ;
-      do_loopconsts = 0 ;
-      do_foralls = 0 ;
       all_variables_visible = 1;	/* set vis flag for all declarations */
+      optim = 0;
     }	
+
+    /* not implemented */
+    optim &= ~OPTIM_TAIL;
 
     /* initialise nowhere */
     setregalt ( nowhere.answhere, 0 ) ;

@@ -1,7 +1,7 @@
 /* $Id$ */
 
 /*
- * Copyright 2002-2011, The TenDRA Project.
+ * Copyright 2002-2012, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
  *
  * See doc/copyright/ for the full copyright terms.
@@ -10,7 +10,6 @@
 #ifndef TRANSLAT_INCLUDED
 #define TRANSLAT_INCLUDED
 
-extern int optim_level;
 extern int maxfix_tregs;
 extern dec **main_globals;
 extern dec *diag_def;
@@ -28,7 +27,6 @@ enum section {
     rodata_section
 };
 extern void insection(enum section);
-extern int OPTIM;
 extern int for_gcc;
 
 #endif /* TRANSLAT_INCLUDED */

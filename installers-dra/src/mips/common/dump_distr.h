@@ -1,7 +1,7 @@
 /* $Id$ */
 
 /*
- * Copyright 2002-2011, The TenDRA Project.
+ * Copyright 2002-2012, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
  *
  * See doc/copyright/ for the full copyright terms.
@@ -15,4 +15,4 @@
 #include "procrectypes.h"
 
 extern  void dump_opt(exp rscope, space * tobd, space * pars);
-extern  bool do_dump_opt;
+

@@ -1,7 +1,7 @@
 /* $Id$ */
 
 /*
- * Copyright 2002-2011, The TenDRA Project.
+ * Copyright 2002-2012, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
  *
  * See doc/copyright/ for the full copyright terms.
@@ -33,6 +33,7 @@
 #include "dg_aux.h"
 #endif
 #include "inl_norm.h"
+#include "optimise.h"
 
 
 int print_inlines = 0;
@@ -93,7 +94,7 @@ normalised_inlining(void)
   int high;
   int no_inlined =0;
 
-  if (!do_inlining) {
+  if (~optim & OPTIM_INLINE_PROCS) {
     return;
   }
 

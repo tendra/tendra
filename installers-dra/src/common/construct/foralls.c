@@ -1,7 +1,7 @@
 /* $Id$ */
 
 /*
- * Copyright 2002-2011, The TenDRA Project.
+ * Copyright 2002-2012, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
  *
  * See doc/copyright/ for the full copyright terms.
@@ -26,6 +26,8 @@
 #include "basicread.h"
 #include "externs.h"
 #include "foralls.h"
+#include "optimise.h"
+#include "optimise.h"
 
 #define subvar 0x100
 
@@ -1735,8 +1737,8 @@ forall_opt(void)
 		order_loops(reps);
 		reps = pt(reps);
 	}
-	if (do_loopconsts) {
-		do_foralls = false;
+	if (optim & OPTIM_LOOPCONSTS) {
+		optim &= ~OPTIM_FORALLS;
 		/* try constant extraction again */
 		repeat_consts();
 	}

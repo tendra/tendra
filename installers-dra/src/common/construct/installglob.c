@@ -1,7 +1,7 @@
 /* $Id$ */
 
 /*
- * Copyright 2002-2011, The TenDRA Project.
+ * Copyright 2002-2012, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
  *
  * See doc/copyright/ for the full copyright terms.
@@ -33,9 +33,6 @@ float default_freq;
 int proc_externs;
 int flpt_always_comparable = 1;
 int report_versions = 0;
-int do_unroll = 1;
-
-int indirect_jumps = 1;
 
 exp proc_struct_result;
 

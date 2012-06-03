@@ -33,6 +33,7 @@
 #include "reader_v.h"
 #include "construct_v.h"
 #include "operand.h"
+#include "optimise.h"
 
 #ifdef NEWDIAGS
 #include "diag_v.h"
@@ -86,16 +87,13 @@ main(int argc, char **argv)
 	/*
 	 * defaults
 	 */
-	do_inlining = 1;	/* inline */
 	redo_structfns = 1;	/* replace fns delivering structs */
 	redo_structparams = 0;	/* no change to struct params */
 	is80486 = 1;		/* (at least) 80486 */
 	is80586 = 1;		/* Pentium */
 	separate_units = 0;	/* combine units */
-	do_foralls = 1;		/* do forall optimisations */
 	extra_checks = 1;	/* perform the extra checks */
 	always_use_frame = 0;	/* avoid using frame pointer */
-	do_loopconsts = 1;	/* extract constants from loops */
 	diagnose = 0;		/* diagnostics off */
 #ifdef NEWDIAGS
 	diag_visible = 0;
@@ -118,9 +116,7 @@ main(int argc, char **argv)
 	flpt_always_comparable = 0; /* this is the default for SVR4.2 */
 	report_versions = 0;	/* do not print version numbers */
 	permit_8byte_align = 1;	/* allow 8byte alignment for local doubles */
-	do_unroll = 1;		/* perform loop unrolling */
 	replace_arith_type = 1;	/* use the C definitions of promote etc. */
-	indirect_jumps = 1;	/* follow gotos and tests to final dest */
 	no_bss = 0;		/* use .comm */
 
 
@@ -132,9 +128,9 @@ main(int argc, char **argv)
 	 * XXX: Some arguments are undocumented in trans.1, check
 	 */
 #ifdef NEWDWARF
-	optstring = "A:B:C:D:EF:G:H:I:" "J" "K:M:NPQR:" "T" "U:VW:Zabcdefghik:s";
+	optstring = "A:B:D:EG:H:" "J" "K:M:NPQR:" "T" "VW:Z" "abcdfghik:s";
 #else
-	optstring = "A:B:C:D:EF:G:H:I:"     "K:M:NPQR:"     "U:VW:Zabcdefghik:s";
+	optstring = "A:B:D:EG:H:"     "K:M:NPQR:"     "VW:Z" "abcdfghik:s";
 #endif
 
 	while ((ch = getopt(argc, argv, optstring)) != -1) {
@@ -145,17 +141,11 @@ main(int argc, char **argv)
 		case 'B':
 			flpt_const_overflow_fail = (*optarg == '1');
 			break;
-		case 'C':
-			do_loopconsts = (*optarg == '1');
-			break;
 		case 'D':
 			PIC_code = (*optarg == '1');
 			break;
 		case 'E':
 			extra_checks = 0;
-			break;
-		case 'F':
-			do_foralls = (*optarg == '1');
 			break;
 		case 'G':
 			gcc_compatible = (*optarg == '1');
@@ -180,21 +170,14 @@ main(int argc, char **argv)
 				diag_visible = 1;
 
 				always_use_frame = 1;
-				do_inlining = 0;
-				do_loopconsts = 0;
-				do_foralls = 0;
 				all_variables_visible = 1;
+				optim = 0;
 			}
 #else /* At the moment every operating system but solaris */
 			always_use_frame = 1;
-			do_inlining = 0;
-			do_loopconsts = 0;
-			do_foralls = 0;
 			all_variables_visible = 1;
+			optim = 0;
 #endif /* NEWDIAGS */
-			break;
-		case 'I':
-			do_inlining = (*optarg == '1');
 			break;
 #ifdef NEWDWARF
 		case 'J':
@@ -247,9 +230,6 @@ main(int argc, char **argv)
 			dwarf2 = 1;
 			break;
 #endif
-		case 'U':
-			do_unroll = (*optarg == '1');
-			break;
 		case 'V':
 			print_version();
 			break;
@@ -270,9 +250,6 @@ main(int argc, char **argv)
 			break;
 		case 'd':
 			redo_structfns = 0;
-			break;
-		case 'e':
-			indirect_jumps = 0;
 			break;
 		case 'f':
 			/* XXX: undocumented */
@@ -339,6 +316,9 @@ main(int argc, char **argv)
 		failer(BAD_COMMAND1);
 		exit(EXIT_FAILURE);
 	}
+
+	/* XXX: invalid assembly is generated without this */
+	optim |= OPTIM_CASE;
 
 	while (*argv) {
 		outfname = argv[1];

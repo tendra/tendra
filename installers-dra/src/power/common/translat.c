@@ -1,7 +1,7 @@
 /* $Id$ */
 
 /*
- * Copyright 2011, The TenDRA Project.
+ * Copyright 2011-2012, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
  * Copyright 1993, Open Software Foundation, Inc.
  *
@@ -118,7 +118,6 @@
 #include "stack.h"
 
 
-int optim_level;		/* optimisation level from -O# option */
 int maxfix_tregs;		/* The number of t regs allocatable */
 FILE *as_file;			/* Assembler output file */
 dec **main_globals;		/* The globals decs array */

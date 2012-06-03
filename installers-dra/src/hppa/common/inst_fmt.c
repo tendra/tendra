@@ -1,7 +1,7 @@
 /* $Id$ */
 
 /*
- * Copyright 2011, The TenDRA Project.
+ * Copyright 2011-2012, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
  *
  * See doc/copyright/ for the full copyright terms.
@@ -40,6 +40,7 @@ understood by the assembler.
 #include "expmacs.h"
 #include "flags.h"
 #include "eval.h"
+#include "optimise.h"
 
 #define name( x ) ( ( x )->namef )
 #define sh( x ) ( ( x )->shf )
@@ -175,7 +176,7 @@ float_reg_name(int reg)
 int
 outp(ins_p ins, ins_p cc, int *ops, int lab)
 {
-   if (!OPTIM)
+   if (~optim & OPTIM_PEEPHOLE)
    {
       return 1;
    }
@@ -908,7 +909,7 @@ Branch instructions. These have labels as destination.
 void
 ub_ins(const char *cmplt, int lab)
 {
-    if (OPTIM)
+    if (optim & OPTIM_PEEPHOLE)
     {
        int b;
        b=outp(i_ub,NOCOND,zops,lab);
@@ -1085,7 +1086,7 @@ cj_ins(const char *cond, int l, int r, int lab)
    int ops[4];
    ops[0]=l;
    ops[1]=r;
-   if (OPTIM)
+   if (optim & OPTIM_PEEPHOLE)
    {
       outp(i_cj,cond,ops,lab);
       fprintf(outf,"%s",GAP);
@@ -1109,7 +1110,7 @@ cij_ins(const char *cond, long l, int r, int lab)
    ops[1]=r;
    if (SIMM5(l))
    {
-      if (OPTIM)
+      if (optim & OPTIM_PEEPHOLE)
       {
 	 outp(i_cij,cond,ops,lab);
 	 fprintf(outf,"%s",GAP);
@@ -1129,7 +1130,7 @@ cij_ins(const char *cond, long l, int r, int lab)
       else
       {
 	 imm_to_r(l,GR1);
-	 if (OPTIM)
+	 if (optim & OPTIM_PEEPHOLE)
 	 {
 	    cj_ins(cond,GR1,r,lab);
 	 }

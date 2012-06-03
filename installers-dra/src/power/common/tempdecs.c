@@ -1,7 +1,7 @@
 /* $Id$ */
 
 /*
- * Copyright 2002-2011, The TenDRA Project.
+ * Copyright 2002-2012, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
  * Copyright 1993, Open Software Foundation, Inc.
  *
@@ -22,12 +22,12 @@
 #include "tempdecs.h"
 #include "regmacs.h"
 #include "stack.h"
+#include "optimise.h"
 
 /* to go in a switch as in case CASE_APPLYLIKE: */
 #define	CASE_APPLYLIKE	apply_tag: case round_tag:case apply_general_tag
 
 
-bool tempdecopt;	/* flag to allow this optimisation, set in main() */
 static int nouses;
 static bool useinpar;
 static int param_uses(exp);
@@ -321,7 +321,7 @@ int tempdec(exp e, bool enoughs)
    */
   exp p;
 
-  if (!tempdecopt)
+  if (~optim & OPTIM_TEMPDEC)
     return 0;
 
   nouses = 0;

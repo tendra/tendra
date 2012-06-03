@@ -1,7 +1,7 @@
 /* $Id$ */
 
 /*
- * Copyright 2002-2011, The TenDRA Project.
+ * Copyright 2002-2012, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
  *
  * See doc/copyright/ for the full copyright terms.
@@ -59,7 +59,6 @@
 #define has64bits 1
 #define keep_PIC_vars 0
 #define div0_implemented 1
-#define do_case_transforms 1
 #define substitute_complex 1
 #define has_rotate 1
 #define GCC_STRUCTS -1	/* (linux_elf ? 0 : 1) */

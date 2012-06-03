@@ -1,7 +1,7 @@
 /* $Id$ */
 
 /*
- * Copyright 2002-2011, The TenDRA Project.
+ * Copyright 2002-2012, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
  *
  * See doc/copyright/ for the full copyright terms.
@@ -66,7 +66,6 @@
 #define maxmin_implemented 1
 #define target_dbl_maxexp 4932
 #define div0_implemented 1
-#define do_case_transforms 1
 #define substitute_complex 1
 #define has_rotate 1
 #define GCC_STRUCTS 0

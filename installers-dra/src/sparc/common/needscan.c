@@ -1,7 +1,7 @@
 /* $Id$ */
 
 /*
- * Copyright 2011, The TenDRA Project.
+ * Copyright 2011-2012, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
  *
  * See doc/copyright/ for the full copyright terms.
@@ -50,8 +50,8 @@
 #include "reg_defs.h"
 #include "szs_als.h"
 #include "makecode.h"
+#include "optimise.h"
 
-extern bool do_tlrecursion ;
 extern prop notbranch[];
 
 /*
@@ -1779,7 +1779,7 @@ scan ( exp * e, exp ** at ){
 #endif
       rscope_level++ ;
 #if 0
-      /* only needed when ( do_tlrecursion != 0 ) */
+      /* only needed when OPTIM_TAIL is set */
       ( void ) last_statement ( son ( *e ), &lst ) ; /* always true */
       if ( name ( lst ) == res_tag ) {
 	/* can remove res */
@@ -2436,9 +2436,9 @@ scan ( exp * e, exp ** at ){
 
       /* on SPARC tail recursion is harder than MIPS and less of a win
 	 but still worth implementing sometime */
-      assert ( do_tlrecursion==0 ) ;
+      assert(~optim & OPTIM_TAIL);
 
-      callerfortr = do_tlrecursion && !proc_has_setjmp ( stare ) &&
+      callerfortr = optim & OPTIM_TAIL && !proc_has_setjmp ( stare ) &&
 	!proc_has_alloca ( stare ) &&
 	!proc_has_lv ( stare ) &&
 	!proc_uses_crt_env ( stare ) ;

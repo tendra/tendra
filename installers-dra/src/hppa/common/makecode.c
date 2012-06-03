@@ -1,7 +1,7 @@
 /* $Id$ */
 
 /*
- * Copyright 2011, The TenDRA Project.
+ * Copyright 2011-2012, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
  *
  * See doc/copyright/ for the full copyright terms.
@@ -57,6 +57,7 @@
 #include "misc_c.h"
 #include "special.h"
 #include "loc_signal.h"
+#include "optimise.h"
 
 #define outp fprintf
 #define isdbl(e)((bool)(name(e)!= shrealhd))
@@ -1984,7 +1985,7 @@ makeans make_code
 		 while ((v & (1<<b)) == 0)b++;
 		 b=31-b;
 		 a1 = reg_operand(sonl,sp);
-		 if (OPTIM)
+		 if (optim & OPTIM_PEEPHOLE)
 		 {
 		    bb_in(branch==c_eq ? bit_is_0 : bit_is_1,a1,b,lab);
 		 }
@@ -3145,7 +3146,7 @@ makeans make_code
 	    {
 	       if (from == scharhd)
 	       {
-		  if (OPTIM)
+		  if (optim & OPTIM_PEEPHOLE)
 		     bb_in(bit_is_1,sreg,24,trap);
 		  else
 		  {
@@ -3163,7 +3164,7 @@ makeans make_code
 		  }
 		  else
 		  {
-		     if (OPTIM)
+		     if (optim & OPTIM_PEEPHOLE)
 			bb_in(bit_is_1,sreg,16,trap);
 		     else
 		     {
@@ -3187,7 +3188,7 @@ makeans make_code
 		  }
 		  else
 		  {
-		     if (OPTIM)
+		     if (optim & OPTIM_PEEPHOLE)
 			bb_in(bit_is_1,sreg,0,trap);
 		     else
 		     {
@@ -3215,7 +3216,7 @@ makeans make_code
 	       }
 	       else
 	       {
-		  if (OPTIM)
+		  if (optim & OPTIM_PEEPHOLE)
 		     bb_in(bit_is_1,sreg,0,trap);
 		  else
 		  {

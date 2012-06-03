@@ -1,7 +1,7 @@
 /* $Id$ */
 
 /*
- * Copyright 2011, The TenDRA Project.
+ * Copyright 2011-2012, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
  *
  * See doc/copyright/ for the full copyright terms.
@@ -47,6 +47,7 @@ the proc independent (common to other  translators)
 #include "externs.h"
 #include "needs_scan.h"
 #include "oddtest.h"
+#include "optimise.h"
 
 int   maxfix,
       maxfloat;			/* the maximum number of t-regs */
@@ -55,7 +56,6 @@ static int   stparam, fixparam, floatparam;
 						positions */
 
 extern long notbranch[6];
-extern bool do_tlrecursion;
 
 static bool rscope_level = 0;
 static bool nonevis = 1;
@@ -2445,7 +2445,7 @@ number is number of proc (useful for indexing)
 	needs body;
 	exp stare = *(e);
 
-	callerfortr = do_tlrecursion && !proc_has_setjmp(stare) && !proc_has_alloca(stare) &&
+	callerfortr = optim & OPTIM_TAIL && !proc_has_setjmp(stare) && !proc_has_alloca(stare) &&
 			!proc_has_lv(stare) && !proc_uses_crt_env(stare);
 
 	maxfix = (PIC_code)?15:16;

@@ -1,7 +1,7 @@
 /* $Id$ */
 
 /*
- * Copyright 2011, The TenDRA Project.
+ * Copyright 2011-2012, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
  *
  * See doc/copyright/ for the full copyright terms.
@@ -16,6 +16,7 @@
 #include "expmacs.h"
 #include "bitsmacs.h"
 #include "tempdecs.h"
+#include "optimise.h"
 
 
 static int nouses;
@@ -168,9 +169,6 @@ after_a(exp a, exp id)
 
 
 
-bool tempdecopt = 1;		/* flag to allow this optimisation; -Tt
-				   sets to 0 */
-
 bool
 tempdec(exp e, bool enoughs)
 {
@@ -179,7 +177,7 @@ tempdec(exp e, bool enoughs)
 				   t-regs available delivers 1 if e can be
 				   allocated into t-reg or par reg */
 	exp p;
-	if (!tempdecopt ) return 0;
+	if (~optim & OPTIM_TEMPDEC) return 0;
 	nouses = 0;
 	useinpar = 0;
 	if (isvar(e) ) {

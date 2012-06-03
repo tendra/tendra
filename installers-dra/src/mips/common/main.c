@@ -1,7 +1,7 @@
 /* $Id$ */
 
 /*
- * Copyright 2002-2011, The TenDRA Project.
+ * Copyright 2002-2012, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
  *
  * See doc/copyright/ for the full copyright terms.
@@ -32,6 +32,7 @@
 #include "dump_distr.h"
 #include "construct_v.h"
 #include "reader_v.h"
+#include "optimise.h"
 
 extern void output_symtab(char*);
 
@@ -59,8 +60,6 @@ long  mainfile = 0;		/* would be best if it  actually contained
 				   main ! */
 bool BIGEND = (little_end == 0);
 
-bool do_tlrecursion = 0;
-
 bool opt
 (char c)
 { if (c == '0' || c == 0) return 0;
@@ -78,30 +77,25 @@ int   main
   PIC_code = 0;
 
   as_file = (FILE *)0;
-  do_inlining = 0;
   redo_structfns = 0;
-  do_unroll = 0;
   do_extern_adds = 0;
 
 
   flpt_const_overflow_fail = 0; /* HUGEVAL requires 0 for Ysystem */
 
-  do_foralls = 0;
   do_alloca = 0;
 
 	{
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"ABCDEFG:HIK:MPQRSUVWZ"
-			"edil")) != -1) {
+			"ABDEG:HK:MPQRSVWZ"
+			"ei")) != -1) {
 			switch (c) {
 			case 'A': do_alloca = 1;                break;
 			case 'B': flpt_const_overflow_fail = 1; break;
-			case 'C': do_loopconsts = 1;            break;
 			case 'D': PIC_code = 1;                 break;
 			case 'E': extra_checks = 0;             break;
-			case 'F': do_foralls = 1;               break;
 			case 'G':                               break;
 
 			case 'H':
@@ -109,14 +103,12 @@ int   main
 				do_alloca = 0; /* dbx does not understand variable frame sizes */
 				break;
 
-			case 'I': do_inlining = 1;      break;
 			case 'K': /* only MIPS */       break;
 			case 'M': strict_fl_div = 1;    break;
 			case 'P': do_profile = 1;       break;
 			case 'Q': exit(EXIT_FAILURE);
 			case 'R': round_after_flop = 1; break;
 			case 'S': withs = 1;            break;
-			case 'U': do_unroll = 1;        break;
 
 			case 'V':
 				{
@@ -167,9 +159,7 @@ int   main
 				break;
 
 			case 'e': do_extern_adds = 1; break;
-			case 'd': do_dump_opt    = 1; break;
 			case 'i': override_diags = 1; break;
-			case 'l': do_tlrecursion = 1; break;
 
 			default:
 				failer("Illegal flag");
@@ -187,12 +177,7 @@ int   main
   if (diagnose) {		/* line numbering goes to hell with
 				   optimisations */
 
-        do_inlining = 0;
-        do_loopconsts = 0;
-        do_foralls = 0;
-        do_dump_opt = 0;
-        do_unroll = 0;
-	do_tlrecursion = 0;
+	optim = 0;
   };
 
 

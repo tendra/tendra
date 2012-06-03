@@ -1,7 +1,7 @@
 /* $Id$ */
 
 /*
- * Copyright 2002-2011, The TenDRA Project.
+ * Copyright 2002-2012, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
  *
  * See doc/copyright/ for the full copyright terms.
@@ -11,11 +11,8 @@
 
 #include "flags.h"
 
-int do_inlining = 1;		/* apply inlining optimisations */
 int do_special_fns = 1;		/* replace special functions by tdf
 				   equivalent operations */
-int do_loopconsts = 1;		/* optimise constants in loops */
-int do_foralls = 1;		/* do forall strength reductions */
 int redo_structfns = 0;		/* reorganise proc calls delivering
 				   structures */
 int redo_structparams = 0;	/* reorganise proc calls with struct

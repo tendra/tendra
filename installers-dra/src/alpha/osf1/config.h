@@ -1,7 +1,7 @@
 /* $Id$ */
 
 /*
- * Copyright 2011, The TenDRA Project.
+ * Copyright 2011-2012, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
  *
  * See doc/copyright/ for the full copyright terms.
@@ -69,7 +69,6 @@
 
 #define substitute_complex 1
 
-#define do_case_transforms 0  /* This does not work on the alpha */
 #define jump_table_density 10
 #define non_default_entries 0 /* 4 */
 #define non_default_destinations 2
