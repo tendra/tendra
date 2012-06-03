@@ -2,3 +2,7 @@
 
 +STARTUP		"-f<PREFIX_STARTUP>/Modes/Xt"
 +STARTUP_CPP		"-f<PREFIX_STARTUP>/Modes.cpp/Xt"
+
+/* Permit writable strings - just to be kinder to older code */
+<FLAG_TRANS	"-W"
+
