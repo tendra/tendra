@@ -1,13 +1,15 @@
 /* $Id$ */
 
 /*
- * Copyright 2011, The TenDRA Project.
+ * Copyright 2011-2012, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
  *
  * See doc/copyright/ for the full copyright terms.
  */
 
 #include <stdlib.h>
+
+#include <shared/getopt.h>
 
 #define SPARCTRANS_CODE
 
@@ -112,7 +114,6 @@ open_files ( char * infname, char * outfname ){
 int 
 main ( int argc, char ** argv )
 {
-  int a = 1 ;
   char *arg ;
   char *infname ;
   char *outfname ;
@@ -132,14 +133,14 @@ main ( int argc, char ** argv )
   setbuf ( stderr, NULL ) ;
 
   /* set defaults for options */
-  do_inlining = 1 ;			/* do inline */
-  do_special_fns = 1 ;			/* do special functions */
-  do_loopconsts = 1 ;			/* do loop constant extraction */
-  do_foralls = 1;			/* do do foralls optimisation */
-  do_unroll = 1;			/* do unroll loops */
+  do_inlining = 0 ;			/* do inline */
+  do_special_fns = 0 ;			/* do special functions */
+  do_loopconsts = 0 ;			/* do loop constant extraction */
+  do_foralls = 0;			/* do do foralls optimisation */
+  do_unroll = 0;			/* do unroll loops */
   
   redo_structfns = 0 ;			/* structure results are normal */
-  redo_structparams = 1 ;		/* structure parameters are odd */
+  redo_structparams = 0 ;		/* structure parameters are odd */
   diagnose = 0 ;			/* not in diagnostics mode */
 #ifdef NEWDIAGS
   diag_visible = 0;
@@ -150,7 +151,7 @@ main ( int argc, char ** argv )
 #endif
   do_profile = 0 ;			/* not in profiling mode */
   PIC_code = 0 ;			/* don't do PIC */
-  do_alloca = 1 ;			/* inline alloca */
+  do_alloca = 0 ;			/* inline alloca */
   tempdecopt = 1 ;			/* do the tempdec optimisation */
   sysV_abi = SYSV_ABI ;			/* SYSV version */
   sysV_assembler = SYSV_AS ;		/* SYSV version */
@@ -160,168 +161,170 @@ main ( int argc, char ** argv )
     
   flpt_const_overflow_fail = 1;		/* constant floating point arithmetic
 					   fails installation, if overflow */
-  strict_fl_div = 1;			/* don't mult by 1/constant */
+  strict_fl_div = 0;			/* don't mult by 1/constant */
   round_after_flop = 0;			/* don't round every time */
   do_dynamic_init = 1;                  /* Only applies to SunOS*/
   
-#define GET_0_1 ((arg[2] == '1') ? 1 : 0)
-    /* process program arguments */
-    while ( a < argc && ( arg = argv [a], arg [0] == '-' ) ) {
-      switch ( arg [1] ) {
-	case 'A' : do_alloca = GET_0_1 ; break ;
-	case 'B' : flpt_const_overflow_fail = GET_0_1; break;	
-	case 'C' : do_loopconsts = GET_0_1; break ;
-	case 'D' : PIC_code = GET_0_1 ; break ;
-	case 'E' : extra_checks = 0 ; break ;
-	case 'F' : do_foralls = GET_0_1 ; break ;
-	case 'H' : {
-	  diagnose = 1 ;
+	{
+		int c;
+
+		while ((c = getopt(argc, argv,
+			"ABCDEFGH:IJK:MNO:PQRTUVWXZ"
+			"acgli:r:tun")) != -1) {
+			switch (c) {
+			case 'A': do_alloca = 1;                break;
+			case 'B': flpt_const_overflow_fail = 1; break;	
+			case 'C': do_loopconsts = 1;            break;
+			case 'D': PIC_code = 1;                 break;
+			case 'E': extra_checks = 1;             break;
+			case 'F': do_foralls = 1;               break;
+			case 'G':                               break;
+
+			case 'H':
+				diagnose = 1 ;
 #ifdef NEWDIAGS
-	  if (arg[2] != 'O')
-	    diag_visible = 1;
+				if (arg[2] != 'O')
+					diag_visible = 1;
 #endif
-	  break ;
-	}
-	case 'I' : do_inlining = GET_0_1 ; break ;
+				break;
+
+			case 'I': do_inlining = 1; break;
+
 #ifdef NEWDWARF
-        case 'J' : 
-	  diagnose = 1;
-	  extra_diags = 1;
-	  dwarf2 = 1;
-	  break;
+			case 'J':
+				diagnose = 1;
+				extra_diags = 1;
+				dwarf2 = 1;
+				break;
 #endif
-	case 'K' : break;
-	case 'M' : strict_fl_div = GET_0_1 ; break ;
-	case 'N' : do_prom = 1 ; break ;
-	case 'O' : {
-	  /* optimisation level */
-	  optim_level = atoi ( arg + 2 ) ;
-	  if ( optim_level < 0 ) optim_level = 0 ;
-	  if ( optim_level > 4 ) optim_level = 4 ;
-	  break ;
-	}
+
+			case 'K':                    break;
+			case 'M': strict_fl_div = 1; break;
+			case 'N': do_prom = 1;       break;
+
+			case 'O':
+				/* optimisation level */
+				optim_level = atoi(optarg);
+				if ( optim_level < 0 ) optim_level = 0 ;
+				if ( optim_level > 4 ) optim_level = 4 ;
+				break;
 	
-	case 'P' : do_profile = 1 ; break ;	      
-	case 'Q' : exit(EXIT_SUCCESS); break;
-	case 'R' : round_after_flop = GET_0_1; break;
+			case 'P': do_profile = 1;       break;	      
+			case 'Q': exit(EXIT_SUCCESS);   break;
+			case 'R': round_after_flop = 1; break;
+
 #ifdef NEWDWARF
-	case 'T' :
-	  dump_abbrev = 1;
-	  diagnose = 1;
-	  extra_diags = 1;
-	  dwarf2 = 1;
-	  break;
+			case 'T':
+				dump_abbrev = 1;
+				diagnose = 1;
+				extra_diags = 1;
+				dwarf2 = 1;
+				break;
 #endif
-	case 'U' : do_unroll = GET_0_1; break;
+
+			case 'U': do_unroll = 1; break;
 	
-	case 'V':
-	IGNORE fprintf(stderr, "DERA ANDF Sparc translator (TDF version %d.%d)\n",
-		      MAJOR_VERSION, MINOR_VERSION);
-	IGNORE fprintf(stderr, "reader %d.%d: ", reader_version,
-		      reader_revision);
-	IGNORE fprintf(stderr, "construct %d.%d: ", construct_version,
-		      construct_revision);
-	IGNORE fprintf(stderr, "target %d.%d: ", target_version,
-		      target_revision);
+			case 'V':
+				IGNORE fprintf(stderr, "DERA ANDF Sparc translator (TDF version %d.%d)\n",
+		    			MAJOR_VERSION, MINOR_VERSION);
+				IGNORE fprintf(stderr, "reader %d.%d: ", reader_version,
+					reader_revision);
+				IGNORE fprintf(stderr, "construct %d.%d: ", construct_version,
+					construct_revision);
+				IGNORE fprintf(stderr, "target %d.%d: ", target_version,
+					target_revision);
 #if (DWARF == 1)
-	IGNORE fprintf(stderr, "dwarf %d.%d: ", DWARF_MAJOR,
-		      DWARF_MINOR);
+				IGNORE fprintf(stderr, "dwarf %d.%d: ", DWARF_MAJOR,
+					DWARF_MINOR);
 #endif
 #ifdef NEWDIAGS
-	IGNORE fprintf(stderr, "diag_info %d.%d:\n%s   ", diag_version,
-		 diag_revision, DG_VERSION);
+				IGNORE fprintf(stderr, "diag_info %d.%d:\n%s   ", diag_version,
+					diag_revision, DG_VERSION);
 #endif
 #ifdef NEWDWARF
-	IGNORE fprintf(stderr, "dwarf2 %d.%d: ", DWARF2_MAJOR,
-		 DWARF2_MINOR);
+				IGNORE fprintf(stderr, "dwarf2 %d.%d: ", DWARF2_MAJOR,
+					DWARF2_MINOR);
 #endif
-	IGNORE fprintf(stderr, "\n");
-	IGNORE fprintf(stderr, "system %s: ", target_system);
+				IGNORE fprintf(stderr, "\n");
+				IGNORE fprintf(stderr, "system %s: ", target_system);
 #ifdef __DATE__
-	IGNORE fprintf(stderr, "installer compilation %s", __DATE__);
+				IGNORE fprintf(stderr, "installer compilation %s", __DATE__);
 #endif
-	break;
+				break;
 	     
-	case 'W' : break;
-	case 'X' : {
-	  /* disable all optimisations */
-	  optim_level = 0 ;
-	  tempdecopt = 0 ;
-	  do_inlining = 0 ;
-	  do_loopconsts = 0 ;
-	  do_foralls = 0 ;
-	  do_tlrecursion = 0 ;
-	  do_unroll = 0;
-	  break ;
-	}
-	case 'Z' : report_versions = 1 ; break ;
+			case 'W': break;
+			case 'X':
+				optim_level = 0 ;
+				tempdecopt = 0 ;
+				do_inlining = 0 ;
+				do_loopconsts = 0 ;
+				do_foralls = 0 ;
+				do_tlrecursion = 0 ;
+				do_unroll = 0;
+				break;
 
-/* undocumented sparc specific flags below here */
+			case 'Z': report_versions = 1; break;
 
-	case 'a' : sysV_abi = 1 ; g_reg_max = 4 ; break ;
-	case 'c' : do_comment = 1 ; break ;
-	case 'g' : library_key = 2 ; break ;
-	case 'l' : library_key = 1 ; break ;
-	case 'i':
-	switch (arg[2]) {
-	  case 'i':
-	  crit_inline = atoi(arg+3);
-	  break;
-	  case 'd':
-	  crit_decs = atoi(arg+3);
-	  break;
-	  case 'a':
-	  crit_decsatapp = atoi(arg+3);
-	  break;
-	  case 's':
-	  fprintf(stderr,"count %d decs %d decs@app %d\n",
-		  crit_inline, crit_decs, crit_decsatapp);
-	  show_inlining = 1;
-	  break;
-	  default:
-	  fprintf(stderr,"Incorrect inline option %c\n",arg[2]);
-	}
-	break;
-	case 'r' : {
-	  /* number of G registers */
-	  g_reg_max = atoi ( arg + 2 ) ;
-	  if ( g_reg_max < 4 ) g_reg_max = 4 ;
-	  if ( g_reg_max > 7 ) g_reg_max = 7 ;
-	  break ;
-	}
-	case 't' : tempdecopt = 0 ; break ;
+			case 'a' : sysV_abi = 1; g_reg_max = 4; break;
+			case 'c' : do_comment = 1; break;
+			case 'g' : library_key = 2; break;
+			case 'l' : library_key = 1; break;
+			case 'i':
+				switch (optarg[0]) {
+				case 'i': crit_inline    = atoi(&optarg[1]); break;
+				case 'd': crit_decs      = atoi(&optarg[1]); break;
+				case 'a': crit_decsatapp = atoi(&optarg[1]); break;
+				case 's':
+					fprintf(stderr,"count %d decs %d decs@app %d\n",
+						crit_inline, crit_decs, crit_decsatapp);
+					show_inlining = 1;
+					break;
+				default:
+					fprintf(stderr,"Incorrect inline option %c\n",arg[2]);
+				}
+				break;
+
+			case 'r':
+				/* number of G registers */
+				g_reg_max = atoi(optarg);
+				if ( g_reg_max < 4 ) g_reg_max = 4 ;
+				if ( g_reg_max > 7 ) g_reg_max = 7 ;
+				break ;
+
+			case 't': tempdecopt = 0; break;
 	
-	case 'u' : {
-	  separate_units = 1 ;
+			case 'u' :
+				separate_units = 1;
 #if 0	
-	  current_alloc_size = first_alloc_size ;
+				current_alloc_size = first_alloc_size;
 #endif	
-	  case 'n': {
-	    do_dynamic_init = GET_0_1;
-	  }
-	  break ;
-	}
 
-	default : {
-	  fprintf ( stderr, "%s : unknown option, %s\n",
-		    sparctrans, arg ) ;
-	  break ;
+			case 'n':
+				do_dynamic_init = 1;
+				break;
+
+			default:
+				fprintf ( stderr, "%s : unknown option, %s\n",
+					sparctrans, arg ) ;
+				break ;
+			}
+		}
+
+		argc -= optind;
+		argv += optind;
 	}
-      }
-      a++ ;
-    }
 
     /* we expect two further filename arguments */
-    if ( argc == a + 2 ) {
-      infname = argv [a] ;
-      outfname = argv [ a + 1 ] ;
+    if ( argc ==  2 ) {
+      infname  = argv[0] ;
+      outfname = argv[1] ;
     } 
-    else if ( argc == a + 1 ) {
-      infname = argv [a] ;
+    else if ( argc == 1 ) {
+      infname = argv[0] ;
       outfname = "-" ;
     } 
     else {
-      if ( argc == a )
+      if ( argc == 0 )
 	fprintf ( stderr, "%s : input file missing\n", sparctrans );
       errflg = 1 ;
     }

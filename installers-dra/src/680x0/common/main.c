@@ -1,13 +1,14 @@
 /* $Id$ */
 
 /*
- * Copyright 2011, The TenDRA Project.
+ * Copyright 2011-2012, The TenDRA Project.
  * Copyright 1996, United Kingdom Secretary of State for Defence.
  *
  * See doc/copyright/ for the full copyright terms.
  */
 
 #include <shared/error.h>
+#include <shared/getopt.h>
 
 #include "config.h"
 
@@ -43,6 +44,8 @@
 extern int errors;
 extern int max_errors;
 
+extern char *optarg;
+
 
 /*
     PROGRAM NAME AND VERSION NUMBER
@@ -60,7 +63,7 @@ int normal_version = 1;
     EXTRA COMPILATION FLAGS
 */
 
-int do_peephole = 1;
+int do_peephole = 0;
 int do_pic = 0;
 static int do_quit = 0;
 static int do_sep_units = 0;
@@ -72,8 +75,6 @@ static int optimize = 1;
 #endif
 static int report_trans_version = 0;
 static int report_tdf_versions = 0;
-static int show_options = 0;
-static int dummy_option = 0;
 
 #ifdef EBUG
 
@@ -113,69 +114,6 @@ int target_dbl_maxexp = 1024;
 
 
 /*
-    OPTIONS
-
-    There are two types of options.  Firstly, for certain key words,
-    key, the option "-key" enables, and the option "-no_key" disables,
-    the corresponding action.  Some of these options take an additional
-    argument in their positive form, i.e. "-key arg".  Secondly, single
-    letter options are used as shorthand for some of the options of the
-    first type.
-
-    Each entry in this table gives a key word, key, followed by the
-    single letter option for "-key" (or 0 is there isn't one) and
-    the single letter option for "-no_key".  There is also a pointer
-    to the boolean changed by this option and, if the option takes a
-    qualifying string, a pointer to the string thus set.
-*/
-
-struct {
-    char *opt;
-    char on;
-    char off;
-    char sw;
-    int *flag;
-    char **value;
-} options[] = {
-    {"alloca", 0, 0, 'A', &do_alloca, null},
-    {"cc", 'c', 'g', 0, &cc_conventions, null},
-    {"diag", 'H', 0, 0, &diagnose, null},
-    {"extra_checks", 0, 'E', 0, &extra_checks, null},
-    {"float_div", 0, 0, 'M', &strict_fl_div, null},
-    {"float_inf", 0, 0, 'B', &flpt_const_overflow_fail, null},
-    {"foralls", 0, 0, 'F', &do_foralls, null},
-    {"ignore", 0, 0, 0, &ignore_errors, null},
-    {"immediate", 'i', 0, 0, &output_immediately, null},
-    {"inlining", 0, 0, 'I', &do_inlining, null},
-    {"loopconsts", 0, 0, 'C', &do_loopconsts, null},
-#if have_diagnostics
-    {"stab", 0, 0, 0, &diag_stab_override, null},
-    {"new_diag", 0, 0, 0, &diag_xdb_new_override, null},
-    {"old_diag", 0, 0, 0, &diag_xdb_old_override, null},
-#endif
-    {"opt", 'O', 'X', 0, &optimize, null},
-    {"options", 'o', 0, 0, &show_options, null},
-    {"peephole", 0, 0, 0, &do_peephole, null},
-    {"pic", 0, 0, 'D', &do_pic, null},
-    {"profile", 'P', 0, 0, &do_profile, null},
-    {"quit", 'Q', 0, 0, &do_quit, null},
-    {"report_trans_version", 'Z', 0, 0, &report_tdf_versions, null},
-    {"round", 'r', 0, 'R', &round_after_flop, null},
-    {"separate_units", 'U', 0, 0, &do_sep_units, null},
-    {"special_fns", 0, 0, 0, &do_special_fns, null},
-    {"sub_params", 0, 0, 0, &do_sub_params, null},
-#ifdef EBUG
-    {"label", 'L', 0, 0, &seek_extern, &seek_extern_id},
-    {"line", 'l', 0, 0, &seek_line, &seek_line_id},
-    {"test", 'l', 0, 0, &do_test, null},
-#endif
-    {"unroll", 0, 0, 'U', &do_unroll, null},
-    {"version", 'V', 0, 0, &report_trans_version, null},
-    {"write_strings", 0, 0, 'W', &dummy_option, null}
-};
-
-
-/*
     MAIN ROUTINE
 
     This routine processes the command-line arguments, calls the
@@ -186,84 +124,82 @@ struct {
 int main
 (int argc, char **argv)
 {
-    int a;
-    char **p = null;
-    char *input = null;
-    char *output = null;
+	int a;
+	char *input = null;
+	char *output = null;
 
-    /* Set up program name */
-    set_progname(argv[0], version_str);
+	{
+		int c;
 
-    /* Set default options */
-    diagnose = 0;
-    do_alloca = 1;
-    do_foralls = 1;
-    do_inlining = 1;
-    do_loopconsts = 1;
-    do_profile = 0;
-    do_special_fns = 1;
-    do_unroll = 1;
-    extra_checks = 1;
-    redo_structfns = 0;
+		while ((c = getopt(argc, argv,
+			"ABCDEFG:HIK:MOPQRUVWXZ"
+#ifdef EBUG
+			"L:l:"
+#endif
+#if have_diagnostics
+			"dnt"
+#endif
+			"cegioprsu")) != -1) {
+			switch (c) {
+			case 'A': do_alloca = 1;                break;
+			case 'B': flpt_const_overflow_fail = 1; break;
+			case 'C': do_loopconsts = 1;            break;
+			case 'D': do_pic = 1;                   break;
+			case 'E': extra_checks = 0;             break;
+			case 'F': do_foralls = 1;               break;
+			case 'G':                               break;
+			case 'H': diagnose = 1;                 break;
+			case 'I': do_inlining = 1;              break;
+			case 'K':                               break;
+			case 'M': strict_fl_div = 1;            break;
+			case 'O': optimize = 1;                 break;
+			case 'P': do_profile = 1;               break;
+			case 'Q': do_quit = 1;                  break;
+			case 'R': round_after_flop = 1;         break;
+			case 'U': do_unroll = 1;                break;
+			case 'V': report_trans_version = 1;     break;
+			case 'W':                               break;
+			case 'X': optimize = 0;                 break;
+			case 'Z': report_tdf_versions = 1;      break;
 
-    /* Process arguments */
-    for (a = 1; a < argc; a++) {
-	if (p) {
-	    /* Set extra part of two part options */
-	    *p = argv[a];
-	    p = null;
-	} else if (argv[a][0] == '-' && argv[a][1]) {
-	    /* Search option table */
-	    bool found = 0;
-	    char *s = argv[a] + 1;
-	    int i, n = array_size(options);
-	    if ((s[1] == '0' || s[1] == '1') && s[2] == 0) {
-		for (i = 0; !found && i < n; i++) {
-		    if (*s == options[i].sw) {
-			*(options[i].flag) = (s[1] - '0');
-			p = options[i].value;
-			found = 1;
-		    }
+			case 'c': cc_conventions = 1;           break;
+			case 'e': ignore_errors = 1;            break;
+			case 'g': cc_conventions = 0;           break;
+			case 'i': output_immediately = 1;       break;
+			case 'p': do_peephole = 1;              break;
+			case 'r': do_sub_params = 1;            break;
+			case 's': do_special_fns = 1;           break;
+			case 'u': do_sep_units = 1;             break;
+
+#if have_diagnostics
+			case 'd': diag_xdb_old_override = 1;    break;
+			case 'n': diag_xdb_new_override = 1;    break;
+			case 't': diag_stab_override = 1;       break;
+#endif
+
+#ifdef EBUG
+			case 'l': seek_line = 1;
+			          seek_line_id = optarg;        break;
+			case 'L': seek_extern = 1;
+			          seek_extern_id = optarg;      break;
+#endif
+
+			case '?':
+			default:
+				error(ERROR_WARNING, "Unrecognised option, %s", "'unknown option'");
+			}
 		}
-	    } else if (s[1]) {
-		bool b = 1;
-		if (strncmp(s, "no_", 3) == 0) {
-		    s += 3;
-		    b = 0;
-		}
-		for (i = 0; !found && i < n; i++) {
-		    if (eq(s, options[i].opt)) {
-			*(options[i].flag) = b;
-			if (b)p = options[i].value;
-			found = 1;
-		    }
-		}
-	    } else {
-		for (i = 0; !found && i < n; i++) {
-		    if (*s == options[i].on) {
-			*(options[i].flag) = 1;
-			p = options[i].value;
-			found = 1;
-		    } else if (*s == options[i].off) {
-			*(options[i].flag) = 0;
-			found = 1;
-		    }
-		}
-	    }
-	    if (!found) {
-		    error(ERROR_WARNING, "Unknown option, %s", argv[a]);
-	    }
-	} else {
-	    /* Set up input and output files */
-	    if (input == null) {
-		input = argv[a];
-	    } else if (output == null) {
-		output = argv[a];
-	    } else {
-		error(ERROR_FATAL, "Too many arguments");
-	    }
+
+		argc -= optind;
+		argv += optind;
 	}
-    }
+
+	if (argc != 2) {
+		error(ERROR_FATAL, "Input and output file expected");
+	}
+
+	input  = argv[0];
+	output = argv[1];
 
 #ifdef EBUG
     /* Deal with debugging options */
@@ -336,20 +272,6 @@ int main
 	do_unroll = 0;
     }
 
-    /* Show options if necessary */
-    if (show_options) {
-	int i, n = array_size(options);
-	for (i = 0; i < n; i++) {
-	    bool b = *(options[i].flag);
-	    char **pv = options[i].value;
-	    printf("%s = %s", options[i].opt,(b ? "True" : "False"));
-	    if (pv && b) {
-		    printf(" (%s)", *pv);
-	    }
-	    printf("\n");
-	}
-    }
-
     /* Check on separate units */
     if (do_sep_units) {
 	separate_units = 1;
@@ -373,10 +295,6 @@ int main
 	    exit(EXIT_SUCCESS);
     }
 
-    /* Open input file */
-    if (input == null) {
-	error(ERROR_FATAL, "Not enough arguments");
-    }
     if (!initreader(input)) {
 	exit(EXIT_FAILURE);
     }

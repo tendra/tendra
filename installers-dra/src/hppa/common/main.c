@@ -9,6 +9,8 @@
 
 #define HPPATRANS_CODE
 
+#include <shared/getopt.h>
+
 #include "config.h"
 
 #include "flags.h"		/* for option flags */
@@ -42,8 +44,6 @@ extern int good_trans;
 int OPTIM=1;
 int gdb,xdb,gcc_assembler;
 
-#define GET_0_1 (arg[2] == '0' ? 0 : 1)
-
 char *local_prefix, *name_prefix;
 
 bool do_tlrecursion = 0;	/* eventually to be moved to flagsdescs.h */
@@ -58,7 +58,6 @@ static int init_trans(char *, char *) ; /* forward reference */
 int main
 (int argc, char ** argv)
 {
-  int a=1;
   char *arg;
   bool errflg = 0;
   bool versionflg = 0;
@@ -74,11 +73,11 @@ int main
 
    /* set defaults for options */
 
-   do_unroll = 1;                   /* do unroll loops */
-   do_inlining = 1;                /* do inline */
-   do_special_fns = 1;            /* do special functions */
-   do_loopconsts = 1;	         /* remove constants from loops */
-   do_foralls = 1;	        /* do foralls optimisation */
+   do_unroll = 0;                   /* do unroll loops */
+   do_inlining = 0;                /* do inline */
+   do_special_fns = 0;            /* do special functions */
+   do_loopconsts = 0;	         /* remove constants from loops */
+   do_foralls = 0;	        /* do foralls optimisation */
    gcc_assembler = 0;
    xdb = 0;
    gdb = 0;
@@ -88,7 +87,7 @@ int main
   redo_structparams = 1; /* struct and union value parameters indirected   */
   diagnose = 0;		/* -H option for diagnostics */
   do_profile = 0;      /* -P option for profiling info */
-  do_alloca = 1;      /* inline alloca       */
+  do_alloca = 0;      /* inline alloca       */
   PIC_code = 0;
 
   /* from tempdecs.c */
@@ -101,103 +100,109 @@ int main
   optim_level = 2;		/* default equiv to -O2 */
 
 
-   /* process program args */
-   while (a < argc && (arg = argv[a], arg[0] == '-'))
-     {
-       switch (arg[1])
-	 {
-	 case 'A': do_alloca = GET_0_1; break;
-	 case 'B': flpt_const_overflow_fail = GET_0_1; break;
-	 case 'C': do_loopconsts = GET_0_1; break;
-	 case 'D':
-           {
-             /* -D emulates cc's +Z flag */
-             PIC_code = GET_0_1;
-             plusZ = 1;
-             break;
-	   }
-	 case 'd':
-           {
-             /* -d emulates cc's +z flag */
-             PIC_code = GET_0_1;
-             plusZ = 0;
-             break;
-	   }
-	 case 'E': extra_checks = 0; break;
-	 case 'F': do_foralls = GET_0_1; break;
-	 case 'G': gcc_assembler = GET_0_1; break;
-	 case 'H':
-	   {
+	{
+		int c;
+
+		while ((c = getopt(argc, argv,
+			"ABCDEFGHIKNOPQRTUVWXZ" "dh")) != -1) {
+			switch (c) {
+			case 'A': do_alloca = 1; break;
+			case 'B': flpt_const_overflow_fail = 1; break;
+			case 'C': do_loopconsts = 1; break;
+			case 'D':
+				/* -D emulates cc's +Z flag */
+				PIC_code = 1;
+				plusZ = 1;
+				break;
+
+			case 'd':
+				/* -d emulates cc's +z flag */
+				PIC_code = 1;
+				plusZ = 0;
+				break;
+
+			case 'E': extra_checks = 0; break;
+			case 'F': do_foralls = 1; break;
+			case 'G': gcc_assembler = 1; break;
+
+			case 'H':
 #ifdef _SYMTAB_INCLUDED
-	        diagnose = 1;
-                xdb = 1;
+				diagnose = 1;
+				xdb = 1;
 #else
-	        fprintf(stderr,"trans warning: XDB diagnostics not supported on this version of hppatrans, -H option ignored\n");
-                xdb = 0;
-                diagnose = 0;
+				fprintf(stderr,"trans warning: XDB diagnostics "
+					"not supported on this version of hppatrans, -H option ignored\n");
+				xdb = 0;
+				diagnose = 0;
 #endif
-	     break;
-	   }
-         case 'h':
-	   {
-              diagnose = 1;
-              gdb = 1;
-              gcc_assembler = 1;
-	   }
-	 case 'I': do_inlining = GET_0_1; break;
-	 case 'K': break;
-	 case 'M': strict_fl_div = GET_0_1; break;
-	 case 'O' : /* optim_level not applicable to hp_pa */ break;
-	 case 'P':
-           {
-	     do_profile = 1;
-	     break;
-           }
-	 case 'Q': exit(EXIT_SUCCESS); break;
-	 case 'R': round_after_flop = GET_0_1; break;
-	 case 'T' : /* tempdecopt = 0, not applicable to hp_pa */ break;
-	 case 'U': do_unroll = GET_0_1; break;
-	 case 'V':
-	   {
-	     /* print version number */
-	     fprintf(stderr,"DERA TDF->HP PA-RISC translator %d.%d: (TDF %d.%d)\nreader %d.%d:\nconstruct %d.%d:\ntranslator compilation date = %s\n ",
-		    MAJOR,MINOR,MAJOR_VERSION,MINOR_VERSION,
-		    reader_version,reader_revision,construct_version,
-		    construct_revision,compile_date);
-	     versionflg = 1;
-	     break;
-	   }
-	 case 'W': break;
-	 case 'X':
-	   {
-	     /* disable all optimisations */
-	     tempdecopt = 0;
-	     do_inlining = 0;
-	     do_loopconsts = 0;
-	     do_foralls = 0;
-	     do_tlrecursion = 0;
-	     do_unroll = 0;
-	     break;
-	   }
-	 case 'Z': report_versions = 1; break;
-	 case '?': default:
-           {
-    	     fprintf(stderr, "%s : unknown option, \"%s\"\n", "trans", arg);
-             errflg = 1; break;
-           }
-	 }  /* switch */
-       a++;
-     }
+				break;
+
+			case 'I': do_inlining = 1; break;
+			case 'K': break;
+			case 'M': strict_fl_div = 1; break;
+			case 'O': /* optim_level not applicable to hp_pa */ break;
+			case 'P':
+				do_profile = 1;
+				break;
+
+			case 'Q': exit(EXIT_SUCCESS); break;
+			case 'R': round_after_flop = 1; break;
+			case 'T' : /* tempdecopt = 0, not applicable to hp_pa */ break;
+			case 'U': do_unroll = 1; break;
+
+			case 'V':
+				fprintf(stderr,"DERA TDF->HP PA-RISC translator %d.%d: "
+					"(TDF %d.%d)\n"
+					"reader %d.%d:\n"
+					"construct %d.%d:\n"
+					"translator compilation date = %s\n ",
+					MAJOR,MINOR,MAJOR_VERSION,MINOR_VERSION,
+					reader_version,reader_revision,construct_version,
+					construct_revision,compile_date);
+				versionflg = 1;
+				break;
+
+			case 'W': break;
+			case 'X':
+				/* disable all optimisations */
+				tempdecopt = 0;
+				do_inlining = 0;
+				do_loopconsts = 0;
+				do_foralls = 0;
+				do_tlrecursion = 0;
+				do_unroll = 0;
+				OPTIM = 0;
+				break;
+
+			case 'Z': report_versions = 1; break;
+
+			case 'h':
+				diagnose = 1;
+				gdb = 1;
+				gcc_assembler = 1;
+				break;
+
+			case '?':
+			default:
+				fprintf(stderr, "%s : unknown option, \"%s\"\n", "trans", arg);
+				errflg = 1;
+				break;
+			}
+		}
+
+		argc -= optind;
+		argv += optind;
+	}
 
    /* we expect two further filename arguments */
-   if (argc == a+2)
+   if (argc == 2)
      {
-       infname = argv[a];
-       outfname = argv[a+1];
+       infname = argv[0];
+       outfname = argv[1];
      }
-   else if (argc == a+1)
+   else if (argc == 1)
      {
-       infname = argv[a];
+       infname = argv[0];
        outfname = "-";
      }
    else { errflg = 1; };

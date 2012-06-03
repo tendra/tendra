@@ -16,6 +16,8 @@
 
  *********************************************************************/
 
+#include <shared/getopt.h>
+
 #include "config.h"
 
 #include "version.h"
@@ -68,7 +70,6 @@ bool opt
 int   main
 (int argc, char **argv)
 {
-  long  i;
   char *nm;
   char *aname;
   char *dname;
@@ -78,129 +79,106 @@ int   main
   PIC_code = 0;
 
   as_file = (FILE *)0;
-  do_inlining = 1;
-  redo_structfns = 1;
-  do_unroll = 1;
+  do_inlining = 0;
+  redo_structfns = 0;
+  do_unroll = 0;
   do_extern_adds = 0;
 
 
   flpt_const_overflow_fail = 0; /* HUGEVAL requires 0 for Ysystem */
 
-  do_foralls = 1;
+  do_foralls = 0;
   do_alloca = 0;
-  for (i = 1; argv[i][0] == '-'; ++i) {/* read flags */
-    char *s = argv[i];
-    switch (s[1]) {
-      case 'A':
-	do_alloca = opt(s[2]);
-	break;
-      case 'B':
-	flpt_const_overflow_fail = opt(s[2]);
-	break;
-      case 'C':
-	do_loopconsts = opt(s[2]);
-	break;
-      case 'D':
-	PIC_code = opt(s[2]);
-	break;
-      case 'E':
-        extra_checks = 0;
-        break;
-      case 'e':
-	do_extern_adds = opt(s[2]);
-	break;
-      case 'F':
-        do_foralls = opt(s[2]);
-        break;
-      case '-':
-      	override_diags = 1;
-      	break;
-      case 'H':
-	diagnose = 1;
-	do_alloca = 0; /* dbx does not understand variable frame sizes */
-	break;
-      case 'I':
-	do_inlining = opt(s[2]);
-        break;
-      case 'K':
-	/* only MIPS */
-	break;
-      case 'M':
-	strict_fl_div = (opt(s[2]) == 0);
-	break;
-      case 'P':
-	do_profile = 1;
-	break;
-      case 'Q':
-	exit(EXIT_FAILURE);
-      case 'R':
-	round_after_flop = opt(s[2]);
-	break;
-      case 'S':
-	withs =1;
-	break;
-      case 'U':
-        do_unroll = opt(s[2]);
-        break;
-      case 'V': {
-		int   ind = 2;
-		int maj = 0;
-		minorno = 0;
-		for (;; ind++) {
-		  char  si = s[ind];
-		  if (si != ' ') {
-		    if (si >= '0' && si <= '9') {
-		      maj = maj * 10 + si - '0';
-		    }
-		    else
-		      break;
-		  }
-		}
 
-		if (s[ind]!= '.') {
-		  fprintf(stderr,
-                "DRA TDF Mips (as:3.x) translator %d.%d: (TDF version %d.%d); 30th June 1994\n",
-                 mipstrans_version,mipstrans_revision, MAJOR_VERSION, MINOR_VERSION);
-                 fprintf(stderr, "reader %d.%d: \n", reader_version,
-		 reader_revision);
-	         fprintf(stderr, "construct %d.%d: \n", construct_version,
-		 construct_revision);
-        	 break;
-		}
-		majorno = maj;
-		minorno = 0;
+	{
+		int c;
 
-		for (ind++;; ind++) {
-		  char  si = s[ind];
-		  if (si >= '0' && si <= '9') {
-		    minorno = minorno * 10 + si - '0';
-		  }
-		  else
-		    break;
-		}
+		while ((c = getopt(argc, argv,
+			"ABCDEFG:HIK:MPQRSUVWXZ"
+			"edil")) != -1) {
+			switch (c) {
+			case 'A': do_alloca = 1;                break;
+			case 'B': flpt_const_overflow_fail = 1; break;
+			case 'C': do_loopconsts = 1;            break;
+			case 'D': PIC_code = 1;                 break;
+			case 'E': extra_checks = 0;             break;
+			case 'F': do_foralls = 1;               break;
+			case 'G':                               break;
 
-	      }
-      case 'W':
-        writable_strings = opt(s[2]);
-        break;
-      case 'X':
-        no_opts = 1;
-        break;
-      case 'd':
-        do_dump_opt = 0;
-        break;
-      case 'l':
-        do_tlrecursion = opt(s[2]);
-        break;
-      case 'Z': /* prints on stderr the versions of all the capsules
-                   from which this capsule was made */
-        report_versions = 1;
-        break;
-      default:
-	failer("Illegal flag");
-	break;
-    };
-  };
+			case 'H':
+				diagnose = 1;
+				do_alloca = 0; /* dbx does not understand variable frame sizes */
+				break;
+
+			case 'I': do_inlining = 1;      break;
+			case 'K': /* only MIPS */       break;
+			case 'M': strict_fl_div = 1;    break;
+			case 'P': do_profile = 1;       break;
+			case 'Q': exit(EXIT_FAILURE);
+			case 'R': round_after_flop = 1; break;
+			case 'S': withs = 1;            break;
+			case 'U': do_unroll = 1;        break;
+
+			case 'V':
+				{
+					int ind = 2;
+					int maj = 0;
+
+					minorno = 0;
+					for (;; ind++) {
+						char si = optarg[ind];
+						if (si != ' ') {
+							if (si >= '0' && si <= '9') {
+								maj = maj * 10 + si - '0';
+							}
+							else
+								break;
+						}
+					}
+
+					if (optarg[ind]!= '.') {
+						fprintf(stderr,
+							"DRA TDF Mips (as:3.x) translator %d.%d: (TDF version %d.%d); 30th June 1994\n",
+							mipstrans_version,mipstrans_revision, MAJOR_VERSION, MINOR_VERSION);
+						fprintf(stderr, "reader %d.%d: \n", reader_version,
+							reader_revision);
+						fprintf(stderr, "construct %d.%d: \n", construct_version,
+							construct_revision);
+						break;
+					}
+
+					majorno = maj;
+					minorno = 0;
+
+					for (ind++;; ind++) {
+						char  si = optarg[ind];
+						if (si >= '0' && si <= '9') {
+							minorno = minorno * 10 + si - '0';
+						}
+						else
+							break;
+					}
+				}
+
+			case 'W': writable_strings = 1; break;
+			case 'X': no_opts = 1;          break;
+
+			case 'Z': /* prints on stderr the versions of all the capsules
+				from which this capsule was made */
+				report_versions = 1;
+				break;
+
+			case 'e': do_extern_adds = 1; break;
+			case 'd': do_dump_opt    = 1; break;
+			case 'i': override_diags = 1; break;
+			case 'l': do_tlrecursion = 1; break;
+
+			default:
+				failer("Illegal flag");
+				break;
+			}
+		}
+	}
 
 	if (do_alloca && PIC_code) {
 		failer("Can't do inline alloca with PIC code at the moment");

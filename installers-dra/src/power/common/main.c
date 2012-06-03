@@ -1,7 +1,7 @@
 /* $Id$ */
 
 /*
- * Copyright 2011, The TenDRA Project.
+ * Copyright 2011-2012, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
  * Copyright 1993, Open Software Foundation, Inc.
  *
@@ -10,6 +10,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+
+#include <shared/getopt.h>
 
 #include "config.h"
 
@@ -29,7 +31,6 @@ bool do_tlrecursion;		/* expected by needscan.c */
 int main(int argc, char **argv)
 {
   bool errflg = 0;
-  int a=1;
   char *infname=(char*)0;
   char *outfname=(char*)0;
   char *arg;
@@ -57,11 +58,11 @@ int main(int argc, char **argv)
 				   with -DDO_ASSEMBLER_MACROS this makes the 
 				   output easier to read*/
   
-  do_alloca = 1;		/* Use builtin alloca */
-  do_inlining = 1;		/* Do inlining of functions */
-  do_special_fns = 1;		/* Builtin procs used */
-  do_loopconsts = 1;		/* Take constant expression out of loops */
-  do_foralls = 1;		/* Replace indexing on loop variable by
+  do_alloca = 0;		/* Use builtin alloca */
+  do_inlining = 0;		/* Do inlining of functions */
+  do_special_fns = 0;		/* Builtin procs used */
+  do_loopconsts = 0;		/* Take constant expression out of loops */
+  do_foralls = 0;		/* Replace indexing on loop variable by
 				 * incremented pointer access.
 				 */
   redo_structfns = 1;		/* procs delivering structs 
@@ -87,98 +88,95 @@ int main(int argc, char **argv)
   do_comment = 0;		/* (see comment.c) */
   optim_level = 2;		/* Optimize level */
   
-  /* 
-   * Process program args 
-   * 
-   * Only advertise options in manual page, other debugging 
-   * options available as well 
-   */
-#define GET_0_1 ((arg[2] == '1') ? 1 : 0)
-  while (a<argc&&(arg=argv[a], arg[0]=='-')) 
-  {
-    switch ( arg [1] ) 
-    {
-     case 'A' : do_alloca = GET_0_1 ; break ;
-     case 'B' : flpt_const_overflow_fail = GET_0_1; break;	
-     case 'C' : do_loopconsts = GET_0_1; break ;
-     case 'E' : extra_checks = 0 ; break ;
-     case 'F' : do_foralls = GET_0_1 ; break ;
-     case 'H' : diagnose = 1 ; break ;
-     case 'I' : do_inlining = GET_0_1 ; break ;
-     case 'K' : 
-       if (arg[2]=='R')
-       {
-	 architecture = RS6000_CODE;
-       }
-       else if (arg[2]=='P')
-       {
-	 architecture = POWERPC_CODE;
-       }
-       else 
-       {
-	 fprintf(stderr,"Unknown architecture: -K should be followed by R for rs6000 or P for powerpc\n");
-       }
-      break; 
-     case 'M' : strict_fl_div = GET_0_1 ; break ;
-     case 'O' : {
-       /* optimisation level */
-       optim_level = atoi ( arg + 2 ) ;
-       if ( optim_level < 0 ) optim_level = 0 ;
-       if ( optim_level > 4 ) optim_level = 4 ;
-       break ;
-     }
+	{
+		int c;
+
+		while ((c = getopt(argc, argv,
+			"ABCEFGHIK:MO:PQRUVWXZ" "c")) != -1) {
+			switch (c) {
+			case 'A': do_alloca = 1;                break;
+			case 'B': flpt_const_overflow_fail = 1; break;	
+			case 'C': do_loopconsts = 1;            break;
+			case 'E': extra_checks = 0;             break;
+			case 'F': do_foralls = 1;               break;
+			case 'G':                               break;
+			case 'H': diagnose = 1;                 break;
+			case 'I': do_inlining = 1;              break;
+
+			case 'K': 
+				if (optarg[0] == 'R') {
+					architecture = RS6000_CODE;
+				} else if (optarg[0] == 'P') {
+					architecture = POWERPC_CODE;
+				} else {
+					fprintf(stderr,"Unknown architecture: "
+						"-K should be followed by R for rs6000 or P for powerpc\n");
+				}
+				break; 
+
+			case 'M': strict_fl_div = 1; break ;
+
+			case 'O':
+				/* optimisation level */
+				optim_level = atoi(optarg) ;
+				if ( optim_level < 0 ) optim_level = 0 ;
+				if ( optim_level > 4 ) optim_level = 4 ;
+				break;
       
-     case 'P' : do_profile = 1 ; break ;	      
-     case 'Q' : exit(EXIT_SUCCESS); break;
-     case 'R' : round_after_flop = GET_0_1; break;
-     case 'U' : do_unroll = GET_0_1; break;
+			case 'P': do_profile = 1;       break;	      
+			case 'Q': exit(EXIT_SUCCESS);   break;
+			case 'R': round_after_flop = 1; break;
+			case 'U': do_unroll = 1;        break;
       
-     case 'V':
-      fprintf(stderr, "DERA TDF translator (TDF version %d.%d)\n",
-		    MAJOR_VERSION, MINOR_VERSION);
-      fprintf(stderr, "reader %d.%d: \n", reader_version,
-		    reader_revision);
-      fprintf(stderr, "construct %d.%d: \n", construct_version,
-		    construct_revision);
-      fprintf(stderr, "translator %d.%d: \n", target_version, target_revision);
-      fprintf(stderr, "system %s: \n", target_system);
+			case 'V':
+				fprintf(stderr, "DERA TDF translator (TDF version %d.%d)\n",
+				MAJOR_VERSION, MINOR_VERSION);
+				fprintf(stderr, "reader %d.%d: \n", reader_version,
+					reader_revision);
+				fprintf(stderr, "construct %d.%d: \n", construct_version,
+					construct_revision);
+				fprintf(stderr, "translator %d.%d: \n", target_version, target_revision);
+				fprintf(stderr, "system %s: \n", target_system);
 #ifdef __DATE__
-      fprintf(stderr, "installer compilation : %s\n", __DATE__);
+				fprintf(stderr, "installer compilation : %s\n", __DATE__);
 #endif
-      break;
+				break;
       
-     case 'W' : break;
-     case 'X' : {
-       /* disable all optimisations */
-       optim_level = 0 ;
-       tempdecopt = 0 ;
-       do_inlining = 0 ;
-       do_loopconsts = 0 ;
-       do_foralls = 0 ;
-       do_tlrecursion = 0 ;
-       do_unroll = 0;
-       break ;
-     }
-     case 'Z' : report_versions = 1 ; break ;
+			case 'W': break;
+
+			case 'X':
+				/* disable all optimisations */
+				optim_level = 0 ;
+				tempdecopt = 0 ;
+				do_inlining = 0 ;
+				do_loopconsts = 0 ;
+				do_foralls = 0 ;
+				do_tlrecursion = 0 ;
+				do_unroll = 0;
+				break ;
+
+			case 'Z': report_versions = 1 ; break ;
+
+			case 'c': do_comment = 1 ; break ;
       
-      /* undocumented power specific flags below here */
-     case 'c' : do_comment = 1 ; break ;
-      
-     default : {
-       fprintf ( stderr, "%s : unknown option, %s\n",
-		powertrans, arg ) ;
-       break ;
-     }
-    }
-    a++ ;
-  }
+			case '?':
+			default:
+				fprintf ( stderr, "%s : unknown option, %s\n",
+				powertrans, arg ) ;
+				break ;
+			}
+		}
+
+		argc -= optind;
+		argv += optind;
+	}
   
   /* we expect two further filename arguments */
-  if ( argc == a + 2 ) {
-    infname = argv [a] ;
-    outfname = argv [ a + 1 ] ;
-  } else if ( argc == a + 1 ) {
-    infname = argv [a] ;
+  if ( argc == 2 ) {
+    infname = argv[0] ;
+    outfname = argv[1] ;
+  } else if ( argc == 1 ) {
+    infname = argv[0] ;
     outfname = "-" ;
   } else {
     errflg = 1 ;

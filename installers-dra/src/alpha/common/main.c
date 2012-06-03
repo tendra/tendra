@@ -1,7 +1,7 @@
 /* $Id$ */
 
 /*
- * Copyright 2011, The TenDRA Project.
+ * Copyright 2011-2012, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
  *
  * See doc/copyright/ for the full copyright terms.
@@ -13,6 +13,8 @@
 */
 
 #include <stdlib.h>
+
+#include <shared/getopt.h>
 
 #include "config.h"
 
@@ -77,133 +79,7 @@ out_rename(char *oldid, char *newid)
   return;
 }
 
-int
-get_switch(char option, int range_max)
-{
-  int val = option - '0';
-  if (val>=0 && val <= range_max){
-    return val;
-  }	
-  else {
-    (void)fprintf(stderr,"alphatrans: error : illegal option value : 0 .. %d expected\n",range_max);
-    exit(EXIT_FAILURE);
-  }
-  return 0;
-}
 
-
-
-/*
-  Reads and processes a command line option.
-*/
-void
-process_flag(char *option)
-{
-  switch(option[1]){
-   case 'A':
-    /* alloca switching */
-    do_alloca = get_switch(option[2],1);
-    break;
-   case 'B':
-    /* big floating point constants -> infinity */
-    break;
-   case 'C':
-    do_loopconsts = get_switch(option[2],1);
-    break;
-   case 'D':
-    failer("no PIC code available");
-    exit(EXIT_FAILURE);
-   case 'E':
-    extra_checks = 0;
-    break;
-   case 'F':
-    do_foralls = get_switch(option[2],1);
-    break;
-   case 'H':
-    diagnose = 1;
-    do_inlining = 0;
-    do_loopconsts = 0;
-    do_foralls = 0;
-    do_dump_opt = 0;
-    do_alloca = 0;
-    break;
-   case 'I':
-    do_inlining=get_switch(option[2],1);
-    break;
-   case 'K':
-    fprintf(stderr,"alphatrans: [-K..] -> only one kind of processor is supported\n");
-    break;
-   case 'M':
-    strict_fl_div = get_switch(option[2],1);
-    break;
-   case 'P':
-    do_profile = 1;
-    break;
-   case 'Q':
-    exit(EXIT_SUCCESS);
-    break;
-   case 'R':
-    round_after_flop = get_switch(option[2],1);
-    break;
-   case 'S':
-    produce_symbolic_assembler = TRUE;
-    break;
-   case 'U':
-    do_unroll = get_switch(option[2],1);
-    break;
-   case 'X':
-    do_inlining=0;
-    do_loopconsts=0;
-#ifdef USE_OLD_UNROLLER
-    dostrengths=0;
-#endif
-    do_special_fns=0;
-    do_foralls=0;
-    do_dump_opt=0;
-    break;
-   case 'V':
-   case 'v':
-   case 'i':
-    printinfo();
-    infoopt = TRUE;
-    break;
-   case 'W':
-    writable_strings = get_switch(option[2],1);
-    break;
-   case 'Z':
-    report_versions = 1;
-    break;
-   case 'u':
-    use_umulh_for_div = get_switch(option[2],1);
-    break;
-   case 's':
-    do_scheduling = get_switch(option[2],1);
-    break;
-   case 'd':	
-    /* handle IEEE denormals */
-     treat_denorm_specially = TRUE;
-     switch(get_switch(option[2],2)){
-     case 0: /* replace denormal const with 0.0 (don't do this) */
-       alphawarn("Unsupported denormal switch");
-       fail_with_denormal_constant = FALSE;
-       break;
-     case 1: /* error if denormal const is encountered */
-       fail_with_denormal_constant = TRUE;
-       break;
-     case 2: 
-     /* handle denormals properly (and slowly), by 
-       stopping the interleaving of floating point 
-       operations and using the OS exception handler */
-       treat_denorm_specially = FALSE;
-       trap_all_fops = TRUE;
-       break;
-     }
-     break;
-  default:
-    alphafail(ILLEGAL_FLAG,option);
-    break;
-  }
-}
 
 bool BIGEND = (little_end == 0);
 bool do_tlrecursion = 1;
@@ -217,36 +93,111 @@ int minorno = 11;
 int
 main(int argc, char *argv[])
 {
-  int i;
-  int num_flags=0;
-  char *aname;	/* name of file for assembly output */
-  char *dname;	/* name of file to hold symbol table */
-  char *baname;
-  char *tname;
-  do_inlining=0;
-  redo_structfns=1;
-  do_foralls=0;
-  do_alloca=1;
+	int i;
+	char *aname;	/* name of file for assembly output */
+	char *dname;	/* name of file to hold symbol table */
+	char *baname;
+	char *tname;
+	do_inlining=0;
+	redo_structfns=1;
+	do_foralls=0;
+	do_alloca=0;
 #if DO_NEW_DIVISION 
-  use_umulh_for_div = 1;
+	use_umulh_for_div = 1;
 #else
-  use_umulh_for_div = 0;
+	use_umulh_for_div = 0;
 #endif
-  /* read command line options */
-  for(i=1;i<argc;++i){
-    if(argv[i][0] == '-'){
-      num_flags++;
-      process_flag(argv[i]);
-    }
-  }
-  if((argc-num_flags)<MIN_COMMAND_LINE_ARGS){
-    if(infoopt){
-      exit(EXIT_SUCCESS);
-    }
-    else{
-      alphafail(TOO_FEW_PARAMETERS);
-    }
-  }
+
+	{
+		int c;
+
+		while ((c = getopt(argc, argv, "ABCDEFG:HIK:MPQRSUVWXZ" "usd:")) != -1) {
+			switch (c) {
+			case 'A': do_alloca = 1;     break;
+			case 'B': /* big floating point constants -> infinity */ break;
+			case 'C': do_loopconsts = 1; break;
+			case 'D': failer("no PIC code available"); exit(EXIT_FAILURE);
+			case 'E': extra_checks = 0;  break;
+			case 'F': do_foralls = 1;    break;
+			case 'G':                    break;
+
+			case 'H':
+				diagnose      = 1;
+			case 'X':
+#ifdef USE_OLD_UNROLLER
+				dostrengths   = 0;
+#endif
+				do_inlining   = 0;
+				do_loopconsts = 0;
+				do_foralls    = 0;
+				do_dump_opt   = 0;
+				do_alloca     = 0;
+				break;
+
+			case 'I': do_inlining = 1; break;
+			case 'K':
+				fprintf(stderr,"alphatrans: [-K..] -> only one kind of processor is supported\n");
+				break;
+
+			case 'M': strict_fl_div = 1;                 break;
+			case 'P': do_profile = 1;                    break;
+			case 'Q': exit(EXIT_SUCCESS);                break;
+			case 'R': round_after_flop = 1;              break;
+			case 'S': produce_symbolic_assembler = TRUE; break;
+			case 'U': do_unroll = 1;                     break;
+			case 'V': printinfo(); infoopt = TRUE;       break;
+			case 'W': writable_strings = 1;              break;
+			case 'Z': report_versions = 1;               break;
+
+			case 'u': use_umulh_for_div = 1;             break;
+			case 's': do_scheduling = 1;                 break;
+
+			case 'd':	
+				/* handle IEEE denormals */
+				treat_denorm_specially = TRUE;
+
+				switch (atoi(optarg)) {
+				case 0:
+					/* replace denormal const with 0.0 (don't do this) */
+					alphawarn("Unsupported denormal switch");
+					fail_with_denormal_constant = FALSE;
+					break;
+
+				case 1:
+					/* error if denormal const is encountered */
+					fail_with_denormal_constant = TRUE;
+					break;
+
+				case 2: 
+					/* handle denormals properly (and slowly), by 
+					 * stopping the interleaving of floating point 
+					 * operations and using the OS exception handler */
+					treat_denorm_specially = FALSE;
+					trap_all_fops = TRUE;
+					break;
+
+				default:
+					alphafail(ILLEGAL_FLAG, "-d");
+					break;
+				}
+				break;
+
+			default:
+				exit(EXIT_FAILURE);
+			}
+
+			argc -= optind;
+			argv += optind;
+		}
+
+		if (argc < MIN_COMMAND_LINE_ARGS) {
+			if (infoopt) {
+				exit(EXIT_SUCCESS);
+			}
+
+			alphafail(TOO_FEW_PARAMETERS);
+		}
+	}
 
   /* the files are passed in the order .t .G .T .s */
 
