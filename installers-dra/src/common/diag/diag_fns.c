@@ -983,22 +983,6 @@ init_linkinfo_props(void)
 #else
 	/* !NEWDIAGS */
 
-#if issparc
-#include "sparcdiags.h"
-#endif
-
-#if is68000
-#include "xdb_basics.h"
-#endif
-
-#if ishppa
-#include "hppadiags.h"
-#endif
-
-#if isAlpha
-#include "alphadiags.h"
-#endif
-
 
 /* allocate space in this file */
 #define EXTERN_DIAG
