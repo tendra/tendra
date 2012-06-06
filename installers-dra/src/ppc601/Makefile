@@ -9,7 +9,6 @@
 SUBDIR+=	${OSFAM}
 .else
 SUBDIR+=	aix
-SUBDIR+=	openbsd
 .endif
 
 .include <tendra.subdir.mk>
