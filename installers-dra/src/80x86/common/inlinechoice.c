@@ -156,22 +156,6 @@ int inlinechoice
 
   max_complexity = (crit_inline / total_uses);
 
-#if issparc
-  {
-#define QQQ 2
-    int i;
-    if (total_uses >= (1<<QQQ))
-    {
-      for (i= total_uses >> QQQ; i>0; i >>=1)
-      {
-	max_complexity *= 3;
-	max_complexity /= 2;
-      }
-    }
-#undef QQQ
-  }
-#endif
-
   if (max_complexity < 15) {
     max_complexity = 15;
   } else if (max_complexity > 120) {

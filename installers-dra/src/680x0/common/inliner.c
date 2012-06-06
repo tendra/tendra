@@ -155,10 +155,6 @@ int inlinechoice
 
     /* newdecs is now the number of declarations (which will not be
        optimised out) arising from actual parameters */
-#if is80x86
-    if (!last(bro(t))) return 0;
-#endif
-
     if (complexity(fpars, crit_inline, newdecs) >= 0) {
 	return 2;
     } else if (newdecs == 0) {

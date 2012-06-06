@@ -70,80 +70,6 @@ special_token(token t, bitstream pars, int sortcode, int * done)
    }
   /* end of addition for VARARGS */
 
-#if is80x86
-  if (!strcmp(t -> tok_name, "~div"))  {
-      exp arg1, arg2;
-      place old_place;
-      old_place = keep_place();
-      set_place(pars);
-      arg1 = hold_check(d_exp());
-      arg2 = hold_check(d_exp());
-
-      set_place(old_place);
-      tkv.tk_exp = me_b2(arg1, arg2, div0_tag);
-      *done = 1;
-      return tkv;
-  };
-  if (!strcmp(t -> tok_name, "~arith_type")) {
-    int a, b;
-    place old_place;
-    signed_nat sn;
-    old_place = keep_place();
-    set_place(pars);
-    sn = d_signed_nat();
-    a = snatint(sn);
-    sn = d_signed_nat();
-    b = snatint(sn);
-    set_place(old_place);
-    snatint(sn) = arith_type(a, b);
-    tkv.tk_signed_nat = sn;
-    *done = 1;
-    return tkv;
-  };
-  if (!strcmp(t -> tok_name, "~promote")) {
-    int a;
-    place old_place;
-    signed_nat sn;
-    old_place = keep_place();
-    set_place(pars);
-    sn = d_signed_nat();
-    a = snatint(sn);
-    set_place(old_place);
-    snatint(sn) = promote(a);
-    tkv.tk_signed_nat = sn;
-    *done = 1;
-    return tkv;
-  };
-  if (!strcmp(t -> tok_name, "~sign_promote")) {
-    int a;
-    place old_place;
-    signed_nat sn;
-    old_place = keep_place();
-    set_place(pars);
-    sn = d_signed_nat();
-    a = snatint(sn);
-    set_place(old_place);
-    snatint(sn) = sign_promote(a);
-    tkv.tk_signed_nat = sn;
-    *done = 1;
-    return tkv;
-  };
-  if (!strcmp(t -> tok_name, "~convert")) {
-    int a;
-    place old_place;
-    signed_nat sn;
-    old_place = keep_place();
-    set_place(pars);
-    sn = d_signed_nat();
-    a = snatint(sn);
-    set_place(old_place);
-    tkv.tk_variety = convert((unsigned)a);
-    *done = 1;
-    return tkv;
-  };
-#endif
-
-#if ishppa
   if (!strcmp(t -> tok_name,"~next_caller_offset")) {
       exp arg1, arg2;
       shape sha1, sha2, sha3;
@@ -217,8 +143,6 @@ special_token(token t, bitstream pars, int sortcode, int * done)
       *done = 1;
       return tkv;
   }
-
-#endif
 
   if (!strcmp(t -> tok_name, "~alloca"))  {
       exp arg1;

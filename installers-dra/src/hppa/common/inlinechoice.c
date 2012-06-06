@@ -161,12 +161,8 @@ int inlinechoice
   nparam = 0;
   const_param_bonus = 0;
 
-
   max_complexity = (crit_inline / total_uses);
 
-
-
-#if ishppa
   {
 #define QQQ 2
     int i;
@@ -180,7 +176,6 @@ int inlinechoice
     }
 #undef QQQ
   }
-#endif
 
   if (max_complexity < 15) {
     max_complexity = 15;
