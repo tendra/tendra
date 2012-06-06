@@ -22,8 +22,9 @@ int main(void) {
 	 * S4.1.5p2 "... of the result * of subtracting two pointers;"
 	 */
 	{
-		char *a, *b;
-		assert(sizeof (a - b) == sizeof (size_t));
+		char c;
+		char *a = &c, *b = &c;
+		assert(sizeof (a - b) == sizeof (ptrdiff_t));
 	}
 
 	/*
@@ -31,8 +32,8 @@ int main(void) {
 	 */
 	{
 		size_t z;
-		z = -1;
-		assert(z == -1);
+		z = 1;
+		assert(z == 1);
 	}
 
 	/*
