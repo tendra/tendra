@@ -44,7 +44,6 @@ extern proc_props *old_proc_props;
 extern version global_version;
 
 extern int in_proc_def;
-extern int flpt_const_overflow_fail;
 
 extern aldef const_aldefs[6];
 extern int doing_aldefs;

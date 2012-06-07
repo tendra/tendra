@@ -36,7 +36,6 @@
 #define isAlpha                 0
 
 /* CONFIGURATION OPTIONS */
-#define check_shape 		1
 #define dont_unpad_apply 	1
 #define has_bitfield_ops        0
 #define has_byte_ops		0

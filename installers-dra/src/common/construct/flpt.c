@@ -27,7 +27,7 @@
 #include "messages_c.h"
 #include "basicread.h"
 #include "installglob.h"
-
+#include "flags.h"
 
 #include "flpt.h"
 
@@ -1542,7 +1542,7 @@ real2longs_IEEE(flt *fp, int sw)
   }
 
   if (expt > bias) {
-    if (flpt_const_overflow_fail) {
+    if (check & CHECK_FLPT_OVERFLOW) {
       failer(BIG_FLPT);
       exit(EXIT_FAILURE);
     }

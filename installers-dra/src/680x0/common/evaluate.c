@@ -31,13 +31,13 @@
 #include "translate.h"
 #include "utility.h"
 #include "f64.h"
+#include "flags.h"
 #if have_diagnostics
 #include "xdb_basics.h"
 #endif
 
 extern int is_comm(exp);
 extern char *get_pointer_name(void *);
-extern int flpt_const_overflow_fail;
 extern double atof(const char *);
 extern double frexp(double, int *);
 
@@ -491,7 +491,7 @@ long *realrep
     /* Fill in exponent */
     ex += (1 << (exp_bits - 1)) - 1;
     if (ex <= 0 || ex >= (1 << exp_bits) - 1) {
-	if (flpt_const_overflow_fail) {
+	if (check & CHECK_FLPT_OVERFLOW) {
 	    error(ERROR_SERIOUS, "Floating point constant out of range");
 	}
 	if (sz == 32) {

@@ -69,7 +69,6 @@ typedef unsigned long bitpattern;
     DEFINE COMPILATION OPTIONS
 */
 
-#define check_shape		1	/* Check shape-correctness */
 #define convert_floats		1	/* Convert floating constants */
 #define dont_unpad_apply	1	/* Careful with procedure results */
 #define dynamic_diag_test	1	/* Test diagnostics format */

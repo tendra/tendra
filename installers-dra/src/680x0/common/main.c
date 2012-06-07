@@ -72,7 +72,6 @@ static int report_tdf_versions = 0;
 
 #ifdef EBUG
 
-int do_test = 0;
 int seek_label = 0;
 int seek_extern = 0;
 int seek_label_no;
@@ -126,7 +125,7 @@ int main
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"ABDEG:HK:MO:PQRVWZ"
+			"ADG:HK:MO:PQRVWX:Z"
 #ifdef EBUG
 			"L:l:"
 #endif
@@ -136,9 +135,7 @@ int main
 			"cegiosu")) != -1) {
 			switch (c) {
 			case 'A': do_alloca = 1;                break;
-			case 'B': flpt_const_overflow_fail = 1; break;
 			case 'D': do_pic = 1;                   break;
-			case 'E': extra_checks = 0;             break;
 			case 'G':                               break;
 			case 'H': diagnose = 1;                 break;
 			case 'K':                               break;
@@ -149,6 +146,7 @@ int main
 			case 'R': round_after_flop = 1;         break;
 			case 'V': report_trans_version = 1;     break;
 			case 'W':                               break;
+			case 'X': check = flags_check(optarg);  break;
 			case 'Z': report_tdf_versions = 1;      break;
 
 			case 'c': cc_conventions = 1;           break;
@@ -274,7 +272,7 @@ int main
 	    PIC_code = 1;
     }
     
-    if (!extra_checks) {
+    if (~check & CHECK_EXTRA) {
 	    target_dbl_maxexp = 16384;
     }
 

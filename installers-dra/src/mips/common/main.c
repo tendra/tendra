@@ -78,23 +78,17 @@ int   main
   as_file = (FILE *)0;
   redo_structfns = 0;
   do_extern_adds = 0;
-
-
-  flpt_const_overflow_fail = 0; /* HUGEVAL requires 0 for Ysystem */
-
   do_alloca = 0;
 
 	{
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"ABDEG:HK:MO:PQRSVWZ"
+			"ADG:HK:MO:PQRSVWX:Z"
 			"ei")) != -1) {
 			switch (c) {
 			case 'A': do_alloca = 1;                break;
-			case 'B': flpt_const_overflow_fail = 1; break;
 			case 'D': PIC_code = 1;                 break;
-			case 'E': extra_checks = 0;             break;
 			case 'G':                               break;
 
 			case 'H':
@@ -151,7 +145,8 @@ int   main
 					}
 				}
 
-			case 'W': writable_strings = 1; break;
+			case 'W': writable_strings = 1;        break;
+			case 'X': check = flags_check(optarg); break;
 
 			case 'Z': /* prints on stderr the versions of all the capsules
 				from which this capsule was made */

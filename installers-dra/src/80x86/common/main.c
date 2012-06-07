@@ -91,7 +91,6 @@ main(int argc, char **argv)
 	is80486 = 1;		/* (at least) 80486 */
 	is80586 = 1;		/* Pentium */
 	separate_units = 0;	/* combine units */
-	extra_checks = 1;	/* perform the extra checks */
 	always_use_frame = 0;	/* avoid using frame pointer */
 	diagnose = 0;		/* diagnostics off */
 #ifdef NEWDIAGS
@@ -110,8 +109,6 @@ main(int argc, char **argv)
 				   operation */
 	/* do not replace divisions by multiplication by the inverse */
 	strict_fl_div = 1;
-	/* constant floating point arithmetic fails installation, if overflow */
-	flpt_const_overflow_fail = 1;
 	flpt_always_comparable = 0; /* this is the default for SVR4.2 */
 	report_versions = 0;	/* do not print version numbers */
 	permit_8byte_align = 1;	/* allow 8byte alignment for local doubles */
@@ -127,9 +124,9 @@ main(int argc, char **argv)
 	 * XXX: Some arguments are undocumented in trans.1, check
 	 */
 #ifdef NEWDWARF
-	optstring = "A:B:D:EG:H:" "J" "K:M:NO:PQR:" "T" "VW:Z" "abcdfghik:s";
+	optstring = "A:D:G:H:" "J" "K:M:NO:PQR:" "T" "VW:X:Z" "abcdfghik:s";
 #else
-	optstring = "A:B:D:EG:H:"     "K:M:NO:PQR:"     "VW:Z" "abcdfghik:s";
+	optstring = "A:D:G:H:"     "K:M:NO:PQR:"     "VW:X:Z" "abcdfghik:s";
 #endif
 
 	while ((ch = getopt(argc, argv, optstring)) != -1) {
@@ -137,14 +134,8 @@ main(int argc, char **argv)
 		case 'A':
 			do_alloca = (*optarg == '1');
 			break;
-		case 'B':
-			flpt_const_overflow_fail = (*optarg == '1');
-			break;
 		case 'D':
 			PIC_code = (*optarg == '1');
-			break;
-		case 'E':
-			extra_checks = 0;
 			break;
 		case 'G':
 			gcc_compatible = (*optarg == '1');
@@ -237,6 +228,9 @@ main(int argc, char **argv)
 			break;
 		case 'W':
 			writable_strings = (*optarg == '1');
+			break;
+		case 'X':
+			check = flags_check(optarg);
 			break;
 		case 'Z':
 			report_versions = 1;

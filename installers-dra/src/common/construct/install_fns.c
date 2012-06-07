@@ -15,7 +15,7 @@
    In some cases processing is performed: it is only these which are
    commented.
    Many constructions have the shape of their arguments checked by
-   check_shape. These checks are implied by the specification and are
+   CHECK_SHAPE. These checks are implied by the specification and are
    not commented.
 */
 
@@ -944,9 +944,13 @@ f_bfvar_bits(bool issigned, nat bits)
 	}
 	res.has_sign = issigned;
 	res.bits = natint(bits);
-	if (extra_checks && res.bits > SLONG_SZ) {
-		failer(TOO_MANY_BITS);
+
+	if (check & CHECK_EXTRA) {
+		if (res.bits > SLONG_SZ) {
+			failer(TOO_MANY_BITS);
+		}
 	}
+
 	return res;
 }
 
@@ -1041,11 +1045,12 @@ f_abs(error_treatment ov_err, exp arg1)
 		return arg1;
 	}
 
-#if check_shape
-	if (!is_integer(sh(arg1))) {
-		failer(CHSH_ABS);
+	if (check & CHECK_SHAPE) {
+		if (!is_integer(sh(arg1))) {
+			failer(CHSH_ABS);
+		}
 	}
-#endif
+
 #if !has64bits
 	if (name(sh(arg1)) >= s64hd &&
 	    (name(arg1) != val_tag || ov_err.err_code > 2)) {
@@ -1069,17 +1074,17 @@ f_add_to_ptr(exp arg1, exp arg2)
 		return arg2;
 	}
 
-#if check_shape
-	if (!doing_aldefs && (name(sh(arg1)) != ptrhd ||
-			      name(sh(arg2)) != offsethd ||
-			      (al1(sh(arg1)) < al1(sh(arg2))
+	if (check & CHECK_SHAPE) {
+		if (!doing_aldefs && (name(sh(arg1)) != ptrhd ||
+				      name(sh(arg2)) != offsethd ||
+				      (al1(sh(arg1)) < al1(sh(arg2))
 #if issparc
-			       && al1_of(sh(arg2)) != REAL_ALIGN
+			     	  && al1_of(sh(arg2)) != REAL_ALIGN
 #endif
-			       ))) {
-		failer(CHSH_ADDPTR);
+				       ))) {
+			failer(CHSH_ADDPTR);
+		}
 	}
-#endif
 
 #if issparc || ishppa
 	if ((al1_of(sh(arg2))->al.al_val.al_frame & 6) != 0 &&
@@ -1109,11 +1114,12 @@ f_and(exp arg1, exp arg2)
 		return arg2;
 	}
 
-#if check_shape
-	if (!eq_shape(sh(arg1), sh(arg2)) || !is_integer(sh(arg1))) {
-		failer(CHSH_AND);
+	if (check & CHECK_SHAPE) {
+		if (!eq_shape(sh(arg1), sh(arg2)) || !is_integer(sh(arg1))) {
+			failer(CHSH_AND);
+		}
 	}
-#endif
+
 #if !has64bits
 	if (name(sh(arg1)) >= s64hd &&
 	    (name(arg1) != val_tag || name(arg2) != val_tag)) {
@@ -1135,11 +1141,11 @@ f_apply_proc(shape result_shape, exp arg1, exp_list arg2, exp_option varparam)
 		return arg1;
 	}
 
-#if check_shape
-	if (name(sh(arg1)) != prokhd) {
-		failer(CHSH_APPLY);
+	if (check & CHECK_SHAPE) {
+		if (name(sh(arg1)) != prokhd) {
+			failer(CHSH_APPLY);
+		}
 	}
-#endif
 
 	if (varparam.present) {
 		/* add a declaration for variable parameters */
@@ -1394,11 +1400,12 @@ f_bitfield_assign(exp p, exp off, exp val)
 		return val;
 	}
 
-#if check_shape
-	if (name(sh(p)) != ptrhd || name(sh(off)) != offsethd) {
-		failer(CHSH_BFASS);
+	if (check & CHECK_SHAPE) {
+		if (name(sh(p)) != ptrhd || name(sh(off)) != offsethd) {
+			failer(CHSH_BFASS);
+		}
 	}
-#endif
+
 	if (name(off) == val_tag) {
 		res = me_b3(f_top, p, val, bfass_tag);
 		no(res) = no(off);
@@ -1501,12 +1508,13 @@ f_bitfield_assign_with_mode(transfer_mode md, exp p, exp off, exp val)
 		return f_bitfield_assign(p, off, val);
 	}
 
-#if check_shape
-	if (name(sh(p)) != ptrhd || name(sh(off)) != offsethd ||
-	    name(off) != val_tag) {
-		failer(CHSH_BFASS);
+	if (check & CHECK_SHAPE) {
+		if (name(sh(p)) != ptrhd || name(sh(off)) != offsethd ||
+		    name(off) != val_tag) {
+			failer(CHSH_BFASS);
+		}
 	}
-#endif
+
 #ifdef no_trap_on_nil_contents
 	if ((md & f_trap_on_nil) != 0) {
 		exp d = me_startid(f_top, p, 0);
@@ -1545,10 +1553,10 @@ f_bitfield_contents(bitfield_variety bf, exp p, exp off)
 		return p;
 	}
 
-#if check_shape
-	if (name(sh(p)) != ptrhd || name(sh(off)) != offsethd)
-		failer(CHSH_BFCONT);
-#endif
+	if (check & CHECK_SHAPE) {
+		if (name(sh(p)) != ptrhd || name(sh(off)) != offsethd)
+			failer(CHSH_BFCONT);
+	}
 
 	if (name(off) == val_tag) {
 		res = me_u3(f_bitfield(bf), p, bfcont_tag);
@@ -1616,12 +1624,13 @@ f_bitfield_contents_with_mode(transfer_mode md, bitfield_variety bf, exp p,
 		return p;
 	}
 
-#if check_shape
-	if (name(sh(p)) != ptrhd || name(sh(off)) != offsethd ||
-	    name(off) != val_tag) {
-		failer(CHSH_BFCONT);
+	if (check & CHECK_SHAPE) {
+		if (name(sh(p)) != ptrhd || name(sh(off)) != offsethd ||
+		    name(off) != val_tag) {
+			failer(CHSH_BFCONT);
+		}
 	}
-#endif
+
 #ifdef no_trap_on_nil_contents
 	if ((md & f_trap_on_nil) != 0) {
 		exp d = me_startid(f_bitfield(bf), p, 0);
@@ -1699,11 +1708,11 @@ f_case_transform(bool exhaustive, exp control, caselim_list branches)
 		proc_externs = 1;
 	}
 
-#if check_shape
-	if (!is_integer(sh(control))) {
-		failer(CHSH_CASE);
+	if (check & CHECK_SHAPE) {
+		if (!is_integer(sh(control))) {
+			failer(CHSH_CASE);
+		}
 	}
-#endif
 
 	r = getexp(case_shape, nilexp, 0, control, nilexp, 0, 0, case_tag);
 	clearlast(control);
@@ -1779,11 +1788,11 @@ f_case_notransform(bool exhaustive, exp control, caselim_list branches)
 		proc_externs = 1;
 	}
 
-#if check_shape
-	if (!is_integer(sh(control))) {
-		failer(CHSH_CASE);
+	if (check & CHECK_SHAPE) {
+		if (!is_integer(sh(control))) {
+			failer(CHSH_CASE);
+		}
 	}
-#endif
 
 	r = getexp(case_shape, nilexp, 0, control, nilexp, 0, 0, case_tag);
 	clearlast(control);
@@ -1826,11 +1835,12 @@ f_change_bitfield_to_int(variety x, exp arg1)
 		return arg1;
 	}
 
-#if check_shape
-	if (name(sh(arg1)) != bitfhd) {
-		failer(CHSH_CHBITFIELD);
+	if (check & CHECK_SHAPE) {
+		if (name(sh(arg1)) != bitfhd) {
+			failer(CHSH_CHBITFIELD);
+		}
 	}
-#endif
+
 #if !has64bits
 	if (shape_size(x) >32) {
 		shape n32 = (is_signed(x)) ? slongsh : ulongsh;
@@ -1849,11 +1859,12 @@ f_change_int_to_bitfield(bitfield_variety x, exp arg1)
 		return arg1;
 	}
 
-#if check_shape
-	if (!is_integer(sh(arg1))) {
-		failer(CHSH_CHINTBF);
+	if (check & CHECK_SHAPE) {
+		if (!is_integer(sh(arg1))) {
+			failer(CHSH_CHINTBF);
+		}
 	}
-#endif
+
 #if !has64bits
 	if (shape_size(sh(arg1)) >32) {
 		shape n32 = (is_signed(sh(arg1))) ? slongsh : ulongsh;
@@ -1873,11 +1884,12 @@ f_change_variety(error_treatment ov_err, variety r, exp arg1)
 		return arg1;
 	}
 
-#if check_shape
-	if (!is_integer(sh(arg1))) {
-		failer(CHSH_CHVAR);
+	if (check & CHECK_SHAPE) {
+		if (!is_integer(sh(arg1))) {
+			failer(CHSH_CHVAR);
+		}
 	}
-#endif
+
 #if !has64bits
 	if ((name(arg1) != val_tag || ov_err.err_code > 2) &&
 	    (shape_size(sh(arg1)) > 32 || name(r) >=s64hd) &&
@@ -1921,14 +1933,14 @@ f_component(shape sha, exp arg1, exp arg2)
 		return arg2;
 	}
 
-#if check_shape
-	if (!doing_aldefs &&
-	    (name(sh(arg2)) != offsethd || name(sh(arg1)) != cpdhd ||
-	     shape_align(sh(arg1)) < al1(sh(arg2)) ||
-	     shape_align(sha) > al2(sh(arg2)))) {
-		failer(CHSH_COMPONENT);
+	if (check & CHECK_SHAPE) {
+		if (!doing_aldefs &&
+		    (name(sh(arg2)) != offsethd || name(sh(arg1)) != cpdhd ||
+		     shape_align(sh(arg1)) < al1(sh(arg2)) ||
+		     shape_align(sha) > al2(sh(arg2)))) {
+			failer(CHSH_COMPONENT);
+		}
 	}
-#endif
 
 	return me_b3(sha, arg1, arg2, component_tag);
 }
@@ -1950,11 +1962,11 @@ f_concat_nof(exp arg1, exp arg2)
 	}
 
 	/* al2_of(sh(arg1)) is the shapemacs.h hd of the nof shape */
-#if check_shape
-	if (!doing_aldefs && (shape_align(sh(arg1)) != shape_align(sh(arg2)))) {
-		failer(CHSH_CONCATNOF);
+	if (check & CHECK_SHAPE) {
+		if (!doing_aldefs && (shape_align(sh(arg1)) != shape_align(sh(arg2)))) {
+			failer(CHSH_CONCATNOF);
+		}
 	}
-#endif
 
 	return me_b3(sha, arg1, arg2, concatnof_tag);
 }
@@ -2005,17 +2017,17 @@ f_contents(shape s, exp arg1)
 		return arg1;
 	}
 
-#if check_shape
-	if (!doing_aldefs &&
-	    (name(sh(arg1)) != ptrhd ||
-	     (al1(sh(arg1)) < shape_align(s)
+	if (check & CHECK_SHAPE) {
+		if (!doing_aldefs &&
+		    (name(sh(arg1)) != ptrhd ||
+		     (al1(sh(arg1)) < shape_align(s)
 #if issparc
-	      && align_of(s) != REAL_ALIGN
+		      && align_of(s) != REAL_ALIGN
 #endif
-	      ))) {
-		failer(CHSH_CONTENTS);
+		      ))) {
+			failer(CHSH_CONTENTS);
+		}
 	}
-#endif
 
 	return me_c2(s, arg1, cont_tag);
 }
@@ -2028,14 +2040,15 @@ f_contents_with_mode(transfer_mode md, shape s, exp arg1)
 		return arg1;
 	}
 
-#if check_shape
-	if (!doing_aldefs &&
-	    (name(sh(arg1)) != ptrhd ||
-	     (al1(sh(arg1)) < shape_align(s) &&
-	      al1_of(sh(arg1))->al.sh_hd != doublehd))) {
-		failer(CHSH_CONTENTS_VOL);
+	if (check & CHECK_SHAPE) {
+		if (!doing_aldefs &&
+		    (name(sh(arg1)) != ptrhd ||
+		     (al1(sh(arg1)) < shape_align(s) &&
+		      al1_of(sh(arg1))->al.sh_hd != doublehd))) {
+			failer(CHSH_CONTENTS_VOL);
+		}
 	}
-#endif
+
 #ifdef no_trap_on_nil_contents
 	if ((md & f_trap_on_nil) != 0) {
 		exp d = me_startid(s, arg1, 0);
@@ -2152,11 +2165,12 @@ f_div0(error_treatment div0_err, error_treatment ov_err, exp arg1, exp arg2)
 		return arg2;
 	}
 
-#if check_shape
-	if (!eq_shape(sh(arg1), sh(arg2)) || !is_integer(sh(arg1))) {
-		failer(CHSH_DIV0);
+	if (check & CHECK_SHAPE) {
+		if (!eq_shape(sh(arg1), sh(arg2)) || !is_integer(sh(arg1))) {
+			failer(CHSH_DIV0);
+		}
 	}
-#endif
+
 	return div_rem(div0_err, ov_err, arg1, arg2, div0_aux);
 }
 
@@ -2187,11 +2201,11 @@ f_div1(error_treatment div0_err, error_treatment ov_err, exp arg1, exp arg2)
 		return arg2;
 	}
 
-#if check_shape
-	if (!eq_shape(sh(arg1), sh(arg2)) || !is_integer(sh(arg1))) {
-		failer(CHSH_DIV1);
+	if (check & CHECK_SHAPE) {
+		if (!eq_shape(sh(arg1), sh(arg2)) || !is_integer(sh(arg1))) {
+			failer(CHSH_DIV1);
+		}
 	}
-#endif
 
 	return div_rem(div0_err, ov_err, arg1, arg2, div1_aux);
 }
@@ -2222,11 +2236,12 @@ f_div2(error_treatment div0_err, error_treatment ov_err, exp arg1, exp arg2)
 		return arg2;
 	}
 
-#if check_shape
-	if (!eq_shape(sh(arg1), sh(arg2)) || !is_integer(sh(arg1))) {
-		failer(CHSH_DIV2);
+	if (check & CHECK_SHAPE) {
+		if (!eq_shape(sh(arg1), sh(arg2)) || !is_integer(sh(arg1))) {
+			failer(CHSH_DIV2);
+		}
 	}
-#endif
+
 	return div_rem(div0_err, ov_err, arg1, arg2, div2_aux);
 }
 
@@ -2282,11 +2297,11 @@ f_goto_local_lv(exp arg1)
 		return arg1;
 	}
 
-#if check_shape
-	if (name(sh(arg1)) != ptrhd) {
-		failer(CHSH_GOLOCALLV);
+	if (check & CHECK_SHAPE) {
+		if (name(sh(arg1)) != ptrhd) {
+			failer(CHSH_GOLOCALLV);
+		}
 	}
-#endif
 
 	return me_u3(f_bottom, arg1, goto_lv_tag);
 }
@@ -2353,11 +2368,12 @@ f_integer_test(nat_option prob, ntest nt, label dest, exp arg1, exp arg2)
 		return arg2;
 	}
 
-#if check_shape
-	if (!is_integer(sh(arg1)) || !eq_shape(sh(arg1), sh(arg2))) {
-		failer(CHSH_INTTEST);
+	if (check & CHECK_SHAPE) {
+		if (!is_integer(sh(arg1)) || !eq_shape(sh(arg1), sh(arg2))) {
+			failer(CHSH_INTTEST);
+		}
 	}
-#endif
+
 #if !has64bits
 	if (name(sh(arg1)) >= s64hd &&
 	    (name(arg1) != val_tag || name(arg2) != val_tag)) {
@@ -2438,11 +2454,12 @@ f_local_alloc(exp arg1)
 		return arg1;
 	}
 
-#if check_shape
-	if (name(sh(arg1)) != offsethd) {
-		failer(CHSH_LOCALLOC);
+	if (check & CHECK_SHAPE) {
+		if (name(sh(arg1)) != offsethd) {
+			failer(CHSH_LOCALLOC);
+		}
 	}
-#endif
+
 	if (al2(sh(arg1)) < 8) {
 		arg1 = hold_refactor(f_offset_pad(f_alignment(ucharsh), arg1));
 	}
@@ -2475,11 +2492,12 @@ f_local_free(exp a, exp p)
 		return p;
 	}
 
-#if check_shape
-	if (name(sh(a)) != offsethd || name(sh(p)) != ptrhd) {
-		failer(CHSH_LOCFREE);
+	if (check & CHECK_SHAPE) {
+		if (name(sh(a)) != offsethd || name(sh(p)) != ptrhd) {
+			failer(CHSH_LOCFREE);
+		}
 	}
-#endif
+
 	if (al2(sh(a)) <8) {
 		a = hold_refactor(f_offset_pad(f_alignment(ucharsh), a));
 	}
@@ -2510,11 +2528,11 @@ f_long_jump(exp arg1, exp arg2)
 		return arg2;
 	}
 
-#if check_shape
-	if (name(sh(arg1)) != ptrhd || name(sh(arg2)) != ptrhd) {
-		failer(CHSH_LONGJUMP);
+	if (check & CHECK_SHAPE) {
+		if (name(sh(arg1)) != ptrhd || name(sh(arg2)) != ptrhd) {
+			failer(CHSH_LONGJUMP);
+		}
 	}
-#endif
 
 	has_setjmp = 1; /* this really means dont inline
 			   and use a stack frame */
@@ -2542,8 +2560,7 @@ f_make_compound(exp arg1, exp_list arg2)
 		return r;
 	}
 
-#if check_shape
-	{
+	if (check & CHECK_SHAPE) {
 		exp t = first;
 		while (1) {
 			if (t != arg2.end && name(sh(bro(t))) == bothd) {
@@ -2560,7 +2577,6 @@ f_make_compound(exp arg1, exp_list arg2)
 			t = bro(bro(t));
 		}
 	}
-#endif
 
 	setfather(r, arg2.end);
 
@@ -2624,19 +2640,20 @@ f_make_int(variety v, signed_nat value)
 		exp res;
 
 		if (shape_size(v) <= 32) {
-			if (!extra_checks) {
-				flt64 temp;
-				int ov;
-				temp = flt_to_f64(
-				    value.signed_nat_val.big_s_nat, 0, &ov);
-				n = temp.small;
-				res = getexp(f_integer(v), nilexp, 0, nilexp,
-					     nilexp, 0, n, val_tag);
-				return res;
-			} else {
+			flt64 temp;
+			int ov;
+
+			if (check & CHECK_EXTRA) {
 				failer(BIG_32);
 				exit(EXIT_FAILURE);
 			}
+
+			temp = flt_to_f64(
+			    value.signed_nat_val.big_s_nat, 0, &ov);
+			n = temp.small;
+			res = getexp(f_integer(v), nilexp, 0, nilexp,
+				     nilexp, 0, n, val_tag);
+			return res;
 		}
 		if (snat_issmall(value)) {
 			flt64 temp;
@@ -2702,8 +2719,7 @@ f_make_nof(exp_list arg1)
 	r = getexp(f_nof(t, sh(first)), nilexp, 0, first, nilexp, 0, 0,
 		   nof_tag);
 
-#if check_shape
-	{
+	if (check & CHECK_SHAPE) {
 		exp temp = first;
 		while (1) {
 			if (!eq_shape(sh(temp), sh(first))) {
@@ -2715,7 +2731,6 @@ f_make_nof(exp_list arg1)
 			temp = bro(temp);
 		}
 	}
-#endif
 
 	if (name(sh(first)) == bitfhd) {
 		/* make make_nof bitbields into make-compound */
@@ -2938,11 +2953,12 @@ f_maximum(exp arg1, exp arg2)
 		return arg2;
 	}
 
-#if check_shape
-	if (!eq_shape(sh(arg1), sh(arg2)) || !is_integer(sh(arg1))) {
-		failer(CHSH_MAX);
+	if (check & CHECK_SHAPE) {
+		if (!eq_shape(sh(arg1), sh(arg2)) || !is_integer(sh(arg1))) {
+			failer(CHSH_MAX);
+		}
 	}
-#endif
+
 #if !has64bits
 	if (name(sh(arg1)) >= s64hd &&
 	    (name(arg1) != val_tag || name(arg2) != val_tag)) {
@@ -2963,11 +2979,13 @@ f_minimum(exp arg1, exp arg2)
 		kill_exp(arg1, arg1);
 		return arg2;
 	}
-#if check_shape
-	if (!eq_shape(sh(arg1), sh(arg2)) || !is_integer(sh(arg1))) {
-		failer(CHSH_MIN);
+
+	if (check & CHECK_SHAPE) {
+		if (!eq_shape(sh(arg1), sh(arg2)) || !is_integer(sh(arg1))) {
+			failer(CHSH_MIN);
+		}
 	}
-#endif
+
 #if !has64bits
 	if (name(sh(arg1)) >= s64hd &&
 	    (name(arg1) != val_tag || name(arg2) != val_tag)) {
@@ -3085,11 +3103,11 @@ f_make_proc(shape result_shape, tagshacc_list params_intro,
 	exp t, id, ptr;
 #endif
 
-#if check_shape
-	if (name(sh(body)) != bothd) {
-		failer(CHSH_MAKE_PROC);
+	if (check & CHECK_SHAPE) {
+		if (name(sh(body)) != bothd) {
+			failer(CHSH_MAKE_PROC);
+		}
 	}
-#endif
 
 	if (vartag.present) {
 		exp i = get_tag(vartag.val.tg);
@@ -3388,11 +3406,13 @@ f_make_general_proc(shape result_shape, procprops prcprops,
 		    exp body)
 {
 	exp res;
-#if check_shape
-	if (name(sh(body)) != bothd) {
-		failer(CHSH_MAKE_PROC);
+
+	if (check & CHECK_SHAPE) {
+		if (name(sh(body)) != bothd) {
+			failer(CHSH_MAKE_PROC);
+		}
 	}
-#endif
+
 	res = getexp(f_proc, nilexp, 0, caller_intro.id, result_shape, 0, 0,
 		     general_proc_tag);
 
@@ -3948,11 +3968,12 @@ f_minus(error_treatment ov_err, exp arg1, exp arg2)
 		return arg2;
 	}
 
-#if check_shape
-	if (!eq_shape(sh(arg1), sh(arg2)) || !is_integer(sh(arg1))) {
-		failer(CHSH_MINUS);
+	if (check & CHECK_SHAPE) {
+		if (!eq_shape(sh(arg1), sh(arg2)) || !is_integer(sh(arg1))) {
+			failer(CHSH_MINUS);
+		}
 	}
-#endif
+
 #if !has64bits
 	if (name(sh(arg1)) >= s64hd &&
 	    (name(arg1) != val_tag || name(arg2) != val_tag ||
@@ -3983,13 +4004,14 @@ f_move_some(transfer_mode md, exp arg1, exp arg2, exp arg3)
 		return arg3;
 	}
 
-#if check_shape
-	if (name(sh(arg1)) != ptrhd || name(sh(arg2)) != ptrhd ||
-	    name(sh(arg3)) != offsethd || al1(sh(arg1)) < al1(sh(arg3)) ||
-	    al1(sh(arg2)) < al1(sh(arg3))) {
-		failer(CHSH_MOVESOME);
+	if (check & CHECK_SHAPE) {
+		if (name(sh(arg1)) != ptrhd || name(sh(arg2)) != ptrhd ||
+		    name(sh(arg3)) != offsethd || al1(sh(arg1)) < al1(sh(arg3)) ||
+		    al1(sh(arg2)) < al1(sh(arg3))) {
+			failer(CHSH_MOVESOME);
+		}
 	}
-#endif
+
 #ifdef no_trap_on_nil_contents
 	if ((md & f_trap_on_nil) != 0) {
 		exp d2 = me_startid(f_top, arg2, 0);
@@ -4049,11 +4071,12 @@ f_mult(error_treatment ov_err, exp arg1, exp arg2)
 		return arg2;
 	}
 
-#if check_shape
-	if (!eq_shape(sh(arg1), sh(arg2)) || !is_integer(sh(arg1))) {
-		failer(CHSH_MULT);
+	if (check & CHECK_SHAPE) {
+		if (!eq_shape(sh(arg1), sh(arg2)) || !is_integer(sh(arg1))) {
+			failer(CHSH_MULT);
+		}
 	}
-#endif
+
 #if !has64bits
 	if (name(sh(arg1)) >= s64hd &&
 	    (name(arg1) != val_tag || name(arg2) != val_tag ||
@@ -4133,11 +4156,12 @@ f_negate(error_treatment ov_err, exp arg1)
 		return arg1;
 	}
 
-#if check_shape
-	if (!is_integer(sh(arg1))) {
-		failer(CHSH_NEGATE);
+	if (check & CHECK_SHAPE) {
+		if (!is_integer(sh(arg1))) {
+			failer(CHSH_NEGATE);
+		}
 	}
-#endif
+
 	if (!is_signed(sh(arg1)) && ov_err.err_code > 2) {
 		return f_minus(ov_err, me_shint(sh(arg1), 0), arg1);
 	}
@@ -4159,11 +4183,12 @@ f_not(exp arg1)
 		return arg1;
 	}
 
-#if check_shape
-	if (!is_integer(sh(arg1))) {
-		failer(CHSH_NOT);
+	if (check & CHECK_SHAPE) {
+		if (!is_integer(sh(arg1))) {
+			failer(CHSH_NOT);
+		}
 	}
-#endif
+
 #if !has64bits
 	if (name(sh(arg1)) >= s64hd &&
 	    name(arg1) != val_tag) {
@@ -4226,18 +4251,18 @@ f_offset_add(exp arg1, exp arg2)
 		return arg2;
 	}
 
-
-#if check_shape
-	if (!doing_aldefs &&
-	    ((name(sh(arg1)) != offsethd || name(sh(arg2)) != offsethd ||
-	      (al1(sh(arg2)) > al2(sh(arg1))
+	if (check & CHECK_SHAPE) {
+		if (!doing_aldefs &&
+		    ((name(sh(arg1)) != offsethd || name(sh(arg2)) != offsethd ||
+		      (al1(sh(arg2)) > al2(sh(arg1))
 #if issparc
-	       && al1_of(sh(arg2)) != REAL_ALIGN
+		       && al1_of(sh(arg2)) != REAL_ALIGN
 #endif
-	       )))) {
-		failer(CHSH_OFFSETADD);
+		       )))) {
+			failer(CHSH_OFFSETADD);
+		}
 	}
-#endif
+
 	sres = f_offset(al1_of(sh(arg1)), al2_of(sh(arg2)));
 #if 0
 	if ((al1_of(sh(arg1))->al.al_val.al_frame & 4) != 0 &&
@@ -4268,11 +4293,12 @@ f_offset_div(variety v, exp arg1, exp arg2)
 		kill_exp(arg1, arg1);
 		return arg2;
 	}
-#if check_shape
-	if (name(sh(arg1)) != offsethd || name(sh(arg2)) != offsethd) {
-		failer(CHSH_OFFSETDIV);
+
+	if (check & CHECK_SHAPE) {
+		if (name(sh(arg1)) != offsethd || name(sh(arg2)) != offsethd) {
+			failer(CHSH_OFFSETDIV);
+		}
 	}
-#endif
 
 	return me_b3(f_integer(v), arg1, arg2, offset_div_tag);
 }
@@ -4290,13 +4316,13 @@ f_offset_div_by_int(exp arg1, exp arg2)
 		return arg2;
 	}
 
-#if check_shape
-	if (!doing_aldefs &&
-	    (name(sh(arg1)) != offsethd || !is_integer(sh(arg2)) ||
-	     (al1(sh(arg1)) != al2(sh(arg1)) && al2(sh(arg1)) != 1))) {
-		failer(CHSH_OFFSETDIVINT);
+	if (check & CHECK_SHAPE) {
+		if (!doing_aldefs &&
+		    (name(sh(arg1)) != offsethd || !is_integer(sh(arg2)) ||
+		     (al1(sh(arg1)) != al2(sh(arg1)) && al2(sh(arg1)) != 1))) {
+			failer(CHSH_OFFSETDIVINT);
+		}
 	}
-#endif
 
 	return me_b3(sh(arg1), arg1, arg2, offset_div_by_int_tag);
 }
@@ -4318,12 +4344,12 @@ f_offset_max(exp arg1, exp arg2)
 		return arg2;
 	}
 
-#if check_shape
-	if (!doing_aldefs &&
-	    (name(sh(arg1)) != offsethd || name(sh(arg2)) != offsethd)) {
-		failer(CHSH_OFFSETMAX);
+	if (check & CHECK_SHAPE) {
+		if (!doing_aldefs &&
+		    (name(sh(arg1)) != offsethd || name(sh(arg2)) != offsethd)) {
+			failer(CHSH_OFFSETMAX);
+		}
 	}
-#endif
 
 	if (a1->al.al_n != 1 || a2->al.al_n != 1) {
 		alignment ares = (alignment)calloc(1, sizeof(aldef));
@@ -4357,12 +4383,12 @@ f_offset_mult(exp arg1, exp arg2)
 		return arg2;
 	}
 
-#if check_shape
-	if (!doing_aldefs &&
-	    (name(sh(arg1)) != offsethd || !is_integer(sh(arg2)))) {
-		failer(CHSH_OFFSETMULT);
+	if (check & CHECK_SHAPE) {
+		if (!doing_aldefs &&
+		    (name(sh(arg1)) != offsethd || !is_integer(sh(arg2)))) {
+			failer(CHSH_OFFSETMULT);
+		}
 	}
-#endif
 
 	if (shape_size(sh(arg2)) != PTR_SZ) {
 		if (PTR_SZ == 32) {
@@ -4386,17 +4412,17 @@ f_offset_negate(exp arg1)
 		return arg1;
 	}
 
-#if check_shape
-	if (!doing_aldefs &&
-	    (name(sh(arg1)) != offsethd ||
-	     (al1(sh(arg1)) != al2(sh(arg1)) && al2(sh(arg1)) != 1
+	if (check & CHECK_SHAPE) {
+		if (!doing_aldefs &&
+		    (name(sh(arg1)) != offsethd ||
+		     (al1(sh(arg1)) != al2(sh(arg1)) && al2(sh(arg1)) != 1
 #if issparc
-	      && al1_of(sh(arg1)) != REAL_ALIGN
+		      && al1_of(sh(arg1)) != REAL_ALIGN
 #endif
-	      ))) {
-		failer(CHSH_OFFSETNEG);
+		      ))) {
+			failer(CHSH_OFFSETNEG);
+		}
 	}
-#endif
 
 	return me_u2(arg1, offset_negate_tag);
 }
@@ -4410,11 +4436,11 @@ f_offset_pad(alignment a, exp arg1)
 		return arg1;
 	}
 
-#if check_shape
-	if (name(sh(arg1)) != offsethd) {
-		failer(CHSH_OFFSETPAD);
+	if (check & CHECK_SHAPE) {
+		if (name(sh(arg1)) != offsethd) {
+			failer(CHSH_OFFSETPAD);
+		}
 	}
-#endif
 
 	if (a->al.al_n != 1 || al1_of(sh(arg1))->al.al_n != 1) {
 		alignment ares = (alignment)calloc(1, sizeof(aldef));
@@ -4467,14 +4493,14 @@ f_offset_test(nat_option prob, ntest nt, label dest, exp arg1, exp arg2)
 		return arg2;
 	}
 
-#if check_shape
-	if (!doing_aldefs &&
-	    (name(sh(arg1)) != offsethd || name(sh(arg2)) != offsethd ||
-	     /* al1(sh(arg1)) != al1(sh(arg2)) || */
-	     al2(sh(arg1)) != al2(sh(arg2)))) {
-		failer(CHSH_OFFSETTEST);
+	if (check & CHECK_SHAPE) {
+		if (!doing_aldefs &&
+		    (name(sh(arg1)) != offsethd || name(sh(arg2)) != offsethd ||
+		     /* al1(sh(arg1)) != al1(sh(arg2)) || */
+		     al2(sh(arg1)) != al2(sh(arg2)))) {
+			failer(CHSH_OFFSETTEST);
+		}
 	}
-#endif
 
 	if (nt == f_comparable || nt == f_not_comparable) {
 		return replace_ntest(nt, dest, arg1, arg2);
@@ -4504,11 +4530,12 @@ f_or(exp arg1, exp arg2)
 		return arg2;
 	}
 
-#if check_shape
-	if (!eq_shape(sh(arg1), sh(arg2)) || !is_integer(sh(arg1))) {
-		failer(CHSH_OR);
+	if (check & CHECK_SHAPE) {
+		if (!eq_shape(sh(arg1), sh(arg2)) || !is_integer(sh(arg1))) {
+			failer(CHSH_OR);
+		}
 	}
-#endif
+
 #if !has64bits
 	if (name(sh(arg1)) >= s64hd &&
 	    (name(arg1) != val_tag || name(arg2) != val_tag)) {
@@ -4531,11 +4558,12 @@ f_plus(error_treatment ov_err, exp arg1, exp arg2)
 		return arg2;
 	}
 
-#if check_shape
-	if (!eq_shape(sh(arg1), sh(arg2)) || !is_integer(sh(arg1))) {
-		failer(CHSH_PLUS);
+	if (check & CHECK_SHAPE) {
+		if (!eq_shape(sh(arg1), sh(arg2)) || !is_integer(sh(arg1))) {
+			failer(CHSH_PLUS);
+		}
 	}
-#endif
+
 #if !has64bits
 	if (name(sh(arg1)) >= s64hd &&
 	    (name(arg1) != val_tag || name(arg2) != val_tag||
@@ -4559,12 +4587,12 @@ f_pointer_test(nat_option prob, ntest nt, label dest, exp arg1, exp arg2)
 		return arg2;
 	}
 
-#if check_shape
-	if (!doing_aldefs &&
-	    (name(sh(arg1)) != ptrhd || al1(sh(arg1)) != al1(sh(arg2)))) {
-		failer(CHSH_PTRTEST);
+	if (check & CHECK_SHAPE) {
+		if (!doing_aldefs &&
+		    (name(sh(arg1)) != ptrhd || al1(sh(arg1)) != al1(sh(arg2)))) {
+			failer(CHSH_PTRTEST);
+		}
 	}
-#endif
 
 	if (nt == f_comparable || nt == f_not_comparable) {
 		return replace_ntest(nt, dest, arg1, arg2);
@@ -4587,13 +4615,13 @@ f_proc_test(nat_option prob, ntest nt, label dest, exp arg1, exp arg2)
 		return arg2;
 	}
 
-#if check_shape
-	/*
-	   ONLY REMOVED TEMPORARILY!
-	   if (name(sh(arg1)) != prokhd || name(sh(arg2)) != prokhd)
-	   failer(CHSH_PROCTEST);
-	 */
-#endif
+	if (check & CHECK_SHAPE) {
+		/*
+		   ONLY REMOVED TEMPORARILY!
+		   if (name(sh(arg1)) != prokhd || name(sh(arg2)) != prokhd)
+		   failer(CHSH_PROCTEST);
+		 */
+	}
 
 	if (nt == f_comparable || nt == f_not_comparable) {
 		return replace_ntest(nt, dest, arg1, arg2);
@@ -4637,11 +4665,12 @@ f_rem1(error_treatment div0_err, error_treatment ov_err, exp arg1, exp arg2)
 		return arg2;
 	}
 
-#if check_shape
-	if (!eq_shape(sh(arg1), sh(arg2)) || !is_integer(sh(arg1))) {
-		failer(CHSH_REM1);
+	if (check & CHECK_SHAPE) {
+		if (!eq_shape(sh(arg1), sh(arg2)) || !is_integer(sh(arg1))) {
+			failer(CHSH_REM1);
+		}
 	}
-#endif
+
 	return div_rem(div0_err, ov_err, arg1, arg2, rem1_aux);
 }
 
@@ -4682,11 +4711,11 @@ f_rem0(error_treatment div0_err, error_treatment ov_err, exp arg1, exp arg2)
 		return arg2;
 	}
 
-#if check_shape
-	if (!eq_shape(sh(arg1), sh(arg2)) || !is_integer(sh(arg1))) {
-		failer(CHSH_REM0);
+	if (check & CHECK_SHAPE) {
+		if (!eq_shape(sh(arg1), sh(arg2)) || !is_integer(sh(arg1))) {
+			failer(CHSH_REM0);
+		}
 	}
-#endif
 
 	return div_rem(div0_err, ov_err, arg1, arg2, rem0_aux);
 }
@@ -4718,11 +4747,11 @@ f_rem2(error_treatment div0_err, error_treatment ov_err, exp arg1, exp arg2)
 		return arg2;
 	}
 
-#if check_shape
-	if (!eq_shape(sh(arg1), sh(arg2)) || !is_integer(sh(arg1))) {
-		failer(CHSH_REM2);
+	if (check & CHECK_SHAPE) {
+		if (!eq_shape(sh(arg1), sh(arg2)) || !is_integer(sh(arg1))) {
+			failer(CHSH_REM2);
+		}
 	}
-#endif
 
 	return div_rem(div0_err, ov_err, arg1, arg2, rem2_aux);
 }
@@ -4844,11 +4873,12 @@ f_rotate_left(exp arg1, exp arg2)
 		return arg2;
 	}
 
-#if check_shape
-	if (!is_integer(sh(arg1)) || !is_integer(sh(arg2))) {
-		failer(CHSH_ROTL);
+	if (check & CHECK_SHAPE) {
+		if (!is_integer(sh(arg1)) || !is_integer(sh(arg2))) {
+			failer(CHSH_ROTL);
+		}
 	}
-#endif
+
 #if !has_rotate
 	{
 		shape sa = sh(arg1);
@@ -4895,11 +4925,12 @@ f_rotate_right(exp arg1, exp arg2)
 		return arg2;
 	}
 
-#if check_shape
-	if (!is_integer(sh(arg1)) || !is_integer(sh(arg2))) {
-		failer(CHSH_ROTR);
+	if (check & CHECK_SHAPE) {
+		if (!is_integer(sh(arg1)) || !is_integer(sh(arg2))) {
+			failer(CHSH_ROTR);
+		}
 	}
-#endif
+
 #if !has_rotate
 	return f_rotate_left(arg1, hold_refactor(f_minus(f_impossible,
 						      me_shint(sh(arg2),
@@ -4987,11 +5018,12 @@ f_shift_left(error_treatment ov_err, exp arg1, exp arg2)
 		return arg2;
 	}
 
-#if check_shape
-	if (!is_integer(sh(arg1)) || !is_integer(sh(arg2))) {
-		failer(CHSH_SHL);
+	if (check & CHECK_SHAPE) {
+		if (!is_integer(sh(arg1)) || !is_integer(sh(arg2))) {
+			failer(CHSH_SHL);
+		}
 	}
-#endif
+
 #if !has64bits
 	if (name(sh(arg1)) >= s64hd &&
 	    (name(arg1) != val_tag || name(arg2) != val_tag ||
@@ -5056,11 +5088,12 @@ f_shift_right(exp arg1, exp arg2)
 		return arg2;
 	}
 
-#if check_shape
-	if (!is_integer(sh(arg1)) || !is_integer(sh(arg2))) {
-		failer(CHSH_SHR);
+	if (check & CHECK_SHAPE) {
+		if (!is_integer(sh(arg1)) || !is_integer(sh(arg2))) {
+			failer(CHSH_SHR);
+		}
 	}
-#endif
+
 #if !has64bits
 	if (name(sh(arg1)) >= s64hd &&
 	    (name(arg1) != val_tag || name(arg2) != val_tag)) {
@@ -5147,11 +5180,12 @@ f_xor(exp arg1, exp arg2)
 		return arg2;
 	}
 
-#if check_shape
-	if (!eq_shape(sh(arg1), sh(arg2)) || !is_integer(sh(arg1))) {
-		failer(CHSH_XOR);
+	if (check & CHECK_SHAPE) {
+		if (!eq_shape(sh(arg1), sh(arg2)) || !is_integer(sh(arg1))) {
+			failer(CHSH_XOR);
+		}
 	}
-#endif
+
 #if !has64bits
 	if (name(sh(arg1)) >= s64hd &&
 	    (name(arg1) != val_tag || name(arg2) != val_tag)) {
@@ -5202,8 +5236,10 @@ f_computed_nat(exp arg)
 {
 	nat res;
 	if (name(arg) == val_tag) {
-		if (extra_checks && constovf(arg)) {
-			failer(ILLNAT);
+		if (check & CHECK_EXTRA) {
+			if (constovf(arg)) {
+				failer(ILLNAT);
+			}
 		}
 
 		if (!isbigval(arg)) {
@@ -5634,8 +5670,10 @@ f_computed_signed_nat(exp arg)
 {
 	signed_nat res;
 	if (name(arg) == val_tag) {
-		if (extra_checks && constovf(arg)) {
-			failer(ILLNAT);
+		if (check & CHECK_EXTRA) {
+			if (constovf(arg)) {
+				failer(ILLNAT);
+			}
 		}
 
 		if (!isbigval(arg)) {

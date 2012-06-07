@@ -71,7 +71,6 @@
 #define GCC_STRUCTS 0
 
 #define condassign_implemented 0
-#define check_shape 1
 #define value_of_null 0
 
 #define prefix_length 0	/* strlen(name_prefix) */

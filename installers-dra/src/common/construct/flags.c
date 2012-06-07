@@ -28,7 +28,6 @@ int double_align = 32;		/* alignment for 64 bit flpt */
 int stack_align = 32;		/* minimum alignment for stack */
 int param_align = 32;		/* minimum alignment for parameters */
 
-int extra_checks = 1;		/* do some portability checks */
 int separate_units = 0;		/* translate units separately */
 
 int writable_strings = 0;	/* string are writable */
@@ -48,6 +47,7 @@ int extra_diags = 0;		/* option for extended diagnostics */
 #endif
 
 enum optim optim;
+enum check check;
 
 enum optim
 flags_optim(const char *s)
@@ -76,6 +76,32 @@ flags_optim(const char *s)
 		default:
 			error(ERROR_WARNING, "Unrecognised optimisation flag %c. "
 				"Valid flags are: [cdefghijurt] and [a] for all.",
+				*p);
+		}
+	}
+
+	return o;
+}
+
+enum check
+flags_check(const char *s)
+{
+	enum check o;
+	const char *p;
+
+	o = 0;
+
+	for (p = s; *p != '\0'; p++) {
+		switch (*p) {
+		case 'a': o = ~0U;                  continue;
+
+		case 's': o |= CHECK_SHAPE;         continue;
+		case 'e': o |= CHECK_EXTRA;         continue;
+		case 'f': o |= CHECK_FLPT_OVERFLOW; continue;
+
+		default:
+			error(ERROR_WARNING, "Unrecognised check flag %c. "
+				"Valid flags are: [sef] and [a] for all.",
 				*p);
 		}
 	}

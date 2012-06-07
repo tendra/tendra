@@ -108,12 +108,11 @@ main(int argc, char *argv[])
 	{
 		int c;
 
-		while ((c = getopt(argc, argv, "ABDEFG:HK:MO:PQRSVWZ" "usd:")) != -1) {
+		while ((c = getopt(argc, argv, "ABDFG:HK:MO:PQRSVWX:Z" "usd:")) != -1) {
 			switch (c) {
 			case 'A': do_alloca = 1;     break;
 			case 'B': /* big floating point constants -> infinity */ break;
 			case 'D': failer("no PIC code available"); exit(EXIT_FAILURE);
-			case 'E': extra_checks = 0;  break;
 			case 'G':                    break;
 
 			case 'H':
@@ -131,6 +130,7 @@ main(int argc, char *argv[])
 			case 'S': produce_symbolic_assembler = TRUE; break;
 			case 'V': printinfo(); infoopt = TRUE;       break;
 			case 'W': writable_strings = 1;              break;
+			case 'X': check = flags_check(optarg);       break;
 			case 'Z': report_versions = 1;               break;
 
 			case 'u': use_umulh_for_div = 1;             break;

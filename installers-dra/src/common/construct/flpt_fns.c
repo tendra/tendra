@@ -77,12 +77,13 @@ f_change_floating_variety(error_treatment flpt_err, floating_variety r,
     return arg1;
   }
 
-#if check_shape
-  if (!((is_complex(sh(arg1)) && is_complex(f_floating(r))) ||
-	(is_float(sh(arg1)) && is_float(f_floating(r))))) {
-    failer(CHSH_CHFL);
+  if (check & CHECK_SHAPE) {
+    if (!((is_complex(sh(arg1)) && is_complex(f_floating(r))) ||
+	  (is_float(sh(arg1)) && is_float(f_floating(r))))) {
+      failer(CHSH_CHFL);
+    }
   }
-#endif
+
  if (eq_shape(f_floating(r), sh(arg1))) {	/* i.e. does nothing */
     return arg1;	/* Discard the other bits ? */
  }
@@ -133,11 +134,12 @@ f_complex_conjugate(exp arg1)
   if (name(sh(arg1)) == bothd) {
     return arg1;
   }
-#if check_shape
-  if (!is_complex(sh(arg1))) {
-    failer(CHSH_CONJUGATE);
+
+  if (check & CHECK_SHAPE) {
+    if (!is_complex(sh(arg1))) {
+      failer(CHSH_CONJUGATE);
+    }
   }
-#endif
 
 #if substitute_complex
   {
@@ -175,11 +177,11 @@ f_float_int(error_treatment flpt_err, floating_variety f, exp arg1)
     return arg1;
   }
 
-#if check_shape
-  if (!is_integer(sh(arg1))) {
-    failer(CHSH_FLINT);
+  if (check & CHECK_SHAPE) {
+    if (!is_integer(sh(arg1))) {
+      failer(CHSH_FLINT);
+    }
   }
-#endif
 
     if (is_complex(f_floating(f))) {
 	flpt fzero_copy = new_flpt();
@@ -228,11 +230,11 @@ f_floating_abs(error_treatment ov_err, exp arg1)
     return arg1;
   }
 
-#if check_shape
-  if (!is_float(sh(arg1))) {
-    failer(CHSH_FLABS);
+  if (check & CHECK_SHAPE) {
+    if (!is_float(sh(arg1))) {
+      failer(CHSH_FLABS);
+    }
   }
-#endif
 
 #if ishppa
   {
@@ -262,12 +264,12 @@ f_floating_div(error_treatment ov_err, exp arg1, exp arg2)
     return arg2;
   }
 
-#if check_shape
-  if (!((is_float(sh(arg1)) || is_complex(sh(arg1))) &&
-	eq_shape(sh(arg1), sh(arg2)))) {
-    failer(CHSH_FLDIV);
+  if (check & CHECK_SHAPE) {
+    if (!((is_float(sh(arg1)) || is_complex(sh(arg1))) &&
+	  eq_shape(sh(arg1), sh(arg2)))) {
+      failer(CHSH_FLDIV);
+    }
   }
-#endif
 
 /* PAB changes - 21 October 1994 */
 #if substitute_complex
@@ -369,11 +371,12 @@ f_floating_maximum(error_treatment flpt_err, exp arg1, exp arg2)
     return arg2;
   }
 
-#if check_shape
-  if (!is_float(sh(arg1)) || !eq_shape(sh(arg1), sh(arg2))) {
-    failer(CHSH_FLMAX);
+  if (check & CHECK_SHAPE) {
+    if (!is_float(sh(arg1)) || !eq_shape(sh(arg1), sh(arg2))) {
+      failer(CHSH_FLMAX);
+    }
   }
-#endif
+
   return hold_refactor(me_b1(flpt_err, arg1, arg2, fmax_tag));
 }
 
@@ -390,12 +393,12 @@ f_floating_minimum(error_treatment flpt_err, exp arg1, exp arg2)
     return arg2;
   }
 
-
-#if check_shape
-  if (!is_float(sh(arg1)) || !eq_shape(sh(arg1), sh(arg2))) {
-    failer(CHSH_FLMIN);
+  if (check & CHECK_SHAPE) {
+    if (!is_float(sh(arg1)) || !eq_shape(sh(arg1), sh(arg2))) {
+      failer(CHSH_FLMIN);
+    }
   }
-#endif
+
   return hold_refactor(me_b1(flpt_err, arg1, arg2, fmin_tag));
 }
 
@@ -437,12 +440,12 @@ f_floating_power(error_treatment ov_err, exp arg1, exp arg2)
     return arg2;
   }
 
-#if check_shape
-  if (!((is_float(sh(arg1)) || is_complex(sh(arg1))) &&
-	is_integer(sh(arg2)))) {
-    failer(CHSH_FLPOWER);
+  if (check & CHECK_SHAPE) {
+    if (!((is_float(sh(arg1)) || is_complex(sh(arg1))) &&
+	  is_integer(sh(arg2)))) {
+      failer(CHSH_FLPOWER);
+    }
   }
-#endif
 
 /* PAB changes - 31 October 1994 */
 
@@ -830,12 +833,12 @@ f_floating_minus(error_treatment ov_err, exp arg1, exp arg2)
     return arg2;
   }
 
-#if check_shape
-  if (!((is_float(sh(arg1)) || is_complex(sh(arg1))) &&
-	eq_shape(sh(arg1), sh(arg2)))) {
-    failer(CHSH_FLMINUS);
+  if (check & CHECK_SHAPE) {
+    if (!((is_float(sh(arg1)) || is_complex(sh(arg1))) &&
+	  eq_shape(sh(arg1), sh(arg2)))) {
+      failer(CHSH_FLMINUS);
+    }
   }
-#endif
 
 /* PAB changes - 18 October 1994 */
 #if substitute_complex
@@ -893,8 +896,7 @@ f_floating_mult(error_treatment ov_err, exp_list arg1)
     setjmp_dest(r, get_lab(ov_err.jmp_dest));
   }
 
-#if check_shape
-  {
+  if (check & CHECK_SHAPE) {
     exp t = first;
     while (1) {
       if (!((is_float(sh(t)) || is_complex(sh(t))) &&
@@ -910,7 +912,6 @@ f_floating_mult(error_treatment ov_err, exp_list arg1)
       }
     }
   }
-#endif
 
 /* PAB changes - 19 October 1994 */
 #if substitute_complex
@@ -998,11 +999,11 @@ f_floating_negate(error_treatment ov_err, exp arg1)
     return arg1;
   }
 
-#if check_shape
-  if (!is_float(sh(arg1)) && !is_complex(sh(arg1))) {
-    failer(CHSH_FLNEGATE);
+  if (check & CHECK_SHAPE) {
+    if (!is_float(sh(arg1)) && !is_complex(sh(arg1))) {
+      failer(CHSH_FLNEGATE);
+    }
   }
-#endif
 
 /* PAB changes - 18 October 1994 */
 #if substitute_complex
@@ -1059,8 +1060,7 @@ f_floating_plus(error_treatment ov_err, exp_list arg1)
     setjmp_dest(r, get_lab(ov_err.jmp_dest));
   }
 
-#if check_shape
-  {
+  if (check & CHECK_SHAPE) {
     exp t = first;
     while (1) {
       if (!((is_float(sh(t)) || is_complex(sh(t))) &&
@@ -1076,7 +1076,6 @@ f_floating_plus(error_treatment ov_err, exp_list arg1)
       }
     }
   }
-#endif
 
 /* PAB changes - 18 October 1994 */
 #if substitute_complex
@@ -1141,12 +1140,12 @@ f_floating_test(nat_option prob, error_treatment flpt_err, ntest nt,
     return arg2;
   }
 
-#if check_shape
-  if (!((is_float(sh(arg1)) || is_complex(sh(arg1))) &&
-	eq_shape(sh(arg1), sh(arg2)))) {
-    failer(CHSH_FLTEST);
+  if (check & CHECK_SHAPE) {
+    if (!((is_float(sh(arg1)) || is_complex(sh(arg1))) &&
+	  eq_shape(sh(arg1), sh(arg2)))) {
+      failer(CHSH_FLTEST);
+    }
   }
-#endif
 
 /* PAB changes - 18 October 1994 */
 #if substitute_complex
@@ -1166,10 +1165,10 @@ f_floating_test(nat_option prob, error_treatment flpt_err, ntest nt,
       exp y1 = f_imaginary_part(obtain2_z1);		/* im(arg1) */
       exp y2 = f_imaginary_part(obtain2_z2);		/* im(arg2) */
 
-#if check_shape
-      if ((nt != f_equal) && (nt != f_not_equal))
-	  failer(CHSH_FLTEST);
-#endif
+      if (check & CHECK_SHAPE) {
+        if ((nt != f_equal) && (nt != f_not_equal))
+	    failer(CHSH_FLTEST);
+      }
 
       if (nt == f_equal) {
 	  /* equality of z1 and z2 */
@@ -1217,11 +1216,12 @@ f_imaginary_part(exp arg1)
   if (name(sh(arg1)) == bothd) {
     return arg1;
   }
-#if check_shape
-  if (!is_complex(sh(arg1))) {
-    failer(CHSH_IMAG);
+
+  if (check & CHECK_SHAPE) {
+    if (!is_complex(sh(arg1))) {
+      failer(CHSH_IMAG);
+    }
   }
-#endif
 
 /* PAB changes - 25 May 1995 */
   real_shape = f_floating(f_float_of_complex(sh(arg1)));
@@ -1245,11 +1245,12 @@ f_real_part(exp arg1)
   if (name(sh(arg1)) == bothd) {
     return arg1;
   }
-#if check_shape
-  if (!is_complex(sh(arg1))) {
-    failer(CHSH_REAL);
+
+  if (check & CHECK_SHAPE) {
+    if (!is_complex(sh(arg1))) {
+      failer(CHSH_REAL);
+    }
   }
-#endif
 
 /* PAB changes - 25 May 1995 */
   real_shape = f_floating(f_float_of_complex(sh(arg1)));
@@ -1278,13 +1279,12 @@ f_make_complex(floating_variety f, exp arg1, exp arg2)
     return arg2;
   }
 
-#if check_shape
-  if (!is_float(sh(arg1)) || !is_float(sh(arg2)) ||
-      !eq_shape(sh(arg1), sh(arg2)) || f != f_complex_of_float(sh(arg1))) {
-    failer(CHSH_MAKE_COMPLEX);
+  if (check & CHECK_SHAPE) {
+    if (!is_float(sh(arg1)) || !is_float(sh(arg2)) ||
+        !eq_shape(sh(arg1), sh(arg2)) || f != f_complex_of_float(sh(arg1))) {
+      failer(CHSH_MAKE_COMPLEX);
+    }
   }
-#endif
-
 
 /* PAB changes - 19 October 1994 */
 #if substitute_complex
@@ -1483,7 +1483,7 @@ f_make_floating(floating_variety fv, rounding_mode rm, bool sign,
 
   flpt_round((int)rm, flpt_bits((floating_variety)fv), &fr);
 
-  if (flpt_const_overflow_fail) {
+  if (check & CHECK_FLPT_OVERFLOW) {
     r2l r;
     r = real2longs_IEEE(&fr, fv);
     UNUSED(r);
@@ -1509,11 +1509,12 @@ f_power(error_treatment ov_err, exp arg1, exp arg2)
     kill_exp(arg1,arg1);
     return arg2;
   }
-#if check_shape
-  if (!is_integer(sh(arg1)) || !is_integer(sh(arg2))) {
-    failer(CHSH_POWER);
+
+  if (check & CHECK_SHAPE) {
+    if (!is_integer(sh(arg1)) || !is_integer(sh(arg2))) {
+      failer(CHSH_POWER);
+    }
   }
-#endif
 
   return real_power(ov_err, arg1, arg2);
 }
@@ -1530,11 +1531,13 @@ f_round_with_mode(error_treatment flpt_err, rounding_mode mode, variety r,
   if (is_complex(sh(arg1))) {
 	arg1 = f_real_part(arg1);
   }
-#if check_shape
-  if (!is_float(sh(arg1))) {
-    failer(CHSH_ROUND);
+
+  if (check & CHECK_SHAPE) {
+    if (!is_float(sh(arg1))) {
+      failer(CHSH_ROUND);
+    }
   }
-#endif
+
 #if !has64bits
 	if (shape_size(r) >32 &&
 	    (name(arg1) != real_tag || flpt_err.err_code >= 4)) {

@@ -24,6 +24,12 @@ enum optim {
 	OPTIM_TEMPDEC      = 1 << 10  /* Use temporary registers for local values */
 };
 
+enum check {
+	CHECK_SHAPE         = 1 << 0, /* Check shape-correctness */
+	CHECK_EXTRA         = 1 << 1, /* Extra portability checks */
+	CHECK_FLPT_OVERFLOW = 1 << 2  /* Constant floating point arithmetic fails installation on overflow */
+};
+
 extern int do_special_fns;
 extern int redo_structfns;
 extern int redo_structparams;
@@ -33,7 +39,6 @@ extern int do_alloca;
 extern int double_align;
 extern int stack_align;
 extern int param_align;
-extern int extra_checks;
 extern int separate_units;
 extern int writable_strings;
 extern int PIC_code;
@@ -48,7 +53,9 @@ extern int extra_diags;
 #endif
 
 extern enum optim optim;
+extern enum check check;
 
 extern enum optim flags_optim(const char *);
+extern enum check flags_check(const char *);
 
 #endif /* flags_key */

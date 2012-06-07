@@ -63,12 +63,8 @@ int main(int argc, char **argv)
 				 */
   diagnose = 0;			/* Produce diagnosics */
   do_profile = 0;		/* Produce profiling info */
-  extra_checks = 1;		/* Do extra portability checks */
   separate_units = 0;		/* Translate units separately */
   all_variables_visible = 0;	/* Set vis flag for all declarations */
-  flpt_const_overflow_fail = 1;	/* Constant floating point arithmetic
-				 * fails installation, if overflow 
-				 */
   strict_fl_div = 1;		/* Don't mult by 1/constant */
   round_after_flop = 1;		/* Round every time */
   do_comment = 0;		/* (see comment.c) */
@@ -77,11 +73,9 @@ int main(int argc, char **argv)
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"ABEGHK:MO:PQRVWZ" "c")) != -1) {
+			"AGHK:MO:PQRVWX:Z" "c")) != -1) {
 			switch (c) {
 			case 'A': do_alloca = 1;                break;
-			case 'B': flpt_const_overflow_fail = 1; break;	
-			case 'E': extra_checks = 0;             break;
 			case 'G':                               break;
 			case 'H': diagnose = 1;                 break;
 
@@ -118,7 +112,8 @@ int main(int argc, char **argv)
 				break;
       
 			case 'W': break;
-			case 'Z': report_versions = 1 ; break ;
+			case 'X': check = flags_check(optarg); break;
+			case 'Z': report_versions = 1;         break;
 
 			case 'c': do_comment = 1 ; break ;
       

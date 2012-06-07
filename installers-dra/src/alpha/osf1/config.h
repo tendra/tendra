@@ -50,7 +50,6 @@
 
 #define target_dbl_maxexp 308
 
-#define check_shape 1
 #define has64bits 1
 #define maxmin_implemented 0
 

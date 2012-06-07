@@ -72,7 +72,6 @@
 
 #define target_dbl_maxexp 4932
 
-#define check_shape 1
 #define value_of_null 0
 #define no_trap_on_nil_contents 1
 

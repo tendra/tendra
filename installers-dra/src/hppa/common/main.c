@@ -95,10 +95,9 @@ int main
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"ABDEGHKNO:PQRVWZ" "dh")) != -1) {
+			"ADGHKNO:PQRVWX:Z" "dh")) != -1) {
 			switch (c) {
 			case 'A': do_alloca = 1; break;
-			case 'B': flpt_const_overflow_fail = 1; break;
 			case 'D':
 				/* -D emulates cc's +Z flag */
 				PIC_code = 1;
@@ -111,7 +110,6 @@ int main
 				plusZ = 0;
 				break;
 
-			case 'E': extra_checks = 0; break;
 			case 'G': gcc_assembler = 1; break;
 
 			case 'H':
@@ -149,6 +147,7 @@ int main
 				break;
 
 			case 'W': break;
+			case 'X': check = flags_check(optarg); break;
 			case 'Z': report_versions = 1; break;
 
 			case 'h':

@@ -150,9 +150,7 @@ main ( int argc, char ** argv )
    * a concept specific to sparc; it controls the ".optim" pseudo-op.
    */
   optim_level = 2 ;			/* default, equivalent to -O2 */
-    
-  flpt_const_overflow_fail = 1;		/* constant floating point arithmetic
-					   fails installation, if overflow */
+
   strict_fl_div = 0;			/* don't mult by 1/constant */
   round_after_flop = 0;			/* don't round every time */
   do_dynamic_init = 1;                  /* Only applies to SunOS*/
@@ -161,13 +159,11 @@ main ( int argc, char ** argv )
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"ABDEGH:JK:MNO:PQRTVWZ"
+			"ADGH:JK:MNO:PQRTVWX:Z"
 			"acglo:i:r:un")) != -1) {
 			switch (c) {
 			case 'A': do_alloca = 1;                break;
-			case 'B': flpt_const_overflow_fail = 1; break;	
 			case 'D': PIC_code = 1;                 break;
-			case 'E': extra_checks = 1;             break;
 			case 'G':                               break;
 
 			case 'H':
@@ -232,6 +228,7 @@ main ( int argc, char ** argv )
 				break;
 	     
 			case 'W': break;
+			case 'X': check = flags_check(optarg); break;
 			case 'Z': report_versions = 1; break;
 
 			case 'a' : sysV_abi = 1; g_reg_max = 4; break;

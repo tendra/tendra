@@ -1047,10 +1047,12 @@ plus_fn(exp ap, exp b, int et)
 		setconstovf(ap);
 	}
 
-	/* if (extra_checks && sg && !in_proc_def &&
-	    (ov || (shape_size(sh(ap)) <= 32 && check_size(x, sg, 32)))) {
-	    failer(ADD_OUT_OF_BOUNDS);
-	    exit(EXIT_FAILURE);
+	/*
+	if (check & CHECK_EXTRA) {
+		 if (sg && !in_proc_def &&
+		    (ov || (shape_size(sh(ap)) <= 32 && check_size(x, sg, 32)))) {
+		    failer(ADD_OUT_OF_BOUNDS);
+		    exit(EXIT_FAILURE);
 	    };
 	 */
 	flpt_ret(fa);
@@ -1084,11 +1086,14 @@ minus_fn(exp ap, exp b, int et)
 		setconstovf(ap);
 	}
 
-	/* if (extra_checks && sg && !in_proc_def &&
-	    (ov || (shape_size(sh(ap)) <= 32 && check_size(x, sg, 32)))) {
-	    failer(ADD_OUT_OF_BOUNDS);
-	    exit(EXIT_FAILURE);
+	/*
+	if (check & CHECK_EXTRA) {
+		if (sg && !in_proc_def &&
+		    (ov || (shape_size(sh(ap)) <= 32 && check_size(x, sg, 32)))) {
+		    failer(ADD_OUT_OF_BOUNDS);
+		    exit(EXIT_FAILURE);
 	    };
+	}
 	 */
 	flpt_ret(fa);
 	flpt_ret(fb);
@@ -1153,10 +1158,12 @@ mult_fn(exp ap, exp b, int et)
 		setconstovf(ap);
 	}
 
-	if (sg && extra_checks &&
-	    (ov || (shape_size(sh(ap)) <= 32 && check_size(x, sg, 32)))) {
-		failer(MULT_OUT_OF_BOUNDS);
-		exit(EXIT_FAILURE);
+	if (check & CHECK_EXTRA) {
+		if (sg &&
+		    (ov || (shape_size(sh(ap)) <= 32 && check_size(x, sg, 32)))) {
+			failer(MULT_OUT_OF_BOUNDS);
+			exit(EXIT_FAILURE);
+		}
 	}
 
 	flpt_ret(fa);
@@ -2604,11 +2611,13 @@ refactor(exp e, exp scope)
 				/*
 #if has64bits
 				int sg = is_signed(sha);
-				if (extra_checks && sg && !in_proc_def &&
-				    shape_size(sha) <= 32 &&
-				    check_size(x, sg, 32)) {
-					failer("Change_variety out of range");
-					exit(EXIT_FAILURE);
+				if (check & CHECK_EXTRA) {
+					if (sg && !in_proc_def &&
+					    shape_size(sha) <= 32 &&
+					    check_size(x, sg, 32)) {
+						failer("Change_variety out of range");
+						exit(EXIT_FAILURE);
+					}
 				}
 #endif
 				 */

@@ -49,8 +49,6 @@
 
 #define target_dbl_maxexp 308
 
-#define check_shape 1
-
 #define remove_unused_counters 1
 #define remove_unused_index_counters 1
 #define good_index_factor(f) 0

@@ -43,8 +43,6 @@ char *dynamic_init_proc = (char *)0;
 proc_props *old_proc_props = (proc_props *)0;	/* initial value for pushing */
 int in_proc_def = 0;				/* initial value for pushing */
 
-int flpt_const_overflow_fail = 1;		/* flag can be cleared */
-
 aldef const_aldefs[6];
 int doing_aldefs;	/* cleared in start_make_capsule */
 
