@@ -22,20 +22,18 @@
 #include "exp.h"
 #include "expmacs.h"
 #include "tags.h"
-#include "check.h"
 #include "flags.h"
-#include "check_id.h"
 #include "const.h"
 #include "foralls.h"
 #include "shapemacs.h"
 #include "glopt.h"
 #include "inline.h"
-#include "global_opt.h"
 #include "case_opt.h"
 #include "externs.h"
 #include "me_fns.h"
 #include "install_fns.h"
 #include "szs_als.h"
+#include "refactor.h"
 
 #ifndef jump_table_density
 #define jump_table_density  60
@@ -838,7 +836,7 @@ set_up_unsigned_test(exp default_exp, exp id, int test_value, ntest test)
 
 	NAME__TAG = me_obtain(id);
 	CONT__TAG = me_u3(sh(id), NAME__TAG, cont_tag);
-	CHVAR__TAG = hold_check(me_u3(ulongsh, CONT__TAG, chvar_tag));
+	CHVAR__TAG = hold_refactor(me_u3(ulongsh, CONT__TAG, chvar_tag));
 	VAL__TAG = me_shint(ulongsh, test_value);
 	TEST__TAG = like_me_q1(1000, test, default_exp, CHVAR__TAG, VAL__TAG,
 			       test_tag);

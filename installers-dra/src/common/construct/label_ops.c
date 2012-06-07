@@ -15,7 +15,6 @@
 #include "expmacs.h"
 #include "tags.h"
 #include "label_ops.h"
-#include "check.h"
 #include "externs.h"
 #include "exp.h"
 #include "installglob.h"

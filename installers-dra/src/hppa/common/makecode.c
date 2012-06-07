@@ -23,7 +23,6 @@
 #include "exp.h"
 #include "exptypes.h"
 #include "externs.h"
-#include "check.h"
 #include "maxminmacs.h"
 #include "shapemacs.h"
 #include "basicread.h"
@@ -58,6 +57,7 @@
 #include "special.h"
 #include "loc_signal.h"
 #include "optimise.h"
+#include "refactor.h"
 
 #define outp fprintf
 #define isdbl(e)((bool)(name(e)!= shrealhd))

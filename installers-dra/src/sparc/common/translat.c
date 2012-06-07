@@ -38,8 +38,8 @@
  * During the creation of the data structure bottom-up optimisations
  * are performed. These are the optimisations which can be done when a
  * complete sub-tree of TDF is present, and are independent of the context
- * in which the sub-tree is used. They are defined in check.c and
- * check_id.c. These optimisation do such things as use the commutative
+ * in which the sub-tree is used. They are defined in refactor.c and
+ * refactor_id.c. These optimisation do such things as use the commutative
  * and associative laws for plus to collect together and evaluate
  * constants. More ambitious examples of these bottom-up optimisations
  * include all constant evaluation, elimination of inaccessible code, and

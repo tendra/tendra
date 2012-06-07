@@ -13,7 +13,6 @@
 #include "exptypes.h"
 #include "assembler.h"
 #include "basicread.h"
-#include "check.h"
 #include "expmacs.h"
 #include "exptypes.h"
 #include "exp.h"

@@ -37,8 +37,6 @@
 #include "sortmacs.h"
 #include "machine.h"
 #include "spec.h"
-#include "check_id.h"
-#include "check.h"
 #include "szs_als.h"
 #include "messages_c.h"
 #include "natmacs.h"
@@ -47,6 +45,7 @@
 #include "case_opt.h"
 #include "install_fns.h"
 #include "externs.h"
+#include "refactor.h"
 
 
 extern shape shcomplexsh;
@@ -105,7 +104,7 @@ f_change_floating_variety(error_treatment flpt_err, floating_variety r,
     exp new_y = f_change_floating_variety(flpt_err, real_fv, y);
 
     exp make_comp = f_make_complex(r, new_x, new_y);
-    c1 = me_complete_id(c1, make_comp);	/* Does a 'hold_check' */
+    c1 = me_complete_id(c1, make_comp);	/* Does a 'hold_refactor' */
 
     return c1;
   }
@@ -149,8 +148,8 @@ f_complex_conjugate(exp arg1)
 
     exp c1 = me_startid(complex_shape, arg1, 0);
 
-    exp obtain1_c1 = hold_check(me_obtain(c1));		/* contents of arg1 */
-    exp obtain2_c1 = hold_check(me_obtain(c1));
+    exp obtain1_c1 = hold_refactor(me_obtain(c1));		/* contents of arg1 */
+    exp obtain2_c1 = hold_refactor(me_obtain(c1));
 
     exp x1 = f_real_part(obtain1_c1);			/* re(arg1) */
     exp y1 = f_imaginary_part(obtain2_c1);		/* im(arg1) */
@@ -188,7 +187,7 @@ f_float_int(error_treatment flpt_err, floating_variety f, exp arg1)
 	shape real_shape = f_floating(fv);
 	exp zero;
 	exp res = f_float_int(flpt_err, fv, arg1);
-	res = hold_check(res);
+	res = hold_refactor(res);
 	flt_copy(flptnos[fzero_no], &flptnos[fzero_copy]);
 	zero = getexp(real_shape, nilexp, 1, nilexp, nilexp, 0, fzero_copy,
 		      real_tag);
@@ -201,7 +200,7 @@ f_float_int(error_treatment flpt_err, floating_variety f, exp arg1)
 	exp z = TDFcallaux(flpt_err, arg1, (is_signed(sh(arg1)) ?
 					    "__TDFUs_float" : "__TDFUu_float"),
 			   doublesh);
-	z = hold_check(z);
+	z = hold_refactor(z);
 	if (f != doublefv) {
 		z = me_c1(f_floating(f), flpt_err, z, chfl_tag);
 	}
@@ -210,7 +209,7 @@ f_float_int(error_treatment flpt_err, floating_variety f, exp arg1)
 	exp z = TDFcallaux(flpt_err, arg1, (is_signed(sh(arg1)) ?
 					    "__TDFUs_float" : "__TDFUu_float"),
 			   realsh);
-	z = hold_check(z);
+	z = hold_refactor(z);
 	if (f != realfv) {
 		z = me_c1(f_floating(f), flpt_err, z, chfl_tag);
 	}
@@ -282,10 +281,10 @@ f_floating_div(error_treatment ov_err, exp arg1, exp arg2)
       exp z1 = me_startid(complex_shape, arg1, 0);
       exp z2 = me_startid(complex_shape, arg2, 0);
 
-      exp obtain1_z1 = hold_check(me_obtain(z1));	/* contents of arg1 */
-      exp obtain2_z1 = hold_check(me_obtain(z1));
-      exp obtain1_z2 = hold_check(me_obtain(z2));	/* contents of arg2 */
-      exp obtain2_z2 = hold_check(me_obtain(z2));
+      exp obtain1_z1 = hold_refactor(me_obtain(z1));	/* contents of arg1 */
+      exp obtain2_z1 = hold_refactor(me_obtain(z1));
+      exp obtain1_z2 = hold_refactor(me_obtain(z2));	/* contents of arg2 */
+      exp obtain2_z2 = hold_refactor(me_obtain(z2));
 
       exp z1_re = f_real_part(obtain1_z1);		/* re(arg1) */
       exp z2_re = f_real_part(obtain1_z2);		/* re(arg2) */
@@ -297,19 +296,19 @@ f_floating_div(error_treatment ov_err, exp arg1, exp arg2)
       exp y1 = me_startid(real_shape, z1_im, 0);
       exp y2 = me_startid(real_shape, z2_im, 0);
 
-      exp obtain1_x1 = hold_check(me_obtain(x1)); /* x1 is used twice */
-      exp obtain2_x1 = hold_check(me_obtain(x1));
-      exp obtain1_y1 = hold_check(me_obtain(y1)); /* y1 is used twice */
-      exp obtain2_y1 = hold_check(me_obtain(y1));
+      exp obtain1_x1 = hold_refactor(me_obtain(x1)); /* x1 is used twice */
+      exp obtain2_x1 = hold_refactor(me_obtain(x1));
+      exp obtain1_y1 = hold_refactor(me_obtain(y1)); /* y1 is used twice */
+      exp obtain2_y1 = hold_refactor(me_obtain(y1));
 
-      exp obtain1_x2 = hold_check(me_obtain(x2)); /* x2 is used four times */
-      exp obtain2_x2 = hold_check(me_obtain(x2));
-      exp obtain3_x2 = hold_check(me_obtain(x2));
-      exp obtain4_x2 = hold_check(me_obtain(x2));
-      exp obtain1_y2 = hold_check(me_obtain(y2)); /* y2 is used four times */
-      exp obtain2_y2 = hold_check(me_obtain(y2));
-      exp obtain3_y2 = hold_check(me_obtain(y2));
-      exp obtain4_y2 = hold_check(me_obtain(y2));
+      exp obtain1_x2 = hold_refactor(me_obtain(x2)); /* x2 is used four times */
+      exp obtain2_x2 = hold_refactor(me_obtain(x2));
+      exp obtain3_x2 = hold_refactor(me_obtain(x2));
+      exp obtain4_x2 = hold_refactor(me_obtain(x2));
+      exp obtain1_y2 = hold_refactor(me_obtain(y2)); /* y2 is used four times */
+      exp obtain2_y2 = hold_refactor(me_obtain(y2));
+      exp obtain3_y2 = hold_refactor(me_obtain(y2));
+      exp obtain4_y2 = hold_refactor(me_obtain(y2));
 
       exp mult_x2_x2 = f_bin_floating_mult(ov_err, obtain1_x2, obtain2_x2);
       exp mult_y2_y2 = f_bin_floating_mult(ov_err, obtain1_y2, obtain2_y2);
@@ -324,8 +323,8 @@ f_floating_div(error_treatment ov_err, exp arg1, exp arg2)
 
       exp denom = me_startid(real_shape, plus1, 0);
 
-      exp obtain_denom1 = hold_check(me_obtain(denom));
-      exp obtain_denom2 = hold_check(me_obtain(denom));
+      exp obtain_denom1 = hold_refactor(me_obtain(denom));
+      exp obtain_denom2 = hold_refactor(me_obtain(denom));
 
       exp answer_re = f_floating_div(ov_err, plus2, obtain_denom1);
       exp answer_im = f_floating_div(ov_err, minus1, obtain_denom2);
@@ -344,7 +343,7 @@ f_floating_div(error_treatment ov_err, exp arg1, exp arg2)
 #endif
 #if ishppa
   {
-    exp r = hold_check(me_b1(ov_err, arg1, arg2, fdiv_tag));
+    exp r = hold_refactor(me_b1(ov_err, arg1, arg2, fdiv_tag));
     if (!optop(r) && name(sh(r)) == doublehd) {
       exp id = me_startid(sh(r), r, 0);
       exp tmp = me_complete_id(id, me_obtain(id));
@@ -354,7 +353,7 @@ f_floating_div(error_treatment ov_err, exp arg1, exp arg2)
      }
   }
 #endif
-  return hold_check(me_b1(ov_err, arg1, arg2, fdiv_tag));
+  return hold_refactor(me_b1(ov_err, arg1, arg2, fdiv_tag));
 }
 
 
@@ -375,7 +374,7 @@ f_floating_maximum(error_treatment flpt_err, exp arg1, exp arg2)
     failer(CHSH_FLMAX);
   }
 #endif
-  return hold_check(me_b1(flpt_err, arg1, arg2, fmax_tag));
+  return hold_refactor(me_b1(flpt_err, arg1, arg2, fmax_tag));
 }
 
 
@@ -397,7 +396,7 @@ f_floating_minimum(error_treatment flpt_err, exp arg1, exp arg2)
     failer(CHSH_FLMIN);
   }
 #endif
-  return hold_check(me_b1(flpt_err, arg1, arg2, fmin_tag));
+  return hold_refactor(me_b1(flpt_err, arg1, arg2, fmin_tag));
 }
 
 
@@ -593,13 +592,13 @@ f_floating_power(error_treatment ov_err, exp arg1, exp arg2)
 	      exp rem_n_2 = f_rem0(f_impossible, f_impossible, me_contents(n),
 				   constant2);
 
-	      exp assign_u = hold_check(me_b3(f_top, me_obtain(u),
+	      exp assign_u = hold_refactor(me_b3(f_top, me_obtain(u),
 					      me_contents(x), ass_tag));
-	      exp assign_v = hold_check(me_b3(f_top, me_obtain(v),
+	      exp assign_v = hold_refactor(me_b3(f_top, me_obtain(v),
 					      me_contents(y), ass_tag));
 
 	      exp top_cell = me_l1(f_top, top_tag);
-	      exp alt_labst = hold_check(me_b3(sh(top_cell),
+	      exp alt_labst = hold_refactor(me_b3(sh(top_cell),
 					       me_null(f_top, 0, clear_tag),
 					       top_cell, labst_tag));
 
@@ -607,11 +606,11 @@ f_floating_power(error_treatment ov_err, exp arg1, exp arg2)
 					    make_label(alt_labst), rem_n_2,
 					    constant1);
 
-	      exp seq_zero = hold_check(me_b2(is_n_odd, assign_u, 0));
-	      exp seq = hold_check(me_b3(sh(assign_v), seq_zero, assign_v,
+	      exp seq_zero = hold_refactor(me_b2(is_n_odd, assign_u, 0));
+	      exp seq = hold_refactor(me_b3(sh(assign_v), seq_zero, assign_v,
 					 seq_tag));
 
-	      reinitialise_w = hold_check(me_b3(lub_shape(sh(seq),
+	      reinitialise_w = hold_refactor(me_b3(lub_shape(sh(seq),
 							  sh(alt_labst)),
 						seq, alt_labst, cond_tag));
 	  }
@@ -633,13 +632,13 @@ f_floating_power(error_treatment ov_err, exp arg1, exp arg2)
 	      exp answer_im = f_bin_floating_plus(ov_err, me_obtain(tmp),
 						   me_obtain(tmp));
 
-	      exp assign_x = hold_check(me_b3(f_top, me_obtain(x), answer_re,
+	      exp assign_x = hold_refactor(me_b3(f_top, me_obtain(x), answer_re,
 					      ass_tag));
-	      exp assign_y = hold_check(me_b3(f_top, me_obtain(y), answer_im,
+	      exp assign_y = hold_refactor(me_b3(f_top, me_obtain(y), answer_im,
 					      ass_tag));
 
-	      exp seq_zero = hold_check(me_u2(assign_x, 0));
-	      exp seq = hold_check(me_b3(sh(assign_y), seq_zero, assign_y,
+	      exp seq_zero = hold_refactor(me_u2(assign_x, 0));
+	      exp seq = hold_refactor(me_b3(sh(assign_y), seq_zero, assign_y,
 					 seq_tag));
 
 	      square_z = me_complete_id(tmp, seq);
@@ -663,13 +662,13 @@ f_floating_power(error_treatment ov_err, exp arg1, exp arg2)
 	      exp answer_im = f_bin_floating_plus(ov_err, mult_x_v,
 						  me_obtain(tmp));
 
-	      exp assign_u = hold_check(me_b3(f_top, me_obtain(u), answer_re,
+	      exp assign_u = hold_refactor(me_b3(f_top, me_obtain(u), answer_re,
 					      ass_tag));
-	      exp assign_v = hold_check(me_b3(f_top, me_obtain(v), answer_im,
+	      exp assign_v = hold_refactor(me_b3(f_top, me_obtain(v), answer_im,
 					      ass_tag));
 
-	      exp seq_zero = hold_check(me_u2(assign_u, 0));
-	      exp seq = hold_check(me_b3(sh(assign_v), seq_zero, assign_v,
+	      exp seq_zero = hold_refactor(me_u2(assign_u, 0));
+	      exp seq = hold_refactor(me_b3(sh(assign_v), seq_zero, assign_v,
 					 seq_tag));
 
 	      mult_z_w = me_complete_id(tmp, seq);
@@ -683,7 +682,7 @@ f_floating_power(error_treatment ov_err, exp arg1, exp arg2)
 
 	      exp answer = f_div0(f_impossible, f_impossible, me_contents(n),
 				  constant2);
-	      half_n = hold_check(me_b3(f_top, me_obtain(n), answer, ass_tag));
+	      half_n = hold_refactor(me_b3(f_top, me_obtain(n), answer, ass_tag));
 	  }
 
 
@@ -697,18 +696,18 @@ f_floating_power(error_treatment ov_err, exp arg1, exp arg2)
 				   constant2);
 
 	      exp top_cell = me_l1(f_top, top_tag);
-	      exp alt_labst = hold_check(me_b3(f_top, me_null(f_top, 0,
+	      exp alt_labst = hold_refactor(me_b3(f_top, me_null(f_top, 0,
 							      clear_tag),
 					       top_cell, labst_tag));
 
 	      exp is_n_odd = f_integer_test(no_nat_option, f_equal,
 					    make_label(alt_labst), rem_n_2,
 					    constant1);
-	      exp seq_zero = hold_check(me_u2(is_n_odd, 0));
-	      exp seq = hold_check(me_b3(sh(mult_z_w), seq_zero, mult_z_w,
+	      exp seq_zero = hold_refactor(me_u2(is_n_odd, 0));
+	      exp seq = hold_refactor(me_b3(sh(mult_z_w), seq_zero, mult_z_w,
 					 seq_tag));
 
-	      update_w = hold_check(me_b3(lub_shape(sh(seq), sh(alt_labst)),
+	      update_w = hold_refactor(me_b3(lub_shape(sh(seq), sh(alt_labst)),
 					  seq, alt_labst, cond_tag));
 	  }
 
@@ -721,7 +720,7 @@ f_floating_power(error_treatment ov_err, exp arg1, exp arg2)
 	      exp constant1 = me_shint(integer_shape, 1);
 	      exp top_cell = me_l1(f_top, top_tag);
 
-	      body_labst = hold_check(me_b3(sh(top_cell),
+	      body_labst = hold_refactor(me_b3(sh(top_cell),
 					    me_null(f_top, 0, clear_tag),
 					    top_cell, labst_tag));
 
@@ -733,16 +732,16 @@ f_floating_power(error_treatment ov_err, exp arg1, exp arg2)
 	      setbro(square_z, half_n);	/*  insert half_n between   */
 	      setbro(half_n, update_w);	/*  square_x and update_w   */
 	      clearlast(half_n);
-	      seq_zero = hold_check(seq_zero);
+	      seq_zero = hold_refactor(seq_zero);
 
-	      seq = hold_check(me_b3(sh(if_n_equals_1), seq_zero,
+	      seq = hold_refactor(me_b3(sh(if_n_equals_1), seq_zero,
 				     if_n_equals_1, seq_tag));
 
 	      setbro(son(body_labst), seq);
 	      clearlast(son(body_labst));
 	      setfather(body_labst, seq);
 
-	      repeat_body = hold_check(me_b3(sh(seq), top_cell, body_labst,
+	      repeat_body = hold_refactor(me_b3(sh(seq), top_cell, body_labst,
 					     rep_tag));
 	      note_repeat(repeat_body);
 	  }
@@ -754,7 +753,7 @@ f_floating_power(error_treatment ov_err, exp arg1, exp arg2)
 	      exp constant1 = me_shint(integer_shape, 1);
 
 	      exp top_cell = me_l1(f_top, top_tag);
-	      exp alt_labst = hold_check(me_b3(f_top,
+	      exp alt_labst = hold_refactor(me_b3(f_top,
 					       me_null(f_top, 0, clear_tag),
 					       top_cell, labst_tag));
 
@@ -762,11 +761,11 @@ f_floating_power(error_treatment ov_err, exp arg1, exp arg2)
 					     make_label(alt_labst),
 					     me_contents(n), constant1);
 
-	      exp seq_zero = hold_check(me_u2(is_n_gt_1, 0));
-	      exp seq = hold_check(me_b3(sh(repeat_body), seq_zero,
+	      exp seq_zero = hold_refactor(me_u2(is_n_gt_1, 0));
+	      exp seq = hold_refactor(me_b3(sh(repeat_body), seq_zero,
 					 repeat_body, seq_tag));
 
-	      main_loop = hold_check(me_b3(lub_shape(sh(seq),sh(alt_labst)),
+	      main_loop = hold_refactor(me_b3(lub_shape(sh(seq),sh(alt_labst)),
 					   seq, alt_labst, cond_tag));
 	  }
 
@@ -783,7 +782,7 @@ f_floating_power(error_treatment ov_err, exp arg1, exp arg2)
 	  {
 	      exp constant0 = me_shint(integer_shape, 0);
 
-	      exp alt_labst = hold_check(me_b3(sh(make_comp1),
+	      exp alt_labst = hold_refactor(me_b3(sh(make_comp1),
 					       me_null(f_top, 0, clear_tag),
 					       make_comp1, labst_tag));
 
@@ -791,16 +790,16 @@ f_floating_power(error_treatment ov_err, exp arg1, exp arg2)
 						    make_label(alt_labst),
 						    me_obtain(sn), constant0);
 
-	      exp seq_zero = hold_check(me_u2(is_arg2_negative, 0));
-	      exp seq = hold_check(me_b3(sh(make_comp2), seq_zero, make_comp2,
+	      exp seq_zero = hold_refactor(me_u2(is_arg2_negative, 0));
+	      exp seq = hold_refactor(me_b3(sh(make_comp2), seq_zero, make_comp2,
 					 seq_tag));
 
-	      make_comp = hold_check(me_b3(lub_shape(sh(seq),sh(alt_labst)),
+	      make_comp = hold_refactor(me_b3(lub_shape(sh(seq),sh(alt_labst)),
 					   seq, alt_labst, cond_tag));
 	  }
 
-      seq_zero = hold_check(me_b2(reinitialise_w, main_loop, 0));
-      seq = hold_check(me_b3(sh(make_comp), seq_zero, make_comp, seq_tag));
+      seq_zero = hold_refactor(me_b2(reinitialise_w, main_loop, 0));
+      seq = hold_refactor(me_b3(sh(make_comp), seq_zero, make_comp, seq_tag));
 
 
       v = me_complete_id(v, seq);
@@ -866,7 +865,7 @@ f_floating_minus(error_treatment ov_err, exp arg1, exp arg2)
 #endif
 #if ishppa
   {
-    exp r = hold_check(me_b1(ov_err, arg1, arg2, fminus_tag));
+    exp r = hold_refactor(me_b1(ov_err, arg1, arg2, fminus_tag));
     if (!optop(r) && name(sh(r)) == doublehd) {
       exp id = me_startid(sh(r), r, 0);
       exp tmp = me_complete_id(id, me_obtain(id));
@@ -876,7 +875,7 @@ f_floating_minus(error_treatment ov_err, exp arg1, exp arg2)
     }
   }
 #endif
-  return hold_check(me_b1(ov_err, arg1, arg2, fminus_tag));
+  return hold_refactor(me_b1(ov_err, arg1, arg2, fminus_tag));
 }
 
 
@@ -1015,8 +1014,8 @@ f_floating_negate(error_treatment ov_err, exp arg1)
 
       exp c1 = me_startid(complex_shape, arg1, 0);
 
-      exp obtain1_c1 = hold_check(me_obtain(c1));	/* contents of arg1 */
-      exp obtain2_c1 = hold_check(me_obtain(c1));
+      exp obtain1_c1 = hold_refactor(me_obtain(c1));	/* contents of arg1 */
+      exp obtain2_c1 = hold_refactor(me_obtain(c1));
 
       exp x1 = f_real_part(obtain1_c1);			/* re(arg1) */
       exp y1 = f_imaginary_part(obtain2_c1);		/* im(arg1) */
@@ -1032,7 +1031,7 @@ f_floating_negate(error_treatment ov_err, exp arg1)
 #endif
 #if ishppa
   {
-    exp r = hold_check(me_u1(ov_err, arg1, fneg_tag));
+    exp r = hold_refactor(me_u1(ov_err, arg1, fneg_tag));
     if (!optop(r) && name(sh(r)) == doublehd) {
       exp id = me_startid(sh(r), r, 0);
       exp tmp = me_complete_id(id,me_obtain(id));
@@ -1042,7 +1041,7 @@ f_floating_negate(error_treatment ov_err, exp arg1)
     }
   }
 #endif
-  return hold_check(me_u1(ov_err, arg1, fneg_tag));
+  return hold_refactor(me_u1(ov_err, arg1, fneg_tag));
 }
 
 
@@ -1157,10 +1156,10 @@ f_floating_test(nat_option prob, error_treatment flpt_err, ntest nt,
       exp z1 = me_startid(complex_shape, arg1, 0);
       exp z2 = me_startid(complex_shape, arg2, 0);
 
-      exp obtain1_z1 = hold_check(me_obtain(z1));	/* contents of arg1 */
-      exp obtain2_z1 = hold_check(me_obtain(z1));
-      exp obtain1_z2 = hold_check(me_obtain(z2));	/* contents of arg2 */
-      exp obtain2_z2 = hold_check(me_obtain(z2));
+      exp obtain1_z1 = hold_refactor(me_obtain(z1));	/* contents of arg1 */
+      exp obtain2_z1 = hold_refactor(me_obtain(z1));
+      exp obtain1_z2 = hold_refactor(me_obtain(z2));	/* contents of arg2 */
+      exp obtain2_z2 = hold_refactor(me_obtain(z2));
 
       exp x1 = f_real_part(obtain1_z1);			/* re(arg1) */
       exp x2 = f_real_part(obtain1_z2);			/* re(arg2) */
@@ -1177,26 +1176,26 @@ f_floating_test(nat_option prob, error_treatment flpt_err, ntest nt,
 	  exp test1 = f_floating_test(prob, flpt_err, f_equal, dest, x1, x2);
 	  exp test2 = f_floating_test(prob, flpt_err, f_equal, dest, y1, y2);
 
-	  exp seq_zero = hold_check(me_u2(test1, 0));
-	  exp seq = hold_check(me_b3(sh(test2), seq_zero, test2, seq_tag));
+	  exp seq_zero = hold_refactor(me_u2(test1, 0));
+	  exp seq = hold_refactor(me_b3(sh(test2), seq_zero, test2, seq_tag));
 	  z2 = me_complete_id(z2, seq);
       } else {
 	  /* inequality of z1 and z2 */
 	  exp seq, conditional;
 
 	  exp top_cell = me_l1(f_top, top_tag);
-	  exp alt_labst = hold_check(me_b3(f_top, me_null(f_top, 0, clear_tag),
+	  exp alt_labst = hold_refactor(me_b3(f_top, me_null(f_top, 0, clear_tag),
 					   top_cell, labst_tag));
 
 	  exp test1 = f_floating_test(prob, flpt_err, f_equal,
 				      make_label(alt_labst), x1, x2);
 	  exp test2 = f_floating_test(prob, flpt_err, f_not_equal, dest, y1,
 				      y2);
-      	  exp seq_zero = hold_check(me_b2(test1, test2, 0));
+      	  exp seq_zero = hold_refactor(me_b2(test1, test2, 0));
 
-	  seq = hold_check(me_b3(f_bottom, seq_zero, f_make_top(), seq_tag));
+	  seq = hold_refactor(me_b3(f_bottom, seq_zero, f_make_top(), seq_tag));
 
-	  conditional = hold_check(me_b3(f_top, seq, alt_labst, cond_tag));
+	  conditional = hold_refactor(me_b3(f_top, seq, alt_labst, cond_tag));
 
 	  z2 = me_complete_id(z2, conditional);
       }
@@ -1230,7 +1229,7 @@ f_imaginary_part(exp arg1)
   {
     exp t = me_u3(real_shape, arg1, field_tag);
     no(t) = shape_size(real_shape);
-    return hold_check(t);
+    return hold_refactor(t);
   }
 #else
   return me_u3(real_shape, arg1, imag_tag);
@@ -1258,7 +1257,7 @@ f_real_part(exp arg1)
   {
     exp t = me_u3(real_shape, arg1, field_tag);
     no(t) = 0;
-    return hold_check(t);
+    return hold_refactor(t);
   }
 #else
   return me_u3(real_shape, arg1, realpart_tag);
@@ -1306,7 +1305,7 @@ f_make_complex(floating_variety f, exp arg1, exp arg2)
 	 setbro(val2, arg2);
 	 clearlast(val2);
 	 setfather(r, arg2);
-	 return hold_check(r);
+	 return hold_refactor(r);
        }
      case complexfv:
        {
@@ -1324,7 +1323,7 @@ f_make_complex(floating_variety f, exp arg1, exp arg2)
 	 setbro(val2, arg2);
 	 clearlast(val2);
 	 setfather(r, arg2);
-	 return hold_check(r);
+	 return hold_refactor(r);
        }
      case complexdoublefv:
        {
@@ -1342,7 +1341,7 @@ f_make_complex(floating_variety f, exp arg1, exp arg2)
 	 setbro(val2, arg2);
 	 clearlast(val2);
 	 setfather(r, arg2);
-	 return hold_check(r);
+	 return hold_refactor(r);
        }
      default:
        {
@@ -1543,10 +1542,10 @@ f_round_with_mode(error_treatment flpt_err, rounding_mode mode, variety r,
 		char *fn;
 		exp e;
 #if use_long_double
-	        arg1 = hold_check(f_change_floating_variety(f_impossible, 2,
+	        arg1 = hold_refactor(f_change_floating_variety(f_impossible, 2,
 							    arg1));
 #else
-	        arg1 = hold_check(f_change_floating_variety(f_impossible, 1,
+	        arg1 = hold_refactor(f_change_floating_variety(f_impossible, 1,
 							    arg1));
 #endif
 		switch (mode) {
@@ -1566,7 +1565,7 @@ f_round_with_mode(error_treatment flpt_err, rounding_mode mode, variety r,
 			fn = (s) ? "__TDFUs_ASSTATE" : "__TDFUu_R2ASSTATE";
 		}
 		e = TDFcallaux(flpt_err, arg1, fn, r);
-		return hold_check(e);
+		return hold_refactor(e);
 	}
 #endif
 #if ismips
@@ -1582,7 +1581,7 @@ f_round_with_mode(error_treatment flpt_err, rounding_mode mode, variety r,
 		exp lb = getexp(f_top, nilexp, 0, hldr, nilexp, 0, 0,
 				labst_tag);
 
-		exp fmax = hold_check(f_float_int(f_impossible, fa,
+		exp fmax = hold_refactor(f_float_int(f_impossible, fa,
 						  me_shint(ulongsh,
 							   0x80000000)));
 		exp d2 = me_startid(r, fmax, 0);
@@ -1862,8 +1861,8 @@ void square_x_iy(error_treatment ov_err, exp *arg1, exp *arg2, exp arg3)
 
     exp tmp = push(arg3, me_startid(sh(x), mult_x_y, 0));
 
-    exp obtain1_tmp = hold_check(me_obtain(tmp));
-    exp obtain2_tmp = hold_check(me_obtain(tmp));
+    exp obtain1_tmp = hold_refactor(me_obtain(tmp));
+    exp obtain2_tmp = hold_refactor(me_obtain(tmp));
 
     exp answer_re = f_bin_floating_mult(ov_err, minus_x_y, plus_x_y);
     exp answer_im = f_bin_floating_plus(ov_err, obtain1_tmp, obtain2_tmp);
@@ -1903,7 +1902,7 @@ void mult_w_by_z(error_treatment ov_err, exp *arg1, exp *arg2, exp arg3,
     exp mult_y_v = f_bin_floating_mult(ov_err, obtain2_y, obtain2_v);
 
     exp tmp = push(arg5, me_startid(sh(x), mult_y_u, 0));
-    exp obtain_tmp = hold_check(me_obtain(tmp));
+    exp obtain_tmp = hold_refactor(me_obtain(tmp));
 
     exp answer_re = f_floating_minus(ov_err, mult_x_u, mult_y_v);
     exp answer_im = f_bin_floating_plus(ov_err, mult_x_v, obtain_tmp);
@@ -1983,7 +1982,7 @@ me_contents(exp arg1)
 {
   exp r = me_u3(sh(arg1), me_obtain(arg1), cont_tag);
 
-  return hold_check(r);
+  return hold_refactor(r);
 }
 
 
@@ -2079,14 +2078,14 @@ real_power(error_treatment ov_err, exp arg1, exp arg2)
     tmp_shape = sh(arg1);
     if (is_integer(tmp_shape) && !is_signed(tmp_shape) &&
 	shape_size(sh(arg1)) < 32 && eq_et(ov_err, f_wrap)) {
-	arg1 = hold_check(f_change_variety(f_impossible, ulongsh, arg1));
+	arg1 = hold_refactor(f_change_variety(f_impossible, ulongsh, arg1));
     }
 
 
 /* Widen to 'int' if necessary - guarantees negate will work */
 
     if (shape_size(sh(arg2)) < 32) {
-	arg2 = hold_check(f_change_variety(f_impossible, slongsh, arg2));
+	arg2 = hold_refactor(f_change_variety(f_impossible, slongsh, arg2));
     }
 
     real_shape = sh(arg1);	/* shape of the result */
@@ -2101,7 +2100,7 @@ real_power(error_treatment ov_err, exp arg1, exp arg2)
     } else {
 	real1 = me_shint(integer_shape,1);
 	real1 = f_float_int(f_impossible, fv_of_shape(real_shape), real1);
-	real1 = hold_check (real1);	/* This should be reduced to 1.0 */
+	real1 = hold_refactor(real1);	/* This should be reduced to 1.0 */
     }
     real1 = push(sn, me_startid(real_shape, real1, 0));
 
@@ -2129,7 +2128,7 @@ real_power(error_treatment ov_err, exp arg1, exp arg2)
 		failer("constant value out of range: power: must be non-negative");
 	    } else {
 		/* take reciprocal */
-		arg1 = hold_check(f_floating_div(ov_err, me_obtain(real1),
+		arg1 = hold_refactor(f_floating_div(ov_err, me_obtain(real1),
 						 arg1));
 	    }
 	}
@@ -2149,7 +2148,7 @@ real_power(error_treatment ov_err, exp arg1, exp arg2)
 		exp mult_x_x;
 		mult_x_x = (*f_real_mult)(ov_err, me_obtain(x), me_obtain(x));
 		mylast = x = push(mylast, me_startid(real_shape,
-						     hold_check(mult_x_x), 0));
+						     hold_refactor(mult_x_x), 0));
 		n = n / 2;
 	    }
 
@@ -2169,14 +2168,14 @@ real_power(error_treatment ov_err, exp arg1, exp arg2)
 		exp mult_x_x;
 		mult_x_x = (*f_real_mult)(ov_err, me_obtain(x), me_obtain(x));
 		mylast = x = push(mylast, me_startid(real_shape,
-						     hold_check(mult_x_x), 0));
+						     hold_refactor(mult_x_x), 0));
 		n = n / 2;
 		if ((n % 2) == 1) {
 		    exp mult_w_x;
 		    mult_w_x = (*f_real_mult)(ov_err, me_obtain(w),
 					      me_obtain(x));
 		    mylast = w = push(mylast, me_startid(real_shape,
-							 hold_check(mult_w_x),
+							 hold_refactor(mult_w_x),
 							 0));
 		}
 	    }
@@ -2204,14 +2203,14 @@ real_power(error_treatment ov_err, exp arg1, exp arg2)
 	{
 	    exp rem_n_2 = f_and(me_contents(n), me_shint(integer_shape, 1));
 	    exp assign_w = f_assign(me_obtain(w), me_contents(x));
-	    exp alt_labst = hold_check(me_b3(f_top, f_make_value(f_top),
+	    exp alt_labst = hold_refactor(me_b3(f_top, f_make_value(f_top),
 					     f_make_top(), labst_tag));
 	    exp is_n_odd = f_integer_test(no_nat_option, f_equal,
 					  make_label(alt_labst), rem_n_2,
 					  me_shint(integer_shape, 1));
 	    exp seq = f_sequence(add_exp_list(new_exp_list(1), is_n_odd, 0),
 				 assign_w);
-	    reinitialise_w = hold_check(me_b3(lub_shape(sh(seq),sh(alt_labst)),
+	    reinitialise_w = hold_refactor(me_b3(lub_shape(sh(seq),sh(alt_labst)),
 					      seq, alt_labst, cond_tag));
 	}
 
@@ -2239,14 +2238,14 @@ real_power(error_treatment ov_err, exp arg1, exp arg2)
 	/*  if n is odd then w = z * w  */
 	{
 	    exp rem_n_2 = f_and(me_contents(n), me_shint(integer_shape, 1));
-	    exp alt_labst = hold_check(me_b3(f_top, f_make_value(f_top),
+	    exp alt_labst = hold_refactor(me_b3(f_top, f_make_value(f_top),
 					     f_make_top(), labst_tag));
 	    exp is_n_odd = f_integer_test(no_nat_option, f_equal,
 					  make_label(alt_labst),
 					  rem_n_2, me_shint(integer_shape, 1));
 	    exp seq = f_sequence(add_exp_list(new_exp_list(1),
 					      is_n_odd, 0), mult_x_w);
-	    update_w = hold_check(me_b3(lub_shape(sh(seq),sh(alt_labst)),
+	    update_w = hold_refactor(me_b3(lub_shape(sh(seq),sh(alt_labst)),
 					seq, alt_labst, cond_tag));
 	}
 
@@ -2255,7 +2254,7 @@ real_power(error_treatment ov_err, exp arg1, exp arg2)
 	    exp body_labst, if_n_equals_1;
 	    exp_list st;
 
-	    body_labst = hold_check(me_b3(f_top, f_make_value(f_top),
+	    body_labst = hold_refactor(me_b3(f_top, f_make_value(f_top),
 					  f_make_top(), labst_tag));
 
 	    if_n_equals_1 = f_integer_test(no_nat_option, f_equal,
@@ -2274,14 +2273,14 @@ real_power(error_treatment ov_err, exp arg1, exp arg2)
 	    clearlast (son(body_labst));	/*  of the labst           */
 	    setfather(body_labst, seq);
 
-	    repeat_body = hold_check(me_b3(sh(body_labst), f_make_top(),
+	    repeat_body = hold_refactor(me_b3(sh(body_labst), f_make_top(),
 					   body_labst, rep_tag));
 	    note_repeat(repeat_body);
 	}
 
 	/*  make loop - only done if  mod(n) > 1  */
 	{
-	    exp alt_labst = hold_check(me_b3(f_top, f_make_value(f_top),
+	    exp alt_labst = hold_refactor(me_b3(f_top, f_make_value(f_top),
 					     f_make_top(), labst_tag));
 	    exp is_n_gt_1 = f_integer_test(no_nat_option, f_greater_than,
 					   make_label(alt_labst),
@@ -2289,7 +2288,7 @@ real_power(error_treatment ov_err, exp arg1, exp arg2)
 					   me_shint(integer_shape, 1));
 	    exp seq = f_sequence(add_exp_list(new_exp_list(1),
 					      is_n_gt_1, 0), repeat_body);
-	    main_loop = hold_check(me_b3(lub_shape(sh(seq),sh(alt_labst)),
+	    main_loop = hold_refactor(me_b3(lub_shape(sh(seq),sh(alt_labst)),
 					 seq, alt_labst, cond_tag));
 	}
 
@@ -2298,7 +2297,7 @@ real_power(error_treatment ov_err, exp arg1, exp arg2)
 	} else {
 	    exp make_comp2 = f_floating_div(ov_err, me_obtain(real1),
 					    me_contents(w));
-	    exp alt_labst = hold_check(me_b3(real_shape, f_make_value(f_top),
+	    exp alt_labst = hold_refactor(me_b3(real_shape, f_make_value(f_top),
 					     make_comp2, labst_tag));
 	    exp is_arg2_positive = f_integer_test(no_nat_option,
 						  f_greater_than_or_equal,
@@ -2309,7 +2308,7 @@ real_power(error_treatment ov_err, exp arg1, exp arg2)
 					      is_arg2_positive, 0),
 				 me_contents(w));
 
-	    make_comp = hold_check(me_b3(lub_shape(sh(seq),sh(alt_labst)), seq,
+	    make_comp = hold_refactor(me_b3(lub_shape(sh(seq),sh(alt_labst)), seq,
 					 alt_labst, cond_tag));
 	}
 

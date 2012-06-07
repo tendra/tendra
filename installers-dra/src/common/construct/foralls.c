@@ -15,9 +15,7 @@
 #include "tags.h"
 #include "expmacs.h"
 #include "exp.h"
-#include "check.h"
 #include "shapemacs.h"
-#include "check_id.h"
 #include "install_fns.h"
 #include "const.h"
 #include "constmacs.h"
@@ -27,7 +25,7 @@
 #include "externs.h"
 #include "foralls.h"
 #include "optimise.h"
-#include "optimise.h"
+#include "refactor_id.h"
 
 #define subvar 0x100
 
@@ -1669,7 +1667,7 @@ do_one_rep(exp loop)
 
 		/* avoid n-squared factor */
 		if (res && no(incrdec) < 10) {
-			IGNORE check_id(incrdec, bro(son(incrdec)));
+			IGNORE refactor_id(incrdec, bro(son(incrdec)));
 		}
 
 		xincrs=nincr;

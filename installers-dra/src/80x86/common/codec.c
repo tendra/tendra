@@ -476,7 +476,7 @@ void codec
 	    sh(qw.where_exp) = sh(a);
 	    qw.where_off = 0;
 	    coder(qw, stack, a);
-	    change_var_check(sh(e), qw, dest);
+	    change_var_refactor(sh(e), qw, dest);
 	    overflow_e = old_overflow_e;
 	    retcell(qw.where_exp);
             cond1_set = 0;
@@ -488,7 +488,7 @@ void codec
 	  overflow_e = old_overflow_e;
 	  return;
 	};
-	change_var_check(sh(e), mw(a, 0), dest);
+	change_var_refactor(sh(e), mw(a, 0), dest);
 	overflow_e = old_overflow_e;
 	return;
       };

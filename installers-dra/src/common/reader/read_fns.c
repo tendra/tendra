@@ -41,7 +41,6 @@
 #include "sortmacs.h"
 #include "machine.h"
 #include "spec.h"
-#include "check.h"
 #include "aldefs.h"
 #include "externs.h"
 #include "diag_fns.h"	/* OLD DIAGS */

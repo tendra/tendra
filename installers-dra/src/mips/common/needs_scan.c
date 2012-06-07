@@ -42,7 +42,6 @@ the proc independent (common to other  translators)
 #include "flags.h"
 #include "main.h"
 #include "basicread.h"
-#include "check.h"
 #include "me_fns.h"
 #include "externs.h"
 #include "needs_scan.h"

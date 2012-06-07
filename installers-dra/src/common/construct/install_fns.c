@@ -48,8 +48,6 @@
 #include "sortmacs.h"
 #include "machine.h"
 #include "spec.h"
-#include "check_id.h"
-#include "check.h"
 #include "szs_als.h"
 #include "messages_c.h"
 #include "natmacs.h"
@@ -59,6 +57,8 @@
 #include "install_fns.h"
 #include "externs.h"
 #include "optimise.h"
+#include "refactor.h"
+#include "refactor_id.h"
 
 #ifdef NEWDIAGS
 #include "dg_fns.h"
@@ -337,7 +337,7 @@ TDFcallop3(exp arg1, exp arg2, int n)
 	clearlast(arg1);
 
 	res = f_apply_proc(sh(arg1), ob, pars, novar);
-	res = hold_check(res);
+	res = hold_refactor(res);
 	return res;
 }
 
@@ -414,7 +414,7 @@ TDFcallaux(error_treatment ov_err, exp arg1, char *nm, shape s)
 	pars.end = arg1;
 
 	res = f_apply_proc(s, ob, pars, novar);
-	res = hold_check(res);
+	res = hold_refactor(res);
 	return TDFwithet(ov_err, res);
 }
 
@@ -467,7 +467,7 @@ promote_actuals(exp par)
 		shape s = sh(par);
 		if (name(s) >= scharhd && name(s) <= uwordhd) {
 			shape ns = (is_signed(s)) ? slongsh : ulongsh;
-			exp w = hold_check(f_change_variety(f_wrap, ns,
+			exp w = hold_refactor(f_change_variety(f_wrap, ns,
 							    copy(par)));
 			replace(par, w, nilexp);
 			kill_exp(par, nilexp);
@@ -1424,9 +1424,9 @@ f_bitfield_assign(exp p, exp off, exp val)
 		son(noff1) = idoff; son(noff2) = idoff;
 		{
 			exp addbf = f_offset_add(noff1, f_shape_offset(bfs));
-			exp byteoffinit = f_offset_subtract(hold_check(
+			exp byteoffinit = f_offset_subtract(hold_refactor(
 					  f_offset_pad(als, addbf)),
-					  hold_check(f_offset_pad(als,
+					  hold_refactor(f_offset_pad(als,
 					  f_shape_offset(s))));
 			exp v1bit = getexp(bos, nilexp, 0, nilexp, nilexp, 0, 1,
 					   val_tag);
@@ -1571,8 +1571,8 @@ f_bitfield_contents(bitfield_variety bf, exp p, exp off)
 		{
 			exp addbf = f_offset_add(noff1, f_shape_offset(bfs));
 			exp byteoffinit =
-			    f_offset_subtract(hold_check(f_offset_pad(als,
-			    addbf)), hold_check(f_offset_pad(als,
+			    f_offset_subtract(hold_refactor(f_offset_pad(als,
+			    addbf)), hold_refactor(f_offset_pad(als,
 			    f_shape_offset(s))));
 			exp nby1 = getexp(os, nilexp, 0, nilexp, nilexp, 0, 0,
 					  name_tag);
@@ -1723,7 +1723,7 @@ f_case_transform(bool exhaustive, exp control, caselim_list branches)
 	body_of_case = bro(son(r));
 
 	copy_ce = copy(control_expression);
-	changer = hold_check(me_u3(changer_shape, control_expression,
+	changer = hold_refactor(me_u3(changer_shape, control_expression,
 				   chvar_tag));
 	id = me_startid(sh(changer), changer, 1);
 	/* the shape of the ident will be overwritten by me_complete_id */
@@ -1736,7 +1736,7 @@ f_case_transform(bool exhaustive, exp control, caselim_list branches)
 	}
 #endif
 
-	return hold_check(id);
+	return hold_refactor(id);
 }
 
 static exp
@@ -1834,7 +1834,7 @@ f_change_bitfield_to_int(variety x, exp arg1)
 #if !has64bits
 	if (shape_size(x) >32) {
 		shape n32 = (is_signed(x)) ? slongsh : ulongsh;
-		exp z = hold_check(me_c2(n32, arg1, bitf_to_int_tag));
+		exp z = hold_refactor(me_c2(n32, arg1, bitf_to_int_tag));
 		return f_change_variety(f_impossible, x, z);
 	}
 #endif
@@ -1857,7 +1857,7 @@ f_change_int_to_bitfield(bitfield_variety x, exp arg1)
 #if !has64bits
 	if (shape_size(sh(arg1)) >32) {
 		shape n32 = (is_signed(sh(arg1))) ? slongsh : ulongsh;
-		arg1 = hold_check(f_change_variety(f_wrap, n32, arg1));
+		arg1 = hold_refactor(f_change_variety(f_wrap, n32, arg1));
 	}
 #endif
 
@@ -1887,7 +1887,7 @@ f_change_variety(error_treatment ov_err, variety r, exp arg1)
 		int sd = is_signed(r);
 		shape x = (ss)?slongsh:ulongsh;
 		if (shape_size(sh(arg1)) <= 32) {
-			exp e = hold_check(me_c1(x, ov_err, arg1, chvar_tag));
+			exp e = hold_refactor(me_c1(x, ov_err, arg1, chvar_tag));
 			exp z = TDFcallaux(ov_err, e, (sd) ? ((ss) ?
 			    "__TDFUsswiden" : "__TDFUuswiden") : (ss) ?
 			    "__TDFUsuwiden" : "__TDFUuuwiden", r);
@@ -1900,7 +1900,7 @@ f_change_variety(error_treatment ov_err, variety r, exp arg1)
 			    ((ss) ? "__TDFUssshorten" : "__TDFUusshorten") :
 			    (ss) ?  "__TDFUsushorten" : "__TDFUuushorten",
 			    (sd) ? slongsh : ulongsh);
-			return hold_check(me_c1(f_integer(r), ov_err, e,
+			return hold_refactor(me_c1(f_integer(r), ov_err, e,
 						chvar_tag));
 		} 
 	}
@@ -2444,7 +2444,7 @@ f_local_alloc(exp arg1)
 	}
 #endif
 	if (al2(sh(arg1)) < 8) {
-		arg1 = hold_check(f_offset_pad(f_alignment(ucharsh), arg1));
+		arg1 = hold_refactor(f_offset_pad(f_alignment(ucharsh), arg1));
 	}
 	a = long_to_al(al1(sh(arg1)));
 	has_alloca = 1;
@@ -2481,7 +2481,7 @@ f_local_free(exp a, exp p)
 	}
 #endif
 	if (al2(sh(a)) <8) {
-		a = hold_check(f_offset_pad(f_alignment(ucharsh), a));
+		a = hold_refactor(f_offset_pad(f_alignment(ucharsh), a));
 	}
 
 	return me_b3(f_top, p, a, local_free_tag);
@@ -2586,7 +2586,7 @@ f_make_compound(exp arg1, exp_list arg2)
 				if (name(s) >= scharhd && name(s) <= uwordhd) {
 					shape ns = (is_signed(s)) ? slongsh :
 					    ulongsh;
-					exp w = hold_check(f_change_variety(
+					exp w = hold_refactor(f_change_variety(
 					    f_wrap, ns, arr[i + 1]));
 					arr[i+1] = w;
 				}
@@ -2725,7 +2725,7 @@ f_make_nof(exp_list arg1)
 		int scs = (((sf - 1) &sf) == 0) ? sf : snof;
 		shape cs = containedshape(scs, 1);
 		int i;
-		shape cpds = f_compound(hold_check(f_offset_pad(f_alignment(cs),
+		shape cpds = f_compound(hold_refactor(f_offset_pad(f_alignment(cs),
 		    f_shape_offset(sh(r)))));
 		exp soff = getexp(f_offset(f_alignment(cpds),
 					   f_alignment(sh(first))),
@@ -2737,7 +2737,7 @@ f_make_nof(exp_list arg1)
 			no(soff) += sf;
 		}
 		arg1.number *= 2;
-		return f_make_compound(hold_check(f_shape_offset(cpds)), arg1);
+		return f_make_compound(hold_refactor(f_shape_offset(cpds)), arg1);
 	}
 
 	setfather(r, arg1.end);
@@ -3152,7 +3152,7 @@ f_make_proc(shape result_shape, tagshacc_list params_intro,
 		set_proc_uses_external(res);
 	}
 
-	/* apply check_id to the parameters */
+	/* apply refactor_id to the parameters */
 
 	if (params_intro.number != 0) {
 		exp param;
@@ -3315,8 +3315,8 @@ f_make_proc(shape result_shape, tagshacc_list params_intro,
 				setsh(son(param), ptr_s);
 			} /* if redo... */
 			varhack = 0;
-			/* apply check_id to the parameters */
-			IGNORE check_id(param, param);
+			/* apply refactor_id to the parameters */
+			IGNORE refactor_id(param, param);
 		} /* for */
 	}
 
@@ -3541,8 +3541,8 @@ f_make_general_proc(shape result_shape, procprops prcprops,
 				setsh(son(param), ptr_s);
 			} /* if redo... */
 			varhack = 0;
-			/* apply check_id to the caller parameters */
-			IGNORE check_id(param, param);
+			/* apply refactor_id to the caller parameters */
+			IGNORE refactor_id(param, param);
 		} /* for */
 	}
 
@@ -3553,8 +3553,8 @@ f_make_general_proc(shape result_shape, procprops prcprops,
 		for (i=callee_intro.number; i != 0;
 		     param = father(param), i--) {
 
-			/* apply check_id to the callee parameters */
-			IGNORE check_id(param, param);
+			/* apply refactor_id to the callee parameters */
+			IGNORE refactor_id(param, param);
 		} /* for */
 	}
 
@@ -3745,7 +3745,7 @@ f_apply_general_proc(shape result_shape, procprops prcprops, exp p,
 				exp next = bro(ote);
 				exp id;
 				int l = last(ote);
-				exp w = hold_check(f_change_variety(f_wrap, ns,
+				exp w = hold_refactor(f_change_variety(f_wrap, ns,
 								    copy(par)));
 				if (name(ote) == caller_tag) {
 					sh(ote) = ns;
@@ -3893,11 +3893,11 @@ f_make_stack_limit(exp stack_base, exp frame_size, exp alloca_size)
 {
 
 	exp sz;
-	frame_size = hold_check(f_offset_pad(al1_of(sh(alloca_size)),
+	frame_size = hold_refactor(f_offset_pad(al1_of(sh(alloca_size)),
 					     frame_size));
-	alloca_size = hold_check(f_offset_pad(f_alignment(ucharsh),
+	alloca_size = hold_refactor(f_offset_pad(f_alignment(ucharsh),
 					      alloca_size));
-	sz = hold_check(f_offset_add(frame_size, alloca_size));
+	sz = hold_refactor(f_offset_add(frame_size, alloca_size));
 	return me_b2(stack_base, sz, make_stack_limit_tag);
 }
 
@@ -4022,7 +4022,7 @@ f_move_some(transfer_mode md, exp arg1, exp arg2, exp arg3)
 	}
 
 	if (al2(sh(arg3)) < 8) {
-		arg3 = hold_check(f_offset_pad(f_alignment(ucharsh), arg3));
+		arg3 = hold_refactor(f_offset_pad(f_alignment(ucharsh), arg3));
 	}
 
 	if (!(md & f_overlap)) {
@@ -4089,7 +4089,7 @@ f_n_copies(nat n, exp arg1)
 		int scs = (((sf - 1) &sf) ==0) ? sf : snof;
 		shape cs = containedshape(scs, 1);
 		exp_list a;
-		shape cpds = f_compound(hold_check(f_offset_pad(f_alignment(cs),
+		shape cpds = f_compound(hold_refactor(f_offset_pad(f_alignment(cs),
 		    f_shape_offset(sh(r)))));
 		exp soff = getexp(f_offset(f_alignment(cpds),
 					   f_alignment(sh(arg1))), nilexp, 0,
@@ -4112,7 +4112,7 @@ f_n_copies(nat n, exp arg1)
 
 		setlast(a.end);
 		bro(a.end) = nilexp;
-		cexp = f_make_compound(hold_check(f_shape_offset(cs)), a);
+		cexp = f_make_compound(hold_refactor(f_shape_offset(cs)), a);
 		if (shape_size(cs) >= shape_size(cpds)) {
 			return cexp;
 		} else {
@@ -4245,12 +4245,12 @@ f_offset_add(exp arg1, exp arg2)
 		exp ne;
 		if (al2_of(sh(arg2))->al.sh_hd > nofhd) {
 			shape ps = f_pointer(f_alignment(sh(arg1)));
-			ne = hold_check(f_offset_pad(f_alignment(ps),
+			ne = hold_refactor(f_offset_pad(f_alignment(ps),
 						     f_shape_offset(ps)));
 		} else {
 			ne = arg2;
 		}
-		arg2 = hold_check(me_u2(ne, offset_negate_tag));
+		arg2 = hold_refactor(me_u2(ne, offset_negate_tag));
 	}
 #endif
 	return me_b3(sres, arg1, arg2, offset_add_tag);
@@ -4366,10 +4366,10 @@ f_offset_mult(exp arg1, exp arg2)
 
 	if (shape_size(sh(arg2)) != PTR_SZ) {
 		if (PTR_SZ == 32) {
-			arg2 = hold_check(f_change_variety(f_impossible,
+			arg2 = hold_refactor(f_change_variety(f_impossible,
 							   slongsh, arg2));
 		} else {
-			arg2 = hold_check(f_change_variety(f_impossible,
+			arg2 = hold_refactor(f_change_variety(f_impossible,
 							   s64sh, arg2));
 		}
 	}
@@ -4822,7 +4822,7 @@ f_return(exp arg1)
 				 pt(proc_struct_result), 0, 0, name_tag);
 		++no(proc_struct_result);
 		pt(proc_struct_result) = assname;
-		ass = hold_check(f_assign(assname, arg1));
+		ass = hold_refactor(f_assign(assname, arg1));
 		list.number = 1;
 		list.start = ass;
 		list.end = ass;
@@ -4855,26 +4855,26 @@ f_rotate_left(exp arg1, exp arg2)
 		int sz = shape_size(sa);
 		shape usa = (sz == 8) ? ucharsh : (sz == 16) ?
 		    uwordsh : (sz==32)?ulongsh:u64sh;
-		exp d1 = me_startid(sa, hold_check(f_change_variety(f_wrap,
+		exp d1 = me_startid(sa, hold_refactor(f_change_variety(f_wrap,
 								    usa, arg1)),
 				    0);
 		exp d2 = me_startid(sa, arg2, 0);
-		exp d3 = me_startid(sa, hold_check(f_shift_left(f_impossible,
+		exp d3 = me_startid(sa, hold_refactor(f_shift_left(f_impossible,
 								me_obtain(d1),
 								me_obtain(d2))),
 				    0);
-		exp d4 = me_startid(sa, hold_check(f_minus(f_impossible,
+		exp d4 = me_startid(sa, hold_refactor(f_minus(f_impossible,
 							   me_shint(sh(arg2),
 								    sz),
 							   me_obtain(d2))), 0);
-		exp sr = hold_check(f_shift_right(me_obtain(d1),
+		exp sr = hold_refactor(f_shift_right(me_obtain(d1),
 						  me_obtain(d4)));
-		exp orit = hold_check(f_or(sr, me_obtain(d3)));
-		exp corit = hold_check(f_change_variety(f_wrap, sa, orit));
-		return hold_check(me_complete_id(d1,
-						 hold_check(me_complete_id(d2,
-						 hold_check(me_complete_id(d3,
-						 hold_check(me_complete_id(d4,
+		exp orit = hold_refactor(f_or(sr, me_obtain(d3)));
+		exp corit = hold_refactor(f_change_variety(f_wrap, sa, orit));
+		return hold_refactor(me_complete_id(d1,
+						 hold_refactor(me_complete_id(d2,
+						 hold_refactor(me_complete_id(d3,
+						 hold_refactor(me_complete_id(d4,
 								corit))))))));
 	}
 #endif
@@ -4901,7 +4901,7 @@ f_rotate_right(exp arg1, exp arg2)
 	}
 #endif
 #if !has_rotate
-	return f_rotate_left(arg1, hold_check(f_minus(f_impossible,
+	return f_rotate_left(arg1, hold_refactor(f_minus(f_impossible,
 						      me_shint(sh(arg2),
 							shape_size(sh(arg1))),
 						      arg2)));
@@ -4952,14 +4952,14 @@ f_sequence(exp_list statements, exp result)
 			}
 			work.end = t;
 			t = bro(t);
-			res = add_exp_list(res, hold_check(f_sequence(work,
+			res = add_exp_list(res, hold_refactor(f_sequence(work,
 							f_make_top())), i);
 		}
 
 		work.start = t;
 		work.end = l;
 		work.number = rest;
-		res = add_exp_list(res, hold_check(f_sequence(work,
+		res = add_exp_list(res, hold_refactor(f_sequence(work,
 							      f_make_top())),
 				   num_bits);
 		return f_sequence(res, result);
@@ -4996,7 +4996,7 @@ f_shift_left(error_treatment ov_err, exp arg1, exp arg2)
 	if (name(sh(arg1)) >= s64hd &&
 	    (name(arg1) != val_tag || name(arg2) != val_tag ||
 	     ov_err.err_code > 2)) {
-		arg2 = hold_check(f_change_variety(ov_err, ulongsh, arg2));
+		arg2 = hold_refactor(f_change_variety(ov_err, ulongsh, arg2));
 		return TDFcallop2(ov_err, arg1, arg2, shl_tag);
 	}
 #endif
@@ -5004,12 +5004,12 @@ f_shift_left(error_treatment ov_err, exp arg1, exp arg2)
 	if (ov_err.err_code == 4) {
 		exp d1 = me_startid(f_top, arg1, 0);
 		exp d2 = me_startid(f_top, arg2, 0);
-		exp d3 = me_startid(f_top, hold_check(f_shift_left(f_impossible,
+		exp d3 = me_startid(f_top, hold_refactor(f_shift_left(f_impossible,
 								me_obtain(d1),
 								me_obtain(d2))),
 				    0);
 		exp_list el;
-		exp right = hold_check(f_shift_right(me_obtain(d3),
+		exp right = hold_refactor(f_shift_right(me_obtain(d3),
 						     me_obtain(d2)));
 		exp test = me_q1(no_nat_option, f_equal, ov_err.jmp_dest, right,
 				 me_obtain(d1), test_tag);
@@ -5020,11 +5020,11 @@ f_shift_left(error_treatment ov_err, exp arg1, exp arg2)
 	} else if (ov_err.err_code > 4) {
 		exp d1 = me_startid(f_top, arg1, 0);
 		exp d2 = me_startid(f_top, arg2, 0);
-		exp d3 = me_startid(f_top, hold_check(f_shift_left(f_impossible,
+		exp d3 = me_startid(f_top, hold_refactor(f_shift_left(f_impossible,
 						      me_obtain(d1),
 						      me_obtain(d2))), 0);
 		exp_list el;
-		exp right = hold_check(f_shift_right(me_obtain(d3),
+		exp right = hold_refactor(f_shift_right(me_obtain(d3),
 						     me_obtain(d2)));
 		exp trp = getexp(f_bottom, nilexp, 0, nilexp, nilexp, 0,
 				 f_overflow, trap_tag);
@@ -5066,7 +5066,7 @@ f_shift_right(exp arg1, exp arg2)
 	    (name(arg1) != val_tag || name(arg2) != val_tag)) {
 		error_treatment ov_err;
 		ov_err = f_wrap;
-		arg2 = hold_check(f_change_variety(ov_err, ulongsh, arg2));
+		arg2 = hold_refactor(f_change_variety(ov_err, ulongsh, arg2));
 		return TDFcallop2(ov_err, arg1, arg2, shr_tag);
 	}
 #endif
@@ -6393,7 +6393,7 @@ tidy_initial_values(void)
 				my_def->dec_u.dec_val.dec_var = 1;
 				while (p != nilexp) {
 					exp np = pt(p);
-					exp c = hold_check(f_contents(sh(p),
+					exp c = hold_refactor(f_contents(sh(p),
 							   me_obtain(crt_exp)));
 					replace(p, c, nilexp);
 					p = np;
@@ -6410,7 +6410,7 @@ tidy_initial_values(void)
 				son(crt_exp) = new_init;
 				bro(new_init) = crt_exp; setlast(new_init);
 				initial_as = add_exp_list(initial_as,
-				    hold_check(f_assign(me_obtain(crt_exp),
+				    hold_refactor(f_assign(me_obtain(crt_exp),
 							init)), 0);
 			}
 		}
@@ -6439,7 +6439,7 @@ tidy_initial_values(void)
 			bro(new_init) = crt_exp;
 			setlast(new_init);
 			prom_as = add_exp_list(prom_as,
-					       hold_check(f_assign(me_obtain(
+					       hold_refactor(f_assign(me_obtain(
 							  crt_exp), init)), 0);
 		}
 		my_def = my_def->def_next;
@@ -6462,13 +6462,13 @@ tidy_initial_values(void)
 		/* prc has one visible param - hence looks like varargs */
 		if (do_prom) {
 			/* struct (proc, ptr) */
-			exp off_proc = hold_check(f_offset_zero(PROC_ALIGN));
-			exp off_ptr = hold_check(f_offset_pad(PTR_ALIGN,
-						 hold_check(f_offset_add(copy(
-						 off_proc), hold_check(
+			exp off_proc = hold_refactor(f_offset_zero(PROC_ALIGN));
+			exp off_ptr = hold_refactor(f_offset_pad(PTR_ALIGN,
+						 hold_refactor(f_offset_add(copy(
+						 off_proc), hold_refactor(
 						 f_shape_offset(f_proc))))));
-			shape str_sh = f_compound(hold_check(f_offset_add(copy(
-						  off_ptr), hold_check(
+			shape str_sh = f_compound(hold_refactor(f_offset_add(copy(
+						  off_ptr), hold_refactor(
 						  f_shape_offset(f_pointer(
 						  PROC_ALIGN))))));
 			dec *str_dec = make_extra_dec(make_local_name(), 1, 0,
@@ -6483,16 +6483,16 @@ tidy_initial_values(void)
 						     str_sh)));
 			brog(list_exp)->dec_u.dec_val.dec_var = 1;
 			setvar(list_exp);
-			prom_as = add_exp_list(prom_as, hold_check(f_assign(
+			prom_as = add_exp_list(prom_as, hold_refactor(f_assign(
 					       f_add_to_ptr(me_obtain(str_exp),
 							    copy(off_proc)),
 					       me_obtain(prc_exp))), 0);
-			prom_as = add_exp_list(prom_as, hold_check(f_assign(
+			prom_as = add_exp_list(prom_as, hold_refactor(f_assign(
 					       f_add_to_ptr(me_obtain(str_exp),
 							    copy(off_ptr)),
 					       f_contents(sh(list_exp),
 					       me_obtain(list_exp)))), 0);
-			prom_as = add_exp_list(prom_as, hold_check(f_assign(
+			prom_as = add_exp_list(prom_as, hold_refactor(f_assign(
 					       me_obtain(list_exp),
 					       me_obtain(str_exp))), 0);
 		} else {

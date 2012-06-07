@@ -16,7 +16,6 @@
 #include "expmacs.h"
 #include "diag_fns.h"
 #include "flags.h"
-#include "check.h"
 #include "me_fns.h"
 #include "externs.h"
 #include "installglob.h"
@@ -27,6 +26,7 @@
 #include "natmacs.h"
 #include "spec_tok.h"
 #include "dg_fns.h"
+#include "refactor.h"
 
 /* intercepts specially defined tokens */
 
@@ -68,7 +68,7 @@ tokval special_token
 	settoinline(son(son(bro(son(s)))));
 
 
-      s = hold_check(s);
+      s = hold_refactor(s);
 
       set_place(old_place);
       tkv.tk_exp = s;
@@ -80,8 +80,8 @@ tokval special_token
       place old_place;
       old_place = keep_place();
       set_place(pars);
-      arg1 = hold_check(d_exp());
-      arg2 = hold_check(d_exp());
+      arg1 = hold_refactor(d_exp());
+      arg2 = hold_refactor(d_exp());
 
       set_place(old_place);
       tkv.tk_exp = me_b2(arg1, arg2, div0_tag);
@@ -93,8 +93,8 @@ tokval special_token
       place old_place;
       old_place = keep_place();
       set_place(pars);
-      arg1 = hold_check(d_exp());
-      arg2 = hold_check(d_exp());
+      arg1 = hold_refactor(d_exp());
+      arg2 = hold_refactor(d_exp());
 
       set_place(old_place);
       tkv.tk_exp = me_b2(arg1, arg2, rem0_tag);
@@ -165,9 +165,9 @@ tokval special_token
       place old_place;
       old_place = keep_place();
       set_place(pars);
-      arg1 = hold_check(d_exp());
+      arg1 = hold_refactor(d_exp());
       set_place(old_place);
-      tkv.tk_exp = hold_check(me_u3(f_pointer(long_to_al(8)),
+      tkv.tk_exp = hold_refactor(me_u3(f_pointer(long_to_al(8)),
 			   arg1, alloca_tag));
       *done = 1;
       has_alloca = 1;
@@ -186,7 +186,7 @@ tokval special_token
       place old_place;
       old_place = keep_place();
       set_place(pars);
-      tkv.tk_exp = hold_check(d_exp());
+      tkv.tk_exp = hold_refactor(d_exp());
       *done = 1;
 
       if (!diagnose)
@@ -278,7 +278,7 @@ tokval special_token
     old_place = keep_place();
     if (!strcmp(t -> tok_name, "~asm")) {
       set_place(pars);
-      arg1 = hold_check(f_make_nof_int(ucharsh, d_string()));
+      arg1 = hold_refactor(f_make_nof_int(ucharsh, d_string()));
       prp = 1;
     }
     else {
@@ -296,7 +296,7 @@ tokval special_token
       else
 	return tkv;
       set_place(pars);
-      arg1 = hold_check(d_exp());
+      arg1 = hold_refactor(d_exp());
     }
     set_place(old_place);
     tkv.tk_exp = getexp(f_top, nilexp, 0, arg1, nilexp, prp, 0, asm_tag);

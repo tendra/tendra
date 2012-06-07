@@ -21,11 +21,11 @@
 #include "diag_fns.h"
 #include "expmacs.h"
 #include "exp.h"
-#include "check.h"
 #include "externs.h"
 #include "basicread.h"
 #include "szs_als.h"
 #include "tags.h"
+#include "refactor.h"
 
 
 static void fail_unimplemented
@@ -252,7 +252,7 @@ static void out_class_data
 	a = copy (son(vtable_exp));
 	b = copy (son(cm->d.cm_fn.slot));
 	c = f_add_to_ptr (a, b);
-	cm->d.cm_fn.fn->mor->vslot = hold (hold_check (c));
+	cm->d.cm_fn.fn->mor->vslot = hold (hold_refactor(c));
       }
     }
   }

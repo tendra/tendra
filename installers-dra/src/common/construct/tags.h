@@ -193,7 +193,7 @@ The props field is zero except for those properties defined in the
 expmacs.h file. Operations with ntests, rounding modes or error treatments
 have these represented in the props field. as in expmacs.h.
 
-An exp should normally have hold_check applied to it after being created.
+An exp should normally have hold_refactor applied to it after being created.
 
 abs_tag: Represents integer abs construction.
 	son(e) is arg1.

@@ -14,7 +14,6 @@
 #include "exptypes.h"
 #include "assembler.h"
 #include "basicread.h"
-#include "check.h"
 #include "exp.h"
 #include "expmacs.h"
 #include "externs.h"

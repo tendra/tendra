@@ -20,7 +20,7 @@
 #include "externs.h"
 #include "messages_r.h"
 #include "main_reads.h"
-#include "check.h"
+#include "refactor.h"
 
 
 /* REPORT AN ERROR */
@@ -51,7 +51,7 @@ d_access(void)
 	    exp p0;
 	    bitstream p1;
 	    bitstream p2;
-	    p0 = hold_const_check(d_exp());
+	    p0 = hold_const_refactor(d_exp());
 	    p1 = d_bitstream();
 	    p2 = d_bitstream();
 	    return f_access_cond(p0, p1, p2);
@@ -207,7 +207,7 @@ d_alignment(void)
 	    exp p0;
 	    bitstream p1;
 	    bitstream p2;
-	    p0 = hold_const_check(d_exp());
+	    p0 = hold_const_refactor(d_exp());
 	    p1 = d_bitstream();
 	    p2 = d_bitstream();
 	    return f_alignment_cond(p0, p1, p2);
@@ -280,7 +280,7 @@ d_bitfield_variety(void)
 	    exp p0;
 	    bitstream p1;
 	    bitstream p2;
-	    p0 = hold_const_check(d_exp());
+	    p0 = hold_const_refactor(d_exp());
 	    p1 = d_bitstream();
 	    p2 = d_bitstream();
 	    return f_bfvar_cond(p0, p1, p2);
@@ -316,7 +316,7 @@ d_bool(void)
 	    exp p0;
 	    bitstream p1;
 	    bitstream p2;
-	    p0 = hold_const_check(d_exp());
+	    p0 = hold_const_refactor(d_exp());
 	    p1 = d_bitstream();
 	    p2 = d_bitstream();
 	    return f_bool_cond(p0, p1, p2);
@@ -362,8 +362,8 @@ d_callees(void)
 	case e_make_dynamic_callees: {
 	    exp p0;
 	    exp p1;
-	    p0 = hold_check(d_exp());
-	    p1 = hold_check(d_exp());
+	    p0 = hold_refactor(d_exp());
+	    p1 = hold_refactor(d_exp());
 	    return f_make_dynamic_callees(p0, p1);
 	}
 	case e_same_callees: {
@@ -652,7 +652,7 @@ d_dg(void)
 	    p0 = d_dg_sourcepos();
 	    p1 = d_nat();
 	    p2 = d_bool();
-	    p3 = hold_check(d_exp());
+	    p3 = hold_refactor(d_exp());
 	    return f_select_alternative_dg(p0, p1, p2, p3);
 	}
 	case e_select_guard_dg: {
@@ -702,7 +702,7 @@ d_dg(void)
 	    dg_type p0;
 	    exp p1;
 	    p0 = d_dg_type();
-	    p1 = hold_check(d_exp());
+	    p1 = hold_refactor(d_exp());
 	    return f_with_dg(p0, p1);
 	}
     }
@@ -804,7 +804,7 @@ d_dg_bound(void)
 	}
 	case e_dg_static_bound: {
 	    exp p0;
-	    p0 = hold_check(d_exp());
+	    p0 = hold_refactor(d_exp());
 	    return f_dg_static_bound(p0);
 	}
 	case e_dg_unknown_bound: {
@@ -887,7 +887,7 @@ d_dg_classmem(void)
 	    dg_default_option p6;
 	    p0 = d_dg_idname();
 	    p1 = d_dg_sourcepos();
-	    p2 = hold_check(d_exp());
+	    p2 = hold_refactor(d_exp());
 	    p3 = d_dg_type();
 	    p4 = d_dg_accessibility_option();
 	    p5 = d_bool_option();
@@ -1018,7 +1018,7 @@ d_dg_constraint(void)
 	    dg_tag_option p0;
 	    exp p1;
 	    p0 = d_dg_tag_option();
-	    p1 = hold_check(d_exp());
+	    p1 = hold_refactor(d_exp());
 	    return f_dg_value_constraint(p0, p1);
 	}
     }
@@ -1192,8 +1192,8 @@ d_dg_discrim(void)
 	case e_make_dg_discrim: {
 	    exp p0;
 	    exp p1;
-	    p0 = hold_check(d_exp());
-	    p1 = hold_check(d_exp());
+	    p0 = hold_refactor(d_exp());
+	    p1 = hold_refactor(d_exp());
 	    return f_make_dg_discrim(p0, p1);
 	}
     }
@@ -1239,7 +1239,7 @@ d_dg_enum(void)
 	    exp p0;
 	    dg_idname p1;
 	    dg_sourcepos p2;
-	    p0 = hold_check(d_exp());
+	    p0 = hold_refactor(d_exp());
 	    p1 = d_dg_idname();
 	    p2 = d_dg_sourcepos();
 	    return f_make_dg_enum(p0, p1, p2);
@@ -1248,7 +1248,7 @@ d_dg_enum(void)
 	    exp p0;
 	    nat p1;
 	    dg_sourcepos p2;
-	    p0 = hold_check(d_exp());
+	    p0 = hold_refactor(d_exp());
 	    p1 = d_nat();
 	    p2 = d_dg_sourcepos();
 	    return f_dg_char_enum(p0, p1, p2);
@@ -1616,14 +1616,14 @@ d_dg_name(void)
 	    exp p2;
 	    p0 = d_dg_idname();
 	    p1 = d_dg_sourcepos();
-	    p2 = hold_check(d_exp());
+	    p2 = hold_refactor(d_exp());
 	    return f_dg_program_name(p0, p1, p2);
 	}
 	case e_dg_rep_clause_name: {
 	    dg_name p0;
 	    exp p1;
 	    p0 = d_dg_name();
-	    p1 = hold_check(d_exp());
+	    p1 = hold_refactor(d_exp());
 	    return f_dg_rep_clause_name(p0, p1);
 	}
 	case e_dg_spec_ref_name: {
@@ -2005,7 +2005,7 @@ d_dg_type(void)
 	    bool_option p2;
 	    dg_dim_list p3;
 	    p0 = d_dg_type();
-	    p1 = hold_check(d_exp());
+	    p1 = hold_refactor(d_exp());
 	    p2 = d_bool_option();
 	    p3 = d_dg_dim_list();
 	    return f_dg_array_type(p0, p1, p2, p3);
@@ -2097,7 +2097,7 @@ d_dg_type(void)
 	    exp_option p2;
 	    exp_option p3;
 	    p0 = d_dg_type();
-	    p1 = hold_check(d_exp());
+	    p1 = hold_refactor(d_exp());
 	    p2 = d_exp_option();
 	    p3 = d_exp_option();
 	    return f_dg_fixed_point_type(p0, p1, p2, p3);
@@ -2113,7 +2113,7 @@ d_dg_type(void)
 	    dg_type p0;
 	    exp p1;
 	    p0 = d_dg_type();
-	    p1 = hold_check(d_exp());
+	    p1 = hold_refactor(d_exp());
 	    return f_dg_floating_digits_type(p0, p1);
 	}
 	case e_dg_inlined_type: {
@@ -2139,7 +2139,7 @@ d_dg_type(void)
 	    dg_type p0;
 	    exp p1;
 	    p0 = d_dg_type();
-	    p1 = hold_check(d_exp());
+	    p1 = hold_refactor(d_exp());
 	    return f_dg_modular_type(p0, p1);
 	}
 	case e_dg_named_type: {
@@ -2229,8 +2229,8 @@ d_dg_type(void)
 	    exp p1;
 	    exp p2;
 	    p0 = d_dg_tag();
-	    p1 = hold_check(d_exp());
-	    p2 = hold_check(d_exp());
+	    p1 = hold_refactor(d_exp());
+	    p2 = hold_refactor(d_exp());
 	    return f_dg_string_type(p0, p1, p2);
 	}
 	case e_dg_struct_type: {
@@ -2498,7 +2498,7 @@ d_diag_descriptor(void)
 	    diag_type p3;
 	    p0 = d_tdfstring();
 	    p1 = d_sourcemark();
-	    p2 = hold_check(d_exp());
+	    p2 = hold_refactor(d_exp());
 	    p3 = d_diag_type();
 	    return f_diag_desc_id(p0, p1, p2, p3);
 	}
@@ -2553,7 +2553,7 @@ d_diag_field(void)
     exp p1;
     diag_type p2;
     p0 = d_tdfstring();
-    p1 = hold_check(d_exp());
+    p1 = hold_refactor(d_exp());
     p2 = d_diag_type();
     return f_make_diag_field(p0, p1, p2);
 }
@@ -2681,9 +2681,9 @@ d_diag_type(void)
 	    exp p3;
 	    diag_type p4;
 	    p0 = d_diag_type();
-	    p1 = hold_check(d_exp());
-	    p2 = hold_check(d_exp());
-	    p3 = hold_check(d_exp());
+	    p1 = hold_refactor(d_exp());
+	    p2 = hold_refactor(d_exp());
+	    p3 = hold_refactor(d_exp());
 	    p4 = d_diag_type();
 	    return f_diag_array(p0, p1, p2, p3, p4);
 	}
@@ -2820,7 +2820,7 @@ d_enum_values(void)
 {
     exp p0;
     tdfstring p1;
-    p0 = hold_check(d_exp());
+    p0 = hold_refactor(d_exp());
     p1 = d_tdfstring();
     return f_make_enum_values(p0, p1);
 }
@@ -2904,7 +2904,7 @@ d_error_treatment(void)
 	    exp p0;
 	    bitstream p1;
 	    bitstream p2;
-	    p0 = hold_const_check(d_exp());
+	    p0 = hold_const_refactor(d_exp());
 	    p1 = d_bitstream();
 	    p2 = d_bitstream();
 	    return f_errt_cond(p0, p1, p2);
@@ -2952,7 +2952,7 @@ d_exp(void)
 	    exp p0;
 	    bitstream p1;
 	    bitstream p2;
-	    p0 = hold_const_check(d_exp());
+	    p0 = hold_const_refactor(d_exp());
 	    p1 = d_bitstream();
 	    p2 = d_bitstream();
 	    return f_exp_cond(p0, p1, p2);
@@ -2961,21 +2961,21 @@ d_exp(void)
 	    error_treatment p0;
 	    exp p1;
 	    p0 = d_error_treatment();
-	    p1 = hold_check(d_exp());
+	    p1 = hold_refactor(d_exp());
 	    return f_abs(p0, p1);
 	}
 	case e_add_to_ptr: {
 	    exp p0;
 	    exp p1;
-	    p0 = hold_check(d_exp());
-	    p1 = hold_check(d_exp());
+	    p0 = hold_refactor(d_exp());
+	    p1 = hold_refactor(d_exp());
 	    return f_add_to_ptr(p0, p1);
 	}
 	case e_and: {
 	    exp p0;
 	    exp p1;
-	    p0 = hold_check(d_exp());
-	    p1 = hold_check(d_exp());
+	    p0 = hold_refactor(d_exp());
+	    p1 = hold_refactor(d_exp());
 	    return f_and(p0, p1);
 	}
 	case e_apply_proc: {
@@ -2984,7 +2984,7 @@ d_exp(void)
 	    exp_list p2;
 	    exp_option p3;
 	    p0 = d_shape();
-	    p1 = hold_check(d_exp());
+	    p1 = hold_refactor(d_exp());
 	    p2 = d_exp_list();
 	    p3 = d_exp_option();
 	    return f_apply_proc(p0, p1, p2, p3);
@@ -2998,18 +2998,18 @@ d_exp(void)
 	    exp p5;
 	    p0 = d_shape();
 	    p1 = d_procprops_option();
-	    p2 = hold_check(d_exp());
+	    p2 = hold_refactor(d_exp());
 	    p3 = d_otagexp_list();
 	    p4 = d_callees();
 	    start_apply_general_proc(p0, p1, p2, p3, p4);
-	    p5 = hold_check(d_exp());
+	    p5 = hold_refactor(d_exp());
 	    return f_apply_general_proc(p0, p1, p2, p3, p4, p5);
 	}
 	case e_assign: {
 	    exp p0;
 	    exp p1;
-	    p0 = hold_check(d_exp());
-	    p1 = hold_check(d_exp());
+	    p0 = hold_refactor(d_exp());
+	    p1 = hold_refactor(d_exp());
 	    return f_assign(p0, p1);
 	}
 	case e_assign_with_mode: {
@@ -3017,17 +3017,17 @@ d_exp(void)
 	    exp p1;
 	    exp p2;
 	    p0 = d_transfer_mode();
-	    p1 = hold_check(d_exp());
-	    p2 = hold_check(d_exp());
+	    p1 = hold_refactor(d_exp());
+	    p2 = hold_refactor(d_exp());
 	    return f_assign_with_mode(p0, p1, p2);
 	}
 	case e_bitfield_assign: {
 	    exp p0;
 	    exp p1;
 	    exp p2;
-	    p0 = hold_check(d_exp());
-	    p1 = hold_check(d_exp());
-	    p2 = hold_check(d_exp());
+	    p0 = hold_refactor(d_exp());
+	    p1 = hold_refactor(d_exp());
+	    p2 = hold_refactor(d_exp());
 	    return f_bitfield_assign(p0, p1, p2);
 	}
 	case e_bitfield_assign_with_mode: {
@@ -3036,9 +3036,9 @@ d_exp(void)
 	    exp p2;
 	    exp p3;
 	    p0 = d_transfer_mode();
-	    p1 = hold_check(d_exp());
-	    p2 = hold_check(d_exp());
-	    p3 = hold_check(d_exp());
+	    p1 = hold_refactor(d_exp());
+	    p2 = hold_refactor(d_exp());
+	    p3 = hold_refactor(d_exp());
 	    return f_bitfield_assign_with_mode(p0, p1, p2, p3);
 	}
 	case e_bitfield_contents: {
@@ -3046,8 +3046,8 @@ d_exp(void)
 	    exp p1;
 	    exp p2;
 	    p0 = d_bitfield_variety();
-	    p1 = hold_check(d_exp());
-	    p2 = hold_check(d_exp());
+	    p1 = hold_refactor(d_exp());
+	    p2 = hold_refactor(d_exp());
 	    return f_bitfield_contents(p0, p1, p2);
 	}
 	case e_bitfield_contents_with_mode: {
@@ -3057,8 +3057,8 @@ d_exp(void)
 	    exp p3;
 	    p0 = d_transfer_mode();
 	    p1 = d_bitfield_variety();
-	    p2 = hold_check(d_exp());
-	    p3 = hold_check(d_exp());
+	    p2 = hold_refactor(d_exp());
+	    p3 = hold_refactor(d_exp());
 	    return f_bitfield_contents_with_mode(p0, p1, p2, p3);
 	}
 	case e_case: {
@@ -3066,7 +3066,7 @@ d_exp(void)
 	    exp p1;
 	    caselim_list p2;
 	    p0 = d_bool();
-	    p1 = hold_check(d_exp());
+	    p1 = hold_refactor(d_exp());
 	    p2 = d_caselim_list();
 	    return f_case(p0, p1, p2);
 	}
@@ -3074,7 +3074,7 @@ d_exp(void)
 	    variety p0;
 	    exp p1;
 	    p0 = d_variety();
-	    p1 = hold_check(d_exp());
+	    p1 = hold_refactor(d_exp());
 	    return f_change_bitfield_to_int(p0, p1);
 	}
 	case e_change_floating_variety: {
@@ -3083,7 +3083,7 @@ d_exp(void)
 	    exp p2;
 	    p0 = d_error_treatment();
 	    p1 = d_floating_variety();
-	    p2 = hold_check(d_exp());
+	    p2 = hold_refactor(d_exp());
 	    return f_change_floating_variety(p0, p1, p2);
 	}
 	case e_change_variety: {
@@ -3092,19 +3092,19 @@ d_exp(void)
 	    exp p2;
 	    p0 = d_error_treatment();
 	    p1 = d_variety();
-	    p2 = hold_check(d_exp());
+	    p2 = hold_refactor(d_exp());
 	    return f_change_variety(p0, p1, p2);
 	}
 	case e_change_int_to_bitfield: {
 	    bitfield_variety p0;
 	    exp p1;
 	    p0 = d_bitfield_variety();
-	    p1 = hold_check(d_exp());
+	    p1 = hold_refactor(d_exp());
 	    return f_change_int_to_bitfield(p0, p1);
 	}
 	case e_complex_conjugate: {
 	    exp p0;
-	    p0 = hold_check(d_exp());
+	    p0 = hold_refactor(d_exp());
 	    return f_complex_conjugate(p0);
 	}
 	case e_component: {
@@ -3112,15 +3112,15 @@ d_exp(void)
 	    exp p1;
 	    exp p2;
 	    p0 = d_shape();
-	    p1 = hold_check(d_exp());
-	    p2 = hold_check(d_exp());
+	    p1 = hold_refactor(d_exp());
+	    p2 = hold_refactor(d_exp());
 	    return f_component(p0, p1, p2);
 	}
 	case e_concat_nof: {
 	    exp p0;
 	    exp p1;
-	    p0 = hold_check(d_exp());
-	    p1 = hold_check(d_exp());
+	    p0 = hold_refactor(d_exp());
+	    p1 = hold_refactor(d_exp());
 	    return f_concat_nof(p0, p1);
 	}
 	case e_conditional: {
@@ -3129,15 +3129,15 @@ d_exp(void)
 	    exp p2;
 	    p0 = d_label();
 	    start_conditional(p0);
-	    p1 = hold_check(d_exp());
-	    p2 = hold_check(d_exp());
+	    p1 = hold_refactor(d_exp());
+	    p2 = hold_refactor(d_exp());
 	    return f_conditional(p0, p1, p2);
 	}
 	case e_contents: {
 	    shape p0;
 	    exp p1;
 	    p0 = d_shape();
-	    p1 = hold_check(d_exp());
+	    p1 = hold_refactor(d_exp());
 	    return f_contents(p0, p1);
 	}
 	case e_contents_with_mode: {
@@ -3146,7 +3146,7 @@ d_exp(void)
 	    exp p2;
 	    p0 = d_transfer_mode();
 	    p1 = d_shape();
-	    p2 = hold_check(d_exp());
+	    p2 = hold_refactor(d_exp());
 	    return f_contents_with_mode(p0, p1, p2);
 	}
 	case e_current_env: {
@@ -3159,8 +3159,8 @@ d_exp(void)
 	    exp p3;
 	    p0 = d_error_treatment();
 	    p1 = d_error_treatment();
-	    p2 = hold_check(d_exp());
-	    p3 = hold_check(d_exp());
+	    p2 = hold_refactor(d_exp());
+	    p3 = hold_refactor(d_exp());
 	    return f_div0(p0, p1, p2, p3);
 	}
 	case e_div1: {
@@ -3170,8 +3170,8 @@ d_exp(void)
 	    exp p3;
 	    p0 = d_error_treatment();
 	    p1 = d_error_treatment();
-	    p2 = hold_check(d_exp());
-	    p3 = hold_check(d_exp());
+	    p2 = hold_refactor(d_exp());
+	    p3 = hold_refactor(d_exp());
 	    return f_div1(p0, p1, p2, p3);
 	}
 	case e_div2: {
@@ -3181,8 +3181,8 @@ d_exp(void)
 	    exp p3;
 	    p0 = d_error_treatment();
 	    p1 = d_error_treatment();
-	    p2 = hold_check(d_exp());
-	    p3 = hold_check(d_exp());
+	    p2 = hold_refactor(d_exp());
+	    p3 = hold_refactor(d_exp());
 	    return f_div2(p0, p1, p2, p3);
 	}
 	case e_env_offset: {
@@ -3210,14 +3210,14 @@ d_exp(void)
 	    exp p2;
 	    p0 = d_error_treatment();
 	    p1 = d_floating_variety();
-	    p2 = hold_check(d_exp());
+	    p2 = hold_refactor(d_exp());
 	    return f_float_int(p0, p1, p2);
 	}
 	case e_floating_abs: {
 	    error_treatment p0;
 	    exp p1;
 	    p0 = d_error_treatment();
-	    p1 = hold_check(d_exp());
+	    p1 = hold_refactor(d_exp());
 	    return f_floating_abs(p0, p1);
 	}
 	case e_floating_div: {
@@ -3225,8 +3225,8 @@ d_exp(void)
 	    exp p1;
 	    exp p2;
 	    p0 = d_error_treatment();
-	    p1 = hold_check(d_exp());
-	    p2 = hold_check(d_exp());
+	    p1 = hold_refactor(d_exp());
+	    p2 = hold_refactor(d_exp());
 	    return f_floating_div(p0, p1, p2);
 	}
 	case e_floating_minus: {
@@ -3234,8 +3234,8 @@ d_exp(void)
 	    exp p1;
 	    exp p2;
 	    p0 = d_error_treatment();
-	    p1 = hold_check(d_exp());
-	    p2 = hold_check(d_exp());
+	    p1 = hold_refactor(d_exp());
+	    p2 = hold_refactor(d_exp());
 	    return f_floating_minus(p0, p1, p2);
 	}
 	case e_floating_maximum: {
@@ -3243,8 +3243,8 @@ d_exp(void)
 	    exp p1;
 	    exp p2;
 	    p0 = d_error_treatment();
-	    p1 = hold_check(d_exp());
-	    p2 = hold_check(d_exp());
+	    p1 = hold_refactor(d_exp());
+	    p2 = hold_refactor(d_exp());
 	    return f_floating_maximum(p0, p1, p2);
 	}
 	case e_floating_minimum: {
@@ -3252,8 +3252,8 @@ d_exp(void)
 	    exp p1;
 	    exp p2;
 	    p0 = d_error_treatment();
-	    p1 = hold_check(d_exp());
-	    p2 = hold_check(d_exp());
+	    p1 = hold_refactor(d_exp());
+	    p2 = hold_refactor(d_exp());
 	    return f_floating_minimum(p0, p1, p2);
 	}
 	case e_floating_mult: {
@@ -3267,7 +3267,7 @@ d_exp(void)
 	    error_treatment p0;
 	    exp p1;
 	    p0 = d_error_treatment();
-	    p1 = hold_check(d_exp());
+	    p1 = hold_refactor(d_exp());
 	    return f_floating_negate(p0, p1);
 	}
 	case e_floating_plus: {
@@ -3282,8 +3282,8 @@ d_exp(void)
 	    exp p1;
 	    exp p2;
 	    p0 = d_error_treatment();
-	    p1 = hold_check(d_exp());
-	    p2 = hold_check(d_exp());
+	    p1 = hold_refactor(d_exp());
+	    p2 = hold_refactor(d_exp());
 	    return f_floating_power(p0, p1, p2);
 	}
 	case e_floating_test: {
@@ -3297,8 +3297,8 @@ d_exp(void)
 	    p1 = d_error_treatment();
 	    p2 = d_ntest();
 	    p3 = d_label();
-	    p4 = hold_check(d_exp());
-	    p5 = hold_check(d_exp());
+	    p4 = hold_refactor(d_exp());
+	    p5 = hold_refactor(d_exp());
 	    return f_floating_test(p0, p1, p2, p3, p4, p5);
 	}
 	case e_goto: {
@@ -3308,7 +3308,7 @@ d_exp(void)
 	}
 	case e_goto_local_lv: {
 	    exp p0;
-	    p0 = hold_check(d_exp());
+	    p0 = hold_refactor(d_exp());
 	    return f_goto_local_lv(p0);
 	}
 	case e_identify: {
@@ -3318,25 +3318,25 @@ d_exp(void)
 	    exp p3;
 	    p0 = d_access_option();
 	    p1 = d_tag();
-	    p2 = hold_check(d_exp());
+	    p2 = hold_refactor(d_exp());
 	    start_identify(p0, p1, p2);
-	    p3 = hold_check(d_exp());
+	    p3 = hold_refactor(d_exp());
 	    return f_identify(p0, p1, p2, p3);
 	}
 	case e_ignorable: {
 	    exp p0;
-	    p0 = hold_check(d_exp());
+	    p0 = hold_refactor(d_exp());
 	    return f_ignorable(p0);
 	}
 	case e_imaginary_part: {
 	    exp p0;
-	    p0 = hold_check(d_exp());
+	    p0 = hold_refactor(d_exp());
 	    return f_imaginary_part(p0);
 	}
 	case e_initial_value: {
 	    exp p0;
 	    start_initial_value();
-	    p0 = hold_check(d_exp());
+	    p0 = hold_refactor(d_exp());
 	    return f_initial_value(p0);
 	}
 	case e_integer_test: {
@@ -3348,8 +3348,8 @@ d_exp(void)
 	    p0 = d_nat_option();
 	    p1 = d_ntest();
 	    p2 = d_label();
-	    p3 = hold_check(d_exp());
-	    p4 = hold_check(d_exp());
+	    p3 = hold_refactor(d_exp());
+	    p4 = hold_refactor(d_exp());
 	    return f_integer_test(p0, p1, p2, p3, p4);
 	}
 	case e_labelled: {
@@ -3358,30 +3358,30 @@ d_exp(void)
 	    exp_list p2;
 	    p0 = d_label_list();
 	    start_labelled(p0);
-	    p1 = hold_check(d_exp());
+	    p1 = hold_refactor(d_exp());
 	    p2 = d_exp_list();
 	    return f_labelled(p0, p1, p2);
 	}
 	case e_last_local: {
 	    exp p0;
-	    p0 = hold_check(d_exp());
+	    p0 = hold_refactor(d_exp());
 	    return f_last_local(p0);
 	}
 	case e_local_alloc: {
 	    exp p0;
-	    p0 = hold_check(d_exp());
+	    p0 = hold_refactor(d_exp());
 	    return f_local_alloc(p0);
 	}
 	case e_local_alloc_check: {
 	    exp p0;
-	    p0 = hold_check(d_exp());
+	    p0 = hold_refactor(d_exp());
 	    return f_local_alloc_check(p0);
 	}
 	case e_local_free: {
 	    exp p0;
 	    exp p1;
-	    p0 = hold_check(d_exp());
-	    p1 = hold_check(d_exp());
+	    p0 = hold_refactor(d_exp());
+	    p1 = hold_refactor(d_exp());
 	    return f_local_free(p0, p1);
 	}
 	case e_local_free_all: {
@@ -3390,8 +3390,8 @@ d_exp(void)
 	case e_long_jump: {
 	    exp p0;
 	    exp p1;
-	    p0 = hold_check(d_exp());
-	    p1 = hold_check(d_exp());
+	    p0 = hold_refactor(d_exp());
+	    p1 = hold_refactor(d_exp());
 	    return f_long_jump(p0, p1);
 	}
 	case e_make_complex: {
@@ -3399,14 +3399,14 @@ d_exp(void)
 	    exp p1;
 	    exp p2;
 	    p0 = d_floating_variety();
-	    p1 = hold_check(d_exp());
-	    p2 = hold_check(d_exp());
+	    p1 = hold_refactor(d_exp());
+	    p2 = hold_refactor(d_exp());
 	    return f_make_complex(p0, p1, p2);
 	}
 	case e_make_compound: {
 	    exp p0;
 	    exp_list p1;
-	    p0 = hold_check(d_exp());
+	    p0 = hold_refactor(d_exp());
 	    p1 = d_exp_list();
 	    return f_make_compound(p0, p1);
 	}
@@ -3436,7 +3436,7 @@ d_exp(void)
 	    p2 = d_tagshacc_list();
 	    p3 = d_tagshacc_list();
 	    start_make_general_proc(p0, p1, p2, p3);
-	    p4 = hold_check(d_exp());
+	    p4 = hold_refactor(d_exp());
 	    return f_make_general_proc(p0, p1, p2, p3, p4);
 	}
 	case e_make_int: {
@@ -3483,16 +3483,16 @@ d_exp(void)
 	    p1 = d_tagshacc_list();
 	    p2 = d_tagacc_option();
 	    start_make_proc(p0, p1, p2);
-	    p3 = hold_check(d_exp());
+	    p3 = hold_refactor(d_exp());
 	    return f_make_proc(p0, p1, p2, p3);
 	}
 	case e_make_stack_limit: {
 	    exp p0;
 	    exp p1;
 	    exp p2;
-	    p0 = hold_check(d_exp());
-	    p1 = hold_check(d_exp());
-	    p2 = hold_check(d_exp());
+	    p0 = hold_refactor(d_exp());
+	    p1 = hold_refactor(d_exp());
+	    p2 = hold_refactor(d_exp());
 	    return f_make_stack_limit(p0, p1, p2);
 	}
 	case e_make_top: {
@@ -3506,15 +3506,15 @@ d_exp(void)
 	case e_maximum: {
 	    exp p0;
 	    exp p1;
-	    p0 = hold_check(d_exp());
-	    p1 = hold_check(d_exp());
+	    p0 = hold_refactor(d_exp());
+	    p1 = hold_refactor(d_exp());
 	    return f_maximum(p0, p1);
 	}
 	case e_minimum: {
 	    exp p0;
 	    exp p1;
-	    p0 = hold_check(d_exp());
-	    p1 = hold_check(d_exp());
+	    p0 = hold_refactor(d_exp());
+	    p1 = hold_refactor(d_exp());
 	    return f_minimum(p0, p1);
 	}
 	case e_minus: {
@@ -3522,8 +3522,8 @@ d_exp(void)
 	    exp p1;
 	    exp p2;
 	    p0 = d_error_treatment();
-	    p1 = hold_check(d_exp());
-	    p2 = hold_check(d_exp());
+	    p1 = hold_refactor(d_exp());
+	    p2 = hold_refactor(d_exp());
 	    return f_minus(p0, p1, p2);
 	}
 	case e_move_some: {
@@ -3532,9 +3532,9 @@ d_exp(void)
 	    exp p2;
 	    exp p3;
 	    p0 = d_transfer_mode();
-	    p1 = hold_check(d_exp());
-	    p2 = hold_check(d_exp());
-	    p3 = hold_check(d_exp());
+	    p1 = hold_refactor(d_exp());
+	    p2 = hold_refactor(d_exp());
+	    p3 = hold_refactor(d_exp());
 	    return f_move_some(p0, p1, p2, p3);
 	}
 	case e_mult: {
@@ -3542,27 +3542,27 @@ d_exp(void)
 	    exp p1;
 	    exp p2;
 	    p0 = d_error_treatment();
-	    p1 = hold_check(d_exp());
-	    p2 = hold_check(d_exp());
+	    p1 = hold_refactor(d_exp());
+	    p2 = hold_refactor(d_exp());
 	    return f_mult(p0, p1, p2);
 	}
 	case e_n_copies: {
 	    nat p0;
 	    exp p1;
 	    p0 = d_nat();
-	    p1 = hold_check(d_exp());
+	    p1 = hold_refactor(d_exp());
 	    return f_n_copies(p0, p1);
 	}
 	case e_negate: {
 	    error_treatment p0;
 	    exp p1;
 	    p0 = d_error_treatment();
-	    p1 = hold_check(d_exp());
+	    p1 = hold_refactor(d_exp());
 	    return f_negate(p0, p1);
 	}
 	case e_not: {
 	    exp p0;
-	    p0 = hold_check(d_exp());
+	    p0 = hold_refactor(d_exp());
 	    return f_not(p0);
 	}
 	case e_obtain_tag: {
@@ -3573,8 +3573,8 @@ d_exp(void)
 	case e_offset_add: {
 	    exp p0;
 	    exp p1;
-	    p0 = hold_check(d_exp());
-	    p1 = hold_check(d_exp());
+	    p0 = hold_refactor(d_exp());
+	    p1 = hold_refactor(d_exp());
 	    return f_offset_add(p0, p1);
 	}
 	case e_offset_div: {
@@ -3582,48 +3582,48 @@ d_exp(void)
 	    exp p1;
 	    exp p2;
 	    p0 = d_variety();
-	    p1 = hold_check(d_exp());
-	    p2 = hold_check(d_exp());
+	    p1 = hold_refactor(d_exp());
+	    p2 = hold_refactor(d_exp());
 	    return f_offset_div(p0, p1, p2);
 	}
 	case e_offset_div_by_int: {
 	    exp p0;
 	    exp p1;
-	    p0 = hold_check(d_exp());
-	    p1 = hold_check(d_exp());
+	    p0 = hold_refactor(d_exp());
+	    p1 = hold_refactor(d_exp());
 	    return f_offset_div_by_int(p0, p1);
 	}
 	case e_offset_max: {
 	    exp p0;
 	    exp p1;
-	    p0 = hold_check(d_exp());
-	    p1 = hold_check(d_exp());
+	    p0 = hold_refactor(d_exp());
+	    p1 = hold_refactor(d_exp());
 	    return f_offset_max(p0, p1);
 	}
 	case e_offset_mult: {
 	    exp p0;
 	    exp p1;
-	    p0 = hold_check(d_exp());
-	    p1 = hold_check(d_exp());
+	    p0 = hold_refactor(d_exp());
+	    p1 = hold_refactor(d_exp());
 	    return f_offset_mult(p0, p1);
 	}
 	case e_offset_negate: {
 	    exp p0;
-	    p0 = hold_check(d_exp());
+	    p0 = hold_refactor(d_exp());
 	    return f_offset_negate(p0);
 	}
 	case e_offset_pad: {
 	    alignment p0;
 	    exp p1;
 	    p0 = d_alignment();
-	    p1 = hold_check(d_exp());
+	    p1 = hold_refactor(d_exp());
 	    return f_offset_pad(p0, p1);
 	}
 	case e_offset_subtract: {
 	    exp p0;
 	    exp p1;
-	    p0 = hold_check(d_exp());
-	    p1 = hold_check(d_exp());
+	    p0 = hold_refactor(d_exp());
+	    p1 = hold_refactor(d_exp());
 	    return f_offset_subtract(p0, p1);
 	}
 	case e_offset_test: {
@@ -3635,8 +3635,8 @@ d_exp(void)
 	    p0 = d_nat_option();
 	    p1 = d_ntest();
 	    p2 = d_label();
-	    p3 = hold_check(d_exp());
-	    p4 = hold_check(d_exp());
+	    p3 = hold_refactor(d_exp());
+	    p4 = hold_refactor(d_exp());
 	    return f_offset_test(p0, p1, p2, p3, p4);
 	}
 	case e_offset_zero: {
@@ -3647,8 +3647,8 @@ d_exp(void)
 	case e_or: {
 	    exp p0;
 	    exp p1;
-	    p0 = hold_check(d_exp());
-	    p1 = hold_check(d_exp());
+	    p0 = hold_refactor(d_exp());
+	    p1 = hold_refactor(d_exp());
 	    return f_or(p0, p1);
 	}
 	case e_plus: {
@@ -3656,8 +3656,8 @@ d_exp(void)
 	    exp p1;
 	    exp p2;
 	    p0 = d_error_treatment();
-	    p1 = hold_check(d_exp());
-	    p2 = hold_check(d_exp());
+	    p1 = hold_refactor(d_exp());
+	    p2 = hold_refactor(d_exp());
 	    return f_plus(p0, p1, p2);
 	}
 	case e_pointer_test: {
@@ -3669,8 +3669,8 @@ d_exp(void)
 	    p0 = d_nat_option();
 	    p1 = d_ntest();
 	    p2 = d_label();
-	    p3 = hold_check(d_exp());
-	    p4 = hold_check(d_exp());
+	    p3 = hold_refactor(d_exp());
+	    p4 = hold_refactor(d_exp());
 	    return f_pointer_test(p0, p1, p2, p3, p4);
 	}
 	case e_power: {
@@ -3678,8 +3678,8 @@ d_exp(void)
 	    exp p1;
 	    exp p2;
 	    p0 = d_error_treatment();
-	    p1 = hold_check(d_exp());
-	    p2 = hold_check(d_exp());
+	    p1 = hold_refactor(d_exp());
+	    p2 = hold_refactor(d_exp());
 	    return f_power(p0, p1, p2);
 	}
 	case e_proc_test: {
@@ -3691,8 +3691,8 @@ d_exp(void)
 	    p0 = d_nat_option();
 	    p1 = d_ntest();
 	    p2 = d_label();
-	    p3 = hold_check(d_exp());
-	    p4 = hold_check(d_exp());
+	    p3 = hold_refactor(d_exp());
+	    p4 = hold_refactor(d_exp());
 	    return f_proc_test(p0, p1, p2, p3, p4);
 	}
 	case e_profile: {
@@ -3702,7 +3702,7 @@ d_exp(void)
 	}
 	case e_real_part: {
 	    exp p0;
-	    p0 = hold_check(d_exp());
+	    p0 = hold_refactor(d_exp());
 	    return f_real_part(p0);
 	}
 	case e_rem0: {
@@ -3712,8 +3712,8 @@ d_exp(void)
 	    exp p3;
 	    p0 = d_error_treatment();
 	    p1 = d_error_treatment();
-	    p2 = hold_check(d_exp());
-	    p3 = hold_check(d_exp());
+	    p2 = hold_refactor(d_exp());
+	    p3 = hold_refactor(d_exp());
 	    return f_rem0(p0, p1, p2, p3);
 	}
 	case e_rem1: {
@@ -3723,8 +3723,8 @@ d_exp(void)
 	    exp p3;
 	    p0 = d_error_treatment();
 	    p1 = d_error_treatment();
-	    p2 = hold_check(d_exp());
-	    p3 = hold_check(d_exp());
+	    p2 = hold_refactor(d_exp());
+	    p3 = hold_refactor(d_exp());
 	    return f_rem1(p0, p1, p2, p3);
 	}
 	case e_rem2: {
@@ -3734,8 +3734,8 @@ d_exp(void)
 	    exp p3;
 	    p0 = d_error_treatment();
 	    p1 = d_error_treatment();
-	    p2 = hold_check(d_exp());
-	    p3 = hold_check(d_exp());
+	    p2 = hold_refactor(d_exp());
+	    p3 = hold_refactor(d_exp());
 	    return f_rem2(p0, p1, p2, p3);
 	}
 	case e_repeat: {
@@ -3744,18 +3744,18 @@ d_exp(void)
 	    exp p2;
 	    p0 = d_label();
 	    start_repeat(p0);
-	    p1 = hold_check(d_exp());
-	    p2 = hold_check(d_exp());
+	    p1 = hold_refactor(d_exp());
+	    p2 = hold_refactor(d_exp());
 	    return f_repeat(p0, p1, p2);
 	}
 	case e_return: {
 	    exp p0;
-	    p0 = hold_check(d_exp());
+	    p0 = hold_refactor(d_exp());
 	    return f_return(p0);
 	}
 	case e_return_to_label: {
 	    exp p0;
-	    p0 = hold_check(d_exp());
+	    p0 = hold_refactor(d_exp());
 	    return f_return_to_label(p0);
 	}
 	case e_round_with_mode: {
@@ -3766,33 +3766,33 @@ d_exp(void)
 	    p0 = d_error_treatment();
 	    p1 = d_rounding_mode();
 	    p2 = d_variety();
-	    p3 = hold_check(d_exp());
+	    p3 = hold_refactor(d_exp());
 	    return f_round_with_mode(p0, p1, p2, p3);
 	}
 	case e_rotate_left: {
 	    exp p0;
 	    exp p1;
-	    p0 = hold_check(d_exp());
-	    p1 = hold_check(d_exp());
+	    p0 = hold_refactor(d_exp());
+	    p1 = hold_refactor(d_exp());
 	    return f_rotate_left(p0, p1);
 	}
 	case e_rotate_right: {
 	    exp p0;
 	    exp p1;
-	    p0 = hold_check(d_exp());
-	    p1 = hold_check(d_exp());
+	    p0 = hold_refactor(d_exp());
+	    p1 = hold_refactor(d_exp());
 	    return f_rotate_right(p0, p1);
 	}
 	case e_sequence: {
 	    exp_list p0;
 	    exp p1;
 	    p0 = d_exp_list();
-	    p1 = hold_check(d_exp());
+	    p1 = hold_refactor(d_exp());
 	    return f_sequence(p0, p1);
 	}
 	case e_set_stack_limit: {
 	    exp p0;
-	    p0 = hold_check(d_exp());
+	    p0 = hold_refactor(d_exp());
 	    return f_set_stack_limit(p0);
 	}
 	case e_shape_offset: {
@@ -3805,22 +3805,22 @@ d_exp(void)
 	    exp p1;
 	    exp p2;
 	    p0 = d_error_treatment();
-	    p1 = hold_check(d_exp());
-	    p2 = hold_check(d_exp());
+	    p1 = hold_refactor(d_exp());
+	    p2 = hold_refactor(d_exp());
 	    return f_shift_left(p0, p1, p2);
 	}
 	case e_shift_right: {
 	    exp p0;
 	    exp p1;
-	    p0 = hold_check(d_exp());
-	    p1 = hold_check(d_exp());
+	    p0 = hold_refactor(d_exp());
+	    p1 = hold_refactor(d_exp());
 	    return f_shift_right(p0, p1);
 	}
 	case e_subtract_ptrs: {
 	    exp p0;
 	    exp p1;
-	    p0 = hold_check(d_exp());
-	    p1 = hold_check(d_exp());
+	    p0 = hold_refactor(d_exp());
+	    p1 = hold_refactor(d_exp());
 	    return f_subtract_ptrs(p0, p1);
 	}
 	case e_tail_call: {
@@ -3828,13 +3828,13 @@ d_exp(void)
 	    exp p1;
 	    callees p2;
 	    p0 = d_procprops_option();
-	    p1 = hold_check(d_exp());
+	    p1 = hold_refactor(d_exp());
 	    p2 = d_callees();
 	    return f_tail_call(p0, p1, p2);
 	}
 	case e_untidy_return: {
 	    exp p0;
-	    p0 = hold_check(d_exp());
+	    p0 = hold_refactor(d_exp());
 	    return f_untidy_return(p0);
 	}
 	case e_variable: {
@@ -3844,16 +3844,16 @@ d_exp(void)
 	    exp p3;
 	    p0 = d_access_option();
 	    p1 = d_tag();
-	    p2 = hold_check(d_exp());
+	    p2 = hold_refactor(d_exp());
 	    start_variable(p0, p1, p2);
-	    p3 = hold_check(d_exp());
+	    p3 = hold_refactor(d_exp());
 	    return f_variable(p0, p1, p2, p3);
 	}
 	case e_xor: {
 	    exp p0;
 	    exp p1;
-	    p0 = hold_check(d_exp());
-	    p1 = hold_check(d_exp());
+	    p0 = hold_refactor(d_exp());
+	    p1 = hold_refactor(d_exp());
 	    return f_xor(p0, p1);
 	}
     }
@@ -3874,7 +3874,7 @@ d_exp_list(void)
     temp = new_exp_list(n);
     for (i = 0; i < n; i++) {
 	exp e;
-	e = hold_check(d_exp());
+	e = hold_refactor(d_exp());
 	temp = add_exp_list(temp, e, i);
     }
     return temp;
@@ -3888,7 +3888,7 @@ d_exp_option(void)
 {
     if (getcode(1)) {
 	exp e;
-	e = hold_check(d_exp());
+	e = hold_refactor(d_exp());
 	return yes_exp_option(e);
     }
     return no_exp_option;
@@ -4004,7 +4004,7 @@ d_floating_variety(void)
 	    exp p0;
 	    bitstream p1;
 	    bitstream p2;
-	    p0 = hold_const_check(d_exp());
+	    p0 = hold_const_refactor(d_exp());
 	    p1 = d_bitstream();
 	    p2 = d_bitstream();
 	    return f_flvar_cond(p0, p1, p2);
@@ -4192,7 +4192,7 @@ d_linkinfo(void)
 	case e_static_name_def: {
 	    exp p0;
 	    tdfstring p1;
-	    p0 = hold_check(d_exp());
+	    p0 = hold_refactor(d_exp());
 	    p1 = d_tdfstring();
 	    return f_static_name_def(p0, p1);
 	}
@@ -4204,15 +4204,15 @@ d_linkinfo(void)
 	case e_make_weak_defn: {
 	    exp p0;
 	    exp p1;
-	    p0 = hold_check(d_exp());
-	    p1 = hold_check(d_exp());
+	    p0 = hold_refactor(d_exp());
+	    p1 = hold_refactor(d_exp());
 	    return f_make_weak_defn(p0, p1);
 	}
 	case e_make_weak_symbol: {
 	    tdfstring p0;
 	    exp p1;
 	    p0 = d_tdfstring();
-	    p1 = hold_check(d_exp());
+	    p1 = hold_refactor(d_exp());
 	    return f_make_weak_symbol(p0, p1);
 	}
     }
@@ -4299,14 +4299,14 @@ d_nat(void)
 	    exp p0;
 	    bitstream p1;
 	    bitstream p2;
-	    p0 = hold_const_check(d_exp());
+	    p0 = hold_const_refactor(d_exp());
 	    p1 = d_bitstream();
 	    p2 = d_bitstream();
 	    return f_nat_cond(p0, p1, p2);
 	}
 	case e_computed_nat: {
 	    exp p0;
-	    p0 = hold_const_check(d_exp());
+	    p0 = hold_const_refactor(d_exp());
 	    return f_computed_nat(p0);
 	}
 	case e_error_val: {
@@ -4357,7 +4357,7 @@ d_ntest(void)
 	    exp p0;
 	    bitstream p1;
 	    bitstream p2;
-	    p0 = hold_const_check(d_exp());
+	    p0 = hold_const_refactor(d_exp());
 	    p1 = d_bitstream();
 	    p2 = d_bitstream();
 	    return f_ntest_cond(p0, p1, p2);
@@ -4418,7 +4418,7 @@ d_otagexp(void)
     tag_option p0;
     exp p1;
     p0 = d_tag_option();
-    p1 = hold_check(d_exp());
+    p1 = hold_refactor(d_exp());
     return f_make_otagexp(p0, p1);
 }
 
@@ -4460,7 +4460,7 @@ d_procprops(void)
 	    exp p0;
 	    bitstream p1;
 	    bitstream p2;
-	    p0 = hold_const_check(d_exp());
+	    p0 = hold_const_refactor(d_exp());
 	    p1 = d_bitstream();
 	    p2 = d_bitstream();
 	    return f_procprops_cond(p0, p1, p2);
@@ -4528,7 +4528,7 @@ d_rounding_mode(void)
 	    exp p0;
 	    bitstream p1;
 	    bitstream p2;
-	    p0 = hold_const_check(d_exp());
+	    p0 = hold_const_refactor(d_exp());
 	    p1 = d_bitstream();
 	    p2 = d_bitstream();
 	    return f_rounding_mode_cond(p0, p1, p2);
@@ -4572,7 +4572,7 @@ d_shape(void)
 	    exp p0;
 	    bitstream p1;
 	    bitstream p2;
-	    p0 = hold_const_check(d_exp());
+	    p0 = hold_const_refactor(d_exp());
 	    p1 = d_bitstream();
 	    p2 = d_bitstream();
 	    return f_shape_cond(p0, p1, p2);
@@ -4587,7 +4587,7 @@ d_shape(void)
 	}
 	case e_compound: {
 	    exp p0;
-	    p0 = hold_check(d_exp());
+	    p0 = hold_refactor(d_exp());
 	    return f_compound(p0);
 	}
 	case e_floating: {
@@ -4663,14 +4663,14 @@ d_signed_nat(void)
 	    exp p0;
 	    bitstream p1;
 	    bitstream p2;
-	    p0 = hold_const_check(d_exp());
+	    p0 = hold_const_refactor(d_exp());
 	    p1 = d_bitstream();
 	    p2 = d_bitstream();
 	    return f_signed_nat_cond(p0, p1, p2);
 	}
 	case e_computed_signed_nat: {
 	    exp p0;
-	    p0 = hold_const_check(d_exp());
+	    p0 = hold_const_refactor(d_exp());
 	    return f_computed_signed_nat(p0);
 	}
 	case e_make_signed_nat: {
@@ -4834,7 +4834,7 @@ d_string(void)
 	    exp p0;
 	    bitstream p1;
 	    bitstream p2;
-	    p0 = hold_const_check(d_exp());
+	    p0 = hold_const_refactor(d_exp());
 	    p1 = d_bitstream();
 	    p2 = d_bitstream();
 	    return f_string_cond(p0, p1, p2);
@@ -5047,7 +5047,7 @@ d_tagdef(void)
 	    p0 = d_tdfint();
 	    start_make_id_tagdef(p0);
 	    p1 = d_string_option();
-	    p2 = hold_check(d_exp());
+	    p2 = hold_refactor(d_exp());
 	    return f_make_id_tagdef(p0, p1, p2);
 	}
 	case e_make_var_tagdef: {
@@ -5059,7 +5059,7 @@ d_tagdef(void)
 	    start_make_var_tagdef(p0);
 	    p1 = d_access_option();
 	    p2 = d_string_option();
-	    p3 = hold_const_check(d_exp());
+	    p3 = hold_const_refactor(d_exp());
 	    return f_make_var_tagdef(p0, p1, p2, p3);
 	}
 	case e_common_tagdef: {
@@ -5071,7 +5071,7 @@ d_tagdef(void)
 	    start_common_tagdef(p0);
 	    p1 = d_access_option();
 	    p2 = d_string_option();
-	    p3 = hold_const_check(d_exp());
+	    p3 = hold_const_refactor(d_exp());
 	    return f_common_tagdef(p0, p1, p2, p3);
 	}
     }
@@ -5399,7 +5399,7 @@ d_transfer_mode(void)
 	    exp p0;
 	    bitstream p1;
 	    bitstream p2;
-	    p0 = hold_const_check(d_exp());
+	    p0 = hold_const_refactor(d_exp());
 	    p1 = d_bitstream();
 	    p2 = d_bitstream();
 	    return f_transfer_mode_cond(p0, p1, p2);
@@ -5495,7 +5495,7 @@ d_variety(void)
 	    exp p0;
 	    bitstream p1;
 	    bitstream p2;
-	    p0 = hold_const_check(d_exp());
+	    p0 = hold_const_refactor(d_exp());
 	    p1 = d_bitstream();
 	    p2 = d_bitstream();
 	    return f_var_cond(p0, p1, p2);

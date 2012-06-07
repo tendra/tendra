@@ -549,7 +549,7 @@ static int do_mul_comm
     /* const optim */
     v = reg_operand(seq, sp);
     sp = guardreg(v,sp);
-    assert(last(arg2));	 /* check() & scan() should move const to last */
+    assert(last(arg2));	 /* refactor() & scan() should move const to last */
     if (final_reg == R_NO_REG)
     {
        final_reg = getreg(sp.fixed);
@@ -582,7 +582,7 @@ static int do_mul_comm
     if (name(seq) == val_tag && offset_mul_const_simple(no(seq), sgned)!= NOT_MUL_CONST_SIMPLE)
     {
       /* const optim */
-      assert(last(seq)); /* check() & scan() should move const to last */
+      assert(last(seq)); /* refactor() & scan() should move const to last */
 
       stf_ins(i_fstw,14,b);
       ld_ins(i_lw,SIGNED,b,ARG0);

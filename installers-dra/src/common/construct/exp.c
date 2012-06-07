@@ -18,12 +18,12 @@
 #include "tags.h"
 #include "table_fns.h"
 #include "shapemacs.h"
-#include "check.h"
 #include "flpt.h"
 #include "basicread.h"
 #include "messages_c.h"
 #include "install_fns.h"
 #include "flags.h"
+#include "refactor.h"
 #ifdef NEWDIAGS
 #include "readglob.h"
 #include "dg_aux.h"
@@ -232,7 +232,7 @@ kill_exp(exp e, exp scope)
       if (no(son(e)) == 0 && son(son(e)) != nilexp &&
 	  bro(son(son(e))) != nilexp &&
 	 (scope == nilexp || internal_to(scope, son(e)))) {
-	IGNORE check(son(e), scope);
+	IGNORE refactor(son(e), scope);
       }
       /* check the declaration if now no use */
       retcell(e);
@@ -709,7 +709,7 @@ altaux(exp e, int n, exp scope)
     altaux(f, n, scope);
     return;
   }
-  if (!check(f, scope) && n > 1) {
+  if (!refactor(f, scope) && n > 1) {
     /* do check until n is exhausted */
     altaux(f, n - 1, scope);
     return;
@@ -1012,9 +1012,9 @@ copy_res(exp e, exp var, exp lab)
 	  if (extra_diags) {
 	    diag_inline_result(go);
 	  }
-	  return diag_hold_check(s);	/* not inlining */
+	  return diag_hold_refactor(s);	/* not inlining */
 #else
-	  return hold_check(s);
+	  return hold_refactor(s);
 #endif
 	} else {
 	  exp ass;

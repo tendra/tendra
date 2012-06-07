@@ -14,12 +14,12 @@
 #include "exptypes.h"
 #include "exp.h"
 #include "expmacs.h"
-#include "check.h"
 #include "tags.h"
 #include "shapemacs.h"
 #include "me_fns.h"
 #include "externs.h"
 #include "flags.h"
+#include "refactor.h"
 #ifdef NEWDIAGS
 #include "dg_globs.h"
 #include "dg_aux.h"
@@ -174,7 +174,7 @@ inline_exp(exp e)
 		replace_pars(pars, son(bc));
 	}
 
-	IGNORE check(son(bc), son(bc));	/* check the result (proc_tag ?)*/
+	IGNORE refactor(son(bc), son(bc));	/* check the result (proc_tag ?)*/
 	res = son(bc); /* remove the proc_tag */
 	retcell(bc);	/* and retcell it */
 

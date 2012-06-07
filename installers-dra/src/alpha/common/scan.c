@@ -43,7 +43,6 @@
 #include "reg_defs.h"
 #include "bool.h"
 #include "oddtest.h"
-#include "check.h"
 #include "coder.h"
 #include "szs_als.h"
 #include "scan.h"

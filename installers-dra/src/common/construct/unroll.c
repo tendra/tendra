@@ -18,12 +18,11 @@
 #include "tags.h"
 #include "installglob.h"
 #include "externs.h"
-#include "check_id.h"
-#include "check.h"
 #include "me_fns.h"
 #include "install_fns.h"
 #include "shapemacs.h"
 #include "unroll.h"
+#include "refactor.h"
 
 static int unroll_complex(exp, int, exp, int, exp, int);
 
@@ -303,7 +302,7 @@ inc_offset(exp var, shape sha, exp konst, exp body, int i)
 		/* count of offset_mult uses of control variable */
 		t = pt(id);
 		sum = me_u3(sha, copy(var), cont_tag);
-		sum = hold_check(me_b3(sha, sum, me_shint(sha, i * no(konst)),
+		sum = hold_refactor(me_b3(sha, sum, me_shint(sha, i * no(konst)),
 				       plus_tag));	/* variable + i */
 
 		for (i = 0; i < names_index; ++i) {
@@ -468,12 +467,12 @@ unroll_trans(exp candidate, exp body, exp inc, exp te, exp limit, int nt,
 		temp = me_u3(sha, copy(var), cont_tag);
 		temp1 = copy(limit);
 		sh(temp1) = sha;
-		temp = hold_check(me_b3(sha, temp1, temp, minus_tag));
+		temp = hold_refactor(me_b3(sha, temp1, temp, minus_tag));
 		if (nt == (int)f_greater_than) {
-			temp = hold_check(me_b3(sha, temp, me_shint(sha, 1),
+			temp = hold_refactor(me_b3(sha, temp, me_shint(sha, 1),
 						plus_tag));
 		}
-		temp = hold_check(me_b3(sha, temp, me_shint(sha, times - 1),
+		temp = hold_refactor(me_b3(sha, temp, me_shint(sha, times - 1),
 					and_tag));
 
 		id = me_startid(sha, temp, 0);

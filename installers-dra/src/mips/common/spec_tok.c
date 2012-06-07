@@ -16,7 +16,6 @@
 #include "expmacs.h"
 #include "diag_fns.h"
 #include "flags.h"
-#include "check.h"
 #include "me_fns.h"
 #include "externs.h"
 #include "installglob.h"
@@ -26,6 +25,7 @@
 #include "c_arith_type.h"
 #include "natmacs.h"
 #include "spec_tok.h"
+#include "refactor.h"
 
 
 /* intercepts specially defined tokens */
@@ -46,9 +46,9 @@ special_token(token t, bitstream pars, int sortcode, int * done)
       place old_place;
       old_place = keep_place();
       set_place(pars);
-      arg1 = hold_check(d_exp());
+      arg1 = hold_refactor(d_exp());
       set_place(old_place);
-      tkv.tk_exp = hold_check(me_u3(f_pointer(long_to_al(8)),
+      tkv.tk_exp = hold_refactor(me_u3(f_pointer(long_to_al(8)),
 			   arg1, alloca_tag));
       *done = 1;
       has_alloca = 1;
@@ -63,7 +63,7 @@ special_token(token t, bitstream pars, int sortcode, int * done)
       place old_place;
       old_place = keep_place();
       set_place(pars);
-      tkv.tk_exp = hold_check(d_exp());
+      tkv.tk_exp = hold_refactor(d_exp());
       *done = 1;
 
       if (!diagnose)

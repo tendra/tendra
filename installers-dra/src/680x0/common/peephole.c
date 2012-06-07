@@ -545,7 +545,7 @@ static bool instr_sz[] = {
 */
 
 bool
-post_inc_check(mach_ins *q, bitpattern r)
+post_inc_refactor(mach_ins *q, bitpattern r)
 {
 	long r1, r2, sz;
 	int move_ins;

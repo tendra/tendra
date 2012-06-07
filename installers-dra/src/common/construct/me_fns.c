@@ -20,12 +20,12 @@
 #include "installglob.h"
 #include "tags.h"
 #include "install_fns.h"
-#include "check.h"
 #include "messages_c.h"
 #include "shapemacs.h"
 #include "basicread.h"
 #include "natmacs.h"
 #include "me_fns.h"
+#include "refactor.h"
 
 /* a collection of useful procedures for makeing up exps */
 
@@ -73,7 +73,7 @@ me_complete_id(exp id, exp body)
 	setlast(body);
 	bro(body) = id;
 	sh(id) = sh(body);
-	return hold_check(id);
+	return hold_refactor(id);
 }
 
 

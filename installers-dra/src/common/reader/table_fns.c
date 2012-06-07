@@ -29,7 +29,7 @@
 #include "install_fns.h"
 #include "diagglob.h"
 #include "dg_fns.h"
-#include "check.h"
+#include "refactor.h"
 
 #include "table_fns.h"
 

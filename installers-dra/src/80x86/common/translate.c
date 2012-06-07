@@ -332,7 +332,7 @@ void translate_capsule
       exp idval = son(crt_exp);
       if (!(my_def -> dec_u.dec_val.dec_var) &&
 	  (idval == nilexp || (name(idval)!= val_tag && name(idval)!= real_tag &&
-		name(idval) != null_tag )	/* optimised out in opt_all_exps/checkext */
+		name(idval) != null_tag )	/* optimised out in opt_all_exps/refactor_ext */
 	  ) &&
 	  (name(sh(crt_exp))!= prokhd ||
 		(idval != nilexp && name(idval)!= null_tag &&

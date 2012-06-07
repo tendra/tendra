@@ -16,7 +16,6 @@
 #include "expmacs.h"
 #include "diag_fns.h"
 #include "flags.h"
-#include "check.h"
 #include "me_fns.h"
 #include "externs.h"
 #include "installglob.h"
@@ -28,6 +27,7 @@
 #include "shapemacs.h"
 #include "spec_tok.h"
 #include "szs_als.h"
+#include "refactor.h"
 
 
 /* intercepts specially defined tokens */
@@ -54,7 +54,7 @@ special_token(token t, bitstream pars, int sortcode, int * done)
 	place old_place;
 	old_place = keep_place();
 	set_place(pars);
-	arg1 = hold_check(d_exp());
+	arg1 = hold_refactor(d_exp());
 	set_place(old_place);
 	if (name(arg1) != name_tag) failer("Not a tag in va_start");
 	id = son(arg1);
@@ -63,7 +63,7 @@ special_token(token t, bitstream pars, int sortcode, int * done)
 			nilexp, 0, id, nilexp, 0, 0, env_offset_tag);
 	setvis(id);
 	setenvoff(id);
-	tkv.tk_exp = hold_check(f_add_to_ptr(f_add_to_ptr(f_current_env(), env_o),f_shape_offset(sh(arg1))));
+	tkv.tk_exp = hold_refactor(f_add_to_ptr(f_add_to_ptr(f_current_env(), env_o),f_shape_offset(sh(arg1))));
 	kill_exp(arg1,arg1);
 	*done = 1;
 	return tkv;
@@ -76,19 +76,19 @@ special_token(token t, bitstream pars, int sortcode, int * done)
       place old_place;
       old_place = keep_place();
       set_place(pars);
-      arg1 = hold_check(d_exp());
+      arg1 = hold_refactor(d_exp());
       sha1 = d_shape();
       sha2 = d_shape();
       set_place(old_place);
       sha3 = (shape_size(sha2)>64 ? f_pointer(f_alignment(sha2)) :
 				    (shape_size(sha2)<32 ? swordsh : sha2));
-      arg2 = hold_check(f_offset_pad(f_parameter_alignment(sha3),
+      arg2 = hold_refactor(f_offset_pad(f_parameter_alignment(sha3),
 				     f_shape_offset(sha3)));
       if ((shape_size(sha1)<=32 || shape_size(sha1)>64) &&                              shape_size(sha3)==64)
       {
-	 arg1 = hold_check(f_offset_pad(f_parameter_alignment(realsh),arg1));
+	 arg1 = hold_refactor(f_offset_pad(f_parameter_alignment(realsh),arg1));
       }
-      tkv.tk_exp = hold_check(me_b3(f_offset(al1_of(sh(arg1)),
+      tkv.tk_exp = hold_refactor(me_b3(f_offset(al1_of(sh(arg1)),
 				             al2_of(sh(arg2))),
 				    arg1,arg2,offset_subtract_tag));
       *done = 1; 
@@ -107,18 +107,18 @@ special_token(token t, bitstream pars, int sortcode, int * done)
       place old_place;
       old_place = keep_place();
       set_place(pars);
-      arg1 = hold_check(d_exp());
+      arg1 = hold_refactor(d_exp());
       sha1 = d_shape();
       sha2 = d_shape();
       set_place(old_place);
-      arg2 = hold_check(f_offset_pad(f_parameter_alignment(sha1),
+      arg2 = hold_refactor(f_offset_pad(f_parameter_alignment(sha1),
 				     f_shape_offset(sha1)));
-      off = hold_check(me_b3(f_offset(al1_of(sh(arg1)),
+      off = hold_refactor(me_b3(f_offset(al1_of(sh(arg1)),
 				      al2_of(sh(arg2))),
 			     arg1,arg2,offset_add_tag));
       if (shape_align(sha1) < shape_align(sha2))
       {
-	 tkv.tk_exp = hold_check(f_offset_pad(f_parameter_alignment(sha2),off));
+	 tkv.tk_exp = hold_refactor(f_offset_pad(f_parameter_alignment(sha2),off));
       }
       else
       {
@@ -133,13 +133,13 @@ special_token(token t, bitstream pars, int sortcode, int * done)
       place old_place;
       old_place = keep_place();
       set_place(pars);
-      arg1 = hold_check(d_exp());
+      arg1 = hold_refactor(d_exp());
       set_place(old_place);
-      off1 = hold_check(f_offset_pad(SLONG_ALIGN,arg1));
-      off = hold_check(me_b3(f_offset(al1_of(sh(off1)),
+      off1 = hold_refactor(f_offset_pad(SLONG_ALIGN,arg1));
+      off = hold_refactor(me_b3(f_offset(al1_of(sh(off1)),
 				      SLONG_ALIGN),
 			     off1,f_shape_offset(slongsh),offset_add_tag));
-      tkv.tk_exp = hold_check(f_offset_pad(const_al512,off));
+      tkv.tk_exp = hold_refactor(f_offset_pad(const_al512,off));
       *done = 1;
       return tkv;
   }
@@ -149,9 +149,9 @@ special_token(token t, bitstream pars, int sortcode, int * done)
       place old_place;
       old_place = keep_place();
       set_place(pars);
-      arg1 = hold_check(d_exp());
+      arg1 = hold_refactor(d_exp());
       set_place(old_place);
-      tkv.tk_exp = hold_check(me_u3(f_pointer(long_to_al(8)),
+      tkv.tk_exp = hold_refactor(me_u3(f_pointer(long_to_al(8)),
 			   arg1, alloca_tag));
       *done = 1;
       has_alloca = 1;
@@ -166,7 +166,7 @@ special_token(token t, bitstream pars, int sortcode, int * done)
       place old_place;
       old_place = keep_place();
       set_place(pars);
-      tkv.tk_exp = hold_check(d_exp());
+      tkv.tk_exp = hold_refactor(d_exp());
       *done = 1;
 
       if (!diagnose)

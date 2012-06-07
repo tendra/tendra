@@ -49,7 +49,6 @@ the proc independent (common to other  translators)
 
 #include "machine.h"
 #include "translat.h"
-#include "check.h"
 #include "makecode.h"
 #include "needscan.h"
 #include "me_fns.h"

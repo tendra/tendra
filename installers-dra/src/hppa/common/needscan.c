@@ -31,7 +31,6 @@ the proc independent (common to other  translators)
 #include "expmacs.h"
 #include "tags.h"
 #include "new_tags.h"
-#include "check.h"
 #include "proctypes.h"
 #include "bitsmacs.h"
 #include "maxminmacs.h"

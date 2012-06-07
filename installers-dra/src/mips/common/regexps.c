@@ -24,7 +24,6 @@ For trivial 'peephole' optimisations
 #include "maxminmacs.h"
 #include "shapemacs.h"
 #include "extratags.h"
-#include "check.h"
 #include "basicread.h"
 #include "regexps.h"
 

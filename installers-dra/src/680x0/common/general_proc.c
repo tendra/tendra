@@ -13,7 +13,6 @@
 
 #include "config.h"
 #include "exptypes.h"
-#include "check.h"
 #include "exp.h"
 #include "expmacs.h"
 #include "flags.h"

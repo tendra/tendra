@@ -18,7 +18,6 @@
 #include "coder.h"
 #include "instr.h"
 #include "out.h"
-#include "check.h"
 #include "codermacs.h"
 #include "externs.h"
 #include "install_fns.h"

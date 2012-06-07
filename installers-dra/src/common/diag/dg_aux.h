@@ -43,7 +43,7 @@ extern exp diaginfo_exp(exp e);
 extern void diag_kill_id(exp id);
 extern void set_obj_ref(dg_name nm);
 extern exp copy_res_diag(exp e, dg_info d, exp var, exp lab);
-extern exp diag_hold_check(exp e);
+extern exp diag_hold_refactor(exp e);
 extern void start_diag_inlining(exp e, dg_name dn);
 extern void end_diag_inlining(exp e, dg_name dn);
 extern dg_info combine_diaginfo(dg_info d1, dg_info d2);

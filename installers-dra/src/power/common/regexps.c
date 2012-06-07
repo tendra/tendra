@@ -21,7 +21,6 @@
 
 #include "regexps.h"
 #include "flags.h"
-#include "check.h"
 
 struct regpeept
 {

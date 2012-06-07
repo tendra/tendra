@@ -9,12 +9,10 @@
 
 /********************************************************************
 
-                        check_id.c
-
-   check_id tries to apply transformations to improve identity and
+   refactor_id tries to apply transformations to improve identity and
    variable declarations.
 
-   check_id delivers 1 if it makes any change, 0 otherwise.
+   refactor_id delivers 1 if it makes any change, 0 otherwise.
 
    used_in delivers 0 if the identifier declared by vardec is unused in
    the exp piece, 1 if it is used for contents operation only, 3 if it is
@@ -43,18 +41,19 @@
 #include "exp.h"
 #include "expmacs.h"
 #include "shapemacs.h"
-#include "check.h"
+#include "refactor.h"
 #include "tags.h"
 #include "externs.h"
 #include "installglob.h"
 #include "flags.h"
 #include "install_fns.h"
 #include "me_fns.h"
+#include "refactor.h"
 #ifdef NEWDIAGS
 #include "dg_aux.h"
 #endif
 
-#include "check_id.h"
+#include "refactor_id.h"
 
 #if is68000
 extern int check_anyway(exp);
@@ -72,7 +71,7 @@ hc(exp e, exp t)
 {
 	setlast(t);
 	bro(t) = e;
-	return hold_check(e);
+	return hold_refactor(e);
 }
 
 
@@ -185,7 +184,7 @@ static void
 repbyseq(exp e)
 {
 	exp def = son(e);
-	exp body = hold_check(bro(def));
+	exp body = hold_refactor(bro(def));
 	exp seq, s;
 #ifdef NEWDIAGS
 	exp t = pt(e);
@@ -208,7 +207,7 @@ repbyseq(exp e)
 	seq = getexp(f_bottom, nilexp, 0, def, nilexp, 0, 0, 0);
 	bro(def) = seq;
 	setlast(def);
-	s = hold_check(make_twoarg(seq_tag, sh(body), seq, body));
+	s = hold_refactor(make_twoarg(seq_tag, sh(body), seq, body));
 #ifdef NEWDIAGS
 	if (diagnose) {
 		dg_whole_comp(e, s);
@@ -430,7 +429,7 @@ change_cont(exp vardec, exp val, int force)
  *********************************************************************/
 
 int
-check_id(exp e, exp scope)
+refactor_id(exp e, exp scope)
 {
   int is_var = isvar(e);
   int is_vis = (all_variables_visible || isvis(e));
@@ -513,7 +512,7 @@ check_id(exp e, exp scope)
 	son(old_pt_list) = new_var;
 	old_pt_list = pt(old_pt_list);
       }
-      new_var = hold_check(new_var);
+      new_var = hold_refactor(new_var);
 
       bro(son(t1)) = new_var;
       setfather(t1, new_var);
@@ -583,7 +582,7 @@ check_id(exp e, exp scope)
 	}
 	if (sh(cp) != sh(mem)) {
 	  if (name(sh(cp)) <= u64hd) {
-	    cp = hold_check(me_u3(sh(mem), cp, chvar_tag));
+	    cp = hold_refactor(me_u3(sh(mem), cp, chvar_tag));
 	  } else {
 	    sh(cp) = sh(mem);
 	  }
@@ -602,7 +601,7 @@ check_id(exp e, exp scope)
       bro(bro(def)) = e;
       setlast(bro(def));
       retcell(bh);
-      IGNORE check(e, scope);
+      IGNORE refactor(e, scope);
       return 1;
     }
   }
@@ -905,7 +904,7 @@ check_id(exp e, exp scope)
 	bro(bro(def)) = e;
 	setlast(bro(def));
 	retcell(bh);
-	IGNORE check(e, scope);
+	IGNORE refactor(e, scope);
 	return 1;
       }
 
@@ -927,7 +926,7 @@ check_id(exp e, exp scope)
 	      exp x = me_u3(slongsh, copy(bro(temp)), chvar_tag);
 	      sh(son(x)) = ish;
 	      replace(bro(temp), x, x);
-	      IGNORE check(father(x), father(x));
+	      IGNORE refactor(father(x), father(x));
 	      kill_exp(bro(temp), bro(temp));
 	    }
 	  } else {

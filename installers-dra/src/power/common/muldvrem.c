@@ -212,7 +212,7 @@ static int do_mul_comm_const(exp seq, space sp, int final_reg, bool sgned)
 
   sp = guardreg(lhs_reg, sp);
 
-  ASSERT(last(arg2));			/* check() & scan() should move const to last */
+  ASSERT(last(arg2));			/* refactor() & scan() should move const to last */
 
   if (final_reg == R_NO_REG)
     final_reg = getreg(sp.fixed);	/* better code from mul_const if src != dest reg */

@@ -27,7 +27,6 @@
 #include "flpt.h"
 #include "flpttypes.h"
 #include "coder.h"
-#include "check.h"
 #include "out.h"
 #include "reg_record.h"
 #include "codermacs.h"
@@ -3755,7 +3754,7 @@ void change_var
 }
 
 /* change variety from to sha, and put in to */
-void change_var_check
+void change_var_refactor
 (shape sha, where from, where to)
 {
   exp fe = from.where_exp;

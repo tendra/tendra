@@ -15,6 +15,8 @@
 #include "table_fns.h"
 #include "basicread.h"
 #include "sortmacs.h"
+#include "refactor.h"
+
 #ifdef NEWDIAGS
 #include "exp.h"
 #include "expmacs.h"
@@ -25,7 +27,6 @@
 #endif
 
 #include "main_reads.h"
-#include "check.h"
 #include "dg_fns.h"
 #include "diag_fns.h"
 
@@ -90,7 +91,7 @@ read_diag_id_scope(exp body)
 	int was_within_diags = within_diags;
 	within_diags = 1;
 	nam = f_dg_sourcestring_idname(d_tdfstring());
-	acc = hold_check(d_exp());
+	acc = hold_refactor(d_exp());
 	typ = d_diag_type();
 	within_diags = was_within_diags;
 	dgn = f_dg_object_name(nam, f_dg_null_sourcepos, typ,
@@ -160,7 +161,7 @@ read_diag_id_scope(void)
 
 	new->key = DIAG_INFO_ID;
 	new->data.id_scope.nme = d_tdfstring();
-	new->data.id_scope.access = hold_check(d_exp());
+	new->data.id_scope.access = hold_refactor(d_exp());
 	IGNORE hold(hold(new->data.id_scope.access));
 	new->data.id_scope.typ = d_diag_type();
 	return new;

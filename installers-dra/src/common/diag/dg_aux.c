@@ -20,7 +20,6 @@
 #include "expmacs.h"
 #include "tags.h"
 #include "externs.h"
-#include "check.h"
 #include "exp.h"
 #include "me_fns.h"
 #include "table_fns.h"
@@ -28,6 +27,7 @@
 #include "const.h"
 #include "dg_aux.h"
 #include "dg_globs.h"
+#include "refactor.h"
 
 
 #ifndef NEWDIAGS
@@ -410,7 +410,7 @@ diaginfo_exp(exp e)
 	no(ans) = 0;
 	props(ans) = 0;
 	clearlast(ans);
-	IGNORE check(e, e);
+	IGNORE refactor(e, e);
 	return ans;
 }
 
@@ -1051,12 +1051,12 @@ copy_res_diag(exp e, dg_info d, exp var, exp lab)
 
 /* called by copy_res when inlining */
 exp
-diag_hold_check(exp e)
+diag_hold_refactor(exp e)
 {
 	int was_inlining = doing_inlining;
 	exp hc;
 	doing_inlining = 0;
-	hc = hold_check(e);
+	hc = hold_refactor(e);
 	doing_inlining = was_inlining;
 	return hc;
 }
@@ -1614,6 +1614,6 @@ relative_exp(shape s, token t)
 	tokval tv;
 	tv.tk_exp = me_obtain(id);
 	tv = apply_tok(t, keep_place(), EXP_S, &tv);
-	IGNORE me_complete_id(id, hold_check(tv.tk_exp));
+	IGNORE me_complete_id(id, hold_refactor(tv.tk_exp));
 	return hold(id);
 }

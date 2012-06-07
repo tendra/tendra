@@ -16,7 +16,7 @@
 #include "externs.h"
 #include "messages_r.h"
 #include "main_reads.h"
-#include "check.h"
+#include "refactor.h"
 
 
 /* REPORT AN ERROR */
@@ -72,12 +72,12 @@ d_%SN(void)
 @endif
 @if param.sort.special
 @if cons.cond
-	    p%PE = hold_const_check(d_%PSN());
+	    p%PE = hold_const_refactor(d_%PSN());
 @else
 @if cons.special
-	    p%PE = hold_const_check(d_%PSN());
+	    p%PE = hold_const_refactor(d_%PSN());
 @else
-	    p%PE = hold_check(d_%PSN());
+	    p%PE = hold_refactor(d_%PSN());
 @endif
 @endif
 @else
@@ -119,7 +119,7 @@ d_%SN(void)
 %b);
 @endif
 @if param.sort.special
-    p%PE = hold_check(d_%PSN());
+    p%PE = hold_refactor(d_%PSN());
 @else
     p%PE = d_%PSN();
 @endif
@@ -135,7 +135,7 @@ d_%SN(void)
     if (getcode(1)) {
 	%SSN e;
 @if sort.sub.special
-	e = hold_check(d_%SSN());
+	e = hold_refactor(d_%SSN());
 @else
 	e = d_%SSN();
 @endif
@@ -153,7 +153,7 @@ d_%SN(void)
     for (i = 0; i < n; i++) {
 	%SSN e;
 @if sort.sub.special
-	e = hold_check(d_%SSN());
+	e = hold_refactor(d_%SSN());
 @else
 	e = d_%SSN();
 @endif

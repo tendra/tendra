@@ -38,10 +38,8 @@
 #include "instr.h"
 #include "instrmacs.h"
 #include "out.h"
-#include "check.h"
 #include "flags.h"
 #include "codec.h"
-#include "global_opt.h"
 #include "reg_record.h"
 #include "externs.h"
 #include "install_fns.h"
@@ -57,6 +55,7 @@
 #include "readglob.h"
 #include "cproc.h"
 #include "coder.h"
+#include "refactor.h"
 
 #ifdef NEWDIAGS
 #include "dg_aux.h"

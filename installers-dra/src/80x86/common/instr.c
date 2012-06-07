@@ -44,10 +44,10 @@
 #include "assembler.h"
 #include "messages_8.h"
 #include "readglob.h"
-#include "check.h"
 #include "label_ops.h"
 #include "externs.h"
 #include "instrmacs.h"
+#include "refactor.h"
 
 #include "instr.h"
 

@@ -28,7 +28,6 @@
 #include "flags.h"
 #include "table_fns.h"
 #include "installglob.h"
-#include "check.h"
 #include "localflags.h"
 #include "me_fns.h"
 #include "spec.h"

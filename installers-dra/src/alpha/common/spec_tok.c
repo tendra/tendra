@@ -18,7 +18,6 @@
 #include "expmacs.h"
 #include "diag_fns.h"
 #include "flags.h"
-#include "check.h"
 #include "me_fns.h"
 #include "externs.h"
 #include "installglob.h"
@@ -27,6 +26,7 @@
 #include "install_fns.h"
 #include "c_arith_type.h"
 #include "natmacs.h"
+#include "refactor.h"
 
 #include "spec_tok.h"
 #include "shapemacs.h"
@@ -54,7 +54,7 @@ get_component(exp e, alignment shc, alignment align, int size, int nm, shape off
   shape resshape	/* shape of component */
     = getshape(1,shc,shc,align,size,nm);
     
-  return hold_check(f_component(resshape,hold_check(me_u3(sh(son(son(e))),e,cont_tag)),offsetexp));
+  return hold_refactor(f_component(resshape,hold_refactor(me_u3(sh(son(son(e))),e,cont_tag)),offsetexp));
 }
 
 
@@ -73,9 +73,9 @@ special_token(token t, bitstream pars, int sortcode, int *done)
     place old_place;
     old_place = keep_place();
     set_place(pars);
-    arg1 = hold_check(d_exp());
+    arg1 = hold_refactor(d_exp());
     set_place(old_place);
-    tkv.tk_exp = hold_check(me_u3(f_pointer(long_to_al(8)),
+    tkv.tk_exp = hold_refactor(me_u3(f_pointer(long_to_al(8)),
 				  arg1, alloca_tag));
     *done = 1;
     has_alloca = 1;
@@ -195,7 +195,7 @@ special_token(token t, bitstream pars, int sortcode, int *done)
     place old_place;
     old_place = keep_place();
     set_place(pars);
-    tkv.tk_exp = hold_check(d_exp());
+    tkv.tk_exp = hold_refactor(d_exp());
     *done = 1;
     
     if (!diagnose){

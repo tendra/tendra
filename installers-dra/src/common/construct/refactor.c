@@ -9,17 +9,15 @@
 
 /*********************************************************************
 
-                             check.c
-
-  The routine check performs the bottom-up TDF-to-TDF optimising
-  transformations. When a new exp is created check is applied to
-  see if a recognised situation has arisen. check assumes that
-  all components of this new exp have already had check applied to them.
+  The routine refactor performs the bottom-up TDF-to-TDF optimising
+  transformations. When a new exp is created refactor is applied to
+  see if a recognised situation has arisen. refactor assumes that
+  all components of this new exp have already had refactor applied to them.
   It returns 1 if it has made a change, 0 if not.
 
 
-  hold_check holds an exp as the son of a dummy exp and then
-  applies check. the need for this operation is explained in
+  hold_refactor holds an exp as the son of a dummy exp and then
+  applies refactor. the need for this operation is explained in
   the overall documentation.
 
   eq_exp compares two exp for equality of effect.
@@ -45,7 +43,7 @@
 #include "externs.h"
 #include "install_fns.h"
 #include "shapemacs.h"
-#include "check_id.h"
+#include "refactor_id.h"
 #include "me_fns.h"
 #include "basicread.h"
 #include "szs_als.h"
@@ -57,6 +55,7 @@
 #include "misc_c.h"
 #include "readglob.h"
 #include "misc_c.h"
+#include "refactor.h"
 #ifdef NEWDIAGS
 #include "dg_aux.h"
 #endif
@@ -65,7 +64,7 @@
 #include "localflags.h"
 #endif
 
-#include "check.h"
+#include "refactor.h"
 
 extern shape containedshape(int, int);
 
@@ -101,8 +100,8 @@ static char maxdigs[] = "4294967296";
 
 /***********************************************************************
 
-  hold_check holds an exp as the son of a dummy exp and then
-  applies check. After checking it retcells the dummy exp.
+  hold_refactor holds an exp as the son of a dummy exp and then
+  applies refactor. After refactoring it retcells the dummy exp.
 
  ***********************************************************************/
 /* puts body on a hold */
@@ -126,11 +125,11 @@ hold(exp body)
 
 
 exp
-hold_check(exp r)
+hold_refactor(exp r)
 {
 	exp h, sn;
 	h = hold(r);
-	IGNORE check(r, r);
+	IGNORE refactor(r, r);
 	sn = son(h);
 	bro(sn) = nilexp;
 	retcell(h);
@@ -139,12 +138,12 @@ hold_check(exp r)
 
 
 exp
-hold_const_check(exp r)
+hold_const_refactor(exp r)
 {
 	exp ans;
 	int old = all_variables_visible;
 	all_variables_visible = 0;
-	ans = hold_check(r);
+	ans = hold_refactor(r);
 	all_variables_visible = old;
 	return ans;
 }
@@ -157,7 +156,7 @@ exp varchange(shape s, exp e)
 	exp r = getexp(s, nilexp, 0, e, nilexp, 0, 0, chvar_tag);
 	setlast(e);
 	bro(e) = r;
-	return hold_check(r);
+	return hold_refactor(r);
 }
 
 
@@ -338,7 +337,7 @@ nos(exp t)
 
 
 /**********************************************************************
-   check_seq carries out transformations on sequences.
+   refactor_seq carries out transformations on sequences.
    Statements with no effect are removed.
    Anything after an unconditional goto, or any other statement
    producing a bottom shape, is removed.
@@ -459,7 +458,7 @@ tests_to_bounds(exp a, exp b)
 		return make_test(f_equal, lab, x, me_shint(sha, na), test_tag);
 	}
 	{
-		exp s = hold_check(me_b2(x, me_shint(sha, na), minus_tag));
+		exp s = hold_refactor(me_b2(x, me_shint(sha, na), minus_tag));
 		exp n = me_shint(sha, nb -na);
 		shape new_sha = *us_shape[name(sha)];
 		sh(s) = new_sha;
@@ -471,7 +470,7 @@ tests_to_bounds(exp a, exp b)
 
 
 static int
-check_seq(exp e, exp scope)
+refactor_seq(exp e, exp scope)
 {
 	exp z = son(e);
 	exp t, k, kk;
@@ -852,7 +851,7 @@ comm_ass(exp e, unsigned char op_tag, void (*fn)(exp, exp, int), int one,
 				dg_whole_comp(e, p);
 			}
 #endif
-			replace(e, hold_check(p), scope);
+			replace(e, hold_refactor(p), scope);
 			retcell(e);
 			return 1;
 		}
@@ -1535,7 +1534,7 @@ seq_distr(exp e, exp scope)
 			pt(r) = pt(e);
 			no(r) = no(e);
 			props(r) = props(e);
-			r = hold_check(r);
+			r = hold_refactor(r);
 			sh(x) = sh(e);
 			replace(b, r, r);	/* dgf preserved in copy */
 			kill_exp(b, b);
@@ -1565,7 +1564,7 @@ seq_distr(exp e, exp scope)
 			pt(r) = pt(e);
 			no(r) = no(e);
 			props(r) = props(e);
-			r = hold_check(r);
+			r = hold_refactor(r);
 			sh(y) = sh(e);
 			replace(b, r, r);		/* dgf preserved in copy */
 			kill_exp(b, b);
@@ -1626,7 +1625,7 @@ fneg(exp e)
 /* applies binary floating point operations */
 
 static int
-check_fp2(exp e, exp scope)
+refactor_fp2(exp e, exp scope)
 {
 	exp a1 = son(e);
 	exp a2 = bro(a1);
@@ -1994,7 +1993,7 @@ docmp_f(int test_no, exp a, exp b)
    outside scope */
 
 int
-check(exp e, exp scope)
+refactor(exp e, exp scope)
 {
 	if (is_a(name(e))) {
 		/* main op non-side effect */
@@ -2074,7 +2073,7 @@ check(exp e, exp scope)
 #ifdef NEWDIAGS
 					dgf(res) = dgf(e);
 #endif
-					replace(e, hold_check(res), scope);
+					replace(e, hold_refactor(res), scope);
 					retcell(e);
 					retcell(a);
 					return 1;
@@ -2082,9 +2081,9 @@ check(exp e, exp scope)
 				if (name(v) == cont_tag) {
 					/* replace selecting from contents by
 					 * taking contents of reff selection */
-					exp ap = hold_check(f_add_to_ptr(son(v),
+					exp ap = hold_refactor(f_add_to_ptr(son(v),
 									 a));
-					ap = hold_check(f_contents(sh(e), ap));
+					ap = hold_refactor(f_contents(sh(e), ap));
 #ifdef NEWDIAGS
 					if (diagnose) {
 						dg_whole_comp(v, ap);
@@ -2102,8 +2101,8 @@ check(exp e, exp scope)
 					exp ap, c;
 					exp ob;
 					ob = me_obtain(var);
-					ap = hold_check(f_add_to_ptr(ob, a));
-					c = hold_check(f_contents(sh(e), ap));
+					ap = hold_refactor(f_add_to_ptr(ob, a));
+					c = hold_refactor(f_contents(sh(e), ap));
 					var = me_complete_id(var, c);
 #ifdef NEWDIAGS
 					if (diagnose) {
@@ -2268,16 +2267,16 @@ check(exp e, exp scope)
 					exp x = son(pl);
 
 					exp bx = bro(x);
-					exp res = hold_check(me_b3(sh(e), x,
+					exp res = hold_refactor(me_b3(sh(e), x,
 						  copy(b), offset_mult_tag));
 					exp temp;
 					while (bx != pl) {
 						x = bx;
 						bx = bro(x);
-						temp = hold_check(me_b3(sh(e),
+						temp = hold_refactor(me_b3(sh(e),
 							x, copy(b),
 							offset_mult_tag));
-						res = hold_check(me_b3(sh(e),
+						res = hold_refactor(me_b3(sh(e),
 							res, temp,
 							offset_add_tag));
 					}
@@ -2372,7 +2371,7 @@ check(exp e, exp scope)
 					return 1;
 				}
 				if (name(arg1) == val_tag) {
-					exp q = hold_check(f_plus(f_impossible,
+					exp q = hold_refactor(f_plus(f_impossible,
 								  arg2, arg1));
 #ifdef NEWDIAGS
 					if (diagnose) {
@@ -2387,8 +2386,8 @@ check(exp e, exp scope)
 				    name(bro(son(arg2))) == val_tag &&
 				    optop(arg2)) {
 					exp con = bro(son(arg2));
-					exp x = hold_check(f_plus(f_impossible,
-						hold_check(f_plus(f_impossible,
+					exp x = hold_refactor(f_plus(f_impossible,
+						hold_refactor(f_plus(f_impossible,
 						arg1, son(arg2))), con));
 #ifdef NEWDIAGS
 					if (diagnose) {
@@ -2402,9 +2401,9 @@ check(exp e, exp scope)
 				if (name(arg1) == plus_tag &&
 				    name(bro(son(arg1))) == val_tag &&
 				    optop(arg1)) {
-					exp x = hold_check(f_plus(f_impossible,
+					exp x = hold_refactor(f_plus(f_impossible,
 						son(arg1),
-						hold_check(f_plus(f_impossible,
+						hold_refactor(f_plus(f_impossible,
 						arg2, bro(son(arg1))))));
 #ifdef NEWDIAGS
 					if (diagnose) {
@@ -2418,8 +2417,8 @@ check(exp e, exp scope)
 				if (name(arg2) == plus_tag &&
 				    name(arg1) != plus_tag && optop(arg2)) {
 					exp t = bro(son(arg2));
-					exp x = hold_check(f_plus(f_impossible,
-						hold_check(f_plus(f_impossible,
+					exp x = hold_refactor(f_plus(f_impossible,
+						hold_refactor(f_plus(f_impossible,
 						arg1, son(arg2))), t));
 #ifdef NEWDIAGS
 					if (diagnose) {
@@ -2539,7 +2538,7 @@ check(exp e, exp scope)
 					exp c = bro(a);
 					if (name(c) == val_tag &&
 					    !isbigval(c)) {
-						exp ap = hold_check(me_b3(f_pointer(long_to_al(al2(sh(a)))),
+						exp ap = hold_refactor(me_b3(f_pointer(long_to_al(al2(sh(a)))),
 							 p, a, addptr_tag));
 						exp r = getexp(sh(e), nilexp, 0,
 							       ap, nilexp, 0,
@@ -2548,14 +2547,14 @@ check(exp e, exp scope)
 #ifdef NEWDIAGS
 						dgf(r) = dgf(e);
 #endif
-						replace(e, hold_check(r),
+						replace(e, hold_refactor(r),
 							scope);
 						retcell(e);
 						return 1;
 					}
 					if (al1(sh(p)) == al2(sh(c))) {
 						exp inner, outer;
-						inner = hold_check(me_b3(sh(e),
+						inner = hold_refactor(me_b3(sh(e),
 							p, a, addptr_tag));
 #ifdef NEWDIAGS
 						if (diagnose) {
@@ -2563,7 +2562,7 @@ check(exp e, exp scope)
 								      inner);
 						}
 #endif
-						outer = hold_check(me_b3(sh(e),
+						outer = hold_refactor(me_b3(sh(e),
 							inner, c, addptr_tag));
 #ifdef NEWDIAGS
 						if (diagnose) {
@@ -2645,7 +2644,7 @@ check(exp e, exp scope)
 					shape_size(sh(e)) ==
 					shape_size(sh(son(son(e)))) &&
 					name(sh(son(e))) == bitfhd) {
-				exp res = hold_check(me_u3(sh(e),
+				exp res = hold_refactor(me_u3(sh(e),
 							son(son(e)),
 							chvar_tag));
 				replace(e, res, scope);
@@ -2656,7 +2655,7 @@ check(exp e, exp scope)
 					!is_signed(sh(e)) &&
 					shape_size(sh(e)) ==
 					shape_size(sh(son(e)))) {
-				replace(e, hold_check(me_u3(sh(e),
+				replace(e, hold_refactor(me_u3(sh(e),
 								son(son(e)), chvar_tag)), scope);
 				retcell(e);
 				return 1;
@@ -2667,7 +2666,7 @@ check(exp e, exp scope)
 					shape_size(sh(son(e))) &&
 					shape_size(sh(e)) ==
 					shape_size(sh(son(son(e))))) {
-				replace(e, hold_check(me_u3(sh(e),
+				replace(e, hold_refactor(me_u3(sh(e),
 								son(son(e)), chvar_tag)),
 						scope);
 				retcell(e);
@@ -2712,7 +2711,7 @@ check(exp e, exp scope)
 				exp w;
 				sh(son(e)) = sh(e);
 				w = hold(son(e));
-				IGNORE check(son(w), son(w));
+				IGNORE refactor(son(w), son(w));
 				replace(e, son(w), scope);
 				retcell(e);
 				retcell(w);
@@ -2862,7 +2861,7 @@ check(exp e, exp scope)
 						shape_size(sh(st)) -szbf)) {
 						/* arises from bfcont_tag */
 						replace(e,
-							hold_check(me_u3(sh(e),
+							hold_refactor(me_u3(sh(e),
 							st, chvar_tag)), scope);
 						retcell(e);
 						retcell(temp);
@@ -2877,22 +2876,22 @@ check(exp e, exp scope)
 #if isAlpha
 					s = shape_size(s64sh) - szbf;
 					if (s != 0) {
-						temp = hold_check(me_u3(s64sh,
+						temp = hold_refactor(me_u3(s64sh,
 						       temp, chvar_tag));
-						temp = hold_check(me_b3(s64sh,
+						temp = hold_refactor(me_b3(s64sh,
 						       temp, me_shint(s64sh, s),
 						       shl_tag));
-						temp = hold_check(me_b3(s64sh,
+						temp = hold_refactor(me_b3(s64sh,
 						       temp, me_shint(s64sh, s),
 						       shr_tag));
 					}
 #else
 					s = shape_size(sha) - szbf;
 					if (s != 0) {
-						temp = hold_check(me_b3(sha,
+						temp = hold_refactor(me_b3(sha,
 						       temp, me_shint(sha, s),
 						       shl_tag));
-						temp = hold_check(me_b3(sha,
+						temp = hold_refactor(me_b3(sha,
 						       temp, me_shint(sha, s),
 						       shr_tag));
 					}
@@ -2900,11 +2899,11 @@ check(exp e, exp scope)
 				} else {
 					int mask = (szbf == 32) ? -1 :
 					    (1 << szbf) - 1;
-					temp = hold_check(me_b3(sha, temp,
+					temp = hold_refactor(me_b3(sha, temp,
 					       me_shint(sha, mask), and_tag));
 				}
 
-				replace(e, hold_check(me_u3(sh(e), temp,
+				replace(e, hold_refactor(me_u3(sh(e), temp,
 							    chvar_tag)), scope);
 				retcell(e);
 				return 1;
@@ -2925,12 +2924,12 @@ check(exp e, exp scope)
 						sha = (sg) ? s64sh : u64sh;
 					}
 
-					temp = hold_check(me_u3(sha, temp,
+					temp = hold_refactor(me_u3(sha, temp,
 								chvar_tag));
 				} else {
 					UNUSED(sha);
 				}
-				temp = hold_check(me_u3(sh(e), temp,
+				temp = hold_refactor(me_u3(sh(e), temp,
 							chvar_tag));
 				replace(e, temp, scope);
 				retcell(e);
@@ -3114,7 +3113,7 @@ check(exp e, exp scope)
 					lst = (int)last(t);
 					bro(t) = son(q);
 					setlast(t);
-					IGNORE check(son(q), scope);
+					IGNORE refactor(son(q), scope);
 					bro(p) = son(q);
 					retcell(q);
 					p = bro(p);
@@ -3203,7 +3202,7 @@ check(exp e, exp scope)
 						int p = no(bro(x));
 						if (q >= p) {
 						    exp temp =
-						    hold_check(me_b3(sh(arg1),
+						    hold_refactor(me_b3(sh(arg1),
 						    x, me_shint(sh(arg1),
 						    q - p), shl_tag));
 						    replace(son(e), temp, temp);
@@ -3228,7 +3227,7 @@ check(exp e, exp scope)
 							    me_u3(sh(e), temp1,
 								  chvar_tag);
 							replace(e,
-							    hold_check(temp2),
+							    hold_refactor(temp2),
 							    scope);
 							retcell(e);
 							return 1;
@@ -3252,7 +3251,7 @@ check(exp e, exp scope)
 
 						shape sha = sh(e);
 						{
-							exp a = hold_check(me_b3(sha, arg111,
+							exp a = hold_refactor(me_b3(sha, arg111,
 										 me_shint(sha,
 											  no(arg12) << no(arg112)),
 										 and_tag));
@@ -3263,7 +3262,7 @@ check(exp e, exp scope)
 							else
 								res = me_b3(sha, a,
 									    me_shint(sha, no(arg112) - no(arg2)), shr_tag);
-							replace(e, hold_check(res), scope);
+							replace(e, hold_refactor(res), scope);
 							retcell(e);
 							return 1;
 						};
@@ -3585,7 +3584,7 @@ check(exp e, exp scope)
 				return 0;
 			}
 			/* constant evaluation */
-			if (check_fp2(e, scope)) {
+			if (refactor_fp2(e, scope)) {
 				return 1;
 			}
 			return 0;
@@ -3594,7 +3593,7 @@ check(exp e, exp scope)
 				return 0;
 			}
 			/* constant evaluation */
-			if (check_fp2 (e, scope)) {
+			if (refactor_fp2(e, scope)) {
 				return 1;
 			}
 			if (name(bro(son(e))) == real_tag &&
@@ -3609,9 +3608,9 @@ check(exp e, exp scope)
 				flt_copy(flptnos[fone_no], &flptnos[f]);
 				one = getexp(sha, nilexp, 0, nilexp, nilexp, 0,
 					     f, real_tag);
-				temp = hold_check(me_b3(sha, one, bro(son(e)),
+				temp = hold_refactor(me_b3(sha, one, bro(son(e)),
 							fdiv_tag));
-				temp = hold_check(me_b3(sha, son(e), temp,
+				temp = hold_refactor(me_b3(sha, son(e), temp,
 							fmult_tag));
 				seterrhandle(temp, errhandle(e));
 				replace(e, temp, scope);
@@ -3670,10 +3669,10 @@ check(exp e, exp scope)
 #else
 					no(r) = shape_size(sh(e)) - no(a1) - 8;
 #endif
-					r = hold_check(r);
-					c = hold_check(me_u3(ucharsh, r,
+					r = hold_refactor(r);
+					c = hold_refactor(me_u3(ucharsh, r,
 							     cont_tag));
-					v = hold_check(me_u3(sh(e), c,
+					v = hold_refactor(me_u3(sh(e), c,
 							     chvar_tag));
 					replace(e, v, scope);
 					retcell(e);
@@ -3688,7 +3687,7 @@ check(exp e, exp scope)
 			    !isbigval(bro(son(son(e))))) {
 				int mask = no(bro(son(e))) &
 				    no(bro(son(son(e))));
-				exp res = hold_check(me_b3(sh(e), son(son(e)),
+				exp res = hold_refactor(me_b3(sh(e), son(son(e)),
 					  me_shint(sh(e), mask), and_tag));
 				replace(e, res, scope);
 				retcell(e);
@@ -3718,12 +3717,12 @@ check(exp e, exp scope)
 
 						if (no(arg112) <= no(arg12)) {
 						  exp res =
-						      hold_check(me_b3(sh(arg1),
+						      hold_refactor(me_b3(sh(arg1),
 						      arg111, me_shint(sh(arg1),
 						      no(arg12) - no(arg112)),
 						      shr_tag));
 							replace(arg1, res, res);
-							return check(e, scope);
+							return refactor(e, scope);
 						}
 					}
 				}
@@ -3744,7 +3743,7 @@ check(exp e, exp scope)
 				if ((q | p) == (int)0xffffffff) {
 					exp res = me_b3(sh(e), arg11, bro(arg1),
 							or_tag);
-					replace(e, hold_check(res), scope);
+					replace(e, hold_refactor(res), scope);
 					retcell(e);
 					return 1;
 				}
@@ -3787,7 +3786,7 @@ check(exp e, exp scope)
 					       nilexp, 1, son(e), nilexp, 0,
 					       disp, reff_tag);
 				bro(son(r)) = r;
-				son(e) = hold_check(r);
+				son(e) = hold_refactor(r);
 				bro(son(e)) = e;
 				setlast(son(e));
 				return 1;
@@ -3916,7 +3915,7 @@ check(exp e, exp scope)
 					}
 					SET(res);
 					replace(bro(son(sq)), res, res);
-					replace(e, hold_check(sq), scope);
+					replace(e, hold_refactor(sq), scope);
 					return 1;
 				}
 				return 0;
@@ -4037,7 +4036,7 @@ check(exp e, exp scope)
 			if ((off / rsz) != 0) {
 				ref = me_u3(ptr_sha, p, reff_tag);
 				no(ref) = (off / rsz) * rsz;
-				ref = hold_check(ref);
+				ref = hold_refactor(ref);
 			} else {
 				ref = p;
 			}
@@ -4239,10 +4238,10 @@ check(exp e, exp scope)
 				p = me_obtain(var);
 				if (name(sh(q)) != bitfhd || !newcode) {
 					/* destination */
-					ap = hold_check(f_add_to_ptr(p, t));
-					ass = hold_check(f_assign(ap, q));
+					ap = hold_refactor(f_add_to_ptr(p, t));
+					ass = hold_refactor(f_assign(ap, q));
 				} else {
-					ass = hold_check(f_bitfield_assign(p, t,
+					ass = hold_refactor(f_bitfield_assign(p, t,
 									   q));
 				}
 				el = add_exp_list(el, ass, 0);
@@ -4307,10 +4306,10 @@ check(exp e, exp scope)
 #endif
 		if (name(sh(bro(son(e)))) != name(sh(e))) {
 			sh(e) = sh(bro(son(e)));
-			IGNORE check_id(e, scope);
+			IGNORE refactor_id(e, scope);
 			return 1;
 		}
-		return check_id(e, scope);	/* see check_id.c */
+		return refactor_id(e, scope);	/* see refactor_id.c */
 
 	case seq_tag:
 		if (son(son(e)) == nilexp) {
@@ -4327,7 +4326,7 @@ check(exp e, exp scope)
 			retcell(s);
 			return 1;
 		}
-		return check_seq(e, scope);
+		return refactor_seq(e, scope);
 
 	case cond_tag:
 		if (no(son(bro(son(e)))) == 0) {
@@ -4436,7 +4435,7 @@ check(exp e, exp scope)
 					       (ismax) ?
 					       (unsigned char)max_tag :
 					       (unsigned char)min_tag);
-				replace(e, hold_check(tq), scope);
+				replace(e, hold_refactor(tq), scope);
 				kill_exp(e, e);
 				return 1;
 			}
@@ -4486,7 +4485,7 @@ check(exp e, exp scope)
 			exp sqz = me_b3(f_top, son(son(e)), bro(son(son(e))),
 					0);
 			exp sq = me_b3(sh(e), sqz, bro(son(e)), seq_tag);
-			replace(e, hold_check(sq), scope);
+			replace(e, hold_refactor(sq), scope);
 			retcell(e);
 			return 1;
 		}
@@ -4563,7 +4562,7 @@ check(exp e, exp scope)
 					       nilexp, 1, son(e), nilexp, 0,
 					       disp, reff_tag);
 				bro(son(r)) = r; setlast(son(r));
-				r = hold_check(r);
+				r = hold_refactor(r);
 				bro(r) = b; clearlast(r);
 				son(e) = r;
 				return 1;
@@ -4601,7 +4600,7 @@ check(exp e, exp scope)
 			no(res) = no(e);
 			pt(res) = pt(e);
 			settest_number(res, test_number(e));
-			replace(e, hold_check(res), scope);
+			replace(e, hold_refactor(res), scope);
 			retcell(e);
 			return 1;
 		}
@@ -4907,9 +4906,9 @@ check(exp e, exp scope)
 					exp res = me_b3(sh(arg1), arg111,
 						  me_shint(sh(arg1), mask),
 						  and_tag);
-					res = hold_check(res);
+					res = hold_refactor(res);
 					replace(arg1, res, res);
-					return check(e, scope);
+					return refactor(e, scope);
 				}
 			}
 		}
@@ -5196,7 +5195,7 @@ check(exp e, exp scope)
 		if ((off / rsz) != 0) {
 			ref = me_u3(ptr_sha, p, reff_tag);
 			no(ref) = (off / rsz) * rsz;
-			ref = hold_check(ref);
+			ref = hold_refactor(ref);
 		} else {
 			ref = p;
 		}
@@ -5211,11 +5210,11 @@ check(exp e, exp scope)
 		cont = me_u3(msh, me_obtain(id), (name(e) == bfass_tag) ?
 			     (unsigned char)cont_tag :
 			     (unsigned char)contvol_tag);
-		val = hold_check(me_u3(msh, val, chvar_tag));
-		val = hold_check(me_b3(msh, val, me_shint(msh, posmask),
+		val = hold_refactor(me_u3(msh, val, chvar_tag));
+		val = hold_refactor(me_b3(msh, val, me_shint(msh, posmask),
 				       and_tag));
 		if (rsh != 0) {
-			eshift = hold_check(me_b3(msh, val, me_shint(slongsh,
+			eshift = hold_refactor(me_b3(msh, val, me_shint(slongsh,
 								rsh), shl_tag));
 		} else {
 			eshift = val;
@@ -5226,7 +5225,7 @@ check(exp e, exp scope)
 		if (rsz != bsz) {
 			cont = me_b3(msh, cont, me_shint(msh, negmask),
 				     and_tag);
-			cont = hold_check(me_b3(msh, cont, me_obtain(idval),
+			cont = hold_refactor(me_b3(msh, cont, me_obtain(idval),
 						or_tag));
 		} else {
 			kill_exp(cont, cont);
@@ -5235,8 +5234,8 @@ check(exp e, exp scope)
 		res = me_b3(f_top, me_obtain(id), cont,
 			    (name(e) == bfass_tag) ? (unsigned char)ass_tag :
 			    (unsigned char)assvol_tag);
-		res = hold_check(me_complete_id(idval, res));
-		replace(e, hold_check(me_complete_id(id, res)), scope);
+		res = hold_refactor(me_complete_id(idval, res));
+		replace(e, hold_refactor(me_complete_id(id, res)), scope);
 		retcell(e);
 		return 1;
 	}

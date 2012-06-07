@@ -1,7 +1,7 @@
 /* $Id$ */
 
 /*
- * Copyright 2002-2011, The TenDRA Project.
+ * Copyright 2002-2012, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
  *
  * See doc/copyright/ for the full copyright terms.
@@ -9,17 +9,15 @@
 
 /*******************************************************************
 
-                              checkdecs.h
-
-  The routine check performs the bottom-up TDF-to-TDF optimising
-  transformations. When a new exp is created check is applied to
-  see if a recognised situation has arisen. check assumes that
-  all components of this new exp have already had check applied to them.
+  The routine refactor performs the bottom-up TDF-to-TDF optimising
+  transformations. When a new exp is created refactor is applied to
+  see if a recognised situation has arisen. refactor assumes that
+  all components of this new exp have already had refactor applied to them.
   It returns 1 if it has made a change, 0 if not.
 
 
-  hold_check holds an exp as the son of a dummy exp and then
-  applies check. the need for this operation is explained in
+  hold_refactor holds an exp as the son of a dummy exp and then
+  applies refactor. the need for this operation is explained in
   the overall documentation.
 
   eq_exp compares two exp for equality of effect.
@@ -34,12 +32,12 @@
 #include "exptypes.h"
 #include "installtypes.h"
 
-extern int check(exp e, exp scope);
+extern int refactor(exp e, exp scope);
 extern int eq_exp(exp a, exp b);
 extern int dochvar(int i, shape t);
 extern int dochvar_e(int v, int big, shape f, shape t, int *pr);
-extern exp hold_check(exp e);
-extern exp hold_const_check(exp e);
+extern exp hold_refactor(exp e);
+extern exp hold_const_refactor(exp e);
 extern exp hold(exp e);
 extern int docmp_f(int test_no, exp a, exp b);
 extern ntest int_inverse_ntest[];

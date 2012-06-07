@@ -39,10 +39,8 @@
 #include "tags.h"
 #include "expmacs.h"
 #include "exp.h"
-#include "check.h"
 #include "install_fns.h"
 #include "shapemacs.h"
-#include "check_id.h"
 #include "flags.h"
 #include "externs.h"
 #include "installglob.h"
@@ -52,6 +50,7 @@
 #include "messages_c.h"
 #include "basicread.h"
 #include "me_fns.h"
+#include "refactor.h"
 #ifdef NEWDIAGS
 #include "dg_aux.h"
 #endif
@@ -684,7 +683,7 @@ max_const(exp whole, exp e, int ass_ok)
 	      clearlast(a1);
 	      setbro(m_res, offmul);
 	      setlast(m_res);
-	      m_res = hold_check(offmul);
+	      m_res = hold_refactor(offmul);
 	      *list = bro(z);
 	      retcell(z);
 	    }

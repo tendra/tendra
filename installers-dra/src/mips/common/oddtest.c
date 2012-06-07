@@ -24,7 +24,6 @@ where f is any sequence of unary operators including identity
 #include "exptypes.h"
 #include "shapemacs.h"
 #include "comp_eq_exp.h"
-#include "check.h"
 #include "oddtest.h"
 
 

@@ -18,7 +18,6 @@
 #include "expmacs.h"
 #include "diag_fns.h"
 #include "flags.h"
-#include "check.h"
 #include "me_fns.h"
 #include "externs.h"
 #include "installglob.h"
@@ -32,6 +31,7 @@
 #include "spec_tok.h"
 #include "new_tags.h"
 #include "dg_fns.h"
+#include "refactor.h"
 
 /* intercepts specially defined tokens */
 
@@ -56,7 +56,7 @@ special_token ( token t, bitstream pars, int sortcode, int * done )
     place old_place;
     old_place = keep_place();
     set_place(pars);
-    arg1 = hold_check(d_exp());
+    arg1 = hold_refactor(d_exp());
     set_place(old_place);
 
     if (name(arg1) != name_tag) failer("Not a tag in va_start");
@@ -67,7 +67,7 @@ special_token ( token t, bitstream pars, int sortcode, int * done )
     setvis(id);
     setenvoff(id);
 
-    tkv.tk_exp = hold_check(f_add_to_ptr(f_current_env(), env_o));
+    tkv.tk_exp = hold_refactor(f_add_to_ptr(f_current_env(), env_o));
     kill_exp(arg1,arg1);
     *done = 1;
     return tkv;
@@ -81,7 +81,7 @@ special_token ( token t, bitstream pars, int sortcode, int * done )
     place old_place;
     old_place = keep_place();
     set_place(pars);
-    arg1 = hold_check(d_exp());
+    arg1 = hold_refactor(d_exp());
     s = d_shape();
     set_place(old_place);
 
@@ -102,7 +102,7 @@ special_token ( token t, bitstream pars, int sortcode, int * done )
     el = new_exp_list(1);
     el = add_exp_list(el, ass, 0);
 
-    tkv.tk_exp = hold_check (me_complete_id (id, f_sequence (el, con)));
+    tkv.tk_exp = hold_refactor(me_complete_id (id, f_sequence (el, con)));
     *done = 1;
     return tkv;
   }
@@ -114,7 +114,7 @@ special_token ( token t, bitstream pars, int sortcode, int * done )
     place old_place;
     old_place = keep_place();
     set_place(pars);
-    arg1 = hold_check(d_exp());
+    arg1 = hold_refactor(d_exp());
     s1 = d_shape();
     s2 = d_shape();
     set_place(old_place);
@@ -124,7 +124,7 @@ special_token ( token t, bitstream pars, int sortcode, int * done )
       s1 = f_pointer (f_alignment (s1));
     }
 
-    tkv.tk_exp = hold_check (f_offset_pad (f_parameter_alignment (s2),
+    tkv.tk_exp = hold_refactor(f_offset_pad (f_parameter_alignment (s2),
 				f_offset_add (arg1, f_shape_offset (s1))));
     *done = 1;
     return tkv;
@@ -136,12 +136,12 @@ special_token ( token t, bitstream pars, int sortcode, int * done )
     place old_place;
     old_place = keep_place();
     set_place(pars);
-    arg1 = hold_check(d_exp());
+    arg1 = hold_refactor(d_exp());
     s1 = d_shape();
     s2 = d_shape();
     set_place(old_place);
 
-    tkv.tk_exp = hold_check (f_offset_pad (f_parameter_alignment (s2),
+    tkv.tk_exp = hold_refactor(f_offset_pad (f_parameter_alignment (s2),
 				f_offset_pad (f_alignment (s2),
 				   f_offset_add (arg1, f_shape_offset (s1)))));
     *done = 1;
@@ -154,9 +154,9 @@ special_token ( token t, bitstream pars, int sortcode, int * done )
     place old_place;
     old_place = keep_place();
     set_place(pars);
-    arg1 = hold_check(d_exp());
+    arg1 = hold_refactor(d_exp());
     set_place(old_place);
-    tkv.tk_exp = hold_check(me_u3(f_pointer(long_to_al(8)),
+    tkv.tk_exp = hold_refactor(me_u3(f_pointer(long_to_al(8)),
 				  arg1, alloca_tag));
     *done = 1;
     has_alloca = 1;
@@ -203,7 +203,7 @@ special_token ( token t, bitstream pars, int sortcode, int * done )
     place old_place;
     old_place = keep_place();
     set_place(pars);
-    tkv.tk_exp = hold_check(d_exp());
+    tkv.tk_exp = hold_refactor(d_exp());
     *done = 1;
 
     if (!diagnose){
@@ -289,7 +289,7 @@ special_token ( token t, bitstream pars, int sortcode, int * done )
     old_place = keep_place();
     if (!strcmp(t -> tok_name, "~asm")) {
       set_place(pars);
-      arg1 = hold_check (f_make_nof_int (ucharsh, d_string()));
+      arg1 = hold_refactor(f_make_nof_int (ucharsh, d_string()));
       prp = 1;
     }
     else {
@@ -307,7 +307,7 @@ special_token ( token t, bitstream pars, int sortcode, int * done )
       else
 	return tkv;
       set_place(pars);
-      arg1 = hold_check (d_exp());
+      arg1 = hold_refactor(d_exp());
     }
     set_place(old_place);
     tkv.tk_exp = getexp (f_top, nilexp, 0, arg1, nilexp, prp, 0, asm_tag);

@@ -28,7 +28,6 @@
 #include "tags.h"
 #include "extra_tags.h"
 #include "new_tags.h"
-#include "check.h"
 #include "proctypes.h"
 #include "bitsmacs.h"
 #include "maxminmacs.h"

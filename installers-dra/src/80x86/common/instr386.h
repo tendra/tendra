@@ -38,7 +38,7 @@ void or(shape sha, where a1, where a2, where dest);
 void xor(shape sha, where a1, where a2, where dest);
 void not(shape sha, where a, where dest);
 void change_var(shape sha, where from, where to);
-void change_var_check(shape sha, where from, where to);
+void change_var_refactor(shape sha, where from, where to);
 void change_var_sh(shape sha, shape fsh, where from, where to);
 void floater(shape sha, where from, where to);
 void frnd0(shape sha, where from, where to);

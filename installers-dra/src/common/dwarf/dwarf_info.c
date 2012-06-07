@@ -22,7 +22,6 @@
 #include "tags.h"
 
 #include "main_reads.h"
-#include "check.h"
 #include "main_reads.h"
 
 #include "dwarf_types.h"

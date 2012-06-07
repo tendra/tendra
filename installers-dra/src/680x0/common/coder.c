@@ -14,7 +14,6 @@
 
 #include "config.h"
 #include "exptypes.h"
-#include "check.h"
 #include "exp.h"
 #include "expmacs.h"
 #include "flags.h"
@@ -881,7 +880,7 @@ coder(where dest, ash stack, exp e)
 		if (dc.is_new && pt(e) == reg_pl) {
 			regsinuse &= ~dc.num;
 			if (!output_immediately && p && optim & OPTIM_PEEPHOLE) {
-				if (used_twice && post_inc_check(p, no(e))) {
+				if (used_twice && post_inc_refactor(p, no(e))) {
 					regsinproc = rg;
 					return;
 				}

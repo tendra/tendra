@@ -29,7 +29,6 @@ For trivial 'peephole' optimisations
 #include "shapemacs.h"
 #include "regmacs.h"
 #include "comment.h"
-#include "check.h"
 #include "regexps.h"
 
 /* 22.11.94. Corrected bug found by Ian Currie, i.e. isglob(s) assertion
