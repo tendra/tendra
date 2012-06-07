@@ -14,6 +14,7 @@ PARTS+= src/common/diag
 PARTS+= src/common/dwarf2
 PARTS+= src/common/linkinfo
 PARTS+= src/common/reader
+PARTS+= src/common/refactor
 PARTS+= src/80x86/common
 
 .include <tendra.partial.mk>
@@ -24,6 +25,7 @@ CFLAGS+=	-I ../../common/diag
 CFLAGS+=	-I ../../common/dwarf2
 CFLAGS+=	-I ../../common/linkinfo
 CFLAGS+=	-I ../../common/reader
+CFLAGS+=	-I ../../common/refactor
 CFLAGS+=	-I ../common
 CFLAGS+=	-I .
 

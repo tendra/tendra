@@ -6,13 +6,11 @@
 CCOPTS+=	-I ../diag
 CCOPTS+=	-I ../linkinfo
 CCOPTS+=	-I ../reader
+CCOPTS+=	-I ../refactor
 CCOPTS+=	-I .
 
 SRCS+=	aldefs.c
 SRCS+=	case_opt.c
-SRCS+=	refactor.c
-SRCS+=	refactor_id.c
-SRCS+=	refactor_ext.c
 SRCS+=	complex_eq.c
 SRCS+=	const.c
 SRCS+=	exp.c

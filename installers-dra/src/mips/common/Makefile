@@ -4,6 +4,7 @@
 
 
 CCOPTS+=	-I ../../common/reader
+CCOPTS+=	-I ../../common/refactor
 
 SRCS+=	bstack.c
 SRCS+=	code_here.c

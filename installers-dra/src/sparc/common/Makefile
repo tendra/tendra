@@ -8,6 +8,7 @@ CCOPTS+=	-I ../../common/diag
 CCOPTS+=	-I ../../common/dwarf2
 CCOPTS+=	-I ../../common/linkinfo
 CCOPTS+=	-I ../../common/reader
+CCOPTS+=	-I ../../common/refactor
 
 SRCS+=	codehere.c
 SRCS+=	comment.c

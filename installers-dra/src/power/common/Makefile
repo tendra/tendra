@@ -6,6 +6,7 @@
 CCOPTS+=	-I ../../common/construct
 CCOPTS+=	-I ../../common/diag
 CCOPTS+=	-I ../../common/reader
+CCOPTS+=	-I ../../common/refactor
 
 SRCS+=	ash.c
 SRCS+=	codehere.c

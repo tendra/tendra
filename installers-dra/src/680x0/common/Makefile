@@ -7,6 +7,7 @@ CCOPTS+=	-I ../../common/construct
 CCOPTS+=	-I ../../common/diag
 CCOPTS+=	-I ../../common/linkinfo
 CCOPTS+=	-I ../../common/reader
+CCOPTS+=	-I ../../common/refactor
 
 SRCS+=	68k_globals.c
 SRCS+=	codec.c

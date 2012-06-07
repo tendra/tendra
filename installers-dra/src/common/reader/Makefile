@@ -35,6 +35,7 @@
 CCOPTS+=	-I ../construct
 CCOPTS+=	-I ../diag
 CCOPTS+=	-I ../linkinfo
+CCOPTS+=	-I ../refactor
 CCOPTS+=	-I .
 
 SRCS+=	basicread.c

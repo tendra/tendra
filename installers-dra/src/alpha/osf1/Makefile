@@ -9,6 +9,7 @@ PART_CFLAGS+=	-I ${BASE_DIR}/src/common/construct
 PART_CFLAGS+=	-I ${BASE_DIR}/src/common/diag
 PART_CFLAGS+=	-I ${BASE_DIR}/src/common/linkinfo
 PART_CFLAGS+=	-I ${BASE_DIR}/src/common/reader
+PART_CFLAGS+=	-I ${BASE_DIR}/src/common/refactor
 PART_CFLAGS+=	-I ${BASE_DIR}/src/alpha/common
 PART_CFLAGS+=	-I ${BASE_DIR}/src/alpha/osf1
 
@@ -17,6 +18,7 @@ PARTS+=	src/common/construct
 PARTS+=	src/common/diag
 PARTS+=	src/common/linkinfo
 PARTS+=	src/common/reader
+PARTS+=	src/common/refactor
 PARTS+=	src/alpha/common
 
 .include <tendra.partial.mk>

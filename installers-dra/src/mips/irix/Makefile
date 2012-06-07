@@ -13,6 +13,7 @@ PARTS+=	src/common/construct
 PARTS+=	src/common/diag
 PARTS+=	src/common/linkinfo
 PARTS+=	src/common/reader
+PARTS+=	src/common/refactor
 PARTS+=	src/mips/common
 
 .include <tendra.partial.mk>
