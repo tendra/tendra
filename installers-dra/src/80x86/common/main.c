@@ -33,7 +33,6 @@
 #include "reader_v.h"
 #include "construct_v.h"
 #include "operand.h"
-#include "optimise.h"
 
 #ifdef NEWDIAGS
 #include "diag_v.h"
@@ -214,7 +213,7 @@ main(int argc, char **argv)
 			do_prom = 1;
 			break;
 		case 'O':
-			optim = optim_flags(optarg);
+			optim = flags_optim(optarg);
 			break;
 		case 'P':
 			do_profile = 1;

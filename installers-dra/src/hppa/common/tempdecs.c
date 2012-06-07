@@ -25,7 +25,7 @@
 #include "bitsmacs.h"
 #include "muldvrem.h"
 #include "tempdecs.h"
-#include "optimise.h"
+#include "flags.h"
 
 
 /*

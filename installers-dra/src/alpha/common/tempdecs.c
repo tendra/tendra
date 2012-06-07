@@ -22,7 +22,7 @@
 #include "expmacs.h"
 #include "bitsmacs.h"
 #include "tempdecs.h"
-#include "optimise.h"
+#include "flags.h"
 
 
 static int nouses;

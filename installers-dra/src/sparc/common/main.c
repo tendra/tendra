@@ -30,7 +30,6 @@
 #include "externs.h"
 #include "special.h"
 #include "labels.h"
-#include "optimise.h"
 
 #include "target_v.h"
 #include "reader_v.h"
@@ -190,7 +189,7 @@ main ( int argc, char ** argv )
 			case 'K':                              break;
 			case 'M': strict_fl_div = 1;           break;
 			case 'N': do_prom = 1;                 break;
-			case 'O': optim = optim_flags(optarg); break;
+			case 'O': optim = flags_optim(optarg); break;
 			case 'P': do_profile = 1;              break;	      
 			case 'Q': exit(EXIT_SUCCESS);          break;
 			case 'R': round_after_flop = 1;        break;

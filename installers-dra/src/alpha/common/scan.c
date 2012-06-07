@@ -47,7 +47,7 @@
 #include "coder.h"
 #include "szs_als.h"
 #include "scan.h"
-#include "optimise.h"
+#include "flags.h"
 
 int maxfix, maxfloat;		/* the maximum number of t-regs */
 static int stparam, fixparam, floatparam;

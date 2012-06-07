@@ -32,7 +32,6 @@
 #include "dump_distr.h"
 #include "construct_v.h"
 #include "reader_v.h"
-#include "optimise.h"
 
 extern void output_symtab(char*);
 
@@ -105,7 +104,7 @@ int   main
 
 			case 'K': /* only MIPS */               break;
 			case 'M': strict_fl_div = 1;            break;
-			case 'O': optim = optim_flags(optarg);  break;
+			case 'O': optim = flags_optim(optarg);  break;
 			case 'P': do_profile = 1;               break;
 			case 'Q': exit(EXIT_FAILURE);
 			case 'R': round_after_flop = 1;         break;

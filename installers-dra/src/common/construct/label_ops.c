@@ -20,7 +20,7 @@
 #include "exp.h"
 #include "installglob.h"
 #include "shapemacs.h"
-#include "optimise.h"
+#include "flags.h"
 
 
 /* label_is_next returns 1 if lab is a labst which immediately

@@ -34,7 +34,6 @@
 #include "construct_v.h"
 #include "symbol.h"
 #include "bool.h"
-#include "optimise.h"
 
 FILE *as_file;		/* assembly file */
 FILE *ba_file;
@@ -125,7 +124,7 @@ main(int argc, char *argv[])
 				break;
 
 			case 'M': strict_fl_div = 1;                 break;
-			case 'O': optim = optim_flags(optarg);       break;
+			case 'O': optim = flags_optim(optarg);       break;
 			case 'P': do_profile = 1;                    break;
 			case 'Q': exit(EXIT_SUCCESS);                break;
 			case 'R': round_after_flop = 1;              break;

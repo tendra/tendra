@@ -30,8 +30,6 @@
 #include "unroll.h"
 #include "optimise.h"
 
-enum optim optim;
-
 /* PROCEDURES */
 
 
@@ -122,40 +120,5 @@ opt_all_exps(void)
 	}
 
 	return;
-}
-
-
-enum optim
-optim_flags(const char *s)
-{
-	enum optim o;
-	const char *p;
-
-	o = 0;
-
-	for (p = s; *p != '\0'; p++) {
-		switch (*p) {
-		case 'a': o = ~0U;                 continue;
-
-		case 'c': o |= OPTIM_LOOPCONSTS;   continue;
-		case 'd': o |= OPTIM_DUMP;         continue;
-		case 'e': o |= OPTIM_INLINE_EXPS;  continue;
-		case 'f': o |= OPTIM_FORALLS;      continue;
-		case 'g': o |= OPTIM_CASE;         continue;
-		case 'h': o |= OPTIM_PEEPHOLE;     continue;
-		case 'i': o |= OPTIM_INLINE_PROCS; continue;
-		case 'j': o |= OPTIM_JUMPS;        continue;
-		case 'u': o |= OPTIM_UNROLL;       continue;
-		case 'r': o |= OPTIM_TAIL;         continue;
-		case 't': o |= OPTIM_TEMPDEC;      continue;
-
-		default:
-			error(ERROR_WARNING, "Unrecognised optimisation flag %c. "
-				"Valid flags are: [cdefghijurt] and [a] for all.",
-				*p);
-		}
-	}
-
-	return o;
 }
 

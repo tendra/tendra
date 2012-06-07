@@ -31,7 +31,6 @@
 #include "externs.h"
 #include "hppadiags.h"
 #include "frames.h"
-#include "optimise.h"
 
 #ifdef __DATE__
 #define compile_date __DATE__
@@ -129,7 +128,7 @@ int main
 
 			case 'K': break;
 			case 'M': strict_fl_div = 1;           break;
-			case 'O': optim = optim_flags(optarg); break;
+			case 'O': optim = flags_optim(optarg); break;
 			case 'P':
 				do_profile = 1;
 				break;

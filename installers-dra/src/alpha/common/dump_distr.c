@@ -21,7 +21,7 @@
 #include "regable.h"
 #include "reg_defs.h"
 #include "dump_distr.h"
-#include "optimise.h"
+#include "flags.h"
 
 static  space zsp = {
   0, 0

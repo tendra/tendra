@@ -22,7 +22,6 @@
 #include "construct_v.h"	/* for construct_revision */
 #include "target_v.h"		/* for comiple_date */
 #include "macro.h"
-#include "optimise.h"
 
 int architecture=COMMON_CODE;	
 
@@ -99,7 +98,7 @@ int main(int argc, char **argv)
 
 			case 'M': strict_fl_div = 1; break ;
 
-			case 'O': optim = optim_flags(optarg); break;
+			case 'O': optim = flags_optim(optarg); break;
 			case 'P': do_profile = 1;              break;	      
 			case 'Q': exit(EXIT_SUCCESS);          break;
 			case 'R': round_after_flop = 1;        break;

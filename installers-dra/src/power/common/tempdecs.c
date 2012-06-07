@@ -22,7 +22,7 @@
 #include "tempdecs.h"
 #include "regmacs.h"
 #include "stack.h"
-#include "optimise.h"
+#include "flags.h"
 
 /* to go in a switch as in case CASE_APPLYLIKE: */
 #define	CASE_APPLYLIKE	apply_tag: case round_tag:case apply_general_tag

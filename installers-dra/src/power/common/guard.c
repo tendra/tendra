@@ -27,7 +27,7 @@ second operand.
 
 #include "config.h"
 #include "codegen.h"
-#include "optimise.h"
+#include "flags.h"
 
 #include "comment.h"
 
