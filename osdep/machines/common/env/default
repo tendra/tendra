@@ -24,6 +24,12 @@
 +VERSION		""
 
 /*
+ * Under no circumstances should our producers (or any other source of TDF)
+ * produce capsules which do not pass all installers' strictness checks.
+ */
+<FLAG_TRANS	"-Xs"
+
+/*
  * All optimisations are enabled by default. If this breaks something,
  * it is a genuine bug.
  */
