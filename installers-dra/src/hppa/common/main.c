@@ -75,7 +75,6 @@ int main
 
    /* set defaults for options */
 
-   do_special_fns = 0;            /* do special functions */
    gcc_assembler = 0;
    xdb = 0;
    gdb = 0;
@@ -95,9 +94,10 @@ int main
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"ADGHKNO:PQRVWX:Z" "dh")) != -1) {
+			"B:DGHKNO:PQRVWX:Z" "dh")) != -1) {
 			switch (c) {
-			case 'A': do_alloca = 1; break;
+			case 'B': builtin = flags_builtin(optarg); break;
+
 			case 'D':
 				/* -D emulates cc's +Z flag */
 				PIC_code = 1;

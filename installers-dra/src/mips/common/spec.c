@@ -1,7 +1,7 @@
 /* $Id$ */
 
 /*
- * Copyright 2011, The TenDRA Project.
+ * Copyright 2011-2012, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
  *
  * See doc/copyright/ for the full copyright terms.
@@ -43,22 +43,24 @@ special_fn(exp a1, exp a2, shape s)
   /* at present the detection of special cases is done on the identifiers,
      but it really ought to be on special tokens, as for diagnostics */
 
-  if (!strcmp (id, "setjmp"))
-    has_setjmp = 1;
+  if (builtin & BUILTIN_LONGJMP) {
+    if (!strcmp (id, "setjmp"))
+      has_setjmp = 1;
+  }
 
-  if (a2 != nilexp && last(a2) && ( (do_alloca && !strcmp (id, "alloca"))
-  			 || !strcmp (id, "__builtin_alloca"))) {
-    exp r = getexp (s, nilexp, 0, a2, nilexp, 0,
-	(long) 0, alloca_tag);
-    setfather(r, son(r));
-    has_alloca = 1;
-    spr.is_special = 1;
-    spr.special_exp = r;
-    kill_exp (a1, a1);
-    return spr;
-  };
-
-
+  if (builtin & BUILTIN_ALLOCA) {
+    if (a2 != nilexp && last(a2) && ( (do_alloca && !strcmp (id, "alloca"))
+    			 || !strcmp (id, "__builtin_alloca"))) {
+      exp r = getexp (s, nilexp, 0, a2, nilexp, 0,
+  	(long) 0, alloca_tag);
+      setfather(r, son(r));
+      has_alloca = 1;
+      spr.is_special = 1;
+      spr.special_exp = r;
+      kill_exp (a1, a1);
+      return spr;
+    };
+  }
 
   return spr;
 }

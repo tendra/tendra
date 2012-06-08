@@ -125,48 +125,47 @@ int main
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"ADG:HK:MO:PQRVWX:Z"
+			"B:DG:HK:MO:PQRVWX:Z"
 #ifdef EBUG
 			"L:l:"
 #endif
 #if have_diagnostics
 			"dnt"
 #endif
-			"cegiosu")) != -1) {
+			"cegiou")) != -1) {
 			switch (c) {
-			case 'A': do_alloca = 1;                break;
-			case 'D': do_pic = 1;                   break;
-			case 'G':                               break;
-			case 'H': diagnose = 1;                 break;
-			case 'K':                               break;
-			case 'M': strict_fl_div = 1;            break;
-			case 'O': optim = flags_optim(optarg);  break;
-			case 'P': do_profile = 1;               break;
-			case 'Q': do_quit = 1;                  break;
-			case 'R': round_after_flop = 1;         break;
-			case 'V': report_trans_version = 1;     break;
-			case 'W':                               break;
-			case 'X': check = flags_check(optarg);  break;
-			case 'Z': report_tdf_versions = 1;      break;
+			case 'B': builtin = flags_builtin(optarg); break;
+			case 'D': do_pic = 1;                      break;
+			case 'G':                                  break;
+			case 'H': diagnose = 1;                    break;
+			case 'K':                                  break;
+			case 'M': strict_fl_div = 1;               break;
+			case 'O': optim = flags_optim(optarg);     break;
+			case 'P': do_profile = 1;                  break;
+			case 'Q': do_quit = 1;                     break;
+			case 'R': round_after_flop = 1;            break;
+			case 'V': report_trans_version = 1;        break;
+			case 'W':                                  break;
+			case 'X': check = flags_check(optarg);     break;
+			case 'Z': report_tdf_versions = 1;         break;
 
-			case 'c': cc_conventions = 1;           break;
-			case 'e': ignore_errors = 1;            break;
-			case 'g': cc_conventions = 0;           break;
-			case 'i': output_immediately = 1;       break;
-			case 's': do_special_fns = 1;           break;
-			case 'u': do_sep_units = 1;             break;
+			case 'c': cc_conventions = 1;              break;
+			case 'e': ignore_errors = 1;               break;
+			case 'g': cc_conventions = 0;              break;
+			case 'i': output_immediately = 1;          break;
+			case 'u': do_sep_units = 1;                break;
 
 #if have_diagnostics
-			case 'd': diag_xdb_old_override = 1;    break;
-			case 'n': diag_xdb_new_override = 1;    break;
-			case 't': diag_stab_override = 1;       break;
+			case 'd': diag_xdb_old_override = 1;       break;
+			case 'n': diag_xdb_new_override = 1;       break;
+			case 't': diag_stab_override = 1;          break;
 #endif
 
 #ifdef EBUG
 			case 'l': seek_line = 1;
-			          seek_line_id = optarg;        break;
+			          seek_line_id = optarg;           break;
 			case 'L': seek_extern = 1;
-			          seek_extern_id = optarg;      break;
+			          seek_extern_id = optarg;         break;
 #endif
 
 			case '?':

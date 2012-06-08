@@ -108,10 +108,9 @@ main(int argc, char *argv[])
 	{
 		int c;
 
-		while ((c = getopt(argc, argv, "ABDFG:HK:MO:PQRSVWX:Z" "usd:")) != -1) {
+		while ((c = getopt(argc, argv, "B:DFG:HK:MO:PQRSVWX:Z" "usd:")) != -1) {
 			switch (c) {
-			case 'A': do_alloca = 1;     break;
-			case 'B': /* big floating point constants -> infinity */ break;
+			case 'B': builtin = flags_builtin(optarg);   break;
 			case 'D': failer("no PIC code available"); exit(EXIT_FAILURE);
 			case 'G':                    break;
 

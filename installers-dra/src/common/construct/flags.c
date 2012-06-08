@@ -13,8 +13,6 @@
 
 #include "flags.h"
 
-int do_special_fns = 1;		/* replace special functions by tdf
-				   equivalent operations */
 int redo_structfns = 0;		/* reorganise proc calls delivering
 				   structures */
 int redo_structparams = 0;	/* reorganise proc calls with struct
@@ -46,8 +44,9 @@ int diag_visible = 0;		/* additional visibility if doing diagnostics */
 int extra_diags = 0;		/* option for extended diagnostics */
 #endif
 
-enum optim optim;
-enum check check;
+enum optim   optim;
+enum check   check;
+enum builtin builtin;
 
 enum optim
 flags_optim(const char *s)
@@ -102,6 +101,38 @@ flags_check(const char *s)
 		default:
 			error(ERROR_WARNING, "Unrecognised check flag %c. "
 				"Valid flags are: [sef] and [a] for all.",
+				*p);
+		}
+	}
+
+	return o;
+}
+
+enum builtin
+flags_builtin(const char *s)
+{
+	enum builtin o;
+	const char *p;
+
+	o = 0;
+
+	for (p = s; *p != '\0'; p++) {
+		switch (*p) {
+		case 'a': o = ~0U;              continue;
+
+		case 'j': o |= BUILTIN_LONGJMP; continue;
+		case 'p': o |= BUILTIN_PROMOTE; continue;
+		case 'v': o |= BUILTIN_VARARG;  continue;
+		case 'c': o |= BUILTIN_ALLOCA;  continue;
+		case 'f': o |= BUILTIN_FLOAT;   continue;
+		case 'd': o |= BUILTIN_DIAG;    continue;
+		case 'l': o |= BUILTIN_API;     continue;
+		case 'm': o |= BUILTIN_ASM;     continue;
+		case 't': o |= BUILTIN_DEBUG;   continue;
+
+		default:
+			error(ERROR_WARNING, "Unrecognised builtin flag %c. "
+				"Valid flags are: [sjcdlmt] and [a] for all.",
 				*p);
 		}
 	}

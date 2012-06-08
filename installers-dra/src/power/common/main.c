@@ -55,8 +55,6 @@ int main(int argc, char **argv)
 				   with -DDO_ASSEMBLER_MACROS this makes the 
 				   output easier to read*/
   
-  do_alloca = 0;		/* Use builtin alloca */
-  do_special_fns = 0;		/* Builtin procs used */
   redo_structfns = 1;		/* procs delivering structs 
 				 * recast to extra param
 				 * for call struct/union return convention 
@@ -73,11 +71,11 @@ int main(int argc, char **argv)
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"AGHK:MO:PQRVWX:Z" "c")) != -1) {
+			"B:GHK:MO:PQRVWX:Z" "c")) != -1) {
 			switch (c) {
-			case 'A': do_alloca = 1;                break;
-			case 'G':                               break;
-			case 'H': diagnose = 1;                 break;
+			case 'B': builtin = flags_builtin(optarg); break;
+			case 'G':                                  break;
+			case 'H': diagnose = 1;                    break;
 
 			case 'K': 
 				if (optarg[0] == 'R') {
@@ -147,7 +145,6 @@ int main(int argc, char **argv)
   
   /* switch off certain optimisations in diagnostics mode */
   if ( diagnose ) {
-    do_special_fns = 0;		/* no builtins */
     all_variables_visible = 1;	/* set vis flag for all declarations */
     optim = 0;
   }

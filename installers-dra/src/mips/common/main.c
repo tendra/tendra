@@ -84,12 +84,12 @@ int   main
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"ADG:HK:MO:PQRSVWX:Z"
+			"B:DG:HK:MO:PQRSVWX:Z"
 			"ei")) != -1) {
 			switch (c) {
-			case 'A': do_alloca = 1;                break;
-			case 'D': PIC_code = 1;                 break;
-			case 'G':                               break;
+			case 'B': builtin = flags_builtin(optarg); break;
+			case 'D': PIC_code = 1;                    break;
+			case 'G':                                  break;
 
 			case 'H':
 				diagnose = 1;

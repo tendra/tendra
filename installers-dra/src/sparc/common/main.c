@@ -127,7 +127,6 @@ main ( int argc, char ** argv )
   setbuf ( stderr, NULL ) ;
 
   /* set defaults for options */
-  do_special_fns = 0 ;			/* do special functions */
   redo_structfns = 0 ;			/* structure results are normal */
   redo_structparams = 0 ;		/* structure parameters are odd */
   diagnose = 0 ;			/* not in diagnostics mode */
@@ -159,12 +158,12 @@ main ( int argc, char ** argv )
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"ADGH:JK:MNO:PQRTVWX:Z"
+			"B:DGH:JK:MNO:PQRTVWX:Z"
 			"acglo:i:r:un")) != -1) {
 			switch (c) {
-			case 'A': do_alloca = 1;                break;
-			case 'D': PIC_code = 1;                 break;
-			case 'G':                               break;
+			case 'B': builtin = flags_builtin(optarg); break;
+			case 'D': PIC_code = 1;                    break;
+			case 'G':                                  break;
 
 			case 'H':
 				diagnose = 1 ;

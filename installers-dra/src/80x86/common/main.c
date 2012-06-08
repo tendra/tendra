@@ -124,15 +124,15 @@ main(int argc, char **argv)
 	 * XXX: Some arguments are undocumented in trans.1, check
 	 */
 #ifdef NEWDWARF
-	optstring = "A:D:G:H:" "J" "K:M:NO:PQR:" "T" "VW:X:Z" "abcdfghik:s";
+	optstring = "B:D:G:H:" "J" "K:M:NO:PQR:" "T" "VW:X:Z" "abcdfghik:s";
 #else
-	optstring = "A:D:G:H:"     "K:M:NO:PQR:"     "VW:X:Z" "abcdfghik:s";
+	optstring = "B:D:G:H:"     "K:M:NO:PQR:"     "VW:X:Z" "abcdfghik:s";
 #endif
 
 	while ((ch = getopt(argc, argv, optstring)) != -1) {
 		switch (ch) {
-		case 'A':
-			do_alloca = (*optarg == '1');
+		case 'B':
+			builtin = flags_builtin(optarg);
 			break;
 		case 'D':
 			PIC_code = (*optarg == '1');

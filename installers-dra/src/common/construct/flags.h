@@ -30,7 +30,19 @@ enum check {
 	CHECK_FLPT_OVERFLOW = 1 << 2  /* Constant floating point arithmetic fails installation on overflow */
 };
 
-extern int do_special_fns;
+enum builtin {
+	BUILTIN_LONGJMP = 1 << 0,
+	BUILTIN_PROMOTE = 1 << 1,
+	BUILTIN_VARARG  = 1 << 2,
+	BUILTIN_ALLOCA  = 1 << 3,
+	BUILTIN_FLOAT   = 1 << 4,
+	BUILTIN_DIAG    = 1 << 5,
+	BUILTIN_DIV     = 1 << 6,
+	BUILTIN_API     = 1 << 7,
+	BUILTIN_ASM     = 1 << 8,
+	BUILTIN_DEBUG   = 1 << 9
+};
+
 extern int redo_structfns;
 extern int redo_structparams;
 extern int diagnose;
@@ -52,10 +64,12 @@ extern int diag_visible;
 extern int extra_diags;
 #endif
 
-extern enum optim optim;
-extern enum check check;
+extern enum optim   optim;
+extern enum check   check;
+extern enum builtin builtin;
 
-extern enum optim flags_optim(const char *);
-extern enum check flags_check(const char *);
+extern enum optim   flags_optim(const char *);
+extern enum check   flags_check(const char *);
+extern enum builtin flags_builtin(const char *);
 
 #endif /* flags_key */
