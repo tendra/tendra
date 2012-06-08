@@ -452,10 +452,10 @@ void translate_capsule
       cpr = pr;
       cpr->Has_ll = 0;
       cpr->Has_checkalloc = 0;
-      builtin=0;
+      hppabuiltin=0;
       pr->needsproc = scan(st, &st);
       pr->callee_sz = callee_sz;
-      pr->needsproc.builtin=builtin;
+      pr->needsproc.builtin=hppabuiltin;
     }
   }
 

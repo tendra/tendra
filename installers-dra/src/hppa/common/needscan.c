@@ -2758,7 +2758,7 @@ number is number of proc (useful for indexing)
     nds = scan(&son(*e), at);
     if (nds.fixneeds < 2)
 	nds.fixneeds = 2;
-    builtin|= (1<<5);
+    hppabuiltin|= (1<<5);
     return nds;
   }
 
