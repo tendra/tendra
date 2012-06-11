@@ -5,7 +5,10 @@
 
 SUBDIR+=	src
 #SUBDIR+=	examples
+
+.if defined(WITHDOCS)
 SUBDIR+=	doc
+.endif
 
 .include <tendra.subdir.mk>
 

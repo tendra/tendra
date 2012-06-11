@@ -17,9 +17,8 @@ _TENDRA_WORK_DOC_MK_=1
 # There are three user-specified parameters intended to be passed from the
 # command line:
 #
-#   ${HTML}    - Output to HTML, instead of XHTML
-#   ${WEBSITE} - Output for website use (central CSS & javascript)
-#   ${NODOCS}  - Omit documentation building
+#   ${HTML}     - Output to HTML, instead of XHTML
+#   ${WEBSITE}  - Output for website use (central CSS & javascript)
 #
 # Makfile-facing source parameters are:
 #
@@ -92,9 +91,7 @@ DOC_INDEX=	index.${DOC_EXT}
 DOC_CSS=	css
 DOC_JS= 	js
 
-.if !defined(NODOCS)
 DOC_IMGDEPS!=	${XSLTPROC} ${XMLOPTS} ${XSLTOPTS} ${XSLT_IMGS} ${DOC_SRC}
-.endif
 
 
 #
@@ -135,45 +132,37 @@ ${OBJ_DDIR}/${DOC}/${DOC_JS}: ${JS_DIR}
 # User-facing targets
 #
 
-.if !defined(NODOCS)
 all:: ${OBJ_DDIR}/${DOC}/${DOC_INDEX}
-. if !defined(WEBSITE)
+.if !defined(WEBSITE)
 all:: ${OBJ_DDIR}/${DOC}/${DOC_CSS} ${OBJ_DDIR}/${DOC}/${DOC_JS}
-. endif
-. if defined(MAN)
+.endif
+.if defined(MAN)
 all:: ${OBJ_DDIR}/${DOC}/${DOC_MAN}
-. endif
-. if defined(DOC_IMGDEPS)
+.endif
+.if defined(DOC_IMGDEPS)
 all:: ${DOC_IMGDEPS}
-.  endif
 .endif
 
 
-.if !defined(NODOCS)
 clean::
 	${RMDIR} ${OBJ_DDIR}/${DOC}
-.endif
 
 
-.if !defined(NODOCS)
 install:: all
 	@${CONDCREATE} "${_PREFIX_HTML}/${DOC_OUT}"
-. if !defined(WEBSITE)
+.if !defined(WEBSITE)
 	@${CONDCREATE} "${_PREFIX_HTML}/${DOC_OUT}/${DOC_JS}"
 	@${CONDCREATE} "${_PREFIX_HTML}/${DOC_OUT}/${DOC_CSS}"
 	cp ${OBJ_DDIR}/${DOC}/${DOC_JS}/*.js   "${_PREFIX_HTML}/${DOC_OUT}/${DOC_JS}/"
 	cp ${OBJ_DDIR}/${DOC}/${DOC_CSS}/*.css "${_PREFIX_HTML}/${DOC_OUT}/${DOC_CSS}/"
-. endif
-	cp ${OBJ_DDIR}/${DOC}/*.${DOC_EXT} "${_PREFIX_HTML}/${DOC_OUT}/"
 .endif
+	cp ${OBJ_DDIR}/${DOC}/*.${DOC_EXT} "${_PREFIX_HTML}/${DOC_OUT}/"
 
 
-.if !defined(NODOCS)
 test:: ${DOC_SRC}
 	@${ECHO} "==> Validating ${.ALLSRC}"
 	${XMLLINT} ${XMLOPTS} --dtdattr ${.ALLSRC} \
 	| ${XMLLINT} ${XMLOPTS} ${XMLLINTOPTS} --noout -
-.endif
 
 
 .endif	# !defined(_TENDRA_WORK_DOC_MK_)
