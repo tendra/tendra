@@ -10,13 +10,13 @@
 # process that separate packages should undertake. The depencencies between
 # packages have been arranged in order to make that as painless as possible.
 
-WORKDIR?=     ${.CURDIR}
-OBJ_DIR?=     ${WORKDIR}/obj    # XXX: unused
-OBJ_WWW?=     ${WORKDIR}/obj-www
-OBJ_DOC?=     ${WORKDIR}/obj-doc
-OBJ_BPREFIX?= ${WORKDIR}/obj-bootstrap
-OBJ_REBUILD?= ${WORKDIR}/obj-rebuild
-OBJ_REGEN?=   ${WORKDIR}/obj-regen
+OBJ_DIR?=     ${.CURDIR}/obj
+OBJ_WWW?=     ${OBJ_DIR}-www
+OBJ_DOC?=     ${OBJ_DIR}-doc
+OBJ_APREFIX?= ${OBJ_DIR}-buildall
+OBJ_BPREFIX?= ${OBJ_DIR}-bootstrap
+OBJ_REBUILD?= ${OBJ_DIR}-rebuild
+OBJ_REGEN?=   ${OBJ_DIR}-regen
 OBJ_TEST?=    ${OBJ_BPREFIX}/test
 OBJ_BOOT?=    ${OBJ_BPREFIX}/obj
 
@@ -34,6 +34,24 @@ clean:
 install:
 
 install-doc:
+
+# for automated builds
+build:
+.if !defined(NOOSDEP)
+	${MAKE} bootstrap
+	${MAKE} bootstrap-test
+	${MAKE} bootstrap-rebuild
+	# TODO: ${MAKE} bootstrap-regen
+.else
+. for project in installers-dra lexi libexds make_err make_tdf \
+	producers-dra sid tcc tendra-doc tld tnc tpl tspec
+	cd ${.CURDIR}/${project} && ${MAKE} \
+	    OBJ_DIR=${OBJ_APREFIX}/${project}
+. endfor
+.endif
+.if defined(WITHDOCS)
+	${MAKE} test-doc
+.endif
 
 
 bootstrap: ${BOOTSTRAP_DEPS}
