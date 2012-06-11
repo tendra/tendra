@@ -36,22 +36,26 @@ install:
 install-doc:
 
 # for automated builds
-build:
-.if !defined(NOOSDEP)
-	${MAKE} bootstrap
-	${MAKE} bootstrap-test
-	${MAKE} bootstrap-rebuild
-	# TODO: ${MAKE} bootstrap-regen
-.else
-. for project in installers-dra lexi libexds make_err make_tdf \
+build-allarch:
+	cd ${.CURDIR}/installers-dra && ${MAKE} -DALLARCH \
+	    OBJ_DIR=${OBJ_APREFIX}/${project}
+. for project in lexi libexds make_err make_tdf \
 	producers-dra sid tcc tendra-doc tld tnc tpl tspec
 	cd ${.CURDIR}/${project} && ${MAKE} \
 	    OBJ_DIR=${OBJ_APREFIX}/${project}
 . endfor
-.endif
-.if defined(WITHDOCS)
+
+# for automated builds
+build-docs:
+	${MAKE} doc
 	${MAKE} test-doc
-.endif
+
+# for automated builds
+build-bootstrap:
+	${MAKE} bootstrap
+	${MAKE} bootstrap-test
+	# ${MAKE} bootstrap-rebuild
+	# TODO: ${MAKE} bootstrap-regen
 
 
 bootstrap: ${BOOTSTRAP_DEPS}
