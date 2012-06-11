@@ -10,12 +10,13 @@
 # process that separate packages should undertake. The depencencies between
 # packages have been arranged in order to make that as painless as possible.
 
-OBJ_DIR?=     ${.CURDIR}/obj    # XXX: unused
-OBJ_WWW?=     ${.CURDIR}/obj-www
-OBJ_DOC?=     ${.CURDIR}/obj-doc
-OBJ_BPREFIX?= ${.CURDIR}/obj-bootstrap
-OBJ_REBUILD?= ${.CURDIR}/obj-rebuild
-OBJ_REGEN?=   ${.CURDIR}/obj-regen
+WORKDIR?=     ${.CURDIR}
+OBJ_DIR?=     ${WORKDIR}/obj    # XXX: unused
+OBJ_WWW?=     ${WORKDIR}/obj-www
+OBJ_DOC?=     ${WORKDIR}/obj-doc
+OBJ_BPREFIX?= ${WORKDIR}/obj-bootstrap
+OBJ_REBUILD?= ${WORKDIR}/obj-rebuild
+OBJ_REGEN?=   ${WORKDIR}/obj-regen
 OBJ_TEST?=    ${OBJ_BPREFIX}/test
 OBJ_BOOT?=    ${OBJ_BPREFIX}/obj
 
