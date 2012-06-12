@@ -45,7 +45,21 @@ CCOPTS+= -D_${LIBCVER}
 
 JOPTS+= -Y32bit -D__BUILDING_LIBS
 
+# The include order is important here; CPU-specific hacked includes need to
+# be able to #include_next the more general includes in common/.
+.if exists(${BASE_DIR}/machines/${OSFAM}/${BLDARCH}/include)
 HACKS+=	-I${BASE_DIR}/machines/${OSFAM}/${BLDARCH}/include
+.endif
+
+.if exists(${BASE_DIR}/machines/common/libc/${OSFAM}/include)
+HACKS+=	-I${BASE_DIR}/machines/common/libc/${OSFAM}/include
+.endif
+
+.if defined(GLIBC_NAME)
+. if exists(${BASE_DIR}/machines/common/libc/${GLIBC_NAME:tl}/include)
+HACKS+=	-I${BASE_DIR}/machines/common/libc/${GLIBC_NAME:tl}/include
+. endif
+.endif
 
 
 .for api in ${APIS:R}
