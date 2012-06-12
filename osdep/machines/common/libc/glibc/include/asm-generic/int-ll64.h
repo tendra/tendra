@@ -5,7 +5,7 @@
 
 /* included by <signal.h> */
 
-#if defined(_GLIBC2_14) || defined(_GLIBC2_15)
+#if defined(_GLIBC2_11) || defined(_GLIBC2_14) || defined(_GLIBC2_15)
 #define __signed__ signed
 #endif
 

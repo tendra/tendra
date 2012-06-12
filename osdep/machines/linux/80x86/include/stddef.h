@@ -8,7 +8,8 @@
  * The definitions here must be compatible.
  */
 
-#if defined(_GLIBC2_5) || defined(_GLIBC2_7) || defined(_GLIBC2_14) || defined(_GLIBC2_15)
+#if defined(_GLIBC2_5) || defined(_GLIBC2_7) || defined(_GLIBC2_11) \
+	|| defined(_GLIBC2_14) || defined(_GLIBC2_15)
 
 #define NULL 0
 
