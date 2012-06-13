@@ -22,8 +22,6 @@
 #define FS_LITTLE_ENDIAN	1
 #endif
 
-#define target_system "FreeBSD"
-
 #define isvax 0
 #define ismips 0
 #define is68000 0

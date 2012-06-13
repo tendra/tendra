@@ -83,8 +83,6 @@
 /* div 0 implemented */
 #define div0_implemented        1
 
-#define target_system           "RS6000 / POWERPC"
-
 #define POWERPC_CODE            1
 #define RS6000_CODE             2
 #define COMMON_CODE             0

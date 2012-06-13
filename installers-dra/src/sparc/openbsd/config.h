@@ -26,7 +26,6 @@
 #define SYSV_ABI		1
 #define SYSV_AS			1
 #define DWARF			0
-#define target_system		"Solaris 2.4"
 #define ADDUNDERSCORE		0
 
 #define NEEDS_DEBUG_ALIGN	1

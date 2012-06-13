@@ -21,7 +21,6 @@
 #define target_version 2
 #define target_revision	4
 #define target_patchlevel 11
-#define target_system "Digital Unix (OSF/1)"
 
 #ifdef RELEASE
 #define RELEASE_INFO RELEASE

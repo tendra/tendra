@@ -41,7 +41,6 @@ extern void setbuf(FILE *, char *);
 #define SYSV_ABI		0
 #define SYSV_AS			0
 #define DWARF			0
-#define target_system		"SunOS 4.1.3"
 #define ADDUNDERSCORE		1
 
 

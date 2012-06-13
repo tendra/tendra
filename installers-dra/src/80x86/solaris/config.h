@@ -24,8 +24,6 @@
 #define has_asm 1
 #define as_comment_symbol '/'
 
-#define target_system "Solaris 10"
-
 #define isvax 0
 #define ismips 0
 #define is68000 0
