@@ -23,16 +23,12 @@
 #include "tags.h"
 #include "flags.h"
 #include "const.h"
-#include "foralls.h"
 #include "shapemacs.h"
 #include "glopt.h"
-#include "inline.h"
+#include "optimise.h"
 #ifdef NEWDIAGS
 #include "dg_aux.h"
 #endif
-#include "inl_norm.h"
-#include "optimise.h"
-
 
 int print_inlines = 0;
 

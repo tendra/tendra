@@ -23,7 +23,6 @@
 #include "me_fns.h"
 #include "basicread.h"
 #include "externs.h"
-#include "foralls.h"
 #include "optimise.h"
 #include "refactor_id.h"
 

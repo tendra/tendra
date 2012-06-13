@@ -20,12 +20,11 @@
 #include "externs.h"
 #include "flags.h"
 #include "refactor.h"
+#include "optimise.h"
 #ifdef NEWDIAGS
 #include "dg_globs.h"
 #include "dg_aux.h"
 #endif
-
-#include "inline.h"
 
 /* PROCEDURES */
 

@@ -19,7 +19,7 @@
 #include "flags.h"
 #include "shapemacs.h"
 #include "sparcins.h"
-#include "inl_norm.h"
+#include "optimise.h"
 
 int crit_inline    = 120;
 int crit_decs	   = 6;

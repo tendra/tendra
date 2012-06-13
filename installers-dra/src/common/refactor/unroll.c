@@ -21,8 +21,8 @@
 #include "me_fns.h"
 #include "install_fns.h"
 #include "shapemacs.h"
-#include "unroll.h"
 #include "refactor.h"
+#include "optimise.h"
 
 static int unroll_complex(exp, int, exp, int, exp, int);
 

@@ -16,7 +16,7 @@
 #include "tags.h"
 #include "flags.h"
 #include "shapemacs.h"
-#include "inl_norm.h"
+#include "optimise.h"
 
 static int complexity(exp e, int count, int newdecs);
 

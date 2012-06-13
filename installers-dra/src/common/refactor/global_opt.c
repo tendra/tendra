@@ -19,12 +19,8 @@
 #include "tags.h"
 #include "flags.h"
 #include "const.h"
-#include "foralls.h"
 #include "shapemacs.h"
 #include "glopt.h"
-#include "inline.h"
-#include "inl_norm.h"
-#include "unroll.h"
 #include "optimise.h"
 #include "refactor_ext.h"
 

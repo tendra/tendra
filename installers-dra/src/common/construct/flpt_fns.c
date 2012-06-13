@@ -42,7 +42,6 @@
 #include "natmacs.h"
 #include "f64.h"
 #include "readglob.h"
-#include "case_opt.h"
 #include "install_fns.h"
 #include "externs.h"
 #include "refactor.h"

@@ -16,7 +16,7 @@
 #include "tags.h"
 #include "flags.h"
 #include "shapemacs.h"
-#include "inl_norm.h"
+#include "optimise.h"
 
 #define crit_inline	300
 #define crit_decs	5
