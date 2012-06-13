@@ -33,19 +33,6 @@
 #include "szs_als.h"
 #include "refactor.h"
 
-#ifndef jump_table_density
-#define jump_table_density  60
-#endif
-#ifndef min_jump_table_size
-#define min_jump_table_size 10
-#endif
-#ifndef max_jump_table_size
-#define max_jump_table_size 100
-#endif
-#ifndef min_no_of_default_destinations
-#define min_no_of_default_destinations 3
-#endif
-
 static int density(exp *, int, int, int);
 static exp exhaustive_conditional_maker(int, int, exp);
 static exp inexhaustive_conditional_maker(int, int, exp, exp);
@@ -64,12 +51,19 @@ static double *node_weight;
 static unsigned char *node_start_flag;
 static unsigned char *node_end_flag;
 
+/*
+ * jump_table density is the percentage of entries which must be filled
+ * in a jump table in order for it to be created
+ * So 0 would try to make everything into a jump table whereas 100
+ * would mean only full jump tables could be put out
+ */
+unsigned jump_table_density  =  60;
+unsigned min_jump_table_size =  10;
+unsigned max_jump_table_size = 100;
+unsigned min_no_of_default_destinations = 3;
+
 
 /* PROCEDURES */
-
-
-
-
 
 /*
  * case_optimisation takes a case_tag and an ident_tag and

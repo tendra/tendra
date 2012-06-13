@@ -67,12 +67,6 @@
 #define good_index_factor(f)    1
 #define good_pointer_factor(f)  0
 
-/* case opts config */
-
-#define jump_table_density      60/* between 0 and 100 */
-#define min_jump_table_size     10
-#define max_jump_table_size     100
-#define min_no_of_default_destinations 3
 #if 0
 #define non_default_entries     4
 #define non_default_destinations 3

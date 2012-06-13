@@ -61,27 +61,6 @@
 
 #define keep_PIC_vars 1
 
-/* Parameters for TDF->TDF case_optimisation */
-
-#define jump_table_density 10        /* between 0 and 100 */
-
-/* jump_table density is the percentage of entries which must be filled 
- * in a jump table in order for it to be created
- * So 0 would try to make everything into a jump table whereas 100
- * would mean only full jump tables could be put out
- */
-
-#define non_default_entries 4      /* a positive integer */
-
-/* non_default_entries is the minimum number of non default entries a
- * jump table can contain
- */
-
-#define non_default_destinations 2  /* a positive integer */
-
-/* non_default_destinations is the minimum number of non default destinations
- * a jump table can contain
- */
 #define substitute_complex 1
 
 #define temp_mips 0

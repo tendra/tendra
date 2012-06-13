@@ -102,10 +102,6 @@ typedef unsigned long bitpattern;
 #define good_pointer_factor(f)\
 				((f) != 1 && (f) != 2 && \
 				 (f) != 4 && (f) != 8)
-#define jump_table_density	10	/* for cases optimisation */
-#define non_default_entries	4	/* for cases optimisation */
-#define non_default_destinations\
-				2	/* for cases optimisation */
 #define substitute_complex	1	/* don't have native complex numbers */
 
 

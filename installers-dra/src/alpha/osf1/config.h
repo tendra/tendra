@@ -68,10 +68,6 @@
 
 #define substitute_complex 1
 
-#define jump_table_density 10
-#define non_default_entries 0 /* 4 */
-#define non_default_destinations 2
-
 #define value_of_null 0
 
 #define has_bitfield_ops 0
