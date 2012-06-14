@@ -18,6 +18,7 @@
 #include "mach_op.h"
 #include "output.h"
 #include "codex.h"
+#include "localflags.h"
 
 
 /*
@@ -57,15 +58,15 @@ open_output(char *nm)
     corresponding names.
 */
 
-#ifdef asm_dotty_instrs
+char *instr_names_dotty[] = {
+#undef  INSTR_SET_1
 #define INSTR_SET_0
-#endif /* asm_dotty_instrs */
+#include "instr_aux.h"
+};
 
-#ifdef asm_simple_instrs
+char *instr_names_simple[] = {
+#undef  INSTR_SET_0
 #define INSTR_SET_1
-#endif /* asm_simple_instrs */
-
-char *instr_names[] = {
 #include "instr_aux.h"
 };
 

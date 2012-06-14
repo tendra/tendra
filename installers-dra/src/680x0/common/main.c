@@ -35,6 +35,7 @@
 #include "reader_v.h"
 #include "construct_v.h"
 #include "where.h"
+#include "localflags.h"
 
 #if have_diagnostics
 #include "xdb_basics.h"
@@ -122,6 +123,13 @@ int main
 	char *output = null;
 
 	endian = ENDIAN_BIG;
+
+#ifdef GAS_ASSEMBLER
+	asm_dotty_instrs = 0;
+#endif
+#ifdef HP_ASSEMBLER
+	asm_dotty_instrs = 1;
+#endif
 
 	{
 		int c;

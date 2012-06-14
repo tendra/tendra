@@ -23,6 +23,7 @@
 #include "output.h"
 #include "shapemacs.h"
 #include "utility.h"
+#include "localflags.h"
 #include "xdb_output.h"
 #include "xdb_types.h"
 #ifndef SEEK_SET

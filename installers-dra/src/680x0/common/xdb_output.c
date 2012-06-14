@@ -34,6 +34,7 @@
 #include "xdb_types.h"
 #include "xdb_output.h"
 #include "stab_types.h"
+#include "localflags.h"
 
 extern int diag_override;
 

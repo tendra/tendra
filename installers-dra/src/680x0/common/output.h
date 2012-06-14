@@ -29,6 +29,9 @@ extern void init_output(void);
 extern void output_all(void);
 
 extern char *reg_names[];
-extern char *instr_names[];
+extern char *instr_names_dotty[];
+extern char *instr_names_simple[];
+
+#define instr_names ((asm_dotty_instrs) ? (instr_names_dotty) : (instr_names_simple))
 
 #endif

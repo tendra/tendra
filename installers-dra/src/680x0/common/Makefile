@@ -19,6 +19,7 @@ SRCS+=	glopt.c
 SRCS+=	inliner.c
 #SRCS+=	input.c
 SRCS+=	instr.c
+SRCS+=	localflags.c
 SRCS+=	mach_ins.c
 SRCS+=	mach_op.c
 SRCS+=	main.c
