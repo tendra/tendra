@@ -796,7 +796,7 @@ tailrecurse:
 		}
 		is.b.offset = (Has_fp)?(no(son(e)) >>3):n;
 		is.b.base = 29 + Has_fp;
-		if (BIGEND && props(son(e))!= 0 && shape_size(sh(son(e))) <32) {
+		if (endian == ENDIAN_BIG && props(son(e))!= 0 && shape_size(sh(son(e))) <32) {
 			is.b.offset += (shape_size(sh(son(e))) ==8)?3:2;
 			/* short promotions */
 		}
@@ -844,7 +844,7 @@ tailrecurse:
 		is.b.offset = (no(se) +
                               ((Has_fp)?0:(frame_size+callee_size))) >>3;
                 is.adval = 0;
-		if (BIGEND && shape_size(sh(son(e))) <32) {
+		if (endian == ENDIAN_BIG && shape_size(sh(son(e))) <32) {
 			is.b.offset += (shape_size(sh(son(e))) ==8)?3:2;
 			/* short promotions */
 		}
@@ -2744,7 +2744,7 @@ tailrecurse:
 	int   d;
 	ans aa;
 	int   nsh = name(sh(e));
-	if (!BIGEND && dest.answhere.discrim == inreg
+	if (!endian == ENDIAN_BIG && dest.answhere.discrim == inreg
 		&& regalt(dest.answhere)!= 0) {
 	      ash arga;
 	      arga = ashof(sh(son(e)));
@@ -3256,7 +3256,7 @@ tailrecurse:
 	  d = regfrmdest(&dest,sp);
 
 	  /* d is destination register */
-	  if (!BIGEND) {
+	  if (endian == ENDIAN_LITTLE) {
             if (no(b) == 16) {
               is.b.offset += 2;
             }
@@ -3609,14 +3609,14 @@ tailrecurse:
 	    if (!isw.adval && isd.adval && isw.b.base == isd.b.base &&
 		isd.b.offset == isw.b.offset) {
 	      if (dsize > 16) {
-		if (!BIGEND)isd.b.offset += 2;
+		if (endian == ENDIAN_LITTLE)isd.b.offset += 2;
 		/* just clear out top bits */
 		ls_ins(i_sh, 0, isd.b);
 	      }
 	      return mka;
 	    }			/* else drop through to load short case */
 	  }
-	  if (!BIGEND) {
+	  if (endian == ENDIAN_LITTLE) {
 	  	nsp = guard(w,sp);
 	  	setregalt(aa,getreg(nsp.fixed));
 	  	d1.answhere = aa;

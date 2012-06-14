@@ -2681,10 +2681,11 @@ refactor(exp e, exp scope)
 				retcell(e);
 				return 1;
 			}
-#if little_end & has_byte_regs
-			/* only for little enders which have byte
-			 * registers */
-			if ((shape_size(sh(e)) <=
+			if (endian == ENDIAN_LITTLE) {
+#if has_byte_regs
+			  /* only for little enders which have byte
+			   * registers */
+			  if ((shape_size(sh(e)) <=
 						shape_size(sh(son(e)))) && optop(e) &&
 					(name(son(e)) == name_tag ||
 					 name(son(e)) == cont_tag ||
@@ -2708,10 +2709,10 @@ refactor(exp e, exp scope)
 				replace(e, son(e), scope);
 				/* should this retcell(e) ? */
 				return 1;
-			}
-			/* only for little enders which have byte
-			 * registers */
-			if (name(son(e)) == chvar_tag &&
+			  }
+			  /* only for little enders which have byte
+			   * registers */
+			  if (name(son(e)) == chvar_tag &&
 					shape_size(sh(e)) <=
 					shape_size(sh(son(e)))) {
 				/* if the chvar operation never needs
@@ -2725,12 +2726,14 @@ refactor(exp e, exp scope)
 				retcell(e);
 				retcell(w);
 				return 1;
-			}
+			  }
 #endif
-#if little_end & has_byte_ops
-			/* only for little enders with byte and short
-			 * operations */
-			if (shape_size(sh(e)) <=
+			}
+			if (endian == ENDIAN_LITTLE) {
+#if has_byte_ops
+			  /* only for little enders with byte and short
+			   * operations */
+			  if (shape_size(sh(e)) <=
 					shape_size(sh(son(e))) && optop(e) &&
 					name(sh(e)) != bitfhd &&
 					(name(son(e)) == plus_tag ||
@@ -2742,13 +2745,14 @@ refactor(exp e, exp scope)
 				 * op(chvar(a)...) if the changevar
 				 * requires no action on a little end
 				 * machine */
-#if only_lengthen_ops
+
 				exp p = son(e);
 				exp r;
 				exp a = son(p);
 				exp n = bro(a);
 				int l = (int)last(a);
 
+#if only_lengthen_ops
 				/* if (shape_size(sh(e)) >= 16) */
 				/* this is to avoid allocating bytes to
 				 * edi/esi in 80386 !!! bad
@@ -2763,8 +2767,7 @@ refactor(exp e, exp scope)
 						l = (int)last(n);
 						a = n;
 						n = bro(n);
-						setbro(q, varchange(sha,
-									a));
+						setbro(q, varchange(sha, a));
 						clearlast(q);
 						q = bro(q);
 					}
@@ -2777,8 +2780,9 @@ refactor(exp e, exp scope)
 					retcell(e);
 					return 1;
 				}
-			}
+			  }
 #endif
+			}
 			if (name(son(e)) == ident_tag &&
 					isvar(son(e))) {
 				/* distribute chvar into variable declaration of simple form
@@ -3673,11 +3677,14 @@ refactor(exp e, exp scope)
 					exp t = son(son(son(e)));
 					exp r = me_u3(sh(t), t, reff_tag);
 					exp c, v;
-#if little_end
-					no(r) = no(a1);
-#else
-					no(r) = shape_size(sh(e)) - no(a1) - 8;
-#endif
+					switch (endian) {
+					case ENDIAN_LITTLE:
+						no(r) = no(a1);
+						break;
+					case ENDIAN_BIG:
+						no(r) = shape_size(sh(e)) - no(a1) - 8;
+						break;
+					}
 					r = hold_refactor(r);
 					c = hold_refactor(me_u3(ucharsh, r,
 							     cont_tag));
@@ -3788,7 +3795,7 @@ refactor(exp e, exp scope)
 		{
 			int x = al1_of(sh(son(e)))->al.sh_hd;
 
-			if (x >= scharhd && x <= uwordhd && !little_end) {
+			if (x >= scharhd && x <= uwordhd && endian == ENDIAN_BIG) {
 				int disp = shape_size(ulongsh) -
 				    ((x >= swordhd) ? 16 : 8);
 				exp r = getexp(f_pointer(f_alignment(sh(e))),
@@ -4012,13 +4019,13 @@ refactor(exp e, exp scope)
 
 			if (((off / 8) == (temp / 8)) &&
 			    (bsz == 8 &&
-			     ((little_end && (off % 8 == 0)) ||
-			      (!little_end && ((8 - (off % 8) - bsz) == 0))))) {
+			     ((endian == ENDIAN_LITTLE && (off % 8 == 0)) ||
+			      (endian == ENDIAN_BIG    && ((8 - (off % 8) - bsz) == 0))))) {
 				rsz = 8;
 			} else if (((off / 16) == (temp / 16)) &&
 				    (bsz == 16 &&
-				     ((little_end && (off % 16 == 0)) ||
-				      (!little_end &&
+				     ((endian == ENDIAN_LITTLE && (off % 16 == 0)) ||
+				      (endian == ENDIAN_BIG    &&
 				       ((16 - (off % 16) - bsz) == 0))))) {
 				rsz = 16;
 			}
@@ -4026,8 +4033,8 @@ refactor(exp e, exp scope)
 			else if (((off / 32) == (temp / 32)) &&
 				 (!sg || (al1(sh(p)) < 64) ||
 				  (bsz == 32 &&
-				   ((little_end && (off % 32 == 0)) ||
-				    (!little_end &&
+				   ((endian == ENDIAN_LITTLE && (off % 32 == 0)) ||
+				    (endian == ENDIAN_BIG    &&
 				     ((32 - (off % 32) - bsz) == 0)))))) {
 				rsz = 32;
 			}
@@ -4049,11 +4056,14 @@ refactor(exp e, exp scope)
 			} else {
 				ref = p;
 			}
-#if little_end
-			rsh = off % rsz;
-#else
-			rsh = rsz - (off % rsz) - bsz;
-#endif
+			switch (endian) {
+			case ENDIAN_LITTLE:
+				rsh = off % rsz;
+				break;
+			case ENDIAN_BIG:
+				rsh = rsz - (off % rsz) - bsz;
+				break;
+			}
 			cont = me_u3(msh, ref, (name(e) == bfcont_tag) ? 
 				     (unsigned char)cont_tag :
 				     (unsigned char)contvol_tag);
@@ -4563,7 +4573,7 @@ refactor(exp e, exp scope)
 		{
 			int x = al1_of(sh(son(e)))->al.sh_hd;
 
-			if (x >= scharhd && x <= uwordhd && !little_end) {
+			if (x >= scharhd && x <= uwordhd && endian == ENDIAN_BIG) {
 				exp b = bro(son(e));
 				int disp = shape_size(ulongsh) -
 				    ((x >= swordhd) ? 16 : 8);
@@ -4618,7 +4628,7 @@ refactor(exp e, exp scope)
 
 	case test_tag: {
 		exp arg1, arg2;
-#if little_end & has_byte_ops
+#if has_byte_ops
 		int n, bl;
 #endif
 		unsigned char nt = test_number(e);
@@ -4762,9 +4772,10 @@ refactor(exp e, exp scope)
 			retcell(e);
 			return 1;
 		}
-#if little_end & has_byte_ops
-		/* only for little enders with byte and short operations */
-		if (name(arg2) == val_tag && !isbigval(arg2) && no(arg2) == 0 &&
+		if (endian == ENDIAN_LITTLE) {
+#if has_byte_ops
+		  /* only for little enders with byte and short operations */
+		  if (name(arg2) == val_tag && !isbigval(arg2) && no(arg2) == 0 &&
 		    name(arg1) == and_tag && test_number(e) >= 5) {
 			/* e = test(val, and(a, b)) and test is == or != */
 			exp r, t, q;
@@ -4805,9 +4816,9 @@ refactor(exp e, exp scope)
 			replace(e, r, scope);
 			retcell(e);
 			return 1;
-		}
-		/* use if little end machine */
-		if (name(arg2) == val_tag && !isbigval(arg2) &&
+		  }
+		  /* use if little end machine */
+		  if (name(arg2) == val_tag && !isbigval(arg2) &&
 		    ((name(arg1) == chvar_tag &&
 		      name(sh(arg1)) > name(sh(son(arg1))) &&
 		      is_signed(sh(arg1)) == is_signed(sh(son(arg1)))) ||
@@ -4852,9 +4863,9 @@ refactor(exp e, exp scope)
 				return 1;
 			}
 			return 0;
-		}
+		  }
 
-		if (name(arg2) == val_tag && !isbigval(arg2) && no(arg2) == 0 &&
+		  if (name(arg2) == val_tag && !isbigval(arg2) && no(arg2) == 0 &&
 		    test_number(e) >= 5 && name(arg1) == bitf_to_int_tag &&
 		    shape_size(sh(arg1)) == 32 && name(son(arg1)) == cont_tag &&
 		    name(son(son(arg1))) == reff_tag) {
@@ -4890,9 +4901,9 @@ refactor(exp e, exp scope)
 				retcell(e);
 				return 1;
 			}
-		}
+		  }
 
-		if (name(arg1) == shr_tag && name(arg2) == val_tag &&
+		  if (name(arg1) == shr_tag && name(arg2) == val_tag &&
 		    no(arg2) == 0 && nt >= 5) {
 			exp arg11 = son(arg1);
 			/* no of places shifted right */
@@ -4920,9 +4931,9 @@ refactor(exp e, exp scope)
 					return refactor(e, scope);
 				}
 			}
-		}
+		  }
 
-		if (name(arg1) == chvar_tag && name(arg2) == val_tag &&
+		  if (name(arg1) == chvar_tag && name(arg2) == val_tag &&
 		    !isbigval(arg2) &&
 		    shape_size(sh(arg1)) > shape_size(sh(son(arg1))) &&
 		    name(son(arg1)) == cont_tag &&
@@ -4943,8 +4954,9 @@ refactor(exp e, exp scope)
 				retcell(arg1);
 				return 1;
 			}
-		}
+		  }
 #endif
+		}
 		return seq_distr(e, scope);
 	}
 		
@@ -5161,8 +5173,8 @@ refactor(exp e, exp scope)
 		if (((off / 8) == (temp / 8)) && bsz <= 8
 #if 0
 		    (bsz == 8 &&
-		     ((little_end && (off%8 == 0)) ||
-		      (!little_end && ((8 - (off % 8) - bsz) == 0))))
+		     ((endian == ENDIAN_LITTLE && (off%8 == 0)) ||
+		      (endian == ENDIAN_BIG    && ((8 - (off % 8) - bsz) == 0))))
 #endif
 		   ) {
 			rsz = 8;
@@ -5174,8 +5186,8 @@ refactor(exp e, exp scope)
 		} else if (((off / 16) == (temp / 16)) && bsz <= 16
 #if 0
 			   (bsz == 16 &&
-			    ((little_end && (off%16 == 0)) ||
-			     (!little_end && ((16 - (off % 16) - bsz) == 0))))
+			    ((endian == ENDIAN_LITTLE && (off%16 == 0)) ||
+			     (endian == ENDIAN_BIG    && ((16 - (off % 16) - bsz) == 0))))
 #endif
 			  ) {
 			rsz = 16;
@@ -5209,11 +5221,14 @@ refactor(exp e, exp scope)
 			ref = p;
 		}
 		id = me_startid(f_top, ref, 0);
-#if little_end
-		rsh = off % rsz;
-#else
-		rsh = rsz - (off % rsz) - bsz;
-#endif
+		switch (endian) {
+		case ENDIAN_LITTLE:
+			rsh = off % rsz;
+			break;
+		case ENDIAN_BIG:
+			rsh = rsz - (off % rsz) - bsz;
+			break;
+		}
 		posmask = (bsz == 32) ? -1 : (1 << bsz) -1;
 		negmask = ~(posmask << rsh);
 		cont = me_u3(msh, me_obtain(id), (name(e) == bfass_tag) ?

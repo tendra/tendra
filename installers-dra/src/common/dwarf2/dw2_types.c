@@ -25,6 +25,7 @@
 #include "basicread.h"
 #include "szs_als.h"
 #include "tags.h"
+#include "flags.h"
 #include "refactor.h"
 
 
@@ -142,12 +143,15 @@ static void out_classmem
       if (attr2 & H_LC)
 	dw_locate_offset (((no (off)) & -base_sz) >> 3);
       if (attr2 & H_BF) {
-#if !little_end
-	dw_at_data (1, (long)(no (off) & (base_sz - 1)));
-#else
-	dw_at_data (1, (long)(base_sz - f->data.t_bitf.bv.bits
-				- (no (off) & (base_sz - 1))));
-#endif
+	switch (endian) {
+	case ENDIAN_BIG:
+		dw_at_data (1, (long)(no (off) & (base_sz - 1)));
+		break;
+	case ENDIAN_LITTLE:
+		dw_at_data (1, (long)(base_sz - f->data.t_bitf.bv.bits
+					- (no (off) & (base_sz - 1))));
+		break;
+	}
 	dw_at_data (1, (long)f->data.t_bitf.bv.bits);
       }
       if (attr2 & H_DS)

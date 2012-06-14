@@ -57,7 +57,6 @@
 #define has_setcc		0
 #define has64bits		0
 #define keep_PIC_vars		1
-#define little_end		0
 #define no_bitfield_ops		0
 #define only_inline_static	0
 #define only_lengthen_ops	0

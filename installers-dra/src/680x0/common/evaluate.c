@@ -7,6 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <assert.h>
+
 #include <shared/error.h>
 
 #include "config.h"
@@ -518,11 +520,9 @@ long *realrep
 	for (j = 8; j < 16; j++)b1 = 2 * b1 + bits[32 * i + j];
 	for (j = 16; j < 24; j++)b2 = 2 * b2 + bits[32 * i + j];
 	for (j = 24; j < 32; j++)b3 = 2 * b3 + bits[32 * i + j];
-#if little_end
-	longs[n - i] = (b0 << 24) + (b1 << 16) + (b2 << 8) + b3;
-#else
+
+	assert(endian == ENDIAN_BIG);
 	longs[i] = (b0 << 24) + (b1 << 16) + (b2 << 8) + b3;
-#endif
     }
     return longs;
 }

@@ -39,6 +39,7 @@
 #include "procrec.h"
 #include "bitsmacs.h"
 #include "installglob.h"
+#include "flags.h"
 #include "eval.h"
 #ifdef NEWDWARF
 #include "dw2_config.h"
@@ -391,21 +392,23 @@ outconcbit ( concbittype c, bool ro ){
   
   /* output as a series of bytes */
   outs ( "\t.byte\t" ) ;
-#if little_end
-  for ( i = 0 ; i < bytes ; i++ ) {
-    if ( i != 0 ) outc ( ',' ) ;
-    outf ( "%#lx", w & 0xff ) ;
-    w = w >> 8 ;
-  }
-#else
+  switch (endian) {
+  case ENDIAN_LITTLE:
+    for ( i = 0 ; i < bytes ; i++ ) {
+      if ( i != 0 ) outc ( ',' ) ;
+      outf ( "%#lx", w & 0xff ) ;
+      w = w >> 8 ;
+    }
+    break;
+  case ENDIAN_BIG:
     /* shift to left end of word */
-  if ( sz != 32 ) w = w << ( 32 - sz ) ;
-  for ( i = 0 ; i < bytes ; i++ ) {
-    if ( i != 0 ) outc ( ',' ) ;
-    outf ( "%#lx", ( w >> 24 ) & 0xff ) ;
-    w = w << 8 ;
+    if ( sz != 32 ) w = w << ( 32 - sz ) ;
+    for ( i = 0 ; i < bytes ; i++ ) {
+      if ( i != 0 ) outc ( ',' ) ;
+      outf ( "%#lx", ( w >> 24 ) & 0xff ) ;
+      w = w << 8 ;
+    }
   }
-#endif
   outnl () ;
   assert ( w == 0 ) ;
   return ;
@@ -467,11 +470,15 @@ addconcbitaux ( unsigned long w, int size, concbittype b4, bool ro ){
     b4.value = w ;
   } 	
   else {
-#if little_end
-    b4.value = b4.value | ( w << b4.value_size ) ;
-#else
-    b4.value = ( b4.value << size ) | (w & unary(size));
-#endif
+    switch (endian) {
+    case ENDIAN_LITTLE:
+      b4.value = b4.value | ( w << b4.value_size ) ;
+      break;
+
+    case ENDIAN_BIG:
+      b4.value = ( b4.value << size ) | (w & unary(size));
+      break;
+    }
   }
   b4.bitposn += size ;
   b4.value_size += size ;

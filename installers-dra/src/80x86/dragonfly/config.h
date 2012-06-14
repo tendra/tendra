@@ -39,7 +39,6 @@
 #define remove_struct_ref (!dragonfly_elf)
 
 #define has_setcc 1
-#define little_end 1
 #define has_byte_regs 1
 #define has_byte_ops 1
 #define only_lengthen_ops 1

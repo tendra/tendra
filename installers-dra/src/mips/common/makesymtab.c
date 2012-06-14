@@ -23,7 +23,6 @@
 #include "installtypes.h"
 #include "makesymtab.h"
 
-extern bool BIGEND;
 int MAJOR_VERSION_as = 3;
 int MINOR_VERSION_as = 12;
 
@@ -237,7 +236,7 @@ sym_tab_file);
 	  fdrtab.lang=langC;	/* C ,see symconst.h  */
 	  fdrtab.fMerge=0;	/* 1 for .h files I think */
 	  fdrtab.fReadin=0;
-	  fdrtab.fBigendian=BIGEND;
+	  fdrtab.fBigendian=(endian == ENDIAN_BIG);
 	  fdrtab.glevel= diagnose?GLEVEL_2:GLEVEL_0;
 	  fdrtab.reserved=0;	/* what else ! */
 	  fdrtab.cbLineOffset=0;	/* ??? */

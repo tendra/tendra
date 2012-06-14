@@ -78,7 +78,6 @@ typedef unsigned long bitpattern;
 #define has_setcc		0	/* Don't use scc */
 #define has64bits		0	/* Doesn't have 64 bits */
 #define have_diagnostics	0	/* Have diagnostics */
-#define little_end		0	/* Big endian */
 #define load_ptr_pars		1	/* Inline ptr parameters */
 #define no_bitfield_ops		1	/* Do have bitfield operations */
 #define only_inline_static	1	/* Only inline static procedures */

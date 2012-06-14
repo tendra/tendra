@@ -81,7 +81,6 @@ out_rename(char *oldid, char *newid)
 
 
 
-bool BIGEND = (little_end == 0);
 int currentfile = -1;
 int mainfile=0;
 int majorno = 3;
@@ -105,13 +104,18 @@ main(int argc, char *argv[])
 	use_umulh_for_div = 0;
 #endif
 
+	endian = ENDIAN_LITTLE;
+
 	{
 		int c;
 
-		while ((c = getopt(argc, argv, "B:DFG:HK:MO:PQRSVWX:Z" "usd:")) != -1) {
+		while ((c = getopt(argc, argv, "B:DE:FG:HK:MO:PQRSVWX:Z" "usd:")) != -1) {
 			switch (c) {
 			case 'B': builtin = flags_builtin(optarg);   break;
 			case 'D': failer("no PIC code available"); exit(EXIT_FAILURE);
+			case 'E':
+				endian = switch_endian(optarg, ENDIAN_BIG | ENDIAN_LITTLE);
+				break;
 			case 'G':                    break;
 
 			case 'H':

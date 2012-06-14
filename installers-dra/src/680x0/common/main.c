@@ -121,11 +121,13 @@ int main
 	char *input = null;
 	char *output = null;
 
+	endian = ENDIAN_BIG;
+
 	{
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"B:DG:HK:MO:PQRVWX:Z"
+			"B:DE:G:HK:MO:PQRVWX:Z"
 #ifdef EBUG
 			"L:l:"
 #endif
@@ -134,6 +136,8 @@ int main
 #endif
 			"cegiou")) != -1) {
 			switch (c) {
+			case 'E': endian = switch_endian(optarg, ENDIAN_BIG); break;
+
 			case 'B': builtin = flags_builtin(optarg); break;
 			case 'D': do_pic = 1;                      break;
 			case 'G':                                  break;

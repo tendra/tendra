@@ -154,15 +154,20 @@ main ( int argc, char ** argv )
   round_after_flop = 0;			/* don't round every time */
   do_dynamic_init = 1;                  /* Only applies to SunOS*/
   
+  endian = ENDIAN_BIG;
+
 	{
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"B:DGH:JK:MNO:PQRTVWX:Z"
+			"B:DE:GH:JK:MNO:PQRTVWX:Z"
 			"acglo:i:r:un")) != -1) {
 			switch (c) {
 			case 'B': builtin = flags_builtin(optarg); break;
 			case 'D': PIC_code = 1;                    break;
+			case 'E':
+				endian = switch_endian(optarg, ENDIAN_LITTLE);
+				break;
 			case 'G':                                  break;
 
 			case 'H':

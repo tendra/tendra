@@ -1120,7 +1120,7 @@ ptr of ident exp is chain of uses
 			maxfix--;
 		}
 		else props(def)=0;
-		if (BIGEND && sizep <32 && valregable(shdef)) {
+		if (endian == ENDIAN_BIG && sizep <32 && valregable(shdef)) {
 			/* characters are promoted to ints */
 		     	int dn = (sizep==8)?24:16;
 			exp pu = pt(stare);
@@ -1651,7 +1651,7 @@ ptr is labelled exp
 	bool tlrecpos = nonevis && callerfortr && (rscope_level == 0);
 	int   i;
 
-	if (BIGEND && !last(fn)) {
+	if (endian == ENDIAN_BIG && !last(fn)) {
 		/* ABI says that all int pars <32 bits are promoted to int*/
 	    for(;;) {
 		shape s = sh(*par);

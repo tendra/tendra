@@ -48,6 +48,8 @@ enum optim   optim;
 enum check   check;
 enum builtin builtin;
 
+enum endian endian;
+
 enum optim
 flags_optim(const char *s)
 {
@@ -138,5 +140,30 @@ flags_builtin(const char *s)
 	}
 
 	return o;
+}
+
+enum endian
+switch_endian(const char *s, unsigned permitted)
+{
+	enum endian o;
+
+	if (strlen(s) > 1) {
+		error(ERROR_WARNING, "Unrecognised endian switch %s. "
+			"Valid switches are: [bl].", s);
+		return -1;
+	}
+
+	switch (*s) {
+	case 'b': o = ENDIAN_BIG;    break;
+	case 'l': o = ENDIAN_LITTLE; break;
+	}
+
+	if (~permitted & o) {
+		error(ERROR_WARNING, "Endian switch %s not permitted "
+			"for this architecture.", s);
+		return -1;
+	}
+
+	return 0;
 }
 

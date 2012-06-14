@@ -41,6 +41,7 @@ into the table of externals (or 0 meaning anonymous).
 #include "frames.h"
 #include "procrec.h"
 #include "basicread.h"
+#include "flags.h"
 #include "eval.h"
 
 
@@ -257,11 +258,14 @@ realrep(exp e)
 	for ( j = 8 ; j < 16 ; j++ ) b1 = 2 * b1 + bits [ 32 * i + j ] ;
 	for ( j = 16 ; j < 24 ; j++ ) b2 = 2 * b2 + bits [ 32 * i + j ] ;
 	for ( j = 24 ; j < 32 ; j++ ) b3 = 2 * b3 + bits [ 32 * i + j ] ;
-#if little_end
-	longs [i] = b0 + ( b1 << 8 ) + ( b2 << 16 ) + ( b3 << 24 ) ;
-#else
-	longs [i] = ( b0 << 24 ) + ( b1 << 16 ) + ( b2 << 8 ) + b3 ;
-#endif
+	switch (endian) {
+	case ENDIAN_LITTLE:
+		longs [i] = b0 + ( b1 << 8 ) + ( b2 << 16 ) + ( b3 << 24 ) ;
+		break;
+	case ENDIAN_BIG:
+		longs [i] = ( b0 << 24 ) + ( b1 << 16 ) + ( b2 << 8 ) + b3 ;
+		break;
+	}
     }
     return longs;
 #endif
@@ -603,11 +607,14 @@ addconcbitaux(unsigned long w, int sz, concbittype before)
       before.value = w;
    else
    {
-#if little_end
-      before.value = before.value | ( w << before.value_size ) ;
-#else
-      before.value = ( before.value << sz ) | (w & unary(sz));
-#endif
+	switch (endian) {
+	case ENDIAN_LITTLE:
+      		before.value = before.value | ( w << before.value_size ) ;
+		break;
+	case ENDIAN_BIG:
+      		before.value = ( before.value << sz ) | (w & unary(sz));
+		break;
+	}
    }
    before.bitposn += sz;
    before.value_size += sz;

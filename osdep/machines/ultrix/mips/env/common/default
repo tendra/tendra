@@ -1,4 +1,4 @@
 /* $Id$ */
 
-+FLAG_TRANS		"-l1 -A1 -B1"
++FLAG_TRANS		"-l1 -A1 -B1 -El"
 

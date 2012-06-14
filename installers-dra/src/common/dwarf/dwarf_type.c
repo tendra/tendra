@@ -448,15 +448,17 @@ out_dwarf_user_type(diag_type t)
 					    bit_offset_in_anon_obj;
 
 					OUT_DWARF_ATTR(AT_bit_offset);
-					out_dwarf_thing((int)
-#if (little_end)
-					  /* count from other end  */
-					((base_type_in_bits -
-					  bit_offset_in_anon_obj) - bit_size)
-#else
-					bit_offset_in_anon_obj
-#endif
-					," bits");
+					switch (endian) {
+					case ENDIAN_LITTLE:
+						  /* count from other end  */
+						out_dwarf_thing((int)
+							((base_type_in_bits -
+							bit_offset_in_anon_obj) - bit_size), " bits");
+						break;
+					case ENDIAN_BIG:
+						out_dwarf_thing((int)
+							bit_offset_in_anon_obj, " bits");
+					}
 					out_dwarf_bit_member_loc_attr(bit_offset_to_anon_obj);
 				} else {
 					out_dwarf_member_loc_attr(m->where);

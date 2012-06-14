@@ -66,14 +66,18 @@ int main(int argc, char **argv)
   strict_fl_div = 1;		/* Don't mult by 1/constant */
   round_after_flop = 1;		/* Round every time */
   do_comment = 0;		/* (see comment.c) */
+  endian = ENDIAN_BIG;
   
 	{
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"B:GHK:MO:PQRVWX:Z" "c")) != -1) {
+			"B:E:GHK:MO:PQRVWX:Z" "c")) != -1) {
 			switch (c) {
 			case 'B': builtin = flags_builtin(optarg); break;
+			case 'E':
+				endian = switch_endian(optarg, ENDIAN_BIG | ENDIAN_LITTLE);
+				break;
 			case 'G':                                  break;
 			case 'H': diagnose = 1;                    break;
 

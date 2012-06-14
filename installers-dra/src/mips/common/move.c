@@ -34,6 +34,7 @@ Delivers register used if 1-word destination is instore; otherwise NOREG.
 #include "guard.h"
 #include "maxminmacs.h"
 #include "basicread.h"
+#include "flags.h"
 #include "move.h"
 
 
@@ -143,17 +144,19 @@ start:
 	    {
 	      int   rd = regalt (dest.answhere);
 	      if (rd != 0) {
-		if (BIGEND) {
+		switch (endian) {
+		case ENDIAN_BIG:
 			if (fr.dble) {
 		  	  cop_ins (i_mfc1, rd, (fr.fr << 1) + 1);
 			}
 			cop_ins (i_mfc1, rd+1, fr.fr << 1);
-		}
-		else {
+			break;
+		case ENDIAN_LITTLE:
 			cop_ins (i_mfc1, rd, fr.fr << 1);
 			if (fr.dble) {
 		  	  cop_ins (i_mfc1, rd + 1, (fr.fr << 1) + 1);
 			}
+			break;
 		}
 	      };
 	      return NOREG;

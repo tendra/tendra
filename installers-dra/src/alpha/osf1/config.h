@@ -32,7 +32,6 @@
 #define issco 0
 
 #define has_setcc 0
-#define little_end 1
 #define has_byte_regs 0
 #define has_byte_ops 0
 #define only_lengthen_ops 1

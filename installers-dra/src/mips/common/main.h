@@ -25,8 +25,6 @@ extern int   minorno ;
 extern long  currentfile;		/* our source fileno 0.. */
 extern long  mainfile;		/* would be best if it  actually contained
 				   main ! */
-extern bool BIGEND;
-
 extern dec** main_globals;
 
 #endif

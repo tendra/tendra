@@ -89,12 +89,13 @@ int main
   /* from comment.c */
   do_comment = 0;		/* implement -C option */
 
+	endian = ENDIAN_BIG;
 
 	{
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"B:DGHKNO:PQRVWX:Z" "dh")) != -1) {
+			"B:DE:GHKNO:PQRVWX:Z" "dh")) != -1) {
 			switch (c) {
 			case 'B': builtin = flags_builtin(optarg); break;
 
@@ -108,6 +109,10 @@ int main
 				/* -d emulates cc's +z flag */
 				PIC_code = 1;
 				plusZ = 0;
+				break;
+
+			case 'E':
+				endian = switch_endian(optarg, ENDIAN_BIG | ENDIAN_LITTLE);
 				break;
 
 			case 'G': gcc_assembler = 1; break;

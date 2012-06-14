@@ -32,7 +32,6 @@ extern int minorno ;
 extern int currentfile;	/* our source fileno 0.. */
 extern int mainfile;		/* would be best if it  
 			       actually contained main ! */
-extern bool BIGEND;
 extern bool do_extern_adds;
 extern dec** main_globals;
 #endif

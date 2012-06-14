@@ -57,7 +57,6 @@ int   minorno = 18;
 long  currentfile = -1;		/* our source fileno 0.. */
 long  mainfile = 0;		/* would be best if it  actually contained
 				   main ! */
-bool BIGEND = (little_end == 0);
 
 bool opt
 (char c)
@@ -79,16 +78,20 @@ int   main
   redo_structfns = 0;
   do_extern_adds = 0;
   do_alloca = 0;
+  endian = ENDIAN_BIG;
 
 	{
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"B:DG:HK:MO:PQRSVWX:Z"
+			"B:DE:G:HK:MO:PQRSVWX:Z"
 			"ei")) != -1) {
 			switch (c) {
 			case 'B': builtin = flags_builtin(optarg); break;
 			case 'D': PIC_code = 1;                    break;
+			case 'E':
+				endian = switch_endian(optarg, ENDIAN_BIG | ENDIAN_LITTLE);
+				break;
 			case 'G':                                  break;
 
 			case 'H':

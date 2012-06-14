@@ -39,7 +39,6 @@
 #define remove_struct_ref 0
 
 #define has_setcc 1
-#define little_end 1
 #define has_byte_regs 1
 #define has_byte_ops 1
 #define only_lengthen_ops 1

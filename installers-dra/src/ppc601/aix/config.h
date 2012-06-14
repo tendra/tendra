@@ -46,7 +46,6 @@
 #define has_byte_regs		0	/* Have byte registers */
 #define has_neg_shift		0	/* Have negative shifts */
 #define has_setcc		0	/* Use scc */
-#define little_end		0	/* Little endian */
 #define load_ptr_pars		0	/* Inline ptr parameters */
 #define only_inline_static	0	/* Only inline static procedures */
 #define only_lengthen_ops	0	/* Avoid byte registers */

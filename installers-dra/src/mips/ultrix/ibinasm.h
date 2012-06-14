@@ -26,7 +26,7 @@ typedef int asmsym;
 #define xnoreg 64
 
 #define icprestore 15 
-	/* this is not used - here to retain same new_code.c for BIGEND */
+	/* this is not used - here to retain same new_code.c for ENDIAN_BIG */
 
 #define ilabel		 0
 #define isym		 1

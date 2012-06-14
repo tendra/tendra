@@ -114,6 +114,7 @@ main(int argc, char **argv)
 	permit_8byte_align = 1;	/* allow 8byte alignment for local doubles */
 	replace_arith_type = 1;	/* use the C definitions of promote etc. */
 	no_bss = 0;		/* use .comm */
+	endian = ENDIAN_LITTLE;
 
 
 	ptr_null = 0;		/* null value for pointer */
@@ -124,9 +125,9 @@ main(int argc, char **argv)
 	 * XXX: Some arguments are undocumented in trans.1, check
 	 */
 #ifdef NEWDWARF
-	optstring = "B:D:G:H:" "J" "K:M:NO:PQR:" "T" "VW:X:Z" "abcdfghik:s";
+	optstring = "B:D:E:G:H:" "J" "K:M:NO:PQR:" "T" "VW:X:Z" "abcdfghik:s";
 #else
-	optstring = "B:D:G:H:"     "K:M:NO:PQR:"     "VW:X:Z" "abcdfghik:s";
+	optstring = "B:D:E:G:H:"     "K:M:NO:PQR:"     "VW:X:Z" "abcdfghik:s";
 #endif
 
 	while ((ch = getopt(argc, argv, optstring)) != -1) {
@@ -136,6 +137,9 @@ main(int argc, char **argv)
 			break;
 		case 'D':
 			PIC_code = (*optarg == '1');
+			break;
+		case 'E':
+			endian = switch_endian(optarg, ENDIAN_LITTLE);
 			break;
 		case 'G':
 			gcc_compatible = (*optarg == '1');

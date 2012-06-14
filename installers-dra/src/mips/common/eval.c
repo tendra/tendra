@@ -15,6 +15,8 @@ assembler for data. The parameters are an evaluated exp and an index
 into the table of externals (or 0 meaning anonymous). XXX
 *****************************************************************/
 
+#include <assert.h>
+
 #include "config.h"
 
 #include "addrtypes.h"
@@ -35,6 +37,7 @@ into the table of externals (or 0 meaning anonymous). XXX
 #include "f64.h"
 #include "eval.h"
 #include "basicread.h"
+#include "flags.h"
 
 extern void globalise_name(dec*);
 extern  procrec * procrecs;
@@ -333,13 +336,15 @@ void evalone
 	n = real2longs_IEEE(&flptnos[no(e)],(a.ashsize>32)?1:0);
 	set_align(a.ashalign);
 	for (i=0; i<rep; i++) {
-		if (BIGEND) {
+		switch (endian) {
+		case ENDIAN_BIG:
 			if (a.ashsize>32) oneval(n.i2, 32, 1);
 			oneval(n.i1, 32, 1);
-		}
-		else {
+			break;
+		case ENDIAN_LITTLE:
               		oneval(n.i1, 32, 1);
           		if (a.ashsize>32)oneval(n.i2, 32, 1);
+			break;
 		}
         }
 	return;
@@ -422,7 +427,7 @@ void evalone
                 }
 
                 if (offs - bits_start +ae.ashsize > 32) {
-                   if (BIGEND) {
+                   if (endian == ENDIAN_BIG) {
                       for (;;) {
                               oneval(val>>24, 8, 1);
                               val <<=8;
@@ -431,6 +436,7 @@ void evalone
                       }
                    }
                    else {
+                     assert(endian == ENDIAN_LITTLE);
                      for (;;) {
                         oneval(val &255, 8,1);
                         val >>= 8;
@@ -442,11 +448,13 @@ void evalone
                 }
 
                 if (offs - bits_start +ae.ashsize <= 32) {
-                     if (BIGEND) {
+                     switch (endian) {
+                     case ENDIAN_BIG:
 			val |= (vb << (32 -offs+bits_start-ae.ashsize));
-		     }
-		     else {
+		        break;
+		     case ENDIAN_LITTLE:
                      	val |= (vb << (offs-bits_start));
+		        break;
 		     }
                 }
                 else {
@@ -456,7 +464,7 @@ void evalone
 	     else {
 	     	if (!first_bits) {
 		    first_bits=1;
-		    if (BIGEND) {
+		    if (endian == ENDIAN_BIG) {
 		   	for (;;) {
 		   		oneval(val>>24, 8, 1);
 		   		val <<=8;
@@ -465,6 +473,7 @@ void evalone
 		   	}
 		     }
 		     else {
+                       assert(endian == ENDIAN_LITTLE);
                        for (;;) {
                           oneval(val &255, 8,1);
                           val >>=8;
@@ -486,13 +495,14 @@ void evalone
 	     	     offs += ae.ashsize;
 		     offs = (offs+7) &~7;
 		     for (;!first_bits;) {
-                      if (BIGEND) {
+                      if (endian == ENDIAN_BIG) {
                             oneval(val>>24, 8, 1);
                             val <<=8;
                             bits_start+=8;
                             if (offs-bits_start<= 0)break;
                        }
                        else {
+                       	    assert(endian == ENDIAN_LITTLE);
                             oneval(val &255, 8,1);
                             val >>= 8;
                             bits_start +=8;

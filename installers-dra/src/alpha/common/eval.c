@@ -14,6 +14,8 @@
   externals.
 */
 
+#include <assert.h>
+
 #include <shared/xalloc.h>
 
 #include "config.h"
@@ -43,6 +45,7 @@
 #include "inst_fmt.h"
 #include "eval.h"
 #include "fail.h"
+#include "flags.h"
 
 #if DO_SCHEDULE
 #include "scheduler.h"
@@ -759,7 +762,7 @@ evalone(exp e, int rep)
 	    /*val |= ((vb&bits_list(ae.ashsize)) <<(offs-bits_start));*/
 	  }
 	  else {
-	    if (BIGEND) {
+	    if (endian == ENDIAN_BIG) {
 	      for(;;) {
 		oneval(INT64_shift_right(val,24,1),8,1);
 		/*oneval(val>>24, 8, 1);*/
@@ -768,8 +771,9 @@ evalone(exp e, int rep)
 		bits_start+=8;
 		if (offs-bits_start <= 0) break;
 	      }	
-	    }
-	    else {                          
+	      break;
+	    } else {
+	      assert(endian == ENDIAN_LITTLE);
 	      for(;;) {  
 		oneval(INT64_and(val,make_INT64(0,255)),8,1);
 		/*oneval(val &255, 8,1);*/
@@ -786,7 +790,7 @@ evalone(exp e, int rep)
       else {
 	if (!first_bits) {
 	  first_bits=1;
-	  if (BIGEND) {
+	  if (endian == ENDIAN_BIG) {
 	    for(;;) {
 	      oneval(INT64_shift_right(val,24,1),8,1);
 	      /*oneval(val>>24, 8, 1);*/
@@ -795,8 +799,9 @@ evalone(exp e, int rep)
 	      bits_start+=8;
 	      if (offs-bits_start <= 0) break;
 	    }
-	  }
-	  else {		    
+	    break;
+	  } else {
+	    assert(endian == ENDIAN_LITTLE);
 	    for(;;) {  
 	      oneval(INT64_and(val,make_INT64(0,255)),8,1);
 	      /*oneval(val &255, 8,1);*/
@@ -813,15 +818,15 @@ evalone(exp e, int rep)
       if (last(bro(tup))) {
 	offs += ae.ashsize;
 	for(;!first_bits;) {
-	  if (BIGEND) {
+	  if (endian == ENDIAN_BIG) {
 	    oneval(INT64_shift_right(val,24,1),8,1);
 	    /*oneval(val>>24, 8, 1);*/
 	    val = INT64_shift_left(val,8,1);
 	    /*val <<=8;*/
 	    bits_start+=8;
 	    if (offs-bits_start<= 0) break;
-	  }
-	  else {         
+	  } else {
+	    assert(endian == ENDIAN_LITTLE);
 	    oneval(INT64_and(val,make_INT64(0,255)),8,1);
 	    /*oneval(val &255, 8,1);*/
 	    val = INT64_shift_right(val,8,1);

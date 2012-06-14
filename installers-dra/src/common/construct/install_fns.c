@@ -513,7 +513,7 @@ promote_formals(exp bdy)
 				while (u != nilexp) {
 					exp nextu = pt(u);
 					if (last(u) && name(bro(u)) == cont_tag) {
-						if (little_end) {
+						if (endian == ENDIAN_LITTLE) {
 							exp con = bro(u);
 							sh(u) = ps;
 							sh(con) = ns;
@@ -525,7 +525,7 @@ promote_formals(exp bdy)
 						}
 					} else {
 						setvis(bdy);
-						if (!little_end) {
+						if (endian == ENDIAN_BIG) {
 							sh(u) = ps;
 							no(u) = shape_size(ns) -
 							    shape_size(spar);
@@ -1429,6 +1429,9 @@ f_bitfield_assign(exp p, exp off, exp val)
 				   ident_tag);
 		son(noff1) = idoff; son(noff2) = idoff;
 		{
+			exp v, idbnt;
+			exp pn1, pn2, idpn;
+			exp cnt; exp mask1; exp orit; exp asit;
 			exp addbf = f_offset_add(noff1, f_shape_offset(bfs));
 			exp byteoffinit = f_offset_subtract(hold_refactor(
 					  f_offset_pad(als, addbf)),
@@ -1452,25 +1455,27 @@ f_bitfield_assign(exp p, exp off, exp val)
 					  0, name_tag);
 			exp bnt2 = getexp(ulongsh, nilexp, 0, nilexp, bnt1, 0,
 					  0, name_tag);
-#if little_end
-			exp idbnt = getexp(f_top, idby, 1, bitoffinit, bnt2, 0,
-					   2, ident_tag);
-#else
-			exp v = getexp(ulongsh, nilexp, 0, nilexp, nilexp, 0,
-				       shape_size(s) - nbits, val_tag);
-			exp idbnt = getexp(f_top, idby, 1, f_minus(f_wrap, v,
-								   bitoffinit),
-					   bnt2, 0, 2, ident_tag);
-#endif
-			exp pn1 = getexp(sh(p), nilexp, 0, nilexp, nilexp, 0, 0,
-					 name_tag);
-			exp pn2 = getexp(sh(p), nilexp, 0, nilexp, pn1, 0, 0,
-					 name_tag);
-			exp idpn = getexp(f_top, idbnt, 1,
-					  f_add_to_ptr(p, nby1), pn2, 0, 2,
-					  ident_tag);
 
-			exp cnt; exp mask1; exp orit; exp asit;
+			switch (endian) {
+			case ENDIAN_LITTLE:
+				idbnt = getexp(f_top, idby, 1, bitoffinit, bnt2, 0,
+					   2, ident_tag);
+				break;
+			case ENDIAN_BIG:
+				v = getexp(ulongsh, nilexp, 0, nilexp, nilexp, 0,
+					shape_size(s) - nbits, val_tag);
+				idbnt = getexp(f_top, idby, 1, f_minus(f_wrap, v,
+					bitoffinit), bnt2, 0, 2, ident_tag);
+				break;
+			}
+
+			pn1 = getexp(sh(p), nilexp, 0, nilexp, nilexp, 0, 0,
+				 name_tag);
+			pn2 = getexp(sh(p), nilexp, 0, nilexp, pn1, 0, 0,
+				 name_tag);
+			idpn = getexp(f_top, idbnt, 1,
+				  f_add_to_ptr(p, nby1), pn2, 0, 2, ident_tag);
+
 			son(nby1) = idby; son(nby2) = idby; son(nby3) = idby;
 			son(bnt1) = idbnt; son(bnt2) = idbnt;
 			son(pn1) = idpn; son(pn2) = idpn;
@@ -1597,11 +1602,14 @@ f_bitfield_contents(bitfield_variety bf, exp p, exp off)
 			bitoff =
 			    f_offset_div(ulongsh, f_offset_subtract(noff2,
 			    f_offset_pad(f_alignment(bfs), nby2)), v1bit);
-#if (little_end)
-			shl = f_minus(f_wrap, copy(v), bitoff);
-#else
-			shl = bitoff;
-#endif
+ 			switch (endian) {
+			case ENDIAN_LITTLE:
+				shl = f_minus(f_wrap, copy(v), bitoff);
+				break;
+			case ENDIAN_BIG:
+				shl = bitoff;
+				break;
+			}
 			sh1 = f_shift_left(f_wrap, cnt, shl);
 			sh2 = f_shift_right(sh1, v);
 			bro(byteoffinit) = sh2; clearlast(byteoffinit);
