@@ -38,7 +38,6 @@
 #define issol86 1
 #define islinux 0
 #define isfreebsd 0
-#define remove_struct_ref 1
 
 #define has_setcc 1
 #define has_byte_regs 1
@@ -65,7 +64,6 @@
 #define div0_implemented 1
 #define substitute_complex 1
 #define has_rotate 1
-#define GCC_STRUCTS 0
 
 #define condassign_implemented 0
 #define value_of_null 0

@@ -125,9 +125,9 @@ main(int argc, char **argv)
 	 * XXX: Some arguments are undocumented in trans.1, check
 	 */
 #ifdef NEWDWARF
-	optstring = "B:D:E:G:H:" "J" "K:M:NO:PQR:" "T" "VW:X:Z" "abcdfghik:s";
+	optstring = "B:D:E:G:H:" "J" "K:M:NO:PQR:" "T" "VW:X:Z" "abcdfghik:st:";
 #else
-	optstring = "B:D:E:G:H:"     "K:M:NO:PQR:"     "VW:X:Z" "abcdfghik:s";
+	optstring = "B:D:E:G:H:"     "K:M:NO:PQR:"     "VW:X:Z" "abcdfghik:st:";
 #endif
 
 	while ((ch = getopt(argc, argv, optstring)) != -1) {
@@ -142,7 +142,6 @@ main(int argc, char **argv)
 			endian = switch_endian(optarg, ENDIAN_LITTLE);
 			break;
 		case 'G':
-			gcc_compatible = (*optarg == '1');
 			break;
 		case 'H':
 			/* Add debug symbols to assembly */
@@ -289,6 +288,12 @@ main(int argc, char **argv)
 			sco_gas = 1;
 			break;
 #endif
+		case 't':
+			/* TODO: I think it ought to be set by the ABI. But I'm putting
+			 * it here for the moment to keep it out of the way.
+			 * I think this is only relevant for a.out systems. */
+			gcc_compatible = (*optarg == '1');
+			break;
 		default:
 			/* getopt will print an errormessage */
 			exit(EXIT_FAILURE);
@@ -299,23 +304,16 @@ main(int argc, char **argv)
 	argc -= optind;
 	argv += optind;
 
-#if isdragonfly
-	if (gcc_compatible < 0)
-		gcc_compatible = !dragonfly_elf;
-#elif isfreebsd
-	if (gcc_compatible < 0)
-		gcc_compatible = !freebsd_elf;
-#elif islinux
-	if (gcc_compatible < 0)
-		gcc_compatible = !linux_elf;
-#elif isopenbsd || isnetbsd
-	if (gcc_compatible < 0)
-		gcc_compatible = 0; /* always ELF */
-#endif
 	if (argc == 0 || (argc % 2) != 0) {
 		failer(BAD_COMMAND1);
 		exit(EXIT_FAILURE);
 	}
+
+	/* TODO: unsure about this. I think it ought to be set by the ABI.
+	 * It might not neccessarily always be the same as gcc_compatible,
+	 * because those differed for Solaris x86. Or that was an a.out system,
+	 * and this isn't relevant for ELF. */
+	remove_struct_ref = gcc_compatible;
 
 	/* XXX: invalid assembly is generated without this */
 	optim |= OPTIM_CASE;

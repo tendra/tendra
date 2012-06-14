@@ -36,7 +36,6 @@
 #define issol86 0
 #define islinux 0
 #define isfreebsd 1
-#define remove_struct_ref (!freebsd_elf)
 
 #define has_setcc 1
 #define has_byte_regs 1
@@ -61,7 +60,6 @@
 #define div0_implemented 1
 #define substitute_complex 1
 #define has_rotate 1
-#define GCC_STRUCTS -1 /* !freebsd_elf */
 
 
 #define maxmin_implemented 1

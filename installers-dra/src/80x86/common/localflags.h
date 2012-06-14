@@ -20,5 +20,6 @@ extern  int stack_aligned_8byte;
 extern  int permit_8byte_align;
 extern  int useful_double;
 extern  int keep_short;
+extern	int remove_struct_ref;
 
 extern  weak_cell *weak_list;
