@@ -15,3 +15,10 @@
  */
 int asm_dotty_instrs;
 
+/*
+ * 0 - registers are d0 etc
+ * 1 - registers are %d0 etc
+ * TODO: get rid of this, and use HP/GAS assembler dialect instead
+ */
+int asm_percent_regs;
+

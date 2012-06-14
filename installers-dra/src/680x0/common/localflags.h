@@ -7,4 +7,5 @@
  */
 
 extern int asm_dotty_instrs;
+extern int asm_percent_regs;
 

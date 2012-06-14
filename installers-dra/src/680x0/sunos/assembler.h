@@ -71,8 +71,6 @@ void asm_comment(void);
 
 #ifdef HP_ASSEMBLER
 
-#define  asm_percent_regs		/* registers are %d0 etc */
-
 #define  asm_data_first			/* true */
 
 #define  asm_cmp_reversed		/* cmp instructions are reversed */
@@ -112,8 +110,6 @@ void asm_comment(void);
 */
 
 #ifdef GAS_ASSEMBLER
-
-#define asm_simple_regs			/* registers are d0 etc */
 
 #undef 	asm_data_first			/* false */
 

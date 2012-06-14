@@ -126,9 +126,11 @@ int main
 
 #ifdef GAS_ASSEMBLER
 	asm_dotty_instrs = 0;
+	asm_percent_regs = 0;
 #endif
 #ifdef HP_ASSEMBLER
 	asm_dotty_instrs = 1;
+	asm_percent_regs = 1;
 #endif
 
 	{

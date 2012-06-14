@@ -59,8 +59,8 @@ open_output(char *nm)
 */
 
 char *instr_names_dotty[] = {
-#undef  INSTR_SET_1
 #define INSTR_SET_0
+#undef  INSTR_SET_1
 #include "instr_aux.h"
 };
 
@@ -78,17 +78,18 @@ char *instr_names_simple[] = {
     names.
 */
 
-#ifdef asm_percent_regs
+static char *glob_reg_names_percent[] = {
 #define REGISTER_SET_0
-#endif /* asm_percent_regs */
-
-#ifdef asm_simple_regs
-#define REGISTER_SET_1
-#endif /* asm_simple_regs */
-
-static char *glob_reg_names[] = {
+#undef  REGISTER_SET_1
 #include "instr_aux.h"
 };
+
+static char *glob_reg_names_simple[] = {
+#undef  REGISTER_SET_0
+#define REGISTER_SET_1
+#include "instr_aux.h"
+};
+
 
 
 /*
