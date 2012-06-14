@@ -19,6 +19,15 @@ PARTS+= src/680x0/common
 .include <tendra.partial.mk>
 
 
+CFLAGS+=	-I ../../common/reader
+CFLAGS+=	-I ../common
+CFLAGS+=	-I .
+
+SRCS+=  assembler.c
+
+.include <tendra.obj.mk>
+
+
 PROG=    	trans.${.CURDIR:H:T}.${.CURDIR:T}
 EXEC_BIN=	${PREFIX_LIBEXEC}
 

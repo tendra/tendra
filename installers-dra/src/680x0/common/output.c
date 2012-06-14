@@ -222,12 +222,12 @@ static void
 out_scaled(mach_op *ptr)
 {
 	long sf = ptr->def.num;
-	asm_scale_before;
+	asm_scale_before();
 	out_reg_name(ptr->of->def.num);
 	if (sf == 1) {
-		asm_scale_1;
+		asm_scale_1();
 	} else {
-		asm_scale;
+		asm_scale();
 		outn(sf);
 	}
 	return;
@@ -245,7 +245,7 @@ out_float(flt *f)
 {
 #if (FBASE == 10)
 	int i;
-	asm_fprefix;
+	asm_fprefix();
 	if (f->sign < 0) {
 		outc('-');
 	}
@@ -318,13 +318,13 @@ out_mach_op(mach_op *ptr)
 		long bf_off = p->def.num;
 		long bf_bits = p->plus->def.num;
 		out_mach_op(p->of);
-		asm_bf_before;
-		asm_nprefix;
+		asm_bf_before();
+		asm_nprefix();
 		outn(bf_off);
-		asm_bf_middle;
-		asm_nprefix;
+		asm_bf_middle();
+		asm_nprefix();
 		outn(bf_bits);
-		asm_bf_after;
+		asm_bf_after();
 		return;
 	}
 	case MACH_CONT:
@@ -350,18 +350,18 @@ out_mach_op(mach_op *ptr)
 				q2 = q1;
 				q1 = q2->plus;
 			}
-			asm_mem_before;
+			asm_mem_before();
 			out_data_1a(q1);
 			out_reg_name(q->def.num);
-			asm_mem_second;
+			asm_mem_second();
 			out_sf_data(q1, q2);
-			asm_mem_third;
+			asm_mem_third();
 			out_sf_data(p1, p2);
 			if (p2) {
 				out_scaled(p2);
 			}
 			out_data_1b(p1);
-			asm_mem_after;
+			asm_mem_after();
 			return;
 		}
 		case MACH_REG: {
@@ -375,11 +375,11 @@ out_mach_op(mach_op *ptr)
 				}
 				out_data_1(p1);
 			}
-			asm_ind_before;
+			asm_ind_before();
 			out_reg_name(p->def.num);
-			asm_ind_middle;
+			asm_ind_middle();
 			out_sf_data(p1, p2);
-			asm_ind_after;
+			asm_ind_after();
 			return;
 		}
 		case MACH_EXTQ: {
@@ -393,11 +393,11 @@ out_mach_op(mach_op *ptr)
 				}
 				out_data_1(p1);
 			}
-			asm_ind_before;
+			asm_ind_before();
 			outs(p->def.str);
-			asm_ind_middle;
+			asm_ind_middle();
 			out_sf_data(p1, p2);
-			asm_ind_after;
+			asm_ind_after();
 			return;
 		}
 		case MACH_EXT:
@@ -415,15 +415,15 @@ out_mach_op(mach_op *ptr)
 		return;
 	case MACH_DEC:
 		/* Register indirect with predecrement */
-		asm_predec_before;
+		asm_predec_before();
 		out_reg_name(p->def.num);
-		asm_predec_after;
+		asm_predec_after();
 		return;
 	case MACH_INC:
 		/* Register indirect with postincrement */
-		asm_postinc_before;
+		asm_postinc_before();
 		out_reg_name(p->def.num);
-		asm_postinc_after;
+		asm_postinc_after();
 		return;
 	case MACH_REG:
 		/* Register direct */
@@ -432,7 +432,7 @@ out_mach_op(mach_op *ptr)
 	case MACH_RPAIR:
 		/* Register pair */
 		out_reg_name(p->def.num);
-		asm_rpair_sep;
+		asm_rpair_sep();
 		out_reg_name(p->plus->def.num);
 		return;
 	case MACH_EXT:
@@ -441,7 +441,7 @@ out_mach_op(mach_op *ptr)
 	case MACH_VAL:
 	case MACH_HEX:
 		/* Immediate data, externals, labels */
-		asm_nprefix;
+		asm_nprefix();
 		out_data(p);
 		return;
 	case MACH_EXTQ:

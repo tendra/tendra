@@ -1,7 +1,7 @@
 /* $Id$ */
 
 /*
- * Copyright 2002-2011, The TenDRA Project.
+ * Copyright 2002-2012, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
  *
  * See doc/copyright/ for the full copyright terms.
@@ -42,6 +42,29 @@
 #endif /* NEXT */
 
 
+void asm_nprefix(void);
+void asm_fprefix(void);
+void asm_ind_before(void);
+void asm_ind_middle(void);
+void asm_ind_after(void);
+void asm_predec_before(void);
+void asm_predec_after(void);
+void asm_postinc_before(void);
+void asm_postinc_after(void);
+void asm_scale_before(void);
+void asm_scale(void);
+void asm_scale_1(void);
+void asm_mem_before(void);
+void asm_mem_second(void);
+void asm_mem_third(void);
+void asm_mem_after(void);
+void asm_bf_before(void);
+void asm_bf_middle(void);
+void asm_bf_after(void);
+void asm_rpair_sep(void);
+void asm_comment(void);
+
+
 /*
     HP ASSEMBLER DETAILS
 */
@@ -52,27 +75,6 @@
 #define  asm_percent_regs		/* registers are %d0 etc */
 
 #define  asm_data_first			/* true */
-#define  asm_nprefix			outc(' & ')
-#define  asm_fprefix			outs("0f")
-#define  asm_ind_before			outc('(')
-#define  asm_ind_middle			/* empty */
-#define  asm_ind_after			outc(')')
-#define  asm_predec_before		outs(" - (")
-#define  asm_predec_after		outc(')')
-#define  asm_postinc_before		outc('(')
-#define  asm_postinc_after		outs(") + ")
-#define  asm_scale_before		outc(',')
-#define  asm_scale			outs(".l*")
-#define  asm_scale_1			outs(".l")
-#define  asm_mem_before			outs("([")
-#define  asm_mem_second			/* empty */
-#define  asm_mem_third			outc(']')
-#define  asm_mem_after			outc(')')
-#define  asm_bf_before			outc('{')
-#define  asm_bf_middle			outc(':')
-#define  asm_bf_after			outc('}')
-#define  asm_rpair_sep			outc(':')
-#define  asm_comment			outc('#')
 
 #define  asm_cmp_reversed		/* cmp instructions are reversed */
 #define  asm_version			outs("\tversion 2")
@@ -116,27 +118,6 @@
 #define asm_simple_regs			/* registers are d0 etc */
 
 #undef 	asm_data_first			/* false */
-#define asm_nprefix			outc('#')
-#define asm_fprefix			outs("0r")
-#define asm_ind_before			/* empty */
-#define asm_ind_middle			outc('@')
-#define asm_ind_after			/* empty */
-#define asm_predec_before		/* empty */
-#define asm_predec_after			outs("@ - ")
-#define asm_postinc_before		/* empty */
-#define asm_postinc_after		outs("@ + ")
-#define asm_scale_before			/* empty */
-#define asm_scale			outs(":l:")
-#define asm_scale_1			outs(":l")
-#define asm_mem_before			/* empty */
-#define asm_mem_second			outc('@')
-#define asm_mem_third			outc('@')
-#define asm_mem_after			/* empty */
-#define asm_bf_before			outc('{')
-#define asm_bf_middle			outc(':')
-#define asm_bf_after			outc('}')
-#define asm_rpair_sep			outc(':')
-#define asm_comment			outc('#')
 
 #define asm_does_jump_lens		/* calculates jump lengths */
 #define asm_uses_equals			/* uses = rather than set */
