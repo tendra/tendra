@@ -38,7 +38,7 @@ static int find_where(exp);
     These are used as convenient shorthands.
 */
 
-#define  new_exp(A, B, C, D)	getexp(A, nilexp, 0, B, nilexp, L0, C, D)
+#define  new_exp(A, B, C, D)	getexp(A, nilexp, 0, B, nilexp, 0L, C, D)
 #define  ptrsh		 	ptr_shape(slongsh)
 
 

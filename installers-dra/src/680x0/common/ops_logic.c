@@ -400,7 +400,7 @@ static void
 shift_it(shape sha, shape shb, int instr, where by, where to)
 {
 	long sz = shape_size(sha);
-	ins2(instr, L8, sz, by, to, 1);
+	ins2(instr, 8L, sz, by, to, 1);
 	have_cond = 0;
 	test_overflow(ON_OVERFLOW);
 	return;
@@ -662,13 +662,13 @@ bitf_to_int(exp e, shape sha, where dest, ash stack)
 			long r = 32 - nbits - boff;
 			if (r) {
 				if (r <= 8) {
-					ins2n(m_lsll, r, L32, d, 1);
-					ins2n(m_asrl, r, L32, d, 1);
+					ins2n(m_lsll, r, 32L, d, 1);
+					ins2n(m_asrl, r, 32L, d, 1);
 				} else {
 					regsinproc |= regmsk(REG_D1);
-					ins2n(m_moveq, r, L32, D1, 1);
-					ins2(m_lsll, L32, L32, D1, d, 1);
-					ins2(m_asrl, L32, L32, D1, d, 1);
+					ins2n(m_moveq, r, 32L, D1, 1);
+					ins2(m_lsll, 32L, 32L, D1, d, 1);
+					ins2(m_asrl, 32L, 32L, D1, d, 1);
 				}
 			}
 		}
@@ -678,9 +678,9 @@ bitf_to_int(exp e, shape sha, where dest, ash stack)
 	} else {
 		mach_op *op1, *op2;
 		d = (whereis(dest) == Dreg ? dest : D0);
-		op1 = operand(L32, bf);
+		op1 = operand(32L, bf);
 		op1 = make_bitfield_op(op1,(int)bstart,(int)nbits);
-		op2 = operand(L32, d);
+		op2 = operand(32L, d);
 		make_instr(instr, op1, op2, regs_changed(op2, 1));
 		have_cond = 0;
 		change_var_sh(dsha, slongsh, d, dest);
@@ -763,8 +763,8 @@ int_to_bitf(exp e, exp d, ash stack)
 			change_var_sh(slongsh, sh(e), dd, D0);
 			dd = D0;
 		}
-		op1 = operand(L32, dd);
-		op2 = operand(L32, dest);
+		op1 = operand(32L, dd);
+		op2 = operand(32L, dest);
 		ch = regs_changed(op2, 1);
 		op2 = make_bitfield_op(op2,(int)bstart,(int)nbits);
 		make_instr(m_bfins, op1, op2, ch);

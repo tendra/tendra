@@ -132,51 +132,6 @@ typedef unsigned long bitpattern;
 #define internal_tag		101
 #define regpair_tag		102
 
-
-/*
-    LONG INTEGER LITERALS
-
-    Some compilers don't understand 0L etc.
-*/
-
-#ifdef __STDC__
-#define L0			0L
-#define L1			1L
-#define L2			2L
-#define L3			3L
-#define L4			4L
-#define L5			5L
-#define L6			6L
-#define L7			7L
-#define L8			8L
-#define L9			9L
-#define L10			10L
-#define L16			16L
-#define L32			32L
-#define L64			64L
-#define L65536			65536L
-#define L21474836478		21474836478L
-#define L_1			 - 1L
-#else
-#define L0			((long)0)
-#define L1			((long)1)
-#define L2			((long)2)
-#define L3			((long)3)
-#define L4			((long)4)
-#define L5			((long)5)
-#define L6			((long)6)
-#define L7			((long)7)
-#define L8			((long)8)
-#define L9			((long)9)
-#define L10			((long)10)
-#define L16			((long)16)
-#define L32			((long)32)
-#define L64			((long)64)
-#define L65536			((long)65536)
-#define L21474836478		((long)21474836478)
-#define L_1			((long) - 1)
-#endif
-
 #define HAS_MAGIC		1
 #define substitute_complex	1
 

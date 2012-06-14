@@ -319,7 +319,7 @@ build_stab_type(diag_type dt, page *ptr)
 			dt->data.t_struct.nme.ints.chars = "";
 			res = analyse_stab_type(dt, nm, "T");
 			dt->data.t_struct.nme.ints.chars = nm;
-			make_stabs(res, 128, L0, null);
+			make_stabs(res, 128, 0L, null);
 			res = (char *)dt->been_outed;
 			ptr = sprint_string(ptr, res);
 		} else {
@@ -363,7 +363,7 @@ build_stab_type(diag_type dt, page *ptr)
 			dt->data.t_struct.nme.ints.chars = "";
 			res = analyse_stab_type(dt, nm, "T");
 			dt->data.t_struct.nme.ints.chars = nm;
-			make_stabs(res, 128, L0, null);
+			make_stabs(res, 128, 0L, null);
 			res = (char *)dt->been_outed;
 			ptr = sprint_string(ptr, res);
 		} else {
@@ -486,7 +486,7 @@ init_stab_types(void)
 	};
 	int i;
 	for (i = 0; i < 15; i++) {
-		make_stabs(stab_types[i], 128, L0, null);
+		make_stabs(stab_types[i], 128, 0L, null);
 	}
 	return;
 }

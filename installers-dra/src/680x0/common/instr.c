@@ -77,8 +77,8 @@ index_opnd(where w1, where w2, int sf)
 		error(ERROR_SERIOUS, "Illegal index operand");
 		return null;
 	}
-	op1 = operand(L32, w1);
-	op2 = operand(L32, w2);
+	op1 = operand(32L, w1);
+	op2 = operand(32L, w2);
 	return make_index_op(op1, op2, sf);
 }
 
@@ -309,7 +309,7 @@ operand(long sz, where wh)
 					where new_w;
 					new_w.wh_exp = id;
 					new_w.wh_off = 0;
-					op = operand(L32, new_w);
+					op = operand(32L, new_w);
 					ra = tmp_reg(m_movl, op);
 					d = no(r) + off;
 					return make_indirect(ra, d / 8);
@@ -319,7 +319,7 @@ operand(long sz, where wh)
 					where new_w;
 					new_w.wh_exp = id;
 					new_w.wh_off = 0;
-					op = operand(L32, new_w);
+					op = operand(32L, new_w);
 					ra = tmp_reg(m_movl, op);
 					d = no(r) + off;
 					return make_indirect(ra, d / 8);
@@ -341,7 +341,7 @@ operand(long sz, where wh)
 					where new_w;
 					new_w.wh_exp = id;
 					new_w.wh_off = 0;
-					op = operand(L32, new_w);
+					op = operand(32L, new_w);
 					ra = tmp_reg(m_movl, op);
 					d = no(r) + off;
 					return make_indirect(ra, d / 8);
@@ -409,7 +409,7 @@ operand(long sz, where wh)
 				where new_w;
 				new_w.wh_exp = r;
 				new_w.wh_off = 0;
-				op = operand(L32, new_w);
+				op = operand(32L, new_w);
 				ra = tmp_reg(m_movl, op);
 				d = no(w);
 				return make_indirect(ra, d / 8);
@@ -431,7 +431,7 @@ operand(long sz, where wh)
 				where new_w;
 				new_w.wh_exp = id;
 				new_w.wh_off = 0;
-				op = operand(L32, new_w);
+				op = operand(32L, new_w);
 				ra = tmp_reg(m_movl, op);
 				d = no(w);
 				return make_indirect(ra, d / 8);
@@ -456,7 +456,7 @@ operand(long sz, where wh)
 				where new_w;
 				new_w.wh_exp = id;
 				new_w.wh_off = 0;
-				op = operand(L32, new_w);
+				op = operand(32L, new_w);
 				ra = tmp_reg(m_movl, op);
 				d = no(w);
 				return make_indirect(ra, d / 8);
@@ -531,7 +531,7 @@ operand(long sz, where wh)
 				where new_w;
 				new_w.wh_exp = id;
 				new_w.wh_off = 0;
-				op = operand(L32, new_w);
+				op = operand(32L, new_w);
 				ra = tmp_reg(m_movl, op);
 				if (no(w)) {
 					add_to_reg(ra, no(w) / 8);

@@ -56,10 +56,10 @@ void load_ea
 	son(ra) = a.wh_exp;
 	no(ra) = 8 * offset;
 	if (psh) {
-	    ins1(m_pea, L32, zw(ra), 0);
+	    ins1(m_pea, 32L, zw(ra), 0);
 	    stack_size -= 32;
 	} else {
-	    ins2(m_lea, L32, L32, zw(ra), dest, 1);
+	    ins2(m_lea, 32L, 32L, zw(ra), dest, 1);
 	}
 	retcell(ra);
 	have_cond = 0;
@@ -597,7 +597,7 @@ static void mult_aux
     if (sz == 8 || (have_overflow() && (sz == 16))) {
 	change_var_sh(lsha, sha, dest, dest);
 	change_var_sh(lsha, sha, a, D0);
-	ins2(instr, L32, L32, dest, D0, 1);
+	ins2(instr, 32L, 32L, dest, D0, 1);
         test_overflow(ON_OVERFLOW);
 	change_var_sh(sha, lsha, D0, dest);
 	set_cond(dest, sz);
@@ -690,7 +690,7 @@ static void mult_power2
 {
     switch (p) {
 	case 0: return;
-	case 1: ins2(m_addl, L32, L32, r, r, 1); return;
+	case 1: ins2(m_addl, 32L, 32L, r, r, 1); return;
 	default : {
 	    shift_aux(slongsh, mnw(p), r, r, 0, D1_used);
 	    return;
@@ -725,14 +725,14 @@ static void mult_utility
 
 	    case 2: {
 		/* Multiply by 3 */
-		ins2(m_addl, L32, L32, r1, r1, 1);
-		ins2(m_addl, L32, L32, r2, r1, 1);
+		ins2(m_addl, 32L, 32L, r1, r1, 1);
+		ins2(m_addl, 32L, 32L, r2, r1, 1);
 		return;
 	    }
 
 	    default : {
 		mult_power2(p, r1, D1_used);
-		ins2(m_subl, L32, L32, r2, r1, 1);
+		ins2(m_subl, 32L, 32L, r2, r1, 1);
 		return;
 	    }
 	}
@@ -748,24 +748,24 @@ static void mult_utility
 	    case 1: {
 		/* P = 2 => r1 = ( 2 * Q * r1 + r2 ) */
 		mult_power2(q + 1, r1, D1_used);
-		ins2(m_addl, L32, L32, r2, r1, 1);
+		ins2(m_addl, 32L, 32L, r2, r1, 1);
 		return;
 	    }
 
 	    case 2: {
 		/* P = 4 => r1 = ( 4 * Q * r1 + 3 * r2 ) */
 		mult_power2(q + 1, r1, D1_used);
-		ins2(m_addl, L32, L32, r2, r1, 1);
-		ins2(m_addl, L32, L32, r1, r1, 1);
-		ins2(m_addl, L32, L32, r2, r1, 1);
+		ins2(m_addl, 32L, 32L, r2, r1, 1);
+		ins2(m_addl, 32L, 32L, r1, r1, 1);
+		ins2(m_addl, 32L, 32L, r2, r1, 1);
 		return;
 	    }
 
 	    default : {
 		mult_power2(q, r1, D1_used);
-		ins2(m_addl, L32, L32, r2, r1, 1);
+		ins2(m_addl, 32L, 32L, r2, r1, 1);
 		mult_power2(p, r1, D1_used);
-		ins2(m_subl, L32, L32, r2, r1, 1);
+		ins2(m_subl, 32L, 32L, r2, r1, 1);
 		return;
 	    }
 	}
@@ -825,7 +825,7 @@ static void mult_const
 
 	case 5: {
 	    if (sz == 32) {
-		mult_clever(a1, dest, L4, 0);
+		mult_clever(a1, dest, 4L, 0);
 		return;
 	    }
 	    break;
@@ -833,7 +833,7 @@ static void mult_const
 
 	case 9: {
 	    if (sz == 32) {
-		mult_clever(a1, dest, L8, 0);
+		mult_clever(a1, dest, 8L, 0);
 		return;
 	    }
 	    break;
@@ -841,7 +841,7 @@ static void mult_const
 
 	case 10: {
 	    if (sz == 32) {
-		mult_clever(a1, dest, L4, 1);
+		mult_clever(a1, dest, 4L, 1);
 		return;
 	    }
 	    break;
@@ -849,7 +849,7 @@ static void mult_const
 
 	case 18: {
 	    if (sz == 32) {
-		mult_clever(a1, dest, L8, 1);
+		mult_clever(a1, dest, 8L, 1);
 		return;
 	    }
 	    break;
@@ -933,7 +933,7 @@ static void mult_const
     } else {
 	move(slongsh, reg1, dest);
     }
-    set_cond(dest, L32);
+    set_cond(dest, 32L);
     return;
 }
 
@@ -1347,10 +1347,10 @@ static void euclid
     }
 
     /* Save D1 if necessary */
-    if (save_d1)push(slongsh, L32, D1);
+    if (save_d1)push(slongsh, 32L, D1);
 #if 0
     /* Keep the denominator in form 1 */
-    if (form == 1 && !b_const)push(slongsh, L32, bottom);
+    if (form == 1 && !b_const)push(slongsh, 32L, bottom);
 #endif
     /* Get the arguments into the correct positions */
     if (sz != 32) {
@@ -1360,7 +1360,7 @@ static void euclid
        change_var_sh(lsha, sha, top, qreg);
 
        if (eq_where(qreg, D0)) {
-          push(slongsh, L32, D0);
+          push(slongsh, 32L, D0);
           d0_pushed = 1;
        }
 
@@ -1368,7 +1368,7 @@ static void euclid
        change_var_sh(lsha, sha, bottom, rreg);
 
        if (d0_pushed)
-          pop(slongsh,L32,D0);
+          pop(slongsh,32L,D0);
 
        breg = rreg;
     } else {
@@ -1378,7 +1378,7 @@ static void euclid
 		regsinproc |= regmsk(REG_D1);
 		if (D1_is_special) {
 		    save_d1 = 1;
-		    push(slongsh, L32, D1);
+		    push(slongsh, 32L, D1);
 		}
 	    }
 	    move(sha, bottom, rreg);
@@ -1390,36 +1390,36 @@ static void euclid
 
     if (have_overflow()) {
        if (save_d1) {
-          pop(slongsh,L32,D1);
+          pop(slongsh,32L,D1);
        }
        cmp_zero(sha, sz, breg);
        test_overflow2(m_beq);
        if (save_d1) {
-          push(slongsh,L32,D1);
+          push(slongsh,32L,D1);
        }
     }
 
     /* Keep the denominator in form 1 */
-    if (form == 1 && !b_const)push(slongsh, L32, breg);
+    if (form == 1 && !b_const)push(slongsh, 32L, breg);
 
     /* Create the actual division instruction */
     if (type == DIV && form != 1) {
 	long qn = reg(qreg.wh_regs);
 	int instr = (sg ? m_divsl : m_divul);
-	mach_op *op1 = operand(L32, breg);
+	mach_op *op1 = operand(32L, breg);
 	mach_op *op2 = make_register(qn);
 	make_instr(instr, op1, op2, regmsk(qn));
     } else {
 	long qn = reg(qreg.wh_regs);
 	long rn = reg(rreg.wh_regs);
 	int instr = (sg ? m_divsll : m_divull);
-	mach_op *op1 = operand(L32, breg);
+	mach_op *op1 = operand(32L, breg);
 	mach_op *op2 = make_reg_pair(rn, qn);
 	make_instr(instr, op1, op2,(regmsk(qn) | regmsk(rn)));
     }
     if (have_overflow()) {
       if (save_d1) {
-	pop(slongsh,L32,D1);
+	pop(slongsh,32L,D1);
       }
       if (form == 1 && !b_const) {
 	dec_stack(-32);
@@ -1505,7 +1505,7 @@ static void euclid
 
     /* Restore D1 */
     if (save_d1) {
-	pop(slongsh, L32, D1);
+	pop(slongsh, 32L, D1);
 	debug_warning("D1 saved on stack during division");
     }
     have_cond = 0;

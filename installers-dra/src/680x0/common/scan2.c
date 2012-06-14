@@ -85,8 +85,8 @@ cca(bool sto, exp to, bool sx, exp x)
 #endif
 	d = contexp(sx, x);
 	a = contexp(sto, to);
-	id = getexp(sh(a), bro(a), last(a), d, nilexp, 0, L1, ident_tag);
-	tg = getexp(sh(d), bro(d), last(d), id, nilexp, 0, L0, name_tag);
+	id = getexp(sh(a), bro(a), last(a), d, nilexp, 0, 1L, ident_tag);
+	tg = getexp(sh(d), bro(d), last(d), id, nilexp, 0, 0L, name_tag);
 	pt(id) = tg;
 	clearlast(d);
 	if (d != a) {

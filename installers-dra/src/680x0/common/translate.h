@@ -29,4 +29,4 @@
 #endif
 
 #define  simple_exp( X )\
-	getexp ( botsh, nilexp, 0, nilexp, nilexp, 0, L0, X )
+	getexp ( botsh, nilexp, 0, nilexp, nilexp, 0, 0L, X )

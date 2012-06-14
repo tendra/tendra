@@ -94,7 +94,7 @@ have_overflow(void)
 void
 trap_ins(int ec)
 {
-	push(slongsh, L32, mnw(ec));
+	push(slongsh, 32L, mnw(ec));
 	callins(0, get_error_handler());
 }
 
@@ -159,13 +159,13 @@ test_overflow(overflow_type typ)
 		break;
 	case ON_FP_OVERFLOW:
 	case ON_FP_CARRY:
-		ins2(m_fmovel, L32, L32, register(REG_FPSR), D0, 1);
-		ins2h(m_andl, 0x00001c00, L32, D0, 1);
+		ins2(m_fmovel, 32L, 32L, register(REG_FPSR), D0, 1);
+		ins2h(m_andl, 0x00001c00, 32L, D0, 1);
 		instr = m_bne;
 		break;
 	case ON_FP_OPERAND_ERROR:
-		ins2(m_fmovel, L32, L32, register(REG_FPSR), D0, 1);
-		ins2h(m_andl, 0x00002000, L32, D0, 1);
+		ins2(m_fmovel, 32L, 32L, register(REG_FPSR), D0, 1);
+		ins2h(m_andl, 0x00002000, 32L, D0, 1);
 		instr = m_bne;
 		break;
 	default:
@@ -252,8 +252,8 @@ callins(long longs, exp fn)
 		}
 	}
 	/* Now output the call instruction */
-	call_exp = getexp(proksh, nilexp, 0, fn_exp, nilexp, 0, L0, cont_tag);
-	op = operand(L32, zw(call_exp));
+	call_exp = getexp(proksh, nilexp, 0, fn_exp, nilexp, 0, 0L, cont_tag);
+	op = operand(32L, zw(call_exp));
 	make_instr(m_call, op, null, ~save_msk);
 	no_calls++;
 	retcell(call_exp);
@@ -288,8 +288,8 @@ jmpins(exp fn)
 		}
 	}
 	/* Now output the jmp instruction */
-	jmp_exp = getexp(proksh, nilexp, 0, fn_exp, nilexp, 0, L0, cont_tag);
-	op = operand(L32, zw(jmp_exp));
+	jmp_exp = getexp(proksh, nilexp, 0, fn_exp, nilexp, 0, 0L, cont_tag);
+	op = operand(32L, zw(jmp_exp));
 	make_instr(m_jmp, op, null, ~save_msk);
 	retcell(jmp_exp);
 	have_cond = 0;
@@ -613,10 +613,10 @@ push(shape sha, long sz, where wh)
 	if (sz != 32) {
 		if (is_signed(sha) && (whereis(wh) == Dreg)) {
 			change_var_sh(slongsh, sha, wh, wh);
-			push(slongsh, L32, wh);
+			push(slongsh, 32L, wh);
 		} else {
 			change_var_sh(slongsh, sha, wh, D0);
-			push(slongsh, L32, D0);
+			push(slongsh, 32L, D0);
 		}
 		have_cond = 0;
 		return;
@@ -678,10 +678,10 @@ pop(shape sha, long sz, where wh)
 	mach_op *op1, *op2;
 	if (sz != 32) {
 		if (whereis(wh) == Dreg) {
-			pop(slongsh, L32, wh);
+			pop(slongsh, 32L, wh);
 			change_var_sh(sha, slongsh, wh, wh);
 		} else {
-			pop(slongsh, L32, D0);
+			pop(slongsh, 32L, D0);
 			change_var_sh(sha, slongsh, D0, wh);
 		}
 		have_cond = 0;
@@ -778,12 +778,12 @@ move_const(shape sha, long sz, long c, where to)
 	if (c == 0) {
 		/* Clearing is a special case */
 		if (whto == Dreg) {
-			ins2n(m_moveq, 0, L32, to, 1);
+			ins2n(m_moveq, 0, 32L, to, 1);
 			set_cond(to, sz);
 			return;
 		}
 		if (whto == Areg) {
-			ins2(m_subl, L32, L32, to, to, 1);
+			ins2(m_subl, 32L, 32L, to, to, 1);
 			have_cond = 0;
 			return;
 		}
@@ -812,11 +812,11 @@ move_const(shape sha, long sz, long c, where to)
 	if (c >= -128 && c <= 127) {
 		/* Look for quick moves */
 		if (whto == Dreg) {
-			ins2n(m_moveq, c, L32, to, 1);
+			ins2n(m_moveq, c, 32L, to, 1);
 			set_cond(to, sz);
 			return;
 		} else {
-			ins2n(m_moveq, c, L32, D0, 1);
+			ins2n(m_moveq, c, 32L, D0, 1);
 			if (whto == Areg) {
 				instr = m_movl;
 			}
@@ -832,7 +832,7 @@ move_const(shape sha, long sz, long c, where to)
 
 	if (whto == Areg && sz == 8) {
 		ins2n(instr, c, sz, D0, 1);
-		ins2(m_movl, L32, L32, D0, to, 1);
+		ins2(m_movl, 32L, 32L, D0, to, 1);
 	} else {
 		ins2n(instr, c, sz, to, 1);
 	}
@@ -871,8 +871,8 @@ move_from_freg(long sz, where from, where to)
 			error(ERROR_SERIOUS, "Wrong floating variety");
 		}
 		push_float(sz, from);
-		pop(slongsh, L32, zw(son(te)));
-		pop(slongsh, L32, zw(bro(te)));
+		pop(slongsh, 32L, zw(son(te)));
+		pop(slongsh, 32L, zw(bro(te)));
 		have_cond = 0;
 		return;
 	}
@@ -914,8 +914,8 @@ move_to_freg(long sz, where from, where to)
 		if (sz != 64) {
 			error(ERROR_SERIOUS, "Wrong floating variety");
 		}
-		push(slongsh, L32, zw(bro(fe)));
-		push(slongsh, L32, zw(son(fe)));
+		push(slongsh, 32L, zw(bro(fe)));
+		push(slongsh, 32L, zw(son(fe)));
 		pop_float(sz, to);
 		have_cond = 0;
 		return;
@@ -1053,10 +1053,10 @@ move_bytes(long sz, where from, where to, int down)
 			op1 = make_lab_ind(r1, off / 8);
 			break;
 		case 3:
-			op1 = operand(L32, mw(fe, fof + off));
+			op1 = operand(32L, mw(fe, fof + off));
 			break;
 		case 4:
-			op1 = operand(L32, zw(sz ? bro(fe) : son(fe)));
+			op1 = operand(32L, zw(sz ? bro(fe) : son(fe)));
 			break;
 		}
 		switch (s2) {
@@ -1067,10 +1067,10 @@ move_bytes(long sz, where from, where to, int down)
 			op2 = make_dec_sp();
 			break;
 		case 3:
-			op2 = operand(L32, mw(te, tof + off));
+			op2 = operand(32L, mw(te, tof + off));
 			break;
 		case 4: {
-			op2 = operand(L32, zw(sz ? bro(te) : son(te)));
+			op2 = operand(32L, zw(sz ? bro(te) : son(te)));
 			break;
 		}
 		}
@@ -1197,9 +1197,9 @@ move(shape sha, where from, where to)
 				long *p = realrep(fe);
 				if (p) {
 					from1 = mnw(p[0]);
-					ins2(m_movl, L32, L32, from1, to, 1);
+					ins2(m_movl, 32L, 32L, from1, to, 1);
 				} else {
-					ins2(m_movl, L32, L32, from, to, 1);
+					ins2(m_movl, 32L, 32L, from, to, 1);
 				}
 				have_cond = 0;
 				return;
@@ -1217,16 +1217,16 @@ move(shape sha, where from, where to)
 					from2 = mw(t, fof + 32);
 				}
 				if (whto == RegPair) {
-					ins2(m_movl, L32, L32, from1,
+					ins2(m_movl, 32L, 32L, from1,
 					     zw(son(te)), 1);
-					ins2(m_movl, L32, L32, from2,
+					ins2(m_movl, 32L, 32L, from2,
 					     zw(bro(te)), 1);
 					have_cond = 0;
 					return;
 				}
-				ins2(m_movl, L32, L32, from2, mw(te, tof + 32),
+				ins2(m_movl, 32L, 32L, from2, mw(te, tof + 32),
 				     1);
-				ins2(m_movl, L32, L32, from1, to, 1);
+				ins2(m_movl, 32L, 32L, from1, to, 1);
 				have_cond = 0;
 				return;
 			}
@@ -1235,9 +1235,9 @@ move(shape sha, where from, where to)
 			if (sz != 64) {
 				error(ERROR_SERIOUS, "Wrong floating variety");
 			}
-			ins2(m_movl, L32, L32, zw(bro(fe)),
+			ins2(m_movl, 32L, 32L, zw(bro(fe)),
 			     mw(te, tof + 32), 1);
-			ins2(m_movl, L32, L32, zw(son(fe)), to, 1);
+			ins2(m_movl, 32L, 32L, zw(son(fe)), to, 1);
 			have_cond = 0;
 			return;
 		}
@@ -1245,8 +1245,8 @@ move(shape sha, where from, where to)
 			if (sz != 64) {
 				error(ERROR_SERIOUS, "Wrong floating variety");
 			}
-			ins2(m_movl, L32, L32, from, zw(son(te)), 1);
-			ins2(m_movl, L32, L32, mw(fe, fof + 32),
+			ins2(m_movl, 32L, 32L, from, zw(son(te)), 1);
+			ins2(m_movl, 32L, 32L, mw(fe, fof + 32),
 			     zw(bro(te)), 1);
 			have_cond = 0;
 			return;
@@ -1279,11 +1279,11 @@ move(shape sha, where from, where to)
 					make_instr(m_moveq, op1, op2,
 						   regmsk(REG_D0));
 					stack_change = s;
-					push(sha, L32, D0);
+					push(sha, 32L, D0);
 					return;
 				}
 				if (stack_change) {
-					push(sha, L32, from);
+					push(sha, 32L, from);
 					return;
 				}
 				op1 = make_int_data(v);
@@ -1297,7 +1297,7 @@ move(shape sha, where from, where to)
 		}
 
 		if (name(fe) == null_tag) {
-			move_const(sha, sz, L0, to);
+			move_const(sha, sz, 0L, to);
 			return;
 		}
 
@@ -1352,7 +1352,7 @@ move(shape sha, where from, where to)
 	}
 
 	if (name(fe) == null_tag) {
-		move_const(sha, sz, L0, to);
+		move_const(sha, sz, 0L, to);
 		return;
 	}
 
@@ -1386,9 +1386,9 @@ mova(where from, where to)
 	    nt == tail_call_tag) {
 		exp s = son(from.wh_exp);
 		if (nf == cont_tag) {
-			ins1(m_pea, L32, zw(s), 0);
+			ins1(m_pea, 32L, zw(s), 0);
 		} else {
-			ins1(m_pea, L32, from, 0);
+			ins1(m_pea, 32L, from, 0);
 		}
 		stack_size -= 32;
 		have_cond = 0;
@@ -1425,7 +1425,7 @@ mova(where from, where to)
 			add(slongsh, mw(fe, 0), mw(zeroe, from.wh_off / 8),
 			    to);
 		} else {
-			ins2(m_lea, L32, L32, from, to, 1);
+			ins2(m_lea, 32L, 32L, from, to, 1);
 			have_cond = 0;
 		}
 		return;
@@ -1434,7 +1434,7 @@ mova(where from, where to)
 
 	r = next_tmp_reg();
 	regsinproc |= regmsk(r);
-	ins2(m_lea, L32, L32, from, register(r), 1);
+	ins2(m_lea, 32L, 32L, from, register(r), 1);
 	have_cond = 0;
 	tmp_reg_status = 1;
 	move(slongsh, register(r), to);
@@ -1543,7 +1543,7 @@ change_var_sh(shape sht, shape shf, where from, where to)
 			sht = (sgt ? swordsh : uwordsh);
 			break;
 		default:
-			szt = L32;
+			szt = 32L;
 			sht = (sgt ? slongsh : ulongsh);
 			break;
 		}
@@ -1559,7 +1559,7 @@ change_var_sh(shape sht, shape shf, where from, where to)
 			shf = (sgf ? swordsh : uwordsh);
 			break;
 		default:
-			szf = L32;
+			szf = 32L;
 			shf = (sgf ? slongsh : ulongsh);
 			break;
 		}

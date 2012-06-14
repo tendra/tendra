@@ -1899,7 +1899,7 @@ coder(where dest, ash stack, exp e)
 		D1_is_special = old_D1_sp;
 
 		/* Output the case statement */
-		(void)caser(arg1, L0);
+		(void)caser(arg1, 0L);
 
 		retcell(d1);
 		return;
@@ -1915,20 +1915,20 @@ coder(where dest, ash stack, exp e)
 		mach_op *op = make_extern_ind("_memmove",0);
 #endif
 		make_comment("move_some ...");
-		push(slongsh,L32,D0);
-		push(slongsh,L32,D1);
-		push(slongsh,L32,zw(num_bytes));
+		push(slongsh,32L,D0);
+		push(slongsh,32L,D1);
+		push(slongsh,32L,zw(num_bytes));
 #if defined(SUN)
-		push(slongsh,L32,zw(to_exp));
-		push(slongsh,L32,zw(from_exp));
+		push(slongsh,32L,zw(to_exp));
+		push(slongsh,32L,zw(from_exp));
 #else
-		push(slongsh,L32,zw(from_exp));
-		push(slongsh,L32,zw(to_exp));
+		push(slongsh,32L,zw(from_exp));
+		push(slongsh,32L,zw(to_exp));
 #endif
 		make_instr(m_call,op,null,0);
 		dec_stack(-96);
-		pop(slongsh,L32,D1);
-		pop(slongsh,L32,D0);
+		pop(slongsh,32L,D1);
+		pop(slongsh,32L,D0);
 		make_comment("move_some done");
 		return;
 	}

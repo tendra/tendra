@@ -230,7 +230,7 @@ analyse_diag_type(FILE *file, diag_type dt, int loc)
 		t = out_dd(file, xdb_enum, loc);
 		fp = ftell(file);
 		fprintf(file, "%s,32\n", NULL_POSN_STR);
-		res = new_table_posn(t, L32);
+		res = new_table_posn(t, 32L);
 
 		/* Deal with enumeration members */
 		for (i = n - 1; i >= 0; i--) {
@@ -275,7 +275,7 @@ analyse_diag_type(FILE *file, diag_type dt, int loc)
 		break;
 	}
 	case DIAG_TYPE_NULL:
-		res = new_table_posn(NULL_POSN, L0);
+		res = new_table_posn(NULL_POSN, 0L);
 		break;
 	case DIAG_TYPE_PROC: {
 		diag_type dtl = dt->data.proc.result_type;
@@ -287,7 +287,7 @@ analyse_diag_type(FILE *file, diag_type dt, int loc)
 		fprintf(file, "32,");
 		out_posn(file, p, 1);
 		fprintf(file, "%s\n", NULL_POSN_STR);
-		res = new_table_posn(t, L32);
+		res = new_table_posn(t, 32L);
 		break;
 	}
 	case DIAG_TYPE_PTR: {
@@ -296,7 +296,7 @@ analyse_diag_type(FILE *file, diag_type dt, int loc)
 		posn_t t = out_dd(file, xdb_pointer, loc);
 		out_posn(file, p, 1);
 		fprintf(file, "32\n");
-		res = new_table_posn(t, L32);
+		res = new_table_posn(t, 32L);
 		break;
 	}
 	case DIAG_TYPE_STRUCT: {
@@ -479,7 +479,7 @@ analyse_diag_type(FILE *file, diag_type dt, int loc)
 	}
 
 	default:
-		res = new_table_posn(NULL_POSN, L0);
+		res = new_table_posn(NULL_POSN, 0L);
 		break;
 	}
 

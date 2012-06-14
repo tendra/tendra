@@ -438,7 +438,7 @@ void diag_source_file
 	char *qnm = alloc_nof(char, n);
 	mach_op *op = make_extern_data("Ltext", 0);
 	sprintf(qnm, "\"%s\"", nm);
-	make_stabs(qnm,(have_module ? 132 : 100), L0, op);
+	make_stabs(qnm,(have_module ? 132 : 100), 0L, op);
 	if (!have_module) {
 	    make_external_label("Ltext");
 	    init_stab_types();
@@ -569,7 +569,7 @@ void diag_proc_main
 		if (diag_format == DIAG_STAB) {
 		    mach_op *op = make_int_data(off);
 		    char *st = analyse_stab_type(pdt, pnm, "p");
-		    make_stabs(st, 160, L0, op);
+		    make_stabs(st, 160, 0L, op);
 		} else {
 		    p = analyse_diag_type(diagfp2, pdt, 1);
 		    t = out_dd(diagfp2, xdb_fparam, 1);
@@ -698,7 +698,7 @@ void diag_type_defn
 	default : {
 	    if (diag_format == DIAG_STAB) {
 		char *st = analyse_stab_type(dt, nm, "t");
-		make_stabs(st, 128, L1, null);
+		make_stabs(st, 128, 1L, null);
 	    } else {
 		int loc = (diag_format == DIAG_XDB_NEW ? 0 : 1);
 		FILE *file = (loc ? diagfp2 : diagfp3);

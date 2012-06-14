@@ -171,7 +171,7 @@ speci special_fn
 
     if ( ( /* eq ( id, "_alloca" ) || */ eq ( id, "___builtin_alloca" ) ) &&
 	 a2 != nilexp && last(a2)) {
-	exp r = getexp(s, nilexp, 0, a2, nilexp, 0, L0, alloca_tag);
+	exp r = getexp(s, nilexp, 0, a2, nilexp, 0, 0L, alloca_tag);
 	setfather(r, son(r));
 	has_alloca = 1;
 	spec_fn.is_special = 1;

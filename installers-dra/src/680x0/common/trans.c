@@ -267,7 +267,7 @@ static void code_const
 #ifndef no_align_directives
    make_instr(m_as_align4, null, null, 0);
 #endif
-   evaluate(s, L_1 , id, !isvar(c), 1, di);
+   evaluate(s, -1L , id, !isvar(c), 1, di);
 }
 
 

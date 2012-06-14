@@ -179,8 +179,8 @@ void negate_float
 {
    if (whereis(a) == Freg) {
       if (whereis(dest) == Freg) {
-         ins2(m_fnegx, L64, L64, a, dest, 1);
-         test_float_overflow_reg(dest, L64);
+         ins2(m_fnegx, 64L, 64L, a, dest, 1);
+         test_float_overflow_reg(dest, 64L);
       } else {
          negate_float(sha, a, FP0);
          move(sha, FP0, dest);
@@ -208,8 +208,8 @@ void abs_float
 {
     if (whereis(a) == Freg) {
 	if (whereis(dest) == Freg) {
-	    ins2(m_fabsx, L64, L64, a, dest, 1);
-            test_float_overflow_reg(dest, L64);
+	    ins2(m_fabsx, 64L, 64L, a, dest, 1);
+            test_float_overflow_reg(dest, 64L);
 	} else {
 	    abs_float(sha, a, FP0);
 	    move(sha, FP0, dest);
@@ -560,12 +560,12 @@ void round_float
 
 #ifdef float_to_unsigned
 	    change_flvar(realsh, from, FP0);
-	    push_float(L64, FP0);
+	    push_float(64L, FP0);
 #ifdef float_to_unsigned_uses_fp1
 	    if (mode == 4 && eq_where(from, FP1) {
-		push_float(L64, FP1);
+		push_float(64L, FP1);
 		libcall(float_to_unsigned);
-		pop_float(L64, FP1);
+		pop_float(64L, FP1);
 	    } else
 #endif
 	    libcall(float_to_unsigned);
@@ -590,27 +590,27 @@ void round_float
 	    change_flvar(realsh, from, FP0);
 	    move(realsh, fm, FP1);
 	    regsinproc |= regmsk(REG_FP1);
-	    ins2_cmp(m_fcmpx, L64, L64, FP0, FP1, 0);
+	    ins2_cmp(m_fcmpx, 64L, 64L, FP0, FP1, 0);
 	    branch(tst_gr, jt, 1, 1, 1);
-	    ins2(m_fsubx, L64, L64, FP1, FP0, regmsk(REG_FP0));
+	    ins2(m_fsubx, 64L, 64L, FP1, FP0, regmsk(REG_FP0));
 	    if (whereis(to) == Dreg) {
-	      ins2(m_fintrzx,L32,L32,FP0,FP0,1);
-	      ins2(m_fmovel, L32, L32, FP0, to, 1);
+	      ins2(m_fintrzx,32L,32L,FP0,FP0,1);
+	      ins2(m_fmovel, 32L, 32L, FP0, to, 1);
 	      or(ulongsh, to, mnw((long)2147483648UL), to);
 	    } else {
-	       ins2(m_fintrzx,L32,L32,FP0,FP0,1);
-	       ins2(m_fmovel, L32, L32, FP0, D0, 1);
+	       ins2(m_fintrzx,32L,32L,FP0,FP0,1);
+	       ins2(m_fmovel, 32L, 32L, FP0, D0, 1);
 	       or(ulongsh, D0, mnw((long)2147483648UL), D0);
 	       move(ulongsh, D0, to);
 	    }
 	    make_jump(m_bra, lab2);
 	    make_label(lab1);
 	    if (whereis(to) == Dreg) {
-	      ins2(m_fintrzx,L32,L32,FP0,FP0,1);
-	      ins2(m_fmovel, L32, L32, FP0, to, 1);
+	      ins2(m_fintrzx,32L,32L,FP0,FP0,1);
+	      ins2(m_fmovel, 32L, 32L, FP0, to, 1);
 	    } else {
-	      ins2(m_fintrzx,L32,L32,FP0,FP0,1);
-	      ins2(m_fmovel, L32, L32, FP0, D0, 1);
+	      ins2(m_fintrzx,32L,32L,FP0,FP0,1);
+	      ins2(m_fmovel, 32L, 32L, FP0, D0, 1);
 	      move(ulongsh, D0, to);
 	    }
 	    make_label(lab2);
@@ -624,7 +624,7 @@ void round_float
 
 	if (mode == 4) {
 	    /* Special case - move FP0 into the register to */
-	    ins2(m_fmovel, L32, L32, FP0, to, 1);
+	    ins2(m_fmovel, 32L, 32L, FP0, to, 1);
 
             /* This might generate operand error */
             test_overflow(ON_FP_OPERAND_ERROR);
@@ -663,7 +663,7 @@ void round_float
 	    } else {
 		dest = D0;
 	    }
-	    ins2(m_fmovel, L32, L32, FP0, dest, 1);
+	    ins2(m_fmovel, 32L, 32L, FP0, dest, 1);
 	    have_cond = 0;
 	    change_var_sh(sha, slongsh, dest, to);
 	    return;
@@ -727,10 +727,10 @@ void int_to_float
     if (name(shf) == ulonghd) {
 #ifdef unsigned_to_float
 	if (whereis(from) == Dreg) {
-	    push(slongsh, L32, from);
+	    push(slongsh, 32L, from);
 	} else {
 	    move(shf, from, D0);
-	    push(slongsh, L32, D0);
+	    push(slongsh, 32L, D0);
 	}
 	libcall(unsigned_to_float);
 	dec_stack(-32);
@@ -752,10 +752,10 @@ void int_to_float
 	}
 #endif
 	if (whereis(from) == Dreg) {
-	    ins2(m_fmovel, L32, L64, from, fpr, 1);
+	    ins2(m_fmovel, 32L, 64L, from, fpr, 1);
 	} else {
 	    move(slongsh, from, D0);
-	    ins2(m_fmovel, L32, L64, D0, fpr, 1);
+	    ins2(m_fmovel, 32L, 64L, D0, fpr, 1);
 	}
 	branch(tst_ge, jt, 1, 1, 1);
 	add(sha, fpr, fm, fpr);
@@ -766,10 +766,10 @@ void int_to_float
 #endif
     }
     if (name(shf) == slonghd && whereis(from) == Dreg) {
-	ins2(m_fmovel, L32, L64, from, fpr, 1);
+	ins2(m_fmovel, 32L, 64L, from, fpr, 1);
     } else {
 	change_var_sh(slongsh, shf, from, D0);
-	ins2(m_fmovel, L32, L64, D0, fpr, 1);
+	ins2(m_fmovel, 32L, 64L, D0, fpr, 1);
     }
     move(sha, fpr, to);
     have_cond = 0;

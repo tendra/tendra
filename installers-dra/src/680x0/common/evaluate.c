@@ -296,49 +296,49 @@ static void evalno
 
       case 8: {
 	op = make_value(k & 0xff);
-	eval_op(L8, op);
+	eval_op(8L, op);
 	return;
       }
 
       case 16: {
 	op = make_value((k >> 8) & 0xff);
-	eval_op(L8, op);
+	eval_op(8L, op);
 	op = make_value(k & 0xff);
-	eval_op(L8, op);
+	eval_op(8L, op);
 	return;
       }
 
       case 32: {
 	op = make_value((k >> 24) & 0xff);
-	eval_op(L8, op);
+	eval_op(8L, op);
 	op = make_value((k >> 16) & 0xff);
-	eval_op(L8, op);
+	eval_op(8L, op);
 	op = make_value((k >> 8) & 0xff);
-	eval_op(L8, op);
+	eval_op(8L, op);
 	op = make_value(k & 0xff);
-	eval_op(L8, op);
+	eval_op(8L, op);
 	return;
       }
       case 64: {
 	flt64 bval;
 	bval = exp_to_f64(e);
 	op = make_value((bval.small>>24) & 0xff);
-	eval_op(L8,op);
+	eval_op(8L,op);
 	op = make_value((bval.small>>16) & 0xff);
-	eval_op(L8,op);
+	eval_op(8L,op);
 	op = make_value((bval.small>>8) & 0xff);
-	eval_op(L8,op);
+	eval_op(8L,op);
 	op = make_value(bval.small & 0xff);
-	eval_op(L8,op);
+	eval_op(8L,op);
 
 	op = make_value((bval.big>>24) & 0xff);
-	eval_op(L8,op);
+	eval_op(8L,op);
 	op = make_value((bval.big>>16) & 0xff);
-	eval_op(L8,op);
+	eval_op(8L,op);
 	op = make_value((bval.big>>8) & 0xff);
-	eval_op(L8,op);
+	eval_op(8L,op);
 	op = make_value(bval.big & 0xff);
-	eval_op(L8,op);
+	eval_op(8L,op);
 	return;
       }
     }
@@ -547,7 +547,7 @@ static void evalreal
 	int i;
 	for (i = 0; i < sz / 32; i++) {
 	    mach_op *op = make_value(p[i]);
-	    eval_op(L32, op);
+	    eval_op(32L, op);
 	}
     } else {
 	flt *f = flptnos + no(e);
@@ -574,7 +574,7 @@ static void clear_out
     if (isconst) {
 	while (n > 0) {
 	    op = make_value(0);
-	    eval_op(L8, op);
+	    eval_op(8L, op);
 	    n--;
 	}
     } else {
@@ -638,7 +638,7 @@ void evalaux
 
 		if (bits_left && off >= (crt_off + 8)) {
 		    op = make_value((work >> 24) & 0xff);
-		    eval_op(L8, op);
+		    eval_op(8L, op);
 		    crt_off += 8;
 		    work = 0;
 		    bits_left = 0;
@@ -703,7 +703,7 @@ void evalaux
 			    extra_byte = 0;
 			}
 			op = make_value(v);
-			eval_op(L8, op);
+			eval_op(8L, op);
 			crt_off += 8;
 		    }
 		}
@@ -712,7 +712,7 @@ void evalaux
 		    long left;
 		    if (bits_left) {
 			op = make_value((work >> 24) & 0xff);
-			eval_op(L8, op);
+			eval_op(8L, op);
 			crt_off += 8;
 		    }
 		    left = shape_size(sh(e)) - crt_off;
@@ -862,7 +862,7 @@ void evalaux
         case env_size_tag: {
            dec* d = brog(son(son(e)));
            mach_op* op = make_lab_data((long)d, 0);
-           eval_op(L32,op);
+           eval_op(32L,op);
            return;
         }
 
@@ -872,7 +872,7 @@ void evalaux
            mach_op *op;
            exp ident_exp = son(e);
            op = make_lab_data((long)ident_exp, 0);
-           eval_op(L32,op);
+           eval_op(32L,op);
 
            return;
 	}

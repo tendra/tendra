@@ -70,7 +70,7 @@ extern where where_operand(mach_op*);
 #define  interfere(X, Y)	((X).wh_regs & (Y).wh_regs)
 #define  last_use(X)		((X).wh_regs & reuseables)
 #define  nw(X)		(no((X).wh_exp) + (X).wh_off)
-#define  zw(X)		mw(X, L0)
+#define  zw(X)		mw(X, 0L)
 #define  eq_where(X, Y)	eq_where_a(X, Y, 1)
 
 

@@ -39,15 +39,15 @@ extern void coder(where, ash, exp);
     These numbers give the tests recognised by branch, cmp etc.
 */
 
-#define  tst_le		L1
-#define  tst_ls		L2
-#define  tst_ge		L3
-#define  tst_gr		L4
-#define  tst_neq	L5
-#define  tst_eq		L6
-#define  tst_ngr	L7
-#define  tst_nge	L8
-#define  tst_nls	L9
-#define  tst_nle	L10
+#define  tst_le		1L
+#define  tst_ls		2L
+#define  tst_ge		3L
+#define  tst_gr		4L
+#define  tst_neq	5L
+#define  tst_eq		6L
+#define  tst_ngr	7L
+#define  tst_nge	8L
+#define  tst_nls	9L
+#define  tst_nle	10L
 
 #endif
