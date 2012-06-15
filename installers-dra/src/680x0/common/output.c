@@ -270,38 +270,33 @@ out_float(flt *f)
 
 /*
     MACROS FOR CONSTRUCTS DEPENDING ON asm_data_first
+
+    TODO: these really oughn't be macros
 */
 
-#ifdef asm_data_first
-
-#define  out_data_1(X)		if (X)out_data(X)
-#define  out_data_1a(X)		if (X) { out_data(X); outc(','); }
-#define  out_data_1b(X)		if (X) { outc(','); out_data(X); }
-#define  out_sf_data(X, Y)	if (Y)out_scaled(Y)
-
-#else /* asm_data_first */
-
-#define  out_data_1( X )	/* empty */
-#define  out_data_1a( X )	/* empty */
-#define  out_data_1b( X )	/* empty */
-#define  out_sf_data(X, Y)		\
-    if (X) {				\
-	    outc('(');			\
-	    out_data(X);		\
-	    if (Y) {			\
-		    outc(',');		\
-		    out_scaled(Y);	\
-	    }				\
-	    outc(')');			\
-    } else {				\
-	    if (Y) {			\
-		    outc('(');		\
-		    out_scaled(Y);	\
-		    outc(')');		\
-	    }				\
+#define  out_data_1(X)		if (asm_data_first && X) out_data(X)
+#define  out_data_1a(X)		if (asm_data_first && X) { out_data(X); outc(','); }
+#define  out_data_1b(X)		if (asm_data_first && X) { outc(','); out_data(X); }
+#define  out_sf_data(X, Y)     \
+    if (asm_data_first) {      \
+        if (Y) out_scaled(Y);  \
+    } else {                   \
+        if (X) {               \
+            outc('(');         \
+            out_data(X);       \
+            if (Y) {           \
+                outc(',');     \
+                out_scaled(Y); \
+            }                  \
+            outc(')');         \
+        } else {               \
+            if (Y) {           \
+                outc('(');     \
+                out_scaled(Y); \
+                outc(')');     \
+            }                  \
+        }                      \
     }
-
-#endif /* asm_data_first */
 
 
 /*
@@ -525,14 +520,6 @@ output_all(void)
 			outc(':');
 			outnl();
 			break;
-#ifdef asm_uses_equals
-		case m_as_assign:
-			out_mach_op(p->op1);
-			outc('=');
-			out_mach_op(p->op2);
-			outnl();
-			break;
-#endif /* asm_uses_equals */
 		case m_as_byte:
 		case m_as_short:
 		case m_as_long:
@@ -562,14 +549,21 @@ output_all(void)
 			outnl();
 			break;
 		}
+		case m_as_assign:
+			if (asm_uses_equals) {
+			    out_mach_op(p->op1);
+			    outc('=');
+			    out_mach_op(p->op2);
+			    outnl();
+			    break;
+			}
+			/* FALLTHROUGH */
 		default:
 			if (is_jump(n)) {
 				/* Jumps */
-#ifndef asm_does_jump_lens
-				if (is_unsized(n)) {
+				if (!asm_does_jump_lens && is_unsized(n)) {
 					n += long_jump;
 				}
-#endif /* !asm_does_jump_lens */
 				outs(instr_names[n]);
 				outc(LPREFIX);
 				outn(p->op1->def.num);
@@ -612,10 +606,11 @@ output_all(void)
 void
 init_instructions(void)
 {
-#ifdef asm_no_btst_suffix
-	instr_names[m_btstb] = instr_names[m_btst];
-	instr_names[m_btstl] = instr_names[m_btst];
-#endif /* asm_no_btst_suffix */
+	if (asm_no_btst_suffix) {
+		instr_names[m_btstb] = instr_names[m_btst];
+		instr_names[m_btstl] = instr_names[m_btst];
+	}
+
 	return;
 }
 

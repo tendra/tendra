@@ -125,12 +125,24 @@ int main
 	endian = ENDIAN_BIG;
 
 #ifdef GAS_ASSEMBLER
-	asm_dotty_instrs = 0;
-	asm_percent_regs = 0;
+	asm_dotty_instrs   = 0;
+	asm_percent_regs   = 0;
+	asm_data_first     = 0;
+	asm_does_jump_lens = 1;
+	asm_uses_equals    = 1;
+	asm_uses_lcomm     = 1;
+	asm_no_btst_suffix = 1;
+	asm_cmp_reversed   = 0;
 #endif
 #ifdef HP_ASSEMBLER
-	asm_dotty_instrs = 1;
-	asm_percent_regs = 1;
+	asm_dotty_instrs   = 1;
+	asm_percent_regs   = 1;
+	asm_data_first     = 1;
+	asm_does_jump_lens = 0;
+	asm_uses_equals    = 0;
+	asm_uses_lcomm     = 0;
+	asm_no_btst_suffix = 0;
+	asm_cmp_reversed   = 1;
 #endif
 
 	{

@@ -15,8 +15,10 @@
 #include "mach.h"
 #include "mach_ins.h"
 #include "mach_op.h"
+#include "localflags.h"
 #include "peephole.h"
 #include "utility.h"
+
 extern bool have_cond;
 extern bool just_ret;
 extern long crt_ret_lab;
@@ -116,8 +118,6 @@ check_jump_alias(long a, long b)
 #define  word_len_min	-2000
 #define  word_len_max	2000
 
-#ifndef asm_does_jump_lens
-
 static void
 find_jump_sizes(long lmin, long lmax)
 {
@@ -183,8 +183,6 @@ find_jump_sizes(long lmin, long lmax)
 #endif
 	return;
 }
-
-#endif
 
 
 /*
@@ -516,9 +514,10 @@ peephole(void)
     } while (knock_on_effects);
 
     /* Work out jump sizes */
-#ifndef asm_does_jump_lens
-    find_jump_sizes(lmin, lmax);
-#endif
+    if (!asm_does_jump_lens) {
+        find_jump_sizes(lmin, lmax);
+    }
+
     return;
 }
 

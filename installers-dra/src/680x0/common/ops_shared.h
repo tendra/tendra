@@ -103,11 +103,12 @@ extern long last_cond_sz;
     comparison instructions.  This macro handles this fact.
 */
 
-#ifndef asm_cmp_reversed
-#define ins2_cmp(I, S1, S2, X1, X2, M)ins2(I, S1, S2, X1, X2, M)
-#else
-#define ins2_cmp(I, S1, S2, X1, X2, M)ins2(I, S2, S1, X2, X1, M)
-#endif
+#define ins2_cmp(I, S1, S2, X1, X2, M) \
+    if (asm_cmp_reversed) {            \
+        ins2(I, S2, S1, X2, X1, M);    \
+    } else {                           \
+        ins2(I, S1, S2, X1, X2, M);    \
+    }
 
 
 #endif

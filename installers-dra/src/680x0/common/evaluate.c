@@ -34,6 +34,7 @@
 #include "utility.h"
 #include "f64.h"
 #include "flags.h"
+#include "localflags.h"
 #if have_diagnostics
 #include "xdb_basics.h"
 #endif
@@ -1019,32 +1020,33 @@ void evaluate
 	    return;
 	}
 
-#ifdef asm_uses_lcomm
-	/* Common local value */
-	if (cname == -1) {
-	    op1 = make_extern_data(s, 0);
-	} else {
-	    op1 = make_lab_data(cname, 0);
-	}
-	op2 = make_int_data(sz / 8);
-	make_instr(m_as_local, op1, op2, 0);
+	if (asm_uses_lcomm) {
+	    /* Common local value */
+	    if (cname == -1) {
+	        op1 = make_extern_data(s, 0);
+	    } else {
+	        op1 = make_lab_data(cname, 0);
+	    }
+	    op2 = make_int_data(sz / 8);
+	    make_instr(m_as_local, op1, op2, 0);
 #if have_diagnostics
-	if (di)xdb_diag_val_begin(di, s, cname, global);
+	    if (di)xdb_diag_val_begin(di, s, cname, global);
 #endif
-#else
-	/* Common local value */
-	area(pbss);
-	if (cname == -1) {
-	     make_external_label(s);
 	} else {
-	     make_label(cname);
-	}
+	    /* Common local value */
+	    area(pbss);
+	    if (cname == -1) {
+	         make_external_label(s);
+	    } else {
+	         make_label(cname);
+	    }
 #if have_diagnostics
-	if (di)xdb_diag_val_begin(di, s, cname, global);
+	    if (di)xdb_diag_val_begin(di, s, cname, global);
 #endif
-	op1 = make_int_data(sz / 8);
-	make_instr(m_as_space, op1, null, 0);
-#endif
+	    op1 = make_int_data(sz / 8);
+	    make_instr(m_as_space, op1, null, 0);
+	}
+
 	return;
     }
 

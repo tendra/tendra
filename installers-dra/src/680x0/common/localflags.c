@@ -22,3 +22,10 @@ int asm_dotty_instrs;
  */
 int asm_percent_regs;
 
+int asm_data_first;
+int asm_does_jump_lens;
+int asm_uses_equals;
+int asm_uses_lcomm;
+int asm_no_btst_suffix;
+int asm_cmp_reversed;
+

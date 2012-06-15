@@ -66,21 +66,6 @@ void asm_comment(void);
 
 
 /*
-    HP ASSEMBLER DETAILS
-*/
-
-#ifdef HP_ASSEMBLER
-
-#define  asm_data_first			/* true */
-
-#define  asm_cmp_reversed		/* cmp instructions are reversed */
-#define  asm_version			outs("\tversion 2")
-#define  asm_version_aux		outs("\tversion 3")
-
-#endif /* HP_ASSEMBLER */
-
-
-/*
     HP DEBUGGER DETAILS
 */
 
@@ -103,22 +88,6 @@ void asm_comment(void);
 #define profiling_uses_lea		0
 
 #endif /* HP_INTERFACE */
-
-
-/*
-    GAS (NEXT) ASSEMBLER DETAILS
-*/
-
-#ifdef GAS_ASSEMBLER
-
-#undef 	asm_data_first			/* false */
-
-#define asm_does_jump_lens		/* calculates jump lengths */
-#define asm_uses_equals			/* uses = rather than set */
-#define asm_uses_lcomm			/* uses lcomm rather than bss */
-#define asm_no_btst_suffix		/* doesn't understand btst.[bl] */
-
-#endif /* GAS_ASSEMBLER */
 
 
 /*

@@ -33,6 +33,7 @@
 #include "evaluate.h"
 #include "utility.h"
 #include "translate.h"
+#include "localflags.h"
 #include "ops_shared.h"
 #include "special_exps.h"
 
