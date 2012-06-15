@@ -35,7 +35,6 @@
 #define is80x86			0
 #define ismips			0
 #define ispower			0
-#define issco			0
 #define isAlpha                 0
 #define issparc			1
 #define isvax			0

@@ -30,7 +30,6 @@
 #define isirix 1
 #define isAlpha 0
 
-#define issco 0
 #define has64bits 0
 
 #define has_setcc 0

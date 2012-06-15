@@ -29,8 +29,6 @@
 #define isAlpha 1
 #define is80586 0
 
-#define issco 0
-
 #define has_setcc 0
 #define has_byte_regs 0
 #define has_byte_ops 0

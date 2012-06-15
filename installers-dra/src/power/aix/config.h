@@ -30,9 +30,6 @@
 #define is80x86			0
 #define issparc			0
 
-#define issco			0
-
-
 #define istrans			1	/* to get sym_number field of dec_t in
 					   "construct/installtypes.h" */
 

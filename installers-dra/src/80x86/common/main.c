@@ -128,9 +128,9 @@ main(int argc, char **argv)
 	 * XXX: Some arguments are undocumented in trans.1, check
 	 */
 #ifdef NEWDWARF
-	optstring = "B:D:E:G:H:" "J" "K:M:NO:PQR:" "T" "VW:X:Z" "abcdfghik:st:";
+	optstring = "B:D:E:G:H:" "J" "K:M:NO:PQR:" "T" "VW:X:Z" "abcdfghik:t:";
 #else
-	optstring = "B:D:E:G:H:"     "K:M:NO:PQR:"     "VW:X:Z" "abcdfghik:st:";
+	optstring = "B:D:E:G:H:"     "K:M:NO:PQR:"     "VW:X:Z" "abcdfghik:t:";
 #endif
 
 	while ((ch = getopt(argc, argv, optstring)) != -1) {
@@ -284,11 +284,6 @@ main(int argc, char **argv)
 			/* XXX: proper error handling */
 			(void) fprintf(stderr,
 			    "trans: warning: -k is a no-op on this system\n");
-			break;
-#endif
-#if issco
-		case 's':
-			sco_gas = 1;
 			break;
 #endif
 		case 't':

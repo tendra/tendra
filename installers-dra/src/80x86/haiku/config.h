@@ -32,7 +32,6 @@
 #define ishppa 0
 #define isAlpha 0
 
-#define issco 0
 #define issol86 0
 #define islinux 0
 #define isopenbsd 1
