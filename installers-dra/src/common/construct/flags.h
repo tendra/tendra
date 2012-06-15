@@ -48,6 +48,16 @@ enum endian {
 	ENDIAN_LITTLE = 1 << 1
 };
 
+enum assembler {
+	ASM_GAS    = 1 << 0,
+	ASM_SUN    = 1 << 1,
+	ASM_IBM    = 1 << 2,
+	ASM_SGI    = 1 << 3,
+	ASM_ULTRIX = 1 << 4,
+	ASM_OSF1   = 1 << 5,
+	ASM_HP     = 1 << 6
+};
+
 extern int redo_structfns;
 extern int redo_structparams;
 extern int diagnose;
@@ -72,12 +82,15 @@ extern int extra_diags;
 extern enum optim   optim;
 extern enum check   check;
 extern enum builtin builtin;
-extern enum endian  endian;
+
+extern enum endian    endian;
+extern enum assembler assembler;
 
 extern enum optim   flags_optim(const char *);
 extern enum check   flags_check(const char *);
 extern enum builtin flags_builtin(const char *);
 
-extern enum endian  switch_endian(const char *, unsigned);
+extern enum endian    switch_endian(const char *, unsigned);
+extern enum assembler switch_assembler(const char *, unsigned);
 
 #endif /* flags_key */

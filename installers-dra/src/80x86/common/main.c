@@ -118,7 +118,7 @@ main(int argc, char **argv)
 	no_bss = 0;		/* use .comm */
 	use_link_stuff = 1;
 	endian = ENDIAN_LITTLE;
-
+	assembler = ASM_GAS;
 
 	ptr_null = 0;		/* null value for pointer */
 	proc_null = 0;		/* null value for proc */
@@ -145,6 +145,7 @@ main(int argc, char **argv)
 			endian = switch_endian(optarg, ENDIAN_LITTLE);
 			break;
 		case 'G':
+			assembler = switch_assembler(optarg, ASM_GAS);
 			break;
 		case 'H':
 			/* Add debug symbols to assembly */

@@ -20,7 +20,6 @@
 
 #if defined(NEXT) || defined(SUN) /* NeXT 68K or sun 68k */
 
-#define GAS_ASSEMBLER
 #define GDB_DEBUGGER
 #ifdef SUN
 #define SUN_INTERFACE
@@ -30,10 +29,8 @@
 #else /* NEXT or SUN */
 
 #ifdef GNU
-#define GAS_ASSEMBLER
 #define GDB_DEBUGGER
 #else /* GNU */
-#define HP_ASSEMBLER
 #define XDB_DEBUGGER
 #endif /* GNU */
 

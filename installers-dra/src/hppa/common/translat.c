@@ -200,9 +200,9 @@ void insection
        case bss_section:
        case shortbss_section:
        {
-	  if (gcc_assembler)
+	  if (assembler == ASM_GAS)
 	  {
-	     /* gcc does not recognise .BSS directive */
+	     /* gnu as does not recognise .BSS directive */
 	     outs("\t.SPACE\t$PRIVATE$\n");
 	     outs("\t.SUBSPA\t$BSS$\n");
 	  }
@@ -349,7 +349,7 @@ void translate_capsule
 	   sprintf(s,"_GLOBAL_$I%d",capn);
 	   strcat(s,crt_def->dec_u.dec_val.dec_id+7);
 	   crt_def->dec_u.dec_val.dec_id = s;
-	   if (!gcc_assembler)
+	   if (assembler == ASM_HP)
 	      fprintf(outf,"\t.WORD\t%s\n",s);
 	}
       }

@@ -7,6 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <string.h>
+
 #include <shared/error.h>
 
 #include "config.h"
@@ -48,7 +50,8 @@ enum optim   optim;
 enum check   check;
 enum builtin builtin;
 
-enum endian endian;
+enum endian    endian;
+enum assembler assembler;
 
 enum optim
 flags_optim(const char *s)
@@ -148,7 +151,7 @@ switch_endian(const char *s, unsigned permitted)
 	enum endian o;
 
 	if (strlen(s) > 1) {
-		error(ERROR_WARNING, "Unrecognised endian switch %s. "
+		error(ERROR_FATAL, "Unrecognised endian switch %s. "
 			"Valid switches are: [bl].", s);
 		return -1;
 	}
@@ -156,14 +159,59 @@ switch_endian(const char *s, unsigned permitted)
 	switch (*s) {
 	case 'b': o = ENDIAN_BIG;    break;
 	case 'l': o = ENDIAN_LITTLE; break;
+
+	default:
+		error(ERROR_FATAL, "Unrecognised endian switch %s. "
+			"Valid switches are: [bl].", s);
+		return -1;
 	}
 
 	if (~permitted & o) {
-		error(ERROR_WARNING, "Endian switch %s not permitted "
+		error(ERROR_FATAL, "Endian switch %s not permitted "
 			"for this architecture.", s);
 		return -1;
 	}
 
-	return 0;
+	return o;
+}
+
+enum assembler
+switch_assembler(const char *s, unsigned permitted)
+{
+	size_t i;
+	enum assembler o;
+
+	struct {
+		const char *name;
+		enum assembler assembler;
+	} a[] = {
+		{ "gas",    ASM_GAS    },
+		{ "sun",    ASM_SUN    },
+		{ "ibm",    ASM_IBM    },
+		{ "sgi",    ASM_SGI    },
+		{ "ultrix", ASM_ULTRIX },
+		{ "osf1",   ASM_OSF1   },
+		{ "hp",     ASM_HP     }
+	};
+
+	for (i = 0; i < sizeof a / sizeof *a; i++) {
+		if (0 == strcmp(a[i].name, s)) {
+			o = a[i].assembler;
+			break;
+		}
+	}
+
+	if (i >= sizeof a / sizeof *a) {
+		error(ERROR_FATAL, "Unrecognised assembler dialect %s.", s);
+		return -1;
+	}
+
+	if (~permitted & o) {
+		error(ERROR_FATAL, "Assembler dialect %s not permitted "
+			"for this architecture.", s);
+		return -1;
+	}
+
+	return o;
 }
 

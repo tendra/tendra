@@ -20,6 +20,7 @@ PARTS+= src/680x0/common
 
 
 CFLAGS+=	-I ../../common/reader
+CFLAGS+=	-I ../../common/construct
 CFLAGS+=	-I ../common
 CFLAGS+=	-I .
 

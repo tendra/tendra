@@ -8,6 +8,7 @@
  */
 
 #include "config.h"
+#include "flags.h"
 
 #include "output.h"
 
@@ -17,119 +18,159 @@
  */
 
 void asm_nprefix(void) {
-#if defined(HP_ASSEMBLER)
-	outc(' & ');
-#else /* GAS (SUN or NEXT) */
-	outc('#');
-#endif
+	switch (assembler) {
+	case ASM_HP:
+		outc(' & ');
+		break;
+
+	case ASM_GAS:
+		outc('#');
+		break;
+	}
 }
 
 void asm_fprefix(void) {
-#if defined(HP_ASSEMBLER)
-	outs("0f");
-#endif
-#if defined(GAS_ASSEMBLER)
-	outs("0r");
-#endif
+	switch (assembler) {
+	case ASM_HP:
+		outs("0f");
+		break;
+
+	case ASM_GAS:
+		outs("0r");
+		break;
+	}
 }
 
 void asm_ind_before(void) {
-#if defined(HP_ASSEMBLER)
-	outc('(')
-#endif
+	switch (assembler) {
+	case ASM_HP:
+		outc('(');
+		break;
+	}
 }
 
 void asm_ind_middle(void) {
-#if defined(GAS_ASSEMBLER)
-	outc('@')
-#endif
+	switch (assembler) {
+	case ASM_GAS:
+		outc('@');
+		break;
+	}
 }
 
 void asm_ind_after(void) {
-#if defined(HP_ASSEMBLER)
-	outc(')')
-#endif
+	switch (assembler) {
+	case ASM_HP:
+		outc(')');
+		break;
+	}
 }
 
 void asm_predec_before(void) {
-#if defined(HP_ASSEMBLER)
-	outs(" - (");
-#endif
+	switch (assembler) {
+	case ASM_HP:
+		outs(" - (");
+		break;
+	}
 }
 
 void asm_predec_after(void) {
-#if defined(HP_ASSEMBLER)
-	outc(")");
-#endif
-#if defined(GAS_ASSEMBLER)
-	outs("@ - ");
-#endif
+	switch (assembler) {
+	case ASM_HP:
+		outc(")");
+		break;
+
+	case ASM_GAS:
+		outs("@ - ");
+		break;
+	}
 }
 
 void asm_postinc_before(void) {
-#if defined(HP_ASSEMBLER)
-	outc('(');
-#endif
+	switch (assembler) {
+	case ASM_HP:
+		outc('(');
+		break;
+	}
 }
 
 void asm_postinc_after(void) {
-#if defined(HP_ASSEMBLER)
-	outs(") + ");
-#endif
-#if defined(GAS_ASSEMBLER)
-	outs("@ + ");
-#endif
+	switch (assembler) {
+	case ASM_HP:
+		outs(") + ");
+		break;
+
+	case ASM_GAS:
+		outs("@ + ");
+		break;
+	}
 }
 
 void asm_scale_before(void) {
-#if defined(HP_ASSEMBLER)
-	outc(',')
-#endif
+	switch (assembler) {
+	case ASM_HP:
+		outc(',');
+		break;
+	}
 }
 
 void asm_scale(void) {
-#if defined(HP_ASSEMBLER)
-	outs(".l*");
-#endif
-#if defined(GAS_ASSEMBLER)
-	outs(":l:");
-#endif
+	switch (assembler) {
+	case ASM_HP:
+		outs(".l*");
+		break;
+
+	case ASM_GAS:
+		outs(":l:");
+		break;
+	}
 }
 
 void asm_scale_1(void) {
-#if defined(HP_ASSEMBLER)
-	outs(".l");
-#endif
-#if defined(GAS_ASSEMBLER)
-	outs(":l");
-#endif
+	switch (assembler) {
+	case ASM_HP:
+		outs(".l");
+		break;
+
+	case ASM_GAS:
+		outs(":l");
+		break;
+	}
 }
 
 void asm_mem_before(void) {
-#if defined(HP_ASSEMBLER)
-	outs("([");
-#endif
+	switch (assembler) {
+	case ASM_HP:
+		outs("([");
+		break;
+	}
 }
 
 void asm_mem_second(void) {
-#if defined(GAS_ASSEMBLER)
-	outc('@');
-#endif
+	switch (assembler) {
+	case ASM_GAS:
+		outc('@');
+		break;
+	}
 }
 
 void asm_mem_third(void) {
-#if defined(HP_ASSEMBLER)
-	outc(']');
-#endif
-#if defined(GAS_ASSEMBLER)
-	outc('@');
-#endif
+	switch (assembler) {
+	case ASM_HP:
+		outc(']');
+		break;
+
+	case ASM_GAS:
+		outc('@');
+		break;
+	}
 }
 
 void asm_mem_after(void) {
-#if defined(HP_ASSEMBLER)
-	outc(')');
-#endif
+	switch (assembler) {
+	case ASM_HP:
+		outc(')');
+		break;
+	}
 }
 
 void asm_bf_before(void) {

@@ -251,7 +251,7 @@ makeans make_proc_tag_code
    outnl();
    if (is_main)
    {
-      if (gcc_assembler)
+      if (assembler == ASM_GAS)
       {
 	 outs("\t.IMPORT\t__CTOR_LIST__,DATA\n");
 	 outs("\t.IMPORT\t__main,CODE\n");
@@ -277,7 +277,7 @@ makeans make_proc_tag_code
     */
    outs("\t.CALLINFO FRAME=");
 		  /* FRAME=frame size - frame marker bytes (if allocated) */
-   if (gcc_assembler)
+   if (assembler == ASM_GAS)
    {
       outn(frame_sz>>3);
    }
@@ -423,11 +423,11 @@ makeans make_proc_tag_code
       int n = new_label();
       int end = new_label();
       baseoff b;
-      b.base = 0; b.offset = (gcc_assembler ? 0 : 4);
-      set_ins((gcc_assembler ? "__CTOR_LIST__" : "__TDF_CTOR_LIST__"),b,GR4);
+      b.base = 0; b.offset = (assembler == ASM_GAS ? 0 : 4);
+      set_ins((assembler == ASM_GAS ? "__CTOR_LIST__" : "__TDF_CTOR_LIST__"),b,GR4);
       b.base = GR4;
       b.offset = 4;
-      if (gcc_assembler)
+      if (assembler == ASM_GAS)
       {
 	 ld_ins(i_lwm,1,b,GR5);
 	 cj_ins(c_eq,GR0,GR5,end);

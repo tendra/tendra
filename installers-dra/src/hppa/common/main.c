@@ -39,7 +39,7 @@
 #endif
 
 extern int good_trans;
-int gdb,xdb,gcc_assembler;
+int gdb,xdb;
 
 char *local_prefix, *name_prefix;
 
@@ -74,8 +74,6 @@ int main
   setbuf(stdout, NULL);
 
    /* set defaults for options */
-
-   gcc_assembler = 0;
    xdb = 0;
    gdb = 0;
 
@@ -90,12 +88,13 @@ int main
   do_comment = 0;		/* implement -C option */
 
 	endian = ENDIAN_BIG;
+	assembler = ASM_HP;
 
 	{
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"B:DE:GHKNO:PQRVWX:Z" "dh")) != -1) {
+			"B:DE:G:HKNO:PQRVWX:Z" "dh")) != -1) {
 			switch (c) {
 			case 'B': builtin = flags_builtin(optarg); break;
 
@@ -115,7 +114,9 @@ int main
 				endian = switch_endian(optarg, ENDIAN_BIG | ENDIAN_LITTLE);
 				break;
 
-			case 'G': gcc_assembler = 1; break;
+			case 'G':
+				assembler = switch_assembler(optarg, ASM_HP | ASM_GAS);
+				break;
 
 			case 'H':
 #ifdef _SYMTAB_INCLUDED
@@ -158,7 +159,6 @@ int main
 			case 'h':
 				diagnose = 1;
 				gdb = 1;
-				gcc_assembler = 1;
 				break;
 
 			case '?':
@@ -203,8 +203,7 @@ int main
    if (diagnose)
    {
       optim = 0 ;
-      if (gdb)
-         gcc_assembler = 1;
+      /* TODO: do gdb diagnostics depend on gcc assembly? */
    }
 
    /* not implemented */

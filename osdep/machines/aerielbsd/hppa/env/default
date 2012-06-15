@@ -2,5 +2,5 @@
 
 +MACHINE	"aerielbsd-*-hppa"
 
->FLAG_TRANS	"-G"
+>FLAG_TRANS	"-Ggas"
 

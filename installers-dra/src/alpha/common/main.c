@@ -105,6 +105,7 @@ main(int argc, char *argv[])
 #endif
 
 	endian = ENDIAN_LITTLE;
+	assembler = ASM_OSF1;
 
 	{
 		int c;
@@ -116,7 +117,9 @@ main(int argc, char *argv[])
 			case 'E':
 				endian = switch_endian(optarg, ENDIAN_BIG | ENDIAN_LITTLE);
 				break;
-			case 'G':                    break;
+			case 'G':
+				assembler = switch_assembler(optarg, ASM_OSF1);
+				break;
 
 			case 'H':
 				diagnose      = 1;

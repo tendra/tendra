@@ -67,18 +67,21 @@ int main(int argc, char **argv)
   round_after_flop = 1;		/* Round every time */
   do_comment = 0;		/* (see comment.c) */
   endian = ENDIAN_BIG;
+  assembler = ASM_IBM;
   
 	{
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"B:E:GHK:MO:PQRVWX:Z" "c")) != -1) {
+			"B:E:G:HK:MO:PQRVWX:Z" "c")) != -1) {
 			switch (c) {
 			case 'B': builtin = flags_builtin(optarg); break;
 			case 'E':
 				endian = switch_endian(optarg, ENDIAN_BIG | ENDIAN_LITTLE);
 				break;
-			case 'G':                                  break;
+			case 'G':
+				assembler = switch_assembler(optarg, ASM_IBM);
+				break;
 			case 'H': diagnose = 1;                    break;
 
 			case 'K': 

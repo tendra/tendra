@@ -79,6 +79,7 @@ int   main
   do_extern_adds = 0;
   do_alloca = 0;
   endian = ENDIAN_BIG;
+  assembler = ASM_SGI;
 
 	{
 		int c;
@@ -92,7 +93,9 @@ int   main
 			case 'E':
 				endian = switch_endian(optarg, ENDIAN_BIG | ENDIAN_LITTLE);
 				break;
-			case 'G':                                  break;
+			case 'G':
+				assembler = switch_assembler(optarg, ASM_SGI | ASM_ULTRIX);
+				break;
 
 			case 'H':
 				diagnose = 1;

@@ -123,27 +123,7 @@ int main
 	char *output = null;
 
 	endian = ENDIAN_BIG;
-
-#ifdef GAS_ASSEMBLER
-	asm_dotty_instrs   = 0;
-	asm_percent_regs   = 0;
-	asm_data_first     = 0;
-	asm_does_jump_lens = 1;
-	asm_uses_equals    = 1;
-	asm_uses_lcomm     = 1;
-	asm_no_btst_suffix = 1;
-	asm_cmp_reversed   = 0;
-#endif
-#ifdef HP_ASSEMBLER
-	asm_dotty_instrs   = 1;
-	asm_percent_regs   = 1;
-	asm_data_first     = 1;
-	asm_does_jump_lens = 0;
-	asm_uses_equals    = 0;
-	asm_uses_lcomm     = 0;
-	asm_no_btst_suffix = 0;
-	asm_cmp_reversed   = 1;
-#endif
+	assembler = ASM_GAS;
 
 	{
 		int c;
@@ -159,10 +139,11 @@ int main
 			"cegiou")) != -1) {
 			switch (c) {
 			case 'E': endian = switch_endian(optarg, ENDIAN_BIG); break;
+			case 'G': assembler = switch_assembler(optarg,
+				ASM_HP | ASM_GAS ); break;
 
 			case 'B': builtin = flags_builtin(optarg); break;
 			case 'D': do_pic = 1;                      break;
-			case 'G':                                  break;
 			case 'H': diagnose = 1;                    break;
 			case 'K':                                  break;
 			case 'M': strict_fl_div = 1;               break;
@@ -210,6 +191,30 @@ int main
 
 	input  = argv[0];
 	output = argv[1];
+
+	switch (assembler) {
+	case ASM_GAS:
+		asm_dotty_instrs   = 0;
+		asm_percent_regs   = 0;
+		asm_data_first     = 0;
+		asm_does_jump_lens = 1;
+		asm_uses_equals    = 1;
+		asm_uses_lcomm     = 1;
+		asm_no_btst_suffix = 1;
+		asm_cmp_reversed   = 0;
+		break;
+
+	case ASM_HP:
+		asm_dotty_instrs   = 1;
+		asm_percent_regs   = 1;
+		asm_data_first     = 1;
+		asm_does_jump_lens = 0;
+		asm_uses_equals    = 0;
+		asm_uses_lcomm     = 0;
+		asm_no_btst_suffix = 0;
+		asm_cmp_reversed   = 1;
+		break;
+	}
 
 #ifdef EBUG
     /* Deal with debugging options */

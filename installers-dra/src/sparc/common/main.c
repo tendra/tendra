@@ -166,12 +166,13 @@ main ( int argc, char ** argv )
   do_dynamic_init = 1;                  /* Only applies to SunOS*/
   
   endian = ENDIAN_BIG;
+  assembler = ASM_SUN;
 
 	{
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"B:DE:GH:JK:MNO:PQRTVWX:Z"
+			"B:DE:G:H:JK:MNO:PQRTVWX:Z"
 			"abcglo:i:r:un")) != -1) {
 			switch (c) {
 			case 'B': builtin = flags_builtin(optarg); break;
@@ -179,7 +180,9 @@ main ( int argc, char ** argv )
 			case 'E':
 				endian = switch_endian(optarg, ENDIAN_LITTLE);
 				break;
-			case 'G':                                  break;
+			case 'G':
+				assembler = switch_assembler(optarg, ASM_SUN);
+				break;
 
 			case 'H':
 				diagnose = 1 ;
