@@ -20,14 +20,15 @@
 #include "main_reads.h"
 #include "externs.h"
 
+/* TODO: stopgap until outs() is centralised */
 #if is80x86
 #include "assembler.h"
 #include "localflags.h"
-#define use_link_stuff 1
+#include "out.h"
 #endif
 
-#if use_link_stuff
-extern weak_cell *weak_list;
+/* TODO: stopgap until outs() is centralised */
+#if issparc
 #include "out.h"
 #endif
 
@@ -38,6 +39,8 @@ extern weak_cell *weak_list;
 #include "tags.h"
 #include "machine.h"
 
+int use_link_stuff;
+weak_cell *weak_list;
 
 /* PROCEDURES */
 
@@ -63,16 +66,18 @@ id_prefix(char *s)
 linkinfo
 f_make_weak_defn(exp e1, exp e2)
 {
-#if use_link_stuff
-	weak_cell *wc = (weak_cell *)xmalloc(sizeof(weak_cell));
+	if (use_link_stuff) {
+#if is80x86 || issparc
+		weak_cell *wc = (weak_cell *)xmalloc(sizeof(weak_cell));
 
-	wc->weak_id = brog(son(e1))->dec_u.dec_val.dec_id;
-	wc->val_id = brog(son(e2))->dec_u.dec_val.dec_id;
-	brog(son(e2))->dec_u.dec_val.isweak = 1;
-	wc->next = weak_list;
-	weak_list = wc;
-
+		wc->weak_id = brog(son(e1))->dec_u.dec_val.dec_id;
+		wc->val_id = brog(son(e2))->dec_u.dec_val.dec_id;
+		brog(son(e2))->dec_u.dec_val.isweak = 1;
+		wc->next = weak_list;
+		weak_list = wc;
 #endif
+	}
+
 	kill_exp(e1, e1);
 	kill_exp(e2, e2);
 	return 0;
@@ -82,17 +87,20 @@ f_make_weak_defn(exp e1, exp e2)
 linkinfo
 f_make_weak_symbol(tdfstring id, exp e)
 {
-#if use_link_stuff
-	char **lid = &brog(son(e))->dec_u.dec_val.dec_id;
-	char *nid = id_prefix(id.ints.chars);
-	brog(son(e))->dec_u.dec_val.isweak = 1;
-	brog(son(e))->dec_u.dec_val.extnamed = 1;
-	outs(".weak ");
-	outs(nid);
-	outnl();
-	out_rename(*lid, nid);
-	*lid = nid;
+	if (use_link_stuff) {
+#if is80x86 || issparc
+		char **lid = &brog(son(e))->dec_u.dec_val.dec_id;
+		char *nid = id_prefix(id.ints.chars);
+		brog(son(e))->dec_u.dec_val.isweak = 1;
+		brog(son(e))->dec_u.dec_val.extnamed = 1;
+		outs(".weak ");
+		outs(nid);
+		outnl();
+		out_rename(*lid, nid);
+		*lid = nid;
 #endif
+	}
+
 	kill_exp(e, e);
 	return 0;
 }
@@ -101,12 +109,15 @@ f_make_weak_symbol(tdfstring id, exp e)
 linkinfo
 f_make_comment(tdfstring id)
 {
-#if use_link_stuff
-	outs(".ident \"");
-	outs(id_prefix(id.ints.chars));
-	outs("\"");
-	outnl();
+	if (use_link_stuff) {
+#if is80x86 || issparc
+		outs(".ident \"");
+		outs(id_prefix(id.ints.chars));
+		outs("\"");
+		outnl();
 #endif
+	}
+
 	return 0;
 }
 

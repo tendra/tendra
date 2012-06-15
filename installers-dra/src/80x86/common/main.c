@@ -56,6 +56,8 @@ static void print_version(void);
 
 extern int print_inlines;
 
+extern int use_link_stuff;
+
 static void
 init_all(void)
 {
@@ -114,6 +116,7 @@ main(int argc, char **argv)
 	permit_8byte_align = 1;	/* allow 8byte alignment for local doubles */
 	replace_arith_type = 1;	/* use the C definitions of promote etc. */
 	no_bss = 0;		/* use .comm */
+	use_link_stuff = 1;
 	endian = ENDIAN_LITTLE;
 
 

@@ -22,4 +22,3 @@ int useful_double = 0;
 int keep_short = 0;	/* init by cproc */
 int remove_struct_ref;
 
-weak_cell * weak_list = (weak_cell*)0;

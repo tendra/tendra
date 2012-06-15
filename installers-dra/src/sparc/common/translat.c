@@ -301,13 +301,6 @@ out_rename ( char * oldid, char * newid ){
 
 
 /*
-  LIST OF WEAK SYMBOLS
-*/
-
-weak_cell *weak_list = null ;
-
-
-/*
   INITIALISE TRANSLATOR
 */
 void 

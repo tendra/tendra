@@ -50,6 +50,8 @@ static bool dump_abbrev = 0 ;
 #include "dwarf_mc.h"
 #endif
 
+extern int use_link_stuff;
+
 extern int good_trans ;
 
 #include "debug.h"
@@ -301,6 +303,10 @@ main ( int argc, char ** argv )
       if ( argc == 0 )
 	fprintf ( stderr, "%s : input file missing\n", sparctrans );
       errflg = 1 ;
+    }
+
+    if (sysV_assembler) {
+      use_link_stuff = 1;
     }
 
     /* check ABI conformance */

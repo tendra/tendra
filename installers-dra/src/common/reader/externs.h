@@ -921,6 +921,7 @@ extern linkinfo f_make_weak_defn(exp, exp);
 extern linkinfo f_make_weak_symbol(tdfstring, exp);
 extern linkinfo f_dummy_linkinfo;
 extern void init_linkinfo(void);
+extern weak_cell *weak_list;
 
 /* CONSTRUCTS FOR LINKINFO_LIST */
 extern linkinfo_list new_linkinfo_list(int);

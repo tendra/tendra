@@ -67,7 +67,6 @@
 #define special_fns		0
 #define substitute_params	0
 #define substitute_complex	1
-#define use_link_stuff		SYSV_AS
 #define div0_implemented 	1
 
 /* foralls config */

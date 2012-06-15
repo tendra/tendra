@@ -22,4 +22,3 @@ extern  int useful_double;
 extern  int keep_short;
 extern	int remove_struct_ref;
 
-extern  weak_cell *weak_list;
