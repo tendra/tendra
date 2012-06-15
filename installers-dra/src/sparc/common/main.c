@@ -143,8 +143,17 @@ main ( int argc, char ** argv )
   PIC_code = 0 ;			/* don't do PIC */
   do_alloca = 0 ;			/* inline alloca */
   sysV_abi = SYSV_ABI ;			/* SYSV version */
-  sysV_assembler = SYSV_AS ;		/* SYSV version */
   g_reg_max = ( sysV_abi ? 4 : 7 ) ;	/* number of G registers */
+
+  /*
+   * This appears to be a combination of assembler dialect and ABI for the sake
+   * of producing a.out vs. ELF assembly. I'm keeping it around for the moment
+   * until I can test exactly what needs to happen for a.out systems.
+   *
+   * TODO: split this into ABI and as(1) dialect things, or have a seperate
+   * flag for executable format.
+   */
+  sysV_assembler = 1 ;		/* SYSV version */
 
   /*
    * Note that this does not belong in common/construct/optimise.h as this is
@@ -163,7 +172,7 @@ main ( int argc, char ** argv )
 
 		while ((c = getopt(argc, argv,
 			"B:DE:GH:JK:MNO:PQRTVWX:Z"
-			"acglo:i:r:un")) != -1) {
+			"abcglo:i:r:un")) != -1) {
 			switch (c) {
 			case 'B': builtin = flags_builtin(optarg); break;
 			case 'D': PIC_code = 1;                    break;
@@ -237,6 +246,7 @@ main ( int argc, char ** argv )
 			case 'Z': report_versions = 1; break;
 
 			case 'a' : sysV_abi = 1; g_reg_max = 4; break;
+			case 'b' : sysV_assembler = 0; break;
 			case 'c' : do_comment = 1; break;
 			case 'g' : library_key = 2; break;
 			case 'l' : library_key = 1; break;
