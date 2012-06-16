@@ -20,7 +20,7 @@
 void asm_nprefix(void) {
 	switch (assembler) {
 	case ASM_HP:
-		outc(' & ');
+		outc('&');
 		break;
 
 	case ASM_GAS:
