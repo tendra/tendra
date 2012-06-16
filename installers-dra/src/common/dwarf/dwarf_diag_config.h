@@ -7,8 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef diag_config_key
-#define diag_config_key
+#ifndef dwarf_diag_config_key
+#define dwarf_diag_config_key
 
 #if DWARF
 
