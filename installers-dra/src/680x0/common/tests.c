@@ -17,25 +17,10 @@
 #include "tests.h"
 #include "is_worth.h"
 #include "optimise.h"
+#include "localflags.h"
 
 #ifndef tdf3
 #include "68k_globals.h"
-#endif
-
-
-/*
-    CC CONVENTIONS
-
-    HP cc has different conventions to gcc on certain points, most
-    noticably on the alignment of bitfields.  Both conventions are
-    supported, but the cc conventions are default on the HP.  NeXT
-    cc is gcc.
-*/
-
-#ifdef hp_cc_conventions
-int cc_conventions = 1;
-#else
-int cc_conventions = 0;
 #endif
 
 bool
@@ -189,7 +174,7 @@ bool
 cpd_param(shape sha)
 {
 	char n = name(sha);
-	if (!cc_conventions || n == bitfhd) {
+	if (conventions != CONVENTIONS_HP || n == bitfhd) {
 		long sz = shape_size(sha);
 		if (sz <= 32) {
 			return 0;
@@ -216,7 +201,7 @@ int
 reg_result(shape sha)
 {
 	char n = name(sha);
-	if (cc_conventions) {
+	if (conventions == CONVENTIONS_HP) {
 		/* HP cc doesn't return any tuples, unions etc in a register */
 		return n != cpdhd && n != nofhd;
 	} else {

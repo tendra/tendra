@@ -77,7 +77,6 @@ void asm_comment(void);
 
 #ifdef HP_INTERFACE
 
-#define hp_cc_conventions		/* use HP conventions */
 #define float_to_unsigned		"___fixu"
 #define unsigned_to_float		"___floatu"
 #define profiling_routine		"mcount"
@@ -102,7 +101,6 @@ void asm_comment(void);
 
 #ifdef NEXT_INTERFACE
 
-#define gcc_conventions			/* use gcc conventions */
 #define float_to_unsigned		"__fixunsdfsi"
 #undef  unsigned_to_float		/* use built-in version */
 #define profiling_routine		"mcount"
@@ -113,7 +111,6 @@ void asm_comment(void);
 
 #ifdef SUN_INTERFACE
 
-#define gcc_conventions
 #undef float_to_unsigned
 #undef unsigned_to_float
 #define profiling_routine "mcount"  /* all the defines for profiling */

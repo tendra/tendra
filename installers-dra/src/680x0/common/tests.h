@@ -15,8 +15,6 @@
 #include "exptypes.h"
 #include "installtypes.h"
 
-extern int cc_conventions;
-
 extern bool no_side(exp);
 extern bool push_arg(exp);
 extern bool regable(exp);

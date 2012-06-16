@@ -125,6 +125,16 @@ int main
 	endian = ENDIAN_BIG;
 	assembler = ASM_GAS;
 
+#ifdef NEXT_INTERFACE
+	conventions = CONVENTIONS_GCC;
+#endif
+#ifdef SUN_INTERFACE
+	conventions = CONVENTIONS_GCC;
+#endif
+#ifdef HP_INTERFACE
+	conventions = CONVENTIONS_HP;
+#endif
+
 	{
 		int c;
 
@@ -156,9 +166,9 @@ int main
 			case 'X': check = flags_check(optarg);     break;
 			case 'Z': report_tdf_versions = 1;         break;
 
-			case 'c': cc_conventions = 1;              break;
+			case 'c': conventions = CONVENTIONS_HP;    break;
 			case 'e': ignore_errors = 1;               break;
-			case 'g': cc_conventions = 0;              break;
+			case 'g': conventions = CONVENTIONS_GCC;   break;
 			case 'i': output_immediately = 1;          break;
 			case 'u': do_sep_units = 1;                break;
 
@@ -320,7 +330,7 @@ int main
     param_align = PARAM_ALIGN;
     stack_align = STACK_ALIGN;
 
-    MAX_BF_SIZE = (cc_conventions ? MAX_BF_SIZE_CC : MAX_BF_SIZE_GCC);
+    MAX_BF_SIZE = (conventions != CONVENTIONS_HP ? MAX_BF_SIZE_CC : MAX_BF_SIZE_GCC);
 
     /* Call initialization routines */
     top_def = null;
