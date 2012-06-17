@@ -21,6 +21,8 @@ any memory of its contents - see regexps.c
 
 #include "config.h"
 
+#include <reader/basicread.h>
+
 #include "addrtypes.h"
 #include "psu_ops.h"
 #include "regexps.h"
@@ -29,7 +31,6 @@ any memory of its contents - see regexps.c
 #include "out_ba.h"
 #include "syms.h"
 #include "main.h"
-#include "basicread.h"
 #include "inst_fmt.h"
 
 

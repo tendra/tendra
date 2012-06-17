@@ -15,6 +15,7 @@
 #undef	NULL
 #define	NULL			0
 
+#include <diag/diagtypes1.h>
 
 typedef void *OUTPUT_REC;			/* stabstring TypeNo */
 typedef diag_descriptor diag_global;

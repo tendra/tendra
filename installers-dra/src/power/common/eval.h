@@ -12,7 +12,7 @@
 #define EVALDECS_H
 
 #include "addresstypes.h"
-#include "flpttypes.h"
+#include <construct/flpttypes.h>
 
 
 extern int next_data_lab(void);

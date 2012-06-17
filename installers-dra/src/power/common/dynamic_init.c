@@ -14,18 +14,19 @@
 
 #include "config.h"
 
+#include <construct/machine.h>
+#include <construct/flags.h>
+#include <construct/installglob.h>
+
 #include "memtdf.h"
 #include "codegen.h"
 #include "geninst.h"
 #include "translat.h"
 #include "makecode.h"
-#include "machine.h"
-#include "flags.h"
 #include "comment.h"
 #include "proc.h"
 #include "stack.h"
 #include "parameter.h"
-#include "installglob.h"
 #include "dynamic_init.h"
 
 void do__main_extern(void)

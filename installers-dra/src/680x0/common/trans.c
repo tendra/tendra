@@ -9,13 +9,17 @@
 
 #include "config.h"
 
+#include <construct/exp.h>
+#include <construct/flags.h>
+#include <construct/installglob.h>
+#include <construct/shapemacs.h>
+#include <construct/tags.h>
+
+#include <refactor/optimise.h>
+
 #include "exptypes.h"
 #include "expmacs.h"
-#include "exp.h"
-#include "flags.h"
 #include "instrs.h"
-#include "installglob.h"
-#include "shapemacs.h"
 #include "evaluate.h"
 #include "mach.h"
 #include "mach_ins.h"
@@ -25,14 +29,14 @@
 #include "where.h"
 #include "coder.h"
 #include "codex.h"
-#include "optimise.h"
 #include "output.h"
 #include "tests.h"
-#include "tags.h"
 #include "utility.h"
+
 #if have_diagnostics
 #include "xdb_basics.h"
 #endif
+
 extern dec *sort_decs(dec *);
 static void output_all_exps(void);
 

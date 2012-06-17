@@ -8,8 +8,10 @@
  */
 
 #include "config.h"
-#include "install_fns.h"
-#include "arith_codes.h"
+
+#include <reader/arith_codes.h>
+
+#include <construct/install_fns.h>
 
 int
 arith_type(int a, int b)

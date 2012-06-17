@@ -30,7 +30,7 @@
 #include "config.h"
 
 #include "exptypes.h"
-#include "installtypes.h"
+#include <construct/installtypes.h>
 
 extern int refactor(exp e, exp scope);
 extern int eq_exp(exp a, exp b);

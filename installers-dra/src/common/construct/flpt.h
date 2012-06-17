@@ -10,9 +10,9 @@
 #ifndef flpt_key
 #define flpt_key 1
 
-#include "codetypes.h"
-#include "installtypes.h"
-#include "flpttypes.h"
+#include <reader/codetypes.h>
+#include <construct/installtypes.h>
+#include <construct/flpttypes.h>
 
 extern void init_flpt(void);
 extern void more_flpts(void);

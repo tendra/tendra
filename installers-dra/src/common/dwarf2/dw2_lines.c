@@ -10,14 +10,16 @@
 #include <time.h>
 
 #include "config.h"
-
-#include "dg_globs.h"
 #include "dw2_config.h"
-#include "dw2_lines.h"
+
+#include <diag/dg_globs.h>
+
+#include <dwarf2/dw2_lines.h>
+#include <dwarf2/dw2_codes.h>
+#include <dwarf2/dw2_basic.h>
+#include <dwarf2/dw2_iface.h>
+
 #include "szs_als.h"
-#include "dw2_codes.h"
-#include "dw2_basic.h"
-#include "dw2_iface.h"
 
 
 /* values used in statement program prologue */

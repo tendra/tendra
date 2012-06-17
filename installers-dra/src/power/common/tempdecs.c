@@ -12,17 +12,19 @@
 
 #include "config.h"
 
+#include <construct/tags.h>
+#include <construct/exp.h>
+#include <construct/flags.h>
+
+#include <refactor/const.h>
+
 #include "exptypes.h"
-#include "tags.h"
-#include "exp.h"
-#include "const.h"
 #include "expmacs.h"
 #include "bitsmacs.h"
 #include "regable.h"
 #include "tempdecs.h"
 #include "regmacs.h"
 #include "stack.h"
-#include "flags.h"
 
 /* to go in a switch as in case CASE_APPLYLIKE: */
 #define	CASE_APPLYLIKE	apply_tag: case round_tag:case apply_general_tag

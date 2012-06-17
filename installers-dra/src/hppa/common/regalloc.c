@@ -29,8 +29,9 @@ number of ident = (word displacement in locals)*64 + GR17
 
 #include "config.h"
 
+#include <construct/tags.h>
+
 #include "expmacs.h"
-#include "tags.h"
 #include "proctypes.h"
 #include "procrec.h"
 #include "bitsmacs.h"

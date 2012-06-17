@@ -11,6 +11,8 @@
 #ifndef glopt_key
 #define glopt_key 1
 
+#include <construct/installtypes.h>
+
 extern void glopt(dec *);
 
 #endif

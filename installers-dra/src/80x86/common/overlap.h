@@ -10,7 +10,7 @@
 #ifndef OVERLAP_H
 #define OVERLAP_H
 
-#include "installtypes.h"
+#include <construct/installtypes.h>
 #include "localtypes.h"
 
 int might_overlap(shape sha, where w1, where w2);

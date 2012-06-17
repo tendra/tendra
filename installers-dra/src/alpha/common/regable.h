@@ -15,7 +15,7 @@
 
 #include "config.h"
 
-#include "installtypes.h"
+#include <construct/installtypes.h>
 
 extern  bool fixregable(exp e);
 extern  bool floatregable(exp e);

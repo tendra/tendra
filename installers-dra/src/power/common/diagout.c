@@ -22,25 +22,28 @@
 #include <sys/debug.h>
 #endif
 
-#include "codetypes.h"
+#include <reader/codetypes.h>
+#include <reader/toktypes.h>
+#include <reader/externs.h>		/* for f_floating() */
+
+#include <construct/installglob.h>
+#include <construct/machine.h>
+#include <construct/install_fns.h>
+
+#include <linkinfo/li_types.h>
+
+#include <diag/diagtypes.h>
+
+#include <diag/diag_fns.h>
+#include <diag/diagglob.h>
+#include <diag/mark_scope.h>
+
 #include "exptypes.h"
 #include "memtdf.h"
-#include "installglob.h"
-#include "li_types.h"
-#include "diagtypes.h"
-#include "toktypes.h"
-#include "diag_fns.h"
-#include "diagglob.h"
-#include "mark_scope.h"
-#include "externs.h"		/* for f_floating() */
 #include "translat.h"
-#include "machine.h"
 #include "szs_als.h"
-#include "install_fns.h"
-
 #include "maxminmacs.h"
 #include "proc.h"
-
 #include "comment.h"
 #include "stack.h"
 #include "diagout.h"

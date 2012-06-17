@@ -9,14 +9,15 @@
 
 #include "config.h"
 
-#include "flpttypes.h"
-#include "messages_c.h"
-#include "flpt.h"
-#include "basicread.h"
 #include "expmacs.h"
-#include "exp.h"
 
-#include "f64.h"
+#include <reader/basicread.h>
+
+#include <construct/flpttypes.h>
+#include <construct/messages_c.h>
+#include <construct/flpt.h>
+#include <construct/exp.h>
+#include <construct/f64.h>
 
 
 /* PROCEDURES */

@@ -10,14 +10,17 @@
 
 #include "config.h"
 
-#include "tags.h"
+#include <construct/tags.h>
+#include <construct/exp.h>
+#include <construct/shapemacs.h>
+
+/* construct/is_worth.h defines the interface each installer must implement */
+#include <construct/is_worth.h>
+
 #include "expmacs.h"
-#include "exp.h"
-#include "shapemacs.h"
 #include "instruct.h"	/* IMM_SIZE() */
 #include "regable.h"
-/* construct/is_worth.h defines the interface each installer must implement */
-#include "is_worth.h"
+
 
 
 #define true 1

@@ -13,25 +13,27 @@
 #include <shared/xalloc.h>
 
 #include "config.h"
-
 #include "exptypes.h"
-#include "readglob.h"
-#include "basicread.h"
-#include "sortmacs.h"
-#include "exp.h"
 #include "expmacs.h"
-#include "main_reads.h"
-#include "externs.h"
-#include "spec_tok.h"
-#include "read_sort.h"
-#include "messages_r.h"
-#include "installglob.h"
-#include "install_fns.h"
-#include "diagglob.h"
-#include "dg_fns.h"
-#include "refactor.h"
 
-#include "table_fns.h"
+#include <reader/readglob.h>
+#include <reader/basicread.h>
+#include <reader/sortmacs.h>
+#include <reader/main_reads.h>
+#include <reader/externs.h>
+#include <reader/spec_tok.h>
+#include <reader/read_sort.h>
+#include <reader/messages_r.h>
+#include <reader/table_fns.h>
+
+#include <construct/exp.h>
+#include <construct/installglob.h>
+#include <construct/install_fns.h>
+
+#include <diag/diagglob.h>
+#include <diag/dg_fns.h>
+
+#include <refactor/refactor.h>
 
 
 /* VARIABLES */

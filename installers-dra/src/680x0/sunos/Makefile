@@ -19,8 +19,7 @@ PARTS+= src/680x0/common
 .include <tendra.partial.mk>
 
 
-CFLAGS+=	-I ../../common/reader
-CFLAGS+=	-I ../../common/construct
+CFLAGS+=	-I ../../common
 CFLAGS+=	-I ../common
 CFLAGS+=	-I .
 

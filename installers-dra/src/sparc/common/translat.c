@@ -92,13 +92,28 @@
 #define SPARCTRANS_CODE
 
 #include "config.h"
+#include "diag_config.h"
 
-#include "flpt.h"
+#ifdef NEWDWARF
+#include "dw2_config.h"
+#endif
+
+#include <reader/toktypes.h>
+#include <reader/basicread.h>
+#include <reader/externs.h>
+
+#include <construct/flpt.h>
+#include <construct/tags.h>
+#include <construct/exp.h>
+#include <construct/shapemacs.h>
+#include <construct/flags.h>
+#include <construct/tags.h>
+#include <construct/installglob.h>
+
+#include <refactor/optimise.h>
+
 #include "expmacs.h"
-#include "tags.h"
 #include "exptypes.h"
-#include "exp.h"
-#include "shapemacs.h"
 #include "tempdecs.h"
 #include "weights.h"
 #include "proctypes.h"
@@ -107,10 +122,6 @@
 #include "codehere.h"
 #include "makecode.h"
 #include "eval.h"
-#include "toktypes.h"
-#include "flags.h"
-#include "basicread.h"
-#include "tags.h"
 #include "bitsmacs.h"
 #include "needscan.h"
 #include "getregs.h"
@@ -118,21 +129,16 @@
 #include "labels.h"
 #include "comment.h"
 #include "sparcdiags.h"
-#include "installglob.h"
-#include "externs.h"
 #include "out.h"
 #include "translat.h"
-#include "optimise.h"
 #include "proc.h"
 #include "special.h"
-
 #include "target_v.h"
 #include "locate.h"
 #include "sparctrans.h"
-#include "diag_config.h"
+
 #ifdef NEWDWARF
-#include "dw2_iface.h"
-#include "dw2_config.h"
+#include <dwarf2/dw2_iface.h>
 #endif
 
 

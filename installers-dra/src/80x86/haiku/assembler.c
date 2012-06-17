@@ -14,21 +14,21 @@
 #include "config.h"
 
 #include "exptypes.h"
-#include "exp.h"
+#include <construct/exp.h>
 #include "out.h"
 #include "expmacs.h"
-#include "exp.h"
+#include <construct/exp.h>
 #include "localflags.h"
-#include "shapemacs.h"
+#include <construct/shapemacs.h>
 #include "operand.h"
-#include "machine.h"
-#include "flags.h"
-#include "basicread.h"
+#include <construct/machine.h>
+#include <construct/flags.h>
+#include <reader/basicread.h>
 #include "coder.h"
 #include "assembler.h"
 #include "instr.h"
 #include "instr386.h"
-#include "install_fns.h"
+#include <construct/install_fns.h>
 
 void
 dot_align(int n)

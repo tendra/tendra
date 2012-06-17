@@ -25,6 +25,8 @@
 
 #include "config.h"
 
+#include <construct/flags.h>
+
 #include "sparcins.h"
 #include "inst_fmt.h"
 #include "addrtypes.h"
@@ -37,7 +39,6 @@
 #include "regmacs.h"
 #include "maxminmacs.h"
 #include "makecode.h"
-#include "flags.h"
 #include "move.h"
 
 

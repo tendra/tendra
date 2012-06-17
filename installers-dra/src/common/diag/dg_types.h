@@ -12,9 +12,9 @@
 
 #include "config.h"
 
-#include "installtypes.h"
-#include "dg_first.h"
+#include <construct/installtypes.h>
 
+#include <diag/dg_first.h>
 
 
 typedef dg_info dg;

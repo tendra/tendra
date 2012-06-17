@@ -13,7 +13,7 @@
 
 #include "config.h"
 
-#include "flags.h"
+#include <construct/flags.h>
 
 int redo_structfns = 0;		/* reorganise proc calls delivering
 				   structures */

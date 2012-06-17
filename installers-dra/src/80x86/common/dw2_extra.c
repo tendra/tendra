@@ -10,36 +10,40 @@
 #include "config.h"
 
 #ifdef NEWDWARF
+#include "dw2_config.h"
 
+#include <reader/basicread.h>
+#include <refactor/const.h>
+
+#include <construct/flags.h>
+#include <construct/machine.h>
+#include <construct/shapemacs.h>
+#include <construct/tags.h>
+#include <construct/label_ops.h>
+#include <construct/flpttypes.h>
+#include <construct/f64.h>
+
+#include <diag/dg_aux.h>
+#include <diag/dg_types.h>
+
+#include <dwarf2/dw2_codes.h>
+#include <dwarf2/dw2_entries.h>
+#include <dwarf2/dw2_basic.h>
+#include <dwarf2/dw2_info.h>
+#include <dwarf2/dw2_locdata.h>
+
+#include "expmacs.h"
 #include "exptypes.h"
 #include "localtypes.h"
-#include "dg_aux.h"
-#include "dg_types.h"
-#include "dw2_config.h"
-#include "dw2_codes.h"
-#include "dw2_entries.h"
-#include "dw2_basic.h"
-#include "dw2_info.h"
 #include "codermacs.h"
-#include "flags.h"
 #include "operand.h"
-#include "machine.h"
 #include "instr386.h"
-#include "expmacs.h"
-#include "shapemacs.h"
 #include "instr.h"
-#include "basicread.h"
 #include "szs_als.h"
 #include "coder.h"
-#include "tags.h"
-#include "const.h"
-#include "label_ops.h"
-#include "flpttypes.h"
-#include "f64.h"
 #include "dw2_extra.h"
 #include "operand.h"
 #include "reg_record.h"
-#include "dw2_locdata.h"
 
 
 extern int locals_offset; /* declared in cproc.c */

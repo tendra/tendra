@@ -13,15 +13,17 @@
 
 #include "config.h"
 
+#include <construct/tags.h>
+#include <construct/exp.h>
+#include <construct/flags.h>
+
+#include <refactor/const.h>
+
 #include "exptypes.h"
-#include "tags.h"
-#include "exp.h"
-#include "const.h"
 #include "expmacs.h"
 #include "bitsmacs.h"
 #include "muldvrem.h"
 #include "tempdecs.h"
-#include "flags.h"
 
 
 /*

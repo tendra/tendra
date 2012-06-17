@@ -13,6 +13,9 @@
 
 #include "config.h"
 
+#include <construct/tags.h>
+#include <construct/shapemacs.h>
+
 #include "code_here.h"
 #include "expmacs.h"
 #include "addrtypes.h"
@@ -21,8 +24,6 @@
 #include "maxminmacs.h"
 #include "getregs.h"
 #include "guard.h"
-#include "tags.h"
-#include "shapemacs.h"
 #include "bitsmacs.h"
 #include "mips_ins.h"
 #include "operators.h"

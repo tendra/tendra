@@ -15,9 +15,9 @@
 
 #include "config.h"
 
-#include "installtypes.h"
-#include "toktypes.h"
-#include "li_types.h"
+#include <construct/installtypes.h>
+#include <reader/toktypes.h>
+#include <linkinfo/li_types.h>
 
 
 /* SORT DECODING ROUTINES */

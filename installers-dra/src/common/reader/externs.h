@@ -15,13 +15,13 @@
 
 #include "config.h"
 
-#include "dg_first.h"
-#include "codetypes.h"
-#include "installtypes.h"
-#include "dg_types.h"
-#include "diagtypes.h"
-#include "toktypes.h"
-#include "li_types.h"
+#include <diag/dg_first.h>
+#include <reader/codetypes.h>
+#include <construct/installtypes.h>
+#include <diag/dg_types.h>
+#include <diag/diagtypes.h>
+#include <reader/toktypes.h>
+#include <linkinfo/li_types.h>
 
 /* CONSTRUCTS FOR ACCESS */
 extern access f_access_apply_token(token, bitstream);

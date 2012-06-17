@@ -22,18 +22,19 @@
 
 #include "config.h"
 
+#include <construct/exp.h>
+#include <construct/tags.h>
+#include <construct/shapemacs.h>
+#include <construct/flags.h>
+
 #include "exptypes.h"
-#include "exp.h"
 #include "expmacs.h"
-#include "tags.h"
 #include "bitsmacs.h"
 #include "new_tags.h"
 #include "procrectypes.h"
-#include "shapemacs.h"
 #include "frames.h"
 #include "regable.h"
 #include "dump_distr.h"
-#include "flags.h"
 
 static  space zsp = {
   0, 0

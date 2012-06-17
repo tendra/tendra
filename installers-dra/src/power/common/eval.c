@@ -20,21 +20,21 @@ into the table of externals (or 0 meaning anonymous).
 
 #include <shared/error.h>
 
+#include <construct/flpttypes.h>
+#include <construct/flpt.h>
+#include <construct/machine.h>
+#include <construct/f64.h>
+
 #include "config.h"
 #include "memtdf.h"
 #include "codegen.h"
 #include "geninst.h"
-
 #include "maxminmacs.h"
-#include "flpttypes.h"
-#include "flpt.h"
-#include "machine.h"
 #include "translat.h"
 #include "comment.h"
-
 #include "eval.h"
 #include "frames.h"
-#include "f64.h"
+
 extern FILE *as_file;
 
 long correct_shape(long, int);

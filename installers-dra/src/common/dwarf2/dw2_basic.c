@@ -8,21 +8,23 @@
  */
 
 #include "config.h"
+#include "dw2_config.h"
 
 #include "exptypes.h"
-#include "dw2_config.h"
-#include "dw2_basic.h"
-#include "dw2_codes.h"
-#include "dw2_iface.h"
 #include "szs_als.h"
 #include "expmacs.h"
-#include "tags.h"
-#include "basicread.h"
-#include "dw2_abbrev_vn.h"
 
+#include <reader/basicread.h>
+
+#include <construct/tags.h>
+
+#include <dwarf2/dw2_basic.h>
+#include <dwarf2/dw2_codes.h>
+#include <dwarf2/dw2_iface.h>
+#include <dwarf2/dw2_abbrev_vn.h>
 
 #define entry_names_wanted
-#include "dw2_entries.h"
+#include <dwarf2/dw2_entries.h>
 #undef entry_names_wanted
 
 

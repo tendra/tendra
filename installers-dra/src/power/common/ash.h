@@ -15,7 +15,7 @@
 
 #include "memtdf.h"
 
-#include "installtypes.h"
+#include <construct/installtypes.h>
 
 
 struct asht {			/* structure definition for ash */

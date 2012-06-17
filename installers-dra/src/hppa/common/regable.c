@@ -11,10 +11,11 @@
 
 #include "config.h"
 
+#include <construct/shapemacs.h>
+#include <construct/tags.h>
+
 #include "expmacs.h"
-#include "shapemacs.h"
 #include "regable.h"
-#include "tags.h"
 #include "localtypes.h"
 
 /*

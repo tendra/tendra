@@ -13,10 +13,14 @@
 
 #include "config.h"
 
+#include <reader/basicread.h>
+
+#include <construct/shapemacs.h>
+#include <construct/tags.h>
+
 #include "exptypes.h"
 #include "expmacs.h"
 #include "addrtypes.h"
-#include "shapemacs.h"
 #include "move.h"
 #include "psu_ops.h"
 #include "getregs.h"
@@ -25,11 +29,9 @@
 #include "inst_fmt.h"
 #include "mips_ins.h"
 #include "labels.h"
-#include "tags.h"
 #include "procrectypes.h"
 #include "bitsmacs.h"
 #include "special.h"
-#include "basicread.h"
 
 
 int

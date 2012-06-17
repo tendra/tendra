@@ -32,20 +32,21 @@ in a register.
 
 #include "config.h"
 
+#include <construct/tags.h>
+#include <construct/exp.h>
+#include <construct/shapemacs.h>
+
 #include "addrtypes.h"
 #include "proctypes.h"
 #include "labels.h"
 #include "expmacs.h"
-#include "tags.h"
 #include "makecode.h"
-#include "exp.h"
 #include "bitsmacs.h"
 #include "locate.h"
 #include "regexps.h"
 #include "regmacs.h"
 #include "inst_fmt.h"
 #include "hppains.h"
-#include "shapemacs.h"
 #include "special.h"
 #include "regable.h"
 #include "guard.h"

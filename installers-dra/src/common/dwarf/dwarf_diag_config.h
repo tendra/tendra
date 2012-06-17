@@ -12,12 +12,12 @@
 
 #if DWARF
 
-#include "dwarf_types.h"
+#include <dwarf/dwarf_types.h>
 typedef dwarf_type_label *OUTPUT_REC;
 
 typedef dwarf_global diag_global;		/* used in installtypes.h */
 
-#include "dwarf_gbl.h"
+#include <dwarf/dwarf_gbl.h>
 #define OUTPUT_GLOBALS_TAB()	out_dwarf_global_list()
 #define OUTPUT_DIAG_TAGS()	out_dwarf_diag_tags()
 #define NEW_DIAG_GLOBAL(x)	new_dwarf_global(x)

@@ -30,15 +30,18 @@ If the entry generated is greater than 1 AUXU in length the index corresponding 
 #include CROSS_INCLUDE/symconst.h>
 #endif
 
-#include "codetypes.h"
-#include "shapemacs.h"
-#include "exp.h"
+#include <reader/codetypes.h>
+#include <reader/basicread.h>
+
+#include <construct/shapemacs.h>
+#include <construct/exp.h>
+
+#include <diag/diagtypes.h>
+#include <diag/diag_fns.h>
+
 #include "expmacs.h"
-#include "diagtypes.h"
-#include "diag_fns.h"
 #include "symtab.h"
 #include "new_symbol.h"
-#include "basicread.h"
 #include "mipsdiags.h"
 #include "type_to_aux.h"
 

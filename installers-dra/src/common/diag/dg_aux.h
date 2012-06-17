@@ -12,13 +12,13 @@
 
 #include "config.h"
 
-#include "dg_first.h"
+#include <diag/dg_first.h>
 
-#include "diaginfo.h"
+#include <diag/diaginfo.h>
 #include "exptypes.h"
-#include "installtypes.h"
-#include "dg_types.h"		/* NEW DIAGS */
-#include "toktypes.h"
+#include <construct/installtypes.h>
+#include <diag/dg_types.h>		/* NEW DIAGS */
+#include <reader/toktypes.h>
 
 extern dg_name new_dg_name(dg_name_key k);
 extern dg_type new_dg_type(dg_type_key k);

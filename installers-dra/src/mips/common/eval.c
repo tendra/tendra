@@ -19,25 +19,27 @@ into the table of externals (or 0 meaning anonymous). XXX
 
 #include "config.h"
 
+#include <reader/basicread.h>
+
+#include <construct/tags.h>
+#include <construct/exp.h>
+#include <construct/shapemacs.h>
+#include <construct/flpttypes.h>
+#include <construct/flpt.h>
+#include <construct/f64.h>
+#include <construct/flags.h>
+
 #include "addrtypes.h"
-#include "tags.h"
 #include "expmacs.h"
-#include "exp.h"
 #include "exptypes.h"
 #include "maxminmacs.h"
-#include "shapemacs.h"
-#include "flpttypes.h"
-#include "flpt.h"
 #include "syms.h"
 #include "out_ba.h"
 #include "main.h"
 #include "ibinasm.h"
 #include "frames.h"
 #include "procrectypes.h"
-#include "f64.h"
 #include "eval.h"
-#include "basicread.h"
-#include "flags.h"
 
 extern void globalise_name(dec*);
 extern  procrec * procrecs;

@@ -10,6 +10,8 @@
 #ifndef diag_config_key
 #define diag_config_key
 
+#include <diag/diagtypes1.h>
+
 extern void collect_files(filename);
 #define INSPECT_FILENAME(fn)collect_files(fn)
 

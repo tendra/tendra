@@ -16,18 +16,19 @@
 
 #include "config.h"
 
+#include <construct/tags.h>
+#include <construct/exp.h>
+#include <construct/shapemacs.h>
+
 #include "addresstypes.h"
 #include "expmacs.h"
-#include "tags.h"
 #include "inst_fmt.h"
 #include "alpha_ins.h"
 #include "bitsmacs.h"
-#include "exp.h"
 #include "procrecs.h"
 #include "guard.h"
 #include "eval.h"
 #include "regexps.h"
-#include "shapemacs.h"
 #include "pseudo.h"
 #include "getregs.h"
 #include "move.h"
@@ -37,6 +38,7 @@
 #include "reg_defs.h"
 #include "locate.h"
 #include "fail.h"
+
 extern  FILE * as_file;
 
 int locals_offset; /* the offset in bits of start of current locals */

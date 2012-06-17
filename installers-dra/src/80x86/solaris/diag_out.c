@@ -12,39 +12,39 @@
 #include "config.h"
 
 #include "exptypes.h"
-#include "codetypes.h"
-#include "installtypes.h"
-#include "li_types.h"
+#include <reader/codetypes.h>
+#include <construct/installtypes.h>
+#include <linkinfo/li_types.h>
 
-#include "dg_first.h"
-#include "diaginfo.h"
-#include "dg_types.h"  /* new diags */
-#include "diagtypes.h" /* old diags */
+#include <diag/dg_first.h>
+#include <diag/diaginfo.h>
+#include <diag/dg_types.h>  /* new diags */
+#include <diag/diagtypes.h> /* old diags */
 
-#include "basicread.h"
+#include <reader/basicread.h>
 #include "out.h"
-#include "machine.h"
-#include "shapemacs.h"
+#include <construct/machine.h>
+#include <construct/shapemacs.h>
 #include "expmacs.h"
-#include "tags.h"
+#include <construct/tags.h>
 #include "szs_als.h"
-#include "exp.h"
-#include "externs.h"
+#include <construct/exp.h>
+#include <reader/externs.h>
 
 #ifdef NEWDIAGS
 
-#include "dg_types.h"
-#include "dg_aux.h"
-#include "dg_globs.h"
+#include <diag/dg_types.h>
+#include <diag/dg_aux.h>
+#include <diag/dg_globs.h>
 #include "codermacs.h"
 #include "instr.h"
 
 #else
 
-#include "diagtypes.h"
-#include "diag_fns.h"
-#include "mark_scope.h"
-#include "diagglob.h"
+#include <diag/diagtypes.h>
+#include <diag/diag_fns.h>
+#include <diag/mark_scope.h>
+#include <diag/diagglob.h>
 
 #endif
 

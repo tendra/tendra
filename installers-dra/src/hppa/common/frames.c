@@ -9,14 +9,15 @@
 
 #include "config.h"
 
+#include <construct/tags.h>
+#include <construct/flags.h>
+
 #include "bitsmacs.h"
 #include "expmacs.h"
 #include "procrec.h"
-#include "tags.h"
 #include "addrtypes.h"
 #include "hppains.h"
 #include "regmacs.h"
-#include "flags.h"
 #include "frames.h"
 
 extern char *proc_name;

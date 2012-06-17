@@ -14,7 +14,7 @@
 #include "config.h"
 
 #include "exptypes.h"
-#include "installtypes.h"
+#include <construct/installtypes.h>
 
 #define nilexp (exp)0
 

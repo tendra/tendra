@@ -15,47 +15,47 @@
 
 #include "config.h"
 
-#include "codetypes.h"
+#include <reader/codetypes.h>
 #include "exptypes.h"
 #include "addrtypes.h"
 #include "exptypes.h"
-#include "shapemacs.h"
+#include <construct/shapemacs.h>
 #include "expmacs.h"
-#include "codetypes.h"
-#include "installtypes.h"
-#include "toktypes.h"
-#include "exp.h"
+#include <reader/codetypes.h>
+#include <construct/installtypes.h>
+#include <reader/toktypes.h>
+#include <construct/exp.h>
 #include "exptypes.h"
 #include "proctypes.h"
 #include "procrec.h"
-#include "tags.h"
+#include <construct/tags.h>
 #include "bitsmacs.h"
 #include "locate.h"
 #include "comment.h"
 #include "translat.h"
-#include "machine.h"
+#include <construct/machine.h>
 #include "szs_als.h"
-#include "read_fns.h"
-#include "installglob.h"
-#include "externs.h"
+#include <reader/read_fns.h>
+#include <construct/installglob.h>
+#include <reader/externs.h>
 #include "out.h"
 #include "sparcdiags.h"
-#include "basicread.h"
+#include <reader/basicread.h>
 
 #ifdef NEWDIAGS
 
-#include "dg_types.h"
-#include "dg_aux.h"
-#include "dg_globs.h"
+#include <diag/dg_types.h>
+#include <diag/dg_aux.h>
+#include <diag/dg_globs.h>
 /* #include "proc.h" */
 /* #include "regmacs.h" */
 
 #else
 
-#include "diagtypes.h"
-#include "diag_fns.h"
-#include "mark_scope.h"
-#include "diagglob.h"
+#include <diag/diagtypes.h>
+#include <diag/diag_fns.h>
+#include <diag/mark_scope.h>
+#include <diag/diagglob.h>
 
 #endif
 

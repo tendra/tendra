@@ -11,44 +11,47 @@
 
 #include "config.h"
 
-#include "basicread.h"
-#include "flags.h"
+#include <reader/basicread.h>
+#include <reader/externs.h>
+#include <reader/main_reads.h>
+#include <reader/readglob.h>
+#include <reader/reader_v.h>
+
+#include <construct/flags.h>
+#include <construct/flpt.h>
+#include <construct/installglob.h>
+#include <construct/machine.h>
+#include <construct/exp.h>
+#include <construct/construct_v.h>
+
+#include <diag/diag_fns.h>
+
 #include "out.h"
-#include "main_reads.h"
-#include "flpt.h"
-#include "externs.h"
 #include "weights.h"
-#include "installglob.h"
 #include "instr.h"
-#include "machine.h"
-#include "exp.h"
 #include "expmacs.h"
 #include "instr386.h"
 #include "localflags.h"
 #include "messages_8.h"
-#include "diag_fns.h"
-#include "readglob.h"
 #include "assembler.h"
 #include "target_v.h"
-#include "reader_v.h"
-#include "construct_v.h"
 #include "operand.h"
 
 #ifdef NEWDIAGS
-#include "diag_v.h"
-#include "dg_version.h"
+#include <diag/diag_v.h>
+#include <reader/dg_version.h>
 #endif /* NEWDIAGS */
 
 #ifdef NEWDWARF
-#include "dw2_iface.h"
-#include "dw2_vsn.h"
-#include "dw2_abbrev.h"
-#include "dw2_common.h"
+#include <dwarf2/dw2_iface.h>
+#include <dwarf2/dw2_vsn.h>
+#include <dwarf2/dw2_abbrev.h>
+#include <dwarf2/dw2_common.h>
 static bool dump_abbrev = 0;
 #endif /* NEWDWARF */
 
 #if DWARF
-#include "dwarf_mc.h"
+#include <dwarf/dwarf_mc.h>
 #endif
 
 static void init_all(void);
@@ -62,7 +65,7 @@ static void
 init_all(void)
 {
 	init_flpt();
-#include "inits.h" /* XXX: not nice */
+#include <reader/inits.h> /* XXX: not nice */
 	good_trans = 0;
 	capsule_freelist = NULL;
 	old_proc_props = NULL;

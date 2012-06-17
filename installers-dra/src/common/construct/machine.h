@@ -12,7 +12,7 @@
 
 #include "config.h"
 
-#include "installtypes.h"
+#include <construct/installtypes.h>
 
 extern int reg_result(shape sha);
 extern char *local_prefix;

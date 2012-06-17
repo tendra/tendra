@@ -10,30 +10,28 @@
 #include <shared/xalloc.h>
 
 #include "config.h"
+#include "cross_config.h"
 
-#include "codetypes.h"
-#include "installtypes.h"
-#include "machine.h"
+#include <reader/codetypes.h>
+#include <reader/basicread.h>
 
-/* machine dependant */
+#include <construct/installtypes.h>
+#include <construct/machine.h>
+#include <construct/shapemacs.h>
+
+#include <diag/diagglob.h>
+#include <diag/diagtypes.h>
+
+#include <dwarf/dwarf_types.h>
+#include <dwarf/dwarf_loc.h>
+#include <dwarf/dwarf_mc.h>
+#include <dwarf/dwarf_out.h>
+
 #include "out.h"
-
-#include "diagglob.h"
-#include "diagtypes.h"
-#include "basicread.h"
-
-/* machine dependant */
 #include "expmacs.h"
 
-#include "shapemacs.h"
-
-#include "dwarf_types.h"
-#include "dwarf_loc.h"
-#include "dwarf_mc.h"
-#include "dwarf_out.h"
-#include "cross_config.h"
 #ifdef NEWDIAGS
-#include "tags.h"
+#include <construct/tags.h>
 #endif
 
 #ifndef CROSS_INCLUDE
@@ -577,8 +575,8 @@ enter_dwarf_comp_unit(void)
 }
 
 
-#include "dwarf_type.h"
-#include "dwarf_queue.h"
+#include <dwarf/dwarf_type.h>
+#include <dwarf/dwarf_queue.h>
 
 void
 leave_dwarf_comp_unit(void)

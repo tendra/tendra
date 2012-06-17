@@ -16,8 +16,8 @@
 
 #include "config.h"
 
-#include "dg_first.h"
-#include "diaginfo.h"
+#include <diag/dg_first.h>
+#include <diag/diaginfo.h>
 
 extern void output_symbolic_diagnostic(FILE *,diag_info *);
 

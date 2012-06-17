@@ -10,23 +10,28 @@
 #include <shared/xalloc.h>
 
 #include "config.h"
-
 #include "dw2_config.h"
-#include "dw2_types.h"
-#include "dw2_codes.h"
-#include "dw2_entries.h"
-#include "dw2_basic.h"
-#include "dw2_info.h"
-#include "shapemacs.h"
-#include "diag_fns.h"
+
+#include <reader/externs.h>
+#include <reader/basicread.h>
+
+#include <construct/shapemacs.h>
+#include <construct/exp.h>
+#include <construct/tags.h>
+#include <construct/flags.h>
+
+#include <diag/diag_fns.h>
+
+#include <dwarf2/dw2_types.h>
+#include <dwarf2/dw2_codes.h>
+#include <dwarf2/dw2_entries.h>
+#include <dwarf2/dw2_basic.h>
+#include <dwarf2/dw2_info.h>
+
+#include <refactor/refactor.h>
+
 #include "expmacs.h"
-#include "exp.h"
-#include "externs.h"
-#include "basicread.h"
 #include "szs_als.h"
-#include "tags.h"
-#include "flags.h"
-#include "refactor.h"
 
 
 static void fail_unimplemented

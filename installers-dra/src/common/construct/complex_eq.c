@@ -16,11 +16,12 @@ initial call : comp_eq_exp(a,b,nilexp,nilexp)  */
 #include "config.h"
 
 #include "exptypes.h"
-#include "tags.h"
 #include "expmacs.h"
-#include "shapemacs.h"
-#include "exp.h"
-#include "complex_eq.h"
+
+#include <construct/tags.h>
+#include <construct/shapemacs.h>
+#include <construct/exp.h>
+#include <construct/complex_eq.h>
 
 
 static int

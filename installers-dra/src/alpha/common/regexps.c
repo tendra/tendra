@@ -11,14 +11,15 @@
 
 #include "config.h"
 
+#include <construct/tags.h>
+#include <construct/shapemacs.h>
+
 #include "exptypes.h"
 #include "expmacs.h"
 #include "addresstypes.h"
-#include "tags.h"
 #include "move.h"
 #include "bitsmacs.h"
 #include "maxminmacs.h"
-#include "shapemacs.h"
 #include "extratags.h"
 #include "reg_defs.h"
 #include "regexps.h"

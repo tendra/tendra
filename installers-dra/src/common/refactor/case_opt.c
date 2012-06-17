@@ -16,22 +16,24 @@
 #include <shared/xalloc.h>
 
 #include "config.h"
-
 #include "exptypes.h"
-#include "installglob.h"
-#include "exp.h"
 #include "expmacs.h"
-#include "tags.h"
-#include "flags.h"
-#include "const.h"
-#include "shapemacs.h"
 #include "glopt.h"
-#include "optimise.h"
-#include "externs.h"
-#include "me_fns.h"
-#include "install_fns.h"
 #include "szs_als.h"
-#include "refactor.h"
+
+#include <reader/externs.h>
+
+#include <construct/installglob.h>
+#include <construct/exp.h>
+#include <construct/tags.h>
+#include <construct/flags.h>
+#include <construct/shapemacs.h>
+#include <construct/me_fns.h>
+#include <construct/install_fns.h>
+
+#include <refactor/optimise.h>
+#include <refactor/const.h>
+#include <refactor/refactor.h>
 
 static int density(exp *, int, int, int);
 static exp exhaustive_conditional_maker(int, int, exp);

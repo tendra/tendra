@@ -12,6 +12,9 @@
 #include "config.h"
 #include "cross_config.h"
 
+#include <construct/flags.h>
+#include <construct/installtypes.h>
+
 #ifndef CROSS_INCLUDE
 #include <symconst.h>
 #else
@@ -19,8 +22,6 @@
 #endif
 
 #include "symtab.h"
-#include "flags.h"
-#include "installtypes.h"
 #include "makesymtab.h"
 
 int MAJOR_VERSION_as = 3;

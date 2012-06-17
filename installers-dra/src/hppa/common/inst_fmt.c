@@ -24,6 +24,11 @@ understood by the assembler.
 
 #include "config.h"
 
+#include <construct/tags.h>
+#include <construct/flags.h>
+
+#include <refactor/optimise.h>
+
 #include "addrtypes.h"
 #include "regexps.h"
 #include "regmacs.h"
@@ -36,11 +41,8 @@ understood by the assembler.
 #include "misc.h"
 #include "frames.h"
 #include "new_tags.h"
-#include "tags.h"
 #include "expmacs.h"
-#include "flags.h"
 #include "eval.h"
-#include "optimise.h"
 
 #define name( x ) ( ( x )->namef )
 #define sh( x ) ( ( x )->shf )

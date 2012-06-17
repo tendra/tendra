@@ -9,12 +9,13 @@
 
 #include "config.h"
 
-#include "exp.h"
+#include <construct/exp.h>
+#include <construct/shapemacs.h>
+#include <construct/tags.h>
+#include <construct/install_fns.h>
+
 #include "expmacs.h"
 #include "exptypes.h"
-#include "shapemacs.h"
-#include "tags.h"
-#include "install_fns.h"
 #include "instrs.h"
 #include "special_exps.h"
 #include "utility.h"

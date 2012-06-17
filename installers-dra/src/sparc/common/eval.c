@@ -18,15 +18,23 @@
 
 #include "config.h"
 
+#ifdef NEWDWARF
+#include "dw2_config.h"
+#endif
+
+#include <construct/tags.h>
+#include <construct/exp.h>
+#include <construct/shapemacs.h>
+#include <construct/flpttypes.h>
+#include <construct/flpt.h>
+#include <construct/f64.h>
+#include <construct/installglob.h>
+#include <construct/flags.h>
+
 #include "addrtypes.h"
-#include "tags.h"
 #include "expmacs.h"
-#include "exp.h"
 #include "exptypes.h"
 #include "maxminmacs.h"
-#include "shapemacs.h"
-#include "flpttypes.h"
-#include "flpt.h"
 #include "fbase.h"
 #include "translat.h"
 #include "comment.h"
@@ -35,15 +43,12 @@
 #include "out.h"
 #include "locate.h"
 #include "regmacs.h"
-#include "f64.h"
 #include "procrec.h"
 #include "bitsmacs.h"
-#include "installglob.h"
-#include "flags.h"
 #include "eval.h"
+
 #ifdef NEWDWARF
-#include "dw2_config.h"
-#include "dw2_iface.h"
+#include <dwarf2/dw2_iface.h>
 #endif
 /*
     INFORMATION FOR OUTPUTTING DATA

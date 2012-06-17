@@ -12,14 +12,14 @@
 #include "config.h"
 
 #include "exptypes.h"
-#include "exp.h"
+#include <construct/exp.h>
 #include "instr.h"
 #include "out.h"
 #include "expmacs.h"
 #include "operand.h"
-#include "machine.h"
+#include <construct/machine.h>
 #include "localflags.h"
-#include "basicread.h"
+#include <reader/basicread.h>
 #include "coder.h"
 
 void

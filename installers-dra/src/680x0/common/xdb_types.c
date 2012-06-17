@@ -13,19 +13,22 @@
 
 #include "config.h"
 
-#include "codetypes.h"
+#include <reader/codetypes.h>
+#include <reader/externs.h>
+
+#include <construct/shapemacs.h>
+
 #include "expmacs.h"
-#include "externs.h"
 #include "instrs.h"
 #include "mach.h"
 #include "mach_ins.h"
 #include "mach_op.h"
 #include "output.h"
-#include "shapemacs.h"
 #include "utility.h"
 #include "localflags.h"
 #include "xdb_output.h"
 #include "xdb_types.h"
+
 #ifndef SEEK_SET
 #define SEEK_SET 0
 #endif

@@ -10,7 +10,7 @@
 #ifndef SPECIAL_INCLUDED
 #define SPECIAL_INCLUDED
 
-#include "exp.h"
+#include <construct/exp.h>
 #include "proctypes.h"
 #include "addrtypes.h"
 

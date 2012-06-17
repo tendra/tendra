@@ -11,7 +11,7 @@
 #include "config.h"
 
 #include "localtypes.h"
-#include "installtypes.h"
+#include <construct/installtypes.h>
 #include "ash.h"
 
 #ifndef addressingtkey

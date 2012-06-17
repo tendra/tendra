@@ -33,38 +33,42 @@
 
 #include "config.h"
 
-#include "codetypes.h"
 #include "exptypes.h"
 #include "expmacs.h"
-#include "exp.h"
-#include "tags.h"
-#include "flpt.h"
-#include "flags.h"
-#include "externs.h"
-#include "install_fns.h"
-#include "shapemacs.h"
-#include "refactor_id.h"
-#include "me_fns.h"
-#include "basicread.h"
 #include "szs_als.h"
-#include "installglob.h"
-#include "machine.h"
-#include "messages_c.h"
-#include "natmacs.h"
-#include "f64.h"
-#include "misc_c.h"
-#include "readglob.h"
-#include "misc_c.h"
-#include "refactor.h"
+
+#include <reader/codetypes.h>
+#include <reader/externs.h>
+#include <reader/basicread.h>
+#include <reader/natmacs.h>
+#include <reader/readglob.h>
+
+#include <construct/exp.h>
+#include <construct/tags.h>
+#include <construct/flpt.h>
+#include <construct/flags.h>
+#include <construct/install_fns.h>
+#include <construct/shapemacs.h>
+#include <construct/me_fns.h>
+#include <construct/installglob.h>
+#include <construct/machine.h>
+#include <construct/messages_c.h>
+#include <construct/f64.h>
+#include <construct/misc_c.h>
+#include <construct/misc_c.h>
+
+#include <refactor/refactor_id.h>
+#include <refactor/refactor.h>
+
 #ifdef NEWDIAGS
-#include "dg_aux.h"
+#include <diag/dg_aux.h>
 #endif
 
 #if is80x86
 #include "localflags.h"
 #endif
 
-#include "refactor.h"
+#include <refactor/refactor.h>
 
 extern shape containedshape(int, int);
 

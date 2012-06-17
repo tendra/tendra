@@ -3,10 +3,7 @@
 .include "Makefile.inc"
 
 
-CCOPTS+=	-I ../construct
-CCOPTS+=	-I ../diag
-CCOPTS+=	-I ../reader
-CCOPTS+=	-I ../refactor
+CCOPTS+=	-I ..
 CCOPTS+=	-I .
 
 SRCS+=	li_fns.c

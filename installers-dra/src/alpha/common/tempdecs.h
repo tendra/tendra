@@ -9,7 +9,7 @@
 
 #include "config.h"
 
-#include "installtypes.h"
+#include <construct/installtypes.h>
 #include "exptypes.h"
 
 extern  bool tempdec(exp e, bool enoughs);

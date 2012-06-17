@@ -13,7 +13,7 @@
 
 #include "config.h"
 
-#include "installtypes.h"
+#include <construct/installtypes.h>
 
 extern bool reg_result(shape);
 extern char *local_prefix;

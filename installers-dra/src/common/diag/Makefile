@@ -3,10 +3,7 @@
 .include "Makefile.inc"
 
 
-CCOPTS+=	-I ../construct
-CCOPTS+=	-I ../linkinfo
-CCOPTS+=	-I ../reader
-CCOPTS+=	-I ../refactor
+CCOPTS+=	-I ..
 CCOPTS+=	-I .
 
 SRCS+=	dg_aux.c

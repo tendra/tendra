@@ -21,32 +21,35 @@ the proc independent (common to other  translators)
 
 #include "config.h"
 
+#include <reader/externs.h>
+#include <reader/basicread.h>
+#include <reader/externs.h>
+
+#include <construct/exp.h>
+#include <construct/tags.h>
+#include <construct/shapemacs.h>
+#include <construct/flpt.h>
+#include <construct/install_fns.h>
+#include <construct/flags.h>
+#include <construct/me_fns.h>
+
+#include <refactor/const.h>
+#include <refactor/optimise.h>
+
 #include "exptypes.h"
-#include "exp.h"
 #include "expmacs.h"
-#include "tags.h"
 #include "procrectypes.h"
 #include "bitsmacs.h"
 #include "maxminmacs.h"
 #include "regable.h"
 #include "tempdecs.h"
-#include "shapemacs.h"
 #include "special.h"
-#include "const.h"
 #include "new_tags.h"
-#include "flpt.h"
-#include "install_fns.h"
-#include "externs.h"
 #include "extratags.h"
 #include "frames.h"
-#include "flags.h"
 #include "main.h"
-#include "basicread.h"
-#include "me_fns.h"
-#include "externs.h"
 #include "needs_scan.h"
 #include "oddtest.h"
-#include "optimise.h"
 
 int   maxfix,
       maxfloat;			/* the maximum number of t-regs */

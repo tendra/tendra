@@ -13,7 +13,7 @@
 
 #include "config.h"
 
-#include "installtypes.h"
+#include <construct/installtypes.h>
 #include "config.h"
 #include "exptypes.h"
 

@@ -11,6 +11,9 @@
 
 #include "config.h"
 
+#include <construct/tags.h>
+#include <construct/shapemacs.h>
+
 #include "codehere.h"
 #include "expmacs.h"
 #include "addrtypes.h"
@@ -19,8 +22,6 @@
 #include "maxminmacs.h"
 #include "getregs.h"
 #include "guard.h"
-#include "tags.h"
-#include "shapemacs.h"
 #include "bitsmacs.h"
 #include "labels.h"
 #include "frames.h"
@@ -31,16 +32,16 @@
 
 
 #if use_long_double
-#include "externs.h"
-#include "install_fns.h"
+#include <reader/externs.h>
+#include <construct/install_fns.h>
 #include "regmacs.h"
-#include "exp.h"
+#include <construct/exp.h>
 #include "out.h"
 #include "locate.h"
 #include "eval.h"
 #include "muldvrem.h"
 #include "proc.h"
-#include "basicread.h"
+#include <reader/basicread.h>
 #include "inst_fmt.h"
 #endif
 

@@ -12,13 +12,13 @@
 #include "exptypes.h"
 #include "out.h"
 #include "expmacs.h"
-#include "exp.h"
+#include <construct/exp.h>
 #include "instr.h"
 #include "operand.h"
-#include "machine.h"
+#include <construct/machine.h>
 #include "localflags.h"
-#include "flags.h"
-#include "basicread.h"
+#include <construct/flags.h>
+#include <reader/basicread.h>
 
 
 /* PROCEDURES */

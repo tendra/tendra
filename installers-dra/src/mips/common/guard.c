@@ -26,9 +26,10 @@ second operand.
 
 #include "config.h"
 
+#include <reader/basicread.h>
+
 #include "procrectypes.h"
 #include "addrtypes.h"
-#include "basicread.h"
 #include "guard.h"
 
 

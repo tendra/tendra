@@ -15,7 +15,7 @@
 
 #include "config.h"
 
-#include "installtypes.h"
+#include <construct/installtypes.h>
 
 /* CODES FOR ACCESS */
 #define e_access_apply_token			1

@@ -18,15 +18,15 @@
 #include "exptypes.h"
 #include "extratags.h"
 
-#include "codetypes.h"
-#include "installtypes.h"
-#include "install_fns.h"
-#include "exp.h"
-#include "shapemacs.h"
-#include "tags.h"
+#include <reader/codetypes.h>
+#include <construct/installtypes.h>
+#include <construct/install_fns.h>
+#include <construct/exp.h>
+#include <construct/shapemacs.h>
+#include <construct/tags.h>
 
 #if 0
-#include "externs.h"	/* for rounding_modes, when we use them */
+#include <reader/externs.h>	/* for rounding_modes, when we use them */
 #endif
 
 #endif

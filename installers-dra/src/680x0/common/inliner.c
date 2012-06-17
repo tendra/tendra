@@ -9,14 +9,16 @@
 
 #include "config.h"
 
+#include <construct/installglob.h>
+#include <construct/exp.h>
+#include <construct/tags.h>
+#include <construct/flags.h>
+#include <construct/shapemacs.h>
+
+#include <refactor/optimise.h>
+
 #include "exptypes.h"
-#include "installglob.h"
-#include "exp.h"
 #include "expmacs.h"
-#include "tags.h"
-#include "flags.h"
-#include "shapemacs.h"
-#include "optimise.h"
 
 static int complexity(exp e, int count, int newdecs);
 

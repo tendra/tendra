@@ -12,7 +12,7 @@
 
 #include "config.h"
 
-#include "installtypes.h"
+#include <construct/installtypes.h>
 
 extern bool check_op(mach_op *, int);
 extern bool equal_op(mach_op *, mach_op *);

@@ -9,9 +9,10 @@
 
 #include "config.h"
 
+#include <construct/exp.h>
+
 #include "assembler.h"
 #include "instrs.h"
-#include "exp.h"
 #include "mach.h"
 #include "mach_ins.h"
 #include "mach_op.h"

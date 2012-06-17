@@ -8,9 +8,12 @@
  */
 
 #include "dw2_config.h"
-#include "flags.h"
-#include "machine.h"
-#include "basicread.h"
+
+#include <reader/basicread.h>
+
+#include <construct/flags.h>
+#include <construct/machine.h>
+
 #include "target_v.h"
 
 long dwarf_lab_num = 0;

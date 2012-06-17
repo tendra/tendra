@@ -11,15 +11,17 @@
 
 #include "config.h"
 
+#include <reader/basicread.h>
+#include <reader/externs.h>
+
+#include <construct/exp.h>
+#include <construct/install_fns.h>
+#include <construct/shapemacs.h>
+#include <construct/tags.h>
+
 #include "exptypes.h"
 #include "assembler.h"
-#include "basicread.h"
-#include "exp.h"
 #include "expmacs.h"
-#include "externs.h"
-#include "install_fns.h"
-#include "shapemacs.h"
-#include "tags.h"
 #include "mach.h"
 #include "mach_ins.h"
 #include "where.h"

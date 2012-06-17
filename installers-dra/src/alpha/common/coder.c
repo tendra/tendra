@@ -17,17 +17,28 @@
 #include <stdlib.h>
 
 #include "config.h"
+
+#include <reader/externs.h>
+#include <reader/basicread.h>
+
+#include <construct/tags.h>
+#include <construct/exp.h>
+#include <construct/shapemacs.h>
+#include <construct/flags.h>
+#include <construct/flpttypes.h>
+#include <construct/flpt.h>
+#include <construct/f64.h>
+#include <construct/f64.h>
+#include <construct/install_fns.h>
+
+#include <diag/diag_fns.h>
+
+#include "addresstypes.h"
 #include "exptypes.h"
 #include "coder.h"
-#include "addresstypes.h"
-#include "tags.h"
 #include "expmacs.h"
-#include "exp.h"
 #include "exptypes.h"
-#include "externs.h"
 #include "maxminmacs.h"
-#include "shapemacs.h"
-#include "basicread.h"
 #include "procrectypes.h"
 #include "eval.h"
 #include "move.h"
@@ -46,28 +57,22 @@
 #include "special.h"
 #include "new_tags.h"
 #include "syms.h"
-#include "flags.h"
 #include "main.h"
 #include "dump_distr.h"
 #include "extratags.h"
 #include "frames.h"
 #include "reg_defs.h"
 #include "cross.h"
-#include "flpttypes.h"
-#include "flpt.h"
-#include "f64.h"
 #include "fail.h"
 #include "bool.h"
 #include "regable.h"
 #include "symdiags.h"
-#include "f64.h"
-#include "install_fns.h"
 #include "outofline.h"
-#include "diag_fns.h"
 #include "out_ba.h"
 #include "float.h"
 #include "szs_als.h"
 #include "translate.h"
+
 extern  FILE * as_file;
 int fscopefile;	/* file of current proc */
 

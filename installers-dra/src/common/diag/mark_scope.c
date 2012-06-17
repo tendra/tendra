@@ -15,10 +15,13 @@
 
 #include "exptypes.h"
 #include "expmacs.h"
-#include "tags.h"
-#include "externs.h"
-#include "dg_aux.h"
-#include "mark_scope.h"
+
+#include <reader/externs.h>
+
+#include <construct/tags.h>
+
+#include <diag/dg_aux.h>
+#include <diag/mark_scope.h>
 
 
 #ifdef NEWDIAGS

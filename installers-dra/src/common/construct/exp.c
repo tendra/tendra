@@ -12,23 +12,27 @@
 #include "config.h"
 
 #include "exptypes.h"
-#include "externs.h"
-#include "installglob.h"
 #include "expmacs.h"
-#include "tags.h"
-#include "table_fns.h"
-#include "shapemacs.h"
-#include "flpt.h"
-#include "basicread.h"
-#include "messages_c.h"
-#include "install_fns.h"
-#include "flags.h"
-#include "refactor.h"
+
+#include <reader/externs.h>
+#include <reader/basicread.h>
+#include <reader/table_fns.h>
+
+#include <construct/installglob.h>
+#include <construct/tags.h>
+#include <construct/shapemacs.h>
+#include <construct/flpt.h>
+#include <construct/messages_c.h>
+#include <construct/install_fns.h>
+#include <construct/flags.h>
+#include <construct/exp.h>
+
+#include <refactor/refactor.h>
+
 #ifdef NEWDIAGS
-#include "readglob.h"
-#include "dg_aux.h"
+#include <reader/readglob.h>
+#include <diag/dg_aux.h>
 #endif
-#include "exp.h"
 
 /* VARIABLES */
 /* All variables initialised */

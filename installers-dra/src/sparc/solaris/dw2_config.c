@@ -8,13 +8,15 @@
  */
 
 #include "config.h"
-
 #include "dw2_config.h"
+
+#include <reader/basicread.h>
+
+#include <construct/flags.h>
+
 #include "translat.h"
 #include "eval.h"
-#include "flags.h"
 #include "labels.h"
-#include "basicread.h"
 #include "target_v.h"
 
 long dwarf_lab_num = 0;

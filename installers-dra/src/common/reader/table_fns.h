@@ -12,7 +12,7 @@
 
 #include "config.h"
 #include "exptypes.h"
-#include "toktypes.h"
+#include <reader/toktypes.h>
 
 
 /* find the exp which is labelled by l */

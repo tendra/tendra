@@ -10,12 +10,14 @@
 #include "config.h"
 
 #include "dw2_config.h"
-#include "dw2_basic.h"
-#include "dw2_abbrev.h"
-#include "dw2_abbrev_vn.h"
-#include "dw2_codes.h"
-#include "dw2_entries.h"
-#include "readglob.h"
+
+#include <reader/readglob.h>
+
+#include <dwarf2/dw2_basic.h>
+#include <dwarf2/dw2_abbrev.h>
+#include <dwarf2/dw2_abbrev_vn.h>
+#include <dwarf2/dw2_codes.h>
+#include <dwarf2/dw2_entries.h>
 
 
 static void

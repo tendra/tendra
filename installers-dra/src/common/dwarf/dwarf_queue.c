@@ -11,10 +11,11 @@
 
 #include "config.h"
 
-#include "basicread.h"
-#include "dwarf_out.h"
-#include "dwarf_type.h"
-#include "dwarf_queue.h"
+#include <reader/basicread.h>
+
+#include <dwarf/dwarf_out.h>
+#include <dwarf/dwarf_type.h>
+#include <dwarf/dwarf_queue.h>
 
 #ifndef NULL
 #define NULL((t_q_elem *)0)

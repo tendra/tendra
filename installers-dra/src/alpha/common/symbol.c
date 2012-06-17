@@ -21,17 +21,19 @@
 
 #include "config.h"
 
+#include "cross_config.h"
 #include "symtab.h" 	/* type definitions for translator
 			   produced debugging information
 			   to be incorporated into a .T file */
 #include "bstack.h"
 #include "makesymtab.h"
 #include "localtypes.h"
-#include "diagtypes.h"
 #include "expmacs.h"
 #include "symbol.h"
 #include "type_to_aux.h"
-#include "cross_config.h"
+
+#include <diag/diagtypes.h>
+
 extern  char diagnose;
 
 #ifndef CROSS_INCLUDE

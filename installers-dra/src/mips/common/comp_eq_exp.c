@@ -13,12 +13,13 @@ initial call : comp_eq_exp(a,b,nilexp,nilexp)  */
 
 #include "config.h"
 
+#include <construct/tags.h>
+#include <construct/shapemacs.h>
+#include <construct/exp.h>
+
 #include "exptypes.h"
-#include "tags.h"
 #include "expmacs.h"
 #include "exptypes.h"
-#include "shapemacs.h"
-#include "exp.h"
 #include "comp_eq_exp.h"
 
 bool

@@ -14,7 +14,7 @@
 
 #include "config.h"
 
-#include "installtypes.h"
+#include <construct/installtypes.h>
 
 extern FILE * as_file;
 extern FILE * ba_file;

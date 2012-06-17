@@ -9,15 +9,17 @@
 
 #include "config.h"
 
-#include "tags.h"
-#include "externs.h"
+#include <reader/externs.h>
+#include <reader/basicread.h>
+#include <reader/table_fns.h>
+
+#include <construct/tags.h>
+#include <construct/shapemacs.h>
+#include <construct/exp.h>
+#include <construct/flags.h>
+#include <construct/installglob.h>
+
 #include "expmacs.h"
-#include "shapemacs.h"
-#include "exp.h"
-#include "basicread.h"
-#include "flags.h"
-#include "table_fns.h"
-#include "installglob.h"
 #include "glopt.h"
 
 

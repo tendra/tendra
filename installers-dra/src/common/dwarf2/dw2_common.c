@@ -11,13 +11,16 @@
 
 #include "config.h"
 
-#include "basicread.h"
-#include "install_fns.h"
-#include "dg_aux.h"
-#include "externs.h"
-#include "dg_globs.h"
-#include "shapemacs.h"
-#include "dw2_common.h"
+#include <reader/basicread.h>
+#include <reader/externs.h>
+
+#include <construct/shapemacs.h>
+#include <construct/install_fns.h>
+
+#include <diag/dg_aux.h>
+#include <diag/dg_globs.h>
+
+#include <dwarf2/dw2_common.h>
 
 
 static dg_name_list capnames;

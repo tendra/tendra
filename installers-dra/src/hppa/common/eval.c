@@ -22,26 +22,28 @@ into the table of externals (or 0 meaning anonymous).
 
 #include "config.h"
 
+#include <reader/basicread.h>
+
+#include <construct/flags.h>
+#include <construct/tags.h>
+#include <construct/exp.h>
+#include <construct/shapemacs.h>
+#include <construct/flpttypes.h>
+#include <construct/flpt.h>
+#include <construct/f64.h>
+
 #include "addrtypes.h"
-#include "tags.h"
 #include "expmacs.h"
-#include "exp.h"
 #include "exptypes.h"
 #include "maxminmacs.h"
-#include "shapemacs.h"
-#include "flpttypes.h"
-#include "flpt.h"
 #include "fbase.h"
 #include "translat.h"
 #include "comment.h"
 #include "inst_fmt.h"
 #include "szs_als.h"		/* for MAX_BF_SIZE */
 #include "out.h"
-#include "f64.h"
 #include "frames.h"
 #include "procrec.h"
-#include "basicread.h"
-#include "flags.h"
 #include "eval.h"
 
 

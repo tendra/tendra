@@ -13,7 +13,7 @@
 
 #include "config.h"
 
-#include "installtypes.h"
+#include <construct/installtypes.h>
 #include "exptypes.h"
 
 extern void try_record_bit(exp);

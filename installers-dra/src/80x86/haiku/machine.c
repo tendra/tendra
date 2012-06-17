@@ -12,8 +12,8 @@
 
 #include "config.h"
 #include "expmacs.h"
-#include "exp.h"
-#include "shapemacs.h"
+#include <construct/exp.h>
+#include <construct/shapemacs.h>
 #include "out.h"
 #include "localflags.h"
 #include "szs_als.h"

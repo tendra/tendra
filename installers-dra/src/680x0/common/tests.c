@@ -9,14 +9,16 @@
 
 #include "config.h"
 
+#include <construct/exp.h>
+#include <construct/shapemacs.h>
+#include <construct/tags.h>
+#include <construct/is_worth.h>
+
+#include <refactor/optimise.h>
+
 #include "assembler.h"
-#include "exp.h"
 #include "expmacs.h"
-#include "shapemacs.h"
-#include "tags.h"
 #include "tests.h"
-#include "is_worth.h"
-#include "optimise.h"
 #include "localflags.h"
 
 #ifndef tdf3

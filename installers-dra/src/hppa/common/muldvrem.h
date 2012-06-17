@@ -16,7 +16,7 @@
 #include "addrtypes.h"
 #include "proctypes.h"
 #include "exptypes.h"
-#include "installtypes.h"
+#include <construct/installtypes.h>
 
 extern bool is_muldivrem_call(exp);
 

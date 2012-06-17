@@ -26,7 +26,7 @@
 
 #include "exptypes.h"
 #include "cross.h"
-#include "installtypes.h"
+#include <construct/installtypes.h>
 #include "localtypes.h"
 
 

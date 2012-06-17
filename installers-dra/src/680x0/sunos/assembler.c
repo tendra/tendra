@@ -8,7 +8,7 @@
  */
 
 #include "config.h"
-#include "flags.h"
+#include <construct/flags.h>
 
 #include "output.h"
 

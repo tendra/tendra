@@ -25,19 +25,21 @@
 
 #include "config.h"
 
+#include <reader/externs.h>
+#include <reader/basicread.h>
+
+#include <construct/exp.h>
+#include <construct/tags.h>
+#include <construct/shapemacs.h>
+#include <construct/flags.h>
+#include <construct/label_ops.h>
+#include <construct/install_fns.h>
+
 #include "exptypes.h"
-#include "exp.h"
 #include "expmacs.h"
-#include "tags.h"
-#include "shapemacs.h"
-#include "flags.h"
-#include "label_ops.h"
-#include "install_fns.h"
-#include "externs.h"
 #include "coder.h"
 #include "instr386.h"
 #include "scan2.h"
-#include "basicread.h"
 
 /* MACROS */
 

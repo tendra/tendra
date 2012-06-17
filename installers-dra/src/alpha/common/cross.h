@@ -27,9 +27,9 @@
 
 #include "config.h"
 
-#include "installtypes.h"
+#include <construct/installtypes.h>
 #include "output.h"
-#include "flpttypes.h"
+#include <construct/flpttypes.h>
 #include "exptypes.h"
 
 extern flt64 exp_to_f64(exp);

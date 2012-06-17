@@ -12,18 +12,22 @@
 #include "config.h"
 
 #include "exptypes.h"
-#include "exp.h"
 #include "expmacs.h"
-#include "tags.h"
-#include "shapemacs.h"
-#include "me_fns.h"
-#include "externs.h"
-#include "flags.h"
-#include "refactor.h"
-#include "optimise.h"
+
+#include <reader/externs.h>
+
+#include <construct/exp.h>
+#include <construct/tags.h>
+#include <construct/shapemacs.h>
+#include <construct/me_fns.h>
+#include <construct/flags.h>
+
+#include <refactor/refactor.h>
+#include <refactor/optimise.h>
+
 #ifdef NEWDIAGS
-#include "dg_globs.h"
-#include "dg_aux.h"
+#include <diag/dg_globs.h>
+#include <diag/dg_aux.h>
 #endif
 
 /* PROCEDURES */

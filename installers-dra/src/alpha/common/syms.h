@@ -12,7 +12,7 @@ extern int *tempsnos;
 
 #include "config.h"
 
-#include "installtypes.h"
+#include <construct/installtypes.h>
 
 extern int  symnoforext(dec * t, int filen);
 extern int  symnoforstart(int i, int filen);

@@ -15,11 +15,13 @@
 
 #include "config.h"
 
-#include "flags.h"		/* for option flags */
+#include <reader/reader_v.h>		/* for reader_revison */
+
+#include <construct/flags.h>		/* for option flags */
+#include <construct/installglob.h>
+#include <construct/construct_v.h>	/* for construct_revision */
+
 #include "comment.h"		/* for do_comment */
-#include "installglob.h"
-#include "reader_v.h"		/* for reader_revison */
-#include "construct_v.h"	/* for construct_revision */
 #include "target_v.h"		/* for comiple_date */
 #include "macro.h"
 

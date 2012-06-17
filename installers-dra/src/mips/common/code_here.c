@@ -28,19 +28,20 @@ in a register.
 
 #include "config.h"
 
+#include <construct/tags.h>
+#include <construct/exp.h>
+#include <construct/shapemacs.h>
+
 #include "addrtypes.h"
 #include "procrectypes.h"
 #include "labels.h"
 #include "expmacs.h"
-#include "tags.h"
 #include "new_code.h"
-#include "exp.h"
 #include "bitsmacs.h"
 #include "locate.h"
 #include "regexps.h"
 #include "inst_fmt.h"
 #include "mips_ins.h"
-#include "shapemacs.h"
 #include "special.h"
 #include "handle_sregs.h"
 #include "code_here.h"

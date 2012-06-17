@@ -13,15 +13,20 @@
 #include <shared/xalloc.h>
 
 #include "config.h"
+#include "cross_config.h"
 
-#include "codetypes.h"
-#include "installglob.h"
-#include "tags.h"
-#include "exp.h"
+#include <reader/codetypes.h>
+
+#include <construct/installglob.h>
+#include <construct/tags.h>
+#include <construct/exp.h>
+#include <construct/flags.h>
+#include <construct/shapemacs.h>
+#include <construct/machine.h>
+
+#include <refactor/optimise.h>
+
 #include "expmacs.h"
-#include "optimise.h"
-#include "flags.h"
-#include "shapemacs.h"
 #include "tempdecs.h"
 #include "weights.h"
 #include "procrectypes.h"
@@ -40,7 +45,6 @@
 #include "out_ba.h"
 #include "syms.h"
 #include "ibinasm.h"
-#include "machine.h"
 #include "fail.h"
 #include "directives.h"
 #include "pseudo.h"
@@ -54,7 +58,6 @@
 #include "version.h"
 #include "locate.h"
 #include "translate.h"
-#include "cross_config.h"
 
 #if DO_SCHEDULE
 #include "scheduler.h"

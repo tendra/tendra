@@ -18,33 +18,36 @@
 
 #include "config.h"
 
-#include "codetypes.h"
 #include "exptypes.h"
-#include "basicread.h"
-#include "exp.h"
 #include "expmacs.h"
-#include "main_reads.h"
-#include "tags.h"
-#include "flags.h"
-#include "me_fns.h"
-#include "installglob.h"
-#include "readglob.h"
-#include "table_fns.h"
-#include "flpttypes.h"
-#include "flpt.h"
-#include "shapemacs.h"
-#include "read_fns.h"
-#include "sortmacs.h"
-#include "machine.h"
-#include "spec.h"
 #include "szs_als.h"
-#include "messages_c.h"
-#include "natmacs.h"
-#include "f64.h"
-#include "readglob.h"
-#include "install_fns.h"
-#include "externs.h"
-#include "refactor.h"
+
+#include <reader/codetypes.h>
+#include <reader/basicread.h>
+#include <reader/main_reads.h>
+#include <reader/readglob.h>
+#include <reader/table_fns.h>
+#include <reader/read_fns.h>
+#include <reader/sortmacs.h>
+#include <reader/natmacs.h>
+#include <reader/readglob.h>
+#include <reader/externs.h>
+
+#include <construct/exp.h>
+#include <construct/tags.h>
+#include <construct/flags.h>
+#include <construct/me_fns.h>
+#include <construct/installglob.h>
+#include <construct/flpttypes.h>
+#include <construct/flpt.h>
+#include <construct/shapemacs.h>
+#include <construct/machine.h>
+#include <construct/spec.h>
+#include <construct/messages_c.h>
+#include <construct/f64.h>
+#include <construct/install_fns.h>
+
+#include <refactor/refactor.h>
 
 
 extern shape shcomplexsh;

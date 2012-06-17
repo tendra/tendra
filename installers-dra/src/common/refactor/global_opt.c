@@ -13,16 +13,18 @@
 
 #include "config.h"
 
-#include "installglob.h"
-#include "exp.h"
 #include "expmacs.h"
-#include "tags.h"
-#include "flags.h"
-#include "const.h"
-#include "shapemacs.h"
 #include "glopt.h"
-#include "optimise.h"
-#include "refactor_ext.h"
+
+#include <construct/installglob.h>
+#include <construct/exp.h>
+#include <construct/tags.h>
+#include <construct/flags.h>
+#include <construct/shapemacs.h>
+
+#include <refactor/const.h>
+#include <refactor/optimise.h>
+#include <refactor/refactor_ext.h>
 
 /* PROCEDURES */
 

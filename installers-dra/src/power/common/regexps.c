@@ -12,15 +12,14 @@
 
 #include "config.h"
 
+#include <construct/flags.h>
+
 #include "exptypes.h"
 #include "memtdf.h"
 #include "codegen.h"
 #include "maxminmacs.h"		/* for absval() */
-
 #include "comment.h"
-
 #include "regexps.h"
-#include "flags.h"
 
 struct regpeept
 {

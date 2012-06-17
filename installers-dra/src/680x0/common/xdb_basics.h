@@ -12,8 +12,8 @@
 
 #include "config.h"
 
-#include "dg_first.h"
-#include "diaginfo.h"
+#include <diag/dg_first.h>
+#include <diag/diaginfo.h>
 
 extern void diag_prologue(void);
 extern void diag_epilogue(void);

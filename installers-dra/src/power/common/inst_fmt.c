@@ -21,10 +21,11 @@ understood by the assembler.
 #include <shared/error.h>
 
 #include "config.h"
-#include "geninst.h"
 
+#include <construct/flags.h>
+
+#include "geninst.h"
 #include "proc.h"
-#include "flags.h"
 #include "comment.h"
 #include "translat.h"
 #include "maxminmacs.h"		/* for absval() */
@@ -32,6 +33,7 @@ understood by the assembler.
 #include "inst_fmt.h"
 #include "macro.h"
 #include "mask.h"
+
 #define IS_POW2(c)		((c)!= 0 && ((c) & ((c) -1)) == 0)
 
 #define CHECKREG(r)		ASSERT(IS_FIXREG(r) && (!IS_SREG(r) || (r) >= p_sreg_first_save || (r == R_FP)));

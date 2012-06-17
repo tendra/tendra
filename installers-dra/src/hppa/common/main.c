@@ -13,22 +13,24 @@
 
 #include "config.h"
 
-#include "flags.h"		/* for option flags */
+#include <reader/main_reads.h>		/* for d_capsule */
+#include <reader/basicread.h>	/* for good_trans */
+#include <reader/reader_v.h>
+#include <reader/externs.h>
+
+#include <construct/flags.h>		/* for option flags */
+#include <construct/flpt.h>
+#include <construct/exp.h>		/* for current_alloc_size */
+#include <construct/installglob.h>	/* for top_def */
+#include <construct/installtypes.h>
+#include <construct/construct_v.h>
+
 #include "comment.h"		/* for do_comment */
-#include "main_reads.h"		/* for d_capsule */
-#include "basicread.h"	/* for good_trans */
 #include "addrtypes.h"		/* for where */
 #include "makecode.h"		/* for nowhere */
-#include "flpt.h"
 #include "exptypes.h"
-#include "exp.h"		/* for current_alloc_size */
-#include "installglob.h"	/* for top_def */
 #include "out.h"
-#include "installtypes.h"
 #include "version.h"
-#include "reader_v.h"
-#include "construct_v.h"
-#include "externs.h"
 #include "hppadiags.h"
 #include "frames.h"
 
@@ -221,7 +223,7 @@ int main
    name_prefix = "";
 
   init_flpt();			/* initialise the floating point array */
-#include "inits.h"		/* initialise common parts of translator */
+#include <reader/inits.h>		/* initialise common parts of translator */
   top_def = (dec *)0;
 
   if (diagnose)

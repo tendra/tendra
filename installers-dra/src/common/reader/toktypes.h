@@ -12,14 +12,14 @@
 
 #include "config.h"
 
-#include "dg_first.h"
-#include "diaginfo.h"
+#include <diag/dg_first.h>
+#include <diag/diaginfo.h>
 
 #include "exptypes.h"
-#include "installtypes.h"
+#include <construct/installtypes.h>
 
-#include "dg_types.h"  /* new diags */
-#include "diagtypes.h" /* old diags */
+#include <diag/dg_types.h>  /* new diags */
+#include <diag/diagtypes.h> /* old diags */
 
 
 
@@ -85,7 +85,7 @@ typedef int linkinfo_props;
 
 typedef char usage;
 
-#include "sort_union.h"
+#include <reader/sort_union.h>
 
 #define LOCAL_TOKS 4
 

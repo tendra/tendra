@@ -23,38 +23,39 @@ the proc independent (common to other  translators)
 #include <shared/error.h>
 
 #include "config.h"
+
+#include <reader/codetypes.h>
+#include <reader/externs.h>
+
+#include <construct/exp.h>
+#include <construct/tags.h>
+#include <construct/shapemacs.h>
+#include <construct/flpt.h>
+#include <construct/install_fns.h>
+#include <construct/flags.h>
+#include <construct/machine.h>
+#include <construct/me_fns.h>
+
+#include <refactor/const.h>
+
+#include "exptypes.h"
+#include "comment.h"
 #include "memtdf.h"
 #include "codegen.h"
-
-#include "comment.h"
-
-#include "codetypes.h"
-#include "exptypes.h"
-#include "exp.h"
 #include "expmacs.h"
-#include "tags.h"
 #include "localtypes.h"
 #include "procrectypes.h"
 #include "bitsmacs.h"
 #include "maxminmacs.h"
 #include "regable.h"
 #include "tempdecs.h"
-#include "shapemacs.h"
-#include "const.h"
-#include "flpt.h"
-#include "install_fns.h"
-#include "externs.h"
-
-#include "flags.h"
-
-#include "machine.h"
 #include "translat.h"
 #include "makecode.h"
 #include "needscan.h"
-#include "me_fns.h"
 #include "stack.h"
 #include "error.h"
 #include "dynamic_init.h"
+
 /*
  * Will an ident exp be in memory?
  * We have to guess at this stage for non globals.

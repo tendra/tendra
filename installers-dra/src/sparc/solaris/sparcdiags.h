@@ -12,10 +12,10 @@
 
 #include "config.h"
 
-#include "dg_first.h"
-#include "diaginfo.h"
+#include <diag/dg_first.h>
+#include <diag/diaginfo.h>
 
-#include "installtypes.h"
+#include <construct/installtypes.h>
 #include "exptypes.h"
 
 #ifdef NEWDIAGS

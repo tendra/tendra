@@ -14,13 +14,14 @@
 
 #include "config.h"
 
-#include "codetypes.h"
-#include "basicread.h"
-#include "ecodes.h"
-#include "externs.h"
-#include "messages_r.h"
-#include "main_reads.h"
-#include "refactor.h"
+#include <reader/codetypes.h>
+#include <reader/basicread.h>
+#include <reader/ecodes.h>
+#include <reader/externs.h>
+#include <reader/messages_r.h>
+#include <reader/main_reads.h>
+
+#include <refactor/refactor.h>
 
 
 /* REPORT AN ERROR */

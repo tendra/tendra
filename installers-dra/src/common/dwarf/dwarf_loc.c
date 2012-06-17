@@ -8,32 +8,24 @@
  */
 
 #include "config.h"
+#include "cross_config.h"
 
-#include "installtypes.h"
+#include <reader/basicread.h>
 
-/* machine dependent */
-#include "machine.h"
+#include <construct/installtypes.h>
+#include <construct/shapemacs.h>
+#include <construct/machine.h>
+#include <construct/tags.h>
+
 #include "codermacs.h"
-
-#include "tags.h"
-
-/* machine dependent */
+#include "expmacs.h"
 #include "out.h"
 
-#include "shapemacs.h"
-
-/* machine dependent */
-#include "expmacs.h"
-
-#include "basicread.h"
-
-#include "dwarf_types.h"
-#include "dwarf_out.h"
-#include "dwarf_queue.h"
-#include "dwarf_type.h"
-
-#include "dwarf_loc.h"
-#include "cross_config.h"
+#include <dwarf/dwarf_types.h>
+#include <dwarf/dwarf_out.h>
+#include <dwarf/dwarf_queue.h>
+#include <dwarf/dwarf_type.h>
+#include <dwarf/dwarf_loc.h>
 
 #ifndef CROSS_INCLUDE
 #include <dwarf.h>

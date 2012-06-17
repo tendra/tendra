@@ -16,33 +16,37 @@
 #include "config.h"
 
 #define HPPATRANS_CODE
-#include "codetypes.h"
+
+#include <reader/codetypes.h>
+#include <reader/codetypes.h>
+#include <reader/toktypes.h>
+#include <reader/externs.h>
+
+#include <construct/shapemacs.h>
+#include <construct/installtypes.h>
+#include <construct/exp.h>
+#include <construct/tags.h>
+#include <construct/machine.h>
+#include <construct/install_fns.h>
+#include <construct/installglob.h>
+
+#include <diag/diagtypes.h>
+#include <diag/diag_fns.h>
+#include <diag/diagglob.h>
+#include <diag/mark_scope.h>
+
 #include "addrtypes.h"
 #include "frames.h"
 #include "exptypes.h"
-#include "shapemacs.h"
 #include "expmacs.h"
-#include "codetypes.h"
-#include "installtypes.h"
-#include "toktypes.h"
-#include "exp.h"
 #include "exptypes.h"
 #include "proctypes.h"
 #include "procrec.h"
-#include "tags.h"
 #include "bitsmacs.h"
-#include "diagtypes.h"
-#include "diag_fns.h"
 #include "locate.h"
-#include "diagglob.h"
-#include "mark_scope.h"
 #include "comment.h"
 #include "translat.h"
-#include "machine.h"
 #include "szs_als.h"
-#include "install_fns.h"
-#include "installglob.h"
-#include "externs.h"
 #include "out.h"
 #include "hppadiags.h"
 

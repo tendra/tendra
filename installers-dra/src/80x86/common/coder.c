@@ -24,49 +24,59 @@
 
 #include "config.h"
 
-#include "codetypes.h"
-#include "exptypes.h"
-#include "weights.h"
-#include "basicread.h"
-#include "tags.h"
-#include "codermacs.h"
-#include "instr386.h"
-#include "expmacs.h"
-#include "exp.h"
-#include "operand.h"
-#include "shapemacs.h"
-#include "instr.h"
-#include "instrmacs.h"
-#include "out.h"
-#include "flags.h"
-#include "codec.h"
-#include "reg_record.h"
-#include "externs.h"
-#include "install_fns.h"
-#include "installglob.h"
-#include "machine.h"
-#include "localflags.h"
-#include "diag_fns.h"
-#include "messages_8.h"
-#include "assembler.h"
-#include "natmacs.h"
-#include "label_ops.h"
-#include "misc_c.h"
-#include "readglob.h"
-#include "cproc.h"
-#include "coder.h"
-#include "refactor.h"
-
 #ifdef NEWDIAGS
-#include "dg_aux.h"
-#include "dg_globs.h"
 #include "diag_config.h"
 #endif
 
 #ifdef NEWDWARF
 #include "dw2_config.h"
-#include "dw2_info.h"
-#include "dw2_basic.h"
+#endif
+
+#include <reader/codetypes.h>
+#include <reader/basicread.h>
+#include <reader/externs.h>
+#include <reader/natmacs.h>
+#include <reader/readglob.h>
+
+#include <construct/tags.h>
+#include <construct/exp.h>
+#include <construct/shapemacs.h>
+#include <construct/flags.h>
+#include <construct/install_fns.h>
+#include <construct/installglob.h>
+#include <construct/machine.h>
+#include <construct/label_ops.h>
+#include <construct/misc_c.h>
+
+#include <diag/diag_fns.h>
+
+#include <refactor/refactor.h>
+
+#include "exptypes.h"
+#include "weights.h"
+#include "codermacs.h"
+#include "instr386.h"
+#include "expmacs.h"
+#include "operand.h"
+#include "instr.h"
+#include "instrmacs.h"
+#include "out.h"
+#include "codec.h"
+#include "reg_record.h"
+#include "localflags.h"
+#include "messages_8.h"
+#include "assembler.h"
+#include "cproc.h"
+#include "coder.h"
+
+#ifdef NEWDIAGS
+#include <diag/dg_aux.h>
+#include <diag/dg_globs.h>
+#endif
+
+#ifdef NEWDWARF
+#include <dwarf2/dw2_info.h>
+#include <dwarf2/dw2_basic.h>
 #include "dw2_extra.h"
 #endif
 

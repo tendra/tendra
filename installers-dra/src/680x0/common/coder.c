@@ -9,21 +9,27 @@
 
 #include <limits.h>
 
+#include "config.h"
+
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
-#include "config.h"
+#include <reader/externs.h>
+
+#include <construct/exp.h>
+#include <construct/flags.h>
+#include <construct/shapemacs.h>
+#include <construct/install_fns.h>
+#include <construct/spec.h>
+#include <construct/tags.h>
+#include <construct/installglob.h>
+
+#include <refactor/optimise.h>
+
 #include "exptypes.h"
-#include "exp.h"
 #include "expmacs.h"
-#include "flags.h"
-#include "shapemacs.h"
-#include "externs.h"
-#include "install_fns.h"
-#include "spec.h"
 #include "mach.h"
 #include "where.h"
-#include "tags.h"
 #include "codec.h"
 #include "coder.h"
 #include "operations.h"
@@ -31,7 +37,6 @@
 #include "mach_ins.h"
 #include "mach_op.h"
 #include "instr.h"
-#include "installglob.h"
 #include "codex.h"
 #include "instrs.h"
 #include "peephole.h"
@@ -43,7 +48,6 @@
 #include "ops_shared.h"
 #include "general_proc.h"
 #include "68k_globals.h"
-#include "optimise.h"
 
 #if have_diagnostics
 #include "xdb_basics.h"

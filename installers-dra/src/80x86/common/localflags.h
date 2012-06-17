@@ -9,7 +9,7 @@
 
 #include "config.h"
 
-#include "li_types.h"
+#include <linkinfo/li_types.h>
 
 extern  int is80486;		/* compile for 80486 */
 extern  int is80586;		/* compile for 80586 */

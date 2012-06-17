@@ -11,12 +11,14 @@
 
 #include "config.h"
 
+#include <reader/basicread.h>
+
+#include <construct/tags.h>
+#include <construct/exp.h>
+#include <construct/shapemacs.h>
+#include <construct/flags.h>
+
 #include "expmacs.h"
-#include "tags.h"
-#include "exp.h"
-#include "shapemacs.h"
-#include "basicread.h"
-#include "flags.h"
 #include "localflags.h"
 #include "coder.h"
 #include "weights.h"

@@ -9,7 +9,7 @@
 
 #include "config.h"
 
-#include "installglob.h"
+#include <construct/installglob.h>
 
 /* All variables initialised */
 

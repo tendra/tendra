@@ -13,15 +13,20 @@
 
 #include "config.h"
 
+#include <reader/codetypes.h>
+
+#include <construct/installtypes.h>
+#include <construct/exp.h>
+#include <construct/shapemacs.h>
+#include <construct/tags.h>
+#include <construct/machine.h>
+
+#include <refactor/const.h>
+
 #include "exptypes.h"
 #include "expmacs.h"
-#include "codetypes.h"
-#include "const.h"
-#include "installtypes.h"
-#include "exp.h"
 #include "translat.h"
 #include "addrtypes.h"
-#include "shapemacs.h"
 #include "move.h"
 #include "regmacs.h"
 #include "getregs.h"
@@ -30,11 +35,9 @@
 #include "inst_fmt.h"
 #include "sparcins.h"
 #include "labels.h"
-#include "tags.h"
 #include "proctypes.h"
 #include "bitsmacs.h"
 #include "comment.h"
-#include "machine.h"
 #include "proc.h"
 #include "out.h"
 #include "regexps.h"

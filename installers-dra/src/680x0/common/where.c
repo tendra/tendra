@@ -11,15 +11,17 @@
 
 #include "config.h"
 
+#include <reader/externs.h>
+
+#include <construct/exp.h>
+#include <construct/install_fns.h>
+#include <construct/shapemacs.h>
+#include <construct/tags.h>
+#include <construct/flpt.h>
+
 #include "exptypes.h"
-#include "exp.h"
 #include "expmacs.h"
-#include "externs.h"
-#include "install_fns.h"
-#include "shapemacs.h"
-#include "tags.h"
 #include "fbase.h"
-#include "flpt.h"
 #include "mach.h"
 #include "tests.h"
 #include "where.h"
@@ -27,9 +29,11 @@
 #include "utility.h"
 #include "translate.h"
 #include "evaluate.h"
+
 #define REGISTER_SIZES
 #include "instr_aux.h"
 #include "special_exps.h"
+
 static int find_where(exp);
 
 /*

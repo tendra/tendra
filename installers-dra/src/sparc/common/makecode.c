@@ -9,21 +9,33 @@
 
 #include <assert.h>
 
-#include "config.h"
-
 #define SPARCTRANS_CODE
+
+#include "config.h"
+#include "diag_config.h"
+
+#ifdef NEWDWARF
+#include "dw2_config.h"
+#endif
+
+#include <reader/basicread.h>
+#include <reader/externs.h>
+
+#include <construct/tags.h>
+#include <construct/installtypes.h>
+#include <construct/exp.h>
+#include <construct/shapemacs.h>
+#include <construct/flags.h>
+#include <construct/install_fns.h>
+#include <construct/flpt.h>
+#include <construct/f64.h>
 
 #include "exptypes.h"
 #include "addrtypes.h"
-#include "tags.h"
 #include "extra_tags.h"
 #include "expmacs.h"
-#include "installtypes.h"
-#include "exp.h"
 #include "exptypes.h"
 #include "maxminmacs.h"
-#include "shapemacs.h"
-#include "basicread.h"
 #include "proctypes.h"
 #include "eval.h"
 #include "move.h"
@@ -42,29 +54,22 @@
 #include "regable.h"
 #include "muldvrem.h"
 #include "proc.h"
-#include "flags.h"
 #include "special.h"
 #include "sparcdiags.h"
 #include "translat.h"
 #include "out.h"
 #include "makecode.h"
-#include "install_fns.h"
-#include "externs.h"
-#include "flpt.h"
 #include "szs_als.h"
 #include "new_tags.h"
-#include "f64.h"
-#include "diag_config.h"
 
 #ifdef NEWDIAGS
-#include "dg_aux.h"
-#include "dg_globs.h"
+#include <diag/dg_aux.h>
+#include <diag/dg_globs.h>
 #endif
 
 #ifdef NEWDWARF
-#include "dw2_config.h"
-#include "dw2_info.h"
-#include "dw2_basic.h"
+#include <dwarf2/dw2_info.h>
+#include <dwarf2/dw2_basic.h>
 #endif
 
 

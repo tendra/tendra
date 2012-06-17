@@ -28,13 +28,14 @@ used by make_code for the second operand.
 
 #include "config.h"
 
+#include <refactor/optimise.h>
+
 #include "regmacs.h"
 #include "procrec.h"
 #include "addrtypes.h"
 #include "tempdecs.h"
 #include "comment.h"
 #include "guard.h"
-#include "optimise.h"
 
 
 /*******************************************************************

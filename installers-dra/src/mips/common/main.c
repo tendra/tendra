@@ -20,18 +20,20 @@
 
 #include "config.h"
 
-#include "version.h"
-#include "basicread.h"
-#include "flags.h"
-#include "main_reads.h"
-#include "flpt.h"
-#include "externs.h"
-#include "installglob.h"
-#include "machine.h"
-#include "exp.h"
+#include <reader/basicread.h>
+#include <reader/main_reads.h>
+#include <reader/externs.h>
+#include <reader/reader_v.h>
+
+#include <construct/flags.h>
+#include <construct/flpt.h>
+#include <construct/installglob.h>
+#include <construct/machine.h>
+#include <construct/exp.h>
+#include <construct/construct_v.h>
+
 #include "dump_distr.h"
-#include "construct_v.h"
-#include "reader_v.h"
+#include "version.h"
 
 extern void output_symtab(char*);
 
@@ -208,7 +210,7 @@ int   main
   };
 
   init_flpt();
-#include "inits.h"
+#include <reader/inits.h>
   top_def = (dec*)0;
 
 

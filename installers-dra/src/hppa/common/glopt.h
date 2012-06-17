@@ -7,4 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <construct/installtypes.h>
+
 extern void glopt(dec *);

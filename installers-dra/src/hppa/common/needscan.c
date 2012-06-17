@@ -26,32 +26,34 @@ the proc independent (common to other  translators)
 
 #include "config.h"
 
+#include <construct/exp.h>
+#include <construct/tags.h>
+#include <construct/shapemacs.h>
+#include <construct/flpt.h>
+#include <construct/install_fns.h>
+#include <construct/flags.h>
+
+#include <refactor/const.h>
+#include <reader/externs.h>
+#include <refactor/optimise.h>
+
 #include "exptypes.h"
-#include "exp.h"
 #include "expmacs.h"
-#include "tags.h"
 #include "new_tags.h"
 #include "proctypes.h"
 #include "bitsmacs.h"
 #include "maxminmacs.h"
 #include "regable.h"
 #include "tempdecs.h"
-#include "shapemacs.h"
 #include "special.h"
-#include "const.h"
-#include "flpt.h"
-#include "install_fns.h"
-#include "externs.h"
 #include "regmacs.h"
 #include "muldvrem.h"
 #include "translat.h"
 #include "comment.h"
-#include "flags.h"
 #include "proc.h"
 #include "frames.h"
 #include "extratags.h"
 #include "needscan.h"
-#include "optimise.h"
 
 
 /* used by scan to set initial parameter positions */

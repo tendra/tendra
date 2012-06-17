@@ -26,11 +26,11 @@ second operand.
 ******************************************************************/
 
 #include "config.h"
+
+#include <construct/flags.h>
+
 #include "codegen.h"
-#include "flags.h"
-
 #include "comment.h"
-
 #include "guard.h"
 
 

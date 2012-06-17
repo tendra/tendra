@@ -9,18 +9,22 @@
  */
 
 #include "config.h"
+
 #ifdef DEBUG_POWERTRANS
+
+#include <construct/exp.h>
+#include <construct/tags.h>
+#include <construct/shapemacs.h>
+
 #include "exptypes.h"
 #include "expmacs.h"
-#include "exp.h"
-#include "tags.h"
-#include "shapemacs.h"
 #include "ash.h"
 #include "addresstypes.h"
 #include "locate.h"
 #include "translat.h"
 
 #include "pp.h"
+
 /*
  * This file contains debugging tools used in debugging a translator
  */

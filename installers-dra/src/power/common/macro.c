@@ -18,10 +18,12 @@
 #include "translat.h"
 #include "instruct.h"
 #include "comment.h"
+
 #ifdef SHOW_FRAME_POINTER
 static char *frame_pointer = "FP";
 static char *top_pointer = "TP";
 #endif
+
 static char * spr_mq = "SPR_MQ";
 static char * spr_xer = "SPR_XER";
 static char * spr_rtcu = "SPR_RTCU";

@@ -11,8 +11,8 @@
 #define config_key 1
 
 /* API SPECIFICATION */
-#include "ossg_api.h"
-#include "ossg.h"
+#include <reader/ossg_api.h>
+#include <reader/ossg.h>
 
 #ifndef FS_LITTLE_ENDIAN
 #define FS_LITTLE_ENDIAN	1

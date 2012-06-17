@@ -13,33 +13,39 @@
 
 #ifdef NEWDWARF
 
-#include "exptypes.h"
-#include "dg_aux.h"
 #include "dw2_config.h"
-#include "dw2_codes.h"
-#include "dw2_basic.h"
+
+#include <reader/basicread.h>
+
+#include <construct/shapemacs.h>
+#include <construct/tags.h>
+#include <construct/flpttypes.h>
+#include <construct/f64.h>
+
+#include <diag/dg_aux.h>
+
+#include <dwarf2/dw2_codes.h>
+#include <dwarf2/dw2_basic.h>
+#include <dwarf2/dw2_entries.h>
+#include <dwarf2/dw2_locdata.h>
+
+#include <refactor/const.h>
+
+#include "exptypes.h"
 #include "szs_als.h"
 #include "addrtypes.h"
 #include "expmacs.h"
-#include "shapemacs.h"
 #include "bitsmacs.h"
-#include "tags.h"
 #include "regmacs.h"
 #include "locate.h"
 #include "translat.h"
-#include "basicread.h"
 #include "codehere.h"
 #include "eval.h"
 #include "proc.h"
 #include "procrec.h"
-#include "dw2_entries.h"
 #include "regable.h"
-#include "const.h"
-#include "flpttypes.h"
-#include "f64.h"
 #include "regexps.h"
 #include "dw2_extra.h"
-#include "dw2_locdata.h"
 
 extern int call_base_reg;	/* declared in locate.c */
 

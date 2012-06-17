@@ -20,14 +20,16 @@
 #include CROSS_INCLUDE/symconst.h>
 #endif
 
+#include <reader/basicread.h>
+
+#include <construct/flags.h>
+#include <construct/shapemacs.h>
+#include <construct/tags.h>
+
 #include "symtab.h"
-#include "flags.h"
 #include "expmacs.h"
-#include "shapemacs.h"
 #include "syms.h"
-#include "tags.h"
 #include "main.h"
-#include "basicread.h"
 #include "mipsdiags.h"
 #include "new_symbol.h"
 #include "localtypes.h"

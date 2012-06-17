@@ -12,16 +12,20 @@
 
 #include "config.h"
 
+#include <reader/basicread.h>
+#include <reader/main_reads.h>
+#include <reader/externs.h>
+#include <reader/reader_v.h>
+
+#include <construct/flpt.h>
+#include <construct/installglob.h>
+#include <construct/exp.h>
+#include <construct/flags.h>
+#include <construct/construct_v.h>
+
 #include "assembler.h"
-#include "basicread.h"
-#include "flpt.h"
-#include "main_reads.h"
 #include "weights.h"
 #include "instrs.h"
-#include "installglob.h"
-#include "exp.h"
-#include "externs.h"
-#include "flags.h"
 #include "mach.h"
 #include "mach_ins.h"
 #include "mach_op.h"
@@ -32,8 +36,6 @@
 #include "tests.h"
 #include "utility.h"
 #include "version.h"
-#include "reader_v.h"
-#include "construct_v.h"
 #include "where.h"
 #include "localflags.h"
 
@@ -336,7 +338,7 @@ int main
     top_def = null;
     init_flpt();
     init_instructions();
-#include "inits.h"
+#include <reader/inits.h>
     init_weights();
     init_wheres();
 

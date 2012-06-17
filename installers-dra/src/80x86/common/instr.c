@@ -21,38 +21,44 @@
 
 #include "config.h"
 
+#ifdef NEWDWARF
+#include "dw2_config.h"
+#endif
+
+#include <reader/table_fns.h>
+#include <reader/basicread.h>
+#include <reader/readglob.h>
+#include <reader/externs.h>
+
+#include <construct/exp.h>
+#include <construct/flags.h>
+#include <construct/tags.h>
+#include <construct/shapemacs.h>
+#include <construct/flpt.h>
+#include <construct/flpttypes.h>
+#include <construct/installglob.h>
+#include <construct/install_fns.h>
+#include <construct/machine.h>
+#include <construct/label_ops.h>
+
+#include <refactor/refactor.h>
+
 #include "exptypes.h"
 #include "out.h"
 #include "operand.h"
 #include "expmacs.h"
-#include "exp.h"
 #include "instr386.h"
-#include "flags.h"
-#include "tags.h"
-#include "shapemacs.h"
-#include "flpt.h"
-#include "flpttypes.h"
 #include "coder.h"
-#include "basicread.h"
 #include "reg_record.h"
-#include "installglob.h"
-#include "table_fns.h"
 #include "codermacs.h"
-#include "install_fns.h"
-#include "machine.h"
 #include "localflags.h"
 #include "assembler.h"
 #include "messages_8.h"
-#include "readglob.h"
-#include "label_ops.h"
-#include "externs.h"
 #include "instrmacs.h"
-#include "refactor.h"
 
 #include "instr.h"
 
 #ifdef NEWDWARF
-#include "dw2_config.h"
 #include "dw2_extra.h"
 #include "diag_config.h"
 #endif

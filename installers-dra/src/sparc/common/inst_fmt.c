@@ -22,6 +22,12 @@
 
 #include "config.h"
 
+#ifdef NEWDWARF
+#include "dw2_config.h"
+#endif
+
+#include <construct/flags.h>
+
 #include "addrtypes.h"
 #include "regexps.h"
 #include "regmacs.h"
@@ -31,11 +37,7 @@
 #include "translat.h"
 #include "inst_fmt.h"
 #include "out.h"
-#include "flags.h"
 #include "labels.h"
-#ifdef NEWDWARF
-#include "dw2_config.h"
-#endif
 
 
 /*

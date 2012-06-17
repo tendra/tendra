@@ -12,7 +12,7 @@
 
 #include "config.h"
 
-#include "installtypes.h"
+#include <construct/installtypes.h>
 
 
 #ifdef NEWDIAGS
@@ -45,9 +45,9 @@ typedef int diag_type_unit;
 				/* end dummy defs */
 				/* forward defns for compiler pacification */
 
-#include "codetypes.h"
-#include "diagtypes1.h"
-#include "installtypes.h"
+#include <reader/codetypes.h>
+#include <diag/diagtypes1.h>
+#include <construct/installtypes.h>
 
 
 				/* end forward defns */
@@ -225,7 +225,7 @@ typedef diag_unit diag_descriptor_list;
 typedef int diag_type_unit;
 typedef diag_type_unit diag_tagdef_list;
 
-#include "diaginfo.h"
+#include <diag/diaginfo.h>
 
 #endif
 #endif

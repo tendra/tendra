@@ -10,6 +10,8 @@
 #ifndef GLOPT_H
 #define GLOPT_H
 
+#include <construct/installtypes.h>
+
 void glopt(dec *d);
 
 #endif /* GLOPT_H */

@@ -11,24 +11,28 @@
 
 #include "config.h"
 
-#include "readglob.h"
-#include "table_fns.h"
-#include "basicread.h"
-#include "sortmacs.h"
-#include "refactor.h"
+#include <reader/readglob.h>
+#include <reader/table_fns.h>
+#include <reader/basicread.h>
+#include <reader/sortmacs.h>
+#include <reader/main_reads.h>
+
+#include <refactor/refactor.h>
 
 #ifdef NEWDIAGS
-#include "exp.h"
 #include "expmacs.h"
-#include "tags.h"
-#include "externs.h"
-#include "dg_aux.h"
-#include "mark_scope.h"
+
+#include <reader/externs.h>
+
+#include <construct/exp.h>
+#include <construct/tags.h>
+
+#include <diag/dg_aux.h>
+#include <diag/mark_scope.h>
 #endif
 
-#include "main_reads.h"
-#include "dg_fns.h"
-#include "diag_fns.h"
+#include <diag/dg_fns.h>
+#include <diag/diag_fns.h>
 
 
 /* PROCEDURES */

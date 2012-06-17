@@ -19,24 +19,26 @@
 
 #include "config.h"
 
+#include <reader/basicread.h>
+#include <reader/readglob.h>
+#include <reader/externs.h>
+
+#include <construct/exp.h>
+#include <construct/tags.h>
+#include <construct/shapemacs.h>
+#include <construct/flags.h>
+#include <construct/install_fns.h>
+#include <construct/flpt.h>
+
 #include "exptypes.h"
 #include "expmacs.h"
-#include "exp.h"
 #include "instr386.h"
-#include "tags.h"
 #include "operand.h"
-#include "shapemacs.h"
-#include "basicread.h"
-#include "flags.h"
 #include "coder.h"
-#include "install_fns.h"
 #include "codermacs.h"
 #include "instr.h"
-#include "flpt.h"
 #include "messages_8.h"
 #include "reg_record.h"
-#include "readglob.h"
-#include "externs.h"
 #include "instrmacs.h"
 
 #include "codec.h"

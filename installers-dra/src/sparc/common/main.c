@@ -15,39 +15,42 @@
 
 #include "config.h"
 
-#include "flags.h"
+#include <reader/main_reads.h>	
+#include <reader/basicread.h>
+#include <reader/externs.h>
+#include <reader/reader_v.h>
+
+#include <construct/flags.h>
+#include <construct/flpt.h>
+#include <construct/exp.h>
+#include <construct/installglob.h>
+#include <construct/construct_v.h>
+
 #include "comment.h"
 #include "translat.h"
-#include "main_reads.h"	
-#include "basicread.h"
 #include "addrtypes.h"
 #include "makecode.h"
-#include "flpt.h"
 #include "exptypes.h"
-#include "exp.h"
-#include "installglob.h"
 #include "out.h"
-#include "externs.h"
 #include "special.h"
 #include "labels.h"
 
 #include "target_v.h"
-#include "reader_v.h"
-#include "construct_v.h"
+
 #ifdef NEWDIAGS
-#include "diag_v.h"
-#include "dg_version.h"
+#include <diag/diag_v.h>
+#include <reader/dg_version.h>
 #endif
 #ifdef NEWDWARF
-#include "dw2_iface.h"
-#include "dw2_vsn.h"
-#include "dw2_abbrev.h"
-#include "dw2_common.h"
+#include <dwarf2/dw2_iface.h>
+#include <dwarf2/dw2_vsn.h>
+#include <dwarf2/dw2_abbrev.h>
+#include <dwarf2/dw2_common.h>
 static bool dump_abbrev = 0 ;
 #endif
 
 #if DWARF
-#include "dwarf_mc.h"
+#include <dwarf/dwarf_mc.h>
 #endif
 
 extern int use_link_stuff;
@@ -360,7 +363,7 @@ main ( int argc, char ** argv )
 
     /* other initialisation routines */
     init_flpt () ;
-#include "inits.h"
+#include <reader/inits.h>
     top_def = null ;
 
     /* main decoding routines */

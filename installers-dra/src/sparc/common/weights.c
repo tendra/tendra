@@ -46,20 +46,23 @@
 
 #include "config.h"
 
+#include <reader/codetypes.h>
+
+#include <construct/installtypes.h>
+#include <construct/exp.h>
+#include <construct/tags.h>
+
+#include <refactor/const.h>
+
 #include "exptypes.h"
 #include "expmacs.h"
-#include "codetypes.h"
-#include "installtypes.h"
-#include "const.h"
-#include "exp.h"
-#include "tags.h"
 #include "proctypes.h"
 #include "procrec.h"
 #include "bitsmacs.h"
 #include "maxminmacs.h"
 #include "regable.h"
 #include "comment.h"
-#include "shapemacs.h"
+#include <construct/shapemacs.h>
 #include "special.h"
 #include "weights.h"
 

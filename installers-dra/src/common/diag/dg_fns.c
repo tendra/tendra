@@ -11,23 +11,26 @@
 
 #include "config.h"
 
-#include "codetypes.h"
 #include "exptypes.h"
-#include "readglob.h"
-#include "table_fns.h"
-#include "basicread.h"
-#include "install_fns.h"
-#include "sortmacs.h"
 #include "expmacs.h"
-#include "tags.h"
-#include "main_reads.h"
-#include "natmacs.h"
-#include "dg_fns.h"
-#include "dg_aux.h"
-#include "dg_globs.h"
-#include "toktypes.h"
-#include "flags.h"
-#include "externs.h"
+
+#include <reader/codetypes.h>
+#include <reader/readglob.h>
+#include <reader/table_fns.h>
+#include <reader/basicread.h>
+#include <reader/sortmacs.h>
+#include <reader/main_reads.h>
+#include <reader/natmacs.h>
+#include <reader/toktypes.h>
+#include <reader/externs.h>
+
+#include <construct/install_fns.h>
+#include <construct/tags.h>
+#include <construct/flags.h>
+
+#include <diag/dg_fns.h>
+#include <diag/dg_aux.h>
+#include <diag/dg_globs.h>
 
 
 dg_filename all_files = (dg_filename)0;

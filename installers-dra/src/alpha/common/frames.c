@@ -9,10 +9,11 @@
 
 #include "config.h"
 
+#include <construct/tags.h>
+
 #include "frames.h"
 #include "procrecs.h"
 #include "expmacs.h"
-#include "tags.h"
 #include "bitsmacs.h"
 #include "reg_defs.h"
 #include "fail.h"

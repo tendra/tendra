@@ -13,23 +13,27 @@
 
 #include "config.h"
 
+#ifdef NEWDWARF
+#include "dw2_config.h"
+#endif
+
+#include <construct/tags.h>
+#include <construct/shapemacs.h>
+#include <construct/flags.h>
+
 #include "exptypes.h"
 #include "expmacs.h"
 #include "addrtypes.h"
-#include "tags.h"
 #include "move.h"
 #include "bitsmacs.h"
 #include "maxminmacs.h"
-#include "shapemacs.h"
 #include "regmacs.h"
 #include "regexps.h"
 #include "comment.h"
-#include "flags.h"
 
 #ifdef NEWDWARF
-#include "dw2_config.h"
 #include "dw2_extra.h"
-#include "dw2_iface.h"
+#include <dwarf2/dw2_iface.h>
 #endif
 
 

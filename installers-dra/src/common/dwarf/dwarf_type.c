@@ -10,21 +10,23 @@
 #include <shared/xalloc.h>
 
 #include "config.h"
-
-#include "codetypes.h"
-#include "installtypes.h"
-#include "machine.h"
-#include "out.h"
-#include "shapemacs.h"
-#include "expmacs.h"
-#include "basicread.h"
-
-#include "dwarf_types.h"
-#include "dwarf_out.h"
-#include "dwarf_queue.h"
-#include "dwarf_loc.h"
-#include "dwarf_type.h"
 #include "cross_config.h"
+
+#include <reader/codetypes.h>
+#include <reader/basicread.h>
+
+#include <construct/installtypes.h>
+#include <construct/machine.h>
+#include <construct/shapemacs.h>
+
+#include <dwarf/dwarf_types.h>
+#include <dwarf/dwarf_out.h>
+#include <dwarf/dwarf_queue.h>
+#include <dwarf/dwarf_loc.h>
+#include <dwarf/dwarf_type.h>
+
+#include "out.h"
+#include "expmacs.h"
 
 #ifndef CROSS_INCLUDE
 #include <dwarf.h>

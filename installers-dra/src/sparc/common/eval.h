@@ -12,9 +12,9 @@
 
 #include "config.h"
 
-#include "installtypes.h"
+#include <construct/installtypes.h>
 #include "addrtypes.h"
-#include "flpttypes.h"
+#include <construct/flpttypes.h>
 
 extern bool is_zero(exp);
 extern instore evaluated(exp, long, bool);

@@ -13,7 +13,7 @@
 #include "config.h"
 
 #include "expmacs.h"
-#include "exp.h"
+#include <construct/exp.h>
 
 /* global variables describing the current procedure */
 

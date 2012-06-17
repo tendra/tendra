@@ -18,15 +18,21 @@
 #include CROSS_INCLUDE/symconst.h>
 #endif
 
-#include "codetypes.h"
+#include <reader/codetypes.h>
+#include <reader/basicread.h>
+
+#include <construct/installglob.h>
+#include <construct/machine.h>
+#include <construct/tags.h>
+#include <construct/exp.h>
+#include <construct/flags.h>
+#include <construct/shapemacs.h>
+#include <construct/me_fns.h>
+
+#include <refactor/optimise.h>
+
 #include "symtab.h"
-#include "installglob.h"
-#include "tags.h"
-#include "exp.h"
 #include "expmacs.h"
-#include "optimise.h"
-#include "flags.h"
-#include "shapemacs.h"
 #include "tempdecs.h"
 #include "weights.h"
 #include "procrectypes.h"
@@ -43,13 +49,10 @@
 #include "mipsdiags.h"
 #include "extern_adds.h"
 #include "mips_ins.h"
-#include "machine.h"
 #include "main.h"
 #include "frames.h"
-#include "basicread.h"
 #include "getregs.h"
 #include "locate.h"
-#include "me_fns.h"
 
 extern long aritherr_lab;
 extern long stackerr_lab;

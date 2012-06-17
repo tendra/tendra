@@ -14,16 +14,16 @@
 
 #include "config.h"
 
-#include "codetypes.h"
-#include "flags.h"
-#include "messages_r.h"
-#include "natmacs.h"
-#include "readglob.h"
-#include "flpt.h"
-#include "f64.h"
-#include "installglob.h"
+#include <reader/codetypes.h>
+#include <reader/messages_r.h>
+#include <reader/natmacs.h>
+#include <reader/readglob.h>
+#include <reader/basicread.h>
 
-#include "basicread.h"
+#include <construct/flags.h>
+#include <construct/flpt.h>
+#include <construct/f64.h>
+#include <construct/installglob.h>
 
 /* MACROS */
 

@@ -20,17 +20,19 @@ A clear bit indicates that the corresponding register is free for use.
 
 #include "config.h"
 
+#include <reader/basicread.h>
+
+#include <construct/exp.h>
+#include <construct/tags.h>
+#include <construct/flags.h>
+
 #include "procrectypes.h"
 #include "exptypes.h"
 #include "expmacs.h"
-#include "exp.h"
 #include "regexps.h"
-#include "tags.h"
 #include "expmacs.h"
 #include "bitsmacs.h"
-#include "flags.h"
 #include "getregs.h"
-#include "basicread.h"
 
 extern  procrec * procrecs;
 static long useable_fixed;

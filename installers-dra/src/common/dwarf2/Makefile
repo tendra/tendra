@@ -3,11 +3,7 @@
 .include "Makefile.inc"
 
 
-CCOPTS+=	-I ../construct
-CCOPTS+=	-I ../diag
-CCOPTS+=	-I ../linkinfo
-CCOPTS+=	-I ../reader
-CCOPTS+=	-I ../refactor
+CCOPTS+=	-I ..
 CCOPTS+=	-I .
 
 SRCS+=	dw2_abbrev.c

@@ -9,15 +9,15 @@
 
 #include "config.h"
 
-#include "codetypes.h"
+#include <reader/codetypes.h>
 
-#include "dg_first.h"
+#include <diag/dg_first.h>
 
-#include "diaginfo.h"
+#include <diag/diaginfo.h>
 #include "exptypes.h"
-#include "installtypes.h"
-#include "dg_types.h"		/* NEW DIAGS */
-#include "diagtypes.h"		/* OLD DIAGS */
+#include <construct/installtypes.h>
+#include <diag/dg_types.h>		/* NEW DIAGS */
+#include <diag/diagtypes.h>		/* OLD DIAGS */
 
 
 /* 	$Id$	 */

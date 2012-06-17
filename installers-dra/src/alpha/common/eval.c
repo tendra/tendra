@@ -20,21 +20,23 @@
 
 #include "config.h"
 
+#include <construct/tags.h>
+#include <construct/exp.h>
+#include <construct/shapemacs.h>
+#include <construct/flpttypes.h>
+#include <construct/flpt.h>
+#include <construct/f64.h>
+#include <construct/flags.h>
+
 #include "addresstypes.h"
-#include "tags.h"
 #include "expmacs.h"
-#include "exp.h"
 #include "exptypes.h"
 #include "maxminmacs.h"
-#include "shapemacs.h"
-#include "flpttypes.h"
-#include "flpt.h"
 #include "main.h"
 #include "frames.h"
 #include "reg_defs.h"
 #include "output.h"
 #include "fbase.h"
-#include "f64.h"
 #include "cross.h"
 #include "pseudo.h"
 #include "ibinasm.h"
@@ -45,7 +47,6 @@
 #include "inst_fmt.h"
 #include "eval.h"
 #include "fail.h"
-#include "flags.h"
 
 #if DO_SCHEDULE
 #include "scheduler.h"

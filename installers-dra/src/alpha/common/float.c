@@ -11,12 +11,14 @@
 
 #include "config.h"
 
-#include "flpttypes.h"
-#include "flpt.h"
+#include <construct/flpttypes.h>
+#include <construct/flpt.h>
+#include <construct/shapemacs.h>
+#include <construct/tags.h>
+
 #include "expmacs.h"
-#include "shapemacs.h"
-#include "tags.h"
 #include "float.h"
+
 #define is_negative(x)	(x.sign<0)
 
 

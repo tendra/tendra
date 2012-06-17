@@ -12,10 +12,10 @@
 
 #include "config.h"
 
-#include "installtypes.h"
+#include <construct/installtypes.h>
 #include "exptypes.h"
 #include "localtypes.h"
-#include "ecodes.h"
+#include <reader/ecodes.h>
 
 extern bool have_cond;
 extern bool D1_is_special;

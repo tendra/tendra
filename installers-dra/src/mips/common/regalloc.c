@@ -26,16 +26,17 @@ number of ident = (word displacement in locals)*64 + 29
 
 #include "config.h"
 
+#include <construct/tags.h>
+#include <construct/flags.h>
+
 #include "localtypes.h"
 #include "expmacs.h"
-#include "tags.h"
 #include "procrectypes.h"
 #include "bitsmacs.h"
 #include "maxminmacs.h"
 #include "regable.h"
 #include "regmacs.h"
 #include "frames.h"
-#include "flags.h"
 #include "regalloc.h"
 
 spacereq zerospace = {

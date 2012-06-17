@@ -3,11 +3,7 @@
 .include "Makefile.inc"
 
 
-CCOPTS+=	-I ../../common/construct
-CCOPTS+=	-I ../../common/diag
-CCOPTS+=	-I ../../common/linkinfo
-CCOPTS+=	-I ../../common/reader
-CCOPTS+=	-I ../../common/refactor
+CCOPTS+=	-I ../../common
 
 SRCS+=	c_arith_type.c
 SRCS+=	codehere.c

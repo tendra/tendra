@@ -12,16 +12,18 @@
 
 #include "config.h"
 
+#include <construct/machine.h>
+#include <construct/flags.h>
+
 #include "memtdf.h"
 #include "codegen.h"
 #include "geninst.h"
 #include "translat.h"
 #include "makecode.h"
-#include "machine.h"
-#include "flags.h"
 #include "comment.h"
 #include "proc.h"
 #include "stack.h"
+
 /* All measurements in bytes */
 long p_frame_size=0;		/* total size of frame */  
 long p_locals_offset=0;	/* where the locals live  */

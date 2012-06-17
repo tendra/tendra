@@ -3,10 +3,7 @@
 .include "Makefile.inc"
 
 
-CCOPTS+=	-I ../../common/construct
-CCOPTS+=	-I ../../common/diag
-CCOPTS+=	-I ../../common/reader
-CCOPTS+=	-I ../../common/refactor
+CCOPTS+=	-I ../../common
 
 SRCS+=	ash.c
 SRCS+=	codehere.c

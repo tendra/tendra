@@ -11,15 +11,17 @@
 
 #include "config.h"
 
+#include <construct/installglob.h>
+#include <construct/exp.h>
+#include <construct/tags.h>
+#include <construct/flags.h>
+#include <construct/shapemacs.h>
+
+#include <refactor/optimise.h>
+
 #include "exptypes.h"
-#include "installglob.h"
-#include "exp.h"
 #include "expmacs.h"
-#include "tags.h"
-#include "flags.h"
-#include "shapemacs.h"
 #include "sparcins.h"
-#include "optimise.h"
 
 int crit_inline    = 120;
 int crit_decs	   = 6;

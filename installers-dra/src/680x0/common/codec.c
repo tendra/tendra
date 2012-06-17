@@ -11,13 +11,16 @@
 
 #include "config.h"
 
+#include <construct/exp.h>
+#include <construct/flags.h>
+#include <construct/shapemacs.h>
+#include <construct/install_fns.h>
+#include <construct/tags.h>
+#include <construct/f64.h>
+#include <construct/me_fns.h>
+
 #include "exptypes.h"
-#include "exp.h"
 #include "expmacs.h"
-#include "flags.h"
-#include "shapemacs.h"
-#include "install_fns.h"
-#include "tags.h"
 #include "mach.h"
 #include "where.h"
 #include "codec.h"
@@ -28,8 +31,6 @@
 #include "instr.h"
 #include "codex.h"
 #include "instrs.h"
-#include "f64.h"
-#include "me_fns.h"
 #include "evaluate.h"
 #include "ops_shared.h"
 #include "mach_ins.h"

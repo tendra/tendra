@@ -13,16 +13,21 @@
 
 #include "config.h"
 
+#include <reader/basicread.h>
+
+#include <construct/tags.h>
+#include <construct/installtypes.h>
+#include <construct/exp.h>
+#include <construct/shapemacs.h>
+#include <construct/flags.h>
+
+#include <refactor/optimise.h>
+
 #include "addrtypes.h"
-#include "tags.h"
 #include "expmacs.h"
-#include "installtypes.h"
-#include "exp.h"
 #include "exptypes.h"
 #include "frames.h"
 #include "maxminmacs.h"
-#include "shapemacs.h"
-#include "basicread.h"
 #include "proctypes.h"
 #include "eval.h"
 #include "move.h"
@@ -38,7 +43,6 @@
 #include "regexps.h"
 #include "regmacs.h"
 #include "regable.h"
-#include "flags.h"
 #include "special.h"
 #include "translat.h"
 #include "makecode.h"
@@ -47,7 +51,6 @@
 #include "misc.h"
 #include "hppadiags.h"
 #include "loc_signal.h"
-#include "optimise.h"
 
 #define RES    1
 #define TO_LAB 2

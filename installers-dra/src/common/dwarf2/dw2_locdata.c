@@ -10,20 +10,24 @@
 #include <shared/xalloc.h>
 
 #include "config.h"
+#include "dw2_config.h"
+
+#include <reader/basicread.h>
+#include <reader/externs.h>
+
+#include <construct/tags.h>
+
+#include <diag/dg_types.h>
+#include <diag/dg_aux.h>
+
+#include <dwarf2/dw2_basic.h>
+#include <dwarf2/dw2_codes.h>
+#include <dwarf2/dw2_iface.h>
+#include <dwarf2/dw2_info.h>
+#include <dwarf2/dw2_locdata.h>
 
 #include "exptypes.h"
-#include "dg_types.h"
-#include "dw2_config.h"
-#include "dw2_basic.h"
-#include "dw2_codes.h"
-#include "dw2_iface.h"
-#include "dw2_info.h"
 #include "expmacs.h"
-#include "tags.h"
-#include "basicread.h"
-#include "externs.h"
-#include "dg_aux.h"
-#include "dw2_locdata.h"
 
 
 /* Location list information is collected for each object, held via

@@ -22,10 +22,21 @@
 
 #include "config.h"
 
+#include <reader/externs.h>
+
+#include <construct/exp.h>
+#include <construct/tags.h>
+#include <construct/shapemacs.h>
+#include <construct/flpt.h>
+#include <construct/install_fns.h>
+#include <construct/flags.h>
+#include <construct/me_fns.h>
+
+#include <refactor/const.h>
+#include <refactor/optimise.h>
+
 #include "exptypes.h"
-#include "exp.h"
 #include "expmacs.h"
-#include "tags.h"
 #include "extra_tags.h"
 #include "new_tags.h"
 #include "proctypes.h"
@@ -33,23 +44,15 @@
 #include "maxminmacs.h"
 #include "regable.h"
 #include "tempdecs.h"
-#include "shapemacs.h"
 #include "special.h"
-#include "const.h"
-#include "flpt.h"
-#include "install_fns.h"
-#include "externs.h"
 #include "regmacs.h"
 #include "muldvrem.h"
 #include "translat.h"
 #include "comment.h"
-#include "flags.h"
-#include "me_fns.h"
 #include "needscan.h"
 #include "reg_defs.h"
 #include "szs_als.h"
 #include "makecode.h"
-#include "optimise.h"
 
 extern prop notbranch[];
 

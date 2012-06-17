@@ -22,6 +22,10 @@ Delivers register used if 1-word destination is instore; otherwise NOREG.
 
 #include "config.h"
 
+#include <reader/basicread.h>
+
+#include <construct/flags.h>
+
 #include "mips_ins.h"
 #include "inst_fmt.h"
 #include "addrtypes.h"
@@ -33,8 +37,6 @@ Delivers register used if 1-word destination is instore; otherwise NOREG.
 #include "main.h"
 #include "guard.h"
 #include "maxminmacs.h"
-#include "basicread.h"
-#include "flags.h"
 #include "move.h"
 
 

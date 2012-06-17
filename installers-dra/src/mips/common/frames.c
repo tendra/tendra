@@ -9,11 +9,13 @@
 
 #include "config.h"
 
+#include <reader/basicread.h>
+
+#include <construct/tags.h>
+
 #include "procrectypes.h"
 #include "expmacs.h"
-#include "tags.h"
 #include "bitsmacs.h"
-#include "basicread.h"
 #include "frames.h"
 #include "new_code.h"
 

@@ -12,8 +12,8 @@
 
 #include "config.h"
 
-#include "installtypes.h"
-#include "toktypes.h"
+#include <construct/installtypes.h>
+#include <reader/toktypes.h>
 
 extern int crt_lno;
 extern char *crt_flnm;

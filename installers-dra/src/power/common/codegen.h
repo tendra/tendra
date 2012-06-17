@@ -30,7 +30,7 @@
 #include "regexps.h"
 
 #include "localtypes.h"
-#include "installtypes.h"
+#include <construct/installtypes.h>
 #include "inst_fmt.h"
 
 #endif

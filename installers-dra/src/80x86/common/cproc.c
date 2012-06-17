@@ -18,27 +18,35 @@
 
 #include "config.h"
 
+#ifdef NEWDWARF
+#include "dw2_config.h"
+#include "diag_config.h"
+#endif
+
+#include <reader/basicread.h>
+#include <reader/externs.h>
+
+#include <construct/tags.h>
+#include <construct/exp.h>
+#include <construct/shapemacs.h>
+#include <construct/flags.h>
+#include <construct/install_fns.h>
+#include <construct/installglob.h>
+#include <construct/machine.h>
+
+#include <diag/diag_fns.h>
+
 #include "weights.h"
-#include "basicread.h"
-#include "tags.h"
 #include "codermacs.h"
 #include "instr386.h"
 #include "expmacs.h"
-#include "exp.h"
 #include "operand.h"
-#include "shapemacs.h"
 #include "instr.h"
 #include "instrmacs.h"
 #include "out.h"
-#include "flags.h"
 #include "codec.h"
 #include "reg_record.h"
-#include "externs.h"
-#include "install_fns.h"
-#include "installglob.h"
-#include "machine.h"
 #include "localflags.h"
-#include "diag_fns.h"
 #include "messages_8.h"
 #include "assembler.h"
 #include "coder.h"
@@ -46,11 +54,9 @@
 #include "cproc.h"
 
 #ifdef NEWDWARF
-#include "dw2_config.h"
-#include "dw2_info.h"
-#include "dw2_basic.h"
+#include <dwarf2/dw2_info.h>
+#include <dwarf2/dw2_basic.h>
 #include "dw2_extra.h"
-#include "diag_config.h"
 #endif
 
 static exp returns_list;

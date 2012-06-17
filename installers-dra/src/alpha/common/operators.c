@@ -18,6 +18,10 @@
 
 #include "config.h"
 
+#include <construct/tags.h>
+#include <construct/shapemacs.h>
+#include <construct/f64.h>
+
 #include "code_here.h"
 #include "expmacs.h"
 #include "addresstypes.h"
@@ -26,11 +30,8 @@
 #include "maxminmacs.h"
 #include "getregs.h"
 #include "guard.h"
-#include "tags.h"
-#include "shapemacs.h"
 #include "bitsmacs.h"
 #include "alpha_ins.h"
-#include "f64.h"
 #include "reg_defs.h"
 #include "cross.h"
 #include "operators.h"

@@ -13,7 +13,7 @@
 #include "config.h"
 #include "exptypes.h"
 #include "localtypes.h"
-#include "installtypes.h"
+#include <construct/installtypes.h>
 
 void ins0(char *i);
 void ins1(char *i, int s1, where a1);

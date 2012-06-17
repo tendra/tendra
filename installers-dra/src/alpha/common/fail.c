@@ -20,7 +20,9 @@
 #include "config.h"
 #include "fail.h"
 #include "pseudo.h"
+
 #define USEAGE_STRING "alphatrans -[ABCDEFHIKMPQRSUXVWZu] file.t file.G file.T [file.s]"
+
 void
 alphafail(fail_conditions reason, char *message, char *extra_info)
 {

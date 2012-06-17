@@ -14,7 +14,12 @@
 
 #include "config.h"
 
-#include "codetypes.h"
+#include <reader/codetypes.h>
+#include <reader/externs.h>
+
+#include <construct/flpttypes.h>
+#include <construct/me_fns.h>
+
 #include "exptypes.h"
 #include "memtdf.h"
 #include "codegen.h"
@@ -23,10 +28,7 @@
 #include "makecode.h"
 #include "stack.h"
 #include "instruct.h"
-#include "externs.h"
 #include "error.h"
-#include "flpttypes.h"
-#include "me_fns.h"
 
 /* Labels to call the error handler */
 /* NOTE there are three one for each ERROR_CODE */

@@ -10,27 +10,33 @@
 #include <shared/error.h>
 
 #include "config.h"
+
+#include <reader/basicread.h>
+#include <reader/externs.h>
+
+#include <construct/exp.h>
+#include <construct/flags.h>
+#include <construct/installglob.h>
+#include <construct/shapemacs.h>
+#include <construct/flpt.h>
+#include <construct/install_fns.h>
+#include <construct/tags.h>
+#include <construct/install_fns.h>
+
+#include <refactor/optimise.h>
+
 #include "exptypes.h"
 #include "assembler.h"
-#include "basicread.h"
 #include "expmacs.h"
 #include "exptypes.h"
-#include "exp.h"
-#include "flags.h"
 #include "instrs.h"
-#include "installglob.h"
-#include "shapemacs.h"
-#include "flpt.h"
 #include "evaluate.h"
-#include "externs.h"
-#include "install_fns.h"
 #include "mach.h"
 #include "mach_ins.h"
 #include "mach_op.h"
 #include "peephole.h"
 #include "codex.h"
 #include "output.h"
-#include "tags.h"
 #include "tests.h"
 #include "utility.h"
 #include "where.h"
@@ -39,8 +45,6 @@
 #include "ops_shared.h"
 #include "translate.h"
 #include "codec.h"
-#include "install_fns.h"
-#include "optimise.h"
 
 #if have_diagnostics
 #include "xdb_basics.h"

@@ -9,8 +9,8 @@
 
 #include "config.h"
 
-#include "installtypes.h"
-#include "diagtypes.h"
+#include <construct/installtypes.h>
+#include <diag/diagtypes.h>
 
 extern void dwarf4(const char *t);
 extern void dwarf4n(int x);
@@ -33,7 +33,7 @@ extern void next_dwarf_lab(dwarf_label *p);
 extern dwarf_type_label *next_dwarf_type_lab(void);
 extern char *current_label_name(void);
 
-#include "dwarf_gbl.h"
+#include <dwarf/dwarf_gbl.h>
 extern void out_dwarf_name_attr(const char * const s);
 #define TDFSTRING2CHAR(x)	(&(((x).ints.chars)[0]))
 extern void out_dwarf_string(const char * const s);

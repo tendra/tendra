@@ -12,14 +12,13 @@
 #ifndef diaginfo_key
 #define diaginfo_key 1
 
-
 #include "config.h"
 
-typedef struct diag_info_t diag_info; /* let's break a type cycle */
-
-#include "diagtypes1.h"	/* gets diag_descriptor */
+#include <diag/diagtypes1.h>	/* gets diag_descriptor */
 
 #include "diag_config.h"
+
+typedef struct diag_info_t diag_info; /* let's break a type cycle */
 
 #else				/* been included at least once */
 

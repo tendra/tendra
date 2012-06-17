@@ -8,7 +8,7 @@
  */
 
 #include "addrtypes.h"
-#include "flpttypes.h"
+#include <construct/flpttypes.h>
 
 extern int next_data_lab(void);
 extern int next_dlab_sym(void);

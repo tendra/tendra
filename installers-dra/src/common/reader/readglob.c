@@ -9,7 +9,7 @@
 
 #include "config.h"
 
-#include "readglob.h"
+#include <reader/readglob.h>
 
 /* VARIABLES */
 /* All variables except good_trans are initialised. This assumes

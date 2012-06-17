@@ -13,13 +13,15 @@
 
 #include "exptypes.h"
 #include "expmacs.h"
-#include "tags.h"
-#include "label_ops.h"
-#include "externs.h"
-#include "exp.h"
-#include "installglob.h"
-#include "shapemacs.h"
-#include "flags.h"
+
+#include <reader/externs.h>
+
+#include <construct/tags.h>
+#include <construct/label_ops.h>
+#include <construct/exp.h>
+#include <construct/installglob.h>
+#include <construct/shapemacs.h>
+#include <construct/flags.h>
 
 
 /* label_is_next returns 1 if lab is a labst which immediately

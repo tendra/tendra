@@ -19,18 +19,19 @@
 
 #include "config.h"
 
-#include "exptypes.h"
-#include "tags.h"
-#include "externs.h"
-#include "expmacs.h"
-#include "shapemacs.h"
-#include "exp.h"
-#include "basicread.h"
-#include "flags.h"
-#include "table_fns.h"
-#include "installglob.h"
-#include "spec.h"
+#include <reader/externs.h>
+#include <reader/basicread.h>
+#include <reader/table_fns.h>
 
+#include <construct/tags.h>
+#include <construct/shapemacs.h>
+#include <construct/exp.h>
+#include <construct/flags.h>
+#include <construct/installglob.h>
+#include <construct/spec.h>
+
+#include "exptypes.h"
+#include "expmacs.h"
 
 speci
 special_fn(exp a1, exp a2, shape s)

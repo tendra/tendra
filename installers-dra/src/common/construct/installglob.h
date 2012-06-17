@@ -13,7 +13,7 @@
 #include "config.h"
 
 #include "exptypes.h"
-#include "toktypes.h"
+#include <reader/toktypes.h>
 
 
 extern exp crt_repeat;

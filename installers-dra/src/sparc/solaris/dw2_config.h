@@ -12,14 +12,14 @@
 
 #include "config.h"
 
-#include "dg_first.h"
+#include <diag/dg_first.h>
 
-#include "diaginfo.h"
+#include <diag/diaginfo.h>
 #include "exptypes.h"
-#include "installtypes.h"
-#include "dg_types.h"		/* NEW DIAGS */
+#include <construct/installtypes.h>
+#include <diag/dg_types.h>		/* NEW DIAGS */
 
-#include "installtypes.h"
+#include <construct/installtypes.h>
 #include "exptypes.h"
 #include "out.h"
 

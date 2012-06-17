@@ -19,19 +19,20 @@
 
 #include "config.h"
 
+#include <construct/tags.h>
+#include <construct/exp.h>
+#include <construct/shapemacs.h>
+
 #include "addrtypes.h"
 #include "expmacs.h"
-#include "tags.h"
 #include "inst_fmt.h"
 #include "regmacs.h"
 #include "hppains.h"
 #include "bitsmacs.h"
-#include "exp.h"
 #include "procrec.h"
 #include "guard.h"
 #include "eval.h"
 #include "regexps.h"
-#include "shapemacs.h"
 #include "comment.h"
 #include "getregs.h"
 #include "move.h"
@@ -39,7 +40,6 @@
 #include "codehere.h"
 #include "proc.h"
 #include "frames.h"
-
 #include "locate.h"
 
 

@@ -12,12 +12,13 @@
 
 #include "config.h"
 
+#include <construct/flags.h>
+
 #include "exptypes.h"
 #include "memtdf.h"
 #include "codegen.h"
 #include "geninst.h"
 #include "maxminmacs.h"		/* for absval() */
-#include "flags.h"
 #include "instruct.h"
 #include "proc.h"
 #include "oprators.h"

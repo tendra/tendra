@@ -13,7 +13,7 @@
 
 #include "config.h"
 
-#include "installtypes.h"
+#include <construct/installtypes.h>
 #include "memtdf.h"
 
 /* number to add to floating point reg number for these functions */

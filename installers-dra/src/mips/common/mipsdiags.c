@@ -30,25 +30,28 @@ around the syms modules provided in the system library.
 #include CROSS_INCLUDE/symconst.h>
 #endif
 
-#include "codetypes.h"
+#include <reader/codetypes.h>
+#include <reader/basicread.h>
+
+#include <construct/shapemacs.h>
+#include <construct/exp.h>
+#include <construct/tags.h>
+
+#include <diag/diagtypes.h>
+#include <diag/diag_fns.h>
+#include <diag/diagglob.h>
+#include <diag/mark_scope.h>
+
 #include "symtab.h"
 #include "exptypes.h"
-#include "shapemacs.h"
 #include "expmacs.h"
-#include "exp.h"
 #include "procrectypes.h"
-#include "tags.h"
 #include "bitsmacs.h"
-#include "diagtypes.h"
 #include "ibinasm.h"
 #include "out_ba.h"
 #include "syms.h"
-#include "diag_fns.h"
 #include "locate.h"
 #include "mipsdiags.h"
-#include "diagglob.h"
-#include "mark_scope.h"
-#include "basicread.h"
 #include "new_code.h"
 #include "new_symbol.h"
 

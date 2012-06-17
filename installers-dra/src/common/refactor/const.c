@@ -34,28 +34,32 @@
 #include "config.h"
 
 #include "exptypes.h"
-#include "consttypes.h"
-#include "constmacs.h"
-#include "tags.h"
 #include "expmacs.h"
-#include "exp.h"
-#include "install_fns.h"
-#include "shapemacs.h"
-#include "flags.h"
-#include "externs.h"
-#include "installglob.h"
-#include "is_worth.h"
-#include "flpt.h"
-#include "flpttypes.h"
-#include "messages_c.h"
-#include "basicread.h"
-#include "me_fns.h"
-#include "refactor.h"
+
+#include <reader/externs.h>
+#include <reader/basicread.h>
+
+#include <construct/consttypes.h>
+#include <construct/constmacs.h>
+#include <construct/tags.h>
+#include <construct/exp.h>
+#include <construct/install_fns.h>
+#include <construct/shapemacs.h>
+#include <construct/flags.h>
+#include <construct/installglob.h>
+#include <construct/is_worth.h>
+#include <construct/flpt.h>
+#include <construct/flpttypes.h>
+#include <construct/messages_c.h>
+#include <construct/me_fns.h>
+
+#include <refactor/refactor.h>
+#include <refactor/const.h>
+
 #ifdef NEWDIAGS
-#include "dg_aux.h"
+#include <diag/dg_aux.h>
 #endif
 
-#include "const.h"
 
 /* MACROS */
 

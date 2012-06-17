@@ -12,13 +12,13 @@
 
 #include "config.h"
 
-#include "installtypes.h"
-#include "toktypes.h"
+#include <construct/installtypes.h>
+#include <reader/toktypes.h>
 
-#include "dg_first.h"
-#include "diaginfo.h"
-#include "dg_types.h"  /* new diags */
-#include "diagtypes.h" /* old diags */
+#include <diag/dg_first.h>
+#include <diag/diaginfo.h>
+#include <diag/dg_types.h>  /* new diags */
+#include <diag/diagtypes.h> /* old diags */
 
 
 /* the table of tags which are available at the capsule level */

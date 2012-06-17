@@ -18,10 +18,11 @@
 
 #include "config.h"
 
-#include "tags.h"
+#include <construct/tags.h>
+#include <construct/shapemacs.h>
+
 #include "expmacs.h"
 #include "exptypes.h"
-#include "shapemacs.h"
 #include "comp_eq_exp.h"
 #include "oddtest.h"
 

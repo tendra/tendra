@@ -87,29 +87,31 @@
 
 #include "config.h"
 
+#include <reader/externs.h>		/* for "inits.h" init_XXX() procs */
+#include <reader/basicread.h>
+#include <reader/main_reads.h>
+#include <reader/readglob.h>
+
+#include <construct/installglob.h>
+#include <construct/exp.h>
+#include <construct/flpt.h>		/* for init_flpt() */
+#include <construct/flags.h>
+#include <construct/machine.h>
+
+#include <refactor/optimise.h>
+
 #include "memtdf.h"
 #include "codegen.h"
-#include "installglob.h"
-#include "basicread.h"
-#include "main_reads.h"
-#include "optimise.h"
-#include "exp.h"
-#include "flpt.h"		/* for init_flpt() */
-#include "externs.h"		/* for "inits.h" init_XXX() procs */
 #include "tempdecs.h"
 #include "weights.h"
 #include "procrecs.h"
 #include "regalloc.h"
 #include "makecode.h"
 #include "eval.h"
-#include "flags.h"
 #include "needscan.h"
-#include "machine.h"
 #include "diagout.h"
 #include "comment.h"
-
 #include "translat.h"
-#include "readglob.h"
 #include "stack.h"
 #include "frames.h"
 #include "macro.h"
@@ -171,7 +173,7 @@ int translate(char *infname, char *outfname)
    * Initialise the automatically generated reader modules with 
    * automatically generated inits.h 
    */
-#include "inits.h"
+#include <reader/inits.h>
 
   init_flpt();			/* initialise the floating point array */
   top_def = (dec*)0;		/* top_def starts as nil */

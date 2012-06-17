@@ -8,40 +8,48 @@
  */
 
 #include "config.h"
+#include "diag_config.h"
 
-#include "installglob.h"
-#include "tags.h"
-#include "exp.h"
+#ifdef NEWDWARF
+#include "dw2_config.h"
+#endif
+
+#include <reader/externs.h>
+#include <reader/readglob.h>
+#include <reader/basicread.h>
+
+#include <construct/installglob.h>
+#include <construct/tags.h>
+#include <construct/exp.h>
+#include <construct/flags.h>
+#include <construct/shapemacs.h>
+#include <construct/machine.h>
+#include <construct/flpt.h>
+#include <construct/flpttypes.h>
+
+#include <diag/diag_fns.h>
+
+#include <refactor/optimise.h>
+
 #include "expmacs.h"
-#include "optimise.h"
-#include "flags.h"
 #include "coder.h"
-#include "shapemacs.h"
 #include "instr.h"
 #include "out.h"
 #include "scan2.h"
 #include "weights.h"
 #include "instr386.h"
 #include "operand.h"
-#include "machine.h"
 #include "codermacs.h"
-#include "flpt.h"
-#include "flpttypes.h"
 #include "localflags.h"
 #include "localtypes.h"
-#include "diag_fns.h"
 #include "assembler.h"
 #include "cproc.h"
 #include "evaluate.h"
-#include "externs.h"
-#include "readglob.h"
 #include "tv_callees.h"
-#include "basicread.h"
+
 #ifdef NEWDWARF
-#include "dw2_iface.h"
-#include "dw2_config.h"
+#include <dwarf2/dw2_iface.h>
 #endif
-#include "diag_config.h"
 
 
 #define ptg(x) ((x)->ptf.glob)		/* addition to expmacs */

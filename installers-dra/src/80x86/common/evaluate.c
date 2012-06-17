@@ -8,30 +8,32 @@
  */
 
 #include "config.h"
+#include "diag_config.h"
 
-#include "tags.h"
-#include "basicread.h"
+#include <reader/basicread.h>
+#include <reader/externs.h>
+#include <reader/table_fns.h>
+
+#include <construct/tags.h>
+#include <construct/exp.h>
+#include <construct/shapemacs.h>
+#include <construct/flpt.h>
+#include <construct/install_fns.h>
+#include <construct/flags.h>
+#include <construct/machine.h>
+#include <construct/f64.h>
+
+#include <diag/diag_fns.h>
+
 #include "expmacs.h"
-#include "exp.h"
-#include "shapemacs.h"
-#include "flpt.h"
 #include "coder.h"
 #include "instr.h"
 #include "out.h"
 #include "codermacs.h"
-#include "externs.h"
-#include "install_fns.h"
-#include "table_fns.h"
-#include "flags.h"
 #include "instr386.h"
-#include "machine.h"
 #include "localflags.h"
 #include "assembler.h"
 #include "messages_8.h"
-#include "diag_fns.h"
-#include "f64.h"
-#include "diag_config.h"
-
 #include "evaluate.h"
 
 

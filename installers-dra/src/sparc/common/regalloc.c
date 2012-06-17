@@ -31,8 +31,10 @@
 
 #include "config.h"
 
+#include <construct/tags.h>
+#include <construct/flags.h>
+
 #include "expmacs.h"
-#include "tags.h"
 #include "proctypes.h"
 #include "procrec.h"
 #include "bitsmacs.h"
@@ -40,7 +42,6 @@
 #include "regable.h"
 #include "regmacs.h"
 #include "comment.h"
-#include "flags.h"
 #include "proc.h"
 #include "translat.h"
 #include "regalloc.h"

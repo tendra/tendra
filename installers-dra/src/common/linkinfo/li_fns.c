@@ -12,13 +12,8 @@
 #include <shared/xalloc.h>
 
 #include "config.h"
-
 #include "exptypes.h"
-#include "flags.h"
-#include "messages_li.h"
-#include "natmacs.h"
-#include "main_reads.h"
-#include "externs.h"
+#include "expmacs.h"
 
 /* TODO: stopgap until outs() is centralised */
 #if is80x86
@@ -32,12 +27,18 @@
 #include "out.h"
 #endif
 
-#include "readglob.h"
-#include "basicread.h"
-#include "exp.h"
-#include "expmacs.h"
-#include "tags.h"
-#include "machine.h"
+#include <reader/natmacs.h>
+#include <reader/main_reads.h>
+#include <reader/externs.h>
+#include <reader/readglob.h>
+#include <reader/basicread.h>
+
+#include <construct/flags.h>
+#include <construct/exp.h>
+#include <construct/tags.h>
+#include <construct/machine.h>
+
+#include <linkinfo/messages_li.h>
 
 int use_link_stuff;
 weak_cell *weak_list;

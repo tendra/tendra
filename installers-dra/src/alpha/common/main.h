@@ -16,7 +16,7 @@
 
 #include "config.h"
 
-#include "installtypes.h"
+#include <construct/installtypes.h>
 
 extern int use_umulh_for_div;
 extern bool fail_with_denormal_constant;

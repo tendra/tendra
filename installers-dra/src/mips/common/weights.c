@@ -41,15 +41,16 @@ stack, (this is obviously always available for parameters).
 
 #include "config.h"
 
+#include <construct/exp.h>
+#include <construct/tags.h>
+#include <construct/shapemacs.h>
+
 #include "exptypes.h"
-#include "exp.h"
 #include "expmacs.h"
-#include "tags.h"
 #include "procrectypes.h"
 #include "bitsmacs.h"
 #include "maxminmacs.h"
 #include "regable.h"
-#include "shapemacs.h"
 #include "special.h"
 #include "weights.h"
 

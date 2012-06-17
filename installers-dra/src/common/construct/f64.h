@@ -10,6 +10,8 @@
 #ifndef f64_key
 #define f64_key
 
+#include <construct/flpttypes.h>
+
 extern flt64 flt_to_f64(flpt fp, int sg, int *ov);
 extern flpt f64_to_flt(flt64 a, int sg);
 extern int f64_to_flpt(flt64 a, int sg, int *pr, int sz);

@@ -16,13 +16,12 @@
 #include "memtdf.h"
 #include "codegen.h"
 #include "geninst.h"
-
 #include "needscan.h"
 #include "comment.h"
-
 #include "muldvrem.h"
 #include "translat.h"
 #include "error.h"
+
 #define BITS_PER_WORD		32
 
 #define MAX_MUL_POW2_OFFSET	2	/* max permissable X in 2**n +- X for

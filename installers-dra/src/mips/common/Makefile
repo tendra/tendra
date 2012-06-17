@@ -3,8 +3,7 @@
 .include "Makefile.inc"
 
 
-CCOPTS+=	-I ../../common/reader
-CCOPTS+=	-I ../../common/refactor
+CCOPTS+=	-I ../../common
 
 SRCS+=	bstack.c
 SRCS+=	code_here.c

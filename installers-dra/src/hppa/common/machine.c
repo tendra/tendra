@@ -11,8 +11,9 @@
 
 #include "config.h"
 
+#include <construct/shapemacs.h>
+
 #include "expmacs.h"
-#include "shapemacs.h"
 #include "regable.h"
 
 /*

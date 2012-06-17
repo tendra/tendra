@@ -13,9 +13,10 @@
 #include <shared/xalloc.h>
 
 #include "config.h"
+#include "cross_config.h"
+
 #include "symtab.h"	
 #include "makesymtab.h"	
-#include "cross_config.h"
 
 /* type definitions for translator produced debugging 
    information to be incorporated into a .T file  */

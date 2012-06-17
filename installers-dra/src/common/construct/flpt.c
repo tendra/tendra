@@ -21,15 +21,16 @@
 
 #include "config.h"
 
-#include "flpttypes.h"
-#include "exp.h"
 #include "szs_als.h"
-#include "messages_c.h"
-#include "basicread.h"
-#include "installglob.h"
-#include "flags.h"
 
-#include "flpt.h"
+#include <reader/basicread.h>
+
+#include <construct/flpttypes.h>
+#include <construct/exp.h>
+#include <construct/messages_c.h>
+#include <construct/installglob.h>
+#include <construct/flags.h>
+#include <construct/flpt.h>
 
 /* MACROS */
 

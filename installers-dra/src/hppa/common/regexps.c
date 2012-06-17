@@ -19,14 +19,15 @@ For trivial 'peephole' optimisations
 
 #include "config.h"
 
+#include <construct/tags.h>
+#include <construct/shapemacs.h>
+
 #include "exptypes.h"
 #include "expmacs.h"
 #include "addrtypes.h"
-#include "tags.h"
 #include "move.h"
 #include "bitsmacs.h"
 #include "maxminmacs.h"
-#include "shapemacs.h"
 #include "regmacs.h"
 #include "comment.h"
 #include "regexps.h"

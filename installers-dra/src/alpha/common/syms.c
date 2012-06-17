@@ -12,19 +12,21 @@ syms.c   - produce symbol numbers for binasm (dense numbers)
 */
 
 #include "config.h"
+#include "cross_config.h"
 
 #include <shared/xalloc.h>
 
-#include "flags.h"
+#include <construct/flags.h>
+#include <construct/shapemacs.h>
+#include <construct/tags.h>
+
 #include "expmacs.h"
-#include "shapemacs.h"
 #include "syms.h"
-#include "tags.h"
 #include "main.h"
 #include "alphadiags.h"
 #include "localtypes.h"
 #include "symbol.h"
-#include "cross_config.h"
+
 extern int currentfile;
 
 #ifndef CROSS_INCLUDE

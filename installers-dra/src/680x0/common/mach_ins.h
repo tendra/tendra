@@ -12,7 +12,7 @@
 
 #include "config.h"
 
-#include "installtypes.h"
+#include <construct/installtypes.h>
 
 extern void make_instr_aux(int, mach_op *, mach_op *, bitpattern, int);
 

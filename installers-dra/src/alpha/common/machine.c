@@ -9,9 +9,10 @@
 
 #include "config.h"
 
+#include <construct/shapemacs.h>
+#include <construct/installtypes.h>
+
 #include "expmacs.h"
-#include "shapemacs.h"
-#include "installtypes.h"
 #include "localtypes.h"
 
 

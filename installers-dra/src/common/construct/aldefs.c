@@ -10,11 +10,11 @@
 
 #include "config.h"
 
-#include "installglob.h"
-#include "basicread.h"
-#include "messages_c.h"
+#include <reader/basicread.h>
 
-#include "aldefs.h"
+#include <construct/installglob.h>
+#include <construct/messages_c.h>
+#include <construct/aldefs.h>
 
 #define max(x, y)	((x) > (y)) ? (x) : (y)
 

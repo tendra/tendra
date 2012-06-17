@@ -17,16 +17,25 @@
 #define SPARCTRANS_CODE
 
 #include "config.h"
+#include "diag_config.h"
+
+#ifdef NEWDWARF
+#include "dw2_config.h"
+#endif
+
+#include <reader/basicread.h>
+#include <reader/externs.h>
+
+#include <construct/tags.h>
+#include <construct/installtypes.h>
+#include <construct/exp.h>
+#include <construct/shapemacs.h>
+#include <construct/flags.h>
 
 #include "addrtypes.h"
-#include "tags.h"
 #include "expmacs.h"
-#include "installtypes.h"
-#include "exp.h"
 #include "exptypes.h"
 #include "maxminmacs.h"
-#include "shapemacs.h"
-#include "basicread.h"
 #include "proctypes.h"
 #include "eval.h"
 #include "move.h"
@@ -42,25 +51,21 @@
 #include "regexps.h"
 #include "regmacs.h"
 #include "regable.h"
-#include "flags.h"
 #include "special.h"
 #include "translat.h"
 #include "makecode.h"
 #include "out.h"
 #include "proc.h"
 #include "szs_als.h"
-#include "externs.h"
 #include "sparctrans.h"
-#include "diag_config.h"
 
 #ifdef NEWDIAGS
-#include "dg_globs.h"
+#include <diag/dg_globs.h>
 #endif
 
 #ifdef NEWDWARF
-#include "dw2_config.h"
-#include "dw2_info.h"
-#include "dw2_basic.h"
+#include <dwarf2/dw2_info.h>
+#include <dwarf2/dw2_basic.h>
 #include "dw2_extra.h"
 #endif
 

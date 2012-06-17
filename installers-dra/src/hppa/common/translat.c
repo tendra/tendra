@@ -95,14 +95,24 @@
 
 #include "config.h"
 
-#include "codetypes.h"
+#include <reader/codetypes.h>
+#include <reader/toktypes.h>
+#include <reader/basicread.h>
+#include <reader/externs.h>
+
+#include <construct/flpt.h>
+#include <construct/tags.h>
+#include <construct/exp.h>
+#include <construct/shapemacs.h>
+#include <construct/flags.h>
+#include <construct/tags.h>
+#include <construct/installglob.h>
+
+#include <refactor/optimise.h>
+
 #include "exptypes.h"
-#include "flpt.h"
 #include "frames.h"
 #include "expmacs.h"
-#include "tags.h"
-#include "exp.h"
-#include "shapemacs.h"
 #include "tempdecs.h"
 #include "weights.h"
 #include "proctypes.h"
@@ -111,10 +121,6 @@
 #include "codehere.h"
 #include "makecode.h"
 #include "eval.h"
-#include "toktypes.h"
-#include "flags.h"
-#include "basicread.h"
-#include "tags.h"
 #include "bitsmacs.h"
 #include "needscan.h"
 #include "getregs.h"
@@ -122,13 +128,10 @@
 #include "labels.h"
 #include "comment.h"
 #include "hppadiags.h"
-#include "installglob.h"
-#include "externs.h"
 #include "out.h"
 #include "translat.h"
 #include "version.h"
 #include "inst_fmt.h"
-#include "optimise.h"
 #include "getregs.h"
 #include "special.h"
 #include "oprators.h"

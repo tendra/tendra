@@ -14,15 +14,17 @@
   portably.
 */
 
-#include "output.h"
 #include "config.h"
-#include "flpttypes.h"
+
+#include <construct/flpttypes.h>
+#include <construct/flpt.h>
+#include <construct/f64.h>
+
+#include "output.h"
 #include "cross.h"
 #include "main.h"
 #include "config.h"
 #include "fail.h"
-#include "flpt.h"
-#include "f64.h"
 #include "expmacs.h"
 
 #if FS_64_BIT

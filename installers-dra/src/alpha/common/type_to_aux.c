@@ -23,18 +23,21 @@
 #include <shared/xalloc.h>
 
 #include "config.h"
+#include "cross_config.h"
 
-#include "codetypes.h"
-#include "shapemacs.h"
-#include "exp.h"
+#include <reader/codetypes.h>
+
+#include <construct/shapemacs.h>
+#include <construct/exp.h>
+
+#include <diag/diagtypes.h>
+#include <diag/diag_fns.h>
+
 #include "expmacs.h"
-#include "diagtypes.h"
-#include "diag_fns.h"
 #include "main.h"
 #include "symtab.h"
 #include "symbol.h"
 #include "type_to_aux.h"
-#include "cross_config.h"
 
 #ifndef CROSS_INCLUDE
 #include <symconst.h>

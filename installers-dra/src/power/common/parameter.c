@@ -13,14 +13,15 @@
 
 #include "config.h"
 
+#include <construct/machine.h>
+#include <construct/flags.h>
+
 #include "exptypes.h"
 #include "memtdf.h"
 #include "codegen.h"
 #include "geninst.h"
 #include "translat.h"
 #include "makecode.h"
-#include "machine.h"
-#include "flags.h"
 #include "comment.h"
 #include "proc.h"
 #include "stack.h"

@@ -11,14 +11,16 @@
 
 #include "config.h"
 
+#include <reader/basicread.h>
+#include <reader/externs.h>
+
+#include <construct/exp.h>
+#include <construct/install_fns.h>
+#include <construct/shapemacs.h>
+#include <construct/tags.h>
+
 #include "assembler.h"
-#include "basicread.h"
-#include "exp.h"
 #include "expmacs.h"
-#include "externs.h"
-#include "install_fns.h"
-#include "shapemacs.h"
-#include "tags.h"
 #include "mach.h"
 #include "mach_ins.h"
 #include "where.h"
@@ -33,6 +35,7 @@
 #include "utility.h"
 #include "translate.h"
 #include "ops_shared.h"
+
 extern void add_const(shape, long, where);
 
 /*

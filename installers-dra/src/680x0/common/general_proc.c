@@ -12,17 +12,22 @@
 #include <shared/error.h>
 
 #include "config.h"
+
+#include <construct/exp.h>
+#include <construct/flags.h>
+#include <construct/shapemacs.h>
+#include <reader/externs.h>
+#include <construct/install_fns.h>
+#include <construct/spec.h>
+#include <construct/tags.h>
+#include <construct/installglob.h>
+
+#include <refactor/optimise.h>
+
 #include "exptypes.h"
-#include "exp.h"
 #include "expmacs.h"
-#include "flags.h"
-#include "shapemacs.h"
-#include "externs.h"
-#include "install_fns.h"
-#include "spec.h"
 #include "mach.h"
 #include "where.h"
-#include "tags.h"
 #include "codec.h"
 #include "coder.h"
 #include "operations.h"
@@ -41,9 +46,7 @@
 #include "translate.h"
 #include "general_proc.h"
 #include "68k_globals.h"
-#include "installglob.h"
 #include "special_exps.h"
-#include "optimise.h"
 
 /* externals */
 

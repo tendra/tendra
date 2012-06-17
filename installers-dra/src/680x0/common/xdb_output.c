@@ -11,25 +11,24 @@
 
 #include "config.h"
 
-#include "dg_first.h"
+#include <construct/installtypes.h>
+#include <construct/exp.h>
+#include <construct/tags.h>
 
-#include "diaginfo.h"
-#include "exptypes.h"
-#include "installtypes.h"
-#include "dg_types.h"		/* NEW DIAGS */
-#include "diagtypes.h"		/* OLD DIAGS */
+#include <diag/dg_first.h>
+#include <diag/diaginfo.h>
+#include <diag/dg_types.h>		/* NEW DIAGS */
+#include <diag/diagtypes.h>		/* OLD DIAGS */
 
 #include "exptypes.h"
 #include "assembler.h"
 #include "codex.h"
-#include "exp.h"
 #include "expmacs.h"
 #include "instrs.h"
 #include "mach.h"
 #include "mach_ins.h"
 #include "mach_op.h"
 #include "output.h"
-#include "tags.h"
 #include "utility.h"
 #include "xdb_types.h"
 #include "xdb_output.h"

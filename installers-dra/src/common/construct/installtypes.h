@@ -12,10 +12,10 @@
 
 #include "config.h"
 
-#include "codetypes.h"
+#include <reader/codetypes.h>
 
-#include "dg_first.h"
-#include "diaginfo.h"
+#include <diag/dg_first.h>
+#include <diag/diaginfo.h>
 
 #include "exptypes.h"
 

@@ -15,16 +15,18 @@ For trivial 'peephole' optimisations
 
 #include "config.h"
 
+#include <reader/basicread.h>
+
+#include <construct/tags.h>
+#include <construct/shapemacs.h>
+
 #include "exptypes.h"
 #include "expmacs.h"
 #include "addrtypes.h"
-#include "tags.h"
 #include "move.h"
 #include "bitsmacs.h"
 #include "maxminmacs.h"
-#include "shapemacs.h"
 #include "extratags.h"
-#include "basicread.h"
 #include "regexps.h"
 
 regpeep regexps[48];		/* [0:31] fix pt - [32:47] floating pt */

@@ -8,11 +8,12 @@
  */
 
 #include "config.h"
-
-#include "dw2_entries.h"
 #include "dw2_config.h"
-#include "dw2_basic.h"
-#include "basicread.h"
+
+#include <dwarf2/dw2_entries.h>
+#include <dwarf2/dw2_basic.h>
+
+#include <reader/basicread.h>
 
 static long empty[] = { -1 };
 

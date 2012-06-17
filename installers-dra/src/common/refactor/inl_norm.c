@@ -17,17 +17,20 @@
 
 #include "config.h"
 
-#include "installglob.h"
-#include "exp.h"
 #include "expmacs.h"
-#include "tags.h"
-#include "flags.h"
-#include "const.h"
-#include "shapemacs.h"
 #include "glopt.h"
-#include "optimise.h"
+
+#include <construct/installglob.h>
+#include <construct/exp.h>
+#include <construct/tags.h>
+#include <construct/flags.h>
+#include <construct/shapemacs.h>
+
+#include <refactor/const.h>
+#include <refactor/optimise.h>
+
 #ifdef NEWDIAGS
-#include "dg_aux.h"
+#include <diag/dg_aux.h>
 #endif
 
 int print_inlines = 0;

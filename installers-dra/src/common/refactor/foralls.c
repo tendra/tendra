@@ -12,19 +12,22 @@
 #include "config.h"
 
 #include "exptypes.h"
-#include "tags.h"
 #include "expmacs.h"
-#include "exp.h"
-#include "shapemacs.h"
-#include "install_fns.h"
-#include "const.h"
-#include "constmacs.h"
-#include "flags.h"
-#include "me_fns.h"
-#include "basicread.h"
-#include "externs.h"
-#include "optimise.h"
-#include "refactor_id.h"
+
+#include <reader/basicread.h>
+#include <reader/externs.h>
+
+#include <construct/tags.h>
+#include <construct/exp.h>
+#include <construct/shapemacs.h>
+#include <construct/install_fns.h>
+#include <construct/constmacs.h>
+#include <construct/flags.h>
+#include <construct/me_fns.h>
+
+#include <refactor/const.h>
+#include <refactor/optimise.h>
+#include <refactor/refactor_id.h>
 
 #define subvar 0x100
 

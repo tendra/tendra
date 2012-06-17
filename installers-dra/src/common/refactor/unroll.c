@@ -12,17 +12,20 @@
 #include "config.h"
 
 #include "exptypes.h"
-#include "basicread.h"
-#include "exp.h"
 #include "expmacs.h"
-#include "tags.h"
-#include "installglob.h"
-#include "externs.h"
-#include "me_fns.h"
-#include "install_fns.h"
-#include "shapemacs.h"
-#include "refactor.h"
-#include "optimise.h"
+
+#include <reader/basicread.h>
+#include <reader/externs.h>
+
+#include <construct/exp.h>
+#include <construct/tags.h>
+#include <construct/installglob.h>
+#include <construct/me_fns.h>
+#include <construct/install_fns.h>
+#include <construct/shapemacs.h>
+
+#include <refactor/refactor.h>
+#include <refactor/optimise.h>
 
 static int unroll_complex(exp, int, exp, int, exp, int);
 

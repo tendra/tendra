@@ -11,16 +11,19 @@
 
 
 #include "config.h"
-#include "basicread.h"
-#include "flags.h"
-#include "localflags.h"
-#include "instr.h"
-#include "messages_8.h"
-#include "out.h"
 
 #ifdef NEWDWARF
 #include "dw2_config.h"
 #endif
+
+#include <reader/basicread.h>
+
+#include <construct/flags.h>
+
+#include "localflags.h"
+#include "instr.h"
+#include "messages_8.h"
+#include "out.h"
 
 static FILE *fpout;
 

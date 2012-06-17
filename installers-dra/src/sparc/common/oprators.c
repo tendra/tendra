@@ -13,6 +13,13 @@
 
 #define SPARCTRANS_CODE
 
+#include <reader/externs.h>
+
+#include <construct/tags.h>
+#include <construct/shapemacs.h>
+#include <construct/install_fns.h>
+#include <construct/exp.h>
+
 #include "exptypes.h"
 #include "codehere.h"
 #include "expmacs.h"
@@ -22,14 +29,9 @@
 #include "maxminmacs.h"
 #include "getregs.h"
 #include "guard.h"
-#include "tags.h"
-#include "shapemacs.h"
 #include "bitsmacs.h"
-#include "externs.h"
-#include "install_fns.h"
 #include "regmacs.h"
 #include "regexps.h"
-#include "exp.h"
 #include "out.h"
 #include "locate.h"
 #include "eval.h"

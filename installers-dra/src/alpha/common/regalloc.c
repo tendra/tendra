@@ -21,8 +21,9 @@
 
 #include "config.h"
 
+#include <construct/tags.h>
+
 #include "expmacs.h"
-#include "tags.h"
 #include "procrectypes.h"
 #include "procrecs.h"
 #include "bitsmacs.h"

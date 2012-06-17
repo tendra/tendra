@@ -10,6 +10,8 @@
 #ifndef diag_config_key
 #define diag_config_key
 
+#include <diag/diagtypes1.h>
+
 typedef long OUTPUT_REC;
 typedef diag_descriptor diag_global;
 

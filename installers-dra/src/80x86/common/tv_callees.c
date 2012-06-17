@@ -9,13 +9,15 @@
 
 #include "config.h"
 
-#include "installglob.h"
-#include "externs.h"
-#include "flags.h"
-#include "install_fns.h"
-#include "tags.h"
+#include <reader/externs.h>
+
+#include <construct/installglob.h>
+#include <construct/flags.h>
+#include <construct/install_fns.h>
+#include <construct/tags.h>
+#include <construct/exp.h>
+
 #include "expmacs.h"
-#include "exp.h"
 #include "tv_callees.h"
 
 void transform_var_callees

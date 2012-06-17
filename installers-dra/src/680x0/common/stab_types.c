@@ -9,19 +9,20 @@
 
 #include "config.h"
 
-#include "codetypes.h"
-#include "expmacs.h"
-#include "externs.h"
+#include <reader/codetypes.h>
+#include <reader/externs.h>
+
+#include <construct/shapemacs.h>
+
 #include "instrs.h"
 #include "mach.h"
 #include "mach_ins.h"
 #include "mach_op.h"
 #include "output.h"
-#include "shapemacs.h"
 #include "utility.h"
 #include "xdb_output.h"
 #include "stab_types.h"
-
+#include "expmacs.h"
 
 /*
     CREATE A STABS INSTRUCTION

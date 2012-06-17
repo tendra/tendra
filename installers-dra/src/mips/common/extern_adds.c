@@ -9,14 +9,16 @@
 
 #include "config.h"
 
+#include <reader/externs.h>
+#include <reader/basicread.h>
+
+#include <construct/tags.h>
+#include <construct/exp.h>
+#include <construct/shapemacs.h>
+
 #include "extern_adds.h"
 #include "procrectypes.h"
-#include "tags.h"
-#include "exp.h"
 #include "expmacs.h"
-#include "shapemacs.h"
-#include "externs.h"
-#include "basicread.h"
 #include "needs_scan.h"
 
 

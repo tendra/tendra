@@ -23,10 +23,11 @@
 #include "out_ba.h"
 #include "reg_defs.h"
 #include "bool.h"
+#include "inst_fmt.h"
+
 #if DO_SCHEDULE
 #include "scheduler.h"
 #endif
-#include "inst_fmt.h"
 
 extern  FILE * as_file;
 extern bool in_noat_block;

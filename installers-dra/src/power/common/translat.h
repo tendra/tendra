@@ -15,7 +15,7 @@
 
 #include "config.h"
 
-#include "installtypes.h"
+#include <construct/installtypes.h>
 #include "codegen.h"
 
 extern dec * diag_def;

@@ -15,17 +15,26 @@
 
 #define HPPATRANS_CODE
 
+#include <reader/externs.h>
+#include <reader/basicread.h>
+
+#include <construct/tags.h>
+#include <construct/installtypes.h>
+#include <construct/exp.h>
+#include <construct/shapemacs.h>
+#include <construct/flags.h>
+#include <construct/install_fns.h>
+#include <construct/f64.h>
+#include <construct/misc_c.h>
+
+#include <refactor/optimise.h>
+#include <refactor/refactor.h>
+
 #include "addrtypes.h"
-#include "tags.h"
 #include "new_tags.h"
 #include "expmacs.h"
-#include "installtypes.h"
-#include "exp.h"
 #include "exptypes.h"
-#include "externs.h"
 #include "maxminmacs.h"
-#include "shapemacs.h"
-#include "basicread.h"
 #include "proctypes.h"
 #include "eval.h"
 #include "move.h"
@@ -44,20 +53,14 @@
 #include "regable.h"
 #include "muldvrem.h"
 #include "proc.h"
-#include "flags.h"
-#include "install_fns.h"
 #include "hppadiags.h"
 #include "translat.h"
 #include "frames.h"
 #include "out.h"
 #include "makecode.h"
 #include "extratags.h"
-#include "f64.h"
-#include "misc_c.h"
 #include "special.h"
 #include "loc_signal.h"
-#include "optimise.h"
-#include "refactor.h"
 
 #define outp fprintf
 #define isdbl(e)((bool)(name(e)!= shrealhd))

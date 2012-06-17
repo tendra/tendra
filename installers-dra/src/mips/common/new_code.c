@@ -13,17 +13,23 @@
 
 #include "config.h"
 
+#include <reader/externs.h>
+#include <reader/basicread.h>
+
+#include <construct/tags.h>
+#include <construct/exp.h>
+#include <construct/shapemacs.h>
+#include <construct/flags.h>
+#include <construct/f64.h>
+#include <construct/flpt.h>
+
+#include <diag/diag_fns.h>
+
 #include "exptypes.h"
 #include "addrtypes.h"
-#include "tags.h"
 #include "expmacs.h"
-#include "exp.h"
-#include "exptypes.h"
-#include "externs.h"
 #include "loc_signal.h"
 #include "maxminmacs.h"
-#include "shapemacs.h"
-#include "basicread.h"
 #include "procrectypes.h"
 #include "eval.h"
 #include "move.h"
@@ -44,16 +50,12 @@
 #include "out_ba.h"
 #include "ibinasm.h"
 #include "syms.h"
-#include "flags.h"
 #include "main.h"
 #include "dump_distr.h"
 #include "extratags.h"
 #include "mipsdiags.h"
 #include "frames.h"
-#include "f64.h"
 #include "regable.h"
-#include "diag_fns.h"
-#include "flpt.h"
 #include "new_code.h"
 
 extern  FILE * as_file;

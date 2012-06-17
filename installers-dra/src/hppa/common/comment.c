@@ -11,8 +11,9 @@
 
 #include "config.h"
 
+#include <refactor/const.h>
+
 #include "comment.h"
-#include "const.h"
 #include "out.h"
 
 

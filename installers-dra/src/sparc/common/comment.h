@@ -15,8 +15,8 @@
 #include "config.h"
 
 #include "exptypes.h"
-#include "codetypes.h"
-#include "installtypes.h"
+#include <reader/codetypes.h>
+#include <construct/installtypes.h>
 
 extern char *sparctrans;
 extern bool do_comment;

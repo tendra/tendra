@@ -9,17 +9,19 @@
 
 #include "config.h"
 
-#include "codetypes.h"
+#include <reader/codetypes.h>
+
+#include <diag/diag_fns.h>
+#include <diag/diagglob.h>
+#include <diag/mark_scope.h>
+
 #include "exptypes.h"
 #include "codex.h"
-#include "diag_fns.h"
-#include "diagglob.h"
 #include "expmacs.h"
 #include "instrs.h"
 #include "mach.h"
 #include "mach_ins.h"
 #include "mach_op.h"
-#include "mark_scope.h"
 #include "output.h"
 #include "xdb_types.h"
 #include "xdb_basics.h"

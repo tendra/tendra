@@ -13,29 +13,32 @@
 
 #include "config.h"
 
+#include <reader/externs.h>	    
+#include <reader/basicread.h>
+#include <reader/main_reads.h>
+#include <reader/readglob.h>
+
+#include <construct/installglob.h>
+#include <construct/exp.h>
+#include <construct/flpt.h>	
+#include <construct/flags.h>
+#include <construct/machine.h>
+
+#include <refactor/optimise.h>
+
 #include "exptypes.h"
 #include "memtdf.h"
 #include "codegen.h"
-#include "installglob.h"
-#include "basicread.h"
-#include "main_reads.h"
-#include "optimise.h"
-#include "exp.h"
-#include "flpt.h"	
-#include "externs.h"	    
 #include "tempdecs.h"
 #include "weights.h"
 #include "procrecs.h"
 #include "regalloc.h"
 #include "makecode.h"
 #include "eval.h"
-#include "flags.h"
 #include "needscan.h"
-#include "machine.h"
 #include "diagout.h"
 #include "comment.h"
 #include "translat.h"
-#include "readglob.h"
 #include "stack.h"
 #include "frames.h"
 #include "stack.h"

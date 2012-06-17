@@ -13,13 +13,13 @@
 
 #include "config.h"
 
-#include "tags.h"
-#include "expmacs.h"
-#include "exp.h"
-#include "shapemacs.h"
-#include "sparcins.h"
-#include "is_worth.h"
+#include <construct/tags.h>
+#include <construct/exp.h>
+#include <construct/shapemacs.h>
+#include <construct/is_worth.h>
 
+#include "expmacs.h"
+#include "sparcins.h"
 
 /*
     BOOLEAN VALUES

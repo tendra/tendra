@@ -25,15 +25,16 @@ that the corresponding register is free for use.
 
 #include "config.h"
 
+#include <construct/exp.h>
+#include <construct/tags.h>
+
 #include "regmacs.h"
 #include "proctypes.h"
 #include "exptypes.h"
 #include "procrec.h"
 #include "expmacs.h"
-#include "exp.h"
 #include "addrtypes.h"
 #include "regexps.h"
-#include "tags.h"
 #include "expmacs.h"
 #include "bitsmacs.h"
 #include "getregs.h"

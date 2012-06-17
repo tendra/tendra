@@ -16,39 +16,44 @@
 
 #include "config.h"
 
-#include "exptypes.h"
-#include "operand.h"
-#include "instr.h"
-#include "shapemacs.h"
-#include "tags.h"
-#include "exp.h"
-#include "basicread.h"
+#ifdef NEWDWARF
+#include "dw2_config.h"
+#endif
+
+#include <reader/basicread.h>
+#include <reader/externs.h>
+
+#include <construct/shapemacs.h>
+#include <construct/tags.h>
+#include <construct/exp.h>
+#include <construct/install_fns.h>
+#include <construct/flags.h>
+#include <construct/flpt.h>
+#include <construct/flpttypes.h>
+#include <construct/machine.h>
+#include <construct/f64.h>
+#include <construct/installglob.h>
+
 #include "expmacs.h"
-#include "flpt.h"
-#include "flpttypes.h"
 #include "coder.h"
 #include "out.h"
 #include "reg_record.h"
 #include "codermacs.h"
-#include "install_fns.h"
-#include "externs.h"
 #include "localflags.h"
-#include "flags.h"
 #include "overlap.h"
 #include "messages_8.h"
-#include "machine.h"
-#include "f64.h"
-#include "installglob.h"
+#include "exptypes.h"
+#include "operand.h"
+#include "instr.h"
 #include "instr386.h"
 #include "instrmacs.h"
 
 #ifdef NEWDIAGS
-#include "dg_globs.h"
+#include <diag/dg_globs.h>
 #endif
 
 #ifdef NEWDWARF
-#include "dw2_config.h"
-#include "dw2_basic.h"
+#include <dwarf2/dw2_basic.h>
 #include "dw2_extra.h"
 #include "diag_config.h"
 #endif

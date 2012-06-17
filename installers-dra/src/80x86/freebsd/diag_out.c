@@ -15,26 +15,26 @@
 #include "config.h"
 
 #include "exptypes.h"
-#include "codetypes.h"
-#include "installtypes.h"
-#include "li_types.h"
+#include <reader/codetypes.h>
+#include <construct/installtypes.h>
+#include <linkinfo/li_types.h>
 
-#include "dg_first.h"
-#include "diaginfo.h"
-#include "dg_types.h"  /* new diags */
-#include "diagtypes.h" /* old diags */
+#include <diag/dg_first.h>
+#include <diag/diaginfo.h>
+#include <diag/dg_types.h>  /* new diags */
+#include <diag/diagtypes.h> /* old diags */
 
-#include "basicread.h"
+#include <reader/basicread.h>
 #include "out.h"
-#include "machine.h"
-#include "shapemacs.h"
+#include <construct/machine.h>
+#include <construct/shapemacs.h>
 #include "expmacs.h"
-#include "tags.h"
+#include <construct/tags.h>
 #include "szs_als.h"
-#include "diagglob.h"
-#include "exp.h"
-#include "mark_scope.h"
-#include "externs.h"
+#include <diag/diagglob.h>
+#include <construct/exp.h>
+#include <diag/mark_scope.h>
+#include <reader/externs.h>
 #ifdef NEWDIAGS
 #include "codermacs.h"
 #include "instr.h"

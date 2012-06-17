@@ -12,28 +12,29 @@
 #define SPARCTRANS_CODE
 
 #include "config.h"
+#include "diag_config.h"
+
+#include <construct/tags.h>
+#include <construct/exp.h>
+#include <construct/shapemacs.h>
 
 #include "addrtypes.h"
 #include "proctypes.h"
 #include "labels.h"
 #include "expmacs.h"
-#include "tags.h"
 #include "makecode.h"
-#include "exp.h"
 #include "bitsmacs.h"
 #include "locate.h"
 #include "regexps.h"
 #include "regmacs.h"
 #include "inst_fmt.h"
 #include "sparcins.h"
-#include "shapemacs.h"
 #include "special.h"
 #include "regable.h"
 #include "guard.h"
 #include "move.h"
 #include "comment.h"
 #include "codehere.h"
-#include "diag_config.h"
 
 
 /*

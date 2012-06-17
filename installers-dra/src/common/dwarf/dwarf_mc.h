@@ -7,7 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include "dwarf_vsn.h"
+#include <dwarf/dwarf_vsn.h>
 
 #if (is80x86)
 #define COMMENT_2(x, y)	x "#" y

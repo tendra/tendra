@@ -12,14 +12,15 @@
 #include "config.h"
 
 #include "exptypes.h"
-#include "exp.h"
 #include "expmacs.h"
-#include "tags.h"
-#include "externs.h"
-#include "shapemacs.h"
-#include "complex_eq.h"
 
-#include "misc_c.h"
+#include <reader/externs.h>
+
+#include <construct/exp.h>
+#include <construct/tags.h>
+#include <construct/shapemacs.h>
+#include <construct/complex_eq.h>
+#include <construct/misc_c.h>
 
 static int
 invar_list(exp e)

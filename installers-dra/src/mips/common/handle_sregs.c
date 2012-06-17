@@ -18,12 +18,13 @@
 
 #include "config.h"
 
+#include <reader/basicread.h>
+
 #include "mips_ins.h"
 #include "inst_fmt.h"
 #include "addrtypes.h"
 #include "expmacs.h"
 #include "frames.h"
-#include "basicread.h"
 #include "handle_sregs.h"
 
 extern long frame_size;

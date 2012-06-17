@@ -21,28 +21,34 @@
 #include "comment.h"
 #include "muldvrem.h"
 #include "proc.h"
-#include "flags.h"
 #include "translat.h"
 #include "eval.h"
-#include "optimise.h"
+
+#include <reader/externs.h>
+
+#include <construct/flags.h>
+#include <construct/label_ops.h>
+#include <construct/installglob.h>
+#include <construct/f64.h>
+
+#include <diag/diag_fns.h>
+
+#include <refactor/optimise.h>
 
 #include "makecode.h"
 #include "frames.h"
 #include "stack.h"
-#include "label_ops.h"
 #include "instruct.h"
-#include "installglob.h"
-#include "externs.h"
 #include "tempdecs.h"
-#include "diag_fns.h"
 #include "oprators.h"
 #include "record_bit.h"
 #include "mask.h"
 #include "error.h"
-#include "f64.h"
+
 #ifdef DEBUG_POWERTRANS
 #include "pp.h"
 #endif
+
 bool cr0_set;
 
 where nowhere;	/* no particular destination, init in translat.c */

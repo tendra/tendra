@@ -29,7 +29,7 @@
 #include "config.h"
 
 #include "exptypes.h"
-#include "consttypes.h"
+#include <construct/consttypes.h>
 
 extern void repeat_consts(void);
 extern void return_repeats(void);

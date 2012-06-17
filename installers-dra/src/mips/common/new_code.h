@@ -9,7 +9,7 @@
 
 #include "config.h"
 
-#include "installtypes.h"
+#include <construct/installtypes.h>
 #include "addrtypes.h"
 #include "procrectypes.h"
 #include "exptypes.h"

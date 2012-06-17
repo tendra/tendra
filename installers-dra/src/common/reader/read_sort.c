@@ -11,18 +11,18 @@
    given by sn and delivers the result inserted into the union tokval */
 
 #include "config.h"
-
-#include "codetypes.h"
-#include "readglob.h"
-#include "basicread.h"
-#include "sortmacs.h"
-#include "exp.h"
 #include "expmacs.h"
-#include "main_reads.h"
-#include "externs.h"
-#include "messages_r.h"
 
-#include "read_sort.h"
+#include <reader/codetypes.h>
+#include <reader/readglob.h>
+#include <reader/basicread.h>
+#include <reader/sortmacs.h>
+#include <reader/main_reads.h>
+#include <reader/externs.h>
+#include <reader/messages_r.h>
+#include <reader/read_sort.h>
+
+#include <construct/exp.h>
 
 tokval
 read_sort(int sn)

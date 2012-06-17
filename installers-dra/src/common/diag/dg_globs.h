@@ -11,14 +11,15 @@
 #define dg_glob_key
 
 #include "config.h"
-
-#include "dg_first.h"
-
-#include "diaginfo.h"
-#include "exptypes.h"
-#include "installtypes.h"
-#include "dg_types.h"		/* NEW DIAGS */
 #include "diag_config.h"
+
+#include <construct/installtypes.h>
+
+#include <diag/dg_first.h>
+#include <diag/diaginfo.h>
+#include <diag/dg_types.h>		/* NEW DIAGS */
+
+#include "exptypes.h"
 
 extern dg_filename all_files;
 extern dg_compilation all_comp_units;

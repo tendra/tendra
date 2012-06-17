@@ -13,16 +13,19 @@
 
 #define SPARCTRANS_CODE
 
+#include <reader/externs.h>
+
+#include <construct/tags.h>
+#include <construct/installtypes.h>
+#include <construct/exp.h>
+#include <construct/shapemacs.h>
+
 #include "exptypes.h"
 #include "needscan.h"
 #include "addrtypes.h"
-#include "tags.h"
 #include "expmacs.h"
-#include "installtypes.h"
-#include "exp.h"
 #include "exptypes.h"
 #include "maxminmacs.h"
-#include "shapemacs.h"
 #include "proctypes.h"
 #include "eval.h"
 #include "move.h"
@@ -43,7 +46,7 @@
 #include "translat.h"
 #include "muldvrem.h"
 #include "makecode.h"
-#include "externs.h"
+
 /*
   NUMBER OF BITS IN A WORD
 */

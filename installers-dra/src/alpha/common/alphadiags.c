@@ -20,29 +20,32 @@
 #include <shared/xalloc.h>
 
 #include "config.h"
+#include "cross_config.h"
 
-#include "codetypes.h"
+#include <reader/codetypes.h>
+
+#include <construct/shapemacs.h>
+#include <construct/exp.h>
+#include <construct/tags.h>
+
+#include <diag/diagtypes.h>
+#include <diag/diag_fns.h>
+#include <diag/diagglob.h>
+#include <diag/mark_scope.h>
+
 #include "exptypes.h"
-#include "shapemacs.h"
 #include "expmacs.h"
-#include "exp.h"
 #include "procrectypes.h"
 #include "procrecs.h"
-#include "tags.h"
 #include "bitsmacs.h"
-#include "diagtypes.h"
 #include "syms.h"
-#include "diag_fns.h"
 #include "locate.h"
 #include "alphadiags.h"
-#include "diagglob.h"
-#include "mark_scope.h"
 #include "ibinasm.h"
 #include "out_ba.h"
 #include "coder.h"
 #include "cross.h"
 #include "symbol.h"
-#include "cross_config.h"
 #include "symconst.h"
 
 extern FILE * as_file;

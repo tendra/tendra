@@ -9,10 +9,10 @@
 
 #include "config.h"
 
-#include "tags.h"
-#include "expmacs.h"
-#include "exp.h"
+#include <construct/tags.h>
+#include <construct/exp.h>
 
+#include "expmacs.h"
 #include "overlap.h"
 
 /* PROCEDURES */

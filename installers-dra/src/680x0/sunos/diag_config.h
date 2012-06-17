@@ -10,6 +10,8 @@
 #ifndef DIAG_CONFIG_INCLUDED
 #define DIAG_CONFIG_INCLUDED
 
+#include <diag/diagtypes1.h>
+
 typedef diag_descriptor diag_global;
 typedef void *OUTPUT_REC;
 #define NEW_DIAG_GLOBAL(X)	X

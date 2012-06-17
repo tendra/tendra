@@ -20,29 +20,32 @@
 #include <shared/xalloc.h>
 
 #include "config.h"
+#include "cross_config.h"
 
-#include "codetypes.h"
+#include <reader/codetypes.h>
+
+#include <construct/shapemacs.h>
+#include <construct/exp.h>
+#include <construct/tags.h>
+
+#include <diag/diagtypes.h>
+#include <diag/diag_fns.h>
+#include <diag/diagglob.h>
+#include <diag/mark_scope.h>
+
 #include "exptypes.h"
-#include "shapemacs.h"
 #include "expmacs.h"
-#include "exp.h"
 #include "procrectypes.h"
 #include "procrecs.h"
-#include "tags.h"
 #include "bitsmacs.h"
-#include "diagtypes.h"
 #include "ibinasm.h"
 #include "out_ba.h"
 #include "syms.h"
-#include "diag_fns.h"
 #include "locate.h"
 #include "symbol.h"
 #include "alphadiags.h"
-#include "diagglob.h"
-#include "mark_scope.h"
 #include "symdiags.h"
 #include "pseudo.h"
-#include "cross_config.h"
 
 #ifndef CROSS_INCLUDE
 #include <symconst.h>

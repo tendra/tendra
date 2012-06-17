@@ -9,13 +9,14 @@
 
 #include "config.h"
 
+#include <construct/exp.h>
+#include <construct/tags.h>
+
 #include "procrectypes.h"
 #include "exptypes.h"
 #include "procrecs.h"
 #include "expmacs.h"
-#include "exp.h"
 #include "regexps.h"
-#include "tags.h"
 #include "expmacs.h"
 #include "bitsmacs.h"
 #include "fail.h"

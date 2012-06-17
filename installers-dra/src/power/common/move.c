@@ -29,12 +29,10 @@ Delivers register used if 1-word destination is instore; otherwise NOREG.
 #include "memtdf.h"
 #include "codegen.h"
 #include "geninst.h"
-
 #include "comment.h"
 #include "proc.h"			/* for mem_temp() */
 #include "maxminmacs.h"
 #include "makecode.h"
-
 #include "move.h"
 
 

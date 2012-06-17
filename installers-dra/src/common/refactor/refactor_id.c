@@ -38,22 +38,24 @@
 #include "config.h"
 
 #include "exptypes.h"
-#include "exp.h"
 #include "expmacs.h"
-#include "shapemacs.h"
-#include "refactor.h"
-#include "tags.h"
-#include "externs.h"
-#include "installglob.h"
-#include "flags.h"
-#include "install_fns.h"
-#include "me_fns.h"
-#include "refactor.h"
-#ifdef NEWDIAGS
-#include "dg_aux.h"
-#endif
 
-#include "refactor_id.h"
+#include <reader/externs.h>
+
+#include <construct/exp.h>
+#include <construct/shapemacs.h>
+#include <construct/tags.h>
+#include <construct/installglob.h>
+#include <construct/flags.h>
+#include <construct/install_fns.h>
+#include <construct/me_fns.h>
+
+#include <refactor/refactor.h>
+#include <refactor/refactor_id.h>
+
+#ifdef NEWDIAGS
+#include <diag/dg_aux.h>
+#endif
 
 #if is68000
 extern int check_anyway(exp);

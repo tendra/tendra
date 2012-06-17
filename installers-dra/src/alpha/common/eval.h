@@ -11,7 +11,7 @@
 
 #include "localtypes.h"
 #include "addresstypes.h"
-#include "flpttypes.h"
+#include <construct/flpttypes.h>
 #include "cross.h"
 
 extern int  next_data_lab(void);

@@ -17,15 +17,16 @@
 #include <shared/error.h>
 
 #include "config.h"
+
 #include "memtdf.h"
 #include "codegen.h"
 #include "geninst.h"
-
 #include "proc.h"
 #include "comment.h"
 #include "stack.h"
 #include "locate.h"
 #include "frames.h"
+
 /******************************************************************************
 For non globals, boff encodes things in the following way.
 The number of bytes gives a displacement from different positions on

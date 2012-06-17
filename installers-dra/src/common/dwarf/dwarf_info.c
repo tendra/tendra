@@ -8,34 +8,32 @@
  */
 
 #include "config.h"
-
-#include "exptypes.h"
-#include "readglob.h"
-#include "table_fns.h"
-#include "basicread.h"
-#include "sortmacs.h"
-
-/* machine dep headers */
-#include "out.h"
-#include "expmacs.h"
-
-#include "tags.h"
-
-#include "main_reads.h"
-#include "main_reads.h"
-
-#include "dwarf_types.h"
-#include "dwarf_type.h"
-#include "dwarf_out.h"
-#include "diag_fns.h"
-#include "dwarf_loc.h"
-#include "dwarf_queue.h"
-#include "dwarf_mc.h"
-#include "mark_scope.h"
 #include "cross_config.h"
 
+#include <reader/readglob.h>
+#include <reader/table_fns.h>
+#include <reader/basicread.h>
+#include <reader/sortmacs.h>
+#include <reader/main_reads.h>
+
+#include <construct/tags.h>
+
+#include <diag/diag_fns.h>
+#include <diag/mark_scope.h>
+
+#include <dwarf/dwarf_types.h>
+#include <dwarf/dwarf_type.h>
+#include <dwarf/dwarf_out.h>
+#include <dwarf/dwarf_loc.h>
+#include <dwarf/dwarf_queue.h>
+#include <dwarf/dwarf_mc.h>
+
+#include "out.h"
+#include "expmacs.h"
+#include "exptypes.h"
+
 #ifdef NEWDIAGS
-#include "tags.h"
+#include <construct/tags.h>
 #endif
 
 #ifndef CROSS_INCLUDE

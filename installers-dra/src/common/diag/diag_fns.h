@@ -14,9 +14,9 @@
 #include "config.h"
 
 #include "exptypes.h"
-#include "dg_first.h"
-#include "diaginfo.h"
-#include "toktypes.h"
+#include <diag/dg_first.h>
+#include <diag/diaginfo.h>
+#include <reader/toktypes.h>
 
 
 extern void out_diagnose_prelude(void);

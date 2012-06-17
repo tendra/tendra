@@ -9,7 +9,7 @@
 
 #include "config.h"
 
-#include "installtypes.h"
+#include <construct/installtypes.h>
 
 void init_table_space(int, int);
     /* parameters - number of files to be translated and total number of

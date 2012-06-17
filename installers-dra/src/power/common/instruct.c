@@ -12,8 +12,11 @@
  * INS_DEFINE causes definition and initialisation of instructions
  * rather than external declaration.
  */
+
 #include "config.h"
+
 #define INS_DEFINE
+
 #include "instruct.h"
 
 

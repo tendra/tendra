@@ -10,6 +10,8 @@
 #ifndef GLOPTDECS_INCLUDED
 #define GLOPTDECS_INCLUDED
 
+#include <construct/installtypes.h>
+
 extern void glopt(dec *);
 
 #endif

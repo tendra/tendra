@@ -12,19 +12,19 @@
 
 #include "config.h"
 
-#include "dg_first.h"
+#include <diag/dg_first.h>
 
-#include "diaginfo.h"
+#include <diag/diaginfo.h>
 #include "exptypes.h"
-#include "installtypes.h"
-#include "dg_types.h"		/* NEW DIAGS */
+#include <construct/installtypes.h>
+#include <diag/dg_types.h>		/* NEW DIAGS */
 
 #include "exptypes.h"
-#include "installtypes.h"
+#include <construct/installtypes.h>
 #include "out.h"
 #include "assembler.h"
 #include "localflags.h"
-#include "dw2_iface.h"
+#include <dwarf2/dw2_iface.h>
 
 #define	DWARF_MOD_VERSION	DWARF_VERSION
 #define	DW_CIE_MOD_VERSION	DW_CIE_VERSION

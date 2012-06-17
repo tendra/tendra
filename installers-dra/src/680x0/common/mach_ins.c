@@ -17,6 +17,7 @@
 #include "codex.h"
 #include "output.h"
 #include "utility.h"
+
 extern bool have_cond;
 
 #ifdef EBUG

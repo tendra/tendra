@@ -9,24 +9,27 @@
 
 #include "config.h"
 
-#include "codetypes.h"
-#include "basicread.h"
-#include "tags.h"
-#include "exp.h"
-#include "expmacs.h"
-#include "diag_fns.h"
-#include "flags.h"
-#include "me_fns.h"
-#include "externs.h"
-#include "installglob.h"
-#include "messages_r.h"
-#include "main_reads.h"
-#include "install_fns.h"
-#include "c_arith_type.h"
-#include "natmacs.h"
-#include "spec_tok.h"
-#include "refactor.h"
+#include <reader/codetypes.h>
+#include <reader/basicread.h>
+#include <reader/c_arith_type.h>
+#include <reader/natmacs.h>
+#include <reader/spec_tok.h>
+#include <reader/messages_r.h>
+#include <reader/main_reads.h>
+#include <reader/externs.h>
 
+#include <construct/tags.h>
+#include <construct/exp.h>
+#include <construct/flags.h>
+#include <construct/me_fns.h>
+#include <construct/installglob.h>
+#include <construct/install_fns.h>
+
+#include <diag/diag_fns.h>
+
+#include <refactor/refactor.h>
+
+#include "expmacs.h"
 
 /* intercepts specially defined tokens */
 

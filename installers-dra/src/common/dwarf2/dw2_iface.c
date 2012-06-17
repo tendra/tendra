@@ -10,21 +10,25 @@
 #include <shared/xalloc.h>
 
 #include "config.h"
-
-#include "basicread.h"
-#include "dg_globs.h"
-#include "tags.h"
-#include "expmacs.h"
 #include "dw2_config.h"
-#include "dw2_iface.h"
-#include "dw2_types.h"
-#include "dw2_entries.h"
-#include "dw2_codes.h"
-#include "dw2_basic.h"
-#include "dw2_lines.h"
-#include "dw2_info.h"
-#include "dw2_locdata.h"
-#include "diagglob.h"
+
+#include <reader/basicread.h>
+
+#include <construct/tags.h>
+
+#include <dwarf2/dw2_iface.h>
+#include <dwarf2/dw2_types.h>
+#include <dwarf2/dw2_entries.h>
+#include <dwarf2/dw2_codes.h>
+#include <dwarf2/dw2_basic.h>
+#include <dwarf2/dw2_lines.h>
+#include <dwarf2/dw2_info.h>
+#include <dwarf2/dw2_locdata.h>
+
+#include <diag/dg_globs.h>
+#include <diag/diagglob.h>
+
+#include "expmacs.h"
 
 
 int dwarf2 = 0;

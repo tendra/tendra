@@ -13,21 +13,25 @@
 
 #include "config.h"
 
-#include "codetypes.h"
 #include "exptypes.h"
-#include "basicread.h"
-#include "sortmacs.h"
 #include "expmacs.h"
-#include "tags.h"
-#include "externs.h"
-#include "exp.h"
-#include "me_fns.h"
-#include "table_fns.h"
-#include "flags.h"
-#include "const.h"
-#include "dg_aux.h"
-#include "dg_globs.h"
-#include "refactor.h"
+
+#include <reader/codetypes.h>
+#include <reader/basicread.h>
+#include <reader/sortmacs.h>
+#include <reader/externs.h>
+#include <reader/table_fns.h>
+
+#include <construct/tags.h>
+#include <construct/exp.h>
+#include <construct/me_fns.h>
+#include <construct/flags.h>
+
+#include <refactor/const.h>
+#include <refactor/refactor.h>
+
+#include <diag/dg_aux.h>
+#include <diag/dg_globs.h>
 
 
 #ifndef NEWDIAGS

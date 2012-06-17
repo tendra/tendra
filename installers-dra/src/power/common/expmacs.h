@@ -12,7 +12,7 @@
 #define expmacs_key 1
 
 #include "bitsmacs.h"
-#include "shapemacs.h"
+#include <construct/shapemacs.h>
 
 #define nilexp (exp)0
 

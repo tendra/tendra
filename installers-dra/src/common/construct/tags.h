@@ -11,9 +11,9 @@
 
 #include "config.h"
 
-#include "installtypes.h"
-#include "dg_first.h"
-#include "diaginfo.h"
+#include <construct/installtypes.h>
+#include <diag/dg_first.h>
+#include <diag/diaginfo.h>
 
 #define ident_tag 1
 

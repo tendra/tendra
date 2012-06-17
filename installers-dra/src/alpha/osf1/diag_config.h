@@ -10,6 +10,7 @@
 
 #ifndef diag_config_key
 #define diag_config_key
+
 #define INSPECT_FILENAME(fn)collect_files(fn)
 
 

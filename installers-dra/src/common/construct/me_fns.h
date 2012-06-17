@@ -10,8 +10,8 @@
 #include "config.h"
 
 #include "exptypes.h"
-#include "codetypes.h"
-#include "installtypes.h"
+#include <reader/codetypes.h>
+#include <construct/installtypes.h>
 
 extern exp me_u1(error_treatment ov_err, exp arg1, unsigned char nm);
 extern exp me_u2(exp arg1, unsigned char nm);

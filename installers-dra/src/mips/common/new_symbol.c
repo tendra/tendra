@@ -18,13 +18,15 @@
 #include CROSS_INCLUDE/symconst.h>
 #endif
 
+#include <construct/flags.h>
+
 #include "symtab.h"
 #include "bstack.h"
 #include "type_to_aux.h"
 #include "makesymtab.h"
-#include "diagtypes.h"
-#include "flags.h"
 #include "new_symbol.h"
+
+#include <diag/diagtypes.h>
 
 extern char * init_NAME;
 

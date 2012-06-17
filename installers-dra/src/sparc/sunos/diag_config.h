@@ -12,8 +12,8 @@
 
 #include "config.h"
 
-#include "dg_first.h"
-#include "diaginfo.h"
+#include <diag/dg_first.h>
+#include <diag/diaginfo.h>
 
 typedef long OUTPUT_REC ;
 typedef diag_descriptor diag_global ;

@@ -8,23 +8,24 @@
  */
 
 #include "config.h"
+#include "diag_config.h"
+
+#include <construct/tags.h>
+#include <construct/exp.h>
+#include <construct/shapemacs.h>
+#include <construct/flags.h>
 
 #include "exptypes.h"
 #include "operand.h"
-#include "tags.h"
-#include "exp.h"
 #include "expmacs.h"
 #include "instr386.h"
-#include "shapemacs.h"
 #include "codermacs.h"
-#include "flags.h"
-#include "diag_config.h"
+
+#include "reg_record.h"
 
 #ifdef NEWDWARF
 #include "dw2_extra.h"
 #endif
-
-#include "reg_record.h"
 
 
 /* This collection of routines maintains a record of what is known to

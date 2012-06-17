@@ -13,20 +13,22 @@
 #include <shared/xalloc.h>
 
 #include "config.h"
-
-#include "codetypes.h"
 #include "exptypes.h"
-#include "readglob.h"
-#include "table_fns.h"
-#include "basicread.h"
-#include "sortmacs.h"
-#include "shapemacs.h"
 #include "expmacs.h"
-#include "tags.h"
-#include "main_reads.h"
-#include "natmacs.h"
-#include "install_fns.h"
-#include "diag_fns.h"
+
+#include <reader/codetypes.h>
+#include <reader/readglob.h>
+#include <reader/table_fns.h>
+#include <reader/basicread.h>
+#include <reader/sortmacs.h>
+#include <reader/main_reads.h>
+#include <reader/natmacs.h>
+
+#include <construct/shapemacs.h>
+#include <construct/tags.h>
+#include <construct/install_fns.h>
+
+#include <diag/diag_fns.h>
 
 /*
  * This is a workaround for shared/xcalloc asserting count is non-zero, but the
@@ -51,10 +53,10 @@ dg_xcalloc(size_t count, size_t size)
 /* allocate space in this file */
 #define EXTERN_DIAG
 
-#include "diagglob.h"
-#include "dg_globs.h"
-#include "dg_aux.h"
-#include "externs.h"
+#include <diag/diagglob.h>
+#include <diag/dg_globs.h>
+#include <diag/dg_aux.h>
+#include <reader/externs.h>
 
 
 diag_descriptor f_dummy_diag_descriptor;
@@ -987,7 +989,7 @@ init_linkinfo_props(void)
 /* allocate space in this file */
 #define EXTERN_DIAG
 
-#include "diagglob.h"
+#include <diag/diagglob.h>
 
 #define DEBUG(x)	x
 

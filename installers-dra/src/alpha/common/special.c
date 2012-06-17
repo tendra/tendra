@@ -16,10 +16,12 @@
 
 #include "config.h"
 
+#include <construct/shapemacs.h>
+#include <construct/tags.h>
+
 #include "exptypes.h"
 #include "expmacs.h"
 #include "addresstypes.h"
-#include "shapemacs.h"
 #include "move.h"
 #include "pseudo.h"
 #include "getregs.h"
@@ -28,7 +30,6 @@
 #include "inst_fmt.h"
 #include "alpha_ins.h"
 #include "labels.h"
-#include "tags.h"
 #include "procrectypes.h"
 #include "bitsmacs.h"
 #include "reg_defs.h"

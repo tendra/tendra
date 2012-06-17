@@ -13,7 +13,7 @@
 #include "config.h"
 
 #include "exptypes.h"
-#include "installtypes.h"
+#include <construct/installtypes.h>
 
 extern bool no_side(exp);
 extern bool push_arg(exp);

@@ -12,7 +12,7 @@
 
 #include "config.h"
 
-#include "installtypes.h"
+#include <construct/installtypes.h>
 
 extern int ins(long, int, int, int);
 extern int insf(long, int, int, int);

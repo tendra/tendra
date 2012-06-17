@@ -11,15 +11,21 @@
 
 #define HPPATRANS_CODE
 
+#include <reader/codetypes.h>
+
+#include <construct/installtypes.h>
+#include <construct/exp.h>
+#include <construct/shapemacs.h>
+#include <construct/tags.h>
+#include <construct/machine.h>
+#include <construct/flags.h>
+
+#include <refactor/const.h>
+
 #include "exptypes.h"
 #include "expmacs.h"
-#include "codetypes.h"
-#include "const.h"
-#include "installtypes.h"
-#include "exp.h"
 #include "translat.h"
 #include "addrtypes.h"
-#include "shapemacs.h"
 #include "move.h"
 #include "regmacs.h"
 #include "getregs.h"
@@ -28,16 +34,13 @@
 #include "inst_fmt.h"
 #include "hppains.h"
 #include "labels.h"
-#include "tags.h"
 #include "proctypes.h"
 #include "bitsmacs.h"
 #include "comment.h"
-#include "machine.h"
 #include "proc.h"
 #include "out.h"
 #include "frames.h"
 #include "regexps.h"
-#include "flags.h"
 #include "special.h"
 
 speci

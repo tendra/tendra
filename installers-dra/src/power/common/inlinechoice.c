@@ -11,13 +11,15 @@
 #include "config.h"
 
 #include "exptypes.h"
-#include "installglob.h"
-#include "exp.h"
 #include "expmacs.h"
-#include "tags.h"
-#include "flags.h"
-#include "shapemacs.h"
-#include "optimise.h"
+
+#include <construct/installglob.h>
+#include <construct/exp.h>
+#include <construct/tags.h>
+#include <construct/flags.h>
+#include <construct/shapemacs.h>
+
+#include <refactor/optimise.h>
 
 #define crit_inline 100
 #define decs_allowed 4

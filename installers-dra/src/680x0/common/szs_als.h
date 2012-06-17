@@ -10,6 +10,8 @@
 #ifndef SZS_ALS_INCLUDED
 #define SZS_ALS_INCLUDED
 
+#include <construct/installtypes.h>
+
 /*
     SIZES AND ALIGNMENTS OF BASIC SHAPES
 */

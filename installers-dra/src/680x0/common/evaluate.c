@@ -12,29 +12,34 @@
 #include <shared/error.h>
 
 #include "config.h"
+
 #if FS_NO_ANSI_ENVIRON
 #include <floatingpoint.h>
 #else
 #include <float.h>
 #endif
+
+#include <reader/basicread.h>
+
+#include <construct/shapemacs.h>
+#include <construct/flpt.h>
+#include <construct/tags.h>
+#include <construct/f64.h>
+#include <construct/flags.h>
+
 #include "assembler.h"
-#include "basicread.h"
 #include "expmacs.h"
 #include "instrs.h"
-#include "shapemacs.h"
 #include "fbase.h"
-#include "flpt.h"
 #include "evaluate.h"
 #include "mach.h"
 #include "mach_ins.h"
 #include "mach_op.h"
 #include "codex.h"
-#include "tags.h"
 #include "translate.h"
 #include "utility.h"
-#include "f64.h"
-#include "flags.h"
 #include "localflags.h"
+
 #if have_diagnostics
 #include "xdb_basics.h"
 #endif

@@ -11,21 +11,24 @@
 
 #include "config.h"
 
-#include "codetypes.h"
 #include "exptypes.h"
-#include "exp.h"
 #include "expmacs.h"
-#include "table_fns.h"
-#include "externs.h"
-#include "installglob.h"
-#include "tags.h"
-#include "install_fns.h"
-#include "messages_c.h"
-#include "shapemacs.h"
-#include "basicread.h"
-#include "natmacs.h"
-#include "me_fns.h"
-#include "refactor.h"
+
+#include <reader/codetypes.h>
+#include <reader/table_fns.h>
+#include <reader/externs.h>
+#include <reader/basicread.h>
+#include <reader/natmacs.h>
+
+#include <construct/exp.h>
+#include <construct/installglob.h>
+#include <construct/tags.h>
+#include <construct/install_fns.h>
+#include <construct/messages_c.h>
+#include <construct/shapemacs.h>
+#include <construct/me_fns.h>
+
+#include <refactor/refactor.h>
 
 /* a collection of useful procedures for makeing up exps */
 
