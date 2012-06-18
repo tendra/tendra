@@ -12,7 +12,11 @@
 #include "config.h"
 #include "dw2_config.h"
 
+#ifdef NEWDIAGS
+#include <newdiag/dg_globs.h>
+#else
 #include <diag/dg_globs.h>
+#endif
 
 #include <dwarf2/dw2_lines.h>
 #include <dwarf2/dw2_codes.h>

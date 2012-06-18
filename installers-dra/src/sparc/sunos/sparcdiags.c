@@ -30,11 +30,20 @@
 #include "procrec.h"
 #include <construct/tags.h>
 #include "bitsmacs.h"
+#include "locate.h"
+
+#ifdef NEWDIAGS
+#include <newdiag/diagtypes.h>
+#include <newdiag/diag_fns.h>
+#include <newdiag/diagglob.h>
+#include <newdiag/mark_scope.h>
+#else
 #include <diag/diagtypes.h>
 #include <diag/diag_fns.h>
-#include "locate.h"
 #include <diag/diagglob.h>
 #include <diag/mark_scope.h>
+#endif
+
 #include "comment.h"
 #include "translat.h"
 #include <construct/machine.h>

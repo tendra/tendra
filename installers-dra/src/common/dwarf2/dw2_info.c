@@ -22,8 +22,13 @@
 #include <construct/f64.h>
 #include <construct/tags.h>
 
+#ifdef NEWDIAGS
+#include <newdiag/dg_aux.h>
+#include <newdiag/dg_globs.h>
+#else
 #include <diag/dg_aux.h>
 #include <diag/dg_globs.h>
+#endif
 
 #include <dwarf2/dw2_entries.h>
 #include <dwarf2/dw2_codes.h>

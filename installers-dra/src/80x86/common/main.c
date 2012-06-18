@@ -24,8 +24,6 @@
 #include <construct/exp.h>
 #include <construct/construct_v.h>
 
-#include <diag/diag_fns.h>
-
 #include "out.h"
 #include "weights.h"
 #include "instr.h"
@@ -38,9 +36,12 @@
 #include "operand.h"
 
 #ifdef NEWDIAGS
-#include <diag/diag_v.h>
+#include <newdiag/diag_fns.h>
+#include <newdiag/diag_v.h>
 #include <reader/dg_version.h>
-#endif /* NEWDIAGS */
+#else
+#include <diag/diag_fns.h>
+#endif
 
 #ifdef NEWDWARF
 #include <dwarf2/dw2_iface.h>

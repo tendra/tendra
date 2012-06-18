@@ -31,7 +31,11 @@
 #include <construct/flags.h>
 #include <construct/machine.h>
 
+#ifdef NEWDIAGS
+#include <newdiag/diag_fns.h>
+#else
 #include <diag/diag_fns.h>
+#endif
 
 #include "exptypes.h"
 #include "expmacs.h"

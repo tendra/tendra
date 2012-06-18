@@ -48,8 +48,6 @@
 #include <construct/label_ops.h>
 #include <construct/misc_c.h>
 
-#include <diag/diag_fns.h>
-
 #include <refactor/refactor.h>
 
 #include "exptypes.h"
@@ -70,8 +68,11 @@
 #include "coder.h"
 
 #ifdef NEWDIAGS
-#include <diag/dg_aux.h>
-#include <diag/dg_globs.h>
+#include <newdiag/diag_fns.h>
+#include <newdiag/dg_aux.h>
+#include <newdiag/dg_globs.h>
+#else
+#include <diag/diag_fns.h>
 #endif
 
 #ifdef NEWDWARF

@@ -16,10 +16,16 @@
 #include <construct/installtypes.h>
 #include <linkinfo/li_types.h>
 
+#ifdef NEWDIAGS
+#include <newdiag/dg_first.h>
+#include <newdiag/dg_types.h>  /* new diags */
+#include <newdiag/diagtypes.h> /* old diags */
+#else
 #include <diag/dg_first.h>
 #include <diag/diaginfo.h>
 #include <diag/dg_types.h>  /* new diags */
 #include <diag/diagtypes.h> /* old diags */
+#endif
 
 #include <reader/basicread.h>
 #include "out.h"
@@ -33,9 +39,10 @@
 
 #ifdef NEWDIAGS
 
-#include <diag/dg_types.h>
-#include <diag/dg_aux.h>
-#include <diag/dg_globs.h>
+#include <newdiag/dg_types.h>
+#include <newdiag/dg_aux.h>
+#include <newdiag/dg_globs.h>
+
 #include "codermacs.h"
 #include "instr.h"
 

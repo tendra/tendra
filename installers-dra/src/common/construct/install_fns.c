@@ -63,8 +63,8 @@
 #include <refactor/refactor_id.h>
 
 #ifdef NEWDIAGS
-#include <diag/dg_fns.h>
-#include <diag/mark_scope.h>
+#include <newdiag/dg_fns.h>
+#include <newdiag/mark_scope.h>
 #endif
 
 #define NOTYETDONE(x)	failer(x)

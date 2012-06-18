@@ -30,8 +30,13 @@
 #include <construct/installglob.h>
 #include <construct/install_fns.h>
 
+#ifdef NEWDIAGS
+#include <newdiag/diagglob.h>
+#include <newdiag/dg_fns.h>
+#else
 #include <diag/diagglob.h>
 #include <diag/dg_fns.h>
+#endif
 
 #include <refactor/refactor.h>
 

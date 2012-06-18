@@ -27,7 +27,11 @@
 #include <construct/flpt.h>
 #include <construct/flpttypes.h>
 
+#ifdef NEWDIAGS
+#include <newdiag/diag_fns.h>
+#else
 #include <diag/diag_fns.h>
+#endif
 
 #include <refactor/optimise.h>
 

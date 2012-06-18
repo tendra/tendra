@@ -14,8 +14,14 @@
 
 #include <reader/codetypes.h>
 #include <construct/installtypes.h>
+
+#ifdef NEWDIAGS
+#include <newdiag/dg_first.h>
+#include <newdiag/dg_types.h>
+#else
 #include <diag/dg_first.h>
 #include <diag/dg_types.h>
+#endif
 
 
 /*

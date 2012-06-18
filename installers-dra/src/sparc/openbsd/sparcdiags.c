@@ -43,9 +43,9 @@
 
 #ifdef NEWDIAGS
 
-#include <diag/dg_types.h>
-#include <diag/dg_aux.h>
-#include <diag/dg_globs.h>
+#include <newdiag/dg_types.h>
+#include <newdiag/dg_aux.h>
+#include <newdiag/dg_globs.h>
 /* #include "proc.h" */
 /* #include "regmacs.h" */
 

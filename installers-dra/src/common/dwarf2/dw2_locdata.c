@@ -17,8 +17,13 @@
 
 #include <construct/tags.h>
 
+#ifdef NEWDIAGS
+#include <newdiag/dg_types.h>
+#include <newdiag/dg_aux.h>
+#else
 #include <diag/dg_types.h>
 #include <diag/dg_aux.h>
+#endif
 
 #include <dwarf2/dw2_basic.h>
 #include <dwarf2/dw2_codes.h>

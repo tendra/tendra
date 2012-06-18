@@ -61,7 +61,7 @@
 #include <refactor/refactor.h>
 
 #ifdef NEWDIAGS
-#include <diag/dg_aux.h>
+#include <newdiag/dg_aux.h>
 #endif
 
 #if is80x86

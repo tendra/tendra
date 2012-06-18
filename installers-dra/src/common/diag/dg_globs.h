@@ -15,9 +15,9 @@
 
 #include <construct/installtypes.h>
 
-#include <diag/dg_first.h>
-#include <diag/diaginfo.h>
-#include <diag/dg_types.h>		/* NEW DIAGS */
+#include "dg_first.h"
+#include "diaginfo.h"
+#include "dg_types.h"		/* NEW DIAGS */
 
 #include "exptypes.h"
 

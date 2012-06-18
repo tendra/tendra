@@ -7,14 +7,12 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef NEWDIAGS
-
 #ifndef diaginfo_key
 #define diaginfo_key 1
 
 #include "config.h"
 
-#include <diag/diagtypes1.h>	/* gets diag_descriptor */
+#include "diagtypes1.h"	/* gets diag_descriptor */
 
 #include "diag_config.h"
 
@@ -63,4 +61,3 @@ struct diag_info_t {
 #endif				/* diagtypes defined */
 #endif
 
-#endif

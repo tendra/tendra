@@ -15,10 +15,16 @@
 #include <construct/installtypes.h>
 #include <reader/toktypes.h>
 
+#ifdef NEWDIAGS
+#include <newdiag/dg_first.h>
+#include <newdiag/dg_types.h>  /* new diags */
+#include <newdiag/diagtypes.h> /* old diags */
+#else
 #include <diag/dg_first.h>
 #include <diag/diaginfo.h>
 #include <diag/dg_types.h>  /* new diags */
 #include <diag/diagtypes.h> /* old diags */
+#endif
 
 
 /* the table of tags which are available at the capsule level */

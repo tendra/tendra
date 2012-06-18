@@ -19,8 +19,13 @@
 #include <construct/machine.h>
 #include <construct/shapemacs.h>
 
+#ifdef NEWDIAGS
+#include <newdiag/diagglob.h>
+#include <newdiag/diagtypes.h>
+#else
 #include <diag/diagglob.h>
 #include <diag/diagtypes.h>
+#endif
 
 #include <dwarf/dwarf_types.h>
 #include <dwarf/dwarf_loc.h>

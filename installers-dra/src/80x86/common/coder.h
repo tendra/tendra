@@ -17,6 +17,7 @@
 
 void coder(where dest, ash stack, exp e);
 void clean_stack(void);
+
 #ifdef NEWDIAGS
 void diag_arg(where dest, ash stack, exp e);
 #endif

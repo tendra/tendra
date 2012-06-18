@@ -11,11 +11,5 @@
 #define mark_scope_key 1
 
 extern void mark_scope(exp e);
-#ifdef NEWDIAGS
-extern int doing_mark_scope;
-extern void correct_mark_scope(exp e);
-extern void mark_scope2(exp e);
-#endif
-
 
 #endif

@@ -10,7 +10,12 @@
 #include "config.h"
 
 #include <construct/installtypes.h>
+
+#ifdef NEWDIAGS
+#include <newdiag/diagtypes.h>
+#else
 #include <diag/diagtypes.h>
+#endif
 
 extern void dwarf4(const char *t);
 extern void dwarf4n(int x);

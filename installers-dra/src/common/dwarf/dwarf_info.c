@@ -18,8 +18,13 @@
 
 #include <construct/tags.h>
 
+#ifdef NEWDIAGS
+#include <newdiag/diag_fns.h>
+#include <newdiag/mark_scope.h>
+#else
 #include <diag/diag_fns.h>
 #include <diag/mark_scope.h>
+#endif
 
 #include <dwarf/dwarf_types.h>
 #include <dwarf/dwarf_type.h>

@@ -10,12 +10,18 @@
 #ifndef dw2_basic_key
 #define dw2_basic_key
 
+#ifdef NEWDIAGS
+#include <newdiag/dg_first.h>
+#include "exptypes.h"
+#include <construct/installtypes.h>
+#include <newdiag/dg_types.h>		/* NEW DIAGS */
+#else
 #include <diag/dg_first.h>
-
 #include <diag/diaginfo.h>
 #include "exptypes.h"
 #include <construct/installtypes.h>
 #include <diag/dg_types.h>		/* NEW DIAGS */
+#endif
 
 extern void uleb128(unsigned long value);
 extern void sleb128(long value);

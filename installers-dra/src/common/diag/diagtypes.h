@@ -13,44 +13,12 @@
 #include "config.h"
 
 #include <construct/installtypes.h>
-
-
-#ifdef NEWDIAGS
-
-typedef dg_name diag_descriptor;
-typedef dg_name_list diag_descriptor_list;
-typedef dg_name_list diag_unit;
-typedef dg_tag diag_tag;
-typedef dgtag_struct diag_tagdef;
-typedef int diag_tagdef_list;
-typedef dg_type diag_type;
-typedef dg_type_list diag_type_list;
-typedef dg_enum enum_values;
-typedef dg_enum_list enum_values_list;
-typedef dg_classmem diag_field;
-typedef dg_classmem_list diag_field_list;
-typedef int diag_tq;
-typedef dg_filename filename;
-typedef dg_sourcepos sourcemark;
-typedef int diag_type_unit;
-
-
-#else
-
-				/* temp hacsk to check syntax */
-
-				/* end hacks */
-				/* dummy defs of lists */
-
-				/* end dummy defs */
-				/* forward defns for compiler pacification */
-
 #include <reader/codetypes.h>
-#include <diag/diagtypes1.h>
+
+#include "diagtypes1.h"
+
 #include <construct/installtypes.h>
 
-
-				/* end forward defns */
 
 struct filename_t {
 	nat		date;
@@ -225,7 +193,6 @@ typedef diag_unit diag_descriptor_list;
 typedef int diag_type_unit;
 typedef diag_type_unit diag_tagdef_list;
 
-#include <diag/diaginfo.h>
+#include "diaginfo.h"
 
-#endif
 #endif

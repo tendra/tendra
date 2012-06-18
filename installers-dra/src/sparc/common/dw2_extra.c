@@ -22,7 +22,11 @@
 #include <construct/flpttypes.h>
 #include <construct/f64.h>
 
+#ifdef NEWDIAGS
+#include <newdiag/dg_aux.h>
+#else
 #include <diag/dg_aux.h>
+#endif
 
 #include <dwarf2/dw2_codes.h>
 #include <dwarf2/dw2_basic.h>

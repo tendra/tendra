@@ -23,7 +23,11 @@
 #include <construct/machine.h>
 #include <construct/f64.h>
 
+#ifdef NEWDIAGS
+#include <newdiag/diag_fns.h>
+#else
 #include <diag/diag_fns.h>
+#endif
 
 #include "expmacs.h"
 #include "coder.h"

@@ -12,12 +12,18 @@
 
 #include "config.h"
 
-#include <diag/dg_first.h>
 
-#include <diag/diaginfo.h>
 #include "exptypes.h"
 #include <construct/installtypes.h>
+
+#ifdef NEWDIAGS
+#include <newdiag/dg_first.h>
+#include <newdiag/dg_types.h>		/* NEW DIAGS */
+#else
+#include <diag/dg_first.h>
+#include <diag/diaginfo.h>
 #include <diag/dg_types.h>		/* NEW DIAGS */
+#endif
 
 #include <construct/installtypes.h>
 #include "exptypes.h"

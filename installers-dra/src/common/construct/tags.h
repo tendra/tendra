@@ -12,8 +12,13 @@
 #include "config.h"
 
 #include <construct/installtypes.h>
+
+#ifdef NEWDIAGS
+#include <newdiag/dg_first.h>
+#else
 #include <diag/dg_first.h>
 #include <diag/diaginfo.h>
+#endif
 
 #define ident_tag 1
 

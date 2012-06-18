@@ -57,7 +57,7 @@
 #include <refactor/const.h>
 
 #ifdef NEWDIAGS
-#include <diag/dg_aux.h>
+#include <newdiag/dg_aux.h>
 #endif
 
 

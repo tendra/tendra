@@ -47,8 +47,13 @@
 #include <construct/spec.h>
 #include <construct/aldefs.h>
 
+#ifdef NEWDIAGS
+#include <newdiag/diag_fns.h>	/* OLD DIAGS */
+#include <newdiag/dg_fns.h>	/* NEW DIAGS */
+#else
 #include <diag/diag_fns.h>	/* OLD DIAGS */
 #include <diag/dg_fns.h>	/* NEW DIAGS */
+#endif
 
 
 /* Some external declarations  */

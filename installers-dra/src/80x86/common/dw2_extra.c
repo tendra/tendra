@@ -23,8 +23,13 @@
 #include <construct/flpttypes.h>
 #include <construct/f64.h>
 
+#ifdef NEWDIAGS
+#include <newdiag/dg_aux.h>
+#include <newdiag/dg_types.h>
+#else
 #include <diag/dg_aux.h>
 #include <diag/dg_types.h>
+#endif
 
 #include <dwarf2/dw2_codes.h>
 #include <dwarf2/dw2_entries.h>

@@ -29,6 +29,7 @@
 #define props(x) (x)->propsf
 #define no(x) ((x)->numf.l)
 #define parked(x) ((x)->park)
+
 #ifdef NEWDIAGS
 #define dgf(x) ((x)->diagf)
 #endif

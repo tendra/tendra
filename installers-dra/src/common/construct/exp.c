@@ -31,7 +31,7 @@
 
 #ifdef NEWDIAGS
 #include <reader/readglob.h>
-#include <diag/dg_aux.h>
+#include <newdiag/dg_aux.h>
 #endif
 
 /* VARIABLES */

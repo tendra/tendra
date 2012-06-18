@@ -20,7 +20,11 @@
 #include <construct/tags.h>
 #include <construct/flags.h>
 
+#ifdef NEWDIAGS
+#include <newdiag/diag_fns.h>
+#else
 #include <diag/diag_fns.h>
+#endif
 
 #include <dwarf2/dw2_types.h>
 #include <dwarf2/dw2_codes.h>

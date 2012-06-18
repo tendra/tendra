@@ -38,9 +38,10 @@
 #include "target_v.h"
 
 #ifdef NEWDIAGS
-#include <diag/diag_v.h>
+#include <newdiag/diag_v.h>
 #include <reader/dg_version.h>
 #endif
+
 #ifdef NEWDWARF
 #include <dwarf2/dw2_iface.h>
 #include <dwarf2/dw2_vsn.h>

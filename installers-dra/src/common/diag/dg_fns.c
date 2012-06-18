@@ -28,9 +28,9 @@
 #include <construct/tags.h>
 #include <construct/flags.h>
 
-#include <diag/dg_fns.h>
-#include <diag/dg_aux.h>
-#include <diag/dg_globs.h>
+#include "dg_fns.h"
+#include "dg_aux.h"
+#include "dg_globs.h"
 
 
 dg_filename all_files = (dg_filename)0;
@@ -632,20 +632,7 @@ f_dg_object_name(dg_idname idname, dg_sourcepos whence, dg_type type,
 	ans->idnam = idname;
 	ans->whence = shorten_sourcepos(whence);
 	ans->data.n_obj.typ = type;
-#ifdef NEWDIAGS
-	if (obtain_value.present) {
-		exp acc = obtain_value.val;
-		ans->data.n_obj.obtain_val = diaginfo_exp(acc);
-		set_obj_ref(ans);		/* globals only */
-#if 0
-		if (name(acc) == cont_tag && name(son(acc)) == name_tag &&
-		    isglob(son(son(acc))) && isvar(son(son(acc))))
-			brog(son(son(acc)))->dec_u.dec_val.diag_info = ans;
-#endif
-	} else {
-		ans->data.n_obj.obtain_val = nilexp;
-	}
-#endif
+
 	if (accessibility != DG_ACC_NONE) {
 		extend_dg_name(ans);
 		ans->mor->acc = accessibility;
@@ -664,28 +651,7 @@ f_dg_proc_name(dg_idname idname, dg_sourcepos whence, dg_type type,
 	ans->idnam = idname;
 	ans->whence = shorten_sourcepos(whence);
 	ans->data.n_proc.typ = type;
-#ifdef NEWDIAGS
-	if (obtain_value.present) {
-		exp acc = obtain_value.val;
-		ans->data.n_proc.obtain_val = diaginfo_exp(acc);
-		if (name(acc) == name_tag && isglob(son(acc))) {
-			brog(son(acc))->dec_u.dec_val.diag_info = ans;
-		}
-	} else {
-		ans->data.n_proc.obtain_val = nilexp;
-	}
-	ans->data.n_proc.params = (dg_info)0;
-	if (accessibility != DG_ACC_NONE || virtuality != DG_VIRT_NONE ||
-	    isinline || extra_diags || elaboration || exceptions.len >= 0) {
-		extend_dg_name(ans);
-		ans->mor->acc = accessibility;
-		ans->mor->virt = virtuality;
-		ans->mor->isinline = isinline;
-		ans->mor->end_pos = end_sourcepos(whence);
-		ans->mor->elabn = elaboration;
-		ans->mor->exptns = exceptions;
-	}
-#endif
+
 	return ans;
 }
 
@@ -841,20 +807,7 @@ f_dg_module_name(dg_idname idname, dg_sourcepos whence, dg_namelist memlist,
 	ans->idnam = idname;
 	ans->whence = shorten_sourcepos(whence);
 	ans->data.n_mod.members = memlist.list;
-#ifdef NEWDIAGS
-	if (memlist.tg) {
-		memlist.tg->p.nl = &(ans->data.n_mod.members);
-	}
-	if (init.present) {
-		exp acc = init.val;
-		ans->data.n_mod.init = diaginfo_exp(acc);
-		if (name(acc) == name_tag && isglob(son(acc))) {
-			brog(son(acc))->dec_u.dec_val.diag_info = ans;
-		}
-	} else {
-		ans->data.n_mod.init = nilexp;
-	}
-#endif
+
 	if (elaboration) {
 		extend_dg_name(ans);
 		ans->mor->elabn = elaboration;
@@ -2891,9 +2844,6 @@ f_make_dg_comp_unit(void)
 	int i;
 	int j = 0;
 	int no_of_labels;
-#ifdef NEWDIAGS
-	int was_within_diags;
-#endif
 
 	for (i = 0; i < unit_no_of_tokens; ++i) {
 		if (unit_ind_tokens[i] == (tok_define *)0) {
@@ -2921,10 +2871,6 @@ f_make_dg_comp_unit(void)
 		}
 	}
 
-#ifdef NEWDIAGS
-	was_within_diags = within_diags;
-	within_diags = 1;
-#endif
 	{
 		dg_compilation *comp_unit_ptr = &all_comp_units;
 		while (*comp_unit_ptr) {
@@ -2938,9 +2884,7 @@ f_make_dg_comp_unit(void)
 		IGNORE d_dg_append_list();
 		end_bytestream();
 	}
-#ifdef NEWDIAGS
-	within_diags = was_within_diags;
-#endif
+
 	return;
 }
 
@@ -2966,10 +2910,6 @@ f_make_dgtagextern(tdfint internal, external ext)
 exp
 f_dg_exp(exp body, dg diagnostic)
 {
-#ifdef NEWDIAGS
-	dgf(body) = add_dg_list(add_dg_list(new_dg_list(2), diagnostic, 0),
-				dgf(body), 1);
-#endif
 	return body;
 }
 
@@ -2978,13 +2918,6 @@ exp
 read_dg_exp(exp body)
 {
 	dg diag;
-#ifdef NEWDIAGS
-	int was_within_diags = within_diags;
-	within_diags = 1;
-	diag = d_dg();
-	within_diags = was_within_diags;
-#else
+
 	return nilexp;
-#endif
-	return f_dg_exp(body, diag);
 }

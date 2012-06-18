@@ -20,9 +20,4 @@ typedef struct dg_type_t *dg_type;
 typedef struct dg_info_t *dg_info;
 typedef struct file_t *dg_filename;
 
-#ifdef NEWDIAGS
-typedef struct dg_info_t diag_info;
-typedef struct dg_name_t diag_global;
-#endif
-
 #endif

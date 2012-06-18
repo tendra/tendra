@@ -25,8 +25,13 @@
 #include <dwarf2/dw2_info.h>
 #include <dwarf2/dw2_locdata.h>
 
+#ifdef NEWDIAGS
+#include <newdiag/dg_globs.h>
+#include <newdiag/diagglob.h>
+#else
 #include <diag/dg_globs.h>
 #include <diag/diagglob.h>
+#endif
 
 #include "expmacs.h"
 

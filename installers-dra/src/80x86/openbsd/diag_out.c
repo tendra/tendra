@@ -19,10 +19,17 @@
 #include <construct/installtypes.h>
 #include <linkinfo/li_types.h>
 
+#ifdef NEWDIAGS
 #include <diag/dg_first.h>
 #include <diag/diaginfo.h>
 #include <diag/dg_types.h>  /* new diags */
 #include <diag/diagtypes.h> /* old diags */
+#else
+#include <diag/dg_first.h>
+#include <diag/diaginfo.h>
+#include <diag/dg_types.h>  /* new diags */
+#include <diag/diagtypes.h> /* old diags */
+#endif
 
 #include <reader/basicread.h>
 #include "out.h"

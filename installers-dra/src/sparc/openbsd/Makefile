@@ -10,7 +10,7 @@ PART_CFLAGS+=	-I ${BASE_DIR}/src/sparc/openbsd
 
 PARTS+=	src/common/shared
 PARTS+=	src/common/construct
-PARTS+=	src/common/diag
+PARTS+=	src/common/newdiag
 PARTS+=	src/common/dwarf2
 PARTS+=	src/common/linkinfo
 PARTS+=	src/common/reader
