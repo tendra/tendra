@@ -1,5 +1,11 @@
 /* $Id$ */
 
+/*
+ * Copyright 2011, The TenDRA Project.
+ *
+ * See doc/copyright/ for the full copyright terms.
+ */
+
 #ifndef __TDF_SYS_INCLUDED
 #define __TDF_SYS_INCLUDED
 
@@ -13,17 +19,16 @@
 #pragma TenDRA directive assert allow
 #pragma TenDRA directive unassert allow
 #pragma TenDRA longlong type allow
+#pragma TenDRA directive warning allow
 
 #ifndef __NO_BUILTIN_ASSERTIONS
 #assert machine(i386)
 #assert cpu(i386)
 #assert system(unix)
 #assert system(NetBSD)
+#unassert lint
 #endif
 
-/* TODO: see ansi.h. centralise? */
-#define unix		1
-#define i386		1
 #define __unix		1
 #define __i386		1
 #define __unix__	1

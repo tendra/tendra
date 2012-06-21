@@ -117,7 +117,7 @@ MD_OSVER!=                               \
         Linux.3.0*)    echo LINUX30;;    \
         Linux.3.1*)    echo LINUX31;;    \
         NetBSD.4*)     echo NETBSD4;;    \
-        NetBSD.5*)     echo NETBSD5;;    \
+        NetBSD.5.1*)   echo NETBSD5_1;;  \
         OpenBSD.3*)    echo OPENBSD3;;   \
         OpenBSD.4*)    echo OPENBSD4;;   \
         OpenBSD.5.1)   echo OPENBSD5_1;; \
