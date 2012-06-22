@@ -8,5 +8,7 @@ TESTS+=	2.1.2.2p3a.c
 TESTS+=	2.1.2.2p3b.c
 TESTS+=	2.1.2.2p4.c
 
+TESTS+=	2.2.4.1.c
+
 .include <tendra.ctest.mk>
 
