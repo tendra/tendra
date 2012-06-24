@@ -36,8 +36,6 @@
 #include "expmacs.h"
 
 
-int dwarf2 = 0;
-
 long dw_info_start;
 long dw_text_start;
 

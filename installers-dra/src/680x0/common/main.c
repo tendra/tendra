@@ -86,14 +86,6 @@ static char *seek_line_id;
 
 #endif
 
-int diag_override;
-#if have_diagnostics
-static int diag_stab_override = 0;
-static int diag_xdb_new_override = 0;
-static int diag_xdb_old_override = 0;
-#endif
-
-
 
 /*
     VARIABLE SIZES AND ALIGNMENTS
@@ -124,6 +116,7 @@ int main
 	char *input = null;
 	char *output = null;
 
+	diag = DIAG_STABS;
 	endian = ENDIAN_BIG;
 	assembler = ASM_GAS;
 	format = FORMAT_AOUT;
@@ -142,15 +135,14 @@ int main
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"B:DE:F:G:HK:MO:PQRVWX:Z"
+			"C:B:DE:F:G:HK:MO:PQRVWX:Z"
 #ifdef EBUG
 			"L:l:"
 #endif
-#if have_diagnostics
-			"dnt"
-#endif
 			"cegiou")) != -1) {
 			switch (c) {
+			case 'C': diag = switch_diag(optarg,
+				DIAG_STABS | DIAG_XDB_OLD | DIAG_XDB_NEW); break;
 			case 'E': endian = switch_endian(optarg, ENDIAN_BIG); break;
 			case 'F': format = switch_format(optarg, FORMAT_AOUT); break;
 			case 'G': assembler = switch_assembler(optarg,
@@ -175,12 +167,6 @@ int main
 			case 'g': conventions = CONVENTIONS_GCC;   break;
 			case 'i': output_immediately = 1;          break;
 			case 'u': do_sep_units = 1;                break;
-
-#if have_diagnostics
-			case 'd': diag_xdb_old_override = 1;       break;
-			case 'n': diag_xdb_new_override = 1;       break;
-			case 't': diag_stab_override = 1;          break;
-#endif
 
 #ifdef EBUG
 			case 'l': seek_line = 1;
@@ -278,19 +264,6 @@ int main
 	error(ERROR_SERIOUS, "Diagnostics not supported");
 	diagnose = 0;
     }
-
-#if have_diagnostics
-    diag_override = DIAG_UNKNOWN;
-    if (diag_stab_override) {
-	    diag_override = DIAG_STAB;
-    }
-    if (diag_xdb_new_override) {
-	    diag_override = DIAG_XDB_NEW;
-    }
-    if (diag_xdb_old_override) {
-	    diag_override = DIAG_XDB_OLD;
-    }
-#endif
 
     /* Switch off optimizations if required */
     if (diagnose

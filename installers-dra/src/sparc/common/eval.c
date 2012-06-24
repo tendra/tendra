@@ -995,7 +995,7 @@ evaluated ( exp e, long ll, bool ro ){
 	outnl () ;
       }
 #ifdef NEWDWARF
-      if (dwarf2 && (name(e) == clear_tag && no(e) == -1))
+      if (diag == DIAG_DWARF2 && (name(e) == clear_tag && no(e) == -1))
         note_data (lab, ro);	/* do_prom */
 #endif
     } 
@@ -1025,7 +1025,7 @@ evaluated ( exp e, long ll, bool ro ){
   } 
   else {
 #ifdef NEWDWARF
-    if (dwarf2)
+    if (diag == DIAG_DWARF2)
       note_data (lab, ro);
 #endif
     if (ro)

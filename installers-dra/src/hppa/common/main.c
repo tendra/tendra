@@ -92,12 +92,13 @@ int main
 	endian = ENDIAN_BIG;
 	assembler = ASM_HP;
 	format = FORMAT_SOM;
+	diag = DIAG_STABS;
 
 	{
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"B:DE:F:G:HKNO:PQRVWX:Z" "dh")) != -1) {
+			"B:C:DE:F:G:HKNO:PQRVWX:Z" "dh")) != -1) {
 			switch (c) {
 			case 'B': builtin = flags_builtin(optarg); break;
 
@@ -111,6 +112,10 @@ int main
 				/* -d emulates cc's +z flag */
 				PIC_code = 1;
 				plusZ = 0;
+				break;
+
+			case 'C':
+				diag = switch_diag(optarg, DIAG_STABS);
 				break;
 
 			case 'E':

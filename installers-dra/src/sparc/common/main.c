@@ -140,9 +140,6 @@ main ( int argc, char ** argv )
   diag_visible = 0;
   extra_diags = 0;
 #endif
-#ifdef NEWDWARF
-  dwarf2 = 0;
-#endif
   do_profile = 0 ;			/* not in profiling mode */
   PIC_code = 0 ;			/* don't do PIC */
   do_alloca = 0 ;			/* inline alloca */
@@ -172,16 +169,24 @@ main ( int argc, char ** argv )
   endian = ENDIAN_BIG;
   assembler = ASM_SUN;
   format = FORMAT_ELF;
+#ifdef NEWDWARF
+  diag = DIAG_DWARF;
+#else
+  diag = DIAG_STABS;
+#endif
 
 	{
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"B:DE:F:G:H:JK:MNO:PQRTVWX:Z"
+			"B:C:DE:F:G:H:JK:MNO:PQRTVWX:Z"
 			"abcglo:i:r:un")) != -1) {
 			switch (c) {
 			case 'B': builtin = flags_builtin(optarg); break;
 			case 'D': PIC_code = 1;                    break;
+			case 'C':
+				diag = switch_diag(optarg, DIAG_STABS | DIAG_DWARF | DIAG_DWARF2);
+				break;
 			case 'E':
 				endian = switch_endian(optarg, ENDIAN_LITTLE);
 				break;
@@ -204,7 +209,7 @@ main ( int argc, char ** argv )
 			case 'J':
 				diagnose = 1;
 				extra_diags = 1;
-				dwarf2 = 1;
+				diag = DIAG_DWARF2;
 				break;
 #endif
 
@@ -221,7 +226,7 @@ main ( int argc, char ** argv )
 				dump_abbrev = 1;
 				diagnose = 1;
 				extra_diags = 1;
-				dwarf2 = 1;
+				diag = DIAG_DWARF2;
 				break;
 #endif
 

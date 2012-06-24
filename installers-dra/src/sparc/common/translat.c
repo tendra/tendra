@@ -329,7 +329,7 @@ init_translator (void){
 
   /* start diagnostics if necessary */
 #ifdef NEWDWARF
-  if (dwarf2)
+  if (diag == DIAG_DWARF2)
     init_dwarf2 ();
   else
 #endif
@@ -372,7 +372,7 @@ exit_translator (void){
   insection ( text_section ) ;
 
 #ifdef NEWDWARF
-  if (dwarf2)
+  if (diag == DIAG_DWARF2)
     end_dwarf2 ();
   else
 #endif
@@ -401,7 +401,7 @@ translate_capsule (void){
   
   /* initialize diagnostics */
 #ifdef NEWDWARF
-  if ( diagnose && !dwarf2 ) {
+  if ( diagnose && diag != DIAG_DWARF2 ) {
 #else
   if ( diagnose ) {
 #endif
@@ -439,7 +439,7 @@ translate_capsule (void){
   }	
 
 #ifdef NEWDWARF
-  if (dwarf2) {
+  if (diag == DIAG_DWARF2) {
     dwarf2_prelude ();
   }
 #endif
@@ -778,7 +778,7 @@ translate_capsule (void){
 
 
 #ifdef NEWDWARF
-  if (dwarf2) {
+  if (diag == DIAG_DWARF2) {
     dwarf2_postlude ();
   }
 #endif

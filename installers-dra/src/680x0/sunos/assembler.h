@@ -20,19 +20,12 @@
 
 #if defined(NEXT) || defined(SUN) /* NeXT 68K or sun 68k */
 
-#define GDB_DEBUGGER
 #ifdef SUN
 #define SUN_INTERFACE
 #else
 #define NEXT_INTERFACE
 #endif
 #else /* NEXT or SUN */
-
-#ifdef GNU
-#define GDB_DEBUGGER
-#else /* GNU */
-#define XDB_DEBUGGER
-#endif /* GNU */
 
 #define HP_INTERFACE
 
@@ -63,15 +56,6 @@ void asm_comment(void);
 
 
 /*
-    HP DEBUGGER DETAILS
-*/
-
-#ifdef XDB_DEBUGGER
-#define default_diag			DIAG_UNKNOWN
-#endif /* XDB_DEBUGGER */
-
-
-/*
     HP OPERATING SYSTEM INTERFACE
 */
 
@@ -84,15 +68,6 @@ void asm_comment(void);
 #define profiling_uses_lea		0
 
 #endif /* HP_INTERFACE */
-
-
-/*
-    GNU DEBUGGER DETAILS
-*/
-
-#ifdef GDB_DEBUGGER
-#define default_diag			DIAG_STAB
-#endif /* GDB_DEBUGGER */
 
 
 /*

@@ -14,6 +14,7 @@
 #include <construct/installtypes.h>
 #include <construct/exp.h>
 #include <construct/tags.h>
+#include <construct/flags.h>
 
 #include <diag/dg_first.h>
 #include <diag/diaginfo.h>
@@ -35,27 +36,16 @@
 #include "stab_types.h"
 #include "localflags.h"
 
-extern int diag_override;
-
 
 /*
     WORK OUT WHETHER TO DO A DYNAMIC TEST FOR DIAGNOSTIC FORMAT
+    TODO: ...which is overkill, and probably ought to be removed
 */
 
-#if (default_diag == DIAG_UNKNOWN)
-#define dynamic_test
+#ifdef dynamic_test
 extern double atof(const char *);
 #include <sys/utsname.h>
-#else
-#undef dynamic_test
 #endif
-
-
-/*
-    WHICH DIAGNOSTIC FORMAT SHOULD BE USED?
-*/
-
-bool diag_format = default_diag;
 
 
 /*
@@ -120,7 +110,7 @@ static FILE *diagfp3;
 void init_diag
 (void)
 {
-    double vs = (diag_format == DIAG_XDB_NEW ? 7.40 : 7.05);
+    double vs = (diag == DIAG_XDB_NEW ? 7.40 : 7.05);
 
 #ifdef dynamic_test
     struct utsname u;
@@ -129,27 +119,18 @@ void init_diag
     os = u.sysname;
     vs = atof(u.release);
     if (strcmp(os, "HP-UX") == 0) {
-	diag_format = (vs >= 7.40 ? DIAG_XDB_NEW : DIAG_XDB_OLD);
+	diag = (vs >= 7.40 ? DIAG_XDB_NEW : DIAG_XDB_OLD);
     } else {
-	diag_format = DIAG_UNKNOWN;
+	fprintf(stderr, "diagnostic format not recognised\n");
+	exit(1);
    }
 #endif
 
-    if (diag_override != DIAG_UNKNOWN) {
-	diag_format = diag_override;
-	vs = (diag_format == DIAG_XDB_NEW ? 7.40 : 7.05);
-    }
-    switch (diag_format) {
+    switch (diag) {
 
-	case DIAG_STAB: {
+	case DIAG_STABS: {
 	    /* Temporary files not used */
 	    break;
-	}
-
-	case DIAG_UNKNOWN: {
-	    error(ERROR_WARNING, "Unknown diagnostics format");
-	    diag_format = DIAG_XDB_NEW;
-	    /* Fall through */
 	}
 
 	case DIAG_XDB_NEW: {
@@ -215,7 +196,7 @@ static int vt_newline = 1;
 void copy_diag
 (void)
 {
-    if (diag_format == DIAG_XDB_NEW) {
+    if (diag == DIAG_XDB_NEW) {
 	if (vt_newline) {
 	    fprintf(diagfp1, "%s0\n", instr_names[m_dd_vtbytes]);
 	} else {
@@ -224,7 +205,7 @@ void copy_diag
 	copy_diag_file(diagfp1);
 	copy_diag_file(diagfp2);
 	copy_diag_file(diagfp3);
-    } else if (diag_format == DIAG_XDB_OLD) {
+    } else if (diag == DIAG_XDB_OLD) {
 	copy_diag_file(diagfp2);
     }
     return;
@@ -243,7 +224,7 @@ void copy_diag
 void diag_string
 (FILE *file, char *s)
 {
-    if (diag_format == DIAG_XDB_NEW) {
+    if (diag == DIAG_XDB_NEW) {
 	static int vtposn = 0;
 	static int vtwidth = 0;
 	if (vt_newline) {
@@ -333,7 +314,7 @@ static void slt_normal
     mach_op *op;
     area(ptext);
     op = make_int_data(crt_line_num);
-    if (diag_format == DIAG_STAB) {
+    if (diag == DIAG_STABS) {
 	mach_op *op1 = make_int_data(68);
 	op1->of = make_int_data(0);
 	op1->of->of = op;
@@ -373,14 +354,14 @@ void slt_exit
 void dnt_begin
 (void)
 {
-    if (diag_format == DIAG_STAB) {
+    if (diag == DIAG_STABS) {
 	long lab = next_lab();
 	make_label(lab);
 	push_dscope((posn_t)lab, 0);
     } else {
 	posn_t p = out_dd(diagfp2, xdb_begin, 1);
 	push_dscope(p, 4);
-	if (diag_format == DIAG_XDB_NEW)fprintf(diagfp2, "0,");
+	if (diag == DIAG_XDB_NEW)fprintf(diagfp2, "0,");
 	fprintf(diagfp2, "%d\n", slt_num);
 	slt_special(5, p);
     }
@@ -397,7 +378,7 @@ int dnt_end
 {
     dscope *d = pop_dscope();
     if (d == null) return 0;
-    if (diag_format == DIAG_STAB) {
+    if (diag == DIAG_STABS) {
 	long lab1 = (long)d->posn;
 	long lab2 = next_lab();
 	make_label(lab2);
@@ -405,7 +386,7 @@ int dnt_end
 	make_stabn(224, lab2);
     } else {
 	posn_t p = out_dd(diagfp2, xdb_end, 1);
-	if (diag_format == DIAG_XDB_NEW) {
+	if (diag == DIAG_XDB_NEW) {
 	    fprintf(diagfp2, "%d,0,", d->dscope_type);
 	}
 	fprintf(diagfp2, "%d,0x%x\n", slt_num,
@@ -433,7 +414,7 @@ static bool have_module = 0;
 void diag_source_file
 (char *nm, long ln)
 {
-    if (diag_format == DIAG_STAB) {
+    if (diag == DIAG_STABS) {
 	int n = strlen(nm) + 3;
 	char *qnm = alloc_nof(char, n);
 	mach_op *op = make_extern_data("Ltext", 0);
@@ -457,7 +438,7 @@ void diag_source_file
 	slt_special(1, x);
 	if (!have_module) {
 	    x = out_dd(diagfp2, xdb_module, 1);
-	    if (diag_format == DIAG_XDB_NEW) {
+	    if (diag == DIAG_XDB_NEW) {
 		fprintf(diagfp2, "0,0");
 	    } else {
 		diag_string(diagfp2, nm);
@@ -517,7 +498,7 @@ void diag_proc_main
     }
     dtl = dt->data.proc.result_type;
 
-    if (diag_format == DIAG_STAB) {
+    if (diag == DIAG_STABS) {
 	mach_op *op = make_extern_data(val, 0);
 	char *st = analyse_stab_type(dtl, id,(is_glob ? "F" : "f"));
 	make_stabs(st, 36, crt_line_num, op);
@@ -531,7 +512,7 @@ void diag_proc_main
 	/* Output function diagnostic directive */
 	t = out_dd(diagfp2, xdb_function, 1);
 	fprintf(diagfp2, "%d,1,", is_glob);
-	if (diag_format == DIAG_XDB_NEW)fprintf(diagfp2, "0,0,0,0,0,");
+	if (diag == DIAG_XDB_NEW)fprintf(diagfp2, "0,0,0,0,0,");
 	diag_string(diagfp2, id);
 	if (strcmp(id, "main") == 0) {
 	    fputc(',', diagfp2);
@@ -543,7 +524,7 @@ void diag_proc_main
 	fp = ftell(diagfp2);
 	fprintf(diagfp2, "%s,%d,%s,", NULL_POSN_STR, slt_num, val);
 	out_posn(diagfp2, p, 1);
-	if (diag_format == DIAG_XDB_NEW)fprintf(diagfp2, "%s,", val);
+	if (diag == DIAG_XDB_NEW)fprintf(diagfp2, "%s,", val);
 	fprintf(diagfp2, "L%ld\n", crt_diag_proc_lab);
 
 	/* Start new diagnostic scope */
@@ -566,7 +547,7 @@ void diag_proc_main
 		diag_type pdt = di->data.id_scope.typ;
 		char *pnm = di->data.id_scope.nme.ints.chars;
 		long off = 8 + (no(ps) + no(son(ps))) / 8;
-		if (diag_format == DIAG_STAB) {
+		if (diag == DIAG_STABS) {
 		    mach_op *op = make_int_data(off);
 		    char *st = analyse_stab_type(pdt, pnm, "p");
 		    make_stabs(st, 160, 0L, op);
@@ -574,7 +555,7 @@ void diag_proc_main
 		    p = analyse_diag_type(diagfp2, pdt, 1);
 		    t = out_dd(diagfp2, xdb_fparam, 1);
 		    fill_gap(diagfp2, fp, t);
-		    if (diag_format == DIAG_XDB_NEW) {
+		    if (diag == DIAG_XDB_NEW) {
 			fprintf(diagfp2, "0,0,0,0,0,");
 		    } else {
 			fprintf(diagfp2, "0,0,");
@@ -587,7 +568,7 @@ void diag_proc_main
 		    fprintf(diagfp2, ",%ld,", off);
 		    out_posn(diagfp2, p, 1);
 		    fp = ftell(diagfp2);
-		    if (diag_format == DIAG_XDB_NEW) {
+		    if (diag == DIAG_XDB_NEW) {
 			fprintf(diagfp2, "%s,0\n", NULL_POSN_STR);
 		    } else {
 			fprintf(diagfp2, "%s\n", NULL_POSN_STR);
@@ -608,7 +589,7 @@ void diag_proc_main
 void diag_globl_variable
 (diag_type dt, char *id, int is_glob, char *val, int has_def)
 {
-    if (diag_format == DIAG_STAB) {
+    if (diag == DIAG_STABS) {
 	if (is_glob) {
 	    char *st = analyse_stab_type(dt, id, "G");
 	    make_stabs(st, 32, crt_line_num, null);
@@ -621,7 +602,7 @@ void diag_globl_variable
 	int loc;
 	FILE *file;
 	table_posn *x;
-	if (diag_format == DIAG_XDB_NEW) {
+	if (diag == DIAG_XDB_NEW) {
 	    loc = (is_glob ? 0 : 1);
 	    file = (is_glob ? diagfp3 : diagfp2);
 	} else {
@@ -630,7 +611,7 @@ void diag_globl_variable
 	}
 	x = analyse_diag_type(file, dt, loc);
 	(void)out_dd(file, xdb_svar, loc);
-	if (diag_format == DIAG_XDB_NEW) {
+	if (diag == DIAG_XDB_NEW) {
 	    fprintf(file, "%d,0,0,0,0,", is_glob);
 	} else {
 	    fprintf(file, "%d,0,", is_glob);
@@ -655,21 +636,21 @@ void diag_globl_variable
 void diag_local_variable
 (diag_type dt, char *id, long fp)
 {
-    if (diag_format == DIAG_STAB) {
+    if (diag == DIAG_STABS) {
 	mach_op *op = make_int_data(-fp);
 	char *st = analyse_stab_type(dt, id, "l");
 	make_stabs(st, 128, crt_line_num, op);
     } else {
 	table_posn *x = analyse_diag_type(diagfp2, dt, 1);
 	(void)out_dd(diagfp2, xdb_dvar, 1);
-	if (diag_format == DIAG_XDB_NEW) {
+	if (diag == DIAG_XDB_NEW) {
 	    fprintf(diagfp2, "0,0,0,0,");
 	} else {
 	    fprintf(diagfp2, "0,0,0,");
 	}
 	diag_string(diagfp2, id);
 	fprintf(diagfp2, ",%ld,", -fp);
-	if (diag_format == DIAG_XDB_NEW) {
+	if (diag == DIAG_XDB_NEW) {
 	    out_posn(diagfp2, x, 1);
 	    fprintf(diagfp2, "0\n");
 	} else {
@@ -696,11 +677,11 @@ void diag_type_defn
 	}
 
 	default : {
-	    if (diag_format == DIAG_STAB) {
+	    if (diag == DIAG_STABS) {
 		char *st = analyse_stab_type(dt, nm, "t");
 		make_stabs(st, 128, 1L, null);
 	    } else {
-		int loc = (diag_format == DIAG_XDB_NEW ? 0 : 1);
+		int loc = (diag == DIAG_XDB_NEW ? 0 : 1);
 		FILE *file = (loc ? diagfp2 : diagfp3);
 		table_posn *p = analyse_diag_type(file, dt, loc);
 		(void)out_dd(file, xdb_typedef, loc);

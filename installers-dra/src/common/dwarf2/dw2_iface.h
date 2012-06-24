@@ -10,7 +10,6 @@
 #ifndef dw2_iface_key
 #define dw2_iface_key 1
 
-extern int dwarf2;
 extern long dw_info_start;
 extern long dw_text_start;
 

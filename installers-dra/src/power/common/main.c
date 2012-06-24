@@ -71,14 +71,18 @@ int main(int argc, char **argv)
   endian = ENDIAN_BIG;
   assembler = ASM_IBM;
   format = FORMAT_XCOFF;
+  diag = DIAG_STABX;
   
 	{
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"B:E:F:G:HK:MO:PQRVWX:Z" "c")) != -1) {
+			"B:C:E:F:G:HK:MO:PQRVWX:Z" "c")) != -1) {
 			switch (c) {
 			case 'B': builtin = flags_builtin(optarg); break;
+			case 'C':
+				diag = switch_diag(optarg, DIAG_STABX | DIAG_XDB_OLD | DIAG_XDB_NEW);
+				break;
 			case 'E':
 				endian = switch_endian(optarg, ENDIAN_BIG | ENDIAN_LITTLE);
 				break;

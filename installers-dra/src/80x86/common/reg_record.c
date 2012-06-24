@@ -48,7 +48,7 @@ void clear_reg_record
   for (i = 0; i < no_fixed_regs; ++i) {
     s[i].regcell_key = 4;
 #ifdef NEWDWARF
-    if (dwarf2) {
+    if (diag == DIAG_DWARF2) {
       dw_close_regassn(i, 0);
       dw_close_regassn(i, 1);
     }
@@ -66,7 +66,7 @@ void clear_low_reg_record
   for (i = 0; i < no_fixed_regs; ++i) {
     s[i].regcell_key = 4;
 #ifdef NEWDWARF
-    if (dwarf2) {
+    if (diag == DIAG_DWARF2) {
       dw_close_regassn(i, 0);
       dw_close_regassn(i, 1);
     }
@@ -143,7 +143,7 @@ where equiv_reg
 	(sz == 0 || sz == p -> first_size) &&
 	eq_where_exp(p -> first_dest, w.where_exp, 1,(sz==0))) {
 #ifdef NEWDWARF
-      if (dwarf2)
+      if (diag == DIAG_DWARF2)
 	dw_used_regassn(i, 0);
 #endif
       return reg_wheres[i];
@@ -152,7 +152,7 @@ where equiv_reg
 	(sz == 0 || sz == p -> second_size) &&
 	eq_where_exp(p -> second_dest, w.where_exp, 1,(sz==0))) {
 #ifdef NEWDWARF
-      if (dwarf2)
+      if (diag == DIAG_DWARF2)
 	dw_used_regassn(i, 1);
 #endif
       return reg_wheres[i];
@@ -225,7 +225,7 @@ void invalidate_dest
 	      shape_overlap(dest.where_exp, pr -> first_dest)) {
 	    pr -> regcell_key = 4;
 #ifdef NEWDWARF
-	    if (dwarf2)
+	    if (diag == DIAG_DWARF2)
 	      dw_close_regassn(i, 0);
 #endif
 	  }
@@ -235,7 +235,7 @@ void invalidate_dest
 	      shape_overlap(dest.where_exp, pr -> second_dest)) {
 	    pr -> regcell_key = 4;
 #ifdef NEWDWARF
-	    if (dwarf2)
+	    if (diag == DIAG_DWARF2)
 	      dw_close_regassn(i, 1);
 #endif
 	  }
@@ -245,7 +245,7 @@ void invalidate_dest
 	      shape_overlap(dest.where_exp, pr -> first_dest)) {
 	    pr -> regcell_key &= 2;
 #ifdef NEWDWARF
-	    if (dwarf2)
+	    if (diag == DIAG_DWARF2)
 	      dw_close_regassn(i, 0);
 #endif
 	  }
@@ -253,7 +253,7 @@ void invalidate_dest
 	      shape_overlap(dest.where_exp, pr -> second_dest)) {
 	    pr -> regcell_key &= 1;
 #ifdef NEWDWARF
-	    if (dwarf2)
+	    if (diag == DIAG_DWARF2)
 	      dw_close_regassn(i, 1);
 #endif
 	  }
@@ -278,7 +278,7 @@ void invalidate_dest
 	  if (invalidates(d, pr -> first_dest)) {
 	    pr -> regcell_key = 4;
 #ifdef NEWDWARF
-	    if (dwarf2)
+	    if (diag == DIAG_DWARF2)
 	      dw_close_regassn(i, 0);
 #endif
 	  }
@@ -287,7 +287,7 @@ void invalidate_dest
 	  if (invalidates(d, pr -> second_dest)) {
 	    pr -> regcell_key = 4;
 #ifdef NEWDWARF
-	    if (dwarf2)
+	    if (diag == DIAG_DWARF2)
 	      dw_close_regassn(i, 1);
 #endif
 	  }
@@ -296,14 +296,14 @@ void invalidate_dest
 	  if (invalidates(d, pr -> first_dest)) {
 	    pr -> regcell_key &= 2;
 #ifdef NEWDWARF
-	    if (dwarf2)
+	    if (diag == DIAG_DWARF2)
 	      dw_close_regassn(i, 0);
 #endif
 	  }
 	  if (invalidates(d, pr -> second_dest)) {
 	    pr -> regcell_key &= 1;
 #ifdef NEWDWARF
-	    if (dwarf2)
+	    if (diag == DIAG_DWARF2)
 	      dw_close_regassn(i, 1);
 #endif
 	  }
@@ -360,7 +360,7 @@ void move_reg
 	  p -> second_dest = from.where_exp;
 	  p -> second_size = sz;
 #ifdef NEWDWARF
-	  if (dwarf2)
+	  if (diag == DIAG_DWARF2)
 	    dw_init_regassn(regno_to, 1);
 #endif
 	  break;
@@ -371,7 +371,7 @@ void move_reg
 	  p -> first_dest = from.where_exp;
 	  p -> first_size = sz;
 #ifdef NEWDWARF
-	  if (dwarf2)
+	  if (diag == DIAG_DWARF2)
 	    dw_init_regassn(regno_to, 0);
 #endif
 	  break;
@@ -384,7 +384,7 @@ void move_reg
 	  p -> first_dest = from.where_exp;
 	  p -> first_size = sz;
 #ifdef NEWDWARF
-	  if (dwarf2)
+	  if (diag == DIAG_DWARF2)
 	    dw_init_regassn(regno_to, 0);
 #endif
 	  break;
@@ -401,7 +401,7 @@ void move_reg
 	  p -> second_dest = to.where_exp;
 	  p -> second_size = sz;
 #ifdef NEWDWARF
-	  if (dwarf2)
+	  if (diag == DIAG_DWARF2)
 	    dw_init_regassn(regno_from, 1);
 #endif
 	  break;
@@ -412,7 +412,7 @@ void move_reg
 	  p -> first_dest = to.where_exp;
 	  p -> first_size = sz;
 #ifdef NEWDWARF
-	  if (dwarf2)
+	  if (diag == DIAG_DWARF2)
 	    dw_init_regassn(regno_from, 0);
 #endif
 	  break;
@@ -425,7 +425,7 @@ void move_reg
 	  p -> first_dest = to.where_exp;
 	  p -> first_size = sz;
 #ifdef NEWDWARF
-	  if (dwarf2)
+	  if (diag == DIAG_DWARF2)
 	    dw_init_regassn(regno_from, 0);
 #endif
 	  break;

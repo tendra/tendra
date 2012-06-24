@@ -53,6 +53,7 @@ enum builtin builtin;
 enum endian    endian;
 enum assembler assembler;
 enum format    format;
+enum diag      diag;
 
 enum optim
 flags_optim(const char *s)
@@ -253,3 +254,43 @@ switch_format(const char *s, unsigned permitted)
 
 	return o;
 }
+
+enum diag
+switch_diag(const char *s, unsigned permitted)
+{
+	size_t i;
+	enum format o;
+
+	struct {
+		const char *name;
+		enum diag diag;
+	} a[] = {
+		{ "stabs",   DIAG_STABS   },
+		{ "stabx",   DIAG_STABX   },
+		{ "xdb_old", DIAG_XDB_OLD },
+		{ "xdb_new", DIAG_XDB_NEW },
+		{ "dwarf",   DIAG_DWARF   },
+		{ "dwarf2",  DIAG_DWARF2  }
+	};
+
+	for (i = 0; i < sizeof a / sizeof *a; i++) {
+		if (0 == strcmp(a[i].name, s)) {
+			o = a[i].diag;
+			break;
+		}
+	}
+
+	if (i >= sizeof a / sizeof *a) {
+		error(ERROR_FATAL, "Unrecognised diagnostic format %s.", s);
+		return -1;
+	}
+
+	if (~permitted & o) {
+		error(ERROR_FATAL, "Diagnostic format %s not permitted "
+			"for this architecture.", s);
+		return -1;
+	}
+
+	return o;
+}
+

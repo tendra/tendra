@@ -11,6 +11,8 @@
 
 #include <reader/codetypes.h>
 
+#include <construct/flags.h>
+
 #include <diag/diag_fns.h>
 #include <diag/diagglob.h>
 #include <diag/mark_scope.h>
@@ -51,7 +53,7 @@ diag_epilogue(void)
 	while (dnt_end()) {
 		; /* empty */
 	}
-	if (diag_format == DIAG_STAB) {
+	if (diag == DIAG_STABS) {
 		mach_op *op = make_extern_data("Letext", 0);
 		area(ptext);
 		make_stabs("\"\"", 100, 0, op);
@@ -113,7 +115,7 @@ diag_start(diag_info *di, exp e)
 		if (props(e) & 0x80) {
 			dnt_begin();
 		}
-		if (diag_format != DIAG_XDB_NEW) {
+		if (diag != DIAG_XDB_NEW) {
 			diag_variable(di, e);
 		}
 		break;
@@ -132,7 +134,7 @@ void
 diag_end(diag_info *di, exp e)
 {
 	if (di->key == DIAG_INFO_ID) {
-		if (diag_format == DIAG_XDB_NEW) {
+		if (diag == DIAG_XDB_NEW) {
 			diag_variable(di, e);
 		}
 		if (props(e) & 0x80) {
@@ -167,7 +169,7 @@ xdb_diag_proc_begin(diag_global *di, exp p, char *pname, long cname,
 void
 xdb_diag_proc_return(void)
 {
-	if (diag_format == DIAG_XDB_NEW) {
+	if (diag == DIAG_XDB_NEW) {
 		slt_exit();
 	}
 	return;
@@ -182,11 +184,11 @@ void
 xdb_diag_proc_end(diag_global *di)
 {
 	area(ptext);
-	if (diag_format == DIAG_XDB_NEW) {
+	if (diag == DIAG_XDB_NEW) {
 		mach_op *op1 = make_lab_data(crt_diag_proc_lab, 0);
 		mach_op *op2 = make_extern_data(".-1", 0);
 		make_instr(m_as_assign, op1, op2, 0);
-	} else if (diag_format == DIAG_XDB_OLD) {
+	} else if (diag == DIAG_XDB_OLD) {
 		make_label(crt_diag_proc_lab);
 	}
 	dnt_end();

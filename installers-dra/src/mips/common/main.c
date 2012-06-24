@@ -83,16 +83,20 @@ int   main
   endian = ENDIAN_BIG;
   assembler = ASM_SGI;
   format = FORMAT_ELF;
+  diag = DIAG_STABS;
 
 	{
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"B:DE:F:G:HK:MO:PQRSVWX:Z"
+			"B:C:DE:F:G:HK:MO:PQRSVWX:Z"
 			"ei")) != -1) {
 			switch (c) {
 			case 'B': builtin = flags_builtin(optarg); break;
 			case 'D': PIC_code = 1;                    break;
+			case 'C':
+				diag = switch_diag(optarg, DIAG_STABS);
+				break;
 			case 'E':
 				endian = switch_endian(optarg, ENDIAN_BIG | ENDIAN_LITTLE);
 				break;

@@ -120,7 +120,7 @@ clear_all (void) {
 	regexps [i].keptexp = nilexp ;
 	setregalt ( regexps [i].inans, 0 ) ;
 #ifdef NEWDWARF
-	if (dwarf2)
+	if (diag == DIAG_DWARF2)
 	  dw_close_regassn (i);
 #endif
     }
@@ -140,7 +140,7 @@ clear_reg ( int i )
 	regexps [i].keptexp = nilexp ;
 	setregalt ( regexps [i].inans, 0 ) ;
 #ifdef NEWDWARF
-	if (dwarf2)
+	if (diag == DIAG_DWARF2)
 	  dw_close_regassn (i);
 #endif
     }
@@ -196,7 +196,7 @@ iskept ( exp e )
 
 		    default : {
 #ifdef NEWDWARF
-			if (dwarf2)
+			if (diag == DIAG_DWARF2)
 			  dw_used_regassn (i);
 #endif
 			return aa;
@@ -215,7 +215,7 @@ iskept ( exp e )
 			/* the contents of required expression is here as
 			   a register-offset */
 #ifdef NEWDWARF
-			if (dwarf2)
+			if (diag == DIAG_DWARF2)
 			  dw_used_regassn (i);
 #endif
 			is.adval = 1 ;
@@ -235,7 +235,7 @@ iskept ( exp e )
 			/* a ref selection of required expression is here as
 			   a register-offset */
 #ifdef NEWDWARF
-			if (dwarf2)
+			if (diag == DIAG_DWARF2)
 			  dw_used_regassn (i);
 #endif
 			is.adval = 1 ;
@@ -288,7 +288,7 @@ keepexp ( exp e, ans loc )
     regexps [ reg ].inans = loc ;
     regexps [ reg ].iscont = 0 ;
 #ifdef NEWDWARF
-    if (dwarf2)
+    if (diag == DIAG_DWARF2)
 	dw_init_regassn (reg);
 #endif
     return ;
@@ -322,7 +322,7 @@ keepcont ( exp e, int regcode )
     regexps [ reg ].keptexp = e ;
     regexps [ reg ].iscont = 1 ;
 #ifdef NEWDWARF
-    if (dwarf2)
+    if (diag == DIAG_DWARF2)
 	dw_init_regassn (reg);
 #endif
     return ;
@@ -356,7 +356,7 @@ keepreg ( exp e, int regcode )
     regexps [ reg ].keptexp = e ;
     regexps [ reg ].iscont = 0 ;
 #ifdef NEWDWARF
-    if (dwarf2)
+    if (diag == DIAG_DWARF2)
 	dw_init_regassn (reg);
 #endif
     return ;
@@ -499,7 +499,7 @@ clear_dep_reg ( exp lhs )
 	  regexps [i].keptexp = nilexp ;
 	  setregalt ( regexps [i].inans, 0 ) ;
 #ifdef NEWDWARF
-	  if (dwarf2)
+	  if (diag == DIAG_DWARF2)
 	    dw_close_regassn (i);
 #endif
 	}

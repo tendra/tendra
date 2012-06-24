@@ -103,9 +103,6 @@ main(int argc, char **argv)
 	diag_visible = 0;
 	extra_diags = 0;
 #endif /* NEWDIAGS */
-#ifdef NEWDWARF
-	dwarf2 = 0;
-#endif /* NEWDWARF */
 	do_profile = 0;		/* no profiling code */
 	writable_strings = 0;	/* strings are read only */
 	PIC_code = 0;		/* do not produce PIC code */
@@ -124,6 +121,11 @@ main(int argc, char **argv)
 	endian = ENDIAN_LITTLE;
 	assembler = ASM_GAS;
 	format = FORMAT_ELF;
+#ifdef NEWDWARF
+	diag = DIAG_DWARF2;
+#else
+	diag = DIAG_DWARF;
+#endif
 
 	ptr_null = 0;		/* null value for pointer */
 	proc_null = 0;		/* null value for proc */
@@ -133,15 +135,18 @@ main(int argc, char **argv)
 	 * XXX: Some arguments are undocumented in trans.1, check
 	 */
 #ifdef NEWDWARF
-	optstring = "B:D:E:F:G:H:" "J" "K:M:NO:PQR:" "T" "VW:X:Z" "abcdfghit:";
+	optstring = "B:C:D:E:F:G:H:" "J" "K:M:NO:PQR:" "T" "VW:X:Z" "abcdfghit:";
 #else
-	optstring = "B:D:E:F:G:H:"     "K:M:NO:PQR:"     "VW:X:Z" "abcdfghit:";
+	optstring = "B:C:D:E:F:G:H:"     "K:M:NO:PQR:"     "VW:X:Z" "abcdfghit:";
 #endif
 
 	while ((ch = getopt(argc, argv, optstring)) != -1) {
 		switch (ch) {
 		case 'B':
 			builtin = flags_builtin(optarg);
+			break;
+		case 'C':
+			diag = switch_diag(optarg, DIAG_STABS | DIAG_DWARF | DIAG_DWARF2);
 			break;
 		case 'D':
 			PIC_code = (*optarg == '1');
@@ -188,7 +193,7 @@ main(int argc, char **argv)
 		case 'J':
 			diagnose = 1;
 			extra_diags = 1;
-			dwarf2 = 1;
+			diag = DIAG_DWARF2;
 			break;
 #endif
 		case 'K':
@@ -235,7 +240,7 @@ main(int argc, char **argv)
 			dump_abbrev = 1;
 			diagnose = 1;
 			extra_diags = 1;
-			dwarf2 = 1;
+			diag = DIAG_DWARF2;
 			break;
 #endif
 		case 'V':
@@ -325,7 +330,7 @@ main(int argc, char **argv)
 		init_all();
 
 #ifdef NEWDWARF
-		if (dwarf2)
+		if (diag == DIAG_DWARF2)
 			init_dwarf2();
 		else
 #endif
@@ -354,7 +359,7 @@ main(int argc, char **argv)
 		}
 
 #ifdef NEWDWARF
-		if (dwarf2)
+		if (diag == DIAG_DWARF2)
 			end_dwarf2();
 		else
 #endif

@@ -228,7 +228,7 @@ static int procargs
       sub(slongsh, mw(zeroe, extra/8), sp, sp);
       stack_dec -= extra;  /* align stack to param_align */
 #ifdef NEWDWARF
-      if (diagnose && dwarf2 && no_frame)
+      if (diagnose && diag == DIAG_DWARF2 && no_frame)
 	dw2_track_sp();
 #endif
     };
@@ -252,7 +252,7 @@ static int procargs
     cond2_set = 0;
     stack_dec -= longs;
 #ifdef NEWDWARF
-    if (diagnose && dwarf2 && no_frame)
+    if (diagnose && diag == DIAG_DWARF2 && no_frame)
       dw2_track_sp();
 #endif
 
@@ -1106,7 +1106,7 @@ void coder
 	    rec->cond2b = cond2b;
 #if 0
 #ifdef NEWDWARF
-	    if (dwarf2) {
+	    if (diag == DIAG_DWARF2) {
 	      rec->dw2_hi = next_dwarf_label();
 	      rec->dw2_slave = next_dwarf_label();
 	      dw2_extend_scope(rec->labno, rec->dw2_hi, rec->dw2_slave);
@@ -2114,12 +2114,12 @@ void coder
 		rel_ap (0, 1);	/* push return address for return after pops */
 		outnl();
 #ifdef NEWDWARF
-		if (diagnose && dwarf2)
+		if (diagnose && diag == DIAG_DWARF2)
 		  dw2_untidy_return();
 #endif
 	      }
 #ifdef NEWDWARF
-	      if (diagnose && dwarf2) {
+	      if (diagnose && diag == DIAG_DWARF2) {
 		over_lab = next_dwarf_label();
 		dw2_return_pos(over_lab);
 	      }
@@ -2137,7 +2137,7 @@ void coder
 		retins();
 	      outnl();
 #ifdef NEWDWARF
-	      if (diagnose && dwarf2)
+	      if (diagnose && diag == DIAG_DWARF2)
 		dw2_after_fde_exit(over_lab);
 #endif
 	    };

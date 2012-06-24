@@ -92,7 +92,7 @@ static void eval_if_ready
           out_readonly_section();
 	  outnl();
 #ifdef NEWDWARF
-	  if (dwarf2)
+	  if (diag == DIAG_DWARF2)
 	    note_ro(d -> dec_u.dec_val.dec_id);
 #endif
 	}
@@ -102,7 +102,7 @@ static void eval_if_ready
 	  outs(".data");
 	  outnl();
 #ifdef NEWDWARF
-	  if (dwarf2)
+	  if (diag == DIAG_DWARF2)
 	    note_data(d -> dec_u.dec_val.dec_id);
 #endif
 	};
@@ -261,7 +261,7 @@ void make_code
 	   }
            out_bss(id, sh(son(tg)));
 #ifdef NEWDWARF
-	   if (dwarf2)
+	   if (diag == DIAG_DWARF2)
 	     note_data(id);
 #endif
 	 }
@@ -329,7 +329,7 @@ void translate_capsule
 
 #ifdef STABS
 #ifdef NEWDWARF
-  if (diagnose && !dwarf2)
+  if (diagnose && diag != DIAG_DWARF2)
 #else
   if (diagnose)
 #endif
@@ -415,7 +415,7 @@ void translate_capsule
      undefined objects */
 
 #ifdef NEWDWARF
-  if (dwarf2) {
+  if (diag == DIAG_DWARF2) {
     outs(".text\n");
     dwarf2_prelude();
   }
@@ -437,7 +437,7 @@ void translate_capsule
 
   outs(".text\n");
 #ifdef NEWDWARF
-  if (dwarf2) {
+  if (diag == DIAG_DWARF2) {
     dwarf2_postlude();
   }
 #endif

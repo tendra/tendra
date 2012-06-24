@@ -63,17 +63,6 @@ extern diag_directive dd[];
 #define  xdb_variant		25
 
 
-/*
-    DIAGNOSTIC FORMS SUPPORTED
-*/
-
-#define  DIAG_XDB_OLD		0
-#define  DIAG_XDB_NEW		1
-#define  DIAG_STAB		2
-#define  DIAG_UNKNOWN		3
-
-
-extern bool diag_format;
 extern long crt_diag_proc_lab;
 
 extern void init_diag(void);

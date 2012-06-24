@@ -264,7 +264,7 @@ makeans make_proc_tag_code
   st = proc_state.frame_size >> 3;
 
 #ifdef NEWDWARF
-  if (dwarf2) {
+  if (diag == DIAG_DWARF2) {
     START_BB();
     dw2_start_fde(current_proc);
   }
@@ -278,7 +278,7 @@ makeans make_proc_tag_code
       rir_ins(i_save,R_SP,-st,R_SP);
     }
 #ifdef NEWDWARF
-    if (dwarf2)
+    if (diag == DIAG_DWARF2)
       dw2_fde_save();
 #endif
 #ifdef GENCOMPAT
@@ -298,7 +298,7 @@ makeans make_proc_tag_code
   else{
     rir_ins(i_save, R_SP, -st, R_SP);
 #ifdef NEWDWARF
-    if (dwarf2)
+    if (diag == DIAG_DWARF2)
       dw2_fde_save();
 #endif
     /* more here about fp */
@@ -315,7 +315,7 @@ makeans make_proc_tag_code
     outf("\tor\t%%l7,%%lo(%s+ (.-1b)),%%l7\n", g);
     outs("\tadd\t%l7,%o7,%l7\n");
 #ifdef NEWDWARF
-    if (dwarf2)
+    if (diag == DIAG_DWARF2)
       lost_count_ins();
 #endif
   }
@@ -419,7 +419,7 @@ makeans make_proc_tag_code
     outn(p_lab);
     outs(",%o0\n");
 #ifdef NEWDWARF
-    if (dwarf2)
+    if (diag == DIAG_DWARF2)
       lost_count_ins();
 #endif
     extj_special_ins(i_call, "mcount", 1);
@@ -571,14 +571,14 @@ makeans make_proc_tag_code
     if (proc_state.result_label !=0) {
       set_label(proc_state.result_label);
 #ifdef NEWDWARF
-      if (dwarf2)
+      if (diag == DIAG_DWARF2)
         dw2_return_pos(0);
 #endif
       ret_restore_ins();
     }
 #endif
 #ifdef NEWDWARF
-    if (dwarf2)
+    if (diag == DIAG_DWARF2)
       dw2_complete_fde();
 #endif
     proc_state = old_proc_state;
@@ -612,7 +612,7 @@ makeans make_res_tag_code
 	   isw.b.offset == (16 * 4)) {
 	/* struct or union result */
 #ifdef NEWDWARF
-	if (dwarf2)
+	if (diag == DIAG_DWARF2)
 	  dw2_return_pos(0);
 #endif
 	stret_restore_ins();
@@ -655,7 +655,7 @@ makeans make_res_tag_code
 #endif
 	  }
 #ifdef NEWDWARF
-	  if (dwarf2)
+	  if (diag == DIAG_DWARF2)
 	    dw2_return_pos(0);
 #endif
 	  if (name(e) == res_tag) {
@@ -664,7 +664,7 @@ makeans make_res_tag_code
 	  else {
 	    fprintf(as_file, "\t%s\n", i_ret);
 #ifdef NEWDWARF
-	    if (dwarf2)
+	    if (diag == DIAG_DWARF2)
 	      count_ins(1);
 #endif
 	    rir_ins(i_restore,R_SP,-proc_state.maxargs>>3,R_SP);
@@ -692,7 +692,7 @@ makeans make_res_tag_code
 #endif
 	/* return here, avoiding cost of branch to return */
 #ifdef NEWDWARF
-	if (dwarf2)
+	if (diag == DIAG_DWARF2)
 	  dw2_return_pos(0);
 #endif
 	if (name(e) == res_tag) {
@@ -701,7 +701,7 @@ makeans make_res_tag_code
 	else {
 	  fprintf(as_file, "\t%s\n", i_ret);
 #ifdef NEWDWARF
-	  if (dwarf2)
+	  if (diag == DIAG_DWARF2)
 	    count_ins(1);
 #endif
 	  rir_ins(i_restore,R_SP,-proc_state.maxargs>>3,R_SP);
@@ -942,7 +942,7 @@ makeans make_apply_tag_code
   }
 
 #ifdef NEWDWARF
-  if (dwarf2)
+  if (diag == DIAG_DWARF2)
     START_BB();
 #endif
 
@@ -1385,7 +1385,7 @@ makeans make_apply_general_tag_code
   }
 
 #ifdef NEWDWARF
-  if (dwarf2)
+  if (diag == DIAG_DWARF2)
     START_BB();
 #endif
 
@@ -1946,7 +1946,7 @@ makeans make_tail_call_tag
     extj_reg_ins_no_delay(i_jmp,r,-1);
     fprintf ( as_file, "\t%s\n", i_restore ) ;	/* delay slot */
 #ifdef NEWDWARF
-    if (dwarf2)
+    if (diag == DIAG_DWARF2)
       count_ins(1);
 #endif
   }

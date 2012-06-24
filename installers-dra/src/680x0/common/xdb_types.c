@@ -17,6 +17,7 @@
 #include <reader/externs.h>
 
 #include <construct/shapemacs.h>
+#include <construct/flags.h>
 
 #include "expmacs.h"
 #include "instrs.h"
@@ -66,7 +67,7 @@ posn_t
 out_dd(FILE *file, int n, int loc)
 {
 	diag_directive *d = dd + n;
-	long sz = (diag_format == DIAG_XDB_NEW ? d->new_size : d->old_size);
+	long sz = (diag == DIAG_XDB_NEW ? d->new_size : d->old_size);
 	posn_t p = (loc ? dtposn_local : dtposn_globl);
 	fprintf(file, "%s", instr_names[d->instr]);
 	if (loc) {
@@ -199,17 +200,17 @@ analyse_diag_type(FILE *file, diag_type dt, int loc)
 		long sz = (hi - lo + 1)*(p->size);
 		posn_t s, t = out_dd(file, xdb_subrange, loc);
 
-		if (diag_format == DIAG_XDB_NEW) {
+		if (diag == DIAG_XDB_NEW) {
 			fprintf(file, "0,0,");
 		}
 		fprintf(file, "%ld,%ld,0x%x,32\n", lo, hi,
 			(unsigned int)(SIGNED_POSN + 32));
 		s = out_dd(file, xdb_array, loc);
-		if (diag_format == DIAG_XDB_NEW) {
+		if (diag == DIAG_XDB_NEW) {
 			fprintf(file, "0,0,0,0,0,0,");
 		}
 		fprintf(file, "0,%ld,0x%x,", sz,(unsigned int)t);
-		if (diag_format == DIAG_XDB_NEW) {
+		if (diag == DIAG_XDB_NEW) {
 			out_posn(file, p, 1);
 			fprintf(file, "%ld\n", p->size);
 		} else {
@@ -242,7 +243,7 @@ analyse_diag_type(FILE *file, diag_type dt, int loc)
 			long v = no(fld[i] ->val);
 			posn_t s = out_dd(file, xdb_memenum, loc);
 			fill_gap(file, fp, s);
-			if (diag_format == DIAG_XDB_NEW) {
+			if (diag == DIAG_XDB_NEW) {
 				fprintf(file, "0,");
 			}
 			if (*fnm) {
@@ -259,7 +260,7 @@ analyse_diag_type(FILE *file, diag_type dt, int loc)
 		if (*nm) {
 			(void)out_dd(file, xdb_tagdef, loc);
 			fprintf(file, "0,");
-			if (diag_format == DIAG_XDB_NEW) {
+			if (diag == DIAG_XDB_NEW) {
 				fprintf(file, "1,");
 			}
 			diag_string(file, nm);
@@ -285,7 +286,7 @@ analyse_diag_type(FILE *file, diag_type dt, int loc)
 		diag_type dtl = dt->data.proc.result_type;
 		table_posn *p = analyse_diag_type(file, dtl, loc);
 		posn_t t = out_dd(file, xdb_functype, loc);
-		if (diag_format == DIAG_XDB_NEW) {
+		if (diag == DIAG_XDB_NEW) {
 			fprintf(file, "0,0,");
 		}
 		fprintf(file, "32,");
@@ -320,7 +321,7 @@ analyse_diag_type(FILE *file, diag_type dt, int loc)
 		int taglab = 0;
 		char nmbuff[50];
 		long dlab = diag_lab++;
-		if (diag_format == DIAG_XDB_NEW) {
+		if (diag == DIAG_XDB_NEW) {
 			if (*nm == 0) {
 				unsigned u = unique_id();
 				nm = nmbuff;
@@ -346,7 +347,7 @@ analyse_diag_type(FILE *file, diag_type dt, int loc)
 			}
 			tt = out_dd(file, xdb_tagdef, loc);
 			fprintf(file, "0,");
-			if (diag_format == DIAG_XDB_NEW) {
+			if (diag == DIAG_XDB_NEW) {
 				fprintf(file, "1,");
 			}
 			diag_string(file, nm);
@@ -370,7 +371,7 @@ analyse_diag_type(FILE *file, diag_type dt, int loc)
 			table_posn *q = analyse_diag_type(file, dtl, loc);
 			posn_t s = out_dd(file, xdb_field, loc);
 			fill_gap(file, fp, s);
-			if (diag_format == DIAG_XDB_NEW) {
+			if (diag == DIAG_XDB_NEW) {
 				fprintf(file, "0,0,");
 			}
 			if (*fnm) {
@@ -407,7 +408,7 @@ analyse_diag_type(FILE *file, diag_type dt, int loc)
 		int taglab = 0;
 		long dlab = diag_lab++;
 		char nmbuff[50];
-		if (diag_format == DIAG_XDB_NEW) {
+		if (diag == DIAG_XDB_NEW) {
 			if (*nm == 0) {
 				unsigned u = unique_id();
 				nm = nmbuff;
@@ -431,7 +432,7 @@ analyse_diag_type(FILE *file, diag_type dt, int loc)
 			}
 			tt = out_dd(file, xdb_tagdef, loc);
 			fprintf(file, "0,");
-			if (diag_format == DIAG_XDB_NEW) {
+			if (diag == DIAG_XDB_NEW) {
 				fprintf(file, "1,");
 			}
 			diag_string(file, nm);
@@ -455,7 +456,7 @@ analyse_diag_type(FILE *file, diag_type dt, int loc)
 			table_posn *q = analyse_diag_type(file, dtl, loc);
 			posn_t s = out_dd(file, xdb_field, loc);
 			fill_gap(file, fp, s);
-			if (diag_format == DIAG_XDB_NEW) {
+			if (diag == DIAG_XDB_NEW) {
 				fprintf(file, "0,0,");
 			}
 			if (*fnm) {
