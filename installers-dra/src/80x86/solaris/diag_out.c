@@ -13,6 +13,7 @@
 
 #include "exptypes.h"
 #include <reader/codetypes.h>
+#include <construct/flags.h>
 #include <construct/installtypes.h>
 #include <linkinfo/li_types.h>
 

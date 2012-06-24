@@ -31,7 +31,7 @@
 void
 dot_align(int n)
 {
-  if (dragonfly_elf) {
+  if (format == FORMAT_ELF) {
     outs(".align ");
     outn((long)n);
     outnl();
@@ -84,7 +84,7 @@ outlong(void)
 void
 align_label(int f, exp jr)
 {
-  if (dragonfly_elf) {
+  if (format == FORMAT_ELF) {
     if (is80486 && !is80586 && ptno(jr) != last_jump_label) {
       /* repeat jump */
       if (f == 1) {
@@ -131,7 +131,7 @@ eval_postlude(char *s, exp c)
 void
 out_readonly_section(void)
 {
-  if (dragonfly_elf) {
+  if (format == FORMAT_ELF) {
     outs(".section .rodata");
   } else {
     outs(".text");
@@ -292,7 +292,7 @@ outdivsym(void)
 void
 out_initialiser(char *id)
 {
-  if (dragonfly_elf) {
+  if (format == FORMAT_ELF) {
     outs(".section .init");
     outnl();
     outs(" call ");
@@ -308,7 +308,7 @@ out_initialiser(char *id)
 
 
 void
-out_main_prelude(void) /* !dragonfly_elf */
+out_main_prelude(void) /* FORMAT_AOUT */
 {
   int nl1 = next_lab();
   int nl2 = next_lab();
@@ -330,7 +330,7 @@ out_main_prelude(void) /* !dragonfly_elf */
 }
 
 void
-out_main_postlude(void) /* !dragonfly_elf */
+out_main_postlude(void) /* FORMAT_AOUT */
 {
   char *sdummy = "Idummy";
   char *pdummy = (char *)xcalloc(((int)strlen(local_prefix) +

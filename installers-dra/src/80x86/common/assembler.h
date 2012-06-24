@@ -11,6 +11,9 @@
 #define ASSEMBLER_H
 
 #include "config.h"
+
+#include <construct/flags.h>
+
 #include "exptypes.h"
 #include "localtypes.h"
 
@@ -42,9 +45,7 @@ void outdivsym(void);
 void out_initialiser(char *id);
 
 #if islinux || isfreebsd || isopenbsd || isnetbsd || isdragonfly
-#if islinux
-void set_linux_format (int elf); /* machine.c */
-#endif
+void set_format(enum format);
 void out_main_prelude(void);
 void out_main_postlude(void);
 #endif

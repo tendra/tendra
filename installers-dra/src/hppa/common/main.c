@@ -91,12 +91,13 @@ int main
 
 	endian = ENDIAN_BIG;
 	assembler = ASM_HP;
+	format = FORMAT_SOM;
 
 	{
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"B:DE:G:HKNO:PQRVWX:Z" "dh")) != -1) {
+			"B:DE:F:G:HKNO:PQRVWX:Z" "dh")) != -1) {
 			switch (c) {
 			case 'B': builtin = flags_builtin(optarg); break;
 
@@ -114,6 +115,10 @@ int main
 
 			case 'E':
 				endian = switch_endian(optarg, ENDIAN_BIG | ENDIAN_LITTLE);
+				break;
+
+			case 'F':
+				format = switch_format(optarg, FORMAT_SOM);
 				break;
 
 			case 'G':

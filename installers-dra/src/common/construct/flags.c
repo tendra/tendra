@@ -52,6 +52,7 @@ enum builtin builtin;
 
 enum endian    endian;
 enum assembler assembler;
+enum format    format;
 
 enum optim
 flags_optim(const char *s)
@@ -215,3 +216,40 @@ switch_assembler(const char *s, unsigned permitted)
 	return o;
 }
 
+enum format
+switch_format(const char *s, unsigned permitted)
+{
+	size_t i;
+	enum format o;
+
+	struct {
+		const char *name;
+		enum format format;
+	} a[] = {
+		{ "aout",  FORMAT_AOUT  },
+		{ "elf",   FORMAT_ELF   },
+		{ "xcoff", FORMAT_XCOFF },
+		{ "som",   FORMAT_SOM   },
+		{ "macho", FORMAT_MACHO }
+	};
+
+	for (i = 0; i < sizeof a / sizeof *a; i++) {
+		if (0 == strcmp(a[i].name, s)) {
+			o = a[i].format;
+			break;
+		}
+	}
+
+	if (i >= sizeof a / sizeof *a) {
+		error(ERROR_FATAL, "Unrecognised executable format %s.", s);
+		return -1;
+	}
+
+	if (~permitted & o) {
+		error(ERROR_FATAL, "Executable format %s not permitted "
+			"for this architecture.", s);
+		return -1;
+	}
+
+	return o;
+}

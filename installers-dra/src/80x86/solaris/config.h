@@ -67,9 +67,6 @@
 #define condassign_implemented 0
 #define value_of_null 0
 
-#define prefix_length 0	/* strlen(name_prefix) */
-#define normal_fpucon 0x37f
-
 #define remove_unused_counters 0
 #define remove_unused_index_counters 0
 #define good_index_factor(f)	0

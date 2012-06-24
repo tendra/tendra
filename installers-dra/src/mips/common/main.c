@@ -82,18 +82,22 @@ int   main
   do_alloca = 0;
   endian = ENDIAN_BIG;
   assembler = ASM_SGI;
+  format = FORMAT_ELF;
 
 	{
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"B:DE:G:HK:MO:PQRSVWX:Z"
+			"B:DE:F:G:HK:MO:PQRSVWX:Z"
 			"ei")) != -1) {
 			switch (c) {
 			case 'B': builtin = flags_builtin(optarg); break;
 			case 'D': PIC_code = 1;                    break;
 			case 'E':
 				endian = switch_endian(optarg, ENDIAN_BIG | ENDIAN_LITTLE);
+				break;
+			case 'F':
+				format = switch_format(optarg, FORMAT_ELF);
 				break;
 			case 'G':
 				assembler = switch_assembler(optarg, ASM_SGI | ASM_ULTRIX);

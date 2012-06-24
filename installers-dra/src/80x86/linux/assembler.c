@@ -33,7 +33,7 @@
 void
 dot_align(int n)
 {
-	if (linux_elf) {
+	if (format == FORMAT_ELF) {
 		outs(".align ");
 		outn((long)n);
 		outnl();
@@ -84,7 +84,7 @@ outlong(void)
 void
 align_label(int f, exp jr)
 {
-	if (linux_elf) {
+	if (format == FORMAT_ELF) {
 		if (is80486 && !is80586 && ptno(jr) != last_jump_label) {
 #if 0
 			/* forward jump and continued into */
@@ -131,7 +131,7 @@ align_label(int f, exp jr)
 void
 eval_postlude(char *s, exp c)
 {
-	if (!linux_elf)
+	if (format == FORMAT_AOUT)
 		return;
 
 	outs(".size ");
@@ -148,7 +148,7 @@ eval_postlude(char *s, exp c)
 void
 out_readonly_section(void)
 {
-	if (linux_elf)
+	if (format == FORMAT_ELF)
 		outs(".section .rodata");
 	else
 		outs(".text");
@@ -339,7 +339,7 @@ outend(void)
 	outs("___tdf_end:");
 	outnl();
 
-	if (linux_elf) {
+	if (format == FORMAT_ELF) {
 		outs(".section .note.GNU-stack,\"\",@progbits");
 		outnl();
 	}
@@ -366,7 +366,7 @@ outdivsym(void)
 void
 out_initialiser(char *id)
 {
-	if (linux_elf) {
+	if (format == FORMAT_ELF) {
 		outs(".section .init");
 		outnl();
 		outs(" call ");
@@ -389,7 +389,7 @@ out_initialiser(char *id)
 void
 out_main_prelude(void)
 {
-	/* if (!linux_elf) */
+	/* if FORMAT_AOUT */
 	int nl1 = next_lab();
 	int nl2 = next_lab();
 	min_rfree |= 0x8;
@@ -411,7 +411,7 @@ out_main_prelude(void)
 void
 out_main_postlude(void)
 {
-	/* if (!linux_elf) */
+	/* if FORMAT_AOUT */
 	char *sdummy = "Idummy";
 	char *pdummy = (char *)xcalloc(((int)strlen(local_prefix) + (int)strlen(sdummy) + 1), sizeof(char));
 	strcpy(pdummy, local_prefix);

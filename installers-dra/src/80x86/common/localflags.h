@@ -9,6 +9,8 @@
 
 #include "config.h"
 
+#include <construct/flags.h>
+
 #include <linkinfo/li_types.h>
 
 extern  int is80486;		/* compile for 80486 */
@@ -21,4 +23,12 @@ extern  int permit_8byte_align;
 extern  int useful_double;
 extern  int keep_short;
 extern	int remove_struct_ref;
+
+extern	unsigned prefix_length;
+extern	unsigned normal_fpucon;
+
+extern	char *local_prefix;
+extern	char *name_prefix;
+
+void set_format(enum format format);
 

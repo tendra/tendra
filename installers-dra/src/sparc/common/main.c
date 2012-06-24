@@ -171,18 +171,22 @@ main ( int argc, char ** argv )
   
   endian = ENDIAN_BIG;
   assembler = ASM_SUN;
+  format = FORMAT_ELF;
 
 	{
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"B:DE:G:H:JK:MNO:PQRTVWX:Z"
+			"B:DE:F:G:H:JK:MNO:PQRTVWX:Z"
 			"abcglo:i:r:un")) != -1) {
 			switch (c) {
 			case 'B': builtin = flags_builtin(optarg); break;
 			case 'D': PIC_code = 1;                    break;
 			case 'E':
 				endian = switch_endian(optarg, ENDIAN_LITTLE);
+				break;
+			case 'F':
+				format = switch_format(optarg, FORMAT_AOUT | FORMAT_ELF);
 				break;
 			case 'G':
 				assembler = switch_assembler(optarg, ASM_SUN);

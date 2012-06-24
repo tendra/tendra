@@ -69,10 +69,7 @@
 #define value_of_null 0
 #define no_trap_on_nil_contents 1
 
-extern int dragonfly_elf;
-#define prefix_length (dragonfly_elf ? 0 : 1)	/* strlen(name_prefix) */
 #define AVOID_INTOV 0	/* No software interrupts */
-#define normal_fpucon 0x1272
 
 
 /* Parameters for foralls optimisations */
@@ -83,7 +80,5 @@ extern int dragonfly_elf;
 #define good_pointer_factor(f) ((f) != 1 && (f) != 2 && (f) != 4 && (f) != 8)
 
 #define temp_mips 0
-
-extern void set_dragonfly_format(int);  /* XXX */
 
 #endif

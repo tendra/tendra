@@ -16,6 +16,7 @@
 
 #include "exptypes.h"
 #include <reader/codetypes.h>
+#include <construct/flags.h>
 #include <construct/installtypes.h>
 #include <linkinfo/li_types.h>
 
@@ -240,14 +241,14 @@ static void stabd
 
     if (seg != 0)		/* 0 suppresses always */
     {
-      if (seg < 0 && !freebsd_elf)
+      if (seg < 0 && format == FORMAT_AOUT)
 	seg = - seg;
       if (seg > 0)		/* -ve line nos are put out in the stabs */
       {
 	i = next_lab();
 	fprintf(dg_file, "%sL.%ld:\n", local_prefix, i);
 	fprintf(dg_file, "\t.stabn\t0x%x,0,%ld,%sL.%ld",seg, lno, local_prefix, i);
-	if (freebsd_elf && in_proc) {
+	if (format == FORMAT_ELF && in_proc) {
 	  outs("-");
 	  out_procname();
 	}

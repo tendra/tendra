@@ -25,7 +25,7 @@
 void
 dot_align(int n)
 {
-	if (freebsd_elf) {
+	if (format == FORMAT_ELF) {
 		outs(".align ");
 		outn((long)n);
 		outnl();
@@ -76,7 +76,7 @@ outlong(void)
 void
 align_label(int f, exp jr)
 {
-	if (freebsd_elf) {
+	if (format == FORMAT_ELF) {
 		if (is80486 && !is80586 && ptno(jr) != last_jump_label) {
 			/* repeat jump */
 			if (f == 1)
@@ -120,7 +120,7 @@ eval_postlude(char *s, exp c)
 void
 out_readonly_section(void)
 {
-	if (freebsd_elf)
+	if (format == FORMAT_ELF)
 		outs(".section .rodata");
 	else
 		outs(".text");
@@ -267,7 +267,7 @@ outdivsym(void)
 void
 out_initialiser(char *id)
 {
-	if (freebsd_elf) {
+	if (format == FORMAT_ELF) {
 		outs(".section .init");
 		outnl();
 		outs(" call ");

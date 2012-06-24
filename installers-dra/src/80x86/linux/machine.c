@@ -15,23 +15,6 @@
 #include "localflags.h"
 #include "szs_als.h"
 
-int linux_elf = 1;
-char *local_prefix = ".L";
-char *name_prefix = "";
-
-void
-set_linux_format(int elf)
-{
-	linux_elf = elf;
-	if (elf) {
-		local_prefix = ".L";
-		name_prefix = "";
-	} else {
-		local_prefix = "L";
-		name_prefix = "_";
-	}
-}
-
 /*
  * is the result of a procedure delivering
  * this shape produced in registers.

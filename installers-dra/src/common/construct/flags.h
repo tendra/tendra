@@ -58,6 +58,14 @@ enum assembler {
 	ASM_HP     = 1 << 6
 };
 
+enum format {
+	FORMAT_AOUT  = 1 << 0,
+	FORMAT_ELF   = 1 << 1,
+	FORMAT_XCOFF = 1 << 2,
+	FORMAT_SOM   = 1 << 3,
+	FORMAT_MACHO = 1 << 4
+};
+
 extern int redo_structfns;
 extern int redo_structparams;
 extern int diagnose;
@@ -85,6 +93,7 @@ extern enum builtin builtin;
 
 extern enum endian    endian;
 extern enum assembler assembler;
+extern enum format    format;
 
 extern enum optim   flags_optim(const char *);
 extern enum check   flags_check(const char *);
@@ -92,5 +101,6 @@ extern enum builtin flags_builtin(const char *);
 
 extern enum endian    switch_endian(const char *, unsigned);
 extern enum assembler switch_assembler(const char *, unsigned);
+extern enum format    switch_format(const char *, unsigned);
 
 #endif /* flags_key */

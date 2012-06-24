@@ -318,7 +318,7 @@ out_initialiser(char *id)
 void
 out_main_prelude(void)
 {
-	/* if (!linux_elf) */
+	/* if FORMAT_AOUT */
 	int nl1 = next_lab();
 	int nl2 = next_lab();
 	min_rfree |= 0x8;
@@ -340,7 +340,7 @@ out_main_prelude(void)
 void
 out_main_postlude(void)
 {
-	/* if (!linux_elf) */
+	/* if FORMAT_AOUT */
 	char *sdummy = "Idummy";
 	char *pdummy = (char *)xcalloc(((int)strlen(local_prefix) + (int)strlen(sdummy) + 1), sizeof(char));
 	strcpy(pdummy, local_prefix);

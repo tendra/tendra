@@ -69,9 +69,7 @@
 #define value_of_null 0
 #define no_trap_on_nil_contents 1
 
-#define prefix_length 0 /* strlen(name_prefix) */
 #define AVOID_INTOV 0	/* No software interrupts */
-#define normal_fpucon 0x37f /* (linux_elf ? 0x37f : 0x372) */
 
 
 /* Parameters for foralls optimisations */

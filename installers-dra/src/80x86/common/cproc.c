@@ -531,19 +531,12 @@ int cproc
      /* "movw $DDDD,0-.LfcwdispNNNN(%ebp)\n" */
   outnl();
 
-
-#if isdragonfly || isfreebsd || islinux
-  if (
-#if isdragonfly
-  !dragonfly_elf &&
-#elif isfreebsd
-  !freebsd_elf &&
-#elif islinux
-	!linux_elf &&
-#endif
-	pname[0]!= local_prefix[0] &&
+#if !issol86
+  if (format == FORMAT_AOUT) {
+	if (pname[0]!= local_prefix[0] &&
 	!strcmp(pname+prefix_length, "main")) {
-    out_main_prelude();
+      out_main_prelude();
+    }
   }
 #endif
 
@@ -797,18 +790,12 @@ int cproc
     outnl();
   }
 
-#if isdragonfly || isfreebsd || islinux
-  if (
-#if isdragonfly
-  !dragonfly_elf &&
-#elif isfreebsd
-  !freebsd_elf &&
-#elif islinux
-	!linux_elf &&
-#endif
-	pname[0]!= local_prefix[0] &&
+#if !issol86
+  if (format == FORMAT_AOUT) {
+    if (pname[0]!= local_prefix[0] &&
 	!strcmp(pname+prefix_length, "main")) {
-    out_main_postlude();
+      out_main_postlude();
+    }
   }
 #endif
 

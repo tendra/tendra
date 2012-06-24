@@ -126,6 +126,7 @@ int main
 
 	endian = ENDIAN_BIG;
 	assembler = ASM_GAS;
+	format = FORMAT_AOUT;
 
 #ifdef NEXT_INTERFACE
 	conventions = CONVENTIONS_GCC;
@@ -141,7 +142,7 @@ int main
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"B:DE:G:HK:MO:PQRVWX:Z"
+			"B:DE:F:G:HK:MO:PQRVWX:Z"
 #ifdef EBUG
 			"L:l:"
 #endif
@@ -151,6 +152,7 @@ int main
 			"cegiou")) != -1) {
 			switch (c) {
 			case 'E': endian = switch_endian(optarg, ENDIAN_BIG); break;
+			case 'F': format = switch_format(optarg, FORMAT_AOUT); break;
 			case 'G': assembler = switch_assembler(optarg,
 				ASM_HP | ASM_GAS ); break;
 

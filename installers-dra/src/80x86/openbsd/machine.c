@@ -18,14 +18,6 @@
 #include "localflags.h"
 #include "szs_als.h"
 
-/* VARIABLES */
-
-char *local_prefix = ".L";
-char *name_prefix = "";
-
-
-
-/* PROCEDURES */
 
 /* is the result of a procedure delivering
    this shape produced in registers. */

@@ -108,16 +108,20 @@ main(int argc, char *argv[])
 
 	endian = ENDIAN_LITTLE;
 	assembler = ASM_OSF1;
+	format = FORMAT_ELF;
 
 	{
 		int c;
 
-		while ((c = getopt(argc, argv, "B:DE:FG:HK:MO:PQRSVWX:Z" "usd:")) != -1) {
+		while ((c = getopt(argc, argv, "B:DE:F:G:HK:MO:PQRSVWX:Z" "usd:")) != -1) {
 			switch (c) {
 			case 'B': builtin = flags_builtin(optarg);   break;
 			case 'D': failer("no PIC code available"); exit(EXIT_FAILURE);
 			case 'E':
 				endian = switch_endian(optarg, ENDIAN_BIG | ENDIAN_LITTLE);
+				break;
+			case 'F':
+				format = switch_format(optarg, FORMAT_ELF);
 				break;
 			case 'G':
 				assembler = switch_assembler(optarg, ASM_OSF1);

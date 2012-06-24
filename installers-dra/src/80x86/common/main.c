@@ -123,6 +123,7 @@ main(int argc, char **argv)
 	use_link_stuff = 1;
 	endian = ENDIAN_LITTLE;
 	assembler = ASM_GAS;
+	format = FORMAT_ELF;
 
 	ptr_null = 0;		/* null value for pointer */
 	proc_null = 0;		/* null value for proc */
@@ -132,9 +133,9 @@ main(int argc, char **argv)
 	 * XXX: Some arguments are undocumented in trans.1, check
 	 */
 #ifdef NEWDWARF
-	optstring = "B:D:E:G:H:" "J" "K:M:NO:PQR:" "T" "VW:X:Z" "abcdfghik:t:";
+	optstring = "B:D:E:F:G:H:" "J" "K:M:NO:PQR:" "T" "VW:X:Z" "abcdfghit:";
 #else
-	optstring = "B:D:E:G:H:"     "K:M:NO:PQR:"     "VW:X:Z" "abcdfghik:t:";
+	optstring = "B:D:E:F:G:H:"     "K:M:NO:PQR:"     "VW:X:Z" "abcdfghit:";
 #endif
 
 	while ((ch = getopt(argc, argv, optstring)) != -1) {
@@ -147,6 +148,9 @@ main(int argc, char **argv)
 			break;
 		case 'E':
 			endian = switch_endian(optarg, ENDIAN_LITTLE);
+			break;
+		case 'F':
+			format = switch_format(optarg, FORMAT_ELF | FORMAT_AOUT);
 			break;
 		case 'G':
 			assembler = switch_assembler(optarg, ASM_GAS);
@@ -272,25 +276,6 @@ main(int argc, char **argv)
 		case 'i':
 			print_inlines = 1;
 			break;
-#if isdragonfly
-		case 'k':
-			set_dragonfly_format(*optarg == '1');
-			break;
-#elif isfreebsd
-		case 'k':
-			set_freebsd_format(*optarg == '1');
-			break;
-#elif islinux
-		case 'k':
-			set_linux_format(*optarg == '1');
-			break;
-#else
-		case 'k':
-			/* XXX: proper error handling */
-			(void) fprintf(stderr,
-			    "trans: warning: -k is a no-op on this system\n");
-			break;
-#endif
 		case 't':
 			/* TODO: I think it ought to be set by the ABI. But I'm putting
 			 * it here for the moment to keep it out of the way.
@@ -320,6 +305,8 @@ main(int argc, char **argv)
 
 	/* XXX: invalid assembly is generated without this */
 	optim |= OPTIM_CASE;
+
+	set_format(format);
 
 	while (*argv) {
 		outfname = argv[1];

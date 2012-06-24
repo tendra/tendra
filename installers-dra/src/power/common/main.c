@@ -70,16 +70,20 @@ int main(int argc, char **argv)
   do_comment = 0;		/* (see comment.c) */
   endian = ENDIAN_BIG;
   assembler = ASM_IBM;
+  format = FORMAT_XCOFF;
   
 	{
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"B:E:G:HK:MO:PQRVWX:Z" "c")) != -1) {
+			"B:E:F:G:HK:MO:PQRVWX:Z" "c")) != -1) {
 			switch (c) {
 			case 'B': builtin = flags_builtin(optarg); break;
 			case 'E':
 				endian = switch_endian(optarg, ENDIAN_BIG | ENDIAN_LITTLE);
+				break;
+			case 'F':
+				format = switch_format(optarg, FORMAT_XCOFF);
 				break;
 			case 'G':
 				assembler = switch_assembler(optarg, ASM_IBM);
