@@ -27,6 +27,7 @@
 #include <diag/diagtypes.h>
 #endif
 
+#include <dwarf/dwarf_codes.h>
 #include <dwarf/dwarf_types.h>
 #include <dwarf/dwarf_loc.h>
 #include <dwarf/dwarf_mc.h>
@@ -39,9 +40,7 @@
 #include <construct/tags.h>
 #endif
 
-#ifndef CROSS_INCLUDE
-#include <dwarf.h>
-#else
+#ifdef CROSS_INCLUDE
 #include CROSS_INCLUDE/dwarf.h>
 #endif
 

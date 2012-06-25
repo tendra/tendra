@@ -8,7 +8,6 @@
  */
 
 #include "config.h"
-#include "diag_config.h"
 #include "cross_config.h"
 
 #include <reader/basicread.h>
@@ -18,6 +17,8 @@
 #include <construct/installtypes.h>
 #include <construct/shapemacs.h>
 
+#include <dwarf/dwarf_diag_config.h>
+#include <dwarf/dwarf_codes.h>
 #include <dwarf/dwarf_types.h>
 #include <dwarf/dwarf_type.h>
 #include <dwarf/dwarf_out.h>
@@ -27,9 +28,7 @@
 #include "expmacs.h"
 #include "out.h"
 
-#ifndef CROSS_INCLUDE
-#include <dwarf.h>
-#else
+#ifdef CROSS_INCLUDE
 #include CROSS_INCLUDE/dwarf.h>
 #endif
 

@@ -21,15 +21,14 @@
 #include "expmacs.h"
 #include "out.h"
 
+#include <dwarf/dwarf_codes.h>
 #include <dwarf/dwarf_types.h>
 #include <dwarf/dwarf_out.h>
 #include <dwarf/dwarf_queue.h>
 #include <dwarf/dwarf_type.h>
 #include <dwarf/dwarf_loc.h>
 
-#ifndef CROSS_INCLUDE
-#include <dwarf.h>
-#else
+#ifdef CROSS_INCLUDE
 #include CROSS_INCLUDE/dwarf.h>
 #endif
 

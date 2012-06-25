@@ -8,7 +8,7 @@
  */
 
 #include "config.h"
-#include "cross_config.h"
+#include "diag_config.h"
 
 #include <reader/readglob.h>
 #include <reader/table_fns.h>
@@ -24,8 +24,10 @@
 #else
 #include <diag/diag_fns.h>
 #include <diag/mark_scope.h>
+#include <diag/diagtypes.h>
 #endif
 
+#include <dwarf/dwarf_codes.h>
 #include <dwarf/dwarf_types.h>
 #include <dwarf/dwarf_type.h>
 #include <dwarf/dwarf_out.h>
@@ -41,9 +43,7 @@
 #include <construct/tags.h>
 #endif
 
-#ifndef CROSS_INCLUDE
-#include <dwarf.h>
-#else
+#ifdef CROSS_INCLUDE
 #include CROSS_INCLUDE/dwarf.h>
 #endif
 
@@ -57,7 +57,7 @@ static dwarf_label lex_blk_stk[100];
 #define POP_LEX_BLK	(&lex_blk_stk[lex_blk_stk_ptr--])
 #define TOS_LEX_BLK	(&lex_blk_stk[lex_blk_stk_ptr])
 #define CHK_LEX_STK	if (lex_blk_stk_ptr < -1) {		\
-				failer("lex stk underflow")	\
+				failer("lex stk underflow");	\
 			}
 
 static void
