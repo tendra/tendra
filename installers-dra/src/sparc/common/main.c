@@ -134,7 +134,7 @@ main ( int argc, char ** argv )
 
   /* set defaults for options */
   redo_structfns = 0 ;			/* structure results are normal */
-  redo_structparams = 0 ;		/* structure parameters are odd */
+  redo_structparams = 1 ;		/* structure parameters are odd */
   diagnose = 0 ;			/* not in diagnostics mode */
 #ifdef NEWDIAGS
   diag_visible = 0;
