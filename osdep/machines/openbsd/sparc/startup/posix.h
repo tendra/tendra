@@ -1,6 +1,10 @@
 /* $Id$ */
 
-#include "ansi.h"
+/*
+ * Copyright 2012, The TenDRA Project.
+ *
+ * See doc/copyright/ for the full copyright terms.
+ */
 
-#define _POSIX_SOURCE	1
+#include "ansi.h"
 
