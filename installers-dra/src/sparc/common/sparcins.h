@@ -65,7 +65,7 @@ INS ( i_bl, "bl" ) ;
 INS ( i_ble, "ble" ) ;
 INS ( i_bleu, "bleu" ) ;
 INS ( i_blt, "blt" ) ;
-INS ( i_bltu, "bltu" ) ;
+INS ( i_bltu, "blu" ) ;	/* XXX: origionally bltu */
 INS ( i_blu, "blu" ) ;
 INS ( i_bn, "bn" ) ;
 INS ( i_bne, "bne" ) ;
