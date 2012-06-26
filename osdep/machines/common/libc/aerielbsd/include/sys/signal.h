@@ -1,7 +1,7 @@
 /* $Id$ */
 
-#ifndef __HACKED_SYS_SIGNAL_H
-#define __HACKED_SYS_SIGNAL_H
+#ifndef __HACKED_LIBC_SYS_SIGNAL_H
+#define __HACKED_LIBC_SYS_SIGNAL_H
 
 /* for SIG_IGN and SIG_ERR */
 #ifdef _AERIELBSD1
