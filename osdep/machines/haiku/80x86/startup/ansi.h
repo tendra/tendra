@@ -56,10 +56,3 @@ typedef struct _IO_FILE FILE;
 #define __SCANFLIKE(format, varargs)
 #endif
 
-
-#ifdef _HAIKU1
-#define __WRONG_ANSI_MATH_H    /* gccsisms */
-#define __WRONG_ANSI_STDARG_H_VA_ARGS    /* incompatible */
-#endif
-
-

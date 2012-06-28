@@ -37,6 +37,9 @@ CCOPTS+= -D_${OSVER}
 CCOPTS+= -D_${LIBCVER}
 . endif
 
+. if defined(BLDARCH)
+CCOPTS+= -D_ARCH_${BLDARCH}
+. endif
 
 
 #
@@ -71,8 +74,13 @@ HACKS+=	-I${BASE_DIR}/machines/common/libc/${GLIBC_NAME:tl}/include
 . endif
 
 
-# These are included first so that the hacked includes may #undef
-# or override them if neccessary.
+# for __WRONG definitions
+. if exists(${.CURDIR}/${api}.h)
+JOPTS${api}+=	-f${.CURDIR}/${api}.h
+. endif
+
+# These are included before ${STARTUP_MACH}/${api}.h so that the hacked includes
+# may #undef or override them if neccessary.
 . if exists(${PREFIX_TSPEC}/TenDRA/feature/${api}.h)
 JOPTS${api}+=	-f${PREFIX_TSPEC}/TenDRA/feature/${api}.h
 . endif

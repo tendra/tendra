@@ -1,8 +1,10 @@
 /* $Id$ */
 
-#include "ansi.h"
+/*
+ * Copyright 2012, The TenDRA Project.
+ *
+ * See doc/copyright/ for the full copyright terms.
+ */
 
-#ifdef _OPENBSD4
-#define __WRONG_SVID3
-#endif
+#include "ansi.h"
 

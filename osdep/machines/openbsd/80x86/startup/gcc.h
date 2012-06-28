@@ -1,9 +1,10 @@
 /* $Id$ */
 
-#include "ansi.h"
+/*
+ * Copyright 2012, The TenDRA Project.
+ *
+ * See doc/copyright/ for the full copyright terms.
+ */
 
-#ifdef _OPENBSD4
-#define __WRONG_GCC_SYS_PARAM_H	/* not present */
-#define __WRONG_GCC_SYS_RESOURCE_H	/* TODO: just for time.h:timezone. move to a subset */
-#endif
+#include "ansi.h"
 
