@@ -2,5 +2,7 @@
 
 +MACHINE		"irix-*-mips"
 
-+FLAG_TRANS		"-D1"
++FLAG			"--1BA"
+
++FLAG_TRANS		"-S -D1"
 
