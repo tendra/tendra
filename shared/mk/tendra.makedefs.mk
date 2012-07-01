@@ -73,6 +73,7 @@ MD_BLDARCH!=                             \
         9000/7*)       echo hppa;;       \
         hppa)          echo hppa;;       \
         socppc|macppc) echo ppc601;;     \
+        mips)          echo mips;;       \
         *)             echo unknown;;    \
     esac;
 
