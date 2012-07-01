@@ -303,11 +303,11 @@ file_suffix(int t)
 	case PL_TDF:
 		suff[0] = table_key(PL_TDF);
 		break;
-	case MIPS_G_FILE:
-		suff[0] = table_key(MIPS_G_FILE);
+	case BINASM_G_FILE:
+		suff[0] = table_key(BINASM_G_FILE);
 		break;
-	case MIPS_T_FILE:
-		suff[0] = table_key(MIPS_T_FILE);
+	case BINASM_T_FILE:
+		suff[0] = table_key(BINASM_T_FILE);
 		break;
 	case C_SPEC:
 		suff[0] = table_key(C_SPEC);

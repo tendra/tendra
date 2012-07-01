@@ -85,8 +85,7 @@ boolean make_preproc = 0;
 boolean make_pretty = 0;
 boolean make_tspec = 0;
 boolean use_assembler = 1;
-boolean use_mips_assembler = 0;
-boolean use_alpha_assembler = 0;
+boolean use_binasm = 0;
 boolean use_hp_linker = 0;
 boolean use_dynlink = 0;
 boolean use_sparc_cc = 0;
@@ -231,15 +230,14 @@ set_machine(void)
 #if 0
 	char *mach = machine_name;
 	use_assembler = 1;
-	use_mips_assembler = 0;
-	use_alpha_assembler = 0;
+	use_binasm = 0;
 	use_hp_linker = 0;
 	if (streq(mach, "hp") || streq(mach, "hppa")) {
 		use_hp_linker = 1;
 	} else if (streq(mach, "mips")) {
-		use_mips_assembler = 1;
+		use_bingasm= 1;
 	} else if (streq(mach, "alpha")) {
-		use_alpha_assembler = 1;
+		use_binasm = 1;
 	} else if (streq(mach, "sparc") || streq(mach, "svr4_sparc")) {
 		use_sparc_cc = 1;
 	} else if (streq(mach, "svr4_i386")) {
@@ -378,9 +376,9 @@ update_options(void)
 		filetype_table[BINARY_OBJ].stop = FTK_TC;
 	} else if (table_stop(AS_SOURCE)) {
 		filetype_table[BINARY_OBJ].stop = FTK_TC;
-	} else if (table_stop(MIPS_G_FILE)) {
+	} else if (table_stop(BINASM_G_FILE)) {
 		filetype_table[BINARY_OBJ].stop = FTK_TC;
-	} else if (table_stop(MIPS_T_FILE)) {
+	} else if (table_stop(BINASM_T_FILE)) {
 		filetype_table[BINARY_OBJ].stop = FTK_TC;
 	}
 

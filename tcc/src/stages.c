@@ -515,23 +515,21 @@ do_translate(filename *input)
 	}
 	cmd_env("FLAG_TRANS");
 
-	if (use_mips_assembler || use_alpha_assembler) {
-		/* Deal with the mips assembler */
-		t = MIPS_G_FILE;
-		output->aux = make_filename(input, t, where(t));
-		t = MIPS_T_FILE;
-		output->aux->aux = make_filename(input, t, where(t));
+	if (use_binasm) {
+		/* Deal with binasm */
 		if (table_keep(AS_SOURCE)) {
-			cmd_string("-S");
-			cmd_filename(input);
-			cmd_filename(output->aux);
-			cmd_filename(output->aux->aux);
-			cmd_filename(output);
-		} else {
-			cmd_filename(input);
-			cmd_filename(output->aux);
-			cmd_filename(output->aux->aux);
+			error(ERROR_WARNING,
+			      "Disregading binasm to keep source");
+			use_binasm = 0;
 		}
+		t = BINASM_G_FILE;
+		output->aux = make_filename(input, t, where(t));
+		t = BINASM_T_FILE;
+		output->aux->aux = make_filename(input, t, where(t));
+		cmd_string("-S");
+		cmd_filename(input);
+		cmd_filename(output->aux);
+		cmd_filename(output->aux->aux);
 	} else if (use_assembler) {
 		/* Deal with normal assemblers */
 		cmd_filename(input);
@@ -572,9 +570,9 @@ do_assemble(filename *input)
 	}
 	output = make_filename(input, t, where(t));
 	output->type = BINARY_OBJ;
-	if (input->aux && input->aux->type == MIPS_G_FILE &&
-	    input->aux->aux && input->aux->aux->type == MIPS_T_FILE) {
-		/* Deal with the mips assembler */
+	if (input->aux && input->aux->type == BINASM_G_FILE &&
+	    input->aux->aux && input->aux->aux->type == BINASM_T_FILE) {
+		/* Deal with binasm */
 		cmd_env("AS1");
 		cmd_env("FLAG_AS1");
 		cmd_string("-o");

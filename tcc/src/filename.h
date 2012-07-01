@@ -17,28 +17,28 @@
 /* TODO comment on keeping in sync with the table and vice-versa */
 enum filetype {
 	/* TODO prefix FT_ */
-	C_SOURCE     = 0,
-	PREPROC_C    = 1,
-	CPP_SOURCE   = 2,
-	PREPROC_CPP  = 3,
-	INDEP_TDF    = 4,
-	DEP_TDF      = 5,
-	AS_SOURCE    = 6,
-	BINARY_OBJ   = 7,
-	EXECUTABLE   = 8,
-	PRETTY_TDF   = 9,
-	PL_TDF       = 10,
-	TDF_ARCHIVE  = 11,
-	MIPS_G_FILE  = 12,
-	MIPS_T_FILE  = 13,
-	C_SPEC       = 14,
-	CPP_SPEC     = 15,
-	STARTUP_FILE = 16,
+	C_SOURCE       =  0,
+	PREPROC_C      =  1,
+	CPP_SOURCE     =  2,
+	PREPROC_CPP    =  3,
+	INDEP_TDF      =  4,
+	DEP_TDF        =  5,
+	AS_SOURCE      =  6,
+	BINARY_OBJ     =  7,
+	EXECUTABLE     =  8,
+	PRETTY_TDF     =  9,
+	PL_TDF         = 10,
+	TDF_ARCHIVE    = 11,
+	BINASM_G_FILE  = 12,
+	BINASM_T_FILE  = 13,
+	C_SPEC         = 14,
+	CPP_SPEC       = 15,
+	STARTUP_FILE   = 16,
 
 	/* Things which aren't really types */
-	UNKNOWN_TYPE = 17,
-	ALL_TYPES    = 31,
-	DEFAULT_TYPE = BINARY_OBJ,  /* TODO what is this used for? */
+	UNKNOWN_TYPE   = 17,
+	ALL_TYPES      = 31,
+	DEFAULT_TYPE   = BINARY_OBJ,  /* TODO what is this used for? */
 
 	/*
 	 * EXTRA FILE TYPES

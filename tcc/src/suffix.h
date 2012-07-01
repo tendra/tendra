@@ -65,7 +65,7 @@
 /* TODO: enum */
 #define ARCHIVER_ID          'J'
 #define ASSEMBLE_ID          'a'
-#define ASSEMBLE_MIPS_ID     'A'
+#define ASSEMBLE_BINASM_ID   'A'
 #define CAT_ID               'o'
 #define CC_ID                'C'
 #define CPP_PREPROC_ID       'g'
