@@ -37,6 +37,9 @@ void
 out_one(char *d)
 {	/* output one binasm record */
   int   i;
+  if (ba_file == NULL) {
+    return;
+  }
   for (i = 0; i < 16; i++) {
     putc (d[i], ba_file);
     d[i] = 0;
@@ -50,7 +53,11 @@ out_data(char *s, int size)
 				/* output string as set of binasm records
 				*/
   int   i;
-  int   j = ((size + 15) >> 4) << 4;
+  int   j;
+  if (ba_file == NULL) {
+    return;
+  }
+  j = ((size + 15) >> 4) << 4;
   for (i = 0; i < size; i++) {
     putc (s[i], ba_file);
   }
@@ -120,7 +127,9 @@ out_loc(unsigned filenumber, unsigned linenumber)
   ba.loc.filenumber = filenumber;
   ba.loc.linenumber = linenumber;
   OUT;
-  fflush (ba_file);
+  if (ba_file != NULL) {
+    fflush (ba_file);
+  }
 }
 
 void

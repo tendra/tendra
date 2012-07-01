@@ -58,7 +58,7 @@ bool trap_all_fops = FALSE;
 bool do_extern_adds = FALSE;
 
 static int infoopt = FALSE;	/* set if the -V option has been invoked */
-static bool produce_symbolic_assembler = FALSE;
+static bool produce_binasm = FALSE;
 
 void
 printinfo(void)
@@ -87,8 +87,6 @@ int currentfile = -1;
 int mainfile=0;
 int majorno = 3;
 int minorno = 11;
-
-#define MIN_COMMAND_LINE_ARGS 4
 
 int
 main(int argc, char *argv[])
@@ -138,19 +136,19 @@ main(int argc, char *argv[])
 				fprintf(stderr,"alphatrans: [-K..] -> only one kind of processor is supported\n");
 				break;
 
-			case 'M': strict_fl_div = 1;                 break;
-			case 'O': optim = flags_optim(optarg);       break;
-			case 'P': do_profile = 1;                    break;
-			case 'Q': exit(EXIT_SUCCESS);                break;
-			case 'R': round_after_flop = 1;              break;
-			case 'S': produce_symbolic_assembler = TRUE; break;
-			case 'V': printinfo(); infoopt = TRUE;       break;
-			case 'W': writable_strings = 1;              break;
-			case 'X': check = flags_check(optarg);       break;
-			case 'Z': report_versions = 1;               break;
+			case 'M': strict_fl_div = 1;           break;
+			case 'O': optim = flags_optim(optarg); break;
+			case 'P': do_profile = 1;              break;
+			case 'Q': exit(EXIT_SUCCESS);          break;
+			case 'R': round_after_flop = 1;        break;
+			case 'S': produce_binasm = TRUE;       break;
+			case 'V': printinfo(); infoopt = TRUE; break;
+			case 'W': writable_strings = 1;        break;
+			case 'X': check = flags_check(optarg); break;
+			case 'Z': report_versions = 1;         break;
 
-			case 'u': use_umulh_for_div = 1;             break;
-			case 's': do_scheduling = 1;                 break;
+			case 'u': use_umulh_for_div = 1;       break;
+			case 's': do_scheduling = 1;           break;
 
 			case 'd':	
 				/* handle IEEE denormals */
@@ -190,7 +188,7 @@ main(int argc, char *argv[])
 			argv += optind;
 		}
 
-		if (argc < MIN_COMMAND_LINE_ARGS) {
+		if (produce_binasm && argc != 3 || argc != 2) {
 			if (infoopt) {
 				exit(EXIT_SUCCESS);
 			}
@@ -199,48 +197,62 @@ main(int argc, char *argv[])
 		}
 	}
 
-  /* the files are passed in the order .t .G .T .s */
+	/* the files are passed in the order .t { .G .T | .s } */
+	if (produce_binasm) {
+		tname   = argv[0];
+		baname  = argv[1];
+		dname   = argv[2];
+	} else {
+		tname   = argv[0];
+		aname   = argv[1];
+		as_file = open_file(aname,WRITE);
+	}
 
-  if(produce_symbolic_assembler){
-      aname = argv[argc-1];
-      as_file = open_file(aname,WRITE);
-      argc--;
-  }
-  baname = argv[argc-2];
-  dname = argv[argc-1];
-  tname = argv[argc-3];
+	/* This does not work on the alpha */
+	optim &= ~OPTIM_CASE;
 
-  /* This does not work on the alpha */
-  optim &= ~OPTIM_CASE;
+	if (produce_binasm) {
+		ba_file = open_file(baname,WRITE);
+	} else {
+		ba_file = NULL;
+	}
 
-  ba_file = open_file(baname,WRITE);
-  if(!initreader (tname)) alphafail(OPENING_T_FILE,tname);
-  init_flpt();
+	if (!initreader(tname)) {
+		alphafail(OPENING_T_FILE, tname);
+	}
+
+	init_flpt();
+
 #include <reader/inits.h>
-  top_def = (dec*)0;
-  local_prefix="$$";
-  name_prefix="";
+
+	top_def = NULL;
+	local_prefix = "$$";
+	name_prefix  = "";
+
 #if DO_SCHEDULE
-  if(do_scheduling){
-    initialise_scheduler();
-  }
+	if (do_scheduling) {
+		initialise_scheduler();
+	}
 #endif
 
-  (void)d_capsule();
-  output_symtab(dname);
+	(void) d_capsule();
+
+	if (produce_binasm) {
+		output_symtab(dname);
+	}
+
 #if DO_SCHEDULE
-  if(do_scheduling){
-/*    schduler_finished();*/
-  }
+	if (do_scheduling) {
+		/* schduler_finished(); */
+	}
 #endif
-  close_file(as_file);
-  close_file(ba_file);
-  return SUCCESS;
+
+	if (produce_binasm) {
+		close_file(ba_file);
+	} else {
+		close_file(as_file);
+	}
+
+	return SUCCESS;
 }
-
-
-
-
-
-
 

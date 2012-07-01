@@ -66,24 +66,24 @@ bool opt
   else return 1;
 }
 
-int   main
-(int argc, char **argv)
+int
+main(int argc, char **argv)
 {
-  char *nm;
-  char *aname;
-  char *dname;
-  bool withs = 0;
-  bool override_diags = 0;
-  PIC_code = 0;
+	char *nm;
+	char *aname;
+	char *dname;
+	bool produce_binasm = 0;
+	bool override_diags = 0;
+	PIC_code = 0;
 
-  as_file = (FILE *)0;
-  redo_structfns = 0;
-  do_extern_adds = 0;
-  do_alloca = 0;
-  endian = ENDIAN_BIG;
-  assembler = ASM_SGI;
-  format = FORMAT_ELF;
-  diag = DIAG_STABS;
+	as_file = NULL;
+	redo_structfns = 0;
+	do_extern_adds = 0;
+	do_alloca = 0;
+	endian = ENDIAN_BIG;
+	assembler = ASM_SGI;
+	format = FORMAT_ELF;
+	diag = DIAG_STABS;
 
 	{
 		int c;
@@ -118,7 +118,7 @@ int   main
 			case 'P': do_profile = 1;               break;
 			case 'Q': exit(EXIT_FAILURE);
 			case 'R': round_after_flop = 1;         break;
-			case 'S': withs = 1;                    break;
+			case 'S': produce_binasm = 1;           break;
 
 			case 'V':
 				{
@@ -184,58 +184,57 @@ int   main
 		exit(EXIT_FAILURE);
 	}
 
-  if (override_diags)diagnose = 0;
-  if (diagnose) {		/* line numbering goes to hell with
-				   optimisations */
+	if (override_diags) {
+		diagnose = 0;
+	}
 
-	optim = 0;
-  };
+	/* line numbering goes to hell with optimisations */
+	if (diagnose) {
+		optim = 0;
+ 	}
 
+	if (produce_binasm) {
+		dname = argv[1];	/* the .T file */
+		nm    = argv[2];		/* the .G file */
 
-  if (withs) {			/* requires assembler text */
-    aname = argv[argc - 1];
-    as_file = fopen(aname, "w");
-    if (as_file == (FILE *)0) {
-      failer("can't find .s file");
-      return 1;
-    }
-    argc--;
-  }
+		ba_file = fopen(nm, "w");
+		if (ba_file == NULL) {
+			printf("install: can't open output file %s\n", nm);
+			return 1;
+		}
+	} else {
+		aname = argv[1];
 
+		as_file = fopen(aname, "w");
+		if (as_file == NULL) {
+			failer("can't open .s file");
+			return 1;
+		}
+	}
 
-  dname = argv[argc - 1];	/* the .T file */
-  nm = argv[argc - 2];		/* the .G file */
-  ba_file = fopen(nm, "w");
-  if (ba_file == (FILE *)0) {
-    printf("install: can't open output file %s\n", nm);
-    return 1;
-  }
+	if (!initreader(argv[argc - 3])) {
+		failer("cant read .t file");
+		return 1;
+	}
 
+	init_flpt();
 
-  if (!initreader(argv[argc - 3])) {
-    failer("cant read .t file");
-    return 1;
-  };
-
-  init_flpt();
 #include <reader/inits.h>
-  top_def = (dec*)0;
 
+	top_def = NULL;
 
+	local_prefix = "$$";
+	name_prefix = "";
 
+	d_capsule();
 
+	if (produce_binasm) {
+		fclose(ba_file);
+		output_symtab(dname);
+	} else {
+		fclose(as_file);
+	}
 
-  local_prefix = "$$";
-  name_prefix = "";
-
-
-  d_capsule();
-
-
-
-  if (as_file)
-    fclose (as_file);		/* close the .s file */
-  fclose (ba_file);		/* close the .G file */
-  output_symtab (dname);	/* construct the .T file */
-  return good_trans;		/* return 1 for error, 0 for good */
+	return good_trans;
 }
+

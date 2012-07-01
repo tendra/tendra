@@ -44,7 +44,9 @@ out_one(char *d)
 #if DO_SCHEDULE
     res[i] = d[i];
 #else
-    putc (d[i], ba_file);
+    if (ba_file != NULL) {
+        putc (d[i], ba_file);
+    }
 #endif
     d[i] = 0;
   }
@@ -74,15 +76,19 @@ out_data(char *s, int size)
   for (i = 0; i < size; i++) {
 #if DO_SCHEDULE
     res[i] = s[i];
-#else   
-    putc (s[i], ba_file);
+#else
+    if (ba_file != NULL) {
+        putc (s[i], ba_file);
+    }
 #endif
   }
   for (i = size; i < j; i++)
 #if DO_SCHEDULE
     res[i] = ' ';
-#else 
-  putc (' ', ba_file);
+#else
+  if (ba_file != NULL) {
+      putc (' ', ba_file);
+  }
 #endif
   return res;
 }
@@ -165,7 +171,9 @@ out_loc(int filenumber, unsigned linenumber)
   ba.loc.linenumber = linenumber;
   OUT;
 #if !DO_SCHEDULE
-  fflush (ba_file);
+  if (ba_file != NULL) {
+    fflush (ba_file);
+  }
 #endif
 }
 
