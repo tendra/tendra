@@ -513,13 +513,6 @@ do_translate(filename *input)
 	if (flag_nepc) {
 		cmd_string("-E");
 	}
-	if (use_mips_assembler) {
-		static char *vflag = NULL;
-		if (vflag == NULL) {
-			vflag = xstrcat("-V", version_flag);
-		}
-		cmd_string(vflag);
-	}
 	cmd_env("FLAG_TRANS");
 
 	if (use_mips_assembler || use_alpha_assembler) {
