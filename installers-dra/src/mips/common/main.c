@@ -177,6 +177,9 @@ main(int argc, char **argv)
 				break;
 			}
 		}
+
+		argc -= optind;
+		argv += optind;
 	}
 
 	if (do_alloca && PIC_code) {
@@ -212,7 +215,7 @@ main(int argc, char **argv)
 		}
 	}
 
-	if (!initreader(argv[argc - 3])) {
+	if (!initreader(argv[0])) {
 		failer("cant read .t file");
 		return 1;
 	}

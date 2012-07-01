@@ -195,6 +195,9 @@ main(int argc, char *argv[])
 
 			alphafail(TOO_FEW_PARAMETERS);
 		}
+
+		argc -= optind;
+		argv += optind;
 	}
 
 	/* the files are passed in the order .t { .G .T | .s } */
