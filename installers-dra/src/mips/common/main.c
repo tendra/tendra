@@ -89,7 +89,7 @@ int   main
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"B:C:DE:F:G:HK:MO:PQRSVWX:Z"
+			"B:C:DE:F:G:HK:MO:PQRSV:WX:Z"
 			"ei")) != -1) {
 			switch (c) {
 			case 'B': builtin = flags_builtin(optarg); break;
