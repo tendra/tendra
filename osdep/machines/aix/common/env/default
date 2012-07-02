@@ -8,3 +8,5 @@
 +FLAG_LD	"-H512 -T512 -bhalt:4"
 +CRT1			"<PREFIX_SYS>/TDFpower.o"
 
+>FLAG_TRANS		"-Y"
+

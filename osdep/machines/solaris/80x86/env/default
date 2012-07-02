@@ -2,3 +2,5 @@
 
 +MACHINE		"solaris-*-80x86"
 
+>FLAG_TRANS		"-Y"
+

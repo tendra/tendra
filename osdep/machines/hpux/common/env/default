@@ -5,7 +5,10 @@
 
 +FLAG_LD		"-u main +k"
 
+>FLAG_TRANS	"-Y"
+
 # XXX: GNU's as
 +AS             "/usr/local/bin/as"
-+FLAG_TRANS     "-G"
+>FLAG_TRANS     "-Ggnu"
+
 
