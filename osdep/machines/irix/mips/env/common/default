@@ -4,5 +4,5 @@
 
 +FLAG			"--1BA"
 
-+FLAG_TRANS		"-S -D1"
+>FLAG_TRANS		"-S -D1"
 

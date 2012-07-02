@@ -81,7 +81,7 @@ main(int argc, char **argv)
 	do_extern_adds = 0;
 	do_alloca = 0;
 	endian = ENDIAN_BIG;
-	assembler = ASM_SGI;
+	assembler = ASM_GAS;
 	format = FORMAT_ELF;
 	diag = DIAG_STABS;
 
@@ -104,7 +104,7 @@ main(int argc, char **argv)
 				format = switch_format(optarg, FORMAT_ELF);
 				break;
 			case 'G':
-				assembler = switch_assembler(optarg, ASM_SGI | ASM_ULTRIX);
+				assembler = switch_assembler(optarg, ASM_GAS | ASM_SGI | ASM_ULTRIX);
 				break;
 
 			case 'H':

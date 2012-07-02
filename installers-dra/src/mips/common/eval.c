@@ -308,20 +308,27 @@ void evalone
 	  fprintf(as_file, "\t.repeat %ld\n", rep);
 	set_align(char_size);
 	if (as_file) {
-	  for (j=0; j< strsize;) {
+	  for (j = 0; j < strsize; ) {
 	    switch (char_size) {
-	      case 8: fprintf(as_file, "\t.byte "); break;
+	      case  8: fprintf(as_file, "\t.byte "); break;
 	      case 16: fprintf(as_file, "\t.half "); break;
 	      case 32: fprintf(as_file, "\t.word "); break;
 	    }
-	    for (i = j; i < strsize && i-j < 8; i++) {
+	    for (i = j; i < strsize && i - j < 8; i++) {
 	      switch (char_size) {
-	        case 8:fprintf(as_file, "0x%x ", st[i]); break;
-	        case 16:fprintf(as_file, "0x%x ",((short *)st)[i]); break;
-	        case 32:fprintf(as_file, "0x%lx ",((long *)st)[i]); break;
+	        case  8: fprintf(as_file, "0x%x",             st [i]); break;
+	        case 16: fprintf(as_file, "0x%x",  ((short *) st)[i]); break;
+	        case 32: fprintf(as_file, "0x%lx", ((long *)  st)[i]); break;
+	      }
+	      if (i + 1 < strsize && i + 1 - j < 8) {
+	        if (assembler == ASM_GAS) {
+	          fprintf(as_file, ", ");
+	        } else {
+	          fprintf(as_file, " ");
+	        }
 	      }
 	    }
-	    j =i;
+	    j = i;
 	    fprintf(as_file, "\n");
 	  }
 	}
