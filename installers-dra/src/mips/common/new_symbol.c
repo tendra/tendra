@@ -107,7 +107,12 @@ init_table_space(long noofiles, long noprocs)
 	aux_inds =(long*)xcalloc(noofiles,sizeof(long));
 	str_inds =(long*)xcalloc(noofiles,sizeof(long));
 	sym_inds =(long*)xcalloc(noofiles,sizeof(long));
-	proc_isym_inds =(PROCSYM*)xcalloc(noprocs,sizeof(PROCSYM));
+
+	if (noprocs == 0) {
+		proc_isym_inds = NULL;
+	} else {
+		proc_isym_inds = xcalloc(noprocs, sizeof (PROCSYM));
+	}
 
 	fdrlist = (pSYMFDR)xcalloc(noofiles,sizeof(SYMFDR));
 	file_desc_table = fdrlist;

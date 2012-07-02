@@ -323,8 +323,12 @@ void translate_capsule
   }
   /* count procs */
 
-  procrecs = (procrec *)xcalloc(noprocs, sizeof(procrec));
-  noprocs = 0;
+  if (noprocs == 0) {
+    procrecs = NULL;
+  } else {
+    procrecs = (procrec *)xcalloc(noprocs, sizeof(procrec));
+    noprocs = 0;
+  }
 
   my_def = top_def;
   while (my_def != (dec *)0) {
