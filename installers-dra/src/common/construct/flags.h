@@ -90,6 +90,7 @@ extern int all_variables_visible;
 extern int round_after_flop;
 extern int strict_fl_div;
 extern int do_prom;
+extern int dyn_init;
 
 #ifdef NEWDIAGS
 extern int diag_visible;

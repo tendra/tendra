@@ -337,7 +337,7 @@ void translate_capsule
       if (name(scexp) == proc_tag || name(scexp) == general_proc_tag)
       {
 	noprocs++;
-	if (!strncmp("__I.TDF",crt_def->dec_u.dec_val.dec_id,7))
+	if (dyn_init && !strncmp("__I.TDF",crt_def->dec_u.dec_val.dec_id,7))
 	{
 	   char *s;
 	   static char dyn = 0;

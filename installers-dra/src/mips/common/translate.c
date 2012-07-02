@@ -274,9 +274,9 @@ void translate_capsule
   opt_all_exps();
   remove_unused();
 
-#ifdef INCLUDE_INITS
-  my_def = top_def;
-  while (my_def != (dec *)0) {
+  if (dyn_init) {
+    my_def = top_def;
+    while (my_def != (dec *)0) {
         exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
 	char * id = my_def -> dec_u.dec_val.dec_id;
 	if (strcmp(id, "main") ==0 && son(crt_exp)!= nilexp &&
@@ -296,8 +296,8 @@ void translate_capsule
 	   break;
 	}
         my_def = my_def -> def_next;
-   }
-#endif
+     }
+  }
 
     /* mark static unaliased */
   my_def = top_def;

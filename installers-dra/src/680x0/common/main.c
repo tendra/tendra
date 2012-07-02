@@ -135,7 +135,7 @@ int main
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"C:B:DE:F:G:HK:MO:PQRVWX:Z"
+			"C:B:DE:F:G:HK:MO:PQRVWX:YZ"
 #ifdef EBUG
 			"L:l:"
 #endif
@@ -160,6 +160,7 @@ int main
 			case 'V': report_trans_version = 1;        break;
 			case 'W':                                  break;
 			case 'X': check = flags_check(optarg);     break;
+			case 'Y': dyn_init = 1;                    break;
 			case 'Z': report_tdf_versions = 1;         break;
 
 			case 'c': conventions = CONVENTIONS_HP;    break;

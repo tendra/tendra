@@ -41,6 +41,8 @@ int PIC_code = 0;		/* produce PIC code */
 
 int do_prom = 0;		/* produce PROM code (avoiding .data) */
 
+int dyn_init = 0;		/* produce calls for dynamic initialisation */
+
 #ifdef NEWDIAGS
 int diag_visible = 0;		/* additional visibility if doing diagnostics */
 int extra_diags = 0;		/* option for extended diagnostics */

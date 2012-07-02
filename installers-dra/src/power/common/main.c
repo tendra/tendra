@@ -77,7 +77,7 @@ int main(int argc, char **argv)
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"B:C:E:F:G:HK:MO:PQRVWX:Z" "c")) != -1) {
+			"B:C:E:F:G:HK:MO:PQRVWX:YZ" "c")) != -1) {
 			switch (c) {
 			case 'B': builtin = flags_builtin(optarg); break;
 			case 'C':
@@ -127,6 +127,7 @@ int main(int argc, char **argv)
       
 			case 'W': break;
 			case 'X': check = flags_check(optarg); break;
+			case 'Y': dyn_init = 1;                break;
 			case 'Z': report_versions = 1;         break;
 
 			case 'c': do_comment = 1 ; break ;

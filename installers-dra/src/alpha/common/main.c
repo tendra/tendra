@@ -112,7 +112,7 @@ main(int argc, char *argv[])
 	{
 		int c;
 
-		while ((c = getopt(argc, argv, "B:C:DE:F:G:HK:MO:PQRSVWX:Z" "usd:")) != -1) {
+		while ((c = getopt(argc, argv, "B:C:DE:F:G:HK:MO:PQRSVWX:YZ" "usd:")) != -1) {
 			switch (c) {
 			case 'B': builtin = flags_builtin(optarg);   break;
 			case 'D': failer("no PIC code available"); exit(EXIT_FAILURE);
@@ -145,6 +145,7 @@ main(int argc, char *argv[])
 			case 'V': printinfo(); infoopt = TRUE; break;
 			case 'W': writable_strings = 1;        break;
 			case 'X': check = flags_check(optarg); break;
+			case 'Y': dyn_init = 1;                break;
 			case 'Z': report_versions = 1;         break;
 
 			case 'u': use_umulh_for_div = 1;       break;

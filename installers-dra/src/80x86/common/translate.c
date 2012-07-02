@@ -158,7 +158,7 @@ void make_code
 
   if (son(tg)!= nilexp && (my_def -> dec_u.dec_val.extnamed || no(tg)!= 0)) {
     if (name(son(tg)) == proc_tag || name(son(tg)) == general_proc_tag) {
-      if (strncmp("__I.TDF", id+prefix_length, 7) ==0) {
+      if (dyn_init && strncmp("__I.TDF", id+prefix_length, 7) ==0) {
 	out_initialiser(id);
 	set_proc_uses_external (son (tg));	/* for PIC_code, should be done in install_fns? */
       }

@@ -98,7 +98,7 @@ int main
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"B:C:DE:F:G:HKNO:PQRVWX:Z" "dh")) != -1) {
+			"B:C:DE:F:G:HKNO:PQRVWX:YZ" "dh")) != -1) {
 			switch (c) {
 			case 'B': builtin = flags_builtin(optarg); break;
 
@@ -166,6 +166,7 @@ int main
 
 			case 'W': break;
 			case 'X': check = flags_check(optarg); break;
+			case 'Y': dyn_init = 1; break;
 			case 'Z': report_versions = 1; break;
 
 			case 'h':

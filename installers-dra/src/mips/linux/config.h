@@ -20,7 +20,6 @@
 #define FS_LITTLE_ENDIAN 0
 #endif
 
-#define INCLUDE_INITS 1
 #define isvax 0
 #define ismips 1
 #define is68000 0

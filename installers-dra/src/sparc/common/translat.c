@@ -503,7 +503,7 @@ translate_capsule (void){
       exp *st = &s ;
       procrec *pr = &procrecs [ no ( s ) ] ;
 
-      if (d->dec_u.dec_val.extnamed && isINITproc(d->dec_u.dec_val.dec_id))
+      if (dyn_init && d->dec_u.dec_val.extnamed && isINITproc(d->dec_u.dec_val.dec_id))
 	set_proc_uses_external (s);    /* for PIC_code, should be done in install_fns? */
 
       Has_vcallees = (name(s) == general_proc_tag) && 
@@ -621,7 +621,7 @@ translate_capsule (void){
 	  else
 	    insection ( data_section ) ;
 	} 
-	else if (isINITproc(id) && sysV_assembler) {
+	else if (dyn_init && isINITproc(id) && sysV_assembler) {
 	  /* On solaris, this is easy.  Insert a call to the procedure
 	     into the init segment */
 	  insection (init_section);

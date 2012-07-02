@@ -192,7 +192,7 @@ code_it(dec *my_def)
 	diag_descriptor * dd =  my_def -> dec_u.dec_val.diag_info;
 	/* compile code for proc */
 	set_text_section();
-	if(!strncmp("__I.TDF",id,7)) {
+	if(dyn_init && !strncmp("__I.TDF",id,7)) {
 	  /* we have an initialisation procedure, just change its name 
 	     and the linker will do the rest */
 	  char *new_id = (char*)xcalloc(strlen(id)+strlen("__init_")+1,
@@ -633,7 +633,7 @@ translate_capsule(void)
 			       !strcmp (id, "main"))) {
       if (extnamed) {
 	/* globalise all global names  */
-	if(!strncmp("__I.TDF",id,7)) {
+	if(dyn_init && !strncmp("__I.TDF",id,7)) {
 	  char *new_id = (char*)xcalloc(strlen(id)+strlen("__init_")+1,
 					sizeof(char));
 	  strcpy(new_id,"__init_");

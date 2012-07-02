@@ -135,9 +135,9 @@ main(int argc, char **argv)
 	 * XXX: Some arguments are undocumented in trans.1, check
 	 */
 #ifdef NEWDWARF
-	optstring = "B:C:D:E:F:G:H:" "J" "K:M:NO:PQR:" "T" "VW:X:Z" "abcdfghit:";
+	optstring = "B:C:D:E:F:G:H:" "J" "K:M:NO:PQR:" "T" "VW:X:YZ" "abcdfghit:";
 #else
-	optstring = "B:C:D:E:F:G:H:"     "K:M:NO:PQR:"     "VW:X:Z" "abcdfghit:";
+	optstring = "B:C:D:E:F:G:H:"     "K:M:NO:PQR:"     "VW:X:YZ" "abcdfghit:";
 #endif
 
 	while ((ch = getopt(argc, argv, optstring)) != -1) {
@@ -252,9 +252,13 @@ main(int argc, char **argv)
 		case 'X':
 			check = flags_check(optarg);
 			break;
+		case 'Y':
+			dyn_init = 1;
+			break;
 		case 'Z':
 			report_versions = 1;
 			break;
+
 		case 'a':
 			always_use_frame = 1;
 			break;

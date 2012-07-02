@@ -89,7 +89,7 @@ main(int argc, char **argv)
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"B:C:DE:F:G:HK:MO:PQRSV:WX:Z"
+			"B:C:DE:F:G:HK:MO:PQRSV:WX:YZ"
 			"ei")) != -1) {
 			switch (c) {
 			case 'B': builtin = flags_builtin(optarg); break;
@@ -163,6 +163,7 @@ main(int argc, char **argv)
 
 			case 'W': writable_strings = 1;        break;
 			case 'X': check = flags_check(optarg); break;
+			case 'Y': dyn_init = 1;                break;
 
 			case 'Z': /* prints on stderr the versions of all the capsules
 				from which this capsule was made */
