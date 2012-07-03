@@ -1,7 +1,7 @@
 /* $Id$ */
 
-#ifndef __HACKED_BITS_TYPESIZES_H
-#define __HACKED_BITS_TYPESIZES_H
+#ifndef __HACKED_LIBC_BITS_TYPESIZES_H
+#define __HACKED_LIBC_BITS_TYPESIZES_H
 
 /* included for dev_t for posix */
 

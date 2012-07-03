@@ -1,7 +1,7 @@
 /* $Id$ */
 
-#ifndef __HACKED_BITS_TYPESIZES_H
-#define __HACKED_BITS_TYPESIZES_H
+#ifndef __HACKED_LIBC_BITS_TYPESIZES_H
+#define __HACKED_LIBC_BITS_TYPESIZES_H
 
 /* included for dev_t for posix */
 
@@ -16,7 +16,7 @@
  * TODO: I haven't checked that our tspec specification of dev_t is correct.
  */
 #if defined(_GLIBC2_5) || defined(_GLIBC2_7) || defined(_GLIBC2_11) \
-	|| defined(_GLIBC2_14) || defined(_GLIBC2_15) || defined(_EGLIBC2_11)
+	|| defined(_GLIBC2_14) || defined(_GLIBC2_15)
 #undef __DEV_T_TYPE
 #define __DEV_T_TYPE unsigned long long
 #endif
