@@ -19,15 +19,6 @@ _TENDRA_WORK_API_MK_=1
 	@${EXIT} 1;
 .endif
 
-# TODO: simplify this away
-STARTUP_MACH=	${.CURDIR}/../startup
-
-.if !exists(${STARTUP_MACH})
-.BEGIN:
-	@${ECHO} '$${STARTUP_MACH} must be present'
-	@${EXIT} 1;
-.endif
-
 
 . if defined(OSVER)
 CCOPTS+= -D_${OSVER}
@@ -65,6 +56,22 @@ HACKS+=	-I${BASE_DIR}/machines/common/libc/${GLIBC_NAME:tl}/include
 .endif
 
 
+.if exists(${BASE_DIR}/machines/common/libc/${OSFAM}/startup)
+STARTUP_MACH+=	${BASE_DIR}/machines/common/libc/${OSFAM}/startup
+.endif
+
+# TODO: hacky
+UPPER=	ABCDEFGHIJKLMNOPQRSTUVWXYZ
+LOWER=	abcdefghijklmnopqrstuvwxyz
+GLIBC_DIR:=	${GLIBC_NAME:C/${UPPER}/${LOWER}/g}
+
+.if defined(GLIBC_NAME)
+. if exists(${BASE_DIR}/machines/common/libc/${GLIBC_DIR:tl}/startup)
+STARTUP_MACH+=	${BASE_DIR}/machines/common/libc/${GLIBC_DIR:tl}/startup
+. endif
+.endif
+
+
 .for api in ${APIS:R}
 
 . if !exists(${PREFIX_TSPEC}/TenDRA/src/${api}.api)
@@ -85,9 +92,11 @@ JOPTS${api}+=	-f${.CURDIR}/${api}.h
 JOPTS${api}+=	-f${PREFIX_TSPEC}/TenDRA/feature/${api}.h
 . endif
 
-. if exists(${STARTUP_MACH}/${api}.h)
-JOPTS${api}+=	-f${STARTUP_MACH}/${api}.h
-. endif
+. for startup in ${STARTUP_MACH}
+.  if exists(${startup}/${api}.h)
+JOPTS${api}+=	-f${startup}/${api}.h
+.  endif
+. endfor
 
 APISRCS${api}!=	find ${PREFIX_TSPEC}/TenDRA/src/${api}.api -name '*.c'
 APISRCS${api}:=	${APISRCS${api}:T}
