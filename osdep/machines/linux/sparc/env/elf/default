@@ -1,0 +1,9 @@
+/* $Id$ */
+
++MACHINE	"linux-*-sparc"
+
+>FLAGS_TRANS	"-Ggas"
+
+/* XXX: remove for openbsd too; see use_long_double */
++FLAG_AS	"-Av8plus -32"
+
