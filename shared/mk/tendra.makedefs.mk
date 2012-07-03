@@ -133,6 +133,7 @@ MD_OSVER!=                               \
 MD_LIBCVER!=                             \
     case "${LIBC_VER}" in                \
         EGLIBC_2_11_*) echo EGLIBC2_11;; \
+        GLIBC_2_3_*)   echo GLIBC2_3;;   \
         GLIBC_2_5)     echo GLIBC2_5;;   \
         GLIBC_2_7)     echo GLIBC2_7;;   \
         GLIBC_2_11_*)  echo GLIBC2_11;;  \
