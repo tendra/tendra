@@ -1,17 +1,15 @@
 /* $Id$ */
 
-/*
- * Copyright 2011, The TenDRA Project.
- *
- * See doc/copyright/ for the full copyright terms.
- */
-
 #ifndef __HACKED_MACHINE_SIGNAL_H
 #define __HACKED_MACHINE_SIGNAL_H
 
-/* disable gcc specific alignment instruction */
-#define __aligned(arg1)
+/*
+ * Here we avoid bringing in <machine/signal.h> because it uses GCC's __aligned().
+ * All we really need for C90 is sig_atomic_t, so we just define that directly.
+ */
+#if defined(_FREEBSD8_3)
+typedef int sig_atomic_t;
+#endif
 
-#include_next <machine/signal.h>
+#endif
 
-#endif /* __HACKED_MACHINE_SIGNAL_H */
