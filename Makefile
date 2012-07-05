@@ -10,7 +10,9 @@
 # process that separate packages should undertake. The depencencies between
 # packages have been arranged in order to make that as painless as possible.
 
-OBJ_DIR?=     ${.CURDIR}/obj
+HOSTNAME!=	uname -n | cut -f1 -d.
+
+OBJ_DIR?=     ${.CURDIR}/obj.${HOSTNAME}
 OBJ_WWW?=     ${OBJ_DIR}-www
 OBJ_DOC?=     ${OBJ_DIR}-doc
 OBJ_APREFIX?= ${OBJ_DIR}-buildall
