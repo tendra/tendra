@@ -24,8 +24,9 @@
 /*
  * STRING VARIABLES
  *
- * These variables given various compilation values, including the location of
- * the main temporary directory.
+ * These variables given various compilation values.
+ *
+ * TODO: most of these probably ought to be moved into tcc environment variables
  */
 
 const char *api_info = "unknown";
