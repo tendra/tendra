@@ -15,6 +15,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <signal.h>
 #include <unistd.h>
 
 #include <shared/error.h>
@@ -31,6 +32,30 @@
 #include "main.h"
 #include "utility.h"
 #include "environ.h"
+
+
+/*
+ * SIGNAL HANDLER
+ *
+ * This routine is the main signal handler. It reports any interesting signals
+ * and then cleans up.
+ */
+
+static void
+handler(int sig)
+{
+	IGNORE signal(SIGINT, SIG_IGN);
+	if (verbose)
+		comment(1, "\n");
+
+	if (sig != SIGINT) {
+		const char *cmd = (last_command ? last_command : "unknown");
+		error(ERROR_SERIOUS, "Caught signal %d in '%s'", sig, cmd);
+	}
+
+	exit_status = EXIT_FAILURE;
+	exit(exit_status);
+}
 
 
 /*

@@ -7,7 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -68,7 +67,6 @@ print_version(void)
 static void
 main_end(void)
 {
-	IGNORE signal(SIGINT, SIG_IGN);
 	remove_junk();
 	remove_startup();
 	if (tempdir != NULL &&
@@ -124,8 +122,6 @@ main_start(char *prog)
 
 	buffer = xmalloc_nof(char, buffer_size);
 	set_progname(find_basename(prog), RELEASE);
-	IGNORE signal(SIGINT, handler);
-	IGNORE signal(SIGTERM, handler);
 
 	srand(time(NULL));
 
@@ -153,31 +149,6 @@ main_start(char *prog)
 	read_env("base");
 
 	initialise_options();
-}
-
-
-/*
- * SIGNAL HANDLER
- *
- * This routine is the main signal handler. It reports any interesting signals
- * and then cleans up.
- */
-
-void
-handler(int sig)
-{
-	IGNORE signal(SIGINT, SIG_IGN);
-	if (verbose)
-		comment(1, "\n");
-
-	if (sig != SIGINT) {
-		const char *cmd = (last_command ? last_command : "unknown");
-		error(ERROR_SERIOUS, "Caught signal %d in '%s'", sig, cmd);
-	}
-
-	exit_status = EXIT_FAILURE;
-	main_end();
-	_exit(exit_status);
 }
 
 

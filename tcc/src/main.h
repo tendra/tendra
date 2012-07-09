@@ -27,7 +27,6 @@ extern char **environment;
  * These routines are concerned with what to do when an error occurs.
  */
 
-extern void handler(int);
 extern void print_version(void);
 
 
