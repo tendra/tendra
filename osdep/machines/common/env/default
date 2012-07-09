@@ -20,7 +20,6 @@
 +API_NAME		"-Aansi"
 +API			"-R<PREFIX_INCLUDE>/ansi.d"
 +INFO			"ANSI@(X3.159)"
-+TEMP			"<PREFIX_TMP>"
 +VERSION		""
 
 /*

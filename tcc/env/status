@@ -37,6 +37,5 @@
 
 ?ENVDIR			"Main environment directory (ENVDIR)"
 ?SYS_LINK		"Default system libraries directories (SYS_LINK)"
-?TEMP			"Default temporary directory (TEMP)"
 ?MACHINE		"Machine identifier (MACHINE)"
 ?VERSION		"Machine version number - Mips only (VERSION)"
