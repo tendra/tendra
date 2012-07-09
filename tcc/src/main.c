@@ -246,8 +246,5 @@ main(int argc, char **argv)
 		output = output->next;
 	}
 
-	/* Exit from program */
-	main_end();
-
 	return exit_status;
 }
