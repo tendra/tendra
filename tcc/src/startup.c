@@ -1,7 +1,7 @@
 /* $Id$ */
 
 /*
- * Copyright 2002-2011, The TenDRA Project.
+ * Copyright 2002-2012, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
  *
  * See doc/copyright/ for the full copyright terms.
@@ -21,6 +21,7 @@
 #include "execute.h"
 #include "flags.h"
 #include "startup.h"
+#include "suffix.h"
 #include "utility.h"
 #include "table.h"
 #include "temp.h"
@@ -29,13 +30,12 @@
 /*
  * THE STARTUP AND ENDUP FILES
  *
- * These variables give the names and file descriptors for the startup and
- * endup files, plus the command-line options to pass them to the producer.
+ * These variables give the names for the startup and endup files,
+ * to pass them to the producer.
  */
 
-static FILE *startup_file = NULL, *endup_file = NULL;
-static char *startup_name = NULL, *endup_name = NULL;
-char *startup_opt = NULL, *endup_opt = NULL;
+const char *startup_name, *endup_name;
+FILE *startup_file, *endup_file;
 
 
 /*
@@ -45,37 +45,8 @@ char *startup_opt = NULL, *endup_opt = NULL;
  * command-line tokens.
  */
 
-static FILE *tokdef_file = NULL;
-char *tokdef_name = NULL;
-
-
-static void
-add_to_file(FILE **file, char **name, const char *prefix)
-{
-	assert(file != NULL);
-	assert(name != NULL);
-	assert(prefix != NULL);
-
-	/*
-	 * Note that we cannot use tempdir here, because add_to_file may be called
-	 * before the temporary directory is set (e.g. by an environment).
-	 * TODO: if the options shuffling doesn't solve this, then what is it for?
-	 */
-	if (*name == NULL) {
-		*file = temp_fopen(&startup_name, temporary_dir, prefix);
-		if (*file == NULL) {
-			return;
-		}
-	}
-
-	assert(*name != NULL);
-	assert(*file != NULL || dry_run);
-
-	if (dry_run) {
-		*file = NULL;
-		return;
-	}
-}
+const char *tokdef_name;
+FILE *tokdef_file;
 
 
 /*
@@ -87,17 +58,29 @@ add_to_file(FILE **file, char **name, const char *prefix)
 void
 add_to_startup(const char *fmt, ...)
 {
+	static char a[FILENAME_MAX];
 	va_list ap;
 
-	add_to_file(&startup_file, &startup_name, "ts");
-
-	startup_opt = xstrcat("-f", startup_name);
+	/* TODO: name (STARTUP_NAME etc) from env */
 
 	if (startup_file == NULL) {
-		return;
+		assert(startup_name == NULL);
+
+		startup_file = temp_fopen(a, sizeof a, tempdir, STARTUP_NAME, "a");
+		if (startup_file == NULL) {
+			return;
+		}
+
+		startup_name = a;
+
+		if (!dry_run) {
+			IGNORE fprintf(startup_file, "#line 1 \"%s\"\n", STARTUP_NAME);
+		}
 	}
 
-	IGNORE fprintf(startup_file, "#line 1 \"%s\"\n", name_h_file);
+	if (dry_run) {
+		return;
+	}
 
 	va_start(ap, fmt);
 	IGNORE vfprintf(startup_file, fmt, ap);
@@ -114,17 +97,27 @@ add_to_startup(const char *fmt, ...)
 void
 add_to_endup(const char *fmt, ...)
 {
+	static char a[FILENAME_MAX];
 	va_list ap;
 
-	add_to_file(&endup_file, &endup_name, "te");
-
-	startup_opt = xstrcat("-f", endup_name);
-
 	if (endup_file == NULL) {
-		return;
+		assert(endup_name == NULL);
+
+		endup_file = temp_fopen(a, sizeof a, tempdir, ENDUP_NAME, "a");
+		if (endup_file == NULL) {
+			return;
+		}
+
+		endup_name = a;
+
+		if (!dry_run) {
+			IGNORE fprintf(endup_file, "#line 1 \"%s\"\n", ENDUP_NAME);
+		}
 	}
 
-	IGNORE fprintf(endup_file, "#line 1 \"%s\"\n", name_E_file);
+	if (dry_run) {
+		return;
+	}
 
 	va_start(ap, fmt);
 	IGNORE vfprintf(endup_file, fmt, ap);
@@ -141,16 +134,29 @@ add_to_endup(const char *fmt, ...)
 static void
 add_to_tokdef(const char *fmt, ...)
 {
+	static char a[FILENAME_MAX];
 	va_list ap;
 
-	add_to_file(&tokdef_file, &tokdef_name, "td");
-
 	if (tokdef_file == NULL) {
-		return;
+		assert(tokdef_name == NULL);
+
+		tokdef_file = temp_fopen(a, sizeof a, tempdir, TOKDEF_NAME, "a");
+		if (tokdef_file == NULL) {
+			return;
+		}
+
+		tokdef_name = a;
+
+		if (!dry_run) {
+			IGNORE fputs("( make_tokdec ~char variety )\n", tokdef_file);
+			IGNORE fputs("( make_tokdec ~signed_int variety )\n", tokdef_file);
+			IGNORE fputc('\n', tokdef_file);
+		}
 	}
 
-	IGNORE fputs("( make_tokdec ~char variety )\n", tokdef_file);
-	IGNORE fputs("( make_tokdec ~signed_int variety )\n\n", tokdef_file);
+	if (dry_run) {
+		return;
+	}
 
 	va_start(ap, fmt);
 	IGNORE vfprintf(tokdef_file, fmt, ap);
@@ -167,15 +173,15 @@ add_to_tokdef(const char *fmt, ...)
 void
 close_startup(void)
 {
-	if (startup_file) {
+	if (startup_file != NULL) {
 		IGNORE fclose(startup_file);
 		startup_file = NULL;
 	}
-	if (endup_file) {
+	if (endup_file != NULL) {
 		IGNORE fclose(endup_file);
 		endup_file = NULL;
 	}
-	if (tokdef_file) {
+	if (tokdef_file != NULL) {
 		IGNORE fclose(tokdef_file);
 		tokdef_file = NULL;
 	}
@@ -193,36 +199,36 @@ void
 remove_startup(void)
 {
 	if (table_keep(STARTUP_FILE)) {
-		if (startup_name) {
+		if (startup_name != NULL) {
 			cmd_env("MOVE");
 			cmd_string(startup_name);
 			cmd_string(name_h_file);
 			IGNORE execute(no_filename, no_filename);
 		}
-		if (endup_name) {
+		if (endup_name != NULL) {
 			cmd_env("MOVE");
 			cmd_string(endup_name);
 			cmd_string(name_E_file);
 			IGNORE execute(no_filename, no_filename);
 		}
-		if (tokdef_name) {
+		if (tokdef_name != NULL) {
 			cmd_env("MOVE");
 			cmd_string(tokdef_name);
 			cmd_string(name_p_file);
 			IGNORE execute(no_filename, no_filename);
 		}
 	} else {
-		if (startup_name) {
+		if (startup_name != NULL) {
 			cmd_env("RMFILE");
 			cmd_string(startup_name);
 			IGNORE execute(no_filename, no_filename);
 		}
-		if (endup_name) {
+		if (endup_name != NULL) {
 			cmd_env("RMFILE");
 			cmd_string(endup_name);
 			IGNORE execute(no_filename, no_filename);
 		}
-		if (tokdef_name) {
+		if (tokdef_name != NULL) {
 			cmd_env("RMFILE");
 			cmd_string(tokdef_name);
 			IGNORE execute(no_filename, no_filename);
@@ -264,6 +270,8 @@ add_pragma(const char *s)
  *
  * This routine translates command-line token definition options into the
  * corresponding pragma statements.
+ *
+ * TODO: why does this exist? it seems of very limited use
  */
 
 void

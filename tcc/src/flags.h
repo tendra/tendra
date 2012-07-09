@@ -45,7 +45,6 @@ extern const char *name_j_file;
 extern const char *name_k_file;
 extern const char *name_K_file;
 extern const char *name_p_file;
-extern const char *temporary_dir;
 extern const char *tokdef_output;
 extern const char *version_flag;
 extern const char *dev_null;

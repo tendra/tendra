@@ -10,6 +10,7 @@
 
 #define _POSIX_SOURCE
 
+#include <assert.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <string.h>
@@ -64,7 +65,7 @@ to_lower_case(char *s)
  */
 
 const char *tempdir = NULL;
-const char *workdir = NULL ;
+const char *workdir = NULL;
 
 
 /*

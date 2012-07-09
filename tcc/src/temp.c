@@ -7,8 +7,10 @@
  */
 
 #include <assert.h>
+#include <errno.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include <limits.h>
 
 #include <shared/error.h>
@@ -19,6 +21,7 @@
 #include "utility.h"
 #include "filename.h"
 #include "execute.h"
+#include "environ.h"
 #include "archive.h"
 
 #define RETRY_LIMIT 100
@@ -61,12 +64,18 @@ temp_retry(int *limit, char *buf, size_t sz, const char *dir, const char *prefix
 
 		temp_generateid(rnd, sizeof rnd);
 
+		if (strlen(dir) + 1 + strlen(prefix) + 1 + sizeof rnd + 1 > FILENAME_MAX) {
+			error(ERROR_FATAL, "%s: Random temporary directory too long", dir);
+			return 0;
+		}
+
 		/* TODO: bounds-check and error() */
 		IGNORE sprintf(buf, "%s/%s-%.*s", dir, prefix, (int) sizeof rnd, rnd);
 	}
 
 	return 1;
 }
+
 
 /*
  * CREATE A TEMPORARY DIRECTORY
@@ -99,28 +108,32 @@ temp_mkdir(const char *dir, const char *prefix)
  */
 
 FILE *
-temp_fopen(char **out, const char *dir, const char *prefix)
+temp_fopen(char *buf, size_t bufsz, const char *dir, const char *name, const char *mode)
 {
-	char buf[FILENAME_MAX];
-	int l;
+	FILE *f;
 
-	for (l = 0; temp_retry(&l, buf, sizeof buf, dir, prefix); l++) {
-		FILE *p;
+	assert(name != NULL);
+	assert(*name != '\0');
 
-		if (dry_run) {
-			p = (void *) &"unused";
-		} else {
-			p = fopen(buf, "a");
-		}
-
-		if (p != NULL) {
-			*out = xstrdup(buf);
-			return p;
-		}
+	if (tempdir == NULL) {
+		tempdir = temp_mkdir(envvar_get(envvars, "PREFIX_TMP"), progname);
 	}
 
-	error(ERROR_FATAL, "Can't create temporary file: %s, buf");
+	if (strlen(tempdir) + 1 + strlen(name) + 1 > bufsz) {
+		error(ERROR_FATAL, "Temporary filename too long");
+	}
 
-	return NULL;
+	if (dry_run) {
+		return (void *) &"unused";
+	}
+
+	IGNORE sprintf(buf, "%s/%s", tempdir, name);
+
+	f = fopen(buf, mode);
+	if (f == NULL) {
+		error(ERROR_FATAL, "%s: %s", buf, strerror(errno));
+	}
+
+	return f;
 }
 

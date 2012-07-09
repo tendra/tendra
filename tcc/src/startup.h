@@ -1,7 +1,7 @@
 /* $Id$ */
 
 /*
- * Copyright 2002-2011, The TenDRA Project.
+ * Copyright 2002-2012, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
  *
  * See doc/copyright/ for the full copyright terms.
@@ -27,14 +27,12 @@ extern void add_token(const char *);
 
 
 /*
- * COMMAND-LINE OPTIONS
- *
- * These variables give the command-line options necessary to pass the startup
- * and endup files to the producer.
+ * These variables give the command-line options necessary to pass the startup,
+ * endup and tokdef files to the relevant stages.
  */
 
-extern char *startup_opt, *endup_opt;
-extern char *tokdef_name;
+extern const char *startup_name, *endup_name;
+extern const char *tokdef_name;
 
 
 #endif /* STARTUP_H */

@@ -155,7 +155,7 @@ struct optmap main_optmap[] = {
 	{ "-special+$",     "SXX$1|CSP",        "allows various internal options"             },
 	{ "-startup+$",     "@D$1$n",           "specifies a start-up option"                 },
 	{ "-target+$",      "AOC-target|AOC$1", "provided for cc compatibility"               },
-	{ "-temp+$",        "STD$1",            "specifies the temporary directory"           },
+	{ "-temp+PREFIX_TMP=$", "E?$1?$2",      "specifies the temporary directory"           },
 	{ "-tidy",          "1TU",              "causes %s to tidy up as it goes along"       },
 	{ "-time",          "1TI|1VB",          "causes all commands to be timed"             },
 	{ "-verbose",       "1VB",              "equivalent to -v"                            },
@@ -539,7 +539,6 @@ lookup_string(const char *s)
 		{ "FN", &final_name    },
 		{ "MN", &machine_name  },
 		{ "PN", &progname      },
-		{ "TD", &temporary_dir },
 		{ "VF", &version_flag  },
 		{ "WD", &workdir       },
 		{ "XX", &xx_string     }

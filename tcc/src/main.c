@@ -58,15 +58,6 @@ print_version(void)
 
 
 /*
- * TEMPORARY DIRECTORY FLAG
- *
- * This flag is true to indicate that the temporary directory needs removing.
- */
-
-static boolean made_tempdir = 0;
-
-
-/*
  * MAIN CLEAN UP ROUTINE
  *
  * This routine always used to exit the program, except when an exec fails in
@@ -80,34 +71,14 @@ main_end(void)
 	IGNORE signal(SIGINT, SIG_IGN);
 	remove_junk();
 	remove_startup();
-	if (made_tempdir &&
+	if (tempdir != NULL &&
 	    !(exit_status != EXIT_SUCCESS && flag_keep_err)) {
-		made_tempdir = 0;
 		cmd_string(NULL);
 		cmd_env("RMDIR");
 		cmd_string(tempdir);
 		IGNORE execute(no_filename, no_filename);
 	}
 	kill_stray();
-}
-
-
-/*
- * MAIN CONSOLIDATION ROUTINE
- *
- * This routine is called after all the command-line arguments have been
- * processed, but before any actual compilation takes place.
- */
-
-static void
-main_middle(void)
-{
-	tempdir = temp_mkdir(temporary_dir, progname);
-	if (tempdir == NULL) {
-		error(ERROR_FATAL, "Can't create temporary directory");
-	}
-
-	made_tempdir = 1;
 }
 
 
@@ -260,8 +231,11 @@ main(int argc, char **argv)
 		error(ERROR_FATAL, "No input files specified");
 	}
 
+	if (tempdir == NULL) {
+		tempdir = temp_mkdir(envvar_get(envvars, "PREFIX_TMP"), progname);
+	}
+
 	/* Apply compilation */
-	main_middle();
 	output = apply_all(input_files);
 
 	/* Check for unprocessed files */

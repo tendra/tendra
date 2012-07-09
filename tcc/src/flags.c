@@ -40,7 +40,6 @@ const char *name_j_file = TDF_COMPLEX_NAME;
 const char *name_k_file = C_SPEC_COMPLEX_NAME;
 const char *name_K_file = CPP_SPEC_COMPLEX_NAME;
 const char *name_p_file = TOKDEF_NAME;
-const char *temporary_dir = "/tmp";	/* TODO: use PREFIX_TMP instead */
 const char *tokdef_output = NULL;
 const char *version_flag = "";
 const char *dev_null = NULL;

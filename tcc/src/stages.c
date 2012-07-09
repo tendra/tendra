@@ -1,7 +1,7 @@
 /* $Id$ */
 
 /*
- * Copyright 2002-2011, The TenDRA Project.
+ * Copyright 2002-2012, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
  *
  * See doc/copyright/ for the full copyright terms.
@@ -189,13 +189,15 @@ producer_options(int pp)
 			cmd_env("STARTUP_CPP");
 			cmd_env("USR_STARTUP_CPP");
 		}
-		if (startup_opt) {
-			cmd_string(startup_opt);
+		if (startup_name != NULL) {
+			cmd_string("-f");
+			cmd_string(startup_name);
 		}
 		cmd_env("USR_PROD_FOPTIONS");
 		cmd_env("USR_PROD_EOPTIONS");
-		if (endup_opt) {
-			cmd_string(endup_opt);
+		if (endup_name != NULL) {
+			cmd_string("-e");
+			cmd_string(endup_name);
 		}
 	}
 	cmd_env("USR_INCL");
@@ -809,7 +811,7 @@ do_notation(filename *input)
 		return input;
 	}
 	keep = where(INDEP_TDF);
-	if (tokdef_name && strcmp(input->name, tokdef_name) == 0) {
+	if (tokdef_name != NULL && strcmp(input->name, tokdef_name) == 0) {
 		keep = TEMP_FILE;
 	}
 	output = make_filename(input, INDEP_TDF, keep);
