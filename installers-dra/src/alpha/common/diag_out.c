@@ -8,10 +8,9 @@
  */
 
 /*
-  alphadiags.c
   This file contains functions to handle code diagnostics for
   alpha/OSF1. (largely based on the mips installer version
-  'mipsdiags.c').
+  'diag_out.c').
 */
 
 #include <stdlib.h>
@@ -40,7 +39,7 @@
 #include "bitsmacs.h"
 #include "syms.h"
 #include "locate.h"
-#include "alphadiags.h"
+#include "diag_out.h"
 #include "ibinasm.h"
 #include "out_ba.h"
 #include "coder.h"

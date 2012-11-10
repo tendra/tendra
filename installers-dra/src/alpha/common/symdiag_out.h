@@ -8,9 +8,6 @@
  */
 
 
-/*
-   symdiags.h
-*/
 #ifndef SYMDIAGS_H
 #define SYMDIAGS_H
 

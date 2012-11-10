@@ -39,7 +39,7 @@
 #include <construct/installglob.h>
 #include <reader/externs.h>
 #include "out.h"
-#include "sparcdiags.h"
+#include "diag_out.h"
 #include <reader/basicread.h>
 
 #ifdef NEWDIAGS

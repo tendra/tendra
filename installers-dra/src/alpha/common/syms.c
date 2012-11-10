@@ -23,7 +23,7 @@ syms.c   - produce symbol numbers for binasm (dense numbers)
 #include "expmacs.h"
 #include "syms.h"
 #include "main.h"
-#include "alphadiags.h"
+#include "diag_out.h"
 #include "localtypes.h"
 #include "symbol.h"
 

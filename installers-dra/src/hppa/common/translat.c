@@ -127,7 +127,7 @@
 #include "regmacs.h"
 #include "labels.h"
 #include "comment.h"
-#include "hppadiags.h"
+#include "diag_out.h"
 #include "out.h"
 #include "translat.h"
 #include "version.h"

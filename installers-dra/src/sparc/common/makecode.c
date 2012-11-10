@@ -55,7 +55,7 @@
 #include "muldvrem.h"
 #include "proc.h"
 #include "special.h"
-#include "sparcdiags.h"
+#include "diag_out.h"
 #include "translat.h"
 #include "out.h"
 #include "makecode.h"

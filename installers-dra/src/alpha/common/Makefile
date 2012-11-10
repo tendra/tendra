@@ -6,12 +6,13 @@
 #CCOPTS+=	-I ../../common
 
 SRCS+=	alpha_ins.c
-SRCS+=	alphadiags.c
 SRCS+=	bstack.c
 SRCS+=	code_here.c
 SRCS+=	coder.c
 SRCS+=	comp_eq_exp.c
 SRCS+=	cross.c
+SRCS+=	diag_out.c
+SRCS+=	symdiag_out.c
 SRCS+=	dump_distr.c
 SRCS+=	eval.c
 SRCS+=	extern_adds.c
@@ -45,7 +46,6 @@ SRCS+=	spec.c
 SRCS+=	spec_tok.c
 SRCS+=	special.c
 SRCS+=	symbol.c
-SRCS+=	symdiags.c
 SRCS+=	syms.c
 SRCS+=	tempdecs.c
 SRCS+=	translate.c

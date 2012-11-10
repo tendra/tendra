@@ -48,7 +48,7 @@
 #include "translat.h"
 #include "szs_als.h"
 #include "out.h"
-#include "hppadiags.h"
+#include "diag_out.h"
 
 #ifdef _SYMTAB_INCLUDED
 #undef _SYMTAB_INCLUDED

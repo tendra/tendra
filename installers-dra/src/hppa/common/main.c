@@ -31,7 +31,7 @@
 #include "exptypes.h"
 #include "out.h"
 #include "version.h"
-#include "hppadiags.h"
+#include "diag_out.h"
 #include "frames.h"
 
 #ifdef __DATE__

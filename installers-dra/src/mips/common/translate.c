@@ -46,7 +46,7 @@
 #include "syms.h"
 #include "out_ba.h"
 #include "new_symbol.h"
-#include "mipsdiags.h"
+#include "diag_out.h"
 #include "extern_adds.h"
 #include "mips_ins.h"
 #include "main.h"

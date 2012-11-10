@@ -128,7 +128,7 @@
 #include "regmacs.h"
 #include "labels.h"
 #include "comment.h"
-#include "sparcdiags.h"
+#include "diag_out.h"
 #include "out.h"
 #include "translat.h"
 #include "proc.h"

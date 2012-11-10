@@ -8,8 +8,6 @@
  */
 
 /*
-  symdiags.c
-
   Functions for the inclusion of diagnostic information in 
   symbolic assembler files.  Only file and line number information 
   is available.
@@ -43,8 +41,8 @@
 #include "syms.h"
 #include "locate.h"
 #include "symbol.h"
-#include "alphadiags.h"
-#include "symdiags.h"
+#include "diag_out.h"
+#include "symdiag_out.h"
 #include "pseudo.h"
 
 #ifndef CROSS_INCLUDE

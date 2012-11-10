@@ -9,8 +9,6 @@
 
 /*****************************************************************
 
-                           mipsdiags.c
-
 Provides the routines for outputting diagnostic information, suitable for
 MIPS dbx.
 These diagnostics, in the absence of any documentation, have been
@@ -51,7 +49,7 @@ around the syms modules provided in the system library.
 #include "out_ba.h"
 #include "syms.h"
 #include "locate.h"
-#include "mipsdiags.h"
+#include "diag_out.h"
 #include "new_code.h"
 #include "new_symbol.h"
 

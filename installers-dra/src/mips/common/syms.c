@@ -30,7 +30,7 @@
 #include "expmacs.h"
 #include "syms.h"
 #include "main.h"
-#include "mipsdiags.h"
+#include "diag_out.h"
 #include "new_symbol.h"
 #include "localtypes.h"
 

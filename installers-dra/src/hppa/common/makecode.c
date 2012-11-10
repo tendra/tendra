@@ -53,7 +53,7 @@
 #include "regable.h"
 #include "muldvrem.h"
 #include "proc.h"
-#include "hppadiags.h"
+#include "diag_out.h"
 #include "translat.h"
 #include "frames.h"
 #include "out.h"

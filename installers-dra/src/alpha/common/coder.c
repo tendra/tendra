@@ -66,7 +66,7 @@
 #include "fail.h"
 #include "bool.h"
 #include "regable.h"
-#include "symdiags.h"
+#include "diag_out.h"
 #include "outofline.h"
 #include "out_ba.h"
 #include "float.h"

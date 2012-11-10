@@ -53,7 +53,7 @@
 #include "main.h"
 #include "dump_distr.h"
 #include "extratags.h"
-#include "mipsdiags.h"
+#include "diag_out.h"
 #include "frames.h"
 #include "regable.h"
 #include "new_code.h"

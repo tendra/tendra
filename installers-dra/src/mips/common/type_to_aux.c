@@ -42,7 +42,7 @@ If the entry generated is greater than 1 AUXU in length the index corresponding 
 #include "expmacs.h"
 #include "symtab.h"
 #include "new_symbol.h"
-#include "mipsdiags.h"
+#include "diag_out.h"
 #include "type_to_aux.h"
 
 extern long mainfile;

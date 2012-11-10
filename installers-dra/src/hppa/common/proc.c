@@ -49,7 +49,7 @@
 #include "out.h"
 #include "proc.h"
 #include "misc.h"
-#include "hppadiags.h"
+#include "diag_out.h"
 #include "loc_signal.h"
 
 #define RES    1
