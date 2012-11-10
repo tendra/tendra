@@ -47,13 +47,13 @@
 #define WHOLE_LINE (0xffff)	/* this should be in dwarf.h */
 #define WHOLE_SECT (0)		/* this should be in dwarf.h */
 
-#if issparc
+#if TRANS_SPARC
 #define DWARF_NAME "D"
 #else
 #define DWARF_NAME "dwf"
 #endif
 
-#if (is80x86)
+#if TRANS_80x86
 static char *nl80x86 = "\n";
 #define outnl()	outs(nl80x86)	/* avoid side effects of 80x86 outnl */
 #endif
@@ -107,7 +107,7 @@ next_dwarf_type_lab(void)
 }
 
 
-#if (is80x86)
+#if TRANS_80x86
 #define GO_DWARF	outs("\t.section\t.debug");outnl()
 #define GO_LINE		outs("\t.section\t.line");outnl()
 #define LEAVE_DWARF	outs("\t.previous");outnl()
@@ -122,7 +122,7 @@ next_dwarf_type_lab(void)
 
 #else
 
-#if (issparc)
+#if TRANS_SPARC
 #define GO_DWARF	outs("\t.pushsection\t\".debug\"");outnl()
 #define GO_LINE		outs("\t.pushsection\t\".line\"");outnl()
 #define LEAVE_DWARF	outs("\t.popsection");outnl()

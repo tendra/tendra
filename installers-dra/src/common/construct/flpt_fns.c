@@ -113,7 +113,7 @@ f_change_floating_variety(error_treatment flpt_err, floating_variety r,
   }
 #endif  /* substitute complex */
 
-#if ishppa
+#if TRANS_HPPA
   {
     exp t = me_c1(f_floating(r), flpt_err, arg1, chfl_tag);
     if (!optop(t) && name(sh(t)) == doublehd) {
@@ -238,7 +238,7 @@ f_floating_abs(error_treatment ov_err, exp arg1)
     }
   }
 
-#if ishppa
+#if TRANS_HPPA
   {
     exp r = me_u1(ov_err, arg1, fabs_tag);
     if (!optop(r) && name(sh(r)) == doublehd) {
@@ -345,7 +345,7 @@ f_floating_div(error_treatment ov_err, exp arg1, exp arg2)
       return z1;
   }
 #endif
-#if ishppa
+#if TRANS_HPPA
   {
     exp r = hold_refactor(me_b1(ov_err, arg1, arg2, fdiv_tag));
     if (!optop(r) && name(sh(r)) == doublehd) {
@@ -868,7 +868,7 @@ f_floating_minus(error_treatment ov_err, exp arg1, exp arg2)
       return z1;
   }
 #endif
-#if ishppa
+#if TRANS_HPPA
   {
     exp r = hold_refactor(me_b1(ov_err, arg1, arg2, fminus_tag));
     if (!optop(r) && name(sh(r)) == doublehd) {
@@ -983,7 +983,7 @@ f_floating_mult(error_treatment ov_err, exp_list arg1)
   }
 #endif
   setfather(r, arg1.end);
-#if ishppa
+#if TRANS_HPPA
   if (!optop(r) && name(sh(r)) == doublehd) {
     exp id = me_startid(sh(r), r, 0);
     exp tmp = me_complete_id(id, me_obtain(id));
@@ -1032,7 +1032,7 @@ f_floating_negate(error_treatment ov_err, exp arg1)
       return c1;
   }
 #endif
-#if ishppa
+#if TRANS_HPPA
   {
     exp r = hold_refactor(me_u1(ov_err, arg1, fneg_tag));
     if (!optop(r) && name(sh(r)) == doublehd) {
@@ -1118,7 +1118,7 @@ f_floating_plus(error_treatment ov_err, exp_list arg1)
   }
 #endif
   setfather(r, arg1.end);
-#if ishppa
+#if TRANS_HPPA
   if (!optop(r) && name(sh(r)) == doublehd) {
     exp id = me_startid(sh(r), r, 0);
     exp tmp = me_complete_id(id, me_obtain(id));
@@ -1573,7 +1573,7 @@ f_round_with_mode(error_treatment flpt_err, rounding_mode mode, variety r,
 		return hold_refactor(e);
 	}
 #endif
-#if ismips
+#if TRANS_MIPS
 	/* mips does not seem to get float->unsigned long right -
 	   so convert to signed long and adjust if too big*/
 	else if (name(arg1) != real_tag && shape_size(r) == 32 &&
@@ -1612,7 +1612,7 @@ f_round_with_mode(error_treatment flpt_err, rounding_mode mode, variety r,
 
 	}
 #endif
-#if ispower
+#if TRANS_POWER
  if (name(arg1) != real_tag || flpt_err.err_code > 2) {
    if (architecture != POWERPC_CODE) {
      exp id;
@@ -1699,7 +1699,7 @@ f_round_with_mode(error_treatment flpt_err, rounding_mode mode, variety r,
        id = f_change_variety(flpt_err, f_integer(r), id);
      }
      return id;
-   }/*end ispower */
+   }/*end TRANS_POWER */
  }
   /* FALL THROUGH */
 #endif

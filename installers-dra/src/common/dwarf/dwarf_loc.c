@@ -99,7 +99,7 @@ out_dwarf_bit_member_loc_attr(int u)
 }
 
 
-#if (is80x86)
+#if TRANS_80x86
 static int
 ok_reg_no(int x)
 {
@@ -147,7 +147,7 @@ dwarf_reg_str(int x)
 #define DWARF_FP "5\t# ebp"
 
 #else
-#if (issparc)
+#if TRANS_SPARC
 static char *
 dwarf_reg_str(long x)
 {
@@ -201,7 +201,7 @@ out_dwarf_loc_attr(exp t, int proc_no)
 			dwarf1(OP_ADDR);
 			dwarf4(brog(s) -> dec_u.dec_val.dec_id);
 		} else {
-#if (is80x86)
+#if TRANS_80x86
 			int p = ptno(s);
 			switch (p) {
 			case local_pl: {
@@ -248,7 +248,7 @@ out_dwarf_loc_attr(exp t, int proc_no)
 				exit(EXIT_FAILURE);
 			}
 #else
-#if (issparc)
+#if TRANS_SPARC
 			if (props(s) & defer_bit) {
 				failer("Deferred expression in out_loc_attr");
 				rval = 0;

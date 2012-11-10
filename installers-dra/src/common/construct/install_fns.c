@@ -917,17 +917,17 @@ f_parameter_alignment(shape sha)
 {
 	int n = name(sha);
 	alignment t =
-#if issparc
+#if TRANS_SPARC
 	    MIN_PAR_ALIGNMENT;
 #else
 	f_unite_alignments(MIN_PAR_ALIGNMENT, f_alignment(sha));
 #endif
-#if ishppa
+#if TRANS_HPPA
 	if (shape_size(sha) > 64) {
 		n = nofhd + 1;
 	}
 #endif
-#if issparc
+#if TRANS_SPARC
 	if (sparccpd(sha)) {
 		n = nofhd + 1;
 	}
@@ -1080,7 +1080,7 @@ f_add_to_ptr(exp arg1, exp arg2)
 		if (!doing_aldefs && (name(sh(arg1)) != ptrhd ||
 				      name(sh(arg2)) != offsethd ||
 				      (al1(sh(arg1)) < al1(sh(arg2))
-#if issparc
+#if TRANS_SPARC
 			     	  && al1_of(sh(arg2)) != REAL_ALIGN
 #endif
 				       ))) {
@@ -1088,7 +1088,7 @@ f_add_to_ptr(exp arg1, exp arg2)
 		}
 	}
 
-#if issparc || ishppa
+#if TRANS_SPARC || TRANS_HPPA
 	if ((al1_of(sh(arg2))->al.al_val.al_frame & 6) != 0 &&
 #else
 	if ((al1_of(sh(arg2))->al.al_val.al_frame & 4) != 0 &&
@@ -1187,13 +1187,13 @@ f_apply_proc(shape result_shape, exp arg1, exp_list arg2, exp_option varparam)
 
 		while (1 /*"break" below*/) {
 			if ((varhack && last(param)) ||
-#if ishppa
+#if TRANS_HPPA
 			    ((name(sh(param)) == cpdhd ||
 			      name(sh(param)) == nofhd ||
 			      name(sh(param)) == doublehd) &&
 			     (shape_size(sh(param)) > 64)))
 #else
-#if issparc
+#if TRANS_SPARC
 				sparccpd(sh(param)))
 #else
 				    name(sh(param)) == cpdhd ||
@@ -2031,7 +2031,7 @@ f_contents(shape s, exp arg1)
 		if (!doing_aldefs &&
 		    (name(sh(arg1)) != ptrhd ||
 		     (al1(sh(arg1)) < shape_align(s)
-#if issparc
+#if TRANS_SPARC
 		      && align_of(s) != REAL_ALIGN
 #endif
 		      ))) {
@@ -3109,7 +3109,7 @@ f_make_proc(shape result_shape, tagshacc_list params_intro,
 {
 	exp res;
 	int varhack = 0;
-#if ishppa
+#if TRANS_HPPA
 	exp t, id, ptr;
 #endif
 
@@ -3187,13 +3187,13 @@ f_make_proc(shape result_shape, tagshacc_list params_intro,
 		for (param = params_intro.last_id; param != res;
 		     param = bro(param)) {
 			if (redo_structparams &&
-#if ishppa
+#if TRANS_HPPA
 			    (varhack || ((shape_size(sh(son(param))) >64) &&
 					 (name(sh(son(param))) == cpdhd ||
 					  name(sh(son(param))) == nofhd ||
 					  name(sh(son(param))) == doublehd))))
 #else
-#if issparc
+#if TRANS_SPARC
 			    (varhack || sparccpd(sh(son(param)))))
 
 #else
@@ -3215,7 +3215,7 @@ f_make_proc(shape result_shape, tagshacc_list params_intro,
 				shape ptr_s =
 				    f_pointer(f_alignment(sh(son(param))));
 
-#if ishppa
+#if TRANS_HPPA
 				/* modify parameter itself */
 				if (!varhack) {
 					exp obtain_param;
@@ -3310,7 +3310,7 @@ f_make_proc(shape result_shape, tagshacc_list params_intro,
 					}
 				} /* for */
 
-#if ishppa
+#if TRANS_HPPA
 				if (!varhack) {
 					/* Change all but ptr's references to
 					   param to references to ptr */
@@ -3492,12 +3492,12 @@ f_make_general_proc(shape result_shape, procprops prcprops,
 		for (param = caller_intro.last_id; param != res;
 		     param = bro(param)) {
 			if (redo_structparams && !varhack &&
-#if ishppa
+#if TRANS_HPPA
 			    shape_size(sh(son(param))) > 64)
 #else
 				(name(sh(son(param))) == cpdhd ||
 				 name(sh(son(param))) == nofhd ||
-#if issparc
+#if TRANS_SPARC
 				 sparccpd(sh(son(param))) ||
 #endif
 				 name(sh(son(param))) == doublehd))
@@ -3674,10 +3674,10 @@ f_apply_general_proc(shape result_shape, procprops prcprops, exp p,
 			if ((name(sh(param)) == cpdhd ||
 			     name(sh(param)) == nofhd ||
 			     name(sh(param)) == doublehd)
-#if issparc
+#if TRANS_SPARC
 			    || sparccpd(sh(param))
 #endif
-#if ishppa 
+#if TRANS_HPPA
 			    && shape_size(sh(param)) >64
 #endif
 			    ) {
@@ -4265,7 +4265,7 @@ f_offset_add(exp arg1, exp arg2)
 		if (!doing_aldefs &&
 		    ((name(sh(arg1)) != offsethd || name(sh(arg2)) != offsethd ||
 		      (al1(sh(arg2)) > al2(sh(arg1))
-#if issparc
+#if TRANS_SPARC
 		       && al1_of(sh(arg2)) != REAL_ALIGN
 #endif
 		       )))) {
@@ -4426,7 +4426,7 @@ f_offset_negate(exp arg1)
 		if (!doing_aldefs &&
 		    (name(sh(arg1)) != offsethd ||
 		     (al1(sh(arg1)) != al2(sh(arg1)) && al2(sh(arg1)) != 1
-#if issparc
+#if TRANS_SPARC
 		      && al1_of(sh(arg1)) != REAL_ALIGN
 #endif
 		      ))) {

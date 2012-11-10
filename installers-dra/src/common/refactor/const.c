@@ -1234,7 +1234,7 @@ extract_consts(int issn, exp rf, exp list_head)
 	if (force && isvis(father(e))) {
 	  setvis(newdec);
 	} else {
-#ifdef ismips
+#ifdef TRANS_MIPS
 	  setusereg(newdec);
 #else
 	  if (force) {

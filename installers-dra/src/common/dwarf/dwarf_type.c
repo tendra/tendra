@@ -373,19 +373,19 @@ out_dwarf_user_type(diag_type t)
 	   to be the dwarf label of this block */
 	{
 		char expr_buf[100];
-#if (is80x86)
+#if TRANS_80x86
 #define DOT_SET	".set"
 #else
-#if (issparc)
+#if TRANS_SPARC
 #else
 		error need the .set directive
 #endif
 #endif
 
-#if (is80x86)
+#if TRANS_80x86
 #define SET_F	"\t"DOT_SET"\t%s , %s"
 #else
-#if (issparc)
+#if TRANS_SPARC
 #define SET_F	"\t%s = %s"
 #else
 		error need set format str

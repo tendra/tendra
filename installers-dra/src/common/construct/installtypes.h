@@ -140,7 +140,7 @@ struct dec_t {
 			int index;
 			/* used in inl_norm to hold procedure index number */
 
-#if ismips || issparc || ispower || isAlpha || ishppa
+#if TRANS_MIPS || TRANS_SPARC || TRANS_POWER || TRANS_ALPHA || TRANS_HPPA
 			int sym_number;
 #endif
 

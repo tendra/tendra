@@ -64,7 +64,7 @@
 #include <newdiag/dg_aux.h>
 #endif
 
-#if is80x86
+#if TRANS_80x86
 #include "localflags.h"
 #endif
 
@@ -2136,7 +2136,7 @@ refactor(exp e, exp scope)
 				if (al2_of(sh(e))->al.sh_hd > nofhd) {
 					al = shape_align(f_pointer(al2_of(sh(e))));
 				}
-#if ishppa
+#if TRANS_HPPA
 				if ((al1_of(sh(e))->al.al_val.al_frame & 4) != 0) {
 					no(son(e)) = -rounder(-no(son(e)), al);
 				} else
@@ -2353,7 +2353,7 @@ refactor(exp e, exp scope)
 
 		/* apply commutative and associative laws */
 		case plus_tag:
-#if is80x86
+#if TRANS_80x86
 			{
 				exp arg1 = son(e);
 				exp arg2 = bro(arg1);
@@ -2446,7 +2446,7 @@ refactor(exp e, exp scope)
 #else
 			return comm_ass(e, plus_tag, plus_fn, 0, 0, 0, scope,
 					1, 0);
-#endif /* is80x86 */
+#endif /* TRANS_80x86 */
 
 		case fplus_tag:
 			/* apply zero, unit and constant evaluation.  NB dive
@@ -2478,7 +2478,7 @@ refactor(exp e, exp scope)
 						return 1;
 					}
 				}
-#if isAlpha
+#if TRANS_ALPHA
 				{ exp ptr = son(e);
 					exp off = bro(ptr);
 					if ((al1_of(sh(off))->al.al_val.al_frame & 4) != 0 &&
@@ -2697,7 +2697,7 @@ refactor(exp e, exp scope)
 				/* if the chvar operation never needs
 				 * any action for a little end machine,
 				 * eliminate it */
-#if is80x86
+#if TRANS_80x86
 				if (shape_size(sh(e)) == 8) {
 					if (name(son(e)) == name_tag) {
 						setvis(son(son(e)));
@@ -2890,7 +2890,7 @@ refactor(exp e, exp scope)
 				sh(temp) = sha;
 
 				if (sg) {
-#if isAlpha
+#if TRANS_ALPHA
 					s = shape_size(s64sh) - szbf;
 					if (s != 0) {
 						temp = hold_refactor(me_u3(s64sh,
@@ -3054,7 +3054,7 @@ refactor(exp e, exp scope)
 			}
 
 			/* apply commutative and associative laws */
-#if is80x86
+#if TRANS_80x86
 			return comm_ass(e, mult_tag, mult_fn, 1, 1, 0, scope,
 					0, 0);
 #else
@@ -3169,7 +3169,7 @@ refactor(exp e, exp scope)
 				retcell(e);
 				return 1;
 			}
-#if ismips
+#if TRANS_MIPS
 			if (name(bro(son(e))) == val_tag &&
 			    no(bro(son(e))) == shape_size(sh(e))) {
 				exp s1 = copy(e);
@@ -4033,7 +4033,7 @@ refactor(exp e, exp scope)
 				       ((16 - (off % 16) - bsz) == 0))))) {
 				rsz = 16;
 			}
-#if isAlpha
+#if TRANS_ALPHA
 			else if (((off / 32) == (temp / 32)) &&
 				 (!sg || (al1(sh(p)) < 64) ||
 				  (bsz == 32 &&
@@ -4307,10 +4307,10 @@ refactor(exp e, exp scope)
 		}
 #if has_setcc
 		/* use if target has setcc instruction */
-		if (!is80x86 || is80586) {
+		if (!TRANS_80x86 || is80586) {
 			exp abst = absbool(e);
 			if (abst != nilexp &&
-			    (!is80x86 || name(sh(son(abst))) <= u64hd)) {
+			    (!TRANS_80x86 || name(sh(son(abst))) <= u64hd)) {
 				/* check if we can use setcc */
 				exp a = copy(abst);
 				setname(a, absbool_tag);
@@ -4739,7 +4739,7 @@ refactor(exp e, exp scope)
 #endif
 		    (is_signed(sh(son(arg1))) == is_signed(sh(arg1)))) {
 			exp ee;
-#if is80x86 || ishppa
+#if TRANS_80x86 || TRANS_HPPA
 			/* optimise if both args are result of sign extension
 			 * removal */
 			if ((test_number(e) == f_equal ||

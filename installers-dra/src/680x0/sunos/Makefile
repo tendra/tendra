@@ -5,7 +5,7 @@
 
 #TCCOPTS=	-Xc -Y32bit -Yposix
 
-PART_CFLAGS+=	-D is68000
+PART_CFLAGS+=	-D TRANS_680x0
 
 PART_CFLAGS+=	-I ${BASE_DIR}/src/680x0/common
 PART_CFLAGS+=	-I ${BASE_DIR}/src/680x0/sunos

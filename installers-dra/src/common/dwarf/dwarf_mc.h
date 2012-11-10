@@ -9,10 +9,10 @@
 
 #include <dwarf/dwarf_vsn.h>
 
-#if (is80x86)
+#if TRANS_80x86
 #define COMMENT_2(x, y)	x "#" y
 #else
-#if (issparc)
+#if TRANS_SPARC
 #define COMMENT_2(x, y)	x "!" y
 #else
 error what is the comment to eol char ?

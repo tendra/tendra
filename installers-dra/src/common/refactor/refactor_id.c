@@ -57,7 +57,7 @@
 #include <newdiag/dg_aux.h>
 #endif
 
-#if is68000
+#if TRANS_680x0
 extern int check_anyway(exp);
 #endif
 
@@ -458,7 +458,7 @@ refactor_id(exp e, exp scope)
 
 #if load_ptr_pars
   if (!is_vis && is_var && isparam(e) && no(e) > 1 && name(sh(def)) == ptrhd
-#if is68000
+#if TRANS_680x0
       && check_anyway(e)
 #endif
      ) {
@@ -535,7 +535,7 @@ refactor_id(exp e, exp scope)
        name(def) == name_tag
 #endif
        ||
-#if is80x86
+#if TRANS_80x86
        (name(def) == name_tag && isparam(son(def)) && !isvar(son(def)) &&
 	shape_size(sh(def)) < shape_size(sh(son(son(def)))) &&
 	name(sh(def)) <= ulonghd) ||
@@ -754,7 +754,7 @@ refactor_id(exp e, exp scope)
 	    conversion = -1;
 	  }
 	  if ((defsize != qq) && (name(sh(def)) < shrealhd)) {
-#if is80x86
+#if TRANS_80x86
 	    if (!isparam(e) || no(e) != 1) {
 	      if (no(tc) == 0 && defsize <= 32) {
 		if (qq == 8) {
@@ -801,7 +801,7 @@ refactor_id(exp e, exp scope)
 	    }
 
 	    if (defsize != shape_size(sh(assd_val))) {
-#if is80x86
+#if TRANS_80x86
 	      if (no(tc) == 0 && defsize <= 32) {
 		if (shape_size(sh(bro(tc))) == 8) {
 		  setbyteuse(e);
@@ -910,7 +910,7 @@ refactor_id(exp e, exp scope)
 	return 1;
       }
 
-#if is80x86 || ishppa
+#if TRANS_80x86 || TRANS_HPPA
       /* look for places where we can avoid sign extending */
       if (not_aliased && name(sh(def)) == slonghd &&
 	  conversion == 16 && /* not 8 because of 80x86 regs */
@@ -937,7 +937,7 @@ refactor_id(exp e, exp scope)
 	    } else {
 	      bro(son(bro(temp))) = bro(bro(temp));
 	      bro(temp) = son(bro(temp));
-#if ishppa
+#if TRANS_HPPA
 	      sh(bro(temp)) = (conversion == 8) ? ucharsh : uwordsh;
 #endif
 	    }

@@ -5,7 +5,7 @@
 
 #TCCOPTS=-Xc -Y32bit -Yansi
 
-PART_CFLAGS+=	-D isAlpha
+PART_CFLAGS+=	-D TRANS_ALPHA
 
 PART_CFLAGS+=	-I ${BASE_DIR}/src/common
 PART_CFLAGS+=	-I ${BASE_DIR}/src/alpha/common

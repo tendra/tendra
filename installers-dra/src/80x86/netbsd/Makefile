@@ -5,7 +5,7 @@
 
 #TCCOPTS=	-Xc -Y32bit -Yansi
 
-PART_CFLAGS+=	-D is80x86
+PART_CFLAGS+=	-D TRANS_80x86
 
 PART_CFLAGS+=	-I ${BASE_DIR}/src/80x86/common
 PART_CFLAGS+=	-I ${BASE_DIR}/src/80x86/netbsd

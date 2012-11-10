@@ -5,7 +5,7 @@
 
 #TCCOPTS=-Xc -Y32bit -Yansi
 
-PART_CFLAGS+=	-D ismips
+PART_CFLAGS+=	-D TRANS_MIPS
 
 PART_CFLAGS+=	-I ${BASE_DIR}/src/mips/common
 PART_CFLAGS+=	-I ${BASE_DIR}/src/mips/ultrix
