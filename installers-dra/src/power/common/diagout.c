@@ -12,7 +12,6 @@
 #include <shared/xalloc.h>
 
 #include "config.h"
-#include "cross_config.h"
 
 #if defined(CROSS_INCLUDE)
 #include CROSS_INCLUDE/dbxstclass.h>
