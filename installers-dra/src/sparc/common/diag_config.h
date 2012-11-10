@@ -1,7 +1,7 @@
 /* $Id$ */
 
 /*
- * Copyright 2002-2011, The TenDRA Project.
+ * Copyright 2002-2012, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
  *
  * See doc/copyright/ for the full copyright terms.
@@ -19,17 +19,25 @@
 #include <diag/diaginfo.h>
 #endif
 
-#include "exptypes.h"
+#ifndef NEWDIAGS
 
-typedef long OUTPUT_REC;
+typedef long OUTPUT_REC ;
+typedef diag_descriptor diag_global ;
 
-#ifdef NEWDIAGS
+#define INSPECT_FILENAME( x )   stab_collect_files ( x )
+#define NEW_DIAG_GLOBAL( x )    ( x )
+#define OUTPUT_DIAG_TAGS()      stab_tagdefs ()
+#define OUTPUT_GLOBALS_TAB()    stab_typedefs ()
 
-extern void dw2_proc_start(exp p, dg_name d);
-extern void dw2_proc_end(exp p);
-extern void dw2_code_info(dg_info d, void(*mcode)(void *), void * args);
-extern void dw2_start_basic_block(void);
+#define DIAG_VAL_BEGIN(d,g,c,s,e)       \
+                                stab_global (d, e, s, g);
+#define DIAG_VAL_END(d)         
+#define DIAG_PROC_BEGIN(d,g,c,s,e)      \
+                                stab_proc (d, e, s, g);
+#define DIAG_PROC_END(d)
+#define CODE_DIAG_INFO(d,n,x,a) code_diag_info (d, n, x, a);
 
+#else
 
 #define DIAG_VAL_BEGIN(d,g,c,s,e)	if (diag != DIAG_DWARF2)\
 				  stab_global(d, e, s, g);
@@ -54,25 +62,7 @@ extern void dw2_start_basic_block(void);
 
 #define START_BB()		if (diag == DIAG_DWARF2)\
 				  dw2_start_basic_block();
-
-
-#else
-
-#define DIAG_VAL_BEGIN(d,g,c,s,e)	stab_global(d, e, s, g);
-
-#define DIAG_VAL_END(d)	;
-
-#define DIAG_PROC_BEGIN(d,g,c,s,e)	stab_proc(d, e, s, g);
-
-#define DIAG_PROC_END(e);
-
-
-#define INSPECT_FILENAME(x)	stab_collect_files(x)
-#define NEW_DIAG_GLOBAL(x)	(x)
-#define OUTPUT_DIAG_TAGS()	stab_tagdefs()
-#define OUTPUT_GLOBALS_TAB()	stab_typedefs()
-
 #endif
 
-
 #endif /* STAB_CONF_INCLUDED */
+

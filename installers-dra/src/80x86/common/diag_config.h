@@ -1,7 +1,7 @@
 /* $Id$ */
 
 /*
- * Copyright 2002-2011, The TenDRA Project.
+ * Copyright 2002-2012, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
  *
  * See doc/copyright/ for the full copyright terms.
@@ -15,16 +15,29 @@
 #ifdef NEWDIAGS
 #include <newdiag/dg_first.h>
 #else
-#include <diag/dg_first.h>
-#include <diag/diaginfo.h>
+#include <diag/diagtypes1.h>
 #endif
 
-#include "exptypes.h"
+#define STABS
 
+#ifndef NEWDIAGS
 
 typedef long OUTPUT_REC;
+typedef diag_descriptor diag_global;
 
-#ifdef NEWDIAGS
+#define INSPECT_FILENAME(x)     stab_collect_files(x)
+#define NEW_DIAG_GLOBAL(x)      (x)
+#define OUTPUT_DIAG_TAGS()      stab_tagdefs()
+#define OUTPUT_GLOBALS_TAB()    stab_typedefs()
+
+extern void stab_collect_files(filename f);
+extern void stab_tagdefs(void);
+extern void stab_typedefs(void);
+extern void init_stab_aux(void);
+
+#else
+
+#include "exptypes.h"
 
 extern void dw2_proc_start(exp p, dg_name d);
 extern void dw2_proc_end(exp p);
@@ -62,22 +75,7 @@ extern void diag_proc_end(void);
 #define START_BB()		if (diag == DIAG_DWARF2)\
 				  dw2_start_basic_block();
 
-
-#else
-
-#define INSPECT_FILENAME(x)	stab_collect_files(x)
-#define NEW_DIAG_GLOBAL(x)	(x)
-#define OUTPUT_DIAG_TAGS()	stab_tagdefs()
-#define OUTPUT_GLOBALS_TAB()	stab_typedefs()
-
-extern void stab_collect_files(dg_filename f);
-extern void stab_tagdefs(void);
-extern void stab_typedefs(void);
+#endif
 
 #endif
 
-#define STABS
-
-extern void init_stab_aux(void);
-
-#endif
