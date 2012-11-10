@@ -33,6 +33,7 @@ SRCS+=	new_code.c
 SRCS+=	new_symbol.c
 SRCS+=	oddtest.c
 SRCS+=	operators.c
+SRCS+=	out_ba.c
 SRCS+=	psu_ops.c
 SRCS+=	regable.c
 SRCS+=	regalloc.c
