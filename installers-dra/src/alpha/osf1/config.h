@@ -20,15 +20,6 @@
 #define FS_LITTLE_ENDIAN	1
 #endif
 
-#define isvax 0
-#define ismips 0
-#define is68000 0
-#define is80x86 0
-#define ispower 0
-#define issparc 0
-#define isAlpha 1
-#define is80586 0
-
 #define has_setcc 0
 #define has_byte_regs 0
 #define has_byte_ops 0

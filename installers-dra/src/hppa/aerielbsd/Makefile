@@ -5,6 +5,8 @@
 
 #TCCOPTS=-Xc -Y32bit -Yansi
 
+PART_CFLAGS+=	-D ishppa
+
 PART_CFLAGS+=	-I ${BASE_DIR}/src/hppa/common
 PART_CFLAGS+=	-I ${BASE_DIR}/src/hppa/hpux
 

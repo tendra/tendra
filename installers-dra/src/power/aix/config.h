@@ -21,19 +21,6 @@
 #define	hasproto		1
 
 
-/* define target */
-
-#define ispower			1
-#define isvax			0
-#define ismips			0
-#define is68000			0
-#define is80x86			0
-#define issparc			0
-
-#define istrans			1	/* to get sym_number field of dec_t in
-					   "construct/installtypes.h" */
-
-
 /* define compilation options (bools) */
 
 					/* Meaning when option set (1) */

@@ -5,6 +5,8 @@
 
 #TCCOPTS=-Xc -Y32bit -Yansi
 
+PART_CFLAGS+=	-D ispower
+
 PART_CFLAGS+=	-I ${BASE_DIR}/src/common/linkinfo
 PART_CFLAGS+=	-I ${BASE_DIR}/src/power/common
 PART_CFLAGS+=	-I ${BASE_DIR}/src/power/aix

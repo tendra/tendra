@@ -5,6 +5,8 @@
 
 #TCCOPTS=-Xc -Y32bit -Yansi
 
+PART_CFLAGS+=	-D issparc
+
 PART_CFLAGS+=	-I ${BASE_DIR}/src/sparc/common
 PART_CFLAGS+=	-I ${BASE_DIR}/src/sparc/solaris
 

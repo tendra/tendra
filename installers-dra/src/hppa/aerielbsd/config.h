@@ -24,16 +24,6 @@
 /* MAIN MACHINE CONFIGURATION */
 
 
-/* MACHINE IDENTIFIERS */
-#define is68000			0
-#define is80x86			0
-#define ismips			0
-#define ispower			0
-#define issparc			0
-#define isvax			0
-#define ishppa                  1
-#define isAlpha                 0
-
 /* CONFIGURATION OPTIONS */
 #define dont_unpad_apply 	1
 #define has_bitfield_ops        0

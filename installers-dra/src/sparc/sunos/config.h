@@ -43,16 +43,6 @@ extern void setbuf(FILE *, char *);
 #define ADDUNDERSCORE		1
 
 
-/* MACHINE IDENTIFIERS */
-#define is68000			0
-#define is80x86			0
-#define ismips			0
-#define ispower			0
-#define isAlpha                 0
-#define issparc			1
-#define isvax			0
-
-
 /* CONFIGURATION OPTIONS */
 
 #define GENCOMPAT		1

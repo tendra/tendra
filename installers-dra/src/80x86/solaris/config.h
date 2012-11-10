@@ -24,16 +24,6 @@
 #define has_asm 1
 #define as_comment_symbol '/'
 
-#define isvax 0
-#define ismips 0
-#define is68000 0
-#define is80x86 1
-#define ispower 0
-#define issparc 0
-#define istrans 0
-#define ishppa 0
-#define isAlpha 0
-
 #define has_setcc 1
 #define has_byte_regs 1
 #define has_byte_ops 1
