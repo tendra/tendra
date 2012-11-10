@@ -20,15 +20,6 @@ PARTS+=	src/sparc/common
 .include <tendra.partial.mk>
 
 
-CFLAGS+=	-I ../../common
-CFLAGS+=	-I ../common
-CFLAGS+=	-I .
-
-SRCS+=	dw2_config.c
-
-.include <tendra.obj.mk>
-
-
 PROG=    	trans.${.CURDIR:H:T}.${.CURDIR:T}
 EXEC_BIN=	${PREFIX_LIBEXEC}
 

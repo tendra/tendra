@@ -8,6 +8,7 @@ CCOPTS+=	-I ../../common
 SRCS+=	codehere.c
 SRCS+=	comment.c
 SRCS+=	diag_out.c
+SRCS+=	dw2_config.c
 SRCS+=	dw2_extra.c
 SRCS+=	eval.c
 SRCS+=	getregs.c

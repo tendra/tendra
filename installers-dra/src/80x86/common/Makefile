@@ -11,6 +11,7 @@ SRCS+=	codec.c
 SRCS+=	coder.c
 SRCS+=	cproc.c
 SRCS+=	diag_out.c
+SRCS+=	dw2_config.c
 SRCS+=	dw2_extra.c
 SRCS+=	evaluate.c
 SRCS+=	glopt.c
