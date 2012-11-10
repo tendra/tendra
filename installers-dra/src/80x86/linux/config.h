@@ -24,11 +24,7 @@
 #define has_byte_ops 1
 #define only_lengthen_ops 1
 #define has_neg_shift 0
-#define regable_union 0
 #define substitute_params 1
-#define special_fns 1
-#define shift_is_byte 1
-#define only_inline_static 0
 #define remove_zero_offsets 1
 #define replace_compound 1
 #define no_bitfield_ops 1

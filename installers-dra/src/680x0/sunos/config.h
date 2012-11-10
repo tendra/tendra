@@ -66,7 +66,6 @@ typedef unsigned long bitpattern;
 #define have_diagnostics	0	/* Have diagnostics */
 #define load_ptr_pars		1	/* Inline ptr parameters */
 #define no_bitfield_ops		1	/* Do have bitfield operations */
-#define only_inline_static	1	/* Only inline static procedures */
 #define only_lengthen_ops	0	/* Don't avoid byte registers */
 #ifdef SUN
 #define promote_pars		1	/* Parameters are 32 bit */
@@ -74,8 +73,6 @@ typedef unsigned long bitpattern;
 #define no_trap_on_nil_contents	1	/* Let common code detect nil access */
 #define remove_zero_offsets	1	/* Do remove zero offsets */
 #define replace_compound	1	/* Replace compounds by externals */
-#define shift_is_byte		0	/* Shift count is not 8-bit */
-#define special_fns		1	/* Do look for special functions */
 #define substitute_params	1	/* Do substitute parameters */
 #define temp_mips		0	/* Don't need a mips hack */
 #define use_long_double		0	/* Not yet anyway */
@@ -118,7 +115,6 @@ typedef unsigned long bitpattern;
 #define internal_tag		101
 #define regpair_tag		102
 
-#define HAS_MAGIC		1
 #define substitute_complex	1
 
 

@@ -56,13 +56,9 @@ extern void setbuf(FILE *, char *);
 #define has64bits		0
 #define keep_PIC_vars		1
 #define no_bitfield_ops		0
-#define only_inline_static	0
 #define only_lengthen_ops	0
-#define regable_union		1
 #define remove_zero_offsets	0
 #define replace_compound	0
-#define shift_is_byte		0
-#define special_fns		0
 #define substitute_params	0
 #define substitute_complex	1
 #define div0_implemented 	1
@@ -84,21 +80,9 @@ extern void setbuf(FILE *, char *);
 
 #define value_of_null 0
 
-#define has_bitfield_ops 0
-
 #define has_rotate 0
 
-/* This shouldn't really be solaris specific.  It depends on whether or not
-   the processor correctly implements the sdivcc and udivcc instructions.
-   These are part of the SPARC v8 architecture but their implementation
-   (via software) on some implementations does not meet the specification
-   with respect to overflow detection.
-   */
-#define DIV_SETS_CC 0
-
 #define diagnose_registers 1
-
-#define HAS_MAGIC 1
 
 #define promote_pars 1
 

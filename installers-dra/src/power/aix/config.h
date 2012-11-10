@@ -31,12 +31,9 @@
 #define has_neg_shift		0	/* Have negative shifts */
 #define has_setcc		0	/* Use scc */
 #define load_ptr_pars		0	/* Inline ptr parameters */
-#define only_inline_static	0	/* Only inline static procedures */
 #define only_lengthen_ops	0	/* Avoid byte registers */
 #define remove_zero_offsets	1	/* Remove zero offsets */
 #define replace_compound	1	/* Replace make_compound by assigns */
-#define shift_is_byte		0	/* Shift count is 8-bit */
-#define special_fns		1	/* Look for special functions */
 #define substitute_params	1	/* Substitute parameters when inlining */
 #define temp_mips		0	/* Need a mips hack */
 #define has64bits               0
@@ -50,13 +47,8 @@
 #define good_index_factor(f)    1
 #define good_pointer_factor(f)  0
 
-#if 0
-#define non_default_entries     4
-#define non_default_destinations 3
-#endif
 /* complex numbers */
 #define substitute_complex      1
-#define has_bitfield_ops        0
 /* div 0 implemented */
 #define div0_implemented        1
 
@@ -75,8 +67,6 @@ extern int architecture;
 #define GENERAL_PROC_PARAM_REGS 4
 /* for a normal proc by ABI 8 params must be passed in t-regs R_3 -- R_10 */
 #define PROC_PARAM_REGS         8
-
-#define HAS_MAGIC               1
 
 
 /* In an ideal world REGISTER_SAFETY_NUMBER would be zero */

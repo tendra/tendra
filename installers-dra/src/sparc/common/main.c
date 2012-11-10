@@ -145,6 +145,16 @@ main ( int argc, char ** argv )
   g_reg_max = ( sysV_abi ? 4 : 7 ) ;	/* number of G registers */
 
   /*
+   * On DIV_SETS_CC:
+   *
+   * This shouldn't really be solaris specific.  It depends on whether or not
+   * the processor correctly implements the sdivcc and udivcc instructions.
+   * These are part of the SPARC v8 architecture but their implementation
+   * (via software) on some implementations does not meet the specification
+   * with respect to overflow detection.
+   */
+
+  /*
    * This appears to be a combination of assembler dialect and ABI for the sake
    * of producing a.out vs. ELF assembly. I'm keeping it around for the moment
    * until I can test exactly what needs to happen for a.out systems.

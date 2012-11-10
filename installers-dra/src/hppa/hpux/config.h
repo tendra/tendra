@@ -26,7 +26,6 @@
 
 /* CONFIGURATION OPTIONS */
 #define dont_unpad_apply 	1
-#define has_bitfield_ops        0
 #define has_byte_ops		0
 #define has_byte_regs		0
 #define has_neg_shift 		0
@@ -35,14 +34,10 @@
 #define has64bits		0
 #define keep_PIC_vars           1
 #define no_bitfield_ops 	0
-#define only_inline_static 	0
 #define only_lengthen_ops	0
 #define promote_pars            1
-#define regable_union 		0
 #define remove_zero_offsets 	0
 #define replace_compound 	1
-#define shift_is_byte 		0
-#define special_fns 		0
 #define substitute_complex      1
 #define substitute_params 	0
 #define use_long_double         1
@@ -65,7 +60,6 @@
 
 #define DO_INDEXED_LOADS 1
 #define USE_BITAD 0
-#define HAS_MAGIC
 
 
 #endif /* CONFIG_INCLUDED */
