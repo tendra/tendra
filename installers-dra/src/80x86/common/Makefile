@@ -18,6 +18,7 @@ SRCS+=	instr.c
 SRCS+=	instr386.c
 SRCS+=	is_worth.c
 SRCS+=	localflags.c
+SRCS+=	machine.c
 SRCS+=	machine_toks.c
 SRCS+=	main.c
 SRCS+=	operand.c

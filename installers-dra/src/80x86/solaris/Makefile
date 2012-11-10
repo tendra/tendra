@@ -26,7 +26,6 @@ CFLAGS+=	-I .
 
 SRCS+=	diag_out.c
 SRCS+=	dw2_config.c
-SRCS+=	machine.c
 
 .include <tendra.obj.mk>
 
