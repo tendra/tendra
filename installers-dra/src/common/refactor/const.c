@@ -1233,8 +1233,15 @@ extract_consts(int issn, exp rf, exp list_head)
 	}
 	if (force && isvis(father(e))) {
 	  setvis(newdec);
-	} else if (force || ismips)
+	} else {
+#ifdef ismips
 	  setusereg(newdec);
+#else
+	  if (force) {
+	    setusereg(newdec);
+	  }
+#endif
+	}
 
 	if (name(sh(konst)) == ptrhd) {
 	  look_for_caonly(konst);
