@@ -1,7 +1,7 @@
 /* $Id$ */
 
 /*
- * Copyright 2002-2011, The TenDRA Project.
+ * Copyright 2002-2012, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
  *
  * See doc/copyright/ for the full copyright terms.
@@ -50,7 +50,6 @@
 #else
 
 #include <diag/diagtypes.h>
-#include <diag/diag_fns.h>
 #include <diag/mark_scope.h>
 #include <diag/diagglob.h>
 

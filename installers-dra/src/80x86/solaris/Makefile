@@ -24,7 +24,6 @@ CFLAGS+=	-I ../../common
 CFLAGS+=	-I ../common
 CFLAGS+=	-I .
 
-SRCS+=	diag_out.c
 SRCS+=	dw2_config.c
 
 .include <tendra.obj.mk>
