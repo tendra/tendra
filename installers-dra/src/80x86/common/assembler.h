@@ -43,11 +43,7 @@ void outclosebr(void);
 void outdivsym(void);
 
 void out_initialiser(char *id);
-
-#if islinux || isfreebsd || isopenbsd || isnetbsd || isdragonfly
-void set_format(enum format);
 void out_main_prelude(void);
 void out_main_postlude(void);
-#endif
 
 #endif /* ASSEMBLER_H */

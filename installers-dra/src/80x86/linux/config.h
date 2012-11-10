@@ -29,10 +29,6 @@
 #define ishppa 0
 #define isAlpha 0
 
-#define issol86 0
-#define islinux 1
-#define isfreebsd 0
-
 #define has_setcc 1
 #define has_byte_regs 1
 #define has_byte_ops 1

@@ -202,24 +202,23 @@ void make_code
 	  outnl();
 	}
 	else
-	if (issol86) {
-	  outs(".local ");
-	  outs(id);
-	  outnl();
+	if (assembler == ASM_SUN) {
+		outs(".local ");
+		outs(id);
+		outnl();
+	} else if (assembler == ASM_GAS) {
+		outs(".data");
+		outnl();
+		outs(id);
+		outs(":");
+		outnl();
+	} else {
+		outs(".set ");
+		outs(id);
+		outs(",");
+		outn((long)0);
+		outnl();
 	}
-#if islinux || isfreebsd || isopenbsd || isnetbsd
-	outs(".data");
-	outnl();
-	outs(id);
-	outs(":");
-	outnl();
-#else
-	outs(".set ");
-	outs(id);
-	outs(",");
-	outn((long)0);
-	outnl();
-#endif
       }
       else
       if (!PIC_code && !isvar(tg) && name(son(tg)) == null_tag &&
@@ -230,7 +229,7 @@ void make_code
 	  outnl();
 	}
 	else
-	if (issol86) {
+	if (assembler == ASM_SUN) {
 	  outs(".local ");
 	  outs(id);
 	  outnl();

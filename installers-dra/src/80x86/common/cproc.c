@@ -531,14 +531,12 @@ int cproc
      /* "movw $DDDD,0-.LfcwdispNNNN(%ebp)\n" */
   outnl();
 
-#if !issol86
-  if (format == FORMAT_AOUT) {
+  if (assembler != ASM_SUN && format == FORMAT_AOUT) {
 	if (pname[0]!= local_prefix[0] &&
 	!strcmp(pname+prefix_length, "main")) {
       out_main_prelude();
     }
   }
-#endif
 
   if (do_profile) {
     int  labl = next_lab ();	/* output profile procedure header */
@@ -790,14 +788,12 @@ int cproc
     outnl();
   }
 
-#if !issol86
-  if (format == FORMAT_AOUT) {
+  if (assembler != ASM_SUN && format == FORMAT_AOUT) {
     if (pname[0]!= local_prefix[0] &&
 	!strcmp(pname+prefix_length, "main")) {
       out_main_postlude();
     }
   }
-#endif
 
   /* now prepare params with env_offset for possible constant evaluation */
   t = son(p);
