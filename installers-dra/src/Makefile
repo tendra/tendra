@@ -14,7 +14,6 @@ SUBDIR+=	alpha
 SUBDIR+=	hppa
 SUBDIR+=	mips
 SUBDIR+=	power
-SUBDIR+=	ppc601
 SUBDIR+=	sparc
 .endif
 
