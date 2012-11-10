@@ -25,7 +25,6 @@ CFLAGS+=	-I ../common
 CFLAGS+=	-I .
 
 SRCS+=	dw2_config.c
-SRCS+=	sparcdiags.c
 
 .include <tendra.obj.mk>
 

@@ -1,7 +1,7 @@
 /* $Id$ */
 
 /*
- * Copyright 2002-2011, The TenDRA Project.
+ * Copyright 2002-2012, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
  *
  * See doc/copyright/ for the full copyright terms.
@@ -16,6 +16,7 @@
 #include "config.h"
 
 #include <reader/codetypes.h>
+#include "exptypes.h"
 #include "addrtypes.h"
 #include "exptypes.h"
 #include <construct/shapemacs.h>
@@ -93,7 +94,7 @@ static void stab_local(dg_name, int);
 #else
 
 static void stab_scope_open(long);
-static void stab_scope_close(void);
+static void stab_scope_close(long);
 
 #endif
 
@@ -1168,7 +1169,8 @@ static void out_dt_shape
 	if (depth_now >= max_depth) {
 	  depth_now = 0;
 	  fprintf(dg_file, "\\\\\",0x80,0,%d,%d\n",0,0);
-	  fprintf(dg_file,	}
+	  fprintf(dg_file, "\t.stabs\t\"");
+	}
 	depth_now++;
 	fprintf(dg_file, "%s:", sf->field_name.ints.chars);
 	out_dt_shape(sf->field_type);
