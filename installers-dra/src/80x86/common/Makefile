@@ -5,6 +5,7 @@
 
 CCOPTS+=	-I ../../common
 
+SRCS+=	assembler.c
 SRCS+=	c_arith_type.c
 SRCS+=	codec.c
 SRCS+=	coder.c

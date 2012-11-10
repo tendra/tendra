@@ -23,7 +23,6 @@ CFLAGS+=	-I ../../common
 CFLAGS+=	-I ../common
 CFLAGS+=	-I .
 
-SRCS+=  assembler.c
 SRCS+=  diag_out.c
 SRCS+=  machine.c
 
