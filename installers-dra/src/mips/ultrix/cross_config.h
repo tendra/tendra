@@ -26,9 +26,4 @@
 #define __LANGUAGE_C__	1
 #endif
 
-#ifndef __mips
-#define __mips		1
-#endif
-
-
 #endif

@@ -15,8 +15,4 @@
 #define __LANGUAGE_C__	1
 #endif
 
-#ifndef __alpha
-#define __alpha		1
-#endif
-
 #endif
