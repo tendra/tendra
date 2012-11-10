@@ -14,8 +14,6 @@
 #include <assert.h>
 #include <ctype.h>
 
-#define SPARCTRANS_CODE
-
 #include "config.h"
 
 #ifdef NEWDWARF

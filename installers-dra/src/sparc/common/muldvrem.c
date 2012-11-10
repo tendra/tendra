@@ -11,8 +11,6 @@
 
 #include "config.h"
 
-#define SPARCTRANS_CODE
-
 #include <reader/externs.h>
 
 #include <construct/tags.h>

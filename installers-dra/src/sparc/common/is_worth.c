@@ -9,8 +9,6 @@
 
 #include <stdlib.h>
 
-#define SPARCTRANS_CODE
-
 #include "config.h"
 
 #include <construct/tags.h>

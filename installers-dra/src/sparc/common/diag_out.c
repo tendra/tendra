@@ -11,8 +11,6 @@
 
 #include <shared/xalloc.h>
 
-#define SPARCTRANS_CODE
-
 #include "config.h"
 
 #include <reader/codetypes.h>

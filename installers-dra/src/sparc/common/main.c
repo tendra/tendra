@@ -11,8 +11,6 @@
 
 #include <shared/getopt.h>
 
-#define SPARCTRANS_CODE
-
 #include "config.h"
 
 #include <reader/main_reads.h>	

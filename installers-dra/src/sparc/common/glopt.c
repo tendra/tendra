@@ -7,8 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#define SPARCTRANS_CODE
-
 #include "config.h"
 
 #include <reader/externs.h>

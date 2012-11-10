@@ -17,8 +17,6 @@
     use.
 */
 
-#define SPARCTRANS_CODE
-
 #include "config.h"
 
 #include <refactor/optimise.h>

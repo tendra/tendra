@@ -42,8 +42,6 @@
      stack,(this is obviously always available for parameters).
 */
 
-#define SPARCTRANS_CODE
-
 #include "config.h"
 
 #include <reader/codetypes.h>

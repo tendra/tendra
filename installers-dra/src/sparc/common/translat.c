@@ -89,8 +89,6 @@
 
 #include <shared/xalloc.h>
 
-#define SPARCTRANS_CODE
-
 #include "config.h"
 #include "diag_config.h"
 
