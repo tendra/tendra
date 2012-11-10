@@ -6,6 +6,7 @@
 CCOPTS+=	-I ../../common
 
 SRCS+=	68k_globals.c
+SRCS+=	assembler.c
 SRCS+=	codec.c
 SRCS+=	coder.c
 SRCS+=	codex.c
