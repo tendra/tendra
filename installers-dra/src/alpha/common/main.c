@@ -112,7 +112,7 @@ main(int argc, char *argv[])
 	{
 		int c;
 
-		while ((c = getopt(argc, argv, "B:C:DE:F:G:IK:MO:PQRSVWX:YZ" "usd:")) != -1) {
+		while ((c = getopt(argc, argv, "B:C:DE:F:G:H:IK:MO:PQRSVWX:YZ" "usd:")) != -1) {
 			switch (c) {
 			case 'B': builtin = flags_builtin(optarg);   break;
 			case 'D': failer("no PIC code available"); exit(EXIT_FAILURE);
@@ -138,6 +138,7 @@ main(int argc, char *argv[])
 
 			case 'M': strict_fl_div = 1;           break;
 			case 'O': optim = flags_optim(optarg); break;
+			case 'H': has = flags_has(optarg);     break;
 			case 'P': do_profile = 1;              break;
 			case 'Q': exit(EXIT_SUCCESS);          break;
 			case 'R': round_after_flop = 1;        break;
@@ -211,6 +212,9 @@ main(int argc, char *argv[])
 		aname   = argv[1];
 		as_file = open_file(aname,WRITE);
 	}
+
+	/* Things trans.alpha does not "has" */
+	has &= ~HAS_BYTEOPS;
 
 	/* This does not work on the alpha */
 	optim &= ~OPTIM_CASE;

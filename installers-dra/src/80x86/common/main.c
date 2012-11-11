@@ -135,9 +135,9 @@ main(int argc, char **argv)
 	 * XXX: Some arguments are undocumented in trans.1, check
 	 */
 #ifdef NEWDWARF
-	optstring = "B:C:D:E:F:G:I:" "J" "K:M:NO:PQR:" "T" "VW:X:YZ" "abcdfghit:";
+	optstring = "B:C:D:E:F:G:H:I:" "J" "K:M:NO:PQR:" "T" "VW:X:YZ" "abcdfghit:";
 #else
-	optstring = "B:C:D:E:F:G:I:"     "K:M:NO:PQR:"     "VW:X:YZ" "abcdfghit:";
+	optstring = "B:C:D:E:F:G:H:I:"     "K:M:NO:PQR:"     "VW:X:YZ" "abcdfghit:";
 #endif
 
 	while ((ch = getopt(argc, argv, optstring)) != -1) {
@@ -159,6 +159,9 @@ main(int argc, char **argv)
 			break;
 		case 'G':
 			assembler = switch_assembler(optarg, ASM_GAS);
+			break;
+		case 'H':
+			has = flags_has(optarg);
 			break;
 		case 'I':
 			/* Add debug symbols to assembly */

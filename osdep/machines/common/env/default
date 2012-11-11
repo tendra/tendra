@@ -35,6 +35,13 @@
 <FLAG_TRANS	"-Xs"
 
 /*
+ * All available TDF constructs are enabled by default for platforms which
+ * implement them natively (rather than rewriting to a sequence of equivalent
+ * operations, as done for platforms without native support).
+ */
+<FLAG_TRANS     "-Ha"
+
+/*
  * All optimisations are enabled by default. If this breaks something,
  * it is a genuine bug.
  */

@@ -48,6 +48,7 @@ int diag_visible = 0;		/* additional visibility if doing diagnostics */
 int extra_diags = 0;		/* option for extended diagnostics */
 #endif
 
+enum has     has;
 enum optim   optim;
 enum check   check;
 enum builtin builtin;
@@ -56,6 +57,30 @@ enum endian    endian;
 enum assembler assembler;
 enum format    format;
 enum diag      diag;
+
+enum has
+flags_has(const char *s)
+{
+	enum has o;
+	const char *p;
+
+	o = 0;
+
+	for (p = s; *p != '\0'; p++) {
+		switch (*p) {
+		case 'a': o = ~0U;                 continue;
+
+		case 'o': o |= HAS_BYTEOPS;        continue;
+
+		default:
+			error(ERROR_WARNING, "Unrecognised has flag %c. "
+				"Valid flags are: [o] and [a] for all.",
+				*p);
+		}
+	}
+
+	return o;
+}
 
 enum optim
 flags_optim(const char *s)

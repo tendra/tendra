@@ -96,7 +96,7 @@ int main
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"B:C:DE:F:G:IKNO:PQRVWX:YZ" "dh")) != -1) {
+			"B:C:DE:F:G:H:IKNO:PQRVWX:YZ" "dh")) != -1) {
 			switch (c) {
 			case 'B': builtin = flags_builtin(optarg); break;
 
@@ -143,6 +143,7 @@ int main
 			case 'K': break;
 			case 'M': strict_fl_div = 1;           break;
 			case 'O': optim = flags_optim(optarg); break;
+			case 'H': has   = flags_has(optarg);   break;
 			case 'P':
 				do_profile = 1;
 				break;
@@ -209,6 +210,9 @@ int main
       fprintf(stderr,"hppatrans warning: \"-P\" and \"-D\" are mutually exclusive. \"-P\" ignored.\n");
       do_profile = 0;
    }
+
+   /* Things trans.hppa does not "has" */
+   has &= ~HAS_BYTEOPS;
 
    /* Switch off certain optimisations when in diagnostics mode. */
    if (diagnose)

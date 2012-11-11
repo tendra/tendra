@@ -10,6 +10,10 @@
 #ifndef flags_key
 #define flags_key
 
+enum has {
+	HAS_BYTEOPS = 1 << 0 /* Has byte operations */
+};
+
 enum optim {
 	OPTIM_UNROLL       = 1 <<  0, /* Unroll loops */
 	OPTIM_INLINE_PROCS = 1 <<  1, /* Inlining of proc tokens */
@@ -97,6 +101,7 @@ extern int diag_visible;
 extern int extra_diags;
 #endif
 
+extern enum has     has;
 extern enum optim   optim;
 extern enum check   check;
 extern enum builtin builtin;

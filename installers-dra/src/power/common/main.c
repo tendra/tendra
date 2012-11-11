@@ -77,7 +77,7 @@ int main(int argc, char **argv)
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"B:C:E:F:G:IK:MO:PQRVWX:YZ" "c")) != -1) {
+			"B:C:E:F:G:H:IK:MO:PQRVWX:YZ" "c")) != -1) {
 			switch (c) {
 			case 'B': builtin = flags_builtin(optarg); break;
 			case 'C':
@@ -107,6 +107,7 @@ int main(int argc, char **argv)
 
 			case 'M': strict_fl_div = 1; break ;
 
+			case 'H': has = flags_has(optarg);     break;
 			case 'O': optim = flags_optim(optarg); break;
 			case 'P': do_profile = 1;              break;	      
 			case 'Q': exit(EXIT_SUCCESS);          break;
@@ -160,6 +161,9 @@ int main(int argc, char **argv)
     exit ( EXIT_FAILURE ) ;
     }
   
+  /* Things trans.alpha does not "has" */
+  has &= ~HAS_BYTEOPS;
+
   /* switch off certain optimisations in diagnostics mode */
   if ( diagnose ) {
     all_variables_visible = 1;	/* set vis flag for all declarations */
