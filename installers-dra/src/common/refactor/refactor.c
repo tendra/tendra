@@ -3981,8 +3981,7 @@ refactor(exp e, exp scope)
 			}
 #endif
 
-#if remove_zero_offsets
-			if (no(e) == 0 && al1(sh(e)) > 1) {
+			if (optim & OPTIM_ZEROOFFSETS && no(e) == 0 && al1(sh(e)) > 1) {
 				sh(son(e)) = sh(e);
 #ifdef NEWDIAGS
 				if (diagnose) {
@@ -3993,7 +3992,6 @@ refactor(exp e, exp scope)
 				retcell(e);
 				return 1;
 			}
-#endif
 
 			return 0;
 		case bfcont_tag:

@@ -24,7 +24,6 @@
 #define dont_unpad_apply	1	/* Careful with procedure results */
 #define load_ptr_pars		0	/* Inline ptr parameters */
 #define only_lengthen_ops	0	/* Avoid byte registers */
-#define remove_zero_offsets	1	/* Remove zero offsets */
 #define replace_compound	1	/* Replace make_compound by assigns */
 #define substitute_params	1	/* Substitute parameters when inlining */
 #define temp_mips		0	/* Need a mips hack */

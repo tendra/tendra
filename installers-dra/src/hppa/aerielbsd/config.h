@@ -27,7 +27,6 @@
 #define no_bitfield_ops 	0
 #define only_lengthen_ops	0
 #define promote_pars            1
-#define remove_zero_offsets 	0
 #define replace_compound 	1
 #define substitute_complex      1
 #define substitute_params 	0

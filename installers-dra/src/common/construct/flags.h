@@ -32,7 +32,8 @@ enum optim {
 	OPTIM_PEEPHOLE     = 1 <<  7, /* Peephole substitions */
 	OPTIM_CASE         = 1 <<  8, /* Perform case transforms */
 	OPTIM_JUMPS        = 1 <<  9, /* Follow gotos and tests to their final destination */
-	OPTIM_TEMPDEC      = 1 << 10  /* Use temporary registers for local values */
+	OPTIM_TEMPDEC      = 1 << 10, /* Use temporary registers for local values */
+	OPTIM_ZEROOFFSETS  = 1 << 11  /* Remove zero offsets */
 };
 
 enum check {

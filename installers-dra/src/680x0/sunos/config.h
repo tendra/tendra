@@ -63,7 +63,6 @@ typedef unsigned long bitpattern;
 #define promote_pars		1	/* Parameters are 32 bit */
 #endif
 #define no_trap_on_nil_contents	1	/* Let common code detect nil access */
-#define remove_zero_offsets	1	/* Do remove zero offsets */
 #define replace_compound	1	/* Replace compounds by externals */
 #define substitute_params	1	/* Do substitute parameters */
 #define temp_mips		0	/* Don't need a mips hack */

@@ -229,6 +229,7 @@ int main
 
    /* not implemented */
    optim &= ~OPTIM_TAIL;
+   optim &= ~OPTIM_ZEROOFFSETS;
 
    /* init nowhere */
   setregalt(nowhere.answhere, 0);
