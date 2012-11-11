@@ -49,7 +49,6 @@ extern void setbuf(FILE *, char *);
 
 
 #define dont_unpad_apply	1
-#define has_byte_regs		0
 #define has_neg_shift		0
 #define has_setcc		0
 #define has64bits		0

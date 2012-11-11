@@ -58,7 +58,6 @@ typedef unsigned long bitpattern;
 #define convert_floats		1	/* Convert floating constants */
 #define dont_unpad_apply	1	/* Careful with procedure results */
 #define dynamic_diag_test	1	/* Test diagnostics format */
-#define has_byte_regs		1	/* Do have byte registers */
 #define has_neg_shift		0	/* Don't have negative shifts */
 #define has_setcc		0	/* Don't use scc */
 #define has64bits		0	/* Doesn't have 64 bits */

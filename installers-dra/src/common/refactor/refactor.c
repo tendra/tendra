@@ -2685,8 +2685,7 @@ refactor(exp e, exp scope)
 				retcell(e);
 				return 1;
 			}
-			if (endian == ENDIAN_LITTLE) {
-#if has_byte_regs
+			if (endian == ENDIAN_LITTLE && has & HAS_BYTEREGS) {
 			  /* only for little enders which have byte
 			   * registers */
 			  if ((shape_size(sh(e)) <=
@@ -2731,7 +2730,6 @@ refactor(exp e, exp scope)
 				retcell(w);
 				return 1;
 			  }
-#endif
 			}
 			if (endian == ENDIAN_LITTLE) {
 			  /* only for little enders with byte and short

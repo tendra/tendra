@@ -11,7 +11,8 @@
 #define flags_key
 
 enum has {
-	HAS_BYTEOPS = 1 << 0 /* Has byte operations */
+	HAS_BYTEOPS  = 1 << 0, /* Has byte operations */
+	HAS_BYTEREGS = 1 << 1  /* Has byte registers */
 };
 
 enum optim {

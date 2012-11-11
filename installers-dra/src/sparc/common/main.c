@@ -367,8 +367,9 @@ main ( int argc, char ** argv )
       optim = 0;
     }	
 
-    /* Things trans.alpha does not "has" */
+    /* Things trans.sparc does not "has" */
     has &= ~HAS_BYTEOPS;
+    has &= ~HAS_BYTEREGS;
 
     /* not implemented */
     optim &= ~OPTIM_TAIL;

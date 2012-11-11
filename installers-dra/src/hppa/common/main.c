@@ -213,6 +213,7 @@ int main
 
    /* Things trans.hppa does not "has" */
    has &= ~HAS_BYTEOPS;
+   has &= ~HAS_BYTEREGS;
 
    /* Switch off certain optimisations when in diagnostics mode. */
    if (diagnose)

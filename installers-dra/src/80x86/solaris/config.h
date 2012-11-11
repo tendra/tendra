@@ -25,7 +25,6 @@
 #define as_comment_symbol '/'
 
 #define has_setcc 1
-#define has_byte_regs 1
 #define only_lengthen_ops 1
 #define has_neg_shift 0
 #define substitute_params 1

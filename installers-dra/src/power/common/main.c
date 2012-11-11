@@ -161,8 +161,9 @@ int main(int argc, char **argv)
     exit ( EXIT_FAILURE ) ;
     }
   
-  /* Things trans.alpha does not "has" */
+  /* Things trans.power does not "has" */
   has &= ~HAS_BYTEOPS;
+  has &= ~HAS_BYTEREGS;
 
   /* switch off certain optimisations in diagnostics mode */
   if ( diagnose ) {

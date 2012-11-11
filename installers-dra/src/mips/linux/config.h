@@ -23,7 +23,6 @@
 #define has64bits 0
 
 #define has_setcc 0
-#define has_byte_regs 0
 #define only_lengthen_ops 1
 #define has_neg_shift 0
 #define substitute_params 1
