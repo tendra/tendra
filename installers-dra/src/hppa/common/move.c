@@ -23,8 +23,6 @@ Delivers register used if 1-word destination is instore; otherwise NOREG.
 
 #include <assert.h>
 
-#define HPPATRANS_CODE
-
 #include "config.h"
 
 #include "hppains.h"

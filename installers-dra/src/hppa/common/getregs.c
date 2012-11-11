@@ -21,8 +21,6 @@ that the corresponding register is free for use.
 
 #include <assert.h>
 
-#define HPPATRANS_CODE
-
 #include "config.h"
 
 #include <construct/exp.h>

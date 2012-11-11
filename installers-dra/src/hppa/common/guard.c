@@ -24,8 +24,6 @@ used by make_code for the second operand.
 
 ******************************************************************/
 
-#define  HPPATRANS_CODE
-
 #include "config.h"
 
 #include <refactor/optimise.h>

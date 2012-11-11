@@ -37,8 +37,6 @@ stack, (this is obviously always available for parameters).
 
 ******************************************************************/
 
-#define HPPATRANS_CODE
-
 #include "config.h"
 
 #include <reader/codetypes.h>

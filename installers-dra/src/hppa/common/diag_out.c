@@ -15,8 +15,6 @@
 
 #include "config.h"
 
-#define HPPATRANS_CODE
-
 #include <reader/codetypes.h>
 #include <reader/codetypes.h>
 #include <reader/toktypes.h>

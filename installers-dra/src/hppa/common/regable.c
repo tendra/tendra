@@ -7,8 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#define HPPATRANS_CODE
-
 #include "config.h"
 
 #include <construct/shapemacs.h>

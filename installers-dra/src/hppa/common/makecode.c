@@ -13,8 +13,6 @@
 
 #include "config.h"
 
-#define HPPATRANS_CODE
-
 #include <reader/externs.h>
 #include <reader/basicread.h>
 

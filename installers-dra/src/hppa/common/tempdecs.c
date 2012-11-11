@@ -13,8 +13,6 @@
 
 */
 
-#define HPPATRANS_CODE
-
 #include "config.h"
 
 #include <construct/tags.h>

@@ -11,8 +11,6 @@
 
 #include "config.h"
 
-#define HPPATRANS_CODE
-
 #include <construct/tags.h>
 #include <construct/installtypes.h>
 #include <construct/exp.h>

@@ -25,8 +25,6 @@ number of ident = (word displacement in locals)*64 + GR17
 
 #include <assert.h>
 
-#define HPPATRANS_CODE
-
 #include "config.h"
 
 #include <construct/tags.h>

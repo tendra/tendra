@@ -20,8 +20,6 @@ understood by the assembler.
 
 #include <shared/xalloc.h>
 
-#define HPPATRANS_CODE
-
 #include "config.h"
 
 #include <construct/tags.h>

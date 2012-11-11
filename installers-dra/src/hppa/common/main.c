@@ -7,8 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#define HPPATRANS_CODE
-
 #include <shared/getopt.h>
 
 #include "config.h"

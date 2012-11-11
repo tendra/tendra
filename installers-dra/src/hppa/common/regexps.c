@@ -15,8 +15,6 @@ For trivial 'peephole' optimisations
 
 #include <assert.h>
 
-#define HPPATRANS_CODE
-
 #include "config.h"
 
 #include <construct/tags.h>

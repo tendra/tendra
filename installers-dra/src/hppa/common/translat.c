@@ -91,8 +91,6 @@
 
 #include <shared/xalloc.h>
 
-#define HPPATRANS_CODE
-
 #include "config.h"
 
 #include <reader/codetypes.h>
