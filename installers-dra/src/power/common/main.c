@@ -167,6 +167,7 @@ int main(int argc, char **argv)
   has &= ~HAS_NEGSHIFT;
   has &= ~HAS_ROTATE;
   has &= ~HAS_MAXMIN;
+  has &= ~HAS_SETCC;
 
   /* switch off certain optimisations in diagnostics mode */
   if ( diagnose ) {

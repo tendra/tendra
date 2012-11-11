@@ -206,7 +206,7 @@ abs_tag: Represents integer abs construction.
 	pt(e) is labst if error_jump, nilexp otherwise.
 
 absbool_tag: Represents comparison and conversion to boolean.
-	     Only produced (by check.c) is has_setcc is 1.
+	     Only produced (by refactor.c) is HAS_SETCC is set.
 	son(e) is arg1.
 	bro(arg1) is arg2.
 	shape is a variety shape.
@@ -274,7 +274,7 @@ assvol_tag: Represents assign_to_volatile construction.
 
 bfass_tag and bfassvol_tag: represent bitfield assignment ops.
 bfcont_tag and bfcontvol_tag: represent bitfield contents ops.
-	These tags are removed by check.c and should not be seen
+	These tags are removed by refactor.c and should not be seen
 	elsewhere.
 
 bitf_to_int_tag: represents bitfield to int conversion.
@@ -317,7 +317,7 @@ clear_tag: represents make_value
 	pt(e) is nilexp.
 
 component_tag: represents component
-	Always removed by check.c. Should not occur elsewhere.
+	Always removed by refactor.c. Should not occur elsewhere.
 
 compound_tag: Represents the compound construction.
 	son(e) is arg2 in the form of a brother list of zero
@@ -588,7 +588,7 @@ minptr_tag: Represents subtract_pointers construction.
 	no(e) is 0.
 
 minus_tag: represents subtraction.
-	This is replaced by addition of negation by check.c.
+	This is replaced by addition of negation by refactor.c.
 
 mod_tag: Represents rem1 construction.
 	son(e) is arg1.

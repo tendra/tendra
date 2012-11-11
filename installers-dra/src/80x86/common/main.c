@@ -319,6 +319,10 @@ main(int argc, char **argv)
 	has &= ~HAS_NEGSHIFT;
 	has &= ~HAS_CONDASSIGN;
 
+	if (!is80586) {
+		has &= ~HAS_SETCC;
+	}
+
 	/* XXX: invalid assembly is generated without this */
 	optim |= OPTIM_CASE;
 

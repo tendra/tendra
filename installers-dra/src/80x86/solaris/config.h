@@ -24,7 +24,6 @@
 #define has_asm 1
 #define as_comment_symbol '/'
 
-#define has_setcc 1
 #define only_lengthen_ops 1
 #define substitute_params 1
 #define remove_zero_offsets 1

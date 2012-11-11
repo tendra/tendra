@@ -373,6 +373,7 @@ main ( int argc, char ** argv )
     has &= ~HAS_NEGSHIFT;
     has &= ~HAS_ROTATE;
     has &= ~HAS_MAXMIN;
+    has &= ~HAS_SETCC;
 
     /* not implemented */
     optim &= ~OPTIM_TAIL;

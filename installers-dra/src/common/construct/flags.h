@@ -17,7 +17,8 @@ enum has {
 	HAS_ROTATE     = 1 << 3, /* Has rotation */
 	HAS_MAXMIN     = 1 << 4, /* Has max/min tags */
 	HAS_CONDASSIGN = 1 << 5, /* Has condassign tag */
-	HAS_DIV0       = 1 << 6  /* Has div0 and rem0 tags */
+	HAS_DIV0       = 1 << 6, /* Has div0 and rem0 tags */
+	HAS_SETCC      = 1 << 7  /* Has setcc (produces absbool tag) */
 };
 
 enum optim {

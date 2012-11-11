@@ -20,7 +20,6 @@
 #define FS_LITTLE_ENDIAN	1
 #endif
 
-#define has_setcc 0
 #define only_lengthen_ops 1
 #define substitute_params 1
 

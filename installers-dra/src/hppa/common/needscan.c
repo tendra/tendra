@@ -2746,7 +2746,7 @@ number is number of proc (useful for indexing)
 
  case absbool_tag:
   {
-    assert(has_setcc==0);
+    assert(~has & HAS_SETCC);
     fail("absbool_tag not covered in needs scan");
     /*NOTREACHED*/
   }

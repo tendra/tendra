@@ -1448,8 +1448,6 @@ doshl(exp e)
 }
 
 
-#if has_setcc
-
  /* included if target has a setcc operation, to set a bit from the
     condition flags */
 
@@ -1515,7 +1513,6 @@ absbool(exp id)
 	} /* name initially 0 only used twice */
 	return nilexp;
 }
-#endif
 
 
  /* distributes the operation e into a sequence, ie if e = op(seq(d ...;
@@ -2316,8 +2313,11 @@ refactor(exp e, exp scope)
 				}
 				return 0;
 
-#if has_setcc
 		case absbool_tag: {
+				if (~has & HAS_SETCC) {
+					return 0;
+				}
+
 				exp arg1 = son(e);
 				exp arg2 = bro(arg1);
 				ntest nt = test_number(e);
@@ -2349,7 +2349,6 @@ refactor(exp e, exp scope)
 				}
 				return 0;
 			}
-#endif
 
 		/* apply commutative and associative laws */
 		case plus_tag:
@@ -4298,28 +4297,32 @@ refactor(exp e, exp scope)
 			retcell(e);
 			return 1;
 		}
-#if has_setcc
+
 		/* use if target has setcc instruction */
-		if (!TRANS_80x86 || is80586) {
+		if (has & HAS_SETCC) {
 			exp abst = absbool(e);
-			if (abst != nilexp &&
-			    (!TRANS_80x86 || name(sh(son(abst))) <= u64hd)) {
-				/* check if we can use setcc */
-				exp a = copy(abst);
-				setname(a, absbool_tag);
-				pt(a) = nilexp;
-				sh(a) = sh(e);
-#ifdef NEWDIAGS
-				if (diagnose) {
-					dg_whole_comp(e, a);
-				}
+			if (abst != nilexp) {
+#ifdef TRANS_80x86
+				if (name(sh(son(abst))) <= u64hd)
 #endif
-				replace(e, a, a);
-				kill_exp(e, e);
-				return 0;
+				{
+					/* check if we can use setcc */
+					exp a = copy(abst);
+					setname(a, absbool_tag);
+					pt(a) = nilexp;
+					sh(a) = sh(e);
+#ifdef NEWDIAG
+					if (diagnose) {
+						dg_whole_comp(e, a);
+					}
+#endif
+					replace(e, a, a);
+					kill_exp(e, e);
+					return 0;
+				}
 			}
 		}
-#endif
+
 		if (name(sh(bro(son(e)))) != name(sh(e))) {
 			sh(e) = sh(bro(son(e)));
 			IGNORE refactor_id(e, scope);

@@ -233,6 +233,7 @@ int main
     has &= ~HAS_NEGSHIFT;
     has &= ~HAS_ROTATE;
     has &= ~HAS_MAXMIN;
+    has &= ~HAS_SETCC;
 
     /* Report version if required */
     if (report_trans_version) {
