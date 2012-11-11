@@ -317,6 +317,7 @@ main(int argc, char **argv)
 
 	/* Things trans.80x86 does not "has" */
 	has &= ~HAS_NEGSHIFT;
+	has &= ~HAS_CONDASSIGN;
 
 	/* XXX: invalid assembly is generated without this */
 	optim |= OPTIM_CASE;

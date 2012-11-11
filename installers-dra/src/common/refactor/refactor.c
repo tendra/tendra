@@ -4457,8 +4457,7 @@ refactor(exp e, exp scope)
 			}
 		}
 
-#if condassign_implemented
-		{
+		if (has & HAS_CONDASSIGN) {
 			exp to_test;
 			exp to_ass;
 
@@ -4472,7 +4471,6 @@ refactor(exp e, exp scope)
 				return 1;
 			}
 		}
-#endif
 
 		if (name(bro(son(bro(son(e))))) == top_tag) {
 			exp first = son(e);
@@ -4492,8 +4490,11 @@ refactor(exp e, exp scope)
 		}
 		return 0;
 
-#if condassign_implemented
 	case condassign_tag:
+		if (~has & HAS_CONDASSIGN) {
+			return 0;
+		}
+
 		if (name(bro(son(e))) != ass_tag &&
 		    (name(son(e)) == test_tag ||
 		     name(son(e)) == testbit_tag)) {
@@ -4515,7 +4516,6 @@ refactor(exp e, exp scope)
 			retcell(e);
 			return 1;
 		}
-#endif
 
 	case goto_tag:
 	case return_to_label_tag:

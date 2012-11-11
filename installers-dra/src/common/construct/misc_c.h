@@ -19,9 +19,6 @@ extern int take_out_by_prob(exp first, exp alt);
 extern int is_maxop(exp x, exp *t);
 extern int is_minop(exp x, exp *t);
 extern int is_tester(exp e, int eq);
-
-#if condassign_implemented
 extern int is_condassign(exp e, exp *to_test, exp *to_ass);
-#endif
 
 #endif

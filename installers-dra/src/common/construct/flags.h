@@ -11,11 +11,12 @@
 #define flags_key
 
 enum has {
-	HAS_BYTEOPS  = 1 << 0, /* Has byte operations */
-	HAS_BYTEREGS = 1 << 1, /* Has byte registers */
-	HAS_NEGSHIFT = 1 << 2, /* Has negative shift */
-	HAS_ROTATE   = 1 << 3, /* Has rotation */
-	HAS_MAXMIN   = 1 << 4  /* Has max/min */
+	HAS_BYTEOPS    = 1 << 0, /* Has byte operations */
+	HAS_BYTEREGS   = 1 << 1, /* Has byte registers */
+	HAS_NEGSHIFT   = 1 << 2, /* Has negative shift */
+	HAS_ROTATE     = 1 << 3, /* Has rotation */
+	HAS_MAXMIN     = 1 << 4, /* Has max/min tags */
+	HAS_CONDASSIGN = 1 << 5  /* Has condassign tag */
 };
 
 enum optim {

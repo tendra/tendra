@@ -43,9 +43,6 @@
 
 
 #define div0_implemented 0
-
-#define condassign_implemented 0
-
 #define substitute_complex 1
 
 #define value_of_null 0

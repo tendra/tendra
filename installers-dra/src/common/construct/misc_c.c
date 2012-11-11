@@ -337,8 +337,6 @@ flab0:
 }
 
 
-#if condassign_implemented
-
 int
 is_condassign(exp e, exp *to_test, exp *to_ass)
 {
@@ -381,4 +379,4 @@ is_condassign(exp e, exp *to_test, exp *to_ass)
 
 	return 0;
 }
-#endif
+

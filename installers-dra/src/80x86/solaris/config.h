@@ -41,7 +41,6 @@
 #define div0_implemented 1
 #define substitute_complex 1
 
-#define condassign_implemented 0
 #define value_of_null 0
 
 #define remove_unused_counters 0
