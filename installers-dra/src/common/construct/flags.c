@@ -74,6 +74,7 @@ flags_has(const char *s)
 		case 'r': o |= HAS_BYTEREGS;       continue;
 		case 'n': o |= HAS_NEGSHIFT;       continue;
 		case 't': o |= HAS_ROTATE;         continue;
+		case 'm': o |= HAS_MAXMIN;         continue;
 
 		default:
 			error(ERROR_WARNING, "Unrecognised has flag %c. "

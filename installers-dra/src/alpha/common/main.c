@@ -218,6 +218,7 @@ main(int argc, char *argv[])
 	has &= ~HAS_BYTEREGS;
 	has &= ~HAS_NEGSHIFT;
 	has &= ~HAS_ROTATE;
+	has &= ~HAS_MAXMIN;
 
 	/* This does not work on the alpha */
 	optim &= ~OPTIM_CASE;

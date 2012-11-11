@@ -39,7 +39,6 @@
 #define substitute_complex 1
 
 
-#define maxmin_implemented 1
 #define condassign_implemented 0
 
 #define target_dbl_maxexp 308

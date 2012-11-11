@@ -372,6 +372,7 @@ main ( int argc, char ** argv )
     has &= ~HAS_BYTEREGS;
     has &= ~HAS_NEGSHIFT;
     has &= ~HAS_ROTATE;
+    has &= ~HAS_MAXMIN;
 
     /* not implemented */
     optim &= ~OPTIM_TAIL;

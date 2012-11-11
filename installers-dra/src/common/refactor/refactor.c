@@ -4415,8 +4415,8 @@ refactor(exp e, exp scope)
 				return 1;
 			}
 		}
-#if maxmin_implemented
-		{
+
+		if (has & HAS_MAXMIN) {
 			exp t;
 			int bl = is_maxop(e, &t);
 			int ismax = 0;
@@ -4456,7 +4456,6 @@ refactor(exp e, exp scope)
 				return 1;
 			}
 		}
-#endif
 
 #if condassign_implemented
 		{

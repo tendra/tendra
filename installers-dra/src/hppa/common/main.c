@@ -216,6 +216,7 @@ int main
    has &= ~HAS_BYTEREGS;
    has &= ~HAS_NEGSHIFT;
    has &= ~HAS_ROTATE;
+   has &= ~HAS_MAXMIN;
 
    /* Switch off certain optimisations when in diagnostics mode. */
    if (diagnose)
