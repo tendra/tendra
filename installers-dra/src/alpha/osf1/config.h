@@ -16,10 +16,6 @@
 #define FS_64_BIT		1
 #endif
 
-#ifndef FS_LITTLE_ENDIAN
-#define FS_LITTLE_ENDIAN	1
-#endif
-
 #define only_lengthen_ops 1
 #define substitute_params 1
 

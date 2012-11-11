@@ -14,10 +14,6 @@
 #include <reader/ossg_api.h>
 #include <reader/ossg.h>
 
-#ifndef FS_LITTLE_ENDIAN
-#define FS_LITTLE_ENDIAN	1
-#endif
-
 #define NEWDIAGS 1
 #define NEWDWARF 1
 #define SHARED_ABBREV 1

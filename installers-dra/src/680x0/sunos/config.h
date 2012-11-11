@@ -25,10 +25,6 @@
 #include <reader/ossg_api.h>
 #include <reader/ossg.h>
 
-#ifndef FS_LITTLE_ENDIAN
-#define FS_LITTLE_ENDIAN 0
-#endif
-
 typedef unsigned long bitpattern;
 
 #define null NULL

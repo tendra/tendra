@@ -15,10 +15,6 @@
 #include <reader/ossg_api.h>
 #include <reader/ossg.h>
 
-#ifndef FS_LITTLE_ENDIAN
-#define FS_LITTLE_ENDIAN	1
-#endif
-
 #define only_lengthen_ops 1
 #define substitute_params 1
 #define remove_zero_offsets 1

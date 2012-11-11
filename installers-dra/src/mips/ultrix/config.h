@@ -13,10 +13,6 @@
 #include <reader/ossg_api.h>
 #include <reader/ossg.h>
 
-#ifndef FS_LITTLE_ENDIAN
-#define FS_LITTLE_ENDIAN 1
-#endif
-
 #define has64bits 0
 
 #define only_lengthen_ops 1
