@@ -89,7 +89,7 @@ main(int argc, char **argv)
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"B:C:DE:F:G:HK:MO:PQRSV:WX:YZ"
+			"B:C:DE:F:G:IK:MO:PQRSV:WX:YZ"
 			"ei")) != -1) {
 			switch (c) {
 			case 'B': builtin = flags_builtin(optarg); break;
@@ -107,7 +107,7 @@ main(int argc, char **argv)
 				assembler = switch_assembler(optarg, ASM_GAS | ASM_SGI | ASM_ULTRIX);
 				break;
 
-			case 'H':
+			case 'I':
 				diagnose = 1;
 				do_alloca = 0; /* dbx does not understand variable frame sizes */
 				break;

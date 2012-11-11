@@ -98,7 +98,7 @@ int main
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"B:C:DE:F:G:HKNO:PQRVWX:YZ" "dh")) != -1) {
+			"B:C:DE:F:G:IKNO:PQRVWX:YZ" "dh")) != -1) {
 			switch (c) {
 			case 'B': builtin = flags_builtin(optarg); break;
 
@@ -130,13 +130,13 @@ int main
 				assembler = switch_assembler(optarg, ASM_HP | ASM_GAS);
 				break;
 
-			case 'H':
+			case 'I':
 #ifdef _SYMTAB_INCLUDED
 				diagnose = 1;
 				xdb = 1;
 #else
 				fprintf(stderr,"trans warning: XDB diagnostics "
-					"not supported on this version of hppatrans, -H option ignored\n");
+					"not supported on this version of hppatrans, -I option ignored\n");
 				xdb = 0;
 				diagnose = 0;
 #endif

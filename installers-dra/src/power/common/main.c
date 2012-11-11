@@ -77,7 +77,7 @@ int main(int argc, char **argv)
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"B:C:E:F:G:HK:MO:PQRVWX:YZ" "c")) != -1) {
+			"B:C:E:F:G:IK:MO:PQRVWX:YZ" "c")) != -1) {
 			switch (c) {
 			case 'B': builtin = flags_builtin(optarg); break;
 			case 'C':
@@ -92,7 +92,7 @@ int main(int argc, char **argv)
 			case 'G':
 				assembler = switch_assembler(optarg, ASM_IBM);
 				break;
-			case 'H': diagnose = 1;                    break;
+			case 'I': diagnose = 1;                    break;
 
 			case 'K': 
 				if (optarg[0] == 'R') {

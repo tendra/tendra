@@ -112,7 +112,7 @@ main(int argc, char *argv[])
 	{
 		int c;
 
-		while ((c = getopt(argc, argv, "B:C:DE:F:G:HK:MO:PQRSVWX:YZ" "usd:")) != -1) {
+		while ((c = getopt(argc, argv, "B:C:DE:F:G:IK:MO:PQRSVWX:YZ" "usd:")) != -1) {
 			switch (c) {
 			case 'B': builtin = flags_builtin(optarg);   break;
 			case 'D': failer("no PIC code available"); exit(EXIT_FAILURE);
@@ -129,7 +129,7 @@ main(int argc, char *argv[])
 				assembler = switch_assembler(optarg, ASM_OSF1);
 				break;
 
-			case 'H':
+			case 'I':
 				diagnose      = 1;
 
 			case 'K':

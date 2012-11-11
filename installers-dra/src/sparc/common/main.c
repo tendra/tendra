@@ -187,7 +187,7 @@ main ( int argc, char ** argv )
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"B:C:DE:F:G:H:JK:MNO:PQRTVWX:YZ"
+			"B:C:DE:F:G:I:JK:MNO:PQRTVWX:YZ"
 			"abcglo:i:r:un")) != -1) {
 			switch (c) {
 			case 'B': builtin = flags_builtin(optarg); break;
@@ -205,7 +205,7 @@ main ( int argc, char ** argv )
 				assembler = switch_assembler(optarg, ASM_SUN);
 				break;
 
-			case 'H':
+			case 'I':
 				diagnose = 1 ;
 #ifdef NEWDIAGS
 				if (arg[2] != 'O')

@@ -135,7 +135,7 @@ int main
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"C:B:DE:F:G:HK:MO:PQRVWX:YZ"
+			"C:B:DE:F:G:IK:MO:PQRVWX:YZ"
 #ifdef EBUG
 			"L:l:"
 #endif
@@ -150,7 +150,7 @@ int main
 
 			case 'B': builtin = flags_builtin(optarg); break;
 			case 'D': do_pic = 1;                      break;
-			case 'H': diagnose = 1;                    break;
+			case 'I': diagnose = 1;                    break;
 			case 'K':                                  break;
 			case 'M': strict_fl_div = 1;               break;
 			case 'O': optim = flags_optim(optarg);     break;

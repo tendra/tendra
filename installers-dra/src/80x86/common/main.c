@@ -135,9 +135,9 @@ main(int argc, char **argv)
 	 * XXX: Some arguments are undocumented in trans.1, check
 	 */
 #ifdef NEWDWARF
-	optstring = "B:C:D:E:F:G:H:" "J" "K:M:NO:PQR:" "T" "VW:X:YZ" "abcdfghit:";
+	optstring = "B:C:D:E:F:G:I:" "J" "K:M:NO:PQR:" "T" "VW:X:YZ" "abcdfghit:";
 #else
-	optstring = "B:C:D:E:F:G:H:"     "K:M:NO:PQR:"     "VW:X:YZ" "abcdfghit:";
+	optstring = "B:C:D:E:F:G:I:"     "K:M:NO:PQR:"     "VW:X:YZ" "abcdfghit:";
 #endif
 
 	while ((ch = getopt(argc, argv, optstring)) != -1) {
@@ -160,12 +160,12 @@ main(int argc, char **argv)
 		case 'G':
 			assembler = switch_assembler(optarg, ASM_GAS);
 			break;
-		case 'H':
+		case 'I':
 			/* Add debug symbols to assembly */
 
 			if (*optarg != 'O' && *optarg != 'N') {
 				fprintf(stderr,
-				    "trans: invalid argument for -H\n");
+				    "trans: invalid argument for -I\n");
 				exit(EXIT_FAILURE);
 			}
 
