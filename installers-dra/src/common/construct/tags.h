@@ -236,7 +236,7 @@ and_tag: represents and
 		if there is a constant contribution.
 	shape is shape of son(e). This may be changed in some installers
 		by chvar_tag transformations in check - only if
-		has_byte_ops is 1.
+		HAS_BYTEOPS is set.
 	no(e) is 0.
 	pt(e) is nilexp.
 
@@ -369,7 +369,7 @@ div1_tag:
 div2_tag: represent div0/1/2
 	son(e) is arg1.
 	bro(arg1) is arg2.
-	shape is sh(arg1) unless changed by chvar_tag (has_byte_ops).
+	shape is sh(arg1) unless changed by chvar_tag (HAS_BYTEOPS).
 	no(e) is 0.
 	pt(e) is labst if error_jump, nilexp otherwise.
 

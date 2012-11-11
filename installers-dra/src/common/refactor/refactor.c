@@ -2734,10 +2734,9 @@ refactor(exp e, exp scope)
 #endif
 			}
 			if (endian == ENDIAN_LITTLE) {
-#if has_byte_ops
 			  /* only for little enders with byte and short
 			   * operations */
-			  if (shape_size(sh(e)) <=
+			  if (has & HAS_BYTEOPS && shape_size(sh(e)) <=
 					shape_size(sh(son(e))) && optop(e) &&
 					name(sh(e)) != bitfhd &&
 					(name(son(e)) == plus_tag ||
@@ -2785,7 +2784,6 @@ refactor(exp e, exp scope)
 					return 1;
 				}
 			  }
-#endif
 			}
 			if (name(son(e)) == ident_tag &&
 					isvar(son(e))) {
@@ -3670,8 +3668,8 @@ refactor(exp e, exp scope)
 			return 0;
 
 		case and_tag:
-#if has_byte_ops
-			if (name(bro(son(e))) == val_tag &&
+			if (has & HAS_BYTEOPS &&
+			    name(bro(son(e))) == val_tag &&
 			    no(bro(son(e))) == 0xff &&
 			    name(son(e)) == shr_tag &&
 			    name(son(son(e))) == cont_tag) {
@@ -3699,7 +3697,6 @@ refactor(exp e, exp scope)
 					return 1;
 				}
 			}
-#endif
 			if (name(son(e)) == and_tag &&
 			    name(bro(son(e))) == val_tag &&
 			    name(bro(son(son(e)))) == val_tag &&
@@ -4632,9 +4629,7 @@ refactor(exp e, exp scope)
 
 	case test_tag: {
 		exp arg1, arg2;
-#if has_byte_ops
 		int n, bl;
-#endif
 		unsigned char nt = test_number(e);
 		arg1 = son(e);
 		arg2 = bro(arg1);
@@ -4776,8 +4771,7 @@ refactor(exp e, exp scope)
 			retcell(e);
 			return 1;
 		}
-		if (endian == ENDIAN_LITTLE) {
-#if has_byte_ops
+		if (endian == ENDIAN_LITTLE && has & HAS_BYTEOPS) {
 		  /* only for little enders with byte and short operations */
 		  if (name(arg2) == val_tag && !isbigval(arg2) && no(arg2) == 0 &&
 		    name(arg1) == and_tag && test_number(e) >= 5) {
@@ -4959,7 +4953,6 @@ refactor(exp e, exp scope)
 				return 1;
 			}
 		  }
-#endif
 		}
 		return seq_distr(e, scope);
 	}
