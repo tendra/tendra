@@ -26,7 +26,6 @@
 					/* Meaning when option set (1) */
 					/* =========================== */
 #define dont_unpad_apply	1	/* Careful with procedure results */
-#define has_neg_shift		0	/* Have negative shifts */
 #define has_setcc		0	/* Use scc */
 #define load_ptr_pars		0	/* Inline ptr parameters */
 #define only_lengthen_ops	0	/* Avoid byte registers */

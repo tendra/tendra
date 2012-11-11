@@ -3182,11 +3182,10 @@ refactor(exp e, exp scope)
 				return 1;
 			}
 #endif
-#if has_neg_shift
 			/* only use if the shift left and shift right
 			 * operations are performed by the same instruction,
 			 * distinguished by the sign of the number of places */
-			if (name(e) == shr_tag) {
+			if (has & HAS_NEGSHIFT && name(e) == shr_tag) {
 				exp places = bro(son(e));
 				exp r;
 				exp neg = getexp(sh(places), nilexp, 0, places,
@@ -3200,7 +3199,6 @@ refactor(exp e, exp scope)
 				retcell(e);
 				return 1;
 			}
-#endif
 			if (name(e) == shr_tag && name(son(e)) == shl_tag &&
 			    name(bro(son(e))) == val_tag) {
 				exp arg1 = son(e);

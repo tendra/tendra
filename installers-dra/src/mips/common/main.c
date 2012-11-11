@@ -192,6 +192,7 @@ main(int argc, char **argv)
 	/* Things trans.mips does not "has" */
 	has &= ~HAS_BYTEOPS;
 	has &= ~HAS_BYTEREGS;
+	has &= ~HAS_NEGSHIFT;
 
 	if (override_diags) {
 		diagnose = 0;

@@ -72,6 +72,7 @@ flags_has(const char *s)
 
 		case 'o': o |= HAS_BYTEOPS;        continue;
 		case 'r': o |= HAS_BYTEREGS;       continue;
+		case 'n': o |= HAS_NEGSHIFT;       continue;
 
 		default:
 			error(ERROR_WARNING, "Unrecognised has flag %c. "

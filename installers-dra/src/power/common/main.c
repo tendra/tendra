@@ -164,6 +164,7 @@ int main(int argc, char **argv)
   /* Things trans.power does not "has" */
   has &= ~HAS_BYTEOPS;
   has &= ~HAS_BYTEREGS;
+  has &= ~HAS_NEGSHIFT;
 
   /* switch off certain optimisations in diagnostics mode */
   if ( diagnose ) {

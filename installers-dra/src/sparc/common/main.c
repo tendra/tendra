@@ -370,6 +370,7 @@ main ( int argc, char ** argv )
     /* Things trans.sparc does not "has" */
     has &= ~HAS_BYTEOPS;
     has &= ~HAS_BYTEREGS;
+    has &= ~HAS_NEGSHIFT;
 
     /* not implemented */
     optim &= ~OPTIM_TAIL;

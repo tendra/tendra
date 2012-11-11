@@ -229,6 +229,9 @@ int main
     if (seek_line)seek_line_no = atoi(seek_line_id);
 #endif
 
+    /* Things trans.680x0 does not "has" */
+    has &= ~HAS_NEGSHIFT;
+
     /* Report version if required */
     if (report_trans_version) {
 #ifdef NEXT

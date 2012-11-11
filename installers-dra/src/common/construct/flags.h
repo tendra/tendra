@@ -12,7 +12,8 @@
 
 enum has {
 	HAS_BYTEOPS  = 1 << 0, /* Has byte operations */
-	HAS_BYTEREGS = 1 << 1  /* Has byte registers */
+	HAS_BYTEREGS = 1 << 1, /* Has byte registers */
+	HAS_NEGSHIFT = 1 << 2  /* Has negative shift */
 };
 
 enum optim {

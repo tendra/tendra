@@ -315,6 +315,9 @@ main(int argc, char **argv)
 	 * and this isn't relevant for ELF. */
 	remove_struct_ref = gcc_compatible;
 
+	/* Things trans.80x86 does not "has" */
+	has &= ~HAS_NEGSHIFT;
+
 	/* XXX: invalid assembly is generated without this */
 	optim |= OPTIM_CASE;
 
