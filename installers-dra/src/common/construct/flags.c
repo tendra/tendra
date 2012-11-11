@@ -76,6 +76,7 @@ flags_has(const char *s)
 		case 't': o |= HAS_ROTATE;         continue;
 		case 'm': o |= HAS_MAXMIN;         continue;
 		case 'c': o |= HAS_CONDASSIGN;     continue;
+		case 'd': o |= HAS_DIV0;           continue;
 
 		default:
 			error(ERROR_WARNING, "Unrecognised has flag %c. "

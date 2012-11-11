@@ -46,8 +46,6 @@
 
 /* complex numbers */
 #define substitute_complex      1
-/* div 0 implemented */
-#define div0_implemented        1
 
 #define POWERPC_CODE            1
 #define RS6000_CODE             2

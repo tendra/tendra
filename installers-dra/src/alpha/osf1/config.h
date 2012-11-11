@@ -42,7 +42,6 @@
 #define good_pointer_factor(f) 1
 
 
-#define div0_implemented 0
 #define substitute_complex 1
 
 #define value_of_null 0

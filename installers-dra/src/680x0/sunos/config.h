@@ -73,7 +73,6 @@ typedef unsigned long bitpattern;
 #define substitute_params	1	/* Do substitute parameters */
 #define temp_mips		0	/* Don't need a mips hack */
 #define use_long_double		0	/* Not yet anyway */
-#define div0_implemented	1	/* div0 and rem0 implemented */
 #define remove_unused_counters	0	/* for foralls optimisation */
 #define remove_unused_index_counters\
 				0	/* for foralls optimisation */

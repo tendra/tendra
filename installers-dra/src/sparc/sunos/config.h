@@ -58,7 +58,6 @@ extern void setbuf(FILE *, char *);
 #define replace_compound	0
 #define substitute_params	0
 #define substitute_complex	1
-#define div0_implemented 	1
 
 /* foralls config */
 #define remove_unused_counters 0

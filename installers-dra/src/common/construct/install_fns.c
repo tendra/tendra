@@ -2149,9 +2149,11 @@ div0_aux(error_treatment ov_err, exp arg1, exp arg2)
 		return TDFcallop2(ov_err, arg1, arg2, div0_tag);
 	}
 #endif
-#if div0_implemented
-	return me_b1(ov_err, arg1, arg2, div0_tag);
-#else
+
+	if (has & HAS_DIV0) {
+		return me_b1(ov_err, arg1, arg2, div0_tag);
+	}
+
 	if (name(arg2) == val_tag && !isbigval(arg2)) {
 		int n = no(arg2);
 		if ((n & (n - 1)) == 0) {
@@ -2159,7 +2161,6 @@ div0_aux(error_treatment ov_err, exp arg1, exp arg2)
 		}
 	}
 	return me_b1(ov_err, arg1, arg2, div2_tag);
-#endif
 }
 
 
@@ -4695,9 +4696,11 @@ rem0_aux(error_treatment ov_err, exp arg1, exp arg2)
 		return TDFcallop2(ov_err, arg1, arg2, rem0_tag);
 	}
 #endif
-#if div0_implemented
-	return me_b1(ov_err, arg1, arg2, rem0_tag);
-#else
+
+	if (has & HAS_DIV0) {
+		return me_b1(ov_err, arg1, arg2, rem0_tag);
+	}
+
 	if (name(arg2) == val_tag && !isbigval(arg2)) {
 		int n = no(arg2);
 		if ((n & (n - 1)) == 0) {
@@ -4705,7 +4708,6 @@ rem0_aux(error_treatment ov_err, exp arg1, exp arg2)
 		}
 	}
 	return me_b1(ov_err, arg1, arg2, rem2_tag);
-#endif
 }
 
 
