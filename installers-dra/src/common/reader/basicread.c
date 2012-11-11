@@ -214,18 +214,11 @@ getcode(int np)
       crt_ptr = crt_line;
     }
 
-#ifndef FS_LITTLE_ENDIAN
-!!!!!!!!!!!!!  /* define FS_LITTLE_ENDIAN in config.h */
-#else
-#if FS_LITTLE_ENDIAN
-    crt_bits.chars.d = crt_ptr[0];
-    crt_bits.chars.c = crt_ptr[1];
-    crt_bits.chars.b = crt_ptr[2];
-    crt_bits.chars.a = crt_ptr[3];
-#else
-    crt_bits.intc = ((unsigned int*)crt_ptr)[0];
-#endif
-#endif
+    crt_bits.chars.a = (* (unsigned int *) crt_ptr) >> 24 & 0xff;
+    crt_bits.chars.b = (* (unsigned int *) crt_ptr) >> 16 & 0xff;
+    crt_bits.chars.c = (* (unsigned int *) crt_ptr) >>  8 & 0xff;
+    crt_bits.chars.d = (* (unsigned int *) crt_ptr) >>  0 & 0xff;
+
     crt_ptr += 4;
     getcode_bitposn = p;
     return q + (int)((crt_bits.intc >> p) & m);
@@ -299,14 +292,11 @@ set_place(place pl)
     getcode_bitposn = 0;
 
   if (getcode_bitposn > 0) {
-#if FS_LITTLE_ENDIAN
-    crt_bits.chars.d = crt_ptr[0];
-    crt_bits.chars.c = crt_ptr[1];
-    crt_bits.chars.b = crt_ptr[2];
-    crt_bits.chars.a = crt_ptr[3];
-#else
-    crt_bits.intc = ((unsigned int*)crt_ptr)[0];
-#endif
+    crt_bits.chars.a = (* (unsigned int *) crt_ptr) >> 24 & 0xff;
+    crt_bits.chars.b = (* (unsigned int *) crt_ptr) >> 16 & 0xff;
+    crt_bits.chars.c = (* (unsigned int *) crt_ptr) >>  8 & 0xff;
+    crt_bits.chars.d = (* (unsigned int *) crt_ptr) >>  0 & 0xff;
+
     crt_ptr += 4;
   }
   return;
