@@ -68,8 +68,6 @@
 
 #define value_of_null 0
 
-#define has_rotate 0
-
 #define diagnose_registers 1
 
 #define promote_pars 1

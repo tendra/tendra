@@ -41,7 +41,6 @@
 #define target_dbl_maxexp 4932
 #define div0_implemented 1
 #define substitute_complex 1
-#define has_rotate 1
 
 #define condassign_implemented 0
 #define value_of_null 0

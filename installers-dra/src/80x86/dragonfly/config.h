@@ -37,7 +37,6 @@
 #define keep_PIC_vars 0
 #define div0_implemented 1
 #define substitute_complex 1
-#define has_rotate 1
 
 
 #define maxmin_implemented 1

@@ -231,6 +231,7 @@ int main
 
     /* Things trans.680x0 does not "has" */
     has &= ~HAS_NEGSHIFT;
+    has &= ~HAS_ROTATE;
 
     /* Report version if required */
     if (report_trans_version) {

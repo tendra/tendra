@@ -47,8 +47,6 @@
 #define temp_mips 0
 #define value_of_null 0
 
-#define has_rotate 0
-
 #define promote_pars 1
 
 #endif

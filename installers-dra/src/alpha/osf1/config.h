@@ -51,8 +51,6 @@
 
 #define value_of_null 0
 
-#define has_rotate 0
-
 #ifndef DO_SCHEDULE
 #define DO_SCHEDULE 0
 #endif

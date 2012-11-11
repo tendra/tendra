@@ -4889,8 +4889,7 @@ f_rotate_left(exp arg1, exp arg2)
 		}
 	}
 
-#if !has_rotate
-	{
+	if (~has & HAS_ROTATE) {
 		shape sa = sh(arg1);
 		int sz = shape_size(sa);
 		shape usa = (sz == 8) ? ucharsh : (sz == 16) ?
@@ -4917,7 +4916,6 @@ f_rotate_left(exp arg1, exp arg2)
 						 hold_refactor(me_complete_id(d4,
 								corit))))))));
 	}
-#endif
 
 	return me_b2(arg1, arg2, rotl_tag);
 }
@@ -4941,12 +4939,12 @@ f_rotate_right(exp arg1, exp arg2)
 		}
 	}
 
-#if !has_rotate
-	return f_rotate_left(arg1, hold_refactor(f_minus(f_impossible,
+	if (~has & HAS_ROTATE) {
+		return f_rotate_left(arg1, hold_refactor(f_minus(f_impossible,
 						      me_shint(sh(arg2),
 							shape_size(sh(arg1))),
 						      arg2)));
-#endif
+	}
 
 	return me_b2(arg1, arg2, rotr_tag);
 }

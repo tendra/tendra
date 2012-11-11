@@ -193,6 +193,7 @@ main(int argc, char **argv)
 	has &= ~HAS_BYTEOPS;
 	has &= ~HAS_BYTEREGS;
 	has &= ~HAS_NEGSHIFT;
+	has &= ~HAS_ROTATE;
 
 	if (override_diags) {
 		diagnose = 0;
