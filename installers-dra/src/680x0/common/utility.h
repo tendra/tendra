@@ -10,6 +10,8 @@
 #ifndef UTILITY_INCLUDED
 #define UTILITY_INCLUDED
 
+#include <string.h>
+
 #include <shared/xalloc.h>
 
 extern char *basename(char *);

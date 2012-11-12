@@ -8,6 +8,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <string.h>
+
 #include "config.h"
 
 int machine_toks(char *s)

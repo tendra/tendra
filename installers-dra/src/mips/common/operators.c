@@ -11,6 +11,8 @@
 	produces code for common operations
 */
 
+#include <shared/xalloc.h>
+
 #include "config.h"
 
 #include <construct/tags.h>

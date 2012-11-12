@@ -55,6 +55,7 @@
 #include <construct/me_fns.h>
 
 #include <refactor/refactor.h>
+#include <refactor/refactor_id.h>
 #include <refactor/const.h>
 
 #ifdef NEWDIAGS

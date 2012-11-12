@@ -8,6 +8,7 @@
  */
 
 #include <time.h>
+#include <string.h>
 
 #include <shared/check.h>
 

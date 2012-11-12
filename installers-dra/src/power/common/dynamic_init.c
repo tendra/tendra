@@ -10,6 +10,8 @@
 
 /* dynamic_init.c does all the dynamic initialisation code */
 
+#include <string.h>
+
 #include <shared/error.h>
 
 #include "config.h"

@@ -8,6 +8,9 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <stdio.h>
+#include <stdlib.h>
+
 #include "config.h"
 
 #include "translat.h"	/* for as_file */

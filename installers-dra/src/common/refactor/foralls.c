@@ -28,6 +28,7 @@
 
 #include <refactor/const.h>
 #include <refactor/optimise.h>
+#include <refactor/refactor.h>
 #include <refactor/refactor_id.h>
 
 #define subvar 0x100

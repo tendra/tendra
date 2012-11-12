@@ -16,6 +16,8 @@
 
 #include <stdlib.h>
 
+#include <shared/xalloc.h>
+
 #include "config.h"
 
 #include <construct/tags.h>

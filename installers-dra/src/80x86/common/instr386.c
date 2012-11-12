@@ -14,6 +14,8 @@
 
 **********************************************************************/
 
+#include <string.h>
+
 #include <shared/check.h>
 
 #include "config.h"
@@ -35,6 +37,8 @@
 #include <construct/machine.h>
 #include <construct/f64.h>
 #include <construct/installglob.h>
+
+#include <refactor/refactor.h>
 
 #include "expmacs.h"
 #include "coder.h"

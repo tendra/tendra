@@ -16,6 +16,8 @@
    where f is any sequence of unary operators including identity
 */
 
+#include <stddef.h>
+
 #include "config.h"
 
 #include <construct/tags.h>

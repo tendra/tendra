@@ -20,6 +20,8 @@
 #include <construct/shapemacs.h>
 #include <construct/tags.h>
 
+#include <refactor/refactor.h>
+
 #include "expmacs.h"
 #include "exptypes.h"
 #include "assembler.h"

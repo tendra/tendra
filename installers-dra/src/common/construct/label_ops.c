@@ -23,6 +23,8 @@
 #include <construct/shapemacs.h>
 #include <construct/flags.h>
 
+#include <refactor/refactor.h>
+
 
 /* label_is_next returns 1 if lab is a labst which immediately
    follows e, otherwise 0. e will not be nilexp

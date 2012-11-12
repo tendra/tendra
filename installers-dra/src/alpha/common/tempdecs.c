@@ -13,6 +13,8 @@
   in t-reg, rather than s-reg.
 */
 
+#include <stddef.h>
+
 #include "config.h"
 
 #include <construct/tags.h>

@@ -19,6 +19,8 @@
   props(ident) is instore => no = displacement*64+SP.
 */
 
+#include <stddef.h>
+
 #include "config.h"
 
 #include <construct/tags.h>
