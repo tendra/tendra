@@ -709,7 +709,7 @@ void translate_capsule
 	seed_label();		/* reset label sequence */
 	settempregs(son(tg));	/* reset getreg sequence */
 
-	first = (labexp)malloc(sizeof(struct labexp_t));
+	first = (labexp)xmalloc(sizeof(struct labexp_t));
 	first->e = (exp)0;
 	first->next = (labexp)0;
 	current = first;

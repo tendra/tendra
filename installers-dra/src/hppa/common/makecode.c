@@ -2327,7 +2327,7 @@ makeans make_code
 
 	/* generate constant value... */
 	fix_nonbitfield(e);	/* Ensure all offsets are BIT-offsets. */
-	next = (labexp)malloc(sizeof(struct labexp_t));
+	next = (labexp)xmalloc(sizeof(struct labexp_t));
 	next->e = e;
 	next->lab = next_data_lab();
 	next->next = (labexp)0;
@@ -4444,7 +4444,7 @@ makeans make_code
      bool sgned = ((ashof(sh(e)).ashsize >= 32) || is_signed(sh(e)));
      labexp next;
       /* place constant in appropriate data segment */
-     next  = (labexp)malloc(sizeof(struct labexp_t));
+     next  = (labexp)xmalloc(sizeof(struct labexp_t));
      next->e = e;
      next->lab = next_data_lab();
      next->next = (labexp)0;

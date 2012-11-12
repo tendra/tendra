@@ -527,7 +527,7 @@ static void quad_addr
     if (name(e) ==real_tag)
     {
 	labexp next;
-	next  = (labexp)malloc(sizeof(struct labexp_t));
+	next  = (labexp)xmalloc(sizeof(struct labexp_t));
 	next->e = e;
 	next->lab = next_data_lab();
 	next->next = (labexp)0;

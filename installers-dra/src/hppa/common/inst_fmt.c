@@ -186,7 +186,7 @@ outp(ins_p ins, ins_p cc, int *ops, int lab)
       /* Increment number of assembler instructions allowed for by INCR */
       int i;
       pIn *temp=pCode;
-      pCode = (pIn*) malloc( (lines+INCR)*sizeof(pIn) );
+      pCode = (pIn*) xmalloc( (lines+INCR)*sizeof(pIn) );
       for(i=0;i<lines;i++)
 	 pCode[i]=temp[i];
       free(temp);
@@ -316,7 +316,7 @@ outp(ins_p ins, ins_p cc, int *ops, int lab)
 
    {
       pIn pI;
-      pI = (pIn) malloc( sizeof(psuedoIn) );
+      pI = (pIn) xmalloc( sizeof(psuedoIn) );
       GET_FILE_POSN(outf,(pI->fpos));
       pI->ins=ins;
       pI->cc=cc;
@@ -333,7 +333,7 @@ outp(ins_p ins, ins_p cc, int *ops, int lab)
 	    /* Increment number of labels allowed for by INCR */
 	    int i;
 	    int *temp=labIntro;
-	    labIntro = (int*) malloc( (nLabels+INCR)*sizeof(int) );
+	    labIntro = (int*) xmalloc( (nLabels+INCR)*sizeof(int) );
 	    for(i=0;i<nLabels;i++)
 	       labIntro[i]=temp[i];
 	    for(i=nLabels;i<nLabels+INCR;i++)
@@ -360,7 +360,7 @@ ext_name(long id)
   {
     /* init sp */
     sizeof_space = 64;		/* generous first guess */
-    sp = (char *) malloc(sizeof_space);
+    sp = (char *) xmalloc(sizeof_space);
   }
 
   if (id < 0)

@@ -391,7 +391,7 @@ void make_vtentry
    }
    if (record)
    {
-      vt_entry next = (vt_entry)malloc(sizeof(struct vt_entry_t));
+      vt_entry next = (vt_entry)xmalloc(sizeof(struct vt_entry_t));
       if (last_vt_entry == (vt_entry)0)
       {
 	 last_vt_entry = next;
@@ -1415,7 +1415,7 @@ static DNTTPOINTER pos;
 void undo_outed
 (diag_type dt)
 {
-   outed p = (outed)malloc(sizeof(struct outed_t));
+   outed p = (outed)xmalloc(sizeof(struct outed_t));
    uo->prev = p;
    p->dt = dt;
    p->prev = (struct outed_t*)0;
@@ -1598,7 +1598,7 @@ DNTTPOINTER pos_of_dnttpointer
    int s;
    int t = typeno;
    pos = lntt_next;
-   uo = (struct outed_t*)malloc(sizeof(struct outed_t));
+   uo = (struct outed_t*)xmalloc(sizeof(struct outed_t));
    uo->prev = (struct outed_t*)0;
    f = uo;
    traverse_diag_type(dt);
