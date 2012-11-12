@@ -16,7 +16,6 @@
 #define has64bits 0
 
 #define only_lengthen_ops 1
-#define substitute_params 1
 
 #define replace_compound 1
 #define no_bitfield_ops 0

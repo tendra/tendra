@@ -113,6 +113,7 @@ flags_optim(const char *s)
 		case 'r': o |= OPTIM_TAIL;         continue;
 		case 't': o |= OPTIM_TEMPDEC;      continue;
 		case 'o': o |= OPTIM_ZEROOFFSETS;  continue;
+		case 'p': o |= OPTIM_SUBSTPARAMS;  continue;
 
 		default:
 			error(ERROR_WARNING, "Unrecognised optimisation flag %c. "

@@ -552,12 +552,7 @@ refactor_id(exp e, exp scope)
 	used_in(son(son(def)), body) != 3) || name(def) == null_tag ||
        name(def) == real_tag)) {
 	 /* identifying a constant or named value */
-#if !substitute_params
-    int do_anyway = 0;
-#else
-    int do_anyway = 1;
-#endif
-    if (do_anyway || name(def) != name_tag || !isparam(son(def)) ||
+    if (optim & OPTIM_SUBSTPARAMS || name(def) != name_tag || !isparam(son(def)) ||
 	isvar(son(def))) {
       exp bh = hold(body);
 #ifdef NEWDIAGS

@@ -41,7 +41,6 @@
 #define no_bitfield_ops		0
 #define only_lengthen_ops	0
 #define replace_compound	0
-#define substitute_params	0
 #define substitute_complex	1
 
 /* foralls config */

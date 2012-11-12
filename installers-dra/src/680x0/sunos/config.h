@@ -64,7 +64,6 @@ typedef unsigned long bitpattern;
 #endif
 #define no_trap_on_nil_contents	1	/* Let common code detect nil access */
 #define replace_compound	1	/* Replace compounds by externals */
-#define substitute_params	1	/* Do substitute parameters */
 #define temp_mips		0	/* Don't need a mips hack */
 #define use_long_double		0	/* Not yet anyway */
 #define remove_unused_counters	0	/* for foralls optimisation */

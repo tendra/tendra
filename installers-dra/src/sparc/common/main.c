@@ -378,6 +378,7 @@ main ( int argc, char ** argv )
     /* not implemented */
     optim &= ~OPTIM_TAIL;
     optim &= ~OPTIM_ZEROOFFSETS;
+    optim &= ~OPTIM_SUBSTPARAMS;
 
     /* initialise nowhere */
     setregalt ( nowhere.answhere, 0 ) ;
