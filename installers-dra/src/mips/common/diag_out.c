@@ -17,6 +17,8 @@ around the syms modules provided in the system library.
 
 
 ********************************************************************/
+
+#include <shared/check.h>
 #include <shared/xalloc.h>
 
 #include "config.h"

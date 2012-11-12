@@ -9,6 +9,8 @@
 
 #include <stdlib.h>
 
+#include <shared/check.h>
+
 #include "config.h"
 
 #include <construct/tags.h>

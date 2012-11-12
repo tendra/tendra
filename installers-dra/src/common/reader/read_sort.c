@@ -10,6 +10,8 @@
 /* defines read_sort, which calls the decoder routine for the sort
    given by sn and delivers the result inserted into the union tokval */
 
+#include <shared/check.h>
+
 #include "config.h"
 #include "expmacs.h"
 

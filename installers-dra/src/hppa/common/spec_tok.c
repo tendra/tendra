@@ -9,6 +9,8 @@
 
 #include "config.h"
 
+#include <shared/check.h>
+
 #include <reader/codetypes.h>
 #include <reader/basicread.h>
 #include <reader/externs.h>

@@ -19,8 +19,9 @@ the proc independent (common to other  translators)
 
 ******************************************************************/
 
-
 #include <assert.h>
+
+#include <shared/check.h>
 
 #include "config.h"
 

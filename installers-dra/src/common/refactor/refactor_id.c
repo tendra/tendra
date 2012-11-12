@@ -35,6 +35,8 @@
 
 #include <stddef.h>
 
+#include <shared/check.h>
+
 #include "config.h"
 
 #include "exptypes.h"

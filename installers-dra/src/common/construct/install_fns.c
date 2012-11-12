@@ -25,6 +25,7 @@
 #include <time.h>
 #include <string.h>
 
+#include <shared/check.h>
 #include <shared/xalloc.h>
 
 #include "config.h"

@@ -10,7 +10,7 @@
 #include <assert.h>
 #include <stdarg.h>
 
-#include <shared/xalloc.h>
+#include <shared/check.h>
 #include <shared/xalloc.h>
 
 #include "config.h"

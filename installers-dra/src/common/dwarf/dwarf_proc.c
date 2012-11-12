@@ -10,6 +10,8 @@
 #include "config.h"
 #include "cross_config.h"
 
+#include <shared/check.h>
+
 #include <reader/basicread.h>
 
 #include <construct/machine.h>

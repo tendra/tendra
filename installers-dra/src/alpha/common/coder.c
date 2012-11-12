@@ -12,6 +12,7 @@
    This is the principal code producing module
 */
 
+#include <shared/check.h>
 #include <shared/xalloc.h>
 
 #include <stdlib.h>

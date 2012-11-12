@@ -17,6 +17,7 @@
 #include <string.h>
 #include <stdio.h>
 
+#include <shared/check.h>
 #include <shared/xalloc.h>
 
 #include "config.h"

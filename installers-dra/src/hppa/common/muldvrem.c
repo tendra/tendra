@@ -9,6 +9,8 @@
 
 #include <assert.h>
 
+#include <shared/check.h>
+
 #include "config.h"
 
 #include <construct/tags.h>

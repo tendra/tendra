@@ -12,6 +12,8 @@
 
 #include <stdlib.h>
 
+#include <shared/check.h>
+
 #include "config.h"
 
 #include <reader/codetypes.h>

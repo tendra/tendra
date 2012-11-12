@@ -11,6 +11,8 @@
 
 #include "config.h"
 
+#include <shared/check.h>
+
 #include <reader/basicread.h>
 #include <reader/ecodes.h>
 #include <reader/externs.h>

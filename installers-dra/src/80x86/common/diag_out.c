@@ -7,6 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <shared/check.h>
 #include <shared/xalloc.h>
 
 #include "config.h"

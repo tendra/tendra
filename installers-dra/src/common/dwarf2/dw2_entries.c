@@ -10,6 +10,8 @@
 #include "config.h"
 #include "dw2_config.h"
 
+#include <shared/check.h>
+
 #include <dwarf2/dw2_entries.h>
 #include <dwarf2/dw2_basic.h>
 

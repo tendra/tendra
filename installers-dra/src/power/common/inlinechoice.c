@@ -10,6 +10,8 @@
 
 #include "config.h"
 
+#include <shared/check.h>
+
 #include "exptypes.h"
 #include "expmacs.h"
 

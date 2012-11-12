@@ -9,6 +9,8 @@
 
 #include "config.h"
 
+#include <shared/check.h>
+
 #include <construct/tags.h>
 #include <construct/exp.h>
 #include <construct/shapemacs.h>

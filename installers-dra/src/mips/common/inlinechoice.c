@@ -9,6 +9,8 @@
 
 #include "config.h"
 
+#include <shared/check.h>
+
 #include <construct/installglob.h>
 #include <construct/exp.h>
 #include <construct/tags.h>

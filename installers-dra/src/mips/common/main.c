@@ -16,6 +16,7 @@
 
  *********************************************************************/
 
+#include <shared/check.h>
 #include <shared/getopt.h>
 
 #include "config.h"

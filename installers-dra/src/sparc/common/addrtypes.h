@@ -10,6 +10,8 @@
 #ifndef ADDRTYPES_INCLUDED
 #define ADDRTYPES_INCLUDED
 
+#include <shared/check.h>
+
 #include "config.h"
 
 #include <construct/installtypes.h>

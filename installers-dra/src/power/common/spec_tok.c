@@ -8,6 +8,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <shared/check.h>
+
 #include "config.h"
 
 #include <reader/codetypes.h>
