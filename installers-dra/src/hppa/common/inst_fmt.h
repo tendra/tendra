@@ -10,6 +10,8 @@
 #ifndef INST_FMT_INCLUDED
 #define INST_FMT_INCLUDED
 
+#include <stdio.h>
+
 #include "addrtypes.h"
 #include "hppains.h"
 

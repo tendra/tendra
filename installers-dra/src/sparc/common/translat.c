@@ -86,6 +86,7 @@
  */
 
 #include <assert.h>
+#include <stdio.h>
 
 #include <shared/xalloc.h>
 

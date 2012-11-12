@@ -14,6 +14,7 @@ For trivial 'peephole' optimisations
 */
 
 #include <assert.h>
+#include <stddef.h>
 
 #include "config.h"
 

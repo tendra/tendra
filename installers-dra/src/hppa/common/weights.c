@@ -37,6 +37,8 @@ stack, (this is obviously always available for parameters).
 
 ******************************************************************/
 
+#include <stddef.h>
+
 #include "config.h"
 
 #include <reader/codetypes.h>

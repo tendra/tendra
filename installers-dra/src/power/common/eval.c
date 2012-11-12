@@ -17,6 +17,7 @@ into the table of externals (or 0 meaning anonymous).
 *****************************************************************/
 
 #include <ctype.h>
+#include <stdio.h>
 
 #include <shared/error.h>
 

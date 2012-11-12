@@ -11,6 +11,9 @@
 	This is the principal code producing module
 ****************************************************************/
 
+#include <stdio.h>
+#include <string.h>
+
 #include <shared/check.h>
 
 #include "config.h"

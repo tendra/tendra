@@ -7,6 +7,9 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <stddef.h>
+#include <string.h>
+
 #include "config.h"
 
 #include <reader/externs.h>

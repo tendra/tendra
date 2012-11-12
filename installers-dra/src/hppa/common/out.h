@@ -10,6 +10,8 @@
 #ifndef OUTDECS_INCLUDED
 #define OUTDECS_INCLUDED
 
+#include <stdio.h>
+
 #include "config.h"
 
 extern FILE *outf;

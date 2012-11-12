@@ -15,7 +15,9 @@
   the code scheduler at appropriate points.
 */
 
+#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include <shared/check.h>
 #include <shared/xalloc.h>

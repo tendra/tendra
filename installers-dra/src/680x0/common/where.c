@@ -7,6 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <string.h>
+
 #include <shared/check.h>
 #include <shared/error.h>
 

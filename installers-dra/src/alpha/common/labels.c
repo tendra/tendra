@@ -14,6 +14,8 @@
   the registers - see regexps.c
 */
 
+#include <stdio.h>
+
 #include <shared/xalloc.h>
 
 #include "config.h"

@@ -10,6 +10,8 @@
 #ifndef XDB_OUTPUT_INCLUDED
 #define XDB_OUTPUT_INCLUDED
 
+#include <stdio.h>
+
 #include "config.h"
 
 #include "exptypes.h"

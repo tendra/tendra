@@ -24,6 +24,7 @@ number of ident = (word displacement in locals)*64 + GR17
 *****************************************************************/
 
 #include <assert.h>
+#include <stddef.h>
 
 #include "config.h"
 

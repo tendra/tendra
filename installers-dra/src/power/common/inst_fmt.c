@@ -18,6 +18,8 @@ understood by the assembler.
 
 ******************************************************************/
 
+#include <stdio.h>
+
 #include <shared/error.h>
 
 #include "config.h"

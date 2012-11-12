@@ -82,6 +82,8 @@
  *  Library procedures such as memcpy() are not treated specially.
  */
 
+#include <stdio.h>
+
 #include <shared/error.h>
 #include <shared/xalloc.h>
 

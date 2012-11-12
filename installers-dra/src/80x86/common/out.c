@@ -9,6 +9,8 @@
 
 /* Low level output routines */
 
+#include <stdio.h>
+
 #include <shared/check.h>
 
 #include "config.h"

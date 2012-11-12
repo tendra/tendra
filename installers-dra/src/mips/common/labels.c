@@ -13,6 +13,8 @@
 	the registers - see regexps.c
 */
 
+#include <stdio.h>
+
 #include "config.h"
 
 #include "regexps.h"

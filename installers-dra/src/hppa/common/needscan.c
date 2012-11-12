@@ -20,6 +20,7 @@ the proc independent (common to other  translators)
 ******************************************************************/
 
 #include <assert.h>
+#include <string.h>
 
 #include <shared/check.h>
 

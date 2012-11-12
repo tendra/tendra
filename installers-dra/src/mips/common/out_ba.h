@@ -7,6 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <stdio.h>
+
 #include "ibinasm.h"
 
 extern void out_common(asmsym symno, unsigned asmtype);

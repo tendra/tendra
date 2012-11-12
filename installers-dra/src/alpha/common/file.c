@@ -12,6 +12,8 @@
    file handling functions for the alpha translator.
 */
 
+#include <stdio.h>
+
 #include <shared/xalloc.h>
 
 #include "config.h"

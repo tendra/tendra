@@ -19,6 +19,9 @@
    Each record in binasm is 16 bytes, coded in various ways depending
    on class of instruction or directtive.
 *****************************************************************/
+
+#include <stdio.h>
+
 #include "config.h"
 #include "ibinasm.h"
 #include "out_ba.h"

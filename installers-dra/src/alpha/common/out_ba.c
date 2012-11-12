@@ -15,6 +15,8 @@
 
 */
 
+#include <stdio.h>
+
 #include <shared/xalloc.h>
 
 #include "config.h"

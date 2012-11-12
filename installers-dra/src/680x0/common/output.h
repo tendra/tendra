@@ -10,6 +10,8 @@
 #ifndef OUTPUT_INCLUDED
 #define OUTPUT_INCLUDED
 
+#include <stdio.h>
+
 extern FILE *fpout;
 
 #define  outc(X)	fputc((X), fpout)

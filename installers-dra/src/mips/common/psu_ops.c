@@ -11,6 +11,8 @@
 	Output various psuedo operations to assembler
 */
 
+#include <stdio.h>
+
 #include "config.h"
 
 #include "ibinasm.h"

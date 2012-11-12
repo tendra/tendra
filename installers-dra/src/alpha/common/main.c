@@ -12,6 +12,7 @@
   Provides the driver function for the TDF->DEC Alpha translator.
 */
 
+#include <stdio.h>
 #include <stdlib.h>
 
 #include <shared/check.h>

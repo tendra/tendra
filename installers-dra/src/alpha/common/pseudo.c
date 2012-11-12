@@ -12,6 +12,8 @@
    Output various psuedo operations to assembler 
 */
 
+#include <stdio.h>
+
 #include <shared/xalloc.h>
 
 #include "config.h"

@@ -13,6 +13,8 @@
       evaluating an exp is in a register or directly or literally in store,
 */
 
+#include <stdio.h>
+
 #include "config.h"
 
 #include <reader/basicread.h>

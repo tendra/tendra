@@ -19,6 +19,8 @@ the proc independent (common to other  translators)
 
 *************************************************************/
 
+#include <string.h>
+
 #include "config.h"
 
 #include <reader/externs.h>

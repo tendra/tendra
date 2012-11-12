@@ -12,10 +12,12 @@
    This is the principal code producing module
 */
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 #include <shared/check.h>
 #include <shared/xalloc.h>
-
-#include <stdlib.h>
 
 #include "config.h"
 

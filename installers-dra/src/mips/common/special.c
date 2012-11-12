@@ -11,6 +11,8 @@
     inlines some of the simpler standard library functions
 */
 
+#include <string.h>
+
 #include "config.h"
 
 #include <reader/basicread.h>
