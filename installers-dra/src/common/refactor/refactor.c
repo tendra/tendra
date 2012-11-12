@@ -4685,7 +4685,7 @@ refactor(exp e, exp scope)
 		      name(arg2) == name_tag && isvar(son(arg2))) ||
 		     (name(arg2) == null_tag && no(arg2) == 0 &&
 		      name(arg1) == name_tag && isvar(son(arg1))))) {
-			/* if we are comparing null with a variable we
+			/* if we are comparing NULL with a variable we
 			   know the way to jump. */
 			if (test_number(e) == 6) {
 				repbycont(e, 1, scope);

@@ -45,8 +45,8 @@ int output_immediately = 0;
     given by current_ins.
 */
 
-mach_ins *all_mach_ins = null;
-mach_ins *current_ins = null;
+mach_ins *all_mach_ins = NULL;
+mach_ins *current_ins = NULL;
 
 
 /*
@@ -66,7 +66,7 @@ bitpattern last_jump_regs = 0;
     A list of free mach_ins's, linked by their next field, is maintained.
 */
 
-static mach_ins *mach_ins_list = null;
+static mach_ins *mach_ins_list = NULL;
 
 
 /*
@@ -101,11 +101,11 @@ reclaim_ins(mach_ins *p)
 void
 free_all_ins(void)
 {
-	mach_ins *p = all_mach_ins, *q = null;
-	if (p == null) {
+	mach_ins *p = all_mach_ins, *q = NULL;
+	if (p == NULL) {
 		return;
 	}
-	while (p != null) {
+	while (p != NULL) {
 		if (p->op1) {
 			free_mach_op(p->op1);
 		}
@@ -117,8 +117,8 @@ free_all_ins(void)
 	}
 	q->next = mach_ins_list;
 	mach_ins_list = all_mach_ins;
-	all_mach_ins = null;
-	current_ins = null;
+	all_mach_ins = NULL;
+	current_ins = NULL;
 	last_jump = -1;
 	last_jump_regs = 0;
 	return;
@@ -151,13 +151,13 @@ make_instr_aux(int insno, mach_op *op1, mach_op *op2, bitpattern ch, int susp)
 			update_stack();
 		}
 	}
-	if (mach_ins_list == null) {
+	if (mach_ins_list == NULL) {
 		int i, n = 1000;
 		mach_ins_list = alloc_nof(mach_ins, n);
 		for (i = 0; i < n - 1; i++) {
 			(mach_ins_list + i) ->next = mach_ins_list + (i + 1);
 		}
-		(mach_ins_list + (n - 1))->next = null;
+		(mach_ins_list + (n - 1))->next = NULL;
 	}
 	p = mach_ins_list;
 	mach_ins_list = p->next;
@@ -174,7 +174,7 @@ make_instr_aux(int insno, mach_op *op1, mach_op *op2, bitpattern ch, int susp)
 	p->op2 = op2;
 	p->changed = ch;
 	last_jump_regs |= ch;
-	if (current_ins == null) {
+	if (current_ins == NULL) {
 		p->next = all_mach_ins;
 		all_mach_ins = p;
 	} else {
@@ -210,7 +210,7 @@ make_label(long n)
 	mach_op *p = new_mach_op();
 	p->type = MACH_LABQ;
 	p->def.num = n;
-	make_instr_aux(m_label_ins, p, null,(bitpattern)0xffff, 0);
+	make_instr_aux(m_label_ins, p, NULL,(bitpattern)0xffff, 0);
 	have_cond = 0;
 #ifdef EBUG
 	if (seek_label && n == (long)seek_label_no) {
@@ -231,7 +231,7 @@ make_comment(char* comment)
 	p = new_mach_op();
 	p->type = MACH_COMMENT;
 	p->def.str = comment;
-	make_instr_aux(m_comment, p, null,(bitpattern)0x0000, 0);
+	make_instr_aux(m_comment, p, NULL,(bitpattern)0x0000, 0);
 
 	return;
 }
@@ -250,7 +250,7 @@ make_external_label(char *nm)
 	mach_op *p = new_mach_op();
 	p->type = MACH_EXTQ;
 	p->def.str = nm;
-	make_instr_aux(m_extern_ins, p, null,(bitpattern)0xffff, 0);
+	make_instr_aux(m_extern_ins, p, NULL,(bitpattern)0xffff, 0);
 	have_cond = 0;
 #ifdef EBUG
 	if (seek_extern && eq(nm, seek_extern_id)) {
@@ -275,7 +275,7 @@ make_jump(int insno, long n)
 	mach_op *p = new_mach_op();
 	p->type = MACH_LABQ;
 	p->def.num = n;
-	make_instr_aux(insno, p, null,(bitpattern)0, 0);
+	make_instr_aux(insno, p, NULL,(bitpattern)0, 0);
 	if (n != last_jump) {
 		last_jump = n;
 		last_jump_regs = 0;

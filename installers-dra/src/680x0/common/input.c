@@ -31,13 +31,13 @@ open_input(char *nm)
 
 	if (strcmp(nm, "-")) {
 		fpin = fopen(nm, "r");
-		if (fpin == null) {
+		if (fpin == NULL) {
 			error(ERROR_FATAL, "Can't open input file, %s", nm);
 		}
 	} else {
 		int c;
 		fpin = tmpfile();
-		if (fpin == null) {
+		if (fpin == NULL) {
 			error(ERROR_FATAL, "Can't open temporary file");
 		}
 		while (c = fgetc(stdin), c != EOF) {

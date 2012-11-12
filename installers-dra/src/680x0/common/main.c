@@ -114,8 +114,8 @@ int main
 (int argc, char **argv)
 {
 	int a;
-	char *input = null;
-	char *output = null;
+	char *input = NULL;
+	char *output = NULL;
 
 	diag = DIAG_STABS;
 	endian = ENDIAN_BIG;
@@ -319,7 +319,7 @@ int main
     MAX_BF_SIZE = (conventions != CONVENTIONS_HP ? MAX_BF_SIZE_CC : MAX_BF_SIZE_GCC);
 
     /* Call initialization routines */
-    top_def = null;
+    top_def = NULL;
     init_flpt();
     init_instructions();
 #include <reader/inits.h>

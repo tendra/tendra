@@ -10,7 +10,8 @@
 #ifndef expmacs_key
 #define expmacs_key 1
 
-#define nilexp (exp)0
+#define nilexp NULL
+
 #define Assert(x) if(!(x)) failer("x")
 /* main components of exp */
 

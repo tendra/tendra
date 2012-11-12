@@ -396,7 +396,7 @@ main ( int argc, char ** argv )
     /* other initialisation routines */
     init_flpt () ;
 #include <reader/inits.h>
-    top_def = null ;
+    top_def = NULL ;
 
     /* main decoding routines */
     open_files ( infname, outfname ) ;

@@ -16,7 +16,7 @@
     THE NIL EXPRESSION
 */
 
-#define nilexp				null
+#define nilexp				NULL
 
 
 /*

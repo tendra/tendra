@@ -11,6 +11,8 @@
 conditionals with tests which only jump to nearest conditional outlab;
 initial call : comp_eq_exp(a,b,nilexp,nilexp)  */
 
+#include <stddef.h>
+
 #include "config.h"
 
 #include <construct/tags.h>

@@ -23,7 +23,7 @@ typedef char * instruction;
     THE NIL INSTRUCTION
 */
 
-#define I_NIL		null
+#define I_NIL		NULL
 
 
 /*

@@ -38,6 +38,7 @@ stack, (this is obviously always available for parameters).
 ******************************************************************/
 
 #include <limits.h>
+#include <stddef.h>
 
 #include "config.h"
 

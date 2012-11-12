@@ -13,6 +13,8 @@ For trivial 'peephole' optimisations
 
 */
 
+#include <stddef.h>
+
 #include "config.h"
 
 #include <reader/basicread.h>

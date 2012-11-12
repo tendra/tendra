@@ -67,7 +67,7 @@ void COMMENT4(char *mess, long p1, long p2, long p3, long p4)
 
 #else				/* DO_COMMENT */
 
-/* defined as null macros in comment.h */
+/* defined as NULL macros in comment.h */
 
 #endif				/* DO_COMMENT */
 

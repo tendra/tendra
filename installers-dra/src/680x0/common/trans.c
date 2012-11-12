@@ -269,7 +269,7 @@ static void code_const
    diag_global *di = d->dec_u.dec_val.diag_info;
    area(isvar(c)? pdata : ptext);
 #ifndef no_align_directives
-   make_instr(m_as_align4, null, null, 0);
+   make_instr(m_as_align4, NULL, NULL, 0);
 #endif
    evaluate(s, -1L , id, !isvar(c), 1, di);
 }
@@ -293,10 +293,10 @@ static void code_const_list
 	if (name(s) == proc_tag || name(s) == general_proc_tag) {
 	    char *id = alloc_nof(char, 30);
 	    sprintf(id, "%s%ld", local_prefix, no(t));
-	    gcproc(s, null, no(t), 0, 1, null);
+	    gcproc(s, NULL, no(t), 0, 1, NULL);
 	} else {
 	    area(b ? pdata : ptext);
-	    evaluate(s, no(t), null, b, 0, null);
+	    evaluate(s, no(t), NULL, b, 0, NULL);
 	}
     }
     return;

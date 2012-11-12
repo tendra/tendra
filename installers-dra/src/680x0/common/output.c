@@ -35,17 +35,17 @@ FILE *fpout;
     OPEN OUTPUT FILE
 
     This routine opens the file with the given name for output.  If the
-    name is null, the standard output is used.
+    name is NULL, the standard output is used.
 */
 
 void
 open_output(char *nm)
 {
-	if (nm == null) {
+	if (nm == NULL) {
 		fpout = stdout;
 	} else {
 		fpout = fopen(nm, "w");
-		if (fpout == null) {
+		if (fpout == NULL) {
 			error(ERROR_SERIOUS, "Can't open output file, %s", nm);
 			exit(EXIT_FAILURE);
 		}
@@ -333,10 +333,10 @@ out_mach_op(mach_op *ptr)
 		case MACH_CONT: {
 			/* Memory indirect (post- or pre-indexed) */
 			mach_op *p1 = p->plus;
-			mach_op *p2 = null;
+			mach_op *p2 = NULL;
 			mach_op *q = p->of;
 			mach_op *q1 = q->plus;
-			mach_op *q2 = null;
+			mach_op *q2 = NULL;
 			if (p1 && p1->type == MACH_SCALE) {
 				p2 = p1;
 				p1 = p2->plus;
@@ -367,7 +367,7 @@ out_mach_op(mach_op *ptr)
 		case MACH_REG: {
 			/* Register indirect (with displacement or index) */
 			mach_op *p1 = p->plus;
-			mach_op *p2 = null;
+			mach_op *p2 = NULL;
 			if (p1) {
 				if (p1->type == MACH_SCALE) {
 					p2 = p1;
@@ -385,7 +385,7 @@ out_mach_op(mach_op *ptr)
 		case MACH_EXTQ: {
 			/* External indirect (with displacement or index) */
 			mach_op *p1 = p->plus;
-			mach_op *p2 = null;
+			mach_op *p2 = NULL;
 			if (p1) {
 				if (p1->type == MACH_SCALE) {
 					p2 = p1;
@@ -636,8 +636,8 @@ init_output(void)
 		reg_names[REG_A1] = r;
 	}
 #endif /* SYS_ABI */
-	all_mach_ins = null;
-	current_ins = null;
+	all_mach_ins = NULL;
+	current_ins = NULL;
 	return;
 }
 

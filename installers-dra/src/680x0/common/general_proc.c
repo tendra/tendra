@@ -188,15 +188,15 @@ void gcproc
 
   /* Output procedure name(s) */
   area(ptext);
-  make_instr(m_as_align4, null, null, 0);
+  make_instr(m_as_align4, NULL, NULL, 0);
   if (is_ext && pname) {
      if (strcmp(pname, "_cmppt") == 0) {
         /* Hack to get alignments right */
-      make_instr(m_nop, null, null, 0);
-      make_instr(m_nop, null, null, 0);
+      make_instr(m_nop, NULL, NULL, 0);
+      make_instr(m_nop, NULL, NULL, 0);
     }
     op1 = make_extern_data(pname, 0);
-    make_instr(m_as_global, op1, null, 0);
+    make_instr(m_as_global, op1, NULL, 0);
   }
   if (cname == -1) {
     make_external_label(pname);
@@ -207,7 +207,7 @@ void gcproc
   if (! strcmp(pname, "_main")) {
      make_comment("Do Dynamic Initialization");
      op1 = make_extern_ind("___TDF_main",0);
-     make_instr(m_call,op1,null,0);
+     make_instr(m_call,op1,NULL,0);
   }
 
   /* Output profiling information if required */
@@ -381,7 +381,7 @@ void restore_regs_output
          case ALL:
             /* Output unlink instruction */
             op1 = make_register(REG_AP);
-            make_instr(m_unlk, op1, null, regmsk(REG_AP));
+            make_instr(m_unlk, op1, NULL, regmsk(REG_AP));
             break;
          case NOT_SP:
             make_comment("untidy return => Restore A6, but not SP");
@@ -1470,7 +1470,7 @@ void general_epilogue
    cleanup();
 
    /* Output return instruction */
-   make_instr(m_rts, null, null, 0);
+   make_instr(m_rts, NULL, NULL, 0);
 
    /* Output instructions to restore registers */
    save_ins_pointer = current_ins;
@@ -1614,7 +1614,7 @@ void untidy_return
 
    restore_regs(NOT_SP);
    /* Output return instruction */
-   make_instr(m_rts, null, null, 0);
+   make_instr(m_rts, NULL, NULL, 0);
 }
 
 /************************************************************************

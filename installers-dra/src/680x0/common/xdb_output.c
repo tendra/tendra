@@ -140,7 +140,7 @@ void init_diag
 	    diagfp1 = tmpfile();
 	    diagfp2 = tmpfile();
 	    diagfp3 = tmpfile();
-	    if (diagfp1 == null || diagfp2 == null || diagfp3 == null) {
+	    if (diagfp1 == NULL || diagfp2 == NULL || diagfp3 == NULL) {
 		error(ERROR_FATAL, "Can't open temporary diagnostics file");
 	    }
 	    fprintf(diagfp1, "%s\n", instr_names[m_as_data]);
@@ -152,7 +152,7 @@ void init_diag
 
 	case DIAG_XDB_OLD: {
 	    diagfp2 = tmpfile();
-	    if (diagfp2 == null) {
+	    if (diagfp2 == NULL) {
 		error(ERROR_FATAL, "Can't open temporary diagnostics file");
 	    }
 	    fprintf(diagfp2, "%s\n", instr_names[m_as_data]);
@@ -297,7 +297,7 @@ static void slt_special
     op3 = make_hex_data(p);
     op1->of = op2;
     op2->of = op3;
-    make_instr(m_dd_special, op1, null, 0);
+    make_instr(m_dd_special, op1, NULL, 0);
     area(plast);
     slt_num++;
     return;
@@ -321,9 +321,9 @@ static void slt_normal
 	mach_op *op1 = make_int_data(68);
 	op1->of = make_int_data(0);
 	op1->of->of = op;
-	make_instr(m_stabd, op1, null, 0);
+	make_instr(m_stabd, op1, NULL, 0);
     } else {
-	make_instr(m_dd_normal, op, null, 0);
+	make_instr(m_dd_normal, op, NULL, 0);
     }
     area(plast);
     slt_num++;
@@ -343,7 +343,7 @@ void slt_exit
     mach_op *op;
     area(ptext);
     op = make_int_data(crt_line_num);
-    make_instr(m_dd_exit, op, null, 0);
+    make_instr(m_dd_exit, op, NULL, 0);
     area(plast);
     slt_num++;
     return;
@@ -380,7 +380,7 @@ int dnt_end
 (void)
 {
     dscope *d = pop_dscope();
-    if (d == null) return 0;
+    if (d == NULL) return 0;
     if (diag == DIAG_STABS) {
 	long lab1 = (long)d->posn;
 	long lab2 = next_lab();
@@ -437,7 +437,7 @@ void diag_source_file
 	fprintf(diagfp2, ",%d\n", slt_num);
 	crt_fname = nm;
 	crt_line_num = ln;
-	make_instr(m_dd_align, null, null, 0);
+	make_instr(m_dd_align, NULL, NULL, 0);
 	slt_special(1, x);
 	if (!have_module) {
 	    x = out_dd(diagfp2, xdb_module, 1);
@@ -595,7 +595,7 @@ void diag_globl_variable
     if (diag == DIAG_STABS) {
 	if (is_glob) {
 	    char *st = analyse_stab_type(dt, id, "G");
-	    make_stabs(st, 32, crt_line_num, null);
+	    make_stabs(st, 32, crt_line_num, NULL);
 	} else {
 	    mach_op *op = make_extern_data(val, 0);
 	    char *st = analyse_stab_type(dt, id, "S");
@@ -682,7 +682,7 @@ void diag_type_defn
 	default : {
 	    if (diag == DIAG_STABS) {
 		char *st = analyse_stab_type(dt, nm, "t");
-		make_stabs(st, 128, 1L, null);
+		make_stabs(st, 128, 1L, NULL);
 	    } else {
 		int loc = (diag == DIAG_XDB_NEW ? 0 : 1);
 		FILE *file = (loc ? diagfp2 : diagfp3);

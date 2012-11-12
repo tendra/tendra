@@ -1370,9 +1370,9 @@ ptr is labelled exp
 
   case null_tag:
     {
-      /* many int optimisations keyed off val_tag so represent null as val_tag */
+      /* many int optimisations keyed off val_tag so represent NULL as val_tag */
       name(*e) = val_tag;
-      no(*e) = 0;		/* null represented as 0 */
+      no(*e) = 0;		/* NULL represented as 0 */
       return shapeneeds(sh(*e));
     }
 

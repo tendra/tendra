@@ -12,7 +12,8 @@
 #ifndef expmacs_key
 #define expmacs_key 1
 
-#define nilexp (exp)0
+#define nilexp NULL
+
 #ifdef __STDC__
 #define Assert(x) if(!(x)) failer(#x)
 #else

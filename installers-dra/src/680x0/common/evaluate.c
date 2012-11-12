@@ -82,7 +82,7 @@ exp const_list = nilexp;
     yet of this size are built up in pvalue, which contains psz bits.
 */
 
-static mach_op *current_op = null;
+static mach_op *current_op = NULL;
 static long current_sz = 0;
 
 
@@ -98,8 +98,8 @@ static void eval_instr
 {
     if (current_op) {
 	int s = ins(current_sz, m_as_byte, m_as_short, m_as_long);
-	make_instr(s, current_op, null, 0);
-	current_op = null;
+	make_instr(s, current_op, NULL, 0);
+	current_op = NULL;
     }
     current_sz = 0;
     return;
@@ -559,7 +559,7 @@ static void evalreal
 	flt *f = flptnos + no(e);
 	mach_op *op = make_float_data(f);
 	int instr = insf(sz, m_as_float, m_as_double, m_dont_know);
-	make_instr(instr, op, null, 0);
+	make_instr(instr, op, NULL, 0);
 	current_sz = 0;
     }
     return;
@@ -588,7 +588,7 @@ static void clear_out
 	current_sz = 0;
 	if (n > 0) {
 	  op = make_int_data(n);
-	  make_instr(m_as_space, op, null, 0);
+	  make_instr(m_as_space, op, NULL, 0);
 	}
 	current_sz = 0;
     }
@@ -1049,7 +1049,7 @@ void evaluate
 	    if (di)xdb_diag_val_begin(di, s, cname, global);
 #endif
 	    op1 = make_int_data(sz / 8);
-	    make_instr(m_as_space, op1, null, 0);
+	    make_instr(m_as_space, op1, NULL, 0);
 	}
 
 	return;
@@ -1058,7 +1058,7 @@ void evaluate
     /* Data values */
     if (global && cname == -1 && !is_local(s)) {
 	op1 = make_extern_data(s, 0);
-	make_instr(m_as_global, op1, null, 0);
+	make_instr(m_as_global, op1, NULL, 0);
     }
 
 #if have_diagnostics

@@ -258,7 +258,7 @@ callins(long longs, exp fn)
 	/* Now output the call instruction */
 	call_exp = getexp(proksh, nilexp, 0, fn_exp, nilexp, 0, 0L, cont_tag);
 	op = operand(32L, zw(call_exp));
-	make_instr(m_call, op, null, ~save_msk);
+	make_instr(m_call, op, NULL, ~save_msk);
 	no_calls++;
 	retcell(call_exp);
 	dec_stack(-longs);
@@ -294,7 +294,7 @@ jmpins(exp fn)
 	/* Now output the jmp instruction */
 	jmp_exp = getexp(proksh, nilexp, 0, fn_exp, nilexp, 0, 0L, cont_tag);
 	op = operand(32L, zw(jmp_exp));
-	make_instr(m_jmp, op, null, ~save_msk);
+	make_instr(m_jmp, op, NULL, ~save_msk);
 	retcell(jmp_exp);
 	have_cond = 0;
 	return;
@@ -744,7 +744,7 @@ tmp_mova(where wh, int r, bool try)
 					if (op1->type == MACH_CONT) {
 						op1 = op1->of;
 						if (op1->type == MACH_REG &&
-						    op1->plus == null) {
+						    op1->plus == NULL) {
 							t = op1->def.num;
 						}
 					}
@@ -1270,7 +1270,7 @@ move(shape sha, where from, where to)
 				}
 				if (v == 0 && stack_change == 0) {
 					op1 = make_dec_sp();
-					make_instr(m_clrl, op1, null, 0);
+					make_instr(m_clrl, op1, NULL, 0);
 					have_cond = 0;
 					stack_size -= 32;
 					return;
@@ -1291,7 +1291,7 @@ move(shape sha, where from, where to)
 					return;
 				}
 				op1 = make_int_data(v);
-				make_instr(m_pea, op1, null, 0);
+				make_instr(m_pea, op1, NULL, 0);
 				have_cond = 0;
 				stack_size -= 32;
 				return;

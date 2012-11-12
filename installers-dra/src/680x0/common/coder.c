@@ -649,17 +649,17 @@ caser(exp arg, long already)
 
 		/* Do the jump */
 		op1 = make_reg_index(REG_PC, REG_D0, 2, 1);
-		make_instr(m_jmp, op1, null, 0);
+		make_instr(m_jmp, op1, NULL, 0);
 
 		/* Print out table */
 		make_label(tlab);
 #ifndef no_align_directives
-		make_instr(m_as_align4, null, null, 0);
+		make_instr(m_as_align4, NULL, NULL, 0);
 #endif
 		make_label(slab);
 		for (i = 0; i < n; i++) {
 			op1 = make_lab_diff(jtab[i], tlab);
-			make_instr(m_as_long, op1, null, 0);
+			make_instr(m_as_long, op1, NULL, 0);
 		}
 		make_label(rlab);
 
@@ -1097,7 +1097,7 @@ coder(where dest, ash stack, exp e)
 		wh.wh_is = RegInd;
 		op = operand(32,wh);
 		/*epilogue(1);*/
-		make_instr(m_jmp,op,null,~save_msk);
+		make_instr(m_jmp,op,NULL,~save_msk);
 		/*ins1(m_jmp,32,D0,0);*/
 		return;
 	}
@@ -1109,7 +1109,7 @@ coder(where dest, ash stack, exp e)
 
 		move(slongsh, zw(dest_lab), A0);
 		restore_regs(ALL);
-		make_instr(m_jmp,operand(32,A0_p),null,~save_msk);
+		make_instr(m_jmp,operand(32,A0_p),NULL,~save_msk);
 
 		make_comment("return_to_label done");
 		return;
@@ -1127,7 +1127,7 @@ coder(where dest, ash stack, exp e)
 		restore_regs(NOT_A6_OR_SP);
 
 		move(sh(new_env),A1,AP);
-		make_instr(m_jmp,operand(32,A0_p),null,~save_msk);
+		make_instr(m_jmp,operand(32,A0_p),NULL,~save_msk);
 		return;
 	}
 	case test_tag: {
@@ -1930,7 +1930,7 @@ coder(where dest, ash stack, exp e)
 		push(slongsh,32L,zw(from_exp));
 		push(slongsh,32L,zw(to_exp));
 #endif
-		make_instr(m_call,op,null,0);
+		make_instr(m_call,op,NULL,0);
 		dec_stack(-96);
 		pop(slongsh,32L,D1);
 		pop(slongsh,32L,D0);

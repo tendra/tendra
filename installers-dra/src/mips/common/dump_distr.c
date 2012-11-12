@@ -20,6 +20,8 @@
 
 */
 
+#include <stddef.h>
+
 #include "config.h"
 
 #include <construct/exp.h>

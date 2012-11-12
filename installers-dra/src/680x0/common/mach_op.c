@@ -31,7 +31,7 @@
     A list of free mach_op's, linked by the plus field.
 */
 
-static mach_op *mach_op_list = null;
+static mach_op *mach_op_list = NULL;
 
 
 /*
@@ -50,15 +50,15 @@ mach_op *
 new_mach_op(void)
 {
 	mach_op *p;
-	if (mach_op_list == null) {
+	if (mach_op_list == NULL) {
 		int i, n = 1000;
 		p = alloc_nof(mach_op, n);
 		for (i = 0; i < n - 1; i++) {
 			(p + i)->plus = p + (i + 1);
-			(p + i)->of = null;
+			(p + i)->of = NULL;
 		}
-		(p + (n - 1))->plus = null;
-		(p + (n - 1))->of = null;
+		(p + (n - 1))->plus = NULL;
+		(p + (n - 1))->of = NULL;
 		mach_op_list = p;
 	}
 	p = mach_op_list;
@@ -73,8 +73,8 @@ new_mach_op(void)
 		mach_op_list = p->plus;
 	}
 	p->def.num = 0;
-	p->plus = null;
-	p->of = null;
+	p->plus = NULL;
+	p->of = NULL;
 #ifndef tdf3
 #ifdef EBUG
 	if (next_id == 70) {
@@ -98,7 +98,7 @@ void
 free_mach_op(mach_op *ptr)
 {
 	mach_op *p = ptr;
-	if (p == null) {
+	if (p == NULL) {
 		return;
 	}
 	while (p->plus) {
@@ -241,7 +241,7 @@ tmp_reg(int instr, mach_op *ptr)
 bool
 check_op(mach_op *op, int r)
 {
-	if (op == null) {
+	if (op == NULL) {
 		return 0;
 	}
 	switch (op->type) {
@@ -287,7 +287,7 @@ equal_op(mach_op *op1, mach_op *op2)
 			return 0;
 		}
 		if (p1->plus) {
-			if (p2->plus == null) {
+			if (p2->plus == NULL) {
 				return 0;
 			}
 			if (!equal_op(p1->plus, p2->plus)) {
@@ -928,7 +928,7 @@ make_index_op(mach_op *op1, mach_op *op2, int sf)
 
 	if (op1->type != MACH_CONT) {
 		error(ERROR_SERIOUS, "Illegal indexing operand");
-		return null;
+		return NULL;
 	}
 
 	p1 = op1->of;
@@ -936,14 +936,14 @@ make_index_op(mach_op *op1, mach_op *op2, int sf)
 	if (p1->type == MACH_REG) {
 		use_tmp = is_dreg(p1->def.num);
 	} else if (tmp_reg_status && op2->type != MACH_REG) {
-		if (p1->type == MACH_EXT && p1->plus == null) {
+		if (p1->type == MACH_EXT && p1->plus == NULL) {
 			p1->type = MACH_EXTQ;
 			use_tmp = 0;
 		} else if (p1->type == MACH_CONT) {
 			mach_op *q = p1->of;
 			if (q->type == MACH_REG) {
 				q = q->plus;
-				if (q == null || q->type != MACH_SCALE) {
+				if (q == NULL || q->type != MACH_SCALE) {
 					use_tmp = 0;
 				}
 			}

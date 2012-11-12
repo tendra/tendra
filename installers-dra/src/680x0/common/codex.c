@@ -167,7 +167,7 @@ speci special_fn
     spec_fn.is_special = 0;
     spec_fn.special_exp = NULL;
 
-    if (id == null) return spec_fn;
+    if (id == NULL) return spec_fn;
 
     if (eq(id, "_setjmp"))has_setjmp = 1;
     if (eq(id, "_longjmp"))has_setjmp = 1;
@@ -295,7 +295,7 @@ void area
 	    case pbss: i = m_as_bss; break;
 	    default : i = m_dont_know; break;
 	}
-	make_instr(i, null, null, 0);
+	make_instr(i, NULL, NULL, 0);
 	previous_area = current_area;
 	current_area = p;
     } else {
@@ -334,7 +334,7 @@ void libcall
     }
 #endif
 
-    make_instr(m_call, p, null, ~save_msk);
+    make_instr(m_call, p, NULL, ~save_msk);
     no_calls++;
 #if 0
     if (have_continue() && !strcmp(nm,float_to_unsigned)) {
@@ -605,11 +605,11 @@ void epilogue
     if (use_link) {
 	just_ret = 0;
 	op1 = make_register(REG_AP);
-	make_instr(m_unlk, op1, null, 0);
+	make_instr(m_unlk, op1, NULL, 0);
     }
     if (!restore_only) {
       /* Output return instruction */
-      make_instr(m_rts, null, null, 0);
+      make_instr(m_rts, NULL, NULL, 0);
     }
 
     if (output_immediately) {
@@ -793,11 +793,11 @@ void profile_hack
     op2 = make_extern_ind("Lmstore", 0);
     make_instr(m_movl, op1, op2, 0);
     op1 = make_extern_data(profiling_routine, 0);
-    make_instr(m_jmp, op1, null, 0);
+    make_instr(m_jmp, op1, NULL, 0);
     area(pdata);
     make_external_label("Lmstore");
     op1 = make_int_data(0);
-    make_instr(m_as_long, op1, null, 0);
+    make_instr(m_as_long, op1, NULL, 0);
     return;
 }
 
@@ -866,16 +866,16 @@ void cproc
     /* Output procedure name(s) */
     area(ptext);
 #ifndef no_align_directives
-    make_instr(m_as_align4, null, null, 0);
+    make_instr(m_as_align4, NULL, NULL, 0);
 #endif
     if (is_ext && pname) {
 	if (strcmp(pname, "_cmppt") == 0) {
 	    /* Hack to get alignments right */
-	    make_instr(m_nop, null, null, 0);
-	    make_instr(m_nop, null, null, 0);
+	    make_instr(m_nop, NULL, NULL, 0);
+	    make_instr(m_nop, NULL, NULL, 0);
 	}
 	op1 = make_extern_data(pname, 0);
-	make_instr(m_as_global, op1, null, 0);
+	make_instr(m_as_global, op1, NULL, 0);
     }
     if (cname == -1) {
 	make_external_label(pname);

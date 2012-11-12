@@ -499,7 +499,7 @@ analyse_diag_type(FILE *file, diag_type dt, int loc)
     DIAGNOSTIC SCOPE STACK
 */
 
-static dscope *dscope_stack = null;
+static dscope *dscope_stack = NULL;
 static int no_dscope = 0;
 static int dscope_stk_size = 0;
 
@@ -532,7 +532,7 @@ pop_dscope(void)
 {
 	int n = no_dscope;
 	if (n == 0) {
-		return null;
+		return NULL;
 	}
 	no_dscope = (--n);
 	return dscope_stack + n;

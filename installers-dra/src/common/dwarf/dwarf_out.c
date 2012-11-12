@@ -192,7 +192,7 @@ out_dwarf_thing(int t, char *cmt)
 void
 out_dwarf_string(const char * const s)
 {
-	/* s = null term'ed in core and to be in asm file */
+	/* s = NULL term'ed in core and to be in asm file */
 	char outbuf[100];
 
 	sprintf(outbuf, STRING_F, s);
@@ -496,7 +496,7 @@ dwarf_inspect_filename(filename f)
 
 		if (lastdot[1] != 'h') {
 			first_filename = (char *)xcalloc(1, strlen(str) + 1);
-			/* +1 for null ending */
+			/* +1 for NULL ending */
 			strcpy(first_filename, str);
 
 			/* note this to validate sourcemarks */

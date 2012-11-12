@@ -10,9 +10,6 @@
 #ifndef CONFIG_INCLUDED
 #define CONFIG_INCLUDED
 
-#define null			NULL
-
-
 /* Settings for Solaris 2 */
 #define SYSV_ABI		1
 #define DWARF			0

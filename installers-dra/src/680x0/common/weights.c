@@ -138,7 +138,7 @@ static void markcall
 (explist *el, bitpattern b)
 {
     explist *t;
-    for (t = el; t != null; t = t->next)props(t->member) |= b;
+    for (t = el; t != NULL; t = t->next)props(t->member) |= b;
     return;
 }
 
@@ -434,7 +434,7 @@ static weights weightsv
 
 	case general_proc_tag:
 	case proc_tag: {
-	    weightsv(son(e), null);
+	    weightsv(son(e), NULL);
 	    return zeros;
 	}
 
@@ -469,6 +469,6 @@ void comp_weights
 (exp e)
 {
     scale = (float)1.0;
-    weightsv(e, null);
+    weightsv(e, NULL);
     return;
 }

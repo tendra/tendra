@@ -77,7 +77,7 @@ index_opnd(where w1, where w2, int sf)
 	mach_op *op1, *op2;
 	if (name(w2.wh_exp) != name_tag) {
 		error(ERROR_SERIOUS, "Illegal index operand");
-		return null;
+		return NULL;
 	}
 	op1 = operand(32L, w1);
 	op2 = operand(32L, w2);
@@ -147,7 +147,7 @@ operand(long sz, where wh)
 			return make_register(reg(no(w)));
 		default:
 			error(ERROR_SERIOUS, illegal_operand, 0);
-			return null;
+			return NULL;
 		}
 	case name_tag: {
 		exp id = son(w);
@@ -182,7 +182,7 @@ operand(long sz, where wh)
 			return make_register(reg(d2));
 		default:
 			error(ERROR_SERIOUS, illegal_operand, 1);
-			return null;
+			return NULL;
 		}
 	}
 	case cont_tag:
@@ -227,7 +227,7 @@ operand(long sz, where wh)
 					return make_ind(no(id), off);
 				default:
 					error(ERROR_SERIOUS, illegal_operand, 4);
-					return null;
+					return NULL;
 				}
 			} else {
 				where new_w;
@@ -249,7 +249,7 @@ operand(long sz, where wh)
 #if 0
 				if (!isvar(id)) {
 					error(ERROR_SERIOUS, illegal_operand, 5);
-					return null;
+					return NULL;
 				}
 #endif
 				if (isglob(id)) {
@@ -281,12 +281,12 @@ operand(long sz, where wh)
 					return make_ind(no(id), off);
 				default:
 					error(ERROR_SERIOUS, illegal_operand, 6);
-					return null;
+					return NULL;
 				}
 			}
 			default:
 				error(ERROR_SERIOUS, illegal_operand, 7);
-				return null;
+				return NULL;
 			}
 		}
 		case reff_tag: {
@@ -328,7 +328,7 @@ operand(long sz, where wh)
 				}
 				default:
 					error(ERROR_SERIOUS, illegal_operand, 8);
-					return null;
+					return NULL;
 				}
 			}
 			case cont_tag: {
@@ -349,7 +349,7 @@ operand(long sz, where wh)
 					return make_indirect(ra, d / 8);
 				}
 				error(ERROR_SERIOUS, illegal_operand, 9);
-				return null;
+				return NULL;
 			}
 			case addptr_tag: {
 				where new_w;
@@ -359,7 +359,7 @@ operand(long sz, where wh)
 			}
 			default:
 				error(ERROR_SERIOUS, illegal_operand, 10);
-				return null;
+				return NULL;
 			}
 		}
 		case addptr_tag: {
@@ -385,16 +385,16 @@ operand(long sz, where wh)
 					return index_opnd(wc, wb, (int) k);
 				}
 				error(ERROR_SERIOUS, illegal_operand, 11);
-				return null;
+				return NULL;
 			}
 			default:
 				error(ERROR_SERIOUS, illegal_operand, 12);
-				return null;
+				return NULL;
 			}
 		}
 		default:
 			error(ERROR_SERIOUS, illegal_operand, 14);
-			return null;
+			return NULL;
 		}
 	}
 	case dummy_tag: {
@@ -418,7 +418,7 @@ operand(long sz, where wh)
 			}
 			default:
 				error(ERROR_SERIOUS, illegal_operand, 15);
-				return null;
+				return NULL;
 			}
 		case name_tag: {
 			exp id = son(r);
@@ -440,7 +440,7 @@ operand(long sz, where wh)
 			}
 			default:
 				error(ERROR_SERIOUS, illegal_operand, 16);
-				return null;
+				return NULL;
 			}
 		}
 		case cont_tag:
@@ -465,7 +465,7 @@ operand(long sz, where wh)
 			}
 			default:
 				error(ERROR_SERIOUS, illegal_operand, 17);
-				return null;
+				return NULL;
 			}
 		}
 		case addptr_tag: {
@@ -476,7 +476,7 @@ operand(long sz, where wh)
 		}
 		default:
 			error(ERROR_SERIOUS, illegal_operand, 18);
-			return null;
+			return NULL;
 		}
 	}
 	case reff_tag: {
@@ -507,7 +507,7 @@ operand(long sz, where wh)
 				return make_register(reg(d));
 			default:
 				error(ERROR_SERIOUS, illegal_operand, 19);
-				return null;
+				return NULL;
 			}
 		}
 		case cont_tag:
@@ -542,7 +542,7 @@ operand(long sz, where wh)
 			}
 			default:
 				error(ERROR_SERIOUS, illegal_operand, 20);
-				return null;
+				return NULL;
 			}
 		}
 		case addptr_tag: {
@@ -554,7 +554,7 @@ operand(long sz, where wh)
 		}
 		default:
 			error(ERROR_SERIOUS, illegal_operand, 21);
-			return null;
+			return NULL;
 		}
 	}
 	case addptr_tag: {
@@ -580,7 +580,7 @@ operand(long sz, where wh)
 		}
 		default:
 			error(ERROR_SERIOUS, illegal_operand, 22);
-			return null;
+			return NULL;
 		}
 	}
 	case general_proc_tag:
@@ -646,7 +646,7 @@ operand(long sz, where wh)
 			return make_value(d / 8);
 		}
 		error(ERROR_SERIOUS, illegal_operand, 23);
-		return null;
+		return NULL;
 	}
 #endif
 	case make_lv_tag:
@@ -657,7 +657,7 @@ operand(long sz, where wh)
 		return make_lab_ind(no(w), off / 8);
 	default:
 		error(ERROR_SERIOUS, illegal_operand, 24);
-		return null;
+		return NULL;
 	}
 }
 
@@ -700,7 +700,7 @@ regs_changed(mach_op *op, int c)
 void
 ins0(int instr)
 {
-	make_instr(instr, null, null, 0);
+	make_instr(instr, NULL, NULL, 0);
 	return;
 }
 
@@ -717,7 +717,7 @@ ins1(int instr, long asz, where a, int a_changed)
 {
 	mach_op *op = operand(asz, a);
 	bitpattern ch = regs_changed(op, a_changed);
-	make_instr(instr, op, null, ch);
+	make_instr(instr, op, NULL, ch);
 	return;
 }
 

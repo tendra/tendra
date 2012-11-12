@@ -270,10 +270,10 @@ cmp_dec(dec *x, dec *y)
 	sourcemark *sx, *sy;
 	diag_global *dx = x->dec_u.dec_val.diag_info;
 	diag_global *dy = y->dec_u.dec_val.diag_info;
-	if (dy == null || dy->key != DIAG_ID_KEY) {
+	if (dy == NULL || dy->key != DIAG_ID_KEY) {
 		return 0;
 	}
-	if (dx == null || dx->key != DIAG_ID_KEY) {
+	if (dx == NULL || dx->key != DIAG_ID_KEY) {
 		return 1;
 	}
 	sx = & (dx->data.id.whence);
@@ -300,18 +300,18 @@ cmp_dec(dec *x, dec *y)
 dec *
 sort_decs(dec *p)
 {
-	dec *res = null;
+	dec *res = NULL;
 	dec *x = p, *y;
-	while (x != null) {
+	while (x != NULL) {
 		dec *nextx = x->def_next;
-		dec *before = null;
-		for (y = res; y != null; y = y->def_next) {
+		dec *before = NULL;
+		for (y = res; y != NULL; y = y->def_next) {
 			if (!cmp_dec(x, y)) {
 				break;
 			}
 			before = y;
 		}
-		if (before == null) {
+		if (before == NULL) {
 			x->def_next = res;
 			res = x;
 		} else {

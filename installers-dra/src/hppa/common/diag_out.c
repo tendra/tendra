@@ -185,7 +185,7 @@ static long next_typen
     ARRAY OF FILE DESCRIPTORS
 */
 
-static filename *fds = null;
+static filename *fds = NULL;
 static int szfds = 0;
 static int nofds = 0;
 
@@ -995,7 +995,7 @@ void output_DEBUG
 void stab_collect_files
 (filename f)
 {
-    if (fds == null) {
+    if (fds == NULL) {
 	szfds += 10;
 	fds = (filename *)xmalloc(szfds * sizeof(filename));
     } else if (nofds >= szfds) {

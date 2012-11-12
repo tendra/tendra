@@ -15,7 +15,7 @@
     THE NULL EXPRESSION
 */
 
-#define  nilexp			( ( exp ) null )
+#define  nilexp			NULL
 
 
 /*

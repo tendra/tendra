@@ -230,9 +230,9 @@ typedef struct tag_mach_ins {
     For example, the register indirect operand 4(%a0) is represented
     by the machine operand a given by :
 
-	    a = { MACH_CONT, regmsk ( REG_A0 ), null, &b }
-	    b = { MACH_REG, REG_A0, &c, null }
-	    c = { MACH_VAL, 4, null, null }
+	    a = { MACH_CONT, regmsk ( REG_A0 ), NULL, &b }
+	    b = { MACH_REG, REG_A0, &c, NULL }
+	    c = { MACH_VAL, 4, NULL, NULL }
 */
 
 #endif

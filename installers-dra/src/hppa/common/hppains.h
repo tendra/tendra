@@ -26,7 +26,7 @@
 typedef const char ins_t [] ;
 typedef const char *ins_p ;
 
-#define I_NIL  null  /*  The nil instruction */
+#define I_NIL  NULL  /*  The nil instruction */
 
 
 /*

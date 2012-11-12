@@ -657,7 +657,7 @@ not_tag: Represents logical complement construction
 	no(e) is 0.
 	pt(e) is nilexp.
 
-null_tag: represent ptr null and proc null.
+null_tag: represent ptr NULL and proc null.
 	son(e) is nilexp.
 	shape is pointer(approprite alignment).
 	no(e) is 0.

@@ -1445,14 +1445,14 @@ static void euclid
 	long rn = reg(rreg.wh_regs);
 	if (!b_const) {
 	    op1 = make_indirect(REG_SP, 0);
-	    make_instr(m_tstl, op1, null, 0);
+	    make_instr(m_tstl, op1, NULL, 0);
 	    make_jump(m_bge, lab1);
 	}
 
 	/* Denominator is negative ? */
 	if (!(b_const && v >= 0)) {
 	    op1 = make_register(rn);
-	    make_instr(m_tstl, op1, null, 0);
+	    make_instr(m_tstl, op1, NULL, 0);
 	    make_jump(m_ble, lab2);
 	    if (type != REM) {
 		op1 = make_value(1);
@@ -1475,7 +1475,7 @@ static void euclid
 	if (!(b_const && v < 0)) {
 	    if (!b_const)make_label(lab1);
 	    op1 = make_register(rn);
-	    make_instr(m_tstl, op1, null, 0);
+	    make_instr(m_tstl, op1, NULL, 0);
 	    make_jump(m_bge, lab2);
 	    if (type != REM) {
 		op1 = make_value(1);

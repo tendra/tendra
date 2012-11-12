@@ -421,7 +421,7 @@ translate_capsule (void){
   
   /* mark all statics as unaliased and count procedures */
   noprocs = 0 ;
-  for ( d = top_def ; d != null ; d = d->def_next ) {
+  for ( d = top_def ; d != NULL ; d = d->def_next ) {
     exp c = d->dec_u.dec_val.dec_exp ;
     if ( son ( c ) != nilexp ) {
 #ifdef NEWDIAGS
@@ -462,7 +462,7 @@ translate_capsule (void){
   
   /* number procedure definitions */
   procno = 0 ;
-  for ( d = top_def ; d != null ; d = d->def_next ) {
+  for ( d = top_def ; d != NULL ; d = d->def_next ) {
     exp c = d->dec_u.dec_val.dec_exp ;
     exp s = son ( c ) ;
     if ( s != nilexp && (name ( s ) == proc_tag || 
@@ -494,7 +494,7 @@ translate_capsule (void){
   /* ensure R_TMP not allocatable */
 
   /* scan all the procedures, to put everything in SPARC operand form */
-  for ( d = top_def ; d != null ; d = d->def_next ) {
+  for ( d = top_def ; d != NULL ; d = d->def_next ) {
     exp c = d->dec_u.dec_val.dec_exp ;
     exp s = son ( c ) ;
     if ( s != nilexp && (name ( s ) == proc_tag ||
@@ -546,7 +546,7 @@ translate_capsule (void){
   if ( do_deadvars ) {
     init_dead () ;
     dead_flag = 0 ;
-    for ( d = top_def ; d != null ; d = d->def_next ) {
+    for ( d = top_def ; d != NULL ; d = d->def_next ) {
       exp c = d->dec_u.dec_val.dec_exp ;
       exp s = son ( c ) ;
       if ( s != nilexp && (name ( s ) == proc_tag || 
@@ -559,7 +559,7 @@ translate_capsule (void){
 
 
   /* calculate the break points for register allocation */
-  for ( d = top_def ; d != null ; d = d->def_next ) {
+  for ( d = top_def ; d != NULL ; d = d->def_next ) {
     exp c = d->dec_u.dec_val.dec_exp ;
     exp s = son ( c ) ;
     if ( s != nilexp && (name ( s ) == proc_tag || 
@@ -595,17 +595,17 @@ translate_capsule (void){
   }
   /* set up main_globals */
   i = 0 ;
-  for ( d = top_def ; d != null ; d = d->def_next ) i++ ;
+  for ( d = top_def ; d != NULL ; d = d->def_next ) i++ ;
   main_globals_index = i;
   if ( i ) main_globals = ( dec ** ) xcalloc ( i, sizeof ( dec * ) ) ;
   i = 0 ;
-  for ( d = top_def ; d != null ; d = d->def_next ) {
+  for ( d = top_def ; d != NULL ; d = d->def_next ) {
     main_globals [i] = d ;
     main_globals [i]->dec_u.dec_val.sym_number = i ;
     i++ ;
   }
   /* output global definitions */
-  for ( d = top_def ; d != null ; d = d->def_next ) {
+  for ( d = top_def ; d != NULL ; d = d->def_next ) {
     exp tg = d->dec_u.dec_val.dec_exp ;
     exp stg = son ( tg ) ;
     char *id = d->dec_u.dec_val.dec_id ;
@@ -667,7 +667,7 @@ translate_capsule (void){
   }	
 
     /* translate procedures */
-  for ( d = top_def ; d != null ; d = d->def_next ) {
+  for ( d = top_def ; d != NULL ; d = d->def_next ) {
     exp tg = d->dec_u.dec_val.dec_exp ;
     exp stg = son ( tg ) ;
     char *id = d->dec_u.dec_val.dec_id ;
@@ -805,7 +805,7 @@ translate_unit (void){
     dec *d ;
     translate_capsule () ;
     d = top_def ;
-    while ( d != null ) {
+    while ( d != NULL ) {
       exp c = d->dec_u.dec_val.dec_exp ;
       no ( c ) = 0 ;
       pt ( c ) = nilexp ;

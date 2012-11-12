@@ -10,9 +10,6 @@
 #ifndef CONFIG_INCLUDED
 #define CONFIG_INCLUDED
 
-#define null			NULL
-
-
 #ifdef __GNUC__
 #ifdef __sun__
 /* SunOS 4.1.3 doesn't have these in stdio.h */

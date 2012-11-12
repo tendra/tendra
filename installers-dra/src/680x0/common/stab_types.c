@@ -36,7 +36,7 @@ make_stabs(char *s, int a, long b, mach_op *op)
 	p->of->of = make_int_data(0);
 	p->of->of->of = make_int_data(b);
 	p->of->of->of->of = (op ? op : make_int_data(0));
-	make_instr(m_stabs, p, null, 0);
+	make_instr(m_stabs, p, NULL, 0);
 	return;
 }
 
@@ -52,7 +52,7 @@ make_stabn(int a, long lab)
 	p->of = make_int_data(0);
 	p->of->of = make_int_data(0);
 	p->of->of->of = make_lab_data(lab, 0);
-	make_instr(m_stabn, p, null, 0);
+	make_instr(m_stabn, p, NULL, 0);
 	return;
 }
 
@@ -74,7 +74,7 @@ typedef struct page_tag {
     LIST OF FREE PAGES
 */
 
-static page *free_pages = null;
+static page *free_pages = NULL;
 
 
 /*
@@ -85,13 +85,13 @@ static page *
 new_page(void)
 {
 	page *p = free_pages;
-	if (p == null) {
+	if (p == NULL) {
 		p = alloc_nof(page, 1);
 	} else {
 		free_pages = p->next;
 	}
 	p->index = 0;
-	p->next = null;
+	p->next = NULL;
 	return p;
 }
 
@@ -180,7 +180,7 @@ static long last_type_sz = 0;
 
 static char *stab_tab[] = {
 	"2", "11", "6", "8", "1", "4", "12", "13", "14", "15",
-	null, null, null, null, null, null, null, null, null, null
+	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
 };
 
 
@@ -252,7 +252,7 @@ build_stab_type(diag_type dt, page *ptr)
 		diag_type dtl = dt->data.array.element_type;
 		long lo = no(dt->data.array.lower_b);
 		long hi = no(dt->data.array.upper_b);
-		char *stl = analyse_stab_type(dtl, null, null);
+		char *stl = analyse_stab_type(dtl, NULL, NULL);
 		ptr = sprint_string(ptr, new_stab_type(dt));
 		ptr = sprint_string(ptr, "=ar1;");
 		ptr = sprint_number(ptr, lo);
@@ -281,10 +281,10 @@ build_stab_type(diag_type dt, page *ptr)
 	}
 	case DIAG_TYPE_PROC: {
 		diag_type dtl = dt->data.proc.result_type;
-		char *stl = analyse_stab_type(dtl, null, null);
+		char *stl = analyse_stab_type(dtl, NULL, NULL);
 		ptr = sprint_string(ptr, new_stab_type(dt));
 		ptr = sprint_string(ptr, "=*");
-		ptr = sprint_string(ptr, new_stab_type(null));
+		ptr = sprint_string(ptr, new_stab_type(NULL));
 		ptr = sprint_string(ptr, "=f");
 		ptr = sprint_string(ptr, stl);
 		last_type_sz = 32;
@@ -298,14 +298,14 @@ build_stab_type(diag_type dt, page *ptr)
 			if (st) {
 				ptr = sprint_string(ptr, st);
 			} else {
-				st = new_stab_type(null);
+				st = new_stab_type(NULL);
 				stab_tab[STAB_PTR + t] = st;
 				ptr = sprint_string(ptr, st);
 				ptr = sprint_string(ptr, "=*");
 				ptr = sprint_string(ptr, stab_tab[t]);
 			}
 		} else {
-			char *stl = analyse_stab_type(dtl, null, null);
+			char *stl = analyse_stab_type(dtl, NULL, NULL);
 			ptr = sprint_string(ptr, new_stab_type(dt));
 			ptr = sprint_string(ptr, "=*");
 			ptr = sprint_string(ptr, stl);
@@ -320,7 +320,7 @@ build_stab_type(diag_type dt, page *ptr)
 			dt->data.t_struct.nme.ints.chars = "";
 			res = analyse_stab_type(dt, nm, "T");
 			dt->data.t_struct.nme.ints.chars = nm;
-			make_stabs(res, 128, 0L, null);
+			make_stabs(res, 128, 0L, NULL);
 			res = (char *)dt->been_outed;
 			ptr = sprint_string(ptr, res);
 		} else {
@@ -342,7 +342,7 @@ build_stab_type(diag_type dt, page *ptr)
 				char *fnm = fld[i] ->field_name.ints.chars;
 				long off = no(fld[i] ->where);
 				diag_type dtl = fld[i] ->field_type;
-				char *q = analyse_stab_type(dtl, null, null);
+				char *q = analyse_stab_type(dtl, NULL, NULL);
 				ptr = sprint_string(ptr, fnm);
 				ptr = sprint_string(ptr, ":");
 				ptr = sprint_string(ptr, q);
@@ -364,7 +364,7 @@ build_stab_type(diag_type dt, page *ptr)
 			dt->data.t_struct.nme.ints.chars = "";
 			res = analyse_stab_type(dt, nm, "T");
 			dt->data.t_struct.nme.ints.chars = nm;
-			make_stabs(res, 128, 0L, null);
+			make_stabs(res, 128, 0L, NULL);
 			res = (char *)dt->been_outed;
 			ptr = sprint_string(ptr, res);
 		} else {
@@ -385,7 +385,7 @@ build_stab_type(diag_type dt, page *ptr)
 			for (i = n - 1; i >= 0; i--) {
 				char *fnm = fld[i] ->field_name.ints.chars;
 				diag_type dtl = fld[i] ->field_type;
-				char *q = analyse_stab_type(dtl, null, null);
+				char *q = analyse_stab_type(dtl, NULL, NULL);
 				ptr = sprint_string(ptr, fnm);
 				ptr = sprint_string(ptr, ":");
 				ptr = sprint_string(ptr, q);
@@ -417,7 +417,7 @@ analyse_stab_type(diag_type dt, char *nm, char *cl)
 	int n = 0;
 	page *ptr, *p;
 	char *res = (char *)dt->been_outed;
-	if (res && nm == null && cl == null) {
+	if (res && nm == NULL && cl == NULL) {
 		return res;
 	}
 	p = ptr = new_page();
@@ -487,7 +487,7 @@ init_stab_types(void)
 	};
 	int i;
 	for (i = 0; i < 15; i++) {
-		make_stabs(stab_types[i], 128, 0L, null);
+		make_stabs(stab_types[i], 128, 0L, NULL);
 	}
 	return;
 }

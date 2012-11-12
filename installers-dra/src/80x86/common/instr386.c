@@ -2256,7 +2256,7 @@ void move
       c1 = x.big;
     }
   };
-  if (name (fe) == null_tag) {	/* moving a constant null */
+  if (name (fe) == null_tag) {	/* moving a constant NULL */
     isco = 1;
     c = no(fe);
   };

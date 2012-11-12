@@ -10,9 +10,6 @@
 #ifndef CONFIG_INCLUDED
 #define CONFIG_INCLUDED
 
-#define null			NULL
-
-
 /* MAIN MACHINE CONFIGURATION */
 
 

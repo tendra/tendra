@@ -76,7 +76,7 @@ get_error_handler(void)
 exp
 get_env_size(dec *decl)
 {
-	/* allocate space for 10 digits 2 prefix characters and a null */
+	/* allocate space for 10 digits 2 prefix characters and a NULL */
 	char* lab_name = alloc_nof(char, 13);
 	sprintf(lab_name, "#%c%lu", LPREFIX,(unsigned long)decl);
 	return make_extn(lab_name, ulongsh, 1);

@@ -24,8 +24,6 @@
 
 typedef unsigned long bitpattern;
 
-#define null NULL
-
 
 /*
     SHOULD WE USE ALLOCA?

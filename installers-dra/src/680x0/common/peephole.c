@@ -43,7 +43,7 @@ extern long crt_ret_lab;
     FIND A LABEL
 
     This routine searches the list of all instructions for label n.
-    It returns null if it cannot be found.
+    It returns NULL if it cannot be found.
 */
 
 static mach_ins *
@@ -55,7 +55,7 @@ find_label(long n)
 			return p;
 		}
 	}
-	return null;
+	return NULL;
 }
 
 
@@ -79,14 +79,14 @@ check_jump_alias(long a, long b)
 	long alias[alias_max];
 
 	if (a == b) {
-		return null;
+		return NULL;
 	}
 
 	alias[0] = a;
 	alias[1] = b;
 	p = find_label(b);
-	if (p == null) {
-		return null;
+	if (p == NULL) {
+		return NULL;
 	}
 
 	for (n = 2, q = p; n < alias_max; n++) {
@@ -95,7 +95,7 @@ check_jump_alias(long a, long b)
 			long c = q->op1->def.num;
 			for (i = 0; i < n; i++) {
 				if (c == alias[i]) {
-					return null;
+					return NULL;
 				}
 			}
 			alias[n] = c;
@@ -104,7 +104,7 @@ check_jump_alias(long a, long b)
 			return p;
 		}
 	}
-	return null;
+	return NULL;
 }
 
 
@@ -159,7 +159,7 @@ find_jump_sizes(long lmin, long lmax)
 			if (just_ret && n == crt_ret_lab && r == m_bra) {
 				p->ins_no = m_rts;
 				free_mach_op(p->op1);
-				p->op1 = null;
+				p->op1 = NULL;
 			} else {
 				int m = long_jump;
 				long d = tb[n - lmin];
@@ -222,7 +222,7 @@ peephole(void)
     long lmin = 100000, lmax = -100000;
 
 #define  remove_p()			\
-    if (p_up == null) {			\
+    if (p_up == NULL) {			\
 	all_mach_ins = p_down;		\
     } else {				\
 	p_up->next = p_down;		\
@@ -232,9 +232,9 @@ peephole(void)
     do {
 	knock_on_effects = 0;
 	unknown = 0xffffffff;
-	p_up = null;
+	p_up = NULL;
 	p = all_mach_ins;
-	while (p != null) {
+	while (p != NULL) {
 	    int n = p->ins_no;
 	    bitpattern ch = p->changed;
 
@@ -246,7 +246,7 @@ peephole(void)
 		op1 = p->op1;
 		if (op1->type == MACH_CONT) {
 		    op2 = op1->of;
-		    if (op2->type == MACH_REG && op2->plus == null) {
+		    if (op2->type == MACH_REG && op2->plus == NULL) {
 			if (op2->def.num == p->op2->def.num) {
 			    /* The move may be nugatory */
 			    remove_p();
@@ -255,7 +255,7 @@ peephole(void)
 			    /* Create the move */
 			    p->ins_no = m_movl;
 			    p->op1 = op2;
-			    op1->of = null;
+			    op1->of = NULL;
 			    free_mach_op(op1);
 			}
 		    }
@@ -267,13 +267,13 @@ peephole(void)
 		op1 = p->op1;
 		if (op1->type == MACH_CONT) {
 		    op2 = op1->of;
-		    if (op2->type == MACH_REG && op2->plus == null) {
+		    if (op2->type == MACH_REG && op2->plus == NULL) {
 			/* Create the push */
 			p->ins_no = m_movl;
 			p->op1 = op2;
 			op1->type = MACH_DEC;
 			op1->def.num = REG_SP;
-			op1->of = null;
+			op1->of = NULL;
 			p->op2 = op1;
 		    }
 		}
@@ -345,7 +345,7 @@ peephole(void)
 			/* Consecutive identical jumps are unnecessary */
 			q = p_down;
 			p_down = q->next;
-			q->next = null;
+			q->next = NULL;
 			reclaim_ins(q);
 			p->next = p_down;
 			knock_on_effects = 1;
@@ -391,16 +391,16 @@ peephole(void)
 				p->op1->def.num = a2;
 				q = p_down->next;
 				p->next = q->next;
-				q->next = null;
+				q->next = NULL;
 				reclaim_ins(q);
 #ifndef no_align_directives
-                                make_instr(m_as_align4, null, null, 0);
+                                make_instr(m_as_align4, NULL, NULL, 0);
 #endif
 				make_label(a2);
 				current_ins->next = p_down;
-				p_down->next = null;
+				p_down->next = NULL;
 				current_ins = current_ins->next;
-				make_instr(m_rts, null, null, 0);
+				make_instr(m_rts, NULL, NULL, 0);
 				p_down = p->next;
 			    }
 			}
@@ -438,7 +438,7 @@ peephole(void)
 		if (q && q->ins_no == m_bra) {
 		    a2 = q->op1->def.num;
 		    q = check_jump_alias(a1, a2);
-		    if (q != null) {
+		    if (q != NULL) {
 			/* Move the label */
 			remove_p();
 			p->next = q->next;
@@ -475,7 +475,7 @@ peephole(void)
 			t = MACH_VAL;
 		}
 		if ((t == MACH_VAL || t == MACH_EXT || t == MACH_LAB) &&
-		     p->op1->plus == null) {
+		     p->op1->plus == NULL) {
 		    long z = p->op2->def.num;
 		    if (!(unknown & regmsk(z)) &&
 			 hold[z] ->type == t &&
@@ -556,7 +556,7 @@ post_inc_refactor(mach_ins *q, bitpattern r)
 	mach_op *op;
 	mach_ins *p = q->next;
 
-	if (p == null) {
+	if (p == NULL) {
 		return 0;
 	}
 
@@ -565,7 +565,7 @@ post_inc_refactor(mach_ins *q, bitpattern r)
 		sz = p->op1->def.num;
 		r1 = p->op2->def.num;
 		p = p->next;
-		if (p == null) {
+		if (p == NULL) {
 			return 0;
 		}
 		incr = 0;
@@ -599,7 +599,7 @@ post_inc_refactor(mach_ins *q, bitpattern r)
 	if (incr) {
 		/* The next instruction must be "lea sz(r2), r1" */
 		p = p->next;
-		if (p == null) {
+		if (p == NULL) {
 			return 0;
 		}
 		if (p->ins_no != m_lea) {
@@ -638,7 +638,7 @@ post_inc_refactor(mach_ins *q, bitpattern r)
 	}
 
 	p = p->next;
-	if (p == null) {
+	if (p == NULL) {
 		return 0;
 	}
 	if (p->next) {
@@ -659,7 +659,7 @@ post_inc_refactor(mach_ins *q, bitpattern r)
 		if (op->of->def.num != r2) {
 			return 0;
 		}
-		if (op->of->plus != null) {
+		if (op->of->plus != NULL) {
 			return 0;
 		}
 	}
@@ -681,7 +681,7 @@ post_inc_refactor(mach_ins *q, bitpattern r)
 			if (op->of->def.num != r2) {
 				use_op1 = 0;
 			}
-			if (op->of->plus != null) {
+			if (op->of->plus != NULL) {
 				use_op1 = 0;
 			}
 		}
@@ -701,7 +701,7 @@ post_inc_refactor(mach_ins *q, bitpattern r)
 			if (op->of->def.num != r2) {
 				use_op2 = 0;
 			}
-			if (op->of->plus != null) {
+			if (op->of->plus != NULL) {
 				use_op2 = 0;
 			}
 		}

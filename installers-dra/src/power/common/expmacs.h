@@ -14,7 +14,7 @@
 #include "bitsmacs.h"
 #include <construct/shapemacs.h>
 
-#define nilexp (exp)0
+#define nilexp NULL
 
 /* main components of exp */
 

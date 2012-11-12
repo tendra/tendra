@@ -16,7 +16,7 @@
 #include "exptypes.h"
 #include <construct/installtypes.h>
 
-#define nilexp (exp)0
+#define nilexp NULL
 
 /* main components of exp */
 

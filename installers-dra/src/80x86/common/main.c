@@ -128,9 +128,9 @@ main(int argc, char **argv)
 	diag = DIAG_DWARF;
 #endif
 
-	ptr_null = 0;		/* null value for pointer */
-	proc_null = 0;		/* null value for proc */
-	lv_null = 0;		/* null value for label_value*/
+	ptr_null = 0;		/* NULL value for pointer */
+	proc_null = 0;		/* NULL value for proc */
+	lv_null = 0;		/* NULL value for label_value*/
 
 	/*
 	 * XXX: Some arguments are undocumented in trans.1, check
@@ -277,7 +277,7 @@ main(int argc, char **argv)
 			break;
 		case 'f':
 			/* XXX: undocumented */
-			/* null value for pointer */
+			/* NULL value for pointer */
 			ptr_null = 0x55555555;
 			break;
 		case 'g':

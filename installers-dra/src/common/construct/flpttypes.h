@@ -24,7 +24,7 @@
 #define Fdig unsigned char
 
 #define FNUM_SIZE 65		/* max size required by flt2str */
-/* MANT_SIZE + 1(sign) + 1(point) + 2(E+sign) + log(MAX_LONG) + 1(null) */
+/* MANT_SIZE + 1(sign) + 1(point) + 2(E+sign) + log(MAX_LONG) + 1(NULL) */
 
 #define E_MIN	(-1000000)	/* (LONG_MIN/10) doesnt work on 80386 cc
 				*/
