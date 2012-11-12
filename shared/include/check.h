@@ -99,4 +99,26 @@
 #  define WEAK
 # endif
 
+/*
+ * Return values generally indicate error or success and ought to be heeded,
+ * and so strict checks will warn about discarded return values. This macro
+ * explicitly documents that discarding a return value is intentional.
+ */
+# ifdef __TenDRA__
+#  pragma TenDRA keyword IGNORE for discard value
+# else
+#  define IGNORE (void)
+# endif
+
+/*
+ * Indicate that a variable's value has been set, for situations where
+ * static analysis is unable to determine that.
+ */
+# ifdef __TenDRA__
+#  pragma TenDRA keyword SET for set
+# else
+#  define SET(v)
+# endif
+
+
 #endif /* CHECK_INCLUDED */
