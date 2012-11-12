@@ -120,6 +120,7 @@ extern enum assembler assembler;
 extern enum format    format;
 extern enum diag      diag;
 
+extern enum has     flags_has(const char *);
 extern enum optim   flags_optim(const char *);
 extern enum check   flags_check(const char *);
 extern enum builtin flags_builtin(const char *);
