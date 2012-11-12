@@ -13,9 +13,6 @@
 #ifndef config_key
 #define config_key 1
 
-#include <reader/ossg_api.h>
-#include <reader/ossg.h>
-
 #define has64bits 0
 
 #define only_lengthen_ops 1

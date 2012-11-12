@@ -22,9 +22,6 @@
     DEFINE BASIC TYPES
 */
 
-#include <reader/ossg_api.h>
-#include <reader/ossg.h>
-
 typedef unsigned long bitpattern;
 
 #define null NULL

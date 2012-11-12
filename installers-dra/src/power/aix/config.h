@@ -11,9 +11,6 @@
 #ifndef CONFIG_H
 #define CONFIG_H		1
 
-#include <reader/ossg_api.h>
-#include <reader/ossg.h>
-
 #define	hasproto		1
 
 

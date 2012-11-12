@@ -10,10 +10,6 @@
 #ifndef CONFIG_INCLUDED
 #define CONFIG_INCLUDED
 
-#include <reader/ossg_api.h>
-#include <reader/ossg.h>
-
-
 #define null			NULL
 
 

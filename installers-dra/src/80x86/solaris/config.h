@@ -10,10 +10,6 @@
 #ifndef config_key
 #define config_key 1
 
-/* API SPECIFICATION */
-#include <reader/ossg_api.h>
-#include <reader/ossg.h>
-
 #define NEWDIAGS 1
 #define NEWDWARF 1
 #define SHARED_ABBREV 1

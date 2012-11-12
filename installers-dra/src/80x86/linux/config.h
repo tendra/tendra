@@ -10,11 +10,6 @@
 #ifndef config_key
 #define config_key 1
 
-
-/* API SPECIFICATION */
-#include <reader/ossg_api.h>
-#include <reader/ossg.h>
-
 #define only_lengthen_ops 1
 #define replace_compound 1
 #define no_bitfield_ops 1
