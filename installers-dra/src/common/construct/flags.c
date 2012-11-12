@@ -81,7 +81,7 @@ flags_has(const char *s)
 
 		default:
 			error(ERROR_WARNING, "Unrecognised has flag %c. "
-				"Valid flags are: [o] and [a] for all.",
+				"Valid flags are: [orntmcds] and [a] for all.",
 				*p);
 		}
 	}
@@ -117,7 +117,7 @@ flags_optim(const char *s)
 
 		default:
 			error(ERROR_WARNING, "Unrecognised optimisation flag %c. "
-				"Valid flags are: [cdefghijurt] and [a] for all.",
+				"Valid flags are: [cdefghijurtop] and [a] for all.",
 				*p);
 		}
 	}
