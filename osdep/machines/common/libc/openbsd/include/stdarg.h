@@ -3,7 +3,7 @@
 #ifndef __HACKED_LIBC_STDARG_H
 #define __HACKED_LIBC_STDARG_H
 
-#ifdef _OPENBSD5_1
+#if defined(_OPENBSD5_1) || defined(_OPENBSD5_2)
 #ifndef __BUILDING_TDF_ANSI_STDARG_H_VA_ARGS
 
 /*

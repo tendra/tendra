@@ -4,14 +4,14 @@
 #define __HACKED_LIBC_SYS_SIGNAL_H
 
 /* for SIG_IGN and SIG_ERR */
-#ifdef _OPENBSD5_1
+#if defined(_OPENBSD5_1) || defined(_OPENBSD5_2)
 #pragma TenDRA begin
 #pragma TenDRA conversion analysis ( int-pointer explicit ) off
 #endif
 
 #include_next <sys/signal.h>
 
-#ifdef _OPENBSD5_1
+#if defined(_OPENBSD5_1) || defined(_OPENBSD5_2)
 #pragma TenDRA end
 #endif
 
