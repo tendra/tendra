@@ -144,4 +144,4 @@ MD_LIBCVER!=                             \
         *)             echo unknown;;    \
     esac;
 
-.endif	# !defined(_TENDRA_MAKEDEFS_MK_)
+.endif

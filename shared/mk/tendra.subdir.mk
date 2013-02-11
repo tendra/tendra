@@ -49,4 +49,4 @@ ${target}::
 
 
 
-.endif	# !defined(_TENDRA_SUBDIR_MK_)
+.endif

@@ -5,8 +5,8 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-.if !defined(_TENDRA_WORK_DOC_MK_)
-_TENDRA_WORK_DOC_MK_=1
+.if !defined(_TENDRA_DOC_MK_)
+_TENDRA_DOC_MK_=1
 
 .include <tendra.base.mk>
 .include <tendra.functions.mk>
@@ -165,4 +165,4 @@ test:: ${DOC_SRC}
 	| ${XMLLINT} ${XMLOPTS} ${XMLLINTOPTS} --noout -
 
 
-.endif	# !defined(_TENDRA_WORK_DOC_MK_)
+.endif

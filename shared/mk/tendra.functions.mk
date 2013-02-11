@@ -20,4 +20,4 @@ CONDCREATE= Condcreate() {                       \
     }; Condcreate
 
 
-.endif	# !defined(_TENDRA_FUNCTIONS_MK_)
+.endif

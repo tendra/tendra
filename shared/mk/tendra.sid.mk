@@ -5,8 +5,8 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-.if !defined(_TENDRA_WORK_SID_MK_)
-_TENDRA_WORK_SID_MK_=1
+.if !defined(_TENDRA_SID_MK_)
+_TENDRA_SID_MK_=1
 
 .include <tendra.base.mk>
 .include <tendra.functions.mk>
@@ -56,4 +56,4 @@ install::
 
 
 
-.endif	# !defined(_TENDRA_WORK_TPL_MK_)
+.endif

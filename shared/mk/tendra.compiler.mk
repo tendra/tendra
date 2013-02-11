@@ -157,4 +157,4 @@ CCOPTS+=
 
 
 
-.endif	# !defined(_TENDRA_COMPILER_MK_)
+.endif

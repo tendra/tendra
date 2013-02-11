@@ -98,4 +98,4 @@ OSVER?=      	${MD_OSVER}
 LIBCVER?=     	${MD_LIBCVER}
 
 
-.endif	# !defined(_TENDRA_BASE_MK_)
+.endif
