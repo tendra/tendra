@@ -16,7 +16,8 @@
  * TODO: I haven't checked that our tspec specification of dev_t is correct.
  */
 #if defined(_GLIBC2_3) || defined(_GLIBC2_5) || defined(_GLIBC2_7) \
-	|| defined(_GLIBC2_11) || defined(_GLIBC2_14) || defined(_GLIBC2_15)
+	|| defined(_GLIBC2_11) || defined(_GLIBC2_14) || defined(_GLIBC2_15) \
+	|| defined(_GLIBC2_17)
 #undef __DEV_T_TYPE
 #define __DEV_T_TYPE unsigned long long
 #endif

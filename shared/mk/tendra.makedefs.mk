@@ -117,6 +117,7 @@ MD_OSVER!=                               \
         Linux.2.6*)    echo LINUX26;;    \
         Linux.3.0*)    echo LINUX30;;    \
         Linux.3.1*)    echo LINUX31;;    \
+        Linux.3.7*)    echo LINUX37;;    \
         NetBSD.4*)     echo NETBSD4;;    \
         NetBSD.5.1*)   echo NETBSD5_1;;  \
         OpenBSD.3*)    echo OPENBSD3;;   \
@@ -141,6 +142,7 @@ MD_LIBCVER!=                             \
         GLIBC_2_12_*)  echo GLIBC2_12;;  \
         GLIBC_2_14_*)  echo GLIBC2_14;;  \
         GLIBC_2_15*)   echo GLIBC2_15;;  \
+        GLIBC_2_17*)   echo GLIBC2_17;;  \
         *)             echo unknown;;    \
     esac;
 
