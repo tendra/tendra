@@ -229,6 +229,12 @@ next_alt:
 		ItemT     *item = alt_item_head(alt);
 		AltGroupT *group;
 
+		/* This error occurs for p: () -> () = { x(); || $; }; where p is an entry point. */
+		if (item == NULL) {
+			error(ERROR_FATAL, "the rule '%N' cannot be grouped by initial items as an alt is empty",
+				(void *) rule);
+		}
+
 		for (group = groups->head; group; group = group->next) {
 			AltT  **group_alt_ref = group->alt_ref;
 			ItemT  *alt_item      = alt_item_head(*group_alt_ref);
