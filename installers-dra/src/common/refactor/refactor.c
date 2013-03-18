@@ -2315,13 +2315,17 @@ refactor(exp e, exp scope)
 				return 0;
 
 		case absbool_tag: {
+				exp arg1;
+				exp arg2;
+				ntest nt;
+
 				if (~has & HAS_SETCC) {
 					return 0;
 				}
 
-				exp arg1 = son(e);
-				exp arg2 = bro(arg1);
-				ntest nt = test_number(e);
+				arg1 = son(e);
+				arg2 = bro(arg1);
+				nt = test_number(e);
 				if ((name(arg1) == val_tag ||
 				     name(arg1) == null_tag) &&
 				    (name(arg2) == val_tag ||
