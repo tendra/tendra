@@ -6,7 +6,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#if defined(_GLIBC2_12) || defined(_GLIBC2_17)
+#if defined(_GLIBC2_12) || defined(_GLIBC2_15) || defined(_GLIBC2_17)
 #define __STRICT_ANSI__
 #endif
 
