@@ -24,10 +24,11 @@ UNAME?= uname
 
 
 # Please override locations as best suits your system.
+# ${PREFIX_LIBEXEC} should not be in $PATH
 PREFIX?=         /usr/local
 PREFIX_BIN?=     ${PREFIX}/bin
 PREFIX_LIB?=     ${PREFIX}/lib
-PREFIX_LIBEXEC?= ${PREFIX}/libexec # should not be in $PATH
+PREFIX_LIBEXEC?= ${PREFIX}/libexec
 PREFIX_SHARE?=   ${PREFIX}/share
 PREFIX_INCLUDE?= ${PREFIX}/include
 PREFIX_MAN?=     ${PREFIX}/man
