@@ -9,7 +9,7 @@
  * Unfortunately it's not in an #ifndef guard, and so we can't override
  * just that macro.
  */
-#if defined(_OPENBSD5_1) || defined(_OPENBSD5_2)
+#if defined(_OPENBSD5_1) || defined(_OPENBSD5_2) || defined(_OPENBSD5_3)
 
 #define NULL 0
 
