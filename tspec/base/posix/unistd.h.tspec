@@ -20,7 +20,12 @@
 
     +CONST int R_OK, W_OK, X_OK, F_OK ;
 
-    +CONST int _POSIX_JOB_CONTROL, _POSIX_SAVED_IDS ;
+    +CONST int _POSIX_JOB_CONTROL ;
+
+    # This is a subset so that FreeBSD may elide it.
+    +SUBSET "saved_ids" := {
+        +CONST int _POSIX_SAVED_IDS ;
+    } ;
 
     +CONST int _SC_ARG_MAX, _SC_CHILD_MAX, _SC_CLK_TCK, _SC_JOB_CONTROL ;
     +CONST int _SC_NGROUPS_MAX, _SC_OPEN_MAX, _SC_SAVED_IDS, _SC_VERSION ;

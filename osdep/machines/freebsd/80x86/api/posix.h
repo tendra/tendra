@@ -7,7 +7,6 @@
  */
  
 #if defined(_FREEBSD8_3) || defined(_FREEBSD9_1)
-#define __WRONG_POSIX_UNISTD_H_U_PROTO /* _POSIX_SAVED_IDS not implemented
-	TODO: purposefully - break this out into its own tspec subsection */
+#define __WRONG_POSIX_UNISTD_H_SAVED_IDS /* not implemented */
 #endif
 
