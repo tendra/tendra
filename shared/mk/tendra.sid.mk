@@ -21,7 +21,7 @@ _TENDRA_SID_MK_=1
 ACTIONS?=	${SYNTAX:S/.sid$/.act/}
 
 .if defined(SIDOPTS)
-. if "${SIDOPTS:M*split*:N*nosplit*}" != ""
+. if !empty(SIDOPTS:M*split*:N*nosplit*)
 SIDSPLIT?=	@
 . endif
 .endif

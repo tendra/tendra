@@ -31,7 +31,7 @@ CALC_IN_TEMPL?=  obj_templ
 
 
 # Generated implementation
-.if "${CALCFLAGS:M-a}" != ""
+.if !empty(CALCFLAGS:M-a)
 CALC_GEN_C+=    ${CALC_OUT_C}/assert_def.h
 .endif
 CALC_GEN_C+=    ${CALC_OUT_C}/${ALGEBRA_C:R}.h
@@ -39,7 +39,7 @@ CALC_GEN_C+=    ${CALC_OUT_C}/${ALGEBRA_C:R}.h
 #CALC_GEN_C+=    ${CALC_OUT_C}/cmd_ops.h
 
 # Generated pragma token declarations
-.if "${CALCFLAGS:M-a}" != ""
+.if !empty(CALCFLAGS:M-a)
 CALC_GEN_TOK+=   ${CALC_OUT_TOK}/assert_def.h
 .endif
 CALC_GEN_TOK+=   ${CALC_OUT_TOK}/${ALGEBRA_TOK:R}.h
