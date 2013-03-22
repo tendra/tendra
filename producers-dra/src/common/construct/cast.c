@@ -819,7 +819,7 @@ generic_lab:
 		case type_func_tag: {
 			if (ns != type_func_tag) {
 				/* Conversion from 'function *' to 'object *' */
-				ERROR err2 = ERR_expr_cast_reint_func_ptr(s, t);
+				ERROR err2 = ERR_expr_cast_reint_func_ptr(t, s);
 				if (!IS_NULL_err(err2)) {
 					e = cast_token(t, a, err, err2, cast);
 					if (!IS_NULL_exp(e)) {

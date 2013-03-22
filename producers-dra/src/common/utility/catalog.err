@@ -2017,8 +2017,8 @@ expr_cast_reint_ptr_int ( TYPE: t1, TYPE: t2 )
 expr_cast_reint_func_ptr ( TYPE: t1, TYPE: t2 )
 {
     USAGE:	conv_ptr_func
-    KEY (STD)	"Can't convert function pointer '"t1"' to non-function
-		 pointer '"t2"'"
+    KEY (STD)	"Can't convert between function pointer '"t1"' and
+		 non-function pointer '"t2"'"
 }
 
 expr_cast_reint_mem_func ( TYPE: t1, TYPE: t2 )
