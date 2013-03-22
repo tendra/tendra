@@ -21,7 +21,7 @@
 #include "../Promotion/ansi.pf"
 
 #pragma TenDRA conversion analysis (int-pointer explicit) warning
-#pragma TenDRA function pointer as pointer allow
+#pragma TenDRA function pointer as pointer warning
 #pragma TenDRA weak prototype analysis on
 #pragma TenDRA implicit function declaration warning
 #pragma TenDRA implicit int type for function return warning
