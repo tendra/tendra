@@ -5,3 +5,10 @@
 +FLAG_INSTALL		"-Yposix"
 +API_NAME		"-Aposix"
 +INFO			"POSIX@(IEEE@1003.1-1988)"
+
+/*
+ * POSIX mandates that function pointers share the
+ * same representation as object pointers
+ */
++FLAG	"--@D#pragma@TenDRA@function@pointer@as@pointer@allow\n"
+
