@@ -25,12 +25,13 @@ _TENDRA_WORK_TDFTEST_MK=1
 	@${EXIT} 1;
 .endif
 
+API?= ansi
 
 .for test in ${TESTS}
 ${OBJ_SDIR}/${test:R}: ${test}
 	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Translating ${WRKDIR}/${.ALLSRC}"
-	${TCC_IN_SITU} -Xp -Yansi -o ${.TARGET} ${.ALLSRC}
+	${TCC_IN_SITU} -Xp -Y${API} -o ${.TARGET} ${.ALLSRC}
 .endfor
 
 
