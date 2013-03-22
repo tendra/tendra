@@ -7,8 +7,9 @@
 +INFO			"POSIX.1@(ISO/IEC@9945-1:1990)"
 
 /*
- * POSIX mandates that function pointers share the
- * same representation as object pointers
+ * POSIX mandates that function pointers share the same representation 
+ * as object pointers. The new scope avoids conflicts with -Xp.
  */
++FLAG	"--@D#pragma@TenDRA@begin\n"
 +FLAG	"--@D#pragma@TenDRA@function@pointer@as@pointer@allow\n"
 
