@@ -230,7 +230,13 @@ out_switch_jump(int tab, where a, int min)
 		outs(" jmp *");
 		outs(local_prefix);
 		outn((long) tab);
-		outs("-");
+		if (min >= 0) {
+			outs("-");
+		} else {
+			/* XXX: should this ever happen? */
+			outs("+");
+			min = -min;
+		}
 		outn((long) (4 * min));
 		outs("(,");
 		operand(32, a, 1, 0);
