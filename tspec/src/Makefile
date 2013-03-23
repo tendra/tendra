@@ -8,6 +8,8 @@ PARTS+=	src/shared
 .include <tendra.partial.mk>
 
 
+TCCOPTS+= -Yposix
+
 SRCS+=	hash.c
 SRCS+=	index.c
 SRCS+=	lex.c

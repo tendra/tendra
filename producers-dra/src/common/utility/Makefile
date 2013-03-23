@@ -9,6 +9,8 @@ CCOPTS+=	-I ../../common/output
 CCOPTS+=	-I ../../common/parse
 CCOPTS+=	-I ../../common
 
+TCCOPTS+= -Yposix
+
 SRCS+=	buffer.c
 SRCS+=	catalog.c
 SRCS+=	debug.c

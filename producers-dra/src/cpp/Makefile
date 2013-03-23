@@ -1,6 +1,6 @@
 # $Id$
 
-# TCCOPTS=      -Yposix1 -Xs
+TCCOPTS=      -Yposix
 
 .include "Makefile.inc"
 
