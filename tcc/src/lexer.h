@@ -68,7 +68,7 @@ enum lexi_groups {
 	lexi_group_ident = 0x2,
 	lexi_name_white = 0,
 	lexi_string_white = 0,
-	lexi_comment_white = 0,
+	lexi_comment_white = 0
 };
 
 /* true if the given character is present in the given group */
