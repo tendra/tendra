@@ -19,6 +19,8 @@
 
 #include <shared/check.h>
 
+#include <stddef.h>
+
 #include "config.h"
 
 #include <reader/basicread.h>

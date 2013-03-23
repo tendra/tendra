@@ -1391,4 +1391,8 @@ void dw_close_regassn
   return;
 }
 
+#else
+
+int dw2_dummy; /* to avoid an empty translation unit */
+
 #endif
