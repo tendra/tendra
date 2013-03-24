@@ -9,7 +9,7 @@
  */
 #if defined(_GLIBC2_5) || defined(_GLIBC2_7) || defined(_GLIBC2_11) \
 	|| defined(_GLIBC2_14) || defined(_GLIBC2_15) || defined(_GLIBC2_17) \
-	|| defined(_EGLIBC2_11)
+	|| defined(_EGLIBC2_11) || defined(_EGLIBC2_15)
 #ifndef __BUILDING_TDF_ANSI_STDARG_H_VA_ARGS
 
 /*

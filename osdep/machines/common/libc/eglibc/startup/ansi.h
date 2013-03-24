@@ -6,7 +6,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifdef _EGLIBC2_11
+#if defined(_EGLIBC2_11) || defined(_EGLIBC2_15)
 #define __STRICT_ANSI__
 #endif
 
