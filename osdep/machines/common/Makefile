@@ -3,7 +3,6 @@
 .include "Makefile.inc"
 
 
-SUBDIR+=	arch
 SUBDIR+=	env
 #SUBDIR+=	src
 

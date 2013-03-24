@@ -5,6 +5,7 @@
 
 .if !defined(WEBSITE)
 SUBDIR+=	machines
+SUBDIR+=	arch
 SUBDIR+=	src
 .endif
 

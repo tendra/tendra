@@ -45,19 +45,19 @@ JOPTS+= -Y32bit -D__BUILDING_LIBS
 HACKS+=	-I${BASE_DIR}/machines/${OSFAM}/${BLDARCH}/include
 .endif
 
-.if exists(${BASE_DIR}/machines/common/libc/${OSFAM}/include)
-HACKS+=	-I${BASE_DIR}/machines/common/libc/${OSFAM}/include
+.if exists(${BASE_DIR}/libc/${OSFAM}/include)
+HACKS+=	-I${BASE_DIR}/libc/${OSFAM}/include
 .endif
 
 .if defined(GLIBC_NAME)
-. if exists(${BASE_DIR}/machines/common/libc/${GLIBC_NAME:tl}/include)
-HACKS+=	-I${BASE_DIR}/machines/common/libc/${GLIBC_NAME:tl}/include
+. if exists(${BASE_DIR}/libc/${GLIBC_NAME:tl}/include)
+HACKS+=	-I${BASE_DIR}/libc/${GLIBC_NAME:tl}/include
 . endif
 .endif
 
 
-.if exists(${BASE_DIR}/machines/common/libc/${OSFAM}/startup)
-STARTUP_MACH+=	${BASE_DIR}/machines/common/libc/${OSFAM}/startup
+.if exists(${BASE_DIR}/libc/${OSFAM}/startup)
+STARTUP_MACH+=	${BASE_DIR}/libc/${OSFAM}/startup
 .endif
 
 # TODO: hacky
