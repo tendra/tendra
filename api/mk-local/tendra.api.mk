@@ -40,20 +40,17 @@ CCOPTS+= -D_ARCH_${BLDARCH}
 JOPTS+= -Y32bit -D__BUILDING_LIBS
 
 # The include order is important here; CPU-specific hacked includes need to
-# be able to #include_next the more general includes in common/.
-.if exists(${BASE_DIR}/libc/${OSFAM}/arch/${BLDARCH})
-HACKS+=	-I${BASE_DIR}/libc/${OSFAM}/arch/${BLDARCH}
-.endif
+# be able to #include_next the more general includes in include/.
+HACKS+=	${BASE_DIR}/libc/${GLIBC_NAME:tl}/arch/${BLDARCH}
+HACKS+=	${BASE_DIR}/libc/${OSFAM}/arch/${BLDARCH}
+HACKS+=	${BASE_DIR}/libc/${OSFAM}/include
+HACKS+=	${BASE_DIR}/libc/${GLIBC_NAME:tl}/include
 
-.if exists(${BASE_DIR}/libc/${OSFAM}/include)
-HACKS+=	-I${BASE_DIR}/libc/${OSFAM}/include
-.endif
-
-.if defined(GLIBC_NAME)
-. if exists(${BASE_DIR}/libc/${GLIBC_NAME:tl}/include)
-HACKS+=	-I${BASE_DIR}/libc/${GLIBC_NAME:tl}/include
+.for hack in ${HACKS}
+. if exists(${hack})
+HACKOPTS+= -I${hack}
 . endif
-.endif
+.endfor
 
 
 .if exists(${BASE_DIR}/libc/${OSFAM}/startup)
@@ -105,7 +102,7 @@ APISRCS${api}:=	${APISRCS${api}:T}
 ${OBJ_SDIR}/apis/${api}.api/${src:R}.j: ${PREFIX_TSPEC}/TenDRA/src/${api}.api/${src}
 	@${CONDCREATE} "${.TARGET:H}"
 	@${ECHO} "==> Compiling ${api}.api/${src}"
-	${TCC_IN_SITU} ${HACKS} ${TCCOPTS} ${CCOPTS} ${JOPTS} ${JOPTS${api}} \
+	${TCC_IN_SITU} ${HACKOPTS} ${TCCOPTS} ${CCOPTS} ${JOPTS} ${JOPTS${api}} \
 		-I${PREFIX_TSPEC}/TenDRA/include/${api}.api \
 		-o ${.TARGET} ${.ALLSRC} -Ymakelib -Xp
 
