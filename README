@@ -62,8 +62,7 @@ Build Dependencies
      libc matters due to the version-specific workarounds for various
      non-standard or incorrect things in your system headers.
 
-     You can see the supported libc implementations under
-     /osdep/machines/common/libc.
+     You can see the supported libc implementations under /api/libc.
 
      If your particular libc is not supported, it's straightforward to
      add. However this is something of a dark art, involving figuring

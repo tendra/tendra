@@ -4,7 +4,7 @@
 
 
 .if !defined(WEBSITE)
-SUBDIR+=	machines
+SUBDIR+=	libc
 .endif
 
 .include <tendra.subdir.mk>

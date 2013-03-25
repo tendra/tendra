@@ -41,8 +41,8 @@ JOPTS+= -Y32bit -D__BUILDING_LIBS
 
 # The include order is important here; CPU-specific hacked includes need to
 # be able to #include_next the more general includes in common/.
-.if exists(${BASE_DIR}/machines/${OSFAM}/${BLDARCH}/include)
-HACKS+=	-I${BASE_DIR}/machines/${OSFAM}/${BLDARCH}/include
+.if exists(${BASE_DIR}/libc/${OSFAM}/arch/${BLDARCH})
+HACKS+=	-I${BASE_DIR}/libc/${OSFAM}/arch/${BLDARCH}
 .endif
 
 .if exists(${BASE_DIR}/libc/${OSFAM}/include)
@@ -66,8 +66,8 @@ LOWER=	abcdefghijklmnopqrstuvwxyz
 GLIBC_DIR:=	${GLIBC_NAME:C/${UPPER}/${LOWER}/g}
 
 .if defined(GLIBC_NAME)
-. if exists(${BASE_DIR}/machines/common/libc/${GLIBC_DIR:tl}/startup)
-STARTUP_MACH+=	${BASE_DIR}/machines/common/libc/${GLIBC_DIR:tl}/startup
+. if exists(${BASE_DIR}/libc/${GLIBC_DIR:tl}/startup)
+STARTUP_MACH+=	${BASE_DIR}/libc/${GLIBC_DIR:tl}/startup
 . endif
 .endif
 
