@@ -90,6 +90,14 @@ bootstrap: ${BOOTSTRAP_DEPS}
 	    TNC=${OBJ_BPREFIX}/bin/tnc    \
 	    TLD=${OBJ_BPREFIX}/bin/tld    \
 	    install
+	@echo "===> bootstrapping api into ${OBJ_BPREFIX}"
+	cd ${.CURDIR}/api && ${MAKE}      \
+	    OBJ_DIR=${OBJ_BOOT}/api       \
+	    PREFIX=${OBJ_BPREFIX}         \
+	    TSPEC_PREFIX=${TSPEC_BPREFIX} \
+	    TCC=${OBJ_BPREFIX}/bin/tcc    \
+	    TLD=${OBJ_BPREFIX}/bin/tld    \
+	    install
 
 bootstrap-test: ${OBJ_BPREFIX}/bin/tcc
 .for project in osdep
