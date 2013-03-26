@@ -5,6 +5,11 @@
 
 JOPTS+=	-I/usr/include
 
+# for Ubuntu and other Debian-like systems
+.if exists(/usr/include/i386-linux-gnu)
+JOPTS+=	-I/usr/include/i386-linux-gnu
+.endif
+
 APIS+=  ansi
 #APIS+=	iso
 #APIS+=	cpp
