@@ -20,10 +20,6 @@ _TENDRA_WORK_API_MK_=1
 .endif
 
 
-. if defined(OSVER)
-CCOPTS+= -D_${OSVER}
-. endif
-
 . if defined(LIBCVER)
 CCOPTS+= -D_${LIBCVER}
 . endif
@@ -41,33 +37,16 @@ JOPTS+= -Y32bit -D__BUILDING_LIBS
 
 # The include order is important here; CPU-specific hacked includes need to
 # be able to #include_next the more general includes in include/.
-HACKS+=	${BASE_DIR}/libc/${GLIBC_NAME:tl}/arch/${BLDARCH}
-HACKS+=	${BASE_DIR}/libc/${OSFAM}/arch/${BLDARCH}
-HACKS+=	${BASE_DIR}/libc/${OSFAM}/include
-HACKS+=	${BASE_DIR}/libc/${GLIBC_NAME:tl}/include
+HACKS+=	${BASE_DIR}/libc/${LIBCFAM}/arch/${BLDARCH}
+HACKS+=	${BASE_DIR}/libc/${LIBCFAM}/include
+
+STARTUP_MACH+=	${BASE_DIR}/libc/${LIBCFAM}/startup
 
 .for hack in ${HACKS}
 . if exists(${hack})
 HACKOPTS+= -I${hack}
 . endif
 .endfor
-
-
-.if exists(${BASE_DIR}/libc/${OSFAM}/startup)
-STARTUP_MACH+=	${BASE_DIR}/libc/${OSFAM}/startup
-.endif
-
-# TODO: hacky
-UPPER=	ABCDEFGHIJKLMNOPQRSTUVWXYZ
-LOWER=	abcdefghijklmnopqrstuvwxyz
-GLIBC_DIR:=	${GLIBC_NAME:C/${UPPER}/${LOWER}/g}
-
-.if defined(GLIBC_NAME)
-. if exists(${BASE_DIR}/libc/${GLIBC_DIR:tl}/startup)
-STARTUP_MACH+=	${BASE_DIR}/libc/${GLIBC_DIR:tl}/startup
-. endif
-.endif
-
 
 .for api in ${APIS:R}
 

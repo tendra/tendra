@@ -49,104 +49,111 @@ GLIBC_NAME!= ldd --version | grep EGLIBC > /dev/null && echo -n E; echo GLIBC
 LIBC_VER?= ${GLIBC_NAME}_${GLIBC_VER}
 .endif
 
-MD_EXECFMT!=                             \
-    case "${SYSTEM}" in                  \
-        Darwin)    echo mach;;           \
-        DragonFly) echo elf;;            \
-        FreeBSD)   echo elf;;            \
-        Linux)     echo elf;;            \
-        NetBSD)    echo elf;;            \
-        OpenBSD)   echo elf;;            \
-        AerieBSD)  echo elf;;            \
-        SunOS)     echo elf;;            \
-        HP-UX)     echo parisc;;         \
-        *)         echo unknown;;        \
+MD_EXECFMT!=                              \
+    case "${SYSTEM}" in                   \
+        Darwin)    echo mach;;            \
+        DragonFly) echo elf;;             \
+        FreeBSD)   echo elf;;             \
+        Linux)     echo elf;;             \
+        NetBSD)    echo elf;;             \
+        OpenBSD)   echo elf;;             \
+        AerieBSD)  echo elf;;             \
+        SunOS)     echo elf;;             \
+        HP-UX)     echo parisc;;          \
+        *)         echo unknown;;         \
     esac;
 
-MD_BLDARCH!=                             \
-    case "${HOSTARCH}" in                \
-        alpha)         echo alpha;;      \
-        amd64|x86_64)  echo amd64;;      \
-        BePC)          echo 80x86;;      \
-        i?86|i86pc)    echo 80x86;;      \
-        sparc|sparc64) echo sparc;;      \
-        9000/7*)       echo hppa;;       \
-        hppa)          echo hppa;;       \
-        socppc|macppc) echo ppc601;;     \
-        mips)          echo mips;;       \
-        *)             echo unknown;;    \
+MD_BLDARCH!=                              \
+    case "${HOSTARCH}" in                 \
+        alpha)         echo alpha;;       \
+        amd64|x86_64)  echo amd64;;       \
+        BePC)          echo 80x86;;       \
+        i?86|i86pc)    echo 80x86;;       \
+        sparc|sparc64) echo sparc;;       \
+        9000/7*)       echo hppa;;        \
+        hppa)          echo hppa;;        \
+        socppc|macppc) echo ppc601;;      \
+        mips)          echo mips;;        \
+        *)             echo unknown;;     \
     esac;
 
-MD_BLDARCHBITS!=                         \
-    case "${HOSTARCH}" in                \
-        alpha)         echo 64;;         \
-        amd64|x86_64)  echo 64;;         \
-        BePC)          echo 32;;         \
-        i?86|i86pc)    echo 32;;         \
-        sparc)         echo 32;;         \
-        sparc64)       echo 64;;         \
-        9000/7*)       echo 64;;         \
-        hppa)          echo 32;;         \
-        socppc|macppc) echo 32;;         \
-        *)             echo unknown;;    \
+MD_BLDARCHBITS!=                          \
+    case "${HOSTARCH}" in                 \
+        alpha)         echo 64;;          \
+        amd64|x86_64)  echo 64;;          \
+        BePC)          echo 32;;          \
+        i?86|i86pc)    echo 32;;          \
+        sparc)         echo 32;;          \
+        sparc64)       echo 64;;          \
+        9000/7*)       echo 64;;          \
+        hppa)          echo 32;;          \
+        socppc|macppc) echo 32;;          \
+        *)             echo unknown;;     \
     esac;
 
-MD_OSFAM!=                               \
-    case "${SYSTEM}" in                  \
-        Darwin)    echo darwin;;         \
-        DragonFly) echo dragonfly;;      \
-        FreeBSD)   echo freebsd;;        \
-        Linux)     echo linux;;          \
-        NetBSD)    echo netbsd;;         \
-        OpenBSD)   echo openbsd;;        \
-        AerieBSD)  echo aerielbsd;;      \
-        SunOS)     echo solaris;;        \
-        Haiku)     echo haiku;;          \
-        HP-UX)     echo hpux;;           \
-        *)         echo unknown;;        \
+MD_OSFAM!=                                \
+    case "${SYSTEM}" in                   \
+        Darwin)    echo darwin;;          \
+        DragonFly) echo dragonfly;;       \
+        FreeBSD)   echo freebsd;;         \
+        Linux)     echo linux;;           \
+        NetBSD)    echo netbsd;;          \
+        OpenBSD)   echo openbsd;;         \
+        AerieBSD)  echo aerielbsd;;       \
+        SunOS)     echo solaris;;         \
+        Haiku)     echo haiku;;           \
+        HP-UX)     echo hpux;;            \
+        *)         echo unknown;;         \
     esac;
 
-MD_OSVER!=                               \
-    case "${SYSTEM}.${VERSION}" in       \
-        Darwin.10.3.*) echo DARWIN103;;  \
-        DragonFly.1*)  echo DRAGONFLY1;; \
-        FreeBSD.4*)    echo FREEBSD4;;   \
-        FreeBSD.5*)    echo FREEBSD5;;   \
-        FreeBSD.6*)    echo FREEBSD6;;   \
-        FreeBSD.9.1*)  echo FREEBSD9_1;; \
-        Linux.2.4*)    echo LINUX24;;    \
-        Linux.2.6*)    echo LINUX26;;    \
-        Linux.3.0*)    echo LINUX30;;    \
-        Linux.3.1*)    echo LINUX31;;    \
-        Linux.3.7*)    echo LINUX37;;    \
-        NetBSD.4*)     echo NETBSD4;;    \
-        NetBSD.5.1*)   echo NETBSD5_1;;  \
-        OpenBSD.3*)    echo OPENBSD3;;   \
-        OpenBSD.4*)    echo OPENBSD4;;   \
-        OpenBSD.5.1)   echo OPENBSD5_1;; \
-        OpenBSD.5.2)   echo OPENBSD5_2;; \
-        OpenBSD.5.3)   echo OPENBSD5_3;; \
-        AerieBSD.1*)   echo AERIELBSD1;; \
-        SunOS.5.10*)   echo SUNOS510;;   \
-        SunOS.5.11*)   echo SUNOS511;;   \
-        Haiku.1*)      echo HAIKU1;;     \
-        HP-UX.B.11.11) echo HPUX11i;;    \
-        *)             echo unknown;;    \
+MD_OSVER!=                                \
+    case "${SYSTEM}.${VERSION}" in        \
+        Darwin.10.3.*) echo DARWIN103;;   \
+        DragonFly.1*)  echo DRAGONFLY1;;  \
+        FreeBSD.4*)    echo FREEBSD4;;    \
+        FreeBSD.5*)    echo FREEBSD5;;    \
+        FreeBSD.6*)    echo FREEBSD6;;    \
+        FreeBSD.9.1*)  echo FREEBSD9_1;;  \
+        Linux.2.4*)    echo LINUX24;;     \
+        Linux.2.6*)    echo LINUX26;;     \
+        Linux.3.0*)    echo LINUX30;;     \
+        Linux.3.1*)    echo LINUX31;;     \
+        Linux.3.7*)    echo LINUX37;;     \
+        NetBSD.4*)     echo NETBSD4;;     \
+        NetBSD.5.1*)   echo NETBSD5_1;;   \
+        OpenBSD.3*)    echo OPENBSD3;;    \
+        OpenBSD.4*)    echo OPENBSD4;;    \
+        OpenBSD.5.1)   echo OPENBSD5_1;;  \
+        OpenBSD.5.2)   echo OPENBSD5_2;;  \
+        OpenBSD.5.3)   echo OPENBSD5_3;;  \
+        AerieBSD.1*)   echo AERIELBSD1;;  \
+        SunOS.5.10*)   echo SUNOS510;;    \
+        SunOS.5.11*)   echo SUNOS511;;    \
+        Haiku.1*)      echo HAIKU1;;      \
+        HP-UX.B.11.11) echo HPUX11i;;     \
+        *)             echo unknown;;     \
     esac;
 
-MD_LIBCVER!=                             \
-    case "${LIBC_VER}" in                \
-        EGLIBC_2_11_*) echo EGLIBC2_11;; \
-        EGLIBC_2_15*)  echo EGLIBC2_15;; \
-        GLIBC_2_3_*)   echo GLIBC2_3;;   \
-        GLIBC_2_5)     echo GLIBC2_5;;   \
-        GLIBC_2_7)     echo GLIBC2_7;;   \
-        GLIBC_2_11_*)  echo GLIBC2_11;;  \
-        GLIBC_2_12_*)  echo GLIBC2_12;;  \
-        GLIBC_2_14_*)  echo GLIBC2_14;;  \
-        GLIBC_2_15*)   echo GLIBC2_15;;  \
-        GLIBC_2_17*)   echo GLIBC2_17;;  \
-        *)             echo unknown;;    \
+MD_LIBCFAM!=                              \
+    case "${LIBC_VER}" in                 \
+        EGLIBC_*)      echo eglibc;;      \
+        GLIBC_*)       echo glibc;;       \
+        *)             echo ${MD_OSFAM};; \
+    esac;
+
+MD_LIBCVER!=                              \
+    case "${LIBC_VER}" in                 \
+        EGLIBC_2_11_*) echo EGLIBC2_11;;  \
+        EGLIBC_2_15*)  echo EGLIBC2_15;;  \
+        GLIBC_2_3_*)   echo GLIBC2_3;;    \
+        GLIBC_2_5)     echo GLIBC2_5;;    \
+        GLIBC_2_7)     echo GLIBC2_7;;    \
+        GLIBC_2_11_*)  echo GLIBC2_11;;   \
+        GLIBC_2_12_*)  echo GLIBC2_12;;   \
+        GLIBC_2_14_*)  echo GLIBC2_14;;   \
+        GLIBC_2_15*)   echo GLIBC2_15;;   \
+        GLIBC_2_17*)   echo GLIBC2_17;;   \
+        *)             echo ${MD_OSVER};; \
     esac;
 
 .endif
