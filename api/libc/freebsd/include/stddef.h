@@ -9,7 +9,7 @@
  * Unfortunately it's not in an #ifndef guard, and so we can't override
  * just that macro.
  */
-#if defined(_FREEBSD8_3) || defined(_FREEBSD9_1)
+#if defined(_FREEBSD8_3) || defined(_FREEBSD9_0) || defined(_FREEBSD9_1)
 
 #include_next <sys/cdefs.h>
 #include_next <sys/_null.h>
