@@ -26,7 +26,7 @@
  * Enable almost all builtins.
  * If you want assembly in your TDF, you're going to have to work for it.
  */
-<FLAG_TRANS	"-Bjpvcfdl"
+<FLAG_TRANS	"-Ba-mt"
 
 /*
  * Under no circumstances should our producers (or any other source of TDF)
