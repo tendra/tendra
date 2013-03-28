@@ -10,12 +10,11 @@ _TENDRA_WORK_TDFTEST_MK=1
 .include <tendra.base.mk>
 .include <tendra.functions.mk>
 .include <tendra.compiler.mk>
-.include <tendra.situ.mk>
 
 
-.if !defined(TCC_IN_SITU)
+.if !defined(TCC)
 .BEGIN:
-	@${ECHO} '$${TCC_IN_SITU} must be set'
+	@${ECHO} '$${TCC} must be set'
 	@${EXIT} 1;
 .endif
 
@@ -25,12 +24,13 @@ _TENDRA_WORK_TDFTEST_MK=1
 	@${EXIT} 1;
 .endif
 
+API?= ansi
 
 .for test in ${TESTS}
 ${OBJ_SDIR}/${test:R}: ${test}
 	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Translating ${WRKDIR}/${.ALLSRC}"
-	${TCC_IN_SITU} -Ytnc -o ${.TARGET} ${.ALLSRC}
+	${TCC} -Xp -Y${API} -o ${.TARGET} ${.ALLSRC}
 .endfor
 
 

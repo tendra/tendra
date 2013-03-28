@@ -100,7 +100,7 @@ bootstrap: ${BOOTSTRAP_DEPS}
 	    install
 
 bootstrap-test: ${OBJ_BPREFIX}/bin/tcc
-.for project in osdep
+.for project in tests
 	cd ${.CURDIR}/${project} && ${MAKE} \
 	    OBJ_DIR=${OBJ_TEST}/${project}  \
 	    PREFIX=${OBJ_BPREFIX}           \
