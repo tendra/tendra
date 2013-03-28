@@ -1281,12 +1281,9 @@ static int
 all_ones(exp e)
 {
 	switch (shape_size(sh(e))) {
-	case 8:
-		return 0xff;
-	case 16:
-		return 0xffff;
-	default:
-		return 0xffffffff;
+	case 8:  return 0xff;
+	case 16: return 0xffff;
+	default: return 0xffffffff;
 	}
 }
 
@@ -1647,22 +1644,11 @@ refactor_fp2(exp e, exp scope)
 		f1 = no(a1);
 		f2 = no(a2);
 
-		switch (name(e))EXHAUSTIVE {
-		case fplus_tag:
-			status = flt_add(flptnos[f1], flptnos[f2], &resval);
-			break;
-
-		case fminus_tag:
-			status = flt_sub(flptnos[f1], flptnos[f2], &resval);
-			break;
-
-		case fmult_tag:
-			status = flt_mul(flptnos[f1], flptnos[f2], &resval);
-			break;
-
-		case fdiv_tag:
-			status = flt_div(flptnos[f1], flptnos[f2], &resval);
-			break;
+		switch (name(e)) EXHAUSTIVE {
+		case fplus_tag:  status = flt_add(flptnos[f1], flptnos[f2], &resval); break;
+		case fminus_tag: status = flt_sub(flptnos[f1], flptnos[f2], &resval); break;
+		case fmult_tag:  status = flt_mul(flptnos[f1], flptnos[f2], &resval); break;
+		case fdiv_tag:   status = flt_div(flptnos[f1], flptnos[f2], &resval); break;
 		}
 
 		if (status == OKAY) {
@@ -1781,54 +1767,32 @@ static int
 docmp(shape sha, unsigned char test_no, int c1, int c2)
 {
 	int c;
-	switch (shape_size(sha))EXHAUSTIVE {
+	switch (shape_size(sha)) EXHAUSTIVE {
 	case 8:
 		if (is_signed(sha)) {
 			int d1 = (c1 & 0x80) ? (c1 | ~0x7f) : (c1 & 0xff);
 			int d2 = (c2 & 0x80) ? (c2 | ~0x7f) : (c2 & 0xff);
-			switch (test_no)EXHAUSTIVE {
-			case 1:
-				c = (d1 > d2);
-				break;
-			case 2:
-				c = (d1 >= d2);
-				break;
-			case 3:
-				c = (d1 < d2);
-				break;
-			case 4:
-				c = (d1 <= d2);
-				break;
-			case 5:
-				c = (d1 == d2);
-				break;
-			case 6:
-				c = (d1 != d2);
-				break;
+
+			switch (test_no) EXHAUSTIVE {
+			case 1: c = (d1 >  d2); break;
+			case 2: c = (d1 >= d2); break;
+			case 3: c = (d1 <  d2); break;
+			case 4: c = (d1 <= d2); break;
+			case 5: c = (d1 == d2); break;
+			case 6: c = (d1 != d2); break;
 			}
 			break;
 		} else {
 			unsigned char d1 = (unsigned char)(c1 & 0xff);
 			unsigned char d2 = (unsigned char)(c2 & 0xff);
-			switch (test_no)EXHAUSTIVE {
-			case 1:
-				c = (d1 > d2);
-				break;
-			case 2:
-				c = (d1 >= d2);
-				break;
-			case 3:
-				c = (d1 < d2);
-				break;
-			case 4:
-				c = (d1 <= d2);
-				break;
-			case 5:
-				c = (d1 == d2);
-				break;
-			case 6:
-				c = (d1 != d2);
-				break;
+
+			switch (test_no) EXHAUSTIVE {
+			case 1: c = (d1 >  d2); break;
+			case 2: c = (d1 >= d2); break;
+			case 3: c = (d1 <  d2); break;
+			case 4: c = (d1 <= d2); break;
+			case 5: c = (d1 == d2); break;
+			case 6: c = (d1 != d2); break;
 			}
 			break;
 		}
@@ -1836,49 +1800,27 @@ docmp(shape sha, unsigned char test_no, int c1, int c2)
 		if (is_signed(sha)) {
 			int d1 = (c1 & 0x8000) ? (c1 | ~0x7fff) : (c1 & 0xffff);
 			int d2 = (c2 & 0x8000) ? (c2 | ~0x7fff) : (c2 & 0xffff);
-			switch (test_no)EXHAUSTIVE {
-			case 1:
-				c = (d1 > d2);
-				break;
-			case 2:
-				c = (d1 >= d2);
-				break;
-			case 3:
-				c = (d1 < d2);
-				break;
-			case 4:
-				c = (d1 <= d2);
-				break;
-			case 5:
-				c = (d1 == d2);
-				break;
-			case 6:
-				c = (d1 != d2);
-				break;
+
+			switch (test_no) EXHAUSTIVE {
+			case 1: c = (d1 >  d2); break;
+			case 2: c = (d1 >= d2); break;
+			case 3: c = (d1 <  d2); break;
+			case 4: c = (d1 <= d2); break;
+			case 5: c = (d1 == d2); break;
+			case 6: c = (d1 != d2); break;
 			}
 			break;
 		} else {
 			unsigned short d1 = (unsigned short)(c1 & 0xffff);
 			unsigned short d2 = (unsigned short)(c2 & 0xffff);
-			switch (test_no)EXHAUSTIVE {
-			case 1:
-				c = (d1 > d2);
-				break;
-			case 2:
-				c = (d1 >= d2);
-				break;
-			case 3:
-				c = (d1 < d2);
-				break;
-			case 4:
-				c = (d1 <= d2);
-				break;
-			case 5:
-				c = (d1 == d2);
-				break;
-			case 6:
-				c = (d1 != d2);
-				break;
+
+			switch (test_no) EXHAUSTIVE {
+			case 1: c = (d1 >  d2); break;
+			case 2: c = (d1 >= d2); break;
+			case 3: c = (d1 <  d2); break;
+			case 4: c = (d1 <= d2); break;
+			case 5: c = (d1 == d2); break;
+			case 6: c = (d1 != d2); break;
 			}
 			break;
 		}
@@ -1886,49 +1828,27 @@ docmp(shape sha, unsigned char test_no, int c1, int c2)
 		if (is_signed(sha)) {
 			int d1 = c1;
 			int d2 = c2;
-			switch (test_no)EXHAUSTIVE {
-			case 1:
-				c = (d1 > d2);
-				break;
-			case 2:
-				c = (d1 >= d2);
-				break;
-			case 3:
-				c = (d1 < d2);
-				break;
-			case 4:
-				c = (d1 <= d2);
-				break;
-			case 5:
-				c = (d1 == d2);
-				break;
-			case 6:
-				c = (d1 != d2);
-				break;
+
+			switch (test_no) EXHAUSTIVE {
+			case 1: c = (d1 >  d2); break;
+			case 2: c = (d1 >= d2); break;
+			case 3: c = (d1 <  d2); break;
+			case 4: c = (d1 <= d2); break;
+			case 5: c = (d1 == d2); break;
+			case 6: c = (d1 != d2); break;
 			}
 			break;
 		} else {
 			unsigned int d1 = (unsigned int)c1;
 			unsigned int d2 = (unsigned int)c2;
-			switch (test_no)EXHAUSTIVE {
-			case 1:
-				c = (d1 > d2);
-				break;
-			case 2:
-				c = (d1 >= d2);
-				break;
-			case 3:
-				c = (d1 < d2);
-				break;
-			case 4:
-				c = (d1 <= d2);
-				break;
-			case 5:
-				c = (d1 == d2);
-				break;
-			case 6:
-				c = (d1 != d2);
-				break;
+
+			switch (test_no) EXHAUSTIVE {
+			case 1: c = (d1 >  d2); break;
+			case 2: c = (d1 >= d2); break;
+			case 3: c = (d1 <  d2); break;
+			case 4: c = (d1 <= d2); break;
+			case 5: c = (d1 == d2); break;
+			case 6: c = (d1 != d2); break;
 			}
 			break;
 		}
@@ -4638,30 +4558,16 @@ refactor(exp e, exp scope)
 		if (flpt_always_comparable ||
 		    (name(sh(arg1)) < shrealhd || name(sh(arg1)) > doublehd)) {
 			switch (nt) {
-			case 7:
-				nt = f_greater_than;
-				break;
-			case 8:
-				nt = f_greater_than_or_equal;
-				break;
-			case 9:
-				nt = f_less_than;
-				break;
-			case 10:
-				nt = f_less_than_or_equal;
-				break;
-			case 11:
-				nt = f_not_equal;
-				break;
-			case 12:
-				nt = f_equal;
-				break;
-			case 13:
-				repbycont(e, 1, scope);
-				return 1;
-			case 14:
-				repbygo(e, pt(e), scope);
-				return 1;
+			case 7:  nt = f_greater_than;          break;
+			case 8:  nt = f_greater_than_or_equal; break;
+			case 9:  nt = f_less_than;             break;
+			case 10: nt = f_less_than_or_equal;    break;
+			case 11: nt = f_not_equal;             break;
+			case 12: nt = f_equal;                 break;
+
+			case 13: repbycont(e, 1, scope);   return 1;
+			case 14: repbygo(e, pt(e), scope); return 1;
+
 			default:
 				break;
 			}
