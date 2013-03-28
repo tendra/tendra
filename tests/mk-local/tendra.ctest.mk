@@ -29,7 +29,7 @@ API?= ansi
 .for test in ${TESTS}
 ${OBJ_SDIR}/${test:R}: ${test}
 	@${CONDCREATE} "${OBJ_SDIR}"
-	@${ECHO} "==> Translating ${WRKDIR}/${.ALLSRC}"
+	@${ECHO} "==> Compiling ${WRKDIR}/${.ALLSRC}"
 	${TCC} -Xp -Y${API} -o ${.TARGET} ${.ALLSRC}
 .endfor
 
