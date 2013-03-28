@@ -95,8 +95,11 @@ main(int argc, char **argv)
 			"B:C:DE:F:G:H:IK:MO:PQRSV:WX:YZ"
 			"ei")) != -1) {
 			switch (c) {
-			case 'B': builtin = flags_builtin(optarg); break;
-			case 'D': PIC_code = 1;                    break;
+			case 'B': builtin = flags_builtin(builtin, optarg); break;
+			case 'H': has     = flags_has(has, optarg);         break;
+			case 'O': optim   = flags_optim(optim, optarg);     break;
+			case 'X': check   = flags_check(check, optarg);     break;
+
 			case 'C':
 				diag = switch_diag(optarg, DIAG_STABS);
 				break;
@@ -115,10 +118,9 @@ main(int argc, char **argv)
 				do_alloca = 0; /* dbx does not understand variable frame sizes */
 				break;
 
+			case 'D': PIC_code = 1;                 break;
 			case 'K': /* only MIPS */               break;
 			case 'M': strict_fl_div = 1;            break;
-			case 'H': has   = flags_has(optarg);    break;
-			case 'O': optim = flags_optim(optarg);  break;
 			case 'P': do_profile = 1;               break;
 			case 'Q': exit(EXIT_FAILURE);
 			case 'R': round_after_flop = 1;         break;
@@ -166,7 +168,6 @@ main(int argc, char **argv)
 				}
 
 			case 'W': writable_strings = 1;        break;
-			case 'X': check = flags_check(optarg); break;
 			case 'Y': dyn_init = 1;                break;
 
 			case 'Z': /* prints on stderr the versions of all the capsules

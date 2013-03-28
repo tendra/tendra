@@ -193,7 +193,11 @@ main ( int argc, char ** argv )
 			"B:C:DE:F:G:H:I:JK:MNO:PQRTVWX:YZ"
 			"abcglo:i:r:un")) != -1) {
 			switch (c) {
-			case 'B': builtin = flags_builtin(optarg); break;
+			case 'B': builtin = flags_builtin(builtin, optarg); break;
+			case 'H': has     = flags_has(has, optarg);         break;
+			case 'O': optim   = flags_optim(optim, optarg);     break;
+			case 'X': check   = flags_check(check, optarg);     break;
+
 			case 'D': PIC_code = 1;                    break;
 			case 'C':
 				diag = switch_diag(optarg, DIAG_STABS | DIAG_DWARF | DIAG_DWARF2);
@@ -227,8 +231,6 @@ main ( int argc, char ** argv )
 			case 'K':                              break;
 			case 'M': strict_fl_div = 1;           break;
 			case 'N': do_prom = 1;                 break;
-			case 'H': has = flags_has(optarg);     break;
-			case 'O': optim = flags_optim(optarg); break;
 			case 'P': do_profile = 1;              break;	      
 			case 'Q': exit(EXIT_SUCCESS);          break;
 			case 'R': round_after_flop = 1;        break;
@@ -270,7 +272,6 @@ main ( int argc, char ** argv )
 				break;
 	     
 			case 'W': break;
-			case 'X': check = flags_check(optarg);  break;
 			case 'Y': dyn_init = 1;                 break;
 			case 'Z': report_versions = 1;          break;
 

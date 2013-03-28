@@ -146,7 +146,7 @@ main(int argc, char **argv)
 	while ((ch = getopt(argc, argv, optstring)) != -1) {
 		switch (ch) {
 		case 'B':
-			builtin = flags_builtin(optarg);
+			builtin = flags_builtin(builtin, optarg);
 			break;
 		case 'C':
 			diag = switch_diag(optarg, DIAG_STABS | DIAG_DWARF | DIAG_DWARF2);
@@ -164,7 +164,7 @@ main(int argc, char **argv)
 			assembler = switch_assembler(optarg, ASM_GAS);
 			break;
 		case 'H':
-			has = flags_has(optarg);
+			has = flags_has(has, optarg);
 			break;
 		case 'I':
 			/* Add debug symbols to assembly */
@@ -230,7 +230,7 @@ main(int argc, char **argv)
 			do_prom = 1;
 			break;
 		case 'O':
-			optim = flags_optim(optarg);
+			optim = flags_optim(optim, optarg);
 			break;
 		case 'P':
 			do_profile = 1;
@@ -256,7 +256,7 @@ main(int argc, char **argv)
 			writable_strings = (*optarg == '1');
 			break;
 		case 'X':
-			check = flags_check(optarg);
+			check = flags_check(check, optarg);
 			break;
 		case 'Y':
 			dyn_init = 1;

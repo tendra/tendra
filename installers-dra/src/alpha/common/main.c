@@ -116,7 +116,11 @@ main(int argc, char *argv[])
 
 		while ((c = getopt(argc, argv, "B:C:DE:F:G:H:IK:MO:PQRSVWX:YZ" "usd:")) != -1) {
 			switch (c) {
-			case 'B': builtin = flags_builtin(optarg);   break;
+			case 'B': builtin = flags_builtin(builtin, optarg); break;
+			case 'O': optim   = flags_optim(optim, optarg);     break;
+			case 'H': has     = flags_has(has, optarg);         break;
+			case 'X': check   = flags_check(check, optarg);     break;
+
 			case 'D': failer("no PIC code available"); exit(EXIT_FAILURE);
 			case 'C':
 				diag = switch_diag(optarg, DIAG_STABS);
@@ -139,15 +143,12 @@ main(int argc, char *argv[])
 				break;
 
 			case 'M': strict_fl_div = 1;           break;
-			case 'O': optim = flags_optim(optarg); break;
-			case 'H': has = flags_has(optarg);     break;
 			case 'P': do_profile = 1;              break;
 			case 'Q': exit(EXIT_SUCCESS);          break;
 			case 'R': round_after_flop = 1;        break;
 			case 'S': produce_binasm = TRUE;       break;
 			case 'V': printinfo(); infoopt = TRUE; break;
 			case 'W': writable_strings = 1;        break;
-			case 'X': check = flags_check(optarg); break;
 			case 'Y': dyn_init = 1;                break;
 			case 'Z': report_versions = 1;         break;
 

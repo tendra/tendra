@@ -102,7 +102,10 @@ int main
 		while ((c = getopt(argc, argv,
 			"B:C:DE:F:G:H:IKNO:PQRVWX:YZ" "dh")) != -1) {
 			switch (c) {
-			case 'B': builtin = flags_builtin(optarg); break;
+			case 'B': builtin = flags_builtin(builtin, optarg); break;
+			case 'O': optim   = flags_optim(optim, optarg);     break;
+			case 'H': has     = flags_has(has, optarg);         break;
+			case 'X': check   = flags_check(check, optarg);     break;
 
 			case 'D':
 				/* -D emulates cc's +Z flag */
@@ -146,8 +149,6 @@ int main
 
 			case 'K': break;
 			case 'M': strict_fl_div = 1;           break;
-			case 'O': optim = flags_optim(optarg); break;
-			case 'H': has   = flags_has(optarg);   break;
 			case 'P':
 				do_profile = 1;
 				break;
@@ -168,7 +169,6 @@ int main
 				break;
 
 			case 'W': break;
-			case 'X': check = flags_check(optarg); break;
 			case 'Y': dyn_init = 1; break;
 			case 'Z': report_versions = 1; break;
 

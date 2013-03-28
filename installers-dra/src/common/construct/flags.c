@@ -60,30 +60,41 @@ enum format    format;
 enum diag      diag;
 
 enum has
-flags_has(const char *s)
+flags_has(enum has o, const char *s)
 {
-	enum has o;
 	const char *p;
+	int v;
 
-	o = 0;
+	v = 1;
 
 	for (p = s; *p != '\0'; p++) {
-		switch (*p) {
-		case 'a': o = ~0U;                 continue;
+		enum has e;
 
-		case 'o': o |= HAS_BYTEOPS;        continue;
-		case 'r': o |= HAS_BYTEREGS;       continue;
-		case 'n': o |= HAS_NEGSHIFT;       continue;
-		case 't': o |= HAS_ROTATE;         continue;
-		case 'm': o |= HAS_MAXMIN;         continue;
-		case 'c': o |= HAS_CONDASSIGN;     continue;
-		case 'd': o |= HAS_DIV0;           continue;
-		case 's': o |= HAS_SETCC;          continue;
+		switch (*p) {
+		case '+': v = 1; continue;
+		case '-': v = 0; continue;
+
+		case 'a': e = ~0U;                break;
+		case 'o': e = HAS_BYTEOPS;        break;
+		case 'r': e = HAS_BYTEREGS;       break;
+		case 'n': e = HAS_NEGSHIFT;       break;
+		case 't': e = HAS_ROTATE;         break;
+		case 'm': e = HAS_MAXMIN;         break;
+		case 'c': e = HAS_CONDASSIGN;     break;
+		case 'd': e = HAS_DIV0;           break;
+		case 's': e = HAS_SETCC;          break;
 
 		default:
 			error(ERROR_WARNING, "Unrecognised has flag %c. "
 				"Valid flags are: [orntmcds] and [a] for all.",
 				*p);
+			continue;
+		}
+
+		if (v) {
+			o |=  e;
+		} else {
+			o &= ~e;
 		}
 	}
 
@@ -91,35 +102,46 @@ flags_has(const char *s)
 }
 
 enum optim
-flags_optim(const char *s)
+flags_optim(enum optim o, const char *s)
 {
-	enum optim o;
 	const char *p;
+	int v;
 
-	o = 0;
+	v = 1;
 
 	for (p = s; *p != '\0'; p++) {
-		switch (*p) {
-		case 'a': o = ~0U;                 continue;
+		enum optim e;
 
-		case 'c': o |= OPTIM_LOOPCONSTS;   continue;
-		case 'd': o |= OPTIM_DUMP;         continue;
-		case 'e': o |= OPTIM_INLINE_EXPS;  continue;
-		case 'f': o |= OPTIM_FORALLS;      continue;
-		case 'g': o |= OPTIM_CASE;         continue;
-		case 'h': o |= OPTIM_PEEPHOLE;     continue;
-		case 'i': o |= OPTIM_INLINE_PROCS; continue;
-		case 'j': o |= OPTIM_JUMPS;        continue;
-		case 'u': o |= OPTIM_UNROLL;       continue;
-		case 'r': o |= OPTIM_TAIL;         continue;
-		case 't': o |= OPTIM_TEMPDEC;      continue;
-		case 'o': o |= OPTIM_ZEROOFFSETS;  continue;
-		case 'p': o |= OPTIM_SUBSTPARAMS;  continue;
+		switch (*p) {
+		case '+': v = 1; continue;
+		case '-': v = 0; continue;
+
+		case 'a': e = ~0U;                break;
+		case 'c': e = OPTIM_LOOPCONSTS;   break;
+		case 'd': e = OPTIM_DUMP;         break;
+		case 'e': e = OPTIM_INLINE_EXPS;  break;
+		case 'f': e = OPTIM_FORALLS;      break;
+		case 'g': e = OPTIM_CASE;         break;
+		case 'h': e = OPTIM_PEEPHOLE;     break;
+		case 'i': e = OPTIM_INLINE_PROCS; break;
+		case 'j': e = OPTIM_JUMPS;        break;
+		case 'u': e = OPTIM_UNROLL;       break;
+		case 'r': e = OPTIM_TAIL;         break;
+		case 't': e = OPTIM_TEMPDEC;      break;
+		case 'o': e = OPTIM_ZEROOFFSETS;  break;
+		case 'p': e = OPTIM_SUBSTPARAMS;  break;
 
 		default:
 			error(ERROR_WARNING, "Unrecognised optimisation flag %c. "
 				"Valid flags are: [cdefghijurtop] and [a] for all.",
 				*p);
+			continue;
+		}
+
+		if (v) {
+			o |=  e;
+		} else {
+			o &= ~e;
 		}
 	}
 
@@ -127,25 +149,36 @@ flags_optim(const char *s)
 }
 
 enum check
-flags_check(const char *s)
+flags_check(enum check o, const char *s)
 {
-	enum check o;
 	const char *p;
+	int v;
 
-	o = 0;
+	v = 1;
 
 	for (p = s; *p != '\0'; p++) {
-		switch (*p) {
-		case 'a': o = ~0U;                  continue;
+		enum check e;
 
-		case 's': o |= CHECK_SHAPE;         continue;
-		case 'e': o |= CHECK_EXTRA;         continue;
-		case 'f': o |= CHECK_FLPT_OVERFLOW; continue;
+		switch (*p) {
+		case '+': v = 1; continue;
+		case '-': v = 0; continue;
+
+		case 'a': e = ~0U;                 break;
+		case 's': e = CHECK_SHAPE;         break;
+		case 'e': e = CHECK_EXTRA;         break;
+		case 'f': e = CHECK_FLPT_OVERFLOW; break;
 
 		default:
 			error(ERROR_WARNING, "Unrecognised check flag %c. "
 				"Valid flags are: [sef] and [a] for all.",
 				*p);
+			continue;
+		}
+
+		if (v) {
+			o |=  e;
+		} else {
+			o &= ~e;
 		}
 	}
 
@@ -153,31 +186,42 @@ flags_check(const char *s)
 }
 
 enum builtin
-flags_builtin(const char *s)
+flags_builtin(enum builtin o, const char *s)
 {
-	enum builtin o;
 	const char *p;
+	int v;
 
-	o = 0;
+	v = 1;
 
 	for (p = s; *p != '\0'; p++) {
-		switch (*p) {
-		case 'a': o = ~0U;              continue;
+		enum check e;
 
-		case 'j': o |= BUILTIN_LONGJMP; continue;
-		case 'p': o |= BUILTIN_PROMOTE; continue;
-		case 'v': o |= BUILTIN_VARARG;  continue;
-		case 'c': o |= BUILTIN_ALLOCA;  continue;
-		case 'f': o |= BUILTIN_FLOAT;   continue;
-		case 'd': o |= BUILTIN_DIAG;    continue;
-		case 'l': o |= BUILTIN_API;     continue;
-		case 'm': o |= BUILTIN_ASM;     continue;
-		case 't': o |= BUILTIN_DEBUG;   continue;
+		switch (*p) {
+		case '+': v = 1; continue;
+		case '-': v = 0; continue;
+
+		case 'a': e = ~0U;             break;
+		case 'j': e = BUILTIN_LONGJMP; break;
+		case 'p': e = BUILTIN_PROMOTE; break;
+		case 'v': e = BUILTIN_VARARG;  break;
+		case 'c': e = BUILTIN_ALLOCA;  break;
+		case 'f': e = BUILTIN_FLOAT;   break;
+		case 'd': e = BUILTIN_DIAG;    break;
+		case 'l': e = BUILTIN_API;     break;
+		case 'm': e = BUILTIN_ASM;     break;
+		case 't': e = BUILTIN_DEBUG;   break;
 
 		default:
 			error(ERROR_WARNING, "Unrecognised builtin flag %c. "
 				"Valid flags are: [sjcdlmt] and [a] for all.",
 				*p);
+			continue;
+		}
+
+		if (v) {
+			o |=  e;
+		} else {
+			o &= ~e;
 		}
 	}
 

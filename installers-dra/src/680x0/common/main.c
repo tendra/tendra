@@ -149,19 +149,20 @@ int main
 			case 'G': assembler = switch_assembler(optarg,
 				ASM_HP | ASM_GAS ); break;
 
-			case 'B': builtin = flags_builtin(optarg); break;
+			case 'B': builtin = flags_builtin(builtin, optarg); break;
+			case 'O': optim   = flags_optim(optim, optarg);     break;
+			case 'H': has     = flags_has(has, optarg);         break;
+			case 'X': check   = flags_check(check, optarg);     break;
+
 			case 'D': do_pic = 1;                      break;
-			case 'H': has = flags_has(optarg);         break;
 			case 'I': diagnose = 1;                    break;
 			case 'K':                                  break;
 			case 'M': strict_fl_div = 1;               break;
-			case 'O': optim = flags_optim(optarg);     break;
 			case 'P': do_profile = 1;                  break;
 			case 'Q': do_quit = 1;                     break;
 			case 'R': round_after_flop = 1;            break;
 			case 'V': report_trans_version = 1;        break;
 			case 'W':                                  break;
-			case 'X': check = flags_check(optarg);     break;
 			case 'Y': dyn_init = 1;                    break;
 			case 'Z': report_tdf_versions = 1;         break;
 
