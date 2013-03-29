@@ -10,10 +10,6 @@
 #ifndef config_key
 #define config_key 1
 
-#ifndef FS_64_BIT
-#define FS_64_BIT		1
-#endif
-
 #define replace_compound 1
 #define no_bitfield_ops 0
 #define dont_unpad_apply 0

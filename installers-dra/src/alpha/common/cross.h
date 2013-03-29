@@ -43,7 +43,7 @@ typedef unsigned int UINT32;
 #define is32(X)((name(X) ==slonghd) || (name(X) ==ulonghd))
 
 /* some macros to access the fields of the flt64/INT64 type */
-#if FS_64_BIT /* 64 bit ints can be represented as longs */
+#if BLDARCHBITS == 64 /* 64 bit ints can be represented as longs */
 typedef long INT64;
 #define clear_INT64(x)	((x) =0)
 #define low_INT64(x)	(x)

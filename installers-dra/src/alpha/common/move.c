@@ -41,12 +41,15 @@
 #include "move.h"
 
 /* bit masks */
-#if FS_64_BIT
+#if BLDARCHBITS == 64
+
 extern int stack_top;
 INT64 word_mask=0xffffL;
 INT64 long_mask=0xffffffffL;
 INT64 one_64=1L;
-#else /* FS_64_BIT */
+
+#else
+
 INT64 word_mask={
 0  0,0xffff
 };
@@ -56,7 +59,8 @@ INT64 long_mask={
 };
 
 INT64 one_64 = {0,1};
-#endif /* FS_64_BIT */
+
+#endif
 
 /*
   Returns TRUE if the data is aligned properly, false otherwise.

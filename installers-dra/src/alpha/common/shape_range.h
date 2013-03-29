@@ -12,7 +12,8 @@
 
 #include "cross.h"
 
-#if FS_64_BIT
+#if BLDARCHBITS == 64
+
 #define scmm_max 127L
 #define scmm_min -128L
 #define uscmm_max 255L
@@ -32,7 +33,9 @@
 #define s64mm_min 0x8000000000000000L
 #define u64mm_max 0xffffffffffffffffL
 #define u64mm_min 0L
+
 #else
+
 #define scmm_max {0,127}
 #define scmm_min {0,0}
 #define uscmm_max {0,255U}
@@ -53,6 +56,7 @@
 #define s64mm_min {0x80000000,0x0000000}
 #define u64mm_max {0xffffffff,0xffffffff}
 #define u64mm_min {0,0}
-#endif /* ifdef alpha */
+
+#endif
 
 #endif

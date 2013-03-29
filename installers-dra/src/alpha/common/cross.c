@@ -27,7 +27,7 @@
 #include "fail.h"
 #include "expmacs.h"
 
-#if FS_64_BIT
+#if BLDARCHBITS == 64
 
 INT64
 flt64_to_INT64(flt64 arg)
@@ -52,7 +52,7 @@ exp_to_INT64(exp e)
 
 
 
-#else /* FS_64_BIT */
+#else /* BLDARCHBITS */
 
 /*
   This function outputs a literal 64 bit int value to the 
@@ -340,4 +340,4 @@ make_INT64(INT32 big, UINT32 small)
   return res;
 }
 
-#endif /* FS_64_BIT */
+#endif /* BLDARCHBITS */
