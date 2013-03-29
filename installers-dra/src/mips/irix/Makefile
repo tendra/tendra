@@ -6,6 +6,7 @@
 #TCCOPTS=-Xc -Y32bit -Yansi
 
 PART_CFLAGS+=	-D TRANS_MIPS
+PART_CFLAGS+=	-D BLDARCHBITS=${BLDARCHBITS}
 
 PART_CFLAGS+=	-I ${BASE_DIR}/src/mips/common
 PART_CFLAGS+=	-I ${BASE_DIR}/src/mips/irix
