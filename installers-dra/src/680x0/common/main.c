@@ -236,6 +236,7 @@ int main
     has &= ~HAS_ROTATE;
     has &= ~HAS_MAXMIN;
     has &= ~HAS_SETCC;
+    has &= ~HAS_COMPLEX;
 
     /* Report version if required */
     if (report_trans_version) {

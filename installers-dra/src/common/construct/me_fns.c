@@ -23,6 +23,7 @@
 #include <reader/natmacs.h>
 
 #include <construct/exp.h>
+#include <construct/flags.h>
 #include <construct/installglob.h>
 #include <construct/tags.h>
 #include <construct/install_fns.h>
@@ -326,11 +327,11 @@ is_float(shape s)
 int
 is_complex(shape s)
 {
-#if substitute_complex
-	return name(s) == cpdhd;
-#else
+	if (~has & HAS_COMPLEX) {
+		return name(s) == cpdhd;
+	}
+
 	return name(s) >= shcomplexhd && name(s) <= complexdoublehd;
-#endif
 }
 
 

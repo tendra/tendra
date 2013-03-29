@@ -83,10 +83,11 @@ flags_has(enum has o, const char *s)
 		case 'c': e = HAS_CONDASSIGN;     break;
 		case 'd': e = HAS_DIV0;           break;
 		case 's': e = HAS_SETCC;          break;
+		case 'i': e = HAS_COMPLEX;        break;
 
 		default:
 			error(ERROR_WARNING, "Unrecognised has flag %c. "
-				"Valid flags are: [orntmcds] and [a] for all.",
+				"Valid flags are: [orntmcdsi] and [a] for all.",
 				*p);
 			continue;
 		}

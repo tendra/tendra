@@ -33,9 +33,6 @@
 #define good_index_factor(f)    1
 #define good_pointer_factor(f)  0
 
-/* complex numbers */
-#define substitute_complex      1
-
 #define POWERPC_CODE            1
 #define RS6000_CODE             2
 #define COMMON_CODE             0

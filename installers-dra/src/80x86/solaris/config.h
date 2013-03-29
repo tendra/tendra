@@ -26,7 +26,6 @@
 #define has64bits 1
 #define keep_PIC_vars 0
 #define target_dbl_maxexp 4932
-#define substitute_complex 1
 
 #define value_of_null 0
 

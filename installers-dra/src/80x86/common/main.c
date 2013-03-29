@@ -321,6 +321,7 @@ main(int argc, char **argv)
 	/* Things trans.80x86 does not "has" */
 	has &= ~HAS_NEGSHIFT;
 	has &= ~HAS_CONDASSIGN;
+	has &= ~HAS_COMPLEX;
 
 	if (!is80586) {
 		has &= ~HAS_SETCC;

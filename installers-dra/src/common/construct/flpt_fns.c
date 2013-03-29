@@ -91,8 +91,7 @@ f_change_floating_variety(error_treatment flpt_err, floating_variety r,
     return arg1;	/* Discard the other bits ? */
  }
 
-#if substitute_complex
-  if (is_complex(sh(arg1))) {
+  if (~has & HAS_COMPLEX && is_complex(sh(arg1))) {
     shape complex_shape = sh(arg1);
     floating_variety real_fv = f_float_of_complex(f_floating(r));
 
@@ -112,7 +111,6 @@ f_change_floating_variety(error_treatment flpt_err, floating_variety r,
 
     return c1;
   }
-#endif  /* substitute complex */
 
 #if TRANS_HPPA
   {
@@ -144,8 +142,7 @@ f_complex_conjugate(exp arg1)
     }
   }
 
-#if substitute_complex
-  {
+  if (~has & HAS_COMPLEX) {
     shape complex_shape = sh(arg1);	/* shape of our complex numbers */
     floating_variety real_fv = f_float_of_complex(complex_shape);
     shape real_shape = f_floating(real_fv);
@@ -166,9 +163,8 @@ f_complex_conjugate(exp arg1)
 
     return c1;
   }
-#else
+
   return me_u3(sh(arg1), arg1, conj_tag);
-#endif
 }
 
 
@@ -274,9 +270,7 @@ f_floating_div(error_treatment ov_err, exp arg1, exp arg2)
     }
   }
 
-/* PAB changes - 21 October 1994 */
-#if substitute_complex
-  if (is_complex(sh(arg1))) {
+  if (~has & HAS_COMPLEX && is_complex(sh(arg1))) {
 
       shape complex_shape = sh(arg1);	/* shape of our complex numbers */
       floating_variety real_fv = f_float_of_complex(complex_shape);
@@ -345,7 +339,6 @@ f_floating_div(error_treatment ov_err, exp arg1, exp arg2)
 
       return z1;
   }
-#endif
 #if TRANS_HPPA
   {
     exp r = hold_refactor(me_b1(ov_err, arg1, arg2, fdiv_tag));
@@ -843,9 +836,7 @@ f_floating_minus(error_treatment ov_err, exp arg1, exp arg2)
     }
   }
 
-/* PAB changes - 18 October 1994 */
-#if substitute_complex
-  if (is_complex(sh(arg1))) {
+  if (~has & HAS_COMPLEX && is_complex(sh(arg1))) {
       shape complex_shape = sh(arg1);	/* shape of our complex numbers */
       floating_variety real_fv = f_float_of_complex(complex_shape);
       shape real_shape = f_floating(real_fv);
@@ -868,7 +859,6 @@ f_floating_minus(error_treatment ov_err, exp arg1, exp arg2)
 
       return z1;
   }
-#endif
 #if TRANS_HPPA
   {
     exp r = hold_refactor(me_b1(ov_err, arg1, arg2, fminus_tag));
@@ -916,9 +906,7 @@ f_floating_mult(error_treatment ov_err, exp_list arg1)
     }
   }
 
-/* PAB changes - 19 October 1994 */
-#if substitute_complex
-  if (is_complex(sh(arg1.start))) {
+  if (~has & HAS_COMPLEX && is_complex(sh(arg1.start))) {
       shape complex_shape = sh(arg1.start); /* shape of our complex numbers */
       floating_variety real_fv = f_float_of_complex(complex_shape);
       shape real_shape = f_floating(real_fv);
@@ -982,7 +970,6 @@ f_floating_mult(error_treatment ov_err, exp_list arg1)
 
       return me_complete_chain(y1, arg1.start, link_next);
   }
-#endif
   setfather(r, arg1.end);
 #if TRANS_HPPA
   if (!optop(r) && name(sh(r)) == doublehd) {
@@ -1008,9 +995,7 @@ f_floating_negate(error_treatment ov_err, exp arg1)
     }
   }
 
-/* PAB changes - 18 October 1994 */
-#if substitute_complex
-  if (is_complex(sh(arg1))) {
+  if (~has & HAS_COMPLEX && is_complex(sh(arg1))) {
       shape complex_shape = sh(arg1);	/* shape of our complex numbers */
       floating_variety real_fv = f_float_of_complex(complex_shape);
       shape real_shape = f_floating(real_fv);
@@ -1032,7 +1017,6 @@ f_floating_negate(error_treatment ov_err, exp arg1)
 
       return c1;
   }
-#endif
 #if TRANS_HPPA
   {
     exp r = hold_refactor(me_u1(ov_err, arg1, fneg_tag));
@@ -1080,9 +1064,7 @@ f_floating_plus(error_treatment ov_err, exp_list arg1)
     }
   }
 
-/* PAB changes - 18 October 1994 */
-#if substitute_complex
-  if (is_complex(sh(arg1.start))) {
+  if (~has & HAS_COMPLEX && is_complex(sh(arg1.start))) {
       exp z1, z2, x1, y1, x2, y2, make_comp, t;
 
       shape complex_shape = sh(arg1.start); /* shape of our complex numbers */
@@ -1117,7 +1099,6 @@ f_floating_plus(error_treatment ov_err, exp_list arg1)
 
       return me_complete_chain(z2, arg1.start, make_comp);
   }
-#endif
   setfather(r, arg1.end);
 #if TRANS_HPPA
   if (!optop(r) && name(sh(r)) == doublehd) {
@@ -1150,9 +1131,7 @@ f_floating_test(nat_option prob, error_treatment flpt_err, ntest nt,
     }
   }
 
-/* PAB changes - 18 October 1994 */
-#if substitute_complex
-  if (is_complex(sh(arg1))) {		/* is arg1 a complex number ? */
+  if (~has & HAS_COMPLEX && is_complex(sh(arg1))) {
 
       shape complex_shape = sh(arg1);	/* shape of our complex numbers */
       exp z1 = me_startid(complex_shape, arg1, 0);
@@ -1205,7 +1184,7 @@ f_floating_test(nat_option prob, error_treatment flpt_err, ntest nt,
 
       return z1;
   }
-#endif
+
   return me_q2(prob, flpt_err, nt, dest, arg1, arg2, test_tag);
 }
 
@@ -1226,17 +1205,14 @@ f_imaginary_part(exp arg1)
     }
   }
 
-/* PAB changes - 25 May 1995 */
   real_shape = f_floating(f_float_of_complex(sh(arg1)));
-#if substitute_complex
-  {
+  if (~has & HAS_COMPLEX) {
     exp t = me_u3(real_shape, arg1, field_tag);
     no(t) = shape_size(real_shape);
     return hold_refactor(t);
   }
-#else
+
   return me_u3(real_shape, arg1, imag_tag);
-#endif
 }
 
 
@@ -1255,17 +1231,14 @@ f_real_part(exp arg1)
     }
   }
 
-/* PAB changes - 25 May 1995 */
   real_shape = f_floating(f_float_of_complex(sh(arg1)));
-#if substitute_complex
-  {
+  if (~has & HAS_COMPLEX) {
     exp t = me_u3(real_shape, arg1, field_tag);
     no(t) = 0;
     return hold_refactor(t);
   }
-#else
+
   return me_u3(real_shape, arg1, realpart_tag);
-#endif
 }
 
 
@@ -1289,8 +1262,10 @@ f_make_complex(floating_variety f, exp arg1, exp arg2)
     }
   }
 
-/* PAB changes - 19 October 1994 */
-#if substitute_complex
+  if (has & HAS_COMPLEX) {
+    return me_b3(f_floating(f), arg1, arg2, make_complex_tag);
+  }
+
   switch (f) {
      case shcomplexfv:
         {
@@ -1351,8 +1326,6 @@ f_make_complex(floating_variety f, exp arg1, exp arg2)
 	 failer("Illegal floating_variety for make_complex_tag\n");
        }
   }
-#endif
-  return me_b3(f_floating(f), arg1, arg2, make_complex_tag);
 }
 
 
@@ -1772,20 +1745,22 @@ init_floating_variety(void)
   realsh = getshape(0, const_al1, const_al1, REAL_ALIGN, REAL_SZ, realhd);
   doublesh = getshape(0, const_al1, const_al1, DOUBLE_ALIGN, DOUBLE_SZ,
 		      doublehd);
-#if substitute_complex
-  shcomplexsh = getshape(0, const_al1, const_al1, SHREAL_ALIGN, 2 * SHREAL_SZ,
+
+  if (~has & HAS_COMPLEX) {
+    shcomplexsh = getshape(0, const_al1, const_al1, SHREAL_ALIGN, 2 * SHREAL_SZ,
 			 cpdhd);
-  complexsh = getshape(0, const_al1, const_al1, REAL_ALIGN, 2 * REAL_SZ, cpdhd);
-  complexdoublesh = getshape(0, const_al1, const_al1, DOUBLE_ALIGN,
+    complexsh = getshape(0, const_al1, const_al1, REAL_ALIGN, 2 * REAL_SZ, cpdhd);
+    complexdoublesh = getshape(0, const_al1, const_al1, DOUBLE_ALIGN,
 			     2 * DOUBLE_SZ, cpdhd);
-#else
-  shcomplexsh = getshape(0, const_al1, const_al1, SHREAL_ALIGN, 2 * SHREAL_SZ,
+  } else {
+    shcomplexsh = getshape(0, const_al1, const_al1, SHREAL_ALIGN, 2 * SHREAL_SZ,
 			 shcomplexhd);
-  complexsh = getshape(0, const_al1, const_al1, REAL_ALIGN, 2 * REAL_SZ,
+    complexsh = getshape(0, const_al1, const_al1, REAL_ALIGN, 2 * REAL_SZ,
 		       complexhd);
-  complexdoublesh = getshape(0, const_al1, const_al1, DOUBLE_ALIGN,
+    complexdoublesh = getshape(0, const_al1, const_al1, DOUBLE_ALIGN,
 			     2 * DOUBLE_SZ, complexdoublehd);
-#endif
+  }
+
   return;
 }
 

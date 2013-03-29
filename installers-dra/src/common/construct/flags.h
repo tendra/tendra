@@ -1,7 +1,7 @@
 /* $Id$ */
 
 /*
- * Copyright 2002-2012, The TenDRA Project.
+ * Copyright 2002-2013, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
  *
  * See doc/copyright/ for the full copyright terms.
@@ -18,7 +18,8 @@ enum has {
 	HAS_MAXMIN     = 1 << 4, /* Has max/min tags */
 	HAS_CONDASSIGN = 1 << 5, /* Has condassign tag */
 	HAS_DIV0       = 1 << 6, /* Has div0 and rem0 tags */
-	HAS_SETCC      = 1 << 7  /* Has setcc (produces absbool tag) */
+	HAS_SETCC      = 1 << 7, /* Has setcc (produces absbool tag) */
+	HAS_COMPLEX    = 1 << 8  /* Has native complex numbers */
 };
 
 enum optim {

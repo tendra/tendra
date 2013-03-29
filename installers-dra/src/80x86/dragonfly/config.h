@@ -22,7 +22,6 @@
 #define use_long_double 1
 #define has64bits 1
 #define keep_PIC_vars 0
-#define substitute_complex 1
 
 #define target_dbl_maxexp 308
 

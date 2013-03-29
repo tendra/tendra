@@ -225,6 +225,7 @@ main(int argc, char *argv[])
 	has &= ~HAS_CONDASSIGN;
 	has &= ~HAS_DIV0;
 	has &= ~HAS_SETCC;
+	has &= ~HAS_COMPLEX;
 
 	/* This does not work on the alpha */
 	optim &= ~OPTIM_CASE;

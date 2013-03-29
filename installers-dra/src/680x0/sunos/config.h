@@ -67,7 +67,6 @@ typedef unsigned long bitpattern;
 #define good_pointer_factor(f)\
 				((f) != 1 && (f) != 2 && \
 				 (f) != 4 && (f) != 8)
-#define substitute_complex	1	/* don't have native complex numbers */
 
 
 /*
@@ -97,8 +96,6 @@ typedef unsigned long bitpattern;
 #define dummy_tag		100
 #define internal_tag		101
 #define regpair_tag		102
-
-#define substitute_complex	1
 
 
 #endif

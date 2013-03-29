@@ -200,6 +200,7 @@ main(int argc, char **argv)
 	has &= ~HAS_ROTATE;
 	has &= ~HAS_MAXMIN;
 	has &= ~HAS_SETCC;
+	has &= ~HAS_COMPLEX;
 
 	if (override_diags) {
 		diagnose = 0;

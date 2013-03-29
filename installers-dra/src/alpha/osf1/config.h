@@ -31,8 +31,6 @@
 #define good_pointer_factor(f) 1
 
 
-#define substitute_complex 1
-
 #define value_of_null 0
 
 #ifndef DO_SCHEDULE
