@@ -322,6 +322,7 @@ main(int argc, char **argv)
 	has &= ~HAS_NEGSHIFT;
 	has &= ~HAS_CONDASSIGN;
 	has &= ~HAS_COMPLEX;
+	has &= ~HAS_64_BIT;
 
 	if (!is80586) {
 		has &= ~HAS_SETCC;

@@ -17,7 +17,6 @@
 #define DWARF 0
 #define load_ptr_pars 1
 #define use_long_double 1
-#define has64bits 1
 #define keep_PIC_vars 0
 
 #define target_dbl_maxexp 4932

@@ -19,7 +19,8 @@ enum has {
 	HAS_CONDASSIGN = 1 << 5, /* Has condassign tag */
 	HAS_DIV0       = 1 << 6, /* Has div0 and rem0 tags */
 	HAS_SETCC      = 1 << 7, /* Has setcc (produces absbool tag) */
-	HAS_COMPLEX    = 1 << 8  /* Has native complex numbers */
+	HAS_COMPLEX    = 1 << 8, /* Has native complex numbers */
+	HAS_64_BIT     = 1 << 8  /* Has native 64-bit operations */
 };
 
 enum optim {

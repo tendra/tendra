@@ -194,8 +194,9 @@ f_float_int(error_treatment flpt_err, floating_variety f, exp arg1)
 		      real_tag);
 	return f_make_complex(f, res, zero);
     }
-#if !has64bits
-  if ((name(arg1) != val_tag || flpt_err.err_code > 2) &&
+
+  if (~has & HAS_64_BIT) {
+    if ((name(arg1) != val_tag || flpt_err.err_code > 2) &&
       shape_size(sh(arg1)) > 32) {
 #if use_long_double
 	exp z = TDFcallaux(flpt_err, arg1, (is_signed(sh(arg1)) ?
@@ -217,7 +218,8 @@ f_float_int(error_treatment flpt_err, floating_variety f, exp arg1)
 	return z;
 #endif
     }
-#endif
+  }
+
   return me_c1(f_floating(f), flpt_err, arg1, float_tag);
 }
 
@@ -1514,7 +1516,7 @@ f_round_with_mode(error_treatment flpt_err, rounding_mode mode, variety r,
     }
   }
 
-#if !has64bits
+  if (~has & HAS_64_BIT) {
 	if (shape_size(r) >32 &&
 	    (name(arg1) != real_tag || flpt_err.err_code >= 4)) {
 		int s = is_signed(r);
@@ -1546,7 +1548,8 @@ f_round_with_mode(error_treatment flpt_err, rounding_mode mode, variety r,
 		e = TDFcallaux(flpt_err, arg1, fn, r);
 		return hold_refactor(e);
 	}
-#endif
+  }
+
 #if TRANS_MIPS
 	/* mips does not seem to get float->unsigned long right -
 	   so convert to signed long and adjust if too big*/

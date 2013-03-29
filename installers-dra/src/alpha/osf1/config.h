@@ -16,8 +16,6 @@
 
 #define target_dbl_maxexp 308
 
-#define has64bits 1
-
 #define temp_mips 0
 
 /* settings for foralls optimisations */

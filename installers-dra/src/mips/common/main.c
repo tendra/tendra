@@ -201,6 +201,7 @@ main(int argc, char **argv)
 	has &= ~HAS_MAXMIN;
 	has &= ~HAS_SETCC;
 	has &= ~HAS_COMPLEX;
+	has &= ~HAS_64_BIT;
 
 	if (override_diags) {
 		diagnose = 0;

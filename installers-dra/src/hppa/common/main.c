@@ -224,6 +224,7 @@ int main
    has &= ~HAS_DIV0;
    has &= ~HAS_SETCC;
    has &= ~HAS_COMPLEX;
+   has &= ~HAS_64_BIT;
 
    /* Switch off certain optimisations when in diagnostics mode. */
    if (diagnose)

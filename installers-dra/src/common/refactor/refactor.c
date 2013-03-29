@@ -2537,17 +2537,17 @@ refactor(exp e, exp scope)
 				shape sha = sh(e);
 				x = exp_to_f64(son(e));
 				/*
-#if has64bits
-				int sg = is_signed(sha);
-				if (check & CHECK_EXTRA) {
-					if (sg && !in_proc_def &&
-					    shape_size(sha) <= 32 &&
-					    check_size(x, sg, 32)) {
-						failer("Change_variety out of range");
-						exit(EXIT_FAILURE);
+				if (has & HAS_64_BIT) {
+					int sg = is_signed(sha);
+					if (check & CHECK_EXTRA) {
+						if (sg && !in_proc_def &&
+						    shape_size(sha) <= 32 &&
+						    check_size(x, sg, 32)) {
+							failer("Change_variety out of range");
+							exit(EXIT_FAILURE);
+						}
 					}
 				}
-#endif
 				 */
 				dochvar_f(&x, sha);
 				no(son(e)) = f64_to_flpt(x, is_signed(sha), &bg,

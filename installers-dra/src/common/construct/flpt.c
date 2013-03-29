@@ -1461,26 +1461,27 @@ flpt_round_to_integer(int rndmd, flt *f)
 
 
   /*
-#if has64bits
-  if (f->exp > 3) {
-    int ij;
-    f->mant[0] = f->mant[f->exp - 3];
-    f->mant[1] = f->mant[f->exp - 2];
-    f->mant[2] = f->mant[f->exp - 1];
-    f->mant[3] = f->mant[f->exp];
-    for (ij = 4; ij <= f->exp; ++ij) {
-      f->mant[ij] = 0;
+  if (has & HAS_64_BIT) {
+    if (f->exp > 3) {
+      int ij;
+      f->mant[0] = f->mant[f->exp - 3];
+      f->mant[1] = f->mant[f->exp - 2];
+      f->mant[2] = f->mant[f->exp - 1];
+      f->mant[3] = f->mant[f->exp];
+      for (ij = 4; ij <= f->exp; ++ij) {
+        f->mant[ij] = 0;
+      }
+      f->exp = 3;
     }
-    f->exp = 3;
+  } else {
+    if (f->exp > 1) {
+      f->mant[0] = f->mant[f->exp - 1];
+      f->mant[1] = f->mant[f->exp];
+      f->exp = 1;
+    }
   }
-#else
-  if (f->exp > 1) {
-    f->mant[0] = f->mant[f->exp - 1];
-    f->mant[1] = f->mant[f->exp];
-    f->exp = 1;
-  }
-#endif
    */
+
   if (f->exp == 1) {
     res = ((int)f->mant[1] + ((int)f->mant[0] << 16));
   } else {

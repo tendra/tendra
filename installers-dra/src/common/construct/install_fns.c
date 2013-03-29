@@ -263,7 +263,6 @@ find_named_tg(char *n, shape s)
 }
 
 
-#if !has64bits
 char *
 fn_of_op(int nm, int sngd)
 {
@@ -454,7 +453,6 @@ TDFcallop4(exp arg1, int n)
 
 	return res;
 }
-#endif /* !has64bits */
 
 
 error_treatment f_wrap;
@@ -1054,12 +1052,10 @@ f_abs(error_treatment ov_err, exp arg1)
 		}
 	}
 
-#if !has64bits
-	if (name(sh(arg1)) >= s64hd &&
+	if (~has & HAS_64_BIT && name(sh(arg1)) >= s64hd &&
 	    (name(arg1) != val_tag || ov_err.err_code > 2)) {
 		return TDFcallop1(ov_err, arg1, abs_tag);
 	}
-#endif
 
 	return me_u1(ov_err, arg1, abs_tag);
 }
@@ -1123,12 +1119,10 @@ f_and(exp arg1, exp arg2)
 		}
 	}
 
-#if !has64bits
-	if (name(sh(arg1)) >= s64hd &&
+	if (~has & HAS_64_BIT && name(sh(arg1)) >= s64hd &&
 	    (name(arg1) != val_tag || name(arg2) != val_tag)) {
 		return TDFcallop3(arg1, arg2, and_tag);
 	}
-#endif
 
 	return me_b2(arg1, arg2, and_tag);
 }
@@ -1852,13 +1846,12 @@ f_change_bitfield_to_int(variety x, exp arg1)
 		}
 	}
 
-#if !has64bits
-	if (shape_size(x) >32) {
+	if (~has & HAS_64_BIT && shape_size(x) >32) {
 		shape n32 = (is_signed(x)) ? slongsh : ulongsh;
 		exp z = hold_refactor(me_c2(n32, arg1, bitf_to_int_tag));
 		return f_change_variety(f_impossible, x, z);
 	}
-#endif
+
 	return me_c2(f_integer(x), arg1, bitf_to_int_tag);
 }
 
@@ -1876,12 +1869,10 @@ f_change_int_to_bitfield(bitfield_variety x, exp arg1)
 		}
 	}
 
-#if !has64bits
-	if (shape_size(sh(arg1)) >32) {
+	if (~has & HAS_64_BIT && shape_size(sh(arg1)) >32) {
 		shape n32 = (is_signed(sh(arg1))) ? slongsh : ulongsh;
 		arg1 = hold_refactor(f_change_variety(f_wrap, n32, arg1));
 	}
-#endif
 
 	return me_c2(f_bitfield(x), arg1, int_to_bitf_tag);
 }
@@ -1901,10 +1892,9 @@ f_change_variety(error_treatment ov_err, variety r, exp arg1)
 		}
 	}
 
-#if !has64bits
-	if ((name(arg1) != val_tag || ov_err.err_code > 2) &&
+	if (~has & HAS_64_BIT && ((name(arg1) != val_tag || ov_err.err_code > 2) &&
 	    (shape_size(sh(arg1)) > 32 || name(r) >=s64hd) &&
-	    name(sh(arg1)) != name(r)) {
+	    name(sh(arg1)) != name(r))) {
 		exp e = arg1;
 		int ss = is_signed(sh(arg1));
 		int sd = is_signed(r);
@@ -1927,7 +1917,7 @@ f_change_variety(error_treatment ov_err, variety r, exp arg1)
 						chvar_tag));
 		} 
 	}
-#endif
+
 	return me_c1(f_integer(r), ov_err, arg1, chvar_tag);
 }
 
@@ -2143,13 +2133,11 @@ div_rem(error_treatment div0_err, error_treatment ov_err, exp arg1, exp arg2,
 exp
 div0_aux(error_treatment ov_err, exp arg1, exp arg2)
 {
-#if !has64bits
-	if (name(sh(arg1)) >= s64hd &&
+	if (~has & HAS_64_BIT && (name(sh(arg1)) >= s64hd &&
 	    (name(arg1) != val_tag || name(arg2) != val_tag ||
-	     ov_err.err_code > 2)) {
+	     ov_err.err_code > 2))) {
 		return TDFcallop2(ov_err, arg1, arg2, div0_tag);
 	}
-#endif
 
 	if (has & HAS_DIV0) {
 		return me_b1(ov_err, arg1, arg2, div0_tag);
@@ -2190,13 +2178,12 @@ f_div0(error_treatment div0_err, error_treatment ov_err, exp arg1, exp arg2)
 exp
 div1_aux(error_treatment ov_err, exp arg1, exp arg2)
 {
-#if !has64bits
-	if (name(sh(arg1)) >= s64hd &&
+	if (~has & HAS_64_BIT && (name(sh(arg1)) >= s64hd &&
 	    (name(arg1) != val_tag || name(arg2) != val_tag ||
-	     ov_err.err_code > 2)) {
+	     ov_err.err_code > 2))) {
 		return TDFcallop2(ov_err, arg1, arg2, div1_tag);
 	}
-#endif
+
 	return me_b1(ov_err, arg1, arg2, div1_tag);
 }
 
@@ -2226,13 +2213,12 @@ f_div1(error_treatment div0_err, error_treatment ov_err, exp arg1, exp arg2)
 exp
 div2_aux(error_treatment ov_err, exp arg1, exp arg2)
 {
-#if !has64bits
-	if (name(sh(arg1)) >= s64hd &&
+	if (~has & HAS_64_BIT && (name(sh(arg1)) >= s64hd &&
 	    (name(arg1) != val_tag || name(arg2) != val_tag ||
-	     ov_err.err_code > 2)) {
+	     ov_err.err_code > 2))) {
 		return TDFcallop2(ov_err, arg1, arg2, div2_tag);
 	}
-#endif
+
 	return me_b1(ov_err, arg1, arg2, div2_tag);
 }
 
@@ -2386,16 +2372,15 @@ f_integer_test(nat_option prob, ntest nt, label dest, exp arg1, exp arg2)
 		}
 	}
 
-#if !has64bits
-	if (name(sh(arg1)) >= s64hd &&
-	    (name(arg1) != val_tag || name(arg2) != val_tag)) {
+	if (~has & HAS_64_BIT && (name(sh(arg1)) >= s64hd &&
+	    (name(arg1) != val_tag || name(arg2) != val_tag))) {
 		error_treatment ov_err;
 		ov_err = f_wrap;
 		arg1 = TDFcallop2(ov_err, arg1, arg2, test_tag);
 		arg2 = getexp(slongsh, nilexp, 0, nilexp, nilexp, 0, 0,
 			      val_tag);
 	}
-#endif
+
 	if (nt == f_comparable || nt == f_not_comparable) {
 		return replace_ntest(nt, dest, arg1, arg2);
 	} else {
@@ -2971,12 +2956,11 @@ f_maximum(exp arg1, exp arg2)
 		}
 	}
 
-#if !has64bits
-	if (name(sh(arg1)) >= s64hd &&
-	    (name(arg1) != val_tag || name(arg2) != val_tag)) {
+	if (~has & HAS_64_BIT && (name(sh(arg1)) >= s64hd &&
+	    (name(arg1) != val_tag || name(arg2) != val_tag))) {
 		return TDFcallop3(arg1, arg2, max_tag);
 	}
-#endif
+
 	return me_b2(arg1, arg2, max_tag);
 }
 
@@ -2998,14 +2982,12 @@ f_minimum(exp arg1, exp arg2)
 		}
 	}
 
-#if !has64bits
-	if (name(sh(arg1)) >= s64hd &&
-	    (name(arg1) != val_tag || name(arg2) != val_tag)) {
+	if (~has & HAS_64_BIT && (name(sh(arg1)) >= s64hd &&
+	    (name(arg1) != val_tag || name(arg2) != val_tag))) {
 		error_treatment ov_err;
 		ov_err = f_wrap;
 		return TDFcallop2(ov_err, arg1, arg2, min_tag);
 	}
-#endif
 
 	return me_b2(arg1, arg2, min_tag);
 }
@@ -3986,13 +3968,12 @@ f_minus(error_treatment ov_err, exp arg1, exp arg2)
 		}
 	}
 
-#if !has64bits
-	if (name(sh(arg1)) >= s64hd &&
+	if (~has & HAS_64_BIT && (name(sh(arg1)) >= s64hd &&
 	    (name(arg1) != val_tag || name(arg2) != val_tag ||
-	     ov_err.err_code > 2)) {
+	     ov_err.err_code > 2))) {
 		return TDFcallop2(ov_err, arg1, arg2, minus_tag);
 	}
-#endif
+
 	return me_b1(ov_err, arg1, arg2, minus_tag);
 }
 
@@ -4089,13 +4070,11 @@ f_mult(error_treatment ov_err, exp arg1, exp arg2)
 		}
 	}
 
-#if !has64bits
-	if (name(sh(arg1)) >= s64hd &&
+	if (~has & HAS_64_BIT && (name(sh(arg1)) >= s64hd &&
 	    (name(arg1) != val_tag || name(arg2) != val_tag ||
-	     ov_err.err_code > 2)) {
+	     ov_err.err_code > 2))) {
 		return TDFcallop2(ov_err, arg1, arg2, mult_tag);
 	}
-#endif
 
 	return me_b1(ov_err, arg1, arg2, mult_tag);
 }
@@ -4109,11 +4088,9 @@ f_n_copies(nat n, exp arg1)
 		return arg1;
 	}
 
-#if !has64bits
-	if (!nat_issmall(n)) {
+	if (~has & HAS_64_BIT && !nat_issmall(n)) {
 		failer(TOO_BIG_A_VECTOR);
 	}
-#endif
 
 	r = getexp(f_nof(n, sh(arg1)), nilexp, 0, arg1, nilexp, 0, natint(n),
 		   ncopies_tag);
@@ -4177,12 +4154,11 @@ f_negate(error_treatment ov_err, exp arg1)
 	if (!is_signed(sh(arg1)) && ov_err.err_code > 2) {
 		return f_minus(ov_err, me_shint(sh(arg1), 0), arg1);
 	}
-#if !has64bits
-	if (name(sh(arg1)) >= s64hd &&
-	    (name(arg1) != val_tag|| ov_err.err_code > 2)) {
+
+	if (~has & HAS_64_BIT && (name(sh(arg1)) >= s64hd &&
+	    (name(arg1) != val_tag|| ov_err.err_code > 2))) {
 		return TDFcallop1(ov_err, arg1, neg_tag);
 	}
-#endif
 
 	return me_u1(ov_err, arg1, neg_tag);
 }
@@ -4201,12 +4177,11 @@ f_not(exp arg1)
 		}
 	}
 
-#if !has64bits
-	if (name(sh(arg1)) >= s64hd &&
-	    name(arg1) != val_tag) {
+	if (~has & HAS_64_BIT && (name(sh(arg1)) >= s64hd &&
+	    name(arg1) != val_tag)) {
 		return TDFcallop4(arg1, not_tag);
 	}
-#endif
+
 	return me_u2(arg1, not_tag);
 }
 
@@ -4548,12 +4523,11 @@ f_or(exp arg1, exp arg2)
 		}
 	}
 
-#if !has64bits
-	if (name(sh(arg1)) >= s64hd &&
-	    (name(arg1) != val_tag || name(arg2) != val_tag)) {
+	if (~has && HAS_64_BIT && (name(sh(arg1)) >= s64hd &&
+	    (name(arg1) != val_tag || name(arg2) != val_tag))) {
 		return TDFcallop3(arg1, arg2, or_tag);
 	}
-#endif
+
 	return me_b2(arg1, arg2, or_tag);
 }
 
@@ -4576,13 +4550,12 @@ f_plus(error_treatment ov_err, exp arg1, exp arg2)
 		}
 	}
 
-#if !has64bits
-	if (name(sh(arg1)) >= s64hd &&
+	if (~has & HAS_64_BIT && (name(sh(arg1)) >= s64hd &&
 	    (name(arg1) != val_tag || name(arg2) != val_tag||
-	     ov_err.err_code > 2)) {
+	     ov_err.err_code > 2))) {
 		return TDFcallop2(ov_err, arg1, arg2, plus_tag);
 	}
-#endif
+
 	return me_b1(ov_err, arg1, arg2, plus_tag);
 }
 
@@ -4654,13 +4627,12 @@ f_profile(nat n)
 exp
 rem1_aux(error_treatment ov_err, exp arg1, exp arg2)
 {
-#if !has64bits
-	if (name(sh(arg1)) >= s64hd &&
+	if (~has && HAS_64_BIT && (name(sh(arg1)) >= s64hd &&
 	    (name(arg1) != val_tag || name(arg2) != val_tag ||
-	     ov_err.err_code > 2)) {
+	     ov_err.err_code > 2))) {
 		return TDFcallop2(ov_err, arg1, arg2, mod_tag);
 	}
-#endif
+
 	return me_b1(ov_err, arg1, arg2, mod_tag);
 }
 
@@ -4690,13 +4662,11 @@ f_rem1(error_treatment div0_err, error_treatment ov_err, exp arg1, exp arg2)
 exp
 rem0_aux(error_treatment ov_err, exp arg1, exp arg2)
 {
-#if !has64bits
-	if (name(sh(arg1)) >= s64hd &&
+	if (~has & HAS_64_BIT && (name(sh(arg1)) >= s64hd &&
 	    (name(arg1) != val_tag || name(arg2) != val_tag ||
-	     ov_err.err_code > 2)) {
+	     ov_err.err_code > 2))) {
 		return TDFcallop2(ov_err, arg1, arg2, rem0_tag);
 	}
-#endif
 
 	if (has & HAS_DIV0) {
 		return me_b1(ov_err, arg1, arg2, rem0_tag);
@@ -4737,13 +4707,12 @@ f_rem0(error_treatment div0_err, error_treatment ov_err, exp arg1, exp arg2)
 exp
 rem2_aux(error_treatment ov_err, exp arg1, exp arg2)
 {
-#if !has64bits
-	if (name(sh(arg1)) >= s64hd &&
+	if (~has & HAS_64_BIT && (name(sh(arg1)) >= s64hd &&
 	    (name(arg1) != val_tag || name(arg2) != val_tag ||
-	     ov_err.err_code > 2)) {
+	     ov_err.err_code > 2))) {
 		return TDFcallop2(ov_err, arg1, arg2, rem2_tag);
 	}
-#endif
+
 	return me_b1(ov_err, arg1, arg2, rem2_tag);
 }
 
@@ -5035,14 +5004,12 @@ f_shift_left(error_treatment ov_err, exp arg1, exp arg2)
 		}
 	}
 
-#if !has64bits
-	if (name(sh(arg1)) >= s64hd &&
+	if (~has & HAS_64_BIT && (name(sh(arg1)) >= s64hd &&
 	    (name(arg1) != val_tag || name(arg2) != val_tag ||
-	     ov_err.err_code > 2)) {
+	     ov_err.err_code > 2))) {
 		arg2 = hold_refactor(f_change_variety(ov_err, ulongsh, arg2));
 		return TDFcallop2(ov_err, arg1, arg2, shl_tag);
 	}
-#endif
 
 	if (ov_err.err_code == 4) {
 		exp d1 = me_startid(f_top, arg1, 0);
@@ -5105,15 +5072,14 @@ f_shift_right(exp arg1, exp arg2)
 		}
 	}
 
-#if !has64bits
-	if (name(sh(arg1)) >= s64hd &&
-	    (name(arg1) != val_tag || name(arg2) != val_tag)) {
+	if (~has & HAS_64_BIT && (name(sh(arg1)) >= s64hd &&
+	    (name(arg1) != val_tag || name(arg2) != val_tag))) {
 		error_treatment ov_err;
 		ov_err = f_wrap;
 		arg2 = hold_refactor(f_change_variety(ov_err, ulongsh, arg2));
 		return TDFcallop2(ov_err, arg1, arg2, shr_tag);
 	}
-#endif
+
 	return me_b2(arg1, arg2, shr_tag);
 }
 
@@ -5197,12 +5163,11 @@ f_xor(exp arg1, exp arg2)
 		}
 	}
 
-#if !has64bits
-	if (name(sh(arg1)) >= s64hd &&
-	    (name(arg1) != val_tag || name(arg2) != val_tag)) {
+	if (~has & HAS_64_BIT && (name(sh(arg1)) >= s64hd &&
+	    (name(arg1) != val_tag || name(arg2) != val_tag))) {
 		return TDFcallop3(arg1, arg2, xor_tag);
 	}
-#endif
+
 	return me_b2(arg1, arg2, xor_tag);
 }
 
@@ -5390,11 +5355,11 @@ f_nof(nat n, shape s)
 		if (name(s) == nofhd) {
 			nm = ptno(s);
 		}
-#if !has64bits
-		if (!nat_issmall(n)) {
+
+		if (~has & HAS_64_BIT && !nat_issmall(n)) {
 			failer(TOO_BIG_A_VECTOR);
 		}
-#endif
+
 		if (name(s) == tophd) {
 			/* pathological - make it nof(0, char) */
 			res = getshape(0, const_al1, const_al1,
@@ -6044,11 +6009,10 @@ add_caselim_list(caselim_list list, caselim elem, int index)
 		if (snatneg(elem.low)) {
 			low = - low;
 		}
-	} else {
-#if !has64bits
+	} else if (~has & HAS_64_BIT) {
 		SET(low);
 		failer(TOO_BIG_A_CASE_ELEMENT);
-#else
+	} else {
 		low = snatbig(elem.low);
 		if (snatneg(elem.low)) {
 			flpt z = new_flpt();
@@ -6057,7 +6021,6 @@ add_caselim_list(caselim_list list, caselim elem, int index)
 			flptnos[low].sign = - flptnos[low].sign;
 		}
 		setbigval(lowval);
-#endif
 	}
 	no(lowval) = low;
 
@@ -6072,11 +6035,10 @@ add_caselim_list(caselim_list list, caselim elem, int index)
 			ht = getexp(slongsh, nilexp, 1, nilexp, nilexp, 0,
 				    high, 0);
 		}
-	} else {
-#if !has64bits
+	} else if (~has & HAS_64_BIT) {
 		SET(ht);
 		failer(TOO_BIG_A_CASE_ELEMENT);
-#else
+	} else {
 		int lh_eq;
 		high = snatbig(elem.high);
 		if (snatneg(elem.high)) {
@@ -6098,7 +6060,6 @@ add_caselim_list(caselim_list list, caselim elem, int index)
 		} else {
 			ht = nilexp;
 		}
-#endif
 	}
 
 	/*     if (ht != nilexp && docmp_f((int)f_less_than, ht, lowval)){

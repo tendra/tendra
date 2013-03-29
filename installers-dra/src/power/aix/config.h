@@ -22,7 +22,6 @@
 #define load_ptr_pars		0	/* Inline ptr parameters */
 #define replace_compound	1	/* Replace make_compound by assigns */
 #define temp_mips		0	/* Need a mips hack */
-#define has64bits               0
 
 #define	target_dbl_maxexp	308	/* Maximum exp for floating_variety */
 

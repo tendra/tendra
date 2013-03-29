@@ -379,6 +379,7 @@ main ( int argc, char ** argv )
     has &= ~HAS_MAXMIN;
     has &= ~HAS_SETCC;
     has &= ~HAS_COMPLEX;
+    has &= ~HAS_64_BIT;
 
     /* not implemented */
     optim &= ~OPTIM_TAIL;
