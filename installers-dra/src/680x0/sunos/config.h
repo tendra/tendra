@@ -53,7 +53,6 @@ typedef unsigned long bitpattern;
 #define have_diagnostics	0	/* Have diagnostics */
 #define load_ptr_pars		1	/* Inline ptr parameters */
 #define no_bitfield_ops		1	/* Do have bitfield operations */
-#define only_lengthen_ops	0	/* Don't avoid byte registers */
 #ifdef SUN
 #define promote_pars		1	/* Parameters are 32 bit */
 #endif

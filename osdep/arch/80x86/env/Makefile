@@ -3,6 +3,8 @@
 .include "Makefile.inc"
 
 
+ENVFILE+=	default
+
 ENVFILE+=	Z-p
 ENVFILE+=	Z-p1
 ENVFILE+=	Z-p2

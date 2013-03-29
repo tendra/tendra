@@ -18,7 +18,6 @@
 #define has64bits		0
 #define keep_PIC_vars           1
 #define no_bitfield_ops 	0
-#define only_lengthen_ops	0
 #define promote_pars            1
 #define replace_compound 	1
 #define substitute_complex      1

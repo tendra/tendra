@@ -2677,12 +2677,10 @@ refactor(exp e, exp scope)
 				exp n = bro(a);
 				int l = (int)last(a);
 
-#if only_lengthen_ops
-				/* if (shape_size(sh(e)) >= 16) */
+				/* if (optim & OPTIM_SHORTEN_OPS || shape_size(sh(e)) >= 16) */
 				/* this is to avoid allocating bytes to
 				 * edi/esi in 80386 !!! bad
 				 */
-#endif
 				{
 					exp sha = sh(e);
 					exp t = varchange(sha, a);
@@ -4635,10 +4633,7 @@ refactor(exp e, exp scope)
 		if (name(arg1) == chvar_tag && name(arg2) == chvar_tag &&
 		    name(sh(son(arg1))) == name(sh(son(arg2))) &&
 		    shape_size(sh(son(arg1))) <= shape_size(sh(arg1)) &&
-
-#if only_lengthen_ops
-		    shape_size(sh(arg1)) >= 16 &&
-#endif
+		    (optim & OPTIM_SHORTEN_OPS || shape_size(sh(arg1)) >= 16) &&
 		    (is_signed(sh(son(arg1))) == is_signed(sh(arg1)))) {
 			exp ee;
 #if TRANS_80x86 || TRANS_HPPA

@@ -34,7 +34,8 @@ enum optim {
 	OPTIM_JUMPS        = 1 <<  9, /* Follow gotos and tests to their final destination */
 	OPTIM_TEMPDEC      = 1 << 10, /* Use temporary registers for local values */
 	OPTIM_ZEROOFFSETS  = 1 << 11, /* Remove zero offsets */
-	OPTIM_SUBSTPARAMS  = 1 << 12  /* Always substitute parameters */
+	OPTIM_SUBSTPARAMS  = 1 << 12, /* Always substitute parameters */
+	OPTIM_SHORTEN_OPS  = 1 << 13  /* Rewrite conditions to use smallest neccessary integers */
 };
 
 enum check {
