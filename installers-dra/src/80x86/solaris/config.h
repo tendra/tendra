@@ -16,7 +16,6 @@
 #define has_asm 1
 #define as_comment_symbol '/'
 
-#define dont_unpad_apply 0
 #define diagnose_registers 1
 #define DWARF 0
 #define load_ptr_pars 1

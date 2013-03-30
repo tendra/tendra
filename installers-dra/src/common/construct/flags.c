@@ -134,6 +134,7 @@ flags_optim(enum optim o, const char *s)
 		case 'o': e = OPTIM_ZEROOFFSETS;  break;
 		case 'p': e = OPTIM_SUBSTPARAMS;  break;
 		case 'q': e = OPTIM_COMPOUNDS;    break;
+		case 'y': e = OPTIM_UNPAD_APPLY;  break;
 
 		default:
 			error(ERROR_WARNING, "Unrecognised optimisation flag %c. "

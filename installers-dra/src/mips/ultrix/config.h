@@ -10,8 +10,6 @@
 #ifndef config_key
 #define config_key 1
 
-#define dont_unpad_apply 0
-
 #define target_dbl_maxexp 308
 
 #define remove_unused_counters 1

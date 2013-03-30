@@ -1971,9 +1971,7 @@ refactor(exp e, exp scope)
 					if (no(a) == 0 &&
 					    shape_size(sh(v)) ==
 					    shape_size(sh(e))
-#if dont_unpad_apply
-					    && name(v) != apply_tag
-#endif
+					    && (optim & OPTIM_UNPAD_APPLY || name(v) != apply_tag)
 					   ) { /* remove the operation if the
 						  offset is zero and the size
 						  is the same. This typically
@@ -4119,9 +4117,7 @@ refactor(exp e, exp scope)
 		    no(son(e)) == 0 &&
 		    shape_size(sh(e)) == shape_size(sh(bse)) &&
 		    shn != prokhd && (shn < shrealhd || shn > doublehd)
-#if dont_unpad_apply
-		    && name(bse) != apply_tag
-#endif
+		    && (optim & OPTIM_UNPAD_APPLY || name(bse) != apply_tag)
 		   ) {
 			/* remove the creation of a compound if it consists of
 			 * a single value of the same size and provided that

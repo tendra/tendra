@@ -47,7 +47,6 @@ typedef unsigned long bitpattern;
 */
 
 #define convert_floats		1	/* Convert floating constants */
-#define dont_unpad_apply	1	/* Careful with procedure results */
 #define dynamic_diag_test	1	/* Test diagnostics format */
 #define have_diagnostics	0	/* Have diagnostics */
 #define load_ptr_pars		1	/* Inline ptr parameters */

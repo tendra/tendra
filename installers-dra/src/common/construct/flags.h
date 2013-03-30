@@ -38,7 +38,8 @@ enum optim {
 	OPTIM_ZEROOFFSETS  = 1 << 11, /* Remove zero offsets */
 	OPTIM_SUBSTPARAMS  = 1 << 12, /* Always substitute parameters */
 	OPTIM_SHORTEN_OPS  = 1 << 13, /* Rewrite conditions to use smallest neccessary integers */
-	OPTIM_COMPOUNDS    = 1 << 14  /* Replace compounds in procs with assignments to variables */
+	OPTIM_COMPOUNDS    = 1 << 14, /* Replace compounds in procs with assignments to variables */
+	OPTIM_UNPAD_APPLY  = 1 << 15  /* Remove operations where input is identical to output */
 };
 
 enum check {

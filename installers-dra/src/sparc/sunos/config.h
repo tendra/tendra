@@ -37,7 +37,6 @@ extern void setbuf(FILE *, char *);
 #define GENCOMPAT		1
 
 
-#define dont_unpad_apply	1
 #define keep_PIC_vars		1
 
 /* foralls config */

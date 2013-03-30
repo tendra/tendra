@@ -238,6 +238,9 @@ int main
    optim &= ~OPTIM_ZEROOFFSETS;
    optim &= ~OPTIM_SUBSTPARAMS;
 
+   /* Careful with procedure results */
+   optim &= ~OPTIM_UNPAD_APPLY;
+
    /* init nowhere */
   setregalt(nowhere.answhere, 0);
   nowhere.ashwhere.ashsize = 0;

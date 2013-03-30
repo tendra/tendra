@@ -18,7 +18,6 @@
 
 					/* Meaning when option set (1) */
 					/* =========================== */
-#define dont_unpad_apply	1	/* Careful with procedure results */
 #define load_ptr_pars		0	/* Inline ptr parameters */
 #define temp_mips		0	/* Need a mips hack */
 

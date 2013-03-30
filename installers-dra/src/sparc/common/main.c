@@ -386,6 +386,9 @@ main ( int argc, char ** argv )
     optim &= ~OPTIM_ZEROOFFSETS;
     optim &= ~OPTIM_SUBSTPARAMS;
 
+    /* Careful with procedure results */
+    optim &= ~OPTIM_UNPAD_APPLY;
+
     /*
      * I am not sure that this really counts as an optimisation. Possibly it
      * shouldn't be an OPTIM_ flag at all. Or: it could be perfectly okay for

@@ -239,6 +239,9 @@ int main
     has &= ~HAS_COMPLEX;
     has &= ~HAS_64_BIT;
 
+    /* Careful with procedure results */
+    optim &= ~OPTIM_UNPAD_APPLY;
+
     /* Report version if required */
     if (report_trans_version) {
 #ifdef NEXT
