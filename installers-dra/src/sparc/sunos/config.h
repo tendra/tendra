@@ -56,8 +56,6 @@ extern void setbuf(FILE *, char *);
 
 #define value_of_null 0
 
-#define promote_pars 1
-
 	/* condition for shape to be treated as a struct */
 #define sparccpd(s)(name(s) == cpdhd || name(s) == nofhd || \
 			name(s) == shcomplexhd || shape_size(s) >64 || \

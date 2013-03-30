@@ -98,7 +98,9 @@ main(int argc, char *argv[])
 	char *dname;	/* name of file to hold symbol table */
 	char *baname;
 	char *tname;
+
 	redo_structfns=1;
+	promote_pars = 0;
 	do_alloca=0;
 #if DO_NEW_DIVISION 
 	use_umulh_for_div = 1;

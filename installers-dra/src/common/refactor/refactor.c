@@ -3704,24 +3704,22 @@ refactor(exp e, exp scope)
 			return 0;
 
 		case cont_tag:
-#ifdef promote_pars
-		{
-			int x = al1_of(sh(son(e)))->al.sh_hd;
+			if (promote_pars) {
+				int x = al1_of(sh(son(e)))->al.sh_hd;
 
-			if (x >= scharhd && x <= uwordhd && endian == ENDIAN_BIG) {
-				int disp = shape_size(ulongsh) -
-				    ((x >= swordhd) ? 16 : 8);
-				exp r = getexp(f_pointer(f_alignment(sh(e))),
-					       nilexp, 1, son(e), nilexp, 0,
-					       disp, reff_tag);
-				bro(son(r)) = r;
-				son(e) = hold_refactor(r);
-				bro(son(e)) = e;
-				setlast(son(e));
-				return 1;
+				if (x >= scharhd && x <= uwordhd && endian == ENDIAN_BIG) {
+					int disp = shape_size(ulongsh) -
+					    ((x >= swordhd) ? 16 : 8);
+					exp r = getexp(f_pointer(f_alignment(sh(e))),
+						       nilexp, 1, son(e), nilexp, 0,
+						       disp, reff_tag);
+					bro(son(r)) = r;
+					son(e) = hold_refactor(r);
+					bro(son(e)) = e;
+					setlast(son(e));
+					return 1;
+				}
 			}
-		}
-#endif
 
 #ifndef NEWDIAGS
 			if (name(son(e)) == diagnose_tag) {
@@ -4481,8 +4479,8 @@ refactor(exp e, exp scope)
 			}
 		}
 #endif
-#ifdef promote_pars
-		{
+
+		if (promote_pars) {
 			int x = al1_of(sh(son(e)))->al.sh_hd;
 
 			if (x >= scharhd && x <= uwordhd && endian == ENDIAN_BIG) {
@@ -4499,7 +4497,7 @@ refactor(exp e, exp scope)
 				return 1;
 			}
 		}
-#endif
+
 		return seq_distr(e, scope);
 
 	case testbit_tag: {

@@ -440,7 +440,6 @@ error_treatment f_impossible;
 error_treatment f_continue;
 
 
-#ifdef promote_pars
 static void
 promote_actuals(exp par)
 {
@@ -520,7 +519,6 @@ promote_formals(exp bdy)
 		bdy = bro(son(bdy));
 	}
 }
-#endif /* promote_pars */
 
 
 aldef frame_als[32];
@@ -631,9 +629,9 @@ f_make_callee_list(exp_list args)
 		       make_callee_list_tag);
 	if (args.number != 0) {
 		setfather(e, args.end);
-#ifdef promote_pars
-		promote_actuals(args.start);
-#endif
+		if (promote_pars) {
+			promote_actuals(args.start);
+		}
 	}
 	return e;
 }
@@ -1147,9 +1145,9 @@ f_apply_proc(shape result_shape, exp arg1, exp_list arg2, exp_option varparam)
 		clearlast(arg1);
 		bro(arg1) = arg2.start;
 		setfather(res, arg2.end);
-#ifdef promote_pars
-		promote_actuals(bro(son(res)));
-#endif
+		if (promote_pars) {
+			promote_actuals(bro(son(res)));
+		}
 	}
 
 	/* rewrite struct/union value parameters as pointer-to-copy */
@@ -2571,21 +2569,21 @@ f_make_compound(exp arg1, exp_list arg2)
 			t = bro(t);
 		}
 
-#ifdef promote_pars
-		for (i = 0; i < arg2.number; i += 2) {
-			alignment a = al2_of(sh(arr[i]));
-			if (a->al.sh_hd != 0) {
-				shape s = sh(arr[i + 1]);
-				if (name(s) >= scharhd && name(s) <= uwordhd) {
-					shape ns = (is_signed(s)) ? slongsh :
-					    ulongsh;
-					exp w = hold_refactor(f_change_variety(
-					    f_wrap, ns, arr[i + 1]));
-					arr[i+1] = w;
+		if (promote_pars) {
+			for (i = 0; i < arg2.number; i += 2) {
+				alignment a = al2_of(sh(arr[i]));
+				if (a->al.sh_hd != 0) {
+					shape s = sh(arr[i + 1]);
+					if (name(s) >= scharhd && name(s) <= uwordhd) {
+						shape ns = (is_signed(s)) ? slongsh :
+						    ulongsh;
+						exp w = hold_refactor(f_change_variety(
+						    f_wrap, ns, arr[i + 1]));
+						arr[i+1] = w;
+					}
 				}
 			}
 		}
-#endif
 
 		qsort(arr, (size_t)(arg2.number / 2), (size_t)(2 * sizeof(exp)),
 		      comp_compare);
@@ -3105,9 +3103,9 @@ f_make_proc(shape result_shape, tagshacc_list params_intro,
 		bro(params_intro.last_def) = body;
 		setlast(body);
 		bro(body) = params_intro.last_id;
-#ifdef promote_pars
-		promote_formals(son(res));
-#endif
+		if (promote_pars) {
+			promote_formals(son(res));
+		}
 	}
 
 	/* set the properties of the procedure construction from the
@@ -3413,9 +3411,10 @@ f_make_general_proc(shape result_shape, procprops prcprops,
 		bro(body) = callee_intro.last_id;
 	}
 
-#ifdef promote_pars
-	promote_formals(son(res));
-#endif
+	if (promote_pars) {
+		promote_formals(son(res));
+	}
+
 	/* set the properties of the procedure construction from the
 	   global values accumulated during reading.
 	   WE OUGHT TO POP THE OLD VALUES.
@@ -3722,8 +3721,9 @@ f_apply_general_proc(shape result_shape, procprops prcprops, exp p,
 	}
 
 	bro(p) = r_p; clearlast(p);
-#ifdef promote_pars
-	{	int i;
+
+	if (promote_pars) {
+		int i;
 		exp ote = caller_pars.start;
 		for (i = 0; i < caller_pars.number; i++) {
 			shape s = sh(ote);
@@ -3764,7 +3764,6 @@ f_apply_general_proc(shape result_shape, procprops prcprops, exp p,
 			} else ote = bro(ote);
 		}
 	}
-#endif
 
 	if (redo_structfns && !reg_result(result_shape))
 	{

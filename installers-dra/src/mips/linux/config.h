@@ -24,6 +24,4 @@
 
 #define value_of_null 0
 
-#define promote_pars 1
-
 #endif

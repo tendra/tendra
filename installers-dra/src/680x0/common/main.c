@@ -133,6 +133,10 @@ int main
 	conventions = CONVENTIONS_HP;
 #endif
 
+#ifndef SUN
+	promote_pars = 0;
+#endif
+
 	{
 		int c;
 

@@ -69,10 +69,12 @@ static void
 init_all(void)
 {
 	init_flpt();
+
 #include <reader/inits.h> /* XXX: not nice */
 	good_trans = 0;
 	capsule_freelist = NULL;
 	old_proc_props = NULL;
+	promote_pars = 0;
 
 	/* 80x86 specific */
 	extra_stack = 0;

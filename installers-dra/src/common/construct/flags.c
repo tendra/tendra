@@ -25,6 +25,7 @@ int diagnose_registers = 1;	/* I have absolutely no idea what this does, but it 
 int do_profile = 0;		/* put in profiling code */
 int do_alloca = 1;		/* inline alloca */
 int all_variables_visible = 0;	/* set vis flag for all declarations */
+int promote_pars = 1;
 
 int double_align = 32;		/* alignment for 64 bit flpt */
 int stack_align = 32;		/* minimum alignment for stack */
