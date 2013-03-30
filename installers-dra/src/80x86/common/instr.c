@@ -86,6 +86,7 @@ int no_frame;		/* init by cproc */
 static long  last_jump_pos;	/* set locally */
 #endif
 int  last_jump_label;	/* cleared to -1 by outnl */
+int avoid_intov; /* No software interrupts */
 
 static exp cont_err_handler = nilexp;
 
@@ -1021,19 +1022,18 @@ void jmp_overflow
 void trap_ins
 (int s)
 {
-#ifndef AVOID_INTOV
-  if (s == f_overflow) {
-    ins0 ("int $4");	/* numeric interrupt */
-    return;
+  if (!avoid_intov) {
+    if (s == f_overflow) {
+      ins0 ("int $4");	/* numeric interrupt */
+      return;
+    }
+  } else if (avoid_intov == 16) {
+    if (s == f_overflow) {
+      ins0 ("int $16");	/* mimic floating point interrupt */
+      return;
+    }
   }
-#else
-#if (AVOID_INTOV == 16)
-  if (s == f_overflow) {
-    ins0 ("int $16");	/* mimic floating point interrupt */
-    return;
-  }
-#endif
-#endif
+
   if (cont_err_handler == nilexp) {
     cont_err_handler = make_extn("__trans386_errhandler", f_proc, 1);
     if (!PIC_code)
@@ -1058,25 +1058,24 @@ void trap_ins
 void trap_overflow
 (int sg, int inv)
 {
-#ifdef AVOID_INTOV
-    int nl = next_lab();
-    if (sg)
-      simple_branch(jno, nl);
-    else
-      simple_branch((inv ? jb : jae), nl);
-    trap_ins(f_overflow);
-    simplest_set_lab(nl);
-#else
-  if (sg)
-    ins0(into);
-  else {
-    int nl = next_lab();
-    simple_branch((inv ? jb : jae), nl);
-    trap_ins(f_overflow);
-    simplest_set_lab(nl);
-  }
-#endif
-  return;
+    if (avoid_intov) {
+        int nl = next_lab();
+        if (sg)
+          simple_branch(jno, nl);
+        else
+          simple_branch((inv ? jb : jae), nl);
+        trap_ins(f_overflow);
+        simplest_set_lab(nl);
+    } else {
+      if (sg)
+        ins0(into);
+      else {
+        int nl = next_lab();
+        simple_branch((inv ? jb : jae), nl);
+        trap_ins(f_overflow);
+        simplest_set_lab(nl);
+      }
+    }
 }
 
 

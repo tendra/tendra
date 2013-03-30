@@ -66,10 +66,11 @@ void discard_st1(void);
 void load_stack0(void);
 
 extern int no_frame;
+int last_jump_label;
+extern int avoid_intov;
 
 void outbp(void);
 void set_stack_from_bp(void);
-int last_jump_label;
 void set_lv_label(exp e);
 void setcc(int test_no, int sg, int shnm);
 

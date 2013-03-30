@@ -18,8 +18,6 @@
 
 #define no_trap_on_nil_contents 1
 
-#define AVOID_INTOV 0	/* No software interrupts */
-
 
 /* Parameters for foralls optimisations */
 

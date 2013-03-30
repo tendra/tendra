@@ -144,7 +144,7 @@ main(int argc, char **argv)
 #ifdef NEWDWARF
 	optstring = "B:C:D:E:F:G:H:I:" "J" "K:M:NO:PQR:" "T" "VW:X:YZ" "abcdfghit:";
 #else
-	optstring = "B:C:D:E:F:G:H:I:"     "K:M:NO:PQR:"     "VW:X:YZ" "abcdfghit:";
+	optstring = "B:C:D:E:F:G:H:I:"     "K:M:NO:PQR:"     "VW:X:YZ" "abcdfghit:v:";
 #endif
 
 	while ((ch = getopt(argc, argv, optstring)) != -1) {
@@ -300,6 +300,9 @@ main(int argc, char **argv)
 			 * it here for the moment to keep it out of the way.
 			 * I think this is only relevant for a.out systems. */
 			gcc_compatible = (*optarg == '1');
+			break;
+		case 'v':
+			avoid_intov = atoi(optarg);
 			break;
 		default:
 			/* getopt will print an errormessage */
