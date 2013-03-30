@@ -37,7 +37,8 @@ enum optim {
 	OPTIM_TEMPDEC      = 1 << 10, /* Use temporary registers for local values */
 	OPTIM_ZEROOFFSETS  = 1 << 11, /* Remove zero offsets */
 	OPTIM_SUBSTPARAMS  = 1 << 12, /* Always substitute parameters */
-	OPTIM_SHORTEN_OPS  = 1 << 13  /* Rewrite conditions to use smallest neccessary integers */
+	OPTIM_SHORTEN_OPS  = 1 << 13, /* Rewrite conditions to use smallest neccessary integers */
+	OPTIM_COMPOUNDS    = 1 << 14  /* Replace compounds in procs with assignments to variables */
 };
 
 enum check {

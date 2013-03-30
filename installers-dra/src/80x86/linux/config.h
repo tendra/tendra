@@ -10,7 +10,6 @@
 #ifndef config_key
 #define config_key 1
 
-#define replace_compound 1
 #define no_bitfield_ops 1
 #define dont_unpad_apply 0
 #define diagnose_registers 1

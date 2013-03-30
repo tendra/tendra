@@ -4146,8 +4146,8 @@ refactor(exp e, exp scope)
 			return 1;
 		}
 	}
-#if replace_compound
-		if (in_proc_def) {
+
+		if (optim & OPTIM_COMPOUNDS && in_proc_def) {
 			/* Provided that the exp is inside a procedure
 			 * definition we always remove compound creation and
 			 * replace it by a variable declaration for the
@@ -4196,7 +4196,7 @@ refactor(exp e, exp scope)
 			retcell(e);
 			return 1;
 		}
-#endif
+
 		return 0;
 #ifndef NEWDIAGS
 	case diagnose_tag:

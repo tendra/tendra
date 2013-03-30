@@ -18,7 +18,6 @@
 #define keep_PIC_vars           1
 #define no_bitfield_ops 	0
 #define promote_pars            1
-#define replace_compound 	1
 #define use_long_double         1
 #define value_of_null		0
 #define remove_unused_counters	1

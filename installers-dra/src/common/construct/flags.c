@@ -133,10 +133,11 @@ flags_optim(enum optim o, const char *s)
 		case 't': e = OPTIM_TEMPDEC;      break;
 		case 'o': e = OPTIM_ZEROOFFSETS;  break;
 		case 'p': e = OPTIM_SUBSTPARAMS;  break;
+		case 'q': e = OPTIM_COMPOUNDS;    break;
 
 		default:
 			error(ERROR_WARNING, "Unrecognised optimisation flag %c. "
-				"Valid flags are: [cdefghijurstop] and [a] for all.",
+				"Valid flags are: [cdefghijurstopq] and [a] for all.",
 				*p);
 			continue;
 		}

@@ -386,6 +386,14 @@ main ( int argc, char ** argv )
     optim &= ~OPTIM_ZEROOFFSETS;
     optim &= ~OPTIM_SUBSTPARAMS;
 
+    /*
+     * I am not sure that this really counts as an optimisation. Possibly it
+     * shouldn't be an OPTIM_ flag at all. Or: it could be perfectly okay for
+     * a user to set this for sparc, and thus this ought to be cleared by the
+     * tcc environment for sparc. Meanwhile I'm clearing it here just in case.
+     */
+    optim &= ~OPTIM_COMPOUNDS;
+
     /* initialise nowhere */
     setregalt ( nowhere.answhere, 0 ) ;
     nowhere.ashwhere.ashsize = 0 ;
