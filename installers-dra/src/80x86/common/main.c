@@ -123,6 +123,7 @@ main(int argc, char **argv)
 	permit_8byte_align = 1;	/* allow 8byte alignment for local doubles */
 	replace_arith_type = 1;	/* use the C definitions of promote etc. */
 	no_bss = 0;		/* use .comm */
+	trap_on_nil_contents = 0;
 	load_ptr_pars = 1;
 	use_link_stuff = 1;
 	endian = ENDIAN_LITTLE;

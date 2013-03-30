@@ -27,6 +27,7 @@ int do_alloca = 1;		/* inline alloca */
 int all_variables_visible = 0;	/* set vis flag for all declarations */
 int promote_pars = 1;
 int load_ptr_pars = 0;		/* Inline pointer parameters */
+int trap_on_nil_contents = 1;	/* Let common code detect nil access */
 
 int double_align = 32;		/* alignment for 64 bit flpt */
 int stack_align = 32;		/* minimum alignment for stack */

@@ -35,8 +35,6 @@ extern int architecture;
 
 #define NO_ERROR_JUMP           0
 
-#define no_trap_on_nil_contents 1
-
 /* For a general proc 4 parameters are passed in t-regs R_3 -- R_6 */
 #define GENERAL_PROC_PARAM_REGS 4
 /* for a normal proc by ABI 8 params must be passed in t-regs R_3 -- R_10 */

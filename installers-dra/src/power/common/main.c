@@ -69,6 +69,8 @@ int main(int argc, char **argv)
   strict_fl_div = 1;		/* Don't mult by 1/constant */
   round_after_flop = 1;		/* Round every time */
   do_comment = 0;		/* (see comment.c) */
+  trap_on_nil_contents = 0;
+
   endian = ENDIAN_BIG;
   assembler = ASM_IBM;
   format = FORMAT_XCOFF;

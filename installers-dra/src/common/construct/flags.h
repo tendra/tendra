@@ -108,6 +108,7 @@ extern int PIC_code;
 extern int all_variables_visible;
 extern int promote_pars;
 extern int load_ptr_pars;
+extern int trap_on_nil_contents;
 extern int round_after_flop;
 extern int strict_fl_div;
 extern int do_prom;

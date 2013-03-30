@@ -138,6 +138,7 @@ int main
 #endif
 
 	load_ptr_pars = 1;
+	trap_on_nil_contents = 0;
 
 	{
 		int c;

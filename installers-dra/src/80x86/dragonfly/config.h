@@ -19,8 +19,6 @@
 
 #define target_dbl_maxexp 308
 
-#define no_trap_on_nil_contents 1
-
 
 /* Parameters for foralls optimisations */
 

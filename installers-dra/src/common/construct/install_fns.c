@@ -1332,8 +1332,8 @@ f_assign_with_mode(transfer_mode md, exp arg1, exp arg2)
 							    arg1,
 							    me_obtain(d)));
 	}
-#ifdef no_trap_on_nil_contents
-	if ((md & f_trap_on_nil) != 0) {
+
+	if (trap_on_nil_contents && (md & f_trap_on_nil) != 0) {
 		exp d = me_startid(f_top, arg1, 0);
 		exp hldr = getexp(f_top, nilexp, 0, nilexp, nilexp, 0, 0, 0);
 		exp lb = getexp(f_top, nilexp, 0, hldr, nilexp, 0, 0,
@@ -1350,7 +1350,7 @@ f_assign_with_mode(transfer_mode md, exp arg1, exp arg2)
 						       f_assign_with_mode(md,
 						       me_obtain(d), arg2)));
 	}
-#endif
+
 	if ((md & f_volatile) != 0) {
 		return me_b3(f_top, arg1, arg2, assvol_tag);
 	} else if ((md & f_overlap) &&
@@ -1495,8 +1495,7 @@ f_bitfield_assign_with_mode(transfer_mode md, exp p, exp off, exp val)
 		}
 	}
 
-#ifdef no_trap_on_nil_contents
-	if ((md & f_trap_on_nil) != 0) {
+	if (trap_on_nil_contents && (md & f_trap_on_nil) != 0) {
 		exp d = me_startid(f_top, p, 0);
 		exp hldr = getexp(f_top, nilexp, 0, nilexp, nilexp, 0, 0, 0);
 		exp lb = getexp(f_top, nilexp, 0, hldr, nilexp, 0, 0,
@@ -1512,12 +1511,13 @@ f_bitfield_assign_with_mode(transfer_mode md, exp p, exp off, exp val)
 		return me_complete_id(d, f_conditional(&lb, f_sequence(el, trp),
 		    f_bitfield_assign_with_mode(md, me_obtain(d), off, val)));
 	}
-#endif
+
 	if (md & f_volatile) {
 		res = me_b3(f_top, p, val, bfassvol_tag);
 	} else {
 		res = me_b3(f_top, p, val, bfass_tag);
 	}
+
 	no(res) = no(off);
 	return res;
 }
@@ -1614,8 +1614,7 @@ f_bitfield_contents_with_mode(transfer_mode md, bitfield_variety bf, exp p,
 		}
 	}
 
-#ifdef no_trap_on_nil_contents
-	if ((md & f_trap_on_nil) != 0) {
+	if (trap_on_nil_contents && (md & f_trap_on_nil) != 0) {
 		exp d = me_startid(f_bitfield(bf), p, 0);
 		exp hldr = getexp(f_top, nilexp, 0, nilexp, nilexp, 0, 0, 0);
 		exp lb = getexp(f_top, nilexp, 0, hldr, nilexp, 0, 0,
@@ -1631,13 +1630,13 @@ f_bitfield_contents_with_mode(transfer_mode md, bitfield_variety bf, exp p,
 		return me_complete_id(d, f_conditional(&lb, f_sequence(el, trp),
 		    f_bitfield_contents_with_mode(md, bf, me_obtain(d), off)));
 	}
-#endif
 
 	if (md == f_volatile) {
 		res = me_u3(f_bitfield(bf), p, bfcontvol_tag);
 	} else {
 		res = me_u3(f_bitfield(bf), p, bfcont_tag);
 	}
+
 	no(res) = no(off);
 	return res;
 }
@@ -2028,8 +2027,7 @@ f_contents_with_mode(transfer_mode md, shape s, exp arg1)
 		}
 	}
 
-#ifdef no_trap_on_nil_contents
-	if ((md & f_trap_on_nil) != 0) {
+	if (trap_on_nil_contents && (md & f_trap_on_nil) != 0) {
 		exp d = me_startid(s, arg1, 0);
 		exp hldr = getexp(f_top, nilexp, 0, nilexp, nilexp, 0, 0, 0);
 		exp lb = getexp(f_top, nilexp, 0, hldr, nilexp, 0, 0,
@@ -2045,7 +2043,7 @@ f_contents_with_mode(transfer_mode md, shape s, exp arg1)
 		return me_complete_id(d, f_conditional(&lb, f_sequence(el, trp),
 		    f_contents_with_mode(md, s, me_obtain(d))));
 	}
-#endif
+
 	if (md & f_volatile) {
 		return me_c2(s, arg1, contvol_tag);
 	} else {
@@ -3979,8 +3977,7 @@ f_move_some(transfer_mode md, exp arg1, exp arg2, exp arg3)
 		}
 	}
 
-#ifdef no_trap_on_nil_contents
-	if ((md & f_trap_on_nil) != 0) {
+	if (trap_on_nil_contents && (md & f_trap_on_nil) != 0) {
 		exp d2 = me_startid(f_top, arg2, 0);
 		exp d1 = me_startid(f_top, arg1, 0);
 		exp hldr = getexp(f_top, nilexp, 0, nilexp, nilexp, 0, 0, 0);
@@ -4004,7 +4001,7 @@ f_move_some(transfer_mode md, exp arg1, exp arg2, exp arg3)
 		    f_sequence(el, f_move_some(md, me_obtain(d1), me_obtain(d2),
 					       arg3)), trp)));
 	}
-#endif
+
 	if (!(md & f_overlap) && name(arg3) == val_tag && al2(sh(arg3)) > 1) {
 		exp c = f_contents(f_compound(arg3), arg1);
 		return f_assign(arg2, c);
