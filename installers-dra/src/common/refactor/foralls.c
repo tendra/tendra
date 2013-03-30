@@ -127,8 +127,8 @@ scan_for_incr(exp e, exp piece, void(*f)(exp, int))
     static int everytime = true;
     switch (name(e)) {
 	case name_tag:
-	case env_offset_tag
-	    : return;
+	case env_offset_tag:
+	    return;
 	case ass_tag: {
 	   exp dest = son(e);
 	   exp src = bro(son(e));

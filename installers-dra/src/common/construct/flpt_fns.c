@@ -1529,22 +1529,15 @@ f_round_with_mode(error_treatment flpt_err, rounding_mode mode, variety r,
 	        arg1 = hold_refactor(f_change_floating_variety(f_impossible, 1,
 							    arg1));
 #endif
+
 		switch (mode) {
-		case R2NEAR:
-			fn = (s) ? "__TDFUs_R2NEAR" : "__TDFUu_R2NEAR";
-			break;
-		case R2PINF:
-			fn = (s) ? "__TDFUs_R2PINF" : "__TDFUu_R2PINF";
-			break;
-		case R2NINF:
-			fn = (s) ? "__TDFUs_R2NINF" : "__TDFUu_R2NINF";
-			break;
-		case R2ZERO:
-			fn = (s) ? "__TDFUs_R2ZERO" : "__TDFUu_R2ZERO";
-			break;
-		default:
-			fn = (s) ? "__TDFUs_ASSTATE" : "__TDFUu_R2ASSTATE";
+		case R2NEAR: fn = (s) ? "__TDFUs_R2NEAR"  : "__TDFUu_R2NEAR";    break;
+		case R2PINF: fn = (s) ? "__TDFUs_R2PINF"  : "__TDFUu_R2PINF";    break;
+		case R2NINF: fn = (s) ? "__TDFUs_R2NINF"  : "__TDFUu_R2NINF";    break;
+		case R2ZERO: fn = (s) ? "__TDFUs_R2ZERO"  : "__TDFUu_R2ZERO";    break;
+		default:     fn = (s) ? "__TDFUs_ASSTATE" : "__TDFUu_R2ASSTATE"; break;
 		}
+
 		e = TDFcallaux(flpt_err, arg1, fn, r);
 		return hold_refactor(e);
 	}
@@ -1610,21 +1603,11 @@ f_round_with_mode(error_treatment flpt_err, rounding_mode mode, variety r,
  
      /* Set up power_mode */
      switch (mode) {
-       case R2ZERO:
- 	      power_mode = 0;
- 	      break;
-       case R2NEAR:
- 	      power_mode = 1;
- 	      break;
-       case R2PINF:
- 	      power_mode = 2;
- 	      break;
-       case R2NINF:
- 	      power_mode = 3;
- 	      break;
-       default:
- 	      power_mode = 1;
- 	      break;
+       case R2ZERO: power_mode = 0; break;
+       case R2NEAR: power_mode = 1; break;
+       case R2PINF: power_mode = 2; break;
+       case R2NINF: power_mode = 3; break;
+       default:     power_mode = 1; break;
      }
  
      /* Work out which functions to call */

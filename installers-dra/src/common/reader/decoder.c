@@ -66,36 +66,17 @@ d_access(void)
 	    p1 = d_access();
 	    return f_add_accesses(p0, p1);
 	}
-	case e_constant: {
-	    return f_constant;
-	}
-	case e_long_jump_access: {
-	    return f_long_jump_access;
-	}
-	case e_no_other_read: {
-	    return f_no_other_read;
-	}
-	case e_no_other_write: {
-	    return f_no_other_write;
-	}
-	case e_out_par: {
-	    return f_out_par;
-	}
-	case e_preserve: {
-	    return f_preserve;
-	}
-	case e_register: {
-	    return f_register;
-	}
-	case e_standard_access: {
-	    return f_standard_access;
-	}
-	case e_used_as_volatile: {
-	    return f_used_as_volatile;
-	}
-	case e_visible: {
-	    return f_visible;
-	}
+
+	case e_constant:         return f_constant;
+	case e_long_jump_access: return f_long_jump_access;
+	case e_no_other_read:    return f_no_other_read;
+	case e_no_other_write:   return f_no_other_write;
+	case e_out_par:          return f_out_par;
+	case e_preserve:         return f_preserve;
+	case e_register:         return f_register;
+	case e_standard_access:  return f_standard_access;
+	case e_used_as_volatile: return f_used_as_volatile;
+	case e_visible:          return f_visible;
     }
     decode_error(ILLEGAL_CODE_access);
     return f_dummy_access;
@@ -721,18 +702,10 @@ d_dg_accessibility(void)
 {
     int code = get_big_code(2);
     switch (code) {
-	case e_dg_local_accessibility: {
-	    return f_dg_local_accessibility;
-	}
-	case e_dg_private_accessibility: {
-	    return f_dg_private_accessibility;
-	}
-	case e_dg_protected_accessibility: {
-	    return f_dg_protected_accessibility;
-	}
-	case e_dg_public_accessibility: {
-	    return f_dg_public_accessibility;
-	}
+	case e_dg_local_accessibility:     return f_dg_local_accessibility;
+	case e_dg_private_accessibility:   return f_dg_private_accessibility;
+	case e_dg_protected_accessibility: return f_dg_protected_accessibility;
+	case e_dg_public_accessibility:    return f_dg_public_accessibility;
     }
     decode_error(ILLEGAL_CODE_dg_accessibility);
     return f_dummy_dg_accessibility;
@@ -1804,15 +1777,9 @@ d_dg_param_mode(void)
 {
     int code = get_big_code(2);
     switch (code) {
-	case e_dg_in_mode: {
-	    return f_dg_in_mode;
-	}
-	case e_dg_inout_mode: {
-	    return f_dg_inout_mode;
-	}
-	case e_dg_out_mode: {
-	    return f_dg_out_mode;
-	}
+	case e_dg_in_mode:    return f_dg_in_mode;
+	case e_dg_inout_mode: return f_dg_inout_mode;
+	case e_dg_out_mode:   return f_dg_out_mode;
     }
     decode_error(ILLEGAL_CODE_dg_param_mode);
     return f_dummy_dg_param_mode;
@@ -1840,21 +1807,11 @@ d_dg_qualifier(void)
 {
     int code = get_big_code(3);
     switch (code) {
-	case e_dg_aliased_qualifier: {
-	    return f_dg_aliased_qualifier;
-	}
-	case e_dg_class_wide_qualifier: {
-	    return f_dg_class_wide_qualifier;
-	}
-	case e_dg_const_qualifier: {
-	    return f_dg_const_qualifier;
-	}
-	case e_dg_limited_qualifier: {
-	    return f_dg_limited_qualifier;
-	}
-	case e_dg_volatile_qualifier: {
-	    return f_dg_volatile_qualifier;
-	}
+	case e_dg_aliased_qualifier:    return f_dg_aliased_qualifier;
+	case e_dg_class_wide_qualifier: return f_dg_class_wide_qualifier;
+	case e_dg_const_qualifier:      return f_dg_const_qualifier;
+	case e_dg_limited_qualifier:    return f_dg_limited_qualifier;
+	case e_dg_volatile_qualifier:   return f_dg_volatile_qualifier;
     }
     decode_error(ILLEGAL_CODE_dg_qualifier);
     return f_dummy_dg_qualifier;
@@ -2461,12 +2418,8 @@ d_dg_virtuality(void)
 {
     int code = get_big_code(2);
     switch (code) {
-	case e_dg_abstract_virtuality: {
-	    return f_dg_abstract_virtuality;
-	}
-	case e_dg_virtual_virtuality: {
-	    return f_dg_virtual_virtuality;
-	}
+	case e_dg_abstract_virtuality: return f_dg_abstract_virtuality;
+	case e_dg_virtual_virtuality:  return f_dg_virtual_virtuality;
     }
     decode_error(ILLEGAL_CODE_dg_virtuality);
     return f_dummy_dg_virtuality;
@@ -2855,15 +2808,9 @@ d_error_code(void)
 {
     int code = get_big_code(2);
     switch (code) {
-	case e_nil_access: {
-	    return f_nil_access;
-	}
-	case e_overflow: {
-	    return f_overflow;
-	}
-	case e_stack_overflow: {
-	    return f_stack_overflow;
-	}
+	case e_nil_access:     return f_nil_access;
+	case e_overflow:       return f_overflow;
+	case e_stack_overflow: return f_stack_overflow;
     }
     decode_error(ILLEGAL_CODE_error_code);
     return f_dummy_error_code;
@@ -4365,48 +4312,21 @@ d_ntest(void)
 	    p2 = d_bitstream();
 	    return f_ntest_cond(p0, p1, p2);
 	}
-	case e_equal: {
-	    return f_equal;
-	}
-	case e_greater_than: {
-	    return f_greater_than;
-	}
-	case e_greater_than_or_equal: {
-	    return f_greater_than_or_equal;
-	}
-	case e_less_than: {
-	    return f_less_than;
-	}
-	case e_less_than_or_equal: {
-	    return f_less_than_or_equal;
-	}
-	case e_not_equal: {
-	    return f_not_equal;
-	}
-	case e_not_greater_than: {
-	    return f_not_greater_than;
-	}
-	case e_not_greater_than_or_equal: {
-	    return f_not_greater_than_or_equal;
-	}
-	case e_not_less_than: {
-	    return f_not_less_than;
-	}
-	case e_not_less_than_or_equal: {
-	    return f_not_less_than_or_equal;
-	}
-	case e_less_than_or_greater_than: {
-	    return f_less_than_or_greater_than;
-	}
-	case e_not_less_than_and_not_greater_than: {
-	    return f_not_less_than_and_not_greater_than;
-	}
-	case e_comparable: {
-	    return f_comparable;
-	}
-	case e_not_comparable: {
-	    return f_not_comparable;
-	}
+
+	case e_equal:                              return f_equal;
+	case e_greater_than:                       return f_greater_than;
+	case e_greater_than_or_equal:              return f_greater_than_or_equal;
+	case e_less_than:                          return f_less_than;
+	case e_less_than_or_equal:                 return f_less_than_or_equal;
+	case e_not_equal:                          return f_not_equal;
+	case e_not_greater_than:                   return f_not_greater_than;
+	case e_not_greater_than_or_equal:          return f_not_greater_than_or_equal;
+	case e_not_less_than:                      return f_not_less_than;
+	case e_not_less_than_or_equal:             return f_not_less_than_or_equal;
+	case e_less_than_or_greater_than:          return f_less_than_or_greater_than;
+	case e_not_less_than_and_not_greater_than: return f_not_less_than_and_not_greater_than;
+	case e_comparable:                         return f_comparable;
+	case e_not_comparable:                     return f_not_comparable;
     }
     decode_error(ILLEGAL_CODE_ntest);
     return f_dummy_ntest;
@@ -4475,24 +4395,13 @@ d_procprops(void)
 	    p1 = d_procprops();
 	    return f_add_procprops(p0, p1);
 	}
-	case e_check_stack: {
-	    return f_check_stack;
-	}
-	case e_inline: {
-	    return f_inline;
-	}
-	case e_no_long_jump_dest: {
-	    return f_no_long_jump_dest;
-	}
-	case e_untidy: {
-	    return f_untidy;
-	}
-	case e_var_callees: {
-	    return f_var_callees;
-	}
-	case e_var_callers: {
-	    return f_var_callers;
-	}
+
+	case e_check_stack:       return f_check_stack;
+	case e_inline:            return f_inline;
+	case e_no_long_jump_dest: return f_no_long_jump_dest;
+	case e_untidy:            return f_untidy;
+	case e_var_callees:       return f_var_callees;
+	case e_var_callers:       return f_var_callers;
     }
     decode_error(ILLEGAL_CODE_procprops);
     return f_dummy_procprops;
@@ -4536,21 +4445,12 @@ d_rounding_mode(void)
 	    p2 = d_bitstream();
 	    return f_rounding_mode_cond(p0, p1, p2);
 	}
-	case e_round_as_state: {
-	    return f_round_as_state;
-	}
-	case e_to_nearest: {
-	    return f_to_nearest;
-	}
-	case e_toward_larger: {
-	    return f_toward_larger;
-	}
-	case e_toward_smaller: {
-	    return f_toward_smaller;
-	}
-	case e_toward_zero: {
-	    return f_toward_zero;
-	}
+
+	case e_round_as_state: return f_round_as_state;
+	case e_to_nearest:     return f_to_nearest;
+	case e_toward_larger:  return f_toward_larger;
+	case e_toward_smaller: return f_toward_smaller;
+	case e_toward_zero:    return f_toward_zero;
     }
     decode_error(ILLEGAL_CODE_rounding_mode);
     return f_dummy_rounding_mode;
@@ -4703,64 +4603,10 @@ d_sortname(void)
 {
     int code = get_big_code(5);
     switch (code) {
-	case e_access: {
-	    return f_access;
-	}
-	case e_al_tag: {
-	    return f_al_tag;
-	}
-	case e_alignment_sort: {
-	    return f_alignment_sort;
-	}
-	case e_bitfield_variety: {
-	    return f_bitfield_variety;
-	}
-	case e_bool: {
-	    return f_bool;
-	}
-	case e_error_treatment: {
-	    return f_error_treatment;
-	}
-	case e_exp: {
-	    return f_exp;
-	}
-	case e_floating_variety: {
-	    return f_floating_variety;
-	}
 	case e_foreign_sort: {
 	    string p0;
 	    p0 = d_string();
 	    return f_foreign_sort(p0);
-	}
-	case e_label: {
-	    return f_label;
-	}
-	case e_nat: {
-	    return f_nat;
-	}
-	case e_ntest: {
-	    return f_ntest;
-	}
-	case e_procprops: {
-	    return f_procprops;
-	}
-	case e_rounding_mode: {
-	    return f_rounding_mode;
-	}
-	case e_shape: {
-	    return f_shape;
-	}
-	case e_signed_nat: {
-	    return f_signed_nat;
-	}
-	case e_string: {
-	    return f_string;
-	}
-	case e_tag: {
-	    return f_tag;
-	}
-	case e_transfer_mode: {
-	    return f_transfer_mode;
 	}
 	case e_token: {
 	    sortname p0;
@@ -4769,9 +4615,26 @@ d_sortname(void)
 	    p1 = d_sortname_list();
 	    return f_token(p0, p1);
 	}
-	case e_variety: {
-	    return f_variety;
-	}
+
+	case e_access:           return f_access;
+	case e_al_tag:           return f_al_tag;
+	case e_alignment_sort:   return f_alignment_sort;
+	case e_bitfield_variety: return f_bitfield_variety;
+	case e_bool:             return f_bool;
+	case e_error_treatment:  return f_error_treatment;
+	case e_exp:              return f_exp;
+	case e_floating_variety: return f_floating_variety;
+	case e_label:            return f_label;
+	case e_nat:              return f_nat;
+	case e_ntest:            return f_ntest;
+	case e_procprops:        return f_procprops;
+	case e_rounding_mode:    return f_rounding_mode;
+	case e_shape:            return f_shape;
+	case e_signed_nat:       return f_signed_nat;
+	case e_string:           return f_string;
+	case e_tag:              return f_tag;
+	case e_transfer_mode:    return f_transfer_mode;
+	case e_variety:          return f_variety;
     }
     decode_error(ILLEGAL_CODE_sortname);
     return f_dummy_sortname;
@@ -5414,21 +5277,12 @@ d_transfer_mode(void)
 	    p1 = d_transfer_mode();
 	    return f_add_modes(p0, p1);
 	}
-	case e_overlap: {
-	    return f_overlap;
-	}
-	case e_standard_transfer_mode: {
-	    return f_standard_transfer_mode;
-	}
-	case e_trap_on_nil: {
-	    return f_trap_on_nil;
-	}
-	case e_volatile: {
-	    return f_volatile;
-	}
-	case e_complete: {
-	    return f_complete;
-	}
+
+	case e_overlap:                return f_overlap;
+	case e_standard_transfer_mode: return f_standard_transfer_mode;
+	case e_trap_on_nil:            return f_trap_on_nil;
+	case e_volatile:               return f_volatile;
+	case e_complete:               return f_complete;
     }
     decode_error(ILLEGAL_CODE_transfer_mode);
     return f_dummy_transfer_mode;

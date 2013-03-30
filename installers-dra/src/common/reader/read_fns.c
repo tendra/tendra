@@ -1530,21 +1530,12 @@ f_make_link(tdfint internal, tdfint ext)
 {
   switch (crt_links_type)
    {
-     case TOK_TYPE:
-       IGNORE f_make_toklink(internal, ext);
-       return 0;
-     case TAG_TYPE:
-       IGNORE f_make_taglink(internal, ext);
-       return 0;
-     case AL_TYPE:
-       IGNORE f_make_allink(internal, ext);
-       return 0;
-     case DIAGTAG_TYPE:		/* OLD DIAGS */
-       IGNORE f_make_diagtaglink(internal, ext);
-       return 0;
-     case DGTAG_TYPE:		/* NEW DIAGS */
-       IGNORE f_make_dglink(internal, ext);
-       return 0;
+     case TOK_TYPE:     IGNORE f_make_toklink(internal, ext);     return 0;
+     case TAG_TYPE:     IGNORE f_make_taglink(internal, ext);     return 0;
+     case AL_TYPE:      IGNORE f_make_allink(internal, ext);      return 0;
+     case DIAGTAG_TYPE: IGNORE f_make_diagtaglink(internal, ext); return 0; /* OLD DIAGS */
+     case DGTAG_TYPE:   IGNORE f_make_dglink(internal, ext);      return 0; /* NEW DIAGS */
+
      default:
        failer(VARIABLE_TYPE);
        return 0;
@@ -2162,21 +2153,6 @@ f_make_unit(tdfint_list lvl, links_list lks, bytestream prs)
   UNUSED(prs);
   switch (crt_group_type)
    {
-     case TOKDEC_UNIT:
-              IGNORE f_make_tokdec_unit();
-              break;
-     case TOKDEF_UNIT:
-              IGNORE f_make_tokdef_unit();
-              break;
-     case AL_UNIT:
-              IGNORE f_make_aldef_unit();
-              break;
-     case TAGDEC_UNIT:
-              IGNORE f_make_tagdec_unit();
-              break;
-     case TAGDEF_UNIT:
-              IGNORE f_make_tagdef_unit();
-              break;
      case DIAGDEF_UNIT:		/* OLD DIAGS */
               if (diagnose) {
                 IGNORE f_make_diagdef_unit();
@@ -2191,12 +2167,6 @@ f_make_unit(tdfint_list lvl, links_list lks, bytestream prs)
                 ignore_bytestream();
 	      }
               break;
-     case LINKINFO_UNIT:
-              IGNORE f_make_linkinfo_unit();
-              break;
-     case VERSIONS_UNIT:
-	      IGNORE f_make_versions_unit();
-	      break;
      case DGCOMP_UNIT:	/* NEW DIAGS */
               if (diagnose) {
                 IGNORE f_make_dg_comp_unit();
@@ -2204,6 +2174,15 @@ f_make_unit(tdfint_list lvl, links_list lks, bytestream prs)
                 ignore_bytestream();
 	      }
               break;
+
+     case TOKDEC_UNIT:   IGNORE f_make_tokdec_unit();   break;
+     case TOKDEF_UNIT:   IGNORE f_make_tokdef_unit();   break;
+     case AL_UNIT:       IGNORE f_make_aldef_unit();    break;
+     case TAGDEC_UNIT:   IGNORE f_make_tagdec_unit();   break;
+     case TAGDEF_UNIT:   IGNORE f_make_tagdef_unit();   break;
+     case LINKINFO_UNIT: IGNORE f_make_linkinfo_unit(); break;
+     case VERSIONS_UNIT: IGNORE f_make_versions_unit(); break;
+
      default:
               ignore_bytestream();
               break;
@@ -2216,16 +2195,12 @@ f_make_linkextern(tdfint internal, external ext)
 {
   switch (crt_extern_link_type)
    {
-     case TOK_TYPE:
-       return f_make_tokextern(internal, ext);
-     case TAG_TYPE:
-       return f_make_tagextern(internal, ext);
-     case AL_TYPE:
-       return f_make_alextern(internal, ext);
-     case DIAGTAG_TYPE:		/* OLD DIAGS */
-       return f_make_diagtagextern(internal, ext);
-     case DGTAG_TYPE:		/* NEW DIAGS */
-       return f_make_dgtagextern(internal, ext);
+     case TOK_TYPE:     return f_make_tokextern(internal, ext);
+     case TAG_TYPE:     return f_make_tagextern(internal, ext);
+     case AL_TYPE:      return f_make_alextern(internal, ext);
+     case DIAGTAG_TYPE: return f_make_diagtagextern(internal, ext); /* OLD DIAGS */
+     case DGTAG_TYPE:   return f_make_dgtagextern(internal, ext);   /* NEW DIAGS */
+
      default:
        failer(VARIABLE_TYPE);
        return 0;

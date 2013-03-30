@@ -1281,7 +1281,7 @@ static int
 all_ones(exp e)
 {
 	switch (shape_size(sh(e))) {
-	case 8:  return 0xff;
+	case  8: return 0xff;
 	case 16: return 0xffff;
 	default: return 0xffffffff;
 	}
@@ -4556,9 +4556,9 @@ refactor(exp e, exp scope)
 		if (flpt_always_comparable ||
 		    (name(sh(arg1)) < shrealhd || name(sh(arg1)) > doublehd)) {
 			switch (nt) {
-			case 7:  nt = f_greater_than;          break;
-			case 8:  nt = f_greater_than_or_equal; break;
-			case 9:  nt = f_less_than;             break;
+			case  7: nt = f_greater_than;          break;
+			case  8: nt = f_greater_than_or_equal; break;
+			case  9: nt = f_less_than;             break;
 			case 10: nt = f_less_than_or_equal;    break;
 			case 11: nt = f_not_equal;             break;
 			case 12: nt = f_equal;                 break;

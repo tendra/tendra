@@ -1075,18 +1075,12 @@ cmpflpt(flpt a, flpt b, int testno)
   int res = flt_cmp(flptnos[a], flptnos[b]);
 
   switch (testno) {
-  case 1:
-    return res == 1;
-  case 2:
-    return res != -1;
-  case 3:
-    return res == -1;
-  case 4:
-    return res != 1;
-  case 5:
-    return res == 0;
-  default:
-    return res != 0;
+  case 1:  return res ==  1;
+  case 2:  return res != -1;
+  case 3:  return res == -1;
+  case 4:  return res !=  1;
+  case 5:  return res ==  0;
+  default: return res !=  0;
   }
 }
 
@@ -1403,15 +1397,12 @@ flpt_round(int round_t, int posn, flt * res)
 int
 flpt_bits(floating_variety fv)
 {
-  switch (fv)
-  {
+  switch (fv) {
   case 0: return FLOAT_BITS;
-	  /* FLOAT_BITS is defined in config.h 24 for IEEE */
   case 1: return DOUBLE_BITS;
-	  /* FLOAT_BITS is defined in config.h 53 for IEEE */
   case 2: return LDOUBLE_BITS;
-	  /* FLOAT_BITS is defined in config.h 64 for IEEE */
   }
+
   return 0;
 }
 

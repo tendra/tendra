@@ -181,19 +181,16 @@ shape
 containedshape(int a, int s)
 {
 	switch ((a + 7) & ~7) {
-	case 8:
-	case 0:
-		return s ? scharsh : ucharsh;
-	case 16:
-		return s ? swordsh : uwordsh;
-	case 32:
+	case  0:
+	case  8: return s ? scharsh : ucharsh;
+	case 16: return s ? swordsh : uwordsh;
 	case 24:
-		return s ? slongsh : ulongsh;
-	case 64:
+	case 32: return s ? slongsh : ulongsh;
 	case 40:
 	case 48:
 	case 56:
-		return s ? s64sh : u64sh;
+	case 64: return s ? s64sh : u64sh;
+
 	default:
 		failer("Illegal pointer for bitfield operations");
 		return scharsh;
@@ -270,51 +267,34 @@ fn_of_op(int nm, int sngd)
 
 #define CSU(x, y)	return (sngd) ? x : y
 	switch (nm) {
-	case plus_tag:
-		CSU("__TDFUs_plus", "__TDFUu_plus");
-	case minus_tag:
-		CSU("__TDFUs_minus", "__TDFUu_minus");
-	case mult_tag:
-		CSU("__TDFUs_mult", "__TDFUu_mult");
+	case plus_tag:  CSU("__TDFUs_plus",  "__TDFUu_plus");
+	case minus_tag: CSU("__TDFUs_minus", "__TDFUu_minus");
+	case mult_tag:  CSU("__TDFUs_mult",  "__TDFUu_mult");
 	case div0_tag:
-	case div2_tag:
-		CSU("__TDFUs_div2", "__TDFUu_div2");
-	case div1_tag:
-		CSU("__TDFUs_div1", "__TDFUu_div2");
+	case div2_tag:  CSU("__TDFUs_div2",  "__TDFUu_div2");
+	case div1_tag:  CSU("__TDFUs_div1",  "__TDFUu_div2");
 	case rem0_tag:
-	case rem2_tag:
-		CSU("__TDFUs_rem2", "__TDFUu_rem2");
-	case mod_tag:
-		CSU("__TDFUs_rem1", "__TDFUu_rem2");
-	case shl_tag:
-		CSU("__TDFUs_shl", "__TDFUu_shl");
-	case shr_tag:
-		CSU("__TDFUs_shr", "__TDFUu_shr");
-	case neg_tag:
-		return "__TDFUneg";
-	case abs_tag:
-		return "__TDFUabs";
-	case chvar_tag:
-		CSU("__TDFUs_chvar", "__TDFUu_chvar");
-	case max_tag:
-		CSU("__TDFUs_max", "__TDFUu_max");
-	case min_tag:
-		CSU("__TDFUs_min", "__TDFUu_min");
-	case test_tag:
-		CSU("__TDFUs_test", "__TDFUu_test");
-	case float_tag:
-		CSU("__TDFUs_float", "__TDFUu_float");
-	case and_tag:
-		return "__TDFUand";
-	case or_tag:
-		return "__TDFUor";
-	case xor_tag:
-		return "__TDFUxor";
-	case not_tag:
-		return "__TDFUnot";
+	case rem2_tag:  CSU("__TDFUs_rem2",  "__TDFUu_rem2");
+	case mod_tag:   CSU("__TDFUs_rem1",  "__TDFUu_rem2");
+	case shl_tag:   CSU("__TDFUs_shl",   "__TDFUu_shl");
+	case shr_tag:   CSU("__TDFUs_shr",   "__TDFUu_shr");
+	case chvar_tag: CSU("__TDFUs_chvar", "__TDFUu_chvar");
+	case max_tag:   CSU("__TDFUs_max",   "__TDFUu_max");
+	case min_tag:   CSU("__TDFUs_min",   "__TDFUu_min");
+	case test_tag:  CSU("__TDFUs_test",  "__TDFUu_test");
+	case float_tag: CSU("__TDFUs_float", "__TDFUu_float");
+
+	case neg_tag:   return "__TDFUneg";
+	case abs_tag:   return "__TDFUabs";
+	case and_tag:   return "__TDFUand";
+	case or_tag:    return "__TDFUor";
+	case xor_tag:   return "__TDFUxor";
+	case not_tag:   return "__TDFUnot";
+
 	default:
 		failer("No fn for long op");
 	}
+
 	return "__TDFerror";
 }
 
@@ -2792,15 +2772,10 @@ f_make_nof_int(variety v, string s)
 			int sg = is_signed(elem_sh);
 			x.big = 0;
 			switch (s.size) {
-			case 8:
-				x.small = (unsigned int)s.ints.chars[i];
-				break;
-			case 16:
-				x.small = (unsigned int)s.ints.shorts[i];
-				break;
-			case 32:
-				x.small = (unsigned int)s.ints.longs[i];
-				break;
+			case  8: x.small = (unsigned int) s.ints.chars[i];  break;
+			case 16: x.small = (unsigned int) s.ints.shorts[i]; break;
+			case 32: x.small = (unsigned int) s.ints.longs[i];  break;
+
 			default:
 				f = (flpt)s.ints.longs[i];
 				x = flt_to_f64(f, 0, &ov);
@@ -5315,21 +5290,15 @@ f_compound(exp off)
 shape
 f_floating(floating_variety fv)
 {
-	switch (fv)
-	{
-	case shrealfv:
-		return shrealsh;
-	case realfv:
-		return realsh;
-	case doublefv:
-		return doublesh;
-	case shcomplexfv:
-		return shcomplexsh;
-	case complexfv:
-		return complexsh;
-	case complexdoublefv:
-		return complexdoublesh;
+	switch (fv) {
+	case shrealfv:        return shrealsh;
+	case realfv:          return realsh;
+	case doublefv:        return doublesh;
+	case shcomplexfv:     return shcomplexsh;
+	case complexfv:       return complexsh;
+	case complexdoublefv: return complexdoublesh;
 	}
+
 	return realsh;
 }
 
@@ -5407,78 +5376,63 @@ f_offset(alignment arg1, alignment arg2)
 	switch (arg1->al.al_val.al) {
 	case 512:
 		switch (arg2->al.al_val.al) {
-		case 512:
-			return f_off512_512;
-		case 64:
-			return f_off512_64;
-		case 32:
-			return f_off512_32;
-		case 16:
-			return f_off512_16;
-		case 8:
-			return f_off512_8;
-		case 1:
-			return f_off512_1;
+		case 512: return f_off512_512;
+		case  64: return f_off512_64;
+		case  32: return f_off512_32;
+		case  16: return f_off512_16;
+		case   8: return f_off512_8;
+		case   1: return f_off512_1;
+
 		default:
 			failer(ILLOFF2);
 			return f_off64_8;
 		}
 	case 64:
 		switch (arg2->al.al_val.al) {
-		case 64:
-			return f_off64_64;
-		case 32:
-			return f_off64_32;
-		case 16:
-			return f_off64_16;
-		case 8:
-			return f_off64_8;
-		case 1:
-			return f_off64_1;
+		case 64: return f_off64_64;
+		case 32: return f_off64_32;
+		case 16: return f_off64_16;
+		case  8: return f_off64_8;
+		case  1: return f_off64_1;
+
 		default:
 			failer(ILLOFF2);
 			return f_off64_8;
 		}
 	case 32:
 		switch (arg2->al.al_val.al) {
-		case 32:
-			return f_off32_32;
-		case 16:
-			return f_off32_16;
-		case 8:
-			return f_off32_8;
-		case 1:
-			return f_off32_1;
+		case 32: return f_off32_32;
+		case 16: return f_off32_16;
+		case  8: return f_off32_8;
+		case  1: return f_off32_1;
+
 		default:
 			failer(ILLOFF2);
 			return f_off32_8;
 		}
 	case 16:
 		switch (arg2->al.al_val.al) {
-		case 16:
-			return f_off16_16;
-		case 8:
-			return f_off16_8;
-		case 1:
-			return f_off16_1;
+		case 16: return f_off16_16;
+		case  8: return f_off16_8;
+		case  1: return f_off16_1;
+
 		default:
 			failer(ILLOFF2);
 			return f_off16_8;
 		}
 	case 8:
 		switch (arg2->al.al_val.al) {
-		case 8:
-			return f_off8_8;
-		case 1:
-			return f_off8_1;
+		case 8: return f_off8_8;
+		case 1: return f_off8_1;
+
 		default:
 			failer(ILLOFF2);
 			return f_off8_8;
 		}
 	case 1:
 		switch (arg2->al.al_val.al) {
-		case 1:
-			return f_off1_1;
+		case 1: return f_off1_1;
+
 		default:
 			failer(ILLOFF2);
 			return f_off1_1;
@@ -5527,14 +5481,16 @@ f_pointer(alignment arg)
 		return res;
 	}
 
-	switch (arg->al.al_val.al)
-	{
-	case 1: return f_ptr1;
-	case 8: return f_ptr8;
+	switch (arg->al.al_val.al) {
+	case  1: return f_ptr1;
+	case  8: return f_ptr8;
 	case 16: return f_ptr16;
 	case 32: return f_ptr32;
 	case 64: return f_ptr64;
-	default: failer(ILLALIGN); return f_ptr8;
+
+	default:
+		failer(ILLALIGN);
+		return f_ptr8;
 	};
 }
 
