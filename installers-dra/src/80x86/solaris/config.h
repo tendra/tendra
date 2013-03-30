@@ -16,7 +16,6 @@
 #define has_asm 1
 #define as_comment_symbol '/'
 
-#define diagnose_registers 1
 #define DWARF 0
 #define load_ptr_pars 1
 #define use_long_double 1

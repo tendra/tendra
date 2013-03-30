@@ -27,6 +27,4 @@
 #define DO_SCHEDULE 0
 #endif
 
-#define diagnose_registers 1
-
 #endif

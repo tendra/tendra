@@ -322,6 +322,8 @@ int main
     param_align = PARAM_ALIGN;
     stack_align = STACK_ALIGN;
 
+    diagnose_registers = 0;
+
     MAX_BF_SIZE = (conventions != CONVENTIONS_HP ? MAX_BF_SIZE_CC : MAX_BF_SIZE_GCC);
 
     /* Call initialization routines */

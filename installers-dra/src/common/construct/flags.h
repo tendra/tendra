@@ -96,6 +96,7 @@ enum diag {
 extern int redo_structfns;
 extern int redo_structparams;
 extern int diagnose;
+extern int diagnose_registers;
 extern int do_profile;
 extern int do_alloca;
 extern int double_align;

@@ -119,11 +119,7 @@ hold(exp body)
 	setlast(body);
 	bro(body_hold) = nilexp;
 
-#if diagnose_registers
-	setname(body_hold, hold_tag);
-#else
-	setname(body_hold, 102);
-#endif
+	setname(body_hold, diagnose_registers ? hold_tag : 102);
 
 	return body_hold;
 }

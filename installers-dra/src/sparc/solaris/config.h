@@ -46,8 +46,6 @@
 
 #define value_of_null 0
 
-#define diagnose_registers 1
-
 #define promote_pars 1
 
 	/* condition for shape to be treated as a struct */

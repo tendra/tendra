@@ -87,6 +87,7 @@ int main
   do_profile = 0;      /* -P option for profiling info */
   do_alloca = 0;      /* inline alloca       */
   PIC_code = 0;
+  diagnose_registers = 0;
 
   /* from comment.c */
   do_comment = 0;		/* implement -C option */

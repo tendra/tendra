@@ -21,6 +21,7 @@ int redo_structfns = 0;		/* reorganise proc calls delivering
 int redo_structparams = 0;	/* reorganise proc calls with struct
 				   parameters */
 int diagnose = 0;		/* do diagnostics */
+int diagnose_registers = 1;	/* I have absolutely no idea what this does, but it was disabled for SCO */
 int do_profile = 0;		/* put in profiling code */
 int do_alloca = 1;		/* inline alloca */
 int all_variables_visible = 0;	/* set vis flag for all declarations */
