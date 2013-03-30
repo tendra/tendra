@@ -439,10 +439,8 @@ refactor_id(exp e, exp scope)
   int is_vis = (all_variables_visible || isvis(e));
   exp def = son(e);
   exp body = bro(def);
-#if load_ptr_pars
   int looping;
   exp t1;
-#endif
 
   if (no(e) == 0) {
     if (!isvis(e) && !isenvoff(e) && !isglob(e) && !isparam(e)) {
@@ -458,7 +456,7 @@ refactor_id(exp e, exp scope)
   }
 
 
-#if load_ptr_pars
+ if (load_ptr_pars) {
   if (!is_vis && is_var && isparam(e) && no(e) > 1 && name(sh(def)) == ptrhd
 #if TRANS_680x0
       && check_anyway(e)
@@ -523,19 +521,15 @@ refactor_id(exp e, exp scope)
       return 1;
     }
   }
-#endif
+ }
 
   if (!is_vis && !is_var &&
-#if load_ptr_pars
-      (name(def) != name_tag || !isloadparam(def)) &&
-#endif
+      (!load_ptr_pars || ((name(def) != name_tag || !isloadparam(def)))) &&
       (name(def) == val_tag ||
-#if load_ptr_pars
-       (name(def) == name_tag &&
-	(!isparam(son(def)) || name(sh(def)) == ptrhd))
-#else
-       name(def) == name_tag
-#endif
+      (load_ptr_pars
+	? ((name(def) == name_tag &&
+	   (!isparam(son(def)) || name(sh(def)) == ptrhd)))
+	: name(def) == name_tag )
        ||
 #if TRANS_80x86
        (name(def) == name_tag && isparam(son(def)) && !isvar(son(def)) &&

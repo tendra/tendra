@@ -47,7 +47,6 @@ typedef unsigned long bitpattern;
 */
 
 #define have_diagnostics	0	/* Have diagnostics */
-#define load_ptr_pars		1	/* Inline ptr parameters */
 #define no_trap_on_nil_contents	1	/* Let common code detect nil access */
 #define use_long_double		0	/* Not yet anyway */
 #define remove_unused_counters	0	/* for foralls optimisation */

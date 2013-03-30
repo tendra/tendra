@@ -137,6 +137,8 @@ int main
 	promote_pars = 0;
 #endif
 
+	load_ptr_pars = 1;
+
 	{
 		int c;
 

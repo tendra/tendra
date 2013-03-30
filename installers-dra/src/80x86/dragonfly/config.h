@@ -14,7 +14,6 @@
 #define config_key 1
 
 #define DWARF 0
-#define load_ptr_pars 1
 #define use_long_double 1
 #define keep_PIC_vars 0
 
