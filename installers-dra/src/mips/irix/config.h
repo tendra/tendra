@@ -20,6 +20,4 @@
 #define good_index_factor(f) 0
 #define good_pointer_factor(f) 1
 
-#define keep_PIC_vars 1
-
 #endif

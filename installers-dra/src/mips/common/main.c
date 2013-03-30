@@ -78,6 +78,7 @@ main(int argc, char **argv)
 	bool produce_binasm = 0;
 	bool override_diags = 0;
 	PIC_code = 0;
+	keep_PIC_vars = 1;
 	diagnose_registers = 0;
 
 	as_file = NULL;

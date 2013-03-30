@@ -2384,15 +2384,13 @@ add_tagdec_list(tagdec_list list, tagdec elem, int index)
     e = getexp(s, nilexp, 0, nilexp, nilexp, 0, 0, ident_tag);
 
     if (elem.is_variable) {
-#if keep_PIC_vars
-       setvar(e);
-#else
-       if (PIC_code && dp -> dec_u.dec_val.extnamed) {
-         sh(e) = f_pointer(f_alignment(s));
-       } else {
-         setvar(e);
-       }
-#endif
+	if (keep_PIC_vars) {
+          setvar(e);
+	} else if (PIC_code && dp -> dec_u.dec_val.extnamed) {
+          sh(e) = f_pointer(f_alignment(s));
+	} else {
+          setvar(e);
+	}
     }
 
     if (elem.acc & (f_visible | f_long_jump_access)) {

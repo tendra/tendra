@@ -15,7 +15,6 @@
 
 #define DWARF 0
 #define use_long_double 1
-#define keep_PIC_vars 0
 
 #define target_dbl_maxexp 4932
 

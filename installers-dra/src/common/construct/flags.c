@@ -43,6 +43,7 @@ int strict_fl_div = 1;		/* do not replace divisions by
 				   multiplication by the inverse */
 
 int PIC_code = 0;		/* produce PIC code */
+int keep_PIC_vars = 0;
 int do_prom = 0;		/* produce PROM code (avoiding .data) */
 int dyn_init = 0;		/* produce calls for dynamic initialisation */
 

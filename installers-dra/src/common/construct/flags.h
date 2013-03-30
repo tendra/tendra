@@ -105,6 +105,7 @@ extern int param_align;
 extern int separate_units;
 extern int writable_strings;
 extern int PIC_code;
+extern int keep_PIC_vars;
 extern int all_variables_visible;
 extern int promote_pars;
 extern int load_ptr_pars;

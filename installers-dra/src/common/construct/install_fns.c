@@ -336,15 +336,13 @@ TDFwithet(error_treatment ov_err, exp e)
 	}
 	Te = find_named_tg("__TDFerror", slongsh);
 	brog(Te)->dec_u.dec_val.dec_var = 1;
-#if keep_PIC_vars
-	setvar(Te);
-#else
-	if (PIC_code) {
+	if (keep_PIC_vars) {
+		setvar(Te);
+	} else if (PIC_code) {
 		sh(Te) = f_pointer(f_alignment(slongsh));
 	} else {
 		setvar(Te);
 	}
-#endif
 	id = me_startid(sh(e), e, 0);
 	c = f_contents(slongsh, me_obtain(Te));
 	el = new_exp_list(1);

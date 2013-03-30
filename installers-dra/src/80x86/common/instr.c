@@ -1263,14 +1263,13 @@ exp make_extn
   exp nme = getexp(s, nilexp, 1, id, nilexp, 0, 0, name_tag);
   setglob(id);
   if (v) {
-#if keep_PIC_vars
-        setvar(id);
-#else
-        if (PIC_code)
-          sh(id) = f_pointer(f_alignment(s));
-        else
+	if (keep_PIC_vars) {
           setvar(id);
-#endif
+	} else if (PIC_code) {
+          sh(id) = f_pointer(f_alignment(s));
+	} else {
+          setvar(id);
+	}
   }
   brog(id) = g;
   if (prefix_length != 0) {

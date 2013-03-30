@@ -143,6 +143,7 @@ main ( int argc, char ** argv )
 #endif
   do_profile = 0 ;			/* not in profiling mode */
   PIC_code = 0 ;			/* don't do PIC */
+  keep_PIC_vars = 1 ;
   do_alloca = 0 ;			/* inline alloca */
   sysV_abi = SYSV_ABI ;			/* SYSV version */
   g_reg_max = ( sysV_abi ? 4 : 7 ) ;	/* number of G registers */

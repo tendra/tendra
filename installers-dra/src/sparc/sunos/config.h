@@ -37,8 +37,6 @@ extern void setbuf(FILE *, char *);
 #define GENCOMPAT		1
 
 
-#define keep_PIC_vars		1
-
 /* foralls config */
 #define remove_unused_counters 0
 #define remove_unused_index_counters 1

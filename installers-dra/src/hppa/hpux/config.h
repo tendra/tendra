@@ -14,7 +14,6 @@
 
 
 /* CONFIGURATION OPTIONS */
-#define keep_PIC_vars           1
 #define use_long_double         1
 #define remove_unused_counters	1
 #define remove_unused_index_counters 0
