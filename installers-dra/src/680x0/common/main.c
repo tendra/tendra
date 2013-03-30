@@ -39,6 +39,7 @@
 #include "version.h"
 #include "where.h"
 #include "localflags.h"
+#include "evaluate.h"
 
 #if have_diagnostics
 #include "xdb_basics.h"
@@ -140,7 +141,7 @@ int main
 #ifdef EBUG
 			"L:l:"
 #endif
-			"cegiou")) != -1) {
+			"cefgiou")) != -1) {
 			switch (c) {
 			case 'C': diag = switch_diag(optarg,
 				DIAG_STABS | DIAG_XDB_OLD | DIAG_XDB_NEW); break;
@@ -168,6 +169,7 @@ int main
 
 			case 'c': conventions = CONVENTIONS_HP;    break;
 			case 'e': ignore_errors = 1;               break;
+			case 'f': convert_floats = 0;              break;
 			case 'g': conventions = CONVENTIONS_GCC;   break;
 			case 'i': output_immediately = 1;          break;
 			case 'u': do_sep_units = 1;                break;

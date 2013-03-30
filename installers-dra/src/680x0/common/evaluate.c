@@ -58,6 +58,8 @@ extern double frexp(double, int *);
 #define  par3_pl        5       /* Caller arguments accessed by use of SP */
 #endif
 
+int convert_floats = 1;
+
 /*
     NAME OF THE CONSTANT BEING EVALUATED
 */
@@ -538,7 +540,7 @@ long *realrep
     EVALUATE A REAL VALUE
 
     The expression e, representing a real value, is evaluated.  There
-    are two cases, depending on the macro convert_floats.  Either the
+    are two cases, depending on the flag convert_floats.  Either the
     number itself or its representation in bits is output.
 */
 

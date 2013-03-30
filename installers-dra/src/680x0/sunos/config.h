@@ -46,7 +46,6 @@ typedef unsigned long bitpattern;
     DEFINE COMPILATION OPTIONS
 */
 
-#define convert_floats		1	/* Convert floating constants */
 #define have_diagnostics	0	/* Have diagnostics */
 #define load_ptr_pars		1	/* Inline ptr parameters */
 #ifdef SUN
@@ -63,18 +62,6 @@ typedef unsigned long bitpattern;
 				((f) != 1 && (f) != 2 && \
 				 (f) != 4 && (f) != 8)
 
-
-/*
-    HACKS FOR CROSS-COMPILATION
-
-    Some routines are target-dependent and may not work properly when
-    cross-compiling.  This section should take care of this.
-*/
-
-#ifdef CROSS_COMPILE
-#undef convert_floats
-#define convert_floats		0	/* Just to be on the safe side */
-#endif
 
 #ifdef SUN /* The SunOS 68k assembler whinges about align directives */
 #define no_align_directives
