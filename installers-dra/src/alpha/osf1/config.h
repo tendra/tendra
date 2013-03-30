@@ -12,8 +12,6 @@
 
 #define target_dbl_maxexp 308
 
-#define temp_mips 0
-
 /* settings for foralls optimisations */
 #define remove_unused_counters 1
 #define remove_unused_index_counters 0

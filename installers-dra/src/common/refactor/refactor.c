@@ -3881,8 +3881,8 @@ refactor(exp e, exp scope)
 				return 1;
 			}
 
-#if !temp_mips
-			/* confirm mips doesnt need this */
+			/* TODO: confirm mips doesnt need this */
+#if 0
 			if (name(son(e)) == reff_tag) {
 				/* combine reff selections */
 				sh(son(e)) = sh(e);

@@ -22,7 +22,6 @@
 
 #define keep_PIC_vars 1
 
-#define temp_mips 0
 #define value_of_null 0
 
 #define promote_pars 1

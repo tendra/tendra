@@ -52,7 +52,6 @@ typedef unsigned long bitpattern;
 #define promote_pars		1	/* Parameters are 32 bit */
 #endif
 #define no_trap_on_nil_contents	1	/* Let common code detect nil access */
-#define temp_mips		0	/* Don't need a mips hack */
 #define use_long_double		0	/* Not yet anyway */
 #define remove_unused_counters	0	/* for foralls optimisation */
 #define remove_unused_index_counters\

@@ -33,6 +33,4 @@
 #define good_index_factor(f) 0
 #define good_pointer_factor(f) ((f) != 1 && (f) != 2 && (f) != 4 && (f) != 8)
 
-#define temp_mips 0
-
 #endif
