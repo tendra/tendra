@@ -53,6 +53,7 @@ alignment const_al32 = &const_aldefs[3];
 alignment const_al64 = &const_aldefs[4];
 alignment const_al512 = &const_aldefs[5];
 
+int value_of_null = 0;
 int ptr_null = 0;
 int proc_null = 0;
 int lv_null = 0;

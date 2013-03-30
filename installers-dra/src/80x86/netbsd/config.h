@@ -19,7 +19,6 @@
 
 #define target_dbl_maxexp 4932
 
-#define value_of_null 0
 #define no_trap_on_nil_contents 1
 
 #define AVOID_INTOV 0	/* No software interrupts */

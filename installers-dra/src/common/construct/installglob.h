@@ -54,6 +54,7 @@ extern alignment const_al32;
 extern alignment const_al64;
 extern alignment const_al512;
 
+extern int value_of_null;
 extern int ptr_null;
 extern int proc_null;
 extern int lv_null;

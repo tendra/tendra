@@ -2508,7 +2508,6 @@ refactor(exp e, exp scope)
 				return 0;
 
 		case chvar_tag:
-#ifdef value_of_null
 			if (name(son(e)) ==null_tag) {
 				setname(son(e), val_tag);
 				no(son(e)) = value_of_null;
@@ -2523,7 +2522,7 @@ refactor(exp e, exp scope)
 				retcell(e);
 				return 1;
 			}
-#endif
+
 			if (name(son(e)) == val_tag && optop(e)) {
 				/* evaluate chvar(const) */
 				int bg;

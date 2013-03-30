@@ -18,9 +18,6 @@
 #define good_index_factor(f) 0
 #define good_pointer_factor(f) 1
 
-
-#define value_of_null 0
-
 #ifndef DO_SCHEDULE
 #define DO_SCHEDULE 0
 #endif

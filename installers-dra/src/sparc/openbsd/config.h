@@ -44,8 +44,6 @@
 #define use_long_double		0
 #endif
 
-#define value_of_null 0
-
 	/* condition for shape to be treated as a struct */
 #define sparccpd(s) (name(s) == cpdhd || name(s) == nofhd || \
 			name(s) == shcomplexhd || shape_size(s)>64 || \

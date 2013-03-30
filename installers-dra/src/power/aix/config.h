@@ -34,7 +34,6 @@
 extern int architecture;
 
 #define NO_ERROR_JUMP           0
-#define value_of_null           0
 
 #define no_trap_on_nil_contents 1
 

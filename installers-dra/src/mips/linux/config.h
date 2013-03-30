@@ -22,6 +22,4 @@
 
 #define keep_PIC_vars 1
 
-#define value_of_null 0
-
 #endif

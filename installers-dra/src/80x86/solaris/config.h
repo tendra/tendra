@@ -21,8 +21,6 @@
 #define keep_PIC_vars 0
 #define target_dbl_maxexp 4932
 
-#define value_of_null 0
-
 #define remove_unused_counters 0
 #define remove_unused_index_counters 0
 #define good_index_factor(f)	0
