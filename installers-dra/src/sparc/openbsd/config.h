@@ -29,7 +29,6 @@
 
 #define dont_unpad_apply	1
 #define keep_PIC_vars		1
-#define no_bitfield_ops		0
 
 /* foralls config */
 #define remove_unused_counters 0

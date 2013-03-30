@@ -16,7 +16,6 @@
 /* CONFIGURATION OPTIONS */
 #define dont_unpad_apply 	1
 #define keep_PIC_vars           1
-#define no_bitfield_ops 	0
 #define promote_pars            1
 #define use_long_double         1
 #define value_of_null		0

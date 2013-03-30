@@ -13,7 +13,6 @@
 #ifndef config_key
 #define config_key 1
 
-#define no_bitfield_ops 0
 #define dont_unpad_apply 0
 
 #define target_dbl_maxexp 308
