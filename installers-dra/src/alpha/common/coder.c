@@ -194,15 +194,9 @@ static void fix_unsigned
   ftmp = getfreg(nsp.flt);
   fltval = new_flpt();
   switch (name) {
-    case uwordhd:
-    constval = alpha_word_max;
-    break;
-    case ulonghd:
-    constval =  alpha_long_max;
-    break;
-    case u64hd:
-    constval = alpha_quad_max;
-    break;
+    case uwordhd: constval = alpha_word_max; break;
+    case ulonghd: constval = alpha_long_max; break;
+    case u64hd:   constval = alpha_quad_max; break;
   }
   flptnos[fltval] = constval;
   comment("BEGIN fix_unsigned");
@@ -517,58 +511,32 @@ static bool convert_shapes
       case s64hd:
       case u64hd:
       switch (src_shape) {
-	case ucharhd:
-	operate_fmt_immediate(i_zapnot,reg,1,dreg);
-	/* clear all but the bottom byte */
-	return TRUE;
-	case uwordhd:
-	operate_fmt_immediate(i_zapnot,reg,3,dreg);
-	return TRUE;
-	case ulonghd:
-	operate_fmt_immediate(i_zapnot,reg,15,dreg);
-	return TRUE;
+	case ucharhd: operate_fmt_immediate(i_zapnot,reg,1,dreg); return TRUE; /* clear all but the bottom byte */
+	case uwordhd: operate_fmt_immediate(i_zapnot,reg,3,dreg); return TRUE;
+	case ulonghd: operate_fmt_immediate(i_zapnot,reg,15,dreg); return TRUE;
 	default: return FALSE;
       }
       case slonghd:
       switch (src_shape) {
-	case ucharhd:
-	operate_fmt_immediate(i_zapnot,reg,1,dreg);
-	return TRUE;
-	case uwordhd:
-	operate_fmt_immediate(i_zapnot,reg,3,dreg);
-	return TRUE;
-	case ulonghd:
-/*	operate_fmt_immediate(i_addl,reg,0,dreg);
-	return TRUE;*/
-	return FALSE;
+	case ucharhd: operate_fmt_immediate(i_zapnot,reg,1,dreg); return TRUE;
+	case uwordhd: operate_fmt_immediate(i_zapnot,reg,3,dreg); return TRUE;
+	case ulonghd: return FALSE; /* operate_fmt_immediate(i_addl,reg,0,dreg); return TRUE; */
 	/* sign extend */
 #if 0
-	case s64hd:
-	operate_fmt_immediate(i_zapnot,reg,15,dreg);
-	/*operate_fmt_immediate(i_addl,reg,0,reg);*/
-	return TRUE;
+	case s64hd: operate_fmt_immediate(i_zapnot,reg,15,dreg);
+	          /*operate_fmt_immediate(i_addl,reg,0,reg);*/ return TRUE;
 #endif
 	default:return FALSE;
       }
       case ulonghd:
       switch (src_shape) {
-	case scharhd:
-	operate_fmt_immediate(i_zapnot,reg,1,dreg);
-	return TRUE;
-	case swordhd:
-	operate_fmt_immediate(i_zapnot,reg,3,dreg);
-	return TRUE;
-	case slonghd:
-/*	operate_fmt_immediate(i_zapnot,reg,15,dreg);
-	return TRUE;*/
-	return FALSE;
+	case scharhd: operate_fmt_immediate(i_zapnot,reg,1,dreg); return TRUE;
+	case swordhd: operate_fmt_immediate(i_zapnot,reg,3,dreg); return TRUE;
+	case slonghd: return FALSE; /* operate_fmt_immediate(i_zapnot,reg,15,dreg); return TRUE; */
 #if 0
-	case s64hd:
-	operate_fmt_immediate(i_zapnot,reg,15,dreg);
-	return TRUE;
+	case s64hd: operate_fmt_immediate(i_zapnot,reg,15,dreg); return TRUE;
 #endif
-	default: return FALSE
-		  ;
+	default: return FALSE;
       }
       default:return FALSE;
     }
@@ -645,18 +613,12 @@ static instruction sbranches
 (int i)
 {
   switch (i) {
-    case  1:
-    return i_ble;
-    case 2:
-    return i_blt;
-    case 3:
-    return i_bge;
-    case 4:
-    return i_bgt;
-    case 5:
-    return i_bne;
-    case 6:
-    return i_beq;
+    case 1: return i_ble;
+    case 2: return i_blt;
+    case 3: return i_bge;
+    case 4: return i_bgt;
+    case 5: return i_bne;
+    case 6: return i_beq;
     default:
     failer("Illegal value for ntest");
   }
@@ -680,30 +642,16 @@ static bool fdouble_comparisons
 {
   bool rev = FALSE;
   switch (i) {
-    case 1:
-    *ins = i_cmptle;
-    break;
-    case 2:
-    *ins = i_cmptlt;
-    break;
-    case 3:
-    *ins = i_cmptlt;
-    rev = TRUE;
-    break;
-    case 4:
-    *ins = i_cmptle;
-    rev = TRUE;
-    break;
-    case 5:
-    *ins = i_cmpteq;
-    rev = TRUE;
-    break;
-    case 6:
-    *ins = i_cmpteq;
-    break;
+    case 1: *ins = i_cmptle;             break;
+    case 2: *ins = i_cmptlt;             break;
+    case 3: *ins = i_cmptlt; rev = TRUE; break;
+    case 4: *ins = i_cmptle; rev = TRUE; break;
+    case 5: *ins = i_cmpteq; rev = TRUE; break;
+    case 6: *ins = i_cmpteq;             break;
+
     default:
-    failer("illegal branch");
-    break;
+      failer("illegal branch");
+      break;
   }
   return rev;
 }
@@ -724,57 +672,29 @@ static bool comparisons
   if ((is_signed(s))) {
     /* treat pointer as signed (even though it isn't) */
     switch (i) {
-      case 1:
-      *ins=i_cmple;
-      break;
-      case 2:
-      *ins = i_cmplt;
-      break;
-      case 3:
-      *ins = i_cmplt;
-      rev = TRUE;
-      break;
-      case 4:
-      *ins = i_cmple;
-      rev = TRUE;
-      break;
-      case 5:
-      *ins = i_cmpeq;
-      rev = TRUE;
-      break;
-      case 6:
-      *ins = i_cmpeq;
-      break;
+      case 1: *ins = i_cmple;             break;
+      case 2: *ins = i_cmplt;             break;
+      case 3: *ins = i_cmplt; rev = TRUE; break;
+      case 4: *ins = i_cmple; rev = TRUE; break;
+      case 5: *ins = i_cmpeq; rev = TRUE; break;
+      case 6: *ins = i_cmpeq;             break;
+
       default:
-      failer("illegal branch");
-      break;
+        failer("illegal branch");
+        break;
     }
   }
   else{
     switch (i) {
-      case 1:
-      *ins=i_cmpule;
-      break;
-      case 2:
-      *ins=i_cmpult;
-      break;
-      case 3:
-      *ins=i_cmpult;
-      rev=TRUE;		/* actually >= */
-      break;
-      case 4:
-      *ins=i_cmpule;	/* actually > */
-      rev=TRUE;
-      break;
-      case 5:
-      *ins = i_cmpeq;
-      rev = 1;
-      break;
-      case 6:
-      *ins = i_cmpeq;
-      break;
+      case 1: *ins = i_cmpule;             break;
+      case 2: *ins = i_cmpult;             break;
+      case 3: *ins = i_cmpult; rev = TRUE; break; /* actually >= */
+      case 4: *ins = i_cmpule; rev = TRUE; break; /* actually > */
+      case 5: *ins = i_cmpeq;  rev = 1;    break;
+      case 6: *ins = i_cmpeq;              break;
+
       default:
-      failer("illegal branch");
+        failer("illegal branch");
     }
   }
   return rev;
@@ -789,20 +709,15 @@ static instruction condmove
 (int i)
 {
   switch (i) {
-    case 1:
-    return i_cmovle;
-    case 2:
-    return i_cmovlt;
-    case 3:
-    return i_cmovge;
-    case 4:
-    return i_cmovgt;
-    case 5:
-    return i_cmovne;
-    case 6:
-    return i_cmoveq;
+    case 1: return i_cmovle;
+    case 2: return i_cmovlt;
+    case 3: return i_cmovge;
+    case 4: return i_cmovgt;
+    case 5: return i_cmovne;
+    case 6: return i_cmoveq;
+
     default:
-    failer("Illegal value for ntest");
+      failer("Illegal value for ntest");
   }
   return i_cmovle;
 }
@@ -811,19 +726,14 @@ static instruction
 fcondmove(int i)
 {
   switch(i){
-   case 1:
-    return i_fcmovle;
-   case 2:
-    return i_fcmovlt;
-   case 3:
-    return i_fcmovge;
-   case 4:
-    return i_fcmovgt;
-   case 5:
-    return i_fcmovne;
-   case 6:
-    return i_fcmoveq;
- default:
+   case 1: return i_fcmovle;
+   case 2: return i_fcmovlt;
+   case 3: return i_fcmovge;
+   case 4: return i_fcmovgt;
+   case 5: return i_fcmovne;
+   case 6: return i_fcmoveq;
+
+   default:
      failer("Illegal value for ntest");
  }
 }
@@ -837,48 +747,22 @@ static bool compares
   if (is_signed(s)) {
     /* signed comparison */
     switch (i) {
-      case 1:
-      *ins= i_cmplt;
-      break;
-      case 2:
-      *ins= i_cmple;
-      break;
-      case 3:
-      *ins= i_cmplt;
-      break;
-      case 4:
-      *ins= i_cmple;
-      break;
-      case 5:
-      *ins= i_cmpeq;
-      break;
-      case 6:
-      *ins= i_cmpeq;
-      break;
+      case 1: *ins= i_cmplt; break;
+      case 2: *ins= i_cmple; break;
+      case 3: *ins= i_cmplt; break;
+      case 4: *ins= i_cmple; break;
+      case 5: *ins= i_cmpeq; break;
+      case 6: *ins= i_cmpeq; break;
     }
   }
   else{
     switch (i) {
-      case 1:
-      *ins= i_cmpult;
-      break;
-      case 2:
-      *ins= i_cmpule;
-      break;
-      case 3:
-      *ins= i_cmpult;
-      rev=TRUE;
-      break;
-      case 4:
-      *ins= i_cmpule;
-      rev=TRUE;
-      break;
-      case 5:
-      *ins= i_cmpeq;
-      break;
-      case 6:
-      *ins= i_cmpeq;
-      break;
+      case 1: *ins = i_cmpult;             break;
+      case 2: *ins = i_cmpule;             break;
+      case 3: *ins = i_cmpult; rev = TRUE; break;
+      case 4: *ins = i_cmpule; rev = TRUE; break;
+      case 5: *ins = i_cmpeq;              break;
+      case 6: *ins = i_cmpeq;              break;
     }
   }
   return rev;
@@ -889,20 +773,15 @@ static instruction
 fbranches(int i)
 {
   switch (i) {
-    case  1:
-    return i_fble;
-    case 2:
-    return i_fblt;
-    case 3:
-    return i_fbge;
-    case 4:
-    return i_fbgt;
-    case 5:
-    return i_fbne;
-    case 6:
-    return i_fbeq;
+    case 1: return i_fble;
+    case 2: return i_fblt;
+    case 3: return i_fbge;
+    case 4: return i_fbgt;
+    case 5: return i_fbne;
+    case 6: return i_fbeq;
+
     default:
-    failer("Illegal value for ntest");
+      failer("Illegal value for ntest");
   }
 }
 
@@ -910,18 +789,13 @@ static instruction
 fdbranches(int i)
 {
   switch (i) {
-   case  1:
-    return i_fble;
-   case 2:
-    return i_fblt;
-   case 3:
-    return i_fbge;
-   case 4:
-    return i_fbgt;
-   case 5:
-    return i_fbne;
-   case 6:
-    return i_fbeq;
+   case 1: return i_fble;
+   case 2: return i_fblt;
+   case 3: return i_fbge;
+   case 4: return i_fbgt;
+   case 5: return i_fbne;
+   case 6: return i_fbeq;
+
    default:
     failer("Illegal value for ntest");
   }
@@ -1261,12 +1135,8 @@ int regfrmdest
 (where *dest, space sp)
 {
   switch (dest->answhere.discrim) {
-    case inreg:{
-      return regalt(dest->answhere);
-    }
-    default :{
-      return getreg(sp.fixed);
-    }
+    case inreg: return regalt(dest->answhere);
+    default:    return getreg(sp.fixed);
   }
 }
 
@@ -1275,10 +1145,9 @@ freg fregfrmdest
 (where *dest, space sp)
 {
   switch (dest->answhere.discrim) {
-    case infreg: {
+    case infreg:
       return fregalt(dest->answhere);
-    }
-    default : {
+    default: {
       freg fr;
       fr.fr = getfreg(sp.flt);
       fr.type = IEEE_double;
@@ -2385,22 +2254,10 @@ tailrecurse:
 	  int rtemp;
 
 	  switch (name(sh(r))) {
-	    case ucharhd:{
-	      no(r) = (unsigned char)no(r);
-	      break;
-	    }
-	    case scharhd:{
-	      no(r) = (char)no(r);
-	      break;
-	    }
-	    case swordhd:{
-	      no(r) = (short)no(r);
-	      break;
-	    }
-	    case uwordhd:{
-	      no(r) = (unsigned short)no(r);
-	      break;
-	    }
+	    case ucharhd: no(r) = (unsigned char)  no(r); break;
+	    case scharhd: no(r) = (char)           no(r); break;
+	    case swordhd: no(r) = (short)          no(r); break;
+	    case uwordhd: no(r) = (unsigned short) no(r); break;
 	  }
 
 

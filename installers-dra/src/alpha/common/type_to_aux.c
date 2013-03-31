@@ -98,23 +98,26 @@ long type_size
 {
   switch (dt->key)
     {
-    case DIAG_TYPE_VARIETY: {
-      return shape_size(dt->data.var);
-    }
-    case DIAG_TYPE_STRUCT: case DIAG_TYPE_UNION: {
-      return shape_size(dt->data.t_struct.tdf_shape);
-    }
-    case DIAG_TYPE_FLOAT: {
-      return (dt->data.f_var)?64:32;
-    }
+    case DIAG_TYPE_VARIETY:
+	return shape_size(dt->data.var);
+
+    case DIAG_TYPE_STRUCT:
+    case DIAG_TYPE_UNION:
+	return shape_size(dt->data.t_struct.tdf_shape);
+
+    case DIAG_TYPE_FLOAT:
+	return (dt->data.f_var)?64:32;
+
     case DIAG_TYPE_ARRAY: {
-      long is = type_size(dt->data.array.element_type);
-      return is *(dt->data.array.upper_b-dt->data.array.lower_b+1);
+	long is = type_size(dt->data.array.element_type);
+	return is *(dt->data.array.upper_b-dt->data.array.lower_b+1);
     }
-    case DIAG_TYPE_ENUM: {
+
+    case DIAG_TYPE_ENUM:
       return type_size(dt->data.t_enum.base_type);
-    }
-    default: return 32;
+
+    default:
+	return 32;
     }
 }
 
@@ -157,38 +160,14 @@ long add_type_to_aux
       case DIAG_TYPE_VARIETY: {
 	switch (name(dt->data.var))
 	  {
-	  case scharhd:
-	    type->bt = btChar;
-	    retaux.ti= (*type);
-	    break;
-	  case ucharhd:
-	    type->bt = btUChar;
-	    retaux.ti= (*type);
-	    break;
-	  case swordhd:
-	    type->bt = btShort;
-	    retaux.ti= (*type);
-	    break;
-	  case uwordhd:
-	    type->bt = btUShort;
-	    retaux.ti= (*type);
-	    break;
-	  case slonghd:
-	    type->bt = btInt32;
-	    retaux.ti= (*type);
-	    break;
-	  case ulonghd:
-	    type->bt = btUInt32;
-	    retaux.ti= (*type);
-	    break;
-	  case s64hd:
-	    type->bt = btLong64;
-	    retaux.ti= (*type);
-	    break;
-	  case u64hd:
-	    type->bt = btULong64;
-	    retaux.ti= (*type);
-	    break;
+	  case scharhd: type->bt = btChar;    retaux.ti= (*type); break;
+	  case ucharhd: type->bt = btUChar;   retaux.ti= (*type); break;
+	  case swordhd: type->bt = btShort;   retaux.ti= (*type); break;
+	  case uwordhd: type->bt = btUShort;  retaux.ti= (*type); break;
+	  case slonghd: type->bt = btInt32;   retaux.ti= (*type); break;
+	  case ulonghd: type->bt = btUInt32;  retaux.ti= (*type); break;
+	  case s64hd:   type->bt = btLong64;  retaux.ti= (*type); break;
+	  case u64hd:   type->bt = btULong64; retaux.ti= (*type); break;
 	  default: failer("DIAGS - not variety ");
           }
 	break;

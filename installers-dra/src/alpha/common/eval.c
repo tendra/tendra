@@ -125,24 +125,15 @@ mm
 maxmin(shape s)
 {
   switch (name (s)) {
-  case scharhd: 
-    return scmm;
-  case ucharhd: 
-    return uscmm;
-  case swordhd: 
-    return shmm;
-  case uwordhd: 
-    return ushmm;
-  case slonghd: 
-    return swmm;
-  case ulonghd: 
-    return uswmm;
-  case s64hd:
-    return s64mm;
-  case u64hd:
-    return u64mm;
-  default: 	
-    return uswmm;
+  case scharhd: return scmm;
+  case ucharhd: return uscmm;
+  case swordhd: return shmm;
+  case uwordhd: return ushmm;
+  case slonghd: return swmm;
+  case ulonghd: return uswmm;
+  case s64hd:   return s64mm;
+  case u64hd:   return u64mm;
+  default: 	return uswmm;
   }
 }
 
@@ -259,26 +250,16 @@ evalexp(exp e)
       }	
       return w;
     }
-    case not_tag: {
-      return INT64_not(evalexp (son (e)));
-    }	
-    case and_tag: {
-      return INT64_and(evalexp(son(e)),evalexp(bro(son(e))));
-    }
-    case or_tag: {
-      return INT64_or(evalexp(son(e)),evalexp(bro(son(e))));
-    }
-    case xor_tag: {
-      return INT64_xor(evalexp(son(e)),evalexp(bro(son(e))));
-    }
-    case shr_tag: {
-      return INT64_shift_right(evalexp(son(e)),
-				low_INT64(evalexp(bro(son(e)))),1);
-    }
-    case shl_tag: {
-      return INT64_shift_left(evalexp(son(e)),
-			       low_INT64(evalexp(bro(son(e)))),1);
-    }
+
+    case not_tag: return INT64_not(evalexp (son (e)));
+    case and_tag: return INT64_and(evalexp(son(e)),evalexp(bro(son(e))));
+    case or_tag:  return INT64_or(evalexp(son(e)),evalexp(bro(son(e))));
+    case xor_tag: return INT64_xor(evalexp(son(e)),evalexp(bro(son(e))));
+    case shr_tag: return INT64_shift_right(evalexp(son(e)),
+			low_INT64(evalexp(bro(son(e)))),1);
+    case shl_tag: return INT64_shift_left(evalexp(son(e)),
+		       low_INT64(evalexp(bro(son(e)))),1);
+
     case concatnof_tag: {
       ash a;
       INT64 wd = evalexp (son (e));
@@ -302,31 +283,18 @@ evalexp(exp e)
       procrec *pr = &procrecs[no(son(tg))];
       return (pr->frame_size+pr->callee_size)>>3;
     }
-    case offset_add_tag : {
-      return evalexp(son(e)) + evalexp(bro(son(e)));
-    }
-    case offset_max_tag : {
-      return max(evalexp(son(e)),evalexp(bro(son(e))));
-    }
-    case offset_pad_tag : {
-      return rounder(evalexp(son(e)),shape_align(sh(e))>>3);
-    }
-    case offset_mult_tag : {
-      return evalexp(son(e))*evalexp(bro(son(e)));
-    }
-    case offset_div_tag : 
-    case offset_div_by_int_tag : {
-      return evalexp(son(e))/evalexp(bro(son(e)));
-    }
-    case offset_subtract_tag : {
-      return evalexp(son(e)) - evalexp(bro(son(e)));
-    }
-    case offset_negate_tag : {
-      return -evalexp(son(e));
-    }
+
+    case offset_add_tag:        return evalexp(son(e)) + evalexp(bro(son(e)));
+    case offset_max_tag:        return max(evalexp(son(e)),evalexp(bro(son(e))));
+    case offset_pad_tag:        return rounder(evalexp(son(e)),shape_align(sh(e))>>3);
+    case offset_mult_tag:       return evalexp(son(e))*evalexp(bro(son(e)));
+    case offset_div_tag: 
+    case offset_div_by_int_tag: return evalexp(son(e))/evalexp(bro(son(e)));
+    case offset_subtract_tag:   return evalexp(son(e)) - evalexp(bro(son(e)));
+    case offset_negate_tag:     return -evalexp(son(e));
     
     default: 
-    failer ("tag not in evalexp");
+      failer("tag not in evalexp");
   }
   return zero_int64;
 }
@@ -348,26 +316,11 @@ oneval(INT64 val, int al, int rep)
     lastal=al;
   }
   switch(al){
-  case 8:
-    store_type=s_byte;
-    bval = ibyte;
-    break;
-  case 16:
-    store_type=s_word;
-    bval = iword;
-    break;
-  case 32:
-    store_type=s_long;
-    bval = ilong;
-    break;
-  case 64:
-    store_type=s_quad;
-    bval = iquad;
-    break;
-  default:
-    store_type=s_long;
-    bval = ilong;
-    break;
+  case  8: store_type=s_byte; bval = ibyte; break;
+  case 16: store_type=s_word; bval = iword; break;
+  case 32: store_type=s_long; bval = ilong; break;
+  case 64: store_type=s_quad; bval = iquad; break;
+  default: store_type=s_long; bval = ilong; break;
   }
   if(as_file){
     (void)fprintf(as_file,"\t.%s ",store_type);
@@ -446,22 +399,10 @@ evalone(exp e, int rep)
       else{
 	for (j=0; j< strsize; ) {
 	  switch(char_size) {
-	  case 8:{
-	    (void)fprintf (as_file, "\t.byte ");
-	    break;
-	  }
-	  case 16:{
-	    (void)fprintf (as_file, "\t.word ");
-	    break;
-	  }
-	  case 32:{
-	    (void)fprintf (as_file, "\t.long "); 
-	    break;
-	  }
-	  case 64:{
-	    (void)fprintf (as_file, "\t.quad "); 
-	    break;
-	  }
+	  case  8: (void) fprintf(as_file, "\t.byte "); break;
+	  case 16: (void) fprintf(as_file, "\t.word "); break;
+	  case 32: (void) fprintf(as_file, "\t.long "); break;
+	  case 64: (void) fprintf(as_file, "\t.quad "); break;
 	  }
 	  for (i = j; i < strsize && i-j < 8; i++) {
 	    switch (char_size) { 
@@ -535,22 +476,10 @@ evalone(exp e, int rep)
     char *storage_type;
     int storage_id;
     switch(a.ashalign){
-      case 8:
-      storage_type = s_byte;
-      storage_id = ibyte;
-      break;
-      case 16:
-      storage_type = s_word;
-      storage_id = iword;
-      break;
-      case 32:
-      storage_type = s_long;
-      storage_id = ilong;
-      break;
-      case 64:
-      storage_type = s_quad;
-      storage_id = iquad;
-      break;
+      case  8: storage_type = s_byte; storage_id = ibyte; break;
+      case 16: storage_type = s_word; storage_id = iword; break;
+      case 32: storage_type = s_long; storage_id = ilong; break;
+      case 64: storage_type = s_quad; storage_id = iquad; break;
     }	
     set_align(a.ashalign);	
     if (as_file) {

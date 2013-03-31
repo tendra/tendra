@@ -79,18 +79,10 @@ char *
 storage_class(int size)
 {
   switch(size){
-    case 1:{
-      return s_byte;
-    }
-    case 2:{
-      return s_word;
-    }
-    case 4:{
-      return s_long;
-    }
-    case 8:{
-      return s_quad;
-    }
+    case 1: return s_byte;
+    case 2: return s_word;
+    case 4: return s_long;
+    case 8: return s_quad;
     default:
     failer("illegal size for global");
   }
@@ -116,24 +108,17 @@ static bool
 not_reserved(char *id)
 {
 
-  if (!strcmp (id, "edata"))
-    return 0;
-  if (!strcmp (id, "etext"))
-    return 0;
-  if (!strcmp (id, "end"))
-    return 0;
-  if (!strcmp (id, "_ftext"))
-    return 0;
-  if (!strcmp (id, "_fdata"))
-    return 0;
-  if (!strcmp (id, "_fbss"))
-    return 0;
-  if (!strcmp (id, "_gp"))
-    return 0;
-  if (!strcmp (id, "_procedure_table"))
-    return 0;
-  if (!strcmp (id, "_procedure_string_table"))
-    return 0;
+  if (!strcmp(id, "edata"))  return 0;
+  if (!strcmp(id, "etext"))  return 0;
+  if (!strcmp(id, "end"))    return 0;
+  if (!strcmp(id, "_ftext")) return 0;
+  if (!strcmp(id, "_fdata")) return 0;
+  if (!strcmp(id, "_fbss"))  return 0;
+  if (!strcmp(id, "_gp"))    return 0;
+
+  if (!strcmp(id, "_procedure_table"))        return 0;
+  if (!strcmp(id, "_procedure_string_table")) return 0;
+
   return 1;
 }
 

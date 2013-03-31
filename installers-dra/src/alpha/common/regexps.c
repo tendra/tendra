@@ -220,26 +220,19 @@ void keepexp
   int   pos;
   switch (loc.discrim) {
    case insomereg:
-   case insomefreg: {
+   case insomefreg:
      failer("Keep ? reg");
      return;
-   }
    case inreg:
-    {
       pos = regalt(loc);
       break;
-    }
    case infreg:
-    {
       pos = fregalt(loc).fr + 32;
       break;
-    }
    case notinreg:
-    {
       pos = insalt(loc).b.base;
       if (pos < 0 || pos > 30)
 	return;
-    }
   };
   if (pos==0 || pos == 32) return;
   regexps[pos].keptexp = e;

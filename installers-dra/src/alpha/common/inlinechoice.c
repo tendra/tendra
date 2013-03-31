@@ -71,14 +71,13 @@ static int complexity
 
   switch (n) {
     case apply_general_tag:
-    case apply_tag: {
+    case apply_tag:
      if (newdecs > crit_decsatapp)
        return -3;
      return sbl(son(e), (count - apply_cost),
 		  (newdecs + 1));
-   }
 
-   case rep_tag: {
+   case rep_tag:
      return complexity(bro(son(e)), (count - 1),
 #if 0
 			 ((newdecs > crit_decsatapp)? newdecs :
@@ -87,47 +86,35 @@ static int complexity
 			 (newdecs + 1)
 #endif
 			 );
-   }
 
-   case res_tag: {
-     return complexity(son(e), (count + 1),
-			  newdecs);
-	}
+   case res_tag:
+     return complexity(son(e), (count + 1), newdecs);
 
-   case ident_tag: {
-     return sbl(son(e), (count - 1),
-		  (newdecs + 1));
-   }
+   case ident_tag:
+     return sbl(son(e), (count - 1), (newdecs + 1));
 
    case top_tag:
-    case clear_tag: {
+   case clear_tag:
       return count;
-    }
 
-   case case_tag: {
-     return complexity(son(e), (count - 1),
-			  newdecs);
-   }
+   case case_tag:
+     return complexity(son(e), (count - 1), newdecs);
 
    case name_tag:
-    case string_tag:
-     case env_offset_tag: {
+   case string_tag:
+   case env_offset_tag:
        return count - 1;
-     }
 
-   case labst_tag: {
+   case labst_tag:
      return complexity(bro(son(e)), count, newdecs);
-   }
 
    case solve_tag:
    case seq_tag:
-   case cond_tag: {
+   case cond_tag:
        return sbl(son(e), count, newdecs);
-     }
 
-   default : {
+   default:
      return sbl(son(e), (count - 1), newdecs);
-   }
   }
     /* NOT REACHED */
 }
@@ -280,15 +267,9 @@ int inlinechoice
 
   switch (res)
   {
-   case 2:
-   (ptno(def)) |= OK_ONCE;
-    break;
-   case 1:
-
-   (ptno(def)) |= REJ_ONCE;
-    break;
-   case 0:
-   ;
+   case 2: (ptno(def)) |= OK_ONCE;  break;
+   case 1: (ptno(def)) |= REJ_ONCE; break;
+   case 0: ;
   }
 
   return res;

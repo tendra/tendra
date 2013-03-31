@@ -66,12 +66,9 @@ specialneeds(int i)
 {
     /* these are the needs for their expansion */
   switch (i) {
-    case 1: 
-      return strcpyneeds;
-    case 2: 
-      return strlenneeds;
-    case 3: 
-      return strcmpneeds;
+    case 1: return strcpyneeds;
+    case 2: return strlenneeds;
+    case 3: return strcmpneeds;
     default: 
 	failer ("not special fn");
   }

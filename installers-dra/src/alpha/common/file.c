@@ -31,12 +31,8 @@ open_file(char *fname, FileMode mode)
   char *options;
   FILE *fp;
   switch(mode){
-   case WRITE:
-    options="w";
-    break;
-   case READ:
-    options="r";
-    break;
+   case WRITE: options="w"; break;
+   case READ:  options="r"; break;
   }
   if((fp = fopen(fname,options)) != NULL)
     return fp;
