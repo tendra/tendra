@@ -142,7 +142,7 @@ flags_optim(enum optim o, const char *s)
 
 		default:
 			error(ERROR_WARNING, "Unrecognised optimisation flag %c. "
-				"Valid flags are: [cdefghijurstopq] and [a] for all.",
+				"Valid flags are: [cdefghijurstopqy] and [a] for all.",
 				*p);
 			continue;
 		}
