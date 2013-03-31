@@ -4433,7 +4433,6 @@ make_code ( exp e, space sp, where dest, int exitlab )
       }
       return mka;
     }
-#ifdef has_asm
     case asm_tag : {
       if (props(e)) {
 	if (name(son(e)) == string_tag)
@@ -4498,7 +4497,6 @@ make_code ( exp e, space sp, where dest, int exitlab )
 #endif
       return mka;
     }
-#endif
   }
   /* Uncovered cases */
   fail ( "TDF construct not done yet in make_code" ) ;

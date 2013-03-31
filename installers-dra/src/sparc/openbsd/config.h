@@ -22,8 +22,6 @@
 #define NEWDIAGS		1
 #define NEWDWARF		1
 
-#define has_asm			1
-
 
 /* foralls config */
 #define remove_unused_counters 0
