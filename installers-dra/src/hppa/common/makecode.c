@@ -1906,14 +1906,12 @@ makeans make_code
      const char *branch;
      int n = (int) test_number(e);	/* could have Rev bit in props */
 
-#if use_long_double
-     if (name(sh(l)) == doublehd)
+     if (use_long_double && name(sh(l)) == doublehd)
      {
 	quad_op(e, sp, dest);
 	cj_ins(c_eq,0,RET0,lab);
 	return mka;
      }
-#endif
 
      if (is_floating(name(sh(l))))
      {
@@ -2080,10 +2078,8 @@ makeans make_code
      int hdrhs = name(sh(rhs));
      bool is_float = is_floating(hdrhs);
 
-#if use_long_double
-     if (hdrhs == doublehd)
+     if (use_long_double && hdrhs == doublehd)
 	is_float = 0;
-#endif
 
      /* +++ lose chvar_tag on rhs if no result, remember to invalidate reg */
      /* +++ remove name(e)==ass_tag tests now assbits_tag has gone */
@@ -3845,13 +3841,11 @@ makeans make_code
      freg frg;
      baseoff b;
 
-#if use_long_double
-     if (name(sh(e)) == doublehd)
+     if (use_long_double && name(sh(e)) == doublehd)
      {
 	quad_op(e, sp, dest);
 	return mka;
      }
-#endif
 
      r1 = getfreg(sp.flt);
      a1 = freg_operand(son(e), sp, r1);
@@ -3910,13 +3904,11 @@ makeans make_code
       bool dble;
       baseoff b;
 
-#if use_long_double
-      if (name(sh(e)) == doublehd)
+      if (use_long_double && name(sh(e)) == doublehd)
       {
 	 quad_op(e, sp, dest);
 	 return mka;
       }
-#endif
 
       r1 = getfreg(sp.flt);
       a1 = freg_operand(son(e), sp, r1);
@@ -3996,13 +3988,11 @@ makeans make_code
        *   error_jump would be superfluous.
        */
 
-#if use_long_double
-      if (name(sh(e)) ==doublehd)
+      if (use_long_double && name(sh(e)) ==doublehd)
       {
 	 quad_op(e, sp, dest);
 	 return mka;
       }
-#endif
 
 
       frg.fr = f;
@@ -4074,7 +4064,8 @@ makeans make_code
       ans aa;
       where w;
       baseoff b;
-#if use_long_double
+
+     if (use_long_double) {
       if (to==doublehd)
       {
 	 if (from==doublehd)
@@ -4095,7 +4086,8 @@ makeans make_code
        	(void)move(aa,dest,sp.fixed,1);
 	 return mka;
       }
-#endif
+     }
+
       if (!dto && !dfrom)
       {
 	 /* no change in representation */

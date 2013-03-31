@@ -13,6 +13,7 @@
 #include <reader/codetypes.h>
 #include <construct/installtypes.h>
 #include <construct/flpttypes.h>
+#include <construct/flags.h>
 
 extern void init_flpt(void);
 extern void more_flpts(void);

@@ -16,7 +16,6 @@
 #define as_comment_symbol '/'
 
 #define DWARF 0
-#define use_long_double 1
 
 #define remove_unused_counters 0
 #define remove_unused_index_counters 0

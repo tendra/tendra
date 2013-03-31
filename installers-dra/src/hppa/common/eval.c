@@ -123,7 +123,6 @@ unary(int val)
    return result;
 }
 
-#if !use_long_double
 /* output assembler representation of floating number */
 static void outfloat(f)
 flpt f;
@@ -159,7 +158,6 @@ flpt f;
   fail ( "Illegal floating point constant" ) ;
 #endif
 }
-#endif /* !use_long_double */
 
 /*
     CONVERT A REAL VALUE TO A BITPATTERN
@@ -799,8 +797,8 @@ evalone(exp e, int bitposn)
       return;
     }
 
-#if use_long_double
-	case real_tag : {
+    case real_tag :
+      if (use_long_double) {
 	    /* Floating point constant */
 	  flt *f = flptnos + no ( e ) ;
 	  r2l v;
@@ -829,10 +827,7 @@ evalone(exp e, int bitposn)
 	    outn ( v.i1 ) ;
 	  }
 	  outnl () ;
-	  return ;
-	}
-#else
-    case real_tag: {
+    } else {
 	long sz = a.ashsize ;
 	long *p = realrep ( e ) ;
 	if ( p )
@@ -853,9 +848,8 @@ evalone(exp e, int bitposn)
 	    outfloat(no(e));
 	    outnl();
 	}
-	return ;
-    }
-#endif
+      }
+    return ;
 
     case null_tag: case top_tag:
     no(e) = 0;

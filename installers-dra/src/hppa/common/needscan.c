@@ -725,8 +725,7 @@ needs fpop
       l.fixneeds = 2;
   }
 
-#if use_long_double
-    if (name(sh(son(op))) ==doublehd)
+    if (use_long_double && name(sh(son(op))) ==doublehd)
     {
 	ClearRev(op);
 	arg=&son(op);
@@ -738,7 +737,6 @@ needs fpop
 	pnset(l,hasproccall);
 	return l;
     }
-#endif
 
   if (r.floatneeds <= l.floatneeds && r.floatneeds < maxfloat && pcr == 0)
   {
@@ -1795,13 +1793,10 @@ ptr is labelled exp
       bool tlrecpos = nonevis && callerfortr && (rscope_level == 0);
       int i;
       bool notinreg = !(
-#if use_long_double
-			 name(sh(application)) ==shrealhd    ||
-			 name(sh(application)) ==realhd      ||
-#else
-			 is_floating(name(sh(application))) ||
-#endif
-			 valregable(sh(application)));
+	use_long_double ? (name(sh(application)) ==shrealhd ||
+			   name(sh(application)) ==realhd)
+			: (is_floating(name(sh(application))))
+		|| valregable(sh(application)));
 
       bool long_result_space_needed = notinreg && !(name(sh(*e)) == tophd);
 
@@ -2023,8 +2018,7 @@ ptr is labelled exp
       nds = scan(&son(*e), at);
       pste = ptr_position(ste);
       if (!optop(*pste) && nds.fixneeds <2)nds.fixneeds = 2;
-#if use_long_double
-	    {
+	    if (use_long_double) {
 	      exp op = *pste;
 	      if (name(sh(op)) == doublehd ||
 		  name(sh(son(op))) == doublehd) {
@@ -2035,7 +2029,6 @@ ptr is labelled exp
 		pnset(nds, hasproccall);
 	      }
 	    }
-#endif
       return nds;
     }
 
@@ -2112,8 +2105,7 @@ ptr is labelled exp
       {
 	 s.floatneeds = MAX_OF(s.floatneeds, 2);
       }
-#if use_long_double
-      {
+      if (use_long_double) {
 	 exp op = *pste;
 	 if (name(sh(son(op))) == doublehd)
 	 {
@@ -2125,7 +2117,6 @@ ptr is labelled exp
 	    pnset(s, hasproccall);
 	 }
       }
-#endif
       return s;
     };
 
@@ -2448,15 +2439,13 @@ ptr is labelled exp
       nds = shapeneeds(sh(*e));
       nds = maxneeds(scan(arg, at), nds);
       pste = ptr_position(ste);
-#if use_long_double
-	    {
+	    if (use_long_double) {
 	      exp op = *pste;
 	      if (name(sh(op)) ==doublehd)
 	      {
 		 pnset(nds, hasproccall);
 	      }
 	    }
-#endif
       return nds;
     };
 

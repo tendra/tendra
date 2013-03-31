@@ -12,8 +12,6 @@
 
 #define FBASE	65536
 
-#if use_long_double
-#define MANT_SIZE       10
-#endif
+#define MANT_SIZE       (use_long_double ? 10 : 8)
 
 #endif /* FBASE_INCLUDED */

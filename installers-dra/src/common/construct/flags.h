@@ -111,6 +111,7 @@ extern int all_variables_visible;
 extern int promote_pars;
 extern int load_ptr_pars;
 extern int trap_on_nil_contents;
+extern int use_long_double;
 extern int target_dbl_maxexp;
 extern int round_after_flop;
 extern int strict_fl_div;

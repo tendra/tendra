@@ -17,6 +17,7 @@
 #include <construct/shapemacs.h>
 #include <construct/install_fns.h>
 #include <construct/exp.h>
+#include <construct/flags.h>
 
 #include "exptypes.h"
 #include "codehere.h"
@@ -484,8 +485,7 @@ fop ( exp e, space sp, where dest, ins_p ins ){
   space nsp ;
   int a1, a2 ;
 
-#if use_long_double
-  if ( name ( sh ( e ) ) == doublehd ) {
+  if ( use_long_double && name ( sh ( e ) ) == doublehd ) {
     if ( IsRev ( e ) ) {
       quad_op ( r, l, sp, dest, ( int ) name ( e ) ) ;
     } 
@@ -494,7 +494,7 @@ fop ( exp e, space sp, where dest, ins_p ins ){
     }
     return NOREG;
   }
-#endif
+
   if ( IsRev ( e ) ) {
     /* reverse operands */
     a2 = freg_operand ( r, sp, getfreg ( sp.flt ) ) ;

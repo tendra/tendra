@@ -1078,7 +1078,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
 	lab = no ( son ( pt ( e ) ) ) ;
       }
 
-#if use_long_double
+     if (use_long_double) {
       if ( name ( sh ( l ) ) == doublehd ) {
 	if ( IsRev ( e ) ) {
 	  quad_op ( r, l, sp, dest, -n ) ;
@@ -1101,7 +1101,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
 #endif
 	return mka;
       }
-#endif
+     }
 
       if ( is_floating ( name ( sh ( l ) ) ) ) {
 	/* Floating tests */
@@ -2297,8 +2297,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
       turn_off_trap_on_exceptions(sp);
     }
 	    
-#if use_long_double
-    if ( name ( sh ( e ) ) == doublehd ) {
+    if ( use_long_double && name ( sh ( e ) ) == doublehd ) {
       if(name(e) != fabs_tag){
 	quad_op ( son ( e ), nilexp, sp, dest, ( int ) name ( e ) ) ;
       }
@@ -2323,7 +2322,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
       }
       return mka;
     }
-#endif
+
     r1 = getfreg ( sp.flt ) ;
     a1 = freg_operand ( son ( e ), sp, r1 ) ;
     dble = isdbl ( sh ( e ) ) ;
@@ -2377,12 +2376,10 @@ make_code ( exp e, space sp, where dest, int exitlab )
       turn_off_trap_on_exceptions(sp);
     }
 	    
-#if use_long_double
-    if ( name ( sh ( e ) ) == doublehd ) {
+    if ( use_long_double && name ( sh ( e ) ) == doublehd ) {
       quad_op ( son ( e ), nilexp, sp, dest, float_tag ) ;
       return mka;
     }
-#endif
 
     frg.fr = f ;
     frg.dble = isdbl ( sh ( e ) ) ;
@@ -2449,7 +2446,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
       turn_off_trap_on_exceptions(sp);
     }
 	    
-#if use_long_double
+   if (use_long_double) {
     if ( name ( sh ( e ) ) == doublehd ) {
       if ( name ( sh ( son ( e ) ) ) == doublehd ) {
 	/* no change in representation */
@@ -2469,7 +2466,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
       }
       return mka;
     }
-#endif
+   }
 
     if ( !dto && !dfrom ) {
       /* no change in representation */

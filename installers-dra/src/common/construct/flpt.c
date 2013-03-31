@@ -50,7 +50,7 @@
 
 typedef struct _dbl {
   /* Double precision type - used for internal working */
-  Fdig mant[2 * MANT_SIZE];
+  Fdig mant[2 * 10];
   int  sign;
   int  exp;
 } dbl;

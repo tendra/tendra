@@ -19,6 +19,7 @@
 #include <construct/installtypes.h>
 #include <construct/exp.h>
 #include <construct/shapemacs.h>
+#include <construct/flags.h>
 
 #include "exptypes.h"
 #include "needscan.h"
@@ -823,25 +824,26 @@ bool is_muldivrem_call
 (exp e) {
   switch (name(e)) {
 
-#if use_long_double
     case test_tag:
     case chfl_tag:
-    case round_tag: {
+    case round_tag:
+     if (use_long_double) {
       exp s = son(e);
       if (name(sh(s)) == doublehd) return 1;
       /* FALL THROUGH */
-    }
+     }
     case fplus_tag:
     case fminus_tag:
     case fmult_tag:
     case fdiv_tag:
     case fneg_tag:
     case fabs_tag:
-    case float_tag: {
+    case float_tag:
+     if (use_long_double) {
       if (name(sh(e)) == doublehd) return 1;
       return 0;
-    }
-#endif
+     }
+     return 0;
 
     case mult_tag:
     case offset_mult_tag: {

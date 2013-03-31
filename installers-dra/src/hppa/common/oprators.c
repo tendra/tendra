@@ -11,6 +11,7 @@
 
 #include <construct/tags.h>
 #include <construct/shapemacs.h>
+#include <construct/flags.h>
 
 #include "codehere.h"
 #include "expmacs.h"
@@ -29,7 +30,6 @@
 #define isdbl(e)((bool)(name(e)!= shrealhd))
 
 
-#if use_long_double
 #include <reader/externs.h>
 #include <construct/install_fns.h>
 #include "regmacs.h"
@@ -41,7 +41,6 @@
 #include "proc.h"
 #include <reader/basicread.h>
 #include "inst_fmt.h"
-#endif
 
 extern long trap_label(exp);
 extern void trap_handler(baseoff,int,int);
@@ -514,8 +513,6 @@ int monop
 }
 
 
-#if use_long_double
-
 /*
     GET THE ADDRESS OF A LONG DOUBLE
 */
@@ -937,8 +934,6 @@ void quad_op
    return;
 }
 
-#endif
-
 
 int fop
 (exp e, space sp, where dest, ins_p ins)
@@ -953,14 +948,12 @@ int fop
    ans aa;
    baseoff b;
 
-#if use_long_double
-   if (name(sh(e)) ==doublehd)
+   if (use_long_double && name(sh(e)) ==doublehd)
    {
       /* i.e. quads */
       quad_op(e, sp, dest);
       return NOREG;
    }
-#endif
 
 
    dble= (name(sh(e)) ==realhd ? 1 : 0);

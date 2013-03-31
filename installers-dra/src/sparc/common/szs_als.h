@@ -40,11 +40,7 @@
 #define REAL_SZ			( ( long ) 64 )
 #define REAL_ALIGN		const_al64
 
-#if use_long_double
-#define DOUBLE_SZ		( ( long ) 128 )
-#else
-#define DOUBLE_SZ		( ( long ) 64 )
-#endif
+#define DOUBLE_SZ		( use_long_double ? ( long ) 128 : ( long ) 64 )
 #define DOUBLE_ALIGN		const_al64
 
 #define UCHAR_SZ		( ( long ) 8 )

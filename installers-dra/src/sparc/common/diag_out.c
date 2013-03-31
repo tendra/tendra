@@ -16,6 +16,7 @@
 
 #include "config.h"
 
+#include <construct/flags.h>
 #include <reader/codetypes.h>
 #include "exptypes.h"
 #include "addrtypes.h"

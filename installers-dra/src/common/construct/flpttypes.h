@@ -80,7 +80,7 @@ typedef struct _flt {
 #define R2NEAR	0
 
 typedef struct _flt {
-  Fdig mant[MANT_SIZE];
+  Fdig mant[10];
   /* point is between 1st and 2nd digits */
   int sign;		/* -1: negative; +1: positive; 0: value is zero */
   int exp;		/* signed exponent; in range E_MIN..E_MAX */

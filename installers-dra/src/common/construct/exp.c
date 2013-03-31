@@ -22,10 +22,10 @@
 #include <construct/installglob.h>
 #include <construct/tags.h>
 #include <construct/shapemacs.h>
+#include <construct/flags.h>
 #include <construct/flpt.h>
 #include <construct/messages_c.h>
 #include <construct/install_fns.h>
-#include <construct/flags.h>
 #include <construct/exp.h>
 
 #include <refactor/refactor.h>

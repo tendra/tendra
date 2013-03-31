@@ -567,8 +567,7 @@ fpop ( exp * e, exp ** at ){
   pcr = ( prop ) ( r.prps & hasproccall ) ;
   pcl = ( prop ) ( l.prps & hasproccall ) ;
 
-#if use_long_double
-  if ( name ( sh ( son ( op ) ) ) == doublehd ) {
+  if ( use_long_double && name ( sh ( son ( op ) ) ) == doublehd ) {
     ClearRev ( op ) ;
     arg = &son ( op ) ;
     if ( !is_o ( name ( *arg ) ) || pcl ) cca ( at, arg ) ;
@@ -579,7 +578,6 @@ fpop ( exp * e, exp ** at ){
     pnset ( l, hasproccall ) ;
     return l;
   }
-#endif
 
   if ( r.floatneeds <= l.floatneeds &&
        r.floatneeds < maxfloat && pcr == 0 ) {
@@ -1850,8 +1848,7 @@ scan ( exp * e, exp ** at ){
       nds = scan ( &son ( *e ), at ) ;
       pste = ptr_position(ste);
       if ( !optop ( *pste ) && nds.fixneeds < 2 ) nds.fixneeds = 2 ;
-#if use_long_double
-      {
+      if (use_long_double) {
 	exp op = *pste ;
 	if ( name ( sh ( op ) ) == doublehd ||
 	     name ( sh ( son ( op ) ) ) == doublehd ) {
@@ -1867,7 +1864,6 @@ scan ( exp * e, exp ** at ){
 	  pnset ( nds, hasproccall ) ;
 	}
       }
-#endif
       return nds;
     }
 
@@ -1937,8 +1933,7 @@ scan ( exp * e, exp ** at ){
       else {
 	s.floatneeds = MAX_OF ( s.floatneeds, 2 ) ;
       }
-#if use_long_double
-      {
+      if (use_long_double) {
 	exp op = *pste ;
 	      
 	if ( name ( sh ( son ( op ) ) ) == doublehd ) {
@@ -1949,7 +1944,6 @@ scan ( exp * e, exp ** at ){
 	  pnset ( s, hasproccall ) ;
 	}
       }
-#endif
       return s;
     }
 
@@ -2260,15 +2254,13 @@ scan ( exp * e, exp ** at ){
       nds =  shapeneeds ( sh ( *e ) );
       nds = maxneeds ( scan ( arg, at ), nds ) ;
       pste = ptr_position(ste);
-#if use_long_double
-      {
+      if (use_long_double) {
 	exp op = *pste ;
 
 	if ( name ( sh ( op ) ) == doublehd ) {
 	  pnset ( nds, hasproccall ) ;
 	}
       }
-#endif
       return nds;
     }
 

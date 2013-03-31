@@ -133,6 +133,7 @@ int main
 	load_ptr_pars = 1;
 	trap_on_nil_contents = 0;
 	target_dbl_maxexp = 1024;
+	use_long_double = 0;
 
 	{
 		int c;

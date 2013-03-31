@@ -26,6 +26,7 @@
 #include <construct/installtypes.h>
 #include <construct/exp.h>
 #include <construct/tags.h>
+#include <construct/flags.h>
 #include <construct/machine.h>
 #include <construct/install_fns.h>
 #include <construct/installglob.h>

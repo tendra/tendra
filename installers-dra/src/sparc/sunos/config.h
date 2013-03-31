@@ -43,12 +43,6 @@ extern void setbuf(FILE *, char *);
 #define good_index_factor(f)0
 #define good_pointer_factor(f)1
 
-#if SYSV_ABI
-#define use_long_double		1
-#else
-#define use_long_double		0
-#endif
-
 	/* condition for shape to be treated as a struct */
 #define sparccpd(s)(name(s) == cpdhd || name(s) == nofhd || \
 			name(s) == shcomplexhd || shape_size(s) >64 || \

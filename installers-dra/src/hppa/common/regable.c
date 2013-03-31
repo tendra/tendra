@@ -11,6 +11,7 @@
 
 #include <construct/shapemacs.h>
 #include <construct/tags.h>
+#include <construct/flags.h>
 
 #include "expmacs.h"
 #include "regable.h"
@@ -78,12 +79,10 @@ floatregable(exp e)
 		      && (name(son(e))!=caller_name_tag) ) {
 	shape s = sh ( son ( e ) ) ;
 	if ( is_floating ( name ( s ) ) ) {
-#if use_long_double
-	   if ( shape_size ( s ) > 64 )
+	   if ( use_long_double && shape_size ( s ) > 64 )
 	   {
 	      return 0;
 	   }
-#endif
 	   return 1;
 	} else {
 	    return 0;

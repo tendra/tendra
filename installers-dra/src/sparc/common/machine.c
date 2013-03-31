@@ -10,6 +10,7 @@
 #include "config.h"
 
 #include <construct/shapemacs.h>
+#include <construct/flags.h>
 
 #include "expmacs.h"
 #include "regable.h"
@@ -24,9 +25,7 @@ reg_result ( shape sha )
 {
     if ( valregable ( sha ) ) return 1;
     if ( is_floating ( name ( sha ) ) ) {
-#if use_long_double
-	if ( shape_size ( sha ) > 64 ) return 0;
-#endif
+	if ( use_long_double && shape_size ( sha ) > 64 ) return 0;
 	return 1;
     }
     return 0;

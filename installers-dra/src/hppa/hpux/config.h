@@ -14,7 +14,6 @@
 
 
 /* CONFIGURATION OPTIONS */
-#define use_long_double         1
 #define remove_unused_counters	1
 #define remove_unused_index_counters 0
 #define good_index_factor(f) 0

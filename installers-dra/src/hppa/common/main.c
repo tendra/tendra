@@ -89,6 +89,7 @@ int main
   PIC_code = 0;
   keep_PIC_vars = 1;
   diagnose_registers = 0;
+  use_long_double = 1;
 
   /* from comment.c */
   do_comment = 0;		/* implement -C option */

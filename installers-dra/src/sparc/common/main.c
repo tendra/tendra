@@ -188,8 +188,10 @@ main ( int argc, char ** argv )
 #endif
 
 #if SYSV_ABI
+  use_long_double   = 1;
   target_dbl_maxexp = 16384;
 #else
+  use_long_double   = 0;
   target_dbl_maxexp = 308;
 #endif
 

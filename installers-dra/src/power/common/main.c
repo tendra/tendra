@@ -71,6 +71,7 @@ int main(int argc, char **argv)
   do_comment = 0;		/* (see comment.c) */
   trap_on_nil_contents = 0;
   target_dbl_maxexp = 308;
+  use_long_double = 0;
 
   endian = ENDIAN_BIG;
   assembler = ASM_IBM;

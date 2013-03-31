@@ -14,7 +14,6 @@
 #define config_key 1
 
 #define DWARF 0
-#define use_long_double 1
 
 
 /* Parameters for foralls optimisations */
