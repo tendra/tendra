@@ -32,6 +32,7 @@ int trap_on_nil_contents = 1;	/* Let common code detect nil access */
 int double_align = 32;		/* alignment for 64 bit flpt */
 int stack_align = 32;		/* minimum alignment for stack */
 int param_align = 32;		/* minimum alignment for parameters */
+int needs_debug_align = 0;	/* alignment for dwarf2 */
 
 int separate_units = 0;		/* translate units separately */
 

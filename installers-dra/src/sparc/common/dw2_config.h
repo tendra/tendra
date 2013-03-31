@@ -29,18 +29,8 @@
 #include "exptypes.h"
 #include "out.h"
 
-
-#ifdef NEEDS_DEBUG_ALIGN
-
-#define DWARF_MOD_VERSION	(DWARF_VERSION * 101)
-#define DW_CIE_MOD_VERSION	(DW_CIE_VERSION * 101)
-
-#else
-
-#define DWARF_MOD_VERSION	DWARF_VERSION
-#define DW_CIE_MOD_VERSION	DW_CIE_VERSION
-
-#endif
+#define DWARF_MOD_VERSION	(needs_debug_align ? DWARF_VERSION  * 101 : DWARF_VERSION)
+#define DW_CIE_MOD_VERSION	(needs_debug_align ? DW_CIE_VERSION * 101 : DW_CIE_VERSION)
 
 
 extern long instr_count;

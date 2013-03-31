@@ -15,8 +15,6 @@
 #define DWARF			0
 #define ADDUNDERSCORE		0
 
-#define NEEDS_DEBUG_ALIGN	1
-
 
 /* CONFIGURATION OPTIONS */
 

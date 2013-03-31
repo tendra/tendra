@@ -12,6 +12,8 @@
 
 #include <shared/check.h>
 
+#include <construct/flags.h>
+
 #include "config.h"
 #include "dw2_config.h"
 
@@ -163,12 +165,10 @@ ext_opcode(int op, long arg_length, long align_lab)
 	out8();
 	outn((long)0);
 	outs(sep);
-#ifdef NEEDS_DEBUG_ALIGN
-	if (align_lab) {
+	if (needs_debug_align && align_lab) {
 		out_dwf_label(align_lab, 0);
 		outs (" - . - 1");		/* OK for arg_length < 127 */
 	} else
-#endif
 		uleb128((unsigned long)arg_length + 1);
 	outs(sep);
 	outn((long)op);
@@ -188,9 +188,9 @@ update_statprog(void)
 	enter_section("debug_line");
 	if (prev_ad_label < 0) {
 		long align_lab = 0;
-#ifdef NEEDS_DEBUG_ALIGN
-		align_lab = next_dwarf_label();
-#endif
+		if (needs_debug_align) {
+			align_lab = next_dwarf_label();
+		}
 		ext_opcode(DW_LNE_set_address, (long)PTR_SZ / 8, align_lab);
 		out32();
 		out_dwf_label(current_ad_label, 0);
@@ -199,9 +199,9 @@ update_statprog(void)
 			outn(current_ad_count * min_instr_size);
 		}
 		d_outnl();
-#ifdef NEEDS_DEBUG_ALIGN
-		out_dwf_label(align_lab, 1);
-#endif
+		if (needs_debug_align) {
+			out_dwf_label(align_lab, 1);
+		}
 	} else if (prev_ad_label != current_ad_label) {
 		out8();
 		outn((long)DW_LNS_fixed_advance_pc);

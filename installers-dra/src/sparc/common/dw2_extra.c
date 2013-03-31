@@ -23,6 +23,7 @@
 #include <construct/tags.h>
 #include <construct/flpttypes.h>
 #include <construct/f64.h>
+#include <construct/flags.h>
 
 #ifdef NEWDIAGS
 #include <newdiag/dg_aux.h>
@@ -68,10 +69,7 @@ static long cie_pointer;
 static long fde_end;
 static long proc_end;
 
-#ifdef NEEDS_DEBUG_ALIGN
 static int calc_length;
-#endif
-
 static int extra_deref;
 static int locate_param;
 static int last_param_reg;
@@ -375,9 +373,9 @@ static void out_split(loc_s l)
 
 static int glob_length(loc_s l)
 {
-#ifdef NEEDS_DEBUG_ALIGN
-  calc_length = 0;
-#endif
+  if (needs_debug_align) {
+    calc_length = 0;
+  }
   return 5;
 }
 
@@ -396,10 +394,10 @@ static int indirect_length(exp e)
 {
   int length;
   loc_s l;
-#ifdef NEEDS_DEBUG_ALIGN
-  if (!calc_length)
+
+  if (needs_debug_align && !calc_length)
     return 0;
-#endif
+
   switch (name(e)) {
     case cont_tag: {
       length = 1;
@@ -511,10 +509,12 @@ void dw2_locate_exp(exp e, int locate_const, int cx)
   loc_s l;
   int length;
   int within_loclist = (cx & 1);
-#ifdef NEEDS_DEBUG_ALIGN
   long over_lab;
-  calc_length = 1;
-#endif
+
+  if (needs_debug_align) {
+    calc_length = 1;
+  }
+
   locate_param = (cx & 2);
   extra_deref = locate_const;
   no_location = 0;
@@ -549,8 +549,8 @@ void dw2_locate_exp(exp e, int locate_const, int cx)
     out16 ();
   else
     out8 ();
-#ifdef NEEDS_DEBUG_ALIGN
-  if (!calc_length) {
+
+  if (needs_debug_align && !calc_length) {
     over_lab = next_dwarf_label();
     out_dwf_label (over_lab, 0);
     if (within_loclist)
@@ -559,8 +559,7 @@ void dw2_locate_exp(exp e, int locate_const, int cx)
       outs (" - . - 1");
   }
   else
-#endif
-  outn ((long)length);
+    outn ((long)length);
   d_outnl();
   if (no_location)
     return;
@@ -601,10 +600,10 @@ void dw2_locate_exp(exp e, int locate_const, int cx)
     extra_deref--;
   }
   d_outnl ();
-#ifdef NEEDS_DEBUG_ALIGN
-  if (!calc_length)
+
+  if (needs_debug_align && !calc_length)
     out_dwf_label (over_lab, 1);
-#endif
+
   return;
 }
 
@@ -688,10 +687,12 @@ void dw_at_procdetails(void)
 
 void dw2_locate_val(dg_where v)
 {
-#ifdef NEEDS_DEBUG_ALIGN
   long over_lab;
-  calc_length = 1;
-#endif
+
+  if (needs_debug_align) {
+    calc_length = 1;
+  }
+
   out8 ();
   switch (v.k) {
     case WH_CODELAB: {
@@ -701,15 +702,13 @@ void dw2_locate_val(dg_where v)
       l.reg = v.u.l;
       l.off = v.o;
       length = glob_length (l);
-#ifdef NEEDS_DEBUG_ALIGN
-      if (!calc_length) {
+      if (needs_debug_align && !calc_length) {
 	over_lab = next_dwarf_label();
 	out_dwf_label (over_lab, 0);
 	outs (" - . - 1");
       }
       else
-#endif
-      outn ((long)length);
+        outn ((long)length);
       d_outnl();
       out8 ();
       out_glob (l);
@@ -734,10 +733,10 @@ void dw2_locate_val(dg_where v)
       failer ("unexpected locate val");
   }
   d_outnl ();
-#ifdef NEEDS_DEBUG_ALIGN
-  if (!calc_length)
+
+  if (needs_debug_align && !calc_length)
     out_dwf_label (over_lab, 1);
-#endif
+
   return;
 }
 

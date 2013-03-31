@@ -17,6 +17,7 @@
 #include <reader/basicread.h>
 
 #include <construct/tags.h>
+#include <construct/flags.h>
 
 #include <dwarf2/dw2_basic.h>
 #include <dwarf2/dw2_codes.h>
@@ -189,18 +190,18 @@ close_compunit_info(void)
 {
 	enter_section("debug_info");
 	out_dwf_label(info_end, 1);
-#ifdef NEEDS_DEBUG_ALIGN
-	dot_align(4);
-#endif
+	if (needs_debug_align) {
+		dot_align(4);
+	}
 	exit_section();
 	enter_section("debug_pubnames");
 	out32();
 	outn((long)0);
 	d_outnl();
 	out_dwf_label(pubnames_end, 1);
-#ifdef NEEDS_DEBUG_ALIGN
-	dot_align(4);
-#endif
+	if (needs_debug_align) {
+		dot_align(4);
+	}
 	exit_section();
 	enter_section("debug_aranges");
 	out32();

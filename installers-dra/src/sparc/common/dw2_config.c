@@ -29,18 +29,18 @@ void out8(void)
 
 void out16(void)
 {
-#ifdef NEEDS_DEBUG_ALIGN
-  dot_align(2);
-#endif
+  if (needs_debug_align) {
+    dot_align(2);
+  }
   outs ( "\t.half " ) ;
   return;
 }
 
 void out32(void)
 {
-#ifdef NEEDS_DEBUG_ALIGN
-  dot_align(4);
-#endif
+  if (needs_debug_align) {
+    dot_align(4);
+  }
   outs ( "\t.word " ) ;
   return;
 }

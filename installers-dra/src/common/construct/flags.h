@@ -102,6 +102,7 @@ extern int do_alloca;
 extern int double_align;
 extern int stack_align;
 extern int param_align;
+extern int needs_debug_align;
 extern int separate_units;
 extern int writable_strings;
 extern int PIC_code;

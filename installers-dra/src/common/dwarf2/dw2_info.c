@@ -164,9 +164,7 @@ static void out_refblock		/* Not certain this is needed! */
     ( objset * objs , int assgn )
 {
   int count = 0;
-#ifdef NEEDS_DEBUG_ALIGN
   long over_lab;
-#endif
   objset * p = objs;
   while (p) {
     if (p->ass == assgn)
@@ -174,15 +172,13 @@ static void out_refblock		/* Not certain this is needed! */
     p = p->next;
   }
   out16();
-#ifdef NEEDS_DEBUG_ALIGN
-  if (count) {
+  if (needs_debug_align && count) {
     over_lab = next_dwarf_label();
     out_dwf_label (over_lab, 0);
     outs (" - . - 2");
   }
   else
-#endif
-  outn (count * 4);
+    outn (count * 4);
   d_outnl();
   if (count) {
     p = objs;
@@ -191,9 +187,9 @@ static void out_refblock		/* Not certain this is needed! */
 	dw_at_ext_address (p->tg);
       p = p->next;
     }
-#ifdef NEEDS_DEBUG_ALIGN
-    out_dwf_label (over_lab, 1);
-#endif
+    if (needs_debug_align) {
+      out_dwf_label (over_lab, 1);
+    }
   }
   return;
 }
