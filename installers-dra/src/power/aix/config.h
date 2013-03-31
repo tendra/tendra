@@ -19,8 +19,6 @@
 					/* Meaning when option set (1) */
 					/* =========================== */
 
-#define	target_dbl_maxexp	308	/* Maximum exp for floating_variety */
-
 /* foralls config */
 #define remove_unused_counters  0
 #define remove_unused_index_counters 1

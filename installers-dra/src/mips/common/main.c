@@ -80,6 +80,7 @@ main(int argc, char **argv)
 	PIC_code = 0;
 	keep_PIC_vars = 1;
 	diagnose_registers = 0;
+	target_dbl_maxexp = 308;
 
 	as_file = NULL;
 	redo_structfns = 0;

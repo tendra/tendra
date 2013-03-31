@@ -162,10 +162,4 @@ extern alignment MAX_BF_SIZE ;	 	/* bitfield rule */
 #define  LDOUBLE_BITS	 53		/* mantissa size for long double */
 
 
-/*
-    MAXIMUM EXPONENT ALLOWED IN FLOATING-POINT CONSTANTS
-*/
-
-extern int target_dbl_maxexp ;
-
 #endif

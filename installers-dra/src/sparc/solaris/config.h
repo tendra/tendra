@@ -30,10 +30,8 @@
 #define good_pointer_factor(f) 1
 
 #if SYSV_ABI
-#define target_dbl_maxexp	16384
 #define use_long_double		1
 #else
-#define target_dbl_maxexp	308
 #define use_long_double		0
 #endif
 

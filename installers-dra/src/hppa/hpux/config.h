@@ -24,13 +24,6 @@
 #define good_pointer_factor(f) 1
 #endif
 
-#if use_long_double
-#define target_dbl_maxexp 	16384
-#else
-#define target_dbl_maxexp 	308
-#endif
-
-
 #define DO_INDEXED_LOADS 1
 #define USE_BITAD 0
 

@@ -187,6 +187,12 @@ main ( int argc, char ** argv )
   diag = DIAG_STABS;
 #endif
 
+#if SYSV_ABI
+  target_dbl_maxexp = 16384;
+#else
+  target_dbl_maxexp = 308;
+#endif
+
 	{
 		int c;
 

@@ -119,6 +119,7 @@ main(int argc, char **argv)
 	/* do not replace divisions by multiplication by the inverse */
 	strict_fl_div = 1;
 	flpt_always_comparable = 0; /* this is the default for SVR4.2 */
+	target_dbl_maxexp = 4932; /* I am not sure what's significant about 4932, and not 16384 */
 	report_versions = 0;	/* do not print version numbers */
 	permit_8byte_align = 1;	/* allow 8byte alignment for local doubles */
 	replace_arith_type = 1;	/* use the C definitions of promote etc. */

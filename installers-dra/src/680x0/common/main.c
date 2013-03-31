@@ -97,13 +97,6 @@ alignment MAX_BF_SIZE;
 
 
 /*
-    MAXIMUM EXPONENT FOR FLOATING-POINT NUMBERS
-*/
-
-int target_dbl_maxexp = 1024;
-
-
-/*
     MAIN ROUTINE
 
     This routine processes the command-line arguments, calls the
@@ -139,6 +132,7 @@ int main
 
 	load_ptr_pars = 1;
 	trap_on_nil_contents = 0;
+	target_dbl_maxexp = 1024;
 
 	{
 		int c;

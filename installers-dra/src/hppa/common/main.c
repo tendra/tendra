@@ -93,6 +93,12 @@ int main
   /* from comment.c */
   do_comment = 0;		/* implement -C option */
 
+#if use_long_double
+target_dbl_maxexp = 16384;
+#else
+target_dbl_maxexp = 308;
+#endif
+
 	endian = ENDIAN_BIG;
 	assembler = ASM_HP;
 	format = FORMAT_SOM;

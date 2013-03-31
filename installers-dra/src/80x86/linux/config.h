@@ -13,8 +13,6 @@
 #define DWARF 0
 #define use_long_double 1
 
-#define target_dbl_maxexp 4932
-
 
 /* Parameters for foralls optimisations */
 

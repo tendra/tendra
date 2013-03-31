@@ -98,6 +98,7 @@ main(int argc, char *argv[])
 	char *baname;
 	char *tname;
 
+	target_dbl_maxexp = 308;
 	redo_structfns=1;
 	promote_pars = 0;
 	do_alloca=0;

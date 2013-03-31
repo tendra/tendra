@@ -38,6 +38,7 @@ int separate_units = 0;		/* translate units separately */
 
 int writable_strings = 0;	/* string are writable */
 
+int target_dbl_maxexp = 16384;	/* maximum double exponent allowed */
 int round_after_flop = 0;	/* round after each floating point
 				   operation */
 int strict_fl_div = 1;		/* do not replace divisions by
