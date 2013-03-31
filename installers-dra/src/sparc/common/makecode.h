@@ -42,12 +42,7 @@ extern void diag_arg(exp, space, where);
 #define error_treatment_is_trap(x)((errhandle(x) &3) ==3)
 
 
-#if ADDUNDERSCORE
 #define TDF_HANDLER "___sparc_errhandler"
 #define TDF_STACKLIM "___sparc_stack_limit"
-#else
-#define TDF_HANDLER "__sparc_errhandler"
-#define TDF_STACKLIM "__sparc_stack_limit"
-#endif /* ADDUNDERSCORE */
 
 #endif /* MAKECODE_INCLUDED */

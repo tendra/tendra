@@ -147,11 +147,7 @@ extern bool know_size ;
 char * proc_name;
 
 
-#if ADDUNDERSCORE
 #define isINITproc(id) (!strncmp("___I.TDF",id,8))
-#else
-#define isINITproc(id) (!strncmp("__I.TDF",id,7))
-#endif /* ADDUNDERSCORE */
 
 
 
