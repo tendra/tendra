@@ -53,7 +53,6 @@ FILE *ba_file;
 #endif
 #endif
 int use_umulh_for_div;
-bool do_scheduling = TRUE;
 bool fail_with_denormal_constant = TRUE;
 bool treat_denorm_specially = FALSE;
 bool trap_all_fops = FALSE;
@@ -116,7 +115,7 @@ main(int argc, char *argv[])
 	{
 		int c;
 
-		while ((c = getopt(argc, argv, "B:C:DE:F:G:H:IK:MO:PQRSVWX:YZ" "usd:")) != -1) {
+		while ((c = getopt(argc, argv, "B:C:DE:F:G:H:IK:MO:PQRSVWX:YZ" "ud:")) != -1) {
 			switch (c) {
 			case 'B': builtin = flags_builtin(builtin, optarg); break;
 			case 'O': optim   = flags_optim(optim, optarg);     break;
@@ -155,7 +154,6 @@ main(int argc, char *argv[])
 			case 'Z': report_versions = 1;         break;
 
 			case 'u': use_umulh_for_div = 1;       break;
-			case 's': do_scheduling = 1;           break;
 
 			case 'd':	
 				/* handle IEEE denormals */
@@ -250,23 +248,11 @@ main(int argc, char *argv[])
 	local_prefix = "$$";
 	name_prefix  = "";
 
-#if DO_SCHEDULE
-	if (do_scheduling) {
-		initialise_scheduler();
-	}
-#endif
-
 	(void) d_capsule();
 
 	if (produce_binasm) {
 		output_symtab(dname);
 	}
-
-#if DO_SCHEDULE
-	if (do_scheduling) {
-		/* schduler_finished(); */
-	}
-#endif
 
 	if (produce_binasm) {
 		close_file(ba_file);

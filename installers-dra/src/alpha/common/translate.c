@@ -59,10 +59,6 @@
 #include "locate.h"
 #include "translate.h"
 
-#if DO_SCHEDULE
-#include "scheduler.h"
-#endif
-
 #ifndef CROSS_INCLUDE
 #include <symconst.h>
 #else
@@ -178,9 +174,6 @@ code_it(dec *my_def)
 {
   exp tg = my_def -> dec_u.dec_val.dec_exp;
   char *id = my_def -> dec_u.dec_val.dec_id;
-#if DO_SCHEDULE
-  char * outline;
-#endif
   int symdef = my_def ->dec_u.dec_val.sym_number;
   bool extnamed =  my_def -> dec_u.dec_val.extnamed;
   static  space tempspace = {
@@ -226,50 +219,25 @@ code_it(dec *my_def)
 	}
 	
 	if (as_file){
-#if DO_SCHEDULE
-	  outline = (char*)xcalloc(80,sizeof(char));
-	  sprintf(outline,"\t.ent\t%s\n%s:\n", id, id);
-#else	
 	  fprintf(as_file, "\t.ent\t%s\n%s:\n", id, id);
-#endif
 	}	
-	output_instruction(class_null,outline,
-			   out_ent(current_symno = symnos[symdef],ient,2));
-	output_instruction(class_null,(char*)NULL,
-			   out_common(symnos[symdef],ilabel));
-	output_instruction(class_null,(char*)NULL,
-			   out_option(1,(diagnose)?1:2));
+	out_ent(current_symno = symnos[symdef],ient,2);
+	out_common(symnos[symdef],ilabel);
+	out_option(1,(diagnose)?1:2);
 	symnoforstart (symdef, currentfile);
 	settempregs (son(tg));
-#if DO_SCHEDULE
-	start_new_capsule(true);
-#endif
 	code_here (son (tg), tempspace, nowhere);
-#if DO_SCHEDULE
-	close_capsule();
-#endif
 	if(diagnose && dd != (diag_descriptor*)NULL){
 	  stabd(fscopefile,currentlno+1);
 	}
 	if (as_file){
-#if DO_SCHEDULE
-	  outline = (char*)xcalloc(strlen(id)+10,sizeof(char));
-	  sprintf(outline,"\t.end\t%s\n",id);
-#else
 	  fprintf (as_file, "\t.end\t%s\n", id);
-#endif
 	}
-	output_data(outline,out_common(symnoforend(my_def,currentfile),iend));
+	out_common(symnoforend(my_def,currentfile),iend);
       }
       else {			/* global values */
 	exp c = son (tg);
-#if DO_SCHEDULE
-	start_new_capsule(false);
-#endif
 	(void)evaluated (c,(isvar (tg))?(-symdef - 1):symdef+1);
-#if DO_SCHEDULE
-	close_capsule();
-#endif
       }
     }
     else {	/* global declarations but no definitions or is_comm */
@@ -280,42 +248,22 @@ code_it(dec *my_def)
       if ((isvar(tg) || name(s) != prokhd) && not_reserved (id)) {
 	if (vs /*&& size != 0*/) {
 	  if (as_file){
-#if DO_SCHEDULE
-	    outline = (char*)xcalloc(80,sizeof(char));
-	    sprintf(outline,"\t.comm\t%s %ld\n",id,(size==0)?4:size);
-#else	
 	    fprintf (as_file, "\t.comm\t%s %ld\n", id, size==0?4:size);
-#endif
 	  }
-	  output_instruction(class_null,outline,
-			     out_value(symnos[symdef],icomm,(size==0)?4:size,
-				       0));
+	  out_value(symnos[symdef],icomm,(size==0)?4:size, 0);
 	}	
 	else {
 	  if (as_file){
-#if !DO_SCHEDULE
-	    fprintf (as_file, "\t.extern\t%s %ld\n", id,
-		     size);
-#else	
-	    outline = (char*)xcalloc(80,sizeof(char));
-	    sprintf(outline,"\t.extern\t%s %ld\n",id,size);
-#endif
+	    fprintf (as_file, "\t.extern\t%s %ld\n", id, size);
 	  }
-	  output_instruction(class_null,outline,
-			     out_value(symnos[symdef],iextern,size,1));
+	  out_value(symnos[symdef],iextern,size,1);
 	}
       }
       else if (son (tg) == nilexp && !extnamed) {
 	if (as_file){
-#if !DO_SCHEDULE
 	  fprintf (as_file, "\n\t.lcomm\t%s %ld\n", id, size);
-#else
-	  outline = (char*)xcalloc(80,sizeof(char));
-	  sprintf(outline,"\n\t.lcomm\t%s %ld\n", id, size);
-#endif
 	}
-	output_instruction(class_null,outline,
-			   out_value(symnos[symdef],ilcomm,size,1));
+	out_value(symnos[symdef],ilcomm,size,1);
       }			
     }
   
@@ -369,9 +317,6 @@ translate_capsule(void)
   dec * my_def;
   int noprocs;
   int i;
-#if DO_SCHEDULE
-  char * outline = (char*)xcalloc(80,sizeof(char));
-#endif
   extern exp* usages;
   setregalt (nowhere.answhere, NO_REG);
   nowhere.ashwhere.ashsize = 0;
@@ -576,38 +521,17 @@ translate_capsule(void)
     fprintf(as_file," # installer version %d.%d.%d\n",target_version,
 	    target_revision,target_patchlevel);
     /*comment(" # produced by TDF->Alpha/OSF1 installer\n");*/
-#if !DO_SCHEDULE
     fprintf(as_file,"\t.ugen\n");
-#else
-    sprintf(outline,"\t.ugen\n");
-#endif
   }
-#if DO_SCHEDULE
-  output_data(outline,out_common(0,iugen));
-#else
   out_common(0,iugen);
-#endif
   
   if(as_file){
-#if !DO_SCHEDULE
     fprintf(as_file,"\t.verstamp %d %d\n",majorno,minorno);
-#else
-    outline = (char*)xcalloc(30,sizeof(char));
-    sprintf(outline,"\t.verstamp %d %d\n",majorno,minorno);
-#endif
   }
 
-#if DO_SCHEDULE
-  output_data(outline,out_verstamp(majorno,minorno));
-#else
   out_verstamp(majorno,minorno);
-#endif  
 
-#if DO_SCHEDULE
-  output_data((char*)NULL,out_option(1,diagnose?1:2));
-#else
   out_option(1,diagnose?1:2);
-#endif  
 
   if (diagnose && nofds!=0) {
     stab_file (0);
@@ -622,9 +546,6 @@ translate_capsule(void)
   */
   my_def = top_def;
 
-#if DO_SCHEDULE
-    start_new_capsule(false);
-#endif
   while (my_def != (dec *) 0) {
     exp tg = my_def -> dec_u.dec_val.dec_exp;
     char *id = my_def -> dec_u.dec_val.dec_id;
@@ -644,36 +565,21 @@ translate_capsule(void)
 	}
 	
 	if (as_file){
-#if DO_SCHEDULE
-	  outline = (char*)xcalloc(strlen(id)+10,sizeof(char));
-	  sprintf (outline,"\t.globl\t%s\n ",id);
-#else
 	  fprintf (as_file, "\t.globl\t%s\n", id);
-#endif	
 	}
-	output_data(outline,out_common(symnos[my_def->dec_u.dec_val.sym_number]
-				       ,iglobal));
+	out_common(symnos[my_def->dec_u.dec_val.sym_number] ,iglobal);
       }
     }
     my_def = my_def -> def_next;
   }
-#if DO_SCHEDULE
-    close_capsule();
-#endif
      
   my_def = top_def;
-#if DO_SCHEDULE
-  setnoreorder();
-#endif
   while (my_def != (dec *) 0) {
     if (!my_def -> dec_u.dec_val.processed){
       code_it (my_def);
       my_def = my_def -> def_next;
     }
   }
-#if DO_SCHEDULE
-  schedule_block();
-#endif
   return;
 }
 

@@ -97,15 +97,9 @@ int
 code_here(exp e, space sp, where dest)
 {
   makeans mka;
-#if DO_SCHEDULE && ENCAPSULATE_LABELS
-  if(name(e) == rep_tag) start_new_capsule(true);
-#endif
   mka = make_code (e, sp, dest, 0);
   if (mka.lab != 0) {
     (void)set_label (mka.lab);
-#if DO_SCHEDULE && ENCAPSULATE_LABELS
-    if(name(e) == rep_tag) close_capsule();
-#endif    
   }
   return mka.regmove;
 }

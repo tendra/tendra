@@ -207,14 +207,8 @@ static void fix_unsigned
   flptnos[fltval] = constval;
   comment("BEGIN fix_unsigned");
   float_exp = getexp(realsh,nilexp,1,nilexp,nilexp,0,fltval,real_tag);
-#if DO_SCHEDULE
-  start_new_capsule(false);
-#endif
   isa = evaluated(float_exp,0);
   set_text_section();
-#if DO_SCHEDULE
-  close_capsule();
-#endif
   setinsalt(aa,isa);
   dest.ashwhere.ashsize = (fr.type == IEEE_single)?32:64;
   dest.ashwhere.ashalign = dest.ashwhere.ashsize;
@@ -1977,9 +1971,6 @@ tailrecurse:
       exp test;
       exp record;
       record = getexp(f_bottom,nilexp,0,nilexp,nilexp,0,0,0);
-#if DO_SCHEDULE && ENCAPSULATE_LABELS
-      start_new_capsule(true);
-#endif
       if (dest.answhere.discrim == insomereg) {
 	/* must make choice of register to contain answer to cond */
 	int  *sr = someregalt(dest.answhere);
@@ -2004,9 +1995,6 @@ tailrecurse:
 	/* first is goto second */
 	no(son(second)) = 0;
 	mka = make_code(second, sp, dest, exitlab);
-#if DO_SCHEDULE && ENCAPSULATE_LABELS
-	close_capsule();
-#endif
 	return mka;
       }
       else if (name(second) == labst_tag &&
@@ -2016,9 +2004,6 @@ tailrecurse:
 	no(son(second)) = endl;
 	make_code(first, sp, dest, endl);
 	mka.lab = endl;
-#if DO_SCHEDULE && ENCAPSULATE_LABELS
-	close_capsule();
-#endif
 	return mka;
       }
       else if (name(second) == labst_tag &&
@@ -2027,9 +2012,6 @@ tailrecurse:
 	exp g = bro(son(second));
 	no(son(second)) = no(son(pt(g)));
 	mka = make_code(first, sp, dest, exitlab);
-#if DO_SCHEDULE && ENCAPSULATE_LABELS
-	close_capsule();
-#endif
 	return mka;
       }
       if ((test = testlast (first, second)) /* I mean it */ ) {
@@ -2045,9 +2027,6 @@ tailrecurse:
 	make_code(first, sp, dest, l);
 	make_code(second, sp, dest, l);
 	mka.lab = l;
-#if DO_SCHEDULE && ENCAPSULATE_LABELS
-	close_capsule();
-#endif
 	return mka;
       }
       else {
@@ -2060,9 +2039,6 @@ tailrecurse:
 	  make_code(second, sp, dest, l);
 	  clear_all();
 	  mka.lab = l;
-#if DO_SCHEDULE && ENCAPSULATE_LABELS
-	  close_capsule();
-#endif
 	  return mka;
 	}
       }
@@ -2097,16 +2073,10 @@ tailrecurse:
     case rep_tag: {
       exp first = son(e);
       exp second = bro(first);
-#if DO_SCHEDULE && ENCAPSULATE_LABELS
-      /* start_new_capsule(true);*/
-#endif
       code_here(first,sp,nowhere);
       no(son(second)) = new_label();
       /*e = second;*/
       mka = make_code(second,sp,dest,exitlab);
-#if DO_SCHEDULE && ENCAPSULATE_LABELS
-/*       close_capsule();*/
-#endif
       return mka;
       /*goto tailrecurse;*/
     }				/* end rep */
@@ -3731,7 +3701,6 @@ tailrecurse:
 	case_tag now uses the INT64 type.
 	*/
     case case_tag: {
-      char * outline = (char*)NULL;
       int   r = reg_operand(son(e), sp);
       /* evaluate controlling integer into reg r */
       mm lims;
@@ -3808,56 +3777,25 @@ tailrecurse:
 	n = l;
 	start_new_capsule(false);
 	if (as_file) {
-#if !DO_SCHEDULE
 	  fprintf(as_file, "\t.rdata\n$$%d:\n", veclab);
-#else
-	  outline = (char*)xcalloc(30,sizeof(char));
-	  sprintf(outline, "\t.rdata\n$$%d:\n", veclab);
-#endif
 	}
-#if DO_SCHEDULE
-	output_instruction(class_null,outline,out_common(0,irdata));
-	output_instruction(class_null,(char*)NULL,
-			   out_common(tempsnos[veclab-32],ilabel));
-#else
 	out_common(0, irdata);
 	out_common(tempsnos[veclab - 32], ilabel);
-#endif
 	for (;;) {
 	  for (; INT64_lt(n,exp_to_INT64(z));
 		 n = INT64_increment(n)) {
 	    /* o/p jump vector */
 	    if (as_file) {
-#if !DO_SCHEDULE
 	      fprintf(as_file, "\t.gprel32\t$%d\n", endlab);
-#else
-	      outline = (char*)xcalloc(30,sizeof(char));
-	      sprintf(outline, "\t.gprel32\t$%d\n", endlab);
-#endif
 	    }
-#if DO_SCHEDULE
-	    output_instruction(class_null,outline,
-			       out_value(-endlab,igprel32,0,1));
-#else
 	    out_value(-endlab, igprel32, make_INT64(0,0), 1);
-#endif
 	  }
 	  u = (son(z) == nilexp)? n : exp_to_INT64(son(z));
 	  for (; INT64_leq(n,u) /*n <= u*/; n=INT64_increment(n)/*n++*/){
 	    if (as_file) {
-#if !DO_SCHEDULE
 	      fprintf(as_file, "\t.gprel32\t$%d\n", no(son(pt(z))));
-#else
-	      outline = (char*)xcalloc(30,sizeof(char));
-	      sprintf(outline, "\t.gprel32\t$%d\n", no(son(pt(z))));
-#endif
 	    }
-#if DO_SCHEDULE
-	    output_instruction(class_null,outline,
-			       out_value(-no(son(pt(z))),igprel32,0,1));
-#else
 	    out_value(-no(son(pt(z))),igprel32,make_INT64(0,0),1);
-#endif
 	  }
 	  if (last(z))
 	    break;
@@ -5654,14 +5592,8 @@ tailrecurse:
 	  return mka;
 	}
       }
-#if DO_SCHEDULE
-      start_new_capsule(false);
-#endif
       isa=evaluated(e,0);
       set_text_section();
-#if DO_SCHEDULE
-      close_capsule();
-#endif
       setinsalt(aa,isa);
       mka.regmove=move(aa,dest,sp,sgned);
       return mka;
@@ -5992,10 +5924,6 @@ tailrecurse:
 	  operate_fmt_immediate(i_addq,SP, arg_stack_space+
 				(callee_size>>3),FP);
 	}
-#if DO_SCHEDULE
-	close_capsule();
-	start_new_capsule(true);
-#endif
 	if (frame_size != 0 || callee_size!=0) {
 	  operate_fmt_immediate(i_subq,SP,(frame_size+callee_size) >>3,SP);
 	}
@@ -6012,10 +5940,6 @@ tailrecurse:
 	   diagnostics ? */
 
 	setprologue(2);
-#if DO_SCHEDULE
-	close_capsule();
-	start_new_capsule(true);
-#endif
 	if (Has_fp) {
 	  baseoff b;
 	  b.base = SP;

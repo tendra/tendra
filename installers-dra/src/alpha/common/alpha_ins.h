@@ -23,27 +23,6 @@
 
 #ifdef INS_DEFINE
 
-#if DO_SCHEDULE
-#define instr(inst) instruction PASTE(i_,inst) = {#inst,PASTE(z,inst),class_null}
-#define load_instr(inst) instruction PASTE(i_,inst) = {#inst,PASTE(z,inst),class_load}
-#define fload_instr(inst) instruction PASTE(i_,inst) = {#inst,PASTE(z,inst),class_fload}
-#define store_instr(inst) instruction PASTE(i_,inst) = {#inst,PASTE(z,inst),class_store_data}
-#define fstore_instr(inst) instruction PASTE(i_,inst) = {#inst,PASTE(z,inst),class_fstore_data}
-#define ibranch_instr(inst) instruction PASTE(i_,inst) = {#inst,PASTE(z,inst),class_ibranch}
-#define fbranch_instr(inst) instruction PASTE(i_,inst) = {#inst,PASTE(z,inst),class_fbranch}
-#define subroutine_instr(inst) instruction PASTE(i_,inst) = {#inst,PASTE(z,inst),class_subroutine}
-#define iarith_instr(inst) instruction PASTE(i_,inst) = {#inst,PASTE(z,inst),class_iarithmetic}
-#define imultl_instr(inst) instruction PASTE(i_,inst) = {#inst,PASTE(z,inst),class_imultiplyl}
-#define imultq_instr(inst) instruction PASTE(i_,inst) = {#inst,PASTE(z,inst),class_imultiplyq}
-#define ilogical_instr(inst) instruction PASTE(i_,inst) = {#inst,PASTE(z,inst),class_ilogical}
-#define ishift_instr(inst) instruction PASTE(i_,inst) = {#inst,PASTE(z,inst),class_ishift}
-#define icondmove_instr(inst) instruction PASTE(i_,inst) = {#inst,PASTE(z,inst),class_icondmove}
-#define icompare_instr(inst) instruction PASTE(i_,inst) = {#inst,PASTE(z,inst),class_icompare}
-#define fpop_instr(inst) instruction PASTE(i_,inst) = {#inst,PASTE(z,inst),class_fpop}
-#define fdivs_instr(inst) instruction PASTE(i_,inst) = {#inst,PASTE(z,inst),class_fdivs}
-#define fdivd_instr(inst) instruction PASTE(i_,inst) = {#inst,PASTE(z,inst),class_fdivd}
-#define null_instr(inst) instruction PASTE(i_,inst) = {#inst,PASTE(z,inst),class_null}
-#else
 #define instr(inst) instruction PASTE(i_,inst) = {#inst,PASTE(z,inst)}
 #define load_instr instr
 #define fload_instr instr
@@ -63,7 +42,6 @@
 #define fdivs_instr instr
 #define fdivd_instr instr
 #define null_instr instr
-#endif
 
 #else	/* INS_DEFINE */
 #define instr(inst) extern instruction PASTE(i_,inst)

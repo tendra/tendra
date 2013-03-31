@@ -38,24 +38,14 @@ static  binasm ba;
 char *
 out_one(char *d)
 {
-#if DO_SCHEDULE
-  char * res = (char*)xcalloc(binasm_record_length,sizeof(char));
-#endif
   int   i;
   for (i = 0; i < binasm_record_length; i++) {
-#if DO_SCHEDULE
-    res[i] = d[i];
-#else
     if (ba_file != NULL) {
         putc (d[i], ba_file);
     }
-#endif
     d[i] = 0;
   }
-#if DO_SCHEDULE
-  return res;
-#endif
-  return (char*)NULL;
+  return NULL;
 }
 
 
@@ -69,30 +59,18 @@ out_data(char *s, int size)
   int i;
   int j = ((size+binasm_record_length-1)/binasm_record_length)
     *binasm_record_length;
-#if DO_SCHEDULE
-  char * res = (char*)xcalloc(j,sizeof(char));
-#else
-  char *res = (char*)NULL;
-#endif
  
   for (i = 0; i < size; i++) {
-#if DO_SCHEDULE
-    res[i] = s[i];
-#else
     if (ba_file != NULL) {
         putc (s[i], ba_file);
     }
-#endif
   }
   for (i = size; i < j; i++)
-#if DO_SCHEDULE
-    res[i] = ' ';
-#else
   if (ba_file != NULL) {
       putc (' ', ba_file);
   }
-#endif
-  return res;
+
+  return NULL;
 }
 
 
@@ -172,11 +150,6 @@ out_loc(int filenumber, unsigned linenumber)
   ba.loc.filenumber = (filenumber<0)?2:filenumber;
   ba.loc.linenumber = linenumber;
   OUT;
-#if !DO_SCHEDULE
-  if (ba_file != NULL) {
-    fflush (ba_file);
-  }
-#endif
 }
 
 

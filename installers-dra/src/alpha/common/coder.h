@@ -31,11 +31,9 @@ typedef struct _postl {
 } postlude_chain;
 
 
-#if !DO_SCHEDULE
 #define start_new_capsule(X)
 #define close_capsule()
 #define false 0
 #define true 1
-#endif
 
 #endif

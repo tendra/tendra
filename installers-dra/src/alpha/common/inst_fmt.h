@@ -20,9 +20,6 @@
 #include "exptypes.h"
 #include "procrectypes.h"
 #include <construct/installtypes.h>
-#if DO_SCHEDULE
-#include "scheduler.h"
-#endif
 #define IMMEDIATE_MAX	255
 #define IMMEDIATE_MIN	-128
 
@@ -48,28 +45,6 @@ extern void no_parameter_instructions(instruction);
 extern void single_parameter_instructions(instruction,int);
 extern void memory_fmt(instruction,int,int);
 extern void operate_fmt(instruction,int,int,int);
-#if DO_SCHEDULE
-extern void out_code(Instruction_data);
-extern void add_instruction(Instruction);
-extern Instruction_data get_new_ins_data(void);
-extern void output_instruction(Class,char*,char*);
-extern void output_data(char*,char*);
-
-typedef struct String_dat
-{
-    char data;
-    struct String_dat *next;
-} StringData;
-
-typedef struct
-{
-    StringData *head,*tail;
-} String;
-
-#else
-#define output_instruction(class,string,op)op
-#define output_data(string,op)op
-#endif
 
 #endif /*INSTFMTDECS_H*/
 
