@@ -349,27 +349,22 @@ tailrecurse :
       return zeroweights;
     }
   }
-  case rep_tag : {
+  case rep_tag :
     e = bro ( son ( e ) ) ;
     goto tailrecurse ;
-  }
-  case case_tag : {
+  case case_tag :
     e = son ( e ) ;
     goto tailrecurse ;
-  }
-  case labst_tag : {
+  case labst_tag :
     scale = fno ( e ) * scale ;
     e = bro ( son ( e ) ) ;
     goto tailrecurse ;
-  }
-  case val_tag : {
+  case val_tag :
     return zeroweights;
-  }
-  case ncopies_tag : {
+  case ncopies_tag :
     scale = no ( e ) * scale ;
     e = son ( e ) ;
     goto tailrecurse ;
-  }
   default : {
     if ( son ( e ) == nilexp || n == env_offset_tag ) {
       return zeroweights;

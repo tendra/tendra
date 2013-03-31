@@ -211,42 +211,34 @@ insection ( enum section s ){
   current_section = s ;
   if ( sysV_assembler ) {
     switch ( s ) {
-      case data_section : {
+      case data_section :
 	if (do_prom)
 	  failer ("prom .data");
 	outs ( "\t.section\t\".data\"\n" ) ;
 	return ;
-      }
-      case text_section : {
+      case text_section :
 	outs ( "\t.section\t\".text\"\n" ) ;
 	return ;
-      }
-      case rodata_section : {
+      case rodata_section :
 	outs ( "\t.section\t\".rodata\"\n" ) ;
 	return ;
-      }
-      case init_section : {
+      case init_section :
 	outs ("\t.section\t\".init\"\n");
 	return;
-      }
-      default : {
+      default :
 	break ;
-      }
     } 
   }
   else {
     switch ( s ) {
-      case data_section : {
+      case data_section :
 	outs ( "\t.seg\t\"data\"\n" ) ;
 	return ;
-      }
-      case text_section : {
+      case text_section :
 	outs ( "\t.seg\t\"text\"\n" ) ;
 	return ;
-      }
-      default : {
+      default :
 	break ;
-      }
     }
   }
   current_section = no_section ;

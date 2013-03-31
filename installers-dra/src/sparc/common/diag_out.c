@@ -475,16 +475,16 @@ static long out_sh_type
 {
   last_type_sz = shape_size(s);
   switch (name(s)) {
-    case scharhd: return STAB_SCHAR;
-    case ucharhd: return STAB_UCHAR;
-    case swordhd: return STAB_SSHRT;
-    case uwordhd: return STAB_USHRT;
-    case slonghd: return strstr(nm, "long")? STAB_SLONG : STAB_SINT;
-    case ulonghd: return strstr(nm, "long")? STAB_ULONG : STAB_UINT;
-    case s64hd: return STAB_S64;
-    case u64hd: return STAB_U64;
+    case scharhd:  return STAB_SCHAR;
+    case ucharhd:  return STAB_UCHAR;
+    case swordhd:  return STAB_SSHRT;
+    case uwordhd:  return STAB_USHRT;
+    case slonghd:  return strstr(nm, "long")? STAB_SLONG : STAB_SINT;
+    case ulonghd:  return strstr(nm, "long")? STAB_ULONG : STAB_UINT;
+    case s64hd:    return STAB_S64;
+    case u64hd:    return STAB_U64;
     case shrealhd: return STAB_FLOAT;
-    case realhd: return STAB_DBL;
+    case realhd:   return STAB_DBL;
     case doublehd: return STAB_LDBL;
   }
   return STAB_VOID;
@@ -521,16 +521,16 @@ static long out_sh_type
 {
   last_type_sz = shape_size(s);
   switch (name(s)) {
-    case scharhd: return STAB_SCHAR;
-    case ucharhd: return STAB_UCHAR;
-    case swordhd: return STAB_SSHRT;
-    case uwordhd: return STAB_USHRT;
-    case slonghd: return STAB_SINT;
-    case ulonghd: return STAB_UINT;
-    case s64hd: return STAB_S64;
-    case u64hd: return STAB_U64;
+    case scharhd:  return STAB_SCHAR;
+    case ucharhd:  return STAB_UCHAR;
+    case swordhd:  return STAB_SSHRT;
+    case uwordhd:  return STAB_USHRT;
+    case slonghd:  return STAB_SINT;
+    case ulonghd:  return STAB_UINT;
+    case s64hd:    return STAB_S64;
+    case u64hd:    return STAB_U64;
     case shrealhd: return STAB_FLOAT;
-    case realhd: return STAB_DBL;
+    case realhd:   return STAB_DBL;
     case doublehd: return STAB_LDBL;
   }
   return STAB_VOID;
@@ -839,18 +839,12 @@ static long type_size
       }
       return 0;
     }
-    case DGT_ENUM: {
-      return shape_size(dt->data.t_enum.sha);
-    }
-    case DGT_STRUCT: {
-      return shape_size(dt->data.t_struct.sha);
-    }
-    case DGT_BITF: {
-      return dt->data.t_bitf.bv.bits;
-    }
-    case DGT_PROC: {
-      return 32;
-    }
+
+    case DGT_ENUM:   return shape_size(dt->data.t_enum.sha);
+    case DGT_STRUCT: return shape_size(dt->data.t_struct.sha);
+    case DGT_BITF:   return dt->data.t_bitf.bv.bits;
+    case DGT_PROC:   return 32;
+
     default :
       return 0;
   }

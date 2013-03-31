@@ -102,20 +102,13 @@ char *
 special_call_name ( int i )
 {
     switch ( i ) {
+	case -1:
+	case 1: return sysV_assembler ? "strcpy" : "_strcpy";
+	case 5: return sysV_assembler ? "alloca" : "_alloca";
 
-	case -1 :
-	case 1 : {
-	    return sysV_assembler ? "strcpy" : "_strcpy";
-	}
-
-	case 5 : {
-	    return sysV_assembler ? "alloca" : "_alloca";
-	}
-
-	default : {
+	default:
 	    fail ( "Attempting external call to builtin" ) ;
 	    return "";
-	}
     }
     /* NOT REACHED */
 }
@@ -182,8 +175,8 @@ specialneeds ( int i, exp application, exp pars )
 	}
 #endif
 
-	case 4 : return zeroneeds;	 /* asm */
-	case 5 : return zeroneeds;	 /* alloca */
+	case 4: return zeroneeds;	 /* asm */
+	case 5: return zeroneeds;	 /* alloca */
 
 	default : {
 	    fail ( "Unimplemented builtin" ) ;

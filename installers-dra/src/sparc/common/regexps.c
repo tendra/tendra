@@ -262,24 +262,20 @@ keepexp ( exp e, ans loc )
 
     /* Find the register number */
     switch ( discrim ( loc ) ) {
-	case insomereg :
-	case insomefreg : {
+	case insomereg:
+	case insomefreg:
 	    fail ( "Illegal location in keepexp" ) ;
 	    return ;
-	}
-	case inreg : {
+	case inreg:
 	    reg = regalt ( loc ) ;
 	    break ;
-	}
-	case infreg : {
+	case infreg:
 	    reg = fregalt ( loc ).fr + 32 ;
 	    break ;
-	}
-	case notinreg : {
+	case notinreg:
 	    reg = insalt ( loc ).b.base ;
 	    if ( !IS_FIXREG ( reg ) ) return ;
 	    break ;
-	}
     }
 
     assert ( reg >= 0 && reg < 48 ) ;

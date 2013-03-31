@@ -476,18 +476,9 @@ makeans make_proc_tag_code
 	  stackpos.offset =offs;
 
 	  switch (size) {
-	    case 8: {
-	      st_ro_ins(i_stb, r, stackpos);
-	      break;
-	    }
-	    case 16: {
-	      st_ro_ins(i_sth, r, stackpos);
-	      break;
-	    }
-	    case 32: {
-	      st_ro_ins(i_st, r, stackpos);
-	      break;
-	    }
+	    case  8: st_ro_ins(i_stb, r, stackpos); break;
+	    case 16: st_ro_ins(i_sth, r, stackpos); break;
+	    case 32: st_ro_ins(i_st,  r, stackpos); break;
 	    case 64: {
 	      /* A double can be passed first word in reg
 		 (R_I5) and second word on stack. Must only

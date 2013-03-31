@@ -456,31 +456,11 @@ static void out_indirect(exp e)
   }
   l = find_loc (son(e));
   switch (l.key) {
-    case L_INREG: {
-      out_inreg (l.reg, 1);
-      outsep();
-      break;
-    }
-    case L_REGOFF: {
-      out_regoff (l);
-      outsep();
-      break;
-    }
-    case L_SPLIT: {
-      out_split (l);
-      outsep();
-      break;
-    }
-    case L_GLOB: {
-      out_glob (l);
-      d_outnl(); out8();
-      break;
-    }
-    case L_INDIRECT: {
-      out_indirect(son(e));
-      outsep();
-      break;
-    }
+    case L_INREG:    out_inreg(l.reg, 1);  outsep(); break;
+    case L_REGOFF:   out_regoff(l);        outsep(); break;
+    case L_SPLIT:    out_split(l);         outsep(); break;
+    case L_GLOB:     out_glob(l); d_outnl(); out8(); break;
+    case L_INDIRECT: out_indirect(son(e)); outsep(); break;
   }
   switch (name(e)) {
     case cont_tag: {
@@ -521,26 +501,11 @@ void dw2_locate_exp(exp e, int locate_const, int cx)
   l = find_loc (e);	/* may reduce extra_deref */
   length = extra_deref;
   switch (l.key) {
-    case L_INREG: {
-      length += inreg_length (l.reg, extra_deref);
-      break;
-    }
-    case L_REGOFF: {
-      length += regoff_length(l);
-      break;
-    }
-    case L_SPLIT: {
-      length += split_length(l);
-      break;
-    }
-    case L_GLOB: {
-      length += glob_length(l);
-      break;
-    }
-    case L_INDIRECT: {
-      length += indirect_length(e);
-      break;
-    }
+    case L_INREG:    length += inreg_length(l.reg, extra_deref); break;
+    case L_REGOFF:   length += regoff_length(l);                 break;
+    case L_SPLIT:    length += split_length(l);                  break;
+    case L_GLOB:     length += glob_length(l);                   break;
+    case L_INDIRECT: length += indirect_length(e);               break;
   }
   if (no_location)
     length = 0;
@@ -565,26 +530,11 @@ void dw2_locate_exp(exp e, int locate_const, int cx)
     return;
   out8 ();
   switch (l.key) {
-    case L_INREG: {
-      out_inreg (l.reg, extra_deref);
-      break;
-    }
-    case L_REGOFF: {
-      out_regoff (l);
-      break;
-    }
-    case L_SPLIT: {
-      out_split (l);
-      break;
-    }
-    case L_GLOB: {
-      out_glob (l);
-      break;
-    }
-    case L_INDIRECT: {
-      out_indirect (e);
-      break;
-    }
+    case L_INREG:    out_inreg(l.reg, extra_deref); break;
+    case L_REGOFF:   out_regoff(l);                 break;
+    case L_SPLIT:    out_split(l);                  break;
+    case L_GLOB:     out_glob(l);                   break;
+    case L_INDIRECT: out_indirect(e);               break;
   }
   while (extra_deref) {
     if (extra_deref < 0) {
@@ -760,24 +710,10 @@ static int dw_eval_exp(exp e, int line_started)
       if (no_location || extra_deref)
 	failer ("value unobtainable by DWARF expression");
       switch (l.key) {
-	case L_INREG: {
-	  out_inreg (l.reg, extra_deref);
-	  break;
-	}
-	case L_REGOFF: {
-	  out_regoff (l);
-	  break;
-	}
-	case L_GLOB: {
-	  out_glob (l);
-	  d_outnl ();
-	  line_started = 0;
-	  break;
-	}
-	case L_INDIRECT: {
-	  out_indirect (e);
-	  break;
-	}
+	case L_INREG:    out_inreg(l.reg, extra_deref);            break;
+	case L_REGOFF:   out_regoff(l);                            break;
+	case L_GLOB:     out_glob(l); d_outnl(); line_started = 0; break;
+	case L_INDIRECT: out_indirect(e);                          break;
       }
       break;
     }

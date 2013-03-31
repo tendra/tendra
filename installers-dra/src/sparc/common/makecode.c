@@ -493,16 +493,8 @@ fconst ( int f, long hi, long lo )
   outlab ( dlab ) ;
   outs ( ":\n\t.word\t" ) ;
   switch (endian) {
-  case ENDIAN_LITTLE:
-    outn ( lo ) ;
-    outc ( ',' ) ;
-    outn ( hi ) ;
-    break;
-  case ENDIAN_BIG:
-    outn ( hi ) ;
-    outc ( ',' ) ;
-    outn ( lo ) ;
-    break;
+  case ENDIAN_LITTLE: outn(lo); outc(','); outn(hi); break;
+  case ENDIAN_BIG:    outn(hi); outc(','); outn(lo); break;
   }
   outs ( "\n\t.align\t8\n" ) ;
   insection ( text_section ) ;
@@ -526,24 +518,8 @@ ldconst ( int r, long hi, long word2, long word3, long lo )
   outlab ( dlab ) ;
   outs ( ":\n\t.word\t" ) ;
   switch (endian) {
-  case ENDIAN_LITTLE:
-    outn ( lo ) ;
-    outc ( ',' ) ;
-    outn(word3);
-    outc(',');
-    outn(word2);
-    outc(',');
-    outn ( hi ) ;
-    break;
-  case ENDIAN_BIG:
-    outn ( hi ) ;
-    outc ( ',' ) ;
-    outn (word2);
-    outc(',');
-    outn(word3);
-    outc(',');
-    outn ( lo ) ;
-    break;
+  case ENDIAN_LITTLE: outn(lo); outc(','); outn(word3); outc(','); outn(word2); outc(','); outn(hi); break;
+  case ENDIAN_BIG:    outn(hi); outc(','); outn(word2); outc(','); outn(word3); outc(','); outn(lo); break;
   }
   outs ( "\n\t.align\t8\n" ) ;
   insection ( text_section ) ;

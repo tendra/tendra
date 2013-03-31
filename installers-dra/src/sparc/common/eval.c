@@ -70,12 +70,12 @@ static mm uswmm = { 0xffffffff, 0, "\t.word\t%ld\n" } ;
 mm 
 maxmin ( shape s ){
   switch ( name ( s ) ) {
-    case scharhd : return scmm;
-    case ucharhd : return uscmm;
-    case swordhd : return shmm;
-    case uwordhd : return ushmm;
-    case slonghd : return swmm;
-    case ulonghd : return uswmm;
+    case scharhd: return scmm;
+    case ucharhd: return uscmm;
+    case swordhd: return shmm;
+    case uwordhd: return ushmm;
+    case slonghd: return swmm;
+    case ulonghd: return uswmm;
   }
   return uswmm;
 }
@@ -181,28 +181,15 @@ evalexp ( exp e ){
 	       pr->needsproc.callee_size +arg_space)>>3;
     }
         
-    case offset_add_tag : {
-      return evalexp(son(e)) + evalexp(bro(son(e)));
-    }
-    case offset_max_tag : {
-      return max(evalexp(son(e)),evalexp(bro(son(e))));
-    }
-    case offset_pad_tag : {
-      return rounder(evalexp(son(e)),shape_align(sh(e)));
-    }
-    case offset_mult_tag : {
-      return evalexp(son(e))*evalexp(bro(son(e)));
-    }
-    case offset_div_tag :
-    case offset_div_by_int_tag : {
-      return evalexp(son(e))/evalexp(bro(son(e)));
-    }
-    case offset_subtract_tag : {
-      return evalexp(son(e))-evalexp(bro(son(e)));
-    }
-    case offset_negate_tag : {
-      return -evalexp(son(e));
-    }
+    case offset_add_tag:  return evalexp(son(e)) + evalexp(bro(son(e)));
+    case offset_max_tag:  return max(evalexp(son(e)),evalexp(bro(son(e))));
+    case offset_pad_tag:  return rounder(evalexp(son(e)),shape_align(sh(e)));
+    case offset_mult_tag: return evalexp(son(e))*evalexp(bro(son(e)));
+
+    case offset_div_tag:
+    case offset_div_by_int_tag: return evalexp(son(e))/evalexp(bro(son(e)));
+    case offset_subtract_tag:   return evalexp(son(e))-evalexp(bro(son(e)));
+    case offset_negate_tag:     return -evalexp(son(e));
 
     case bitf_to_int_tag : {
       return evalexp ( son ( e ) ) ;
@@ -327,13 +314,13 @@ outascii ( char * s, long strsize ){
     for ( i = 0 ; strsize > 0 && i < 48 ; i++ ) {
       int c = ( int ) *s ;
       switch ( c ) {
-	case '"'  : outs ( "\\\"" ) ; break ;
-	case '\\' : outs ( "\\\\" ) ; break ;
-	case '\t' : outs ( "\\t" ) ; break ;
-	case '\n' : outs ( "\\n" ) ; break ;
-	case '\r' : outs ( "\\r" ) ; break ;
-	case '\f' : outs ( "\\f" ) ; break ;
-	case '\b' : outs ( "\\b" ) ; break ;
+	case '"' : outs("\\\""); break;
+	case '\\': outs("\\\\"); break;
+	case '\t': outs("\\t");  break;
+	case '\n': outs("\\n");  break;
+	case '\r': outs("\\r");  break;
+	case '\f': outs("\\f");  break;
+	case '\b': outs("\\b");  break;
 	default : {
 	  if ( c >= 0 && isprint ( c ) ) {
 	    outc ( c ) ;
@@ -616,35 +603,17 @@ evalone ( exp e, int bitposn, bool ro ){
       if ( strsize > 0 ) set_align ( char_size ) ;
       for ( j = 0 ; j < strsize ; /**/ ) {
 	switch ( char_size ) {
-	  case 8 : {
-	    outs ( "\t.byte\t" ) ;
-	    break ;
-	  }
-	  case 16 : {
-	    outs ( "\t.half\t" ) ;
-	    break ;
-	  }
-	  case 32 : {
-	    outs ( "\t.word\t" ) ;
-	    break ;
-	  }
+	  case  8: outs("\t.byte\t"); break;
+	  case 16: outs("\t.half\t"); break;
+	  case 32: outs("\t.word\t"); break;
 	}
 	/* output chars in batches */
 	for ( i = j ; i < strsize && i - j < 8 ; i++ ) {
 	  if ( i != j ) outc ( ',' ) ;
 	  switch ( char_size ) {
-	    case 8 : {
-	      outf ( "0x%x", st [i] ) ;
-	      break ;
-	    }
-	    case 16 : {
-	      outf ( "0x%x", ( ( short * ) st ) [i] ) ;
-	      break ;
-	    }
-	    case 32 : {
-	      outf ( "0x%x", ( ( int * ) st ) [i] ) ;
-	      break ;
-	    }
+	    case  8: outf("0x%x",            st[i]);  break;
+	    case 16: outf("0x%x", ((short *) st)[i]); break;
+	    case 32: outf("0x%x", ((int *)   st)[i]); break;
 	  }
 	}
 	outnl () ;

@@ -358,33 +358,33 @@ quad_op ( exp a1, exp a2, space sp, where dest, int op ){
     /* Test operations */
     quad_ret = 0 ;
     switch ( -op ) {
-      case 1 : s = "_Q_fle,2" ; break ;
-      case 2 : s = "_Q_flt,2" ; break ;
-      case 3 : s = "_Q_fge,2" ; break ;
-      case 4 : s = "_Q_fgt,2" ; break ;
-      case 5 : s = "_Q_fne,2" ; break ;
-      case 6 : s = "_Q_feq,2" ; break ;
+      case 1 : s = "_Q_fle,2"; break;
+      case 2 : s = "_Q_flt,2"; break;
+      case 3 : s = "_Q_fge,2"; break;
+      case 4 : s = "_Q_fgt,2"; break;
+      case 5 : s = "_Q_fne,2"; break;
+      case 6 : s = "_Q_feq,2"; break;
       default : fail ( "Illegal floating-point test" ) ;
     }
   } 
   else {
     /* Binary operations */
     switch ( op ) {
-      case fplus_tag : s = "_Q_add,2" ; break ;
-      case fminus_tag : s = "_Q_sub,2" ; break ;
-      case fmult_tag : s = "_Q_mul,2" ; break ;
-      case fdiv_tag : s = "_Q_div,2" ; break ;
-      case fneg_tag : s = "_Q_neg,1" ; break ;
-      case chfl_tag : s = "_Q_stoq,1" ; break ;
-      case float_tag : s = "_Q_itoq,1" ; break ;
-      case 100 : s = "_Q_qtod,1" ; quad_ret = 0 ; break ;
-      case 101 : s = "_Q_qtos,1" ; quad_ret = 0 ; break ;
+      case fplus_tag:  s = "_Q_add,2";  break;
+      case fminus_tag: s = "_Q_sub,2";  break;
+      case fmult_tag:  s = "_Q_mul,2";  break;
+      case fdiv_tag:   s = "_Q_div,2";  break;
+      case fneg_tag:   s = "_Q_neg,1";  break;
+      case chfl_tag:   s = "_Q_stoq,1"; break;
+      case float_tag:  s = "_Q_itoq,1"; break;
+      case 100:        s = "_Q_qtod,1"; quad_ret = 0; break;
+      case 101:        s = "_Q_qtos,1"; quad_ret = 0; break;
       case fabs_tag : 
       /* special case: there is no special operation for 
 	 this, so it has to be performed by a code sequence*/
-      fail("No operation for fabs( long double )");
-      s = "_Q_abs,1" ; 
-      break ;
+        fail("No operation for fabs( long double )");
+        s = "_Q_abs,1"; 
+        break;
       default : fail ( "Illegal floating-point operation" ) ;
     }
   }
