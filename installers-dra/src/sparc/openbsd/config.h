@@ -22,13 +22,6 @@
 #define NEWDWARF		1
 
 
-/* foralls config */
-#define remove_unused_counters 0
-#define remove_unused_index_counters 1
-
-#define good_index_factor(f) 0
-#define good_pointer_factor(f) 1
-
 	/* condition for shape to be treated as a struct */
 #define sparccpd(s) (name(s) == cpdhd || name(s) == nofhd || \
 			name(s) == shcomplexhd || shape_size(s)>64 || \

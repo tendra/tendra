@@ -10,18 +10,6 @@
 #ifndef CONFIG_INCLUDED
 #define CONFIG_INCLUDED
 
-/* MAIN MACHINE CONFIGURATION */
-
-
-/* CONFIGURATION OPTIONS */
-#define remove_unused_counters	1
-#define remove_unused_index_counters 0
-#define good_index_factor(f) 0
-#if 0
-#define good_pointer_factor(f) ( (f) != 1 && (f) != 2 && (f) != 4 && (f) != 8 )
-#else
-#define good_pointer_factor(f) 1
-#endif
 
 #define DO_INDEXED_LOADS 1
 #define USE_BITAD 0

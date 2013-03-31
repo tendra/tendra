@@ -14,6 +14,7 @@
 
 #include "exptypes.h"
 #include "expmacs.h"
+#include "foralls.h"
 
 #include <reader/basicread.h>
 #include <reader/externs.h>

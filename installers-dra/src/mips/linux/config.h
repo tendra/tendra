@@ -13,9 +13,4 @@
 #ifndef config_key
 #define config_key 1
 
-#define remove_unused_counters 1
-#define remove_unused_index_counters 1
-#define good_index_factor(f) 0
-#define good_pointer_factor(f) 1
-
 #endif
