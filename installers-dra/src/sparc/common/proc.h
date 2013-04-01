@@ -36,9 +36,7 @@ extern bool Has_vcallees;
 extern bool Has_no_vcallers;
 extern bool in_general_proc;
 extern int callee_size;
-#ifdef GENCOMPAT
 extern bool May_have_callees;
-#endif
 
 extern struct proc_state proc_state;
 

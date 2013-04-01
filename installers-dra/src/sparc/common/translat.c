@@ -136,6 +136,7 @@
 #include "target_v.h"
 #include "locate.h"
 #include "sparctrans.h"
+#include "localflags.h"
 
 #ifdef NEWDWARF
 #include <dwarf2/dw2_iface.h>
@@ -519,11 +520,9 @@ translate_capsule (void){
 	  }
 	  a = bro(son(a));
 	}
-#ifdef GENCOMPAT
-	if ((name(a) == ident_tag && isparam(a)) || Has_vcallees) {
+	if (gencompat && ((name(a) == ident_tag && isparam(a)) || Has_vcallees)) {
 	  set_proc_may_have_callees(s);
 	}
-#endif
       }	
       pr->needsproc = scan ( st, &st ) ;
       pr->needsproc.callee_size = (callee_size+63)&~63;
@@ -562,18 +561,18 @@ translate_capsule (void){
       Has_vcallees = (name(s) == general_proc_tag) && 
 	proc_has_vcallees(s);
       in_general_proc = (name(s) == general_proc_tag);
-#ifdef GENCOMPAT
-      May_have_callees = proc_may_have_callees(s);
-#endif
+      if (gencompat) {
+        May_have_callees = proc_may_have_callees(s);
+      }
       /* calculate number of free registers */
       freefixed = ( R_L7 - R_L0 + 1 ) + ( R_I5 - R_I0 + 1 ) ;
       freefloat = 0 ;
       if ( avoid_L7 ) freefixed-- ;
-#ifdef GENCOMPAT
-      if (May_have_callees) freefixed--;
-#else
-      if(in_general_proc) freefixed--;
-#endif
+      if (gencompat) {
+        if (May_have_callees) freefixed--;
+      } else {
+        if(in_general_proc) freefixed--;
+      }
       if(Has_vcallees) freefixed --;
       /* estimate tag usage */
       w = weightsv ( 1.0, bro ( son ( s ) ) ) ;
@@ -682,11 +681,11 @@ translate_capsule (void){
 	insection ( text_section ) ;
 
 	if(!sysV_assembler){
-#ifdef GENCOMPAT
-	  optim_level = (proc_may_have_callees(stg))?0:2;
-#else
-	  optim_level = (name(stg) == general_proc_tag)?0:2;
-#endif
+          if (gencompat) {
+	    optim_level = (proc_may_have_callees(stg))?0:2;
+          } else {
+	    optim_level = (name(stg) == general_proc_tag)?0:2;
+          }
 	}
 	
 	/*

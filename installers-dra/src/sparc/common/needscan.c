@@ -54,6 +54,7 @@
 #include "reg_defs.h"
 #include "szs_als.h"
 #include "makecode.h"
+#include "localflags.h"
 
 extern prop notbranch[];
 
@@ -73,10 +74,7 @@ static int callerfortr ;
 int maxfix, maxfloat ;		/* The maximum numbers of t-regs */
 static bool gen_call;   /* true if the scan is within a general proc */
 static bool v_proc;     /* true if the scan is within a general proc with vcallees */
-
-#ifdef GENCOMPAT
 static bool trad_proc;	/* true if the scan is within a proc with no callees */
-#endif
 
 /*
   THE TYPE DESCRIBING REGISTER NEEDS
@@ -1056,11 +1054,7 @@ scan ( exp * e, exp ** at ){
 	int n = stparam ;
 	int sizep = ( int ) shape_size ( shdef ) ;
 	int last_reg;
-#ifdef GENCOMPAT
-	if (!trad_proc) {
-#else
-	if(gen_call) {
-#endif
+	if ((gencompat && !trad_proc) || (!gencompat && gen_call)) {
 	  if(v_proc) {
 	    last_reg = 4;
 	  }
@@ -2445,20 +2439,16 @@ scan ( exp * e, exp ** at ){
       gen_call = (name(stare) == general_proc_tag);
       v_proc = proc_has_vcallees(*e);
       callee_size = 0;
-#ifdef GENCOMPAT
-      trad_proc = !proc_may_have_callees(stare);
-#endif
+      if (gencompat) {
+        trad_proc = !proc_may_have_callees(stare);
+      }
       /* scan the body of the proc */
       bexp = &son ( *e ) ;
       bat = bexp ;
       body = scan ( bexp, &bat ) ;
       if (specialext)
 	set_proc_uses_external ( *e ) ;
-#ifdef GENCOMPAT
-      if (!trad_proc) {
-#else
-      if(gen_call){
-#endif
+      if ((gencompat && !trad_proc) || (!gencompat && gen_call)) {
 	callee_size += 4 * PTR_SZ;
       }
       /* should never require this in reg in C */

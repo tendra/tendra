@@ -59,6 +59,7 @@
 #include "proc.h"
 #include "szs_als.h"
 #include "sparctrans.h"
+#include "localflags.h"
 
 #ifdef NEWDIAGS
 #include <newdiag/dg_globs.h>
@@ -86,9 +87,7 @@ static exp current_proc;
 bool Has_vcallees = 0;
 bool Has_no_vcallers = 0;
 bool in_general_proc = 0;
-#ifdef GENCOMPAT
 bool May_have_callees = 0;
-#endif
 
 
 static bool in_postlude = 0;
@@ -187,18 +186,14 @@ makeans make_proc_tag_code
   Has_vcallees = (name(e) == general_proc_tag) && (proc_has_vcallees(e));
   Has_no_vcallers = (name(e) == proc_tag) || (!proc_has_vcallers(e));
   in_general_proc = (name(e) == general_proc_tag);
-#ifdef GENCOMPAT
-  May_have_callees = proc_may_have_callees(e);
-#endif
+  if (gencompat) {
+    May_have_callees = proc_may_have_callees(e);
+  }
   /* save & reinstate proc_state for nested procs */
   old_proc_state = proc_state;
   mka.lab = exitlab;
   mka.regmove = NOREG;
-#ifdef GENCOMPAT
-  if (May_have_callees) {
-#else
-  if (in_general_proc) {
-#endif
+  if ((gencompat && May_have_callees) || (!gencompat && in_general_proc)) {
     sp = guardreg(callee_start_reg,sp);
   }
 
@@ -282,10 +277,7 @@ makeans make_proc_tag_code
     if (diag == DIAG_DWARF2)
       dw2_fde_save();
 #endif
-#ifdef GENCOMPAT
-    if (May_have_callees)
-#endif
-    {
+    if (gencompat && May_have_callees) {
       int entry_lab = new_label();
       uncond_ins(i_b,entry_lab);
       /*rir_ins(i_save,R_SP,0,R_SP);*/
@@ -370,13 +362,7 @@ makeans make_proc_tag_code
       rr_ins(i_mov,rdest,callee_end_reg);
       rrr_ins(i_sub,rdest,rsize,callee_start_reg);
       set_label(end_copy_lab);
-    }
-#ifdef GENCOMPAT
-    else
-    if (May_have_callees) {
-#else
-    else {
-#endif
+    } else if ((gencompat && May_have_callees) || !gencompat) {
       baseoff b;
       int size = proc_state.callee_size/8;
       int rdest = getreg(sp.fixed);
@@ -1000,11 +986,8 @@ static space do_callers
   int param_offset = (16+1)*32; /* beyond reg window save area &
 				 hidden param of callers frame */
   int last_reg;
-#ifdef GENCOMPAT
-  if (!trad_call) {
-#else
-  if (in_general_proc) {
-#endif
+
+  if ((gencompat && !trad_call) || (!gencompat && in_general_proc)) {
     if (vc_call) {
       last_reg = R_O3;
     }
@@ -1246,8 +1229,7 @@ makeans make_apply_general_tag_code
 
   param_regs_used = param_reg - R_O0;
 
-#ifdef GENCOMPAT
-  if ((call_has_vcallees(cllees) == 0)) {
+  if (gencompat && (call_has_vcallees(cllees) == 0)) {
     if (name(cllees) == make_callee_list_tag) {
       if (no(cllees) == 0)
 	trad_call = 1;
@@ -1261,7 +1243,7 @@ makeans make_apply_general_tag_code
 	trad_call = 1;
     }
   }
-#endif
+
   if (!trad_call)
    (void)make_code(cllees,nsp,nowhere,0);
 
@@ -1311,10 +1293,7 @@ makeans make_apply_general_tag_code
   }
 
 
-#ifdef GENCOMPAT
-  if (!trad_call)
-#endif
-  {
+  if ((gencompat && !trad_call) || !gencompat) {
     /*rr_ins(i_mov,callee_start_reg,R_O5);*/
     nsp = guardreg(R_O5,nsp);
     if (call_has_vcallees(cllees)) {
@@ -1390,12 +1369,9 @@ makeans make_apply_general_tag_code
     int size_reg;
     space nsp;
     nsp = guardreg(R_O0,sp);
-#ifdef GENCOMPAT
-    if (trad_call)
+    if ((gencompat && trad_call) || !gencompat)
       size_reg = R_NO_REG;
-    else
-#endif
-    {
+    else {
       if (name(cllees) == make_callee_list_tag) {
 	size_reg = getreg(nsp.fixed);
 	ir_ins(i_mov,((no(cllees) >>3) +23) &~7,size_reg);
@@ -1812,8 +1788,7 @@ makeans make_tail_call_tag
 	      ((son(son(fn)) == nilexp) || (name(son(son(fn))) == proc_tag)
 		|| (name(son(son(fn))) == general_proc_tag)));
   bool trad_proc = 0;
-#ifdef GENCOMPAT
-  if (!vc) {
+  if (gencompat && !vc) {
     if (name(cllees) == make_callee_list_tag) {
       if (no(cllees) == 0)
 	trad_proc = 1;
@@ -1827,7 +1802,6 @@ makeans make_tail_call_tag
 	trad_proc = 1;
     }
   }
-#endif
 
   mka.lab = exitlab;
   mka.regmove = R_G0;
@@ -1915,8 +1889,7 @@ makeans make_tail_call_tag
 
   bproc = boff(son(fn));
   assert(bproc.offset == 0);
-#ifdef GENCOMPAT
-  if (trad_proc) {
+  if ((gencompat && trad_proc)) {
     int r = getreg(nsp.fixed);
     if (glob) {
       set_ins(bproc,r);
@@ -1943,7 +1916,6 @@ makeans make_tail_call_tag
 #endif
   }
   else
-#endif
   {
     bproc.offset = 12;
     if (name(cllees)!= same_callees_tag) {

@@ -17,7 +17,6 @@
 
 /* CONFIGURATION OPTIONS */
 
-#define GENCOMPAT		1
 #define NEWDIAGS		1
 #define NEWDWARF		1
 

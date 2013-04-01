@@ -327,10 +327,8 @@
 #define proc_has_vcallers(e) ((props(e) & 0x100) != 0)
 #define proc_has_nolongj(e) ((props(e) & 0x1000) !=0)
 
-#ifdef GENCOMPAT
 #define proc_may_have_callees(e) ((props(e) & 0x8000) != 0)
 #define set_proc_may_have_callees(e) (props(e) |= 0x8000)
-#endif
 
 #define frame_al_of_ptr(e) (e)->sonf.ald->al.al_val.al_frame
 #define frame_al1_of_offset(e) (e)->sonf.ald->al.al_val.al_frame

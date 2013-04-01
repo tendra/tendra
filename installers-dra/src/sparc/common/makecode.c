@@ -61,6 +61,7 @@
 #include "makecode.h"
 #include "szs_als.h"
 #include "new_tags.h"
+#include "localflags.h"
 
 #ifdef NEWDIAGS
 #include <newdiag/dg_aux.h>
@@ -3264,11 +3265,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
 	      bool struct_par =
 		!( is_floating ( name ( sh ( son ( e ) ) ) ) ||
 		   valregable ( sh ( son ( e ) ) ) ) ;
-#ifdef GENCOMPAT
-	      if (May_have_callees) {
-#else
-	      if(in_general_proc) {
-#endif
+	      if ((gencompat && May_have_callees) || (!gencompat && in_general_proc)) {
 		if(Has_vcallees) {
 		  max_reg = 4;
 		}
@@ -3324,11 +3321,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
 		 for varargs */
 	      int r2 = end ;
 	      int max_reg;
-#ifdef GENCOMPAT
-	      if (May_have_callees) {
-#else
-	      if(in_general_proc) {
-#endif
+	      if ((gencompat && May_have_callees) || (!gencompat && in_general_proc)) {
 		if(Has_vcallees) {
 		  max_reg = 4;
 		}

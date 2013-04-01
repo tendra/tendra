@@ -77,6 +77,8 @@ extern int crit_decs;
 extern int crit_decsatapp;
 extern int show_inlining;
 
+int gencompat = 1;
+
 int do_dynamic_init=1;    /* Only applies to SunOS */
 
 /*
@@ -200,7 +202,7 @@ main ( int argc, char ** argv )
 
 		while ((c = getopt(argc, argv,
 			"B:C:DE:F:G:H:I:JK:MNO:PQRTVWX:YZ"
-			"abcglo:i:r:un")) != -1) {
+			"abcglmo:i:r:un")) != -1) {
 			switch (c) {
 			case 'B': builtin = flags_builtin(builtin, optarg); break;
 			case 'H': has     = flags_has(has, optarg);         break;
@@ -289,6 +291,7 @@ main ( int argc, char ** argv )
 			case 'c' : do_comment = 1; break;
 			case 'g' : library_key = 2; break;
 			case 'l' : library_key = 1; break;
+			case 'm' : gencompat = 0;   break;
 			case 'i':
 				switch (optarg[0]) {
 				case 'i': crit_inline    = atoi(&optarg[1]); break;

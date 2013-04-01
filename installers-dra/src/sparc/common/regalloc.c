@@ -43,6 +43,7 @@
 #include "proc.h"
 #include "translat.h"
 #include "regalloc.h"
+#include "localflags.h"
 
 /*
   FLAG : AVOID REGISTER L7 (USED IN PIC)
@@ -66,11 +67,7 @@ SREG_TO_REALREG ( int n ){
   int m = ( avoid_L7 ? 7 : 8 ) ;
   int par_reg_max;
   if ( n <= m ) return R_L0 + ( n - 1 ) ;
-#ifdef GENCOMPAT
-  if (May_have_callees) {
-#else
-  if(in_general_proc) {
-#endif
+  if ((gencompat && May_have_callees) || (!gencompat && in_general_proc)) {
     if(Has_vcallees) {
       par_reg_max = R_I3;
     }

@@ -33,8 +33,6 @@ extern void setbuf(FILE *, char *);
 
 /* CONFIGURATION OPTIONS */
 
-#define GENCOMPAT		1
-
 
 	/* condition for shape to be treated as a struct */
 #define sparccpd(s)(name(s) == cpdhd || name(s) == nofhd || \
