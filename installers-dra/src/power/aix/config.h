@@ -11,8 +11,6 @@
 #ifndef CONFIG_H
 #define CONFIG_H		1
 
-#define	hasproto		1
-
 
 /* define compilation options (bools) */
 
