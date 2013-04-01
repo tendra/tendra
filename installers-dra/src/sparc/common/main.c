@@ -187,6 +187,7 @@ main ( int argc, char ** argv )
 #else
   diag = DIAG_STABS;
 #endif
+  cconv = CCONV_SPARC;
 
 #if SYSV_ABI
   use_long_double   = 1;
@@ -200,7 +201,7 @@ main ( int argc, char ** argv )
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"A:B:DE:F:G:H:I:JK:MNO:PQRTVWX:YZ"
+			"A:B:C:DE:F:G:H:I:JK:MNO:PQRTVWX:YZ"
 			"abcglmo:i:r:un")) != -1) {
 			switch (c) {
 			case 'B': builtin = flags_builtin(builtin, optarg); break;
@@ -212,6 +213,9 @@ main ( int argc, char ** argv )
 
 			case 'A':
 				assembler = switch_assembler(optarg, ASM_SUN);
+				break;
+			case 'C':
+				cconv = switch_cconv(optarg, CCONV_SPARC);
 				break;
 			case 'E':
 				endian = switch_endian(optarg, ENDIAN_LITTLE);

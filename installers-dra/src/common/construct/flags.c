@@ -64,6 +64,7 @@ enum endian    endian;
 enum assembler assembler;
 enum format    format;
 enum diag      diag;
+enum cconv     cconv;
 
 enum has
 flags_has(enum has o, const char *s)
@@ -379,6 +380,47 @@ switch_diag(const char *s, unsigned permitted)
 
 	if (~permitted & o) {
 		error(ERROR_FATAL, "Diagnostic format %s not permitted "
+			"for this architecture.", s);
+		return -1;
+	}
+
+	return o;
+}
+
+enum cconv
+switch_cconv(const char *s, unsigned permitted)
+{
+	size_t i;
+	enum cconv o;
+
+	struct {
+		const char *name;
+		enum cconv cconv;
+	} a[] = {
+		{ "hp",    CCONV_HP    }, /* TODO: name for HPUX on m68k */
+		{ "gcc",   CCONV_GCC   }, /* TODO: name for gcc for NeXT on m68k */
+		{ "sun",   CCONV_SUN   }, /* TODO: name for Sun CC on m68k */
+		{ "alpha", CCONV_ALPHA },
+		{ "hppa",  CCONV_HPPA  },
+		{ "o32",   CCONV_O32   },
+		{ "xlc",   CCONV_XLC   }, /* TODO: name for 32-bit POWER */
+		{ "sparc", CCONV_SPARC }
+	};
+
+	for (i = 0; i < sizeof a / sizeof *a; i++) {
+		if (0 == strcmp(a[i].name, s)) {
+			o = a[i].cconv;
+			break;
+		}
+	}
+
+	if (i >= sizeof a / sizeof *a) {
+		error(ERROR_FATAL, "Unrecognised calling convention %s.", s);
+		return -1;
+	}
+
+	if (~permitted & o) {
+		error(ERROR_FATAL, "Calling convention %s not permitted "
 			"for this architecture.", s);
 		return -1;
 	}

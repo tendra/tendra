@@ -130,6 +130,7 @@ main(int argc, char **argv)
 	endian = ENDIAN_LITTLE;
 	assembler = ASM_GAS;
 	format = FORMAT_ELF;
+	cconv = CCONV_GCC; /* TODO: name properly */
 #ifdef NEWDWARF
 	diag = DIAG_DWARF2;
 #else
@@ -156,6 +157,10 @@ main(int argc, char **argv)
 			break;
 		case 'B':
 			builtin = flags_builtin(builtin, optarg);
+			break;
+		case 'C':
+			/* TODO: move remove_struct_ref and possibly also gcc_compatible here */
+			cconv = switch_cconv(optarg, CCONV_GCC);
 			break;
 		case 'D':
 			PIC_code = (*optarg == '1');

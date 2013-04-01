@@ -13,6 +13,7 @@
 #include <construct/shapemacs.h>
 #include <construct/tags.h>
 #include <construct/is_worth.h>
+#include <construct/flags.h>
 
 #include <refactor/optimise.h>
 
@@ -176,7 +177,7 @@ bool
 cpd_param(shape sha)
 {
 	char n = name(sha);
-	if (conventions != CONVENTIONS_HP || n == bitfhd) {
+	if (cconv != CCONV_HP || n == bitfhd) {
 		long sz = shape_size(sha);
 		if (sz <= 32) {
 			return 0;
@@ -203,7 +204,7 @@ int
 reg_result(shape sha)
 {
 	char n = name(sha);
-	if (conventions == CONVENTIONS_HP) {
+	if (cconv == CCONV_HP) {
 		/* HP cc doesn't return any tuples, unions etc in a register */
 		return n != cpdhd && n != nofhd;
 	} else {

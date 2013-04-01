@@ -1638,7 +1638,7 @@ coder(where dest, ash stack, exp e)
 			 * union results.
 			 */
 #ifdef OLD_SPEC
-			if (conventions == CONVENTIONS_HP && name(sh(e)) == unhd) {
+			if (cconv == CCONV_HP && name(sh(e)) == unhd) {
 				regsinproc |= regmsk(REG_A0);
 				move(slongsh, D0, A0);
 				move(sh(e), A0_p, dest);

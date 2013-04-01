@@ -81,12 +81,13 @@ int main(int argc, char **argv)
   assembler = ASM_IBM;
   format = FORMAT_XCOFF;
   diag = DIAG_STABX;
+  cconv = CCONV_XLC;
   
 	{
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"A:B:E:F:G:H:IK:MO:PQRVWX:YZ" "cen")) != -1) {
+			"A:B:C:E:F:G:H:IK:MO:PQRVWX:YZ" "cen")) != -1) {
 			switch (c) {
 			case 'B': builtin = flags_builtin(builtin, optarg); break;
 			case 'H': has     = flags_has(has, optarg);         break;
@@ -95,6 +96,9 @@ int main(int argc, char **argv)
 
 			case 'A':
 				assembler = switch_assembler(optarg, ASM_IBM);
+				break;
+			case 'C':
+				cconv = switch_assembler(optarg, CCONV_XLC);
 				break;
 			case 'E':
 				endian = switch_endian(optarg, ENDIAN_BIG | ENDIAN_LITTLE);

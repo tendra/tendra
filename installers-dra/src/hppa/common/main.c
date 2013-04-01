@@ -104,12 +104,13 @@ target_dbl_maxexp = 308;
 	assembler = ASM_HP;
 	format = FORMAT_SOM;
 	diag = DIAG_STABS;
+	cconv = CCONV_HPPA;
 
 	{
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"A:B:DE:F:G:H:IKNO:PQRVWX:YZ" "dhi")) != -1) {
+			"A:B:C:DE:F:G:H:IKNO:PQRVWX:YZ" "dhi")) != -1) {
 			switch (c) {
 			case 'B': builtin = flags_builtin(builtin, optarg); break;
 			case 'O': optim   = flags_optim(optim, optarg);     break;
@@ -130,6 +131,10 @@ target_dbl_maxexp = 308;
 
 			case 'A':
 				assembler = switch_assembler(optarg, ASM_HP | ASM_GAS);
+				break;
+
+			case 'C':
+				cconv = switch_cconv(optarg, CCONV_HPPA);
 				break;
 
 			case 'E':

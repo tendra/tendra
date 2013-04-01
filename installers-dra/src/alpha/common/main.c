@@ -112,11 +112,12 @@ main(int argc, char *argv[])
 	assembler = ASM_OSF1;
 	format = FORMAT_ELF;
 	diag = DIAG_STABS;
+	cconv = CCONV_ALPHA;
 
 	{
 		int c;
 
-		while ((c = getopt(argc, argv, "A:B:DE:F:G:H:IK:MO:PQRSVWX:YZ" "ud:")) != -1) {
+		while ((c = getopt(argc, argv, "A:B:C:DE:F:G:H:IK:MO:PQRSVWX:YZ" "ud:")) != -1) {
 			switch (c) {
 			case 'B': builtin = flags_builtin(builtin, optarg); break;
 			case 'O': optim   = flags_optim(optim, optarg);     break;
@@ -124,8 +125,12 @@ main(int argc, char *argv[])
 			case 'X': check   = flags_check(check, optarg);     break;
 
 			case 'D': failer("no PIC code available"); exit(EXIT_FAILURE);
+
 			case 'A':
 				assembler = switch_assembler(optarg, ASM_OSF1);
+				break;
+			case 'C':
+				cconv = switch_cconv(optarg, CCONV_ALPHA);
 				break;
 			case 'E':
 				endian = switch_endian(optarg, ENDIAN_BIG | ENDIAN_LITTLE);

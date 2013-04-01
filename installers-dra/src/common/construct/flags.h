@@ -93,6 +93,18 @@ enum diag {
 	DIAG_DWARF2  = 1 << 5
 };
 
+/* TODO: these need their proper names (stdcall, fastcall, cdecl, etc) */
+enum cconv {
+	CCONV_HP     = 1 << 0,
+	CCONV_GCC    = 1 << 1,
+	CCONV_SUN    = 1 << 2,
+	CCONV_ALPHA  = 1 << 3,
+	CCONV_HPPA   = 1 << 4,
+	CCONV_O32    = 1 << 5,
+	CCONV_XLC    = 1 << 6,
+	CCONV_SPARC  = 1 << 7
+};
+
 extern int redo_structfns;
 extern int redo_structparams;
 extern int diagnose;
@@ -132,6 +144,7 @@ extern enum endian    endian;
 extern enum assembler assembler;
 extern enum format    format;
 extern enum diag      diag;
+extern enum cconv     cconv;
 
 extern enum has     flags_has(enum has, const char *);
 extern enum optim   flags_optim(enum optim, const char *);

@@ -29,11 +29,3 @@ int asm_uses_lcomm;
 int asm_no_btst_suffix;
 int asm_cmp_reversed;
 
-/*
- * HP cc has different conventions to gcc on certain points, most
- * noticably on the alignment of bitfields.  Both conventions are
- * supported, but the cc conventions are default on the HP.  NeXT
- * cc is gcc.
- */
-enum conventions conventions;
-

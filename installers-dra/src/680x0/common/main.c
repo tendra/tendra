@@ -115,14 +115,20 @@ int main
 	assembler = ASM_GAS;
 	format = FORMAT_AOUT;
 
+	/*
+	 * HP cc has different conventions to gcc on certain points, most
+	 * noticably on the alignment of bitfields.  Both conventions are
+	 * supported, but the cc conventions are default on the HPUX. NeXT
+	 * cc is gcc.
+	 */
 #ifdef NEXT_INTERFACE
-	conventions = CONVENTIONS_GCC;
+	cconv = CCONV_GCC;
 #endif
 #ifdef SUN_INTERFACE
-	conventions = CONVENTIONS_GCC;
+	cconv = CCONV_SUN;
 #endif
 #ifdef HP_INTERFACE
-	conventions = CONVENTIONS_HP;
+	cconv = CCONV_HP;
 #endif
 
 #ifndef SUN
@@ -138,14 +144,16 @@ int main
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"A:B:DE:F:G:H:IK:MO:PQRVWX:YZ"
+			"A:B:C:DE:F:G:H:IK:MO:PQRVWX:YZ"
 #ifdef EBUG
 			"L:l:"
 #endif
-			"acefghiou")) != -1) {
+			"aefhiou")) != -1) {
 			switch (c) {
 			case 'A': assembler = switch_assembler(optarg,
 				ASM_HP | ASM_GAS ); break;
+			case 'C': cconv = switch_cconv(optarg,
+				CCONV_HP | CCONV_GCC | CCONV_SUN); break;
 			case 'E': endian = switch_endian(optarg, ENDIAN_BIG); break;
 			case 'F': format = switch_format(optarg, FORMAT_AOUT); break;
 			case 'G': diag = switch_diag(optarg,
@@ -160,6 +168,8 @@ int main
 			case 'I': diagnose = 1;                    break;
 			case 'K':                                  break;
 			case 'M': strict_fl_div = 1;               break;
+			case 'N':                                  break;
+			case 'J':                                  break;
 			case 'P': do_profile = 1;                  break;
 			case 'Q': do_quit = 1;                     break;
 			case 'R': round_after_flop = 1;            break;
@@ -169,10 +179,8 @@ int main
 			case 'Z': report_tdf_versions = 1;         break;
 
 			case 'a': no_align_directives = 1;         break;
-			case 'c': conventions = CONVENTIONS_HP;    break;
 			case 'e': ignore_errors = 1;               break;
 			case 'f': convert_floats = 0;              break;
-			case 'g': conventions = CONVENTIONS_GCC;   break;
 			case 'h': have_diagnostics = 1;            break;
 			case 'i': output_immediately = 1;          break;
 			case 'u': do_sep_units = 1;                break;
@@ -329,7 +337,7 @@ int main
 
     diagnose_registers = 0;
 
-    MAX_BF_SIZE = (conventions != CONVENTIONS_HP ? MAX_BF_SIZE_CC : MAX_BF_SIZE_GCC);
+    MAX_BF_SIZE = (cconv != CCONV_HP ? MAX_BF_SIZE_CC : MAX_BF_SIZE_GCC);
 
     /* Call initialization routines */
     top_def = NULL;

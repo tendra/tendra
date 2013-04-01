@@ -87,10 +87,12 @@ main(int argc, char **argv)
 	redo_structfns = 0;
 	do_extern_adds = 0;
 	do_alloca = 0;
+
 	endian = ENDIAN_BIG;
 	assembler = ASM_GAS;
 	format = FORMAT_ELF;
 	diag = DIAG_STABS;
+	cconv = CCONV_O32; /* TODO: confirm this is what we generate */
 
 	{
 		int c;
@@ -106,6 +108,9 @@ main(int argc, char **argv)
 
 			case 'A':
 				assembler = switch_assembler(optarg, ASM_GAS | ASM_SGI | ASM_ULTRIX);
+				break;
+			case 'C':
+				cconv = switch_cconv(optarg, CCONV_O32);
 				break;
 			case 'E':
 				endian = switch_endian(optarg, ENDIAN_BIG | ENDIAN_LITTLE);
