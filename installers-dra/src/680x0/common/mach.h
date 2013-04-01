@@ -13,6 +13,8 @@
 #include <construct/flpttypes.h>
 #include <construct/installtypes.h>
 
+#include "utility.h"
+
 
 /*
     STRUCTURE REPRESENTING MACHINE OPERANDS

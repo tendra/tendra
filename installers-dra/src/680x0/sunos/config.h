@@ -18,13 +18,6 @@
 #define CONFIG_INCLUDED
 
 
-/*
-    DEFINE BASIC TYPES
-*/
-
-typedef unsigned long bitpattern;
-
-
 #ifdef EBUG
 #define debug_warning(X)	error(ERROR_WARNING, X)
 #else

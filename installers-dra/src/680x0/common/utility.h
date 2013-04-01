@@ -14,6 +14,8 @@
 
 #include <shared/xalloc.h>
 
+typedef unsigned long bitpattern;
+
 extern char *basename(char *);
 
 extern int bits_in(bitpattern);
