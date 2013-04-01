@@ -28,7 +28,6 @@ extern void setbuf(FILE *, char *);
 
 /* Settings for SunOS 4 and Solaris 1 */
 #define SYSV_ABI		0
-#define DWARF			0
 
 
 #endif /* CONFIG_INCLUDED */

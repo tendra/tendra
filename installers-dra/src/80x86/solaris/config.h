@@ -15,6 +15,4 @@
 #define SHARED_ABBREV 1
 #define as_comment_symbol '/'
 
-#define DWARF 0
-
 #endif

@@ -13,6 +13,4 @@
 #ifndef config_key
 #define config_key 1
 
-#define DWARF 0
-
 #endif

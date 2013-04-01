@@ -12,7 +12,6 @@
 
 /* Settings for Solaris 2 */
 #define SYSV_ABI		1
-#define DWARF			0
 
 
 /* CONFIGURATION OPTIONS */
