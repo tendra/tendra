@@ -78,8 +78,7 @@ extern int crit_decsatapp;
 extern int show_inlining;
 
 int gencompat = 1;
-
-int do_dynamic_init=1;    /* Only applies to SunOS */
+int do_dynamic_init = 0;
 
 /*
   OPEN INPUT AND OUTPUT FILES
@@ -178,7 +177,7 @@ main ( int argc, char ** argv )
 
   strict_fl_div = 0;			/* don't mult by 1/constant */
   round_after_flop = 0;			/* don't round every time */
-  do_dynamic_init = 1;                  /* Only applies to SunOS*/
+  do_dynamic_init = 0;
   
   endian = ENDIAN_BIG;
   assembler = ASM_SUN;

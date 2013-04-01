@@ -5,7 +5,7 @@
 +FLAG			"--1SC"
 +FLAG			"--1DL"
 
-+FLAG_TRANS		"-b -Y"
++FLAG_TRANS		"-b -Y -n"
 
 +AS			"/bin/as -O"
 
