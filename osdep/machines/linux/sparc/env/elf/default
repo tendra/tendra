@@ -2,7 +2,7 @@
 
 +MACHINE	"linux-*-sparc"
 
->FLAGS_TRANS	"-Ggas"
+>FLAGS_TRANS	"-Agas"
 
 /* XXX: remove for openbsd too; see use_long_double */
 +FLAG_AS	"-Av8plus -32"

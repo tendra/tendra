@@ -86,13 +86,16 @@ int main(int argc, char **argv)
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"B:C:E:F:G:H:IK:MO:PQRVWX:YZ" "cen")) != -1) {
+			"A:B:C:E:F:H:IK:MO:PQRVWX:YZ" "cen")) != -1) {
 			switch (c) {
 			case 'B': builtin = flags_builtin(builtin, optarg); break;
 			case 'H': has     = flags_has(has, optarg);         break;
 			case 'O': optim   = flags_optim(optim, optarg);     break;
 			case 'X': check   = flags_check(check, optarg);     break;
 
+			case 'A':
+				assembler = switch_assembler(optarg, ASM_IBM);
+				break;
 			case 'C':
 				diag = switch_diag(optarg, DIAG_STABX | DIAG_XDB_OLD | DIAG_XDB_NEW);
 				break;
@@ -102,9 +105,7 @@ int main(int argc, char **argv)
 			case 'F':
 				format = switch_format(optarg, FORMAT_XCOFF);
 				break;
-			case 'G':
-				assembler = switch_assembler(optarg, ASM_IBM);
-				break;
+
 			case 'I': diagnose = 1;                    break;
 
 			case 'K': 

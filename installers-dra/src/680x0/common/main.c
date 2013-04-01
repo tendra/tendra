@@ -138,7 +138,7 @@ int main
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"C:B:DE:F:G:H:IK:MO:PQRVWX:YZ"
+			"A:C:B:DE:F:H:IK:MO:PQRVWX:YZ"
 #ifdef EBUG
 			"L:l:"
 #endif
@@ -148,7 +148,7 @@ int main
 				DIAG_STABS | DIAG_XDB_OLD | DIAG_XDB_NEW); break;
 			case 'E': endian = switch_endian(optarg, ENDIAN_BIG); break;
 			case 'F': format = switch_format(optarg, FORMAT_AOUT); break;
-			case 'G': assembler = switch_assembler(optarg,
+			case 'A': assembler = switch_assembler(optarg,
 				ASM_HP | ASM_GAS ); break;
 
 			case 'B': builtin = flags_builtin(builtin, optarg); break;
