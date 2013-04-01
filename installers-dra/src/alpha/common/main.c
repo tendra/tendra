@@ -194,6 +194,9 @@ main(int argc, char *argv[])
 			argv += optind;
 		}
 
+		argc -= optind;
+		argv += optind;
+
 		if (produce_binasm && argc != 3 || argc != 2) {
 			if (infoopt) {
 				exit(EXIT_SUCCESS);
@@ -201,9 +204,6 @@ main(int argc, char *argv[])
 
 			alphafail(TOO_FEW_PARAMETERS);
 		}
-
-		argc -= optind;
-		argv += optind;
 	}
 
 	/* the files are passed in the order .t { .G .T | .s } */
