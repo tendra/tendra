@@ -32,6 +32,7 @@
 #include "error.h"
 #include "dynamic_init.h"
 #include "stack.h"
+#include "needscan.h"
 
 space do_callers(int,exp,space);
 void do_function_call(exp,space);

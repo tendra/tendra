@@ -28,6 +28,7 @@
 #include "mem_copy.h"
 #include "parameter.h"
 #include "stack.h"
+#include "needscan.h"
 
 bool suspected_varargs = 0;
 int saved_varargs_register=0;
