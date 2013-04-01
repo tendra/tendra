@@ -351,7 +351,7 @@ enum diag
 switch_diag(const char *s, unsigned permitted)
 {
 	size_t i;
-	enum format o;
+	enum diag o;
 
 	struct {
 		const char *name;
