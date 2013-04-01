@@ -49,11 +49,9 @@
 #include "translate.h"
 #include "codec.h"
 
-#if have_diagnostics
 #include "xdb_basics.h"
 #include "xdb_types.h"
 #include "xdb_output.h"
-#endif
 
 #ifndef tdf3
 #include "general_proc.h"
@@ -466,9 +464,7 @@ void epilogue
       make_label(crt_ret_lab);
     }
 
-#if have_diagnostics
-    if (diagnose)xdb_diag_proc_return();
-#endif
+    if (have_diagnostics && diagnose)xdb_diag_proc_return();
 
     if (!output_immediately) {
 	bool d1_free = 0;
@@ -906,9 +902,7 @@ void cproc
     }
 
     /* Diagnostics for start of procedure */
-#if have_diagnostics
-    if (di)xdb_diag_proc_begin(di, p, pname, cname, is_ext);
-#endif
+    if (have_diagnostics && di)xdb_diag_proc_begin(di, p, pname, cname, is_ext);
 
     /* Allow for procedures which return compound results */
     if (!reg_res) {
@@ -924,14 +918,12 @@ void cproc
     }
 
     /* Encode the procedure body */
-#if have_diagnostics
-    if (diagnose) {
+    if (have_diagnostics && diagnose) {
 	dnt_begin();
 	coder(zero, stack, t);
 	dnt_end();
     } else
-#endif
-    coder(zero, stack, t);
+      coder(zero, stack, t);
 
     /* Output the procedure epilogue */
 #ifndef tdf3
@@ -943,9 +935,7 @@ void cproc
     if (optim & OPTIM_PEEPHOLE)peephole();
 
     /* Diagnostics for end of procedure */
-#if have_diagnostics
-    if (di)xdb_diag_proc_end(di);
-#endif
+    if (have_diagnostics && di)xdb_diag_proc_end(di);
     return;
 }
 

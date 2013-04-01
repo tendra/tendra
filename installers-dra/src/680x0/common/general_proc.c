@@ -233,9 +233,7 @@ void gcproc
   prologue();
 
   /* Diagnostics for start of procedure */
-#if have_diagnostics
-  if (di)xdb_diag_proc_begin(di, p, pname, cname, is_ext);
-#endif
+  if (have_diagnostics && di)xdb_diag_proc_begin(di, p, pname, cname, is_ext);
 
   /* Allow for procedures which return compound results */
   if (!reg_res) {
@@ -260,13 +258,11 @@ void gcproc
 
 
   /* Encode the procedure body */
-#if have_diagnostics
-  if (diagnose) {
+  if (have_diagnostics && diagnose) {
     dnt_begin();
     coder(zero, stack, t);
     dnt_end();
   } else
-#endif
     coder(zero, stack, t);
 
   /* Output the procedure epilogue */
@@ -276,9 +272,7 @@ void gcproc
   if (optim & OPTIM_PEEPHOLE)peephole();
 
   /* Diagnostics for end of procedure */
-#if have_diagnostics
-  if (di)xdb_diag_proc_end(di);
-#endif
+  if (have_diagnostics && di)xdb_diag_proc_end(di);
 
   return ;
 }
@@ -1366,9 +1360,7 @@ void general_epilogue
 
    make_label(crt_ret_lab);
 
-#if have_diagnostics
-   if (diagnose)xdb_diag_proc_return();
-#endif
+   if (have_diagnostics && diagnose)xdb_diag_proc_return();
 
    d1_free = !(regsinproc & regmsk(REG_D1));
 

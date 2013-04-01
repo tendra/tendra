@@ -28,6 +28,7 @@ extern long cur_proc_callees_size;
 extern long cur_proc_callers_size;
 extern long cur_proc_env_size;
 extern int apply_tag_flag;
+extern int have_diagnostics;
 
 #endif
 

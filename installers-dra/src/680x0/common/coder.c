@@ -52,9 +52,7 @@
 #include "68k_globals.h"
 #include "output.h"
 
-#if have_diagnostics
 #include "xdb_basics.h"
-#endif
 
 extern int normal_version;
 static int extra_weight = 0;
@@ -1940,13 +1938,13 @@ coder(where dest, ash stack, exp e)
 		return;
 	}
 	case diagnose_tag:
-#if have_diagnostics
-		diag_start(dno(e), e);
-		coder(dest, stack, son(e));
-		diag_end(dno(e), e);
-#else
-		coder(dest, stack, son(e));
-#endif
+		if (have_diagnostics) {
+			diag_start(dno(e), e);
+			coder(dest, stack, son(e));
+			diag_end(dno(e), e);
+		} else {
+			coder(dest, stack, son(e));
+		}
 		return;
 	case prof_tag:
 		return;

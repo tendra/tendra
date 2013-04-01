@@ -28,11 +28,5 @@
 #define SUN
 
 
-/*
-    DEFINE COMPILATION OPTIONS
-*/
-
-#define have_diagnostics	0	/* Have diagnostics */
-
 
 #endif

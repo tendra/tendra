@@ -39,10 +39,9 @@
 #include "translate.h"
 #include "utility.h"
 #include "localflags.h"
+#include "68k_globals.h"
 
-#if have_diagnostics
 #include "xdb_basics.h"
-#endif
 
 extern int is_comm(exp);
 extern char *get_pointer_name(void *);
@@ -1021,9 +1020,9 @@ void evaluate
 	    op1 = make_extern_data(s, 0);
 	    op2 = make_int_data(sz / 8);
 	    make_instr(m_as_common, op1, op2, 0);
-#if have_diagnostics
-	    if (di)xdb_diag_val_begin(di, s, cname, global);
-#endif
+
+	    if (have_diagnostics && di)xdb_diag_val_begin(di, s, cname, global);
+
 	    return;
 	}
 
@@ -1036,9 +1035,8 @@ void evaluate
 	    }
 	    op2 = make_int_data(sz / 8);
 	    make_instr(m_as_local, op1, op2, 0);
-#if have_diagnostics
-	    if (di)xdb_diag_val_begin(di, s, cname, global);
-#endif
+
+	    if (have_diagnostics && di)xdb_diag_val_begin(di, s, cname, global);
 	} else {
 	    /* Common local value */
 	    area(pbss);
@@ -1047,9 +1045,9 @@ void evaluate
 	    } else {
 	         make_label(cname);
 	    }
-#if have_diagnostics
-	    if (di)xdb_diag_val_begin(di, s, cname, global);
-#endif
+
+	    if (have_diagnostics && di)xdb_diag_val_begin(di, s, cname, global);
+
 	    op1 = make_int_data(sz / 8);
 	    make_instr(m_as_space, op1, NULL, 0);
 	}
@@ -1063,9 +1061,7 @@ void evaluate
 	make_instr(m_as_global, op1, NULL, 0);
     }
 
-#if have_diagnostics
-    if (di)xdb_diag_val_begin(di, s, cname, global);
-#endif
+    if (have_diagnostics && di)xdb_diag_val_begin(di, s, cname, global);
 
     if (al <= 32)al = 32;
 

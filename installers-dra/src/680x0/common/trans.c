@@ -33,9 +33,7 @@
 #include "tests.h"
 #include "utility.h"
 
-#if have_diagnostics
 #include "xdb_basics.h"
-#endif
 
 extern dec *sort_decs(dec *);
 static void output_all_exps(void);

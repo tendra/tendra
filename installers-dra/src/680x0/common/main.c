@@ -40,11 +40,10 @@
 #include "where.h"
 #include "localflags.h"
 #include "evaluate.h"
+#include "68k_globals.h"
 
-#if have_diagnostics
 #include "xdb_basics.h"
 #include "xdb_output.h"
-#endif
 
 extern int errors;
 extern int max_errors;
@@ -143,7 +142,7 @@ int main
 #ifdef EBUG
 			"L:l:"
 #endif
-			"acefgiou")) != -1) {
+			"acefghiou")) != -1) {
 			switch (c) {
 			case 'C': diag = switch_diag(optarg,
 				DIAG_STABS | DIAG_XDB_OLD | DIAG_XDB_NEW); break;
@@ -174,6 +173,7 @@ int main
 			case 'e': ignore_errors = 1;               break;
 			case 'f': convert_floats = 0;              break;
 			case 'g': conventions = CONVENTIONS_GCC;   break;
+			case 'h': have_diagnostics = 1;            break;
 			case 'i': output_immediately = 1;          break;
 			case 'u': do_sep_units = 1;                break;
 
@@ -350,17 +350,17 @@ int main
     outnl();
     init_output();
     area(ptext);
-#if have_diagnostics
-    if (diagnose) {
+
+    if (have_diagnostics && diagnose) {
 	    diag_prologue();
     }
-#endif
+
     d_capsule();
-#if have_diagnostics
-    if (diagnose) {
+
+    if (have_diagnostics && diagnose) {
 	    diag_epilogue();
     }
-#endif
+
 #ifdef asm_version
     if (normal_version) {
 	asm_version;
