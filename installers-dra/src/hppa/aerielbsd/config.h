@@ -11,7 +11,5 @@
 #define CONFIG_INCLUDED
 
 
-#define USE_BITAD 0
-
 
 #endif /* CONFIG_INCLUDED */
