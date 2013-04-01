@@ -44,6 +44,7 @@
 #include "expmacs.h"
 #include "translat.h"
 #include "new_tags.h"
+#include "localflags.h"
 
 /* intercepts specially defined tokens */
 

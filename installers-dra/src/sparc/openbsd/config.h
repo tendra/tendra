@@ -21,11 +21,6 @@
 #define NEWDWARF		1
 
 
-	/* condition for shape to be treated as a struct */
-#define sparccpd(s) (name(s) == cpdhd || name(s) == nofhd || \
-			name(s) == shcomplexhd || shape_size(s)>64 || \
-			name(s) == u64hd || name(s) == s64hd)
-
 #endif /* CONFIG_INCLUDED */
 
 

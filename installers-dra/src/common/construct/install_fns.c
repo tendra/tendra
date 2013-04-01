@@ -34,6 +34,10 @@
 #include "expmacs.h"
 #include "szs_als.h"
 
+#ifdef TRANS_SPARC
+#include "localflags.h"
+#endif
+
 #include <reader/codetypes.h>
 #include <reader/basicread.h>
 #include <reader/main_reads.h>
