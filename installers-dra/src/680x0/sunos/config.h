@@ -25,13 +25,6 @@
 typedef unsigned long bitpattern;
 
 
-/*
-    SHOULD WE USE ALLOCA?
-*/
-
-#define NO_ALLOCA
-
-
 #ifdef EBUG
 #define debug_warning(X)	error(ERROR_WARNING, X)
 #else

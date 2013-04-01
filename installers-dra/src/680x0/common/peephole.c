@@ -132,11 +132,9 @@ find_jump_sizes(long lmin, long lmax)
 	if (n <= 0) {
 		return;
 	}
-#ifndef NO_ALLOCA
-	tb = (long *)alloca(n * sizeof(long));
-#else
+
 	tb = alloc_nof(long, n);
-#endif
+
 	for (i = 0; i < n; i++) {
 		tb[i] = 0;
 	}
@@ -181,9 +179,8 @@ find_jump_sizes(long lmin, long lmax)
 		}
 	}
 
-#ifdef NO_ALLOCA
 	free(tb);
-#endif
+
 	return;
 }
 
