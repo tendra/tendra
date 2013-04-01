@@ -19,5 +19,6 @@ extern int repeat_level;
 extern outofline * current_odd_bit;
 extern int last_odd_bit;
 extern int doing_odd_bits;
+extern int do_indexed_loads;
 
 #endif /* MAKECODE_INCLUDED */

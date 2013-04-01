@@ -11,7 +11,6 @@
 #define CONFIG_INCLUDED
 
 
-#define DO_INDEXED_LOADS 1
 #define USE_BITAD 0
 
 

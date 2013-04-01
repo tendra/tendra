@@ -70,6 +70,7 @@ int last_odd_bit;
 int doing_odd_bits;
 static exp crt_proc;
 where nowhere;
+int do_indexed_loads = 1;
 
 extern char export[128];
 extern int leaf;
@@ -4222,10 +4223,8 @@ makeans make_code
 	setvolatile();
       }
 
-#if DO_INDEXED_LOADS
       /* see if an indexed shift load is appropriate */
-
-      if (name(e) ==cont_tag)
+      if (do_indexed_loads && name(e) ==cont_tag)
       {
 	 exp sone,p,o;
 	 bool sgned=is_signed(sh(e));
@@ -4314,13 +4313,11 @@ makeans make_code
 	    }
 	 }
       }
-#endif
 
 
 
-#if DO_INDEXED_LOADS
 #ifndef NO_REGREG_LOADS
-   {
+   if (do_indexed_loads) {
       exp addptr_sons = son(son(e));
       /* see if we can use reg(reg) addressing for this load */
       if (name(son(e)) ==addptr_tag)
@@ -4396,7 +4393,6 @@ makeans make_code
       }
    }
 #endif /* NO_REGREG_LOADS */
-#endif
   }
     /* FALLTHROUGH */
 

@@ -109,7 +109,7 @@ target_dbl_maxexp = 308;
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"B:C:DE:F:G:H:IKNO:PQRVWX:YZ" "dh")) != -1) {
+			"B:C:DE:F:G:H:IKNO:PQRVWX:YZ" "dhi")) != -1) {
 			switch (c) {
 			case 'B': builtin = flags_builtin(builtin, optarg); break;
 			case 'O': optim   = flags_optim(optim, optarg);     break;
@@ -184,6 +184,10 @@ target_dbl_maxexp = 308;
 			case 'h':
 				diagnose = 1;
 				gdb = 1;
+				break;
+
+			case 'i':
+				do_indexed_loads = 0;
 				break;
 
 			case '?':
