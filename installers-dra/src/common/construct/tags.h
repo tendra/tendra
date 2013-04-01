@@ -158,6 +158,21 @@
 #define is_a(t)	((t) >= plus_tag && (t) <= make_stack_limit_tag)
 
 
+#ifdef TRANS_680x0
+
+/*
+    EXTRA TAGS
+
+    These are target-specific tags.
+*/
+
+#define dummy_tag               100
+#define internal_tag            101
+#define regpair_tag             102
+
+#endif
+
+
 #endif /* c_diff */
 
 

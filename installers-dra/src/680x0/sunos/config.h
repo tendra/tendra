@@ -53,16 +53,5 @@ typedef unsigned long bitpattern;
 #endif
 
 
-/*
-    EXTRA TAGS
-
-    These are target-specific tags.  Strictly speaking they belong in
-    tags.h.
-*/
-
-#define dummy_tag		100
-#define internal_tag		101
-#define regpair_tag		102
-
 
 #endif
