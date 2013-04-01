@@ -109,7 +109,7 @@ target_dbl_maxexp = 308;
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"A:B:C:DE:F:H:IKNO:PQRVWX:YZ" "dhi")) != -1) {
+			"A:B:DE:F:G:H:IKNO:PQRVWX:YZ" "dhi")) != -1) {
 			switch (c) {
 			case 'B': builtin = flags_builtin(builtin, optarg); break;
 			case 'O': optim   = flags_optim(optim, optarg);     break;
@@ -132,16 +132,16 @@ target_dbl_maxexp = 308;
 				assembler = switch_assembler(optarg, ASM_HP | ASM_GAS);
 				break;
 
-			case 'C':
-				diag = switch_diag(optarg, DIAG_STABS);
-				break;
-
 			case 'E':
 				endian = switch_endian(optarg, ENDIAN_BIG | ENDIAN_LITTLE);
 				break;
 
 			case 'F':
 				format = switch_format(optarg, FORMAT_SOM);
+				break;
+
+			case 'G':
+				diag = switch_diag(optarg, DIAG_STABS);
 				break;
 
 			case 'I':

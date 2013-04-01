@@ -116,7 +116,7 @@ main(int argc, char *argv[])
 	{
 		int c;
 
-		while ((c = getopt(argc, argv, "A:B:C:DE:F:H:IK:MO:PQRSVWX:YZ" "ud:")) != -1) {
+		while ((c = getopt(argc, argv, "A:B:DE:F:G:H:IK:MO:PQRSVWX:YZ" "ud:")) != -1) {
 			switch (c) {
 			case 'B': builtin = flags_builtin(builtin, optarg); break;
 			case 'O': optim   = flags_optim(optim, optarg);     break;
@@ -127,14 +127,14 @@ main(int argc, char *argv[])
 			case 'A':
 				assembler = switch_assembler(optarg, ASM_OSF1);
 				break;
-			case 'C':
-				diag = switch_diag(optarg, DIAG_STABS);
-				break;
 			case 'E':
 				endian = switch_endian(optarg, ENDIAN_BIG | ENDIAN_LITTLE);
 				break;
 			case 'F':
 				format = switch_format(optarg, FORMAT_ELF);
+				break;
+			case 'G':
+				diag = switch_diag(optarg, DIAG_STABS);
 				break;
 
 			case 'I':

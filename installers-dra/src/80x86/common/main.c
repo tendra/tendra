@@ -144,9 +144,9 @@ main(int argc, char **argv)
 	 * XXX: Some arguments are undocumented in trans.1, check
 	 */
 #ifdef NEWDWARF
-	optstring = "A:B:C:D:E:F:H:I:" "J" "K:M:NO:PQR:" "T" "VW:X:YZ" "abcdfghit:";
+	optstring = "A:B:D:E:F:G:H:I:" "J" "K:M:NO:PQR:" "T" "VW:X:YZ" "abcdfghit:";
 #else
-	optstring = "A:B:C:D:E:F:H:I:"     "K:M:NO:PQR:"     "VW:X:YZ" "abcdfghit:v:";
+	optstring = "A:B:D:E:F:G:H:I:"     "K:M:NO:PQR:"     "VW:X:YZ" "abcdfghit:v:";
 #endif
 
 	while ((ch = getopt(argc, argv, optstring)) != -1) {
@@ -157,9 +157,6 @@ main(int argc, char **argv)
 		case 'B':
 			builtin = flags_builtin(builtin, optarg);
 			break;
-		case 'C':
-			diag = switch_diag(optarg, DIAG_STABS | DIAG_DWARF | DIAG_DWARF2);
-			break;
 		case 'D':
 			PIC_code = (*optarg == '1');
 			break;
@@ -168,6 +165,9 @@ main(int argc, char **argv)
 			break;
 		case 'F':
 			format = switch_format(optarg, FORMAT_ELF | FORMAT_AOUT);
+			break;
+		case 'G':
+			diag = switch_diag(optarg, DIAG_STABS | DIAG_DWARF | DIAG_DWARF2);
 			break;
 		case 'H':
 			has = flags_has(has, optarg);
