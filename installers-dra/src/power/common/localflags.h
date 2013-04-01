@@ -18,6 +18,7 @@ enum cpu {
 };
 
 extern enum cpu cpu;
+extern int no_error_jump;
 
 #endif
 

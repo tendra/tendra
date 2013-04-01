@@ -2024,7 +2024,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
       ASSERT(from != to);		/* done above */
 
       /* shorten to type if needed */
-      adjust_to_size(from,sreg,to,dreg,NO_ERROR_JUMP);
+      adjust_to_size(from,sreg,to,dreg,no_error_jump);
       if (inmem_dest)
       {
 	ans aa;
@@ -2234,7 +2234,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 	 * If doing a shift right we must sign extend
 	 * or truncate prior to shifting
 	 */
-	adjust_to_size(ulonghd,a,name(sh(e)),a,NO_ERROR_JUMP);
+	adjust_to_size(ulonghd,a,name(sh(e)),a,no_error_jump);
       }
       if (name(e) == shr_tag)
       {
@@ -2285,7 +2285,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 	 * If doing a shift left we must sign extend
 	 * or truncate after the shift
 	 */
-	adjust_to_size(ulonghd,d,name(sh(e)),d,NO_ERROR_JUMP);
+	adjust_to_size(ulonghd,d,name(sh(e)),d,no_error_jump);
       }
       setregalt(aa, d);
       move(aa, dest, nsp.fixed, 1);
@@ -2526,7 +2526,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
       int d=regfrmdest(&dest,sp);
 
       rr_ins(i_not,a1,d);
-      adjust_to_size(ulonghd,d,name(sh(e)),d,NO_ERROR_JUMP);
+      adjust_to_size(ulonghd,d,name(sh(e)),d,no_error_jump);
       setregalt(aa,d);
       move(aa,dest,guardreg(d,sp).fixed,1);
       mka.regmove =d;
@@ -2598,7 +2598,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 	    {
 	      /* No load signed byte instruction, so propagate sign
 	       */
-	      adjust_to_size(ulonghd,dreg,scharhd,dreg,NO_ERROR_JUMP);
+	      adjust_to_size(ulonghd,dreg,scharhd,dreg,no_error_jump);
 	    }
 	    setregalt(aa, dreg);
 	  }
@@ -2754,7 +2754,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 	/* put it back to round_to_nearest */
 	mtfsb0_ins(30);mtfsb0_ins(31);
       }
-      adjust_to_size(ulonghd,destr,name(sh(e)),destr,NO_ERROR_JUMP);
+      adjust_to_size(ulonghd,destr,name(sh(e)),destr,no_error_jump);
       setregalt(aa, destr);
       mka.regmove = move(aa, dest, sp.fixed, 1);
       return mka;
@@ -3546,7 +3546,7 @@ void adjust_to_size(int src_shpe, int sreg, int dest_shpe, int dreg, int trap)
   }
 
 
-  if (trap==NO_ERROR_JUMP)
+  if (trap==no_error_jump)
   {
     switch (dest_shpe)
     {

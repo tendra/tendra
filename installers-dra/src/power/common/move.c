@@ -34,6 +34,7 @@ Delivers register used if 1-word destination is instore; otherwise NOREG.
 #include "maxminmacs.h"
 #include "makecode.h"
 #include "move.h"
+#include "localflags.h"
 
 
 #define	MAX_STEPS_INLINE_MOVE	12	/* 24 instructions */
@@ -592,7 +593,7 @@ static int moveinstore(instore iss, instore isd, int size, int al, long regs, bo
 	if (sgned && bits_per_step == 8)
 	{
 	  /* POWER has no load signed byte instruction, so propagate sign */
-	  adjust_to_size(ulonghd,r,scharhd,r,NO_ERROR_JUMP);
+	  adjust_to_size(ulonghd,r,scharhd,r,no_error_jump);
 	}
       }
 
@@ -1045,7 +1046,7 @@ start:
 		/* +++ word aligned byte: load word then sra 24 */
 		/* +++ halfword aligned byte: lha then sra 8 */
 		/* +++ 0 offset: lsi 1 byte then sra 24 */
-		adjust_to_size(ulonghd,rd,scharhd,rd,NO_ERROR_JUMP);
+		adjust_to_size(ulonghd,rd,scharhd,rd,no_error_jump);
 	      }
 	    }
 	  }

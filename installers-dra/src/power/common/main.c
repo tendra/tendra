@@ -28,6 +28,7 @@
 #include "localflags.h"
 
 enum cpu cpu;
+int no_error_jump;
 
 int main(int argc, char **argv)
 {
@@ -84,7 +85,7 @@ int main(int argc, char **argv)
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"B:C:E:F:G:H:IK:MO:PQRVWX:YZ" "c")) != -1) {
+			"B:C:E:F:G:H:IK:MO:PQRVWX:YZ" "ce")) != -1) {
 			switch (c) {
 			case 'B': builtin = flags_builtin(builtin, optarg); break;
 			case 'H': has     = flags_has(has, optarg);         break;
@@ -140,7 +141,8 @@ int main(int argc, char **argv)
 			case 'Y': dyn_init = 1;                break;
 			case 'Z': report_versions = 1;         break;
 
-			case 'c': do_comment = 1 ; break ;
+			case 'c': do_comment = 1;    break;
+			case 'e': no_error_jump = 1; break;
       
 			case '?':
 			default:
