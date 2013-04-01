@@ -20,7 +20,6 @@ int redo_structfns = 0;		/* reorganise proc calls delivering
 				   structures */
 int redo_structparams = 0;	/* reorganise proc calls with struct
 				   parameters */
-int diagnose = 0;		/* do diagnostics */
 int diagnose_registers = 1;	/* I have absolutely no idea what this does, but it was disabled for SCO */
 int do_profile = 0;		/* put in profiling code */
 int do_alloca = 1;		/* inline alloca */
@@ -358,12 +357,15 @@ switch_diag(const char *s, unsigned permitted)
 		const char *name;
 		enum diag diag;
 	} a[] = {
+		{ "none",    DIAG_NONE    },
 		{ "stabs",   DIAG_STABS   },
 		{ "stabx",   DIAG_STABX   },
 		{ "xdb_old", DIAG_XDB_OLD },
 		{ "xdb_new", DIAG_XDB_NEW },
 		{ "dwarf",   DIAG_DWARF   },
-		{ "dwarf2",  DIAG_DWARF2  }
+		{ "dwarf2",  DIAG_DWARF2  },
+		{ "gdb",     DIAG_GDB     }, /* TODO: name per its specific format */
+		{ "xdb",     DIAG_XDB     }  /* TODO: name per its specific format */
 	};
 
 	for (i = 0; i < sizeof a / sizeof *a; i++) {

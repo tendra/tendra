@@ -4008,7 +4008,7 @@ tailrecurse:
         diagPIClab = 0;
 	if (PIC_code && !leaf) {
 		dump_gp();
-	        if (diagnose && frame_size != 0) {
+	        if (diag != DIAG_NONE && frame_size != 0) {
 			diagPIClab = new_label();
 		}
 	}

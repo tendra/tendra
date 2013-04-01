@@ -379,7 +379,7 @@ static void output_all_exps
 (void)
 {
     dec *d = top_def;
-    if (diagnose)d = sort_decs(d);
+    if (diag != DIAG_NONE) d = sort_decs(d);
 
     area(ptext);
 

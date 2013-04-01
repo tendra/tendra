@@ -768,7 +768,7 @@ do_this_k(exp kdec, exp patn, exp list, exp limit)
 	pt(kdec) = tagt;
 	++no(kdec);
 #ifdef NEWDIAGS
-	if (diagnose) {
+	if (diag != DIAG_NONE) {
 	  dg_extracted(tagt, *(refto(f, e)));
 	}
 #endif
@@ -1216,7 +1216,7 @@ extract_consts(int issn, exp rf, exp list_head)
 	exp newdec;
 	int kill_e = false;
 #ifdef NEWDIAGS
-	if (diagnose) {
+	if (diag != DIAG_NONE) {
 	  strip_dg_context(e);
 	}
 #endif
@@ -1260,7 +1260,7 @@ extract_consts(int issn, exp rf, exp list_head)
 	}
 
 #ifdef NEWDIAGS
-	if (diagnose) {
+	if (diag != DIAG_NONE) {
 	  make_optim_dg(DGD_EXTRACT, newdec);
 	}
 #endif

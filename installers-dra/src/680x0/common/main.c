@@ -110,7 +110,7 @@ int main
 	char *input = NULL;
 	char *output = NULL;
 
-	diag = DIAG_STABS;
+	diag = DIAG_NONE;
 	endian = ENDIAN_BIG;
 	assembler = ASM_GAS;
 	format = FORMAT_AOUT;
@@ -144,11 +144,11 @@ int main
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"A:B:C:DE:F:G:H:IK:MO:PQRVWX:YZ"
+			"A:B:C:DE:F:G:H:K:MO:PQRVWX:YZ"
 #ifdef EBUG
 			"L:l:"
 #endif
-			"aefhiou")) != -1) {
+			"aefiou")) != -1) {
 			switch (c) {
 			case 'A': assembler = switch_assembler(optarg,
 				ASM_HP | ASM_GAS ); break;
@@ -157,7 +157,7 @@ int main
 			case 'E': endian = switch_endian(optarg, ENDIAN_BIG); break;
 			case 'F': format = switch_format(optarg, FORMAT_AOUT); break;
 			case 'G': diag = switch_diag(optarg,
-				DIAG_STABS | DIAG_XDB_OLD | DIAG_XDB_NEW); break;
+				DIAG_NONE | DIAG_STABS | DIAG_XDB_OLD | DIAG_XDB_NEW); break;
 
 			case 'B': builtin = flags_builtin(builtin, optarg); break;
 			case 'O': optim   = flags_optim(optim, optarg);     break;
@@ -165,7 +165,6 @@ int main
 			case 'X': check   = flags_check(check, optarg);     break;
 
 			case 'D': do_pic = 1;                      break;
-			case 'I': diagnose = 1;                    break;
 			case 'K':                                  break;
 			case 'M': strict_fl_div = 1;               break;
 			case 'N':                                  break;
@@ -181,7 +180,6 @@ int main
 			case 'a': no_align_directives = 1;         break;
 			case 'e': ignore_errors = 1;               break;
 			case 'f': convert_floats = 0;              break;
-			case 'h': have_diagnostics = 1;            break;
 			case 'i': output_immediately = 1;          break;
 			case 'u': do_sep_units = 1;                break;
 
@@ -287,14 +285,8 @@ int main
 	    report_versions = 1;
     }
 
-    /* Check on diagnostics */
-    if (!have_diagnostics && diagnose) {
-	error(ERROR_SERIOUS, "Diagnostics not supported");
-	diagnose = 0;
-    }
-
     /* Switch off optimizations if required */
-    if (diagnose
+    if (diag != DIAG_NONE
 #ifdef EBUG
     || 1
 #endif
@@ -359,13 +351,13 @@ int main
     init_output();
     area(ptext);
 
-    if (have_diagnostics && diagnose) {
+    if (diag != DIAG_NONE) {
 	    diag_prologue();
     }
 
     d_capsule();
 
-    if (have_diagnostics && diagnose) {
+    if (diag != DIAG_NONE) {
 	    diag_epilogue();
     }
 

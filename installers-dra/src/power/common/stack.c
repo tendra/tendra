@@ -123,7 +123,7 @@ void initialise_procedure(procrec *pr)
   
   p_fixed_params = 0;		/* Updated in make_ident_tag_code */
   p_float_params = 0;		/* Updated in make_ident_tag_code */
-  p_has_back_chain = p_leaf ? 0 : diagnose;
+  p_has_back_chain = p_leaf ? 0 : diag != DIAG_NONE;
   p_args_and_link_size = p_leaf ? 0 : STACK_LINK_AREA_SIZE + p_maxargbytes;
   ASSERT(pr->frame_size>=0 && (pr->frame_size&63) == 0);
   ASSERT(pr->frame_size>=pr->maxargs);

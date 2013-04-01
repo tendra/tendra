@@ -33,9 +33,9 @@
 #include "symbol.h"
 #include "type_to_aux.h"
 
-#include <diag/diagtypes.h>
+#include <construct/flags.h>
 
-extern  char diagnose;
+#include <diag/diagtypes.h>
 
 #ifndef CROSS_INCLUDE
 #include <symconst.h>
@@ -402,7 +402,7 @@ int new_lsym
     add_proc(symindex, filenum);
     add_aux(nilaux,filenum);	/* add nil type !! */
   }
-  else if (!diagnose) {
+  else if (diag == DIAG_NONE) {
     newsym.index = 1048575;
     newsym.iss = add_to_loc_strings(chars,filenum);
   }
@@ -435,7 +435,7 @@ int new_esym
   newsym.sc = symclass;
 
   if (((symtype==stProc) && (symclass==scNil ||symclass==scUndefined))
-      || (!diagnose)) {
+      || (diag == DIAG_NONE)) {
     /* no diagnostics  */
     newsym.index=1048575;
     newsym.value=0;

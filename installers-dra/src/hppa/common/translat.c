@@ -309,7 +309,7 @@ void translate_capsule
 #endif
 
   /* Begin diagnostics if necessary. */
-  if (diagnose)
+  if (diag != DIAG_NONE)
   {
      outs("\t.CODE\n");
      outnl();
@@ -322,7 +322,7 @@ void translate_capsule
   nowhere.ashwhere.ashsize = 0;
   nowhere.ashwhere.ashsize = 0;
 
-  if (!diagnose)
+  if (diag == DIAG_NONE)
      opt_all_exps();  /* optimise */
   /* mark static unaliased; count procs */
   noprocs = 0;
@@ -332,7 +332,7 @@ void translate_capsule
     exp scexp = son(crt_exp);
     if (scexp != nilexp)
     {
-      if (!diagnose && !separate_units &&
+      if (diag == DIAG_NONE && !separate_units &&
 	  !crt_def->dec_u.dec_val.extnamed && isvar(crt_exp))
 	mark_unaliased(crt_exp);
       if (name(scexp) == proc_tag || name(scexp) == general_proc_tag)
@@ -370,7 +370,7 @@ void translate_capsule
     procrecs = (procrec *)xcalloc(noprocs, sizeof(procrec));
 
     proc_def_trans_order = (dec**)xcalloc(noprocs, sizeof(dec*));
-    if (xdb)
+    if (diag == DIAG_XDB)
     {
        src_line = (int*)xcalloc(noprocs,sizeof(int));
     }
@@ -387,7 +387,7 @@ void translate_capsule
     {
       procrec *pr = &procrecs[procno];
       proc_def_trans_order[procno] = crt_def;
-      if (xdb)
+      if (diag == DIAG_XDB)
       {
 	 /* Retrieve diagnostic info neccessary to comply with xdb's
 	    requirement that procedures be compiled in source file order. */
@@ -596,7 +596,7 @@ void translate_capsule
 	      outs(",DATA\n");
 	   }
 	   is = evaluated(son(tg),symdef);
-	   if (diagnose)
+	   if (diag != DIAG_NONE)
 	   {
 	      diag_def = crt_def;
 	      stab_global(son(tg), id, extnamed);
@@ -641,7 +641,7 @@ void translate_capsule
 
   /* Translate the procedures. */
 
-  if (xdb)
+  if (diag == DIAG_XDB)
   {
      /*  XDB requires the procedures to be translated in the order
 	 that they appear in the c source file.  */
@@ -704,7 +704,7 @@ void translate_capsule
 	insection(text_section);
 	outnl();
 	outnl();
-	if (diagnose)
+	if (diag != DIAG_NONE)
 	{
 	   diag_def = crt_def;
 	   stab_proc(son(tg), id, extnamed);
@@ -722,7 +722,7 @@ void translate_capsule
 
 	outs("\t.PROCEND\n\t;");
 	outs(id);
-	if (xdb)
+	if (diag == DIAG_XDB)
 	{
 #if _SYMTAB_INCLUDED
 	   close_function_scope(res_label);
@@ -856,7 +856,7 @@ void exit_translator
     }
     outnl();
     outnl();
-    if (xdb)
+    if (diag == DIAG_XDB)
     {
 #ifdef _SYMTAB_INCLUDED
        output_DEBUG();

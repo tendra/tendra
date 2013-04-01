@@ -181,13 +181,13 @@ code_it(dec *my_def)
 	  id = new_id;
 	  my_def -> dec_u.dec_val.dec_id = id;
 	}
-	if (diagnose && dd != (diag_descriptor*)NULL) {
+	if (diag != DIAG_NONE && dd != (diag_descriptor*)NULL) {
 	  sourcemark *sm = &dd -> data.id.whence;
 	  set_file(sm->file->file.ints.chars,2);
 	  stabd(fscopefile = find_file(sm->file),
 		sm->line_no.nat_val.small_nat);
 	}
-	else if (diagnose){
+	else if (diag != DIAG_NONE){
 	  out_value(0,ifile,make_INT64(0,1),0);
 	  out_data("NOFILE.c",strlen("NOFILE.c"));
 	  out_loc(0,0);
@@ -208,11 +208,11 @@ code_it(dec *my_def)
 	}	
 	out_ent(current_symno = symnos[symdef],ient,2);
 	out_common(symnos[symdef],ilabel);
-	out_option(1,(diagnose)?1:2);
+	out_option(1,(diag != DIAG_NONE)?1:2);
 	symnoforstart (symdef, currentfile);
 	settempregs (son(tg));
 	code_here (son (tg), tempspace, nowhere);
-	if(diagnose && dd != (diag_descriptor*)NULL){
+	if(diag != DIAG_NONE && dd != (diag_descriptor*)NULL){
 	  stabd(fscopefile,currentlno+1);
 	}
 	if (as_file){
@@ -318,7 +318,7 @@ translate_capsule(void)
     my_def = my_def -> def_next;
   }
 
-  if(diagnose){
+  if(diag != DIAG_NONE){
     /* remove static functions with no uses if compiling with diagnostics */
     dec **ptr_def = &top_def;
     while(*ptr_def) {
@@ -326,7 +326,7 @@ translate_capsule(void)
       if(son(crt_exp) != nilexp) {
 	if(((name(son(crt_exp)) == general_proc_tag) || 
 	   (name(son(crt_exp)) == proc_tag)) &&
-	   ((no(crt_exp) == 0) && (diagnose) && !(*ptr_def)->dec_u.dec_val.extnamed)) {
+	   ((no(crt_exp) == 0) && (diag != DIAG_NONE) && !(*ptr_def)->dec_u.dec_val.extnamed)) {
 	  dec *old_ptr = *ptr_def;
 	  *ptr_def = (*ptr_def)->def_next;
 	  free(old_ptr);
@@ -380,7 +380,7 @@ translate_capsule(void)
   }
   
 
-  if(diagnose){
+  if(diag != DIAG_NONE){
     int l,i;
     char * ftmp;
     init_table_space(nofds,noprocs);
@@ -516,9 +516,9 @@ translate_capsule(void)
 
   out_verstamp(majorno,minorno);
 
-  out_option(1,diagnose?1:2);
+  out_option(1,diag != DIAG_NONE?1:2);
 
-  if (diagnose && nofds!=0) {
+  if (diag != DIAG_NONE && nofds!=0) {
     stab_file (0);
   }
   else{

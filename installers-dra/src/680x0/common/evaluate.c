@@ -1021,7 +1021,7 @@ void evaluate
 	    op2 = make_int_data(sz / 8);
 	    make_instr(m_as_common, op1, op2, 0);
 
-	    if (have_diagnostics && di)xdb_diag_val_begin(di, s, cname, global);
+	    if (diag != DIAG_NONE && di)xdb_diag_val_begin(di, s, cname, global);
 
 	    return;
 	}
@@ -1036,7 +1036,7 @@ void evaluate
 	    op2 = make_int_data(sz / 8);
 	    make_instr(m_as_local, op1, op2, 0);
 
-	    if (have_diagnostics && di)xdb_diag_val_begin(di, s, cname, global);
+	    if (diag != DIAG_NONE && di)xdb_diag_val_begin(di, s, cname, global);
 	} else {
 	    /* Common local value */
 	    area(pbss);
@@ -1046,7 +1046,7 @@ void evaluate
 	         make_label(cname);
 	    }
 
-	    if (have_diagnostics && di)xdb_diag_val_begin(di, s, cname, global);
+	    if (diag != DIAG_NONE && di)xdb_diag_val_begin(di, s, cname, global);
 
 	    op1 = make_int_data(sz / 8);
 	    make_instr(m_as_space, op1, NULL, 0);
@@ -1061,7 +1061,7 @@ void evaluate
 	make_instr(m_as_global, op1, NULL, 0);
     }
 
-    if (have_diagnostics && di)xdb_diag_val_begin(di, s, cname, global);
+    if (diag != DIAG_NONE && di)xdb_diag_val_begin(di, s, cname, global);
 
     if (al <= 32)al = 32;
 

@@ -1938,7 +1938,7 @@ coder(where dest, ash stack, exp e)
 		return;
 	}
 	case diagnose_tag:
-		if (have_diagnostics) {
+		if (diag != DIAG_NONE) {
 			diag_start(dno(e), e);
 			coder(dest, stack, son(e));
 			diag_end(dno(e), e);

@@ -607,7 +607,7 @@ void extj_ins(Instruction_P ins, baseoff b)
    *
    * We optimise by omitting the no-op where we know the call is intra-module.
    */
-  if (diagnose || !main_globals[(-b.base) -1] ->dec_u.dec_val.have_def)
+  if (diag != DIAG_NONE || !main_globals[(-b.base) -1] ->dec_u.dec_val.have_def)
   {
     fprintf(as_file, "\t%s\t%d,%d,%d\n", get_instruction(i_cror), 15, 15, 15);	/* conventional nop */
   }

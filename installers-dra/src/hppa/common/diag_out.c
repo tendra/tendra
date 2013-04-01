@@ -1046,19 +1046,20 @@ void stabd
       if (seg > 0)		/* -ve line nos are put out in the stabs */
       {
 	i = next_lab();
-	if (xdb)
-	{
+	switch (diag) {
+	case DIAG_XDB:
 #ifdef _SYMTAB_INCLUDED
 	   char address[128];
 	   sprintf(address,"L$M%ld-%s",i,last_proc_lab);
 	   make_sltentry(SLT_NORMAL, lno,(ADDRESS)address);
 	   last_lno = lno;
 #endif
-	}
-	else  /*  gdb  */
-	{
+	   break;
+
+	case DIAG_GDB:
   	   fprintf(dg_file,"\t.stabn\t0x%x,0,%ld,L$M%ld-%s\n",seg,
 		   lno,i,last_proc_lab);
+	   break;
 	}
 	fprintf(dg_file,"L$M%ld\n",i);
       }
@@ -1150,7 +1151,7 @@ void init_stab
 #else
     NIL = 0;
 #endif
-    if (xdb)
+    if (diag == DIAG_XDB)
     {
 #ifdef _SYMTAB_INCLUDED
        stab_types();
@@ -1218,7 +1219,7 @@ void init_stab_aux
     fclose(dg_file);
     dg_file = outf;
     stab_file((long)j, 0);
-    if (gdb)
+    if (diag == DIAG_GDB)
     {
        stab_types();
     }
@@ -1258,12 +1259,12 @@ void stab_file
 	return;
     }
 
-    if (gdb)
+    if (diag == DIAG_GDB)
        fprintf(dg_file,"\t.file\t\"%s\"\n",fds[findex] ->file.ints.chars);
     if (internal)
     {
        /* included file */
-       if (xdb)
+       if (diag == DIAG_XDB)
        {
 #ifdef _SYMTAB_INCLUDED
 	  SLTPOINTER slt_prev = slt_next;
@@ -1282,8 +1283,8 @@ void stab_file
     {
        /* source file */
        i = next_lab();
-       if (xdb)
-       {
+       switch (diag) {
+       case DIAG_XDB:
 #ifdef _SYMTAB_INCLUDED
 	  SLTPOINTER slt_prev = slt_next;
 	  VTPOINTER entry = is_vt_entry(findex);
@@ -1295,11 +1296,11 @@ void stab_file
 	  if (entry==VTNIL)
 	     make_vtentry(fds[findex] ->file.ints.chars,1,findex);
 #endif
-       }
-       else  /*  gdb  */
-       {
+	  break;
+       case DIAG_GDB:
 	  fprintf(dg_file, "\t.stabs\t\"%s\",0x64,0,0,L$M%ld\n",
        	     fds[findex] ->file.ints.chars, i);
+	  break;
        }
        fprintf(dg_file, "L$M%ld\n", i);
     }
@@ -1315,16 +1316,15 @@ static void stab_scope_open
 {
    stab_file(findex,1);
    /* nb. don't need to output bracket level */
-   if (xdb)
-   {
+   switch (diag) {
+   case DIAG_XDB:
 #ifdef _SYMTAB_INCLUDED
       SLTPOINTER slt_prev = slt_next;
       make_sltentry(SLT_BEGIN,(BITS)currentlno, lntt_next);
       make_dnttentry(K_BEGIN, slt_prev);
 #endif
-   }
-   else  /*  gdb  */
-   {
+      break;
+   case DIAG_GDB:
       if (last_LBRAC_stab==BB_id-1)
       {
 	 fprintf(dg_file,"\t.stabn\t0x%x,0,0,L$BB%ld-%s\n",N_LBRAC,BB_id,
@@ -1333,6 +1333,7 @@ static void stab_scope_open
       }
       BB_id++;
       fprintf(dg_file,"L$BB%ld\n",BB_id);
+      break;
    }
    bracket_level++;
 }
@@ -1347,16 +1348,15 @@ static void stab_scope_close
    if (bracket_level>MAX_LEX_LEVEL)
       return;
    /* nb. don't need to output bracket level */
-   if (xdb)
-   {
+   switch (diag) {
+   case DIAG_XDB:
 #ifdef _SYMTAB_INCLUDED
       SLTPOINTER slt_prev = slt_next;
       make_sltentry(SLT_END, currentlno, lntt_next);
       make_dnttentry(K_END, K_BEGIN, slt_prev, last_DNTT_BEGIN_entry());
 #endif
-   }
-   else  /*  gdb  */
-   {
+      break;
+   case DIAG_GDB:
       if (last_LBRAC_stab==BB_id-1)
       {
 	 fprintf(dg_file,"\t.stabn\t0x%x,0,0,L$BB%ld-%s\n",N_LBRAC,BB_id,
@@ -1367,6 +1367,7 @@ static void stab_scope_close
       fprintf(dg_file,"\t.stabn\t0x%x,0,0,L$BE%ld-%s\n",N_RBRAC,BE_id,
 		    last_proc_lab);
       fprintf(dg_file,"L$BE%ld\n",BE_id);
+      break;
    }
    return;
 }
@@ -1632,7 +1633,7 @@ static DNTTPOINTER out_dt_shape
     if (dt->been_outed)
     {
        last_type_sz = get_stab_size(dt->been_outed);
-       if (xdb)
+       if (diag == DIAG_XDB)
        {
 #ifdef _SYMTAB_INCLUDED
 	  return type_info[dt->been_outed].p;
@@ -1648,7 +1649,7 @@ static DNTTPOINTER out_dt_shape
 #if 0
     if (depth_now >= max_depth)
     {
-       if (gdb)
+       if (diag == DIAG_GDB)
 	  fprintf(dg_file, "%d", STAB_SLONG);
        return NIL;
     }
@@ -1670,7 +1671,7 @@ static DNTTPOINTER out_dt_shape
 	      {
 		 non = next_typen();
 		 stab_ptrs[pn] = non;
-		 if (xdb)
+		 if (diag == DIAG_XDB)
 		 {
 #ifdef _SYMTAB_INCLUDED
 		    p = make_dnttentry(K_POINTER, type_info[pn].p, 32);
@@ -1683,7 +1684,7 @@ static DNTTPOINTER out_dt_shape
 	      }
 	      else
 	      {
-		 if (xdb)
+		 if (diag == DIAG_XDB)
 		 {
 #ifdef _SYMTAB_INCLUDED
 		    p = type_info[non].p;
@@ -1698,7 +1699,7 @@ static DNTTPOINTER out_dt_shape
 	   else
 	   {
 	      non = next_typen();
-	      if (xdb)
+	      if (diag == DIAG_XDB)
 	      {
 #ifdef _SYMTAB_INCLUDED
 		 p = make_dnttentry(K_POINTER, out_dt_shape(dt->data.ptr.object), 32);
@@ -1734,7 +1735,7 @@ static DNTTPOINTER out_dt_shape
 	   diag_type element_type = dt->data.array.element_type;
 	   long non = next_typen();
 	   dt->been_outed = non;
-	   if (gdb)
+	   if (diag == DIAG_GDB)
 	   {
 	      fprintf(dg_file,"%ld=ar",non);
 	      out_dt_shape(index_type);
@@ -1748,7 +1749,7 @@ static DNTTPOINTER out_dt_shape
 #endif
 	   }
 	   elemtype = out_dt_shape(element_type);
-	   if (xdb)
+	   if (diag == DIAG_XDB)
 	   {
 #ifdef _SYMTAB_INCLUDED
 	      unsigned long arraylength = (upb-lwb+1) <<2;
@@ -1773,7 +1774,7 @@ static DNTTPOINTER out_dt_shape
 	   long non = next_typen();
 	   diag_field_list fields;
 #ifdef _SYMTAB_INCLUDED
-	   if (xdb)
+	   if (diag == DIAG_XDB)
 	      p = pos_of_dnttpointer(dt);
 #endif
 	   dt->been_outed = non;
@@ -1795,7 +1796,7 @@ static DNTTPOINTER out_dt_shape
 	      p.word--;
 #endif
 	   }
-	   if (xdb)
+	   if (diag == DIAG_XDB)
 	   {
 #ifdef _SYMTAB_INCLUDED
 	      DNTTPOINTER lastfield = NIL;
@@ -1860,7 +1861,7 @@ static DNTTPOINTER out_dt_shape
 		sha = f_floating(dt->data.f_var);
 	     }
 	     dt->been_outed = out_sh_type(sha);
-	     if (xdb)
+	     if (diag == DIAG_XDB)
 	     {
 #ifdef _SYMTAB_INCLUDED
 		return type_info[dt->been_outed].p;
@@ -1880,7 +1881,7 @@ static DNTTPOINTER out_dt_shape
 	     long non2 = next_typen();
 	     DNTTPOINTER p = NIL;
 	     dt->been_outed = non1;
-	     if (xdb)
+	     if (diag == DIAG_XDB)
 	     {
 #ifdef _SYMTAB_INCLUDED
 		p = make_dnttentry(K_POINTER, make_DNTTP_IMMEDIATE(T_FLABEL), 32);
@@ -1906,7 +1907,7 @@ static DNTTPOINTER out_dt_shape
 
 	case DIAG_TYPE_NULL:
 	  {
-	     if (gdb)
+	     if (diag == DIAG_GDB)
 		fprintf(dg_file,"%d",STAB_VOID);
 	     last_type_sz = 0;
 	     return NIL;
@@ -1916,7 +1917,7 @@ static DNTTPOINTER out_dt_shape
 	  {
 	     long sz = dt->data.bitfield.no_of_bits.nat_val.small_nat;
 	     last_type_sz = sz;
-	     if (xdb)
+	     if (diag == DIAG_XDB)
 	     {
 #ifdef _SYMTAB_INCLUDED
 
@@ -1951,7 +1952,7 @@ static DNTTPOINTER out_dt_shape
 	   int i;
 	   DNTTPOINTER p = NIL;
 	   long non;
-	   if (xdb)
+	   if (diag == DIAG_XDB)
 	   {
 #ifdef _SYMTAB_INCLUDED
 	      DNTTPOINTER firstmem;
@@ -2009,7 +2010,7 @@ static DNTTPOINTER out_dt_shape
 
 	default:
 	{
-	   if (gdb)
+	   if (diag == DIAG_GDB)
 	      fprintf(dg_file,"%d",STAB_VOID);
 	   last_type_sz = 0;
 	   return NIL;
@@ -2035,7 +2036,7 @@ void stab_global
   stabd(find_file(dd->data.id.whence.file->file.ints.chars),
 	(long)dd->data.id.whence.line_no.nat_val.small_nat
 	 , -N_DSLINE);
-  if (xdb)
+  if (diag == DIAG_XDB)
   {
 #ifdef _SYMTAB_INCLUDED
      if (ext)
@@ -2073,16 +2074,16 @@ void stab_proc
 	(long)dd->data.id.whence.line_no.nat_val.small_nat
 	 ,0);
    nm = id;
-   if (gdb)
+   if (diag == DIAG_GDB)
       fprintf(dg_file, "\t.stabs\t\"%s:%c",nm,(public ? 'F' : 'f'));
    OUT_DT_SHAPE(dd->data.id.new_type->data.proc.result_type);
 
-   if (gdb)
+   if (diag == DIAG_GDB)
       fprintf(dg_file,"\",0x24,0,%ld,%s\n",currentlno,id);
 
    last_proc_lab = id;		/* id is passed from translate_capsule,
 				 so stays in scope while needed */
-   if (xdb)
+   if (diag == DIAG_XDB)
    {
 #ifdef _SYMTAB_INCLUDED
       DNTTPOINTER retval;
@@ -2161,7 +2162,7 @@ void close_function_scope
 	  /* +++ add assembler comment to say which reg is being used */
 	  if (isparam(id))
 	  {
-	     if (xdb)
+	     if (diag == DIAG_XDB)
 	     {
 #ifdef _SYMTAB_INCLUDED
 		/* Seems as if parameters are treated like locals by xdb  */
@@ -2188,7 +2189,7 @@ void close_function_scope
 	  }
 	  else
 	  {
-	     if (xdb)
+	     if (diag == DIAG_XDB)
 	     {
 #ifdef _SYMTAB_INCLUDED
 		make_dnttentry(K_DVAR, 0, 0, 0, vt_next, disp,
@@ -2254,7 +2255,7 @@ void stab_types
 {
     no_type_info = NO_STABS;
     type_info = (type_info_t *)xmalloc(NO_STABS * sizeof(type_info_t));
-    if (xdb)
+    if (diag == DIAG_XDB)
     {
 #ifdef _SYMTAB_INCLUDED
        type_info[STAB_SCHAR].p = make_DNTTP_IMMEDIATE(T_CHAR, 8);
@@ -2342,34 +2343,34 @@ void stab_tagdefs
 
 		if (nme && *nme)
 		{
-		    if (gdb)
+		    if (diag == DIAG_GDB)
 		       fprintf(dg_file, "\t.stabs\t\"%s:", nme);
 		}
 		else
 		if (d->key == DIAG_TYPE_STRUCT)
 		{
 /*		   static int s_count = 0 ; gcc complains */
-		   if (gdb)
+		   if (diag == DIAG_GDB)
 		      fprintf(dg_file, "\t.stabs\t\"s:");
 		}
 		else
 		{
 /*		   static int u_count = 0 ; gcc complains */
-		   if (gdb)
+		   if (diag == DIAG_GDB)
   		      fprintf(dg_file, "\t.stabs\t\"u:");
 		}
 		if (d->been_outed && 0)
 		{
-		   if (gdb)
+		   if (diag == DIAG_GDB)
 		      fprintf(dg_file, "%d",(int)d->been_outed);
 		}
 		else
 		{
-		   if (gdb)
+		   if (diag == DIAG_GDB)
 		      fprintf(dg_file, "T");
 		   OUT_DT_SHAPE(d);
 		}
-		if (gdb)
+		if (diag == DIAG_GDB)
 		   fprintf(dg_file, "\",0x80,0,0,0\n");
 		break;
 	    }
@@ -2397,11 +2398,11 @@ void stab_typedefs
 	if (di[i].key == DIAG_TYPEDEF_KEY)
 	{
 	    long non = next_typen();
-	    if (gdb)
+	    if (diag == DIAG_GDB)
 	       fprintf(dg_file, "\t.stabs\t\"%s:t%ld=",
 		      di[i].data.typ.nme.ints.chars, non);
 	    OUT_DT_SHAPE(di[i].data.typ.new_type);
-	    if (gdb)
+	    if (diag == DIAG_GDB)
 	       fprintf(dg_file, "\",0x80,0,0,0\n");
 	}
     }

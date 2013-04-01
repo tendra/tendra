@@ -120,7 +120,7 @@ inline_exp(exp e)
 							   delivered result */
 			e = bro(e); /* NOTE e CHANGED to ass_tag */
 #ifdef NEWDIAGS
-			if (diagnose) {
+			if (diag != DIAG_NONE) {
 				/* bro(son(e)) is now the call */
 				dg_whole_comp(e, bro(son(e)));
 				dgf(e) = dgf(bro(son(e)));
@@ -193,7 +193,7 @@ inline_exp(exp e)
 		} else {
 			change_last_shapes(res, sh(bro(son(lab))));
 #ifdef NEWDIAGS
-			if (diagnose) {
+			if (diag != DIAG_NONE) {
 				dg_whole_comp(last_act, bro(son(lab)));
 			}
 #endif
@@ -216,7 +216,7 @@ inline_exp(exp e)
 		} else {
 			exp r = f_make_top();
 #ifdef NEWDIAGS
-			if (diagnose) {
+			if (diag != DIAG_NONE) {
 				dgf(r) = dgf(bro(son(lab)));
 			}
 #endif
@@ -226,7 +226,7 @@ inline_exp(exp e)
 
 
 #ifdef NEWDIAGS
-	if (diagnose) {
+	if (diag != DIAG_NONE) {
 		dg_complete_inline(e, res);
 	}
 #endif

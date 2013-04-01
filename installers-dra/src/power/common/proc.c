@@ -414,7 +414,7 @@ void make_res_tag_code(exp e, space sp)
     if (p_return_label == 0)
     {
       /* For diagnostics always produce return code */
-      if (p_no_of_returns>1 && !diagnose)
+      if (p_no_of_returns>1 && diag == DIAG_NONE)
       {
 	p_return_label = new_label();
 	set_label(p_return_label);

@@ -79,7 +79,7 @@ special_token(token t, bitstream pars, int sortcode, int *done)
 			set_place(pars);
 			tkv.tk_exp = hold_refactor(d_exp());
 			*done = 1;
-			if (!diagnose) {
+			if (diag == DIAG_NONE) {
 				set_place(old_place);
 				return tkv;
 			}

@@ -750,7 +750,7 @@ makeans make_code
       	exp sbdy = son(bdy);
 	int pr =  props(sbdy);
 #if 0
-	if (pt(bdy) == nilexp && !diagnose)
+	if (pt(bdy) == nilexp && diag == DIAG_NONE)
 	{
 	   /**  Parameter never used.  **/
 	}
@@ -1548,7 +1548,7 @@ makeans make_code
 	   off = - ((n+params_offset) >>3);
 	   stkpos.offset = off;
 #if 0
-	   if (pt(e) ==nilexp && !diagnose)
+	   if (pt(e) ==nilexp && diag == DIAG_NONE)
 	   {
 	      /* parameter never used */
 	   }
@@ -1696,7 +1696,7 @@ makeans make_code
      }
 #if 1
      /*  "take_out_of_line" stuff  */
-     if (name(bro(son(alt))) == top_tag && !diagnose)
+     if (name(bro(son(alt))) == top_tag && diag == DIAG_NONE)
      {
 	int extract = take_out_of_line(first, alt, repeat_level > 0, 1.0);
 	if (extract)

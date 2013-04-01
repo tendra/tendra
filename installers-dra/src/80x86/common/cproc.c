@@ -145,7 +145,7 @@ static void out_pops
       outs(",%esp");
       outnl();
 #ifdef NEWDWARF
-      if (diagnose && diag == DIAG_DWARF2)
+      if (diag == DIAG_DWARF2)
 	dwl0 = set_dw_text_label();
 #endif
     };
@@ -164,7 +164,7 @@ static void out_pops
     outs(" pop %ebp");
     outnl();
 #ifdef NEWDWARF
-    if (diagnose && diag == DIAG_DWARF2)
+    if (diag == DIAG_DWARF2)
       dwl1 = set_dw_text_label();
 #endif
   };
@@ -172,7 +172,7 @@ static void out_pops
     outs(" pop %esi");
     outnl();
 #ifdef NEWDWARF
-    if (diagnose && diag == DIAG_DWARF2)
+    if (diag == DIAG_DWARF2)
       dwl2 = set_dw_text_label();
 #endif
   };
@@ -180,7 +180,7 @@ static void out_pops
     outs(" pop %edi");
     outnl();
 #ifdef NEWDWARF
-    if (diagnose && diag == DIAG_DWARF2)
+    if (diag == DIAG_DWARF2)
       dwl3 = set_dw_text_label();
 #endif
   };
@@ -188,7 +188,7 @@ static void out_pops
     outs(" pop %ebx");
     outnl();
 #ifdef NEWDWARF
-    if (diagnose && diag == DIAG_DWARF2)
+    if (diag == DIAG_DWARF2)
       dwl4 = set_dw_text_label();
 #endif
   };
@@ -197,13 +197,13 @@ static void out_pops
     outs(" pop %ebp");
     outnl();
 #ifdef NEWDWARF
-    if (diagnose && diag == DIAG_DWARF2)
+    if (diag == DIAG_DWARF2)
       dwl1 = set_dw_text_label();
 #endif
   };
   outnl();
 #ifdef NEWDWARF
-  if (diagnose && diag == DIAG_DWARF2) {
+  if (diag == DIAG_DWARF2) {
     out_set_pos(dpos);
     dw2_fde_restore_args(dwl0, dwl1, dwl2, dwl3, dwl4, push_space);
   }
@@ -424,7 +424,7 @@ int cproc
   else
     dot_align(4);
 
-  if (diagnose)
+  if (diag != DIAG_NONE)
     {
 #ifdef NEWDWARF
     DIAG_PROC_BEGIN(diag_props, global, cname, pname, p);
@@ -445,7 +445,7 @@ int cproc
   outs(":");
   outnl();
 #ifdef NEWDWARF
-  if (diagnose && diag == DIAG_DWARF2) {
+  if (diag == DIAG_DWARF2) {
     START_BB();
     dwl0 = set_dw_text_label();
   }
@@ -467,7 +467,7 @@ int cproc
     outs(" movl %esp,%ebp");
     outnl();
 #ifdef NEWDWARF
-    if (diagnose && diag == DIAG_DWARF2)
+    if (diag == DIAG_DWARF2)
       dwl1 = set_dw_text_label();
 #endif
   };
@@ -477,7 +477,7 @@ int cproc
   outs("               ");
      /* " pushl %ebx\n" */
 #ifdef NEWDWARF
-  if (diagnose && diag == DIAG_DWARF2)
+  if (diag == DIAG_DWARF2)
     outs(dw_labroom);
 #endif
   outnl();
@@ -485,7 +485,7 @@ int cproc
   outs("               ");
      /* " pushl %edi\n" */
 #ifdef NEWDWARF
-  if (diagnose && diag == DIAG_DWARF2)
+  if (diag == DIAG_DWARF2)
     outs(dw_labroom);
 #endif
   outnl();
@@ -493,7 +493,7 @@ int cproc
   outs("               ");
      /* " pushl %esi\n" */
 #ifdef NEWDWARF
-  if (diagnose && diag == DIAG_DWARF2)
+  if (diag == DIAG_DWARF2)
     outs(dw_labroom);
 #endif
   outnl();
@@ -502,7 +502,7 @@ int cproc
     outs("               ");
        /* " pushl %ebp\n" */
 #ifdef NEWDWARF
-    if (diagnose && diag == DIAG_DWARF2)
+    if (diag == DIAG_DWARF2)
       outs(dw_labroom);
 #endif
     outnl();
@@ -518,7 +518,7 @@ int cproc
     checkalloc_stack(reg0, 1);
   };
 #ifdef NEWDWARF
-  if (diagnose && diag == DIAG_DWARF2) {
+  if (diag == DIAG_DWARF2) {
     dwl8 = set_dw_text_label();
     dw_entry_pos = dw2_start_fde(dwl0, dwl1);
   }
@@ -633,7 +633,7 @@ int cproc
   if (crt_ret_lab_used) {
 #ifdef NEWDWARF
     long over_lab;
-    if (diagnose && diag == DIAG_DWARF2) {
+    if (diag == DIAG_DWARF2) {
       over_lab = next_dwarf_label();
       dw2_return_pos(over_lab);
     }
@@ -642,7 +642,7 @@ int cproc
     retins();
     outnl();
 #ifdef NEWDWARF
-    if (diagnose && diag == DIAG_DWARF2)
+    if (diag == DIAG_DWARF2)
       dw2_after_fde_exit(over_lab);
 #endif
   };
@@ -660,7 +660,7 @@ int cproc
   out_set_pos(this_pos);
 
   locals_offset = tot_sp;
-  if (diagnose) {
+  if (diag != DIAG_NONE) {
     no (p) = tot_sp;	/* may be used by delayed diagnostics */
 #ifdef NEWDWARF
     DIAG_PROC_END(diag_props, p);
@@ -733,7 +733,7 @@ int cproc
     outs(" pushl %ebx");
     outnl();
 #ifdef NEWDWARF
-    if (diagnose && diag == DIAG_DWARF2)
+    if (diag == DIAG_DWARF2)
       dwl2 = set_dw_text_label();
 #endif
   };
@@ -743,7 +743,7 @@ int cproc
     outs(" pushl %edi");
     outnl();
 #ifdef NEWDWARF
-    if (diagnose && diag == DIAG_DWARF2)
+    if (diag == DIAG_DWARF2)
       dwl3 = set_dw_text_label();
 #endif
   };
@@ -754,7 +754,7 @@ int cproc
     outs(" pushl %esi");
     outnl();
 #ifdef NEWDWARF
-    if (diagnose && diag == DIAG_DWARF2)
+    if (diag == DIAG_DWARF2)
       dwl4 = set_dw_text_label();
 #endif
   };
@@ -764,13 +764,13 @@ int cproc
     outs(" pushl %ebp");
     outnl();
 #ifdef NEWDWARF
-    if (diagnose && diag == DIAG_DWARF2)
+    if (diag == DIAG_DWARF2)
       dwl1 = set_dw_text_label();
 #endif
   };
 
 #ifdef NEWDWARF
-  if (diagnose && diag == DIAG_DWARF2) {
+  if (diag == DIAG_DWARF2) {
 	  out_set_pos(dw_entry_pos);
     dw2_fde_entry(dwl0, dwl1, dwl2, dwl3, dwl4, dwl8, tot_sp);
   };
@@ -842,7 +842,7 @@ void restore_callregs
   no(returns_list) = (int)retpos;
   ptno(returns_list) = stack_dec;
 #ifdef NEWDWARF
-  if (diagnose && diag == DIAG_DWARF2)
+  if (diag == DIAG_DWARF2)
     sonno(returns_list) = (int)dw2_prep_fde_restore_args(untidy);
 #endif
   return;

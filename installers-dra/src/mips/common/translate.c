@@ -155,7 +155,7 @@ void code_it
 
 	out_common(0, itext);
 	out_value(0, ialign, 3, 0);
-	if (diagnose) {
+	if (diag != DIAG_NONE) {
 	 if (dd != (diag_descriptor*)0) {
 	    sourcemark *sm = &dd -> data.id.whence;
 	    stabd(fscopefile = find_file(sm->file->file.ints.chars),
@@ -172,15 +172,15 @@ void code_it
 	out_common(symnos[symdef], ilabel);
 	if (as_file) {
 		fprintf(as_file,
-			(diagnose)? "\t.option O1\n" : "\t.option O2\n");
+			(diag != DIAG_NONE)? "\t.option O1\n" : "\t.option O2\n");
 	}
 
-	out_option(1,(diagnose)? 1 : 2);
+	out_option(1,(diag != DIAG_NONE)? 1 : 2);
 
 	symnoforstart(symdef, currentfile);
 	settempregs(son(tg));
 	code_here(son(tg), tempspace, nowhere);
-	if (diagnose && dd != (diag_descriptor*)0) {
+	if (diag != DIAG_NONE && dd != (diag_descriptor*)0) {
 		stabd(fscopefile, currentlno+1);
 	}
 	if (as_file)
@@ -357,7 +357,7 @@ void translate_capsule
 	}
   }
 
-  if (diagnose && nofds !=0) {
+  if (diag != DIAG_NONE && nofds !=0) {
       init_table_space(nofds, noprocs);
       add_dense_no(0, 0);
       add_dense_no (0, 0);	/* dont know why!! */
@@ -478,7 +478,7 @@ void translate_capsule
 	fprintf(as_file, "\t.option pic2\n");
     }
     else {
-        fprintf(as_file,(diagnose)? "\t.option O1\n" : "\t.option O2\n");
+        fprintf(as_file,(diag != DIAG_NONE)? "\t.option O1\n" : "\t.option O2\n");
     }
   }
 
@@ -489,9 +489,9 @@ void translate_capsule
 	out_option(2, 2);
   }
   else
-  { out_option(1,(diagnose)? 1 : 2); }
+  { out_option(1,(diag != DIAG_NONE)? 1 : 2); }
 
-  if (diagnose && nofds!=0) {
+  if (diag != DIAG_NONE && nofds!=0) {
     stab_file(0);
   }
   else

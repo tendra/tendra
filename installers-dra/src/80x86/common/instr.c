@@ -662,7 +662,7 @@ void simple_set_label
 #endif
 #ifndef NEWDIAGS
   /* eliminate immediately previous jump to this label */
-  if (!diagnose && labno == last_jump_label) {
+  if (diag == DIAG_NONE && labno == last_jump_label) {
 		out_set_pos(last_jump_pos);
   };
 #endif
@@ -1041,7 +1041,7 @@ void trap_ins
   }
   ins1(pushl, 32, mw(zeroe, s));
 #ifdef NEWDWARF
-  if (diagnose && diag == DIAG_DWARF2 && no_frame)
+  if (diag == DIAG_DWARF2 && no_frame)
     dw2_track_push();
 #endif
   ins2(movl, 32, 32, mw(cont_err_handler, 0), reg0);
@@ -1342,12 +1342,12 @@ void rotshift64
 	check_stack_max;
 	ins0(pushedx);
 #ifdef NEWDWARF
-	if (diagnose && diag == DIAG_DWARF2 && no_frame)
+	if (diag == DIAG_DWARF2 && no_frame)
 	  dw2_track_push();
 #endif
 	ins0(pusheax);
 #ifdef NEWDWARF
-	if (diagnose && diag == DIAG_DWARF2 && no_frame)
+	if (diag == DIAG_DWARF2 && no_frame)
 	  dw2_track_push();
 #endif
 	ins3(dsh, 8, 32, 32, mw(zeroe,places),
@@ -1356,12 +1356,12 @@ void rotshift64
 		reg0, mw(ind_sp.where_exp,-64));
 	ins0(popeax);
 #ifdef NEWDWARF
-	if (diagnose && diag == DIAG_DWARF2 && no_frame)
+	if (diag == DIAG_DWARF2 && no_frame)
 	  dw2_track_pop();
 #endif
 	ins0(popedx);
 #ifdef NEWDWARF
-	if (diagnose && diag == DIAG_DWARF2 && no_frame)
+	if (diag == DIAG_DWARF2 && no_frame)
 	  dw2_track_pop();
 #endif
 	invalidate_dest(ind_sp);
@@ -1401,24 +1401,24 @@ void rotshift64
 	check_stack_max;
 	ins0(pushedx);
 #ifdef NEWDWARF
-	if (diagnose && diag == DIAG_DWARF2 && no_frame)
+	if (diag == DIAG_DWARF2 && no_frame)
 	  dw2_track_push();
 #endif
 	ins0(pusheax);
 #ifdef NEWDWARF
-	if (diagnose && diag == DIAG_DWARF2 && no_frame)
+	if (diag == DIAG_DWARF2 && no_frame)
 	  dw2_track_push();
 #endif
 	ins3(dsh, 8, 32, 32, reg2, reg1, mw(ind_sp.where_exp,-32));
 	ins3(dsh, 8, 32, 32, reg2, reg0, mw(ind_sp.where_exp,-64));
 	ins0(popeax);
 #ifdef NEWDWARF
-	if (diagnose && diag == DIAG_DWARF2 && no_frame)
+	if (diag == DIAG_DWARF2 && no_frame)
 	  dw2_track_pop();
 #endif
 	ins0(popedx);
 #ifdef NEWDWARF
-	if (diagnose && diag == DIAG_DWARF2 && no_frame)
+	if (diag == DIAG_DWARF2 && no_frame)
 	  dw2_track_pop();
 #endif
 	invalidate_dest(ind_sp);
@@ -1445,24 +1445,24 @@ void rotshift64
 	check_stack_max;
 	ins0(pushedx);
 #ifdef NEWDWARF
-	if (diagnose && diag == DIAG_DWARF2 && no_frame)
+	if (diag == DIAG_DWARF2 && no_frame)
 	  dw2_track_push();
 #endif
 	ins0(pusheax);
 #ifdef NEWDWARF
-	if (diagnose && diag == DIAG_DWARF2 && no_frame)
+	if (diag == DIAG_DWARF2 && no_frame)
 	  dw2_track_push();
 #endif
 	ins3(dsh, 8, 32, 32, reg2, reg1, mw(ind_sp.where_exp,-32));
 	ins3(dsh, 8, 32, 32, reg2, reg0, mw(ind_sp.where_exp,-64));
 	ins0(popeax);
 #ifdef NEWDWARF
-	if (diagnose && diag == DIAG_DWARF2 && no_frame)
+	if (diag == DIAG_DWARF2 && no_frame)
 	  dw2_track_pop();
 #endif
 	ins0(popedx);
 #ifdef NEWDWARF
-	if (diagnose && diag == DIAG_DWARF2 && no_frame)
+	if (diag == DIAG_DWARF2 && no_frame)
 	  dw2_track_pop();
 #endif
 	invalidate_dest(ind_sp);

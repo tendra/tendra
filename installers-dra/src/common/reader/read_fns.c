@@ -2154,21 +2154,21 @@ f_make_unit(tdfint_list lvl, links_list lks, bytestream prs)
   switch (crt_group_type)
    {
      case DIAGDEF_UNIT:		/* OLD DIAGS */
-              if (diagnose) {
+              if (diag != DIAG_NONE) {
                 IGNORE f_make_diagdef_unit();
 	      } else {
                 ignore_bytestream();
 	      }
               break;
      case DIAGTYPE_UNIT:	/* OLD DIAGS */
-              if (diagnose) {
+              if (diag != DIAG_NONE) {
                 IGNORE f_make_diagtype_unit();
 	      } else {
                 ignore_bytestream();
 	      }
               break;
      case DGCOMP_UNIT:	/* NEW DIAGS */
-              if (diagnose) {
+              if (diag != DIAG_NONE) {
                 IGNORE f_make_dg_comp_unit();
 	      } else {
                 ignore_bytestream();

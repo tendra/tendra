@@ -86,7 +86,7 @@ static void cca
     assexp(sto, to, id);
   };
 #ifdef NEWDIAGS
-  if (diagnose) {
+  if (diag != DIAG_NONE) {
     dgf(id) = dgf(bro(son(id)));
     dgf(bro(son(id))) = nildiag;
   }

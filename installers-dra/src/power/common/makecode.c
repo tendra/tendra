@@ -1105,7 +1105,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 	}
 
 
-	if (!diagnose && name(last_test) == test_tag)
+	if (diag == DIAG_NONE && name(last_test) == test_tag)
 	{
 	  /* we found a test_tag, is it simple and jumps to rep_tag? */
 

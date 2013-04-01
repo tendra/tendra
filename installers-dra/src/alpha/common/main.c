@@ -111,13 +111,13 @@ main(int argc, char *argv[])
 	endian = ENDIAN_LITTLE;
 	assembler = ASM_OSF1;
 	format = FORMAT_ELF;
-	diag = DIAG_STABS;
+	diag = DIAG_NONE;
 	cconv = CCONV_ALPHA;
 
 	{
 		int c;
 
-		while ((c = getopt(argc, argv, "A:B:C:DE:F:G:H:IK:MO:PQRSVWX:YZ" "ud:")) != -1) {
+		while ((c = getopt(argc, argv, "A:B:C:DE:F:G:H:K:MO:PQRSVWX:YZ" "ud:")) != -1) {
 			switch (c) {
 			case 'B': builtin = flags_builtin(builtin, optarg); break;
 			case 'O': optim   = flags_optim(optim, optarg);     break;
@@ -139,11 +139,8 @@ main(int argc, char *argv[])
 				format = switch_format(optarg, FORMAT_ELF);
 				break;
 			case 'G':
-				diag = switch_diag(optarg, DIAG_STABS);
+				diag = switch_diag(optarg, DIAG_NONE | DIAG_STABS);
 				break;
-
-			case 'I':
-				diagnose      = 1;
 
 			case 'K':
 				fprintf(stderr,"alphatrans: [-K..] -> only one kind of processor is supported\n");

@@ -200,7 +200,7 @@ repbyseq(exp e)
 #endif
 	if (son(def) == nilexp) {
 #ifdef NEWDIAGS
-		if (diagnose) {
+		if (diag != DIAG_NONE) {
 			dg_whole_comp(e, body);
 		}
 #endif
@@ -213,7 +213,7 @@ repbyseq(exp e)
 	setlast(def);
 	s = hold_refactor(make_twoarg(seq_tag, sh(body), seq, body));
 #ifdef NEWDIAGS
-	if (diagnose) {
+	if (diag != DIAG_NONE) {
 		dg_whole_comp(e, s);
 	}
 #endif
@@ -581,7 +581,7 @@ refactor_id(exp e, exp scope)
 	  }
 	}
 #ifdef NEWDIAGS
-	if (diagnose) {
+	if (diag != DIAG_NONE) {
 	  dg_whole_comp(mem, cp);
 	}
 #endif
@@ -609,7 +609,7 @@ refactor_id(exp e, exp scope)
     exp q, k;
 
 #ifdef NEWDIAGS
-    if (diagnose) {
+    if (diag != DIAG_NONE) {
       dg_whole_comp(def, son(def));
     }
 #endif
@@ -724,7 +724,7 @@ refactor_id(exp e, exp scope)
 #ifdef NEWDIAGS
 	if (diag_visible) {
 #else
-	if (diagnose) {
+	if (diag != DIAG_NONE) {
 #endif
 	  setvis(e);
 	  return 0;
@@ -871,7 +871,7 @@ refactor_id(exp e, exp scope)
 	  if (name(bro(tc)) == cont_tag) {
 	    sh(tc) = sh(bro(tc));
 #ifdef NEWDIAGS
-	    if (diagnose) {
+	    if (diag != DIAG_NONE) {
 	      dg_whole_comp(bro(tc), tc);
 	    }
 #endif
@@ -1037,7 +1037,7 @@ refactor_id(exp e, exp scope)
 	  tc = pt(e);
 	  while (tc != nilexp) {
 	    if (!isdiaginfo(tc)) {
-	      if (diagnose) {
+	      if (diag != DIAG_NONE) {
 		dg_rem_ass(bro(bro(tc)));
 	      }
 	      replace(bro(bro(tc)), bro(tc), bro(def));
@@ -1084,7 +1084,7 @@ refactor_id(exp e, exp scope)
 #ifdef NEWDIAGS
       if (all_a && !isparam(e) && !diag_visible) {
 #else
-      if (all_a && !isparam(e) && !diagnose) {
+      if (all_a && !isparam(e) && diag == DIAG_NONE) {
 #endif
 	/* if only assignments replace them by evaluating the value assigned
 	 * and discarding it. replace the declaration by a sequence of
@@ -1094,7 +1094,7 @@ refactor_id(exp e, exp scope)
 	while (1) {
 	  if (!last(tc) && name(bro(bro(tc))) == ass_tag) {
 #ifdef NEWDIAGS
-	    if (diagnose) {
+	    if (diag != DIAG_NONE) {
 	      dg_rem_ass(bro(bro(tc)));
 	    }
 #endif
@@ -1116,7 +1116,7 @@ refactor_id(exp e, exp scope)
 	  name(body) == ident_tag && name(son(body)) == name_tag &&
 	  son(son(body)) == e && shape_size(def) == shape_size(son(body))) {
 #ifdef NEWDIAGS
-	if (diagnose) {
+	if (diag != DIAG_NONE) {
 	  exp t = pt(e);
 	  while (t) {
 	    if (isdiaginfo(t)) {
@@ -1128,7 +1128,7 @@ refactor_id(exp e, exp scope)
 #endif
 	replace(son(body), def, def);
 #ifdef NEWDIAGS
-	if (diagnose) {
+	if (diag != DIAG_NONE) {
 	  dg_whole_comp(e, body);
 	}
 #endif

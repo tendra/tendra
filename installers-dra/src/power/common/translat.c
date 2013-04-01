@@ -235,7 +235,7 @@ void translate_capsule(void)
   /*
    * Initialise diagnostic information and produce stab for basic types.
    */
-  if (diagnose)
+  if (diag != DIAG_NONE)
   {
     init_diag();
   }
@@ -245,7 +245,7 @@ void translate_capsule(void)
    * Generate .extern, .globl, .lglobl, .comm, .lcomm.
    * Also take the opportunity to count proc and global definitions.
    *
-   * Note that .lglobl is only generated if diagnose is set (from -g).
+   * Note that .lglobl is only generated if diag is set (from -g).
    * It requires an updated IBM assembler with fix:
    * IX23435 Assembler can't create C_HIDEXT class for static names
    */
@@ -264,7 +264,7 @@ void translate_capsule(void)
     /* diag_def needed for find_dd in diagout.c */
     diag_def=crt_def;
 
-    if (diagnose)
+    if (diag != DIAG_NONE)
     {
       /*
        * It is safe to fixup all names here.  C static within procs
@@ -290,7 +290,7 @@ void translate_capsule(void)
     if (son(tg) == nilexp)
     {
 #if 0
-      if (!diagnose && no(tg) == 0)
+      if (diag == DIAG_NONE && no(tg) == 0)
 #else
       if(no(tg)==0)/* only put out an extern instruction if there is a use */
 #endif
@@ -342,14 +342,14 @@ void translate_capsule(void)
 	fprintf(as_file, "\t.globl\t%s\n", id);		/* id proc descriptor */
 	fprintf(as_file, "\t.globl\t.%s\n", id);	/* .id entry point */
       }
-      else if (diagnose)
+      else if (diag != DIAG_NONE)
       {
 	/* .lglobl is not documented, but avoids dbx and gdb becoming confused */
 	/* +++ always when .lglobl documented */
 	fprintf(as_file, "\t.lglobl\t.%s\n", id);	/* .id entry point */
       }
     }
-    else if (is_comm(son(tg)) && (diagnose || extnamed || no(tg) > 0))
+    else if (is_comm(son(tg)) && (diag != DIAG_NONE || extnamed || no(tg) > 0))
     {
       /* zero initialiser needed */
       long size = shape_size(sh(son(tg)));
@@ -366,12 +366,12 @@ void translate_capsule(void)
       if (extnamed)
       {
 	fprintf(as_file, "\t.comm\t%s,%ld,%d\n", id, byte_size, aligncode);
-	if (diagnose)
+	if (diag != DIAG_NONE)
 	  stab_global(son(tg), id, extnamed);
       }
       else
       {
-	if (diagnose)
+	if (diag != DIAG_NONE)
 	{
 	  char *csect_name = "C.";
 
@@ -400,7 +400,7 @@ void translate_capsule(void)
     {
       if (extnamed)
 	fprintf(as_file, "\t.globl\t%s\n", id);
-      else if (diagnose)
+      else if (diag != DIAG_NONE)
 	fprintf(as_file, "\t.lglobl\t%s\n", id);
       /* to avoid 'warning: global ignored' message from dbx */
     }
@@ -624,7 +624,7 @@ void translate_capsule(void)
        * Skip if zero uses and internal to module 
        * unless generating diagnostics 
        */
-      if (!(diagnose || extnamed || no(tg) > 0))
+      if (!(diag != DIAG_NONE || extnamed || no(tg) > 0))
 	continue;
       /* +++ could do better than making everything except strings [RW] */
       if ( ! IS_A_PROC(son(tg)) ) 
@@ -640,7 +640,7 @@ void translate_capsule(void)
 	{
 	  anydone = 1;
 	  fprintf(as_file, "\n\t.csect\tW.[RW]\n");
-	  if (diagnose)
+	  if (diag != DIAG_NONE)
 	  {
 	    stab_bs("W.[RW]");
 	  }
@@ -648,7 +648,7 @@ void translate_capsule(void)
 
 	evaluated(son(tg), -symdef - 1);
 
-	if (diagnose)
+	if (diag != DIAG_NONE)
 	{
 	  stab_global(son(tg), id, extnamed);
 	}
@@ -659,7 +659,7 @@ void translate_capsule(void)
       }
     }
   }
-  if (diagnose && anydone)
+  if (diag != DIAG_NONE && anydone)
   {
     stab_es("W.[RW]"); /* Close the RW section stab */
   }
@@ -687,7 +687,7 @@ void translate_capsule(void)
        * Skip if zero uses and internal to module unless 
        * generating diagnostics 
        */
-      if (!(diagnose || extnamed || no(tg) > 0))
+      if (!(diag != DIAG_NONE || extnamed || no(tg) > 0))
 	continue;
 
       if (!IS_A_PROC(son(tg)))
@@ -699,7 +699,7 @@ void translate_capsule(void)
 	{
 	  anydone = 1;
 	  fprintf(as_file, "\n\t.csect\tR.[RO]\n");
-	  if (diagnose)
+	  if (diag != DIAG_NONE)
 	  {
 	    stab_bs("R.[RO]");
 	  }
@@ -707,7 +707,7 @@ void translate_capsule(void)
 
 	evaluated(son(tg), symdef + 1);
 
-	if (diagnose)
+	if (diag != DIAG_NONE)
 	{
 	  stab_global(son(tg), id, extnamed);
 	}
@@ -719,7 +719,7 @@ void translate_capsule(void)
     }
   }
 
-  if (diagnose && anydone)
+  if (diag != DIAG_NONE && anydone)
   {
     stab_es("R.[RO]");
   }
@@ -741,7 +741,7 @@ void translate_capsule(void)
 	continue;
 
       /* skip if zero uses and internal to module unless generating diagnostics */
-      if (!(diagnose || extnamed || no(tg) > 0))
+      if (!(diag != DIAG_NONE || extnamed || no(tg) > 0))
 	continue;
 
       if (IS_A_PROC(son(tg)))
@@ -750,7 +750,7 @@ void translate_capsule(void)
 	fprintf(as_file, "\n");		/* make proc more visable to reader */
 	diag_def=crt_def;
 	/* switch to correct file */
-	if (diagnose && diag_def->dec_u.dec_val.diag_info!=NULL )
+	if (diag != DIAG_NONE && diag_def->dec_u.dec_val.diag_info!=NULL )
 	{
 	  anydone=1;
 	  stab_proc1(son(tg), id, extnamed);
@@ -769,7 +769,7 @@ void translate_capsule(void)
 	fprintf(as_file, ".%s:\n", id);
 
 	/* stab proc details */
-	if (diagnose && diag_def->dec_u.dec_val.diag_info!=NULL)
+	if (diag != DIAG_NONE && diag_def->dec_u.dec_val.diag_info!=NULL)
 	{
 	  stab_proc2(son(tg), id, extnamed);
 	}
@@ -779,7 +779,7 @@ void translate_capsule(void)
 
 	code_here(son(tg), tempregs, nowhere);
 
-	if (diagnose && diag_def->dec_u.dec_val.diag_info!=NULL)
+	if (diag != DIAG_NONE && diag_def->dec_u.dec_val.diag_info!=NULL)
 	{
 	  stab_endproc(son(tg), id, extnamed);
 	}
@@ -791,7 +791,7 @@ void translate_capsule(void)
       }
     }
   }
-  if ( diagnose && anydone )
+  if ( diag != DIAG_NONE && anydone )
   {
     stab_end_file();/* Ties up any open .bi's with .ei's */
   }

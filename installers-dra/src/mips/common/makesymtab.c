@@ -241,7 +241,7 @@ sym_tab_file);
 	  fdrtab.fMerge=0;	/* 1 for .h files I think */
 	  fdrtab.fReadin=0;
 	  fdrtab.fBigendian=(endian == ENDIAN_BIG);
-	  fdrtab.glevel= diagnose?GLEVEL_2:GLEVEL_0;
+	  fdrtab.glevel= diag != DIAG_NONE?GLEVEL_2:GLEVEL_0;
 	  fdrtab.reserved=0;	/* what else ! */
 	  fdrtab.cbLineOffset=0;	/* ??? */
 	  fdrtab.cbLine=0;	/* ??? */

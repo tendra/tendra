@@ -43,7 +43,6 @@
 #endif
 
 extern int good_trans;
-int gdb,xdb;
 
 char *local_prefix, *name_prefix;
 
@@ -77,13 +76,8 @@ int main
   /* errors messages are output on stdout, ensure they get out */
   setbuf(stdout, NULL);
 
-   /* set defaults for options */
-   xdb = 0;
-   gdb = 0;
-
   redo_structfns = 0;	  /* procs delivering structs recast to extra param */
   redo_structparams = 1; /* struct and union value parameters indirected   */
-  diagnose = 0;		/* -H option for diagnostics */
   do_profile = 0;      /* -P option for profiling info */
   do_alloca = 0;      /* inline alloca       */
   PIC_code = 0;
@@ -103,14 +97,14 @@ target_dbl_maxexp = 308;
 	endian = ENDIAN_BIG;
 	assembler = ASM_HP;
 	format = FORMAT_SOM;
-	diag = DIAG_STABS;
+	diag = DIAG_NONE;
 	cconv = CCONV_HPPA;
 
 	{
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"A:B:C:DE:F:G:H:IKNO:PQRVWX:YZ" "dhi")) != -1) {
+			"A:B:C:DE:F:G:H:KNO:PQRVWX:YZ" "di")) != -1) {
 			switch (c) {
 			case 'B': builtin = flags_builtin(builtin, optarg); break;
 			case 'O': optim   = flags_optim(optim, optarg);     break;
@@ -146,18 +140,10 @@ target_dbl_maxexp = 308;
 				break;
 
 			case 'G':
-				diag = switch_diag(optarg, DIAG_STABS);
-				break;
-
-			case 'I':
 #ifdef _SYMTAB_INCLUDED
-				diagnose = 1;
-				xdb = 1;
+				diag = switch_diag(optarg, DIAG_STABS);
 #else
-				fprintf(stderr,"trans warning: XDB diagnostics "
-					"not supported on this version of hppatrans, -I option ignored\n");
-				xdb = 0;
-				diagnose = 0;
+				diag = switch_diag(optarg, DIAG_STABS | DIAG_XDB | DIAG_GDB);
 #endif
 				break;
 
@@ -185,11 +171,6 @@ target_dbl_maxexp = 308;
 			case 'W': break;
 			case 'Y': dyn_init = 1; break;
 			case 'Z': report_versions = 1; break;
-
-			case 'h':
-				diagnose = 1;
-				gdb = 1;
-				break;
 
 			case 'i':
 				do_indexed_loads = 0;
@@ -244,13 +225,6 @@ target_dbl_maxexp = 308;
    has &= ~HAS_COMPLEX;
    has &= ~HAS_64_BIT;
 
-   /* Switch off certain optimisations when in diagnostics mode. */
-   if (diagnose)
-   {
-      optim = 0 ;
-      /* TODO: do gdb diagnostics depend on gcc assembly? */
-   }
-
    /* not implemented */
    optim &= ~OPTIM_TAIL;
    optim &= ~OPTIM_ZEROOFFSETS;
@@ -258,6 +232,11 @@ target_dbl_maxexp = 308;
 
    /* Careful with procedure results */
    optim &= ~OPTIM_UNPAD_APPLY;
+
+   if (diag != DIAG_NONE) {
+      optim = 0;
+      /* TODO: do gdb diagnostics depend on gcc assembly? */
+   }
 
    /* init nowhere */
   setregalt(nowhere.answhere, 0);
@@ -274,7 +253,7 @@ target_dbl_maxexp = 308;
 #include <reader/inits.h>		/* initialise common parts of translator */
   top_def = (dec *)0;
 
-  if (diagnose)
+  if (diag != DIAG_NONE)
   {
      init_stab();
   }

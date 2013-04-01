@@ -34,7 +34,6 @@ extern long frame_sz;
 extern long max_args;
 extern long locals_space;
 extern int fixdump;
-extern int gdb,xdb;
 extern long stackerr_lab,aritherr_lab;
 
 extern baseoff MEM_TEMP_BOFF,LONG_RESULT_BOFF,SP_BOFF,FP_BOFF;

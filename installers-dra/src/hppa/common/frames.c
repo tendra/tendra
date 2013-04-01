@@ -23,8 +23,6 @@
 extern char *proc_name;
 extern int bitsin(long);
 extern exp father(exp);
-extern int diagnose;
-extern int gdb;
 
 bool Has_fp = 0;
 bool Has_vsp = 0;
@@ -170,7 +168,7 @@ void setframe_flags
    Has_callees = (ne==general_proc_tag);
    Has_vcallees = (ne==general_proc_tag && proc_has_vcallees(e));
    Has_no_vcallers = (ne==proc_tag || !proc_has_vcallers(e));
-   Has_fp = (Has_vcallees || gdb);
+   Has_fp = (Has_vcallees || diag == DIAG_GDB);
    /*  n.b. gdb, apparently, tracks all locals and parameters via +ve
        offsets relative to a frame pointer = %r3. We comply by putting
        Has_fp=1  */

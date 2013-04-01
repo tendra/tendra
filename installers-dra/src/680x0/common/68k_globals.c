@@ -22,5 +22,4 @@ long cur_proc_callees_size = 0;
 long cur_proc_callers_size = 0;
 long cur_proc_env_size = 0;
 int apply_tag_flag = 0;
-int have_diagnostics = 0;
 

@@ -103,7 +103,6 @@ main(int argc, char **argv)
 	cpu = CPU_80586;
 	separate_units = 0;	/* combine units */
 	always_use_frame = 0;	/* avoid using frame pointer */
-	diagnose = 0;		/* diagnostics off */
 #ifdef NEWDIAGS
 	diag_visible = 0;
 	extra_diags = 0;
@@ -127,15 +126,12 @@ main(int argc, char **argv)
 	trap_on_nil_contents = 0;
 	load_ptr_pars = 1;
 	use_link_stuff = 1;
+
 	endian = ENDIAN_LITTLE;
 	assembler = ASM_GAS;
 	format = FORMAT_ELF;
 	cconv = CCONV_GCC; /* TODO: name properly */
-#ifdef NEWDWARF
-	diag = DIAG_DWARF2;
-#else
-	diag = DIAG_DWARF;
-#endif
+	diag = DIAG_NONE;
 
 	ptr_null = 0;		/* NULL value for pointer */
 	proc_null = 0;		/* NULL value for proc */
@@ -145,9 +141,9 @@ main(int argc, char **argv)
 	 * XXX: Some arguments are undocumented in trans.1, check
 	 */
 #ifdef NEWDWARF
-	optstring = "A:B:D:E:F:G:H:I:" "J" "K:M:NO:PQR:" "T" "VW:X:YZ" "abcdfghit:";
+	optstring = "A:B:D:E:F:G:H:" "J" "K:M:NO:PQR:" "T" "VW:X:YZ" "abcdfghit:";
 #else
-	optstring = "A:B:D:E:F:G:H:I:"     "K:M:NO:PQR:"     "VW:X:YZ" "abcdfghit:v:";
+	optstring = "A:B:D:E:F:G:H:"     "K:M:NO:PQR:"     "VW:X:YZ" "abcdfghit:v:";
 #endif
 
 	while ((ch = getopt(argc, argv, optstring)) != -1) {
@@ -172,43 +168,13 @@ main(int argc, char **argv)
 			format = switch_format(optarg, FORMAT_ELF | FORMAT_AOUT);
 			break;
 		case 'G':
-			diag = switch_diag(optarg, DIAG_STABS | DIAG_DWARF | DIAG_DWARF2);
+			diag = switch_diag(optarg, DIAG_NONE | DIAG_STABS | DIAG_DWARF | DIAG_DWARF2);
 			break;
 		case 'H':
 			has = flags_has(has, optarg);
 			break;
-		case 'I':
-			/* Add debug symbols to assembly */
-
-			if (*optarg != 'O' && *optarg != 'N') {
-				fprintf(stderr,
-				    "trans: invalid argument for -I\n");
-				exit(EXIT_FAILURE);
-			}
-
-			diagnose = 1;
-
-#ifdef NEWDIAGS
-			/*
-			 * O: produce optimised assembly
-			 * N: disable assembly optimisation
-			 */
-			if (*optarg == 'N') {
-				diag_visible = 1;
-
-				always_use_frame = 1;
-				all_variables_visible = 1;
-				optim = 0;
-			}
-#else /* At the moment every operating system but solaris */
-			always_use_frame = 1;
-			all_variables_visible = 1;
-			optim = 0;
-#endif /* NEWDIAGS */
-			break;
 #ifdef NEWDWARF
 		case 'J':
-			diagnose = 1;
 			extra_diags = 1;
 			diag = DIAG_DWARF2;
 			break;
@@ -249,7 +215,6 @@ main(int argc, char **argv)
 #ifdef NEWDWARF
 		case 'T':
 			dump_abbrev = 1;
-			diagnose = 1;
 			extra_diags = 1;
 			diag = DIAG_DWARF2;
 			break;
@@ -339,6 +304,15 @@ main(int argc, char **argv)
 	/* XXX: invalid assembly is generated without this */
 	optim |= OPTIM_CASE;
 
+	if (diag != DIAG_NONE) {
+		optim = 0;
+		always_use_frame = 1;
+		all_variables_visible = 1;
+#ifdef NEWDIAGS
+		diag_visible = 1;
+#endif
+	}
+
 	set_format(format);
 
 	while (*argv) {
@@ -362,7 +336,7 @@ main(int argc, char **argv)
 			init_dwarf2();
 		else
 #endif
-			if (diagnose)
+			if (diag != DIAG_NONE)
 				out_diagnose_prelude();
 
 #ifdef NEWDWARF
@@ -391,7 +365,7 @@ main(int argc, char **argv)
 			end_dwarf2();
 		else
 #endif
-			if (diagnose)
+			if (diag != DIAG_NONE)
 				out_diagnose_postlude();
 
 		outend(); /* close the .s file */

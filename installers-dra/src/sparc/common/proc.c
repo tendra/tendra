@@ -605,7 +605,7 @@ makeans make_res_tag_code
 #ifdef NEWDIAGS
 		&& !diag_visible) {
 #else
-		&& !diagnose) {
+		&& diag == DIAG_NONE) {
 #endif
 	/* Use only one return per proc, as this is necessary
 	   for the peep-hole assembler 'as -O' to recognise

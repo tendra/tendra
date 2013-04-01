@@ -1197,7 +1197,7 @@ ptr of ident exp is chain of uses
 	setcaonly(stare);
 	clearvar(stare);
      }
-     if (diagnose && (name(shdef)!=bitfhd))
+     if (diag != DIAG_NONE && (name(shdef)!=bitfhd))
 	setvis(stare);
 /*     if (!iscaonly(stare) || all_variables_visible)*/
      if (isvar(stare) && (!iscaonly(stare) || all_variables_visible))

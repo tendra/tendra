@@ -322,7 +322,7 @@ init_translator (void){
     init_dwarf2 ();
   else
 #endif
-  if ( diagnose ) {
+  if (diag != DIAG_NONE) {
 #if DWARF
     out_diagnose_prelude () ;
 #else
@@ -365,7 +365,7 @@ exit_translator (void){
     end_dwarf2 ();
   else
 #endif
-  if ( diagnose ) {
+  if (diag != DIAG_NONE) {
 #if DWARF
     out_diagnose_postlude () ;
 #else
@@ -390,9 +390,9 @@ translate_capsule (void){
   
   /* initialize diagnostics */
 #ifdef NEWDWARF
-  if ( diagnose && diag != DIAG_DWARF2 ) {
+  if ( diag != DIAG_NONE && diag != DIAG_DWARF2 ) {
 #else
-  if ( diagnose ) {
+  if ( diag != DIAG_NONE ) {
 #endif
 #if DWARF
     /* do nothing */
@@ -406,7 +406,7 @@ translate_capsule (void){
 #ifdef NEWDIAGS
   if ( !diag_visible ) opt_all_exps () ;
 #else
-  if ( !diagnose ) opt_all_exps () ;
+  if ( diag == DIAG_NONE ) opt_all_exps () ;
 #endif
   
   /* mark all statics as unaliased and count procedures */
@@ -417,7 +417,7 @@ translate_capsule (void){
 #ifdef NEWDIAGS
       if ( !diag_visible && !separate_units && !d->dec_u.dec_val.extnamed
 #else
-      if ( !diagnose && !separate_units && !d->dec_u.dec_val.extnamed
+      if ( diag == DIAG_NONE && !separate_units && !d->dec_u.dec_val.extnamed
 #endif
 	   && isvar ( c ) ) {
 	mark_unaliased ( c ) ;
@@ -715,7 +715,7 @@ translate_capsule (void){
 	if ( p & long_result_bit ) outs ( "!\tstruct result\n" ) ;
 #endif
 
-	if ( diagnose ) {
+	if ( diag != DIAG_NONE ) {
 	  DIAG_PROC_BEGIN ( diag_props, extnamed, -1, id, stg ) ;
 	}
 	if ( optim_level >= 0 ) {
@@ -756,7 +756,7 @@ translate_capsule (void){
 	  outnl () ;
 #endif	
 	}
-	if ( diagnose ) {
+	if ( diag != DIAG_NONE ) {
 	  DIAG_PROC_END ( stg ) ;
 	}
       }

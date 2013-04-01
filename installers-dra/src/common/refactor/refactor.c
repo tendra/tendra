@@ -500,7 +500,7 @@ refactor_seq(exp e, exp scope)
 				}
 			}
 #ifdef NEWDIAGS
-			if (diagnose) {
+			if (diag != DIAG_NONE) {
 				dg_dead_code(bro(z), son(z));
 				dg_whole_comp(e, son(z));
 			}
@@ -517,7 +517,7 @@ refactor_seq(exp e, exp scope)
 		}
 		if (last(son(z))) {
 #ifdef NEWDIAGS
-			if (diagnose) {
+			if (diag != DIAG_NONE) {
 				dg_rdnd_code(son(z), bro(z));
 				dg_whole_comp(e, bro(z));
 			}
@@ -529,7 +529,7 @@ refactor_seq(exp e, exp scope)
 			return 1;
 		}
 #ifdef NEWDIAGS
-		if (diagnose) {
+		if (diag != DIAG_NONE) {
 			dg_rdnd_code(son(z), bro(son(z)));
 		}
 #endif
@@ -559,7 +559,7 @@ refactor_seq(exp e, exp scope)
 					}
 					if (t == son(z)) {
 #ifdef NEWDIAGS
-						if (diagnose) {
+						if (diag != DIAG_NONE) {
 							dg_whole_comp(e, bnds);
 						}
 #endif
@@ -620,7 +620,7 @@ refactor_seq(exp e, exp scope)
 						kk = nilexp;
 					}
 #ifdef NEWDIAGS
-					if (diagnose) {
+					if (diag != DIAG_NONE) {
 						dg_dead_code(k, bro(t));
 					}
 #endif
@@ -628,7 +628,7 @@ refactor_seq(exp e, exp scope)
 				}
 			}
 #ifdef NEWDIAGS
-			if (diagnose) {
+			if (diag != DIAG_NONE) {
 				dg_dead_code(bro(z), bro(t));
 			}
 #endif
@@ -645,7 +645,7 @@ refactor_seq(exp e, exp scope)
 		if (nos(bro(t))) {
 			if (last(bro(t))) {
 #ifdef NEWDIAGS
-				if (diagnose) {
+				if (diag != DIAG_NONE) {
 					dg_rdnd_code(bro(t), bro(z));
 				}
 #endif
@@ -657,7 +657,7 @@ refactor_seq(exp e, exp scope)
 			k = bro(t);
 			bro(t) = bro(bro(t));
 #ifdef NEWDIAGS
-			if (diagnose) {
+			if (diag != DIAG_NONE) {
 				dg_rdnd_code(k, bro(t));
 			}
 #endif
@@ -763,7 +763,7 @@ comm_ass(exp e, unsigned char op_tag, void (*fn)(exp, exp, int), int one,
 				/* accumulate constant value */
 				fn (cst, t, errhandle(e));
 #ifdef NEWDIAGS
-				if (diagnose) {
+				if (diag != DIAG_NONE) {
 					dg_detach_const(t, cst);
 				}
 #endif
@@ -785,7 +785,7 @@ comm_ass(exp e, unsigned char op_tag, void (*fn)(exp, exp, int), int one,
 			/* no items but constant */
 			retcell(q);
 #ifdef NEWDIAGS
-			if (diagnose) {
+			if (diag != DIAG_NONE) {
 				dg_whole_comp(e, cst);
 			}
 #endif
@@ -808,7 +808,7 @@ comm_ass(exp e, unsigned char op_tag, void (*fn)(exp, exp, int), int one,
 			bro(q) = cst;
 			r = getexp(sh(e), nilexp, 0, q, nilexp, 0, 0, seq_tag);
 #ifdef NEWDIAGS
-			if (diagnose) {
+			if (diag != DIAG_NONE) {
 				dgf(r) = dgf(e);
 			}
 #endif
@@ -828,7 +828,7 @@ comm_ass(exp e, unsigned char op_tag, void (*fn)(exp, exp, int), int one,
 			setlast(p);
 			sh(q) = sh(e);
 #ifdef NEWDIAGS
-			if (diagnose) {
+			if (diag != DIAG_NONE) {
 				dgf(q) = dgf(e);
 			}
 #endif
@@ -838,7 +838,7 @@ comm_ass(exp e, unsigned char op_tag, void (*fn)(exp, exp, int), int one,
 		}
 
 #ifdef NEWDIAGS
-		if (diagnose) {
+		if (diag != DIAG_NONE) {
 			dgf(e) = combine_diaginfo(dgf(e), dgf(cst));
 		}
 #endif
@@ -848,7 +848,7 @@ comm_ass(exp e, unsigned char op_tag, void (*fn)(exp, exp, int), int one,
 			/* form result if single item and no constant */
 			sh(p) = sh(e);
 #ifdef NEWDIAGS
-			if (diagnose) {
+			if (diag != DIAG_NONE) {
 				dg_whole_comp(e, p);
 			}
 #endif
@@ -863,7 +863,7 @@ comm_ass(exp e, unsigned char op_tag, void (*fn)(exp, exp, int), int one,
 		setlast(p);
 		sh(q) = sh(e);
 #ifdef NEWDIAGS
-		if (diagnose) {
+		if (diag != DIAG_NONE) {
 			dg_whole_comp(e, q);
 		}
 #endif
@@ -1527,7 +1527,7 @@ seq_distr(exp e, exp scope)
 				r = me_u3(sh(e), copy(b), name(e));
 			} else {
 #ifdef NEWDIAGS
-				if (diagnose) {
+				if (diag != DIAG_NONE) {
 					dg_restruct_code(x, bro(x), +1);
 				}
 #endif
@@ -1541,7 +1541,7 @@ seq_distr(exp e, exp scope)
 			replace(b, r, r);	/* dgf preserved in copy */
 			kill_exp(b, b);
 #ifdef NEWDIAGS
-			if (diagnose) {
+			if (diag != DIAG_NONE) {
 				dg_whole_comp(e, x);
 			}
 #endif
@@ -1558,7 +1558,7 @@ seq_distr(exp e, exp scope)
 				clearinlined(y);
 			}
 #ifdef NEWDIAGS
-			if (diagnose) {
+			if (diag != DIAG_NONE) {
 				dg_restruct_code(y, x, -1);
 			}
 #endif
@@ -1571,7 +1571,7 @@ seq_distr(exp e, exp scope)
 			replace(b, r, r);		/* dgf preserved in copy */
 			kill_exp(b, b);
 #ifdef NEWDIAGS
-			if (diagnose) {
+			if (diag != DIAG_NONE) {
 				dg_whole_comp(e, y);
 			}
 #endif
@@ -1932,7 +1932,7 @@ refactor(exp e, exp scope)
 					/* unordered; temp can be first, iwc
 					 * all siblings unreachable */
 #ifdef NEWDIAGS
-					if (diagnose) {
+					if (diag != DIAG_NONE) {
 						exp sib = son(e);
 						for (;;) {
 							if (sib != temp) {
@@ -1977,7 +1977,7 @@ refactor(exp e, exp scope)
 						*/
 						sh(v) = sh(e);
 #ifdef NEWDIAGS
-						if (diagnose) {
+						if (diag != DIAG_NONE) {
 							dg_whole_comp(e, v);
 						}
 #endif
@@ -2008,7 +2008,7 @@ refactor(exp e, exp scope)
 									 a));
 					ap = hold_refactor(f_contents(sh(e), ap));
 #ifdef NEWDIAGS
-					if (diagnose) {
+					if (diag != DIAG_NONE) {
 						dg_whole_comp(v, ap);
 						dg_whole_comp(e, ap);
 					}
@@ -2028,7 +2028,7 @@ refactor(exp e, exp scope)
 					c = hold_refactor(f_contents(sh(e), ap));
 					var = me_complete_id(var, c);
 #ifdef NEWDIAGS
-					if (diagnose) {
+					if (diag != DIAG_NONE) {
 						dg_whole_comp(e, var);
 					}
 #endif
@@ -2057,7 +2057,7 @@ refactor(exp e, exp scope)
 					no(son(e)) = rounder(no(son(e)), al);
 				sh(son(e)) = sh(e);
 #ifdef NEWDIAGS
-				if (diagnose) {
+				if (diag != DIAG_NONE) {
 					dg_whole_comp(e, son(e));
 				}
 #endif
@@ -2110,7 +2110,7 @@ refactor(exp e, exp scope)
 					no(son(e)) = - no(son(e));
 					sh(son(e)) = sh(e);
 #ifdef NEWDIAGS
-					if (diagnose) {
+					if (diag != DIAG_NONE) {
 						dg_whole_comp(e, son(e));
 					}
 #endif
@@ -2283,7 +2283,7 @@ refactor(exp e, exp scope)
 					plus_fn(arg1, arg2, errhandle(e));
 					sh(arg1) = sh(e);
 #ifdef NEWDIAGS
-					if (diagnose) {
+					if (diag != DIAG_NONE) {
 						if (dgf(arg1)) {
 							dg_detach_const(arg1,
 									e);
@@ -2303,7 +2303,7 @@ refactor(exp e, exp scope)
 					exp q = hold_refactor(f_plus(f_impossible,
 								  arg2, arg1));
 #ifdef NEWDIAGS
-					if (diagnose) {
+					if (diag != DIAG_NONE) {
 						dg_whole_comp(e, q);
 					}
 #endif
@@ -2319,7 +2319,7 @@ refactor(exp e, exp scope)
 						hold_refactor(f_plus(f_impossible,
 						arg1, son(arg2))), con));
 #ifdef NEWDIAGS
-					if (diagnose) {
+					if (diag != DIAG_NONE) {
 						dg_whole_comp(e, x);
 					}
 #endif
@@ -2335,7 +2335,7 @@ refactor(exp e, exp scope)
 						hold_refactor(f_plus(f_impossible,
 						arg2, bro(son(arg1))))));
 #ifdef NEWDIAGS
-					if (diagnose) {
+					if (diag != DIAG_NONE) {
 						dg_whole_comp(e, x);
 					}
 #endif
@@ -2350,7 +2350,7 @@ refactor(exp e, exp scope)
 						hold_refactor(f_plus(f_impossible,
 						arg1, son(arg2))), t));
 #ifdef NEWDIAGS
-					if (diagnose) {
+					if (diag != DIAG_NONE) {
 						dg_whole_comp(e, x);
 					}
 #endif
@@ -2385,7 +2385,7 @@ refactor(exp e, exp scope)
 						sh(bro(son(e))) = sh(e);
 						no(bro(son(e))) /= 8;
 #ifdef NEWDIAGS
-						if (diagnose) {
+						if (diag != DIAG_NONE) {
 							dg_whole_comp(e,
 								bro(son(e)));
 						}
@@ -2443,7 +2443,7 @@ refactor(exp e, exp scope)
 					bro(p) = a;
 					clearlast(p);
 #if NEWDIAGS
-					if (diagnose) {
+					if (diag != DIAG_NONE) {
 						dg_whole_comp(son(e), p);
 					}
 #endif
@@ -2452,7 +2452,7 @@ refactor(exp e, exp scope)
 						      nilexp, 0, no(son(e)),
 						      reff_tag), ap);
 #if NEWDIAGS
-					if (diagnose) {
+					if (diag != DIAG_NONE) {
 						dg_whole_comp(e, r);
 					}
 #endif
@@ -2486,7 +2486,7 @@ refactor(exp e, exp scope)
 						inner = hold_refactor(me_b3(sh(e),
 							p, a, addptr_tag));
 #ifdef NEWDIAGS
-						if (diagnose) {
+						if (diag != DIAG_NONE) {
 							dg_whole_comp(bro(p),
 								      inner);
 						}
@@ -2494,7 +2494,7 @@ refactor(exp e, exp scope)
 						outer = hold_refactor(me_b3(sh(e),
 							inner, c, addptr_tag));
 #ifdef NEWDIAGS
-						if (diagnose) {
+						if (diag != DIAG_NONE) {
 							dg_whole_comp(e, outer);
 						}
 						/* also represent movement of
@@ -2514,7 +2514,7 @@ refactor(exp e, exp scope)
 				clearbigval(son(e));
 				sh(son(e)) = sh(e);
 #ifdef NEWDIAGS
-				if (diagnose) {
+				if (diag != DIAG_NONE) {
 					dg_whole_comp(e, son(e));
 				}
 #endif
@@ -2552,7 +2552,7 @@ refactor(exp e, exp scope)
 				}
 				sh(son(e)) = sha;
 #ifdef NEWDIAGS
-				if (diagnose)
+				if (diag != DIAG_NONE)
 					dg_whole_comp(e, son(e));
 #endif
 				replace(e, son(e), scope);
@@ -2562,7 +2562,7 @@ refactor(exp e, exp scope)
 			if (eq_shape(sh(e), sh(son(e)))) {
 				/* replace identity chvar by argument */
 #ifdef NEWDIAGS
-				if (diagnose) {
+				if (diag != DIAG_NONE) {
 					dg_whole_comp(e, son(e));
 				}
 #endif
@@ -2982,7 +2982,7 @@ refactor(exp e, exp scope)
 				       0, addptr_tag);
 			bro(son(e)) = a2;
 #ifdef NEWDIAGS
-			if (diagnose) {
+			if (diag != DIAG_NONE) {
 				dgf(r) = dgf(e);
 			}
 #endif
@@ -3000,7 +3000,7 @@ refactor(exp e, exp scope)
 				neg_fn(son(e));
 				sh(son(e)) = sh(e);
 #ifdef NEWDIAGS
-				if (diagnose) {
+				if (diag != DIAG_NONE) {
 					dg_whole_comp(e, son(e));
 				}
 #endif
@@ -3014,7 +3014,7 @@ refactor(exp e, exp scope)
 				 * or ignore */
 				sh(son(son(e))) = sh(e);
 #ifdef NEWDIAGS
-				if (diagnose) {
+				if (diag != DIAG_NONE) {
 					dg_whole_comp(son(e), son(son(e)));
 					dg_whole_comp(e, son(son(e)));
 				}
@@ -3050,7 +3050,7 @@ refactor(exp e, exp scope)
 				} while (!lst);
 				son(r) = bro(r);
 #ifdef NEWDIAGS
-				if (diagnose) {
+				if (diag != DIAG_NONE) {
 					dg_whole_comp(e, r);
 				}
 #endif
@@ -3856,7 +3856,7 @@ refactor(exp e, exp scope)
 				no(son(e)) += no(e);
 				sh(son(e)) = sh(e);
 #ifdef NEWDIAGS
-				if (diagnose) {
+				if (diag != DIAG_NONE) {
 					dg_whole_comp(e, son(e));
 				}
 #endif
@@ -3869,7 +3869,7 @@ refactor(exp e, exp scope)
 				no(son(e)) += (no(e) / 8);
 				sh(son(e)) = sh(e);
 #ifdef NEWDIAGS
-				if (diagnose) {
+				if (diag != DIAG_NONE) {
 					dg_whole_comp(e, son(e));
 				}
 #endif
@@ -3885,7 +3885,7 @@ refactor(exp e, exp scope)
 				sh(son(e)) = sh(e);
 				no(son(e)) += no(e);
 #ifdef NEWDIAGS
-				if (diagnose) {
+				if (diag != DIAG_NONE) {
 					dg_whole_comp(e, son(e));
 				}
 #endif
@@ -3898,7 +3898,7 @@ refactor(exp e, exp scope)
 			if (optim & OPTIM_ZEROOFFSETS && no(e) == 0 && al1(sh(e)) > 1) {
 				sh(son(e)) = sh(e);
 #ifdef NEWDIAGS
-				if (diagnose) {
+				if (diag != DIAG_NONE) {
 					dg_whole_comp(e, son(e));
 				}
 #endif
@@ -4016,7 +4016,7 @@ refactor(exp e, exp scope)
 				}
 				sh(son(e)) = sh(e);
 #ifdef NEWDIAGS
-				if (diagnose) {
+				if (diag != DIAG_NONE) {
 					dg_whole_comp(e, son(e));
 				}
 #endif
@@ -4125,7 +4125,7 @@ refactor(exp e, exp scope)
 			}
 			sh(bse) = sh(e);
 #ifdef NEWDIAGS
-			if (diagnose) {
+			if (diag != DIAG_NONE) {
 				dg_whole_comp(e, bse);
 			}
 #endif
@@ -4177,7 +4177,7 @@ refactor(exp e, exp scope)
 			}
 			seq = f_sequence(el, cont);
 #ifdef NEWDIAGS
-			if (diagnose) {
+			if (diag != DIAG_NONE) {
 				dg_whole_comp(e, var);
 			}
 #endif
@@ -4197,7 +4197,7 @@ refactor(exp e, exp scope)
 			exp s = son(e);
 			exp b = bro(s);
 #ifdef NEWDIAGS
-			if (diagnose) {
+			if (diag != DIAG_NONE) {
 				dg_dead_code(b, s);
 				dg_whole_comp(e, s);
 			}
@@ -4222,7 +4222,7 @@ refactor(exp e, exp scope)
 					pt(a) = nilexp;
 					sh(a) = sh(e);
 #ifdef NEWDIAG
-					if (diagnose) {
+					if (diag != DIAG_NONE) {
 						dg_whole_comp(e, a);
 					}
 #endif
@@ -4247,7 +4247,7 @@ refactor(exp e, exp scope)
 			sh(bro(s)) = sh(e);	/* unless bottom ? */
 
 #ifdef NEWDIAGS
-			if (diagnose) {
+			if (diag != DIAG_NONE) {
 				dg_whole_comp(e, bro(s));
 			}
 #endif
@@ -4262,7 +4262,7 @@ refactor(exp e, exp scope)
 			/* remove inaccessible statements */
 			exp bs = bro(son(e));
 #ifdef NEWDIAGS
-			if (diagnose) {
+			if (diag != DIAG_NONE) {
 				dg_dead_code(bro(son(bs)), son(e));
 				dg_whole_comp(e, son(e));
 			}
@@ -4282,7 +4282,7 @@ refactor(exp e, exp scope)
 			 * otherwise be undone */
 			sh(x) = sh(e);
 #ifdef NEWDIAGS
-			if (diagnose) {
+			if (diag != DIAG_NONE) {
 				dg_rdnd_code(son(e), x);
 				dg_whole_comp(e, x);
 			}
@@ -4857,7 +4857,7 @@ refactor(exp e, exp scope)
 
 		if (last(t)) {
 #ifdef NEWDIAGS
-			if (diagnose) {
+			if (diag != DIAG_NONE) {
 				dg_whole_comp(e, t);
 			}
 #endif
@@ -4897,7 +4897,7 @@ refactor(exp e, exp scope)
 					clearlast(t);
 				}
 #ifdef NEWDIAGS
-				if (diagnose) {
+				if (diag != DIAG_NONE) {
 					dg_dead_code(bro(son(q)), t);
 				}
 #endif
@@ -4911,7 +4911,7 @@ refactor(exp e, exp scope)
 
 		if (last(son(e))) {
 #ifdef NEWDIAGS
-			if (diagnose) {
+			if (diag != DIAG_NONE) {
 				dg_whole_comp(e, son(e));
 			}
 #endif

@@ -71,7 +71,7 @@ the proc independent (common to other  translators)
  */
 #define LOADFROMSTORE(e)\
 	(\
-	!diagnose \
+	diag == DIAG_NONE \
 	&& \
 	(\
 	 (name(e) == cont_tag && (name(son(e))!= name_tag || INMEMIDENT(son(son(e)))))\

@@ -266,7 +266,7 @@ kill_exp(exp e, exp scope)
       ++no(e);
       kill_el(son(e), scope);
 #ifdef NEWDIAGS
-      if (diagnose && pt(e)) {	/* allow diags to hold on to id */
+      if (diag != DIAG_NONE && pt(e)) {	/* allow diags to hold on to id */
 	diag_kill_id(e);
       } else
 #endif

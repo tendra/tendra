@@ -53,7 +53,6 @@ void out_rename
 extern int good_trans;
 bool do_extern_adds;
 FILE * as_file;
-
 FILE * ba_file;
 
 int   majorno = 3;
@@ -76,7 +75,6 @@ main(int argc, char **argv)
 	char *aname;
 	char *dname;
 	bool produce_binasm = 0;
-	bool override_diags = 0;
 	PIC_code = 0;
 	keep_PIC_vars = 1;
 	diagnose_registers = 0;
@@ -91,15 +89,15 @@ main(int argc, char **argv)
 	endian = ENDIAN_BIG;
 	assembler = ASM_GAS;
 	format = FORMAT_ELF;
-	diag = DIAG_STABS;
+	diag = DIAG_NONE;
 	cconv = CCONV_O32; /* TODO: confirm this is what we generate */
 
 	{
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"A:B:DE:F:G:H:IK:MO:PQRSV:WX:YZ"
-			"ei")) != -1) {
+			"A:B:DE:F:G:H:K:MO:PQRSV:WX:YZ"
+			"e")) != -1) {
 			switch (c) {
 			case 'B': builtin = flags_builtin(builtin, optarg); break;
 			case 'H': has     = flags_has(has, optarg);         break;
@@ -119,12 +117,7 @@ main(int argc, char **argv)
 				format = switch_format(optarg, FORMAT_ELF);
 				break;
 			case 'G':
-				diag = switch_diag(optarg, DIAG_STABS);
-				break;
-
-			case 'I':
-				diagnose = 1;
-				do_alloca = 0; /* dbx does not understand variable frame sizes */
+				diag = switch_diag(optarg, DIAG_NONE | DIAG_STABS);
 				break;
 
 			case 'D': PIC_code = 1;                 break;
@@ -185,7 +178,6 @@ main(int argc, char **argv)
 				break;
 
 			case 'e': do_extern_adds = 1; break;
-			case 'i': override_diags = 1; break;
 
 			default:
 				failer("Illegal flag");
@@ -195,6 +187,10 @@ main(int argc, char **argv)
 
 		argc -= optind;
 		argv += optind;
+	}
+
+	if (diag != DIAG_NONE) {
+		do_alloca = 0; /* dbx does not understand variable frame sizes */
 	}
 
 	if (do_alloca && PIC_code) {
@@ -212,12 +208,8 @@ main(int argc, char **argv)
 	has &= ~HAS_COMPLEX;
 	has &= ~HAS_64_BIT;
 
-	if (override_diags) {
-		diagnose = 0;
-	}
-
 	/* line numbering goes to hell with optimisations */
-	if (diagnose) {
+	if (diag != DIAG_NONE) {
 		optim = 0;
  	}
 

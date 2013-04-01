@@ -141,7 +141,7 @@ cca ( exp ** to, exp * x ){
     /* replace pointer to x by Let */
     *x = id ;
 #ifdef NEWDIAGS
-    if (diagnose) {
+    if (diag != DIAG_NONE) {
       dgf(id) = dgf(bro(son(id)));
       dgf(bro(son(id))) = nildiag;
     }
@@ -171,7 +171,7 @@ cca ( exp ** to, exp * x ){
     /* later replacement to same 'to' will be at body of Let */
     *to = &bro ( def ) ;
 #ifdef NEWDIAGS
-    if (diagnose) {
+    if (diag != DIAG_NONE) {
       dgf(id) = dgf(bro(son(id)));
       dgf(bro(son(id))) = nildiag;
     }

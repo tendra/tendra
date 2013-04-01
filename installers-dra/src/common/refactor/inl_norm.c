@@ -248,7 +248,7 @@ normalised_inlining(void)
       def = son(crt_exp);
       total_uses = no(crt_exp);
 #ifdef NEWDIAGS
-      if (diagnose) {
+      if (diag != DIAG_NONE) {
 	start_diag_inlining(def, my_def->dec_u.dec_val.diag_info);
       }
 #endif
@@ -315,7 +315,7 @@ normalised_inlining(void)
 	}
       }
 #ifdef NEWDIAGS
-      if (diagnose) {
+      if (diag != DIAG_NONE) {
 	end_diag_inlining(def, my_def->dec_u.dec_val.diag_info);
       }
 #endif

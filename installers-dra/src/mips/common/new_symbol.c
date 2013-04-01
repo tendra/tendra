@@ -404,7 +404,7 @@ new_lsym(char* str, long value, short symtype, short symclass, diag_type s, long
 		add_aux(nilaux,filenum);	/* add nil type !! */
 		}
 
-   else if (!diagnose )
+   else if (diag == DIAG_NONE)
 	{newsym.index = 1048575;
  	newsym.iss = add_to_loc_strings(str,filenum);
 	}
@@ -437,7 +437,7 @@ new_esym(char* str, long value, short symtype, short symclass, diag_type s, long
    newsym.reserved = 0;
    newsym.sc = symclass;
 
-	if (((symtype==stProc) && (symclass==scNil ||symclass==scUndefined)) || (!diagnose))
+	if (((symtype==stProc) && (symclass==scNil ||symclass==scUndefined)) || (diag == DIAG_NONE))
 		/* no diagnostics  */
 		{newsym.index=1048575;newsym.value=0;}
 	else {newsym.index=add_type_to_aux(s,filenum);

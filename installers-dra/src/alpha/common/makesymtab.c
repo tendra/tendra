@@ -16,6 +16,8 @@
 #include "config.h"
 #include "cross_config.h"
 
+#include <construct/flags.h>
+
 #include "symtab.h"	
 #include "makesymtab.h"	
 
@@ -27,8 +29,6 @@
 #else
 #include CROSS_INCLUDE/symconst.h>
 #endif
-
-extern char diagnose;
 
 
 long
@@ -239,7 +239,7 @@ makesymtab(STRINGS *extstrings, ESYMS* extsymbols, DENSETAB* densenos,
     fdrtab.fMerge=0;	/* 1 for .h files I think */
     fdrtab.fReadin=0;
     fdrtab.fBigendian=0;
-    fdrtab.glevel= diagnose?GLEVEL_2 : GLEVEL_0;
+    fdrtab.glevel= diag != DIAG_NONE ? GLEVEL_2 : GLEVEL_0;
     fdrtab.reserved=0;	/* what else ! */
     fdrtab.cbLineOffset=0;	/* ??? */
     fdrtab.cbLine=0;	/* ??? */

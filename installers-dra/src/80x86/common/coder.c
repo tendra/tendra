@@ -229,7 +229,7 @@ static int procargs
       sub(slongsh, mw(zeroe, extra/8), sp, sp);
       stack_dec -= extra;  /* align stack to param_align */
 #ifdef NEWDWARF
-      if (diagnose && diag == DIAG_DWARF2 && no_frame)
+      if (diag == DIAG_DWARF2 && no_frame)
 	dw2_track_sp();
 #endif
     };
@@ -253,7 +253,7 @@ static int procargs
     cond2_set = 0;
     stack_dec -= longs;
 #ifdef NEWDWARF
-    if (diagnose && diag == DIAG_DWARF2 && no_frame)
+    if (diag == DIAG_DWARF2 && no_frame)
       dw2_track_sp();
 #endif
 
@@ -541,7 +541,7 @@ static regu alloc_reg
 #ifdef NEWDIAGS
     if (big_reg || diag_visible || round_after_flop ||
 #else
-    if (big_reg || diagnose || round_after_flop ||
+    if (big_reg || diag != DIAG_NONE || round_after_flop ||
 #endif
 	(cpu & CPU_80586 && isvar(e))) {
       regu ru;
@@ -997,7 +997,7 @@ void coder
 	  coder(dest, stack, bro(son(e)));
 #ifdef NEWDIAGS
 	else
-	if (diagnose) {			/* Beware lost information !!! */
+	if (diag != DIAG_NONE) {			/* Beware lost information !!! */
 	  name(bro(son(e))) = top_tag;
 	  son(bro(son(e))) = nilexp;
 	  dgf(bro(son(e))) = nildiag;
@@ -1017,7 +1017,7 @@ void coder
 	if (no(son(alt)) == 0) {
 	  coder(dest, stack, first);
 #ifdef NEWDIAGS
-	  if (diagnose) {		/* Beware lost information !!! */
+	  if (diag != DIAG_NONE) {		/* Beware lost information !!! */
 	    name(bro(son(alt))) = top_tag;
 	    son(bro(son(alt))) = nilexp;
 	    dgf(bro(son(alt))) = nildiag;
@@ -2115,12 +2115,12 @@ void coder
 		rel_ap (0, 1);	/* push return address for return after pops */
 		outnl();
 #ifdef NEWDWARF
-		if (diagnose && diag == DIAG_DWARF2)
+		if (diag == DIAG_DWARF2)
 		  dw2_untidy_return();
 #endif
 	      }
 #ifdef NEWDWARF
-	      if (diagnose && diag == DIAG_DWARF2) {
+	      if (diag == DIAG_DWARF2) {
 		over_lab = next_dwarf_label();
 		dw2_return_pos(over_lab);
 	      }
@@ -2138,7 +2138,7 @@ void coder
 		retins();
 	      outnl();
 #ifdef NEWDWARF
-	      if (diagnose && diag == DIAG_DWARF2)
+	      if (diag == DIAG_DWARF2)
 		dw2_after_fde_exit(over_lab);
 #endif
 	    };

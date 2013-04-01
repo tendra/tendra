@@ -57,7 +57,7 @@ symnoforext(dec *ex, int filen)
   short   symclass;
   long  v = 0;
   char *id = ex -> dec_u.dec_val.dec_id;
-  if (diagnose) {		
+  if (diag != DIAG_NONE) {		
     diag_descriptor * t = ex ->dec_u.dec_val.diag_info;
     if (t != (diag_descriptor *) 0) {
       id = t -> data.id.nme.ints.chars;
@@ -123,7 +123,7 @@ symnoforstart(int i, int filen)
   short   symtype = (ex -> dec_u.dec_val.extnamed) ? stProc : stStaticProc;
   char *id = ex -> dec_u.dec_val.dec_id;
   diag_type dt = (diag_type)0;
-  if (diagnose) {		
+  if (diag != DIAG_NONE) {		
     diag_descriptor * t = ex ->dec_u.dec_val.diag_info;
     if (t != (diag_descriptor *) 0) {
       id = t ->data.id.nme.ints.chars;
@@ -142,7 +142,7 @@ symnoforend(dec *ex, int filen)
 {
   char *id = ex -> dec_u.dec_val.dec_id;
   diag_type dt = (diag_type)0;  
-  if (diagnose) {		
+  if (diag != DIAG_NONE) {		
     diag_descriptor * t = ex ->dec_u.dec_val.diag_info;
     if (t != (diag_descriptor *) 0) {
       id = t -> data.id.nme.ints.chars;

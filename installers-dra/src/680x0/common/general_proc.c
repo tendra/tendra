@@ -114,7 +114,7 @@ void gcproc
   stack_dec = 0;
   stack_size = 0;
   used_ldisp = 0;
-  used_stack = do_profile || diagnose || must_use_bp;
+  used_stack = do_profile || diag != DIAG_NONE || must_use_bp;
 
   /* Mark procedure body */
   ptno(p) = par_pl;
@@ -233,7 +233,7 @@ void gcproc
   prologue();
 
   /* Diagnostics for start of procedure */
-  if (have_diagnostics && di)xdb_diag_proc_begin(di, p, pname, cname, is_ext);
+  if (diag != DIAG_NONE && di)xdb_diag_proc_begin(di, p, pname, cname, is_ext);
 
   /* Allow for procedures which return compound results */
   if (!reg_res) {
@@ -258,7 +258,7 @@ void gcproc
 
 
   /* Encode the procedure body */
-  if (have_diagnostics && diagnose) {
+  if (diag != DIAG_NONE) {
     dnt_begin();
     coder(zero, stack, t);
     dnt_end();
@@ -272,7 +272,7 @@ void gcproc
   if (optim & OPTIM_PEEPHOLE)peephole();
 
   /* Diagnostics for end of procedure */
-  if (have_diagnostics && di)xdb_diag_proc_end(di);
+  if (diag != DIAG_NONE && di)xdb_diag_proc_end(di);
 
   return ;
 }
@@ -1360,7 +1360,7 @@ void general_epilogue
 
    make_label(crt_ret_lab);
 
-   if (have_diagnostics && diagnose)xdb_diag_proc_return();
+   if (diag != DIAG_NONE) xdb_diag_proc_return();
 
    d1_free = !(regsinproc & regmsk(REG_D1));
 

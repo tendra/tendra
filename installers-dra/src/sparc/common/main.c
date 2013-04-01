@@ -137,7 +137,6 @@ main ( int argc, char ** argv )
   /* set defaults for options */
   redo_structfns = 0 ;			/* structure results are normal */
   redo_structparams = 1 ;		/* structure parameters are odd */
-  diagnose = 0 ;			/* not in diagnostics mode */
 #ifdef NEWDIAGS
   diag_visible = 0;
   extra_diags = 0;
@@ -182,11 +181,7 @@ main ( int argc, char ** argv )
   endian = ENDIAN_BIG;
   assembler = ASM_SUN;
   format = FORMAT_ELF;
-#ifdef NEWDWARF
-  diag = DIAG_DWARF;
-#else
-  diag = DIAG_STABS;
-#endif
+  diag = DIAG_NONE;
   cconv = CCONV_SPARC;
 
 #if SYSV_ABI
@@ -201,7 +196,7 @@ main ( int argc, char ** argv )
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"A:B:C:DE:F:G:H:I:JK:MNO:PQRTVWX:YZ"
+			"A:B:C:DE:F:G:H:JK:MNO:PQRTVWX:YZ"
 			"abcglmo:i:r:un")) != -1) {
 			switch (c) {
 			case 'B': builtin = flags_builtin(builtin, optarg); break;
@@ -224,20 +219,11 @@ main ( int argc, char ** argv )
 				format = switch_format(optarg, FORMAT_AOUT | FORMAT_ELF);
 				break;
 			case 'G':
-				diag = switch_diag(optarg, DIAG_STABS | DIAG_DWARF | DIAG_DWARF2);
-				break;
-
-			case 'I':
-				diagnose = 1 ;
-#ifdef NEWDIAGS
-				if (arg[2] != 'O')
-					diag_visible = 1;
-#endif
+				diag = switch_diag(optarg, DIAG_NONE | DIAG_STABS | DIAG_DWARF | DIAG_DWARF2);
 				break;
 
 #ifdef NEWDWARF
 			case 'J':
-				diagnose = 1;
 				extra_diags = 1;
 				diag = DIAG_DWARF2;
 				break;
@@ -253,7 +239,6 @@ main ( int argc, char ** argv )
 #ifdef NEWDWARF
 			case 'T':
 				dump_abbrev = 1;
-				diagnose = 1;
 				extra_diags = 1;
 				diag = DIAG_DWARF2;
 				break;
@@ -376,17 +361,6 @@ main ( int argc, char ** argv )
       exit ( EXIT_FAILURE ) ;
     }
 
-    /* switch off certain optimisations in diagnostics mode */
-#ifdef NEWDIAGS
-    if ( diag_visible ) {
-#else
-    if ( diagnose ) {
-#endif
-      optim_level = 0 ;
-      all_variables_visible = 1;	/* set vis flag for all declarations */
-      optim = 0;
-    }	
-
     /* Things trans.sparc does not "has" */
     has &= ~HAS_BYTEOPS;
     has &= ~HAS_BYTEREGS;
@@ -412,6 +386,15 @@ main ( int argc, char ** argv )
      * tcc environment for sparc. Meanwhile I'm clearing it here just in case.
      */
     optim &= ~OPTIM_COMPOUNDS;
+
+    if (diag != DIAG_NONE) {
+	optim = 0;
+        optim_level = 0 ;
+        all_variables_visible = 1;	/* set vis flag for all declarations */
+#ifdef NEWDIAGS
+	diag_visible = 1;
+#endif
+    }
 
     /* initialise nowhere */
     setregalt ( nowhere.answhere, 0 ) ;

@@ -85,12 +85,15 @@ enum format {
 };
 
 enum diag {
-	DIAG_STABS   = 1 << 0,
-	DIAG_STABX   = 1 << 1,
-	DIAG_XDB_OLD = 1 << 2,
-	DIAG_XDB_NEW = 1 << 3,
-	DIAG_DWARF   = 1 << 4,
-	DIAG_DWARF2  = 1 << 5
+	DIAG_NONE    = 1 << 0,
+	DIAG_STABS   = 1 << 1,
+	DIAG_STABX   = 1 << 2,
+	DIAG_XDB_OLD = 1 << 3,
+	DIAG_XDB_NEW = 1 << 4,
+	DIAG_DWARF   = 1 << 5,
+	DIAG_DWARF2  = 1 << 6,
+	DIAG_GDB     = 1 << 7,
+	DIAG_XDB     = 1 << 8
 };
 
 /* TODO: these need their proper names (stdcall, fastcall, cdecl, etc) */
@@ -107,7 +110,6 @@ enum cconv {
 
 extern int redo_structfns;
 extern int redo_structparams;
-extern int diagnose;
 extern int diagnose_registers;
 extern int do_profile;
 extern int do_alloca;

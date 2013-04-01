@@ -65,7 +65,6 @@ int main(int argc, char **argv)
 				 * recast to extra param
 				 * for call struct/union return convention 
 				 */
-  diagnose = 0;			/* Produce diagnosics */
   do_profile = 0;		/* Produce profiling info */
   separate_units = 0;		/* Translate units separately */
   all_variables_visible = 0;	/* Set vis flag for all declarations */
@@ -80,14 +79,14 @@ int main(int argc, char **argv)
   endian = ENDIAN_BIG;
   assembler = ASM_IBM;
   format = FORMAT_XCOFF;
-  diag = DIAG_STABX;
+  diag = DIAG_NONE;
   cconv = CCONV_XLC;
   
 	{
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"A:B:C:E:F:G:H:IK:MO:PQRVWX:YZ" "cen")) != -1) {
+			"A:B:C:E:F:G:H:K:MO:PQRVWX:YZ" "cen")) != -1) {
 			switch (c) {
 			case 'B': builtin = flags_builtin(builtin, optarg); break;
 			case 'H': has     = flags_has(has, optarg);         break;
@@ -107,10 +106,8 @@ int main(int argc, char **argv)
 				format = switch_format(optarg, FORMAT_XCOFF);
 				break;
 			case 'G':
-				diag = switch_diag(optarg, DIAG_STABX | DIAG_XDB_OLD | DIAG_XDB_NEW);
+				diag = switch_diag(optarg, DIAG_NONE | DIAG_STABX | DIAG_XDB_OLD | DIAG_XDB_NEW);
 				break;
-
-			case 'I': diagnose = 1;                    break;
 
 			case 'K': 
 				switch (*optarg) {
@@ -190,7 +187,7 @@ int main(int argc, char **argv)
   has &= ~HAS_64_BIT;
 
   /* switch off certain optimisations in diagnostics mode */
-  if ( diagnose ) {
+  if ( diag != DIAG_NONE ) {
     all_variables_visible = 1;	/* set vis flag for all declarations */
     optim = 0;
   }

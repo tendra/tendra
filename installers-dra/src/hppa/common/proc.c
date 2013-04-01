@@ -523,7 +523,7 @@ makeans make_proc_tag_code
      add_odd_bits(ol);
   }
 
-  if (xdb)
+  if (diag == DIAG_XDB)
   {
      outlab("L$$",res_label);
      code_for_ret(RES);
@@ -788,7 +788,7 @@ makeans make_res_tag_code
 	  *   and output relevant code sequence
 	   */
 	 *ret_label = new_label();
-	 if (xdb)
+	 if (diag == DIAG_XDB)
 	 {
 	    ub_ins(cmplt_,*ret_label);
 	 }
@@ -799,7 +799,7 @@ makeans make_res_tag_code
 	 }
       }
       else
-      if (xdb || fixdump)
+      if (diag == DIAG_XDB || fixdump)
 	 ub_ins(cmplt_,*ret_label);
       else
 	 code_for_ret(nm);  /*

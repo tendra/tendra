@@ -212,7 +212,7 @@ tokval special_token
         tkv.tk_exp = hold_refactor(d_exp());
         *done = 1;
 
-        if (!diagnose)
+        if (diag == DIAG_NONE)
           {
             set_place(old_place);
             return tkv;
