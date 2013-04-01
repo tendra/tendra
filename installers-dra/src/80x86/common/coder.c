@@ -543,7 +543,7 @@ static regu alloc_reg
 #else
     if (big_reg || diagnose || round_after_flop ||
 #endif
-	(is80586 && isvar(e))) {
+	(cpu & CPU_80586 && isvar(e))) {
       regu ru;
       ru.can_do = 0;
       return ru;

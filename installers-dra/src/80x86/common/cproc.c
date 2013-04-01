@@ -89,7 +89,7 @@ static void add_odd_bits
     return;
 
   current_odd_bit = r;
-  if (is80486)
+  if (cpu & CPU_80486)
     dot_align(4);
   simple_set_label(r->labno);
   clear_reg_record(crt_reg_record);
@@ -419,7 +419,7 @@ int cproc
     outnl();
   };
 
-  if (is80486)
+  if (cpu & CPU_80486)
     dot_align(16);
   else
     dot_align(4);

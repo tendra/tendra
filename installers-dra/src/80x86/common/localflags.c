@@ -17,8 +17,7 @@
 
 #include "localflags.h"
 
-int is80486;		/* compile for 80486 */
-int is80586;		/* compile for 80586 */
+enum cpu cpu;
 int always_use_frame;
 int gcc_compatible = 0;
 int module_has_setjmp = 0;

@@ -2195,7 +2195,7 @@ void move
       return;
     };
     if (sz < 32 ||
-        (is80486 && inmem(from))) {
+        (cpu & CPU_80486 && inmem(from))) {
       move(sha, from, reg0);
       ins1(pushl, 32, reg0);
 #ifdef NEWDWARF
@@ -2862,7 +2862,7 @@ void stack_return
      stack_dec += longs;
      return;
    };
-  if (is80586 && longs == 64 && (regsinuse & 0x2) == 0)
+  if (cpu & CPU_80586 && longs == 64 && (regsinuse & 0x2) == 0)
    {
      ins0(popedx);
 #ifdef NEWDWARF
@@ -2878,7 +2878,7 @@ void stack_return
      stack_dec += longs;
      return;
    };
-  if (is80586 && longs == 64 && (regsinuse & 0x4) == 0)
+  if (cpu & CPU_80586 && longs == 64 && (regsinuse & 0x4) == 0)
    {
      ins0(popecx);
 #ifdef NEWDWARF
@@ -2952,7 +2952,7 @@ void callins
 #ifdef NEWDWARF
   START_BB();
 #endif
-  if (longs == 32 || (longs == 64 && is80586) ||
+  if (longs == 32 || (longs == 64 && cpu & CPU_80586) ||
 	!no_frame || !not_in_params || !not_in_postlude)
     stack_return(longs);
   else

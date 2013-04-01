@@ -80,7 +80,7 @@ void
 align_label(int f, exp jr)
 {
 	if (format == FORMAT_ELF) {
-		if (is80486 && !is80586 && ptno(jr) != last_jump_label) {
+		if (cpu & CPU_80486 && ~cpu & CPU_80586 && ptno(jr) != last_jump_label) {
 #if 0
 			/* forward jump and continued into */
 			if (f == 0) {
@@ -101,7 +101,7 @@ align_label(int f, exp jr)
 			outs("\n");
 		}
 	} else {
-		if (is80486 && !is80586 && ptno(jr) != last_jump_label) {
+		if (cpu & CPU_80486 && ~cpu & CPU_80586 && ptno(jr) != last_jump_label) {
 #if 0
 			/* forward jump and continued into */
 			if (f == 0) {
@@ -126,7 +126,7 @@ align_label(int f, exp jr)
 			outs("\n");
 		}
 
-		if (is80586 && ptno(jr) != last_jump_label) {
+		if (cpu & CPU_80586 && ptno(jr) != last_jump_label) {
 			if (f >= 1 && f <= 3) {
 				outs(".align 2,0x90\n");
 			}

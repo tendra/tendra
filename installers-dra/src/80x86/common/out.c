@@ -116,7 +116,7 @@ outnl(void)
 	instr_count = -1;
 #endif
 	last_jump_label = -1;
-	keep_short = is80586;
+	keep_short = cpu & CPU_80586;
 }
 
 void

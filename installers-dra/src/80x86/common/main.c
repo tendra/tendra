@@ -100,8 +100,7 @@ main(int argc, char **argv)
 	 */
 	redo_structfns = 1;	/* replace fns delivering structs */
 	redo_structparams = 0;	/* no change to struct params */
-	is80486 = 1;		/* (at least) 80486 */
-	is80586 = 1;		/* Pentium */
+	cpu = CPU_80586;
 	separate_units = 0;	/* combine units */
 	always_use_frame = 0;	/* avoid using frame pointer */
 	diagnose = 0;		/* diagnostics off */
@@ -210,19 +209,13 @@ main(int argc, char **argv)
 			break;
 #endif
 		case 'K':
+			cpu = 0;
+
 			switch (*optarg) {
-			case '3':
-				is80486 = 0;
-				is80586 = 0;
-				break;
-			case '4':
-				is80486 = 1;
-				is80586 = 0;
-				break;
-			case '5':
-				is80486 = 1;
-				is80586 = 1;
-				break;
+			case '5': cpu |= CPU_80586;
+			case '4': cpu |= CPU_80486;
+			case '3': cpu |= CPU_80386; break;
+
 			default:
 				/* XXX: proper error handling */
 				(void) fprintf(stderr,
@@ -334,7 +327,7 @@ main(int argc, char **argv)
 	has &= ~HAS_COMPLEX;
 	has &= ~HAS_64_BIT;
 
-	if (!is80586) {
+	if (~cpu & CPU_80586) {
 		has &= ~HAS_SETCC;
 	}
 

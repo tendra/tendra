@@ -1,11 +1,14 @@
 /* $Id$ */
 
 /*
- * Copyright 2007-2011, The TenDRA Project.
+ * Copyright 2007-2013, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
  *
  * See doc/copyright/ for the full copyright terms.
  */
+
+#ifndef LOCALFLAGS_H
+#define LOCALFLAGS_H
 
 #include "config.h"
 
@@ -13,8 +16,15 @@
 
 #include <linkinfo/li_types.h>
 
-extern  int is80486;		/* compile for 80486 */
-extern  int is80586;		/* compile for 80586 */
+/* This is a set of feature-selection bits, which may be masked together */
+enum cpu {
+	CPU_80386 = 1 << 0,
+	CPU_80486 = 1 << 1,
+	CPU_80586 = 1 << 2
+};
+
+extern enum cpu cpu;
+
 extern  int always_use_frame;	/* always use %ebp as a frame pointer */
 extern  int gcc_compatible;	/* produce gcc compatible code */
 extern  int module_has_setjmp;
@@ -31,4 +41,6 @@ extern	char *local_prefix;
 extern	char *name_prefix;
 
 void set_format(enum format format);
+
+#endif
 
