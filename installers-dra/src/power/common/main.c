@@ -25,8 +25,9 @@
 #include "comment.h"		/* for do_comment */
 #include "target_v.h"		/* for comiple_date */
 #include "macro.h"
+#include "localflags.h"
 
-int architecture=COMMON_CODE;	
+enum cpu cpu;
 
 int main(int argc, char **argv)
 {
@@ -73,6 +74,7 @@ int main(int argc, char **argv)
   target_dbl_maxexp = 308;
   use_long_double = 0;
 
+  cpu = CPU_COMMON;
   endian = ENDIAN_BIG;
   assembler = ASM_IBM;
   format = FORMAT_XCOFF;
@@ -104,11 +106,12 @@ int main(int argc, char **argv)
 			case 'I': diagnose = 1;                    break;
 
 			case 'K': 
-				if (optarg[0] == 'R') {
-					architecture = RS6000_CODE;
-				} else if (optarg[0] == 'P') {
-					architecture = POWERPC_CODE;
-				} else {
+				switch (*optarg) {
+				case 'C': cpu = CPU_COMMON;  break;
+				case 'R': cpu = CPU_RS6000;  break;
+				case 'P': cpu = CPU_POWERPC; break;
+
+				default:
 					fprintf(stderr,"Unknown architecture: "
 						"-K should be followed by R for rs6000 or P for powerpc\n");
 				}

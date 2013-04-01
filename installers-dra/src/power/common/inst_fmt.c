@@ -35,6 +35,7 @@ understood by the assembler.
 #include "inst_fmt.h"
 #include "macro.h"
 #include "mask.h"
+#include "localflags.h"
 
 #define IS_POW2(c)		((c)!= 0 && ((c) & ((c) -1)) == 0)
 
@@ -628,7 +629,7 @@ void extj_special_ins(Instruction_P ins, char *nm)
 /* branch conditional instruction */
 void bc_ins(Instruction_P ins, int creg, int lab, int prediction)
 {
-  if (architecture == POWERPC_CODE)
+  if (cpu == CPU_POWERPC)
   {
 
     int BI;
@@ -705,7 +706,7 @@ void long_bc_ins(Instruction_P ins, int creg, int lab, int prediction)
     fail("Don't know how to reverse this test");
   }
 
-  if (architecture == POWERPC_CODE)
+  if (cpu == CPU_POWERPC)
   {
 
     int BI;
@@ -1102,15 +1103,15 @@ void comment(char *p)
 char * get_instruction(Instruction_P ins)
 {
   char *w;
-  switch (architecture)
+  switch (cpu)
   {
-   case COMMON_CODE:
+   case CPU_COMMON:
     w=ins->com;
     break;
-   case RS6000_CODE:
+   case CPU_RS6000:
     w=ins->pwr;
     break;
-   case POWERPC_CODE:
+   case CPU_POWERPC:
     w=ins->ppc;
     break;
   };

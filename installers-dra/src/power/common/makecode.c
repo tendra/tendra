@@ -23,6 +23,7 @@
 #include "proc.h"
 #include "translat.h"
 #include "eval.h"
+#include "localflags.h"
 
 #include <reader/externs.h>
 
@@ -1088,7 +1089,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
       ASSERT(name(second) ==labst_tag);
       no(son(second)) = new_label();
 #if 1
-      if (architecture != POWERPC_CODE)
+      if (cpu != CPU_POWERPC)
       {
 	exp last_test;
 	/*
@@ -3550,7 +3551,7 @@ void adjust_to_size(int src_shpe, int sreg, int dest_shpe, int dreg, int trap)
     switch (dest_shpe)
     {
      case scharhd:
-      if (architecture==POWERPC_CODE)
+      if (cpu == CPU_POWERPC)
       {
 	rr_ins(i_extsb,sreg,dreg);
       }

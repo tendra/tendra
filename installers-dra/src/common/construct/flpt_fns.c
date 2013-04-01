@@ -23,6 +23,10 @@
 #include "expmacs.h"
 #include "szs_als.h"
 
+#ifdef TRANS_POWER
+#include "localflags.h"
+#endif
+
 #include <reader/codetypes.h>
 #include <reader/basicread.h>
 #include <reader/main_reads.h>
@@ -1579,7 +1583,7 @@ f_round_with_mode(error_treatment flpt_err, rounding_mode mode, variety r,
 #endif
 #if TRANS_POWER
  if (name(arg1) != real_tag || flpt_err.err_code > 2) {
-   if (architecture != POWERPC_CODE) {
+   if (cpu != CPU_POWERPC) {
      exp id;
      exp apply1;
      exp apply2;

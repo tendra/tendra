@@ -55,6 +55,7 @@ the proc independent (common to other  translators)
 #include "stack.h"
 #include "error.h"
 #include "dynamic_init.h"
+#include "localflags.h"
 
 /*
  * Will an ident exp be in memory?
@@ -1418,7 +1419,7 @@ ptr is labelled exp
       return scan(&son(*e), at);
     }
    case abs_tag:
-    if (architecture!=RS6000_CODE)
+    if (cpu != CPU_RS6000)
     {
       /* We cant use abs instruction so we convert */
       shape int_shpe = sh(*e);

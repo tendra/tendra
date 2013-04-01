@@ -25,6 +25,7 @@
 #include "tempdecs.h"
 #include "regmacs.h"
 #include "stack.h"
+#include "localflags.h"
 
 /* to go in a switch as in case CASE_APPLYLIKE: */
 #define	CASE_APPLYLIKE	apply_tag: case round_tag:case apply_general_tag
@@ -42,7 +43,7 @@ bool APPLYLIKE(exp e)
   if (name(e) ==apply_general_tag)
     return 1;
   if (name(e) ==round_tag)
-    if (name(sh(e)) ==ulonghd||architecture!=POWERPC_CODE)
+    if (name(sh(e)) == ulonghd || cpu != CPU_POWERPC)
       return 1;
   return 0;
 }
@@ -59,7 +60,7 @@ bool RETURNS_R_RESULT(exp e)
   }
   if (name(e) ==round_tag)
   {
-    if (name(sh(e)) ==ulonghd||architecture!=POWERPC_CODE)
+    if (name(sh(e)) ==ulonghd || cpu != CPU_POWERPC)
       return 1;
   }
   return 0;

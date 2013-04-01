@@ -8,11 +8,16 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-    
-    
-    
-    
-    
+#ifndef LOCALFLAGS_H
+#define LOCALFLAGS_H
 
+enum cpu {
+	CPU_COMMON,
+	CPU_POWERPC,
+	CPU_RS6000
+};
 
-/* no local flags for POWER */
+extern enum cpu cpu;
+
+#endif
+

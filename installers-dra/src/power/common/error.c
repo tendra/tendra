@@ -29,6 +29,7 @@
 #include "stack.h"
 #include "instruct.h"
 #include "error.h"
+#include "localflags.h"
 
 /* Labels to call the error handler */
 /* NOTE there are three one for each ERROR_CODE */
@@ -503,7 +504,7 @@ int mult_error_treatment(exp e, space sp, where dest)
     {
       int creg=next_creg();
 
-      if (architecture==POWERPC_CODE)
+      if (cpu == CPU_POWERPC)
       {
 	/* easy since we have mulhwu */
 	rrr_ins(i_mulhwu,lhs_reg,rhs_reg,R_TMP0);

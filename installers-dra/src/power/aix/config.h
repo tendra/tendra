@@ -19,11 +19,6 @@
 					/* Meaning when option set (1) */
 					/* =========================== */
 
-#define POWERPC_CODE            1
-#define RS6000_CODE             2
-#define COMMON_CODE             0
-extern int architecture;
-
 #define NO_ERROR_JUMP           0
 
 /* For a general proc 4 parameters are passed in t-regs R_3 -- R_6 */

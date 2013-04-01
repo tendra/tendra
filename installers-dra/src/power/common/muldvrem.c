@@ -22,6 +22,7 @@
 #include "muldvrem.h"
 #include "translat.h"
 #include "error.h"
+#include "localflags.h"
 
 #define BITS_PER_WORD		32
 
@@ -316,7 +317,7 @@ static int do_div(exp seq, space sp, int final_reg, bool sgned)
     div_error_treatment(lhs_reg, rhs_reg, e);
   }
 
-  if (architecture==POWERPC_CODE)
+  if (cpu == CPU_POWERPC)
   {
     /* PowerPC has nicer divide instructions */
     if (div_type !=div1_tag || !sgned)
@@ -499,7 +500,7 @@ static int do_rem(exp seq, space sp, int final_reg, bool sgned)
   {
     rem_error_treatment(lhs_reg,rhs_reg,e);
   }
-  if (architecture==POWERPC_CODE)
+  if (cpu == CPU_POWERPC)
   {
     if (!sgned || rem_type !=mod_tag)
     {
