@@ -31,6 +31,7 @@
 
 FILE *fpout;
 
+int no_align_directives;
 
 /*
     OPEN OUTPUT FILE
@@ -575,9 +576,9 @@ output_all(void)
 				    n == m_braw || n == m_bral) {
 					/* Align after unconditional jumps */
 					outnl();
-#ifndef no_align_directives
-					outs(instr_names[m_as_align4]);
-#endif
+					if (!no_align_directives) {
+						outs(instr_names[m_as_align4]);
+					}
 				}
 			} else {
 				/* Simple instructions */

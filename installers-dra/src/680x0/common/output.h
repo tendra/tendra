@@ -13,6 +13,7 @@
 #include <stdio.h>
 
 extern FILE *fpout;
+extern int no_align_directives;
 
 #define  outc(X)	fputc((X), fpout)
 #define  outs(X)	fputs((X), fpout)

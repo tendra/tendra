@@ -2,7 +2,7 @@
 
 +MACHINE		"sunos-*-680x0"
 
->FLAG_TRANS		"-Y"
+>FLAG_TRANS		"-Y -a"
 
 +AS			"/usr/local/bin/gas -mc68020"
 

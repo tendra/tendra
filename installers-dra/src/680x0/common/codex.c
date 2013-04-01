@@ -867,9 +867,9 @@ void cproc
 
     /* Output procedure name(s) */
     area(ptext);
-#ifndef no_align_directives
-    make_instr(m_as_align4, NULL, NULL, 0);
-#endif
+    if (!no_align_directives) {
+      make_instr(m_as_align4, NULL, NULL, 0);
+    }
     if (is_ext && pname) {
 	if (strcmp(pname, "_cmppt") == 0) {
 	    /* Hack to get alignments right */

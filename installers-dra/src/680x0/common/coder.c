@@ -50,6 +50,7 @@
 #include "ops_shared.h"
 #include "general_proc.h"
 #include "68k_globals.h"
+#include "output.h"
 
 #if have_diagnostics
 #include "xdb_basics.h"
@@ -654,9 +655,9 @@ caser(exp arg, long already)
 
 		/* Print out table */
 		make_label(tlab);
-#ifndef no_align_directives
-		make_instr(m_as_align4, NULL, NULL, 0);
-#endif
+		if (!no_align_directives) {
+		  make_instr(m_as_align4, NULL, NULL, 0);
+		}
 		make_label(slab);
 		for (i = 0; i < n; i++) {
 			op1 = make_lab_diff(jtab[i], tlab);

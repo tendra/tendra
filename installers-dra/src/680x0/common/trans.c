@@ -268,9 +268,9 @@ static void code_const
 
    diag_global *di = d->dec_u.dec_val.diag_info;
    area(isvar(c)? pdata : ptext);
-#ifndef no_align_directives
-   make_instr(m_as_align4, NULL, NULL, 0);
-#endif
+   if (!no_align_directives) {
+     make_instr(m_as_align4, NULL, NULL, 0);
+   }
    evaluate(s, -1L , id, !isvar(c), 1, di);
 }
 

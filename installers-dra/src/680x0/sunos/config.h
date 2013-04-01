@@ -34,10 +34,5 @@
 
 #define have_diagnostics	0	/* Have diagnostics */
 
-#ifdef SUN /* The SunOS 68k assembler whinges about align directives */
-#define no_align_directives
-#endif
-
-
 
 #endif

@@ -21,6 +21,7 @@
 #include "localflags.h"
 #include "peephole.h"
 #include "utility.h"
+#include "output.h"
 
 extern bool have_cond;
 extern bool just_ret;
@@ -390,9 +391,9 @@ peephole(void)
 				p->next = q->next;
 				q->next = NULL;
 				reclaim_ins(q);
-#ifndef no_align_directives
-                                make_instr(m_as_align4, NULL, NULL, 0);
-#endif
+				if (!no_align_directives) {
+                                  make_instr(m_as_align4, NULL, NULL, 0);
+				}
 				make_label(a2);
 				current_ins->next = p_down;
 				p_down->next = NULL;

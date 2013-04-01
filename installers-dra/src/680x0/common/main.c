@@ -143,7 +143,7 @@ int main
 #ifdef EBUG
 			"L:l:"
 #endif
-			"cefgiou")) != -1) {
+			"acefgiou")) != -1) {
 			switch (c) {
 			case 'C': diag = switch_diag(optarg,
 				DIAG_STABS | DIAG_XDB_OLD | DIAG_XDB_NEW); break;
@@ -169,6 +169,7 @@ int main
 			case 'Y': dyn_init = 1;                    break;
 			case 'Z': report_tdf_versions = 1;         break;
 
+			case 'a': no_align_directives = 1;         break;
 			case 'c': conventions = CONVENTIONS_HP;    break;
 			case 'e': ignore_errors = 1;               break;
 			case 'f': convert_floats = 0;              break;
