@@ -27,5 +27,5 @@
 /* It is a measure of how bad needscan is */
 #define REGISTER_SAFETY_NUMBER 2
 /* It represents the number of t-regs available if needscan gets it wrong */
-#define DO_DYNAMIC_INITIALISATION
+
 #endif

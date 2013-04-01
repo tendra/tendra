@@ -2096,13 +2096,13 @@ number is number of proc (useful for indexing)
       bexp = &son(*e);
       bat = bexp;
       body = scan(bexp, &bat);
-#ifdef DO_DYNAMIC_INITIALISATION
-      if (proc_is_main(*e))
+
+      if (do_dynamic_init && proc_is_main(*e))
       {
         /* we need a call to __main */
         body.propsneeds |= usesproccall;
       }
-#endif
+
       return body;
     }
 /********************************************************************

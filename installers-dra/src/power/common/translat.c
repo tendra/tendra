@@ -406,9 +406,10 @@ void translate_capsule(void)
     }
   }
 
-#ifdef DO_DYNAMIC_INITIALISATION
-  (void)do__main_extern();
-#endif
+  if (do_dynamic_init) {
+    (void)do__main_extern();
+  }
+
   if (do_profile)
 #ifdef TDF_MCOUNT
     fprintf(as_file, "\t.extern\t.TDF_mcount\n");

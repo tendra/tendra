@@ -11,6 +11,8 @@
 #ifndef DYNAMIC_INIT_H
 #define DYNAMIC_INIT_H
 
+extern int do_dynamic_init;
+
 extern void do__main_extern(void);
 extern void call__main(void);
 extern int proc_is_main(exp);

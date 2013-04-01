@@ -31,6 +31,8 @@
 #include "parameter.h"
 #include "dynamic_init.h"
 
+int do_dynamic_init;
+
 void do__main_extern(void)
 {
   fprintf(as_file,"\t.extern\t__main\n");

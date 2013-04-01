@@ -169,12 +169,12 @@ void make_proc_tag_code(exp e, space sp)
   generate_procedure_prologue();
 
   output_parameters(e);
-#ifdef DO_DYNAMIC_INITIALISATION
-  if (proc_is_main(e))
+
+  if (do_dynamic_init && proc_is_main(e))
   {
     call__main();
   }
-#endif
+
   /*
    * Profiling info
    */
