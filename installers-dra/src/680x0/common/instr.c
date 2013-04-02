@@ -30,6 +30,7 @@
 #include "coder.h"
 #include "instr.h"
 #include "translate.h"
+#include "output.h"
 
 
 /*

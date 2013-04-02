@@ -18,11 +18,4 @@
 #define CONFIG_INCLUDED
 
 
-#ifdef EBUG
-#define debug_warning(X)	error(ERROR_WARNING, X)
-#else
-#define debug_warning(X)
-#endif
-
-
 #endif

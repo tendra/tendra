@@ -35,6 +35,7 @@
 #include "utility.h"
 #include "translate.h"
 #include "ops_shared.h"
+#include "output.h"
 
 extern void add_const(shape, long, where);
 
