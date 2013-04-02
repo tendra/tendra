@@ -128,8 +128,7 @@
 				<line x1="-20" x2="-20" y1="-15" y2="-90"
 					marker-end="url(#drun:arrow)"/>
 				<rect x="-50" y="-15" width="100" height="30"/>
-				<text y="-5" style="code">trans</text>
-				<text y="5" style="code">(installers-dra)</text>
+				<text style="code">trans</text>
 			</g>
 		</g>
 	</g>

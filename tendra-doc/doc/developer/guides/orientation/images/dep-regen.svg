@@ -131,7 +131,7 @@
 		<g transform="translate(300, 100)">
 			<g transform="translate(-370 -130)">
 				<rect x="-50" y="-15" width="100" height="30"/>
-				<text style="code">installers-dra</text>
+				<text style="code">trans</text>
 
 				<line y1="170" y2="15"
 					marker-end="url(#dregen:arrow)"/>

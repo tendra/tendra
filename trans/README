@@ -1,7 +1,7 @@
 DRA TDF Installers
 ------------------
 
-installers-dra contains the compiler back-ends, which translate the compiler
+trans contains the compiler back-ends, which translate the compiler
 intermediate form, TDF, to the appropriate machine instructions.
 See <http://www.tendra.org/> for details.
 
@@ -9,7 +9,7 @@ See <http://www.tendra.org/> for details.
 Structure
 ---------
 
-The installers directory is split into a common section, containing code
+The src directory is split into a common section, containing code
 which is used by all the back ends, plus a directory for each of the
 target CPUs:
 

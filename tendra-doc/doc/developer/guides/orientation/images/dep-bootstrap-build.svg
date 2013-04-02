@@ -65,8 +65,7 @@
 		<g transform="translate(220 0)">
 			<use xlink:href="#dbb:up"/>
 			<rect x="-50" y="-15" width="100" height="30"/>
-			<text y="-5" style="code">trans</text>
-			<text y="5" style="code">(installers-dra)</text>
+			<text style="code">trans</text>
 			<use xlink:href="#dbb:down"/>
 		</g>
 

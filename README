@@ -45,7 +45,7 @@ Build Dependencies
      64-bit platforms (other than Alpha) - so no x86_64, mips64,
      UltraSPARC, 64-bit PA-RISC etc.
 
-     You can see the supported architectures under /installers-dra/src.
+     You can see the supported architectures under /trans/src.
 
    OS:
 
