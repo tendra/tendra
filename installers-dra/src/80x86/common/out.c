@@ -91,13 +91,17 @@ outs(char *s)
 void
 out_comment(void)
 {
-#ifdef as_comment_symbol
-	outc(as_comment_symbol);
-#else
-	/* Add a whitespace in front, otherwise gas might interpret this as
-	 * a special instruction */
-	outs(" #");
-#endif
+	switch (assembler) {
+	case ASM_SUN:
+		outc('/');
+		break;
+
+	case ASM_GAS:
+		/* Add a whitespace in front, otherwise gas might interpret this as
+		 * a special instruction */
+		outs(" #");
+		break;
+	}
 }
 
 void

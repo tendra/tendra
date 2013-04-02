@@ -6885,22 +6885,18 @@ void start_asm
 (void)
 {
   outnl();
-#ifdef as_comment_symbol
-  outc('\t'); outc(as_comment_symbol);
+  out_comment();
   outs(" ASM sequence start");
   outnl();
-#endif
   return;
 }
 
 void end_asm
 (void)
 {
-#ifdef as_comment_symbol
-  outc('\t'); outc(as_comment_symbol);
+  outc('\t');
+  out_comment();
   outs(" ASM sequence ends");
-  outnl();
-#endif
   outnl();
   return;
 }

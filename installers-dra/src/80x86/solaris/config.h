@@ -13,6 +13,5 @@
 #define NEWDIAGS 1
 #define NEWDWARF 1
 #define SHARED_ABBREV 1
-#define as_comment_symbol '/'
 
 #endif
