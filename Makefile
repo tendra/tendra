@@ -42,7 +42,7 @@ build-allarch:
 	cd ${.CURDIR}/trans && ${MAKE} -DALLARCH \
 	    OBJ_DIR=${OBJ_APREFIX}/${project}
 . for project in lexi libexds make_err make_tdf \
-	producers-dra sid tcc tendra-doc tld tnc tpl tspec
+	tdfc2 sid tcc tendra-doc tld tnc tpl tspec
 	cd ${.CURDIR}/${project} && ${MAKE} \
 	    OBJ_DIR=${OBJ_APREFIX}/${project}
 . endfor
@@ -62,7 +62,7 @@ build-bootstrap:
 
 bootstrap: ${BOOTSTRAP_DEPS}
 	mkdir -p "${OBJ_BPREFIX}/bin"
-.for project in trans producers-dra tld tnc tpl tspec
+.for project in trans tdfc2 tld tnc tpl tspec
 	@echo "===> bootstrapping ${project} into ${OBJ_BPREFIX}"
 	cd ${.CURDIR}/${project} && ${MAKE} \
 	    OBJ_DIR=${OBJ_BOOT}/${project}  \
@@ -115,7 +115,7 @@ bootstrap-test: ${OBJ_BPREFIX}/bin/tcc
 
 bootstrap-rebuild:
 	@echo "===> rebuilding with bootstrap from ${OBJ_BOOT} into ${OBJ_REBUILD}"
-.for project in tspec tcc tpl tnc producers-dra trans
+.for project in tspec tcc tpl tnc tdfc2 trans
 	cd ${.CURDIR}/${project} && ${MAKE}   \
 	    TCC=${OBJ_BPREFIX}/bin/tcc        \
 	    OBJ_DIR=${OBJ_REBUILD}/${project} \
@@ -130,7 +130,7 @@ bootstrap-regen:
 	    OBJ_DIR=${OBJ_REGEN}/obj/${project} \
 	    PREFIX=${OBJ_REGEN} install
 .endfor
-.for project in calculus lexi make_err make_tdf producers-dra sid tpl tspec
+.for project in calculus lexi make_err make_tdf tdfc2 sid tpl tspec
 	@echo "===> regenerating for ${project}"
 	cd ${.CURDIR}/${project} && ${MAKE}       \
 	    OBJ_DIR=${OBJ_REGEN}/obj/${project}   \
@@ -139,7 +139,7 @@ bootstrap-regen:
 	    MAKE_ERR=${OBJ_REGEN}/bin/make_err    \
 	    PREFIX=${OBJ_REGEN} regen-clean regen
 .endfor
-.for project in calculus lexi make_err make_tdf producers-dra sid tpl tspec
+.for project in calculus lexi make_err make_tdf tdfc2 sid tpl tspec
 	@echo "===> rebuilding for ${project}"
 	cd ${.CURDIR}/${project} && ${MAKE}     \
 	    OBJ_DIR=${OBJ_REGEN}/obj/${project} \
@@ -150,7 +150,7 @@ bootstrap-regen:
 test-doc:
 	@echo "===> validating documents"
 .for project in calculus disp trans lexi make_err make_tdf \
-	osdep producers-dra sid tcc tendra-doc tld tnc tpl tspec
+	osdep tdfc2 sid tcc tendra-doc tld tnc tpl tspec
 	cd ${.CURDIR}/${project}/doc && ${MAKE} test
 .endfor
 
@@ -159,7 +159,7 @@ test-doc:
 doc:
 	@echo "===> building documents"
 .for project in calculus disp trans lexi make_err make_tdf \
-	osdep producers-dra sid tcc tendra-doc tld tnc tpl tspec
+	osdep tdfc2 sid tcc tendra-doc tld tnc tpl tspec
 	cd ${.CURDIR}/${project}/doc && ${MAKE} \
 	    OBJ_DIR=${OBJ_DOC}/${project}
 .endfor

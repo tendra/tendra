@@ -34,7 +34,7 @@
 		<g transform="translate(-250 35)">
 			<g transform="translate(0 -65)">
 				<rect x="-50" y="-15" width="100" height="30"/>
-				<text style="code">producers-dra</text>
+				<text style="code">tdfc2</text>
 				<use x="-25" xlink:href="#dregen:down"/>
 				<use x="25"  xlink:href="#dregen:down"/>
 				<line y1="115" y2="15" marker-end="url(#dregen:arrow)"/>
