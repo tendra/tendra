@@ -13,7 +13,6 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
-#include "config.h"
 #include "assembler.h"
 #include "instrs.h"
 #include "fbase.h"

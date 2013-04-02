@@ -10,9 +10,6 @@
 #ifndef diag_fns_key
 #define diag_fns_key 1
 
-
-#include "config.h"
-
 #include "exptypes.h"
 
 #include "dg_first.h"

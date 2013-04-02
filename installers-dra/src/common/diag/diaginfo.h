@@ -10,8 +10,6 @@
 #ifndef diaginfo_key
 #define diaginfo_key 1
 
-#include "config.h"
-
 #include "diagtypes1.h"	/* gets diag_descriptor */
 
 #include "diag_config.h"

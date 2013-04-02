@@ -13,8 +13,6 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
-#include "config.h"
-
 #include <reader/codetypes.h>
 #include <reader/messages_r.h>
 #include <reader/natmacs.h>

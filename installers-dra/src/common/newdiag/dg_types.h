@@ -10,8 +10,6 @@
 #ifndef dg_types_key
 #define dg_types_key 1
 
-#include "config.h"
-
 #include <construct/installtypes.h>
 
 #include "dg_first.h"

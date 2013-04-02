@@ -10,7 +10,6 @@
 #ifndef label_ops_key
 #define label_ops_key 1
 
-#include "config.h"
 #include "exptypes.h"
 
 extern int label_is_next(exp lab, exp e);

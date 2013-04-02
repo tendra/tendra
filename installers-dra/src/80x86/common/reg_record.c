@@ -9,7 +9,6 @@
 
 #include <stddef.h>
 
-#include "config.h"
 #include "diag_config.h"
 
 #include <construct/tags.h>

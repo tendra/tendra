@@ -14,8 +14,6 @@
 
 #include <shared/check.h>
 
-#include "config.h"
-
 #include <reader/codetypes.h>
 #include <reader/basicread.h>
 #include <reader/ecodes.h>

@@ -12,7 +12,6 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
-#include "config.h"
 #include "dw2_config.h"
 
 #include <reader/basicread.h>

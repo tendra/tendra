@@ -10,9 +10,6 @@
 #ifndef dw2_config_key
 #define dw2_config_key 1
 
-#include "config.h"
-
-
 #include "exptypes.h"
 #include <construct/installtypes.h>
 

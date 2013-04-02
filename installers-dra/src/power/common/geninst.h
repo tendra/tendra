@@ -12,7 +12,6 @@
 #define GENINST_H	1
 
 /* needed by "addresstypes.h" */
-#include "config.h"
 
 #include "localtypes.h"
 #include "exptypes.h"

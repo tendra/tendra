@@ -10,8 +10,6 @@
 #ifndef EVALDECS_INCLUDED
 #define EVALDECS_INCLUDED
 
-#include "config.h"
-
 #include <construct/installtypes.h>
 #include "addrtypes.h"
 #include <construct/flpttypes.h>

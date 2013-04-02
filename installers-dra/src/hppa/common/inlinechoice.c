@@ -9,8 +9,6 @@
 
 #include <stdlib.h>
 
-#include "config.h"
-
 #include <construct/installglob.h>
 #include <construct/exp.h>
 #include <construct/tags.h>

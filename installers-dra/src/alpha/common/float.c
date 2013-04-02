@@ -9,8 +9,6 @@
 
 #include <shared/xalloc.h>
 
-#include "config.h"
-
 #include <construct/flpttypes.h>
 #include <construct/flpt.h>
 #include <construct/shapemacs.h>

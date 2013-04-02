@@ -12,8 +12,6 @@
 
 #include <stdio.h>
 
-#include "config.h"
-
 extern FILE *outf;
 
 #define outs( X ) fputs( (X), outf )

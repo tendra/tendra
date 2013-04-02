@@ -18,8 +18,6 @@ A clear bit indicates that the corresponding register is free for use.
 
 ******************************************************************/
 
-#include "config.h"
-
 #include <reader/basicread.h>
 
 #include <construct/exp.h>

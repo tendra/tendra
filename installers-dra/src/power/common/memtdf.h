@@ -11,8 +11,6 @@
 #ifndef	MEMTDF_H
 #define MEMTDF_H	1
 
-#include "config.h"
-
 #include "bitsmacs.h"
 #include "expmacs.h"
 #include "exptypes.h"

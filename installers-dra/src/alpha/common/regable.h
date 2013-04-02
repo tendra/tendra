@@ -13,8 +13,6 @@
 */
 
 
-#include "config.h"
-
 #include <construct/installtypes.h>
 
 extern  bool fixregable(exp e);

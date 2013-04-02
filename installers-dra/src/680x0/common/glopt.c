@@ -10,8 +10,6 @@
 #include <stddef.h>
 #include <string.h>
 
-#include "config.h"
-
 #include <reader/externs.h>
 #include <reader/basicread.h>
 #include <reader/table_fns.h>

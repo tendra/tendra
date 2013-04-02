@@ -12,8 +12,6 @@
 
 #include <stdio.h>
 
-#include "config.h"
-
 #include <construct/installtypes.h>
 
 extern FILE * as_file;

@@ -10,9 +10,8 @@
 #ifndef COMMENT_INCLUDED
 #define COMMENT_INCLUDED
 
-#include "config.h"
-
 #include "exptypes.h"
+
 #include <reader/codetypes.h>
 #include <construct/installtypes.h>
 

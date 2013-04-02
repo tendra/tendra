@@ -10,8 +10,6 @@
 #ifndef LOCALTYPES_H
 #define LOCALTYPES_H
 
-#include "config.h"
-
 #include "exptypes.h"
 
 

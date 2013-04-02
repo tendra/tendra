@@ -24,8 +24,6 @@ used by make_code for the second operand.
 
 ******************************************************************/
 
-#include "config.h"
-
 #include <refactor/optimise.h>
 
 #include "regmacs.h"

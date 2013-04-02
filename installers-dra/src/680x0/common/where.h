@@ -10,9 +10,8 @@
 #ifndef WHERE_INCLUDED
 #define WHERE_INCLUDED
 
-#include "config.h"
-
 #include "exptypes.h"
+
 #include <construct/installtypes.h>
 
 #include "utility.h"

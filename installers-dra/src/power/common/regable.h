@@ -11,8 +11,6 @@
 #ifndef REGABLEDECS_H
 #define REGABLEDECS_H
 
-#include "config.h"
-
 #include <construct/installtypes.h>
 
 extern bool fixregable(exp);

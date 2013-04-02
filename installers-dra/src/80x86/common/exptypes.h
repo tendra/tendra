@@ -10,8 +10,6 @@
 #ifndef EXPTYPES_H
 #define EXPTYPES_H
 
-#include "config.h"
-
 #include <reader/codetypes.h>
 
 #ifdef NEWDIAGS

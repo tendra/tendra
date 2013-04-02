@@ -14,7 +14,6 @@
 
 #include <construct/flags.h>
 
-#include "config.h"
 #include "dw2_config.h"
 
 #ifdef NEWDIAGS

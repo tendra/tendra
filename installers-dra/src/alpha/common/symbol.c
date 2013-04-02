@@ -20,8 +20,6 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
-#include "config.h"
-
 #include "cross_config.h"
 #include "symtab.h" 	/* type definitions for translator
 			   produced debugging information

@@ -14,8 +14,6 @@
 
 #include <shared/error.h>
 
-#include "config.h"
-
 #include <construct/machine.h>
 #include <construct/flags.h>
 #include <construct/installglob.h>

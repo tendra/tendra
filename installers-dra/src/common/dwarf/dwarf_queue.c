@@ -9,8 +9,6 @@
 
 #include <shared/xalloc.h>
 
-#include "config.h"
-
 #include <reader/basicread.h>
 
 #include <dwarf/dwarf_out.h>

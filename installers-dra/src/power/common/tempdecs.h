@@ -11,9 +11,8 @@
 #ifndef TEMPDECSDECS_H
 #define TEMPDECSDECS_H
 
-#include "config.h"
-
 #include <construct/installtypes.h>
+
 #include "exptypes.h"
 
 extern int tempdec(exp, bool);

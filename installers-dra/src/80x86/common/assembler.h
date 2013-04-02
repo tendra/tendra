@@ -10,8 +10,6 @@
 #ifndef ASSEMBLER_H
 #define ASSEMBLER_H
 
-#include "config.h"
-
 #include <construct/flags.h>
 
 #include "exptypes.h"

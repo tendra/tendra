@@ -13,8 +13,6 @@
   These routines are provided to guard registers from use.
 */
 
-#include "config.h"
-
 #include "fail.h"
 #include "procrecs.h"
 #include "addresstypes.h"

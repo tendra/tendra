@@ -7,8 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include "config.h"
-
 #include <reader/arith_codes.h>
 
 #include <construct/install_fns.h>

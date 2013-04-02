@@ -10,8 +10,6 @@
 #ifndef XDB_BASICS_INCLUDED
 #define XDB_BASICS_INCLUDED
 
-#include "config.h"
-
 #include <diag/dg_first.h>
 #include <diag/diaginfo.h>
 

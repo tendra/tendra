@@ -21,9 +21,6 @@
 #ifndef addressingtkey
 #define addressingtkey 1
 
-
-#include "config.h"
-
 #include "exptypes.h"
 #include "cross.h"
 #include <construct/installtypes.h>

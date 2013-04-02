@@ -13,8 +13,6 @@ initial call : comp_eq_exp(a,b,nilexp,nilexp)  */
 
 #include <stddef.h>
 
-#include "config.h"
-
 #include "exptypes.h"
 #include "expmacs.h"
 

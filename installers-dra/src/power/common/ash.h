@@ -11,8 +11,6 @@
 #ifndef ASHDECS_H
 #define ASHDECS_H	1
 
-#include "config.h"
-
 #include "memtdf.h"
 
 #include <construct/installtypes.h>

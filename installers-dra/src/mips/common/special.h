@@ -7,10 +7,10 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include "config.h"
 #include "exptypes.h"
 
 #include <construct/exp.h>
+
 #include "procrectypes.h"
 #include "addrtypes.h"
 

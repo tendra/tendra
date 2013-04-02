@@ -15,8 +15,6 @@
 
 #include <stdio.h>
 
-#include "config.h"
-
 #include <reader/basicread.h>
 
 #include <construct/tags.h>

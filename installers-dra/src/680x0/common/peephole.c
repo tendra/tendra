@@ -9,8 +9,6 @@
 
 #include <shared/check.h>
 
-#include "config.h"
-
 #include <construct/exp.h>
 
 #include "assembler.h"

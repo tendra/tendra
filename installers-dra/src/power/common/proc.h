@@ -11,9 +11,8 @@
 #ifndef PROCDECS_H
 #define PROCDECS_H
 
-#include "config.h"
-
 #include <construct/installtypes.h>
+
 #include "addresstypes.h"
 #include "procrectypes.h"
 #include "exptypes.h"

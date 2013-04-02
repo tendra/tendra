@@ -11,9 +11,8 @@
 #ifndef PARAMETER_H
 #define PARAMETER_H
 
-#include "config.h"
-
 #include <construct/installtypes.h>
+
 #include "exptypes.h"
 
 extern void output_parameters(exp);

@@ -8,8 +8,6 @@
  */
 
 
-#include "config.h"
-
 #include <reader/basicread.h>
 
 #include <construct/installglob.h>

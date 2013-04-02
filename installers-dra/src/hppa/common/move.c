@@ -23,8 +23,6 @@ Delivers register used if 1-word destination is instore; otherwise NOREG.
 
 #include <assert.h>
 
-#include "config.h"
-
 #include "hppains.h"
 #include "inst_fmt.h"
 #include "addrtypes.h"

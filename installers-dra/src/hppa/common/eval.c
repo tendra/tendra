@@ -18,8 +18,6 @@ into the table of externals (or 0 meaning anonymous).
 #include <assert.h>
 #include <ctype.h>
 
-#include "config.h"
-
 #include <reader/basicread.h>
 
 #include <construct/flags.h>

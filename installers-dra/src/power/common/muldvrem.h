@@ -11,9 +11,8 @@
 #ifndef MULDVREMDECS_H
 #define MULDVREMDECS_H
 
-#include "config.h"
-
 #include <construct/installtypes.h>
+
 #include "exptypes.h"
 
 #include "memtdf.h"

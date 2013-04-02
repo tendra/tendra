@@ -10,9 +10,6 @@
 #ifndef EXPMACS_H
 #define EXPMACS_H
 
-
-#include "config.h"
-
 #include "exptypes.h"
 #include <construct/installtypes.h>
 

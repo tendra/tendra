@@ -19,8 +19,6 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
-#include "config.h"
-
 #ifdef NEWDWARF
 #include "dw2_config.h"
 #include "diag_config.h"

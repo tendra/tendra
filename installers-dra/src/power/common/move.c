@@ -24,8 +24,6 @@ Delivers register used if 1-word destination is instore; otherwise NOREG.
 
 #include <shared/error.h>
 
-#include "config.h"
-
 #include "memtdf.h"
 #include "codegen.h"
 #include "geninst.h"

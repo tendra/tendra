@@ -7,8 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include "config.h"
-
 #include "68k_globals.h"
 
 int not_in_params = 1;

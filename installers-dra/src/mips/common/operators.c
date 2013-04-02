@@ -13,8 +13,6 @@
 
 #include <shared/xalloc.h>
 
-#include "config.h"
-
 #include <construct/tags.h>
 #include <construct/shapemacs.h>
 

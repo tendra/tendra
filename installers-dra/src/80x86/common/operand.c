@@ -17,8 +17,6 @@
 
 *********************************************************************/
 
-#include "config.h"
-
 #include <reader/basicread.h>
 #include <reader/externs.h>
 #include <reader/table_fns.h>

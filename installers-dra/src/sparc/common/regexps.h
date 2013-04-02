@@ -10,8 +10,6 @@
 #ifndef REGEXPS_INCLUDED
 #define REGEXPS_INCLUDED
 
-#include "config.h"
-
 #include <construct/installtypes.h>
 
 #include "exptypes.h"

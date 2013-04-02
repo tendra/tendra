@@ -12,7 +12,6 @@
 */
 
 
-#include "config.h"
 #include "exptypes.h"
 
 #include "procrecs.h"

@@ -9,8 +9,6 @@
 
 #include <stddef.h>
 
-#include "config.h"
-
 #include "exptypes.h"
 #include "expmacs.h"
 

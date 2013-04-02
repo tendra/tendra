@@ -10,8 +10,6 @@
 #ifndef LOCALFLAGS_H
 #define LOCALFLAGS_H
 
-#include "config.h"
-
 #include <construct/flags.h>
 
 #include <linkinfo/li_types.h>

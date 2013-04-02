@@ -13,8 +13,6 @@
 #ifndef EXTERNS_INCLUDED
 #define EXTERNS_INCLUDED
 
-#include "config.h"
-
 #ifdef NEWDIAGS
 #include <newdiag/dg_first.h>
 #include <reader/codetypes.h>

@@ -15,8 +15,6 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
-#include "config.h"
-
 #include <reader/codetypes.h>
 #include <reader/codetypes.h>
 #include <reader/toktypes.h>

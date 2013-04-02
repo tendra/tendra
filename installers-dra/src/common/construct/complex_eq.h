@@ -10,8 +10,6 @@
 #ifndef complex_eq_key
 #define complex_eq_key 1
 
-#include "config.h"
-
 #include "exptypes.h"
 
 extern int complex_eq_exp(exp a, exp b, exp laba, exp labb);

@@ -9,8 +9,6 @@
 
 #include <string.h>
 
-#include "config.h"
-
 #include <shared/check.h>
 
 #include <reader/codetypes.h>

@@ -10,9 +10,8 @@
 #ifndef WEIGHTS_INCLUDED
 #define WEIGHTS_INCLUDED
 
-#include "config.h"
-
 #include <construct/installtypes.h>
+
 #include "exptypes.h"
 #include "procrec.h"
 

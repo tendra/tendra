@@ -14,8 +14,6 @@ initial call : comp_eq_exp(a,b,nilexp,nilexp)  */
 
 #include <stddef.h>
 
-#include "config.h"
-
 #include <construct/tags.h>
 #include <construct/shapemacs.h>
 #include <construct/exp.h>

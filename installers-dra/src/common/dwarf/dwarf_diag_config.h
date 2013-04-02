@@ -13,6 +13,7 @@
 #if DWARF
 
 #include <dwarf/dwarf_types.h>
+
 typedef dwarf_type_label *OUTPUT_REC;
 
 typedef dwarf_global diag_global;		/* used in installtypes.h */

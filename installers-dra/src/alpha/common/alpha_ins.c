@@ -15,6 +15,5 @@
   PAL code is not included (see OSF1/palcode.c).
 */
 #define INS_DEFINE
-#include "config.h"
 #include "alpha_ins.h"
 #undef INS_DEFINE

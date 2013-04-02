@@ -24,8 +24,6 @@ second operand.
 
 ******************************************************************/
 
-#include "config.h"
-
 #include <reader/basicread.h>
 
 #include "procrectypes.h"

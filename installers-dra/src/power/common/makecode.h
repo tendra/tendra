@@ -11,9 +11,8 @@
 #ifndef MAKECODEDECS_H
 #define MAKECODEDECS_H
 
-#include "config.h"
-
 #include <construct/installtypes.h>
+
 #include "procrectypes.h"
 #include "exptypes.h"
 

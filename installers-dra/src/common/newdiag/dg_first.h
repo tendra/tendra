@@ -12,9 +12,6 @@
 
 /* breaks type cycles */
 
-#include "config.h"
-
-
 typedef struct dg_name_t *dg_name;
 typedef struct dg_type_t *dg_type;
 typedef struct dg_info_t *dg_info;

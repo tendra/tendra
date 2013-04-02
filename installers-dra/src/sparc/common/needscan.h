@@ -10,9 +10,8 @@
 #ifndef NEEDSCAN_INCLUDED
 #define NEEDSCAN_INCLUDED
 
-#include "config.h"
-
 #include <construct/installtypes.h>
+
 #include "exptypes.h"
 #include "proctypes.h"
 

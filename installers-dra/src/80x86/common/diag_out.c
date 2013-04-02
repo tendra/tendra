@@ -14,8 +14,6 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
-#include "config.h"
-
 #include "exptypes.h"
 #include <reader/codetypes.h>
 #include <construct/flags.h>

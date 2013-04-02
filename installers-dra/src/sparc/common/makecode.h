@@ -10,8 +10,6 @@
 #ifndef MAKECODE_INCLUDED
 #define MAKECODE_INCLUDED
 
-#include "config.h"
-
 #include <construct/installtypes.h>
 #include "proctypes.h"
 #include "exptypes.h"

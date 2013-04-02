@@ -11,8 +11,6 @@
 #include <shared/error.h>
 #include <shared/getopt.h>
 
-#include "config.h"
-
 #include <reader/basicread.h>
 #include <reader/main_reads.h>
 #include <reader/externs.h>

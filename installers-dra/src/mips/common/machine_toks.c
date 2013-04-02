@@ -9,8 +9,6 @@
 
 #include <string.h>
 
-#include "config.h"
-
 int
 machine_toks(char * s)
 {

@@ -11,8 +11,6 @@
 #ifndef	CODEGEN_H
 #define CODEGEN_H	1
 
-#include "config.h"
-
 #include "regmacs.h"
 
 #include "ash.h"

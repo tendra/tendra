@@ -22,8 +22,6 @@ understood by the assembler.
 
 #include <shared/error.h>
 
-#include "config.h"
-
 #include <construct/flags.h>
 
 #include "geninst.h"

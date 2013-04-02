@@ -10,8 +10,6 @@
 #ifndef READGLOB_H
 #define READGLOB_H
 
-#include "config.h"
-
 #include <construct/installtypes.h>
 #include <reader/toktypes.h>
 

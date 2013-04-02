@@ -10,8 +10,6 @@
 #ifndef CODEC_H
 #define CODEC_H
 
-#include "config.h"
-
 #include "exptypes.h"
 #include "localtypes.h"
 

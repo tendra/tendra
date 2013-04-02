@@ -7,7 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include "config.h"
 #include "cross_config.h"
 
 #include <shared/check.h>

@@ -11,8 +11,6 @@
 
 #include <shared/check.h>
 
-#include "config.h"
-
 #include <reader/codetypes.h>
 #include <reader/basicread.h>
 #include <reader/c_arith_type.h>

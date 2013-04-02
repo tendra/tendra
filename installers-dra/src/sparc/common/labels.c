@@ -9,8 +9,6 @@
 
 #include <assert.h>
 
-#include "config.h"
-
 #include "addrtypes.h"
 #include "regexps.h"
 #include "labels.h"

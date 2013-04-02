@@ -15,8 +15,6 @@
 
 #include <stddef.h>
 
-#include "config.h"
-
 #include <construct/tags.h>
 #include <construct/exp.h>
 #include <construct/flags.h>

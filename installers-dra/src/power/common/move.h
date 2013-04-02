@@ -11,9 +11,8 @@
 #ifndef MOVEDECS_H
 #define MOVEDECS_H
 
-#include "config.h"
-
 #include <construct/installtypes.h>
+
 #include "addresstypes.h"
 #include "instruct.h"
 

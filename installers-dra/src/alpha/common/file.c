@@ -16,8 +16,6 @@
 
 #include <shared/xalloc.h>
 
-#include "config.h"
-
 #include "fail.h"
 #include "file.h"
 

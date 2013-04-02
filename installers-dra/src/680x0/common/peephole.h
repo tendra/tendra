@@ -10,8 +10,6 @@
 #ifndef PEEPHOLE_INCLUDED
 #define PEEPHOLE_INCLUDED
 
-#include "config.h"
-
 #include <construct/installtypes.h>
 
 #include "utility.h"

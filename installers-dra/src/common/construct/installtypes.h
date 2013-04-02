@@ -10,8 +10,6 @@
 #ifndef installtypes_key
 #define installtypes_key 1
 
-#include "config.h"
-
 #include <reader/codetypes.h>
 
 #ifdef NEWDIAGS

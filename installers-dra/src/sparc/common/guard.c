@@ -17,8 +17,6 @@
     use.
 */
 
-#include "config.h"
-
 #include <refactor/optimise.h>
 
 #include "regmacs.h"

@@ -7,9 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include "config.h"
-
 #include <construct/installtypes.h>
+
 #include "exptypes.h"
 
 extern bool comp_eq_exp(exp a, exp b, exp laba, exp labb);

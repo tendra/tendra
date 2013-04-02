@@ -11,9 +11,8 @@
 #ifndef NEEDSCANDECS_H
 #define NEEDSCANDECS_H
 
-#include "config.h"
-
 #include <construct/installtypes.h>
+
 #include "exptypes.h"
 
 

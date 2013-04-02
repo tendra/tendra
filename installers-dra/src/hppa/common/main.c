@@ -13,8 +13,6 @@
 #include <shared/check.h>
 #include <shared/getopt.h>
 
-#include "config.h"
-
 #include <reader/main_reads.h>		/* for d_capsule */
 #include <reader/basicread.h>	/* for good_trans */
 #include <reader/reader_v.h>

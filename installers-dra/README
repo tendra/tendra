@@ -22,26 +22,7 @@ target CPUs:
     ppc601          POWER PC,
     sparc           SPARC.
 
-Each CPU directory is also divided into a common section, plus a directory
-for each of the target operating systems:
-
-    680x0/sunos     680x0 on SunOS 4,
-    80x86/dragonfly Intel on DragonFly,
-    80x86/freebsd   Intel on FreeBSD,
-    80x86/linux     Intel on Linux,
-    80x86/netbsd    Intel on NetBSD,
-    80x86/openbsd   Intel on OpenBSD,
-    80x86/solaris   Intel on Solaris 2,
-    alpha/osf1      Alpha on OSF/1,
-    hppa/hpux       HP-PA on HP-UX,
-    mips/irix       MIPS on Irix,
-    mips/ultrix     MIPS on Ultrix,
-    power/aix       POWER on AIX,
-    ppc601/aix      POWER PC on AIX,
-    sparc/solaris   SPARC on Solaris 2,
-    sparc/sunos     SPARC on SunOS 4.
-
-The common installer directory is also subdivided, for convenience, into
+The common installer directory is subdivided, for convenience, into
 a number of different subdirectories:
 
     construct   which contains the main routines for transforming

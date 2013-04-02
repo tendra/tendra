@@ -7,8 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include "config.h"
-
 #include <construct/installtypes.h>
 
 void init_table_space(int, int);

@@ -10,8 +10,6 @@
 #ifndef MACH_OP_INCLUDED
 #define MACH_OP_INCLUDED
 
-#include "config.h"
-
 #include <construct/installtypes.h>
 
 extern bool check_op(mach_op *, int);

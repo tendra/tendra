@@ -10,8 +10,6 @@
 #ifndef STAB_CONF_INCLUDED
 #define STAB_CONF_INCLUDED
 
-#include "config.h"
-
 #ifdef NEWDIAGS
 #include <newdiag/dg_first.h>
 #else

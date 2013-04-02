@@ -19,8 +19,6 @@
 
 #include <shared/xalloc.h>
 
-#include "config.h"
-
 #include "ibinasm.h"
 #include "main.h"
 #include "out_ba.h"

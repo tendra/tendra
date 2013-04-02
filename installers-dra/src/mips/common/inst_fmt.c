@@ -19,8 +19,6 @@ any memory of its contents - see regexps.c
 
 ******************************************************************/
 
-#include "config.h"
-
 #include <reader/basicread.h>
 
 #include "addrtypes.h"

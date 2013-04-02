@@ -10,8 +10,6 @@
 #ifndef dg_aux_key
 #define dg_aux_key
 
-#include "config.h"
-
 #include "dg_first.h"
 
 #include "exptypes.h"

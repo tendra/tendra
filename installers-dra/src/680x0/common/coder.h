@@ -10,8 +10,6 @@
 #ifndef CODER_INCLUDED
 #define CODER_INCLUDED
 
-#include "config.h"
-
 #include "exptypes.h"
 #include "localtypes.h"
 

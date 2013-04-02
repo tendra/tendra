@@ -10,9 +10,8 @@
 #ifndef MOVEDECS_INCLUDED
 #define MOVEDECS_INCLUDED
 
-#include "config.h"
-
 #include <construct/installtypes.h>
+
 #include "addrtypes.h"
 #include "sparcins.h"
 

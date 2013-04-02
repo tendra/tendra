@@ -10,8 +10,6 @@
 #ifndef machine_key
 #define machine_key 1
 
-#include "config.h"
-
 #include <construct/installtypes.h>
 
 extern int reg_result(shape sha);

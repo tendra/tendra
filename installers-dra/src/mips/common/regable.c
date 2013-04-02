@@ -7,8 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include "config.h"
-
 #include <construct/shapemacs.h>
 #include <construct/tags.h>
 

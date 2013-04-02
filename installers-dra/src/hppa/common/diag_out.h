@@ -10,8 +10,6 @@
 #ifndef HPPADDECS_INCLUDED
 #define HPPADDECS_INCLUDED
 
-#include "config.h"
-
 #include <construct/installtypes.h>
 #include <diag/dg_first.h>
 #include <diag/diaginfo.h>

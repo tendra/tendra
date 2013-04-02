@@ -8,8 +8,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include "config.h"
-
 #ifdef DEBUG_POWERTRANS
 
 #include <construct/exp.h>

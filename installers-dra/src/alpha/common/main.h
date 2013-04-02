@@ -14,8 +14,6 @@
 
 #include <stdio.h>
 
-#include "config.h"
-
 #include <construct/installtypes.h>
 
 extern int use_umulh_for_div;

@@ -11,8 +11,6 @@
 
 #include <shared/error.h>
 
-#include "config.h"
-
 #include "utility.h"
 #define failer failer_reject
 #include "basicread.c"

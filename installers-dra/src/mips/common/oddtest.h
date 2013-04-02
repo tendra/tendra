@@ -8,7 +8,6 @@
  */
 
 
-#include "config.h"
 #include "exptypes.h"
 
 extern int oddunary(exp, exp, exp *);

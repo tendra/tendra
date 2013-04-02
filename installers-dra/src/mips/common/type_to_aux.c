@@ -21,7 +21,6 @@ If the entry generated is greater than 1 AUXU in length the index corresponding 
 
 #include <shared/xalloc.h>
 
-#include "config.h"
 #include "cross_config.h"
 
 #ifndef CROSS_INCLUDE

@@ -15,8 +15,6 @@
 
 #include <stdio.h>
 
-#include "config.h"
-
 #include "regexps.h"
 #include "ibinasm.h"
 #include "out_ba.h"

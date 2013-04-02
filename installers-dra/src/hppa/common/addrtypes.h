@@ -10,9 +10,8 @@
 #ifndef ADDRTYPES_INCLUDED
 #define ADDRTYPES_INCLUDED
 
-#include "config.h"
-
 #include <construct/installtypes.h>
+
 #include "localtypes.h"
 #include "proctypes.h"
 

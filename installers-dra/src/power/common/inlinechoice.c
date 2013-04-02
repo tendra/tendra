@@ -8,8 +8,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include "config.h"
-
 #include <shared/check.h>
 
 #include "exptypes.h"

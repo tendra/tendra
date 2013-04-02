@@ -10,9 +10,8 @@
 #ifndef REGALLOC_INCLUDED
 #define REGALLOC_INCLUDED
 
-#include "config.h"
-
 #include <construct/installtypes.h>
+
 #include "exptypes.h"
 #include "proctypes.h"
 

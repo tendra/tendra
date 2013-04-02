@@ -27,7 +27,6 @@ number of ident = (word displacement in locals)*64 + R_SP
 
 #include <shared/error.h>
 
-#include "config.h"
 #include "memtdf.h"
 #include "codegen.h"
 #include "maxminmacs.h"

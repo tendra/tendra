@@ -9,7 +9,6 @@
 
 #include <string.h>
 
-#include "config.h"
 #include "diag_config.h"
 
 #include <reader/readglob.h>

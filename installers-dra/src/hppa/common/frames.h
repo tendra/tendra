@@ -10,9 +10,8 @@
 #ifndef FRAMES
 #define FRAMES
 
-#include "config.h"
-
 #include <construct/installtypes.h>
+
 #include "addrtypes.h"
 
 extern bool Has_fp;

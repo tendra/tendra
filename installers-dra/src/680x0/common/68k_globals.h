@@ -10,9 +10,8 @@
 #ifndef __68k_globals__
 #define __68k_globals__
 
-#include "config.h"
-
 #include "expmacs.h"
+
 #include <construct/exp.h>
 
 /* global variables describing the current procedure */

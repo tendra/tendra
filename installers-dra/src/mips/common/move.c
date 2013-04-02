@@ -22,8 +22,6 @@ Delivers register used if 1-word destination is instore; otherwise NOREG.
 
 #include <shared/check.h>
 
-#include "config.h"
-
 #include <reader/basicread.h>
 
 #include <construct/flags.h>

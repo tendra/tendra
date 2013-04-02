@@ -26,9 +26,8 @@
  *
  ************************************************************************/
 
-#include "config.h"
-
 #include "exptypes.h"
+
 #include <construct/consttypes.h>
 
 extern void repeat_consts(void);

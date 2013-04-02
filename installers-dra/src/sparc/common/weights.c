@@ -42,8 +42,6 @@
      stack,(this is obviously always available for parameters).
 */
 
-#include "config.h"
-
 #include <reader/codetypes.h>
 
 #include <construct/installtypes.h>

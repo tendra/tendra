@@ -10,8 +10,6 @@
 #ifndef WEIGHTS_H
 #define WEIGHTS_H
 
-#include "config.h"
-
 #include "exptypes.h"
 
 void init_weights(void);

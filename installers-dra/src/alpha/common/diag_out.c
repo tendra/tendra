@@ -19,7 +19,6 @@
 
 #include <shared/xalloc.h>
 
-#include "config.h"
 #include "cross_config.h"
 
 #include <reader/codetypes.h>

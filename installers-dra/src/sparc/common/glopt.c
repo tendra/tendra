@@ -7,8 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include "config.h"
-
 #include <reader/externs.h>
 #include <reader/basicread.h>
 #include <reader/table_fns.h>

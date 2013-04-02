@@ -10,8 +10,6 @@
 #ifndef LOCALTYPES_INCLUDED
 #define LOCALTYPES_INCLUDED
 
-#include "config.h"
-
 #include <construct/installtypes.h>
 #include "exptypes.h"
 

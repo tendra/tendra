@@ -12,8 +12,6 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
-#include "config.h"
-
 #include <reader/basicread.h>
 
 #include <construct/exp.h>

@@ -14,8 +14,6 @@
 #include <assert.h>
 #include <ctype.h>
 
-#include "config.h"
-
 #ifdef NEWDWARF
 #include "dw2_config.h"
 #endif

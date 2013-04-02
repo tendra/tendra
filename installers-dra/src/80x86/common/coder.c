@@ -23,8 +23,6 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
-#include "config.h"
-
 #ifdef NEWDIAGS
 #include "diag_config.h"
 #endif

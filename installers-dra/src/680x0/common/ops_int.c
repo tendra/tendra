@@ -9,8 +9,6 @@
 
 #include <shared/error.h>
 
-#include "config.h"
-
 #include <reader/basicread.h>
 #include <reader/externs.h>
 

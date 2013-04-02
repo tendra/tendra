@@ -10,9 +10,8 @@
 #ifndef MULDVREM_INCLUDED
 #define MULDVREM_INCLUDED
 
-#include "config.h"
-
 #include <construct/installtypes.h>
+
 #include "exptypes.h"
 #include "addrtypes.h"
 #include "proctypes.h"

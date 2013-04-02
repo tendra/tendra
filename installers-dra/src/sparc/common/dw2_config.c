@@ -7,7 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include "config.h"
 #include "dw2_config.h"
 
 #include <reader/basicread.h>

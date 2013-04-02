@@ -10,8 +10,6 @@
 #ifndef SORT_UNION_H
 #define SORT_UNION_H
 
-#include "config.h"
-
 #include <reader/codetypes.h>
 #include <construct/installtypes.h>
 

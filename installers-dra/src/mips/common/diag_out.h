@@ -10,9 +10,8 @@
 #ifndef MIPSDGDECS
 #define MIPSDGDECS
 
-#include "config.h"
-
 #include "exptypes.h"
+
 #include <diag/diagtypes.h>
 
 extern int nofds;

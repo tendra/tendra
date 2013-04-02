@@ -17,8 +17,6 @@
 
 #include <shared/check.h>
 
-#include "config.h"
-
 #include <construct/exp.h>
 #include <construct/shapemacs.h>
 #include <construct/tags.h>

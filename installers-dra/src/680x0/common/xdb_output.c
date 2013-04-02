@@ -12,8 +12,6 @@
 
 #include <shared/error.h>
 
-#include "config.h"
-
 #include <construct/installtypes.h>
 #include <construct/exp.h>
 #include <construct/tags.h>

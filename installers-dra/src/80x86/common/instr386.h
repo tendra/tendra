@@ -14,8 +14,6 @@
 #ifndef INSTR386_H
 #define INSTR386_H
 
-#include "config.h"
-
 #include "exptypes.h"
 #include "localtypes.h"
 

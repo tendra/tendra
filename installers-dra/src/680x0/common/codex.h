@@ -10,7 +10,6 @@
 #ifndef CODEX_INCLUDED
 #define CODEX_INCLUDED
 
-#include "config.h"
 #include "utility.h"
 
 #include <construct/installtypes.h>

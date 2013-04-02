@@ -8,8 +8,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include "config.h"
-
 #include "mask.h"
 
 int right_of_mask(unsigned int m)

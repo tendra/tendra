@@ -11,8 +11,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "config.h"
-
 #include <construct/flags.h>
 
 #include "localflags.h"

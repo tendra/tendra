@@ -10,8 +10,6 @@
 
 #include <shared/error.h>
 
-#include "config.h"
-
 #include "translat.h"
 #include "labels.h"
 

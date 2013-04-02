@@ -26,7 +26,6 @@ into the table of externals (or 0 meaning anonymous).
 #include <construct/machine.h>
 #include <construct/f64.h>
 
-#include "config.h"
 #include "memtdf.h"
 #include "codegen.h"
 #include "geninst.h"

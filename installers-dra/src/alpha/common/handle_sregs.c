@@ -12,8 +12,6 @@
   This file contains code to handle preserved registers.
 */
 
-#include "config.h"
-
 #include "alpha_ins.h"
 #include "inst_fmt.h"
 #include "addresstypes.h"

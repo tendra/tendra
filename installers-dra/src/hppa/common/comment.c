@@ -10,8 +10,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "config.h"
-
 #include <refactor/const.h>
 
 #include "comment.h"

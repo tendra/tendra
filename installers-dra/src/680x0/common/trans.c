@@ -7,8 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include "config.h"
-
 #include <construct/exp.h>
 #include <construct/flags.h>
 #include <construct/installglob.h>

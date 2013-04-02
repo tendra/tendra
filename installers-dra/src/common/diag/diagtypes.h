@@ -10,8 +10,6 @@
 #ifndef diagtypes_key
 #define diagtypes_key 1
 
-#include "config.h"
-
 #include <construct/installtypes.h>
 #include <reader/codetypes.h>
 

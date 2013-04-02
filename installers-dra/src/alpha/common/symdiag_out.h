@@ -13,8 +13,6 @@
 
 #include <stdio.h>
 
-#include "config.h"
-
 #include <diag/dg_first.h>
 #include <diag/diaginfo.h>
 

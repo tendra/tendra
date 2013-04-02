@@ -10,7 +10,6 @@
 #ifndef dg_glob_key
 #define dg_glob_key
 
-#include "config.h"
 #include "diag_config.h"
 
 #include <construct/installtypes.h>

@@ -17,8 +17,6 @@ into the table of externals (or 0 meaning anonymous). XXX
 
 #include <assert.h>
 
-#include "config.h"
-
 #include <reader/basicread.h>
 
 #include <construct/tags.h>

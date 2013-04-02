@@ -10,9 +10,8 @@
 #ifndef TEMPDECS_INCLUDED
 #define TEMPDECS_INCLUDED
 
-#include "config.h"
-
 #include <construct/installtypes.h>
+
 #include "exptypes.h"
 
 extern bool simple_seq(exp, exp);

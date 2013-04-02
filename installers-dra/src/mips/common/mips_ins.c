@@ -18,8 +18,6 @@ The first character of each string is  ( binasm coding +1) for the instruction
 
 *****************************************************************/
 
-#include "config.h"
-
 #include "mips_ins.h"
 
 char *i_la = "\45la";

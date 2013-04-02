@@ -7,8 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include "config.h"
-
 #include "exptypes.h"
 
 extern int refactor_id(exp e, exp scope);

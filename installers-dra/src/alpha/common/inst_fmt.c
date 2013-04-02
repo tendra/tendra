@@ -22,8 +22,6 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
-#include "config.h"
-
 #include "exptypes.h"
 #include "inst_fmt.h"
 #include "main.h"

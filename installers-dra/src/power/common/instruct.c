@@ -13,8 +13,6 @@
  * rather than external declaration.
  */
 
-#include "config.h"
-
 #define INS_DEFINE
 
 #include "instruct.h"

@@ -10,9 +10,9 @@
 #ifndef INSTR_H
 #define INSTR_H
 
-#include "config.h"
 #include "exptypes.h"
 #include "localtypes.h"
+
 #include <construct/installtypes.h>
 
 void ins0(char *i);

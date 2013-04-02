@@ -40,7 +40,6 @@ stack, (this is obviously always available for parameters).
 
 #include <shared/error.h>
 
-#include "config.h"
 #include "memtdf.h"
 
 #include <construct/exp.h>

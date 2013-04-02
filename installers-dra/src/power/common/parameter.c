@@ -11,8 +11,6 @@
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
-#include "config.h"
-
 #include <construct/machine.h>
 #include <construct/flags.h>
 

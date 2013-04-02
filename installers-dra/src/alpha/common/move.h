@@ -11,9 +11,8 @@
    movedecs.h
 */
 
-#include "config.h"
-
 #include <construct/installtypes.h>
 #include "addresstypes.h"
 #include "procrectypes.h"
+
 extern int  move(ans,where,space,bool);

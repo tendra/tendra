@@ -11,8 +11,6 @@
 
 #include <shared/check.h>
 
-#include "config.h"
-
 #ifdef NEWDWARF
 
 #include "dw2_config.h"

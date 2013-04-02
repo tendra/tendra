@@ -27,8 +27,6 @@
 
  *******************************************************************/
 
-#include "config.h"
-
 #include "exptypes.h"
 #include <construct/installtypes.h>
 

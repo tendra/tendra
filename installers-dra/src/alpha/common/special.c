@@ -14,8 +14,6 @@
 
 #include <string.h>
 
-#include "config.h"
-
 #include <construct/shapemacs.h>
 #include <construct/tags.h>
 

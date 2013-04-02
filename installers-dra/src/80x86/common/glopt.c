@@ -9,8 +9,6 @@
 
 #include <string.h>
 
-#include "config.h"
-
 #include <reader/externs.h>
 #include <reader/table_fns.h>
 #include <reader/basicread.h>

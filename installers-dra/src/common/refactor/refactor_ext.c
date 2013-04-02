@@ -11,8 +11,6 @@
 
 #include <shared/error.h>
 
-#include "config.h"
-
 #include "expmacs.h"
 #include "glopt.h"
 

@@ -26,8 +26,6 @@ number of ident = (word displacement in locals)*64 + 29
 
 #include <stddef.h>
 
-#include "config.h"
-
 #include <construct/tags.h>
 #include <construct/flags.h>
 

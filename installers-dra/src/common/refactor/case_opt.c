@@ -16,7 +16,6 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
-#include "config.h"
 #include "exptypes.h"
 #include "expmacs.h"
 #include "glopt.h"

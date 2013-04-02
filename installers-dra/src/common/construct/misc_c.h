@@ -10,7 +10,6 @@
 #ifndef misc_c_key
 #define misc_c_key 1
 
-#include "config.h"
 #include "exptypes.h"
 
 extern int invariant_to_apply(exp e);

@@ -10,10 +10,9 @@
 #ifndef SPECIAL_INCLUDED
 #define SPECIAL_INCLUDED
 
-#include "config.h"
-
 #include <construct/installtypes.h>
 #include <construct/exp.h>
+
 #include "proctypes.h"
 #include "addrtypes.h"
 

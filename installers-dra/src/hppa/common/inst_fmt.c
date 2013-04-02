@@ -22,8 +22,6 @@ understood by the assembler.
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
-#include "config.h"
-
 #include <construct/tags.h>
 #include <construct/flags.h>
 

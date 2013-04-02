@@ -25,8 +25,6 @@
 
 #include <limits.h>
 
-#include "config.h"
-
 #include <construct/installtypes.h>
 #include "output.h"
 #include <construct/flpttypes.h>

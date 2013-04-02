@@ -10,9 +10,8 @@
 #ifndef TESTS_INCLUDED
 #define TESTS_INCLUDED
 
-#include "config.h"
-
 #include "exptypes.h"
+
 #include <construct/installtypes.h>
 
 extern bool no_side(exp);

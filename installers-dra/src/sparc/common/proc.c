@@ -17,7 +17,6 @@
 
 #include <shared/check.h>
 
-#include "config.h"
 #include "diag_config.h"
 
 #ifdef NEWDWARF

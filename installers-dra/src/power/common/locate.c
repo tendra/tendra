@@ -16,8 +16,6 @@
 
 #include <shared/error.h>
 
-#include "config.h"
-
 #include "memtdf.h"
 #include "codegen.h"
 #include "geninst.h"

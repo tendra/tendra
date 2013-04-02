@@ -10,9 +10,8 @@
 #ifndef PROCTYPES_INCLUDED
 #define PROCTYPES_INCLUDED
 
-#include "config.h"
-
 #include <construct/installtypes.h>
+
 #include "exptypes.h"
 
 

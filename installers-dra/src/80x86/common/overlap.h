@@ -11,6 +11,7 @@
 #define OVERLAP_H
 
 #include <construct/installtypes.h>
+
 #include "localtypes.h"
 
 int might_overlap(shape sha, where w1, where w2);

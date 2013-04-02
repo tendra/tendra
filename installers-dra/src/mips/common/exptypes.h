@@ -10,8 +10,6 @@
 #ifndef exptypes_key
 #define exptypes_key 1
 
-#include "config.h"
-
 #include <reader/codetypes.h>
 
 #include <diag/dg_first.h>

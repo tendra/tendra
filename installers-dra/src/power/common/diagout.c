@@ -13,8 +13,6 @@
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
-#include "config.h"
-
 #if defined(CROSS_INCLUDE)
 #include CROSS_INCLUDE/dbxstclass.h>
 #include CROSS_INCLUDE/sys/debug.h>

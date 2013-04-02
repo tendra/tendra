@@ -10,8 +10,6 @@
 #ifndef TOKTYPES_H
 #define TOKTYPES_H
 
-#include "config.h"
-
 #ifdef NEWDIAGS
 #include <newdiag/dg_first.h>
 #else

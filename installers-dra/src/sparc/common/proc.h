@@ -10,9 +10,8 @@
 #ifndef PROCDECS_INCLUDED
 #define PROCDECS_INCLUDED
 
-#include "config.h"
-
 #include <construct/installtypes.h>
+
 #include "addrtypes.h"
 #include "proctypes.h"
 #include "exptypes.h"

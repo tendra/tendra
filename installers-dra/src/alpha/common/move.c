@@ -15,8 +15,6 @@
   in store, otherwise NOREG.
 */
 
-#include "config.h"
-
 #include <shared/check.h>
 
 #include "alpha_ins.h"

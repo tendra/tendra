@@ -13,8 +13,6 @@
 #ifndef ECODES_INCLUDED
 #define ECODES_INCLUDED
 
-#include "config.h"
-
 #include <construct/installtypes.h>
 
 /* CODES FOR ACCESS */

@@ -9,8 +9,6 @@
 
 #ifndef c_diff
 
-#include "config.h"
-
 #include <construct/installtypes.h>
 
 #ifdef NEWDIAGS

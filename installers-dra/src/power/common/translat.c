@@ -88,8 +88,6 @@
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
-#include "config.h"
-
 #include <reader/externs.h>		/* for "inits.h" init_XXX() procs */
 #include <reader/basicread.h>
 #include <reader/main_reads.h>

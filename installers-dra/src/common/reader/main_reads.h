@@ -13,8 +13,6 @@
 #ifndef MAIN_READS_INCLUDED
 #define MAIN_READS_INCLUDED
 
-#include "config.h"
-
 #include <construct/installtypes.h>
 #include <reader/toktypes.h>
 #include <linkinfo/li_types.h>

@@ -9,8 +9,6 @@
 
 #include <stddef.h>
 
-#include "config.h"
-
 #include <reader/externs.h>
 
 #include <construct/tags.h>

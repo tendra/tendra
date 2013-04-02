@@ -11,8 +11,6 @@
 #ifndef machine_key
 #define machine_key 1
 
-#include "config.h"
-
 #include <construct/installtypes.h>
 
 extern bool reg_result(shape);

@@ -25,8 +25,6 @@ second operand.
 
 ******************************************************************/
 
-#include "config.h"
-
 #include <construct/flags.h>
 
 #include "codegen.h"

@@ -7,8 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include "config.h"
-
 #include "addrtypes.h"
 #include "regexps.h"
 #include "labels.h"

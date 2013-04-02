@@ -12,9 +12,8 @@
 
 #include <shared/check.h>
 
-#include "config.h"
-
 #include <construct/installtypes.h>
+
 #include "localtypes.h"
 
 

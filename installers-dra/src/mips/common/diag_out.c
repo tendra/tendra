@@ -24,7 +24,6 @@ around the syms modules provided in the system library.
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
-#include "config.h"
 #include "cross_config.h"
 
 #ifndef CROSS_INCLUDE

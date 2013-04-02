@@ -10,8 +10,6 @@
 #ifndef installglob_key
 #define installglob_key 1
 
-#include "config.h"
-
 #include "exptypes.h"
 #include <reader/toktypes.h>
 

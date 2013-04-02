@@ -7,8 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include "config.h"
-
 
 /*
     DEFINE THE BASIC INSTRUCTIONS

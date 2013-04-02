@@ -27,8 +27,6 @@
 
 #include <shared/check.h>
 
-#include "config.h"
-
 #include <reader/externs.h>
 #include <reader/basicread.h>
 

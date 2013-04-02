@@ -10,8 +10,6 @@
 #ifndef diag_config_key
 #define diag_config_key
 
-#include "config.h"
-
 #ifdef NEWDIAGS
 #include <newdiag/dg_first.h>
 #else

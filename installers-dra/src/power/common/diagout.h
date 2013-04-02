@@ -11,10 +11,8 @@
 #ifndef DIAGOUT_H
 #define DIAGOUT_H	1
 
-#include "config.h"
-
 #include <construct/installtypes.h>
-#include "config.h"
+
 #include "exptypes.h"
 
 extern void init_diag(void);

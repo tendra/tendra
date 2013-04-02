@@ -10,8 +10,6 @@
 #include <assert.h>
 #include <string.h>
 
-#include "config.h"
-
 #include <reader/codetypes.h>
 
 #include <construct/installtypes.h>

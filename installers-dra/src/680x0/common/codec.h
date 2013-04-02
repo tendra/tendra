@@ -10,8 +10,6 @@
 #ifndef CODEC_INCLUDED
 #define CODEC_INCLUDED
 
-#include "config.h"
-
 #include "exptypes.h"
 #include "localtypes.h"
 

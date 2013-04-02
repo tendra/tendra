@@ -10,8 +10,6 @@
 #include <limits.h>
 #include <string.h>
 
-#include "config.h"
-
 #include <shared/check.h>
 #include <shared/error.h>
 #include <shared/xalloc.h>

@@ -9,8 +9,6 @@
 
 #include <shared/check.h>
 
-#include "config.h"
-
 #include "dw2_config.h"
 
 #include <reader/readglob.h>

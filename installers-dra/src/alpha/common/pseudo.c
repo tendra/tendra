@@ -16,8 +16,6 @@
 
 #include <shared/xalloc.h>
 
-#include "config.h"
-
 #include "cross.h"
 #include "frames.h"
 #include "pseudo.h"

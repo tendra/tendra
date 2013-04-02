@@ -14,8 +14,6 @@
 #include <shared/check.h>
 #include <shared/getopt.h>
 
-#include "config.h"
-
 #include <reader/reader_v.h>		/* for reader_revison */
 
 #include <construct/flags.h>		/* for option flags */

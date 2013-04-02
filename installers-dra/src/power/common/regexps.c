@@ -11,8 +11,6 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
-#include "config.h"
-
 #include <construct/flags.h>
 
 #include "exptypes.h"

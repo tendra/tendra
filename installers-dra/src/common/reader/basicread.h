@@ -10,8 +10,6 @@
 #ifndef BASICREAD_H
 #define BASICREAD_H
 
-#include "config.h"
-
 #include <construct/installtypes.h>
 #include <reader/toktypes.h>
 

@@ -11,8 +11,6 @@
 
 #include <shared/error.h>
 
-#include "config.h"
-
 #if FS_NO_ANSI_ENVIRON
 #include <floatingpoint.h>
 #else

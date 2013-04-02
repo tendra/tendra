@@ -11,8 +11,6 @@
 #ifndef STACK_H
 #define STACK_H  1
 
-#include "config.h"
-
 #include <construct/installtypes.h>
 #include "addresstypes.h"
 #include "procrectypes.h"

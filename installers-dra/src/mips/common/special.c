@@ -13,8 +13,6 @@
 
 #include <string.h>
 
-#include "config.h"
-
 #include <reader/basicread.h>
 
 #include <construct/shapemacs.h>

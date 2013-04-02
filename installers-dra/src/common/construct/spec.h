@@ -10,7 +10,6 @@
 #ifndef spec_key
 #define spec_key 1
 
-#include "config.h"
 #include "exptypes.h"
 #include "localtypes.h"
 

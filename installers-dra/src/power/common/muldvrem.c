@@ -11,8 +11,6 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
-#include "config.h"
-
 #include "exptypes.h"
 #include "memtdf.h"
 #include "codegen.h"

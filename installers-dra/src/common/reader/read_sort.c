@@ -12,7 +12,6 @@
 
 #include <shared/check.h>
 
-#include "config.h"
 #include "expmacs.h"
 
 #include <reader/codetypes.h>

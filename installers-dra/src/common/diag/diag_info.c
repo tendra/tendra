@@ -10,8 +10,6 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
-#include "config.h"
-
 #include <reader/readglob.h>
 #include <reader/table_fns.h>
 #include <reader/basicread.h>

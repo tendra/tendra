@@ -10,8 +10,6 @@
 #ifndef CODER_H
 #define CODER_H
 
-#include "config.h"
-
 #include "exptypes.h"
 #include "localtypes.h"
 

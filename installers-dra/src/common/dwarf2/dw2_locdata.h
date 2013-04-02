@@ -10,7 +10,6 @@
 #ifndef dw2_loc_key
 #define dw2_loc_key
 
-#include "config.h"
 #include "exptypes.h"
 
 typedef struct obl {

@@ -14,8 +14,6 @@
 #include <shared/check.h>
 #include <shared/getopt.h>
 
-#include "config.h"
-
 #include <reader/main_reads.h>	
 #include <reader/basicread.h>
 #include <reader/externs.h>

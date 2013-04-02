@@ -10,8 +10,6 @@
 #ifndef SPARCDDECS_INCLUDED
 #define SPARCDDECS_INCLUDED
 
-#include "config.h"
-
 #ifdef NEWDIAGS
 #include <newdiag/dg_first.h>
 #else

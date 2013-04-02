@@ -18,8 +18,6 @@ or neither.
 
 ******************************************************************/
 
-#include "config.h"
-
 #include "memtdf.h"
 #include "codegen.h"
 #include "comment.h"

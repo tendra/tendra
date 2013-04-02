@@ -27,8 +27,6 @@
 
 #include <assert.h>
 
-#include "config.h"
-
 #include <construct/tags.h>
 #include <construct/flags.h>
 

@@ -12,8 +12,6 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
-#include "config.h"
-
 #include <reader/externs.h>
 
 #include <construct/exp.h>

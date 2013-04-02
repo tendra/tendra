@@ -18,8 +18,6 @@
 
 #include <shared/xalloc.h>
 
-#include "config.h"
-
 #include <construct/tags.h>
 #include <construct/shapemacs.h>
 #include <construct/f64.h>

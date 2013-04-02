@@ -13,8 +13,6 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
-#include "config.h"
-
 #include <reader/codetypes.h>
 #include <reader/externs.h>
 

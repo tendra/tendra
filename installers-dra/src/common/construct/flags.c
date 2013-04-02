@@ -12,8 +12,6 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
-#include "config.h"
-
 #include <construct/flags.h>
 
 int redo_structfns = 0;		/* reorganise proc calls delivering

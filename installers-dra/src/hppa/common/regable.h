@@ -10,9 +10,8 @@
 #ifndef REGABLE_INCLUDED
 #define REGABLE_INCLUDED
 
-#include "config.h"
-
 #include <construct/installtypes.h>
+
 #include "exptypes.h"
 
 extern bool fixregable(exp);

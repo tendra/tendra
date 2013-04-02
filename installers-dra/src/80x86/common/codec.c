@@ -21,8 +21,6 @@
 
 #include <stddef.h>
 
-#include "config.h"
-
 #include <reader/basicread.h>
 #include <reader/readglob.h>
 #include <reader/externs.h>

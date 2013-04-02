@@ -9,8 +9,6 @@
 
 #include <shared/error.h>
 
-#include "config.h"
-
 #include "instrs.h"
 #include "mach.h"
 #include "mach_ins.h"

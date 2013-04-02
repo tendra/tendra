@@ -10,8 +10,6 @@
 extern int *symnos;
 extern int *tempsnos;
 
-#include "config.h"
-
 #include <construct/installtypes.h>
 
 extern int  symnoforext(dec * t, int filen);

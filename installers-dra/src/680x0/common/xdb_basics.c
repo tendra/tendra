@@ -10,8 +10,6 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "config.h"
-
 #include <reader/codetypes.h>
 
 #include <construct/flags.h>
