@@ -3,15 +3,18 @@
 .include "Makefile.inc"
 
 
-#TCCOPTS=-Xc -Y32bit -Yansi
+TRANS_CFLAGS+=	-D TRANS_SPARC
+TRANS_CFLAGS+=	-D BLDARCHBITS=${BLDARCHBITS}
 
-PART_CFLAGS+=	-D TRANS_SPARC
-PART_CFLAGS+=	-D BLDARCHBITS=${BLDARCHBITS}
+# TODO: these are not yet selectable at runtime
+TRANS_CFLAGS+=	-D NEWDIAGS
+TRANS_CFLAGS+=	-D NEWDWARF
 
-PART_CFLAGS+=	-I ${BASE_DIR}/src/sparc/common
+TRANS_CFLAGS+=	-I ${BASE_DIR}/src/sparc
+TRANS_CFLAGS+=	-I ${BASE_DIR}/src/common
 
-PART_CFLAGS+= -D NEWDIAGS
-PART_CFLAGS+= -D NEWDWARF
+
+PART_CFLAGS+=	${TRANS_CFLAGS}
 
 PARTS+=	src/common/shared
 PARTS+=	src/common/construct
@@ -20,9 +23,48 @@ PARTS+=	src/common/dwarf2
 PARTS+=	src/common/linkinfo
 PARTS+=	src/common/reader
 PARTS+=	src/common/refactor
-PARTS+=	src/sparc/common
 
 .include <tendra.partial.mk>
+
+
+#TCCOPTS=	-Xc -Y32bit -Yansi
+
+CCOPTS+=	${TRANS_CFLAGS}
+
+SRCS+=	codehere.c
+SRCS+=	comment.c
+SRCS+=	diag_out.c
+SRCS+=	dw2_config.c
+SRCS+=	dw2_extra.c
+SRCS+=	eval.c
+SRCS+=	getregs.c
+SRCS+=	glopt.c
+SRCS+=	guard.c
+SRCS+=	inlinechoice.c
+SRCS+=	inst_fmt.c
+SRCS+=	is_worth.c
+SRCS+=	labels.c
+SRCS+=	locate.c
+SRCS+=	machine.c
+SRCS+=	machine_toks.c
+SRCS+=	main.c
+SRCS+=	makecode.c
+SRCS+=	move.c
+SRCS+=	muldvrem.c
+SRCS+=	needscan.c
+SRCS+=	oprators.c
+SRCS+=	proc.c
+SRCS+=	regable.c
+SRCS+=	regalloc.c
+SRCS+=	regexps.c
+SRCS+=	sparcins.c
+SRCS+=	spec_tok.c
+SRCS+=	special.c
+SRCS+=	tempdecs.c
+SRCS+=	translat.c
+SRCS+=	weights.c
+
+.include <tendra.obj.mk>
 
 
 PROG=    	trans.${.CURDIR:T}
