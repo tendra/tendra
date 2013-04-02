@@ -96,17 +96,14 @@ main(int argc, char **argv)
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"A:B:DE:F:G:H:K:MO:PQRSV:WX:YZ"
-			"e")) != -1) {
+			"B:DE:F:G:H:K:MO:PQRS:V:WX:YZ"
+			"es")) != -1) {
 			switch (c) {
 			case 'B': builtin = flags_builtin(builtin, optarg); break;
 			case 'H': has     = flags_has(has, optarg);         break;
 			case 'O': optim   = flags_optim(optim, optarg);     break;
 			case 'X': check   = flags_check(check, optarg);     break;
 
-			case 'A':
-				assembler = switch_assembler(optarg, ASM_GAS | ASM_SGI | ASM_ULTRIX);
-				break;
 			case 'C':
 				cconv = switch_cconv(optarg, CCONV_O32);
 				break;
@@ -119,6 +116,9 @@ main(int argc, char **argv)
 			case 'G':
 				diag = switch_diag(optarg, DIAG_NONE | DIAG_STABS);
 				break;
+			case 'S':
+				assembler = switch_assembler(optarg, ASM_GAS | ASM_SGI | ASM_ULTRIX);
+				break;
 
 			case 'D': PIC_code = 1;                 break;
 			case 'K': /* only MIPS */               break;
@@ -126,7 +126,6 @@ main(int argc, char **argv)
 			case 'P': do_profile = 1;               break;
 			case 'Q': exit(EXIT_FAILURE);
 			case 'R': round_after_flop = 1;         break;
-			case 'S': produce_binasm = 1;           break;
 
 			case 'V':
 				{
@@ -178,6 +177,7 @@ main(int argc, char **argv)
 				break;
 
 			case 'e': do_extern_adds = 1; break;
+			case 's': produce_binasm = 1; break;
 
 			default:
 				failer("Illegal flag");

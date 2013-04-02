@@ -144,20 +144,20 @@ int main
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"A:B:C:DE:F:G:H:K:MO:PQRVWX:YZ"
+			"B:C:DE:F:G:H:K:MO:PQRS:VWX:YZ"
 #ifdef EBUG
 			"L:l:"
 #endif
 			"aefiou")) != -1) {
 			switch (c) {
-			case 'A': assembler = switch_assembler(optarg,
-				ASM_HP | ASM_GAS ); break;
 			case 'C': cconv = switch_cconv(optarg,
 				CCONV_HP | CCONV_GCC | CCONV_SUN); break;
 			case 'E': endian = switch_endian(optarg, ENDIAN_BIG); break;
 			case 'F': format = switch_format(optarg, FORMAT_AOUT); break;
 			case 'G': diag = switch_diag(optarg,
 				DIAG_NONE | DIAG_STABS | DIAG_XDB_OLD | DIAG_XDB_NEW); break;
+			case 'S': assembler = switch_assembler(optarg,
+				ASM_HP | ASM_GAS ); break;
 
 			case 'B': builtin = flags_builtin(builtin, optarg); break;
 			case 'O': optim   = flags_optim(optim, optarg);     break;

@@ -196,7 +196,7 @@ main ( int argc, char ** argv )
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"A:B:C:DE:F:G:H:JK:MNO:PQRTVWX:YZ"
+			"B:C:DE:F:G:H:JK:MNO:PQRS:TVWX:YZ"
 			"abcglmo:i:r:un")) != -1) {
 			switch (c) {
 			case 'B': builtin = flags_builtin(builtin, optarg); break;
@@ -206,9 +206,6 @@ main ( int argc, char ** argv )
 
 			case 'D': PIC_code = 1;                    break;
 
-			case 'A':
-				assembler = switch_assembler(optarg, ASM_SUN);
-				break;
 			case 'C':
 				cconv = switch_cconv(optarg, CCONV_SPARC);
 				break;
@@ -220,6 +217,9 @@ main ( int argc, char ** argv )
 				break;
 			case 'G':
 				diag = switch_diag(optarg, DIAG_NONE | DIAG_STABS | DIAG_DWARF | DIAG_DWARF2);
+				break;
+			case 'S':
+				assembler = switch_assembler(optarg, ASM_SUN);
 				break;
 
 #ifdef NEWDWARF

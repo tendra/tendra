@@ -2,5 +2,5 @@
 
 +MACHINE	"linux-*-mips"
 
->FLAGS_TRANS	"-Agas"
+>FLAGS_TRANS	"-Sgas"
 

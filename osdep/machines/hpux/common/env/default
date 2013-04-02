@@ -9,6 +9,6 @@
 
 # XXX: GNU's as
 +AS             "/usr/local/bin/as"
->FLAG_TRANS     "-Agnu"
+>FLAG_TRANS     "-Sgas"
 
 

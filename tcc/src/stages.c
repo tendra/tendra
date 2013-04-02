@@ -528,7 +528,7 @@ do_translate(filename *input)
 		output->aux = make_filename(input, t, where(t));
 		t = BINASM_T_FILE;
 		output->aux->aux = make_filename(input, t, where(t));
-		cmd_string("-S");
+		cmd_string("-s");
 		cmd_filename(input);
 		cmd_filename(output->aux);
 		cmd_filename(output->aux->aux);

@@ -141,16 +141,13 @@ main(int argc, char **argv)
 	 * XXX: Some arguments are undocumented in trans.1, check
 	 */
 #ifdef NEWDWARF
-	optstring = "A:B:D:E:F:G:H:" "J" "K:M:NO:PQR:" "T" "VW:X:YZ" "abcdfghit:";
+	optstring = "B:D:E:F:G:H:" "J" "K:M:NO:PQR:S:" "T" "VW:X:YZ" "abcdfghit:";
 #else
-	optstring = "A:B:D:E:F:G:H:"     "K:M:NO:PQR:"     "VW:X:YZ" "abcdfghit:v:";
+	optstring = "B:D:E:F:G:H:"     "K:M:NO:PQR:S:"     "VW:X:YZ" "abcdfghit:v:";
 #endif
 
 	while ((ch = getopt(argc, argv, optstring)) != -1) {
 		switch (ch) {
-		case 'A':
-			assembler = switch_assembler(optarg, ASM_GAS);
-			break;
 		case 'B':
 			builtin = flags_builtin(builtin, optarg);
 			break;
@@ -211,6 +208,9 @@ main(int argc, char **argv)
 			break;
 		case 'R':
 			round_after_flop = (*optarg == '1');
+			break;
+		case 'S':
+			assembler = switch_assembler(optarg, ASM_GAS);
 			break;
 #ifdef NEWDWARF
 		case 'T':
