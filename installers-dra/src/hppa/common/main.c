@@ -99,12 +99,13 @@ target_dbl_maxexp = 308;
 	format = FORMAT_SOM;
 	diag = DIAG_NONE;
 	cconv = CCONV_HPPA;
+	abi = ABI_HPUX;
 
 	{
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"B:C:DE:F:G:H:KNO:PQRS:VWX:YZ" "di")) != -1) {
+			"A:B:C:DE:F:G:H:KNO:PQRS:VWX:YZ" "di")) != -1) {
 			switch (c) {
 			case 'B': builtin = flags_builtin(builtin, optarg); break;
 			case 'O': optim   = flags_optim(optim, optarg);     break;
@@ -121,6 +122,10 @@ target_dbl_maxexp = 308;
 				/* -d emulates cc's +z flag */
 				PIC_code = 1;
 				plusZ = 0;
+				break;
+
+			case 'A':
+				abi = switch_abi(optarg, ABI_HPUX);
 				break;
 
 			case 'C':

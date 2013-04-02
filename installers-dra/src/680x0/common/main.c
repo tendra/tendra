@@ -121,19 +121,8 @@ int main
 	 * supported, but the cc conventions are default on the HPUX. NeXT
 	 * cc is gcc.
 	 */
-#ifdef NEXT_INTERFACE
-	cconv = CCONV_GCC;
-#endif
-#ifdef SUN_INTERFACE
+	abi = ABI_SUNOS;
 	cconv = CCONV_SUN;
-#endif
-#ifdef HP_INTERFACE
-	cconv = CCONV_HP;
-#endif
-
-#ifndef SUN
-	promote_pars = 0;
-#endif
 
 	load_ptr_pars = 1;
 	trap_on_nil_contents = 0;
@@ -144,12 +133,14 @@ int main
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"B:C:DE:F:G:H:K:MO:PQRS:VWX:YZ"
+			"A:B:C:DE:F:G:H:K:MO:PQRS:VWX:YZ"
 #ifdef EBUG
 			"L:l:"
 #endif
 			"aefiou")) != -1) {
 			switch (c) {
+			case 'A': abi = switch_abi(optarg,
+				ABI_HPUX | ABI_NEXT | ABI_SUNOS); break;
 			case 'C': cconv = switch_cconv(optarg,
 				CCONV_HP | CCONV_GCC | CCONV_SUN); break;
 			case 'E': endian = switch_endian(optarg, ENDIAN_BIG); break;
@@ -253,17 +244,12 @@ int main
     /* Careful with procedure results */
     optim &= ~OPTIM_UNPAD_APPLY;
 
+    if (abi == ABI_SUNOS) {
+	promote_pars = 0;
+    }
+
     /* Report version if required */
     if (report_trans_version) {
-#ifdef NEXT
-	char *machine = "NeXT";
-#else
-#ifdef SUN
-	char *machine = "Sun / 3";
-#else
-	char *machine = "HP";
-#endif
-#endif
 	fprintf(stderr, "DRA TDF translator (TDF version %d.%d)\n",
 		MAJOR_VERSION, MINOR_VERSION);
 	fprintf(stderr, "reader %d.%d: ", reader_version,
@@ -272,7 +258,6 @@ int main
 		construct_revision);
 	fprintf(stderr, "target %d.%d.%d: \n", target_version,
 		target_revision,target_patchlevel);
-	fprintf(stderr, "system %s",machine);
 #ifdef __DATE__
 	fprintf(stderr," : installer compilation %s\n", __DATE__);
 #endif

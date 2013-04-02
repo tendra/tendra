@@ -18,7 +18,6 @@
 extern int optim_level;
 extern int g_reg_max;
 extern int maxfix_tregs;
-extern int sysV_abi;
 extern int sysV_assembler;
 
 extern dec *diag_def;

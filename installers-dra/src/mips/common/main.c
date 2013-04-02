@@ -91,12 +91,13 @@ main(int argc, char **argv)
 	format = FORMAT_ELF;
 	diag = DIAG_NONE;
 	cconv = CCONV_O32; /* TODO: confirm this is what we generate */
+	abi = ABI_MIPS;
 
 	{
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"B:DE:F:G:H:K:MO:PQRS:V:WX:YZ"
+			"A:B:DE:F:G:H:K:MO:PQRS:V:WX:YZ"
 			"es")) != -1) {
 			switch (c) {
 			case 'B': builtin = flags_builtin(builtin, optarg); break;
@@ -104,6 +105,9 @@ main(int argc, char **argv)
 			case 'O': optim   = flags_optim(optim, optarg);     break;
 			case 'X': check   = flags_check(check, optarg);     break;
 
+			case 'A':
+				abi = switch_cconv(optarg, ABI_MIPS);
+				break;
 			case 'C':
 				cconv = switch_cconv(optarg, CCONV_O32);
 				break;

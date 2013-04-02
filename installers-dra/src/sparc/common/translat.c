@@ -156,7 +156,6 @@ char * proc_name;
   VARIABLES
 */
 
-int sysV_abi ;		/* System V version? */
 int sysV_assembler ;	/* System V version? */
 int optim_level ;	/* optimisation level */
 int g_reg_max ;		/* the maximum number of G registers */

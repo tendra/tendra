@@ -113,11 +113,12 @@ main(int argc, char *argv[])
 	format = FORMAT_ELF;
 	diag = DIAG_NONE;
 	cconv = CCONV_ALPHA;
+	abi = ABI_OSF1;
 
 	{
 		int c;
 
-		while ((c = getopt(argc, argv, "B:C:DE:F:G:H:K:MO:PQRS:VWX:YZ" "sud:")) != -1) {
+		while ((c = getopt(argc, argv, "A:B:C:DE:F:G:H:K:MO:PQRS:VWX:YZ" "sud:")) != -1) {
 			switch (c) {
 			case 'B': builtin = flags_builtin(builtin, optarg); break;
 			case 'O': optim   = flags_optim(optim, optarg);     break;
@@ -126,6 +127,9 @@ main(int argc, char *argv[])
 
 			case 'D': failer("no PIC code available"); exit(EXIT_FAILURE);
 
+			case 'A':
+				abi = switch_cconv(optarg, ABI_OSF1);
+				break;
 			case 'C':
 				cconv = switch_cconv(optarg, CCONV_ALPHA);
 				break;

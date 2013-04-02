@@ -4120,7 +4120,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
 	  /* the following is needed because the two different 
 	     library function to be called require a different
 	     ordering of parameters */
-	  if(sysV_abi){
+	  if(abi == ABI_SYSV){
 	    nsp = guardreg(param_reg+1,nsp);
 	    reg_operand_here(frome,nsp,param_reg+1);
 	    nsp = guardreg(param_reg,nsp);
@@ -4146,7 +4146,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
 	    }
 #endif
 	}
-	extj_special_ins ( i_call, sysV_abi ? "memmove" : "_bcopy", 3);
+	extj_special_ins ( i_call, abi == ABI_SYSV ? "memmove" : "_bcopy", 3);
 	clear_all();
       }
 #if 0

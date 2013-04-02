@@ -25,8 +25,4 @@
 #endif
 
 
-#define SUN
-
-
-
 #endif

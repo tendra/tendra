@@ -10,10 +10,6 @@
 #ifndef CONFIG_INCLUDED
 #define CONFIG_INCLUDED
 
-/* Settings for Solaris 2 */
-#define SYSV_ABI		1
-
-
 /* CONFIGURATION OPTIONS */
 
 #define NEWDIAGS		1

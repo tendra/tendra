@@ -538,6 +538,25 @@ void reset_round_mode
    }
 }
 
+static void
+float_to_unsigned(where from, where to, char *s)
+{
+	change_flvar(realsh, from, FP0);
+	push_float(64L, FP0);
+	change_flvar(realsh, from, FP0);
+	push_float(64L, FP0);
+#ifdef float_to_unsigned_uses_fp1
+	if (mode == 4 && eq_where(from, FP1) {
+		push_float(64L, FP1);
+		libcall(s);
+		pop_float(64L, FP1);
+	} else
+#endif
+		libcall(s);
+	dec_stack(-64);
+	have_cond = 0;
+	move(ulongsh, D0, to);
+}
 
 /*
     ROUND A FLOATING POINT NUMBER TO AN INTEGER
@@ -561,65 +580,65 @@ void round_float
         }
 
 	if (mode == f_toward_zero|| mode == 4) {
-
-#ifdef float_to_unsigned
-	    change_flvar(realsh, from, FP0);
-	    push_float(64L, FP0);
-#ifdef float_to_unsigned_uses_fp1
-	    if (mode == 4 && eq_where(from, FP1) {
-		push_float(64L, FP1);
-		libcall(float_to_unsigned);
-		pop_float(64L, FP1);
-	    } else
-#endif
-	    libcall(float_to_unsigned);
-	    dec_stack(-64);
-	    have_cond = 0;
-	    move(ulongsh, D0, to);
-#else
-	    where fm;
-	    long lab1 = next_lab();
-	    long lab2 = next_lab();
-	    exp jt = simple_exp(0);
-	    ptno(jt) = lab1;
-	    regsinproc |= regmsk(REG_FP1);
+		switch (abi) {
+		case ABI_SUNOS: {
+	   		where fm;
+	    		long lab1 = next_lab();
+	    		long lab2 = next_lab();
+	    		exp jt = simple_exp(0);
+	    		ptno(jt) = lab1;
+	    		regsinproc |= regmsk(REG_FP1);
 #ifdef FBASE_10
-	    fm = mfw(1, "2147483648", 9);
+	    		fm = mfw(1, "2147483648", 9);
 #else
-	    {
-		static long fmd[] = { 32768, 0, -1 };
-		fm = mfw(1, fmd, 1);
-	    }
+	    		{
+				static long fmd[] = { 32768, 0, -1 };
+				fm = mfw(1, fmd, 1);
+	    		}
 #endif
-	    change_flvar(realsh, from, FP0);
-	    move(realsh, fm, FP1);
-	    regsinproc |= regmsk(REG_FP1);
-	    ins2_cmp(m_fcmpx, 64L, 64L, FP0, FP1, 0);
-	    branch(tst_gr, jt, 1, 1, 1);
-	    ins2(m_fsubx, 64L, 64L, FP1, FP0, regmsk(REG_FP0));
-	    if (whereis(to) == Dreg) {
-	      ins2(m_fintrzx,32L,32L,FP0,FP0,1);
-	      ins2(m_fmovel, 32L, 32L, FP0, to, 1);
-	      or(ulongsh, to, mnw((long)2147483648UL), to);
-	    } else {
-	       ins2(m_fintrzx,32L,32L,FP0,FP0,1);
-	       ins2(m_fmovel, 32L, 32L, FP0, D0, 1);
-	       or(ulongsh, D0, mnw((long)2147483648UL), D0);
-	       move(ulongsh, D0, to);
-	    }
-	    make_jump(m_bra, lab2);
-	    make_label(lab1);
-	    if (whereis(to) == Dreg) {
-	      ins2(m_fintrzx,32L,32L,FP0,FP0,1);
-	      ins2(m_fmovel, 32L, 32L, FP0, to, 1);
-	    } else {
-	      ins2(m_fintrzx,32L,32L,FP0,FP0,1);
-	      ins2(m_fmovel, 32L, 32L, FP0, D0, 1);
-	      move(ulongsh, D0, to);
-	    }
-	    make_label(lab2);
-	    have_cond = 0;
-#endif
+
+			change_flvar(realsh, from, FP0);
+			move(realsh, fm, FP1);
+			regsinproc |= regmsk(REG_FP1);
+			ins2_cmp(m_fcmpx, 64L, 64L, FP0, FP1, 0);
+			branch(tst_gr, jt, 1, 1, 1);
+			ins2(m_fsubx, 64L, 64L, FP1, FP0, regmsk(REG_FP0));
+
+			if (whereis(to) == Dreg) {
+				ins2(m_fintrzx,32L,32L,FP0,FP0,1);
+				ins2(m_fmovel, 32L, 32L, FP0, to, 1);
+				or(ulongsh, to, mnw((long)2147483648UL), to);
+			} else {
+				ins2(m_fintrzx,32L,32L,FP0,FP0,1);
+				ins2(m_fmovel, 32L, 32L, FP0, D0, 1);
+				or(ulongsh, D0, mnw((long)2147483648UL), D0);
+				move(ulongsh, D0, to);
+			}
+
+			make_jump(m_bra, lab2);
+			make_label(lab1);
+
+			if (whereis(to) == Dreg) {
+				ins2(m_fintrzx,32L,32L,FP0,FP0,1);
+				ins2(m_fmovel, 32L, 32L, FP0, to, 1);
+			} else {
+				ins2(m_fintrzx,32L,32L,FP0,FP0,1);
+				ins2(m_fmovel, 32L, 32L, FP0, D0, 1);
+				move(ulongsh, D0, to);
+			}
+			make_label(lab2);
+			have_cond = 0;
+			break;
+		}
+
+		case ABI_HPUX:
+			float_to_unsigned(from, to, "___fixu");
+			break;
+
+		case ABI_NEXT:
+			float_to_unsigned(from, to, "__fixunsdfsi");
+			break;
+		}
 	    return;
 	}
 
@@ -729,46 +748,53 @@ void int_to_float
     fpr = FP0;
 #endif
     if (name(shf) == ulonghd) {
-#ifdef unsigned_to_float
-	if (whereis(from) == Dreg) {
-	    push(slongsh, 32L, from);
-	} else {
-	    move(shf, from, D0);
-	    push(slongsh, 32L, D0);
-	}
-	libcall(unsigned_to_float);
-	dec_stack(-32);
-	have_cond = 0;
-	move(realsh, D0_D1, fpr);
-	move(sha, fpr, to);
-	return;
-#else
-	where fm;
-	long lab = next_lab();
-	exp jt = simple_exp(0);
-	ptno(jt) = lab;
+	switch (abi) {
+	case ABI_NEXT:
+	case ABI_SUNOS: {
+		where fm;
+		long lab = next_lab();
+		exp jt = simple_exp(0);
+		ptno(jt) = lab;
 #ifdef FBASE_10
-	fm = mfw(1, "4294967296", 9);
+		fm = mfw(1, "4294967296", 9);
 #else
-	{
-	    static long fmd[] = { 1, 0, 0, -1 };
-	    fm = mfw(1, fmd, 2);
-	}
+		{
+		    static long fmd[] = { 1, 0, 0, -1 };
+		    fm = mfw(1, fmd, 2);
+		}
 #endif
-	if (whereis(from) == Dreg) {
-	    ins2(m_fmovel, 32L, 64L, from, fpr, 1);
-	} else {
-	    move(slongsh, from, D0);
-	    ins2(m_fmovel, 32L, 64L, D0, fpr, 1);
+
+		if (whereis(from) == Dreg) {
+			ins2(m_fmovel, 32L, 64L, from, fpr, 1);
+		} else {
+			move(slongsh, from, D0);
+			ins2(m_fmovel, 32L, 64L, D0, fpr, 1);
+		}
+
+		branch(tst_ge, jt, 1, 1, 1);
+		add(sha, fpr, fm, fpr);
+		make_label(lab);
+		have_cond = 0;
+		move(sha, fpr, to);
+		return;
 	}
-	branch(tst_ge, jt, 1, 1, 1);
-	add(sha, fpr, fm, fpr);
-	make_label(lab);
-	have_cond = 0;
-	move(sha, fpr, to);
-	return;
-#endif
+
+	case ABI_HPUX:
+		if (whereis(from) == Dreg) {
+		    push(slongsh, 32L, from);
+		} else {
+		    move(shf, from, D0);
+		    push(slongsh, 32L, D0);
+		}
+		libcall("___floatu");
+		dec_stack(-32);
+		have_cond = 0;
+		move(realsh, D0_D1, fpr);
+		move(sha, fpr, to);
+		return;
+	}
     }
+
     if (name(shf) == slonghd && whereis(from) == Dreg) {
 	ins2(m_fmovel, 32L, 64L, from, fpr, 1);
     } else {

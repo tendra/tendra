@@ -132,22 +132,24 @@ main(int argc, char **argv)
 	format = FORMAT_ELF;
 	cconv = CCONV_GCC; /* TODO: name properly */
 	diag = DIAG_NONE;
+	abi = ABI_IBCS;
 
 	ptr_null = 0;		/* NULL value for pointer */
 	proc_null = 0;		/* NULL value for proc */
 	lv_null = 0;		/* NULL value for label_value*/
 
-	/*
-	 * XXX: Some arguments are undocumented in trans.1, check
-	 */
 #ifdef NEWDWARF
-	optstring = "B:D:E:F:G:H:" "J" "K:M:NO:PQR:S:" "T" "VW:X:YZ" "abcdfghit:";
+	optstring = "A:B:D:E:F:G:H:" "J" "K:M:NO:PQR:S:" "T" "VW:X:YZ" "abcdfghit:";
 #else
-	optstring = "B:D:E:F:G:H:"     "K:M:NO:PQR:S:"     "VW:X:YZ" "abcdfghit:v:";
+	optstring = "A:B:D:E:F:G:H:"     "K:M:NO:PQR:S:"     "VW:X:YZ" "abcdfghit:v:";
 #endif
 
 	while ((ch = getopt(argc, argv, optstring)) != -1) {
 		switch (ch) {
+		case 'A':
+			abi = switch_endian(optarg, ABI_SCO | ABI_SVR4 | ABI_LINUX | ABI_SOLARIS | ABI_IBCS);
+			/* TODO: default various lowercase flags, depending on abi */
+			break;
 		case 'B':
 			builtin = flags_builtin(builtin, optarg);
 			break;

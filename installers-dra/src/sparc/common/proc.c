@@ -524,7 +524,7 @@ makeans make_proc_tag_code
 
     /* code for body of proc */
 #if 1
-    if (!sysV_abi && do_dynamic_init && !strcmp(proc_name,"_main")) {
+    if (abi != ABI_SYSV && do_dynamic_init && !strcmp(proc_name,"_main")) {
       call_tdf_main();
     }
 #endif
@@ -796,7 +796,7 @@ makeans make_apply_tag_code
 
       if ( 0 /*struct_par*/ ) {
 	/* non-ABI construct being used - give stronger warning */
-	if (sysV_abi)fail("Structure parameter passed by value");
+	if (abi == ABI_SYSV) fail("Structure parameter passed by value");
       }
 
       if (is_floating(hd) && param_reg <= R_O5) {

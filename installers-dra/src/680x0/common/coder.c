@@ -1914,22 +1914,18 @@ coder(where dest, ash stack, exp e)
 		exp from_exp = son(e);
 		exp to_exp = bro(from_exp);
 		exp num_bytes = bro(to_exp);
-#if defined(SUN)
-		mach_op *op = make_extern_ind("_bcopy",0);
-#else
-		mach_op *op = make_extern_ind("_memmove",0);
-#endif
+		mach_op *op = make_extern_ind(abi == ABI_SUNOS ? "_bcopy" : "_memmove", 0);
 		make_comment("move_some ...");
 		push(slongsh,32L,D0);
 		push(slongsh,32L,D1);
 		push(slongsh,32L,zw(num_bytes));
-#if defined(SUN)
-		push(slongsh,32L,zw(to_exp));
-		push(slongsh,32L,zw(from_exp));
-#else
-		push(slongsh,32L,zw(from_exp));
-		push(slongsh,32L,zw(to_exp));
-#endif
+		if (abi == ABI_SUNOS) {
+			push(slongsh,32L,zw(to_exp));
+			push(slongsh,32L,zw(from_exp));
+		} else {
+			push(slongsh,32L,zw(from_exp));
+			push(slongsh,32L,zw(to_exp));
+		}
 		make_instr(m_call,op,NULL,0);
 		dec_stack(-96);
 		pop(slongsh,32L,D1);

@@ -145,8 +145,7 @@ main ( int argc, char ** argv )
   PIC_code = 0 ;			/* don't do PIC */
   keep_PIC_vars = 1 ;
   do_alloca = 0 ;			/* inline alloca */
-  sysV_abi = SYSV_ABI ;			/* SYSV version */
-  g_reg_max = ( sysV_abi ? 4 : 7 ) ;	/* number of G registers */
+  g_reg_max = ( abi == ABI_SYSV ? 4 : 7 ) ;	/* number of G registers */
 
   /*
    * On DIV_SETS_CC:
@@ -163,8 +162,10 @@ main ( int argc, char ** argv )
    * of producing a.out vs. ELF assembly. I'm keeping it around for the moment
    * until I can test exactly what needs to happen for a.out systems.
    *
-   * TODO: split this into ABI and as(1) dialect things, or have a seperate
+   * TODO: split this into ABI and as(1) dialect things, or have a separate
    * flag for executable format.
+   * TODO: actually I think this is just the assembler; there was a separate
+   * variable for the sysV ABI.
    */
   sysV_assembler = 1 ;		/* SYSV version */
 
@@ -183,21 +184,14 @@ main ( int argc, char ** argv )
   format = FORMAT_ELF;
   diag = DIAG_NONE;
   cconv = CCONV_SPARC;
-
-#if SYSV_ABI
-  use_long_double   = 1;
-  target_dbl_maxexp = 16384;
-#else
-  use_long_double   = 0;
-  target_dbl_maxexp = 308;
-#endif
+  abi = ABI_SYSV;
 
 	{
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"B:C:DE:F:G:H:JK:MNO:PQRS:TVWX:YZ"
-			"abcglmo:i:r:un")) != -1) {
+			"A:B:C:DE:F:G:H:JK:MNO:PQRS:TVWX:YZ"
+			"bcglmo:i:r:un")) != -1) {
 			switch (c) {
 			case 'B': builtin = flags_builtin(builtin, optarg); break;
 			case 'H': has     = flags_has(has, optarg);         break;
@@ -206,6 +200,9 @@ main ( int argc, char ** argv )
 
 			case 'D': PIC_code = 1;                    break;
 
+			case 'A':
+				abi = switch_abi(optarg, ABI_SUNOS | ABI_SYSV);
+				break;
 			case 'C':
 				cconv = switch_cconv(optarg, CCONV_SPARC);
 				break;
@@ -275,7 +272,6 @@ main ( int argc, char ** argv )
 			case 'Y': dyn_init = 1;                 break;
 			case 'Z': report_versions = 1;          break;
 
-			case 'a' : sysV_abi = 1; g_reg_max = 4; break;
 			case 'b' : sysV_assembler = 0; break;
 			case 'c' : do_comment = 1; break;
 			case 'g' : library_key = 2; break;
@@ -350,8 +346,20 @@ main ( int argc, char ** argv )
       use_link_stuff = 1;
     }
 
+    switch (abi) {
+    case ABI_SYSV:
+      use_long_double   = 1;
+      target_dbl_maxexp = 16384;
+      break;
+
+    case ABI_SUNOS:
+      use_long_double   = 0;
+      target_dbl_maxexp = 308;
+      break;
+    }
+
     /* check ABI conformance */
-    if ( sysV_abi && ( g_reg_max > 4 ) ) {
+    if ( abi = ABI_SYSV && ( g_reg_max > 4 ) ) {
       fprintf ( stderr, "%s : -r%d conflicts with SYSV ABI\n",
 		sparctrans, g_reg_max ) ;
     }

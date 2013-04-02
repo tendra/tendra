@@ -105,7 +105,23 @@ enum cconv {
 	CCONV_HPPA   = 1 << 4,
 	CCONV_O32    = 1 << 5,
 	CCONV_XLC    = 1 << 6,
-	CCONV_SPARC  = 1 << 7
+	CCONV_SPARC  = 1 << 7,
+	CCONV_AOUT   = 1 << 8
+};
+
+enum abi {
+	ABI_HPUX     = 1 <<  0,
+	ABI_NEXT     = 1 <<  1,
+	ABI_SUNOS    = 1 <<  2,
+	ABI_SCO      = 1 <<  3,
+	ABI_SVR4     = 1 <<  4,
+	ABI_SYSV     = 1 <<  5,
+	ABI_LINUX    = 1 <<  6,
+	ABI_SOLARIS  = 1 <<  7,
+	ABI_OSF1     = 1 <<  8,
+	ABI_IBCS     = 1 <<  9,
+	ABI_MIPS     = 1 << 10,
+	ABI_POWER    = 1 << 11
 };
 
 extern int redo_structfns;
@@ -147,6 +163,7 @@ extern enum assembler assembler;
 extern enum format    format;
 extern enum diag      diag;
 extern enum cconv     cconv;
+extern enum abi       abi;
 
 extern enum has     flags_has(enum has, const char *);
 extern enum optim   flags_optim(enum optim, const char *);
@@ -157,5 +174,7 @@ extern enum endian    switch_endian(const char *, unsigned);
 extern enum assembler switch_assembler(const char *, unsigned);
 extern enum format    switch_format(const char *, unsigned);
 extern enum diag      switch_diag(const char *, unsigned);
+extern enum cconv     switch_cconv(const char *, unsigned);
+extern enum abi       switch_abi(const char *, unsigned);
 
 #endif /* flags_key */

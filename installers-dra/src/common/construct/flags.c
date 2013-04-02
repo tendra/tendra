@@ -64,6 +64,7 @@ enum assembler assembler;
 enum format    format;
 enum diag      diag;
 enum cconv     cconv;
+enum abi       abi;
 
 enum has
 flags_has(enum has o, const char *s)
@@ -406,7 +407,8 @@ switch_cconv(const char *s, unsigned permitted)
 		{ "hppa",  CCONV_HPPA  },
 		{ "o32",   CCONV_O32   },
 		{ "xlc",   CCONV_XLC   }, /* TODO: name for 32-bit POWER */
-		{ "sparc", CCONV_SPARC }
+		{ "sparc", CCONV_SPARC },
+		{ "aout",  CCONV_AOUT  }  /* TODO: probably the wrong name */
 	};
 
 	for (i = 0; i < sizeof a / sizeof *a; i++) {
@@ -418,6 +420,52 @@ switch_cconv(const char *s, unsigned permitted)
 
 	if (i >= sizeof a / sizeof *a) {
 		error(ERROR_FATAL, "Unrecognised calling convention %s.", s);
+		return -1;
+	}
+
+	if (~permitted & o) {
+		error(ERROR_FATAL, "Calling convention %s not permitted "
+			"for this architecture.", s);
+		return -1;
+	}
+
+	return o;
+}
+
+enum abi
+switch_abi(const char *s, unsigned permitted)
+{
+	size_t i;
+	enum abi o;
+
+	struct {
+		const char *name;
+		enum abi abi;
+	} a[] = {
+		/* TODO: most of these are not real ABI names */
+		{ "hpux",    ABI_HPUX    },
+		{ "next",    ABI_NEXT    },
+		{ "sunos",   ABI_SUNOS   },
+		{ "sco",     ABI_SCO     },
+		{ "svr4",    ABI_SVR4    },
+		{ "svsv",    ABI_SYSV    },
+		{ "linux",   ABI_LINUX   },
+		{ "solaris", ABI_SOLARIS },
+		{ "osf1",    ABI_OSF1    },
+		{ "icbs",    ABI_IBCS    },
+		{ "mips",    ABI_MIPS    },
+		{ "power",   ABI_POWER   }
+	};
+
+	for (i = 0; i < sizeof a / sizeof *a; i++) {
+		if (0 == strcmp(a[i].name, s)) {
+			o = a[i].abi;
+			break;
+		}
+	}
+
+	if (i >= sizeof a / sizeof *a) {
+		error(ERROR_FATAL, "Unrecognised ABI %s.", s);
 		return -1;
 	}
 

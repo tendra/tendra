@@ -81,18 +81,22 @@ int main(int argc, char **argv)
   format = FORMAT_XCOFF;
   diag = DIAG_NONE;
   cconv = CCONV_XLC;
+  abi = ABI_POWER;
   
 	{
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"B:C:E:F:G:H:K:MO:PQRS:VWX:YZ" "cen")) != -1) {
+			"A:B:C:E:F:G:H:K:MO:PQRS:VWX:YZ" "cen")) != -1) {
 			switch (c) {
 			case 'B': builtin = flags_builtin(builtin, optarg); break;
 			case 'H': has     = flags_has(has, optarg);         break;
 			case 'O': optim   = flags_optim(optim, optarg);     break;
 			case 'X': check   = flags_check(check, optarg);     break;
 
+			case 'A':
+				abi = switch_abi(optarg, ABI_POWER);
+				break;
 			case 'C':
 				cconv = switch_assembler(optarg, CCONV_XLC);
 				break;

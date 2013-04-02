@@ -315,6 +315,7 @@ void libcall
 (char *nm)
 {
     mach_op *p = make_extern_data(nm, 0);
+    /* nb. float_to_unsigned was a macro, and not defined for -D SUN */
 #if 0 /*float_to_unsigned*/
     int lab;
     if ((have_overflow() || have_continue()) && !strcmp(nm,float_to_unsigned)) {
@@ -742,14 +743,19 @@ void out_profile
     /* Make a new label */
     long lb = next_lab();
 
-    if (profiling_uses_lea) {
+    switch (abi) {
+    case ABI_NEXT:
+    case ABI_SUNOS: /* probably wrong */
 	op1 = make_lab_data(lb, 0);
-	op2 = make_register(profiling_reg);
-	make_instr(m_lea, op1, op2, regmsk(profiling_reg));
-    } else {
+	op2 = make_register(REG_A0);
+	make_instr(m_lea, op1, op2, regmsk(REG_A0));
+	break;
+
+    case ABI_HPUX:
 	op1 = make_lab(lb, 0);
-	op2 = make_register(profiling_reg);
-	make_instr(m_movl, op1, op2, regmsk(profiling_reg));
+	op2 = make_register(REG_A0);
+	make_instr(m_movl, op1, op2, regmsk(REG_A0));
+	break;
     }
 
     if (save_a1) {
@@ -762,7 +768,11 @@ void out_profile
 	used_my_mcount = 1;
     } else {
 	/* Call mcount */
-	libcall(profiling_routine);
+	switch (abi) {
+	case ABI_HPUX:  libcall("mcount"); break;
+	case ABI_NEXT:  libcall("mcount"); break;
+	case ABI_SUNOS: libcall("mcount"); break; /* probably wrong */
+	}
     }
 
     /* Set up the label to point to 0 */
@@ -790,7 +800,11 @@ void profile_hack
     op1 = make_register(REG_A1);
     op2 = make_extern_ind("Lmstore", 0);
     make_instr(m_movl, op1, op2, 0);
-    op1 = make_extern_data(profiling_routine, 0);
+    switch (abi) {
+    case ABI_HPUX:  op1 = make_extern_data("mcount", 0); break;
+    case ABI_NEXT:  op1 = make_extern_data("mcount", 0); break;
+    case ABI_SUNOS: op1 = make_extern_data("mcount", 0); break;
+    }
     make_instr(m_jmp, op1, NULL, 0);
     area(pdata);
     make_external_label("Lmstore");
