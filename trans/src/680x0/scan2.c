@@ -15,6 +15,8 @@
 
 */
 
+#include <stdlib.h>
+
 #include <shared/check.h>
 
 #include <construct/exp.h>
