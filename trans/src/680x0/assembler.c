@@ -77,7 +77,7 @@ void asm_predec_before(void) {
 void asm_predec_after(void) {
 	switch (assembler) {
 	case ASM_HP:
-		outc(")");
+		outc(')');
 		break;
 
 	case ASM_GAS:
