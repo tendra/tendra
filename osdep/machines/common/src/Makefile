@@ -1,6 +1,6 @@
 # $Id$
 
-.include <tendra.situ.mk>
+.include <tendra.compler.mk>
 
 BASE=/u/g/release/Source
 SRC=${BASE}/src/lib/machines/common/src
@@ -16,7 +16,7 @@ all : crtp_n.o
 	@${ECHO} all done
 
 crtp_n.o : ${SRC}/crtp_n.tpl
-	${TCC_IN_SITU} -Ypl_tdf -c ${SRC}/crtp_n.tpl
+	${TCC} -Ypl_tdf -c ${SRC}/crtp_n.tpl
 
 clean :
 	${RMFILE} core

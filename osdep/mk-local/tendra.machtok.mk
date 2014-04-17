@@ -11,7 +11,6 @@ _TENDRA_WORK_MACHTOK_MK_=1
 .include <tendra.base.mk>
 .include <tendra.functions.mk>
 .include <tendra.compiler.mk>
-.include <tendra.situ.mk>
 
 
 .if !defined(MACHTOK_DEP)
@@ -86,14 +85,14 @@ ${OBJ_SDIR}/except_toks.t: ${OBJ_SDIR}/except_toks.j \
 		${BASE_DIR}/${TOKENS_COMMON}/except_toks
 	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Linking ${WRKDIR}/${.TARGET:T}"
-	${TCC_IN_SITU} -o ${.TARGET} ${TCCENVOPTS} -Ft \
+	${TCC} -o ${.TARGET} ${TCCENVOPTS} -Ft \
 		-Y${BASE_DIR}/${TOKENS_COMMON}/except_toks ${OBJ_SDIR}/except_toks.j
 
 ${OBJ_SDIR}/var_toks.t: ${OBJ_SDIR}/var_toks.j \
 		${BASE_DIR}/${TOKENS_COMMON}/var_toks
 	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Translating ${WRKDIR}/${.TARGET}"
-	${TCC_IN_SITU} -o ${.TARGET} ${TCCENVOPTS} -Ft \
+	${TCC} -o ${.TARGET} ${TCCENVOPTS} -Ft \
 		-Y${BASE_DIR}/${TOKENS_COMMON}/var_toks ${OBJ_SDIR}/var_toks.j
 
 .if defined(MACHTOK_VAR)

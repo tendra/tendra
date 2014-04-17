@@ -1,6 +1,6 @@
 # $Id$
 
-.include <tendra.situ.mk>
+.include <tendra.compiler.mk>
 
 SRC2=	${BASE_DIR}/lib/machines/common/src
 
@@ -13,9 +13,9 @@ pre:
 	@${ECHO} all done
 
 dyn_begin.o: dyn_begin.s
-	${TCC_IN_SITU} ${TCCOPTS} -c dyn_begin.s
+	${TCC} ${TCCOPTS} -c dyn_begin.s
 
 dyn_end.o: dyn_end.s
-	${TCC_IN_SITU} ${TCCOPTS} -c dyn_end.s
+	${TCC} ${TCCOPTS} -c dyn_end.s
 
 .include "Makefile.inc"

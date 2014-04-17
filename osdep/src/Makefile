@@ -6,7 +6,6 @@
 .include <tendra.base.mk>
 .include <tendra.functions.mk>
 .include <tendra.compiler.mk>
-.include <tendra.situ.mk>
 
 
 TPLSRCS+=	INT64b.tpl
@@ -20,7 +19,7 @@ TPLOPTS=	-I${.CURDIR}
 # TODO: i'm adding c.tl because of use of undefined token, ~comp_off
 # but I don't think it belongs here. (INT64a.c uses it)
 ${OBJ_SDIR}/INT64.o: INT64a.c ${CAPSULES}
-	${TCC_IN_SITU} ${TCCOPTS} -c -o ${.TARGET} \
+	${TCC} ${TCCOPTS} -c -o ${.TARGET} \
 		-J${OBJ_SDIR} -jtarget_tok \
 		-J${OBJ_SDIR} -jc \
 		-M -WP,-I. ${.ALLSRC}
@@ -28,7 +27,7 @@ ${OBJ_SDIR}/INT64.o: INT64a.c ${CAPSULES}
 # TODO: i'm adding c.tl because of use of undefined token, ~char
 # but I don't think it belongs here.
 ${OBJ_SDIR}/version.o: version.c
-	${TCC_IN_SITU} ${TCCOPTS} -c -o ${.TARGET} \
+	${TCC} ${TCCOPTS} -c -o ${.TARGET} \
 		-J${OBJ_SDIR} -jc \
 		version.c
 

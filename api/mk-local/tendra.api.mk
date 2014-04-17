@@ -11,7 +11,6 @@ _TENDRA_WORK_API_MK_=1
 .include <tendra.base.mk>
 .include <tendra.functions.mk>
 .include <tendra.compiler.mk>
-.include <tendra.situ.mk>
 
 .if !exists(${PREFIX_TSPEC})
 .BEGIN:
@@ -81,7 +80,7 @@ APISRCS${api}:=	${APISRCS${api}:T}
 ${OBJ_SDIR}/apis/${api}.api/${src:R}.j: ${PREFIX_TSPEC}/TenDRA/src/${api}.api/${src}
 	@${CONDCREATE} "${.TARGET:H}"
 	@${ECHO} "==> Compiling ${api}.api/${src}"
-	${TCC_IN_SITU} ${HACKOPTS} ${TCCOPTS} ${CCOPTS} ${JOPTS} ${JOPTS${api}} \
+	${TCC} ${HACKOPTS} ${TCCOPTS} ${CCOPTS} ${JOPTS} ${JOPTS${api}} \
 		-I${PREFIX_TSPEC}/TenDRA/include/${api}.api \
 		-o ${.TARGET} ${.ALLSRC} -Ymakelib -Xp
 
