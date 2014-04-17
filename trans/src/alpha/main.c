@@ -107,7 +107,7 @@ main(int argc, char *argv[])
 #endif
 
 	endian = ENDIAN_LITTLE;
-	assembler = ASM_OSF1;
+	assembler = ASM_GAS;
 	format = FORMAT_ELF;
 	diag = DIAG_NONE;
 	cconv = CCONV_ALPHA;
