@@ -193,9 +193,6 @@ main(int argc, char *argv[])
 			default:
 				exit(EXIT_FAILURE);
 			}
-
-			argc -= optind;
-			argv += optind;
 		}
 
 		argc -= optind;
