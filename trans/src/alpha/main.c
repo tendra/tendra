@@ -141,7 +141,7 @@ main(int argc, char *argv[])
 				diag = switch_diag(optarg, DIAG_NONE | DIAG_STABS);
 				break;
 			case 'S':
-				assembler = switch_assembler(optarg, ASM_OSF1);
+				assembler = switch_assembler(optarg, ASM_OSF1 | ASM_GAS);
 				break;
 
 			case 'K':

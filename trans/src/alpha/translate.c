@@ -509,8 +509,10 @@ translate_capsule(void)
   }
   out_common(0,iugen);
   
-  if(as_file){
-    fprintf(as_file,"\t.verstamp %d %d\n",majorno,minorno);
+  if (assembler & ASM_OSF1) {
+    if(as_file){
+      fprintf(as_file,"\t.verstamp %d %d\n",majorno,minorno);
+    }
   }
 
   out_verstamp(majorno,minorno);
