@@ -355,10 +355,11 @@ int typetuple_unique_names(TypeTupleT* params, TypeTupleT* results)
 	qsort(tab, total_length, sizeof(NStringT**), &cmp_tuples_names);
 	for(i=0;i<total_length-1;++i) {
 		if(nstring_equal(tab[i],tab[i+1])) {
+			xfree(tab);
 			return false;
 		}
 	}
-	xfree(p);
+	xfree(tab);
 	return true;
 }
 
