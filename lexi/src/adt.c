@@ -364,7 +364,7 @@ int typetuple_unique_names(TypeTupleT* params, TypeTupleT* results)
 
 void nametrans_init(NameTransT* p, unsigned int s)
 {
-	p->tab=xmalloc_nof(NameTransT,s);
+	p->tab = s == 0 ? NULL : xmalloc_nof(NameTransT,s);
 	p->size=0;
 	p->capacity=s;
 }
