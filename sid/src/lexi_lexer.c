@@ -72,6 +72,9 @@ static lookup_type lookup_tab[] = {
 };
 
 int lexi_group(enum lexi_groups group, int c) {
+	if (c == LEXI_EOF) {
+		return 0;
+	}
 	return lookup_tab[c] & group;
 }
 
