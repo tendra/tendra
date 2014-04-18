@@ -46,8 +46,6 @@ upper : () -> ( :STRING ) ;
 lower : () -> ( :STRING ) ;
 digit : () -> ( :STRING ) ;
 
-copyright;
-
 group ;
 keyword ;
 mapping ;
@@ -140,7 +138,6 @@ type-kw ;
 
 <E_nonglobalzonekeyword> : () -> ();
 <E_nonglobalzonetype>    : (:IDENTIFIER) -> ();
-<E_nonglobalzonecopyright> : () -> ();
 <E_expected_colon>	 : () -> ();
 <E_expected_semicolon> 	 : () -> ();
 <E_expected_arrow> 	 : () -> ();
@@ -162,8 +159,6 @@ type-kw ;
 <make-zone> : ( :ZONE, :IDENTIFIER, :STRING, :INSTRUCTIONS_LIST, 
 	      	:STRING, :INSTRUCTIONS_LIST, : BOOL ) -> ( :ZONE );
 <update-zone-type> : (:ZONE, :ZONE) -> ();
-
-<make-copyright> : ( :ZONE, :STRING ) -> () ;
 
 <make-type>: (:ZONE, :IDENTIFIER) -> ();
 <init-tuple>: () -> (:TYPETUPLE);
@@ -204,17 +199,6 @@ non-empty-chars : () -> (s: STRING) ={
 	};
 };
 
-
-
-copyright-stmt : ( z:ZONE ) -> () = {
-	copyright; equal; s = string ;
-	{
-		?=<is-global-zone> (z) ; 
-		<make-copyright> (z, s) ;
-	    ##
-		<E_nonglobalzonecopyright>;
-	};
-}; 
 
 
 /*
@@ -602,7 +586,6 @@ command : (z:ZONE) -> () = {
     ||  default-defn ( z ); expected_semicolon ;
     ||  zone-defn ( z ) ;
     ||	open-brace ; command-list( z ) ; close-brace ;
-    ||  copyright-stmt ( z ) ; expected_semicolon ;
     ||  type-defn ( z ) ; expected_semicolon ;
     ||	action-decl ( z ) ; expected_semicolon ;
 } ;

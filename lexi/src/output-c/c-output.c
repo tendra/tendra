@@ -853,33 +853,6 @@ output_zone_pass(cmd_line_options *opt, zone *p)
 }
 
 /*
- * OUTPUT COPYRIGHT
- *
- * This routine outputs the copyright statement and closes opt->copyright_file.
- */
-static void
-output_copyright(lexer_parse_tree *top_level)
-{
-	FILE_list_entry *file_list;
-
-	for (file_list = tree_get_copyright_list(top_level);
-		file_list != NULL;
-		file_list = file_list_next(file_list))
-	{
-		if (!output_comment_file(OUTPUT_COMMENT_C90, lex_output, file_list_crt_file(file_list))) {
-			error(ERROR_SERIOUS,"Copyright file %s contains comment characters",
-			      file_list_crt_filename(file_list));
-		}
-
-		rewind(file_list_crt_file(file_list));
-		if (!output_comment_file(OUTPUT_COMMENT_C90, lex_output_h,  file_list_crt_file(file_list))) {
-			error(ERROR_SERIOUS,"Copyright file %s contains comment characters",
-			      file_list_crt_filename(file_list));
-		}
-	}
-}
-
-/*
  * Groups are numbered as powers of two, so that they may be masked together
  * to form a bitmap. This bitmap is used as a look-up table to easily identify
  * if a character belongs to a group or not.
@@ -1181,8 +1154,6 @@ c_output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 			groupwidth = 12;
 		}
 	}
-
-	output_copyright(top_level);
 
 	output_generated_by_lexi(OUTPUT_COMMENT_C90, lex_output);
 

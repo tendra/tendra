@@ -18,17 +18,8 @@
 #include "tree.h"
 #include "zone.h"
 
-struct FILE_list_entry_tag {
-	FILE *file;
-	char *filename;
-	FILE_list_entry *next;
-};
-
 struct lexer_parse_tree_tag {
 	struct zone_tag *global_zone;
-
-	FILE_list_entry  *copyright_head;
-	FILE_list_entry **copyright_tail;
 
 	char_group_defn *groups_list;
 
@@ -50,48 +41,7 @@ init_lexer_parse_tree(void)
 	new->global_zone = new_zone(new);
 	new->groups_list = NULL;
 
-	new->copyright_head = NULL;
-	new->copyright_tail = &new->copyright_head;
-
 	return new;
-}
-
-void
-tree_add_copyright_file(lexer_parse_tree *t, FILE *file, char *filename)
-{
-	FILE_list_entry *p;
-
-	p = xmalloc(sizeof *p);
-	p->file     = file;
-	p->filename = filename;
-	p->next     = NULL;
-
-	*(t->copyright_tail) = p;
-	t->copyright_tail = &p->next;
-}
-
-FILE_list_entry *
-tree_get_copyright_list(lexer_parse_tree *t)
-{
-	return t->copyright_head;
-}
-
-FILE_list_entry *
-file_list_next(FILE_list_entry *file_list)
-{
-	return file_list->next;
-}
-
-FILE *
-file_list_crt_file(FILE_list_entry *file_entry)
-{
-	return file_entry->file;
-}
-
-char *
-file_list_crt_filename(FILE_list_entry *file_entry)
-{
-	return file_entry->filename;
 }
 
 int
@@ -101,17 +51,6 @@ tree_zoneisglobal(lexer_parse_tree *t, zone *z)
 	assert(z != NULL);
 
 	return tree_get_globalzone(t) == z;
-}
-
-void tree_close_copyright_files(lexer_parse_tree *t)
-{
-	FILE_list_entry *file_list;
-
-	for (file_list = tree_get_copyright_list(t);
-			file_list != NULL;
-			file_list = file_list_next(file_list)) {
-		fclose(file_list_crt_file(file_list));
-	}
 }
 
 zone *

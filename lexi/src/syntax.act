@@ -81,9 +81,6 @@ TYPETUPLE -> TypeTupleT;
 #define SAVE_LEXER SAVE_LXI_LEXER
 #define RESTORE_LEXER RESTORE_LXI_LEXER
 
-/* TODO see main.c; this is a work-around for the copyright file */
-extern cmd_line_options options;
-
 
 
 /*
@@ -757,15 +754,6 @@ arg-ignore : () -> (a:ARG) = @{
    @b = tree_zoneisglobal(@z->top_level, @z);
 @};
 
-<make-copyright> : ( z : ZONE , s:STRING ) -> () = @{
-	FILE *file=fopen(@s,"r");
-	if(file) {
-		tree_add_copyright_file(@z->top_level, file, @s);
-	} else {
-		error(ERROR_SERIOUS, "Syntax error: unable to open copright file %s", @s) ;
-	}
-@};
-
 <make-type> : ( z:ZONE, i:IDENTIFIER ) -> () = @{
 	NStringT str;
 	EntryT* entry;
@@ -849,11 +837,6 @@ arg-ignore : () -> (a:ARG) = @{
     error( ERROR_SERIOUS, "Keywords not yet implemented in a non global zone ") ;
 
 @};
-
-<E_nonglobalzonecopyright> : () -> () = @{
-    error( ERROR_SERIOUS, "Syntax error: A copyright file may only be specified in the global zone") ;
-@};
-
 
 <E_nonglobalzonetype>    : (i:IDENTIFIER) -> () = @{
     error( ERROR_SERIOUS, "Syntax error: type %s should not be declared inside a zone",@i) ;

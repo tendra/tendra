@@ -25,11 +25,7 @@
 #include "output-dot/dot-output.h"
 #include "options.h"
 
-/*
- * XXX This is made global specifically for <make-copyright> in syntax.act.
- * It shouldn't be global.
- */
-cmd_line_options options;
+static cmd_line_options options;
 
 static void
 process_lxi_file(char *nm, lexer_parse_tree *top_level)
@@ -255,8 +251,6 @@ main(int argc, char **argv)
 
 		fclose(options.outputfile[i].file);
 	}
-
-	tree_close_copyright_files(top_level);
 
 	return exit_status;
 }

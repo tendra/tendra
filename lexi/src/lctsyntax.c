@@ -1155,8 +1155,10 @@ ZRaction_Hdefinition(void)
 			}
 		}
 	}
+/* XXX:
 	typetuple_destroy((&ZIin));
 	typetuple_destroy((&ZIout));
+*/
 #line 1161 "lctsyntax.c"
 		}
 		/* END OF ACTION: check-action-tuples */

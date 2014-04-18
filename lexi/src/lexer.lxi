@@ -13,7 +13,7 @@
  * This file describes the lexical analyser used by lexi.
  */
 
-COPYRIGHT = "../doc/copyright/COPYING.dera-cc";
+//COPYRIGHT = "../doc/copyright/COPYING.dera-cc";
 
 ACTION <init_token_buffer>;
 ACTION <push_token_buffer>: (:CHARACTER) -> ();
@@ -103,14 +103,13 @@ ZONE sididentifierzone:
 	TOKEN DEFAULT -> <push_token_buffer>(#0);
 }
 
-KEYWORD "TYPE"      -> $type-kw;
-KEYWORD "GROUP"     -> $group;
-KEYWORD "ACTION"    -> $action-kw;
-KEYWORD "KEYWORD"   -> $keyword;
-KEYWORD "ZONE"      -> $zone;
-KEYWORD "DEFAULT"   -> $default;
-KEYWORD "MAPPING"   -> $mapping;
-KEYWORD "TOKEN"     -> $token;
-KEYWORD "white"     -> $white;
-KEYWORD "COPYRIGHT" -> $copyright;
+KEYWORD "TYPE"    -> $type-kw;
+KEYWORD "GROUP"   -> $group;
+KEYWORD "ACTION"  -> $action-kw;
+KEYWORD "KEYWORD" -> $keyword;
+KEYWORD "ZONE"    -> $zone;
+KEYWORD "DEFAULT" -> $default;
+KEYWORD "MAPPING" -> $mapping;
+KEYWORD "TOKEN"   -> $token;
+KEYWORD "white"   -> $white;
 

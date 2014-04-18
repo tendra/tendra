@@ -134,7 +134,6 @@ bool lexi_group(enum lexi_groups group, int c) {
 #include <string.h>
 int lexi_keyword(const char *identifier, int notfound) {
 	if (0 == strcmp(identifier, "ACTION")) return lex_action_Hkw;
-	if (0 == strcmp(identifier, "COPYRIGHT")) return lex_copyright;
 	if (0 == strcmp(identifier, "DEFAULT")) return lex_default;
 	if (0 == strcmp(identifier, "GROUP")) return lex_group;
 	if (0 == strcmp(identifier, "KEYWORD")) return lex_keyword;
