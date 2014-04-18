@@ -7,14 +7,12 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-#ifndef C_OUTPUT_INCLUDED
-#define C_OUTPUT_INCLUDED
+#ifndef LEXI_C_OUTPUT_H
+#define LEXI_C_OUTPUT_H
 
 #include "adt/tree.h"
 
 #include "options.h"
-
 
 /*
  * Main output routine.
@@ -33,3 +31,4 @@ void
 c_output_all(cmd_line_options *opt, lexer_parse_tree *top_level);
 
 #endif
+

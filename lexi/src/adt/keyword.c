@@ -21,47 +21,49 @@ struct keyword_tag {
 	const char *name;
 	instruction *instr;
 
-	/* All keywords are formed into a list using the next field */
 	keyword *next;
 };
 
-
-/*
-    ADD A KEYWORD
-
-    This routine adds the keyword nm with its associated data to the list
-    of all keywords.
-*/
-
 void
-add_keyword(zone* z, const char *nm, instruction* instr)
+add_keyword(zone *z, const char *nm, instruction *instr)
 {
-    keyword *p = z->keywords, *q = NULL;
+	keyword *p, *q;
 
 	assert(nm != NULL);
 	assert(strlen(nm) > 0);
 
-    while (p) {
-	int c = strcmp(nm, p->name);
-	if (c == 0) {
-	    error(ERROR_SERIOUS, "Keyword '%s' already defined", nm);
-	    return;
+	p = z->keywords;
+	q = NULL;
+
+	while (p) {
+		int c;
+
+		c = strcmp(nm, p->name);
+
+		if (c == 0) {
+			error(ERROR_SERIOUS, "Keyword '%s' already defined", nm);
+			return;
+		}
+
+		if (c < 0) {
+			break;
+		}
+
+		q = p;
+		p = p->next;
 	}
-	if (c < 0)break;
-	q = p;
-	p = p->next;
-    }
-    p = xmalloc(sizeof *p);
-    p->name = nm;
-    p->instr = instr;
-    if (q == NULL) {
-	p->next = z->keywords;
-	z->keywords = p;
-    } else {
-	p->next = q->next;
-	q->next = p;
-    }
-    return;
+
+	p = xmalloc(sizeof *p);
+	p->name  = nm;
+	p->instr = instr;
+
+	if (q == NULL) {
+		p->next = z->keywords;
+		z->keywords = p;
+	} else {
+		p->next = q->next;
+		q->next = p;
+	}
 }
 
 void
@@ -92,3 +94,4 @@ keyword_name(keyword *kw)
 
 	return kw->name;
 }
+

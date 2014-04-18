@@ -8,114 +8,109 @@
  */
 
 /*
-
-
-    LEXICAL ANALYSER FOR LEXI
-
-    This file describes the lexical analyser used by lexi.
-*/
+ * LEXICAL ANALYSER FOR LEXI
+ *
+ * This file describes the lexical analyser used by lexi.
+ */
 
 COPYRIGHT = "../doc/copyright/COPYING.dera-cc";
 
-/*Actions*/
-ACTION <init_token_buffer> ;
-ACTION <push_token_buffer> : (:CHARACTER) -> ();
-ACTION <finalize_token_buffer> ;
+ACTION <init_token_buffer>;
+ACTION <push_token_buffer>: (:CHARACTER) -> ();
+ACTION <fini_token_buffer>;
 ACTION <E_eof_in_string>;
 ACTION <E_newline_in_string>;
 
-ACTION <token_keyword_match> : (:TERMINAL) -> (:TERMINAL);
+ACTION <token_keyword_match>: (:TERMINAL) -> (:TERMINAL);
 
-ACTION <number_buffer_init> : () -> () ;
-ACTION <number_buffer_push_digit> : (c:CHARACTER) -> ();
+ACTION <number_buffer_init>: () -> ();
+ACTION <number_buffer_push_digit>: (:CHARACTER) -> ();
 
-/* Character groups */
-GROUP white = " \t\n\r" ;
-GROUP alpha = {A-Z} + {a-z} + "_" ;
-GROUP digit = {0-9} ;
-GROUP alphanum = "[alpha][digit]" ;
-GROUP alphanumhyphen = "[alphanum]-" ;
+GROUP white   = " \t\n\r";
+GROUP alpha   = {A-Z} + {a-z} + "_";
+GROUP digit   = {0-9};
+GROUP alnum   = "[alpha][digit]";
+GROUP alnumhy = "[alnum]-";
 
-/* Simple symbols */
-TOKEN "(" -> $open ;
-TOKEN ")" -> $close ;
-TOKEN "<" -> $begin-action ;
-TOKEN ">" -> $end-action ;
-TOKEN "{" -> $open-brace ;
-TOKEN "}" -> $close-brace ;
-TOKEN "->" -> $arrow ;
-TOKEN ":" -> $colon ;
-TOKEN "&" -> $reference ;
-TOKEN ";" -> $semicolon ;
-TOKEN "=" -> $equal ;
-TOKEN "+" -> $plus ;
-TOKEN "..." -> $range ;
-TOKEN "\[...]" -> $range-closed-closed ;
-TOKEN "\[...)" -> $range-closed-open ;
-TOKEN "$$" -> $nothing-marker ;
-TOKEN ","  -> $comma ;
-TOKEN "\e" -> $eof ;
-TOKEN "#n"       -> $arg-nb-of-chars ;
-TOKEN "#*"       -> $arg-char-string ;
+TOKEN "("  -> $open;
+TOKEN ")"  -> $close;
+TOKEN "<"  -> $begin-action;
+TOKEN ">"  -> $end-action;
+TOKEN "{"  -> $open-brace;
+TOKEN "}"  -> $close-brace;
+TOKEN "->" -> $arrow;
+TOKEN ":"  -> $colon;
+TOKEN "&"  -> $reference;
+TOKEN ";"  -> $semicolon;
+TOKEN "="  -> $equal;
+TOKEN "+"  -> $plus;
+TOKEN "$$" -> $nothing-marker;
+TOKEN ","  -> $comma;
+TOKEN "\e" -> $eof;
 
-ZONE arg_char_nb_zone : "#[digit]" -> <number_buffer_init>, <number_buffer_push_digit> (#1)
-     		      	  [...) 
-		      	  "[^digit]" -> $arg-char-nb {
-	TOKEN DEFAULT -> <number_buffer_push_digit> (#0);
+TOKEN "..."    -> $range;
+TOKEN "\[...]" -> $range-closed-closed;
+TOKEN "\[...)" -> $range-closed-open;
+
+TOKEN "#n"     -> $arg-nb-of-chars;
+TOKEN "#*"     -> $arg-char-string;
+TOKEN "$"      -> $arg-return-terminal;
+TOKEN "!"      -> $arg-ignore;
+
+TOKEN "{A-Z}" -> $upper;
+TOKEN "{a-z}" -> $lower;
+TOKEN "{0-9}" -> $digit;
+
+ZONE arg_char_nb_zone:
+	"#[digit]" -> <number_buffer_init>, <number_buffer_push_digit>(#1) [...)
+	"[^digit]" -> $arg-char-nb
+{
+	TOKEN DEFAULT -> <number_buffer_push_digit>(#0);
 }
 
-
-/* Special strings */
-TOKEN "{A-Z}" -> $upper ;
-TOKEN "{a-z}" -> $lower ;
-TOKEN "{0-9}" -> $digit ;
-
-/* Comments, strings and identifiers */
-ZONE comment : "/*" ... "*/" {
+ZONE comment: "/*" ... "*/" {
 	GROUP white = "";
 	TOKEN DEFAULT -> $$;
 }
 
-ZONE line_comment : "//" ... "\n" {
-        GROUP white = "";
-        TOKEN DEFAULT -> $$;
+ZONE linecomment: "//" ... "\n" {
+	GROUP white = "";
+	TOKEN DEFAULT -> $$;
 }
 
-
-//TOKEN "\"" -> $ = <get_string> () ;
-
-ZONE stringzone : "\"" ->  <init_token_buffer> ... "\"" -> <finalize_token_buffer>, $string {
-     	GROUP white = "";
+ZONE stringzone: "\"" ->  <init_token_buffer> ... "\"" -> <fini_token_buffer>, $string {
+	GROUP white = "";
 	TOKEN DEFAULT -> <push_token_buffer>(#0);
-	TOKEN "\\\"" -> <push_token_buffer>(#1);
-	TOKEN "\\\\" -> <push_token_buffer>(#0), <push_token_buffer>(#0);
-	TOKEN "\e" -> <E_eof_in_string>;
-	TOKEN "\n" -> <E_newline_in_string>;
+	TOKEN "\\\""  -> <push_token_buffer>(#1);
+	TOKEN "\\\\"  -> <push_token_buffer>(#0), <push_token_buffer>(#0);
+	TOKEN "\e"    -> <E_eof_in_string>;
+	TOKEN "\n"    -> <E_newline_in_string>;
 }
 
-
-ZONE identifierzone : "[alpha]" ->  <init_token_buffer>, <push_token_buffer>(#0) [...) "[^alphanum]" -> <finalize_token_buffer>, $ = <token_keyword_match>($identifier) {
-     	GROUP white = "";
-	TOKEN DEFAULT -> <push_token_buffer>(#0);
-}
-
-ZONE sididentifierzone : "$[alpha]" ->  <init_token_buffer>, <push_token_buffer>(#1) [...) "[^alphanumhyphen]" -> <finalize_token_buffer>, $sid-identifier {
-     	GROUP white = "";
+ZONE identifierzone:
+	"[alpha]" -> <init_token_buffer>, <push_token_buffer>(#0) [...)
+	"[^alnum]" -> <fini_token_buffer>, $ = <token_keyword_match>($identifier)
+{
+	GROUP white = "";
 	TOKEN DEFAULT -> <push_token_buffer>(#0);
 }
 
-TOKEN "$" -> $arg-return-terminal ;
-TOKEN "!" -> $arg-ignore ;
+ZONE sididentifierzone:
+	"$[alpha]" ->  <init_token_buffer>, <push_token_buffer>(#1) [...)
+	"[^alnumhy]" -> <fini_token_buffer>, $sid-identifier
+{
+	GROUP white = "";
+	TOKEN DEFAULT -> <push_token_buffer>(#0);
+}
 
+KEYWORD "TYPE"      -> $type-kw;
+KEYWORD "GROUP"     -> $group;
+KEYWORD "ACTION"    -> $action-kw;
+KEYWORD "KEYWORD"   -> $keyword;
+KEYWORD "ZONE"      -> $zone;
+KEYWORD "DEFAULT"   -> $default;
+KEYWORD "MAPPING"   -> $mapping;
+KEYWORD "TOKEN"     -> $token;
+KEYWORD "white"     -> $white;
+KEYWORD "COPYRIGHT" -> $copyright;
 
-/* Keywords */
-KEYWORD "TYPE" -> $type-kw ;
-KEYWORD "GROUP" -> $group ;
-KEYWORD "ACTION" -> $action-kw ;
-KEYWORD "KEYWORD" -> $keyword ;
-KEYWORD "ZONE" -> $zone ;
-KEYWORD "DEFAULT" -> $default ;
-KEYWORD "MAPPING" -> $mapping ;
-KEYWORD "TOKEN" -> $token ;
-KEYWORD "white" -> $white ;
-KEYWORD "COPYRIGHT" -> $copyright ;

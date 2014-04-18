@@ -7,26 +7,25 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-#ifndef KEYWORD_INCLUDED
-#define KEYWORD_INCLUDED
+#ifndef LEXI_KEYWORD_H
+#define LEXI_KEYWORD_H
 
 struct instruction_tag;
 struct zone_tag;
 struct keyword_tag;
 
 /*
-    TYPE REPRESENTING A KEYWORD
-
-    A keyword consists of a name plus some associated data.
-*/
-
+ * TYPE REPRESENTING A KEYWORD
+ *
+ * A keyword consists of a name plus some associated data.
+ */
 typedef struct keyword_tag keyword;
 
-
-extern void add_keyword(struct zone_tag *, const char*, struct instruction_tag *);
-extern void keywords_iterate(struct keyword_tag *, void (*f)(struct keyword_tag *, void *), void *);
-extern struct instruction_tag *keyword_instruction(struct keyword_tag *);
-extern const char *keyword_name(struct keyword_tag *);
+void add_keyword(struct zone_tag *, const char*, struct instruction_tag *);
+void keywords_iterate(struct keyword_tag *,
+	void (*f)(struct keyword_tag *, void *), void *);
+struct instruction_tag *keyword_instruction(struct keyword_tag *);
+const char *keyword_name(struct keyword_tag *);
 
 #endif
+

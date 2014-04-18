@@ -19,9 +19,9 @@
 #include "zone.h"
 
 struct FILE_list_entry_tag {
-	FILE* file;
-	char* filename;
-	FILE_list_entry* next;
+	FILE *file;
+	char *filename;
+	FILE_list_entry *next;
 };
 
 struct lexer_parse_tree_tag {
@@ -34,19 +34,19 @@ struct lexer_parse_tree_tag {
 
 	EntryT *table; /* Actions and types */
 
-	EntryT* lexi_char_type;    /*  for #0 arguments */
-	EntryT* lexi_string_type;  /*  for #* arguments */
-	EntryT* lexi_int_type;     /*  for #n arguments */
-	EntryT* lexi_terminal_type;     /*  for $ = returns */
+	EntryT *lexi_char_type;     /* for #0 arguments */
+	EntryT *lexi_string_type;   /* for #* arguments */
+	EntryT *lexi_int_type;      /* for #n arguments */
+	EntryT *lexi_terminal_type; /* for $ = returns  */
 };
 
-
-lexer_parse_tree*
-init_lexer_parse_tree(void) {
+lexer_parse_tree *
+init_lexer_parse_tree(void)
+{
 	lexer_parse_tree *new;
 
 	new = xmalloc(sizeof *new);
-	new->table = NULL;
+	new->table       = NULL;
 	new->global_zone = new_zone(new);
 	new->groups_list = NULL;
 
@@ -57,37 +57,39 @@ init_lexer_parse_tree(void) {
 }
 
 void
-tree_add_copyright_file(lexer_parse_tree *t, FILE* file, char* filename) {
+tree_add_copyright_file(lexer_parse_tree *t, FILE *file, char *filename)
+{
 	FILE_list_entry *p;
-	p = xmalloc(sizeof *p);
-	p->file = file;
-	p->filename = filename;
-	p->next =NULL;
 
-	*(t->copyright_tail) = p ;
-	t->copyright_tail = &(p->next);
+	p = xmalloc(sizeof *p);
+	p->file     = file;
+	p->filename = filename;
+	p->next     = NULL;
+
+	*(t->copyright_tail) = p;
+	t->copyright_tail = &p->next;
 }
 
-FILE_list_entry*
+FILE_list_entry *
 tree_get_copyright_list(lexer_parse_tree *t)
 {
 	return t->copyright_head;
 }
 
-FILE_list_entry*
-file_list_next(FILE_list_entry* file_list)
+FILE_list_entry *
+file_list_next(FILE_list_entry *file_list)
 {
 	return file_list->next;
 }
 
-FILE*
-file_list_crt_file(FILE_list_entry* file_entry)
+FILE *
+file_list_crt_file(FILE_list_entry *file_entry)
 {
 	return file_entry->file;
 }
 
-char*
-file_list_crt_filename(FILE_list_entry* file_entry)
+char *
+file_list_crt_filename(FILE_list_entry *file_entry)
 {
 	return file_entry->filename;
 }
@@ -103,11 +105,11 @@ tree_zoneisglobal(lexer_parse_tree *t, zone *z)
 
 void tree_close_copyright_files(lexer_parse_tree *t)
 {
-	FILE_list_entry* file_list ;
+	FILE_list_entry *file_list;
 
-	for(file_list = tree_get_copyright_list(t); 
-            file_list != NULL; 
-            file_list = file_list_next(file_list)) {
+	for (file_list = tree_get_copyright_list(t);
+			file_list != NULL;
+			file_list = file_list_next(file_list)) {
 		fclose(file_list_crt_file(file_list));
 	}
 }
@@ -152,8 +154,7 @@ all_groups_empty(lexer_parse_tree *t)
 	return 1;
 }
 
-
-char_group_defn*
+char_group_defn *
 tree_find_group(lexer_parse_tree *t, char_group_defn *b)
 {
 	char_group_defn *g;
@@ -166,6 +167,7 @@ tree_find_group(lexer_parse_tree *t, char_group_defn *b)
 			return g;
 		}
 	}
+
 	return NULL;
 }
 
@@ -179,8 +181,8 @@ tree_add_group(lexer_parse_tree *t, char_group_defn *g)
 	t->groups_list = g;
 }
 
-void 
-set_predefined_char_lexi_type(lexer_parse_tree* top_level, char* lexi_type, char* c_type)
+void
+set_predefined_char_lexi_type(lexer_parse_tree* top_level, char *lexi_type, char *c_type)
 {
 	NStringT str;
 	NStringT cstr;
@@ -192,13 +194,14 @@ set_predefined_char_lexi_type(lexer_parse_tree* top_level, char* lexi_type, char
 
 	/* TODO assert(table_get_entry(tree_get_table(top_level), &str) == NULL) */
 	entry = table_add_type(tree_get_table(top_level), &str, true);
-	type = entry_get_type(entry);
+	type  = entry_get_type(entry);
+
 	type_map(type, &cstr);
 	top_level->lexi_char_type = entry;
 }
 
-void 
-set_predefined_string_lexi_type(lexer_parse_tree* top_level, char* lexi_type, char* c_type)
+void
+set_predefined_string_lexi_type(lexer_parse_tree *top_level, char *lexi_type, char *c_type)
 {
 	NStringT str;
 	NStringT cstr;
@@ -211,12 +214,13 @@ set_predefined_string_lexi_type(lexer_parse_tree* top_level, char* lexi_type, ch
 	/* TODO assert(table_get_entry(tree_get_table(top_level), &str) == NULL) */
 	entry = table_add_type(tree_get_table(top_level), &str, true);
 	type = entry_get_type(entry);
+
 	type_map(type, &cstr);
 	top_level->lexi_string_type = entry;
 }
 
-void 
-set_predefined_terminal_lexi_type(lexer_parse_tree* top_level, char* lexi_type)
+void
+set_predefined_terminal_lexi_type(lexer_parse_tree *top_level, char *lexi_type)
 {
 	NStringT str;
 	EntryT* entry;
@@ -228,8 +232,8 @@ set_predefined_terminal_lexi_type(lexer_parse_tree* top_level, char* lexi_type)
 	top_level->lexi_terminal_type = entry;
 }
 
-void 
-set_predefined_int_lexi_type(lexer_parse_tree* top_level, char* lexi_type, char* c_type)
+void
+set_predefined_int_lexi_type(lexer_parse_tree* top_level, char *lexi_type, char *c_type)
 {
 	NStringT str;
 	NStringT cstr;
@@ -241,27 +245,33 @@ set_predefined_int_lexi_type(lexer_parse_tree* top_level, char* lexi_type, char*
 
 	/* TODO assert(table_get_entry(tree_get_table(top_level), &str) == NULL) */
 	entry = table_add_type(tree_get_table(top_level), &str, true);
-	type = entry_get_type(entry);
+	type  = entry_get_type(entry);
+
 	type_map(type, &cstr);
 	top_level->lexi_int_type = entry;
 }
 
-EntryT* lexer_char_type(lexer_parse_tree* top_level)
+EntryT *
+lexer_char_type(lexer_parse_tree *top_level)
 {
 	return top_level->lexi_char_type;
 }
 
-EntryT* lexer_string_type(lexer_parse_tree* top_level)
+EntryT *
+lexer_string_type(lexer_parse_tree *top_level)
 {
 	return top_level->lexi_string_type;
 }
 
-EntryT* lexer_int_type(lexer_parse_tree* top_level)
+EntryT *
+lexer_int_type(lexer_parse_tree *top_level)
 {
 	return top_level->lexi_int_type;
 }
 
-EntryT* lexer_terminal_type(lexer_parse_tree* top_level)
+EntryT *
+lexer_terminal_type(lexer_parse_tree *top_level)
 {
 	return top_level->lexi_terminal_type;
 }
+

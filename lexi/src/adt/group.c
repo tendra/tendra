@@ -93,16 +93,15 @@ unescape_string(zone *z, int *o, char *s)
 }
 
 /*
-    CREATE A NEW GROUP
-
-    This routine creates a new character group with definition s, which is
-	a null-terminated string of escaped values as per find_escape(). It may
-	not contain "\e" (for EOF), since EOF is not permitted in groups.
-
-	s may be NULL to indicate the empty group.
-*/
-
-char_group_name*
+ * CREATE A NEW GROUP
+ *
+ * This routine creates a new character group with definition s, which is
+ * a null-terminated string of escaped values as per find_escape(). It may
+ * not contain "\e" (for EOF), since EOF is not permitted in groups.
+ *
+ * s may be NULL to indicate the empty group.
+ */
+char_group_name *
 make_group(zone *z, char *name, char *defn)
 {
 	char_group_name *new;
@@ -140,23 +139,22 @@ make_group(zone *z, char *name, char *defn)
 	} else {
 		unescape_string(z, new_def->defn, defn);
 	}
-	
+
 	old_def = tree_find_group(z->top_level, new_def);
-	if (old_def) { 
+	if (old_def != NULL) {
 		xfree(new_def);
 		new->def = old_def;
-	} else { 
+	} else {
 		tree_add_group(z->top_level, new_def);
 		new->def = new_def;
 	}
+
 	return new;
 }
 
-
 /*
-    IS A LETTER IN A GROUP?
-*/
-
+ * IS A LETTER IN A GROUP?
+ */
 int
 in_group(char_group_defn *g, char c)
 {
@@ -165,11 +163,9 @@ in_group(char_group_defn *g, char c)
 	return g->defn[(unsigned char) c];
 }
 
-
 /*
-	IS A GROUP EMPTY?
-*/
-
+ * IS A GROUP EMPTY?
+ */
 int
 is_group_empty(char_group_defn *g)
 {
@@ -186,11 +182,9 @@ is_group_empty(char_group_defn *g)
 	return 1;
 }
 
-
 /*
-	ARE TWO GROUPS EQUIVALENT?
-*/
-
+ * ARE TWO GROUPS EQUIVALENT?
+ */
 int
 is_group_equal(char_group_defn *a, char_group_defn *b)
 {
@@ -210,12 +204,11 @@ is_group_equal(char_group_defn *a, char_group_defn *b)
 
 
 /*
-	FIND A GROUP BY NAME
-
-	This searches within the list of groups specific to a zone and its parent
-	zones, rather than in all groups globally.
-*/
-
+ * FIND A GROUP BY NAME
+ *
+ * This searches within the list of groups specific to a zone and its parent
+ * zones, rather than in all groups globally.
+ */
 char_group_name *
 find_group(const zone *z, const char *name)
 {
@@ -233,3 +226,4 @@ find_group(const zone *z, const char *name)
 
 	return find_group(z->up, name);
 }
+

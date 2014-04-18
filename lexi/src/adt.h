@@ -6,28 +6,28 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef H_LEXI_ADT_INCLUDED
-#define H_LEXI_ADT_INCLUDED
+#ifndef LEXI_ADT_H
+#define LEXI_ADT_H
 
 #include <stdbool.h>
 #include "exds/common.h"
 #include "exds/dstring.h"
 #include "ccode.h"
 
-struct ActionT ;
-struct TypeT ;
+struct ActionT;
+struct TypeT;
 
 struct arg_tag;
 struct args_list_tag;
 
 typedef struct EntryT {
-	NStringT key ;
-	enum { entry_action, entry_type, entry_local_name } entry_kind ;
+	NStringT key;
+	enum { entry_action, entry_type, entry_local_name } entry_kind;
 	union {
-	      struct ActionT* action ;
-	      struct TypeT* type ;
+	      struct ActionT *action;
+	      struct TypeT *type;
 	} u;
-	struct EntryT* next ;
+	struct EntryT *next;
 } EntryT;
 
 typedef struct TypeT {
@@ -37,79 +37,80 @@ typedef struct TypeT {
 } TypeT;
 
 typedef struct TypeTupleEntryT {
-	EntryT*  type;
-	NStringT  local_name; /*The type NSTringT* will probably not be the final type */
+	EntryT *type;
+	NStringT local_name; /* The type NSTringT* will probably not be the final type */
 	bool is_reference;
-	struct TypeTupleEntryT* next;
+	struct TypeTupleEntryT *next;
 } TypeTupleEntryT;
 
 typedef struct TypeTupleT {
-	TypeTupleEntryT*  head;
-	TypeTupleEntryT** tail;
+	TypeTupleEntryT *head;
+	TypeTupleEntryT **tail;
 	unsigned int length;
 } TypeTupleT;
 
 typedef struct NameTransEntryT {
 	NStringT from;
-	struct arg_tag* to;
+	struct arg_tag *to;
 } NameTransEntryT;
 
 typedef struct NameTransT {
-	NameTransEntryT* tab;
+	NameTransEntryT *tab;
 	unsigned int size;
 	unsigned int capacity;
 } NameTransT;
 
 typedef struct ActionT {
-	struct TypeTupleT inputs ;
-	struct TypeTupleT outputs ;
-	CcodeT code; 
+	struct TypeTupleT inputs;
+	struct TypeTupleT outputs;
+	CcodeT code;
 	BoolT defined;
 } ActionT;
 
 
-extern TypeTupleT* action_get_inputs(ActionT*);
-extern TypeTupleT* action_get_outputs(ActionT*);
-extern CcodeT* action_get_code(ActionT*);
-extern void action_set_code(ActionT*, CcodeT*);
-extern int action_is_defined(ActionT*);
-extern void action_set_define(ActionT*);
+TypeTupleT *action_get_inputs(ActionT *);
+TypeTupleT *action_get_outputs(ActionT *);
+CcodeT *action_get_code(ActionT *);
+void action_set_code(ActionT *, CcodeT *);
+int action_is_defined(ActionT *);
+void action_set_define(ActionT *);
 
-extern EntryT* entry_create(NStringT*) ;
-extern int entry_is_type(EntryT*) ;
-extern int entry_is_action(EntryT*) ;
-extern int entry_is_localname(EntryT*) ;
-extern NStringT* entry_key(EntryT*) ;
-extern void entry_set_type(EntryT*, TypeT*) ;
-extern void entry_set_action(EntryT* , ActionT*) ;
-extern TypeT* entry_get_type(EntryT*) ;
-extern ActionT* entry_get_action(EntryT*) ;
+EntryT *entry_create(NStringT *);
+int entry_is_type(EntryT *);
+int entry_is_action(EntryT *);
+int entry_is_localname(EntryT *);
+NStringT *entry_key(EntryT *);
+void entry_set_type(EntryT *, TypeT *);
+void entry_set_action(EntryT * , ActionT *);
+TypeT *entry_get_type(EntryT *);
+ActionT *entry_get_action(EntryT *);
 
-extern TypeT* type_create(bool);
-extern void type_map(TypeT*, NStringT*);
+TypeT *type_create(bool);
+void type_map(TypeT *, NStringT *);
 
-extern EntryT* table_get_entry(EntryT **, NStringT*) ;
-extern EntryT* table_add_local_name(EntryT **, NStringT*) ;
-extern EntryT* table_get_type(EntryT **, NStringT*) ;
-extern EntryT* table_add_type(EntryT **, NStringT*, bool) ;
-extern EntryT* table_add_action(EntryT **, NStringT*, TypeTupleT*, TypeTupleT*) ;
+EntryT *table_get_entry(EntryT **, NStringT *);
+EntryT *table_add_local_name(EntryT **, NStringT *);
+EntryT *table_get_type(EntryT **, NStringT *);
+EntryT *table_add_type(EntryT **, NStringT *, bool);
+EntryT *table_add_action(EntryT **, NStringT *, TypeTupleT *, TypeTupleT *);
 
-extern TypeTupleEntryT* typetupleentry_create(NStringT*, EntryT*, bool);
-extern void typetupleentry_destroy(TypeTupleEntryT*);
+TypeTupleEntryT *typetupleentry_create(NStringT *, EntryT *, bool);
+void typetupleentry_destroy(TypeTupleEntryT *);
 
-extern void typetuple_init(TypeTupleT*);
-extern TypeTupleEntryT* typetuple_name_is_in(TypeTupleT*, NStringT*);
-extern void typetuple_append(TypeTupleT*, TypeTupleEntryT*);
-extern void typetuple_assign(TypeTupleT*, TypeTupleT*);
-extern int typetuple_length(TypeTupleT*);
-extern int typetuple_assign_names(TypeTupleT*, TypeTupleT*);
-extern int typetuple_match(TypeTupleT*, TypeTupleT*);
-extern void typetuple_destroy(TypeTupleT*);
+void typetuple_init(TypeTupleT *);
+TypeTupleEntryT *typetuple_name_is_in(TypeTupleT *, NStringT *);
+void typetuple_append(TypeTupleT *, TypeTupleEntryT *);
+void typetuple_assign(TypeTupleT *, TypeTupleT *);
+int typetuple_length(TypeTupleT *);
+int typetuple_assign_names(TypeTupleT *, TypeTupleT *);
+int typetuple_match(TypeTupleT *, TypeTupleT *);
+void typetuple_destroy(TypeTupleT *);
 
-extern void nametrans_init(NameTransT*, unsigned int);
-extern void nametrans_destroy(NameTransT*);
-extern void nametrans_sort(NameTransT*);
-extern void nametrans_append_tuple(NameTransT*, TypeTupleT*, struct args_list_tag*);
-extern struct arg_tag* nametrans_translate(NameTransT*, NStringT*);
+void nametrans_init(NameTransT *, unsigned int);
+void nametrans_destroy(NameTransT *);
+void nametrans_sort(NameTransT *);
+void nametrans_append_tuple(NameTransT *, TypeTupleT *, struct args_list_tag *);
+struct arg_tag *nametrans_translate(NameTransT *, NStringT *);
 
 #endif
+

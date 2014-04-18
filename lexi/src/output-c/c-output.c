@@ -45,45 +45,45 @@ static void output_pass(zone* z, character* p, int in_pre_pass, unsigned int n, 
  * This is populated by the selected output language, set from opt->language.
  * It may be inspected for language-specific regions of the generated code.
  */
-enum { C90, C99 } language;
+enum {
+	C90,
+	C99
+} language;
 
 
 /*
-	OUTPUT OPTIONS
-
-	The flag in_pre_pass is used to indicate the preliminary pass to
-	output_pass.  read_name gives the name of the character reading
-	function used in the output routines.
-*/
-
+ * OUTPUT OPTIONS
+ *
+ * The flag in_pre_pass is used to indicate the preliminary pass to
+ * output_pass.  read_name gives the name of the character reading
+ * function used in the output routines.
+ */
 static const char *read_token_name;
 static const char *lexi_prefix;
 
 
 /*
-	OUTPUT FILE
-
-	This variable gives the main output file.  out is used within this file
-	as a shorthand for lex_output. Likewise lex_output_h is a convenience
-	for the output header.
-
-	These correspond to options.outputfile[0].file and [1] respectively.
-*/
-
+ * OUTPUT FILE
+ *
+ * These variables gives the output files. out is used within this file
+ * as a shorthand for lex_output. Likewise lex_output_h is a convenience
+ * for the output header.
+ *
+ * These correspond to options.outputfile[0].file and [1] respectively.
+ */
 FILE *lex_output;
 FILE *lex_output_h;
 
 
 /*
-	FIND A CHARACTER LITERAL
-
-	This routine finds the character literal corresponding to c.
-*/
-
+ * FIND A CHARACTER LITERAL
+ *
+ * This routine finds the character literal corresponding to c.
+ */
 static const char *
 char_lit(int c)
 {
-	static char buff [10];
+	static char buf[10];
 
 	switch (c) {
 	case EOF:  return "LEXI_EOF";	/* XXX: convert to EOF instead */
@@ -100,19 +100,20 @@ char_lit(int c)
 		return "'?'";
 	}
 
-	sprintf(buff, "'%c'", c);
-	return buff;
+	sprintf(buf, "'%c'", c);
+
+	return buf;
 }
 
 
 /*
-	FIND THE LENGTH REQUIRED FOR THE TOKEN BUFFER
-
-	A token buffer is only required if prepass mappings and the tokens proper
-	constitute more than one character in total. For just one character
-	lookahead, lexi_push() would never be called, and so the buffer is
-	unneccessary, and its length will be zero.
-*/
+ * FIND THE LENGTH REQUIRED FOR THE TOKEN BUFFER
+ *
+ * A token buffer is only required if prepass mappings and the tokens proper
+ * constitute more than one character in total. For just one character
+ * lookahead, lexi_push() would never be called, and so the buffer is
+ * unneccessary, and its length will be zero.
+ */
 static unsigned int
 buffer_length(lexer_parse_tree *top_level)
 {
@@ -140,6 +141,7 @@ output_groupname(FILE *f, char_group_name *g)
 	assert(g != NULL);
 
 	prefix = zone_isglobal(g->z) ? "group" : g->z->zone_name;
+
 	fprintf(f, "%s%s_%s", lexi_prefix, prefix, g->name);
 }
 
@@ -165,15 +167,15 @@ output_keyword(keyword *keyword, void *opaque)
 }
 
 /*
-	KEYWORDS GENERATION
-
-	This routine outputs a keyword interface.
-
-	TODO at some point (where the code is clearer), this can
-	be rewritten to generate and output a trie in its own right.
-	For the moment, we just need the interface in place to set
-	the generated API.
-*/
+ * KEYWORDS GENERATION
+ *
+ * This routine outputs a keyword interface.
+ *
+ * TODO at some point (where the code is clearer), this can
+ * be rewritten to generate and output a trie in its own right.
+ * For the moment, we just need the interface in place to set
+ * the generated API.
+ */
 static void
 output_keywords(lexer_parse_tree* top_level, FILE *output, FILE *output_h)
 {
@@ -196,52 +198,57 @@ output_keywords(lexer_parse_tree* top_level, FILE *output, FILE *output_h)
 	keywords_iterate(tree_get_globalzone(top_level)->keywords, output_keyword, output);
 
 	fprintf(output, "\treturn notfound;\n}\n");
-
-	return;
 }
 
-static void 
+static void
 output_locals(LocalNamesT* locals, unsigned int d, FILE* lex_output )
 {
-	const char* prefixvar = "ZV";
-	const char* prefixtype = "ZT";
-	char* st;
-	char* s;
-	LocalNamesIteratorT it ;
+	LocalNamesIteratorT it;
+	const char *prefixvar = "ZV";
+	const char *prefixtype = "ZT";
+	char *st;
+	char *s;
 
 	assert(locals != NULL);
 	assert(lex_output != NULL);
 
-	s = xmalloc_nof(char, locals->max_depth+1);
+	s = xmalloc_nof(char, locals->max_depth + 1);
 
-	for (localnames_begin(&it, locals); 
-	    it.p; 
-	    localnamesiterator_next(&it)) {
-		LocalNamesEntryT* p= it.p;
-		EntryT* t=p->type;
+	for (localnames_begin(&it, locals);
+	    it.p;
+	    localnamesiterator_next(&it))
+	{
+		LocalNamesEntryT* p = it.p;
+		EntryT *t = p->type;
 		int i;
-		s[it.depth]=0;
-		for (i = it.depth - 1 ; i >= 0; --i) {
-			/* TODO assert(p) */
-			s[i]=p->c;
-			p=p->up;
+		s[it.depth] = 0;
+
+		for (i = it.depth - 1; i >= 0; i--) {
+			/* TODO: assert(p) */
+			s[i] = p->c;
+			p = p->up;
 		}
-		output_indent(lex_output, d);
-		/* TODO assert(entry_is_type(t)); */
+
+		/* TODO: assert(entry_is_type(t)); */
+
 		if (t->u.type->mapped) {
-			prefixtype="";
-			st=nstring_to_cstring(&t->u.type->mapping);
+			prefixtype = "";
+			st = nstring_to_cstring(&t->u.type->mapping);
 		} else {
-			st=nstring_to_cstring(entry_key(t));
+			st = nstring_to_cstring(entry_key(t));
 		}
-	       	fprintf(lex_output,"%s%s %s%s;\n", prefixtype, st, prefixvar, s);
+
+		output_indent(lex_output, d);
+		fprintf(lex_output,"%s%s %s%s;\n", prefixtype, st, prefixvar, s);
+
 		DEALLOCATE(st);
 	}
+
 	xfree(s);
 }
 
-static void 
-output_action(FILE* lex_output, lexer_parse_tree* top_level, EntryT* action, args_list* lhs, args_list* rhs, unsigned int d)
+static void
+output_action(FILE *lex_output, lexer_parse_tree *top_level, EntryT *action, args_list *lhs, args_list *rhs, unsigned int d)
 {
 	NameTransT trans;
 
@@ -251,10 +258,13 @@ output_action(FILE* lex_output, lexer_parse_tree* top_level, EntryT* action, arg
 	assert(lhs != NULL);
 	assert(rhs != NULL);
 
-	/* TODO assert(entry_is_action(action)) */
-	/* Semi Inefficient : we will recreate the translator stack each time we output the same action:
-	    this will never be the same translator stack, however the sort will always give the same permutation:
-	    an optimization should be possible here. I don't see it as necessary for the moment.*/
+	/* TODO: assert(entry_is_action(action)) */
+	/*
+	 * Semi Inefficient : we will recreate the translator stack each time
+	 * we output the same action; this will never be the same translator stack,
+	 * however the sort will always give the same permutation: an optimization
+	 * should be possible here. I don't see it as necessary for the moment.
+	 */
 	nametrans_init(&trans, typetuple_length(&action->u.action->inputs)+typetuple_length(&action->u.action->outputs));
 	nametrans_append_tuple(&trans,&action->u.action->inputs,rhs);
 	nametrans_append_tuple(&trans,&action->u.action->outputs,lhs);
@@ -263,24 +273,33 @@ output_action(FILE* lex_output, lexer_parse_tree* top_level, EntryT* action, arg
 	/* TODO: output #line delimiters instead of comments */
 	output_indent(lex_output, d);
 	fprintf(lex_output, "/* ACTION <%s> */\n", nstring_to_cstring(entry_key(action)));
+
 	output_indent(lex_output, d);
 	fprintf(lex_output, "{\n");
-	++d;
+
+	d++;
+
 	if (lhs->nb_return_terminal) {
-		char* st;
-		EntryT* t = lexer_terminal_type(top_level);
-		char* prefixtype = "ZT";
+		char *prefixtype = "ZT";
+		char *st;
+		EntryT *t;
+
+		t = lexer_terminal_type(top_level);
 		/* TODO assert(entry_is_type(t)); */
-		output_indent(lex_output, d);
+
 		if (t->u.type->mapped) {
 			prefixtype="";
-			st=nstring_to_cstring(&t->u.type->mapping);
+			st = nstring_to_cstring(&t->u.type->mapping);
 		} else {
-			st=nstring_to_cstring(entry_key(t));
+			st = nstring_to_cstring(entry_key(t));
 		}
-	       	fprintf(lex_output,"%s%s ZT1;\n", prefixtype, st);
+
+		output_indent(lex_output, d);
+		fprintf(lex_output,"%s%s ZT1;\n", prefixtype, st);
 	}
-	/* End Semi Inefficient*/
+
+	/* End Semi Inefficient */
+
 	if (action_is_defined(action->u.action)) {
 		ccode_output(lex_output, &action->u.action->code, &trans, d );
 		if (lhs->nb_return_terminal) {
@@ -294,9 +313,12 @@ output_action(FILE* lex_output, lexer_parse_tree* top_level, EntryT* action, arg
 		error(ERROR_SERIOUS, "Action %s is used but undefined", pe);
 		DEALLOCATE(pe);
 	}
-	--d;
+
+	d--;
+
 	output_indent(lex_output, d);
 	fprintf(lex_output, "}\n");
+
 	output_indent(lex_output, d);
 	fprintf(lex_output, "/* END ACTION <%s> */\n", nstring_to_cstring(entry_key(action)));
 }
@@ -348,7 +370,7 @@ output_popzone(zone *parent, instruction *instr, unsigned int n, unsigned int d)
 	assert(instr != NULL);
 	assert(instr->type == pop_zone);
 
-	if (parent->type == typezone_general_zone) { 
+	if (parent->type == typezone_general_zone) {
 		output_indent(lex_output, d);
 		if (zone_isglobal(instr->u.s.z)) {
 			fprintf(lex_output, "state->zone = %s;\n", read_token_name);
@@ -390,11 +412,10 @@ output_popzone(zone *parent, instruction *instr, unsigned int n, unsigned int d)
 	}
 }
 
-
 /*
-	Returns true if a return was made; false indicates that control is still
-	present in the containing block.
-*/
+ * Returns true if a return was made; false indicates that control is still
+ * present in the containing block.
+ */
 static int
 output_instructions(zone *parent, instructions_list *ret, unsigned int n, unsigned int d)
 {
@@ -439,7 +460,7 @@ output_instructions(zone *parent, instructions_list *ret, unsigned int n, unsign
 			break;
 
 		case do_nothing:
-			assert(instr->next == NULL);	/* caught during parsing */
+			assert(instr->next == NULL); /* caught during parsing */
 			break;
 		}
 	}
@@ -488,9 +509,9 @@ output_mapping(const char *map, unsigned int d)
 }
 
 /*
-	Returns true if a return was made; false indicates that control is still
-	present in the containing block.
-*/
+ * Returns true if a return was made; false indicates that control is still
+ * present in the containing block.
+ */
 static int
 output_leaf(zone *parent, character *p, int in_pre_pass, unsigned int n, unsigned int d)
 {
@@ -510,7 +531,7 @@ output_leaf(zone *parent, character *p, int in_pre_pass, unsigned int n, unsigne
 	if (p->u.definition != NULL) {
 		if (!output_instructions(parent, p->u.definition, n, d)) {
 			output_indent(lex_output, d);
-			fprintf(lex_output, "goto start;	/* leaf */\n");
+			fprintf(lex_output, "goto start; /* leaf */\n");
 		}
 
 		return 1;
@@ -557,6 +578,7 @@ output_char_letters(zone *z, character *p, int in_pre_pass, unsigned int n, unsi
 
 		output_indent(lex_output, d);
 		fputs("}\n", lex_output);
+
 		return;
 
 	default:
@@ -592,6 +614,7 @@ output_char_letters(zone *z, character *p, int in_pre_pass, unsigned int n, unsi
 		}
 		output_indent(lex_output, d);
 		fputs("}\n", lex_output);
+
 		return;
 	}
 }
@@ -639,28 +662,27 @@ output_char_groups(zone *z, character *p, int in_pre_pass, unsigned int n, unsig
 		if (q->next != NULL) {
 			output_pass(z, q->next, in_pre_pass, n + 1, d + 1);
 		}
+
 		output_leaf(z, q, in_pre_pass, n, d + 1);
 
 		started = 1;
 	}
+
 	output_indent(lex_output, d);
 	fputs("}\n", lex_output);
 }
 
-
-
 /*
-	OUTPUT PASS INFORMATION
-
-	This routine outputs code for the lexical pass indicated by p.
-	n gives the depth of recursion and d gives the indentation.
+ * OUTPUT PASS INFORMATION
+ *
+ * This routine outputs code for the lexical pass indicated by p.
+ * n gives the depth of recursion and d gives the indentation.
 */
-
 static void
 output_pass(zone *z, character *p, int in_pre_pass, unsigned int n, unsigned int d)
 {
-	int w1 = (n == 0 && !in_pre_pass);
-	int w2 = (n == 0 && in_pre_pass);
+	int w1 = n == 0 && !in_pre_pass;
+	int w2 = n == 0 && in_pre_pass;
 
 	assert(z != NULL);
 	assert(p != NULL);
@@ -699,13 +721,14 @@ output_pass(zone *z, character *p, int in_pre_pass, unsigned int n, unsigned int
 
 	/* We match letters before groups; letters have priority (TODO do we need to?) */
 	output_char_letters(z, p, in_pre_pass, n, d);
-	output_char_groups(z, p, in_pre_pass, n, d);
+	output_char_groups (z, p, in_pre_pass, n, d);
 
 	if (w2) {
 		d--;
 		output_indent(lex_output, d);
 		fputs("}\n", lex_output);
 	}
+
 	if (n) {
 		output_indent(lex_output, d);
 		fprintf(lex_output, "%spush(state, c%u);\n", lexi_prefix,n);
@@ -713,7 +736,7 @@ output_pass(zone *z, character *p, int in_pre_pass, unsigned int n, unsigned int
 }
 
 static void
-output_zone_pass_prototypes(zone *p) 
+output_zone_pass_prototypes(zone *p)
 {
 	zone *z;
 	const char *s;
@@ -735,7 +758,7 @@ output_zone_pass_prototypes(zone *p)
 }
 
 static void
-output_zone_prepass(zone *z) 
+output_zone_prepass(zone *z)
 {
 	assert(z != NULL);
 
@@ -774,7 +797,7 @@ output_zone_prepass(zone *z)
 }
 
 static void
-output_zone_pass(cmd_line_options *opt, zone *p) 
+output_zone_pass(cmd_line_options *opt, zone *p)
 {
 	/* recurr through all zones */
 	{
@@ -830,18 +853,19 @@ output_zone_pass(cmd_line_options *opt, zone *p)
 }
 
 /*
-	OUTPUT COPYRIGHT
-
-	This routine outputs the copyright statement and closes opt->copyright_file.
-*/
+ * OUTPUT COPYRIGHT
+ *
+ * This routine outputs the copyright statement and closes opt->copyright_file.
+ */
 static void
-output_copyright(lexer_parse_tree* top_level)
+output_copyright(lexer_parse_tree *top_level)
 {
-	FILE_list_entry* file_list ;
+	FILE_list_entry *file_list;
 
-	for(file_list = tree_get_copyright_list(top_level); 
-            file_list != NULL; 
-            file_list = file_list_next(file_list)) {
+	for (file_list = tree_get_copyright_list(top_level);
+		file_list != NULL;
+		file_list = file_list_next(file_list))
+	{
 		if (!output_comment_file(OUTPUT_COMMENT_C90, lex_output, file_list_crt_file(file_list))) {
 			error(ERROR_SERIOUS,"Copyright file %s contains comment characters",
 			      file_list_crt_filename(file_list));
@@ -853,16 +877,13 @@ output_copyright(lexer_parse_tree* top_level)
 			      file_list_crt_filename(file_list));
 		}
 	}
-
-
-	return;
 }
 
 /*
-	Groups are numbered as powers of two, so that they may be masked together
-	to form a bitmap. This bitmap is used as a look-up table to easily identify
-	if a character belongs to a group or not.
-*/
+ * Groups are numbered as powers of two, so that they may be masked together
+ * to form a bitmap. This bitmap is used as a look-up table to easily identify
+ * if a character belongs to a group or not.
+ */
 static unsigned long
 group_number(lexer_parse_tree* top_level, char_group_defn *g)
 {
@@ -904,11 +925,9 @@ count_nonempty_groups(lexer_parse_tree *top_level)
 	return i;
 }
 
-
 /*
-	OUTPUT THE MACROS NEEDED TO ACCESS THE LOOKUP TABLE
-*/
-
+ * OUTPUT THE MACROS NEEDED TO ACCESS THE LOOKUP TABLE
+ */
 static void
 output_macros_zone(cmd_line_options* opt, zone* z)
 {
@@ -936,6 +955,7 @@ output_macros_zone(cmd_line_options* opt, zone* z)
 
 			fputs("\n", lex_output_h);
 		}
+
 		if(z->next) {
 			output_macros_zone(opt, z->next);
 		}
@@ -943,14 +963,13 @@ output_macros_zone(cmd_line_options* opt, zone* z)
 
 }
 
-
 static void
-output_macros(cmd_line_options* opt, lexer_parse_tree* top_level) 
+output_macros(cmd_line_options* opt, lexer_parse_tree* top_level)
 {
 
 	if (all_groups_empty(top_level)) {
 		return;
-	} else 
+	}
 
 	fprintf(lex_output_h, "enum %sgroups {\n", opt->lexi_prefix);
 	output_macros_zone(opt, tree_get_globalzone(top_level));
@@ -978,12 +997,11 @@ output_macros(cmd_line_options* opt, lexer_parse_tree* top_level)
 }
 
 /*
-  OUTPUT THE LOOKUP TABLE
-*/
-
+ * OUTPUT THE LOOKUP TABLE
+ */
 static void
-output_lookup_table(lexer_parse_tree* top_level, const char *grouptype, 
-		    const char *grouphex, size_t groupwidth) 
+output_lookup_table(lexer_parse_tree* top_level, const char *grouptype,
+	const char *grouphex, size_t groupwidth)
 {
 	int c;
 	char_group_defn *g;
@@ -1024,11 +1042,9 @@ output_lookup_table(lexer_parse_tree* top_level, const char *grouptype,
 	fputs("\n};",lex_output);
 }
 
-/* 
-   OUTPUT LEXI AUTOMATED DEFINED OPERATIONS 
-
-*/
-
+/*
+ * OUTPUT LEXI AUTOMATED DEFINED OPERATIONS 
+ */
 static void
 output_buffer(cmd_line_options *opt, lexer_parse_tree *top_level)
 {
@@ -1056,7 +1072,6 @@ output_buffer(cmd_line_options *opt, lexer_parse_tree *top_level)
 	if (buffer_length(top_level) == 0) {
 		return;
 	}
-
 
 	/* Other buffer operations */
 	fputs("/* Push a character to lexi's buffer */\n", lex_output_h);
@@ -1108,18 +1123,18 @@ output_buffer_storage(lexer_parse_tree *top_level)
 	fputs("\tint buffer_index;\n", lex_output_h);
 }
 
-void 
-output_headers()
+void
+output_headers(void)
 {
-	ccode_output(lex_output_h, &(global_lct_parse_tree.hfileheader), NULL, 0);
-	ccode_output(lex_output, &(global_lct_parse_tree.cfileheader), NULL, 0);
+	ccode_output(lex_output_h, &global_lct_parse_tree.hfileheader, NULL, 0);
+	ccode_output(lex_output,   &global_lct_parse_tree.cfileheader, NULL, 0);
 }
 
-void 
-output_trailers()
+void
+output_trailers(void)
 {
-	ccode_output(lex_output_h, &(global_lct_parse_tree.hfiletrailer),NULL,0);
-	ccode_output(lex_output, &(global_lct_parse_tree.cfiletrailer),NULL,0);
+	ccode_output(lex_output_h, &global_lct_parse_tree.hfiletrailer, NULL, 0);
+	ccode_output(lex_output,   &global_lct_parse_tree.cfiletrailer, NULL, 0);
 }
 
 void
@@ -1167,8 +1182,6 @@ c_output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 		}
 	}
 
-
-
 	output_copyright(top_level);
 
 	output_generated_by_lexi(OUTPUT_COMMENT_C90, lex_output);
@@ -1187,7 +1200,7 @@ c_output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 		free(s);
 	}
 
-	output_headers() ;
+	output_headers();
 
 	if (opt->generate_asserts) {
 		fputs("#include <assert.h>\n", lex_output);
@@ -1199,7 +1212,8 @@ c_output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 		fputs("#include <stdbool.h>\n\n", lex_output_h);
 	}
 
-	fputs("/*\n"
+	fputs(
+		"/*\n"
 		" * This struct holds state for the lexer; its representation is\n"
 		" * private, but present here for ease of allocation.\n"
 		" */\n", lex_output_h);
@@ -1220,16 +1234,14 @@ c_output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 	fputs("\n\n", lex_output);
 
 	fputs("#ifndef LEXI_EOF\n", lex_output_h);
-	fprintf(lex_output_h, "#define LEXI_EOF %d\n", EOF);	/* TODO: remove LEXI_EOF */
+	fprintf(lex_output_h, "#define LEXI_EOF %d\n", EOF); /* TODO: remove LEXI_EOF */
 	fputs("#endif\n\n", lex_output_h);
 
 	output_macros(opt,top_level);
 	fputs("\n\n", lex_output);
 
-
 	/* Keywords */
 	output_keywords(top_level, lex_output, lex_output_h);
-
 
 	/* Lexical pre-pass */
 	fputs("/* PRE-PASS ANALYSERS */\n\n", lex_output);
@@ -1270,12 +1282,11 @@ c_output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 	fputs("/* MAIN PASS ANALYSERS */\n\n", lex_output);
   	output_zone_pass(opt, tree_get_globalzone(top_level));
 
-	output_trailers() ;
+	output_trailers();
 
 	fputs("#endif\n", lex_output_h);
 
 	fputs("\n", lex_output);
 	fputs("\n", lex_output_h);
-
-  	return;
 }
+

@@ -8,23 +8,17 @@
  */
 
 
-#ifndef CHAR_INCLUDED
-#define CHAR_INCLUDED
+#ifndef LEXI_CHAR_H
+#define LEXI_CHAR_H
 
 #include <stddef.h>
-
 
 struct zone_tag;
 struct instructions_list_tag;
 
-
-/*
-	THE LETTER TRANSLATOR TYPES
-*/
 typedef enum letter_translation_type_tag {
 	group_letter, char_letter
 } letter_translation_type;
-
 
 union char_value {
 	/* for char_letter: character or EOF */
@@ -37,14 +31,13 @@ union char_value {
 	} g;
 };
 
-
 /*
-    TYPE REPRESENTING A CHARACTER
-
-    A character consists of a single letter (which may have associated
-    data) plus pointers to the next character and to a list of alternative
-    characters.
-*/
+ * TYPE REPRESENTING A CHARACTER
+ *
+ * A character consists of a single letter (which may have associated
+ * data) plus pointers to the next character and to a list of alternative
+ * characters.
+ */
 typedef struct character_tag character;
 struct character_tag {
 	letter_translation_type type;
@@ -60,8 +53,8 @@ struct character_tag {
 	 * TODO: store mapping unescaped
 	 */
 	union {
-		struct instructions_list_tag *definition; 
-		char *map;   
+		struct instructions_list_tag *definition;
+		char *map;
 	} u;
 
 	/* siblings */
@@ -72,9 +65,9 @@ struct character_tag {
 	character *next;
 };
 
-
-extern character *add_string(struct zone_tag *, character **, const char *);
-extern size_t char_maxlength(character *);
-extern int find_escape(char c);
+character *add_string(struct zone_tag *, character **, const char *);
+size_t char_maxlength(character *);
+int find_escape(char c);
 
 #endif
+

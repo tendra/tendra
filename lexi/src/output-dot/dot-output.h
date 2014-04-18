@@ -6,9 +6,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-#ifndef DOT_OUTPUT_INCLUDED
-#define DOT_OUTPUT_INCLUDED
+#ifndef LEXI_DOT_OUTPUT_H
+#define LEXI_DOT_OUTPUT_H
 
 #include "adt/tree.h"
 

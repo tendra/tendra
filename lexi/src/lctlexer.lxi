@@ -9,66 +9,72 @@
 COPYRIGHT = "../doc/copyright/COPYING.tendra-bsd3";
 
 GROUP alpha = {A-Z} + {a-z} + "_";
-GROUP alphanum = {A-Z} + {a-z} + {0-9} + "_";
+GROUP alnum = {A-Z} + {a-z} + {0-9} + "_";
 
-ACTION <init_token_buffer> ;
-ACTION <push_token_buffer> : (:CHARACTER) -> ();
-ACTION <finalize_token_buffer> ;
-ACTION <token_keyword_match> : (:TERMINAL) -> (:TERMINAL);
-ACTION <get_code_lct_string> : (:CHARACTER) -> (:TERMINAL) ;
+ACTION <init_token_buffer>;
+ACTION <push_token_buffer>: (:CHARACTER) -> ();
+ACTION <fini_token_buffer>;
+
+ACTION <token_keyword_match>: (:TERMINAL)  -> (:TERMINAL);
+ACTION <get_code_lct_string>: (:CHARACTER) -> (:TERMINAL) ;
 
 
-TOKEN "(" -> $open;
-TOKEN ")" -> $close; ;
-TOKEN "=" -> $define ;
-TOKEN "&" -> $reference ;
-TOKEN ";" -> $semicolon ;
-TOKEN ":" -> $colon ;
-TOKEN "," -> $comma ;
-TOKEN "->" -> $arrow ;
-TOKEN "\e" -> $eof ;
+TOKEN "("  -> $open;
+TOKEN ")"  -> $close;
+TOKEN "="  -> $define;
+TOKEN "&"  -> $reference;
+TOKEN ";"  -> $semicolon;
+TOKEN ":"  -> $colon;
+TOKEN ","  -> $comma;
+TOKEN "->" -> $arrow;
+TOKEN "\e" -> $eof;
 
-ZONE identifierzone : "[alpha]" -> <init_token_buffer>, <push_token_buffer>(#0) [...) "[^alphanum]" -> <finalize_token_buffer>, $ = <token_keyword_match>($identifier) {
+TOKEN DEFAULT -> $unknown;
+
+ZONE identifier:
+	"[alpha]"  -> <init_token_buffer>, <push_token_buffer>(#0) [...)
+	"[^alnum]" -> <fini_token_buffer>, $ = <token_keyword_match>($identifier)
+{
 	GROUP white = "";
 	TOKEN DEFAULT -> <push_token_buffer>(#0);
 }
 
-TOKEN DEFAULT -> $unknown ;
-
-
-ZONE Comment : "/*" ... "*/" {
-     GROUP white = "" ;
-     TOKEN DEFAULT -> $$ ;
+ZONE comment: "/*" ... "*/" {
+	GROUP white = "";
+	TOKEN DEFAULT -> $$;
 }
 
-ZONE LineComment : "//" ... "\n" {
-     GROUP white = "" ;
-     TOKEN DEFAULT -> $$ ;
+ZONE linecomment: "//" ... "\n" {
+	GROUP white = "";
+	TOKEN DEFAULT -> $$;
 }
 
+ZONE code_area: "@{" -> $code-start ... "@}" -> $code-end {
+	GROUP white = "";
+	TOKEN DEFAULT -> $ = <get_code_lct_string>(#0);
 
-ZONE  code_area : "@{" -> $code-start
-     	       	      ...
-		 "@}" -> $code-end 
-{
-	GROUP white = "" ;
-	TOKEN DEFAULT -> $ = <get_code_lct_string> (#0) ;
-	
-	ZONE codeidentifierzone : "@[alpha]" -> <init_token_buffer>, <push_token_buffer>(#1) [...) "[^alphanum]" -> <finalize_token_buffer>, $code-identifier {
+	ZONE codeidentifierzone:
+		"@[alpha]" -> <init_token_buffer>, <push_token_buffer>(#1) [...)
+		"[^alnum]" -> <fini_token_buffer>, $code-identifier
+	{
 		TOKEN DEFAULT -> <push_token_buffer>(#0);
 	}
 
-	ZONE codereferencezone :  "@&[alpha]" -> <init_token_buffer>, <push_token_buffer>(#2) [...) "[^alphanum]" -> <finalize_token_buffer>, $code-reference {
+	ZONE codereferencezone:
+		"@&[alpha]" -> <init_token_buffer>, <push_token_buffer>(#2) [...)
+		"[^alnum]"  -> <fini_token_buffer>, $code-reference
+	{
 		TOKEN DEFAULT -> <push_token_buffer>(#0);
 	}
 
-	TOKEN "@@"	 -> $code-at;
-	TOKEN "@"	 -> $lone-code-at;
-	TOKEN "\e"	 -> $code-eof;
+	TOKEN "@@" -> $code-at;
+	TOKEN "@"  -> $lone-code-at;
+	TOKEN "\e" -> $code-eof;
 }
 
-KEYWORD "HEADERS" -> $header-kw ; 
-KEYWORD "TRAILERS" -> $trailer-kw ; 
-KEYWORD "MAP" -> $map-kw;
-KEYWORD "ACTION" -> $action-kw;
+KEYWORD "HEADERS"  -> $header-kw;
+KEYWORD "TRAILERS" -> $trailer-kw;
+KEYWORD "MAP"      -> $map-kw;
+KEYWORD "ACTION"   -> $action-kw;
 KEYWORD "ARGUMENT" -> $argument-kw;
+

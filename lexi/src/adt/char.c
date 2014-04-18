@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include <shared/check.h>
 #include <shared/xalloc.h>
 #include <shared/error.h>
 
@@ -22,14 +23,12 @@
 #include "instruction.h"	/* XXX */
 #include "tree.h"	/* XXX */
 
-
 /*
-	FIND AN ESCAPE SEQUENCE
-
-	This routine finds the character corresponding to the escape sequence c,
-	or EOF for \e.
-*/
-
+ * FIND AN ESCAPE SEQUENCE
+ *
+ * This routine finds the character corresponding to the escape sequence c,
+ * or EOF for \e.
+ */
 int
 find_escape(char c)
 {
@@ -52,11 +51,9 @@ find_escape(char c)
 	}
 }
 
-
 /*
-	ARE TWO VALUES EQUAL?
-*/
-
+ * ARE TWO VALUES EQUAL?
+ */
 static int
 values_equal(letter_translation_type type, const union char_value *a, const union char_value *b)
 {
@@ -68,17 +65,15 @@ values_equal(letter_translation_type type, const union char_value *a, const unio
 		return a->c == b->c;
 	}
 
-	assert(!"unreached");
+	UNREACHED;
 	return 0;
 }
 
-
 /*
-    ALLOCATE A NEW CHARACTER
-
-    This routine allocates a new character with value v.
-*/
-
+ * ALLOCATE A NEW CHARACTER
+ *
+ * This routine allocates a new character with value v.
+ */
 static character *
 new_char(letter_translation_type type, const union char_value *v)
 {
@@ -97,10 +92,10 @@ new_char(letter_translation_type type, const union char_value *v)
 	}
 
 	new = xmalloc(sizeof *new);
-    new->opt = NULL;
+    new->opt  = NULL;
     new->next = NULL;
 	new->type = type;
-	new->v = *v;
+	new->v    = *v;
 
 	/* XXX: nonportable: u.map and u.definition may differ in representation */
 	new->u.map = NULL;
@@ -108,12 +103,11 @@ new_char(letter_translation_type type, const union char_value *v)
     return new;
 }
 
-
 /*
-	COUNT MAXIMUM TOKEN LENGTH
-
-	Find the maximum token length within the given lexical pass.
-*/
+ * COUNT MAXIMUM TOKEN LENGTH
+ *
+ *Find the maximum token length within the given lexical pass.
+ */
 size_t
 char_maxlength(character *c)
 {
@@ -140,11 +134,9 @@ char_maxlength(character *c)
 	return maxopt;
 }
 
-
 /*
-	FIND AN EXISTING ALTERNATIVE OF THE GIVEN VALUE, OR ADD A NEW ONE
-*/
-
+ * FIND AN EXISTING ALTERNATIVE OF THE GIVEN VALUE, OR ADD A NEW ONE
+ */
 static character *
 find_or_add(character **n, letter_translation_type type, const union char_value *v)
 {
@@ -177,18 +169,17 @@ find_or_add(character **n, letter_translation_type type, const union char_value 
 	}
 }
 
-
 /*
-	ADD A STRING
-
-	This routine adds the string s to the lexical pass n. This reads a C string
-	and creates a trail of characters in the trie. *n may be NULL for an empty
-	trie.
-
-	The string given may contain escape sequences as per find_escape().
-
-	TODO: Could move parsing into the .lxi file; strings would make a nice zone.
-*/
+ * ADD A STRING
+ *
+ * This routine adds the string s to the lexical pass n. This reads a C string
+ * and creates a trail of characters in the trie. *n may be NULL for an empty
+ * trie.
+ *
+ * The string given may contain escape sequences as per find_escape().
+ *
+ * TODO: Could move parsing into the .lxi file; strings would make a nice zone.
+ */
 character *
 add_string(zone *z, character **n, const char *s)
 {
@@ -257,3 +248,4 @@ add_string(zone *z, character **n, const char *s)
 
 	return leaf;
 }
+

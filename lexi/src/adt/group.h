@@ -7,22 +7,18 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-#ifndef GROUP_INCLUDED
-#define GROUP_INCLUDED
+#ifndef LEXI_GROUP_H
+#define LEXI_GROUP_H
 
 struct zone_tag;
 
-
 /*
-    TYPE REPRESENTING A CHARACTER GROUP
-
-    A character group is a named unordered set of letters.
-*/
-
+ * TYPE REPRESENTING A CHARACTER GROUP
+ *
+ * A character group is a named unordered set of letters.
+ */
 typedef struct char_group_name_tag char_group_name;
 typedef struct char_group_defn_tag char_group_defn;
-
 
 struct char_group_defn_tag {
 	/*
@@ -38,7 +34,6 @@ struct char_group_defn_tag {
 	 */
 	char_group_defn *next_in_groups_list;
 };
-
 
 struct char_group_name_tag {
 	char *name;
@@ -59,11 +54,11 @@ struct char_group_name_tag {
 	char_group_name *next;
 };
 
-
-extern char_group_name *make_group(struct zone_tag *, char *, char *);
-extern int in_group(char_group_defn *, char);
-extern int is_group_empty(char_group_defn *);
-extern int is_group_equal(char_group_defn *a, char_group_defn *b);
-extern char_group_name *find_group(const struct zone_tag *z, const char *name);
+char_group_name *make_group(struct zone_tag *, char *, char *);
+int in_group(char_group_defn *, char);
+int is_group_empty(char_group_defn *);
+int is_group_equal(char_group_defn *a, char_group_defn *b);
+char_group_name *find_group(const struct zone_tag *z, const char *name);
 
 #endif
+

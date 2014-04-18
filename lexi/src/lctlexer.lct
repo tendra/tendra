@@ -8,120 +8,128 @@
 
 HEADERS = @{
 
-/* $Id$ */
+	/* $Id$ */
 
-/*
- * Copyright 2002-2011, The TenDRA Project.
- *
- * See doc/copyright/ for the full copyright terms.
- */
+	/*
+	 * Copyright 2002-2011, The TenDRA Project.
+	 *
+	 * See doc/copyright/ for the full copyright terms.
+	 */
 
-#include "lctlexer.h"
-#include "lctsyntax.h"
-#include <shared/error.h>
+	#include "lctlexer.h"
+	#include "lctsyntax.h"
+	#include <shared/error.h>
 
-int crt_lct_token ;
-int saved_lct_token ;
+	int crt_lct_token;
+	int saved_lct_token;
 
-char lct_token_buff [2000];
-static char *lct_token_end = lct_token_buff + sizeof(lct_token_buff);
-static char* lct_token_current;
+	char lct_token_buff[2000];
+	static char *lct_token_end = lct_token_buff + sizeof lct_token_buff;
+	static char *lct_token_current;
 
-NStringT lct_token_nstring;
+	NStringT lct_token_nstring;
 
-struct lexi_lct_state lct_lexer_state;
+	struct lexi_lct_state lct_lexer_state;
 
-static int 
-lexi_lct_getchar(struct lexi_lct_state* state) 
-{
-	int c =fgetc(state->input);
-	if(c == '\n') 
-		crt_line_no++;
-	if(c == EOF) 
-		return LEXI_EOF;
-	return c;
-}
+	static int
+	lexi_lct_getchar(struct lexi_lct_state *state)
+	{
+		int c;
+
+		c = fgetc(state->input);
+
+		if (c == EOF) {
+			return LEXI_EOF;
+		}
+
+		if (c == '\n') {
+			crt_line_no++;
+		}
+
+		return c;
+	}
 
 @} , @{
 
-/* $Id$ */
+	/* $Id$ */
 
-/*
- * Copyright 2002-2011, The TenDRA Project.
- *
- * See doc/copyright/ for the full copyright terms.
- */
+	/*
+	 * Copyright 2002-2011, The TenDRA Project.
+	 *
+	 * See doc/copyright/ for the full copyright terms.
+	 */
 
-#include <stdio.h>
-#include "lctsyntax.h"
+	#include <stdio.h>
+	#include "lctsyntax.h"
 
-typedef FILE* FILE_P_lct ;
+	typedef FILE *FILE_P_lct;
 
-extern char lct_token_buff [];
-extern int crt_lct_token ;
-extern int saved_lct_token ;
-extern lct_parse_tree global_lct_parse_tree ;
+	char lct_token_buff[];
+	int crt_lct_token;
+	int saved_lct_token;
+	lct_parse_tree global_lct_parse_tree;
 
-extern struct lexi_lct_state lct_lexer_state;
-extern NStringT lct_token_nstring;
+	struct lexi_lct_state lct_lexer_state;
+	NStringT lct_token_nstring;
 
+	#define CURRENT_LCT_TERMINAL crt_lct_token
+	#define ADVANCE_LCT_LEXER    crt_lct_token = lexi_lct_read_token(&lct_lexer_state)
+	#define SAVE_LCT_LEXER(T)    (saved_lct_token = crt_lct_token, crt_lct_token = (T))
+	#define RESTORE_LCT_LEXER    (crt_lct_token = saved_lct_token)
 
-/*
-     PARSER MACROS
-*/
-
-#define CURRENT_LCT_TERMINAL	crt_lct_token
-#define ADVANCE_LCT_LEXER		crt_lct_token = lexi_lct_read_token(&lct_lexer_state)
-#define SAVE_LCT_LEXER(T)       (saved_lct_token = crt_lct_token,\
-                                  crt_lct_token = (T))
-#define RESTORE_LCT_LEXER          (crt_lct_token = saved_lct_token)
 @};
 
 TRAILERS = @{
 @},@{
-@} ;
+@};
 
 MAP TERMINAL -> int;
 
-ARGUMENT input:FILE_P_lct ;
+ARGUMENT input :FILE_P_lct;
 
 ACTION init_token_buffer = @{
 	lct_token_current=lct_token_buff;
 @};
 
-ACTION push_token_buffer : (c:CHARACTER) -> () = @{
-       	if(lct_token_current==lct_token_end-1)
+ACTION push_token_buffer: (c :CHARACTER) -> () = @{
+	if (lct_token_current == lct_token_end - 1) {
 		error(ERROR_FATAL, "Buffer overflow");
-	else 
-	       *lct_token_current++ = @c;
-@};
-
-ACTION finalize_token_buffer = @{
-       	if(lct_token_current==lct_token_end) {
-		error(ERROR_FATAL, "Buffer overflow: trailing 0");
-	       *(lct_token_end-1) = 0;		
 	} else {
-	       *lct_token_current++ = 0;	
+		*lct_token_current++ = @c;
 	}
 @};
 
-ACTION token_keyword_match : (ti:TERMINAL) -> (to:TERMINAL) = @{
+ACTION fini_token_buffer = @{
+	if (lct_token_current == lct_token_end) {
+		error(ERROR_FATAL, "Buffer overflow: trailing 0");
+		*(lct_token_end - 1) = 0;
+	} else {
+		*lct_token_current++ = 0;
+	}
+@};
+
+ACTION token_keyword_match: (ti :TERMINAL) -> (to :TERMINAL) = @{
 	@to = lexi_lct_keyword(lct_token_buff, @ti);
 @};
 
-ACTION get_code_lct_string : (c:CHARACTER) -> (a:TERMINAL) = 
-@{
-	int c = @c;
+ACTION get_code_lct_string: (c :CHARACTER) -> (a :TERMINAL) = @{
 	DStringT dstring;
+	int c;
+
 	dstring_init(&dstring);
+
+	c = @c;
+
 	do {
-		dstring_append_char(&dstring, c) ;
+		dstring_append_char(&dstring, c);
 		c = lexi_lct_readchar(&lct_lexer_state);
-        } while(c!='@@' && c!=LEXI_EOF) ;
+	} while(c != '@@' && c != LEXI_EOF);
 
 	lexi_lct_push(&lct_lexer_state, c);
-	
-	dstring_to_nstring(&dstring,&lct_token_nstring);
+
+	dstring_to_nstring(&dstring, &lct_token_nstring);
 	dstring_destroy(&dstring);
+
 	@a = lct_lex_code_Hstring;
-@} ;
+@};
+

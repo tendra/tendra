@@ -31,19 +31,13 @@
  */
 cmd_line_options options;
 
-
-
-/*
-    PROCESS FILE
-
-    This routine processes the lxi input file.
-*/
-
 static void
-process_lxi_file(char *nm,lexer_parse_tree* top_level)
+process_lxi_file(char *nm, lexer_parse_tree *top_level)
 {
-	FILE* input;
+	FILE *input;
+
 	crt_line_no = 1;
+
 	if (nm == NULL || !strcmp(nm, "-")) {
 		crt_file_name = "<stdin>";
 		input = stdin;
@@ -56,41 +50,44 @@ process_lxi_file(char *nm,lexer_parse_tree* top_level)
 			return;
 		}
 	}
+
 	lexi_init(&lexer_state, input);
+
 	ADVANCE_LXI_LEXER;
 	read_lex(tree_get_globalzone(top_level));
-	if (nm)fclose(input);
+
+	if (nm != NULL) {
+		fclose(input);
+	}
+
 	return;
 }
 
-/*
-    PROCESS FILE
-
-    This routine processes the lct input file.
-*/
-static void 
-process_lct_file (lexer_parse_tree* parse_tree, char* fn) 
+static void
+process_lct_file (lexer_parse_tree* parse_tree, char* fn)
 {
-	FILE* lct_file;
+	FILE *lct_file;
 
-	crt_line_no = 1 ;
-	if (!(lct_file=fopen(fn,"r"))) {
+	crt_line_no = 1;
+
+	lct_file = fopen(fn, "r");
+	if (lct_file == NULL) {
 		error(ERROR_SERIOUS, "Can't open input file, '%s'", fn);
-		return; /*error message*/
+		return;
 	}
-	crt_file_name = fn;
-	init_lct_parse_tree(&global_lct_parse_tree) ;
-	lexi_lct_init(&lct_lexer_state, lct_file) ;
-	ADVANCE_LCT_LEXER ;
 
-	lxi_top_level=parse_tree;
+	crt_file_name = fn;
+	init_lct_parse_tree(&global_lct_parse_tree);
+	lexi_lct_init(&lct_lexer_state, lct_file);
+
+	ADVANCE_LCT_LEXER;
+
+	lxi_top_level = parse_tree;
 	read_lct_unit();
+
 	fclose(lct_file);
 }
 
-/*
- * Usage
- */
 static void
 report_usage(void) {
 	fputs("usage: lexi [-vh] [-a] [-t token-prefix] [-p lexi-prefix] "
@@ -102,24 +99,17 @@ report_usage(void) {
  * Open a file for writing, defaulting to stdout if the name given is "-".
  */
 static FILE *
-open_filestream(const char *name) {
-	return !strcmp(name, "-") ? stdout : fopen(name, "w");
+open_filestream(const char *name)
+{
+	return 0 == strcmp(name, "-") ? stdout : fopen(name, "w");
 }
 
-/*
- * Main routine
- *
- * This is the main routine.  It processes the command-line options,
- * reads the input file, and writes the output files.
- */
 int
 main(int argc, char **argv)
 {
-	int optc;
-	int i;
 	struct outputs *output;
+	int i;
 
-#define COMMON_OPTIONS "C:t:l:p:i:vh"
 	struct outputs {
 		const char *language;
 		const signed int inputfiles;
@@ -127,72 +117,61 @@ main(int argc, char **argv)
 		void (*output_all)(cmd_line_options *, lexer_parse_tree *);
 		const char *options;
 	} outputs[] = {
-		{ "C90", 2, 2, c_output_all, COMMON_OPTIONS "a" },
-		{ "C99", 2, 2, c_output_all, COMMON_OPTIONS "a"	},
-		{ "Dot", 1, 1, dot_output_all, COMMON_OPTIONS	},
-		{ "test", 1, 0, NULL, COMMON_OPTIONS	},
+#define COMMON "C:t:l:p:i:vh"
+		{ "C90",  2, 2, c_output_all,   COMMON "a" },
+		{ "C99",  2, 2, c_output_all,   COMMON "a" },
+		{ "Dot",  1, 1, dot_output_all, COMMON     },
+		{ "test", 1, 0, NULL,           COMMON     },
+#undef COMMON
 	};
 
 	lexer_parse_tree *top_level;
  	cmd_line_options_init(&options);
 
-	/* Default to C90 output */
+	/* default to C90 output */
 	output = &outputs[0];
 
-	/* Process arguments */
 	set_progname(argv [0], "2.0");
-	while ((optc = getopt(argc, argv, output->options)) != -1) {
-		switch(optc) {
-		case 'a':
-			options.generate_asserts = true;
-			break;
 
-		case 't':
-			token_prefix = optarg;
-			break;
+	{
+		int c;
 
-		case 'l': {
-			int i;
+		while (c = getopt(argc, argv, output->options), c != -1) {
+			switch(c) {
+			case 'l': {
+				int i;
 
-			for(i = sizeof outputs / sizeof *outputs - 1; i >= 0; i--) {
-
-				if(!strcasecmp(optarg, outputs[i].language)) {
-					output = &outputs[i];
-					break;
+				for (i = sizeof outputs / sizeof *outputs - 1; i >= 0; i--) {
+					if (0 == strcasecmp(optarg, outputs[i].language)) {
+						output = &outputs[i];
+						break;
+					}
 				}
+
+				if (i < 0) {
+					/* TODO I suppose we could automate writing this list of languages, too */
+					error(ERROR_FATAL, "Unrecognised language '%s'. The supported languages are: C90 (default), C99 and Dot",
+						optarg);
+				}
+
+				break;
 			}
 
-			if(i < 0) {
-				/* TODO I suppose we could automate writing this list of languages, too */
-				error(ERROR_FATAL, "Unrecognised language '%s'. The supported languages are: C90 (default), C99 and Dot",
-					optarg);
+			case 'a': options.generate_asserts = true;   break;
+			case 't': token_prefix             = optarg; break;
+			case 'p': options.lexi_prefix      = optarg; break;
+			case 'i': options.interface_prefix = optarg; break;
+
+			default:
+				/* getopt will report error */
+			case 'h': report_usage();   return EXIT_FAILURE;
+			case 'v': report_version(); return EXIT_SUCCESS;
 			}
-
-			break;
 		}
 
-		case 'v':
-			report_version();
-			return EXIT_SUCCESS;
-
-		case 'p':
-			options.lexi_prefix=optarg;
-			break;
-
-		case 'i':
-			options.interface_prefix = optarg;
-			break;
-
-		default:
-			/* getopt will report error */
-
-		case 'h':
-			report_usage();
-			return EXIT_FAILURE;
-		}
+		argc -= optind;
+		argv += optind;
 	}
-	argc -= optind;
-	argv += optind;
 
 	/*
 	 * Default to the lexi_prefix if no interface prefix is given. This maintains
@@ -225,11 +204,11 @@ main(int argc, char **argv)
 	 * Open each relevant file for output. Note that argv[0]
 	 * contains the input file.
 	 */
-	for(i = 0; i < output->outputfiles; i++) {
+	for (i = 0; i < output->outputfiles; i++) {
 		options.outputfile[i].name = argv[i + output->inputfiles];
 		options.outputfile[i].file = open_filestream(argv[i + output->inputfiles]);
 
-		if(!options.outputfile[i].file) {
+		if (!options.outputfile[i].file) {
 			error(ERROR_FATAL, "Can't open output file, %s", argv[i + 1]);
 			/* TODO perror for cases like this */
 			return EXIT_FAILURE;
@@ -239,11 +218,10 @@ main(int argc, char **argv)
 	/* Process input file */
 	top_level = init_lexer_parse_tree();
 
-	set_predefined_char_lexi_type(top_level, "CHARACTER", "char");
-	set_predefined_string_lexi_type(top_level, "STRING", "char*");
-	set_predefined_int_lexi_type(top_level, "INTEGER", "int");
+	set_predefined_char_lexi_type    (top_level, "CHARACTER", "char");
+	set_predefined_string_lexi_type  (top_level, "STRING",    "char *");
+	set_predefined_int_lexi_type     (top_level, "INTEGER",   "int");
 	set_predefined_terminal_lexi_type(top_level, "TERMINAL");
-
 
 	process_lxi_file(argv[0], top_level);
 
@@ -252,7 +230,7 @@ main(int argc, char **argv)
 		return exit_status;
 	}
 
-	if(output->inputfiles>1) {
+	if (output->inputfiles > 1) {
 		process_lct_file(top_level, argv[1]);
 	}
 
@@ -262,20 +240,24 @@ main(int argc, char **argv)
 	}
 
 	/* Generate output */
- 	if (tree_get_globalzone(top_level)->white_space == NULL)
+ 	if (tree_get_globalzone(top_level)->white_space == NULL) {
 		tree_get_globalzone(top_level)->white_space = make_group(tree_get_globalzone(top_level), "white", " \t\n");
-
-	if(output->output_all!=NULL)
-		output->output_all(&options, top_level);
-
-	for(i = 0; i < output->outputfiles; i++) {
-		if(options.outputfile[i].file) {
-			fclose(options.outputfile[i].file);
-		}
 	}
 
-	
+	if (output->output_all!=NULL) {
+		output->output_all(&options, top_level);
+	}
+
+	for (i = 0; i < output->outputfiles; i++) {
+		if (options.outputfile[i].file == NULL) {
+			continue;
+		}
+
+		fclose(options.outputfile[i].file);
+	}
+
 	tree_close_copyright_files(top_level);
 
 	return exit_status;
 }
+

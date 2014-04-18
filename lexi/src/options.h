@@ -6,8 +6,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef OPTIONS_INCLUDED
-#define OPTIONS_INCLUDED
+#ifndef OPTIONS_H
+#define OPTIONS_H
 
 #include <stdbool.h>
 #include <stdio.h>
@@ -51,9 +51,9 @@ typedef struct cmd_line_options_tag {
 	 *
 	 */
 	options_outputfile outputfile[2];
-} cmd_line_options ;
+} cmd_line_options;
 
-extern void cmd_line_options_init(cmd_line_options*);
+extern void cmd_line_options_init(cmd_line_options *);
 
 #endif
 

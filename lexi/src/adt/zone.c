@@ -18,16 +18,14 @@
 #include "instruction.h"
 #include "tree.h"	/* XXX */
 
-
 /*
-    FIND A ZONE
-
-    This routine finds a zone within the current zone. This does not include
-	searching in parent zones.
-*/
-
-static zone * 
-find_zone(zone *z, char *name) 
+ * FIND A ZONE
+ *
+ * This routine finds a zone within the current zone. This does not include
+ * searching in parent zones.
+ */
+static zone *
+find_zone(zone *z, char *name)
 {
 	zone *q;
 
@@ -48,12 +46,12 @@ find_zone(zone *z, char *name)
 }
 
 /*
-	COUNT MAXIMUM TOKEN LENGTH
-
-	Find the maximum token length necessary for a given zone
-*/
+ * COUNT MAXIMUM TOKEN LENGTH
+ *
+ * Find the maximum token length necessary for a given zone
+ */
 size_t
-zone_maxlength(zone* z, int in_prepass)
+zone_maxlength(zone *z, int in_prepass)
 {
 	size_t max;
 	zone *p;
@@ -79,17 +77,15 @@ zone_maxlength(zone* z, int in_prepass)
 	return max;
 }
 
-
 /*
-    ALLOCATE A NEW ZONE
-
-    This routine allocates a new zone.
-
-    TODO: make this private, and provide a add_globalzone() instead.
-*/
-
-zone * 
-new_zone(lexer_parse_tree *top_level) 
+ * ALLOCATE A NEW ZONE
+ *
+ * This routine allocates a new zone.
+ *
+ * TODO: make this private, and provide a add_globalzone() instead.
+ */
+zone *
+new_zone(lexer_parse_tree *top_level)
 {
 	zone *new;
 
@@ -97,7 +93,7 @@ new_zone(lexer_parse_tree *top_level)
 
 	new = xmalloc(sizeof *new);
 	new->zone_name = NULL;
-	new->type = typezone_pure_function; 
+	new->type = typezone_pure_function;
 
 	new->zone_main_pass = NULL;
 	new->zone_pre_pass  = NULL;
@@ -120,16 +116,16 @@ new_zone(lexer_parse_tree *top_level)
 }
 
 /*
-    ADD A ZONE
-
-    This routine adds a new zone named zid under the current zone z
-*/
-zone * 
+ * ADD A ZONE
+ *
+ * This routine adds a new zone named zid under the current zone z
+ */
+zone *
 add_zone(zone *z, char *name, const char *e, int endmarkerclosed)
 {
 	zone *new;
-	instruction *inst; 
-	instructions_list *inst_list; 
+	instruction *inst;
+	instructions_list *inst_list;
 
 	assert(z != NULL);
 	assert(name != NULL);
@@ -221,3 +217,4 @@ zone_name(zone *z)
 
 	return z->zone_name;
 }
+

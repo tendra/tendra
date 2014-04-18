@@ -8,106 +8,105 @@
 
 HEADERS = @{
 
-/* $Id$ */
+	/* $Id$ */
 
-/*
- * Copyright 2002-2011, The TenDRA Project.
- *
- * See doc/copyright/ for the full copyright terms.
- */
+	/*
+	 * Copyright 2002-2011, The TenDRA Project.
+	 *
+	 * See doc/copyright/ for the full copyright terms.
+	 */
 
-#include <stdio.h>
-#include <string.h>
-#include <ctype.h>
+	#include <stdio.h>
+	#include <string.h>
+	#include <ctype.h>
 
-#include <shared/error.h>
-#include <shared/xalloc.h>
+	#include <shared/error.h>
+	#include <shared/xalloc.h>
 
-#include "lexer.h"
-#include "syntax.h"
-/*
-	THE CURRENT LEXER STATE
-*/
-struct lexi_state lexer_state;
+	#include "lexer.h"
+	#include "syntax.h"
 
-/*
-    TOKEN BUFFER
+	struct lexi_state lexer_state;
 
-    This buffer is used by read_token to hold the values of identifiers
-    and strings.
-*/
-char token_buff [2000];
-char *token_end = token_buff + sizeof(token_buff);
-static char* token_current;
-unsigned int number_buffer;
+	/*
+	 * This buffer is used by read_token to hold the values of identifiers
+	 * and strings.
+	 */
+	char token_buff[2000];
+	char *token_end = token_buff + sizeof token_buff;
+	static char* token_current;
+	unsigned int number_buffer;
 
-/*
-    CURRENT TOKEN
+	/*
+	 * CURRENT TOKEN
+	 *
+	 * These variables are used by the parser to hold the current and former
+	 * lexical tokens.
+	 */
+	int crt_lex_token;
+	int saved_lex_token;
 
-    These variables are used by the parser to hold the current and former
-    lexical tokens.
-*/
+	#define lexi_unknown_token lex_unknown
 
-int crt_lex_token;
-int saved_lex_token;
+	/*
+	 * GET THE NEXT CHARACTER
+	 *
+	 * This routine reads the next character, either from the pending buffer
+	 * or from the input file.
+	 */
+	static int
+	lexi_getchar(struct lexi_state* state)
+	{
+		int c;
 
-#define lexi_unknown_token	lex_unknown
+		c = fgetc(state->input);
 
-/*
-    GET THE NEXT CHARACTER
+		if (c == EOF) {
+			return LEXI_EOF;
+		}
 
-    This routine reads the next character, either from the pending buffer
-    or from the input file.
-*/
+		if (c == '\n') {
+			crt_line_no++;
+		}
 
-static int
-lexi_getchar(struct lexi_state* state)
-{
-    int c;
-    c = fgetc(state->input);
-    if (c == '\n')crt_line_no++;
-    if (c == EOF) return LEXI_EOF;
-    c &= 0xff;
-    return c;
-}
+		c &= 0xff; /* XXX: why? */
+
+		return c;
+	}
 
 @} , @{
 
-/* $Id$ */
+	/* $Id$ */
 
-/*
- * Copyright 2002-2011, The TenDRA Project.
- *
- * See doc/copyright/ for the full copyright terms.
- */
+	/*
+	 * Copyright 2002-2011, The TenDRA Project.
+	 *
+	 * See doc/copyright/ for the full copyright terms.
+	 */
 
-#include <stdio.h> /*TODO This is necessary because lexi automatically prepend #include "lexer.h" to the header. Maybe we should remove this unecessary feature*/
+	#include <stdio.h> /* TODO: This is necessary because lexi automatically prepend #include "lexer.h" to the header. Maybe we should remove this unecessary feature */
 
-extern char token_buff [];
-extern char *token_end;
-extern int crt_lex_token;
-extern int saved_lex_token;
-extern unsigned int number_buffer;
-extern struct lexi_state lexer_state;
+	char token_buff[];
+	char *token_end;
+	int crt_lex_token;
+	int saved_lex_token;
+	unsigned int number_buffer;
+	struct lexi_state lexer_state;
 
-typedef FILE* FILE_P ;
+	typedef FILE *FILE_P;
 
-/*
-     PARSER MACROS
-*/
+	#define CURRENT_LXI_TERMINAL crt_lex_token
+	#define ADVANCE_LXI_LEXER    crt_lex_token = lexi_read_token(&lexer_state)
+	#define SAVE_LXI_LEXER(T)    (saved_lex_token = crt_lex_token, crt_lex_token = (T))
+	#define RESTORE_LXI_LEXER    (crt_lex_token = saved_lex_token)
 
-#define CURRENT_LXI_TERMINAL	crt_lex_token
-#define ADVANCE_LXI_LEXER		crt_lex_token = lexi_read_token(&lexer_state)
-#define SAVE_LXI_LEXER(T)       (saved_lex_token = crt_lex_token,\
-                                  crt_lex_token = (T))
-#define RESTORE_LXI_LEXER          (crt_lex_token = saved_lex_token)
 @};
 
 TRAILERS = @{
 @},@{
 @} ;
 
-ARGUMENT input:FILE_P ;
+ARGUMENT input :FILE_P;
 
 MAP TERMINAL -> int;
 
@@ -115,23 +114,24 @@ ACTION init_token_buffer = @{
 	token_current=token_buff;
 @};
 
-ACTION push_token_buffer : (c:CHARACTER) -> () = @{
-       	if(token_current==token_end-1)
+ACTION push_token_buffer: (c :CHARACTER) -> () = @{
+	if (token_current == token_end - 1) {
 		error(ERROR_FATAL, "Buffer overflow");
-	else 
-	       *token_current++ = @c;
-@};
-
-ACTION finalize_token_buffer = @{
-       	if(token_current==token_end) {
-		error(ERROR_FATAL, "Buffer overflow: trailing 0");
-	       *(token_end-1) = 0;		
 	} else {
-	       *token_current++ = 0;	
+		*token_current++ = @c;
 	}
 @};
 
-ACTION token_keyword_match : (ti:TERMINAL) -> (to:TERMINAL) = @{
+ACTION fini_token_buffer = @{
+	if (token_current == token_end) {
+		error(ERROR_FATAL, "Buffer overflow: trailing 0");
+		*(token_end-1) = 0;
+	} else {
+		*token_current++ = 0;
+	}
+@};
+
+ACTION token_keyword_match: (ti :TERMINAL) -> (to :TERMINAL) = @{
 	@to = lexi_keyword(token_buff, @ti);
 @};
 
@@ -143,12 +143,12 @@ ACTION E_newline_in_string = @{
 	error(ERROR_SERIOUS, "Unexpected newline in string");
 @};
 
-
-ACTION number_buffer_init : () -> () = @{
+ACTION number_buffer_init: () -> () = @{
 	number_buffer = 0;
 @};
 
-ACTION number_buffer_push_digit : (c:CHARACTER) -> () = @{
+ACTION number_buffer_push_digit: (c :CHARACTER) -> () = @{
 	number_buffer *= 10;
 	number_buffer += @c - '0';
 @};
+
