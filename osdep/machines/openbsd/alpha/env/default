@@ -2,5 +2,9 @@
 
 +MACHINE	"openbsd-*-alpha"
 
-+FLAG_LD		"-m elf_alpha_obsd"
+/* XXX: why not <FLAG_LD ? */
+<FLAG_LINK	"--eh-frame-hdr -e __start"
+
+/* for CRT0, set by openbsd/common/env/default */
+<FLAG_LINK	"-Bdynamic"
 
