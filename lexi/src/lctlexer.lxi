@@ -6,8 +6,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-COPYRIGHT = "../doc/copyright/COPYING.tendra-bsd3";
-
 GROUP alpha = {A-Z} + {a-z} + "_";
 GROUP alnum = {A-Z} + {a-z} + {0-9} + "_";
 

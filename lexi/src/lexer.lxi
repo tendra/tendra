@@ -13,8 +13,6 @@
  * This file describes the lexical analyser used by lexi.
  */
 
-//COPYRIGHT = "../doc/copyright/COPYING.dera-cc";
-
 ACTION <init_token_buffer>;
 ACTION <push_token_buffer>: (:CHARACTER) -> ();
 ACTION <fini_token_buffer>;
