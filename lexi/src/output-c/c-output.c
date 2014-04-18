@@ -970,6 +970,9 @@ output_macros(cmd_line_options* opt, lexer_parse_tree* top_level)
 	 */
 	fprintf(lex_output, "%s %sgroup(enum %sgroups group, int c) {\n",
 		language == C90 ? "int" : "bool", opt->lexi_prefix, opt->lexi_prefix);
+	fputs("\tif (c == LEXI_EOF) {\n", lex_output);
+	fputs("\t\treturn 0;\n", lex_output);
+	fputs("\t}\n", lex_output);
 	fputs("\treturn lookup_tab[c] & group;\n", lex_output);
 	fputs("}\n", lex_output);
 }
