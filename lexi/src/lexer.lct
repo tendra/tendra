@@ -86,7 +86,7 @@ HEADERS = @{
 
 	#include <stdio.h> /* TODO: This is necessary because lexi automatically prepend #include "lexer.h" to the header. Maybe we should remove this unecessary feature */
 
-	char *token_buff;
+	extern char token_buff[];
 	char *token_end;
 	int crt_lex_token;
 	int saved_lex_token;

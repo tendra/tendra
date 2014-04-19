@@ -64,7 +64,7 @@ HEADERS = @{
 
 	typedef FILE *FILE_P_lct;
 
-	char *lct_token_buff;
+	extern char lct_token_buff[];
 	int crt_lct_token;
 	int saved_lct_token;
 	lct_parse_tree global_lct_parse_tree;
