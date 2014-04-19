@@ -13,8 +13,8 @@
 #include <shared/xalloc.h>
 #include <shared/error.h>
 
-#include "instruction.h"
-#include "zone.h"
+#include <adt/instruction.h>
+#include <adt/zone.h>
 
 static arg*
 new_arg(void)

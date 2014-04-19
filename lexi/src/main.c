@@ -15,7 +15,7 @@
 #include <shared/error.h>
 #include <shared/getopt.h>
 
-#include "adt/tree.h"
+#include <adt/tree.h>
 
 #include "lexer.h"
 #include "lctlexer.h"

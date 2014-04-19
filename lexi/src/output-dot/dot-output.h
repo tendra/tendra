@@ -9,7 +9,7 @@
 #ifndef LEXI_DOT_OUTPUT_H
 #define LEXI_DOT_OUTPUT_H
 
-#include "adt/tree.h"
+#include <adt/tree.h>
 
 #include "options.h"
 

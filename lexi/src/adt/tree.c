@@ -12,10 +12,10 @@
 
 #include <shared/xalloc.h>
 
-#include "entry.h"
-#include "char.h"
-#include "tree.h"
-#include "zone.h"
+#include <adt/entry.h>
+#include <adt/char.h>
+#include <adt/tree.h>
+#include <adt/zone.h>
 
 struct lexer_parse_tree_tag {
 	struct zone_tag *global_zone;

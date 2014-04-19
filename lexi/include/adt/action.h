@@ -13,8 +13,8 @@
 
 #include <exds/common.h>
 
-#include "../ccode.h"
 #include "typetuple.h" /* XXX */
+#include "../src/ccode.h" /* XXX */
 
 struct arg_tag;
 struct args_list_tag;

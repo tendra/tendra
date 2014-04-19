@@ -12,10 +12,10 @@
 
 #include <shared/error.h>
 
-#include "adt/char.h"
-#include "adt/instruction.h"
-#include "adt/tree.h"
-#include "adt/zone.h"	/* XXX */
+#include <adt/char.h>
+#include <adt/instruction.h>
+#include <adt/tree.h>
+#include <adt/zone.h>	/* XXX */
 
 #include "options.h"
 #include "dot-output.h"

@@ -13,10 +13,10 @@
 #include <shared/xalloc.h>
 #include <shared/error.h>
 
-#include "char.h"
-#include "group.h"
-#include "zone.h"
-#include "tree.h"
+#include <adt/char.h>
+#include <adt/group.h>
+#include <adt/zone.h>
+#include <adt/tree.h>
 
 static void
 unescape_string(zone *z, int *o, char *s)

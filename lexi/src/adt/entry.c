@@ -11,9 +11,9 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
-#include "action.h"
-#include "entry.h"
-#include "type.h"
+#include <adt/action.h>
+#include <adt/entry.h>
+#include <adt/type.h>
 
 NStringT *
 entry_key(EntryT *entry)

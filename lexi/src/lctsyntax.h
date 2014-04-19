@@ -24,7 +24,6 @@
  #define LCT_SYNTAX_HEADER_INCLUDED
 
 #include "ccode.h"
-#include "adt.h"
 
 #include "adt/tree.h"
 
@@ -50,7 +49,7 @@ extern lexer_parse_tree* lxi_top_level;
 extern lct_parse_tree global_lct_parse_tree ;
 
 extern void init_lct_parse_tree(lct_parse_tree*);
-#line 54 "lctsyntax.h"
+#line 53 "lctsyntax.h"
 
 /* BEGINNING OF FUNCTION DECLARATIONS */
 
@@ -88,6 +87,6 @@ extern void read_lct_unit(void);
 #line 459 "lctsyntax.act"
 
 #endif
-#line 92 "lctsyntax.h"
+#line 91 "lctsyntax.h"
 
 /* END OF FILE */

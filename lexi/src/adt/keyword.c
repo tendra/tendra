@@ -13,9 +13,9 @@
 #include <shared/xalloc.h>
 #include <shared/error.h>
 
-#include "keyword.h"
-#include "zone.h"
-#include "instruction.h"
+#include <adt/keyword.h>
+#include <adt/zone.h>
+#include <adt/instruction.h>
 
 struct keyword_tag {
 	const char *name;

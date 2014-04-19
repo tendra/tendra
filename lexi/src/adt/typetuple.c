@@ -15,7 +15,7 @@
 #include <exds/common.h>
 #include <exds/dstring.h>
 
-#include "typetuple.h"
+#include <adt/typetuple.h>
 
 TypeTupleEntryT *
 typetupleentry_create(NStringT *str, struct EntryT *type, bool isref)

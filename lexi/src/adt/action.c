@@ -12,7 +12,7 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
-#include "action.h"
+#include <adt/action.h>
 
 ActionT *
 action_create(void)

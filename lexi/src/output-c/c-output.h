@@ -10,7 +10,7 @@
 #ifndef LEXI_C_OUTPUT_H
 #define LEXI_C_OUTPUT_H
 
-#include "adt/tree.h"
+#include <adt/tree.h>
 
 #include "options.h"
 

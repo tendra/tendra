@@ -64,15 +64,14 @@ TYPETUPLE -> TypeTupleT;
 #include <shared/check.h>
 #include <shared/string.h>
 
-#include "adt/action.h"
-#include "adt/entry.h"
-#include "adt/instruction.h"
-#include "adt/keyword.h"
-#include "adt/zone.h"
-#include "adt/tree.h"
-#include "adt/char.h"
+#include <adt/action.h>
+#include <adt/entry.h>
+#include <adt/instruction.h>
+#include <adt/keyword.h>
+#include <adt/zone.h>
+#include <adt/tree.h>
+#include <adt/char.h>
 
-#include "adt.h"
 #include "lexer.h"
 #include "syntax.h"
 #include "options.h"

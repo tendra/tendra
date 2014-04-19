@@ -50,14 +50,13 @@ ENTRYP -> EntryP;
 #include <exds/dstring.h>
 #include <exds/cstring.h>
 
-#include "adt/action.h"
-#include "adt/entry.h"
-#include "adt/tree.h"
+#include <adt/action.h>
+#include <adt/entry.h>
+#include <adt/tree.h>
 
 #include "lctsyntax.h"
 #include "lctlexer.h"
 #include "ccode.h"
-#include "adt.h"
 
 #define ADVANCE_LEXER ADVANCE_LCT_LEXER
 #define CURRENT_TERMINAL CURRENT_LCT_TERMINAL 
@@ -97,7 +96,6 @@ lct_parse_tree global_lct_parse_tree ;
  #define LCT_SYNTAX_HEADER_INCLUDED
 
 #include "ccode.h"
-#include "adt.h"
 
 #include "adt/tree.h"
 

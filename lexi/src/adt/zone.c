@@ -13,10 +13,10 @@
 #include <shared/xalloc.h>
 #include <shared/error.h>
 
-#include "zone.h"
-#include "char.h"
-#include "instruction.h"
-#include "tree.h"	/* XXX */
+#include <adt/zone.h>
+#include <adt/char.h>
+#include <adt/instruction.h>
+#include <adt/tree.h>	/* XXX */
 
 /*
  * FIND A ZONE

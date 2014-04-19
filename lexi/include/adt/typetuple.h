@@ -11,6 +11,9 @@
 
 #include <stdbool.h>
 
+#include <exds/common.h>
+#include <exds/dstring.h>
+
 typedef struct TypeTupleEntryT {
 	struct EntryT *type;
 	NStringT local_name; /* The type NSTringT* will probably not be the final type */

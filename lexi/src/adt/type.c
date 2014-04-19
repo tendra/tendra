@@ -14,7 +14,7 @@
 #include <exds/common.h>
 #include <exds/dstring.h>
 
-#include "type.h"
+#include <adt/type.h>
 
 TypeT *
 type_create(bool predefined)

@@ -13,7 +13,7 @@
 #include <exds/common.h>
 #include <exds/dstring.h>
 
-#include "localnames.h"
+#include <adt/localnames.h>
 
 static LocalNamesEntryT *
 localnamesentry_create(char c, LocalNamesEntryT *parent)

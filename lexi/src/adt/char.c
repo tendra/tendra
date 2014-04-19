@@ -16,12 +16,12 @@
 #include <shared/xalloc.h>
 #include <shared/error.h>
 
-#include "char.h"
+#include <adt/char.h>
 
-#include "group.h"	/* XXX */
-#include "zone.h"	/* XXX */
-#include "instruction.h"	/* XXX */
-#include "tree.h"	/* XXX */
+#include <adt/group.h>	/* XXX */
+#include <adt/zone.h>	/* XXX */
+#include <adt/instruction.h>	/* XXX */
+#include <adt/tree.h>	/* XXX */
 
 /*
  * FIND AN ESCAPE SEQUENCE
