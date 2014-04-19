@@ -17,12 +17,13 @@
 
 #include <adt/tree.h>
 
+#include <out/c.h>
+#include <out/dot.h>
+
 #include "lexer.h"
 #include "lctlexer.h"
 #include "syntax.h"
 #include "lctsyntax.h"
-#include "output-c/c-output.h"
-#include "output-dot/dot-output.h"
 #include "options.h"
 
 static struct cmd_line_options options;

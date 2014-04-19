@@ -13,7 +13,7 @@
 
 #include <shared/error.h>
 
-#include "output.h"
+#include <out/common.h>
 
 void
 output_indent(FILE *out, unsigned int depth)

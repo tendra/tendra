@@ -7,8 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef OUTPUT_H
-#define OUTPUT_H
+#ifndef LEXI_OUTPUT_COMMON_H
+#define LEXI_OUTPUT_COMMON_H
 
 #include <stdio.h>
 

@@ -5,7 +5,9 @@
 
 CCOPTS+=	-I${.CURDIR}/..
 
-SRCS+=	c-output.c
+SRCS+=	c.c
+SRCS+=	dot.c
+SRCS+=	common.c
 
 .include <tendra.obj.mk>
 

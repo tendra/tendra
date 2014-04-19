@@ -17,9 +17,10 @@
 #include <adt/tree.h>
 #include <adt/zone.h>	/* XXX */
 
+#include <out/dot.h>
+#include <out/common.h>
+
 #include "options.h"
-#include "dot-output.h"
-#include "output.h"
 
 /* This is a convenience for brevity */
 #define dotout opt->outputfile[0].file

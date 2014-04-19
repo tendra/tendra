@@ -36,11 +36,12 @@
 #include <adt/localnames.h>
 #include <adt/nametrans.h>
 
+#include <out/c.h>
+#include <out/common.h>
+
 #include "lexer.h"
 #include "lctsyntax.h"
-#include "c-output.h"
 #include "options.h"
-#include "output.h"
 
 static int output_instructions(struct zone *parent, struct instructions_list *ret, unsigned int n, unsigned int d);
 static void output_pass(struct zone* z, struct character *p, int in_pre_pass, unsigned int n, unsigned int d);

@@ -5,8 +5,7 @@
 
 PARTS+=	src/shared
 PARTS+=	src/exds
-PARTS+=	src/output-c
-PARTS+=	src/output-dot
+PARTS+=	src/out
 PARTS+=	src/adt
 
 .include <tendra.partial.mk>
@@ -18,7 +17,6 @@ SRCS+=	syntax.c
 SRCS+=	lexer.c
 SRCS+=	main.c
 SRCS+=	options.c
-SRCS+=	output.c
 SRCS+=	lctlexer.c
 SRCS+=	lctsyntax.c
 SRCS+=	ccode.c
