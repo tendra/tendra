@@ -69,9 +69,9 @@ ZONE code: "@{" -> $code-start ... "@}" -> $code-end {
 	TOKEN "\e" -> $code-eof;
 }
 
-KEYWORD "HEADERS"  -> $header-kw;
-KEYWORD "TRAILERS" -> $trailer-kw;
-KEYWORD "MAP"      -> $map-kw;
-KEYWORD "ACTION"   -> $action-kw;
-KEYWORD "ARGUMENT" -> $argument-kw;
+KEYWORD "HEADERS"  -> $kw-header;
+KEYWORD "TRAILERS" -> $kw-trailer;
+KEYWORD "MAP"      -> $kw-map;
+KEYWORD "ACTION"   -> $kw-action;
+KEYWORD "ARGUMENT" -> $kw-argument;
 

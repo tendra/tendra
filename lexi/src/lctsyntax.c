@@ -12,7 +12,7 @@
 #line 80 "lctsyntax.act"
 
 
-	/* $Id: lctsyntax.act 3030 2014-04-19 16:25:48Z kate $ */
+	/* $Id: lctsyntax.act 3031 2014-04-19 20:40:33Z kate $ */
 
 	/*
 	 * Copyright 2011, The TenDRA Project.
@@ -111,7 +111,7 @@ ZRaction_Hdefinition_C_Ctype_Htuple_C_Ctype_Hname(typetuple *ZIa)
 		/* BEGINNING OF INLINE: 93 */
 		{
 			switch (CURRENT_TERMINAL) {
-			case 19:
+			case 14:
 				{
 					/* BEGINNING OF EXTRACT: ident */
 					{
@@ -142,14 +142,14 @@ ZRaction_Hdefinition_C_Ctype_Htuple_C_Ctype_Hname(typetuple *ZIa)
 		}
 		/* END OF INLINE: 93 */
 		switch (CURRENT_TERMINAL) {
-		case 5:
+		case 0:
 			break;
 		default:
 			goto ZL1;
 		}
 		ADVANCE_LEXER;
 		switch (CURRENT_TERMINAL) {
-		case 19:
+		case 14:
 			/* BEGINNING OF EXTRACT: ident */
 			{
 #line 156 "lctsyntax.act"
@@ -167,7 +167,7 @@ ZRaction_Hdefinition_C_Ctype_Htuple_C_Ctype_Hname(typetuple *ZIa)
 		/* BEGINNING OF INLINE: 96 */
 		{
 			switch (CURRENT_TERMINAL) {
-			case 7:
+			case 2:
 				{
 					ADVANCE_LEXER;
 					/* BEGINNING OF ACTION: true */
@@ -231,7 +231,7 @@ ZRaction_Hdefinition_C_Cfunction_Htype_Hdefn(typetuple *ZOin, typetuple *ZOout)
 	typetuple ZIout;
 
 	switch (CURRENT_TERMINAL) {
-	case 5:
+	case 0:
 		{
 			ADVANCE_LEXER;
 			ZRaction_Hdefinition_C_Ctype_Htuple (&ZIin);
@@ -281,7 +281,7 @@ static void
 ZRcode_Hblock_C_Ccode_Helement(ccode *ZIc, EntryP ZIe)
 {
 	switch (CURRENT_TERMINAL) {
-	case 16:
+	case 11:
 		{
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: append-ccode-at */
@@ -295,7 +295,7 @@ ZRcode_Hblock_C_Ccode_Helement(ccode *ZIc, EntryP ZIe)
 			/* END OF ACTION: append-ccode-at */
 		}
 		break;
-	case 20:
+	case 15:
 		{
 			NStringT ZIi;
 			bool ZIb;
@@ -356,7 +356,7 @@ ZRcode_Hblock_C_Ccode_Helement(ccode *ZIc, EntryP ZIe)
 			/* END OF ACTION: append-ccode-ident */
 		}
 		break;
-	case 21:
+	case 16:
 		{
 			NStringT ZIi;
 			bool ZIb;
@@ -417,7 +417,7 @@ ZRcode_Hblock_C_Ccode_Helement(ccode *ZIc, EntryP ZIe)
 			/* END OF ACTION: append-ccode-ident */
 		}
 		break;
-	case 22:
+	case 17:
 		{
 			NStringT ZIs;
 
@@ -442,7 +442,7 @@ ZRcode_Hblock_C_Ccode_Helement(ccode *ZIc, EntryP ZIe)
 			/* END OF ACTION: append-ccode-string */
 		}
 		break;
-	case 15:
+	case 10:
 		{
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: E_lone_at_in_code_block */
@@ -478,14 +478,14 @@ ZRmap_Hstmnt(void)
 		NStringT ZIctype;
 
 		switch (CURRENT_TERMINAL) {
-		case 2:
+		case 21:
 			break;
 		default:
 			goto ZL1;
 		}
 		ADVANCE_LEXER;
 		switch (CURRENT_TERMINAL) {
-		case 19:
+		case 14:
 			/* BEGINNING OF EXTRACT: ident */
 			{
 #line 156 "lctsyntax.act"
@@ -502,7 +502,7 @@ ZRmap_Hstmnt(void)
 		ADVANCE_LEXER;
 		ZR104 ();
 		switch (CURRENT_TERMINAL) {
-		case 19:
+		case 14:
 			/* BEGINNING OF EXTRACT: ident */
 			{
 #line 156 "lctsyntax.act"
@@ -563,7 +563,7 @@ read_lct_unit(void)
 	{
 		ZRstatement_Hlist ();
 		switch (CURRENT_TERMINAL) {
-		case 18:
+		case 13:
 			break;
 		case 24:
 			RESTORE_LEXER;
@@ -600,7 +600,7 @@ ZL2_action_Hdefinition_C_Ctype_Htuple_C_Ctype_Htuple1:;
 		/* BEGINNING OF INLINE: 121 */
 		{
 			switch (CURRENT_TERMINAL) {
-			case 10:
+			case 5:
 				{
 					ADVANCE_LEXER;
 					/* BEGINNING OF INLINE: action-definition::type-tuple::type-tuple1 */
@@ -628,8 +628,8 @@ ZRstatement_Hlist(void)
 {
 ZL2_statement_Hlist:;
 	switch (CURRENT_TERMINAL) {
-	case 0: case 1: case 2: case 3:
-	case 4:
+	case 19: case 20: case 21: case 22:
+	case 23:
 		{
 			ZRstatement ();
 			/* BEGINNING OF INLINE: statement-list */
@@ -658,8 +658,8 @@ ZRcode_Hblock_C_Ccode_Hbody(ccode *ZIc, EntryP ZIe)
 {
 ZL2_code_Hblock_C_Ccode_Hbody:;
 	switch (CURRENT_TERMINAL) {
-	case 15: case 16: case 20: case 21:
-	case 22:
+	case 10: case 11: case 15: case 16:
+	case 17:
 		{
 			ZRcode_Hblock_C_Ccode_Helement (ZIc, ZIe);
 			/* BEGINNING OF INLINE: code-block::code-body */
@@ -691,7 +691,7 @@ ZR80(void)
 	}
 	{
 		switch (CURRENT_TERMINAL) {
-		case 10:
+		case 5:
 			break;
 		default:
 			goto ZL1;
@@ -724,7 +724,7 @@ ZRargument_Hstmnt(void)
 		NStringT ZIctype;
 
 		switch (CURRENT_TERMINAL) {
-		case 4:
+		case 23:
 			break;
 		default:
 			goto ZL1;
@@ -739,7 +739,7 @@ ZRargument_Hstmnt(void)
 			}
 			{
 				switch (CURRENT_TERMINAL) {
-				case 5:
+				case 0:
 					break;
 				default:
 					goto ZL3;
@@ -812,7 +812,7 @@ ZRheader_Hstmnt(void)
 		ccode ZIsh;
 
 		switch (CURRENT_TERMINAL) {
-		case 0:
+		case 19:
 			break;
 		default:
 			goto ZL1;
@@ -881,7 +881,7 @@ ZRcode_Hblock(EntryP ZIe, ccode *ZOc)
 		{
 			{
 				switch (CURRENT_TERMINAL) {
-				case 13:
+				case 8:
 					break;
 				default:
 					goto ZL3;
@@ -917,7 +917,7 @@ ZRcode_Hblock(EntryP ZIe, ccode *ZOc)
 		/* BEGINNING OF INLINE: 70 */
 		{
 			switch (CURRENT_TERMINAL) {
-			case 17:
+			case 12:
 				{
 					ADVANCE_LEXER;
 					/* BEGINNING OF ACTION: E_unexpected_eof */
@@ -943,7 +943,7 @@ ZRcode_Hblock(EntryP ZIe, ccode *ZOc)
 		{
 			{
 				switch (CURRENT_TERMINAL) {
-				case 14:
+				case 9:
 					break;
 				default:
 					goto ZL6;
@@ -979,7 +979,7 @@ static void
 ZRstatement(void)
 {
 	switch (CURRENT_TERMINAL) {
-	case 3:
+	case 22:
 		{
 			ZRaction_Hdefinition ();
 			if ((CURRENT_TERMINAL) == 24) {
@@ -988,7 +988,7 @@ ZRstatement(void)
 			}
 		}
 		break;
-	case 4:
+	case 23:
 		{
 			ZRargument_Hstmnt ();
 			if ((CURRENT_TERMINAL) == 24) {
@@ -997,7 +997,7 @@ ZRstatement(void)
 			}
 		}
 		break;
-	case 0:
+	case 19:
 		{
 			ZRheader_Hstmnt ();
 			if ((CURRENT_TERMINAL) == 24) {
@@ -1006,7 +1006,7 @@ ZRstatement(void)
 			}
 		}
 		break;
-	case 2:
+	case 21:
 		{
 			ZRmap_Hstmnt ();
 			if ((CURRENT_TERMINAL) == 24) {
@@ -1015,7 +1015,7 @@ ZRstatement(void)
 			}
 		}
 		break;
-	case 1:
+	case 20:
 		{
 			ZRtrailer_Hstmnt ();
 			if ((CURRENT_TERMINAL) == 24) {
@@ -1047,7 +1047,7 @@ ZRtrailer_Hstmnt(void)
 		ccode ZIsh;
 
 		switch (CURRENT_TERMINAL) {
-		case 1:
+		case 20:
 			break;
 		default:
 			goto ZL1;
@@ -1117,7 +1117,7 @@ ZRaction_Hdefinition(void)
 		ccode ZIc;
 
 		switch (CURRENT_TERMINAL) {
-		case 3:
+		case 22:
 			break;
 		default:
 			goto ZL1;
@@ -1247,7 +1247,7 @@ ZR104(void)
 	}
 	{
 		switch (CURRENT_TERMINAL) {
-		case 6:
+		case 1:
 			break;
 		default:
 			goto ZL1;
@@ -1277,7 +1277,7 @@ ZR106(void)
 	}
 	{
 		switch (CURRENT_TERMINAL) {
-		case 8:
+		case 3:
 			break;
 		default:
 			goto ZL1;
@@ -1310,7 +1310,7 @@ ZR113(NStringT *ZOctype)
 	}
 	{
 		switch (CURRENT_TERMINAL) {
-		case 19:
+		case 14:
 			/* BEGINNING OF EXTRACT: ident */
 			{
 #line 156 "lctsyntax.act"
@@ -1367,7 +1367,7 @@ ZR114(void)
 	}
 	{
 		switch (CURRENT_TERMINAL) {
-		case 9:
+		case 4:
 			break;
 		default:
 			goto ZL1;
@@ -1399,7 +1399,7 @@ ZRaction_Hdefinition_C_Ctype_Htuple(typetuple *ZOa)
 	}
 	{
 		switch (CURRENT_TERMINAL) {
-		case 11:
+		case 6:
 			break;
 		default:
 			goto ZL1;
@@ -1432,16 +1432,16 @@ static void
 ZR120(typetuple *ZIa)
 {
 	switch (CURRENT_TERMINAL) {
-	case 12:
+	case 7:
 		{
 			ADVANCE_LEXER;
 		}
 		break;
-	case 5: case 19:
+	case 0: case 14:
 		{
 			ZRaction_Hdefinition_C_Ctype_Htuple_C_Ctype_Htuple1 (ZIa);
 			switch (CURRENT_TERMINAL) {
-			case 12:
+			case 7:
 				break;
 			case 24:
 				RESTORE_LEXER;

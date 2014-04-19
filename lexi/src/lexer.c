@@ -134,14 +134,14 @@ bool lexi_group(enum lexi_groups group, int c) {
 
 #include <string.h>
 int lexi_keyword(const char *identifier, int notfound) {
-	if (0 == strcmp(identifier, "ACTION")) return lex_action_Hkw;
+	if (0 == strcmp(identifier, "ACTION")) return lex_kw_Haction;
 	if (0 == strcmp(identifier, "DEFAULT")) return lex_default;
-	if (0 == strcmp(identifier, "GROUP")) return lex_group;
-	if (0 == strcmp(identifier, "KEYWORD")) return lex_keyword;
-	if (0 == strcmp(identifier, "MAPPING")) return lex_mapping;
-	if (0 == strcmp(identifier, "TOKEN")) return lex_token;
-	if (0 == strcmp(identifier, "TYPE")) return lex_type_Hkw;
-	if (0 == strcmp(identifier, "ZONE")) return lex_zone;
+	if (0 == strcmp(identifier, "GROUP")) return lex_kw_Hgroup;
+	if (0 == strcmp(identifier, "KEYWORD")) return lex_kw_Hkeyword;
+	if (0 == strcmp(identifier, "MAPPING")) return lex_kw_Hmapping;
+	if (0 == strcmp(identifier, "TOKEN")) return lex_kw_Htoken;
+	if (0 == strcmp(identifier, "TYPE")) return lex_kw_Htype;
+	if (0 == strcmp(identifier, "ZONE")) return lex_kw_Hzone;
 	if (0 == strcmp(identifier, "white")) return lex_white;
 	return notfound;
 }

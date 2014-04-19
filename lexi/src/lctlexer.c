@@ -114,11 +114,11 @@ bool lexi_lct_group(enum lexi_lct_groups group, int c) {
 
 #include <string.h>
 int lexi_lct_keyword(const char *identifier, int notfound) {
-	if (0 == strcmp(identifier, "ACTION")) return lct_lex_action_Hkw;
-	if (0 == strcmp(identifier, "ARGUMENT")) return lct_lex_argument_Hkw;
-	if (0 == strcmp(identifier, "HEADERS")) return lct_lex_header_Hkw;
-	if (0 == strcmp(identifier, "MAP")) return lct_lex_map_Hkw;
-	if (0 == strcmp(identifier, "TRAILERS")) return lct_lex_trailer_Hkw;
+	if (0 == strcmp(identifier, "ACTION")) return lct_lex_kw_Haction;
+	if (0 == strcmp(identifier, "ARGUMENT")) return lct_lex_kw_Hargument;
+	if (0 == strcmp(identifier, "HEADERS")) return lct_lex_kw_Hheader;
+	if (0 == strcmp(identifier, "MAP")) return lct_lex_kw_Hmap;
+	if (0 == strcmp(identifier, "TRAILERS")) return lct_lex_kw_Htrailer;
 	return notfound;
 }
 /* PRE-PASS ANALYSERS */

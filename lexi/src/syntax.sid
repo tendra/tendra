@@ -32,14 +32,6 @@
 	lower: () -> (:STRING);
 	digit: () -> (:STRING);
 
-	group;
-	keyword;
-	mapping;
-	token;
-	white;
-	default;
-	zone;
-
 	open;
 	close;
 	open-brace;
@@ -65,11 +57,19 @@
 	arg-return:     () -> (:ARG);
 	arg-ignore: () -> (:ARG);
 
-	action-kw;
 	begin-action; // <
 	end-action;   // >
 
-	type-kw;
+	kw-type;
+	kw-group;
+	kw-action;
+	kw-keyword;
+	kw-mapping;
+	kw-token;
+	kw-zone;
+
+	default;
+	white;
 
 %productions%
 
@@ -167,7 +167,7 @@
 	};
 
 	white-defn : (z :ZONE) -> () = {
-		group;
+		kw-group;
 		white;
 		{
 			equal;
@@ -178,7 +178,7 @@
 	};
 
 	group-defn: (z :ZONE) -> () = {
-		group;
+		kw-group;
 		i = ident;
 		{
 			equal;
@@ -190,7 +190,7 @@
 	};
 
 	trigraph-defn: (z :ZONE) -> () = {
-		mapping;
+		kw-mapping;
 		s = string-plus;
 		{
 			arrow;
@@ -202,7 +202,7 @@
 	};
 
 	type-defn: (z :ZONE) -> () = {
-		type-kw;
+		kw-type;
 		s = ident;
 		{
 			? = <is-global-zone>(z);
@@ -248,7 +248,7 @@
 	};
 
 	action-decl: (z :ZONE) -> () = {
-		action-kw;
+		kw-action;
 
 		{
 			begin-action;
@@ -411,7 +411,7 @@
 	};
 
 	token-defn: (z :ZONE) -> () = {
-		token;
+		kw-token;
 		s = non-empty-chars;
 		arrow;
 		l = cmd-list(z);
@@ -420,7 +420,7 @@
 	};
 
 	default-defn: (z :ZONE ) -> () = {
-		token;
+		kw-token;
 		default;
 		arrow;
 		l = cmd-list(z);
@@ -428,7 +428,7 @@
 	};
 
 	keyword-defn: (z :ZONE) -> () = {
-		keyword;
+		kw-keyword;
 		s = string;
 		arrow;
 		c = cmd(z);
@@ -452,7 +452,7 @@
 	};
 
 	zone-defn: (z :ZONE) -> ()  = {
-		zone;
+		kw-zone;
 
 		{
 			zid = ident;

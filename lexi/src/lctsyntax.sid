@@ -17,12 +17,6 @@
 
 %terminals%
 
-	header-kw;
-	trailer-kw;
-	map-kw;
-	action-kw;
-	argument-kw;
-
 	colon;     // :
 	arrow;     // ->
 	ref;       // &
@@ -44,6 +38,12 @@
 	code-ref:    () -> (:IDENT);
 	code-string: () -> (:BIGSTRING);
 	!unknown;
+
+	kw-header;
+	kw-trailer;
+	kw-map;
+	kw-action;
+	kw-argument;
 
 %productions%
 
@@ -136,7 +136,7 @@
 	};
 
 	header-stmnt: () -> () = {
-		header-kw;
+		kw-header;
 		{
 			define;
 		##
@@ -163,7 +163,7 @@
 	};
 
 	trailer-stmnt: () -> () = {
-		trailer-kw;
+		kw-trailer;
 		{
 			define;
 		##
@@ -190,7 +190,7 @@
 	};
 
 	map-stmnt: () -> () = {
-		map-kw;
+		kw-map;
 		lexitype = ident;
 		{
 			arrow;
@@ -266,7 +266,7 @@
 		};
 	] = {
 
-		action-kw;
+		kw-action;
 		{
 			n = ident;
 		##
@@ -295,7 +295,7 @@
 	};
 
 	argument-stmnt: () -> () = {
-		argument-kw;
+		kw-argument;
 		{
 			name = ident;
 		##

@@ -101,13 +101,14 @@ ZONE sidident:
 	TOKEN DEFAULT -> <push_tokbuf>(#0);
 }
 
-KEYWORD "TYPE"    -> $type-kw;
-KEYWORD "GROUP"   -> $group;
-KEYWORD "ACTION"  -> $action-kw;
-KEYWORD "KEYWORD" -> $keyword;
-KEYWORD "ZONE"    -> $zone;
+KEYWORD "TYPE"    -> $kw-type;
+KEYWORD "GROUP"   -> $kw-group;
+KEYWORD "ACTION"  -> $kw-action;
+KEYWORD "KEYWORD" -> $kw-keyword;
+KEYWORD "ZONE"    -> $kw-zone;
+KEYWORD "MAPPING" -> $kw-mapping;
+KEYWORD "TOKEN"   -> $kw-token;
+
 KEYWORD "DEFAULT" -> $default;
-KEYWORD "MAPPING" -> $mapping;
-KEYWORD "TOKEN"   -> $token;
 KEYWORD "white"   -> $white;
 

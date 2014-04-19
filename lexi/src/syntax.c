@@ -129,7 +129,7 @@ ZRexpected__semicolon(void)
 	}
 	{
 		switch (CURRENT_TERMINAL) {
-		case 21:
+		case 14:
 			break;
 		default:
 			goto ZL1;
@@ -167,7 +167,7 @@ ZRzone_Hdefn(zoneP ZIz)
 		zoneP ZInew_Hzone;
 
 		switch (CURRENT_TERMINAL) {
-		case 12:
+		case 36:
 			break;
 		default:
 			goto ZL1;
@@ -214,7 +214,7 @@ ZRzone_Hdefn(zoneP ZIz)
 		{
 			{
 				switch (CURRENT_TERMINAL) {
-				case 22:
+				case 15:
 					break;
 				default:
 					goto ZL5;
@@ -242,7 +242,7 @@ ZRzone_Hdefn(zoneP ZIz)
 		/* BEGINNING OF INLINE: 178 */
 		{
 			switch (CURRENT_TERMINAL) {
-			case 24:
+			case 17:
 				{
 					ADVANCE_LEXER;
 					/* BEGINNING OF ACTION: true */
@@ -254,7 +254,7 @@ ZRzone_Hdefn(zoneP ZIz)
 					/* END OF ACTION: true */
 				}
 				break;
-			case 25:
+			case 18:
 				{
 					ADVANCE_LEXER;
 					/* BEGINNING OF ACTION: true */
@@ -266,7 +266,7 @@ ZRzone_Hdefn(zoneP ZIz)
 					/* END OF ACTION: true */
 				}
 				break;
-			case 26:
+			case 19:
 				{
 					ADVANCE_LEXER;
 					/* BEGINNING OF ACTION: false */
@@ -343,7 +343,7 @@ ZRzone_Hdefn(zoneP ZIz)
 		}
 		/* END OF ACTION: make-zone */
 		switch (CURRENT_TERMINAL) {
-		case 15:
+		case 8:
 			break;
 		default:
 			goto ZL1;
@@ -351,7 +351,7 @@ ZRzone_Hdefn(zoneP ZIz)
 		ADVANCE_LEXER;
 		ZRcommand_Hlist (ZInew_Hzone);
 		switch (CURRENT_TERMINAL) {
-		case 16:
+		case 9:
 			break;
 		case 39:
 			RESTORE_LEXER;
@@ -392,7 +392,7 @@ ZR141(void)
 	}
 	{
 		switch (CURRENT_TERMINAL) {
-		case 13:
+		case 6:
 			break;
 		default:
 			goto ZL1;
@@ -422,7 +422,7 @@ ZR142(void)
 	}
 	{
 		switch (CURRENT_TERMINAL) {
-		case 14:
+		case 7:
 			break;
 		default:
 			goto ZL1;
@@ -516,7 +516,7 @@ ZRstring_Hplus(SID_STRING *ZOs)
 		/* BEGINNING OF INLINE: 106 */
 		{
 			switch (CURRENT_TERMINAL) {
-			case 20:
+			case 13:
 				{
 					SID_STRING ZIb;
 
@@ -564,7 +564,7 @@ ZRtype_Hdefn(zoneP ZIz)
 		SID_STRING ZIs;
 
 		switch (CURRENT_TERMINAL) {
-		case 38:
+		case 30:
 			break;
 		default:
 			goto ZL1;
@@ -664,7 +664,7 @@ ZL2_action_Hcall_C_Clhs_Htuple1:;
 		/* BEGINNING OF INLINE: 214 */
 		{
 			switch (CURRENT_TERMINAL) {
-			case 27:
+			case 20:
 				{
 					ADVANCE_LEXER;
 					/* BEGINNING OF INLINE: action-call::lhs-tuple1 */
@@ -758,7 +758,7 @@ ZR162(args_listP *ZOr)
 	args_listP ZIr;
 
 	switch (CURRENT_TERMINAL) {
-	case 13:
+	case 6:
 		{
 			ZRaction_Hcall_C_Crhs_Htuple (&ZIr);
 			if ((CURRENT_TERMINAL) == 39) {
@@ -1095,7 +1095,7 @@ ZRtype_Htuple_C_Ctype_Hname(zoneP ZIz, typetuple *ZIa)
 		}
 		/* END OF INLINE: 125 */
 		switch (CURRENT_TERMINAL) {
-		case 22:
+		case 15:
 			break;
 		default:
 			goto ZL1;
@@ -1120,7 +1120,7 @@ ZRtype_Htuple_C_Ctype_Hname(zoneP ZIz, typetuple *ZIa)
 		/* BEGINNING OF INLINE: 128 */
 		{
 			switch (CURRENT_TERMINAL) {
-			case 23:
+			case 16:
 				{
 					ADVANCE_LEXER;
 					/* BEGINNING OF ACTION: true */
@@ -1222,7 +1222,7 @@ ZRtrigraph_Hdefn(zoneP ZIz)
 		SID_STRING ZIt;
 
 		switch (CURRENT_TERMINAL) {
-		case 8:
+		case 34:
 			break;
 		default:
 			goto ZL1;
@@ -1295,7 +1295,7 @@ ZR182(zoneP *ZIz, cmd_listP *ZOexit_Hcmds)
 	cmd_listP ZIexit_Hcmds;
 
 	switch (CURRENT_TERMINAL) {
-	case 17:
+	case 10:
 		{
 			ADVANCE_LEXER;
 			ZRcmd_Hlist (*ZIz, &ZIexit_Hcmds);
@@ -1345,7 +1345,7 @@ read_lex(zoneP ZIz)
 			}
 			{
 				switch (CURRENT_TERMINAL) {
-				case 18:
+				case 11:
 					break;
 				default:
 					goto ZL3;
@@ -1387,7 +1387,7 @@ ZRaction_Hdecl(zoneP ZIz)
 		typetuple ZIot;
 
 		switch (CURRENT_TERMINAL) {
-		case 35:
+		case 32:
 			break;
 		default:
 			goto ZL1;
@@ -1397,7 +1397,7 @@ ZRaction_Hdecl(zoneP ZIz)
 		{
 			{
 				switch (CURRENT_TERMINAL) {
-				case 36:
+				case 28:
 					break;
 				default:
 					goto ZL3;
@@ -1440,7 +1440,7 @@ ZRaction_Hdecl(zoneP ZIz)
 		{
 			{
 				switch (CURRENT_TERMINAL) {
-				case 37:
+				case 29:
 					break;
 				default:
 					goto ZL5;
@@ -1466,7 +1466,7 @@ ZRaction_Hdecl(zoneP ZIz)
 		/* BEGINNING OF INLINE: 135 */
 		{
 			switch (CURRENT_TERMINAL) {
-			case 22:
+			case 15:
 				{
 					ADVANCE_LEXER;
 					ZR141 ();
@@ -1550,7 +1550,7 @@ ZR204(zoneP ZI198, cmd_listP ZI201, zoneP *ZO202, cmd_listP *ZO203)
 
 ZL2_204:;
 	switch (CURRENT_TERMINAL) {
-	case 27:
+	case 20:
 		{
 			cmd_listP ZIl;
 			cmdP ZIc;
@@ -1845,7 +1845,7 @@ ZR206(zoneP *ZIz)
 			}
 		}
 		break;
-	case 10:
+	case 38:
 		{
 			SID_STRING ZIs;
 
@@ -1890,13 +1890,13 @@ static void
 ZR207(zoneP *ZIz)
 {
 	switch (CURRENT_TERMINAL) {
-	case 11:
+	case 37:
 		{
 			cmd_listP ZIl;
 
 			ADVANCE_LEXER;
 			switch (CURRENT_TERMINAL) {
-			case 17:
+			case 10:
 				break;
 			default:
 				goto ZL1;
@@ -1932,7 +1932,7 @@ ZR207(zoneP *ZIz)
 
 			ZRnon_Hempty_Hchars (&ZIs);
 			switch (CURRENT_TERMINAL) {
-			case 17:
+			case 10:
 				break;
 			case 39:
 				RESTORE_LEXER;
@@ -1992,7 +1992,7 @@ ZR208(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 	cmdP ZIc;
 
 	switch (CURRENT_TERMINAL) {
-	case 31:
+	case 24:
 		{
 			argP ZIb;
 			argP ZIa;
@@ -2040,14 +2040,14 @@ ZR208(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 			}
 			/* END OF ACTION: append-arg-args-list */
 			switch (CURRENT_TERMINAL) {
-			case 19:
+			case 12:
 				break;
 			default:
 				goto ZL1;
 			}
 			ADVANCE_LEXER;
 			switch (CURRENT_TERMINAL) {
-			case 36:
+			case 28:
 				break;
 			default:
 				goto ZL1;
@@ -2080,7 +2080,7 @@ ZR208(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 			}
 			/* END OF ACTION: check-args-list */
 			switch (CURRENT_TERMINAL) {
-			case 37:
+			case 29:
 				break;
 			default:
 				goto ZL1;
@@ -2132,7 +2132,7 @@ ZR208(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 			/* END OF ACTION: make-action-cmd */
 		}
 		break;
-	case 30:
+	case 23:
 		{
 			argP ZIb;
 			argP ZIa;
@@ -2180,14 +2180,14 @@ ZR208(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 			}
 			/* END OF ACTION: append-arg-args-list */
 			switch (CURRENT_TERMINAL) {
-			case 19:
+			case 12:
 				break;
 			default:
 				goto ZL1;
 			}
 			ADVANCE_LEXER;
 			switch (CURRENT_TERMINAL) {
-			case 36:
+			case 28:
 				break;
 			default:
 				goto ZL1;
@@ -2220,7 +2220,7 @@ ZR208(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 			}
 			/* END OF ACTION: check-args-list */
 			switch (CURRENT_TERMINAL) {
-			case 37:
+			case 29:
 				break;
 			default:
 				goto ZL1;
@@ -2272,7 +2272,7 @@ ZR208(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 			/* END OF ACTION: make-action-cmd */
 		}
 		break;
-	case 34:
+	case 27:
 		{
 			argP ZIa;
 			SID_STRING ZIi;
@@ -2301,14 +2301,14 @@ ZR208(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 			}
 			/* END OF ACTION: append-arg-args-list */
 			switch (CURRENT_TERMINAL) {
-			case 19:
+			case 12:
 				break;
 			default:
 				goto ZL1;
 			}
 			ADVANCE_LEXER;
 			switch (CURRENT_TERMINAL) {
-			case 36:
+			case 28:
 				break;
 			default:
 				goto ZL1;
@@ -2341,7 +2341,7 @@ ZR208(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 			}
 			/* END OF ACTION: check-args-list */
 			switch (CURRENT_TERMINAL) {
-			case 37:
+			case 29:
 				break;
 			default:
 				goto ZL1;
@@ -2393,7 +2393,7 @@ ZR208(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 			/* END OF ACTION: make-action-cmd */
 		}
 		break;
-	case 32:
+	case 25:
 		{
 			argP ZIb;
 			argP ZIa;
@@ -2441,14 +2441,14 @@ ZR208(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 			}
 			/* END OF ACTION: append-arg-args-list */
 			switch (CURRENT_TERMINAL) {
-			case 19:
+			case 12:
 				break;
 			default:
 				goto ZL1;
 			}
 			ADVANCE_LEXER;
 			switch (CURRENT_TERMINAL) {
-			case 36:
+			case 28:
 				break;
 			default:
 				goto ZL1;
@@ -2481,7 +2481,7 @@ ZR208(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 			}
 			/* END OF ACTION: check-args-list */
 			switch (CURRENT_TERMINAL) {
-			case 37:
+			case 29:
 				break;
 			default:
 				goto ZL1;
@@ -2533,7 +2533,7 @@ ZR208(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 			/* END OF ACTION: make-action-cmd */
 		}
 		break;
-	case 33:
+	case 26:
 		{
 			argP ZIa;
 			SID_STRING ZIi;
@@ -2562,14 +2562,14 @@ ZR208(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 			}
 			/* END OF ACTION: append-arg-args-list */
 			switch (CURRENT_TERMINAL) {
-			case 19:
+			case 12:
 				break;
 			default:
 				goto ZL1;
 			}
 			ADVANCE_LEXER;
 			switch (CURRENT_TERMINAL) {
-			case 36:
+			case 28:
 				break;
 			default:
 				goto ZL1;
@@ -2602,7 +2602,7 @@ ZR208(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 			}
 			/* END OF ACTION: check-args-list */
 			switch (CURRENT_TERMINAL) {
-			case 37:
+			case 29:
 				break;
 			default:
 				goto ZL1;
@@ -2654,7 +2654,7 @@ ZR208(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 			/* END OF ACTION: make-action-cmd */
 		}
 		break;
-	case 36:
+	case 28:
 		{
 			SID_STRING ZIi;
 			args_listP ZIr;
@@ -2687,7 +2687,7 @@ ZR208(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 			}
 			/* END OF ACTION: check-args-list */
 			switch (CURRENT_TERMINAL) {
-			case 37:
+			case 29:
 				break;
 			default:
 				goto ZL1;
@@ -2778,14 +2778,14 @@ ZR208(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 			}
 			/* END OF ACTION: append-arg-args-list */
 			switch (CURRENT_TERMINAL) {
-			case 19:
+			case 12:
 				break;
 			default:
 				goto ZL1;
 			}
 			ADVANCE_LEXER;
 			switch (CURRENT_TERMINAL) {
-			case 36:
+			case 28:
 				break;
 			default:
 				goto ZL1;
@@ -2818,7 +2818,7 @@ ZR208(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 			}
 			/* END OF ACTION: check-args-list */
 			switch (CURRENT_TERMINAL) {
-			case 37:
+			case 29:
 				break;
 			default:
 				goto ZL1;
@@ -2870,7 +2870,7 @@ ZR208(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 			/* END OF ACTION: make-action-cmd */
 		}
 		break;
-	case 28:
+	case 21:
 		{
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: make-donothing-cmd */
@@ -2884,7 +2884,7 @@ ZR208(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 			/* END OF ACTION: make-donothing-cmd */
 		}
 		break;
-	case 13:
+	case 6:
 		{
 			SID_STRING ZIi;
 			args_listP ZIr;
@@ -2892,7 +2892,7 @@ ZR208(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 			ADVANCE_LEXER;
 			ZRaction_Hcall_C_Clhs_Htuple1 (*ZIl);
 			switch (CURRENT_TERMINAL) {
-			case 14:
+			case 7:
 				break;
 			case 39:
 				RESTORE_LEXER;
@@ -2902,14 +2902,14 @@ ZR208(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 			}
 			ADVANCE_LEXER;
 			switch (CURRENT_TERMINAL) {
-			case 19:
+			case 12:
 				break;
 			default:
 				goto ZL1;
 			}
 			ADVANCE_LEXER;
 			switch (CURRENT_TERMINAL) {
-			case 36:
+			case 28:
 				break;
 			default:
 				goto ZL1;
@@ -2942,7 +2942,7 @@ ZR208(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 			}
 			/* END OF ACTION: check-args-list */
 			switch (CURRENT_TERMINAL) {
-			case 37:
+			case 29:
 				break;
 			default:
 				goto ZL1;
@@ -2994,7 +2994,7 @@ ZR208(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 			/* END OF ACTION: make-action-cmd */
 		}
 		break;
-	case 23:
+	case 16:
 		{
 			SID_STRING ZI210;
 			argP ZIa;
@@ -3040,14 +3040,14 @@ ZR208(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 			}
 			/* END OF ACTION: append-arg-args-list */
 			switch (CURRENT_TERMINAL) {
-			case 19:
+			case 12:
 				break;
 			default:
 				goto ZL1;
 			}
 			ADVANCE_LEXER;
 			switch (CURRENT_TERMINAL) {
-			case 36:
+			case 28:
 				break;
 			default:
 				goto ZL1;
@@ -3080,7 +3080,7 @@ ZR208(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 			}
 			/* END OF ACTION: check-args-list */
 			switch (CURRENT_TERMINAL) {
-			case 37:
+			case 29:
 				break;
 			default:
 				goto ZL1;
@@ -3222,14 +3222,14 @@ ZR208(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 			}
 			/* END OF ACTION: append-arg-args-list */
 			switch (CURRENT_TERMINAL) {
-			case 19:
+			case 12:
 				break;
 			default:
 				goto ZL1;
 			}
 			ADVANCE_LEXER;
 			switch (CURRENT_TERMINAL) {
-			case 36:
+			case 28:
 				break;
 			default:
 				goto ZL1;
@@ -3262,7 +3262,7 @@ ZR208(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 			}
 			/* END OF ACTION: check-args-list */
 			switch (CURRENT_TERMINAL) {
-			case 37:
+			case 29:
 				break;
 			default:
 				goto ZL1;
@@ -3332,9 +3332,9 @@ ZRcommand_Hlist(zoneP ZIz)
 {
 ZL2_command_Hlist:;
 	switch (CURRENT_TERMINAL) {
-	case 6: case 7: case 8: case 9:
-	case 12: case 15: case 21: case 35:
-	case 38:
+	case 8: case 14: case 30: case 31:
+	case 32: case 33: case 34: case 35:
+	case 36:
 		{
 			ZRcommand (ZIz);
 			/* BEGINNING OF INLINE: command-list */
@@ -3386,7 +3386,7 @@ ZR212(zoneP *ZIz, args_listP *ZIl, SID_STRING *ZI211, cmdP *ZOc)
 			/* END OF ACTION: make-terminal-cmd */
 		}
 		break;
-	case 19:
+	case 12:
 		{
 			argP ZIa;
 			SID_STRING ZIi;
@@ -3424,7 +3424,7 @@ ZR212(zoneP *ZIz, args_listP *ZIl, SID_STRING *ZI211, cmdP *ZOc)
 			/* END OF ACTION: append-arg-args-list */
 			ADVANCE_LEXER;
 			switch (CURRENT_TERMINAL) {
-			case 36:
+			case 28:
 				break;
 			default:
 				goto ZL1;
@@ -3457,7 +3457,7 @@ ZR212(zoneP *ZIz, args_listP *ZIl, SID_STRING *ZI211, cmdP *ZOc)
 			}
 			/* END OF ACTION: check-args-list */
 			switch (CURRENT_TERMINAL) {
-			case 37:
+			case 29:
 				break;
 			default:
 				goto ZL1;
@@ -3526,7 +3526,7 @@ ZR213(argP *ZIa, args_listP *ZOr)
 	args_listP ZIr;
 
 	switch (CURRENT_TERMINAL) {
-	case 27:
+	case 20:
 		{
 			ADVANCE_LEXER;
 			ZRaction_Hcall_C_Crhs_Htuple1 (&ZIr);
@@ -3588,7 +3588,7 @@ static void
 ZR215(zoneP *ZIz, typetuple *ZIa)
 {
 	switch (CURRENT_TERMINAL) {
-	case 0: case 22:
+	case 0: case 15:
 		{
 			ZRtype_Htuple_C_Ctype_Htuple1 (*ZIz, ZIa);
 			if ((CURRENT_TERMINAL) == 39) {
@@ -3619,7 +3619,7 @@ ZRkeyword_Hdefn(zoneP ZIz)
 		cmdP ZIc;
 
 		switch (CURRENT_TERMINAL) {
-		case 7:
+		case 33:
 			break;
 		default:
 			goto ZL1;
@@ -3642,7 +3642,7 @@ ZRkeyword_Hdefn(zoneP ZIz)
 		}
 		ADVANCE_LEXER;
 		switch (CURRENT_TERMINAL) {
-		case 17:
+		case 10:
 			break;
 		default:
 			goto ZL1;
@@ -3712,7 +3712,7 @@ static void
 ZRcommand(zoneP ZIz)
 {
 	switch (CURRENT_TERMINAL) {
-	case 6:
+	case 31:
 		{
 			ADVANCE_LEXER;
 			ZR206 (&ZIz);
@@ -3722,12 +3722,22 @@ ZRcommand(zoneP ZIz)
 			}
 		}
 		break;
-	case 15:
+	case 35:
+		{
+			ADVANCE_LEXER;
+			ZR207 (&ZIz);
+			if ((CURRENT_TERMINAL) == 39) {
+				RESTORE_LEXER;
+				goto ZL1;
+			}
+		}
+		break;
+	case 8:
 		{
 			ADVANCE_LEXER;
 			ZRcommand_Hlist (ZIz);
 			switch (CURRENT_TERMINAL) {
-			case 16:
+			case 9:
 				break;
 			case 39:
 				RESTORE_LEXER;
@@ -3738,22 +3748,12 @@ ZRcommand(zoneP ZIz)
 			ADVANCE_LEXER;
 		}
 		break;
-	case 21:
+	case 14:
 		{
 			ADVANCE_LEXER;
 		}
 		break;
-	case 9:
-		{
-			ADVANCE_LEXER;
-			ZR207 (&ZIz);
-			if ((CURRENT_TERMINAL) == 39) {
-				RESTORE_LEXER;
-				goto ZL1;
-			}
-		}
-		break;
-	case 35:
+	case 32:
 		{
 			ZRaction_Hdecl (ZIz);
 			ZRexpected__semicolon ();
@@ -3763,7 +3763,7 @@ ZRcommand(zoneP ZIz)
 			}
 		}
 		break;
-	case 7:
+	case 33:
 		{
 			ZRkeyword_Hdefn (ZIz);
 			ZRexpected__semicolon ();
@@ -3773,7 +3773,7 @@ ZRcommand(zoneP ZIz)
 			}
 		}
 		break;
-	case 8:
+	case 34:
 		{
 			ZRtrigraph_Hdefn (ZIz);
 			ZRexpected__semicolon ();
@@ -3783,7 +3783,7 @@ ZRcommand(zoneP ZIz)
 			}
 		}
 		break;
-	case 38:
+	case 30:
 		{
 			ZRtype_Hdefn (ZIz);
 			ZRexpected__semicolon ();
@@ -3793,7 +3793,7 @@ ZRcommand(zoneP ZIz)
 			}
 		}
 		break;
-	case 12:
+	case 36:
 		{
 			ZRzone_Hdefn (ZIz);
 			if ((CURRENT_TERMINAL) == 39) {
@@ -3825,7 +3825,7 @@ ZL2_type_Htuple_C_Ctype_Htuple1:;
 		/* BEGINNING OF INLINE: 216 */
 		{
 			switch (CURRENT_TERMINAL) {
-			case 27:
+			case 20:
 				{
 					ADVANCE_LEXER;
 					/* BEGINNING OF INLINE: type-tuple::type-tuple1 */
@@ -3858,7 +3858,7 @@ ZRaction_Hcall_C_Crhs_Htuple(args_listP *ZOr)
 	}
 	{
 		switch (CURRENT_TERMINAL) {
-		case 13:
+		case 6:
 			break;
 		default:
 			goto ZL1;
@@ -3867,9 +3867,9 @@ ZRaction_Hcall_C_Crhs_Htuple(args_listP *ZOr)
 		/* BEGINNING OF INLINE: 160 */
 		{
 			switch (CURRENT_TERMINAL) {
-			case 0: case 1: case 2: case 23:
-			case 30: case 31: case 32: case 33:
-			case 34:
+			case 0: case 1: case 2: case 16:
+			case 23: case 24: case 25: case 26:
+			case 27:
 				{
 					ZRaction_Hcall_C_Crhs_Htuple1 (&ZIr);
 					if ((CURRENT_TERMINAL) == 39) {
@@ -3895,7 +3895,7 @@ ZRaction_Hcall_C_Crhs_Htuple(args_listP *ZOr)
 		}
 		/* END OF INLINE: 160 */
 		switch (CURRENT_TERMINAL) {
-		case 14:
+		case 7:
 			break;
 		default:
 			goto ZL1;
@@ -3972,7 +3972,7 @@ ZR116(void)
 	}
 	{
 		switch (CURRENT_TERMINAL) {
-		case 19:
+		case 12:
 			break;
 		default:
 			goto ZL1;
@@ -4002,7 +4002,7 @@ ZR118(void)
 	}
 	{
 		switch (CURRENT_TERMINAL) {
-		case 17:
+		case 10:
 			break;
 		default:
 			goto ZL1;
@@ -4036,7 +4036,7 @@ ZRaction_Hcall_C_Clhs_Harg(args_listP ZIl)
 		/* BEGINNING OF INLINE: 148 */
 		{
 			switch (CURRENT_TERMINAL) {
-			case 31:
+			case 24:
 				{
 					argP ZIb;
 
@@ -4070,7 +4070,7 @@ ZRaction_Hcall_C_Clhs_Harg(args_listP ZIl)
 					/* END OF ACTION: E_sharp_arg_in_lhs */
 				}
 				break;
-			case 30:
+			case 23:
 				{
 					argP ZIb;
 
@@ -4104,7 +4104,7 @@ ZRaction_Hcall_C_Clhs_Harg(args_listP ZIl)
 					/* END OF ACTION: E_sharp_arg_in_lhs */
 				}
 				break;
-			case 34:
+			case 27:
 				{
 					/* BEGINNING OF EXTRACT: arg-ignore */
 					{
@@ -4118,7 +4118,7 @@ ZRaction_Hcall_C_Clhs_Harg(args_listP ZIl)
 					ADVANCE_LEXER;
 				}
 				break;
-			case 32:
+			case 25:
 				{
 					argP ZIb;
 
@@ -4152,7 +4152,7 @@ ZRaction_Hcall_C_Clhs_Harg(args_listP ZIl)
 					/* END OF ACTION: E_sharp_arg_in_lhs */
 				}
 				break;
-			case 33:
+			case 26:
 				{
 					/* BEGINNING OF EXTRACT: arg-return */
 					{
@@ -4191,7 +4191,7 @@ ZRaction_Hcall_C_Clhs_Harg(args_listP ZIl)
 					/* END OF ACTION: make_arg_from_ident */
 				}
 				break;
-			case 23:
+			case 16:
 				{
 					SID_STRING ZIi;
 
@@ -4342,7 +4342,7 @@ ZRaction_Hcall_C_Crhs_Harg(argP *ZOa)
 	argP ZIa;
 
 	switch (CURRENT_TERMINAL) {
-	case 31:
+	case 24:
 		{
 			/* BEGINNING OF EXTRACT: arg-char-nb */
 			{
@@ -4356,7 +4356,7 @@ ZRaction_Hcall_C_Crhs_Harg(argP *ZOa)
 			ADVANCE_LEXER;
 		}
 		break;
-	case 30:
+	case 23:
 		{
 			/* BEGINNING OF EXTRACT: arg-char-string */
 			{
@@ -4370,7 +4370,7 @@ ZRaction_Hcall_C_Crhs_Harg(argP *ZOa)
 			ADVANCE_LEXER;
 		}
 		break;
-	case 34:
+	case 27:
 		{
 			argP ZIb;
 
@@ -4404,7 +4404,7 @@ ZRaction_Hcall_C_Crhs_Harg(argP *ZOa)
 			/* END OF ACTION: E_ignore_in_rhs */
 		}
 		break;
-	case 32:
+	case 25:
 		{
 			/* BEGINNING OF EXTRACT: arg-nb-of-chars */
 			{
@@ -4418,7 +4418,7 @@ ZRaction_Hcall_C_Crhs_Harg(argP *ZOa)
 			ADVANCE_LEXER;
 		}
 		break;
-	case 33:
+	case 26:
 		{
 			argP ZIb;
 
@@ -4477,7 +4477,7 @@ ZRaction_Hcall_C_Crhs_Harg(argP *ZOa)
 			/* END OF ACTION: make_arg_from_ident */
 		}
 		break;
-	case 23:
+	case 16:
 		{
 			SID_STRING ZIi;
 
