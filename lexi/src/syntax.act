@@ -64,6 +64,8 @@ TYPETUPLE -> TypeTupleT;
 #include <shared/check.h>
 #include <shared/string.h>
 
+#include "adt/action.h"
+#include "adt/entry.h"
 #include "adt/instruction.h"
 #include "adt/keyword.h"
 #include "adt/zone.h"
@@ -331,7 +333,7 @@ arg-ignore : () -> (a:ARG) = @{
 
 <make-action-inst> : ( z: ZONE, i:IDENTIFIER, l:ARGS_LIST, r:ARGS_LIST) -> (inst:INSTRUCTION)  = @{
 	NStringT key;
-	EntryT* entry;
+	struct EntryT* entry;
 	nstring_copy_cstring(&key, @i);
 	entry = table_get_entry(tree_get_table(@z->top_level), &key);
 	if(entry) {
@@ -410,7 +412,7 @@ arg-ignore : () -> (a:ARG) = @{
 		if(@i->type == action_call) {
 			args_list* rhs;
 			args_list* lhs;
-			EntryT* entryaction;
+			struct EntryT* entryaction;
 			ActionT* action;
 			arg* p;
 			TypeTupleEntryT* q;
@@ -425,7 +427,7 @@ arg-ignore : () -> (a:ARG) = @{
 
 			/* CHECKING RHS COMPATIBILITY */ 
 			for ( p = rhs->head, q = action->inputs.head; p!=NULL && q!=NULL; p=p->next, q=q->next) {
-			      	EntryT* entrytype = NULL;
+			      	struct EntryT* entrytype = NULL;
 				NStringT str;
 			      	switch (p->type) {
 				case arg_identifier: 
@@ -433,7 +435,7 @@ arg-ignore : () -> (a:ARG) = @{
 					entrytype=localnames_get_type(locals, &str);
 					nstring_destroy(&str);
 					if(!entrytype) {
-						EntryT* tableentry = table_get_entry(tree_get_table(@z->top_level), &str);
+						struct EntryT* tableentry = table_get_entry(tree_get_table(@z->top_level), &str);
 						if(!tableentry) {
 							error(ERROR_SERIOUS, "local name %s has not been defined yet", p->u.literal);
 							entrytype = NULL;
@@ -524,7 +526,7 @@ arg-ignore : () -> (a:ARG) = @{
 			}
 
 			for ( p = lhs->head, q = action->outputs.head; p!=NULL && q!=NULL; p=p->next, q=q->next) {
-			      	EntryT* entrytype;
+			      	struct EntryT* entrytype;
 				switch (p->type) {
 				case arg_identifier: 
 					{
@@ -532,7 +534,7 @@ arg-ignore : () -> (a:ARG) = @{
 						nstring_copy_cstring(&str, p->u.literal);
 						entrytype = localnames_get_type(locals, &str);
 						if(!entrytype) {
-							EntryT* entry = table_get_entry(tree_get_table(@z->top_level), &str);
+							struct EntryT* entry = table_get_entry(tree_get_table(@z->top_level), &str);
 							localnames_add_nstring(locals, &str, q->type);
 							if(entry) {
 								nstring_destroy(&str);
@@ -756,7 +758,7 @@ arg-ignore : () -> (a:ARG) = @{
 
 <make-type> : ( z:ZONE, i:IDENTIFIER ) -> () = @{
 	NStringT str;
-	EntryT* entry;
+	struct EntryT* entry;
 	nstring_copy_cstring(&str,@i);
 	xfree(@i);
 	entry=table_get_entry(tree_get_table(@z->top_level), &str);
@@ -778,7 +780,7 @@ arg-ignore : () -> (a:ARG) = @{
 
 <make-action> : ( z:ZONE, i:IDENTIFIER, params:TYPETUPLE&, results:TYPETUPLE&) -> () = @{
 	NStringT str;
-	EntryT* entry;
+	struct EntryT* entry;
 	nstring_copy_cstring(&str, @i);
 	entry=table_get_entry(tree_get_table(@z->top_level), &str);
 	if(entry != NULL) {
@@ -807,7 +809,7 @@ arg-ignore : () -> (a:ARG) = @{
 @};
 
 <append-tuple> : (z:ZONE, a:TYPETUPLE&, id:IDENTIFIER, type:IDENTIFIER, isref:BOOL) -> () =@{
-	EntryT* entry;
+	struct EntryT* entry;
 	NStringT tstr, istr;
 	nstring_copy_cstring(&tstr,@type);
 	nstring_copy_cstring(&istr,@id);

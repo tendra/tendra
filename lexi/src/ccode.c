@@ -127,7 +127,7 @@ void ccode_destroy(CcodeT *c)
 }
 
 static void
-ccodeitem_output(FILE *file, CcodeItemT *ccode_item, NameTransT *trans, int d)
+ccodeitem_output(FILE *file, CcodeItemT *ccode_item, struct NameTransT *trans, int d)
 {
 	char *s;
 	arg *to;
@@ -160,7 +160,7 @@ ccodeitem_output(FILE *file, CcodeItemT *ccode_item, NameTransT *trans, int d)
 }
 
 void
-ccode_output(FILE *file, CcodeT *ccode, NameTransT *trans, int d)
+ccode_output(FILE *file, CcodeT *ccode, struct NameTransT *trans, int d)
 {
 	CcodeItemT *it;
 	for (it = ccode->head; it != NULL; it = it->next) {

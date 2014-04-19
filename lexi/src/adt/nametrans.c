@@ -12,11 +12,9 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
-#include "adt/instruction.h"
-#include "adt/type.h"
-#include "adt/typetuple.h"
-
-#include "adt.h"
+#include "instruction.h"
+#include "typetuple.h"
+#include "nametrans.h"
 
 void
 nametrans_init(NameTransT *p, unsigned int s)

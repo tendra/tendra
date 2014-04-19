@@ -14,7 +14,6 @@
 #include <exds/dstring.h>
 
 #include "localnames.h"
-#include "adt.h"
 
 static LocalNamesEntryT *
 localnamesentry_create(char c, LocalNamesEntryT *parent)
@@ -97,7 +96,7 @@ struct EntryT *
 localnames_get_type(LocalNamesT *locals, NStringT *name)
 {
 	unsigned int i;
-	EntryT *entry;
+	struct EntryT *entry;
 	LocalNamesEntryT *crt;
 	char *p;
 

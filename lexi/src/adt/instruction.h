@@ -15,8 +15,7 @@
 
 struct zone_tag;
 
-#include "../adt.h"
-#include "../localnames.h"
+#include "localnames.h"
 
 typedef enum arg_type_tag {
 	arg_charP,
@@ -67,7 +66,7 @@ typedef struct instruction_tag {
 			int is_beginendmarker_in_zone;
 		} s;
 		struct {
-			EntryT *called_act;
+			struct EntryT *called_act;
 			args_list *lhs;
 			args_list *rhs;
 		} act;
@@ -93,7 +92,7 @@ args_list *add_args_list(void);
 
 instruction *add_instruction_return_terminal(char *name);
 instruction *add_instruction_donothing(void);
-instruction *add_instruction_action(EntryT *, args_list *, args_list *);
+instruction *add_instruction_action(struct EntryT *, args_list *, args_list *);
 instruction *add_instruction_mapping(char *map);
 
 instruction *add_instruction_pushzone(struct zone_tag *z);

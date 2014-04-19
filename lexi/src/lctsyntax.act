@@ -50,6 +50,8 @@ ENTRYP -> EntryP;
 #include <exds/dstring.h>
 #include <exds/cstring.h>
 
+#include "adt/action.h"
+#include "adt/entry.h"
 #include "adt/tree.h"
 
 #include "lctsyntax.h"
@@ -62,7 +64,7 @@ ENTRYP -> EntryP;
 #define SAVE_LEXER SAVE_LCT_LEXER
 #define RESTORE_LEXER RESTORE_LCT_LEXER
 
-typedef EntryT* EntryP;
+typedef struct EntryT* EntryP;
 
 
 
@@ -286,7 +288,7 @@ code-string : () -> (s:BIGSTRING) = @{
 @};
 
 <append-tuple> : (a:TYPETUPLE&, id:IDENTIFIER, type:IDENTIFIER, isref:BOOL) -> () =@{
-	EntryT* entry = table_get_entry(tree_get_table(lxi_top_level), @&type);
+	struct EntryT* entry = table_get_entry(tree_get_table(lxi_top_level), @&type);
 	if(entry == NULL) {
 		 char* pt = nstring_to_cstring(@&type);
 		 error(ERROR_SERIOUS, "Unknown type %s", pt);
@@ -305,10 +307,10 @@ code-string : () -> (s:BIGSTRING) = @{
 @} ;
 
 <make-map> : (lexitype:IDENTIFIER, ctype:IDENTIFIER) -> () = @{
-	EntryT* entry= table_get_entry(tree_get_table(lxi_top_level), @&lexitype);
+	struct EntryT* entry= table_get_entry(tree_get_table(lxi_top_level), @&lexitype);
 	if(entry !=NULL) {
 		if(entry_is_type(entry)) {
-			TypeT* type = entry_get_type(entry);
+			struct TypeT* type = entry_get_type(entry);
 			type_map(type, @&ctype);
 		} else {
 			error(ERROR_SERIOUS, "Name in maps section is not a type");

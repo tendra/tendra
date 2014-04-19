@@ -21,9 +21,7 @@ SRCS+=	options.c
 SRCS+=	output.c
 SRCS+=	lctlexer.c
 SRCS+=	lctsyntax.c
-SRCS+=	adt.c
 SRCS+=	ccode.c
-SRCS+=	localnames.c
 
 .include <tendra.obj.mk>
 

@@ -6,18 +6,14 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef LEXI_ADT_H
-#define LEXI_ADT_H
+#ifndef LEXI_NAMETRANS_H
+#define LEXI_NAMETRANS_H
 
 #include <stdbool.h>
 
 #include <exds/common.h>
 #include <exds/dstring.h>
 
-#include "ccode.h"
-
-struct ActionT;
-struct TypeT;
 struct TypeTupleT;
 
 struct arg_tag;

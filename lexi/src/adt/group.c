@@ -18,7 +18,6 @@
 #include "zone.h"
 #include "tree.h"
 
-
 static void
 unescape_string(zone *z, int *o, char *s)
 {

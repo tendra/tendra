@@ -12,8 +12,7 @@
 
 #include <shared/xalloc.h>
 
-#include "../adt.h"
-
+#include "entry.h"
 #include "char.h"
 #include "tree.h"
 #include "zone.h"
@@ -126,7 +125,7 @@ set_predefined_char_lexi_type(lexer_parse_tree* top_level, char *lexi_type, char
 	NStringT str;
 	NStringT cstr;
 	EntryT *entry;
-	TypeT *type;
+	struct TypeT *type;
 
 	nstring_copy_cstring(&str, lexi_type);
 	nstring_copy_cstring(&cstr, c_type);
@@ -145,7 +144,7 @@ set_predefined_string_lexi_type(lexer_parse_tree *top_level, char *lexi_type, ch
 	NStringT str;
 	NStringT cstr;
 	EntryT *entry;
-	TypeT *type;
+	struct TypeT *type;
 
 	nstring_copy_cstring(&str, lexi_type);
 	nstring_copy_cstring(&cstr, c_type);
@@ -177,7 +176,7 @@ set_predefined_int_lexi_type(lexer_parse_tree* top_level, char *lexi_type, char 
 	NStringT str;
 	NStringT cstr;
 	EntryT *entry;
-	TypeT *type;
+	struct TypeT *type;
 
 	nstring_copy_cstring(&str, lexi_type);
 	nstring_copy_cstring(&cstr, c_type);

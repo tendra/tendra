@@ -9,6 +9,9 @@
 #ifndef LEXI_LOCALNAMES_H
 #define LEXI_LOCALNAMES_H
 
+#include <exds/common.h>
+#include <exds/dstring.h>
+
 struct EntryT;
 
 /*

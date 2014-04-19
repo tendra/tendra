@@ -24,14 +24,17 @@
 #include <shared/check.h>
 #include <shared/string.h>
 
+#include "adt/action.h"
+#include "adt/entry.h"
 #include "adt/char.h"
 #include "adt/instruction.h"
 #include "adt/keyword.h"
 #include "adt/tree.h"
+#include "adt/type.h"
 #include "adt/zone.h"
 #include "adt/group.h"
+#include "adt/localnames.h"
 
-#include "localnames.h"
 #include "lexer.h"
 #include "lctsyntax.h"
 #include "c-output.h"

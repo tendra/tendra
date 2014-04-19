@@ -4,12 +4,12 @@
  * and
  *	lctsyntax.act
  * by:
- *	/home/kate/svn/tendra17-lessfixes/obj-regen/bin/sid
+ *	sid
  */
 
 /* BEGINNING OF HEADER */
 
-#line 124 "lctsyntax.act"
+#line 126 "lctsyntax.act"
 
 
 /* $Id$ */
@@ -85,7 +85,7 @@ extern void read_lct_unit(void);
 
 /* BEGINNING OF TRAILER */
 
-#line 457 "lctsyntax.act"
+#line 459 "lctsyntax.act"
 
 #endif
 #line 92 "lctsyntax.h"

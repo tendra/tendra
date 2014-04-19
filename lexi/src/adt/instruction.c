@@ -196,7 +196,7 @@ add_instruction_donothing(void)
 }
 
 instruction *
-add_instruction_action(EntryT *act, args_list *lhs, args_list *rhs)
+add_instruction_action(struct EntryT *act, args_list *lhs, args_list *rhs)
 {
 	instruction *p;
 
