@@ -36,8 +36,8 @@ struct CcodeT {
 void ccode_init(struct CcodeT *);
 void ccode_assign(struct CcodeT *, struct CcodeT *);
 void ccode_append_at(struct CcodeT *);
-void ccode_append_identifier(struct CcodeT *, NStringT *);
-void ccode_append_reference(struct CcodeT *ccode, NStringT *i);
+void ccode_append_ident(struct CcodeT *, NStringT *);
+void ccode_append_ref(struct CcodeT *ccode, NStringT *i);
 void ccode_append_string(struct CcodeT *, NStringT *);
 void ccode_destroy(struct CcodeT *c);
 void ccode_output(FILE *, struct CcodeT *, struct NameTransT *, int);

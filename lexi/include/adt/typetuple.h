@@ -17,7 +17,7 @@
 struct TypeTupleEntryT {
 	struct entry *et;
 	NStringT local_name; /* The type NSTringT* will probably not be the final type */
-	bool is_reference;
+	bool is_ref;
 	struct TypeTupleEntryT *next;
 };
 

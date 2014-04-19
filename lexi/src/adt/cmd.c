@@ -23,7 +23,7 @@ new_arg(void)
 
 	p = xmalloc(sizeof *p);
 	p->next = NULL;
-	p->is_reference = false;
+	p->is_ref = false;
 
 	return p;
 }
@@ -41,32 +41,32 @@ add_arg(enum arg_type t, unsigned int d)
 }
 
 struct arg *
-add_identifier_arg(char *s)
+add_ident(char *s)
 {
 	struct arg *p;
 
 	p = new_arg();
-	p->type      = arg_identifier;
+	p->type      = arg_ident;
 	p->u.literal = s;
 
 	return p;
 }
 
 struct arg *
-add_reference_arg(char *s)
+add_ref(char *s)
 {
 	struct arg *p;
 
 	p = new_arg();
-	p->type         = arg_identifier;
+	p->type         = arg_ident;
 	p->u.literal    = s;
-	p->is_reference = true;
+	p->is_ref = true;
 
 	return p;
 }
 
 struct arg *
-add_terminal_arg(char * s)
+add_terminal(char * s)
 {
 	struct arg *p;
 
@@ -78,7 +78,7 @@ add_terminal_arg(char * s)
 }
 
 struct arg *
-add_none_arg(void)
+add_none(void)
 {
 	struct arg *p;
 
@@ -94,7 +94,7 @@ arg_output(struct arg *p, bool is_ref, int d, FILE *file)
 {
 	switch (p->type) {
 	case arg_charP:
-		error(ERROR_SERIOUS, "#* is not implemented yet at output level"); 
+		error(ERROR_SERIOUS, "#* is not implemented yet at output level");
 		break;
 
 	case arg_char_nb:
@@ -106,8 +106,8 @@ arg_output(struct arg *p, bool is_ref, int d, FILE *file)
 		fprintf(file, "%d", d);
 		break;
 
-	case arg_identifier:
-		if (p->is_reference) {
+	case arg_ident:
+		if (p->is_ref) {
 			/* TODO: assert(is_ref); */
 			fprintf(file, "%s", p->u.literal);
 		} else {
@@ -128,7 +128,7 @@ arg_output(struct arg *p, bool is_ref, int d, FILE *file)
 		/*TODO implement*/
 		break;
 
-	case arg_return_terminal:
+	case arg_return:
 		fprintf(file, "ZT1"); /*TODO make prefixes option controllable or lct file controllable*/
 		break;
 
@@ -147,7 +147,7 @@ new_args_list(void)
 	p = xmalloc(sizeof *p);
 	p->head = NULL;
 	p->tail = &p->head;
-	p->nb_return_terminal = 0;
+	p->nb_return = 0;
 
 	return p;
 }
@@ -175,7 +175,7 @@ new_cmd(enum cmd_type type)
 }
 
 struct cmd *
-add_cmd_return_terminal(char *name)
+add_cmd_return(char *name)
 {
 	struct cmd *p;
 
@@ -241,7 +241,7 @@ new_cmd_list(void)
 	p->head = NULL;
 	p->tail = &p->head;
 	p->size = 0;
-	p->nb_return_terminal = 0;
+	p->nb_return = 0;
 
 	localnames_init(&p->local_names);
 

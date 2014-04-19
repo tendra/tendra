@@ -31,7 +31,7 @@ unit -> read_lex ;
 */
 
 BOOL -> int ;
-IDENTIFIER -> SID_STRING ;
+IDENT -> SID_STRING ;
 ZONE -> zoneP ;
 STRING -> SID_STRING ;
 CMD -> cmdP ;
@@ -100,7 +100,7 @@ typedef struct args_list* args_listP;
 typedef struct TypeTupleT typetuple;
 
 /*
-    SID IDENTIFIER PREFIX
+    SID IDENT PREFIX
 
     This string is added to the start of each sid identifier.
 */
@@ -136,7 +136,7 @@ char *token_prefix = "lex_" ;
 #ifndef SYNTAX_INCLUDED
 #define SYNTAX_INCLUDED
 
-#include "adt/zone.h"
+#include <adt/zone.h>
 
 extern char *token_prefix ;
 typedef struct zone * zoneP;
@@ -167,47 +167,47 @@ TYPETUPLE : (a) -> (b) = @{
 
 
 /*
-    IDENTIFIER TERMINAL
+    IDENT TERMINAL
 
     This action gives the terminal for identifiers.  The identifier text
-    is built up in token_buff by the lexical routines.
+    is built up in tokbuf by the lexical routines.
 */
 
-identifier : () -> ( i : IDENTIFIER ) = @{
-    @i = xstrdup ( token_buff ) ;
+ident: () -> ( i : IDENT ) = @{
+    @i = xstrdup ( tokbuf ) ;
 @} ;
 
 
 /*
-    SID IDENTIFIER TERMINAL
+    SID IDENT TERMINAL
 
     This action gives the terminal for sid-style identifiers.  The
-    identifier text is built up in token_buff by the lexical routines.
+    identifier text is built up in tokbuf by the lexical routines.
 */
 
-sid-identifier : () -> ( i : IDENTIFIER ) = @{
+sid-ident: () -> ( i : IDENT ) = @{
     int n ;
     char *s ;
-    char buff [1000] ;
-    strcpy ( buff, token_prefix ) ;
-    n = ( int ) strlen ( buff ) ;
-    for ( s = token_buff ; *s ; s++ ) {
+    char buf[1000] ;
+    strcpy ( buf, token_prefix ) ;
+    n = ( int ) strlen ( buf ) ;
+    for ( s = tokbuf ; *s ; s++ ) {
 	if ( *s == '-' ) {
-	    buff [ n++ ] = '_' ;
-	    buff [ n++ ] = 'H' ;
+	    buf [ n++ ] = '_' ;
+	    buf [ n++ ] = 'H' ;
 	} else if ( *s == '_' ) {
-	    buff [ n++ ] = '_' ;
-	    buff [ n++ ] = '_' ;
+	    buf [ n++ ] = '_' ;
+	    buf [ n++ ] = '_' ;
 	} else {
-	    buff [ n++ ] = *s ;
+	    buf [ n++ ] = *s ;
 	}
 	if ( n >= 900 ) {
 	    error ( ERROR_SERIOUS, "Identifier too long" ) ;
 	    break ;
 	}
     }
-    buff [n] = 0 ;
-    @i = xstrdup ( buff ) ;
+    buf [n] = 0 ;
+    @i = xstrdup ( buf ) ;
 @} ;
 
 
@@ -215,11 +215,11 @@ sid-identifier : () -> ( i : IDENTIFIER ) = @{
     STRING TERMINAL
 
     This action gives the terminal for strings.  The string text is built
-    up in token_buff by the lexical routines.
+    up in tokbuf by the lexical routines.
 */
 
 string : () -> ( s : STRING ) = @{
-    @s = xstrdup ( token_buff ) ;
+    @s = xstrdup ( tokbuf ) ;
 @} ;
 
 
@@ -238,15 +238,15 @@ arg-char-string : () ->(a:ARG) = @{
 @};
 
 arg-char-nb : () ->(a:ARG) = @{
-      @a=add_arg(arg_char_nb,number_buffer);
+      @a=add_arg(arg_char_nb,numbuf);
 @};
 
 arg-nb-of-chars : () ->(a:ARG) = @{
       @a=add_arg(arg_nb_of_chars,0);
 @};
 
-arg-return-terminal : () -> (a:ARG) = @{
-      @a=add_arg(arg_return_terminal,0);
+arg-return: () -> (a:ARG) = @{
+      @a=add_arg(arg_return,0);
 @};
 
 arg-ignore : () -> (a:ARG) = @{
@@ -267,12 +267,12 @@ arg-ignore : () -> (a:ARG) = @{
 @} ;
 
 /*
-    CREATE AN EMPTY IDENTIFIER
+    CREATE AN EMPTY IDENT
 
-    This action creates a NULL IDENTIFIER
+    This action creates a NULL IDENT
 */
 
-<empty-identifier> : () -> ( i : IDENTIFIER ) = @{
+<empty-ident> : () -> ( i : IDENT ) = @{
     @i = xstrdup("");
 @} ;
 
@@ -299,7 +299,7 @@ arg-ignore : () -> (a:ARG) = @{
     This action defines the character group i to be s.
 */
 
-<make-group> : ( z : ZONE, i : IDENTIFIER, s : STRING ) -> () = @{
+<make-group> : ( z : ZONE, i : IDENT, s : STRING ) -> () = @{
     make_group ( @z, @i, @s ) ;
 @} ;
 
@@ -323,15 +323,15 @@ arg-ignore : () -> (a:ARG) = @{
 /* 
    CREATE AN CMD 
 */
-<make-terminal-inst>  :  ( i : IDENTIFIER ) -> ( inst : CMD ) = @{
-        @inst=add_cmd_return_terminal(@i);
+<make-terminal-inst>  :  ( i : IDENT ) -> ( inst : CMD ) = @{
+        @inst=add_cmd_return(@i);
 @};
 
 <make-donothing-inst> : () -> ( inst : CMD ) = @{
 	@inst=add_cmd_donothing();
 @};
 
-<make-action-inst> : ( z: ZONE, i:IDENTIFIER, l:ARGS_LIST, r:ARGS_LIST) -> (inst:CMD)  = @{
+<make-action-inst> : ( z: ZONE, i:IDENT, l:ARGS_LIST, r:ARGS_LIST) -> (inst:CMD)  = @{
 	NStringT key;
 	struct entry *ea;
 	nstring_copy_cstring(&key, @i);
@@ -342,9 +342,9 @@ arg-ignore : () -> (a:ARG) = @{
 			/* Checking that a name does not appear twice in an lhs*/
 			struct arg* p, *q;
 			for(p=@l->head;p!=NULL;p=p->next) {
-				if(p->type==arg_identifier) {
+				if(p->type==arg_ident) {
 					for(q=p->next; q!=NULL;q=q->next) {
-						if(q->type==arg_identifier && !strcmp(p->u.literal, q->u.literal)) {
+						if(q->type==arg_ident && !strcmp(p->u.literal, q->u.literal)) {
 							char* s = nstring_to_cstring(entry_key(ea));
 							error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.literal);
 							break;		   
@@ -371,19 +371,19 @@ arg-ignore : () -> (a:ARG) = @{
 <append-arg-args-list> : ( l:ARGS_LIST, a:ARG ) -> () = @{
     *@l->tail=@a;
     @l->tail=&@a->next;
-    if(@a->type==arg_return_terminal)
-	@l->nb_return_terminal++;
+    if(@a->type==arg_return)
+	@l->nb_return++;
 @};
 
 <args-list-push-front> : ( a:ARG , l:ARGS_LIST ) -> () = @{
     @a->next=@l->head;
     @l->head=@a;
-    if(@a->type==arg_return_terminal)
-	@l->nb_return_terminal++;
+    if(@a->type==arg_return)
+	@l->nb_return++;
 @};
 
 <check-args-list> : ( l:ARGS_LIST) -> () = @{
-    if(@l->nb_return_terminal>1)
+    if(@l->nb_return>1)
 	error(ERROR_SERIOUS, "There can only be one return terminal argument per action lhs");
 @};
 
@@ -402,12 +402,12 @@ arg-ignore : () -> (a:ARG) = @{
 	if(@i!=NULL) { /* if @i == NULL, an error has already been issued.*/
 		struct LocalNamesT* locals = cmdlist_localnames(@il);
 /*		if((@il->head !=NULL) && (@i->type==return_terminal || @i->type==do_nothing)) {
-			error(ERROR_SERIOUS, "A $sid-identifier or a $$ can only appear at the end of an cmd-list"); Does not work anymore since we append and do not prepend anymore. No pb as this will be unecessary due to the upcoming removal of direct function calls.
+			error(ERROR_SERIOUS, "A $sid-ident or a $$ can only appear at the end of an cmd-list"); Does not work anymore since we append and do not prepend anymore. No pb as this will be unecessary due to the upcoming removal of direct function calls.
 		}*/
-		if(@il->nb_return_terminal>0 && @i->type!=do_nothing)
+		if(@il->nb_return > 0 && @i->type!=do_nothing)
 			error(ERROR_SERIOUS, "No cmd may follow an cmd that returns a terminal");
 		if(@i->type == return_terminal) {
-			++(@il->nb_return_terminal);
+			++(@il->nb_return);
 		}
 		if(@i->type == action_call) {
 			struct args_list* rhs;
@@ -417,8 +417,8 @@ arg-ignore : () -> (a:ARG) = @{
 			struct arg* p;
 			struct TypeTupleEntryT* q;
 
-			@il->nb_return_terminal+=@i->u.act.lhs->nb_return_terminal;
-			if(@il->nb_return_terminal>1)
+			@il->nb_return+=@i->u.act.lhs->nb_return;
+			if(@il->nb_return>1)
 				error(ERROR_SERIOUS, "Only one terminal may be returned per token");
 			ea = @i->u.act.called_act;
 			act = entry_get_action(ea);
@@ -430,7 +430,7 @@ arg-ignore : () -> (a:ARG) = @{
 			      	struct entry *et = NULL;
 				NStringT str;
 			      	switch (p->type) {
-				case arg_identifier: 
+				case arg_ident:
 				     	nstring_copy_cstring(&str, p->u.literal);
 					et=localnames_get_type(locals, &str);
 					nstring_destroy(&str);
@@ -472,7 +472,7 @@ arg-ignore : () -> (a:ARG) = @{
 				case arg_none:
 					break; /* Error already detected, do nothing and leave p->lexitype = NULL */
 				case arg_ignore:
-				case arg_return_terminal:
+				case arg_return:
 					UNREACHED;
 				break;
 			default:
@@ -480,12 +480,12 @@ arg-ignore : () -> (a:ARG) = @{
 				break;
 			}
 			if(et) {
-				if( q->et!=et || p->is_reference!=q->is_reference) {
+				if (q->et!=et || p->is_ref !=q->is_ref) {
 						char* s1 = nstring_to_cstring(entry_key(ea));
 						char* s2 = nstring_to_cstring(entry_key(et));
-						char* s3 = p->is_reference ? "&" : "";
+						char* s3 = p->is_ref ? "&" : "";
 						char* s4 = nstring_to_cstring(entry_key(q->et));
-						char* s5 = q->is_reference ? "&" : "";
+						char* s5 = q->is_ref ? "&" : "";
 						char* s6 = "unknown";
 						char* s7 = "unknown";
 						switch(p->type) {
@@ -493,7 +493,7 @@ arg-ignore : () -> (a:ARG) = @{
 							s6 = "$"; 
 							s7 = p->u.literal;
 							break;
-						case arg_identifier:
+						case arg_ident:
 							s7 = p->u.literal;
 							break;
 						case arg_nb_of_chars:
@@ -528,7 +528,7 @@ arg-ignore : () -> (a:ARG) = @{
 			for ( p = lhs->head, q = act->out.head; p!=NULL && q!=NULL; p=p->next, q=q->next) {
 			      	struct entry *et;
 				switch (p->type) {
-				case arg_identifier: 
+				case arg_ident: 
 					{
 						NStringT str;
 						nstring_copy_cstring(&str, p->u.literal);
@@ -546,14 +546,14 @@ arg-ignore : () -> (a:ARG) = @{
 							} else {
 								table_add_local_name(tree_get_table(@z->ast), &str);
 							}
-							if(p->is_reference) {
+							if(p->is_ref) {
 								char* s = nstring_to_cstring(entry_key(ea));
 								error(ERROR_SERIOUS, "In action call %s, you can only use references %s for preexisting variables", s, p->u.literal);
 								DEALLOCATE(s);
 							} 
 						} else {
 							nstring_destroy(&str);
-							if(!p->is_reference) {
+							if(!p->is_ref) {
 								char* s = nstring_to_cstring(entry_key(ea));
 								error(ERROR_SERIOUS, "In action call %s, name %s already declared. Use references to change the value of an already existing variable", s, p->u.literal);
 								et=q->et; /* To avoid outputting that error more than once*/
@@ -562,15 +562,15 @@ arg-ignore : () -> (a:ARG) = @{
 						}
 					}
 					break;
-				case arg_return_terminal:
+				case arg_return:
 					et = lexer_terminal_type(@z->ast);
-					q->is_reference = false;
-					/* TODO assert(q->is_reference == false) */
+					q->is_ref = false;
+					/* TODO assert(q->is_ref == false) */
 					break;
 				case arg_ignore:
 					/*always acceptable */
 					et = q->et;
-					p->is_reference=q->is_reference;
+					p->is_ref = q->is_ref;
 					break;
 				case arg_none:
 					break;
@@ -584,9 +584,9 @@ arg-ignore : () -> (a:ARG) = @{
 				default:
 					break; /* UNREACHABLE */
 				}
-				if(p->is_reference != q->is_reference) {
+				if(p->is_ref != q->is_ref) {
 					/* XXX: state which action */
-					if(p->is_reference)
+					if(p->is_ref)
 						error(ERROR_SERIOUS, "In call to action, %s should not be a reference", p->u.literal);
 					else
 						error(ERROR_SERIOUS, "In call to action, %s should not be a reference", p->u.literal);
@@ -611,7 +611,7 @@ arg-ignore : () -> (a:ARG) = @{
 @};
 
 <check-inst-list> : (il: CMD_LIST ) -> () = @{
-	if(@il->nb_return_terminal>1)
+	if(@il->nb_return>1)
 		error(ERROR_SERIOUS, "At most one return terminal may be specified per cmd list");
 @};
 
@@ -633,7 +633,7 @@ arg-ignore : () -> (a:ARG) = @{
 
 <make-token> : ( z : ZONE, s : STRING, il : CMD_LIST) -> () = @{
 	add_mainpass(@z, @s, @il);
-	if(@il->nb_return_terminal)
+	if(@il->nb_return)
 		@z->type=typezone_general_zone;
 @} ;
 
@@ -652,7 +652,7 @@ arg-ignore : () -> (a:ARG) = @{
 */
 <make-default> : ( z : ZONE, i : CMD_LIST ) -> () = @{
     @z->local=@i;
-	if(@i->nb_return_terminal)
+	if(@i->nb_return)
 		@z->type=typezone_general_zone;
 @} ;
 
@@ -666,7 +666,7 @@ arg-ignore : () -> (a:ARG) = @{
 
 <make-keyword> : ( z: ZONE, s : STRING, i : CMD ) -> () = @{
     switch(@i->type) {
-    case return_terminal: 
+    case return_terminal:
     /* Fallback is intentional */
       add_keyword ( @z, @s, @i ) ;
     break;
@@ -695,7 +695,7 @@ arg-ignore : () -> (a:ARG) = @{
 
    This action adds a a new zone
 */
-<make-zone> : ( z : ZONE , i : IDENTIFIER, b : STRING, 
+<make-zone> : ( z : ZONE , i : IDENT, b : STRING, 
 	      	binst : CMD_LIST, e : STRING, 
 		einst : CMD_LIST, endmarkerclosed : BOOL ) 
 		      		-> ( nz : ZONE) = 
@@ -705,10 +705,10 @@ arg-ignore : () -> (a:ARG) = @{
     @nz=add_zone(@z,@i,@e, @endmarkerclosed );
 
     @nz->exit=@einst;
-    if(@nz->exit->nb_return_terminal)
+    if(@nz->exit->nb_return)
 	@nz->type= typezone_pseudo_token;
     @nz->enter=@binst;
-    if(@nz->enter->nb_return_terminal)
+    if(@nz->enter->nb_return)
 	@nz->type=typezone_general_zone;
     inst=add_cmd_pushzone(@nz);
     inst_list=add_cmd_list();
@@ -730,21 +730,21 @@ arg-ignore : () -> (a:ARG) = @{
 @};
 
 
-<make_arg_from_identifier> : (i:IDENTIFIER) -> (a:ARG) = @{
-	@a = add_identifier_arg (@i);
+<make_arg_from_ident> : (i:IDENT) -> (a:ARG) = @{
+	@a = add_ident(@i);
 @};
 
-<make_arg_from_reference> : (i:IDENTIFIER) -> (a:ARG) = @{
-	@a = add_reference_arg (@i);
+<make_arg_from_ref> : (i:IDENT) -> (a:ARG) = @{
+	@a = add_ref(@i);
 @};
 
-<make_arg_terminal> : (i:IDENTIFIER) -> (a:ARG) = @{
-	@a = add_terminal_arg (@i);
+<make_arg_terminal> : (i:IDENT) -> (a:ARG) = @{
+	@a = add_terminal(@i);
 @};
 
 
 <make_arg_none> : () -> (a:ARG) = @{
-	@a = add_none_arg();
+	@a = add_none();
 @};
 
 /* 
@@ -756,7 +756,7 @@ arg-ignore : () -> (a:ARG) = @{
    @b = tree_zoneisglobal(@z->ast, @z);
 @};
 
-<make-type> : ( z:ZONE, i:IDENTIFIER ) -> () = @{
+<make-type> : ( z:ZONE, i:IDENT ) -> () = @{
 	NStringT str;
 	struct entry *e;
 	nstring_copy_cstring(&str,@i);
@@ -778,7 +778,7 @@ arg-ignore : () -> (a:ARG) = @{
 	}
 @};
 
-<make-action> : ( z:ZONE, i:IDENTIFIER, params:TYPETUPLE&, results:TYPETUPLE&) -> () = @{
+<make-action> : ( z:ZONE, i:IDENT, params:TYPETUPLE&, results:TYPETUPLE&) -> () = @{
 	NStringT str;
 	struct entry *e;
 	nstring_copy_cstring(&str, @i);
@@ -808,7 +808,7 @@ arg-ignore : () -> (a:ARG) = @{
 	typetuple_init(&@a);
 @};
 
-<append-tuple> : (z:ZONE, a:TYPETUPLE&, id:IDENTIFIER, type:IDENTIFIER, isref:BOOL) -> () =@{
+<append-tuple> : (z:ZONE, a:TYPETUPLE&, id:IDENT, type:IDENT, isref:BOOL) -> () =@{
 	struct entry *et;
 	NStringT tstr, istr;
 	nstring_copy_cstring(&tstr,@type);
@@ -840,7 +840,7 @@ arg-ignore : () -> (a:ARG) = @{
 
 @};
 
-<E_nonglobalzonetype>    : (i:IDENTIFIER) -> () = @{
+<E_nonglobalzonetype>    : (i:IDENT) -> () = @{
     error( ERROR_SERIOUS, "Syntax error: type %s should not be declared inside a zone",@i) ;
 @};
 
@@ -851,7 +851,7 @@ arg-ignore : () -> (a:ARG) = @{
     This action reports a syntax error.
 */
 
-<E_expected_identifier> : () -> (i:IDENTIFIER) = @{
+<E_expected_ident> : () -> (i:IDENT) = @{
 	@i="";
 	error(ERROR_SERIOUS, "Syntax error: expected identifier");
 @};
@@ -910,7 +910,7 @@ arg-ignore : () -> (a:ARG) = @{
 	error(ERROR_SERIOUS, "Argument of type "" are rvalues and should not appear on a left handside");
 @} ;
 
-<E_return_terminal_in_rhs> : () -> () = @{
+<E_return_in_rhs> : () -> () = @{
 	error(ERROR_SERIOUS, "Return terminal argument in right handside");
 @};
 

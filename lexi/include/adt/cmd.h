@@ -21,10 +21,10 @@ enum arg_type {
 	arg_charP,
 	arg_char_nb,
 	arg_nb_of_chars,
-	arg_identifier,
+	arg_ident,
 	arg_terminal,
 	arg_ignore,
-	arg_return_terminal,
+	arg_return,
 	arg_none
 };
 
@@ -37,14 +37,14 @@ struct arg {
 		char *literal;
 	} u;
 
-	bool is_reference;
+	bool is_ref;
 };
 
 /* ordered */
 struct args_list {
 	struct arg  *head;
 	struct arg **tail;
-	int nb_return_terminal;
+	int nb_return;
 };
 
 enum cmd_type {
@@ -79,18 +79,18 @@ struct cmd_list {
 	struct cmd** tail;
 	int size;
 	struct LocalNamesT local_names;
-	int nb_return_terminal;
+	int nb_return;
 };
 
 struct arg *add_arg(enum arg_type, unsigned int);
-struct arg *add_identifier_arg(char *);
-struct arg *add_reference_arg(char *);
-struct arg *add_terminal_arg(char *);
-struct arg *add_none_arg(void);
+struct arg *add_ident(char *);
+struct arg *add_ref(char *);
+struct arg *add_terminal(char *);
+struct arg *add_none(void);
 void arg_output(struct arg *, bool, int, FILE *);
 struct args_list *add_args_list(void);
 
-struct cmd *add_cmd_return_terminal(char *name);
+struct cmd *add_cmd_return(char *name);
 struct cmd *add_cmd_donothing(void);
 struct cmd *add_cmd_action(struct entry *, struct args_list *, struct args_list *);
 struct cmd *add_cmd_mapping(char *map);

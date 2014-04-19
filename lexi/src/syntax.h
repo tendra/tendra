@@ -24,7 +24,7 @@
 #ifndef SYNTAX_INCLUDED
 #define SYNTAX_INCLUDED
 
-#include "adt/zone.h"
+#include <adt/zone.h>
 
 extern char *token_prefix ;
 typedef struct zone * zoneP;
@@ -38,33 +38,33 @@ extern void read_lex(zoneP);
 /* BEGINNING OF TERMINAL DEFINITIONS */
 
 #define lex_arg_Hnb_Hof_Hchars (32)
+#define lex_sid_Hident (1)
 #define lex_arg_Hchar_Hnb (31)
 #define lex_keyword (7)
+#define lex_arg_Hreturn (33)
 #define lex_range (24)
 #define lex_comma (27)
 #define lex_action_Hkw (35)
 #define lex_digit (5)
 #define lex_unknown (29)
+#define lex_ident (0)
 #define lex_close (14)
-#define lex_sid_Hidentifier (1)
 #define lex_string (2)
 #define lex_equal (19)
 #define lex_colon (22)
-#define lex_arg_Hreturn_Hterminal (33)
 #define lex_range_Hclosed_Hopen (26)
 #define lex_token (9)
 #define lex_white (10)
-#define lex_identifier (0)
 #define lex_lower (4)
 #define lex_arrow (17)
 #define lex_upper (3)
 #define lex_group (6)
 #define lex_nothing_Hmarker (28)
 #define lex_open (13)
-#define lex_reference (23)
 #define lex_begin_Haction (36)
 #define lex_eof (18)
 #define lex_zone (12)
+#define lex_ref (23)
 #define lex_plus (20)
 #define lex_close_Hbrace (16)
 #define lex_semicolon (21)

@@ -9,18 +9,17 @@
 GROUP alpha = {A-Z} + {a-z} + "_";
 GROUP alnum = {A-Z} + {a-z} + {0-9} + "_";
 
-ACTION <init_token_buffer>;
-ACTION <push_token_buffer>: (:CHARACTER) -> ();
-ACTION <fini_token_buffer>;
+ACTION <init_tokbuf>;
+ACTION <push_tokbuf>: (:CHARACTER) -> ();
+ACTION <fini_tokbuf>;
 
-ACTION <token_keyword_match>: (:TERMINAL)  -> (:TERMINAL);
-ACTION <get_code_lct_string>: (:CHARACTER) -> (:TERMINAL) ;
-
+ACTION <keyword>: (:TERMINAL)  -> (:TERMINAL);
+ACTION <code_string>: (:CHARACTER) -> (:TERMINAL) ;
 
 TOKEN "("  -> $open;
 TOKEN ")"  -> $close;
 TOKEN "="  -> $define;
-TOKEN "&"  -> $reference;
+TOKEN "&"  -> $ref;
 TOKEN ";"  -> $semicolon;
 TOKEN ":"  -> $colon;
 TOKEN ","  -> $comma;
@@ -29,12 +28,12 @@ TOKEN "\e" -> $eof;
 
 TOKEN DEFAULT -> $unknown;
 
-ZONE identifier:
-	"[alpha]"  -> <init_token_buffer>, <push_token_buffer>(#0) [...)
-	"[^alnum]" -> <fini_token_buffer>, $ = <token_keyword_match>($identifier)
+ZONE ident:
+	"[alpha]"  -> <init_tokbuf>, <push_tokbuf>(#0) [...)
+	"[^alnum]" -> <fini_tokbuf>, $ = <keyword>($ident)
 {
 	GROUP white = "";
-	TOKEN DEFAULT -> <push_token_buffer>(#0);
+	TOKEN DEFAULT -> <push_tokbuf>(#0);
 }
 
 ZONE comment: "/*" ... "*/" {
@@ -47,22 +46,22 @@ ZONE linecomment: "//" ... "\n" {
 	TOKEN DEFAULT -> $$;
 }
 
-ZONE code_area: "@{" -> $code-start ... "@}" -> $code-end {
+ZONE code: "@{" -> $code-start ... "@}" -> $code-end {
 	GROUP white = "";
-	TOKEN DEFAULT -> $ = <get_code_lct_string>(#0);
+	TOKEN DEFAULT -> $ = <code_string>(#0);
 
-	ZONE codeidentifierzone:
-		"@[alpha]" -> <init_token_buffer>, <push_token_buffer>(#1) [...)
-		"[^alnum]" -> <fini_token_buffer>, $code-identifier
+	ZONE code_ident:
+		"@[alpha]" -> <init_tokbuf>, <push_tokbuf>(#1) [...)
+		"[^alnum]" -> <fini_tokbuf>, $code-ident
 	{
-		TOKEN DEFAULT -> <push_token_buffer>(#0);
+		TOKEN DEFAULT -> <push_tokbuf>(#0);
 	}
 
-	ZONE codereferencezone:
-		"@&[alpha]" -> <init_token_buffer>, <push_token_buffer>(#2) [...)
-		"[^alnum]"  -> <fini_token_buffer>, $code-reference
+	ZONE code_ref:
+		"@&[alpha]" -> <init_tokbuf>, <push_tokbuf>(#2) [...)
+		"[^alnum]"  -> <fini_tokbuf>, $code-ref
 	{
-		TOKEN DEFAULT -> <push_token_buffer>(#0);
+		TOKEN DEFAULT -> <push_tokbuf>(#0);
 	}
 
 	TOKEN "@@" -> $code-at;

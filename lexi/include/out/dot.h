@@ -9,8 +9,7 @@
 #ifndef LEXI_DOT_OUTPUT_H
 #define LEXI_DOT_OUTPUT_H
 
-#include <adt/tree.h>
-
+struct ast;
 struct options;
 
 /*
@@ -25,7 +24,7 @@ struct options;
  * distinctions clear.
  */
 void
-dot_output_all(struct options *opt, struct lexer_parse_tree *top_level);
+dot_output_all(struct options *opt, struct ast *ast);
 
 #endif
 

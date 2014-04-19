@@ -23,8 +23,8 @@ HEADERS = @{
 	int crt_lct_token;
 	int saved_lct_token;
 
-	char lct_token_buff[2000];
-	static char *lct_token_end = lct_token_buff + sizeof lct_token_buff;
+	char lct_tokbuf[2000];
+	static char *lct_token_end = lct_tokbuf + sizeof lct_tokbuf;
 	static char *lct_token_current;
 
 	NStringT lct_token_nstring;
@@ -64,7 +64,7 @@ HEADERS = @{
 
 	typedef FILE *FILE_P_lct;
 
-	extern char lct_token_buff[];
+	extern char lct_tokbuf[];
 	int crt_lct_token;
 	int saved_lct_token;
 	struct lct_ast lct_ast;
@@ -87,11 +87,11 @@ MAP TERMINAL -> int;
 
 ARGUMENT input :FILE_P_lct;
 
-ACTION init_token_buffer = @{
-	lct_token_current=lct_token_buff;
+ACTION init_tokbuf = @{
+	lct_token_current=lct_tokbuf;
 @};
 
-ACTION push_token_buffer: (c :CHARACTER) -> () = @{
+ACTION push_tokbuf: (c :CHARACTER) -> () = @{
 	if (lct_token_current == lct_token_end - 1) {
 		error(ERROR_FATAL, "Buffer overflow");
 	} else {
@@ -99,7 +99,7 @@ ACTION push_token_buffer: (c :CHARACTER) -> () = @{
 	}
 @};
 
-ACTION fini_token_buffer = @{
+ACTION fini_tokbuf = @{
 	if (lct_token_current == lct_token_end) {
 		error(ERROR_FATAL, "Buffer overflow: trailing 0");
 		*(lct_token_end - 1) = 0;
@@ -108,11 +108,11 @@ ACTION fini_token_buffer = @{
 	}
 @};
 
-ACTION token_keyword_match: (ti :TERMINAL) -> (to :TERMINAL) = @{
-	@to = lexi_lct_keyword(lct_token_buff, @ti);
+ACTION keyword: (ti :TERMINAL) -> (to :TERMINAL) = @{
+	@to = lexi_lct_keyword(lct_tokbuf, @ti);
 @};
 
-ACTION get_code_lct_string: (c :CHARACTER) -> (a :TERMINAL) = @{
+ACTION code_string: (c :CHARACTER) -> (a :TERMINAL) = @{
 	DStringT dstring;
 	int c;
 

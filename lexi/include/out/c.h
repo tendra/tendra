@@ -10,8 +10,7 @@
 #ifndef LEXI_C_OUTPUT_H
 #define LEXI_C_OUTPUT_H
 
-#include <adt/tree.h>
-
+struct ast;
 struct options;
 
 /*
@@ -28,7 +27,7 @@ struct options;
  * is expected to be either C90 or C99.
  */
 void
-c_output_all(struct options *opt, struct lexer_parse_tree *top_level);
+c_output_all(struct options *opt, struct ast *ast);
 
 #endif
 

@@ -12,7 +12,7 @@
 #line 87 "lctsyntax.act"
 
 
-/* $Id: lctsyntax.act 3028 2014-04-19 14:11:10Z kate $ */
+/* $Id: lctsyntax.act 3029 2014-04-19 14:35:59Z kate $ */
 
 /*
  * Copyright 2011, The TenDRA Project.
@@ -112,26 +112,26 @@ ZRaction_Hdefinition_C_Ctype_Htuple_C_Ctype_Hname(typetuple *ZIa)
 			switch (CURRENT_TERMINAL) {
 			case 19:
 				{
-					/* BEGINNING OF EXTRACT: identifier */
+					/* BEGINNING OF EXTRACT: ident */
 					{
 #line 160 "lctsyntax.act"
 
-	nstring_copy_cstring(&ZIname,lct_token_buff);
+	nstring_copy_cstring(&ZIname,lct_tokbuf);
 #line 121 "lctsyntax.c"
 					}
-					/* END OF EXTRACT: identifier */
+					/* END OF EXTRACT: ident */
 					ADVANCE_LEXER;
 				}
 				break;
 			default:
 				{
-					/* BEGINNING OF ACTION: empty-identifier */
+					/* BEGINNING OF ACTION: empty-ident */
 					{
 #line 192 "lctsyntax.act"
  nstring_init(&(ZIname)); 
 #line 133 "lctsyntax.c"
 					}
-					/* END OF ACTION: empty-identifier */
+					/* END OF ACTION: empty-ident */
 				}
 				break;
 			}
@@ -146,14 +146,14 @@ ZRaction_Hdefinition_C_Ctype_Htuple_C_Ctype_Hname(typetuple *ZIa)
 		ADVANCE_LEXER;
 		switch (CURRENT_TERMINAL) {
 		case 19:
-			/* BEGINNING OF EXTRACT: identifier */
+			/* BEGINNING OF EXTRACT: ident */
 			{
 #line 160 "lctsyntax.act"
 
-	nstring_copy_cstring(&ZItype,lct_token_buff);
+	nstring_copy_cstring(&ZItype,lct_tokbuf);
 #line 155 "lctsyntax.c"
 			}
-			/* END OF EXTRACT: identifier */
+			/* END OF EXTRACT: ident */
 			break;
 		default:
 			goto ZL1;
@@ -291,14 +291,14 @@ ZRcode_Hblock_C_Ccode_Helement(ccode *ZIc, EntryP ZIe)
 			NStringT ZIi;
 			bool ZIb;
 
-			/* BEGINNING OF EXTRACT: code-identifier */
+			/* BEGINNING OF EXTRACT: code-ident */
 			{
 #line 164 "lctsyntax.act"
 
-	nstring_copy_cstring(&ZIi,lct_token_buff);
+	nstring_copy_cstring(&ZIi,lct_tokbuf);
 #line 300 "lctsyntax.c"
 			}
-			/* END OF EXTRACT: code-identifier */
+			/* END OF EXTRACT: code-ident */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: false */
 			{
@@ -307,7 +307,7 @@ ZRcode_Hblock_C_Ccode_Helement(ccode *ZIc, EntryP ZIe)
 #line 308 "lctsyntax.c"
 			}
 			/* END OF ACTION: false */
-			/* BEGINNING OF ACTION: append-ccode-identifier */
+			/* BEGINNING OF ACTION: append-ccode-ident */
 			{
 #line 211 "lctsyntax.act"
 
@@ -317,10 +317,10 @@ ZRcode_Hblock_C_Ccode_Helement(ccode *ZIc, EntryP ZIe)
 	 	if ((p = typetuple_name_is_in(action_get_inputs(act),(&ZIi))) || 
 	       	    (q = typetuple_name_is_in(action_get_outputs(act),(&ZIi)))) {
 		   	if(!(ZIb)) {
-				ccode_append_identifier((ZIc),(&ZIi));
+				ccode_append_ident((ZIc),(&ZIi));
 			} else {
-				if(p && p->is_reference) {
-					ccode_append_reference((ZIc),(&ZIi));
+				if(p && p->is_ref) {
+					ccode_append_ref((ZIc),(&ZIi));
 				} else {
 					error(ERROR_SERIOUS, "In code block the \'@&\' can only be used for input parameters that are references");
 				}
@@ -342,7 +342,7 @@ ZRcode_Hblock_C_Ccode_Helement(ccode *ZIc, EntryP ZIe)
 	}
 #line 344 "lctsyntax.c"
 			}
-			/* END OF ACTION: append-ccode-identifier */
+			/* END OF ACTION: append-ccode-ident */
 		}
 		break;
 	case 21:
@@ -350,14 +350,14 @@ ZRcode_Hblock_C_Ccode_Helement(ccode *ZIc, EntryP ZIe)
 			NStringT ZIi;
 			bool ZIb;
 
-			/* BEGINNING OF EXTRACT: code-reference */
+			/* BEGINNING OF EXTRACT: code-ref */
 			{
 #line 168 "lctsyntax.act"
 
-	nstring_copy_cstring(&ZIi,lct_token_buff);
+	nstring_copy_cstring(&ZIi,lct_tokbuf);
 #line 359 "lctsyntax.c"
 			}
-			/* END OF EXTRACT: code-reference */
+			/* END OF EXTRACT: code-ref */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: true */
 			{
@@ -366,7 +366,7 @@ ZRcode_Hblock_C_Ccode_Helement(ccode *ZIc, EntryP ZIe)
 #line 367 "lctsyntax.c"
 			}
 			/* END OF ACTION: true */
-			/* BEGINNING OF ACTION: append-ccode-identifier */
+			/* BEGINNING OF ACTION: append-ccode-ident */
 			{
 #line 211 "lctsyntax.act"
 
@@ -376,10 +376,10 @@ ZRcode_Hblock_C_Ccode_Helement(ccode *ZIc, EntryP ZIe)
 	 	if ((p = typetuple_name_is_in(action_get_inputs(act),(&ZIi))) || 
 	       	    (q = typetuple_name_is_in(action_get_outputs(act),(&ZIi)))) {
 		   	if(!(ZIb)) {
-				ccode_append_identifier((ZIc),(&ZIi));
+				ccode_append_ident((ZIc),(&ZIi));
 			} else {
-				if(p && p->is_reference) {
-					ccode_append_reference((ZIc),(&ZIi));
+				if(p && p->is_ref) {
+					ccode_append_ref((ZIc),(&ZIi));
 				} else {
 					error(ERROR_SERIOUS, "In code block the \'@&\' can only be used for input parameters that are references");
 				}
@@ -401,7 +401,7 @@ ZRcode_Hblock_C_Ccode_Helement(ccode *ZIc, EntryP ZIe)
 	}
 #line 403 "lctsyntax.c"
 			}
-			/* END OF ACTION: append-ccode-identifier */
+			/* END OF ACTION: append-ccode-ident */
 		}
 		break;
 	case 22:
@@ -470,14 +470,14 @@ ZRmap_Hstmnt(void)
 		ADVANCE_LEXER;
 		switch (CURRENT_TERMINAL) {
 		case 19:
-			/* BEGINNING OF EXTRACT: identifier */
+			/* BEGINNING OF EXTRACT: ident */
 			{
 #line 160 "lctsyntax.act"
 
-	nstring_copy_cstring(&ZIlexitype,lct_token_buff);
+	nstring_copy_cstring(&ZIlexitype,lct_tokbuf);
 #line 479 "lctsyntax.c"
 			}
-			/* END OF EXTRACT: identifier */
+			/* END OF EXTRACT: ident */
 			break;
 		default:
 			goto ZL1;
@@ -486,14 +486,14 @@ ZRmap_Hstmnt(void)
 		ZR104 ();
 		switch (CURRENT_TERMINAL) {
 		case 19:
-			/* BEGINNING OF EXTRACT: identifier */
+			/* BEGINNING OF EXTRACT: ident */
 			{
 #line 160 "lctsyntax.act"
 
-	nstring_copy_cstring(&ZIctype,lct_token_buff);
+	nstring_copy_cstring(&ZIctype,lct_tokbuf);
 #line 495 "lctsyntax.c"
 			}
-			/* END OF EXTRACT: identifier */
+			/* END OF EXTRACT: ident */
 			break;
 		case 24:
 			RESTORE_LEXER;
@@ -1271,14 +1271,14 @@ ZR113(NStringT *ZOctype)
 	{
 		switch (CURRENT_TERMINAL) {
 		case 19:
-			/* BEGINNING OF EXTRACT: identifier */
+			/* BEGINNING OF EXTRACT: ident */
 			{
 #line 160 "lctsyntax.act"
 
-	nstring_copy_cstring(&ZIctype,lct_token_buff);
+	nstring_copy_cstring(&ZIctype,lct_tokbuf);
 #line 1280 "lctsyntax.c"
 			}
-			/* END OF EXTRACT: identifier */
+			/* END OF EXTRACT: ident */
 			break;
 		default:
 			goto ZL1;
@@ -1288,31 +1288,31 @@ ZR113(NStringT *ZOctype)
 	goto ZL0;
 ZL1:;
 	{
-		/* BEGINNING OF ACTION: empty-identifier */
+		/* BEGINNING OF ACTION: empty-ident */
 		{
 #line 192 "lctsyntax.act"
  nstring_init(&(ZIctype)); 
 #line 1296 "lctsyntax.c"
 		}
-		/* END OF ACTION: empty-identifier */
-		/* BEGINNING OF ACTION: E_expected_identifier */
+		/* END OF ACTION: empty-ident */
+		/* BEGINNING OF ACTION: E_expected_ident */
 		{
 #line 416 "lctsyntax.act"
 
 	    error( ERROR_SERIOUS, "Syntax error: expected  identifier") ;
 #line 1304 "lctsyntax.c"
 		}
-		/* END OF ACTION: E_expected_identifier */
+		/* END OF ACTION: E_expected_ident */
 	}
 ZL0:;
-	/* BEGINNING OF RESULT ASSIGNMENT: IDENTIFIER */
+	/* BEGINNING OF RESULT ASSIGNMENT: IDENT */
 	{
 #line 150 "lctsyntax.act"
 
 	nstring_assign(ZOctype,(&ZIctype));
 #line 1314 "lctsyntax.c"
 	}
-	/* END OF RESULT ASSIGNMENT: IDENTIFIER */
+	/* END OF RESULT ASSIGNMENT: IDENT */
 }
 
 static void

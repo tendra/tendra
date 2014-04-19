@@ -13,16 +13,16 @@
  * This file describes the lexical analyser used by lexi.
  */
 
-ACTION <init_token_buffer>;
-ACTION <push_token_buffer>: (:CHARACTER) -> ();
-ACTION <fini_token_buffer>;
+ACTION <init_tokbuf>;
+ACTION <push_tokbuf>: (:CHARACTER) -> ();
+ACTION <fini_tokbuf>;
 ACTION <E_eof_in_string>;
 ACTION <E_newline_in_string>;
 
-ACTION <token_keyword_match>: (:TERMINAL) -> (:TERMINAL);
+ACTION <keyword>: (:TERMINAL) -> (:TERMINAL);
 
-ACTION <number_buffer_init>: () -> ();
-ACTION <number_buffer_push_digit>: (:CHARACTER) -> ();
+ACTION <numbuf_init>: () -> ();
+ACTION <numbuf_push_digit>: (:CHARACTER) -> ();
 
 GROUP white   = " \t\n\r";
 GROUP alpha   = {A-Z} + {a-z} + "_";
@@ -38,7 +38,7 @@ TOKEN "{"  -> $open-brace;
 TOKEN "}"  -> $close-brace;
 TOKEN "->" -> $arrow;
 TOKEN ":"  -> $colon;
-TOKEN "&"  -> $reference;
+TOKEN "&"  -> $ref;
 TOKEN ";"  -> $semicolon;
 TOKEN "="  -> $equal;
 TOKEN "+"  -> $plus;
@@ -52,7 +52,7 @@ TOKEN "\[...)" -> $range-closed-open;
 
 TOKEN "#n"     -> $arg-nb-of-chars;
 TOKEN "#*"     -> $arg-char-string;
-TOKEN "$"      -> $arg-return-terminal;
+TOKEN "$"      -> $arg-return;
 TOKEN "!"      -> $arg-ignore;
 
 TOKEN "{A-Z}" -> $upper;
@@ -60,10 +60,10 @@ TOKEN "{a-z}" -> $lower;
 TOKEN "{0-9}" -> $digit;
 
 ZONE arg_char_nb_zone:
-	"#[digit]" -> <number_buffer_init>, <number_buffer_push_digit>(#1) [...)
+	"#[digit]" -> <numbuf_init>, <numbuf_push_digit>(#1) [...)
 	"[^digit]" -> $arg-char-nb
 {
-	TOKEN DEFAULT -> <number_buffer_push_digit>(#0);
+	TOKEN DEFAULT -> <numbuf_push_digit>(#0);
 }
 
 ZONE comment: "/*" ... "*/" {
@@ -76,29 +76,29 @@ ZONE linecomment: "//" ... "\n" {
 	TOKEN DEFAULT -> $$;
 }
 
-ZONE stringzone: "\"" ->  <init_token_buffer> ... "\"" -> <fini_token_buffer>, $string {
+ZONE string: "\"" ->  <init_tokbuf> ... "\"" -> <fini_tokbuf>, $string {
 	GROUP white = "";
-	TOKEN DEFAULT -> <push_token_buffer>(#0);
-	TOKEN "\\\""  -> <push_token_buffer>(#1);
-	TOKEN "\\\\"  -> <push_token_buffer>(#0), <push_token_buffer>(#0);
+	TOKEN DEFAULT -> <push_tokbuf>(#0);
+	TOKEN "\\\""  -> <push_tokbuf>(#1);
+	TOKEN "\\\\"  -> <push_tokbuf>(#0), <push_tokbuf>(#0);
 	TOKEN "\e"    -> <E_eof_in_string>;
 	TOKEN "\n"    -> <E_newline_in_string>;
 }
 
-ZONE identifierzone:
-	"[alpha]" -> <init_token_buffer>, <push_token_buffer>(#0) [...)
-	"[^alnum]" -> <fini_token_buffer>, $ = <token_keyword_match>($identifier)
+ZONE ident:
+	"[alpha]" -> <init_tokbuf>, <push_tokbuf>(#0) [...)
+	"[^alnum]" -> <fini_tokbuf>, $ = <keyword>($ident)
 {
 	GROUP white = "";
-	TOKEN DEFAULT -> <push_token_buffer>(#0);
+	TOKEN DEFAULT -> <push_tokbuf>(#0);
 }
 
-ZONE sididentifierzone:
-	"$[alpha]" ->  <init_token_buffer>, <push_token_buffer>(#1) [...)
-	"[^alnumhy]" -> <fini_token_buffer>, $sid-identifier
+ZONE sidident:
+	"$[alpha]" ->  <init_tokbuf>, <push_tokbuf>(#1) [...)
+	"[^alnumhy]" -> <fini_tokbuf>, $sid-ident
 {
 	GROUP white = "";
-	TOKEN DEFAULT -> <push_token_buffer>(#0);
+	TOKEN DEFAULT -> <push_tokbuf>(#0);
 }
 
 KEYWORD "TYPE"    -> $type-kw;

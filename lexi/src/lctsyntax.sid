@@ -10,7 +10,7 @@
 %types%
 BOOL;
 ENTRYP;
-IDENTIFIER ;
+IDENT ;
 BIGSTRING ;
 TYPETUPLE;
 CCODE;
@@ -23,7 +23,7 @@ map-kw ;
 action-kw ;
 argument-kw;
 
-reference ;	//&
+ref;	//&
 colon;
 arrow;
 define ;  	//=
@@ -39,9 +39,9 @@ code-at;
 code-eof;
 
 eof;
-identifier : () -> (:IDENTIFIER);
-code-identifier : () -> (:IDENTIFIER);
-code-reference : () -> (:IDENTIFIER);
+ident: () -> (:IDENT);
+code-ident: () -> (:IDENT);
+code-ref: () -> (:IDENT);
 code-string : () -> (:BIGSTRING);
 !unknown ;
 
@@ -50,28 +50,28 @@ code-string : () -> (:BIGSTRING);
 <true> : () -> (:BOOL) ;
 <false> : () -> (:BOOL) ;
 
-<empty-identifier> : () -> ( : IDENTIFIER);
+<empty-ident> : () -> ( : IDENT);
 
 <set-headers> : (:CCODE &, :CCODE&) -> ();
 <set-trailers> : (:CCODE &, :CCODE&) -> ();
 
 <init-tuple> : () -> (:TYPETUPLE);
-<append-tuple> : (:TYPETUPLE&, :IDENTIFIER, :IDENTIFIER, :BOOL) -> ();
+<append-tuple> : (:TYPETUPLE&, :IDENT, :IDENT, :BOOL) -> ();
 
-<make-map> : (:IDENTIFIER, :IDENTIFIER) -> ();
+<make-map> : (:IDENT, :IDENT) -> ();
 
 <define-action> : (:ENTRYP, :CCODE&) -> ();
 <check-action-tuples> : (:ENTRYP, :TYPETUPLE&, :TYPETUPLE&) -> ();	
 <null-entry> : () -> (:ENTRYP);
-<get-entry-action> : (:IDENTIFIER) -> (:ENTRYP);
+<get-entry-action> : (:IDENT) -> (:ENTRYP);
 
 
 <init-ccode> : () -> (:CCODE);
 <append-ccode-string> : (:CCODE&, :BIGSTRING&) -> ();
-<append-ccode-identifier> : (:CCODE&, :IDENTIFIER, :ENTRYP, :BOOL) -> ();
+<append-ccode-ident> : (:CCODE&, :IDENT, :ENTRYP, :BOOL) -> ();
 <append-ccode-at> : (:CCODE&) -> ();
 
-<define-additional-argument> : (:IDENTIFIER, :IDENTIFIER) -> ();
+<define-additional-argument> : (:IDENT, :IDENT) -> ();
 
 <E-syntax-error> ;
 <E_expected_code_end> ;
@@ -81,7 +81,7 @@ code-string : () -> (:BIGSTRING);
 <E_expected_arrow> ;
 <E_expected_colon> ;
 <E_expected_semicolon> ;
-<E_expected_identifier>;
+<E_expected_ident>;
 
 <E_unexpected_eof> ;
 <E_lone_at_in_code_block>;
@@ -91,13 +91,13 @@ code-block : (e:ENTRYP) -> (c:CCODE) [
 		s = code-string ;
 		<append-ccode-string>(&c, &s);
 	    ||	
-	    	i = code-identifier;
+	    	i = code-ident;
 		b = <false>;
-		<append-ccode-identifier>(&c, i, e, b);
+		<append-ccode-ident>(&c, i, e, b);
 	    ||
-	    	i = code-reference;
+	    	i = code-ref;
 		b = <true>;
-		<append-ccode-identifier>(&c, i, e, b);
+		<append-ccode-ident>(&c, i, e, b);
 	    ||
 		lone-code-at;
 		<E_lone_at_in_code_block>;
@@ -179,13 +179,13 @@ trailer-stmnt : () -> () = {
 };
 
 map-stmnt : () -> () = {
-	map-kw ; lexitype=identifier; 
+	map-kw ; lexitype=ident; 
 	{
 		arrow; 
 	    ##
 		<E_expected_arrow>;
 	};
-	ctype=identifier; 
+	ctype=ident; 
 	<make-map>(lexitype, ctype);
 	{
 		semicolon ;
@@ -198,16 +198,16 @@ action-definition : () -> () [
 	type-tuple : ( ) -> (a:TYPETUPLE) [
 		type-name : (a:TYPETUPLE&) -> () = {
 			{
-				name=identifier ;
+				name=ident;
 			    ||
-				name=<empty-identifier>;
+				name=<empty-ident>;
 			};
 			colon ;
-			type=identifier ;
+			type=ident;
 			{
 				isref = <false>;
 			    ||
-				reference; isref = <true>;
+				ref; isref = <true>;
 			};
 			<append-tuple>(&a,name,type,isref);
 		} ;
@@ -241,10 +241,10 @@ action-definition : () -> () [
 	] = {
 	action-kw; 
 	{
-		nm = identifier; 
+		nm = ident; 
 	    ##
-		nm = <empty-identifier>;
-		<E_expected_identifier>;
+		nm = <empty-ident>;
+		<E_expected_ident>;
 	};
 	(in, out) = function-type-defn ;
 	{
@@ -267,10 +267,10 @@ action-definition : () -> () [
 argument-stmnt : () -> () = {
 	argument-kw; 
 	{
-		name = identifier ;
+		name = ident;
 	    ##
-		name = <empty-identifier>;
-		<E_expected_identifier>;
+		name = <empty-ident>;
+		<E_expected_ident>;
 	};
 	{
 		colon ;
@@ -278,10 +278,10 @@ argument-stmnt : () -> () = {
 		<E_expected_colon>;
 	};
 	{
-		ctype = identifier ;
+		ctype = ident;
 	    ##
-		ctype = <empty-identifier>;
-		<E_expected_identifier>;
+		ctype = <empty-ident>;
+		<E_expected_ident>;
 	};
 	<define-additional-argument>(name, ctype);	
 	{

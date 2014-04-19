@@ -25,7 +25,7 @@ lct-unit -> read_lct_unit ;
 BOOL -> bool;
 CCODE -> ccode;
 BIGSTRING -> NStringT;
-IDENTIFIER -> NStringT;
+IDENT -> NStringT;
 TYPETUPLE -> typetuple;
 ENTRYP -> EntryP;
 
@@ -126,7 +126,7 @@ extern void init_lct_ast(struct lct_ast*);
 
 %assignments%
 
-IDENTIFIER : (a) -> (b) = @{
+IDENT : (a) -> (b) = @{
 	nstring_assign(&@b,@a);
 @};
 
@@ -136,7 +136,7 @@ BIGSTRING : (a) -> (b) = @{
 
 %parameter-assignments%
 
-IDENTIFIER : (a) -> (b) = @{
+IDENT : (a) -> (b) = @{
 	nstring_assign(&@b,@a);
 @};
 
@@ -146,7 +146,7 @@ BIGSTRING : (a) -> (b) = @{
 
 %result-assignments%
 
-IDENTIFIER : (a) -> (b) = @{
+IDENT : (a) -> (b) = @{
 	nstring_assign(@b,@&a);
 @};
 
@@ -156,16 +156,16 @@ BIGSTRING : (a) -> (b) = @{
 
 %terminals%
 
-identifier : () -> (i:IDENTIFIER) = @{
-	nstring_copy_cstring(&@i,lct_token_buff);
+ident : () -> (i:IDENT) = @{
+	nstring_copy_cstring(&@i,lct_tokbuf);
 @};
 
-code-identifier : () -> (i:IDENTIFIER) = @{
-	nstring_copy_cstring(&@i,lct_token_buff);
+code-ident : () -> (i:IDENT) = @{
+	nstring_copy_cstring(&@i,lct_tokbuf);
 @};
 
-code-reference : () -> (i:IDENTIFIER) = @{
-	nstring_copy_cstring(&@i,lct_token_buff);
+code-ref : () -> (i:IDENT) = @{
+	nstring_copy_cstring(&@i,lct_tokbuf);
 @};
 
 code-string : () -> (s:BIGSTRING) = @{
@@ -189,7 +189,7 @@ code-string : () -> (s:BIGSTRING) = @{
 	STRINGS
 */
 
-<empty-identifier> : () -> ( s: IDENTIFIER) = @{ nstring_init(&@s); @};
+<empty-ident> : () -> ( s: IDENT) = @{ nstring_init(&@s); @};
 
 /*
 	C CODE MANIPULATION
@@ -207,17 +207,17 @@ code-string : () -> (s:BIGSTRING) = @{
 	ccode_append_string(@&c,@&s);
 @};
 
-<append-ccode-identifier> : (c:CCODE&, i:IDENTIFIER, e:ENTRYP, b:BOOL) -> () = @{
+<append-ccode-ident> : (c:CCODE&, i:IDENT, e:ENTRYP, b:BOOL) -> () = @{
 	if(@e) {
 		struct action* act = entry_get_action(@e);
 		struct TypeTupleEntryT *p, *q;
 	 	if ((p = typetuple_name_is_in(action_get_inputs(act),@&i)) || 
 	       	    (q = typetuple_name_is_in(action_get_outputs(act),@&i))) {
 		   	if(!@b) {
-				ccode_append_identifier(@&c,@&i);
+				ccode_append_ident(@&c,@&i);
 			} else {
-				if(p && p->is_reference) {
-					ccode_append_reference(@&c,@&i);
+				if(p && p->is_ref) {
+					ccode_append_ref(@&c,@&i);
 				} else {
 					error(ERROR_SERIOUS, "In code block the \'@@&\' can only be used for input parameters that are references");
 				}
@@ -239,7 +239,7 @@ code-string : () -> (s:BIGSTRING) = @{
 	}
 @};
 
-<define-additional-argument> : (name:IDENTIFIER, ctype:IDENTIFIER) -> () = @{
+<define-additional-argument> : (name:IDENT, ctype:IDENT) -> () = @{
 	struct lxi_additional_argument* p;
 	if(nstring_length(@&name)>0 && nstring_length(@&ctype)>0) {
 		p = xmalloc(sizeof(*p));
@@ -286,7 +286,7 @@ code-string : () -> (s:BIGSTRING) = @{
 	typetuple_init(&@a);
 @};
 
-<append-tuple> : (a:TYPETUPLE&, id:IDENTIFIER, type:IDENTIFIER, isref:BOOL) -> () =@{
+<append-tuple> : (a:TYPETUPLE&, id:IDENT, type:IDENT, isref:BOOL) -> () =@{
 	struct entry *et = table_get_entry(tree_get_table(lxi_ast), @&type);
 	if(et== NULL) {
 		 char* pt = nstring_to_cstring(@&type);
@@ -305,7 +305,7 @@ code-string : () -> (s:BIGSTRING) = @{
 	}
 @} ;
 
-<make-map> : (lexitype:IDENTIFIER, ctype:IDENTIFIER) -> () = @{
+<make-map> : (lexitype:IDENT, ctype:IDENT) -> () = @{
 	struct entry *et= table_get_entry(tree_get_table(lxi_ast), @&lexitype);
 	if(et != NULL) {
 		if(entry_is_type(et)) {
@@ -323,7 +323,7 @@ code-string : () -> (s:BIGSTRING) = @{
 @};
 
 
-<get-entry-action> : (i:IDENTIFIER) -> (ea:ENTRYP) = @{
+<get-entry-action> : (i:IDENT) -> (ea:ENTRYP) = @{
 	@ea=table_get_entry(tree_get_table(lxi_ast), @&i);
 	if(@ea) {
 		if(!entry_is_action(@ea)) {
@@ -411,7 +411,7 @@ code-string : () -> (s:BIGSTRING) = @{
 	    error( ERROR_SERIOUS, "Syntax error: expected  '@@}'") ;
 @};
 
-<E_expected_identifier> = @{
+<E_expected_ident> = @{
 	    error( ERROR_SERIOUS, "Syntax error: expected  identifier") ;
 @};
 

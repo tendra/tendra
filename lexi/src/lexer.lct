@@ -32,10 +32,10 @@ HEADERS = @{
 	 * This buffer is used by read_token to hold the values of identifiers
 	 * and strings.
 	 */
-	char token_buff[2000];
-	char *token_end = token_buff + sizeof token_buff;
+	char tokbuf[2000];
+	char *token_end = tokbuf + sizeof tokbuf;
 	static char* token_current;
-	unsigned int number_buffer;
+	unsigned int numbuf;
 
 	/*
 	 * CURRENT TOKEN
@@ -86,11 +86,11 @@ HEADERS = @{
 
 	#include <stdio.h> /* TODO: This is necessary because lexi automatically prepend #include "lexer.h" to the header. Maybe we should remove this unecessary feature */
 
-	extern char token_buff[];
+	extern char tokbuf[];
 	char *token_end;
 	int crt_lex_token;
 	int saved_lex_token;
-	unsigned int number_buffer;
+	unsigned int numbuf;
 	struct lexi_state lexer_state;
 
 	typedef FILE *FILE_P;
@@ -110,11 +110,11 @@ ARGUMENT input :FILE_P;
 
 MAP TERMINAL -> int;
 
-ACTION init_token_buffer = @{
-	token_current=token_buff;
+ACTION init_tokbuf = @{
+	token_current=tokbuf;
 @};
 
-ACTION push_token_buffer: (c :CHARACTER) -> () = @{
+ACTION push_tokbuf: (c :CHARACTER) -> () = @{
 	if (token_current == token_end - 1) {
 		error(ERROR_FATAL, "Buffer overflow");
 	} else {
@@ -122,7 +122,7 @@ ACTION push_token_buffer: (c :CHARACTER) -> () = @{
 	}
 @};
 
-ACTION fini_token_buffer = @{
+ACTION fini_tokbuf = @{
 	if (token_current == token_end) {
 		error(ERROR_FATAL, "Buffer overflow: trailing 0");
 		*(token_end-1) = 0;
@@ -131,8 +131,8 @@ ACTION fini_token_buffer = @{
 	}
 @};
 
-ACTION token_keyword_match: (ti :TERMINAL) -> (to :TERMINAL) = @{
-	@to = lexi_keyword(token_buff, @ti);
+ACTION keyword: (ti :TERMINAL) -> (to :TERMINAL) = @{
+	@to = lexi_keyword(tokbuf, @ti);
 @};
 
 ACTION E_eof_in_string = @{
@@ -143,12 +143,12 @@ ACTION E_newline_in_string = @{
 	error(ERROR_SERIOUS, "Unexpected newline in string");
 @};
 
-ACTION number_buffer_init: () -> () = @{
-	number_buffer = 0;
+ACTION numbuf_init: () -> () = @{
+	numbuf = 0;
 @};
 
-ACTION number_buffer_push_digit: (c :CHARACTER) -> () = @{
-	number_buffer *= 10;
-	number_buffer += @c - '0';
+ACTION numbuf_push_digit: (c :CHARACTER) -> () = @{
+	numbuf *= 10;
+	numbuf += @c - '0';
 @};
 

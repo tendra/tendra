@@ -28,21 +28,21 @@
 static struct options opt;
 
 static void
-process_lxi_file(char *nm, struct ast *ast)
+process_lxi_file(char *path, struct ast *ast)
 {
 	FILE *input;
 
 	crt_line_no = 1;
 
-	if (nm == NULL || !strcmp(nm, "-")) {
+	if (path == NULL || !strcmp(path, "-")) {
 		crt_file_name = "<stdin>";
 		input = stdin;
-		nm = NULL;
+		path = NULL;
 	} else {
-		crt_file_name = nm;
-		input = fopen(nm, "r");
+		crt_file_name = path;
+		input = fopen(path, "r");
 		if (input == NULL) {
-			error(ERROR_SERIOUS, "Can't open input file, '%s'", nm);
+			error(ERROR_SERIOUS, "Can't open input file, '%s'", path);
 			return;
 		}
 	}
@@ -52,7 +52,7 @@ process_lxi_file(char *nm, struct ast *ast)
 	ADVANCE_LXI_LEXER;
 	read_lex(tree_get_globalzone(ast));
 
-	if (nm != NULL) {
+	if (path != NULL) {
 		fclose(input);
 	}
 

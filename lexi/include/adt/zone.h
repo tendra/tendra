@@ -15,7 +15,7 @@
 #include "group.h"
 
 struct keyword;
-struct lexer_parse_tree;
+struct ast;
 
 /*
  * Type of Zones indicate if a zone return terminals or not.
@@ -58,11 +58,11 @@ struct zone {
 	struct zone *next;	/* child */
 	struct zone *up; 	/* parent */
 
-	struct lexer_parse_tree *top_level;
+	struct ast *ast;
 };
 
 size_t zone_maxlength(struct zone *z, int in_prepass);
-struct zone *new_zone(struct lexer_parse_tree *top_level);
+struct zone *new_zone(struct ast *ast);
 struct zone *add_zone(struct zone *, char *, const char *, int);
 
 /*

@@ -88,7 +88,7 @@ ccode_append_at(struct CcodeT *ccode)
 }
 
 void
-ccode_append_identifier(struct CcodeT *ccode, NStringT *i)
+ccode_append_ident(struct CcodeT *ccode, NStringT *i)
 {
 	struct CcodeItemT *ccode_item;
 
@@ -98,7 +98,7 @@ ccode_append_identifier(struct CcodeT *ccode, NStringT *i)
 }
 
 void
-ccode_append_reference(struct CcodeT *ccode, NStringT *i)
+ccode_append_ref(struct CcodeT *ccode, NStringT *i)
 {
 	struct CcodeItemT *ccode_item;
 

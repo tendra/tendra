@@ -25,12 +25,12 @@ struct keyword {
 };
 
 void
-add_keyword(struct zone *z, const char *nm, struct cmd *cmd)
+add_keyword(struct zone *z, const char *name, struct cmd *cmd)
 {
 	struct keyword *p, *q;
 
-	assert(nm != NULL);
-	assert(strlen(nm) > 0);
+	assert(name != NULL);
+	assert(strlen(name) > 0);
 
 	p = z->keywords;
 	q = NULL;
@@ -38,10 +38,10 @@ add_keyword(struct zone *z, const char *nm, struct cmd *cmd)
 	while (p) {
 		int c;
 
-		c = strcmp(nm, p->name);
+		c = strcmp(name, p->name);
 
 		if (c == 0) {
-			error(ERROR_SERIOUS, "Keyword '%s' already defined", nm);
+			error(ERROR_SERIOUS, "Keyword '%s' already defined", name);
 			return;
 		}
 
@@ -54,7 +54,7 @@ add_keyword(struct zone *z, const char *nm, struct cmd *cmd)
 	}
 
 	p = xmalloc(sizeof *p);
-	p->name  = nm;
+	p->name  = name;
 	p->cmd   = cmd;
 
 	if (q == NULL) {

@@ -219,10 +219,7 @@ output_locals(struct LocalNamesT *locals, unsigned int d, FILE *lex_output)
 
 	s = xmalloc_nof(char, locals->max_depth + 1);
 
-	for (localnames_begin(&it, locals);
-	    it.p;
-	    localnamesiterator_next(&it))
-	{
+	for (localnames_begin(&it, locals); it.p; localnamesiterator_next(&it)) {
 		struct LocalNamesEntryT *p = it.p;
 		struct entry *et = p->et;
 		int i;
@@ -286,7 +283,7 @@ output_action(FILE *lex_output, struct ast *ast,
 
 	d++;
 
-	if (lhs->nb_return_terminal) {
+	if (lhs->nb_return) {
 		char *prefixtype = "ZT";
 		struct entry *et;
 		char *st;
@@ -309,8 +306,8 @@ output_action(FILE *lex_output, struct ast *ast,
 
 	if (action_is_defined(ea->u.act)) {
 		ccode_output(lex_output, &ea->u.act->code, &trans, d );
-		if (lhs->nb_return_terminal) {
-			/*TODO assert(lhs->nb_return_terminal==1)*/
+		if (lhs->nb_return) {
+			/*TODO assert(lhs->nb_return==1)*/
 			output_indent(lex_output, d);
 			fputs("return ZT1;\n",lex_output);
 		}
@@ -348,7 +345,7 @@ output_pushzone(struct zone *parent, struct cmd *cmd, unsigned int n, unsigned i
 		output_cmds(parent, cmd->u.s.z->enter, n, d);
 	}
 
-	if (cmd->u.s.z->enter->nb_return_terminal != 0) {
+	if (cmd->u.s.z->enter->nb_return != 0) {
 		return;
 	}
 
@@ -400,7 +397,7 @@ output_popzone(struct zone *parent, struct cmd *cmd, unsigned int n, unsigned in
 		output_cmds(parent, parent->exit, n, d);
 	}
 
-	if (parent->exit->nb_return_terminal != 0) {
+	if (parent->exit->nb_return != 0) {
 		return;
 	}
 
