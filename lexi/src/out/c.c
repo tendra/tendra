@@ -27,7 +27,7 @@
 #include <adt/action.h>
 #include <adt/entry.h>
 #include <adt/char.h>
-#include <adt/instruction.h>
+#include <adt/cmd.h>
 #include <adt/keyword.h>
 #include <adt/tree.h>
 #include <adt/type.h>
@@ -43,7 +43,7 @@
 #include "lctsyntax.h"
 #include "options.h"
 
-static int output_instructions(struct zone *parent, struct instructions_list *ret, unsigned int n, unsigned int d);
+static int output_cmds(struct zone *parent, struct cmd_list *ret, unsigned int n, unsigned int d);
 static void output_pass(struct zone* z, struct character *p, int in_pre_pass, unsigned int n, unsigned int d);
 
 /*
@@ -74,7 +74,7 @@ static const char *lexi_prefix;
  * as a shorthand for lex_output. Likewise lex_output_h is a convenience
  * for the output header.
  *
- * These correspond to options.outputfile[0].file and [1] respectively.
+ * These correspond to options.output[0].file and [1] respectively.
  */
 FILE *lex_output;
 FILE *lex_output_h;
@@ -130,7 +130,7 @@ buffer_length(struct lexer_parse_tree *top_level)
 	assert(global != NULL);
 
 	i = zone_maxlength(global, 0);
-	if (global->zone_pre_pass) {
+	if (global->pre) {
 		i += zone_maxlength(global, 1);
 	}
 
@@ -138,16 +138,16 @@ buffer_length(struct lexer_parse_tree *top_level)
 }
 
 static void
-output_groupname(FILE *f, struct char_group_name *g)
+output_groupname(FILE *f, struct group_name *gn)
 {
 	const char *prefix;
 
 	assert(f != NULL);
-	assert(g != NULL);
+	assert(gn != NULL);
 
-	prefix = zone_isglobal(g->z) ? "group" : g->z->zone_name;
+	prefix = zone_isglobal(gn->z) ? "group" : gn->z->name;
 
-	fprintf(f, "%s%s_%s", lexi_prefix, prefix, g->name);
+	fprintf(f, "%s%s_%s", lexi_prefix, prefix, gn->name);
 }
 
 static void
@@ -159,13 +159,13 @@ output_keyword(struct keyword *keyword, void *opaque)
 
 	fprintf(output, "0 == strcmp(identifier, \"%s\")) return ", keyword_name(keyword));
 
-	switch (keyword_instruction(keyword)->type) {
+	switch (keyword_cmd(keyword)->type) {
 	case return_terminal:
-		fprintf(output, "%s", keyword_instruction(keyword)->u.name);
+		fprintf(output, "%s", keyword_cmd(keyword)->u.name);
 		break;
 
 	default:
-		assert(!"unrecognised instruction type for keyword");
+		assert(!"unrecognised command type for keyword");
 	}
 
 	fprintf(output, ";\n");
@@ -223,8 +223,8 @@ output_locals(struct LocalNamesT *locals, unsigned int d, FILE *lex_output)
 	    it.p;
 	    localnamesiterator_next(&it))
 	{
-		struct LocalNamesEntryT* p = it.p;
-		struct EntryT *t = p->type;
+		struct LocalNamesEntryT *p = it.p;
+		struct entry *et = p->et;
 		int i;
 
 		s[it.depth] = 0;
@@ -237,11 +237,11 @@ output_locals(struct LocalNamesT *locals, unsigned int d, FILE *lex_output)
 
 		/* TODO: assert(entry_is_type(t)); */
 
-		if (t->u.type->mapped) {
+		if (et->u.type->mapped) {
 			prefixtype = "";
-			st = nstring_to_cstring(&t->u.type->mapping);
+			st = nstring_to_cstring(&et->u.type->mapping);
 		} else {
-			st = nstring_to_cstring(entry_key(t));
+			st = nstring_to_cstring(entry_key(et));
 		}
 
 		output_indent(lex_output, d);
@@ -255,13 +255,13 @@ output_locals(struct LocalNamesT *locals, unsigned int d, FILE *lex_output)
 
 static void
 output_action(FILE *lex_output, struct lexer_parse_tree *top_level,
-	struct EntryT *action, struct args_list *lhs, struct args_list *rhs, unsigned int d)
+	struct entry *ea, struct args_list *lhs, struct args_list *rhs, unsigned int d)
 {
 	struct NameTransT trans;
 
 	assert(lex_output != NULL);
 	assert(top_level != NULL);
-	assert(action != NULL);
+	assert(ea != NULL);
 	assert(lhs != NULL);
 	assert(rhs != NULL);
 
@@ -272,14 +272,14 @@ output_action(FILE *lex_output, struct lexer_parse_tree *top_level,
 	 * however the sort will always give the same permutation: an optimization
 	 * should be possible here. I don't see it as necessary for the moment.
 	 */
-	nametrans_init(&trans, typetuple_length(&action->u.action->inputs) + typetuple_length(&action->u.action->outputs));
-	nametrans_append_tuple(&trans,&action->u.action->inputs,rhs);
-	nametrans_append_tuple(&trans,&action->u.action->outputs,lhs);
+	nametrans_init(&trans, typetuple_length(&ea->u.act->in) + typetuple_length(&ea->u.act->out));
+	nametrans_append_tuple(&trans, &ea->u.act->in,  rhs);
+	nametrans_append_tuple(&trans, &ea->u.act->out, lhs);
 	nametrans_sort(&trans);
 
 	/* TODO: output #line delimiters instead of comments */
 	output_indent(lex_output, d);
-	fprintf(lex_output, "/* ACTION <%s> */\n", nstring_to_cstring(entry_key(action)));
+	fprintf(lex_output, "/* ACTION <%s> */\n", nstring_to_cstring(entry_key(ea)));
 
 	output_indent(lex_output, d);
 	fprintf(lex_output, "{\n");
@@ -288,17 +288,17 @@ output_action(FILE *lex_output, struct lexer_parse_tree *top_level,
 
 	if (lhs->nb_return_terminal) {
 		char *prefixtype = "ZT";
-		struct EntryT *t;
+		struct entry *et;
 		char *st;
 
-		t = lexer_terminal_type(top_level);
+		et = lexer_terminal_type(top_level);
 		/* TODO assert(entry_is_type(t)); */
 
-		if (t->u.type->mapped) {
+		if (et->u.type->mapped) {
 			prefixtype="";
-			st = nstring_to_cstring(&t->u.type->mapping);
+			st = nstring_to_cstring(&et->u.type->mapping);
 		} else {
-			st = nstring_to_cstring(entry_key(t));
+			st = nstring_to_cstring(entry_key(et));
 		}
 
 		output_indent(lex_output, d);
@@ -307,8 +307,8 @@ output_action(FILE *lex_output, struct lexer_parse_tree *top_level,
 
 	/* End Semi Inefficient */
 
-	if (action_is_defined(action->u.action)) {
-		ccode_output(lex_output, &action->u.action->code, &trans, d );
+	if (action_is_defined(ea->u.act)) {
+		ccode_output(lex_output, &ea->u.act->code, &trans, d );
 		if (lhs->nb_return_terminal) {
 			/*TODO assert(lhs->nb_return_terminal==1)*/
 			output_indent(lex_output, d);
@@ -316,7 +316,7 @@ output_action(FILE *lex_output, struct lexer_parse_tree *top_level,
 		}
 	} else {
 		/*TODO We should catch this error before beginning output */
-		char* pe=nstring_to_cstring(entry_key(action));
+		char* pe=nstring_to_cstring(entry_key(ea));
 		error(ERROR_SERIOUS, "Action %s is used but undefined", pe);
 		DEALLOCATE(pe);
 	}
@@ -327,43 +327,43 @@ output_action(FILE *lex_output, struct lexer_parse_tree *top_level,
 	fprintf(lex_output, "}\n");
 
 	output_indent(lex_output, d);
-	fprintf(lex_output, "/* END ACTION <%s> */\n", nstring_to_cstring(entry_key(action)));
+	fprintf(lex_output, "/* END ACTION <%s> */\n", nstring_to_cstring(entry_key(ea)));
 }
 
 
 static void
-output_pushzone(struct zone *parent, struct instruction *instr, unsigned int n, unsigned int d)
+output_pushzone(struct zone *parent, struct cmd *cmd, unsigned int n, unsigned int d)
 {
 	assert(parent != NULL);
-	assert(instr != NULL);
-	assert(instr->type == push_zone);
+	assert(cmd != NULL);
+	assert(cmd->type == push_zone);
 
-	if (instr->u.s.z->type == typezone_general_zone) {
+	if (cmd->u.s.z->type == typezone_general_zone) {
 		output_indent(lex_output, d);
 		fprintf(lex_output, "state->zone = %s_%s;\n",
-			read_token_name, instr->u.s.z->zone_name);
+			read_token_name, cmd->u.s.z->name);
 	}
 
-	if (instr->u.s.z->entering_instructions->head != NULL) {
-		output_instructions(parent, instr->u.s.z->entering_instructions, n, d);
+	if (cmd->u.s.z->enter->head != NULL) {
+		output_cmds(parent, cmd->u.s.z->enter, n, d);
 	}
 
-	if (instr->u.s.z->entering_instructions->nb_return_terminal != 0) {
+	if (cmd->u.s.z->enter->nb_return_terminal != 0) {
 		return;
 	}
 
 	output_indent(lex_output, d);
-	switch (instr->u.s.z->type) {
+	switch (cmd->u.s.z->type) {
 	case typezone_general_zone:
 		fprintf(lex_output, "return %s(state);\n", read_token_name);
 		break;
 
 	case typezone_pseudo_token:
-		fprintf(lex_output, "return %s_%s(state);\n", read_token_name, instr->u.s.z->zone_name);
+		fprintf(lex_output, "return %s_%s(state);\n", read_token_name, cmd->u.s.z->name);
 		break;
 
 	case typezone_pure_function:
-		fprintf(lex_output, "%s_%s(state);\n", read_token_name, instr->u.s.z->zone_name);
+		fprintf(lex_output, "%s_%s(state);\n", read_token_name, cmd->u.s.z->name);
 		output_indent(lex_output, d);
 		fputs("goto start;	/* pure function */\n", lex_output);
 		break;
@@ -371,23 +371,23 @@ output_pushzone(struct zone *parent, struct instruction *instr, unsigned int n, 
 }
 
 static void
-output_popzone(struct zone *parent, struct instruction *instr, unsigned int n, unsigned int d)
+output_popzone(struct zone *parent, struct cmd *cmd, unsigned int n, unsigned int d)
 {
 	assert(parent != NULL);
-	assert(instr != NULL);
-	assert(instr->type == pop_zone);
+	assert(cmd != NULL);
+	assert(cmd ->type == pop_zone);
 
 	if (parent->type == typezone_general_zone) {
 		output_indent(lex_output, d);
-		if (zone_isglobal(instr->u.s.z)) {
+		if (zone_isglobal(cmd->u.s.z)) {
 			fprintf(lex_output, "state->zone = %s;\n", read_token_name);
 		} else {
 			fprintf(lex_output, "state->zone = %s_%s;\n", read_token_name,
-				instr->u.s.z->zone_name);
+				cmd->u.s.z->name);
 		}
 	}
 
-	if (!instr->u.s.is_beginendmarker_in_zone) {
+	if (!cmd->u.s.is_beginendmarker_in_zone) {
 		unsigned int i;
 
 		for (i = n + 1; i > 0; i--) {
@@ -396,11 +396,11 @@ output_popzone(struct zone *parent, struct instruction *instr, unsigned int n, u
 		}
 	}
 
-	if (parent->leaving_instructions->head) {
-		output_instructions(parent, parent->leaving_instructions, n, d);
+	if (parent->exit->head) {
+		output_cmds(parent, parent->exit, n, d);
 	}
 
-	if (parent->leaving_instructions->nb_return_terminal != 0) {
+	if (parent->exit->nb_return_terminal != 0) {
 		return;
 	}
 
@@ -424,16 +424,16 @@ output_popzone(struct zone *parent, struct instruction *instr, unsigned int n, u
  * present in the containing block.
  */
 static int
-output_instructions(struct zone *parent, struct instructions_list *ret, unsigned int n, unsigned int d)
+output_cmds(struct zone *parent, struct cmd_list *ret, unsigned int n, unsigned int d)
 {
-	struct instruction *instr;
+	struct cmd *cmd;
 	struct LocalNamesT *locals;
 	int r;
 
 	assert(parent != NULL);
 	assert(ret != NULL);
 
-	locals = instructionslist_localnames(ret);
+	locals = cmdlist_localnames(ret);
 	if (locals->top) {
 		output_indent(lex_output, d);
 		fputs("{\n", lex_output);
@@ -442,32 +442,32 @@ output_instructions(struct zone *parent, struct instructions_list *ret, unsigned
 	}
 
 	r = 0;
-	for (instr = ret->head; instr != NULL; instr = instr->next) {
-		/* TODO: can simplify the calls to output_pushzone() et al by passing only what we need, not the entire instr */
-		switch (instr->type) {
+	for (cmd = ret->head; cmd != NULL; cmd = cmd->next) {
+		/* TODO: can simplify the calls to output_pushzone() et al by passing only what we need, not the entire cmd */
+		switch (cmd->type) {
 		case return_terminal:
 			r = 1;
-			assert(instr->next == NULL);
+			assert(cmd->next == NULL);
 			output_indent(lex_output, d);
-			fprintf(lex_output, "return %s;\n", instr->u.name);
+			fprintf(lex_output, "return %s;\n", cmd->u.name);
 			break;
 
 		case action_call:
-			output_action(lex_output, parent->top_level, instr->u.act.called_act, instr->u.act.lhs, instr->u.act.rhs, d);
+			output_action(lex_output, parent->top_level, cmd->u.act.called_act, cmd->u.act.lhs, cmd->u.act.rhs, d);
 			break;
 
 		case push_zone:
 			r = 1;
-			output_pushzone(parent, instr, n, d);
+			output_pushzone(parent, cmd, n, d);
 			break;
 
 		case pop_zone:
 			r = 1;
-			output_popzone(parent, instr, n, d);
+			output_popzone(parent, cmd, n, d);
 			break;
 
 		case do_nothing:
-			assert(instr->next == NULL); /* caught during parsing */
+			assert(cmd->next == NULL); /* caught during parsing */
 			break;
 		}
 	}
@@ -535,8 +535,8 @@ output_leaf(struct zone *parent, struct character *p, int in_pre_pass, unsigned 
 		return 1;
 	}
 
-	if (p->u.definition != NULL) {
-		if (!output_instructions(parent, p->u.definition, n, d)) {
+	if (p->u.cmds != NULL) {
+		if (!output_cmds(parent, p->u.cmds, n, d)) {
 			output_indent(lex_output, d);
 			fprintf(lex_output, "goto start; /* leaf */\n");
 		}
@@ -649,13 +649,13 @@ output_char_groups(struct zone *z, struct character *p, int in_pre_pass, unsigne
 	/* output groups */
 	started = 0;
 	for (q = p; q != NULL; q = q->opt) {
-		struct char_group_name *g;
+		struct group_name *gn;
 
 		if (q->type != group_letter) {
 			continue;
 		}
 
-		g = q->v.g.grp;
+		gn = q->v.g.gn;
 		output_indent(lex_output, d);
 
 		if (started) {
@@ -663,7 +663,7 @@ output_char_groups(struct zone *z, struct character *p, int in_pre_pass, unsigne
 		}
 
 		fprintf(lex_output, "if (%s%sgroup(", q->v.g.not ? "!" : "", lexi_prefix);
-		output_groupname(lex_output, g);
+		output_groupname(lex_output, gn);
 		fprintf(lex_output, ", c%u)) {\n", n);
 
 		if (q->next != NULL) {
@@ -695,13 +695,13 @@ output_pass(struct zone *z, struct character *p, int in_pre_pass, unsigned int n
 	assert(p != NULL);
 
 	output_indent(lex_output, d);
-	if (!in_pre_pass && z->zone_pre_pass) {
+	if (!in_pre_pass && z->pre) {
 		if (zone_isglobal(z)) {
 			fprintf(lex_output, "int c%u = %s_aux(state)",
 				n, read_token_name);
 		} else {
 			fprintf(lex_output, "int c%u = %s_%s_aux(state)",
-				n, read_token_name, z->zone_name);
+				n, read_token_name, z->name);
 		}
 	} else {
 		fprintf(lex_output, "int c%u = %sreadchar(state)", n, lexi_prefix);
@@ -710,10 +710,10 @@ output_pass(struct zone *z, struct character *p, int in_pre_pass, unsigned int n
 
 	/* TODO: can we move out w1 and w2 into output_zone_*pass(), and keep the recursion simple? */
 	if (w1) {
-		struct char_group_name *white;
+		struct group_name *white;
 
 		white = find_group(z, "white");
-		if (white != NULL && !is_group_empty(white->def)) {
+		if (white != NULL && !is_group_empty(white->g)) {
 			output_indent(lex_output, d);
 			fprintf(lex_output, "if (%sgroup(", lexi_prefix);
 			output_groupname(lex_output, white);
@@ -761,7 +761,7 @@ output_zone_pass_prototypes(struct zone *p)
 	}
 
 	fprintf(lex_output,"static %s %s_%s(struct %sstate *state);\n", s,
-		read_token_name,p->zone_name, lexi_prefix);
+		read_token_name, p->name, lexi_prefix);
 }
 
 static void
@@ -778,7 +778,7 @@ output_zone_prepass(struct zone *z)
 		}
 	}
 
-	if (z->zone_pre_pass == NULL) {
+	if (z->pre == NULL) {
 		return;
 	}
 
@@ -788,13 +788,13 @@ output_zone_prepass(struct zone *z)
 			read_token_name, lexi_prefix);
 	} else {
 		fprintf(lex_output, "static int %s_%s_aux(struct %sstate *state)\n",
-			read_token_name, z->zone_name, lexi_prefix);
+			read_token_name, z->name, lexi_prefix);
 	}
 	fputs("{\n", lex_output);
 	fputs("\tstart: {\n", lex_output);
 
-	output_pass(z, z->zone_pre_pass, 1, 0, 2);
-	output_leaf(z, z->zone_pre_pass, 1, 0, 2);
+	output_pass(z, z->pre, 1, 0, 2);
+	output_leaf(z, z->pre, 1, 0, 2);
 
 	fputs("\treturn c0;\n", lex_output);
 	fputs("\t}\n", lex_output);
@@ -804,7 +804,7 @@ output_zone_prepass(struct zone *z)
 }
 
 static void
-output_zone_pass(struct cmd_line_options *opt, struct zone *p)
+output_zone_pass(struct options *opt, struct zone *p)
 {
 	/* recurr through all zones */
 	{
@@ -830,21 +830,21 @@ output_zone_pass(struct cmd_line_options *opt, struct zone *p)
 		s = p->type == typezone_pure_function ? "void" : "int";
 
 		fprintf(lex_output, "static %s\n%s_%s(struct %sstate *state)\n", s,
-		read_token_name, p->zone_name, lexi_prefix);
+		read_token_name, p->name, lexi_prefix);
 		fputs("{\n", lex_output);
 	}
 
 	fputs("\tstart: {\n", lex_output);
 
 	/* main pass */
-	if (p->zone_main_pass != NULL) {
-		output_pass(p, p->zone_main_pass, 0, 0, 2);
+	if (p->main != NULL) {
+		output_pass(p, p->main, 0, 0, 2);
 	}
 
 	/* TOKEN DEFAULT -> ...; */
 	fprintf(lex_output, "\n\t\t/* DEFAULT */\n");
-	if (p->default_instructions != NULL) {
-		if (!output_instructions(p, p->default_instructions, 1, 2)) {
+	if (p->local != NULL) {
+		if (!output_cmds(p, p->local, 1, 2)) {
 			output_indent(lex_output, 2);
 			fprintf(lex_output, "goto start; /* DEFAULT */\n");
 		}
@@ -865,15 +865,15 @@ output_zone_pass(struct cmd_line_options *opt, struct zone *p)
  * if a character belongs to a group or not.
  */
 static unsigned long
-group_number(struct lexer_parse_tree *top_level, struct char_group_defn *g)
+group_number(struct lexer_parse_tree *top_level, struct group *g)
 {
-	struct char_group_defn *p;
+	struct group *p;
 	unsigned int i;
 
 	assert(g != NULL);
 
 	i = 0;
-	for (p = tree_get_grouplist(top_level); p != NULL; p = p->next_in_groups_list) {
+	for (p = tree_get_grouplist(top_level); p != NULL; p = p->next) {
 		if (g == p) {
 			return 1 << i;
 		}
@@ -890,13 +890,13 @@ group_number(struct lexer_parse_tree *top_level, struct char_group_defn *g)
 static unsigned int
 count_nonempty_groups(struct lexer_parse_tree *top_level)
 {
-	struct char_group_defn *p;
+	struct group *p;
 	unsigned int i;
 
 	assert(top_level != NULL);
 
 	i = 0;
-	for (p = tree_get_grouplist(top_level); p != NULL; p = p->next_in_groups_list) {
+	for (p = tree_get_grouplist(top_level); p != NULL; p = p->next) {
 		if (!is_group_empty(p)) {
 			i++;
 		}
@@ -909,27 +909,27 @@ count_nonempty_groups(struct lexer_parse_tree *top_level)
  * OUTPUT THE MACROS NEEDED TO ACCESS THE LOOKUP TABLE
  */
 static void
-output_macros_zone(struct cmd_line_options *opt, struct zone *z)
+output_macros_zone(struct options *opt, struct zone *z)
 {
-	struct char_group_name *g;
+	struct group_name *gn;
 	struct zone *p;
 
 	/* Group interface */
 	for (p = z; p != NULL; p = p->opt) {
-		for (g = p->groups; g != NULL; g = g->next) {
+		for (gn = p->groups; gn != NULL; gn = gn->next) {
 			unsigned long m;
 
-			if (is_group_empty(g->def)) {
+			if (is_group_empty(gn->g)) {
 				m = 0;
 			} else {
-				m = group_number(z->top_level, g->def);
+				m = group_number(z->top_level, gn->g);
 			}
 
 			fputc('\t', lex_output_h);
-			output_groupname(lex_output_h, g);
+			output_groupname(lex_output_h, gn);
 			fprintf(lex_output_h, " = %#lx", m);
 
-			if (g->next || z->next || z->opt) {
+			if (gn->next || z->next || z->opt) {
 				fputs(",", lex_output_h);
 			}
 
@@ -944,7 +944,7 @@ output_macros_zone(struct cmd_line_options *opt, struct zone *z)
 }
 
 static void
-output_macros(struct cmd_line_options* opt, struct lexer_parse_tree *top_level)
+output_macros(struct options* opt, struct lexer_parse_tree *top_level)
 {
 
 	if (all_groups_empty(top_level)) {
@@ -983,7 +983,7 @@ static void
 output_lookup_table(struct lexer_parse_tree *top_level, const char *grouptype,
 	const char *grouphex, size_t groupwidth)
 {
-	struct char_group_defn *g;
+	struct group *g;
 	int c;
 
 	if (all_groups_empty(top_level)) {
@@ -999,7 +999,7 @@ output_lookup_table(struct lexer_parse_tree *top_level, const char *grouptype,
 		unsigned long m;
 
 		m = 0;
-		for (g = tree_get_grouplist(top_level); g != NULL; g = g->next_in_groups_list) {
+		for (g = tree_get_grouplist(top_level); g != NULL; g = g->next) {
 			if (in_group(g, c)) {
 				m |= group_number(top_level, g);
 			}
@@ -1026,7 +1026,7 @@ output_lookup_table(struct lexer_parse_tree *top_level, const char *grouptype,
  * OUTPUT LEXI AUTOMATED DEFINED OPERATIONS 
  */
 static void
-output_buffer(struct cmd_line_options *opt, struct lexer_parse_tree *top_level)
+output_buffer(struct options *opt, struct lexer_parse_tree *top_level)
 {
 	/*
 	 * Strictly the state argument is not required in the case of a
@@ -1118,7 +1118,7 @@ output_trailers(void)
 }
 
 void
-c_output_all(struct cmd_line_options *opt, struct lexer_parse_tree *top_level)
+c_output_all(struct options *opt, struct lexer_parse_tree *top_level)
 {
 	size_t groupwidth;
 	const char *grouptype;
@@ -1128,8 +1128,8 @@ c_output_all(struct cmd_line_options *opt, struct lexer_parse_tree *top_level)
 	assert(!strcmp(opt->language, "C90") || !strcmp(opt->language, "C99"));
 	language = !strcmp(opt->language, "C90") ? C90 : C99;
 
-	lex_output = opt->outputfile[0].file;
-	lex_output_h = opt->outputfile[1].file;
+	lex_output = opt->output[0].file;
+	lex_output_h = opt->output[1].file;
 
 	read_token_name = xstrcat(opt->lexi_prefix, "read_token");
 	lexi_prefix = opt->lexi_prefix;
@@ -1169,11 +1169,11 @@ c_output_all(struct cmd_line_options *opt, struct lexer_parse_tree *top_level)
 	fprintf(lex_output_h, "#define LEXI_GENERATED_HEADER_%s_INCLUDED\n", lexi_prefix);
 	fputs("\n", lex_output_h);
 
-	if (opt->outputfile[1].name && (opt->outputfile[1].file!=stdout)) {
+	if (opt->output[1].name && (opt->output[1].file!=stdout)) {
 		char *s;
 
 		/* XXX: This assumes both files are in the same directory */
-		s = xstrdup(opt->outputfile[1].name);
+		s = xstrdup(opt->output[1].name);
 		fprintf(lex_output, "#include \"%s\"\n\n", basename(s));
 		free(s);
 	}

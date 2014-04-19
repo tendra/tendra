@@ -13,7 +13,7 @@
 #include <shared/error.h>
 
 #include <adt/char.h>
-#include <adt/instruction.h>
+#include <adt/cmd.h>
 #include <adt/tree.h>
 #include <adt/zone.h>	/* XXX */
 
@@ -23,7 +23,7 @@
 #include "options.h"
 
 /* This is a convenience for brevity */
-#define dotout opt->outputfile[0].file
+#define dotout opt->output[0].file
 
 /*
  * Yield a string representing a quoted character. Characters are quoted
@@ -64,7 +64,7 @@ quote_char(int c)
  * its type according to tree_get_translation().
  */
 static void
-output_node(struct lexer_parse_tree *top_level, struct character *p, struct cmd_line_options *opt) {
+output_node(struct lexer_parse_tree *top_level, struct character *p, struct options *opt) {
 	/* node value */
 	{
 		fprintf(dotout, "\t\tc%p [ ", (void *) p);
@@ -76,7 +76,7 @@ output_node(struct lexer_parse_tree *top_level, struct character *p, struct cmd_
 
 		case group_letter:
 			fprintf(dotout, "shape=box, label=\"[%s%s]\"", p->v.g.not ? "^" : "",
-				p->v.g.grp->name);
+				p->v.g.gn->name);
 			break;
 		}
 
@@ -84,30 +84,27 @@ output_node(struct lexer_parse_tree *top_level, struct character *p, struct cmd_
 	}
 
 	/* actions */
-	if (p->u.definition != NULL) {
-		struct instruction *instr;
+	if (p->u.cmds != NULL) {
+		struct cmd *cmd;
 
 		fprintf(dotout, "\t\tc%p -> i%p;\n", (void *) p, (void *) p);
 		fprintf(dotout, "\t\ti%p [ ", (void *) p);
 		fprintf(dotout, "shape=plaintext, label=\"");
 
-		for (instr = p->u.definition->head; instr != NULL; instr = instr->next) {
-			switch (instr->type) {
+		for (cmd = p->u.cmds->head; cmd != NULL; cmd = cmd->next) {
+			switch (cmd->type) {
 			case return_terminal:
 				/* TODO rename to just prefix */
 				/* TODO map back _H */
-				fprintf(dotout, "$%s",
-					instr->u.name + strlen(opt->lexi_prefix) - 1);
+				fprintf(dotout, "$%s", cmd->u.name + strlen(opt->lexi_prefix) - 1);
 				break;
 
 			case pop_zone:
-				fprintf(dotout, "<pop> %s",
-					instr->u.s.z->zone_name);
+				fprintf(dotout, "<pop> %s", cmd->u.s.z->name);
 				break;
 
 			case push_zone:
-				fprintf(dotout, "<push> %s",
-					instr->u.s.z->zone_name);
+				fprintf(dotout, "<push> %s", cmd->u.s.z->name);
 				break;
 
 			case do_nothing:
@@ -129,7 +126,7 @@ output_node(struct lexer_parse_tree *top_level, struct character *p, struct cmd_
  * adjacent nodes.
  */
 static void
-pass(void *prev, struct character *p, struct lexer_parse_tree *top_level, struct cmd_line_options *opt) {
+pass(void *prev, struct character *p, struct lexer_parse_tree *top_level, struct options *opt) {
 	struct character *q;
 
 	for (q = p; q != NULL; q = q->opt) {
@@ -147,7 +144,7 @@ pass(void *prev, struct character *p, struct lexer_parse_tree *top_level, struct
 }
 
 static void
-output_zone(struct cmd_line_options *opt, struct lexer_parse_tree *top_level, struct zone *z)
+output_zone(struct options *opt, struct lexer_parse_tree *top_level, struct zone *z)
 {
 	struct zone *p;
 
@@ -161,12 +158,12 @@ output_zone(struct cmd_line_options *opt, struct lexer_parse_tree *top_level, st
 		/* TODO output pre-pass mappings (render as -> "xyz") */
 		/* TODO keywords, pending #250 */
 		/* TODO DEFAULT */
-		/* TODO enter/leaving instructions */
+		/* TODO enter/leaving commands */
 
 		fprintf(dotout, "\t\tc%p [ shape=plaintext, label=\"%s\" ];\n",
-			(void *) p, p->zone_name == NULL ? "(global)" : p->zone_name);
+			(void *) p, p->name == NULL ? "(global)" : p->name);
 
-		pass(p, p->zone_main_pass, top_level, opt);
+		pass(p, p->main, top_level, opt);
 
 		if (p->next != NULL) {
 			output_zone(opt, top_level, p->next);
@@ -176,7 +173,7 @@ output_zone(struct cmd_line_options *opt, struct lexer_parse_tree *top_level, st
 	fprintf(dotout, "\t}\n");
 }
 
-void dot_output_all(struct cmd_line_options *opt, struct lexer_parse_tree *top_level) {
+void dot_output_all(struct options *opt, struct lexer_parse_tree *top_level) {
 	assert(opt != NULL);
 	assert(top_level != NULL);
 

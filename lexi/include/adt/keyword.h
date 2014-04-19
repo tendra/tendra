@@ -10,14 +10,14 @@
 #ifndef LEXI_KEYWORD_H
 #define LEXI_KEYWORD_H
 
-struct instruction;
+struct cmd;
 struct zone;
 struct keyword;
 
-void add_keyword(struct zone *, const char*, struct instruction *);
+void add_keyword(struct zone *, const char*, struct cmd *);
 void keywords_iterate(struct keyword *,
 	void (*f)(struct keyword *, void *), void *);
-struct instruction *keyword_instruction(struct keyword *);
+struct cmd *keyword_cmd(struct keyword *);
 const char *keyword_name(struct keyword *);
 
 #endif

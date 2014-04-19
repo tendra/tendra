@@ -15,17 +15,17 @@
 
 #include <adt/keyword.h>
 #include <adt/zone.h>
-#include <adt/instruction.h>
+#include <adt/cmd.h>
 
 struct keyword {
 	const char *name;
-	struct instruction *instr;
+	struct cmd *cmd;
 
 	struct keyword *next;
 };
 
 void
-add_keyword(struct zone *z, const char *nm, struct instruction *instr)
+add_keyword(struct zone *z, const char *nm, struct cmd *cmd)
 {
 	struct keyword *p, *q;
 
@@ -55,7 +55,7 @@ add_keyword(struct zone *z, const char *nm, struct instruction *instr)
 
 	p = xmalloc(sizeof *p);
 	p->name  = nm;
-	p->instr = instr;
+	p->cmd   = cmd;
 
 	if (q == NULL) {
 		p->next = z->keywords;
@@ -79,12 +79,12 @@ keywords_iterate(struct keyword *kw, void (*f)(struct keyword *, void *), void *
 	}
 }
 
-struct instruction *
-keyword_instruction(struct keyword *kw)
+struct cmd *
+keyword_cmd(struct keyword *kw)
 {
 	assert(kw != NULL);
 
-	return kw->instr;
+	return kw->cmd;
 }
 
 const char *

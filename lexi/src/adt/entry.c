@@ -16,79 +16,79 @@
 #include <adt/type.h>
 
 NStringT *
-entry_key(struct EntryT *entry)
+entry_key(struct entry *e)
 {
-	return &entry->key;
+	return &e->key;
 }
 
 int
-entry_is_type(struct EntryT *entry)
+entry_is_type(struct entry *e)
 {
-	return entry->entry_kind == entry_type;
+	return e->entry_kind == entry_type;
 }
 
 int
-entry_is_action(struct EntryT *entry)
+entry_is_action(struct entry *e)
 {
-	return entry->entry_kind == entry_action;
+	return e->entry_kind == entry_action;
 }
 
 int
-entry_is_localname(struct EntryT *entry)
+entry_is_localname(struct entry *e)
 {
-	return entry->entry_kind == entry_local_name;
+	return e->entry_kind == entry_local_name;
 }
 
 static void
-entry_set_kind_type(struct EntryT *entry)
+entry_set_kind_type(struct entry *e)
 {
-	entry->entry_kind = entry_type;
+	e->entry_kind = entry_type;
 }
 
 static void
-entry_set_kind_action(struct EntryT *entry)
+entry_set_kind_action(struct entry *e)
 {
-	entry->entry_kind = entry_action;
+	e->entry_kind = entry_action;
 }
 
 static void
-entry_set_kind_local_name(struct EntryT *entry)
+entry_set_kind_local_name(struct entry *e)
 {
-	entry->entry_kind = entry_local_name;
+	e->entry_kind = entry_local_name;
 }
 
-struct ActionT *
-entry_get_action(struct EntryT *entry)
+struct action *
+entry_get_action(struct entry *ea)
 {
 	/* TODO: assert entry_is_action */
-	return entry->u.action;
+	return ea->u.act;
 }
 
 void
-entry_set_type(struct EntryT *entry, struct TypeT *type)
+entry_set_type(struct entry *et, struct type *type)
 {
 	/* TODO: assert entry_is_type */
-	entry->u.type = type;
+	et->u.type = type;
 }
 
 void
-entry_set_action(struct EntryT *entry, struct ActionT *action)
+entry_set_action(struct entry *ea, struct action *act)
 {
 	/* TODO: assert entry_is_action */
-	entry->u.action = action;
+	ea->u.act = act;
 }
 
-struct TypeT *
-entry_get_type(struct EntryT *entry)
+struct type *
+entry_get_type(struct entry *et)
 {
 	/* TODO: assert entry_is_type */
-	return entry->u.type;
+	return et->u.type;
 }
 
-struct EntryT *
-table_get_entry(struct EntryT **table, NStringT* key)
+struct entry *
+table_get_entry(struct entry **table, NStringT* key)
 {
-	struct EntryT *entry;
+	struct entry *entry;
 
 	assert(table != NULL);
 
@@ -101,9 +101,9 @@ table_get_entry(struct EntryT **table, NStringT* key)
 	return NULL;
 }
 
-struct EntryT *table_get_type(struct EntryT **table, NStringT *key)
+struct entry *table_get_type(struct entry **table, NStringT *key)
 {
-	struct EntryT *entry;
+	struct entry *entry;
 
 	assert(table != NULL);
 
@@ -117,7 +117,7 @@ struct EntryT *table_get_type(struct EntryT **table, NStringT *key)
 }
 
 static void
-table_add_entry(struct EntryT **table, struct EntryT *entry)
+table_add_entry(struct entry **table, struct entry *entry)
 {
 	assert(table != NULL);
 	assert(entry != NULL);
@@ -127,60 +127,61 @@ table_add_entry(struct EntryT **table, struct EntryT *entry)
 	*table = entry;
 }
 
-struct EntryT *
+struct entry *
 entry_create(NStringT *name)
 {
-	struct EntryT *entry;
+	struct entry *e;
 
-	entry = xmalloc(sizeof *entry);
+	e = xmalloc(sizeof *e);
 
-	nstring_assign(entry_key(entry), name);
-	entry->next = NULL;
+	nstring_assign(entry_key(e), name);
+	e->next = NULL;
 
-	return entry;
+	return e;
 }
 
-struct EntryT *
-table_add_type(struct EntryT **table, NStringT *type_name, bool predefined)
+struct entry *
+table_add_type(struct entry **table, NStringT *type_name, bool predefined)
 {
-	struct EntryT *entry;
+	struct entry *et;
 
-	entry = entry_create(type_name);
+	et = entry_create(type_name);
 
-	entry_set_kind_type(entry);
-	entry_set_type(entry, type_create(predefined));
-	table_add_entry(table, entry);
+	entry_set_kind_type(et);
+	entry_set_type(et, type_create(predefined));
+	table_add_entry(table, et);
 
-	return entry;
+	return et;
 }
 
-struct EntryT *
-table_add_action(struct EntryT **table, NStringT *name, struct TypeTupleT *inputs, struct TypeTupleT *outputs)
+struct entry *
+table_add_action(struct entry **table, NStringT *name,
+	struct TypeTupleT *in, struct TypeTupleT *out)
 {
-	struct EntryT *entry;
+	struct entry *ea;
 
-	entry = entry_create(name);
+	ea = entry_create(name);
 
-	entry_set_kind_action(entry);
-	table_add_entry(table, entry);
+	entry_set_kind_action(ea);
+	table_add_entry(table, ea);
 
-	entry_set_action(entry, action_create());
-	action_set_inputs (entry_get_action(entry),  inputs);
-	action_set_outputs(entry_get_action(entry), outputs);
+	entry_set_action(ea, action_create());
+	action_set_inputs (entry_get_action(ea),  in);
+	action_set_outputs(entry_get_action(ea), out);
 
-	return entry;
+	return ea;
 }
 
-struct EntryT *
-table_add_local_name(struct EntryT **table, NStringT *name)
+struct entry *
+table_add_local_name(struct entry **table, NStringT *name)
 {
-	struct EntryT *entry;
+	struct entry *en;
 
-	entry = entry_create(name);
+	en = entry_create(name);
 
-	entry_set_kind_local_name(entry);
-	table_add_entry(table, entry);
+	entry_set_kind_local_name(en);
+	table_add_entry(table, en);
 
-	return entry;
+	return en;
 }
 

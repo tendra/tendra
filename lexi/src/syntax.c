@@ -36,7 +36,7 @@
 
 #include <adt/action.h>
 #include <adt/entry.h>
-#include <adt/instruction.h>
+#include <adt/cmd.h>
 #include <adt/keyword.h>
 #include <adt/zone.h>
 #include <adt/tree.h>
@@ -63,8 +63,8 @@
 typedef char *SID_STRING ;
 typedef char *SID_CHARS ;
 /*typedef zone* zoneP; Done in syntax.h */
-typedef struct instruction* instructionP ;
-typedef struct instructions_list* instructions_listP ;
+typedef struct cmd* cmdP ;
+typedef struct cmd_list* cmd_listP ;
 typedef struct arg* argP;
 typedef struct args_list* args_listP;
 typedef struct TypeTupleT typetuple;
@@ -105,21 +105,21 @@ static void ZRtype_Hdefn(zoneP);
 static void ZRaction_Hcall_C_Clhs_Htuple1(args_listP);
 static void ZRtype_Htuple(zoneP, typetuple *);
 static void ZRaction_Hcall_C_Crhs_Htuple1(args_listP *);
+static void ZRcmd_Hlist(zoneP, cmd_listP *);
 static void ZR163(args_listP *);
-static void ZRinstructions_Hlist(zoneP, instructions_listP *);
 static void ZRtype_Htuple_C_Ctype_Hname(zoneP, typetuple *);
 static void ZRtrigraph_Hdefn(zoneP);
+static void ZRcmd(zoneP, cmdP *);
 static void ZR183(SID_STRING *);
-static void ZR185(zoneP *, instructions_listP *);
+static void ZR185(zoneP *, cmd_listP *);
 extern void read_lex(zoneP);
 static void ZRaction_Hdecl(zoneP);
-static void ZRinstruction(zoneP, instructionP *);
-static void ZR207(zoneP, instructions_listP, zoneP *, instructions_listP *);
+static void ZR207(zoneP, cmd_listP, zoneP *, cmd_listP *);
 static void ZRcommand_Hlist(zoneP);
 static void ZR209(zoneP *);
 static void ZR210(zoneP *);
-static void ZR211(zoneP *, args_listP *, instructionP *);
-static void ZR215(zoneP *, args_listP *, SID_STRING *, instructionP *);
+static void ZR211(zoneP *, args_listP *, cmdP *);
+static void ZR215(zoneP *, args_listP *, SID_STRING *, cmdP *);
 static void ZRkeyword_Hdefn(zoneP);
 static void ZR216(argP *, args_listP *);
 static void ZR218(zoneP *, typetuple *);
@@ -176,10 +176,10 @@ ZRzone_Hdefn(zoneP ZIz)
 	{
 		SID_STRING ZIzid;
 		SID_STRING ZIb;
-		instructions_listP ZIentry_Hinstl;
+		cmd_listP ZIentry_Hinstl;
 		int ZIlendclosed;
 		SID_STRING ZIe;
-		instructions_listP ZIleaving_Hinstl;
+		cmd_listP ZIleaving_Hinstl;
 		zoneP ZInew_Hzone;
 
 		switch (CURRENT_TERMINAL) {
@@ -329,18 +329,18 @@ ZRzone_Hdefn(zoneP ZIz)
 		{
 #line 705 "syntax.act"
 
-    struct instruction* inst;
-    struct instructions_list* inst_list;
+    struct cmd* inst;
+    struct cmd_list* inst_list;
     (ZInew_Hzone)=add_zone((ZIz),(ZIzid),(ZIe), (ZIlendclosed) );
 
-    (ZInew_Hzone)->leaving_instructions=(ZIleaving_Hinstl);
-    if((ZInew_Hzone)->leaving_instructions->nb_return_terminal)
+    (ZInew_Hzone)->exit=(ZIleaving_Hinstl);
+    if((ZInew_Hzone)->exit->nb_return_terminal)
 	(ZInew_Hzone)->type= typezone_pseudo_token;
-    (ZInew_Hzone)->entering_instructions=(ZIentry_Hinstl);
-    if((ZInew_Hzone)->entering_instructions->nb_return_terminal)
+    (ZInew_Hzone)->enter=(ZIentry_Hinstl);
+    if((ZInew_Hzone)->enter->nb_return_terminal)
 	(ZInew_Hzone)->type=typezone_general_zone;
-    inst=add_instruction_pushzone((ZInew_Hzone));
-    inst_list=add_instructions_list();
+    inst=add_cmd_pushzone((ZInew_Hzone));
+    inst_list=add_cmd_list();
     *(inst_list->tail)=inst;
     inst_list->tail=&(inst->next);
 	add_mainpass((ZIz), (ZIb), inst_list);
@@ -603,18 +603,18 @@ ZRtype_Hdefn(zoneP ZIz)
 #line 762 "syntax.act"
 
 	NStringT str;
-	struct EntryT* entry;
+	struct entry *e;
 	nstring_copy_cstring(&str,(ZIs));
 	xfree((ZIs));
-	entry=table_get_entry(tree_get_table((ZIz)->top_level), &str);
-	if(entry != NULL) {
+	e = table_get_entry(tree_get_table((ZIz)->top_level), &str);
+	if(e != NULL) {
 		nstring_destroy(&str);
 		/* TODO switch ? */
-		if(entry_is_type(entry))
+		if(entry_is_type(e))
 			error(ERROR_SERIOUS, "Type %s already exists",(ZIs));
-		else if(entry_is_localname(entry))
+		else if(entry_is_localname(e))
 			error(ERROR_SERIOUS, "Can't create type %s, %s has been previously used as a local name. We do not allow retroactive hiding.",(ZIs),(ZIs));
-		else if(entry_is_action(entry))
+		else if(entry_is_action(e))
 			error(ERROR_SERIOUS, "Can't create type %s, %s has already been declared as an action",(ZIs), (ZIs));
 		else
 			UNREACHED;
@@ -747,57 +747,19 @@ ZL0:;
 }
 
 static void
-ZR163(args_listP *ZOr)
+ZRcmd_Hlist(zoneP ZI201, cmd_listP *ZO206)
 {
-	args_listP ZIr;
-
-	switch (CURRENT_TERMINAL) {
-	case 13:
-		{
-			ZRaction_Hcall_C_Crhs_Htuple (&ZIr);
-			if ((CURRENT_TERMINAL) == 39) {
-				RESTORE_LEXER;
-				goto ZL1;
-			}
-		}
-		break;
-	default:
-		{
-			/* BEGINNING OF ACTION: empty-args-list */
-			{
-#line 395 "syntax.act"
-
-    (ZIr)=add_args_list();
-#line 772 "syntax.c"
-			}
-			/* END OF ACTION: empty-args-list */
-		}
-		break;
-	case 39:
-		return;
-	}
-	goto ZL0;
-ZL1:;
-	SAVE_LEXER (39);
-	return;
-ZL0:;
-	*ZOr = ZIr;
-}
-
-static void
-ZRinstructions_Hlist(zoneP ZI201, instructions_listP *ZO206)
-{
-	instructions_listP ZI206;
+	cmd_listP ZI206;
 
 	if ((CURRENT_TERMINAL) == 39) {
 		return;
 	}
 	{
-		instructionP ZIinst;
-		instructions_listP ZIinstl;
+		cmdP ZIinst;
+		cmd_listP ZIinstl;
 		zoneP ZI205;
 
-		ZRinstruction (ZI201, &ZIinst);
+		ZRcmd (ZI201, &ZIinst);
 		if ((CURRENT_TERMINAL) == 39) {
 			RESTORE_LEXER;
 			goto ZL1;
@@ -806,8 +768,8 @@ ZRinstructions_Hlist(zoneP ZI201, instructions_listP *ZO206)
 		{
 #line 624 "syntax.act"
 
-    (ZIinstl)=add_instructions_list();
-#line 811 "syntax.c"
+    (ZIinstl)=add_cmd_list();
+#line 773 "syntax.c"
 		}
 		/* END OF ACTION: empty-inst-list */
 		/* BEGINNING OF ACTION: add-inst-to-list */
@@ -815,54 +777,54 @@ ZRinstructions_Hlist(zoneP ZI201, instructions_listP *ZO206)
 #line 402 "syntax.act"
 
 	if((ZIinst)!=NULL) { /* if (ZIinst) == NULL, an error has already been issued.*/
-		struct LocalNamesT* locals = instructionslist_localnames((ZIinstl));
+		struct LocalNamesT* locals = cmdlist_localnames((ZIinstl));
 /*		if(((ZIinstl)->head !=NULL) && ((ZIinst)->type==return_terminal || (ZIinst)->type==do_nothing)) {
-			error(ERROR_SERIOUS, "A $sid-identifier or a $$ can only appear at the end of an instruction-list"); Does not work anymore since we append and do not prepend anymore. No pb as this will be unecessary due to the upcoming removal of direct function calls.
+			error(ERROR_SERIOUS, "A $sid-identifier or a $$ can only appear at the end of an cmd-list"); Does not work anymore since we append and do not prepend anymore. No pb as this will be unecessary due to the upcoming removal of direct function calls.
 		}*/
 		if((ZIinstl)->nb_return_terminal>0 && (ZIinst)->type!=do_nothing)
-			error(ERROR_SERIOUS, "No instruction may follow an instruction that returns a terminal");
+			error(ERROR_SERIOUS, "No cmd may follow an cmd that returns a terminal");
 		if((ZIinst)->type == return_terminal) {
 			++((ZIinstl)->nb_return_terminal);
 		}
 		if((ZIinst)->type == action_call) {
 			struct args_list* rhs;
 			struct args_list* lhs;
-			struct EntryT* entryaction;
-			struct ActionT* action;
+			struct entry *ea;
+			struct action *act;
 			struct arg* p;
 			struct TypeTupleEntryT* q;
 
 			(ZIinstl)->nb_return_terminal+=(ZIinst)->u.act.lhs->nb_return_terminal;
 			if((ZIinstl)->nb_return_terminal>1)
 				error(ERROR_SERIOUS, "Only one terminal may be returned per token");
-			entryaction = (ZIinst)->u.act.called_act;
-			action = entry_get_action(entryaction);
+			ea = (ZIinst)->u.act.called_act;
+			act = entry_get_action(ea);
 			rhs = (ZIinst)->u.act.rhs;
 			lhs = (ZIinst)->u.act.lhs;
 
 			/* CHECKING RHS COMPATIBILITY */ 
-			for ( p = rhs->head, q = action->inputs.head; p!=NULL && q!=NULL; p=p->next, q=q->next) {
-			      	struct EntryT* entrytype = NULL;
+			for ( p = rhs->head, q = act->in.head; p!=NULL && q!=NULL; p=p->next, q=q->next) {
+			      	struct entry *et = NULL;
 				NStringT str;
 			      	switch (p->type) {
 				case arg_identifier: 
 				     	nstring_copy_cstring(&str, p->u.literal);
-					entrytype=localnames_get_type(locals, &str);
+					et=localnames_get_type(locals, &str);
 					nstring_destroy(&str);
-					if(!entrytype) {
-						struct EntryT* tableentry = table_get_entry(tree_get_table((ZI201)->top_level), &str);
-						if(!tableentry) {
+					if(!et) {
+						struct entry *e = table_get_entry(tree_get_table((ZI201)->top_level), &str);
+						if(!e) {
 							error(ERROR_SERIOUS, "local name %s has not been defined yet", p->u.literal);
-							entrytype = NULL;
-						} else if (entry_is_localname(tableentry)) {
+							et = NULL;
+						} else if (entry_is_localname(e)) {
 							error(ERROR_SERIOUS, "local name %s has been defined but not in this scope", p->u.literal);
-							entrytype = NULL;
-						} else if (entry_is_action(tableentry)) {
+							et = NULL;
+						} else if (entry_is_action(e)) {
 							error(ERROR_SERIOUS, "%s is not a local name but an action which is not allowed", p->u.literal);
-							entrytype = NULL;
-						} else if (entry_is_type(tableentry)) {
+							et = NULL;
+						} else if (entry_is_type(e)) {
 							error(ERROR_SERIOUS, "%s is not a local name but a type which is not allowed", p->u.literal);
-							entrytype = NULL;
+							et = NULL;
 						} else {
 							UNREACHED;
 						}
@@ -870,19 +832,19 @@ ZRinstructions_Hlist(zoneP ZI201, instructions_listP *ZO206)
 					break;
 				case arg_charP:
 					/* TODO assert(lexer_string_type(top_level)) */
-					entrytype = lexer_string_type((ZI201)->top_level);
+					et = lexer_string_type((ZI201)->top_level);
 		 			break;
 				case arg_char_nb:
 					/* TODO assert(lexer_char_type(top_level)) */
-					entrytype = lexer_char_type((ZI201)->top_level);
+					et = lexer_char_type((ZI201)->top_level);
 			 		break;
 				case arg_terminal:
 					/* TODO assert(lexer_terminal_type(top_level)) */
-					entrytype = lexer_terminal_type((ZI201)->top_level);
+					et = lexer_terminal_type((ZI201)->top_level);
 					break;
 				case arg_nb_of_chars:
 					/* TODO assert(lexer_terminal_type(top_level)) */
-					entrytype = lexer_int_type((ZI201)->top_level);
+					et = lexer_int_type((ZI201)->top_level);
 		 			break;
 				case arg_none:
 					break; /* Error already detected, do nothing and leave p->lexitype = NULL */
@@ -894,12 +856,12 @@ ZRinstructions_Hlist(zoneP ZI201, instructions_listP *ZO206)
 				UNREACHED;
 				break;
 			}
-			if(entrytype) {
-				if( q->type!=entrytype || p->is_reference!=q->is_reference) {
-						char* s1 = nstring_to_cstring(entry_key(entryaction));
-						char* s2 = nstring_to_cstring(entry_key(entrytype));
+			if(et) {
+				if( q->et!=et || p->is_reference!=q->is_reference) {
+						char* s1 = nstring_to_cstring(entry_key(ea));
+						char* s2 = nstring_to_cstring(entry_key(et));
 						char* s3 = p->is_reference ? "&" : "";
-						char* s4 = nstring_to_cstring(entry_key(q->type));
+						char* s4 = nstring_to_cstring(entry_key(q->et));
 						char* s5 = q->is_reference ? "&" : "";
 						char* s6 = "unknown";
 						char* s7 = "unknown";
@@ -930,61 +892,61 @@ ZRinstructions_Hlist(zoneP ZI201, instructions_listP *ZO206)
 				}
 			}
 			if(p!=NULL) {
-				char* s = nstring_to_cstring(entry_key(entryaction));
+				char* s = nstring_to_cstring(entry_key(ea));
 				error(ERROR_SERIOUS, "In call to action %s, too many arguments", s);
 				DEALLOCATE(s);
 			}
 			if(q!=NULL) {
-				char* s = nstring_to_cstring(entry_key(entryaction));
+				char* s = nstring_to_cstring(entry_key(ea));
 				error(ERROR_SERIOUS, "In call to action %s, not enough arguments", s);
 				DEALLOCATE(s);
 			}
 
-			for ( p = lhs->head, q = action->outputs.head; p!=NULL && q!=NULL; p=p->next, q=q->next) {
-			      	struct EntryT* entrytype;
+			for ( p = lhs->head, q = act->out.head; p!=NULL && q!=NULL; p=p->next, q=q->next) {
+			      	struct entry *et;
 				switch (p->type) {
 				case arg_identifier: 
 					{
 						NStringT str;
 						nstring_copy_cstring(&str, p->u.literal);
-						entrytype = localnames_get_type(locals, &str);
-						if(!entrytype) {
-							struct EntryT* entry = table_get_entry(tree_get_table((ZI201)->top_level), &str);
-							localnames_add_nstring(locals, &str, q->type);
-							if(entry) {
+						et = localnames_get_type(locals, &str);
+						if(!et) {
+							struct entry *e= table_get_entry(tree_get_table((ZI201)->top_level), &str);
+							localnames_add_nstring(locals, &str, q->et);
+							if(e) {
 								nstring_destroy(&str);
-								if (entry_is_action(entry)) {
+								if (entry_is_action(e)) {
 									error(ERROR_SERIOUS, "In action lhs. Name %s is an action. Hiding globals by local names is not allowed", p->u.literal);
-								} else if (entry_is_type(entry)) {
+								} else if (entry_is_type(e)) {
 									error(ERROR_SERIOUS, "In action lhs. Name %s is a type. Hiding globals by local names is not allowed", p->u.literal);									
 								}
 							} else {
 								table_add_local_name(tree_get_table((ZI201)->top_level), &str);
 							}
 							if(p->is_reference) {
-								char* s = nstring_to_cstring(entry_key(entryaction));
+								char* s = nstring_to_cstring(entry_key(ea));
 								error(ERROR_SERIOUS, "In action call %s, you can only use references %s for preexisting variables", s, p->u.literal);
 								DEALLOCATE(s);
 							} 
 						} else {
 							nstring_destroy(&str);
 							if(!p->is_reference) {
-								char* s = nstring_to_cstring(entry_key(entryaction));
+								char* s = nstring_to_cstring(entry_key(ea));
 								error(ERROR_SERIOUS, "In action call %s, name %s already declared. Use references to change the value of an already existing variable", s, p->u.literal);
-								entrytype=q->type; /* To avoid outputting that error more than once*/
+								et=q->et; /* To avoid outputting that error more than once*/
 								DEALLOCATE(s);
 							}
 						}
 					}
 					break;
 				case arg_return_terminal:
-					entrytype = lexer_terminal_type((ZI201)->top_level);
+					et = lexer_terminal_type((ZI201)->top_level);
 					q->is_reference = false;
 					/* TODO assert(q->is_reference == false) */
 					break;
 				case arg_ignore:
 					/*always acceptable */
-					entrytype=q->type;
+					et = q->et;
 					p->is_reference=q->is_reference;
 					break;
 				case arg_none:
@@ -1008,12 +970,12 @@ ZRinstructions_Hlist(zoneP ZI201, instructions_listP *ZO206)
 				}
 			}
 			if(p!=NULL) {
-				char* s = nstring_to_cstring(entry_key(entryaction));
+				char* s = nstring_to_cstring(entry_key(ea));
 				error(ERROR_SERIOUS, "In call to action %s, too many results", s);
 				DEALLOCATE(s);
 			}
 			if(q!=NULL) {
-				char* s = nstring_to_cstring(entry_key(entryaction));
+				char* s = nstring_to_cstring(entry_key(ea));
 				error(ERROR_SERIOUS, "In call to action %s, not enough results", s);
 				DEALLOCATE(s);
 			}
@@ -1023,7 +985,7 @@ ZRinstructions_Hlist(zoneP ZI201, instructions_listP *ZO206)
 		(ZIinstl)->tail=&(ZIinst)->next;
 		++((ZIinstl)->size);
 	}
-#line 1027 "syntax.c"
+#line 989 "syntax.c"
 		}
 		/* END OF ACTION: add-inst-to-list */
 		ZR207 (ZI201, ZIinstl, &ZI205, &ZI206);
@@ -1038,6 +1000,44 @@ ZL1:;
 	return;
 ZL0:;
 	*ZO206 = ZI206;
+}
+
+static void
+ZR163(args_listP *ZOr)
+{
+	args_listP ZIr;
+
+	switch (CURRENT_TERMINAL) {
+	case 13:
+		{
+			ZRaction_Hcall_C_Crhs_Htuple (&ZIr);
+			if ((CURRENT_TERMINAL) == 39) {
+				RESTORE_LEXER;
+				goto ZL1;
+			}
+		}
+		break;
+	default:
+		{
+			/* BEGINNING OF ACTION: empty-args-list */
+			{
+#line 395 "syntax.act"
+
+    (ZIr)=add_args_list();
+#line 1028 "syntax.c"
+			}
+			/* END OF ACTION: empty-args-list */
+		}
+		break;
+	case 39:
+		return;
+	}
+	goto ZL0;
+ZL1:;
+	SAVE_LEXER (39);
+	return;
+ZL0:;
+	*ZOr = ZIr;
 }
 
 static void
@@ -1137,21 +1137,21 @@ ZRtype_Htuple_C_Ctype_Hname(zoneP ZIz, typetuple *ZIa)
 		{
 #line 814 "syntax.act"
 
-	struct EntryT* entry;
+	struct entry *et;
 	NStringT tstr, istr;
 	nstring_copy_cstring(&tstr,(ZItype));
 	nstring_copy_cstring(&istr,(ZIname));
-	entry = table_get_entry(tree_get_table((ZIz)->top_level), &tstr);
-	if(entry == NULL) {
+	et = table_get_entry(tree_get_table((ZIz)->top_level), &tstr);
+	if(et== NULL) {
 		 error(ERROR_SERIOUS, "Unknown type %s", (ZItype));
 		 nstring_destroy(&istr);
 	}
-	else if(!entry_is_type(entry)) {
+	else if(!entry_is_type(et)) {
 		 error(ERROR_SERIOUS, "%s is not a type", (ZItype));
 		 nstring_destroy(&istr);
 	}
 	else {
-		typetuple_append((ZIa),typetupleentry_create(&istr,entry,(ZIisref)));
+		typetuple_append((ZIa),typetupleentry_create(&istr, et, (ZIisref)));
 	}
 	nstring_destroy(&tstr);
 	xfree((ZItype));
@@ -1210,6 +1210,39 @@ ZL1:;
 }
 
 static void
+ZRcmd(zoneP ZIz, cmdP *ZOinst)
+{
+	cmdP ZIinst;
+
+	if ((CURRENT_TERMINAL) == 39) {
+		return;
+	}
+	{
+		args_listP ZIl;
+
+		/* BEGINNING OF ACTION: empty-args-list */
+		{
+#line 395 "syntax.act"
+
+    (ZIl)=add_args_list();
+#line 1229 "syntax.c"
+		}
+		/* END OF ACTION: empty-args-list */
+		ZR211 (&ZIz, &ZIl, &ZIinst);
+		if ((CURRENT_TERMINAL) == 39) {
+			RESTORE_LEXER;
+			goto ZL1;
+		}
+	}
+	goto ZL0;
+ZL1:;
+	SAVE_LEXER (39);
+	return;
+ZL0:;
+	*ZOinst = ZIinst;
+}
+
+static void
 ZR183(SID_STRING *ZOe)
 {
 	SID_STRING ZIe;
@@ -1233,7 +1266,7 @@ ZL1:;
 
         (ZIe) = NULL ;
 	error(ERROR_SERIOUS, "Syntax error: expected characters");
-#line 1237 "syntax.c"
+#line 1270 "syntax.c"
 		}
 		/* END OF ACTION: E_expected_chars */
 	}
@@ -1242,15 +1275,15 @@ ZL0:;
 }
 
 static void
-ZR185(zoneP *ZIz, instructions_listP *ZOleaving_Hinstl)
+ZR185(zoneP *ZIz, cmd_listP *ZOleaving_Hinstl)
 {
-	instructions_listP ZIleaving_Hinstl;
+	cmd_listP ZIleaving_Hinstl;
 
 	switch (CURRENT_TERMINAL) {
 	case 17:
 		{
 			ADVANCE_LEXER;
-			ZRinstructions_Hlist (*ZIz, &ZIleaving_Hinstl);
+			ZRcmd_Hlist (*ZIz, &ZIleaving_Hinstl);
 			if ((CURRENT_TERMINAL) == 39) {
 				RESTORE_LEXER;
 				goto ZL1;
@@ -1263,8 +1296,8 @@ ZR185(zoneP *ZIz, instructions_listP *ZOleaving_Hinstl)
 			{
 #line 624 "syntax.act"
 
-    (ZIleaving_Hinstl)=add_instructions_list();
-#line 1268 "syntax.c"
+    (ZIleaving_Hinstl)=add_cmd_list();
+#line 1301 "syntax.c"
 			}
 			/* END OF ACTION: empty-inst-list */
 		}
@@ -1311,7 +1344,7 @@ read_lex(zoneP ZIz)
 #line 903 "syntax.act"
 
 	error ( ERROR_SERIOUS, "Syntax error" ) ;
-#line 1315 "syntax.c"
+#line 1348 "syntax.c"
 				}
 				/* END OF ACTION: syntax-error */
 			}
@@ -1362,7 +1395,7 @@ ZRaction_Hdecl(zoneP ZIz)
 #line 894 "syntax.act"
 
 	error(ERROR_SERIOUS, "Syntax error: expected begin action \'<\'");
-#line 1366 "syntax.c"
+#line 1399 "syntax.c"
 				}
 				/* END OF ACTION: E_expected_begin_action */
 			}
@@ -1376,7 +1409,7 @@ ZRaction_Hdecl(zoneP ZIz)
 #line 177 "syntax.act"
 
     ZIi = xstrdup ( token_buff ) ;
-#line 1380 "syntax.c"
+#line 1413 "syntax.c"
 			}
 			/* END OF EXTRACT: identifier */
 			break;
@@ -1403,7 +1436,7 @@ ZRaction_Hdecl(zoneP ZIz)
 #line 898 "syntax.act"
 
 	error(ERROR_SERIOUS, "Syntax error: expected end action \'>\'");
-#line 1407 "syntax.c"
+#line 1440 "syntax.c"
 				}
 				/* END OF ACTION: E_expected_end_action */
 			}
@@ -1436,7 +1469,7 @@ ZRaction_Hdecl(zoneP ZIz)
 #line 808 "syntax.act"
 
 	typetuple_init(&(ZIit));
-#line 1440 "syntax.c"
+#line 1473 "syntax.c"
 					}
 					/* END OF ACTION: init-tuple */
 					/* BEGINNING OF ACTION: init-tuple */
@@ -1444,7 +1477,7 @@ ZRaction_Hdecl(zoneP ZIz)
 #line 808 "syntax.act"
 
 	typetuple_init(&(ZIot));
-#line 1448 "syntax.c"
+#line 1481 "syntax.c"
 					}
 					/* END OF ACTION: init-tuple */
 				}
@@ -1457,17 +1490,17 @@ ZRaction_Hdecl(zoneP ZIz)
 #line 784 "syntax.act"
 
 	NStringT str;
-	struct EntryT* entry;
+	struct entry *e;
 	nstring_copy_cstring(&str, (ZIi));
-	entry=table_get_entry(tree_get_table((ZIz)->top_level), &str);
-	if(entry != NULL) {
+	e = table_get_entry(tree_get_table((ZIz)->top_level), &str);
+	if(e != NULL) {
 		nstring_destroy(&str);
 		/* TODO switch ? */
-	   	if(entry_is_action(entry))
+	   	if(entry_is_action(e))
 			error(ERROR_SERIOUS, "Action %s already exists",(ZIi));
-		else if(entry_is_localname(entry))
+		else if(entry_is_localname(e))
 			error(ERROR_SERIOUS, "Can't create type %s, %s has been previously used as a local name. We do not allow retroactive hiding.",(ZIi),(ZIi));
-		else if(entry_is_type(entry))
+		else if(entry_is_type(e))
 			error(ERROR_SERIOUS, "Can't create action %s, %s has already been declared as a type",(ZIi), (ZIi));
 		else
 			UNREACHED;
@@ -1475,7 +1508,7 @@ ZRaction_Hdecl(zoneP ZIz)
 		table_add_action(tree_get_table((ZIz)->top_level), &str , (&ZIit), (&ZIot));
 	}
 	xfree((ZIi));
-#line 1479 "syntax.c"
+#line 1512 "syntax.c"
 		}
 		/* END OF ACTION: make-action */
 	}
@@ -1486,54 +1519,21 @@ ZL1:;
 }
 
 static void
-ZRinstruction(zoneP ZIz, instructionP *ZOinst)
-{
-	instructionP ZIinst;
-
-	if ((CURRENT_TERMINAL) == 39) {
-		return;
-	}
-	{
-		args_listP ZIl;
-
-		/* BEGINNING OF ACTION: empty-args-list */
-		{
-#line 395 "syntax.act"
-
-    (ZIl)=add_args_list();
-#line 1505 "syntax.c"
-		}
-		/* END OF ACTION: empty-args-list */
-		ZR211 (&ZIz, &ZIl, &ZIinst);
-		if ((CURRENT_TERMINAL) == 39) {
-			RESTORE_LEXER;
-			goto ZL1;
-		}
-	}
-	goto ZL0;
-ZL1:;
-	SAVE_LEXER (39);
-	return;
-ZL0:;
-	*ZOinst = ZIinst;
-}
-
-static void
-ZR207(zoneP ZI201, instructions_listP ZI204, zoneP *ZO205, instructions_listP *ZO206)
+ZR207(zoneP ZI201, cmd_listP ZI204, zoneP *ZO205, cmd_listP *ZO206)
 {
 	zoneP ZI205;
-	instructions_listP ZI206;
+	cmd_listP ZI206;
 
 ZL2_207:;
 	switch (CURRENT_TERMINAL) {
 	case 27:
 		{
-			instructions_listP ZIinstl;
-			instructionP ZIinst;
+			cmd_listP ZIinstl;
+			cmdP ZIinst;
 
 			ZIinstl = ZI204;
 			ADVANCE_LEXER;
-			ZRinstruction (ZI201, &ZIinst);
+			ZRcmd (ZI201, &ZIinst);
 			if ((CURRENT_TERMINAL) == 39) {
 				RESTORE_LEXER;
 				goto ZL1;
@@ -1543,54 +1543,54 @@ ZL2_207:;
 #line 402 "syntax.act"
 
 	if((ZIinst)!=NULL) { /* if (ZIinst) == NULL, an error has already been issued.*/
-		struct LocalNamesT* locals = instructionslist_localnames((ZIinstl));
+		struct LocalNamesT* locals = cmdlist_localnames((ZIinstl));
 /*		if(((ZIinstl)->head !=NULL) && ((ZIinst)->type==return_terminal || (ZIinst)->type==do_nothing)) {
-			error(ERROR_SERIOUS, "A $sid-identifier or a $$ can only appear at the end of an instruction-list"); Does not work anymore since we append and do not prepend anymore. No pb as this will be unecessary due to the upcoming removal of direct function calls.
+			error(ERROR_SERIOUS, "A $sid-identifier or a $$ can only appear at the end of an cmd-list"); Does not work anymore since we append and do not prepend anymore. No pb as this will be unecessary due to the upcoming removal of direct function calls.
 		}*/
 		if((ZIinstl)->nb_return_terminal>0 && (ZIinst)->type!=do_nothing)
-			error(ERROR_SERIOUS, "No instruction may follow an instruction that returns a terminal");
+			error(ERROR_SERIOUS, "No cmd may follow an cmd that returns a terminal");
 		if((ZIinst)->type == return_terminal) {
 			++((ZIinstl)->nb_return_terminal);
 		}
 		if((ZIinst)->type == action_call) {
 			struct args_list* rhs;
 			struct args_list* lhs;
-			struct EntryT* entryaction;
-			struct ActionT* action;
+			struct entry *ea;
+			struct action *act;
 			struct arg* p;
 			struct TypeTupleEntryT* q;
 
 			(ZIinstl)->nb_return_terminal+=(ZIinst)->u.act.lhs->nb_return_terminal;
 			if((ZIinstl)->nb_return_terminal>1)
 				error(ERROR_SERIOUS, "Only one terminal may be returned per token");
-			entryaction = (ZIinst)->u.act.called_act;
-			action = entry_get_action(entryaction);
+			ea = (ZIinst)->u.act.called_act;
+			act = entry_get_action(ea);
 			rhs = (ZIinst)->u.act.rhs;
 			lhs = (ZIinst)->u.act.lhs;
 
 			/* CHECKING RHS COMPATIBILITY */ 
-			for ( p = rhs->head, q = action->inputs.head; p!=NULL && q!=NULL; p=p->next, q=q->next) {
-			      	struct EntryT* entrytype = NULL;
+			for ( p = rhs->head, q = act->in.head; p!=NULL && q!=NULL; p=p->next, q=q->next) {
+			      	struct entry *et = NULL;
 				NStringT str;
 			      	switch (p->type) {
 				case arg_identifier: 
 				     	nstring_copy_cstring(&str, p->u.literal);
-					entrytype=localnames_get_type(locals, &str);
+					et=localnames_get_type(locals, &str);
 					nstring_destroy(&str);
-					if(!entrytype) {
-						struct EntryT* tableentry = table_get_entry(tree_get_table((ZI201)->top_level), &str);
-						if(!tableentry) {
+					if(!et) {
+						struct entry *e = table_get_entry(tree_get_table((ZI201)->top_level), &str);
+						if(!e) {
 							error(ERROR_SERIOUS, "local name %s has not been defined yet", p->u.literal);
-							entrytype = NULL;
-						} else if (entry_is_localname(tableentry)) {
+							et = NULL;
+						} else if (entry_is_localname(e)) {
 							error(ERROR_SERIOUS, "local name %s has been defined but not in this scope", p->u.literal);
-							entrytype = NULL;
-						} else if (entry_is_action(tableentry)) {
+							et = NULL;
+						} else if (entry_is_action(e)) {
 							error(ERROR_SERIOUS, "%s is not a local name but an action which is not allowed", p->u.literal);
-							entrytype = NULL;
-						} else if (entry_is_type(tableentry)) {
+							et = NULL;
+						} else if (entry_is_type(e)) {
 							error(ERROR_SERIOUS, "%s is not a local name but a type which is not allowed", p->u.literal);
-							entrytype = NULL;
+							et = NULL;
 						} else {
 							UNREACHED;
 						}
@@ -1598,19 +1598,19 @@ ZL2_207:;
 					break;
 				case arg_charP:
 					/* TODO assert(lexer_string_type(top_level)) */
-					entrytype = lexer_string_type((ZI201)->top_level);
+					et = lexer_string_type((ZI201)->top_level);
 		 			break;
 				case arg_char_nb:
 					/* TODO assert(lexer_char_type(top_level)) */
-					entrytype = lexer_char_type((ZI201)->top_level);
+					et = lexer_char_type((ZI201)->top_level);
 			 		break;
 				case arg_terminal:
 					/* TODO assert(lexer_terminal_type(top_level)) */
-					entrytype = lexer_terminal_type((ZI201)->top_level);
+					et = lexer_terminal_type((ZI201)->top_level);
 					break;
 				case arg_nb_of_chars:
 					/* TODO assert(lexer_terminal_type(top_level)) */
-					entrytype = lexer_int_type((ZI201)->top_level);
+					et = lexer_int_type((ZI201)->top_level);
 		 			break;
 				case arg_none:
 					break; /* Error already detected, do nothing and leave p->lexitype = NULL */
@@ -1622,12 +1622,12 @@ ZL2_207:;
 				UNREACHED;
 				break;
 			}
-			if(entrytype) {
-				if( q->type!=entrytype || p->is_reference!=q->is_reference) {
-						char* s1 = nstring_to_cstring(entry_key(entryaction));
-						char* s2 = nstring_to_cstring(entry_key(entrytype));
+			if(et) {
+				if( q->et!=et || p->is_reference!=q->is_reference) {
+						char* s1 = nstring_to_cstring(entry_key(ea));
+						char* s2 = nstring_to_cstring(entry_key(et));
 						char* s3 = p->is_reference ? "&" : "";
-						char* s4 = nstring_to_cstring(entry_key(q->type));
+						char* s4 = nstring_to_cstring(entry_key(q->et));
 						char* s5 = q->is_reference ? "&" : "";
 						char* s6 = "unknown";
 						char* s7 = "unknown";
@@ -1658,61 +1658,61 @@ ZL2_207:;
 				}
 			}
 			if(p!=NULL) {
-				char* s = nstring_to_cstring(entry_key(entryaction));
+				char* s = nstring_to_cstring(entry_key(ea));
 				error(ERROR_SERIOUS, "In call to action %s, too many arguments", s);
 				DEALLOCATE(s);
 			}
 			if(q!=NULL) {
-				char* s = nstring_to_cstring(entry_key(entryaction));
+				char* s = nstring_to_cstring(entry_key(ea));
 				error(ERROR_SERIOUS, "In call to action %s, not enough arguments", s);
 				DEALLOCATE(s);
 			}
 
-			for ( p = lhs->head, q = action->outputs.head; p!=NULL && q!=NULL; p=p->next, q=q->next) {
-			      	struct EntryT* entrytype;
+			for ( p = lhs->head, q = act->out.head; p!=NULL && q!=NULL; p=p->next, q=q->next) {
+			      	struct entry *et;
 				switch (p->type) {
 				case arg_identifier: 
 					{
 						NStringT str;
 						nstring_copy_cstring(&str, p->u.literal);
-						entrytype = localnames_get_type(locals, &str);
-						if(!entrytype) {
-							struct EntryT* entry = table_get_entry(tree_get_table((ZI201)->top_level), &str);
-							localnames_add_nstring(locals, &str, q->type);
-							if(entry) {
+						et = localnames_get_type(locals, &str);
+						if(!et) {
+							struct entry *e= table_get_entry(tree_get_table((ZI201)->top_level), &str);
+							localnames_add_nstring(locals, &str, q->et);
+							if(e) {
 								nstring_destroy(&str);
-								if (entry_is_action(entry)) {
+								if (entry_is_action(e)) {
 									error(ERROR_SERIOUS, "In action lhs. Name %s is an action. Hiding globals by local names is not allowed", p->u.literal);
-								} else if (entry_is_type(entry)) {
+								} else if (entry_is_type(e)) {
 									error(ERROR_SERIOUS, "In action lhs. Name %s is a type. Hiding globals by local names is not allowed", p->u.literal);									
 								}
 							} else {
 								table_add_local_name(tree_get_table((ZI201)->top_level), &str);
 							}
 							if(p->is_reference) {
-								char* s = nstring_to_cstring(entry_key(entryaction));
+								char* s = nstring_to_cstring(entry_key(ea));
 								error(ERROR_SERIOUS, "In action call %s, you can only use references %s for preexisting variables", s, p->u.literal);
 								DEALLOCATE(s);
 							} 
 						} else {
 							nstring_destroy(&str);
 							if(!p->is_reference) {
-								char* s = nstring_to_cstring(entry_key(entryaction));
+								char* s = nstring_to_cstring(entry_key(ea));
 								error(ERROR_SERIOUS, "In action call %s, name %s already declared. Use references to change the value of an already existing variable", s, p->u.literal);
-								entrytype=q->type; /* To avoid outputting that error more than once*/
+								et=q->et; /* To avoid outputting that error more than once*/
 								DEALLOCATE(s);
 							}
 						}
 					}
 					break;
 				case arg_return_terminal:
-					entrytype = lexer_terminal_type((ZI201)->top_level);
+					et = lexer_terminal_type((ZI201)->top_level);
 					q->is_reference = false;
 					/* TODO assert(q->is_reference == false) */
 					break;
 				case arg_ignore:
 					/*always acceptable */
-					entrytype=q->type;
+					et = q->et;
 					p->is_reference=q->is_reference;
 					break;
 				case arg_none:
@@ -1736,12 +1736,12 @@ ZL2_207:;
 				}
 			}
 			if(p!=NULL) {
-				char* s = nstring_to_cstring(entry_key(entryaction));
+				char* s = nstring_to_cstring(entry_key(ea));
 				error(ERROR_SERIOUS, "In call to action %s, too many results", s);
 				DEALLOCATE(s);
 			}
 			if(q!=NULL) {
-				char* s = nstring_to_cstring(entry_key(entryaction));
+				char* s = nstring_to_cstring(entry_key(ea));
 				error(ERROR_SERIOUS, "In call to action %s, not enough results", s);
 				DEALLOCATE(s);
 			}
@@ -1902,7 +1902,7 @@ ZR210(zoneP *ZIz)
 	switch (CURRENT_TERMINAL) {
 	case 11:
 		{
-			instructions_listP ZIinst_Hlist;
+			cmd_listP ZIinst_Hlist;
 
 			ADVANCE_LEXER;
 			switch (CURRENT_TERMINAL) {
@@ -1912,7 +1912,7 @@ ZR210(zoneP *ZIz)
 				goto ZL1;
 			}
 			ADVANCE_LEXER;
-			ZRinstructions_Hlist (*ZIz, &ZIinst_Hlist);
+			ZRcmd_Hlist (*ZIz, &ZIinst_Hlist);
 			if ((CURRENT_TERMINAL) == 39) {
 				RESTORE_LEXER;
 				goto ZL1;
@@ -1921,7 +1921,7 @@ ZR210(zoneP *ZIz)
 			{
 #line 654 "syntax.act"
 
-    (*ZIz)->default_instructions=(ZIinst_Hlist);
+    (*ZIz)->local=(ZIinst_Hlist);
 	if((ZIinst_Hlist)->nb_return_terminal)
 		(*ZIz)->type=typezone_general_zone;
 #line 1928 "syntax.c"
@@ -1937,7 +1937,7 @@ ZR210(zoneP *ZIz)
 	case 2: case 3: case 4: case 5:
 		{
 			SID_STRING ZIs;
-			instructions_listP ZIinst_Hlist;
+			cmd_listP ZIinst_Hlist;
 
 			ZRnon_Hempty_Hchars (&ZIs);
 			switch (CURRENT_TERMINAL) {
@@ -1950,7 +1950,7 @@ ZR210(zoneP *ZIz)
 				goto ZL1;
 			}
 			ADVANCE_LEXER;
-			ZRinstructions_Hlist (*ZIz, &ZIinst_Hlist);
+			ZRcmd_Hlist (*ZIz, &ZIinst_Hlist);
 			if ((CURRENT_TERMINAL) == 39) {
 				RESTORE_LEXER;
 				goto ZL1;
@@ -1960,7 +1960,7 @@ ZR210(zoneP *ZIz)
 #line 614 "syntax.act"
 
 	if((ZIinst_Hlist)->nb_return_terminal>1)
-		error(ERROR_SERIOUS, "At most one return terminal may be specified per instruction list");
+		error(ERROR_SERIOUS, "At most one return terminal may be specified per cmd list");
 #line 1965 "syntax.c"
 			}
 			/* END OF ACTION: check-inst-list */
@@ -1993,9 +1993,9 @@ ZL1:;
 }
 
 static void
-ZR211(zoneP *ZIz, args_listP *ZIl, instructionP *ZOinst)
+ZR211(zoneP *ZIz, args_listP *ZIl, cmdP *ZOinst)
 {
-	instructionP ZIinst;
+	cmdP ZIinst;
 
 	switch (CURRENT_TERMINAL) {
 	case 31:
@@ -2096,11 +2096,11 @@ ZR211(zoneP *ZIz, args_listP *ZIl, instructionP *ZOinst)
 #line 337 "syntax.act"
 
 	NStringT key;
-	struct EntryT* entry;
+	struct entry *ea;
 	nstring_copy_cstring(&key, (ZIi));
-	entry = table_get_entry(tree_get_table((*ZIz)->top_level), &key);
-	if(entry) {
-		if(entry_is_action(entry)) {
+	ea = table_get_entry(tree_get_table((*ZIz)->top_level), &key);
+	if(ea) {
+		if(entry_is_action(ea)) {
 			/* TODO: Inefficient code follows: */
 			/* Checking that a name does not appear twice in an lhs*/
 			struct arg* p, *q;
@@ -2108,14 +2108,14 @@ ZR211(zoneP *ZIz, args_listP *ZIl, instructionP *ZOinst)
 				if(p->type==arg_identifier) {
 					for(q=p->next; q!=NULL;q=q->next) {
 						if(q->type==arg_identifier && !strcmp(p->u.literal, q->u.literal)) {
-							char* s = nstring_to_cstring(entry_key(entry));
+							char* s = nstring_to_cstring(entry_key(ea));
 							error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.literal);
 							break;		   
 						}
 					}
 				}
 			}
-			(ZIinst)=add_instruction_action(entry,(*ZIl),(ZIr));
+			(ZIinst)=add_cmd_action(ea,(*ZIl),(ZIr));
 		 /* END Inefficient code*/
 		} else {
 			(ZIinst)=NULL;
@@ -2229,11 +2229,11 @@ ZR211(zoneP *ZIz, args_listP *ZIl, instructionP *ZOinst)
 #line 337 "syntax.act"
 
 	NStringT key;
-	struct EntryT* entry;
+	struct entry *ea;
 	nstring_copy_cstring(&key, (ZIi));
-	entry = table_get_entry(tree_get_table((*ZIz)->top_level), &key);
-	if(entry) {
-		if(entry_is_action(entry)) {
+	ea = table_get_entry(tree_get_table((*ZIz)->top_level), &key);
+	if(ea) {
+		if(entry_is_action(ea)) {
 			/* TODO: Inefficient code follows: */
 			/* Checking that a name does not appear twice in an lhs*/
 			struct arg* p, *q;
@@ -2241,14 +2241,14 @@ ZR211(zoneP *ZIz, args_listP *ZIl, instructionP *ZOinst)
 				if(p->type==arg_identifier) {
 					for(q=p->next; q!=NULL;q=q->next) {
 						if(q->type==arg_identifier && !strcmp(p->u.literal, q->u.literal)) {
-							char* s = nstring_to_cstring(entry_key(entry));
+							char* s = nstring_to_cstring(entry_key(ea));
 							error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.literal);
 							break;		   
 						}
 					}
 				}
 			}
-			(ZIinst)=add_instruction_action(entry,(*ZIl),(ZIr));
+			(ZIinst)=add_cmd_action(ea,(*ZIl),(ZIr));
 		 /* END Inefficient code*/
 		} else {
 			(ZIinst)=NULL;
@@ -2345,11 +2345,11 @@ ZR211(zoneP *ZIz, args_listP *ZIl, instructionP *ZOinst)
 #line 337 "syntax.act"
 
 	NStringT key;
-	struct EntryT* entry;
+	struct entry *ea;
 	nstring_copy_cstring(&key, (ZIi));
-	entry = table_get_entry(tree_get_table((*ZIz)->top_level), &key);
-	if(entry) {
-		if(entry_is_action(entry)) {
+	ea = table_get_entry(tree_get_table((*ZIz)->top_level), &key);
+	if(ea) {
+		if(entry_is_action(ea)) {
 			/* TODO: Inefficient code follows: */
 			/* Checking that a name does not appear twice in an lhs*/
 			struct arg* p, *q;
@@ -2357,14 +2357,14 @@ ZR211(zoneP *ZIz, args_listP *ZIl, instructionP *ZOinst)
 				if(p->type==arg_identifier) {
 					for(q=p->next; q!=NULL;q=q->next) {
 						if(q->type==arg_identifier && !strcmp(p->u.literal, q->u.literal)) {
-							char* s = nstring_to_cstring(entry_key(entry));
+							char* s = nstring_to_cstring(entry_key(ea));
 							error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.literal);
 							break;		   
 						}
 					}
 				}
 			}
-			(ZIinst)=add_instruction_action(entry,(*ZIl),(ZIr));
+			(ZIinst)=add_cmd_action(ea,(*ZIl),(ZIr));
 		 /* END Inefficient code*/
 		} else {
 			(ZIinst)=NULL;
@@ -2478,11 +2478,11 @@ ZR211(zoneP *ZIz, args_listP *ZIl, instructionP *ZOinst)
 #line 337 "syntax.act"
 
 	NStringT key;
-	struct EntryT* entry;
+	struct entry *ea;
 	nstring_copy_cstring(&key, (ZIi));
-	entry = table_get_entry(tree_get_table((*ZIz)->top_level), &key);
-	if(entry) {
-		if(entry_is_action(entry)) {
+	ea = table_get_entry(tree_get_table((*ZIz)->top_level), &key);
+	if(ea) {
+		if(entry_is_action(ea)) {
 			/* TODO: Inefficient code follows: */
 			/* Checking that a name does not appear twice in an lhs*/
 			struct arg* p, *q;
@@ -2490,14 +2490,14 @@ ZR211(zoneP *ZIz, args_listP *ZIl, instructionP *ZOinst)
 				if(p->type==arg_identifier) {
 					for(q=p->next; q!=NULL;q=q->next) {
 						if(q->type==arg_identifier && !strcmp(p->u.literal, q->u.literal)) {
-							char* s = nstring_to_cstring(entry_key(entry));
+							char* s = nstring_to_cstring(entry_key(ea));
 							error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.literal);
 							break;		   
 						}
 					}
 				}
 			}
-			(ZIinst)=add_instruction_action(entry,(*ZIl),(ZIr));
+			(ZIinst)=add_cmd_action(ea,(*ZIl),(ZIr));
 		 /* END Inefficient code*/
 		} else {
 			(ZIinst)=NULL;
@@ -2594,11 +2594,11 @@ ZR211(zoneP *ZIz, args_listP *ZIl, instructionP *ZOinst)
 #line 337 "syntax.act"
 
 	NStringT key;
-	struct EntryT* entry;
+	struct entry *ea;
 	nstring_copy_cstring(&key, (ZIi));
-	entry = table_get_entry(tree_get_table((*ZIz)->top_level), &key);
-	if(entry) {
-		if(entry_is_action(entry)) {
+	ea = table_get_entry(tree_get_table((*ZIz)->top_level), &key);
+	if(ea) {
+		if(entry_is_action(ea)) {
 			/* TODO: Inefficient code follows: */
 			/* Checking that a name does not appear twice in an lhs*/
 			struct arg* p, *q;
@@ -2606,14 +2606,14 @@ ZR211(zoneP *ZIz, args_listP *ZIl, instructionP *ZOinst)
 				if(p->type==arg_identifier) {
 					for(q=p->next; q!=NULL;q=q->next) {
 						if(q->type==arg_identifier && !strcmp(p->u.literal, q->u.literal)) {
-							char* s = nstring_to_cstring(entry_key(entry));
+							char* s = nstring_to_cstring(entry_key(ea));
 							error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.literal);
 							break;		   
 						}
 					}
 				}
 			}
-			(ZIinst)=add_instruction_action(entry,(*ZIl),(ZIr));
+			(ZIinst)=add_cmd_action(ea,(*ZIl),(ZIr));
 		 /* END Inefficient code*/
 		} else {
 			(ZIinst)=NULL;
@@ -2676,11 +2676,11 @@ ZR211(zoneP *ZIz, args_listP *ZIl, instructionP *ZOinst)
 #line 337 "syntax.act"
 
 	NStringT key;
-	struct EntryT* entry;
+	struct entry *ea;
 	nstring_copy_cstring(&key, (ZIi));
-	entry = table_get_entry(tree_get_table((*ZIz)->top_level), &key);
-	if(entry) {
-		if(entry_is_action(entry)) {
+	ea = table_get_entry(tree_get_table((*ZIz)->top_level), &key);
+	if(ea) {
+		if(entry_is_action(ea)) {
 			/* TODO: Inefficient code follows: */
 			/* Checking that a name does not appear twice in an lhs*/
 			struct arg* p, *q;
@@ -2688,14 +2688,14 @@ ZR211(zoneP *ZIz, args_listP *ZIl, instructionP *ZOinst)
 				if(p->type==arg_identifier) {
 					for(q=p->next; q!=NULL;q=q->next) {
 						if(q->type==arg_identifier && !strcmp(p->u.literal, q->u.literal)) {
-							char* s = nstring_to_cstring(entry_key(entry));
+							char* s = nstring_to_cstring(entry_key(ea));
 							error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.literal);
 							break;		   
 						}
 					}
 				}
 			}
-			(ZIinst)=add_instruction_action(entry,(*ZIl),(ZIr));
+			(ZIinst)=add_cmd_action(ea,(*ZIl),(ZIr));
 		 /* END Inefficient code*/
 		} else {
 			(ZIinst)=NULL;
@@ -2801,11 +2801,11 @@ ZR211(zoneP *ZIz, args_listP *ZIl, instructionP *ZOinst)
 #line 337 "syntax.act"
 
 	NStringT key;
-	struct EntryT* entry;
+	struct entry *ea;
 	nstring_copy_cstring(&key, (ZIi));
-	entry = table_get_entry(tree_get_table((*ZIz)->top_level), &key);
-	if(entry) {
-		if(entry_is_action(entry)) {
+	ea = table_get_entry(tree_get_table((*ZIz)->top_level), &key);
+	if(ea) {
+		if(entry_is_action(ea)) {
 			/* TODO: Inefficient code follows: */
 			/* Checking that a name does not appear twice in an lhs*/
 			struct arg* p, *q;
@@ -2813,14 +2813,14 @@ ZR211(zoneP *ZIz, args_listP *ZIl, instructionP *ZOinst)
 				if(p->type==arg_identifier) {
 					for(q=p->next; q!=NULL;q=q->next) {
 						if(q->type==arg_identifier && !strcmp(p->u.literal, q->u.literal)) {
-							char* s = nstring_to_cstring(entry_key(entry));
+							char* s = nstring_to_cstring(entry_key(ea));
 							error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.literal);
 							break;		   
 						}
 					}
 				}
 			}
-			(ZIinst)=add_instruction_action(entry,(*ZIl),(ZIr));
+			(ZIinst)=add_cmd_action(ea,(*ZIl),(ZIr));
 		 /* END Inefficient code*/
 		} else {
 			(ZIinst)=NULL;
@@ -2843,7 +2843,7 @@ ZR211(zoneP *ZIz, args_listP *ZIl, instructionP *ZOinst)
 			{
 #line 331 "syntax.act"
 
-	(ZIinst)=add_instruction_donothing();
+	(ZIinst)=add_cmd_donothing();
 #line 2848 "syntax.c"
 			}
 			/* END OF ACTION: make-donothing-inst */
@@ -2921,11 +2921,11 @@ ZR211(zoneP *ZIz, args_listP *ZIl, instructionP *ZOinst)
 #line 337 "syntax.act"
 
 	NStringT key;
-	struct EntryT* entry;
+	struct entry *ea;
 	nstring_copy_cstring(&key, (ZIi));
-	entry = table_get_entry(tree_get_table((*ZIz)->top_level), &key);
-	if(entry) {
-		if(entry_is_action(entry)) {
+	ea = table_get_entry(tree_get_table((*ZIz)->top_level), &key);
+	if(ea) {
+		if(entry_is_action(ea)) {
 			/* TODO: Inefficient code follows: */
 			/* Checking that a name does not appear twice in an lhs*/
 			struct arg* p, *q;
@@ -2933,14 +2933,14 @@ ZR211(zoneP *ZIz, args_listP *ZIl, instructionP *ZOinst)
 				if(p->type==arg_identifier) {
 					for(q=p->next; q!=NULL;q=q->next) {
 						if(q->type==arg_identifier && !strcmp(p->u.literal, q->u.literal)) {
-							char* s = nstring_to_cstring(entry_key(entry));
+							char* s = nstring_to_cstring(entry_key(ea));
 							error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.literal);
 							break;		   
 						}
 					}
 				}
 			}
-			(ZIinst)=add_instruction_action(entry,(*ZIl),(ZIr));
+			(ZIinst)=add_cmd_action(ea,(*ZIl),(ZIr));
 		 /* END Inefficient code*/
 		} else {
 			(ZIinst)=NULL;
@@ -3053,11 +3053,11 @@ ZR211(zoneP *ZIz, args_listP *ZIl, instructionP *ZOinst)
 #line 337 "syntax.act"
 
 	NStringT key;
-	struct EntryT* entry;
+	struct entry *ea;
 	nstring_copy_cstring(&key, (ZIi));
-	entry = table_get_entry(tree_get_table((*ZIz)->top_level), &key);
-	if(entry) {
-		if(entry_is_action(entry)) {
+	ea = table_get_entry(tree_get_table((*ZIz)->top_level), &key);
+	if(ea) {
+		if(entry_is_action(ea)) {
 			/* TODO: Inefficient code follows: */
 			/* Checking that a name does not appear twice in an lhs*/
 			struct arg* p, *q;
@@ -3065,14 +3065,14 @@ ZR211(zoneP *ZIz, args_listP *ZIl, instructionP *ZOinst)
 				if(p->type==arg_identifier) {
 					for(q=p->next; q!=NULL;q=q->next) {
 						if(q->type==arg_identifier && !strcmp(p->u.literal, q->u.literal)) {
-							char* s = nstring_to_cstring(entry_key(entry));
+							char* s = nstring_to_cstring(entry_key(ea));
 							error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.literal);
 							break;		   
 						}
 					}
 				}
 			}
-			(ZIinst)=add_instruction_action(entry,(*ZIl),(ZIr));
+			(ZIinst)=add_cmd_action(ea,(*ZIl),(ZIr));
 		 /* END Inefficient code*/
 		} else {
 			(ZIinst)=NULL;
@@ -3227,11 +3227,11 @@ ZR211(zoneP *ZIz, args_listP *ZIl, instructionP *ZOinst)
 #line 337 "syntax.act"
 
 	NStringT key;
-	struct EntryT* entry;
+	struct entry *ea;
 	nstring_copy_cstring(&key, (ZIi));
-	entry = table_get_entry(tree_get_table((*ZIz)->top_level), &key);
-	if(entry) {
-		if(entry_is_action(entry)) {
+	ea = table_get_entry(tree_get_table((*ZIz)->top_level), &key);
+	if(ea) {
+		if(entry_is_action(ea)) {
 			/* TODO: Inefficient code follows: */
 			/* Checking that a name does not appear twice in an lhs*/
 			struct arg* p, *q;
@@ -3239,14 +3239,14 @@ ZR211(zoneP *ZIz, args_listP *ZIl, instructionP *ZOinst)
 				if(p->type==arg_identifier) {
 					for(q=p->next; q!=NULL;q=q->next) {
 						if(q->type==arg_identifier && !strcmp(p->u.literal, q->u.literal)) {
-							char* s = nstring_to_cstring(entry_key(entry));
+							char* s = nstring_to_cstring(entry_key(ea));
 							error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.literal);
 							break;		   
 						}
 					}
 				}
 			}
-			(ZIinst)=add_instruction_action(entry,(*ZIl),(ZIr));
+			(ZIinst)=add_cmd_action(ea,(*ZIl),(ZIr));
 		 /* END Inefficient code*/
 		} else {
 			(ZIinst)=NULL;
@@ -3276,9 +3276,9 @@ ZL0:;
 }
 
 static void
-ZR215(zoneP *ZIz, args_listP *ZIl, SID_STRING *ZI214, instructionP *ZOinst)
+ZR215(zoneP *ZIz, args_listP *ZIl, SID_STRING *ZI214, cmdP *ZOinst)
 {
-	instructionP ZIinst;
+	cmdP ZIinst;
 
 	switch (CURRENT_TERMINAL) {
 	default:
@@ -3287,7 +3287,7 @@ ZR215(zoneP *ZIz, args_listP *ZIl, SID_STRING *ZI214, instructionP *ZOinst)
 			{
 #line 327 "syntax.act"
 
-        (ZIinst)=add_instruction_return_terminal((*ZI214));
+        (ZIinst)=add_cmd_return_terminal((*ZI214));
 #line 3292 "syntax.c"
 			}
 			/* END OF ACTION: make-terminal-inst */
@@ -3375,11 +3375,11 @@ ZR215(zoneP *ZIz, args_listP *ZIl, SID_STRING *ZI214, instructionP *ZOinst)
 #line 337 "syntax.act"
 
 	NStringT key;
-	struct EntryT* entry;
+	struct entry *ea;
 	nstring_copy_cstring(&key, (ZIi));
-	entry = table_get_entry(tree_get_table((*ZIz)->top_level), &key);
-	if(entry) {
-		if(entry_is_action(entry)) {
+	ea = table_get_entry(tree_get_table((*ZIz)->top_level), &key);
+	if(ea) {
+		if(entry_is_action(ea)) {
 			/* TODO: Inefficient code follows: */
 			/* Checking that a name does not appear twice in an lhs*/
 			struct arg* p, *q;
@@ -3387,14 +3387,14 @@ ZR215(zoneP *ZIz, args_listP *ZIl, SID_STRING *ZI214, instructionP *ZOinst)
 				if(p->type==arg_identifier) {
 					for(q=p->next; q!=NULL;q=q->next) {
 						if(q->type==arg_identifier && !strcmp(p->u.literal, q->u.literal)) {
-							char* s = nstring_to_cstring(entry_key(entry));
+							char* s = nstring_to_cstring(entry_key(ea));
 							error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.literal);
 							break;		   
 						}
 					}
 				}
 			}
-			(ZIinst)=add_instruction_action(entry,(*ZIl),(ZIr));
+			(ZIinst)=add_cmd_action(ea,(*ZIl),(ZIr));
 		 /* END Inefficient code*/
 		} else {
 			(ZIinst)=NULL;
@@ -3429,7 +3429,7 @@ ZRkeyword_Hdefn(zoneP ZIz)
 	}
 	{
 		SID_STRING ZIs;
-		instructionP ZIinst;
+		cmdP ZIinst;
 
 		switch (CURRENT_TERMINAL) {
 		case 7:
@@ -3460,7 +3460,7 @@ ZRkeyword_Hdefn(zoneP ZIz)
 			goto ZL1;
 		}
 		ADVANCE_LEXER;
-		ZRinstruction (ZIz, &ZIinst);
+		ZRcmd (ZIz, &ZIinst);
 		/* BEGINNING OF INLINE: 171 */
 		{
 			if ((CURRENT_TERMINAL) == 39) {

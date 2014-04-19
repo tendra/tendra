@@ -12,10 +12,10 @@
 #include <exds/common.h>
 #include <exds/dstring.h>
 
-struct EntryT;
+struct entry;
 
 /*
- * This is a trie of chars, the leaves point to a type represented by an EntryT *, see adt.h
+ * This is a trie of chars, the leaves point to a type represented by an entry *, see adt.h
  * This structure stores the types of the local names used in actions so we can type check
  * during parsing.
  */
@@ -24,7 +24,7 @@ struct LocalNamesEntryT {
 	struct LocalNamesEntryT *next;
 	struct LocalNamesEntryT *opt;
 	struct LocalNamesEntryT *up;
-	struct EntryT *type;
+	struct entry *et;
 };
 
 struct LocalNamesT {
@@ -38,8 +38,8 @@ struct LocalNamesIteratorT {
 };
 
 void localnames_init(struct LocalNamesT *);
-int localnames_add_nstring(struct LocalNamesT *, NStringT *, struct EntryT *);
-struct EntryT *localnames_get_type(struct LocalNamesT *, NStringT *);
+int localnames_add_nstring(struct LocalNamesT *, NStringT *, struct entry *);
+struct entry *localnames_get_type(struct LocalNamesT *, NStringT *);
 void localnames_begin(struct LocalNamesIteratorT *, struct LocalNamesT *);
 void localnamesiterator_next(struct LocalNamesIteratorT *);
 

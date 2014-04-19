@@ -253,10 +253,10 @@ action-definition : () -> () [
 		<E_expected_define>;
 	};
 
-	e = <get-entry-action>(nm);
-	<check-action-tuples>(e, &in, &out);
-	c = code-block(e);
-	<define-action>(e, &c);
+	ea = <get-entry-action>(nm);
+	<check-action-tuples>(ea, &in, &out);
+	c = code-block(ea);
+	<define-action>(ea, &c);
 	{
 		semicolon ;
 	    ##

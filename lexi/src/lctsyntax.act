@@ -64,7 +64,7 @@ ENTRYP -> EntryP;
 #define RESTORE_LEXER RESTORE_LCT_LEXER
 
 typedef struct CcodeT ccode;
-typedef struct EntryT* EntryP;
+typedef struct entry * EntryP;
 typedef struct TypeTupleT typetuple;
 
 
@@ -210,10 +210,10 @@ code-string : () -> (s:BIGSTRING) = @{
 
 <append-ccode-identifier> : (c:CCODE&, i:IDENTIFIER, e:ENTRYP, b:BOOL) -> () = @{
 	if(@e) {
-		struct ActionT* action = entry_get_action(@e);
+		struct action* act = entry_get_action(@e);
 		struct TypeTupleEntryT *p, *q;
-	 	if ((p = typetuple_name_is_in(action_get_inputs(action),@&i)) || 
-	       	    (q = typetuple_name_is_in(action_get_outputs(action),@&i))) {
+	 	if ((p = typetuple_name_is_in(action_get_inputs(act),@&i)) || 
+	       	    (q = typetuple_name_is_in(action_get_outputs(act),@&i))) {
 		   	if(!@b) {
 				ccode_append_identifier(@&c,@&i);
 			} else {
@@ -288,30 +288,30 @@ code-string : () -> (s:BIGSTRING) = @{
 @};
 
 <append-tuple> : (a:TYPETUPLE&, id:IDENTIFIER, type:IDENTIFIER, isref:BOOL) -> () =@{
-	struct EntryT* entry = table_get_entry(tree_get_table(lxi_top_level), @&type);
-	if(entry == NULL) {
+	struct entry *et = table_get_entry(tree_get_table(lxi_top_level), @&type);
+	if(et== NULL) {
 		 char* pt = nstring_to_cstring(@&type);
 		 error(ERROR_SERIOUS, "Unknown type %s", pt);
 		 DEALLOCATE(pt);
 		 nstring_destroy(@&id);
 		 nstring_destroy(@&type);
 	}
-	else if(!entry_is_type(entry)) {
+	else if(!entry_is_type(et)) {
 		error(ERROR_SERIOUS, "%s is not a type", @&type);
 		nstring_destroy(@&type);
 	}
 	else {
-		typetuple_append(@&a,typetupleentry_create(@&id,entry, @isref));
+		typetuple_append(@&a,typetupleentry_create(@&id, et, @isref));
 		nstring_destroy(@&type);
 	}
 @} ;
 
 <make-map> : (lexitype:IDENTIFIER, ctype:IDENTIFIER) -> () = @{
-	struct EntryT* entry= table_get_entry(tree_get_table(lxi_top_level), @&lexitype);
-	if(entry !=NULL) {
-		if(entry_is_type(entry)) {
-			struct TypeT* type = entry_get_type(entry);
-			type_map(type, @&ctype);
+	struct entry *et= table_get_entry(tree_get_table(lxi_top_level), @&lexitype);
+	if(et != NULL) {
+		if(entry_is_type(et)) {
+			struct type* t = entry_get_type(et);
+			type_map(t, @&ctype);
 		} else {
 			error(ERROR_SERIOUS, "Name in maps section is not a type");
 			nstring_destroy(@&ctype);
@@ -324,12 +324,12 @@ code-string : () -> (s:BIGSTRING) = @{
 @};
 
 
-<get-entry-action> : (i:IDENTIFIER) -> (e:ENTRYP) = @{
-	@e=table_get_entry(tree_get_table(lxi_top_level), @&i);
-	if(@e) {
-		if(!entry_is_action(@e)) {
+<get-entry-action> : (i:IDENTIFIER) -> (ea:ENTRYP) = @{
+	@ea=table_get_entry(tree_get_table(lxi_top_level), @&i);
+	if(@ea) {
+		if(!entry_is_action(@ea)) {
 			char* pi;
-			@e=NULL; /*TODO skip to end of action */
+			@ea=NULL; /*TODO skip to end of action */
 			pi = nstring_to_cstring(@&i);
 			error(ERROR_SERIOUS,"%s is not an action", pi);
 			DEALLOCATE(pi);
@@ -350,31 +350,31 @@ code-string : () -> (s:BIGSTRING) = @{
 	if(@e) {
 		/*TODO assert (entry_is_action(@e)); */	       
 		/* TODO check that the same name does not appear twice in the input and output tuple */
-		struct ActionT* action = entry_get_action(@e);
-		if(typetuple_length(action_get_inputs(action))!=typetuple_length(@&in)) {
+		struct action *act = entry_get_action(@e);
+		if(typetuple_length(action_get_inputs(act))!=typetuple_length(@&in)) {
 			char* pe=nstring_to_cstring(entry_key(@e));
 			error(ERROR_SERIOUS,"Action %s declared with an incompatible number of inputs", pe);
 			DEALLOCATE(pe);
-		} else if(!typetuple_match(action_get_inputs(action),@&in)) {
+		} else if(!typetuple_match(action_get_inputs(act),@&in)) {
 			char* pe=nstring_to_cstring(entry_key(@e));
 			error(ERROR_SERIOUS, "params do not match for action %s",pe);
 			DEALLOCATE(pe);
 		} else {
-			int allhavenames = typetuple_assign_names(action_get_inputs(action),@&in);
+			int allhavenames = typetuple_assign_names(action_get_inputs(act),@&in);
 			if(!allhavenames) {
 				error(ERROR_SERIOUS,"outputs tuples in action definition should have names");
 			}
 		}
-		if(typetuple_length(action_get_outputs(action))!=typetuple_length(@&out)) {
+		if(typetuple_length(action_get_outputs(act))!=typetuple_length(@&out)) {
 			char* pe=nstring_to_cstring(entry_key(@e));
 			error(ERROR_SERIOUS,"Action %s declared with an incompatible number of outputs", pe);
 			DEALLOCATE(pe);
-		} else if (!typetuple_match(action_get_outputs(action),@&out)) {
+		} else if (!typetuple_match(action_get_outputs(act),@&out)) {
 			char* pe=nstring_to_cstring(entry_key(@e));
 			error(ERROR_SERIOUS, "results do not match for action %s",pe);
 			DEALLOCATE(pe);
 		} else {				
-			int allhavenames = typetuple_assign_names(action_get_outputs(action),@&out);
+			int allhavenames = typetuple_assign_names(action_get_outputs(act),@&out);
 			if(!allhavenames) {
 				char* pe=nstring_to_cstring(entry_key(@e));
 				error(ERROR_SERIOUS,"outputs tuples in the definition of action %s should have names",pe);
@@ -390,10 +390,10 @@ code-string : () -> (s:BIGSTRING) = @{
 <define-action> : (e:ENTRYP, c:CCODE&) -> () = @{
 	if(@e) {
 	       /*TODO assert entry_is_action */	       
-	        struct ActionT* action = entry_get_action(@e);
-			if(!action_is_defined(action)) {
-				action_set_define(action);
-				action_set_code(action, @&c);
+	        struct action* act = entry_get_action(@e);
+			if(!action_is_defined(act)) {
+				action_set_define(act);
+				action_set_code(act, @&c);
 			} else {
 				char* pe=nstring_to_cstring(entry_key(@e));
 				error(ERROR_SERIOUS,"Action %s has already been defined", pe);

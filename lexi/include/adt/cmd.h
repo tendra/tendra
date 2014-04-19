@@ -8,8 +8,8 @@
  */
 
 
-#ifndef LEXI_INSTRUCTION_H
-#define LEXI_INSTRUCTION_H
+#ifndef LEXI_CMD_H
+#define LEXI_CMD_H
 
 #include <stdbool.h>
 
@@ -47,7 +47,7 @@ struct args_list {
 	int nb_return_terminal;
 };
 
-enum instruction_type {
+enum cmd_type {
 	return_terminal,
 	push_zone,
 	pop_zone,
@@ -55,9 +55,9 @@ enum instruction_type {
 	action_call
 };
 
-struct instruction {
-	enum instruction_type type;
-	struct instruction *next;
+struct cmd {
+	enum cmd_type type;
+	struct cmd *next;
 
 	union {
 		char *name; /* token */
@@ -66,7 +66,7 @@ struct instruction {
 			int is_beginendmarker_in_zone;
 		} s;
 		struct {
-			struct EntryT *called_act;
+			struct entry *called_act;
 			struct args_list *lhs;
 			struct args_list *rhs;
 		} act;
@@ -74,9 +74,9 @@ struct instruction {
 };
 
 /* ordered */
-struct instructions_list {
-	struct instruction* head;
-	struct instruction** tail;
+struct cmd_list {
+	struct cmd* head;
+	struct cmd** tail;
 	int size;
 	struct LocalNamesT local_names;
 	int nb_return_terminal;
@@ -90,16 +90,16 @@ struct arg *add_none_arg(void);
 void arg_output(struct arg *, bool, int, FILE *);
 struct args_list *add_args_list(void);
 
-struct instruction *add_instruction_return_terminal(char *name);
-struct instruction *add_instruction_donothing(void);
-struct instruction *add_instruction_action(struct EntryT *, struct args_list *, struct args_list *);
-struct instruction *add_instruction_mapping(char *map);
+struct cmd *add_cmd_return_terminal(char *name);
+struct cmd *add_cmd_donothing(void);
+struct cmd *add_cmd_action(struct entry *, struct args_list *, struct args_list *);
+struct cmd *add_cmd_mapping(char *map);
 
-struct instruction *add_instruction_pushzone(struct zone *z);
-struct instruction *add_instruction_popzone(struct zone *z, int is_endmarker_in_zone);
-struct instructions_list *add_instructions_list(void);
+struct cmd *add_cmd_pushzone(struct zone *z);
+struct cmd *add_cmd_popzone(struct zone *z, int is_endmarker_in_zone);
+struct cmd_list *add_cmd_list(void);
 
-struct LocalNamesT *instructionslist_localnames(struct instructions_list *);
+struct LocalNamesT *cmdlist_localnames(struct cmd_list *);
 
 #endif
 

@@ -12,7 +12,7 @@
 
 #include <adt/tree.h>
 
-struct cmd_line_options;
+struct options;
 
 /*
  * Main output routine.
@@ -28,7 +28,7 @@ struct cmd_line_options;
  * is expected to be either C90 or C99.
  */
 void
-c_output_all(struct cmd_line_options *opt, struct lexer_parse_tree *top_level);
+c_output_all(struct options *opt, struct lexer_parse_tree *top_level);
 
 #endif
 

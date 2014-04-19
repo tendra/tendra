@@ -15,7 +15,7 @@
 
 #include <adt/zone.h>
 #include <adt/char.h>
-#include <adt/instruction.h>
+#include <adt/cmd.h>
 #include <adt/tree.h>	/* XXX */
 
 /*
@@ -33,11 +33,11 @@ find_zone(struct zone *z, char *name)
 	assert(name != NULL);
 
 	for (q = z->next; q != NULL; q = q->opt) {
-		if (q->zone_name == NULL) {
+		if (q->name == NULL) {
 			continue;
 		}
 
-		if (strcmp(q->zone_name, name) == 0) {
+		if (strcmp(q->name, name) == 0) {
 			return q;
 		}
 	}
@@ -61,7 +61,7 @@ zone_maxlength(struct zone *z, int in_prepass)
 	{
 		struct character *pass;
 
-		pass = in_prepass ? z->zone_pre_pass : z->zone_main_pass;
+		pass = in_prepass ? z->pre : z->main;
 		max  = pass == NULL ? 0 : char_maxlength(pass);
 	}
 
@@ -92,19 +92,19 @@ new_zone(struct lexer_parse_tree *top_level)
 	assert(top_level != NULL);
 
 	new = xmalloc(sizeof *new);
-	new->zone_name = NULL;
+	new->name = NULL;
 	new->type = typezone_pure_function;
 
-	new->zone_main_pass = NULL;
-	new->zone_pre_pass  = NULL;
+	new->main = NULL;
+	new->pre  = NULL;
 
 	new->keywords    = NULL;
 	new->groups      = NULL;
 	new->white_space = NULL;
 
-	new->default_instructions  = NULL;
-	new->entering_instructions = NULL;
-	new->leaving_instructions  = NULL;
+	new->local = NULL;
+	new->enter = NULL;
+	new->exit  = NULL;
 
 	new->opt  = NULL;
 	new->next = NULL;
@@ -124,8 +124,8 @@ struct zone *
 add_zone(struct zone *z, char *name, const char *e, int endmarkerclosed)
 {
 	struct zone *new;
-	struct instruction *inst;
-	struct instructions_list *inst_list;
+	struct cmd *cmd;
+	struct cmd_list *cmd_list;
 
 	assert(z != NULL);
 	assert(name != NULL);
@@ -137,23 +137,23 @@ add_zone(struct zone *z, char *name, const char *e, int endmarkerclosed)
 	}
 
 	new = new_zone(z->top_level);
-	new->zone_name = name;
+	new->name = name;
 	new->opt = z->next;
 	z->next = new;
 	new->up = z;
 
-	inst = add_instruction_popzone(z, endmarkerclosed);
-	inst_list = add_instructions_list();
-	*inst_list->tail = inst;
-	inst_list->tail = &inst->next;
+	cmd = add_cmd_popzone(z, endmarkerclosed);
+	cmd_list = add_cmd_list();
+	*cmd_list->tail = cmd;
+	cmd_list->tail = &cmd->next;
 
-	add_mainpass(new, e, inst_list);
+	add_mainpass(new, e, cmd_list);
 
 	return new;
 }
 
 struct character *
-add_mainpass(struct zone *z, const char *s, struct instructions_list *l)
+add_mainpass(struct zone *z, const char *s, struct cmd_list *l)
 {
 	struct character *new;
 
@@ -161,17 +161,17 @@ add_mainpass(struct zone *z, const char *s, struct instructions_list *l)
 	assert(s != NULL);
 	assert(l != NULL);
 
-	new = add_string(z, &z->zone_main_pass, s);
+	new = add_string(z, &z->main, s);
 	if (new == NULL) {
 		return NULL;
 	}
 
-	if (new->u.definition != NULL) {
+	if (new->u.cmds != NULL) {
 		error(ERROR_SERIOUS, "Token \"%s\" already exists in zone %s", s, zone_name(z));
 		return NULL;
 	}
 
-	new->u.definition = l;
+	new->u.cmds = l;
 
 	return new;
 }
@@ -185,7 +185,7 @@ add_prepass(struct zone *z, const char *s, char *m)
 	assert(s != NULL);
 	assert(m != NULL);
 
-	new = add_string(z, &z->zone_pre_pass, s);
+	new = add_string(z, &z->pre, s);
 	assert(new != NULL);
 
 	if (new->u.map != NULL) {
@@ -211,10 +211,10 @@ zone_name(struct zone *z)
 {
 	assert(z != NULL);
 
-	if (z->zone_name == NULL) {
+	if (z->name == NULL) {
 		return "the global zone";
 	}
 
-	return z->zone_name;
+	return z->name;
 }
 

@@ -4,10 +4,10 @@
 
 
 SRCS+=	action.c
-SRCS+=	entry.c
 SRCS+=	char.c
+SRCS+=	cmd.c
+SRCS+=	entry.c
 SRCS+=	group.c
-SRCS+=	instruction.c
 SRCS+=	keyword.c
 SRCS+=	tree.c
 SRCS+=	zone.c

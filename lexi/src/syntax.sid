@@ -21,8 +21,8 @@ IDENTIFIER ;
 ZONE;
 STRING ;
 
-INSTRUCTION ;
-INSTRUCTIONS_LIST ;
+CMD ;
+CMD_LIST ;
 
 TYPETUPLE;
 
@@ -100,12 +100,12 @@ type-kw ;
 <make-white> : ( :ZONE, :STRING ) -> () ;
 <make-group> : ( :ZONE, :IDENTIFIER, :STRING ) -> () ;
 <make-trigraph> : ( :ZONE, :STRING, :STRING ) -> () ;
-<make-terminal-inst>  :  ( :IDENTIFIER) -> (:INSTRUCTION) ;
-<make-action-inst> : (:ZONE, :IDENTIFIER, :ARGS_LIST, :ARGS_LIST) -> (:INSTRUCTION) ;
-<make-donothing-inst> : () -> (:INSTRUCTION) ;
-<make-token> : ( :ZONE, :STRING, :INSTRUCTIONS_LIST ) -> () ;
-<make-default> : ( :ZONE, :INSTRUCTIONS_LIST ) -> () ;
-<make-keyword> : ( :ZONE, :STRING, :INSTRUCTION ) -> () ;
+<make-terminal-inst>  :  ( :IDENTIFIER) -> (:CMD) ;
+<make-action-inst> : (:ZONE, :IDENTIFIER, :ARGS_LIST, :ARGS_LIST) -> (:CMD) ;
+<make-donothing-inst> : () -> (:CMD) ;
+<make-token> : ( :ZONE, :STRING, :CMD_LIST) -> () ;
+<make-default> : ( :ZONE, :CMD_LIST ) -> () ;
+<make-keyword> : ( :ZONE, :STRING, :CMD ) -> () ;
 <true> : () -> ( :BOOL ) ;
 <false> : () -> ( :BOOL ) ;
 
@@ -123,9 +123,9 @@ type-kw ;
 <make_arg_from_reference> : (:IDENTIFIER) -> (:ARG);
 <make_arg_none> : () -> (:ARG);
 
-<empty-inst-list> : () -> ( : INSTRUCTIONS_LIST);
-<add-inst-to-list> : ( : ZONE, : INSTRUCTION, : INSTRUCTIONS_LIST ) -> ();
-<check-inst-list> : (: INSTRUCTIONS_LIST ) -> ();
+<empty-inst-list> : () -> ( : CMD_LIST);
+<add-inst-to-list> : ( : ZONE, : CMD, : CMD_LIST ) -> ();
+<check-inst-list> : (: CMD_LIST ) -> ();
 
 
 <E_expected_identifier> : () -> (:IDENTIFIER);
@@ -156,8 +156,8 @@ type-kw ;
 
 <syntax-error> : () -> () ;
 
-<make-zone> : ( :ZONE, :IDENTIFIER, :STRING, :INSTRUCTIONS_LIST, 
-	      	:STRING, :INSTRUCTIONS_LIST, : BOOL ) -> ( :ZONE );
+<make-zone> : ( :ZONE, :IDENTIFIER, :STRING, :CMD_LIST, 
+	      	:STRING, :CMD_LIST, : BOOL ) -> ( :ZONE );
 <update-zone-type> : (:ZONE, :ZONE) -> ();
 
 <make-type>: (:ZONE, :IDENTIFIER) -> ();
@@ -362,7 +362,7 @@ action-decl : (z:ZONE) -> () = {
    ACTION CALL 
 */
 
-action-call : (z:ZONE) -> (inst:INSTRUCTION) [
+action-call : (z:ZONE) -> (inst:CMD) [
 	lhs-arg : (l:ARGS_LIST) -> () = {
 		{
 		        b=arg-char-string ; a=<make_arg_none>; <E_sharp_arg_in_lhs>;
@@ -440,10 +440,10 @@ action-call : (z:ZONE) -> (inst:INSTRUCTION) [
 
 
 /*
-  INSTRUCTION LISTS
+  COMMAND LISTS
 */
 
-instruction : (z:ZONE) -> (inst:INSTRUCTION) = {
+cmd : (z:ZONE) -> (inst:CMD) = {
 	l = <empty-args-list> ;
 	i = sid-identifier ; 
 	inst = <make-terminal-inst>(i);
@@ -455,14 +455,14 @@ instruction : (z:ZONE) -> (inst:INSTRUCTION) = {
     	inst = action-call(z) ;
 } ;
 
-instructions-list : (z:ZONE) -> (instl:INSTRUCTIONS_LIST) = {
-	inst=instruction(z);
+cmd-list : (z:ZONE) -> (instl:CMD_LIST) = {
+	inst=cmd(z);
 	instl=<empty-inst-list>;
 	<add-inst-to-list>(z, inst, instl);
     ||
-	instl=instructions-list(z);
+	instl=cmd-list(z);
    	comma;
-	inst=instruction(z);
+	inst=cmd(z);
 	<add-inst-to-list>(z, inst, instl);
 } ;
 
@@ -475,14 +475,14 @@ instructions-list : (z:ZONE) -> (instl:INSTRUCTIONS_LIST) = {
 
 token-defn : ( z:ZONE ) -> () = {
 	token ; s = non-empty-chars ; arrow ;
-	inst-list=instructions-list(z);
+	inst-list=cmd-list(z);
 	<check-inst-list>(inst-list);
 	<make-token> ( z, s, inst-list) ;
 } ;
 
 default-defn : ( z:ZONE ) -> () = {
         token ; default ; arrow ;
-	inst-list=instructions-list(z);
+	inst-list=cmd-list(z);
         <make-default> ( z, inst-list) ; 
 } ;
 
@@ -496,7 +496,7 @@ default-defn : ( z:ZONE ) -> () = {
 
 keyword-defn : ( z:ZONE ) -> () = {
 	keyword ; s = string ; arrow ;
-	inst=instruction(z) ; 
+	inst=cmd(z) ; 
 	{
 		?=<is-global-zone> (z); 
 	    	<make-keyword> ( z, s, inst) ;
@@ -540,7 +540,7 @@ zone-defn : (z:ZONE) -> ()  = {
 	};
 	{
 		arrow; 
-		entry-instl=instructions-list(z);
+		entry-instl=cmd-list(z);
 	    ||  
 		entry-instl=<empty-inst-list>;
 	};
@@ -560,7 +560,7 @@ zone-defn : (z:ZONE) -> ()  = {
 	};
 	{
 		arrow; 
-		leaving-instl=instructions-list(z);
+		leaving-instl=cmd-list(z);
 	    ||  
 		leaving-instl=<empty-inst-list>;
 	};

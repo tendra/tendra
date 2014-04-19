@@ -18,7 +18,7 @@
 #include <adt/typetuple.h>
 
 struct TypeTupleEntryT *
-typetupleentry_create(NStringT *str, struct EntryT *type, bool isref)
+typetupleentry_create(NStringT *str, struct entry *et, bool isref)
 {
 	struct TypeTupleEntryT *p;
 
@@ -26,9 +26,9 @@ typetupleentry_create(NStringT *str, struct EntryT *type, bool isref)
 
 	nstring_assign(&p->local_name, str);
 
-	p->type = type;
+	p->et           = et;
 	p->is_reference = isref;
-	p->next = NULL;
+	p->next         = NULL;
 
 	return p;
 }
@@ -94,7 +94,7 @@ typetuple_match(struct TypeTupleT *t1, struct TypeTupleT *t2)
 	struct TypeTupleEntryT *p, *q;
 
 	for (p = t1->head, q = t2->head; p != NULL && q != NULL; p = p->next, q = q->next) {
-		if ((p->type != q->type) || (p->is_reference != q->is_reference)) {
+		if (p->et != q->et || p->is_reference != q->is_reference) {
 			return 0;
 		}
 	}

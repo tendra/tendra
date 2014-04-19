@@ -12,7 +12,7 @@
  * Populate command line options with default values.
  */
 void
-cmd_line_options_init(struct cmd_line_options *opt)
+options_init(struct options *opt)
 {
 	/* TODO These are language-specific; see options.h */
 	opt->generate_asserts = false;

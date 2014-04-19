@@ -25,7 +25,7 @@ localnamesentry_create(char c, struct LocalNamesEntryT *parent)
 	locals->c    = c;
 	locals->next = NULL;
 	locals->opt  = NULL;
-	locals->type = NULL;
+	locals->et   = NULL;
 	locals->up   = parent;
 
 	return locals;
@@ -47,7 +47,7 @@ localnames_init(struct LocalNamesT *p)
  * add the empty string which is fine as no identifier can have zero length.
  */
 int
-localnames_add_nstring(struct LocalNamesT *locals, NStringT *name, struct EntryT *type)
+localnames_add_nstring(struct LocalNamesT *locals, NStringT *name, struct entry *et)
 {
 	struct LocalNamesEntryT **crt;
 	struct LocalNamesEntryT *parent;
@@ -77,8 +77,8 @@ localnames_add_nstring(struct LocalNamesT *locals, NStringT *name, struct EntryT
 		crt  = &(*crt)->next;
 	}
 
-	if (parent->type == NULL) {
-		parent->type = type;
+	if (parent->et == NULL) {
+		parent->et = et;
 		locals->max_depth = (locals->max_depth > nstring_length(name)) ? locals->max_depth : nstring_length(name);
 		return 1; /* Success */
 	} else {
@@ -92,16 +92,16 @@ localnames_add_nstring(struct LocalNamesT *locals, NStringT *name, struct EntryT
  * This functions search key "name" and return its value.
  * It returns NULL if it cannot find the value.
  */
-struct EntryT *
+struct entry *
 localnames_get_type(struct LocalNamesT *locals, NStringT *name)
 {
 	unsigned int i;
-	struct EntryT *entry;
+	struct entry *et;
 	struct LocalNamesEntryT *crt;
 	char *p;
 
-	entry = NULL;
-	crt   = locals->top;
+	et  = NULL;
+	crt = locals->top;
 
 	p = nstring_contents(name); /* BEWARE: not zero terminated! */
 
@@ -113,12 +113,12 @@ localnames_get_type(struct LocalNamesT *locals, NStringT *name)
 		if (crt == NULL || crt->c != p[i]) {
 			return NULL;
 		} else {
-			entry = crt->type;
-			crt   = crt->next;
+			et  = crt->et;
+			crt = crt->next;
 		}
 	}
 
-	return entry;
+	return et;
 }
 
 /* Iterating over a trie without using recursive functions */
@@ -145,7 +145,7 @@ localnamesiterator_next(struct LocalNamesIteratorT *it)
 	do {
 		it->p = it->p->up;
 		it->depth--;
-	} while (it->p && it->p->type == NULL && it->p->opt == NULL);
+	} while (it->p && it->p->et == NULL && it->p->opt == NULL);
 
 	if (it->p && it->p->opt) {
 		it->p = it->p->opt;
@@ -155,6 +155,6 @@ localnamesiterator_next(struct LocalNamesIteratorT *it)
 		}
 	}
 
-	/* TODO: assert(it->p->type != NULL || it->p == NULL) */
+	/* TODO: assert(it->p->et != NULL || it->p == NULL) */
 }
 

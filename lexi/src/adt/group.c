@@ -30,7 +30,7 @@ unescape_string(struct zone *z, int *o, char *s)
 
 	/* TODO: this is strikngly similar to add_string(). fold both into the .lxi file? */
 	for (p = s; *p != '\0'; p++) {
-		struct char_group_name *g;
+		struct group_name *gn;
 		char *e;
 		int not;
 		int c;
@@ -52,15 +52,15 @@ unescape_string(struct zone *z, int *o, char *s)
 			}
 
 			*e = '\0';
-			g = find_group(z, p);
-			if (g == NULL) {
+			gn = find_group(z, p);
+			if (gn == NULL) {
 				error(ERROR_SERIOUS, "Unknown group '%s'", p);
 				break;
 			}
 
 			/* merge in the named group */
 			for (i = 0; i <= 255; i++) {
-				o[i] |= not ? !in_group(g->def, i) : in_group(g->def, i);
+				o[i] |= not ? !in_group(gn->g, i) : in_group(gn->g, i);
 			}
 
 			p = e;
@@ -100,12 +100,10 @@ unescape_string(struct zone *z, int *o, char *s)
  *
  * s may be NULL to indicate the empty group.
  */
-struct char_group_name *
+struct group_name *
 make_group(struct zone *z, char *name, char *defn)
 {
-	struct char_group_name *new;
-	struct char_group_defn *new_def;
-	struct char_group_defn *old_def;
+	struct group_name *gn;
 
 	assert(z != NULL);
 	assert(name != NULL);
@@ -115,47 +113,52 @@ make_group(struct zone *z, char *name, char *defn)
 	}
 
 	{
-		struct char_group_name *g;
+		struct group_name *gn;
 
-		g = find_group(z, name);
-		if (g != NULL && g->z == z) {
+		gn = find_group(z, name);
+		if (gn != NULL && gn->z == z) {
 			error(ERROR_SERIOUS, "Group '%s' already defined for this zone", name);
 			return NULL;
 		}
 	}
 
-	new = xmalloc(sizeof *new);
-	new->name = name;
-	new->z = z;
-	new->next = z->groups;
-	z->groups = new;
+	gn = xmalloc(sizeof *gn);
+	gn->name = name;
+	gn->z = z;
+	gn->next = z->groups;
+	z->groups = gn;
 
-	new_def = xmalloc(sizeof *new_def);
-	new_def->next_in_groups_list = NULL;
+	{
+		struct group *new;
+		struct group *old;
 
-	if (defn == NULL) {
-		unescape_string(z, new_def->defn, "");
-	} else {
-		unescape_string(z, new_def->defn, defn);
+		new = xmalloc(sizeof *new);
+		new->next = NULL;
+
+		if (defn == NULL) {
+			unescape_string(z, new->defn, "");
+		} else {
+			unescape_string(z, new->defn, defn);
+		}
+
+		old = tree_find_group(z->top_level, new);
+		if (old != NULL) {
+			xfree(new);
+			gn->g = old;
+		} else {
+			tree_add_group(z->top_level, new);
+			gn->g = new;
+		}
 	}
 
-	old_def = tree_find_group(z->top_level, new_def);
-	if (old_def != NULL) {
-		xfree(new_def);
-		new->def = old_def;
-	} else {
-		tree_add_group(z->top_level, new_def);
-		new->def = new_def;
-	}
-
-	return new;
+	return gn;
 }
 
 /*
  * IS A LETTER IN A GROUP?
  */
 int
-in_group(struct char_group_defn *g, char c)
+in_group(struct group *g, char c)
 {
 	assert(g != NULL);
 
@@ -166,7 +169,7 @@ in_group(struct char_group_defn *g, char c)
  * IS A GROUP EMPTY?
  */
 int
-is_group_empty(struct char_group_defn *g)
+is_group_empty(struct group *g)
 {
 	unsigned int i;
 
@@ -185,7 +188,7 @@ is_group_empty(struct char_group_defn *g)
  * ARE TWO GROUPS EQUIVALENT?
  */
 int
-is_group_equal(struct char_group_defn *a, struct char_group_defn *b)
+is_group_equal(struct group *a, struct group *b)
 {
 	unsigned int i;
 
@@ -208,10 +211,10 @@ is_group_equal(struct char_group_defn *a, struct char_group_defn *b)
  * This searches within the list of groups specific to a zone and its parent
  * zones, rather than in all groups globally.
  */
-struct char_group_name *
+struct group_name *
 find_group(const struct zone *z, const char *name)
 {
-	struct char_group_name *p;
+	struct group_name *p;
 
 	for (p = z->groups; p != NULL; p = p->next) {
 		if (0 == strcmp(name, p->name)) {

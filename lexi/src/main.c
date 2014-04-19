@@ -26,7 +26,7 @@
 #include "lctsyntax.h"
 #include "options.h"
 
-static struct cmd_line_options options;
+static struct options opt;
 
 static void
 process_lxi_file(char *nm, struct lexer_parse_tree *top_level)
@@ -112,7 +112,7 @@ main(int argc, char **argv)
 		const char *language;
 		const signed int inputfiles;
 		const signed int outputfiles;
-		void (*output_all)(struct cmd_line_options *, struct lexer_parse_tree *);
+		void (*output_all)(struct options *, struct lexer_parse_tree *);
 		const char *options;
 	} outputs[] = {
 #define COMMON "C:t:l:p:i:vh"
@@ -123,7 +123,7 @@ main(int argc, char **argv)
 #undef COMMON
 	};
 
- 	cmd_line_options_init(&options);
+ 	options_init(&opt);
 
 	/* default to C90 output */
 	output = &outputs[0];
@@ -154,10 +154,10 @@ main(int argc, char **argv)
 				break;
 			}
 
-			case 'a': options.generate_asserts = true;   break;
-			case 't': token_prefix             = optarg; break;
-			case 'p': options.lexi_prefix      = optarg; break;
-			case 'i': options.interface_prefix = optarg; break;
+			case 'a': opt.generate_asserts = true;   break;
+			case 't': token_prefix         = optarg; break;
+			case 'p': opt.lexi_prefix      = optarg; break;
+			case 'i': opt.interface_prefix = optarg; break;
 
 			default:
 				/* getopt will report error */
@@ -174,15 +174,15 @@ main(int argc, char **argv)
 	 * Default to the lexi_prefix if no interface prefix is given. This maintains
 	 * compatibility should -p be given and -i not be specified.
 	 */
-	if (options.interface_prefix == NULL) {
-		options.interface_prefix = options.lexi_prefix;
+	if (opt.interface_prefix == NULL) {
+		opt.interface_prefix = opt.lexi_prefix;
 	}
 
 	/*
 	 * This is carried through for output routines shared between multiple
 	 * languages to inspect, should they need to.
 	 */
-	options.language = output->language;
+	opt.language = output->language;
 
 	/* Check arguments (+1 for input file) */
 	if (argc < output->outputfiles + output->inputfiles) {
@@ -202,10 +202,10 @@ main(int argc, char **argv)
 	 * contains the input file.
 	 */
 	for (i = 0; i < output->outputfiles; i++) {
-		options.outputfile[i].name = argv[i + output->inputfiles];
-		options.outputfile[i].file = open_filestream(argv[i + output->inputfiles]);
+		opt.output[i].name = argv[i + output->inputfiles];
+		opt.output[i].file = open_filestream(argv[i + output->inputfiles]);
 
-		if (!options.outputfile[i].file) {
+		if (!opt.output[i].file) {
 			error(ERROR_FATAL, "Can't open output file, %s", argv[i + 1]);
 			/* TODO perror for cases like this */
 			return EXIT_FAILURE;
@@ -242,15 +242,15 @@ main(int argc, char **argv)
 	}
 
 	if (output->output_all!=NULL) {
-		output->output_all(&options, top_level);
+		output->output_all(&opt, top_level);
 	}
 
 	for (i = 0; i < output->outputfiles; i++) {
-		if (options.outputfile[i].file == NULL) {
+		if (opt.output[i].file == NULL) {
 			continue;
 		}
 
-		fclose(options.outputfile[i].file);
+		fclose(opt.output[i].file);
 	}
 
 	return exit_status;

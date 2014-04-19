@@ -21,14 +21,14 @@
 struct lexer_parse_tree {
 	struct zone *global_zone;
 
-	struct char_group_defn *groups_list;
+	struct group *groups_list;
 
-	struct EntryT *table; /* Actions and types */
+	struct entry *table; /* Actions and types */
 
-	struct EntryT *lexi_char_type;     /* for #0 arguments */
-	struct EntryT *lexi_string_type;   /* for #* arguments */
-	struct EntryT *lexi_int_type;      /* for #n arguments */
-	struct EntryT *lexi_terminal_type; /* for $ = returns  */
+	struct entry *lexi_char_type;     /* for #0 arguments */
+	struct entry *lexi_string_type;   /* for #* arguments */
+	struct entry *lexi_int_type;      /* for #n arguments */
+	struct entry *lexi_terminal_type; /* for $ = returns  */
 };
 
 struct lexer_parse_tree *
@@ -61,7 +61,7 @@ tree_get_globalzone(struct lexer_parse_tree *t)
 	return t->global_zone;
 }
 
-struct EntryT **
+struct entry **
 tree_get_table(struct lexer_parse_tree *t)
 {
 	assert(t != NULL);
@@ -69,7 +69,7 @@ tree_get_table(struct lexer_parse_tree *t)
 	return &t->table;
 }
 
-struct char_group_defn *
+struct group *
 tree_get_grouplist(struct lexer_parse_tree *t)
 {
 	assert(t != NULL);
@@ -80,11 +80,11 @@ tree_get_grouplist(struct lexer_parse_tree *t)
 int
 all_groups_empty(struct lexer_parse_tree *t)
 {
-	struct char_group_defn *g;
+	struct group *g;
 
 	assert(t != NULL);
 
-	for (g = t->groups_list; g != NULL; g = g->next_in_groups_list) {
+	for (g = t->groups_list; g != NULL; g = g->next) {
 		if (!is_group_empty(g)) {
 			return 0;
 		}
@@ -93,16 +93,16 @@ all_groups_empty(struct lexer_parse_tree *t)
 	return 1;
 }
 
-struct char_group_defn *
-tree_find_group(struct lexer_parse_tree *t, struct char_group_defn *b)
+struct group *
+tree_find_group(struct lexer_parse_tree *t, struct group *b)
 {
-	struct char_group_defn *g;
+	struct group *g;
 
 	assert(t != NULL);
 	assert(b != NULL);
 
-	for (g = t->groups_list; g != NULL; g = g->next_in_groups_list) {
-		if (is_group_equal(g,b)) {
+	for (g = t->groups_list; g != NULL; g = g->next) {
+		if (is_group_equal(g, b)) {
 			return g;
 		}
 	}
@@ -111,12 +111,12 @@ tree_find_group(struct lexer_parse_tree *t, struct char_group_defn *b)
 }
 
 void
-tree_add_group(struct lexer_parse_tree *t, struct char_group_defn *g)
+tree_add_group(struct lexer_parse_tree *t, struct group *g)
 {
 	assert(t != NULL);
-	assert(g->next_in_groups_list == NULL);
+	assert(g->next == NULL);
 
-	g->next_in_groups_list = t->groups_list;
+	g->next = t->groups_list;
 	t->groups_list = g;
 }
 
@@ -125,18 +125,18 @@ set_predefined_char_lexi_type(struct lexer_parse_tree* top_level, char *lexi_typ
 {
 	NStringT str;
 	NStringT cstr;
-	struct EntryT *entry;
-	struct TypeT *type;
+	struct entry *et;
+	struct type *type;
 
 	nstring_copy_cstring(&str, lexi_type);
 	nstring_copy_cstring(&cstr, c_type);
 
 	/* TODO assert(table_get_entry(tree_get_table(top_level), &str) == NULL) */
-	entry = table_add_type(tree_get_table(top_level), &str, true);
-	type  = entry_get_type(entry);
+	et   = table_add_type(tree_get_table(top_level), &str, true);
+	type = entry_get_type(et);
 
 	type_map(type, &cstr);
-	top_level->lexi_char_type = entry;
+	top_level->lexi_char_type = et;
 }
 
 void
@@ -144,31 +144,31 @@ set_predefined_string_lexi_type(struct lexer_parse_tree *top_level, char *lexi_t
 {
 	NStringT str;
 	NStringT cstr;
-	struct EntryT *entry;
-	struct TypeT *type;
+	struct entry *et;
+	struct type *type;
 
 	nstring_copy_cstring(&str, lexi_type);
 	nstring_copy_cstring(&cstr, c_type);
 
 	/* TODO assert(table_get_entry(tree_get_table(top_level), &str) == NULL) */
-	entry = table_add_type(tree_get_table(top_level), &str, true);
-	type = entry_get_type(entry);
+	et   = table_add_type(tree_get_table(top_level), &str, true);
+	type = entry_get_type(et);
 
 	type_map(type, &cstr);
-	top_level->lexi_string_type = entry;
+	top_level->lexi_string_type = et;
 }
 
 void
 set_predefined_terminal_lexi_type(struct lexer_parse_tree *top_level, char *lexi_type)
 {
 	NStringT str;
-	struct EntryT* entry;
+	struct entry *et;
 
 	nstring_copy_cstring(&str, lexi_type);
 
 	/* TODO assert(table_get_entry(tree_get_table(top_level), &str) == NULL) */
-	entry = table_add_type(tree_get_table(top_level), &str, true);
-	top_level->lexi_terminal_type = entry;
+	et = table_add_type(tree_get_table(top_level), &str, true);
+	top_level->lexi_terminal_type = et;
 }
 
 void
@@ -176,39 +176,39 @@ set_predefined_int_lexi_type(struct lexer_parse_tree* top_level, char *lexi_type
 {
 	NStringT str;
 	NStringT cstr;
-	struct EntryT *entry;
-	struct TypeT *type;
+	struct entry *et;
+	struct type *type;
 
 	nstring_copy_cstring(&str, lexi_type);
 	nstring_copy_cstring(&cstr, c_type);
 
 	/* TODO assert(table_get_entry(tree_get_table(top_level), &str) == NULL) */
-	entry = table_add_type(tree_get_table(top_level), &str, true);
-	type  = entry_get_type(entry);
+	et = table_add_type(tree_get_table(top_level), &str, true);
+	type  = entry_get_type(et);
 
 	type_map(type, &cstr);
-	top_level->lexi_int_type = entry;
+	top_level->lexi_int_type = et;
 }
 
-struct EntryT *
+struct entry *
 lexer_char_type(struct lexer_parse_tree *top_level)
 {
 	return top_level->lexi_char_type;
 }
 
-struct EntryT *
+struct entry *
 lexer_string_type(struct lexer_parse_tree *top_level)
 {
 	return top_level->lexi_string_type;
 }
 
-struct EntryT *
+struct entry *
 lexer_int_type(struct lexer_parse_tree *top_level)
 {
 	return top_level->lexi_int_type;
 }
 
-struct EntryT *
+struct entry *
 lexer_terminal_type(struct lexer_parse_tree *top_level)
 {
 	return top_level->lexi_terminal_type;

@@ -13,7 +13,7 @@
 #include <shared/xalloc.h>
 #include <shared/error.h>
 
-#include <adt/instruction.h>
+#include <adt/cmd.h>
 #include <adt/zone.h>
 
 static struct arg *
@@ -162,10 +162,10 @@ add_args_list(void)
 	return p;
 }
 
-static struct instruction *
-new_instruction(enum instruction_type type)
+static struct cmd *
+new_cmd(enum cmd_type type)
 {
-	struct instruction *p;
+	struct cmd *p;
 
 	p = xmalloc(sizeof *p);
 	p->type = type;
@@ -174,68 +174,68 @@ new_instruction(enum instruction_type type)
 	return p;
 }
 
-struct instruction *
-add_instruction_return_terminal(char *name)
+struct cmd *
+add_cmd_return_terminal(char *name)
 {
-	struct instruction *p;
+	struct cmd *p;
 
-	p = new_instruction(return_terminal);
+	p = new_cmd(return_terminal);
 	p->u.name = name;
 
 	return p;
 }
 
-struct instruction *
-add_instruction_donothing(void)
+struct cmd *
+add_cmd_donothing(void)
 {
-	struct instruction *p;
+	struct cmd *p;
 
-	p = new_instruction(do_nothing);
+	p = new_cmd(do_nothing);
 
 	return p;
 }
 
-struct instruction *
-add_instruction_action(struct EntryT *act, struct args_list *lhs, struct args_list *rhs)
+struct cmd *
+add_cmd_action(struct entry *ea, struct args_list *lhs, struct args_list *rhs)
 {
-	struct instruction *p;
+	struct cmd *p;
 
-	p = new_instruction(action_call);
-	p->u.act.called_act = act;
+	p = new_cmd(action_call);
+	p->u.act.called_act = ea;
 	p->u.act.rhs = rhs;
 	p->u.act.lhs = lhs;
 
 	return p;
 }
 
-struct instruction *
-add_instruction_pushzone(struct zone *z)
+struct cmd *
+add_cmd_pushzone(struct zone *z)
 {
-	struct instruction *p;
+	struct cmd *p;
 
-	p = new_instruction(push_zone);
+	p = new_cmd(push_zone);
 	p->u.s.z = z;
 	p->u.s.is_beginendmarker_in_zone = 1;
 
 	return p;
 }
 
-struct instruction *
-add_instruction_popzone(struct zone *z, int is_endmarker_in_zone)
+struct cmd *
+add_cmd_popzone(struct zone *z, int is_endmarker_in_zone)
 {
-	struct instruction *p;
+	struct cmd *p;
 
-	p = new_instruction(pop_zone);
+	p = new_cmd(pop_zone);
 	p->u.s.z = z;
 	p->u.s.is_beginendmarker_in_zone = is_endmarker_in_zone;
 
 	return p;
 }
 
-static struct instructions_list *
-new_instructions_list(void)
+static struct cmd_list *
+new_cmd_list(void)
 {
-	struct instructions_list *p;
+	struct cmd_list *p;
 
 	p = xmalloc(sizeof *p);
 	p->head = NULL;
@@ -248,16 +248,16 @@ new_instructions_list(void)
 	return p;
 }
 
-struct instructions_list *
-add_instructions_list (void)
+struct cmd_list *
+add_cmd_list (void)
 {
-	struct instructions_list *p = new_instructions_list();
+	struct cmd_list *p = new_cmd_list();
 
 	return p;
 }
 
 struct LocalNamesT *
-instructionslist_localnames(struct instructions_list *l)
+cmdlist_localnames(struct cmd_list *l)
 {
 	return &l->local_names;
 }

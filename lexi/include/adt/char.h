@@ -14,9 +14,9 @@
 #include <stddef.h>
 
 struct zone;
-struct instructions_list;
+struct cmd_list;
 
-enum letter_translation_type {
+enum char_type {
 	group_letter,
 	char_letter
 };
@@ -28,7 +28,7 @@ union char_value {
 	/* for group_letter */
 	struct {
 		unsigned int not:1;	/* boolean */
-		struct char_group_name *grp;
+		struct group_name *gn;
 	} g;
 };
 
@@ -40,7 +40,7 @@ union char_value {
  * characters.
  */
 struct character {
-	enum letter_translation_type type;
+	enum char_type type;
 
 	union char_value v;
 
@@ -53,7 +53,7 @@ struct character {
 	 * TODO: store mapping unescaped
 	 */
 	union {
-		struct instructions_list *definition;
+		struct cmd_list *cmds;
 		char *map;
 	} u;
 

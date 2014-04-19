@@ -18,7 +18,7 @@ struct zone;
  * A character group is a named unordered set of letters.
  */
 
-struct char_group_defn {
+struct group {
 	/*
 	 * The set of characters present in a group, expressed as a bitmap. Each
 	 * element is true if the index is a character in the group, and false
@@ -30,10 +30,10 @@ struct char_group_defn {
 	 * Groups definition are maintained in a global list. This is
 	 * used for numbering group definitions at output.
 	 */
-	struct char_group_defn *next_in_groups_list;
+	struct group *next;
 };
 
-struct char_group_name {
+struct group_name {
 	char *name;
 
 	/*
@@ -44,19 +44,19 @@ struct char_group_name {
 	/*
 	 * A pointer to the group definition. Several groups can point to the same definition.
 	 */
-	struct char_group_defn *def;
+	struct group *g;
 
 	/*
-	 * char_group_name elements appear in a list of group within one zone in the tree of zones
+	 * group_name elements appear in a list of group within one zone in the tree of zones
 	 */
-	struct char_group_name *next;
+	struct group_name *next;
 };
 
-struct char_group_name *make_group(struct zone *, char *, char *);
-int in_group(struct char_group_defn *, char);
-int is_group_empty(struct char_group_defn *);
-int is_group_equal(struct char_group_defn *a, struct char_group_defn *b);
-struct char_group_name *find_group(const struct zone *z, const char *name);
+struct group_name *make_group(struct zone *, char *, char *);
+int in_group(struct group *, char);
+int is_group_empty(struct group *);
+int is_group_equal(struct group *a, struct group *b);
+struct group_name *find_group(const struct zone *z, const char *name);
 
 #endif
 

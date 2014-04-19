@@ -20,7 +20,7 @@
 
 #include <adt/group.h>	/* XXX */
 #include <adt/zone.h>	/* XXX */
-#include <adt/instruction.h>	/* XXX */
+#include <adt/cmd.h>	/* XXX */
 #include <adt/tree.h>	/* XXX */
 
 /*
@@ -55,11 +55,11 @@ find_escape(char c)
  * ARE TWO VALUES EQUAL?
  */
 static int
-values_equal(enum letter_translation_type type, const union char_value *a, const union char_value *b)
+values_equal(enum char_type type, const union char_value *a, const union char_value *b)
 {
 	switch (type) {
 	case group_letter:
-		return a->g.not == b->g.not && is_group_equal(a->g.grp->def, b->g.grp->def);
+		return a->g.not == b->g.not && is_group_equal(a->g.gn->g, b->g.gn->g);
 
 	case char_letter:
 		return a->c == b->c;
@@ -75,7 +75,7 @@ values_equal(enum letter_translation_type type, const union char_value *a, const
  * This routine allocates a new character with value v.
  */
 static struct character *
-new_char(enum letter_translation_type type, const union char_value *v)
+new_char(enum char_type type, const union char_value *v)
 {
     struct character *new;
 
@@ -83,7 +83,7 @@ new_char(enum letter_translation_type type, const union char_value *v)
 
 	switch (type) {
 	case group_letter:
-		assert(v->g.grp != NULL);
+		assert(v->g.gn != NULL);
 		break;
 
 	case char_letter:
@@ -97,7 +97,7 @@ new_char(enum letter_translation_type type, const union char_value *v)
 	new->type = type;
 	new->v    = *v;
 
-	/* XXX: nonportable: u.map and u.definition may differ in representation */
+	/* XXX: nonportable: u.map and u.cmds may differ in representation */
 	new->u.map = NULL;
 
     return new;
@@ -138,7 +138,7 @@ char_maxlength(struct character *c)
  * FIND AN EXISTING ALTERNATIVE OF THE GIVEN VALUE, OR ADD A NEW ONE
  */
 static struct character *
-find_or_add(struct character **n, enum letter_translation_type type, const union char_value *v)
+find_or_add(struct character **n, enum char_type type, const union char_value *v)
 {
 	assert(n != NULL);
 
@@ -216,8 +216,8 @@ add_string(struct zone *z, struct character **n, const char *s)
 			}
 
 			*e = '\0';
-			v.g.grp = find_group(z, p);
-			if (v.g.grp == NULL) {
+			v.g.gn = find_group(z, p);
+			if (v.g.gn == NULL) {
 				error(ERROR_SERIOUS, "Unknown group '%s'", p);
 			}
 

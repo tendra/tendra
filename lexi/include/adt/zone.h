@@ -33,7 +33,7 @@ enum zone_type {
 
 struct zone {
 	/* NULL for the global zone */
-	char* zone_name;
+	char *name;
 
 	enum zone_type type;
 
@@ -41,18 +41,18 @@ struct zone {
 	 * Characters in the pre-pass mapping trie take their values from u.map,
 	 * and characters in the main pass take their values from u.definition.
 	 * That is, the pre-pass trie keys onto strings, and the main pass keys
-	 * onto instruction lists. See char.h for the definitions of those values.
+	 * onto command lists. See char.h for the definitions of those values.
 	 */
-	struct character *zone_pre_pass;
-	struct character *zone_main_pass;
+	struct character *pre;
+	struct character *main;
 
 	struct keyword *keywords;
-	struct char_group_name *groups;
-	struct char_group_name *white_space;
+	struct group_name *groups;
+	struct group_name *white_space;
 
-	struct instructions_list *default_instructions;
-	struct instructions_list *entering_instructions;
-	struct instructions_list *leaving_instructions;
+	struct cmd_list *local;
+	struct cmd_list *enter;
+	struct cmd_list *exit;
 
 	struct zone *opt; 	/* sibling */
 	struct zone *next;	/* child */
@@ -71,7 +71,7 @@ struct zone *add_zone(struct zone *, char *, const char *, int);
  * These are the main interfaces for adding new keys to the trie for either a
  * pre-pass mapping, or for a main pass token respectively.
  */
-struct character *add_mainpass(struct zone *, const char *, struct instructions_list *);
+struct character *add_mainpass(struct zone *, const char *, struct cmd_list *);
 struct character *add_prepass(struct zone *, const char *, char *);
 
 int zone_isglobal(struct zone *z);

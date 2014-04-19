@@ -13,16 +13,7 @@
 #include <stdio.h>
 
 
-/*
- * A file to which output is written. The exact purpose of each file
- * is specific to the output language (passed by -l) being employed.
- */
-struct options_outputfile {
-	const char *name;
-	FILE *file;
-};
-
-struct cmd_line_options {
+struct options {
 	/*
 	 * The selected output language. See main.c for the various
 	 * possibilities here.
@@ -50,10 +41,13 @@ struct cmd_line_options {
 	 * a linked list was considered cumbersome.
 	 *
 	 */
-	struct options_outputfile outputfile[2];
+	struct {
+		const char *name;
+		FILE *file;
+	} output[2];
 };
 
-extern void cmd_line_options_init(struct cmd_line_options *);
+extern void options_init(struct options *);
 
 #endif
 

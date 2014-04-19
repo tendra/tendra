@@ -14,7 +14,6 @@
 #include <exds/dalloc.h>
 #include <exds/dstring.h>
 
-#include <adt/instruction.h>
 #include <adt/nametrans.h>
 
 #include "ccode.h"

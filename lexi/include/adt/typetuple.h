@@ -15,7 +15,7 @@
 #include <exds/dstring.h>
 
 struct TypeTupleEntryT {
-	struct EntryT *type;
+	struct entry *et;
 	NStringT local_name; /* The type NSTringT* will probably not be the final type */
 	bool is_reference;
 	struct TypeTupleEntryT *next;
@@ -27,7 +27,7 @@ struct TypeTupleT {
 	unsigned int length;
 };
 
-struct TypeTupleEntryT *typetupleentry_create(NStringT *, struct EntryT *, bool);
+struct TypeTupleEntryT *typetupleentry_create(NStringT *, struct entry *, bool);
 void typetupleentry_destroy(struct TypeTupleEntryT *);
 
 void typetuple_init(struct TypeTupleT *);

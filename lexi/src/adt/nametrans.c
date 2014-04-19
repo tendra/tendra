@@ -12,7 +12,7 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
-#include <adt/instruction.h>
+#include <adt/cmd.h>
 #include <adt/typetuple.h>
 #include <adt/nametrans.h>
 
