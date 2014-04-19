@@ -8,451 +8,436 @@
 
 %prefixes%
 
-terminal = lct_lex_ ;
+	terminal = lct_lex_;
 
 %maps%
 
-/*
-	ENTRY POINT
-*/
+	lct-unit -> read_lct_unit;
 
-lct-unit -> read_lct_unit ;
-
-/* 
-	TYPE MAPPINGS
-*/
-
-BOOL -> bool;
-CCODE -> ccode;
-BIGSTRING -> NStringT;
-IDENT -> NStringT;
-TYPETUPLE -> typetuple;
-ENTRYP -> EntryP;
+	BOOL      -> bool;
+	CCODE     -> ccode;
+	BIGSTRING -> NStringT;
+	IDENT     -> NStringT;
+	TYPETUPLE -> typetuple;
+	ENTRYP    -> EntryP;
 
 %header% @{
 
-/* $Id$ */
+	/* $Id$ */
 
-/*
- * Copyright 2011, The TenDRA Project.
- *
- * See doc/copyright/ for the full copyright terms.
- */
+	/*
+	 * Copyright 2011, The TenDRA Project.
+	 *
+	 * See doc/copyright/ for the full copyright terms.
+	 */
 
-#include <stdbool.h>
+	#include <stdbool.h>
 
-#include <shared/xalloc.h>
-#include <shared/error.h>
+	#include <shared/xalloc.h>
+	#include <shared/error.h>
 
-#include <exds/common.h>
-#include <exds/exception.h>
-#include <exds/dalloc.h>
-#include <exds/dstring.h>
-#include <exds/cstring.h>
+	#include <exds/common.h>
+	#include <exds/exception.h>
+	#include <exds/dalloc.h>
+	#include <exds/dstring.h>
+	#include <exds/cstring.h>
 
-#include <adt/action.h>
-#include <adt/entry.h>
+	#include <adt/action.h>
+	#include <adt/entry.h>
 
-#include "lctsyntax.h"
-#include "lctlexer.h"
-#include "ccode.h"
-#include "ast.h"
+	#include "lctsyntax.h"
+	#include "lctlexer.h"
+	#include "ccode.h"
+	#include "ast.h"
 
-#define ADVANCE_LEXER ADVANCE_LCT_LEXER
-#define CURRENT_TERMINAL CURRENT_LCT_TERMINAL 
-#define SAVE_LEXER SAVE_LCT_LEXER
-#define RESTORE_LEXER RESTORE_LCT_LEXER
+	#define ADVANCE_LEXER ADVANCE_LCT_LEXER
+	#define CURRENT_TERMINAL CURRENT_LCT_TERMINAL
+	#define SAVE_LEXER SAVE_LCT_LEXER
+	#define RESTORE_LEXER RESTORE_LCT_LEXER
 
-typedef struct CcodeT ccode;
-typedef struct entry * EntryP;
-typedef struct TypeTupleT typetuple;
+	typedef struct CcodeT ccode;
+	typedef struct entry * EntryP;
+	typedef struct TypeTupleT typetuple;
 
+	void
+	init_lct_ast(struct lct_ast* a)
+	{
+		a->headersdefined  = 0;
+		a->trailersdefined = 0;
 
+		ccode_init(&(a->hfileheader));
+		ccode_init(&(a->cfileheader));
+		ccode_init(&(a->hfiletrailer));
+		ccode_init(&(a->cfiletrailer));
 
-void init_lct_ast(struct lct_ast* a) 
-{
-	a->headersdefined = 0;
-	a->trailersdefined = 0;
-	ccode_init(&(a->hfileheader)) ;
-	ccode_init(&(a->cfileheader)) ;
-	ccode_init(&(a->hfiletrailer)) ;
-	ccode_init(&(a->cfiletrailer)) ;
-	a->arg_head = NULL;
-	a->arg_tail = &(a->arg_head);
-}
+		a->arg_head = NULL;
+		a->arg_tail = &a->arg_head;
+	}
 
-struct ast *lxi_ast;
-struct lct_ast lct_ast;
+	struct ast *lxi_ast;
+	struct lct_ast lct_ast;
 
 @}, @{
 
-/* $Id$ */
+	/* $Id$ */
 
-/*
- * Copyright 2011, The TenDRA Project.
- *
- * See doc/copyright/ for the full copyright terms.
- */
+	/*
+	 * Copyright 2011, The TenDRA Project.
+	 *
+	 * See doc/copyright/ for the full copyright terms.
+	 */
 
- #ifndef LCT_SYNTAX_HEADER_INCLUDED
- #define LCT_SYNTAX_HEADER_INCLUDED
+	#ifndef LCT_SYNTAX_HEADER_INCLUDED
+	#define LCT_SYNTAX_HEADER_INCLUDED
 
-#include "ccode.h"
-#include "ast.h"
+	#include "ccode.h"
+	#include "ast.h"
 
-struct lxi_additional_argument {
-       	char* name;
-	char* ctype;
+	struct lxi_additional_argument {
+			char* name;
+		char* ctype;
 
-	struct lxi_additional_argument* next;
-};
+		struct lxi_additional_argument* next;
+	};
 
-struct lct_ast {
-	int headersdefined;
-	int trailersdefined;
-	struct CcodeT hfileheader;
-	struct CcodeT cfileheader;
-	struct CcodeT hfiletrailer;
-	struct CcodeT cfiletrailer;
-	struct lxi_additional_argument* arg_head;
-	struct lxi_additional_argument** arg_tail;
-};
+	struct lct_ast {
+		int headersdefined;
+		int trailersdefined;
 
-extern struct ast *lxi_ast;
-extern struct lct_ast lct_ast;
+		struct CcodeT hfileheader;
+		struct CcodeT cfileheader;
+		struct CcodeT hfiletrailer;
+		struct CcodeT cfiletrailer;
 
-extern void init_lct_ast(struct lct_ast*);
+		struct lxi_additional_argument* arg_head;
+		struct lxi_additional_argument** arg_tail;
+	};
+
+	extern struct ast *lxi_ast;
+	extern struct lct_ast lct_ast;
+
+	extern void init_lct_ast(struct lct_ast*);
+
 @};
 
 %assignments%
 
-IDENT : (a) -> (b) = @{
-	nstring_assign(&@b,@a);
-@};
+	IDENT: (a) -> (b) = @{
+		nstring_assign(&@b, @a);
+	@};
 
-BIGSTRING : (a) -> (b) = @{
-	nstring_assign(&@b,@a);
-@};
+	BIGSTRING: (a) -> (b) = @{
+		nstring_assign(&@b, @a);
+	@};
 
 %parameter-assignments%
 
-IDENT : (a) -> (b) = @{
-	nstring_assign(&@b,@a);
-@};
+	IDENT: (a) -> (b) = @{
+		nstring_assign(&@b, @a);
+	@};
 
-BIGSTRING : (a) -> (b) = @{
-	nstring_assign(&@b,@a);
-@};
+	BIGSTRING : (a) -> (b) = @{
+		nstring_assign(&@b, @a);
+	@};
 
 %result-assignments%
 
-IDENT : (a) -> (b) = @{
-	nstring_assign(@b,@&a);
-@};
+	IDENT: (a) -> (b) = @{
+		nstring_assign(@b, @&a);
+	@};
 
-BIGSTRING : (a) -> (b) = @{
-	nstring_assign(@b,@&a);
-@};
+	BIGSTRING: (a) -> (b) = @{
+		nstring_assign(@b, @&a);
+	@};
 
 %terminals%
 
-ident : () -> (i:IDENT) = @{
-	nstring_copy_cstring(&@i,lct_tokbuf);
-@};
+	ident: () -> (i :IDENT) = @{
+		nstring_copy_cstring(&@i, lct_tokbuf);
+	@};
 
-code-ident : () -> (i:IDENT) = @{
-	nstring_copy_cstring(&@i,lct_tokbuf);
-@};
+	code-ident: () -> (i :IDENT) = @{
+		nstring_copy_cstring(&@i, lct_tokbuf);
+	@};
 
-code-ref : () -> (i:IDENT) = @{
-	nstring_copy_cstring(&@i,lct_tokbuf);
-@};
+	code-ref: () -> (i :IDENT) = @{
+		nstring_copy_cstring(&@i, lct_tokbuf);
+	@};
 
-code-string : () -> (s:BIGSTRING) = @{
-	nstring_assign(&@s, &lct_token_nstring);
-@};
-
-
+	code-string: () -> (s :BIGSTRING) = @{
+		nstring_assign(&@s, &lct_token_nstring);
+	@};
 
 %actions%
 
-/*
-    BOOLEANS
+	<true>:  () -> ( b : BOOL ) =	@{ @b = true ; @};
+	<false>: () -> ( b : BOOL ) =	@{ @b = false ; @};
 
-    These actions give the booleans true and false.
-*/
+	<empty-ident>: () -> (s :IDENT) = @{
+		nstring_init(&@s);
+	@};
 
-<true> : () -> ( b : BOOL ) =	@{ @b = true ; @} ;
-<false> : () -> ( b : BOOL ) =	@{ @b = false ; @} ;
+	<init-ccode>: () -> (c :CCODE) = @{
+		ccode_init(&@c);
+	@};
 
-/*
-	STRINGS
-*/
+	<append-ccode-at>: (c :CCODE &) -> () = @{
+		ccode_append_at(&@c);
+	@};
 
-<empty-ident> : () -> ( s: IDENT) = @{ nstring_init(&@s); @};
+	<append-ccode-string>: (c :CCODE &, s :BIGSTRING &) -> () = @{
+		ccode_append_string(@&c, @&s);
+	@};
 
-/*
-	C CODE MANIPULATION
-*/
-
-<init-ccode> : () -> (c:CCODE) = @{
-	ccode_init(&@c);
-@};
-
-<append-ccode-at> : (c:CCODE&) -> () = @{
-	ccode_append_at(&@c);
-@};
-
-<append-ccode-string> : (c:CCODE&, s:BIGSTRING&) -> () = @{
-	ccode_append_string(@&c,@&s);
-@};
-
-<append-ccode-ident> : (c:CCODE&, i:IDENT, e:ENTRYP, b:BOOL) -> () = @{
-	if(@e) {
-		struct action* act = entry_get_action(@e);
-		struct TypeTupleEntryT *p, *q;
-	 	if ((p = typetuple_name_is_in(action_get_inputs(act),@&i)) || 
-	       	    (q = typetuple_name_is_in(action_get_outputs(act),@&i))) {
-		   	if(!@b) {
-				ccode_append_ident(@&c,@&i);
-			} else {
-				if(p && p->is_ref) {
-					ccode_append_ref(@&c,@&i);
+	<append-ccode-ident>: (c :CCODE &, i :IDENT, e :ENTRYP, b :BOOL) -> () = @{
+		if (@e) {
+			struct action* act = entry_get_action(@e);
+			struct TypeTupleEntryT *p, *q;
+			if ((p = typetuple_name_is_in(action_get_inputs(act), @&i)) ||
+					(q = typetuple_name_is_in(action_get_outputs(act), @&i))) {
+				if (!@b) {
+					ccode_append_ident(@&c, @&i);
 				} else {
+					if (p && p->is_ref) {
+						ccode_append_ref(@&c, @&i);
+					} else {
 					error(ERROR_SERIOUS, "In code block the \'@@&\' can only be used for input parameters that are references");
+					}
 				}
+			} else {
+				char* pi;
+				char* pe;
+				pi = nstring_to_cstring(@&i);
+				nstring_destroy(@&i);
+				pe = nstring_to_cstring(entry_key(@e));
+			error(ERROR_SERIOUS, "Identifier @@%s is neither an input nor an output "
+							 "parameter of action %s", pi, pe );
+				DEALLOCATE(pi);
+				DEALLOCATE(pe);
 			}
 		} else {
-			char* pi;
-			char* pe;
-			pi = nstring_to_cstring(@&i);
-			nstring_destroy(@&i);
-			pe = nstring_to_cstring(entry_key(@e));
-			error(ERROR_SERIOUS, "Identifier @@%s is neither an input nor an output " 
-					     "parameter of action %s", pi, pe );
-			DEALLOCATE(pi);
-			DEALLOCATE(pe);
-		}
-	} else {
 		error(ERROR_SERIOUS, "The @@ code identifiers are not allowed in headers or trailers");
-		nstring_destroy(@&i);
-	}
-@};
+			nstring_destroy(@&i);
+		}
+	@};
 
-<define-additional-argument> : (name:IDENT, ctype:IDENT) -> () = @{
-	struct lxi_additional_argument* p;
-	if(nstring_length(@&name)>0 && nstring_length(@&ctype)>0) {
-		p = xmalloc(sizeof(*p));
-		p->name = nstring_to_cstring(@&name);
-		p->ctype = nstring_to_cstring(@&ctype);
-		p->next = NULL ;
-		*(lct_ast.arg_tail) = p;
-		lct_ast.arg_tail = &(p->next);
-	}
-	nstring_destroy(@&name);
-	nstring_destroy(@&ctype);
-@};
+	<define-additional-argument>: (name :IDENT, ctype :IDENT) -> () = @{
+		if (nstring_length(@&name) > 0 && nstring_length(@&ctype) > 0) {
+			struct lxi_additional_argument *p;
 
-<set-headers> : (sc:CCODE &,sh:CCODE&) -> () = @{
-	if(!lct_ast.trailersdefined) {
-		lct_ast.headersdefined = 1;
-		ccode_assign(&(lct_ast.hfileheader),@&sh) ;
-		ccode_assign(&(lct_ast.cfileheader),@&sc) ;
-	} else {
-		error(ERROR_SERIOUS, "Headers may not be redefined");
-		ccode_destroy(@&sc);
-		ccode_destroy(@&sh);
-	}
-@} ;
+			p = xmalloc(sizeof *p);
+			p->name  = nstring_to_cstring(@&name);
+			p->ctype = nstring_to_cstring(@&ctype);
+			p->next  = NULL;
 
-<set-trailers> : (sc:CCODE &,sh:CCODE&) -> () = @{
-	if(!(lct_ast.trailersdefined)) {
-		lct_ast.trailersdefined = 1;
-		ccode_assign(&(lct_ast.hfiletrailer),@&sh) ;
-		ccode_assign(&(lct_ast.cfiletrailer),@&sc) ;
-	} else {
-		error(ERROR_SERIOUS, "Trailers may not be redefined");
-		ccode_destroy(@&sc);
-		ccode_destroy(@&sh);
-	}
-@} ;
+			*lct_ast.arg_tail = p;
+			lct_ast.arg_tail = &p->next;
+		}
+		nstring_destroy(@&name);
+		nstring_destroy(@&ctype);
+	@};
 
-
-/*
-	Initializing an empty type tuple
-*/
-
-<init-tuple> : () -> (a:TYPETUPLE) = @{
-	typetuple_init(&@a);
-@};
-
-<append-tuple> : (a:TYPETUPLE&, id:IDENT, type:IDENT, isref:BOOL) -> () =@{
-	struct entry *et = table_get_entry(tree_get_table(lxi_ast), @&type);
-	if(et== NULL) {
-		 char* pt = nstring_to_cstring(@&type);
-		 error(ERROR_SERIOUS, "Unknown type %s", pt);
-		 DEALLOCATE(pt);
-		 nstring_destroy(@&id);
-		 nstring_destroy(@&type);
-	}
-	else if(!entry_is_type(et)) {
-		error(ERROR_SERIOUS, "%s is not a type", @&type);
-		nstring_destroy(@&type);
-	}
-	else {
-		typetuple_append(@&a,typetupleentry_create(@&id, et, @isref));
-		nstring_destroy(@&type);
-	}
-@} ;
-
-<make-map> : (lexitype:IDENT, ctype:IDENT) -> () = @{
-	struct entry *et= table_get_entry(tree_get_table(lxi_ast), @&lexitype);
-	if(et != NULL) {
-		if(entry_is_type(et)) {
-			struct type* t = entry_get_type(et);
-			type_map(t, @&ctype);
+	<set-headers>: (sc :CCODE &, sh :CCODE &) -> () = @{
+		if (!lct_ast.trailersdefined) {
+			lct_ast.headersdefined = 1;
+			ccode_assign(&(lct_ast.hfileheader), @&sh);
+			ccode_assign(&(lct_ast.cfileheader), @&sc);
 		} else {
+		error(ERROR_SERIOUS, "Headers may not be redefined");
+			ccode_destroy(@&sc);
+			ccode_destroy(@&sh);
+		}
+	@};
+
+	<set-trailers>: (sc :CCODE &, sh :CCODE &) -> () = @{
+		if (!(lct_ast.trailersdefined)) {
+			lct_ast.trailersdefined = 1;
+			ccode_assign(&(lct_ast.hfiletrailer), @&sh);
+			ccode_assign(&(lct_ast.cfiletrailer), @&sc);
+		} else {
+			error(ERROR_SERIOUS, "Trailers may not be redefined");
+			ccode_destroy(@&sc);
+			ccode_destroy(@&sh);
+		}
+	@};
+
+
+	/*
+		Initializing an empty type tuple
+	*/
+
+	<init-tuple>: () -> (a :TYPETUPLE) = @{
+		typetuple_init(&@a);
+	@};
+
+	<append-tuple>: (a :TYPETUPLE &, id :IDENT, type :IDENT, isref :BOOL) -> () =@{
+		struct entry *et = table_get_entry(tree_get_table(lxi_ast), @&type);
+		if (et== NULL) {
+			 char* pt = nstring_to_cstring(@&type);
+			 error(ERROR_SERIOUS, "Unknown type %s", pt);
+			 DEALLOCATE(pt);
+			 nstring_destroy(@&id);
+			 nstring_destroy(@&type);
+		}
+		else if (!entry_is_type(et)) {
+		error(ERROR_SERIOUS, "%s is not a type", @&type);
+			nstring_destroy(@&type);
+		}
+		else {
+			typetuple_append(@&a, typetupleentry_create(@&id, et, @isref));
+			nstring_destroy(@&type);
+		}
+	@};
+
+	<make-map>: (lexitype :IDENT, ctype :IDENT) -> () = @{
+		struct entry *et= table_get_entry(tree_get_table(lxi_ast), @&lexitype);
+		if (et != NULL) {
+			if (entry_is_type(et)) {
+				struct type* t = entry_get_type(et);
+				type_map(t, @&ctype);
+			} else {
 			error(ERROR_SERIOUS, "Name in maps section is not a type");
+				nstring_destroy(@&ctype);
+			}
+		} else {
+		error(ERROR_SERIOUS, "Unknown type in mapping");
 			nstring_destroy(@&ctype);
 		}
-	} else {
-		error(ERROR_SERIOUS, "Unknown type in mapping");
-		nstring_destroy(@&ctype);
-	}
-	nstring_destroy(@&lexitype);
-@};
+		nstring_destroy(@&lexitype);
+	@};
 
 
-<get-entry-action> : (i:IDENT) -> (ea:ENTRYP) = @{
-	@ea=table_get_entry(tree_get_table(lxi_ast), @&i);
-	if(@ea) {
-		if(!entry_is_action(@ea)) {
-			char* pi;
-			@ea=NULL; /*TODO skip to end of action */
-			pi = nstring_to_cstring(@&i);
-			error(ERROR_SERIOUS,"%s is not an action", pi);
+	<get-entry-action>: (i :IDENT) -> (ea :ENTRYP) = @{
+		@ea=table_get_entry(tree_get_table(lxi_ast), @&i);
+		if (@ea) {
+			if (!entry_is_action(@ea)) {
+				char* pi;
+				@ea=NULL; /*TODO skip to end of action */
+				pi = nstring_to_cstring(@&i);
+			error(ERROR_SERIOUS, "%s is not an action", pi);
+				DEALLOCATE(pi);
+			}
+		} else {
+			char* pi = nstring_to_cstring(@&i);
+		error(ERROR_SERIOUS, "Defining an undeclared action: %s", pi);
 			DEALLOCATE(pi);
 		}
-	} else {
-		char* pi = nstring_to_cstring(@&i);		
-		error(ERROR_SERIOUS,"Defining an undeclared action: %s", pi);
-		DEALLOCATE(pi);
-	}
-	nstring_destroy(@&i);
-@};
+		nstring_destroy(@&i);
+	@};
 
-<null-entry> : () -> (e:ENTRYP) = @{
-	@e=NULL;
-@};
+	<null-entry>: () -> (e :ENTRYP) = @{
+		@e=NULL;
+	@};
 
-<check-action-tuples> : (e:ENTRYP, in:TYPETUPLE&, out:TYPETUPLE&) -> () = @{
-	if(@e) {
-		/*TODO assert (entry_is_action(@e)); */	       
-		/* TODO check that the same name does not appear twice in the input and output tuple */
-		struct action *act = entry_get_action(@e);
-		if(typetuple_length(action_get_inputs(act))!=typetuple_length(@&in)) {
-			char* pe=nstring_to_cstring(entry_key(@e));
-			error(ERROR_SERIOUS,"Action %s declared with an incompatible number of inputs", pe);
-			DEALLOCATE(pe);
-		} else if(!typetuple_match(action_get_inputs(act),@&in)) {
-			char* pe=nstring_to_cstring(entry_key(@e));
-			error(ERROR_SERIOUS, "params do not match for action %s",pe);
-			DEALLOCATE(pe);
-		} else {
-			int allhavenames = typetuple_assign_names(action_get_inputs(act),@&in);
-			if(!allhavenames) {
-				error(ERROR_SERIOUS,"outputs tuples in action definition should have names");
+	<check-action-tuples>: (e :ENTRYP, in :TYPETUPLE &, out :TYPETUPLE &) -> () = @{
+		if (@e) {
+			/*TODO assert (entry_is_action(@e)); */
+			/* TODO check that the same name does not appear twice in the input and output tuple */
+			struct action *act = entry_get_action(@e);
+
+			if (typetuple_length(action_get_inputs(act)) != typetuple_length(@&in)) {
+				char *pe = nstring_to_cstring(entry_key(@e));
+				error(ERROR_SERIOUS, "Action %s declared with an incompatible number of inputs", pe);
+				DEALLOCATE(pe);
+			} else if (!typetuple_match(action_get_inputs(act), @&in)) {
+				char *pe = nstring_to_cstring(entry_key(@e));
+				error(ERROR_SERIOUS, "params do not match for action %s", pe);
+				DEALLOCATE(pe);
+			} else {
+				int allhavenames = typetuple_assign_names(action_get_inputs(act), @&in);
+				if (!allhavenames) {
+					error(ERROR_SERIOUS, "outputs tuples in action definition should have names");
+				}
+			}
+
+			if (typetuple_length(action_get_outputs(act)) != typetuple_length(@&out)) {
+				char *pe = nstring_to_cstring(entry_key(@e));
+				error(ERROR_SERIOUS, "Action %s declared with an incompatible number of outputs", pe);
+				DEALLOCATE(pe);
+			} else if (!typetuple_match(action_get_outputs(act), @&out)) {
+				char *pe = nstring_to_cstring(entry_key(@e));
+				error(ERROR_SERIOUS, "results do not match for action %s", pe);
+				DEALLOCATE(pe);
+			} else {
+				int allhavenames = typetuple_assign_names(action_get_outputs(act), @&out);
+				if (!allhavenames) {
+					char *pe = nstring_to_cstring(entry_key(@e));
+					error(ERROR_SERIOUS, "outputs tuples in the definition of action %s should have names", pe);
+					DEALLOCATE(pe);
+				}
 			}
 		}
-		if(typetuple_length(action_get_outputs(act))!=typetuple_length(@&out)) {
-			char* pe=nstring_to_cstring(entry_key(@e));
-			error(ERROR_SERIOUS,"Action %s declared with an incompatible number of outputs", pe);
-			DEALLOCATE(pe);
-		} else if (!typetuple_match(action_get_outputs(act),@&out)) {
-			char* pe=nstring_to_cstring(entry_key(@e));
-			error(ERROR_SERIOUS, "results do not match for action %s",pe);
-			DEALLOCATE(pe);
-		} else {				
-			int allhavenames = typetuple_assign_names(action_get_outputs(act),@&out);
-			if(!allhavenames) {
-				char* pe=nstring_to_cstring(entry_key(@e));
-				error(ERROR_SERIOUS,"outputs tuples in the definition of action %s should have names",pe);
-			DEALLOCATE(pe);
-			}
-		}
-	}
-	typetuple_destroy(@&in);
-	typetuple_destroy(@&out);
-@};	
+		typetuple_destroy(@&in);
+		typetuple_destroy(@&out);
+	@};
 
-
-<define-action> : (e:ENTRYP, c:CCODE&) -> () = @{
-	if(@e) {
-	       /*TODO assert entry_is_action */	       
-	        struct action* act = entry_get_action(@e);
-			if(!action_is_defined(act)) {
+	<define-action>: (ea :ENTRYP, c :CCODE &) -> () = @{
+		if (@ea) {
+			/* TODO: assert entry_is_action */
+			struct action *act = entry_get_action(@ea);
+			if (!action_is_defined(act)) {
 				action_set_define(act);
 				action_set_code(act, @&c);
 			} else {
-				char* pe=nstring_to_cstring(entry_key(@e));
-				error(ERROR_SERIOUS,"Action %s has already been defined", pe);
+				char *pe = nstring_to_cstring(entry_key(@ea));
+				error(ERROR_SERIOUS, "Action %s has already been defined", pe);
 				DEALLOCATE(pe);
 			}
-	} else {
-		ccode_destroy(@&c);
-	}
-@};
+		} else {
+			ccode_destroy(@&c);
+		}
+	@};
 
-<E-syntax-error> = @{
-	    error ( ERROR_SERIOUS, "Syntax error" ) ;
-@} ;
+	<E-syntax-error> = @{
+		error(ERROR_SERIOUS, "Syntax error");
+	@};
 
-<E_expected_code_end> = @{
-	    error( ERROR_SERIOUS, "Syntax error: expected  '@@}'") ;
-@};
+	<E_expected_code_end> = @{
+		error(ERROR_SERIOUS, "Syntax error: expected  '@@}'");
+	@};
 
-<E_expected_ident> = @{
-	    error( ERROR_SERIOUS, "Syntax error: expected  identifier") ;
-@};
+	<E_expected_ident> = @{
+		error(ERROR_SERIOUS, "Syntax error: expected  identifier");
+	@};
 
-<E_expected_code_start> = @{
-	    error( ERROR_SERIOUS, "Syntax error: expected  '@@{'") ;
-@} ;
+	<E_expected_code_start> = @{
+		error(ERROR_SERIOUS, "Syntax error: expected  '@@{'");
+	@};
 
-<E_expected_comma> = @{
-	    error( ERROR_SERIOUS, "Syntax error: expected ','") ;
-@} ;
+	<E_expected_comma> = @{
+		error(ERROR_SERIOUS, "Syntax error: expected ','");
+	@};
 
-<E_expected_define> = @{
-	    error( ERROR_SERIOUS, "Syntax error: expected '='") ;
+	<E_expected_define> = @{
+		error(ERROR_SERIOUS, "Syntax error: expected '='");
 
-@} ;
+	@};
 
-<E_expected_arrow> = @{
-	    error( ERROR_SERIOUS, "Syntax error: expected '->'") ;
-@} ;
+	<E_expected_arrow> = @{
+		error(ERROR_SERIOUS, "Syntax error: expected '->'");
+	@};
 
-<E_expected_semicolon> = @{
-	    error( ERROR_SERIOUS, "Syntax error: expected ';'") ;
-@} ;
+	<E_expected_semicolon> = @{
+		error(ERROR_SERIOUS, "Syntax error: expected ';'");
+	@};
 
-<E_expected_colon> = @{
-	    error( ERROR_SERIOUS, "Syntax error: expected ':'") ;
-@} ;
+	<E_expected_colon> = @{
+		error(ERROR_SERIOUS, "Syntax error: expected ':'");
+	@};
 
+	<E_unexpected_eof> = @{
+		error(ERROR_SERIOUS, "Unexpected End of File inside @@{ @@} block");
+	@};
 
-<E_unexpected_eof> = @{
-	    error( ERROR_SERIOUS, "Unexpected End of File inside @@{ @@} block") ;
-@};
-
-<E_lone_at_in_code_block> = @{
-	    error( ERROR_SERIOUS, "Lone @@ inside @@{ @@} block") ;
-@};
-
-
+	<E_lone_at_in_code_block> = @{
+		error(ERROR_SERIOUS, "Lone @@ inside @@{ @@} block");
+	@};
 
 %trailer% @{
 
 @}, @{
-#endif
+
+	#endif
+
 @};
+

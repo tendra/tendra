@@ -9,601 +9,537 @@
 
 %types%
 
-/*
-    TYPES
+	BOOL;
+	IDENT;
+	ZONE;
+	STRING;
 
-    There are four types, representing booleans, identifiers, input strings
-    and strings of character codes.
-*/
+	CMD;
+	CMD_LIST;
 
-BOOL ;
-IDENT;
-ZONE;
-STRING ;
+	TYPETUPLE;
 
-CMD ;
-CMD_LIST ;
-
-TYPETUPLE;
-
-ARG ;
-ARGS_LIST ;
+	ARG;
+	ARG_LIST;
 
 %terminals%
 
-/*
-    TERMINALS
+	ident:     () -> (:IDENT);
+	sid-ident: () -> (:IDENT);
+	string:    () -> (:STRING);
 
-    These terminals give the various terminals identified by the lexical
-    analysis routines.
-*/
+	upper: () -> (:STRING);
+	lower: () -> (:STRING);
+	digit: () -> (:STRING);
 
-ident: () -> ( :IDENT) ;
-sid-ident: () -> ( :IDENT) ;
-string : () -> ( :STRING ) ;
+	group;
+	keyword;
+	mapping;
+	token;
+	white;
+	default;
+	zone;
 
-upper : () -> ( :STRING ) ;
-lower : () -> ( :STRING ) ;
-digit : () -> ( :STRING ) ;
+	open;
+	close;
+	open-brace;
+	close-brace;
 
-group ;
-keyword ;
-mapping ;
-token ;
-white ;
-default ;
-zone ;
+	arrow;
+	eof;
+	equal;
+	plus;
+	semicolon;
+	colon;
+	ref;
+	range;
+	range-closed-closed;
+	range-closed-open;
+	comma;
+	nothing-marker;
+	!unknown;
 
-open ;
-close ;
-open-brace ;
-close-brace ;
+	arg-char-string : () -> (:ARG);
+	arg-char-nb : () -> (:ARG);
+	arg-nb-of-chars: () -> (:ARG);
+	arg-return:     () -> (:ARG);
+	arg-ignore: () -> (:ARG);
 
-arrow ;
-eof ;
-equal ;
-plus ;
-semicolon ;
-colon ;
-ref;
-range ;
-range-closed-closed ;
-range-closed-open ;
-comma;
-nothing-marker;
-!unknown ;
+	action-kw;
+	begin-action; // <
+	end-action;   // >
 
-arg-char-string : () -> (:ARG);
-arg-char-nb : () -> (:ARG);
-arg-nb-of-chars : () -> (:ARG);
-arg-return: () -> (:ARG);
-arg-ignore : () -> (:ARG);
-
-action-kw ;
-begin-action ; 		// <
-end-action ; 		// >
-
-
-type-kw ;
+	type-kw;
 
 %productions%
 
+	<string-concat>: (:STRING, :STRING ) -> (:STRING);
+	<make-white>:    (:ZONE, :STRING) -> ();
+	<make-group>:    (:ZONE, :IDENT, :STRING ) -> ();
+	<make-trigraph>: (:ZONE, :STRING, :STRING ) -> ();
+	<make-token>:   (:ZONE, :STRING, :CMD_LIST) -> ();
+	<make-default>: (:ZONE, :CMD_LIST) -> ();
+	<make-keyword>: (:ZONE, :STRING, :CMD) -> ();
 
-/*
-    ACTION DECLARATIONS
+	<make-terminal-cmd>:  (:IDENT) -> (:CMD);
+	<make-action-cmd>:    (:ZONE, :IDENT, :ARG_LIST, :ARG_LIST) -> (:CMD);
+	<make-donothing-cmd>: () -> (:CMD);
 
-    The actions are described in more detail in the action definition
-    file.
-*/
+	<true>:  () -> (:BOOL);
+	<false>: () -> (:BOOL);
 
-<string-concat> : ( :STRING, :STRING ) -> ( :STRING ) ;
-<make-white> : ( :ZONE, :STRING ) -> () ;
-<make-group> : ( :ZONE, :IDENT, :STRING ) -> () ;
-<make-trigraph> : ( :ZONE, :STRING, :STRING ) -> () ;
-<make-terminal-inst>  :  ( :IDENT) -> (:CMD) ;
-<make-action-inst> : (:ZONE, :IDENT, :ARGS_LIST, :ARGS_LIST) -> (:CMD) ;
-<make-donothing-inst> : () -> (:CMD) ;
-<make-token> : ( :ZONE, :STRING, :CMD_LIST) -> () ;
-<make-default> : ( :ZONE, :CMD_LIST ) -> () ;
-<make-keyword> : ( :ZONE, :STRING, :CMD ) -> () ;
-<true> : () -> ( :BOOL ) ;
-<false> : () -> ( :BOOL ) ;
+	<empty-ident>: () -> ( :IDENT);
 
-<empty-ident> : () -> ( :IDENT);
+	<is-global-zone>: (:ZONE ) -> ( :BOOL );
 
-//<global-zone> : () -> ( :ZONE );
-<is-global-zone> : ( :ZONE ) -> ( :BOOL );
+	<empty-args-list>: () -> ( :ARG_LIST);
+	<check-args-list>: (:ARG_LIST) -> ();
+	<args-list-push-front>: (:ARG , :ARG_LIST) -> ();
+	<append-arg-args-list>: (:ARG_LIST, :ARG ) -> ();
+	<make_arg_terminal>:   (:IDENT) -> (:ARG);
+	<make_arg_from_ident>: (:IDENT) -> (:ARG);
+	<make_arg_from_ref>:   (:IDENT) -> (:ARG);
+	<make_arg_none>: () -> (:ARG);
 
-<empty-args-list> : () -> ( :ARGS_LIST) ;
-<check-args-list> : ( :ARGS_LIST) -> () ;
-<args-list-push-front>: ( :ARG , :ARGS_LIST) -> () ;
-<append-arg-args-list>: ( :ARGS_LIST, :ARG ) -> () ;
-<make_arg_terminal> : (:IDENT) -> (:ARG);
-<make_arg_from_ident> : (:IDENT) -> (:ARG);
-<make_arg_from_ref> : (:IDENT) -> (:ARG);
-<make_arg_none> : () -> (:ARG);
+	<empty-cmd-list>:  () -> (:CMD_LIST);
+	<add-cmd-to-list>: (:ZONE, :CMD, :CMD_LIST) -> ();
+	<check-cmd-list>:  (:CMD_LIST) -> ();
 
-<empty-inst-list> : () -> ( : CMD_LIST);
-<add-inst-to-list> : ( : ZONE, : CMD, : CMD_LIST ) -> ();
-<check-inst-list> : (: CMD_LIST ) -> ();
+	<E_expected_ident>:        () -> (:IDENT);
+	<E_expected_begin_action>: () -> ();
+	<E_expected_end_action>:   () -> ();
+	<E_expected_range>:        () -> ();
+	<E_expected_open>:         () -> ();
+	<E_expected_close>:        () -> ();
+	<E_expected_chars>:        () -> (:STRING);
 
+	<E_nonglobalzonekeyword>: () -> ();
+	<E_nonglobalzonetype>:    (:IDENT) -> ();
+	<E_expected_colon>:       () -> ();
+	<E_expected_semicolon>:   () -> ();
+	<E_expected_arrow>:       () -> ();
+	<E_expected_equal>:       () -> ();
 
-<E_expected_ident> : () -> (:IDENT);
-<E_expected_begin_action> : () -> ();
-<E_expected_end_action> : () -> ();
-<E_expected_range> : () -> ();
-<E_expected_open> : () -> ();
-<E_expected_close> : () -> ();
-<E_expected_chars> : () -> (:STRING);
+	<E_sharp_arg_in_lhs>:     () -> ();
+	<E_string_arg_in_lhs>:    () -> ();
+	<E_terminal_in_lhs>:      () -> ();
+	<E_return_in_rhs>:        () -> ();
+	<E_string_in_action_rhs>: () -> ();
 
-<E_nonglobalzonekeyword> : () -> ();
-<E_nonglobalzonetype>    : (:IDENT) -> ();
-<E_expected_colon>	 : () -> ();
-<E_expected_semicolon> 	 : () -> ();
-<E_expected_arrow> 	 : () -> ();
-<E_expected_equal> 	 : () -> ();
+	<is-non-empty>: (:STRING) -> (:BOOL);
+	<E_empty_character_string>: () -> ();
+	<E_ignore_in_rhs>: () -> ();
 
-<E_sharp_arg_in_lhs> : () -> ();
-<E_string_arg_in_lhs> : () -> ();
-<E_terminal_in_lhs> :() -> (); 
+	<syntax-error>: () -> ();
 
-<E_return_in_rhs> : () -> ();
-<E_string_in_action_rhs> : () -> ();
+	<make-zone>: (:ZONE, :IDENT, :STRING, :CMD_LIST, :STRING, :CMD_LIST, :BOOL) -> (:ZONE);
+	<update-zone-type>: (:ZONE, :ZONE) -> ();
 
-<is-non-empty> : ( : STRING ) -> ( : BOOL );
-<E_empty_character_string> : () -> ();
-<E_ignore_in_rhs> : () -> ();
+	<make-type>:   (:ZONE, :IDENT) -> ();
+	<init-tuple>:  () -> (:TYPETUPLE);
+	<append-tuple>: (:ZONE, :TYPETUPLE &, :IDENT, :IDENT, :BOOL) -> ();
+	<make-action>:  (:ZONE, :IDENT, :TYPETUPLE &, :TYPETUPLE &) -> ();
 
-<syntax-error> : () -> () ;
-
-<make-zone> : ( :ZONE, :IDENT, :STRING, :CMD_LIST, 
-	      	:STRING, :CMD_LIST, : BOOL ) -> ( :ZONE );
-<update-zone-type> : (:ZONE, :ZONE) -> ();
-
-<make-type>: (:ZONE, :IDENT) -> ();
-<init-tuple>: () -> (:TYPETUPLE);
-<append-tuple> : (:ZONE, :TYPETUPLE&,:IDENT,:IDENT,:BOOL) -> ();
-<make-action> : (:ZONE, :IDENT, :TYPETUPLE&, :TYPETUPLE&) -> ();
-
-/*
-    STRINGS
-
-    This action gives the full definition of a string, including special
-    strings and string concatenation.
-*/
-
-string-plus : () -> ( s : STRING ) = {
-	{
-		a = string ;
-	    ||	a = upper ;
-	    ||	a = lower ;
-	    ||	a = digit ;
-	} ; 
-	{
-		s = a ;
-	    ||	plus ; b = string-plus ; s = <string-concat> ( a, b ) ;
-	} ;
-} ;
-
-
-/*
-    CHARACTER STRING
-*/
-
-non-empty-chars : () -> (s: STRING) ={
-	s = string-plus;
-	{
-		? = <is-non-empty>(s);
-	    ##
-		<E_empty_character_string>;
-	};
-};
-
-
-
-/*
-    WHITE SPACE DEFINITION
-
-    This action defines the set of white space characters.
-*/
-
-white-defn : ( z:ZONE ) -> () = {
-	group ; 
-	white ; 
-	{
-		equal ; 
-	    ##	
-		<E_expected_equal>;
-	};
-	s = string-plus ; <make-white> ( z, s ) ;
-} ;
-
-
-/*
-    CHARACTER GROUP DEFINITION
-
-    This action assigns a name to a group of characters.
-*/
-
-group-defn : ( z:ZONE ) -> () = {
-        group ; 
-	i = ident; 
-	{
-		equal ; 
-	    ##
-	    	<E_expected_equal>;
-	};
-	s = non-empty-chars ; 
-	<make-group> ( z, i, s ) ;
-} ;
-
-
-/*
-    TRIGRAPH DEFINITION
-
-    This action defines a lexical pre-pass mapping (for example, trigraphs
-    in ANSI C).
-*/
-
-trigraph-defn : ( z:ZONE) -> () = {
-	mapping ; s = string-plus ; 
-	{
-		arrow ; 
-	    ##
-		<E_expected_arrow>;
-	} ;
-	t = string-plus ; 
-    	<make-trigraph> ( z, s, t ) ;
-} ;
-
-/*
-	TYPE DEFINITION
-
-	This defines a lexi type
-*/
-type-defn : (z:ZONE) -> () = {
-	type-kw ; s = ident;
-	{
-		?=<is-global-zone> (z) ; 
-		<make-type> (z, s) ;
-	    ##
-		<E_nonglobalzonetype>(s);
-	};
-} ;
-
-
-
-/* 
-   List of Type Tuples ;
-*/
-
-type-tuple : ( z:ZONE ) -> (a:TYPETUPLE) [
-	type-name : (z:ZONE, a:TYPETUPLE&) -> () = {
+	string-plus : () -> (s :STRING) = {
 		{
-			name=ident;
-		    ||	
-		    	name=<empty-ident>;
+			a = string;
+			||	a = upper;
+			||	a = lower;
+			||	a = digit;
 		};
-		colon ;
-		type=ident;
-		{
-			isref = <false>;
-		    ||
-			ref; isref = <true>;
-		};
-		<append-tuple>(z, &a, name, type, isref);
-	} ;
-	type-tuple1 : (z:ZONE, a:TYPETUPLE&) -> () = {
-		type-name(z, &a) ;
-	    ||
-		type-name(z, &a) ; comma; type-tuple1(z, &a) ;
-	} ; ] = {
-	a=<init-tuple> ;
-    ||
-	a=<init-tuple>;
-	type-tuple1(z, &a) ;
-};
 
-
-/* 
-   ACTION DEFINITION
-*/
-
-action-decl : (z:ZONE) -> () = {
-	action-kw;
-	{
-		begin-action ;
-	    ##
-		<E_expected_begin_action>;
-	};
-	i = ident;
-	{
-		end-action ;
-	    ##
-		<E_expected_end_action>;
-	};
-	{
-		it = <init-tuple>;
-		ot = <init-tuple>;
-	    ||
-		colon ;
 		{
-			open ;
-		    ##
-			<E_expected_open>;
+			s = a;
+		||
+			plus;
+			b = string-plus;
+			s = <string-concat>(a, b);
 		};
-		it=type-tuple(z) ;
-		{
-			close ;
-		    ##
-			<E_expected_close>;
-		};
-		{
-			arrow ;
-		    ##
-			<E_expected_arrow> ;
-		} ;
-		{
-			open ;
-		    ##
-			<E_expected_open>;
-		};
-		ot=type-tuple(z) ;
-		{
-			close ;
-		    ##
-			<E_expected_close>;
-		};
-	} ;
-	<make-action>(z,i,&it,&ot);
-} ;
-
-/*
-   ACTION CALL 
-*/
-
-action-call : (z:ZONE) -> (inst:CMD) [
-	lhs-arg : (l:ARGS_LIST) -> () = {
-		{
-		        b=arg-char-string ; a=<make_arg_none>; <E_sharp_arg_in_lhs>;
-		    ||  b=arg-char-nb ; a=<make_arg_none>; <E_sharp_arg_in_lhs>;
-		    ||  b=arg-nb-of-chars ; a=<make_arg_none>; <E_sharp_arg_in_lhs>;
-		    ||  b=string ; a=<make_arg_none>; <E_string_arg_in_lhs>;
-		    ||  i=ident; a=<make_arg_from_ident>(i);
-		    ||  ref; i=ident; a=<make_arg_from_ref>(i);
-		    ||  b=sid-ident; a=<make_arg_none>; <E_terminal_in_lhs>; 
-		    ||  a=arg-return;
-		    ||  a=arg-ignore ;
-		 };
-		<append-arg-args-list>(l, a); 
 	};
 
-	lhs-tuple1 : (l:ARGS_LIST) -> () = {
-		lhs-arg(l) ; 
-	    ||
-		lhs-arg(l); comma; lhs-tuple1(l); 
-
-	};
-	lhs-tuple : (l:ARGS_LIST) -> () = { 
+	non-empty-chars : () -> (s: STRING) ={
+		s = string-plus;
 		{
-			lhs-arg(l);  
-		    ||
+			? = <is-non-empty>(s);
+			##
+			<E_empty_character_string>;
+		};
+	};
+
+	white-defn : (z :ZONE) -> () = {
+		group;
+		white;
+		{
+			equal;
+		##
+			<E_expected_equal>;
+		};
+		s = string-plus; <make-white> ( z, s );
+	};
+
+	group-defn: (z :ZONE) -> () = {
+		group;
+		i = ident;
+		{
+			equal;
+		##
+			<E_expected_equal>;
+		};
+		s = non-empty-chars;
+		<make-group>( z, i, s );
+	};
+
+	trigraph-defn: (z :ZONE) -> () = {
+		mapping;
+		s = string-plus;
+		{
+			arrow;
+		##
+			<E_expected_arrow>;
+		};
+		t = string-plus;
+		<make-trigraph>(z, s, t);
+	};
+
+	type-defn: (z :ZONE) -> () = {
+		type-kw;
+		s = ident;
+		{
+			? = <is-global-zone>(z);
+			<make-type>(z, s);
+		##
+			<E_nonglobalzonetype>(s);
+		};
+	};
+
+	type-tuple: (z :ZONE ) -> (a :TYPETUPLE) [
+		type-name: (z :ZONE, a :TYPETUPLE &) -> () = {
+			{
+				name = ident;
+			||
+				name = <empty-ident>;
+			};
+
+			colon;
+			type=ident;
+
+			{
+				isref = <false>;
+			||
+				ref;
+				isref = <true>;
+			};
+
+			<append-tuple>(z, &a, name, type, isref);
+		};
+
+		type-tuple1: (z :ZONE, a :TYPETUPLE &) -> () = {
+			type-name(z, &a);
+		||
+			type-name(z, &a);
+			comma;
+			type-tuple1(z, &a);
+		};
+	] = {
+		a = <init-tuple>;
+	||
+		a = <init-tuple>;
+		type-tuple1(z, &a);
+	};
+
+	action-decl: (z :ZONE) -> () = {
+		action-kw;
+
+		{
+			begin-action;
+		##
+			<E_expected_begin_action>;
+		};
+
+		i = ident;
+		{
+			end-action;
+		##
+			<E_expected_end_action>;
+		};
+
+		{
+			it = <init-tuple>;
+			ot = <init-tuple>;
+		||
+			colon;
+			{
+				open;
+			##
+				<E_expected_open>;
+			};
+
+			it = type-tuple(z);
+			{
+				close;
+			##
+				<E_expected_close>;
+			};
+
+			{
+				arrow;
+			##
+				<E_expected_arrow>;
+			};
+			{
+				open;
+			##
+				<E_expected_open>;
+			};
+
+			ot = type-tuple(z);
+			{
+				close;
+			##
+				<E_expected_close>;
+			};
+		};
+
+		<make-action>(z, i, &it, &ot);
+	};
+
+	action-call: (z :ZONE) -> (c :CMD) [
+		lhs-arg: (l :ARG_LIST) -> () = {
+			{
+					b = arg-char-string; a = <make_arg_none>; <E_sharp_arg_in_lhs>;
+				||  b = arg-char-nb;     a = <make_arg_none>; <E_sharp_arg_in_lhs>;
+				||  b = arg-nb-of-chars; a = <make_arg_none>; <E_sharp_arg_in_lhs>;
+				||  b = string;          a = <make_arg_none>; <E_string_arg_in_lhs>;
+				||  i = ident;           a = <make_arg_from_ident>(i);
+				||  ref; i = ident;      a = <make_arg_from_ref>(i);
+				||  b = sid-ident;       a = <make_arg_none>; <E_terminal_in_lhs>;
+				||  a = arg-return;
+				||  a = arg-ignore;
+			 };
+
+			<append-arg-args-list>(l, a);
+		};
+
+		lhs-tuple1: (l :ARG_LIST) -> () = {
+			lhs-arg(l);
+		||
+			lhs-arg(l);
+			comma;
+			lhs-tuple1(l);
+		};
+
+		lhs-tuple: (l:ARG_LIST) -> () = {
+			lhs-arg(l);
+		||
 			open;
 			lhs-tuple1(l);
 			close;
 		};
-	};
-	rhs-arg : () -> ( a : ARG ) = {
-	        a=arg-char-string ;
-	    ||  a=arg-char-nb ;
-	    ||  a=arg-nb-of-chars ;
-	    ||  b=sid-ident; a=<make_arg_terminal>(b); 
-	    ||  b=arg-return; a=<make_arg_none>; <E_return_in_rhs>;
-	    ||  b=arg-ignore ; a=<make_arg_none>; <E_ignore_in_rhs>;
-	    ||  b=string ; a=<make_arg_none>; <E_string_in_action_rhs>;
-	    ||  ref; i=ident; a=<make_arg_from_ref>(i);
-	    ||	i=ident; a=<make_arg_from_ident>(i);
-	} ;
-	rhs-tuple1 : () -> (r:ARGS_LIST) = {
-		a = rhs-arg ; r=<empty-args-list> ; <args-list-push-front>(a,r); 
-	    ||
-		a = rhs-arg; comma; r = rhs-tuple1; <args-list-push-front>(a,r);
 
-	};
-	rhs-tuple : () -> (r: ARGS_LIST) = {
-     		open ;
+		rhs-arg: () -> (a :ARG) = {
+				a = arg-char-string;
+			||  a = arg-char-nb;
+			||  a = arg-nb-of-chars;
+			||  b  =  sid-ident;  a = <make_arg_terminal>(b);
+			||  b  =  arg-return; a = <make_arg_none>; <E_return_in_rhs>;
+			||  b  =  arg-ignore; a = <make_arg_none>; <E_ignore_in_rhs>;
+			||  b  =  string;     a = <make_arg_none>; <E_string_in_action_rhs>;
+			||  ref; i  =  ident; a = <make_arg_from_ref>(i);
+			||	i  =  ident;      a = <make_arg_from_ident>(i);
+		};
+
+		rhs-tuple1: () -> (r :ARG_LIST) = {
+			a = rhs-arg;        r = <empty-args-list>; <args-list-push-front>(a, r);
+		||
+			a = rhs-arg; comma; r = rhs-tuple1;        <args-list-push-front>(a, r);
+		};
+
+		rhs-tuple : () -> (r: ARG_LIST) = {
+			open;
+			{
+				r = <empty-args-list>;
+			||
+				r = rhs-tuple1;
+			};
+			close;
+		};
+	] = {
+		l = <empty-args-list>;
+
 		{
-			r = <empty-args-list> ;
-		    ||
-			r = rhs-tuple1 ;
-		} ;
-		close;
-	}; ] = {
-	l = <empty-args-list> ;
-       	{
+			$;
+		||
+			lhs-tuple(l);
+			equal;
+		};
+
+		begin-action;
+		i = ident;
+		<check-args-list>(l);
+		end-action;
+
+		{
+			r = <empty-args-list>;
+		||
+			r = rhs-tuple;
+		};
+
+		c = <make-action-cmd>(z, i, l, r);
+	};
+
+	cmd: (z :ZONE) -> (c :CMD) = {
+		l = <empty-args-list>;
+		i = sid-ident;
+		c = <make-terminal-cmd>(i);
+	||
+		l = <empty-args-list>;
+		nothing-marker;
+		c = <make-donothing-cmd>;
+	||
+		c = action-call(z);
+	};
+
+	cmd-list: (z :ZONE) -> (l :CMD_LIST) = {
+		c = cmd(z);
+		l = <empty-cmd-list>;
+		<add-cmd-to-list>(z, c, l);
+	||
+		l = cmd-list(z);
+		comma;
+		c = cmd(z);
+		<add-cmd-to-list>(z, c, l);
+	};
+
+	token-defn: (z :ZONE) -> () = {
+		token;
+		s = non-empty-chars;
+		arrow;
+		l = cmd-list(z);
+		<check-cmd-list>(l);
+		<make-token>(z, s, l);
+	};
+
+	default-defn: (z :ZONE ) -> () = {
+		token;
+		default;
+		arrow;
+		l = cmd-list(z);
+		<make-default>(z, l);
+	};
+
+	keyword-defn: (z :ZONE) -> () = {
+		keyword;
+		s = string;
+		arrow;
+		c = cmd(z);
+		{
+			? = <is-global-zone>(z);
+			<make-keyword>(z, s, c);
+		##
+			<E_nonglobalzonekeyword>;
+		};
+	};
+
+	command: (:ZONE) -> ();
+
+	command-list: (z :ZONE) -> () = {
 		$;
-	    ||
-		lhs-tuple(l) ;
-		equal ;
-	} ;
-	begin-action ;
-	i = ident;
-	<check-args-list>(l);
-	end-action ; 
-	{
-		r=<empty-args-list> ;
-	    ||
-		r = rhs-tuple;
+	||
+		command(z);
+		command-list(z);
+	##
+		<syntax-error>;
 	};
-	inst = <make-action-inst>(z, i, l, r) ;
-} ;
 
+	zone-defn: (z :ZONE) -> ()  = {
+		zone;
 
-/*
-  COMMAND LISTS
-*/
+		{
+			zid = ident;
+		##
+			zid = <E_expected_ident>;
+		};
 
-cmd : (z:ZONE) -> (inst:CMD) = {
-	l = <empty-args-list> ;
-	i = sid-ident; 
-	inst = <make-terminal-inst>(i);
-    ||	
-	l = <empty-args-list> ;
-	nothing-marker; 
-	inst = <make-donothing-inst>;
-    ||	
-    	inst = action-call(z) ;
-} ;
+		{
+			colon;
+		##
+			<E_expected_colon>;
+		};
 
-cmd-list : (z:ZONE) -> (instl:CMD_LIST) = {
-	inst=cmd(z);
-	instl=<empty-inst-list>;
-	<add-inst-to-list>(z, inst, instl);
-    ||
-	instl=cmd-list(z);
-   	comma;
-	inst=cmd(z);
-	<add-inst-to-list>(z, inst, instl);
-} ;
+		{
+			b = non-empty-chars;
+		##
+			b = <E_expected_chars>;
+		};
 
-/*
-    TOKEN DEFINITION
+		{
+			arrow;
+			entry-cmds = cmd-list(z);
+		||
+			entry-cmds = <empty-cmd-list>;
+		};
 
-    This action defines a lexical main-pass mapping (for example, operators
-    and keywords).
-*/
+		{
+			range; lendclosed = <true>;
+		||
+			range-closed-closed; lendclosed = <true>;
+		||
+			range-closed-open;   lendclosed = <false>;
+		##
+			<E_expected_range>; lendclosed = <false>;
+		};
 
-token-defn : ( z:ZONE ) -> () = {
-	token ; s = non-empty-chars ; arrow ;
-	inst-list=cmd-list(z);
-	<check-inst-list>(inst-list);
-	<make-token> ( z, s, inst-list) ;
-} ;
+		{
+			e = non-empty-chars;
+		##
+			e = <E_expected_chars>;
+		};
 
-default-defn : ( z:ZONE ) -> () = {
-        token ; default ; arrow ;
-	inst-list=cmd-list(z);
-        <make-default> ( z, inst-list) ; 
-} ;
+		{
+			arrow;
+			exit-cmds = cmd-list(z);
+		||
+			exit-cmds = <empty-cmd-list>;
+		};
 
+		new-zone = <make-zone>(z, zid, b, entry-cmds, e, exit-cmds, lendclosed);
 
+		open-brace;
+		command-list(new-zone);
+		close-brace;
 
-/*
-    KEYWORD DEFINITION
-
-    This action defines a keyword.
-*/
-
-keyword-defn : ( z:ZONE ) -> () = {
-	keyword ; s = string ; arrow ;
-	inst=cmd(z) ; 
-	{
-		?=<is-global-zone> (z); 
-	    	<make-keyword> ( z, s, inst) ;
-	    ##
-		<E_nonglobalzonekeyword>;
+		<update-zone-type>(z, new-zone);
 	};
-} ;
 
-
-/*
-    COMMANDS
-
-    These actions define the composite commands derived from the basic
-    commands above.
-*/
-
-command : (:ZONE) -> () ;
-
-command-list : (z:ZONE) -> () = {
-	$ ;
-    ||	command(z) ; command-list(z) ;
-    ##	<syntax-error> ;
-} ;
-
-zone-defn : (z:ZONE) -> ()  = {
-	zone; 
-	{
-		zid = ident; 
-	    ##  
-	    	zid=<E_expected_ident>;
+	expected_semicolon: () -> () = {
+		semicolon;
+	##
+		<E_expected_semicolon>;
 	};
-	{
-		colon;
-	    ##
-		<E_expected_colon>;
+
+	command: (z :ZONE) -> () = {
+		   semicolon;
+		|| white-defn(z);    expected_semicolon;
+		|| group-defn(z);    expected_semicolon;
+		|| trigraph-defn(z); expected_semicolon;
+		|| token-defn(z);    expected_semicolon;
+		|| keyword-defn(z);  expected_semicolon;
+		|| default-defn(z);  expected_semicolon;
+		|| type-defn(z);     expected_semicolon;
+		|| action-decl(z);   expected_semicolon;
+		|| open-brace; command-list(z); close-brace;
+		|| zone-defn(z);
 	};
-	{
-		b=non-empty-chars; 
-	    ##  
-	    	b=<E_expected_chars>;
+
+	unit: (z:ZONE) -> () = {
+		command-list ( z );
+		{
+			eof;
+			##	<syntax-error>;
+		};
 	};
-	{
-		arrow; 
-		entry-instl=cmd-list(z);
-	    ||  
-		entry-instl=<empty-inst-list>;
-	};
-	{
-		range ; lendclosed =<true> ;
-	    ||  
-		range-closed-closed ; lendclosed =<true> ;
-	    ||  
-		range-closed-open ; lendclosed =<false> ;
-	    ##
-		<E_expected_range>; lendclosed=<false> ;
-	};
-	{
-		e=non-empty-chars; 
-	    ##  
-	    	e=<E_expected_chars>;
-	};
-	{
-		arrow; 
-		leaving-instl=cmd-list(z);
-	    ||  
-		leaving-instl=<empty-inst-list>;
-	};
-	new-zone=<make-zone>(z,zid,b,entry-instl,e,leaving-instl,lendclosed);
 
-	open-brace ; command-list(new-zone) ; close-brace ;
-	<update-zone-type>(z,new-zone);
-} ;
+%entry%
 
-expected_semicolon : () -> () = {
-	semicolon ; 
-    ##
-	<E_expected_semicolon>;
-} ;
+	unit;
 
-command : (z:ZONE) -> () = {
-	semicolon ;
-    ||	white-defn ( z ) ; expected_semicolon ;	
-    ||	group-defn ( z ) ; expected_semicolon ;
-    ||	trigraph-defn ( z ) ; expected_semicolon ;
-    ||	token-defn ( z ) ; expected_semicolon ;
-    ||	keyword-defn ( z ) ; expected_semicolon ;
-    ||  default-defn ( z ); expected_semicolon ;
-    ||  zone-defn ( z ) ;
-    ||	open-brace ; command-list( z ) ; close-brace ;
-    ||  type-defn ( z ) ; expected_semicolon ;
-    ||	action-decl ( z ) ; expected_semicolon ;
-} ;
-
-
-/*
-    COMPLETE UNIT
-
-    This action gives the main entry point for the syntax.  A complete
-    unit just consists of a list of commands.
-*/
-
-unit : (z:ZONE) -> () = {
-	command-list ( z ) ;
-	{
-		eof ;
-	    ##	<syntax-error> ;
-	} ;
-}  ;
-
-%entry% unit ;

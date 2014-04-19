@@ -9,46 +9,49 @@
 
 /* BEGINNING OF HEADER */
 
-#line 125 "lctsyntax.act"
+#line 121 "lctsyntax.act"
 
 
-/* $Id$ */
+	/* $Id$ */
 
-/*
- * Copyright 2011, The TenDRA Project.
- *
- * See doc/copyright/ for the full copyright terms.
- */
+	/*
+	 * Copyright 2011, The TenDRA Project.
+	 *
+	 * See doc/copyright/ for the full copyright terms.
+	 */
 
- #ifndef LCT_SYNTAX_HEADER_INCLUDED
- #define LCT_SYNTAX_HEADER_INCLUDED
+	#ifndef LCT_SYNTAX_HEADER_INCLUDED
+	#define LCT_SYNTAX_HEADER_INCLUDED
 
-#include "ccode.h"
-#include "ast.h"
+	#include "ccode.h"
+	#include "ast.h"
 
-struct lxi_additional_argument {
-       	char* name;
-	char* ctype;
+	struct lxi_additional_argument {
+			char* name;
+		char* ctype;
 
-	struct lxi_additional_argument* next;
-};
+		struct lxi_additional_argument* next;
+	};
 
-struct lct_ast {
-	int headersdefined;
-	int trailersdefined;
-	struct CcodeT hfileheader;
-	struct CcodeT cfileheader;
-	struct CcodeT hfiletrailer;
-	struct CcodeT cfiletrailer;
-	struct lxi_additional_argument* arg_head;
-	struct lxi_additional_argument** arg_tail;
-};
+	struct lct_ast {
+		int headersdefined;
+		int trailersdefined;
 
-extern struct ast *lxi_ast;
-extern struct lct_ast lct_ast;
+		struct CcodeT hfileheader;
+		struct CcodeT cfileheader;
+		struct CcodeT hfiletrailer;
+		struct CcodeT cfiletrailer;
 
-extern void init_lct_ast(struct lct_ast*);
-#line 52 "lctsyntax.h"
+		struct lxi_additional_argument* arg_head;
+		struct lxi_additional_argument** arg_tail;
+	};
+
+	extern struct ast *lxi_ast;
+	extern struct lct_ast lct_ast;
+
+	extern void init_lct_ast(struct lct_ast*);
+
+#line 55 "lctsyntax.h"
 
 /* BEGINNING OF FUNCTION DECLARATIONS */
 
@@ -66,12 +69,12 @@ extern void read_lct_unit(void);
 #define lct_lex_unknown (23)
 #define lct_lex_ident (19)
 #define lct_lex_close (12)
-#define lct_lex_colon (6)
+#define lct_lex_colon (5)
 #define lct_lex_code_Hat (16)
-#define lct_lex_arrow (7)
+#define lct_lex_arrow (6)
 #define lct_lex_open (11)
 #define lct_lex_eof (18)
-#define lct_lex_ref (5)
+#define lct_lex_ref (7)
 #define lct_lex_semicolon (9)
 #define lct_lex_map_Hkw (2)
 #define lct_lex_code_Hident (20)
@@ -83,9 +86,11 @@ extern void read_lct_unit(void);
 
 /* BEGINNING OF TRAILER */
 
-#line 458 "lctsyntax.act"
+#line 442 "lctsyntax.act"
 
-#endif
-#line 90 "lctsyntax.h"
+
+	#endif
+
+#line 95 "lctsyntax.h"
 
 /* END OF FILE */

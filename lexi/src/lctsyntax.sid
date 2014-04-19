@@ -6,316 +6,351 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
 %types%
-BOOL;
-ENTRYP;
-IDENT ;
-BIGSTRING ;
-TYPETUPLE;
-CCODE;
+
+	BOOL;
+	ENTRYP;
+	IDENT;
+	BIGSTRING;
+	TYPETUPLE;
+	CCODE;
 
 %terminals%
 
-header-kw ;
-trailer-kw ;
-map-kw ;
-action-kw ;
-argument-kw;
+	header-kw;
+	trailer-kw;
+	map-kw;
+	action-kw;
+	argument-kw;
 
-ref;	//&
-colon;
-arrow;
-define ;  	//=
-semicolon ;	//;
-comma ;   	//,
-open ; 		//(
-close ; 	//)
+	colon;     // :
+	arrow;     // ->
+	ref;       // &
+	define;    // =
+	semicolon; //;
+	comma;     // ,
+	open;      // (
+	close;     // )
 
-code-start;	//@{
-code-end;	//@}
-lone-code-at;
-code-at;
-code-eof;
+	code-start;	// @{
+	code-end;	// @}
+	lone-code-at;
+	code-at;
+	code-eof;
 
-eof;
-ident: () -> (:IDENT);
-code-ident: () -> (:IDENT);
-code-ref: () -> (:IDENT);
-code-string : () -> (:BIGSTRING);
-!unknown ;
+	eof;
+	ident:       () -> (:IDENT);
+	code-ident:  () -> (:IDENT);
+	code-ref:    () -> (:IDENT);
+	code-string: () -> (:BIGSTRING);
+	!unknown;
 
 %productions%
 
-<true> : () -> (:BOOL) ;
-<false> : () -> (:BOOL) ;
+	<true>: () -> (:BOOL);
+	<false>: () -> (:BOOL);
 
-<empty-ident> : () -> ( : IDENT);
+	<empty-ident>: () -> ( : IDENT);
 
-<set-headers> : (:CCODE &, :CCODE&) -> ();
-<set-trailers> : (:CCODE &, :CCODE&) -> ();
+	<set-headers>:  (:CCODE &, :CCODE &) -> ();
+	<set-trailers>: (:CCODE &, :CCODE &) -> ();
 
-<init-tuple> : () -> (:TYPETUPLE);
-<append-tuple> : (:TYPETUPLE&, :IDENT, :IDENT, :BOOL) -> ();
+	<init-tuple>:   () -> (:TYPETUPLE);
+	<append-tuple>: (:TYPETUPLE &, :IDENT, :IDENT, :BOOL) -> ();
 
-<make-map> : (:IDENT, :IDENT) -> ();
+	<make-map>: (:IDENT, :IDENT) -> ();
 
-<define-action> : (:ENTRYP, :CCODE&) -> ();
-<check-action-tuples> : (:ENTRYP, :TYPETUPLE&, :TYPETUPLE&) -> ();	
-<null-entry> : () -> (:ENTRYP);
-<get-entry-action> : (:IDENT) -> (:ENTRYP);
+	<define-action>:       (:ENTRYP, :CCODE &) -> ();
+	<check-action-tuples>: (:ENTRYP, :TYPETUPLE &, :TYPETUPLE &) -> ();
+	<get-entry-action>:    (:IDENT) -> (:ENTRYP);
+	<null-entry>:          () -> (:ENTRYP);
 
+	<init-ccode>:          () -> (:CCODE);
+	<append-ccode-string>: (:CCODE &, :BIGSTRING &) -> ();
+	<append-ccode-ident>:  (:CCODE &, :IDENT, :ENTRYP, :BOOL) -> ();
+	<append-ccode-at>:     (:CCODE &) -> ();
 
-<init-ccode> : () -> (:CCODE);
-<append-ccode-string> : (:CCODE&, :BIGSTRING&) -> ();
-<append-ccode-ident> : (:CCODE&, :IDENT, :ENTRYP, :BOOL) -> ();
-<append-ccode-at> : (:CCODE&) -> ();
+	<define-additional-argument>: (:IDENT, :IDENT) -> ();
 
-<define-additional-argument> : (:IDENT, :IDENT) -> ();
+	<E-syntax-error>;
+	<E_expected_code_end>;
+	<E_expected_code_start>;
+	<E_expected_comma>;
+	<E_expected_define>;
+	<E_expected_arrow>;
+	<E_expected_colon>;
+	<E_expected_semicolon>;
+	<E_expected_ident>;
 
-<E-syntax-error> ;
-<E_expected_code_end> ;
-<E_expected_code_start> ;
-<E_expected_comma> ;
-<E_expected_define> ;
-<E_expected_arrow> ;
-<E_expected_colon> ;
-<E_expected_semicolon> ;
-<E_expected_ident>;
+	<E_unexpected_eof>;
+	<E_lone_at_in_code_block>;
 
-<E_unexpected_eof> ;
-<E_lone_at_in_code_block>;
+	code-block: (e:ENTRYP) -> (c :CCODE) [
+		code-element: (c :CCODE &, e :ENTRYP) -> () = {
+			s = code-string;
+			<append-ccode-string>(&c, &s);
+		||
+			i = code-ident;
+			b = <false>;
+			<append-ccode-ident>(&c, i, e, b);
+		||
+			i = code-ref;
+			b = <true>;
+			<append-ccode-ident>(&c, i, e, b);
+		||
+			lone-code-at;
+			<E_lone_at_in_code_block>;
+		||
+			code-at;
+			<append-ccode-at>(&c);
+		};
 
-code-block : (e:ENTRYP) -> (c:CCODE) [
-	code-element : (c:CCODE&, e:ENTRYP) -> () = {
-		s = code-string ;
-		<append-ccode-string>(&c, &s);
-	    ||	
-	    	i = code-ident;
-		b = <false>;
-		<append-ccode-ident>(&c, i, e, b);
-	    ||
-	    	i = code-ref;
-		b = <true>;
-		<append-ccode-ident>(&c, i, e, b);
-	    ||
-		lone-code-at;
-		<E_lone_at_in_code_block>;
-	    ||
-		code-at;
-		<append-ccode-at>(&c);
+		code-body: (c :CCODE &, e :ENTRYP) -> () = {
+			$;
+		||
+			code-element(&c, e);
+			code-body(&c, e);
+		};
+	] = {
+		{
+			code-start;
+		##
+			<E_expected_code_start>;
+		};
+
+		c = <init-ccode>;
+		code-body(&c, e);
+
+		{
+			$;
+		||
+			code-eof;
+			<E_unexpected_eof>;
+		};
+
+		{
+			code-end;
+		##
+			<E_expected_code_end>;
+		};
 	};
 
-	code-body : (c:CCODE&, e:ENTRYP) -> () = {
-		$;
-	    ||
-		code-element(&c, e);
-		code-body(&c, e); 
-	};
-] = {
-	{
-		code-start ;
-    	##
-		<E_expected_code_start> ;
-	} ;
-	c=<init-ccode>;
-	code-body(&c, e);
-	{
-		$ ;
-	    ||
-		code-eof ; <E_unexpected_eof> ;
-	} ;
-	{
-		code-end ;
-	    ##
-		<E_expected_code_end> ;
-	} ;
-};
+	header-stmnt: () -> () = {
+		header-kw;
+		{
+			define;
+		##
+			<E_expected_define>;
+		};
 
-header-stmnt : () -> () = {
-	header-kw ;
-	{
-		define ;
-	    ##
-		<E_expected_define> ;
-	} ;
-	e=<null-entry>;
-	sc=code-block(e);
-	{
-		comma ;
-	    ##
-		<E_expected_comma> ;
-	};
-	sh=code-block(e);
-	<set-headers>(&sc,&sh);
-	{
-		semicolon ;
-	    ##
-		<E_expected_semicolon> ;
-	} ;
-};
+		e = <null-entry>;
+		sc = code-block(e);
 
-trailer-stmnt : () -> () = {
-	trailer-kw ;
-	{
-		define ;
-	    ##
-		<E_expected_define> ;
-	} ;
-	e=<null-entry>;
-	sc = code-block(e);
-	{
-		comma ;
-	    ##
-		<E_expected_comma> ;
-	};
-	sh=code-block(e);
-	<set-trailers>(&sc,&sh);
-	{
-		semicolon ;
-	    ##
-		<E_expected_semicolon> ;
-	} ;
-};
+		{
+			comma;
+		##
+			<E_expected_comma>;
+		};
 
-map-stmnt : () -> () = {
-	map-kw ; lexitype=ident; 
-	{
-		arrow; 
-	    ##
-		<E_expected_arrow>;
-	};
-	ctype=ident; 
-	<make-map>(lexitype, ctype);
-	{
-		semicolon ;
-	    ##
-		<E_expected_semicolon> ;
-	} ;
-};
+		sh = code-block(e);
+		<set-headers>(&sc, &sh);
 
-action-definition : () -> () [ 
-	type-tuple : ( ) -> (a:TYPETUPLE) [
-		type-name : (a:TYPETUPLE&) -> () = {
-			{
-				name=ident;
-			    ||
-				name=<empty-ident>;
-			};
-			colon ;
-			type=ident;
-			{
-				isref = <false>;
-			    ||
-				ref; isref = <true>;
-			};
-			<append-tuple>(&a,name,type,isref);
-		} ;
-		type-tuple1 : (a:TYPETUPLE&) -> () = {
-			type-name(&a) ;
-		    ||
-			type-name(&a) ; comma; type-tuple1(&a) ;
-		} ; ] = {
-		open;
-		a=<init-tuple> ;
-		close;
-	    ||
-		open;
-		a=<init-tuple>;
-		type-tuple1(&a) ;
-		close;
+		{
+			semicolon;
+		##
+			<E_expected_semicolon>;
+		};
 	};
-	function-type-defn : () -> (in:TYPETUPLE,out:TYPETUPLE) = {
-		in=<init-tuple>;
-		out=<init-tuple>;
-	    ||
-		colon;
-		in=type-tuple;
+
+	trailer-stmnt: () -> () = {
+		trailer-kw;
+		{
+			define;
+		##
+			<E_expected_define>;
+		};
+
+		e = <null-entry>;
+		sc = code-block(e);
+
+		{
+			comma;
+		##
+			<E_expected_comma>;
+		};
+
+		sh = code-block(e);
+		<set-trailers>(&sc, &sh);
+
+		{
+			semicolon;
+		##
+			<E_expected_semicolon>;
+		};
+	};
+
+	map-stmnt: () -> () = {
+		map-kw;
+		lexitype = ident;
 		{
 			arrow;
-		    ##
+		##
 			<E_expected_arrow>;
 		};
-		out=type-tuple;
-	};
-	] = {
-	action-kw; 
-	{
-		nm = ident; 
-	    ##
-		nm = <empty-ident>;
-		<E_expected_ident>;
-	};
-	(in, out) = function-type-defn ;
-	{
-		define ; 
-	    ##
-		<E_expected_define>;
-	};
 
-	ea = <get-entry-action>(nm);
-	<check-action-tuples>(ea, &in, &out);
-	c = code-block(ea);
-	<define-action>(ea, &c);
-	{
-		semicolon ;
-	    ##
-		<E_expected_semicolon> ;
-	} ;
-};
-
-argument-stmnt : () -> () = {
-	argument-kw; 
-	{
-		name = ident;
-	    ##
-		name = <empty-ident>;
-		<E_expected_ident>;
-	};
-	{
-		colon ;
-	    ##
-		<E_expected_colon>;
-	};
-	{
 		ctype = ident;
-	    ##
-		ctype = <empty-ident>;
-		<E_expected_ident>;
+		<make-map>(lexitype, ctype);
+
+		{
+			semicolon;
+		##
+			<E_expected_semicolon>;
+		};
 	};
-	<define-additional-argument>(name, ctype);	
-	{
-		semicolon ; 
-	    ##
-		<E_expected_semicolon>;
+
+	action-definition: () -> () [
+
+		type-tuple: ( ) -> (a :TYPETUPLE) [
+
+			type-name: (a :TYPETUPLE &) -> () = {
+				{
+					n = ident;
+				||
+					n = <empty-ident>;
+				};
+
+				colon;
+				t = ident;
+
+				{
+					isref = <false>;
+				||
+					ref;
+					isref = <true>;
+				};
+
+				<append-tuple>(&a, n, t, isref);
+			};
+
+			type-tuple1: (a :TYPETUPLE &) -> () = {
+				type-name(&a);
+			||
+				type-name(&a);
+				comma;
+				type-tuple1(&a);
+			};
+
+		] = {
+			open;
+			a = <init-tuple>;
+			close;
+		||
+			open;
+			a = <init-tuple>;
+			type-tuple1(&a);
+			close;
+		};
+
+		function-type-defn: () -> (in :TYPETUPLE, out :TYPETUPLE) = {
+			in  = <init-tuple>;
+			out = <init-tuple>;
+		||
+			colon;
+			in = type-tuple;
+			{
+				arrow;
+			##
+				<E_expected_arrow>;
+			};
+			out = type-tuple;
+		};
+	] = {
+
+		action-kw;
+		{
+			n = ident;
+		##
+			n = <empty-ident>;
+			<E_expected_ident>;
+		};
+
+		(in, out) = function-type-defn;
+
+		{
+			define;
+		##
+			<E_expected_define>;
+		};
+
+		ea = <get-entry-action>(n);
+		<check-action-tuples>(ea, &in, &out);
+		c = code-block(ea);
+		<define-action>(ea, &c);
+
+		{
+			semicolon;
+		##
+			<E_expected_semicolon>;
+		};
 	};
-};
+
+	argument-stmnt: () -> () = {
+		argument-kw;
+		{
+			name = ident;
+		##
+			name = <empty-ident>;
+			<E_expected_ident>;
+		};
+
+		{
+			colon;
+		##
+			<E_expected_colon>;
+		};
+
+		{
+			ctype = ident;
+		##
+			ctype = <empty-ident>;
+			<E_expected_ident>;
+		};
+
+		<define-additional-argument>(name, ctype);
+		{
+			semicolon;
+		##
+			<E_expected_semicolon>;
+		};
+	};
 
 
-statement : () -> () = {
-	header-stmnt;
-    ||
-	trailer-stmnt;
-    ||
-	action-definition;
-    ||
-	map-stmnt;
-    ||
-	argument-stmnt;
-};
+	statement: () -> () = {
+		header-stmnt;
+	||
+		trailer-stmnt;
+	||
+		action-definition;
+	||
+		map-stmnt;
+	||
+		argument-stmnt;
+	};
 
-statement-list : () -> () = {
-	$;
-    ||
-	statement; statement-list;
-};
+	statement-list: () -> () = {
+		$;
+	||
+		statement; statement-list;
+	};
 
-lct-unit : () -> () = {
-	statement-list;
-	eof;
-    ##
-	<E-syntax-error> ;
-};
+	lct-unit: () -> () = {
+		statement-list;
+		eof;
+	##
+		<E-syntax-error>;
+	};
 
-%entry% 
-lct-unit ;
+%entry%
+
+	lct-unit;
+
