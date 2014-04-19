@@ -27,6 +27,7 @@
 #include <adt/action.h>
 #include <adt/entry.h>
 #include <adt/char.h>
+#include <adt/arg.h>
 #include <adt/cmd.h>
 #include <adt/keyword.h>
 #include <adt/type.h>

@@ -4,6 +4,7 @@
 
 
 SRCS+=	action.c
+SRCS+=	arg.c
 SRCS+=	char.c
 SRCS+=	cmd.c
 SRCS+=	entry.c

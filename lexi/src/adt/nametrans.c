@@ -6,13 +6,14 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
-#include <adt/cmd.h>
+#include <adt/arg.h>
 #include <adt/typetuple.h>
 #include <adt/nametrans.h>
 
