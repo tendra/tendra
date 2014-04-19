@@ -24,7 +24,7 @@ struct options;
  * distinctions clear.
  */
 void
-dot_output_all(struct options *opt, struct ast *ast);
+dot_out_all(struct options *opt, struct ast *ast);
 
 #endif
 

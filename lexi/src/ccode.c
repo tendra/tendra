@@ -128,7 +128,7 @@ void ccode_destroy(struct CcodeT *c)
 }
 
 static void
-ccodeitem_output(FILE *file, struct CcodeItemT *ccode_item, struct NameTransT *trans, int d)
+ccodeitem_out(FILE *file, struct CcodeItemT *ccode_item, struct NameTransT *trans, int d)
 {
 	char *s;
 	struct arg *to;
@@ -145,12 +145,12 @@ ccodeitem_output(FILE *file, struct CcodeItemT *ccode_item, struct NameTransT *t
 
 		case Ccode_identifier:
 			to = nametrans_translate(trans, ccodeitem_name(ccode_item));
-			arg_output(to, false, d, file);
+			arg_out(to, false, d, file);
 			break;
 
 		case Ccode_reference:
 			to = nametrans_translate(trans, ccodeitem_name(ccode_item));
-			arg_output(to, true, d,file);
+			arg_out(to, true, d,file);
 			break;
 /* XXX:
 			fprintf(file,"/" "* Not implemented yet: Identifier @s. Have to recover passing name. *" "/", s);
@@ -161,11 +161,11 @@ ccodeitem_output(FILE *file, struct CcodeItemT *ccode_item, struct NameTransT *t
 }
 
 void
-ccode_output(FILE *file, struct CcodeT *ccode, struct NameTransT *trans, int d)
+ccode_out(FILE *file, struct CcodeT *ccode, struct NameTransT *trans, int d)
 {
 	struct CcodeItemT *it;
 	for (it = ccode->head; it != NULL; it = it->next) {
-		ccodeitem_output(file, it, trans, d);
+		ccodeitem_out(file, it, trans, d);
 	}
 }
 

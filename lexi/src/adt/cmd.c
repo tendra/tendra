@@ -90,7 +90,7 @@ add_none(void)
 }
 
 void
-arg_output(struct arg *p, bool is_ref, int d, FILE *file)
+arg_out(struct arg *p, bool is_ref, int d, FILE *file)
 {
 	switch (p->type) {
 	case arg_charP:

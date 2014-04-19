@@ -104,42 +104,42 @@ int
 main(int argc, char **argv)
 {
 	struct ast *ast;
-	struct outputs *output;
+	struct out *out;
 	int i;
 
-	struct outputs {
-		const char *language;
-		const signed int inputfiles;
-		const signed int outputfiles;
-		void (*output_all)(struct options *, struct ast *);
+	struct out {
+		const char *lang;
+		const signed int infiles;
+		const signed int outfiles;
+		void (*out_all)(struct options *, struct ast *);
 		const char *options;
-	} outputs[] = {
+	} outs[] = {
 #define COMMON "C:t:l:p:i:vh"
-		{ "C90",  2, 2, c_output_all,   COMMON "a" },
-		{ "C99",  2, 2, c_output_all,   COMMON "a" },
-		{ "Dot",  1, 1, dot_output_all, COMMON     },
-		{ "test", 1, 0, NULL,           COMMON     },
+		{ "C90",  2, 2, c_out_all,   COMMON "a" },
+		{ "C99",  2, 2, c_out_all,   COMMON "a" },
+		{ "Dot",  1, 1, dot_out_all, COMMON     },
+		{ "test", 1, 0, NULL,        COMMON     },
 #undef COMMON
 	};
 
  	options_init(&opt);
 
 	/* default to C90 output */
-	output = &outputs[0];
+	out = &outs[0];
 
 	set_progname(argv [0], "2.0");
 
 	{
 		int c;
 
-		while (c = getopt(argc, argv, output->options), c != -1) {
+		while (c = getopt(argc, argv, out->options), c != -1) {
 			switch(c) {
 			case 'l': {
 				int i;
 
-				for (i = sizeof outputs / sizeof *outputs - 1; i >= 0; i--) {
-					if (0 == strcasecmp(optarg, outputs[i].language)) {
-						output = &outputs[i];
+				for (i = sizeof outs / sizeof *outs - 1; i >= 0; i--) {
+					if (0 == strcasecmp(optarg, outs[i].lang)) {
+						out = &outs[i];
 						break;
 					}
 				}
@@ -181,17 +181,17 @@ main(int argc, char **argv)
 	 * This is carried through for output routines shared between multiple
 	 * languages to inspect, should they need to.
 	 */
-	opt.language = output->language;
+	opt.lang = out->lang;
 
 	/* Check arguments (+1 for input file) */
-	if (argc < output->outputfiles + output->inputfiles) {
+	if (argc < out->outfiles + out->infiles) {
 		report_usage();
 		error(ERROR_FATAL, "Not enough arguments");
 		/* TODO resolve - here, and pass FILE * to process_lxi_file();
 		 * we can permit argc < 1 for stdin */
 	}
 
-	if (argc > output->outputfiles + output->inputfiles) {
+	if (argc > out->outfiles + out->infiles) {
 		report_usage();
 		error(ERROR_FATAL, "Too many arguments");
 	}
@@ -200,11 +200,11 @@ main(int argc, char **argv)
 	 * Open each relevant file for output. Note that argv[0]
 	 * contains the input file.
 	 */
-	for (i = 0; i < output->outputfiles; i++) {
-		opt.output[i].name = argv[i + output->inputfiles];
-		opt.output[i].file = open_filestream(argv[i + output->inputfiles]);
+	for (i = 0; i < out->outfiles; i++) {
+		opt.out[i].name = argv[i + out->infiles];
+		opt.out[i].file = open_filestream(argv[i + out->infiles]);
 
-		if (!opt.output[i].file) {
+		if (!opt.out[i].file) {
 			error(ERROR_FATAL, "Can't open output file, %s", argv[i + 1]);
 			/* TODO perror for cases like this */
 			return EXIT_FAILURE;
@@ -226,7 +226,7 @@ main(int argc, char **argv)
 		return exit_status;
 	}
 
-	if (output->inputfiles > 1) {
+	if (out->infiles > 1) {
 		process_lct_file(ast, argv[1]);
 	}
 
@@ -240,16 +240,16 @@ main(int argc, char **argv)
 		tree_get_globalzone(ast)->white_space = make_group(tree_get_globalzone(ast), "white", " \t\n");
 	}
 
-	if (output->output_all!=NULL) {
-		output->output_all(&opt, ast);
+	if (out->out_all != NULL) {
+		out->out_all(&opt, ast);
 	}
 
-	for (i = 0; i < output->outputfiles; i++) {
-		if (opt.output[i].file == NULL) {
+	for (i = 0; i < out->outfiles; i++) {
+		if (opt.out[i].file == NULL) {
 			continue;
 		}
 
-		fclose(opt.output[i].file);
+		fclose(opt.out[i].file);
 	}
 
 	return exit_status;

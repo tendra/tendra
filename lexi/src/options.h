@@ -19,7 +19,7 @@ struct options {
 	 * possibilities here.
 	 */
 	/* TODO: this ought to be an enum */
-	const char *language;
+	const char *lang;
 
 	/*
 	 * TODO These are language-specific options; they should be elsewhere
@@ -44,7 +44,7 @@ struct options {
 	struct {
 		const char *name;
 		FILE *file;
-	} output[2];
+	} out[2];
 };
 
 extern void options_init(struct options *);

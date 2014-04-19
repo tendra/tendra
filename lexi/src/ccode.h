@@ -40,7 +40,7 @@ void ccode_append_ident(struct CcodeT *, NStringT *);
 void ccode_append_ref(struct CcodeT *ccode, NStringT *i);
 void ccode_append_string(struct CcodeT *, NStringT *);
 void ccode_destroy(struct CcodeT *c);
-void ccode_output(FILE *, struct CcodeT *, struct NameTransT *, int);
+void ccode_out(FILE *, struct CcodeT *, struct NameTransT *, int);
 
 #endif
 

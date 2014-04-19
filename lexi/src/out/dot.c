@@ -23,7 +23,7 @@
 #include "options.h"
 
 /* This is a convenience for brevity */
-#define dotout opt->output[0].file
+#define dotout opt->out[0].file
 
 /*
  * Yield a string representing a quoted character. Characters are quoted
@@ -64,7 +64,7 @@ quote_char(int c)
  * its type according to tree_get_translation().
  */
 static void
-output_node(struct ast *ast, struct character *p, struct options *opt) {
+out_node(struct ast *ast, struct character *p, struct options *opt) {
 	/* node value */
 	{
 		fprintf(dotout, "\t\tc%p [ ", (void *) p);
@@ -130,7 +130,7 @@ pass(void *prev, struct character *p, struct ast *ast, struct options *opt) {
 	struct character *q;
 
 	for (q = p; q != NULL; q = q->opt) {
-		output_node(ast, q, opt);
+		out_node(ast, q, opt);
 
 		fprintf(dotout, "\t\tc%p -> c%p [ dir=none ];\n", prev, (void *) q);
 
@@ -144,7 +144,7 @@ pass(void *prev, struct character *p, struct ast *ast, struct options *opt) {
 }
 
 static void
-output_zone(struct options *opt, struct ast *ast, struct zone *z)
+out_zone(struct options *opt, struct ast *ast, struct zone *z)
 {
 	struct zone *p;
 
@@ -166,25 +166,27 @@ output_zone(struct options *opt, struct ast *ast, struct zone *z)
 		pass(p, p->main, ast, opt);
 
 		if (p->next != NULL) {
-			output_zone(opt, ast, p->next);
+			out_zone(opt, ast, p->next);
 		}
 	}
 
 	fprintf(dotout, "\t}\n");
 }
 
-void dot_output_all(struct options *opt, struct ast *ast) {
+void
+dot_out_all(struct options *opt, struct ast *ast)
+{
 	assert(opt != NULL);
 	assert(ast != NULL);
 
-	output_generated_by_lexi(OUTPUT_COMMENT_C90, dotout);
+	out_generated_by_lexi(OUT_COMMENT_C90, dotout);
 
 	fprintf(dotout, "digraph G {\n");
 	fprintf(dotout, "\tnode [ shape=circle, fontname=verdana ];\n");
 	fprintf(dotout, "\trankdir = LR;\n");
 
 	/* TODO output each child zone, not just siblings (nest as subgraphs) */
-	output_zone(opt, ast, tree_get_globalzone(ast));
+	out_zone(opt, ast, tree_get_globalzone(ast));
 
 	fprintf(dotout, "};\n");
 }

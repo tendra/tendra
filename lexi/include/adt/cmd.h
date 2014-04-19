@@ -87,7 +87,7 @@ struct arg *add_ident(char *);
 struct arg *add_ref(char *);
 struct arg *add_terminal(char *);
 struct arg *add_none(void);
-void arg_output(struct arg *, bool, int, FILE *);
+void arg_out(struct arg *, bool, int, FILE *);
 struct args_list *add_args_list(void);
 
 struct cmd *add_cmd_return(char *name);

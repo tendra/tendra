@@ -27,7 +27,7 @@ struct options;
  * is expected to be either C90 or C99.
  */
 void
-c_output_all(struct options *opt, struct ast *ast);
+c_out_all(struct options *opt, struct ast *ast);
 
 #endif
 
