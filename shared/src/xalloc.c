@@ -130,7 +130,6 @@ xrealloc(void *p, size_t sz)
 void
 xfree(void *p)
 {
-	/* safe a function call if p is NULL */
-	if (p)
-		free(p);
+	free(p);
 }
+
