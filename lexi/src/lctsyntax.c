@@ -201,7 +201,7 @@ ZRaction_Hdefinition_C_Ctype_Htuple_C_Ctype_Hname(typetuple *ZIa)
 		if (et== NULL) {
 			 char* pt = nstring_to_cstring((&ZIt));
 			 error(ERROR_SERIOUS, "Unknown type %s", pt);
-			 DEALLOCATE(pt);
+			 xfree(pt);
 			 nstring_destroy((&ZIn));
 			 nstring_destroy((&ZIt));
 		}
@@ -332,7 +332,7 @@ ZRcode_Hblock_C_Ccode_Helement(ccode *ZIc, EntryP ZIe)
 					if (p && p->is_ref) {
 						ccode_append_ref((ZIc), (&ZIi));
 					} else {
-					error(ERROR_SERIOUS, "In code block the \'@&\' can only be used for input parameters that are references");
+						error(ERROR_SERIOUS, "In code block the \'@&\' can only be used for input parameters that are references");
 					}
 				}
 			} else {
@@ -341,10 +341,10 @@ ZRcode_Hblock_C_Ccode_Helement(ccode *ZIc, EntryP ZIe)
 				pi = nstring_to_cstring((&ZIi));
 				nstring_destroy((&ZIi));
 				pe = nstring_to_cstring(entry_key((ZIe)));
-			error(ERROR_SERIOUS, "Identifier @%s is neither an input nor an output "
+				error(ERROR_SERIOUS, "Identifier @%s is neither an input nor an output "
 							 "parameter of action %s", pi, pe );
-				DEALLOCATE(pi);
-				DEALLOCATE(pe);
+				xfree(pi);
+				xfree(pe);
 			}
 		} else {
 		error(ERROR_SERIOUS, "The @ code identifiers are not allowed in headers or trailers");
@@ -393,7 +393,7 @@ ZRcode_Hblock_C_Ccode_Helement(ccode *ZIc, EntryP ZIe)
 					if (p && p->is_ref) {
 						ccode_append_ref((ZIc), (&ZIi));
 					} else {
-					error(ERROR_SERIOUS, "In code block the \'@&\' can only be used for input parameters that are references");
+						error(ERROR_SERIOUS, "In code block the \'@&\' can only be used for input parameters that are references");
 					}
 				}
 			} else {
@@ -402,10 +402,10 @@ ZRcode_Hblock_C_Ccode_Helement(ccode *ZIc, EntryP ZIe)
 				pi = nstring_to_cstring((&ZIi));
 				nstring_destroy((&ZIi));
 				pe = nstring_to_cstring(entry_key((ZIe)));
-			error(ERROR_SERIOUS, "Identifier @%s is neither an input nor an output "
+				error(ERROR_SERIOUS, "Identifier @%s is neither an input nor an output "
 							 "parameter of action %s", pi, pe );
-				DEALLOCATE(pi);
-				DEALLOCATE(pe);
+				xfree(pi);
+				xfree(pe);
 			}
 		} else {
 		error(ERROR_SERIOUS, "The @ code identifiers are not allowed in headers or trailers");
@@ -1141,12 +1141,12 @@ ZRaction_Hdefinition(void)
 				(ZIea)=NULL; /*TODO skip to end of action */
 				pi = nstring_to_cstring((&ZIn));
 			error(ERROR_SERIOUS, "%s is not an action", pi);
-				DEALLOCATE(pi);
+				xfree(pi);
 			}
 		} else {
 			char* pi = nstring_to_cstring((&ZIn));
 		error(ERROR_SERIOUS, "Defining an undeclared action: %s", pi);
-			DEALLOCATE(pi);
+			xfree(pi);
 		}
 		nstring_destroy((&ZIn));
 	
@@ -1165,11 +1165,11 @@ ZRaction_Hdefinition(void)
 			if (typetuple_length(action_get_inputs(act)) != typetuple_length((&ZIin))) {
 				char *pe = nstring_to_cstring(entry_key((ZIea)));
 				error(ERROR_SERIOUS, "Action %s declared with an incompatible number of inputs", pe);
-				DEALLOCATE(pe);
+				xfree(pe);
 			} else if (!typetuple_match(action_get_inputs(act), (&ZIin))) {
 				char *pe = nstring_to_cstring(entry_key((ZIea)));
 				error(ERROR_SERIOUS, "params do not match for action %s", pe);
-				DEALLOCATE(pe);
+				xfree(pe);
 			} else {
 				int allhavenames = typetuple_assign_names(action_get_inputs(act), (&ZIin));
 				if (!allhavenames) {
@@ -1180,17 +1180,17 @@ ZRaction_Hdefinition(void)
 			if (typetuple_length(action_get_outputs(act)) != typetuple_length((&ZIout))) {
 				char *pe = nstring_to_cstring(entry_key((ZIea)));
 				error(ERROR_SERIOUS, "Action %s declared with an incompatible number of outputs", pe);
-				DEALLOCATE(pe);
+				xfree(pe);
 			} else if (!typetuple_match(action_get_outputs(act), (&ZIout))) {
 				char *pe = nstring_to_cstring(entry_key((ZIea)));
 				error(ERROR_SERIOUS, "results do not match for action %s", pe);
-				DEALLOCATE(pe);
+				xfree(pe);
 			} else {
 				int allhavenames = typetuple_assign_names(action_get_outputs(act), (&ZIout));
 				if (!allhavenames) {
 					char *pe = nstring_to_cstring(entry_key((ZIea)));
 					error(ERROR_SERIOUS, "outputs tuples in the definition of action %s should have names", pe);
-					DEALLOCATE(pe);
+					xfree(pe);
 				}
 			}
 		}
@@ -1218,7 +1218,7 @@ ZRaction_Hdefinition(void)
 			} else {
 				char *pe = nstring_to_cstring(entry_key((ZIea)));
 				error(ERROR_SERIOUS, "Action %s has already been defined", pe);
-				DEALLOCATE(pe);
+				xfree(pe);
 			}
 		} else {
 			ccode_destroy((&ZIc));

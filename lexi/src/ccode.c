@@ -9,6 +9,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include <shared/xalloc.h>
+
 #include <exds/common.h>
 #include <exds/exception.h>
 #include <exds/dalloc.h>
@@ -23,7 +25,7 @@ ccodeitem_create(enum CcodeItemTypeT item_type)
 {
 	struct CcodeItemT *ccode_item;
 
-	ccode_item = ALLOCATE(struct CcodeItemT);
+	ccode_item = xmalloc(sizeof *ccode_item);
 	ccode_item->item_type=item_type;
 	ccode_item->next=NULL;
 
@@ -49,7 +51,7 @@ ccodeitem_destroy(struct CcodeItemT *ccode_item)
 		;
 	}
 
-	DEALLOCATE(ccode_item);
+	xfree(ccode_item);
 }
 
 void
@@ -140,7 +142,7 @@ ccodeitem_out(FILE *file, struct CcodeItemT *ccode_item, struct NameTransT *tran
 		case Ccode_string:
 			s = nstring_to_cstring(ccodeitem_name(ccode_item));
 			fputs(s, file);
-			DEALLOCATE(s)
+			xfree(s);
 			break;
 
 		case Ccode_identifier:
@@ -154,7 +156,7 @@ ccodeitem_out(FILE *file, struct CcodeItemT *ccode_item, struct NameTransT *tran
 			break;
 /* XXX:
 			fprintf(file,"/" "* Not implemented yet: Identifier @s. Have to recover passing name. *" "/", s);
-			DEALLOCATE(s)
+			xfree(s)
 */
 			break;
 	}

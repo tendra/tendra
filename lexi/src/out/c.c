@@ -242,7 +242,7 @@ out_locals(struct LocalNamesT *locals, unsigned int d, FILE *lex_out)
 		out_indent(lex_out, d);
 		fprintf(lex_out,"%s%s %s%s;\n", prefixtype, st, prefixvar, s);
 
-		DEALLOCATE(st);
+		xfree(st);
 	}
 
 	xfree(s);
@@ -313,7 +313,7 @@ out_action(FILE *lex_out, struct ast *ast,
 		/*TODO We should catch this error before beginning output */
 		char* pe=nstring_to_cstring(entry_key(ea));
 		error(ERROR_SERIOUS, "Action %s is used but undefined", pe);
-		DEALLOCATE(pe);
+		xfree(pe);
 	}
 
 	d--;

@@ -931,21 +931,21 @@ ZRcmd_Hlist(zoneP ZI198, cmd_listP *ZO203)
 								break;
 							}
 							error(ERROR_SERIOUS, "In call to action %s, argument \'%s%s\' has type \'%s%s\' when it should have type %s", s1, s6, s7, s2, s3, s4, s5);
-							DEALLOCATE(s1);
-							DEALLOCATE(s2);
-							DEALLOCATE(s4);
+							xfree(s1);
+							xfree(s2);
+							xfree(s4);
 						}
 					}
 				}
 				if (p!=NULL) {
 					char* s = nstring_to_cstring(entry_key(ea));
 					error(ERROR_SERIOUS, "In call to action %s, too many arguments", s);
-					DEALLOCATE(s);
+					xfree(s);
 				}
 				if (q!=NULL) {
 					char* s = nstring_to_cstring(entry_key(ea));
 					error(ERROR_SERIOUS, "In call to action %s, not enough arguments", s);
-					DEALLOCATE(s);
+					xfree(s);
 				}
 
 				for (p = lhs->head, q = act->out.head; p!=NULL && q!=NULL; p=p->next, q=q->next) {
@@ -972,7 +972,7 @@ ZRcmd_Hlist(zoneP ZI198, cmd_listP *ZO203)
 								if (p->is_ref) {
 									char* s = nstring_to_cstring(entry_key(ea));
 									error(ERROR_SERIOUS, "In action call %s, you can only use references %s for preexisting variables", s, p->u.literal);
-									DEALLOCATE(s);
+									xfree(s);
 								}
 							} else {
 								nstring_destroy(&str);
@@ -980,7 +980,7 @@ ZRcmd_Hlist(zoneP ZI198, cmd_listP *ZO203)
 									char* s = nstring_to_cstring(entry_key(ea));
 									error(ERROR_SERIOUS, "In action call %s, name %s already declared. Use references to change the value of an already existing variable", s, p->u.literal);
 									et=q->et; /* To avoid outputting that error more than once*/
-									DEALLOCATE(s);
+									xfree(s);
 								}
 							}
 						}
@@ -1019,12 +1019,12 @@ ZRcmd_Hlist(zoneP ZI198, cmd_listP *ZO203)
 				if (p!=NULL) {
 					char* s = nstring_to_cstring(entry_key(ea));
 					error(ERROR_SERIOUS, "In call to action %s, too many results", s);
-					DEALLOCATE(s);
+					xfree(s);
 				}
 				if (q!=NULL) {
 					char* s = nstring_to_cstring(entry_key(ea));
 					error(ERROR_SERIOUS, "In call to action %s, not enough results", s);
-					DEALLOCATE(s);
+					xfree(s);
 				}
 			}
 			/* TODO only append if no error */
@@ -1675,21 +1675,21 @@ ZL2_204:;
 								break;
 							}
 							error(ERROR_SERIOUS, "In call to action %s, argument \'%s%s\' has type \'%s%s\' when it should have type %s", s1, s6, s7, s2, s3, s4, s5);
-							DEALLOCATE(s1);
-							DEALLOCATE(s2);
-							DEALLOCATE(s4);
+							xfree(s1);
+							xfree(s2);
+							xfree(s4);
 						}
 					}
 				}
 				if (p!=NULL) {
 					char* s = nstring_to_cstring(entry_key(ea));
 					error(ERROR_SERIOUS, "In call to action %s, too many arguments", s);
-					DEALLOCATE(s);
+					xfree(s);
 				}
 				if (q!=NULL) {
 					char* s = nstring_to_cstring(entry_key(ea));
 					error(ERROR_SERIOUS, "In call to action %s, not enough arguments", s);
-					DEALLOCATE(s);
+					xfree(s);
 				}
 
 				for (p = lhs->head, q = act->out.head; p!=NULL && q!=NULL; p=p->next, q=q->next) {
@@ -1716,7 +1716,7 @@ ZL2_204:;
 								if (p->is_ref) {
 									char* s = nstring_to_cstring(entry_key(ea));
 									error(ERROR_SERIOUS, "In action call %s, you can only use references %s for preexisting variables", s, p->u.literal);
-									DEALLOCATE(s);
+									xfree(s);
 								}
 							} else {
 								nstring_destroy(&str);
@@ -1724,7 +1724,7 @@ ZL2_204:;
 									char* s = nstring_to_cstring(entry_key(ea));
 									error(ERROR_SERIOUS, "In action call %s, name %s already declared. Use references to change the value of an already existing variable", s, p->u.literal);
 									et=q->et; /* To avoid outputting that error more than once*/
-									DEALLOCATE(s);
+									xfree(s);
 								}
 							}
 						}
@@ -1763,12 +1763,12 @@ ZL2_204:;
 				if (p!=NULL) {
 					char* s = nstring_to_cstring(entry_key(ea));
 					error(ERROR_SERIOUS, "In call to action %s, too many results", s);
-					DEALLOCATE(s);
+					xfree(s);
 				}
 				if (q!=NULL) {
 					char* s = nstring_to_cstring(entry_key(ea));
 					error(ERROR_SERIOUS, "In call to action %s, not enough results", s);
-					DEALLOCATE(s);
+					xfree(s);
 				}
 			}
 			/* TODO only append if no error */

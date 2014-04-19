@@ -201,7 +201,7 @@
 					if (p && p->is_ref) {
 						ccode_append_ref(@&c, @&i);
 					} else {
-					error(ERROR_SERIOUS, "In code block the \'@@&\' can only be used for input parameters that are references");
+						error(ERROR_SERIOUS, "In code block the \'@@&\' can only be used for input parameters that are references");
 					}
 				}
 			} else {
@@ -210,10 +210,10 @@
 				pi = nstring_to_cstring(@&i);
 				nstring_destroy(@&i);
 				pe = nstring_to_cstring(entry_key(@e));
-			error(ERROR_SERIOUS, "Identifier @@%s is neither an input nor an output "
+				error(ERROR_SERIOUS, "Identifier @@%s is neither an input nor an output "
 							 "parameter of action %s", pi, pe );
-				DEALLOCATE(pi);
-				DEALLOCATE(pe);
+				xfree(pi);
+				xfree(pe);
 			}
 		} else {
 		error(ERROR_SERIOUS, "The @@ code identifiers are not allowed in headers or trailers");
@@ -275,7 +275,7 @@
 		if (et== NULL) {
 			 char* pt = nstring_to_cstring(@&type);
 			 error(ERROR_SERIOUS, "Unknown type %s", pt);
-			 DEALLOCATE(pt);
+			 xfree(pt);
 			 nstring_destroy(@&id);
 			 nstring_destroy(@&type);
 		}
@@ -315,12 +315,12 @@
 				@ea=NULL; /*TODO skip to end of action */
 				pi = nstring_to_cstring(@&i);
 			error(ERROR_SERIOUS, "%s is not an action", pi);
-				DEALLOCATE(pi);
+				xfree(pi);
 			}
 		} else {
 			char* pi = nstring_to_cstring(@&i);
 		error(ERROR_SERIOUS, "Defining an undeclared action: %s", pi);
-			DEALLOCATE(pi);
+			xfree(pi);
 		}
 		nstring_destroy(@&i);
 	@};
@@ -338,11 +338,11 @@
 			if (typetuple_length(action_get_inputs(act)) != typetuple_length(@&in)) {
 				char *pe = nstring_to_cstring(entry_key(@e));
 				error(ERROR_SERIOUS, "Action %s declared with an incompatible number of inputs", pe);
-				DEALLOCATE(pe);
+				xfree(pe);
 			} else if (!typetuple_match(action_get_inputs(act), @&in)) {
 				char *pe = nstring_to_cstring(entry_key(@e));
 				error(ERROR_SERIOUS, "params do not match for action %s", pe);
-				DEALLOCATE(pe);
+				xfree(pe);
 			} else {
 				int allhavenames = typetuple_assign_names(action_get_inputs(act), @&in);
 				if (!allhavenames) {
@@ -353,17 +353,17 @@
 			if (typetuple_length(action_get_outputs(act)) != typetuple_length(@&out)) {
 				char *pe = nstring_to_cstring(entry_key(@e));
 				error(ERROR_SERIOUS, "Action %s declared with an incompatible number of outputs", pe);
-				DEALLOCATE(pe);
+				xfree(pe);
 			} else if (!typetuple_match(action_get_outputs(act), @&out)) {
 				char *pe = nstring_to_cstring(entry_key(@e));
 				error(ERROR_SERIOUS, "results do not match for action %s", pe);
-				DEALLOCATE(pe);
+				xfree(pe);
 			} else {
 				int allhavenames = typetuple_assign_names(action_get_outputs(act), @&out);
 				if (!allhavenames) {
 					char *pe = nstring_to_cstring(entry_key(@e));
 					error(ERROR_SERIOUS, "outputs tuples in the definition of action %s should have names", pe);
-					DEALLOCATE(pe);
+					xfree(pe);
 				}
 			}
 		}
@@ -381,7 +381,7 @@
 			} else {
 				char *pe = nstring_to_cstring(entry_key(@ea));
 				error(ERROR_SERIOUS, "Action %s has already been defined", pe);
-				DEALLOCATE(pe);
+				xfree(pe);
 			}
 		} else {
 			ccode_destroy(@&c);
