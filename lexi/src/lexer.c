@@ -42,7 +42,7 @@
 	 * These variables are used by the parser to hold the current and former
 	 * lexical tokens.
 	 */
-	int crt_lex_token;
+	int curr_lex_token;
 	int saved_lex_token;
 
 	#define lexi_unknown_token lex_unknown

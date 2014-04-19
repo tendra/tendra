@@ -55,7 +55,7 @@ add_cmd_action(struct entry *ea, struct args_list *lhs, struct args_list *rhs)
 	struct cmd *p;
 
 	p = new_cmd(CMD_ACTION);
-	p->u.act.called_act = ea;
+	p->u.act.ea  = ea;
 	p->u.act.rhs = rhs;
 	p->u.act.lhs = lhs;
 
@@ -63,7 +63,7 @@ add_cmd_action(struct entry *ea, struct args_list *lhs, struct args_list *rhs)
 }
 
 struct cmd *
-add_cmd_pushzone(struct zone *z)
+add_cmd_push_zone(struct zone *z)
 {
 	struct cmd *p;
 
@@ -75,7 +75,7 @@ add_cmd_pushzone(struct zone *z)
 }
 
 struct cmd *
-add_cmd_popzone(struct zone *z, int is_endmarker_in_zone)
+add_cmd_pop_zone(struct zone *z, int is_endmarker_in_zone)
 {
 	struct cmd *p;
 
@@ -95,7 +95,7 @@ new_cmd_list(void)
 	p->head = NULL;
 	p->tail = &p->head;
 	p->size = 0;
-	p->nb_return = 0;
+	p->return_count = 0;
 
 	localnames_init(&p->local_names);
 

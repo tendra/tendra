@@ -39,7 +39,7 @@ struct arg {
 struct args_list {
 	struct arg  *head;
 	struct arg **tail;
-	int nb_return;
+	int return_count;
 };
 
 struct arg *add_arg(enum arg_kind, unsigned int);

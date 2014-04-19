@@ -22,17 +22,17 @@
 	typedef FILE *FILE_P_lct;
 
 	extern char lct_tokbuf[];
-	int crt_lct_token;
+	int curr_lct_token;
 	int saved_lct_token;
 	struct lct_ast lct_ast;
 
 	struct lexi_lct_state lct_lexer_state;
 	NStringT lct_token_nstring;
 
-	#define CURRENT_LCT_TERMINAL crt_lct_token
-	#define ADVANCE_LCT_LEXER    crt_lct_token = lexi_lct_read_token(&lct_lexer_state)
-	#define SAVE_LCT_LEXER(T)    (saved_lct_token = crt_lct_token, crt_lct_token = (T))
-	#define RESTORE_LCT_LEXER    (crt_lct_token = saved_lct_token)
+	#define CURRENT_LCT_TERMINAL curr_lct_token
+	#define ADVANCE_LCT_LEXER    curr_lct_token = lexi_lct_read_token(&lct_lexer_state)
+	#define SAVE_LCT_LEXER(T)    (saved_lct_token = curr_lct_token, curr_lct_token = (T))
+	#define RESTORE_LCT_LEXER    (curr_lct_token = saved_lct_token)
 
 #include <stdbool.h>
 

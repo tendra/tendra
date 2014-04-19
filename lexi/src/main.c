@@ -60,19 +60,19 @@ process_lxi_file(char *path, struct ast *ast)
 }
 
 static void
-process_lct_file(struct ast *ast, char* fn)
+process_lct_file(struct ast *ast, char *path)
 {
 	FILE *lct_file;
 
 	crt_line_no = 1;
 
-	lct_file = fopen(fn, "r");
+	lct_file = fopen(path, "r");
 	if (lct_file == NULL) {
-		error(ERROR_SERIOUS, "Can't open input file, '%s'", fn);
+		error(ERROR_SERIOUS, "Can't open input file, '%s'", path);
 		return;
 	}
 
-	crt_file_name = fn;
+	crt_file_name = path;
 	init_lct_ast(&lct_ast);
 	lexi_lct_init(&lct_lexer_state, lct_file);
 
@@ -214,10 +214,10 @@ main(int argc, char **argv)
 	/* Process input file */
 	ast = init_ast();
 
-	set_predefined_char_lexi_type    (ast, "CHARACTER", "char");
-	set_predefined_string_lexi_type  (ast, "STRING",    "char *");
-	set_predefined_int_lexi_type     (ast, "INTEGER",   "int");
-	set_predefined_terminal_lexi_type(ast, "TERMINAL");
+	set_builtin_char_lexi_type    (ast, "CHARACTER", "char");
+	set_builtin_string_lexi_type  (ast, "STRING",    "char *");
+	set_builtin_int_lexi_type     (ast, "INTEGER",   "int");
+	set_builtin_terminal_lexi_type(ast, "TERMINAL");
 
 	process_lxi_file(argv[0], ast);
 

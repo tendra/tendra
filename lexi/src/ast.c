@@ -122,7 +122,7 @@ tree_add_group(struct ast *t, struct group *g)
 }
 
 void
-set_predefined_char_lexi_type(struct ast* ast, char *lexi_type, char *c_type)
+set_builtin_char_lexi_type(struct ast* ast, char *lexi_type, char *c_type)
 {
 	NStringT str;
 	NStringT cstr;
@@ -141,7 +141,7 @@ set_predefined_char_lexi_type(struct ast* ast, char *lexi_type, char *c_type)
 }
 
 void
-set_predefined_string_lexi_type(struct ast *ast, char *lexi_type, char *c_type)
+set_builtin_string_lexi_type(struct ast *ast, char *lexi_type, char *c_type)
 {
 	NStringT str;
 	NStringT cstr;
@@ -160,7 +160,7 @@ set_predefined_string_lexi_type(struct ast *ast, char *lexi_type, char *c_type)
 }
 
 void
-set_predefined_terminal_lexi_type(struct ast *ast, char *lexi_type)
+set_builtin_terminal_lexi_type(struct ast *ast, char *lexi_type)
 {
 	NStringT str;
 	struct entry *et;
@@ -173,7 +173,7 @@ set_predefined_terminal_lexi_type(struct ast *ast, char *lexi_type)
 }
 
 void
-set_predefined_int_lexi_type(struct ast* ast, char *lexi_type, char *c_type)
+set_builtin_int_lexi_type(struct ast* ast, char *lexi_type, char *c_type)
 {
 	NStringT str;
 	NStringT cstr;

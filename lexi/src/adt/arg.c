@@ -147,7 +147,7 @@ new_args_list(void)
 	p = xmalloc(sizeof *p);
 	p->head = NULL;
 	p->tail = &p->head;
-	p->nb_return = 0;
+	p->return_count = 0;
 
 	return p;
 }

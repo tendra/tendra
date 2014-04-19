@@ -20,17 +20,17 @@
 
 	extern char tokbuf[];
 	char *token_end;
-	int crt_lex_token;
+	int curr_lex_token;
 	int saved_lex_token;
 	unsigned int numbuf;
 	struct lexi_state lexer_state;
 
 	typedef FILE *FILE_P;
 
-	#define CURRENT_LXI_TERMINAL crt_lex_token
-	#define ADVANCE_LXI_LEXER    crt_lex_token = lexi_read_token(&lexer_state)
-	#define SAVE_LXI_LEXER(T)    (saved_lex_token = crt_lex_token, crt_lex_token = (T))
-	#define RESTORE_LXI_LEXER    (crt_lex_token = saved_lex_token)
+	#define CURRENT_LXI_TERMINAL curr_lex_token
+	#define ADVANCE_LXI_LEXER    curr_lex_token = lexi_read_token(&lexer_state)
+	#define SAVE_LXI_LEXER(T)    (saved_lex_token = curr_lex_token, curr_lex_token = (T))
+	#define RESTORE_LXI_LEXER    (curr_lex_token = saved_lex_token)
 
 #include <stdbool.h>
 

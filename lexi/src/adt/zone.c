@@ -143,7 +143,7 @@ add_zone(struct zone *z, char *name, const char *e, int endmarkerclosed)
 	z->next = new;
 	new->up = z;
 
-	cmd = add_cmd_popzone(z, endmarkerclosed);
+	cmd = add_cmd_pop_zone(z, endmarkerclosed);
 	cmd_list = add_cmd_list();
 	*cmd_list->tail = cmd;
 	cmd_list->tail = &cmd->next;

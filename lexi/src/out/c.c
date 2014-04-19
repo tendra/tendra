@@ -282,7 +282,7 @@ out_action(FILE *lex_out, struct ast *ast,
 
 	d++;
 
-	if (lhs->nb_return) {
+	if (lhs->return_count) {
 		char *prefixtype = "ZT";
 		struct entry *et;
 		char *st;
@@ -305,8 +305,8 @@ out_action(FILE *lex_out, struct ast *ast,
 
 	if (action_is_defined(ea->u.act)) {
 		ccode_out(lex_out, &ea->u.act->code, &trans, d );
-		if (lhs->nb_return) {
-			/*TODO assert(lhs->nb_return==1)*/
+		if (lhs->return_count) {
+			/*TODO assert(lhs->return_count==1)*/
 			out_indent(lex_out, d);
 			fputs("return ZT1;\n",lex_out);
 		}
@@ -328,7 +328,7 @@ out_action(FILE *lex_out, struct ast *ast,
 
 
 static void
-out_pushzone(struct zone *parent, struct cmd *cmd, unsigned int n, unsigned int d)
+out_push_zone(struct zone *parent, struct cmd *cmd, unsigned int n, unsigned int d)
 {
 	assert(parent != NULL);
 	assert(cmd != NULL);
@@ -344,7 +344,7 @@ out_pushzone(struct zone *parent, struct cmd *cmd, unsigned int n, unsigned int 
 		out_cmds(parent, cmd->u.s.z->enter, n, d);
 	}
 
-	if (cmd->u.s.z->enter->nb_return != 0) {
+	if (cmd->u.s.z->enter->return_count != 0) {
 		return;
 	}
 
@@ -367,7 +367,7 @@ out_pushzone(struct zone *parent, struct cmd *cmd, unsigned int n, unsigned int 
 }
 
 static void
-out_popzone(struct zone *parent, struct cmd *cmd, unsigned int n, unsigned int d)
+out_pop_zone(struct zone *parent, struct cmd *cmd, unsigned int n, unsigned int d)
 {
 	assert(parent != NULL);
 	assert(cmd != NULL);
@@ -396,7 +396,7 @@ out_popzone(struct zone *parent, struct cmd *cmd, unsigned int n, unsigned int d
 		out_cmds(parent, parent->exit, n, d);
 	}
 
-	if (parent->exit->nb_return != 0) {
+	if (parent->exit->return_count != 0) {
 		return;
 	}
 
@@ -439,7 +439,7 @@ out_cmds(struct zone *parent, struct cmd_list *ret, unsigned int n, unsigned int
 
 	r = 0;
 	for (cmd = ret->head; cmd != NULL; cmd = cmd->next) {
-		/* TODO: can simplify the calls to out_pushzone() et al by passing only what we need, not the entire cmd */
+		/* TODO: can simplify the calls to out_push_zone() et al by passing only what we need, not the entire cmd */
 		switch (cmd->kind) {
 		case CMD_RETURN:
 			r = 1;
@@ -449,17 +449,17 @@ out_cmds(struct zone *parent, struct cmd_list *ret, unsigned int n, unsigned int
 			break;
 
 		case CMD_ACTION:
-			out_action(lex_out, parent->ast, cmd->u.act.called_act, cmd->u.act.lhs, cmd->u.act.rhs, d);
+			out_action(lex_out, parent->ast, cmd->u.act.ea, cmd->u.act.lhs, cmd->u.act.rhs, d);
 			break;
 
 		case CMD_PUSH_ZONE:
 			r = 1;
-			out_pushzone(parent, cmd, n, d);
+			out_push_zone(parent, cmd, n, d);
 			break;
 
 		case CMD_POP_ZONE:
 			r = 1;
-			out_popzone(parent, cmd, n, d);
+			out_pop_zone(parent, cmd, n, d);
 			break;
 
 		case CMD_NOOP:

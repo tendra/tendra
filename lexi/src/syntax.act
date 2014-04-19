@@ -240,7 +240,7 @@
 					if (p->kind == ARG_IDENT) {
 						for(q=p->next; q!=NULL;q=q->next) {
 							if (q->kind == ARG_IDENT && !strcmp(p->u.literal, q->u.literal)) {
-								char* s = nstring_to_cstring(entry_key(ea));
+								char *s = nstring_to_cstring(entry_key(ea));
 								error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.literal);
 								break;
 							}
@@ -263,20 +263,23 @@
 	<append-arg-args-list>: (l:ARG_LIST, a:ARG) -> () = @{
 		*@l->tail=@a;
 		@l->tail=&@a->next;
-		if (@a->kind == ARG_RETURN)
-		@l->nb_return++;
+		if (@a->kind == ARG_RETURN) {
+			@l->return_count++;
+		}
 	@};
 
 	<args-list-push-front>: (a:ARG , l:ARG_LIST) -> () = @{
 		@a->next=@l->head;
 		@l->head=@a;
-		if (@a->kind == ARG_RETURN)
-		@l->nb_return++;
+		if (@a->kind == ARG_RETURN) {
+			@l->return_count++;
+		}
 	@};
 
 	<check-args-list>: (l:ARG_LIST) -> () = @{
-		if (@l->nb_return>1)
-		error(ERROR_SERIOUS, "There can only be one return terminal argument per action lhs");
+		if (@l->return_count > 1) {
+			error(ERROR_SERIOUS, "There can only be one return terminal argument per action lhs");
+		}
 	@};
 
 	<empty-args-list>: () -> (l:ARG_LIST) = @{
@@ -287,28 +290,28 @@
 		if (@c != NULL) { /* if @c == NULL, an error has already been issued.*/
 			struct LocalNamesT* locals = cmdlist_localnames(@l);
 
-			if (@l->nb_return > 0 && @c->kind != CMD_NOOP) {
+			if (@l->return_count > 0 && @c->kind != CMD_NOOP) {
 				error(ERROR_SERIOUS, "No cmd may follow an cmd that returns a terminal");
 			}
 
 			if (@c->kind == CMD_RETURN) {
-				++(@l->nb_return);
+				@l->return_count++;
 			}
 
 			if (@c->kind == CMD_ACTION) {
-				struct args_list* rhs;
-				struct args_list* lhs;
-				struct entry *ea;
+				struct args_list *rhs;
+				struct args_list *lhs;
 				struct action *act;
-				struct arg* p;
-				struct TypeTupleEntryT* q;
+				struct entry *ea;
+				struct arg *p;
+				struct TypeTupleEntryT *q;
 
-				@l->nb_return += @c->u.act.lhs->nb_return;
-				if (@l->nb_return > 1) {
+				@l->return_count += @c->u.act.lhs->return_count;
+				if (@l->return_count > 1) {
 					error(ERROR_SERIOUS, "Only one terminal may be returned per token");
 				}
 
-				ea = @c->u.act.called_act;
+				ea  = @c->u.act.ea;
 				act = entry_get_action(ea);
 				rhs = @c->u.act.rhs;
 				lhs = @c->u.act.lhs;
@@ -421,13 +424,13 @@
 				}
 
 				if (p != NULL) {
-					char* s = nstring_to_cstring(entry_key(ea));
+					char *s = nstring_to_cstring(entry_key(ea));
 					error(ERROR_SERIOUS, "In call to action %s, too many arguments", s);
 					xfree(s);
 				}
 
 				if (q != NULL) {
-					char* s = nstring_to_cstring(entry_key(ea));
+					char *s = nstring_to_cstring(entry_key(ea));
 					error(ERROR_SERIOUS, "In call to action %s, not enough arguments", s);
 					xfree(s);
 				}
@@ -529,7 +532,7 @@
 	@};
 
 	<check-cmd-list>: (l: CMD_LIST) -> () = @{
-		if (@l->nb_return > 1) {
+		if (@l->return_count > 1) {
 			error(ERROR_SERIOUS, "At most one return terminal may be specified per command list");
 		}
 	@};
@@ -538,9 +541,9 @@
 		@l = add_cmd_list();
 	@};
 
-	<make-token>: (z :ZONE, s :STRING, il :CMD_LIST) -> () = @{
-		add_mainpass(@z, @s, @il);
-		if (@il->nb_return) {
+	<make-token>: (z :ZONE, s :STRING, l :CMD_LIST) -> () = @{
+		add_mainpass(@z, @s, @l);
+		if (@l->return_count) {
 			@z->type=typezone_general_zone;
 		}
 	@};
@@ -555,7 +558,7 @@
 
 	<make-default>: (z : ZONE, i : CMD_LIST) -> () = @{
 		@z->local=@i;
-		if (@i->nb_return) {
+		if (@i->return_count) {
 			@z->type=typezone_general_zone;
 		}
 	@};
@@ -581,16 +584,16 @@
 		@nz = add_zone(@z, @i, @e, @endmarkerclosed);
 
 		@nz->exit = @exit;
-		if (@nz->exit->nb_return) {
+		if (@nz->exit->return_count) {
 			@nz->type = typezone_pseudo_token;
 		}
 
 		@nz->enter = @enter;
-		if (@nz->enter->nb_return) {
+		if (@nz->enter->return_count) {
 			@nz->type = typezone_general_zone;
 		}
 
-		c = add_cmd_pushzone(@nz);
+		c = add_cmd_push_zone(@nz);
 		l = add_cmd_list();
 		*l->tail = c;
 		l->tail = &c->next;

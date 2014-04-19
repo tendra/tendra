@@ -49,32 +49,32 @@ localnames_init(struct LocalNamesT *p)
 int
 localnames_add_nstring(struct LocalNamesT *locals, NStringT *name, struct entry *et)
 {
-	struct LocalNamesEntryT **crt;
+	struct LocalNamesEntryT **curr;
 	struct LocalNamesEntryT *parent;
 	unsigned int i;
 	char *p;
 
 	/* TODO: assert(locals != NULL) */
 
-	crt = &locals->top;
+	curr   = &locals->top;
 	parent = NULL;
 	p = nstring_contents(name); /* BEWARE: not zero terminated! */
 
 	for (i = 0; i < nstring_length(name); i++) {
-		while (*crt != NULL && (*crt)->c < p[i]) {
-			crt = &(*crt)->opt;
+		while (*curr != NULL && (*curr)->c < p[i]) {
+			curr = &(*curr)->opt;
 		}
 
-		if (*crt == NULL || (*crt)->c != p[i]) {
-			struct LocalNamesEntryT *newcrt;
+		if (*curr == NULL || (*curr)->c != p[i]) {
+			struct LocalNamesEntryT *newcurr;
 
-			newcrt = localnamesentry_create(p[i], parent);
-			newcrt->opt = *crt;
-			*crt = newcrt;
+			newcurr = localnamesentry_create(p[i], parent);
+			newcurr->opt = *curr;
+			*curr = newcurr;
 		}
 
-		parent = *crt;
-		crt  = &(*crt)->next;
+		parent = *curr;
+		curr  = &(*curr)->next;
 	}
 
 	if (parent->et == NULL) {
@@ -97,24 +97,24 @@ localnames_get_type(struct LocalNamesT *locals, NStringT *name)
 {
 	unsigned int i;
 	struct entry *et;
-	struct LocalNamesEntryT *crt;
+	struct LocalNamesEntryT *curr;
 	char *p;
 
-	et  = NULL;
-	crt = locals->top;
+	et   = NULL;
+	curr = locals->top;
 
 	p = nstring_contents(name); /* BEWARE: not zero terminated! */
 
 	for (i = 0; i < nstring_length(name); i++) {
-		while (crt != NULL && crt->c < p[i]) {
-			crt = crt->opt;
+		while (curr != NULL && curr->c < p[i]) {
+			curr = curr->opt;
 		}
 
-		if (crt == NULL || crt->c != p[i]) {
+		if (curr == NULL || curr->c != p[i]) {
 			return NULL;
 		} else {
-			et  = crt->et;
-			crt = crt->next;
+			et   = curr->et;
+			curr = curr->next;
 		}
 	}
 
