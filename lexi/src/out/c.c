@@ -157,8 +157,8 @@ out_keyword(struct keyword *keyword, void *opaque)
 
 	fprintf(out, "0 == strcmp(identifier, \"%s\")) return ", keyword_name(keyword));
 
-	switch (keyword_cmd(keyword)->type) {
-	case return_terminal:
+	switch (keyword_cmd(keyword)->kind) {
+	case CMD_RETURN:
 		fprintf(out, "%s", keyword_cmd(keyword)->u.name);
 		break;
 
@@ -331,7 +331,7 @@ out_pushzone(struct zone *parent, struct cmd *cmd, unsigned int n, unsigned int 
 {
 	assert(parent != NULL);
 	assert(cmd != NULL);
-	assert(cmd->type == push_zone);
+	assert(cmd->kind == CMD_PUSH_ZONE);
 
 	if (cmd->u.s.z->type == typezone_general_zone) {
 		out_indent(lex_out, d);
@@ -370,7 +370,7 @@ out_popzone(struct zone *parent, struct cmd *cmd, unsigned int n, unsigned int d
 {
 	assert(parent != NULL);
 	assert(cmd != NULL);
-	assert(cmd ->type == pop_zone);
+	assert(cmd->kind == CMD_POP_ZONE);
 
 	if (parent->type == typezone_general_zone) {
 		out_indent(lex_out, d);
@@ -439,29 +439,29 @@ out_cmds(struct zone *parent, struct cmd_list *ret, unsigned int n, unsigned int
 	r = 0;
 	for (cmd = ret->head; cmd != NULL; cmd = cmd->next) {
 		/* TODO: can simplify the calls to out_pushzone() et al by passing only what we need, not the entire cmd */
-		switch (cmd->type) {
-		case return_terminal:
+		switch (cmd->kind) {
+		case CMD_RETURN:
 			r = 1;
 			assert(cmd->next == NULL);
 			out_indent(lex_out, d);
 			fprintf(lex_out, "return %s;\n", cmd->u.name);
 			break;
 
-		case action_call:
+		case CMD_ACTION:
 			out_action(lex_out, parent->ast, cmd->u.act.called_act, cmd->u.act.lhs, cmd->u.act.rhs, d);
 			break;
 
-		case push_zone:
+		case CMD_PUSH_ZONE:
 			r = 1;
 			out_pushzone(parent, cmd, n, d);
 			break;
 
-		case pop_zone:
+		case CMD_POP_ZONE:
 			r = 1;
 			out_popzone(parent, cmd, n, d);
 			break;
 
-		case do_nothing:
+		case CMD_NOOP:
 			assert(cmd->next == NULL); /* caught during parsing */
 			break;
 		}
@@ -543,7 +543,7 @@ out_leaf(struct zone *parent, struct character *p, int in_pre_pass, unsigned int
 }
 
 static void
-out_char_letters(struct zone *z, struct character *p, int in_pre_pass, unsigned int n, unsigned int d)
+out_CHAR_LETTERs(struct zone *z, struct character *p, int in_pre_pass, unsigned int n, unsigned int d)
 {
 	struct character *q;
 	int letters;
@@ -554,7 +554,7 @@ out_char_letters(struct zone *z, struct character *p, int in_pre_pass, unsigned 
 	/* count letters */
 	letters = 0;
 	for (q = p; q != NULL; q = q->opt) {
-		letters += q->type == char_letter;
+		letters += q->kind == CHAR_LETTER;
 	}
 
 	/* output letters as appropiate for the given count */
@@ -563,8 +563,8 @@ out_char_letters(struct zone *z, struct character *p, int in_pre_pass, unsigned 
 		return;
 
 	case 1:
-		/* find the single char_letter */
-		for (q = p; q->type != char_letter; q = q->opt) {
+		/* find the single CHAR_LETTER */
+		for (q = p; q->kind != CHAR_LETTER; q = q->opt) {
 			assert(q->opt != NULL);
 		}
 
@@ -589,7 +589,7 @@ out_char_letters(struct zone *z, struct character *p, int in_pre_pass, unsigned 
 		for (q = p; q != NULL; q = q->opt) {
 			int r;
 
-			if (q->type != char_letter) {
+			if (q->kind != CHAR_LETTER) {
 				continue;
 			}
 
@@ -634,7 +634,7 @@ out_char_groups(struct zone *z, struct character *p, int in_pre_pass, unsigned i
 	/* count groups */
 	groups = 0;
 	for (q = p; q != NULL; q = q->opt) {
-		groups += q->type == group_letter;
+		groups += q->kind == CHAR_GROUP;
 	}
 
 	if (groups == 0) {
@@ -646,7 +646,7 @@ out_char_groups(struct zone *z, struct character *p, int in_pre_pass, unsigned i
 	for (q = p; q != NULL; q = q->opt) {
 		struct group_name *gn;
 
-		if (q->type != group_letter) {
+		if (q->kind != CHAR_GROUP) {
 			continue;
 		}
 
@@ -722,7 +722,7 @@ out_pass(struct zone *z, struct character *p, int in_pre_pass, unsigned int n, u
 	}
 
 	/* We match letters before groups; letters have priority (TODO do we need to?) */
-	out_char_letters(z, p, in_pre_pass, n, d);
+	out_CHAR_LETTERs(z, p, in_pre_pass, n, d);
 	out_char_groups (z, p, in_pre_pass, n, d);
 
 	if (w2) {

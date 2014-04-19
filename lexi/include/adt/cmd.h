@@ -17,19 +17,19 @@ struct zone;
 
 #include "localnames.h"
 
-enum arg_type {
-	arg_charP,
-	arg_char_nb,
-	arg_nb_of_chars,
-	arg_ident,
-	arg_terminal,
-	arg_ignore,
-	arg_return,
-	arg_none
+enum arg_kind {
+	ARG_CHARP,
+	ARG_CHAR_NUM,
+	ARG_CHAR_COUNT,
+	ARG_IDENT,
+	ARG_TERMINAL,
+	ARG_IGNORE,
+	ARG_RETURN,
+	ARG_NONE
 };
 
 struct arg {
-	enum arg_type type;
+	enum arg_kind kind;
 	struct arg *next;
 
 	union {
@@ -47,16 +47,16 @@ struct args_list {
 	int nb_return;
 };
 
-enum cmd_type {
-	return_terminal,
-	push_zone,
-	pop_zone,
-	do_nothing,
-	action_call
+enum cmd_kind {
+	CMD_RETURN,
+	CMD_PUSH_ZONE,
+	CMD_POP_ZONE,
+	CMD_NOOP,
+	CMD_ACTION
 };
 
 struct cmd {
-	enum cmd_type type;
+	enum cmd_kind kind;
 	struct cmd *next;
 
 	union {
@@ -82,7 +82,7 @@ struct cmd_list {
 	int nb_return;
 };
 
-struct arg *add_arg(enum arg_type, unsigned int);
+struct arg *add_arg(enum arg_kind, unsigned int);
 struct arg *add_ident(char *);
 struct arg *add_ref(char *);
 struct arg *add_terminal(char *);

@@ -169,23 +169,23 @@
 	digit: () -> (s :STRING) = @{ @s = "0123456789";                 @};
 
 	arg-char-string: () ->(a :ARG) = @{
-		  @a = add_arg(arg_charP, 0);
+		@a = add_arg(ARG_CHARP, 0);
 	@};
 
-	arg-char-nb: () ->(a :ARG) = @{
-		  @a = add_arg(arg_char_nb, numbuf);
+	arg-char-num: () ->(a :ARG) = @{
+		@a = add_arg(ARG_CHAR_NUM, numbuf);
 	@};
 
-	arg-nb-of-chars: () ->(a :ARG) = @{
-		  @a = add_arg(arg_nb_of_chars, 0);
+	arg-char-count: () ->(a :ARG) = @{
+		@a = add_arg(ARG_CHAR_COUNT, 0);
 	@};
 
 	arg-return: () -> (a :ARG) = @{
-		  @a = add_arg(arg_return, 0);
+		@a = add_arg(ARG_RETURN, 0);
 	@};
 
 	arg-ignore : () -> (a :ARG) = @{
-		  @a = add_arg(arg_ignore ,0);
+		@a = add_arg(ARG_IGNORE ,0);
 	@};
 
 %actions%
@@ -236,9 +236,9 @@
 				/* Checking that a name does not appear twice in an lhs*/
 				struct arg* p, *q;
 				for(p=@l->head;p!=NULL;p=p->next) {
-					if (p->type==arg_ident) {
+					if (p->kind == ARG_IDENT) {
 						for(q=p->next; q!=NULL;q=q->next) {
-							if (q->type==arg_ident && !strcmp(p->u.literal, q->u.literal)) {
+							if (q->kind == ARG_IDENT && !strcmp(p->u.literal, q->u.literal)) {
 								char* s = nstring_to_cstring(entry_key(ea));
 								error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.literal);
 								break;
@@ -262,14 +262,14 @@
 	<append-arg-args-list>: (l:ARG_LIST, a:ARG) -> () = @{
 		*@l->tail=@a;
 		@l->tail=&@a->next;
-		if (@a->type==arg_return)
+		if (@a->kind == ARG_RETURN)
 		@l->nb_return++;
 	@};
 
 	<args-list-push-front>: (a:ARG , l:ARG_LIST) -> () = @{
 		@a->next=@l->head;
 		@l->head=@a;
-		if (@a->type==arg_return)
+		if (@a->kind == ARG_RETURN)
 		@l->nb_return++;
 	@};
 
@@ -285,15 +285,16 @@
 	<add-cmd-to-list>: (z :ZONE, c :CMD, l :CMD_LIST) -> () = @{
 		if (@c != NULL) { /* if @c == NULL, an error has already been issued.*/
 			struct LocalNamesT* locals = cmdlist_localnames(@l);
-	/*		if ((@l->head !=NULL) && (@c->type==return_terminal || @c->type==do_nothing)) {
-				error(ERROR_SERIOUS, "A $sid-ident or a $$ can only appear at the end of an cmd-list"); Does not work anymore since we append and do not prepend anymore. No pb as this will be unecessary due to the upcoming removal of direct function calls.
-			}*/
-			if (@l->nb_return > 0 && @c->type!=do_nothing)
+
+			if (@l->nb_return > 0 && @c->kind != CMD_NOOP) {
 				error(ERROR_SERIOUS, "No cmd may follow an cmd that returns a terminal");
-			if (@c->type == return_terminal) {
+			}
+
+			if (@c->kind == CMD_RETURN) {
 				++(@l->nb_return);
 			}
-			if (@c->type == action_call) {
+
+			if (@c->kind == CMD_ACTION) {
 				struct args_list* rhs;
 				struct args_list* lhs;
 				struct entry *ea;
@@ -301,21 +302,24 @@
 				struct arg* p;
 				struct TypeTupleEntryT* q;
 
-				@l->nb_return+=@c->u.act.lhs->nb_return;
-				if (@l->nb_return>1)
+				@l->nb_return += @c->u.act.lhs->nb_return;
+				if (@l->nb_return > 1) {
 					error(ERROR_SERIOUS, "Only one terminal may be returned per token");
+				}
+
 				ea = @c->u.act.called_act;
 				act = entry_get_action(ea);
 				rhs = @c->u.act.rhs;
 				lhs = @c->u.act.lhs;
 
-				/* CHECKING RHS COMPATIBILITY */ 
-				for (p = rhs->head, q = act->in.head; p!=NULL && q!=NULL; p=p->next, q=q->next) {
-						struct entry *et = NULL;
+				/* CHECKING RHS COMPATIBILITY */
+				for (p = rhs->head, q = act->in.head; p != NULL && q != NULL; p = p->next, q = q->next) {
+					struct entry *et = NULL;
 					NStringT str;
-						switch (p->type) {
-					case arg_ident:
-							nstring_copy_cstring(&str, p->u.literal);
+
+					switch (p->kind) {
+					case ARG_IDENT:
+						nstring_copy_cstring(&str, p->u.literal);
 						et=localnames_get_type(locals, &str);
 						nstring_destroy(&str);
 						if (!et) {
@@ -337,137 +341,162 @@
 							}
 						}
 						break;
-					case arg_charP:
+
+					case ARG_CHARP:
 						/* TODO assert(lexer_string_type(ast)) */
 						et = lexer_string_type(@z->ast);
 						break;
-					case arg_char_nb:
+
+					case ARG_CHAR_NUM:
 						/* TODO assert(lexer_char_type(ast)) */
 						et = lexer_char_type(@z->ast);
 						break;
-					case arg_terminal:
+
+					case ARG_TERMINAL:
 						/* TODO assert(lexer_terminal_type(ast)) */
 						et = lexer_terminal_type(@z->ast);
 						break;
-					case arg_nb_of_chars:
+
+					case ARG_CHAR_COUNT:
 						/* TODO assert(lexer_terminal_type(ast)) */
 						et = lexer_int_type(@z->ast);
 						break;
-					case arg_none:
+
+					case ARG_NONE:
 						break; /* Error already detected, do nothing and leave p->lexitype = NULL */
-					case arg_ignore:
-					case arg_return:
+
+					case ARG_IGNORE:
+					case ARG_RETURN:
 						UNREACHED;
-					break;
-				default:
-					UNREACHED;
-					break;
-				}
-				if (et) {
-					if (q->et!=et || p->is_ref !=q->is_ref) {
-							char* s1 = nstring_to_cstring(entry_key(ea));
-							char* s2 = nstring_to_cstring(entry_key(et));
-							char* s3 = p->is_ref ? "&" : "";
-							char* s4 = nstring_to_cstring(entry_key(q->et));
-							char* s5 = q->is_ref ? "&" : "";
-							char* s6 = "unknown";
-							char* s7 = "unknown";
-							switch(p->type) {
-							case arg_terminal:
-								s6 = "$"; 
+						break;
+
+					default:
+						UNREACHED;
+						break;
+					}
+
+					if (et) {
+						if (q->et!=et || p->is_ref !=q->is_ref) {
+							char *s1 = nstring_to_cstring(entry_key(ea));
+							char *s2 = nstring_to_cstring(entry_key(et));
+							char *s3 = p->is_ref ? "&" : "";
+							char *s4 = nstring_to_cstring(entry_key(q->et));
+							char *s5 = q->is_ref ? "&" : "";
+							char *s6 = "unknown";
+							char *s7 = "unknown";
+
+							switch (p->kind) {
+							case ARG_TERMINAL:
+								s6 = "$";
 								s7 = p->u.literal;
 								break;
-							case arg_ident:
+
+							case ARG_IDENT:
 								s7 = p->u.literal;
 								break;
-							case arg_nb_of_chars:
+
+							case ARG_CHAR_COUNT:
 								s6 = "#n";
 								break;
-							case arg_char_nb:
+
+							case ARG_CHAR_NUM:
 								s6 = "#[number]";
 								/* TODO s7=p->u.digit */;
 								break;
-							case arg_charP:
+
+							case ARG_CHARP:
 								s6 = "#*";
 								break;
 							}
-							error(ERROR_SERIOUS, "In call to action %s, argument \'%s%s\' has type \'%s%s\' when it should have type %s", s1, s6, s7, s2, s3, s4, s5);
+
+							error(ERROR_SERIOUS, "In call to action %s, argument \'%s%s\' has type \'%s%s\' when it should have type %s",
+								s1, s6, s7, s2, s3, s4, s5);
+
 							xfree(s1);
 							xfree(s2);
 							xfree(s4);
 						}
 					}
 				}
-				if (p!=NULL) {
+
+				if (p != NULL) {
 					char* s = nstring_to_cstring(entry_key(ea));
 					error(ERROR_SERIOUS, "In call to action %s, too many arguments", s);
 					xfree(s);
 				}
-				if (q!=NULL) {
+
+				if (q != NULL) {
 					char* s = nstring_to_cstring(entry_key(ea));
 					error(ERROR_SERIOUS, "In call to action %s, not enough arguments", s);
 					xfree(s);
 				}
 
 				for (p = lhs->head, q = act->out.head; p!=NULL && q!=NULL; p=p->next, q=q->next) {
-						struct entry *et;
-					switch (p->type) {
-					case arg_ident: 
-						{
-							NStringT str;
-							nstring_copy_cstring(&str, p->u.literal);
-							et = localnames_get_type(locals, &str);
-							if (!et) {
-								struct entry *e= table_get_entry(tree_get_table(@z->ast), &str);
-								localnames_add_nstring(locals, &str, q->et);
-								if (e) {
-									nstring_destroy(&str);
-									if (entry_is_action(e)) {
-										error(ERROR_SERIOUS, "In action lhs. Name %s is an action. Hiding globals by local names is not allowed", p->u.literal);
-									} else if (entry_is_type(e)) {
-										error(ERROR_SERIOUS, "In action lhs. Name %s is a type. Hiding globals by local names is not allowed", p->u.literal);
-									}
-								} else {
-									table_add_local_name(tree_get_table(@z->ast), &str);
-								}
-								if (p->is_ref) {
-									char* s = nstring_to_cstring(entry_key(ea));
-									error(ERROR_SERIOUS, "In action call %s, you can only use references %s for preexisting variables", s, p->u.literal);
-									xfree(s);
+					struct entry *et;
+
+					switch (p->kind) {
+					case ARG_IDENT: {
+						NStringT str;
+
+						nstring_copy_cstring(&str, p->u.literal);
+						et = localnames_get_type(locals, &str);
+						if (!et) {
+							struct entry *e= table_get_entry(tree_get_table(@z->ast), &str);
+							localnames_add_nstring(locals, &str, q->et);
+							if (e) {
+								nstring_destroy(&str);
+								if (entry_is_action(e)) {
+									error(ERROR_SERIOUS, "In action lhs. Name %s is an action. Hiding globals by local names is not allowed", p->u.literal);
+								} else if (entry_is_type(e)) {
+									error(ERROR_SERIOUS, "In action lhs. Name %s is a type. Hiding globals by local names is not allowed", p->u.literal);
 								}
 							} else {
-								nstring_destroy(&str);
-								if (!p->is_ref) {
-									char* s = nstring_to_cstring(entry_key(ea));
-									error(ERROR_SERIOUS, "In action call %s, name %s already declared. Use references to change the value of an already existing variable", s, p->u.literal);
-									et=q->et; /* To avoid outputting that error more than once*/
-									xfree(s);
-								}
+								table_add_local_name(tree_get_table(@z->ast), &str);
+							}
+							if (p->is_ref) {
+								char* s = nstring_to_cstring(entry_key(ea));
+								error(ERROR_SERIOUS, "In action call %s, you can only use references %s for preexisting variables", s, p->u.literal);
+								xfree(s);
+							}
+						} else {
+							nstring_destroy(&str);
+							if (!p->is_ref) {
+								char* s = nstring_to_cstring(entry_key(ea));
+								error(ERROR_SERIOUS, "In action call %s, name %s already declared. Use references to change the value of an already existing variable", s, p->u.literal);
+								et=q->et; /* To avoid outputting that error more than once*/
+								xfree(s);
 							}
 						}
 						break;
-					case arg_return:
+					}
+
+					case ARG_RETURN:
 						et = lexer_terminal_type(@z->ast);
 						q->is_ref = false;
-						/* TODO assert(q->is_ref == false) */
+						/* TODO: assert(q->is_ref == false) */
 						break;
-					case arg_ignore:
-						/*always acceptable */
+
+					case ARG_IGNORE:
+						/* always acceptable */
 						et = q->et;
 						p->is_ref = q->is_ref;
 						break;
-					case arg_none:
+
+					case ARG_NONE:
 						break;
 						/* TODO asserting errored is already set */
 						/* Error has already been detected */
-					case arg_charP:
-					case arg_char_nb:
-					case arg_terminal:
-					case arg_nb_of_chars:
+
+					case ARG_CHARP:
+					case ARG_CHAR_NUM:
+					case ARG_TERMINAL:
+					case ARG_CHAR_COUNT:
 						break; /* UNREACHABLE */
+
 					default:
 						break; /* UNREACHABLE */
 					}
+
 					if (p->is_ref != q->is_ref) {
 						/* XXX: state which action */
 						if (p->is_ref) {
@@ -477,20 +506,23 @@
 						}
 					}
 				}
+
 				if (p!=NULL) {
 					char* s = nstring_to_cstring(entry_key(ea));
 					error(ERROR_SERIOUS, "In call to action %s, too many results", s);
 					xfree(s);
 				}
+
 				if (q!=NULL) {
 					char* s = nstring_to_cstring(entry_key(ea));
 					error(ERROR_SERIOUS, "In call to action %s, not enough results", s);
 					xfree(s);
 				}
 			}
+
 			/* TODO only append if no error */
-			*@l->tail=@c;
-			@l->tail=&@c->next;
+			*@l->tail = @c;
+			@l->tail = &@c->next;
 			@l->size++;
 		}
 	@};
@@ -505,17 +537,11 @@
 		@l = add_cmd_list();
 	@};
 
-
-	/*
-		CREATE A MAIN-PASS MAPPING
-
-		This action creates a main-pass mapping from s to the lexical token i.
-	*/
-
-	<make-token>: (z : ZONE, s : STRING, il : CMD_LIST) -> () = @{
+	<make-token>: (z :ZONE, s :STRING, il :CMD_LIST) -> () = @{
 		add_mainpass(@z, @s, @il);
-		if (@il->nb_return)
+		if (@il->nb_return) {
 			@z->type=typezone_general_zone;
+		}
 	@};
 
 	<is-non-empty>: (s : STRING) -> (b : BOOL) = @{
@@ -523,24 +549,25 @@
 	@};
 
 	<E_empty_character_string>: () -> () = @{
-			error(ERROR_SERIOUS, "Empty character string is not allowed here, try using DEFAULT instead");	
+		error(ERROR_SERIOUS, "Empty character string is not allowed here, try using DEFAULT instead");
 	@};
 
 	<make-default>: (z : ZONE, i : CMD_LIST) -> () = @{
 		@z->local=@i;
-		if (@i->nb_return)
+		if (@i->nb_return) {
 			@z->type=typezone_general_zone;
+		}
 	@};
 
-	<make-keyword>: (z: ZONE, s : STRING, i : CMD) -> () = @{
-		switch(@i->type) {
-		case return_terminal:
-		/* Fallback is intentional */
-		  add_keyword (@z, @s, @i);
+	<make-keyword>: (z: ZONE, s :STRING, c :CMD) -> () = @{
+		switch (@c->kind) {
+		case CMD_RETURN:
+			/* Fallback is intentional */
+			add_keyword(@z, @s, @c);
 		break;
 		default:
 		  error(ERROR_SERIOUS, "Syntax error: only a function or a token might be returned for a keyword");
-	  }
+		}
 	@};
 
 	<true>:  () -> (b :BOOL) = @{ @b = 1; @};
@@ -571,7 +598,7 @@
 	@};
 
 	<update-zone-type>: (parent :ZONE, child :ZONE) -> () = @{
-		switch(@child->type) {
+		switch (@child->type) {
 		case typezone_pseudo_token:
 		case typezone_general_zone:
 			@parent->type = typezone_general_zone;
@@ -593,7 +620,6 @@
 	<make_arg_terminal>: (i:IDENT) -> (a:ARG) = @{
 		@a = add_terminal(@i);
 	@};
-
 
 	<make_arg_none>: () -> (a:ARG) = @{
 		@a = add_none();

@@ -37,10 +37,9 @@ extern void read_lex(zoneP);
 
 /* BEGINNING OF TERMINAL DEFINITIONS */
 
-#define lex_arg_Hnb_Hof_Hchars (25)
 #define lex_kw_Hmapping (34)
 #define lex_sid_Hident (1)
-#define lex_arg_Hchar_Hnb (24)
+#define lex_arg_Hchar_Hnum (24)
 #define lex_arg_Hreturn (26)
 #define lex_range (17)
 #define lex_comma (20)
@@ -72,6 +71,7 @@ extern void read_lex(zoneP);
 #define lex_arg_Hchar_Hstring (23)
 #define lex_kw_Htype (30)
 #define lex_open_Hbrace (8)
+#define lex_arg_Hchar_Hcount (25)
 #define lex_range_Hclosed_Hclosed (18)
 #define lex_end_Haction (29)
 #define lex_default (37)
@@ -79,7 +79,7 @@ extern void read_lex(zoneP);
 
 /* BEGINNING OF TRAILER */
 
-#line 764 "syntax.act"
+#line 790 "syntax.act"
 
 	#endif
 #line 86 "syntax.h"

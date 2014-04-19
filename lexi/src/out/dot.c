@@ -69,12 +69,12 @@ out_node(struct ast *ast, struct character *p, struct options *opt) {
 	{
 		fprintf(dotout, "\t\tc%p [ ", (void *) p);
 
-		switch (p->type) {
-		case char_letter:
+		switch (p->kind) {
+		case CHAR_LETTER:
 			fprintf(dotout, "label=\"%s\"", quote_char(p->v.c));
 			break;
 
-		case group_letter:
+		case CHAR_GROUP:
 			fprintf(dotout, "shape=box, label=\"[%s%s]\"", p->v.g.not ? "^" : "",
 				p->v.g.gn->name);
 			break;
@@ -92,22 +92,22 @@ out_node(struct ast *ast, struct character *p, struct options *opt) {
 		fprintf(dotout, "shape=plaintext, label=\"");
 
 		for (cmd = p->u.cmds->head; cmd != NULL; cmd = cmd->next) {
-			switch (cmd->type) {
-			case return_terminal:
+			switch (cmd->kind) {
+			case CMD_RETURN:
 				/* TODO rename to just prefix */
 				/* TODO map back _H */
 				fprintf(dotout, "$%s", cmd->u.name + strlen(opt->lexi_prefix) - 1);
 				break;
 
-			case pop_zone:
-				fprintf(dotout, "<pop> %s", cmd->u.s.z->name);
-				break;
-
-			case push_zone:
+			case CMD_PUSH_ZONE:
 				fprintf(dotout, "<push> %s", cmd->u.s.z->name);
 				break;
 
-			case do_nothing:
+			case CMD_POP_ZONE:
+				fprintf(dotout, "<pop> %s", cmd->u.s.z->name);
+				break;
+
+			case CMD_NOOP:
 				fprintf(dotout, "$$");
 				break;
 

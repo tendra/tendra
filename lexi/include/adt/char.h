@@ -16,16 +16,16 @@
 struct zone;
 struct cmd_list;
 
-enum char_type {
-	group_letter,
-	char_letter
+enum char_kind {
+	CHAR_GROUP,
+	CHAR_LETTER
 };
 
 union char_value {
-	/* for char_letter: character or EOF */
+	/* CHAR_LETTER: character or EOF */
 	int c;
 
-	/* for group_letter */
+	/* CHAR_GROUP */
 	struct {
 		unsigned int not:1;	/* boolean */
 		struct group_name *gn;
@@ -40,7 +40,7 @@ union char_value {
  * characters.
  */
 struct character {
-	enum char_type type;
+	enum char_kind kind;
 
 	union char_value v;
 

@@ -54,13 +54,13 @@ find_escape(char c)
  * ARE TWO VALUES EQUAL?
  */
 static int
-values_equal(enum char_type type, const union char_value *a, const union char_value *b)
+values_equal(enum char_kind kind, const union char_value *a, const union char_value *b)
 {
-	switch (type) {
-	case group_letter:
+	switch (kind) {
+	case CHAR_GROUP:
 		return a->g.not == b->g.not && is_group_equal(a->g.gn->g, b->g.gn->g);
 
-	case char_letter:
+	case CHAR_LETTER:
 		return a->c == b->c;
 	}
 
@@ -74,18 +74,18 @@ values_equal(enum char_type type, const union char_value *a, const union char_va
  * This routine allocates a new character with value v.
  */
 static struct character *
-new_char(enum char_type type, const union char_value *v)
+new_char(enum char_kind kind, const union char_value *v)
 {
     struct character *new;
 
 	assert(v != NULL);
 
-	switch (type) {
-	case group_letter:
+	switch (kind) {
+	case CHAR_GROUP:
 		assert(v->g.gn != NULL);
 		break;
 
-	case char_letter:
+	case CHAR_LETTER:
 		assert(v->c >= 0 || v->c == EOF);
 		break;
 	}
@@ -93,7 +93,7 @@ new_char(enum char_type type, const union char_value *v)
 	new = xmalloc(sizeof *new);
     new->opt  = NULL;
     new->next = NULL;
-	new->type = type;
+	new->kind = kind;
 	new->v    = *v;
 
 	/* XXX: nonportable: u.map and u.cmds may differ in representation */
@@ -137,7 +137,7 @@ char_maxlength(struct character *c)
  * FIND AN EXISTING ALTERNATIVE OF THE GIVEN VALUE, OR ADD A NEW ONE
  */
 static struct character *
-find_or_add(struct character **n, enum char_type type, const union char_value *v)
+find_or_add(struct character **n, enum char_kind kind, const union char_value *v)
 {
 	assert(n != NULL);
 
@@ -146,11 +146,11 @@ find_or_add(struct character **n, enum char_type type, const union char_value *v
 		struct character *p;
 
 		for (p = *n; p != NULL; p = p->opt) {
-			if (p->type != type) {
+			if (p->kind != kind) {
 				continue;
 			}
 
-			if (values_equal(type, &p->v, v)) {
+			if (values_equal(kind, &p->v, v)) {
 				return p;
 			}
 		}
@@ -160,7 +160,7 @@ find_or_add(struct character **n, enum char_type type, const union char_value *v
 	{
 		struct character *new;
 
-		new = new_char(type, v);
+		new = new_char(kind, v);
 		new->opt = *n;
 		*n = new;
 
@@ -220,7 +220,7 @@ add_string(struct zone *z, struct character **n, const char *s)
 				error(ERROR_SERIOUS, "Unknown group '%s'", p);
 			}
 
-			leaf = find_or_add(n, group_letter, &v);
+			leaf = find_or_add(n, CHAR_GROUP, &v);
 			p = e;
 			break;
 
@@ -232,12 +232,12 @@ add_string(struct zone *z, struct character **n, const char *s)
 			}
 
 			v.c = find_escape(*p);
-			leaf = find_or_add(n, char_letter, &v);
+			leaf = find_or_add(n, CHAR_LETTER, &v);
 			break;
 
 		default:	/* literal character */
 			v.c = *p;
-			leaf = find_or_add(n, char_letter, &v);
+			leaf = find_or_add(n, CHAR_LETTER, &v);
 			break;
 		}
 

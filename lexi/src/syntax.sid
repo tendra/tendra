@@ -51,11 +51,11 @@
 	nothing-marker;
 	!unknown;
 
-	arg-char-string : () -> (:ARG);
-	arg-char-nb : () -> (:ARG);
-	arg-nb-of-chars: () -> (:ARG);
-	arg-return:     () -> (:ARG);
-	arg-ignore: () -> (:ARG);
+	arg-char-string: () -> (:ARG);
+	arg-char-num:    () -> (:ARG);
+	arg-char-count:  () -> (:ARG);
+	arg-return:      () -> (:ARG);
+	arg-ignore:      () -> (:ARG);
 
 	begin-action; // <
 	end-action;   // >
@@ -307,8 +307,8 @@
 		lhs-arg: (l :ARG_LIST) -> () = {
 			{
 					b = arg-char-string; a = <make_arg_none>; <E_sharp_arg_in_lhs>;
-				||  b = arg-char-nb;     a = <make_arg_none>; <E_sharp_arg_in_lhs>;
-				||  b = arg-nb-of-chars; a = <make_arg_none>; <E_sharp_arg_in_lhs>;
+				||  b = arg-char-num;    a = <make_arg_none>; <E_sharp_arg_in_lhs>;
+				||  b = arg-char-count;  a = <make_arg_none>; <E_sharp_arg_in_lhs>;
 				||  b = string;          a = <make_arg_none>; <E_string_arg_in_lhs>;
 				||  i = ident;           a = <make_arg_from_ident>(i);
 				||  ref; i = ident;      a = <make_arg_from_ref>(i);
@@ -338,14 +338,14 @@
 
 		rhs-arg: () -> (a :ARG) = {
 				a = arg-char-string;
-			||  a = arg-char-nb;
-			||  a = arg-nb-of-chars;
-			||  b  =  sid-ident;  a = <make_arg_terminal>(b);
-			||  b  =  arg-return; a = <make_arg_none>; <E_return_in_rhs>;
-			||  b  =  arg-ignore; a = <make_arg_none>; <E_ignore_in_rhs>;
-			||  b  =  string;     a = <make_arg_none>; <E_string_in_action_rhs>;
-			||  ref; i  =  ident; a = <make_arg_from_ref>(i);
-			||	i  =  ident;      a = <make_arg_from_ident>(i);
+			||  a = arg-char-num;
+			||  a = arg-char-count;
+			||  b =  sid-ident;  a = <make_arg_terminal>(b);
+			||  b =  arg-return; a = <make_arg_none>; <E_return_in_rhs>;
+			||  b =  arg-ignore; a = <make_arg_none>; <E_ignore_in_rhs>;
+			||  b =  string;     a = <make_arg_none>; <E_string_in_action_rhs>;
+			||  ref; i =  ident; a = <make_arg_from_ref>(i);
+			||	i =  ident;      a = <make_arg_from_ident>(i);
 		};
 
 		rhs-tuple1: () -> (r :ARG_LIST) = {

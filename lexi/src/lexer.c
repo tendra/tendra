@@ -159,7 +159,7 @@ static int lexi_read_token_ident(struct lexi_state *state);
 static int lexi_read_token_string(struct lexi_state *state);
 static void lexi_read_token_linecomment(struct lexi_state *state);
 static void lexi_read_token_comment(struct lexi_state *state);
-static int lexi_read_token_arg_char_nb_zone(struct lexi_state *state);
+static int lexi_read_token_arg_char_num(struct lexi_state *state);
 /* MAIN PASS ANALYSERS */
 
 
@@ -383,16 +383,16 @@ lexi_read_token_comment(struct lexi_state *state)
 	}
 }
 
-/* MAIN PASS ANALYSER for arg_char_nb_zone */
+/* MAIN PASS ANALYSER for arg_char_num */
 static int
-lexi_read_token_arg_char_nb_zone(struct lexi_state *state)
+lexi_read_token_arg_char_num(struct lexi_state *state)
 {
 	start: {
 		int c0 = lexi_readchar(state);
 		if (lexi_group(lexi_group_white, c0)) goto start;
 		if (!lexi_group(lexi_group_digit, c0)) {
 			lexi_push(state, c0);
-			return lex_arg_Hchar_Hnb;
+			return lex_arg_Hchar_Hnum;
 		}
 
 		/* DEFAULT */
@@ -457,7 +457,7 @@ lexi_read_token(struct lexi_state *state)
 					}
 
 				case 'n': {
-						return lex_arg_Hnb_Hof_Hchars;
+						return lex_arg_Hchar_Hcount;
 					}
 
 				}
@@ -475,7 +475,7 @@ lexi_read_token(struct lexi_state *state)
 	numbuf += c1 - '0';
 					}
 					/* END ACTION <numbuf_push_digit> */
-					return lexi_read_token_arg_char_nb_zone(state);
+					return lexi_read_token_arg_char_num(state);
 				}
 				lexi_push(state, c1);
 			}

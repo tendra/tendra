@@ -29,12 +29,12 @@ new_arg(void)
 }
 
 struct arg *
-add_arg(enum arg_type t, unsigned int d)
+add_arg(enum arg_kind kind, unsigned int d)
 {
 	struct arg *p;
 
 	p = new_arg();
-	p->type    = t;
+	p->kind    = kind;
 	p->u.digit = d;
 
 	return p;
@@ -46,7 +46,7 @@ add_ident(char *s)
 	struct arg *p;
 
 	p = new_arg();
-	p->type      = arg_ident;
+	p->kind      = ARG_IDENT;
 	p->u.literal = s;
 
 	return p;
@@ -58,7 +58,7 @@ add_ref(char *s)
 	struct arg *p;
 
 	p = new_arg();
-	p->type         = arg_ident;
+	p->kind         = ARG_IDENT;
 	p->u.literal    = s;
 	p->is_ref = true;
 
@@ -71,7 +71,7 @@ add_terminal(char * s)
 	struct arg *p;
 
 	p = new_arg();
-	p->type      = arg_terminal;
+	p->kind      = ARG_TERMINAL;
 	p->u.literal = s;
 
 	return p;
@@ -83,7 +83,7 @@ add_none(void)
 	struct arg *p;
 
 	p = new_arg();
-	p->type      = arg_none;
+	p->kind      = ARG_NONE;
 	p->u.literal = NULL;
 
 	return p;
@@ -92,21 +92,21 @@ add_none(void)
 void
 arg_out(struct arg *p, bool is_ref, int d, FILE *file)
 {
-	switch (p->type) {
-	case arg_charP:
+	switch (p->kind) {
+	case ARG_CHARP:
 		error(ERROR_SERIOUS, "#* is not implemented yet at output level");
 		break;
 
-	case arg_char_nb:
-		/*TODO assert(p->u.digit<nb_of_chars);*/
+	case ARG_CHAR_NUM:
+		/*TODO assert(p->u.digit < nb_of_chars);*/
 		fprintf(file, "c%d", p->u.digit);
 		break;
 
-	case arg_nb_of_chars:
+	case ARG_CHAR_COUNT:
 		fprintf(file, "%d", d);
 		break;
 
-	case arg_ident:
+	case ARG_IDENT:
 		if (p->is_ref) {
 			/* TODO: assert(is_ref); */
 			fprintf(file, "%s", p->u.literal);
@@ -119,20 +119,20 @@ arg_out(struct arg *p, bool is_ref, int d, FILE *file)
 		}
 		break;
 
-	case arg_terminal:
+	case ARG_TERMINAL:
 		fprintf(file, "%s", p->u.literal);
 		break;
 
-	case arg_ignore:
-		error(ERROR_SERIOUS, "Ignore symbol ! is not implemented yet at output level"); 
-		/*TODO implement*/
+	case ARG_IGNORE:
+		error(ERROR_SERIOUS, "Ignore symbol ! is not implemented yet at output level");
+		/* TODO: implement */
 		break;
 
-	case arg_return:
-		fprintf(file, "ZT1"); /*TODO make prefixes option controllable or lct file controllable*/
+	case ARG_RETURN:
+		fprintf(file, "ZT1"); /* TODO: make prefixes option controllable or lct file controllable */
 		break;
 
-	case arg_none:
+	case ARG_NONE:
 	default:
 		UNREACHED;
 		break;
@@ -163,12 +163,12 @@ add_args_list(void)
 }
 
 static struct cmd *
-new_cmd(enum cmd_type type)
+new_cmd(enum cmd_kind kind)
 {
 	struct cmd *p;
 
 	p = xmalloc(sizeof *p);
-	p->type = type;
+	p->kind = kind;
 	p->next = NULL;
 
 	return p;
@@ -179,7 +179,7 @@ add_cmd_return(char *name)
 {
 	struct cmd *p;
 
-	p = new_cmd(return_terminal);
+	p = new_cmd(CMD_RETURN);
 	p->u.name = name;
 
 	return p;
@@ -190,7 +190,7 @@ add_cmd_donothing(void)
 {
 	struct cmd *p;
 
-	p = new_cmd(do_nothing);
+	p = new_cmd(CMD_NOOP);
 
 	return p;
 }
@@ -200,7 +200,7 @@ add_cmd_action(struct entry *ea, struct args_list *lhs, struct args_list *rhs)
 {
 	struct cmd *p;
 
-	p = new_cmd(action_call);
+	p = new_cmd(CMD_ACTION);
 	p->u.act.called_act = ea;
 	p->u.act.rhs = rhs;
 	p->u.act.lhs = lhs;
@@ -213,7 +213,7 @@ add_cmd_pushzone(struct zone *z)
 {
 	struct cmd *p;
 
-	p = new_cmd(push_zone);
+	p = new_cmd(CMD_PUSH_ZONE);
 	p->u.s.z = z;
 	p->u.s.is_beginendmarker_in_zone = 1;
 
@@ -225,7 +225,7 @@ add_cmd_popzone(struct zone *z, int is_endmarker_in_zone)
 {
 	struct cmd *p;
 
-	p = new_cmd(pop_zone);
+	p = new_cmd(CMD_POP_ZONE);
 	p->u.s.z = z;
 	p->u.s.is_beginendmarker_in_zone = is_endmarker_in_zone;
 

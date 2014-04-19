@@ -50,7 +50,7 @@ TOKEN "..."    -> $range;
 TOKEN "\[...]" -> $range-closed-closed;
 TOKEN "\[...)" -> $range-closed-open;
 
-TOKEN "#n"     -> $arg-nb-of-chars;
+TOKEN "#n"     -> $arg-char-count;
 TOKEN "#*"     -> $arg-char-string;
 TOKEN "$"      -> $arg-return;
 TOKEN "!"      -> $arg-ignore;
@@ -59,9 +59,9 @@ TOKEN "{A-Z}" -> $upper;
 TOKEN "{a-z}" -> $lower;
 TOKEN "{0-9}" -> $digit;
 
-ZONE arg_char_nb_zone:
+ZONE arg_char_num:
 	"#[digit]" -> <numbuf_init>, <numbuf_push_digit>(#1) [...)
-	"[^digit]" -> $arg-char-nb
+	"[^digit]" -> $arg-char-num
 {
 	TOKEN DEFAULT -> <numbuf_push_digit>(#0);
 }
