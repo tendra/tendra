@@ -9,7 +9,6 @@ SRCS+=	cmd.c
 SRCS+=	entry.c
 SRCS+=	group.c
 SRCS+=	keyword.c
-SRCS+=	tree.c
 SRCS+=	zone.c
 SRCS+=	type.c
 SRCS+=	typetuple.c

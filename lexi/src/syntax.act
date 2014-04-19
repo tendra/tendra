@@ -69,9 +69,9 @@ TYPETUPLE -> typetuple;
 #include <adt/cmd.h>
 #include <adt/keyword.h>
 #include <adt/zone.h>
-#include <adt/tree.h>
 #include <adt/char.h>
 
+#include "ast.h"
 #include "lexer.h"
 #include "syntax.h"
 #include "options.h"
@@ -335,7 +335,7 @@ arg-ignore : () -> (a:ARG) = @{
 	NStringT key;
 	struct entry *ea;
 	nstring_copy_cstring(&key, @i);
-	ea = table_get_entry(tree_get_table(@z->top_level), &key);
+	ea = table_get_entry(tree_get_table(@z->ast), &key);
 	if(ea) {
 		if(entry_is_action(ea)) {
 			/* TODO: Inefficient code follows: */
@@ -435,7 +435,7 @@ arg-ignore : () -> (a:ARG) = @{
 					et=localnames_get_type(locals, &str);
 					nstring_destroy(&str);
 					if(!et) {
-						struct entry *e = table_get_entry(tree_get_table(@z->top_level), &str);
+						struct entry *e = table_get_entry(tree_get_table(@z->ast), &str);
 						if(!e) {
 							error(ERROR_SERIOUS, "local name %s has not been defined yet", p->u.literal);
 							et = NULL;
@@ -454,20 +454,20 @@ arg-ignore : () -> (a:ARG) = @{
 					}
 					break;
 				case arg_charP:
-					/* TODO assert(lexer_string_type(top_level)) */
-					et = lexer_string_type(@z->top_level);
+					/* TODO assert(lexer_string_type(ast)) */
+					et = lexer_string_type(@z->ast);
 		 			break;
 				case arg_char_nb:
-					/* TODO assert(lexer_char_type(top_level)) */
-					et = lexer_char_type(@z->top_level);
+					/* TODO assert(lexer_char_type(ast)) */
+					et = lexer_char_type(@z->ast);
 			 		break;
 				case arg_terminal:
-					/* TODO assert(lexer_terminal_type(top_level)) */
-					et = lexer_terminal_type(@z->top_level);
+					/* TODO assert(lexer_terminal_type(ast)) */
+					et = lexer_terminal_type(@z->ast);
 					break;
 				case arg_nb_of_chars:
-					/* TODO assert(lexer_terminal_type(top_level)) */
-					et = lexer_int_type(@z->top_level);
+					/* TODO assert(lexer_terminal_type(ast)) */
+					et = lexer_int_type(@z->ast);
 		 			break;
 				case arg_none:
 					break; /* Error already detected, do nothing and leave p->lexitype = NULL */
@@ -534,7 +534,7 @@ arg-ignore : () -> (a:ARG) = @{
 						nstring_copy_cstring(&str, p->u.literal);
 						et = localnames_get_type(locals, &str);
 						if(!et) {
-							struct entry *e= table_get_entry(tree_get_table(@z->top_level), &str);
+							struct entry *e= table_get_entry(tree_get_table(@z->ast), &str);
 							localnames_add_nstring(locals, &str, q->et);
 							if(e) {
 								nstring_destroy(&str);
@@ -544,7 +544,7 @@ arg-ignore : () -> (a:ARG) = @{
 									error(ERROR_SERIOUS, "In action lhs. Name %s is a type. Hiding globals by local names is not allowed", p->u.literal);									
 								}
 							} else {
-								table_add_local_name(tree_get_table(@z->top_level), &str);
+								table_add_local_name(tree_get_table(@z->ast), &str);
 							}
 							if(p->is_reference) {
 								char* s = nstring_to_cstring(entry_key(ea));
@@ -563,7 +563,7 @@ arg-ignore : () -> (a:ARG) = @{
 					}
 					break;
 				case arg_return_terminal:
-					et = lexer_terminal_type(@z->top_level);
+					et = lexer_terminal_type(@z->ast);
 					q->is_reference = false;
 					/* TODO assert(q->is_reference == false) */
 					break;
@@ -753,7 +753,7 @@ arg-ignore : () -> (a:ARG) = @{
    This action report if the zone z is the global zone 
 */
 <is-global-zone> : ( z : ZONE ) -> ( b : BOOL ) = @{
-   @b = tree_zoneisglobal(@z->top_level, @z);
+   @b = tree_zoneisglobal(@z->ast, @z);
 @};
 
 <make-type> : ( z:ZONE, i:IDENTIFIER ) -> () = @{
@@ -761,7 +761,7 @@ arg-ignore : () -> (a:ARG) = @{
 	struct entry *e;
 	nstring_copy_cstring(&str,@i);
 	xfree(@i);
-	e = table_get_entry(tree_get_table(@z->top_level), &str);
+	e = table_get_entry(tree_get_table(@z->ast), &str);
 	if(e != NULL) {
 		nstring_destroy(&str);
 		/* TODO switch ? */
@@ -774,7 +774,7 @@ arg-ignore : () -> (a:ARG) = @{
 		else
 			UNREACHED;
 	} else {
-		table_add_type(tree_get_table(@z->top_level), &str, false);
+		table_add_type(tree_get_table(@z->ast), &str, false);
 	}
 @};
 
@@ -782,7 +782,7 @@ arg-ignore : () -> (a:ARG) = @{
 	NStringT str;
 	struct entry *e;
 	nstring_copy_cstring(&str, @i);
-	e = table_get_entry(tree_get_table(@z->top_level), &str);
+	e = table_get_entry(tree_get_table(@z->ast), &str);
 	if(e != NULL) {
 		nstring_destroy(&str);
 		/* TODO switch ? */
@@ -795,7 +795,7 @@ arg-ignore : () -> (a:ARG) = @{
 		else
 			UNREACHED;
 	} else {
-		table_add_action(tree_get_table(@z->top_level), &str , @&params, @&results);
+		table_add_action(tree_get_table(@z->ast), &str , @&params, @&results);
 	}
 	xfree(@i);
 @};
@@ -813,7 +813,7 @@ arg-ignore : () -> (a:ARG) = @{
 	NStringT tstr, istr;
 	nstring_copy_cstring(&tstr,@type);
 	nstring_copy_cstring(&istr,@id);
-	et = table_get_entry(tree_get_table(@z->top_level), &tstr);
+	et = table_get_entry(tree_get_table(@z->ast), &tstr);
 	if(et== NULL) {
 		 error(ERROR_SERIOUS, "Unknown type %s", @type);
 		 nstring_destroy(&istr);

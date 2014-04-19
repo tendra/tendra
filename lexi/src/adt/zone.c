@@ -16,7 +16,8 @@
 #include <adt/zone.h>
 #include <adt/char.h>
 #include <adt/cmd.h>
-#include <adt/tree.h>	/* XXX */
+
+#include "../ast.h"
 
 /*
  * FIND A ZONE
@@ -85,11 +86,11 @@ zone_maxlength(struct zone *z, int in_prepass)
  * TODO: make this private, and provide a add_globalzone() instead.
  */
 struct zone *
-new_zone(struct lexer_parse_tree *top_level)
+new_zone(struct ast *ast)
 {
 	struct zone *new;
 
-	assert(top_level != NULL);
+	assert(ast != NULL);
 
 	new = xmalloc(sizeof *new);
 	new->name = NULL;
@@ -110,7 +111,7 @@ new_zone(struct lexer_parse_tree *top_level)
 	new->next = NULL;
 	new->up   = NULL;
 
-	new->top_level = top_level;
+	new->ast = ast;
 
 	return new;
 }
@@ -136,7 +137,7 @@ add_zone(struct zone *z, char *name, const char *e, int endmarkerclosed)
 		return NULL;
 	}
 
-	new = new_zone(z->top_level);
+	new = new_zone(z->ast);
 	new->name = name;
 	new->opt = z->next;
 	z->next = new;
@@ -203,7 +204,7 @@ zone_isglobal(struct zone *z)
 {
 	assert(z != NULL);
 
-	return z == tree_get_globalzone(z->top_level);
+	return z == tree_get_globalzone(z->ast);
 }
 
 const char *

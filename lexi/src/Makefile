@@ -13,6 +13,7 @@ PARTS+=	src/adt
 
 CCOPTS+=	-I .
 
+SRCS+=	ast.c
 SRCS+=	syntax.c
 SRCS+=	lexer.c
 SRCS+=	main.c

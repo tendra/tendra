@@ -29,7 +29,6 @@
 #include <adt/char.h>
 #include <adt/cmd.h>
 #include <adt/keyword.h>
-#include <adt/tree.h>
 #include <adt/type.h>
 #include <adt/zone.h>
 #include <adt/group.h>
@@ -39,6 +38,7 @@
 #include <out/c.h>
 #include <out/common.h>
 
+#include "ast.h"
 #include "lexer.h"
 #include "lctsyntax.h"
 #include "options.h"
@@ -120,13 +120,13 @@ char_lit(int c)
  * unneccessary, and its length will be zero.
  */
 static unsigned int
-buffer_length(struct lexer_parse_tree *top_level)
+buffer_length(struct ast *ast)
 {
 	unsigned int i;
 	struct zone *global;
 
 	/* XXX: account for is_beginendmarker_in_zone */
-	global = tree_get_globalzone(top_level);
+	global = tree_get_globalzone(ast);
 	assert(global != NULL);
 
 	i = zone_maxlength(global, 0);
@@ -182,13 +182,13 @@ output_keyword(struct keyword *keyword, void *opaque)
  * the generated API.
  */
 static void
-output_keywords(struct lexer_parse_tree *top_level, FILE *output, FILE *output_h)
+output_keywords(struct ast *ast, FILE *output, FILE *output_h)
 {
-	assert(top_level != NULL);
+	assert(ast != NULL);
 	assert(output != NULL);
 	assert(output_h != NULL);
 
-	if (tree_get_globalzone(top_level)->keywords == NULL) {
+	if (tree_get_globalzone(ast)->keywords == NULL) {
 		return;
 	}
 
@@ -200,7 +200,7 @@ output_keywords(struct lexer_parse_tree *top_level, FILE *output, FILE *output_h
 	fprintf(output, "int %skeyword(const char *identifier, int notfound) {\n",
 		lexi_prefix);
 
-	keywords_iterate(tree_get_globalzone(top_level)->keywords, output_keyword, output);
+	keywords_iterate(tree_get_globalzone(ast)->keywords, output_keyword, output);
 
 	fprintf(output, "\treturn notfound;\n}\n");
 }
@@ -254,13 +254,13 @@ output_locals(struct LocalNamesT *locals, unsigned int d, FILE *lex_output)
 }
 
 static void
-output_action(FILE *lex_output, struct lexer_parse_tree *top_level,
+output_action(FILE *lex_output, struct ast *ast,
 	struct entry *ea, struct args_list *lhs, struct args_list *rhs, unsigned int d)
 {
 	struct NameTransT trans;
 
 	assert(lex_output != NULL);
-	assert(top_level != NULL);
+	assert(ast != NULL);
 	assert(ea != NULL);
 	assert(lhs != NULL);
 	assert(rhs != NULL);
@@ -291,7 +291,7 @@ output_action(FILE *lex_output, struct lexer_parse_tree *top_level,
 		struct entry *et;
 		char *st;
 
-		et = lexer_terminal_type(top_level);
+		et = lexer_terminal_type(ast);
 		/* TODO assert(entry_is_type(t)); */
 
 		if (et->u.type->mapped) {
@@ -453,7 +453,7 @@ output_cmds(struct zone *parent, struct cmd_list *ret, unsigned int n, unsigned 
 			break;
 
 		case action_call:
-			output_action(lex_output, parent->top_level, cmd->u.act.called_act, cmd->u.act.lhs, cmd->u.act.rhs, d);
+			output_action(lex_output, parent->ast, cmd->u.act.called_act, cmd->u.act.lhs, cmd->u.act.rhs, d);
 			break;
 
 		case push_zone:
@@ -756,7 +756,7 @@ output_zone_pass_prototypes(struct zone *p)
 
 	s = p->type == typezone_pure_function ? "void" : "int";
 
-	if (p == tree_get_globalzone(p->top_level)) {
+	if (p == tree_get_globalzone(p->ast)) {
 		return;
 	}
 
@@ -820,7 +820,7 @@ output_zone_pass(struct options *opt, struct zone *p)
 		fprintf(lex_output,"int\n%s(struct %sstate *state)\n",
 			read_token_name, lexi_prefix);
 		fputs("{\n", lex_output);
-		if (tree_get_globalzone(p->top_level)->next != NULL) {
+		if (tree_get_globalzone(p->ast)->next != NULL) {
 			fprintf(lex_output, "\tif (state->zone != %s)\n", read_token_name);
 			fprintf(lex_output, "\t\treturn state->zone(state);\n");
 		}
@@ -865,7 +865,7 @@ output_zone_pass(struct options *opt, struct zone *p)
  * if a character belongs to a group or not.
  */
 static unsigned long
-group_number(struct lexer_parse_tree *top_level, struct group *g)
+group_number(struct ast *ast, struct group *g)
 {
 	struct group *p;
 	unsigned int i;
@@ -873,7 +873,7 @@ group_number(struct lexer_parse_tree *top_level, struct group *g)
 	assert(g != NULL);
 
 	i = 0;
-	for (p = tree_get_grouplist(top_level); p != NULL; p = p->next) {
+	for (p = tree_get_grouplist(ast); p != NULL; p = p->next) {
 		if (g == p) {
 			return 1 << i;
 		}
@@ -888,15 +888,15 @@ group_number(struct lexer_parse_tree *top_level, struct group *g)
 }
 
 static unsigned int
-count_nonempty_groups(struct lexer_parse_tree *top_level)
+count_nonempty_groups(struct ast *ast)
 {
 	struct group *p;
 	unsigned int i;
 
-	assert(top_level != NULL);
+	assert(ast != NULL);
 
 	i = 0;
-	for (p = tree_get_grouplist(top_level); p != NULL; p = p->next) {
+	for (p = tree_get_grouplist(ast); p != NULL; p = p->next) {
 		if (!is_group_empty(p)) {
 			i++;
 		}
@@ -922,7 +922,7 @@ output_macros_zone(struct options *opt, struct zone *z)
 			if (is_group_empty(gn->g)) {
 				m = 0;
 			} else {
-				m = group_number(z->top_level, gn->g);
+				m = group_number(z->ast, gn->g);
 			}
 
 			fputc('\t', lex_output_h);
@@ -944,15 +944,15 @@ output_macros_zone(struct options *opt, struct zone *z)
 }
 
 static void
-output_macros(struct options* opt, struct lexer_parse_tree *top_level)
+output_macros(struct options* opt, struct ast *ast)
 {
 
-	if (all_groups_empty(top_level)) {
+	if (all_groups_empty(ast)) {
 		return;
 	}
 
 	fprintf(lex_output_h, "enum %sgroups {\n", opt->lexi_prefix);
-	output_macros_zone(opt, tree_get_globalzone(top_level));
+	output_macros_zone(opt, tree_get_globalzone(ast));
 
 	fputs("};\n", lex_output_h);
 
@@ -980,13 +980,13 @@ output_macros(struct options* opt, struct lexer_parse_tree *top_level)
  * OUTPUT THE LOOKUP TABLE
  */
 static void
-output_lookup_table(struct lexer_parse_tree *top_level, const char *grouptype,
+output_lookup_table(struct ast *ast, const char *grouptype,
 	const char *grouphex, size_t groupwidth)
 {
 	struct group *g;
 	int c;
 
-	if (all_groups_empty(top_level)) {
+	if (all_groups_empty(ast)) {
 		return;
 	}
 
@@ -999,9 +999,9 @@ output_lookup_table(struct lexer_parse_tree *top_level, const char *grouptype,
 		unsigned long m;
 
 		m = 0;
-		for (g = tree_get_grouplist(top_level); g != NULL; g = g->next) {
+		for (g = tree_get_grouplist(ast); g != NULL; g = g->next) {
 			if (in_group(g, c)) {
-				m |= group_number(top_level, g);
+				m |= group_number(ast, g);
 			}
 		}
 
@@ -1026,7 +1026,7 @@ output_lookup_table(struct lexer_parse_tree *top_level, const char *grouptype,
  * OUTPUT LEXI AUTOMATED DEFINED OPERATIONS 
  */
 static void
-output_buffer(struct options *opt, struct lexer_parse_tree *top_level)
+output_buffer(struct options *opt, struct ast *ast)
 {
 	/*
 	 * Strictly the state argument is not required in the case of a
@@ -1039,7 +1039,7 @@ output_buffer(struct options *opt, struct lexer_parse_tree *top_level)
 	fprintf(lex_output,"int %sreadchar(struct %sstate *state) {\n",
 		lexi_prefix, lexi_prefix);
 
-	if (buffer_length(top_level) > 0) {
+	if (buffer_length(ast) > 0) {
 		fputs("\tif (state->buffer_index) {\n", lex_output);
 		fprintf(lex_output,"\t\treturn %spop(state);\n", lexi_prefix);
 		fputs("\t}\n\n", lex_output);
@@ -1049,7 +1049,7 @@ output_buffer(struct options *opt, struct lexer_parse_tree *top_level)
 	fprintf(lex_output, "\treturn %sgetchar(state);\n", opt->interface_prefix);
 	fputs("}\n", lex_output);
 
-	if (buffer_length(top_level) == 0) {
+	if (buffer_length(ast) == 0) {
 		return;
 	}
 
@@ -1088,9 +1088,9 @@ output_buffer(struct options *opt, struct lexer_parse_tree *top_level)
 }
 
 static void
-output_buffer_storage(struct lexer_parse_tree *top_level)
+output_buffer_storage(struct ast *ast)
 {
-	if (buffer_length(top_level) == 0) {
+	if (buffer_length(ast) == 0) {
 		return;
 	}
 
@@ -1099,26 +1099,26 @@ output_buffer_storage(struct lexer_parse_tree *top_level)
 	fputs("\t/*\n", lex_output_h);
 	fputs("\t * Lexi's buffer is a simple stack.\n", lex_output_h);
 	fputs("\t */\n", lex_output_h);
-	fprintf(lex_output_h, "\tint buffer[%u];\n", buffer_length(top_level));
+	fprintf(lex_output_h, "\tint buffer[%u];\n", buffer_length(ast));
 	fputs("\tint buffer_index;\n", lex_output_h);
 }
 
 void
 output_headers(void)
 {
-	ccode_output(lex_output_h, &global_lct_parse_tree.hfileheader, NULL, 0);
-	ccode_output(lex_output,   &global_lct_parse_tree.cfileheader, NULL, 0);
+	ccode_output(lex_output_h, &lct_ast.hfileheader, NULL, 0);
+	ccode_output(lex_output,   &lct_ast.cfileheader, NULL, 0);
 }
 
 void
 output_trailers(void)
 {
-	ccode_output(lex_output_h, &global_lct_parse_tree.hfiletrailer, NULL, 0);
-	ccode_output(lex_output,   &global_lct_parse_tree.cfiletrailer, NULL, 0);
+	ccode_output(lex_output_h, &lct_ast.hfiletrailer, NULL, 0);
+	ccode_output(lex_output,   &lct_ast.cfiletrailer, NULL, 0);
 }
 
 void
-c_output_all(struct options *opt, struct lexer_parse_tree *top_level)
+c_output_all(struct options *opt, struct ast *ast)
 {
 	size_t groupwidth;
 	const char *grouptype;
@@ -1143,7 +1143,7 @@ c_output_all(struct options *opt, struct lexer_parse_tree *top_level)
 	{
 		unsigned int t;
 
-		t = count_nonempty_groups(top_level);
+		t = count_nonempty_groups(ast);
 
 		if (t >= 32) {
 			error(ERROR_FATAL, "Too many non-empty groups defined (%u)", t);
@@ -1198,32 +1198,32 @@ c_output_all(struct options *opt, struct lexer_parse_tree *top_level)
 	fprintf(lex_output_h, "struct %sstate {\n"
 	      "\tint (*zone)(struct %sstate *);\n",
 		opt->lexi_prefix, opt->lexi_prefix);
-	output_buffer_storage(top_level);
+	output_buffer_storage(ast);
 
-	for(add_arg = global_lct_parse_tree.arg_head; add_arg != NULL; add_arg = add_arg->next) {
+	for(add_arg = lct_ast.arg_head; add_arg != NULL; add_arg = add_arg->next) {
 		fprintf(lex_output_h, "\t%s %s;\n", add_arg->ctype, add_arg->name);
 	}
 	fputs("};\n\n", lex_output_h);
 
-	output_buffer(opt, top_level);
+	output_buffer(opt, ast);
 	fputs("\n", lex_output);
 
-	output_lookup_table(top_level,grouptype,grouphex,groupwidth);
+	output_lookup_table(ast,grouptype,grouphex,groupwidth);
 	fputs("\n\n", lex_output);
 
 	fputs("#ifndef LEXI_EOF\n", lex_output_h);
 	fprintf(lex_output_h, "#define LEXI_EOF %d\n", EOF); /* TODO: remove LEXI_EOF */
 	fputs("#endif\n\n", lex_output_h);
 
-	output_macros(opt,top_level);
+	output_macros(opt,ast);
 	fputs("\n\n", lex_output);
 
 	/* Keywords */
-	output_keywords(top_level, lex_output, lex_output_h);
+	output_keywords(ast, lex_output, lex_output_h);
 
 	/* Lexical pre-pass */
 	fputs("/* PRE-PASS ANALYSERS */\n\n", lex_output);
-	output_zone_prepass(tree_get_globalzone(top_level));
+	output_zone_prepass(tree_get_globalzone(ast));
 
 	/* Main pass */
 	fputs("\n/* Identify a token */\n", lex_output_h);
@@ -1239,26 +1239,26 @@ c_output_all(struct options *opt, struct lexer_parse_tree *top_level)
 	fprintf(lex_output,"void %sinit(struct %sstate *state",
 		opt->lexi_prefix, opt->lexi_prefix);
 
-	for(add_arg = global_lct_parse_tree.arg_head; add_arg != NULL; add_arg = add_arg->next) {
+	for (add_arg = lct_ast.arg_head; add_arg != NULL; add_arg = add_arg->next) {
 		fprintf(lex_output_h, ", %s %s", add_arg->ctype, add_arg->name);
 		fprintf(lex_output, ", %s %s", add_arg->ctype, add_arg->name);
 	}
 	fputs(");\n\n",lex_output_h);
 	fprintf(lex_output, ") {\n\tstate->zone = %s;\n", read_token_name);
 
-	if (buffer_length(top_level) > 0) {
+	if (buffer_length(ast) > 0) {
 		fprintf(lex_output, "\tstate->buffer_index = 0;\n");
 	}
-	for(add_arg = global_lct_parse_tree.arg_head; add_arg != NULL; add_arg = add_arg->next) {
+	for (add_arg = lct_ast.arg_head; add_arg != NULL; add_arg = add_arg->next) {
 		fprintf(lex_output, "\tstate->%s = %s;\n", add_arg->name, add_arg->name);
 	}
 	fprintf(lex_output, "}\n");
 
 	fputs("/* ZONES PASS ANALYSER PROTOTYPES*/\n\n", lex_output);
-	output_zone_pass_prototypes(tree_get_globalzone(top_level));
+	output_zone_pass_prototypes(tree_get_globalzone(ast));
 
 	fputs("/* MAIN PASS ANALYSERS */\n\n", lex_output);
-  	output_zone_pass(opt, tree_get_globalzone(top_level));
+  	output_zone_pass(opt, tree_get_globalzone(ast));
 
 	output_trailers();
 

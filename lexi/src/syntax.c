@@ -39,9 +39,9 @@
 #include <adt/cmd.h>
 #include <adt/keyword.h>
 #include <adt/zone.h>
-#include <adt/tree.h>
 #include <adt/char.h>
 
+#include "ast.h"
 #include "lexer.h"
 #include "syntax.h"
 #include "options.h"
@@ -592,7 +592,7 @@ ZRtype_Hdefn(zoneP ZIz)
 				{
 #line 756 "syntax.act"
 
-   (ZI0) = tree_zoneisglobal((ZIz)->top_level, (ZIz));
+   (ZI0) = tree_zoneisglobal((ZIz)->ast, (ZIz));
 #line 597 "syntax.c"
 				}
 				/* END OF ACTION: is-global-zone */
@@ -606,7 +606,7 @@ ZRtype_Hdefn(zoneP ZIz)
 	struct entry *e;
 	nstring_copy_cstring(&str,(ZIs));
 	xfree((ZIs));
-	e = table_get_entry(tree_get_table((ZIz)->top_level), &str);
+	e = table_get_entry(tree_get_table((ZIz)->ast), &str);
 	if(e != NULL) {
 		nstring_destroy(&str);
 		/* TODO switch ? */
@@ -619,7 +619,7 @@ ZRtype_Hdefn(zoneP ZIz)
 		else
 			UNREACHED;
 	} else {
-		table_add_type(tree_get_table((ZIz)->top_level), &str, false);
+		table_add_type(tree_get_table((ZIz)->ast), &str, false);
 	}
 #line 625 "syntax.c"
 				}
@@ -812,7 +812,7 @@ ZRcmd_Hlist(zoneP ZI201, cmd_listP *ZO206)
 					et=localnames_get_type(locals, &str);
 					nstring_destroy(&str);
 					if(!et) {
-						struct entry *e = table_get_entry(tree_get_table((ZI201)->top_level), &str);
+						struct entry *e = table_get_entry(tree_get_table((ZI201)->ast), &str);
 						if(!e) {
 							error(ERROR_SERIOUS, "local name %s has not been defined yet", p->u.literal);
 							et = NULL;
@@ -831,20 +831,20 @@ ZRcmd_Hlist(zoneP ZI201, cmd_listP *ZO206)
 					}
 					break;
 				case arg_charP:
-					/* TODO assert(lexer_string_type(top_level)) */
-					et = lexer_string_type((ZI201)->top_level);
+					/* TODO assert(lexer_string_type(ast)) */
+					et = lexer_string_type((ZI201)->ast);
 		 			break;
 				case arg_char_nb:
-					/* TODO assert(lexer_char_type(top_level)) */
-					et = lexer_char_type((ZI201)->top_level);
+					/* TODO assert(lexer_char_type(ast)) */
+					et = lexer_char_type((ZI201)->ast);
 			 		break;
 				case arg_terminal:
-					/* TODO assert(lexer_terminal_type(top_level)) */
-					et = lexer_terminal_type((ZI201)->top_level);
+					/* TODO assert(lexer_terminal_type(ast)) */
+					et = lexer_terminal_type((ZI201)->ast);
 					break;
 				case arg_nb_of_chars:
-					/* TODO assert(lexer_terminal_type(top_level)) */
-					et = lexer_int_type((ZI201)->top_level);
+					/* TODO assert(lexer_terminal_type(ast)) */
+					et = lexer_int_type((ZI201)->ast);
 		 			break;
 				case arg_none:
 					break; /* Error already detected, do nothing and leave p->lexitype = NULL */
@@ -911,7 +911,7 @@ ZRcmd_Hlist(zoneP ZI201, cmd_listP *ZO206)
 						nstring_copy_cstring(&str, p->u.literal);
 						et = localnames_get_type(locals, &str);
 						if(!et) {
-							struct entry *e= table_get_entry(tree_get_table((ZI201)->top_level), &str);
+							struct entry *e= table_get_entry(tree_get_table((ZI201)->ast), &str);
 							localnames_add_nstring(locals, &str, q->et);
 							if(e) {
 								nstring_destroy(&str);
@@ -921,7 +921,7 @@ ZRcmd_Hlist(zoneP ZI201, cmd_listP *ZO206)
 									error(ERROR_SERIOUS, "In action lhs. Name %s is a type. Hiding globals by local names is not allowed", p->u.literal);									
 								}
 							} else {
-								table_add_local_name(tree_get_table((ZI201)->top_level), &str);
+								table_add_local_name(tree_get_table((ZI201)->ast), &str);
 							}
 							if(p->is_reference) {
 								char* s = nstring_to_cstring(entry_key(ea));
@@ -940,7 +940,7 @@ ZRcmd_Hlist(zoneP ZI201, cmd_listP *ZO206)
 					}
 					break;
 				case arg_return_terminal:
-					et = lexer_terminal_type((ZI201)->top_level);
+					et = lexer_terminal_type((ZI201)->ast);
 					q->is_reference = false;
 					/* TODO assert(q->is_reference == false) */
 					break;
@@ -1141,7 +1141,7 @@ ZRtype_Htuple_C_Ctype_Hname(zoneP ZIz, typetuple *ZIa)
 	NStringT tstr, istr;
 	nstring_copy_cstring(&tstr,(ZItype));
 	nstring_copy_cstring(&istr,(ZIname));
-	et = table_get_entry(tree_get_table((ZIz)->top_level), &tstr);
+	et = table_get_entry(tree_get_table((ZIz)->ast), &tstr);
 	if(et== NULL) {
 		 error(ERROR_SERIOUS, "Unknown type %s", (ZItype));
 		 nstring_destroy(&istr);
@@ -1492,7 +1492,7 @@ ZRaction_Hdecl(zoneP ZIz)
 	NStringT str;
 	struct entry *e;
 	nstring_copy_cstring(&str, (ZIi));
-	e = table_get_entry(tree_get_table((ZIz)->top_level), &str);
+	e = table_get_entry(tree_get_table((ZIz)->ast), &str);
 	if(e != NULL) {
 		nstring_destroy(&str);
 		/* TODO switch ? */
@@ -1505,7 +1505,7 @@ ZRaction_Hdecl(zoneP ZIz)
 		else
 			UNREACHED;
 	} else {
-		table_add_action(tree_get_table((ZIz)->top_level), &str , (&ZIit), (&ZIot));
+		table_add_action(tree_get_table((ZIz)->ast), &str , (&ZIit), (&ZIot));
 	}
 	xfree((ZIi));
 #line 1512 "syntax.c"
@@ -1578,7 +1578,7 @@ ZL2_207:;
 					et=localnames_get_type(locals, &str);
 					nstring_destroy(&str);
 					if(!et) {
-						struct entry *e = table_get_entry(tree_get_table((ZI201)->top_level), &str);
+						struct entry *e = table_get_entry(tree_get_table((ZI201)->ast), &str);
 						if(!e) {
 							error(ERROR_SERIOUS, "local name %s has not been defined yet", p->u.literal);
 							et = NULL;
@@ -1597,20 +1597,20 @@ ZL2_207:;
 					}
 					break;
 				case arg_charP:
-					/* TODO assert(lexer_string_type(top_level)) */
-					et = lexer_string_type((ZI201)->top_level);
+					/* TODO assert(lexer_string_type(ast)) */
+					et = lexer_string_type((ZI201)->ast);
 		 			break;
 				case arg_char_nb:
-					/* TODO assert(lexer_char_type(top_level)) */
-					et = lexer_char_type((ZI201)->top_level);
+					/* TODO assert(lexer_char_type(ast)) */
+					et = lexer_char_type((ZI201)->ast);
 			 		break;
 				case arg_terminal:
-					/* TODO assert(lexer_terminal_type(top_level)) */
-					et = lexer_terminal_type((ZI201)->top_level);
+					/* TODO assert(lexer_terminal_type(ast)) */
+					et = lexer_terminal_type((ZI201)->ast);
 					break;
 				case arg_nb_of_chars:
-					/* TODO assert(lexer_terminal_type(top_level)) */
-					et = lexer_int_type((ZI201)->top_level);
+					/* TODO assert(lexer_terminal_type(ast)) */
+					et = lexer_int_type((ZI201)->ast);
 		 			break;
 				case arg_none:
 					break; /* Error already detected, do nothing and leave p->lexitype = NULL */
@@ -1677,7 +1677,7 @@ ZL2_207:;
 						nstring_copy_cstring(&str, p->u.literal);
 						et = localnames_get_type(locals, &str);
 						if(!et) {
-							struct entry *e= table_get_entry(tree_get_table((ZI201)->top_level), &str);
+							struct entry *e= table_get_entry(tree_get_table((ZI201)->ast), &str);
 							localnames_add_nstring(locals, &str, q->et);
 							if(e) {
 								nstring_destroy(&str);
@@ -1687,7 +1687,7 @@ ZL2_207:;
 									error(ERROR_SERIOUS, "In action lhs. Name %s is a type. Hiding globals by local names is not allowed", p->u.literal);									
 								}
 							} else {
-								table_add_local_name(tree_get_table((ZI201)->top_level), &str);
+								table_add_local_name(tree_get_table((ZI201)->ast), &str);
 							}
 							if(p->is_reference) {
 								char* s = nstring_to_cstring(entry_key(ea));
@@ -1706,7 +1706,7 @@ ZL2_207:;
 					}
 					break;
 				case arg_return_terminal:
-					et = lexer_terminal_type((ZI201)->top_level);
+					et = lexer_terminal_type((ZI201)->ast);
 					q->is_reference = false;
 					/* TODO assert(q->is_reference == false) */
 					break;
@@ -2098,7 +2098,7 @@ ZR211(zoneP *ZIz, args_listP *ZIl, cmdP *ZOinst)
 	NStringT key;
 	struct entry *ea;
 	nstring_copy_cstring(&key, (ZIi));
-	ea = table_get_entry(tree_get_table((*ZIz)->top_level), &key);
+	ea = table_get_entry(tree_get_table((*ZIz)->ast), &key);
 	if(ea) {
 		if(entry_is_action(ea)) {
 			/* TODO: Inefficient code follows: */
@@ -2231,7 +2231,7 @@ ZR211(zoneP *ZIz, args_listP *ZIl, cmdP *ZOinst)
 	NStringT key;
 	struct entry *ea;
 	nstring_copy_cstring(&key, (ZIi));
-	ea = table_get_entry(tree_get_table((*ZIz)->top_level), &key);
+	ea = table_get_entry(tree_get_table((*ZIz)->ast), &key);
 	if(ea) {
 		if(entry_is_action(ea)) {
 			/* TODO: Inefficient code follows: */
@@ -2347,7 +2347,7 @@ ZR211(zoneP *ZIz, args_listP *ZIl, cmdP *ZOinst)
 	NStringT key;
 	struct entry *ea;
 	nstring_copy_cstring(&key, (ZIi));
-	ea = table_get_entry(tree_get_table((*ZIz)->top_level), &key);
+	ea = table_get_entry(tree_get_table((*ZIz)->ast), &key);
 	if(ea) {
 		if(entry_is_action(ea)) {
 			/* TODO: Inefficient code follows: */
@@ -2480,7 +2480,7 @@ ZR211(zoneP *ZIz, args_listP *ZIl, cmdP *ZOinst)
 	NStringT key;
 	struct entry *ea;
 	nstring_copy_cstring(&key, (ZIi));
-	ea = table_get_entry(tree_get_table((*ZIz)->top_level), &key);
+	ea = table_get_entry(tree_get_table((*ZIz)->ast), &key);
 	if(ea) {
 		if(entry_is_action(ea)) {
 			/* TODO: Inefficient code follows: */
@@ -2596,7 +2596,7 @@ ZR211(zoneP *ZIz, args_listP *ZIl, cmdP *ZOinst)
 	NStringT key;
 	struct entry *ea;
 	nstring_copy_cstring(&key, (ZIi));
-	ea = table_get_entry(tree_get_table((*ZIz)->top_level), &key);
+	ea = table_get_entry(tree_get_table((*ZIz)->ast), &key);
 	if(ea) {
 		if(entry_is_action(ea)) {
 			/* TODO: Inefficient code follows: */
@@ -2678,7 +2678,7 @@ ZR211(zoneP *ZIz, args_listP *ZIl, cmdP *ZOinst)
 	NStringT key;
 	struct entry *ea;
 	nstring_copy_cstring(&key, (ZIi));
-	ea = table_get_entry(tree_get_table((*ZIz)->top_level), &key);
+	ea = table_get_entry(tree_get_table((*ZIz)->ast), &key);
 	if(ea) {
 		if(entry_is_action(ea)) {
 			/* TODO: Inefficient code follows: */
@@ -2803,7 +2803,7 @@ ZR211(zoneP *ZIz, args_listP *ZIl, cmdP *ZOinst)
 	NStringT key;
 	struct entry *ea;
 	nstring_copy_cstring(&key, (ZIi));
-	ea = table_get_entry(tree_get_table((*ZIz)->top_level), &key);
+	ea = table_get_entry(tree_get_table((*ZIz)->ast), &key);
 	if(ea) {
 		if(entry_is_action(ea)) {
 			/* TODO: Inefficient code follows: */
@@ -2923,7 +2923,7 @@ ZR211(zoneP *ZIz, args_listP *ZIl, cmdP *ZOinst)
 	NStringT key;
 	struct entry *ea;
 	nstring_copy_cstring(&key, (ZIi));
-	ea = table_get_entry(tree_get_table((*ZIz)->top_level), &key);
+	ea = table_get_entry(tree_get_table((*ZIz)->ast), &key);
 	if(ea) {
 		if(entry_is_action(ea)) {
 			/* TODO: Inefficient code follows: */
@@ -3055,7 +3055,7 @@ ZR211(zoneP *ZIz, args_listP *ZIl, cmdP *ZOinst)
 	NStringT key;
 	struct entry *ea;
 	nstring_copy_cstring(&key, (ZIi));
-	ea = table_get_entry(tree_get_table((*ZIz)->top_level), &key);
+	ea = table_get_entry(tree_get_table((*ZIz)->ast), &key);
 	if(ea) {
 		if(entry_is_action(ea)) {
 			/* TODO: Inefficient code follows: */
@@ -3229,7 +3229,7 @@ ZR211(zoneP *ZIz, args_listP *ZIl, cmdP *ZOinst)
 	NStringT key;
 	struct entry *ea;
 	nstring_copy_cstring(&key, (ZIi));
-	ea = table_get_entry(tree_get_table((*ZIz)->top_level), &key);
+	ea = table_get_entry(tree_get_table((*ZIz)->ast), &key);
 	if(ea) {
 		if(entry_is_action(ea)) {
 			/* TODO: Inefficient code follows: */
@@ -3377,7 +3377,7 @@ ZR215(zoneP *ZIz, args_listP *ZIl, SID_STRING *ZI214, cmdP *ZOinst)
 	NStringT key;
 	struct entry *ea;
 	nstring_copy_cstring(&key, (ZIi));
-	ea = table_get_entry(tree_get_table((*ZIz)->top_level), &key);
+	ea = table_get_entry(tree_get_table((*ZIz)->ast), &key);
 	if(ea) {
 		if(entry_is_action(ea)) {
 			/* TODO: Inefficient code follows: */
@@ -3472,7 +3472,7 @@ ZRkeyword_Hdefn(zoneP ZIz)
 				{
 #line 756 "syntax.act"
 
-   (ZI0) = tree_zoneisglobal((ZIz)->top_level, (ZIz));
+   (ZI0) = tree_zoneisglobal((ZIz)->ast, (ZIz));
 #line 3477 "syntax.c"
 				}
 				/* END OF ACTION: is-global-zone */

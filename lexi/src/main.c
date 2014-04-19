@@ -15,11 +15,10 @@
 #include <shared/error.h>
 #include <shared/getopt.h>
 
-#include <adt/tree.h>
-
 #include <out/c.h>
 #include <out/dot.h>
 
+#include "ast.h"
 #include "lexer.h"
 #include "lctlexer.h"
 #include "syntax.h"
@@ -29,7 +28,7 @@
 static struct options opt;
 
 static void
-process_lxi_file(char *nm, struct lexer_parse_tree *top_level)
+process_lxi_file(char *nm, struct ast *ast)
 {
 	FILE *input;
 
@@ -51,7 +50,7 @@ process_lxi_file(char *nm, struct lexer_parse_tree *top_level)
 	lexi_init(&lexer_state, input);
 
 	ADVANCE_LXI_LEXER;
-	read_lex(tree_get_globalzone(top_level));
+	read_lex(tree_get_globalzone(ast));
 
 	if (nm != NULL) {
 		fclose(input);
@@ -61,7 +60,7 @@ process_lxi_file(char *nm, struct lexer_parse_tree *top_level)
 }
 
 static void
-process_lct_file(struct lexer_parse_tree* parse_tree, char* fn)
+process_lct_file(struct ast *ast, char* fn)
 {
 	FILE *lct_file;
 
@@ -74,12 +73,12 @@ process_lct_file(struct lexer_parse_tree* parse_tree, char* fn)
 	}
 
 	crt_file_name = fn;
-	init_lct_parse_tree(&global_lct_parse_tree);
+	init_lct_ast(&lct_ast);
 	lexi_lct_init(&lct_lexer_state, lct_file);
 
 	ADVANCE_LCT_LEXER;
 
-	lxi_top_level = parse_tree;
+	lxi_ast = ast;
 	read_lct_unit();
 
 	fclose(lct_file);
@@ -104,7 +103,7 @@ open_filestream(const char *name)
 int
 main(int argc, char **argv)
 {
-	struct lexer_parse_tree *top_level;
+	struct ast *ast;
 	struct outputs *output;
 	int i;
 
@@ -112,7 +111,7 @@ main(int argc, char **argv)
 		const char *language;
 		const signed int inputfiles;
 		const signed int outputfiles;
-		void (*output_all)(struct options *, struct lexer_parse_tree *);
+		void (*output_all)(struct options *, struct ast *);
 		const char *options;
 	} outputs[] = {
 #define COMMON "C:t:l:p:i:vh"
@@ -213,14 +212,14 @@ main(int argc, char **argv)
 	}
 
 	/* Process input file */
-	top_level = init_lexer_parse_tree();
+	ast = init_ast();
 
-	set_predefined_char_lexi_type    (top_level, "CHARACTER", "char");
-	set_predefined_string_lexi_type  (top_level, "STRING",    "char *");
-	set_predefined_int_lexi_type     (top_level, "INTEGER",   "int");
-	set_predefined_terminal_lexi_type(top_level, "TERMINAL");
+	set_predefined_char_lexi_type    (ast, "CHARACTER", "char");
+	set_predefined_string_lexi_type  (ast, "STRING",    "char *");
+	set_predefined_int_lexi_type     (ast, "INTEGER",   "int");
+	set_predefined_terminal_lexi_type(ast, "TERMINAL");
 
-	process_lxi_file(argv[0], top_level);
+	process_lxi_file(argv[0], ast);
 
 	if (exit_status != EXIT_SUCCESS) {
 		error(ERROR_FATAL, "Terminating due to previous errors");
@@ -228,7 +227,7 @@ main(int argc, char **argv)
 	}
 
 	if (output->inputfiles > 1) {
-		process_lct_file(top_level, argv[1]);
+		process_lct_file(ast, argv[1]);
 	}
 
 	if (exit_status != EXIT_SUCCESS) {
@@ -237,12 +236,12 @@ main(int argc, char **argv)
 	}
 
 	/* Generate output */
- 	if (tree_get_globalzone(top_level)->white_space == NULL) {
-		tree_get_globalzone(top_level)->white_space = make_group(tree_get_globalzone(top_level), "white", " \t\n");
+ 	if (tree_get_globalzone(ast)->white_space == NULL) {
+		tree_get_globalzone(ast)->white_space = make_group(tree_get_globalzone(ast), "white", " \t\n");
 	}
 
 	if (output->output_all!=NULL) {
-		output->output_all(&opt, top_level);
+		output->output_all(&opt, ast);
 	}
 
 	for (i = 0; i < output->outputfiles; i++) {

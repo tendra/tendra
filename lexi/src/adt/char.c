@@ -21,7 +21,6 @@
 #include <adt/group.h>	/* XXX */
 #include <adt/zone.h>	/* XXX */
 #include <adt/cmd.h>	/* XXX */
-#include <adt/tree.h>	/* XXX */
 
 /*
  * FIND AN ESCAPE SEQUENCE

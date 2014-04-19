@@ -52,11 +52,11 @@ ENTRYP -> EntryP;
 
 #include <adt/action.h>
 #include <adt/entry.h>
-#include <adt/tree.h>
 
 #include "lctsyntax.h"
 #include "lctlexer.h"
 #include "ccode.h"
+#include "ast.h"
 
 #define ADVANCE_LEXER ADVANCE_LCT_LEXER
 #define CURRENT_TERMINAL CURRENT_LCT_TERMINAL 
@@ -69,7 +69,7 @@ typedef struct TypeTupleT typetuple;
 
 
 
-void init_lct_parse_tree(struct lct_parse_tree* a) 
+void init_lct_ast(struct lct_ast* a) 
 {
 	a->headersdefined = 0;
 	a->trailersdefined = 0;
@@ -81,8 +81,8 @@ void init_lct_parse_tree(struct lct_parse_tree* a)
 	a->arg_tail = &(a->arg_head);
 }
 
-struct lexer_parse_tree *lxi_top_level;
-struct lct_parse_tree global_lct_parse_tree ;
+struct ast *lxi_ast;
+struct lct_ast lct_ast;
 
 @}, @{
 
@@ -98,8 +98,7 @@ struct lct_parse_tree global_lct_parse_tree ;
  #define LCT_SYNTAX_HEADER_INCLUDED
 
 #include "ccode.h"
-
-#include "adt/tree.h"
+#include "ast.h"
 
 struct lxi_additional_argument {
        	char* name;
@@ -108,7 +107,7 @@ struct lxi_additional_argument {
 	struct lxi_additional_argument* next;
 };
 
-struct lct_parse_tree {
+struct lct_ast {
 	int headersdefined;
 	int trailersdefined;
 	struct CcodeT hfileheader;
@@ -119,10 +118,10 @@ struct lct_parse_tree {
 	struct lxi_additional_argument** arg_tail;
 };
 
-extern struct lexer_parse_tree *lxi_top_level;
-extern struct lct_parse_tree global_lct_parse_tree ;
+extern struct ast *lxi_ast;
+extern struct lct_ast lct_ast;
 
-extern void init_lct_parse_tree(struct lct_parse_tree*);
+extern void init_lct_ast(struct lct_ast*);
 @};
 
 %assignments%
@@ -247,18 +246,18 @@ code-string : () -> (s:BIGSTRING) = @{
 		p->name = nstring_to_cstring(@&name);
 		p->ctype = nstring_to_cstring(@&ctype);
 		p->next = NULL ;
-		*(global_lct_parse_tree.arg_tail) = p;
-		global_lct_parse_tree.arg_tail = &(p->next);
+		*(lct_ast.arg_tail) = p;
+		lct_ast.arg_tail = &(p->next);
 	}
 	nstring_destroy(@&name);
 	nstring_destroy(@&ctype);
 @};
 
 <set-headers> : (sc:CCODE &,sh:CCODE&) -> () = @{
-	if(!global_lct_parse_tree.trailersdefined) {
-		global_lct_parse_tree.headersdefined = 1;
-		ccode_assign(&(global_lct_parse_tree.hfileheader),@&sh) ;
-		ccode_assign(&(global_lct_parse_tree.cfileheader),@&sc) ;
+	if(!lct_ast.trailersdefined) {
+		lct_ast.headersdefined = 1;
+		ccode_assign(&(lct_ast.hfileheader),@&sh) ;
+		ccode_assign(&(lct_ast.cfileheader),@&sc) ;
 	} else {
 		error(ERROR_SERIOUS, "Headers may not be redefined");
 		ccode_destroy(@&sc);
@@ -267,10 +266,10 @@ code-string : () -> (s:BIGSTRING) = @{
 @} ;
 
 <set-trailers> : (sc:CCODE &,sh:CCODE&) -> () = @{
-	if(!(global_lct_parse_tree.trailersdefined)) {
-		global_lct_parse_tree.trailersdefined = 1;
-		ccode_assign(&(global_lct_parse_tree.hfiletrailer),@&sh) ;
-		ccode_assign(&(global_lct_parse_tree.cfiletrailer),@&sc) ;
+	if(!(lct_ast.trailersdefined)) {
+		lct_ast.trailersdefined = 1;
+		ccode_assign(&(lct_ast.hfiletrailer),@&sh) ;
+		ccode_assign(&(lct_ast.cfiletrailer),@&sc) ;
 	} else {
 		error(ERROR_SERIOUS, "Trailers may not be redefined");
 		ccode_destroy(@&sc);
@@ -288,7 +287,7 @@ code-string : () -> (s:BIGSTRING) = @{
 @};
 
 <append-tuple> : (a:TYPETUPLE&, id:IDENTIFIER, type:IDENTIFIER, isref:BOOL) -> () =@{
-	struct entry *et = table_get_entry(tree_get_table(lxi_top_level), @&type);
+	struct entry *et = table_get_entry(tree_get_table(lxi_ast), @&type);
 	if(et== NULL) {
 		 char* pt = nstring_to_cstring(@&type);
 		 error(ERROR_SERIOUS, "Unknown type %s", pt);
@@ -307,7 +306,7 @@ code-string : () -> (s:BIGSTRING) = @{
 @} ;
 
 <make-map> : (lexitype:IDENTIFIER, ctype:IDENTIFIER) -> () = @{
-	struct entry *et= table_get_entry(tree_get_table(lxi_top_level), @&lexitype);
+	struct entry *et= table_get_entry(tree_get_table(lxi_ast), @&lexitype);
 	if(et != NULL) {
 		if(entry_is_type(et)) {
 			struct type* t = entry_get_type(et);
@@ -325,7 +324,7 @@ code-string : () -> (s:BIGSTRING) = @{
 
 
 <get-entry-action> : (i:IDENTIFIER) -> (ea:ENTRYP) = @{
-	@ea=table_get_entry(tree_get_table(lxi_top_level), @&i);
+	@ea=table_get_entry(tree_get_table(lxi_ast), @&i);
 	if(@ea) {
 		if(!entry_is_action(@ea)) {
 			char* pi;

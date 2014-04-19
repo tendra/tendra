@@ -15,10 +15,11 @@
 
 #include <adt/entry.h>
 #include <adt/char.h>
-#include <adt/tree.h>
 #include <adt/zone.h>
 
-struct lexer_parse_tree {
+#include "ast.h"
+
+struct ast {
 	struct zone *global_zone;
 
 	struct group *groups_list;
@@ -31,10 +32,10 @@ struct lexer_parse_tree {
 	struct entry *lexi_terminal_type; /* for $ = returns  */
 };
 
-struct lexer_parse_tree *
-init_lexer_parse_tree(void)
+struct ast *
+init_ast(void)
 {
-	struct lexer_parse_tree *new;
+	struct ast *new;
 
 	new = xmalloc(sizeof *new);
 	new->table       = NULL;
@@ -45,7 +46,7 @@ init_lexer_parse_tree(void)
 }
 
 int
-tree_zoneisglobal(struct lexer_parse_tree *t, struct zone *z)
+tree_zoneisglobal(struct ast *t, struct zone *z)
 {
 	assert(t != NULL);
 	assert(z != NULL);
@@ -54,7 +55,7 @@ tree_zoneisglobal(struct lexer_parse_tree *t, struct zone *z)
 }
 
 struct zone *
-tree_get_globalzone(struct lexer_parse_tree *t)
+tree_get_globalzone(struct ast *t)
 {
 	assert(t != NULL);
 
@@ -62,7 +63,7 @@ tree_get_globalzone(struct lexer_parse_tree *t)
 }
 
 struct entry **
-tree_get_table(struct lexer_parse_tree *t)
+tree_get_table(struct ast *t)
 {
 	assert(t != NULL);
 
@@ -70,7 +71,7 @@ tree_get_table(struct lexer_parse_tree *t)
 }
 
 struct group *
-tree_get_grouplist(struct lexer_parse_tree *t)
+tree_get_grouplist(struct ast *t)
 {
 	assert(t != NULL);
 
@@ -78,7 +79,7 @@ tree_get_grouplist(struct lexer_parse_tree *t)
 }
 
 int
-all_groups_empty(struct lexer_parse_tree *t)
+all_groups_empty(struct ast *t)
 {
 	struct group *g;
 
@@ -94,7 +95,7 @@ all_groups_empty(struct lexer_parse_tree *t)
 }
 
 struct group *
-tree_find_group(struct lexer_parse_tree *t, struct group *b)
+tree_find_group(struct ast *t, struct group *b)
 {
 	struct group *g;
 
@@ -111,7 +112,7 @@ tree_find_group(struct lexer_parse_tree *t, struct group *b)
 }
 
 void
-tree_add_group(struct lexer_parse_tree *t, struct group *g)
+tree_add_group(struct ast *t, struct group *g)
 {
 	assert(t != NULL);
 	assert(g->next == NULL);
@@ -121,7 +122,7 @@ tree_add_group(struct lexer_parse_tree *t, struct group *g)
 }
 
 void
-set_predefined_char_lexi_type(struct lexer_parse_tree* top_level, char *lexi_type, char *c_type)
+set_predefined_char_lexi_type(struct ast* ast, char *lexi_type, char *c_type)
 {
 	NStringT str;
 	NStringT cstr;
@@ -131,16 +132,16 @@ set_predefined_char_lexi_type(struct lexer_parse_tree* top_level, char *lexi_typ
 	nstring_copy_cstring(&str, lexi_type);
 	nstring_copy_cstring(&cstr, c_type);
 
-	/* TODO assert(table_get_entry(tree_get_table(top_level), &str) == NULL) */
-	et   = table_add_type(tree_get_table(top_level), &str, true);
+	/* TODO assert(table_get_entry(tree_get_table(ast), &str) == NULL) */
+	et   = table_add_type(tree_get_table(ast), &str, true);
 	type = entry_get_type(et);
 
 	type_map(type, &cstr);
-	top_level->lexi_char_type = et;
+	ast->lexi_char_type = et;
 }
 
 void
-set_predefined_string_lexi_type(struct lexer_parse_tree *top_level, char *lexi_type, char *c_type)
+set_predefined_string_lexi_type(struct ast *ast, char *lexi_type, char *c_type)
 {
 	NStringT str;
 	NStringT cstr;
@@ -150,29 +151,29 @@ set_predefined_string_lexi_type(struct lexer_parse_tree *top_level, char *lexi_t
 	nstring_copy_cstring(&str, lexi_type);
 	nstring_copy_cstring(&cstr, c_type);
 
-	/* TODO assert(table_get_entry(tree_get_table(top_level), &str) == NULL) */
-	et   = table_add_type(tree_get_table(top_level), &str, true);
+	/* TODO assert(table_get_entry(tree_get_table(ast), &str) == NULL) */
+	et   = table_add_type(tree_get_table(ast), &str, true);
 	type = entry_get_type(et);
 
 	type_map(type, &cstr);
-	top_level->lexi_string_type = et;
+	ast->lexi_string_type = et;
 }
 
 void
-set_predefined_terminal_lexi_type(struct lexer_parse_tree *top_level, char *lexi_type)
+set_predefined_terminal_lexi_type(struct ast *ast, char *lexi_type)
 {
 	NStringT str;
 	struct entry *et;
 
 	nstring_copy_cstring(&str, lexi_type);
 
-	/* TODO assert(table_get_entry(tree_get_table(top_level), &str) == NULL) */
-	et = table_add_type(tree_get_table(top_level), &str, true);
-	top_level->lexi_terminal_type = et;
+	/* TODO assert(table_get_entry(tree_get_table(ast), &str) == NULL) */
+	et = table_add_type(tree_get_table(ast), &str, true);
+	ast->lexi_terminal_type = et;
 }
 
 void
-set_predefined_int_lexi_type(struct lexer_parse_tree* top_level, char *lexi_type, char *c_type)
+set_predefined_int_lexi_type(struct ast* ast, char *lexi_type, char *c_type)
 {
 	NStringT str;
 	NStringT cstr;
@@ -182,35 +183,35 @@ set_predefined_int_lexi_type(struct lexer_parse_tree* top_level, char *lexi_type
 	nstring_copy_cstring(&str, lexi_type);
 	nstring_copy_cstring(&cstr, c_type);
 
-	/* TODO assert(table_get_entry(tree_get_table(top_level), &str) == NULL) */
-	et = table_add_type(tree_get_table(top_level), &str, true);
+	/* TODO assert(table_get_entry(tree_get_table(ast), &str) == NULL) */
+	et = table_add_type(tree_get_table(ast), &str, true);
 	type  = entry_get_type(et);
 
 	type_map(type, &cstr);
-	top_level->lexi_int_type = et;
+	ast->lexi_int_type = et;
 }
 
 struct entry *
-lexer_char_type(struct lexer_parse_tree *top_level)
+lexer_char_type(struct ast *ast)
 {
-	return top_level->lexi_char_type;
+	return ast->lexi_char_type;
 }
 
 struct entry *
-lexer_string_type(struct lexer_parse_tree *top_level)
+lexer_string_type(struct ast *ast)
 {
-	return top_level->lexi_string_type;
+	return ast->lexi_string_type;
 }
 
 struct entry *
-lexer_int_type(struct lexer_parse_tree *top_level)
+lexer_int_type(struct ast *ast)
 {
-	return top_level->lexi_int_type;
+	return ast->lexi_int_type;
 }
 
 struct entry *
-lexer_terminal_type(struct lexer_parse_tree *top_level)
+lexer_terminal_type(struct ast *ast)
 {
-	return top_level->lexi_terminal_type;
+	return ast->lexi_terminal_type;
 }
 

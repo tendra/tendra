@@ -14,12 +14,12 @@
 
 #include <adt/char.h>
 #include <adt/cmd.h>
-#include <adt/tree.h>
 #include <adt/zone.h>	/* XXX */
 
 #include <out/dot.h>
 #include <out/common.h>
 
+#include "ast.h"
 #include "options.h"
 
 /* This is a convenience for brevity */
@@ -64,7 +64,7 @@ quote_char(int c)
  * its type according to tree_get_translation().
  */
 static void
-output_node(struct lexer_parse_tree *top_level, struct character *p, struct options *opt) {
+output_node(struct ast *ast, struct character *p, struct options *opt) {
 	/* node value */
 	{
 		fprintf(dotout, "\t\tc%p [ ", (void *) p);
@@ -126,11 +126,11 @@ output_node(struct lexer_parse_tree *top_level, struct character *p, struct opti
  * adjacent nodes.
  */
 static void
-pass(void *prev, struct character *p, struct lexer_parse_tree *top_level, struct options *opt) {
+pass(void *prev, struct character *p, struct ast *ast, struct options *opt) {
 	struct character *q;
 
 	for (q = p; q != NULL; q = q->opt) {
-		output_node(top_level, q, opt);
+		output_node(ast, q, opt);
 
 		fprintf(dotout, "\t\tc%p -> c%p [ dir=none ];\n", prev, (void *) q);
 
@@ -138,18 +138,18 @@ pass(void *prev, struct character *p, struct lexer_parse_tree *top_level, struct
 			continue;
 		}
 
-		pass(q, q->next, top_level, opt);
+		pass(q, q->next, ast, opt);
 	}
 
 }
 
 static void
-output_zone(struct options *opt, struct lexer_parse_tree *top_level, struct zone *z)
+output_zone(struct options *opt, struct ast *ast, struct zone *z)
 {
 	struct zone *p;
 
 	assert(opt != NULL);
-	assert(top_level != NULL);
+	assert(ast != NULL);
 	assert(z != NULL);
 
 	fprintf(dotout, "\t{\n");
@@ -163,19 +163,19 @@ output_zone(struct options *opt, struct lexer_parse_tree *top_level, struct zone
 		fprintf(dotout, "\t\tc%p [ shape=plaintext, label=\"%s\" ];\n",
 			(void *) p, p->name == NULL ? "(global)" : p->name);
 
-		pass(p, p->main, top_level, opt);
+		pass(p, p->main, ast, opt);
 
 		if (p->next != NULL) {
-			output_zone(opt, top_level, p->next);
+			output_zone(opt, ast, p->next);
 		}
 	}
 
 	fprintf(dotout, "\t}\n");
 }
 
-void dot_output_all(struct options *opt, struct lexer_parse_tree *top_level) {
+void dot_output_all(struct options *opt, struct ast *ast) {
 	assert(opt != NULL);
-	assert(top_level != NULL);
+	assert(ast != NULL);
 
 	output_generated_by_lexi(OUTPUT_COMMENT_C90, dotout);
 
@@ -184,7 +184,7 @@ void dot_output_all(struct options *opt, struct lexer_parse_tree *top_level) {
 	fprintf(dotout, "\trankdir = LR;\n");
 
 	/* TODO output each child zone, not just siblings (nest as subgraphs) */
-	output_zone(opt, top_level, tree_get_globalzone(top_level));
+	output_zone(opt, ast, tree_get_globalzone(ast));
 
 	fprintf(dotout, "};\n");
 }

@@ -16,7 +16,8 @@
 #include <adt/char.h>
 #include <adt/group.h>
 #include <adt/zone.h>
-#include <adt/tree.h>
+
+#include "../ast.h"
 
 static void
 unescape_string(struct zone *z, int *o, char *s)
@@ -141,12 +142,12 @@ make_group(struct zone *z, char *name, char *defn)
 			unescape_string(z, new->defn, defn);
 		}
 
-		old = tree_find_group(z->top_level, new);
+		old = tree_find_group(z->ast, new);
 		if (old != NULL) {
 			xfree(new);
 			gn->g = old;
 		} else {
-			tree_add_group(z->top_level, new);
+			tree_add_group(z->ast, new);
 			gn->g = new;
 		}
 	}
