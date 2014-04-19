@@ -14,8 +14,8 @@
 
 #include "group.h"
 
-struct keyword_tag;
-struct lexer_parse_tree_tag;
+struct keyword;
+struct lexer_parse_tree;
 
 /*
  * Type of Zones indicate if a zone return terminals or not.
@@ -25,18 +25,17 @@ struct lexer_parse_tree_tag;
  *
  * TODO: we can calculate can these on the fly, and remove zone types entirely
  */
-typedef enum zone_type_tag {
+enum zone_type {
 	typezone_general_zone,	/* A zone that can return more than one terminal */
 	typezone_pseudo_token,	/* A zone that returns only one terminal on zone exit */
 	typezone_pure_function	/* A zone that never returns a terminal */ 
-} zone_type;
+};
 
-typedef struct zone_tag zone;
-struct zone_tag {
+struct zone {
 	/* NULL for the global zone */
 	char* zone_name;
 
-	zone_type type;
+	enum zone_type type;
 
 	/*
 	 * Characters in the pre-pass mapping trie take their values from u.map,
@@ -44,27 +43,27 @@ struct zone_tag {
 	 * That is, the pre-pass trie keys onto strings, and the main pass keys
 	 * onto instruction lists. See char.h for the definitions of those values.
 	 */
-	struct character_tag *zone_pre_pass;
-	struct character_tag *zone_main_pass;
+	struct character *zone_pre_pass;
+	struct character *zone_main_pass;
 
-	struct keyword_tag *keywords;
-	char_group_name *groups;
-	char_group_name *white_space;
+	struct keyword *keywords;
+	struct char_group_name *groups;
+	struct char_group_name *white_space;
 
-	struct instructions_list_tag *default_instructions;
-	struct instructions_list_tag *entering_instructions;
-	struct instructions_list_tag *leaving_instructions;
+	struct instructions_list *default_instructions;
+	struct instructions_list *entering_instructions;
+	struct instructions_list *leaving_instructions;
 
-	zone *opt; 	/* sibling */
-	zone *next;	/* child */
-	zone *up; 	/* parent */
+	struct zone *opt; 	/* sibling */
+	struct zone *next;	/* child */
+	struct zone *up; 	/* parent */
 
-	struct lexer_parse_tree_tag *top_level;
+	struct lexer_parse_tree *top_level;
 };
 
-size_t zone_maxlength(zone *z, int in_prepass);
-zone *new_zone(struct lexer_parse_tree_tag *top_level);
-zone *add_zone(zone *, char *, const char *, int);
+size_t zone_maxlength(struct zone *z, int in_prepass);
+struct zone *new_zone(struct lexer_parse_tree *top_level);
+struct zone *add_zone(struct zone *, char *, const char *, int);
 
 /*
  * ADD A STRING TO A ZONE'S TRIE
@@ -72,11 +71,11 @@ zone *add_zone(zone *, char *, const char *, int);
  * These are the main interfaces for adding new keys to the trie for either a
  * pre-pass mapping, or for a main pass token respectively.
  */
-struct character_tag *add_mainpass(zone *, const char *, struct instructions_list_tag *);
-struct character_tag *add_prepass(zone *, const char *, char *);
+struct character *add_mainpass(struct zone *, const char *, struct instructions_list *);
+struct character *add_prepass(struct zone *, const char *, char *);
 
-int zone_isglobal(zone *z);
-const char *zone_name(zone *z);
+int zone_isglobal(struct zone *z);
+const char *zone_name(struct zone *z);
 
 #endif
 

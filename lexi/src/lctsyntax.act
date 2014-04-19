@@ -23,10 +23,10 @@ lct-unit -> read_lct_unit ;
 */
 
 BOOL -> bool;
-CCODE -> CcodeT; 
+CCODE -> ccode;
 BIGSTRING -> NStringT;
 IDENTIFIER -> NStringT;
-TYPETUPLE -> TypeTupleT;
+TYPETUPLE -> typetuple;
 ENTRYP -> EntryP;
 
 %header% @{
@@ -63,11 +63,13 @@ ENTRYP -> EntryP;
 #define SAVE_LEXER SAVE_LCT_LEXER
 #define RESTORE_LEXER RESTORE_LCT_LEXER
 
+typedef struct CcodeT ccode;
 typedef struct EntryT* EntryP;
+typedef struct TypeTupleT typetuple;
 
 
 
-void init_lct_parse_tree (lct_parse_tree* a) 
+void init_lct_parse_tree(struct lct_parse_tree* a) 
 {
 	a->headersdefined = 0;
 	a->trailersdefined = 0;
@@ -79,8 +81,8 @@ void init_lct_parse_tree (lct_parse_tree* a)
 	a->arg_tail = &(a->arg_head);
 }
 
-lexer_parse_tree* lxi_top_level;
-lct_parse_tree global_lct_parse_tree ;
+struct lexer_parse_tree *lxi_top_level;
+struct lct_parse_tree global_lct_parse_tree ;
 
 @}, @{
 
@@ -106,21 +108,21 @@ struct lxi_additional_argument {
 	struct lxi_additional_argument* next;
 };
 
-typedef struct lct_parse_tree_tag {
+struct lct_parse_tree {
 	int headersdefined;
 	int trailersdefined;
-	CcodeT hfileheader;
-	CcodeT cfileheader;
-	CcodeT hfiletrailer;
-	CcodeT cfiletrailer;
+	struct CcodeT hfileheader;
+	struct CcodeT cfileheader;
+	struct CcodeT hfiletrailer;
+	struct CcodeT cfiletrailer;
 	struct lxi_additional_argument* arg_head;
 	struct lxi_additional_argument** arg_tail;
-} lct_parse_tree;
+};
 
-extern lexer_parse_tree* lxi_top_level;
-extern lct_parse_tree global_lct_parse_tree ;
+extern struct lexer_parse_tree *lxi_top_level;
+extern struct lct_parse_tree global_lct_parse_tree ;
 
-extern void init_lct_parse_tree(lct_parse_tree*);
+extern void init_lct_parse_tree(struct lct_parse_tree*);
 @};
 
 %assignments%
@@ -208,8 +210,8 @@ code-string : () -> (s:BIGSTRING) = @{
 
 <append-ccode-identifier> : (c:CCODE&, i:IDENTIFIER, e:ENTRYP, b:BOOL) -> () = @{
 	if(@e) {
-		ActionT* action = entry_get_action(@e);
-		TypeTupleEntryT *p, *q;
+		struct ActionT* action = entry_get_action(@e);
+		struct TypeTupleEntryT *p, *q;
 	 	if ((p = typetuple_name_is_in(action_get_inputs(action),@&i)) || 
 	       	    (q = typetuple_name_is_in(action_get_outputs(action),@&i))) {
 		   	if(!@b) {
@@ -348,7 +350,7 @@ code-string : () -> (s:BIGSTRING) = @{
 	if(@e) {
 		/*TODO assert (entry_is_action(@e)); */	       
 		/* TODO check that the same name does not appear twice in the input and output tuple */
-		ActionT* action = entry_get_action(@e);
+		struct ActionT* action = entry_get_action(@e);
 		if(typetuple_length(action_get_inputs(action))!=typetuple_length(@&in)) {
 			char* pe=nstring_to_cstring(entry_key(@e));
 			error(ERROR_SERIOUS,"Action %s declared with an incompatible number of inputs", pe);
@@ -388,7 +390,7 @@ code-string : () -> (s:BIGSTRING) = @{
 <define-action> : (e:ENTRYP, c:CCODE&) -> () = @{
 	if(@e) {
 	       /*TODO assert entry_is_action */	       
-	        ActionT* action = entry_get_action(@e);
+	        struct ActionT* action = entry_get_action(@e);
 			if(!action_is_defined(action)) {
 				action_set_define(action);
 				action_set_code(action, @&c);

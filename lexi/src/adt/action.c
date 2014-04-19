@@ -14,12 +14,12 @@
 
 #include <adt/action.h>
 
-ActionT *
+struct ActionT *
 action_create(void)
 {
-	ActionT *action;
+	struct ActionT *action;
 
-	action = xmalloc_nof(ActionT, 1);
+	action = xmalloc(sizeof *action);
 
 	ccode_init(&action->code);
 	typetuple_init(&action->inputs);
@@ -31,49 +31,49 @@ action_create(void)
 }
 
 void
-action_set_inputs(ActionT *action, TypeTupleT *tuple)
+action_set_inputs(struct ActionT *action, struct TypeTupleT *tuple)
 {
 	typetuple_assign(&action->inputs,tuple);
 }
 
 void
-action_set_outputs(ActionT *action, TypeTupleT *tuple)
+action_set_outputs(struct ActionT *action, struct TypeTupleT *tuple)
 {
 	typetuple_assign(&action->outputs, tuple);
 }
 
-TypeTupleT *
-action_get_inputs(ActionT *action)
+struct TypeTupleT *
+action_get_inputs(struct ActionT *action)
 {
 	return &action->inputs;
 }
 
-TypeTupleT *
-action_get_outputs(ActionT *action)
+struct TypeTupleT *
+action_get_outputs(struct ActionT *action)
 {
 	return &action->outputs;
 }
 
-CcodeT *
-action_get_code(ActionT *action)
+struct CcodeT *
+action_get_code(struct ActionT *action)
 {
 	return &action->code;
 }
 
 void
-action_set_code(ActionT *action, CcodeT *code)
+action_set_code(struct ActionT *action, struct CcodeT *code)
 {
 	ccode_assign(&action->code, code);
 }
 
 void
-action_set_define(ActionT *action)
+action_set_define(struct ActionT *action)
 {
 	action->defined = true;
 }
 
 int
-action_is_defined(ActionT *action)
+action_is_defined(struct ActionT *action)
 {
 	return action->defined;
 }

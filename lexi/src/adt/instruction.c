@@ -16,10 +16,10 @@
 #include <adt/instruction.h>
 #include <adt/zone.h>
 
-static arg*
+static struct arg *
 new_arg(void)
 {
-	arg *p;
+	struct arg *p;
 
 	p = xmalloc(sizeof *p);
 	p->next = NULL;
@@ -28,10 +28,10 @@ new_arg(void)
 	return p;
 }
 
-arg *
-add_arg(arg_type t, unsigned int d)
+struct arg *
+add_arg(enum arg_type t, unsigned int d)
 {
-	arg *p;
+	struct arg *p;
 
 	p = new_arg();
 	p->type    = t;
@@ -40,10 +40,10 @@ add_arg(arg_type t, unsigned int d)
 	return p;
 }
 
-arg *
+struct arg *
 add_identifier_arg(char *s)
 {
-	arg *p;
+	struct arg *p;
 
 	p = new_arg();
 	p->type      = arg_identifier;
@@ -52,10 +52,10 @@ add_identifier_arg(char *s)
 	return p;
 }
 
-arg *
+struct arg *
 add_reference_arg(char *s)
 {
-	arg *p;
+	struct arg *p;
 
 	p = new_arg();
 	p->type         = arg_identifier;
@@ -65,10 +65,10 @@ add_reference_arg(char *s)
 	return p;
 }
 
-arg *
+struct arg *
 add_terminal_arg(char * s)
 {
-	arg *p;
+	struct arg *p;
 
 	p = new_arg();
 	p->type      = arg_terminal;
@@ -77,10 +77,10 @@ add_terminal_arg(char * s)
 	return p;
 }
 
-arg*
+struct arg *
 add_none_arg(void)
 {
-	arg *p;
+	struct arg *p;
 
 	p = new_arg();
 	p->type      = arg_none;
@@ -90,7 +90,7 @@ add_none_arg(void)
 }
 
 void
-arg_output(arg *p, bool is_ref, int d, FILE *file)
+arg_output(struct arg *p, bool is_ref, int d, FILE *file)
 {
 	switch (p->type) {
 	case arg_charP:
@@ -139,10 +139,10 @@ arg_output(arg *p, bool is_ref, int d, FILE *file)
 	}
 }
 
-static args_list*
+static struct args_list *
 new_args_list(void)
 {
-	args_list *p;
+	struct args_list *p;
 
 	p = xmalloc(sizeof *p);
 	p->head = NULL;
@@ -152,32 +152,32 @@ new_args_list(void)
 	return p;
 }
 
-args_list*
+struct args_list *
 add_args_list(void)
 {
-	args_list *p;
+	struct args_list *p;
 
 	p = new_args_list();
 
 	return p;
 }
 
-static instruction *
-new_instruction(instruction_type type)
+static struct instruction *
+new_instruction(enum instruction_type type)
 {
-	instruction *p;
+	struct instruction *p;
 
 	p = xmalloc(sizeof *p);
-	p->type=type;
-	p->next=NULL;
+	p->type = type;
+	p->next = NULL;
 
 	return p;
 }
 
-instruction *
+struct instruction *
 add_instruction_return_terminal(char *name)
 {
-	instruction *p;
+	struct instruction *p;
 
 	p = new_instruction(return_terminal);
 	p->u.name = name;
@@ -185,20 +185,20 @@ add_instruction_return_terminal(char *name)
 	return p;
 }
 
-instruction *
+struct instruction *
 add_instruction_donothing(void)
 {
-	instruction *p;
+	struct instruction *p;
 
 	p = new_instruction(do_nothing);
 
 	return p;
 }
 
-instruction *
-add_instruction_action(struct EntryT *act, args_list *lhs, args_list *rhs)
+struct instruction *
+add_instruction_action(struct EntryT *act, struct args_list *lhs, struct args_list *rhs)
 {
-	instruction *p;
+	struct instruction *p;
 
 	p = new_instruction(action_call);
 	p->u.act.called_act = act;
@@ -208,10 +208,10 @@ add_instruction_action(struct EntryT *act, args_list *lhs, args_list *rhs)
 	return p;
 }
 
-instruction *
-add_instruction_pushzone(zone* z)
+struct instruction *
+add_instruction_pushzone(struct zone *z)
 {
-	instruction *p;
+	struct instruction *p;
 
 	p = new_instruction(push_zone);
 	p->u.s.z = z;
@@ -220,10 +220,10 @@ add_instruction_pushzone(zone* z)
 	return p;
 }
 
-instruction*
-add_instruction_popzone(zone *z, int is_endmarker_in_zone)
+struct instruction *
+add_instruction_popzone(struct zone *z, int is_endmarker_in_zone)
 {
-	instruction *p;
+	struct instruction *p;
 
 	p = new_instruction(pop_zone);
 	p->u.s.z = z;
@@ -232,10 +232,10 @@ add_instruction_popzone(zone *z, int is_endmarker_in_zone)
 	return p;
 }
 
-static instructions_list *
+static struct instructions_list *
 new_instructions_list(void)
 {
-	instructions_list *p;
+	struct instructions_list *p;
 
 	p = xmalloc(sizeof *p);
 	p->head = NULL;
@@ -248,16 +248,16 @@ new_instructions_list(void)
 	return p;
 }
 
-instructions_list*
+struct instructions_list *
 add_instructions_list (void)
 {
-	instructions_list *p=new_instructions_list();
+	struct instructions_list *p = new_instructions_list();
 
 	return p;
 }
 
-LocalNamesT*
-instructionslist_localnames(instructions_list *l)
+struct LocalNamesT *
+instructionslist_localnames(struct instructions_list *l)
 {
 	return &l->local_names;
 }

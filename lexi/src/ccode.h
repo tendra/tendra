@@ -15,32 +15,32 @@
 
 struct NameTransT;
 
-typedef enum CcodeItemTypeT_tag {
+enum CcodeItemTypeT {
 	Ccode_string,
 	Ccode_identifier,
 	Ccode_reference,
 	Ccode_at
-} CcodeItemTypeT;
+};
 
-typedef struct CcodeItemT_tag {
-	CcodeItemTypeT item_type;
+struct CcodeItemT {
+	enum CcodeItemTypeT item_type;
 	NStringT name;
-	struct CcodeItemT_tag *next;
-} CcodeItemT;
+	struct CcodeItemT *next;
+};
 
-typedef struct CcodeT_tag {
-	CcodeItemT *head;
-	CcodeItemT **tail;
-} CcodeT;
+struct CcodeT {
+	struct CcodeItemT *head;
+	struct CcodeItemT **tail;
+};
 
-void ccode_init(CcodeT *);
-void ccode_assign(CcodeT *, CcodeT *);
-void ccode_append_at(CcodeT *);
-void ccode_append_identifier(CcodeT *, NStringT *);
-void ccode_append_reference(CcodeT * ccode, NStringT * i);
-void ccode_append_string(CcodeT *, NStringT *);
-void ccode_destroy(CcodeT *c);
-void ccode_output(FILE *, CcodeT *, struct NameTransT *, int);
+void ccode_init(struct CcodeT *);
+void ccode_assign(struct CcodeT *, struct CcodeT *);
+void ccode_append_at(struct CcodeT *);
+void ccode_append_identifier(struct CcodeT *, NStringT *);
+void ccode_append_reference(struct CcodeT *ccode, NStringT *i);
+void ccode_append_string(struct CcodeT *, NStringT *);
+void ccode_destroy(struct CcodeT *c);
+void ccode_output(FILE *, struct CcodeT *, struct NameTransT *, int);
 
 #endif
 

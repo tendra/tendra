@@ -17,12 +17,12 @@
 
 #include <adt/typetuple.h>
 
-TypeTupleEntryT *
+struct TypeTupleEntryT *
 typetupleentry_create(NStringT *str, struct EntryT *type, bool isref)
 {
-	TypeTupleEntryT *p;
+	struct TypeTupleEntryT *p;
 
-	p = xmalloc_nof(TypeTupleEntryT, 1);
+	p = xmalloc_nof(struct TypeTupleEntryT, 1);
 
 	nstring_assign(&p->local_name, str);
 
@@ -34,7 +34,7 @@ typetupleentry_create(NStringT *str, struct EntryT *type, bool isref)
 }
 
 void
-typetupleentry_destroy(TypeTupleEntryT *p)
+typetupleentry_destroy(struct TypeTupleEntryT *p)
 {
 	if (p != NULL) {
 		nstring_destroy(&p->local_name);
@@ -43,17 +43,17 @@ typetupleentry_destroy(TypeTupleEntryT *p)
 	xfree(p);
 }
 
-void typetuple_init(TypeTupleT *ttlist)
+void typetuple_init(struct TypeTupleT *ttlist)
 {
 	ttlist->head   = NULL;
 	ttlist->tail   = &ttlist->head;
 	ttlist->length = 0;
 }
 
-TypeTupleEntryT *
-typetuple_name_is_in(TypeTupleT *tt, NStringT *id)
+struct TypeTupleEntryT *
+typetuple_name_is_in(struct TypeTupleT *tt, NStringT *id)
 {
-	TypeTupleEntryT *it;
+	struct TypeTupleEntryT *it;
 
 	for (it = tt->head; it != NULL; it = it->next) {
 		if (nstring_equal(&it->local_name, id)) {
@@ -64,7 +64,7 @@ typetuple_name_is_in(TypeTupleT *tt, NStringT *id)
 	return NULL;
 }
 
-void typetuple_append(TypeTupleT *ttlist, TypeTupleEntryT *tt)
+void typetuple_append(struct TypeTupleT *ttlist, struct TypeTupleEntryT *tt)
 {
 	*ttlist->tail = tt;
 	ttlist->tail = &tt->next;
@@ -72,7 +72,7 @@ void typetuple_append(TypeTupleT *ttlist, TypeTupleEntryT *tt)
 }
 
 void
-typetuple_assign(TypeTupleT* to, TypeTupleT* from)
+typetuple_assign(struct TypeTupleT* to, struct TypeTupleT* from)
 {
 	to->length = from->length;
 	if ((to->head = from->head) == NULL) {
@@ -83,15 +83,15 @@ typetuple_assign(TypeTupleT* to, TypeTupleT* from)
 }
 
 int
-typetuple_length(TypeTupleT *tuple)
+typetuple_length(struct TypeTupleT *tuple)
 {
 	return tuple->length;
 }
 
 int
-typetuple_match(TypeTupleT *t1, TypeTupleT *t2)
+typetuple_match(struct TypeTupleT *t1, struct TypeTupleT *t2)
 {
-	TypeTupleEntryT *p, *q;
+	struct TypeTupleEntryT *p, *q;
 
 	for (p = t1->head, q = t2->head; p != NULL && q != NULL; p = p->next, q = q->next) {
 		if ((p->type != q->type) || (p->is_reference != q->is_reference)) {
@@ -103,9 +103,9 @@ typetuple_match(TypeTupleT *t1, TypeTupleT *t2)
 }
 
 int
-typetuple_assign_names(TypeTupleT *to, TypeTupleT *from)
+typetuple_assign_names(struct TypeTupleT *to, struct TypeTupleT *from)
 {
-	TypeTupleEntryT *p, *q;
+	struct TypeTupleEntryT *p, *q;
 	int allhavenames;
 
 	allhavenames = 1;
@@ -124,9 +124,9 @@ typetuple_assign_names(TypeTupleT *to, TypeTupleT *from)
 	return allhavenames;
 }
 
-void typetuple_destroy(TypeTupleT *tuple)
+void typetuple_destroy(struct TypeTupleT *tuple)
 {
-	TypeTupleEntryT *p;
+	struct TypeTupleEntryT *p;
 
 	for(p = tuple->head; p != NULL; p = p->next) {
 		typetupleentry_destroy(p);
@@ -150,9 +150,9 @@ cmp_tuples_names(void const *p, void const *q)
  * are unique. It returns false otherewise.
  */
 int
-typetuple_unique_names(TypeTupleT *params, TypeTupleT *results)
+typetuple_unique_names(struct TypeTupleT *params, struct TypeTupleT *results)
 {
-	TypeTupleEntryT *p;
+	struct TypeTupleEntryT *p;
 	NStringT **tab;
 	int total_length;
 	int i;

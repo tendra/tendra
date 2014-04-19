@@ -19,12 +19,12 @@
 
 #include "ccode.h"
 
-CcodeItemT *
-ccodeitem_create(CcodeItemTypeT item_type)
+struct CcodeItemT *
+ccodeitem_create(enum CcodeItemTypeT item_type)
 {
-	CcodeItemT *ccode_item;
+	struct CcodeItemT *ccode_item;
 
-	ccode_item = ALLOCATE(CcodeItemT);
+	ccode_item = ALLOCATE(struct CcodeItemT);
 	ccode_item->item_type=item_type;
 	ccode_item->next=NULL;
 
@@ -32,13 +32,13 @@ ccodeitem_create(CcodeItemTypeT item_type)
 }
 
 static NStringT *
-ccodeitem_name(CcodeItemT *ccode_item)
+ccodeitem_name(struct CcodeItemT *ccode_item)
 {
 	return &ccode_item->name;
 }
 
 static void
-ccodeitem_destroy(CcodeItemT *ccode_item)
+ccodeitem_destroy(struct CcodeItemT *ccode_item)
 {
 	switch (ccode_item->item_type) {
 	case Ccode_identifier:
@@ -54,13 +54,14 @@ ccodeitem_destroy(CcodeItemT *ccode_item)
 }
 
 void
-ccode_init(CcodeT *c)
+ccode_init(struct CcodeT *c)
 {
 	c->head = NULL;
 	c->tail = &c->head;
 }
 
-void ccode_assign(CcodeT* to, CcodeT* from)
+void
+ccode_assign(struct CcodeT* to, struct CcodeT* from)
 {
 	if (from->head == NULL) {
 		to->head = NULL;
@@ -72,25 +73,25 @@ void ccode_assign(CcodeT* to, CcodeT* from)
 }
 
 static void
-ccode_append_ccodeitem(CcodeT *ccode, CcodeItemT *ccode_item)
+ccode_append_ccodeitem(struct CcodeT *ccode, struct CcodeItemT *ccode_item)
 {
 	*(ccode->tail) = ccode_item;
 	ccode->tail = &ccode_item->next;
 }
 
 void
-ccode_append_at(CcodeT *ccode)
+ccode_append_at(struct CcodeT *ccode)
 {
-	CcodeItemT *ccode_item;
+	struct CcodeItemT *ccode_item;
 
 	ccode_item = ccodeitem_create(Ccode_at);
 	ccode_append_ccodeitem(ccode, ccode_item);
 }
 
 void
-ccode_append_identifier(CcodeT *ccode, NStringT *i)
+ccode_append_identifier(struct CcodeT *ccode, NStringT *i)
 {
-	CcodeItemT *ccode_item;
+	struct CcodeItemT *ccode_item;
 
 	ccode_item = ccodeitem_create(Ccode_identifier);
 	nstring_assign(ccodeitem_name(ccode_item), i);
@@ -98,9 +99,9 @@ ccode_append_identifier(CcodeT *ccode, NStringT *i)
 }
 
 void
-ccode_append_reference(CcodeT *ccode, NStringT *i)
+ccode_append_reference(struct CcodeT *ccode, NStringT *i)
 {
-	CcodeItemT *ccode_item;
+	struct CcodeItemT *ccode_item;
 
 	ccode_item = ccodeitem_create(Ccode_reference);
 	nstring_assign(ccodeitem_name(ccode_item), i);
@@ -108,18 +109,18 @@ ccode_append_reference(CcodeT *ccode, NStringT *i)
 }
 
 void
-ccode_append_string(CcodeT *ccode, NStringT *s)
+ccode_append_string(struct CcodeT *ccode, NStringT *s)
 {
-	CcodeItemT *ccode_item;
+	struct CcodeItemT *ccode_item;
 
 	ccode_item = ccodeitem_create(Ccode_string);
 	nstring_assign(ccodeitem_name(ccode_item), s);
 	ccode_append_ccodeitem(ccode, ccode_item);
 }
 
-void ccode_destroy(CcodeT *c)
+void ccode_destroy(struct CcodeT *c)
 {
-	CcodeItemT *it;
+	struct CcodeItemT *it;
 
 	it = c->head;
 	for (it = c->head; it != NULL; it = it->next) {
@@ -128,10 +129,10 @@ void ccode_destroy(CcodeT *c)
 }
 
 static void
-ccodeitem_output(FILE *file, CcodeItemT *ccode_item, struct NameTransT *trans, int d)
+ccodeitem_output(FILE *file, struct CcodeItemT *ccode_item, struct NameTransT *trans, int d)
 {
 	char *s;
-	arg *to;
+	struct arg *to;
 	switch (ccode_item->item_type) {
 		case Ccode_at:
 			fputs("@", file);
@@ -161,9 +162,9 @@ ccodeitem_output(FILE *file, CcodeItemT *ccode_item, struct NameTransT *trans, i
 }
 
 void
-ccode_output(FILE *file, CcodeT *ccode, struct NameTransT *trans, int d)
+ccode_output(FILE *file, struct CcodeT *ccode, struct NameTransT *trans, int d)
 {
-	CcodeItemT *it;
+	struct CcodeItemT *it;
 	for (it = ccode->head; it != NULL; it = it->next) {
 		ccodeitem_output(file, it, trans, d);
 	}

@@ -14,27 +14,26 @@
 #include <exds/common.h>
 #include <exds/dstring.h>
 
+struct arg;
+struct args_list;
 struct TypeTupleT;
 
-struct arg_tag;
-struct args_list_tag;
-
-typedef struct NameTransEntryT {
+struct NameTransEntryT {
 	NStringT from;
-	struct arg_tag *to;
-} NameTransEntryT;
+	struct arg *to;
+};
 
-typedef struct NameTransT {
-	NameTransEntryT *tab;
+struct NameTransT {
+	struct NameTransEntryT *tab;
 	unsigned int size;
 	unsigned int capacity;
-} NameTransT;
+};
 
-void nametrans_init(NameTransT *, unsigned int);
-void nametrans_destroy(NameTransT *);
-void nametrans_sort(NameTransT *);
-void nametrans_append_tuple(NameTransT *, struct TypeTupleT *, struct args_list_tag *);
-struct arg_tag *nametrans_translate(NameTransT *, NStringT *);
+void nametrans_init(struct NameTransT *, unsigned int);
+void nametrans_destroy(struct NameTransT *);
+void nametrans_sort(struct NameTransT *);
+void nametrans_append_tuple(struct NameTransT *, struct TypeTupleT *, struct args_list *);
+struct arg *nametrans_translate(struct NameTransT *, NStringT *);
 
 #endif
 

@@ -14,30 +14,30 @@
 #include <exds/common.h>
 #include <exds/dstring.h>
 
-typedef struct TypeTupleEntryT {
+struct TypeTupleEntryT {
 	struct EntryT *type;
 	NStringT local_name; /* The type NSTringT* will probably not be the final type */
 	bool is_reference;
 	struct TypeTupleEntryT *next;
-} TypeTupleEntryT;
+};
 
-typedef struct TypeTupleT {
-	TypeTupleEntryT *head;
-	TypeTupleEntryT **tail;
+struct TypeTupleT {
+	struct TypeTupleEntryT *head;
+	struct TypeTupleEntryT **tail;
 	unsigned int length;
-} TypeTupleT;
+};
 
-TypeTupleEntryT *typetupleentry_create(NStringT *, struct EntryT *, bool);
-void typetupleentry_destroy(TypeTupleEntryT *);
+struct TypeTupleEntryT *typetupleentry_create(NStringT *, struct EntryT *, bool);
+void typetupleentry_destroy(struct TypeTupleEntryT *);
 
-void typetuple_init(TypeTupleT *);
-TypeTupleEntryT *typetuple_name_is_in(TypeTupleT *, NStringT *);
-void typetuple_append(TypeTupleT *, TypeTupleEntryT *);
-void typetuple_assign(TypeTupleT *, TypeTupleT *);
-int typetuple_length(TypeTupleT *);
-int typetuple_assign_names(TypeTupleT *, TypeTupleT *);
-int typetuple_match(TypeTupleT *, TypeTupleT *);
-void typetuple_destroy(TypeTupleT *);
+void typetuple_init(struct TypeTupleT *);
+struct TypeTupleEntryT *typetuple_name_is_in(struct TypeTupleT *, NStringT *);
+void typetuple_append(struct TypeTupleT *, struct TypeTupleEntryT *);
+void typetuple_assign(struct TypeTupleT *, struct TypeTupleT *);
+int typetuple_length(struct TypeTupleT *);
+int typetuple_assign_names(struct TypeTupleT *, struct TypeTupleT *);
+int typetuple_match(struct TypeTupleT *, struct TypeTupleT *);
+void typetuple_destroy(struct TypeTupleT *);
 
 #endif
 

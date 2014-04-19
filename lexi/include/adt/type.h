@@ -14,14 +14,14 @@
 #include <exds/common.h>
 #include <exds/dstring.h>
 
-typedef struct TypeT {
+struct TypeT {
 	bool mapped;
 	bool predefined;
 	NStringT mapping;
-} TypeT;
+};
 
-TypeT *type_create(bool);
-void type_map(TypeT *, NStringT *);
+struct TypeT *type_create(bool);
+void type_map(struct TypeT *, NStringT *);
 
 #endif
 

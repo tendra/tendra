@@ -63,7 +63,7 @@ quote_char(int c)
  * its type according to tree_get_translation().
  */
 static void
-output_node(lexer_parse_tree *top_level, character *p, cmd_line_options *opt) {
+output_node(struct lexer_parse_tree *top_level, struct character *p, struct cmd_line_options *opt) {
 	/* node value */
 	{
 		fprintf(dotout, "\t\tc%p [ ", (void *) p);
@@ -84,7 +84,7 @@ output_node(lexer_parse_tree *top_level, character *p, cmd_line_options *opt) {
 
 	/* actions */
 	if (p->u.definition != NULL) {
-		instruction* instr;
+		struct instruction *instr;
 
 		fprintf(dotout, "\t\tc%p -> i%p;\n", (void *) p, (void *) p);
 		fprintf(dotout, "\t\ti%p [ ", (void *) p);
@@ -128,8 +128,8 @@ output_node(lexer_parse_tree *top_level, character *p, cmd_line_options *opt) {
  * adjacent nodes.
  */
 static void
-pass(void *prev, character *p, lexer_parse_tree *top_level, cmd_line_options *opt) {
-	character *q;
+pass(void *prev, struct character *p, struct lexer_parse_tree *top_level, struct cmd_line_options *opt) {
+	struct character *q;
 
 	for (q = p; q != NULL; q = q->opt) {
 		output_node(top_level, q, opt);
@@ -146,9 +146,9 @@ pass(void *prev, character *p, lexer_parse_tree *top_level, cmd_line_options *op
 }
 
 static void
-output_zone(cmd_line_options *opt, lexer_parse_tree *top_level,  zone *z)
+output_zone(struct cmd_line_options *opt, struct lexer_parse_tree *top_level, struct zone *z)
 {
-	zone *p;
+	struct zone *p;
 
 	assert(opt != NULL);
 	assert(top_level != NULL);
@@ -175,7 +175,7 @@ output_zone(cmd_line_options *opt, lexer_parse_tree *top_level,  zone *z)
 	fprintf(dotout, "\t}\n");
 }
 
-void dot_output_all(cmd_line_options *opt, lexer_parse_tree *top_level) {
+void dot_output_all(struct cmd_line_options *opt, struct lexer_parse_tree *top_level) {
 	assert(opt != NULL);
 	assert(top_level != NULL);
 

@@ -11,7 +11,7 @@
 
 #include <adt/tree.h>
 
-#include "options.h"
+struct cmd_line_options;
 
 /*
  * Render the generated lexical analyser in Graphviz Dot format.
@@ -25,7 +25,7 @@
  * distinctions clear.
  */
 void
-dot_output_all(cmd_line_options *, lexer_parse_tree *);
+dot_output_all(struct cmd_line_options *, struct lexer_parse_tree *);
 
 #endif
 

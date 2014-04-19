@@ -9,7 +9,7 @@
 
 /* BEGINNING OF HEADER */
 
-#line 145 "syntax.act"
+#line 144 "syntax.act"
 
 
 /* $Id$ */
@@ -27,7 +27,7 @@
 #include "adt/zone.h"
 
 extern char *token_prefix ;
-typedef zone* zoneP;
+typedef struct zone * zoneP;
 
 #line 33 "syntax.h"
 
@@ -79,7 +79,7 @@ extern void read_lex(zoneP);
 
 /* BEGINNING OF TRAILER */
 
-#line 935 "syntax.act"
+#line 934 "syntax.act"
 
 #endif
 #line 86 "syntax.h"

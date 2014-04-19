@@ -19,7 +19,7 @@
 #include <adt/tree.h>
 
 static void
-unescape_string(zone *z, int *o, char *s)
+unescape_string(struct zone *z, int *o, char *s)
 {
 	const char *p;
 	unsigned int i;
@@ -30,7 +30,7 @@ unescape_string(zone *z, int *o, char *s)
 
 	/* TODO: this is strikngly similar to add_string(). fold both into the .lxi file? */
 	for (p = s; *p != '\0'; p++) {
-		char_group_name *g;
+		struct char_group_name *g;
 		char *e;
 		int not;
 		int c;
@@ -100,12 +100,12 @@ unescape_string(zone *z, int *o, char *s)
  *
  * s may be NULL to indicate the empty group.
  */
-char_group_name *
-make_group(zone *z, char *name, char *defn)
+struct char_group_name *
+make_group(struct zone *z, char *name, char *defn)
 {
-	char_group_name *new;
-	char_group_defn *new_def;
-	char_group_defn *old_def;
+	struct char_group_name *new;
+	struct char_group_defn *new_def;
+	struct char_group_defn *old_def;
 
 	assert(z != NULL);
 	assert(name != NULL);
@@ -115,7 +115,7 @@ make_group(zone *z, char *name, char *defn)
 	}
 
 	{
-		char_group_name *g;
+		struct char_group_name *g;
 
 		g = find_group(z, name);
 		if (g != NULL && g->z == z) {
@@ -155,7 +155,7 @@ make_group(zone *z, char *name, char *defn)
  * IS A LETTER IN A GROUP?
  */
 int
-in_group(char_group_defn *g, char c)
+in_group(struct char_group_defn *g, char c)
 {
 	assert(g != NULL);
 
@@ -166,7 +166,7 @@ in_group(char_group_defn *g, char c)
  * IS A GROUP EMPTY?
  */
 int
-is_group_empty(char_group_defn *g)
+is_group_empty(struct char_group_defn *g)
 {
 	unsigned int i;
 
@@ -185,7 +185,7 @@ is_group_empty(char_group_defn *g)
  * ARE TWO GROUPS EQUIVALENT?
  */
 int
-is_group_equal(char_group_defn *a, char_group_defn *b)
+is_group_equal(struct char_group_defn *a, struct char_group_defn *b)
 {
 	unsigned int i;
 
@@ -208,10 +208,10 @@ is_group_equal(char_group_defn *a, char_group_defn *b)
  * This searches within the list of groups specific to a zone and its parent
  * zones, rather than in all groups globally.
  */
-char_group_name *
-find_group(const zone *z, const char *name)
+struct char_group_name *
+find_group(const struct zone *z, const char *name)
 {
-	char_group_name *p;
+	struct char_group_name *p;
 
 	for (p = z->groups; p != NULL; p = p->next) {
 		if (0 == strcmp(name, p->name)) {

@@ -17,12 +17,12 @@
  * A file to which output is written. The exact purpose of each file
  * is specific to the output language (passed by -l) being employed.
  */
-typedef struct options_outputfile {
+struct options_outputfile {
 	const char *name;
 	FILE *file;
-} options_outputfile;
+};
 
-typedef struct cmd_line_options_tag {
+struct cmd_line_options {
 	/*
 	 * The selected output language. See main.c for the various
 	 * possibilities here.
@@ -50,10 +50,10 @@ typedef struct cmd_line_options_tag {
 	 * a linked list was considered cumbersome.
 	 *
 	 */
-	options_outputfile outputfile[2];
-} cmd_line_options;
+	struct options_outputfile outputfile[2];
+};
 
-extern void cmd_line_options_init(cmd_line_options *);
+extern void cmd_line_options_init(struct cmd_line_options *);
 
 #endif
 

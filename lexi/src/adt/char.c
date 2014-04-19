@@ -55,7 +55,7 @@ find_escape(char c)
  * ARE TWO VALUES EQUAL?
  */
 static int
-values_equal(letter_translation_type type, const union char_value *a, const union char_value *b)
+values_equal(enum letter_translation_type type, const union char_value *a, const union char_value *b)
 {
 	switch (type) {
 	case group_letter:
@@ -74,10 +74,10 @@ values_equal(letter_translation_type type, const union char_value *a, const unio
  *
  * This routine allocates a new character with value v.
  */
-static character *
-new_char(letter_translation_type type, const union char_value *v)
+static struct character *
+new_char(enum letter_translation_type type, const union char_value *v)
 {
-    character *new;
+    struct character *new;
 
 	assert(v != NULL);
 
@@ -109,9 +109,9 @@ new_char(letter_translation_type type, const union char_value *v)
  *Find the maximum token length within the given lexical pass.
  */
 size_t
-char_maxlength(character *c)
+char_maxlength(struct character *c)
 {
-	character *p;
+	struct character *p;
 	size_t maxopt;
 
 	assert(c != NULL);
@@ -137,14 +137,14 @@ char_maxlength(character *c)
 /*
  * FIND AN EXISTING ALTERNATIVE OF THE GIVEN VALUE, OR ADD A NEW ONE
  */
-static character *
-find_or_add(character **n, letter_translation_type type, const union char_value *v)
+static struct character *
+find_or_add(struct character **n, enum letter_translation_type type, const union char_value *v)
 {
 	assert(n != NULL);
 
 	/* find an existing node, if present */
 	{
-		character *p;
+		struct character *p;
 
 		for (p = *n; p != NULL; p = p->opt) {
 			if (p->type != type) {
@@ -159,7 +159,7 @@ find_or_add(character **n, letter_translation_type type, const union char_value 
 
 	/* otherwise, add a new node */
 	{
-		character *new;
+		struct character *new;
 
 		new = new_char(type, v);
 		new->opt = *n;
@@ -180,11 +180,11 @@ find_or_add(character **n, letter_translation_type type, const union char_value 
  *
  * TODO: Could move parsing into the .lxi file; strings would make a nice zone.
  */
-character *
-add_string(zone *z, character **n, const char *s)
+struct character *
+add_string(struct zone *z, struct character **n, const char *s)
 {
 	const char *p;
-	character *leaf;
+	struct character *leaf;
 
 	assert(z != NULL);
 	assert(n != NULL);

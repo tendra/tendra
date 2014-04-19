@@ -25,7 +25,7 @@
 	extern char lct_token_buff[];
 	int crt_lct_token;
 	int saved_lct_token;
-	lct_parse_tree global_lct_parse_tree;
+	struct lct_parse_tree global_lct_parse_tree;
 
 	struct lexi_lct_state lct_lexer_state;
 	NStringT lct_token_nstring;

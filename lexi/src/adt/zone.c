@@ -24,10 +24,10 @@
  * This routine finds a zone within the current zone. This does not include
  * searching in parent zones.
  */
-static zone *
-find_zone(zone *z, char *name)
+static struct zone *
+find_zone(struct zone *z, char *name)
 {
-	zone *q;
+	struct zone *q;
 
 	assert(z != NULL);
 	assert(name != NULL);
@@ -51,15 +51,15 @@ find_zone(zone *z, char *name)
  * Find the maximum token length necessary for a given zone
  */
 size_t
-zone_maxlength(zone *z, int in_prepass)
+zone_maxlength(struct zone *z, int in_prepass)
 {
 	size_t max;
-	zone *p;
+	struct zone *p;
 
 	assert(z != NULL);
 
 	{
-		character *pass;
+		struct character *pass;
 
 		pass = in_prepass ? z->zone_pre_pass : z->zone_main_pass;
 		max  = pass == NULL ? 0 : char_maxlength(pass);
@@ -84,10 +84,10 @@ zone_maxlength(zone *z, int in_prepass)
  *
  * TODO: make this private, and provide a add_globalzone() instead.
  */
-zone *
-new_zone(lexer_parse_tree *top_level)
+struct zone *
+new_zone(struct lexer_parse_tree *top_level)
 {
-	zone *new;
+	struct zone *new;
 
 	assert(top_level != NULL);
 
@@ -120,12 +120,12 @@ new_zone(lexer_parse_tree *top_level)
  *
  * This routine adds a new zone named zid under the current zone z
  */
-zone *
-add_zone(zone *z, char *name, const char *e, int endmarkerclosed)
+struct zone *
+add_zone(struct zone *z, char *name, const char *e, int endmarkerclosed)
 {
-	zone *new;
-	instruction *inst;
-	instructions_list *inst_list;
+	struct zone *new;
+	struct instruction *inst;
+	struct instructions_list *inst_list;
 
 	assert(z != NULL);
 	assert(name != NULL);
@@ -152,10 +152,10 @@ add_zone(zone *z, char *name, const char *e, int endmarkerclosed)
 	return new;
 }
 
-character *
-add_mainpass(zone *z, const char *s, instructions_list *l)
+struct character *
+add_mainpass(struct zone *z, const char *s, struct instructions_list *l)
 {
-	character *new;
+	struct character *new;
 
 	assert(z != NULL);
 	assert(s != NULL);
@@ -176,10 +176,10 @@ add_mainpass(zone *z, const char *s, instructions_list *l)
 	return new;
 }
 
-character *
-add_prepass(zone *z, const char *s, char *m)
+struct character *
+add_prepass(struct zone *z, const char *s, char *m)
 {
-	character *new;
+	struct character *new;
 
 	assert(z != NULL);
 	assert(s != NULL);
@@ -199,7 +199,7 @@ add_prepass(zone *z, const char *s, char *m)
 }
 
 int
-zone_isglobal(zone *z)
+zone_isglobal(struct zone *z)
 {
 	assert(z != NULL);
 
@@ -207,7 +207,7 @@ zone_isglobal(zone *z)
 }
 
 const char *
-zone_name(zone *z)
+zone_name(struct zone *z)
 {
 	assert(z != NULL);
 

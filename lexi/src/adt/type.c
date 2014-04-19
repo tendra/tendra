@@ -16,12 +16,12 @@
 
 #include <adt/type.h>
 
-TypeT *
+struct TypeT *
 type_create(bool predefined)
 {
-	TypeT *type;
+	struct TypeT *type;
 
-	type = xmalloc_nof(TypeT, 1);
+	type = xmalloc(sizeof *type);
 
 	nstring_init(&type->mapping);
 
@@ -32,7 +32,7 @@ type_create(bool predefined)
 }
 
 void
-type_map(TypeT *t, NStringT *mapping)
+type_map(struct TypeT *t, NStringT *mapping)
 {
 	nstring_assign(&t->mapping, mapping);
 	t->mapped = true;

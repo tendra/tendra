@@ -13,12 +13,13 @@
 
 #include <stddef.h>
 
-struct zone_tag;
-struct instructions_list_tag;
+struct zone;
+struct instructions_list;
 
-typedef enum letter_translation_type_tag {
-	group_letter, char_letter
-} letter_translation_type;
+enum letter_translation_type {
+	group_letter,
+	char_letter
+};
 
 union char_value {
 	/* for char_letter: character or EOF */
@@ -27,7 +28,7 @@ union char_value {
 	/* for group_letter */
 	struct {
 		unsigned int not:1;	/* boolean */
-		struct char_group_name_tag *grp;
+		struct char_group_name *grp;
 	} g;
 };
 
@@ -38,9 +39,8 @@ union char_value {
  * data) plus pointers to the next character and to a list of alternative
  * characters.
  */
-typedef struct character_tag character;
-struct character_tag {
-	letter_translation_type type;
+struct character {
+	enum letter_translation_type type;
 
 	union char_value v;
 
@@ -53,20 +53,20 @@ struct character_tag {
 	 * TODO: store mapping unescaped
 	 */
 	union {
-		struct instructions_list_tag *definition;
+		struct instructions_list *definition;
 		char *map;
 	} u;
 
 	/* siblings */
 	/* TODO: consider splitting this per char_value type */
-	character *opt;
+	struct character *opt;
 
 	/* children */
-	character *next;
+	struct character *next;
 };
 
-character *add_string(struct zone_tag *, character **, const char *);
-size_t char_maxlength(character *);
+struct character *add_string(struct zone *, struct character **, const char *);
+size_t char_maxlength(struct character *);
 int find_escape(char c);
 
 #endif

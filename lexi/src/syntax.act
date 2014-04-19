@@ -38,7 +38,7 @@ INSTRUCTION -> instructionP ;
 INSTRUCTIONS_LIST -> instructions_listP ;
 ARG -> argP;
 ARGS_LIST -> args_listP;
-TYPETUPLE -> TypeTupleT;
+TYPETUPLE -> typetuple;
 
 %header% @{
 
@@ -93,10 +93,11 @@ TYPETUPLE -> TypeTupleT;
 typedef char *SID_STRING ;
 typedef char *SID_CHARS ;
 /*typedef zone* zoneP; Done in syntax.h */
-typedef instruction* instructionP ;
-typedef instructions_list* instructions_listP ;
-typedef arg* argP;
-typedef args_list* args_listP;
+typedef struct instruction* instructionP ;
+typedef struct instructions_list* instructions_listP ;
+typedef struct arg* argP;
+typedef struct args_list* args_listP;
+typedef struct TypeTupleT typetuple;
 
 /*
     SID IDENTIFIER PREFIX
@@ -138,7 +139,7 @@ char *token_prefix = "lex_" ;
 #include "adt/zone.h"
 
 extern char *token_prefix ;
-typedef zone* zoneP;
+typedef struct zone * zoneP;
 
 @};
 
@@ -339,7 +340,7 @@ arg-ignore : () -> (a:ARG) = @{
 		if(entry_is_action(entry)) {
 			/* TODO: Inefficient code follows: */
 			/* Checking that a name does not appear twice in an lhs*/
-			arg* p, *q;
+			struct arg* p, *q;
 			for(p=@l->head;p!=NULL;p=p->next) {
 				if(p->type==arg_identifier) {
 					for(q=p->next; q!=NULL;q=q->next) {
@@ -399,7 +400,7 @@ arg-ignore : () -> (a:ARG) = @{
 */
 <add-inst-to-list> : ( z : ZONE, i : INSTRUCTION, il : INSTRUCTIONS_LIST ) -> () = @{
 	if(@i!=NULL) { /* if @i == NULL, an error has already been issued.*/
-		LocalNamesT* locals = instructionslist_localnames(@il);
+		struct LocalNamesT* locals = instructionslist_localnames(@il);
 /*		if((@il->head !=NULL) && (@i->type==return_terminal || @i->type==do_nothing)) {
 			error(ERROR_SERIOUS, "A $sid-identifier or a $$ can only appear at the end of an instruction-list"); Does not work anymore since we append and do not prepend anymore. No pb as this will be unecessary due to the upcoming removal of direct function calls.
 		}*/
@@ -409,12 +410,12 @@ arg-ignore : () -> (a:ARG) = @{
 			++(@il->nb_return_terminal);
 		}
 		if(@i->type == action_call) {
-			args_list* rhs;
-			args_list* lhs;
+			struct args_list* rhs;
+			struct args_list* lhs;
 			struct EntryT* entryaction;
-			ActionT* action;
-			arg* p;
-			TypeTupleEntryT* q;
+			struct ActionT* action;
+			struct arg* p;
+			struct TypeTupleEntryT* q;
 
 			@il->nb_return_terminal+=@i->u.act.lhs->nb_return_terminal;
 			if(@il->nb_return_terminal>1)
@@ -699,8 +700,8 @@ arg-ignore : () -> (a:ARG) = @{
 		einst : INSTRUCTIONS_LIST, endmarkerclosed : BOOL ) 
 		      		-> ( nz : ZONE) = 
 @{
-    instruction* inst;
-    instructions_list* inst_list;
+    struct instruction* inst;
+    struct instructions_list* inst_list;
     @nz=add_zone(@z,@i,@e, @endmarkerclosed );
 
     @nz->leaving_instructions=@einst;

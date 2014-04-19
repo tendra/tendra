@@ -13,11 +13,11 @@
 
 #include <stdbool.h>
 
-struct zone_tag;
+struct zone;
 
 #include "localnames.h"
 
-typedef enum arg_type_tag {
+enum arg_type {
 	arg_charP,
 	arg_char_nb,
 	arg_nb_of_chars,
@@ -26,11 +26,11 @@ typedef enum arg_type_tag {
 	arg_ignore,
 	arg_return_terminal,
 	arg_none
-} arg_type;
+};
 
-typedef struct arg_tag {
-	arg_type type;
-	struct arg_tag* next;
+struct arg {
+	enum arg_type type;
+	struct arg *next;
 
 	union {
 		unsigned int digit;
@@ -38,68 +38,68 @@ typedef struct arg_tag {
 	} u;
 
 	bool is_reference;
-} arg;
+};
 
 /* ordered */
-typedef struct args_list_tag {
-	arg  *head;
-	arg **tail;
+struct args_list {
+	struct arg  *head;
+	struct arg **tail;
 	int nb_return_terminal;
-} args_list;
+};
 
-typedef enum instruction_type_tag {
+enum instruction_type {
 	return_terminal,
 	push_zone,
 	pop_zone,
 	do_nothing,
 	action_call
-} instruction_type;
+};
 
-typedef struct instruction_tag {
-	instruction_type type;
-	struct instruction_tag *next;
+struct instruction {
+	enum instruction_type type;
+	struct instruction *next;
 
 	union {
 		char *name; /* token */
 		struct {
-			struct zone_tag *z;
+			struct zone *z;
 			int is_beginendmarker_in_zone;
 		} s;
 		struct {
 			struct EntryT *called_act;
-			args_list *lhs;
-			args_list *rhs;
+			struct args_list *lhs;
+			struct args_list *rhs;
 		} act;
 	} u;
-} instruction;
+};
 
 /* ordered */
-typedef struct instructions_list_tag {
-	instruction* head;
-	instruction** tail;
+struct instructions_list {
+	struct instruction* head;
+	struct instruction** tail;
 	int size;
-	LocalNamesT local_names;
+	struct LocalNamesT local_names;
 	int nb_return_terminal;
-} instructions_list;
+};
 
-arg *add_arg (arg_type, unsigned int);
-arg *add_identifier_arg(char *);
-arg *add_reference_arg(char *);
-arg *add_terminal_arg(char *);
-arg *add_none_arg(void);
-void arg_output(arg *, bool, int, FILE *);
-args_list *add_args_list(void);
+struct arg *add_arg(enum arg_type, unsigned int);
+struct arg *add_identifier_arg(char *);
+struct arg *add_reference_arg(char *);
+struct arg *add_terminal_arg(char *);
+struct arg *add_none_arg(void);
+void arg_output(struct arg *, bool, int, FILE *);
+struct args_list *add_args_list(void);
 
-instruction *add_instruction_return_terminal(char *name);
-instruction *add_instruction_donothing(void);
-instruction *add_instruction_action(struct EntryT *, args_list *, args_list *);
-instruction *add_instruction_mapping(char *map);
+struct instruction *add_instruction_return_terminal(char *name);
+struct instruction *add_instruction_donothing(void);
+struct instruction *add_instruction_action(struct EntryT *, struct args_list *, struct args_list *);
+struct instruction *add_instruction_mapping(char *map);
 
-instruction *add_instruction_pushzone(struct zone_tag *z);
-instruction *add_instruction_popzone(struct zone_tag *z, int is_endmarker_in_zone);
-instructions_list *add_instructions_list(void);
+struct instruction *add_instruction_pushzone(struct zone *z);
+struct instruction *add_instruction_popzone(struct zone *z, int is_endmarker_in_zone);
+struct instructions_list *add_instructions_list(void);
 
-LocalNamesT *instructionslist_localnames(instructions_list *);
+struct LocalNamesT *instructionslist_localnames(struct instructions_list *);
 
 #endif
 

@@ -16,27 +16,22 @@
 #include "typetuple.h" /* XXX */
 #include "../src/ccode.h" /* XXX */
 
-struct arg_tag;
-struct args_list_tag;
-
-struct TypeTupleT;
-
-typedef struct ActionT {
+struct ActionT {
 	struct TypeTupleT inputs;
 	struct TypeTupleT outputs;
-	CcodeT code;
+	struct CcodeT code;
 	BoolT defined;
-} ActionT;
+};
 
-ActionT *action_create(void);
-void action_set_inputs(ActionT *action, struct TypeTupleT *tuple);
-void action_set_outputs(ActionT *action, struct TypeTupleT *tuple);
-TypeTupleT *action_get_inputs(ActionT *);
-TypeTupleT *action_get_outputs(ActionT *);
-CcodeT *action_get_code(ActionT *);
-void action_set_code(ActionT *, CcodeT *);
-int action_is_defined(ActionT *);
-void action_set_define(ActionT *);
+struct ActionT *action_create(void);
+void action_set_inputs(struct ActionT *action, struct TypeTupleT *tuple);
+void action_set_outputs(struct ActionT *action, struct TypeTupleT *tuple);
+struct TypeTupleT *action_get_inputs(struct ActionT *);
+struct TypeTupleT *action_get_outputs(struct ActionT *);
+struct CcodeT *action_get_code(struct ActionT *);
+void action_set_code(struct ActionT *, struct CcodeT *);
+int action_is_defined(struct ActionT *);
+void action_set_define(struct ActionT *);
 
 #endif
 

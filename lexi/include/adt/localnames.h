@@ -19,29 +19,29 @@ struct EntryT;
  * This structure stores the types of the local names used in actions so we can type check
  * during parsing.
  */
-typedef struct LocalNamesEntryT {
+struct LocalNamesEntryT {
 	char c;
 	struct LocalNamesEntryT *next;
 	struct LocalNamesEntryT *opt;
 	struct LocalNamesEntryT *up;
 	struct EntryT *type;
-} LocalNamesEntryT;
+};
 
-typedef struct LocalNamesT {
-	LocalNamesEntryT *top;
+struct LocalNamesT {
+	struct LocalNamesEntryT *top;
 	unsigned int max_depth;
-} LocalNamesT;
+};
 
-typedef struct LocalNamesIteratorT {
-	LocalNamesEntryT *p;
+struct LocalNamesIteratorT {
+	struct LocalNamesEntryT *p;
 	int depth;
-} LocalNamesIteratorT;
+};
 
-void localnames_init(LocalNamesT *);
-int localnames_add_nstring(LocalNamesT *, NStringT *, struct EntryT *);
-struct EntryT *localnames_get_type(LocalNamesT *, NStringT *);
-void localnames_begin(LocalNamesIteratorT *, LocalNamesT *);
-void localnamesiterator_next(LocalNamesIteratorT *);
+void localnames_init(struct LocalNamesT *);
+int localnames_add_nstring(struct LocalNamesT *, NStringT *, struct EntryT *);
+struct EntryT *localnames_get_type(struct LocalNamesT *, NStringT *);
+void localnames_begin(struct LocalNamesIteratorT *, struct LocalNamesT *);
+void localnamesiterator_next(struct LocalNamesIteratorT *);
 
 #endif
 

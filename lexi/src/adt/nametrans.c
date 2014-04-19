@@ -17,15 +17,15 @@
 #include <adt/nametrans.h>
 
 void
-nametrans_init(NameTransT *p, unsigned int s)
+nametrans_init(struct NameTransT *p, unsigned int s)
 {
-	p->tab = s == 0 ? NULL : xmalloc_nof(NameTransT, s);
+	p->tab = s == 0 ? NULL : xmalloc_nof(struct NameTransT, s);
 	p->size = 0;
 	p->capacity = s;
 }
 
 void
-nametrans_destroy(NameTransT* p)
+nametrans_destroy(struct NameTransT* p)
 {
 	xfree(p->tab);
 }
@@ -33,8 +33,8 @@ nametrans_destroy(NameTransT* p)
 static int
 nametrans_cmp(const void *p, const void *q)
 {
-	NameTransEntryT *a = (NameTransEntryT *) p;
-	NameTransEntryT *b = (NameTransEntryT *) q;
+	struct NameTransEntryT *a = (struct NameTransEntryT *) p;
+	struct NameTransEntryT *b = (struct NameTransEntryT *) q;
 
 	switch (nstring_compare(&a->from, &b->from)) EXHAUSTIVE {
 	case CMP_LT: return -1;
@@ -46,13 +46,13 @@ nametrans_cmp(const void *p, const void *q)
 }
 
 void
-nametrans_sort(NameTransT *p)
+nametrans_sort(struct NameTransT *p)
 {
-	qsort(p->tab, p->size, sizeof (NameTransEntryT), nametrans_cmp);
+	qsort(p->tab, p->size, sizeof (struct NameTransEntryT), nametrans_cmp);
 }
 
 static void
-nametrans_append(NameTransT *tr, NStringT *from, arg *to)
+nametrans_append(struct NameTransT *tr, NStringT *from, struct arg *to)
 {
 	/* TODO when debugging: Checking tr->size < tr->capacity */
 	nstring_assign(&tr->tab[tr->size].from, from);
@@ -61,10 +61,10 @@ nametrans_append(NameTransT *tr, NStringT *from, arg *to)
 }
 
 void
-nametrans_append_tuple(NameTransT *tr, TypeTupleT *tuple, args_list *l)
+nametrans_append_tuple(struct NameTransT *tr, struct TypeTupleT *tuple, struct args_list *l)
 {
-	TypeTupleEntryT *p;
-	arg *q;
+	struct TypeTupleEntryT *p;
+	struct arg *q;
 
 	for (p = tuple->head, q = l->head; p != NULL && q != NULL; p = p->next, q = q->next) {
 		nametrans_append(tr, &p->local_name, q);
@@ -73,8 +73,8 @@ nametrans_append_tuple(NameTransT *tr, TypeTupleT *tuple, args_list *l)
 	/* TODO: assert(!p&&!q) */
 }
 
-arg *
-nametrans_translate(NameTransT *trans, NStringT *key)
+struct arg *
+nametrans_translate(struct NameTransT *trans, NStringT *key)
 {
 	int i, j;
 	int mid;
@@ -85,7 +85,7 @@ nametrans_translate(NameTransT *trans, NStringT *key)
 	/* TODO: assert(i < j) */
 	mid = (i + j) / 2;
 
-	while(i < j) {
+	while (i < j) {
 		switch (nstring_compare(&trans->tab[mid].from, key)) {
 		case CMP_LT: i = mid + 1; mid = (i + j + 0) / 2; break;
 		case CMP_GT: j = mid - 1; mid = (i + j + 1) / 2; break;

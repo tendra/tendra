@@ -17,17 +17,17 @@
 #include <adt/zone.h>
 #include <adt/instruction.h>
 
-struct keyword_tag {
+struct keyword {
 	const char *name;
-	instruction *instr;
+	struct instruction *instr;
 
-	keyword *next;
+	struct keyword *next;
 };
 
 void
-add_keyword(zone *z, const char *nm, instruction *instr)
+add_keyword(struct zone *z, const char *nm, struct instruction *instr)
 {
-	keyword *p, *q;
+	struct keyword *p, *q;
 
 	assert(nm != NULL);
 	assert(strlen(nm) > 0);
@@ -67,9 +67,9 @@ add_keyword(zone *z, const char *nm, instruction *instr)
 }
 
 void
-keywords_iterate(keyword *kw, void (*f)(keyword *, void *), void *opaque)
+keywords_iterate(struct keyword *kw, void (*f)(struct keyword *, void *), void *opaque)
 {
-	keyword *k;
+	struct keyword *k;
 
 	assert(kw != NULL);
 	assert(f != NULL);
@@ -79,8 +79,8 @@ keywords_iterate(keyword *kw, void (*f)(keyword *, void *), void *opaque)
 	}
 }
 
-instruction *
-keyword_instruction(keyword *kw)
+struct instruction *
+keyword_instruction(struct keyword *kw)
 {
 	assert(kw != NULL);
 
@@ -88,7 +88,7 @@ keyword_instruction(keyword *kw)
 }
 
 const char *
-keyword_name(keyword *kw)
+keyword_name(struct keyword *kw)
 {
 	assert(kw != NULL);
 

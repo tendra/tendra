@@ -15,12 +15,12 @@
 
 #include <adt/localnames.h>
 
-static LocalNamesEntryT *
-localnamesentry_create(char c, LocalNamesEntryT *parent)
+static struct LocalNamesEntryT *
+localnamesentry_create(char c, struct LocalNamesEntryT *parent)
 {
-	LocalNamesEntryT *locals;
+	struct LocalNamesEntryT *locals;
 
-	locals = xmalloc_nof(LocalNamesEntryT, 1);
+	locals = xmalloc_nof(struct LocalNamesEntryT, 1);
 
 	locals->c    = c;
 	locals->next = NULL;
@@ -32,7 +32,7 @@ localnamesentry_create(char c, LocalNamesEntryT *parent)
 }
 
 extern void
-localnames_init(LocalNamesT *p)
+localnames_init(struct LocalNamesT *p)
 {
 	p->max_depth = 0;
 	p->top = NULL;
@@ -47,10 +47,10 @@ localnames_init(LocalNamesT *p)
  * add the empty string which is fine as no identifier can have zero length.
  */
 int
-localnames_add_nstring(LocalNamesT *locals, NStringT *name, struct EntryT *type)
+localnames_add_nstring(struct LocalNamesT *locals, NStringT *name, struct EntryT *type)
 {
-	LocalNamesEntryT **crt;
-	LocalNamesEntryT *parent;
+	struct LocalNamesEntryT **crt;
+	struct LocalNamesEntryT *parent;
 	unsigned int i;
 	char *p;
 
@@ -66,7 +66,7 @@ localnames_add_nstring(LocalNamesT *locals, NStringT *name, struct EntryT *type)
 		}
 
 		if (*crt == NULL || (*crt)->c != p[i]) {
-			LocalNamesEntryT *newcrt;
+			struct LocalNamesEntryT *newcrt;
 
 			newcrt = localnamesentry_create(p[i], parent);
 			newcrt->opt = *crt;
@@ -93,11 +93,11 @@ localnames_add_nstring(LocalNamesT *locals, NStringT *name, struct EntryT *type)
  * It returns NULL if it cannot find the value.
  */
 struct EntryT *
-localnames_get_type(LocalNamesT *locals, NStringT *name)
+localnames_get_type(struct LocalNamesT *locals, NStringT *name)
 {
 	unsigned int i;
 	struct EntryT *entry;
-	LocalNamesEntryT *crt;
+	struct LocalNamesEntryT *crt;
 	char *p;
 
 	entry = NULL;
@@ -123,7 +123,7 @@ localnames_get_type(LocalNamesT *locals, NStringT *name)
 
 /* Iterating over a trie without using recursive functions */
 void
-localnames_begin(LocalNamesIteratorT *it, LocalNamesT *locals)
+localnames_begin(struct LocalNamesIteratorT *it, struct LocalNamesT *locals)
 {
 	it->p = locals->top;
 	it->depth = 0;
@@ -140,7 +140,7 @@ localnames_begin(LocalNamesIteratorT *it, LocalNamesT *locals)
 }
 
 void
-localnamesiterator_next(LocalNamesIteratorT *it)
+localnamesiterator_next(struct LocalNamesIteratorT *it)
 {
 	do {
 		it->p = it->p->up;

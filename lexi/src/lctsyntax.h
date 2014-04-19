@@ -9,7 +9,7 @@
 
 /* BEGINNING OF HEADER */
 
-#line 124 "lctsyntax.act"
+#line 126 "lctsyntax.act"
 
 
 /* $Id$ */
@@ -34,21 +34,21 @@ struct lxi_additional_argument {
 	struct lxi_additional_argument* next;
 };
 
-typedef struct lct_parse_tree_tag {
+struct lct_parse_tree {
 	int headersdefined;
 	int trailersdefined;
-	CcodeT hfileheader;
-	CcodeT cfileheader;
-	CcodeT hfiletrailer;
-	CcodeT cfiletrailer;
+	struct CcodeT hfileheader;
+	struct CcodeT cfileheader;
+	struct CcodeT hfiletrailer;
+	struct CcodeT cfiletrailer;
 	struct lxi_additional_argument* arg_head;
 	struct lxi_additional_argument** arg_tail;
-} lct_parse_tree;
+};
 
-extern lexer_parse_tree* lxi_top_level;
-extern lct_parse_tree global_lct_parse_tree ;
+extern struct lexer_parse_tree *lxi_top_level;
+extern struct lct_parse_tree global_lct_parse_tree ;
 
-extern void init_lct_parse_tree(lct_parse_tree*);
+extern void init_lct_parse_tree(struct lct_parse_tree*);
 #line 53 "lctsyntax.h"
 
 /* BEGINNING OF FUNCTION DECLARATIONS */
@@ -84,7 +84,7 @@ extern void read_lct_unit(void);
 
 /* BEGINNING OF TRAILER */
 
-#line 457 "lctsyntax.act"
+#line 459 "lctsyntax.act"
 
 #endif
 #line 91 "lctsyntax.h"

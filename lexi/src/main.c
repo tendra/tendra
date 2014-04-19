@@ -25,10 +25,10 @@
 #include "output-dot/dot-output.h"
 #include "options.h"
 
-static cmd_line_options options;
+static struct cmd_line_options options;
 
 static void
-process_lxi_file(char *nm, lexer_parse_tree *top_level)
+process_lxi_file(char *nm, struct lexer_parse_tree *top_level)
 {
 	FILE *input;
 
@@ -60,7 +60,7 @@ process_lxi_file(char *nm, lexer_parse_tree *top_level)
 }
 
 static void
-process_lct_file (lexer_parse_tree* parse_tree, char* fn)
+process_lct_file(struct lexer_parse_tree* parse_tree, char* fn)
 {
 	FILE *lct_file;
 
@@ -103,6 +103,7 @@ open_filestream(const char *name)
 int
 main(int argc, char **argv)
 {
+	struct lexer_parse_tree *top_level;
 	struct outputs *output;
 	int i;
 
@@ -110,7 +111,7 @@ main(int argc, char **argv)
 		const char *language;
 		const signed int inputfiles;
 		const signed int outputfiles;
-		void (*output_all)(cmd_line_options *, lexer_parse_tree *);
+		void (*output_all)(struct cmd_line_options *, struct lexer_parse_tree *);
 		const char *options;
 	} outputs[] = {
 #define COMMON "C:t:l:p:i:vh"
@@ -121,7 +122,6 @@ main(int argc, char **argv)
 #undef COMMON
 	};
 
-	lexer_parse_tree *top_level;
  	cmd_line_options_init(&options);
 
 	/* default to C90 output */

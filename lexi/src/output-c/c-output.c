@@ -42,8 +42,8 @@
 #include "options.h"
 #include "output.h"
 
-static int output_instructions(zone *parent, instructions_list *ret, unsigned int n, unsigned int d);
-static void output_pass(zone* z, character* p, int in_pre_pass, unsigned int n, unsigned int d);
+static int output_instructions(struct zone *parent, struct instructions_list *ret, unsigned int n, unsigned int d);
+static void output_pass(struct zone* z, struct character *p, int in_pre_pass, unsigned int n, unsigned int d);
 
 /*
  * This is populated by the selected output language, set from opt->language.
@@ -119,10 +119,10 @@ char_lit(int c)
  * unneccessary, and its length will be zero.
  */
 static unsigned int
-buffer_length(lexer_parse_tree *top_level)
+buffer_length(struct lexer_parse_tree *top_level)
 {
 	unsigned int i;
-	zone *global;
+	struct zone *global;
 
 	/* XXX: account for is_beginendmarker_in_zone */
 	global = tree_get_globalzone(top_level);
@@ -137,7 +137,7 @@ buffer_length(lexer_parse_tree *top_level)
 }
 
 static void
-output_groupname(FILE *f, char_group_name *g)
+output_groupname(FILE *f, struct char_group_name *g)
 {
 	const char *prefix;
 
@@ -150,7 +150,7 @@ output_groupname(FILE *f, char_group_name *g)
 }
 
 static void
-output_keyword(keyword *keyword, void *opaque)
+output_keyword(struct keyword *keyword, void *opaque)
 {
 	FILE *output = opaque;
 
@@ -181,7 +181,7 @@ output_keyword(keyword *keyword, void *opaque)
  * the generated API.
  */
 static void
-output_keywords(lexer_parse_tree* top_level, FILE *output, FILE *output_h)
+output_keywords(struct lexer_parse_tree *top_level, FILE *output, FILE *output_h)
 {
 	assert(top_level != NULL);
 	assert(output != NULL);
@@ -205,9 +205,9 @@ output_keywords(lexer_parse_tree* top_level, FILE *output, FILE *output_h)
 }
 
 static void
-output_locals(LocalNamesT* locals, unsigned int d, FILE* lex_output )
+output_locals(struct LocalNamesT *locals, unsigned int d, FILE *lex_output)
 {
-	LocalNamesIteratorT it;
+	struct LocalNamesIteratorT it;
 	const char *prefixvar = "ZV";
 	const char *prefixtype = "ZT";
 	char *st;
@@ -222,9 +222,10 @@ output_locals(LocalNamesT* locals, unsigned int d, FILE* lex_output )
 	    it.p;
 	    localnamesiterator_next(&it))
 	{
-		LocalNamesEntryT* p = it.p;
-		EntryT *t = p->type;
+		struct LocalNamesEntryT* p = it.p;
+		struct EntryT *t = p->type;
 		int i;
+
 		s[it.depth] = 0;
 
 		for (i = it.depth - 1; i >= 0; i--) {
@@ -252,9 +253,10 @@ output_locals(LocalNamesT* locals, unsigned int d, FILE* lex_output )
 }
 
 static void
-output_action(FILE *lex_output, lexer_parse_tree *top_level, EntryT *action, args_list *lhs, args_list *rhs, unsigned int d)
+output_action(FILE *lex_output, struct lexer_parse_tree *top_level,
+	struct EntryT *action, struct args_list *lhs, struct args_list *rhs, unsigned int d)
 {
-	NameTransT trans;
+	struct NameTransT trans;
 
 	assert(lex_output != NULL);
 	assert(top_level != NULL);
@@ -264,12 +266,12 @@ output_action(FILE *lex_output, lexer_parse_tree *top_level, EntryT *action, arg
 
 	/* TODO: assert(entry_is_action(action)) */
 	/*
-	 * Semi Inefficient : we will recreate the translator stack each time
+	 * Semi Inefficient: we will recreate the translator stack each time
 	 * we output the same action; this will never be the same translator stack,
 	 * however the sort will always give the same permutation: an optimization
 	 * should be possible here. I don't see it as necessary for the moment.
 	 */
-	nametrans_init(&trans, typetuple_length(&action->u.action->inputs)+typetuple_length(&action->u.action->outputs));
+	nametrans_init(&trans, typetuple_length(&action->u.action->inputs) + typetuple_length(&action->u.action->outputs));
 	nametrans_append_tuple(&trans,&action->u.action->inputs,rhs);
 	nametrans_append_tuple(&trans,&action->u.action->outputs,lhs);
 	nametrans_sort(&trans);
@@ -285,8 +287,8 @@ output_action(FILE *lex_output, lexer_parse_tree *top_level, EntryT *action, arg
 
 	if (lhs->nb_return_terminal) {
 		char *prefixtype = "ZT";
+		struct EntryT *t;
 		char *st;
-		EntryT *t;
 
 		t = lexer_terminal_type(top_level);
 		/* TODO assert(entry_is_type(t)); */
@@ -329,7 +331,7 @@ output_action(FILE *lex_output, lexer_parse_tree *top_level, EntryT *action, arg
 
 
 static void
-output_pushzone(zone *parent, instruction *instr, unsigned int n, unsigned int d)
+output_pushzone(struct zone *parent, struct instruction *instr, unsigned int n, unsigned int d)
 {
 	assert(parent != NULL);
 	assert(instr != NULL);
@@ -368,7 +370,7 @@ output_pushzone(zone *parent, instruction *instr, unsigned int n, unsigned int d
 }
 
 static void
-output_popzone(zone *parent, instruction *instr, unsigned int n, unsigned int d)
+output_popzone(struct zone *parent, struct instruction *instr, unsigned int n, unsigned int d)
 {
 	assert(parent != NULL);
 	assert(instr != NULL);
@@ -421,11 +423,11 @@ output_popzone(zone *parent, instruction *instr, unsigned int n, unsigned int d)
  * present in the containing block.
  */
 static int
-output_instructions(zone *parent, instructions_list *ret, unsigned int n, unsigned int d)
+output_instructions(struct zone *parent, struct instructions_list *ret, unsigned int n, unsigned int d)
 {
+	struct instruction *instr;
+	struct LocalNamesT *locals;
 	int r;
-	instruction *instr;
-	LocalNamesT *locals;
 
 	assert(parent != NULL);
 	assert(ret != NULL);
@@ -517,7 +519,7 @@ output_mapping(const char *map, unsigned int d)
  * present in the containing block.
  */
 static int
-output_leaf(zone *parent, character *p, int in_pre_pass, unsigned int n, unsigned int d)
+output_leaf(struct zone *parent, struct character *p, int in_pre_pass, unsigned int n, unsigned int d)
 {
 	assert(parent != NULL);
 	assert(p != NULL);
@@ -545,9 +547,9 @@ output_leaf(zone *parent, character *p, int in_pre_pass, unsigned int n, unsigne
 }
 
 static void
-output_char_letters(zone *z, character *p, int in_pre_pass, unsigned int n, unsigned int d)
+output_char_letters(struct zone *z, struct character *p, int in_pre_pass, unsigned int n, unsigned int d)
 {
-	character *q;
+	struct character *q;
 	int letters;
 
 	assert(z != NULL);
@@ -624,9 +626,9 @@ output_char_letters(zone *z, character *p, int in_pre_pass, unsigned int n, unsi
 }
 
 static void
-output_char_groups(zone *z, character *p, int in_pre_pass, unsigned int n, unsigned int d)
+output_char_groups(struct zone *z, struct character *p, int in_pre_pass, unsigned int n, unsigned int d)
 {
-	character *q;
+	struct character *q;
 	int started;
 	int groups;
 
@@ -646,7 +648,7 @@ output_char_groups(zone *z, character *p, int in_pre_pass, unsigned int n, unsig
 	/* output groups */
 	started = 0;
 	for (q = p; q != NULL; q = q->opt) {
-		char_group_name *g;
+		struct char_group_name *g;
 
 		if (q->type != group_letter) {
 			continue;
@@ -683,7 +685,7 @@ output_char_groups(zone *z, character *p, int in_pre_pass, unsigned int n, unsig
  * n gives the depth of recursion and d gives the indentation.
 */
 static void
-output_pass(zone *z, character *p, int in_pre_pass, unsigned int n, unsigned int d)
+output_pass(struct zone *z, struct character *p, int in_pre_pass, unsigned int n, unsigned int d)
 {
 	int w1 = n == 0 && !in_pre_pass;
 	int w2 = n == 0 && in_pre_pass;
@@ -707,7 +709,7 @@ output_pass(zone *z, character *p, int in_pre_pass, unsigned int n, unsigned int
 
 	/* TODO: can we move out w1 and w2 into output_zone_*pass(), and keep the recursion simple? */
 	if (w1) {
-		char_group_name *white;
+		struct char_group_name *white;
 
 		white = find_group(z, "white");
 		if (white != NULL && !is_group_empty(white->def)) {
@@ -740,9 +742,9 @@ output_pass(zone *z, character *p, int in_pre_pass, unsigned int n, unsigned int
 }
 
 static void
-output_zone_pass_prototypes(zone *p)
+output_zone_pass_prototypes(struct zone *p)
 {
-	zone *z;
+	struct zone *z;
 	const char *s;
 
 	assert(p != NULL);
@@ -762,13 +764,13 @@ output_zone_pass_prototypes(zone *p)
 }
 
 static void
-output_zone_prepass(zone *z)
+output_zone_prepass(struct zone *z)
 {
 	assert(z != NULL);
 
 	/* recurr through all zones */
 	{
-		zone *p;
+		struct zone *p;
 
 		for (p = z->next; p != NULL; p = p->opt) {
 			output_zone_prepass(p);
@@ -801,11 +803,11 @@ output_zone_prepass(zone *z)
 }
 
 static void
-output_zone_pass(cmd_line_options *opt, zone *p)
+output_zone_pass(struct cmd_line_options *opt, struct zone *p)
 {
 	/* recurr through all zones */
 	{
-		zone *z;
+		struct zone *z;
 
 		for (z = p->next; z != NULL; z = z->opt) {
 			output_zone_pass(opt, z);
@@ -862,10 +864,10 @@ output_zone_pass(cmd_line_options *opt, zone *p)
  * if a character belongs to a group or not.
  */
 static unsigned long
-group_number(lexer_parse_tree* top_level, char_group_defn *g)
+group_number(struct lexer_parse_tree *top_level, struct char_group_defn *g)
 {
+	struct char_group_defn *p;
 	unsigned int i;
-	char_group_defn *p;
 
 	assert(g != NULL);
 
@@ -885,10 +887,10 @@ group_number(lexer_parse_tree* top_level, char_group_defn *g)
 }
 
 static unsigned int
-count_nonempty_groups(lexer_parse_tree *top_level)
+count_nonempty_groups(struct lexer_parse_tree *top_level)
 {
+	struct char_group_defn *p;
 	unsigned int i;
-	char_group_defn *p;
 
 	assert(top_level != NULL);
 
@@ -906,10 +908,10 @@ count_nonempty_groups(lexer_parse_tree *top_level)
  * OUTPUT THE MACROS NEEDED TO ACCESS THE LOOKUP TABLE
  */
 static void
-output_macros_zone(cmd_line_options* opt, zone* z)
+output_macros_zone(struct cmd_line_options *opt, struct zone *z)
 {
-	zone* p;
-	char_group_name *g;
+	struct char_group_name *g;
+	struct zone *p;
 
 	/* Group interface */
 	for (p = z; p != NULL; p = p->opt) {
@@ -941,7 +943,7 @@ output_macros_zone(cmd_line_options* opt, zone* z)
 }
 
 static void
-output_macros(cmd_line_options* opt, lexer_parse_tree* top_level)
+output_macros(struct cmd_line_options* opt, struct lexer_parse_tree *top_level)
 {
 
 	if (all_groups_empty(top_level)) {
@@ -977,11 +979,11 @@ output_macros(cmd_line_options* opt, lexer_parse_tree* top_level)
  * OUTPUT THE LOOKUP TABLE
  */
 static void
-output_lookup_table(lexer_parse_tree* top_level, const char *grouptype,
+output_lookup_table(struct lexer_parse_tree *top_level, const char *grouptype,
 	const char *grouphex, size_t groupwidth)
 {
+	struct char_group_defn *g;
 	int c;
-	char_group_defn *g;
 
 	if (all_groups_empty(top_level)) {
 		return;
@@ -1023,7 +1025,7 @@ output_lookup_table(lexer_parse_tree* top_level, const char *grouptype,
  * OUTPUT LEXI AUTOMATED DEFINED OPERATIONS 
  */
 static void
-output_buffer(cmd_line_options *opt, lexer_parse_tree *top_level)
+output_buffer(struct cmd_line_options *opt, struct lexer_parse_tree *top_level)
 {
 	/*
 	 * Strictly the state argument is not required in the case of a
@@ -1085,7 +1087,7 @@ output_buffer(cmd_line_options *opt, lexer_parse_tree *top_level)
 }
 
 static void
-output_buffer_storage(lexer_parse_tree *top_level)
+output_buffer_storage(struct lexer_parse_tree *top_level)
 {
 	if (buffer_length(top_level) == 0) {
 		return;
@@ -1115,7 +1117,7 @@ output_trailers(void)
 }
 
 void
-c_output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
+c_output_all(struct cmd_line_options *opt, struct lexer_parse_tree *top_level)
 {
 	size_t groupwidth;
 	const char *grouptype;

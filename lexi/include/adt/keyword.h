@@ -10,22 +10,15 @@
 #ifndef LEXI_KEYWORD_H
 #define LEXI_KEYWORD_H
 
-struct instruction_tag;
-struct zone_tag;
-struct keyword_tag;
+struct instruction;
+struct zone;
+struct keyword;
 
-/*
- * TYPE REPRESENTING A KEYWORD
- *
- * A keyword consists of a name plus some associated data.
- */
-typedef struct keyword_tag keyword;
-
-void add_keyword(struct zone_tag *, const char*, struct instruction_tag *);
-void keywords_iterate(struct keyword_tag *,
-	void (*f)(struct keyword_tag *, void *), void *);
-struct instruction_tag *keyword_instruction(struct keyword_tag *);
-const char *keyword_name(struct keyword_tag *);
+void add_keyword(struct zone *, const char*, struct instruction *);
+void keywords_iterate(struct keyword *,
+	void (*f)(struct keyword *, void *), void *);
+struct instruction *keyword_instruction(struct keyword *);
+const char *keyword_name(struct keyword *);
 
 #endif
 
