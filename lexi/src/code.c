@@ -17,7 +17,7 @@
 #include <exds/dalloc.h>
 #include <exds/dstring.h>
 
-#include <adt/nametrans.h>
+#include <adt/trans.h>
 
 #include "code.h"
 
@@ -42,12 +42,13 @@ code_name(struct code *c)
 }
 
 static void
-code_append(struct code **c, struct code *new)
+code_append(struct code **p, struct code *new)
 {
-	struct code **p;
+	assert(p != NULL);
 
-	for (p = c; *p != NULL; p = &(*p)->next)
-		;
+	while (*p != NULL) {
+		p = &(*p)->next;
+	}
 
 	*p = new;
 }
@@ -115,11 +116,11 @@ code_destroy(struct code *c)
 }
 
 void
-code_out(FILE *file, struct code *code, struct NameTransT *trans, int d)
+code_out(FILE *file, struct code *c, struct trans *t, int d)
 {
 	struct code *p;
 
-	for (p = code; p != NULL; p = p->next) {
+	for (p = c; p != NULL; p = p->next) {
 		switch (p->kind) {
 		case CODE_STRING: {
 			char *s;
@@ -133,7 +134,7 @@ code_out(FILE *file, struct code *code, struct NameTransT *trans, int d)
 		case CODE_IDENT: {
 			struct arg *to;
 
-			to = nametrans_translate(trans, code_name(p));
+			to = trans_find(t, code_name(p));
 			arg_out(to, false, d, file);
 			break;
 		}
@@ -141,7 +142,7 @@ code_out(FILE *file, struct code *code, struct NameTransT *trans, int d)
 		case CODE_REF: {
 			struct arg *to;
 
-			to = nametrans_translate(trans, code_name(p));
+			to = trans_find(t, code_name(p));
 			arg_out(to, true, d, file);
 			break;
 		}
