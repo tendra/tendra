@@ -76,7 +76,7 @@ ZONE linecomment: "//" ... "\n" {
 	TOKEN DEFAULT -> $$;
 }
 
-ZONE string: "\"" ->  <init_tokbuf> ... "\"" -> <fini_tokbuf>, $string {
+ZONE string: "\"" -> <init_tokbuf> ... "\"" -> <fini_tokbuf>, $string {
 	GROUP white = "";
 	TOKEN DEFAULT -> <push_tokbuf>(#0);
 	TOKEN "\\\""  -> <push_tokbuf>(#1);
@@ -86,7 +86,7 @@ ZONE string: "\"" ->  <init_tokbuf> ... "\"" -> <fini_tokbuf>, $string {
 }
 
 ZONE ident:
-	"[alpha]" -> <init_tokbuf>, <push_tokbuf>(#0) [...)
+	"[alpha]"  -> <init_tokbuf>, <push_tokbuf>(#0) [...)
 	"[^alnum]" -> <fini_tokbuf>, $ = <keyword>($ident)
 {
 	GROUP white = "";
@@ -94,7 +94,7 @@ ZONE ident:
 }
 
 ZONE sidident:
-	"$[alpha]" ->  <init_tokbuf>, <push_tokbuf>(#1) [...)
+	"$[alpha]"   -> <init_tokbuf>, <push_tokbuf>(#1) [...)
 	"[^alnumhy]" -> <fini_tokbuf>, $sid-ident
 {
 	GROUP white = "";
