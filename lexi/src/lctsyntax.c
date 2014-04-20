@@ -44,8 +44,8 @@
 	#define SAVE_LEXER SAVE_LCT_LEXER
 	#define RESTORE_LEXER RESTORE_LCT_LEXER
 
-	typedef struct code code;
-	typedef struct entry * EntryP;
+	typedef struct code *  codeP;
+	typedef struct entry * entryP;
 	typedef struct TypeTupleT typetuple;
 
 	void
@@ -54,10 +54,10 @@
 		a->headersdefined  = 0;
 		a->trailersdefined = 0;
 
-		code_init(&(a->hfileheader));
-		code_init(&(a->cfileheader));
-		code_init(&(a->hfiletrailer));
-		code_init(&(a->cfiletrailer));
+		a->hfileheader  = NULL;
+		a->cfileheader  = NULL;
+		a->hfiletrailer = NULL;
+		a->cfiletrailer = NULL;
 
 		a->arg_head = NULL;
 		a->arg_tail = &a->arg_head;
@@ -72,16 +72,16 @@
 
 static void ZRaction_Hdefinition_C_Ctype_Htuple_C_Ctype_Hname(typetuple *);
 static void ZRaction_Hdefinition_C_Cfunction_Htype_Hdefn(typetuple *, typetuple *);
-static void ZRcode_Hblock_C_Ccode_Helement(code *, EntryP);
+static void ZRcode_Hblock_C_Ccode_Helement(codeP *, entryP);
 static void ZRmap_Hstmnt(void);
 extern void read_lct_unit(void);
 static void ZRaction_Hdefinition_C_Ctype_Htuple_C_Ctype_Htuple1(typetuple *);
 static void ZRstatement_Hlist(void);
-static void ZRcode_Hblock_C_Ccode_Hbody(code *, EntryP);
+static void ZRcode_Hblock_C_Ccode_Hbody(codeP *, entryP);
 static void ZR80(void);
 static void ZRargument_Hstmnt(void);
 static void ZRheader_Hstmnt(void);
-static void ZRcode_Hblock(EntryP, code *);
+static void ZRcode_Hblock(entryP, codeP *);
 static void ZRstatement(void);
 static void ZRtrailer_Hstmnt(void);
 static void ZRaction_Hdefinition(void);
@@ -173,7 +173,7 @@ ZRaction_Hdefinition_C_Ctype_Htuple_C_Ctype_Hname(typetuple *ZIa)
 					/* BEGINNING OF ACTION: true */
 					{
 #line 173 "lctsyntax.act"
- (ZIisref) = true ; 
+ (ZIisref) = true;  
 #line 178 "lctsyntax.c"
 					}
 					/* END OF ACTION: true */
@@ -184,7 +184,7 @@ ZRaction_Hdefinition_C_Ctype_Htuple_C_Ctype_Hname(typetuple *ZIa)
 					/* BEGINNING OF ACTION: false */
 					{
 #line 174 "lctsyntax.act"
- (ZIisref) = false ; 
+ (ZIisref) = false; 
 #line 189 "lctsyntax.c"
 					}
 					/* END OF ACTION: false */
@@ -276,7 +276,7 @@ ZL0:;
 }
 
 static void
-ZRcode_Hblock_C_Ccode_Helement(code *ZIc, EntryP ZIe)
+ZRcode_Hblock_C_Ccode_Helement(codeP *ZIc, entryP ZIe)
 {
 	switch (CURRENT_TERMINAL) {
 	case 11:
@@ -286,7 +286,7 @@ ZRcode_Hblock_C_Ccode_Helement(code *ZIc, EntryP ZIe)
 			{
 #line 185 "lctsyntax.act"
 
-		code_append_at(&(*ZIc));
+		code_append_at((ZIc));
 	
 #line 292 "lctsyntax.c"
 			}
@@ -311,7 +311,7 @@ ZRcode_Hblock_C_Ccode_Helement(code *ZIc, EntryP ZIe)
 			/* BEGINNING OF ACTION: false */
 			{
 #line 174 "lctsyntax.act"
- (ZIb) = false ; 
+ (ZIb) = false; 
 #line 316 "lctsyntax.c"
 			}
 			/* END OF ACTION: false */
@@ -372,7 +372,7 @@ ZRcode_Hblock_C_Ccode_Helement(code *ZIc, EntryP ZIe)
 			/* BEGINNING OF ACTION: true */
 			{
 #line 173 "lctsyntax.act"
- (ZIb) = true ; 
+ (ZIb) = true;  
 #line 377 "lctsyntax.c"
 			}
 			/* END OF ACTION: true */
@@ -652,7 +652,7 @@ ZL1:;
 }
 
 static void
-ZRcode_Hblock_C_Ccode_Hbody(code *ZIc, EntryP ZIe)
+ZRcode_Hblock_C_Ccode_Hbody(codeP *ZIc, entryP ZIe)
 {
 ZL2_code_Hblock_C_Ccode_Hbody:;
 	switch (CURRENT_TERMINAL) {
@@ -805,9 +805,9 @@ ZRheader_Hstmnt(void)
 		return;
 	}
 	{
-		EntryP ZIe;
-		code ZIsc;
-		code ZIsh;
+		entryP ZIe;
+		codeP ZIsc;
+		codeP ZIsh;
 
 		switch (CURRENT_TERMINAL) {
 		case 19:
@@ -843,12 +843,12 @@ ZRheader_Hstmnt(void)
 
 		if (!lct_ast.trailersdefined) {
 			lct_ast.headersdefined = 1;
-			code_assign(&(lct_ast.hfileheader), (&ZIsh));
-			code_assign(&(lct_ast.cfileheader), (&ZIsc));
+			lct_ast.hfileheader = (ZIsh);
+			lct_ast.cfileheader = (ZIsc);
 		} else {
 			error(ERROR_SERIOUS, "Headers may not be redefined");
-			code_destroy((&ZIsc));
-			code_destroy((&ZIsh));
+			code_destroy((ZIsc));
+			code_destroy((ZIsh));
 		}
 	
 #line 855 "lctsyntax.c"
@@ -867,9 +867,9 @@ ZL1:;
 }
 
 static void
-ZRcode_Hblock(EntryP ZIe, code *ZOc)
+ZRcode_Hblock(entryP ZIe, codeP *ZOc)
 {
-	code ZIc;
+	codeP ZIc;
 
 	if ((CURRENT_TERMINAL) == 24) {
 		return;
@@ -906,7 +906,7 @@ ZRcode_Hblock(EntryP ZIe, code *ZOc)
 		{
 #line 181 "lctsyntax.act"
 
-		code_init(&(ZIc));
+		(ZIc) = NULL;
 	
 #line 912 "lctsyntax.c"
 		}
@@ -1040,9 +1040,9 @@ ZRtrailer_Hstmnt(void)
 		return;
 	}
 	{
-		EntryP ZIe;
-		code ZIsc;
-		code ZIsh;
+		entryP ZIe;
+		codeP ZIsc;
+		codeP ZIsh;
 
 		switch (CURRENT_TERMINAL) {
 		case 20:
@@ -1078,12 +1078,12 @@ ZRtrailer_Hstmnt(void)
 
 		if (!lct_ast.trailersdefined) {
 			lct_ast.trailersdefined = 1;
-			code_assign(&(lct_ast.hfiletrailer), (&ZIsh));
-			code_assign(&(lct_ast.cfiletrailer), (&ZIsc));
+			lct_ast.hfiletrailer = (ZIsh);
+			lct_ast.cfiletrailer = (ZIsc);
 		} else {
 			error(ERROR_SERIOUS, "Trailers may not be redefined");
-			code_destroy((&ZIsc));
-			code_destroy((&ZIsh));
+			code_destroy((ZIsc));
+			code_destroy((ZIsh));
 		}
 	
 #line 1090 "lctsyntax.c"
@@ -1111,8 +1111,8 @@ ZRaction_Hdefinition(void)
 		NStringT ZIn;
 		typetuple ZIin;
 		typetuple ZIout;
-		EntryP ZIea;
-		code ZIc;
+		entryP ZIea;
+		codeP ZIc;
 
 		switch (CURRENT_TERMINAL) {
 		case 22:
@@ -1213,14 +1213,14 @@ ZRaction_Hdefinition(void)
 			struct action *act = entry_get_action((ZIea));
 			if (!action_is_defined(act)) {
 				action_set_define(act);
-				action_set_code(act, (&ZIc));
+				action_set_code(act, (ZIc));
 			} else {
 				char *pe = nstring_to_cstring(entry_key((ZIea)));
 				error(ERROR_SERIOUS, "Action %s has already been defined", pe);
 				xfree(pe);
 			}
 		} else {
-			code_destroy((&ZIc));
+			code_destroy((ZIc));
 		}
 	
 #line 1227 "lctsyntax.c"

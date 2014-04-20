@@ -37,10 +37,10 @@
 		int headersdefined;
 		int trailersdefined;
 
-		struct code hfileheader;
-		struct code cfileheader;
-		struct code hfiletrailer;
-		struct code cfiletrailer;
+		struct code *hfileheader;
+		struct code *cfileheader;
+		struct code *hfiletrailer;
+		struct code *cfiletrailer;
 
 		struct lxi_additional_argument* arg_head;
 		struct lxi_additional_argument** arg_tail;

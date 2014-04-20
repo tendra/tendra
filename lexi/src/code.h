@@ -22,24 +22,17 @@ enum code_kind {
 	CODE_AT
 };
 
-struct code_item {
+struct code {
 	enum code_kind kind;
 	NStringT name;
-	struct code_item *next;
+	struct code *next;
 };
 
-struct code {
-	struct code_item *head;
-	struct code_item **tail;
-};
-
-void code_init(struct code *);
-void code_assign(struct code *, struct code *);
-void code_append_at(struct code *);
-void code_append_ident(struct code *, NStringT *);
-void code_append_ref(struct code *code, NStringT *i);
-void code_append_string(struct code *, NStringT *);
-void code_destroy(struct code *c);
+void code_append_at(struct code **);
+void code_append_ident(struct code **, NStringT *);
+void code_append_ref(struct code **, NStringT *i);
+void code_append_string(struct code **, NStringT *);
+void code_destroy(struct code *);
 void code_out(FILE *, struct code *, struct NameTransT *, int);
 
 #endif

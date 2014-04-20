@@ -15,11 +15,11 @@
 	lct-unit -> read_lct_unit;
 
 	BOOL      -> bool;
-	CODE      -> code;
+	CODE      -> codeP;
 	BIGSTRING -> NStringT;
 	IDENT     -> NStringT;
 	TYPETUPLE -> typetuple;
-	ENTRYP    -> EntryP;
+	ENTRYP    -> entryP;
 
 %header% @{
 
@@ -55,8 +55,8 @@
 	#define SAVE_LEXER SAVE_LCT_LEXER
 	#define RESTORE_LEXER RESTORE_LCT_LEXER
 
-	typedef struct code code;
-	typedef struct entry * EntryP;
+	typedef struct code *  codeP;
+	typedef struct entry * entryP;
 	typedef struct TypeTupleT typetuple;
 
 	void
@@ -65,10 +65,10 @@
 		a->headersdefined  = 0;
 		a->trailersdefined = 0;
 
-		code_init(&(a->hfileheader));
-		code_init(&(a->cfileheader));
-		code_init(&(a->hfiletrailer));
-		code_init(&(a->cfiletrailer));
+		a->hfileheader  = NULL;
+		a->cfileheader  = NULL;
+		a->hfiletrailer = NULL;
+		a->cfiletrailer = NULL;
 
 		a->arg_head = NULL;
 		a->arg_tail = &a->arg_head;
@@ -104,10 +104,10 @@
 		int headersdefined;
 		int trailersdefined;
 
-		struct code hfileheader;
-		struct code cfileheader;
-		struct code hfiletrailer;
-		struct code cfiletrailer;
+		struct code *hfileheader;
+		struct code *cfileheader;
+		struct code *hfiletrailer;
+		struct code *cfiletrailer;
 
 		struct lxi_additional_argument* arg_head;
 		struct lxi_additional_argument** arg_tail;
@@ -170,19 +170,19 @@
 
 %actions%
 
-	<true>:  () -> ( b : BOOL ) =	@{ @b = true ; @};
-	<false>: () -> ( b : BOOL ) =	@{ @b = false ; @};
+	<true>:  () -> ( b :BOOL ) = @{ @b = true;  @};
+	<false>: () -> ( b :BOOL ) = @{ @b = false; @};
 
 	<empty-ident>: () -> (s :IDENT) = @{
 		nstring_init(&@s);
 	@};
 
 	<init-code>: () -> (c :CODE) = @{
-		code_init(&@c);
+		@c = NULL;
 	@};
 
 	<append-code-at>: (c :CODE &) -> () = @{
-		code_append_at(&@c);
+		code_append_at(@&c);
 	@};
 
 	<append-code-string>: (c :CODE &, s :BIGSTRING &) -> () = @{
@@ -237,27 +237,27 @@
 		nstring_destroy(@&ctype);
 	@};
 
-	<set-headers>: (sc :CODE &, sh :CODE &) -> () = @{
+	<set-headers>: (sc :CODE, sh :CODE) -> () = @{
 		if (!lct_ast.trailersdefined) {
 			lct_ast.headersdefined = 1;
-			code_assign(&(lct_ast.hfileheader), @&sh);
-			code_assign(&(lct_ast.cfileheader), @&sc);
+			lct_ast.hfileheader = @sh;
+			lct_ast.cfileheader = @sc;
 		} else {
 			error(ERROR_SERIOUS, "Headers may not be redefined");
-			code_destroy(@&sc);
-			code_destroy(@&sh);
+			code_destroy(@sc);
+			code_destroy(@sh);
 		}
 	@};
 
-	<set-trailers>: (sc :CODE &, sh :CODE &) -> () = @{
+	<set-trailers>: (sc :CODE, sh :CODE) -> () = @{
 		if (!lct_ast.trailersdefined) {
 			lct_ast.trailersdefined = 1;
-			code_assign(&(lct_ast.hfiletrailer), @&sh);
-			code_assign(&(lct_ast.cfiletrailer), @&sc);
+			lct_ast.hfiletrailer = @sh;
+			lct_ast.cfiletrailer = @sc;
 		} else {
 			error(ERROR_SERIOUS, "Trailers may not be redefined");
-			code_destroy(@&sc);
-			code_destroy(@&sh);
+			code_destroy(@sc);
+			code_destroy(@sh);
 		}
 	@};
 
@@ -364,20 +364,20 @@
 		typetuple_destroy(@&out);
 	@};
 
-	<define-action>: (ea :ENTRYP, c :CODE &) -> () = @{
+	<define-action>: (ea :ENTRYP, c :CODE) -> () = @{
 		if (@ea) {
 			/* TODO: assert entry_is_action */
 			struct action *act = entry_get_action(@ea);
 			if (!action_is_defined(act)) {
 				action_set_define(act);
-				action_set_code(act, @&c);
+				action_set_code(act, @c);
 			} else {
 				char *pe = nstring_to_cstring(entry_key(@ea));
 				error(ERROR_SERIOUS, "Action %s has already been defined", pe);
 				xfree(pe);
 			}
 		} else {
-			code_destroy(@&c);
+			code_destroy(@c);
 		}
 	@};
 

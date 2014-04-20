@@ -6,6 +6,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <assert.h>
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -20,157 +21,135 @@
 
 #include "code.h"
 
-struct code_item *
-codeitem_create(enum code_kind kind)
+struct code *
+code_create(enum code_kind kind)
 {
-	struct code_item *c;
+	struct code *c;
 
 	c = xmalloc(sizeof *c);
-	c ->kind=kind;
-	c ->next=NULL;
+	c->kind = kind;
+	c->next = NULL;
 
 	return c;
 }
 
 static NStringT *
-codeitem_name(struct code_item *c)
+code_name(struct code *c)
 {
+	assert(c != NULL);
+
 	return &c->name;
 }
 
 static void
-codeitem_destroy(struct code_item *c)
+code_append(struct code **c, struct code *new)
 {
-	switch (c->kind) {
-	case CODE_IDENT:
-	case CODE_STRING:
-		nstring_destroy(codeitem_name(c));
-		break;
+	struct code **p;
 
-	case CODE_AT:
-		/* do nothing */
-		break;
-	}
+	for (p = c; *p != NULL; p = &(*p)->next)
+		;
 
-	xfree(c);
+	*p = new;
 }
 
 void
-code_init(struct code *c)
+code_append_at(struct code **c)
 {
-	c->head = NULL;
-	c->tail = &c->head;
+	struct code *new;
+
+	new = code_create(CODE_AT);
+	code_append(c, new);
 }
 
 void
-code_assign(struct code* to, struct code* from)
+code_append_ident(struct code **c, NStringT *i)
 {
-	if (from->head == NULL) {
-		to->head = NULL;
-		to->tail = &to->head;
-	} else {
-		to->head = from->head;
-		to->tail = from->tail;
-	}
-}
+	struct code *new;
 
-static void
-code_append_codeitem(struct code *code, struct code_item *c)
-{
-	*code->tail = c;
-	code->tail = &c->next;
+	new = code_create(CODE_IDENT);
+	nstring_assign(code_name(new), i);
+	code_append(c, new);
 }
 
 void
-code_append_at(struct code *code)
+code_append_ref(struct code **c, NStringT *i)
 {
-	struct code_item *c;
+	struct code *new;
 
-	c = codeitem_create(CODE_AT);
-	code_append_codeitem(code, c);
+	new = code_create(CODE_REF);
+	nstring_assign(code_name(new), i);
+	code_append(c, new);
 }
 
 void
-code_append_ident(struct code *code, NStringT *i)
+code_append_string(struct code **c, NStringT *s)
 {
-	struct code_item *c;
+	struct code *new;
 
-	c = codeitem_create(CODE_IDENT);
-	nstring_assign(codeitem_name(c), i);
-	code_append_codeitem(code, c);
+	new = code_create(CODE_STRING);
+	nstring_assign(code_name(new), s);
+	code_append(c, new);
 }
 
 void
-code_append_ref(struct code *code, NStringT *i)
+code_destroy(struct code *c)
 {
-	struct code_item *c;
+	struct code *p, *next;
 
-	c = codeitem_create(CODE_REF);
-	nstring_assign(codeitem_name(c), i);
-	code_append_codeitem(code, c);
-}
+	for (p = c; p != NULL; p = p->next) {
+		next = p->next;
 
-void
-code_append_string(struct code *code, NStringT *s)
-{
-	struct code_item *c;
-
-	c = codeitem_create(CODE_STRING);
-	nstring_assign(codeitem_name(c), s);
-	code_append_codeitem(code, c);
-}
-
-void code_destroy(struct code *c)
-{
-	struct code_item *it;
-
-	it = c->head;
-	for (it = c->head; it != NULL; it = it->next) {
-		codeitem_destroy(it);
-	}
-}
-
-static void
-codeitem_out(FILE *file, struct code_item *c, struct NameTransT *trans, int d)
-{
-	char *s;
-	struct arg *to;
-
-	switch (c->kind) {
-		case CODE_AT:
-			fputs("@", file);
-			break;
-
-		case CODE_STRING:
-			s = nstring_to_cstring(codeitem_name(c));
-			fputs(s, file);
-			xfree(s);
-			break;
-
+		switch (p->kind) {
 		case CODE_IDENT:
-			to = nametrans_translate(trans, codeitem_name(c));
-			arg_out(to, false, d, file);
+		case CODE_STRING:
+			nstring_destroy(code_name(p));
 			break;
 
-		case CODE_REF:
-			to = nametrans_translate(trans, codeitem_name(c));
-			arg_out(to, true, d,file);
+		case CODE_AT:
+			/* do nothing */
 			break;
-/* XXX:
-			fprintf(file,"/" "* Not implemented yet: Identifier @s. Have to recover passing name. *" "/", s);
-			xfree(s)
-*/
-			break;
+		}
+
+		xfree(p);
 	}
 }
 
 void
 code_out(FILE *file, struct code *code, struct NameTransT *trans, int d)
 {
-	struct code_item *it;
+	struct code *p;
 
-	for (it = code->head; it != NULL; it = it->next) {
-		codeitem_out(file, it, trans, d);
+	for (p = code; p != NULL; p = p->next) {
+		switch (p->kind) {
+		case CODE_STRING: {
+			char *s;
+
+			s = nstring_to_cstring(code_name(p));
+			fputs(s, file);
+			xfree(s);
+			break;
+		}
+
+		case CODE_IDENT: {
+			struct arg *to;
+
+			to = nametrans_translate(trans, code_name(p));
+			arg_out(to, false, d, file);
+			break;
+		}
+
+		case CODE_REF: {
+			struct arg *to;
+
+			to = nametrans_translate(trans, code_name(p));
+			arg_out(to, true, d, file);
+			break;
+		}
+
+		case CODE_AT:
+			fputs("@", file);
+			break;
+		}
 	}
 }
 

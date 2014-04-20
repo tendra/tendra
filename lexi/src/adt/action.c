@@ -20,12 +20,11 @@ action_create(void)
 	struct action *act;
 
 	act = xmalloc(sizeof *act);
+	act->code    = NULL;
+	act->defined = false;
 
-	code_init(&act->code);
 	typetuple_init(&act->in);
 	typetuple_init(&act->out);
-
-	act->defined = false;
 
 	return act;
 }
@@ -57,13 +56,13 @@ action_get_outputs(struct action *act)
 struct code *
 action_get_code(struct action *act)
 {
-	return &act->code;
+	return act->code;
 }
 
 void
 action_set_code(struct action *act, struct code *code)
 {
-	code_assign(&act->code, code);
+	act->code = code;
 }
 
 void

@@ -52,15 +52,15 @@
 
 	<empty-ident>: () -> ( : IDENT);
 
-	<set-headers>:  (:CODE &, :CODE &) -> ();
-	<set-trailers>: (:CODE &, :CODE &) -> ();
+	<set-headers>:  (:CODE, :CODE) -> ();
+	<set-trailers>: (:CODE, :CODE) -> ();
 
 	<init-tuple>:   () -> (:TYPETUPLE);
 	<append-tuple>: (:TYPETUPLE &, :IDENT, :IDENT, :BOOL) -> ();
 
 	<make-map>: (:IDENT, :IDENT) -> ();
 
-	<define-action>:       (:ENTRYP, :CODE &) -> ();
+	<define-action>:       (:ENTRYP, :CODE) -> ();
 	<check-action-tuples>: (:ENTRYP, :TYPETUPLE &, :TYPETUPLE &) -> ();
 	<get-entry-action>:    (:IDENT) -> (:ENTRYP);
 	<null-entry>:          () -> (:ENTRYP);
@@ -146,16 +146,16 @@
 		};
 
 		e = <null-entry>;
-		sc = code-block(e);
 
+		sc = code-block(e);
 		{
 			comma;
 		##
 			<E_expected_comma>;
 		};
-
 		sh = code-block(e);
-		<set-headers>(&sc, &sh);
+
+		<set-headers>(sc, sh);
 
 		{
 			semicolon;
@@ -182,7 +182,7 @@
 		};
 
 		sh = code-block(e);
-		<set-trailers>(&sc, &sh);
+		<set-trailers>(sc, sh);
 
 		{
 			semicolon;
@@ -287,7 +287,7 @@
 		ea = <get-entry-action>(n);
 		<check-action-tuples>(ea, &in, &out);
 		c = code-block(ea);
-		<define-action>(ea, &c);
+		<define-action>(ea, c);
 
 		{
 			semicolon;

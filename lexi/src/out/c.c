@@ -304,7 +304,7 @@ out_action(FILE *lex_out, struct ast *ast,
 	/* End Semi Inefficient */
 
 	if (action_is_defined(ea->u.act)) {
-		code_out(lex_out, &ea->u.act->code, &trans, d );
+		code_out(lex_out, ea->u.act->code, &trans, d );
 		if (lhs->return_count) {
 			/*TODO assert(lhs->return_count==1)*/
 			out_indent(lex_out, d);
@@ -1102,15 +1102,15 @@ out_buffer_storage(struct ast *ast)
 void
 out_headers(void)
 {
-	code_out(lex_out_h, &lct_ast.hfileheader, NULL, 0);
-	code_out(lex_out,   &lct_ast.cfileheader, NULL, 0);
+	code_out(lex_out_h, lct_ast.hfileheader, NULL, 0);
+	code_out(lex_out,   lct_ast.cfileheader, NULL, 0);
 }
 
 void
 out_trailers(void)
 {
-	code_out(lex_out_h, &lct_ast.hfiletrailer, NULL, 0);
-	code_out(lex_out,   &lct_ast.cfiletrailer, NULL, 0);
+	code_out(lex_out_h, lct_ast.hfiletrailer, NULL, 0);
+	code_out(lex_out,   lct_ast.cfiletrailer, NULL, 0);
 }
 
 void

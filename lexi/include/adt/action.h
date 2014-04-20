@@ -14,12 +14,13 @@
 #include <exds/common.h>
 
 #include "typetuple.h" /* XXX */
-#include "../src/code.h" /* XXX */
+
+struct code;
 
 struct action {
 	struct TypeTupleT in;
 	struct TypeTupleT out;
-	struct code code;
+	struct code *code;
 	BoolT defined;
 };
 
