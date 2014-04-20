@@ -20,7 +20,7 @@ SRCS+=	main.c
 SRCS+=	options.c
 SRCS+=	lctlexer.c
 SRCS+=	lctsyntax.c
-SRCS+=	ccode.c
+SRCS+=	code.c
 
 .include <tendra.obj.mk>
 

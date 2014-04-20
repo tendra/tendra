@@ -24,37 +24,37 @@ entry_key(struct entry *e)
 int
 entry_is_type(struct entry *e)
 {
-	return e->entry_kind == entry_type;
+	return e->entry_kind == ENTRY_TYPE;
 }
 
 int
 entry_is_action(struct entry *e)
 {
-	return e->entry_kind == entry_action;
+	return e->entry_kind == ENTRY_ACTION;
 }
 
 int
 entry_is_localname(struct entry *e)
 {
-	return e->entry_kind == entry_local_name;
+	return e->entry_kind == ENTRY_LOCAL;
 }
 
 static void
 entry_set_kind_type(struct entry *e)
 {
-	e->entry_kind = entry_type;
+	e->entry_kind = ENTRY_TYPE;
 }
 
 static void
 entry_set_kind_action(struct entry *e)
 {
-	e->entry_kind = entry_action;
+	e->entry_kind = ENTRY_ACTION;
 }
 
 static void
 entry_set_kind_local_name(struct entry *e)
 {
-	e->entry_kind = entry_local_name;
+	e->entry_kind = ENTRY_LOCAL;
 }
 
 struct action *

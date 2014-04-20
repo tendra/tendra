@@ -19,9 +19,9 @@ struct type;
 struct TypeTupleT;
 
 enum entry_kind {
-	entry_action,
-	entry_type,
-	entry_local_name
+	ENTRY_ACTION,
+	ENTRY_TYPE,
+	ENTRY_LOCAL
 };
 
 struct entry {

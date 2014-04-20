@@ -15,7 +15,7 @@
 	lct-unit -> read_lct_unit;
 
 	BOOL      -> bool;
-	CCODE     -> ccode;
+	CODE      -> code;
 	BIGSTRING -> NStringT;
 	IDENT     -> NStringT;
 	TYPETUPLE -> typetuple;
@@ -47,7 +47,7 @@
 
 	#include "lctsyntax.h"
 	#include "lctlexer.h"
-	#include "ccode.h"
+	#include "code.h"
 	#include "ast.h"
 
 	#define ADVANCE_LEXER ADVANCE_LCT_LEXER
@@ -55,7 +55,7 @@
 	#define SAVE_LEXER SAVE_LCT_LEXER
 	#define RESTORE_LEXER RESTORE_LCT_LEXER
 
-	typedef struct CcodeT ccode;
+	typedef struct code code;
 	typedef struct entry * EntryP;
 	typedef struct TypeTupleT typetuple;
 
@@ -65,10 +65,10 @@
 		a->headersdefined  = 0;
 		a->trailersdefined = 0;
 
-		ccode_init(&(a->hfileheader));
-		ccode_init(&(a->cfileheader));
-		ccode_init(&(a->hfiletrailer));
-		ccode_init(&(a->cfiletrailer));
+		code_init(&(a->hfileheader));
+		code_init(&(a->cfileheader));
+		code_init(&(a->hfiletrailer));
+		code_init(&(a->cfiletrailer));
 
 		a->arg_head = NULL;
 		a->arg_tail = &a->arg_head;
@@ -90,24 +90,24 @@
 	#ifndef LCT_SYNTAX_HEADER_INCLUDED
 	#define LCT_SYNTAX_HEADER_INCLUDED
 
-	#include "ccode.h"
+	#include "code.h"
 	#include "ast.h"
 
 	struct lxi_additional_argument {
-			char* name;
-		char* ctype;
+		char *name;
+		char *ctype;
 
-		struct lxi_additional_argument* next;
+		struct lxi_additional_argument *next;
 	};
 
 	struct lct_ast {
 		int headersdefined;
 		int trailersdefined;
 
-		struct CcodeT hfileheader;
-		struct CcodeT cfileheader;
-		struct CcodeT hfiletrailer;
-		struct CcodeT cfiletrailer;
+		struct code hfileheader;
+		struct code cfileheader;
+		struct code hfiletrailer;
+		struct code cfiletrailer;
 
 		struct lxi_additional_argument* arg_head;
 		struct lxi_additional_argument** arg_tail;
@@ -177,29 +177,29 @@
 		nstring_init(&@s);
 	@};
 
-	<init-ccode>: () -> (c :CCODE) = @{
-		ccode_init(&@c);
+	<init-code>: () -> (c :CODE) = @{
+		code_init(&@c);
 	@};
 
-	<append-ccode-at>: (c :CCODE &) -> () = @{
-		ccode_append_at(&@c);
+	<append-code-at>: (c :CODE &) -> () = @{
+		code_append_at(&@c);
 	@};
 
-	<append-ccode-string>: (c :CCODE &, s :BIGSTRING &) -> () = @{
-		ccode_append_string(@&c, @&s);
+	<append-code-string>: (c :CODE &, s :BIGSTRING &) -> () = @{
+		code_append_string(@&c, @&s);
 	@};
 
-	<append-ccode-ident>: (c :CCODE &, i :IDENT, e :ENTRYP, b :BOOL) -> () = @{
+	<append-code-ident>: (c :CODE &, i :IDENT, e :ENTRYP, b :BOOL) -> () = @{
 		if (@e) {
 			struct action* act = entry_get_action(@e);
 			struct TypeTupleEntryT *p, *q;
 			if ((p = typetuple_name_is_in(action_get_inputs(act), @&i)) ||
 					(q = typetuple_name_is_in(action_get_outputs(act), @&i))) {
 				if (!@b) {
-					ccode_append_ident(@&c, @&i);
+					code_append_ident(@&c, @&i);
 				} else {
 					if (p && p->is_ref) {
-						ccode_append_ref(@&c, @&i);
+						code_append_ref(@&c, @&i);
 					} else {
 						error(ERROR_SERIOUS, "In code block the \'@@&\' can only be used for input parameters that are references");
 					}
@@ -216,7 +216,7 @@
 				xfree(pe);
 			}
 		} else {
-		error(ERROR_SERIOUS, "The @@ code identifiers are not allowed in headers or trailers");
+			error(ERROR_SERIOUS, "The @@ code identifiers are not allowed in headers or trailers");
 			nstring_destroy(@&i);
 		}
 	@};
@@ -237,34 +237,29 @@
 		nstring_destroy(@&ctype);
 	@};
 
-	<set-headers>: (sc :CCODE &, sh :CCODE &) -> () = @{
+	<set-headers>: (sc :CODE &, sh :CODE &) -> () = @{
 		if (!lct_ast.trailersdefined) {
 			lct_ast.headersdefined = 1;
-			ccode_assign(&(lct_ast.hfileheader), @&sh);
-			ccode_assign(&(lct_ast.cfileheader), @&sc);
+			code_assign(&(lct_ast.hfileheader), @&sh);
+			code_assign(&(lct_ast.cfileheader), @&sc);
 		} else {
-		error(ERROR_SERIOUS, "Headers may not be redefined");
-			ccode_destroy(@&sc);
-			ccode_destroy(@&sh);
+			error(ERROR_SERIOUS, "Headers may not be redefined");
+			code_destroy(@&sc);
+			code_destroy(@&sh);
 		}
 	@};
 
-	<set-trailers>: (sc :CCODE &, sh :CCODE &) -> () = @{
-		if (!(lct_ast.trailersdefined)) {
+	<set-trailers>: (sc :CODE &, sh :CODE &) -> () = @{
+		if (!lct_ast.trailersdefined) {
 			lct_ast.trailersdefined = 1;
-			ccode_assign(&(lct_ast.hfiletrailer), @&sh);
-			ccode_assign(&(lct_ast.cfiletrailer), @&sc);
+			code_assign(&(lct_ast.hfiletrailer), @&sh);
+			code_assign(&(lct_ast.cfiletrailer), @&sc);
 		} else {
 			error(ERROR_SERIOUS, "Trailers may not be redefined");
-			ccode_destroy(@&sc);
-			ccode_destroy(@&sh);
+			code_destroy(@&sc);
+			code_destroy(@&sh);
 		}
 	@};
-
-
-	/*
-		Initializing an empty type tuple
-	*/
 
 	<init-tuple>: () -> (a :TYPETUPLE) = @{
 		typetuple_init(&@a);
@@ -278,12 +273,10 @@
 			 xfree(pt);
 			 nstring_destroy(@&id);
 			 nstring_destroy(@&type);
-		}
-		else if (!entry_is_type(et)) {
-		error(ERROR_SERIOUS, "%s is not a type", @&type);
+		} else if (!entry_is_type(et)) {
+			error(ERROR_SERIOUS, "%s is not a type", @&type);
 			nstring_destroy(@&type);
-		}
-		else {
+		} else {
 			typetuple_append(@&a, typetupleentry_create(@&id, et, @isref));
 			nstring_destroy(@&type);
 		}
@@ -300,12 +293,11 @@
 				nstring_destroy(@&ctype);
 			}
 		} else {
-		error(ERROR_SERIOUS, "Unknown type in mapping");
+			error(ERROR_SERIOUS, "Unknown type in mapping");
 			nstring_destroy(@&ctype);
 		}
 		nstring_destroy(@&lexitype);
 	@};
-
 
 	<get-entry-action>: (i :IDENT) -> (ea :ENTRYP) = @{
 		@ea=table_get_entry(tree_get_table(lxi_ast), @&i);
@@ -318,15 +310,15 @@
 				xfree(pi);
 			}
 		} else {
-			char* pi = nstring_to_cstring(@&i);
-		error(ERROR_SERIOUS, "Defining an undeclared action: %s", pi);
+			char *pi = nstring_to_cstring(@&i);
+			error(ERROR_SERIOUS, "Defining an undeclared action: %s", pi);
 			xfree(pi);
 		}
 		nstring_destroy(@&i);
 	@};
 
 	<null-entry>: () -> (e :ENTRYP) = @{
-		@e=NULL;
+		@e = NULL;
 	@};
 
 	<check-action-tuples>: (e :ENTRYP, in :TYPETUPLE &, out :TYPETUPLE &) -> () = @{
@@ -367,11 +359,12 @@
 				}
 			}
 		}
+
 		typetuple_destroy(@&in);
 		typetuple_destroy(@&out);
 	@};
 
-	<define-action>: (ea :ENTRYP, c :CCODE &) -> () = @{
+	<define-action>: (ea :ENTRYP, c :CODE &) -> () = @{
 		if (@ea) {
 			/* TODO: assert entry_is_action */
 			struct action *act = entry_get_action(@ea);
@@ -384,7 +377,7 @@
 				xfree(pe);
 			}
 		} else {
-			ccode_destroy(@&c);
+			code_destroy(@&c);
 		}
 	@};
 

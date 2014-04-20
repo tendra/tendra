@@ -304,7 +304,7 @@ out_action(FILE *lex_out, struct ast *ast,
 	/* End Semi Inefficient */
 
 	if (action_is_defined(ea->u.act)) {
-		ccode_out(lex_out, &ea->u.act->code, &trans, d );
+		code_out(lex_out, &ea->u.act->code, &trans, d );
 		if (lhs->return_count) {
 			/*TODO assert(lhs->return_count==1)*/
 			out_indent(lex_out, d);
@@ -334,7 +334,7 @@ out_push_zone(struct zone *parent, struct cmd *cmd, unsigned int n, unsigned int
 	assert(cmd != NULL);
 	assert(cmd->kind == CMD_PUSH_ZONE);
 
-	if (cmd->u.s.z->type == typezone_general_zone) {
+	if (cmd->u.s.z->kind == ZONE_GENERAL) {
 		out_indent(lex_out, d);
 		fprintf(lex_out, "state->zone = %s_%s;\n",
 			read_token_name, cmd->u.s.z->name);
@@ -349,16 +349,16 @@ out_push_zone(struct zone *parent, struct cmd *cmd, unsigned int n, unsigned int
 	}
 
 	out_indent(lex_out, d);
-	switch (cmd->u.s.z->type) {
-	case typezone_general_zone:
+	switch (cmd->u.s.z->kind) {
+	case ZONE_GENERAL:
 		fprintf(lex_out, "return %s(state);\n", read_token_name);
 		break;
 
-	case typezone_pseudo_token:
+	case ZONE_PSEUDO:
 		fprintf(lex_out, "return %s_%s(state);\n", read_token_name, cmd->u.s.z->name);
 		break;
 
-	case typezone_pure_function:
+	case ZONE_PURE:
 		fprintf(lex_out, "%s_%s(state);\n", read_token_name, cmd->u.s.z->name);
 		out_indent(lex_out, d);
 		fputs("goto start;	/* pure function */\n", lex_out);
@@ -373,7 +373,7 @@ out_pop_zone(struct zone *parent, struct cmd *cmd, unsigned int n, unsigned int 
 	assert(cmd != NULL);
 	assert(cmd->kind == CMD_POP_ZONE);
 
-	if (parent->type == typezone_general_zone) {
+	if (parent->kind == ZONE_GENERAL) {
 		out_indent(lex_out, d);
 		if (zone_isglobal(cmd->u.s.z)) {
 			fprintf(lex_out, "state->zone = %s;\n", read_token_name);
@@ -401,16 +401,16 @@ out_pop_zone(struct zone *parent, struct cmd *cmd, unsigned int n, unsigned int 
 	}
 
 	out_indent(lex_out, d);
-	switch (parent->type) {
-	case typezone_general_zone:
+	switch (parent->kind) {
+	case ZONE_GENERAL:
 		fprintf(lex_out, "return %s(state);\n", read_token_name);
 		break;
 
-	case typezone_pure_function:
+	case ZONE_PURE:
 		fputs("return;\n", lex_out);
 		break;
 
-	case typezone_pseudo_token:
+	case ZONE_PSEUDO:
 		UNREACHED;
 	}
 }
@@ -750,7 +750,7 @@ out_zone_pass_prototypes(struct zone *p)
 		out_zone_pass_prototypes(z);
 	}
 
-	s = p->type == typezone_pure_function ? "void" : "int";
+	s = p->kind == ZONE_PURE ? "void" : "int";
 
 	if (p == tree_get_globalzone(p->ast)) {
 		return;
@@ -823,7 +823,7 @@ out_zone_pass(struct options *opt, struct zone *p)
 	} else {
 		const char *s;
 
-		s = p->type == typezone_pure_function ? "void" : "int";
+		s = p->kind == ZONE_PURE ? "void" : "int";
 
 		fprintf(lex_out, "static %s\n%s_%s(struct %sstate *state)\n", s,
 		read_token_name, p->name, lexi_prefix);
@@ -1102,15 +1102,15 @@ out_buffer_storage(struct ast *ast)
 void
 out_headers(void)
 {
-	ccode_out(lex_out_h, &lct_ast.hfileheader, NULL, 0);
-	ccode_out(lex_out,   &lct_ast.cfileheader, NULL, 0);
+	code_out(lex_out_h, &lct_ast.hfileheader, NULL, 0);
+	code_out(lex_out,   &lct_ast.cfileheader, NULL, 0);
 }
 
 void
 out_trailers(void)
 {
-	ccode_out(lex_out_h, &lct_ast.hfiletrailer, NULL, 0);
-	ccode_out(lex_out,   &lct_ast.cfiletrailer, NULL, 0);
+	code_out(lex_out_h, &lct_ast.hfiletrailer, NULL, 0);
+	code_out(lex_out,   &lct_ast.cfiletrailer, NULL, 0);
 }
 
 void

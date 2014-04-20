@@ -25,17 +25,17 @@ struct ast;
  *
  * TODO: we can calculate can these on the fly, and remove zone types entirely
  */
-enum zone_type {
-	typezone_general_zone,	/* A zone that can return more than one terminal */
-	typezone_pseudo_token,	/* A zone that returns only one terminal on zone exit */
-	typezone_pure_function	/* A zone that never returns a terminal */ 
+enum zone_kind {
+	ZONE_GENERAL, /* A zone that can return more than one terminal */
+	ZONE_PSEUDO,  /* A zone that returns only one terminal on zone exit */
+	ZONE_PURE     /* A zone that never returns a terminal */
 };
 
 struct zone {
 	/* NULL for the global zone */
 	char *name;
 
-	enum zone_type type;
+	enum zone_kind kind;
 
 	/*
 	 * Characters in the pre-pass mapping trie take their values from u.map,

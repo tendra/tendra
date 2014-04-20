@@ -544,7 +544,7 @@
 	<make-token>: (z :ZONE, s :STRING, l :CMD_LIST) -> () = @{
 		add_mainpass(@z, @s, @l);
 		if (@l->return_count) {
-			@z->type=typezone_general_zone;
+			@z->kind = ZONE_GENERAL;
 		}
 	@};
 
@@ -559,7 +559,7 @@
 	<make-default>: (z : ZONE, i : CMD_LIST) -> () = @{
 		@z->local=@i;
 		if (@i->return_count) {
-			@z->type=typezone_general_zone;
+			@z->kind = ZONE_GENERAL;
 		}
 	@};
 
@@ -585,12 +585,12 @@
 
 		@nz->exit = @exit;
 		if (@nz->exit->return_count) {
-			@nz->type = typezone_pseudo_token;
+			@nz->kind = ZONE_PSEUDO;
 		}
 
 		@nz->enter = @enter;
 		if (@nz->enter->return_count) {
-			@nz->type = typezone_general_zone;
+			@nz->kind = ZONE_GENERAL;
 		}
 
 		c = add_cmd_push_zone(@nz);
@@ -602,14 +602,15 @@
 	@};
 
 	<update-zone-type>: (parent :ZONE, child :ZONE) -> () = @{
-		switch (@child->type) {
-		case typezone_pseudo_token:
-		case typezone_general_zone:
-			@parent->type = typezone_general_zone;
+		switch (@child->kind) {
+		case ZONE_PSEUDO:
+		case ZONE_GENERAL:
+			@parent->kind = ZONE_GENERAL;
 			break;
-		case typezone_pure_function:
-			break; /* do nothing */
 
+		case ZONE_PURE:
+			/* do nothing */
+			break;
 		}
 	@};
 

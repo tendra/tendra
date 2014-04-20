@@ -23,24 +23,24 @@
 	#ifndef LCT_SYNTAX_HEADER_INCLUDED
 	#define LCT_SYNTAX_HEADER_INCLUDED
 
-	#include "ccode.h"
+	#include "code.h"
 	#include "ast.h"
 
 	struct lxi_additional_argument {
-			char* name;
-		char* ctype;
+		char *name;
+		char *ctype;
 
-		struct lxi_additional_argument* next;
+		struct lxi_additional_argument *next;
 	};
 
 	struct lct_ast {
 		int headersdefined;
 		int trailersdefined;
 
-		struct CcodeT hfileheader;
-		struct CcodeT cfileheader;
-		struct CcodeT hfiletrailer;
-		struct CcodeT cfiletrailer;
+		struct code hfileheader;
+		struct code cfileheader;
+		struct code hfiletrailer;
+		struct code cfiletrailer;
 
 		struct lxi_additional_argument* arg_head;
 		struct lxi_additional_argument** arg_tail;
@@ -86,7 +86,7 @@ extern void read_lct_unit(void);
 
 /* BEGINNING OF TRAILER */
 
-#line 442 "lctsyntax.act"
+#line 435 "lctsyntax.act"
 
 
 	#endif

@@ -94,7 +94,7 @@ new_zone(struct ast *ast)
 
 	new = xmalloc(sizeof *new);
 	new->name = NULL;
-	new->type = typezone_pure_function;
+	new->kind = ZONE_PURE;
 
 	new->main = NULL;
 	new->pre  = NULL;
