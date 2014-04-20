@@ -34,7 +34,7 @@
 #include <adt/zone.h>
 #include <adt/group.h>
 #include <adt/localnames.h>
-#include <adt/nametrans.h>
+#include <adt/trans.h>
 
 #include <out/c.h>
 #include <out/common.h>
@@ -253,7 +253,7 @@ static void
 out_action(FILE *lex_out, struct ast *ast,
 	struct entry *ea, struct args_list *lhs, struct args_list *rhs, unsigned int d)
 {
-	struct NameTransT trans;
+	struct trans *t;
 
 	assert(lex_out != NULL);
 	assert(ast != NULL);
@@ -264,14 +264,12 @@ out_action(FILE *lex_out, struct ast *ast,
 	/* TODO: assert(entry_is_action(action)) */
 	/*
 	 * Semi Inefficient: we will recreate the translator stack each time
-	 * we output the same action; this will never be the same translator stack,
-	 * however the sort will always give the same permutation: an optimization
-	 * should be possible here. I don't see it as necessary for the moment.
+	 * we output the same action; this could be just done once per action,
+	 * before actions are output.
 	 */
-	nametrans_init(&trans, typetuple_length(&ea->u.act->in) + typetuple_length(&ea->u.act->out));
-	nametrans_append_tuple(&trans, &ea->u.act->in,  rhs);
-	nametrans_append_tuple(&trans, &ea->u.act->out, lhs);
-	nametrans_sort(&trans);
+	t = NULL;
+	trans_add(&t, &ea->u.act->in,  rhs);
+	trans_add(&t, &ea->u.act->out, lhs);
 
 	/* TODO: output #line delimiters instead of comments */
 	out_indent(lex_out, d);
@@ -304,7 +302,7 @@ out_action(FILE *lex_out, struct ast *ast,
 	/* End Semi Inefficient */
 
 	if (action_is_defined(ea->u.act)) {
-		code_out(lex_out, ea->u.act->code, &trans, d );
+		code_out(lex_out, ea->u.act->code, t, d );
 		if (lhs->return_count) {
 			/*TODO assert(lhs->return_count==1)*/
 			out_indent(lex_out, d);

@@ -13,7 +13,7 @@
 #include "exds/common.h"
 #include "exds/dstring.h"
 
-struct NameTransT;
+struct trans;
 
 enum code_kind {
 	CODE_STRING,
@@ -33,7 +33,7 @@ void code_append_ident(struct code **, NStringT *);
 void code_append_ref(struct code **, NStringT *i);
 void code_append_string(struct code **, NStringT *);
 void code_destroy(struct code *);
-void code_out(FILE *, struct code *, struct NameTransT *, int);
+void code_out(FILE *, struct code *, struct trans *, int);
 
 #endif
 

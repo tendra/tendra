@@ -14,7 +14,7 @@ SRCS+=	trie.c
 SRCS+=	type.c
 SRCS+=	typetuple.c
 SRCS+=	localnames.c
-SRCS+=	nametrans.c
+SRCS+=	trans.c
 
 .include <tendra.obj.mk>
 

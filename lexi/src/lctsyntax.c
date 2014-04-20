@@ -12,7 +12,7 @@
 #line 80 "lctsyntax.act"
 
 
-	/* $Id: lctsyntax.act 3039 2014-04-20 12:08:35Z kate $ */
+	/* $Id: lctsyntax.act 3042 2014-04-20 20:18:56Z kate $ */
 
 	/*
 	 * Copyright 2011, The TenDRA Project.
