@@ -15,6 +15,7 @@
 #include "group.h"
 
 struct keyword;
+struct trie;
 struct ast;
 
 /*
@@ -41,10 +42,10 @@ struct zone {
 	 * Characters in the pre-pass mapping trie take their values from u.map,
 	 * and characters in the main pass take their values from u.definition.
 	 * That is, the pre-pass trie keys onto strings, and the main pass keys
-	 * onto command lists. See char.h for the definitions of those values.
+	 * onto command lists. See trie.h for the definitions of those values.
 	 */
-	struct character *pre;
-	struct character *main;
+	struct trie *pre;
+	struct trie *main;
 
 	struct keyword *keywords;
 	struct group_name *groups;
@@ -71,8 +72,8 @@ struct zone *add_zone(struct zone *, char *, const char *, int);
  * These are the main interfaces for adding new keys to the trie for either a
  * pre-pass mapping, or for a main pass token respectively.
  */
-struct character *add_mainpass(struct zone *, const char *, struct cmd_list *);
-struct character *add_prepass(struct zone *, const char *, char *);
+struct trie *add_mainpass(struct zone *, const char *, struct cmd_list *);
+struct trie *add_prepass(struct zone *, const char *, char *);
 
 int zone_isglobal(struct zone *z);
 const char *zone_name(struct zone *z);

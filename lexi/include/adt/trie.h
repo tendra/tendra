@@ -8,24 +8,22 @@
  */
 
 
-#ifndef LEXI_CHAR_H
-#define LEXI_CHAR_H
+#ifndef LEXI_TRIE_H
+#define LEXI_TRIE_H
 
 #include <stddef.h>
 
 struct zone;
 struct cmd_list;
 
-enum char_kind {
-	CHAR_GROUP,
-	CHAR_LETTER
+enum trie_kind {
+	TRIE_CHAR,  /* .c is literal character or EOF */
+	TRIE_GROUP, /* .g is group */
 };
 
-union char_value {
-	/* CHAR_LETTER: character or EOF */
+union trie_value {
 	int c;
 
-	/* CHAR_GROUP */
 	struct {
 		unsigned int not:1;	/* boolean */
 		struct group_name *gn;
@@ -33,16 +31,16 @@ union char_value {
 };
 
 /*
- * TYPE REPRESENTING A CHARACTER
+ * CHARACTER TRIE NODE
  *
  * A character consists of a single letter (which may have associated
  * data) plus pointers to the next character and to a list of alternative
  * characters.
  */
-struct character {
-	enum char_kind kind;
+struct trie {
+	enum trie_kind kind;
 
-	union char_value v;
+	union trie_value v;
 
 	/*
 	 * Which of these used depends if the trie is a pre-pass mapping or
@@ -58,15 +56,15 @@ struct character {
 	} u;
 
 	/* siblings */
-	/* TODO: consider splitting this per char_value type */
-	struct character *opt;
+	/* TODO: consider splitting this per trie_value type */
+	struct trie *opt;
 
 	/* children */
-	struct character *next;
+	struct trie *next;
 };
 
-struct character *add_string(struct zone *, struct character **, const char *);
-size_t char_maxlength(struct character *);
+struct trie *add_string(struct zone *, struct trie **, const char *);
+size_t trie_maxlength(struct trie *);
 int find_escape(char c);
 
 #endif

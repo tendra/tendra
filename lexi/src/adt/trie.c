@@ -16,8 +16,7 @@
 #include <shared/xalloc.h>
 #include <shared/error.h>
 
-#include <adt/char.h>
-
+#include <adt/trie.h>
 #include <adt/group.h>	/* XXX */
 #include <adt/zone.h>	/* XXX */
 #include <adt/cmd.h>	/* XXX */
@@ -54,13 +53,13 @@ find_escape(char c)
  * ARE TWO VALUES EQUAL?
  */
 static int
-values_equal(enum char_kind kind, const union char_value *a, const union char_value *b)
+values_equal(enum trie_kind kind, const union trie_value *a, const union trie_value *b)
 {
 	switch (kind) {
-	case CHAR_GROUP:
+	case TRIE_GROUP:
 		return a->g.not == b->g.not && is_group_equal(a->g.gn->g, b->g.gn->g);
 
-	case CHAR_LETTER:
+	case TRIE_CHAR:
 		return a->c == b->c;
 	}
 
@@ -71,21 +70,21 @@ values_equal(enum char_kind kind, const union char_value *a, const union char_va
 /*
  * ALLOCATE A NEW CHARACTER
  *
- * This routine allocates a new character with value v.
+ * This routine allocates a new trie node with value v.
  */
-static struct character *
-new_char(enum char_kind kind, const union char_value *v)
+static struct trie *
+new_trie(enum trie_kind kind, const union trie_value *v)
 {
-    struct character *new;
+    struct trie *new;
 
 	assert(v != NULL);
 
 	switch (kind) {
-	case CHAR_GROUP:
+	case TRIE_GROUP:
 		assert(v->g.gn != NULL);
 		break;
 
-	case CHAR_LETTER:
+	case TRIE_CHAR:
 		assert(v->c >= 0 || v->c == EOF);
 		break;
 	}
@@ -105,25 +104,25 @@ new_char(enum char_kind kind, const union char_value *v)
 /*
  * COUNT MAXIMUM TOKEN LENGTH
  *
- *Find the maximum token length within the given lexical pass.
+ * Find the maximum token length within the given lexical pass.
  */
 size_t
-char_maxlength(struct character *c)
+trie_maxlength(struct trie *t)
 {
-	struct character *p;
+	struct trie *p;
 	size_t maxopt;
 
-	assert(c != NULL);
+	assert(t != NULL);
 
 	maxopt = 0;
-	for (p = c; p != NULL; p = p->opt) {
+	for (p = t; p != NULL; p = p->opt) {
 		size_t l;
 
 		if (p->next == NULL) {
 			continue;
 		}
 
-		l = char_maxlength(p->next) + 1;
+		l = trie_maxlength(p->next) + 1;
 
 		if (l > maxopt) {
 			maxopt = l;
@@ -136,14 +135,14 @@ char_maxlength(struct character *c)
 /*
  * FIND AN EXISTING ALTERNATIVE OF THE GIVEN VALUE, OR ADD A NEW ONE
  */
-static struct character *
-find_or_add(struct character **n, enum char_kind kind, const union char_value *v)
+static struct trie *
+find_or_add(struct trie **n, enum trie_kind kind, const union trie_value *v)
 {
 	assert(n != NULL);
 
 	/* find an existing node, if present */
 	{
-		struct character *p;
+		struct trie *p;
 
 		for (p = *n; p != NULL; p = p->opt) {
 			if (p->kind != kind) {
@@ -158,9 +157,9 @@ find_or_add(struct character **n, enum char_kind kind, const union char_value *v
 
 	/* otherwise, add a new node */
 	{
-		struct character *new;
+		struct trie *new;
 
-		new = new_char(kind, v);
+		new = new_trie(kind, v);
 		new->opt = *n;
 		*n = new;
 
@@ -179,11 +178,11 @@ find_or_add(struct character **n, enum char_kind kind, const union char_value *v
  *
  * TODO: Could move parsing into the .lxi file; strings would make a nice zone.
  */
-struct character *
-add_string(struct zone *z, struct character **n, const char *s)
+struct trie *
+add_string(struct zone *z, struct trie **n, const char *s)
 {
 	const char *p;
-	struct character *leaf;
+	struct trie *leaf;
 
 	assert(z != NULL);
 	assert(n != NULL);
@@ -196,7 +195,7 @@ add_string(struct zone *z, struct character **n, const char *s)
 	leaf = NULL;
 	for (p = s; *p; p++) {
 		char *e;
-		union char_value v;
+		union trie_value v;
 
 		switch (*p) {
 		case '[':	/* group */
@@ -220,7 +219,7 @@ add_string(struct zone *z, struct character **n, const char *s)
 				error(ERROR_SERIOUS, "Unknown group '%s'", p);
 			}
 
-			leaf = find_or_add(n, CHAR_GROUP, &v);
+			leaf = find_or_add(n, TRIE_GROUP, &v);
 			p = e;
 			break;
 
@@ -232,12 +231,12 @@ add_string(struct zone *z, struct character **n, const char *s)
 			}
 
 			v.c = find_escape(*p);
-			leaf = find_or_add(n, CHAR_LETTER, &v);
+			leaf = find_or_add(n, TRIE_CHAR, &v);
 			break;
 
 		default:	/* literal character */
 			v.c = *p;
-			leaf = find_or_add(n, CHAR_LETTER, &v);
+			leaf = find_or_add(n, TRIE_CHAR, &v);
 			break;
 		}
 

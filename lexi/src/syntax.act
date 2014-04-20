@@ -55,7 +55,6 @@
 	#include <adt/cmd.h>
 	#include <adt/keyword.h>
 	#include <adt/zone.h>
-	#include <adt/char.h>
 
 	#include "ast.h"
 	#include "lexer.h"

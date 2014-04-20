@@ -14,7 +14,7 @@
 #include <shared/error.h>
 
 #include <adt/zone.h>
-#include <adt/char.h>
+#include <adt/trie.h>
 #include <adt/cmd.h>
 
 #include "../ast.h"
@@ -60,10 +60,10 @@ zone_maxlength(struct zone *z, int in_prepass)
 	assert(z != NULL);
 
 	{
-		struct character *pass;
+		struct trie *pass;
 
 		pass = in_prepass ? z->pre : z->main;
-		max  = pass == NULL ? 0 : char_maxlength(pass);
+		max  = pass == NULL ? 0 : trie_maxlength(pass);
 	}
 
 	for (p = z->next; p != NULL; p = p->opt) {
@@ -153,10 +153,10 @@ add_zone(struct zone *z, char *name, const char *e, int endmarkerclosed)
 	return new;
 }
 
-struct character *
+struct trie *
 add_mainpass(struct zone *z, const char *s, struct cmd_list *l)
 {
-	struct character *new;
+	struct trie *new;
 
 	assert(z != NULL);
 	assert(s != NULL);
@@ -177,10 +177,10 @@ add_mainpass(struct zone *z, const char *s, struct cmd_list *l)
 	return new;
 }
 
-struct character *
+struct trie *
 add_prepass(struct zone *z, const char *s, char *m)
 {
-	struct character *new;
+	struct trie *new;
 
 	assert(z != NULL);
 	assert(s != NULL);

@@ -14,7 +14,6 @@
 #include <shared/xalloc.h>
 
 #include <adt/entry.h>
-#include <adt/char.h>
 #include <adt/zone.h>
 
 #include "ast.h"

@@ -26,10 +26,10 @@
 
 #include <adt/action.h>
 #include <adt/entry.h>
-#include <adt/char.h>
 #include <adt/arg.h>
 #include <adt/cmd.h>
 #include <adt/keyword.h>
+#include <adt/trie.h>
 #include <adt/type.h>
 #include <adt/zone.h>
 #include <adt/group.h>
@@ -45,7 +45,7 @@
 #include "options.h"
 
 static int out_cmds(struct zone *parent, struct cmd_list *ret, unsigned int n, unsigned int d);
-static void out_pass(struct zone* z, struct character *p, int in_pre_pass, unsigned int n, unsigned int d);
+static void out_pass(struct zone* z, struct trie *p, int in_pre_pass, unsigned int n, unsigned int d);
 
 /*
  * This is populated by the selected output language, set from opt->lang.
@@ -60,7 +60,7 @@ enum {
  * OUTPUT OPTIONS
  *
  * The flag in_pre_pass is used to indicate the preliminary pass to
- * out_pass.  read_name gives the name of the character reading
+ * out_pass. read_name gives the name of the character reading
  * function used in the output routines.
  */
 static const char *read_token_name;
@@ -516,7 +516,7 @@ out_mapping(const char *map, unsigned int d)
  * present in the containing block.
  */
 static int
-out_leaf(struct zone *parent, struct character *p, int in_pre_pass, unsigned int n, unsigned int d)
+out_leaf(struct zone *parent, struct trie *p, int in_pre_pass, unsigned int n, unsigned int d)
 {
 	assert(parent != NULL);
 	assert(p != NULL);
@@ -544,9 +544,9 @@ out_leaf(struct zone *parent, struct character *p, int in_pre_pass, unsigned int
 }
 
 static void
-out_CHAR_LETTERs(struct zone *z, struct character *p, int in_pre_pass, unsigned int n, unsigned int d)
+out_char_letters(struct zone *z, struct trie *p, int in_pre_pass, unsigned int n, unsigned int d)
 {
-	struct character *q;
+	struct trie *q;
 	int letters;
 
 	assert(z != NULL);
@@ -555,7 +555,7 @@ out_CHAR_LETTERs(struct zone *z, struct character *p, int in_pre_pass, unsigned 
 	/* count letters */
 	letters = 0;
 	for (q = p; q != NULL; q = q->opt) {
-		letters += q->kind == CHAR_LETTER;
+		letters += q->kind == TRIE_CHAR;
 	}
 
 	/* output letters as appropiate for the given count */
@@ -564,8 +564,8 @@ out_CHAR_LETTERs(struct zone *z, struct character *p, int in_pre_pass, unsigned 
 		return;
 
 	case 1:
-		/* find the single CHAR_LETTER */
-		for (q = p; q->kind != CHAR_LETTER; q = q->opt) {
+		/* find the single TRIE_CHAR */
+		for (q = p; q->kind != TRIE_CHAR; q = q->opt) {
 			assert(q->opt != NULL);
 		}
 
@@ -590,7 +590,7 @@ out_CHAR_LETTERs(struct zone *z, struct character *p, int in_pre_pass, unsigned 
 		for (q = p; q != NULL; q = q->opt) {
 			int r;
 
-			if (q->kind != CHAR_LETTER) {
+			if (q->kind != TRIE_CHAR) {
 				continue;
 			}
 
@@ -623,9 +623,9 @@ out_CHAR_LETTERs(struct zone *z, struct character *p, int in_pre_pass, unsigned 
 }
 
 static void
-out_char_groups(struct zone *z, struct character *p, int in_pre_pass, unsigned int n, unsigned int d)
+out_char_groups(struct zone *z, struct trie *p, int in_pre_pass, unsigned int n, unsigned int d)
 {
-	struct character *q;
+	struct trie *q;
 	int started;
 	int groups;
 
@@ -635,7 +635,7 @@ out_char_groups(struct zone *z, struct character *p, int in_pre_pass, unsigned i
 	/* count groups */
 	groups = 0;
 	for (q = p; q != NULL; q = q->opt) {
-		groups += q->kind == CHAR_GROUP;
+		groups += q->kind == TRIE_GROUP;
 	}
 
 	if (groups == 0) {
@@ -647,7 +647,7 @@ out_char_groups(struct zone *z, struct character *p, int in_pre_pass, unsigned i
 	for (q = p; q != NULL; q = q->opt) {
 		struct group_name *gn;
 
-		if (q->kind != CHAR_GROUP) {
+		if (q->kind != TRIE_GROUP) {
 			continue;
 		}
 
@@ -682,7 +682,7 @@ out_char_groups(struct zone *z, struct character *p, int in_pre_pass, unsigned i
  * n gives the depth of recursion and d gives the indentation.
 */
 static void
-out_pass(struct zone *z, struct character *p, int in_pre_pass, unsigned int n, unsigned int d)
+out_pass(struct zone *z, struct trie *p, int in_pre_pass, unsigned int n, unsigned int d)
 {
 	int w1 = n == 0 && !in_pre_pass;
 	int w2 = n == 0 && in_pre_pass;
@@ -723,7 +723,7 @@ out_pass(struct zone *z, struct character *p, int in_pre_pass, unsigned int n, u
 	}
 
 	/* We match letters before groups; letters have priority (TODO do we need to?) */
-	out_CHAR_LETTERs(z, p, in_pre_pass, n, d);
+	out_char_letters(z, p, in_pre_pass, n, d);
 	out_char_groups (z, p, in_pre_pass, n, d);
 
 	if (w2) {
@@ -1019,7 +1019,7 @@ out_lookup_table(struct ast *ast, const char *grouptype,
 }
 
 /*
- * OUTPUT LEXI AUTOMATED DEFINED OPERATIONS 
+ * OUTPUT LEXI AUTOMATED DEFINED OPERATIONS
  */
 static void
 out_buffer(struct options *opt, struct ast *ast)

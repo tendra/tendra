@@ -13,7 +13,6 @@
 #include <shared/xalloc.h>
 #include <shared/error.h>
 
-#include <adt/char.h>
 #include <adt/group.h>
 #include <adt/zone.h>
 

@@ -12,8 +12,8 @@
 
 #include <shared/error.h>
 
-#include <adt/char.h>
 #include <adt/cmd.h>
+#include <adt/trie.h>
 #include <adt/zone.h>	/* XXX */
 
 #include <out/dot.h>
@@ -64,17 +64,17 @@ quote_char(int c)
  * its type according to tree_get_translation().
  */
 static void
-out_node(struct ast *ast, struct character *p, struct options *opt) {
+out_node(struct ast *ast, struct trie *p, struct options *opt) {
 	/* node value */
 	{
 		fprintf(dotout, "\t\tc%p [ ", (void *) p);
 
 		switch (p->kind) {
-		case CHAR_LETTER:
+		case TRIE_CHAR:
 			fprintf(dotout, "label=\"%s\"", quote_char(p->v.c));
 			break;
 
-		case CHAR_GROUP:
+		case TRIE_GROUP:
 			fprintf(dotout, "shape=box, label=\"[%s%s]\"", p->v.g.not ? "^" : "",
 				p->v.g.gn->name);
 			break;
@@ -126,8 +126,8 @@ out_node(struct ast *ast, struct character *p, struct options *opt) {
  * adjacent nodes.
  */
 static void
-pass(void *prev, struct character *p, struct ast *ast, struct options *opt) {
-	struct character *q;
+pass(void *prev, struct trie *p, struct ast *ast, struct options *opt) {
+	struct trie *q;
 
 	for (q = p; q != NULL; q = q->opt) {
 		out_node(ast, q, opt);
