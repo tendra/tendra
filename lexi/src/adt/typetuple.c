@@ -126,9 +126,11 @@ typetuple_assign_names(struct TypeTupleT *to, struct TypeTupleT *from)
 
 void typetuple_destroy(struct TypeTupleT *tuple)
 {
-	struct TypeTupleEntryT *p;
+	struct TypeTupleEntryT *p, *next;
 
-	for(p = tuple->head; p != NULL; p = p->next) {
+	for (p = tuple->head; p != NULL; p = next) {
+		next = p->next;
+
 		typetupleentry_destroy(p);
 	}
 }
