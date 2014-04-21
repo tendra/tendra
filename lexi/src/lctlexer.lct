@@ -20,6 +20,8 @@ HEADERS = @{
 	#include "lctsyntax.h"
 	#include <shared/error.h>
 
+	typedef int ZTTERMINAL;
+
 	int crt_lct_token;
 	int saved_lct_token;
 
@@ -82,8 +84,6 @@ HEADERS = @{
 TRAILERS = @{
 @},@{
 @};
-
-MAP TERMINAL -> int;
 
 ARGUMENT input :FILE_P_lct;
 

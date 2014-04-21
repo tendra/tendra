@@ -20,6 +20,8 @@ HEADERS = @{
 
 	#include "c-lexer.h"
 
+	typedef int ZTTERMINAL;
+
 @} , @{
 
 	/* $Id$ */
@@ -35,8 +37,6 @@ HEADERS = @{
 TRAILERS = @{
 @},@{
 @} ;
-
-MAP TERMINAL -> int;
 
 ACTION read_builtin : (c:CHARACTER) -> (t:TERMINAL) = @{
        @t=c_lexer_read_builtin(@c);

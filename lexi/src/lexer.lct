@@ -28,6 +28,8 @@ HEADERS = @{
 
 	struct lexi_state lexer_state;
 
+	typedef int ZTTERMINAL;
+
 	/*
 	 * This buffer is used by read_token to hold the values of identifiers
 	 * and strings.
@@ -107,8 +109,6 @@ TRAILERS = @{
 @} ;
 
 ARGUMENT input :FILE_P;
-
-MAP TERMINAL -> int;
 
 ACTION init_tokbuf = @{
 	token_current=tokbuf;

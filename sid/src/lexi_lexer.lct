@@ -20,6 +20,8 @@ HEADERS = @{
 
 	#include "lexer.h"
 
+	typedef int ZTTERMINAL;
+
 @} , @{
 
 	/* $Id$ */
@@ -35,9 +37,6 @@ HEADERS = @{
 TRAILERS = @{
 @},@{
 @};
-
-
-MAP TERMINAL -> int;
 
 
 ACTION eof_in_comment = @{
