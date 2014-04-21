@@ -16,7 +16,7 @@
 
 struct arg;
 struct args_list;
-struct TypeTupleT;
+struct param;
 
 struct trans {
 	NStringT from;
@@ -24,7 +24,7 @@ struct trans {
 	struct trans *next;
 };
 
-void trans_add(struct trans **, struct TypeTupleT *, struct args_list *);
+void trans_add(struct trans **, struct param *, struct args_list *);
 void trans_destroy(struct trans *);
 struct arg *trans_find(struct trans *, NStringT *);
 

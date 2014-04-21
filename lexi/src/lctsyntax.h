@@ -9,7 +9,7 @@
 
 /* BEGINNING OF HEADER */
 
-#line 121 "lctsyntax.act"
+#line 122 "lctsyntax.act"
 
 
 	/* $Id$ */
@@ -86,7 +86,7 @@ extern void read_lct_unit(void);
 
 /* BEGINNING OF TRAILER */
 
-#line 435 "lctsyntax.act"
+#line 436 "lctsyntax.act"
 
 
 	#endif

@@ -9,12 +9,12 @@ SRCS+=	cmd.c
 SRCS+=	entry.c
 SRCS+=	group.c
 SRCS+=	keyword.c
-SRCS+=	zone.c
+SRCS+=	param.c
 SRCS+=	trie.c
 SRCS+=	type.c
-SRCS+=	typetuple.c
 SRCS+=	localnames.c
 SRCS+=	trans.c
+SRCS+=	zone.c
 
 .include <tendra.obj.mk>
 

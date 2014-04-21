@@ -12,7 +12,7 @@
 	ENTRYP;
 	IDENT;
 	BIGSTRING;
-	TYPETUPLE;
+	PARAM_LIST;
 	CODE;
 
 %terminals%
@@ -55,13 +55,13 @@
 	<set-headers>:  (:CODE, :CODE) -> ();
 	<set-trailers>: (:CODE, :CODE) -> ();
 
-	<init-tuple>:   () -> (:TYPETUPLE);
-	<append-tuple>: (:TYPETUPLE &, :IDENT, :IDENT, :BOOL) -> ();
+	<init-param>:   () -> (:PARAM_LIST);
+	<append-param>: (:PARAM_LIST &, :IDENT, :IDENT, :BOOL) -> ();
 
 	<make-map>: (:IDENT, :IDENT) -> ();
 
 	<define-action>:       (:ENTRYP, :CODE) -> ();
-	<check-action-tuples>: (:ENTRYP, :TYPETUPLE &, :TYPETUPLE &) -> ();
+	<check-action-params>: (:ENTRYP, :PARAM_LIST, :PARAM_LIST) -> ();
 	<get-entry-action>:    (:IDENT) -> (:ENTRYP);
 	<null-entry>:          () -> (:ENTRYP);
 
@@ -212,9 +212,9 @@
 
 	action-definition: () -> () [
 
-		type-tuple: ( ) -> (a :TYPETUPLE) [
+		param-list: ( ) -> (a :PARAM_LIST) [
 
-			type-name: (a :TYPETUPLE &) -> () = {
+			param: (a :PARAM_LIST &) -> () = {
 				{
 					n = ident;
 				||
@@ -231,40 +231,40 @@
 					isref = <true>;
 				};
 
-				<append-tuple>(&a, n, t, isref);
+				<append-param>(&a, n, t, isref);
 			};
 
-			type-tuple1: (a :TYPETUPLE &) -> () = {
-				type-name(&a);
+			param-list1: (a :PARAM_LIST &) -> () = {
+				param(&a);
 			||
-				type-name(&a);
+				param(&a);
 				comma;
-				type-tuple1(&a);
+				param-list1(&a);
 			};
 
 		] = {
 			open;
-			a = <init-tuple>;
+			a = <init-param>;
 			close;
 		||
 			open;
-			a = <init-tuple>;
-			type-tuple1(&a);
+			a = <init-param>;
+			param-list1(&a);
 			close;
 		};
 
-		function-type-defn: () -> (in :TYPETUPLE, out :TYPETUPLE) = {
-			in  = <init-tuple>;
-			out = <init-tuple>;
+		function-type-defn: () -> (in :PARAM_LIST, out :PARAM_LIST) = {
+			in  = <init-param>;
+			out = <init-param>;
 		||
 			colon;
-			in = type-tuple;
+			in = param-list;
 			{
 				arrow;
 			##
 				<E_expected_arrow>;
 			};
-			out = type-tuple;
+			out = param-list;
 		};
 	] = {
 
@@ -285,7 +285,7 @@
 		};
 
 		ea = <get-entry-action>(n);
-		<check-action-tuples>(ea, &in, &out);
+		<check-action-params>(ea, in, out);
 		c = code-block(ea);
 		<define-action>(ea, c);
 

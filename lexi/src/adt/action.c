@@ -23,34 +23,34 @@ action_create(void)
 	act->code    = NULL;
 	act->defined = false;
 
-	typetuple_init(&act->in);
-	typetuple_init(&act->out);
+	act->in  = NULL;
+	act->out = NULL;
 
 	return act;
 }
 
 void
-action_set_inputs(struct action *act, struct TypeTupleT *tuple)
+action_set_inputs(struct action *act, struct param *p)
 {
-	typetuple_assign(&act->in,tuple);
+	act->in = p;
 }
 
 void
-action_set_outputs(struct action *act, struct TypeTupleT *tuple)
+action_set_outputs(struct action *act, struct param *p)
 {
-	typetuple_assign(&act->out, tuple);
+	act->out = p;
 }
 
-struct TypeTupleT *
+struct param *
 action_get_inputs(struct action *act)
 {
-	return &act->in;
+	return act->in;
 }
 
-struct TypeTupleT *
+struct param *
 action_get_outputs(struct action *act)
 {
-	return &act->out;
+	return act->out;
 }
 
 struct code *

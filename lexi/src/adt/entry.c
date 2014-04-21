@@ -156,7 +156,7 @@ table_add_type(struct entry **table, NStringT *type_name, bool predefined)
 
 struct entry *
 table_add_action(struct entry **table, NStringT *name,
-	struct TypeTupleT *in, struct TypeTupleT *out)
+	struct param *in, struct param *out)
 {
 	struct entry *ea;
 

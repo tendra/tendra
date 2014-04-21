@@ -16,7 +16,7 @@
 
 #include <adt/arg.h>
 #include <adt/trans.h>
-#include <adt/typetuple.h>
+#include <adt/param.h>
 
 static void
 trans_append(struct trans **p, NStringT *from, struct arg *to)
@@ -40,14 +40,14 @@ trans_append(struct trans **p, NStringT *from, struct arg *to)
 }
 
 void
-trans_add(struct trans **t, struct TypeTupleT *tuple, struct args_list *l)
+trans_add(struct trans **t, struct param *params, struct args_list *l)
 {
-	struct TypeTupleEntryT *p;
+	struct param *p;
 	struct arg *q;
 
 	assert(t != NULL);
 
-	for (p = tuple->head, q = l->head; p != NULL && q != NULL; p = p->next, q = q->next) {
+	for (p = params, q = l->head; p != NULL && q != NULL; p = p->next, q = q->next) {
 		trans_append(t, &p->local_name, q);
 	}
 

@@ -268,8 +268,8 @@ out_action(FILE *lex_out, struct ast *ast,
 	 * before actions are output.
 	 */
 	t = NULL;
-	trans_add(&t, &ea->u.act->in,  rhs);
-	trans_add(&t, &ea->u.act->out, lhs);
+	trans_add(&t, ea->u.act->in,  rhs);
+	trans_add(&t, ea->u.act->out, lhs);
 
 	/* TODO: output #line delimiters instead of comments */
 	out_indent(lex_out, d);

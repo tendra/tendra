@@ -15,8 +15,8 @@
 #include <exds/dstring.h>
 
 struct action;
+struct param;
 struct type;
-struct TypeTupleT;
 
 enum entry_kind {
 	ENTRY_ACTION,
@@ -48,7 +48,7 @@ struct entry *table_get_entry(struct entry **, NStringT *);
 struct entry *table_add_local_name(struct entry **, NStringT *);
 struct entry *table_get_type(struct entry **, NStringT *);
 struct entry *table_add_type(struct entry **, NStringT *, bool);
-struct entry *table_add_action(struct entry **, NStringT *, struct TypeTupleT *, struct TypeTupleT *);
+struct entry *table_add_action(struct entry **, NStringT *, struct param *, struct param *);
 
 #endif
 

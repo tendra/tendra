@@ -15,15 +15,18 @@
 
 	unit -> read_lex;
 
-	BOOL      -> int;
-	IDENT     -> SID_STRING;
-	ZONE      -> zoneP;
-	STRING    -> SID_STRING;
-	CMD       -> cmdP;
-	CMD_LIST  -> cmd_listP;
-	ARG       -> argP;
-	ARG_LIST  -> args_listP;
-	TYPETUPLE -> typetuple;
+	BOOL       -> int;
+	IDENT      -> SID_STRING;
+	ZONE       -> zoneP;
+	STRING     -> SID_STRING;
+
+	CMD        -> cmdP;
+	CMD_LIST   -> cmd_listP;
+
+	ARG        -> argP;
+	ARG_LIST   -> args_listP;
+
+	PARAM_LIST -> paramP;
 
 %header% @{
 
@@ -53,6 +56,7 @@
 	#include <adt/entry.h>
 	#include <adt/arg.h>
 	#include <adt/cmd.h>
+	#include <adt/param.h>
 	#include <adt/keyword.h>
 	#include <adt/zone.h>
 
@@ -61,19 +65,18 @@
 	#include "syntax.h"
 	#include "options.h"
 
-	#define ADVANCE_LEXER ADVANCE_LXI_LEXER
-	#define CURRENT_TERMINAL CURRENT_LXI_TERMINAL 
-	#define SAVE_LEXER SAVE_LXI_LEXER
-	#define RESTORE_LEXER RESTORE_LXI_LEXER
+	#define ADVANCE_LEXER    ADVANCE_LXI_LEXER
+	#define CURRENT_TERMINAL CURRENT_LXI_TERMINAL
+	#define SAVE_LEXER       SAVE_LXI_LEXER
+	#define RESTORE_LEXER    RESTORE_LXI_LEXER
 
 	typedef char *SID_STRING;
 	typedef char *SID_CHARS;
-	/*typedef zone* zoneP; Done in syntax.h */
 	typedef struct cmd* cmdP;
 	typedef struct cmd_list* cmd_listP;
 	typedef struct arg* argP;
 	typedef struct args_list* args_listP;
-	typedef struct TypeTupleT typetuple;
+	typedef struct param * paramP;
 
 	/*
 	 * This string is added to the start of each sid identifier.
@@ -113,21 +116,9 @@
 
 %assignments%
 
-	TYPETUPLE : (a) -> (b) = @{
-		typetuple_assign(&@b, @&a);
-	@};
-
 %parameter-assignments%
 
-	TYPETUPLE : (a) -> (b) = @{
-		typetuple_assign(&@b,@a);
-	@};
-
 %result-assignments%
-
-	TYPETUPLE : (a) -> (b) = @{
-		typetuple_assign(@b, @&a);
-	@};
 
 %terminals%
 
@@ -228,7 +219,9 @@
 	<make-action-cmd>: (z: ZONE, i :IDENT, l :ARG_LIST, r :ARG_LIST) -> (c :CMD)  = @{
 		NStringT key;
 		struct entry *ea;
+
 		nstring_copy_cstring(&key, @i);
+
 		ea = table_get_entry(tree_get_table(@z->ast), &key);
 		if (ea) {
 			if (entry_is_action(ea)) {
@@ -256,6 +249,7 @@
 			@c = NULL;
 			error(ERROR_SERIOUS, "Unknown action %s", @i);
 		}
+
 		xfree(@i);
 	@};
 
@@ -303,7 +297,7 @@
 				struct action *act;
 				struct entry *ea;
 				struct arg *p;
-				struct TypeTupleEntryT *q;
+				struct param *q;
 
 				@l->return_count += @c->u.act.lhs->return_count;
 				if (@l->return_count > 1) {
@@ -316,7 +310,7 @@
 				lhs = @c->u.act.lhs;
 
 				/* CHECKING RHS COMPATIBILITY */
-				for (p = rhs->head, q = act->in.head; p != NULL && q != NULL; p = p->next, q = q->next) {
+				for (p = rhs->head, q = act->in; p != NULL && q != NULL; p = p->next, q = q->next) {
 					struct entry *et = NULL;
 					NStringT str;
 
@@ -434,7 +428,7 @@
 					xfree(s);
 				}
 
-				for (p = lhs->head, q = act->out.head; p!=NULL && q!=NULL; p=p->next, q=q->next) {
+				for (p = lhs->head, q = act->out; p != NULL && q != NULL; p = p->next, q = q->next) {
 					struct entry *et;
 
 					switch (p->kind) {
@@ -510,14 +504,14 @@
 					}
 				}
 
-				if (p!=NULL) {
-					char* s = nstring_to_cstring(entry_key(ea));
+				if (p != NULL) {
+					char *s = nstring_to_cstring(entry_key(ea));
 					error(ERROR_SERIOUS, "In call to action %s, too many results", s);
 					xfree(s);
 				}
 
-				if (q!=NULL) {
-					char* s = nstring_to_cstring(entry_key(ea));
+				if (q != NULL) {
+					char *s = nstring_to_cstring(entry_key(ea));
 					error(ERROR_SERIOUS, "In call to action %s, not enough results", s);
 					xfree(s);
 				}
@@ -567,7 +561,8 @@
 		case CMD_RETURN:
 			/* Fallback is intentional */
 			add_keyword(@z, @s, @c);
-		break;
+			break;
+
 		default:
 		  error(ERROR_SERIOUS, "Syntax error: only a function or a token might be returned for a keyword");
 		}
@@ -636,8 +631,10 @@
 	<make-type>: (z:ZONE, i:IDENT) -> () = @{
 		NStringT str;
 		struct entry *e;
+
 		nstring_copy_cstring(&str,@i);
 		xfree(@i);
+
 		e = table_get_entry(tree_get_table(@z->ast), &str);
 		if (e != NULL) {
 			nstring_destroy(&str);
@@ -656,10 +653,12 @@
 		}
 	@};
 
-	<make-action>: (z:ZONE, i:IDENT, params:TYPETUPLE&, results:TYPETUPLE&) -> () = @{
+	<make-action>: (z :ZONE, i :IDENT, params :PARAM_LIST, results :PARAM_LIST) -> () = @{
 		NStringT str;
 		struct entry *e;
+
 		nstring_copy_cstring(&str, @i);
+
 		e = table_get_entry(tree_get_table(@z->ast), &str);
 		if (e != NULL) {
 			nstring_destroy(&str);
@@ -674,20 +673,23 @@
 				UNREACHED;
 			}
 		} else {
-			table_add_action(tree_get_table(@z->ast), &str , @&params, @&results);
+			table_add_action(tree_get_table(@z->ast), &str , @params, @results);
 		}
+
 		xfree(@i);
 	@};
 
-	<init-tuple>: () -> (a:TYPETUPLE) = @{
-		typetuple_init(&@a);
+	<init-param>: () -> (a :PARAM_LIST) = @{
+		@a = NULL;
 	@};
 
-	<append-tuple>: (z:ZONE, a:TYPETUPLE&, id:IDENT, type:IDENT, isref:BOOL) -> () =@{
+	<append-param>: (z :ZONE, a :PARAM_LIST &, id :IDENT, type :IDENT, isref :BOOL) -> () =@{
 		struct entry *et;
 		NStringT tstr, istr;
+
 		nstring_copy_cstring(&tstr,@type);
 		nstring_copy_cstring(&istr,@id);
+
 		et = table_get_entry(tree_get_table(@z->ast), &tstr);
 		if (et== NULL) {
 			 error(ERROR_SERIOUS, "Unknown type %s", @type);
@@ -696,16 +698,17 @@
 			 error(ERROR_SERIOUS, "%s is not a type", @type);
 			 nstring_destroy(&istr);
 		} else {
-			typetuple_append(@&a,typetupleentry_create(&istr, et, @isref));
+			param_append(@&a, &istr, et, @isref);
 		}
+
 		nstring_destroy(&tstr);
+
 		xfree(@type);
 		xfree(@id);
 	@};
 
 	<E_nonglobalzonekeyword>: () -> () = @{
 		error(ERROR_SERIOUS, "Keywords not yet implemented in a non global zone ");
-
 	@};
 
 	<E_nonglobalzonetype>: (i :IDENT) -> () = @{
@@ -757,7 +760,6 @@
 	<E_expected_end_action>: () -> () = @{
 		error(ERROR_SERIOUS, "Syntax error: expected end action \'>\'");
 	@};
-
 
 	<syntax-error>: () -> () = @{
 		error(ERROR_SERIOUS, "Syntax error");

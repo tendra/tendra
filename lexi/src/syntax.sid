@@ -17,7 +17,7 @@
 	CMD;
 	CMD_LIST;
 
-	TYPETUPLE;
+	PARAM_LIST;
 
 	ARG;
 	ARG_LIST;
@@ -135,10 +135,10 @@
 	<make-zone>: (:ZONE, :IDENT, :STRING, :CMD_LIST, :STRING, :CMD_LIST, :BOOL) -> (:ZONE);
 	<update-zone-type>: (:ZONE, :ZONE) -> ();
 
-	<make-type>:   (:ZONE, :IDENT) -> ();
-	<init-tuple>:  () -> (:TYPETUPLE);
-	<append-tuple>: (:ZONE, :TYPETUPLE &, :IDENT, :IDENT, :BOOL) -> ();
-	<make-action>:  (:ZONE, :IDENT, :TYPETUPLE &, :TYPETUPLE &) -> ();
+	<make-type>:    (:ZONE, :IDENT) -> ();
+	<init-param>:   () -> (:PARAM_LIST);
+	<append-param>: (:ZONE, :PARAM_LIST &, :IDENT, :IDENT, :BOOL) -> ();
+	<make-action>:  (:ZONE, :IDENT, :PARAM_LIST, :PARAM_LIST) -> ();
 
 	string-plus : () -> (s :STRING) = {
 		{
@@ -212,8 +212,9 @@
 		};
 	};
 
-	type-tuple: (z :ZONE ) -> (a :TYPETUPLE) [
-		type-name: (z :ZONE, a :TYPETUPLE &) -> () = {
+	param-list: (z :ZONE ) -> (a :PARAM_LIST) [
+
+		param: (z :ZONE, a :PARAM_LIST &) -> () = {
 			{
 				name = ident;
 			||
@@ -230,21 +231,22 @@
 				isref = <true>;
 			};
 
-			<append-tuple>(z, &a, name, type, isref);
+			<append-param>(z, &a, name, type, isref);
 		};
 
-		type-tuple1: (z :ZONE, a :TYPETUPLE &) -> () = {
-			type-name(z, &a);
+		param-list1: (z :ZONE, a :PARAM_LIST &) -> () = {
+			param(z, &a);
 		||
-			type-name(z, &a);
+			param(z, &a);
 			comma;
-			type-tuple1(z, &a);
+			param-list1(z, &a);
 		};
+
 	] = {
-		a = <init-tuple>;
+		a = <init-param>;
 	||
-		a = <init-tuple>;
-		type-tuple1(z, &a);
+		a = <init-param>;
+		param-list1(z, &a);
 	};
 
 	action-decl: (z :ZONE) -> () = {
@@ -264,8 +266,8 @@
 		};
 
 		{
-			it = <init-tuple>;
-			ot = <init-tuple>;
+			it = <init-param>;
+			ot = <init-param>;
 		||
 			colon;
 			{
@@ -274,7 +276,7 @@
 				<E_expected_open>;
 			};
 
-			it = type-tuple(z);
+			it = param-list(z);
 			{
 				close;
 			##
@@ -292,7 +294,7 @@
 				<E_expected_open>;
 			};
 
-			ot = type-tuple(z);
+			ot = param-list(z);
 			{
 				close;
 			##
@@ -300,7 +302,7 @@
 			};
 		};
 
-		<make-action>(z, i, &it, &ot);
+		<make-action>(z, i, it, ot);
 	};
 
 	action-call: (z :ZONE) -> (c :CMD) [
