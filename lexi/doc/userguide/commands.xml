@@ -342,12 +342,8 @@ TOKEN "[alpha]" -> get_identifier(#0); //return a terminal</programlisting>
 
 					<para><code> &gt; </code> <code> > &lt; </code> may or may not be removed from the
 						syntax. The decision will happen prior to 2.0. The argumentlist can contain
-						either local variables, <code>#</code> style of arguments. This is not ready yet
-						even if most of the syntax is understood by lexi right now. In particular name
-						resolution for local variables is absent for the moment in lexi code. This will 
-						be added prior to 2.0. It has not yet been decided which types should be 
-						terminals, characters and strings: these will probably be predefined types.
-						Actions and types must have been previously declared 
+						either local variables, <code>#</code> style of arguments.
+						Actions and types must have been previously declared
 						see <!--TODO insert reference--></para>
 				</listitem>
 			</varlistentry>
@@ -648,7 +644,7 @@ ZONE string : "\"" -> clear_buffer(#$) [...] "\"" ->$string  {
 	</section>
 
 	<section id="typesdeclaration">
-		<title>Character Group Definitions</title>
+		<title>Type Definitions</title>
 
 		<para>We can declare types in lexi. This will be used for type checking of
 			instructions (inline actions mostly, see <!--TODO put reference-->)
@@ -657,6 +653,39 @@ ZONE string : "\"" -> clear_buffer(#$) [...] "\"" ->$string  {
 
 		<programlisting language="lxi">TYPE buffer;
 TYPE integer;</programlisting>
+
+		<para>There are several predefined types used by various action parameters;
+			these need mapping to appropriate C types by <code>typedef</code> if used.
+			The predefined types are:</para>
+
+		<table>
+			<title>Predefined Types</title>
+
+			<col align="center"/>
+			<col align="left"/>
+
+			<thead>
+				<tr>
+					<th>Type</th>
+					<th>Use</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr>
+					<td><code>CHARACTER</code></td>
+					<td>TODO: $# etc</td>
+				</tr>
+				<tr>
+					<td><code>STRING</code></td>
+					<td>TODO</td>
+				</tr>
+				<tr>
+					<td><code>TERMINAL</code></td>
+					<td>TODO: $xyz etc</td>
+				</tr>
+			</tbody>
+		</table>
 	</section>
 
 	<section id="actiondeclaration">
