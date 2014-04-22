@@ -652,7 +652,7 @@
 				UNREACHED;
 			}
 		} else {
-			table_add_type(tree_get_table(@z->ast), &str, false);
+			table_add_type(tree_get_table(@z->ast), &str);
 		}
 	@};
 

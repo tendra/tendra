@@ -789,7 +789,7 @@ ZRtype_Hdefn(zoneP ZIz)
 				UNREACHED;
 			}
 		} else {
-			table_add_type(tree_get_table((ZIz)->ast), &str, false);
+			table_add_type(tree_get_table((ZIz)->ast), &str);
 		}
 	
 #line 796 "syntax.c"

@@ -13,7 +13,6 @@
 
 #include <adt/action.h>
 #include <adt/entry.h>
-#include <adt/type.h>
 
 NStringT *
 entry_key(struct entry *e)
@@ -65,24 +64,10 @@ entry_get_action(struct entry *ea)
 }
 
 void
-entry_set_type(struct entry *et, struct type *type)
-{
-	/* TODO: assert entry_is_type */
-	et->u.type = type;
-}
-
-void
 entry_set_action(struct entry *ea, struct action *act)
 {
 	/* TODO: assert entry_is_action */
 	ea->u.act = act;
-}
-
-struct type *
-entry_get_type(struct entry *et)
-{
-	/* TODO: assert entry_is_type */
-	return et->u.type;
 }
 
 struct entry *
@@ -141,14 +126,13 @@ entry_create(NStringT *name)
 }
 
 struct entry *
-table_add_type(struct entry **table, NStringT *type_name, bool predefined)
+table_add_type(struct entry **table, NStringT *type_name)
 {
 	struct entry *et;
 
 	et = entry_create(type_name);
 
 	entry_set_kind_type(et);
-	entry_set_type(et, type_create(predefined));
 	table_add_entry(table, et);
 
 	return et;

@@ -9,7 +9,6 @@
 
 #include <assert.h>
 #include <stddef.h>
-#include <stdbool.h>
 
 #include <shared/xalloc.h>
 
@@ -124,16 +123,11 @@ void
 set_builtin_char_lexi_type(struct ast* ast, char *lexi_type)
 {
 	NStringT str;
-	struct entry *et;
-	struct type *type;
 
 	nstring_copy_cstring(&str, lexi_type);
 
 	/* TODO: assert(table_get_entry(tree_get_table(ast), &str) == NULL) */
-	et   = table_add_type(tree_get_table(ast), &str, true);
-	type = entry_get_type(et);
-
-	ast->lexi_char_type = et;
+	ast->lexi_char_type = table_add_type(tree_get_table(ast), &str);
 }
 
 void
@@ -141,15 +135,11 @@ set_builtin_string_lexi_type(struct ast *ast, char *lexi_type)
 {
 	NStringT str;
 	struct entry *et;
-	struct type *type;
 
 	nstring_copy_cstring(&str, lexi_type);
 
 	/* TODO: assert(table_get_entry(tree_get_table(ast), &str) == NULL) */
-	et   = table_add_type(tree_get_table(ast), &str, true);
-	type = entry_get_type(et);
-
-	ast->lexi_string_type = et;
+	ast->lexi_string_type = table_add_type(tree_get_table(ast), &str);
 }
 
 void
@@ -161,7 +151,7 @@ set_builtin_terminal_lexi_type(struct ast *ast, char *lexi_type)
 	nstring_copy_cstring(&str, lexi_type);
 
 	/* TODO: assert(table_get_entry(tree_get_table(ast), &str) == NULL) */
-	et = table_add_type(tree_get_table(ast), &str, true);
+	et = table_add_type(tree_get_table(ast), &str);
 	ast->lexi_terminal_type = et;
 }
 
@@ -170,15 +160,11 @@ set_builtin_int_lexi_type(struct ast* ast, char *lexi_type)
 {
 	NStringT str;
 	struct entry *et;
-	struct type *type;
 
 	nstring_copy_cstring(&str, lexi_type);
 
 	/* TODO: assert(table_get_entry(tree_get_table(ast), &str) == NULL) */
-	et = table_add_type(tree_get_table(ast), &str, true);
-	type  = entry_get_type(et);
-
-	ast->lexi_int_type = et;
+	ast->lexi_int_type = table_add_type(tree_get_table(ast), &str);
 }
 
 struct entry *

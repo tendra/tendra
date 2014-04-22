@@ -30,7 +30,6 @@
 #include <adt/cmd.h>
 #include <adt/keyword.h>
 #include <adt/trie.h>
-#include <adt/type.h>
 #include <adt/zone.h>
 #include <adt/group.h>
 #include <adt/localnames.h>
