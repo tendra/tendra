@@ -206,8 +206,8 @@
 					}
 				}
 			} else {
-				char* pi;
-				char* pe;
+				char *pi;
+				char *pe;
 				pi = nstring_to_cstring(@&i);
 				nstring_destroy(@&i);
 				pe = nstring_to_cstring(entry_key(@e));
@@ -268,12 +268,15 @@
 
 	<append-param>: (a :PARAM_LIST &, id :IDENT, type :IDENT, isref :BOOL) -> () =@{
 		struct entry *et = table_get_entry(tree_get_table(lxi_ast), @&type);
-		if (et== NULL) {
-			 char* pt = nstring_to_cstring(@&type);
-			 error(ERROR_SERIOUS, "Unknown type %s", pt);
-			 xfree(pt);
-			 nstring_destroy(@&id);
-			 nstring_destroy(@&type);
+		if (et == NULL) {
+			char *pt;
+
+			pt = nstring_to_cstring(@&type);
+			error(ERROR_SERIOUS, "Unknown type %s", pt);
+			xfree(pt);
+
+			nstring_destroy(@&id);
+			nstring_destroy(@&type);
 		} else if (!entry_is_type(et)) {
 			error(ERROR_SERIOUS, "%s is not a type", @&type);
 			nstring_destroy(@&type);
@@ -287,8 +290,9 @@
 		@ea = table_get_entry(tree_get_table(lxi_ast), @&i);
 		if (@ea) {
 			if (!entry_is_action(@ea)) {
-				char* pi;
-				@ea = NULL; /*TODO skip to end of action */
+				char *pi;
+
+				@ea = NULL; /* TODO: skip to end of action */
 				pi = nstring_to_cstring(@&i);
 				error(ERROR_SERIOUS, "%s is not an action", pi);
 				xfree(pi);
@@ -307,8 +311,8 @@
 
 	<check-action-params>: (e :ENTRYP, in :PARAM_LIST, out :PARAM_LIST) -> () = @{
 		if (@e) {
-			/*TODO assert (entry_is_action(@e)); */
-			/* TODO check that the same name does not appear twice in the input and output tuple */
+			/* TODO: assert (entry_is_action(@e)); */
+			/* TODO: check that the same name does not appear twice in the input and output tuple */
 			struct action *act = entry_get_action(@e);
 
 			if (param_length(action_get_inputs(act)) != param_length(@in)) {

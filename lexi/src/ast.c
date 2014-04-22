@@ -129,7 +129,7 @@ set_builtin_char_lexi_type(struct ast* ast, char *lexi_type)
 
 	nstring_copy_cstring(&str, lexi_type);
 
-	/* TODO assert(table_get_entry(tree_get_table(ast), &str) == NULL) */
+	/* TODO: assert(table_get_entry(tree_get_table(ast), &str) == NULL) */
 	et   = table_add_type(tree_get_table(ast), &str, true);
 	type = entry_get_type(et);
 
@@ -145,7 +145,7 @@ set_builtin_string_lexi_type(struct ast *ast, char *lexi_type)
 
 	nstring_copy_cstring(&str, lexi_type);
 
-	/* TODO assert(table_get_entry(tree_get_table(ast), &str) == NULL) */
+	/* TODO: assert(table_get_entry(tree_get_table(ast), &str) == NULL) */
 	et   = table_add_type(tree_get_table(ast), &str, true);
 	type = entry_get_type(et);
 
@@ -160,7 +160,7 @@ set_builtin_terminal_lexi_type(struct ast *ast, char *lexi_type)
 
 	nstring_copy_cstring(&str, lexi_type);
 
-	/* TODO assert(table_get_entry(tree_get_table(ast), &str) == NULL) */
+	/* TODO: assert(table_get_entry(tree_get_table(ast), &str) == NULL) */
 	et = table_add_type(tree_get_table(ast), &str, true);
 	ast->lexi_terminal_type = et;
 }
@@ -174,7 +174,7 @@ set_builtin_int_lexi_type(struct ast* ast, char *lexi_type)
 
 	nstring_copy_cstring(&str, lexi_type);
 
-	/* TODO assert(table_get_entry(tree_get_table(ast), &str) == NULL) */
+	/* TODO: assert(table_get_entry(tree_get_table(ast), &str) == NULL) */
 	et = table_add_type(tree_get_table(ast), &str, true);
 	type  = entry_get_type(et);
 

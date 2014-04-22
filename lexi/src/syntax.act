@@ -340,22 +340,22 @@
 						break;
 
 					case ARG_CHARP:
-						/* TODO assert(lexer_string_type(ast)) */
+						/* TODO: assert(lexer_string_type(ast)) */
 						et = lexer_string_type(@z->ast);
 						break;
 
 					case ARG_CHAR_NUM:
-						/* TODO assert(lexer_char_type(ast)) */
+						/* TODO: assert(lexer_char_type(ast)) */
 						et = lexer_char_type(@z->ast);
 						break;
 
 					case ARG_TERMINAL:
-						/* TODO assert(lexer_terminal_type(ast)) */
+						/* TODO: assert(lexer_terminal_type(ast)) */
 						et = lexer_terminal_type(@z->ast);
 						break;
 
 					case ARG_CHAR_COUNT:
-						/* TODO assert(lexer_terminal_type(ast)) */
+						/* TODO: assert(lexer_terminal_type(ast)) */
 						et = lexer_int_type(@z->ast);
 						break;
 
@@ -398,7 +398,7 @@
 
 							case ARG_CHAR_NUM:
 								s6 = "#[number]";
-								/* TODO s7=p->u.digit */;
+								/* TODO: s7=p->u.digit */;
 								break;
 
 							case ARG_CHARP:
@@ -451,17 +451,20 @@
 								table_add_local_name(tree_get_table(@z->ast), &str);
 							}
 							if (p->is_ref) {
-								char* s = nstring_to_cstring(entry_key(ea));
+								char *s = nstring_to_cstring(entry_key(ea));
 								error(ERROR_SERIOUS, "In action call %s, you can only use references %s for preexisting variables", s, p->u.literal);
 								xfree(s);
 							}
 						} else {
 							nstring_destroy(&str);
 							if (!p->is_ref) {
-								char* s = nstring_to_cstring(entry_key(ea));
+								char *s;
+
+								s = nstring_to_cstring(entry_key(ea));
 								error(ERROR_SERIOUS, "In action call %s, name %s already declared. Use references to change the value of an already existing variable", s, p->u.literal);
-								et=q->et; /* To avoid outputting that error more than once*/
 								xfree(s);
+
+								et = q->et; /* To avoid outputting that error more than once */
 							}
 						}
 						break;
@@ -481,7 +484,7 @@
 
 					case ARG_NONE:
 						break;
-						/* TODO asserting errored is already set */
+						/* TODO: asserting errored is already set */
 						/* Error has already been detected */
 
 					case ARG_CHARP:
@@ -517,7 +520,7 @@
 				}
 			}
 
-			/* TODO only append if no error */
+			/* TODO: only append if no error */
 			*@l->tail = @c;
 			@l->tail = &@c->next;
 			@l->size++;
@@ -638,7 +641,7 @@
 		e = table_get_entry(tree_get_table(@z->ast), &str);
 		if (e != NULL) {
 			nstring_destroy(&str);
-			/* TODO switch ? */
+			/* TODO: switch ? */
 			if (entry_is_type(e)) {
 				error(ERROR_SERIOUS, "Type %s already exists",@i);
 			} else if (entry_is_localname(e)) {
@@ -662,7 +665,7 @@
 		e = table_get_entry(tree_get_table(@z->ast), &str);
 		if (e != NULL) {
 			nstring_destroy(&str);
-			/* TODO switch ? */
+			/* TODO: switch ? */
 			if (entry_is_action(e)) {
 				error(ERROR_SERIOUS, "Action %s already exists",@i);
 			} else if (entry_is_localname(e)) {

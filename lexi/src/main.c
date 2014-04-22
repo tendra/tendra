@@ -145,7 +145,7 @@ main(int argc, char **argv)
 				}
 
 				if (i < 0) {
-					/* TODO I suppose we could automate writing this list of languages, too */
+					/* TODO: I suppose we could automate writing this list of languages, too */
 					error(ERROR_FATAL, "Unrecognised language '%s'. The supported languages are: C90 (default), C99 and Dot",
 						optarg);
 				}
@@ -187,7 +187,7 @@ main(int argc, char **argv)
 	if (argc < out->outfiles + out->infiles) {
 		report_usage();
 		error(ERROR_FATAL, "Not enough arguments");
-		/* TODO resolve - here, and pass FILE * to process_lxi_file();
+		/* TODO: resolve - here, and pass FILE * to process_lxi_file();
 		 * we can permit argc < 1 for stdin */
 	}
 
@@ -206,7 +206,7 @@ main(int argc, char **argv)
 
 		if (!opt.out[i].file) {
 			error(ERROR_FATAL, "Can't open output file, %s", argv[i + 1]);
-			/* TODO perror for cases like this */
+			/* TODO: perror for cases like this */
 			return EXIT_FAILURE;
 		}
 	}

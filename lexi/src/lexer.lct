@@ -36,7 +36,7 @@ HEADERS = @{
 	 */
 	char tokbuf[2000];
 	char *token_end = tokbuf + sizeof tokbuf;
-	static char* token_current;
+	static char *token_current;
 	unsigned int numbuf;
 
 	/*

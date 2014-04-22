@@ -22,11 +22,11 @@ struct options {
 	const char *lang;
 
 	/*
-	 * TODO These are language-specific options; they should be elsewhere
+	 * TODO: These are language-specific options; they should be elsewhere
 	 */
 	bool generate_asserts;
-	const char* lexi_prefix;
-	const char* interface_prefix;
+	const char *lexi_prefix;
+	const char *interface_prefix;
 
 	/*
 	 * An array of files to which output is written. The number (and

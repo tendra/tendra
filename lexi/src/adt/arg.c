@@ -98,7 +98,7 @@ arg_out(struct arg *p, bool is_ref, int d, FILE *file)
 		break;
 
 	case ARG_CHAR_NUM:
-		/*TODO assert(p->u.digit < nb_of_chars);*/
+		/* TODO: assert(p->u.digit < nb_of_chars); */
 		fprintf(file, "c%d", p->u.digit);
 		break;
 

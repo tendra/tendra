@@ -94,8 +94,8 @@ out_node(struct ast *ast, struct trie *p, struct options *opt) {
 		for (cmd = p->u.cmds->head; cmd != NULL; cmd = cmd->next) {
 			switch (cmd->kind) {
 			case CMD_RETURN:
-				/* TODO rename to just prefix */
-				/* TODO map back _H */
+				/* TODO: rename to just prefix */
+				/* TODO: map back _H */
 				fprintf(dotout, "$%s", cmd->u.name + strlen(opt->lexi_prefix) - 1);
 				break;
 
@@ -112,7 +112,7 @@ out_node(struct ast *ast, struct trie *p, struct options *opt) {
 				break;
 
 			default:
-				fprintf(dotout, "TODO");	/* TODO unimplemented */
+				fprintf(dotout, "TODO");	/* TODO: unimplemented */
 				break;
 			}
 		}

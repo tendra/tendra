@@ -14,7 +14,7 @@ struct cmd;
 struct zone;
 struct keyword;
 
-void add_keyword(struct zone *, const char*, struct cmd *);
+void add_keyword(struct zone *, const char *, struct cmd *);
 void keywords_iterate(struct keyword *,
 	void (*f)(struct keyword *, void *), void *);
 struct cmd *keyword_cmd(struct keyword *);

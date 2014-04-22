@@ -175,7 +175,7 @@ out_keyword(struct keyword *keyword, void *opaque)
  *
  * This routine outputs a keyword interface.
  *
- * TODO at some point (where the code is clearer), this can
+ * TODO: at some point (where the code is clearer), this can
  * be rewritten to generate and output a trie in its own right.
  * For the moment, we just need the interface in place to set
  * the generated API.
@@ -281,7 +281,7 @@ out_action(FILE *lex_out, struct ast *ast,
 		char *st;
 
 		et = lexer_terminal_type(ast);
-		/* TODO assert(entry_is_type(t)); */
+		/* TODO: assert(entry_is_type(t)); */
 
 		st = nstring_to_cstring(entry_key(et));
 
@@ -294,13 +294,15 @@ out_action(FILE *lex_out, struct ast *ast,
 	if (action_is_defined(ea->u.act)) {
 		code_out(lex_out, ea->u.act->code, t, d );
 		if (lhs->return_count) {
-			/*TODO assert(lhs->return_count==1)*/
+			/* TODO: assert(lhs->return_count == 1) */
 			out_indent(lex_out, d);
 			fputs("return ZT1;\n",lex_out);
 		}
 	} else {
-		/*TODO We should catch this error before beginning output */
-		char* pe=nstring_to_cstring(entry_key(ea));
+		/* TODO: We should catch this error before beginning output */
+		char *pe;
+
+		pe = nstring_to_cstring(entry_key(ea));
 		error(ERROR_SERIOUS, "Action %s is used but undefined", pe);
 		xfree(pe);
 	}
@@ -710,7 +712,7 @@ out_pass(struct zone *z, struct trie *p, int in_pre_pass, unsigned int n, unsign
 		d++;
 	}
 
-	/* We match letters before groups; letters have priority (TODO do we need to?) */
+	/* We match letters before groups; letters have priority (TODO: do we need to?) */
 	out_char_letters(z, p, in_pre_pass, n, d);
 	out_char_groups (z, p, in_pre_pass, n, d);
 
@@ -1029,7 +1031,7 @@ out_buffer(struct options *opt, struct ast *ast)
 		fputs("\t}\n\n", lex_out);
 	}
 
-	/* TODO pass opaque here */
+	/* TODO: pass opaque here */
 	fprintf(lex_out, "\treturn %sgetchar(state);\n", opt->interface_prefix);
 	fputs("}\n", lex_out);
 
@@ -1215,7 +1217,7 @@ c_out_all(struct options *opt, struct ast *ast)
 		read_token_name, lexi_prefix);
 
 	/* lexi_init() */
-	/* TODO assert() state */
+	/* TODO: assert() state */
 	fprintf(lex_out_h, "/* Initialise a %sstate structure */\n",
 		opt->lexi_prefix);
 	fprintf(lex_out_h, "void %sinit(struct %sstate *state",
