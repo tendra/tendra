@@ -256,6 +256,7 @@ out_action(FILE *lex_out, struct ast *ast,
 	assert(rhs != NULL);
 
 	/* TODO: assert(entry_is_action(action)) */
+
 	/*
 	 * Semi Inefficient: we will recreate the translator stack each time
 	 * we output the same action; this could be just done once per action,
@@ -280,18 +281,17 @@ out_action(FILE *lex_out, struct ast *ast,
 		char *st;
 
 		et = lexer_terminal_type(ast);
-		/* TODO: assert(entry_is_type(t)); */
-
+		/* TODO: assert(entry_is_type(et)); */
 		st = nstring_to_cstring(entry_key(et));
 
 		out_indent(lex_out, d);
-		fprintf(lex_out,"%s%s ZT1;\n", prefixtype, st);
+		fprintf(lex_out, "%s%s ZT1;\n", prefixtype, st);
+
+		/* TODO: free st? */
 	}
 
-	/* End Semi Inefficient */
-
 	if (action_is_defined(ea->u.act)) {
-		code_out(lex_out, ea->u.act->code, t, d );
+		code_out(lex_out, ea->u.act->code, t, d);
 		if (lhs->return_count) {
 			/* TODO: assert(lhs->return_count == 1) */
 			out_indent(lex_out, d);

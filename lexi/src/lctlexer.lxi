@@ -13,8 +13,8 @@ ACTION <init_tokbuf>;
 ACTION <push_tokbuf>: (:CHARACTER) -> ();
 ACTION <fini_tokbuf>;
 
-ACTION <keyword>: (:TERMINAL)  -> (:TERMINAL);
-ACTION <code_string>: (:CHARACTER) -> (:TERMINAL) ;
+ACTION <keyword>:     (:TERMINAL)  -> (:TERMINAL);
+ACTION <code_string>: (:CHARACTER) -> (:TERMINAL);
 
 TOKEN "("  -> $open;
 TOKEN ")"  -> $close;
