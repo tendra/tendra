@@ -12,7 +12,6 @@
 #include <stdbool.h>
 #include <stdio.h>
 
-
 struct options {
 	/*
 	 * The selected output language. See main.c for the various
@@ -46,8 +45,6 @@ struct options {
 		FILE *file;
 	} out[2];
 };
-
-extern void options_init(struct options *);
 
 #endif
 

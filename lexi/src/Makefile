@@ -17,7 +17,6 @@ SRCS+=	ast.c
 SRCS+=	syntax.c
 SRCS+=	lexer.c
 SRCS+=	main.c
-SRCS+=	options.c
 SRCS+=	lctlexer.c
 SRCS+=	lctsyntax.c
 SRCS+=	code.c

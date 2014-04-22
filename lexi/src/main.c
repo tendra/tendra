@@ -122,7 +122,10 @@ main(int argc, char **argv)
 #undef COMMON
 	};
 
- 	options_init(&opt);
+	/* TODO: These are language-specific; see options.h */
+	opt.generate_asserts = false;
+	opt.lexi_prefix      = "lexi_";
+	opt.interface_prefix = NULL;
 
 	/* default to C90 output */
 	out = &outs[0];
