@@ -43,7 +43,7 @@
 			<holder>The TenDRA Project</holder>
 		</copyright>
 
-		<!-- TODO remove obsoleted parts as each feature is changed -->
+		<!-- TODO: remove obsoleted parts as each feature is changed -->
 
 		<revhistory>
 			<revision role="dev">
@@ -512,7 +512,7 @@
 		</revhistory>
 	</bookinfo>
 
-<!-- TODO when writing manpage, we can take the opportunity to declare as BUGS
+<!-- TODO: when writing manpage, we can take the opportunity to declare as BUGS
 (or indeed as undefined) features which no .lxi file uses.
 -->
 
@@ -583,7 +583,7 @@
 				tokens are formed of characters, although this is not
 				necessarily the case.</para>
 
-<!-- TODO maybe reword the above?
+<!-- TODO: maybe reword the above?
 firstly define lexemes
 <kate> the process of categorising words into each lexeme is called lexing
 <kate> a program which performs lexing is called a lexer
@@ -645,7 +645,7 @@ firstly define lexemes
 				for details.</para>
 
 			<para>For simple uses, a parser may not be required at
-				<!-- TODO make examples, and mention them here -->all.</para>
+				<!-- TODO: make examples, and mention them here -->all.</para>
 		</section>
 
 		<section id="concepts">
@@ -733,16 +733,16 @@ firstly define lexemes
 					<term><link linkend="zonedefinitions">Zone definitions</link></term>
 
 					<listitem>
-						<para>Zone definitions specify zones in which 
-						        the lexical analysis is subject to different rules.
-						        Zones definition may contain token definitions, 
-						        default definition, group definitions and whitespace 
-						        definitions.</para>
+						<para>Zone definitions specify zones in which
+							the lexical analysis is subject to different rules.
+							Zones definition may contain token definitions,
+							default definition, group definitions and whitespace
+							definitions.</para>
 					</listitem>
 				</varlistentry>
 			</variablelist>
 
-			<para>Prior to 2.0, zones and default did not exist and 
+			<para>Prior to 2.0, zones and default did not exist and
 		        any other facilities was provided by matching the start of
 				a token and passing control to an externally defined function,
 				This separation provided a general mechanism to allow the user
@@ -755,20 +755,19 @@ firstly define lexemes
 		        ones not foreseen by the authors.</para>
 		</section>
 
-
-<!-- TODO in a future version
+<!-- TODO: in a future version
 		<section id="implementation">
 			<title>Lexi's Implementation</title>
 
 			<para>Here we talk about how the generated lexical analysers
 				work; how they use a look-up table for speed, etc. Note that
 				they read a byte at a time: perhaps mention the ignorance of
-				Unicode. TODO feature request: perhaps set Unicode (or other
+				Unicode. TODO: feature request: perhaps set Unicode (or other
 				charset mapping) to UTF-8 as a pass phase<para>
 
-			<para>TODO talk about passes </para>
+			<para>TODO: talk about passes </para>
 
-			<para>TODO see section on performance.</para>
+			<para>TODO: see section on performance.</para>
 		</section>
 -->
 	</chapter>
@@ -792,50 +791,44 @@ firstly define lexemes
 		</section>
 
 		<section>
-			<title>The header statement</title>
+			<title>The header and trailer statements</title>
 
-			<para>This is an optional statement. It is used to specify headers for 
-			  	both output files.
-				It is mostly used to add <code>#include</code> directives in the 
-				output files.</para>
+			<para>These are optional statements. They are used to specify headers
+				and trailers for both output files.
+				The header is mostly used to add <code>#include</code> directives in the
+				output files, to <code>typedef</code> mappings to lexi's types,
+				and other preamble before the generated code.</para>
 
-			<programlisting language="lxi">HEADERS = @{ /*header for the C file*/
-@}, @{/*Header for the h file*/
+			<programlisting language="lxi">HEADERS = @{
+	/* header for the C file */
+@}, @{
+	/* Header for the h file */
 @};</programlisting>
-		</section>
 
-		<section>
-			<title>The trailer statement</title>
-
-			<para>This is an optional statement. It is used to specify headers for 
-			  	both output files.</para>
-
-		<programlisting language="lxi">TRAILERS = @{ /*Trailer for the C file*/
-@}, @{/*Trailer for the h file*/
+		<programlisting language="lxi">TRAILERS = @{
+	/* Trailer for the C file */
+@}, @{
+	/* Trailer for the h file */
 @};</programlisting>
 		</section>
 
 		<section>
 			<title>Action definition statement</title>
 
-			<para>This is not yet operational. This should be operational prior to 2.0. 
-				The syntax is accepted but the semantics are not fully coded yet.
+			<para>The syntax is accepted but the semantics are not fully coded yet.
 				An action definition defines the inline code that will be inserted
-				upon encountering a token whose instruction list contains this action 
+				upon encountering a token whose instruction list contains this action
 				call. Here is an example of the intended syntax</para>
 
-			<programlisting language="lxi">ACTION actionname : (inputvar1:TYPE1,inputvar2:TYPE2) -> (outputvar1:TYPE3) = @{ 
-	/*code block*/
+			<programlisting language="lxi">ACTION actionname: (inputvar1 :T1, inputvar2 :T2) -> (outputvar1 :T3) = @{
+	/* code block */
 @},
 </programlisting>
-
-			<para>There is not yet an intended syntax for the code block but it should 
-				closely resemble the sid act file syntax.</para>
 		</section>
 	</chapter>
 
 	<chapter id="interface">
-		<!-- TODO in the future this should be separate chapters, one per language supported -->
+		<!-- TODO: in the future this should be separate chapters, one per language supported -->
 		<title>Interface</title>
 
 		<para>&lexi.app; generates and outputs C89 code
@@ -843,7 +836,7 @@ firstly define lexemes
 			is intended to be linked as part of a larger C program
 			by the user.</para>
 
-		<!-- TODO state size limits of things in a "limits" section. Exceeding limits is undefined -->
+		<!-- TODO: state size limits of things in a "limits" section. Exceeding limits is undefined -->
 
 		<section>
 			<title>Instantiation</title>
@@ -870,7 +863,7 @@ firstly define lexemes
 				making as many calls to <code>read_char()</code>
 				as are necessary.</para>
 
-    <!-- TODO talk about read_char_aux() used for MAPPNG.
+    <!-- TODO: talk about read_char_aux() used for MAPPNG.
         read_char_aux() is called in place of read_char().
     -->
 		</section>
@@ -894,16 +887,17 @@ firstly define lexemes
 				further discussion of the C representation of
 				<application>Sid</application>'s terminals.</para>
 
-			<!-- TODO state the API. ditto sid. include macros etc. (done?) -->
+			<!-- TODO: state the API. ditto sid. include macros etc. (done?) -->
 
-			<!-- TODO talk about how the actual values are returned
+			<!-- TODO: talk about how the actual values are returned
 				with tokens (tags); they're not. you're expected to
 				do so yourself -->
 		</section>
 
 		<section id="interface_functions">
 			<title>Functions</title>
-			<!-- TODO we could express system-defined functions as $x() perhaps -->
+
+			<!-- TODO: we could express system-defined functions as $x() perhaps -->
 
 			<para>Within the C implementation of functions, the usual
 				&lexi.app; <acronym>API</acronym>
@@ -937,7 +931,7 @@ TOKEN "[identstart]" -> read_identifier();</programlisting>
 	}
 }</programlisting>
 
-			<!-- TODO in the future when we remove the lookup_char function, you
+			<!-- TODO: in the future when we remove the lookup_char function, you
 				will be able to TOKEN "x" -> is_digit(). I don't know if that
 				would be useful (since it returns an int), but mention it anyway -->
 
@@ -980,7 +974,7 @@ TOKEN "[identstart]" -> read_identifier();</programlisting>
 
 		<section>
 			<title>Keywords</title>
-<!-- TODO mention MAKE_KEYWORD here. Give an example -->
+<!-- TODO: mention MAKE_KEYWORD here. Give an example -->
 
 			<para>Neither the keyword calls output by <option>-k</option> nor
 				the lexical analyser itself depend on including any headers
@@ -988,7 +982,7 @@ TOKEN "[identstart]" -> read_identifier();</programlisting>
 		</section>
 	</chapter>
 
-<!-- TODO in a future version. probably discuss the trie here, too (just not the implementation of it)
+<!-- TODO: in a future version. probably discuss the trie here, too (just not the implementation of it)
 	<chapter>
 		<title>Implementation</title>
 
@@ -1002,7 +996,7 @@ TOKEN "[identstart]" -> read_identifier();</programlisting>
 	<appendix id="appendix">
 		<title>Appendix</title>
 
-		<!-- TODO maybe not in the guide: in an examples/ directory
+		<!-- TODO: maybe not in the guide: in an examples/ directory
 			perhaps?
 
 		<section>
@@ -1024,7 +1018,7 @@ TOKEN "[identstart]" -> read_identifier();</programlisting>
 			<section>
 				<title>Non-<acronym>RPN</acronym> Calculator</title>
 
-				<para>TODO joint example with sid.</para>
+				<para>TODO: joint example with sid.</para>
 			</section>
 		</section>
 		-->
@@ -1051,7 +1045,7 @@ TOKEN "[identstart]" -> read_identifier();</programlisting>
 				release of &lexi.app; permits these as
 				undefined to offer a transition period only.</para>
 
-			<!-- TODO list undefined behaviours -->
+			<!-- TODO: list undefined behaviours -->
 			<variablelist>
 				<varlistentry>
 					<term>Mapping to the start of another mapping</term>
@@ -1059,8 +1053,8 @@ TOKEN "[identstart]" -> read_identifier();</programlisting>
 					<listitem>
 						<para>To define a mapping which produces
 							a character used at the start of any mapping, including
-							itself. For example:<!-- TODO example of both --></para>
-							<!-- TODO to identify this, we add a stage after the table is
+							itself. For example:<!-- TODO: example of both --></para>
+							<!-- TODO: to identify this, we add a stage after the table is
 								constructed which checks each mapping. -->
 
 						<programlisting language="lxi">MAPPING "???" -> "?" ;</programlisting>
@@ -1093,13 +1087,13 @@ TOKEN "#"  -> get_comment () ;</programlisting>
 			<para>This section describes legal constructs of doubtful
 				interest.</para>
 
-			<!-- TODO Kevin says:
+			<!-- TODO: Kevin says:
             TOKEN "&amp;&amp;" -> and;
 
        are legal tokens' definitions. The first one lacks the $ sign and is of
        no  interest  if  you use the sid parser generator, and lexi is usually
        meant to be used with sid.
-	TODO See above re lex_
+	TODO: See above re lex_
 	This is redundant now that we're going to disallow non-sid identifiers. When we do, we should rename them.
 			-->
 
@@ -1119,7 +1113,7 @@ TOKEN "#"  -> get_comment () ;</programlisting>
 
 				<programlisting language="lxi">TOKEN "ABCDEFGHIJKLMNOPQRSTUVWXYZsomething" -> $x ;</programlisting>
 
-				<para>This is probably not the intended effect.<!-- TODO disallow
+				<para>This is probably not the intended effect.<!-- TODO: disallow
 					ranges for tokens, then! eventually we can remove from
 					grammar. disallow after first release. --> Using a group
 					is suggested instead:</para>
@@ -1140,18 +1134,18 @@ TOKEN "[white]ab" -> $neverscanned ;</programlisting>
 				<para>The above are both legal tokens definitions.
 					The second one will  never  be  scanned since
 					white characters are discarded before tokens are
-					matched.</para>	<!-- TODO in the future make this
+					matched.</para>	<!-- TODO: in the future make this
 					illegal. -->
 
 				<!--
-				TODO the first one is ok? odd! TODO list precedence of these
+				TODO: the first one is ok? odd! TODO: list precedence of these
 				things! that should be a section by itself perhaps
 				-->
 			</section>
 		</section>
 	</appendix>
 
-	<!-- TODO include this in the global glossary as a per-project section. In a future version.
+	<!-- TODO: include this in the global glossary as a per-project section. In a future version.
 	<appendix id="glossary">
 		<title>Glossary</title>
 

@@ -248,8 +248,8 @@
 
 		<para>For further details of the options available and a reference
 			to the format for files see the &lexi-userguide.doc;.</para>
-		<!-- TODO eventually manpages as a reference for the formats -->
-		<!-- TODO the guide can also go under lexi(7) -->
+		<!-- TODO: eventually manpages as a reference for the formats -->
+		<!-- TODO: the guide can also go under lexi(7) -->
 	</refsection>
 
 	<refsection>

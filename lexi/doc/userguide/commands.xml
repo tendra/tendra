@@ -8,7 +8,7 @@
 -->
 
 <chapter id="commands">
-	<title>Commands</title>	<!-- TODO term -->
+	<title>Commands</title>	<!-- TODO: term -->
 
 	<para>Lexical analysers are described to &lexi.app; by a
 		sequence of commands. This section provides an explanation of
@@ -25,7 +25,7 @@
 			substitutions as found in C. The syntax to define pre-pass
 			replacements is:</para>
 
-		<!-- TODO not real BNF! -->
+		<!-- TODO: not real BNF! -->
 		<programlisting language="bnf">MAPPING sequence + "->" + char ;</programlisting>
 
 		<para>The string on the right (i.e. the value with which the
@@ -112,19 +112,19 @@ MAPPING "abcd" -> "y" ;</programlisting>
 		<para>for the input <quote><literal>abcdef</literal></quote>
 			will produce <quote><literal>x</literal></quote>,
 			not <quote><literal>yef</literal></quote>.</para>
-		<!-- TODO ditto tokens? -->
+		<!-- TODO: ditto tokens? -->
 	</section>
 
 	<section id="groupdefinitions">
 		<title>Character Group Definitions</title>
 
 		<para>A group is an unordered sets of characters; groups
-			name these sets for use in <!-- TODO which strings? -->
-			strings <!-- TODO think up a name for group inclusions -->.
+			name these sets for use in <!-- TODO: which strings? -->
+			strings <!-- TODO: think up a name for group inclusions -->.
 			The syntax of a group definition is:</para>
 
 		<programlisting language="bnf">group-defn := "GROUP" + identifier + "=" + chars ;</programlisting>
-		<!-- TODO not identifier, but name (we don't want to include
+		<!-- TODO: not identifier, but name (we don't want to include
 			sid-identifiers!) -->
 
 		<para>The <code>identifier</code> specified is the name
@@ -156,7 +156,7 @@ GROUP alphanum = "[alpha]" + {0-9} ;</programlisting>
 			in other groups (i.e. they may not overlap). See the
 			<xref linkend="tokendefinitions"/> section for further
 			discussion of why this is so.</para>
-		<!-- TODO NEW UNDEFINED BEHAVIOUR -->
+		<!-- TODO: NEW UNDEFINED BEHAVIOUR -->
 
 		<para>Macros to test if a character belongs to a group
 			are provided in the generated code, of the form
@@ -166,12 +166,12 @@ GROUP alphanum = "[alpha]" + {0-9} ;</programlisting>
 			For example:</para>
 
 		<programlisting language="c">is_alpha(lookup_char('a'))</programlisting>
-		<!-- TODO repetition: this is in Interface -->
+		<!-- TODO: repetition: this is in Interface -->
 
 		<para>would yield true, assuming the group <literal>alpha</literal>
 			is suitably defined.</para>
 
-		<!-- TODO explain what groups are legal, undefined, etc.
+		<!-- TODO: explain what groups are legal, undefined, etc.
 			Overlapping, for example? -->
 
 		<para>The group name <quote>white</quote> may not be used for groups other
@@ -180,7 +180,7 @@ GROUP alphanum = "[alpha]" + {0-9} ;</programlisting>
 
 		<para>A group name is unique amongst groups; groups may
 			only be defined once.</para>
-		<!-- TODO unique amongst what else? Think in terms of namespaces;
+		<!-- TODO: unique amongst what else? Think in terms of namespaces;
 			somewhere we should explain namespaces for identifiers -->
 	</section>
 
@@ -188,9 +188,8 @@ GROUP alphanum = "[alpha]" + {0-9} ;</programlisting>
 		<title>Whitespace Definition</title>
 
 		<para>Consecutive whitespace characters outside of tokens
-			<!-- TODO is this right? Yes Kevin. --> are skipped by
-			the lexical analyser <emphasis>before</emphasis> each token
-			is recognised.
+			are skipped by the lexical analyser <emphasis>before</emphasis>
+			each token is recognised.
 			Whitespace is treated with the semantics of a
 			single token delimiter. &lexi.app; specifies
 			whitespace by the special group name <code>white</code>,
@@ -225,13 +224,13 @@ GROUP alphanum = "[alpha]" + {0-9} ;</programlisting>
 			and may be included in <xref linkend="charactersetssequences"/>
 			as <code>[white]</code>.</para>
 
-		<!-- TODO NEW UNDEFINED BEHAVIOUR -->
+		<!-- TODO: NEW UNDEFINED BEHAVIOUR -->
 		<!-- if white contains the same characters as other tokens,
 			it has precedence. however we call that illegal -->
 		<para>It is illegal to define the whitespace group to
 			contains characters which are present in token
 			definitions, including groups which those tokens use.</para>
-		<!-- TODO rather, we should also say it's illegal to define
+		<!-- TODO: rather, we should also say it's illegal to define
 			tokens which use whitespace characters. -->
 	</section>
 
@@ -242,7 +241,7 @@ GROUP alphanum = "[alpha]" + {0-9} ;</programlisting>
 			and produced as output. Each token as a unique identifier,
 			which is passed to code calling &lexi.app;,
 			along with the characters read which form the token's
-			spelling.<!-- TODO not true: you need to store the spelling
+			spelling.<!-- TODO: not true: you need to store the spelling
 			yourself --></para>
 
 		<para>Tokens are usually the main component of a lexical analyser.
@@ -344,7 +343,7 @@ TOKEN "[alpha]" -> get_identifier(#0); //return a terminal</programlisting>
 						syntax. The decision will happen prior to 2.0. The argumentlist can contain
 						either local variables, <code>#</code> style of arguments.
 						Actions and types must have been previously declared
-						see <!--TODO insert reference--></para>
+						see <!-- TODO: insert reference --></para>
 				</listitem>
 			</varlistentry>
 		</variablelist>
@@ -358,7 +357,7 @@ TOKEN "[alpha]" -> get_identifier(#0); //return a terminal</programlisting>
 			<xref linkend="interface_functions"/> for details of the
 			function call made in C.</para>
 
-		<para><!-- TODO simple examples here --></para>
+		<para><!-- TODO: simple examples here --></para>
 
 		<para>In more complex cases (most notably where tokens need include
 			whitespace), tokens are mapped to user-defined functions.
@@ -368,7 +367,7 @@ TOKEN "[alpha]" -> get_identifier(#0); //return a terminal</programlisting>
 			this is specified as:</para>
 
 		<programlisting language="lxi">TOKEN "/*" -> get_comment() ;</programlisting>
-		<!-- TODO right? -->
+		<!-- TODO: right? -->
 
 		<para>Where <code>get_comment()</code> is an externally defined
 			function which simply reads characters until the corresponding
@@ -381,14 +380,14 @@ TOKEN "[alpha]" -> get_identifier(#0); //return a terminal</programlisting>
 			(or equivalent), &lexi.app; provides
 			the keywords mechanism discussed in
 			<xref linkend="keyworddefinitions"/>.</para>
-		<!-- TODO mention that most keywords are usually a subset of identifiers -->
+		<!-- TODO: mention that most keywords are usually a subset of identifiers -->
 
 		<para>Note that this example does not illustrating storing the
 			characters read. A real-world case would usually store
 			spellings in order to be useful to a later stage, such
 			as parsing.</para>
 
-		<!-- TODO only defined once?  -->
+		<!-- TODO: only defined once?  -->
 
 		<para>Unlike many lexical analysers, tokens in
 			&lexi.app; are not specified by regular
@@ -415,12 +414,12 @@ TOKEN "C[digit]" -> $envelopesize ;
 TOKEN "B[digit]" -> $envelopesize ;
 TOKEN "DL" -> $envelopesize ;	/* BS 4264 specifies a transparent window for DL */
 TOKEN "ID-[digit]" -> $identificationcardsize ;</programlisting>
-			<!-- TODO extend as "C[{0-3}]" in the future -->
+			<!-- TODO: extend as "C[{0-3}]" in the future -->
 
 		<para>Note that <quote>A10</quote> codes for the same lexeme as
 			single-digit <quote>A</quote> sizes. See
 			<xref linkend="functioncalls"/> for further examples of
-			multiple tokens sharing one function, and the <!-- TODO sets -->
+			multiple tokens sharing one function, and the <!-- TODO: sets -->
 			for further examples of using sets within sequences.</para>
 
 		<para>Using groups in this way is especially useful in combination
@@ -429,9 +428,9 @@ TOKEN "ID-[digit]" -> $identificationcardsize ;</programlisting>
 		<programlisting language="lxi">TOKEN "[alpha]" ->  get_identifier() ;
 TOKEN "$[alpha]" -> get_sid_identifier() ;</programlisting>
 
-		<para><!-- TODO state ranges are undefined --></para>
+		<para><!-- TODO: state ranges are undefined --></para>
 
-		<!-- TODO Kevin says:
+		<!-- TODO: Kevin says:
 			Remember, individual characters have priority over groups. But lexi
 			doesn't handle subset analysis for groups. So
 
@@ -442,11 +441,11 @@ TOKEN "$[alpha]" -> get_sid_identifier() ;</programlisting>
 
        may not work correctly. lexi doesn't look  for  ambiguities  if  groups
        overlap.
-		TODO we defined overlap as illegal in the groups section;
+		TODO: we defined overlap as illegal in the groups section;
 			this is just explaining rationale -->
 
-<!-- TODO stated as undefined behaviour in Strings section
-		<para>TODO Kevin says:
+<!-- TODO: stated as undefined behaviour in Strings section
+		<para>TODO: Kevin says:
        An empty string can be a token,
             TOKEN "" -> $default ;
        It really means that if no other token match, then the  lexer  will  eat
@@ -454,7 +453,7 @@ TOKEN "$[alpha]" -> get_sid_identifier() ;</programlisting>
        lex_unknown would have been returned.
 		</para>
 
-TODO we should make a sequence of undefined behaviours and check
+TODO: we should make a sequence of undefined behaviours and check
 if anybody uses them (or indeed if anybody uses lexi...)
 -->
 
@@ -497,7 +496,7 @@ KEYWORD "special" -> get_special () ;</programlisting>
 			in the output generated by &lexi.app;.
 			Therefore the only difference between keywords and
 			tokens (and indeed their purpose) is the programmatic
-			interface that they provide.<!-- TODO and overlap! --><footnote>
+			interface that they provide.<!-- TODO: and overlap! --><footnote>
 				<para>This historic interface for producing keywords
 					is expected to change drastically for the next version of
 					&lexi.app;.</para>
@@ -513,7 +512,7 @@ MAKE_KEYWORD ( "special", "get_special ()" )</programlisting>
 
 		<para>where the identifier has been transformed according
 			to the rules for <application>Sid</application>
-			identifiers<!-- TODO link -->.
+			identifiers<!-- TODO: link -->.
 			It is then left to the user to implement
 			<code>MAKE_KEYWORD</code>,
 			usually by way of a macro. The generated keyword
@@ -524,7 +523,7 @@ MAKE_KEYWORD ( "special", "get_special ()" )</programlisting>
 			intended use for keywords is as follows (for example with
 			a lexer required to identify variable names):</para>
 
-<!-- TODO use read_identifier from above -->
+<!-- TODO: use read_identifier from above -->
 		<programlisting language="lxi">KEYWORD "if" -> keyword_if ;
 KEYWORD "else" -> keyword_else ;
 TOKEN "[alpha]" -> get_variable() ;</programlisting>
@@ -573,7 +572,7 @@ TOKEN "[alpha]" -> get_variable() ;</programlisting>
 
 		<programlisting language="c">&lt;type&gt; f(void);</programlisting>
 
-	<!-- TODO does mapping a keyword to a function have a use-case? if not,
+	<!-- TODO: does mapping a keyword to a function have a use-case? if not,
 		can we disallow it? Perhaps good for FORTRAN style unreserved keywords?
 		(the function could check to see if the symbol table holds that
 		identifier; if it doesn't, then we know its a keyword) -->
@@ -587,7 +586,7 @@ TOKEN "[alpha]" -> get_variable() ;</programlisting>
             not as keyword if keyword is a keyword
 -->
 
-		<para><!-- TODO example of PL/I-esque unreserved keywords --></para>
+		<para><!-- TODO: example of PL/I-esque unreserved keywords --></para>
 	</section>
 
 	<section id="zonedefinitions">
@@ -647,7 +646,7 @@ ZONE string : "\"" -> clear_buffer(#$) [...] "\"" ->$string  {
 		<title>Type Definitions</title>
 
 		<para>We can declare types in lexi. This will be used for type checking of
-			instructions (inline actions mostly, see <!--TODO put reference-->)
+			instructions (inline actions mostly, see <!--TODO: put reference-->)
 			that must happen upon encountering a token. Types declaration must only happen
 			in the global zone. Here are examples:</para>
 

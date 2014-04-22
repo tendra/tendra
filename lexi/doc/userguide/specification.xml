@@ -8,10 +8,10 @@
 -->
 
 <chapter id="specification">
-	<title>The Lexi Specification</title>	<!-- TODO term -->
+	<title>The Lexi Specification</title>	<!-- TODO: term -->
 
 	<para>There are several concepts common to multiple commands.
-		<!---TODO blah blah --></para>
+		<!---TODO: blah blah --></para>
 
 	<section id="lexicalconventions">
 		<title>Lexical Conventions</title>
@@ -28,7 +28,7 @@
 sid-identifier      := "$" + identifier ;
 literal-identifier  := identifier ;
 function-identifier := identifier + "(" + ")" ;</programlisting>
-		<!-- TODO rename either-identifier! -->
+		<!-- TODO: rename either-identifier! -->
 
 		<para>And for brevity , the following groups are defined:</para>
 
@@ -47,7 +47,7 @@ GROUP digit    = {0-9} ;</programlisting>
 		        <code>//</code> style comments.specifications. These are C++ style comments, opening
 			<code>//</code> and extending to the end of the line. For example:</para>
 
-		<!-- TODO did i add the // patch already? I don't think so -->
+		<!-- TODO: did i add the // patch already? I don't think so -->
 		<programlisting language="lxi">/* This is a comment */
 /*
  * And so is this.
@@ -61,14 +61,14 @@ GROUP digit    = {0-9} ;</programlisting>
 	<section id="identifiers">
 		<title>Identifiers</title>
 
-		<para><!-- TODO explain what identifiers are used for --></para>
+		<para><!-- TODO: explain what identifiers are used for --></para>
 
 		<para>An identifier is a sequence of alphanumeric characters
 			including the underscore beginning by an underscore or
 			an alphabetic character. A $sid; identifier may also contain
 			(but not begin with) a hyphen.</para>
 
-		<para><!-- TODO somewhere we need a section to explain
+		<para><!-- TODO: somewhere we need a section to explain
 			identifiers and namespaces (i.e. where one may
 			conflict). List namespaces here.--></para>
 
@@ -85,7 +85,7 @@ GROUP digit    = {0-9} ;</programlisting>
 				disallowed in future versions of
 				&lexi.app;; they appear to serve
 				no purpose over Sid identifiers in those cases.</para>
-				TODO wherein we mention that -l '' is valid
+				TODO: wherein we mention that -l '' is valid
 				However, we keep literal identifiers for other uses
 		</note>
 -->
@@ -115,7 +115,7 @@ GROUP digit    = {0-9} ;</programlisting>
 
 		<para>Do not confuse function names with <application>Sid</application>
 			Identifiers.
-			<!-- TODO when we define sid identifiers, share text with the sid guide -->
+			<!-- TODO: when we define sid identifiers, share text with the sid guide -->
 			For instance, <literal>$get-comment()</literal> is not
 			a legal function.</para>
 
@@ -145,8 +145,8 @@ TOKEN "//"  -> get_comment () ;</programlisting>
 		<para>Calling a function from two tokens of different lengths
 			is undefined behaviour.</para>
 
-		<!-- 
-		TODO when releasing Check history; maybe sid can keep the same version number.
+		<!--
+		TODO: when releasing Check history; maybe sid can keep the same version number.
 		-->
 	</section>
 
@@ -154,8 +154,8 @@ TOKEN "//"  -> get_comment () ;</programlisting>
 		<title>Character Sets and Sequences</title>
 
 		<para>Sets and sequences of characters are used by
-			<!-- TODO right? --> all &lexi.app; commands. <!--
-			TODO and possibly also pre-pass replacements? --> They share
+			<!-- TODO: right? --> all &lexi.app; commands. <!--
+			TODO: and possibly also pre-pass replacements? --> They share
 			the same syntax, but have different meanings: a set is an
 			unordered intersection of all characters specified, whereas
 			a sequence is a sequence which must be entirely present in
@@ -168,7 +168,7 @@ range       := "{0-9}" | "{a-z}" | "{A-Z}" ;
 string      := &lt;"&gt; + { CHAR | escapedchar | group } * + &lt;"&gt; ;
 escapedchar := "\" + ( "n" | "t" <!-- | "TODO etc" --> ) ;
 group       := "[" + GROUPNAME + "]" ;</programlisting>
-<!-- TODO standardised BNF -->
+<!-- TODO: standardised BNF -->
 
 <!--
 		<bridgehead>Ranges</bridgehead>
@@ -215,22 +215,22 @@ group       := "[" + GROUPNAME + "]" ;</programlisting>
 			Note that the <code>range</code> production always
 			represents a set (as opposed to a sequence), even when used as
 			part of a <code>TOKEN</code>
-			command.<!-- TODO unclear and true? --></para>
+			command.<!-- TODO: unclear and true? --></para>
 
-		<para>Strings are sequences of <acronym>ASCII</acronym> <!-- TODO right? -->
+		<para>Strings are sequences of <acronym>ASCII</acronym> <!-- TODO: right? -->
 			characters delimited by double-quotes (<code>"</code>).</para>
 
 <!--
 		<bridgehead>Escaping special characters in strings</bridgehead>
 -->
-		<!-- TODO strings or sequences and sets? -->
+		<!-- TODO: strings or sequences and sets? -->
 
 		<para>The following special characters may be written by
 			backslash escapes:</para>
 
 		<table>
 			<title>Escaped Characters</title>
-			<!-- TODO really ASCII, or is it the execution character set? -->
+			<!-- TODO: really ASCII, or is it the execution character set? -->
 
 			<col align="center"/>
 			<col align="center"/>
@@ -284,7 +284,7 @@ group       := "[" + GROUPNAME + "]" ;</programlisting>
 				<tr>
 					<td><code>\[</code></td>
 					<td>0x5B</td>
-					<td>Left bracket<!-- TODO right? --></td>
+					<td>Left bracket<!-- TODO: right? --></td>
 				</tr>
 
 				<tr>
@@ -295,7 +295,7 @@ group       := "[" + GROUPNAME + "]" ;</programlisting>
 
 				<tr>
 					<td><code>\e</code></td>
-					<td role="na" align="center">&ndash;<!-- TODO applicable here? --></td>
+					<td role="na" align="center">&ndash;<!-- TODO: applicable here? --></td>
 					<td>End of file (EOF)</td>
 				</tr>
 			</tbody>
@@ -311,8 +311,8 @@ group       := "[" + GROUPNAME + "]" ;</programlisting>
 		<para>Strings must contain at least one character, or
 			one character coded for by an escape sequence.
 			Empty strings are not permitted.</para>
-		<!-- TODO adjust grammar to error for empty strings -->
-		<!-- TODO NEW UNDEFINED BEHAVIOUR -->
+		<!-- TODO: adjust grammar to error for empty strings -->
+		<!-- TODO: NEW UNDEFINED BEHAVIOUR -->
 
 		<para>These escape sequence may be used in any string.
 			Note that "[" requires escaping to distinguish from
@@ -322,7 +322,7 @@ group       := "[" + GROUPNAME + "]" ;</programlisting>
 		<bridgehead id="groupinclusion">Group inclusions in
 			strings</bridgehead>
 -->
-		<!-- TODO strings or sequences and sets? -->
+		<!-- TODO: strings or sequences and sets? -->
 
 		<para>A set of characters defined by a <literal>GROUP</literal>
 		 	command may be included into a character set
@@ -345,14 +345,14 @@ group       := "[" + GROUPNAME + "]" ;</programlisting>
 			referenced. Note that this does not permit circular
 			references.</para>
 
-		<para>See <!-- TODO link --> the commands below for
+		<para>See <!-- TODO: link --> the commands below for
 			further examples of character sets and
-			sequences<!-- TODO terminology: sets and sequences? --></para>
+			sequences<!-- TODO: terminology: sets and sequences? --></para>
 
 <!--
 		<bridgehead id="concatenation">String concatenation</bridgehead>
 -->
-		<!-- TODO we can't call it concatenation really. why would you need concatenation
+		<!-- TODO: we can't call it concatenation really. why would you need concatenation
 			for sequences? perhaps disallow it there and call it "set union" instead. -->
 
 		<para>Strings and ranges may be concatenated by the
