@@ -9,14 +9,6 @@
 
 
 
-	/* $Id: lctlexer.lct 3049 2014-04-21 15:29:38Z kate $ */
-
-	/*
-	 * Copyright 2002-2011, The TenDRA Project.
-	 *
-	 * See doc/copyright/ for the full copyright terms.
-	 */
-
 	#include <stdio.h>
 	#include "lctsyntax.h"
 

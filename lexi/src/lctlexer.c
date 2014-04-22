@@ -8,14 +8,6 @@
 
 
 
-	/* $Id: lctlexer.c 3050 2014-04-22 12:29:51Z kate $ */
-
-	/*
-	 * Copyright 2002-2011, The TenDRA Project.
-	 *
-	 * See doc/copyright/ for the full copyright terms.
-	 */
-
 	#include "lctlexer.h"
 	#include "lctsyntax.h"
 	#include <shared/error.h>

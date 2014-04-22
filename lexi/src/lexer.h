@@ -9,14 +9,6 @@
 
 
 
-	/* $Id: lexer.lct 3054 2014-04-22 14:46:32Z kate $ */
-
-	/*
-	 * Copyright 2002-2011, The TenDRA Project.
-	 *
-	 * See doc/copyright/ for the full copyright terms.
-	 */
-
 	#include <stdio.h> /* TODO: This is necessary because lexi automatically prepend #include "lexer.h" to the header. Maybe we should remove this unecessary feature */
 
 	extern char tokbuf[];

@@ -23,14 +23,6 @@
 
 %header% @{
 
-	/* $Id$ */
-
-	/*
-	 * Copyright 2011, The TenDRA Project.
-	 *
-	 * See doc/copyright/ for the full copyright terms.
-	 */
-
 	#include <stdbool.h>
 
 	#include <shared/xalloc.h>
@@ -80,16 +72,8 @@
 
 @}, @{
 
-	/* $Id$ */
-
-	/*
-	 * Copyright 2011, The TenDRA Project.
-	 *
-	 * See doc/copyright/ for the full copyright terms.
-	 */
-
-	#ifndef LCT_SYNTAX_HEADER_INCLUDED
-	#define LCT_SYNTAX_HEADER_INCLUDED
+	#ifndef LCT_SYNTAX_H
+	#define LCT_SYNTAX_H
 
 	#include "code.h"
 	#include "ast.h"

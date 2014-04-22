@@ -9,19 +9,11 @@
 
 /* BEGINNING OF HEADER */
 
-#line 122 "lctsyntax.act"
+#line 106 "lctsyntax.act"
 
 
-	/* $Id: lctsyntax.act 3054 2014-04-22 14:46:32Z kate $ */
-
-	/*
-	 * Copyright 2011, The TenDRA Project.
-	 *
-	 * See doc/copyright/ for the full copyright terms.
-	 */
-
-	#ifndef LCT_SYNTAX_HEADER_INCLUDED
-	#define LCT_SYNTAX_HEADER_INCLUDED
+	#ifndef LCT_SYNTAX_H
+	#define LCT_SYNTAX_H
 
 	#include "code.h"
 	#include "ast.h"
@@ -51,7 +43,7 @@
 
 	extern void init_lct_ast(struct lct_ast*);
 
-#line 55 "lctsyntax.h"
+#line 47 "lctsyntax.h"
 
 /* BEGINNING OF FUNCTION DECLARATIONS */
 
@@ -85,11 +77,11 @@ extern void read_lct_unit(void);
 
 /* BEGINNING OF TRAILER */
 
-#line 423 "lctsyntax.act"
+#line 407 "lctsyntax.act"
 
 
 	#endif
 
-#line 94 "lctsyntax.h"
+#line 86 "lctsyntax.h"
 
 /* END OF FILE */

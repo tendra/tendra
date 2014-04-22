@@ -30,15 +30,6 @@
 
 %header% @{
 
-	/* $Id$ */
-
-	/*
-	 * Copyright 2011, The TenDRA Project.
-	 * Copyright 1997, United Kingdom Secretary of State for Defence.
-	 *
-	 * See doc/copyright/ for the full copyright terms.
-	 */
-
 	#include <string.h>
 	#include <stdio.h>
 
@@ -95,17 +86,8 @@
 
 @}, @{
 
-	/* $Id$ */
-
-	/*
-	 * Copyright 2011, The TenDRA Project.
-	 * Copyright 1997, United Kingdom Secretary of State for Defence.
-	 *
-	 * See doc/copyright/ for the full copyright terms.
-	 */
-
-	#ifndef SYNTAX_INCLUDED
-	#define SYNTAX_INCLUDED
+	#ifndef SYNTAX_H
+	#define SYNTAX_H
 
 	#include <adt/zone.h>
 
@@ -795,6 +777,8 @@
 
 %trailer% @{
 @}, @{
+
 	#endif
+
 @};
 

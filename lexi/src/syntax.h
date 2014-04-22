@@ -9,27 +9,18 @@
 
 /* BEGINNING OF HEADER */
 
-#line 115 "syntax.act"
+#line 97 "syntax.act"
 
 
-	/* $Id: syntax.act 3054 2014-04-22 14:46:32Z kate $ */
-
-	/*
-	 * Copyright 2011, The TenDRA Project.
-	 * Copyright 1997, United Kingdom Secretary of State for Defence.
-	 *
-	 * See doc/copyright/ for the full copyright terms.
-	 */
-
-	#ifndef SYNTAX_INCLUDED
-	#define SYNTAX_INCLUDED
+	#ifndef SYNTAX_H
+	#define SYNTAX_H
 
 	#include <adt/zone.h>
 
 	extern char *token_prefix;
 	typedef struct zone * zoneP;
 
-#line 33 "syntax.h"
+#line 24 "syntax.h"
 
 /* BEGINNING OF FUNCTION DECLARATIONS */
 
@@ -79,9 +70,11 @@ extern void read_lex(zoneP);
 
 /* BEGINNING OF TRAILER */
 
-#line 799 "syntax.act"
+#line 783 "syntax.act"
+
 
 	#endif
-#line 86 "syntax.h"
+
+#line 79 "syntax.h"
 
 /* END OF FILE */
