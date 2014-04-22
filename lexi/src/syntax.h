@@ -12,7 +12,7 @@
 #line 115 "syntax.act"
 
 
-	/* $Id$ */
+	/* $Id: syntax.act 3054 2014-04-22 14:46:32Z kate $ */
 
 	/*
 	 * Copyright 2011, The TenDRA Project.

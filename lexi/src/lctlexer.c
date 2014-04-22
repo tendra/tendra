@@ -8,7 +8,7 @@
 
 
 
-	/* $Id$ */
+	/* $Id: lctlexer.c 3050 2014-04-22 12:29:51Z kate $ */
 
 	/*
 	 * Copyright 2002-2011, The TenDRA Project.

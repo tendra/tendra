@@ -8,7 +8,7 @@
 
 
 
-	/* $Id$ */
+	/* $Id: lexer.lct 3054 2014-04-22 14:46:32Z kate $ */
 
 	/*
 	 * Copyright 2002-2011, The TenDRA Project.
