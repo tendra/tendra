@@ -72,7 +72,7 @@ trans_find(struct trans *t, NStringT *key)
 	struct trans *p;
 
 	for (p = t; p != NULL; p = p->next) {
-		if (nstring_compare(&p->from, key)) {
+		if (CMP_EQ == nstring_compare(&p->from, key)) {
 			return p->to;
 		}
 	}
