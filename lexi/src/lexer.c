@@ -28,6 +28,8 @@
 
 	struct lexi_state lexer_state;
 
+	typedef int ZTTERMINAL;
+
 	/*
 	 * This buffer is used by read_token to hold the values of identifiers
 	 * and strings.
@@ -74,6 +76,7 @@
 		return c;
 	}
 
+#include <assert.h>
 #include <stdbool.h>
 #include <stdint.h>
 
@@ -85,10 +88,14 @@ int lexi_readchar(struct lexi_state *state) {
 	return lexi_getchar(state);
 }
 void lexi_push(struct lexi_state *state, const int c) {
+	assert(state);
+	assert((size_t) state->buffer_index < sizeof state->buffer / sizeof *state->buffer);
 	state->buffer[state->buffer_index++] = c;
 }
 
 int lexi_pop(struct lexi_state *state) {
+	assert(state);
+	assert(state->buffer_index > 0);
 	return state->buffer[--state->buffer_index];
 }
 
@@ -222,7 +229,7 @@ lexi_read_token_ident(struct lexi_state *state)
 			/* END ACTION <fini_tokbuf> */
 			/* ACTION <keyword> */
 			{
-				int ZT1;
+				ZTTERMINAL ZT1;
 
 	ZT1 = lexi_keyword(tokbuf, lex_ident);
 				return ZT1;

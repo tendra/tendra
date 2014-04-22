@@ -20,6 +20,8 @@
 	#include "lctsyntax.h"
 	#include <shared/error.h>
 
+	typedef int ZTTERMINAL;
+
 	int crt_lct_token;
 	int saved_lct_token;
 
@@ -118,7 +120,6 @@ int lexi_lct_keyword(const char *identifier, int notfound) {
 	if (0 == strcmp(identifier, "ACTION")) return lct_lex_kw_Haction;
 	if (0 == strcmp(identifier, "ARGUMENT")) return lct_lex_kw_Hargument;
 	if (0 == strcmp(identifier, "HEADERS")) return lct_lex_kw_Hheader;
-	if (0 == strcmp(identifier, "MAP")) return lct_lex_kw_Hmap;
 	if (0 == strcmp(identifier, "TRAILERS")) return lct_lex_kw_Htrailer;
 	return notfound;
 }
@@ -291,7 +292,7 @@ lexi_lct_read_token_code(struct lexi_lct_state *state)
 		/* DEFAULT */
 		/* ACTION <code_string> */
 		{
-			int ZT1;
+			ZTTERMINAL ZT1;
 
 	DStringT dstring;
 	int c;
@@ -373,7 +374,7 @@ lexi_lct_read_token_ident(struct lexi_lct_state *state)
 			/* END ACTION <fini_tokbuf> */
 			/* ACTION <keyword> */
 			{
-				int ZT1;
+				ZTTERMINAL ZT1;
 
 	ZT1 = lexi_lct_keyword(lct_tokbuf, lct_lex_ident);
 				return ZT1;

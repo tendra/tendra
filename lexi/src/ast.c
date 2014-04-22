@@ -121,40 +121,34 @@ tree_add_group(struct ast *t, struct group *g)
 }
 
 void
-set_builtin_char_lexi_type(struct ast* ast, char *lexi_type, char *c_type)
+set_builtin_char_lexi_type(struct ast* ast, char *lexi_type)
 {
 	NStringT str;
-	NStringT cstr;
 	struct entry *et;
 	struct type *type;
 
 	nstring_copy_cstring(&str, lexi_type);
-	nstring_copy_cstring(&cstr, c_type);
 
 	/* TODO assert(table_get_entry(tree_get_table(ast), &str) == NULL) */
 	et   = table_add_type(tree_get_table(ast), &str, true);
 	type = entry_get_type(et);
 
-	type_map(type, &cstr);
 	ast->lexi_char_type = et;
 }
 
 void
-set_builtin_string_lexi_type(struct ast *ast, char *lexi_type, char *c_type)
+set_builtin_string_lexi_type(struct ast *ast, char *lexi_type)
 {
 	NStringT str;
-	NStringT cstr;
 	struct entry *et;
 	struct type *type;
 
 	nstring_copy_cstring(&str, lexi_type);
-	nstring_copy_cstring(&cstr, c_type);
 
 	/* TODO assert(table_get_entry(tree_get_table(ast), &str) == NULL) */
 	et   = table_add_type(tree_get_table(ast), &str, true);
 	type = entry_get_type(et);
 
-	type_map(type, &cstr);
 	ast->lexi_string_type = et;
 }
 
@@ -172,21 +166,18 @@ set_builtin_terminal_lexi_type(struct ast *ast, char *lexi_type)
 }
 
 void
-set_builtin_int_lexi_type(struct ast* ast, char *lexi_type, char *c_type)
+set_builtin_int_lexi_type(struct ast* ast, char *lexi_type)
 {
 	NStringT str;
-	NStringT cstr;
 	struct entry *et;
 	struct type *type;
 
 	nstring_copy_cstring(&str, lexi_type);
-	nstring_copy_cstring(&cstr, c_type);
 
 	/* TODO assert(table_get_entry(tree_get_table(ast), &str) == NULL) */
 	et = table_add_type(tree_get_table(ast), &str, true);
 	type  = entry_get_type(et);
 
-	type_map(type, &cstr);
 	ast->lexi_int_type = et;
 }
 

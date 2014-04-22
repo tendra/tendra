@@ -71,7 +71,6 @@ ZONE code: "@{" -> $code-start ... "@}" -> $code-end {
 
 KEYWORD "HEADERS"  -> $kw-header;
 KEYWORD "TRAILERS" -> $kw-trailer;
-KEYWORD "MAP"      -> $kw-map;
 KEYWORD "ACTION"   -> $kw-action;
 KEYWORD "ARGUMENT" -> $kw-argument;
 

@@ -11,17 +11,11 @@
 
 #include <stdbool.h>
 
-#include <exds/common.h>
-#include <exds/dstring.h>
-
 struct type {
-	bool mapped;
 	bool predefined;
-	NStringT mapping;
 };
 
 struct type *type_create(bool);
-void type_map(struct type *, NStringT *);
 
 #endif
 

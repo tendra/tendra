@@ -27,9 +27,9 @@ int tree_add_generated_key(struct ast *t);
 void tree_add_group(struct ast *t, struct group *g);
 struct group *tree_find_group(struct ast *t, struct group *b);
 
-void set_builtin_char_lexi_type(struct ast *, char *, char *);
-void set_builtin_string_lexi_type(struct ast *, char *, char *);
-void set_builtin_int_lexi_type(struct ast *, char *, char *);
+void set_builtin_char_lexi_type(struct ast *, char *);
+void set_builtin_string_lexi_type(struct ast *, char *);
+void set_builtin_int_lexi_type(struct ast *, char *);
 void set_builtin_terminal_lexi_type(struct ast *, char *);
 
 struct entry *lexer_char_type(struct ast *);

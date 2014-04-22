@@ -12,7 +12,7 @@
 #line 81 "lctsyntax.act"
 
 
-	/* $Id: lctsyntax.act 3042 2014-04-20 20:18:56Z kate $ */
+	/* $Id: lctsyntax.act 3048 2014-04-21 13:27:55Z kate $ */
 
 	/*
 	 * Copyright 2011, The TenDRA Project.
@@ -74,11 +74,10 @@
 static void ZRaction_Hdefinition_C_Cparam_Hlist_C_Cparam_Hlist1(paramP *);
 static void ZRaction_Hdefinition_C_Cfunction_Htype_Hdefn(paramP *, paramP *);
 static void ZRcode_Hblock_C_Ccode_Helement(codeP *, entryP);
-static void ZRmap_Hstmnt(void);
 extern void read_lct_unit(void);
 static void ZRstatement_Hlist(void);
 static void ZRcode_Hblock_C_Ccode_Hbody(codeP *, entryP);
-static void ZR80(void);
+static void ZR78(void);
 static void ZRargument_Hstmnt(void);
 static void ZRheader_Hstmnt(void);
 static void ZRaction_Hdefinition_C_Cparam_Hlist(paramP *);
@@ -87,11 +86,10 @@ static void ZRstatement(void);
 static void ZRtrailer_Hstmnt(void);
 static void ZRaction_Hdefinition(void);
 static void ZRaction_Hdefinition_C_Cparam_Hlist_C_Cparam(paramP *);
-static void ZR104(void);
-static void ZR106(void);
-static void ZR113(NStringT *);
-static void ZR114(void);
-static void ZR120(paramP *);
+static void ZR99(void);
+static void ZR106(NStringT *);
+static void ZR108(void);
+static void ZR114(paramP *);
 
 /* BEGINNING OF STATIC VARIABLES */
 
@@ -101,13 +99,13 @@ static void ZR120(paramP *);
 static void
 ZRaction_Hdefinition_C_Cparam_Hlist_C_Cparam_Hlist1(paramP *ZIa)
 {
-	if ((CURRENT_TERMINAL) == 24) {
+	if ((CURRENT_TERMINAL) == 23) {
 		return;
 	}
 ZL2_action_Hdefinition_C_Cparam_Hlist_C_Cparam_Hlist1:;
 	{
 		ZRaction_Hdefinition_C_Cparam_Hlist_C_Cparam (ZIa);
-		/* BEGINNING OF INLINE: 121 */
+		/* BEGINNING OF INLINE: 115 */
 		{
 			switch (CURRENT_TERMINAL) {
 			case 5:
@@ -118,18 +116,18 @@ ZL2_action_Hdefinition_C_Cparam_Hlist_C_Cparam_Hlist1:;
 					/* END OF INLINE: action-definition::param-list::param-list1 */
 				}
 				/*UNREACHED*/
-			case 24:
+			case 23:
 				RESTORE_LEXER;
 				goto ZL1;
 			default:
 				break;
 			}
 		}
-		/* END OF INLINE: 121 */
+		/* END OF INLINE: 115 */
 	}
 	return;
 ZL1:;
-	SAVE_LEXER (24);
+	SAVE_LEXER (23);
 	return;
 }
 
@@ -144,9 +142,39 @@ ZRaction_Hdefinition_C_Cfunction_Htype_Hdefn(paramP *ZOin, paramP *ZOout)
 		{
 			ADVANCE_LEXER;
 			ZRaction_Hdefinition_C_Cparam_Hlist (&ZIin);
-			ZR104 ();
+			/* BEGINNING OF INLINE: 97 */
+			{
+				if ((CURRENT_TERMINAL) == 23) {
+					RESTORE_LEXER;
+					goto ZL1;
+				}
+				{
+					switch (CURRENT_TERMINAL) {
+					case 1:
+						break;
+					default:
+						goto ZL3;
+					}
+					ADVANCE_LEXER;
+				}
+				goto ZL2;
+			ZL3:;
+				{
+					/* BEGINNING OF ACTION: E_expected_arrow */
+					{
+#line 395 "lctsyntax.act"
+
+		error(ERROR_SERIOUS, "Syntax error: expected '->'");
+	
+#line 170 "lctsyntax.c"
+					}
+					/* END OF ACTION: E_expected_arrow */
+				}
+			ZL2:;
+			}
+			/* END OF INLINE: 97 */
 			ZRaction_Hdefinition_C_Cparam_Hlist (&ZIout);
-			if ((CURRENT_TERMINAL) == 24) {
+			if ((CURRENT_TERMINAL) == 23) {
 				RESTORE_LEXER;
 				goto ZL1;
 			}
@@ -160,7 +188,7 @@ ZRaction_Hdefinition_C_Cfunction_Htype_Hdefn(paramP *ZOin, paramP *ZOout)
 
 		(ZIin) = NULL;
 	
-#line 164 "lctsyntax.c"
+#line 192 "lctsyntax.c"
 			}
 			/* END OF ACTION: init-param */
 			/* BEGINNING OF ACTION: init-param */
@@ -169,17 +197,17 @@ ZRaction_Hdefinition_C_Cfunction_Htype_Hdefn(paramP *ZOin, paramP *ZOout)
 
 		(ZIout) = NULL;
 	
-#line 173 "lctsyntax.c"
+#line 201 "lctsyntax.c"
 			}
 			/* END OF ACTION: init-param */
 		}
 		break;
-	case 24:
+	case 23:
 		return;
 	}
 	goto ZL0;
 ZL1:;
-	SAVE_LEXER (24);
+	SAVE_LEXER (23);
 	return;
 ZL0:;
 	*ZOin = ZIin;
@@ -199,7 +227,7 @@ ZRcode_Hblock_C_Ccode_Helement(codeP *ZIc, entryP ZIe)
 
 		code_append_at((ZIc));
 	
-#line 203 "lctsyntax.c"
+#line 231 "lctsyntax.c"
 			}
 			/* END OF ACTION: append-code-at */
 		}
@@ -215,7 +243,7 @@ ZRcode_Hblock_C_Ccode_Helement(codeP *ZIc, entryP ZIe)
 
 		nstring_copy_cstring(&ZIi, lct_tokbuf);
 	
-#line 219 "lctsyntax.c"
+#line 247 "lctsyntax.c"
 			}
 			/* END OF EXTRACT: code-ident */
 			ADVANCE_LEXER;
@@ -223,7 +251,7 @@ ZRcode_Hblock_C_Ccode_Helement(codeP *ZIc, entryP ZIe)
 			{
 #line 175 "lctsyntax.act"
  (ZIb) = false; 
-#line 227 "lctsyntax.c"
+#line 255 "lctsyntax.c"
 			}
 			/* END OF ACTION: false */
 			/* BEGINNING OF ACTION: append-code-ident */
@@ -260,7 +288,7 @@ ZRcode_Hblock_C_Ccode_Helement(codeP *ZIc, entryP ZIe)
 			nstring_destroy((&ZIi));
 		}
 	
-#line 264 "lctsyntax.c"
+#line 292 "lctsyntax.c"
 			}
 			/* END OF ACTION: append-code-ident */
 		}
@@ -276,7 +304,7 @@ ZRcode_Hblock_C_Ccode_Helement(codeP *ZIc, entryP ZIe)
 
 		nstring_copy_cstring(&ZIi, lct_tokbuf);
 	
-#line 280 "lctsyntax.c"
+#line 308 "lctsyntax.c"
 			}
 			/* END OF EXTRACT: code-ref */
 			ADVANCE_LEXER;
@@ -284,7 +312,7 @@ ZRcode_Hblock_C_Ccode_Helement(codeP *ZIc, entryP ZIe)
 			{
 #line 174 "lctsyntax.act"
  (ZIb) = true;  
-#line 288 "lctsyntax.c"
+#line 316 "lctsyntax.c"
 			}
 			/* END OF ACTION: true */
 			/* BEGINNING OF ACTION: append-code-ident */
@@ -321,7 +349,7 @@ ZRcode_Hblock_C_Ccode_Helement(codeP *ZIc, entryP ZIe)
 			nstring_destroy((&ZIi));
 		}
 	
-#line 325 "lctsyntax.c"
+#line 353 "lctsyntax.c"
 			}
 			/* END OF ACTION: append-code-ident */
 		}
@@ -336,7 +364,7 @@ ZRcode_Hblock_C_Ccode_Helement(codeP *ZIc, entryP ZIe)
 
 		nstring_assign(&ZIs, &lct_token_nstring);
 	
-#line 340 "lctsyntax.c"
+#line 368 "lctsyntax.c"
 			}
 			/* END OF EXTRACT: code-string */
 			ADVANCE_LEXER;
@@ -346,7 +374,7 @@ ZRcode_Hblock_C_Ccode_Helement(codeP *ZIc, entryP ZIe)
 
 		code_append_string((ZIc), (&ZIs));
 	
-#line 350 "lctsyntax.c"
+#line 378 "lctsyntax.c"
 			}
 			/* END OF ACTION: append-code-string */
 		}
@@ -356,117 +384,30 @@ ZRcode_Hblock_C_Ccode_Helement(codeP *ZIc, entryP ZIe)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: E_lone_at_in_code_block */
 			{
-#line 427 "lctsyntax.act"
+#line 410 "lctsyntax.act"
 
 		error(ERROR_SERIOUS, "Lone @ inside @{ @} block");
 	
-#line 364 "lctsyntax.c"
+#line 392 "lctsyntax.c"
 			}
 			/* END OF ACTION: E_lone_at_in_code_block */
 		}
 		break;
-	case 24:
+	case 23:
 		return;
 	default:
 		goto ZL1;
 	}
 	return;
 ZL1:;
-	SAVE_LEXER (24);
-	return;
-}
-
-static void
-ZRmap_Hstmnt(void)
-{
-	if ((CURRENT_TERMINAL) == 24) {
-		return;
-	}
-	{
-		NStringT ZIlexitype;
-		NStringT ZIctype;
-
-		switch (CURRENT_TERMINAL) {
-		case 21:
-			break;
-		default:
-			goto ZL1;
-		}
-		ADVANCE_LEXER;
-		switch (CURRENT_TERMINAL) {
-		case 14:
-			/* BEGINNING OF EXTRACT: ident */
-			{
-#line 157 "lctsyntax.act"
-
-		nstring_copy_cstring(&ZIlexitype, lct_tokbuf);
-	
-#line 405 "lctsyntax.c"
-			}
-			/* END OF EXTRACT: ident */
-			break;
-		default:
-			goto ZL1;
-		}
-		ADVANCE_LEXER;
-		ZR104 ();
-		switch (CURRENT_TERMINAL) {
-		case 14:
-			/* BEGINNING OF EXTRACT: ident */
-			{
-#line 157 "lctsyntax.act"
-
-		nstring_copy_cstring(&ZIctype, lct_tokbuf);
-	
-#line 422 "lctsyntax.c"
-			}
-			/* END OF EXTRACT: ident */
-			break;
-		case 24:
-			RESTORE_LEXER;
-			goto ZL1;
-		default:
-			goto ZL1;
-		}
-		ADVANCE_LEXER;
-		/* BEGINNING OF ACTION: make-map */
-		{
-#line 287 "lctsyntax.act"
-
-		struct entry *et= table_get_entry(tree_get_table(lxi_ast), (&ZIlexitype));
-		if (et != NULL) {
-			if (entry_is_type(et)) {
-				struct type* t = entry_get_type(et);
-				type_map(t, (&ZIctype));
-			} else {
-				error(ERROR_SERIOUS, "Name in maps section is not a type");
-				nstring_destroy((&ZIctype));
-			}
-		} else {
-			error(ERROR_SERIOUS, "Unknown type in mapping");
-			nstring_destroy((&ZIctype));
-		}
-		nstring_destroy((&ZIlexitype));
-	
-#line 452 "lctsyntax.c"
-		}
-		/* END OF ACTION: make-map */
-		ZR114 ();
-		if ((CURRENT_TERMINAL) == 24) {
-			RESTORE_LEXER;
-			goto ZL1;
-		}
-	}
-	return;
-ZL1:;
-	SAVE_LEXER (24);
+	SAVE_LEXER (23);
 	return;
 }
 
 void
 read_lct_unit(void)
 {
-	if ((CURRENT_TERMINAL) == 24) {
+	if ((CURRENT_TERMINAL) == 23) {
 		return;
 	}
 	{
@@ -474,7 +415,7 @@ read_lct_unit(void)
 		switch (CURRENT_TERMINAL) {
 		case 13:
 			break;
-		case 24:
+		case 23:
 			RESTORE_LEXER;
 			goto ZL1;
 		default:
@@ -487,11 +428,11 @@ ZL1:;
 	{
 		/* BEGINNING OF ACTION: E-syntax-error */
 		{
-#line 387 "lctsyntax.act"
+#line 370 "lctsyntax.act"
 
 		error(ERROR_SERIOUS, "Syntax error");
 	
-#line 495 "lctsyntax.c"
+#line 436 "lctsyntax.c"
 		}
 		/* END OF ACTION: E-syntax-error */
 	}
@@ -503,11 +444,10 @@ ZRstatement_Hlist(void)
 ZL2_statement_Hlist:;
 	switch (CURRENT_TERMINAL) {
 	case 19: case 20: case 21: case 22:
-	case 23:
 		{
 			ZRstatement ();
 			/* BEGINNING OF INLINE: statement-list */
-			if ((CURRENT_TERMINAL) == 24) {
+			if ((CURRENT_TERMINAL) == 23) {
 				RESTORE_LEXER;
 				goto ZL1;
 			} else {
@@ -516,14 +456,14 @@ ZL2_statement_Hlist:;
 			/* END OF INLINE: statement-list */
 		}
 		/*UNREACHED*/
-	case 24:
+	case 23:
 		return;
 	default:
 		break;
 	}
 	return;
 ZL1:;
-	SAVE_LEXER (24);
+	SAVE_LEXER (23);
 	return;
 }
 
@@ -537,7 +477,7 @@ ZL2_code_Hblock_C_Ccode_Hbody:;
 		{
 			ZRcode_Hblock_C_Ccode_Helement (ZIc, ZIe);
 			/* BEGINNING OF INLINE: code-block::code-body */
-			if ((CURRENT_TERMINAL) == 24) {
+			if ((CURRENT_TERMINAL) == 23) {
 				RESTORE_LEXER;
 				goto ZL1;
 			} else {
@@ -546,21 +486,21 @@ ZL2_code_Hblock_C_Ccode_Hbody:;
 			/* END OF INLINE: code-block::code-body */
 		}
 		/*UNREACHED*/
-	case 24:
+	case 23:
 		return;
 	default:
 		break;
 	}
 	return;
 ZL1:;
-	SAVE_LEXER (24);
+	SAVE_LEXER (23);
 	return;
 }
 
 static void
-ZR80(void)
+ZR78(void)
 {
-	if ((CURRENT_TERMINAL) == 24) {
+	if ((CURRENT_TERMINAL) == 23) {
 		return;
 	}
 	{
@@ -577,11 +517,11 @@ ZL1:;
 	{
 		/* BEGINNING OF ACTION: E_expected_comma */
 		{
-#line 403 "lctsyntax.act"
+#line 386 "lctsyntax.act"
 
 		error(ERROR_SERIOUS, "Syntax error: expected ','");
 	
-#line 585 "lctsyntax.c"
+#line 525 "lctsyntax.c"
 		}
 		/* END OF ACTION: E_expected_comma */
 	}
@@ -590,7 +530,7 @@ ZL1:;
 static void
 ZRargument_Hstmnt(void)
 {
-	if ((CURRENT_TERMINAL) == 24) {
+	if ((CURRENT_TERMINAL) == 23) {
 		return;
 	}
 	{
@@ -598,16 +538,16 @@ ZRargument_Hstmnt(void)
 		NStringT ZIctype;
 
 		switch (CURRENT_TERMINAL) {
-		case 23:
+		case 22:
 			break;
 		default:
 			goto ZL1;
 		}
 		ADVANCE_LEXER;
-		ZR113 (&ZIname);
-		/* BEGINNING OF INLINE: 112 */
+		ZR106 (&ZIname);
+		/* BEGINNING OF INLINE: 105 */
 		{
-			if ((CURRENT_TERMINAL) == 24) {
+			if ((CURRENT_TERMINAL) == 23) {
 				RESTORE_LEXER;
 				goto ZL1;
 			}
@@ -625,19 +565,19 @@ ZRargument_Hstmnt(void)
 			{
 				/* BEGINNING OF ACTION: E_expected_colon */
 				{
-#line 420 "lctsyntax.act"
+#line 403 "lctsyntax.act"
 
 		error(ERROR_SERIOUS, "Syntax error: expected ':'");
 	
-#line 633 "lctsyntax.c"
+#line 573 "lctsyntax.c"
 				}
 				/* END OF ACTION: E_expected_colon */
 			}
 		ZL2:;
 		}
-		/* END OF INLINE: 112 */
-		ZR113 (&ZIctype);
-		if ((CURRENT_TERMINAL) == 24) {
+		/* END OF INLINE: 105 */
+		ZR106 (&ZIctype);
+		if ((CURRENT_TERMINAL) == 23) {
 			RESTORE_LEXER;
 			goto ZL1;
 		}
@@ -659,25 +599,25 @@ ZRargument_Hstmnt(void)
 		nstring_destroy((&ZIname));
 		nstring_destroy((&ZIctype));
 	
-#line 663 "lctsyntax.c"
+#line 603 "lctsyntax.c"
 		}
 		/* END OF ACTION: define-additional-argument */
-		ZR114 ();
-		if ((CURRENT_TERMINAL) == 24) {
+		ZR108 ();
+		if ((CURRENT_TERMINAL) == 23) {
 			RESTORE_LEXER;
 			goto ZL1;
 		}
 	}
 	return;
 ZL1:;
-	SAVE_LEXER (24);
+	SAVE_LEXER (23);
 	return;
 }
 
 static void
 ZRheader_Hstmnt(void)
 {
-	if ((CURRENT_TERMINAL) == 24) {
+	if ((CURRENT_TERMINAL) == 23) {
 		return;
 	}
 	{
@@ -692,24 +632,24 @@ ZRheader_Hstmnt(void)
 			goto ZL1;
 		}
 		ADVANCE_LEXER;
-		ZR106 ();
-		if ((CURRENT_TERMINAL) == 24) {
+		ZR99 ();
+		if ((CURRENT_TERMINAL) == 23) {
 			RESTORE_LEXER;
 			goto ZL1;
 		}
 		/* BEGINNING OF ACTION: null-entry */
 		{
-#line 322 "lctsyntax.act"
+#line 305 "lctsyntax.act"
 
 		(ZIe) = NULL;
 	
-#line 707 "lctsyntax.c"
+#line 647 "lctsyntax.c"
 		}
 		/* END OF ACTION: null-entry */
 		ZRcode_Hblock (ZIe, &ZIsc);
-		ZR80 ();
+		ZR78 ();
 		ZRcode_Hblock (ZIe, &ZIsh);
-		if ((CURRENT_TERMINAL) == 24) {
+		if ((CURRENT_TERMINAL) == 23) {
 			RESTORE_LEXER;
 			goto ZL1;
 		}
@@ -727,18 +667,18 @@ ZRheader_Hstmnt(void)
 			code_destroy((ZIsh));
 		}
 	
-#line 731 "lctsyntax.c"
+#line 671 "lctsyntax.c"
 		}
 		/* END OF ACTION: set-headers */
-		ZR114 ();
-		if ((CURRENT_TERMINAL) == 24) {
+		ZR108 ();
+		if ((CURRENT_TERMINAL) == 23) {
 			RESTORE_LEXER;
 			goto ZL1;
 		}
 	}
 	return;
 ZL1:;
-	SAVE_LEXER (24);
+	SAVE_LEXER (23);
 	return;
 }
 
@@ -747,7 +687,7 @@ ZRaction_Hdefinition_C_Cparam_Hlist(paramP *ZOa)
 {
 	paramP ZIa;
 
-	if ((CURRENT_TERMINAL) == 24) {
+	if ((CURRENT_TERMINAL) == 23) {
 		return;
 	}
 	{
@@ -764,18 +704,18 @@ ZRaction_Hdefinition_C_Cparam_Hlist(paramP *ZOa)
 
 		(ZIa) = NULL;
 	
-#line 768 "lctsyntax.c"
+#line 708 "lctsyntax.c"
 		}
 		/* END OF ACTION: init-param */
-		ZR120 (&ZIa);
-		if ((CURRENT_TERMINAL) == 24) {
+		ZR114 (&ZIa);
+		if ((CURRENT_TERMINAL) == 23) {
 			RESTORE_LEXER;
 			goto ZL1;
 		}
 	}
 	goto ZL0;
 ZL1:;
-	SAVE_LEXER (24);
+	SAVE_LEXER (23);
 	return;
 ZL0:;
 	*ZOa = ZIa;
@@ -786,11 +726,11 @@ ZRcode_Hblock(entryP ZIe, codeP *ZOc)
 {
 	codeP ZIc;
 
-	if ((CURRENT_TERMINAL) == 24) {
+	if ((CURRENT_TERMINAL) == 23) {
 		return;
 	}
 	{
-		/* BEGINNING OF INLINE: 69 */
+		/* BEGINNING OF INLINE: 67 */
 		{
 			{
 				switch (CURRENT_TERMINAL) {
@@ -806,28 +746,28 @@ ZRcode_Hblock(entryP ZIe, codeP *ZOc)
 			{
 				/* BEGINNING OF ACTION: E_expected_code_start */
 				{
-#line 398 "lctsyntax.act"
+#line 381 "lctsyntax.act"
 
 		error(ERROR_SERIOUS, "Syntax error: expected  '@{'");
 	
-#line 814 "lctsyntax.c"
+#line 754 "lctsyntax.c"
 				}
 				/* END OF ACTION: E_expected_code_start */
 			}
 		ZL2:;
 		}
-		/* END OF INLINE: 69 */
+		/* END OF INLINE: 67 */
 		/* BEGINNING OF ACTION: init-code */
 		{
 #line 182 "lctsyntax.act"
 
 		(ZIc) = NULL;
 	
-#line 827 "lctsyntax.c"
+#line 767 "lctsyntax.c"
 		}
 		/* END OF ACTION: init-code */
 		ZRcode_Hblock_C_Ccode_Hbody (&ZIc, ZIe);
-		/* BEGINNING OF INLINE: 70 */
+		/* BEGINNING OF INLINE: 68 */
 		{
 			switch (CURRENT_TERMINAL) {
 			case 12:
@@ -835,24 +775,24 @@ ZRcode_Hblock(entryP ZIe, codeP *ZOc)
 					ADVANCE_LEXER;
 					/* BEGINNING OF ACTION: E_unexpected_eof */
 					{
-#line 423 "lctsyntax.act"
+#line 406 "lctsyntax.act"
 
 		error(ERROR_SERIOUS, "Unexpected End of File inside @{ @} block");
 	
-#line 843 "lctsyntax.c"
+#line 783 "lctsyntax.c"
 					}
 					/* END OF ACTION: E_unexpected_eof */
 				}
 				break;
-			case 24:
+			case 23:
 				RESTORE_LEXER;
 				goto ZL1;
 			default:
 				break;
 			}
 		}
-		/* END OF INLINE: 70 */
-		/* BEGINNING OF INLINE: 71 */
+		/* END OF INLINE: 68 */
+		/* BEGINNING OF INLINE: 69 */
 		{
 			{
 				switch (CURRENT_TERMINAL) {
@@ -868,21 +808,21 @@ ZRcode_Hblock(entryP ZIe, codeP *ZOc)
 			{
 				/* BEGINNING OF ACTION: E_expected_code_end */
 				{
-#line 390 "lctsyntax.act"
+#line 373 "lctsyntax.act"
 
 		error(ERROR_SERIOUS, "Syntax error: expected  '@}'");
 	
-#line 876 "lctsyntax.c"
+#line 816 "lctsyntax.c"
 				}
 				/* END OF ACTION: E_expected_code_end */
 			}
 		ZL5:;
 		}
-		/* END OF INLINE: 71 */
+		/* END OF INLINE: 69 */
 	}
 	goto ZL0;
 ZL1:;
-	SAVE_LEXER (24);
+	SAVE_LEXER (23);
 	return;
 ZL0:;
 	*ZOc = ZIc;
@@ -892,19 +832,19 @@ static void
 ZRstatement(void)
 {
 	switch (CURRENT_TERMINAL) {
-	case 22:
+	case 21:
 		{
 			ZRaction_Hdefinition ();
-			if ((CURRENT_TERMINAL) == 24) {
+			if ((CURRENT_TERMINAL) == 23) {
 				RESTORE_LEXER;
 				goto ZL1;
 			}
 		}
 		break;
-	case 23:
+	case 22:
 		{
 			ZRargument_Hstmnt ();
-			if ((CURRENT_TERMINAL) == 24) {
+			if ((CURRENT_TERMINAL) == 23) {
 				RESTORE_LEXER;
 				goto ZL1;
 			}
@@ -913,16 +853,7 @@ ZRstatement(void)
 	case 19:
 		{
 			ZRheader_Hstmnt ();
-			if ((CURRENT_TERMINAL) == 24) {
-				RESTORE_LEXER;
-				goto ZL1;
-			}
-		}
-		break;
-	case 21:
-		{
-			ZRmap_Hstmnt ();
-			if ((CURRENT_TERMINAL) == 24) {
+			if ((CURRENT_TERMINAL) == 23) {
 				RESTORE_LEXER;
 				goto ZL1;
 			}
@@ -931,27 +862,27 @@ ZRstatement(void)
 	case 20:
 		{
 			ZRtrailer_Hstmnt ();
-			if ((CURRENT_TERMINAL) == 24) {
+			if ((CURRENT_TERMINAL) == 23) {
 				RESTORE_LEXER;
 				goto ZL1;
 			}
 		}
 		break;
-	case 24:
+	case 23:
 		return;
 	default:
 		goto ZL1;
 	}
 	return;
 ZL1:;
-	SAVE_LEXER (24);
+	SAVE_LEXER (23);
 	return;
 }
 
 static void
 ZRtrailer_Hstmnt(void)
 {
-	if ((CURRENT_TERMINAL) == 24) {
+	if ((CURRENT_TERMINAL) == 23) {
 		return;
 	}
 	{
@@ -966,24 +897,24 @@ ZRtrailer_Hstmnt(void)
 			goto ZL1;
 		}
 		ADVANCE_LEXER;
-		ZR106 ();
-		if ((CURRENT_TERMINAL) == 24) {
+		ZR99 ();
+		if ((CURRENT_TERMINAL) == 23) {
 			RESTORE_LEXER;
 			goto ZL1;
 		}
 		/* BEGINNING OF ACTION: null-entry */
 		{
-#line 322 "lctsyntax.act"
+#line 305 "lctsyntax.act"
 
 		(ZIe) = NULL;
 	
-#line 981 "lctsyntax.c"
+#line 912 "lctsyntax.c"
 		}
 		/* END OF ACTION: null-entry */
 		ZRcode_Hblock (ZIe, &ZIsc);
-		ZR80 ();
+		ZR78 ();
 		ZRcode_Hblock (ZIe, &ZIsh);
-		if ((CURRENT_TERMINAL) == 24) {
+		if ((CURRENT_TERMINAL) == 23) {
 			RESTORE_LEXER;
 			goto ZL1;
 		}
@@ -1001,25 +932,25 @@ ZRtrailer_Hstmnt(void)
 			code_destroy((ZIsh));
 		}
 	
-#line 1005 "lctsyntax.c"
+#line 936 "lctsyntax.c"
 		}
 		/* END OF ACTION: set-trailers */
-		ZR114 ();
-		if ((CURRENT_TERMINAL) == 24) {
+		ZR108 ();
+		if ((CURRENT_TERMINAL) == 23) {
 			RESTORE_LEXER;
 			goto ZL1;
 		}
 	}
 	return;
 ZL1:;
-	SAVE_LEXER (24);
+	SAVE_LEXER (23);
 	return;
 }
 
 static void
 ZRaction_Hdefinition(void)
 {
-	if ((CURRENT_TERMINAL) == 24) {
+	if ((CURRENT_TERMINAL) == 23) {
 		return;
 	}
 	{
@@ -1030,22 +961,22 @@ ZRaction_Hdefinition(void)
 		codeP ZIc;
 
 		switch (CURRENT_TERMINAL) {
-		case 22:
+		case 21:
 			break;
 		default:
 			goto ZL1;
 		}
 		ADVANCE_LEXER;
-		ZR113 (&ZIn);
+		ZR106 (&ZIn);
 		ZRaction_Hdefinition_C_Cfunction_Htype_Hdefn (&ZIin, &ZIout);
-		ZR106 ();
-		if ((CURRENT_TERMINAL) == 24) {
+		ZR99 ();
+		if ((CURRENT_TERMINAL) == 23) {
 			RESTORE_LEXER;
 			goto ZL1;
 		}
 		/* BEGINNING OF ACTION: get-entry-action */
 		{
-#line 304 "lctsyntax.act"
+#line 287 "lctsyntax.act"
 
 		(ZIea) = table_get_entry(tree_get_table(lxi_ast), (&ZIn));
 		if ((ZIea)) {
@@ -1063,12 +994,12 @@ ZRaction_Hdefinition(void)
 		}
 		nstring_destroy((&ZIn));
 	
-#line 1067 "lctsyntax.c"
+#line 998 "lctsyntax.c"
 		}
 		/* END OF ACTION: get-entry-action */
 		/* BEGINNING OF ACTION: check-action-params */
 		{
-#line 326 "lctsyntax.act"
+#line 309 "lctsyntax.act"
 
 		if ((ZIea)) {
 			/*TODO assert (entry_is_action((ZIea))); */
@@ -1111,17 +1042,17 @@ ZRaction_Hdefinition(void)
 		param_destroy((ZIin));
 		param_destroy((ZIout));
 	
-#line 1115 "lctsyntax.c"
+#line 1046 "lctsyntax.c"
 		}
 		/* END OF ACTION: check-action-params */
 		ZRcode_Hblock (ZIea, &ZIc);
-		if ((CURRENT_TERMINAL) == 24) {
+		if ((CURRENT_TERMINAL) == 23) {
 			RESTORE_LEXER;
 			goto ZL1;
 		}
 		/* BEGINNING OF ACTION: define-action */
 		{
-#line 369 "lctsyntax.act"
+#line 352 "lctsyntax.act"
 
 		if ((ZIea)) {
 			/* TODO: assert entry_is_action */
@@ -1138,25 +1069,25 @@ ZRaction_Hdefinition(void)
 			code_destroy((ZIc));
 		}
 	
-#line 1142 "lctsyntax.c"
+#line 1073 "lctsyntax.c"
 		}
 		/* END OF ACTION: define-action */
-		ZR114 ();
-		if ((CURRENT_TERMINAL) == 24) {
+		ZR108 ();
+		if ((CURRENT_TERMINAL) == 23) {
 			RESTORE_LEXER;
 			goto ZL1;
 		}
 	}
 	return;
 ZL1:;
-	SAVE_LEXER (24);
+	SAVE_LEXER (23);
 	return;
 }
 
 static void
 ZRaction_Hdefinition_C_Cparam_Hlist_C_Cparam(paramP *ZIa)
 {
-	if ((CURRENT_TERMINAL) == 24) {
+	if ((CURRENT_TERMINAL) == 23) {
 		return;
 	}
 	{
@@ -1164,7 +1095,7 @@ ZRaction_Hdefinition_C_Cparam_Hlist_C_Cparam(paramP *ZIa)
 		NStringT ZIt;
 		bool ZIisref;
 
-		/* BEGINNING OF INLINE: 93 */
+		/* BEGINNING OF INLINE: 86 */
 		{
 			switch (CURRENT_TERMINAL) {
 			case 14:
@@ -1175,7 +1106,7 @@ ZRaction_Hdefinition_C_Cparam_Hlist_C_Cparam(paramP *ZIa)
 
 		nstring_copy_cstring(&ZIn, lct_tokbuf);
 	
-#line 1179 "lctsyntax.c"
+#line 1110 "lctsyntax.c"
 					}
 					/* END OF EXTRACT: ident */
 					ADVANCE_LEXER;
@@ -1189,14 +1120,14 @@ ZRaction_Hdefinition_C_Cparam_Hlist_C_Cparam(paramP *ZIa)
 
 		nstring_init(&(ZIn));
 	
-#line 1193 "lctsyntax.c"
+#line 1124 "lctsyntax.c"
 					}
 					/* END OF ACTION: empty-ident */
 				}
 				break;
 			}
 		}
-		/* END OF INLINE: 93 */
+		/* END OF INLINE: 86 */
 		switch (CURRENT_TERMINAL) {
 		case 0:
 			break;
@@ -1212,7 +1143,7 @@ ZRaction_Hdefinition_C_Cparam_Hlist_C_Cparam(paramP *ZIa)
 
 		nstring_copy_cstring(&ZIt, lct_tokbuf);
 	
-#line 1216 "lctsyntax.c"
+#line 1147 "lctsyntax.c"
 			}
 			/* END OF EXTRACT: ident */
 			break;
@@ -1220,7 +1151,7 @@ ZRaction_Hdefinition_C_Cparam_Hlist_C_Cparam(paramP *ZIa)
 			goto ZL1;
 		}
 		ADVANCE_LEXER;
-		/* BEGINNING OF INLINE: 96 */
+		/* BEGINNING OF INLINE: 89 */
 		{
 			switch (CURRENT_TERMINAL) {
 			case 2:
@@ -1230,7 +1161,7 @@ ZRaction_Hdefinition_C_Cparam_Hlist_C_Cparam(paramP *ZIa)
 					{
 #line 174 "lctsyntax.act"
  (ZIisref) = true;  
-#line 1234 "lctsyntax.c"
+#line 1165 "lctsyntax.c"
 					}
 					/* END OF ACTION: true */
 				}
@@ -1241,14 +1172,14 @@ ZRaction_Hdefinition_C_Cparam_Hlist_C_Cparam(paramP *ZIa)
 					{
 #line 175 "lctsyntax.act"
  (ZIisref) = false; 
-#line 1245 "lctsyntax.c"
+#line 1176 "lctsyntax.c"
 					}
 					/* END OF ACTION: false */
 				}
 				break;
 			}
 		}
-		/* END OF INLINE: 96 */
+		/* END OF INLINE: 89 */
 		/* BEGINNING OF ACTION: append-param */
 		{
 #line 270 "lctsyntax.act"
@@ -1268,50 +1199,20 @@ ZRaction_Hdefinition_C_Cparam_Hlist_C_Cparam(paramP *ZIa)
 			nstring_destroy((&ZIt));
 		}
 	
-#line 1272 "lctsyntax.c"
+#line 1203 "lctsyntax.c"
 		}
 		/* END OF ACTION: append-param */
 	}
 	return;
 ZL1:;
-	SAVE_LEXER (24);
+	SAVE_LEXER (23);
 	return;
 }
 
 static void
-ZR104(void)
+ZR99(void)
 {
-	if ((CURRENT_TERMINAL) == 24) {
-		return;
-	}
-	{
-		switch (CURRENT_TERMINAL) {
-		case 1:
-			break;
-		default:
-			goto ZL1;
-		}
-		ADVANCE_LEXER;
-	}
-	return;
-ZL1:;
-	{
-		/* BEGINNING OF ACTION: E_expected_arrow */
-		{
-#line 412 "lctsyntax.act"
-
-		error(ERROR_SERIOUS, "Syntax error: expected '->'");
-	
-#line 1306 "lctsyntax.c"
-		}
-		/* END OF ACTION: E_expected_arrow */
-	}
-}
-
-static void
-ZR106(void)
-{
-	if ((CURRENT_TERMINAL) == 24) {
+	if ((CURRENT_TERMINAL) == 23) {
 		return;
 	}
 	{
@@ -1328,23 +1229,23 @@ ZL1:;
 	{
 		/* BEGINNING OF ACTION: E_expected_define */
 		{
-#line 408 "lctsyntax.act"
+#line 391 "lctsyntax.act"
 
 		error(ERROR_SERIOUS, "Syntax error: expected '='");
 
 	
-#line 1337 "lctsyntax.c"
+#line 1238 "lctsyntax.c"
 		}
 		/* END OF ACTION: E_expected_define */
 	}
 }
 
 static void
-ZR113(NStringT *ZOctype)
+ZR106(NStringT *ZOctype)
 {
 	NStringT ZIctype;
 
-	if ((CURRENT_TERMINAL) == 24) {
+	if ((CURRENT_TERMINAL) == 23) {
 		return;
 	}
 	{
@@ -1356,7 +1257,7 @@ ZR113(NStringT *ZOctype)
 
 		nstring_copy_cstring(&ZIctype, lct_tokbuf);
 	
-#line 1360 "lctsyntax.c"
+#line 1261 "lctsyntax.c"
 			}
 			/* END OF EXTRACT: ident */
 			break;
@@ -1374,16 +1275,16 @@ ZL1:;
 
 		nstring_init(&(ZIctype));
 	
-#line 1378 "lctsyntax.c"
+#line 1279 "lctsyntax.c"
 		}
 		/* END OF ACTION: empty-ident */
 		/* BEGINNING OF ACTION: E_expected_ident */
 		{
-#line 395 "lctsyntax.act"
+#line 378 "lctsyntax.act"
 
 		error(ERROR_SERIOUS, "Syntax error: expected  identifier");
 	
-#line 1387 "lctsyntax.c"
+#line 1288 "lctsyntax.c"
 		}
 		/* END OF ACTION: E_expected_ident */
 	}
@@ -1393,15 +1294,15 @@ ZL0:;
 #line 147 "lctsyntax.act"
 
 		nstring_assign(ZOctype, (&ZIctype));
-	#line 1397 "lctsyntax.c"
+	#line 1298 "lctsyntax.c"
 	}
 	/* END OF RESULT ASSIGNMENT: IDENT */
 }
 
 static void
-ZR114(void)
+ZR108(void)
 {
-	if ((CURRENT_TERMINAL) == 24) {
+	if ((CURRENT_TERMINAL) == 23) {
 		return;
 	}
 	{
@@ -1418,18 +1319,18 @@ ZL1:;
 	{
 		/* BEGINNING OF ACTION: E_expected_semicolon */
 		{
-#line 416 "lctsyntax.act"
+#line 399 "lctsyntax.act"
 
 		error(ERROR_SERIOUS, "Syntax error: expected ';'");
 	
-#line 1426 "lctsyntax.c"
+#line 1327 "lctsyntax.c"
 		}
 		/* END OF ACTION: E_expected_semicolon */
 	}
 }
 
 static void
-ZR120(paramP *ZIa)
+ZR114(paramP *ZIa)
 {
 	switch (CURRENT_TERMINAL) {
 	case 7:
@@ -1443,7 +1344,7 @@ ZR120(paramP *ZIa)
 			switch (CURRENT_TERMINAL) {
 			case 7:
 				break;
-			case 24:
+			case 23:
 				RESTORE_LEXER;
 				goto ZL1;
 			default:
@@ -1452,22 +1353,22 @@ ZR120(paramP *ZIa)
 			ADVANCE_LEXER;
 		}
 		break;
-	case 24:
+	case 23:
 		return;
 	default:
 		goto ZL1;
 	}
 	return;
 ZL1:;
-	SAVE_LEXER (24);
+	SAVE_LEXER (23);
 	return;
 }
 
 /* BEGINNING OF TRAILER */
 
-#line 432 "lctsyntax.act"
+#line 415 "lctsyntax.act"
 
 
-#line 1472 "lctsyntax.c"
+#line 1373 "lctsyntax.c"
 
 /* END OF FILE */

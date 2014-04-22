@@ -283,23 +283,6 @@
 		}
 	@};
 
-	<make-map>: (lexitype :IDENT, ctype :IDENT) -> () = @{
-		struct entry *et= table_get_entry(tree_get_table(lxi_ast), @&lexitype);
-		if (et != NULL) {
-			if (entry_is_type(et)) {
-				struct type* t = entry_get_type(et);
-				type_map(t, @&ctype);
-			} else {
-				error(ERROR_SERIOUS, "Name in maps section is not a type");
-				nstring_destroy(@&ctype);
-			}
-		} else {
-			error(ERROR_SERIOUS, "Unknown type in mapping");
-			nstring_destroy(@&ctype);
-		}
-		nstring_destroy(@&lexitype);
-	@};
-
 	<get-entry-action>: (i :IDENT) -> (ea :ENTRYP) = @{
 		@ea = table_get_entry(tree_get_table(lxi_ast), @&i);
 		if (@ea) {

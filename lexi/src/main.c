@@ -214,9 +214,9 @@ main(int argc, char **argv)
 	/* Process input file */
 	ast = init_ast();
 
-	set_builtin_char_lexi_type    (ast, "CHARACTER", "char");
-	set_builtin_string_lexi_type  (ast, "STRING",    "char *");
-	set_builtin_int_lexi_type     (ast, "INTEGER",   "int");
+	set_builtin_char_lexi_type    (ast, "CHARACTER");
+	set_builtin_string_lexi_type  (ast, "STRING");
+	set_builtin_int_lexi_type     (ast, "INTEGER");
 	set_builtin_terminal_lexi_type(ast, "TERMINAL");
 
 	process_lxi_file(argv[0], ast);

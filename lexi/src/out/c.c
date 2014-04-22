@@ -233,12 +233,7 @@ out_locals(struct LocalNamesT *locals, unsigned int d, FILE *lex_out)
 
 		/* TODO: assert(entry_is_type(t)); */
 
-		if (et->u.type->mapped) {
-			prefixtype = "";
-			st = nstring_to_cstring(&et->u.type->mapping);
-		} else {
-			st = nstring_to_cstring(entry_key(et));
-		}
+		st = nstring_to_cstring(entry_key(et));
 
 		out_indent(lex_out, d);
 		fprintf(lex_out,"%s%s %s%s;\n", prefixtype, st, prefixvar, s);
@@ -288,12 +283,7 @@ out_action(FILE *lex_out, struct ast *ast,
 		et = lexer_terminal_type(ast);
 		/* TODO assert(entry_is_type(t)); */
 
-		if (et->u.type->mapped) {
-			prefixtype="";
-			st = nstring_to_cstring(&et->u.type->mapping);
-		} else {
-			st = nstring_to_cstring(entry_key(et));
-		}
+		st = nstring_to_cstring(entry_key(et));
 
 		out_indent(lex_out, d);
 		fprintf(lex_out,"%s%s ZT1;\n", prefixtype, st);

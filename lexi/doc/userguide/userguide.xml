@@ -832,15 +832,6 @@ firstly define lexemes
 			<para>There is not yet an intended syntax for the code block but it should 
 				closely resemble the sid act file syntax.</para>
 		</section>
-
-		<section>
-			<title>Type mappings</title>
-
-			<para>This is not yet operational. It should be for 2.0. It is used for action arguments 
-			  	type checking. They map an internal lexi type to a C type identifier.</para>
-
-			<programlisting language="lxi">MAPPING lexitype -> ctype ;</programlisting>
-		</section>
 	</chapter>
 
 	<chapter id="interface">

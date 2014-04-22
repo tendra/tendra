@@ -41,7 +41,6 @@
 
 	kw-header;
 	kw-trailer;
-	kw-map;
 	kw-action;
 	kw-argument;
 
@@ -57,8 +56,6 @@
 
 	<init-param>:   () -> (:PARAM_LIST);
 	<append-param>: (:PARAM_LIST &, :IDENT, :IDENT, :BOOL) -> ();
-
-	<make-map>: (:IDENT, :IDENT) -> ();
 
 	<define-action>:       (:ENTRYP, :CODE) -> ();
 	<check-action-params>: (:ENTRYP, :PARAM_LIST, :PARAM_LIST) -> ();
@@ -191,25 +188,6 @@
 		};
 	};
 
-	map-stmnt: () -> () = {
-		kw-map;
-		lexitype = ident;
-		{
-			arrow;
-		##
-			<E_expected_arrow>;
-		};
-
-		ctype = ident;
-		<make-map>(lexitype, ctype);
-
-		{
-			semicolon;
-		##
-			<E_expected_semicolon>;
-		};
-	};
-
 	action-definition: () -> () [
 
 		param-list: ( ) -> (a :PARAM_LIST) [
@@ -333,8 +311,6 @@
 		trailer-stmnt;
 	||
 		action-definition;
-	||
-		map-stmnt;
 	||
 		argument-stmnt;
 	};

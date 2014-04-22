@@ -533,11 +533,12 @@
 		|| zone-defn(z);
 	};
 
-	unit: (z:ZONE) -> () = {
-		command-list ( z );
+	unit: (z :ZONE) -> () = {
+		command-list(z);
 		{
 			eof;
-			##	<syntax-error>;
+		##
+			<syntax-error>;
 		};
 	};
 

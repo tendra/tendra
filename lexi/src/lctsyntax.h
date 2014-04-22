@@ -65,7 +65,7 @@ extern void read_lct_unit(void);
 #define lct_lex_kw_Htrailer (20)
 #define lct_lex_code_Href (16)
 #define lct_lex_comma (5)
-#define lct_lex_kw_Haction (22)
+#define lct_lex_kw_Haction (21)
 #define lct_lex_unknown (18)
 #define lct_lex_ident (14)
 #define lct_lex_close (7)
@@ -76,21 +76,20 @@ extern void read_lct_unit(void);
 #define lct_lex_eof (13)
 #define lct_lex_ref (2)
 #define lct_lex_semicolon (4)
-#define lct_lex_kw_Hmap (21)
 #define lct_lex_code_Hident (15)
 #define lct_lex_code_Hstring (17)
 #define lct_lex_define (3)
-#define lct_lex_kw_Hargument (23)
+#define lct_lex_kw_Hargument (22)
 #define lct_lex_code_Hstart (8)
 #define lct_lex_kw_Hheader (19)
 
 /* BEGINNING OF TRAILER */
 
-#line 436 "lctsyntax.act"
+#line 419 "lctsyntax.act"
 
 
 	#endif
 
-#line 95 "lctsyntax.h"
+#line 94 "lctsyntax.h"
 
 /* END OF FILE */

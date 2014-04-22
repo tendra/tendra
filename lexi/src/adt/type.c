@@ -22,19 +22,8 @@ type_create(bool predefined)
 	struct type *t;
 
 	t = xmalloc(sizeof *t);
-
-	nstring_init(&t->mapping);
-
-	t->mapped     = false;
 	t->predefined = predefined;
 
 	return t;
-}
-
-void
-type_map(struct type *t, NStringT *mapping)
-{
-	nstring_assign(&t->mapping, mapping);
-	t->mapped = true;
 }
 
