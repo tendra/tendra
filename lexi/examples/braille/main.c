@@ -71,7 +71,7 @@ int read_char(void) {
 	prev = curr;
 	curr = fgetc(stdin);
 
-	/* TODO maybe set capital here and convert to lowercase so mappings work for starts of words */
+	/* TODO: maybe set capital here and convert to lowercase so mappings work for starts of words */
 	capital = is_upper(lookup_char(curr));
 
 	return curr;
@@ -82,17 +82,17 @@ int get_word(int c) {
 	int i;
 
 	/* the -1 here allows for composition characters */
-	for(i = 0; i < sizeof(word) - 1; i++) {
+	for (i = 0; i < sizeof(word) - 1; i++) {
 		int n;
 
-		if(!i) {
+		if (!i) {
 			n = c;
 		} else {
 			n = read_char_aux();
 		}
 
-		if(!isspace(n)) {
-			if(capital) {
+		if (!isspace(n)) {
+			if (capital) {
 				word[i++] = ',';
 			}
 
@@ -117,11 +117,11 @@ int get_number(int c) {
 
 	word[0] = '#';
 	word[1] = c;
-	for(i = 2; i < sizeof(word); i++) {
+	for (i = 2; i < sizeof(word); i++) {
 		int c;
 
 		c = read_char_aux();
-		if(is_digit(lookup_char(c)) || c == '.') {
+		if (is_digit(lookup_char(c)) || c == '.') {
 			word[i] = c;
 			continue;
 		}
@@ -138,7 +138,7 @@ int get_number(int c) {
 }
 
 int unknown_token(int c) {
-	if(c == EOF) {
+	if (c == EOF) {
 		return LEX_EOF;
 	}
 
@@ -148,7 +148,7 @@ int unknown_token(int c) {
 void emit(char *word, unsigned int *col) {
 	size_t len;
 
-	if(!strcmp(word, "\n")) {
+	if (!strcmp(word, "\n")) {
 		printf("\n");
 		col = 0;
 		return;
@@ -160,7 +160,7 @@ void emit(char *word, unsigned int *col) {
 	 * so overhanging words are simply moved to the following line.
 	 */
 	len = strlen(word);
-	if(*col + len > 40) {
+	if (*col + len > 40) {
 		*col = 0;
 		printf("\n");
 	}
@@ -174,8 +174,8 @@ int main(int argc, char *argv[]) {
 	unsigned int col;
 	int c;
 
-	/* TODO and for -o to output */
-	while((c = getopt(argc, argv, "hc")) != -1) {
+	/* TODO: and for -o to output */
+	while (c = getopt(argc, argv, "hc"), c != -1) {
 		switch(c) {
 		case 'c':
 			grade2 = true;
@@ -189,11 +189,11 @@ int main(int argc, char *argv[]) {
 	}
 
 	col = 0;
-	while((t = read_token()) != LEX_EOF) {
+	while (t = read_token(), t != LEX_EOF) {
 		switch(t) {
 		case lex_word:
 		case lex_number:
-			if(col) {
+			if (col) {
 				printf(" ");
 			}
 			emit(word, &col);

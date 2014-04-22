@@ -12,7 +12,7 @@
  * serves to stretch the limits of Lexi's features and to provide discussion
  * for future development. As such it is work in progress.
  *
- * TODO a lexer to go in the other direction would be interesting, too
+ * TODO: a lexer to go in the other direction would be interesting, too
  * the conditionals would be an FSM for in-number, and so on.
  *
  */

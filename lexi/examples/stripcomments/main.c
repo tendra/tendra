@@ -31,7 +31,7 @@ enum {
 char word[256];
 
 int unknown_token(int c) {
-	if(c == EOF) {
+	if (c == EOF) {
 		return LEX_EOF;
 	}
 
@@ -61,10 +61,10 @@ int pass_string(int delim) {
 
 	putc(delim, stdout);
 
-	for(;;) {
+	for (;;) {
 		c = read_char();
 
-		if(c == EOF) {
+		if (c == EOF) {
 			return LEX_EOF;
 		}
 
@@ -74,13 +74,13 @@ int pass_string(int delim) {
 		 * If we're in an escape sequence, this character takes us out of it.
 		 * If we're not, then a \ takes us into one.
 		 */
-		if(inescape) {
+		if (inescape) {
 			inescape = 0;
-		} else if(c == '\\') {
+		} else if (c == '\\') {
 			inescape = 1;
 		}
 
-		if(!inescape && c == delim) {
+		if (!inescape && c == delim) {
 			return lex_unknown;
 		}
 	}
@@ -92,14 +92,14 @@ int pass_string(int delim) {
 int skip_single_comment(int c0, int c1) {
 	int c;
 
-	for(;;) {
+	for (;;) {
 		c = read_char();
 
-		if(c == EOF) {
+		if (c == EOF) {
 			return LEX_EOF;
 		}
 
-		if(c == '\n') {
+		if (c == '\n') {
 			ungetc(c, stdin);	/* to preserve the newline */
 			return lex_unknown;
 		}
@@ -112,21 +112,21 @@ int skip_single_comment(int c0, int c1) {
 int skip_block_comment(int c0, int c1) {
 	int c;
 
-	for(;;) {
+	for (;;) {
 		c = read_char();
 
-		if(c == EOF) {
+		if (c == EOF) {
 			return LEX_EOF;
 		}
 
-		if(c == '*') {
+		if (c == '*') {
 			c = read_char();
 
-			if(c == EOF) {
+			if (c == EOF) {
 				return LEX_EOF;
 			}
 
-			if(c == '/') {
+			if (c == '/') {
 				return lex_unknown;
 			}
 		}
@@ -136,14 +136,14 @@ int skip_block_comment(int c0, int c1) {
 int main(int argc, char *argv[]) {
 	int t;
 
-	if(argc != 1) {
+	if (argc != 1) {
 		fputs("usage: stripc\n", stderr);
 		return 1;
 	}
 
 	do {
 		t = lexi_read_token();
-	} while(t != LEX_EOF);
+	} while (t != LEX_EOF);
 
 	return 0;
 }

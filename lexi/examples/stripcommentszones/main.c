@@ -31,7 +31,7 @@ enum {
 char word[256];
 
 int unknown_token(int c) {
-	if(c == EOF) {
+	if (c == EOF) {
 		return LEX_EOF;
 	}
 
@@ -61,10 +61,10 @@ int pass_string(int delim) {
 
 	putc(delim, stdout);
 
-	for(;;) {
+	for (;;) {
 		c = read_char();
 
-		if(c == EOF) {
+		if (c == EOF) {
 			return LEX_EOF;
 		}
 
@@ -74,13 +74,13 @@ int pass_string(int delim) {
 		 * If we're in an escape sequence, this character takes us out of it.
 		 * If we're not, then a \ takes us into one.
 		 */
-		if(inescape) {
+		if (inescape) {
 			inescape = 0;
-		} else if(c == '\\') {
+		} else if (c == '\\') {
 			inescape = 1;
 		}
 
-		if(!inescape && c == delim) {
+		if (!inescape && c == delim) {
 			return lex_unknown;
 		}
 	}
@@ -89,14 +89,14 @@ int pass_string(int delim) {
 int main(int argc, char *argv[]) {
 	int t;
 
-	if(argc != 1) {
+	if (argc != 1) {
 		fputs("usage: stripc\n", stderr);
 		return 1;
 	}
 
 	do {
 		t = lexi_read_token(lexi_current_lexer_state);
-	} while(t != LEX_EOF);
+	} while (t != LEX_EOF);
 
 	return 0;
 }
