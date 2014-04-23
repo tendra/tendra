@@ -128,16 +128,16 @@ bool lexi_group(enum lexi_groups group, int c) {
 
 
 #include <string.h>
-int lexi_keyword(const char *identifier, int notfound) {
-	if (0 == strcmp(identifier, "ACTION")) return lex_kw_Haction;
-	if (0 == strcmp(identifier, "DEFAULT")) return lex_default;
-	if (0 == strcmp(identifier, "GROUP")) return lex_kw_Hgroup;
-	if (0 == strcmp(identifier, "KEYWORD")) return lex_kw_Hkeyword;
-	if (0 == strcmp(identifier, "MAPPING")) return lex_kw_Hmapping;
-	if (0 == strcmp(identifier, "TOKEN")) return lex_kw_Htoken;
-	if (0 == strcmp(identifier, "TYPE")) return lex_kw_Htype;
-	if (0 == strcmp(identifier, "ZONE")) return lex_kw_Hzone;
-	if (0 == strcmp(identifier, "white")) return lex_white;
+int lexi_keyword(const char *ident, int notfound) {
+	if (0 == strcmp(ident, "ACTION")) return lex_kw_Haction;
+	if (0 == strcmp(ident, "DEFAULT")) return lex_default;
+	if (0 == strcmp(ident, "GROUP")) return lex_kw_Hgroup;
+	if (0 == strcmp(ident, "KEYWORD")) return lex_kw_Hkeyword;
+	if (0 == strcmp(ident, "MAPPING")) return lex_kw_Hmapping;
+	if (0 == strcmp(ident, "TOKEN")) return lex_kw_Htoken;
+	if (0 == strcmp(ident, "TYPE")) return lex_kw_Htype;
+	if (0 == strcmp(ident, "ZONE")) return lex_kw_Hzone;
+	if (0 == strcmp(ident, "white")) return lex_white;
 	return notfound;
 }
 /* PRE-PASS ANALYSERS */

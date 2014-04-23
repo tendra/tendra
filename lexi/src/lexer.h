@@ -75,7 +75,7 @@ enum lexi_groups {
 bool lexi_group(enum lexi_groups group, int c);
 
 /* Identify a keyword */
-int lexi_keyword(const char *identifier, int notfound);
+int lexi_keyword(const char *ident, int notfound);
 
 /* Identify a token */
 int lexi_read_token(struct lexi_state *state);

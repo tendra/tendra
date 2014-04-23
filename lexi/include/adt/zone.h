@@ -49,7 +49,7 @@ struct zone {
 
 	struct keyword *keywords;
 	struct group_name *groups;
-	struct group_name *white_space;
+	struct group_name *white;
 
 	struct cmd_list *local;
 	struct cmd_list *enter;

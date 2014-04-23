@@ -172,10 +172,11 @@
 	@};
 
 	<make-white>: (z : ZONE, s : STRING) -> () = @{
-		if (@z->white_space) {
-			error (ERROR_SERIOUS, "White space group already defined");
+		if (@z->white) {
+			error(ERROR_SERIOUS, "White space group already defined");
 		}
-		@z->white_space = make_group(@z, "white", @s);
+
+		@z->white = make_group(@z, "white", @s);
 	@};
 
 	<make-group>: (z :ZONE, i :IDENT, s :STRING) -> () = @{

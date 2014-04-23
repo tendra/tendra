@@ -239,8 +239,8 @@ main(int argc, char **argv)
 	}
 
 	/* Generate output */
- 	if (tree_get_globalzone(ast)->white_space == NULL) {
-		tree_get_globalzone(ast)->white_space = make_group(tree_get_globalzone(ast), "white", " \t\n");
+ 	if (tree_get_globalzone(ast)->white == NULL) {
+		tree_get_globalzone(ast)->white = make_group(tree_get_globalzone(ast), "white", " \t\n");
 	}
 
 	if (out->out_all != NULL) {

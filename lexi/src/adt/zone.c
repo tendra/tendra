@@ -99,9 +99,9 @@ new_zone(struct ast *ast)
 	new->main = NULL;
 	new->pre  = NULL;
 
-	new->keywords    = NULL;
-	new->groups      = NULL;
-	new->white_space = NULL;
+	new->keywords = NULL;
+	new->groups   = NULL;
+	new->white    = NULL;
 
 	new->local = NULL;
 	new->enter = NULL;
