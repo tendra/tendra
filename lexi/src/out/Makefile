@@ -6,6 +6,8 @@
 CCOPTS+=	-I${.CURDIR}/..
 
 SRCS+=	c.c
+SRCS+=	h.c
+SRCS+=	ch.c
 SRCS+=	dot.c
 SRCS+=	common.c
 

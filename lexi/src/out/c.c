@@ -57,8 +57,7 @@ enum {
 /*
  * OUTPUT OPTIONS
  *
- * The flag in_pre_pass is used to indicate the preliminary pass to
- * out_pass. read_name gives the name of the character reading
+ * read_name gives the name of the character reading
  * function used in the output routines.
  */
 static const char *read_token_name;
@@ -68,13 +67,9 @@ static const char *lexi_prefix;
  * OUTPUT FILE
  *
  * These variables gives the output files. out is used within this file
- * as a shorthand for lex_out. Likewise lex_out_h is a convenience
- * for the output header.
- *
- * These correspond to options.out[0].file and [1] respectively.
+ * as a shorthand for lex_out.
  */
 FILE *lex_out;
-FILE *lex_out_h;
 
 
 /*
@@ -106,7 +101,6 @@ char_lit(int c)
 
 	return buf;
 }
-
 
 /*
  * FIND THE LENGTH REQUIRED FOR THE TOKEN BUFFER
@@ -177,19 +171,14 @@ out_keyword(struct keyword *kw, void *opaque)
  * the generated API.
  */
 static void
-out_keywords(struct ast *ast, FILE *out, FILE *out_h)
+out_keywords(struct ast *ast, FILE *out)
 {
 	assert(ast != NULL);
 	assert(out != NULL);
-	assert(out_h != NULL);
 
 	if (ast->global->keywords == NULL) {
 		return;
 	}
-
-	fputs("\n/* Identify a keyword */\n", out_h);
-	fprintf(out_h, "int %skeyword(const char *identifier, int notfound);\n",
-		lexi_prefix);
 
 	fprintf(out, "#include <string.h>\n");
 	fprintf(out, "int %skeyword(const char *identifier, int notfound) {\n",
@@ -872,44 +861,6 @@ count_nonempty_groups(struct ast *ast)
 	return i;
 }
 
-/*
- * OUTPUT THE MACROS NEEDED TO ACCESS THE LOOKUP TABLE
- */
-static void
-out_macros_zone(struct options *opt, struct zone *z)
-{
-	struct group_name *gn;
-	struct zone *p;
-
-	/* Group interface */
-	for (p = z; p != NULL; p = p->opt) {
-		for (gn = p->groups; gn != NULL; gn = gn->next) {
-			unsigned long m;
-
-			if (is_group_empty(gn->g)) {
-				m = 0;
-			} else {
-				m = group_number(z->ast, gn->g);
-			}
-
-			fputc('\t', lex_out_h);
-			out_groupname(lex_out_h, gn);
-			fprintf(lex_out_h, " = %#lx", m);
-
-			if (gn->next || z->next || z->opt) {
-				fputs(",", lex_out_h);
-			}
-
-			fputs("\n", lex_out_h);
-		}
-
-		if(z->next) {
-			out_macros_zone(opt, z->next);
-		}
-	}
-
-}
-
 static void
 out_macros(struct options* opt, struct ast *ast)
 {
@@ -917,16 +868,6 @@ out_macros(struct options* opt, struct ast *ast)
 	if (all_groups_empty(ast)) {
 		return;
 	}
-
-	fprintf(lex_out_h, "enum %sgroups {\n", opt->lexi_prefix);
-	out_macros_zone(opt, ast->global);
-
-	fputs("};\n", lex_out_h);
-
-	fputs("\n/* true if the given character is present in the given group */\n",
-		lex_out_h);
-	fprintf(lex_out_h, "%s %sgroup(enum %sgroups group, int c);\n",
-		lang == C90 ? "int" : "bool", opt->lexi_prefix, opt->lexi_prefix);
 
 	/*
 	 * I'm presenting an int here for multibyte character literals, although
@@ -1000,9 +941,6 @@ out_buffer(struct options *opt, struct ast *ast)
 	 * lookahead of one character, since the token buffer does not exist.
 	 * However, we pass it regardless, for simplicity.
 	 */
-	fputs("/* Read a character */\n", lex_out_h);
-	fprintf(lex_out_h, "int %sreadchar(struct %sstate *state);\n\n",
-		lexi_prefix, lexi_prefix);
 	fprintf(lex_out,"int %sreadchar(struct %sstate *state) {\n",
 		lexi_prefix, lexi_prefix);
 
@@ -1021,9 +959,6 @@ out_buffer(struct options *opt, struct ast *ast)
 	}
 
 	/* Other buffer operations */
-	fputs("/* Push a character to lexi's buffer */\n", lex_out_h);
-	fprintf(lex_out_h, "void %spush(struct %sstate *state, const int c);\n\n",
-		lexi_prefix, lexi_prefix);
 	fprintf(lex_out, "void %spush(struct %sstate *state, const int c) {\n",
 		lexi_prefix, lexi_prefix);
 	if (opt->generate_asserts) {
@@ -1033,9 +968,6 @@ out_buffer(struct options *opt, struct ast *ast)
 	fputs("\tstate->buffer[state->buffer_index++] = c;\n", lex_out);
 	fputs("}\n\n", lex_out);
 
-	fputs("/* Pop a character from lexi's buffer */\n", lex_out_h);
-	fprintf(lex_out_h, "int %spop(struct %sstate *state);\n\n",
-		lexi_prefix, lexi_prefix);
 	fprintf(lex_out, "int %spop(struct %sstate *state) {\n",
 		lexi_prefix, lexi_prefix);
 	if (opt->generate_asserts) {
@@ -1045,9 +977,6 @@ out_buffer(struct options *opt, struct ast *ast)
 	fputs("\treturn state->buffer[--state->buffer_index];\n", lex_out);
 	fputs("}\n\n", lex_out);
 
-	fputs("/* Flush lexi's buffer */\n", lex_out_h);
-	fprintf(lex_out_h, "void %sflush(struct %sstate *state);\n\n",
-		lexi_prefix, lexi_prefix);
 	fprintf(lex_out, "void %sflush(struct %sstate *state) {\n",
 		lexi_prefix, lexi_prefix);
 	fputs("\tstate->buffer_index = 0;\n", lex_out);
@@ -1060,28 +989,6 @@ out_buffer_storage(struct ast *ast)
 	if (buffer_length(ast) == 0) {
 		return;
 	}
-
-	/* Buffer storage */
-	fputs("\n", lex_out_h);
-	fputs("\t/*\n", lex_out_h);
-	fputs("\t * Lexi's buffer is a simple stack.\n", lex_out_h);
-	fputs("\t */\n", lex_out_h);
-	fprintf(lex_out_h, "\tint buffer[%u];\n", buffer_length(ast));
-	fputs("\tint buffer_index;\n", lex_out_h);
-}
-
-void
-out_headers(void)
-{
-	code_out(lex_out_h, lct_ast.hfileheader, NULL, NULL, NULL, NULL, 0);
-	code_out(lex_out,   lct_ast.cfileheader, NULL, NULL, NULL, NULL, 0);
-}
-
-void
-out_trailers(void)
-{
-	code_out(lex_out_h, lct_ast.hfiletrailer, NULL, NULL, NULL, NULL, 0);
-	code_out(lex_out,   lct_ast.cfiletrailer, NULL, NULL, NULL, NULL, 0);
 }
 
 void
@@ -1095,8 +1002,7 @@ c_out_all(struct options *opt, struct ast *ast)
 	assert(!strcmp(opt->lang, "C90") || !strcmp(opt->lang, "C99"));
 	lang = !strcmp(opt->lang, "C90") ? C90 : C99;
 
-	lex_out   = opt->out[0].file;
-	lex_out_h = opt->out[1].file;
+	lex_out = opt->out[0].file;
 
 	read_token_name = xstrcat(opt->lexi_prefix, "read_token");
 	lexi_prefix = opt->lexi_prefix;
@@ -1130,11 +1036,6 @@ c_out_all(struct options *opt, struct ast *ast)
 	}
 
 	out_generated_by_lexi(OUT_COMMENT_C90, lex_out);
-	out_generated_by_lexi(OUT_COMMENT_C90, lex_out_h);
-
-	fprintf(lex_out_h, "#ifndef LEXI_GENERATED_HEADER_%s_INCLUDED\n", lexi_prefix);
-	fprintf(lex_out_h, "#define LEXI_GENERATED_HEADER_%s_INCLUDED\n", lexi_prefix);
-	fputs("\n", lex_out_h);
 
 	if (opt->out[1].name && opt->out[1].file != stdout) {
 		char *s;
@@ -1145,7 +1046,7 @@ c_out_all(struct options *opt, struct ast *ast)
 		free(s);
 	}
 
-	out_headers();
+	code_out(lex_out, lct_ast.cfileheader, NULL, NULL, NULL, NULL, 0);
 
 	if (opt->generate_asserts) {
 		fputs("#include <assert.h>\n", lex_out);
@@ -1153,24 +1054,9 @@ c_out_all(struct options *opt, struct ast *ast)
 	if (lang == C99) {
 		fputs("#include <stdbool.h>\n", lex_out);
 		fputs("#include <stdint.h>\n\n", lex_out);
-
-		fputs("#include <stdbool.h>\n\n", lex_out_h);
 	}
 
-	fputs(
-		"/*\n"
-		" * This struct holds state for the lexer; its representation is\n"
-		" * private, but present here for ease of allocation.\n"
-		" */\n", lex_out_h);
-	fprintf(lex_out_h, "struct %sstate {\n"
-	      "\tint (*zone)(struct %sstate *);\n",
-		opt->lexi_prefix, opt->lexi_prefix);
 	out_buffer_storage(ast);
-
-	for(add_arg = lct_ast.arg_head; add_arg != NULL; add_arg = add_arg->next) {
-		fprintf(lex_out_h, "\t%s %s;\n", add_arg->ctype, add_arg->name);
-	}
-	fputs("};\n\n", lex_out_h);
 
 	out_buffer(opt, ast);
 	fputs("\n", lex_out);
@@ -1178,39 +1064,24 @@ c_out_all(struct options *opt, struct ast *ast)
 	out_lookup_table(ast,grouptype,grouphex,groupwidth);
 	fputs("\n\n", lex_out);
 
-	fputs("#ifndef LEXI_EOF\n", lex_out_h);
-	fprintf(lex_out_h, "#define LEXI_EOF %d\n", EOF); /* TODO: remove LEXI_EOF */
-	fputs("#endif\n\n", lex_out_h);
-
 	out_macros(opt,ast);
 	fputs("\n\n", lex_out);
 
 	/* Keywords */
-	out_keywords(ast, lex_out, lex_out_h);
+	out_keywords(ast, lex_out);
 
 	/* Lexical pre-pass */
 	fputs("/* PRE-PASS ANALYSERS */\n\n", lex_out);
 	out_zone_prepass(ast->global);
 
-	/* Main pass */
-	fputs("\n/* Identify a token */\n", lex_out_h);
-	fprintf(lex_out_h, "int %s(struct %sstate *state);\n\n",
-		read_token_name, lexi_prefix);
-
 	/* lexi_init() */
 	/* TODO: assert() state */
-	fprintf(lex_out_h, "/* Initialise a %sstate structure */\n",
-		opt->lexi_prefix);
-	fprintf(lex_out_h, "void %sinit(struct %sstate *state",
-		opt->lexi_prefix, opt->lexi_prefix);
-	fprintf(lex_out,"void %sinit(struct %sstate *state",
+	fprintf(lex_out, "void %sinit(struct %sstate *state",
 		opt->lexi_prefix, opt->lexi_prefix);
 
 	for (add_arg = lct_ast.arg_head; add_arg != NULL; add_arg = add_arg->next) {
-		fprintf(lex_out_h, ", %s %s", add_arg->ctype, add_arg->name);
 		fprintf(lex_out, ", %s %s", add_arg->ctype, add_arg->name);
 	}
-	fputs(");\n\n",lex_out_h);
 	fprintf(lex_out, ") {\n\tstate->zone = %s;\n", read_token_name);
 
 	if (buffer_length(ast) > 0) {
@@ -1227,11 +1098,8 @@ c_out_all(struct options *opt, struct ast *ast)
 	fputs("/* MAIN PASS ANALYSERS */\n\n", lex_out);
   	out_zone_pass(opt, ast->global);
 
-	out_trailers();
-
-	fputs("#endif\n", lex_out_h);
+	code_out(lex_out, lct_ast.cfiletrailer, NULL, NULL, NULL, NULL, 0);
 
 	fputs("\n", lex_out);
-	fputs("\n", lex_out_h);
 }
 
