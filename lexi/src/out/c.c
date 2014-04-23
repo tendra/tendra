@@ -33,7 +33,6 @@
 #include <adt/zone.h>
 #include <adt/group.h>
 #include <adt/localnames.h>
-#include <adt/trans.h>
 
 #include <out/c.h>
 #include <out/common.h>
@@ -247,8 +246,6 @@ static void
 out_action(FILE *lex_out, struct ast *ast,
 	struct entry *ea, struct args_list *lhs, struct args_list *rhs, unsigned int d)
 {
-	struct trans *t;
-
 	assert(lex_out != NULL);
 	assert(ast != NULL);
 	assert(ea != NULL);
@@ -256,15 +253,6 @@ out_action(FILE *lex_out, struct ast *ast,
 	assert(rhs != NULL);
 
 	/* TODO: assert(entry_is_action(action)) */
-
-	/*
-	 * Semi Inefficient: we will recreate the translator stack each time
-	 * we output the same action; this could be just done once per action,
-	 * before actions are output.
-	 */
-	t = NULL;
-	trans_add(&t, ea->u.act->in,  rhs);
-	trans_add(&t, ea->u.act->out, lhs);
 
 	/* TODO: output #line delimiters instead of comments */
 	out_indent(lex_out, d);
@@ -291,7 +279,7 @@ out_action(FILE *lex_out, struct ast *ast,
 	}
 
 	if (action_is_defined(ea->u.act)) {
-		code_out(lex_out, ea->u.act->code, t, d);
+		code_out(lex_out, ea->u.act->code, rhs, ea->u.act->in, lhs, ea->u.act->out, d);
 		if (lhs->return_count) {
 			/* TODO: assert(lhs->return_count == 1) */
 			out_indent(lex_out, d);
@@ -314,7 +302,6 @@ out_action(FILE *lex_out, struct ast *ast,
 	out_indent(lex_out, d);
 	fprintf(lex_out, "/* END ACTION <%s> */\n", nstring_to_cstring(entry_key(ea)));
 }
-
 
 static void
 out_push_zone(struct zone *parent, struct cmd *cmd, unsigned int n, unsigned int d)
@@ -1091,15 +1078,15 @@ out_buffer_storage(struct ast *ast)
 void
 out_headers(void)
 {
-	code_out(lex_out_h, lct_ast.hfileheader, NULL, 0);
-	code_out(lex_out,   lct_ast.cfileheader, NULL, 0);
+	code_out(lex_out_h, lct_ast.hfileheader, NULL, NULL, NULL, NULL, 0);
+	code_out(lex_out,   lct_ast.cfileheader, NULL, NULL, NULL, NULL, 0);
 }
 
 void
 out_trailers(void)
 {
-	code_out(lex_out_h, lct_ast.hfiletrailer, NULL, 0);
-	code_out(lex_out,   lct_ast.cfiletrailer, NULL, 0);
+	code_out(lex_out_h, lct_ast.hfiletrailer, NULL, NULL, NULL, NULL, 0);
+	code_out(lex_out,   lct_ast.cfiletrailer, NULL, NULL, NULL, NULL, 0);
 }
 
 void

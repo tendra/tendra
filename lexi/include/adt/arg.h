@@ -49,6 +49,7 @@ struct arg *add_terminal(char *);
 struct arg *add_none(void);
 void arg_out(struct arg *, bool, int, FILE *);
 struct args_list *add_args_list(void);
+struct arg *arg_index(struct args_list *, int);
 
 #endif
 

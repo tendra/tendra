@@ -134,3 +134,18 @@ param_unique_names(struct param *params, struct param *results)
 	return true;
 }
 
+int
+param_findindex(struct param *params, NStringT *key)
+{
+	struct param *p;
+	int i;
+
+	for (p = params, i = 0; p != NULL; p = p->next, i++) {
+		if (CMP_EQ == nstring_compare(&p->local_name, key)) {
+			return i;
+		}
+	}
+
+	return -1;
+}
+

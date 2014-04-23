@@ -17,7 +17,7 @@
 #include <exds/dalloc.h>
 #include <exds/dstring.h>
 
-#include <adt/trans.h>
+#include <adt/arg.h>
 
 #include "code.h"
 
@@ -116,7 +116,10 @@ code_destroy(struct code *c)
 }
 
 void
-code_out(FILE *file, struct code *c, struct trans *t, int d)
+code_out(FILE *file, struct code *c,
+	struct args_list *rhs, struct param *in,
+	struct args_list *lhs, struct param *out,
+	int d)
 {
 	struct code *p;
 
@@ -134,7 +137,11 @@ code_out(FILE *file, struct code *c, struct trans *t, int d)
 		case CODE_IDENT: {
 			struct arg *to;
 
-			to = trans_find(t, code_name(p));
+			/* TODO: do (and store these) replacements before calling code_out */
+			(to = arg_index(rhs, param_findindex(in,  code_name(p)))) ||
+			(to = arg_index(lhs, param_findindex(out, code_name(p))));
+			assert(to != NULL);
+
 			arg_out(to, false, d, file);
 			break;
 		}
@@ -142,7 +149,11 @@ code_out(FILE *file, struct code *c, struct trans *t, int d)
 		case CODE_REF: {
 			struct arg *to;
 
-			to = trans_find(t, code_name(p));
+			/* TODO: do (and store these) replacements before calling code_out */
+			(to = arg_index(rhs, param_findindex(in,  code_name(p)))) ||
+			(to = arg_index(lhs, param_findindex(out, code_name(p))));
+			assert(to != NULL);
+
 			arg_out(to, true, d, file);
 			break;
 		}

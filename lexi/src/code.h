@@ -14,6 +14,8 @@
 #include "exds/dstring.h"
 
 struct trans;
+struct param;
+struct args_list;
 
 enum code_kind {
 	CODE_STRING,
@@ -33,7 +35,10 @@ void code_append_ident(struct code **, NStringT *);
 void code_append_ref(struct code **, NStringT *i);
 void code_append_string(struct code **, NStringT *);
 void code_destroy(struct code *);
-void code_out(FILE *, struct code *, struct trans *, int);
+void code_out(FILE *, struct code *,
+	struct args_list *rhs, struct param *in,
+	struct args_list *lhs, struct param *out,
+	int);
 
 #endif
 

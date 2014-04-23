@@ -162,3 +162,18 @@ add_args_list(void)
 	return p;
 }
 
+struct arg *
+arg_index(struct args_list *args, int index)
+{
+	struct arg *p;
+	int i;
+
+	for (p = args->head, i = 0; p != NULL; p = p->next, i++) {
+		if (i == index) {
+			return p;
+		}
+	}
+
+	return NULL;
+}
+
