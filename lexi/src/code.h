@@ -13,7 +13,6 @@
 #include "exds/common.h"
 #include "exds/dstring.h"
 
-struct trans;
 struct param;
 struct args_list;
 

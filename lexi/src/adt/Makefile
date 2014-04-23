@@ -12,7 +12,6 @@ SRCS+=	keyword.c
 SRCS+=	param.c
 SRCS+=	trie.c
 SRCS+=	localnames.c
-SRCS+=	trans.c
 SRCS+=	zone.c
 
 .include <tendra.obj.mk>
