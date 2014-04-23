@@ -61,7 +61,5 @@ struct cmd *add_cmd_push_zone(struct zone *z);
 struct cmd *add_cmd_pop_zone(struct zone *z, int is_endmarker_in_zone);
 struct cmd_list *add_cmd_list(void);
 
-struct LocalNamesT *cmdlist_localnames(struct cmd_list *);
-
 #endif
 

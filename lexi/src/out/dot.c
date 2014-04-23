@@ -186,7 +186,7 @@ dot_out_all(struct options *opt, struct ast *ast)
 	fprintf(dotout, "\trankdir = LR;\n");
 
 	/* TODO output each child zone, not just siblings (nest as subgraphs) */
-	out_zone(opt, ast, tree_get_globalzone(ast));
+	out_zone(opt, ast, ast->global);
 
 	fprintf(dotout, "};\n");
 }

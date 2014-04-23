@@ -23,20 +23,12 @@ enum entry_kind {
 
 struct entry {
 	NStringT key;
-	enum entry_kind entry_kind;
+	enum entry_kind kind;
 	union {
 		struct action *act;
 	} u;
 	struct entry *next;
 };
-
-struct entry *entry_create(NStringT *);
-int entry_is_type(struct entry *);
-int entry_is_action(struct entry *);
-int entry_is_localname(struct entry *);
-NStringT *entry_key(struct entry *);
-void entry_set_action(struct entry *, struct action *act);
-struct action *entry_get_action(struct entry *);
 
 struct entry *table_get_entry(struct entry **, NStringT *);
 struct entry *table_add_local_name(struct entry **, NStringT *);

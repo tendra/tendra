@@ -17,74 +17,28 @@
 
 #include "ast.h"
 
-struct ast {
-	struct zone *global_zone;
-
-	struct group *groups_list;
-
-	struct entry *table; /* Actions and types */
-
-	struct entry *lexi_char_type;     /* for #0 arguments */
-	struct entry *lexi_string_type;   /* for #* arguments */
-	struct entry *lexi_int_type;      /* for #n arguments */
-	struct entry *lexi_terminal_type; /* for $ = returns  */
-};
-
 struct ast *
 init_ast(void)
 {
 	struct ast *new;
 
 	new = xmalloc(sizeof *new);
-	new->table       = NULL;
-	new->global_zone = new_zone(new);
-	new->groups_list = NULL;
+	new->global = new_zone(new);
+	new->table  = NULL;
+	new->groups = NULL;
 
 	return new;
 }
 
 int
-tree_zoneisglobal(struct ast *t, struct zone *z)
+all_groups_empty(struct ast *ast)
 {
-	assert(t != NULL);
-	assert(z != NULL);
+	struct group *p;
 
-	return tree_get_globalzone(t) == z;
-}
+	assert(ast != NULL);
 
-struct zone *
-tree_get_globalzone(struct ast *t)
-{
-	assert(t != NULL);
-
-	return t->global_zone;
-}
-
-struct entry **
-tree_get_table(struct ast *t)
-{
-	assert(t != NULL);
-
-	return &t->table;
-}
-
-struct group *
-tree_get_grouplist(struct ast *t)
-{
-	assert(t != NULL);
-
-	return t->groups_list;
-}
-
-int
-all_groups_empty(struct ast *t)
-{
-	struct group *g;
-
-	assert(t != NULL);
-
-	for (g = t->groups_list; g != NULL; g = g->next) {
-		if (!is_group_empty(g)) {
+	for (p = ast->groups; p != NULL; p = p->next) {
+		if (!is_group_empty(p)) {
 			return 0;
 		}
 	}
@@ -93,16 +47,16 @@ all_groups_empty(struct ast *t)
 }
 
 struct group *
-tree_find_group(struct ast *t, struct group *b)
+tree_find_group(struct ast *ast, struct group *g)
 {
-	struct group *g;
+	struct group *p;
 
-	assert(t != NULL);
-	assert(b != NULL);
+	assert(ast != NULL);
+	assert(g != NULL);
 
-	for (g = t->groups_list; g != NULL; g = g->next) {
-		if (is_group_equal(g, b)) {
-			return g;
+	for (p = ast->groups; p != NULL; p = p->next) {
+		if (is_group_equal(p, g)) {
+			return p;
 		}
 	}
 
@@ -110,84 +64,17 @@ tree_find_group(struct ast *t, struct group *b)
 }
 
 void
-tree_add_group(struct ast *t, struct group *g)
-{
-	assert(t != NULL);
-	assert(g->next == NULL);
-
-	g->next = t->groups_list;
-	t->groups_list = g;
-}
-
-void
-set_builtin_char_lexi_type(struct ast* ast, char *lexi_type)
+set_builtin_type(struct ast *ast, struct entry **e, char *lexi_type)
 {
 	NStringT str;
 
-	nstring_copy_cstring(&str, lexi_type);
-
-	/* TODO: assert(table_get_entry(tree_get_table(ast), &str) == NULL) */
-	ast->lexi_char_type = table_add_type(tree_get_table(ast), &str);
-}
-
-void
-set_builtin_string_lexi_type(struct ast *ast, char *lexi_type)
-{
-	NStringT str;
-	struct entry *et;
+	assert(ast != NULL);
+	assert(e != NULL);
+	assert(lexi_type != NULL);
 
 	nstring_copy_cstring(&str, lexi_type);
 
-	/* TODO: assert(table_get_entry(tree_get_table(ast), &str) == NULL) */
-	ast->lexi_string_type = table_add_type(tree_get_table(ast), &str);
-}
-
-void
-set_builtin_terminal_lexi_type(struct ast *ast, char *lexi_type)
-{
-	NStringT str;
-	struct entry *et;
-
-	nstring_copy_cstring(&str, lexi_type);
-
-	/* TODO: assert(table_get_entry(tree_get_table(ast), &str) == NULL) */
-	et = table_add_type(tree_get_table(ast), &str);
-	ast->lexi_terminal_type = et;
-}
-
-void
-set_builtin_int_lexi_type(struct ast* ast, char *lexi_type)
-{
-	NStringT str;
-	struct entry *et;
-
-	nstring_copy_cstring(&str, lexi_type);
-
-	/* TODO: assert(table_get_entry(tree_get_table(ast), &str) == NULL) */
-	ast->lexi_int_type = table_add_type(tree_get_table(ast), &str);
-}
-
-struct entry *
-lexer_char_type(struct ast *ast)
-{
-	return ast->lexi_char_type;
-}
-
-struct entry *
-lexer_string_type(struct ast *ast)
-{
-	return ast->lexi_string_type;
-}
-
-struct entry *
-lexer_int_type(struct ast *ast)
-{
-	return ast->lexi_int_type;
-}
-
-struct entry *
-lexer_terminal_type(struct ast *ast)
-{
-	return ast->lexi_terminal_type;
+	/* TODO: assert(table_get_entry(&ast->table, &str) == NULL) */
+	*e = table_add_type(&ast->table, &str);
 }
 

@@ -204,7 +204,7 @@ zone_isglobal(struct zone *z)
 {
 	assert(z != NULL);
 
-	return z == tree_get_globalzone(z->ast);
+	return z == z->ast->global;
 }
 
 const char *
@@ -213,7 +213,7 @@ zone_name(struct zone *z)
 	assert(z != NULL);
 
 	if (z->name == NULL) {
-		return "the global zone";
+		return "global zone";
 	}
 
 	return z->name;

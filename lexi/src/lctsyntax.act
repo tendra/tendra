@@ -176,10 +176,10 @@
 
 	<append-code-ident>: (c :CODE &, i :IDENT, e :ENTRYP, b :BOOL) -> () = @{
 		if (@e) {
-			struct action* act = entry_get_action(@e);
 			struct param *p, *q;
-			if ((p = param_name_is_in(action_get_inputs(act), @&i)) ||
-					(q = param_name_is_in(action_get_outputs(act), @&i))) {
+
+			if ((p = param_name_is_in(@e->u.act->in, @&i)) ||
+					(q = param_name_is_in(@e->u.act->out, @&i))) {
 				if (!@b) {
 					code_append_ident(@&c, @&i);
 				} else {
@@ -194,7 +194,7 @@
 				char *pe;
 				pi = nstring_to_cstring(@&i);
 				nstring_destroy(@&i);
-				pe = nstring_to_cstring(entry_key(@e));
+				pe = nstring_to_cstring(&@e->key);
 				error(ERROR_SERIOUS, "Identifier @@%s is neither an input nor an output "
 							 "parameter of action %s", pi, pe );
 				xfree(pi);
@@ -251,7 +251,7 @@
 	@};
 
 	<append-param>: (a :PARAM_LIST &, id :IDENT, type :IDENT, isref :BOOL) -> () =@{
-		struct entry *et = table_get_entry(tree_get_table(lxi_ast), @&type);
+		struct entry *et = table_get_entry(&lxi_ast->table, @&type);
 		if (et == NULL) {
 			char *pt;
 
@@ -261,7 +261,7 @@
 
 			nstring_destroy(@&id);
 			nstring_destroy(@&type);
-		} else if (!entry_is_type(et)) {
+		} else if (et->kind != ENTRY_TYPE) {
 			error(ERROR_SERIOUS, "%s is not a type", @&type);
 			nstring_destroy(@&type);
 		} else {
@@ -271,9 +271,9 @@
 	@};
 
 	<get-entry-action>: (i :IDENT) -> (ea :ENTRYP) = @{
-		@ea = table_get_entry(tree_get_table(lxi_ast), @&i);
+		@ea = table_get_entry(&lxi_ast->table, @&i);
 		if (@ea) {
-			if (!entry_is_action(@ea)) {
+			if (@ea->kind != ENTRY_ACTION) {
 				char *pi;
 
 				@ea = NULL; /* TODO: skip to end of action */
@@ -293,39 +293,38 @@
 		@e = NULL;
 	@};
 
-	<check-action-params>: (e :ENTRYP, in :PARAM_LIST, out :PARAM_LIST) -> () = @{
-		if (@e) {
-			/* TODO: assert (entry_is_action(@e)); */
+	<check-action-params>: (ea :ENTRYP, in :PARAM_LIST, out :PARAM_LIST) -> () = @{
+		if (@ea) {
+			/* TODO: assert (@ea->kind == ENTRY_ACTION); */
 			/* TODO: check that the same name does not appear twice in the input and output tuple */
-			struct action *act = entry_get_action(@e);
 
-			if (param_length(action_get_inputs(act)) != param_length(@in)) {
-				char *pe = nstring_to_cstring(entry_key(@e));
+			if (param_length(@ea->u.act->in) != param_length(@in)) {
+				char *pe = nstring_to_cstring(&@ea->key);
 				error(ERROR_SERIOUS, "Action %s declared with an incompatible number of inputs", pe);
 				xfree(pe);
-			} else if (!param_match(action_get_inputs(act), @in)) {
-				char *pe = nstring_to_cstring(entry_key(@e));
+			} else if (!param_match(@ea->u.act->in, @in)) {
+				char *pe = nstring_to_cstring(&@ea->key);
 				error(ERROR_SERIOUS, "params do not match for action %s", pe);
 				xfree(pe);
 			} else {
-				int allhavenames = param_assign_names(action_get_inputs(act), @in);
+				int allhavenames = param_assign_names(@ea->u.act->in, @in);
 				if (!allhavenames) {
 					error(ERROR_SERIOUS, "outputs tuples in action definition should have names");
 				}
 			}
 
-			if (param_length(action_get_outputs(act)) != param_length(@out)) {
-				char *pe = nstring_to_cstring(entry_key(@e));
+			if (param_length(@ea->u.act->out) != param_length(@out)) {
+				char *pe = nstring_to_cstring(&@ea->key);
 				error(ERROR_SERIOUS, "Action %s declared with an incompatible number of outputs", pe);
 				xfree(pe);
-			} else if (!param_match(action_get_outputs(act), @out)) {
-				char *pe = nstring_to_cstring(entry_key(@e));
+			} else if (!param_match(@ea->u.act->out, @out)) {
+				char *pe = nstring_to_cstring(&@ea->key);
 				error(ERROR_SERIOUS, "results do not match for action %s", pe);
 				xfree(pe);
 			} else {
-				int allhavenames = param_assign_names(action_get_outputs(act), @out);
+				int allhavenames = param_assign_names(@ea->u.act->out, @out);
 				if (!allhavenames) {
-					char *pe = nstring_to_cstring(entry_key(@e));
+					char *pe = nstring_to_cstring(&@ea->key);
 					error(ERROR_SERIOUS, "outputs tuples in the definition of action %s should have names", pe);
 					xfree(pe);
 				}
@@ -338,13 +337,12 @@
 
 	<define-action>: (ea :ENTRYP, c :CODE) -> () = @{
 		if (@ea) {
-			/* TODO: assert entry_is_action */
-			struct action *act = entry_get_action(@ea);
-			if (!action_is_defined(act)) {
-				action_set_define(act);
-				action_set_code(act, @c);
+			/* TODO: assert @ea->kind == ENTRY_ACTION */
+			if (!@ea->u.act->defined) {
+				@ea->u.act->defined = true;
+				@ea->u.act->code    = @c;
 			} else {
-				char *pe = nstring_to_cstring(entry_key(@ea));
+				char *pe = nstring_to_cstring(&@ea->key);
 				error(ERROR_SERIOUS, "Action %s has already been defined", pe);
 				xfree(pe);
 			}

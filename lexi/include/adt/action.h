@@ -24,14 +24,6 @@ struct action {
 };
 
 struct action *action_create(void);
-void action_set_inputs(struct action *, struct param *);
-void action_set_outputs(struct action *, struct param *);
-struct param *action_get_inputs(struct action *);
-struct param *action_get_outputs(struct action *);
-struct code *action_get_code(struct action *);
-void action_set_code(struct action *, struct code *);
-int action_is_defined(struct action *);
-void action_set_define(struct action *);
 
 #endif
 

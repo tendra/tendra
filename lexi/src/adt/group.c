@@ -146,8 +146,9 @@ make_group(struct zone *z, char *name, char *defn)
 			xfree(new);
 			gn->g = old;
 		} else {
-			tree_add_group(z->ast, new);
 			gn->g = new;
+			new->next = z->ast->groups;
+			z->ast->groups = new;
 		}
 	}
 
@@ -203,7 +204,6 @@ is_group_equal(struct group *a, struct group *b)
 
 	return 1;
 }
-
 
 /*
  * FIND A GROUP BY NAME

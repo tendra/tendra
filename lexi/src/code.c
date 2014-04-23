@@ -33,14 +33,6 @@ code_create(enum code_kind kind)
 	return c;
 }
 
-static NStringT *
-code_name(struct code *c)
-{
-	assert(c != NULL);
-
-	return &c->name;
-}
-
 static void
 code_append(struct code **p, struct code *new)
 {
@@ -68,7 +60,7 @@ code_append_ident(struct code **c, NStringT *i)
 	struct code *new;
 
 	new = code_create(CODE_IDENT);
-	nstring_assign(code_name(new), i);
+	nstring_assign(&new->name, i);
 	code_append(c, new);
 }
 
@@ -78,7 +70,7 @@ code_append_ref(struct code **c, NStringT *i)
 	struct code *new;
 
 	new = code_create(CODE_REF);
-	nstring_assign(code_name(new), i);
+	nstring_assign(&new->name, i);
 	code_append(c, new);
 }
 
@@ -88,7 +80,7 @@ code_append_string(struct code **c, NStringT *s)
 	struct code *new;
 
 	new = code_create(CODE_STRING);
-	nstring_assign(code_name(new), s);
+	nstring_assign(&new->name, s);
 	code_append(c, new);
 }
 
@@ -103,7 +95,7 @@ code_destroy(struct code *c)
 		switch (p->kind) {
 		case CODE_IDENT:
 		case CODE_STRING:
-			nstring_destroy(code_name(p));
+			nstring_destroy(&p->name);
 			break;
 
 		case CODE_AT:
@@ -128,7 +120,7 @@ code_out(FILE *file, struct code *c,
 		case CODE_STRING: {
 			char *s;
 
-			s = nstring_to_cstring(code_name(p));
+			s = nstring_to_cstring(&p->name);
 			fputs(s, file);
 			xfree(s);
 			break;
@@ -138,8 +130,8 @@ code_out(FILE *file, struct code *c,
 			struct arg *to;
 
 			/* TODO: do (and store these) replacements before calling code_out */
-			(to = arg_index(rhs, param_findindex(in,  code_name(p)))) ||
-			(to = arg_index(lhs, param_findindex(out, code_name(p))));
+			(to = arg_index(rhs, param_findindex(in,  &p->name))) ||
+			(to = arg_index(lhs, param_findindex(out, &p->name)));
 			assert(to != NULL);
 
 			arg_out(to, false, d, file);
@@ -150,8 +142,8 @@ code_out(FILE *file, struct code *c,
 			struct arg *to;
 
 			/* TODO: do (and store these) replacements before calling code_out */
-			(to = arg_index(rhs, param_findindex(in,  code_name(p)))) ||
-			(to = arg_index(lhs, param_findindex(out, code_name(p))));
+			(to = arg_index(rhs, param_findindex(in,  &p->name))) ||
+			(to = arg_index(lhs, param_findindex(out, &p->name)));
 			assert(to != NULL);
 
 			arg_out(to, true, d, file);

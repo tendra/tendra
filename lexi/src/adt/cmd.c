@@ -102,9 +102,3 @@ add_cmd_list(void)
 	return p;
 }
 
-struct LocalNamesT *
-cmdlist_localnames(struct cmd_list *l)
-{
-	return &l->local_names;
-}
-

@@ -123,7 +123,7 @@ ZRparam_Hlist(zoneP ZIz, paramP *ZOa)
 	{
 		/* BEGINNING OF ACTION: init-param */
 		{
-#line 669 "syntax.act"
+#line 667 "syntax.act"
 
 		(ZIa) = NULL;
 	
@@ -164,7 +164,7 @@ ZL1:;
 	{
 		/* BEGINNING OF ACTION: E_expected_semicolon */
 		{
-#line 732 "syntax.act"
+#line 730 "syntax.act"
 
 		error(ERROR_SERIOUS, "Syntax error: expected semicolon \';\'");
 	
@@ -249,7 +249,7 @@ ZRparam_Hlist_C_Cparam(zoneP ZIz, paramP *ZIa)
 					ADVANCE_LEXER;
 					/* BEGINNING OF ACTION: true */
 					{
-#line 557 "syntax.act"
+#line 555 "syntax.act"
  (ZIisref) = 1; 
 #line 255 "syntax.c"
 					}
@@ -260,7 +260,7 @@ ZRparam_Hlist_C_Cparam(zoneP ZIz, paramP *ZIa)
 				{
 					/* BEGINNING OF ACTION: false */
 					{
-#line 558 "syntax.act"
+#line 556 "syntax.act"
  (ZIisref) = 0; 
 #line 266 "syntax.c"
 					}
@@ -272,7 +272,7 @@ ZRparam_Hlist_C_Cparam(zoneP ZIz, paramP *ZIa)
 		/* END OF INLINE: 128 */
 		/* BEGINNING OF ACTION: append-param */
 		{
-#line 676 "syntax.act"
+#line 674 "syntax.act"
 
 		struct entry *et;
 		NStringT tstr, istr;
@@ -280,11 +280,11 @@ ZRparam_Hlist_C_Cparam(zoneP ZIz, paramP *ZIa)
 		nstring_copy_cstring(&tstr,(ZItype));
 		nstring_copy_cstring(&istr,(ZIname));
 
-		et = table_get_entry(tree_get_table((ZIz)->ast), &tstr);
+		et = table_get_entry(&(ZIz)->ast->table, &tstr);
 		if (et== NULL) {
 			 error(ERROR_SERIOUS, "Unknown type %s", (ZItype));
 			 nstring_destroy(&istr);
-		} else if (!entry_is_type(et)) {
+		} else if (et->kind != ENTRY_TYPE) {
 			 error(ERROR_SERIOUS, "%s is not a type", (ZItype));
 			 nstring_destroy(&istr);
 		} else {
@@ -353,7 +353,7 @@ ZRzone_Hdefn(zoneP ZIz)
 			{
 				/* BEGINNING OF ACTION: E_expected_ident */
 				{
-#line 705 "syntax.act"
+#line 703 "syntax.act"
 
 		(ZIzid)="";
 		error(ERROR_SERIOUS, "Syntax error: expected identifier");
@@ -381,7 +381,7 @@ ZRzone_Hdefn(zoneP ZIz)
 			{
 				/* BEGINNING OF ACTION: E_expected_colon */
 				{
-#line 728 "syntax.act"
+#line 726 "syntax.act"
 
 		error(ERROR_SERIOUS, "Syntax error: expected colon \':\'");
 	
@@ -402,7 +402,7 @@ ZRzone_Hdefn(zoneP ZIz)
 					ADVANCE_LEXER;
 					/* BEGINNING OF ACTION: true */
 					{
-#line 557 "syntax.act"
+#line 555 "syntax.act"
  (ZIlendclosed) = 1; 
 #line 408 "syntax.c"
 					}
@@ -414,7 +414,7 @@ ZRzone_Hdefn(zoneP ZIz)
 					ADVANCE_LEXER;
 					/* BEGINNING OF ACTION: true */
 					{
-#line 557 "syntax.act"
+#line 555 "syntax.act"
  (ZIlendclosed) = 1; 
 #line 420 "syntax.c"
 					}
@@ -426,7 +426,7 @@ ZRzone_Hdefn(zoneP ZIz)
 					ADVANCE_LEXER;
 					/* BEGINNING OF ACTION: false */
 					{
-#line 558 "syntax.act"
+#line 556 "syntax.act"
  (ZIlendclosed) = 0; 
 #line 432 "syntax.c"
 					}
@@ -444,7 +444,7 @@ ZRzone_Hdefn(zoneP ZIz)
 			{
 				/* BEGINNING OF ACTION: E_expected_range */
 				{
-#line 711 "syntax.act"
+#line 709 "syntax.act"
 
 		error(ERROR_SERIOUS, "Syntax error: expected range");
 	
@@ -453,7 +453,7 @@ ZRzone_Hdefn(zoneP ZIz)
 				/* END OF ACTION: E_expected_range */
 				/* BEGINNING OF ACTION: false */
 				{
-#line 558 "syntax.act"
+#line 556 "syntax.act"
  (ZIlendclosed) = 0; 
 #line 459 "syntax.c"
 				}
@@ -470,7 +470,7 @@ ZRzone_Hdefn(zoneP ZIz)
 		}
 		/* BEGINNING OF ACTION: make-zone */
 		{
-#line 564 "syntax.act"
+#line 562 "syntax.act"
 
 		struct cmd *c;
 		struct cmd_list *l;
@@ -517,7 +517,7 @@ ZRzone_Hdefn(zoneP ZIz)
 		ADVANCE_LEXER;
 		/* BEGINNING OF ACTION: update-zone-type */
 		{
-#line 585 "syntax.act"
+#line 583 "syntax.act"
 
 		switch ((ZInew_Hzone)->kind) {
 		case ZONE_PSEUDO:
@@ -560,7 +560,7 @@ ZL1:;
 	{
 		/* BEGINNING OF ACTION: E_expected_open */
 		{
-#line 715 "syntax.act"
+#line 713 "syntax.act"
 
 		error(ERROR_SERIOUS, "Syntax error: expected open \'(\'");
 	
@@ -590,7 +590,7 @@ ZL1:;
 	{
 		/* BEGINNING OF ACTION: E_expected_close */
 		{
-#line 719 "syntax.act"
+#line 717 "syntax.act"
 
 		error(ERROR_SERIOUS, "Syntax error: expected close \')\'");
 	
@@ -747,9 +747,9 @@ ZRtype_Hdefn(zoneP ZIz)
 			{
 				/* BEGINNING OF ACTION: is-global-zone */
 				{
-#line 614 "syntax.act"
+#line 612 "syntax.act"
 
-	   (ZI0) = tree_zoneisglobal((ZIz)->ast, (ZIz));
+	   (ZI0) = zone_isglobal((ZIz));
 	
 #line 755 "syntax.c"
 				}
@@ -758,7 +758,7 @@ ZRtype_Hdefn(zoneP ZIz)
 					goto ZL3;
 				/* BEGINNING OF ACTION: make-type */
 				{
-#line 621 "syntax.act"
+#line 619 "syntax.act"
 
 		NStringT str;
 		struct entry *e;
@@ -766,21 +766,21 @@ ZRtype_Hdefn(zoneP ZIz)
 		nstring_copy_cstring(&str,(ZIs));
 		xfree((ZIs));
 
-		e = table_get_entry(tree_get_table((ZIz)->ast), &str);
+		e = table_get_entry(&(ZIz)->ast->table, &str);
 		if (e != NULL) {
 			nstring_destroy(&str);
 			/* TODO: switch ? */
-			if (entry_is_type(e)) {
+			if (e->kind == ENTRY_TYPE) {
 				error(ERROR_SERIOUS, "Type %s already exists",(ZIs));
-			} else if (entry_is_localname(e)) {
+			} else if (e->kind == ENTRY_LOCAL) {
 				error(ERROR_SERIOUS, "Can't create type %s, %s has been previously used as a local name. We do not allow retroactive hiding.",(ZIs),(ZIs));
-			} else if (entry_is_action(e)) {
+			} else if (e->kind == ENTRY_ACTION) {
 				error(ERROR_SERIOUS, "Can't create type %s, %s has already been declared as an action",(ZIs), (ZIs));
 			} else {
 				UNREACHED;
 			}
 		} else {
-			table_add_type(tree_get_table((ZIz)->ast), &str);
+			table_add_type(&(ZIz)->ast->table, &str);
 		}
 	
 #line 787 "syntax.c"
@@ -792,7 +792,7 @@ ZRtype_Hdefn(zoneP ZIz)
 			{
 				/* BEGINNING OF ACTION: E_nonglobalzonetype */
 				{
-#line 701 "syntax.act"
+#line 699 "syntax.act"
 
 		error(ERROR_SERIOUS, "Syntax error: type %s should not be declared inside a zone",(ZIs));
 	
@@ -930,7 +930,7 @@ ZRcmd_Hlist(zoneP ZI197, cmd_listP *ZO202)
 		}
 		/* BEGINNING OF ACTION: empty-cmd-list */
 		{
-#line 520 "syntax.act"
+#line 518 "syntax.act"
 
 		(ZIl) = add_cmd_list();
 	
@@ -942,8 +942,6 @@ ZRcmd_Hlist(zoneP ZI197, cmd_listP *ZO202)
 #line 266 "syntax.act"
 
 		if ((ZIc) != NULL) { /* if (ZIc) == NULL, an error has already been issued.*/
-			struct LocalNamesT* locals = cmdlist_localnames((ZIl));
-
 			if ((ZIl)->return_count > 0 && (ZIc)->kind != CMD_NOOP) {
 				error(ERROR_SERIOUS, "No cmd may follow an cmd that returns a terminal");
 			}
@@ -966,7 +964,7 @@ ZRcmd_Hlist(zoneP ZI197, cmd_listP *ZO202)
 				}
 
 				ea  = (ZIc)->u.act.ea;
-				act = entry_get_action(ea);
+				act = ea->u.act;
 				rhs = (ZIc)->u.act.rhs;
 				lhs = (ZIc)->u.act.lhs;
 
@@ -978,20 +976,20 @@ ZRcmd_Hlist(zoneP ZI197, cmd_listP *ZO202)
 					switch (p->kind) {
 					case ARG_IDENT:
 						nstring_copy_cstring(&str, p->u.literal);
-						et=localnames_get_type(locals, &str);
+						et=localnames_get_type(&(ZIl)->local_names, &str);
 						nstring_destroy(&str);
 						if (!et) {
-							struct entry *e = table_get_entry(tree_get_table((ZI197)->ast), &str);
+							struct entry *e = table_get_entry(&(ZI197)->ast->table, &str);
 							if (!e) {
 								error(ERROR_SERIOUS, "local name %s has not been defined yet", p->u.literal);
 								et = NULL;
-							} else if (entry_is_localname(e)) {
+							} else if (e->kind == ENTRY_LOCAL) {
 								error(ERROR_SERIOUS, "local name %s has been defined but not in this scope", p->u.literal);
 								et = NULL;
-							} else if (entry_is_action(e)) {
+							} else if (e->kind == ENTRY_ACTION) {
 								error(ERROR_SERIOUS, "%s is not a local name but an action which is not allowed", p->u.literal);
 								et = NULL;
-							} else if (entry_is_type(e)) {
+							} else if (e->kind == ENTRY_TYPE) {
 								error(ERROR_SERIOUS, "%s is not a local name but a type which is not allowed", p->u.literal);
 								et = NULL;
 							} else {
@@ -1001,23 +999,23 @@ ZRcmd_Hlist(zoneP ZI197, cmd_listP *ZO202)
 						break;
 
 					case ARG_CHARP:
-						/* TODO: assert(lexer_string_type(ast)) */
-						et = lexer_string_type((ZI197)->ast);
+						/* TODO: assert(ast->lexi_string_type) */
+						et = (ZI197)->ast->lexi_string_type;
 						break;
 
 					case ARG_CHAR_NUM:
-						/* TODO: assert(lexer_char_type(ast)) */
-						et = lexer_char_type((ZI197)->ast);
+						/* TODO: assert(ast->lexi_char_type) */
+						et = (ZI197)->ast->lexi_char_type;
 						break;
 
 					case ARG_TERMINAL:
-						/* TODO: assert(lexer_terminal_type(ast)) */
-						et = lexer_terminal_type((ZI197)->ast);
+						/* TODO: assert(ast->lexi_terminal_type) */
+						et = (ZI197)->ast->lexi_terminal_type;
 						break;
 
 					case ARG_CHAR_COUNT:
-						/* TODO: assert(lexer_terminal_type(ast)) */
-						et = lexer_int_type((ZI197)->ast);
+						/* TODO: assert(ast->lexi_int_type) */
+						et = (ZI197)->ast->lexi_int_type;
 						break;
 
 					case ARG_NONE:
@@ -1035,10 +1033,10 @@ ZRcmd_Hlist(zoneP ZI197, cmd_listP *ZO202)
 
 					if (et) {
 						if (q->et!=et || p->is_ref !=q->is_ref) {
-							char *s1 = nstring_to_cstring(entry_key(ea));
-							char *s2 = nstring_to_cstring(entry_key(et));
+							char *s1 = nstring_to_cstring(&ea->key);
+							char *s2 = nstring_to_cstring(&et->key);
 							char *s3 = p->is_ref ? "&" : "";
-							char *s4 = nstring_to_cstring(entry_key(q->et));
+							char *s4 = nstring_to_cstring(&q->et->key);
 							char *s5 = q->is_ref ? "&" : "";
 							char *s6 = "unknown";
 							char *s7 = "unknown";
@@ -1078,13 +1076,13 @@ ZRcmd_Hlist(zoneP ZI197, cmd_listP *ZO202)
 				}
 
 				if (p != NULL) {
-					char *s = nstring_to_cstring(entry_key(ea));
+					char *s = nstring_to_cstring(&ea->key);
 					error(ERROR_SERIOUS, "In call to action %s, too many arguments", s);
 					xfree(s);
 				}
 
 				if (q != NULL) {
-					char *s = nstring_to_cstring(entry_key(ea));
+					char *s = nstring_to_cstring(&ea->key);
 					error(ERROR_SERIOUS, "In call to action %s, not enough arguments", s);
 					xfree(s);
 				}
@@ -1097,22 +1095,22 @@ ZRcmd_Hlist(zoneP ZI197, cmd_listP *ZO202)
 						NStringT str;
 
 						nstring_copy_cstring(&str, p->u.literal);
-						et = localnames_get_type(locals, &str);
+						et = localnames_get_type(&(ZIl)->local_names, &str);
 						if (!et) {
-							struct entry *e= table_get_entry(tree_get_table((ZI197)->ast), &str);
-							localnames_add_nstring(locals, &str, q->et);
+							struct entry *e= table_get_entry(&(ZI197)->ast->table, &str);
+							localnames_add_nstring(&(ZIl)->local_names, &str, q->et);
 							if (e) {
 								nstring_destroy(&str);
-								if (entry_is_action(e)) {
+								if (e->kind == ENTRY_ACTION) {
 									error(ERROR_SERIOUS, "In action lhs. Name %s is an action. Hiding globals by local names is not allowed", p->u.literal);
-								} else if (entry_is_type(e)) {
+								} else if (e->kind == ENTRY_TYPE) {
 									error(ERROR_SERIOUS, "In action lhs. Name %s is a type. Hiding globals by local names is not allowed", p->u.literal);
 								}
 							} else {
-								table_add_local_name(tree_get_table((ZI197)->ast), &str);
+								table_add_local_name(&(ZI197)->ast->table, &str);
 							}
 							if (p->is_ref) {
-								char *s = nstring_to_cstring(entry_key(ea));
+								char *s = nstring_to_cstring(&ea->key);
 								error(ERROR_SERIOUS, "In action call %s, you can only use references %s for preexisting variables", s, p->u.literal);
 								xfree(s);
 							}
@@ -1121,7 +1119,7 @@ ZRcmd_Hlist(zoneP ZI197, cmd_listP *ZO202)
 							if (!p->is_ref) {
 								char *s;
 
-								s = nstring_to_cstring(entry_key(ea));
+								s = nstring_to_cstring(&ea->key);
 								error(ERROR_SERIOUS, "In action call %s, name %s already declared. Use references to change the value of an already existing variable", s, p->u.literal);
 								xfree(s);
 
@@ -1132,7 +1130,7 @@ ZRcmd_Hlist(zoneP ZI197, cmd_listP *ZO202)
 					}
 
 					case ARG_RETURN:
-						et = lexer_terminal_type((ZI197)->ast);
+						et = (ZI197)->ast->lexi_terminal_type;
 						q->is_ref = false;
 						/* TODO: assert(q->is_ref == false) */
 						break;
@@ -1169,13 +1167,13 @@ ZRcmd_Hlist(zoneP ZI197, cmd_listP *ZO202)
 				}
 
 				if (p != NULL) {
-					char *s = nstring_to_cstring(entry_key(ea));
+					char *s = nstring_to_cstring(&ea->key);
 					error(ERROR_SERIOUS, "In call to action %s, too many results", s);
 					xfree(s);
 				}
 
 				if (q != NULL) {
-					char *s = nstring_to_cstring(entry_key(ea));
+					char *s = nstring_to_cstring(&ea->key);
 					error(ERROR_SERIOUS, "In call to action %s, not enough results", s);
 					xfree(s);
 				}
@@ -1187,7 +1185,7 @@ ZRcmd_Hlist(zoneP ZI197, cmd_listP *ZO202)
 			(ZIl)->size++;
 		}
 	
-#line 1191 "syntax.c"
+#line 1189 "syntax.c"
 		}
 		/* END OF ACTION: add-cmd-to-list */
 		ZR203 (ZI197, ZIl, &ZI201, &ZI202);
@@ -1259,12 +1257,12 @@ ZL1:;
 	{
 		/* BEGINNING OF ACTION: E_expected_chars */
 		{
-#line 722 "syntax.act"
+#line 720 "syntax.act"
 
 			(ZIe) = NULL;
 		error(ERROR_SERIOUS, "Syntax error: expected characters");
 	
-#line 1268 "syntax.c"
+#line 1266 "syntax.c"
 		}
 		/* END OF ACTION: E_expected_chars */
 	}
@@ -1306,7 +1304,7 @@ ZRtrigraph_Hdefn(zoneP ZIz)
 
 		add_prepass((ZIz), (ZIs), (ZIt));
 	
-#line 1310 "syntax.c"
+#line 1308 "syntax.c"
 		}
 		/* END OF ACTION: make-trigraph */
 	}
@@ -1333,7 +1331,7 @@ ZRcmd(zoneP ZIz, cmdP *ZOc)
 
 		(ZIl)=add_args_list();
 	
-#line 1337 "syntax.c"
+#line 1335 "syntax.c"
 		}
 		/* END OF ACTION: empty-args-list */
 		ZR207 (&ZIz, &ZIl, &ZIc);
@@ -1370,11 +1368,11 @@ ZR182(zoneP *ZIz, cmd_listP *ZOexit_Hcmds)
 		{
 			/* BEGINNING OF ACTION: empty-cmd-list */
 			{
-#line 520 "syntax.act"
+#line 518 "syntax.act"
 
 		(ZIexit_Hcmds) = add_cmd_list();
 	
-#line 1378 "syntax.c"
+#line 1376 "syntax.c"
 			}
 			/* END OF ACTION: empty-cmd-list */
 		}
@@ -1418,11 +1416,11 @@ read_lex(zoneP ZIz)
 			{
 				/* BEGINNING OF ACTION: syntax-error */
 				{
-#line 752 "syntax.act"
+#line 750 "syntax.act"
 
 		error(ERROR_SERIOUS, "Syntax error");
 	
-#line 1426 "syntax.c"
+#line 1424 "syntax.c"
 				}
 				/* END OF ACTION: syntax-error */
 			}
@@ -1470,11 +1468,11 @@ ZRaction_Hdecl(zoneP ZIz)
 			{
 				/* BEGINNING OF ACTION: E_expected_begin_action */
 				{
-#line 744 "syntax.act"
+#line 742 "syntax.act"
 
 		error(ERROR_SERIOUS, "Syntax error: expected begin action \'<\'");
 	
-#line 1478 "syntax.c"
+#line 1476 "syntax.c"
 				}
 				/* END OF ACTION: E_expected_begin_action */
 			}
@@ -1489,7 +1487,7 @@ ZRaction_Hdecl(zoneP ZIz)
 
 		ZIi = xstrdup (tokbuf);
 	
-#line 1493 "syntax.c"
+#line 1491 "syntax.c"
 			}
 			/* END OF EXTRACT: ident */
 			break;
@@ -1513,11 +1511,11 @@ ZRaction_Hdecl(zoneP ZIz)
 			{
 				/* BEGINNING OF ACTION: E_expected_end_action */
 				{
-#line 748 "syntax.act"
+#line 746 "syntax.act"
 
 		error(ERROR_SERIOUS, "Syntax error: expected end action \'>\'");
 	
-#line 1521 "syntax.c"
+#line 1519 "syntax.c"
 				}
 				/* END OF ACTION: E_expected_end_action */
 			}
@@ -1547,20 +1545,20 @@ ZRaction_Hdecl(zoneP ZIz)
 				{
 					/* BEGINNING OF ACTION: init-param */
 					{
-#line 669 "syntax.act"
+#line 667 "syntax.act"
 
 		(ZIit) = NULL;
 	
-#line 1555 "syntax.c"
+#line 1553 "syntax.c"
 					}
 					/* END OF ACTION: init-param */
 					/* BEGINNING OF ACTION: init-param */
 					{
-#line 669 "syntax.act"
+#line 667 "syntax.act"
 
 		(ZIot) = NULL;
 	
-#line 1564 "syntax.c"
+#line 1562 "syntax.c"
 					}
 					/* END OF ACTION: init-param */
 				}
@@ -1570,33 +1568,33 @@ ZRaction_Hdecl(zoneP ZIz)
 		/* END OF INLINE: 135 */
 		/* BEGINNING OF ACTION: make-action */
 		{
-#line 646 "syntax.act"
+#line 644 "syntax.act"
 
 		NStringT str;
 		struct entry *e;
 
 		nstring_copy_cstring(&str, (ZIi));
 
-		e = table_get_entry(tree_get_table((ZIz)->ast), &str);
+		e = table_get_entry(&(ZIz)->ast->table, &str);
 		if (e != NULL) {
 			nstring_destroy(&str);
 			/* TODO: switch ? */
-			if (entry_is_action(e)) {
+			if (e->kind == ENTRY_ACTION) {
 				error(ERROR_SERIOUS, "Action %s already exists",(ZIi));
-			} else if (entry_is_localname(e)) {
+			} else if (e->kind == ENTRY_LOCAL) {
 				error(ERROR_SERIOUS, "Can't create type %s, %s has been previously used as a local name. We do not allow retroactive hiding.",(ZIi),(ZIi));
-			} else if (entry_is_type(e)) {
+			} else if (e->kind == ENTRY_TYPE) {
 				error(ERROR_SERIOUS, "Can't create action %s, %s has already been declared as a type",(ZIi), (ZIi));
 			} else {
 				UNREACHED;
 			}
 		} else {
-			table_add_action(tree_get_table((ZIz)->ast), &str , (ZIit), (ZIot));
+			table_add_action(&(ZIz)->ast->table, &str , (ZIit), (ZIot));
 		}
 
 		xfree((ZIi));
 	
-#line 1600 "syntax.c"
+#line 1598 "syntax.c"
 		}
 		/* END OF ACTION: make-action */
 	}
@@ -1631,8 +1629,6 @@ ZL2_203:;
 #line 266 "syntax.act"
 
 		if ((ZIc) != NULL) { /* if (ZIc) == NULL, an error has already been issued.*/
-			struct LocalNamesT* locals = cmdlist_localnames((ZIl));
-
 			if ((ZIl)->return_count > 0 && (ZIc)->kind != CMD_NOOP) {
 				error(ERROR_SERIOUS, "No cmd may follow an cmd that returns a terminal");
 			}
@@ -1655,7 +1651,7 @@ ZL2_203:;
 				}
 
 				ea  = (ZIc)->u.act.ea;
-				act = entry_get_action(ea);
+				act = ea->u.act;
 				rhs = (ZIc)->u.act.rhs;
 				lhs = (ZIc)->u.act.lhs;
 
@@ -1667,20 +1663,20 @@ ZL2_203:;
 					switch (p->kind) {
 					case ARG_IDENT:
 						nstring_copy_cstring(&str, p->u.literal);
-						et=localnames_get_type(locals, &str);
+						et=localnames_get_type(&(ZIl)->local_names, &str);
 						nstring_destroy(&str);
 						if (!et) {
-							struct entry *e = table_get_entry(tree_get_table((ZI197)->ast), &str);
+							struct entry *e = table_get_entry(&(ZI197)->ast->table, &str);
 							if (!e) {
 								error(ERROR_SERIOUS, "local name %s has not been defined yet", p->u.literal);
 								et = NULL;
-							} else if (entry_is_localname(e)) {
+							} else if (e->kind == ENTRY_LOCAL) {
 								error(ERROR_SERIOUS, "local name %s has been defined but not in this scope", p->u.literal);
 								et = NULL;
-							} else if (entry_is_action(e)) {
+							} else if (e->kind == ENTRY_ACTION) {
 								error(ERROR_SERIOUS, "%s is not a local name but an action which is not allowed", p->u.literal);
 								et = NULL;
-							} else if (entry_is_type(e)) {
+							} else if (e->kind == ENTRY_TYPE) {
 								error(ERROR_SERIOUS, "%s is not a local name but a type which is not allowed", p->u.literal);
 								et = NULL;
 							} else {
@@ -1690,23 +1686,23 @@ ZL2_203:;
 						break;
 
 					case ARG_CHARP:
-						/* TODO: assert(lexer_string_type(ast)) */
-						et = lexer_string_type((ZI197)->ast);
+						/* TODO: assert(ast->lexi_string_type) */
+						et = (ZI197)->ast->lexi_string_type;
 						break;
 
 					case ARG_CHAR_NUM:
-						/* TODO: assert(lexer_char_type(ast)) */
-						et = lexer_char_type((ZI197)->ast);
+						/* TODO: assert(ast->lexi_char_type) */
+						et = (ZI197)->ast->lexi_char_type;
 						break;
 
 					case ARG_TERMINAL:
-						/* TODO: assert(lexer_terminal_type(ast)) */
-						et = lexer_terminal_type((ZI197)->ast);
+						/* TODO: assert(ast->lexi_terminal_type) */
+						et = (ZI197)->ast->lexi_terminal_type;
 						break;
 
 					case ARG_CHAR_COUNT:
-						/* TODO: assert(lexer_terminal_type(ast)) */
-						et = lexer_int_type((ZI197)->ast);
+						/* TODO: assert(ast->lexi_int_type) */
+						et = (ZI197)->ast->lexi_int_type;
 						break;
 
 					case ARG_NONE:
@@ -1724,10 +1720,10 @@ ZL2_203:;
 
 					if (et) {
 						if (q->et!=et || p->is_ref !=q->is_ref) {
-							char *s1 = nstring_to_cstring(entry_key(ea));
-							char *s2 = nstring_to_cstring(entry_key(et));
+							char *s1 = nstring_to_cstring(&ea->key);
+							char *s2 = nstring_to_cstring(&et->key);
 							char *s3 = p->is_ref ? "&" : "";
-							char *s4 = nstring_to_cstring(entry_key(q->et));
+							char *s4 = nstring_to_cstring(&q->et->key);
 							char *s5 = q->is_ref ? "&" : "";
 							char *s6 = "unknown";
 							char *s7 = "unknown";
@@ -1767,13 +1763,13 @@ ZL2_203:;
 				}
 
 				if (p != NULL) {
-					char *s = nstring_to_cstring(entry_key(ea));
+					char *s = nstring_to_cstring(&ea->key);
 					error(ERROR_SERIOUS, "In call to action %s, too many arguments", s);
 					xfree(s);
 				}
 
 				if (q != NULL) {
-					char *s = nstring_to_cstring(entry_key(ea));
+					char *s = nstring_to_cstring(&ea->key);
 					error(ERROR_SERIOUS, "In call to action %s, not enough arguments", s);
 					xfree(s);
 				}
@@ -1786,22 +1782,22 @@ ZL2_203:;
 						NStringT str;
 
 						nstring_copy_cstring(&str, p->u.literal);
-						et = localnames_get_type(locals, &str);
+						et = localnames_get_type(&(ZIl)->local_names, &str);
 						if (!et) {
-							struct entry *e= table_get_entry(tree_get_table((ZI197)->ast), &str);
-							localnames_add_nstring(locals, &str, q->et);
+							struct entry *e= table_get_entry(&(ZI197)->ast->table, &str);
+							localnames_add_nstring(&(ZIl)->local_names, &str, q->et);
 							if (e) {
 								nstring_destroy(&str);
-								if (entry_is_action(e)) {
+								if (e->kind == ENTRY_ACTION) {
 									error(ERROR_SERIOUS, "In action lhs. Name %s is an action. Hiding globals by local names is not allowed", p->u.literal);
-								} else if (entry_is_type(e)) {
+								} else if (e->kind == ENTRY_TYPE) {
 									error(ERROR_SERIOUS, "In action lhs. Name %s is a type. Hiding globals by local names is not allowed", p->u.literal);
 								}
 							} else {
-								table_add_local_name(tree_get_table((ZI197)->ast), &str);
+								table_add_local_name(&(ZI197)->ast->table, &str);
 							}
 							if (p->is_ref) {
-								char *s = nstring_to_cstring(entry_key(ea));
+								char *s = nstring_to_cstring(&ea->key);
 								error(ERROR_SERIOUS, "In action call %s, you can only use references %s for preexisting variables", s, p->u.literal);
 								xfree(s);
 							}
@@ -1810,7 +1806,7 @@ ZL2_203:;
 							if (!p->is_ref) {
 								char *s;
 
-								s = nstring_to_cstring(entry_key(ea));
+								s = nstring_to_cstring(&ea->key);
 								error(ERROR_SERIOUS, "In action call %s, name %s already declared. Use references to change the value of an already existing variable", s, p->u.literal);
 								xfree(s);
 
@@ -1821,7 +1817,7 @@ ZL2_203:;
 					}
 
 					case ARG_RETURN:
-						et = lexer_terminal_type((ZI197)->ast);
+						et = (ZI197)->ast->lexi_terminal_type;
 						q->is_ref = false;
 						/* TODO: assert(q->is_ref == false) */
 						break;
@@ -1858,13 +1854,13 @@ ZL2_203:;
 				}
 
 				if (p != NULL) {
-					char *s = nstring_to_cstring(entry_key(ea));
+					char *s = nstring_to_cstring(&ea->key);
 					error(ERROR_SERIOUS, "In call to action %s, too many results", s);
 					xfree(s);
 				}
 
 				if (q != NULL) {
-					char *s = nstring_to_cstring(entry_key(ea));
+					char *s = nstring_to_cstring(&ea->key);
 					error(ERROR_SERIOUS, "In call to action %s, not enough results", s);
 					xfree(s);
 				}
@@ -1876,7 +1872,7 @@ ZL2_203:;
 			(ZIl)->size++;
 		}
 	
-#line 1880 "syntax.c"
+#line 1876 "syntax.c"
 			}
 			/* END OF ACTION: add-cmd-to-list */
 			/* BEGINNING OF INLINE: 203 */
@@ -1918,7 +1914,7 @@ ZR205(zoneP *ZIz)
 
 		ZIi = xstrdup (tokbuf);
 	
-#line 1922 "syntax.c"
+#line 1918 "syntax.c"
 			}
 			/* END OF EXTRACT: ident */
 			ADVANCE_LEXER;
@@ -1934,7 +1930,7 @@ ZR205(zoneP *ZIz)
 
 		make_group ((*ZIz), (ZIi), (ZIs));
 	
-#line 1938 "syntax.c"
+#line 1934 "syntax.c"
 			}
 			/* END OF ACTION: make-group */
 			ZRexpected__semicolon ();
@@ -1965,7 +1961,7 @@ ZR205(zoneP *ZIz)
 
 		(*ZIz)->white = make_group((*ZIz), "white", (ZIs));
 	
-#line 1969 "syntax.c"
+#line 1965 "syntax.c"
 			}
 			/* END OF ACTION: make-white */
 			ZRexpected__semicolon ();
@@ -2009,14 +2005,14 @@ ZR206(zoneP *ZIz)
 			}
 			/* BEGINNING OF ACTION: make-default */
 			{
-#line 539 "syntax.act"
+#line 537 "syntax.act"
 
 		(*ZIz)->local=(ZIl);
 		if ((ZIl)->return_count) {
 			(*ZIz)->kind = ZONE_GENERAL;
 		}
 	
-#line 2020 "syntax.c"
+#line 2016 "syntax.c"
 			}
 			/* END OF ACTION: make-default */
 			ZRexpected__semicolon ();
@@ -2049,25 +2045,25 @@ ZR206(zoneP *ZIz)
 			}
 			/* BEGINNING OF ACTION: check-cmd-list */
 			{
-#line 514 "syntax.act"
+#line 512 "syntax.act"
 
 		if ((ZIl)->return_count > 1) {
 			error(ERROR_SERIOUS, "At most one return terminal may be specified per command list");
 		}
 	
-#line 2059 "syntax.c"
+#line 2055 "syntax.c"
 			}
 			/* END OF ACTION: check-cmd-list */
 			/* BEGINNING OF ACTION: make-token */
 			{
-#line 524 "syntax.act"
+#line 522 "syntax.act"
 
 		add_mainpass((*ZIz), (ZIs), (ZIl));
 		if ((ZIl)->return_count) {
 			(*ZIz)->kind = ZONE_GENERAL;
 		}
 	
-#line 2071 "syntax.c"
+#line 2067 "syntax.c"
 			}
 			/* END OF ACTION: make-token */
 			ZRexpected__semicolon ();
@@ -2107,26 +2103,26 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 
 		ZIb = add_arg(ARG_CHAR_COUNT, 0);
 	
-#line 2111 "syntax.c"
+#line 2107 "syntax.c"
 			}
 			/* END OF EXTRACT: arg-char-count */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: make_arg_none */
 			{
-#line 610 "syntax.act"
+#line 608 "syntax.act"
 
 		(ZIa) = add_none();
 	
-#line 2121 "syntax.c"
+#line 2117 "syntax.c"
 			}
 			/* END OF ACTION: make_arg_none */
 			/* BEGINNING OF ACTION: E_sharp_arg_in_lhs */
 			{
-#line 756 "syntax.act"
+#line 754 "syntax.act"
 
 		error(ERROR_SERIOUS, "Argument of style # are rvalues and should not appear on a left handside");
 	
-#line 2130 "syntax.c"
+#line 2126 "syntax.c"
 			}
 			/* END OF ACTION: E_sharp_arg_in_lhs */
 			/* BEGINNING OF ACTION: append-arg-args-list */
@@ -2139,7 +2135,7 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 			(*ZIl)->return_count++;
 		}
 	
-#line 2143 "syntax.c"
+#line 2139 "syntax.c"
 			}
 			/* END OF ACTION: append-arg-args-list */
 			switch (CURRENT_TERMINAL) {
@@ -2164,7 +2160,7 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 
 		ZIi = xstrdup (tokbuf);
 	
-#line 2168 "syntax.c"
+#line 2164 "syntax.c"
 				}
 				/* END OF EXTRACT: ident */
 				break;
@@ -2180,7 +2176,7 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 			error(ERROR_SERIOUS, "There can only be one return terminal argument per action lhs");
 		}
 	
-#line 2184 "syntax.c"
+#line 2180 "syntax.c"
 			}
 			/* END OF ACTION: check-args-list */
 			switch (CURRENT_TERMINAL) {
@@ -2204,9 +2200,9 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 
 		nstring_copy_cstring(&key, (ZIi));
 
-		ea = table_get_entry(tree_get_table((*ZIz)->ast), &key);
+		ea = table_get_entry(&(*ZIz)->ast->table, &key);
 		if (ea) {
-			if (entry_is_action(ea)) {
+			if (ea->kind == ENTRY_ACTION) {
 				/* TODO: Inefficient code follows: */
 				/* Checking that a name does not appear twice in an lhs*/
 				struct arg* p, *q;
@@ -2214,7 +2210,7 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 					if (p->kind == ARG_IDENT) {
 						for(q=p->next; q!=NULL;q=q->next) {
 							if (q->kind == ARG_IDENT && !strcmp(p->u.literal, q->u.literal)) {
-								char *s = nstring_to_cstring(entry_key(ea));
+								char *s = nstring_to_cstring(&ea->key);
 								error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.literal);
 								break;
 							}
@@ -2234,7 +2230,7 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 
 		xfree((ZIi));
 	
-#line 2238 "syntax.c"
+#line 2234 "syntax.c"
 			}
 			/* END OF ACTION: make-action-cmd */
 		}
@@ -2252,26 +2248,26 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 
 		ZIb = add_arg(ARG_CHAR_NUM, numbuf);
 	
-#line 2256 "syntax.c"
+#line 2252 "syntax.c"
 			}
 			/* END OF EXTRACT: arg-char-num */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: make_arg_none */
 			{
-#line 610 "syntax.act"
+#line 608 "syntax.act"
 
 		(ZIa) = add_none();
 	
-#line 2266 "syntax.c"
+#line 2262 "syntax.c"
 			}
 			/* END OF ACTION: make_arg_none */
 			/* BEGINNING OF ACTION: E_sharp_arg_in_lhs */
 			{
-#line 756 "syntax.act"
+#line 754 "syntax.act"
 
 		error(ERROR_SERIOUS, "Argument of style # are rvalues and should not appear on a left handside");
 	
-#line 2275 "syntax.c"
+#line 2271 "syntax.c"
 			}
 			/* END OF ACTION: E_sharp_arg_in_lhs */
 			/* BEGINNING OF ACTION: append-arg-args-list */
@@ -2284,7 +2280,7 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 			(*ZIl)->return_count++;
 		}
 	
-#line 2288 "syntax.c"
+#line 2284 "syntax.c"
 			}
 			/* END OF ACTION: append-arg-args-list */
 			switch (CURRENT_TERMINAL) {
@@ -2309,7 +2305,7 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 
 		ZIi = xstrdup (tokbuf);
 	
-#line 2313 "syntax.c"
+#line 2309 "syntax.c"
 				}
 				/* END OF EXTRACT: ident */
 				break;
@@ -2325,7 +2321,7 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 			error(ERROR_SERIOUS, "There can only be one return terminal argument per action lhs");
 		}
 	
-#line 2329 "syntax.c"
+#line 2325 "syntax.c"
 			}
 			/* END OF ACTION: check-args-list */
 			switch (CURRENT_TERMINAL) {
@@ -2349,9 +2345,9 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 
 		nstring_copy_cstring(&key, (ZIi));
 
-		ea = table_get_entry(tree_get_table((*ZIz)->ast), &key);
+		ea = table_get_entry(&(*ZIz)->ast->table, &key);
 		if (ea) {
-			if (entry_is_action(ea)) {
+			if (ea->kind == ENTRY_ACTION) {
 				/* TODO: Inefficient code follows: */
 				/* Checking that a name does not appear twice in an lhs*/
 				struct arg* p, *q;
@@ -2359,7 +2355,7 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 					if (p->kind == ARG_IDENT) {
 						for(q=p->next; q!=NULL;q=q->next) {
 							if (q->kind == ARG_IDENT && !strcmp(p->u.literal, q->u.literal)) {
-								char *s = nstring_to_cstring(entry_key(ea));
+								char *s = nstring_to_cstring(&ea->key);
 								error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.literal);
 								break;
 							}
@@ -2379,7 +2375,7 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 
 		xfree((ZIi));
 	
-#line 2383 "syntax.c"
+#line 2379 "syntax.c"
 			}
 			/* END OF ACTION: make-action-cmd */
 		}
@@ -2397,26 +2393,26 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 
 		ZIb = add_arg(ARG_CHARP, 0);
 	
-#line 2401 "syntax.c"
+#line 2397 "syntax.c"
 			}
 			/* END OF EXTRACT: arg-char-string */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: make_arg_none */
 			{
-#line 610 "syntax.act"
+#line 608 "syntax.act"
 
 		(ZIa) = add_none();
 	
-#line 2411 "syntax.c"
+#line 2407 "syntax.c"
 			}
 			/* END OF ACTION: make_arg_none */
 			/* BEGINNING OF ACTION: E_sharp_arg_in_lhs */
 			{
-#line 756 "syntax.act"
+#line 754 "syntax.act"
 
 		error(ERROR_SERIOUS, "Argument of style # are rvalues and should not appear on a left handside");
 	
-#line 2420 "syntax.c"
+#line 2416 "syntax.c"
 			}
 			/* END OF ACTION: E_sharp_arg_in_lhs */
 			/* BEGINNING OF ACTION: append-arg-args-list */
@@ -2429,7 +2425,7 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 			(*ZIl)->return_count++;
 		}
 	
-#line 2433 "syntax.c"
+#line 2429 "syntax.c"
 			}
 			/* END OF ACTION: append-arg-args-list */
 			switch (CURRENT_TERMINAL) {
@@ -2454,7 +2450,7 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 
 		ZIi = xstrdup (tokbuf);
 	
-#line 2458 "syntax.c"
+#line 2454 "syntax.c"
 				}
 				/* END OF EXTRACT: ident */
 				break;
@@ -2470,7 +2466,7 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 			error(ERROR_SERIOUS, "There can only be one return terminal argument per action lhs");
 		}
 	
-#line 2474 "syntax.c"
+#line 2470 "syntax.c"
 			}
 			/* END OF ACTION: check-args-list */
 			switch (CURRENT_TERMINAL) {
@@ -2494,9 +2490,9 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 
 		nstring_copy_cstring(&key, (ZIi));
 
-		ea = table_get_entry(tree_get_table((*ZIz)->ast), &key);
+		ea = table_get_entry(&(*ZIz)->ast->table, &key);
 		if (ea) {
-			if (entry_is_action(ea)) {
+			if (ea->kind == ENTRY_ACTION) {
 				/* TODO: Inefficient code follows: */
 				/* Checking that a name does not appear twice in an lhs*/
 				struct arg* p, *q;
@@ -2504,7 +2500,7 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 					if (p->kind == ARG_IDENT) {
 						for(q=p->next; q!=NULL;q=q->next) {
 							if (q->kind == ARG_IDENT && !strcmp(p->u.literal, q->u.literal)) {
-								char *s = nstring_to_cstring(entry_key(ea));
+								char *s = nstring_to_cstring(&ea->key);
 								error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.literal);
 								break;
 							}
@@ -2524,7 +2520,7 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 
 		xfree((ZIi));
 	
-#line 2528 "syntax.c"
+#line 2524 "syntax.c"
 			}
 			/* END OF ACTION: make-action-cmd */
 		}
@@ -2541,7 +2537,7 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 
 		ZIa = add_arg(ARG_IGNORE ,0);
 	
-#line 2545 "syntax.c"
+#line 2541 "syntax.c"
 			}
 			/* END OF EXTRACT: arg-ignore */
 			ADVANCE_LEXER;
@@ -2555,7 +2551,7 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 			(*ZIl)->return_count++;
 		}
 	
-#line 2559 "syntax.c"
+#line 2555 "syntax.c"
 			}
 			/* END OF ACTION: append-arg-args-list */
 			switch (CURRENT_TERMINAL) {
@@ -2580,7 +2576,7 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 
 		ZIi = xstrdup (tokbuf);
 	
-#line 2584 "syntax.c"
+#line 2580 "syntax.c"
 				}
 				/* END OF EXTRACT: ident */
 				break;
@@ -2596,7 +2592,7 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 			error(ERROR_SERIOUS, "There can only be one return terminal argument per action lhs");
 		}
 	
-#line 2600 "syntax.c"
+#line 2596 "syntax.c"
 			}
 			/* END OF ACTION: check-args-list */
 			switch (CURRENT_TERMINAL) {
@@ -2620,9 +2616,9 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 
 		nstring_copy_cstring(&key, (ZIi));
 
-		ea = table_get_entry(tree_get_table((*ZIz)->ast), &key);
+		ea = table_get_entry(&(*ZIz)->ast->table, &key);
 		if (ea) {
-			if (entry_is_action(ea)) {
+			if (ea->kind == ENTRY_ACTION) {
 				/* TODO: Inefficient code follows: */
 				/* Checking that a name does not appear twice in an lhs*/
 				struct arg* p, *q;
@@ -2630,7 +2626,7 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 					if (p->kind == ARG_IDENT) {
 						for(q=p->next; q!=NULL;q=q->next) {
 							if (q->kind == ARG_IDENT && !strcmp(p->u.literal, q->u.literal)) {
-								char *s = nstring_to_cstring(entry_key(ea));
+								char *s = nstring_to_cstring(&ea->key);
 								error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.literal);
 								break;
 							}
@@ -2650,7 +2646,7 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 
 		xfree((ZIi));
 	
-#line 2654 "syntax.c"
+#line 2650 "syntax.c"
 			}
 			/* END OF ACTION: make-action-cmd */
 		}
@@ -2667,7 +2663,7 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 
 		ZIa = add_arg(ARG_RETURN, 0);
 	
-#line 2671 "syntax.c"
+#line 2667 "syntax.c"
 			}
 			/* END OF EXTRACT: arg-return */
 			ADVANCE_LEXER;
@@ -2681,7 +2677,7 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 			(*ZIl)->return_count++;
 		}
 	
-#line 2685 "syntax.c"
+#line 2681 "syntax.c"
 			}
 			/* END OF ACTION: append-arg-args-list */
 			switch (CURRENT_TERMINAL) {
@@ -2706,7 +2702,7 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 
 		ZIi = xstrdup (tokbuf);
 	
-#line 2710 "syntax.c"
+#line 2706 "syntax.c"
 				}
 				/* END OF EXTRACT: ident */
 				break;
@@ -2722,7 +2718,7 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 			error(ERROR_SERIOUS, "There can only be one return terminal argument per action lhs");
 		}
 	
-#line 2726 "syntax.c"
+#line 2722 "syntax.c"
 			}
 			/* END OF ACTION: check-args-list */
 			switch (CURRENT_TERMINAL) {
@@ -2746,9 +2742,9 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 
 		nstring_copy_cstring(&key, (ZIi));
 
-		ea = table_get_entry(tree_get_table((*ZIz)->ast), &key);
+		ea = table_get_entry(&(*ZIz)->ast->table, &key);
 		if (ea) {
-			if (entry_is_action(ea)) {
+			if (ea->kind == ENTRY_ACTION) {
 				/* TODO: Inefficient code follows: */
 				/* Checking that a name does not appear twice in an lhs*/
 				struct arg* p, *q;
@@ -2756,7 +2752,7 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 					if (p->kind == ARG_IDENT) {
 						for(q=p->next; q!=NULL;q=q->next) {
 							if (q->kind == ARG_IDENT && !strcmp(p->u.literal, q->u.literal)) {
-								char *s = nstring_to_cstring(entry_key(ea));
+								char *s = nstring_to_cstring(&ea->key);
 								error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.literal);
 								break;
 							}
@@ -2776,7 +2772,7 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 
 		xfree((ZIi));
 	
-#line 2780 "syntax.c"
+#line 2776 "syntax.c"
 			}
 			/* END OF ACTION: make-action-cmd */
 		}
@@ -2795,7 +2791,7 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 
 		ZIi = xstrdup (tokbuf);
 	
-#line 2799 "syntax.c"
+#line 2795 "syntax.c"
 				}
 				/* END OF EXTRACT: ident */
 				break;
@@ -2811,7 +2807,7 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 			error(ERROR_SERIOUS, "There can only be one return terminal argument per action lhs");
 		}
 	
-#line 2815 "syntax.c"
+#line 2811 "syntax.c"
 			}
 			/* END OF ACTION: check-args-list */
 			switch (CURRENT_TERMINAL) {
@@ -2835,9 +2831,9 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 
 		nstring_copy_cstring(&key, (ZIi));
 
-		ea = table_get_entry(tree_get_table((*ZIz)->ast), &key);
+		ea = table_get_entry(&(*ZIz)->ast->table, &key);
 		if (ea) {
-			if (entry_is_action(ea)) {
+			if (ea->kind == ENTRY_ACTION) {
 				/* TODO: Inefficient code follows: */
 				/* Checking that a name does not appear twice in an lhs*/
 				struct arg* p, *q;
@@ -2845,7 +2841,7 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 					if (p->kind == ARG_IDENT) {
 						for(q=p->next; q!=NULL;q=q->next) {
 							if (q->kind == ARG_IDENT && !strcmp(p->u.literal, q->u.literal)) {
-								char *s = nstring_to_cstring(entry_key(ea));
+								char *s = nstring_to_cstring(&ea->key);
 								error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.literal);
 								break;
 							}
@@ -2865,7 +2861,7 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 
 		xfree((ZIi));
 	
-#line 2869 "syntax.c"
+#line 2865 "syntax.c"
 			}
 			/* END OF ACTION: make-action-cmd */
 		}
@@ -2883,17 +2879,17 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 
 		ZI208 = xstrdup (tokbuf);
 	
-#line 2887 "syntax.c"
+#line 2883 "syntax.c"
 			}
 			/* END OF EXTRACT: ident */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: make_arg_from_ident */
 			{
-#line 598 "syntax.act"
+#line 596 "syntax.act"
 
 		(ZIa) = add_ident((ZI208));
 	
-#line 2897 "syntax.c"
+#line 2893 "syntax.c"
 			}
 			/* END OF ACTION: make_arg_from_ident */
 			/* BEGINNING OF ACTION: append-arg-args-list */
@@ -2906,7 +2902,7 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 			(*ZIl)->return_count++;
 		}
 	
-#line 2910 "syntax.c"
+#line 2906 "syntax.c"
 			}
 			/* END OF ACTION: append-arg-args-list */
 			switch (CURRENT_TERMINAL) {
@@ -2931,7 +2927,7 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 
 		ZIi = xstrdup (tokbuf);
 	
-#line 2935 "syntax.c"
+#line 2931 "syntax.c"
 				}
 				/* END OF EXTRACT: ident */
 				break;
@@ -2947,7 +2943,7 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 			error(ERROR_SERIOUS, "There can only be one return terminal argument per action lhs");
 		}
 	
-#line 2951 "syntax.c"
+#line 2947 "syntax.c"
 			}
 			/* END OF ACTION: check-args-list */
 			switch (CURRENT_TERMINAL) {
@@ -2971,9 +2967,9 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 
 		nstring_copy_cstring(&key, (ZIi));
 
-		ea = table_get_entry(tree_get_table((*ZIz)->ast), &key);
+		ea = table_get_entry(&(*ZIz)->ast->table, &key);
 		if (ea) {
-			if (entry_is_action(ea)) {
+			if (ea->kind == ENTRY_ACTION) {
 				/* TODO: Inefficient code follows: */
 				/* Checking that a name does not appear twice in an lhs*/
 				struct arg* p, *q;
@@ -2981,7 +2977,7 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 					if (p->kind == ARG_IDENT) {
 						for(q=p->next; q!=NULL;q=q->next) {
 							if (q->kind == ARG_IDENT && !strcmp(p->u.literal, q->u.literal)) {
-								char *s = nstring_to_cstring(entry_key(ea));
+								char *s = nstring_to_cstring(&ea->key);
 								error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.literal);
 								break;
 							}
@@ -3001,7 +2997,7 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 
 		xfree((ZIi));
 	
-#line 3005 "syntax.c"
+#line 3001 "syntax.c"
 			}
 			/* END OF ACTION: make-action-cmd */
 		}
@@ -3015,7 +3011,7 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 
 		(ZIc) = add_cmd_donothing();
 	
-#line 3019 "syntax.c"
+#line 3015 "syntax.c"
 			}
 			/* END OF ACTION: make-donothing-cmd */
 		}
@@ -3059,7 +3055,7 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 
 		ZIi = xstrdup (tokbuf);
 	
-#line 3063 "syntax.c"
+#line 3059 "syntax.c"
 				}
 				/* END OF EXTRACT: ident */
 				break;
@@ -3075,7 +3071,7 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 			error(ERROR_SERIOUS, "There can only be one return terminal argument per action lhs");
 		}
 	
-#line 3079 "syntax.c"
+#line 3075 "syntax.c"
 			}
 			/* END OF ACTION: check-args-list */
 			switch (CURRENT_TERMINAL) {
@@ -3099,9 +3095,9 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 
 		nstring_copy_cstring(&key, (ZIi));
 
-		ea = table_get_entry(tree_get_table((*ZIz)->ast), &key);
+		ea = table_get_entry(&(*ZIz)->ast->table, &key);
 		if (ea) {
-			if (entry_is_action(ea)) {
+			if (ea->kind == ENTRY_ACTION) {
 				/* TODO: Inefficient code follows: */
 				/* Checking that a name does not appear twice in an lhs*/
 				struct arg* p, *q;
@@ -3109,7 +3105,7 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 					if (p->kind == ARG_IDENT) {
 						for(q=p->next; q!=NULL;q=q->next) {
 							if (q->kind == ARG_IDENT && !strcmp(p->u.literal, q->u.literal)) {
-								char *s = nstring_to_cstring(entry_key(ea));
+								char *s = nstring_to_cstring(&ea->key);
 								error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.literal);
 								break;
 							}
@@ -3129,7 +3125,7 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 
 		xfree((ZIi));
 	
-#line 3133 "syntax.c"
+#line 3129 "syntax.c"
 			}
 			/* END OF ACTION: make-action-cmd */
 		}
@@ -3150,7 +3146,7 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 
 		ZI209 = xstrdup (tokbuf);
 	
-#line 3154 "syntax.c"
+#line 3150 "syntax.c"
 				}
 				/* END OF EXTRACT: ident */
 				break;
@@ -3160,11 +3156,11 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: make_arg_from_ref */
 			{
-#line 602 "syntax.act"
+#line 600 "syntax.act"
 
 		(ZIa) = add_ref((ZI209));
 	
-#line 3168 "syntax.c"
+#line 3164 "syntax.c"
 			}
 			/* END OF ACTION: make_arg_from_ref */
 			/* BEGINNING OF ACTION: append-arg-args-list */
@@ -3177,7 +3173,7 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 			(*ZIl)->return_count++;
 		}
 	
-#line 3181 "syntax.c"
+#line 3177 "syntax.c"
 			}
 			/* END OF ACTION: append-arg-args-list */
 			switch (CURRENT_TERMINAL) {
@@ -3202,7 +3198,7 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 
 		ZIi = xstrdup (tokbuf);
 	
-#line 3206 "syntax.c"
+#line 3202 "syntax.c"
 				}
 				/* END OF EXTRACT: ident */
 				break;
@@ -3218,7 +3214,7 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 			error(ERROR_SERIOUS, "There can only be one return terminal argument per action lhs");
 		}
 	
-#line 3222 "syntax.c"
+#line 3218 "syntax.c"
 			}
 			/* END OF ACTION: check-args-list */
 			switch (CURRENT_TERMINAL) {
@@ -3242,9 +3238,9 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 
 		nstring_copy_cstring(&key, (ZIi));
 
-		ea = table_get_entry(tree_get_table((*ZIz)->ast), &key);
+		ea = table_get_entry(&(*ZIz)->ast->table, &key);
 		if (ea) {
-			if (entry_is_action(ea)) {
+			if (ea->kind == ENTRY_ACTION) {
 				/* TODO: Inefficient code follows: */
 				/* Checking that a name does not appear twice in an lhs*/
 				struct arg* p, *q;
@@ -3252,7 +3248,7 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 					if (p->kind == ARG_IDENT) {
 						for(q=p->next; q!=NULL;q=q->next) {
 							if (q->kind == ARG_IDENT && !strcmp(p->u.literal, q->u.literal)) {
-								char *s = nstring_to_cstring(entry_key(ea));
+								char *s = nstring_to_cstring(&ea->key);
 								error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.literal);
 								break;
 							}
@@ -3272,7 +3268,7 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 
 		xfree((ZIi));
 	
-#line 3276 "syntax.c"
+#line 3272 "syntax.c"
 			}
 			/* END OF ACTION: make-action-cmd */
 		}
@@ -3308,7 +3304,7 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 		buf[n] = 0;
 		ZI210 = xstrdup(buf);
 	
-#line 3312 "syntax.c"
+#line 3308 "syntax.c"
 			}
 			/* END OF EXTRACT: sid-ident */
 			ADVANCE_LEXER;
@@ -3332,26 +3328,26 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 
 		ZIb = xstrdup (tokbuf);
 	
-#line 3336 "syntax.c"
+#line 3332 "syntax.c"
 			}
 			/* END OF EXTRACT: string */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: make_arg_none */
 			{
-#line 610 "syntax.act"
+#line 608 "syntax.act"
 
 		(ZIa) = add_none();
 	
-#line 3346 "syntax.c"
+#line 3342 "syntax.c"
 			}
 			/* END OF ACTION: make_arg_none */
 			/* BEGINNING OF ACTION: E_string_arg_in_lhs */
 			{
-#line 760 "syntax.act"
+#line 758 "syntax.act"
 
 		error(ERROR_SERIOUS, "Argument of type "" are rvalues and should not appear on a left handside");
 	
-#line 3355 "syntax.c"
+#line 3351 "syntax.c"
 			}
 			/* END OF ACTION: E_string_arg_in_lhs */
 			/* BEGINNING OF ACTION: append-arg-args-list */
@@ -3364,7 +3360,7 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 			(*ZIl)->return_count++;
 		}
 	
-#line 3368 "syntax.c"
+#line 3364 "syntax.c"
 			}
 			/* END OF ACTION: append-arg-args-list */
 			switch (CURRENT_TERMINAL) {
@@ -3389,7 +3385,7 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 
 		ZIi = xstrdup (tokbuf);
 	
-#line 3393 "syntax.c"
+#line 3389 "syntax.c"
 				}
 				/* END OF EXTRACT: ident */
 				break;
@@ -3405,7 +3401,7 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 			error(ERROR_SERIOUS, "There can only be one return terminal argument per action lhs");
 		}
 	
-#line 3409 "syntax.c"
+#line 3405 "syntax.c"
 			}
 			/* END OF ACTION: check-args-list */
 			switch (CURRENT_TERMINAL) {
@@ -3429,9 +3425,9 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 
 		nstring_copy_cstring(&key, (ZIi));
 
-		ea = table_get_entry(tree_get_table((*ZIz)->ast), &key);
+		ea = table_get_entry(&(*ZIz)->ast->table, &key);
 		if (ea) {
-			if (entry_is_action(ea)) {
+			if (ea->kind == ENTRY_ACTION) {
 				/* TODO: Inefficient code follows: */
 				/* Checking that a name does not appear twice in an lhs*/
 				struct arg* p, *q;
@@ -3439,7 +3435,7 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 					if (p->kind == ARG_IDENT) {
 						for(q=p->next; q!=NULL;q=q->next) {
 							if (q->kind == ARG_IDENT && !strcmp(p->u.literal, q->u.literal)) {
-								char *s = nstring_to_cstring(entry_key(ea));
+								char *s = nstring_to_cstring(&ea->key);
 								error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.literal);
 								break;
 							}
@@ -3459,7 +3455,7 @@ ZR207(zoneP *ZIz, args_listP *ZIl, cmdP *ZOc)
 
 		xfree((ZIi));
 	
-#line 3463 "syntax.c"
+#line 3459 "syntax.c"
 			}
 			/* END OF ACTION: make-action-cmd */
 		}
@@ -3507,11 +3503,11 @@ ZL1:;
 	{
 		/* BEGINNING OF ACTION: syntax-error */
 		{
-#line 752 "syntax.act"
+#line 750 "syntax.act"
 
 		error(ERROR_SERIOUS, "Syntax error");
 	
-#line 3515 "syntax.c"
+#line 3511 "syntax.c"
 		}
 		/* END OF ACTION: syntax-error */
 	}
@@ -3531,7 +3527,7 @@ ZR211(zoneP *ZIz, args_listP *ZIl, SID_STRING *ZI210, cmdP *ZOc)
 
 			(ZIc) = add_cmd_return((*ZI210));
 	
-#line 3535 "syntax.c"
+#line 3531 "syntax.c"
 			}
 			/* END OF ACTION: make-terminal-cmd */
 		}
@@ -3544,20 +3540,20 @@ ZR211(zoneP *ZIz, args_listP *ZIl, SID_STRING *ZI210, cmdP *ZOc)
 
 			/* BEGINNING OF ACTION: make_arg_none */
 			{
-#line 610 "syntax.act"
+#line 608 "syntax.act"
 
 		(ZIa) = add_none();
 	
-#line 3552 "syntax.c"
+#line 3548 "syntax.c"
 			}
 			/* END OF ACTION: make_arg_none */
 			/* BEGINNING OF ACTION: E_terminal_in_lhs */
 			{
-#line 777 "syntax.act"
+#line 775 "syntax.act"
 
 		error(ERROR_SERIOUS, "Terminal argument in left handside");
 	
-#line 3561 "syntax.c"
+#line 3557 "syntax.c"
 			}
 			/* END OF ACTION: E_terminal_in_lhs */
 			/* BEGINNING OF ACTION: append-arg-args-list */
@@ -3570,7 +3566,7 @@ ZR211(zoneP *ZIz, args_listP *ZIl, SID_STRING *ZI210, cmdP *ZOc)
 			(*ZIl)->return_count++;
 		}
 	
-#line 3574 "syntax.c"
+#line 3570 "syntax.c"
 			}
 			/* END OF ACTION: append-arg-args-list */
 			ADVANCE_LEXER;
@@ -3589,7 +3585,7 @@ ZR211(zoneP *ZIz, args_listP *ZIl, SID_STRING *ZI210, cmdP *ZOc)
 
 		ZIi = xstrdup (tokbuf);
 	
-#line 3593 "syntax.c"
+#line 3589 "syntax.c"
 				}
 				/* END OF EXTRACT: ident */
 				break;
@@ -3605,7 +3601,7 @@ ZR211(zoneP *ZIz, args_listP *ZIl, SID_STRING *ZI210, cmdP *ZOc)
 			error(ERROR_SERIOUS, "There can only be one return terminal argument per action lhs");
 		}
 	
-#line 3609 "syntax.c"
+#line 3605 "syntax.c"
 			}
 			/* END OF ACTION: check-args-list */
 			switch (CURRENT_TERMINAL) {
@@ -3629,9 +3625,9 @@ ZR211(zoneP *ZIz, args_listP *ZIl, SID_STRING *ZI210, cmdP *ZOc)
 
 		nstring_copy_cstring(&key, (ZIi));
 
-		ea = table_get_entry(tree_get_table((*ZIz)->ast), &key);
+		ea = table_get_entry(&(*ZIz)->ast->table, &key);
 		if (ea) {
-			if (entry_is_action(ea)) {
+			if (ea->kind == ENTRY_ACTION) {
 				/* TODO: Inefficient code follows: */
 				/* Checking that a name does not appear twice in an lhs*/
 				struct arg* p, *q;
@@ -3639,7 +3635,7 @@ ZR211(zoneP *ZIz, args_listP *ZIl, SID_STRING *ZI210, cmdP *ZOc)
 					if (p->kind == ARG_IDENT) {
 						for(q=p->next; q!=NULL;q=q->next) {
 							if (q->kind == ARG_IDENT && !strcmp(p->u.literal, q->u.literal)) {
-								char *s = nstring_to_cstring(entry_key(ea));
+								char *s = nstring_to_cstring(&ea->key);
 								error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.literal);
 								break;
 							}
@@ -3659,7 +3655,7 @@ ZR211(zoneP *ZIz, args_listP *ZIl, SID_STRING *ZI210, cmdP *ZOc)
 
 		xfree((ZIi));
 	
-#line 3663 "syntax.c"
+#line 3659 "syntax.c"
 			}
 			/* END OF ACTION: make-action-cmd */
 		}
@@ -3699,7 +3695,7 @@ ZR212(argP *ZIa, args_listP *ZOr)
 			(ZIr)->return_count++;
 		}
 	
-#line 3703 "syntax.c"
+#line 3699 "syntax.c"
 			}
 			/* END OF ACTION: args-list-push-front */
 		}
@@ -3712,7 +3708,7 @@ ZR212(argP *ZIa, args_listP *ZOr)
 
 		(ZIr)=add_args_list();
 	
-#line 3716 "syntax.c"
+#line 3712 "syntax.c"
 			}
 			/* END OF ACTION: empty-args-list */
 			/* BEGINNING OF ACTION: args-list-push-front */
@@ -3725,7 +3721,7 @@ ZR212(argP *ZIa, args_listP *ZOr)
 			(ZIr)->return_count++;
 		}
 	
-#line 3729 "syntax.c"
+#line 3725 "syntax.c"
 			}
 			/* END OF ACTION: args-list-push-front */
 		}
@@ -3790,7 +3786,7 @@ ZRkeyword_Hdefn(zoneP ZIz)
 
 		ZIs = xstrdup (tokbuf);
 	
-#line 3794 "syntax.c"
+#line 3790 "syntax.c"
 			}
 			/* END OF EXTRACT: string */
 			break;
@@ -3815,18 +3811,18 @@ ZRkeyword_Hdefn(zoneP ZIz)
 			{
 				/* BEGINNING OF ACTION: is-global-zone */
 				{
-#line 614 "syntax.act"
+#line 612 "syntax.act"
 
-	   (ZI0) = tree_zoneisglobal((ZIz)->ast, (ZIz));
+	   (ZI0) = zone_isglobal((ZIz));
 	
-#line 3823 "syntax.c"
+#line 3819 "syntax.c"
 				}
 				/* END OF ACTION: is-global-zone */
 				if (!ZI0)
 					goto ZL3;
 				/* BEGINNING OF ACTION: make-keyword */
 				{
-#line 546 "syntax.act"
+#line 544 "syntax.act"
 
 		switch ((ZIc)->kind) {
 		case CMD_RETURN:
@@ -3838,7 +3834,7 @@ ZRkeyword_Hdefn(zoneP ZIz)
 		  error(ERROR_SERIOUS, "Syntax error: only a function or a token might be returned for a keyword");
 		}
 	
-#line 3842 "syntax.c"
+#line 3838 "syntax.c"
 				}
 				/* END OF ACTION: make-keyword */
 			}
@@ -3847,11 +3843,11 @@ ZRkeyword_Hdefn(zoneP ZIz)
 			{
 				/* BEGINNING OF ACTION: E_nonglobalzonekeyword */
 				{
-#line 698 "syntax.act"
+#line 696 "syntax.act"
 
 		error(ERROR_SERIOUS, "Keywords not yet implemented in a non global zone ");
 	
-#line 3855 "syntax.c"
+#line 3851 "syntax.c"
 				}
 				/* END OF ACTION: E_nonglobalzonekeyword */
 			}
@@ -4008,7 +4004,7 @@ ZRaction_Hcall_C_Crhs_Htuple(args_listP *ZOr)
 
 		(ZIr)=add_args_list();
 	
-#line 4012 "syntax.c"
+#line 4008 "syntax.c"
 					}
 					/* END OF ACTION: empty-args-list */
 				}
@@ -4051,11 +4047,11 @@ ZRnon_Hempty_Hchars(SID_STRING *ZOs)
 			{
 				/* BEGINNING OF ACTION: is-non-empty */
 				{
-#line 531 "syntax.act"
+#line 529 "syntax.act"
 
 		(ZI0) = strlen((ZIs)) > 0;
 	
-#line 4059 "syntax.c"
+#line 4055 "syntax.c"
 				}
 				/* END OF ACTION: is-non-empty */
 				if (!ZI0)
@@ -4066,11 +4062,11 @@ ZRnon_Hempty_Hchars(SID_STRING *ZOs)
 			{
 				/* BEGINNING OF ACTION: E_empty_character_string */
 				{
-#line 536 "syntax.act"
+#line 534 "syntax.act"
 
 		error(ERROR_SERIOUS, "Empty character string is not allowed here, try using DEFAULT instead");
 	
-#line 4074 "syntax.c"
+#line 4070 "syntax.c"
 				}
 				/* END OF ACTION: E_empty_character_string */
 			}
@@ -4106,11 +4102,11 @@ ZL1:;
 	{
 		/* BEGINNING OF ACTION: E_expected_equal */
 		{
-#line 740 "syntax.act"
+#line 738 "syntax.act"
 
 		error(ERROR_SERIOUS, "Syntax error: expected equal \'=\'");
 	
-#line 4114 "syntax.c"
+#line 4110 "syntax.c"
 		}
 		/* END OF ACTION: E_expected_equal */
 	}
@@ -4136,11 +4132,11 @@ ZL1:;
 	{
 		/* BEGINNING OF ACTION: E_expected_arrow */
 		{
-#line 736 "syntax.act"
+#line 734 "syntax.act"
 
 		error(ERROR_SERIOUS, "Syntax error: expected arrow \'->\'");
 	
-#line 4144 "syntax.c"
+#line 4140 "syntax.c"
 		}
 		/* END OF ACTION: E_expected_arrow */
 	}
@@ -4168,26 +4164,26 @@ ZRaction_Hcall_C_Clhs_Harg(args_listP ZIl)
 
 		ZIb = add_arg(ARG_CHAR_COUNT, 0);
 	
-#line 4172 "syntax.c"
+#line 4168 "syntax.c"
 					}
 					/* END OF EXTRACT: arg-char-count */
 					ADVANCE_LEXER;
 					/* BEGINNING OF ACTION: make_arg_none */
 					{
-#line 610 "syntax.act"
+#line 608 "syntax.act"
 
 		(ZIa) = add_none();
 	
-#line 4182 "syntax.c"
+#line 4178 "syntax.c"
 					}
 					/* END OF ACTION: make_arg_none */
 					/* BEGINNING OF ACTION: E_sharp_arg_in_lhs */
 					{
-#line 756 "syntax.act"
+#line 754 "syntax.act"
 
 		error(ERROR_SERIOUS, "Argument of style # are rvalues and should not appear on a left handside");
 	
-#line 4191 "syntax.c"
+#line 4187 "syntax.c"
 					}
 					/* END OF ACTION: E_sharp_arg_in_lhs */
 				}
@@ -4202,26 +4198,26 @@ ZRaction_Hcall_C_Clhs_Harg(args_listP ZIl)
 
 		ZIb = add_arg(ARG_CHAR_NUM, numbuf);
 	
-#line 4206 "syntax.c"
+#line 4202 "syntax.c"
 					}
 					/* END OF EXTRACT: arg-char-num */
 					ADVANCE_LEXER;
 					/* BEGINNING OF ACTION: make_arg_none */
 					{
-#line 610 "syntax.act"
+#line 608 "syntax.act"
 
 		(ZIa) = add_none();
 	
-#line 4216 "syntax.c"
+#line 4212 "syntax.c"
 					}
 					/* END OF ACTION: make_arg_none */
 					/* BEGINNING OF ACTION: E_sharp_arg_in_lhs */
 					{
-#line 756 "syntax.act"
+#line 754 "syntax.act"
 
 		error(ERROR_SERIOUS, "Argument of style # are rvalues and should not appear on a left handside");
 	
-#line 4225 "syntax.c"
+#line 4221 "syntax.c"
 					}
 					/* END OF ACTION: E_sharp_arg_in_lhs */
 				}
@@ -4236,26 +4232,26 @@ ZRaction_Hcall_C_Clhs_Harg(args_listP ZIl)
 
 		ZIb = add_arg(ARG_CHARP, 0);
 	
-#line 4240 "syntax.c"
+#line 4236 "syntax.c"
 					}
 					/* END OF EXTRACT: arg-char-string */
 					ADVANCE_LEXER;
 					/* BEGINNING OF ACTION: make_arg_none */
 					{
-#line 610 "syntax.act"
+#line 608 "syntax.act"
 
 		(ZIa) = add_none();
 	
-#line 4250 "syntax.c"
+#line 4246 "syntax.c"
 					}
 					/* END OF ACTION: make_arg_none */
 					/* BEGINNING OF ACTION: E_sharp_arg_in_lhs */
 					{
-#line 756 "syntax.act"
+#line 754 "syntax.act"
 
 		error(ERROR_SERIOUS, "Argument of style # are rvalues and should not appear on a left handside");
 	
-#line 4259 "syntax.c"
+#line 4255 "syntax.c"
 					}
 					/* END OF ACTION: E_sharp_arg_in_lhs */
 				}
@@ -4268,7 +4264,7 @@ ZRaction_Hcall_C_Clhs_Harg(args_listP ZIl)
 
 		ZIa = add_arg(ARG_IGNORE ,0);
 	
-#line 4272 "syntax.c"
+#line 4268 "syntax.c"
 					}
 					/* END OF EXTRACT: arg-ignore */
 					ADVANCE_LEXER;
@@ -4282,7 +4278,7 @@ ZRaction_Hcall_C_Clhs_Harg(args_listP ZIl)
 
 		ZIa = add_arg(ARG_RETURN, 0);
 	
-#line 4286 "syntax.c"
+#line 4282 "syntax.c"
 					}
 					/* END OF EXTRACT: arg-return */
 					ADVANCE_LEXER;
@@ -4298,17 +4294,17 @@ ZRaction_Hcall_C_Clhs_Harg(args_listP ZIl)
 
 		ZIi = xstrdup (tokbuf);
 	
-#line 4302 "syntax.c"
+#line 4298 "syntax.c"
 					}
 					/* END OF EXTRACT: ident */
 					ADVANCE_LEXER;
 					/* BEGINNING OF ACTION: make_arg_from_ident */
 					{
-#line 598 "syntax.act"
+#line 596 "syntax.act"
 
 		(ZIa) = add_ident((ZIi));
 	
-#line 4312 "syntax.c"
+#line 4308 "syntax.c"
 					}
 					/* END OF ACTION: make_arg_from_ident */
 				}
@@ -4326,7 +4322,7 @@ ZRaction_Hcall_C_Clhs_Harg(args_listP ZIl)
 
 		ZIi = xstrdup (tokbuf);
 	
-#line 4330 "syntax.c"
+#line 4326 "syntax.c"
 						}
 						/* END OF EXTRACT: ident */
 						break;
@@ -4336,11 +4332,11 @@ ZRaction_Hcall_C_Clhs_Harg(args_listP ZIl)
 					ADVANCE_LEXER;
 					/* BEGINNING OF ACTION: make_arg_from_ref */
 					{
-#line 602 "syntax.act"
+#line 600 "syntax.act"
 
 		(ZIa) = add_ref((ZIi));
 	
-#line 4344 "syntax.c"
+#line 4340 "syntax.c"
 					}
 					/* END OF ACTION: make_arg_from_ref */
 				}
@@ -4376,26 +4372,26 @@ ZRaction_Hcall_C_Clhs_Harg(args_listP ZIl)
 		buf[n] = 0;
 		ZIb = xstrdup(buf);
 	
-#line 4380 "syntax.c"
+#line 4376 "syntax.c"
 					}
 					/* END OF EXTRACT: sid-ident */
 					ADVANCE_LEXER;
 					/* BEGINNING OF ACTION: make_arg_none */
 					{
-#line 610 "syntax.act"
+#line 608 "syntax.act"
 
 		(ZIa) = add_none();
 	
-#line 4390 "syntax.c"
+#line 4386 "syntax.c"
 					}
 					/* END OF ACTION: make_arg_none */
 					/* BEGINNING OF ACTION: E_terminal_in_lhs */
 					{
-#line 777 "syntax.act"
+#line 775 "syntax.act"
 
 		error(ERROR_SERIOUS, "Terminal argument in left handside");
 	
-#line 4399 "syntax.c"
+#line 4395 "syntax.c"
 					}
 					/* END OF ACTION: E_terminal_in_lhs */
 				}
@@ -4410,26 +4406,26 @@ ZRaction_Hcall_C_Clhs_Harg(args_listP ZIl)
 
 		ZIb = xstrdup (tokbuf);
 	
-#line 4414 "syntax.c"
+#line 4410 "syntax.c"
 					}
 					/* END OF EXTRACT: string */
 					ADVANCE_LEXER;
 					/* BEGINNING OF ACTION: make_arg_none */
 					{
-#line 610 "syntax.act"
+#line 608 "syntax.act"
 
 		(ZIa) = add_none();
 	
-#line 4424 "syntax.c"
+#line 4420 "syntax.c"
 					}
 					/* END OF ACTION: make_arg_none */
 					/* BEGINNING OF ACTION: E_string_arg_in_lhs */
 					{
-#line 760 "syntax.act"
+#line 758 "syntax.act"
 
 		error(ERROR_SERIOUS, "Argument of type "" are rvalues and should not appear on a left handside");
 	
-#line 4433 "syntax.c"
+#line 4429 "syntax.c"
 					}
 					/* END OF ACTION: E_string_arg_in_lhs */
 				}
@@ -4449,7 +4445,7 @@ ZRaction_Hcall_C_Clhs_Harg(args_listP ZIl)
 			(ZIl)->return_count++;
 		}
 	
-#line 4453 "syntax.c"
+#line 4449 "syntax.c"
 		}
 		/* END OF ACTION: append-arg-args-list */
 	}
@@ -4473,7 +4469,7 @@ ZRaction_Hcall_C_Crhs_Harg(argP *ZOa)
 
 		ZIa = add_arg(ARG_CHAR_COUNT, 0);
 	
-#line 4477 "syntax.c"
+#line 4473 "syntax.c"
 			}
 			/* END OF EXTRACT: arg-char-count */
 			ADVANCE_LEXER;
@@ -4487,7 +4483,7 @@ ZRaction_Hcall_C_Crhs_Harg(argP *ZOa)
 
 		ZIa = add_arg(ARG_CHAR_NUM, numbuf);
 	
-#line 4491 "syntax.c"
+#line 4487 "syntax.c"
 			}
 			/* END OF EXTRACT: arg-char-num */
 			ADVANCE_LEXER;
@@ -4501,7 +4497,7 @@ ZRaction_Hcall_C_Crhs_Harg(argP *ZOa)
 
 		ZIa = add_arg(ARG_CHARP, 0);
 	
-#line 4505 "syntax.c"
+#line 4501 "syntax.c"
 			}
 			/* END OF EXTRACT: arg-char-string */
 			ADVANCE_LEXER;
@@ -4517,26 +4513,26 @@ ZRaction_Hcall_C_Crhs_Harg(argP *ZOa)
 
 		ZIb = add_arg(ARG_IGNORE ,0);
 	
-#line 4521 "syntax.c"
+#line 4517 "syntax.c"
 			}
 			/* END OF EXTRACT: arg-ignore */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: make_arg_none */
 			{
-#line 610 "syntax.act"
+#line 608 "syntax.act"
 
 		(ZIa) = add_none();
 	
-#line 4531 "syntax.c"
+#line 4527 "syntax.c"
 			}
 			/* END OF ACTION: make_arg_none */
 			/* BEGINNING OF ACTION: E_ignore_in_rhs */
 			{
-#line 773 "syntax.act"
+#line 771 "syntax.act"
 
 		error(ERROR_SERIOUS, "Ignore argument in right handside");
 	
-#line 4540 "syntax.c"
+#line 4536 "syntax.c"
 			}
 			/* END OF ACTION: E_ignore_in_rhs */
 		}
@@ -4551,26 +4547,26 @@ ZRaction_Hcall_C_Crhs_Harg(argP *ZOa)
 
 		ZIb = add_arg(ARG_RETURN, 0);
 	
-#line 4555 "syntax.c"
+#line 4551 "syntax.c"
 			}
 			/* END OF EXTRACT: arg-return */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: make_arg_none */
 			{
-#line 610 "syntax.act"
+#line 608 "syntax.act"
 
 		(ZIa) = add_none();
 	
-#line 4565 "syntax.c"
+#line 4561 "syntax.c"
 			}
 			/* END OF ACTION: make_arg_none */
 			/* BEGINNING OF ACTION: E_return_in_rhs */
 			{
-#line 764 "syntax.act"
+#line 762 "syntax.act"
 
 		error(ERROR_SERIOUS, "Return terminal argument in right handside");
 	
-#line 4574 "syntax.c"
+#line 4570 "syntax.c"
 			}
 			/* END OF ACTION: E_return_in_rhs */
 		}
@@ -4585,17 +4581,17 @@ ZRaction_Hcall_C_Crhs_Harg(argP *ZOa)
 
 		ZIi = xstrdup (tokbuf);
 	
-#line 4589 "syntax.c"
+#line 4585 "syntax.c"
 			}
 			/* END OF EXTRACT: ident */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: make_arg_from_ident */
 			{
-#line 598 "syntax.act"
+#line 596 "syntax.act"
 
 		(ZIa) = add_ident((ZIi));
 	
-#line 4599 "syntax.c"
+#line 4595 "syntax.c"
 			}
 			/* END OF ACTION: make_arg_from_ident */
 		}
@@ -4613,7 +4609,7 @@ ZRaction_Hcall_C_Crhs_Harg(argP *ZOa)
 
 		ZIi = xstrdup (tokbuf);
 	
-#line 4617 "syntax.c"
+#line 4613 "syntax.c"
 				}
 				/* END OF EXTRACT: ident */
 				break;
@@ -4623,11 +4619,11 @@ ZRaction_Hcall_C_Crhs_Harg(argP *ZOa)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: make_arg_from_ref */
 			{
-#line 602 "syntax.act"
+#line 600 "syntax.act"
 
 		(ZIa) = add_ref((ZIi));
 	
-#line 4631 "syntax.c"
+#line 4627 "syntax.c"
 			}
 			/* END OF ACTION: make_arg_from_ref */
 		}
@@ -4663,17 +4659,17 @@ ZRaction_Hcall_C_Crhs_Harg(argP *ZOa)
 		buf[n] = 0;
 		ZIb = xstrdup(buf);
 	
-#line 4667 "syntax.c"
+#line 4663 "syntax.c"
 			}
 			/* END OF EXTRACT: sid-ident */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: make_arg_terminal */
 			{
-#line 606 "syntax.act"
+#line 604 "syntax.act"
 
 		(ZIa) = add_terminal((ZIb));
 	
-#line 4677 "syntax.c"
+#line 4673 "syntax.c"
 			}
 			/* END OF ACTION: make_arg_terminal */
 		}
@@ -4688,27 +4684,27 @@ ZRaction_Hcall_C_Crhs_Harg(argP *ZOa)
 
 		ZIb = xstrdup (tokbuf);
 	
-#line 4692 "syntax.c"
+#line 4688 "syntax.c"
 			}
 			/* END OF EXTRACT: string */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: make_arg_none */
 			{
-#line 610 "syntax.act"
+#line 608 "syntax.act"
 
 		(ZIa) = add_none();
 	
-#line 4702 "syntax.c"
+#line 4698 "syntax.c"
 			}
 			/* END OF ACTION: make_arg_none */
 			/* BEGINNING OF ACTION: E_string_in_action_rhs */
 			{
-#line 769 "syntax.act"
+#line 767 "syntax.act"
 
 		error(ERROR_SERIOUS, "String argument in right handside of action call: purposefuly not implemented to avoid confusion."
 			" Will be implemented with an alternate meaning once direct function calls are removed from lexi");
 	
-#line 4712 "syntax.c"
+#line 4708 "syntax.c"
 			}
 			/* END OF ACTION: E_string_in_action_rhs */
 		}
@@ -4728,8 +4724,8 @@ ZL0:;
 
 /* BEGINNING OF TRAILER */
 
-#line 780 "syntax.act"
+#line 778 "syntax.act"
 
-#line 4734 "syntax.c"
+#line 4730 "syntax.c"
 
 /* END OF FILE */

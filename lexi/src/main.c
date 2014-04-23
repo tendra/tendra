@@ -50,7 +50,7 @@ process_lxi_file(char *path, struct ast *ast)
 	lexi_init(&lexer_state, input);
 
 	ADVANCE_LXI_LEXER;
-	read_lex(tree_get_globalzone(ast));
+	read_lex(ast->global);
 
 	if (path != NULL) {
 		fclose(input);
@@ -217,10 +217,10 @@ main(int argc, char **argv)
 	/* Process input file */
 	ast = init_ast();
 
-	set_builtin_char_lexi_type    (ast, "CHARACTER");
-	set_builtin_string_lexi_type  (ast, "STRING");
-	set_builtin_int_lexi_type     (ast, "INTEGER");
-	set_builtin_terminal_lexi_type(ast, "TERMINAL");
+	set_builtin_type(ast, &ast->lexi_char_type,     "CHARACTER");
+	set_builtin_type(ast, &ast->lexi_string_type,   "STRING");
+	set_builtin_type(ast, &ast->lexi_int_type,      "INTEGER");
+	set_builtin_type(ast, &ast->lexi_terminal_type, "TERMINAL");
 
 	process_lxi_file(argv[0], ast);
 
@@ -239,8 +239,8 @@ main(int argc, char **argv)
 	}
 
 	/* Generate output */
- 	if (tree_get_globalzone(ast)->white == NULL) {
-		tree_get_globalzone(ast)->white = make_group(tree_get_globalzone(ast), "white", " \t\n");
+ 	if (ast->global->white == NULL) {
+		ast->global->white = make_group(ast->global, "white", " \t\n");
 	}
 
 	if (out->out_all != NULL) {

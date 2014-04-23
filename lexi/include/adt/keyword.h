@@ -12,13 +12,17 @@
 
 struct cmd;
 struct zone;
-struct keyword;
+
+struct keyword {
+	const char *name;
+	struct cmd *cmd;
+
+	struct keyword *next;
+};
 
 void add_keyword(struct zone *, const char *, struct cmd *);
 void keywords_iterate(struct keyword *,
 	void (*f)(struct keyword *, void *), void *);
-struct cmd *keyword_cmd(struct keyword *);
-const char *keyword_name(struct keyword *);
 
 #endif
 

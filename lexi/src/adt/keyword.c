@@ -17,13 +17,6 @@
 #include <adt/zone.h>
 #include <adt/cmd.h>
 
-struct keyword {
-	const char *name;
-	struct cmd *cmd;
-
-	struct keyword *next;
-};
-
 void
 add_keyword(struct zone *z, const char *name, struct cmd *cmd)
 {
@@ -77,21 +70,5 @@ keywords_iterate(struct keyword *kw, void (*f)(struct keyword *, void *), void *
 	for (k = kw; k; k = k->next) {
 		f(k, opaque);
 	}
-}
-
-struct cmd *
-keyword_cmd(struct keyword *kw)
-{
-	assert(kw != NULL);
-
-	return kw->cmd;
-}
-
-const char *
-keyword_name(struct keyword *kw)
-{
-	assert(kw != NULL);
-
-	return kw->name;
 }
 

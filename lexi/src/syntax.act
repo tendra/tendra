@@ -205,9 +205,9 @@
 
 		nstring_copy_cstring(&key, @i);
 
-		ea = table_get_entry(tree_get_table(@z->ast), &key);
+		ea = table_get_entry(&@z->ast->table, &key);
 		if (ea) {
-			if (entry_is_action(ea)) {
+			if (ea->kind == ENTRY_ACTION) {
 				/* TODO: Inefficient code follows: */
 				/* Checking that a name does not appear twice in an lhs*/
 				struct arg* p, *q;
@@ -215,7 +215,7 @@
 					if (p->kind == ARG_IDENT) {
 						for(q=p->next; q!=NULL;q=q->next) {
 							if (q->kind == ARG_IDENT && !strcmp(p->u.literal, q->u.literal)) {
-								char *s = nstring_to_cstring(entry_key(ea));
+								char *s = nstring_to_cstring(&ea->key);
 								error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.literal);
 								break;
 							}
@@ -264,8 +264,6 @@
 
 	<add-cmd-to-list>: (z :ZONE, c :CMD, l :CMD_LIST) -> () = @{
 		if (@c != NULL) { /* if @c == NULL, an error has already been issued.*/
-			struct LocalNamesT* locals = cmdlist_localnames(@l);
-
 			if (@l->return_count > 0 && @c->kind != CMD_NOOP) {
 				error(ERROR_SERIOUS, "No cmd may follow an cmd that returns a terminal");
 			}
@@ -288,7 +286,7 @@
 				}
 
 				ea  = @c->u.act.ea;
-				act = entry_get_action(ea);
+				act = ea->u.act;
 				rhs = @c->u.act.rhs;
 				lhs = @c->u.act.lhs;
 
@@ -300,20 +298,20 @@
 					switch (p->kind) {
 					case ARG_IDENT:
 						nstring_copy_cstring(&str, p->u.literal);
-						et=localnames_get_type(locals, &str);
+						et=localnames_get_type(&@l->local_names, &str);
 						nstring_destroy(&str);
 						if (!et) {
-							struct entry *e = table_get_entry(tree_get_table(@z->ast), &str);
+							struct entry *e = table_get_entry(&@z->ast->table, &str);
 							if (!e) {
 								error(ERROR_SERIOUS, "local name %s has not been defined yet", p->u.literal);
 								et = NULL;
-							} else if (entry_is_localname(e)) {
+							} else if (e->kind == ENTRY_LOCAL) {
 								error(ERROR_SERIOUS, "local name %s has been defined but not in this scope", p->u.literal);
 								et = NULL;
-							} else if (entry_is_action(e)) {
+							} else if (e->kind == ENTRY_ACTION) {
 								error(ERROR_SERIOUS, "%s is not a local name but an action which is not allowed", p->u.literal);
 								et = NULL;
-							} else if (entry_is_type(e)) {
+							} else if (e->kind == ENTRY_TYPE) {
 								error(ERROR_SERIOUS, "%s is not a local name but a type which is not allowed", p->u.literal);
 								et = NULL;
 							} else {
@@ -323,23 +321,23 @@
 						break;
 
 					case ARG_CHARP:
-						/* TODO: assert(lexer_string_type(ast)) */
-						et = lexer_string_type(@z->ast);
+						/* TODO: assert(ast->lexi_string_type) */
+						et = @z->ast->lexi_string_type;
 						break;
 
 					case ARG_CHAR_NUM:
-						/* TODO: assert(lexer_char_type(ast)) */
-						et = lexer_char_type(@z->ast);
+						/* TODO: assert(ast->lexi_char_type) */
+						et = @z->ast->lexi_char_type;
 						break;
 
 					case ARG_TERMINAL:
-						/* TODO: assert(lexer_terminal_type(ast)) */
-						et = lexer_terminal_type(@z->ast);
+						/* TODO: assert(ast->lexi_terminal_type) */
+						et = @z->ast->lexi_terminal_type;
 						break;
 
 					case ARG_CHAR_COUNT:
-						/* TODO: assert(lexer_terminal_type(ast)) */
-						et = lexer_int_type(@z->ast);
+						/* TODO: assert(ast->lexi_int_type) */
+						et = @z->ast->lexi_int_type;
 						break;
 
 					case ARG_NONE:
@@ -357,10 +355,10 @@
 
 					if (et) {
 						if (q->et!=et || p->is_ref !=q->is_ref) {
-							char *s1 = nstring_to_cstring(entry_key(ea));
-							char *s2 = nstring_to_cstring(entry_key(et));
+							char *s1 = nstring_to_cstring(&ea->key);
+							char *s2 = nstring_to_cstring(&et->key);
 							char *s3 = p->is_ref ? "&" : "";
-							char *s4 = nstring_to_cstring(entry_key(q->et));
+							char *s4 = nstring_to_cstring(&q->et->key);
 							char *s5 = q->is_ref ? "&" : "";
 							char *s6 = "unknown";
 							char *s7 = "unknown";
@@ -400,13 +398,13 @@
 				}
 
 				if (p != NULL) {
-					char *s = nstring_to_cstring(entry_key(ea));
+					char *s = nstring_to_cstring(&ea->key);
 					error(ERROR_SERIOUS, "In call to action %s, too many arguments", s);
 					xfree(s);
 				}
 
 				if (q != NULL) {
-					char *s = nstring_to_cstring(entry_key(ea));
+					char *s = nstring_to_cstring(&ea->key);
 					error(ERROR_SERIOUS, "In call to action %s, not enough arguments", s);
 					xfree(s);
 				}
@@ -419,22 +417,22 @@
 						NStringT str;
 
 						nstring_copy_cstring(&str, p->u.literal);
-						et = localnames_get_type(locals, &str);
+						et = localnames_get_type(&@l->local_names, &str);
 						if (!et) {
-							struct entry *e= table_get_entry(tree_get_table(@z->ast), &str);
-							localnames_add_nstring(locals, &str, q->et);
+							struct entry *e= table_get_entry(&@z->ast->table, &str);
+							localnames_add_nstring(&@l->local_names, &str, q->et);
 							if (e) {
 								nstring_destroy(&str);
-								if (entry_is_action(e)) {
+								if (e->kind == ENTRY_ACTION) {
 									error(ERROR_SERIOUS, "In action lhs. Name %s is an action. Hiding globals by local names is not allowed", p->u.literal);
-								} else if (entry_is_type(e)) {
+								} else if (e->kind == ENTRY_TYPE) {
 									error(ERROR_SERIOUS, "In action lhs. Name %s is a type. Hiding globals by local names is not allowed", p->u.literal);
 								}
 							} else {
-								table_add_local_name(tree_get_table(@z->ast), &str);
+								table_add_local_name(&@z->ast->table, &str);
 							}
 							if (p->is_ref) {
-								char *s = nstring_to_cstring(entry_key(ea));
+								char *s = nstring_to_cstring(&ea->key);
 								error(ERROR_SERIOUS, "In action call %s, you can only use references %s for preexisting variables", s, p->u.literal);
 								xfree(s);
 							}
@@ -443,7 +441,7 @@
 							if (!p->is_ref) {
 								char *s;
 
-								s = nstring_to_cstring(entry_key(ea));
+								s = nstring_to_cstring(&ea->key);
 								error(ERROR_SERIOUS, "In action call %s, name %s already declared. Use references to change the value of an already existing variable", s, p->u.literal);
 								xfree(s);
 
@@ -454,7 +452,7 @@
 					}
 
 					case ARG_RETURN:
-						et = lexer_terminal_type(@z->ast);
+						et = @z->ast->lexi_terminal_type;
 						q->is_ref = false;
 						/* TODO: assert(q->is_ref == false) */
 						break;
@@ -491,13 +489,13 @@
 				}
 
 				if (p != NULL) {
-					char *s = nstring_to_cstring(entry_key(ea));
+					char *s = nstring_to_cstring(&ea->key);
 					error(ERROR_SERIOUS, "In call to action %s, too many results", s);
 					xfree(s);
 				}
 
 				if (q != NULL) {
-					char *s = nstring_to_cstring(entry_key(ea));
+					char *s = nstring_to_cstring(&ea->key);
 					error(ERROR_SERIOUS, "In call to action %s, not enough results", s);
 					xfree(s);
 				}
@@ -611,7 +609,7 @@
 	@};
 
 	<is-global-zone>: (z : ZONE) -> (b : BOOL) = @{
-	   @b = tree_zoneisglobal(@z->ast, @z);
+	   @b = zone_isglobal(@z);
 	@};
 
 	<make-type>: (z:ZONE, i:IDENT) -> () = @{
@@ -621,21 +619,21 @@
 		nstring_copy_cstring(&str,@i);
 		xfree(@i);
 
-		e = table_get_entry(tree_get_table(@z->ast), &str);
+		e = table_get_entry(&@z->ast->table, &str);
 		if (e != NULL) {
 			nstring_destroy(&str);
 			/* TODO: switch ? */
-			if (entry_is_type(e)) {
+			if (e->kind == ENTRY_TYPE) {
 				error(ERROR_SERIOUS, "Type %s already exists",@i);
-			} else if (entry_is_localname(e)) {
+			} else if (e->kind == ENTRY_LOCAL) {
 				error(ERROR_SERIOUS, "Can't create type %s, %s has been previously used as a local name. We do not allow retroactive hiding.",@i,@i);
-			} else if (entry_is_action(e)) {
+			} else if (e->kind == ENTRY_ACTION) {
 				error(ERROR_SERIOUS, "Can't create type %s, %s has already been declared as an action",@i, @i);
 			} else {
 				UNREACHED;
 			}
 		} else {
-			table_add_type(tree_get_table(@z->ast), &str);
+			table_add_type(&@z->ast->table, &str);
 		}
 	@};
 
@@ -645,21 +643,21 @@
 
 		nstring_copy_cstring(&str, @i);
 
-		e = table_get_entry(tree_get_table(@z->ast), &str);
+		e = table_get_entry(&@z->ast->table, &str);
 		if (e != NULL) {
 			nstring_destroy(&str);
 			/* TODO: switch ? */
-			if (entry_is_action(e)) {
+			if (e->kind == ENTRY_ACTION) {
 				error(ERROR_SERIOUS, "Action %s already exists",@i);
-			} else if (entry_is_localname(e)) {
+			} else if (e->kind == ENTRY_LOCAL) {
 				error(ERROR_SERIOUS, "Can't create type %s, %s has been previously used as a local name. We do not allow retroactive hiding.",@i,@i);
-			} else if (entry_is_type(e)) {
+			} else if (e->kind == ENTRY_TYPE) {
 				error(ERROR_SERIOUS, "Can't create action %s, %s has already been declared as a type",@i, @i);
 			} else {
 				UNREACHED;
 			}
 		} else {
-			table_add_action(tree_get_table(@z->ast), &str , @params, @results);
+			table_add_action(&@z->ast->table, &str , @params, @results);
 		}
 
 		xfree(@i);
@@ -676,11 +674,11 @@
 		nstring_copy_cstring(&tstr,@type);
 		nstring_copy_cstring(&istr,@id);
 
-		et = table_get_entry(tree_get_table(@z->ast), &tstr);
+		et = table_get_entry(&@z->ast->table, &tstr);
 		if (et== NULL) {
 			 error(ERROR_SERIOUS, "Unknown type %s", @type);
 			 nstring_destroy(&istr);
-		} else if (!entry_is_type(et)) {
+		} else if (et->kind != ENTRY_TYPE) {
 			 error(ERROR_SERIOUS, "%s is not a type", @type);
 			 nstring_destroy(&istr);
 		} else {

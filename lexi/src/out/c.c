@@ -120,15 +120,13 @@ static unsigned int
 buffer_length(struct ast *ast)
 {
 	unsigned int i;
-	struct zone *global;
 
 	/* XXX: account for is_beginendmarker_in_zone */
-	global = tree_get_globalzone(ast);
-	assert(global != NULL);
+	assert(ast->global != NULL);
 
-	i = zone_maxlength(global, 0);
-	if (global->pre) {
-		i += zone_maxlength(global, 1);
+	i = zone_maxlength(ast->global, 0);
+	if (ast->global->pre) {
+		i += zone_maxlength(ast->global, 1);
 	}
 
 	return i;
@@ -148,17 +146,17 @@ out_groupname(FILE *f, struct group_name *gn)
 }
 
 static void
-out_keyword(struct keyword *keyword, void *opaque)
+out_keyword(struct keyword *kw, void *opaque)
 {
 	FILE *out = opaque;
 
 	fprintf(out, "\tif (");
 
-	fprintf(out, "0 == strcmp(identifier, \"%s\")) return ", keyword_name(keyword));
+	fprintf(out, "0 == strcmp(identifier, \"%s\")) return ", kw->name);
 
-	switch (keyword_cmd(keyword)->kind) {
+	switch (kw->cmd->kind) {
 	case CMD_RETURN:
-		fprintf(out, "%s", keyword_cmd(keyword)->u.name);
+		fprintf(out, "%s", kw->cmd->u.name);
 		break;
 
 	default:
@@ -185,7 +183,7 @@ out_keywords(struct ast *ast, FILE *out, FILE *out_h)
 	assert(out != NULL);
 	assert(out_h != NULL);
 
-	if (tree_get_globalzone(ast)->keywords == NULL) {
+	if (ast->global->keywords == NULL) {
 		return;
 	}
 
@@ -197,7 +195,7 @@ out_keywords(struct ast *ast, FILE *out, FILE *out_h)
 	fprintf(out, "int %skeyword(const char *identifier, int notfound) {\n",
 		lexi_prefix);
 
-	keywords_iterate(tree_get_globalzone(ast)->keywords, out_keyword, out);
+	keywords_iterate(ast->global->keywords, out_keyword, out);
 
 	fprintf(out, "\treturn notfound;\n}\n");
 }
@@ -206,7 +204,7 @@ static void
 out_locals(struct LocalNamesT *locals, unsigned int d, FILE *lex_out)
 {
 	struct LocalNamesIteratorT it;
-	const char *prefixvar = "ZV";
+	const char *prefixvar  = "ZV";
 	const char *prefixtype = "ZT";
 	char *st;
 	char *s;
@@ -218,7 +216,6 @@ out_locals(struct LocalNamesT *locals, unsigned int d, FILE *lex_out)
 
 	for (localnames_begin(&it, locals); it.p; localnamesiterator_next(&it)) {
 		struct LocalNamesEntryT *p = it.p;
-		struct entry *et = p->et;
 		int i;
 
 		s[it.depth] = 0;
@@ -229,9 +226,9 @@ out_locals(struct LocalNamesT *locals, unsigned int d, FILE *lex_out)
 			p = p->up;
 		}
 
-		/* TODO: assert(entry_is_type(t)); */
+		/* TODO: assert(p->et->kind == ENTRY_TYPE); */
 
-		st = nstring_to_cstring(entry_key(et));
+		st = nstring_to_cstring(&p->et->key);
 
 		out_indent(lex_out, d);
 		fprintf(lex_out,"%s%s %s%s;\n", prefixtype, st, prefixvar, s);
@@ -252,11 +249,11 @@ out_action(FILE *lex_out, struct ast *ast,
 	assert(lhs != NULL);
 	assert(rhs != NULL);
 
-	/* TODO: assert(entry_is_action(action)) */
+	/* TODO: assert(ea->kind == ENTRY_ACTION) */
 
 	/* TODO: output #line delimiters instead of comments */
 	out_indent(lex_out, d);
-	fprintf(lex_out, "/* ACTION <%s> */\n", nstring_to_cstring(entry_key(ea)));
+	fprintf(lex_out, "/* ACTION <%s> */\n", nstring_to_cstring(&ea->key));
 
 	out_indent(lex_out, d);
 	fprintf(lex_out, "{\n");
@@ -268,9 +265,9 @@ out_action(FILE *lex_out, struct ast *ast,
 		struct entry *et;
 		char *st;
 
-		et = lexer_terminal_type(ast);
-		/* TODO: assert(entry_is_type(et)); */
-		st = nstring_to_cstring(entry_key(et));
+		et = ast->lexi_terminal_type;
+		/* TODO: assert(et->kind == ENTRY_TYPE); */
+		st = nstring_to_cstring(&et->key);
 
 		out_indent(lex_out, d);
 		fprintf(lex_out, "%s%s ZT1;\n", prefixtype, st);
@@ -278,7 +275,7 @@ out_action(FILE *lex_out, struct ast *ast,
 		/* TODO: free st? */
 	}
 
-	if (action_is_defined(ea->u.act)) {
+	if (ea->u.act->defined) {
 		code_out(lex_out, ea->u.act->code, rhs, ea->u.act->in, lhs, ea->u.act->out, d);
 		if (lhs->return_count) {
 			/* TODO: assert(lhs->return_count == 1) */
@@ -289,7 +286,7 @@ out_action(FILE *lex_out, struct ast *ast,
 		/* TODO: We should catch this error before beginning output */
 		char *pe;
 
-		pe = nstring_to_cstring(entry_key(ea));
+		pe = nstring_to_cstring(&ea->key);
 		error(ERROR_SERIOUS, "Action %s is used but undefined", pe);
 		xfree(pe);
 	}
@@ -300,7 +297,7 @@ out_action(FILE *lex_out, struct ast *ast,
 	fprintf(lex_out, "}\n");
 
 	out_indent(lex_out, d);
-	fprintf(lex_out, "/* END ACTION <%s> */\n", nstring_to_cstring(entry_key(ea)));
+	fprintf(lex_out, "/* END ACTION <%s> */\n", nstring_to_cstring(&ea->key));
 }
 
 static void
@@ -399,18 +396,16 @@ static int
 out_cmds(struct zone *parent, struct cmd_list *ret, unsigned int n, unsigned int d)
 {
 	struct cmd *cmd;
-	struct LocalNamesT *locals;
 	int r;
 
 	assert(parent != NULL);
 	assert(ret != NULL);
 
-	locals = cmdlist_localnames(ret);
-	if (locals->top) {
+	if (ret->local_names.top) {
 		out_indent(lex_out, d);
 		fputs("{\n", lex_out);
 		++d;
-		out_locals(locals, d, lex_out);
+		out_locals(&ret->local_names, d, lex_out);
 	}
 
 	r = 0;
@@ -444,7 +439,7 @@ out_cmds(struct zone *parent, struct cmd_list *ret, unsigned int n, unsigned int
 		}
 	}
 
-	if (locals->top) {
+	if (ret->local_names.top) {
 		d--;
 		out_indent(lex_out, d);
 		fputs("}\n", lex_out);
@@ -728,7 +723,7 @@ out_zone_pass_prototypes(struct zone *p)
 
 	s = p->kind == ZONE_PURE ? "void" : "int";
 
-	if (p == tree_get_globalzone(p->ast)) {
+	if (p == p->ast->global) {
 		return;
 	}
 
@@ -792,7 +787,7 @@ out_zone_pass(struct options *opt, struct zone *p)
 		fprintf(lex_out,"int\n%s(struct %sstate *state)\n",
 			read_token_name, lexi_prefix);
 		fputs("{\n", lex_out);
-		if (tree_get_globalzone(p->ast)->next != NULL) {
+		if (p->ast->global->next != NULL) {
 			fprintf(lex_out, "\tif (state->zone != %s)\n", read_token_name);
 			fprintf(lex_out, "\t\treturn state->zone(state);\n");
 		}
@@ -845,7 +840,7 @@ group_number(struct ast *ast, struct group *g)
 	assert(g != NULL);
 
 	i = 0;
-	for (p = tree_get_grouplist(ast); p != NULL; p = p->next) {
+	for (p = ast->groups; p != NULL; p = p->next) {
 		if (g == p) {
 			return 1 << i;
 		}
@@ -868,7 +863,7 @@ count_nonempty_groups(struct ast *ast)
 	assert(ast != NULL);
 
 	i = 0;
-	for (p = tree_get_grouplist(ast); p != NULL; p = p->next) {
+	for (p = ast->groups; p != NULL; p = p->next) {
 		if (!is_group_empty(p)) {
 			i++;
 		}
@@ -924,7 +919,7 @@ out_macros(struct options* opt, struct ast *ast)
 	}
 
 	fprintf(lex_out_h, "enum %sgroups {\n", opt->lexi_prefix);
-	out_macros_zone(opt, tree_get_globalzone(ast));
+	out_macros_zone(opt, ast->global);
 
 	fputs("};\n", lex_out_h);
 
@@ -971,7 +966,7 @@ out_lookup_table(struct ast *ast, const char *grouptype,
 		unsigned long m;
 
 		m = 0;
-		for (g = tree_get_grouplist(ast); g != NULL; g = g->next) {
+		for (g = ast->groups; g != NULL; g = g->next) {
 			if (in_group(g, c)) {
 				m |= group_number(ast, g);
 			}
@@ -991,7 +986,7 @@ out_lookup_table(struct ast *ast, const char *grouptype,
 		}
 	}
 
-	fputs("\n};",lex_out);
+	fputs("\n};", lex_out);
 }
 
 /*
@@ -1195,7 +1190,7 @@ c_out_all(struct options *opt, struct ast *ast)
 
 	/* Lexical pre-pass */
 	fputs("/* PRE-PASS ANALYSERS */\n\n", lex_out);
-	out_zone_prepass(tree_get_globalzone(ast));
+	out_zone_prepass(ast->global);
 
 	/* Main pass */
 	fputs("\n/* Identify a token */\n", lex_out_h);
@@ -1227,10 +1222,10 @@ c_out_all(struct options *opt, struct ast *ast)
 	fprintf(lex_out, "}\n");
 
 	fputs("/* ZONES PASS ANALYSER PROTOTYPES*/\n\n", lex_out);
-	out_zone_pass_prototypes(tree_get_globalzone(ast));
+	out_zone_pass_prototypes(ast->global);
 
 	fputs("/* MAIN PASS ANALYSERS */\n\n", lex_out);
-  	out_zone_pass(opt, tree_get_globalzone(ast));
+  	out_zone_pass(opt, ast->global);
 
 	out_trailers();
 
