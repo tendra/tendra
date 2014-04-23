@@ -86,8 +86,8 @@ add_cmd_pop_zone(struct zone *z, int is_endmarker_in_zone)
 	return p;
 }
 
-static struct cmd_list *
-new_cmd_list(void)
+struct cmd_list *
+add_cmd_list(void)
 {
 	struct cmd_list *p;
 
@@ -98,14 +98,6 @@ new_cmd_list(void)
 	p->return_count = 0;
 
 	localnames_init(&p->local_names);
-
-	return p;
-}
-
-struct cmd_list *
-add_cmd_list (void)
-{
-	struct cmd_list *p = new_cmd_list();
 
 	return p;
 }
