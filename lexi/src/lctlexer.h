@@ -10,6 +10,7 @@
 
 
 	#include <stdio.h>
+
 	#include "lctsyntax.h"
 
 	typedef FILE *FILE_P_lct;

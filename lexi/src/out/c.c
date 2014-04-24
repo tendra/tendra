@@ -12,7 +12,6 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <assert.h>
-#include <libgen.h>
 
 #include <exds/common.h>
 #include <exds/exception.h>
@@ -1033,15 +1032,6 @@ c_out_all(struct options *opt, struct ast *ast)
 	}
 
 	out_generated_by_lexi(lex_out);
-
-	if (opt->out[1].name && opt->out[1].file != stdout) {
-		char *s;
-
-		/* XXX: This assumes both files are in the same directory */
-		s = xstrdup(opt->out[1].name);
-		fprintf(lex_out, "#include \"%s\"\n\n", basename(s));
-		free(s);
-	}
 
 	code_out(lex_out, lct_ast.cfileheader, NULL, NULL, NULL, NULL, 0);
 

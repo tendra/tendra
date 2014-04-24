@@ -12,7 +12,6 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <assert.h>
-#include <libgen.h>
 
 #include <exds/common.h>
 #include <exds/exception.h>

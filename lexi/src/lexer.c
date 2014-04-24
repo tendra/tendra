@@ -4,8 +4,6 @@
  * Copyright terms for the input source also apply to this generated code.
  */
 
-#include "lexer.h"
-
 
 
 	#include <stdio.h>

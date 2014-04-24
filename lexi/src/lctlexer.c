@@ -4,13 +4,12 @@
  * Copyright terms for the input source also apply to this generated code.
  */
 
-#include "lctlexer.h"
 
 
+	#include <shared/error.h>
 
 	#include "lctlexer.h"
 	#include "lctsyntax.h"
-	#include <shared/error.h>
 
 	typedef int ZTTERMINAL;
 

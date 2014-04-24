@@ -8,9 +8,10 @@
 
 HEADERS = @{
 
+	#include <shared/error.h>
+
 	#include "lctlexer.h"
 	#include "lctsyntax.h"
-	#include <shared/error.h>
 
 	typedef int ZTTERMINAL;
 
@@ -46,6 +47,7 @@ HEADERS = @{
 @} , @{
 
 	#include <stdio.h>
+
 	#include "lctsyntax.h"
 
 	typedef FILE *FILE_P_lct;
