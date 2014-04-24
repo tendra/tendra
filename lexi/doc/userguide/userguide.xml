@@ -34,6 +34,7 @@
 		<pubdate>2007</pubdate>
 
 		<copyright>
+			<year>2014</year>
 			<year>2012</year>
 			<year>2011</year>
 			<year>2010</year>
@@ -46,6 +47,15 @@
 		<!-- TODO: remove obsoleted parts as each feature is changed -->
 
 		<revhistory>
+			<revision role="featurechange">
+				<date>2014-04-24</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Combined C99 and C90 code generation. The applicable
+						API is now selected by `#if` on `__STDC_VERSION__`.</para>
+				</revdescription>
+			</revision>
+
 			<revision role="featurechange">
 				<date>2014-04-24</date>
 				<authorinitials>kate</authorinitials>

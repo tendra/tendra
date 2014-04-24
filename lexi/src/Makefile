@@ -35,7 +35,7 @@ SYNTAX+=	lctsyntax.sid
 .include <tendra.sid.mk>
 
 
-#LEXIFLAGS+=-lC99
+#LEXIFLAGS+=-lC
 #
 #lexer.o: lexer.h
 #syntax.o: lexer.h

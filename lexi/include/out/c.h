@@ -20,11 +20,10 @@ struct options;
  *
  * This interface provides support for generating code for both C90 and C99.
  * There are slight differences in the generates APIs between the two (for
- * example, C99 provides <stdbool.h>, but otherwise they remain similar
- * enough to roll together into one interface.
- *
- * Exactly which standard is used depends on the value of opt.language. This
- * is expected to be either C90 or C99.
+ * example, C99 provides <stdbool.h>), but otherwise they remain similar
+ * enough to roll together into one interface; the generated code produces
+ * both, and which is applicable is selected by #if on __STDC_VERSION__
+ * at compile time.
  */
 void
 c_out_all(struct options *opt, struct ast *ast);

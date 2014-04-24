@@ -43,15 +43,6 @@
 #include "options.h"
 
 /*
- * This is populated by the selected output language, set from opt->lang.
- * It may be inspected for language-specific regions of the generated code.
- */
-enum {
-	C90,
-	C99
-} lang;
-
-/*
  * OUTPUT OPTIONS
  *
  * read_name gives the name of the character reading
@@ -273,9 +264,6 @@ void
 h_out_all(struct options *opt, struct ast *ast)
 {
 	struct lxi_additional_argument* add_arg;
-
-	assert(!strcmp(opt->lang, "C90") || !strcmp(opt->lang, "C99"));
-	lang = !strcmp(opt->lang, "C90") ? C90 : C99;
 
 	lex_out_h = opt->out[1].file;
 

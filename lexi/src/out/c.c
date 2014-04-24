@@ -46,15 +46,6 @@ static int out_cmds(struct zone *parent, struct cmd_list *ret, unsigned int n, u
 static void out_pass(struct zone* z, struct trie *p, int in_pre_pass, unsigned int n, unsigned int d);
 
 /*
- * This is populated by the selected output language, set from opt->lang.
- * It may be inspected for language-specific regions of the generated code.
- */
-enum {
-	C90,
-	C99
-} lang;
-
-/*
  * OUTPUT OPTIONS
  *
  * read_name gives the name of the character reading
@@ -1004,9 +995,6 @@ c_out_all(struct options *opt, struct ast *ast)
 	const char *groupc90type, *groupc99type;
 	const char *grouphex;
 	struct lxi_additional_argument* add_arg;
-
-	assert(!strcmp(opt->lang, "C90") || !strcmp(opt->lang, "C99"));
-	lang = !strcmp(opt->lang, "C90") ? C90 : C99;
 
 	lex_out = opt->out[0].file;
 

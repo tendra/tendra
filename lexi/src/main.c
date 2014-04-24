@@ -115,8 +115,7 @@ main(int argc, char **argv)
 		const char *options;
 	} outs[] = {
 #define COMMON "C:t:l:p:i:vh"
-		{ "C90",  2, 2, ch_out_all,  COMMON },
-		{ "C99",  2, 2, ch_out_all,  COMMON },
+		{ "C",    2, 2, ch_out_all,  COMMON },
 		{ "Dot",  1, 1, dot_out_all, COMMON },
 		{ "test", 1, 0, NULL,        COMMON },
 #undef COMMON
@@ -126,7 +125,7 @@ main(int argc, char **argv)
 	opt.lexi_prefix      = "lexi_";
 	opt.interface_prefix = NULL;
 
-	/* default to C90 output */
+	/* default to C output */
 	out = &outs[0];
 
 	set_progname(argv [0], "2.0");
@@ -148,7 +147,7 @@ main(int argc, char **argv)
 
 				if (i < 0) {
 					/* TODO: I suppose we could automate writing this list of languages, too */
-					error(ERROR_FATAL, "Unrecognised language '%s'. The supported languages are: C90 (default), C99 and Dot",
+					error(ERROR_FATAL, "Unrecognised language '%s'. The supported languages are: C (default), Dot and test",
 						optarg);
 				}
 
