@@ -888,7 +888,8 @@ out_macros(struct options* opt, struct ast *ast)
  * OUTPUT THE LOOKUP TABLE
  */
 static void
-out_lookup_table(struct ast *ast, const char *grouptype,
+out_lookup_table(struct ast *ast,
+	const char *groupc90type, const char *groupc99type,
 	const char *grouphex, size_t groupwidth)
 {
 	struct group *g;
@@ -900,7 +901,11 @@ out_lookup_table(struct ast *ast, const char *grouptype,
 
 	/* Character look-up table */
 	fputs("/* LOOKUP TABLE */\n\n", lex_out);
-	fprintf(lex_out, "typedef %s lookup_type;\n", grouptype);
+	fputs("#if defined(__STDC_VERSION__) && (__STDC_VERSION__ - 0L) >= 199901L\n", lex_out);
+	fprintf(lex_out, "typedef %s lookup_type;\n", groupc99type);
+	fputs("#else\n", lex_out);
+	fprintf(lex_out, "typedef %s lookup_type;\n", groupc90type);
+	fputs("#endif\n", lex_out);
 	fputs("static lookup_type lookup_tab[] = {\n", lex_out);
 
 	for (c = 0; c <= 255; c++) {
@@ -991,7 +996,7 @@ void
 c_out_all(struct options *opt, struct ast *ast)
 {
 	size_t groupwidth;
-	const char *grouptype;
+	const char *groupc90type, *groupc99type;
 	const char *grouphex;
 	struct lxi_additional_argument* add_arg;
 
@@ -1017,15 +1022,18 @@ c_out_all(struct options *opt, struct ast *ast)
 		if (t >= 32) {
 			error(ERROR_FATAL, "Too many non-empty groups defined (%u)", t);
 		} else if (t > 16) {
-			grouptype = lang == C99 ? "uint32_t" : "unsigned long";
+			groupc90type = "unsigned long";
+			groupc99type = "uint32_t";
 			grouphex = "%# 8lxUL";
 			groupwidth = 6;
 		} else if (t > 8) {
-			grouptype = lang == C99 ? "uint16_t" : "unsigned short";
+			groupc90type = "unsigned short";
+			groupc99type = "uint16_t";
 			grouphex = "%# 4lx";
 			groupwidth = 12;
 		} else {
-			grouptype = lang == C99 ? "uint8_t" : "unsigned char";
+			groupc90type = "unsigned char";
+			groupc99type = "uint8_t";
 			grouphex = "%# 4lx";
 			groupwidth = 12;
 		}
@@ -1044,18 +1052,18 @@ c_out_all(struct options *opt, struct ast *ast)
 
 	code_out(lex_out, lct_ast.cfileheader, NULL, NULL, NULL, NULL, 0);
 
-	fputs("#include <assert.h>\n", lex_out);
-	if (lang == C99) {
-		fputs("#include <stdbool.h>\n", lex_out);
-		fputs("#include <stdint.h>\n\n", lex_out);
-	}
+	fputs("#include <assert.h>\n\n", lex_out);
+	fputs("#if defined(__STDC_VERSION__) && (__STDC_VERSION__ - 0L) >= 199901L\n", lex_out);
+	fputs("#include <stdbool.h>\n", lex_out);
+	fputs("#include <stdint.h>\n", lex_out);
+	fputs("#endif\n\n", lex_out);
 
 	out_buffer_storage(ast);
 
 	out_buffer(opt, ast);
 	fputs("\n", lex_out);
 
-	out_lookup_table(ast,grouptype,grouphex,groupwidth);
+	out_lookup_table(ast, groupc90type, groupc99type, grouphex, groupwidth);
 	fputs("\n\n", lex_out);
 
 	out_macros(opt,ast);

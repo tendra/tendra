@@ -44,8 +44,11 @@
 	}
 
 #include <assert.h>
+
+#if defined(__STDC_VERSION__) && (__STDC_VERSION__ - 0L) >= 199901L
 #include <stdbool.h>
 #include <stdint.h>
+#endif
 
 int lexi_lct_readchar(struct lexi_lct_state *state) {
 	if (state->buffer_index) {
@@ -73,7 +76,11 @@ void lexi_lct_flush(struct lexi_lct_state *state) {
 
 /* LOOKUP TABLE */
 
+#if defined(__STDC_VERSION__) && (__STDC_VERSION__ - 0L) >= 199901L
 typedef uint8_t lookup_type;
+#else
+typedef unsigned char lookup_type;
+#endif
 static lookup_type lookup_tab[] = {
 	   0,    0,    0,    0,    0,    0,    0,    0,    0,  0x1,  0x1,    0, 
 	   0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0, 
