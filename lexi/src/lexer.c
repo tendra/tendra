@@ -131,7 +131,12 @@ static lookup_type lookup_tab[] = {
 	   0,    0,    0,    0
 };
 
+#if defined(__STDC_VERSION__) && (__STDC_VERSION__ - 0L) >= 199901L
 bool lexi_group(enum lexi_groups group, int c) {
+#else
+int lexi_group(enum lexi_groups group, int c) {
+#endif
+
 	if (c == LEXI_EOF) {
 		return 0;
 	}

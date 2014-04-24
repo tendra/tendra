@@ -210,8 +210,14 @@ out_macros(struct options *opt, struct ast *ast)
 
 	fputs("\n/* true if the given character is present in the given group */\n",
 		lex_out_h);
+	fputs("#if defined(__STDC_VERSION__) && (__STDC_VERSION__ - 0L) >= 199901L\n",
+		lex_out_h);
 	fprintf(lex_out_h, "%s %sgroup(enum %sgroups group, int c);\n",
-		lang == C90 ? "int" : "bool", opt->lexi_prefix, opt->lexi_prefix);
+		"bool", opt->lexi_prefix, opt->lexi_prefix);
+	fputs("#else\n", lex_out_h);
+	fprintf(lex_out_h, "%s %sgroup(enum %sgroups group, int c);\n",
+		"int", opt->lexi_prefix, opt->lexi_prefix);
+	fputs("#endif\n", lex_out_h);
 }
 
 /*
@@ -284,9 +290,10 @@ h_out_all(struct options *opt, struct ast *ast)
 
 	code_out(lex_out_h, lct_ast.hfileheader, NULL, NULL, NULL, NULL, 0);
 
-	if (lang == C99) {
-		fputs("#include <stdbool.h>\n\n", lex_out_h);
-	}
+	fputs("#if defined(__STDC_VERSION__) && (__STDC_VERSION__ - 0L) >= 199901L\n",
+		lex_out_h);
+	fputs("#include <stdbool.h>\n", lex_out_h);
+	fputs("#endif\n\n", lex_out_h);
 
 	fputs(
 		"/*\n"

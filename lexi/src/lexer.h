@@ -25,7 +25,9 @@
 	#define SAVE_LXI_LEXER(T)    (saved_lex_token = curr_lex_token, curr_lex_token = (T))
 	#define RESTORE_LXI_LEXER    (curr_lex_token = saved_lex_token)
 
+#if defined(__STDC_VERSION__) && (__STDC_VERSION__ - 0L) >= 199901L
 #include <stdbool.h>
+#endif
 
 /*
  * This struct holds state for the lexer; its representation is
@@ -72,7 +74,11 @@ enum lexi_groups {
 };
 
 /* true if the given character is present in the given group */
+#if defined(__STDC_VERSION__) && (__STDC_VERSION__ - 0L) >= 199901L
 bool lexi_group(enum lexi_groups group, int c);
+#else
+int lexi_group(enum lexi_groups group, int c);
+#endif
 
 /* Identify a keyword */
 int lexi_keyword(const char *identifier, int notfound);

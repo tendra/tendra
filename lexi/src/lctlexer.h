@@ -27,7 +27,9 @@
 	#define SAVE_LCT_LEXER(T)    (saved_lct_token = curr_lct_token, curr_lct_token = (T))
 	#define RESTORE_LCT_LEXER    (curr_lct_token = saved_lct_token)
 
+#if defined(__STDC_VERSION__) && (__STDC_VERSION__ - 0L) >= 199901L
 #include <stdbool.h>
+#endif
 
 /*
  * This struct holds state for the lexer; its representation is
@@ -71,7 +73,11 @@ enum lexi_lct_groups {
 };
 
 /* true if the given character is present in the given group */
+#if defined(__STDC_VERSION__) && (__STDC_VERSION__ - 0L) >= 199901L
 bool lexi_lct_group(enum lexi_lct_groups group, int c);
+#else
+int lexi_lct_group(enum lexi_lct_groups group, int c);
+#endif
 
 /* Identify a keyword */
 int lexi_lct_keyword(const char *identifier, int notfound);

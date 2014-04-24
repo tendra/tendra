@@ -875,8 +875,13 @@ out_macros(struct options* opt, struct ast *ast)
 	 * my mind at ease for lexers generated on machines with different signedness
 	 * for char than the machine upon which the generated lexer is compiled.
 	 */
+	fputs("#if defined(__STDC_VERSION__) && (__STDC_VERSION__ - 0L) >= 199901L\n", lex_out);
 	fprintf(lex_out, "%s %sgroup(enum %sgroups group, int c) {\n",
-		lang == C90 ? "int" : "bool", opt->lexi_prefix, opt->lexi_prefix);
+		"bool", opt->lexi_prefix, opt->lexi_prefix);
+	fputs("#else\n", lex_out);
+	fprintf(lex_out, "%s %sgroup(enum %sgroups group, int c) {\n",
+		"int", opt->lexi_prefix, opt->lexi_prefix);
+	fputs("#endif\n\n", lex_out);
 	fputs("\tif (c == LEXI_EOF) {\n", lex_out);
 	fputs("\t\treturn 0;\n", lex_out);
 	fputs("\t}\n", lex_out);
