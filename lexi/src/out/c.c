@@ -1035,7 +1035,7 @@ c_out_all(struct options *opt, struct ast *ast)
 		}
 	}
 
-	out_generated_by_lexi(OUT_COMMENT_C90, lex_out);
+	out_generated_by_lexi(lex_out);
 
 	if (opt->out[1].name && opt->out[1].file != stdout) {
 		char *s;

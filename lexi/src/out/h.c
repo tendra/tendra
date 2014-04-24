@@ -276,7 +276,7 @@ h_out_all(struct options *opt, struct ast *ast)
 	read_token_name = xstrcat(opt->lexi_prefix, "read_token");
 	lexi_prefix = opt->lexi_prefix;
 
-	out_generated_by_lexi(OUT_COMMENT_C90, lex_out_h);
+	out_generated_by_lexi(lex_out_h);
 
 	fprintf(lex_out_h, "#ifndef LEXI_GENERATED_HEADER_%s_INCLUDED\n", lexi_prefix);
 	fprintf(lex_out_h, "#define LEXI_GENERATED_HEADER_%s_INCLUDED\n", lexi_prefix);

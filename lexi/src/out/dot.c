@@ -179,7 +179,7 @@ dot_out_all(struct options *opt, struct ast *ast)
 	assert(opt != NULL);
 	assert(ast != NULL);
 
-	out_generated_by_lexi(OUT_COMMENT_C90, dotout);
+	out_generated_by_lexi(dotout);
 
 	fprintf(dotout, "digraph G {\n");
 	fprintf(dotout, "\tnode [ shape=circle, fontname=verdana ];\n");

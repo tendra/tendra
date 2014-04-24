@@ -17,13 +17,6 @@
  * These are used by the various code generation backends.
  */
 
-
-enum out_comment {
-	OUT_COMMENT_C90,	/* block style C comments */
-	OUT_COMMENT_C99	/* single-line C comments */
-};
-
-
 /*
  * OUTPUT INDENTATION
  *
@@ -39,7 +32,7 @@ out_indent(FILE *f, unsigned int depth);
  * generated.
  */
 void
-out_generated_by_lexi(enum out_comment, FILE *f);
+out_generated_by_lexi(FILE *f);
 
 #endif
 
