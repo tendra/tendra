@@ -159,24 +159,6 @@ group_number(struct ast *ast, struct group *g)
 	return 0;
 }
 
-static unsigned int
-count_nonempty_groups(struct ast *ast)
-{
-	struct group *p;
-	unsigned int i;
-
-	assert(ast != NULL);
-
-	i = 0;
-	for (p = ast->groups; p != NULL; p = p->next) {
-		if (!is_group_empty(p)) {
-			i++;
-		}
-	}
-
-	return i;
-}
-
 /*
  * OUTPUT THE MACROS NEEDED TO ACCESS THE LOOKUP TABLE
  */
@@ -284,9 +266,6 @@ out_buffer_storage(struct ast *ast)
 void
 h_out_all(struct options *opt, struct ast *ast)
 {
-	size_t groupwidth;
-	const char *grouptype;
-	const char *grouphex;
 	struct lxi_additional_argument* add_arg;
 
 	assert(!strcmp(opt->lang, "C90") || !strcmp(opt->lang, "C99"));
@@ -296,34 +275,6 @@ h_out_all(struct options *opt, struct ast *ast)
 
 	read_token_name = xstrcat(opt->lexi_prefix, "read_token");
 	lexi_prefix = opt->lexi_prefix;
-
-	/*
-	 * Here we ouput exact-width types from stdint.h for C99, and appropiate
-	 * types based on their respective minimum maxiums otherwise. These types
-	 * may be larger than required on some systems, but that's ok.
-	 */
-	/* TODO: we can tidy up widths a little for narrow hex widths */
-	{
-		unsigned int t;
-
-		t = count_nonempty_groups(ast);
-
-		if (t >= 32) {
-			error(ERROR_FATAL, "Too many non-empty groups defined (%u)", t);
-		} else if (t > 16) {
-			grouptype = lang == C99 ? "uint32_t" : "unsigned long";
-			grouphex = "%# 8lxUL";
-			groupwidth = 6;
-		} else if (t > 8) {
-			grouptype = lang == C99 ? "uint16_t" : "unsigned short";
-			grouphex = "%# 4lx";
-			groupwidth = 12;
-		} else {
-			grouptype = lang == C99 ? "uint8_t" : "unsigned char";
-			grouphex = "%# 4lx";
-			groupwidth = 12;
-		}
-	}
 
 	out_generated_by_lexi(OUT_COMMENT_C90, lex_out_h);
 
