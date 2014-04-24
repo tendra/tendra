@@ -68,6 +68,7 @@
 		return c;
 	}
 
+#include <assert.h>
 #include <stdbool.h>
 #include <stdint.h>
 
@@ -79,10 +80,14 @@ int lexi_readchar(struct lexi_state *state) {
 	return lexi_getchar(state);
 }
 void lexi_push(struct lexi_state *state, const int c) {
+	assert(state);
+	assert((size_t) state->buffer_index < sizeof state->buffer / sizeof *state->buffer);
 	state->buffer[state->buffer_index++] = c;
 }
 
 int lexi_pop(struct lexi_state *state) {
+	assert(state);
+	assert(state->buffer_index > 0);
 	return state->buffer[--state->buffer_index];
 }
 

@@ -9,7 +9,6 @@
 #ifndef OPTIONS_H
 #define OPTIONS_H
 
-#include <stdbool.h>
 #include <stdio.h>
 
 struct options {
@@ -23,7 +22,6 @@ struct options {
 	/*
 	 * TODO: These are language-specific options; they should be elsewhere
 	 */
-	bool generate_asserts;
 	const char *lexi_prefix;
 	const char *interface_prefix;
 

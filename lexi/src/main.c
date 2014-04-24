@@ -115,15 +115,14 @@ main(int argc, char **argv)
 		const char *options;
 	} outs[] = {
 #define COMMON "C:t:l:p:i:vh"
-		{ "C90",  2, 2, ch_out_all,  COMMON "a" },
-		{ "C99",  2, 2, ch_out_all,  COMMON "a" },
-		{ "Dot",  1, 1, dot_out_all, COMMON     },
-		{ "test", 1, 0, NULL,        COMMON     },
+		{ "C90",  2, 2, ch_out_all,  COMMON },
+		{ "C99",  2, 2, ch_out_all,  COMMON },
+		{ "Dot",  1, 1, dot_out_all, COMMON },
+		{ "test", 1, 0, NULL,        COMMON },
 #undef COMMON
 	};
 
 	/* TODO: These are language-specific; see options.h */
-	opt.generate_asserts = false;
 	opt.lexi_prefix      = "lexi_";
 	opt.interface_prefix = NULL;
 
@@ -156,7 +155,6 @@ main(int argc, char **argv)
 				break;
 			}
 
-			case 'a': opt.generate_asserts = true;   break;
 			case 't': token_prefix         = optarg; break;
 			case 'p': opt.lexi_prefix      = optarg; break;
 			case 'i': opt.interface_prefix = optarg; break;

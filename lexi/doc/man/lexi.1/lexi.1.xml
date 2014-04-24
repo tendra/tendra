@@ -4,7 +4,6 @@
 	<!ENTITY p-prefix.arg "<replaceable>p-prefix</replaceable>">
 	<!ENTITY i-prefix.arg "<replaceable>i-prefix</replaceable>">
 
-	<!ENTITY a.opt "<option>-a</option>">
 	<!ENTITY t.opt "<option>-t</option> &t-prefix.arg;">
 	<!ENTITY p.opt "<option>-p</option> &p-prefix.arg;">
 	<!ENTITY i.opt "<option>-i</option> &i-prefix.arg;">
@@ -90,7 +89,6 @@
 		<cmdsynopsis>
 			<command>lexi</command>
 
-			<arg choice="opt">&a.opt;</arg>
 			<arg choice="opt">&t.opt;</arg>
 			<arg choice="opt">&p.opt;</arg>
 			<arg choice="opt">&i.opt;</arg>
@@ -133,15 +131,6 @@
 		<title>Options</title>
 
 		<variablelist>
-			<varlistentry>
-				<term>&a.opt;</term>
-
-				<listitem>
-					<para>Disables assertions in the output code.
-						These are enabled by default.</para>
-				</listitem>
-			</varlistentry>
-
 			<varlistentry>
 				<term>&t.opt;</term>
 

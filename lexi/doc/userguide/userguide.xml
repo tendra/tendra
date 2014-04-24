@@ -46,6 +46,16 @@
 		<!-- TODO: remove obsoleted parts as each feature is changed -->
 
 		<revhistory>
+			<revision role="featurechange">
+				<date>2014-04-24</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Removed <code>-a</code>; I can't think of any reason why you might
+						want to generate standard C code eliding assertions, as opposed to
+						compiling with `-DNDEBUG`. So now assertions are always generated.</para>
+				</revdescription>
+			</revision>
+
 			<revision role="dev">
 				<date>2012-04-13</date>
 				<authorinitials>kate</authorinitials>

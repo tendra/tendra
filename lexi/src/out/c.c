@@ -961,19 +961,15 @@ out_buffer(struct options *opt, struct ast *ast)
 	/* Other buffer operations */
 	fprintf(lex_out, "void %spush(struct %sstate *state, const int c) {\n",
 		lexi_prefix, lexi_prefix);
-	if (opt->generate_asserts) {
-		fputs("\tassert(state);\n", lex_out);
-		fputs("\tassert((size_t) state->buffer_index < sizeof state->buffer / sizeof *state->buffer);\n", lex_out);
-	}
+	fputs("\tassert(state);\n", lex_out);
+	fputs("\tassert((size_t) state->buffer_index < sizeof state->buffer / sizeof *state->buffer);\n", lex_out);
 	fputs("\tstate->buffer[state->buffer_index++] = c;\n", lex_out);
 	fputs("}\n\n", lex_out);
 
 	fprintf(lex_out, "int %spop(struct %sstate *state) {\n",
 		lexi_prefix, lexi_prefix);
-	if (opt->generate_asserts) {
-		fputs("\tassert(state);\n", lex_out);
-		fputs("\tassert(state->buffer_index > 0);\n", lex_out);
-	}
+	fputs("\tassert(state);\n", lex_out);
+	fputs("\tassert(state->buffer_index > 0);\n", lex_out);
 	fputs("\treturn state->buffer[--state->buffer_index];\n", lex_out);
 	fputs("}\n\n", lex_out);
 
@@ -1048,9 +1044,7 @@ c_out_all(struct options *opt, struct ast *ast)
 
 	code_out(lex_out, lct_ast.cfileheader, NULL, NULL, NULL, NULL, 0);
 
-	if (opt->generate_asserts) {
-		fputs("#include <assert.h>\n", lex_out);
-	}
+	fputs("#include <assert.h>\n", lex_out);
 	if (lang == C99) {
 		fputs("#include <stdbool.h>\n", lex_out);
 		fputs("#include <stdint.h>\n\n", lex_out);
