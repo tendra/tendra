@@ -305,17 +305,26 @@
 							if (!e) {
 								error(ERROR_SERIOUS, "local name %s has not been defined yet", p->u.literal);
 								et = NULL;
-							} else if (e->kind == ENTRY_LOCAL) {
-								error(ERROR_SERIOUS, "local name %s has been defined but not in this scope", p->u.literal);
-								et = NULL;
-							} else if (e->kind == ENTRY_ACTION) {
-								error(ERROR_SERIOUS, "%s is not a local name but an action which is not allowed", p->u.literal);
-								et = NULL;
-							} else if (e->kind == ENTRY_TYPE) {
-								error(ERROR_SERIOUS, "%s is not a local name but a type which is not allowed", p->u.literal);
-								et = NULL;
 							} else {
-								UNREACHED;
+								switch (e->kind) {
+								case ENTRY_LOCAL:
+									error(ERROR_SERIOUS, "local name %s has been defined but not in this scope", p->u.literal);
+									et = NULL;
+									break;
+
+								case ENTRY_ACTION:
+									error(ERROR_SERIOUS, "%s is not a local name but an action which is not allowed", p->u.literal);
+									et = NULL;
+									break;
+
+								case ENTRY_TYPE:
+									error(ERROR_SERIOUS, "%s is not a local name but a type which is not allowed", p->u.literal);
+									et = NULL;
+									break;
+
+								default:
+									UNREACHED;
+								}
 							}
 						}
 						break;
@@ -423,10 +432,14 @@
 							localnames_add_nstring(&@l->local_names, &str, q->et);
 							if (e) {
 								nstring_destroy(&str);
-								if (e->kind == ENTRY_ACTION) {
+								switch (e->kind) {
+								case ENTRY_ACTION:
 									error(ERROR_SERIOUS, "In action lhs. Name %s is an action. Hiding globals by local names is not allowed", p->u.literal);
-								} else if (e->kind == ENTRY_TYPE) {
+									break;
+
+								case ENTRY_TYPE:
 									error(ERROR_SERIOUS, "In action lhs. Name %s is a type. Hiding globals by local names is not allowed", p->u.literal);
+									break;
 								}
 							} else {
 								table_add_local_name(&@z->ast->table, &str);
@@ -622,14 +635,21 @@
 		e = table_get_entry(&@z->ast->table, &str);
 		if (e != NULL) {
 			nstring_destroy(&str);
-			/* TODO: switch ? */
-			if (e->kind == ENTRY_TYPE) {
+
+			switch (e->kind) {
+			case ENTRY_TYPE:
 				error(ERROR_SERIOUS, "Type %s already exists",@i);
-			} else if (e->kind == ENTRY_LOCAL) {
-				error(ERROR_SERIOUS, "Can't create type %s, %s has been previously used as a local name. We do not allow retroactive hiding.",@i,@i);
-			} else if (e->kind == ENTRY_ACTION) {
-				error(ERROR_SERIOUS, "Can't create type %s, %s has already been declared as an action",@i, @i);
-			} else {
+				break;
+
+			case ENTRY_LOCAL:
+				error(ERROR_SERIOUS, "Can't create type %s, %s has been previously used as a local name. We do not allow retroactive hiding.", @i, @i);
+				break;
+
+			case ENTRY_ACTION:
+				error(ERROR_SERIOUS, "Can't create type %s, %s has already been declared as an action", @i, @i);
+				break;
+
+			default:
 				UNREACHED;
 			}
 		} else {
@@ -646,14 +666,21 @@
 		e = table_get_entry(&@z->ast->table, &str);
 		if (e != NULL) {
 			nstring_destroy(&str);
-			/* TODO: switch ? */
-			if (e->kind == ENTRY_ACTION) {
+
+			switch (e->kind) {
+			case ENTRY_ACTION:
 				error(ERROR_SERIOUS, "Action %s already exists",@i);
-			} else if (e->kind == ENTRY_LOCAL) {
-				error(ERROR_SERIOUS, "Can't create type %s, %s has been previously used as a local name. We do not allow retroactive hiding.",@i,@i);
-			} else if (e->kind == ENTRY_TYPE) {
-				error(ERROR_SERIOUS, "Can't create action %s, %s has already been declared as a type",@i, @i);
-			} else {
+				break;
+
+			case ENTRY_LOCAL:
+				error(ERROR_SERIOUS, "Can't create type %s, %s has been previously used as a local name. We do not allow retroactive hiding.", @i, @i);
+				break;
+
+			case ENTRY_TYPE:
+				error(ERROR_SERIOUS, "Can't create action %s, %s has already been declared as a type", @i, @i);
+				break;
+
+			default:
 				UNREACHED;
 			}
 		} else {
@@ -675,7 +702,7 @@
 		nstring_copy_cstring(&istr,@id);
 
 		et = table_get_entry(&@z->ast->table, &tstr);
-		if (et== NULL) {
+		if (et == NULL) {
 			 error(ERROR_SERIOUS, "Unknown type %s", @type);
 			 nstring_destroy(&istr);
 		} else if (et->kind != ENTRY_TYPE) {
