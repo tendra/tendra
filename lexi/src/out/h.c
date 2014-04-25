@@ -264,7 +264,7 @@ h_out_all(struct options *opt, struct ast *ast)
 {
 	struct lxi_additional_argument* add_arg;
 
-	lex_out_h = opt->out[1].file;
+	lex_out_h = opt->out[0].file;
 
 	read_token_name = xstrcat(opt->lexi_prefix, "read_token");
 	lexi_prefix = opt->lexi_prefix;

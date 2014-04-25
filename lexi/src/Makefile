@@ -35,7 +35,7 @@ SYNTAX+=	lctsyntax.sid
 .include <tendra.sid.mk>
 
 
-#LEXIFLAGS+=-lC
+#LEXIFLAGS+=
 #
 #lexer.o: lexer.h
 #syntax.o: lexer.h
@@ -46,14 +46,18 @@ SYNTAX+=	lctsyntax.sid
 #lctlexer.o : lctsyntax.h lctlexer.h
 #
 #lexer.c lexer.h: lexer.lxi lexer.lct ../doc/copyright/COPYING.dera-cc
-#	-${MOVE} lexer.c sav.lexer.c 
+#	-${MOVE} lexer.c sav.lexer.c
+#	${LEXI} ${LEXIFLAGS} -lc lexer.lxi lexer.lct lexer.c \
+#		|| ( ${MOVE} sav.lexer.c lexer.c; exit 1 )
 #	-${MOVE} lexer.h sav.lexer.h
-#	${LEXI} ${LEXIFLAGS} lexer.lxi lexer.lct lexer.c lexer.h \
-#		|| ( ${MOVE} sav.lexer.c lexer.c ; ${MOVE} sav.lexer.h lexer.h ; exit 1 )
+#	${LEXI} ${LEXIFLAGS} -lh lexer.lxi lexer.lct lexer.h \
+#		|| ( ${MOVE} sav.lexer.h lexer.h; exit 1 )
 #
 #lctlexer.c lctlexer.h: lctlexer.lxi lctlexer.lct ../doc/copyright/COPYING.dera-cc
 #	-${MOVE} lctlexer.c sav.lctlexer.c
+#	${LEXI} ${LEXIFLAGS} -lc -t lct_lex_ -p lexi_lct_ lctlexer.lxi lctlexer.lct lctlexer.c \
+#		|| ( ${MOVE} sav.lctlexer.c lctlexer.c; exit 1 )
 #	-${MOVE} lctlexer.h sav.lctlexer.h
-#	${LEXI} ${LEXIFLAGS} -t lct_lex_ -p lexi_lct_ lctlexer.lxi lctlexer.lct lctlexer.c lctlexer.h \
-#		|| ( ${MOVE} sav.lctlexer.c lctlexer.c ; ${MOVE} sav.lctlexer.h lctlexer.h ; exit 1 )
+#	${LEXI} ${LEXIFLAGS} -lh -t lct_lex_ -p lexi_lct_ lctlexer.lxi lctlexer.lct lctlexer.h \
+#		|| ( ${MOVE} sav.lctlexer.c lctlexer.h; exit 1 )
 

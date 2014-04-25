@@ -15,7 +15,8 @@
 #include <shared/error.h>
 #include <shared/getopt.h>
 
-#include <out/ch.h>
+#include <out/c.h>
+#include <out/h.h>
 #include <out/dot.h>
 
 #include "ast.h"
@@ -115,7 +116,8 @@ main(int argc, char **argv)
 		const char *options;
 	} outs[] = {
 #define COMMON "C:t:l:p:i:vh"
-		{ "C",    2, 2, ch_out_all,  COMMON },
+		{ "C",    2, 1, c_out_all,   COMMON },
+		{ "H",    2, 1, h_out_all,   COMMON },
 		{ "Dot",  1, 1, dot_out_all, COMMON },
 		{ "test", 1, 0, NULL,        COMMON },
 #undef COMMON
