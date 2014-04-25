@@ -177,3 +177,27 @@ arg_index(struct args_list *args, int index)
 	return NULL;
 }
 
+char *
+arg_first_duplicate_ident(struct args_list *args)
+{
+	struct arg *p, *q;
+
+	for (p = args->head; p != NULL; p = p->next) {
+		if (p->kind != ARG_IDENT) {
+			continue;
+		}
+
+		for (q = p->next; q != NULL; q = q->next) {
+			if (q->kind != ARG_IDENT) {
+				continue;
+			}
+
+			if (0 == strcmp(p->u.literal, q->u.literal)) {
+				return p->u.literal;
+			}
+		}
+	}
+
+	return NULL;
+}
+
