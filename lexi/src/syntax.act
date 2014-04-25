@@ -208,22 +208,16 @@
 		ea = table_get_entry(&@z->ast->table, &key);
 		if (ea) {
 			if (ea->kind == ENTRY_ACTION) {
-				/* TODO: Inefficient code follows: */
-				/* Checking that a name does not appear twice in an lhs*/
-				struct arg* p, *q;
-				for(p=@l->head;p!=NULL;p=p->next) {
-					if (p->kind == ARG_IDENT) {
-						for(q=p->next; q!=NULL;q=q->next) {
-							if (q->kind == ARG_IDENT && !strcmp(p->u.literal, q->u.literal)) {
-								char *s = nstring_to_cstring(&ea->key);
-								error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.literal);
-								break;
-							}
-						}
-					}
+				char *dup;
+
+				dup = arg_first_duplicate_ident(@l);
+				if (dup != NULL) {
+					char *s = nstring_to_cstring(&ea->key);
+					error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",
+						s, dup);
 				}
+
 				@c = add_cmd_action(ea, @l, @r);
-			 /* END Inefficient code*/
 			} else {
 				@c = NULL;
 				error(ERROR_SERIOUS, "Name %s is not an action", @i);
