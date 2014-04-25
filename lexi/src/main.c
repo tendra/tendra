@@ -118,9 +118,9 @@ main(int argc, char **argv)
 		const char *options;
 	} outs[] = {
 #define COMMON "C:t:l:p:i:vh"
-		{ "C",    2, 1, c_out_all,   COMMON },
-		{ "H",    2, 1, h_out_all,   COMMON },
-		{ "Dot",  1, 1, dot_out_all, COMMON },
+		{ "c",    2, 1, c_out_all,   COMMON },
+		{ "h",    2, 1, h_out_all,   COMMON },
+		{ "dot",  1, 1, dot_out_all, COMMON },
 		{ "test", 1, 0, NULL,        COMMON },
 #undef COMMON
 	};
@@ -143,7 +143,7 @@ main(int argc, char **argv)
 				int i;
 
 				for (i = sizeof outs / sizeof *outs - 1; i >= 0; i--) {
-					if (0 == strcasecmp(optarg, outs[i].lang)) {
+					if (0 == strcmp(optarg, outs[i].lang)) {
 						out = &outs[i];
 						break;
 					}
