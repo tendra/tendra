@@ -27,7 +27,7 @@ unsigned int param_length(struct param *);
 int param_assign_names(struct param *, struct param *);
 int param_match(struct param *, struct param *);
 void param_destroy(struct param *);
-int param_find(struct param *, NStringT *);
+int param_findindex(struct param *, NStringT *);
 
 #endif
 

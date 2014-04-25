@@ -122,7 +122,6 @@ int
 param_unique_names(struct param *params, struct param *results)
 {
 	struct param *p;
-	int total_length;
 	int i;
 
 	for (p = params;  p != NULL; p = p->next, i++) {

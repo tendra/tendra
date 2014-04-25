@@ -94,21 +94,11 @@ report_usage(void) {
 		"input-file [lct-input-file] [output-file ...]\n", stdout);
 }
 
-/*
- * Open a file for writing, defaulting to stdout if the name given is "-".
- */
-static FILE *
-open_filestream(const char *name)
-{
-	return 0 == strcmp(name, "-") ? stdout : fopen(name, "w");
-}
-
 int
 main(int argc, char **argv)
 {
 	struct ast *ast;
 	struct out *out;
-	int i;
 
 	struct out {
 		const char *lang;

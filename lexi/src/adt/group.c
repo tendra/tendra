@@ -15,6 +15,7 @@
 
 #include <adt/group.h>
 #include <adt/zone.h>
+#include <adt/trie.h>
 
 #include "../ast.h"
 

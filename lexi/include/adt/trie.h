@@ -17,8 +17,8 @@ struct zone;
 struct cmd_list;
 
 enum trie_kind {
-	TRIE_CHAR,  /* .c is literal character or EOF */
-	TRIE_GROUP, /* .g is group */
+	TRIE_CHAR, /* .c is literal character or EOF */
+	TRIE_GROUP /* .g is group */
 };
 
 union trie_value {

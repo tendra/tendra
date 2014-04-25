@@ -18,6 +18,7 @@
 #include <exds/dstring.h>
 
 #include <adt/arg.h>
+#include <adt/param.h>
 
 #include "code.h"
 
@@ -89,12 +90,13 @@ code_destroy(struct code *c)
 {
 	struct code *p, *next;
 
-	for (p = c; p != NULL; p = p->next) {
+	for (p = c; p != NULL; p = next) {
 		next = p->next;
 
 		switch (p->kind) {
 		case CODE_IDENT:
 		case CODE_STRING:
+		case CODE_REF:
 			nstring_destroy(&p->name);
 			break;
 
