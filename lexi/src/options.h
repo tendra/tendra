@@ -24,24 +24,6 @@ struct options {
 	 */
 	const char *lexi_prefix;
 	const char *interface_prefix;
-
-	/*
-	 * An array of files to which output is written. The number (and
-	 * purposes) of files is specific to each output language. This
-	 * array must be large enough to hold the maximum number of files
-	 * specified by outputs[] in main().
-	 *
-	 * Elements beyond that of the selected output language's number
-	 * are undefined. The order of files is defined by each output language.
-	 *
-	 * Since this is known at compile-time and is relatively small,
-	 * a linked list was considered cumbersome.
-	 *
-	 */
-	struct {
-		const char *name;
-		FILE *file;
-	} out[2];
 };
 
 #endif

@@ -7,6 +7,10 @@
 #ifndef LEXI_GENERATED_HEADER_lexi__INCLUDED
 #define LEXI_GENERATED_HEADER_lexi__INCLUDED
 
+#if defined(__STDC_VERSION__) && (__STDC_VERSION__ - 0L) >= 199901L
+#include <stdbool.h>
+#endif
+
 
 
 	#include <stdio.h> /* TODO: This is necessary because lexi automatically prepend #include "lexer.h" to the header. Maybe we should remove this unecessary feature */
@@ -24,10 +28,6 @@
 	#define ADVANCE_LXI_LEXER    curr_lex_token = lexi_read_token(&lexer_state)
 	#define SAVE_LXI_LEXER(T)    (saved_lex_token = curr_lex_token, curr_lex_token = (T))
 	#define RESTORE_LXI_LEXER    (curr_lex_token = saved_lex_token)
-
-#if defined(__STDC_VERSION__) && (__STDC_VERSION__ - 0L) >= 199901L
-#include <stdbool.h>
-#endif
 
 /*
  * This struct holds state for the lexer; its representation is

@@ -7,6 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <assert.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -18,6 +19,7 @@
 #include <out/c.h>
 #include <out/h.h>
 #include <out/dot.h>
+#include <out/common.h>
 
 #include "ast.h"
 #include "lexer.h"
@@ -130,7 +132,7 @@ main(int argc, char **argv)
 	/* default to C output */
 	out = &outs[0];
 
-	set_progname(argv [0], "2.0");
+	set_progname(argv[0], "2.0");
 
 	{
 		int c;
@@ -198,21 +200,6 @@ main(int argc, char **argv)
 		error(ERROR_FATAL, "Too many arguments");
 	}
 
-	/*
-	 * Open each relevant file for output. Note that argv[0]
-	 * contains the input file.
-	 */
-	for (i = 0; i < out->outfiles; i++) {
-		opt.out[i].name = argv[i + out->infiles];
-		opt.out[i].file = open_filestream(argv[i + out->infiles]);
-
-		if (!opt.out[i].file) {
-			error(ERROR_FATAL, "Can't open output file, %s", argv[i + 1]);
-			/* TODO: perror for cases like this */
-			return EXIT_FAILURE;
-		}
-	}
-
 	/* Process input file */
 	ast = init_ast();
 
@@ -237,21 +224,29 @@ main(int argc, char **argv)
 		return exit_status;
 	}
 
+	argv += out->infiles;
+
 	/* Generate output */
  	if (ast->global->white == NULL) {
 		ast->global->white = make_group(ast->global, "white", " \t\n");
 	}
 
 	if (out->out_all != NULL) {
-		out->out_all(&opt, ast);
-	}
+		assert(out->outfiles == 1);
 
-	for (i = 0; i < out->outfiles; i++) {
-		if (opt.out[i].file == NULL) {
-			continue;
+		if (0 != strcmp(argv[0], "-")) {
+			stdout = freopen(argv[0], "w", stdout);
+			if (stdout == NULL) {
+				perror(argv[0]);
+				exit(1);
+			}
 		}
 
-		fclose(opt.out[i].file);
+		out_generated_by_lexi(stdout);
+
+		out->out_all(&opt, ast);
+
+		fclose(stdout);
 	}
 
 	return exit_status;

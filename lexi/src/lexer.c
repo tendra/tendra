@@ -4,6 +4,14 @@
  * Copyright terms for the input source also apply to this generated code.
  */
 
+#include <assert.h>
+#include <string.h>
+
+#if defined(__STDC_VERSION__) && (__STDC_VERSION__ - 0L) >= 199901L
+#include <stdbool.h>
+#include <stdint.h>
+#endif
+
 
 
 	#include <stdio.h>
@@ -66,13 +74,6 @@
 		return c;
 	}
 
-#include <assert.h>
-
-#if defined(__STDC_VERSION__) && (__STDC_VERSION__ - 0L) >= 199901L
-#include <stdbool.h>
-#include <stdint.h>
-#endif
-
 int lexi_readchar(struct lexi_state *state) {
 	if (state->buffer_index) {
 		return lexi_pop(state);
@@ -134,7 +135,6 @@ bool lexi_group(enum lexi_groups group, int c) {
 #else
 int lexi_group(enum lexi_groups group, int c) {
 #endif
-
 	if (c == LEXI_EOF) {
 		return 0;
 	}
@@ -142,7 +142,6 @@ int lexi_group(enum lexi_groups group, int c) {
 }
 
 
-#include <string.h>
 int lexi_keyword(const char *identifier, int notfound) {
 	if (0 == strcmp(identifier, "ACTION")) return lex_kw_Haction;
 	if (0 == strcmp(identifier, "DEFAULT")) return lex_default;
@@ -162,7 +161,7 @@ void lexi_init(struct lexi_state *state, FILE_P input) {
 	state->buffer_index = 0;
 	state->input = input;
 }
-/* ZONES PASS ANALYSER PROTOTYPES*/
+/* ZONES PASS ANALYSER PROTOTYPES */
 
 static int lexi_read_token_sidident(struct lexi_state *state);
 static int lexi_read_token_ident(struct lexi_state *state);

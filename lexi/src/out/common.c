@@ -16,14 +16,6 @@
 #include <out/common.h>
 
 void
-out_indent(FILE *f, unsigned int depth)
-{
-	while (depth-- > 0) {
-		fputc('\t', f);
-	}
-}
-
-void
 out_generated_by_lexi(FILE *f)
 {
 	fprintf(f,

@@ -4,6 +4,14 @@
  * Copyright terms for the input source also apply to this generated code.
  */
 
+#include <assert.h>
+#include <string.h>
+
+#if defined(__STDC_VERSION__) && (__STDC_VERSION__ - 0L) >= 199901L
+#include <stdbool.h>
+#include <stdint.h>
+#endif
+
 
 
 	#include <shared/error.h>
@@ -41,13 +49,6 @@
 
 		return c;
 	}
-
-#include <assert.h>
-
-#if defined(__STDC_VERSION__) && (__STDC_VERSION__ - 0L) >= 199901L
-#include <stdbool.h>
-#include <stdint.h>
-#endif
 
 int lexi_lct_readchar(struct lexi_lct_state *state) {
 	if (state->buffer_index) {
@@ -110,7 +111,6 @@ bool lexi_lct_group(enum lexi_lct_groups group, int c) {
 #else
 int lexi_lct_group(enum lexi_lct_groups group, int c) {
 #endif
-
 	if (c == LEXI_EOF) {
 		return 0;
 	}
@@ -118,7 +118,6 @@ int lexi_lct_group(enum lexi_lct_groups group, int c) {
 }
 
 
-#include <string.h>
 int lexi_lct_keyword(const char *identifier, int notfound) {
 	if (0 == strcmp(identifier, "ACTION")) return lct_lex_kw_Haction;
 	if (0 == strcmp(identifier, "ARGUMENT")) return lct_lex_kw_Hargument;
@@ -133,7 +132,7 @@ void lexi_lct_init(struct lexi_lct_state *state, FILE_P_lct input) {
 	state->buffer_index = 0;
 	state->input = input;
 }
-/* ZONES PASS ANALYSER PROTOTYPES*/
+/* ZONES PASS ANALYSER PROTOTYPES */
 
 static int lexi_lct_read_token_code_ref(struct lexi_lct_state *state);
 static int lexi_lct_read_token_code_ident(struct lexi_lct_state *state);

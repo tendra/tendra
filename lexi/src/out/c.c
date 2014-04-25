@@ -34,7 +34,6 @@
 #include <adt/localnames.h>
 
 #include <out/c.h>
-#include <out/common.h>
 
 #include "ast.h"
 #include "lexer.h"
@@ -53,14 +52,13 @@ static void out_pass(struct zone* z, struct trie *p, int in_pre_pass, unsigned i
 static const char *read_token_name;
 static const char *lexi_prefix;
 
-/*
- * OUTPUT FILE
- *
- * These variables gives the output files. out is used within this file
- * as a shorthand for lex_out.
- */
-FILE *lex_out;
-
+static void
+indent(unsigned int depth)
+{
+	while (depth-- > 0) {
+		fputc('\t', stdout);
+	}
+}
 
 /*
  * FIND A CHARACTER LITERAL
@@ -117,37 +115,34 @@ buffer_length(struct ast *ast)
 }
 
 static void
-out_groupname(FILE *f, struct group_name *gn)
+out_groupname(struct group_name *gn)
 {
 	const char *prefix;
 
-	assert(f != NULL);
 	assert(gn != NULL);
 
 	prefix = zone_isglobal(gn->z) ? "group" : gn->z->name;
 
-	fprintf(f, "%s%s_%s", lexi_prefix, prefix, gn->name);
+	printf("%s%s_%s", lexi_prefix, prefix, gn->name);
 }
 
 static void
 out_keyword(struct keyword *kw, void *opaque)
 {
-	FILE *out = opaque;
+	(void) opaque;
 
-	fprintf(out, "\tif (");
-
-	fprintf(out, "0 == strcmp(identifier, \"%s\")) return ", kw->name);
+	printf("\tif (0 == strcmp(identifier, \"%s\")) return ", kw->name);
 
 	switch (kw->cmd->kind) {
 	case CMD_RETURN:
-		fprintf(out, "%s", kw->cmd->u.name);
+		printf("%s", kw->cmd->u.name);
 		break;
 
 	default:
 		assert(!"unrecognised command type for keyword");
 	}
 
-	fprintf(out, ";\n");
+	printf(";\n");
 }
 
 /*
@@ -161,26 +156,24 @@ out_keyword(struct keyword *kw, void *opaque)
  * the generated API.
  */
 static void
-out_keywords(struct ast *ast, FILE *out)
+out_keywords(struct ast *ast)
 {
 	assert(ast != NULL);
-	assert(out != NULL);
 
 	if (ast->global->keywords == NULL) {
 		return;
 	}
 
-	fprintf(out, "#include <string.h>\n");
-	fprintf(out, "int %skeyword(const char *identifier, int notfound) {\n",
+	printf("int %skeyword(const char *identifier, int notfound) {\n",
 		lexi_prefix);
 
-	keywords_iterate(ast->global->keywords, out_keyword, out);
+	keywords_iterate(ast->global->keywords, out_keyword, NULL);
 
-	fprintf(out, "\treturn notfound;\n}\n");
+	printf("\treturn notfound;\n}\n");
 }
 
 static void
-out_locals(struct LocalNamesT *locals, unsigned int d, FILE *lex_out)
+out_locals(struct LocalNamesT *locals, unsigned int d)
 {
 	struct LocalNamesIteratorT it;
 	const char *prefixvar  = "ZV";
@@ -189,7 +182,6 @@ out_locals(struct LocalNamesT *locals, unsigned int d, FILE *lex_out)
 	char *s;
 
 	assert(locals != NULL);
-	assert(lex_out != NULL);
 
 	s = xmalloc_nof(char, locals->max_depth + 1);
 
@@ -209,8 +201,8 @@ out_locals(struct LocalNamesT *locals, unsigned int d, FILE *lex_out)
 
 		st = nstring_to_cstring(&p->et->key);
 
-		out_indent(lex_out, d);
-		fprintf(lex_out,"%s%s %s%s;\n", prefixtype, st, prefixvar, s);
+		indent(d);
+		printf("%s%s %s%s;\n", prefixtype, st, prefixvar, s);
 
 		xfree(st);
 	}
@@ -219,10 +211,9 @@ out_locals(struct LocalNamesT *locals, unsigned int d, FILE *lex_out)
 }
 
 static void
-out_action(FILE *lex_out, struct ast *ast,
+out_action(struct ast *ast,
 	struct entry *ea, struct args_list *lhs, struct args_list *rhs, unsigned int d)
 {
-	assert(lex_out != NULL);
 	assert(ast != NULL);
 	assert(ea != NULL);
 	assert(lhs != NULL);
@@ -231,11 +222,11 @@ out_action(FILE *lex_out, struct ast *ast,
 	/* TODO: assert(ea->kind == ENTRY_ACTION) */
 
 	/* TODO: output #line delimiters instead of comments */
-	out_indent(lex_out, d);
-	fprintf(lex_out, "/* ACTION <%s> */\n", nstring_to_cstring(&ea->key));
+	indent(d);
+	printf("/* ACTION <%s> */\n", nstring_to_cstring(&ea->key));
 
-	out_indent(lex_out, d);
-	fprintf(lex_out, "{\n");
+	indent(d);
+	printf("{\n");
 
 	d++;
 
@@ -248,18 +239,18 @@ out_action(FILE *lex_out, struct ast *ast,
 		/* TODO: assert(et->kind == ENTRY_TYPE); */
 		st = nstring_to_cstring(&et->key);
 
-		out_indent(lex_out, d);
-		fprintf(lex_out, "%s%s ZT1;\n", prefixtype, st);
+		indent(d);
+		printf("%s%s ZT1;\n", prefixtype, st);
 
 		/* TODO: free st? */
 	}
 
 	if (ea->u.act->defined) {
-		code_out(lex_out, ea->u.act->code, rhs, ea->u.act->in, lhs, ea->u.act->out, d);
+		code_out(stdout, ea->u.act->code, rhs, ea->u.act->in, lhs, ea->u.act->out, d);
 		if (lhs->return_count) {
 			/* TODO: assert(lhs->return_count == 1) */
-			out_indent(lex_out, d);
-			fputs("return ZT1;\n",lex_out);
+			indent(d);
+			printf("return ZT1;\n");
 		}
 	} else {
 		/* TODO: We should catch this error before beginning output */
@@ -272,11 +263,11 @@ out_action(FILE *lex_out, struct ast *ast,
 
 	d--;
 
-	out_indent(lex_out, d);
-	fprintf(lex_out, "}\n");
+	indent(d);
+	printf("}\n");
 
-	out_indent(lex_out, d);
-	fprintf(lex_out, "/* END ACTION <%s> */\n", nstring_to_cstring(&ea->key));
+	indent(d);
+	printf("/* END ACTION <%s> */\n", nstring_to_cstring(&ea->key));
 }
 
 static void
@@ -287,8 +278,8 @@ out_push_zone(struct zone *parent, struct cmd *cmd, unsigned int n, unsigned int
 	assert(cmd->kind == CMD_PUSH_ZONE);
 
 	if (cmd->u.s.z->kind == ZONE_GENERAL) {
-		out_indent(lex_out, d);
-		fprintf(lex_out, "state->zone = %s_%s;\n",
+		indent(d);
+		printf("state->zone = %s_%s;\n",
 			read_token_name, cmd->u.s.z->name);
 	}
 
@@ -300,20 +291,20 @@ out_push_zone(struct zone *parent, struct cmd *cmd, unsigned int n, unsigned int
 		return;
 	}
 
-	out_indent(lex_out, d);
+	indent(d);
 	switch (cmd->u.s.z->kind) {
 	case ZONE_GENERAL:
-		fprintf(lex_out, "return %s(state);\n", read_token_name);
+		printf("return %s(state);\n", read_token_name);
 		break;
 
 	case ZONE_PSEUDO:
-		fprintf(lex_out, "return %s_%s(state);\n", read_token_name, cmd->u.s.z->name);
+		printf("return %s_%s(state);\n", read_token_name, cmd->u.s.z->name);
 		break;
 
 	case ZONE_PURE:
-		fprintf(lex_out, "%s_%s(state);\n", read_token_name, cmd->u.s.z->name);
-		out_indent(lex_out, d);
-		fputs("goto start;	/* pure function */\n", lex_out);
+		printf("%s_%s(state);\n", read_token_name, cmd->u.s.z->name);
+		indent(d);
+		printf("goto start;	/* pure function */\n");
 		break;
 	}
 }
@@ -326,11 +317,11 @@ out_pop_zone(struct zone *parent, struct cmd *cmd, unsigned int n, unsigned int 
 	assert(cmd->kind == CMD_POP_ZONE);
 
 	if (parent->kind == ZONE_GENERAL) {
-		out_indent(lex_out, d);
+		indent(d);
 		if (zone_isglobal(cmd->u.s.z)) {
-			fprintf(lex_out, "state->zone = %s;\n", read_token_name);
+			printf("state->zone = %s;\n", read_token_name);
 		} else {
-			fprintf(lex_out, "state->zone = %s_%s;\n", read_token_name,
+			printf("state->zone = %s_%s;\n", read_token_name,
 				cmd->u.s.z->name);
 		}
 	}
@@ -339,8 +330,8 @@ out_pop_zone(struct zone *parent, struct cmd *cmd, unsigned int n, unsigned int 
 		unsigned int i;
 
 		for (i = n + 1; i > 0; i--) {
-			out_indent(lex_out, d);
-			fprintf(lex_out, "%spush(state, c%u);\n", lexi_prefix, i - 1);
+			indent(d);
+			printf("%spush(state, c%u);\n", lexi_prefix, i - 1);
 		}
 	}
 
@@ -352,14 +343,14 @@ out_pop_zone(struct zone *parent, struct cmd *cmd, unsigned int n, unsigned int 
 		return;
 	}
 
-	out_indent(lex_out, d);
+	indent(d);
 	switch (parent->kind) {
 	case ZONE_GENERAL:
-		fprintf(lex_out, "return %s(state);\n", read_token_name);
+		printf("return %s(state);\n", read_token_name);
 		break;
 
 	case ZONE_PURE:
-		fputs("return;\n", lex_out);
+		printf("return;\n");
 		break;
 
 	case ZONE_PSEUDO:
@@ -381,10 +372,10 @@ out_cmds(struct zone *parent, struct cmd_list *ret, unsigned int n, unsigned int
 	assert(ret != NULL);
 
 	if (ret->local_names.top) {
-		out_indent(lex_out, d);
-		fputs("{\n", lex_out);
+		indent(d);
+		printf("{\n");
 		++d;
-		out_locals(&ret->local_names, d, lex_out);
+		out_locals(&ret->local_names, d);
 	}
 
 	r = 0;
@@ -394,12 +385,12 @@ out_cmds(struct zone *parent, struct cmd_list *ret, unsigned int n, unsigned int
 		case CMD_RETURN:
 			r = 1;
 			assert(cmd->next == NULL);
-			out_indent(lex_out, d);
-			fprintf(lex_out, "return %s;\n", cmd->u.name);
+			indent(d);
+			printf("return %s;\n", cmd->u.name);
 			break;
 
 		case CMD_ACTION:
-			out_action(lex_out, parent->ast, cmd->u.act.ea, cmd->u.act.lhs, cmd->u.act.rhs, d);
+			out_action(parent->ast, cmd->u.act.ea, cmd->u.act.lhs, cmd->u.act.rhs, d);
 			break;
 
 		case CMD_PUSH_ZONE:
@@ -420,8 +411,8 @@ out_cmds(struct zone *parent, struct cmd_list *ret, unsigned int n, unsigned int
 
 	if (ret->local_names.top) {
 		d--;
-		out_indent(lex_out, d);
-		fputs("}\n", lex_out);
+		indent(d);
+		printf("}\n");
 	}
 
 	return r;
@@ -436,8 +427,8 @@ out_mapping(const char *map, unsigned int d)
 	assert(map != NULL);
 
 	if (strlen(map) == 0) {
-		out_indent(lex_out, d);
-		fputs("goto start;\n", lex_out);
+		indent(d);
+		printf("goto start;\n");
 		return;
 	}
 
@@ -454,11 +445,11 @@ out_mapping(const char *map, unsigned int d)
 		error(ERROR_SERIOUS, "Bad mapping string, '%s'", map);
 	}
 
-	out_indent(lex_out, d);
-	fprintf(lex_out, "c0 = %s;\n", str);
+	indent(d);
+	printf("c0 = %s;\n", str);
 
-	out_indent(lex_out, d);
-	fputs("goto restart;\n", lex_out);
+	indent(d);
+	printf("goto restart;\n");
 }
 
 /*
@@ -483,8 +474,8 @@ out_leaf(struct zone *parent, struct trie *p, int in_pre_pass, unsigned int n, u
 
 	if (p->u.cmds != NULL) {
 		if (!out_cmds(parent, p->u.cmds, n, d)) {
-			out_indent(lex_out, d);
-			fprintf(lex_out, "goto start; /* leaf */\n");
+			indent(d);
+			printf("goto start; /* leaf */\n");
 		}
 
 		return 1;
@@ -521,22 +512,22 @@ out_char_letters(struct zone *z, struct trie *p, int in_pre_pass, unsigned int n
 
 		assert(q != NULL);
 
-		out_indent(lex_out, d);
-		fprintf(lex_out, "if (c%u == %s) {\n", n, char_lit(q->v.c));
+		indent(d);
+		printf("if (c%u == %s) {\n", n, char_lit(q->v.c));
 
 		if (q->next != NULL) {
 			out_pass(z, q->next, in_pre_pass, n + 1, d + 1);
 		}
 		out_leaf(z, q, in_pre_pass, n, d + 1);
 
-		out_indent(lex_out, d);
-		fputs("}\n", lex_out);
+		indent(d);
+		printf("}\n");
 
 		return;
 
 	default:
-		out_indent(lex_out, d);
-		fprintf(lex_out, "switch (c%u) {\n", n);
+		indent(d);
+		printf("switch (c%u) {\n", n);
 		for (q = p; q != NULL; q = q->opt) {
 			int r;
 
@@ -544,8 +535,8 @@ out_char_letters(struct zone *z, struct trie *p, int in_pre_pass, unsigned int n
 				continue;
 			}
 
-			out_indent(lex_out, d);
-			fprintf(lex_out, "case %s: {\n", char_lit(q->v.c));
+			indent(d);
+			printf("case %s: {\n", char_lit(q->v.c));
 			d++;
 
 			if (q->next != NULL) {
@@ -553,20 +544,20 @@ out_char_letters(struct zone *z, struct trie *p, int in_pre_pass, unsigned int n
 			}
 			r = out_leaf(z, q, in_pre_pass, n, d + 1);
 
-			out_indent(lex_out, d);
-			fputs("}\n", lex_out);
+			indent(d);
+			printf("}\n");
 
 			if (!r) {
-				out_indent(lex_out, d);
-				fputs("break;\n", lex_out);
+				indent(d);
+				printf("break;\n");
 			}
 
-			fputs("\n", lex_out);
+			printf("\n");
 
 			d--;
 		}
-		out_indent(lex_out, d);
-		fputs("}\n", lex_out);
+		indent(d);
+		printf("}\n");
 
 		return;
 	}
@@ -602,15 +593,15 @@ out_char_groups(struct zone *z, struct trie *p, int in_pre_pass, unsigned int n,
 		}
 
 		gn = q->v.g.gn;
-		out_indent(lex_out, d);
+		indent(d);
 
 		if (started) {
-			fputs("} else ", lex_out);
+			printf("} else ");
 		}
 
-		fprintf(lex_out, "if (%s%sgroup(", q->v.g.not ? "!" : "", lexi_prefix);
-		out_groupname(lex_out, gn);
-		fprintf(lex_out, ", c%u)) {\n", n);
+		printf("if (%s%sgroup(", q->v.g.not ? "!" : "", lexi_prefix);
+		out_groupname(gn);
+		printf(", c%u)) {\n", n);
 
 		if (q->next != NULL) {
 			out_pass(z, q->next, in_pre_pass, n + 1, d + 1);
@@ -621,8 +612,8 @@ out_char_groups(struct zone *z, struct trie *p, int in_pre_pass, unsigned int n,
 		started = 1;
 	}
 
-	out_indent(lex_out, d);
-	fputs("}\n", lex_out);
+	indent(d);
+	printf("}\n");
 }
 
 /*
@@ -640,19 +631,19 @@ out_pass(struct zone *z, struct trie *p, int in_pre_pass, unsigned int n, unsign
 	assert(z != NULL);
 	assert(p != NULL);
 
-	out_indent(lex_out, d);
+	indent(d);
 	if (!in_pre_pass && z->pre) {
 		if (zone_isglobal(z)) {
-			fprintf(lex_out, "int c%u = %s_aux(state)",
+			printf("int c%u = %s_aux(state)",
 				n, read_token_name);
 		} else {
-			fprintf(lex_out, "int c%u = %s_%s_aux(state)",
+			printf("int c%u = %s_%s_aux(state)",
 				n, read_token_name, z->name);
 		}
 	} else {
-		fprintf(lex_out, "int c%u = %sreadchar(state)", n, lexi_prefix);
+		printf("int c%u = %sreadchar(state)", n, lexi_prefix);
 	}
-	fputs(";\n", lex_out);
+	printf(";\n");
 
 	/* TODO: can we move out w1 and w2 into out_zone_*pass(), and keep the recursion simple? */
 	if (w1) {
@@ -660,15 +651,15 @@ out_pass(struct zone *z, struct trie *p, int in_pre_pass, unsigned int n, unsign
 
 		white = find_group(z, "white");
 		if (white != NULL && !is_group_empty(white->g)) {
-			out_indent(lex_out, d);
-			fprintf(lex_out, "if (%sgroup(", lexi_prefix);
-			out_groupname(lex_out, white);
-			fprintf(lex_out, ", c0)) goto start;\n");
+			indent(d);
+			printf("if (%sgroup(", lexi_prefix);
+			out_groupname(white);
+			printf(", c0)) goto start;\n");
 		}
 	}
 	if (w2) {
-		out_indent(lex_out, d);
-		fputs("restart: {\n", lex_out);
+		indent(d);
+		printf("restart: {\n");
 		d++;
 	}
 
@@ -678,13 +669,13 @@ out_pass(struct zone *z, struct trie *p, int in_pre_pass, unsigned int n, unsign
 
 	if (w2) {
 		d--;
-		out_indent(lex_out, d);
-		fputs("}\n", lex_out);
+		indent(d);
+		printf("}\n");
 	}
 
 	if (n) {
-		out_indent(lex_out, d);
-		fprintf(lex_out, "%spush(state, c%u);\n", lexi_prefix,n);
+		indent(d);
+		printf("%spush(state, c%u);\n", lexi_prefix,n);
 	}
 }
 
@@ -706,7 +697,7 @@ out_zone_pass_prototypes(struct zone *p)
 		return;
 	}
 
-	fprintf(lex_out,"static %s %s_%s(struct %sstate *state);\n", s,
+	printf("static %s %s_%s(struct %sstate *state);\n", s,
 		read_token_name, p->name, lexi_prefix);
 }
 
@@ -728,23 +719,23 @@ out_zone_prepass(struct zone *z)
 		return;
 	}
 
-	fprintf(lex_out, "/* PRE PASS ANALYSER for %s*/\n\n", zone_name(z));
+	printf("/* PRE PASS ANALYSER for %s*/\n\n", zone_name(z));
 	if (zone_isglobal(z)) {
-		fprintf(lex_out, "static int %s_aux(struct %sstate *state)\n",
+		printf("static int %s_aux(struct %sstate *state)\n",
 			read_token_name, lexi_prefix);
 	} else {
-		fprintf(lex_out, "static int %s_%s_aux(struct %sstate *state)\n",
+		printf("static int %s_%s_aux(struct %sstate *state)\n",
 			read_token_name, z->name, lexi_prefix);
 	}
-	fputs("{\n", lex_out);
-	fputs("\tstart: {\n", lex_out);
+	printf("{\n");
+	printf("\tstart: {\n");
 
 	out_pass(z, z->pre, 1, 0, 2);
 	out_leaf(z, z->pre, 1, 0, 2);
 
-	fputs("\treturn c0;\n", lex_out);
-	fputs("\t}\n", lex_out);
-	fputs("}\n\n\n", lex_out);
+	printf("\treturn c0;\n");
+	printf("\t}\n");
+	printf("}\n\n\n");
 
 	return;
 }
@@ -761,26 +752,25 @@ out_zone_pass(struct options *opt, struct zone *p)
 		}
 	}
 
-	fprintf(lex_out, "\n/* MAIN PASS ANALYSER for %s */\n", zone_name(p));
+	printf("\n/* MAIN PASS ANALYSER for %s */\n", zone_name(p));
 	if (zone_isglobal(p)) {
-		fprintf(lex_out,"int\n%s(struct %sstate *state)\n",
-			read_token_name, lexi_prefix);
-		fputs("{\n", lex_out);
+		printf("int\n%s(struct %sstate *state)\n", read_token_name, lexi_prefix);
+		printf("{\n");
 		if (p->ast->global->next != NULL) {
-			fprintf(lex_out, "\tif (state->zone != %s)\n", read_token_name);
-			fprintf(lex_out, "\t\treturn state->zone(state);\n");
+			printf("\tif (state->zone != %s)\n", read_token_name);
+			printf("\t\treturn state->zone(state);\n");
 		}
 	} else {
 		const char *s;
 
 		s = p->kind == ZONE_PURE ? "void" : "int";
 
-		fprintf(lex_out, "static %s\n%s_%s(struct %sstate *state)\n", s,
-		read_token_name, p->name, lexi_prefix);
-		fputs("{\n", lex_out);
+		printf("static %s\n%s_%s(struct %sstate *state)\n", s,
+			read_token_name, p->name, lexi_prefix);
+		printf("{\n");
 	}
 
-	fputs("\tstart: {\n", lex_out);
+	printf("\tstart: {\n");
 
 	/* main pass */
 	if (p->main != NULL) {
@@ -788,21 +778,19 @@ out_zone_pass(struct options *opt, struct zone *p)
 	}
 
 	/* TOKEN DEFAULT -> ...; */
-	fprintf(lex_out, "\n\t\t/* DEFAULT */\n");
+	printf("\n\t\t/* DEFAULT */\n");
 	if (p->local != NULL) {
 		if (!out_cmds(p, p->local, 1, 2)) {
-			out_indent(lex_out, 2);
-			fprintf(lex_out, "goto start; /* DEFAULT */\n");
+			indent(2);
+			printf("goto start; /* DEFAULT */\n");
 		}
 	} else {
-		fprintf(lex_out, "\t\treturn %sunknown_token;\n",
+		printf("\t\treturn %sunknown_token;\n",
 			opt->interface_prefix);
 	}
 
-	fputs("\t}\n", lex_out);
-	fputs("}\n", lex_out);
-
-	return;
+	printf("\t}\n");
+	printf("}\n");
 }
 
 /*
@@ -865,18 +853,18 @@ out_macros(struct options* opt, struct ast *ast)
 	 * my mind at ease for lexers generated on machines with different signedness
 	 * for char than the machine upon which the generated lexer is compiled.
 	 */
-	fputs("#if defined(__STDC_VERSION__) && (__STDC_VERSION__ - 0L) >= 199901L\n", lex_out);
-	fprintf(lex_out, "%s %sgroup(enum %sgroups group, int c) {\n",
+	printf("#if defined(__STDC_VERSION__) && (__STDC_VERSION__ - 0L) >= 199901L\n");
+	printf("%s %sgroup(enum %sgroups group, int c) {\n",
 		"bool", opt->lexi_prefix, opt->lexi_prefix);
-	fputs("#else\n", lex_out);
-	fprintf(lex_out, "%s %sgroup(enum %sgroups group, int c) {\n",
+	printf("#else\n");
+	printf("%s %sgroup(enum %sgroups group, int c) {\n",
 		"int", opt->lexi_prefix, opt->lexi_prefix);
-	fputs("#endif\n\n", lex_out);
-	fputs("\tif (c == LEXI_EOF) {\n", lex_out);
-	fputs("\t\treturn 0;\n", lex_out);
-	fputs("\t}\n", lex_out);
-	fputs("\treturn lookup_tab[c] & group;\n", lex_out);
-	fputs("}\n", lex_out);
+	printf("#endif\n");
+	printf("\tif (c == LEXI_EOF) {\n");
+	printf("\t\treturn 0;\n");
+	printf("\t}\n");
+	printf("\treturn lookup_tab[c] & group;\n");
+	printf("}\n");
 }
 
 /*
@@ -895,13 +883,13 @@ out_lookup_table(struct ast *ast,
 	}
 
 	/* Character look-up table */
-	fputs("/* LOOKUP TABLE */\n\n", lex_out);
-	fputs("#if defined(__STDC_VERSION__) && (__STDC_VERSION__ - 0L) >= 199901L\n", lex_out);
-	fprintf(lex_out, "typedef %s lookup_type;\n", groupc99type);
-	fputs("#else\n", lex_out);
-	fprintf(lex_out, "typedef %s lookup_type;\n", groupc90type);
-	fputs("#endif\n", lex_out);
-	fputs("static lookup_type lookup_tab[] = {\n", lex_out);
+	printf("/* LOOKUP TABLE */\n\n");
+	printf("#if defined(__STDC_VERSION__) && (__STDC_VERSION__ - 0L) >= 199901L\n");
+	printf("typedef %s lookup_type;\n", groupc99type);
+	printf("#else\n");
+	printf("typedef %s lookup_type;\n", groupc90type);
+	printf("#endif\n");
+	printf("static lookup_type lookup_tab[] = {\n");
 
 	for (c = 0; c <= 255; c++) {
 		unsigned long m;
@@ -914,20 +902,20 @@ out_lookup_table(struct ast *ast,
 		}
 
 		if (c % groupwidth == 0) {
-			fputc('\t', lex_out);
+			putc('\t', stdout);
 		}
 
-		fprintf(lex_out, grouphex, m);
+		printf(grouphex, m);
 
 		if (c < 255) {
-			fputs(", ", lex_out);
+			printf(", ");
 		}
 		if ((c % groupwidth) == groupwidth - 1) {
-			fputc('\n', lex_out);
+			putc('\n', stdout);
 		}
 	}
 
-	fputs("\n};", lex_out);
+	printf("\n};");
 }
 
 /*
@@ -941,42 +929,41 @@ out_buffer(struct options *opt, struct ast *ast)
 	 * lookahead of one character, since the token buffer does not exist.
 	 * However, we pass it regardless, for simplicity.
 	 */
-	fprintf(lex_out,"int %sreadchar(struct %sstate *state) {\n",
+	printf("int %sreadchar(struct %sstate *state) {\n",
 		lexi_prefix, lexi_prefix);
 
 	if (buffer_length(ast) > 0) {
-		fputs("\tif (state->buffer_index) {\n", lex_out);
-		fprintf(lex_out,"\t\treturn %spop(state);\n", lexi_prefix);
-		fputs("\t}\n\n", lex_out);
+		printf("\tif (state->buffer_index) {\n");
+		printf("\t\treturn %spop(state);\n", lexi_prefix);
+		printf("\t}\n\n");
 	}
 
 	/* TODO: pass opaque here */
-	fprintf(lex_out, "\treturn %sgetchar(state);\n", opt->interface_prefix);
-	fputs("}\n", lex_out);
+	printf("\treturn %sgetchar(state);\n", opt->interface_prefix);
+	printf("}\n");
 
 	if (buffer_length(ast) == 0) {
 		return;
 	}
 
 	/* Other buffer operations */
-	fprintf(lex_out, "void %spush(struct %sstate *state, const int c) {\n",
+	printf("void %spush(struct %sstate *state, const int c) {\n",
 		lexi_prefix, lexi_prefix);
-	fputs("\tassert(state);\n", lex_out);
-	fputs("\tassert((size_t) state->buffer_index < sizeof state->buffer / sizeof *state->buffer);\n", lex_out);
-	fputs("\tstate->buffer[state->buffer_index++] = c;\n", lex_out);
-	fputs("}\n\n", lex_out);
+	printf("\tassert(state);\n");
+	printf("\tassert((size_t) state->buffer_index < sizeof state->buffer / sizeof *state->buffer);\n");
+	printf("\tstate->buffer[state->buffer_index++] = c;\n");
+	printf("}\n\n");
 
-	fprintf(lex_out, "int %spop(struct %sstate *state) {\n",
+	printf("int %spop(struct %sstate *state) {\n",
 		lexi_prefix, lexi_prefix);
-	fputs("\tassert(state);\n", lex_out);
-	fputs("\tassert(state->buffer_index > 0);\n", lex_out);
-	fputs("\treturn state->buffer[--state->buffer_index];\n", lex_out);
-	fputs("}\n\n", lex_out);
+	printf("\tassert(state);\n");
+	printf("\tassert(state->buffer_index > 0);\n");
+	printf("\treturn state->buffer[--state->buffer_index];\n");
+	printf("}\n\n");
 
-	fprintf(lex_out, "void %sflush(struct %sstate *state) {\n",
-		lexi_prefix, lexi_prefix);
-	fputs("\tstate->buffer_index = 0;\n", lex_out);
-	fputs("}\n\n", lex_out);
+	printf("void %sflush(struct %sstate *state) {\n", lexi_prefix, lexi_prefix);
+	printf("\tstate->buffer_index = 0;\n");
+	printf("}\n\n");
 }
 
 static void
@@ -993,9 +980,7 @@ c_out_all(struct options *opt, struct ast *ast)
 	size_t groupwidth;
 	const char *groupc90type, *groupc99type;
 	const char *grouphex;
-	struct lxi_additional_argument* add_arg;
-
-	lex_out = opt->out[0].file;
+	struct lxi_additional_argument *add_arg;
 
 	read_token_name = xstrcat(opt->lexi_prefix, "read_token");
 	lexi_prefix = opt->lexi_prefix;
@@ -1031,60 +1016,60 @@ c_out_all(struct options *opt, struct ast *ast)
 		}
 	}
 
-	out_generated_by_lexi(lex_out);
+	printf("#include <assert.h>\n");
+	printf("#include <string.h>\n\n");
 
-	code_out(lex_out, lct_ast.cfileheader, NULL, NULL, NULL, NULL, 0);
+	printf("#if defined(__STDC_VERSION__) && (__STDC_VERSION__ - 0L) >= 199901L\n");
+	printf("#include <stdbool.h>\n");
+	printf("#include <stdint.h>\n");
+	printf("#endif\n\n");
 
-	fputs("#include <assert.h>\n\n", lex_out);
-	fputs("#if defined(__STDC_VERSION__) && (__STDC_VERSION__ - 0L) >= 199901L\n", lex_out);
-	fputs("#include <stdbool.h>\n", lex_out);
-	fputs("#include <stdint.h>\n", lex_out);
-	fputs("#endif\n\n", lex_out);
+	code_out(stdout, lct_ast.cfileheader, NULL, NULL, NULL, NULL, 0);
 
 	out_buffer_storage(ast);
 
 	out_buffer(opt, ast);
-	fputs("\n", lex_out);
+	printf("\n");
 
 	out_lookup_table(ast, groupc90type, groupc99type, grouphex, groupwidth);
-	fputs("\n\n", lex_out);
+	printf("\n\n");
 
-	out_macros(opt,ast);
-	fputs("\n\n", lex_out);
+	out_macros(opt, ast);
+	printf("\n\n");
 
 	/* Keywords */
-	out_keywords(ast, lex_out);
+	out_keywords(ast);
 
 	/* Lexical pre-pass */
-	fputs("/* PRE-PASS ANALYSERS */\n\n", lex_out);
+	printf("/* PRE-PASS ANALYSERS */\n\n");
 	out_zone_prepass(ast->global);
 
 	/* lexi_init() */
 	/* TODO: assert() state */
-	fprintf(lex_out, "void %sinit(struct %sstate *state",
+	printf("void %sinit(struct %sstate *state",
 		opt->lexi_prefix, opt->lexi_prefix);
 
 	for (add_arg = lct_ast.arg_head; add_arg != NULL; add_arg = add_arg->next) {
-		fprintf(lex_out, ", %s %s", add_arg->ctype, add_arg->name);
+		printf(", %s %s", add_arg->ctype, add_arg->name);
 	}
-	fprintf(lex_out, ") {\n\tstate->zone = %s;\n", read_token_name);
+	printf(") {\n\tstate->zone = %s;\n", read_token_name);
 
 	if (buffer_length(ast) > 0) {
-		fprintf(lex_out, "\tstate->buffer_index = 0;\n");
+		printf("\tstate->buffer_index = 0;\n");
 	}
 	for (add_arg = lct_ast.arg_head; add_arg != NULL; add_arg = add_arg->next) {
-		fprintf(lex_out, "\tstate->%s = %s;\n", add_arg->name, add_arg->name);
+		printf("\tstate->%s = %s;\n", add_arg->name, add_arg->name);
 	}
-	fprintf(lex_out, "}\n");
+	printf("}\n");
 
-	fputs("/* ZONES PASS ANALYSER PROTOTYPES*/\n\n", lex_out);
+	printf("/* ZONES PASS ANALYSER PROTOTYPES */\n\n");
 	out_zone_pass_prototypes(ast->global);
 
-	fputs("/* MAIN PASS ANALYSERS */\n\n", lex_out);
+	printf("/* MAIN PASS ANALYSERS */\n\n");
   	out_zone_pass(opt, ast->global);
 
-	code_out(lex_out, lct_ast.cfiletrailer, NULL, NULL, NULL, NULL, 0);
+	code_out(stdout, lct_ast.cfiletrailer, NULL, NULL, NULL, NULL, 0);
 
-	fputs("\n", lex_out);
+	printf("\n");
 }
 

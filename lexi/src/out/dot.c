@@ -14,16 +14,13 @@
 
 #include <adt/cmd.h>
 #include <adt/trie.h>
-#include <adt/zone.h>	/* XXX */
+#include <adt/zone.h>
 
 #include <out/dot.h>
 #include <out/common.h>
 
 #include "ast.h"
 #include "options.h"
-
-/* This is a convenience for brevity */
-#define dotout opt->out[0].file
 
 /*
  * Yield a string representing a quoted character. Characters are quoted
@@ -67,57 +64,57 @@ static void
 out_node(struct ast *ast, struct trie *p, struct options *opt) {
 	/* node value */
 	{
-		fprintf(dotout, "\t\tc%p [ ", (void *) p);
+		printf("\t\tc%p [ ", (void *) p);
 
 		switch (p->kind) {
 		case TRIE_CHAR:
-			fprintf(dotout, "label=\"%s\"", quote_char(p->v.c));
+			printf("label=\"%s\"", quote_char(p->v.c));
 			break;
 
 		case TRIE_GROUP:
-			fprintf(dotout, "shape=box, label=\"[%s%s]\"", p->v.g.not ? "^" : "",
+			printf("shape=box, label=\"[%s%s]\"", p->v.g.not ? "^" : "",
 				p->v.g.gn->name);
 			break;
 		}
 
-		fprintf(dotout, " ];\n");
+		printf(" ];\n");
 	}
 
 	/* actions */
 	if (p->u.cmds != NULL) {
 		struct cmd *cmd;
 
-		fprintf(dotout, "\t\tc%p -> i%p;\n", (void *) p, (void *) p);
-		fprintf(dotout, "\t\ti%p [ ", (void *) p);
-		fprintf(dotout, "shape=plaintext, label=\"");
+		printf("\t\tc%p -> i%p;\n", (void *) p, (void *) p);
+		printf("\t\ti%p [ ", (void *) p);
+		printf("shape=plaintext, label=\"");
 
 		for (cmd = p->u.cmds->head; cmd != NULL; cmd = cmd->next) {
 			switch (cmd->kind) {
 			case CMD_RETURN:
 				/* TODO: rename to just prefix */
 				/* TODO: map back _H */
-				fprintf(dotout, "$%s", cmd->u.name + strlen(opt->lexi_prefix) - 1);
+				printf("$%s", cmd->u.name + strlen(opt->lexi_prefix) - 1);
 				break;
 
 			case CMD_PUSH_ZONE:
-				fprintf(dotout, "<push> %s", cmd->u.s.z->name);
+				printf("<push> %s", cmd->u.s.z->name);
 				break;
 
 			case CMD_POP_ZONE:
-				fprintf(dotout, "<pop> %s", cmd->u.s.z->name);
+				printf("<pop> %s", cmd->u.s.z->name);
 				break;
 
 			case CMD_NOOP:
-				fprintf(dotout, "$$");
+				printf("$$");
 				break;
 
 			default:
-				fprintf(dotout, "TODO");	/* TODO: unimplemented */
+				printf("TODO");	/* TODO: unimplemented */
 				break;
 			}
 		}
 
-		fprintf(dotout, "\" ];\n");
+		printf("\" ];\n");
 	}
 }
 
@@ -132,7 +129,7 @@ pass(void *prev, struct trie *p, struct ast *ast, struct options *opt) {
 	for (q = p; q != NULL; q = q->opt) {
 		out_node(ast, q, opt);
 
-		fprintf(dotout, "\t\tc%p -> c%p [ dir=none ];\n", prev, (void *) q);
+		printf("\t\tc%p -> c%p [ dir=none ];\n", prev, (void *) q);
 
 		if (q->next == NULL) {
 			continue;
@@ -152,7 +149,7 @@ out_zone(struct options *opt, struct ast *ast, struct zone *z)
 	assert(ast != NULL);
 	assert(z != NULL);
 
-	fprintf(dotout, "\t{\n");
+	printf("\t{\n");
 
 	for (p = z; p != NULL; p = p->opt) {
 		/* TODO output pre-pass mappings (render as -> "xyz") */
@@ -160,7 +157,7 @@ out_zone(struct options *opt, struct ast *ast, struct zone *z)
 		/* TODO DEFAULT */
 		/* TODO enter/leaving commands */
 
-		fprintf(dotout, "\t\tc%p [ shape=plaintext, label=\"%s\" ];\n",
+		printf("\t\tc%p [ shape=plaintext, label=\"%s\" ];\n",
 			(void *) p, p->name == NULL ? "(global)" : p->name);
 
 		pass(p, p->main, ast, opt);
@@ -170,7 +167,7 @@ out_zone(struct options *opt, struct ast *ast, struct zone *z)
 		}
 	}
 
-	fprintf(dotout, "\t}\n");
+	printf("\t}\n");
 }
 
 void
@@ -179,15 +176,13 @@ dot_out_all(struct options *opt, struct ast *ast)
 	assert(opt != NULL);
 	assert(ast != NULL);
 
-	out_generated_by_lexi(dotout);
-
-	fprintf(dotout, "digraph G {\n");
-	fprintf(dotout, "\tnode [ shape=circle, fontname=verdana ];\n");
-	fprintf(dotout, "\trankdir = LR;\n");
+	printf("digraph G {\n");
+	printf("\tnode [ shape=circle, fontname=verdana ];\n");
+	printf("\trankdir = LR;\n");
 
 	/* TODO output each child zone, not just siblings (nest as subgraphs) */
 	out_zone(opt, ast, ast->global);
 
-	fprintf(dotout, "};\n");
+	printf("};\n");
 }
 

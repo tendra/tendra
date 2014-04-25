@@ -34,7 +34,6 @@
 #include <adt/localnames.h>
 
 #include <out/c.h>
-#include <out/common.h>
 
 #include "ast.h"
 #include "lexer.h"
@@ -49,15 +48,6 @@
  */
 static const char *read_token_name;
 static const char *lexi_prefix;
-
-/*
- * OUTPUT FILE
- *
- * These variables gives the output files. out is used within this file
- * as a shorthand for lex_out_h.
- */
-FILE *lex_out_h;
-
 
 /*
  * FIND THE LENGTH REQUIRED FOR THE TOKEN BUFFER
@@ -84,16 +74,15 @@ buffer_length(struct ast *ast)
 }
 
 static void
-out_groupname(FILE *f, struct group_name *gn)
+out_groupname(struct group_name *gn)
 {
 	const char *prefix;
 
-	assert(f != NULL);
 	assert(gn != NULL);
 
 	prefix = zone_isglobal(gn->z) ? "group" : gn->z->name;
 
-	fprintf(f, "%s%s_%s", lexi_prefix, prefix, gn->name);
+	printf("%s%s_%s", lexi_prefix, prefix, gn->name);
 }
 
 /*
@@ -107,17 +96,16 @@ out_groupname(FILE *f, struct group_name *gn)
  * the generated API.
  */
 static void
-out_keywords(struct ast *ast, FILE *out_h)
+out_keywords(struct ast *ast)
 {
 	assert(ast != NULL);
-	assert(out_h != NULL);
 
 	if (ast->global->keywords == NULL) {
 		return;
 	}
 
-	fputs("\n/* Identify a keyword */\n", out_h);
-	fprintf(out_h, "int %skeyword(const char *identifier, int notfound);\n",
+	printf("\n/* Identify a keyword */\n");
+	printf("int %skeyword(const char *identifier, int notfound);\n",
 		lexi_prefix);
 }
 
@@ -169,15 +157,15 @@ out_macros_zone(struct options *opt, struct zone *z)
 				m = group_number(z->ast, gn->g);
 			}
 
-			fputc('\t', lex_out_h);
-			out_groupname(lex_out_h, gn);
-			fprintf(lex_out_h, " = %#lx", m);
+			printf("\t");
+			out_groupname(gn);
+			printf(" = %#lx", m);
 
 			if (gn->next || z->next || z->opt) {
-				fputs(",", lex_out_h);
+				printf(",");
 			}
 
-			fputs("\n", lex_out_h);
+			printf("\n");
 		}
 
 		if(z->next) {
@@ -194,20 +182,18 @@ out_macros(struct options *opt, struct ast *ast)
 		return;
 	}
 
-	fprintf(lex_out_h, "enum %sgroups {\n", opt->lexi_prefix);
+	printf("enum %sgroups {\n", opt->lexi_prefix);
 	out_macros_zone(opt, ast->global);
-	fputs("};\n", lex_out_h);
+	printf("};\n");
 
-	fputs("\n/* true if the given character is present in the given group */\n",
-		lex_out_h);
-	fputs("#if defined(__STDC_VERSION__) && (__STDC_VERSION__ - 0L) >= 199901L\n",
-		lex_out_h);
-	fprintf(lex_out_h, "%s %sgroup(enum %sgroups group, int c);\n",
+	printf("\n/* true if the given character is present in the given group */\n");
+	printf("#if defined(__STDC_VERSION__) && (__STDC_VERSION__ - 0L) >= 199901L\n");
+	printf("%s %sgroup(enum %sgroups group, int c);\n",
 		"bool", opt->lexi_prefix, opt->lexi_prefix);
-	fputs("#else\n", lex_out_h);
-	fprintf(lex_out_h, "%s %sgroup(enum %sgroups group, int c);\n",
+	printf("#else\n");
+	printf("%s %sgroup(enum %sgroups group, int c);\n",
 		"int", opt->lexi_prefix, opt->lexi_prefix);
-	fputs("#endif\n", lex_out_h);
+	printf("#endif\n");
 }
 
 /*
@@ -221,8 +207,8 @@ out_buffer(struct options *opt, struct ast *ast)
 	 * lookahead of one character, since the token buffer does not exist.
 	 * However, we pass it regardless, for simplicity.
 	 */
-	fputs("/* Read a character */\n", lex_out_h);
-	fprintf(lex_out_h, "int %sreadchar(struct %sstate *state);\n\n",
+	printf("/* Read a character */\n");
+	printf("int %sreadchar(struct %sstate *state);\n\n",
 		lexi_prefix, lexi_prefix);
 
 	if (buffer_length(ast) == 0) {
@@ -230,16 +216,16 @@ out_buffer(struct options *opt, struct ast *ast)
 	}
 
 	/* Other buffer operations */
-	fputs("/* Push a character to lexi's buffer */\n", lex_out_h);
-	fprintf(lex_out_h, "void %spush(struct %sstate *state, const int c);\n\n",
+	printf("/* Push a character to lexi's buffer */\n");
+	printf("void %spush(struct %sstate *state, const int c);\n\n",
 		lexi_prefix, lexi_prefix);
 
-	fputs("/* Pop a character from lexi's buffer */\n", lex_out_h);
-	fprintf(lex_out_h, "int %spop(struct %sstate *state);\n\n",
+	printf("/* Pop a character from lexi's buffer */\n");
+	printf("int %spop(struct %sstate *state);\n\n",
 		lexi_prefix, lexi_prefix);
 
-	fputs("/* Flush lexi's buffer */\n", lex_out_h);
-	fprintf(lex_out_h, "void %sflush(struct %sstate *state);\n\n",
+	printf("/* Flush lexi's buffer */\n");
+	printf("void %sflush(struct %sstate *state);\n\n",
 		lexi_prefix, lexi_prefix);
 }
 
@@ -251,84 +237,77 @@ out_buffer_storage(struct ast *ast)
 	}
 
 	/* Buffer storage */
-	fputs("\n", lex_out_h);
-	fputs("\t/*\n", lex_out_h);
-	fputs("\t * Lexi's buffer is a simple stack.\n", lex_out_h);
-	fputs("\t */\n", lex_out_h);
-	fprintf(lex_out_h, "\tint buffer[%u];\n", buffer_length(ast));
-	fputs("\tint buffer_index;\n", lex_out_h);
+	printf("\n");
+	printf("\t/*\n");
+	printf("\t * Lexi's buffer is a simple stack.\n");
+	printf("\t */\n");
+	printf("\tint buffer[%u];\n", buffer_length(ast));
+	printf("\tint buffer_index;\n");
 }
 
 void
 h_out_all(struct options *opt, struct ast *ast)
 {
-	struct lxi_additional_argument* add_arg;
-
-	lex_out_h = opt->out[0].file;
+	struct lxi_additional_argument *add_arg;
 
 	read_token_name = xstrcat(opt->lexi_prefix, "read_token");
 	lexi_prefix = opt->lexi_prefix;
 
-	out_generated_by_lexi(lex_out_h);
+	printf("#ifndef LEXI_GENERATED_HEADER_%s_INCLUDED\n", lexi_prefix);
+	printf("#define LEXI_GENERATED_HEADER_%s_INCLUDED\n", lexi_prefix);
+	printf("\n");
 
-	fprintf(lex_out_h, "#ifndef LEXI_GENERATED_HEADER_%s_INCLUDED\n", lexi_prefix);
-	fprintf(lex_out_h, "#define LEXI_GENERATED_HEADER_%s_INCLUDED\n", lexi_prefix);
-	fputs("\n", lex_out_h);
+	printf("#if defined(__STDC_VERSION__) && (__STDC_VERSION__ - 0L) >= 199901L\n");
+	printf("#include <stdbool.h>\n");
+	printf("#endif\n\n");
 
-	code_out(lex_out_h, lct_ast.hfileheader, NULL, NULL, NULL, NULL, 0);
+	code_out(stdout, lct_ast.hfileheader, NULL, NULL, NULL, NULL, 0);
 
-	fputs("#if defined(__STDC_VERSION__) && (__STDC_VERSION__ - 0L) >= 199901L\n",
-		lex_out_h);
-	fputs("#include <stdbool.h>\n", lex_out_h);
-	fputs("#endif\n\n", lex_out_h);
-
-	fputs(
+	printf(
 		"/*\n"
 		" * This struct holds state for the lexer; its representation is\n"
 		" * private, but present here for ease of allocation.\n"
-		" */\n", lex_out_h);
-	fprintf(lex_out_h, "struct %sstate {\n"
+		" */\n");
+	printf("struct %sstate {\n"
 	      "\tint (*zone)(struct %sstate *);\n",
 		opt->lexi_prefix, opt->lexi_prefix);
 	out_buffer_storage(ast);
 
-	for(add_arg = lct_ast.arg_head; add_arg != NULL; add_arg = add_arg->next) {
-		fprintf(lex_out_h, "\t%s %s;\n", add_arg->ctype, add_arg->name);
+	for (add_arg = lct_ast.arg_head; add_arg != NULL; add_arg = add_arg->next) {
+		printf("\t%s %s;\n", add_arg->ctype, add_arg->name);
 	}
-	fputs("};\n\n", lex_out_h);
+	printf("};\n\n");
 
 	out_buffer(opt, ast);
 
-	fputs("#ifndef LEXI_EOF\n", lex_out_h);
-	fprintf(lex_out_h, "#define LEXI_EOF %d\n", EOF); /* TODO: remove LEXI_EOF */
-	fputs("#endif\n\n", lex_out_h);
+	printf("#ifndef LEXI_EOF\n");
+	printf("#define LEXI_EOF %d\n", EOF); /* TODO: remove LEXI_EOF */
+	printf("#endif\n\n");
 
 	out_macros(opt, ast);
 
 	/* Keywords */
-	out_keywords(ast, lex_out_h);
+	out_keywords(ast);
 
 	/* Main pass */
-	fputs("\n/* Identify a token */\n", lex_out_h);
-	fprintf(lex_out_h, "int %s(struct %sstate *state);\n\n",
+	printf("\n/* Identify a token */\n");
+	printf("int %s(struct %sstate *state);\n\n",
 		read_token_name, lexi_prefix);
 
 	/* lexi_init() */
 	/* TODO: assert() state */
-	fprintf(lex_out_h, "/* Initialise a %sstate structure */\n",
-		opt->lexi_prefix);
-	fprintf(lex_out_h, "void %sinit(struct %sstate *state",
-		opt->lexi_prefix, opt->lexi_prefix);
+	printf("/* Initialise a %sstate structure */\n", opt->lexi_prefix);
+	printf("void %sinit(struct %sstate *state", opt->lexi_prefix, opt->lexi_prefix);
 
 	for (add_arg = lct_ast.arg_head; add_arg != NULL; add_arg = add_arg->next) {
-		fprintf(lex_out_h, ", %s %s", add_arg->ctype, add_arg->name);
+		printf(", %s %s", add_arg->ctype, add_arg->name);
 	}
-	fputs(");\n\n", lex_out_h);
+	printf(");\n\n");
 
-	code_out(lex_out_h, lct_ast.hfiletrailer, NULL, NULL, NULL, NULL, 0);
+	code_out(stdout, lct_ast.hfiletrailer, NULL, NULL, NULL, NULL, 0);
 
-	fputs("#endif\n", lex_out_h);
+	printf("#endif\n");
 
-	fputs("\n", lex_out_h);
+	printf("\n");
 }
 

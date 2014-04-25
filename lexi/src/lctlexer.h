@@ -7,6 +7,10 @@
 #ifndef LEXI_GENERATED_HEADER_lexi_lct__INCLUDED
 #define LEXI_GENERATED_HEADER_lexi_lct__INCLUDED
 
+#if defined(__STDC_VERSION__) && (__STDC_VERSION__ - 0L) >= 199901L
+#include <stdbool.h>
+#endif
+
 
 
 	#include <stdio.h>
@@ -27,10 +31,6 @@
 	#define ADVANCE_LCT_LEXER    curr_lct_token = lexi_lct_read_token(&lct_lexer_state)
 	#define SAVE_LCT_LEXER(T)    (saved_lct_token = curr_lct_token, curr_lct_token = (T))
 	#define RESTORE_LCT_LEXER    (curr_lct_token = saved_lct_token)
-
-#if defined(__STDC_VERSION__) && (__STDC_VERSION__ - 0L) >= 199901L
-#include <stdbool.h>
-#endif
 
 /*
  * This struct holds state for the lexer; its representation is
