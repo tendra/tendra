@@ -175,7 +175,10 @@
 	@};
 
 	<append-code-ident>: (c :CODE &, i :IDENT, e :ENTRYP, b :BOOL) -> () = @{
-		if (@e) {
+		if (@e == NULL) {
+			error(ERROR_SERIOUS, "The @@ code identifiers are not allowed in headers or trailers");
+			nstring_destroy(@&i);
+		} else {
 			struct param *p, *q;
 
 			if ((p = param_name_is_in(@e->u.act->in, @&i)) ||
@@ -200,9 +203,6 @@
 				xfree(pi);
 				xfree(pe);
 			}
-		} else {
-			error(ERROR_SERIOUS, "The @@ code identifiers are not allowed in headers or trailers");
-			nstring_destroy(@&i);
 		}
 	@};
 
@@ -272,20 +272,19 @@
 
 	<get-entry-action>: (i :IDENT) -> (ea :ENTRYP) = @{
 		@ea = table_get_entry(&lxi_ast->table, @&i);
-		if (@ea) {
-			if (@ea->kind != ENTRY_ACTION) {
-				char *pi;
-
-				@ea = NULL; /* TODO: skip to end of action */
-				pi = nstring_to_cstring(@&i);
-				error(ERROR_SERIOUS, "%s is not an action", pi);
-				xfree(pi);
-			}
-		} else {
+		if (@ea == NULL) {
 			char *pi = nstring_to_cstring(@&i);
 			error(ERROR_SERIOUS, "Defining an undeclared action: %s", pi);
 			xfree(pi);
+		} else if (@ea->kind != ENTRY_ACTION) {
+			char *pi;
+
+			@ea = NULL; /* TODO: skip to end of action */
+			pi = nstring_to_cstring(@&i);
+			error(ERROR_SERIOUS, "%s is not an action", pi);
+			xfree(pi);
 		}
+
 		nstring_destroy(@&i);
 	@};
 
@@ -336,7 +335,9 @@
 	@};
 
 	<define-action>: (ea :ENTRYP, c :CODE) -> () = @{
-		if (@ea) {
+		if (@ea == NULL) {
+			code_destroy(@c);
+		} else {
 			/* TODO: assert @ea->kind == ENTRY_ACTION */
 			if (!@ea->u.act->defined) {
 				@ea->u.act->defined = true;
@@ -346,8 +347,6 @@
 				error(ERROR_SERIOUS, "Action %s has already been defined", pe);
 				xfree(pe);
 			}
-		} else {
-			code_destroy(@c);
 		}
 	@};
 
@@ -373,7 +372,6 @@
 
 	<E_expected_define> = @{
 		error(ERROR_SERIOUS, "Syntax error: expected '='");
-
 	@};
 
 	<E_expected_arrow> = @{

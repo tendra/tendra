@@ -206,25 +206,23 @@
 		nstring_copy_cstring(&key, @i);
 
 		ea = table_get_entry(&@z->ast->table, &key);
-		if (ea) {
-			if (ea->kind == ENTRY_ACTION) {
-				char *dup;
-
-				dup = arg_first_duplicate_ident(@l);
-				if (dup != NULL) {
-					char *s = nstring_to_cstring(&ea->key);
-					error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",
-						s, dup);
-				}
-
-				@c = add_cmd_action(ea, @l, @r);
-			} else {
-				@c = NULL;
-				error(ERROR_SERIOUS, "Name %s is not an action", @i);
-			}
-		} else {
+		if (ea == NULL) {
 			@c = NULL;
 			error(ERROR_SERIOUS, "Unknown action %s", @i);
+		} else if (ea->kind != ENTRY_ACTION) {
+			@c = NULL;
+			error(ERROR_SERIOUS, "Name %s is not an action", @i);
+		} else {
+			char *dup;
+
+			dup = arg_first_duplicate_ident(@l);
+			if (dup != NULL) {
+				char *s = nstring_to_cstring(&ea->key);
+				error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",
+					s, dup);
+			}
+
+			@c = add_cmd_action(ea, @l, @r);
 		}
 
 		xfree(@i);
