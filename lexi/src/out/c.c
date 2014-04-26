@@ -217,7 +217,7 @@ out_action(struct ast *ast,
 
 	d++;
 
-	if (lhs->return_count) {
+	if (arg_return_count(lhs) != 0) {
 		char *prefixtype = "ZT";
 		struct entry *et;
 		char *st;
@@ -234,8 +234,8 @@ out_action(struct ast *ast,
 
 	if (ea->u.act->defined) {
 		code_out(stdout, ea->u.act->code, rhs, ea->u.act->in, lhs, ea->u.act->out, d);
-		if (lhs->return_count) {
-			/* TODO: assert(lhs->return_count == 1) */
+		if (arg_return_count(lhs) != 0) {
+			/* TODO: assert(arg_return_count(lhs) == 1) */
 			indent(d);
 			printf("return ZT1;\n");
 		}
@@ -274,7 +274,7 @@ out_push_zone(struct zone *parent, struct cmd *cmd, unsigned int n, unsigned int
 		out_cmds(parent, cmd->u.s.z->enter, n, d);
 	}
 
-	if (cmd->u.s.z->enter->return_count != 0) {
+	if (cmd_return_count(cmd->u.s.z->enter) != 0) {
 		return;
 	}
 
@@ -326,7 +326,7 @@ out_pop_zone(struct zone *parent, struct cmd *cmd, unsigned int n, unsigned int 
 		out_cmds(parent, parent->exit, n, d);
 	}
 
-	if (parent->exit->return_count != 0) {
+	if (cmd_return_count(parent->exit) != 0) {
 		return;
 	}
 

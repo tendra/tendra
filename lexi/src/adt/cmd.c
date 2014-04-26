@@ -13,6 +13,7 @@
 #include <shared/xalloc.h>
 #include <shared/error.h>
 
+#include <adt/arg.h>
 #include <adt/cmd.h>
 #include <adt/zone.h>
 
@@ -96,8 +97,33 @@ add_cmd_list(void)
 	p->tail   = &p->head;
 	p->size   = 0;
 	p->locals = NULL;
-	p->return_count = 0;
 
 	return p;
+}
+
+unsigned
+cmd_return_count(struct cmd_list *cmds)
+{
+	struct cmd *p;
+	unsigned n;
+
+	n = 0;
+
+	for (p = cmds->head; p != NULL; p = p->next) {
+		switch (p->kind) {
+		case CMD_RETURN:
+			n++;
+			break;
+
+		case CMD_ACTION:
+			n += arg_return_count(p->u.act.lhs);
+			break;
+
+		default:
+			break;
+		}
+	}
+
+	return n;
 }
 

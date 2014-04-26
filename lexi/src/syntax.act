@@ -232,21 +232,15 @@
 	<append-arg-args-list>: (l:ARG_LIST, a:ARG) -> () = @{
 		*@l->tail=@a;
 		@l->tail=&@a->next;
-		if (@a->kind == ARG_RETURN) {
-			@l->return_count++;
-		}
 	@};
 
 	<args-list-push-front>: (a:ARG , l:ARG_LIST) -> () = @{
 		@a->next=@l->head;
 		@l->head=@a;
-		if (@a->kind == ARG_RETURN) {
-			@l->return_count++;
-		}
 	@};
 
-	<check-args-list>: (l:ARG_LIST) -> () = @{
-		if (@l->return_count > 1) {
+	<check-args-list>: (l :ARG_LIST) -> () = @{
+		if (arg_return_count(@l) > 1) {
 			error(ERROR_SERIOUS, "There can only be one return terminal argument per action lhs");
 		}
 	@};
@@ -257,12 +251,16 @@
 
 	<add-cmd-to-list>: (z :ZONE, c :CMD, l :CMD_LIST) -> () = @{
 		if (@c != NULL) { /* if @c == NULL, an error has already been issued.*/
-			if (@l->return_count > 0 && @c->kind != CMD_NOOP) {
+			unsigned return_count;
+
+			return_count = cmd_return_count(@l);
+
+			if (return_count != 0 && @c->kind != CMD_NOOP) {
 				error(ERROR_SERIOUS, "No cmd may follow an cmd that returns a terminal");
 			}
 
 			if (@c->kind == CMD_RETURN) {
-				@l->return_count++;
+				return_count++;
 			}
 
 			if (@c->kind == CMD_ACTION) {
@@ -273,8 +271,8 @@
 				struct arg *p;
 				struct param *q;
 
-				@l->return_count += @c->u.act.lhs->return_count;
-				if (@l->return_count > 1) {
+				return_count += arg_return_count(@c->u.act.lhs);
+				if (return_count > 1) {
 					error(ERROR_SERIOUS, "Only one terminal may be returned per token");
 				}
 
@@ -516,7 +514,7 @@
 	@};
 
 	<check-cmd-list>: (l: CMD_LIST) -> () = @{
-		if (@l->return_count > 1) {
+		if (cmd_return_count(@l) > 1) {
 			error(ERROR_SERIOUS, "At most one return terminal may be specified per command list");
 		}
 	@};
@@ -527,7 +525,7 @@
 
 	<make-token>: (z :ZONE, s :STRING, l :CMD_LIST) -> () = @{
 		add_mainpass(@z, @s, @l);
-		if (@l->return_count) {
+		if (cmd_return_count(@l)) {
 			@z->kind = ZONE_GENERAL;
 		}
 	@};
@@ -540,9 +538,9 @@
 		error(ERROR_SERIOUS, "Empty character string is not allowed here, try using DEFAULT instead");
 	@};
 
-	<make-default>: (z : ZONE, i : CMD_LIST) -> () = @{
-		@z->local=@i;
-		if (@i->return_count) {
+	<make-default>: (z :ZONE, c :CMD_LIST) -> () = @{
+		@z->local = @c;
+		if (cmd_return_count(@c)) {
 			@z->kind = ZONE_GENERAL;
 		}
 	@};
@@ -569,12 +567,12 @@
 		@nz = add_zone(@z, @i, @e, @endmarkerclosed);
 
 		@nz->exit = @exit;
-		if (@nz->exit->return_count) {
+		if (cmd_return_count(@nz->exit) != 0) {
 			@nz->kind = ZONE_PSEUDO;
 		}
 
 		@nz->enter = @enter;
-		if (@nz->enter->return_count) {
+		if (cmd_return_count(@nz->enter) != 0) {
 			@nz->kind = ZONE_GENERAL;
 		}
 

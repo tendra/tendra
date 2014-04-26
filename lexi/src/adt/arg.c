@@ -148,7 +148,6 @@ new_args_list(void)
 	p = xmalloc(sizeof *p);
 	p->head = NULL;
 	p->tail = &p->head;
-	p->return_count = 0;
 
 	return p;
 }
@@ -200,5 +199,22 @@ arg_first_duplicate_ident(struct args_list *args)
 	}
 
 	return NULL;
+}
+
+unsigned
+arg_return_count(struct args_list *args)
+{
+	struct arg *p;
+	unsigned n;
+
+	n = 0;
+
+	for (p = args->head; p != NULL; p = p->next) {
+		if (p->kind == ARG_RETURN) {
+			n++;
+		}
+	}
+
+	return n;
 }
 
