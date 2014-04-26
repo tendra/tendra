@@ -70,7 +70,7 @@ extern void read_lex(zoneP);
 
 /* BEGINNING OF TRAILER */
 
-#line 808 "syntax.act"
+#line 807 "syntax.act"
 
 
 	#endif

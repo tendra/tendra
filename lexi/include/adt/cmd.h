@@ -46,7 +46,6 @@ struct cmd {
 struct cmd_list {
 	struct cmd* head;
 	struct cmd** tail;
-	int size;
 	struct local *locals;
 };
 

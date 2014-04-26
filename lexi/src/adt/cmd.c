@@ -95,7 +95,6 @@ add_cmd_list(void)
 	p = xmalloc(sizeof *p);
 	p->head   = NULL;
 	p->tail   = &p->head;
-	p->size   = 0;
 	p->locals = NULL;
 
 	return p;

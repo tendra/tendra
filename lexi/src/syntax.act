@@ -516,7 +516,6 @@
 			/* TODO: only append if no error */
 			*@l->tail = @c;
 			@l->tail = &@c->next;
-			@l->size++;
 		}
 	@};
 
