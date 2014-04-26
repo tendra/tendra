@@ -261,7 +261,7 @@
 		if (@c != NULL) { /* if @c == NULL, an error has already been issued.*/
 			unsigned return_count;
 
-			return_count = cmd_return_count(@l);
+			return_count = cmd_return_count(@l->cmds);
 
 			if (return_count > 0 && @c->kind != CMD_NOOP) {
 				error(ERROR_SERIOUS, "No cmd may follow an cmd that returns a terminal");
@@ -514,13 +514,21 @@
 			}
 
 			/* TODO: only append if no error */
-			*@l->tail = @c;
-			@l->tail = &@c->next;
+			{
+				struct cmd **p;
+
+				for (p = &@l->cmds; *p != NULL; p = &(*p)->next)
+					;
+
+				assert(@c->next == NULL);
+				@c->next = *p;
+				*p = @c;
+			}
 		}
 	@};
 
 	<check-cmd-list>: (l: CMD_LIST) -> () = @{
-		if (cmd_return_count(@l) > 1) {
+		if (cmd_return_count(@l->cmds) > 1) {
 			error(ERROR_SERIOUS, "At most one return terminal may be specified per command list");
 		}
 	@};
@@ -531,7 +539,7 @@
 
 	<make-token>: (z :ZONE, s :STRING, l :CMD_LIST) -> () = @{
 		add_mainpass(@z, @s, @l);
-		if (cmd_return_count(@l)) {
+		if (cmd_return_count(@l->cmds)) {
 			@z->kind = ZONE_GENERAL;
 		}
 	@};
@@ -544,9 +552,9 @@
 		error(ERROR_SERIOUS, "Empty character string is not allowed here, try using DEFAULT instead");
 	@};
 
-	<make-default>: (z :ZONE, c :CMD_LIST) -> () = @{
-		@z->local = @c;
-		if (cmd_return_count(@c)) {
+	<make-default>: (z :ZONE, l :CMD_LIST) -> () = @{
+		@z->local = @l;
+		if (cmd_return_count(@l->cmds)) {
 			@z->kind = ZONE_GENERAL;
 		}
 	@};
@@ -573,19 +581,18 @@
 		@nz = add_zone(@z, @i, @e, @endmarkerclosed);
 
 		@nz->exit = @exit;
-		if (cmd_return_count(@nz->exit) != 0) {
+		if (cmd_return_count(@nz->exit->cmds) != 0) {
 			@nz->kind = ZONE_PSEUDO;
 		}
 
 		@nz->enter = @enter;
-		if (cmd_return_count(@nz->enter) != 0) {
+		if (cmd_return_count(@nz->enter->cmds) != 0) {
 			@nz->kind = ZONE_GENERAL;
 		}
 
 		c = add_cmd_push_zone(@nz);
 		l = add_cmd_list();
-		*l->tail = c;
-		l->tail = &c->next;
+		l->cmds = c;
 
 		add_mainpass(@z, @b, l);
 	@};

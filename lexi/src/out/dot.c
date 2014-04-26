@@ -88,7 +88,7 @@ out_node(struct ast *ast, struct trie *p, struct options *opt) {
 		printf("\t\ti%p [ ", (void *) p);
 		printf("shape=plaintext, label=\"");
 
-		for (cmd = p->u.cmds->head; cmd != NULL; cmd = cmd->next) {
+		for (cmd = p->u.cmds->cmds; cmd != NULL; cmd = cmd->next) {
 			switch (cmd->kind) {
 			case CMD_RETURN:
 				/* TODO: rename to just prefix */

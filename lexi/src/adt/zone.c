@@ -145,8 +145,7 @@ add_zone(struct zone *z, char *name, const char *e, int endmarkerclosed)
 
 	cmd = add_cmd_pop_zone(z, endmarkerclosed);
 	cmd_list = add_cmd_list();
-	*cmd_list->tail = cmd;
-	cmd_list->tail = &cmd->next;
+	cmd_list->cmds = cmd;
 
 	add_mainpass(new, e, cmd_list);
 

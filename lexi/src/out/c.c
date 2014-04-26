@@ -268,11 +268,11 @@ out_push_zone(struct zone *parent, struct cmd *cmd, unsigned int n, unsigned int
 			read_token_name, cmd->u.s.z->name);
 	}
 
-	if (cmd->u.s.z->enter->head != NULL) {
+	if (cmd->u.s.z->enter->cmds != NULL) {
 		out_cmds(parent, cmd->u.s.z->enter, n, d);
 	}
 
-	if (cmd_return_count(cmd->u.s.z->enter) != 0) {
+	if (cmd_return_count(cmd->u.s.z->enter->cmds) != 0) {
 		return;
 	}
 
@@ -320,11 +320,11 @@ out_pop_zone(struct zone *parent, struct cmd *cmd, unsigned int n, unsigned int 
 		}
 	}
 
-	if (parent->exit->head) {
+	if (parent->exit->cmds) {
 		out_cmds(parent, parent->exit, n, d);
 	}
 
-	if (cmd_return_count(parent->exit) != 0) {
+	if (cmd_return_count(parent->exit->cmds) != 0) {
 		return;
 	}
 
@@ -364,7 +364,7 @@ out_cmds(struct zone *parent, struct cmd_list *ret, unsigned int n, unsigned int
 	}
 
 	r = 0;
-	for (cmd = ret->head; cmd != NULL; cmd = cmd->next) {
+	for (cmd = ret->cmds; cmd != NULL; cmd = cmd->next) {
 		/* TODO: can simplify the calls to out_push_zone() et al by passing only what we need, not the entire cmd */
 		switch (cmd->kind) {
 		case CMD_RETURN:

@@ -93,22 +93,21 @@ add_cmd_list(void)
 	struct cmd_list *p;
 
 	p = xmalloc(sizeof *p);
-	p->head   = NULL;
-	p->tail   = &p->head;
+	p->cmds   = NULL;
 	p->locals = NULL;
 
 	return p;
 }
 
 unsigned
-cmd_return_count(struct cmd_list *cmds)
+cmd_return_count(struct cmd *cmds)
 {
 	struct cmd *p;
 	unsigned n;
 
 	n = 0;
 
-	for (p = cmds->head; p != NULL; p = p->next) {
+	for (p = cmds; p != NULL; p = p->next) {
 		switch (p->kind) {
 		case CMD_RETURN:
 			n++;
