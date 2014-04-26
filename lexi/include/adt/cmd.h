@@ -13,9 +13,8 @@
 #include <stdbool.h>
 
 struct zone;
+struct locals;
 struct args_list;
-
-#include "localnames.h"
 
 enum cmd_kind {
 	CMD_RETURN,
@@ -48,7 +47,7 @@ struct cmd_list {
 	struct cmd* head;
 	struct cmd** tail;
 	int size;
-	struct LocalNamesT local_names;
+	struct local *locals;
 	int return_count;
 };
 

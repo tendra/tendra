@@ -31,7 +31,6 @@
 #include <adt/trie.h>
 #include <adt/zone.h>
 #include <adt/group.h>
-#include <adt/localnames.h>
 
 #include <out/c.h>
 

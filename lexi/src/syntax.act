@@ -49,6 +49,7 @@
 	#include <adt/cmd.h>
 	#include <adt/param.h>
 	#include <adt/keyword.h>
+	#include <adt/local.h>
 	#include <adt/zone.h>
 
 	#include "ast.h"
@@ -290,9 +291,9 @@
 					switch (p->kind) {
 					case ARG_IDENT:
 						nstring_copy_cstring(&str, p->u.literal);
-						et=localnames_get_type(&@l->local_names, &str);
+						et = local_find(@l->locals, &str);
 						nstring_destroy(&str);
-						if (!et) {
+						if (et == NULL) {
 							struct entry *e = table_get_entry(&@z->ast->table, &str);
 							if (!e) {
 								error(ERROR_SERIOUS, "local name %s has not been defined yet", p->u.literal);
@@ -418,10 +419,11 @@
 						NStringT str;
 
 						nstring_copy_cstring(&str, p->u.literal);
-						et = localnames_get_type(&@l->local_names, &str);
-						if (!et) {
+						et = local_find(@l->locals, &str);
+						if (et == NULL) {
 							struct entry *e= table_get_entry(&@z->ast->table, &str);
-							localnames_add_nstring(&@l->local_names, &str, q->et);
+							/* TODO: error out if local name already exists? */
+							local_add(&@l->locals, &str, q->et);
 							if (e) {
 								nstring_destroy(&str);
 								switch (e->kind) {

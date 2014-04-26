@@ -31,7 +31,7 @@
 #include <adt/trie.h>
 #include <adt/zone.h>
 #include <adt/group.h>
-#include <adt/localnames.h>
+#include <adt/local.h>
 
 #include <out/c.h>
 
@@ -173,41 +173,28 @@ out_keywords(struct ast *ast)
 }
 
 static void
-out_locals(struct LocalNamesT *locals, unsigned int d)
+out_locals(struct local *locals, unsigned int d)
 {
-	struct LocalNamesIteratorT it;
 	const char *prefixvar  = "ZV";
 	const char *prefixtype = "ZT";
-	char *st;
-	char *s;
+	struct local *p;
 
 	assert(locals != NULL);
 
-	s = xmalloc_nof(char, locals->max_depth + 1);
-
-	for (localnames_begin(&it, locals); it.p; localnamesiterator_next(&it)) {
-		struct LocalNamesEntryT *p = it.p;
-		int i;
-
-		s[it.depth] = 0;
-
-		for (i = it.depth - 1; i >= 0; i--) {
-			/* TODO: assert(p) */
-			s[i] = p->c;
-			p = p->up;
-		}
+	for (p = locals; p != NULL; p = p->next) {
+		char *sn, *st;
 
 		/* TODO: assert(p->et->kind == ENTRY_TYPE); */
 
+		sn = nstring_to_cstring(&p->name);
 		st = nstring_to_cstring(&p->et->key);
 
 		indent(d);
-		printf("%s%s %s%s;\n", prefixtype, st, prefixvar, s);
+		printf("%s%s %s%s;\n", prefixtype, st, prefixvar, sn);
 
+		xfree(sn);
 		xfree(st);
 	}
-
-	xfree(s);
 }
 
 static void
@@ -371,11 +358,11 @@ out_cmds(struct zone *parent, struct cmd_list *ret, unsigned int n, unsigned int
 	assert(parent != NULL);
 	assert(ret != NULL);
 
-	if (ret->local_names.top) {
+	if (ret->locals != NULL) {
 		indent(d);
 		printf("{\n");
 		++d;
-		out_locals(&ret->local_names, d);
+		out_locals(ret->locals, d);
 	}
 
 	r = 0;
@@ -409,7 +396,7 @@ out_cmds(struct zone *parent, struct cmd_list *ret, unsigned int n, unsigned int
 		}
 	}
 
-	if (ret->local_names.top) {
+	if (ret->locals != NULL) {
 		d--;
 		indent(d);
 		printf("}\n");

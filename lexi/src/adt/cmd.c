@@ -92,12 +92,11 @@ add_cmd_list(void)
 	struct cmd_list *p;
 
 	p = xmalloc(sizeof *p);
-	p->head = NULL;
-	p->tail = &p->head;
-	p->size = 0;
+	p->head   = NULL;
+	p->tail   = &p->head;
+	p->size   = 0;
+	p->locals = NULL;
 	p->return_count = 0;
-
-	localnames_init(&p->local_names);
 
 	return p;
 }
