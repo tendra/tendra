@@ -19,8 +19,7 @@ struct arg;
 enum code_kind {
 	CODE_STRING,
 	CODE_IDENT,
-	CODE_REF,
-	CODE_AT
+	CODE_REF
 };
 
 struct code {
@@ -29,7 +28,6 @@ struct code {
 	struct code *next;
 };
 
-void code_append_at(struct code **);
 void code_append_ident(struct code **, NStringT *);
 void code_append_ref(struct code **, NStringT *i);
 void code_append_string(struct code **, NStringT *);

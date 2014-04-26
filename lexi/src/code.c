@@ -47,15 +47,6 @@ code_append(struct code **p, struct code *new)
 }
 
 void
-code_append_at(struct code **c)
-{
-	struct code *new;
-
-	new = code_create(CODE_AT);
-	code_append(c, new);
-}
-
-void
 code_append_ident(struct code **c, NStringT *i)
 {
 	struct code *new;
@@ -98,10 +89,6 @@ code_destroy(struct code *c)
 		case CODE_STRING:
 		case CODE_REF:
 			nstring_destroy(&p->name);
-			break;
-
-		case CODE_AT:
-			/* do nothing */
 			break;
 		}
 
@@ -151,10 +138,6 @@ code_out(FILE *file, struct code *c,
 			arg_out(to, true, d, file);
 			break;
 		}
-
-		case CODE_AT:
-			fputs("@", file);
-			break;
 		}
 	}
 }

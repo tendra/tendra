@@ -167,7 +167,12 @@
 	@};
 
 	<append-code-at>: (c :CODE &) -> () = @{
-		code_append_at(@&c);
+		struct NStringT s;
+
+		/* XXX: this should become just: s = <code-at>; <append-code-string>(s); */
+		nstring_init(&s);
+		nstring_copy_cstring(&s, "@@");
+		code_append_string(@&c, &s);
 	@};
 
 	<append-code-string>: (c :CODE &, s :BIGSTRING &) -> () = @{
