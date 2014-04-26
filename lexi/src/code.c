@@ -111,8 +111,8 @@ code_destroy(struct code *c)
 
 void
 code_out(FILE *file, struct code *c,
-	struct args_list *rhs, struct param *in,
-	struct args_list *lhs, struct param *out,
+	struct arg *rhs, struct param *in,
+	struct arg *lhs, struct param *out,
 	int d)
 {
 	struct code *p;

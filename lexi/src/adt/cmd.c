@@ -51,7 +51,7 @@ add_cmd_donothing(void)
 }
 
 struct cmd *
-add_cmd_action(struct entry *ea, struct args_list *lhs, struct args_list *rhs)
+add_cmd_action(struct entry *ea, struct arg *lhs, struct arg *rhs)
 {
 	struct cmd *p;
 

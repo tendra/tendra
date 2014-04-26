@@ -14,7 +14,7 @@
 
 struct zone;
 struct locals;
-struct args_list;
+struct arg;
 
 enum cmd_kind {
 	CMD_RETURN,
@@ -36,8 +36,8 @@ struct cmd {
 		} s;
 		struct {
 			struct entry *ea;
-			struct args_list *lhs;
-			struct args_list *rhs;
+			struct arg *lhs;
+			struct arg *rhs;
 		} act;
 	} u;
 };
@@ -52,7 +52,7 @@ struct cmd_list {
 
 struct cmd *add_cmd_return(char *name);
 struct cmd *add_cmd_donothing(void);
-struct cmd *add_cmd_action(struct entry *, struct args_list *, struct args_list *);
+struct cmd *add_cmd_action(struct entry *, struct arg *, struct arg *);
 struct cmd *add_cmd_mapping(char *map);
 
 struct cmd *add_cmd_push_zone(struct zone *z);

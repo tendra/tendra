@@ -20,7 +20,6 @@
 	PARAM_LIST;
 
 	ARG;
-	ARG_LIST;
 
 %terminals%
 
@@ -82,7 +81,7 @@
 	<make-keyword>: (:ZONE, :STRING, :CMD) -> ();
 
 	<make-terminal-cmd>:  (:IDENT) -> (:CMD);
-	<make-action-cmd>:    (:ZONE, :IDENT, :ARG_LIST, :ARG_LIST) -> (:CMD);
+	<make-action-cmd>:    (:ZONE, :IDENT, :ARG, :ARG) -> (:CMD);
 	<make-donothing-cmd>: () -> (:CMD);
 
 	<true>:  () -> (:BOOL);
@@ -92,10 +91,10 @@
 
 	<is-global-zone>: (:ZONE ) -> ( :BOOL );
 
-	<empty-args-list>: () -> ( :ARG_LIST);
-	<check-args-list>: (:ARG_LIST) -> ();
-	<args-list-push-front>: (:ARG , :ARG_LIST) -> ();
-	<append-arg-args-list>: (:ARG_LIST, :ARG ) -> ();
+	<empty-args-list>: () -> (:ARG);
+	<check-args-list>: (:ARG) -> ();
+	<arg-prepend>: (:ARG &, :ARG) -> ();
+	<arg-append>:  (:ARG &, :ARG) -> ();
 	<make_arg_terminal>:   (:IDENT) -> (:ARG);
 	<make_arg_from_ident>: (:IDENT) -> (:ARG);
 	<make_arg_from_ref>:   (:IDENT) -> (:ARG);
@@ -306,7 +305,7 @@
 	};
 
 	action-call: (z :ZONE) -> (c :CMD) [
-		lhs-arg: (l :ARG_LIST) -> () = {
+		lhs-arg: (l :ARG &) -> () = {
 			{
 					b = arg-char-string; a = <make_arg_none>; <E_sharp_arg_in_lhs>;
 				||  b = arg-char-num;    a = <make_arg_none>; <E_sharp_arg_in_lhs>;
@@ -317,24 +316,24 @@
 				||  b = sid-ident;       a = <make_arg_none>; <E_terminal_in_lhs>;
 				||  a = arg-return;
 				||  a = arg-ignore;
-			 };
+			};
 
-			<append-arg-args-list>(l, a);
+			<arg-append>(&l, a);
 		};
 
-		lhs-tuple1: (l :ARG_LIST) -> () = {
-			lhs-arg(l);
+		lhs-tuple1: (l :ARG &) -> () = {
+			lhs-arg(&l);
 		||
-			lhs-arg(l);
+			lhs-arg(&l);
 			comma;
-			lhs-tuple1(l);
+			lhs-tuple1(&l);
 		};
 
-		lhs-tuple: (l:ARG_LIST) -> () = {
-			lhs-arg(l);
+		lhs-tuple: (l :ARG &) -> () = {
+			lhs-arg(&l);
 		||
 			open;
-			lhs-tuple1(l);
+			lhs-tuple1(&l);
 			close;
 		};
 
@@ -350,13 +349,16 @@
 			||	i =  ident;      a = <make_arg_from_ident>(i);
 		};
 
-		rhs-tuple1: () -> (r :ARG_LIST) = {
-			a = rhs-arg;        r = <empty-args-list>; <args-list-push-front>(a, r);
+		rhs-tuple1: () -> (r :ARG) = {
+			r = rhs-arg;
 		||
-			a = rhs-arg; comma; r = rhs-tuple1;        <args-list-push-front>(a, r);
+			a = rhs-arg;
+			comma;
+			r = rhs-tuple1;
+			<arg-prepend>(&r, a);
 		};
 
-		rhs-tuple : () -> (r: ARG_LIST) = {
+		rhs-tuple : () -> (r: ARG) = {
 			open;
 			{
 				r = <empty-args-list>;
@@ -371,7 +373,7 @@
 		{
 			$;
 		||
-			lhs-tuple(l);
+			lhs-tuple(&l);
 			equal;
 		};
 
@@ -421,7 +423,7 @@
 		<make-token>(z, s, l);
 	};
 
-	default-defn: (z :ZONE ) -> () = {
+	default-defn: (z :ZONE) -> () = {
 		kw-token;
 		default;
 		arrow;

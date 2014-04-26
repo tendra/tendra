@@ -24,7 +24,6 @@
 	CMD_LIST   -> cmd_listP;
 
 	ARG        -> argP;
-	ARG_LIST   -> args_listP;
 
 	PARAM_LIST -> paramP;
 
@@ -67,7 +66,6 @@
 	typedef struct cmd* cmdP;
 	typedef struct cmd_list* cmd_listP;
 	typedef struct arg* argP;
-	typedef struct args_list* args_listP;
 	typedef struct param * paramP;
 
 	/*
@@ -200,7 +198,7 @@
 		@c = add_cmd_donothing();
 	@};
 
-	<make-action-cmd>: (z: ZONE, i :IDENT, l :ARG_LIST, r :ARG_LIST) -> (c :CMD)  = @{
+	<make-action-cmd>: (z: ZONE, i :IDENT, l :ARG, r :ARG) -> (c :CMD)  = @{
 		NStringT key;
 		struct entry *ea;
 
@@ -229,24 +227,34 @@
 		xfree(@i);
 	@};
 
-	<append-arg-args-list>: (l:ARG_LIST, a:ARG) -> () = @{
-		*@l->tail=@a;
-		@l->tail=&@a->next;
+	<arg-append>: (l :ARG &, a :ARG) -> () = @{
+		if (@a != NULL) {
+			struct arg **p;
+
+			for (p = &@=l; *p != NULL; p = &(*p)->next)
+				;
+
+			*p = @a;
+		}
 	@};
 
-	<args-list-push-front>: (a:ARG , l:ARG_LIST) -> () = @{
-		@a->next=@l->head;
-		@l->head=@a;
+	<arg-prepend>: (l :ARG &, a :ARG) -> () = @{
+		if (@a != NULL) {
+			assert(@a->next == NULL);
+
+			@a->next = @l;
+			@=l = @a;
+		}
 	@};
 
-	<check-args-list>: (l :ARG_LIST) -> () = @{
+	<check-args-list>: (l :ARG) -> () = @{
 		if (arg_return_count(@l) > 1) {
 			error(ERROR_SERIOUS, "There can only be one return terminal argument per action lhs");
 		}
 	@};
 
-	<empty-args-list>: () -> (l:ARG_LIST) = @{
-		@l=add_args_list();
+	<empty-args-list>: () -> (l :ARG) = @{
+		@l = NULL;
 	@};
 
 	<add-cmd-to-list>: (z :ZONE, c :CMD, l :CMD_LIST) -> () = @{
@@ -255,7 +263,7 @@
 
 			return_count = cmd_return_count(@l);
 
-			if (return_count != 0 && @c->kind != CMD_NOOP) {
+			if (return_count > 0 && @c->kind != CMD_NOOP) {
 				error(ERROR_SERIOUS, "No cmd may follow an cmd that returns a terminal");
 			}
 
@@ -264,8 +272,7 @@
 			}
 
 			if (@c->kind == CMD_ACTION) {
-				struct args_list *rhs;
-				struct args_list *lhs;
+				struct arg *lhs, *rhs;
 				struct action *act;
 				struct entry *ea;
 				struct arg *p;
@@ -282,7 +289,7 @@
 				lhs = @c->u.act.lhs;
 
 				/* CHECKING RHS COMPATIBILITY */
-				for (p = rhs->head, q = act->in; p != NULL && q != NULL; p = p->next, q = q->next) {
+				for (p = rhs, q = act->in; p != NULL && q != NULL; p = p->next, q = q->next) {
 					struct entry *et = NULL;
 					NStringT str;
 
@@ -409,7 +416,7 @@
 					xfree(s);
 				}
 
-				for (p = lhs->head, q = act->out; p != NULL && q != NULL; p = p->next, q = q->next) {
+				for (p = lhs, q = act->out; p != NULL && q != NULL; p = p->next, q = q->next) {
 					struct entry *et;
 
 					switch (p->kind) {

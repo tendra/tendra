@@ -140,35 +140,13 @@ arg_out(struct arg *p, bool is_ref, int d, FILE *file)
 	}
 }
 
-static struct args_list *
-new_args_list(void)
-{
-	struct args_list *p;
-
-	p = xmalloc(sizeof *p);
-	p->head = NULL;
-	p->tail = &p->head;
-
-	return p;
-}
-
-struct args_list *
-add_args_list(void)
-{
-	struct args_list *p;
-
-	p = new_args_list();
-
-	return p;
-}
-
 struct arg *
-arg_index(struct args_list *args, int index)
+arg_index(struct arg *args, int index)
 {
 	struct arg *p;
 	int i;
 
-	for (p = args->head, i = 0; p != NULL; p = p->next, i++) {
+	for (p = args, i = 0; p != NULL; p = p->next, i++) {
 		if (i == index) {
 			return p;
 		}
@@ -178,11 +156,11 @@ arg_index(struct args_list *args, int index)
 }
 
 char *
-arg_first_duplicate_ident(struct args_list *args)
+arg_first_duplicate_ident(struct arg *args)
 {
 	struct arg *p, *q;
 
-	for (p = args->head; p != NULL; p = p->next) {
+	for (p = args; p != NULL; p = p->next) {
 		if (p->kind != ARG_IDENT) {
 			continue;
 		}
@@ -202,14 +180,14 @@ arg_first_duplicate_ident(struct args_list *args)
 }
 
 unsigned
-arg_return_count(struct args_list *args)
+arg_return_count(struct arg *args)
 {
 	struct arg *p;
 	unsigned n;
 
 	n = 0;
 
-	for (p = args->head; p != NULL; p = p->next) {
+	for (p = args; p != NULL; p = p->next) {
 		if (p->kind == ARG_RETURN) {
 			n++;
 		}

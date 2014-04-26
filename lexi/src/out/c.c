@@ -199,12 +199,10 @@ out_locals(struct local *locals, unsigned int d)
 
 static void
 out_action(struct ast *ast,
-	struct entry *ea, struct args_list *lhs, struct args_list *rhs, unsigned int d)
+	struct entry *ea, struct arg *lhs, struct arg *rhs, unsigned int d)
 {
 	assert(ast != NULL);
 	assert(ea != NULL);
-	assert(lhs != NULL);
-	assert(rhs != NULL);
 
 	/* TODO: assert(ea->kind == ENTRY_ACTION) */
 
