@@ -156,7 +156,7 @@
 	@};
 
 	arg-ignore: () -> (a :ARG) = @{
-		@a = add_arg(ARG_IGNORE ,0);
+		@a = add_arg(ARG_IGNORE, 0);
 	@};
 
 %actions%
@@ -578,7 +578,7 @@
 	<true>:  () -> (b :BOOL) = @{ @b = 1; @};
 	<false>: () -> (b :BOOL) = @{ @b = 0; @};
 
-	<make-zone>: (z: ZONE , i :IDENT, b :STRING, enter :FRAME, e :STRING, exit :FRAME, endmarkerclosed :BOOL) -> (nz :ZONE) = @{
+	<make-zone>: (z: ZONE, i :IDENT, b :STRING, enter :FRAME, e :STRING, exit :FRAME, endmarkerclosed :BOOL) -> (nz :ZONE) = @{
 		struct cmd *c;
 		struct frame *f;
 
@@ -693,7 +693,7 @@
 				UNREACHED;
 			}
 		} else {
-			table_add_action(&@z->ast->table, &str , @params, @results);
+			table_add_action(&@z->ast->table, &str, @params, @results);
 		}
 
 		xfree(@i);

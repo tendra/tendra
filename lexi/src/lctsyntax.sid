@@ -21,7 +21,7 @@
 	arrow;     // ->
 	ref;       // &
 	define;    // =
-	semicolon; //;
+	semicolon; // ;
 	comma;     // ,
 	open;      // (
 	close;     // )
