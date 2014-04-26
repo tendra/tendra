@@ -15,6 +15,7 @@
 #include <adt/cmd.h>
 #include <adt/trie.h>
 #include <adt/zone.h>
+#include <adt/frame.h>
 
 #include <out/dot.h>
 #include <out/common.h>
@@ -81,14 +82,14 @@ out_node(struct ast *ast, struct trie *p, struct options *opt) {
 	}
 
 	/* actions */
-	if (p->u.cmds != NULL) {
+	if (p->u.frame != NULL) {
 		struct cmd *cmd;
 
 		printf("\t\tc%p -> i%p;\n", (void *) p, (void *) p);
 		printf("\t\ti%p [ ", (void *) p);
 		printf("shape=plaintext, label=\"");
 
-		for (cmd = p->u.cmds->cmds; cmd != NULL; cmd = cmd->next) {
+		for (cmd = p->u.frame->cmds; cmd != NULL; cmd = cmd->next) {
 			switch (cmd->kind) {
 			case CMD_RETURN:
 				/* TODO: rename to just prefix */

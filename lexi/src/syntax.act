@@ -21,10 +21,8 @@
 	STRING     -> SID_STRING;
 
 	CMD        -> cmdP;
-	CMD_LIST   -> cmd_listP;
-
+	FRAME      -> frameP;
 	ARG        -> argP;
-
 	PARAM_LIST -> paramP;
 
 %header% @{
@@ -49,6 +47,7 @@
 	#include <adt/param.h>
 	#include <adt/keyword.h>
 	#include <adt/local.h>
+	#include <adt/frame.h>
 	#include <adt/zone.h>
 
 	#include "ast.h"
@@ -64,7 +63,7 @@
 	typedef char *SID_STRING;
 	typedef char *SID_CHARS;
 	typedef struct cmd* cmdP;
-	typedef struct cmd_list* cmd_listP;
+	typedef struct frame* frameP;
 	typedef struct arg* argP;
 	typedef struct param * paramP;
 
@@ -257,7 +256,7 @@
 		@l = NULL;
 	@};
 
-	<add-cmd-to-list>: (z :ZONE, c :CMD, l :CMD_LIST) -> () = @{
+	<add-cmd-to-list>: (z :ZONE, c :CMD, l :FRAME) -> () = @{
 		if (@c != NULL) { /* if @c == NULL, an error has already been issued.*/
 			unsigned return_count;
 
@@ -527,19 +526,24 @@
 		}
 	@};
 
-	<check-cmd-list>: (l: CMD_LIST) -> () = @{
-		if (cmd_return_count(@l->cmds) > 1) {
+	<frame-cmds>: (f :FRAME) -> (l :CMD) = @{
+		assert(@f != NULL);
+		@l = @f->cmds;
+	@};
+
+	<check-cmds>: (l :CMD) -> () = @{
+		if (cmd_return_count(@l) > 1) {
 			error(ERROR_SERIOUS, "At most one return terminal may be specified per command list");
 		}
 	@};
 
-	<empty-cmd-list>: () -> (l :CMD_LIST) = @{
-		@l = add_cmd_list();
+	<make-frame>: () -> (f :FRAME) = @{
+		@f = add_frame();
 	@};
 
-	<make-token>: (z :ZONE, s :STRING, l :CMD_LIST) -> () = @{
-		add_mainpass(@z, @s, @l);
-		if (cmd_return_count(@l->cmds)) {
+	<make-token>: (z :ZONE, s :STRING, f :FRAME) -> () = @{
+		add_mainpass(@z, @s, @f);
+		if (cmd_return_count(@f->cmds)) {
 			@z->kind = ZONE_GENERAL;
 		}
 	@};
@@ -552,9 +556,9 @@
 		error(ERROR_SERIOUS, "Empty character string is not allowed here, try using DEFAULT instead");
 	@};
 
-	<make-default>: (z :ZONE, l :CMD_LIST) -> () = @{
-		@z->local = @l;
-		if (cmd_return_count(@l->cmds)) {
+	<make-default>: (z :ZONE, f :FRAME) -> () = @{
+		@z->local = @f;
+		if (cmd_return_count(@f->cmds)) {
 			@z->kind = ZONE_GENERAL;
 		}
 	@};
@@ -574,9 +578,9 @@
 	<true>:  () -> (b :BOOL) = @{ @b = 1; @};
 	<false>: () -> (b :BOOL) = @{ @b = 0; @};
 
-	<make-zone>: (z: ZONE , i :IDENT, b :STRING, enter :CMD_LIST, e :STRING, exit :CMD_LIST, endmarkerclosed :BOOL) -> (nz : ZONE) = @{
+	<make-zone>: (z: ZONE , i :IDENT, b :STRING, enter :FRAME, e :STRING, exit :FRAME, endmarkerclosed :BOOL) -> (nz : ZONE) = @{
 		struct cmd *c;
-		struct cmd_list *l;
+		struct frame *f;
 
 		@nz = add_zone(@z, @i, @e, @endmarkerclosed);
 
@@ -591,10 +595,10 @@
 		}
 
 		c = add_cmd_push_zone(@nz);
-		l = add_cmd_list();
-		l->cmds = c;
+		f = add_frame();
+		f->cmds = c;
 
-		add_mainpass(@z, @b, l);
+		add_mainpass(@z, @b, f);
 	@};
 
 	<update-zone-type>: (parent :ZONE, child :ZONE) -> () = @{

@@ -15,6 +15,7 @@
 #include "group.h"
 
 struct keyword;
+struct frame;
 struct trie;
 struct ast;
 
@@ -51,9 +52,9 @@ struct zone {
 	struct group_name *groups;
 	struct group_name *white;
 
-	struct cmd_list *local;
-	struct cmd_list *enter;
-	struct cmd_list *exit;
+	struct frame *local;
+	struct frame *enter;
+	struct frame *exit;
 
 	struct zone *opt; 	/* sibling */
 	struct zone *next;	/* child */
@@ -72,7 +73,7 @@ struct zone *add_zone(struct zone *, char *, const char *, int);
  * These are the main interfaces for adding new keys to the trie for either a
  * pre-pass mapping, or for a main pass token respectively.
  */
-struct trie *add_mainpass(struct zone *, const char *, struct cmd_list *);
+struct trie *add_mainpass(struct zone *, const char *, struct frame *);
 struct trie *add_prepass(struct zone *, const char *, char *);
 
 int zone_isglobal(struct zone *z);

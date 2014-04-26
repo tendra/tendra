@@ -16,6 +16,7 @@
 #include <adt/zone.h>
 #include <adt/trie.h>
 #include <adt/cmd.h>
+#include <adt/frame.h>
 
 #include "../ast.h"
 
@@ -125,8 +126,7 @@ struct zone *
 add_zone(struct zone *z, char *name, const char *e, int endmarkerclosed)
 {
 	struct zone *new;
-	struct cmd *cmd;
-	struct cmd_list *cmd_list;
+	struct frame *frame;
 
 	assert(z != NULL);
 	assert(name != NULL);
@@ -143,35 +143,34 @@ add_zone(struct zone *z, char *name, const char *e, int endmarkerclosed)
 	z->next = new;
 	new->up = z;
 
-	cmd = add_cmd_pop_zone(z, endmarkerclosed);
-	cmd_list = add_cmd_list();
-	cmd_list->cmds = cmd;
+	frame = add_frame();
+	frame->cmds = add_cmd_pop_zone(z, endmarkerclosed);
 
-	add_mainpass(new, e, cmd_list);
+	add_mainpass(new, e, frame);
 
 	return new;
 }
 
 struct trie *
-add_mainpass(struct zone *z, const char *s, struct cmd_list *l)
+add_mainpass(struct zone *z, const char *s, struct frame *frame)
 {
 	struct trie *new;
 
 	assert(z != NULL);
 	assert(s != NULL);
-	assert(l != NULL);
+	assert(frame != NULL);
 
 	new = add_string(z, &z->main, s);
 	if (new == NULL) {
 		return NULL;
 	}
 
-	if (new->u.cmds != NULL) {
+	if (new->u.frame != NULL) {
 		error(ERROR_SERIOUS, "Token \"%s\" already exists in zone %s", s, zone_name(z));
 		return NULL;
 	}
 
-	new->u.cmds = l;
+	new->u.frame = frame;
 
 	return new;
 }

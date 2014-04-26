@@ -15,11 +15,9 @@
 	STRING;
 
 	CMD;
-	CMD_LIST;
-
-	PARAM_LIST;
-
+	FRAME;
 	ARG;
+	PARAM_LIST;
 
 %terminals%
 
@@ -74,11 +72,11 @@
 
 	<string-concat>: (:STRING, :STRING ) -> (:STRING);
 	<make-white>:    (:ZONE, :STRING) -> ();
-	<make-group>:    (:ZONE, :IDENT, :STRING ) -> ();
-	<make-trigraph>: (:ZONE, :STRING, :STRING ) -> ();
-	<make-token>:   (:ZONE, :STRING, :CMD_LIST) -> ();
-	<make-default>: (:ZONE, :CMD_LIST) -> ();
-	<make-keyword>: (:ZONE, :STRING, :CMD) -> ();
+	<make-group>:    (:ZONE, :IDENT, :STRING)  -> ();
+	<make-trigraph>: (:ZONE, :STRING, :STRING) -> ();
+	<make-token>:    (:ZONE, :STRING, :FRAME)  -> ();
+	<make-default>:  (:ZONE, :FRAME) -> ();
+	<make-keyword>:  (:ZONE, :STRING, :CMD) -> ();
 
 	<make-terminal-cmd>:  (:IDENT) -> (:CMD);
 	<make-action-cmd>:    (:ZONE, :IDENT, :ARG, :ARG) -> (:CMD);
@@ -100,9 +98,10 @@
 	<make_arg_from_ref>:   (:IDENT) -> (:ARG);
 	<make_arg_none>: () -> (:ARG);
 
-	<empty-cmd-list>:  () -> (:CMD_LIST);
-	<add-cmd-to-list>: (:ZONE, :CMD, :CMD_LIST) -> ();
-	<check-cmd-list>:  (:CMD_LIST) -> ();
+	<make-frame>:      () -> (:FRAME);
+	<add-cmd-to-list>: (:ZONE, :CMD, :FRAME) -> ();
+	<frame-cmds>:      (:FRAME) -> (:CMD);
+	<check-cmds>:      (:CMD) -> ();
 
 	<E_expected_ident>:        () -> (:IDENT);
 	<E_expected_begin_action>: () -> ();
@@ -131,7 +130,7 @@
 
 	<syntax-error>: () -> ();
 
-	<make-zone>: (:ZONE, :IDENT, :STRING, :CMD_LIST, :STRING, :CMD_LIST, :BOOL) -> (:ZONE);
+	<make-zone>: (:ZONE, :IDENT, :STRING, :FRAME, :STRING, :FRAME, :BOOL) -> (:ZONE);
 	<update-zone-type>: (:ZONE, :ZONE) -> ();
 
 	<make-type>:    (:ZONE, :IDENT) -> ();
@@ -403,32 +402,33 @@
 		c = action-call(z);
 	};
 
-	cmd-list: (z :ZONE) -> (l :CMD_LIST) = {
+	cmd-list: (z :ZONE) -> (f :FRAME) = {
 		c = cmd(z);
-		l = <empty-cmd-list>;
-		<add-cmd-to-list>(z, c, l);
+		f = <make-frame>;
+		<add-cmd-to-list>(z, c, f);
 	||
-		l = cmd-list(z);
+		f = cmd-list(z);
 		comma;
 		c = cmd(z);
-		<add-cmd-to-list>(z, c, l);
+		<add-cmd-to-list>(z, c, f);
 	};
 
 	token-defn: (z :ZONE) -> () = {
 		kw-token;
 		s = non-empty-chars;
 		arrow;
-		l = cmd-list(z);
-		<check-cmd-list>(l);
-		<make-token>(z, s, l);
+		f = cmd-list(z);
+		c = <frame-cmds>(f);
+		<check-cmds>(c);
+		<make-token>(z, s, f);
 	};
 
 	default-defn: (z :ZONE) -> () = {
 		kw-token;
 		default;
 		arrow;
-		l = cmd-list(z);
-		<make-default>(z, l);
+		f = cmd-list(z);
+		<make-default>(z, f);
 	};
 
 	keyword-defn: (z :ZONE) -> () = {
@@ -478,19 +478,23 @@
 
 		{
 			arrow;
-			entry-cmds = cmd-list(z);
+			enter = cmd-list(z);
 		||
-			entry-cmds = <empty-cmd-list>;
+			enter = <make-frame>;
 		};
 
 		{
-			range; lendclosed = <true>;
+			range;
+			lendclosed = <true>;
 		||
-			range-closed-closed; lendclosed = <true>;
+			range-closed-closed;
+			lendclosed = <true>;
 		||
-			range-closed-open;   lendclosed = <false>;
+			range-closed-open;
+			lendclosed = <false>;
 		##
-			<E_expected_range>; lendclosed = <false>;
+			<E_expected_range>;
+			lendclosed = <false>;
 		};
 
 		{
@@ -501,12 +505,12 @@
 
 		{
 			arrow;
-			exit-cmds = cmd-list(z);
+			exit = cmd-list(z);
 		||
-			exit-cmds = <empty-cmd-list>;
+			exit = <make-frame>;
 		};
 
-		new-zone = <make-zone>(z, zid, b, entry-cmds, e, exit-cmds, lendclosed);
+		new-zone = <make-zone>(z, zid, b, enter, e, exit, lendclosed);
 
 		open-brace;
 		command-list(new-zone);

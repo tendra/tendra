@@ -87,18 +87,6 @@ add_cmd_pop_zone(struct zone *z, int is_endmarker_in_zone)
 	return p;
 }
 
-struct cmd_list *
-add_cmd_list(void)
-{
-	struct cmd_list *p;
-
-	p = xmalloc(sizeof *p);
-	p->cmds   = NULL;
-	p->locals = NULL;
-
-	return p;
-}
-
 unsigned
 cmd_return_count(struct cmd *cmds)
 {

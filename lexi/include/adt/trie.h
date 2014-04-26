@@ -51,7 +51,7 @@ struct trie {
 	 * TODO: store mapping unescaped
 	 */
 	union {
-		struct cmd_list *cmds;
+		struct frame *frame;
 		char *map;
 	} u;
 

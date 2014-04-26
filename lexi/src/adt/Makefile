@@ -6,6 +6,7 @@
 SRCS+=	action.c
 SRCS+=	arg.c
 SRCS+=	cmd.c
+SRCS+=	frame.c
 SRCS+=	entry.c
 SRCS+=	group.c
 SRCS+=	keyword.c

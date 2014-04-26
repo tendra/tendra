@@ -32,6 +32,7 @@
 #include <adt/zone.h>
 #include <adt/group.h>
 #include <adt/local.h>
+#include <adt/frame.h>
 
 #include <out/c.h>
 
@@ -40,7 +41,7 @@
 #include "lctsyntax.h"
 #include "options.h"
 
-static int out_cmds(struct zone *parent, struct cmd_list *ret, unsigned int n, unsigned int d);
+static int out_cmds(struct zone *parent, struct frame *ret, unsigned int n, unsigned int d);
 static void out_pass(struct zone* z, struct trie *p, int in_pre_pass, unsigned int n, unsigned int d);
 
 /*
@@ -348,7 +349,7 @@ out_pop_zone(struct zone *parent, struct cmd *cmd, unsigned int n, unsigned int 
  * present in the containing block.
  */
 static int
-out_cmds(struct zone *parent, struct cmd_list *ret, unsigned int n, unsigned int d)
+out_cmds(struct zone *parent, struct frame *ret, unsigned int n, unsigned int d)
 {
 	struct cmd *cmd;
 	int r;
@@ -457,8 +458,8 @@ out_leaf(struct zone *parent, struct trie *p, int in_pre_pass, unsigned int n, u
 		return 1;
 	}
 
-	if (p->u.cmds != NULL) {
-		if (!out_cmds(parent, p->u.cmds, n, d)) {
+	if (p->u.frame != NULL) {
+		if (!out_cmds(parent, p->u.frame, n, d)) {
 			indent(d);
 			printf("goto start; /* leaf */\n");
 		}
