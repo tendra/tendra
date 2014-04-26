@@ -102,11 +102,11 @@
 
 %terminals%
 
-	ident: () -> (i : IDENT) = @{
+	ident: () -> (i :IDENT) = @{
 		@i = xstrdup (tokbuf);
 	@};
 
-	sid-ident: () -> (i : IDENT) = @{
+	sid-ident: () -> (i :IDENT) = @{
 		int n;
 		char *s;
 		char buf[1000];
@@ -131,7 +131,7 @@
 		@i = xstrdup(buf);
 	@};
 
-	string: () -> (s : STRING) = @{
+	string: () -> (s :STRING) = @{
 		@s = xstrdup (tokbuf);
 	@};
 
@@ -155,21 +155,21 @@
 		@a = add_arg(ARG_RETURN, 0);
 	@};
 
-	arg-ignore : () -> (a :ARG) = @{
+	arg-ignore: () -> (a :ARG) = @{
 		@a = add_arg(ARG_IGNORE ,0);
 	@};
 
 %actions%
 
-	<string-concat>: (a : STRING, b : STRING) -> (s : STRING) = @{
+	<string-concat>: (a :STRING, b :STRING) -> (s :STRING) = @{
 		@s = xstrcat (@a, @b);
 	@};
 
-	<empty-ident>: () -> (i : IDENT) = @{
+	<empty-ident>: () -> (i :IDENT) = @{
 		@i = xstrdup("");
 	@};
 
-	<make-white>: (z : ZONE, s : STRING) -> () = @{
+	<make-white>: (z :ZONE, s :STRING) -> () = @{
 		if (@z->white) {
 			error(ERROR_SERIOUS, "White space group already defined");
 		}
@@ -548,7 +548,7 @@
 		}
 	@};
 
-	<is-non-empty>: (s : STRING) -> (b : BOOL) = @{
+	<is-non-empty>: (s :STRING) -> (b :BOOL) = @{
 		@b = strlen(@s) > 0;
 	@};
 
@@ -578,7 +578,7 @@
 	<true>:  () -> (b :BOOL) = @{ @b = 1; @};
 	<false>: () -> (b :BOOL) = @{ @b = 0; @};
 
-	<make-zone>: (z: ZONE , i :IDENT, b :STRING, enter :FRAME, e :STRING, exit :FRAME, endmarkerclosed :BOOL) -> (nz : ZONE) = @{
+	<make-zone>: (z: ZONE , i :IDENT, b :STRING, enter :FRAME, e :STRING, exit :FRAME, endmarkerclosed :BOOL) -> (nz :ZONE) = @{
 		struct cmd *c;
 		struct frame *f;
 
@@ -614,27 +614,27 @@
 		}
 	@};
 
-	<make_arg_from_ident>: (i:IDENT) -> (a:ARG) = @{
+	<make_arg_from_ident>: (i :IDENT) -> (a :ARG) = @{
 		@a = add_ident(@i);
 	@};
 
-	<make_arg_from_ref>: (i:IDENT) -> (a:ARG) = @{
+	<make_arg_from_ref>: (i :IDENT) -> (a :ARG) = @{
 		@a = add_ref(@i);
 	@};
 
-	<make_arg_terminal>: (i:IDENT) -> (a:ARG) = @{
+	<make_arg_terminal>: (i :IDENT) -> (a :ARG) = @{
 		@a = add_terminal(@i);
 	@};
 
-	<make_arg_none>: () -> (a:ARG) = @{
+	<make_arg_none>: () -> (a :ARG) = @{
 		@a = add_none();
 	@};
 
-	<is-global-zone>: (z : ZONE) -> (b : BOOL) = @{
+	<is-global-zone>: (z :ZONE) -> (b :BOOL) = @{
 	   @b = zone_isglobal(@z);
 	@};
 
-	<make-type>: (z:ZONE, i:IDENT) -> () = @{
+	<make-type>: (z :ZONE, i :IDENT) -> () = @{
 		NStringT str;
 		struct entry *e;
 

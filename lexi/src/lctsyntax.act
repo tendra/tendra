@@ -121,7 +121,7 @@
 		nstring_assign(&@b, @a);
 	@};
 
-	BIGSTRING : (a) -> (b) = @{
+	BIGSTRING: (a) -> (b) = @{
 		nstring_assign(&@b, @a);
 	@};
 
