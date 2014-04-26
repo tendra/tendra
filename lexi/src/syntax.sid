@@ -45,7 +45,7 @@
 	range-closed-closed;
 	range-closed-open;
 	comma;
-	nothing-marker;
+	discard;
 	!unknown;
 
 	arg-char-string: () -> (:ARG);
@@ -78,9 +78,9 @@
 	<make-default>:  (:ZONE, :FRAME) -> ();
 	<make-keyword>:  (:ZONE, :STRING, :CMD) -> ();
 
-	<make-terminal-cmd>:  (:IDENT) -> (:CMD);
-	<make-action-cmd>:    (:ZONE, :IDENT, :ARG, :ARG) -> (:CMD);
-	<make-donothing-cmd>: () -> (:CMD);
+	<make-terminal-cmd>: (:IDENT) -> (:CMD);
+	<make-action-cmd>:   (:ZONE, :IDENT, :ARG, :ARG) -> (:CMD);
+	<make-discard-cmd>:  () -> (:CMD);
 
 	<true>:  () -> (:BOOL);
 	<false>: () -> (:BOOL);
@@ -396,8 +396,8 @@
 		c = <make-terminal-cmd>(i);
 	||
 		l = <empty-args-list>;
-		nothing-marker;
-		c = <make-donothing-cmd>;
+		discard;
+		c = <make-discard-cmd>;
 	||
 		c = action-call(z);
 	};

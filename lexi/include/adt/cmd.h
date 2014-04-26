@@ -19,7 +19,7 @@ enum cmd_kind {
 	CMD_RETURN,
 	CMD_PUSH_ZONE,
 	CMD_POP_ZONE,
-	CMD_NOOP,
+	CMD_DISCARD,
 	CMD_ACTION
 };
 
@@ -42,7 +42,7 @@ struct cmd {
 };
 
 struct cmd *add_cmd_return(char *name);
-struct cmd *add_cmd_donothing(void);
+struct cmd *add_cmd_discard(void);
 struct cmd *add_cmd_action(struct entry *, struct arg *, struct arg *);
 struct cmd *add_cmd_mapping(char *map);
 

@@ -389,7 +389,7 @@ out_cmds(struct zone *parent, struct frame *ret, unsigned int n, unsigned int d)
 			out_pop_zone(parent, cmd, n, d);
 			break;
 
-		case CMD_NOOP:
+		case CMD_DISCARD:
 			assert(cmd->next == NULL); /* caught during parsing */
 			break;
 		}

@@ -41,11 +41,11 @@ add_cmd_return(char *name)
 }
 
 struct cmd *
-add_cmd_donothing(void)
+add_cmd_discard(void)
 {
 	struct cmd *p;
 
-	p = new_cmd(CMD_NOOP);
+	p = new_cmd(CMD_DISCARD);
 
 	return p;
 }

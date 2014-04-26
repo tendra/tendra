@@ -953,7 +953,7 @@ ZRcmd_Hlist(zoneP ZI196, frameP *ZO201)
 
 			return_count = cmd_return_count((ZIf)->cmds);
 
-			if (return_count > 0 && (ZIc)->kind != CMD_NOOP) {
+			if (return_count > 0 && (ZIc)->kind != CMD_DISCARD) {
 				error(ERROR_SERIOUS, "No cmd may follow an cmd that returns a terminal");
 			}
 
@@ -1486,7 +1486,7 @@ ZL2_202:;
 
 			return_count = cmd_return_count((ZIf)->cmds);
 
-			if (return_count > 0 && (ZIc)->kind != CMD_NOOP) {
+			if (return_count > 0 && (ZIc)->kind != CMD_DISCARD) {
 				error(ERROR_SERIOUS, "No cmd may follow an cmd that returns a terminal");
 			}
 
@@ -2890,6 +2890,20 @@ ZR206(zoneP *ZIz, argP *ZIl, cmdP *ZOc)
 			/* END OF ACTION: make-action-cmd */
 		}
 		break;
+	case 21:
+		{
+			ADVANCE_LEXER;
+			/* BEGINNING OF ACTION: make-discard-cmd */
+			{
+#line 197 "syntax.act"
+
+		(ZIc) = add_cmd_discard();
+	
+#line 2903 "syntax.c"
+			}
+			/* END OF ACTION: make-discard-cmd */
+		}
+		break;
 	case 0:
 		{
 			SID_STRING ZI207;
@@ -2903,7 +2917,7 @@ ZR206(zoneP *ZIz, argP *ZIl, cmdP *ZOc)
 
 		ZI207 = xstrdup (tokbuf);
 	
-#line 2907 "syntax.c"
+#line 2921 "syntax.c"
 			}
 			/* END OF EXTRACT: ident */
 			ADVANCE_LEXER;
@@ -2913,7 +2927,7 @@ ZR206(zoneP *ZIz, argP *ZIl, cmdP *ZOc)
 
 		(ZIa) = add_ident((ZI207));
 	
-#line 2917 "syntax.c"
+#line 2931 "syntax.c"
 			}
 			/* END OF ACTION: make_arg_from_ident */
 			/* BEGINNING OF ACTION: arg-append */
@@ -2929,7 +2943,7 @@ ZR206(zoneP *ZIz, argP *ZIl, cmdP *ZOc)
 			*p = (ZIa);
 		}
 	
-#line 2933 "syntax.c"
+#line 2947 "syntax.c"
 			}
 			/* END OF ACTION: arg-append */
 			switch (CURRENT_TERMINAL) {
@@ -2954,7 +2968,7 @@ ZR206(zoneP *ZIz, argP *ZIl, cmdP *ZOc)
 
 		ZIi = xstrdup (tokbuf);
 	
-#line 2958 "syntax.c"
+#line 2972 "syntax.c"
 				}
 				/* END OF EXTRACT: ident */
 				break;
@@ -2970,7 +2984,7 @@ ZR206(zoneP *ZIz, argP *ZIl, cmdP *ZOc)
 			error(ERROR_SERIOUS, "There can only be one return terminal argument per action lhs");
 		}
 	
-#line 2974 "syntax.c"
+#line 2988 "syntax.c"
 			}
 			/* END OF ACTION: check-args-list */
 			switch (CURRENT_TERMINAL) {
@@ -3016,23 +3030,9 @@ ZR206(zoneP *ZIz, argP *ZIl, cmdP *ZOc)
 
 		xfree((ZIi));
 	
-#line 3020 "syntax.c"
-			}
-			/* END OF ACTION: make-action-cmd */
-		}
-		break;
-	case 21:
-		{
-			ADVANCE_LEXER;
-			/* BEGINNING OF ACTION: make-donothing-cmd */
-			{
-#line 197 "syntax.act"
-
-		(ZIc) = add_cmd_donothing();
-	
 #line 3034 "syntax.c"
 			}
-			/* END OF ACTION: make-donothing-cmd */
+			/* END OF ACTION: make-action-cmd */
 		}
 		break;
 	case 6:

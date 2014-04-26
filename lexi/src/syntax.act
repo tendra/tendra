@@ -193,8 +193,8 @@
 			@c = add_cmd_return(@i);
 	@};
 
-	<make-donothing-cmd>: () -> (c :CMD) = @{
-		@c = add_cmd_donothing();
+	<make-discard-cmd>: () -> (c :CMD) = @{
+		@c = add_cmd_discard();
 	@};
 
 	<make-action-cmd>: (z: ZONE, i :IDENT, l :ARG, r :ARG) -> (c :CMD)  = @{
@@ -262,7 +262,7 @@
 
 			return_count = cmd_return_count(@l->cmds);
 
-			if (return_count > 0 && @c->kind != CMD_NOOP) {
+			if (return_count > 0 && @c->kind != CMD_DISCARD) {
 				error(ERROR_SERIOUS, "No cmd may follow an cmd that returns a terminal");
 			}
 

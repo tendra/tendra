@@ -105,7 +105,7 @@ out_node(struct ast *ast, struct trie *p, struct options *opt) {
 				printf("<pop> %s", cmd->u.s.z->name);
 				break;
 
-			case CMD_NOOP:
+			case CMD_DISCARD:
 				printf("$$");
 				break;
 

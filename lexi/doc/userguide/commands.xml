@@ -254,30 +254,31 @@ GROUP alphanum = "[alpha]" + {0-9} ;</programlisting>
 		<para>The syntax for specifying tokens is:</para>
 
 		<programlisting language="bnf">token-defn := "TOKEN" + chars + "->" + action-list ;
-instruction-list := "TOKEN" + chars + "->" instruction + "," + instruction-list ;</programlisting>
+command-list := "TOKEN" + chars + "->" command + "," + command-list ;</programlisting>
 
-		<para>An instruction is either a return terminal instruction, a do-nothing instruction,
-			a function call instruction. Inline actions (sidlike) will be introduce in version 2.0
+		<para>An command is either a return terminal command, a discard command,
+			a function call command. Inline actions (sidlike) will be introduce in version 2.0
 			but are not ready in trunk yet.</para>
 
-		<variablelist>  
+		<variablelist>
 			<varlistentry>
-				<term> The do nothing instruction</term>
+				<term>The token discard command</term>
 
 				<listitem>
-					<para>It is represented by the token <code>$$</code>. 
+					<para>It is represented by the token <code>$$</code>.
 						It should be in the last position. If this is the only
-						instruction, the token will be skipped.</para>
+						instruction, the token will be read and its spelling
+						discarded.</para>
 				</listitem>
 			</varlistentry>
 
-			<varlistentry> 
-				<term>The return terminal instruction</term>
+			<varlistentry>
+				<term>The return terminal command</term>
 
 				<listitem>
-					<para>A return terminal instruction is either a
+					<para>A return terminal command is either a
 						<application>Sid</application> identifier or a non prefixed identifier.</para>
-							<programlisting language="bnf">return-terminal-instruction :=    $ + identifier ; 
+							<programlisting language="bnf">return-terminal-command :=    $ + identifier ;
 				| identifier ;</programlisting>
 
 						<para>An example of these two forms:</para>
@@ -287,28 +288,28 @@ TOKEN "token2" -> nonsid_identifier; </programlisting>
 
 						<para>A <application>Sid</application> identifier is an identifier
 							that will be prefixed by <code>lex_</code> or the prefix given
-							in the <option>-t</option> option. Non prefixed identifiers will 
-							not be prefixed at all. The non prefixed form is considered  
-							obsolete and might be remove without notice. 
+							in the <option>-t</option> option. Non prefixed identifiers will
+							not be prefixed at all. The non prefixed form is considered
+							obsolete and might be remove without notice.
 							The first form of token definition states that upon
 							encountering <quote>token1</quote> the lexer should return
 							the terminal corresponding <quote>sid-identifier</quote>.
 </para>
-						<para>A return terminal instruction must appear last in the list
-							of instructions.</para>
+						<para>A return terminal command must appear last in the list
+							of commands.</para>
 				</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term>The apply function instruction</term>
+				<term>The function call command</term>
 
 				<listitem>
-					<para>An apply function instruction has the form</para>
+					<para>A function call command has the form</para>
 
-					<programlisting language="bnf">apply-function-instruction :=  identifier + "(" + argument-list + ")" ;</programlisting>
+					<programlisting language="bnf">function-call-command :=  identifier + "(" + argument-list + ")" ;</programlisting>
 
-					<para>An argument-list is a comma separated list. Here are example of argument
-						Here are examples:</para>
+					<para>An argument-list is a comma separated list.
+						Here are examples of arguments:</para>
 
 					<programlisting language="lxi">TOKEN "[alpha1][digit]" -> get_identifier1(##); // Old form, will probably be obsoleted calls get_identifier1(c0,c1)
 TOKEN "[alpha2][digit]" -> get_identifier2(); // Old form equivalent to previous form will probably be obsoleted
@@ -321,13 +322,13 @@ TOKEN "[alpha5]a" -> get_identifier5(#*); // should call get_identifier5(char*),
 						character of the token. It is possible to combine the arguments
 						(except for <code>#$</code> which is only valid if it is the only argument of the list.</para>
 
-					<para>The return value of an apply function will be ignored unless this is the last
-					  	apply function in the instruction list in which case it is expected 
-						to return a valid terminal. If you don't want it the last called function 
-						to return a terminal, you have to add a trailing do-nothing <code>$$</code>:</para>
+					<para>The return value of a function will be ignored unless this is the last
+					  	function call in the command list, in which case it is expected
+						to return a valid terminal. If you don't want it the last called function
+						to return a terminal, you have to add a trailing discard <code>$$</code>:</para>
 
-					<programlisting language="bnf">TOKEN "[digit]" -> push_buffer(#0), $$;//do not return a terminal.
-TOKEN "[alpha]" -> get_identifier(#0); //return a terminal</programlisting>
+					<programlisting language="bnf">TOKEN "[digit]" -> push_buffer(#0), $$; // do not return a terminal.
+TOKEN "[alpha]" -> get_identifier(#0); // return a terminal</programlisting>
 				</listitem>
 			</varlistentry>
 
@@ -609,14 +610,14 @@ TOKEN "[alpha]" -> get_variable() ;</programlisting>
 		<para>Zones are used in place of user defined functions. Their goal is to allow a better
 			expressivity in the lxi language. For example, we can define comment using zones:</para>
 
-		<programlisting language="lxi">ZONE comment : "/*" ... "*/"  {
+		<programlisting language="lxi">ZONE comment: "/*" ... "*/"  {
 	GROUP white = "";
-	TOKEN DEFAULT -> $$; /* $$ means do nothing */
+	TOKEN DEFAULT -> $$; /* $$ means discard the token */
 }
 
-ZONE linecomment : "//" ... "\n"  {
+ZONE linecomment: "//" ... "\n"  {
 	GROUP white = "";
-	TOKEN DEFAULT -> $$; /* $$ means do nothing */
+	TOKEN DEFAULT -> $$; /* $$ means discard the token */
 }</programlisting>
 
 		<para>It is also possible to use zones to express strings:</para>

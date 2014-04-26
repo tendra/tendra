@@ -42,7 +42,7 @@ TOKEN "&"  -> $ref;
 TOKEN ";"  -> $semicolon;
 TOKEN "="  -> $equal;
 TOKEN "+"  -> $plus;
-TOKEN "$$" -> $nothing-marker;
+TOKEN "$$" -> $discard;
 TOKEN ","  -> $comma;
 TOKEN "\e" -> $eof;
 

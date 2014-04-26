@@ -542,7 +542,7 @@ lexi_read_token(struct lexi_state *state)
 		case '$': {
 				int c1 = lexi_readchar(state);
 				if (c1 == '$') {
-					return lex_nothing_Hmarker;
+					return lex_discard;
 				}
 				if (lexi_group(lexi_group_alpha, c1)) {
 					/* ACTION <init_tokbuf> */
