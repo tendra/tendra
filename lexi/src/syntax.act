@@ -346,9 +346,6 @@
 						et = @z->ast->lexi_int_type;
 						break;
 
-					case ARG_NONE:
-						break; /* Error already detected, do nothing and leave p->lexitype = NULL */
-
 					case ARG_IGNORE:
 					case ARG_RETURN:
 						UNREACHED;
@@ -473,11 +470,6 @@
 						et = q->et;
 						p->is_ref = q->is_ref;
 						break;
-
-					case ARG_NONE:
-						break;
-						/* TODO: asserting errored is already set */
-						/* Error has already been detected */
 
 					case ARG_CHARP:
 					case ARG_CHAR_NUM:
@@ -627,7 +619,7 @@
 	@};
 
 	<make_arg_none>: () -> (a :ARG) = @{
-		@a = add_none();
+		@a = NULL;
 	@};
 
 	<is-global-zone>: (z :ZONE) -> (b :BOOL) = @{

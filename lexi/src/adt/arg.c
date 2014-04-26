@@ -78,18 +78,6 @@ add_terminal(char * s)
 	return p;
 }
 
-struct arg *
-add_none(void)
-{
-	struct arg *p;
-
-	p = new_arg();
-	p->kind      = ARG_NONE;
-	p->u.literal = NULL;
-
-	return p;
-}
-
 void
 arg_out(struct arg *p, bool is_ref, int d, FILE *file)
 {
@@ -133,7 +121,6 @@ arg_out(struct arg *p, bool is_ref, int d, FILE *file)
 		fprintf(file, "ZT1"); /* TODO: make prefixes option controllable or lct file controllable */
 		break;
 
-	case ARG_NONE:
 	default:
 		UNREACHED;
 		break;

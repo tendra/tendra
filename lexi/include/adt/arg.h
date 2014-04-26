@@ -19,8 +19,7 @@ enum arg_kind {
 	ARG_IDENT,
 	ARG_TERMINAL,
 	ARG_IGNORE,
-	ARG_RETURN,
-	ARG_NONE
+	ARG_RETURN
 };
 
 struct arg {
@@ -39,7 +38,6 @@ struct arg *add_arg(enum arg_kind, unsigned int);
 struct arg *add_ident(char *);
 struct arg *add_ref(char *);
 struct arg *add_terminal(char *);
-struct arg *add_none(void);
 void arg_out(struct arg *, bool, int, FILE *);
 struct arg *arg_index(struct arg *, int);
 char *arg_first_duplicate_ident(struct arg *args);
