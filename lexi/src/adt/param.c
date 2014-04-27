@@ -104,7 +104,7 @@ void param_destroy(struct param *params)
 	for (p = params; p != NULL; p = next) {
 		next = p->next;
 
-		free(p->local_name);
+		xfree(p->local_name);
 		xfree(p);
 	}
 }
