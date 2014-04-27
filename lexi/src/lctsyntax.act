@@ -30,10 +30,6 @@
 	#include <shared/string.h>
 	#include <shared/error.h>
 
-	#include <exds/common.h>
-	#include <exds/exception.h>
-	#include <exds/dalloc.h>
-
 	#include <adt/action.h>
 	#include <adt/entry.h>
 	#include <adt/param.h>

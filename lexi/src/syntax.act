@@ -30,10 +30,6 @@
 	#include <string.h>
 	#include <stdio.h>
 
-	#include <exds/common.h>
-	#include <exds/exception.h>
-	#include <exds/dalloc.h>
-
 	#include <shared/error.h>
 	#include <shared/xalloc.h>
 	#include <shared/check.h>

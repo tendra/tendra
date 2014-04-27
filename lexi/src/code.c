@@ -12,11 +12,6 @@
 
 #include <shared/xalloc.h>
 
-#include <exds/common.h>
-#include <exds/exception.h>
-#include <exds/dalloc.h>
-#include <exds/dstring.h>
-
 #include <adt/arg.h>
 #include <adt/param.h>
 

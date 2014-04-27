@@ -4,7 +4,6 @@
 
 
 PARTS+=	src/shared
-PARTS+=	src/exds
 PARTS+=	src/out
 PARTS+=	src/adt
 

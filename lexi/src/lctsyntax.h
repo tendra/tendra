@@ -9,7 +9,7 @@
 
 /* BEGINNING OF HEADER */
 
-#line 107 "lctsyntax.act"
+#line 103 "lctsyntax.act"
 
 
 	#ifndef LCT_SYNTAX_H
@@ -77,7 +77,7 @@ extern void read_lct_unit(void);
 
 /* BEGINNING OF TRAILER */
 
-#line 342 "lctsyntax.act"
+#line 338 "lctsyntax.act"
 
 
 	#endif

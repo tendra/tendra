@@ -13,11 +13,6 @@
 #include <stdlib.h>
 #include <assert.h>
 
-#include <exds/common.h>
-#include <exds/exception.h>
-#include <exds/dalloc.h>
-#include <exds/dstring.h>
-
 #include <shared/error.h>
 #include <shared/xalloc.h>
 #include <shared/check.h>

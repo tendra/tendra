@@ -301,8 +301,8 @@ lexi_lct_read_token_code(struct lexi_lct_state *state)
 	char *p;
 	int c;
 
-	p = NULL;
 	z = 1024; /* arbitary non-zero initial size */
+	p = NULL;
 	i = 0;
 
 	c = c0;
