@@ -130,6 +130,26 @@ group_number(struct ast *ast, struct group *g)
 	return 0;
 }
 
+static int
+more_groups(struct zone *z)
+{
+	struct group_name *gn;
+	struct zone *p;
+
+	/* Group interface */
+	for (p = z; p != NULL; p = p->opt) {
+		if (p->groups != NULL) {
+			return 1;
+		}
+
+		if (more_groups(z->next)) {
+			return 1;
+		}
+	}
+
+	return 0;
+}
+
 /*
  * OUTPUT THE MACROS NEEDED TO ACCESS THE LOOKUP TABLE
  */
@@ -154,18 +174,17 @@ out_macros_zone(struct options *opt, struct zone *z)
 			out_groupname(gn);
 			printf(" = %#lx", m);
 
-			if (gn->next || z->next || z->opt) {
+			if (gn->next || more_groups(p->opt) || more_groups(p->next)) {
 				printf(",");
 			}
 
 			printf("\n");
 		}
 
-		if(z->next) {
+		if (z->next) {
 			out_macros_zone(opt, z->next);
 		}
 	}
-
 }
 
 static void

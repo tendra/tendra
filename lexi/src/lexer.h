@@ -70,7 +70,7 @@ enum lexi_groups {
 	lexi_ident_white = 0,
 	lexi_string_white = 0,
 	lexi_linecomment_white = 0,
-	lexi_comment_white = 0,
+	lexi_comment_white = 0
 };
 
 /* true if the given character is present in the given group */

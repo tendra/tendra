@@ -70,7 +70,7 @@ enum lexi_lct_groups {
 	lexi_lct_code_white = 0,
 	lexi_lct_linecomment_white = 0,
 	lexi_lct_comment_white = 0,
-	lexi_lct_ident_white = 0,
+	lexi_lct_ident_white = 0
 };
 
 /* true if the given character is present in the given group */
