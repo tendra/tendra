@@ -11,8 +11,6 @@
 
 #include <stdbool.h>
 
-#include <exds/common.h>
-
 struct code;
 struct param;
 
@@ -20,7 +18,7 @@ struct action {
 	struct param *in;
 	struct param *out;
 	struct code *code;
-	BoolT defined;
+	bool defined;
 };
 
 struct action *action_create(void);
