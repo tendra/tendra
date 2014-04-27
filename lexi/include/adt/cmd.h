@@ -10,8 +10,6 @@
 #ifndef LEXI_CMD_H
 #define LEXI_CMD_H
 
-#include <stdbool.h>
-
 struct zone;
 struct arg;
 

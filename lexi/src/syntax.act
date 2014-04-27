@@ -435,8 +435,7 @@
 
 					case ARG_RETURN:
 						et = @z->ast->lexi_terminal_type;
-						q->is_ref = false;
-						/* TODO: assert(q->is_ref == false) */
+						q->is_ref = 0;
 						break;
 
 					case ARG_IGNORE:

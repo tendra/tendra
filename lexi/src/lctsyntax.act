@@ -14,7 +14,7 @@
 
 	lct-unit -> read_lct_unit;
 
-	BOOL       -> bool;
+	BOOL       -> int;
 	CODE       -> codeP;
 	STRING     -> charP;
 	IDENT      -> charP;
@@ -23,7 +23,6 @@
 
 %header% @{
 
-	#include <stdbool.h>
 	#include <string.h>
 
 	#include <shared/xalloc.h>
@@ -128,8 +127,8 @@
 
 %actions%
 
-	<true>:  () -> ( b :BOOL ) = @{ @b = true;  @};
-	<false>: () -> ( b :BOOL ) = @{ @b = false; @};
+	<true>:  () -> ( b :BOOL ) = @{ @b = 1; @};
+	<false>: () -> ( b :BOOL ) = @{ @b = 0; @};
 
 	<empty-ident>: () -> (s :IDENT) = @{
 		@s = NULL;
@@ -277,7 +276,7 @@
 		} else {
 			/* TODO: assert @ea->kind == ENTRY_ACTION */
 			if (!@ea->u.act->defined) {
-				@ea->u.act->defined = true;
+				@ea->u.act->defined = 1;
 				@ea->u.act->code    = @c;
 			} else {
 				error(ERROR_SERIOUS, "Action %s has already been defined", @ea->key);

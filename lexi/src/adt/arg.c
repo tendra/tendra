@@ -9,7 +9,6 @@
 
 #include <stddef.h>
 #include <string.h>
-#include <stdbool.h>
 
 #include <shared/check.h>
 #include <shared/xalloc.h>
@@ -24,7 +23,7 @@ new_arg(void)
 
 	p = xmalloc(sizeof *p);
 	p->next   = NULL;
-	p->is_ref = false;
+	p->is_ref = 0;
 
 	return p;
 }
@@ -61,7 +60,7 @@ add_ref(char *s)
 	p = new_arg();
 	p->kind      = ARG_IDENT;
 	p->u.literal = s;
-	p->is_ref    = true;
+	p->is_ref    = 1;
 
 	return p;
 }
@@ -79,7 +78,7 @@ add_terminal(char * s)
 }
 
 void
-arg_out(struct arg *p, bool is_ref, int d, FILE *file)
+arg_out(struct arg *p, int is_ref, int d, FILE *file)
 {
 	switch (p->kind) {
 	case ARG_CHARP:

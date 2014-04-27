@@ -10,8 +10,6 @@
 #ifndef LEXI_ARG_H
 #define LEXI_ARG_H
 
-#include <stdbool.h>
-
 enum arg_kind {
 	ARG_CHARP,
 	ARG_CHAR_NUM,
@@ -31,14 +29,14 @@ struct arg {
 		char *literal;
 	} u;
 
-	bool is_ref;
+	int is_ref:1;
 };
 
 struct arg *add_arg(enum arg_kind, unsigned int);
 struct arg *add_ident(char *);
 struct arg *add_ref(char *);
 struct arg *add_terminal(char *);
-void arg_out(struct arg *, bool, int, FILE *);
+void arg_out(struct arg *, int, int, FILE *);
 struct arg *arg_index(struct arg *, int);
 char *arg_first_duplicate_ident(struct arg *args);
 unsigned arg_return_count(struct arg *args);

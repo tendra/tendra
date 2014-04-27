@@ -7,7 +7,6 @@
  */
 
 #include <stdlib.h>
-#include <stdbool.h>
 
 #include <shared/check.h>
 #include <shared/xalloc.h>
@@ -21,7 +20,7 @@ action_create(void)
 
 	act = xmalloc(sizeof *act);
 	act->code    = NULL;
-	act->defined = false;
+	act->defined = 0;
 
 	act->in  = NULL;
 	act->out = NULL;

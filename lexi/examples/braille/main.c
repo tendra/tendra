@@ -26,7 +26,6 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <stdbool.h>
 #include <ctype.h>
 #include <unistd.h>
 
@@ -37,8 +36,8 @@ int get_word(int c);
 int get_number(int c);
 int unknown_token(int c);
 
-bool grade2;
-bool capital;
+int grade2;
+int capital;
 
 /* lexemes */
 enum {
@@ -57,9 +56,9 @@ enum {
 
 /* conditionals */
 /* TODO */
-#define cond_initial (true)
-#define cond_notinitial (true)
-#define cond_final (true)
+#define cond_initial    (1)
+#define cond_notinitial (1)
+#define cond_final      (1)
 
 #include "braille.c"
 
@@ -178,7 +177,7 @@ int main(int argc, char *argv[]) {
 	while (c = getopt(argc, argv, "hc"), c != -1) {
 		switch(c) {
 		case 'c':
-			grade2 = true;
+			grade2 = 1;
 			break;
 
 		case 'h':

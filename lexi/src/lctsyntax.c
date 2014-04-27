@@ -9,10 +9,9 @@
 
 /* BEGINNING OF HEADER */
 
-#line 70 "lctsyntax.act"
+#line 69 "lctsyntax.act"
 
 
-	#include <stdbool.h>
 	#include <string.h>
 
 	#include <shared/xalloc.h>
@@ -56,7 +55,7 @@
 	struct ast *lxi_ast;
 	struct lct_ast lct_ast;
 
-#line 60 "lctsyntax.c"
+#line 59 "lctsyntax.c"
 
 /* BEGINNING OF FUNCTION DECLARATIONS */
 
@@ -151,11 +150,11 @@ ZRaction_Hdefinition_C_Cfunction_Htype_Hdefn(paramP *ZOin, paramP *ZOout)
 				{
 					/* BEGINNING OF ACTION: E_expected_arrow */
 					{
-#line 314 "lctsyntax.act"
+#line 313 "lctsyntax.act"
 
 		error(ERROR_SERIOUS, "Syntax error: expected '->'");
 	
-#line 159 "lctsyntax.c"
+#line 158 "lctsyntax.c"
 					}
 					/* END OF ACTION: E_expected_arrow */
 				}
@@ -173,20 +172,20 @@ ZRaction_Hdefinition_C_Cfunction_Htype_Hdefn(paramP *ZOin, paramP *ZOout)
 		{
 			/* BEGINNING OF ACTION: init-param */
 			{
-#line 214 "lctsyntax.act"
+#line 213 "lctsyntax.act"
 
 		(ZIin) = NULL;
 	
-#line 181 "lctsyntax.c"
+#line 180 "lctsyntax.c"
 			}
 			/* END OF ACTION: init-param */
 			/* BEGINNING OF ACTION: init-param */
 			{
-#line 214 "lctsyntax.act"
+#line 213 "lctsyntax.act"
 
 		(ZIout) = NULL;
 	
-#line 190 "lctsyntax.c"
+#line 189 "lctsyntax.c"
 			}
 			/* END OF ACTION: init-param */
 		}
@@ -212,12 +211,12 @@ ZRcode_Hblock_C_Ccode_Helement(codeP *ZIc, entryP ZIe)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: append-code-at */
 			{
-#line 144 "lctsyntax.act"
+#line 143 "lctsyntax.act"
 
 		/* XXX: this should become just: s = <code-at>; <append-code-string>(s); */
 		code_append_string((ZIc), "@");
 	
-#line 221 "lctsyntax.c"
+#line 220 "lctsyntax.c"
 			}
 			/* END OF ACTION: append-code-at */
 		}
@@ -225,28 +224,28 @@ ZRcode_Hblock_C_Ccode_Helement(codeP *ZIc, entryP ZIe)
 	case 15:
 		{
 			charP ZIi;
-			bool ZIb;
+			int ZIb;
 
 			/* BEGINNING OF EXTRACT: code-ident */
 			{
-#line 118 "lctsyntax.act"
+#line 117 "lctsyntax.act"
 
 		ZIi = xstrdup(lct_tokbuf);
 	
-#line 237 "lctsyntax.c"
+#line 236 "lctsyntax.c"
 			}
 			/* END OF EXTRACT: code-ident */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: false */
 			{
-#line 132 "lctsyntax.act"
- (ZIb) = false; 
-#line 245 "lctsyntax.c"
+#line 131 "lctsyntax.act"
+ (ZIb) = 0; 
+#line 244 "lctsyntax.c"
 			}
 			/* END OF ACTION: false */
 			/* BEGINNING OF ACTION: append-code-ident */
 			{
-#line 152 "lctsyntax.act"
+#line 151 "lctsyntax.act"
 
 		if ((ZIe) == NULL) {
 			error(ERROR_SERIOUS, "The @ code identifiers are not allowed in headers or trailers");
@@ -270,7 +269,7 @@ ZRcode_Hblock_C_Ccode_Helement(codeP *ZIc, entryP ZIe)
 			}
 		}
 	
-#line 274 "lctsyntax.c"
+#line 273 "lctsyntax.c"
 			}
 			/* END OF ACTION: append-code-ident */
 		}
@@ -278,28 +277,28 @@ ZRcode_Hblock_C_Ccode_Helement(codeP *ZIc, entryP ZIe)
 	case 16:
 		{
 			charP ZIi;
-			bool ZIb;
+			int ZIb;
 
 			/* BEGINNING OF EXTRACT: code-ref */
 			{
-#line 122 "lctsyntax.act"
+#line 121 "lctsyntax.act"
 
 		ZIi = xstrdup(lct_tokbuf);
 	
-#line 290 "lctsyntax.c"
+#line 289 "lctsyntax.c"
 			}
 			/* END OF EXTRACT: code-ref */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: true */
 			{
-#line 131 "lctsyntax.act"
- (ZIb) = true;  
-#line 298 "lctsyntax.c"
+#line 130 "lctsyntax.act"
+ (ZIb) = 1; 
+#line 297 "lctsyntax.c"
 			}
 			/* END OF ACTION: true */
 			/* BEGINNING OF ACTION: append-code-ident */
 			{
-#line 152 "lctsyntax.act"
+#line 151 "lctsyntax.act"
 
 		if ((ZIe) == NULL) {
 			error(ERROR_SERIOUS, "The @ code identifiers are not allowed in headers or trailers");
@@ -323,7 +322,7 @@ ZRcode_Hblock_C_Ccode_Helement(codeP *ZIc, entryP ZIe)
 			}
 		}
 	
-#line 327 "lctsyntax.c"
+#line 326 "lctsyntax.c"
 			}
 			/* END OF ACTION: append-code-ident */
 		}
@@ -334,21 +333,21 @@ ZRcode_Hblock_C_Ccode_Helement(codeP *ZIc, entryP ZIe)
 
 			/* BEGINNING OF EXTRACT: code-string */
 			{
-#line 126 "lctsyntax.act"
+#line 125 "lctsyntax.act"
 
 		ZIs = lct_token_string;
 	
-#line 342 "lctsyntax.c"
+#line 341 "lctsyntax.c"
 			}
 			/* END OF EXTRACT: code-string */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: append-code-string */
 			{
-#line 148 "lctsyntax.act"
+#line 147 "lctsyntax.act"
 
 		code_append_string((ZIc), (ZIs));
 	
-#line 352 "lctsyntax.c"
+#line 351 "lctsyntax.c"
 			}
 			/* END OF ACTION: append-code-string */
 		}
@@ -358,11 +357,11 @@ ZRcode_Hblock_C_Ccode_Helement(codeP *ZIc, entryP ZIe)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: E_lone_at_in_code_block */
 			{
-#line 329 "lctsyntax.act"
+#line 328 "lctsyntax.act"
 
 		error(ERROR_SERIOUS, "Lone @ inside @{ @} block");
 	
-#line 366 "lctsyntax.c"
+#line 365 "lctsyntax.c"
 			}
 			/* END OF ACTION: E_lone_at_in_code_block */
 		}
@@ -402,11 +401,11 @@ ZL1:;
 	{
 		/* BEGINNING OF ACTION: E-syntax-error */
 		{
-#line 290 "lctsyntax.act"
+#line 289 "lctsyntax.act"
 
 		error(ERROR_SERIOUS, "Syntax error");
 	
-#line 410 "lctsyntax.c"
+#line 409 "lctsyntax.c"
 		}
 		/* END OF ACTION: E-syntax-error */
 	}
@@ -491,11 +490,11 @@ ZL1:;
 	{
 		/* BEGINNING OF ACTION: E_expected_comma */
 		{
-#line 306 "lctsyntax.act"
+#line 305 "lctsyntax.act"
 
 		error(ERROR_SERIOUS, "Syntax error: expected ','");
 	
-#line 499 "lctsyntax.c"
+#line 498 "lctsyntax.c"
 		}
 		/* END OF ACTION: E_expected_comma */
 	}
@@ -539,11 +538,11 @@ ZRargument_Hstmnt(void)
 			{
 				/* BEGINNING OF ACTION: E_expected_colon */
 				{
-#line 322 "lctsyntax.act"
+#line 321 "lctsyntax.act"
 
 		error(ERROR_SERIOUS, "Syntax error: expected ':'");
 	
-#line 547 "lctsyntax.c"
+#line 546 "lctsyntax.c"
 				}
 				/* END OF ACTION: E_expected_colon */
 			}
@@ -557,7 +556,7 @@ ZRargument_Hstmnt(void)
 		}
 		/* BEGINNING OF ACTION: define-additional-argument */
 		{
-#line 176 "lctsyntax.act"
+#line 175 "lctsyntax.act"
 
 		if (strlen((ZIname)) > 0 && strlen((ZIctype)) > 0) {
 			struct lxi_additional_argument *p;
@@ -571,7 +570,7 @@ ZRargument_Hstmnt(void)
 			lct_ast.arg_tail = &p->next;
 		}
 	
-#line 575 "lctsyntax.c"
+#line 574 "lctsyntax.c"
 		}
 		/* END OF ACTION: define-additional-argument */
 		ZR108 ();
@@ -611,11 +610,11 @@ ZRheader_Hstmnt(void)
 		}
 		/* BEGINNING OF ACTION: null-entry */
 		{
-#line 239 "lctsyntax.act"
+#line 238 "lctsyntax.act"
 
 		(ZIe) = NULL;
 	
-#line 619 "lctsyntax.c"
+#line 618 "lctsyntax.c"
 		}
 		/* END OF ACTION: null-entry */
 		ZRcode_Hblock (ZIe, &ZIsc);
@@ -627,7 +626,7 @@ ZRheader_Hstmnt(void)
 		}
 		/* BEGINNING OF ACTION: set-headers */
 		{
-#line 192 "lctsyntax.act"
+#line 191 "lctsyntax.act"
 
 		if (!lct_ast.trailersdefined) {
 			lct_ast.headersdefined = 1;
@@ -639,7 +638,7 @@ ZRheader_Hstmnt(void)
 			code_destroy((ZIsh));
 		}
 	
-#line 643 "lctsyntax.c"
+#line 642 "lctsyntax.c"
 		}
 		/* END OF ACTION: set-headers */
 		ZR108 ();
@@ -672,11 +671,11 @@ ZRaction_Hdefinition_C_Cparam_Hlist(paramP *ZOa)
 		ADVANCE_LEXER;
 		/* BEGINNING OF ACTION: init-param */
 		{
-#line 214 "lctsyntax.act"
+#line 213 "lctsyntax.act"
 
 		(ZIa) = NULL;
 	
-#line 680 "lctsyntax.c"
+#line 679 "lctsyntax.c"
 		}
 		/* END OF ACTION: init-param */
 		ZR114 (&ZIa);
@@ -718,11 +717,11 @@ ZRcode_Hblock(entryP ZIe, codeP *ZOc)
 			{
 				/* BEGINNING OF ACTION: E_expected_code_start */
 				{
-#line 301 "lctsyntax.act"
+#line 300 "lctsyntax.act"
 
 		error(ERROR_SERIOUS, "Syntax error: expected  '@{'");
 	
-#line 726 "lctsyntax.c"
+#line 725 "lctsyntax.c"
 				}
 				/* END OF ACTION: E_expected_code_start */
 			}
@@ -731,11 +730,11 @@ ZRcode_Hblock(entryP ZIe, codeP *ZOc)
 		/* END OF INLINE: 67 */
 		/* BEGINNING OF ACTION: init-code */
 		{
-#line 139 "lctsyntax.act"
+#line 138 "lctsyntax.act"
 
 		(ZIc) = NULL;
 	
-#line 739 "lctsyntax.c"
+#line 738 "lctsyntax.c"
 		}
 		/* END OF ACTION: init-code */
 		ZRcode_Hblock_C_Ccode_Hbody (&ZIc, ZIe);
@@ -747,11 +746,11 @@ ZRcode_Hblock(entryP ZIe, codeP *ZOc)
 					ADVANCE_LEXER;
 					/* BEGINNING OF ACTION: E_unexpected_eof */
 					{
-#line 325 "lctsyntax.act"
+#line 324 "lctsyntax.act"
 
 		error(ERROR_SERIOUS, "Unexpected End of File inside @{ @} block");
 	
-#line 755 "lctsyntax.c"
+#line 754 "lctsyntax.c"
 					}
 					/* END OF ACTION: E_unexpected_eof */
 				}
@@ -780,11 +779,11 @@ ZRcode_Hblock(entryP ZIe, codeP *ZOc)
 			{
 				/* BEGINNING OF ACTION: E_expected_code_end */
 				{
-#line 293 "lctsyntax.act"
+#line 292 "lctsyntax.act"
 
 		error(ERROR_SERIOUS, "Syntax error: expected  '@}'");
 	
-#line 788 "lctsyntax.c"
+#line 787 "lctsyntax.c"
 				}
 				/* END OF ACTION: E_expected_code_end */
 			}
@@ -876,11 +875,11 @@ ZRtrailer_Hstmnt(void)
 		}
 		/* BEGINNING OF ACTION: null-entry */
 		{
-#line 239 "lctsyntax.act"
+#line 238 "lctsyntax.act"
 
 		(ZIe) = NULL;
 	
-#line 884 "lctsyntax.c"
+#line 883 "lctsyntax.c"
 		}
 		/* END OF ACTION: null-entry */
 		ZRcode_Hblock (ZIe, &ZIsc);
@@ -892,7 +891,7 @@ ZRtrailer_Hstmnt(void)
 		}
 		/* BEGINNING OF ACTION: set-trailers */
 		{
-#line 204 "lctsyntax.act"
+#line 203 "lctsyntax.act"
 
 		if (!lct_ast.trailersdefined) {
 			lct_ast.trailersdefined = 1;
@@ -904,7 +903,7 @@ ZRtrailer_Hstmnt(void)
 			code_destroy((ZIsh));
 		}
 	
-#line 908 "lctsyntax.c"
+#line 907 "lctsyntax.c"
 		}
 		/* END OF ACTION: set-trailers */
 		ZR108 ();
@@ -948,7 +947,7 @@ ZRaction_Hdefinition(void)
 		}
 		/* BEGINNING OF ACTION: get-entry-action */
 		{
-#line 229 "lctsyntax.act"
+#line 228 "lctsyntax.act"
 
 		(ZIea) = table_get_entry(&lxi_ast->table, (ZIn));
 		if ((ZIea) == NULL) {
@@ -958,12 +957,12 @@ ZRaction_Hdefinition(void)
 			error(ERROR_SERIOUS, "%s is not an action", (ZIn));
 		}
 	
-#line 962 "lctsyntax.c"
+#line 961 "lctsyntax.c"
 		}
 		/* END OF ACTION: get-entry-action */
 		/* BEGINNING OF ACTION: check-action-params */
 		{
-#line 243 "lctsyntax.act"
+#line 242 "lctsyntax.act"
 
 		if ((ZIea)) {
 			/* TODO: assert ((ZIea)->kind == ENTRY_ACTION); */
@@ -995,7 +994,7 @@ ZRaction_Hdefinition(void)
 		param_destroy((ZIin));
 		param_destroy((ZIout));
 	
-#line 999 "lctsyntax.c"
+#line 998 "lctsyntax.c"
 		}
 		/* END OF ACTION: check-action-params */
 		ZRcode_Hblock (ZIea, &ZIc);
@@ -1005,21 +1004,21 @@ ZRaction_Hdefinition(void)
 		}
 		/* BEGINNING OF ACTION: define-action */
 		{
-#line 275 "lctsyntax.act"
+#line 274 "lctsyntax.act"
 
 		if ((ZIea) == NULL) {
 			code_destroy((ZIc));
 		} else {
 			/* TODO: assert (ZIea)->kind == ENTRY_ACTION */
 			if (!(ZIea)->u.act->defined) {
-				(ZIea)->u.act->defined = true;
+				(ZIea)->u.act->defined = 1;
 				(ZIea)->u.act->code    = (ZIc);
 			} else {
 				error(ERROR_SERIOUS, "Action %s has already been defined", (ZIea)->key);
 			}
 		}
 	
-#line 1023 "lctsyntax.c"
+#line 1022 "lctsyntax.c"
 		}
 		/* END OF ACTION: define-action */
 		ZR108 ();
@@ -1043,7 +1042,7 @@ ZRaction_Hdefinition_C_Cparam_Hlist_C_Cparam(paramP *ZIa)
 	{
 		charP ZIn;
 		charP ZIt;
-		bool ZIisref;
+		int ZIisref;
 
 		/* BEGINNING OF INLINE: 86 */
 		{
@@ -1052,11 +1051,11 @@ ZRaction_Hdefinition_C_Cparam_Hlist_C_Cparam(paramP *ZIa)
 				{
 					/* BEGINNING OF EXTRACT: ident */
 					{
-#line 114 "lctsyntax.act"
+#line 113 "lctsyntax.act"
 
 		ZIn = xstrdup(lct_tokbuf);
 	
-#line 1060 "lctsyntax.c"
+#line 1059 "lctsyntax.c"
 					}
 					/* END OF EXTRACT: ident */
 					ADVANCE_LEXER;
@@ -1066,11 +1065,11 @@ ZRaction_Hdefinition_C_Cparam_Hlist_C_Cparam(paramP *ZIa)
 				{
 					/* BEGINNING OF ACTION: empty-ident */
 					{
-#line 135 "lctsyntax.act"
+#line 134 "lctsyntax.act"
 
 		(ZIn) = NULL;
 	
-#line 1074 "lctsyntax.c"
+#line 1073 "lctsyntax.c"
 					}
 					/* END OF ACTION: empty-ident */
 				}
@@ -1089,11 +1088,11 @@ ZRaction_Hdefinition_C_Cparam_Hlist_C_Cparam(paramP *ZIa)
 		case 14:
 			/* BEGINNING OF EXTRACT: ident */
 			{
-#line 114 "lctsyntax.act"
+#line 113 "lctsyntax.act"
 
 		ZIt = xstrdup(lct_tokbuf);
 	
-#line 1097 "lctsyntax.c"
+#line 1096 "lctsyntax.c"
 			}
 			/* END OF EXTRACT: ident */
 			break;
@@ -1109,9 +1108,9 @@ ZRaction_Hdefinition_C_Cparam_Hlist_C_Cparam(paramP *ZIa)
 					ADVANCE_LEXER;
 					/* BEGINNING OF ACTION: true */
 					{
-#line 131 "lctsyntax.act"
- (ZIisref) = true;  
-#line 1115 "lctsyntax.c"
+#line 130 "lctsyntax.act"
+ (ZIisref) = 1; 
+#line 1114 "lctsyntax.c"
 					}
 					/* END OF ACTION: true */
 				}
@@ -1120,9 +1119,9 @@ ZRaction_Hdefinition_C_Cparam_Hlist_C_Cparam(paramP *ZIa)
 				{
 					/* BEGINNING OF ACTION: false */
 					{
-#line 132 "lctsyntax.act"
- (ZIisref) = false; 
-#line 1126 "lctsyntax.c"
+#line 131 "lctsyntax.act"
+ (ZIisref) = 0; 
+#line 1125 "lctsyntax.c"
 					}
 					/* END OF ACTION: false */
 				}
@@ -1132,7 +1131,7 @@ ZRaction_Hdefinition_C_Cparam_Hlist_C_Cparam(paramP *ZIa)
 		/* END OF INLINE: 89 */
 		/* BEGINNING OF ACTION: append-param */
 		{
-#line 218 "lctsyntax.act"
+#line 217 "lctsyntax.act"
 
 		struct entry *et = table_get_entry(&lxi_ast->table, (ZIt));
 		if (et == NULL) {
@@ -1143,7 +1142,7 @@ ZRaction_Hdefinition_C_Cparam_Hlist_C_Cparam(paramP *ZIa)
 			param_append((ZIa), (ZIn), et, (ZIisref));
 		}
 	
-#line 1147 "lctsyntax.c"
+#line 1146 "lctsyntax.c"
 		}
 		/* END OF ACTION: append-param */
 	}
@@ -1173,11 +1172,11 @@ ZL1:;
 	{
 		/* BEGINNING OF ACTION: E_expected_define */
 		{
-#line 310 "lctsyntax.act"
+#line 309 "lctsyntax.act"
 
 		error(ERROR_SERIOUS, "Syntax error: expected '='");
 	
-#line 1181 "lctsyntax.c"
+#line 1180 "lctsyntax.c"
 		}
 		/* END OF ACTION: E_expected_define */
 	}
@@ -1196,11 +1195,11 @@ ZR106(charP *ZOctype)
 		case 14:
 			/* BEGINNING OF EXTRACT: ident */
 			{
-#line 114 "lctsyntax.act"
+#line 113 "lctsyntax.act"
 
 		ZIctype = xstrdup(lct_tokbuf);
 	
-#line 1204 "lctsyntax.c"
+#line 1203 "lctsyntax.c"
 			}
 			/* END OF EXTRACT: ident */
 			break;
@@ -1214,20 +1213,20 @@ ZL1:;
 	{
 		/* BEGINNING OF ACTION: empty-ident */
 		{
-#line 135 "lctsyntax.act"
+#line 134 "lctsyntax.act"
 
 		(ZIctype) = NULL;
 	
-#line 1222 "lctsyntax.c"
+#line 1221 "lctsyntax.c"
 		}
 		/* END OF ACTION: empty-ident */
 		/* BEGINNING OF ACTION: E_expected_ident */
 		{
-#line 298 "lctsyntax.act"
+#line 297 "lctsyntax.act"
 
 		error(ERROR_SERIOUS, "Syntax error: expected  identifier");
 	
-#line 1231 "lctsyntax.c"
+#line 1230 "lctsyntax.c"
 		}
 		/* END OF ACTION: E_expected_ident */
 	}
@@ -1255,11 +1254,11 @@ ZL1:;
 	{
 		/* BEGINNING OF ACTION: E_expected_semicolon */
 		{
-#line 318 "lctsyntax.act"
+#line 317 "lctsyntax.act"
 
 		error(ERROR_SERIOUS, "Syntax error: expected ';'");
 	
-#line 1263 "lctsyntax.c"
+#line 1262 "lctsyntax.c"
 		}
 		/* END OF ACTION: E_expected_semicolon */
 	}
@@ -1302,9 +1301,9 @@ ZL1:;
 
 /* BEGINNING OF TRAILER */
 
-#line 334 "lctsyntax.act"
+#line 333 "lctsyntax.act"
 
 
-#line 1309 "lctsyntax.c"
+#line 1308 "lctsyntax.c"
 
 /* END OF FILE */

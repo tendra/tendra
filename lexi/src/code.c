@@ -109,7 +109,7 @@ code_out(FILE *file, struct code *c,
 			(to = arg_index(lhs, param_findindex(out, p->name)));
 			assert(to != NULL);
 
-			arg_out(to, false, d, file);
+			arg_out(to, 0, d, file);
 			break;
 		}
 
@@ -121,7 +121,7 @@ code_out(FILE *file, struct code *c,
 			(to = arg_index(lhs, param_findindex(out, p->name)));
 			assert(to != NULL);
 
-			arg_out(to, true, d, file);
+			arg_out(to, 1, d, file);
 			break;
 		}
 

@@ -9,16 +9,14 @@
 #ifndef LEXI_PARAM_H
 #define LEXI_PARAM_H
 
-#include <stdbool.h>
-
 struct param {
 	struct entry *et;
 	char *local_name;
-	bool is_ref;
+	int is_ref:1;
 	struct param *next;
 };
 
-void param_append(struct param **, char *, struct entry *, bool);
+void param_append(struct param **, char *, struct entry *, int);
 struct param *param_name_is_in(struct param *, const char *);
 unsigned int param_length(struct param *);
 int param_assign_names(struct param *, struct param *);

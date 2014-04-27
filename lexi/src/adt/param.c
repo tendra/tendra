@@ -8,7 +8,6 @@
 
 #include <stddef.h>
 #include <string.h>
-#include <stdbool.h>
 
 #include <shared/check.h>
 #include <shared/xalloc.h>
@@ -16,7 +15,7 @@
 #include <adt/param.h>
 
 void
-param_append(struct param **params, char *str, struct entry *et, bool isref)
+param_append(struct param **params, char *str, struct entry *et, int isref)
 {
 	struct param *p;
 
@@ -122,11 +121,11 @@ param_unique_names(struct param *params, struct param *results)
 
 	for (p = params;  p != NULL; p = p->next, i++) {
 		if (param_name_is_in(results, p->local_name)) {
-			return false;
+			return 0;
 		}
 	}
 
-	return true;
+	return 1;
 }
 
 int
