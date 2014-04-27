@@ -6,6 +6,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <assert.h>
 #include <stdlib.h>
 #include <string.h>
 
