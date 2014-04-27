@@ -224,8 +224,7 @@ main(int argc, char **argv)
 		assert(out->outfiles == 1);
 
 		if (0 != strcmp(argv[0], "-")) {
-			stdout = freopen(argv[0], "w", stdout);
-			if (stdout == NULL) {
+			if (!freopen(argv[0], "w", stdout)) {
 				perror(argv[0]);
 				exit(1);
 			}
