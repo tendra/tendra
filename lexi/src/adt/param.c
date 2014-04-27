@@ -7,28 +7,25 @@
  */
 
 #include <stddef.h>
+#include <string.h>
 #include <stdbool.h>
 
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
-#include <exds/common.h>
-#include <exds/dstring.h>
-
 #include <adt/param.h>
 
 void
-param_append(struct param **params, NStringT *str, struct entry *et, bool isref)
+param_append(struct param **params, char *str, struct entry *et, bool isref)
 {
 	struct param *p;
 
 	p = xmalloc(sizeof *p);
 
-	p->et     = et;
-	p->is_ref = isref;
-	p->next   = *params;
-
-	nstring_assign(&p->local_name, str);
+	p->et         = et;
+	p->is_ref     = isref;
+	p->local_name = str;
+	p->next       = *params;
 
 	while (*params != NULL) {
 		params = &(*params)->next;
@@ -38,12 +35,12 @@ param_append(struct param **params, NStringT *str, struct entry *et, bool isref)
 }
 
 struct param *
-param_name_is_in(struct param *params, NStringT *id)
+param_name_is_in(struct param *params, const char *id)
 {
 	struct param *p;
 
 	for (p = params; p != NULL; p = p->next) {
-		if (nstring_equal(&p->local_name, id)) {
+		if (0 == strcmp(p->local_name, id)) {
 			return p;
 		}
 	}
@@ -88,11 +85,11 @@ param_assign_names(struct param *to, struct param *from)
 	allhavenames = 1;
 
 	for (p = from, q = to; p != NULL && q != NULL; p = p->next, q = q->next) {
-		if (nstring_length(&p->local_name) == 0) {
+		if (p->local_name == NULL) {
 			allhavenames = 0;
 		} else {
-			nstring_assign(&q->local_name, &p->local_name);
-			nstring_init(&p->local_name);
+			q->local_name = p->local_name;
+			p->local_name = NULL;
 		}
 	}
 
@@ -108,8 +105,7 @@ void param_destroy(struct param *params)
 	for (p = params; p != NULL; p = next) {
 		next = p->next;
 
-		nstring_destroy(&p->local_name);
-
+		free(p->local_name);
 		xfree(p);
 	}
 }
@@ -125,7 +121,7 @@ param_unique_names(struct param *params, struct param *results)
 	int i;
 
 	for (p = params;  p != NULL; p = p->next, i++) {
-		if (param_name_is_in(results, &p->local_name)) {
+		if (param_name_is_in(results, p->local_name)) {
 			return false;
 		}
 	}
@@ -134,13 +130,13 @@ param_unique_names(struct param *params, struct param *results)
 }
 
 int
-param_findindex(struct param *params, NStringT *key)
+param_findindex(struct param *params, const char *key)
 {
 	struct param *p;
 	int i;
 
 	for (p = params, i = 0; p != NULL; p = p->next, i++) {
-		if (CMP_EQ == nstring_compare(&p->local_name, key)) {
+		if (0 == strcmp(p->local_name, key)) {
 			return i;
 		}
 	}

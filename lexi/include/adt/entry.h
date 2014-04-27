@@ -9,9 +9,6 @@
 #ifndef LEXI_ENTRY_H
 #define LEXI_ENTRY_H
 
-#include <exds/common.h>
-#include <exds/dstring.h>
-
 struct action;
 struct param;
 
@@ -22,7 +19,7 @@ enum entry_kind {
 };
 
 struct entry {
-	NStringT key;
+	char *key;
 	enum entry_kind kind;
 	union {
 		struct action *act;
@@ -30,11 +27,11 @@ struct entry {
 	struct entry *next;
 };
 
-struct entry *table_get_entry(struct entry **, NStringT *);
-struct entry *table_add_local_name(struct entry **, NStringT *);
-struct entry *table_get_type(struct entry **, NStringT *);
-struct entry *table_add_type(struct entry **, NStringT *);
-struct entry *table_add_action(struct entry **, NStringT *, struct param *, struct param *);
+struct entry *table_get_entry(struct entry **, char *);
+struct entry *table_add_local_name(struct entry **, char *);
+struct entry *table_get_type(struct entry **, char *);
+struct entry *table_add_type(struct entry **, char *);
+struct entry *table_add_action(struct entry **, char *, struct param *, struct param *);
 
 #endif
 

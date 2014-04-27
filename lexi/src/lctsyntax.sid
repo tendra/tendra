@@ -11,7 +11,7 @@
 	BOOL;
 	ENTRYP;
 	IDENT;
-	BIGSTRING;
+	STRING;
 	PARAM_LIST;
 	CODE;
 
@@ -36,7 +36,7 @@
 	ident:       () -> (:IDENT);
 	code-ident:  () -> (:IDENT);
 	code-ref:    () -> (:IDENT);
-	code-string: () -> (:BIGSTRING);
+	code-string: () -> (:STRING);
 	!unknown;
 
 	kw-header;
@@ -63,7 +63,7 @@
 	<null-entry>:          () -> (:ENTRYP);
 
 	<init-code>:          () -> (:CODE);
-	<append-code-string>: (:CODE &, :BIGSTRING &) -> ();
+	<append-code-string>: (:CODE &, :STRING) -> ();
 	<append-code-ident>:  (:CODE &, :IDENT, :ENTRYP, :BOOL) -> ();
 	<append-code-at>:     (:CODE &) -> ();
 
@@ -86,7 +86,7 @@
 
 		code-element: (c :CODE &, e :ENTRYP) -> () = {
 			s = code-string;
-			<append-code-string>(&c, &s);
+			<append-code-string>(&c, s);
 		||
 			i = code-ident;
 			b = <false>;

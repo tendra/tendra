@@ -47,32 +47,32 @@ code_append(struct code **p, struct code *new)
 }
 
 void
-code_append_ident(struct code **c, NStringT *i)
+code_append_ident(struct code **c, char *ident)
 {
 	struct code *new;
 
 	new = code_create(CODE_IDENT);
-	nstring_assign(&new->name, i);
+	new->name = ident;
 	code_append(c, new);
 }
 
 void
-code_append_ref(struct code **c, NStringT *i)
+code_append_ref(struct code **c, char *ident)
 {
 	struct code *new;
 
 	new = code_create(CODE_REF);
-	nstring_assign(&new->name, i);
+	new->name = ident;
 	code_append(c, new);
 }
 
 void
-code_append_string(struct code **c, NStringT *s)
+code_append_string(struct code **c, char *s)
 {
 	struct code *new;
 
 	new = code_create(CODE_STRING);
-	nstring_assign(&new->name, s);
+	new->name = s;
 	code_append(c, new);
 }
 
@@ -88,7 +88,7 @@ code_destroy(struct code *c)
 		case CODE_IDENT:
 		case CODE_STRING:
 		case CODE_REF:
-			nstring_destroy(&p->name);
+			free(p->name);
 			break;
 		}
 
@@ -106,21 +106,12 @@ code_out(FILE *file, struct code *c,
 
 	for (p = c; p != NULL; p = p->next) {
 		switch (p->kind) {
-		case CODE_STRING: {
-			char *s;
-
-			s = nstring_to_cstring(&p->name);
-			fputs(s, file);
-			xfree(s);
-			break;
-		}
-
 		case CODE_IDENT: {
 			struct arg *to;
 
 			/* TODO: do (and store these) replacements before calling code_out */
-			(to = arg_index(rhs, param_findindex(in,  &p->name))) ||
-			(to = arg_index(lhs, param_findindex(out, &p->name)));
+			(to = arg_index(rhs, param_findindex(in,  p->name))) ||
+			(to = arg_index(lhs, param_findindex(out, p->name)));
 			assert(to != NULL);
 
 			arg_out(to, false, d, file);
@@ -131,13 +122,17 @@ code_out(FILE *file, struct code *c,
 			struct arg *to;
 
 			/* TODO: do (and store these) replacements before calling code_out */
-			(to = arg_index(rhs, param_findindex(in,  &p->name))) ||
-			(to = arg_index(lhs, param_findindex(out, &p->name)));
+			(to = arg_index(rhs, param_findindex(in,  p->name))) ||
+			(to = arg_index(lhs, param_findindex(out, p->name)));
 			assert(to != NULL);
 
 			arg_out(to, true, d, file);
 			break;
 		}
+
+		case CODE_STRING:
+			fputs(p->name, file);
+			break;
 		}
 	}
 }

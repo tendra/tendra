@@ -7,35 +7,32 @@
  */
 
 #include <stdlib.h>
+#include <string.h>
 
 #include <shared/xalloc.h>
-
-#include <exds/common.h>
-#include <exds/dstring.h>
 
 #include <adt/local.h>
 
 void
-local_add(struct local **locals, NStringT *name, struct entry *et)
+local_add(struct local **locals, char *name, struct entry *et)
 {
 	struct local *new;
 
 	new = xmalloc(sizeof *new);
-	new->et = et;
-
-	nstring_assign(&new->name, name);
+	new->et   = et;
+	new->name = name;
 
 	new->next = *locals;
 	*locals = new;
 }
 
 struct entry *
-local_find(struct local *locals, NStringT *name)
+local_find(struct local *locals, char *name)
 {
 	struct local *p;
 
 	for (p = locals; p != NULL; p = p->next) {
-		if (CMP_EQ == nstring_compare(&p->name, name)) {
+		if (0 == strcmp(p->name, name)) {
 			return p->et;
 		}
 	}

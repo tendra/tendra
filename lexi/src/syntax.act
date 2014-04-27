@@ -33,7 +33,6 @@
 	#include <exds/common.h>
 	#include <exds/exception.h>
 	#include <exds/dalloc.h>
-	#include <exds/dstring.h>
 
 	#include <shared/error.h>
 	#include <shared/xalloc.h>
@@ -103,7 +102,7 @@
 %terminals%
 
 	ident: () -> (i :IDENT) = @{
-		@i = xstrdup (tokbuf);
+		@i = xstrdup(tokbuf);
 	@};
 
 	sid-ident: () -> (i :IDENT) = @{
@@ -132,7 +131,7 @@
 	@};
 
 	string: () -> (s :STRING) = @{
-		@s = xstrdup (tokbuf);
+		@s = xstrdup(tokbuf);
 	@};
 
 	upper: () -> (s :STRING) = @{ @s = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; @};
@@ -198,12 +197,12 @@
 	@};
 
 	<make-action-cmd>: (z: ZONE, i :IDENT, l :ARG, r :ARG) -> (c :CMD)  = @{
-		NStringT key;
+		char *key;
 		struct entry *ea;
 
-		nstring_copy_cstring(&key, @i);
+		key = @i;
 
-		ea = table_get_entry(&@z->ast->table, &key);
+		ea = table_get_entry(&@z->ast->table, key);
 		if (ea == NULL) {
 			@c = NULL;
 			error(ERROR_SERIOUS, "Unknown action %s", @i);
@@ -215,9 +214,8 @@
 
 			dup = arg_first_duplicate_ident(@l);
 			if (dup != NULL) {
-				char *s = nstring_to_cstring(&ea->key);
 				error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",
-					s, dup);
+					ea->key, dup);
 			}
 
 			@c = add_cmd_action(ea, @l, @r);
@@ -290,15 +288,12 @@
 				/* CHECKING RHS COMPATIBILITY */
 				for (p = rhs, q = act->in; p != NULL && q != NULL; p = p->next, q = q->next) {
 					struct entry *et = NULL;
-					NStringT str;
 
 					switch (p->kind) {
 					case ARG_IDENT:
-						nstring_copy_cstring(&str, p->u.literal);
-						et = local_find(@l->locals, &str);
-						nstring_destroy(&str);
+						et = local_find(@l->locals, p->u.literal);
 						if (et == NULL) {
-							struct entry *e = table_get_entry(&@z->ast->table, &str);
+							struct entry *e = table_get_entry(&@z->ast->table, p->u.literal);
 							if (!e) {
 								error(ERROR_SERIOUS, "local name %s has not been defined yet", p->u.literal);
 								et = NULL;
@@ -358,10 +353,8 @@
 
 					if (et) {
 						if (q->et!=et || p->is_ref !=q->is_ref) {
-							char *s1 = nstring_to_cstring(&ea->key);
-							char *s2 = nstring_to_cstring(&et->key);
 							char *s3 = p->is_ref ? "&" : "";
-							char *s4 = nstring_to_cstring(&q->et->key);
+							char *s4 = q->et->key;
 							char *s5 = q->is_ref ? "&" : "";
 							char *s6 = "unknown";
 							char *s7 = "unknown";
@@ -391,25 +384,17 @@
 							}
 
 							error(ERROR_SERIOUS, "In call to action %s, argument \'%s%s\' has type \'%s%s\' when it should have type %s",
-								s1, s6, s7, s2, s3, s4, s5);
-
-							xfree(s1);
-							xfree(s2);
-							xfree(s4);
+								ea->key, s6, s7, et->key, s3, s4, s5);
 						}
 					}
 				}
 
 				if (p != NULL) {
-					char *s = nstring_to_cstring(&ea->key);
-					error(ERROR_SERIOUS, "In call to action %s, too many arguments", s);
-					xfree(s);
+					error(ERROR_SERIOUS, "In call to action %s, too many arguments", ea->key);
 				}
 
 				if (q != NULL) {
-					char *s = nstring_to_cstring(&ea->key);
-					error(ERROR_SERIOUS, "In call to action %s, not enough arguments", s);
-					xfree(s);
+					error(ERROR_SERIOUS, "In call to action %s, not enough arguments", ea->key);
 				}
 
 				for (p = lhs, q = act->out; p != NULL && q != NULL; p = p->next, q = q->next) {
@@ -417,16 +402,12 @@
 
 					switch (p->kind) {
 					case ARG_IDENT: {
-						NStringT str;
-
-						nstring_copy_cstring(&str, p->u.literal);
-						et = local_find(@l->locals, &str);
+						et = local_find(@l->locals, p->u.literal);
 						if (et == NULL) {
-							struct entry *e= table_get_entry(&@z->ast->table, &str);
+							struct entry *e = table_get_entry(&@z->ast->table, p->u.literal);
 							/* TODO: error out if local name already exists? */
-							local_add(&@l->locals, &str, q->et);
+							local_add(&@l->locals, p->u.literal, q->et);
 							if (e) {
-								nstring_destroy(&str);
 								switch (e->kind) {
 								case ENTRY_ACTION:
 									error(ERROR_SERIOUS, "In action lhs. Name %s is an action. Hiding globals by local names is not allowed", p->u.literal);
@@ -437,21 +418,18 @@
 									break;
 								}
 							} else {
-								table_add_local_name(&@z->ast->table, &str);
+								table_add_local_name(&@z->ast->table, p->u.literal);
 							}
 							if (p->is_ref) {
-								char *s = nstring_to_cstring(&ea->key);
-								error(ERROR_SERIOUS, "In action call %s, you can only use references %s for preexisting variables", s, p->u.literal);
-								xfree(s);
+								error(ERROR_SERIOUS, "In action call %s, you can only use references %s for preexisting variables",
+									ea->key, p->u.literal);
 							}
 						} else {
-							nstring_destroy(&str);
 							if (!p->is_ref) {
 								char *s;
 
-								s = nstring_to_cstring(&ea->key);
-								error(ERROR_SERIOUS, "In action call %s, name %s already declared. Use references to change the value of an already existing variable", s, p->u.literal);
-								xfree(s);
+								error(ERROR_SERIOUS, "In action call %s, name %s already declared. Use references to change the value of an already existing variable",
+									ea->key, p->u.literal);
 
 								et = q->et; /* To avoid outputting that error more than once */
 							}
@@ -492,15 +470,11 @@
 				}
 
 				if (p != NULL) {
-					char *s = nstring_to_cstring(&ea->key);
-					error(ERROR_SERIOUS, "In call to action %s, too many results", s);
-					xfree(s);
+					error(ERROR_SERIOUS, "In call to action %s, too many results", ea->key);
 				}
 
 				if (q != NULL) {
-					char *s = nstring_to_cstring(&ea->key);
-					error(ERROR_SERIOUS, "In call to action %s, not enough results", s);
-					xfree(s);
+					error(ERROR_SERIOUS, "In call to action %s, not enough results", ea->key);
 				}
 			}
 
@@ -627,19 +601,13 @@
 	@};
 
 	<make-type>: (z :ZONE, i :IDENT) -> () = @{
-		NStringT str;
 		struct entry *e;
 
-		nstring_copy_cstring(&str,@i);
-		xfree(@i);
-
-		e = table_get_entry(&@z->ast->table, &str);
+		e = table_get_entry(&@z->ast->table, @i);
 		if (e != NULL) {
-			nstring_destroy(&str);
-
 			switch (e->kind) {
 			case ENTRY_TYPE:
-				error(ERROR_SERIOUS, "Type %s already exists",@i);
+				error(ERROR_SERIOUS, "Type %s already exists", @i);
 				break;
 
 			case ENTRY_LOCAL:
@@ -654,23 +622,18 @@
 				UNREACHED;
 			}
 		} else {
-			table_add_type(&@z->ast->table, &str);
+			table_add_type(&@z->ast->table, @i);
 		}
 	@};
 
 	<make-action>: (z :ZONE, i :IDENT, params :PARAM_LIST, results :PARAM_LIST) -> () = @{
-		NStringT str;
 		struct entry *e;
 
-		nstring_copy_cstring(&str, @i);
-
-		e = table_get_entry(&@z->ast->table, &str);
+		e = table_get_entry(&@z->ast->table, @i);
 		if (e != NULL) {
-			nstring_destroy(&str);
-
 			switch (e->kind) {
 			case ENTRY_ACTION:
-				error(ERROR_SERIOUS, "Action %s already exists",@i);
+				error(ERROR_SERIOUS, "Action %s already exists", @i);
 				break;
 
 			case ENTRY_LOCAL:
@@ -685,10 +648,8 @@
 				UNREACHED;
 			}
 		} else {
-			table_add_action(&@z->ast->table, &str, @params, @results);
+			table_add_action(&@z->ast->table, @i, @params, @results);
 		}
-
-		xfree(@i);
 	@};
 
 	<init-param>: () -> (a :PARAM_LIST) = @{
@@ -697,26 +658,15 @@
 
 	<append-param>: (z :ZONE, a :PARAM_LIST &, id :IDENT, type :IDENT, isref :BOOL) -> () =@{
 		struct entry *et;
-		NStringT tstr, istr;
 
-		nstring_copy_cstring(&tstr,@type);
-		nstring_copy_cstring(&istr,@id);
-
-		et = table_get_entry(&@z->ast->table, &tstr);
+		et = table_get_entry(&@z->ast->table, @type);
 		if (et == NULL) {
 			 error(ERROR_SERIOUS, "Unknown type %s", @type);
-			 nstring_destroy(&istr);
 		} else if (et->kind != ENTRY_TYPE) {
 			 error(ERROR_SERIOUS, "%s is not a type", @type);
-			 nstring_destroy(&istr);
 		} else {
-			param_append(@&a, &istr, et, @isref);
+			param_append(@&a, @id, et, @isref);
 		}
-
-		nstring_destroy(&tstr);
-
-		xfree(@type);
-		xfree(@id);
 	@};
 
 	<E_nonglobalzonekeyword>: () -> () = @{

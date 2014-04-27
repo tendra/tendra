@@ -10,6 +10,9 @@ HEADERS = @{
 
 	#include <shared/error.h>
 
+	#include <exds/common.h>
+	#include <exds/dstring.h>
+
 	#include "lctlexer.h"
 	#include "lctsyntax.h"
 
@@ -22,7 +25,7 @@ HEADERS = @{
 	static char *lct_token_end = lct_tokbuf + sizeof lct_tokbuf;
 	static char *lct_token_current;
 
-	NStringT lct_token_nstring;
+	char *lct_token_string;
 
 	struct lexi_lct_state lct_lexer_state;
 
@@ -58,7 +61,7 @@ HEADERS = @{
 	struct lct_ast lct_ast;
 
 	struct lexi_lct_state lct_lexer_state;
-	NStringT lct_token_nstring;
+	char *lct_token_string;
 
 	#define CURRENT_LCT_TERMINAL curr_lct_token
 	#define ADVANCE_LCT_LEXER    curr_lct_token = lexi_lct_read_token(&lct_lexer_state)
@@ -74,7 +77,7 @@ TRAILERS = @{
 ARGUMENT input :FILE_P_lct;
 
 ACTION init_tokbuf = @{
-	lct_token_current=lct_tokbuf;
+	lct_token_current = lct_tokbuf;
 @};
 
 ACTION push_tokbuf: (c :CHARACTER) -> () = @{
@@ -113,8 +116,7 @@ ACTION code_string: (c :CHARACTER) -> (a :TERMINAL) = @{
 
 	lexi_lct_push(&lct_lexer_state, c);
 
-	dstring_to_nstring(&dstring, &lct_token_nstring);
-	dstring_destroy(&dstring);
+	lct_token_string = dstring_destroy_to_cstring(&dstring);
 
 	@a = lct_lex_code_Hstring;
 @};

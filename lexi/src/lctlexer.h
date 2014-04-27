@@ -25,7 +25,7 @@
 	struct lct_ast lct_ast;
 
 	struct lexi_lct_state lct_lexer_state;
-	NStringT lct_token_nstring;
+	char *lct_token_string;
 
 	#define CURRENT_LCT_TERMINAL curr_lct_token
 	#define ADVANCE_LCT_LEXER    curr_lct_token = lexi_lct_read_token(&lct_lexer_state)

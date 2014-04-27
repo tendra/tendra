@@ -9,9 +9,6 @@
 #ifndef LEXI_LOCAL_H
 #define LEXI_LOCAL_H
 
-#include <exds/common.h>
-#include <exds/dstring.h>
-
 struct entry;
 
 /*
@@ -19,13 +16,13 @@ struct entry;
  * so we can type check during parsing.
  */
 struct local {
-	NStringT name;
+	char *name;
 	struct entry *et;
 	struct local *next;
 };
 
-void local_add(struct local **, NStringT *, struct entry *);
-struct entry *local_find(struct local *, NStringT *);
+void local_add(struct local **, char *, struct entry *);
+struct entry *local_find(struct local *, char *);
 
 #endif
 

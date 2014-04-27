@@ -66,15 +66,11 @@ tree_find_group(struct ast *ast, struct group *g)
 void
 set_builtin_type(struct ast *ast, struct entry **e, char *lexi_type)
 {
-	NStringT str;
-
 	assert(ast != NULL);
 	assert(e != NULL);
 	assert(lexi_type != NULL);
 
-	nstring_copy_cstring(&str, lexi_type);
-
 	/* TODO: assert(table_get_entry(&ast->table, &str) == NULL) */
-	*e = table_add_type(&ast->table, &str);
+	*e = table_add_type(&ast->table, lexi_type);
 }
 

@@ -7,6 +7,7 @@
  */
 
 #include <stdlib.h>
+#include <string.h>
 
 #include <shared/check.h>
 #include <shared/xalloc.h>
@@ -15,15 +16,15 @@
 #include <adt/entry.h>
 
 struct entry *
-table_get_entry(struct entry **table, NStringT* key)
+table_get_entry(struct entry **table, char *key)
 {
-	struct entry *entry;
+	struct entry *e;
 
 	assert(table != NULL);
 
-	for (entry = *table; entry != NULL; entry = entry->next) {
-		if (nstring_equal(&entry->key, key)) {
-			return entry;
+	for (e = *table; e != NULL; e = e->next) {
+		if (0 == strcmp(e->key, key)) {
+			return e;
 		}
 	}
 
@@ -31,7 +32,7 @@ table_get_entry(struct entry **table, NStringT* key)
 }
 
 struct entry *
-table_get_type(struct entry **table, NStringT *key)
+table_get_type(struct entry **table, char *key)
 {
 	struct entry *et;
 
@@ -58,32 +59,31 @@ table_add_entry(struct entry **table, struct entry *entry)
 }
 
 static struct entry *
-entry_create(NStringT *name, enum entry_kind kind)
+entry_create(char *name, enum entry_kind kind)
 {
 	struct entry *e;
 
 	e = xmalloc(sizeof *e);
 	e->kind = kind;
-
-	nstring_assign(&e->key, name);
+	e->key  = name;
 	e->next = NULL;
 
 	return e;
 }
 
 struct entry *
-table_add_type(struct entry **table, NStringT *type_name)
+table_add_type(struct entry **table, char *name)
 {
 	struct entry *et;
 
-	et = entry_create(type_name, ENTRY_TYPE);
+	et = entry_create(name, ENTRY_TYPE);
 	table_add_entry(table, et);
 
 	return et;
 }
 
 struct entry *
-table_add_action(struct entry **table, NStringT *name,
+table_add_action(struct entry **table, char *name,
 	struct param *in, struct param *out)
 {
 	struct entry *ea;
@@ -99,7 +99,7 @@ table_add_action(struct entry **table, NStringT *name,
 }
 
 struct entry *
-table_add_local_name(struct entry **table, NStringT *name)
+table_add_local_name(struct entry **table, char *name)
 {
 	struct entry *en;
 

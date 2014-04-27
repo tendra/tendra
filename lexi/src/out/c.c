@@ -183,18 +183,10 @@ out_locals(struct local *locals, unsigned int d)
 	assert(locals != NULL);
 
 	for (p = locals; p != NULL; p = p->next) {
-		char *sn, *st;
-
 		/* TODO: assert(p->et->kind == ENTRY_TYPE); */
 
-		sn = nstring_to_cstring(&p->name);
-		st = nstring_to_cstring(&p->et->key);
-
 		indent(d);
-		printf("%s%s %s%s;\n", prefixtype, st, prefixvar, sn);
-
-		xfree(sn);
-		xfree(st);
+		printf("%s%s %s%s;\n", prefixtype, p->et->key, prefixvar, p->name);
 	}
 }
 
@@ -209,7 +201,7 @@ out_action(struct ast *ast,
 
 	/* TODO: output #line delimiters instead of comments */
 	indent(d);
-	printf("/* ACTION <%s> */\n", nstring_to_cstring(&ea->key));
+	printf("/* ACTION <%s> */\n", ea->key);
 
 	indent(d);
 	printf("{\n");
@@ -218,15 +210,11 @@ out_action(struct ast *ast,
 
 	if (arg_return_count(lhs) != 0) {
 		char *prefixtype = "ZT";
-		struct entry *et;
-		char *st;
 
-		et = ast->lexi_terminal_type;
 		/* TODO: assert(et->kind == ENTRY_TYPE); */
-		st = nstring_to_cstring(&et->key);
 
 		indent(d);
-		printf("%s%s ZT1;\n", prefixtype, st);
+		printf("%s%s ZT1;\n", prefixtype, ast->lexi_terminal_type->key);
 
 		/* TODO: free st? */
 	}
@@ -240,11 +228,7 @@ out_action(struct ast *ast,
 		}
 	} else {
 		/* TODO: We should catch this error before beginning output */
-		char *pe;
-
-		pe = nstring_to_cstring(&ea->key);
-		error(ERROR_SERIOUS, "Action %s is used but undefined", pe);
-		xfree(pe);
+		error(ERROR_SERIOUS, "Action %s is used but undefined", ea->key);
 	}
 
 	d--;
@@ -253,7 +237,7 @@ out_action(struct ast *ast,
 	printf("}\n");
 
 	indent(d);
-	printf("/* END ACTION <%s> */\n", nstring_to_cstring(&ea->key));
+	printf("/* END ACTION <%s> */\n", ea->key);
 }
 
 static void

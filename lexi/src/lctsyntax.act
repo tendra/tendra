@@ -16,23 +16,23 @@
 
 	BOOL       -> bool;
 	CODE       -> codeP;
-	BIGSTRING  -> NStringT;
-	IDENT      -> NStringT;
+	STRING     -> charP;
+	IDENT      -> charP;
 	PARAM_LIST -> paramP;
 	ENTRYP     -> entryP;
 
 %header% @{
 
 	#include <stdbool.h>
+	#include <string.h>
 
 	#include <shared/xalloc.h>
+	#include <shared/string.h>
 	#include <shared/error.h>
 
 	#include <exds/common.h>
 	#include <exds/exception.h>
 	#include <exds/dalloc.h>
-	#include <exds/dstring.h>
-	#include <exds/cstring.h>
 
 	#include <adt/action.h>
 	#include <adt/entry.h>
@@ -48,6 +48,7 @@
 	#define SAVE_LEXER       SAVE_LCT_LEXER
 	#define RESTORE_LEXER    RESTORE_LCT_LEXER
 
+	typedef char *         charP;
 	typedef struct code *  codeP;
 	typedef struct entry * entryP;
 	typedef struct param * paramP;
@@ -107,50 +108,26 @@
 
 %assignments%
 
-	IDENT: (a) -> (b) = @{
-		nstring_assign(&@b, @a);
-	@};
-
-	BIGSTRING: (a) -> (b) = @{
-		nstring_assign(&@b, @a);
-	@};
-
 %parameter-assignments%
 
-	IDENT: (a) -> (b) = @{
-		nstring_assign(&@b, @a);
-	@};
-
-	BIGSTRING: (a) -> (b) = @{
-		nstring_assign(&@b, @a);
-	@};
-
 %result-assignments%
-
-	IDENT: (a) -> (b) = @{
-		nstring_assign(@b, @&a);
-	@};
-
-	BIGSTRING: (a) -> (b) = @{
-		nstring_assign(@b, @&a);
-	@};
 
 %terminals%
 
 	ident: () -> (i :IDENT) = @{
-		nstring_copy_cstring(&@i, lct_tokbuf);
+		@i = xstrdup(lct_tokbuf);
 	@};
 
 	code-ident: () -> (i :IDENT) = @{
-		nstring_copy_cstring(&@i, lct_tokbuf);
+		@i = xstrdup(lct_tokbuf);
 	@};
 
 	code-ref: () -> (i :IDENT) = @{
-		nstring_copy_cstring(&@i, lct_tokbuf);
+		@i = xstrdup(lct_tokbuf);
 	@};
 
-	code-string: () -> (s :BIGSTRING) = @{
-		nstring_assign(&@s, &lct_token_nstring);
+	code-string: () -> (s :STRING) = @{
+		@s = lct_token_string;
 	@};
 
 %actions%
@@ -159,7 +136,7 @@
 	<false>: () -> ( b :BOOL ) = @{ @b = false; @};
 
 	<empty-ident>: () -> (s :IDENT) = @{
-		nstring_init(&@s);
+		@s = NULL;
 	@};
 
 	<init-code>: () -> (c :CODE) = @{
@@ -167,64 +144,50 @@
 	@};
 
 	<append-code-at>: (c :CODE &) -> () = @{
-		struct NStringT s;
-
 		/* XXX: this should become just: s = <code-at>; <append-code-string>(s); */
-		nstring_init(&s);
-		nstring_copy_cstring(&s, "@@");
-		code_append_string(@&c, &s);
+		code_append_string(@&c, "@@");
 	@};
 
-	<append-code-string>: (c :CODE &, s :BIGSTRING &) -> () = @{
-		code_append_string(@&c, @&s);
+	<append-code-string>: (c :CODE &, s :STRING) -> () = @{
+		code_append_string(@&c, @s);
 	@};
 
 	<append-code-ident>: (c :CODE &, i :IDENT, e :ENTRYP, b :BOOL) -> () = @{
 		if (@e == NULL) {
 			error(ERROR_SERIOUS, "The @@ code identifiers are not allowed in headers or trailers");
-			nstring_destroy(@&i);
 		} else {
 			struct param *p, *q;
 
-			if ((p = param_name_is_in(@e->u.act->in, @&i)) ||
-					(q = param_name_is_in(@e->u.act->out, @&i))) {
+			if ((p = param_name_is_in(@e->u.act->in, @i)) ||
+					(q = param_name_is_in(@e->u.act->out, @i))) {
 				if (!@b) {
-					code_append_ident(@&c, @&i);
+					code_append_ident(@&c, @i);
 				} else {
 					if (p && p->is_ref) {
-						code_append_ref(@&c, @&i);
+						code_append_ref(@&c, @i);
 					} else {
 						error(ERROR_SERIOUS, "In code block the \'@@&\' can only be used for input parameters that are references");
 					}
 				}
 			} else {
-				char *pi;
-				char *pe;
-				pi = nstring_to_cstring(@&i);
-				nstring_destroy(@&i);
-				pe = nstring_to_cstring(&@e->key);
 				error(ERROR_SERIOUS, "Identifier @@%s is neither an input nor an output "
-							 "parameter of action %s", pi, pe );
-				xfree(pi);
-				xfree(pe);
+					"parameter of action %s", @i, @e->key);
 			}
 		}
 	@};
 
 	<define-additional-argument>: (name :IDENT, ctype :IDENT) -> () = @{
-		if (nstring_length(@&name) > 0 && nstring_length(@&ctype) > 0) {
+		if (strlen(@name) > 0 && strlen(@ctype) > 0) {
 			struct lxi_additional_argument *p;
 
 			p = xmalloc(sizeof *p);
-			p->name  = nstring_to_cstring(@&name);
-			p->ctype = nstring_to_cstring(@&ctype);
+			p->name  = @name;
+			p->ctype = @ctype;
 			p->next  = NULL;
 
 			*lct_ast.arg_tail = p;
 			lct_ast.arg_tail = &p->next;
 		}
-		nstring_destroy(@&name);
-		nstring_destroy(@&ctype);
 	@};
 
 	<set-headers>: (sc :CODE, sh :CODE) -> () = @{
@@ -256,41 +219,24 @@
 	@};
 
 	<append-param>: (a :PARAM_LIST &, id :IDENT, type :IDENT, isref :BOOL) -> () =@{
-		struct entry *et = table_get_entry(&lxi_ast->table, @&type);
+		struct entry *et = table_get_entry(&lxi_ast->table, @type);
 		if (et == NULL) {
-			char *pt;
-
-			pt = nstring_to_cstring(@&type);
-			error(ERROR_SERIOUS, "Unknown type %s", pt);
-			xfree(pt);
-
-			nstring_destroy(@&id);
-			nstring_destroy(@&type);
+			error(ERROR_SERIOUS, "Unknown type %s", @type);
 		} else if (et->kind != ENTRY_TYPE) {
-			error(ERROR_SERIOUS, "%s is not a type", @&type);
-			nstring_destroy(@&type);
+			error(ERROR_SERIOUS, "%s is not a type", @type);
 		} else {
-			param_append(@&a, @&id, et, @isref);
-			nstring_destroy(@&type);
+			param_append(@&a, @id, et, @isref);
 		}
 	@};
 
 	<get-entry-action>: (i :IDENT) -> (ea :ENTRYP) = @{
-		@ea = table_get_entry(&lxi_ast->table, @&i);
+		@ea = table_get_entry(&lxi_ast->table, @i);
 		if (@ea == NULL) {
-			char *pi = nstring_to_cstring(@&i);
-			error(ERROR_SERIOUS, "Defining an undeclared action: %s", pi);
-			xfree(pi);
+			error(ERROR_SERIOUS, "Defining an undeclared action: %s", @i);
 		} else if (@ea->kind != ENTRY_ACTION) {
-			char *pi;
-
 			@ea = NULL; /* TODO: skip to end of action */
-			pi = nstring_to_cstring(@&i);
-			error(ERROR_SERIOUS, "%s is not an action", pi);
-			xfree(pi);
+			error(ERROR_SERIOUS, "%s is not an action", @i);
 		}
-
-		nstring_destroy(@&i);
 	@};
 
 	<null-entry>: () -> (e :ENTRYP) = @{
@@ -303,13 +249,9 @@
 			/* TODO: check that the same name does not appear twice in the input and output tuple */
 
 			if (param_length(@ea->u.act->in) != param_length(@in)) {
-				char *pe = nstring_to_cstring(&@ea->key);
-				error(ERROR_SERIOUS, "Action %s declared with an incompatible number of inputs", pe);
-				xfree(pe);
+				error(ERROR_SERIOUS, "Action %s declared with an incompatible number of inputs", @ea->key);
 			} else if (!param_match(@ea->u.act->in, @in)) {
-				char *pe = nstring_to_cstring(&@ea->key);
-				error(ERROR_SERIOUS, "params do not match for action %s", pe);
-				xfree(pe);
+				error(ERROR_SERIOUS, "params do not match for action %s", @ea->key);
 			} else {
 				int allhavenames = param_assign_names(@ea->u.act->in, @in);
 				if (!allhavenames) {
@@ -318,19 +260,13 @@
 			}
 
 			if (param_length(@ea->u.act->out) != param_length(@out)) {
-				char *pe = nstring_to_cstring(&@ea->key);
-				error(ERROR_SERIOUS, "Action %s declared with an incompatible number of outputs", pe);
-				xfree(pe);
+				error(ERROR_SERIOUS, "Action %s declared with an incompatible number of outputs", @ea->key);
 			} else if (!param_match(@ea->u.act->out, @out)) {
-				char *pe = nstring_to_cstring(&@ea->key);
-				error(ERROR_SERIOUS, "results do not match for action %s", pe);
-				xfree(pe);
+				error(ERROR_SERIOUS, "results do not match for action %s", @ea->key);
 			} else {
 				int allhavenames = param_assign_names(@ea->u.act->out, @out);
 				if (!allhavenames) {
-					char *pe = nstring_to_cstring(&@ea->key);
-					error(ERROR_SERIOUS, "outputs tuples in the definition of action %s should have names", pe);
-					xfree(pe);
+					error(ERROR_SERIOUS, "outputs tuples in the definition of action %s should have names", @ea->key);
 				}
 			}
 		}
@@ -348,9 +284,7 @@
 				@ea->u.act->defined = true;
 				@ea->u.act->code    = @c;
 			} else {
-				char *pe = nstring_to_cstring(&@ea->key);
-				error(ERROR_SERIOUS, "Action %s has already been defined", pe);
-				xfree(pe);
+				error(ERROR_SERIOUS, "Action %s has already been defined", @ea->key);
 			}
 		}
 	@};

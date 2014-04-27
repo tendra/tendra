@@ -16,6 +16,9 @@
 
 	#include <shared/error.h>
 
+	#include <exds/common.h>
+	#include <exds/dstring.h>
+
 	#include "lctlexer.h"
 	#include "lctsyntax.h"
 
@@ -28,7 +31,7 @@
 	static char *lct_token_end = lct_tokbuf + sizeof lct_tokbuf;
 	static char *lct_token_current;
 
-	NStringT lct_token_nstring;
+	char *lct_token_string;
 
 	struct lexi_lct_state lct_lexer_state;
 
@@ -241,7 +244,7 @@ lexi_lct_read_token_code(struct lexi_lct_state *state)
 							/* ACTION <init_tokbuf> */
 							{
 
-	lct_token_current=lct_tokbuf;
+	lct_token_current = lct_tokbuf;
 							}
 							/* END ACTION <init_tokbuf> */
 							/* ACTION <push_tokbuf> */
@@ -270,7 +273,7 @@ lexi_lct_read_token_code(struct lexi_lct_state *state)
 					/* ACTION <init_tokbuf> */
 					{
 
-	lct_token_current=lct_tokbuf;
+	lct_token_current = lct_tokbuf;
 					}
 					/* END ACTION <init_tokbuf> */
 					/* ACTION <push_tokbuf> */
@@ -310,8 +313,7 @@ lexi_lct_read_token_code(struct lexi_lct_state *state)
 
 	lexi_lct_push(&lct_lexer_state, c);
 
-	dstring_to_nstring(&dstring, &lct_token_nstring);
-	dstring_destroy(&dstring);
+	lct_token_string = dstring_destroy_to_cstring(&dstring);
 
 	ZT1 = lct_lex_code_Hstring;
 			return ZT1;
@@ -483,7 +485,7 @@ lexi_lct_read_token(struct lexi_lct_state *state)
 			/* ACTION <init_tokbuf> */
 			{
 
-	lct_token_current=lct_tokbuf;
+	lct_token_current = lct_tokbuf;
 			}
 			/* END ACTION <init_tokbuf> */
 			/* ACTION <push_tokbuf> */

@@ -10,9 +10,6 @@
 #ifndef LEXI_CODE_H
 #define LEXI_CODE_H
 
-#include "exds/common.h"
-#include "exds/dstring.h"
-
 struct param;
 struct arg;
 
@@ -24,13 +21,13 @@ enum code_kind {
 
 struct code {
 	enum code_kind kind;
-	NStringT name;
+	char *name;
 	struct code *next;
 };
 
-void code_append_ident(struct code **, NStringT *);
-void code_append_ref(struct code **, NStringT *i);
-void code_append_string(struct code **, NStringT *);
+void code_append_ident(struct code **, char *);
+void code_append_ref(struct code **, char *);
+void code_append_string(struct code **, char *);
 void code_destroy(struct code *);
 void code_out(FILE *, struct code *,
 	struct arg *rhs, struct param *in,
