@@ -15,9 +15,7 @@
 
 
 	#include <shared/error.h>
-
-	#include <exds/common.h>
-	#include <exds/dstring.h>
+	#include <shared/xalloc.h>
 
 	#include "lctlexer.h"
 	#include "lctsyntax.h"
@@ -299,23 +297,33 @@ lexi_lct_read_token_code(struct lexi_lct_state *state)
 		{
 			ZTTERMINAL ZT1;
 
-	DStringT dstring;
+	size_t z, i;
+	char *p;
 	int c;
 
-	dstring_init(&dstring);
+	p = NULL;
+	z = 1024; /* arbitary non-zero initial size */
+	i = 0;
 
 	c = c0;
 
 	do {
-		dstring_append_char(&dstring, c);
+		if (p == NULL || i == z) {
+			z *= 2;
+			p = xrealloc(p, z);
+		}
+
+		p[i++] = c;
+
 		c = lexi_lct_readchar(&lct_lexer_state);
-	} while(c != '@' && c != LEXI_EOF);
+	} while (c != '@' && c != LEXI_EOF);
 
-	lexi_lct_push(&lct_lexer_state, c);
-
-	lct_token_string = dstring_destroy_to_cstring(&dstring);
+	lct_token_string = xrealloc(p, i + 1);
+	lct_token_string[i] = '\0';
 
 	ZT1 = lct_lex_code_Hstring;
+
+	lexi_lct_push(&lct_lexer_state, c);
 			return ZT1;
 		}
 		/* END ACTION <code_string> */
