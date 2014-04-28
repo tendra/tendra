@@ -49,7 +49,7 @@ process_lxi_file(char *path, struct ast *ast)
 		}
 	}
 
-	lexi_init(&lexer_state, input);
+	lxi_init(&lxi_state, input);
 
 	ADVANCE_LXI_LEXER;
 	read_lex(ast->global);
@@ -76,7 +76,7 @@ process_lct_file(struct ast *ast, char *path)
 
 	crt_file_name = path;
 	init_lct_ast(&lct_ast);
-	lexi_lct_init(&lct_lexer_state, lct_file);
+	lct_init(&lct_state, lct_file);
 
 	ADVANCE_LCT_LEXER;
 

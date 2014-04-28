@@ -51,7 +51,7 @@
 	/*
 	 * This string is added to the start of each sid identifier.
 	 */
-	char *token_prefix = "lex_";
+	char *token_prefix = "lxi_";
 
 	/*
 	 * COMPILATION MODE

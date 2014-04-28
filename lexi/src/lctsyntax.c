@@ -38,7 +38,7 @@
 	typedef struct param * paramP;
 
 	void
-	init_lct_ast(struct lct_ast* a)
+	init_lct_ast(struct lct_ast *a)
 	{
 		a->headersdefined  = 0;
 		a->trailersdefined = 0;

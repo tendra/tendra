@@ -18,13 +18,12 @@ HEADERS = @{
 	#include "lexer.h"
 	#include "syntax.h"
 
-	struct lexi_state lexer_state;
+	struct lxi_state lxi_state;
 
 	typedef int ZTTERMINAL;
 
 	/*
-	 * This buffer is used by read_token to hold the values of identifiers
-	 * and strings.
+	 * This buffer is used to hold the values of identifiers and strings.
 	 */
 	char tokbuf[2000];
 	char *token_end = tokbuf + sizeof tokbuf;
@@ -40,8 +39,6 @@ HEADERS = @{
 	int curr_lex_token;
 	int saved_lex_token;
 
-	#define lexi_unknown_token lex_unknown
-
 	/*
 	 * GET THE NEXT CHARACTER
 	 *
@@ -49,7 +46,7 @@ HEADERS = @{
 	 * or from the input file.
 	 */
 	static int
-	lexi_getchar(struct lexi_state* state)
+	lxi_getchar(struct lxi_state *state)
 	{
 		int c;
 
@@ -77,12 +74,12 @@ HEADERS = @{
 	int curr_lex_token;
 	int saved_lex_token;
 	unsigned int numbuf;
-	struct lexi_state lexer_state;
+	struct lxi_state lxi_state;
 
 	typedef FILE *FILE_P;
 
 	#define CURRENT_LXI_TERMINAL curr_lex_token
-	#define ADVANCE_LXI_LEXER    curr_lex_token = lexi_read_token(&lexer_state)
+	#define ADVANCE_LXI_LEXER    curr_lex_token = lxi_next(&lxi_state)
 	#define SAVE_LXI_LEXER(T)    (saved_lex_token = curr_lex_token, curr_lex_token = (T))
 	#define RESTORE_LXI_LEXER    (curr_lex_token = saved_lex_token)
 
@@ -116,7 +113,7 @@ ACTION fini_tokbuf = @{
 @};
 
 ACTION keyword: (ti :TERMINAL) -> (to :TERMINAL) = @{
-	@to = lexi_keyword(tokbuf, @ti);
+	@to = lxi_keyword(tokbuf, @ti);
 @};
 
 ACTION E_eof_in_string = @{

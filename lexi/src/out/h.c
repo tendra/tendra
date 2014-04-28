@@ -36,10 +36,10 @@
 /*
  * OUTPUT OPTIONS
  *
- * read_name gives the name of the character reading
+ * next_name gives the name of the character reading
  * function used in the output routines.
  */
-static const char *read_token_name;
+static const char *next_name;
 static const char *lexi_prefix;
 
 /*
@@ -262,7 +262,7 @@ h_out_all(struct options *opt, struct ast *ast)
 {
 	struct lxi_additional_argument *add_arg;
 
-	read_token_name = xstrcat(opt->lexi_prefix, "read_token");
+	next_name = xstrcat(opt->lexi_prefix, "next");
 	lexi_prefix = opt->lexi_prefix;
 
 	printf("#ifndef LEXI_GENERATED_HEADER_%s_INCLUDED\n", lexi_prefix);
@@ -304,7 +304,7 @@ h_out_all(struct options *opt, struct ast *ast)
 	/* Main pass */
 	printf("\n/* Identify a token */\n");
 	printf("int %s(struct %sstate *state);\n\n",
-		read_token_name, lexi_prefix);
+		next_name, lexi_prefix);
 
 	/* lexi_init() */
 	/* TODO: assert() state */

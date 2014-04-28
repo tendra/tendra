@@ -41,10 +41,10 @@ static void out_pass(struct zone* z, struct trie *p, int in_pre_pass, unsigned i
 /*
  * OUTPUT OPTIONS
  *
- * read_name gives the name of the character reading
+ * next_name gives the name of the character reading
  * function used in the output routines.
  */
-static const char *read_token_name;
+static const char *next_name;
 static const char *lexi_prefix;
 
 static void
@@ -244,7 +244,7 @@ out_push_zone(struct zone *parent, struct cmd *cmd, unsigned int n, unsigned int
 	if (cmd->u.s.z->kind == ZONE_GENERAL) {
 		indent(d);
 		printf("state->zone = %s_%s;\n",
-			read_token_name, cmd->u.s.z->name);
+			next_name, cmd->u.s.z->name);
 	}
 
 	if (cmd->u.s.z->enter->cmds != NULL) {
@@ -258,15 +258,15 @@ out_push_zone(struct zone *parent, struct cmd *cmd, unsigned int n, unsigned int
 	indent(d);
 	switch (cmd->u.s.z->kind) {
 	case ZONE_GENERAL:
-		printf("return %s(state);\n", read_token_name);
+		printf("return %s(state);\n", next_name);
 		break;
 
 	case ZONE_PSEUDO:
-		printf("return %s_%s(state);\n", read_token_name, cmd->u.s.z->name);
+		printf("return %s_%s(state);\n", next_name, cmd->u.s.z->name);
 		break;
 
 	case ZONE_PURE:
-		printf("%s_%s(state);\n", read_token_name, cmd->u.s.z->name);
+		printf("%s_%s(state);\n", next_name, cmd->u.s.z->name);
 		indent(d);
 		printf("goto start;	/* pure function */\n");
 		break;
@@ -283,9 +283,9 @@ out_pop_zone(struct zone *parent, struct cmd *cmd, unsigned int n, unsigned int 
 	if (parent->kind == ZONE_GENERAL) {
 		indent(d);
 		if (zone_isglobal(cmd->u.s.z)) {
-			printf("state->zone = %s;\n", read_token_name);
+			printf("state->zone = %s;\n", next_name);
 		} else {
-			printf("state->zone = %s_%s;\n", read_token_name,
+			printf("state->zone = %s_%s;\n", next_name,
 				cmd->u.s.z->name);
 		}
 	}
@@ -310,7 +310,7 @@ out_pop_zone(struct zone *parent, struct cmd *cmd, unsigned int n, unsigned int 
 	indent(d);
 	switch (parent->kind) {
 	case ZONE_GENERAL:
-		printf("return %s(state);\n", read_token_name);
+		printf("return %s(state);\n", next_name);
 		break;
 
 	case ZONE_PURE:
@@ -599,10 +599,10 @@ out_pass(struct zone *z, struct trie *p, int in_pre_pass, unsigned int n, unsign
 	if (!in_pre_pass && z->pre) {
 		if (zone_isglobal(z)) {
 			printf("int c%u = %s_aux(state)",
-				n, read_token_name);
+				n, next_name);
 		} else {
 			printf("int c%u = %s_%s_aux(state)",
-				n, read_token_name, z->name);
+				n, next_name, z->name);
 		}
 	} else {
 		printf("int c%u = %sreadchar(state)", n, lexi_prefix);
@@ -639,7 +639,7 @@ out_pass(struct zone *z, struct trie *p, int in_pre_pass, unsigned int n, unsign
 
 	if (n) {
 		indent(d);
-		printf("%spush(state, c%u);\n", lexi_prefix,n);
+		printf("%spush(state, c%u);\n", lexi_prefix, n);
 	}
 }
 
@@ -662,7 +662,7 @@ out_zone_pass_prototypes(struct zone *p)
 	}
 
 	printf("static %s %s_%s(struct %sstate *state);\n", s,
-		read_token_name, p->name, lexi_prefix);
+		next_name, p->name, lexi_prefix);
 }
 
 static void
@@ -686,10 +686,10 @@ out_zone_prepass(struct zone *z)
 	printf("/* PRE PASS ANALYSER for %s*/\n\n", zone_name(z));
 	if (zone_isglobal(z)) {
 		printf("static int %s_aux(struct %sstate *state)\n",
-			read_token_name, lexi_prefix);
+			next_name, lexi_prefix);
 	} else {
 		printf("static int %s_%s_aux(struct %sstate *state)\n",
-			read_token_name, z->name, lexi_prefix);
+			next_name, z->name, lexi_prefix);
 	}
 	printf("{\n");
 	printf("\tstart: {\n");
@@ -718,10 +718,10 @@ out_zone_pass(struct options *opt, struct zone *p)
 
 	printf("\n/* MAIN PASS ANALYSER for %s */\n", zone_name(p));
 	if (zone_isglobal(p)) {
-		printf("int\n%s(struct %sstate *state)\n", read_token_name, lexi_prefix);
+		printf("int\n%s(struct %sstate *state)\n", next_name, lexi_prefix);
 		printf("{\n");
 		if (p->ast->global->next != NULL) {
-			printf("\tif (state->zone != %s)\n", read_token_name);
+			printf("\tif (state->zone != %s)\n", next_name);
 			printf("\t\treturn state->zone(state);\n");
 		}
 	} else {
@@ -730,7 +730,7 @@ out_zone_pass(struct options *opt, struct zone *p)
 		s = p->kind == ZONE_PURE ? "void" : "int";
 
 		printf("static %s\n%s_%s(struct %sstate *state)\n", s,
-			read_token_name, p->name, lexi_prefix);
+			next_name, p->name, lexi_prefix);
 		printf("{\n");
 	}
 
@@ -749,7 +749,7 @@ out_zone_pass(struct options *opt, struct zone *p)
 			printf("goto start; /* DEFAULT */\n");
 		}
 	} else {
-		printf("\t\treturn %sunknown_token;\n",
+		printf("\t\treturn %sunknown;\n",
 			opt->interface_prefix);
 	}
 
@@ -946,7 +946,7 @@ c_out_all(struct options *opt, struct ast *ast)
 	const char *grouphex;
 	struct lxi_additional_argument *add_arg;
 
-	read_token_name = xstrcat(opt->lexi_prefix, "read_token");
+	next_name = xstrcat(opt->lexi_prefix, "next");
 	lexi_prefix = opt->lexi_prefix;
 
 	/*
@@ -1016,7 +1016,7 @@ c_out_all(struct options *opt, struct ast *ast)
 	for (add_arg = lct_ast.arg_head; add_arg != NULL; add_arg = add_arg->next) {
 		printf(", %s %s", add_arg->ctype, add_arg->name);
 	}
-	printf(") {\n\tstate->zone = %s;\n", read_token_name);
+	printf(") {\n\tstate->zone = %s;\n", next_name);
 
 	if (buffer_length(ast) > 0) {
 		printf("\tstate->buffer_index = 0;\n");

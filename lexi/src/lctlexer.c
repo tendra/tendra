@@ -31,10 +31,10 @@
 
 	char *lct_token_string;
 
-	struct lexi_lct_state lct_lexer_state;
+	struct lct_state lct_state;
 
 	static int
-	lexi_lct_getchar(struct lexi_lct_state *state)
+	lct_getchar(struct lct_state *state)
 	{
 		int c;
 
@@ -51,26 +51,26 @@
 		return c;
 	}
 
-int lexi_lct_readchar(struct lexi_lct_state *state) {
+int lct_readchar(struct lct_state *state) {
 	if (state->buffer_index) {
-		return lexi_lct_pop(state);
+		return lct_pop(state);
 	}
 
-	return lexi_lct_getchar(state);
+	return lct_getchar(state);
 }
-void lexi_lct_push(struct lexi_lct_state *state, const int c) {
+void lct_push(struct lct_state *state, const int c) {
 	assert(state);
 	assert((size_t) state->buffer_index < sizeof state->buffer / sizeof *state->buffer);
 	state->buffer[state->buffer_index++] = c;
 }
 
-int lexi_lct_pop(struct lexi_lct_state *state) {
+int lct_pop(struct lct_state *state) {
 	assert(state);
 	assert(state->buffer_index > 0);
 	return state->buffer[--state->buffer_index];
 }
 
-void lexi_lct_flush(struct lexi_lct_state *state) {
+void lct_flush(struct lct_state *state) {
 	state->buffer_index = 0;
 }
 
@@ -108,9 +108,9 @@ static lookup_type lookup_tab[] = {
 };
 
 #if defined(__STDC_VERSION__) && (__STDC_VERSION__ - 0L) >= 199901L
-bool lexi_lct_group(enum lexi_lct_groups group, int c) {
+bool lct_group(enum lct_groups group, int c) {
 #else
-int lexi_lct_group(enum lexi_lct_groups group, int c) {
+int lct_group(enum lct_groups group, int c) {
 #endif
 	if (c == LEXI_EOF) {
 		return 0;
@@ -119,39 +119,39 @@ int lexi_lct_group(enum lexi_lct_groups group, int c) {
 }
 
 
-int lexi_lct_keyword(const char *identifier, int notfound) {
-	if (0 == strcmp(identifier, "ACTION")) return lct_lex_kw_Haction;
-	if (0 == strcmp(identifier, "ARGUMENT")) return lct_lex_kw_Hargument;
-	if (0 == strcmp(identifier, "HEADERS")) return lct_lex_kw_Hheader;
-	if (0 == strcmp(identifier, "TRAILERS")) return lct_lex_kw_Htrailer;
+int lct_keyword(const char *identifier, int notfound) {
+	if (0 == strcmp(identifier, "ACTION")) return lct_kw_Haction;
+	if (0 == strcmp(identifier, "ARGUMENT")) return lct_kw_Hargument;
+	if (0 == strcmp(identifier, "HEADERS")) return lct_kw_Hheader;
+	if (0 == strcmp(identifier, "TRAILERS")) return lct_kw_Htrailer;
 	return notfound;
 }
 /* PRE-PASS ANALYSERS */
 
-void lexi_lct_init(struct lexi_lct_state *state, FILE_P_lct input) {
-	state->zone = lexi_lct_read_token;
+void lct_init(struct lct_state *state, FILE_P_lct input) {
+	state->zone = lct_next;
 	state->buffer_index = 0;
 	state->input = input;
 }
 /* ZONES PASS ANALYSER PROTOTYPES */
 
-static int lexi_lct_read_token_code_ref(struct lexi_lct_state *state);
-static int lexi_lct_read_token_code_ident(struct lexi_lct_state *state);
-static int lexi_lct_read_token_code(struct lexi_lct_state *state);
-static void lexi_lct_read_token_linecomment(struct lexi_lct_state *state);
-static void lexi_lct_read_token_comment(struct lexi_lct_state *state);
-static int lexi_lct_read_token_ident(struct lexi_lct_state *state);
+static int lct_next_code_ref(struct lct_state *state);
+static int lct_next_code_ident(struct lct_state *state);
+static int lct_next_code(struct lct_state *state);
+static void lct_next_linecomment(struct lct_state *state);
+static void lct_next_comment(struct lct_state *state);
+static int lct_next_ident(struct lct_state *state);
 /* MAIN PASS ANALYSERS */
 
 
 /* MAIN PASS ANALYSER for code_ref */
 static int
-lexi_lct_read_token_code_ref(struct lexi_lct_state *state)
+lct_next_code_ref(struct lct_state *state)
 {
 	start: {
-		int c0 = lexi_lct_readchar(state);
-		if (!lexi_lct_group(lexi_lct_group_alnum, c0)) {
-			lexi_lct_push(state, c0);
+		int c0 = lct_readchar(state);
+		if (!lct_group(lct_group_alnum, c0)) {
+			lct_push(state, c0);
 			/* ACTION <fini_tokbuf> */
 			{
 
@@ -163,7 +163,7 @@ lexi_lct_read_token_code_ref(struct lexi_lct_state *state)
 	}
 			}
 			/* END ACTION <fini_tokbuf> */
-			return lct_lex_code_Href;
+			return lct_code_Href;
 		}
 
 		/* DEFAULT */
@@ -183,12 +183,12 @@ lexi_lct_read_token_code_ref(struct lexi_lct_state *state)
 
 /* MAIN PASS ANALYSER for code_ident */
 static int
-lexi_lct_read_token_code_ident(struct lexi_lct_state *state)
+lct_next_code_ident(struct lct_state *state)
 {
 	start: {
-		int c0 = lexi_lct_readchar(state);
-		if (!lexi_lct_group(lexi_lct_group_alnum, c0)) {
-			lexi_lct_push(state, c0);
+		int c0 = lct_readchar(state);
+		if (!lct_group(lct_group_alnum, c0)) {
+			lct_push(state, c0);
 			/* ACTION <fini_tokbuf> */
 			{
 
@@ -200,7 +200,7 @@ lexi_lct_read_token_code_ident(struct lexi_lct_state *state)
 	}
 			}
 			/* END ACTION <fini_tokbuf> */
-			return lct_lex_code_Hident;
+			return lct_code_Hident;
 		}
 
 		/* DEFAULT */
@@ -220,25 +220,25 @@ lexi_lct_read_token_code_ident(struct lexi_lct_state *state)
 
 /* MAIN PASS ANALYSER for code */
 static int
-lexi_lct_read_token_code(struct lexi_lct_state *state)
+lct_next_code(struct lct_state *state)
 {
 	start: {
-		int c0 = lexi_lct_readchar(state);
+		int c0 = lct_readchar(state);
 		switch (c0) {
 		case LEXI_EOF: {
-				return lct_lex_code_Heof;
+				return lct_code_Heof;
 			}
 
 		case '@': {
-				int c1 = lexi_lct_readchar(state);
+				int c1 = lct_readchar(state);
 				switch (c1) {
 				case '@': {
-						return lct_lex_code_Hat;
+						return lct_code_Hat;
 					}
 
 				case '&': {
-						int c2 = lexi_lct_readchar(state);
-						if (lexi_lct_group(lexi_lct_group_alpha, c2)) {
+						int c2 = lct_readchar(state);
+						if (lct_group(lct_group_alpha, c2)) {
 							/* ACTION <init_tokbuf> */
 							{
 
@@ -255,19 +255,19 @@ lexi_lct_read_token_code(struct lexi_lct_state *state)
 	}
 							}
 							/* END ACTION <push_tokbuf> */
-							return lexi_lct_read_token_code_ref(state);
+							return lct_next_code_ref(state);
 						}
-						lexi_lct_push(state, c2);
+						lct_push(state, c2);
 					}
 					break;
 
 				case '}': {
-						state->zone = lexi_lct_read_token;
-						return lct_lex_code_Hend;
+						state->zone = lct_next;
+						return lct_code_Hend;
 					}
 
 				}
-				if (lexi_lct_group(lexi_lct_group_alpha, c1)) {
+				if (lct_group(lct_group_alpha, c1)) {
 					/* ACTION <init_tokbuf> */
 					{
 
@@ -284,10 +284,10 @@ lexi_lct_read_token_code(struct lexi_lct_state *state)
 	}
 					}
 					/* END ACTION <push_tokbuf> */
-					return lexi_lct_read_token_code_ident(state);
+					return lct_next_code_ident(state);
 				}
-				lexi_lct_push(state, c1);
-				return lct_lex_lone_Hcode_Hat;
+				lct_push(state, c1);
+				return lct_lone_Hcode_Hat;
 			}
 
 		}
@@ -315,15 +315,15 @@ lexi_lct_read_token_code(struct lexi_lct_state *state)
 
 		p[i++] = c;
 
-		c = lexi_lct_readchar(&lct_lexer_state);
+		c = lct_readchar(&lct_state);
 	} while (c != '@' && c != LEXI_EOF);
 
 	lct_token_string = xrealloc(p, i + 1);
 	lct_token_string[i] = '\0';
 
-	ZT1 = lct_lex_code_Hstring;
+	ZT1 = lct_code_Hstring;
 
-	lexi_lct_push(&lct_lexer_state, c);
+	lct_push(&lct_state, c);
 			return ZT1;
 		}
 		/* END ACTION <code_string> */
@@ -333,10 +333,10 @@ lexi_lct_read_token_code(struct lexi_lct_state *state)
 
 /* MAIN PASS ANALYSER for linecomment */
 static void
-lexi_lct_read_token_linecomment(struct lexi_lct_state *state)
+lct_next_linecomment(struct lct_state *state)
 {
 	start: {
-		int c0 = lexi_lct_readchar(state);
+		int c0 = lct_readchar(state);
 		if (c0 == '\n') {
 			return;
 		}
@@ -348,16 +348,16 @@ lexi_lct_read_token_linecomment(struct lexi_lct_state *state)
 
 /* MAIN PASS ANALYSER for comment */
 static void
-lexi_lct_read_token_comment(struct lexi_lct_state *state)
+lct_next_comment(struct lct_state *state)
 {
 	start: {
-		int c0 = lexi_lct_readchar(state);
+		int c0 = lct_readchar(state);
 		if (c0 == '*') {
-			int c1 = lexi_lct_readchar(state);
+			int c1 = lct_readchar(state);
 			if (c1 == '/') {
 				return;
 			}
-			lexi_lct_push(state, c1);
+			lct_push(state, c1);
 		}
 
 		/* DEFAULT */
@@ -367,12 +367,12 @@ lexi_lct_read_token_comment(struct lexi_lct_state *state)
 
 /* MAIN PASS ANALYSER for ident */
 static int
-lexi_lct_read_token_ident(struct lexi_lct_state *state)
+lct_next_ident(struct lct_state *state)
 {
 	start: {
-		int c0 = lexi_lct_readchar(state);
-		if (!lexi_lct_group(lexi_lct_group_alnum, c0)) {
-			lexi_lct_push(state, c0);
+		int c0 = lct_readchar(state);
+		if (!lct_group(lct_group_alnum, c0)) {
+			lct_push(state, c0);
 			/* ACTION <fini_tokbuf> */
 			{
 
@@ -388,7 +388,7 @@ lexi_lct_read_token_ident(struct lexi_lct_state *state)
 			{
 				ZTTERMINAL ZT1;
 
-	ZT1 = lexi_lct_keyword(lct_tokbuf, lct_lex_ident);
+	ZT1 = lct_keyword(lct_tokbuf, lct_ident);
 				return ZT1;
 			}
 			/* END ACTION <keyword> */
@@ -411,85 +411,85 @@ lexi_lct_read_token_ident(struct lexi_lct_state *state)
 
 /* MAIN PASS ANALYSER for global zone */
 int
-lexi_lct_read_token(struct lexi_lct_state *state)
+lct_next(struct lct_state *state)
 {
-	if (state->zone != lexi_lct_read_token)
+	if (state->zone != lct_next)
 		return state->zone(state);
 	start: {
-		int c0 = lexi_lct_readchar(state);
-		if (lexi_lct_group(lexi_lct_group_white, c0)) goto start;
+		int c0 = lct_readchar(state);
+		if (lct_group(lct_group_white, c0)) goto start;
 		switch (c0) {
 		case '@': {
-				int c1 = lexi_lct_readchar(state);
+				int c1 = lct_readchar(state);
 				if (c1 == '{') {
-					state->zone = lexi_lct_read_token_code;
-					return lct_lex_code_Hstart;
+					state->zone = lct_next_code;
+					return lct_code_Hstart;
 				}
-				lexi_lct_push(state, c1);
+				lct_push(state, c1);
 			}
 			break;
 
 		case '/': {
-				int c1 = lexi_lct_readchar(state);
+				int c1 = lct_readchar(state);
 				switch (c1) {
 				case '/': {
-						lexi_lct_read_token_linecomment(state);
+						lct_next_linecomment(state);
 						goto start;	/* pure function */
 					}
 
 				case '*': {
-						lexi_lct_read_token_comment(state);
+						lct_next_comment(state);
 						goto start;	/* pure function */
 					}
 
 				}
-				lexi_lct_push(state, c1);
+				lct_push(state, c1);
 			}
 			break;
 
 		case LEXI_EOF: {
-				return lct_lex_eof;
+				return lct_eof;
 			}
 
 		case '-': {
-				int c1 = lexi_lct_readchar(state);
+				int c1 = lct_readchar(state);
 				if (c1 == '>') {
-					return lct_lex_arrow;
+					return lct_arrow;
 				}
-				lexi_lct_push(state, c1);
+				lct_push(state, c1);
 			}
 			break;
 
 		case ',': {
-				return lct_lex_comma;
+				return lct_comma;
 			}
 
 		case ':': {
-				return lct_lex_colon;
+				return lct_colon;
 			}
 
 		case ';': {
-				return lct_lex_semicolon;
+				return lct_semicolon;
 			}
 
 		case '&': {
-				return lct_lex_ref;
+				return lct_ref;
 			}
 
 		case '=': {
-				return lct_lex_define;
+				return lct_define;
 			}
 
 		case ')': {
-				return lct_lex_close;
+				return lct_close;
 			}
 
 		case '(': {
-				return lct_lex_open;
+				return lct_open;
 			}
 
 		}
-		if (lexi_lct_group(lexi_lct_group_alpha, c0)) {
+		if (lct_group(lct_group_alpha, c0)) {
 			/* ACTION <init_tokbuf> */
 			{
 
@@ -506,11 +506,11 @@ lexi_lct_read_token(struct lexi_lct_state *state)
 	}
 			}
 			/* END ACTION <push_tokbuf> */
-			return lexi_lct_read_token_ident(state);
+			return lct_next_ident(state);
 		}
 
 		/* DEFAULT */
-		return lct_lex_unknown;
+		return lct_unknown;
 	}
 }
 

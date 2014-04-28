@@ -25,10 +25,10 @@ HEADERS = @{
 
 	char *lct_token_string;
 
-	struct lexi_lct_state lct_lexer_state;
+	struct lct_state lct_state;
 
 	static int
-	lexi_lct_getchar(struct lexi_lct_state *state)
+	lct_getchar(struct lct_state *state)
 	{
 		int c;
 
@@ -58,11 +58,11 @@ HEADERS = @{
 	int saved_lct_token;
 	struct lct_ast lct_ast;
 
-	struct lexi_lct_state lct_lexer_state;
+	struct lct_state lct_state;
 	char *lct_token_string;
 
 	#define CURRENT_LCT_TERMINAL curr_lct_token
-	#define ADVANCE_LCT_LEXER    curr_lct_token = lexi_lct_read_token(&lct_lexer_state)
+	#define ADVANCE_LCT_LEXER    curr_lct_token = lct_next(&lct_state)
 	#define SAVE_LCT_LEXER(T)    (saved_lct_token = curr_lct_token, curr_lct_token = (T))
 	#define RESTORE_LCT_LEXER    (curr_lct_token = saved_lct_token)
 
@@ -96,7 +96,7 @@ ACTION fini_tokbuf = @{
 @};
 
 ACTION keyword: (ti :TERMINAL) -> (to :TERMINAL) = @{
-	@to = lexi_lct_keyword(lct_tokbuf, @ti);
+	@to = lct_keyword(lct_tokbuf, @ti);
 @};
 
 ACTION code_string: (c :CHARACTER) -> (a :TERMINAL) = @{
@@ -118,14 +118,14 @@ ACTION code_string: (c :CHARACTER) -> (a :TERMINAL) = @{
 
 		p[i++] = c;
 
-		c = lexi_lct_readchar(&lct_lexer_state);
+		c = lct_readchar(&lct_state);
 	} while (c != '@@' && c != LEXI_EOF);
 
 	lct_token_string = xrealloc(p, i + 1);
 	lct_token_string[i] = '\0';
 
-	@a = lct_lex_code_Hstring;
+	@a = lct_code_Hstring;
 
-	lexi_lct_push(&lct_lexer_state, c);
+	lct_push(&lct_state, c);
 @};
 
