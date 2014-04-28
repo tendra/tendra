@@ -14,7 +14,7 @@
 #include <adt/action.h>
 
 struct action *
-action_create(void)
+action_create(struct param *in, struct param *out)
 {
 	struct action *act;
 
@@ -22,8 +22,8 @@ action_create(void)
 	act->code    = NULL;
 	act->defined = 0;
 
-	act->in  = NULL;
-	act->out = NULL;
+	act->in  = in;
+	act->out = out;
 
 	return act;
 }

@@ -19,7 +19,7 @@ struct action {
 	int defined:1;
 };
 
-struct action *action_create(void);
+struct action *action_create(struct param *in, struct param *out);
 
 #endif
 

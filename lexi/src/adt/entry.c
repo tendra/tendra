@@ -92,9 +92,7 @@ table_add_action(struct entry **table, char *name,
 	ea = entry_create(name, ENTRY_ACTION);
 	table_add_entry(table, ea);
 
-	ea->u.act = action_create();
-	ea->u.act->in  = in;
-	ea->u.act->out = out;
+	ea->u.act = action_create(in, out);
 
 	return ea;
 }
