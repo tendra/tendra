@@ -34,7 +34,7 @@
 	struct lct_state lct_state;
 
 	static int
-	lct_getchar(struct lct_state *state)
+	lexi_getchar(struct lct_state *state)
 	{
 		int c;
 
@@ -56,7 +56,7 @@ int lct_readchar(struct lct_state *state) {
 		return lct_pop(state);
 	}
 
-	return lct_getchar(state);
+	return lexi_getchar(state);
 }
 void lct_push(struct lct_state *state, const int c) {
 	assert(state);

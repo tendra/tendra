@@ -89,7 +89,7 @@ process_lct_file(struct ast *ast, char *path)
 static void
 report_usage(void) {
 	fputs("usage: lexi [-vh] [-a] [-t token-prefix] [-p lexi-prefix] "
-		"[-i interface-prefix] [-l output-language]  "
+		"[-l output-language]  "
 		"input-file [lct-input-file] [output-file ...]\n", stdout);
 }
 
@@ -106,7 +106,7 @@ main(int argc, char **argv)
 		void (*out_all)(struct options *, struct ast *);
 		const char *options;
 	} outs[] = {
-#define COMMON "C:t:l:p:i:vh"
+#define COMMON "C:t:l:p:vh"
 		{ "c",    2, 1, c_out_all,   COMMON },
 		{ "h",    2, 1, h_out_all,   COMMON },
 		{ "dot",  1, 1, dot_out_all, COMMON },
@@ -116,7 +116,6 @@ main(int argc, char **argv)
 
 	/* TODO: These are language-specific; see options.h */
 	opt.lexi_prefix      = "lexi_";
-	opt.interface_prefix = NULL;
 
 	/* default to C output */
 	out = &outs[0];
@@ -147,9 +146,8 @@ main(int argc, char **argv)
 				break;
 			}
 
-			case 't': token_prefix         = optarg; break;
-			case 'p': opt.lexi_prefix      = optarg; break;
-			case 'i': opt.interface_prefix = optarg; break;
+			case 't': token_prefix    = optarg; break;
+			case 'p': opt.lexi_prefix = optarg; break;
 
 			default:
 				/* getopt will report error */
@@ -160,14 +158,6 @@ main(int argc, char **argv)
 
 		argc -= optind;
 		argv += optind;
-	}
-
-	/*
-	 * Default to the lexi_prefix if no interface prefix is given. This maintains
-	 * compatibility should -p be given and -i not be specified.
-	 */
-	if (opt.interface_prefix == NULL) {
-		opt.interface_prefix = opt.lexi_prefix;
 	}
 
 	/*

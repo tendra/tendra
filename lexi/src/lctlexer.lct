@@ -28,7 +28,7 @@ HEADERS = @{
 	struct lct_state lct_state;
 
 	static int
-	lct_getchar(struct lct_state *state)
+	lexi_getchar(struct lct_state *state)
 	{
 		int c;
 

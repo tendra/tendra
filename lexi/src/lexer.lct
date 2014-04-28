@@ -39,6 +39,8 @@ HEADERS = @{
 	int curr_lex_token;
 	int saved_lex_token;
 
+	#define lexi_unknown lxi_unknown
+
 	/*
 	 * GET THE NEXT CHARACTER
 	 *
@@ -46,7 +48,7 @@ HEADERS = @{
 	 * or from the input file.
 	 */
 	static int
-	lxi_getchar(struct lxi_state *state)
+	lexi_getchar(struct lxi_state *state)
 	{
 		int c;
 

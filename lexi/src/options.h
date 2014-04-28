@@ -23,7 +23,6 @@ struct options {
 	 * TODO: These are language-specific options; they should be elsewhere
 	 */
 	const char *lexi_prefix;
-	const char *interface_prefix;
 };
 
 #endif

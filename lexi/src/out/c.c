@@ -749,8 +749,7 @@ out_zone_pass(struct options *opt, struct zone *p)
 			printf("goto start; /* DEFAULT */\n");
 		}
 	} else {
-		printf("\t\treturn %sunknown;\n",
-			opt->interface_prefix);
+		printf("\t\treturn lexi_unknown;\n");
 	}
 
 	printf("\t}\n");
@@ -903,7 +902,7 @@ out_buffer(struct options *opt, struct ast *ast)
 	}
 
 	/* TODO: pass opaque here */
-	printf("\treturn %sgetchar(state);\n", opt->interface_prefix);
+	printf("\treturn lexi_getchar(state);\n");
 	printf("}\n");
 
 	if (buffer_length(ast) == 0) {

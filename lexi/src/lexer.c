@@ -45,6 +45,8 @@
 	int curr_lex_token;
 	int saved_lex_token;
 
+	#define lexi_unknown lxi_unknown
+
 	/*
 	 * GET THE NEXT CHARACTER
 	 *
@@ -52,7 +54,7 @@
 	 * or from the input file.
 	 */
 	static int
-	lxi_getchar(struct lxi_state *state)
+	lexi_getchar(struct lxi_state *state)
 	{
 		int c;
 
@@ -76,7 +78,7 @@ int lxi_readchar(struct lxi_state *state) {
 		return lxi_pop(state);
 	}
 
-	return lxi_getchar(state);
+	return lexi_getchar(state);
 }
 void lxi_push(struct lxi_state *state, const int c) {
 	assert(state);
@@ -694,7 +696,7 @@ lxi_next(struct lxi_state *state)
 		}
 
 		/* DEFAULT */
-		return lxi_unknown;
+		return lexi_unknown;
 	}
 }
 
