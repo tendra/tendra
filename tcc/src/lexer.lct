@@ -18,7 +18,7 @@ HEADERS = @{
 	#include "lexer.h"
 	#include "environ.h"
 
-	#define lexi_unknown_token lex_unknown_token
+	#define lexi_unknown lex_unknown
 
 	static int lexi_getchar(struct lexi_state *state) {
 		int c;
@@ -69,7 +69,7 @@ HEADERS = @{
 		lex_replace = HASH_ASSIGN,
 		lex_name,
 		lex_string,
-		lex_unknown_token
+		lex_unknown
 	};
 
 	struct lex_state {

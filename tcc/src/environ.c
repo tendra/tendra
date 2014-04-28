@@ -108,7 +108,7 @@ read_env(const char *nm)
 		int t;
 
 		{
-			op = lexi_read_token(&state);
+			op = lexi_next(&state);
 			if (op == LEXI_EOF) {
 				return;
 			}
@@ -125,7 +125,7 @@ read_env(const char *nm)
 		}
 
 		{
-			t = lexi_read_token(&state);
+			t = lexi_next(&state);
 			if (t == LEXI_EOF) {
 				error(ERROR_SERIOUS, "%s: Unexpected EOF", nm);
 				return;
@@ -140,7 +140,7 @@ read_env(const char *nm)
 		}
 
 		{
-			t = lexi_read_token(&state);
+			t = lexi_next(&state);
 			if (t == LEXI_EOF) {
 				error(ERROR_SERIOUS, "%s: Unexpected EOF", nm);
 				return;
