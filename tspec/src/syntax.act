@@ -9,813 +9,832 @@
 
 %prefixes%
 
-terminal = lex_ ;
-
+	terminal = lex_;
 
 %maps%
 
+	/*
+	 * ENTRY POINT
+	 *
+	 * The main entry point for is mapped onto a function named read_spec.
+	 */
 
-/*
-    ENTRY POINT
+	specification -> read_spec;
 
-    The main entry point for is mapped onto a function named read_spec.
-*/
+	/*
+	 * TYPE MAPPINGS
+	 *
+	 * These maps give the relationship between the types used in the syntax
+	 * and in the C implementation.
+	 */
 
-specification -> read_spec ;
+	BOOLEAN     -> int;
+	COMMAND     -> SID_COMMAND;
+	COMMAND_KEY -> int;
 
+	IDENTIFIER -> SID_IDENTIFIER;
+	STRING     -> SID_STRING;
+	SUBSET_KEY -> SID_STRING;
 
-/*
-    TYPE MAPPINGS
+	TYPE       -> SID_TYPE;
+	TYPE_KEYa  -> int;
+	TYPE_LIST  -> SID_TYPE;
+	TYPE_QUAL  -> unsigned;
+	TYPE_SPEC  -> unsigned;
 
-    These maps give the relationship between the types used in the syntax
-    and in the C implementation.
-*/
-
-BOOLEAN -> int ;
-COMMAND -> SID_COMMAND ;
-COMMAND_KEY -> int ;
-IDENTIFIER -> SID_IDENTIFIER ;
-STRING -> SID_STRING ;
-SUBSET_KEY -> SID_STRING ;
-TYPE -> SID_TYPE ;
-TYPE_KEY -> int ;
-TYPE_LIST -> SID_TYPE ;
-TYPE_QUAL -> unsigned ;
-TYPE_SPEC -> unsigned ;
-VERSION -> int ;
-
+	VERSION    -> int;
 
 %header% @{
 
-/* $Id$ */
+	/* $Id$ */
 
-/*
- * Copyright 2011, The TenDRA Project.
- * Copyright 1997, United Kingdom Secretary of State for Defence.
- *
- * See doc/copyright/ for the full copyright terms.
- */
+	/*
+	 * Copyright 2011, The TenDRA Project.
+	 * Copyright 1997, United Kingdom Secretary of State for Defence.
+	 *
+	 * See doc/copyright/ for the full copyright terms.
+	 */
 
-#include <stddef.h>
-#include <string.h>
+	#include <stddef.h>
+	#include <string.h>
 
-#include <shared/error.h>
-#include <shared/string.h>
+	#include <shared/error.h>
+	#include <shared/string.h>
 
-#include "config.h"
-#include "object.h"
-#include "hash.h"
-#include "lex.h"
-#include "name.h"
-#include "syntax.h"
-#include "type.h"
-#include "utility.h"
-#include "variable.h"
+	#include "config.h"
+	#include "object.h"
+	#include "hash.h"
+	#include "lex.h"
+	#include "name.h"
+	#include "syntax.h"
+	#include "type.h"
+	#include "utility.h"
+	#include "variable.h"
 
+	/*
+	 * PARSER TYPES
+	 *
+	 * These types give the implementations of the various types used
+	 * in the syntax.
+	 */
 
-/*
-    PARSER TYPES
+	typedef char *SID_STRING;
+	typedef type *SID_TYPE;
 
-    These types give the implementations of the various types used
-    in the syntax.
-*/
+	typedef struct {
+		char *iname;
+		char *ename;
+		int ivers;
+		int evers;
+	} SID_IDENTIFIER;
 
-typedef char *SID_STRING ;
-typedef type *SID_TYPE ;
+	/*
+	 * CURRENT FIELD NAME
+	 *
+	 * The name of the current structure is stored during a +FIELD
+	 * construct.
+	 */
 
-typedef struct {
-    char *iname ;
-    char *ename ;
-    int ivers ;
-    int evers ;
-} SID_IDENTIFIER ;
+	static char *crt_field_name = NULL;
+	static int anon_no = 0;
 
+	/*
+	 * CV-QUALIFIER NAMES
+	 *
+	 * This table gives the mapping between the values used to represent
+	 * cv-qualifiers in the parser and the qualifier names used in the
+	 * internal representation.
+	 */
 
-/*
-    CURRENT FIELD NAME
+	static char *cv_qualifier [] = {
+		NULL,
+		"const",
+		"volatile",
+		"const volatile"
+	};
 
-    The name of the current structure is stored during a +FIELD
-    construct.
-*/
+	/*
+	 * COMPILATION MODE
+	 *
+	 * We allow unreached code in the automatically generated sections.
+	 */
 
-static char *crt_field_name = NULL ;
-static int anon_no = 0 ;
-
-
-/*
-    CV-QUALIFIER NAMES
-
-    This table gives the mapping between the values used to represent
-    cv-qualifiers in the parser and the qualifier names used in the
-    internal representation.
-*/
-
-static char *cv_qualifier [] = {
-    NULL, "const", "volatile", "const volatile"
-} ;
-
-/*
-    COMPILATION MODE
-
-    We allow unreached code in the automatically generated sections.
-*/
-
-#if FS_TENDRA
-#pragma TenDRA begin
-#pragma TenDRA unreachable code allow
-#pragma TenDRA variable analysis off
-#endif
-
+	#if FS_TENDRA
+	#pragma TenDRA begin
+	#pragma TenDRA unreachable code allow
+	#pragma TenDRA variable analysis off
+	#endif
 
 @}, @{
 
-/* $Id$ */
+	/* $Id$ */
 
-/*
- * Copyright 2011, The TenDRA Project.
- * Copyright 1997, United Kingdom Secretary of State for Defence.
- *
- * See doc/copyright/ for the full copyright terms.
- */
+	/*
+	 * Copyright 2011, The TenDRA Project.
+	 * Copyright 1997, United Kingdom Secretary of State for Defence.
+	 *
+	 * See doc/copyright/ for the full copyright terms.
+	 */
 
-#ifndef SYNTAX_INCLUDED
-#define SYNTAX_INCLUDED
+	#ifndef SYNTAX_INCLUDED
+	#define SYNTAX_INCLUDED
 
-typedef object *SID_COMMAND ;
-@} ;
+	typedef object *SID_COMMAND;
 
+@};
 
 %terminals%
 
+	/*
+	 * TERMINALS
+	 *
+	 * The mapping of the terminals is trivial.
+	 */
 
-/*
-    TERMINALS
-
-    The mapping of the terminals is trivial.
-*/
-
-name : () -> ( s ) = @{ @s = token_value ; @} ;
-number : () -> ( s ) = @{ @s = token_value ; @} ;
-string : () -> ( s ) = @{ @s = token_value ; @} ;
-variable : () -> ( s ) = @{ @s = token_value ; @} ;
-comment : () -> ( s ) = @{ @s = token_value ; @} ;
-insert : () -> ( s ) = @{ @s = token_value ; @} ;
-build-insert : () -> ( s ) = @{ @s = token_value ; @} ;
-
+	name:         () -> (s) = @{ @s = token_value; @};
+	number:       () -> (s) = @{ @s = token_value; @};
+	string:       () -> (s) = @{ @s = token_value; @};
+	variable:     () -> (s) = @{ @s = token_value; @};
+	comment:      () -> (s) = @{ @s = token_value; @};
+	insert:       () -> (s) = @{ @s = token_value; @};
+	build-insert: () -> (s) = @{ @s = token_value; @};
 
 %actions%
 
-
-/*
-    BOOLEAN CONSTANTS
-
-    These actions describe the boolean constants.
-*/
-
-<bool_false> : () -> ( b ) = @{ @b = 0 ; @} ;
-<bool_true> : () -> ( b ) = @{ @b = 1 ; @} ;
-
-
-/*
-    BASIC TYPE SPECIFIERS
-
-    These actions describe the basic type specifiers.
-*/
-
-<btype_char> : () -> ( b ) = @{ @b = BTYPE_CHAR ; @} ;
-<btype_short> : () -> ( b ) = @{ @b = BTYPE_SHORT ; @} ;
-<btype_int> : () -> ( b ) = @{ @b = BTYPE_INT ; @} ;
-<btype_long> : () -> ( b ) = @{ @b = BTYPE_LONG ; @} ;
-<btype_signed> : () -> ( b ) = @{ @b = BTYPE_SIGNED ; @} ;
-<btype_unsigned> : () -> ( b ) = @{ @b = BTYPE_UNSIGNED ; @} ;
-<btype_float> : () -> ( b ) = @{ @b = BTYPE_FLOAT ; @} ;
-<btype_double> : () -> ( b ) = @{ @b = BTYPE_DOUBLE ; @} ;
-<btype_void> : () -> ( b ) = @{ @b = BTYPE_VOID ; @} ;
-
-<btype_join> : ( a, b ) -> ( c ) = @{
-    while ( @a & @b ) {
-	if ( @a == BTYPE_LONG && allow_long_long ) {
-	    @a = BTYPE_LLONG ;
-	} else {
-	    error ( ERROR_SERIOUS, "Duplicate type specifier" ) ;
-	    break ;
-	}
-    }
-    @c = ( @a | @b ) ;
-@} ;
-
-
-/*
-    TYPE KEYS
-
-    These actions describe the type keys.
-*/
-
-<key_type> : () -> ( t ) = @{ @t = TYPE_GENERIC ; @} ;
-<key_struct_tag> : () -> ( t ) = @{ @t = TYPE_STRUCT_TAG ; @} ;
-<key_union_tag> : () -> ( t ) = @{ @t = TYPE_UNION_TAG ; @} ;
-<key_enum_tag> : () -> ( t ) = @{ @t = TYPE_ENUM_TAG ; @} ;
-<key_struct> : () -> ( t ) = @{ @t = TYPE_STRUCT ; @} ;
-<key_union> : () -> ( t ) = @{ @t = TYPE_UNION ; @} ;
-<key_enum> : () -> ( t ) = @{ @t = TYPE_ENUM ; @} ;
-<key_int> : () -> ( t ) = @{ @t = TYPE_INT ; @} ;
-<key_signed> : () -> ( t ) = @{ @t = TYPE_SIGNED ; @} ;
-<key_unsigned> : () -> ( t ) = @{ @t = TYPE_UNSIGNED ; @} ;
-<key_float> : () -> ( t ) = @{ @t = TYPE_FLOAT ; @} ;
-<key_arith> : () -> ( t ) = @{ @t = TYPE_ARITH ; @} ;
-<key_scalar> : () -> ( t ) = @{ @t = TYPE_SCALAR ; @} ;
-<key_lvalue> : () -> ( t ) = @{ @t = TYPE_LVALUE ; @} ;
-<key_rvalue> : () -> ( t ) = @{ @t = TYPE_RVALUE ; @} ;
-
-<key_exp> : ( c, a ) -> ( t ) = @{
-    if ( @c == OBJ_CONST ) {
-	if ( @a == TYPE_LVALUE ) {
-	    error ( ERROR_SERIOUS, "Constant can't be an lvalue" ) ;
-	}
-	@t = TYPE_RVALUE ;
-    } else if ( @c == OBJ_EXTERN ) {
-	@t = TYPE_LVALUE ;
-    } else {
-	@t = @a ;
-    }
-@} ;
-
-
-/*
-    TYPE QUALIFIERS
-
-    These actions describe the type qualifiers.  const is represented by 1
-    and volatile by 2.
-*/
-
-<cv_none> : () -> ( c ) = @{
-    @c = 0 ;
-@} ;
-
-<cv_const> : ( a ) -> ( c ) = @{
-    if ( @a & 1 ) error ( ERROR_SERIOUS, "Duplicate type qualifier" ) ;
-    @c = ( @a | 1 ) ;
-@} ;
-
-<cv_volatile> : ( a ) -> ( c ) = @{
-    if ( @a & 2 ) error ( ERROR_SERIOUS, "Duplicate type qualifier" ) ;
-    @c = ( @a | 2 ) ;
-@} ;
-
-
-/*
-    TYPE CONSTRUCTORS
-
-    These actions describe the type constructors.
-*/
-
-<type_none> : () -> ( t ) = @{
-    @t = NULL ;
-@} ;
-
-<type_builtin> : ( b ) -> ( t ) = @{
-    @t = basic_type ( @b ) ;
-@} ;
-
-<type_name> : ( s, tag ) -> ( t ) = @{
-    @t = find_type ( @s, any_version, @tag, 1 ) ;
-@} ;
-
-<type_special> : ( s ) -> ( t ) = @{
-    @t = special_type ( @s ) ;
-@} ;
-
-<type_inject> : ( s, p ) -> ( t ) = @{
-    @t = inject_type ( @s, @p ) ;
-@} ;
-
-<type_ptr> : ( c ) -> ( t ) = @{
-    @t = make_subtype ( ( type * ) NULL, TYPE_PTR ) ;
-    @t->v.str = cv_qualifier [ @c ] ;
-@} ;
-
-<type_array> : ( a ) -> ( t ) = @{
-    @t = make_subtype ( ( type * ) NULL, TYPE_ARRAY ) ;
-    @t->v.str = @a ;
-@} ;
-
-<type_bitfield> : ( a ) -> ( t ) = @{
-    @t = make_subtype ( ( type * ) NULL, TYPE_BITFIELD ) ;
-    @t->v.str = @a ;
-@} ;
-
-<type_func> : ( p ) -> ( t ) = @{
-    @t = make_subtype ( ( type * ) NULL, TYPE_PROC ) ;
-    @t->v.next = @p ;
-@} ;
-
-<type_macro> : ( p ) -> ( t ) = @{
-    @t = make_subtype ( ( type * ) NULL, TYPE_PROC ) ;
-    @t->v.next = @p ;
-@} ;
-
-<type_qualify> : ( s, c ) -> ( t ) = @{
-    @t = make_subtype ( @s, TYPE_QUALIFIER ) ;
-    @t->v.str = cv_qualifier [ @c ] ;
-@} ;
-
-<type_lvalue> : ( s, lv ) -> ( t ) = @{
-    @t = make_subtype ( @s, @lv ) ;
-@} ;
-
-
-/*
-    TYPE LISTS
-
-    These actions describe the parameter type lists.
-*/
-
-<type_list_none> : () -> ( p ) = @{
-    @p = NULL ;
-@} ;
-
-<type_list_empty> : () -> ( p ) = @{
-    error ( ERROR_WARNING, "Empty parameter list" ) ;
-    @p = NULL ;
-@} ;
-
-<type_list_cons> : ( t, q ) -> ( p ) = @{
-    @p = make_subtype ( @t, TYPE_LIST ) ;
-    @p->v.next = @q ;
-@} ;
-
-<type_list_ellipsis> : () -> ( p ) = @{
-    @p = make_subtype ( type_ellipsis, TYPE_LIST ) ;
-    @p->v.next = NULL ;
-@} ;
-
-<param_name> : ( nm ) -> () = @{
-    UNUSED ( @nm ) ;
-@} ;
-
-
-/*
-    CONSTANT EXPRESSIONS
-
-    These actions describe the constant expressions.
-*/
-
-<value_none> : () -> ( s ) = @{
-    @s = "" ;
-@} ;
-
-<value_negate> : ( a ) -> ( s ) = @{
-    @s = xstrcat ( "-", @a ) ;
-@} ;
-
-<value_not> : ( a ) -> ( s ) = @{
-    @s = xstrcat ( "!", @a ) ;
-@} ;
-
-<value_nat> : ( a ) -> ( s ) = @{
-    object *p = search_hash ( exps, @a, any_version ) ;
-    if ( p == NULL ) {
-	error ( ERROR_SERIOUS, "Undefined NAT, '%s'", @a ) ;
-    } else if ( p->objtype != OBJ_NAT ) {
-	error ( ERROR_SERIOUS, "'%s' is not a NAT", @a ) ;
-    }
-    @s = @a ;
-@} ;
-
-
-/*
-    CONDITIONAL COMPILATION MACROS 
-
-    These rules describe the special macros which can be used in
-    conditional compilation.
-*/
-
-<cond_building> : () -> ( s ) = @{
-    @s = BUILDING_MACRO ;
-@} ;
-
-<cond_protect> : ( a, b ) -> ( s ) = @{
-    @s = macro_name ( PROTECT_PREFIX, @a, @b, NULL ) ;
-@} ;
-
-
-/*
-    MACRO DEFINITION PARAMETERS
-
-    These rules describe the macro definition parameter lists.
-*/
-
-<param_none> : () -> ( p ) = @{ @p = NULL ; @} ;
-<param_empty> : () -> ( p ) = @{ @p = "" ; @} ;
-
-<param_join> : ( n, q ) -> ( p ) = @{
-    @p = string_printf ( "%s, %s", @n, @q ) ;
-@} ;
-
-
-/*
-    IDENTIFIERS
-
-    These actions describe the identifier names.
-*/
-
-<name_none> : () -> ( nm ) = @{
-    @nm = NULL ;
-@} ;
-
-<field_name> : ( fnm ) -> ( nm ) = @{
-    if ( crt_field_name ) {
-	@nm = string_printf ( "%s.%s", crt_field_name, @fnm ) ;
-    } else {
-	@nm = @fnm ;
-    }
-@} ;
-
-<token_name> : ( tnm ) -> ( nm ) = @{
-    @nm = token_name ( @tnm ) ;
-@} ;
-
-<make_id> : ( a, va, b, vb ) -> ( id ) = @{
-    @id.iname = @a ;
-    @id.ivers = @va ;
-    @id.ename = @b ;
-    @id.evers = @vb ;
-@} ;
-
-<id_anon> : () -> ( id ) = @{
-    char *nm = string_printf ( "%s%d", HIDDEN_NAME, anon_no++ ) ;
-    if ( crt_field_name ) {
-	nm = string_printf ( "%s.%s", crt_field_name, nm ) ;
-    }
-    @id.iname = nm ;
-    @id.ivers = no_version ;
-    @id.ename = token_name ( nm ) ;
-    @id.evers = no_version ;
-@} ;
-
-<version_none> : () -> ( v ) = @{
-    @v = no_version ;
-@} ;
-
-<version_number> : ( n ) -> ( v ) = @{
-    @v = atoi ( @n ) ;
-@} ;
-
-
-/*
-    SUBSET NAMES
-
-    These actions describe the subset names.
-*/
-
-<subset_none> : () -> ( s ) = @{ @s = "00" ; @} ;
-<subset_first> : () -> ( s ) = @{ @s = "10" ; @} ;
-<subset_second> : () -> ( s ) = @{ @s = "01" ; @} ;
-<subset_both> : () -> ( s ) = @{ @s = "11" ; @} ;
-<subset_next> : ( a ) -> ( s ) = @{ @s = xstrcat ( @a, "G" ) ; @} ;
-
-<api_name> : ( a ) -> ( s ) = @{
-    @s = subset_name ( @a, NULL, NULL ) ;
-@} ;
-
-<file_name> : ( a, b ) -> ( s ) = @{
-    @s = subset_name ( @a, @b, NULL ) ;
-@} ;
-
-<subset_name> : ( a, b, c ) -> ( s ) = @{
-    if ( @b [0] == 0 ) @b = NULL ;
-    @s = subset_name ( @a, @b, @c ) ;
-@} ;
-
-
-/*
-    COMMAND KEYS
-
-    These actions describe the command keys.
-*/
-
-<cmd_constant> : () -> ( c ) = @{ @c = OBJ_CONST ; @} ;
-<cmd_exp> : () -> ( c ) = @{ @c = OBJ_EXP ; @} ;
-<cmd_exp_extern> : () -> ( c ) = @{ @c = OBJ_EXTERN ; @} ;
-<cmd_func> : () -> ( c ) = @{ @c = OBJ_FUNC ; @} ;
-<cmd_func_extern> : () -> ( c ) = @{ @c = OBJ_EXTERN ; @} ;
-<cmd_func_weak> : () -> ( c ) = @{ @c = OBJ_WEAK ; @} ;
-<cmd_implement> : () -> ( c ) = @{ @c = OBJ_IMPLEMENT ; @} ;
-<cmd_use> : () -> ( c ) = @{ @c = OBJ_USE ; @} ;
-
-
-/*
-    COMMANDS
-
-    These actions describe the basic command constructs.
-*/
-
-<command_none> : () -> ( c ) = @{
-    @c = NULL ;
-@} ;
-
-<command_join> : ( a, b ) -> ( c ) = @{
-    @c = join_object ( @a, @b ) ;
-@} ;
-
-<begin_subset> : ( s ) -> ( c ) = @{
-    object *p = make_subset ( @s ) ;
-    info *i = p->u.u_info ;
-    if ( i->subset ) {
-	char *nm = subset_name ( i->api, i->file, NULL ) ;
-	object *q = search_hash ( subsets, nm, no_version ) ;
-	update_time ( p, q ) ;
-    }
-    @c = crt_object ;
-    crt_object = p ;
-@} ;
-
-<end_subset> : ( a, b ) -> ( c ) = @{
-    object *p = crt_object ;
-    if ( p ) p->u.u_info->elements = @b ;
-    @c = make_object ( NULL, OBJ_SET ) ;
-    @c->u.u_obj = p ;
-    crt_object = @a ;
-@} ;
-
-<include_subset> : ( cmd, s, key ) -> ( c ) = @{
-    object *p = make_subset ( @s ) ;
-    update_time ( crt_object, p ) ;
-    @c = make_object ( @key, @cmd ) ;
-    @c->u.u_obj = p ;
-@} ;
-
-
-/*
-    VARIABLE COMMANDS
-
-    These commands describe the variable assignment commands.
-*/
-
-<variable_string> : ( a, b ) -> () = @{
-    set_string ( @a, @b ) ;
-@} ;
-
-<variable_plus> : ( a, b ) -> () = @{
-    set_integer ( @a, atoi ( @b ) ) ;
-@} ;
-
-<variable_minus> : ( a, b ) -> () = @{
-    set_integer ( @a, -atoi ( @b ) ) ;
-@} ;
-
-
-/*
-    SPECIFICATION COMMANDS
-
-    These actions describe the constructs for the various specification
-    commands.
-*/
-
-<declare_base> : () -> ( c ) = @{
-    @c = NULL ;
-@} ;
-
-<declare_comment> : ( s ) -> ( c ) = @{
-    @c = make_object ( @s, OBJ_TEXT_INCL ) ;
-@} ;
-
-<declare_insert> : ( s ) -> ( c ) = @{
-    @c = make_object ( @s, OBJ_TEXT_INCL ) ;
-@} ;
-
-<declare_build_insert> : ( s ) -> ( c ) = @{
-    @c = make_object ( @s, OBJ_TEXT_SRC ) ;
-@} ;
-
-<declare_define> : ( id, p, def ) -> ( c ) = @{
-    char *def ;
-    object *p = make_exp ( @id.iname, @id.ivers, OBJ_DEFINE ) ;
-    if ( @p ) {
-	if ( *@p ) {
-	    def = string_printf ( "( %s ) %s", @p, @def ) ;
-	} else {
-	    def = string_printf ( "() %s", @def ) ;
-	}
-    } else {
-	def = string_printf ( " %s", @def ) ;
-    }
-    p->u.u_str = def ;
-    @c = make_token ( @id.ename, @id.evers, p, OBJ_EXTERN ) ;
-@} ;
-
-<declare_defmin> : ( id, p, def ) -> ( c ) = @{
-    char *def ;
-    object *p = make_exp ( @id.iname, @id.ivers, OBJ_DEFMIN ) ;
-    if ( @p ) {
-	if ( *@p ) {
-	    def = string_printf ( "( %s ) %s", @p, @def ) ;
-	} else {
-	    def = string_printf ( "() %s", @def ) ;
-	}
-    } else {
-	def = string_printf ( " %s", @def ) ;
-    }
-    p->u.u_str = def ;
-    @c = make_token ( @id.ename, @id.evers, p, OBJ_EXTERN ) ;
-@} ;
-
-
-<declare_enum> : ( tag, id, e ) -> ( c ) = @{
-    type *t = make_type ( @id.iname, @id.ivers, @tag ) ;
-    t->v.obj2 = @e ;
-    @c = make_token ( @id.ename, @id.evers, t->u.obj, OBJ_TYPE ) ;
-@} ;
-
-<declare_enumerator> : ( id, s ) -> ( c ) = @{
-    object *p = make_exp ( @id.iname, @id.ivers, OBJ_ENUMVAL ) ;
-    p->u.u_str = @s ;
-    @c = make_token ( @id.ename, @id.evers, p, OBJ_EXTERN ) ;
-@} ;
-
-<declare_exp> : ( cmd, id, t ) -> ( c ) = @{
-    object *p = make_exp ( @id.iname, @id.ivers, @cmd ) ;
-    p->u.u_type = check_type ( @t, @cmd ) ;
-    @c = make_token ( @id.ename, @id.evers, p, @cmd ) ;
-@} ;
-
-<declare_field> : ( id, m, t ) -> ( c ) = @{
-    type *t = check_type ( @t, OBJ_FIELD ) ;
-    field *f = make_field ( @id.iname, @id.ivers, @m, t ) ;
-    @c = make_token ( @id.ename, @id.evers, f->obj, OBJ_FIELD ) ;
-@} ;
-
-<declare_func> : ( cmd, id, t ) -> ( c ) = @{
-    object *p = make_exp ( @id.iname, @id.ivers, @cmd ) ;
-    p->u.u_type = check_type ( @t, OBJ_FUNC ) ;
-    @c = make_token ( @id.ename, @id.evers, p, @cmd ) ;
-@} ;
-
-<declare_macro> : ( id, t ) -> ( c ) = @{
-    object *p ;
-    int cmd = OBJ_MACRO ;
-    if ( @t->id != TYPE_PROC ) cmd = OBJ_EXP ;
-    p = make_exp ( @id.iname, @id.ivers, cmd ) ;
-    p->u.u_type = check_type ( @t, cmd ) ;
-    @c = make_token ( @id.ename, @id.evers, p, cmd ) ;
-@} ;
-
-<declare_nat> : ( id ) -> ( c ) = @{
-    object *p = make_exp ( @id.iname, @id.ivers, OBJ_NAT ) ;
-    @c = make_token ( @id.ename, @id.evers, p, OBJ_NAT ) ;
-@} ;
-
-<declare_promote> : ( id, t ) -> ( c ) = @{
-    type *t = make_type ( @id.iname, @id.ivers, TYPE_PROMOTE ) ;
-    type *s = expand_type ( @t ) ;
-    switch ( s->id ) {
-	case TYPE_INT :
-	case TYPE_SIGNED :
-	case TYPE_UNSIGNED : {
-	    break ;
-	}
-	default : {
-	    error ( ERROR_SERIOUS, "Non-integral promotion type" ) ;
-	    break ;
-	}
-    }
-    t->v.next = s ;
-    @c = make_token ( @id.ename, @id.evers, t->u.obj, OBJ_EXTERN ) ;
-@} ;
-
-<declare_stmt> : ( id, t ) -> ( c ) = @{
-    object *p = make_exp ( @id.iname, @id.ivers, OBJ_STATEMENT ) ;
-    p->u.u_type = check_type ( @t, OBJ_STATEMENT ) ;
-    @c = make_token ( @id.ename, @id.evers, p, OBJ_STATEMENT ) ;
-@} ;
-
-<declare_token> : ( id, s ) -> ( c ) = @{
-    object *p = make_exp ( @id.iname, @id.ivers, OBJ_TOKEN ) ;
-    p->u.u_str = @s ;
-    @c = make_token ( @id.ename, @id.evers, p, OBJ_TOKEN ) ;
-@} ;
-
-<declare_type> : ( tag, id ) -> ( c ) = @{
-    type *t = make_type ( @id.iname, @id.ivers, @tag ) ;
-    @c = make_token ( @id.ename, @id.evers, t->u.obj, OBJ_TYPE ) ;
-@} ;
-
-<declare_typedef> : ( id, t ) -> ( c ) = @{
-    type *t = make_type ( @id.iname, @id.ivers, TYPE_DEFINED ) ;
-    t->v.next = check_type ( @t, OBJ_TYPE ) ;
-    @c = make_token ( @id.ename, @id.evers, t->u.obj, OBJ_EXTERN ) ;
-@} ;
-
-
-/*
-    FIELD SPECIFICATION COMMANDS
-
-    These actions describe the member specification constructs.
-*/
-
-<begin_field> : ( id, tag ) -> ( t, c ) = @{
-    @t = find_type ( @id.iname, any_version, @tag, 0 ) ;
-    if ( @t == NULL ) {
-	@t = make_type ( @id.iname, @id.ivers, @tag ) ;
-	@c = make_token ( @id.ename, @id.evers, @t->u.obj, OBJ_TYPE ) ;
-    } else {
-	@c = NULL ;
-    }
-    @t = expand_type ( @t ) ;
-    switch ( @t->id ) {
-	case TYPE_STRUCT :
-	case TYPE_UNION :
-	case TYPE_STRUCT_TAG :
-	case TYPE_UNION_TAG : {
-	    break ;
-	}
-	default : {
-	    error ( ERROR_SERIOUS, "Illegal field type, '%s'", @id.iname ) ;
-	    break ;
-	}
-    }
-    crt_field_name = @t->u.obj->name ;
-@} ;
-
-<end_field> : ( t, a, b, e ) -> ( c ) = @{
-    if ( @e ) {
-	if ( @t->v.obj2 ) {
-	    char *nm = crt_field_name ;
-	    error ( ERROR_SERIOUS, "Redefinition of type '%s'", nm ) ;
-	}
-	if ( @b == NULL ) {
-	    error ( ERROR_SERIOUS, "Empty struct/union definition" ) ;
-	} else {
-	    @t->v.obj2 = @b ;
-	}
-	if ( @a == NULL ) {
-	    /* This is a hack, do properly later */
-	    @c = make_object ( NULL, OBJ_TYPE ) ;
-	    @c->u.u_type = @t ;
-	    if ( strcmp ( @c->filename, @t->u.obj->filename ) == 0 ) {
-		@t->state = 1 ;
-	    } else {
-		@t->state = 3 ;
-	    }
-	} else {
-	    @c = @a ;
-	}
-    } else {
-	@c = join_object ( @a, @b ) ;
-    }
-    crt_field_name = NULL ;
-@} ;
-
-
-/*
-    CONDITIONAL COMPILATION COMMANDS
-
-    These actions describe the conditional compilation constructs.
-*/
-
-<command_if> : ( s ) -> ( c ) = @{
-    @c = make_object ( @s, OBJ_IF ) ;
-    @c->u.u_iftype = CMD_IF ;
-@} ;
-
-<command_ifdef> : ( s ) -> ( c ) = @{
-    @c = make_object ( @s, OBJ_IF ) ;
-    @c->u.u_iftype = CMD_IFDEF ;
-@} ;
-
-<command_ifndef> : ( s ) -> ( c ) = @{
-    @c = make_object ( @s, OBJ_IF ) ;
-    @c->u.u_iftype = CMD_IFNDEF ;
-@} ;
-
-<command_endif> : ( i, s, a, b ) -> ( c ) = @{
-    object *p, *q ;
-    p = join_object ( @i, @a ) ;
-    if ( @b ) {
-	q = make_object ( @s, OBJ_IF ) ;
-	q->u.u_iftype = CMD_ELSE ;
-	p = join_object ( p, q ) ;
-	p = join_object ( p, @b ) ;
-    }
-    q = make_object ( @s, OBJ_IF ) ;
-    q->u.u_iftype = CMD_ENDIF ;
-    @c = join_object ( p, q ) ;
-@} ;
-
-
-/*
-    SYNTAX ERROR
-
-    This action describes the error message which is printed if a parse
-    error occurs.
-*/
-
-<syntax_error> : () -> () = @{
-    error ( ERROR_SERIOUS, "Syntax error" ) ;
-@} ;
-
+	/*
+	 * BOOLEAN CONSTANTS
+	 *
+	 * These actions describe the boolean constants.
+	 */
+
+	<bool_false>: () -> (b) = @{ @b = 0; @};
+	<bool_true>:  () -> (b) = @{ @b = 1; @};
+
+	/*
+	 * BASIC TYPE SPECIFIERS
+	 *
+	 * These actions describe the basic type specifiers.
+	 */
+
+	<btype_char>:     () -> (b) = @{ @b = BTYPE_CHAR;     @};
+	<btype_short>:    () -> (b) = @{ @b = BTYPE_SHORT;    @};
+	<btype_int>:      () -> (b) = @{ @b = BTYPE_INT;      @};
+	<btype_long>:     () -> (b) = @{ @b = BTYPE_LONG;     @};
+	<btype_signed>:   () -> (b) = @{ @b = BTYPE_SIGNED;   @};
+	<btype_unsigned>: () -> (b) = @{ @b = BTYPE_UNSIGNED; @};
+	<btype_float>:    () -> (b) = @{ @b = BTYPE_FLOAT;    @};
+	<btype_double>:   () -> (b) = @{ @b = BTYPE_DOUBLE;   @};
+	<btype_void>:     () -> (b) = @{ @b = BTYPE_VOID;     @};
+
+	<btype_join>: (a, b) -> (c) = @{
+		while (@a & @b) {
+			if (@a == BTYPE_LONG && allow_long_long) {
+				@a = BTYPE_LLONG;
+			} else {
+				error(ERROR_SERIOUS, "Duplicate type specifier");
+				break;
+			}
+		}
+
+		@c = (@a | @b);
+	@};
+
+	/*
+	 * TYPE KEYS
+	 *
+	 * These actions describe the type keys.
+	 */
+
+	<key_type>:       () -> (t) = @{ @t = TYPE_GENERIC;    @};
+	<key_struct_tag>: () -> (t) = @{ @t = TYPE_STRUCT_TAG; @};
+	<key_union_tag>:  () -> (t) = @{ @t = TYPE_UNION_TAG;  @};
+	<key_enum_tag>:   () -> (t) = @{ @t = TYPE_ENUM_TAG;   @};
+	<key_struct>:     () -> (t) = @{ @t = TYPE_STRUCT;     @};
+	<key_union>:      () -> (t) = @{ @t = TYPE_UNION;      @};
+	<key_enum>:       () -> (t) = @{ @t = TYPE_ENUM;       @};
+	<key_int>:        () -> (t) = @{ @t = TYPE_INT;        @};
+	<key_signed>:     () -> (t) = @{ @t = TYPE_SIGNED;     @};
+	<key_unsigned>:   () -> (t) = @{ @t = TYPE_UNSIGNED;   @};
+	<key_float>:      () -> (t) = @{ @t = TYPE_FLOAT;      @};
+	<key_arith>:      () -> (t) = @{ @t = TYPE_ARITH;      @};
+	<key_scalar>:     () -> (t) = @{ @t = TYPE_SCALAR;     @};
+	<key_lvalue>:     () -> (t) = @{ @t = TYPE_LVALUE;     @};
+	<key_rvalue>:     () -> (t) = @{ @t = TYPE_RVALUE;     @};
+
+	<key_exp>: (c, a) -> (t) = @{
+		if (@c == OBJ_CONST) {
+			if (@a == TYPE_LVALUE) {
+				error(ERROR_SERIOUS, "Constant can't be an lvalue");
+			}
+			@t = TYPE_RVALUE;
+		} else if (@c == OBJ_EXTERN) {
+			@t = TYPE_LVALUE;
+		} else {
+			@t = @a;
+		}
+	@};
+
+	/*
+	 * TYPE QUALIFIERS
+	 *
+	 * These actions describe the type qualifiers. const is represented by 1
+	 * and volatile by 2.
+	 */
+
+	<cv_none>: () -> (c) = @{
+		@c = 0;
+	@};
+
+	<cv_const>: (a) -> (c) = @{
+		if (@a & 1) {
+			error(ERROR_SERIOUS, "Duplicate type qualifier");
+		}
+
+		@c = (@a | 1);
+	@};
+
+	<cv_volatile>: (a) -> (c) = @{
+		if (@a & 2) {
+			error(ERROR_SERIOUS, "Duplicate type qualifier");
+		}
+
+		@c = (@a | 2);
+	@};
+
+	/*
+	 * TYPE CONSTRUCTORS
+	 *
+	 * These actions describe the type constructors.
+	 */
+
+	<type_none>: () -> (t) = @{
+		@t = NULL;
+	@};
+
+	<type_builtin>: (b) -> (t) = @{
+		@t = basic_type (@b);
+	@};
+
+	<type_name>: (s, tag) -> (t) = @{
+		@t = find_type(@s, any_version, @tag, 1);
+	@};
+
+	<type_special>: (s) -> (t) = @{
+		@t = special_type(@s);
+	@};
+
+	<type_inject>: (s, p) -> (t) = @{
+		@t = inject_type(@s, @p);
+	@};
+
+	<type_ptr>: (c) -> (t) = @{
+		@t = make_subtype((type *) NULL, TYPE_PTR);
+		@t->v.str = cv_qualifier[@c];
+	@};
+
+	<type_array>: (a) -> (t) = @{
+		@t = make_subtype((type *) NULL, TYPE_ARRAY);
+		@t->v.str = @a;
+	@};
+
+	<type_bitfield>: (a) -> (t) = @{
+		@t = make_subtype((type *) NULL, TYPE_BITFIELD );
+		@t->v.str = @a;
+	@};
+
+	<type_func>: (p) -> (t) = @{
+		@t = make_subtype((type *) NULL, TYPE_PROC);
+		@t->v.next = @p;
+	@};
+
+	<type_macro>: (p) -> (t) = @{
+		@t = make_subtype((type *) NULL, TYPE_PROC);
+		@t->v.next = @p;
+	@};
+
+	<type_qualify>: (s, c) -> (t) = @{
+		@t = make_subtype(@s, TYPE_QUALIFIER);
+		@t->v.str = cv_qualifier[@c];
+	@};
+
+	<type_lvalue>: (s, lv) -> (t) = @{
+		@t = make_subtype(@s, @lv);
+	@};
+
+	/*
+	 * TYPE LISTS
+	 *
+	 * These actions describe the parameter type lists.
+	 */
+
+	<type_list_none>: () -> (p) = @{
+		@p = NULL;
+	@};
+
+	<type_list_empty>: () -> (p) = @{
+		error(ERROR_WARNING, "Empty parameter list");
+		@p = NULL;
+	@};
+
+	<type_list_cons>: (t, q) -> (p) = @{
+		@p = make_subtype (@t, TYPE_LIST);
+		@p->v.next = @q;
+	@};
+
+	<type_list_ellipsis>: () -> (p) = @{
+		@p = make_subtype(type_ellipsis, TYPE_LIST);
+		@p->v.next = NULL;
+	@};
+
+	<param_name>: (nm) -> () = @{
+		UNUSED(@nm);
+	@};
+
+	/*
+	 * CONSTANT EXPRESSIONS
+	 *
+	 * These actions describe the constant expressions.
+	 */
+
+	<value_none>: () -> (s) = @{
+		@s = "";
+	@};
+
+	<value_negate>: (a) -> (s) = @{
+		@s = xstrcat("-", @a);
+	@};
+
+	<value_not>: (a) -> (s) = @{
+		@s = xstrcat("!", @a);
+	@};
+
+	<value_nat>: (a) -> (s) = @{
+		object *p;
+
+		p = search_hash(exps, @a, any_version);
+		if (p == NULL) {
+			error(ERROR_SERIOUS, "Undefined NAT, '%s'", @a);
+		} else if (p->objtype != OBJ_NAT) {
+			error(ERROR_SERIOUS, "'%s' is not a NAT", @a);
+		}
+
+		@s = @a;
+	@};
+
+	/*
+	 * CONDITIONAL COMPILATION MACROS
+	 *
+	 * These rules describe the special macros which can be used in
+	 * conditional compilation.
+	 */
+
+	<cond_building>: () -> (s) = @{
+		@s = BUILDING_MACRO;
+	@};
+
+	<cond_protect>: (a, b) -> (s) = @{
+		@s = macro_name(PROTECT_PREFIX, @a, @b, NULL);
+	@};
+
+	/*
+	 * MACRO DEFINITION PARAMETERS
+	 *
+	 * These rules describe the macro definition parameter lists.
+	 */
+
+	<param_none>:  () -> (p) = @{ @p = NULL; @};
+	<param_empty>: () -> (p) = @{ @p = "";   @};
+
+	<param_join>: (n, q) -> (p) = @{
+		@p = string_printf("%s, %s", @n, @q);
+	@};
+
+	/*
+	 * IDENTIFIERS
+	 *
+	 * These actions describe the identifier names.
+	 */
+
+	<name_none>: () -> (nm) = @{
+		@nm = NULL;
+	@};
+
+	<field_name>: (fnm) -> (nm) = @{
+		if (crt_field_name) {
+			@nm = string_printf("%s.%s", crt_field_name, @fnm);
+		} else {
+			@nm = @fnm;
+		}
+	@};
+
+	<token_name>: (tnm) -> (nm) = @{
+		@nm = token_name(@tnm);
+	@};
+
+	<make_id>: (a, va, b, vb) -> (id) = @{
+		@id.iname = @a;
+		@id.ivers = @va;
+		@id.ename = @b;
+		@id.evers = @vb;
+	@};
+
+	<id_anon>: () -> (id) = @{
+		char *nm;
+
+		nm = string_printf ("%s%d", HIDDEN_NAME, anon_no++);
+		if (crt_field_name) {
+			nm = string_printf("%s.%s", crt_field_name, nm);
+		}
+
+		@id.iname = nm;
+		@id.ivers = no_version;
+		@id.ename = token_name(nm);
+		@id.evers = no_version;
+	@};
+
+	<version_none>: () -> (v) = @{
+		@v = no_version;
+	@};
+
+	<version_number>: (n) -> (v) = @{
+		@v = atoi(@n);
+	@};
+
+	/*
+	 * SUBSET NAMES
+	 *
+	 * These actions describe the subset names.
+	 */
+
+	<subset_none>:   () -> (s) = @{ @s = "00"; @};
+	<subset_first>:  () -> (s) = @{ @s = "10"; @};
+	<subset_second>: () -> (s) = @{ @s = "01"; @};
+	<subset_both>:   () -> (s) = @{ @s = "11"; @};
+	<subset_next>:  (a) -> (s) = @{ @s = xstrcat(@a, "G"); @};
+
+	<api_name>: (a) -> (s) = @{
+		@s = subset_name(@a, NULL, NULL);
+	@};
+
+	<file_name>: (a, b) -> (s) = @{
+		@s = subset_name(@a, @b, NULL);
+	@};
+
+	<subset_name>: (a, b, c) -> (s) = @{
+		if (@b[0] == 0) {
+			@b = NULL;
+		}
+
+		@s = subset_name(@a, @b, @c);
+	@};
+
+	/*
+	 * COMMAND KEYS
+	 *
+	 * These actions describe the command keys.
+	 */
+
+	<cmd_constant>:    () -> (c) = @{ @c = OBJ_CONST;     @};
+	<cmd_exp>:         () -> (c) = @{ @c = OBJ_EXP;       @};
+	<cmd_exp_extern>:  () -> (c) = @{ @c = OBJ_EXTERN;    @};
+	<cmd_func>:        () -> (c) = @{ @c = OBJ_FUNC;      @};
+	<cmd_func_extern>: () -> (c) = @{ @c = OBJ_EXTERN;    @};
+	<cmd_func_weak>:   () -> (c) = @{ @c = OBJ_WEAK;      @};
+	<cmd_implement>:   () -> (c) = @{ @c = OBJ_IMPLEMENT; @};
+	<cmd_use>:         () -> (c) = @{ @c = OBJ_USE;       @};
+
+	/*
+	 * COMMANDS
+	 *
+	 * These actions describe the basic command constructs.
+	 */
+
+	<command_none>: () -> (c) = @{
+		@c = NULL;
+	@};
+
+	<command_join>: (a, b) -> (c) = @{
+		@c = join_object(@a, @b);
+	@};
+
+	<begin_subset>: (s) -> (c) = @{
+		object *p = make_subset(@s);
+		info *i = p->u.u_info;
+
+		if (i->subset) {
+			char *nm = subset_name(i->api, i->file, NULL);
+			object *q = search_hash(subsets, nm, no_version);
+			update_time(p, q);
+		}
+
+		@c = crt_object;
+		crt_object = p;
+	@};
+
+	<end_subset>: (a, b) -> (c) = @{
+		object *p = crt_object;
+
+		if (p) {
+			p->u.u_info->elements = @b;
+		}
+
+		@c = make_object(NULL, OBJ_SET);
+		@c->u.u_obj = p;
+		crt_object = @a;
+	@};
+
+	<include_subset>: (cmd, s, key) -> (c) = @{
+		object *p = make_subset(@s);
+		update_time(crt_object, p);
+		@c = make_object(@key, @cmd);
+		@c->u.u_obj = p;
+	@};
+
+	/*
+	 * VARIABLE COMMANDS
+	 *
+	 * These commands describe the variable assignment commands.
+	 */
+
+	<variable_string>: (a, b) -> () = @{
+		set_string(@a, @b);
+	@};
+
+	<variable_plus>: (a, b) -> () = @{
+		set_integer(@a, atoi(@b));
+	@};
+
+	<variable_minus>: (a, b) -> () = @{
+		set_integer(@a, -atoi(@b));
+	@};
+
+	/*
+	 * SPECIFICATION COMMANDS
+	 *
+	 * These actions describe the constructs for the various specification
+	 * commands.
+	 */
+
+	<declare_base>: () -> (c) = @{
+		@c = NULL;
+	@};
+
+	<declare_comment>: (s) -> (c) = @{
+		@c = make_object(@s, OBJ_TEXT_INCL);
+	@};
+
+	<declare_insert>: (s) -> (c) = @{
+		@c = make_object(@s, OBJ_TEXT_INCL);
+	@};
+
+	<declare_build_insert>: (s) -> (c) = @{
+		@c = make_object(@s, OBJ_TEXT_SRC);
+	@};
+
+	<declare_define>: (id, p, def) -> (c) = @{
+		char *def;
+		object *p;
+
+		p = make_exp(@id.iname, @id.ivers, OBJ_DEFINE);
+		if (@p) {
+			if (*@p) {
+				def = string_printf ("( %s ) %s", @p, @def);
+			} else {
+				def = string_printf("() %s", @def);
+			}
+		} else {
+			def = string_printf(" %s", @def);
+		}
+
+		p->u.u_str = def;
+		@c = make_token(@id.ename, @id.evers, p, OBJ_EXTERN);
+	@};
+
+	<declare_defmin>: (id, p, def) -> (c) = @{
+		char *def;
+		object *p;
+
+		p = make_exp(@id.iname, @id.ivers, OBJ_DEFMIN);
+		if (@p) {
+			if ( *@p ) {
+				def = string_printf("( %s ) %s", @p, @def);
+			} else {
+				def = string_printf("() %s", @def);
+			}
+		} else {
+			def = string_printf(" %s", @def);
+		}
+
+		p->u.u_str = def;
+		@c = make_token(@id.ename, @id.evers, p, OBJ_EXTERN);
+	@};
+
+	<declare_enum>: (tag, id, e) -> (c) = @{
+		type *t = make_type(@id.iname, @id.ivers, @tag);
+		t->v.obj2 = @e;
+		@c = make_token(@id.ename, @id.evers, t->u.obj, OBJ_TYPE);
+	@};
+
+	<declare_enumerator>: (id, s) -> (c) = @{
+		object *p = make_exp(@id.iname, @id.ivers, OBJ_ENUMVAL);
+		p->u.u_str = @s;
+		@c = make_token(@id.ename, @id.evers, p, OBJ_EXTERN);
+	@};
+
+	<declare_exp>: (cmd, id, t) -> (c) = @{
+		object *p = make_exp(@id.iname, @id.ivers, @cmd);
+		p->u.u_type = check_type(@t, @cmd);
+		@c = make_token(@id.ename, @id.evers, p, @cmd);
+	@};
+
+	<declare_field>: (id, m, t) -> (c) = @{
+		type *t = check_type(@t, OBJ_FIELD);
+		field *f = make_field(@id.iname, @id.ivers, @m, t);
+		@c = make_token(@id.ename, @id.evers, f->obj, OBJ_FIELD);
+	@};
+
+	<declare_func>: (cmd, id, t) -> (c) = @{
+		object *p = make_exp(@id.iname, @id.ivers, @cmd);
+		p->u.u_type = check_type(@t, OBJ_FUNC);
+		@c = make_token(@id.ename, @id.evers, p, @cmd);
+	@};
+
+	<declare_macro>: ( id, t ) -> ( c ) = @{
+		object *p;
+		int cmd = OBJ_MACRO;
+
+		if (@t->id != TYPE_PROC) {
+			cmd = OBJ_EXP;
+		}
+
+		p = make_exp(@id.iname, @id.ivers, cmd);
+		p->u.u_type = check_type(@t, cmd);
+		@c = make_token(@id.ename, @id.evers, p, cmd);
+	@};
+
+	<declare_nat>: (id) -> (c) = @{
+		object *p = make_exp(@id.iname, @id.ivers, OBJ_NAT);
+		@c = make_token(@id.ename, @id.evers, p, OBJ_NAT);
+	@};
+
+	<declare_promote>: (id, t) -> (c) = @{
+		type *t = make_type(@id.iname, @id.ivers, TYPE_PROMOTE);
+		type *s = expand_type(@t);
+
+		switch (s->id) {
+		case TYPE_INT:
+		case TYPE_SIGNED:
+		case TYPE_UNSIGNED:
+			break;
+
+		default:
+			error(ERROR_SERIOUS, "Non-integral promotion type");
+			break;
+		}
+
+		t->v.next = s;
+		@c = make_token(@id.ename, @id.evers, t->u.obj, OBJ_EXTERN);
+	@};
+
+	<declare_stmt>: (id, t) -> (c) = @{
+		object *p = make_exp(@id.iname, @id.ivers, OBJ_STATEMENT);
+		p->u.u_type = check_type(@t, OBJ_STATEMENT);
+		@c = make_token(@id.ename, @id.evers, p, OBJ_STATEMENT);
+	@};
+
+	<declare_token>: (id, s) -> (c) = @{
+		object *p = make_exp(@id.iname, @id.ivers, OBJ_TOKEN);
+		p->u.u_str = @s;
+		@c = make_token(@id.ename, @id.evers, p, OBJ_TOKEN);
+	@};
+
+	<declare_type>: (tag, id) -> (c) = @{
+		type *t = make_type(@id.iname, @id.ivers, @tag);
+		@c = make_token(@id.ename, @id.evers, t->u.obj, OBJ_TYPE);
+	@};
+
+	<declare_typedef>: (id, t) -> (c) = @{
+		type *t = make_type(@id.iname, @id.ivers, TYPE_DEFINED);
+		t->v.next = check_type(@t, OBJ_TYPE);
+		@c = make_token(@id.ename, @id.evers, t->u.obj, OBJ_EXTERN);
+	@};
+
+
+	/*
+	 * FIELD SPECIFICATION COMMANDS
+	 *
+	 * These actions describe the member specification constructs.
+	 */
+
+	<begin_field>: (id, tag) -> (t, c) = @{
+		@t = find_type (@id.iname, any_version, @tag, 0);
+		if (@t == NULL) {
+			@t = make_type(@id.iname, @id.ivers, @tag);
+			@c = make_token(@id.ename, @id.evers, @t->u.obj, OBJ_TYPE);
+		} else {
+			@c = NULL;
+		}
+
+		@t = expand_type(@t);
+		switch (@t->id) {
+		case TYPE_STRUCT:
+		case TYPE_UNION:
+		case TYPE_STRUCT_TAG:
+		case TYPE_UNION_TAG:
+			break;
+
+		default:
+			error(ERROR_SERIOUS, "Illegal field type, '%s'", @id.iname);
+			break;
+		}
+		crt_field_name = @t->u.obj->name;
+	@};
+
+	<end_field>: (t, a, b, e) -> (c) = @{
+		if (@e) {
+			if (@t->v.obj2) {
+				char *nm = crt_field_name;
+				error(ERROR_SERIOUS, "Redefinition of type '%s'", nm);
+			}
+
+			if (@b == NULL) {
+				error ( ERROR_SERIOUS, "Empty struct/union definition" );
+			} else {
+				@t->v.obj2 = @b;
+			}
+
+			if (@a != NULL) {
+				@c = @a;
+			} else {
+				/* This is a hack, do properly later */
+				@c = make_object(NULL, OBJ_TYPE);
+				@c->u.u_type = @t;
+				if (0 == strcmp ( @c->filename, @t->u.obj->filename )) {
+					@t->state = 1;
+				} else {
+					@t->state = 3;
+				}
+			}
+		} else {
+			@c = join_object(@a, @b);
+		}
+		crt_field_name = NULL;
+	@};
+
+
+	/*
+	 * CONDITIONAL COMPILATION COMMANDS
+	 *
+	 * These actions describe the conditional compilation constructs.
+	 */
+
+	<command_if>: (s) -> (c) = @{
+		@c = make_object (@s, OBJ_IF);
+		@c->u.u_iftype = CMD_IF;
+	@};
+
+	<command_ifdef>: (s) -> (c) = @{
+		@c = make_object (@s, OBJ_IF);
+		@c->u.u_iftype = CMD_IFDEF;
+	@};
+
+	<command_ifndef>: (s) -> (c) = @{
+		@c = make_object (@s, OBJ_IF);
+		@c->u.u_iftype = CMD_IFNDEF;
+	@};
+
+	<command_endif>: (i, s, a, b) -> (c) = @{
+		object *p, *q;
+
+		p = join_object ( @i, @a );
+		if (@b) {
+			q = make_object ( @s, OBJ_IF );
+			q->u.u_iftype = CMD_ELSE;
+			p = join_object ( p, q );
+			p = join_object ( p, @b );
+		}
+
+		q = make_object ( @s, OBJ_IF );
+		q->u.u_iftype = CMD_ENDIF;
+		@c = join_object ( p, q );
+	@};
+
+
+	/*
+	 * SYNTAX ERROR
+	 *
+	 * This action describes the error message which is printed if a parse
+	 * error occurs.
+	 */
+
+	<syntax_error>: () -> () = @{
+		error(ERROR_SERIOUS, "Syntax error");
+	@};
 
 %trailer% @{
 @}, @{
-#endif
-@} ;
+
+	#endif
+
+@};
+

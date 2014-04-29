@@ -9,1013 +9,1182 @@
 
 %types%
 
-/*
-    TYPES
+	/*
+	 * TYPES
+	 *
+	 * The types are fairly self-explanitory.  Note that distinctions are
+	 * made in the parser type system which do not exist in the underlying
+	 * program.
+	 */
 
-    The types are fairly self-explanitory.  Note that distinctions are
-    made in the parser type system which do not exist in the underlying
-    program.
-*/
-
-BOOLEAN ;
-COMMAND ;
-COMMAND_KEY ;
-IDENTIFIER ;
-STRING ;
-SUBSET_KEY ;
-TYPE ;
-TYPE_KEY ;
-TYPE_LIST ;
-TYPE_QUAL ;
-TYPE_SPEC ;
-VERSION ;
-
+	BOOLEAN;
+	COMMAND;
+	COMMAND_KEY;
+	IDENTIFIER;
+	STRING;
+	SUBSET_KEY;
+	TYPE;
+	TYPE_KEY;
+	TYPE_LIST;
+	TYPE_QUAL;
+	TYPE_SPEC;
+	VERSION;
 
 %terminals%
 
-/*
-    TERMINALS
+	/*
+	 * TERMINALS
+	 *
+	 * The terminals are arranged in five groups; the names and strings, the
+	 * commands (beginning with '+'), the types, the special macro names
+	 * (beginning with '~'), and the punctuators and operators.
+	 */
 
-    The terminals are arranged in five groups; the names and strings, the
-    commands (beginning with '+'), the types, the special macro names
-    (beginning with '~'), and the punctuators and operators.
-*/
+	name:         () -> (:STRING);
+	number:       () -> (:STRING);
+	string:       () -> (:STRING);
+	variable:     () -> (:STRING);
+	comment:      () -> (:STRING);
+	insert:       () -> (:STRING);
+	build-insert: () -> (:STRING);
 
-name : () -> ( :STRING ) ;
-number : () -> ( :STRING ) ;
-string : () -> ( :STRING ) ;
-variable : () -> ( :STRING ) ;
-comment : () -> ( :STRING ) ;
-insert : () -> ( :STRING ) ;
-build-insert : () -> ( :STRING ) ;
+	base-api; constant; define; else; endif; enumerate; exp;
+	field; func; if; ifdef; ifndef; implement; info; macro; nat;
+	set; statement; !subset; token; type; typedef; use; defmin;
 
-base-api ; constant ; define ; else ; endif ; enumerate ; exp ;
-field ; func ; if ; ifdef ; ifndef ; implement ; info ; macro ; nat ;
-set ; statement ; !subset ; token ; type ; typedef ; use ; defmin ;
+	arith; char; const; double; enum; extern; float; int; long;
+	lvalue; scalar; short; signed; struct; union; unsigned; void;
+	volatile; weak;
 
-arith ; char ; const ; double ; enum ; extern ; float ; int ; long ;
-lvalue ; scalar ; short ; signed ; struct ; union ; unsigned ; void ;
-volatile ; weak ;
+	building; promote; protect; special;
 
-building ; promote ; protect ; special ;
+	open-brace; close-brace; open-round; close-round; open-square;
+	close-square; assign; colon; comma; dot; !dot-dot; ellipsis;
+	equal; exclaim; minus; or; question; semicolon; star; eof;
 
-open-brace ; close-brace ; open-round ; close-round ; open-square ;
-close-square ; assign ; colon ; comma ; dot ; !dot-dot ; ellipsis ;
-equal ; exclaim ; minus ; or ; question ; semicolon ; star ; eof ;
-!unknown ;
-
+	!unknown;
 
 %productions%
 
+	/*
+	 * BUILT-IN TYPES
+	 *
+	 * These rules describe the built-in types.  Illegal combinations of
+	 * keywords are detected by the action <type_builtin>.
+	 */
+
+	<btype_char>:     () -> (:TYPE_SPEC);
+	<btype_short>:    () -> (:TYPE_SPEC);
+	<btype_int>:      () -> (:TYPE_SPEC);
+	<btype_long>:     () -> (:TYPE_SPEC);
+	<btype_signed>:   () -> (:TYPE_SPEC);
+	<btype_unsigned>: () -> (:TYPE_SPEC);
+	<btype_float>:    () -> (:TYPE_SPEC);
+	<btype_double>:   () -> (:TYPE_SPEC);
+	<btype_void>:     () -> (:TYPE_SPEC);
+	<btype_join>:     (:TYPE_SPEC, :TYPE_SPEC) -> (:TYPE_SPEC);
+
+	type-keyword: () -> (b :TYPE_SPEC) = {
+	   char;     b = <btype_char>;
+	|| short;    b = <btype_short>;
+	|| int;      b = <btype_int>;
+	|| long;     b = <btype_long>;
+	|| signed;   b = <btype_signed>;
+	|| unsigned; b = <btype_unsigned>;
+	|| float;    b = <btype_float>;
+	|| double;   b = <btype_double>;
+	|| void;     b = <btype_void>;
+	};
+
+	builtin-type: () -> (b :TYPE_SPEC) = {
+		a = type-keyword;
+		{
+			d = builtin-type; c = <btype_join>(a, d);
+		||
+			c = a;
+		};
+		b = c;
+	};
+
+	/*
+	 * SIMPLE TYPES
+	 *
+	 * These rules describes the simple, unqualified, types.
+	 */
+
+	<type_builtin>:   (:TYPE_SPEC) -> (:TYPE);
+	<type_name>:      (:STRING, :TYPE_KEY) -> (:TYPE);
+	<key_type>:       () -> (:TYPE_KEY);
+	<key_struct_tag>: () -> (:TYPE_KEY);
+	<key_union_tag>:  () -> (:TYPE_KEY);
+	<key_enum_tag>:   () -> (:TYPE_KEY);
+
+	type-key: () -> (tag :TYPE_KEY) = {
+		tag = <key_type>;
+	||
+		struct;
+		tag = <key_struct_tag>;
+	||
+		union;
+		tag = <key_union_tag>;
+	||
+		enum;
+		tag = <key_enum_tag>;
+	};
+
+	simple-type: () -> (t :TYPE) = {
+		b = builtin-type;
+		t = <type_builtin>(b);
+	||
+		tag = type-key;
+		nm = name;
+		t = <type_name>(nm, tag);
+	};
+
+	/*
+	 * QUALIFIED TYPES
+	 *
+	 * These rules describe the type qualifiers and the qualified types.
+	 */
+
+	<cv_none>:      ()           -> (:TYPE_QUAL);
+	<cv_const>:     (:TYPE_QUAL) -> (:TYPE_QUAL);
+	<cv_volatile>:  (:TYPE_QUAL) -> (:TYPE_QUAL);
+	<type_qualify>: (:TYPE, :TYPE_QUAL) -> (:TYPE);
+
+	type-qualifier: () -> (:TYPE_QUAL);
+
+	type-qualifier-opt: () -> (cv :TYPE_QUAL) = {
+		cv = <cv_none>;
+	||
+		cv = type-qualifier;
+	};
+
+	type-qualifier: () -> (cv :TYPE_QUAL) = {
+		const;
+		a = type-qualifier-opt;
+		cv = <cv_const>(a);
+	||
+		volatile;
+		a = type-qualifier-opt;
+		cv = <cv_volatile>(a);
+	};
+
+	qualified-type: () -> (t :TYPE) = {
+		t = simple-type;
+	||
+		cv = type-qualifier;
+		s = simple-type;
+		t = <type_qualify>(s, cv);
+	||
+		s = simple-type;
+		cv = type-qualifier;
+		t = <type_qualify>(s, cv);
+	};
+
+	/*
+	 * LVALUE QUALIFIERS
+	 *
+	 * This rule describes the lvalue and rvalue type qualifiers.
+	 */
+
+	<key_rvalue>: () -> (:TYPE_KEY);
+	<key_lvalue>: () -> (:TYPE_KEY);
+
+	object-qualifier: () -> (lv :TYPE_KEY) = {
+		lvalue;
+		lv = <key_lvalue>;
+	||
+		lv = <key_rvalue>;
+	};
+
+	/*
+	 * CONSTANT EXPRESSIONS
+	 *
+	 * This rule describes the constant expressions.  These comprise the
+	 * numbers, the NAT token names, plus some simple operations on these
+	 * values.  More complex expressions can be expressed using an insert.
+	 */
+
+	<value_none>:   () -> (:STRING);
+	<value_nat>:    (:STRING) -> (:STRING);
+	<value_not>:    (:STRING) -> (:STRING);
+	<value_negate>: (:STRING) -> (:STRING);
+
+	constant-value: () -> (s :STRING) = {
+		s = number;
+	||
+		s = insert;
+	||
+		a = name;
+		s = <value_nat>(a);
+	||
+		minus;
+		a = constant-value;
+		s = <value_negate>(a);
+	||
+		exclaim;
+		a = constant-value;
+		s = <value_not>(a);
+	};
+
+	/*
+	 * POINTER TYPE OPERATOR
+	 *
+	 * This rule describes the pointer type operator.
+	 */
+
+	<type_ptr>: (:TYPE_QUAL) -> (:TYPE);
+
+	ptr-operator: () -> (t :TYPE) = {
+		star;
+		cv = type-qualifier-opt;
+		t = <type_ptr>(cv);
+	};
+
+	/*
+	 * ARRAY TYPE OPERATOR
+	 *
+	 * This rule describes the array type operator.
+	 */
+
+	<type_array>: (:STRING) -> (:TYPE);
+
+	array-operator: () -> (t :TYPE) = {
+		open-square;
+		{
+			a = constant-value;
+		||
+			a = <value_none>;
+		};
+		close-square;
+		t = <type_array>(a);
+	};
+
+	/*
+	 * BITFIELD TYPE OPERATOR
+	 *
+	 * This rule describes the bitfield type operator.
+	 */
+
+	<type_bitfield>: (:STRING) -> (:TYPE);
+
+	bitfield-operator: () -> (t :TYPE) = {
+		colon;
+		a = constant-value;
+		t = <type_bitfield>(a);
+	};
+
+	/*
+	 * FUNCTION TYPE OPERATOR
+	 *
+	 * These rules describe the function type operator.
+	 */
+
+	<type_func>:          (:TYPE_LIST)   -> (:TYPE);
+	<type_inject>:        (:TYPE, :TYPE) -> (:TYPE);
+	<type_list_none>:     () -> (:TYPE_LIST);
+	<type_list_empty>:    () -> (:TYPE_LIST);
+	<type_list_ellipsis>: () -> (:TYPE_LIST);
+	<type_list_cons>:     (:TYPE, :TYPE_LIST) -> (:TYPE_LIST);
+	<param_name>:         (:STRING) -> ();
+	abstract-declarator:  () -> (:STRING, :TYPE);
+
+	parameter-declaration: () -> (t :TYPE) = {
+		s = qualified-type;
+		(nm, p) = abstract-declarator;
+		t = <type_inject>(p, s);
+		<param_name>(nm);
+	};
+
+	parameter-list: () -> (p :TYPE_LIST) = {
+		t = parameter-declaration;
+		{
+			comma;
+			q = parameter-list;
+		||
+			comma;
+			ellipsis;
+			q = <type_list_ellipsis>;
+		||
+			q = <type_list_none>;
+		};
+		p = <type_list_cons>(t, q);
+	};
+
+	function-operator: () -> (t :TYPE) = {
+		open-round;
+		p = parameter-list;
+		close-round;
+		t = <type_func>(p);
+	||
+		open-round;
+		close-round;
+		p = <type_list_empty>;
+		t = <type_func>(p);
+	};
+
+	/*
+	 * MACRO TYPE OPERATOR
+	 *
+	 * These rules describe the macro type operator.  This is similar to the
+	 * function type operator except that each parameter may be specified
+	 * as an lvalue and there are no ellipsis parameters.
+	 */
+
+	<type_lvalue>: (:TYPE, :TYPE_KEY) -> (:TYPE);
+	<type_macro>:  (:TYPE_LIST)       -> (:TYPE);
+
+	macro-param-declaration: () -> (t :TYPE) = {
+		lv = object-qualifier;
+		s = qualified-type;
+		(nm, p) = abstract-declarator;
+		u = <type_inject>(p, s);
+		t = <type_lvalue>(u, lv);
+		<param_name>(nm);
+	};
+
+	macro-param-list: () -> (p :TYPE_LIST) = {
+		t = macro-param-declaration;
+		{
+			comma;
+			q = macro-param-list;
+		||
+			q = <type_list_none>;
+		};
+		p = <type_list_cons>(t, q);
+	};
+
+	macro-operator: () -> (t :TYPE) = {
+		open-round;
+		p = macro-param-list;
+		close-round;
+		t = <type_macro>(p);
+	||
+		open-round;
+		close-round;
+		p = <type_list_none>;
+		t = <type_macro>(p);
+	};
+
+	/*
+	 * MACRO DEFINITION PARAMETER LISTS
+	 *
+	 * These rules describe the macro definition parameter lists.  These
+	 * comprise a simple list of identifier names.
+	 */
+
+	<param_none>:  () -> (:STRING);
+	<param_empty>: () -> (:STRING);
+	<param_join>:  (:STRING, :STRING) -> (:STRING);
+
+	define-param-list: () -> (p :STRING) = {
+		n = name;
+		comma;
+		q = define-param-list;
+		p = <param_join>(n, q);
+	||
+		p = name;
+	};
+
+	define-param-clause: () -> (p :STRING) = {
+		open-round;
+		p = define-param-list;
+		close-round;
+	||
+		open-round;
+		close-round;
+		p = <param_empty>;
+	||
+		p = <param_none>;
+	};
+
+	/*
+	 * OBJECT DECLARATORS
+	 *
+	 * These rules describe the object declarators.  These consist of an
+	 * identifier qualified using pointer, array and function type
+	 * operators.
+	 */
+
+	<type_none>: () -> (:TYPE);
+	declarator:  () -> (:IDENTIFIER, :TYPE);
+	identifier:  () -> (:IDENTIFIER);
+
+	direct-declarator: () -> (id :IDENTIFIER, t :TYPE) = {
+		id = identifier;
+		t = <type_none>;
+	||
+		(id, p) = direct-declarator;
+		s = function-operator;
+		t = <type_inject>(p, s);
+	||
+		(id, p) = direct-declarator;
+		s = array-operator;
+		t = <type_inject>(p, s);
+	||
+		open-round;
+		(id, t) = declarator;
+		close-round;
+	};
+
+	declarator: () -> (id :IDENTIFIER, t :TYPE) = {
+		(id, t) = direct-declarator;
+	||
+		p = ptr-operator;
+		(id, s) = declarator;
+		t = <type_inject>(s, p);
+	};
+
+	/*
+	 * MACRO DECLARATORS
+	 *
+	 * These rules describe the macro declarators.  These are a restricted
+	 * subset of the declarators in which only pointer operators are allowed.
+	 */
+
+	macro-declarator: () -> (id :IDENTIFIER, t :TYPE) = {
+		id = identifier;
+		t = <type_none>;
+	||
+		p = ptr-operator;
+		(id, s) = macro-declarator;
+		t = <type_inject>(s, p);
+	};
+
+	/*
+	 * ABSTRACT DECLARATORS
+	 *
+	 * These rules describe the abstract declarators, as used in function
+	 * parameter declarations.  For simplicity, the case of a list of
+	 * function parameters without a declarator has been omitted; function
+	 * parameters should be pointers to functions, rather than functions,
+	 * anyway.
+	 */
+
+	<name_none>: () -> (:STRING);
+
+	direct-abstract-declarator: () -> (nm :STRING, t :TYPE) = {
+		nm = <name_none>;
+		t = <type_none>;
+	||
+		nm = name;
+		t = <type_none>;
+	||
+		(nm, p) = direct-abstract-declarator;
+		s = array-operator;
+		t = <type_inject>(p, s);
+	||
+		open-round;
+		(nm, t) = abstract-declarator;
+		close-round;
+	||
+		open-round;
+		(nm, p) = abstract-declarator;
+		close-round;
+		s = function-operator;
+		t = <type_inject>(p, s);
+	};
+
+	abstract-declarator: () -> (nm :STRING, t :TYPE) = {
+		(nm, t) = direct-abstract-declarator;
+	||
+		p = ptr-operator;
+		(nm, s) = abstract-declarator;
+		t = <type_inject>(s, p);
+	};
+
+	/*
+	 * IDENTIFIER NAMES
+	 *
+	 * These rules describe the identifier names.  These comprise the actual
+	 * internal name, plus an optional external name (the external and internal
+	 * names are equal if this is not given).  Either name may have an
+	 * associated version number.
+	 */
+
+	<field_name>:     (:STRING) -> (:STRING);
+	<token_name>:     (:STRING) -> (:STRING);
+	<version_none>:   () -> (:VERSION);
+	<version_number>: (:STRING) -> (:VERSION);
+	<make_id>:        (:STRING, :VERSION, :STRING, :VERSION) -> (:IDENTIFIER);
+
+	name-version: () -> (v :VERSION) = {
+		dot;
+		n = number;
+		v = <version_number>(n);
+	||
+		v = <version_none>;
+	};
+
+	internal-name: () -> (nm :STRING, v :VERSION) = {
+		a = name;
+		v = name-version;
+		nm = <field_name>(a);
+	};
+
+	external-name: () -> (nm :STRING, v :VERSION) = {
+		a = name;
+		v = name-version;
+		b = <field_name>(a);
+		nm = <token_name>(b);
+	||
+		nm = string;
+		v = name-version;
+	};
+
+	identifier: () -> (id :IDENTIFIER) = {
+		(nm, v) = internal-name;
+		tnm = <token_name>(nm);
+		id = <make_id>(nm, v, tnm, v);
+	||
+		(nm, v) = internal-name;
+		or;
+		(tnm, tv) = external-name;
+		id = <make_id>(nm, v, tnm, tv);
+	};
+
+	/*
+	 * SUBSET NAMES
+	 *
+	 * These rules describe the specification subset names.  These consist
+	 * of between one and three components, giving the API name, the header
+	 * file within that API, and the subset of that header.
+	 */
+
+	<cmd_implement>: () -> (:COMMAND_KEY);
+	<cmd_use>:       () -> (:COMMAND_KEY);
+	<api_name>:      (:STRING) -> (:STRING);
+	<file_name>:     (:STRING, :STRING) -> (:STRING);
+	<subset_name>:   (:STRING, :STRING, :STRING) -> (:STRING);
+
+	implement-command: () -> (cmd :COMMAND_KEY) = {
+		implement;
+		cmd = <cmd_implement>;
+	||
+		use;
+		cmd = <cmd_use>;
+	};
+
+	subset-name: () -> (s :STRING) = {
+		a = string;
+		s = <api_name>(a);
+	||
+		a = string;
+		comma;
+		b = string;
+		s = <file_name>(a, b);
+	||
+		a = string;
+		comma;
+		b = string;
+		comma;
+		c = string;
+		s = <subset_name>(a, b, c);
+	};
+
+	use-subset-name: () -> (s :STRING) = {
+		open-round;
+		a = string;
+		close-round;
+		comma;
+		b = string;
+		s = <file_name>(a, b);
+	};
+
+	/*
+	 * SUBSET USAGE KEYS
+	 *
+	 * This rule describes the subset usage keys.  These are used to indicate
+	 * whether a file inclusion refers to the specification output, the
+	 * library building output, or both.
+	 */
+
+	<subset_none>:   () -> (:SUBSET_KEY);
+	<subset_first>:  () -> (:SUBSET_KEY);
+	<subset_second>: () -> (:SUBSET_KEY);
+	<subset_both>:   () -> (:SUBSET_KEY);
+	<subset_next>:   (:SUBSET_KEY) -> (:SUBSET_KEY);
+
+	subset-key: () -> (key :SUBSET_KEY) = {
+		key = <subset_both>;
+	||
+		open-round;
+		question;
+		question;
+		close-round;
+		key = <subset_none>;
+	||
+		open-round;
+		exclaim;
+		question;
+		close-round;
+		key = <subset_first>;
+	||
+		open-round;
+		question;
+		exclaim;
+		close-round;
+		key = <subset_second>;
+	||
+		open-round;
+		exclaim;
+		exclaim;
+		close-round;
+		key = <subset_both>;
+	};
+
+	/*
+	 * CONDITIONAL COMPILATION COMMANDS
+	 *
+	 * These rules describe the conditional compilation commands.
+	 */
+
+	<cond_building>:  () -> (:STRING);
+	<cond_protect>:   (:STRING, :STRING) -> (:STRING);
+	<command_if>:     (:STRING) -> (:COMMAND);
+	<command_ifdef>:  (:STRING) -> (:COMMAND);
+	<command_ifndef>: (:STRING) -> (:COMMAND);
+	<command_endif>:  (:COMMAND, :STRING, :COMMAND, :COMMAND) -> (:COMMAND);
+
+	ifdef-macro-name: () -> (c :STRING) = {
+		c = name;
+	||
+		building;
+		c = <cond_building>;
+	||
+		protect;
+		open-round;
+		a = string;
+		comma;
+		b = string;
+		close-round;
+		c = <cond_protect>(a, b);
+	};
+
+	if-command: () -> (c :COMMAND, s :STRING) = {
+		if;
+		s = constant-value;
+		c = <command_if>(s);
+	||
+		ifdef;
+		s = ifdef-macro-name;
+		c = <command_ifdef>(s);
+	||
+		ifndef;
+		s = ifdef-macro-name;
+		c = <command_ifndef>(s);
+	};
+
+	/*
+	 * ENUMERATION COMMANDS
+	 *
+	 * These rules describe the enumeration commands.  Each enumeration type
+	 * consists of a list of enumerator namess, each of which may be associated
+	 * with a value.
+	 */
+
+	<command_none>: () -> (:COMMAND);
+	<command_join>: (:COMMAND, :COMMAND) -> (:COMMAND);
+	<key_enum>:     () -> (:TYPE_KEY);
+	<declare_enumerator>: (:IDENTIFIER, :STRING) -> (:COMMAND);
+
+	enum-command: () -> (tag :TYPE_KEY) = {
+		tag = <key_enum>;
+	||
+		enum;
+		tag = <key_enum_tag>;
+	};
+
+	enumerator: () -> (c :COMMAND) = {
+		id = identifier;
+		{
+			equal;
+			s = constant-value;
+		||
+			s = <value_none>;
+		};
+		c = <declare_enumerator>(id, s);
+	};
+
+	enumerator-list: () -> (c :COMMAND) = {
+		a = enumerator;
+		{
+			comma;
+			b = enumerator-list;
+		||
+			b = <command_none>;
+		};
+		c = <command_join>(a, b);
+	};
+
+	/*
+	 * EXPRESSION COMMANDS
+	 *
+	 * These rules describe the expression commands.  Each expression command
+	 * consists of an lvalue specifier, a qualified type plus a list of
+	 * declarators.
+	 */
+
+	<cmd_constant>:   () -> (:COMMAND_KEY);
+	<cmd_exp>:        () -> (:COMMAND_KEY);
+	<cmd_exp_extern>: () -> (:COMMAND_KEY);
+	<declare_exp>:    (:COMMAND_KEY, :IDENTIFIER, :TYPE) -> (:COMMAND);
+
+	exp-command: () -> (cmd :COMMAND_KEY) = {
+		constant;
+		cmd = <cmd_constant>;
+	||
+		exp;
+		cmd = <cmd_exp>;
+	||
+		exp;
+		open-round;
+		const;
+		close-round;
+		cmd = <cmd_constant>;
+	||
+		exp;
+		open-round;
+		extern;
+		close-round;
+		cmd = <cmd_exp_extern>;
+	};
+
+	exp-declarator-list: (cmd :COMMAND_KEY, s :TYPE, lv :TYPE_KEY) -> (c :COMMAND) = {
+		(id, p) = declarator;
+		u = <type_inject>(p, s);
+		t = <type_lvalue>(u, lv);
+		a = <declare_exp>(cmd, id, t);
+		{
+			comma;
+			b = exp-declarator-list(cmd, s, lv);
+		||
+			b = <command_none>;
+		};
+		c = <command_join>(a, b);
+	};
+
+	/*
+	 * FIELD COMMANDS
+	 *
+	 * These rules describe the field commands.  Each field consists of a
+	 * qualified type and a list of declarators.  Conditional compilation
+	 * of fields is allowed.
+	 */
+
+	<bool_true>:  () -> (:BOOLEAN);
+	<bool_false>: () -> (:BOOLEAN);
+	<id_anon>:    () -> (:IDENTIFIER);
+	<declare_field>: (:IDENTIFIER, :TYPE, :TYPE) -> (:COMMAND);
+
+	field-exact: () -> (e :BOOLEAN) = {
+		assign;
+		e = <bool_true>;
+	||
+		e = <bool_false>;
+	};
+
+	field-declarator: () -> (id :IDENTIFIER, t :TYPE) = {
+		(id, t) = declarator;
+	||
+		id = identifier;
+		t = bitfield-operator;
+	||
+		t = bitfield-operator;
+		id = <id_anon>;
+	};
+
+	field-declarator-list: (m :TYPE, s :TYPE) -> (c :COMMAND) = {
+		(id, p) = field-declarator;
+		t = <type_inject>(p, s);
+		a = <declare_field>(id, m, t);
+		{
+			comma;
+			b = field-declarator-list (m, s);
+		||
+			b = <command_none>;
+		};
+		c = <command_join>(a, b);
+	};
+
+	field-list: (m :TYPE) -> (c :COMMAND) = {
+		c = <command_none>;
+	||
+		t = qualified-type;
+		a = field-declarator-list(m, t);
+		semicolon;
+		b = field-list (m);
+		c = <command_join>(a, b);
+	||
+		(i, s) = if-command;
+		a = field-list (m);
+		{
+			else;
+			b = field-list (m);
+		||
+			b = <command_none>;
+		};
+		endif;
+		c1 = <command_endif>(i, s, a, b);
+		c2 = field-list (m);
+		c = <command_join>(c1, c2);
+	};
+
+	/*
+	 * FUNCTION COMMANDS
+	 *
+	 * This rule describes the various function command keys.
+	 */
+
+	<cmd_func>:        () -> (:COMMAND_KEY);
+	<cmd_func_extern>: () -> (:COMMAND_KEY);
+	<cmd_func_weak>:   () -> (:COMMAND_KEY);
+
+	func-command: () -> (cmd :COMMAND_KEY) = {
+		func;
+		cmd = <cmd_func>;
+	||
+		func;
+		open-round;
+		extern;
+		close-round;
+		cmd = <cmd_func_extern>;
+	||
+		func;
+		open-round;
+		weak;
+		close-round;
+		cmd = <cmd_func_weak>;
+	};
+
+	/*
+	 * INTEGER CONSTANT COMMANDS
+	 *
+	 * This rule describes the integer constant commands.  This consists of
+	 * a simple list of identifiers.
+	 */
+
+	<declare_nat>: (:IDENTIFIER) -> (:COMMAND);
+
+	nat-declarator-list: () -> (c :COMMAND) = {
+		id = identifier;
+		a = <declare_nat>(id);
+		{
+			comma;
+			b = nat-declarator-list;
+		||
+			b = <command_none>;
+		};
+		c = <command_join>(a, b);
+	};
+
+	/*
+	 * TYPE COMMANDS
+	 *
+	 * These rules describe the type commands.  These comprise a list of
+	 * identifiers, each preceeded by an optional type command key.
+	 */
+
+	<key_int>:      () -> (:TYPE_KEY);
+	<key_signed>:   () -> (:TYPE_KEY);
+	<key_unsigned>: () -> (:TYPE_KEY);
+	<key_float>:    () -> (:TYPE_KEY);
+	<key_arith>:    () -> (:TYPE_KEY);
+	<key_scalar>:   () -> (:TYPE_KEY);
+	<key_struct>:   () -> (:TYPE_KEY);
+	<key_union>:    () -> (:TYPE_KEY);
+	<declare_type>: (:TYPE_KEY, :IDENTIFIER) -> (:COMMAND);
+
+	type-command: () -> (tag :TYPE_KEY) = {
+	   tag = <key_type>;
+	|| open-round; int;      close-round; tag = <key_int>;
+	|| open-round; signed;   close-round; tag = <key_signed>;
+	|| open-round; unsigned; close-round; tag = <key_unsigned>;
+	|| open-round; float;    close-round; tag = <key_float>;
+	|| open-round; arith;    close-round; tag = <key_arith>;
+	|| open-round; scalar;   close-round; tag = <key_scalar>;
+	|| open-round; struct;   close-round; tag = <key_struct>;
+	|| open-round; union;    close-round; tag = <key_union>;
+	|| struct; tag = <key_struct_tag>;
+	|| union;  tag = <key_union_tag>;
+	};
+
+	type-declarator-list: () -> (c :COMMAND) = {
+		tag = type-command;
+		id = identifier;
+		a = <declare_type>(tag, id);
+		{
+			comma;
+			b = type-declarator-list;
+		||
+			b = <command_none>;
+		};
+		c = <command_join>(a, b);
+	};
+
+	/*
+	 * SUBSET COMMAND
+	 *
+	 * These rules describes the subset command.  This is the main entry point
+	 * into the grammar.
+	 */
+
+	<begin_subset>: (:STRING) -> (:COMMAND);
+	<end_subset>:   (:COMMAND, :COMMAND) -> (:COMMAND);
+	<syntax_error>: () -> ();
+	command-list:   () -> (:COMMAND);
+
+	subset-command: () -> (c :COMMAND) = {
+		set;
+		s = subset-name;
+		assign;
+		a = <begin_subset>(s);
+		open-brace;
+		b = command-list;
+		close-brace;
+		c = <end_subset>(a, b);
+	};
+
+	specification: () -> (c :COMMAND) = {
+		c = subset-command;
+		semicolon;
+		eof;
+	##
+		<syntax_error>;
+		c = <command_none>;
+	};
+
+	/*
+	 * SPECIFICATION COMMANDS
+	 *
+	 * This rule describes the main group of commands; those which introduce
+	 * a specification item.
+	 */
+
+	<declare_base>:    () -> (:COMMAND);
+	<declare_define>:  (:IDENTIFIER, :STRING, :STRING)    -> (:COMMAND);
+	<declare_defmin>:  (:IDENTIFIER, :STRING, :STRING)    -> (:COMMAND);
+	<declare_enum>:    (:TYPE_KEY, :IDENTIFIER, :COMMAND) -> (:COMMAND);
+	<declare_func>:    (:COMMAND_KEY, :IDENTIFIER, :TYPE) -> (:COMMAND);
+	<declare_macro>:   (:IDENTIFIER, :TYPE)   -> (:COMMAND);
+	<declare_promote>: (:IDENTIFIER, :TYPE)   -> (:COMMAND);
+	<declare_stmt>:    (:IDENTIFIER, :TYPE)   -> (:COMMAND);
+	<declare_token>:   (:IDENTIFIER, :STRING) -> (:COMMAND);
+	<declare_typedef>: (:IDENTIFIER, :TYPE)   -> (:COMMAND);
+	<include_subset>:  (:COMMAND_KEY, :STRING, :SUBSET_KEY) -> (:COMMAND);
+	<begin_field>:     (:IDENTIFIER, :TYPE_KEY) -> (:TYPE, :COMMAND);
+	<end_field>:       (:TYPE, :COMMAND, :COMMAND, :BOOLEAN) -> (:COMMAND);
+	<type_special>:    (:STRING) -> (:TYPE);
+	<key_exp>:         (:COMMAND_KEY, :TYPE_KEY) -> (:TYPE_KEY);
+
+	spec-command: () -> (c :COMMAND) = {
+		base-api;
+		c = <declare_base>;
+	||
+		define;
+		id = identifier;
+		p = define-param-clause;
+		s = constant-value;
+		c = <declare_define>(id, p, s);
+	||
+		defmin;
+		id = identifier;
+		p = define-param-clause;
+		s = constant-value;
+		c = <declare_defmin>(id, p, s);
+	||
+		enumerate;
+		tag = enum-command;
+		id = identifier;
+		assign;
+		open-brace;
+		e = enumerator-list;
+		close-brace;
+		c = <declare_enum>(tag, id, e);
+	||
+		cmd = exp-command;
+		lv1 = object-qualifier;
+		lv = <key_exp>(cmd, lv1);
+		t = qualified-type;
+		c = exp-declarator-list(cmd, t, lv);
+	||
+		field;
+		tag = type-command;
+		id = identifier;
+		e = field-exact;
+		(t, a) = <begin_field>(id, tag);
+		open-brace;
+		b = field-list(t);
+		close-brace;
+		c = <end_field>(t, a, b, e);
+	||
+		cmd = func-command;
+		s = qualified-type;
+		(id, p) = declarator;
+		t = <type_inject>(p, s);
+		c = <declare_func>(cmd, id, t);
+	||
+		macro;
+		lv = object-qualifier;
+		s = qualified-type;
+		(id, p) = macro-declarator;
+		u = <type_inject>(p, s);
+		v = <type_lvalue>(u, lv);
+		{
+			q = macro-operator;
+		||
+			q = <type_none>;
+		};
+		t = <type_inject>(q, v);
+		c = <declare_macro>(id, t);
+	||
+		nat;
+		c = nat-declarator-list;
+	||
+		statement;
+		id = identifier;
+		{
+			t = macro-operator;
+		||
+			t = <type_none>;
+		};
+		c = <declare_stmt>(id, t);
+	||
+		token;
+		id = identifier;
+		s = insert;
+		c = <declare_token>(id, s);
+	||
+		type;
+		c = type-declarator-list;
+	||
+		typedef;
+		s = qualified-type;
+		(id, p) = declarator;
+		t = <type_inject>(p, s);
+		c = <declare_typedef>(id, t);
+	||
+		typedef;
+		promote;
+		open-round;
+		t = qualified-type;
+		close-round;
+		id = identifier;
+		c = <declare_promote>(id, t);
+	||
+		typedef;
+		special;
+		open-round;
+		s = string;
+		close-round;
+		t = <type_special>(s);
+		id = identifier;
+		c = <declare_typedef>(id, t);
+	||
+		cmd = implement-command;
+		s = subset-name;
+		key = subset-key;
+		c = <include_subset>(cmd, s, key);
+	||
+		use; cmd = <cmd_use>;
+		s = use-subset-name;
+		key1 = subset-key;
+		key = <subset_next>(key1);
+		c = <include_subset>(cmd, s, key);
+	||
+		c = subset-command;
+	};
+
+	/*
+	 * TEXTUAL COMMANDS
+	 *
+	 * This rule describes the second group of commands; those which are
+	 * concerned with textual substitution.
+	 */
+
+	<declare_comment>: (:STRING) -> (:COMMAND);
+	<declare_insert>:  (:STRING) -> (:COMMAND);
+	<declare_build_insert>: (:STRING) -> (:COMMAND);
+
+	text-command: () -> (c :COMMAND) = {
+		(i, s) = if-command;
+		a = command-list;
+		{
+			else;
+			b = command-list;
+		||
+			b = <command_none>;
+		};
+		endif;
+		c = <command_endif>(i, s, a, b);
+	||
+		s = comment;
+		c = <declare_comment>(s);
+	||
+		s = insert;
+		c = <declare_insert>(s);
+	||
+		s = build-insert;
+		c = <declare_build_insert>(s);
+	};
+
+	/*
+	 * VARIABLE COMMANDS
+	 *
+	 * This rule describes the third group of commands; those which affect the
+	 * program environment, but do not actually introduce a specified item.
+	 */
+
+	<variable_string>: (:STRING, :STRING) -> ();
+	<variable_plus>:   (:STRING, :STRING) -> ();
+	<variable_minus>:  (:STRING, :STRING) -> ();
+
+	variable-command: () -> () = {
+		info;
+		s = string;
+	||
+		nm = variable;
+		equal;
+		s = string;
+		<variable_string>(nm, s);
+	||
+		nm = variable;
+		equal;
+		s = number;
+		<variable_plus>(nm, s);
+	||
+		nm = variable;
+		equal;
+		minus;
+		s = number;
+		<variable_minus>(nm, s);
+	};
+
+	/*
+	 * COMMAND LISTS
+	 *
+	 * These rules describe the lists of commands.
+	 */
+
+	command-list: () -> (c :COMMAND) = {
+		c = <command_none>;
+	||
+		a = spec-command;
+		semicolon;
+		b = command-list;
+		c = <command_join>(a, b);
+	||
+		a = text-command;
+		b = command-list;
+		c = <command_join>(a, b);
+	||
+		variable-command;
+		semicolon;
+		c = command-list;
+	};
+
+%entry%
+
+	specification;
 
-/*
-    BUILT-IN TYPES
-
-    These rules describe the built-in types.  Illegal combinations of
-    keywords are detected by the action <type_builtin>.
-*/
-
-<btype_char> : () -> ( :TYPE_SPEC ) ;
-<btype_short> : () -> ( :TYPE_SPEC ) ;
-<btype_int> : () -> ( :TYPE_SPEC ) ;
-<btype_long> : () -> ( :TYPE_SPEC ) ;
-<btype_signed> : () -> ( :TYPE_SPEC ) ;
-<btype_unsigned> : () -> ( :TYPE_SPEC ) ;
-<btype_float> : () -> ( :TYPE_SPEC ) ;
-<btype_double> : () -> ( :TYPE_SPEC ) ;
-<btype_void> : () -> ( :TYPE_SPEC ) ;
-<btype_join> : ( :TYPE_SPEC, :TYPE_SPEC ) -> ( :TYPE_SPEC ) ;
-
-type-keyword : () -> ( b : TYPE_SPEC ) = {
-	char ; b = <btype_char> ;
-    ||	short ; b = <btype_short> ;
-    ||	int ; b = <btype_int> ;
-    ||	long ; b = <btype_long> ;
-    ||	signed ; b = <btype_signed> ;
-    ||	unsigned ; b = <btype_unsigned> ;
-    ||	float ; b = <btype_float> ;
-    ||	double ; b = <btype_double> ;
-    ||	void ; b = <btype_void> ;
-} ;
-
-builtin-type : () -> ( b : TYPE_SPEC ) = {
-	a = type-keyword ;
-	{
-		d = builtin-type ; c = <btype_join> ( a, d ) ;
-	    ||	c = a ;
-	} ;
-	b = c ;
-} ;
-
-
-/*
-    SIMPLE TYPES
-
-    These rules describes the simple, unqualified, types.
-*/
-
-<type_builtin> : ( :TYPE_SPEC ) -> ( :TYPE ) ;
-<type_name> : ( :STRING, :TYPE_KEY ) -> ( :TYPE ) ;
-<key_type> : () -> ( :TYPE_KEY ) ;
-<key_struct_tag> : () -> ( :TYPE_KEY ) ;
-<key_union_tag> : () -> ( :TYPE_KEY ) ;
-<key_enum_tag> : () -> ( :TYPE_KEY ) ;
-
-type-key : () -> ( tag : TYPE_KEY ) = {
-	tag = <key_type> ;
-    ||	struct ; tag = <key_struct_tag> ;
-    ||	union ; tag = <key_union_tag> ;
-    ||	enum ; tag = <key_enum_tag> ;
-} ;
-
-simple-type : () -> ( t : TYPE ) = {
-	b = builtin-type ;
-	t = <type_builtin> ( b ) ;
-    ||
-	tag = type-key ; nm = name ;
-	t = <type_name> ( nm, tag ) ;
-} ;
-
-
-/*
-    QUALIFIED TYPES
-
-    These rules describe the type qualifiers and the qualified types.
-*/
-
-<cv_none> : () -> ( :TYPE_QUAL ) ;
-<cv_const> : ( :TYPE_QUAL ) -> ( :TYPE_QUAL ) ;
-<cv_volatile> : ( :TYPE_QUAL ) -> ( :TYPE_QUAL ) ;
-<type_qualify> : ( :TYPE, :TYPE_QUAL ) -> ( :TYPE ) ;
-
-type-qualifier : () -> ( :TYPE_QUAL ) ;
-
-type-qualifier-opt : () -> ( cv : TYPE_QUAL ) = {
-	cv = <cv_none> ;
-    ||	cv = type-qualifier ;
-} ;
-
-type-qualifier : () -> ( cv : TYPE_QUAL ) = {
-    	const ; a = type-qualifier-opt ;
-	cv = <cv_const> ( a ) ;
-    ||
-    	volatile ; a = type-qualifier-opt ;
-	cv = <cv_volatile> ( a ) ;
-} ;
-
-qualified-type : () -> ( t : TYPE ) = {
-	t = simple-type ;
-    ||
-	cv = type-qualifier ; s = simple-type ;
-	t = <type_qualify> ( s, cv ) ;
-    ||
-	s = simple-type ; cv = type-qualifier ;
-	t = <type_qualify> ( s, cv ) ;
-} ;
-
-
-/*
-    LVALUE QUALIFIERS
-
-    This rule describes the lvalue and rvalue type qualifiers.
-*/
-
-<key_rvalue> : () -> ( :TYPE_KEY ) ;
-<key_lvalue> : () -> ( :TYPE_KEY ) ;
-
-object-qualifier : () -> ( lv : TYPE_KEY ) = {
-	lvalue ; lv = <key_lvalue> ;
-    ||	lv = <key_rvalue> ;
-} ;
-
-
-/*
-    CONSTANT EXPRESSIONS
-
-    This rule describes the constant expressions.  These comprise the
-    numbers, the NAT token names, plus some simple operations on these
-    values.  More complex expressions can be expressed using an insert.
-*/
-
-<value_none> : () -> ( :STRING ) ;
-<value_nat> : ( :STRING ) -> ( :STRING ) ;
-<value_not> : ( :STRING ) -> ( :STRING ) ;
-<value_negate> : ( :STRING ) -> ( :STRING ) ;
-
-constant-value : () -> ( s : STRING ) = {
-	s = number ;
-    ||	s = insert ;
-    ||	a = name ; s = <value_nat> ( a ) ;
-    ||  minus ; a = constant-value ; s = <value_negate> ( a ) ;
-    ||  exclaim ; a = constant-value ; s = <value_not> ( a ) ;
-} ;
-
-
-/*
-    POINTER TYPE OPERATOR
-
-    This rule describes the pointer type operator.
-*/
-
-<type_ptr> : ( :TYPE_QUAL ) -> ( :TYPE ) ;
-
-ptr-operator : () -> ( t : TYPE ) = {
-	star ; cv = type-qualifier-opt ;
-	t = <type_ptr> ( cv ) ;
-} ;
-
-
-/*
-    ARRAY TYPE OPERATOR
-
-    This rule describes the array type operator.
-*/
-
-<type_array> : ( :STRING ) -> ( :TYPE ) ;
-
-array-operator : () -> ( t : TYPE ) = {
-	open-square ;
-	{
-		a = constant-value ;
-	    ||	a = <value_none> ;
-	} ;
-	close-square ;
-	t = <type_array> ( a ) ;
-} ;
-
-
-/*
-    BITFIELD TYPE OPERATOR
-
-    This rule describes the bitfield type operator.
-*/
-
-<type_bitfield> : ( :STRING ) -> ( :TYPE ) ;
-
-bitfield-operator : () -> ( t : TYPE ) = {
-	colon ; a = constant-value ;
-	t = <type_bitfield> ( a ) ;
-} ;
-
-
-/*
-    FUNCTION TYPE OPERATOR
-
-    These rules describe the function type operator.
-*/
-
-<type_func> : ( :TYPE_LIST ) -> ( :TYPE ) ;
-<type_inject> : ( :TYPE, :TYPE ) -> ( :TYPE ) ;
-<type_list_none> : () -> ( :TYPE_LIST ) ;
-<type_list_empty> : () -> ( :TYPE_LIST ) ;
-<type_list_ellipsis> : () -> ( :TYPE_LIST ) ;
-<type_list_cons> : ( :TYPE, :TYPE_LIST ) -> ( :TYPE_LIST ) ;
-<param_name> : ( :STRING ) -> () ;
-abstract-declarator : () -> ( :STRING, :TYPE ) ;
-
-parameter-declaration : () -> ( t : TYPE ) = {
-	s = qualified-type ; ( nm, p ) = abstract-declarator ;
-	t = <type_inject> ( p, s ) ;
-	<param_name> ( nm ) ;
-} ;
-
-parameter-list : () -> ( p : TYPE_LIST ) = {
-	t = parameter-declaration ;
-	{
-		comma ; q = parameter-list ;
-	    ||	comma ; ellipsis ; q = <type_list_ellipsis> ;
-	    ||	q = <type_list_none> ;
-	} ;
-	p = <type_list_cons> ( t, q ) ;
-} ;
-
-function-operator : () -> ( t : TYPE ) = {
-	open-round ; p = parameter-list ; close-round ;
-	t = <type_func> ( p ) ;
-    ||
-	open-round ; close-round ;
-	p = <type_list_empty> ;
-	t = <type_func> ( p ) ;
-} ;
-
-
-/*
-    MACRO TYPE OPERATOR
-
-    These rules describe the macro type operator.  This is similar to the
-    function type operator except that each parameter may be specified
-    as an lvalue and there are no ellipsis parameters.
-*/
-
-<type_lvalue> : ( :TYPE, :TYPE_KEY ) -> ( :TYPE ) ;
-<type_macro> : ( :TYPE_LIST ) -> ( :TYPE ) ;
-
-macro-param-declaration : () -> ( t : TYPE ) = {
-	lv = object-qualifier ;
-	s = qualified-type ; ( nm, p ) = abstract-declarator ;
-	u = <type_inject> ( p, s ) ;
-	t = <type_lvalue> ( u, lv ) ;
-	<param_name> ( nm ) ;
-} ;
-
-macro-param-list : () -> ( p : TYPE_LIST ) = {
-	t = macro-param-declaration ;
-	{
-		comma ; q = macro-param-list ;
-	    ||	q = <type_list_none> ;
-	} ;
-	p = <type_list_cons> ( t, q ) ;
-} ;
-
-macro-operator : () -> ( t : TYPE ) = {
-	open-round ; p = macro-param-list ; close-round ;
-	t = <type_macro> ( p ) ;
-    ||
-	open-round ; close-round ;
-	p = <type_list_none> ;
-	t = <type_macro> ( p ) ;
-} ;
-
-
-/*
-    MACRO DEFINITION PARAMETER LISTS
-
-    These rules describe the macro definition parameter lists.  These
-    comprise a simple list of identifier names.
-*/
-
-<param_none> : () -> ( :STRING ) ;
-<param_empty> : () -> ( :STRING ) ;
-<param_join> : ( :STRING, :STRING ) -> ( :STRING ) ;
-
-define-param-list : () -> ( p : STRING ) = {
-	n = name ; comma ; q = define-param-list ;
-	p = <param_join> ( n, q ) ;
-    ||
-	p = name ;
-} ;
-
-define-param-clause : () -> ( p : STRING ) = {
-	open-round ; p = define-param-list ; close-round ;
-    ||	open-round ; close-round ; p = <param_empty> ;
-    ||	p = <param_none> ;
-} ;
-
-
-/*
-    OBJECT DECLARATORS
-
-    These rules describe the object declarators.  These consist of an
-    identifier qualified using pointer, array and function type
-    operators.
-*/
-
-<type_none> : () -> ( :TYPE ) ;
-declarator : () -> ( :IDENTIFIER, :TYPE ) ;
-identifier : () -> ( :IDENTIFIER ) ;
-
-direct-declarator : () -> ( id : IDENTIFIER, t : TYPE ) = {
-	id = identifier ; t = <type_none> ;
-    ||
-	( id, p ) = direct-declarator ; s = function-operator ;
-	t = <type_inject> ( p, s ) ;
-    ||
-	( id, p ) = direct-declarator ; s = array-operator ;
-	t = <type_inject> ( p, s ) ;
-    ||
-	open-round ; ( id, t ) = declarator ; close-round ;
-} ;
-
-declarator : () -> ( id : IDENTIFIER, t : TYPE ) = {
-	( id, t ) = direct-declarator ;
-    ||
-	p = ptr-operator ; ( id, s ) = declarator ;
-	t = <type_inject> ( s, p ) ;
-} ;
-
-
-/*
-    MACRO DECLARATORS
-
-    These rules describe the macro declarators.  These are a restricted
-    subset of the declarators in which only pointer operators are allowed.
-*/
-
-macro-declarator : () -> ( id : IDENTIFIER, t : TYPE ) = {
-	id = identifier ; t = <type_none> ;
-    ||
-	p = ptr-operator ; ( id, s ) = macro-declarator ;
-	t = <type_inject> ( s, p ) ;
-} ;
-
-
-/*
-    ABSTRACT DECLARATORS
-
-    These rules describe the abstract declarators, as used in function
-    parameter declarations.  For simplicity, the case of a list of
-    function parameters without a declarator has been omitted; function
-    parameters should be pointers to functions, rather than functions,
-    anyway.
-*/
-
-<name_none> : () -> ( :STRING ) ;
-
-direct-abstract-declarator : () -> ( nm : STRING, t : TYPE ) = {
-	nm = <name_none> ; t = <type_none> ;
-    ||
-	nm = name ; t = <type_none> ;
-    ||
-	( nm, p ) = direct-abstract-declarator ; s = array-operator ;
-	t = <type_inject> ( p, s ) ;
-    ||
-	open-round ; ( nm, t ) = abstract-declarator ; close-round ;
-    ||
-	open-round ; ( nm, p ) = abstract-declarator ; close-round ;
-	s = function-operator ;
-	t = <type_inject> ( p, s ) ;
-} ;
-
-abstract-declarator : () -> ( nm : STRING, t : TYPE ) = {
-	( nm, t ) = direct-abstract-declarator ;
-    ||
-	p = ptr-operator ; ( nm, s ) = abstract-declarator ;
-	t = <type_inject> ( s, p ) ;
-} ;
-
-
-/*
-    IDENTIFIER NAMES
-
-    These rules describe the identifier names.  These comprise the actual
-    internal name, plus an optional external name (the external and internal
-    names are equal if this is not given).  Either name may have an
-    associated version number.
-*/
-
-<field_name> : ( :STRING ) -> ( :STRING ) ;
-<token_name> : ( :STRING ) -> ( :STRING ) ;
-<version_none> : () -> ( :VERSION ) ;
-<version_number> : ( :STRING ) -> ( :VERSION ) ;
-<make_id> : ( :STRING, :VERSION, :STRING, :VERSION ) -> ( :IDENTIFIER ) ;
-
-name-version : () -> ( v : VERSION ) = {
-	dot ; n = number ; v = <version_number> ( n ) ;
-    ||	v = <version_none> ;
-} ;
-
-internal-name : () -> ( nm : STRING, v : VERSION ) = {
-	a = name ; v = name-version ;
-	nm = <field_name> ( a ) ;
-} ;
-
-external-name : () -> ( nm : STRING, v : VERSION ) = {
-	a = name ; v = name-version ;
-	b = <field_name> ( a ) ;
-	nm = <token_name> ( b ) ;
-    ||
-	nm = string ; v = name-version ;
-} ;
-
-identifier : () -> ( id : IDENTIFIER ) = {
-	( nm, v ) = internal-name ;
-	tnm = <token_name> ( nm ) ;
-	id = <make_id> ( nm, v, tnm, v ) ;
-    ||
-	( nm, v ) = internal-name ; or ; ( tnm, tv ) = external-name ;
-	id = <make_id> ( nm, v, tnm, tv ) ;
-} ;
-
-
-/*
-    SUBSET NAMES
-
-    These rules describe the specification subset names.  These consist
-    of between one and three components, giving the API name, the header
-    file within that API, and the subset of that header.
-*/
-
-<cmd_implement> : () -> ( :COMMAND_KEY ) ;
-<cmd_use> : () -> ( :COMMAND_KEY ) ;
-<api_name> : ( :STRING ) -> ( :STRING ) ;
-<file_name> : ( :STRING, :STRING ) -> ( :STRING ) ;
-<subset_name> : ( :STRING, :STRING, :STRING ) -> ( :STRING ) ;
-
-implement-command : () -> ( cmd : COMMAND_KEY ) = {
-	implement ; cmd = <cmd_implement> ;
-    ||	use ; cmd = <cmd_use> ;
-} ;
-
-subset-name : () -> ( s : STRING ) = {
-	a = string ;
-	s = <api_name> ( a ) ;
-    ||
-	a = string ; comma ; b = string ;
-	s = <file_name> ( a, b ) ;
-    ||
-	a = string ; comma ; b = string ; comma ; c = string ;
-	s = <subset_name> ( a, b, c ) ;
-} ;
-
-use-subset-name : () -> ( s : STRING ) = {
-	open-round ; a = string ; close-round ; comma ; b = string ;
-	s = <file_name> ( a, b ) ;
-} ;
-
-
-/*
-    SUBSET USAGE KEYS
-
-    This rule describes the subset usage keys.  These are used to indicate
-    whether a file inclusion refers to the specification output, the
-    library building output, or both.
-*/
-
-<subset_none> : () -> ( :SUBSET_KEY ) ;
-<subset_first> : () -> ( :SUBSET_KEY ) ;
-<subset_second> : () -> ( :SUBSET_KEY ) ;
-<subset_both> : () -> ( :SUBSET_KEY ) ;
-<subset_next> : ( :SUBSET_KEY ) -> ( :SUBSET_KEY ) ;
-
-subset-key : () -> ( key : SUBSET_KEY ) = {
-	key = <subset_both> ;
-    ||
-	open-round ; question ; question ; close-round ;
-	key = <subset_none> ;
-    ||
-	open-round ; exclaim ; question ; close-round ;
-	key = <subset_first> ;
-    ||
-	open-round ; question ; exclaim ; close-round ;
-	key = <subset_second> ;
-    ||
-	open-round ; exclaim ; exclaim ; close-round ;
-	key = <subset_both> ;
-} ;
-
-
-/*
-    CONDITIONAL COMPILATION COMMANDS
-
-    These rules describe the conditional compilation commands.
-*/
-
-<cond_building> : () -> ( :STRING ) ;
-<cond_protect> : ( :STRING, :STRING ) -> ( :STRING ) ;
-<command_if> : ( :STRING ) -> ( :COMMAND ) ;
-<command_ifdef> : ( :STRING ) -> ( :COMMAND ) ;
-<command_ifndef> : ( :STRING ) -> ( :COMMAND ) ;
-<command_endif> : ( :COMMAND, :STRING, :COMMAND, :COMMAND ) -> ( :COMMAND ) ;
-
-ifdef-macro-name : () -> ( c : STRING ) = {
-	c = name ;
-    ||
-	building ;
-	c = <cond_building> ;
-    ||
-	protect ;
-	open-round ; a = string ; comma ; b = string ; close-round ;
-	c = <cond_protect> ( a, b ) ;
-} ;
-
-if-command : () -> ( c : COMMAND, s : STRING ) = {
-	if ; s = constant-value ;
-	c = <command_if> ( s ) ;
-    ||
-	ifdef ; s = ifdef-macro-name ;
-	c = <command_ifdef> ( s ) ;
-    ||
-	ifndef ; s = ifdef-macro-name ;
-	c = <command_ifndef> ( s ) ;
-} ;
-
-
-/*
-    ENUMERATION COMMANDS
-
-    These rules describe the enumeration commands.  Each enumeration type
-    consists of a list of enumerator namess, each of which may be associated
-    with a value.
-*/
-
-<command_none> : () -> ( :COMMAND ) ;
-<command_join> : ( :COMMAND, :COMMAND ) -> ( :COMMAND ) ;
-<declare_enumerator> : ( :IDENTIFIER, :STRING ) -> ( :COMMAND ) ;
-<key_enum> : () -> ( :TYPE_KEY ) ;
-
-enum-command : () -> ( tag : TYPE_KEY ) = {
-	tag = <key_enum> ;
-    ||	enum ; tag = <key_enum_tag> ;
-} ;
-
-enumerator : () -> ( c : COMMAND ) = {
-	id = identifier ;
-	{
-		equal ; s = constant-value ;
-	    ||	s = <value_none> ;
-	} ;
-	c = <declare_enumerator> ( id, s ) ;
-} ;
-
-enumerator-list : () -> ( c : COMMAND ) = {
-	a = enumerator ;
-	{
-		comma ; b = enumerator-list ;
-	    ||	b = <command_none> ;
-	} ;
-	c = <command_join> ( a, b ) ;
-} ;
-
-
-/*
-    EXPRESSION COMMANDS
-
-    These rules describe the expression commands.  Each expression command
-    consists of an lvalue specifier, a qualified type plus a list of
-    declarators.
-*/
-
-<cmd_constant> : () -> ( :COMMAND_KEY ) ;
-<cmd_exp> : () -> ( :COMMAND_KEY ) ;
-<cmd_exp_extern> : () -> ( :COMMAND_KEY ) ;
-<declare_exp> : ( :COMMAND_KEY, :IDENTIFIER, :TYPE ) -> ( :COMMAND ) ;
-
-exp-command : () -> ( cmd : COMMAND_KEY ) = {
-	constant ; cmd = <cmd_constant> ;
-    ||	exp ; cmd = <cmd_exp> ;
-    ||	exp ; open-round ; const ; close-round ; cmd = <cmd_constant> ;
-    ||	exp ; open-round ; extern ; close-round ; cmd = <cmd_exp_extern> ;
-} ;
-
-exp-declarator-list : ( cmd : COMMAND_KEY, s : TYPE, lv : TYPE_KEY )
-		    -> ( c : COMMAND ) = {
-	( id, p ) = declarator ;
-	u = <type_inject> ( p, s ) ;
-	t = <type_lvalue> ( u, lv ) ;
-	a = <declare_exp> ( cmd, id, t ) ;
-	{
-		comma ; b = exp-declarator-list ( cmd, s, lv ) ;
-	    ||	b = <command_none> ;
-	} ;
-	c = <command_join> ( a, b ) ;
-} ;
-
-
-/*
-    FIELD COMMANDS
-
-    These rules describe the field commands.  Each field consists of a
-    qualified type and a list of declarators.  Conditional compilation
-    of fields is allowed.
-*/
-
-<bool_true> : () -> ( :BOOLEAN ) ;
-<bool_false> : () -> ( :BOOLEAN ) ;
-<id_anon> : () -> ( :IDENTIFIER ) ;
-<declare_field> : ( :IDENTIFIER, :TYPE, :TYPE ) -> ( :COMMAND ) ;
-
-field-exact : () -> ( e : BOOLEAN ) = {
-	assign ; e = <bool_true> ;
-    ||	e = <bool_false> ;
-} ;
-
-field-declarator : () -> ( id : IDENTIFIER, t : TYPE ) = {
-	( id, t ) = declarator ;
-    ||
-	id = identifier ; t = bitfield-operator ;
-    ||
-	t = bitfield-operator ; id = <id_anon> ;
-} ;
-
-field-declarator-list : ( m : TYPE, s : TYPE ) -> ( c : COMMAND ) = {
-	( id, p ) = field-declarator ;
-	t = <type_inject> ( p, s ) ;
-	a = <declare_field> ( id, m, t ) ;
-	{
-		comma ; b = field-declarator-list ( m, s ) ;
-	    ||	b = <command_none> ;
-	} ;
-	c = <command_join> ( a, b ) ;
-} ;
-
-field-list : ( m : TYPE ) -> ( c : COMMAND ) = {
-	c = <command_none> ;
-    ||
-	t = qualified-type ;
-	a = field-declarator-list ( m, t ) ; semicolon ;
-	b = field-list ( m ) ;
-	c = <command_join> ( a, b ) ;
-    ||
-	( i, s ) = if-command ;
-	a = field-list ( m ) ;
-	{
-		else ; b = field-list ( m ) ;
-	    ||	b = <command_none> ;
-	} ;
-	endif ;
-	c1 = <command_endif> ( i, s, a, b ) ;
-	c2 = field-list ( m ) ;
-	c = <command_join> ( c1, c2 ) ;
-} ;
-
-
-/*
-    FUNCTION COMMANDS
-
-    This rule describes the various function command keys.
-*/
-
-<cmd_func> : () -> ( :COMMAND_KEY ) ;
-<cmd_func_extern> : () -> ( :COMMAND_KEY ) ;
-<cmd_func_weak> : () -> ( :COMMAND_KEY ) ;
-
-func-command : () -> ( cmd : COMMAND_KEY ) = {
-	func ; cmd = <cmd_func> ;
-    ||
-	func ; open-round ; extern ; close-round ;
-	cmd = <cmd_func_extern> ;
-    ||
-	func ; open-round ; weak ; close-round ;
-	cmd = <cmd_func_weak> ;
-} ;
-
-
-/*
-    INTEGER CONSTANT COMMANDS
-
-    This rule describes the integer constant commands.  This consists of
-    a simple list of identifiers.
-*/
-
-<declare_nat> : ( :IDENTIFIER ) -> ( :COMMAND ) ;
-
-nat-declarator-list : () -> ( c : COMMAND ) = {
-	id = identifier ;
-	a = <declare_nat> ( id ) ;
-	{
-		comma ; b = nat-declarator-list ;
-	    ||	b = <command_none> ;
-	} ;
-	c = <command_join> ( a, b ) ;
-} ;
-
-
-/*
-    TYPE COMMANDS
-
-    These rules describe the type commands.  These comprise a list of
-    identifiers, each preceeded by an optional type command key.
-*/
-
-<key_int> : () -> ( :TYPE_KEY ) ;
-<key_signed> : () -> ( :TYPE_KEY ) ;
-<key_unsigned> : () -> ( :TYPE_KEY ) ;
-<key_float> : () -> ( :TYPE_KEY ) ;
-<key_arith> : () -> ( :TYPE_KEY ) ;
-<key_scalar> : () -> ( :TYPE_KEY ) ;
-<key_struct> : () -> ( :TYPE_KEY ) ;
-<key_union> : () -> ( :TYPE_KEY ) ;
-<declare_type> : ( :TYPE_KEY, :IDENTIFIER ) -> ( :COMMAND ) ;
-
-type-command : () -> ( tag : TYPE_KEY ) = {
-	tag = <key_type> ;
-    ||	open-round ; int ; close-round ; tag = <key_int> ;
-    ||	open-round ; signed ; close-round ; tag = <key_signed> ;
-    ||	open-round ; unsigned ; close-round ; tag = <key_unsigned> ;
-    ||	open-round ; float ; close-round ; tag = <key_float> ;
-    ||	open-round ; arith ; close-round ; tag = <key_arith> ;
-    ||	open-round ; scalar ; close-round ; tag = <key_scalar> ;
-    ||	open-round ; struct ; close-round ; tag = <key_struct> ;
-    ||	open-round ; union ; close-round ; tag = <key_union> ;
-    ||	struct ; tag = <key_struct_tag> ;
-    ||	union ; tag = <key_union_tag> ;
-} ;
-
-type-declarator-list : () -> ( c : COMMAND ) = {
-	tag = type-command ; id = identifier ;
-	a = <declare_type> ( tag, id ) ;
-	{
-		comma ; b = type-declarator-list ;
-	    ||	b = <command_none> ;
-	} ;
-	c = <command_join> ( a, b ) ;
-} ;
-
-
-/*
-    SUBSET COMMAND
-
-    These rules describes the subset command.  This is the main entry point
-    into the grammar.
-*/
-
-<begin_subset> : ( :STRING ) -> ( :COMMAND ) ;
-<end_subset> : ( :COMMAND, :COMMAND ) -> ( :COMMAND ) ;
-<syntax_error> : () -> () ;
-command-list : () -> ( :COMMAND ) ;
-
-subset-command : () -> ( c : COMMAND ) = {
-	set ; s = subset-name ; assign ;
-	a = <begin_subset> ( s ) ;
-	open-brace ; b = command-list ; close-brace ;
-	c = <end_subset> ( a, b ) ;
-} ;
-
-specification : () -> ( c : COMMAND ) = {
-	c = subset-command ;
-	semicolon ; eof ;
-    ##
-	<syntax_error> ;
-	c = <command_none> ;
-} ;
-
-
-/*
-    SPECIFICATION COMMANDS
-
-    This rule describes the main group of commands; those which introduce
-    a specification item.
-*/
-
-<declare_base> : () -> ( :COMMAND ) ;
-<declare_define> : ( :IDENTIFIER, :STRING, :STRING ) -> ( :COMMAND ) ;
-<declare_defmin> : ( :IDENTIFIER, :STRING, :STRING ) -> ( :COMMAND ) ;
-<declare_enum> : ( :TYPE_KEY, :IDENTIFIER, :COMMAND ) -> ( :COMMAND ) ;
-<declare_func> : ( :COMMAND_KEY, :IDENTIFIER, :TYPE ) -> ( :COMMAND ) ;
-<declare_macro> : ( :IDENTIFIER, :TYPE ) -> ( :COMMAND ) ;
-<declare_promote> : ( :IDENTIFIER, :TYPE ) -> ( :COMMAND ) ;
-<declare_stmt> : ( :IDENTIFIER, :TYPE ) -> ( :COMMAND ) ;
-<declare_token> : ( :IDENTIFIER, :STRING ) -> ( :COMMAND ) ;
-<declare_typedef> : ( :IDENTIFIER, :TYPE ) -> ( :COMMAND ) ;
-<include_subset> : ( :COMMAND_KEY, :STRING, :SUBSET_KEY ) -> ( :COMMAND ) ;
-<begin_field> : ( :IDENTIFIER, :TYPE_KEY ) -> ( :TYPE, :COMMAND ) ;
-<end_field> : ( :TYPE, :COMMAND, :COMMAND, :BOOLEAN ) -> ( :COMMAND ) ;
-<type_special> : ( :STRING ) -> ( :TYPE ) ;
-<key_exp> : ( :COMMAND_KEY, :TYPE_KEY ) -> ( :TYPE_KEY ) ;
-
-spec-command : () -> ( c : COMMAND ) = {
-	base-api ;
-	c = <declare_base> ;
-    ||
-	define ; id = identifier ; p = define-param-clause ;
-	s = constant-value ;
-	c = <declare_define> ( id, p, s ) ;
-    ||
-	defmin ; id = identifier ; p = define-param-clause ;
-	s = constant-value ;
-	c = <declare_defmin> ( id, p, s ) ;
-    ||
-	enumerate ; tag = enum-command ; id = identifier ; assign ;
-	open-brace ; e = enumerator-list ; close-brace ;
-	c = <declare_enum> ( tag, id, e ) ;
-    ||
-	cmd = exp-command ; lv1 = object-qualifier ;
-	lv = <key_exp> ( cmd, lv1 ) ;
-	t = qualified-type ;
-	c = exp-declarator-list ( cmd, t, lv ) ;
-    ||
-	field ; tag = type-command ; id = identifier ; e = field-exact ;
-	( t, a ) = <begin_field> ( id, tag ) ;
-	open-brace ; b = field-list ( t ) ; close-brace ;
-	c = <end_field> ( t, a, b, e ) ;
-    ||
-	cmd = func-command ; s = qualified-type ;
-	( id, p ) = declarator ;
-	t = <type_inject> ( p, s ) ;
-	c = <declare_func> ( cmd, id, t ) ;
-    ||
-	macro ; lv = object-qualifier ;
-	s = qualified-type ;
-	( id, p ) = macro-declarator ;
-	u = <type_inject> ( p, s ) ;
-	v = <type_lvalue> ( u, lv ) ;
-	{
-		q = macro-operator ;
-	    ||	q = <type_none> ;
-	} ;
-	t = <type_inject> ( q, v ) ;
-	c = <declare_macro> ( id, t ) ;
-    ||
-	nat ; c = nat-declarator-list ;
-    ||
-	statement ; id = identifier ;
-	{
-		t = macro-operator ;
-	    ||	t = <type_none> ;
-	} ;
-	c = <declare_stmt> ( id, t ) ;
-    ||
-	token ; id = identifier ; s = insert ;
-	c = <declare_token> ( id, s ) ;
-    ||
-	type ; c = type-declarator-list ;
-    ||
-	typedef ;
-	s = qualified-type ; ( id, p ) = declarator ;
-	t = <type_inject> ( p, s ) ;
-	c = <declare_typedef> ( id, t ) ;
-    ||
-	typedef ;
-	promote ; open-round ; t = qualified-type ; close-round ;
-	id = identifier ;
-	c = <declare_promote> ( id, t ) ;
-    ||
-	typedef ;
-	special ; open-round ; s = string ; close-round ;
-	t = <type_special> ( s ) ;
-	id = identifier ;
-	c = <declare_typedef> ( id, t ) ;
-    ||
-	cmd = implement-command ;
-	s = subset-name ; key = subset-key ;
-	c = <include_subset> ( cmd, s, key ) ;
-    ||
-	use ; cmd = <cmd_use> ;
-	s = use-subset-name ; key1 = subset-key ;
-	key = <subset_next> ( key1 ) ;
-	c = <include_subset> ( cmd, s, key ) ;
-    ||
-	c = subset-command ;
-} ;
-
-
-/*
-    TEXTUAL COMMANDS
-
-    This rule describes the second group of commands; those which are
-    concerned with textual substitution.
-*/
-
-<declare_comment> : ( :STRING ) -> ( :COMMAND ) ;
-<declare_insert> : ( :STRING ) -> ( :COMMAND ) ;
-<declare_build_insert> : ( :STRING ) -> ( :COMMAND ) ;
-
-text-command : () -> ( c : COMMAND ) = {
-	( i, s ) = if-command ;
-	a = command-list ;
-	{
-		else ; b = command-list ;
-	    ||	b = <command_none> ;
-	} ;
-	endif ;
-	c = <command_endif> ( i, s, a, b ) ;
-    ||
-	s = comment ;
-	c = <declare_comment> ( s ) ;
-    ||
-	s = insert ;
-	c = <declare_insert> ( s ) ;
-    ||
-	s = build-insert ;
-	c = <declare_build_insert> ( s ) ;
-} ;
-
-
-/*
-    VARIABLE COMMANDS
-
-    This rule describes the third group of commands; those which affect the
-    program environment, but do not actually introduce a specified item.
-*/
-
-<variable_string> : ( :STRING, :STRING ) -> () ;
-<variable_plus> : ( :STRING, :STRING ) -> () ;
-<variable_minus> : ( :STRING, :STRING ) -> () ;
-
-variable-command : () -> () = {
-	info ; s = string ;
-    ||
-	nm = variable ; equal ; s = string ;
-	<variable_string> ( nm, s ) ;
-    ||
-	nm = variable ; equal ; s = number ;
-	<variable_plus> ( nm, s ) ;
-    ||
-	nm = variable ; equal ; minus ; s = number ;
-	<variable_minus> ( nm, s ) ;
-} ;
-
-
-/*
-    COMMAND LISTS
-
-    These rules describe the lists of commands.
-*/
-
-command-list : () -> ( c : COMMAND ) = {
-	c = <command_none> ;
-    ||
-	a = spec-command ; semicolon ;
-	b = command-list ;
-	c = <command_join> ( a, b ) ;
-    ||
-	a = text-command ;
-	b = command-list ;
-	c = <command_join> ( a, b ) ;
-    ||
-	variable-command ; semicolon ;
-	c = command-list ;
-} ;
-
-
-%entry% specification ;

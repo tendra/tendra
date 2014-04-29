@@ -7,97 +7,100 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
 /*
-    LEXICAL ANALYSER FOR TSPEC
-
-    This file describes the lexical analyser used by tspec.
-*/
+ * LEXICAL ANALYSER FOR TSPEC
+ *
+ * This file describes the lexical analyser used by tspec.
+ */
 
 /* Character groups */
-GROUP white = " \t\n\r" ;
-GROUP alpha = {A-Z} + {a-z} + "_" ;
-GROUP digit = {0-9} ;
-GROUP alphanum = "[alpha][digit]" ;
+GROUP white = " \t\n\r";
+GROUP alpha = {A-Z} + {a-z} + "_";
+GROUP digit = {0-9};
+GROUP alphanum = "[alpha][digit]";
 
 /* Simple symbols */
-TOKEN "!" -> $exclaim ;
-TOKEN "(" -> $open-round ;
-TOKEN ")" -> $close-round ;
-TOKEN "*" -> $star ;
-TOKEN "," -> $comma ;
-TOKEN "-" -> $minus ;
-TOKEN "." -> $dot ;
-TOKEN ".." -> $dot-dot ;
-TOKEN "..." -> $ellipsis ;
-TOKEN ":" -> $colon ;
-TOKEN ":=" -> $assign ;
-TOKEN ";" -> $semicolon ;
-TOKEN "=" -> $equal ;
-TOKEN "?" -> $question ;
-TOKEN "\e" -> $eof ;
-TOKEN "\[" -> $open-square ;
-TOKEN "]" -> $close-square ;
-TOKEN "{" -> $open-brace ;
-TOKEN "}" -> $close-brace ;
-TOKEN "|" -> $or ;
+TOKEN "!"   -> $exclaim;
+TOKEN "("   -> $open-round;
+TOKEN ")"   -> $close-round;
+TOKEN "*"   -> $star;
+TOKEN ","   -> $comma;
+TOKEN "-"   -> $minus;
+TOKEN "."   -> $dot;
+TOKEN ".."  -> $dot-dot;
+TOKEN "..." -> $ellipsis;
+TOKEN ":"   -> $colon;
+TOKEN ":="  -> $assign;
+TOKEN ";"   -> $semicolon;
+TOKEN "="   -> $equal;
+TOKEN "?"   -> $question;
+TOKEN "\e"  -> $eof;
+TOKEN "\["  -> $open-square;
+TOKEN "]"   -> $close-square;
+TOKEN "{"   -> $open-brace;
+TOKEN "}"   -> $close-brace;
+TOKEN "|"   -> $or;
 
 /* Comments, strings and identifiers */
-TOKEN "#" -> get_comment () ;
-TOKEN "/*" -> get_c_comment () ;
-TOKEN "%%" -> get_text () ;
-TOKEN "\"" -> get_string () ;
-TOKEN "[alpha]" -> get_global () ;
-TOKEN "~[alpha]" -> get_local () ;
-TOKEN "+[alpha]" -> get_command () ;
-TOKEN "$[alpha]" -> get_variable () ;
-TOKEN "[digit]" -> get_number () ;
+TOKEN "#"  -> get_comment ();
+TOKEN "/*" -> get_c_comment ();
+TOKEN "%%" -> get_text ();
+TOKEN "\"" -> get_string ();
+
+TOKEN "[alpha]"  -> get_global ();
+TOKEN "~[alpha]" -> get_local ();
+TOKEN "+[alpha]" -> get_command ();
+TOKEN "$[alpha]" -> get_variable ();
+TOKEN "[digit]"  -> get_number ();
 
 /* Keywords */
-KEYWORD "arith" -> $arith ;
-KEYWORD "char" -> $char ;
-KEYWORD "const" -> $const ;
-KEYWORD "double" -> $double ;
-KEYWORD "enum" -> $enum ;
-KEYWORD "extern" -> $extern ;
-KEYWORD "float" -> $float ;
-KEYWORD "int" -> $int ;
-KEYWORD "long" -> $long ;
-KEYWORD "lvalue" -> $lvalue ;
-KEYWORD "scalar" -> $scalar ;
-KEYWORD "short" -> $short ;
-KEYWORD "signed" -> $signed ;
-KEYWORD "struct" -> $struct ;
-KEYWORD "union" -> $union ;
-KEYWORD "unsigned" -> $unsigned ;
-KEYWORD "void" -> $void ;
-KEYWORD "volatile" -> $volatile ;
-KEYWORD "weak" -> $weak ;
-KEYWORD "+BASE_API" -> $base-api ;
-KEYWORD "+CONST" -> $constant ;
-KEYWORD "+DEFINE" -> $define ;
-KEYWORD "+DEFMIN" -> $defmin ;
-KEYWORD "+ELSE" -> $else ;
-KEYWORD "+ENDIF" -> $endif ;
-KEYWORD "+ENUM" -> $enumerate ;
-KEYWORD "+EXP" -> $exp ;
-KEYWORD "+FIELD" -> $field ;
-KEYWORD "+FUNC" -> $func ;
-KEYWORD "+IF" -> $if ;
-KEYWORD "+IFDEF" -> $ifdef ;
-KEYWORD "+IFNDEF" -> $ifndef ;
-KEYWORD "+IMPLEMENT" -> $implement ;
-KEYWORD "+INFO" -> $info ;
-KEYWORD "+MACRO" -> $macro ;
-KEYWORD "+NAT" -> $nat ;
-KEYWORD "+SET" -> $set ;
-KEYWORD "+STATEMENT" -> $statement ;
-KEYWORD "+SUBSET" -> $subset ;
-KEYWORD "+TOKEN" -> $token ;
-KEYWORD "+TYPE" -> $type ;
-KEYWORD "+TYPEDEF" -> $typedef ;
-KEYWORD "+USE" -> $use ;
-KEYWORD "~building_libs" -> $building ;
-KEYWORD "~promote" -> $promote ;
-KEYWORD "~protect" -> $protect ;
-KEYWORD "~special" -> $special ;
+KEYWORD "arith"    -> $arith;
+KEYWORD "char"     -> $char;
+KEYWORD "const"    -> $const;
+KEYWORD "double"   -> $double;
+KEYWORD "enum"     -> $enum;
+KEYWORD "extern"   -> $extern;
+KEYWORD "float"    -> $float;
+KEYWORD "int"      -> $int;
+KEYWORD "long"     -> $long;
+KEYWORD "lvalue"   -> $lvalue;
+KEYWORD "scalar"   -> $scalar;
+KEYWORD "short"    -> $short;
+KEYWORD "signed"   -> $signed;
+KEYWORD "struct"   -> $struct;
+KEYWORD "union"    -> $union;
+KEYWORD "unsigned" -> $unsigned;
+KEYWORD "void"     -> $void;
+KEYWORD "volatile" -> $volatile;
+KEYWORD "weak"     -> $weak;
+
+KEYWORD "+BASE_API"  -> $base-api;
+KEYWORD "+CONST"     -> $constant;
+KEYWORD "+DEFINE"    -> $define;
+KEYWORD "+DEFMIN"    -> $defmin;
+KEYWORD "+ELSE"      -> $else;
+KEYWORD "+ENDIF"     -> $endif;
+KEYWORD "+ENUM"      -> $enumerate;
+KEYWORD "+EXP"       -> $exp;
+KEYWORD "+FIELD"     -> $field;
+KEYWORD "+FUNC"      -> $func;
+KEYWORD "+IF"        -> $if;
+KEYWORD "+IFDEF"     -> $ifdef;
+KEYWORD "+IFNDEF"    -> $ifndef;
+KEYWORD "+IMPLEMENT" -> $implement;
+KEYWORD "+INFO"      -> $info;
+KEYWORD "+MACRO"     -> $macro;
+KEYWORD "+NAT"       -> $nat;
+KEYWORD "+SET"       -> $set;
+KEYWORD "+STATEMENT" -> $statement;
+KEYWORD "+SUBSET"    -> $subset;
+KEYWORD "+TOKEN"     -> $token;
+KEYWORD "+TYPE"      -> $type;
+KEYWORD "+TYPEDEF"   -> $typedef;
+KEYWORD "+USE"       -> $use;
+
+KEYWORD "~building_libs" -> $building;
+KEYWORD "~promote"       -> $promote;
+KEYWORD "~protect"       -> $protect;
+KEYWORD "~special"       -> $special;
+

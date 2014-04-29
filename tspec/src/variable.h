@@ -7,23 +7,22 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#ifndef VARIABLE_H
+#define VARIABLE_H
 
-#ifndef VARIABLE_INCLUDED
-#define VARIABLE_INCLUDED
-
-#ifndef OBJECT_INCLUDED
+#ifndef OBJECT_H
 #include "object.h"
 #endif
 
 /*
-    PROCEDURE DECLARATIONS
+ * PROCEDURE DECLARATIONS
+ *
+ * These routines are concerned with setting various system variables.
+ */
+void set_string(char *, char *);
+void set_integer(char *, int);
 
-    These routines are concerned with setting various system variables.
-*/
-
-extern void set_string(char *, char *);
-extern void set_integer(char *, int);
 extern object *crt_object;
 
-
 #endif
+

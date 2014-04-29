@@ -7,57 +7,49 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-#ifndef UTILITY_INCLUDED
-#define UTILITY_INCLUDED
+#ifndef UTILITY_H
+#define UTILITY_H
 
 #include <stddef.h>
 
-#ifndef CONFIG_INCLUDED
+#ifndef CONFIG_H
 #include "config.h"
 #endif
 
 /*
-    PROCEDURE DECLARATIONS
-
-    These routines are concerned with error reporting, memory allocation
-    and system calls.
-*/
-
-extern char *string_printf(char *, ...);
-extern void create_dir(char *);
-extern void check_name(char *);
-extern time_t date_stamp(char *);
-extern void set_filename(char *);
-
+ * PROCEDURE DECLARATIONS
+ *
+ * These routines are concerned with error reporting, memory allocation
+ * and system calls.
+ */
+char *string_printf(char *, ...);
+void create_dir(char *);
+void check_name(char *);
+time_t date_stamp(char *);
+void set_filename(char *);
 
 /*
-    INPUT BUFFER
-
-    This buffer is used to store input in various contexts.
-*/
-
+ * INPUT BUFFER
+ *
+ * This buffer is used to store input in various contexts.
+ */
 extern char *buffer;
-#define buffsize		5000
-
+#define buffsize 5000
 
 /*
-    ERROR VARIABLES
-
-    These variables are concerned with error reporting.
-*/
-
+ * ERROR VARIABLES
+ *
+ * These variables are concerned with error reporting.
+ */
 extern int warnings;
 extern time_t progdate;
 extern char *filename;
 
-
 /*
-    GENERAL ALLOCATION ROUTINE
-
-    This routine allocates a variable V of type T, allocating N at a time.
-*/
-
+ * GENERAL ALLOCATION ROUTINE
+ *
+ * This routine allocates a variable V of type T, allocating N at a time.
+ */
 #define alloc_variable(V, T, N)\
     {\
 	static int no_free = 0 ;\
@@ -71,3 +63,4 @@ extern char *filename;
 
 
 #endif
+

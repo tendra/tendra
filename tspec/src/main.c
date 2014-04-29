@@ -7,7 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
 #include <signal.h>
 
 #include <shared/error.h>
@@ -48,298 +47,340 @@ int output_src_len;
 
 
 /*
-    SIGNAL HANDLER
-
-    This routine handles caught signals.
-*/
-
+ * SIGNAL HANDLER
+ *
+ * This routine handles caught signals.
+ */
 static void
 handler(int sig)
 {
     char *s;
     hash_elem *e;
+
     IGNORE signal(SIGINT, SIG_IGN);
     switch (sig) {
-	case SIGINT: s = "interrupt"; break;
+	case SIGINT:  s = "interrupt";              break;
 	case SIGSEGV: s = "segmentation violation"; break;
-	case SIGTERM: s = "termination signal"; break;
-	default : s = "unknown signal"; break;
+	case SIGTERM: s = "termination signal";     break;
+	default :     s = "unknown signal";         break;
     }
+
     error(ERROR_SERIOUS, "Caught %s", s);
-    e = sort_hash(files);
-    while (e) {
-	object *p = e->obj;
-	FILE *f = p->u.u_file;
-	if (f) {
-	    char *nm = p->name;
-	    if (verbose) IGNORE printf("Removing %s ...\n", nm);
-	    IGNORE fclose(f);
-	    IGNORE remove(nm);
-	}
-	e = e->next;
+    for (e = sort_hash(files); e != NULL; e = e->next) {
+		object *p = e->obj;
+		FILE *f = p->u.u_file;
+		if (f != NULL) {
+			char *nm = p->name;
+			if (verbose) {
+				IGNORE printf("Removing %s ...\n", nm);
+			}
+			IGNORE fclose(f);
+			IGNORE remove(nm);
+		}
     }
+
     exit(exit_status);
 }
 
-
 /*
-    SEPARATE COMPILATION ROUTINE
-
-    This routine performs the separate compilation of the set object p.
-*/
-
+ * SEPARATE COMPILATION ROUTINE
+ *
+ * This routine performs the separate compilation of the set object p.
+ */
 static void
 separate(object *p)
 {
-    info *i = p->u.u_info;
-    static char *exec = NULL;
-    if (i->subset || i->file == NULL) return;
-    if (exec == NULL)exec = buffer + strlen(buffer);
-    IGNORE sprintf(exec, "%s %s", i->api, i->file);
-    if (verbose > 1) IGNORE printf("Executing '%s' ...\n", buffer);
-    if (system(buffer)) {
-	error(ERROR_SERIOUS, "Separate compilation of %s failed", p->name);
-    }
-    return;
+	info *i = p->u.u_info;
+	static char *exec = NULL;
+
+	if (i->subset || i->file == NULL) {
+		return;
+	}
+
+	if (exec == NULL) {
+		exec = buffer + strlen(buffer);
+	}
+
+	IGNORE sprintf(exec, "%s %s", i->api, i->file);
+	if (verbose > 1) {
+		IGNORE printf("Executing '%s' ...\n", buffer);
+	}
+
+	if (system(buffer)) {
+		error(ERROR_SERIOUS, "Separate compilation of %s failed", p->name);
+	}
 }
 
-
 /*
-    MARK A SET AS IMPLEMENTED
-
-    This routine recursively marks all implemented subsets of p.
-*/
-
+ * MARK A SET AS IMPLEMENTED
+ *
+ * This routine recursively marks all implemented subsets of p.
+ */
 static void
 implement(object *p, int depth)
 {
     object *q;
     info *i = p->u.u_info;
-    if (i == NULL || i->implemented >= depth) return;
+
+    if (i == NULL || i->implemented >= depth) {
+		return;
+	}
+
     i->implemented = depth;
     for (q = i->elements; q != NULL; q = q->next) {
-	if (q->objtype == OBJ_IMPLEMENT) {
-	    implement(q->u.u_obj, depth + 1);
-	}
+		if (q->objtype == OBJ_IMPLEMENT) {
+			implement(q->u.u_obj, depth + 1);
+		}
     }
-    return;
 }
 
-
 /*
-    MAIN ROUTINE
-
-    This is the main routine which interprets the command-line options
-    and calls the appropriate routines.
-*/
-
+ * MAIN ROUTINE
+ *
+ * This is the main routine which interprets the command-line options
+ * and calls the appropriate routines.
+ */
 int
 main(int argc, char **argv)
 {
-    int a;
-    char *env;
-    char *dir = INPUT_DEFAULT;
-    char *api = NULL;
-    char *file = NULL;
-    char *subset = NULL;
-    object *commands = NULL;
-    FILE *preproc_file = NULL;
-    int show_index = 0;
-    boolean check_only = 0;
-    boolean preproc_input = 0;
-    boolean separate_files = 0;
+	int a;
+	char *env;
+	char *dir = INPUT_DEFAULT;
 
-    /* Initialisation */
+	char *api    = NULL;
+	char *file   = NULL;
+	char *subset = NULL;
+
+	object *commands = NULL;
+	FILE *preproc_file = NULL;
+
+	int show_index         = 0;
+	boolean check_only     = 0;
+	boolean preproc_input  = 0;
+	boolean separate_files = 0;
+
+	/* Initialisation */
 	set_progname("tspec", "2.8");
-    crt_line_no = 1;
-    set_filename("built-in definitions");
-    init_hash();
-    init_keywords();
-    init_types();
-    set_filename("command line");
-    IGNORE signal(SIGINT, handler);
-    IGNORE signal(SIGSEGV, handler);
-    IGNORE signal(SIGTERM, handler);
+	crt_line_no = 1;
+	set_filename("built-in definitions");
+	init_hash();
+	init_keywords();
+	init_types();
+	set_filename("command line");
+	IGNORE signal(SIGINT, handler);
+	IGNORE signal(SIGSEGV, handler);
+	IGNORE signal(SIGTERM, handler);
 
-    /* Read system variables */
-    env = getenv(INPUT_ENV);
-    if (env) {
-	input_dir = xstrdup(env);
-    } else {
-	input_dir = xstrdup(INPUT_DEFAULT);
-    }
-    env = getenv(OUTPUT_ENV);
-    if (env) {
-	output_incl_dir = string_printf("%s/include", env);
-	output_incl_len = (int)strlen(output_incl_dir) + 1;
-	output_src_dir = string_printf("%s/src", env);
-	output_src_len = (int)strlen(output_src_dir) + 1;
-    }
-    env = getenv(INCLUDE_ENV);
-    if (env) {
-	output_incl_dir = xstrdup(env);
-	output_incl_len = (int)strlen(output_incl_dir) + 1;
-    }
-    env = getenv(SRC_ENV);
-    if (env) {
-	output_src_dir = xstrdup(env);
-	output_src_len = (int)strlen(output_src_dir) + 1;
-    }
-    env = getenv(COPYRIGHT_ENV);
-    if (env)copyright = xstrdup(env);
-
-    /* Process options */
-    for (a = 1; a < argc; a++) {
-	char *arg = argv [a];
-	crt_line_no = a;
-	if (arg [0] == '-') {
-	    if (arg [1] == 'I') {
-		dir = string_printf("%s:%s", dir, arg + 2);
-	    } else if (arg [1] == 'O') {
-		output_incl_dir = arg + 2;
-		output_incl_len = (int)strlen(arg + 2) + 1;
-	    } else if (arg [1] == 'S') {
-		output_src_dir = arg + 2;
-		output_src_len = (int)strlen(arg + 2) + 1;
-	    } else if (arg [1] == 'C') {
-		copyright = arg + 2;
-	    } else {
-		char *s;
-		for (s = arg + 1; *s; s++) {
-		    switch (*s) {
-			case 'a': separate_files = 0; break;
-			case 'c': check_only = 1; break;
-			case 'd': restrict_depth = 0; break;
-			case 'e': preproc_file = stdout; break;
-			case 'f': force_output = 1; break;
-			case 'i': show_index = 1; break;
-			case 'l': local_input = 1; break;
-			case 'm': show_index = 2; break;
-			case 'n': progdate = date_stamp(argv [0]); break;
-			case 'p': preproc_input = 1; break;
-			case 'r': restrict_use = 1; break;
-			case 's': separate_files = 1; break;
-			case 't': allow_long_long = 1; break;
-			case 'u': unique_names = 1; break;
-			case 'v': verbose++; break;
-			case 'w': warnings = 0; break;
-			case 'V': {
-			    report_version();
-			    break;
-			}
-			default : {
-			    error(ERROR_WARNING, "Unknown option, -%c", *s);
-			    break;
-			}
-		    }
-		}
-	    }
+	/* Read system variables */
+	env = getenv(INPUT_ENV);
+	if (env != NULL) {
+		input_dir = xstrdup(env);
 	} else {
-	    if (api == NULL) {
-		api = arg;
-	    } else if (file == NULL) {
-		file = arg;
-	    } else if (subset == NULL) {
-		subset = arg;
-	    } else {
-		error(ERROR_WARNING, "Too many arguments");
-	    }
+		input_dir = xstrdup(INPUT_DEFAULT);
 	}
-    }
-    if (local_input) {
-	if (subset)error(ERROR_WARNING, "Too many arguments");
-	subset = file;
-	file = api;
-	api = LOCAL_API;
-    }
-    if (api == NULL)error(ERROR_FATAL, "Not enough arguments");
-    input_dir = string_printf("%s:%s", dir, input_dir);
 
-    if (preproc_input) {
-	/* Open preprocessed input */
-	if (file != NULL)error(ERROR_WARNING, "Too many arguments");
-	preproc_file = fopen(api, "r");
-	set_filename(api);
-	crt_line_no = 1;
-	if (preproc_file == NULL) {
-	    error(ERROR_FATAL, "Can't open input file");
+	env = getenv(OUTPUT_ENV);
+	if (env != NULL) {
+		output_incl_dir = string_printf("%s/include", env);
+		output_incl_len = (int)strlen(output_incl_dir) + 1;
+		output_src_dir  = string_printf("%s/src", env);
+		output_src_len  = (int)strlen(output_src_dir) + 1;
 	}
-    } else {
-	/* Find the temporary file */
-	int n;
-	if (preproc_file == NULL) {
-	    preproc_file = tmpfile();
-	    if (preproc_file == NULL) {
-		error(ERROR_FATAL, "Can't open temporary file");
-	    }
-	}
-	/* Do the preprocessing */
-	preproc(preproc_file, api, file, subset);
-	n = number_errors;
-	if (n) {
-	    set_filename(NULL);
-	    error(ERROR_FATAL, "%d error(s) in preprocessor phase", n);
-	}
-	if (preproc_file == stdout)exit(exit_status);
-	set_filename("temporary file");
-	crt_line_no = 1;
-    }
 
-    /* Deal with separate compilation */
-    if (separate_files) {
-	int n;
-	hash_elem *e;
-	char *s = buffer;
-	IGNORE sprintf(s, "%s ", argv [0]);
+	env = getenv(INCLUDE_ENV);
+	if (env != NULL) {
+		output_incl_dir = xstrdup(env);
+		output_incl_len = (int)strlen(output_incl_dir) + 1;
+	}
+
+	env = getenv(SRC_ENV);
+	if (env != NULL) {
+		output_src_dir = xstrdup(env);
+		output_src_len = (int)strlen(output_src_dir) + 1;
+	}
+
+	env = getenv(COPYRIGHT_ENV);
+	if (env != NULL) {
+		copyright = xstrdup(env);
+	}
+
+	/* Process options */
 	for (a = 1; a < argc; a++) {
-	    char *arg = argv [a];
-	    if (arg [0] == '-') {
+		char *arg = argv[a];
+		crt_line_no = a;
+		if (arg [0] == '-') {
+			if (arg [1] == 'I') {
+				dir = string_printf("%s:%s", dir, arg + 2);
+			} else if (arg [1] == 'O') {
+				output_incl_dir = arg + 2;
+				output_incl_len = (int)strlen(arg + 2) + 1;
+			} else if (arg [1] == 'S') {
+				output_src_dir = arg + 2;
+				output_src_len = (int) strlen(arg + 2) + 1;
+			} else if (arg [1] == 'C') {
+				copyright = arg + 2;
+			} else {
+				char *s;
+
+				for (s = arg + 1; *s; s++) {
+					switch (*s) {
+					case 'a': separate_files  = 0; break;
+					case 'c': check_only      = 1; break;
+					case 'd': restrict_depth  = 0; break;
+					case 'f': force_output    = 1; break;
+					case 'i': show_index      = 1; break;
+					case 'l': local_input     = 1; break;
+					case 'm': show_index      = 2; break;
+					case 'p': preproc_input   = 1; break;
+					case 'r': restrict_use    = 1; break;
+					case 's': separate_files  = 1; break;
+					case 't': allow_long_long = 1; break;
+					case 'u': unique_names    = 1; break;
+					case 'w': warnings        = 0; break;
+
+					case 'e': preproc_file = stdout;           break;
+					case 'n': progdate = date_stamp(argv [0]); break;
+
+					case 'v':
+						verbose++;
+						break;
+
+					case 'V':
+						report_version();
+						break;
+
+					default:
+						error(ERROR_WARNING, "Unknown option, -%c", *s);
+						break;
+					}
+				}
+			}
+		} else {
+			if (api == NULL) {
+			api = arg;
+			} else if (file == NULL) {
+			file = arg;
+			} else if (subset == NULL) {
+			subset = arg;
+			} else {
+			error(ERROR_WARNING, "Too many arguments");
+			}
+		}
+	}
+
+	if (local_input) {
+		if (subset)error(ERROR_WARNING, "Too many arguments");
+		subset = file;
+		file = api;
+		api = LOCAL_API;
+	}
+
+	if (api == NULL) {
+		error(ERROR_FATAL, "Not enough arguments");
+	}
+	input_dir = string_printf("%s:%s", dir, input_dir);
+
+	if (preproc_input) {
+		/* Open preprocessed input */
+		if (file != NULL) {
+			error(ERROR_WARNING, "Too many arguments");
+		}
+
+		preproc_file = fopen(api, "r");
+		set_filename(api);
+		crt_line_no = 1;
+		if (preproc_file == NULL) {
+			error(ERROR_FATAL, "Can't open input file");
+		}
+	} else {
+		int n;
+
+		/* Find the temporary file */
+		if (preproc_file == NULL) {
+			preproc_file = tmpfile();
+			if (preproc_file == NULL) {
+				error(ERROR_FATAL, "Can't open temporary file");
+			}
+		}
+
+		/* Do the preprocessing */
+		preproc(preproc_file, api, file, subset);
+		n = number_errors;
+		if (n) {
+			set_filename(NULL);
+			error(ERROR_FATAL, "%d error(s) in preprocessor phase", n);
+		}
+
+		if (preproc_file == stdout) {
+			exit(exit_status);
+		}
+
+		set_filename("temporary file");
+		crt_line_no = 1;
+	}
+
+	/* Deal with separate compilation */
+	if (separate_files) {
+		int n;
+		hash_elem *e;
+		char *s = buffer;
+
+		IGNORE sprintf(s, "%s ", argv [0]);
+		for (a = 1; a < argc; a++) {
+			char *arg = argv [a];
+			if (arg [0] == '-') {
+			s = s + strlen(s);
+			IGNORE sprintf(s, "%s ", arg);
+			}
+		}
+
 		s = s + strlen(s);
-		IGNORE sprintf(s, "%s ", arg);
-	    }
-	}
-	s = s + strlen(s);
-	IGNORE strcpy(s, "-ac ");
-	set_filename(NULL);
-	e = sort_hash(subsets);
-	while (e) {
-	    separate(e->obj);
-	    e = e->next;
-	}
-	n = number_errors;
-	if (n) {
-	    error(ERROR_FATAL, "%d error(s) in separate compilation", n);
-	}
-	exit(exit_status);
-    }
+		IGNORE strcpy(s, "-ac ");
+		set_filename(NULL);
 
-    /* Process the input */
-    input_file = preproc_file;
-    input_pending = LEX_EOF;
-    rewind(input_file);
-    ADVANCE_LEXER;
-    read_spec(&commands);
-    if (number_errors) {
-	set_filename(NULL);
-	error(ERROR_FATAL, "%d error(s) in analyser phase", number_errors);
-    }
+		for (e = sort_hash(subsets); e != NULL; e = e->next) {
+			separate(e->obj);
+		}
 
-    /* Perform the output */
-    if (!check_only) {
+		n = number_errors;
+		if (n) {
+			error(ERROR_FATAL, "%d error(s) in separate compilation", n);
+		}
+
+		exit(exit_status);
+	}
+
+	/* Process the input */
+	input_file = preproc_file;
+	input_pending = LEX_EOF;
+	rewind(input_file);
+	ADVANCE_LEXER;
+	read_spec(&commands);
+	if (number_errors) {
+		set_filename(NULL);
+		error(ERROR_FATAL, "%d error(s) in analyser phase", number_errors);
+	}
+
+	if (check_only) {
+		return exit_status;
+	}
+
+	/* Perform the output */
 	set_filename(NULL);
 	if (commands && commands->objtype == OBJ_SET) {
-	    implement(commands->u.u_obj, 1);
-	    if (show_index == 0) {
-		print_set(commands, 0);
-		print_set(commands, 1);
-	    } else {
-		if (show_index == 1) {
-		    print_index(commands);
+		implement(commands->u.u_obj, 1);
+		if (show_index == 0) {
+			print_set(commands, 0);
+			print_set(commands, 1);
 		} else {
-		    print_machine_index(commands);
+			if (show_index == 1) {
+				print_index(commands);
+			} else {
+				print_machine_index(commands);
+			}
 		}
-	    }
 	}
-    }
-    return exit_status;
+
+	return exit_status;
 }
+

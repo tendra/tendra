@@ -7,22 +7,20 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#ifndef INDEX_H
+#define INDEX_H
 
-#ifndef INDEX_INCLUDED
-#define INDEX_INCLUDED
-
-#ifndef OBJECT_INCLUDED
+#ifndef OBJECT_H
 #include "object.h"
 #endif
 
 /*
-    PROCEDURE DECLARATION
-
-    These routines are concerned with printing an index for an API.
-*/
-
-extern void print_index(object *);
-extern void print_machine_index(object *);
-
+ * PROCEDURE DECLARATION
+ *
+ * These routines are concerned with printing an index for an API.
+ */
+void print_index(object *);
+void print_machine_index(object *);
 
 #endif
+

@@ -7,12 +7,11 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
 /*
-    BUILT IN TYPES
-
-    These are the fundamental types which are built into the system.
-*/
+ * BUILT IN TYPES
+ *
+ * These are the fundamental types which are built into the system.
+ */
 
 #ifdef BUILTIN
 BUILTIN(type_char, "char", no_version, TYPE_INT);
@@ -41,3 +40,4 @@ BUILTIN(type_ellipsis, "...", no_version, TYPE_GENERIC);
 BUILTIN(type_none, "void", 2, TYPE_VOID);
 #undef BUILTIN
 #endif
+

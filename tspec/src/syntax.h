@@ -4,28 +4,29 @@
  * and
  *	syntax.act
  * by:
- *	/Users/kate/svn/tendra20/obj-regen/bin/sid
+ *	sid
  */
 
 /* BEGINNING OF HEADER */
 
-#line 145 "syntax.act"
+#line 144 "syntax.act"
 
 
-/* $Id$ */
+	/* $Id$ */
 
-/*
- * Copyright 2011, The TenDRA Project.
- * Copyright 1997, United Kingdom Secretary of State for Defence.
- *
- * See doc/copyright/ for the full copyright terms.
- */
+	/*
+	 * Copyright 2011, The TenDRA Project.
+	 * Copyright 1997, United Kingdom Secretary of State for Defence.
+	 *
+	 * See doc/copyright/ for the full copyright terms.
+	 */
 
-#ifndef SYNTAX_INCLUDED
-#define SYNTAX_INCLUDED
+	#ifndef SYNTAX_INCLUDED
+	#define SYNTAX_INCLUDED
 
-typedef object *SID_COMMAND ;
-#line 29 "syntax.h"
+	typedef object *SID_COMMAND;
+
+#line 30 "syntax.h"
 
 /* BEGINNING OF FUNCTION DECLARATIONS */
 
@@ -111,9 +112,11 @@ extern void read_spec(SID_COMMAND *);
 
 /* BEGINNING OF TRAILER */
 
-#line 821 "syntax.act"
+#line 839 "syntax.act"
 
-#endif
-#line 118 "syntax.h"
+
+	#endif
+
+#line 121 "syntax.h"
 
 /* END OF FILE */

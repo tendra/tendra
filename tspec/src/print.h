@@ -7,29 +7,29 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#ifndef PRINT_H
+#define PRINT_H
 
-#ifndef PRINT_INCLUDED
-#define PRINT_INCLUDED
-
-#ifndef CONFIG_INCLUDED
+#ifndef CONFIG_H
 #include "config.h"
 #endif
-#ifndef OBJECT_INCLUDED
+
+#ifndef OBJECT_H
 #include "object.h"
 #endif
-#ifndef TYPE_INCLUDED
+
+#ifndef TYPE_H
 #include "type.h"
 #endif
 
 /*
-    PROCEDURE DECLARATIONS
-
-    These routines are concerned with printing objects to the output file.
-*/
-
-extern void print_set(object *, int);
-extern void print_type(FILE *, type *, char *, int);
+ * PROCEDURE DECLARATIONS
+ *
+ * These routines are concerned with printing objects to the output file.
+ */
+void print_set(object *, int);
+void print_type(FILE *, type *, char *, int);
 extern char *copyright;
 
-
 #endif
+
