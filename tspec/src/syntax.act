@@ -37,7 +37,7 @@
 	SUBSET_KEY -> SID_STRING;
 
 	TYPE       -> SID_TYPE;
-	TYPE_KEYa  -> int;
+	TYPE_KEY   -> int;
 	TYPE_LIST  -> SID_TYPE;
 	TYPE_QUAL  -> unsigned;
 	TYPE_SPEC  -> unsigned;
