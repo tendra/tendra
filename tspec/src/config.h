@@ -23,28 +23,6 @@
 #include <time.h>
 
 /*
- * HACKS FOR BAD API IMPLEMENTATIONS
- *
- * These values are meant to be in the headers above, but sometimes
- * they are omitted.
- */
-
-#ifndef EXIT_SUCCESS
-#define EXIT_SUCCESS 0
-#define EXIT_FAILURE 1
-#endif
-
-#ifndef SEEK_SET
-#define SEEK_SET 0
-#define SEEK_CUR 1
-#define SEEK_END 2
-#endif
-
-#ifdef __MSDOS__
-#define FS_NO_MODE_T 1
-#endif
-
-/*
  * BASIC TYPES
  *
  * These types are so ubiquitous that this is the only suitable place

@@ -24,10 +24,6 @@
 #include "name.h"
 #include "utility.h"
 
-#ifdef FS_NO_MODE_T
-typedef unsigned short mode_t;
-#endif
-
 #ifndef errno
 extern int errno;
 #endif
