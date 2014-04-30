@@ -70,7 +70,7 @@ hash(char *nm)
 	int n;
 
 	n = 0;
-	for (s = nm; *s; s++) {
+	for (s = nm; *s != '\0'; s++) {
 		n += *s;
 	}
 
@@ -143,12 +143,9 @@ add_hash(hash_table *t, object *p, int v)
 	q = lookup_hash(t, nm, v, h);
 
 	if (q != NULL) {
-		char *fn;
-
-		fn = q->filename;
-		if (fn) {
+		if (q->filename != NULL) {
 			char *err = "%s '%s' already defined (%s, line %d)";
-			error(ERROR_SERIOUS, err, t->name, nm, fn, q->line_no);
+			error(ERROR_SERIOUS, err, t->name, nm, q->filename, q->line_no);
 		} else {
 			error(ERROR_SERIOUS, "%s '%s' already defined", t->name, nm);
 		}

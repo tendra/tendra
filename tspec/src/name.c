@@ -48,8 +48,11 @@ char *
 basename(char *nm)
 {
     char *b = nm;
-    for (; *nm; nm++) {
-		if (*nm == '/')b = nm + 1;
+
+    for ( ; *nm != '\0'; nm++) {
+		if (*nm == '/') {
+			b = nm + 1;
+		}
     }
 
     return b;
@@ -68,8 +71,8 @@ basename(char *nm)
 char *
 strip_extension(char *nm)
 {
-    char *s;
     const char ext[] = ".tspec";
+    char *s;
     char *p;
 
     if (nm == NULL) {
@@ -106,7 +109,7 @@ dirname(char *nm)
     char *p, *end = NULL;
     char *dir = xstrdup(nm);
 
-    for (p = dir; *p; p++) {
+    for (p = dir; *p != '\0'; p++) {
 		if (*p == '/') {
 			end = p;
 		}
@@ -140,7 +143,7 @@ relative(char *from, char *to, int n)
 		return from;
 	}
 
-    for (from = from + n; *from; from++) {
+    for (from = from + n; *from != '\0'; from++) {
 		if (*from == '/') {
 			IGNORE strcpy(s, "../");
 			s += 3;
@@ -161,27 +164,27 @@ hack_name(char *nm, char *key)
 {
     char *p = xstrdup(nm), *q;
 
-    for (q = p; *q; q++) {
+    for (q = p; *q != '\0'; q++) {
 		int c = *q;
 
 		if (isalpha(c) && isupper(c)) {
 			/* The second letter of key maps upper case letters */
-			if (key [1] == 'a') {
+			if (key[1] == 'a') {
 				*q = (char) tolower(c);
 			}
 		} else if (isalpha(c) && islower(c)) {
 			/* The third letter of key maps lower case letters */
-			if (key [2] == 'A') {
+			if (key[2] == 'A') {
 				*q = (char) toupper(c);
 			}
 		} else if (isdigit(c)) {
 			/* The fourth letter of key maps digits */
-			*q = (char) (c - '0' + key [3]);
+			*q = (char) (c - '0' + key[3]);
 		} else if (strchr(key + 4, c)) {
 			/* The rest of key gives special characters */
 		} else {
 			/* The first letter of key is the default */
-			*q = key [0];
+			*q = key[0];
 		}
     }
 
@@ -211,7 +214,7 @@ token_name(char *nm)
 			i->prefix = pfx;
 		}
 
-		if (*pfx) {
+		if (*pfx != '\0') {
 			return string_printf("%s.%s", pfx, nm);
 		}
     }
@@ -336,7 +339,7 @@ char *
 macro_name(char *pfx, char *api, char *file, char *subset)
 {
     if (subset != NULL) {
-		char *f = (file ? strip_extension(file) : "");
+		char *f = file ? strip_extension(file) : "";
 		IGNORE sprintf(buffer, "%s_%s_%s_%s", pfx, api, f, subset);
     } else if (file != NULL) {
 		IGNORE sprintf(buffer, "%s_%s_%s", pfx, api, strip_extension(file));

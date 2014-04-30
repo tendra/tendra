@@ -475,7 +475,7 @@ print_item_m(object *p, char *u, char *a, type *e)
 
 	case OBJ_STATEMENT: {
 		type *t = q->u.u_type;
-		if (t) {
+		if (t != NULL) {
 			print_sit("statement", "param", t, NULL);
 		} else {
 			print_s("statement");
@@ -725,7 +725,7 @@ print_item_h(object *p, char *u, char *a, type *e)
 	case OBJ_STATEMENT: {
 		type *t = q->u.u_type;
 		IGNORE printf("%s is a statement", nm);
-		if (t) {
+		if (t != NULL) {
 			IGNORE printf(" with arguments");
 			print_type(stdout, t, NULL, 0);
 		}
@@ -862,12 +862,12 @@ print_index_with(object *input, index_func fn)
 				case CMD_IFDEF:
 				case CMD_IFNDEF:
 				case CMD_ELSE:
-					stack_if (p);
+					stack_if(p);
 					break;
 
 				case CMD_ENDIF:
-					if (unstack_if () ->u.u_iftype == CMD_ELSE) {
-						IGNORE unstack_if ();
+					if (unstack_if()->u.u_iftype == CMD_ELSE) {
+						IGNORE unstack_if();
 					}
 					break;
 

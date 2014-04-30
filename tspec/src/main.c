@@ -225,7 +225,7 @@ main(int argc, char **argv)
 			} else {
 				char *s;
 
-				for (s = arg + 1; *s; s++) {
+				for (s = arg + 1; *s != '\0'; s++) {
 					switch (*s) {
 					case 'a': separate_files  = 0; break;
 					case 'c': check_only      = 1; break;

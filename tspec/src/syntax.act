@@ -536,7 +536,7 @@
 	<end_subset>: (a, b) -> (c) = @{
 		object *p = crt_object;
 
-		if (p) {
+		if (p != NULL) {
 			p->u.u_info->elements = @b;
 		}
 

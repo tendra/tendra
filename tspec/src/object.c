@@ -96,15 +96,15 @@ make_subset(char *nm)
 
 	s = strchr(api, ':');
 	if (s != NULL) {
-		*s = 0;
+		*s = '\0';
 		file = s + 1;
 		s = strchr(file, ':');
-		if (s) {
-			*s = 0;
+		if (s != NULL) {
+			*s = '\0';
 			subset = s + 1;
 		}
 
-		if (*file == 0) {
+		if (*file == '\0') {
 			file = NULL;
 		}
 	}
