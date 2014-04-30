@@ -9,6 +9,8 @@ PARTS+=	src/out
 .include <tendra.partial.mk>
 
 
+CCOPTS+= -I .
+
 TCCOPTS+= -Yposix
 
 SRCS+=	hash.c

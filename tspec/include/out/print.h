@@ -7,8 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef PRINT_H
-#define PRINT_H
+#ifndef OUT_PRINT_H
+#define OUT_PRINT_H
 
 #ifndef OBJECT_H
 #include "object.h"

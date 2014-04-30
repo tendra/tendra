@@ -7,8 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef INDEX_H
-#define INDEX_H
+#ifndef OUT_INDEX_H
+#define OUT_INDEX_H
 
 #ifndef OBJECT_H
 #include "object.h"

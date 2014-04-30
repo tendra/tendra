@@ -15,11 +15,12 @@
 #include <shared/error.h>
 #include <shared/string.h>
 
+#include <out/print.h>
+
 #include "object.h"
 #include "hash.h"
 #include "name.h"
 #include "type.h"
-#include "print.h"
 #include "utility.h"
 
 /*

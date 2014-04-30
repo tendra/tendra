@@ -15,12 +15,12 @@
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
+#include <out/index.h>
+
 #include "object.h"
 #include "hash.h"
-#include "index.h"
 #include "name.h"
 #include "type.h"
-#include "print.h"
 #include "utility.h"
 
 /*

@@ -16,14 +16,15 @@
 #include <shared/error.h>
 #include <shared/string.h>
 
+#include <out/index.h>
+#include <out/print.h>
+
 #include "object.h"
 #include "hash.h"
-#include "index.h"
 #include "lex.h"
 #include "name.h"
 #include "syntax.h"
 #include "type.h"
-#include "print.h"
 #include "utility.h"
 
 /*
