@@ -45,22 +45,5 @@ extern int warnings;
 extern time_t progdate;
 extern char *filename;
 
-/*
- * GENERAL ALLOCATION ROUTINE
- *
- * This routine allocates a variable V of type T, allocating N at a time.
- */
-#define alloc_variable(V, T, N)\
-    {\
-	static int no_free = 0 ;\
-	static T *free_list = NULL;\
-	if (no_free == 0) {\
-	    no_free = N ;\
-	    free_list = xmalloc_nof(T, N);\
-	}\
-	V = free_list + (--no_free);\
-    }
-
-
 #endif
 

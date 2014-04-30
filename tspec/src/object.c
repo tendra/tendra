@@ -30,7 +30,7 @@ make_object(char *nm, int t)
 {
 	object *p;
 
-	alloc_variable(p, object, 1000);
+	p = xmalloc(sizeof *p);
 	p->name = nm;
 	p->objtype = t;
 	p->next = NULL;
@@ -125,7 +125,8 @@ make_info(char *api, char *file, char *subset)
 {
 	info *p;
 
-	alloc_variable(p, info, 100);
+	p = xmalloc(sizeof *p);
+
 	p->api    = api;
 	p->file   = file;
 	p->subset = subset;

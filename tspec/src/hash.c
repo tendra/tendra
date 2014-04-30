@@ -153,11 +153,12 @@ add_hash(hash_table *t, object *p, int v)
 		return q;
 	}
 
-	alloc_variable(e, hash_elem, 1000);
-	e->obj = p;
+	e = xmalloc(sizeof *e);
+	e->obj  = p;
 	e->vers = v;
-	e->next = t->array [h];
-	t->array [h] = e;
+
+	e->next = t->array[h];
+	t->array[h] = e;
 
 	return p;
 }

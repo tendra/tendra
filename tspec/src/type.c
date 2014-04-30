@@ -67,7 +67,7 @@ new_type(void)
 {
 	type *t;
 
-	alloc_variable(t, type, 1000);
+	t = xmalloc(sizeof *t);
 	t->state = 0;
 
 	return t;
@@ -288,9 +288,11 @@ make_field(char *nm, int vers, type *s, type *t)
 	char *n;
 	field *r;
 
-	object *p = make_object(nm, OBJ_FIELD);
-	alloc_variable(r, field, 1000);
+	object *p;
 
+	p = make_object(nm, OBJ_FIELD);
+
+	r = xmalloc(sizeof *r);
 	r->obj = p;
 	r->stype = s;
 	r->ftype = t;
