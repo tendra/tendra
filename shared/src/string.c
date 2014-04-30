@@ -17,13 +17,11 @@
 #include <shared/string.h>
 #include <shared/xalloc.h>
 
-
 /*
-    COPY A STRING
-
-    This routine allocates space for a persistent copy of the string s.
-*/
-
+ * COPY A STRING
+ *
+ * This routine allocates space for a persistent copy of the string s.
+ */
 char *
 xstrdup(const char *s1)
 {
@@ -37,56 +35,58 @@ xstrdup(const char *s1)
 	return s2;
 }
 
-
 /*
-    ALLOCATE SPACE FOR A STRING
-
-    This routine allocates space for n characters.  The memory allocation
-    is buffered except for very long strings.
-*/
-
+ * ALLOCATE SPACE FOR A STRING
+ *
+ * This routine allocates space for n characters.  The memory allocation
+ * is buffered except for very long strings.
+ */
 char *
 xstr(size_t n)
 {
-    char *r;
-    if (n >= 1000) {
-	r = xmalloc_nof(char, n);
-    } else {
-	static size_t chars_left = 0;
-	static char *chars_free = 0;
+	char *r;
 
-	if (n >= chars_left) {
-	    chars_left = 5000;
-	    chars_free = xmalloc_nof(char, chars_left);
+	if (n >= 1000) {
+		r = xmalloc_nof(char, n);
+	} else {
+		static size_t chars_left = 0;
+		static char *chars_free = 0;
+
+		if (n >= chars_left) {
+			chars_left = 5000;
+			chars_free = xmalloc_nof(char, chars_left);
+		}
+
+		r = chars_free;
+		chars_free += n;
+		chars_left -= n;
 	}
-	r = chars_free;
-	chars_free += n;
-	chars_left -= n;
-    }
-    return r;
+
+	return r;
 }
 
-
 /*
-    CONCATENATE TWO STRINGS
-
-    This routine allocates space for a persistent copy of the string s
-    followed by the string t.
-*/
-
+ * CONCATENATE TWO STRINGS
+ *
+ * This routine allocates space for a persistent copy of the string s
+ * followed by the string t.
+ */
 char *
 xstrcat(const char *s, const char *t)
 {
-    char *r;
-    size_t n, m;
+	char *r;
+	size_t n, m;
 
-    if (s == NULL) return xstrdup(t);
-    if (t == NULL) return xstrdup(s);
+	if (s == NULL) return xstrdup(t);
+	if (t == NULL) return xstrdup(s);
 
-    n = strlen(s);
-    m = n + strlen(t) + 1;
-    r = xstr(m);
-    (void) strcpy(r, s);
-    (void) strcpy(r + n, t);
-    return r;
+	n = strlen(s);
+	m = n + strlen(t) + 1;
+	r = xstr(m);
+
+	(void) strcpy(r, s);
+	(void) strcpy(r + n, t);
+
+	return r;
 }
+

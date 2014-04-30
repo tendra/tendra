@@ -21,37 +21,33 @@
  * need to be.
  */
 
-#include <ctype.h>
-#include <stdio.h>
-#include <errno.h>
+#include <assert.h>
 #include <stdarg.h>
 #include <stdlib.h>
 #include <limits.h>
-#include <assert.h>
+#include <ctype.h>
+#include <stdio.h>
+#include <errno.h>
 
 #include <shared/fmt.h>
 
 /*
-	FORMATTING CALLBACKS
-
-	These are callback functions for efprintf(), indexed by an unsigned char.
-
+ * FORMATTING CALLBACKS
+ *
+ * These are callback functions for efprintf(), indexed by an unsigned char.
  */
 void (*fmtf[256])(FILE *, void *);
 
-
-
 /*
-	READ PRECISION
-
-	Read the precision given by a formatting specifier. This is expected to be
-	passed a pointer to the character after the '.' which begins the precision
-	specificiation. It will consume as many further character as it needs, up to
-	but not including the conversion specifier.
-
-	A pointer to the conversion specifier is returned. (That is, a pointer to
-	the next character after the precision has been dealt with.)
-
+ * READ PRECISION
+ *
+ * Read the precision given by a formatting specifier. This is expected to be
+ * passed a pointer to the character after the '.' which begins the precision
+ * specificiation. It will consume as many further character as it needs, up to
+ * but not including the conversion specifier.
+ *
+ * A pointer to the conversion specifier is returned. (That is, a pointer to
+ * the next character after the precision has been dealt with.)
  */
 static const char *
 readprecision(const char *p, int *precision)
@@ -88,24 +84,24 @@ readprecision(const char *p, int *precision)
 	return ep;
 }
 
-
 /*
-	FORMAT AN ERROR MESSAGE
-
-	This is an analogue of fprintf, based on the fmt[] callback functions. This
-	provides a mechanism for custom format specifiers which may be registered
-	by fmt_register().
-
-	The default formatting specifiers provided are a subset of the usual fprintf
-	specifiers. For simplicity only those required have been implemented.
-
+ * FORMAT AN ERROR MESSAGE
+ *
+ * This is an analogue of fprintf, based on the fmt[] callback functions. This
+ * provides a mechanism for custom format specifiers which may be registered
+ * by fmt_register().
+ *
+ * The default formatting specifiers provided are a subset of the usual fprintf
+ * specifiers. For simplicity only those required have been implemented.
  */
-void vefprintf(FILE *fp, const char *fmt, va_list ap) {
+void
+vefprintf(FILE *fp, const char *fmt, va_list ap)
+{
 	const char *p;
 
 	assert(fmt != NULL);
 
-	for (p = fmt; *p; p++) {
+	for (p = fmt; *p != '\0'; p++) {
 		int precision = -1;
 		int mlong = 0;
 
@@ -200,7 +196,9 @@ void vefprintf(FILE *fp, const char *fmt, va_list ap) {
 	}
 }
 
-void efprintf(FILE *fp, const char *fmt, ...) {
+void
+efprintf(FILE *fp, const char *fmt, ...)
+{
 	va_list ap;
 
 	va_start(ap, fmt);
@@ -208,15 +206,15 @@ void efprintf(FILE *fp, const char *fmt, ...) {
 	va_end(ap);
 }
 
-
 /*
-	REGISTER A FORMAT SPECIFIER
-
-	Format specifiers registered here draw a void * from the va_list consumed in
-	vefprintf().
-
+ * REGISTER A FORMAT SPECIFIER
+ *
+ * Format specifiers registered here draw a void * from the va_list consumed in
+ * vefprintf().
  */
-void fmt_register(char c, void (*f)(FILE *fp, void *)) {
+void
+fmt_register(char c, void (*f)(FILE *fp, void *))
+{
 	/* reserved specifiers */
 	assert(c != 'l');
 	assert(c != '.');
@@ -227,5 +225,4 @@ void fmt_register(char c, void (*f)(FILE *fp, void *)) {
 
 	fmtf[(unsigned char) c] = f;
 }
-
 

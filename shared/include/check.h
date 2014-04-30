@@ -7,11 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-    
-    
-    
-    
-    
 /*
  * check.h - Primitive definitions common to several interfaces.
  *
@@ -19,8 +14,8 @@
  * compiler-specific features related to checking.
  */
 
-#ifndef CHECK_INCLUDED
-#define CHECK_INCLUDED
+#ifndef SHARED_CHECK_H
+#define SHARED_CHECK_H
 
 /*
  * This is the return type of a function that doesn't return (e.g.
@@ -120,5 +115,5 @@
 #  define SET(v)
 # endif
 
+#endif
 
-#endif /* CHECK_INCLUDED */

@@ -6,16 +6,13 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-#ifndef ERROR_FMT_INCLUDED
-#define ERROR_FMT_INCLUDED
-
+#ifndef SHARED_FMT_H
+#define SHARED_FMT_H
 
 #include <stdarg.h>
-
 
 void vefprintf(FILE *fp, const char *fmt, va_list ap);
 void efprintf(FILE *fp, const char *fmt, ...);
 
+#endif
 
-#endif /* ERROR_FMT_INCLUDED */

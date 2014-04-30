@@ -7,9 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-#ifndef STRING_INCLUDED
-#define STRING_INCLUDED
+#ifndef SHARED_STRING_H
+#define SHARED_STRING_H
 
 #include <stddef.h>
 
@@ -18,3 +17,4 @@ char *xstr(size_t);
 char *xstrcat(const char *, const char *);
 
 #endif
+

@@ -7,20 +7,17 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-#ifndef ERROR_INCLUDED
-#define ERROR_INCLUDED
-
+#ifndef SHARED_ERROR_H
+#define SHARED_ERROR_H
 
 #include <stdio.h>
 
-
 /*
-    ERROR SEVERITY LEVELS
-
-    These macros give the various error types recognised by the error
-    routines.
-*/
+ * ERROR SEVERITY LEVELS
+ *
+ * These macros give the various error types recognised by the error
+ * routines.
+ */
 
 enum error_severity {
 	ERROR_NONE,	    /* Error reporting off */
@@ -31,10 +28,9 @@ enum error_severity {
 	ERROR_FATAL     /* Fatal exits immediately */
 };
 
-
 /*
-    DECLARATIONS FOR ERROR ROUTINES
-*/
+ * DECLARATIONS FOR ERROR ROUTINES
+ */
 
 void error(enum error_severity, const char *, ...);
 void error_posn(enum error_severity, const char *, int, const char *, ...);
@@ -50,10 +46,9 @@ extern int number_errors;
 extern int crt_line_no;
 extern const char *crt_file_name;
 
-
 /*
-    DECLARATIONS FOR ASSERTION ROUTINES
-*/
+ * DECLARATIONS FOR ASSERTION ROUTINES
+ */
 
 #ifdef ASSERTS
 extern void assertion(const char *, const char *, int);
@@ -64,5 +59,5 @@ extern void assertion(const char *, const char *, int);
 #define FAIL(A)	((void)0)
 #endif
 
+#endif
 
-#endif /* ERROR_INCLUDED */

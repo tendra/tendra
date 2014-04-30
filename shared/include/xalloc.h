@@ -7,33 +7,31 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-#ifndef XALLOC_INCLUDED
-#define XALLOC_INCLUDED
+#ifndef SHARED_XALLOC_H
+#define SHARED_XALLOC_H
 
 #include <stddef.h>
 
 /*
-    DECLARATIONS FOR MEMORY ALLOCATION ROUTINES
-*/
+ * DECLARATIONS FOR MEMORY ALLOCATION ROUTINES
+ */
 
 void *xmalloc(size_t);
 void *xcalloc(size_t, size_t);
 void *xrealloc(void *, size_t);
 void xfree(void *);
 
-
 /*
-    MACROS FOR ACCESSING MEMORY ALLOCATION ROUTINES
-
-    These macros give a convenient method for accessing the routines above.
-    For example, xmalloc_nof ( T, N ) allocates space for N objects of
-    type T.
-*/
+ * MACROS FOR ACCESSING MEMORY ALLOCATION ROUTINES
+ *
+ * These macros give a convenient method for accessing the routines above.
+ * For example, xmalloc_nof(T, N) allocates space for N objects of type T.
+ */
 
 #define xmalloc_nof(T, N) (xmalloc((N) * sizeof(T)))
 #define xcalloc_nof(T, N) (xcalloc((N), sizeof(T)))
 #define xrealloc_nof(P, T, N) (xrealloc((P), (N) * sizeof(T)))
 #define xfree_nof(P) xfree((P))
 
-#endif /* XALLOC_INCLUDED */
+#endif
+

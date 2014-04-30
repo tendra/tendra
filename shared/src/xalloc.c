@@ -36,8 +36,9 @@ xalloc_fatal(const char *s, ...)
 {
 	va_list args;
 
-	if (progname)
+	if (progname != NULL) {
 		(void) fprintf(stderr, "%s: ", progname);
+	}
 
 	(void) fprintf(stderr, "Fatal: ");
 
@@ -48,14 +49,11 @@ xalloc_fatal(const char *s, ...)
 	exit(EXIT_FAILURE);
 }
 
-
 /*
-    CONTROLLED VERSION OF MALLOC
-
-    All the program's memory allocation is through the routines defined in
-    this file.  This routine allocates sz bytes of memory.
+ * CONTROLLED VERSION OF MALLOC
+ *
+ * This routine allocates sz bytes of memory and bails out on error.
 */
-
 void *
 xmalloc(size_t sz)
 {
@@ -64,20 +62,18 @@ xmalloc(size_t sz)
 	assert(sz != 0);
 
 	p = malloc(sz);
-
-	if (p == NULL)
+	if (p == NULL) {
 		xalloc_fatal("malloc: %s", strerror(errno));
+	}
 
 	return p;
 }
 
-
 /*
-    CONTROLLED VERSION OF CALLOC
-
-    This routine allocates and initializes n objects of size sz bytes.
-*/
-
+ * CONTROLLED VERSION OF CALLOC
+ *
+ * This routine allocates and initializes n objects of size sz bytes.
+ */
 void *
 xcalloc(size_t n, size_t sz)
 {
@@ -86,23 +82,24 @@ xcalloc(size_t n, size_t sz)
 	assert(n != 0);
 	assert(sz != 0);
 
-	if (SIZE_MAX / n < sz)
+	if (SIZE_MAX / n < sz) {
 		xalloc_fatal("xcalloc: size_t overflow");
+	}
 
-	if ((p = calloc(sz, n)) == NULL)
+	p = calloc(sz, n);
+	if (p == NULL) {
 		xalloc_fatal("calloc: %s", strerror(errno));
+	}
 
 	return p;
 }
 
-
 /*
-    CONTROLLED VERSION OF REALLOC
-
-    This routine reallocates the block of memory p to contain sz bytes.
-    p can be the result of a previous memory allocation routine, or NULL.
-*/
-
+ * CONTROLLED VERSION OF REALLOC
+ *
+ * This routine reallocates the block of memory p to contain sz bytes.
+ * p can be the result of a previous memory allocation routine, or NULL.
+ */
 void *
 xrealloc(void *p, size_t sz)
 {
@@ -113,20 +110,20 @@ xrealloc(void *p, size_t sz)
 	/* This is legal and frees p, but confusing; use xfree() instead */
 	assert(sz != 0);
 
-	if ((q = realloc(p, sz)) == NULL)
+	q = realloc(p, sz);
+	if (q == NULL) {
 		xalloc_fatal("realloc: %s", strerror(errno));
+	}
 
 	return q;
 }
 
-
 /*
-    CONTROLLED VERSION OF FREE
-
-    This routine frees the block of memory p.  p can be the result of a
-    previous memory allocation routine, or NULL.
-*/
-
+ * CONTROLLED VERSION OF FREE
+ *
+ * This routine frees the block of memory p.  p can be the result of a
+ * previous memory allocation routine, or NULL.
+ */
 void
 xfree(void *p)
 {

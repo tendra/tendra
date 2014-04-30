@@ -7,8 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef GETOPT_INCLUDED
-#define GETOPT_INCLUDED
+#ifndef SHARED_GETOPT_H
+#define SHARED_GETOPT_H
 
 extern char *optarg;
 extern int optind, opterr;
@@ -16,3 +16,4 @@ extern int optind, opterr;
 int getopt(int argc, char * const *argv, const char *options);
 
 #endif
+
