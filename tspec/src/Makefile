@@ -4,6 +4,7 @@
 
 
 PARTS+=	src/shared
+PARTS+=	src/out
 
 .include <tendra.partial.mk>
 
@@ -11,12 +12,10 @@ PARTS+=	src/shared
 TCCOPTS+= -Yposix
 
 SRCS+=	hash.c
-SRCS+=	index.c
 SRCS+=	lex.c
 SRCS+=	main.c
 SRCS+=	name.c
 SRCS+=	object.c
-SRCS+=	print.c
 SRCS+=	syntax.c
 SRCS+=	type.c
 SRCS+=	utility.c
