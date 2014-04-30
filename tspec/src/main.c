@@ -7,7 +7,9 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <time.h>
 #include <signal.h>
+#include <string.h>
 
 #include <shared/check.h>
 #include <shared/error.h>

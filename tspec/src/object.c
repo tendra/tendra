@@ -12,6 +12,9 @@
 #include <shared/string.h>
 #include <shared/xalloc.h>
 
+#include <time.h>
+#include <string.h>
+
 #include "config.h"
 #include "object.h"
 #include "hash.h"

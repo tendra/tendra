@@ -21,6 +21,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <time.h>
 #include <stddef.h>
 #include <string.h>
 

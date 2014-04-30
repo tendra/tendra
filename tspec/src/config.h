@@ -11,18 +11,6 @@
 #define CONFIG_H
 
 /*
- * ANSI API SPECIFICATION
- *
- * The API for this program is ANSI.  This defines the basic interface,
- * and utility.c includes stdarg.h (or varargs.h).
- */
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
-
-/*
  * BASIC TYPES
  *
  * These types are so ubiquitous that this is the only suitable place
