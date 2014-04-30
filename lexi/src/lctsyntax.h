@@ -9,11 +9,13 @@
 
 /* BEGINNING OF HEADER */
 
-#line 102 "lctsyntax.act"
+#line 105 "lctsyntax.act"
 
 
 	#ifndef LCT_SYNTAX_H
 	#define LCT_SYNTAX_H
+
+	#include <shared/bool.h>
 
 	#include "code.h"
 	#include "ast.h"
@@ -26,8 +28,8 @@
 	};
 
 	struct lct_ast {
-		int headersdefined;
-		int trailersdefined;
+		bool headersdefined;
+		bool trailersdefined;
 
 		struct code *hfileheader;
 		struct code *cfileheader;
@@ -43,7 +45,7 @@
 
 	extern void init_lct_ast(struct lct_ast*);
 
-#line 47 "lctsyntax.h"
+#line 49 "lctsyntax.h"
 
 /* BEGINNING OF FUNCTION DECLARATIONS */
 
@@ -77,11 +79,11 @@ extern void read_lct_unit(void);
 
 /* BEGINNING OF TRAILER */
 
-#line 337 "lctsyntax.act"
+#line 340 "lctsyntax.act"
 
 
 	#endif
 
-#line 86 "lctsyntax.h"
+#line 88 "lctsyntax.h"
 
 /* END OF FILE */

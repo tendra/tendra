@@ -14,7 +14,7 @@
 
 	lct-unit -> read_lct_unit;
 
-	BOOL       -> int;
+	BOOL       -> bool;
 	CODE       -> codeP;
 	STRING     -> charP;
 	IDENT      -> charP;
@@ -25,6 +25,7 @@
 
 	#include <string.h>
 
+	#include <shared/bool.h>
 	#include <shared/xalloc.h>
 	#include <shared/string.h>
 	#include <shared/error.h>
@@ -71,6 +72,8 @@
 	#ifndef LCT_SYNTAX_H
 	#define LCT_SYNTAX_H
 
+	#include <shared/bool.h>
+
 	#include "code.h"
 	#include "ast.h"
 
@@ -82,8 +85,8 @@
 	};
 
 	struct lct_ast {
-		int headersdefined;
-		int trailersdefined;
+		bool headersdefined;
+		bool trailersdefined;
 
 		struct code *hfileheader;
 		struct code *cfileheader;

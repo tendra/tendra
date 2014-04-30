@@ -9,13 +9,14 @@
 #include <stddef.h>
 #include <string.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
 #include <adt/param.h>
 
 void
-param_append(struct param **params, char *str, struct entry *et, int isref)
+param_append(struct param **params, char *str, struct entry *et, bool isref)
 {
 	struct param *p;
 

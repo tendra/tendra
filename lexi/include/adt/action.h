@@ -9,6 +9,8 @@
 #ifndef LEXI_ACTION_H
 #define LEXI_ACTION_H
 
+#include <shared/bool.h>
+
 struct code;
 struct param;
 
@@ -16,7 +18,7 @@ struct action {
 	struct param *in;
 	struct param *out;
 	struct code *code;
-	int defined:1;
+	bool defined;
 };
 
 struct action *action_create(struct param *in, struct param *out);

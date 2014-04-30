@@ -10,6 +10,7 @@
 #include <stddef.h>
 #include <string.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/xalloc.h>
 #include <shared/error.h>
@@ -78,7 +79,7 @@ add_terminal(char * s)
 }
 
 void
-arg_out(struct arg *p, int is_ref, int d, FILE *file)
+arg_out(struct arg *p, bool is_ref, int d, FILE *file)
 {
 	switch (p->kind) {
 	case ARG_CHARP:

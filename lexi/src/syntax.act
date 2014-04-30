@@ -15,7 +15,7 @@
 
 	unit -> read_lex;
 
-	BOOL       -> int;
+	BOOL       -> bool;
 	IDENT      -> SID_STRING;
 	ZONE       -> zoneP;
 	STRING     -> SID_STRING;
@@ -31,6 +31,7 @@
 	#include <string.h>
 	#include <stdio.h>
 
+	#include <shared/bool.h>
 	#include <shared/error.h>
 	#include <shared/xalloc.h>
 	#include <shared/check.h>
