@@ -15,7 +15,6 @@
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
-#include "config.h"
 #include "object.h"
 #include "hash.h"
 #include "index.h"

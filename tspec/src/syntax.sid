@@ -17,7 +17,7 @@
 	 * program.
 	 */
 
-	BOOLEAN;
+	BOOL;
 	COMMAND;
 	COMMAND_KEY;
 	IDENTIFIER;
@@ -773,16 +773,16 @@
 	 * of fields is allowed.
 	 */
 
-	<bool_true>:  () -> (:BOOLEAN);
-	<bool_false>: () -> (:BOOLEAN);
-	<id_anon>:    () -> (:IDENTIFIER);
+	<true>:    () -> (:BOOL);
+	<false>:   () -> (:BOOL);
+	<id_anon>: () -> (:IDENTIFIER);
 	<declare_field>: (:IDENTIFIER, :TYPE, :TYPE) -> (:COMMAND);
 
-	field-exact: () -> (e :BOOLEAN) = {
+	field-exact: () -> (e :BOOL) = {
 		assign;
-		e = <bool_true>;
+		e = <true>;
 	||
-		e = <bool_false>;
+		e = <false>;
 	};
 
 	field-declarator: () -> (id :IDENTIFIER, t :TYPE) = {
@@ -974,7 +974,7 @@
 	<declare_typedef>: (:IDENTIFIER, :TYPE)   -> (:COMMAND);
 	<include_subset>:  (:COMMAND_KEY, :STRING, :SUBSET_KEY) -> (:COMMAND);
 	<begin_field>:     (:IDENTIFIER, :TYPE_KEY) -> (:TYPE, :COMMAND);
-	<end_field>:       (:TYPE, :COMMAND, :COMMAND, :BOOLEAN) -> (:COMMAND);
+	<end_field>:       (:TYPE, :COMMAND, :COMMAND, :BOOL) -> (:COMMAND);
 	<type_special>:    (:STRING) -> (:TYPE);
 	<key_exp>:         (:COMMAND_KEY, :TYPE_KEY) -> (:TYPE_KEY);
 

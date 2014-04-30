@@ -12,10 +12,6 @@
 
 #include <stddef.h>
 
-#ifndef CONFIG_H
-#include "config.h"
-#endif
-
 /*
  * PROCEDURE DECLARATIONS
  *

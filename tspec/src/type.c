@@ -13,7 +13,6 @@
 #include <time.h>
 #include <string.h>
 
-#include "config.h"
 #include "object.h"
 #include "hash.h"
 #include "type.h"

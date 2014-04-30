@@ -10,10 +10,6 @@
 #ifndef PRINT_H
 #define PRINT_H
 
-#ifndef CONFIG_H
-#include "config.h"
-#endif
-
 #ifndef OBJECT_H
 #include "object.h"
 #endif

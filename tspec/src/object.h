@@ -10,9 +10,7 @@
 #ifndef OBJECT_H
 #define OBJECT_H
 
-#ifndef CONFIG_H
-#include "config.h"
-#endif
+#include <shared/bool.h>
 
 /*
  * FORWARD STRUCTURE DECLARATIONS
@@ -117,7 +115,7 @@ typedef struct info_tag {
 	char *prefix;
 	char *protect;
 	char *version;
-	boolean tokens;
+	bool tokens;
 	int implemented;
 	object *elements;
 } info;

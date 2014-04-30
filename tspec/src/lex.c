@@ -10,12 +10,12 @@
 #include <time.h>
 #include <string.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
 #include <shared/string.h>
 #include <shared/xalloc.h>
 
-#include "config.h"
 #include "object.h"
 #include "hash.h"
 #include "lex.h"
@@ -716,14 +716,14 @@ preproc(FILE *output, char *api, char *file, char *subset)
 	int old_line_no;
 	char *old_filename;
 
-	boolean found    = 0;
+	bool found       = 0;
 	int brackets     = 0;
 	int end_brackets = 0;
 	int if_depth     = 0;
 	int else_depth   = 0;
 
 	FILE *input = NULL;
-	boolean printing = (boolean) (subset ? 0 : 1);
+	bool printing = subset ? 0 : 1;
 
 	/* Check for previous inclusion */
 	sn = subset_name(api, file, subset);

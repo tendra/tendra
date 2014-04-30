@@ -28,7 +28,7 @@
 	 * and in the C implementation.
 	 */
 
-	BOOLEAN     -> int;
+	BOOL        -> bool;
 	COMMAND     -> SID_COMMAND;
 	COMMAND_KEY -> int;
 
@@ -59,11 +59,11 @@
 	#include <stddef.h>
 	#include <string.h>
 
+	#include <shared/bool.h>
 	#include <shared/check.h>
 	#include <shared/error.h>
 	#include <shared/string.h>
 
-	#include "config.h"
 	#include "object.h"
 	#include "hash.h"
 	#include "lex.h"
@@ -169,8 +169,8 @@
 	 * These actions describe the boolean constants.
 	 */
 
-	<bool_false>: () -> (b) = @{ @b = 0; @};
-	<bool_true>:  () -> (b) = @{ @b = 1; @};
+	<false>: () -> (b) = @{ @b = 0; @};
+	<true>:  () -> (b) = @{ @b = 1; @};
 
 	/*
 	 * BASIC TYPE SPECIFIERS

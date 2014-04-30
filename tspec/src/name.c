@@ -12,9 +12,9 @@
 #include <stdio.h>
 #include <string.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 
-#include "config.h"
 #include "object.h"
 #include "hash.h"
 #include "name.h"
@@ -30,13 +30,13 @@
  * These flags are set by the command-line options and determine the
  * action of the program.
  */
-boolean allow_long_long = 0;
-boolean force_output    = 0;
-boolean local_input     = 0;
-boolean restrict_depth  = 1;
-boolean restrict_use    = 0;
-boolean unique_names    = 0;
-int verbose             = 0;
+bool allow_long_long = 0;
+bool force_output    = 0;
+bool local_input     = 0;
+bool restrict_depth  = 1;
+bool restrict_use    = 0;
+bool unique_names    = 0;
+int verbose          = 0;
 
 /*
  * FIND THE BASENAME OF A FILE NAME

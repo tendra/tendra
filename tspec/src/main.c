@@ -11,11 +11,11 @@
 #include <signal.h>
 #include <string.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
 #include <shared/string.h>
 
-#include "config.h"
 #include "object.h"
 #include "hash.h"
 #include "index.h"
@@ -157,10 +157,10 @@ main(int argc, char **argv)
 	object *commands = NULL;
 	FILE *preproc_file = NULL;
 
-	int show_index         = 0;
-	boolean check_only     = 0;
-	boolean preproc_input  = 0;
-	boolean separate_files = 0;
+	int show_index      = 0;
+	bool check_only     = 0;
+	bool preproc_input  = 0;
+	bool separate_files = 0;
 
 	/* Initialisation */
 	set_progname("tspec", "2.8");

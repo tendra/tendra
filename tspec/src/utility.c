@@ -20,7 +20,6 @@
 #include <shared/string.h>
 #include <shared/xalloc.h>
 
-#include "config.h"
 #include "name.h"
 #include "utility.h"
 

@@ -10,6 +10,8 @@
 #ifndef TYPE_H
 #define TYPE_H
 
+#include <shared/bool.h>
+
 #ifndef OBJECT_H
 #include "object.h"
 #endif
@@ -35,7 +37,7 @@ typedef struct type_tag {
 		struct type_tag *next;
 	} v;
 
-	boolean state;
+	bool state;
 } type;
 
 /*

@@ -10,11 +10,11 @@
 #include <time.h>
 #include <string.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
 #include <shared/string.h>
 
-#include "config.h"
 #include "object.h"
 #include "hash.h"
 #include "name.h"
@@ -47,7 +47,7 @@ static char *copyright_text = NULL;
  * A number of minor tricks are required in the headers, mostly due to
  * library building problems.
  */
-static boolean weak_proto = 0;
+static bool weak_proto = 0;
 #define enum_hack "__enum_"
 #define is_hidden(X) (strncmp(X, HIDDEN_NAME, HIDDEN_LEN) == 0)
 
@@ -294,8 +294,8 @@ print_struct_defn(FILE *output, type *t, char *nm, char *tnm, int d)
 	char *tok = NULL, *tag = NULL;
 	object *q = t->v.obj2;
 
-	boolean show_token  = 1, show_interface = 1;
-	boolean show_ignore = 1, show_defn = 1;
+	bool show_token  = 1, show_interface = 1;
+	bool show_ignore = 1, show_defn = 1;
 
 	/* Find the token type */
 	switch (t->id) EXHAUSTIVE {
@@ -489,7 +489,7 @@ generic_lab:
 	case TYPE_ENUM_TAG: {
 		/* Enumeration types are a complete hack */
 		char *b = BUILDING_MACRO;
-		boolean tagged = (boolean) (i == TYPE_ENUM ? 0 : 1);
+		bool tagged = i == TYPE_ENUM ? 0 : 1;
 		object *q;
 
 		OUT(output, "#ifndef %s\n", b);
@@ -759,7 +759,7 @@ static void
 print_ifs(FILE *output, ifcmd *ifs)
 {
 	ifcmd *p;
-	boolean changed;
+	bool changed;
 
 	/* Simplify the list of statements */
 	do {
@@ -1234,7 +1234,7 @@ print_set(object *input, int pass)
 	object *q;
 	info *old_info;
 	int old_column;
-	boolean old_weak_proto;
+	bool old_weak_proto;
 
 	column = 0;
 
@@ -1383,7 +1383,7 @@ print_set(object *input, int pass)
 		}
 
 		if (i->elements) {
-			boolean is_cpplus = 0;
+			bool is_cpplus = 0;
 
 			if (i->linkage) {
 				if (strcmp(i->linkage, "C++") == 0) {

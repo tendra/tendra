@@ -7,13 +7,13 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <shared/bool.h>
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
 #include <time.h>
 #include <string.h>
 
-#include "config.h"
 #include "object.h"
 #include "hash.h"
 #include "name.h"
@@ -140,12 +140,12 @@ set_integer(char *v, int n)
 {
 	if (0 == strcmp(v, "$INTERFACE")) {
 		if (crt_object) {
-			crt_object->u.u_info->tokens = (boolean) n;
+			crt_object->u.u_info->tokens = (bool) n;
 		}
 	} else if (0 == strcmp(v, "$LINE")) {
 		crt_line_no = n;
 	} else if (0 == strcmp(v, "$UNIQUE")) {
-		unique_names = (boolean)n;
+		unique_names = (bool) n;
 	} else if (0 == strcmp(v, "$VERBOSE")) {
 		verbose = n;
 	} else {

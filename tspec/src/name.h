@@ -10,9 +10,7 @@
 #ifndef NAME_H
 #define NAME_H
 
-#ifndef CONFIG_H
-#include "config.h"
-#endif
+#include <shared/bool.h>
 
 /*
  * ENVIRONMENTAL VARIABLES
@@ -92,12 +90,12 @@ char *block_name(char *, char *, char *);
  *
  * These are standard flags which are set by command line options.
  */
-extern boolean allow_long_long;
-extern boolean force_output;
-extern boolean local_input;
-extern boolean restrict_depth;
-extern boolean restrict_use;
-extern boolean unique_names;
+extern bool allow_long_long;
+extern bool force_output;
+extern bool local_input;
+extern bool restrict_depth;
+extern bool restrict_use;
+extern bool unique_names;
 extern int verbose;
 
 /*
