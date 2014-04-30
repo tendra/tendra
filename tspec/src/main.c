@@ -9,6 +9,7 @@
 
 #include <signal.h>
 
+#include <shared/check.h>
 #include <shared/error.h>
 #include <shared/string.h>
 

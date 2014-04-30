@@ -10,6 +10,8 @@
 #include <ctype.h>
 #include <stdio.h>
 
+#include <shared/check.h>
+
 #include "config.h"
 #include "object.h"
 #include "hash.h"

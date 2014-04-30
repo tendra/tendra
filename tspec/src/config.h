@@ -45,12 +45,6 @@
 #endif
 
 /*
- * COMPILER DEPENDENT MACROS
- */
-
-#include "ossg.h"
-
-/*
  * BASIC TYPES
  *
  * These types are so ubiquitous that this is the only suitable place

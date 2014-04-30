@@ -24,6 +24,7 @@
 #include <stddef.h>
 #include <string.h>
 
+#include <shared/check.h>
 #include <shared/error.h>
 #include <shared/string.h>
 

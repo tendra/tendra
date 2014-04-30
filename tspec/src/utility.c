@@ -9,11 +9,13 @@
 
 #define _POSIX_SOURCE
 
-#include <stdarg.h>
 #include <sys/types.h>
-#include <errno.h>
 #include <sys/stat.h>
 
+#include <stdarg.h>
+#include <errno.h>
+
+#include <shared/check.h>
 #include <shared/error.h>
 #include <shared/string.h>
 #include <shared/xalloc.h>
