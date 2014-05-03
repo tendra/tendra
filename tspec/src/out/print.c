@@ -874,10 +874,9 @@ print_interface(FILE *output, object *p, ifcmd *ifs)
 			IGNORE sprintf(buffer, "TAG %s", nm);
 			nm = buffer;
 			break;
-
-		default:
-			break;
 		}
+
+		break;
 	}
 
 	case OBJ_FUNC: {
