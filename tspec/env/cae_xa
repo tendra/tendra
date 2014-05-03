@@ -1,0 +1,7 @@
+/* tcc environment for cae_xa */
+
+<INCL			"-Ncae_xa:<PREFIX_TSPEC>/TenDRA/include/cae_xa.api"
+<LIB			"-lcae_xa"
++FLAG_INSTALL		"-Ycae_xa"
+<API_NAME		"-Acae_xa"
+<INFO			"X/Open@CAE@Distributed@Transaction@Processing:@XA@,1991"

@@ -39,6 +39,9 @@ ENVFILE+=	x5_private
 ENVFILE+=	x5_proto
 ENVFILE+=	x5_t
 
+ENVFILE+=	cae_xa
+ENVFILE+=	cae_xap
+
 PREFIX_ENV:=	${PREFIX_TSPEC}/TenDRA/env
 
 .include <tendra.env.mk>
