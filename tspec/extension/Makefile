@@ -25,6 +25,7 @@ APIS+=	cae_xap
 
 APIS+=	sus2_xsh
 APIS+=	sus2_xns_socket
+APIS+=	sus2_xns_ipaddr
 
 .include <tendra.tspec.mk>
 
