@@ -24,6 +24,7 @@ APIS+=	cae_xa
 APIS+=	cae_xap
 
 APIS+=	sus2_xsh
+APIS+=	sus2_xns_socket
 
 .include <tendra.tspec.mk>
 
