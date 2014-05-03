@@ -20,5 +20,8 @@ APIS+=	cpp
 #APIS+=	x5/proto
 #APIS+=	x5/t
 
+APIS+=	cae_xa
+APIS+=	cae_xap
+
 .include <tendra.tspec.mk>
 
