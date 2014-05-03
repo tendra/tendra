@@ -12,7 +12,6 @@
 +DEFINE MAXBQUALSIZE  64;
 
 +NAT ~xid_data_size; # TODO: can this be related to XIDDATASIZE above?
-+TYPE struct xid_t;
 +FIELD struct xid_t {
 	long formatID;
 	long gtrid_length;
@@ -33,7 +32,6 @@
 +DEFINE MAXINFOSIZE 256;
 
 +NAT ~xa_switch_rmnamesz; # TODO: can this be related to RMNAMESZ above?
-+TYPE struct xa_switch_t;
 +FIELD struct xa_switch_t {
 	char name[~xa_switch_rmnamesz];
 	long flags;
