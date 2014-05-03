@@ -23,5 +23,7 @@ APIS+=	cpp
 APIS+=	cae_xa
 APIS+=	cae_xap
 
+APIS+=	sus2_xsh
+
 .include <tendra.tspec.mk>
 
