@@ -1090,7 +1090,7 @@ print_object(FILE *output, object *input, int pass)
 
 			if (local_input) {
 				f = i->incl + n;
-				dir = "#pragma extend interface <../%s>\n";
+				dir = "#pragma extend interface <%s>\n";
 			} else {
 				f = relative(crt_info->incl, i->incl, n);
 				dir = "#pragma extend interface \"%s\"\n";
@@ -1478,7 +1478,7 @@ print_set(object *input, int pass)
 			OUT(output, "#ifndef %s\n", m);
 			OUT(output, "#pragma TenDRA no token definition allow\n");
 			OUT(output, "#endif\n");
-			OUT(output, "#pragma implement interface <../%s>\n", s);
+			OUT(output, "#pragma implement interface <%s>\n", s);
 			OUT(output, "#endif\n");
 		} else {
 			print_object(output, i->elements, 1);
