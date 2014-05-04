@@ -9,8 +9,8 @@
 +IMPLEMENT "sus2_xns_ipaddr", "arpa/inet.h.tspec", "endian" (!?);
 
 +SUBSET "port_addr" := {
-	+TYPEDEF unsigned in_port_t; # exactly 16-bit only
-	+TYPEDEF unsigned in_addr_t; # exactly 32-bit only
+	+TYPE (unsigned) in_port_t; # exactly 16-bit only
+	+TYPE (unsigned) in_addr_t; # exactly 32-bit only
 };
 
 +SUBSET "in_addr" := {
