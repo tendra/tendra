@@ -8,4 +8,4 @@
 
 +IMPLEMENT "xpg4", "utime.h.tspec" ;
 
-+IMPLEMENT "ansi", "time.h.tspec", "time_t" ;
++IMPLEMENT "c/c89", "time.h.tspec", "time_t" ;

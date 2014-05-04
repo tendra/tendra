@@ -7,7 +7,7 @@
 
 
 +IMPLEMENT "xpg4", "search.h.tspec" ;
-+IMPLEMENT "ansi", "stddef.h.tspec", "size_t" ;
++IMPLEMENT "c/c89", "stddef.h.tspec", "size_t" ;
 
 +FUNC void insque ( void *, void * ) ;
 +FUNC void remque ( void * ) ;

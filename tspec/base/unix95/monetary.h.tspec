@@ -7,5 +7,5 @@
 
 
 +IMPLEMENT "posix1", "sys/types.h.tspec", "ssize_t" ;
-+IMPLEMENT "ansi", "stddef.h.tspec", "size_t" ;
++IMPLEMENT "c/c89", "stddef.h.tspec", "size_t" ;
 +IMPLEMENT "xpg4", "monetary.h.tspec" ;

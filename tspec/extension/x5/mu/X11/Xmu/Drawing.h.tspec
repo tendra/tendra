@@ -6,7 +6,7 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+USE ( "ansi" ), "stdio.h.tspec" (!?) ;
++USE ( "c/c89" ), "stdio.h.tspec" (!?) ;
 +USE "x5/t", "X11/Intrinsic.h.tspec" ;
 
 +FUNC void XmuDrawRoundedRectangle ( Display *, Drawable, GC, int, int,

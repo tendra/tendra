@@ -7,9 +7,7 @@
 
 
 +SUBSET "xpg3_ranges" := {
-    # These are shared by ansi:float.h and xpg3:limits.h
     +SUBSET "xpg4_ranges" := {
-        # These are shared by ansi:float.h and xpg4:limits.h
         +EXP int DBL_DIG ;
         +EXP double DBL_MAX ;
         +EXP int FLT_DIG ;

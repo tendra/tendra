@@ -6,4 +6,4 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "iso", "iso646.h.tspec" ;
++IMPLEMENT "c/c90", "iso646.h.tspec" ;

@@ -8,8 +8,8 @@
 
 # CAE, X/Open Curses, Issue 4
 
-+USE "ansi", "stdio.h.tspec" ;	# FILE
-+USE "ansi", "stdarg.h.tspec", "va_args" (!?) ;
++USE "c/c89", "stdio.h.tspec" ;	# FILE
++USE "c/c89", "stdarg.h.tspec", "va_args" (!?) ;
 
 # at least including unsigned short values
 +TYPE (int) attr_t ;
@@ -20,11 +20,11 @@
 +SUBSET "chtype" := { +TYPE (int) chtype ; } ;
 
 +TYPE SCREEN ;
-+IMPLEMENT "ansi", "stddef.h.tspec", "wchar_t" ;
++IMPLEMENT "c/c89", "stddef.h.tspec", "wchar_t" ;
 +TYPE (int) cchar_t ;
 +TYPE WINDOW ;
 
-+IMPLEMENT "iso", "wchar.h.tspec", "wint" ;	# wint_t and WEOF
++IMPLEMENT "c/c90", "wchar.h.tspec", "wint" ;	# wint_t and WEOF
 
 +EXP (extern) int COLOR_PAIRS ;
 +EXP (extern) int COLORS ;
@@ -33,7 +33,7 @@
 +EXP (extern) int LINES ;
 +EXP (extern) WINDOW *stdscr ;
 
-+IMPLEMENT "ansi", "stdio.h.tspec", "eof" ;
++IMPLEMENT "c/c89", "stdio.h.tspec", "eof" ;
 +CONST int ERR ;
 +CONST bool FALSE ;
 +CONST int OK ;

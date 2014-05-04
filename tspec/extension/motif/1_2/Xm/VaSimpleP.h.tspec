@@ -13,7 +13,7 @@
 %%
 
 +USE "motif/1_2", "Xm/XmP.h.tspec";
-+USE "ansi", "stdarg.h.tspec";
++USE "c/c89", "stdarg.h.tspec";
 
 
 

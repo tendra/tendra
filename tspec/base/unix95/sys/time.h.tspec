@@ -13,7 +13,7 @@ $SOURCENAME = "sys/sys_time.h.tspec" ;
     # Duplicated in a number of places
     $PROTECT = "__TDF_STRUCT_TIMEVAL" ;
 
-    +IMPLEMENT "ansi", "time.h.tspec", "time_t" ;
+    +IMPLEMENT "c/c89", "time.h.tspec", "time_t" ;
 
     +FIELD struct timeval {
 	time_t tv_sec ;

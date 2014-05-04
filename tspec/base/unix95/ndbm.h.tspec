@@ -6,7 +6,7 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+USE "ansi", "stddef.h.tspec", "size_t" ;
++USE "c/c89", "stddef.h.tspec", "size_t" ;
 
 # Corrigenda U013 1170/02: define mode_t
 +IMPLEMENT "posix", "sys/types.h.tspec", "mode_t" ;

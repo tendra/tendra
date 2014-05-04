@@ -6,7 +6,7 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "ansi", "limits.h.tspec" ;
++IMPLEMENT "c/c89", "limits.h.tspec" ;
 
 +DEFMIN _POSIX_ARG_MAX 4096 ;
 +DEFMIN _POSIX_CHILD_MAX 6 ;

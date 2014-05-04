@@ -7,7 +7,7 @@
 
 
 +IMPLEMENT "posix", "sys/types.h.tspec", "stat_t" ;
-+IMPLEMENT "ansi", "time.h.tspec", "time_t" ;
++IMPLEMENT "c/c89", "time.h.tspec", "time_t" ;
 
 +SUBSET "st_proto" := {
     +IMPLEMENT "xpg4", "sys/stat.h.tspec" ;

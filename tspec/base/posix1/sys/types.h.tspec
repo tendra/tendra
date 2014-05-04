@@ -7,5 +7,5 @@
 
 
 +IMPLEMENT "posix", "sys/types.h.tspec" ;
-+IMPLEMENT "ansi", "stddef.h.tspec", "size_t" ;
++IMPLEMENT "c/c89", "stddef.h.tspec", "size_t" ;
 +SUBSET "ssize_t" := { +TYPE ( signed ) ssize_t ; } ;

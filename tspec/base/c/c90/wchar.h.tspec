@@ -13,13 +13,13 @@
 } ;
 
 +SUBSET "mse" := {
-    +USE "ansi", "stdio.h.tspec" (!?) ;
-    +USE "ansi", "time.h.tspec" (!?) ;
+    +USE "c/c89", "stdio.h.tspec" (!?) ;
+    +USE "c/c89", "time.h.tspec" (!?) ;
 
     # 7.16.1
-    +IMPLEMENT "ansi", "stddef.h.tspec", "size_t" (!?) ;
-    +IMPLEMENT "ansi", "stddef.h.tspec", "wchar_t" (!?) ;
-    +IMPLEMENT "ansi", "stddef.h.tspec", "null" (!?) ;
+    +IMPLEMENT "c/c89", "stddef.h.tspec", "size_t" (!?) ;
+    +IMPLEMENT "c/c89", "stddef.h.tspec", "wchar_t" (!?) ;
+    +IMPLEMENT "c/c89", "stddef.h.tspec", "null" (!?) ;
 
     # 7.16.3.n
     +FUNC wint_t fgetwc ( FILE * ) ;

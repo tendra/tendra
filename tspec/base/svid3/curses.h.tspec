@@ -12,7 +12,7 @@
 +USE "svid3", "stdio.h.tspec" ;
 +USE "svid3", "term.h.tspec" (!?) ;
 +USE "svid3", "unctrl.h.tspec" (!?) ;
-+USE "ansi", "stdarg.h.tspec", "va_args" (!?) ;
++USE "c/c89", "stdarg.h.tspec", "va_args" (!?) ;
 
 +TYPE WINDOW, SCREEN, ( int ) bool, ( int ) chtype ;
 
@@ -357,7 +357,7 @@
 
 +IF %% __SYSV_UPDATE %%
 
-+USE "ansi", "stddef.h.tspec", "wchar_t" (!?) ;
++USE "c/c89", "stddef.h.tspec", "wchar_t" (!?) ;
 
 +FUNC int addwch ( chtype ) ;
 +FUNC int waddwch ( WINDOW *, chtype ) ;

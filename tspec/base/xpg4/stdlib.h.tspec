@@ -6,6 +6,6 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "ansi", "stdlib.h.tspec" ;
++IMPLEMENT "c/c89", "stdlib.h.tspec" ;
 +IMPLEMENT "xpg3", "stdlib.h.tspec", "putenv" ;
 +IMPLEMENT "xpg3", "stdlib.h.tspec", "rand48" ;

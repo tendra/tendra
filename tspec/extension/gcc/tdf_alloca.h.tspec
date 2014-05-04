@@ -8,7 +8,7 @@
 
 $FILENAME = "stdlib.h.tspec" ;
 
-+USE "ansi", "stddef.h.tspec", "size_t" ;
++USE "c/c89", "stddef.h.tspec", "size_t" ;
 
 +IFNDEF __DONT_INLINE_ALLOCA
 +FUNC void *alloca | "~alloca" ( size_t ) ;

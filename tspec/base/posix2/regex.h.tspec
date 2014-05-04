@@ -6,7 +6,7 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+USE "ansi", "stddef.h.tspec", "size_t" (!?) ;
++USE "c/c89", "stddef.h.tspec", "size_t" (!?) ;
 
 +CONST int REG_EXTENDED, REG_ICASE, REG_NOSUB, REG_NEWLINE, REG_NOTBOL ;
 +CONST int REG_NOTEOL, REG_NOMATCH, REG_BADPAT, REG_ECOLLATE, REG_ECTYPE ;

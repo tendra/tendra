@@ -8,7 +8,7 @@
 
 # CAE, Networking Services, Issue 4
 
-+USE "ansi", "stddef.h.tspec", "size_t" (!?) ;
++USE "c/c89", "stddef.h.tspec", "size_t" (!?) ;
 +IMPLEMENT "unix95", "netinet/in.h.tspec", "in_t" ;
 
 +FIELD struct hostent {

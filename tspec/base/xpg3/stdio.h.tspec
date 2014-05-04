@@ -7,7 +7,7 @@
 
 
 +IMPLEMENT "posix", "stdio.h.tspec" ;
-+IMPLEMENT "ansi", "stdlib.h.tspec", "system" ;
++IMPLEMENT "c/c89", "stdlib.h.tspec", "system" ;
 +IMPLEMENT "posix", "unistd.h.tspec", "getopt" ;
 
 +FUNC int getw ( FILE * ) ;

@@ -1,0 +1,28 @@
+# $Id$
+
+# Copyright 2002-2011, The TenDRA Project.
+# Copyright 1997, United Kingdom Secretary of State for Defence.
+#
+# See doc/copyright/ for the full copyright terms.
+
+
+$UNIQUE = 1 ;
+$VERSION = "2.6" ;
++BASE_API ;
+
++IMPLEMENT "c/c89", "assert.h.tspec" ;
++IMPLEMENT "c/c89", "ctype.h.tspec" ;
++IMPLEMENT "c/c89", "errno.h.tspec" ;
++IMPLEMENT "c/c89", "float.h.tspec" ;
++IMPLEMENT "c/c89", "limits.h.tspec" ;
++IMPLEMENT "c/c89", "locale.h.tspec" ;
++IMPLEMENT "c/c89", "math.h.tspec" ;
++IMPLEMENT "c/c89", "setjmp.h.tspec" ;
++IMPLEMENT "c/c89", "signal.h.tspec" ;
++IMPLEMENT "c/c89", "stdarg.h.tspec" ;
++IMPLEMENT "c/c89", "stddef.h.tspec" ;
++IMPLEMENT "c/c89", "stdio.h.tspec" ;
++IMPLEMENT "c/c89", "stdlib.h.tspec" ;
++IMPLEMENT "c/c89", "string.h.tspec" ;
++IMPLEMENT "c/c89", "time.h.tspec" ;
+

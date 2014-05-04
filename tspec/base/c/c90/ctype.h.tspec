@@ -6,5 +6,5 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "ansi", "time.h.tspec" ;
++IMPLEMENT "c/c89", "ctype.h.tspec" ;
 

@@ -9,7 +9,7 @@
 +EXP (extern) int errno ;
 
 +SUBSET "enums" := {
-    +IMPLEMENT "ansi", "errno.h.tspec", "enums" ;
+    +IMPLEMENT "c/c89", "errno.h.tspec", "enums" ;
 
     +CONST int E2BIG, EACCES, EAGAIN, EBADF, EBUSY, ECHILD, EDEADLK, EEXIST ;
     +CONST int EFAULT, EFBIG, EINTR, EINVAL, EIO, EISDIR, EMFILE, EMLINK ;

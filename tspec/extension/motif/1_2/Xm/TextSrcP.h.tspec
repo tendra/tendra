@@ -12,7 +12,7 @@
 #endif
 %%
 
-+USE "ansi", "ctype.h.tspec";
++USE "c/c89", "ctype.h.tspec";
 
 +ENUM XmTextStatus := { 
 

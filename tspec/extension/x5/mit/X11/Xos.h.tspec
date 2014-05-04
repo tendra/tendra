@@ -8,7 +8,7 @@
 
 +USE "x5/mit", "X11/Xfuncs.h.tspec" (!?) ;
 
-+USE ( "ansi" ), "time.h.tspec" (!?) ;
++USE ( "c/c89" ), "time.h.tspec" (!?) ;
 
 +IFDEF ~protect ( "posix", "time.h.tspec" )
 +USE ( "posix" ), "sys/types.h.tspec" (!?) ;

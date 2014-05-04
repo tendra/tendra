@@ -6,8 +6,10 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "ansi", "time.h.tspec" ;
-+IMPLEMENT "ansi", "stddef.h.tspec", "size_t" ;
++IMPLEMENT "c/c89", "time.h.tspec" ;
++IMPLEMENT "c/c89", "stddef.h.tspec", "size_t" ;
+
 +EXP int CLK_TCK ;
 +FUNC void tzset ( void ) ;
 +EXP (extern) char *tzname [] ;
+

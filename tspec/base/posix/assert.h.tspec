@@ -7,4 +7,4 @@
 
 
 $PROTECT = "" ;
-+IMPLEMENT "ansi", "assert.h.tspec" ;
++IMPLEMENT "c/c89", "assert.h.tspec" ;

@@ -7,4 +7,4 @@
  */
 
 #include "ansi.h"
-#define __WRONG_ISO
+#define __WRONG_C_C90

@@ -8,7 +8,7 @@
 
 $LINKAGE = "C++" ;
 $NAMESPACE = "std" ;
-+USE ("iso"), "stdlib.h.tspec" ;
++USE ("c/c90"), "stdlib.h.tspec" ;
 
 %%
 long abs ( long ) ;

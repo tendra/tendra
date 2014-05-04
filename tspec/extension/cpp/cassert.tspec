@@ -9,4 +9,4 @@
 $PROTECT = "" ;
 $LINKAGE = "C++" ;
 $NAMESPACE = "std" ;
-+USE ("iso"), "assert.h.tspec" ;
++USE ("c/c90"), "assert.h.tspec" ;

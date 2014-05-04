@@ -6,4 +6,4 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "ansi", "float.h.tspec" ;
++IMPLEMENT "c/c89", "float.h.tspec" ;

@@ -6,7 +6,7 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "ansi", "math.h.tspec" ;
++IMPLEMENT "c/c89", "math.h.tspec" ;
 
 +EXP double MAXFLOAT ;
 +CONST double M_1_PI, M_2_PI, M_2_SQRTPI, M_E, M_LN2, M_LN10 ;

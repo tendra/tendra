@@ -8,7 +8,7 @@
 
 $PROTECT = "__TDF_BSD_STRINGS" ;
 $FILENAME = "string.h.tspec" ;
-+USE ( "ansi" ), "string.h.tspec" ;
++USE ( "c/c89" ), "string.h.tspec" ;
 
 +FUNC char *index ( char *, int ) ;
 +FUNC char *rindex ( char *, int ) ;

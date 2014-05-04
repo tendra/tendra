@@ -6,7 +6,7 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+USE ( "ansi" ), "errno.h.tspec" ;
++USE ( "c/c89" ), "errno.h.tspec" ;
 
 /* Only BSD specific error numbers given */
 +CONST int EADDRINUSE, EADDRNOTAVAIL, EAFNOSUPPORT, EALREADY ;

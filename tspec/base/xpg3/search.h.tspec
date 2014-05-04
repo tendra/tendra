@@ -7,7 +7,7 @@
 
 
 +SUBSET "srch_proto" := {
-    +USE "ansi", "stddef.h.tspec", "size_t" (!?) ;
+    +USE "c/c89", "stddef.h.tspec", "size_t" (!?) ;
 
     +FIELD struct entry { char *key ; } ;
     +TYPEDEF struct entry ENTRY ;

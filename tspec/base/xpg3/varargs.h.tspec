@@ -6,7 +6,7 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "ansi", "stdarg.h.tspec", "va_args" ;
++IMPLEMENT "c/c89", "stdarg.h.tspec", "va_args" ;
 
 +DEFINE va_alist	%% ... %% ;
 +DEFINE va_dcl		%% %% ;

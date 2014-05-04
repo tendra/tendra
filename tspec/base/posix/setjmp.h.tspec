@@ -6,7 +6,7 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "ansi", "setjmp.h.tspec" ;
++IMPLEMENT "c/c89", "setjmp.h.tspec" ;
 
 +NAT ~sigjmp_buf_size ;
 +TYPE ~sigjmp_buf_elt ;

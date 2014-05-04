@@ -6,7 +6,7 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "ansi", "stddef.h.tspec", "size_t" ;
++IMPLEMENT "c/c89", "stddef.h.tspec", "size_t" ;
 +IMPLEMENT "posix", "sys/types.h.tspec", "off_t" ;
 
 +CONST int PROT_READ, PROT_WRITE, PROT_EXEC, PROT_NONE ;

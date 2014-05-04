@@ -6,5 +6,5 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "ansi", "limits.h.tspec" ;
++IMPLEMENT "c/c89", "string.h.tspec" ;
 

@@ -8,7 +8,7 @@
 
 +SUBSET "values" := {
     +IMPLEMENT "posix", "limits.h.tspec" ;
-    +IMPLEMENT "ansi", "stdio.h.tspec", "tmp_max" (!?) ;
+    +IMPLEMENT "c/c89", "stdio.h.tspec", "tmp_max" (!?) ;
 
     +CONST int LONG_BIT, NL_ARGMAX, NL_LANGMAX, NL_MSGMAX, NL_NMAX ;
     +CONST int NL_SETMAX, NL_TEXTMAX, NZERO, WORD_BIT ;
@@ -19,4 +19,4 @@
     +ENDIF
 } ;
 
-+IMPLEMENT "ansi", "float.h.tspec", "xpg3_ranges" (!?) ;
++IMPLEMENT "c/c89", "float.h.tspec", "xpg3_ranges" (!?) ;

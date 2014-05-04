@@ -6,7 +6,7 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "ansi", "time.h.tspec", "time_t" ;
++IMPLEMENT "c/c89", "time.h.tspec", "time_t" ;
 
 +FIELD struct timeb {
     time_t time ;

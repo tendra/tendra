@@ -12,7 +12,7 @@
 
 /* Also see fmtmsg.h - the MM values are not necessarily the same! */
 +USE "svid3", "stdio.h.tspec" ;
-+USE "ansi", "stdarg.h.tspec", "va_args" ;
++USE "c/c89", "stdarg.h.tspec", "va_args" ;
 
 +CONST int MM_NOSTD.1 | MM_NOSTD_pfmt ;
 +CONST int MM_STD.1 | MM_STD_pfmt ;

@@ -8,7 +8,7 @@
 
 # Types and constants for X protocol to be used by applications
 
-+USE "ansi", "stddef.h.tspec", "wchar_t" (!?) ;
++USE "c/c89", "stddef.h.tspec", "wchar_t" (!?) ;
 
 
 # Types

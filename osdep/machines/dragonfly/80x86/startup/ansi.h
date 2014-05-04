@@ -11,7 +11,7 @@
 #pragma TenDRA longlong type allow
 #pragma TenDRA no external declaration allow
 
-#define __WRONG_ANSI_LOCALE_H
+#define __WRONG_C_C89_LOCALE_H
 
 #ifndef __NO_BUILTIN_ASSERTIONS
 #assert machine(i386)

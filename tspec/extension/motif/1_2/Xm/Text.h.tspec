@@ -8,7 +8,7 @@
 
 
 +USE "motif/1_2","Xm/Xm.h.tspec";
-+USE "ansi", "stdio.h.tspec"; 
++USE "c/c89", "stdio.h.tspec";
 
 +TYPE (struct) _XmTextSourceRec;
 +TYPE (struct) _XmTextClassRec;

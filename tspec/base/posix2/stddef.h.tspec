@@ -6,4 +6,4 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "ansi", "stddef.h.tspec" ;
++IMPLEMENT "c/c89", "stddef.h.tspec" ;

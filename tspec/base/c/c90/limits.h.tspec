@@ -6,6 +6,5 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-$PROTECT = "" ;
-+IMPLEMENT "ansi", "assert.h.tspec" ;
++IMPLEMENT "c/c89", "limits.h.tspec" ;
 

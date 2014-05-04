@@ -8,7 +8,7 @@
 
 $LINKAGE = "C++" ;
 $NAMESPACE = "std" ;
-+USE ("iso"), "string.h.tspec" ;
++USE ("c/c90"), "string.h.tspec" ;
 
 %%
 char *strchr ( char *, int ) ;

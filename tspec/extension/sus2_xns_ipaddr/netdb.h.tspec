@@ -4,7 +4,7 @@
 #
 # See doc/copyright/ for the full copyright terms.
 
-+USE "ansi", "stddef.h.tspec", "size_t" (!?);
++USE "c/c89", "stddef.h.tspec", "size_t" (!?);
 
 +IMPLEMENT "sus2_xns_ipaddr", "netinet/in.h", "port_addr" (!?);
 

@@ -6,7 +6,7 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "ansi", "stdio.h.tspec" ;
++IMPLEMENT "c/c89", "stdio.h.tspec" ;
 
 +SUBSET "ctuid" := {
     +FUNC char *ctermid ( char * ) ;

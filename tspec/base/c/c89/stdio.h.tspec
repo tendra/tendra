@@ -6,10 +6,10 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+USE "ansi", "stdarg.h.tspec", "va_list" ;
++USE "c/c89", "stdarg.h.tspec", "va_list" ;
 
-+IMPLEMENT "ansi", "stddef.h.tspec", "size_t" (!?) ;
-+IMPLEMENT "ansi", "stddef.h.tspec", "null" (!?) ;
++IMPLEMENT "c/c89", "stddef.h.tspec", "size_t" (!?) ;
++IMPLEMENT "c/c89", "stddef.h.tspec", "null" (!?) ;
 
 +SUBSET "file" := { +TYPE FILE ; } ;
 

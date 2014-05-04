@@ -6,5 +6,5 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "ansi", "errno.h.tspec" ;
++IMPLEMENT "c/c89", "errno.h.tspec" ;
 +IMPLEMENT "posix", "errno.h.tspec", "enums" ;

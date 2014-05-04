@@ -8,4 +8,4 @@
 
 $LINKAGE = "C++" ;
 $NAMESPACE = "std" ;
-+USE ("iso"), "setjmp.h.tspec" ;
++USE ("c/c90"), "setjmp.h.tspec" ;

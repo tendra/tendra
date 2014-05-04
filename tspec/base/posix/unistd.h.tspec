@@ -9,10 +9,11 @@
 +SUBSET "u_proto" := {
     +USE "posix", "sys/types.h.tspec" ;
     +USE "posix", "sys/stat.h.tspec" ;
-    +IMPLEMENT "ansi", "stddef.h.tspec", "null" (!?) ;
-    +IMPLEMENT "ansi", "stdlib.h.tspec", "bottom" (!?) ;
-    +IMPLEMENT "ansi", "stdio.h.tspec", "rename" (!?) ;
-    +IMPLEMENT "ansi", "stdio.h.tspec", "seek_consts" (!?) ;
+
+    +IMPLEMENT "c/c89", "stddef.h.tspec", "null" (!?) ;
+    +IMPLEMENT "c/c89", "stdlib.h.tspec", "bottom" (!?) ;
+    +IMPLEMENT "c/c89", "stdio.h.tspec", "rename" (!?) ;
+    +IMPLEMENT "c/c89", "stdio.h.tspec", "seek_consts" (!?) ;
 
     +IFNDEF _POSIX_VERSION
     +DEFINE _POSIX_VERSION %% 198808L %% ;

@@ -6,7 +6,7 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+USE "ansi", "stddef.h.tspec", "size_t" ;
++USE "c/c89", "stddef.h.tspec", "size_t" ;
 
 # iconv_open() iconv_t result comparable with (iconv_t)-1, so not opaque
 +TYPE ( scalar ) iconv_t ;

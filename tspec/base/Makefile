@@ -7,8 +7,8 @@ TSPEC=	${OBJ_DIR}/src/tspec
 
 #TSPEC_FLAGS+=	-a
 
-APIS+=	ansi
-APIS+=	iso
+APIS+=	c/c89
+APIS+=	c/c90
 APIS+=	posix
 APIS+=	posix1
 APIS+=	posix2

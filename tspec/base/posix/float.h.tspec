@@ -9,5 +9,5 @@
 +IFDEF __JUST_POSIX
 %% #error float.h is not in POSIX %%
 +ELSE
-+IMPLEMENT "ansi", "float.h.tspec" ;
++IMPLEMENT "c/c89", "float.h.tspec" ;
 +ENDIF

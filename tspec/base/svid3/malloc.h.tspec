@@ -6,8 +6,8 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "ansi", "stdlib.h.tspec", "alloc" (!?) ;
-+IMPLEMENT "ansi", "stdlib.h.tspec", "free" (!?) ;
++IMPLEMENT "c/c89", "stdlib.h.tspec", "alloc" (!?) ;
++IMPLEMENT "c/c89", "stdlib.h.tspec", "free" (!?) ;
 
 +FIELD struct mallinfo | mallinfo_struct {
     int arena ;

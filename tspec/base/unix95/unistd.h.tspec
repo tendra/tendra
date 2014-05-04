@@ -7,8 +7,8 @@
 
 
 +IMPLEMENT "xpg4", "unistd.h.tspec" ;
-+IMPLEMENT "ansi", "stddef.h.tspec", "null" ;
-+IMPLEMENT "ansi", "stdio.h.tspec", "seek_consts" ;
++IMPLEMENT "c/c89", "stddef.h.tspec", "null" ;
++IMPLEMENT "c/c89", "stdio.h.tspec", "seek_consts" ;
 
 +CONST int _SC_ATEXIT_MAX ;
 +CONST int _SC_PAGESIZE, _SC_PAGE_SIZE ;
@@ -17,7 +17,7 @@
 
 +CONST int F_ULOCK, F_LOCK, F_TLOCK, F_TEST ;
 
-+IMPLEMENT "ansi", "stddef.h.tspec", "size_t" ;
++IMPLEMENT "c/c89", "stddef.h.tspec", "size_t" ;
 +IMPLEMENT "posix1", "sys/types.h.tspec", "ssize_t" ;
 +IMPLEMENT "posix", "sys/types.h.tspec", "guid" ;
 +IMPLEMENT "posix", "sys/types.h.tspec", "off_t" ;

@@ -6,7 +6,7 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "ansi", "time.h.tspec", "clock_t" (!?) ;
++IMPLEMENT "c/c89", "time.h.tspec", "clock_t" (!?) ;
 
 +FIELD struct tms {
     clock_t tms_utime ;

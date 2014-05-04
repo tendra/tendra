@@ -6,7 +6,7 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+USE "ansi", "stddef.h.tspec", "size_t" (!?) ;
++USE "c/c89", "stddef.h.tspec", "size_t" (!?) ;
 
 +CONST int GLOB_APPEND, GLOB_DOOFFS, GLOB_ERR, GLOB_MARK, GLOB_NOCHECK ;
 +CONST int GLOB_NOESCAPE, GLOB_NOSORT, GLOB_ABORTED, GLOB_NOMATCH ;

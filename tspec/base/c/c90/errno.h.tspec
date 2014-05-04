@@ -6,5 +6,8 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "ansi", "stdio.h.tspec" ;
++IMPLEMENT "c/c89", "errno.h.tspec" ;
+
+# 7.1.4
++CONST int EILSEQ ;
 

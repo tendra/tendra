@@ -8,4 +8,4 @@
 
 $LINKAGE = "C++" ;
 $NAMESPACE = "std" ;
-+USE ("iso"), "wctype.h.tspec" ;
++USE ("c/c90"), "wctype.h.tspec" ;

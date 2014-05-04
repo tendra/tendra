@@ -7,9 +7,9 @@
 
 
 +IMPLEMENT "posix", "sys/types.h.tspec" ;
-+IMPLEMENT "ansi", "time.h.tspec", "clock_t" (!?) ;
-+IMPLEMENT "ansi", "stddef.h.tspec", "size_t" (!?) ;
-+IMPLEMENT "ansi", "time.h.tspec", "time_t" (!?) ;
++IMPLEMENT "c/c89", "time.h.tspec", "clock_t" (!?) ;
++IMPLEMENT "c/c89", "stddef.h.tspec", "size_t" (!?) ;
++IMPLEMENT "c/c89", "time.h.tspec", "time_t" (!?) ;
 
 # ftok() key_t result comparable with (key_t)-1, so not opaque
 +SUBSET "key_t" := { +TYPE ( int ) key_t ; } ;

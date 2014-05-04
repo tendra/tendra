@@ -6,7 +6,7 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "ansi", "signal.h.tspec" ;
++IMPLEMENT "c/c89", "signal.h.tspec" ;
 +USE "posix", "sys/types.h.tspec" ;
 
 +SUBSET "sigset_t" := { +TYPE sigset_t ; } ;

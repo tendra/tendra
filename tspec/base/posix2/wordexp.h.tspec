@@ -6,7 +6,7 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+USE "ansi", "stddef.h.tspec", "size_t" (!?) ;
++USE "c/c89", "stddef.h.tspec", "size_t" (!?) ;
 
 +FIELD ( struct ) wordexp_t {
     size_t we_wordc ;

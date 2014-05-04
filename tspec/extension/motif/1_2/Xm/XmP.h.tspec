@@ -13,7 +13,7 @@
 #endif
 %%
 
-+USE "ansi", "stddef.h.tspec", "size_t" (!?) ;
++USE "c/c89", "stddef.h.tspec", "size_t" (!?) ;
 +USE "motif/1_2", "Xm/Xm.h.tspec";
 +USE "x5/lib", "X11/Xresource.h.tspec";
 +USE "x5/t", "X11/IntrinsicP.h.tspec";

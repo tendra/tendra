@@ -9,5 +9,5 @@
 +IFDEF __JUST_XPG3
 %% #error float.h is not in XPG3 %%
 +ELSE
-+IMPLEMENT "ansi", "float.h.tspec" ;
++IMPLEMENT "c/c89", "float.h.tspec" ;
 +ENDIF

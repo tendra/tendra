@@ -9,5 +9,5 @@
 +IFDEF __JUST_XPG3
 %% #error stdarg.h is not in XPG3 %%
 +ELSE
-+IMPLEMENT "ansi", "stdarg.h.tspec" ;
++IMPLEMENT "c/c89", "stdarg.h.tspec" ;
 +ENDIF

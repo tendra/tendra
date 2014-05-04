@@ -7,7 +7,7 @@
 
 
 +USE "posix", "sys/types.h.tspec" ;
-+USE "ansi", "time.h.tspec", "time_t" (!?) ;
++USE "c/c89", "time.h.tspec", "time_t" (!?) ;
 
 +FIELD struct utimbuf {
     time_t actime ;
