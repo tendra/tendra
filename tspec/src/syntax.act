@@ -524,8 +524,13 @@
 		info *i = p->u.u_info;
 
 		if (i->subset) {
-			char *nm = subset_name(i->api, i->file, NULL);
-			object *q = search_hash(subsets, nm, no_version);
+			char *nm;
+			object *q;
+
+			i->api = crt_object->u.u_info->api;
+
+			nm = subset_name(i->api, i->file, NULL);
+			q = search_hash(subsets, nm, no_version);
 			update_time(p, q);
 		}
 

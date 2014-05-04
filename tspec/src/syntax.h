@@ -112,7 +112,7 @@ extern void read_spec(SID_COMMAND *);
 
 /* BEGINNING OF TRAILER */
 
-#line 841 "syntax.act"
+#line 846 "syntax.act"
 
 
 	#endif
