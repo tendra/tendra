@@ -1,0 +1,9 @@
+/* tcc environment for ansi */
+
++INCL			"-Nc89:<PREFIX_TSPEC>/TenDRA/include/c/c89.api"
++LIB			"-lc89 -lc"
++FLAG_TDFC		"-ma"
++FLAG_INSTALL		"-Yc89"
++API_NAME		"-Ac89"
++INFO			"ANSI@(X3.159)"
+

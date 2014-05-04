@@ -5,10 +5,13 @@
 
 ENVSTANDALONE=
 
-ENVFILE+=	aes
+ENVFILE+=	c89
+ENVFILE+=	c90
 ENVFILE+=	ansi
-ENVFILE+=	cose
 ENVFILE+=	iso
+
+ENVFILE+=	aes
+ENVFILE+=	cose
 ENVFILE+=	mse
 ENVFILE+=	posix
 ENVFILE+=	posix1

@@ -1,7 +1,7 @@
 /* tcc environment for mse */
 
 +INCL			"-Nmse:<PREFIX_TSPEC>/TenDRA/include/mse.api"
-+LIB			"-lmse -lansi -lc"
++LIB			"-lmse -lc89 -lc"
 +FLAG_INSTALL		"-Ymse"
 +API_NAME		"-Amse"
 +INFO			"Draft@ISO@MSE@(9899:1990/Amendment@1:1993@(E))"

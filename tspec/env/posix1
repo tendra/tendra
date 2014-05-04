@@ -1,7 +1,7 @@
 /* tcc environment for posix1 */
 
 +INCL			"-Nposix1:<PREFIX_TSPEC>/TenDRA/include/posix1.api"
-+LIB			"-lposix1 -lposix -lansi -lc"
++LIB			"-lposix1 -lposix -lc89 -lc"
 +FLAG_INSTALL		"-Yposix1"
 +API_NAME		"-Aposix1"
 +INFO			"POSIX.1@(ISO/IEC@9945-1:1990)"

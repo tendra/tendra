@@ -1,7 +1,7 @@
 /* tcc environment for svid3 */
 
 +INCL			"-Nsvid3:<PREFIX_TSPEC>/TenDRA/include/svid3.api"
-+LIB			"-lsvid3 -lxpg3 -lposix -lansi -lc"
++LIB			"-lsvid3 -lxpg3 -lposix -lc89 -lc"
 +FLAG_INSTALL		"-Ysvid3"
 +API_NAME		"-Asvid3"
 +INFO			"System@V@Interface@Definition@(3rd@edition)"
