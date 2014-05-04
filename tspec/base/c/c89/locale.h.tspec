@@ -6,6 +6,8 @@
 # See doc/copyright/ for the full copyright terms.
 
 
+$APINAME = "c89";
+
 +IMPLEMENT "c/c89", "stddef.h.tspec", "null" (!?) ;
 
 +CONST int LC_ALL, LC_COLLATE, LC_CTYPE, LC_MONETARY, LC_NUMERIC, LC_TIME ;

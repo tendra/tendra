@@ -6,5 +6,7 @@
 # See doc/copyright/ for the full copyright terms.
 
 
+$APINAME = "c90" ;
+
 +IMPLEMENT "c/c89", "setjmp.h.tspec" ;
 

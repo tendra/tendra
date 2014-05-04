@@ -6,6 +6,8 @@
 # See doc/copyright/ for the full copyright terms.
 
 
+$APINAME = "c90";
+
 # 7.14
 +DEFINE and	%% && %% ;
 +DEFINE and_eq	%% &= %% ;

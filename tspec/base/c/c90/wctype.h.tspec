@@ -6,6 +6,8 @@
 # See doc/copyright/ for the full copyright terms.
 
 
+$APINAME = "c90" ;
+
 +SUBSET "mse2" := {
     # scalar: wctype() wctype_t result comparable with 0
     +IMPLEMENT "c/c90", "wchar.h.tspec", "wint" ;

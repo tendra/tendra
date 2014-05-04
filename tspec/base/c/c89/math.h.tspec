@@ -6,6 +6,8 @@
 # See doc/copyright/ for the full copyright terms.
 
 
+$APINAME = "c89";
+
 +EXP double HUGE_VAL ;
 
 +FUNC double acos ( double ) ;

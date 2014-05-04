@@ -6,6 +6,7 @@
 # See doc/copyright/ for the full copyright terms.
 
 
+$PREFIX = "c89" ;
 $UNIQUE = 1 ;
 $VERSION = "2.6" ;
 +BASE_API ;

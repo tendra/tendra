@@ -6,6 +6,8 @@
 # See doc/copyright/ for the full copyright terms.
 
 
+$APINAME = "c89";
+
 +USE "c/c89", "stdarg.h.tspec", "va_list" ;
 
 +IMPLEMENT "c/c89", "stddef.h.tspec", "size_t" (!?) ;

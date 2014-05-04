@@ -6,6 +6,7 @@
 # See doc/copyright/ for the full copyright terms.
 
 
+$APINAME = "c89";
 $PROTECT = "" ;
 
 +SUBSET "fail" := {
