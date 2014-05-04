@@ -109,7 +109,7 @@ clean::
 
 install:: ${OBJ_SDIR}/apis/${api}.tl
 	@${ECHO} "==> Installing ${api} API"
-	@${CONDCREATE} "${PREFIX_API}"
+	@${CONDCREATE} "${PREFIX_API}/${api:H}"
 	${INSTALL} -m 644 ${OBJ_SDIR}/apis/${api}.tl "${PREFIX_API}/${api}.tl"
 
 .endfor
