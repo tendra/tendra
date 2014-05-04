@@ -23,7 +23,7 @@ typedef char *va_list ;
 #endif
 
 
-#ifndef __BUILDING_TDF_ANSI_STDARG_H_VA_ARGS
+#ifndef __BUILDING_TDF_C89_STDARG_H_VA_ARGS
 
 
 /*
@@ -59,7 +59,7 @@ typedef char *va_list ;
 #endif
 
 
-#else /* __BUILDING_TDF_ANSI_STDARG_H_VA_ARGS */
+#else
 
 
 /*
@@ -77,7 +77,7 @@ typedef char *va_list ;
 	(va_list) (sizeof(VM)?(sizeof(VM) > 4 ? ((int)VL + 2*8 - 1) & -8 \
 				   : ((int)VL + 2*4 - 1) & -4):(int)VL)))[-1]
 
-#endif /* __BUILDING_TDF_ANSI_STDARG_H_VA_ARGS */
+#endif
 
 
 #endif /* _STDARG_H */

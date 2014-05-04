@@ -20,7 +20,7 @@ typedef double *va_list ;
 #endif
 
 
-#ifndef __BUILDING_TDF_ANSI_STDARG_H_VA_ARGS
+#ifndef __BUILDING_TDF_C89_STDARG_H_VA_ARGS
 
 
 /*
@@ -56,7 +56,7 @@ typedef double *va_list ;
 #endif
 
 
-#else /* __BUILDING_TDF_ANSI_STDARG_H_VA_ARGS */
+#else
 
 
 /*
@@ -86,7 +86,7 @@ typedef va_list __va_t ;
 
 #define va_end(AP)	((void) 0)
 
-#endif /* __BUILDING_TDF_ANSI_STDARG_H_VA_ARGS */
+#endif
 
 
 #endif /* _STDARG_H */

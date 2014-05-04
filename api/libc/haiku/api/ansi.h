@@ -7,7 +7,7 @@
  */
 
 #ifdef _HAIKU1
-#define __WRONG_ANSI_MATH_H    /* gccsisms */
-#define __WRONG_ANSI_STDARG_H_VA_ARGS    /* incompatible */
+#define __WRONG_C_C89_MATH_H    /* gccsisms */
+#define __WRONG_C_C89_STDARG_H_VA_ARGS    /* incompatible */
 #endif
 

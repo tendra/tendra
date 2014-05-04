@@ -7,10 +7,10 @@
  */
 
 #ifdef _ARCH_sparc
-#define __WRONG_ANSI_STDARG_H_VA_ARGS	/* TODO: our implementation is probably completely wrong */
+#define __WRONG_C_C89_STDARG_H_VA_ARGS	/* TODO: our implementation is probably completely wrong */
 #endif
 
 #ifdef _ARCH_alpha
-#define __WRONG_ANSI_STDARG_H_VA_ARGS	/* TODO: I am not attempting to provide this yet */
+#define __WRONG_C_C89_STDARG_H_VA_ARGS	/* TODO: I am not attempting to provide this yet */
 #endif
 

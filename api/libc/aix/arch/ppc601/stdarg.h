@@ -18,7 +18,7 @@
 #include <va_list.h>
 
 
-#ifndef __BUILDING_TDF_ANSI_STDARG_H_VA_ARGS
+#ifndef __BUILDING_TDF_C89_STDARG_H_VA_ARGS
 
 
 /*
@@ -66,7 +66,7 @@ typedef void *va_list ;
 #endif
 
 
-#else /* __BUILDING_TDF_ANSI_STDARG_H_VA_ARGS */
+#else
 
 
 /*
@@ -80,7 +80,7 @@ typedef void *va_list ;
 #define va_end(__list) (__list)=(char *)0
 #define va_arg(__list, __mode) ((__mode *)( (((__list)+=(((sizeof(__mode)+3)/4)*4))-sizeof(__mode)) ))[0]
 
-#endif /* __BUILDING_TDF_ANSI_STDARG_H_VA_ARGS */
+#endif
 
 
 #endif /* _STDARG_H */

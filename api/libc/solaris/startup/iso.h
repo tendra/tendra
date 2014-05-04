@@ -7,8 +7,8 @@
  */
 
 #include "ansi.h"
-#define __WRONG_ISO_WCHAR_H
-#define __WRONG_ISO_WCTYPE_H
+#define __WRONG_C_C90_WCHAR_H
+#define __WRONG_C_C90_WCTYPE_H
 
 /* Only implemented from version 2.4 */
 #include <limits.h>

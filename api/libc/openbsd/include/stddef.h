@@ -14,7 +14,7 @@
 #define NULL 0
 
 /* for other headers which will define size_t unless we set this */
-#ifndef __BUILDING_TDF_ANSI_STDDEF_H
+#ifndef __BUILDING_TDF_C89_STDDEF_H
 #define _SIZE_T_DEFINED_
 #endif
 

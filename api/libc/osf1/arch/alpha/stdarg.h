@@ -10,7 +10,7 @@
 #ifndef _STDARG_H
 #define _STDARG_H
 
-#ifndef __BUILDING_TDF_ANSI_STDARG_H_VA_ARGS
+#ifndef __BUILDING_TDF_C89_STDARG_H_VA_ARGS
 
 #include <standards.h>
 #include <va_list.h>
@@ -49,7 +49,7 @@
 #endif
 
 
-#else /* __BUILDING_TDF_ANSI_STDARG_H_VA_ARGS */
+#else
 
 
 /*
@@ -81,7 +81,7 @@ typedef char *__va_t ;
 		((__builtin_isfloat(mode) && (list)._offset <= (6 * 8)) ? \
 		(6 * 8) + 8 : ((int)sizeof(mode) + 7) & -8))))
 
-#endif /* __BUILDING_TDF_ANSI_STDARG_H_VA_ARGS */
+#endif
 
 
 #endif /* _STDARG_H */

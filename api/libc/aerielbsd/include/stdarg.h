@@ -4,7 +4,7 @@
 #define __HACKED_LIBC_STDARG_H
 
 #ifdef _AERIELBSD1
-#ifndef __BUILDING_TDF_ANSI_STDARG_H_VA_ARGS
+#ifndef __BUILDING_TDF_C89_STDARG_H_VA_ARGS
 
 /*
  * The tokens __va_t, __va_start, va_arg and va_end are as in the

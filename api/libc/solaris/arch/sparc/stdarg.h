@@ -11,7 +11,7 @@
 #define _STDARG_H
 
 
-#ifndef __BUILDING_TDF_ANSI_STDARG_H_VA_ARGS
+#ifndef __BUILDING_TDF_C89_STDARG_H_VA_ARGS
 
 
 /*
@@ -59,7 +59,7 @@ typedef void *va_list ;
 #endif
 
 
-#else /* __BUILDING_TDF_ANSI_STDARG_H_VA_ARGS */
+#else
 
 
 /*
@@ -84,7 +84,7 @@ typedef char *va_list ;
       *( ( T * ) ( ( AP ) - __va_round ( T ) ) ) )
 
 
-#endif /* __BUILDING_TDF_ANSI_STDARG_H_VA_ARGS */
+#endif
 
 
 #endif /* _STDARG_H */
