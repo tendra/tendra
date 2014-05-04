@@ -7,9 +7,9 @@
 +IMPLEMENT "sus2_xns_ipaddr", "netinet/in.h.tspec", "port_addr" (!?);
 +IMPLEMENT "sus2_xns_ipaddr", "netinet/in.h.tspec", "in_addr"   (!?);
 
-+IMPLEMENT "sus2_xsh", "inttypes.h.tspec"; # explicitly #include
-
 +SUBSET "endian" := {
+	+IMPLEMENT "sus2_xsh", "inttypes.h.tspec"; # explicitly #include
+
 	+FUNC uint32_t htonl(uint32_t hostlong);
 	+FUNC uint16_t htons(uint16_t hostshort);
 	+FUNC uint32_t ntohl(uint32_t netlong);
