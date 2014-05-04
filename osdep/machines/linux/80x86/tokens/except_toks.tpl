@@ -18,9 +18,9 @@
 
 Tokdec ~Throw : [NAT] EXP;
 
-Tokdec ansi.stdlib.abort : [] EXP;
-Tokdec ansi.signal.SIGFPE : [] EXP;
-Tokdec ansi.signal.SIGSEGV : [] EXP;
+Tokdec c89.stdlib.abort : [] EXP;
+Tokdec c89.signal.SIGFPE : [] EXP;
+Tokdec c89.signal.SIGSEGV : [] EXP;
 Tokdec posix.signal.SIG_SETMASK : [] EXP;
 Tokdec posix.signal.sigaction : [EXP, EXP, EXP] EXP;
 Tokdec posix.signal.sigemptyset : [EXP] EXP;
@@ -69,12 +69,12 @@ Let errhandler = Proc bottom (err : Int)
   __trans386_special [top](1(Int));	/* finit for known state before ~Throw */
   ?{	? (* err == + error_val(overflow)(Int));
 	~Throw[error_val(overflow)];
-	ansi.stdlib.abort ;
+	c89.stdlib.abort ;
   | ?{	? (* err == + error_val(stack_overflow)(Int));
 	~Throw[error_val(stack_overflow)];
-	ansi.stdlib.abort ;
+	c89.stdlib.abort ;
     |	~Throw[error_val(nil_access)];
-	ansi.stdlib.abort ;
+	c89.stdlib.abort ;
   } }
 }
 
@@ -86,10 +86,10 @@ Var sigact : posix.signal.struct_sigaction
   posix.signal.sigemptyset [sigact *+. posix.signal.sigaction.sa_mask];
   (sigact *+. posix.signal.sigaction.sa_flags) = 0(Int);
   (sigact *+. posix.signal.sigaction.sa_handler) = ovhandler;
-  posix.signal.sigaction [ ansi.signal.SIGFPE, sigact, 
+  posix.signal.sigaction [ c89.signal.SIGFPE, sigact, 
 		make_null_ptr (alignment (posix.signal.struct_sigaction)) ];
   (sigact *+. posix.signal.sigaction.sa_handler) = nilaccess_handler;
-  posix.signal.sigaction [ ansi.signal.SIGSEGV, sigact, 
+  posix.signal.sigaction [ c89.signal.SIGSEGV, sigact, 
 		make_null_ptr (alignment (posix.signal.struct_sigaction)) ];
   env_size (errhandler)
 };

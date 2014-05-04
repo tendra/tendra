@@ -9,7 +9,7 @@
 
 /* Spec Token Definitions for the PowerPC/RS6000 ANDF translator */
 
-Tokdec ansi.stdlib.abort : [] EXP;
+Tokdec c89.stdlib.abort : [] EXP;
 
 /* ~Throw will be provided by producer */
 Tokdec ~Throw : [NAT] EXP;
@@ -26,13 +26,13 @@ Let handler = Proc bottom (err : Int)
 ?{
 	? ( * err == + error_val(overflow)(Int) );
 		~Throw[error_val(overflow)];
-		ansi.stdlib.abort
+		c89.stdlib.abort
 	|  ? { ? ( * err == + error_val(stack_overflow)(Int) );
 			~Throw[error_val(stack_overflow)];
-			ansi.stdlib.abort
+			c89.stdlib.abort
 		|
 			~Throw[error_val(nil_access)];
-			ansi.stdlib.abort
+			c89.stdlib.abort
 		} 
 	}
 }

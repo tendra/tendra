@@ -18,8 +18,8 @@
 
 Tokdec ~Throw : [NAT] EXP;
 
-Tokdec ansi.stdlib.abort : [] EXP;
-Tokdec ansi.signal.SIGFPE : [] EXP;
+Tokdec c89.stdlib.abort : [] EXP;
+Tokdec c89.signal.SIGFPE : [] EXP;
 Tokdec posix.signal.SIG_SETMASK : [] EXP;
 Tokdec posix.signal.sigaction : [EXP, EXP, EXP] EXP;
 Tokdec posix.signal.sigemptyset : [EXP] EXP;
@@ -75,16 +75,16 @@ Let __TDFhandler = Proc bottom (err : Int)
 		    SIGUSR1 -> stackov)
 	| :overf: 
 		~Throw[error_val(overflow)] ;
-                ansi.stdlib.abort;
+                c89.stdlib.abort;
 	| :nilref1:
 		~Throw[error_val(nil_access)] ;
-                ansi.stdlib.abort;
+                c89.stdlib.abort;
 	| :nilref2:
 		~Throw[error_val(nil_access)] ;
-                ansi.stdlib.abort;
+                c89.stdlib.abort;
 	| :stackov:
 		~Throw[error_val(stack_overflow)] ;
-                ansi.stdlib.abort;
+                c89.stdlib.abort;
 	/* other C signals can be treated similarly */
  };
  return(make_top);

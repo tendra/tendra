@@ -17,9 +17,9 @@ Common __alpha_stack_limit : pointer (locals_alignment) =
 Common __alpha_errhandler : proc; /* initialised by ~Set_signal_handler */
 
 Tokdec ~Throw: [NAT] EXP;
-Tokdec ansi.stdlib.abort : [] EXP;
-Tokdec ansi.signal.SIGFPE : [] EXP;
-Tokdec ansi.signal.SIGSEGV : [] EXP;
+Tokdec c89.stdlib.abort : [] EXP;
+Tokdec c89.signal.SIGFPE : [] EXP;
+Tokdec c89.signal.SIGSEGV : [] EXP;
 /*
 Tokdec svid3.signal.SIGTRAP : [] EXP;
 */
@@ -72,12 +72,12 @@ Let errhandler = Proc bottom (err : Int)
 {	/* called from numerical exception interrupt or from translated code */
   ?{	? (* err == + error_val(overflow)(Int));
 	~Throw[error_val(overflow)];
-	ansi.stdlib.abort ;
+	c89.stdlib.abort ;
   | ?{	? (* err == + error_val(stack_overflow)(Int));
 	~Throw[error_val(stack_overflow)];
-	ansi.stdlib.abort ;
+	c89.stdlib.abort ;
     |	~Throw[error_val(nil_access)];
-	ansi.stdlib.abort ;
+	c89.stdlib.abort ;
   } }
 }
 
@@ -89,7 +89,7 @@ Var sigact : posix.signal.struct_sigaction
   (sigact *+. posix.signal.sigaction.sa_handler) = ovhandler;
   posix.signal.sigemptyset [sigact *+. posix.signal.sigaction.sa_mask];
   (sigact *+. posix.signal.sigaction.sa_flags) = 0(Int);
-  posix.signal.sigaction [ ansi.signal.SIGFPE, sigact, 
+  posix.signal.sigaction [ c89.signal.SIGFPE, sigact, 
 		make_null_ptr (alignment (posix.signal.struct_sigaction)) ];
   /* assembler functions (divx, remx, etc) produce SIGTRAP internally,
      so treat it as overflow */
@@ -98,7 +98,7 @@ Var sigact : posix.signal.struct_sigaction
 		 make_null_ptr(alignment(posix.signal.struct_sigaction)) ];
 */
   (sigact *+. posix.signal.sigaction.sa_handler) = nil_access_handler;
-  posix.signal.sigaction [ansi.signal.SIGSEGV,sigact,
+  posix.signal.sigaction [c89.signal.SIGSEGV,sigact,
 		 make_null_ptr(alignment(posix.signal.struct_sigaction)) ];
   
   env_size (errhandler)
