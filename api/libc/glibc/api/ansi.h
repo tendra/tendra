@@ -7,11 +7,11 @@
  */
 
 #ifdef _GLIBC2_12
-#define __WRONG_C_C89_STDIO_H	/* i don't know what to do about va_list */
-#define __WRONG_C_C89_STDARG_H_VA_ARGS	/* i don't know what to do about va_list */
+#define __WRONG_C89_STDIO_H	/* i don't know what to do about va_list */
+#define __WRONG_C89_STDARG_H_VA_ARGS	/* i don't know what to do about va_list */
 #endif
 
 #ifdef _GLIBC2_14
-#define __WRONG_C_C89_FLOAT_H_XPG4_RANGES /* provided by gcc; we need to provide our own */
+#define __WRONG_C89_FLOAT_H_XPG4_RANGES /* provided by gcc; we need to provide our own */
 #endif
 
