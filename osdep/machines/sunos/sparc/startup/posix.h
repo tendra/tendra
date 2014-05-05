@@ -6,7 +6,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include "ansi.h"
+#include "c89.h"
 #pragma TenDRA extra ... allow
 #pragma TenDRA extra bitfield int type allow
 #define _POSIX_SOURCE	1

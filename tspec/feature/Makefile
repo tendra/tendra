@@ -3,8 +3,8 @@
 .include "Makefile.inc"
 
 
-HEADERS+= ansi.h
-HEADERS+= iso.h
+HEADERS+= c89.h
+HEADERS+= c90.h
 HEADERS+= posix1.h
 HEADERS+= posix2.h
 HEADERS+= posix.h

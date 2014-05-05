@@ -139,7 +139,7 @@
 		<rect x="-80" y="-30" width="160" height="75"/>
 		<g transform="translate(75 -20)" text-anchor="end">
 			<text>osdep/machines/$os/$cpu/</text>
-			<text y="10">startup/ansi.h</text>
+			<text y="10">startup/c89.h</text>
 		</g>
 
 		<line x1="-80" x2="80" class="dashed"/>
@@ -161,7 +161,7 @@
 		<line x1="-80" x2="80" class="dashed"/>
 
 		<g transform="translate(-70 0)" text-anchor="start">
-			<text y="10" class="code">#include &quot;ansi.h&quot;</text>
+			<text y="10" class="code">#include &quot;c89.h&quot;</text>
 			<text y="33" class="code">#define _POSIX_SOURCE 1</text>
 		</g>
 

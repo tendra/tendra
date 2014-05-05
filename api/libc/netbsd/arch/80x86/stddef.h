@@ -13,7 +13,7 @@
 
 #include <sys/cdefs.h>
 #include <sys/featuretest.h>
-#include <machine/ansi.h>
+#include <machine/c89.h>
 
 typedef _BSD_PTRDIFF_T_ ptrdiff_t;
 

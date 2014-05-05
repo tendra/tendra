@@ -1,4 +1,4 @@
-/* $Id: ansi.h 2473 2010-12-24 22:32:39Z kate $ */
+/* $Id: c89.h 2473 2010-12-24 22:32:39Z kate $ */
 
 #pragma TenDRA begin
 #pragma TenDRA directive include_next allow

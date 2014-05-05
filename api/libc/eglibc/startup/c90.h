@@ -6,5 +6,5 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include "ansi.h"
-#define __WRONG_C90
+#include "c89.h"
+

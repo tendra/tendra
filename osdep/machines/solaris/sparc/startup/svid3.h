@@ -6,7 +6,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include "ansi.h"
+#include "c89.h"
 #define __WRONG_SVID3
 
 /* I hate to do this, but ... */

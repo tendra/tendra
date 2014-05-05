@@ -1,4 +1,0 @@
-/* $Id$ */
-
-#include "ansi.h"
-

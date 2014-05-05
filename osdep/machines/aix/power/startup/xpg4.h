@@ -6,7 +6,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include "ansi.h"
+#include "c89.h"
 #define _XOPEN_SOURCE   1
 #define _ALL_SOURCE     1
 #define __WRONG_XPG4
