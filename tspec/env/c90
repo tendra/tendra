@@ -1,6 +1,6 @@
 /* tcc environment for c90 */
 
-+INCL			"-Nc90:<PREFIX_TSPEC>/TenDRA/include/c/c90.api"
++INCL			"-Nc90:<PREFIX_TSPEC>/TenDRA/include/c90.api"
 +LIB			"-lc90 -lc89 -lc"
 +FLAG_INSTALL		"-Yc90"
 +FLAG_TDFC		"-ms"
