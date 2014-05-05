@@ -10,8 +10,8 @@ JOPTS+=	-I/usr/include
 JOPTS+=	-I/usr/include/i386-linux-gnu
 .endif
 
-APIS+=  c/c89
-#APIS+=	c/c90
+APIS+=  c89
+#APIS+=	c90
 #APIS+=	cpp
 #APIS+=	system
 

@@ -8,8 +8,8 @@ JOPTS+=	-I/boot/develop/headers
 JOPTS+=	-I/boot/develop/headers/os
 JOPTS+=	-I/boot/develop/headers/os/support
 
-APIS+=  c/c89
-#APIS+=	c/c90
+APIS+=  c89
+#APIS+=	c90
 #APIS+=	cpp
 #APIS+=	system
 
