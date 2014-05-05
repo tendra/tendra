@@ -98,14 +98,14 @@
 +USE "api", "header", "subset" ;</programlisting>
 
 		<para>For example, <code>posix:stdio.h</code> is an extension of
-			<code>ansi:stdio.h</code> , so, rather than duplicate all the object
+			<code>c/c89:stdio.h</code> , so, rather than duplicate all the object
 			specifications from the latter in the former, it is easier and
 			clearer to use the construct:</para>
 
-		<programlisting language="tspec">+IMPLEMENT "ansi", "stdio.h" ;</programlisting>
+		<programlisting language="tspec">+IMPLEMENT "c/c89", "stdio.h" ;</programlisting>
 
 		<para>and just add the extra objects specified by POSIX. Note that this
-			makes the relationship between the APIs <code>ansi</code> and
+			makes the relationship between the APIs <code>c/c89</code> and
 			<code>posix</code> absolutely explicit. <code>tspec</code> is as
 			much concerned with the relationships between APIs as their actual
 			contents.</para>
@@ -113,11 +113,11 @@
 		<para>Objects which are specified as being declared in more than one
 			header of an API should also be treated using
 			<code>+IMPLEMENT</code>. For example, the type <code>size_t</code>
-			is declared in a number of <code>ansi</code> headers, namely
+			is declared in a number of <code>c/c89</code> headers, namely
 			<code>stddef.h</code>, <code>stdio.h</code>, <code>string.h</code>
 			and <code>time.h</code>. This can be handled by declaring
 			<code>size_t</code> as part of a named subset of, say,
-			<code>ansi:stddef.h</code>:</para>
+			<code>c/c89:stddef.h</code>:</para>
 
 		<programlisting language="tspec">+SUBSET "size_t" := {
 	+TYPE (unsigned) size_t ;
@@ -125,18 +125,18 @@
 
 		<para>and including this in each of the other headers:</para>
 
-		<programlisting language="tspec">+IMPLEMENT "ansi", "stddef.h", "size_t" ;</programlisting>
+		<programlisting language="tspec">+IMPLEMENT "c/c89", "stddef.h", "size_t" ;</programlisting>
 
 		<para>Another use of <code>+IMPLEMENT</code> is in the
 			<code>MASTER</code> file used to list the headers in an API (see
 			<link linkend="Input">section 2.2</link>). This basically consists
 			of a list of <code>+IMPLEMENT</code> commands, one per header. For
-			example, with <code>ansi</code> it consists of:</para>
+			example, with <code>c/c89</code> it consists of:</para>
 
-		<programlisting language="tspec">+IMPLEMENT "ansi", "assert.h" ;
-+IMPLEMENT "ansi", "ctype.h" ;
+		<programlisting language="tspec">+IMPLEMENT "c/c89", "assert.h" ;
++IMPLEMENT "c/c89", "ctype.h" ;
 ....
-+IMPLEMENT "ansi", "time.h" ;</programlisting>
++IMPLEMENT "c/c89", "time.h" ;</programlisting>
 
 		<para>To illustrate <code>+USE</code>, <code>posix:sys/stat.h</code>
 			uses some types from <code>posix:sys/types.h</code> but does not

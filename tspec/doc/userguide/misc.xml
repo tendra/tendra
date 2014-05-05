@@ -67,10 +67,10 @@
 		</table>
 
 		<para>The second refinement comes from the fact that APIs fall into
-			two categories - the base APIs, such as <code>ansi</code>,
+			two categories - the base APIs, such as <code>c/c89</code>,
 			<code>posix</code> and <code>xpg3</code>, and the extension APIs,
 			such as <code>x11</code>, the X Windows API. The latter can be
-			used to extend the former, so that we can form <code>ansi</code>
+			used to extend the former, so that we can form <code>c/c89</code>
 			plus <code>x11</code>, <code>posix</code> plus <code>x11</code>,
 			and so on. Base APIs may be distinguished in <code>tspec</code>
 			by including the command:</para>

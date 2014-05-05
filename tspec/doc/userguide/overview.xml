@@ -54,7 +54,7 @@
 
 			<tbody>
 				<tr>
-					<td><code>ansi</code></td>
+					<td><code>c/c89</code></td>
 					<td>ANSI C (X3.159)</td>
 				</tr>
 		
@@ -71,12 +71,12 @@
 		</table>
 	
 		<para>In this document, headers are identified by the API they belong
-			to and the header name. Thus <code>ansi:stdio.h</code> refers to the
+			to and the header name. Thus <code>c/c89:stdio.h</code> refers to the
 			<code>stdio.h</code> header of the ANSI API.	Finally subsets of
 			headers are identified by the header and the subset name. If, for
 			example, the <code>stdio.h</code> header of ANSI has a subset named
 			<code>file</code>, then this is referred to as
-			<code>ansi:stdio.h:file</code>.</para>
+			<code>c/c89:stdio.h:file</code>.</para>
 	</section>
 
 	<section id="Input">
@@ -84,11 +84,11 @@
 
 		<para>The <code>tspec</code> representation of an API is arranged as a
 			directory with the same name as the API, containing a number of
-			files, one for each API header. For example, the ANSI API is
-			represented by a directory <code>ansi</code> containing files
-			<code>ansi/stdio.h</code>, <code>ansi/string.h</code> etc. In
-			addition each API directory contains a master file (for ANSI it
-			would be called <code>ansi/MASTER</code>) which lists all the
+			files, one for each API header. For example, the ANSI C89 API is
+			represented by a directory <code>c/c89</code> containing files
+			<code>c/c89/stdio.h</code>, <code>c/c89/string.h.tspec</code> etc. In
+			addition each API directory contains a master file (for ANSI C89 it
+			would be called <code>c/c89/MASTER</code>) which lists all the
 			headers comprising that API.</para>
 <!-- TODO: update for .tspec files -->
 	
@@ -131,13 +131,13 @@
 			respectively.</para>
 	
 		<para>As an example of the mapping from input files to output files,
-			the header <code>ansi:stdio.h</code> is mapped to the include output
-			file <filename>incl_dir/ansi.api/stdio.h</filename> and the source
-			output file <filename>src_dir/ansi.api/stdio.c</filename>.	The
-			header subset <code>ansi:stdio.h:file</code> is mapped to its own
+			the header <code>c/c89:stdio.h</code> is mapped to the include output
+			file <filename>incl_dir/c/c89.api/stdio.h</filename> and the source
+			output file <filename>src_dir/c/c89.api/stdio.c</filename>.
+			The header subset <code>c/c89:stdio.h:file</code> is mapped to its own
 			pair of output files,
-			<filename>incl_dir/shared/ansi.api/file.h</filename> and
-			<filename>src_dir/ansi.api/file.c</filename>.</para>
+			<filename>incl_dir/shared/c/c89.api/file.h</filename> and
+			<filename>src_dir/c/c89.api/file.c</filename>.</para>
 	
 		<para>The default output file names can be overridden by means of the
 			<code>INCLNAME</code> and <code>SOURCENAME</code> file properties
