@@ -13,6 +13,6 @@
 $UNIQUE = 1 ;
 $VERSION = "2.6" ;
 
-+IMPLEMENT "x5/ext", "X11/extensions/XShm.h.tspec" ;
-+IMPLEMENT "x5/ext", "X11/extensions/multibuf.h.tspec" ;
-+IMPLEMENT "x5/ext", "X11/extensions/shape.h.tspec" ;
++IMPLEMENT "x5/ext", "X11/extensions/XShm.h.ts" ;
++IMPLEMENT "x5/ext", "X11/extensions/multibuf.h.ts" ;
++IMPLEMENT "x5/ext", "X11/extensions/shape.h.ts" ;

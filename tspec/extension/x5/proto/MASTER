@@ -13,6 +13,6 @@
 $UNIQUE = 1 ;
 $VERSION = "2.6" ;
 
-+IMPLEMENT "x5/proto", "X11/Xlibint.h.tspec" ;
-+IMPLEMENT "x5/proto", "X11/Xproto.h.tspec" ;
-+IMPLEMENT "x5/proto", "X11/Xprotostr.h.tspec" ;
++IMPLEMENT "x5/proto", "X11/Xlibint.h.ts" ;
++IMPLEMENT "x5/proto", "X11/Xproto.h.ts" ;
++IMPLEMENT "x5/proto", "X11/Xprotostr.h.ts" ;

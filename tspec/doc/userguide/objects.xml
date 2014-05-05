@@ -299,7 +299,7 @@ size_t sz ;</programlisting>
 		<para>The macro definition, <code>text</code>, consists of any string
 			of characters delimited by double percents. If <code>text</code> is
 			a simple number or a single identifier then the double percents may
-			be omitted. Thus in <code>c/c89:stddef.h.tspec</code> we have:</para>
+			be omitted. Thus in <code>c/c89:stddef.h.ts</code> we have:</para>
 
 		<programlisting language="tspec">+DEFINE NULL 0 ;</programlisting>
 	</section>

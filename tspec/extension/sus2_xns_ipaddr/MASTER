@@ -7,8 +7,8 @@
 $UNIQUE = 1;
 $VERSION = "2.8";
 
-+IMPLEMENT "sus2_xns_ipaddr", "arpa/inet.h.tspec";
-+IMPLEMENT "sus2_xns_ipaddr", "netdb.h.tspec";
-+IMPLEMENT "sus2_xns_ipaddr", "netinet/in.h.tspec";
-+IMPLEMENT "sus2_xns_ipaddr", "unistd.h.tspec";
++IMPLEMENT "sus2_xns_ipaddr", "arpa/inet.h.ts";
++IMPLEMENT "sus2_xns_ipaddr", "netdb.h.ts";
++IMPLEMENT "sus2_xns_ipaddr", "netinet/in.h.ts";
++IMPLEMENT "sus2_xns_ipaddr", "unistd.h.ts";
 

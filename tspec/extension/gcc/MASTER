@@ -9,10 +9,10 @@
 $UNIQUE = 1 ;
 $VERSION = "2.6" ;
 
-+IMPLEMENT "gcc", "stab.h.tspec" ;
-+IMPLEMENT "gcc", "tdf_alloca.h.tspec" ;
-+IMPLEMENT "gcc", "sys/types.h.tspec" ;
-+IMPLEMENT "gcc", "sys/file.h.tspec" ;
-+IMPLEMENT "gcc", "sys/param.h.tspec" ;
-+IMPLEMENT "gcc", "sys/resource.h.tspec" ;
-+IMPLEMENT "gcc", "sys/time.h.tspec" ;
++IMPLEMENT "gcc", "stab.h.ts" ;
++IMPLEMENT "gcc", "tdf_alloca.h.ts" ;
++IMPLEMENT "gcc", "sys/types.h.ts" ;
++IMPLEMENT "gcc", "sys/file.h.ts" ;
++IMPLEMENT "gcc", "sys/param.h.ts" ;
++IMPLEMENT "gcc", "sys/resource.h.ts" ;
++IMPLEMENT "gcc", "sys/time.h.ts" ;

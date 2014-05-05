@@ -62,7 +62,7 @@ basename(char *nm)
 /*
  * STRIP A TSPEC EXTENSION
  *
- * This routine strips the ".tspec" extension from a given name, if present,
+ * This routine strips the ".ts" extension from a given name, if present,
  * and returns a copy sans-extension.
  *
  * This routine leaks memory; it is a hack. A better approach would be to
@@ -72,7 +72,7 @@ basename(char *nm)
 char *
 strip_extension(char *nm)
 {
-    const char ext[] = ".tspec";
+    const char ext[] = ".ts";
     char *s;
     char *p;
 
@@ -84,12 +84,12 @@ strip_extension(char *nm)
 
     p = strstr(s, ext);
     if (p == NULL) {
-		/* There is no ".tspec" extension */
+		/* There is no ".ts" extension */
 		return s;
     }
 
     if (p[strlen(ext)] != '\0') {
-		/* ".tspec" is not the end of the string */
+		/* ".ts" is not the end of the string */
 		return s;
     }
 

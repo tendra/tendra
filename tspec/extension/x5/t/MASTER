@@ -14,22 +14,22 @@ $UNIQUE = 1 ;
 $VERSION = "2.6" ;
 
 # Headers from Xt
-+IMPLEMENT "x5/t", "X11/Composite.h.tspec" ;		# NEW
-+IMPLEMENT "x5/t", "X11/Constraint.h.tspec" ;		# NEW
-+IMPLEMENT "x5/t", "X11/Core.h.tspec" ;		# NEW
-+IMPLEMENT "x5/t", "X11/Intrinsic.h.tspec" ;		# NEW
-+IMPLEMENT "x5/t", "X11/Object.h.tspec" ;		# NEW
-+IMPLEMENT "x5/t", "X11/RectObj.h.tspec" ;		# NEW
-+IMPLEMENT "x5/t", "X11/Shell.h.tspec" ;		# NEW
-+IMPLEMENT "x5/t", "X11/StringDefs.h.tspec" ;		# NEW
-+IMPLEMENT "x5/t", "X11/Vendor.h.tspec" ;		# NEW
++IMPLEMENT "x5/t", "X11/Composite.h.ts" ;		# NEW
++IMPLEMENT "x5/t", "X11/Constraint.h.ts" ;		# NEW
++IMPLEMENT "x5/t", "X11/Core.h.ts" ;		# NEW
++IMPLEMENT "x5/t", "X11/Intrinsic.h.ts" ;		# NEW
++IMPLEMENT "x5/t", "X11/Object.h.ts" ;		# NEW
++IMPLEMENT "x5/t", "X11/RectObj.h.ts" ;		# NEW
++IMPLEMENT "x5/t", "X11/Shell.h.ts" ;		# NEW
++IMPLEMENT "x5/t", "X11/StringDefs.h.ts" ;		# NEW
++IMPLEMENT "x5/t", "X11/Vendor.h.ts" ;		# NEW
 
 # Headers from Xt (Private)
-+IMPLEMENT "x5/t", "X11/IntrinsicP.h.tspec" ;		# NEW
-+IMPLEMENT "x5/t", "X11/CompositeP.h.tspec" ;		# NEW
-+IMPLEMENT "x5/t", "X11/ConstrainP.h.tspec" ;		# NEW
-+IMPLEMENT "x5/t", "X11/CoreP.h.tspec" ;		# NEW
-+IMPLEMENT "x5/t", "X11/ObjectP.h.tspec" ;		# NEW
-+IMPLEMENT "x5/t", "X11/RectObjP.h.tspec" ;		# NEW
-+IMPLEMENT "x5/t", "X11/ShellP.h.tspec" ;		# NEW
-+IMPLEMENT "x5/t", "X11/VendorP.h.tspec" ;		# NEW
++IMPLEMENT "x5/t", "X11/IntrinsicP.h.ts" ;		# NEW
++IMPLEMENT "x5/t", "X11/CompositeP.h.ts" ;		# NEW
++IMPLEMENT "x5/t", "X11/ConstrainP.h.ts" ;		# NEW
++IMPLEMENT "x5/t", "X11/CoreP.h.ts" ;		# NEW
++IMPLEMENT "x5/t", "X11/ObjectP.h.ts" ;		# NEW
++IMPLEMENT "x5/t", "X11/RectObjP.h.ts" ;		# NEW
++IMPLEMENT "x5/t", "X11/ShellP.h.ts" ;		# NEW
++IMPLEMENT "x5/t", "X11/VendorP.h.ts" ;		# NEW

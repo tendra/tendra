@@ -14,16 +14,16 @@ $UNIQUE = 1 ;
 $VERSION = "2.6" ;
 
 # Headers from Xlib
-+IMPLEMENT "x5/lib", "X11/X.h.tspec" ;		# NEW
-+IMPLEMENT "x5/lib", "X11/X10.h.tspec" ;		# NEW
-+IMPLEMENT "x5/lib", "X11/Xatom.h.tspec" ;		# NEW
-+IMPLEMENT "x5/lib", "X11/Xcms.h.tspec" ;		# NEW
-+IMPLEMENT "x5/lib", "X11/Xlib.h.tspec" ;		# NEW
-+IMPLEMENT "x5/lib", "X11/Xlibint.h.tspec" ;		# NEW
-+IMPLEMENT "x5/lib", "X11/Xproto.h.tspec" ;		# NEW
-+IMPLEMENT "x5/lib", "X11/Xprotostr.h.tspec" ;	# NEW
-+IMPLEMENT "x5/lib", "X11/Xresource.h.tspec" ;	# NEW
-+IMPLEMENT "x5/lib", "X11/Xutil.h.tspec" ;		# NEW
-+IMPLEMENT "x5/lib", "X11/cursorfont.h.tspec" ;	# NEW
-+IMPLEMENT "x5/lib", "X11/keysym.h.tspec" ;		# NEW
-+IMPLEMENT "x5/lib", "X11/keysymdef.h.tspec" ;	# NEW
++IMPLEMENT "x5/lib", "X11/X.h.ts" ;		# NEW
++IMPLEMENT "x5/lib", "X11/X10.h.ts" ;		# NEW
++IMPLEMENT "x5/lib", "X11/Xatom.h.ts" ;		# NEW
++IMPLEMENT "x5/lib", "X11/Xcms.h.ts" ;		# NEW
++IMPLEMENT "x5/lib", "X11/Xlib.h.ts" ;		# NEW
++IMPLEMENT "x5/lib", "X11/Xlibint.h.ts" ;		# NEW
++IMPLEMENT "x5/lib", "X11/Xproto.h.ts" ;		# NEW
++IMPLEMENT "x5/lib", "X11/Xprotostr.h.ts" ;	# NEW
++IMPLEMENT "x5/lib", "X11/Xresource.h.ts" ;	# NEW
++IMPLEMENT "x5/lib", "X11/Xutil.h.ts" ;		# NEW
++IMPLEMENT "x5/lib", "X11/cursorfont.h.ts" ;	# NEW
++IMPLEMENT "x5/lib", "X11/keysym.h.ts" ;		# NEW
++IMPLEMENT "x5/lib", "X11/keysymdef.h.ts" ;	# NEW

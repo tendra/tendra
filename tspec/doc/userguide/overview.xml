@@ -86,11 +86,11 @@
 			directory with the same name as the API, containing a number of
 			files, one for each API header. For example, the ANSI C89 API is
 			represented by a directory <code>c/c89</code> containing files
-			<code>c/c89/stdio.h</code>, <code>c/c89/string.h.tspec</code> etc. In
+			<code>c/c89/stdio.h</code>, <code>c/c89/string.h.ts</code> etc. In
 			addition each API directory contains a master file (for ANSI C89 it
 			would be called <code>c/c89/MASTER</code>) which lists all the
 			headers comprising that API.</para>
-<!-- TODO: update for .tspec files -->
+<!-- TODO: update for .ts files -->
 	
 		<para>When <code>tspec</code> needs to find an API directory it does
 			so by searching along its input directory path. This is a colon

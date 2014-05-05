@@ -14,22 +14,22 @@ $UNIQUE = 1 ;
 $VERSION = "2.6" ;
 
 # Headers from Xt
-+IMPLEMENT "x5/mu", "X11/StringDefs.h.tspec" ;	# EXTENDED
++IMPLEMENT "x5/mu", "X11/StringDefs.h.ts" ;	# EXTENDED
 
 # Headers from Xmu
-+IMPLEMENT "x5/mu", "X11/Xmu/Atoms.h.tspec" ;		# NEW
-+IMPLEMENT "x5/mu", "X11/Xmu/CharSet.h.tspec" ;	# NEW
-+IMPLEMENT "x5/mu", "X11/Xmu/CloseHook.h.tspec" ;	# NEW
-+IMPLEMENT "x5/mu", "X11/Xmu/Converters.h.tspec" ;	# NEW
-+IMPLEMENT "x5/mu", "X11/Xmu/CurUtil.h.tspec" ;	# NEW
-+IMPLEMENT "x5/mu", "X11/Xmu/DisplayQue.h.tspec" ;	# NEW
-+IMPLEMENT "x5/mu", "X11/Xmu/Drawing.h.tspec" ;	# NEW
-+IMPLEMENT "x5/mu", "X11/Xmu/Editres.h.tspec" ;	# NEW
-+IMPLEMENT "x5/mu", "X11/Xmu/Error.h.tspec" ;		# NEW
-+IMPLEMENT "x5/mu", "X11/Xmu/Initer.h.tspec" ;	# NEW
-+IMPLEMENT "x5/mu", "X11/Xmu/StdCmap.h.tspec" ;	# NEW
-+IMPLEMENT "x5/mu", "X11/Xmu/StdSel.h.tspec" ;	# NEW
-+IMPLEMENT "x5/mu", "X11/Xmu/SysUtil.h.tspec" ;	# NEW
-+IMPLEMENT "x5/mu", "X11/Xmu/WidgetNode.h.tspec" ;	# NEW
-+IMPLEMENT "x5/mu", "X11/Xmu/WinUtil.h.tspec" ;	# NEW
-+IMPLEMENT "x5/mu", "X11/Xmu/Xct.h.tspec" ;		# NEW
++IMPLEMENT "x5/mu", "X11/Xmu/Atoms.h.ts" ;		# NEW
++IMPLEMENT "x5/mu", "X11/Xmu/CharSet.h.ts" ;	# NEW
++IMPLEMENT "x5/mu", "X11/Xmu/CloseHook.h.ts" ;	# NEW
++IMPLEMENT "x5/mu", "X11/Xmu/Converters.h.ts" ;	# NEW
++IMPLEMENT "x5/mu", "X11/Xmu/CurUtil.h.ts" ;	# NEW
++IMPLEMENT "x5/mu", "X11/Xmu/DisplayQue.h.ts" ;	# NEW
++IMPLEMENT "x5/mu", "X11/Xmu/Drawing.h.ts" ;	# NEW
++IMPLEMENT "x5/mu", "X11/Xmu/Editres.h.ts" ;	# NEW
++IMPLEMENT "x5/mu", "X11/Xmu/Error.h.ts" ;		# NEW
++IMPLEMENT "x5/mu", "X11/Xmu/Initer.h.ts" ;	# NEW
++IMPLEMENT "x5/mu", "X11/Xmu/StdCmap.h.ts" ;	# NEW
++IMPLEMENT "x5/mu", "X11/Xmu/StdSel.h.ts" ;	# NEW
++IMPLEMENT "x5/mu", "X11/Xmu/SysUtil.h.ts" ;	# NEW
++IMPLEMENT "x5/mu", "X11/Xmu/WidgetNode.h.ts" ;	# NEW
++IMPLEMENT "x5/mu", "X11/Xmu/WinUtil.h.ts" ;	# NEW
++IMPLEMENT "x5/mu", "X11/Xmu/Xct.h.ts" ;		# NEW
