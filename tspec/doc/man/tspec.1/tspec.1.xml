@@ -10,6 +10,7 @@
 	<!ENTITY S.opt "<option>-S</option>&dir.arg;">
 	<!ENTITY V.opt "<option>-V</option>">
 	<!ENTITY a.opt "<option>-a</option>">
+	<!ENTITY b.opt "<option>-b</option>">
 	<!ENTITY c.opt "<option>-c</option>">
 	<!ENTITY e.opt "<option>-e</option>">
 	<!ENTITY f.opt "<option>-f</option>">
@@ -111,6 +112,7 @@
 
 			<!-- Common options -->
 			<arg choice="opt">&C.opt;</arg>
+			<arg choice="opt">&b.opt;</arg>
 			<arg choice="opt">&p.opt;</arg>
 			<arg choice="opt">&r.opt;</arg>
 			<arg choice="opt">&t.opt;</arg>
@@ -199,6 +201,7 @@
 
 			<!-- Common options -->
 			<arg choice="opt">&C.opt;</arg>
+			<arg choice="opt">&b.opt;</arg>
 			<arg choice="opt">&p.opt;</arg>
 			<arg choice="opt">&r.opt;</arg>
 			<arg choice="opt">&t.opt;</arg>
@@ -328,6 +331,16 @@
 				<listitem>
 					<para>Causes &tspec; to print the program's version, as well
 						as the TenDRA release.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>&b.opt;</term>
+
+				<listitem>
+					<para>Apply <code>basename</code> to &api; paths. This has the
+						effect of flattening &api;s within subdirectories into a single
+						directory on output.</para>
 				</listitem>
 			</varlistentry>
 

@@ -30,6 +30,7 @@
  * These flags are set by the command-line options and determine the
  * action of the program.
  */
+bool basename_apis   = 0;
 bool allow_long_long = 0;
 bool force_output    = 0;
 bool local_input     = 0;

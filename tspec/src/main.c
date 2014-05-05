@@ -229,6 +229,7 @@ main(int argc, char **argv)
 				for (s = arg + 1; *s != '\0'; s++) {
 					switch (*s) {
 					case 'a': separate_files  = 0; break;
+					case 'b': basename_apis   = 1; break;
 					case 'c': check_only      = 1; break;
 					case 'd': restrict_depth  = 0; break;
 					case 'f': force_output    = 1; break;

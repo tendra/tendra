@@ -108,6 +108,10 @@ make_subset(char *nm)
 		}
 	}
 
+	if (basename_apis) {
+		api = basename(api);
+	}
+
 	p = make_object(nm, OBJ_SUBSET);
 	p->u.u_info = make_info(api, file, subset);
 	p->u.u_info->age = (time_t)0;
@@ -129,10 +133,15 @@ make_info(char *api, char *file, char *subset)
 
 	p = xmalloc(sizeof *p);
 
+	if (basename_apis) {
+		api = basename(api);
+	}
+
 	p->api    = api;
 	p->file   = file;
 	p->subset = subset;
 
+fprintf(stderr, "MAKEINFO %s\n", api);
 	p->age   = date_stamp(filename);
 	p->incl  = include_name(output_incl_dir, api, file, subset);
 	p->src   = src_name(output_src_dir, api, file, subset);
