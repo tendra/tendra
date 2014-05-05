@@ -5,17 +5,17 @@
 #
 # See doc/copyright/ for the full copyright terms.
 
-$PROTECT = "" ;
+$PROTECT = "";
 
-$UNIQUE = 1 ;
-$VERSION = "2.6" ;
-+BASE_API ;
+$UNIQUE  = 1;
+$VERSION = "2.6";
++BASE_API;
 
-+IMPLEMENT "c/c89-fs", "dummy.ts" ;
++IMPLEMENT "c/c89-fs", "dummy.ts";
 
 # 1.7
-#+IMPLEMENT "c/c89-fs", "float.h.ts" ;
-#+IMPLEMENT "c/c89-fs", "limits.h.ts" ;
-#+IMPLEMENT "c/c89-fs", "stdarg.h.ts" ;
-#+IMPLEMENT "c/c89-fs", "stddef.h.ts" ;
+#+IMPLEMENT "c/c89-fs", "float.h.ts";
+#+IMPLEMENT "c/c89-fs", "limits.h.ts";
+#+IMPLEMENT "c/c89-fs", "stdarg.h.ts";
+#+IMPLEMENT "c/c89-fs", "stddef.h.ts";
 

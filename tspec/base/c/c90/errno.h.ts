@@ -5,9 +5,8 @@
 #
 # See doc/copyright/ for the full copyright terms.
 
-
-+IMPLEMENT "c/c89", "errno.h.ts" ;
++IMPLEMENT "c/c89", "errno.h.ts";
 
 # 7.1.4
-+CONST int EILSEQ ;
++CONST int EILSEQ;
 

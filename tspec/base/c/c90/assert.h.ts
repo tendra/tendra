@@ -5,8 +5,7 @@
 #
 # See doc/copyright/ for the full copyright terms.
 
+$PROTECT = "";
 
-$PROTECT = "" ;
-
-+IMPLEMENT "c/c89", "assert.h.ts" ;
++IMPLEMENT "c/c89", "assert.h.ts";
 

@@ -5,6 +5,5 @@
 #
 # See doc/copyright/ for the full copyright terms.
 
-
-+IMPLEMENT "c/c89", "limits.h.ts" ;
++IMPLEMENT "c/c89", "limits.h.ts";
 

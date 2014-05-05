@@ -5,26 +5,30 @@
 #
 # See doc/copyright/ for the full copyright terms.
 
-$PROTECT = "" ;
+$PROTECT = "";
 
 +SUBSET "fail" := {
-+FUNC void __assert_aux ( const char *, const char *, int ) ;
-%%%
-#include <stdio.h>
-#include <stdlib.h>
-/* Provide token definition here */
-#define __assert_aux( E, F, L )\
-    ( fprintf ( stderr, "assertion failed: %s, file %s, line %d\n",\
-		( E ), ( F ), ( L ) ), abort () )
-%%%
-} ;
+
+	+FUNC void __assert_aux(const char *, const char *, int);
+
+	%%%
+	#include <stdio.h>
+	#include <stdlib.h>
+
+	/* Provide token definition here */
+	#define __assert_aux(e, f, l) \
+		(fprintf(stderr, "assertion failed: %s, file %s, line %d\n", \
+			(e), (f), (l) ), abort())
+	%%%
+
+};
 
 %% #undef assert %%
 
 # 4.2.1.1 The assert macro
 +IFDEF NDEBUG
-+DEFINE assert.1( e ) %% ((void)0) %% ;
++DEFINE assert.1(e) %% ((void) 0) %%;
 +ELSE
-+DEFINE assert.2( e ) %% ((e)?(void)0:__assert_aux(#e,__FILE__,__LINE__)) %% ;
++DEFINE assert.2(e) %% ((e) ? (void) 0 : __assert_aux(#e, __FILE__, __LINE__)) %%;
 +ENDIF
 

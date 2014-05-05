@@ -4,7 +4,7 @@
 #
 # See doc/copyright/ for the full copyright terms.
 
-$PROTECT = "";
+$PROTECT   = "";
 $INTERFACE = 1;
 
 %%%
