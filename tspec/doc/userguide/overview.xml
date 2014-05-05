@@ -88,7 +88,7 @@
 			represented by a directory <code>c/c89</code> containing files
 			<code>c/c89/stdio.h</code>, <code>c/c89/string.h.ts</code> etc. In
 			addition each API directory contains a master file (for ANSI C89 it
-			would be called <code>c/c89/MASTER</code>) which lists all the
+			would be called <code>c/c89/master.ts</code>) which lists all the
 			headers comprising that API.</para>
 <!-- TODO: update for .ts files -->
 	

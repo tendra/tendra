@@ -212,7 +212,7 @@
 					<td>Switch the unique token name flag on and off (see
 						<link linkend="Names">section 4.1.1</link>). For standard APIs
 						it is recommended that this property is set to 1 in the API
-						<code>MASTER</code> file.</td>
+						<code>master.ts</code> file.</td>
 				</tr>
 			
 				<tr>

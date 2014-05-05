@@ -77,8 +77,8 @@
 
 		<programlisting language="tspec">+BASE_API ;</programlisting>
 
-		<!-- TODO: update MASTER when the filename changes -->
-		<para>in their <code>MASTER</code> file. Occasionally, in an extension
+		<!-- TODO: update master.ts when the filename changes -->
+		<para>in their <code>master.ts</code> file. Occasionally, in an extension
 			API, we may wish to include a version of a header from the base API,
 			but, because this base API is not fixed, not be able to use a simple
 			<code>+USE</code> command. Instead the special form:</para>

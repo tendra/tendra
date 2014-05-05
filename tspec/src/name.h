@@ -30,7 +30,7 @@
  * These macros are concerned with the include output files.
  */
 
-#define OUTPUT_API    "%s/shared/%s.api/MASTER.h"
+#define OUTPUT_API    "%s/shared/%s.api/master.h"
 #define OUTPUT_FILE   "%s/%s.api/%s"
 #define OUTPUT_SUBSET "%s/shared/%s.api/%s.h"
 #define OUTPUT_SUFFIX ".api"
@@ -41,7 +41,7 @@
  *
  * These macros are concerned with the source output files.
  */
-#define SOURCE_API    "%s/%s.api/MASTER.c"
+#define SOURCE_API    "%s/%s.api/master.c"
 #define SOURCE_FILE	  "%s/%s.api/%s.c"
 #define SOURCE_SUBSET "%s/%s.api/%s.c"
 
@@ -50,8 +50,8 @@
  *
  * These macros give certain standard file names.
  */
-#define MASTER_FILE "MASTER"
-#define LOCAL_API   "LOCAL"
+#define MASTER_FILE "master.ts"
+#define LOCAL_API   "local.ts"
 
 /*
  *  NAME CONSTANTS

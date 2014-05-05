@@ -128,7 +128,7 @@
 		<programlisting language="tspec">+IMPLEMENT "c/c89", "stddef.h", "size_t" ;</programlisting>
 
 		<para>Another use of <code>+IMPLEMENT</code> is in the
-			<code>MASTER</code> file used to list the headers in an API (see
+			<code>master.ts</code> file used to list the headers in an API (see
 			<link linkend="Input">section 2.2</link>). This basically consists
 			of a list of <code>+IMPLEMENT</code> commands, one per header. For
 			example, with <code>c/c89</code> it consists of:</para>
