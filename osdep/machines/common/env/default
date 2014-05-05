@@ -4,9 +4,9 @@
 +DUMP_LINK		"<PREFIX_BIN>/dump_linker"
 +DYN_LINK       "<PREFIX_SYS>/dyninit"
 
-+INCL			"-Nansi:<PREFIX_TSPEC>/TenDRA/include/ansi.api"
++INCL			"-Nc89:<PREFIX_TSPEC>/TenDRA/include/c89.api"
 +LINK			"-L<PREFIX_API> -L<PREFIX_LPI>"
-+LIB			"-lansi -lc"
++LIB			"-lc89 -lc"
 
 +CRT0			""
 +CRT1			""
@@ -17,8 +17,8 @@
 +SYS_LINK		"-L<PREFIX_SYS>"
 +LINK_ENTRY		""
 
-+API_NAME		"-Aansi"
-+API			"-R<PREFIX_INCLUDE>/ansi.d"
++API_NAME		"-Ac89"
++API			"-R<PREFIX_INCLUDE>/c89.d"
 +INFO			"ANSI@(X3.159)"
 +VERSION		""
 
