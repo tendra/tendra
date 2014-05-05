@@ -5,7 +5,7 @@
 #
 # See doc/copyright/ for the full copyright terms.
 
-
+# 4.3.1.n Character testing functions
 +FUNC int isalnum ( int ) ;
 +FUNC int isalpha ( int ) ;
 +FUNC int iscntrl ( int ) ;
@@ -18,6 +18,7 @@
 +FUNC int isupper ( int ) ;
 +FUNC int isxdigit ( int ) ;
 
+# 4.3.2.n Character case mapping functions
 +FUNC int tolower ( int ) ;
 +FUNC int toupper ( int ) ;
 

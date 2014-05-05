@@ -5,11 +5,14 @@
 #
 # See doc/copyright/ for the full copyright terms.
 
+# This is ANSI C, as defined in X3.159 by X3J11.
+# developed by the the X3J11 Technical Committee.
 
 $UNIQUE = 1 ;
 $VERSION = "2.6" ;
 +BASE_API ;
 
+# 4.1.2 Standard headers
 +IMPLEMENT "c/c89", "assert.h.ts" ;
 +IMPLEMENT "c/c89", "ctype.h.ts" ;
 +IMPLEMENT "c/c89", "errno.h.ts" ;

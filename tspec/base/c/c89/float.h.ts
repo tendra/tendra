@@ -5,6 +5,7 @@
 #
 # See doc/copyright/ for the full copyright terms.
 
+# 4.1.4 Limits <float.h> and <limits.h>
 
 +SUBSET "xpg3_ranges" := {
     +SUBSET "xpg4_ranges" := {

@@ -5,6 +5,7 @@
 #
 # See doc/copyright/ for the full copyright terms.
 
+# 4.1.5 Common definitions <stddef.h>
 
 +SUBSET "null" := {
     $PROTECT = "" ;

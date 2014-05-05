@@ -5,11 +5,12 @@
 #
 # See doc/copyright/ for the full copyright terms.
 
-
 +IMPLEMENT "c/c89", "stddef.h.ts", "null" (!?) ;
 
+# 4.4 LOCALIZATION <locale.h>
 +CONST int LC_ALL, LC_COLLATE, LC_CTYPE, LC_MONETARY, LC_NUMERIC, LC_TIME ;
 
+# 4.4.1.1 The setlocale function
 +FUNC char *setlocale ( int, const char * ) ;
 
 +IFNDEF __JUST_POSIX
@@ -36,6 +37,7 @@
     char n_sign_posn ;
 } ;
 
+# 4.4.2.1 The localeconv function
 +FUNC struct lconv *localeconv ( void ) ;
 
 +ENDIF

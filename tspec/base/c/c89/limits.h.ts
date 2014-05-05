@@ -5,7 +5,7 @@
 #
 # See doc/copyright/ for the full copyright terms.
 
-
+# 4.1.4 Limits <float.h> and <limits.h>
 +CONST int CHAR_BIT ;
 +CONST int SCHAR_MIN, SCHAR_MAX ;
 +CONST int UCHAR_MAX ;
