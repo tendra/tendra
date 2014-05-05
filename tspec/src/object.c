@@ -141,7 +141,6 @@ make_info(char *api, char *file, char *subset)
 	p->file   = file;
 	p->subset = subset;
 
-fprintf(stderr, "MAKEINFO %s\n", api);
 	p->age   = date_stamp(filename);
 	p->incl  = include_name(output_incl_dir, api, file, subset);
 	p->src   = src_name(output_src_dir, api, file, subset);
