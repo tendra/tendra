@@ -6,8 +6,6 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-$APINAME = "c89";
-
 +SUBSET "xpg3_ranges" := {
     +SUBSET "xpg4_ranges" := {
         +EXP int DBL_DIG ;

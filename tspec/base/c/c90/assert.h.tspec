@@ -6,7 +6,6 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-$APINAME = "c90";
 $PROTECT = "" ;
 
 +IMPLEMENT "c/c89", "assert.h.tspec" ;

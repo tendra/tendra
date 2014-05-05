@@ -6,8 +6,6 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-$APINAME = "c89";
-
 +IFNDEF __JUST_POSIX
 
 +SUBSET "va_args" := {

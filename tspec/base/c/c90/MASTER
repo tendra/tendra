@@ -6,7 +6,6 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-$APINAME = "c90" ;
 $UNIQUE = 1 ;
 $VERSION = "2.6" ;
 +BASE_API ;

@@ -23,7 +23,7 @@ TSPEC_FLAGS+=	-S${TSPEC_TSOUT}
 .for api in ${APIS}
 ${TSPEC_TIOUT}/${api}.api ${TSPEC_TSOUT}/${api}.api: ${TSPEC}
 	@${ECHO} "==> Creating base API source for ${api}"
-	${TSPEC} ${TSPEC_FLAGS} -I${BASE_DIR}/base ${api}
+	${TSPEC} ${TSPEC_FLAGS} -I${BASE_DIR}/base -b ${api}
 .endfor
 
 

@@ -6,8 +6,6 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-$APINAME = "c90";
-
 +IMPLEMENT "c/c89", "errno.h.tspec" ;
 
 # 7.1.4

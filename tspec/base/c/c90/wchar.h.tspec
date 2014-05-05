@@ -6,8 +6,6 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-$APINAME = "c90" ;
-
 +SUBSET "wint" := {
     # 7.16.1
     +TYPE ( int ) wint_t ;

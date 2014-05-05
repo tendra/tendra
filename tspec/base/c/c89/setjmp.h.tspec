@@ -6,8 +6,6 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-$APINAME = "c89";
-
 +IMPLEMENT "c/c89", "stdlib.h.tspec", "bottom" ;
 
 +NAT ~jmp_buf_size ;
