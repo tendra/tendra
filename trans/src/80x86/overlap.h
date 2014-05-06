@@ -12,7 +12,7 @@
 
 #include <construct/installtypes.h>
 
-#include "localtypes.h"
+#include <local/localtypes.h>
 
 int might_overlap(shape sha, where w1, where w2);
 

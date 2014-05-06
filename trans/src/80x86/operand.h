@@ -10,8 +10,8 @@
 #ifndef OPERAND_H
 #define OPERAND_H
 
-#include "exptypes.h"
-#include "localtypes.h"
+#include <local/exptypes.h>
+#include <local/localtypes.h>
 
 void operand(int sz, where wh, int b, int addr);
 

@@ -10,8 +10,8 @@
 #ifndef CODER_INCLUDED
 #define CODER_INCLUDED
 
-#include "exptypes.h"
-#include "localtypes.h"
+#include <local/exptypes.h>
+#include <local/localtypes.h>
 
 extern void coder(where, ash, exp);
 

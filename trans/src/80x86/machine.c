@@ -10,10 +10,10 @@
 #include <construct/exp.h>
 #include <construct/shapemacs.h>
 
-#include "expmacs.h"
-#include "out.h"
-#include "localflags.h"
-#include "szs_als.h"
+#include <local/expmacs.h>
+#include <local/out.h>
+#include <local/localflags.h>
+#include <local/szs_als.h>
 
 /*
  * is the result of a procedure delivering

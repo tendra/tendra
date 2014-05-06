@@ -7,7 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include "exptypes.h"
+#include <local/exptypes.h>
 #include <reader/codetypes.h>
 #include <construct/installtypes.h>
 

@@ -21,8 +21,8 @@
 #include <construct/tags.h>
 
 #include "assembler.h"
-#include "expmacs.h"
-#include "fbase.h"
+#include <local/expmacs.h>
+#include <local/fbase.h>
 #include "mach.h"
 #include "mach_ins.h"
 #include "where.h"
@@ -36,7 +36,7 @@
 #include "evaluate.h"
 #include "utility.h"
 #include "translate.h"
-#include "localflags.h"
+#include <local/localflags.h>
 #include "ops_shared.h"
 
 /*

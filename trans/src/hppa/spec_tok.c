@@ -32,8 +32,8 @@
 
 #include <refactor/refactor.h>
 
-#include "expmacs.h"
-#include "szs_als.h"
+#include <local/expmacs.h>
+#include <local/szs_als.h>
 
 
 /* intercepts specially defined tokens */

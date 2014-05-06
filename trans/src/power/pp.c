@@ -14,8 +14,8 @@
 #include <construct/tags.h>
 #include <construct/shapemacs.h>
 
-#include "exptypes.h"
-#include "expmacs.h"
+#include <local/exptypes.h>
+#include <local/expmacs.h>
 #include "ash.h"
 #include "addresstypes.h"
 #include "locate.h"

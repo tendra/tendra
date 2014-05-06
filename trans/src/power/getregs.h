@@ -8,7 +8,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include "exptypes.h"
+#include <local/exptypes.h>
 
 extern int freeregs(long);
 #define freefregs(rmask)		freeregs(rmask)

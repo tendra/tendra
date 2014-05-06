@@ -12,7 +12,7 @@
 #include <diag/dg_first.h>
 
 #include <diag/diaginfo.h>
-#include "exptypes.h"
+#include <local/exptypes.h>
 #include <construct/installtypes.h>
 #include <diag/dg_types.h>		/* NEW DIAGS */
 #include <diag/diagtypes.h>		/* OLD DIAGS */

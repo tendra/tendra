@@ -28,7 +28,7 @@
 #include <construct/installtypes.h>
 #include "output.h"
 #include <construct/flpttypes.h>
-#include "exptypes.h"
+#include <local/exptypes.h>
 
 extern flt64 exp_to_f64(exp);
 typedef int INT32;

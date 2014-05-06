@@ -9,10 +9,10 @@
 
 #include <string.h>
 
-#include "diag_config.h"
+#include <local/diag_config.h>
 
 #ifdef NEWDWARF
-#include "dw2_config.h"
+#include <local/dw2_config.h>
 #endif
 
 #include <reader/externs.h>
@@ -36,17 +36,17 @@
 
 #include <refactor/optimise.h>
 
-#include "expmacs.h"
+#include <local/expmacs.h>
 #include "coder.h"
 #include "instr.h"
-#include "out.h"
+#include <local/out.h>
 #include "scan2.h"
 #include "weights.h"
 #include "instr386.h"
 #include "operand.h"
-#include "codermacs.h"
-#include "localflags.h"
-#include "localtypes.h"
+#include <local/codermacs.h>
+#include <local/localflags.h>
+#include <local/localtypes.h>
 #include "assembler.h"
 #include "cproc.h"
 #include "evaluate.h"

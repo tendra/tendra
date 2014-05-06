@@ -11,7 +11,7 @@
 #ifndef LOCATEDECS_H
 #define LOCATEDECS_H
 
-#include "exptypes.h"
+#include <local/exptypes.h>
 #include "procrectypes.h"
 
 extern baseoff boff(exp);

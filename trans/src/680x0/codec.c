@@ -17,8 +17,8 @@
 #include <construct/f64.h>
 #include <construct/me_fns.h>
 
-#include "exptypes.h"
-#include "expmacs.h"
+#include <local/exptypes.h>
+#include <local/expmacs.h>
 #include "mach.h"
 #include "where.h"
 #include "codec.h"

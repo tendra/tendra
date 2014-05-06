@@ -25,9 +25,9 @@
 #include <dwarf/dwarf_out.h>
 #include <dwarf/dwarf_mc.h>
 
-#include "codermacs.h"
-#include "expmacs.h"
-#include "out.h"
+#include <local/codermacs.h>
+#include <local/expmacs.h>
+#include <local/out.h>
 
 #ifdef CROSS_INCLUDE
 #include CROSS_INCLUDE/dwarf.h>

@@ -12,15 +12,15 @@
 #include <shared/check.h>
 
 #ifdef NEWDWARF
-#include "dw2_config.h"
+#include <local/dw2_config.h>
 #endif
 
 #include <construct/tags.h>
 #include <construct/shapemacs.h>
 #include <construct/flags.h>
 
-#include "exptypes.h"
-#include "expmacs.h"
+#include <local/exptypes.h>
+#include <local/expmacs.h>
 #include "addrtypes.h"
 #include "move.h"
 #include "bitsmacs.h"

@@ -10,7 +10,7 @@
 #include "addrtypes.h"
 #include "regexps.h"
 #include "labels.h"
-#include "out.h"
+#include <local/out.h>
 
 
 int firstlab=50, labno;

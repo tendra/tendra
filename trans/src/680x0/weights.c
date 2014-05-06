@@ -16,7 +16,7 @@
 #include <construct/shapemacs.h>
 #include <construct/tags.h>
 
-#include "expmacs.h"
+#include <local/expmacs.h>
 #include "tests.h"
 #include "utility.h"
 #include "mach.h"

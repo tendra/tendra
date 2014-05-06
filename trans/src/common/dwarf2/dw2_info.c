@@ -10,7 +10,7 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
-#include "dw2_config.h"
+#include <local/dw2_config.h>
 
 #include <reader/basicread.h>
 #include <reader/externs.h>
@@ -39,7 +39,7 @@
 #include <dwarf2/dw2_iface.h>
 #include <dwarf2/dw2_locdata.h>
 
-#include "expmacs.h"
+#include <local/expmacs.h>
 
 
 long dw2_scope_start = 0;

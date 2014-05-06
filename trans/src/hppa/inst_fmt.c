@@ -35,11 +35,11 @@ understood by the assembler.
 #include "comment.h"
 #include "translat.h"
 #include "inst_fmt.h"
-#include "out.h"
+#include <local/out.h>
 #include "misc.h"
 #include "frames.h"
 #include "new_tags.h"
-#include "expmacs.h"
+#include <local/expmacs.h>
 #include "eval.h"
 
 #define name( x ) ( ( x )->namef )

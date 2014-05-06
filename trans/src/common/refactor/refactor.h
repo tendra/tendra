@@ -27,7 +27,7 @@
 
  *******************************************************************/
 
-#include "exptypes.h"
+#include <local/exptypes.h>
 #include <construct/installtypes.h>
 
 extern int refactor(exp e, exp scope);

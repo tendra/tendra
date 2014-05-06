@@ -19,8 +19,8 @@
 #include <construct/shapemacs.h>
 #include <construct/flags.h>
 
-#include "expmacs.h"
-#include "localflags.h"
+#include <local/expmacs.h>
+#include <local/localflags.h>
 #include "coder.h"
 #include "weights.h"
 

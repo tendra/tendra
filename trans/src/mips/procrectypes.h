@@ -12,7 +12,7 @@
       needs, weights,parpair,procrec,spacereq
 */
 
-#include "exptypes.h"
+#include <local/exptypes.h>
 
 #ifndef procreckey
 

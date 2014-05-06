@@ -11,7 +11,7 @@
 
 #include "addrtypes.h"
 #include "procrectypes.h"
-#include "exptypes.h"
+#include <local/exptypes.h>
 
 extern  where nowhere;
 

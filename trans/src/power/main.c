@@ -23,7 +23,7 @@
 #include "comment.h"		/* for do_comment */
 #include "target_v.h"		/* for comiple_date */
 #include "macro.h"
-#include "localflags.h"
+#include <local/localflags.h>
 #include "dynamic_init.h"
 
 enum cpu cpu;

@@ -11,7 +11,7 @@
 #ifndef COMMENT_H
 #define COMMENT_H
 
-#include "exptypes.h"
+#include <local/exptypes.h>
 
 #include <reader/codetypes.h>
 #include <construct/installtypes.h>			/* for bool */

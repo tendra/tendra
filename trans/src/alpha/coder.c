@@ -35,10 +35,10 @@
 #include <diag/diag_fns.h>
 
 #include "addresstypes.h"
-#include "exptypes.h"
+#include <local/exptypes.h>
 #include "coder.h"
-#include "expmacs.h"
-#include "exptypes.h"
+#include <local/expmacs.h>
+#include <local/exptypes.h>
 #include "maxminmacs.h"
 #include "procrectypes.h"
 #include "eval.h"
@@ -71,7 +71,7 @@
 #include "outofline.h"
 #include "out_ba.h"
 #include "float.h"
-#include "szs_als.h"
+#include <local/szs_als.h>
 #include "translate.h"
 
 extern  FILE * as_file;

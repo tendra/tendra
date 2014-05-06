@@ -7,7 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include "dw2_config.h"
+#include <local/dw2_config.h>
 
 #include <shared/check.h>
 

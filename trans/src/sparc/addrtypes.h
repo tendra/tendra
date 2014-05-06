@@ -14,7 +14,7 @@
 
 #include <construct/installtypes.h>
 
-#include "localtypes.h"
+#include <local/localtypes.h>
 
 
 #define NOREG	100

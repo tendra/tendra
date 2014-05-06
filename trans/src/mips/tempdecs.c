@@ -15,10 +15,10 @@
 
 #include <refactor/const.h>
 
-#include "expmacs.h"
+#include <local/expmacs.h>
 #include "bitsmacs.h"
 #include "tempdecs.h"
-#include "exptypes.h"
+#include <local/exptypes.h>
 
 static int nouses;
 static bool useinpar;

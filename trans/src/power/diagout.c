@@ -37,10 +37,10 @@
 #include <diag/diagglob.h>
 #include <diag/mark_scope.h>
 
-#include "exptypes.h"
+#include <local/exptypes.h>
 #include "memtdf.h"
 #include "translat.h"
-#include "szs_als.h"
+#include <local/szs_als.h>
 #include "maxminmacs.h"
 #include "proc.h"
 #include "comment.h"

@@ -11,9 +11,9 @@
 #include <construct/tags.h>
 #include <construct/flags.h>
 
-#include "expmacs.h"
+#include <local/expmacs.h>
 #include "regable.h"
-#include "localtypes.h"
+#include <local/localtypes.h>
 
 /*
     DOES A VALUE OF SHAPE s FIT INTO A FIXED REGISTER?

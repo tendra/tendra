@@ -16,10 +16,10 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
-#include "exptypes.h"
-#include "expmacs.h"
-#include "glopt.h"
-#include "szs_als.h"
+#include <local/exptypes.h>
+#include <local/expmacs.h>
+#include <local/glopt.h>
+#include <local/szs_als.h>
 
 #include <reader/externs.h>
 

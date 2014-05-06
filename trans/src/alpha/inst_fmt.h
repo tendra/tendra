@@ -17,7 +17,7 @@
 #include "cross.h"
 #include "instypes.h"
 #include "ins_data.h"
-#include "exptypes.h"
+#include <local/exptypes.h>
 #include "procrectypes.h"
 #include <construct/installtypes.h>
 #define IMMEDIATE_MAX	255

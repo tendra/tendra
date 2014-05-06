@@ -10,7 +10,7 @@
 #ifndef TABLE_FNS_H
 #define TABLE_FNS_H
 
-#include "exptypes.h"
+#include <local/exptypes.h>
 #include <reader/toktypes.h>
 
 

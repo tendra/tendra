@@ -14,7 +14,7 @@
 
 #include <construct/flags.h>
 
-#include "dw2_config.h"
+#include <local/dw2_config.h>
 
 #ifdef NEWDIAGS
 #include <newdiag/dg_globs.h>
@@ -27,7 +27,7 @@
 #include <dwarf2/dw2_basic.h>
 #include <dwarf2/dw2_iface.h>
 
-#include "szs_als.h"
+#include <local/szs_als.h>
 
 
 /* values used in statement program prologue */

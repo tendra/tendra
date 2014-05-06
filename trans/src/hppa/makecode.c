@@ -29,8 +29,8 @@
 
 #include "addrtypes.h"
 #include "new_tags.h"
-#include "expmacs.h"
-#include "exptypes.h"
+#include <local/expmacs.h>
+#include <local/exptypes.h>
 #include "maxminmacs.h"
 #include "proctypes.h"
 #include "eval.h"
@@ -53,7 +53,7 @@
 #include "diag_out.h"
 #include "translat.h"
 #include "frames.h"
-#include "out.h"
+#include <local/out.h>
 #include "makecode.h"
 #include "extratags.h"
 #include "special.h"

@@ -20,8 +20,8 @@
 #include <shared/xalloc.h>
 
 #ifdef NEWDWARF
-#include "dw2_config.h"
-#include "diag_config.h"
+#include <local/dw2_config.h>
+#include <local/diag_config.h>
 #endif
 
 #include <reader/basicread.h>
@@ -42,16 +42,16 @@
 #endif
 
 #include "weights.h"
-#include "codermacs.h"
+#include <local/codermacs.h>
 #include "instr386.h"
-#include "expmacs.h"
+#include <local/expmacs.h>
 #include "operand.h"
 #include "instr.h"
 #include "instrmacs.h"
-#include "out.h"
+#include <local/out.h>
 #include "codec.h"
 #include "reg_record.h"
-#include "localflags.h"
+#include <local/localflags.h>
 #include "messages_8.h"
 #include "assembler.h"
 #include "coder.h"

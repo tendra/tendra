@@ -30,9 +30,9 @@
 #include <construct/me_fns.h>
 #include <construct/spec.h>
 
-#include "exptypes.h"
-#include "expmacs.h"
-#include "localflags.h"
+#include <local/exptypes.h>
+#include <local/expmacs.h>
+#include <local/localflags.h>
 
 
 /* PROCEDURES */

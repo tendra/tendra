@@ -17,9 +17,9 @@
 #include <construct/exp.h>
 #include <construct/flags.h>
 
-#include "exptypes.h"
+#include <local/exptypes.h>
 #include "codehere.h"
-#include "expmacs.h"
+#include <local/expmacs.h>
 #include "addrtypes.h"
 #include "inst_fmt.h"
 #include "move.h"
@@ -29,7 +29,7 @@
 #include "bitsmacs.h"
 #include "regmacs.h"
 #include "regexps.h"
-#include "out.h"
+#include <local/out.h>
 #include "locate.h"
 #include "eval.h"
 #include "muldvrem.h"

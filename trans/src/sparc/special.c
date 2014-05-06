@@ -20,8 +20,8 @@
 
 #include <refactor/const.h>
 
-#include "exptypes.h"
-#include "expmacs.h"
+#include <local/exptypes.h>
+#include <local/expmacs.h>
 #include "translat.h"
 #include "addrtypes.h"
 #include "move.h"
@@ -36,7 +36,7 @@
 #include "bitsmacs.h"
 #include "comment.h"
 #include "proc.h"
-#include "out.h"
+#include <local/out.h>
 #include "regexps.h"
 #include "special.h"
 #include "makecode.h"

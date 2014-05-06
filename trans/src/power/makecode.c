@@ -10,7 +10,7 @@
 
 #include <shared/error.h>
 
-#include "exptypes.h"
+#include <local/exptypes.h>
 #include "memtdf.h"
 #include "codegen.h"
 #include "geninst.h"
@@ -21,7 +21,7 @@
 #include "proc.h"
 #include "translat.h"
 #include "eval.h"
-#include "localflags.h"
+#include <local/localflags.h>
 
 #include <reader/externs.h>
 

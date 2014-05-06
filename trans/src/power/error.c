@@ -18,7 +18,7 @@
 #include <construct/flpttypes.h>
 #include <construct/me_fns.h>
 
-#include "exptypes.h"
+#include <local/exptypes.h>
 #include "memtdf.h"
 #include "codegen.h"
 #include "comment.h"
@@ -27,7 +27,7 @@
 #include "stack.h"
 #include "instruct.h"
 #include "error.h"
-#include "localflags.h"
+#include <local/localflags.h>
 
 /* Labels to call the error handler */
 /* NOTE there are three one for each ERROR_CODE */

@@ -13,7 +13,7 @@
 #include <construct/installtypes.h>
 #include "addresstypes.h"
 #include "procrectypes.h"
-#include "exptypes.h"
+#include <local/exptypes.h>
 
 extern where nowhere;
 extern int fscopefile;

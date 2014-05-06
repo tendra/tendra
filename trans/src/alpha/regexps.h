@@ -9,7 +9,7 @@
 
 #include <construct/installtypes.h>
 
-#include "exptypes.h"
+#include <local/exptypes.h>
 #include "addresstypes.h"
 
 struct regpeept {

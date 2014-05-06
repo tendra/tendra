@@ -25,10 +25,10 @@ A clear bit indicates that the corresponding register is free for use.
 #include <construct/flags.h>
 
 #include "procrectypes.h"
-#include "exptypes.h"
-#include "expmacs.h"
+#include <local/exptypes.h>
+#include <local/expmacs.h>
 #include "regexps.h"
-#include "expmacs.h"
+#include <local/expmacs.h>
 #include "bitsmacs.h"
 #include "getregs.h"
 

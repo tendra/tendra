@@ -7,7 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include "localtypes.h"
+#include <local/localtypes.h>
 #include "addresstypes.h"
 #include <construct/flpttypes.h>
 #include "cross.h"

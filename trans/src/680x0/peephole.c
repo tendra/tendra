@@ -16,7 +16,7 @@
 #include "mach.h"
 #include "mach_ins.h"
 #include "mach_op.h"
-#include "localflags.h"
+#include <local/localflags.h>
 #include "peephole.h"
 #include "utility.h"
 #include "output.h"

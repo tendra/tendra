@@ -35,7 +35,7 @@ in a register.
 #include "addrtypes.h"
 #include "proctypes.h"
 #include "labels.h"
-#include "expmacs.h"
+#include <local/expmacs.h>
 #include "makecode.h"
 #include "bitsmacs.h"
 #include "locate.h"

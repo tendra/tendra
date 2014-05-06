@@ -26,8 +26,8 @@
 			   to be incorporated into a .T file */
 #include "bstack.h"
 #include "makesymtab.h"
-#include "localtypes.h"
-#include "expmacs.h"
+#include <local/localtypes.h>
+#include <local/expmacs.h>
 #include "symbol.h"
 #include "type_to_aux.h"
 

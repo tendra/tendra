@@ -9,8 +9,8 @@
 
 #include <construct/installtypes.h>
 
-#include "exptypes.h"
-#include "localtypes.h"
+#include <local/exptypes.h>
+#include <local/localtypes.h>
 
 void apply_general_proc(exp e, where dest, ash stack);
 void tail_call(exp e, where dest, ash stack);

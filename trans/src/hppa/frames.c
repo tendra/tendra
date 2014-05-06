@@ -11,7 +11,7 @@
 #include <construct/flags.h>
 
 #include "bitsmacs.h"
-#include "expmacs.h"
+#include <local/expmacs.h>
 #include "procrec.h"
 #include "addrtypes.h"
 #include "hppains.h"

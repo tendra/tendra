@@ -10,8 +10,8 @@
 #ifndef spec_key
 #define spec_key 1
 
-#include "exptypes.h"
-#include "localtypes.h"
+#include <local/exptypes.h>
+#include <local/localtypes.h>
 
 extern speci special_fn(exp a1, exp a2, shape s);
 

@@ -34,8 +34,8 @@
 #include <refactor/const.h>
 #include <refactor/optimise.h>
 
-#include "exptypes.h"
-#include "expmacs.h"
+#include <local/exptypes.h>
+#include <local/expmacs.h>
 #include "extra_tags.h"
 #include "new_tags.h"
 #include "proctypes.h"
@@ -50,9 +50,9 @@
 #include "comment.h"
 #include "needscan.h"
 #include "reg_defs.h"
-#include "szs_als.h"
+#include <local/szs_als.h>
 #include "makecode.h"
-#include "localflags.h"
+#include <local/localflags.h>
 
 extern prop notbranch[];
 

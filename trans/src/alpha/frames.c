@@ -11,7 +11,7 @@
 
 #include "frames.h"
 #include "procrecs.h"
-#include "expmacs.h"
+#include <local/expmacs.h>
 #include "bitsmacs.h"
 #include "reg_defs.h"
 #include "fail.h"

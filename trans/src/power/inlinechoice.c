@@ -10,8 +10,8 @@
 
 #include <shared/check.h>
 
-#include "exptypes.h"
-#include "expmacs.h"
+#include <local/exptypes.h>
+#include <local/expmacs.h>
 
 #include <construct/installglob.h>
 #include <construct/exp.h>

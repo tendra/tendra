@@ -9,7 +9,7 @@
 
 #include <shared/check.h>
 
-#include "dw2_config.h"
+#include <local/dw2_config.h>
 
 #include <reader/readglob.h>
 

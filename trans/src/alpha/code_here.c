@@ -14,7 +14,7 @@
 #include "addresstypes.h"
 #include "procrectypes.h"
 #include "labels.h"
-#include "expmacs.h"
+#include <local/expmacs.h>
 #include "coder.h"
 #include "bitsmacs.h"
 #include "locate.h"

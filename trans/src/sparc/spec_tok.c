@@ -39,10 +39,10 @@
 
 #include <refactor/refactor.h>
 
-#include "expmacs.h"
+#include <local/expmacs.h>
 #include "translat.h"
 #include "new_tags.h"
-#include "localflags.h"
+#include <local/localflags.h>
 
 /* intercepts specially defined tokens */
 

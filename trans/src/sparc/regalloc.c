@@ -30,7 +30,7 @@
 #include <construct/tags.h>
 #include <construct/flags.h>
 
-#include "expmacs.h"
+#include <local/expmacs.h>
 #include "proctypes.h"
 #include "procrec.h"
 #include "bitsmacs.h"
@@ -41,7 +41,7 @@
 #include "proc.h"
 #include "translat.h"
 #include "regalloc.h"
-#include "localflags.h"
+#include <local/localflags.h>
 
 /*
   FLAG : AVOID REGISTER L7 (USED IN PIC)

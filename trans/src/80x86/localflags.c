@@ -13,7 +13,7 @@
 
 #include <construct/flags.h>
 
-#include "localflags.h"
+#include <local/localflags.h>
 
 enum cpu cpu;
 int always_use_frame;

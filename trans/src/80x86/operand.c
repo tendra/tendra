@@ -35,14 +35,14 @@
 #include <diag/diag_fns.h>
 #endif
 
-#include "exptypes.h"
-#include "expmacs.h"
+#include <local/exptypes.h>
+#include <local/expmacs.h>
 #include "coder.h"
 #include "instr.h"
-#include "out.h"
-#include "codermacs.h"
+#include <local/out.h>
+#include <local/codermacs.h>
 #include "instr386.h"
-#include "localflags.h"
+#include <local/localflags.h>
 #include "assembler.h"
 #include "messages_8.h"
 #include "operand.h"

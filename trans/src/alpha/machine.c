@@ -10,8 +10,8 @@
 #include <construct/shapemacs.h>
 #include <construct/installtypes.h>
 
-#include "expmacs.h"
-#include "localtypes.h"
+#include <local/expmacs.h>
+#include <local/localtypes.h>
 
 
 int

@@ -21,9 +21,9 @@ where f is any sequence of unary operators including identity
 #include <construct/tags.h>
 #include <construct/shapemacs.h>
 
-#include "exptypes.h"
-#include "expmacs.h"
-#include "exptypes.h"
+#include <local/exptypes.h>
+#include <local/expmacs.h>
+#include <local/exptypes.h>
 #include "comp_eq_exp.h"
 #include "oddtest.h"
 

@@ -12,7 +12,7 @@
 
 #include <construct/installtypes.h>
 
-#include "exptypes.h"
+#include <local/exptypes.h>
 
 extern unsigned jump_table_density;
 extern unsigned min_jump_table_size;

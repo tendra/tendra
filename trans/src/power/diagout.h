@@ -13,7 +13,7 @@
 
 #include <construct/installtypes.h>
 
-#include "exptypes.h"
+#include <local/exptypes.h>
 
 extern void init_diag(void);
 extern void fixup_name(exp , dec * , dec *);

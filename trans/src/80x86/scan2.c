@@ -37,8 +37,8 @@
 #include <construct/label_ops.h>
 #include <construct/install_fns.h>
 
-#include "exptypes.h"
-#include "expmacs.h"
+#include <local/exptypes.h>
+#include <local/expmacs.h>
 #include "coder.h"
 #include "instr386.h"
 #include "scan2.h"

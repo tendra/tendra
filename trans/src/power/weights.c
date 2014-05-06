@@ -46,9 +46,9 @@ stack, (this is obviously always available for parameters).
 #include <construct/tags.h>
 #include <construct/shapemacs.h>
 
-#include "exptypes.h"
-#include "expmacs.h"
-#include "localtypes.h"
+#include <local/exptypes.h>
+#include <local/expmacs.h>
+#include <local/localtypes.h>
 #include "procrectypes.h"
 #include "procrecs.h"
 #include "bitsmacs.h"

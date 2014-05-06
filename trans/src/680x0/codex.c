@@ -26,10 +26,10 @@
 
 #include <refactor/optimise.h>
 
-#include "exptypes.h"
+#include <local/exptypes.h>
 #include "assembler.h"
-#include "expmacs.h"
-#include "exptypes.h"
+#include <local/expmacs.h>
+#include <local/exptypes.h>
 #include "instrs.h"
 #include "evaluate.h"
 #include "mach.h"

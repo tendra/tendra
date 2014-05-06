@@ -11,7 +11,7 @@
     routines for grabbing registers
 */
 
-#include "exptypes.h"
+#include <local/exptypes.h>
 #include "cross.h"
 
 extern int  getreg(int32);

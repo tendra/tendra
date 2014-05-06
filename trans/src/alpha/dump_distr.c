@@ -15,8 +15,8 @@
 #include <construct/flags.h>
 
 #include "procrectypes.h"
-#include "exptypes.h"
-#include "expmacs.h"
+#include <local/exptypes.h>
+#include <local/expmacs.h>
 #include "bitsmacs.h"   
 #include "new_tags.h"
 #include "frames.h"

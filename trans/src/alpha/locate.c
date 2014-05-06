@@ -19,7 +19,7 @@
 #include <construct/shapemacs.h>
 
 #include "addresstypes.h"
-#include "expmacs.h"
+#include <local/expmacs.h>
 #include "inst_fmt.h"
 #include "alpha_ins.h"
 #include "bitsmacs.h"

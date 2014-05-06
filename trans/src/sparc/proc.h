@@ -14,7 +14,7 @@
 
 #include "addrtypes.h"
 #include "proctypes.h"
-#include "exptypes.h"
+#include <local/exptypes.h>
 
 struct proc_state {
   ans procans;

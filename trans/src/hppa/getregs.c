@@ -26,12 +26,12 @@ that the corresponding register is free for use.
 
 #include "regmacs.h"
 #include "proctypes.h"
-#include "exptypes.h"
+#include <local/exptypes.h>
 #include "procrec.h"
-#include "expmacs.h"
+#include <local/expmacs.h>
 #include "addrtypes.h"
 #include "regexps.h"
-#include "expmacs.h"
+#include <local/expmacs.h>
 #include "bitsmacs.h"
 #include "getregs.h"
 #include "comment.h"

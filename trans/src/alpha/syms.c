@@ -19,11 +19,11 @@ syms.c   - produce symbol numbers for binasm (dense numbers)
 #include <construct/shapemacs.h>
 #include <construct/tags.h>
 
-#include "expmacs.h"
+#include <local/expmacs.h>
 #include "syms.h"
 #include "main.h"
 #include "diag_out.h"
-#include "localtypes.h"
+#include <local/localtypes.h>
 #include "symbol.h"
 
 extern int currentfile;

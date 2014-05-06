@@ -16,7 +16,7 @@
 #include <construct/shapemacs.h>
 
 #include "extern_adds.h"
-#include "expmacs.h"
+#include <local/expmacs.h>
 
 extern exp * ptr_position(exp e);
 

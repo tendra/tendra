@@ -18,8 +18,8 @@
 
 #include <refactor/optimise.h>
 
-#include "exptypes.h"
-#include "expmacs.h"
+#include <local/exptypes.h>
+#include <local/expmacs.h>
 #include "sparcins.h"
 
 int crit_inline    = 120;

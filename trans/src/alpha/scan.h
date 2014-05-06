@@ -8,7 +8,7 @@
 
 #include <construct/installtypes.h>
 
-#include "exptypes.h"
+#include <local/exptypes.h>
 
 extern bool vascan(exp *);
 extern  needs scan(exp *,exp **);

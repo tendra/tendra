@@ -10,9 +10,9 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
-#include "exptypes.h"
-#include "expmacs.h"
-#include "foralls.h"
+#include <local/exptypes.h>
+#include <local/expmacs.h>
+#include <local/foralls.h>
 
 #include <reader/basicread.h>
 #include <reader/externs.h>

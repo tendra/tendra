@@ -9,7 +9,7 @@
 
 #include <construct/installtypes.h>
 
-#include "exptypes.h"
+#include <local/exptypes.h>
 
 extern  bool fixregable(exp e);
 extern  bool floatregable(exp e);

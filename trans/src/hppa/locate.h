@@ -10,7 +10,7 @@
 #ifndef LOCATEDECS_INCLUDED
 #define LOCATEDECS_INCLUDED
 
-#include "exptypes.h"
+#include <local/exptypes.h>
 #include "proctypes.h"
 
 extern parpair *getparpair(exp);

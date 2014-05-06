@@ -12,7 +12,7 @@
 #include <construct/tags.h>
 
 #include "procrectypes.h"
-#include "expmacs.h"
+#include <local/expmacs.h>
 #include "bitsmacs.h"
 #include "frames.h"
 #include "new_code.h"

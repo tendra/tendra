@@ -16,13 +16,13 @@
 
 #include "assembler.h"
 #include "instrs.h"
-#include "fbase.h"
+#include <local/fbase.h>
 #include "mach.h"
 #include "mach_ins.h"
 #include "mach_op.h"
 #include "output.h"
 #include "codex.h"
-#include "localflags.h"
+#include <local/localflags.h>
 
 
 /*

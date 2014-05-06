@@ -18,9 +18,9 @@
 #include <diag/diagglob.h>
 #include <diag/mark_scope.h>
 
-#include "exptypes.h"
+#include <local/exptypes.h>
 #include "codex.h"
-#include "expmacs.h"
+#include <local/expmacs.h>
 #include "instrs.h"
 #include "mach.h"
 #include "mach_ins.h"

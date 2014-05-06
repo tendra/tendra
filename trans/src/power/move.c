@@ -32,7 +32,7 @@ Delivers register used if 1-word destination is instore; otherwise NOREG.
 #include "maxminmacs.h"
 #include "makecode.h"
 #include "move.h"
-#include "localflags.h"
+#include <local/localflags.h>
 
 
 #define	MAX_STEPS_INLINE_MOVE	12	/* 24 instructions */

@@ -9,7 +9,7 @@
 
 #include <assert.h>
 
-#include "diag_config.h"
+#include <local/diag_config.h>
 
 #include <construct/tags.h>
 #include <construct/exp.h>
@@ -19,7 +19,7 @@
 #include "addrtypes.h"
 #include "proctypes.h"
 #include "labels.h"
-#include "expmacs.h"
+#include <local/expmacs.h>
 #include "makecode.h"
 #include "bitsmacs.h"
 #include "locate.h"

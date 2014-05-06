@@ -10,7 +10,7 @@
 #ifndef EXPMACS_H
 #define EXPMACS_H
 
-#include "exptypes.h"
+#include <local/exptypes.h>
 #include <construct/installtypes.h>
 
 #define nilexp NULL

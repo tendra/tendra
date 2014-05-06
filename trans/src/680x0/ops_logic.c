@@ -17,9 +17,9 @@
 #include <construct/shapemacs.h>
 #include <construct/tags.h>
 
-#include "exptypes.h"
+#include <local/exptypes.h>
 #include "assembler.h"
-#include "expmacs.h"
+#include <local/expmacs.h>
 #include "mach.h"
 #include "mach_ins.h"
 #include "where.h"

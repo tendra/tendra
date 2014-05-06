@@ -19,14 +19,14 @@
 #include <construct/shapemacs.h>
 #include <construct/flags.h>
 
-#include "expmacs.h"
+#include <local/expmacs.h>
 #include "instrs.h"
 #include "mach.h"
 #include "mach_ins.h"
 #include "mach_op.h"
 #include "output.h"
 #include "utility.h"
-#include "localflags.h"
+#include <local/localflags.h>
 #include "xdb_output.h"
 #include "xdb_types.h"
 

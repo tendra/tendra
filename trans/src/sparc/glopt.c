@@ -17,8 +17,8 @@
 #include <construct/flags.h>
 #include <construct/installglob.h>
 
-#include "expmacs.h"
-#include "glopt.h"
+#include <local/expmacs.h>
+#include <local/glopt.h>
 
 
 /*

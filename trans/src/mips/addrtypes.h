@@ -23,7 +23,7 @@ baseoff, instore, freg, ans, where
 
 #include <construct/installtypes.h>
 
-#include "localtypes.h"
+#include <local/localtypes.h>
 
 struct makeansst {
   int   lab;

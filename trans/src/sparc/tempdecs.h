@@ -12,7 +12,7 @@
 
 #include <construct/installtypes.h>
 
-#include "exptypes.h"
+#include <local/exptypes.h>
 
 extern bool simple_seq(exp, exp);
 extern bool tempdec(exp, bool);

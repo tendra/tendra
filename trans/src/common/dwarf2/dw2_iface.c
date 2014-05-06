@@ -12,7 +12,7 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
-#include "dw2_config.h"
+#include <local/dw2_config.h>
 
 #include <reader/basicread.h>
 
@@ -35,7 +35,7 @@
 #include <diag/diagglob.h>
 #endif
 
-#include "expmacs.h"
+#include <local/expmacs.h>
 
 
 long dw_info_start;

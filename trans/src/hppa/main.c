@@ -28,8 +28,8 @@
 #include "comment.h"		/* for do_comment */
 #include "addrtypes.h"		/* for where */
 #include "makecode.h"		/* for nowhere */
-#include "exptypes.h"
-#include "out.h"
+#include <local/exptypes.h>
+#include <local/out.h>
 #include "version.h"
 #include "diag_out.h"
 #include "frames.h"

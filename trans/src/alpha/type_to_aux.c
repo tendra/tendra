@@ -32,7 +32,7 @@
 #include <diag/diagtypes.h>
 #include <diag/diag_fns.h>
 
-#include "expmacs.h"
+#include <local/expmacs.h>
 #include "main.h"
 #include "symtab.h"
 #include "symbol.h"

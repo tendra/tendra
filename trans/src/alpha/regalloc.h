@@ -12,7 +12,7 @@
    external for regalloc.c
 */
 
-#include "exptypes.h"
+#include <local/exptypes.h>
 #include "procrectypes.h"
 
 extern  spacereq regalloc(exp, int, int, int);

@@ -7,7 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include "expmacs.h"
+#include <local/expmacs.h>
 
 #include <reader/basicread.h>
 

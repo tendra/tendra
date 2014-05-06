@@ -10,7 +10,7 @@
 #include <construct/shapemacs.h>
 #include <construct/flags.h>
 
-#include "expmacs.h"
+#include <local/expmacs.h>
 #include "regable.h"
 
 

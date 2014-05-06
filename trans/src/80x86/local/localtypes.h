@@ -10,7 +10,7 @@
 #ifndef LOCALTYPES_H
 #define LOCALTYPES_H
 
-#include "exptypes.h"
+#include <local/exptypes.h>
 
 
 /* structure definition for ash  */

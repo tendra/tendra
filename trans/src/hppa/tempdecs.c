@@ -21,8 +21,8 @@
 
 #include <refactor/const.h>
 
-#include "exptypes.h"
-#include "expmacs.h"
+#include <local/exptypes.h>
+#include <local/expmacs.h>
 #include "bitsmacs.h"
 #include "muldvrem.h"
 #include "tempdecs.h"

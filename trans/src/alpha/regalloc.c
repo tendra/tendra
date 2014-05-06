@@ -23,7 +23,7 @@
 
 #include <construct/tags.h>
 
-#include "expmacs.h"
+#include <local/expmacs.h>
 #include "procrectypes.h"
 #include "procrecs.h"
 #include "bitsmacs.h"

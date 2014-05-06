@@ -15,7 +15,7 @@
 /* construct/is_worth.h defines the interface each installer must implement */
 #include <construct/is_worth.h>
 
-#include "expmacs.h"
+#include <local/expmacs.h>
 #include "instruct.h"	/* IMM_SIZE() */
 #include "regable.h"
 

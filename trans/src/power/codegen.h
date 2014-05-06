@@ -27,7 +27,7 @@
 #include "regable.h"
 #include "regexps.h"
 
-#include "localtypes.h"
+#include <local/localtypes.h>
 #include <construct/installtypes.h>
 #include "inst_fmt.h"
 

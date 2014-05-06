@@ -20,7 +20,7 @@
 #include <shared/xalloc.h>
 
 #ifdef NEWDWARF
-#include "dw2_config.h"
+#include <local/dw2_config.h>
 #endif
 
 #include <construct/flags.h>
@@ -33,7 +33,7 @@
 #include "comment.h"
 #include "translat.h"
 #include "inst_fmt.h"
-#include "out.h"
+#include <local/out.h>
 #include "labels.h"
 
 

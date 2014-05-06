@@ -10,14 +10,14 @@
 #ifndef dg_glob_key
 #define dg_glob_key
 
-#include "diag_config.h"
+#include <local/diag_config.h>
 
 #include <construct/installtypes.h>
 
 #include "dg_first.h"
 #include "dg_types.h"		/* NEW DIAGS */
 
-#include "exptypes.h"
+#include <local/exptypes.h>
 
 extern dg_filename all_files;
 extern dg_compilation all_comp_units;

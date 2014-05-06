@@ -13,7 +13,7 @@
 
 #include <construct/installtypes.h>
 
-#include "exptypes.h"
+#include <local/exptypes.h>
 
 extern int tempdec(exp, bool);
 extern bool APPLYLIKE(exp);

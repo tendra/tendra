@@ -8,7 +8,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include "localtypes.h"
+#include <local/localtypes.h>
 
 #include <construct/installtypes.h>
 

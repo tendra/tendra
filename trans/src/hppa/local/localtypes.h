@@ -11,18 +11,20 @@
 #define LOCALTYPES_INCLUDED
 
 #include <construct/installtypes.h>
-#include "exptypes.h"
+#include <local/exptypes.h>
 
 typedef struct {
-    int ashsize;
-    int ashalign;
+    long ashsize;
+    long ashalign;
 } ash;
 
 extern ash ashof(shape);
+
 
 typedef struct {
     bool is_special;
     exp special_exp;
 } speci;
+
 
 #endif /* LOCALTYPES_INCLUDED */

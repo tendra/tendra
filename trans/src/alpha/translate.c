@@ -25,7 +25,7 @@
 
 #include <refactor/optimise.h>
 
-#include "expmacs.h"
+#include <local/expmacs.h>
 #include "tempdecs.h"
 #include "weights.h"
 #include "procrectypes.h"

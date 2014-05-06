@@ -13,8 +13,8 @@
 
 /* needed by "addresstypes.h" */
 
-#include "localtypes.h"
-#include "exptypes.h"
+#include <local/localtypes.h>
+#include <local/exptypes.h>
 #include <reader/codetypes.h>
 #include <construct/installtypes.h>
 #include "ash.h"

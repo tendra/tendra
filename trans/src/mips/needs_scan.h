@@ -7,7 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include "exptypes.h"
+#include <local/exptypes.h>
 
 extern needs scan(exp * e, exp ** at);
 extern exp * ptr_position(exp);

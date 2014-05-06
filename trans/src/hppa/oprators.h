@@ -10,7 +10,7 @@
 #ifndef OPRATORS_INCLUDED
 #define OPRATORS_INCLUDED
 
-#include "exptypes.h"
+#include <local/exptypes.h>
 #include "addrtypes.h"
 
 extern int comm_op(exp, space, where, ins_p);

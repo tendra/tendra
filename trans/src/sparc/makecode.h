@@ -12,7 +12,7 @@
 
 #include <construct/installtypes.h>
 #include "proctypes.h"
-#include "exptypes.h"
+#include <local/exptypes.h>
 
 extern where nowhere;
 extern bool last_param(exp);

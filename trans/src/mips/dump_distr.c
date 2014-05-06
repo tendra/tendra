@@ -27,8 +27,8 @@
 #include <construct/shapemacs.h>
 #include <construct/flags.h>
 
-#include "exptypes.h"
-#include "expmacs.h"
+#include <local/exptypes.h>
+#include <local/expmacs.h>
 #include "bitsmacs.h"
 #include "new_tags.h"
 #include "procrectypes.h"

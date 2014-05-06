@@ -14,8 +14,8 @@
 #ifndef INSTR386_H
 #define INSTR386_H
 
-#include "exptypes.h"
-#include "localtypes.h"
+#include <local/exptypes.h>
+#include <local/localtypes.h>
 
 void add(shape sha, where a1, where a2, where dest);
 void absop(shape sha, where a1, where dest);

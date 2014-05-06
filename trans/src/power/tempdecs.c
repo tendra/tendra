@@ -16,14 +16,14 @@
 
 #include <refactor/const.h>
 
-#include "exptypes.h"
-#include "expmacs.h"
+#include <local/exptypes.h>
+#include <local/expmacs.h>
 #include "bitsmacs.h"
 #include "regable.h"
 #include "tempdecs.h"
 #include "regmacs.h"
 #include "stack.h"
-#include "localflags.h"
+#include <local/localflags.h>
 
 /* to go in a switch as in case CASE_APPLYLIKE: */
 #define	CASE_APPLYLIKE	apply_tag: case round_tag:case apply_general_tag

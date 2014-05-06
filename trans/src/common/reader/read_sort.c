@@ -12,7 +12,7 @@
 
 #include <shared/check.h>
 
-#include "expmacs.h"
+#include <local/expmacs.h>
 
 #include <reader/codetypes.h>
 #include <reader/readglob.h>

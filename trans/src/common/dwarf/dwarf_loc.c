@@ -16,9 +16,9 @@
 #include <construct/machine.h>
 #include <construct/tags.h>
 
-#include "codermacs.h"
-#include "expmacs.h"
-#include "out.h"
+#include <local/codermacs.h>
+#include <local/expmacs.h>
+#include <local/out.h>
 
 #include <dwarf/dwarf_codes.h>
 #include <dwarf/dwarf_types.h>

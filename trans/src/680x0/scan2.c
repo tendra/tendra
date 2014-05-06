@@ -24,8 +24,8 @@
 #include <construct/tags.h>
 #include <construct/install_fns.h>
 
-#include "expmacs.h"
-#include "exptypes.h"
+#include <local/expmacs.h>
+#include <local/exptypes.h>
 
 #ifndef tdf3
 #include "68k_globals.h"

@@ -12,19 +12,19 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
-#include "exptypes.h"
-#include "expmacs.h"
+#include <local/exptypes.h>
+#include <local/expmacs.h>
 
 /* TODO: stopgap until outs() is centralised */
 #if TRANS_80x86
 #include "assembler.h"
-#include "localflags.h"
-#include "out.h"
+#include <local/localflags.h>
+#include <local/out.h>
 #endif
 
 /* TODO: stopgap until outs() is centralised */
 #if TRANS_SPARC
-#include "out.h"
+#include <local/out.h>
 #endif
 
 #include <reader/natmacs.h>

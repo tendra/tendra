@@ -24,8 +24,8 @@
 
 #include <refactor/optimise.h>
 
-#include "exptypes.h"
-#include "expmacs.h"
+#include <local/exptypes.h>
+#include <local/expmacs.h>
 #include "mach.h"
 #include "where.h"
 #include "codec.h"
@@ -39,7 +39,7 @@
 #include "output.h"
 #include "instrs.h"
 #include "peephole.h"
-#include "szs_als.h"
+#include <local/szs_als.h>
 #include "tests.h"
 #include "utility.h"
 #include "weights.h"

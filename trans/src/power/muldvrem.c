@@ -11,7 +11,7 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
-#include "exptypes.h"
+#include <local/exptypes.h>
 #include "memtdf.h"
 #include "codegen.h"
 #include "geninst.h"
@@ -20,7 +20,7 @@
 #include "muldvrem.h"
 #include "translat.h"
 #include "error.h"
-#include "localflags.h"
+#include <local/localflags.h>
 
 #define BITS_PER_WORD		32
 

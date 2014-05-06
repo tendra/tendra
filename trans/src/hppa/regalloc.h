@@ -10,7 +10,7 @@
 #ifndef REGALLOC_INCLUDED
 #define REGALLOC_INCLUDED
 
-#include "exptypes.h"
+#include <local/exptypes.h>
 #include "proctypes.h"
 
 extern spacereq regalloc(exp, int, int, long);

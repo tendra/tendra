@@ -11,7 +11,7 @@
 #define TRANSLAT_INCLUDED
 
 #include "addrtypes.h"
-#include "localtypes.h"
+#include <local/localtypes.h>
 
 extern int optim_level;
 extern int g_reg_max;

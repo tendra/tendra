@@ -13,7 +13,7 @@
 
 #include <construct/installtypes.h>
 
-#include "exptypes.h"
+#include <local/exptypes.h>
 
 struct asht {			/* structure definition for ash  */
   int  ashsize;	/*  the minimum size in bits of a shape

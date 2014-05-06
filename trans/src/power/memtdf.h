@@ -12,8 +12,8 @@
 #define MEMTDF_H	1
 
 #include "bitsmacs.h"
-#include "expmacs.h"
-#include "exptypes.h"
+#include <local/expmacs.h>
+#include <local/exptypes.h>
 #include "extratags.h"
 
 #include <reader/codetypes.h>

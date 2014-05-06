@@ -8,6 +8,6 @@
  */
 
 #include <construct/installtypes.h>
-#include "exptypes.h"
+#include <local/exptypes.h>
 
 extern  bool tempdec(exp e, bool enoughs);

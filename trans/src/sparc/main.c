@@ -29,8 +29,8 @@
 #include "translat.h"
 #include "addrtypes.h"
 #include "makecode.h"
-#include "exptypes.h"
-#include "out.h"
+#include <local/exptypes.h>
+#include <local/out.h>
 #include "special.h"
 #include "labels.h"
 

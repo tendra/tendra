@@ -18,9 +18,9 @@ initial call : comp_eq_exp(a,b,nilexp,nilexp)  */
 #include <construct/shapemacs.h>
 #include <construct/exp.h>
 
-#include "exptypes.h"
-#include "expmacs.h"
-#include "exptypes.h"
+#include <local/exptypes.h>
+#include <local/expmacs.h>
+#include <local/exptypes.h>
 #include "comp_eq_exp.h"
 
 bool

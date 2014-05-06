@@ -50,8 +50,8 @@
 
 #include <refactor/const.h>
 
-#include "exptypes.h"
-#include "expmacs.h"
+#include <local/exptypes.h>
+#include <local/expmacs.h>
 #include "proctypes.h"
 #include "procrec.h"
 #include "bitsmacs.h"

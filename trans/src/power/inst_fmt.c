@@ -33,7 +33,7 @@ understood by the assembler.
 #include "inst_fmt.h"
 #include "macro.h"
 #include "mask.h"
-#include "localflags.h"
+#include <local/localflags.h>
 
 #define IS_POW2(c)		((c)!= 0 && ((c) & ((c) -1)) == 0)
 

@@ -19,11 +19,11 @@
 #include <construct/shapemacs.h>
 #include <construct/flags.h>
 
-#include "exptypes.h"
+#include <local/exptypes.h>
 #include "needscan.h"
 #include "addrtypes.h"
-#include "expmacs.h"
-#include "exptypes.h"
+#include <local/expmacs.h>
+#include <local/exptypes.h>
 #include "maxminmacs.h"
 #include "proctypes.h"
 #include "eval.h"

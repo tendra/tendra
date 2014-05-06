@@ -20,7 +20,7 @@
 #include "utility.h"
 #include "xdb_output.h"
 #include "stab_types.h"
-#include "expmacs.h"
+#include <local/expmacs.h>
 
 /*
     CREATE A STABS INSTRUCTION

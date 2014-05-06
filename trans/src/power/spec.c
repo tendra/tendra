@@ -21,8 +21,8 @@
 #include <construct/installglob.h>
 #include <construct/spec.h>
 
-#include "exptypes.h"
-#include "expmacs.h"
+#include <local/exptypes.h>
+#include <local/expmacs.h>
 
 speci special_fn(exp a1, exp a2, shape s)
 {				/* look for special functions */

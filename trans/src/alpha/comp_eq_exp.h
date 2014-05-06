@@ -8,6 +8,6 @@
  */
 
 #include <construct/installtypes.h>
-#include "exptypes.h"
+#include <local/exptypes.h>
 
 extern bool comp_eq_exp(exp a, exp b, exp laba, exp labb);

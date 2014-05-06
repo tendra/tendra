@@ -28,12 +28,12 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
-#include "exptypes.h"
-#include "expmacs.h"
-#include "szs_als.h"
+#include <local/exptypes.h>
+#include <local/expmacs.h>
+#include <local/szs_als.h>
 
 #ifdef TRANS_SPARC
-#include "localflags.h"
+#include <local/localflags.h>
 #endif
 
 #include <reader/codetypes.h>

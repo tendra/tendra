@@ -12,10 +12,10 @@
 
 #include <construct/installtypes.h>
 
-#include "exptypes.h"
+#include <local/exptypes.h>
 #include "addrtypes.h"
 #include "proctypes.h"
-#include "exptypes.h"
+#include <local/exptypes.h>
 
 extern bool is_muldivrem_call(exp);
 extern int call_muldivrem(exp, exp, space, int, int);

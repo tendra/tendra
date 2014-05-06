@@ -12,7 +12,7 @@
 */
 
 
-#include "exptypes.h"
+#include <local/exptypes.h>
 
 #include "procrecs.h"
 

@@ -32,7 +32,7 @@
 #include "guard.h"
 #include "getregs.h"
 #include "bool.h"
-#include "expmacs.h"
+#include <local/expmacs.h>
 #include "frames.h"
 #include "pseudo.h"
 #include "labels.h"

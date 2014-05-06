@@ -16,9 +16,9 @@
 #include <refactor/optimise.h>
 
 #include "assembler.h"
-#include "expmacs.h"
+#include <local/expmacs.h>
 #include "tests.h"
-#include "localflags.h"
+#include <local/localflags.h>
 
 #ifndef tdf3
 #include "68k_globals.h"

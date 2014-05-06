@@ -36,8 +36,8 @@ the proc independent (common to other  translators)
 #include <reader/externs.h>
 #include <refactor/optimise.h>
 
-#include "exptypes.h"
-#include "expmacs.h"
+#include <local/exptypes.h>
+#include <local/expmacs.h>
 #include "new_tags.h"
 #include "proctypes.h"
 #include "bitsmacs.h"

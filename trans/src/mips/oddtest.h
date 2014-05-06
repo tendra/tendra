@@ -8,7 +8,7 @@
  */
 
 
-#include "exptypes.h"
+#include <local/exptypes.h>
 
 extern int oddunary(exp, exp, exp *);
 extern int oddtest(exp, exp *, exp *, exp *);

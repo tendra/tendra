@@ -24,7 +24,7 @@
 #include <shared/xalloc.h>
 
 #ifdef NEWDWARF
-#include "dw2_config.h"
+#include <local/dw2_config.h>
 #endif
 
 #include <reader/table_fns.h>
@@ -45,15 +45,15 @@
 
 #include <refactor/refactor.h>
 
-#include "exptypes.h"
-#include "out.h"
+#include <local/exptypes.h>
+#include <local/out.h>
 #include "operand.h"
-#include "expmacs.h"
+#include <local/expmacs.h>
 #include "instr386.h"
 #include "coder.h"
 #include "reg_record.h"
-#include "codermacs.h"
-#include "localflags.h"
+#include <local/codermacs.h>
+#include <local/localflags.h>
 #include "assembler.h"
 #include "messages_8.h"
 #include "instrmacs.h"
@@ -62,7 +62,7 @@
 
 #ifdef NEWDWARF
 #include "dw2_extra.h"
-#include "diag_config.h"
+#include <local/diag_config.h>
 #endif
 
 

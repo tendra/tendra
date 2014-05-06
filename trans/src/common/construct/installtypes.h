@@ -19,7 +19,7 @@
 #include <diag/diaginfo.h>
 #endif
 
-#include "exptypes.h"
+#include <local/exptypes.h>
 
 
 typedef exp otagexp;

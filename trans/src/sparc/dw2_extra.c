@@ -13,7 +13,7 @@
 
 #ifdef NEWDWARF
 
-#include "dw2_config.h"
+#include <local/dw2_config.h>
 
 #include <reader/basicread.h>
 
@@ -36,10 +36,10 @@
 
 #include <refactor/const.h>
 
-#include "exptypes.h"
-#include "szs_als.h"
+#include <local/exptypes.h>
+#include <local/szs_als.h>
 #include "addrtypes.h"
-#include "expmacs.h"
+#include <local/expmacs.h>
 #include "bitsmacs.h"
 #include "regmacs.h"
 #include "locate.h"

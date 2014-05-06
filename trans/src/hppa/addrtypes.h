@@ -12,7 +12,7 @@
 
 #include <construct/installtypes.h>
 
-#include "localtypes.h"
+#include <local/localtypes.h>
 #include "proctypes.h"
 
 #define NOREG	100

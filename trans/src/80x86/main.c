@@ -25,12 +25,12 @@
 #include <construct/exp.h>
 #include <construct/construct_v.h>
 
-#include "out.h"
+#include <local/out.h>
 #include "weights.h"
 #include "instr.h"
-#include "expmacs.h"
+#include <local/expmacs.h>
 #include "instr386.h"
-#include "localflags.h"
+#include <local/localflags.h>
 #include "messages_8.h"
 #include "assembler.h"
 #include "target_v.h"

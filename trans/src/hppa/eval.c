@@ -29,15 +29,15 @@ into the table of externals (or 0 meaning anonymous).
 #include <construct/f64.h>
 
 #include "addrtypes.h"
-#include "expmacs.h"
-#include "exptypes.h"
+#include <local/expmacs.h>
+#include <local/exptypes.h>
 #include "maxminmacs.h"
-#include "fbase.h"
+#include <local/fbase.h>
 #include "translat.h"
 #include "comment.h"
 #include "inst_fmt.h"
-#include "szs_als.h"		/* for MAX_BF_SIZE */
-#include "out.h"
+#include <local/szs_als.h>		/* for MAX_BF_SIZE */
+#include <local/out.h>
 #include "frames.h"
 #include "procrec.h"
 #include "eval.h"

@@ -17,7 +17,7 @@
 #include <construct/flags.h>
 
 #include "addrtypes.h"
-#include "expmacs.h"
+#include <local/expmacs.h>
 #include "inst_fmt.h"
 #include "regmacs.h"
 #include "sparcins.h"

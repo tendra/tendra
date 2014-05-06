@@ -32,9 +32,9 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
-#include "exptypes.h"
-#include "expmacs.h"
-#include "szs_als.h"
+#include <local/exptypes.h>
+#include <local/expmacs.h>
+#include <local/szs_als.h>
 
 #include <reader/codetypes.h>
 #include <reader/externs.h>
@@ -64,7 +64,7 @@
 #endif
 
 #if TRANS_80x86
-#include "localflags.h"
+#include <local/localflags.h>
 #endif
 
 #include <refactor/refactor.h>

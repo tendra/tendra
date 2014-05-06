@@ -20,9 +20,9 @@
 #include <construct/tags.h>
 #include <construct/flpt.h>
 
-#include "exptypes.h"
-#include "expmacs.h"
-#include "fbase.h"
+#include <local/exptypes.h>
+#include <local/expmacs.h>
+#include <local/fbase.h>
 #include "mach.h"
 #include "tests.h"
 #include "where.h"

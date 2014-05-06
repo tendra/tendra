@@ -12,7 +12,7 @@
 
 #include <construct/installtypes.h>
 
-#include "exptypes.h"
+#include <local/exptypes.h>
 #include "proctypes.h"
 
 extern bool chase(exp, exp *);

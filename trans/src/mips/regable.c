@@ -10,8 +10,8 @@
 #include <construct/shapemacs.h>
 #include <construct/tags.h>
 
-#include "localtypes.h"
-#include "expmacs.h"
+#include <local/localtypes.h>
+#include <local/expmacs.h>
 #include "regable.h"
 
 /***************************************************************

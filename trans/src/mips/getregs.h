@@ -11,7 +11,7 @@
     routines for grabbing registers
 */
 
-#include "exptypes.h"
+#include <local/exptypes.h>
 
 extern int  getreg(long fixed);
 extern int  getfreg(long fl);

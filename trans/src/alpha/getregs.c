@@ -11,11 +11,11 @@
 #include <construct/tags.h>
 
 #include "procrectypes.h"
-#include "exptypes.h"
+#include <local/exptypes.h>
 #include "procrecs.h"
-#include "expmacs.h"
+#include <local/expmacs.h>
 #include "regexps.h"
-#include "expmacs.h"
+#include <local/expmacs.h>
 #include "bitsmacs.h"
 #include "fail.h"
 #include "getregs.h"

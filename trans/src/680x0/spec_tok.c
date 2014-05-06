@@ -31,7 +31,7 @@
 
 #include <refactor/refactor.h>
 
-#include "expmacs.h"
+#include <local/expmacs.h>
 
 /*
     INTERCEPT SPECIAL TOKENS

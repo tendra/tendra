@@ -26,12 +26,12 @@
 #include <construct/tags.h>
 
 #include "symtab.h"
-#include "expmacs.h"
+#include <local/expmacs.h>
 #include "syms.h"
 #include "main.h"
 #include "diag_out.h"
 #include "new_symbol.h"
-#include "localtypes.h"
+#include <local/localtypes.h>
 
 extern long currentfile;
 

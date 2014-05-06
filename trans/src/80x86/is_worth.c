@@ -14,7 +14,7 @@
 #include <construct/shapemacs.h>
 #include <construct/is_worth.h>
 
-#include "expmacs.h"
+#include <local/expmacs.h>
 
 /* PROCEDURES */
 

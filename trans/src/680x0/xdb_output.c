@@ -22,10 +22,10 @@
 #include <diag/dg_types.h>		/* NEW DIAGS */
 #include <diag/diagtypes.h>		/* OLD DIAGS */
 
-#include "exptypes.h"
+#include <local/exptypes.h>
 #include "assembler.h"
 #include "codex.h"
-#include "expmacs.h"
+#include <local/expmacs.h>
 #include "instrs.h"
 #include "mach.h"
 #include "mach_ins.h"
@@ -35,7 +35,7 @@
 #include "xdb_types.h"
 #include "xdb_output.h"
 #include "stab_types.h"
-#include "localflags.h"
+#include <local/localflags.h>
 
 
 /*

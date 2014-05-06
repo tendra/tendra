@@ -18,13 +18,13 @@
 #include <construct/machine.h>
 #include <construct/install_fns.h>
 
-#include "exptypes.h"
+#include <local/exptypes.h>
 #include "instr.h"
 #include "instr386.h"
-#include "out.h"
-#include "expmacs.h"
+#include <local/out.h>
+#include <local/expmacs.h>
 #include "operand.h"
-#include "localflags.h"
+#include <local/localflags.h>
 #include "coder.h"
 
 static int pic_label;

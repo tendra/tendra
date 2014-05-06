@@ -10,7 +10,7 @@
 #ifndef REG_RECORD_H
 #define REG_RECORD_H
 
-#include "exptypes.h"
+#include <local/exptypes.h>
 
 extern reg_record crt_reg_record;
 

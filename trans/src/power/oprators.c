@@ -12,7 +12,7 @@
 
 #include <construct/flags.h>
 
-#include "exptypes.h"
+#include <local/exptypes.h>
 #include "memtdf.h"
 #include "codegen.h"
 #include "geninst.h"

@@ -16,16 +16,16 @@
 
 #include <construct/flags.h>
 #include <reader/codetypes.h>
-#include "exptypes.h"
+#include <local/exptypes.h>
 #include "addrtypes.h"
-#include "exptypes.h"
+#include <local/exptypes.h>
 #include <construct/shapemacs.h>
-#include "expmacs.h"
+#include <local/expmacs.h>
 #include <reader/codetypes.h>
 #include <construct/installtypes.h>
 #include <reader/toktypes.h>
 #include <construct/exp.h>
-#include "exptypes.h"
+#include <local/exptypes.h>
 #include "proctypes.h"
 #include "procrec.h"
 #include <construct/tags.h>
@@ -34,11 +34,11 @@
 #include "comment.h"
 #include "translat.h"
 #include <construct/machine.h>
-#include "szs_als.h"
+#include <local/szs_als.h>
 #include <reader/read_fns.h>
 #include <construct/installglob.h>
 #include <reader/externs.h>
-#include "out.h"
+#include <local/out.h>
 #include "diag_out.h"
 #include <reader/basicread.h>
 

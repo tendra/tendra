@@ -14,7 +14,7 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
-#include "exptypes.h"
+#include <local/exptypes.h>
 #include <reader/codetypes.h>
 #include <construct/flags.h>
 #include <construct/installtypes.h>
@@ -32,12 +32,12 @@
 #endif
 
 #include <reader/basicread.h>
-#include "out.h"
+#include <local/out.h>
 #include <construct/machine.h>
 #include <construct/shapemacs.h>
-#include "expmacs.h"
+#include <local/expmacs.h>
 #include <construct/tags.h>
-#include "szs_als.h"
+#include <local/szs_als.h>
 #include <construct/exp.h>
 #include <reader/externs.h>
 
@@ -47,7 +47,7 @@
 #include <newdiag/dg_aux.h>
 #include <newdiag/dg_globs.h>
 
-#include "codermacs.h"
+#include <local/codermacs.h>
 #include "instr.h"
 
 #else

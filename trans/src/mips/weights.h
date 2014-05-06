@@ -11,7 +11,7 @@
    externals for weights.c
 */
 
-#include "exptypes.h"
+#include <local/exptypes.h>
 #include "procrectypes.h"
 
 extern  weights weightsv(double scale, exp e);

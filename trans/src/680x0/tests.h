@@ -10,7 +10,7 @@
 #ifndef TESTS_INCLUDED
 #define TESTS_INCLUDED
 
-#include "exptypes.h"
+#include <local/exptypes.h>
 
 #include <construct/installtypes.h>
 

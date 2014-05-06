@@ -32,12 +32,12 @@
 #include <construct/install_fns.h>
 #include <construct/flpt.h>
 
-#include "exptypes.h"
-#include "expmacs.h"
+#include <local/exptypes.h>
+#include <local/expmacs.h>
 #include "instr386.h"
 #include "operand.h"
 #include "coder.h"
-#include "codermacs.h"
+#include <local/codermacs.h>
 #include "instr.h"
 #include "messages_8.h"
 #include "reg_record.h"

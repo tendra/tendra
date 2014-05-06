@@ -17,7 +17,7 @@
 #include <diag/diaginfo.h>
 #endif
 
-#include "exptypes.h"
+#include <local/exptypes.h>
 #include <construct/installtypes.h>
 
 #ifdef NEWDIAGS

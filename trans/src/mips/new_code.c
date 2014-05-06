@@ -28,9 +28,9 @@
 
 #include <diag/diag_fns.h>
 
-#include "exptypes.h"
+#include <local/exptypes.h>
 #include "addrtypes.h"
-#include "expmacs.h"
+#include <local/expmacs.h>
 #include "loc_signal.h"
 #include "maxminmacs.h"
 #include "procrectypes.h"

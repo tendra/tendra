@@ -26,7 +26,7 @@
  *
  ************************************************************************/
 
-#include "exptypes.h"
+#include <local/exptypes.h>
 
 #include <construct/consttypes.h>
 

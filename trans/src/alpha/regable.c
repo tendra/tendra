@@ -10,9 +10,9 @@
 #include <construct/shapemacs.h>
 #include <construct/tags.h>
 
-#include "expmacs.h"
+#include <local/expmacs.h>
 #include "regable.h"
-#include "localtypes.h"
+#include <local/localtypes.h>
 
 
 bool

@@ -11,7 +11,7 @@
     external for regalloc.c
 */
 
-#include "exptypes.h"
+#include <local/exptypes.h>
 #include "procrectypes.h"
 
 extern  spacereq regalloc(exp e, int freefixed, int freefloat, long stack);

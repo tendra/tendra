@@ -37,7 +37,7 @@
 #include <diag/dg_fns.h>
 #endif
 
-#include "expmacs.h"
+#include <local/expmacs.h>
 
 /* intercepts specially defined tokens */
 

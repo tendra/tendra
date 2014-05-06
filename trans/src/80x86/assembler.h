@@ -12,8 +12,8 @@
 
 #include <construct/flags.h>
 
-#include "exptypes.h"
-#include "localtypes.h"
+#include <local/exptypes.h>
+#include <local/localtypes.h>
 
 void outbyte(void);
 void outshort(void);

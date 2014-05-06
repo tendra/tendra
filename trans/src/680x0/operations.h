@@ -11,8 +11,8 @@
 #define OPERATIONS_INCLUDED
 
 #include <construct/installtypes.h>
-#include "exptypes.h"
-#include "localtypes.h"
+#include <local/exptypes.h>
+#include <local/localtypes.h>
 #include <reader/ecodes.h>
 
 extern bool have_cond;

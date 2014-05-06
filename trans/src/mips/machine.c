@@ -10,7 +10,7 @@
 #include <construct/shapemacs.h>
 #include <construct/installtypes.h>
 
-#include "expmacs.h"
+#include <local/expmacs.h>
 
 
 /* is the result of a procedure delivering

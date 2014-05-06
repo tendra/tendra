@@ -7,11 +7,11 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include "dw2_config.h"
+#include <local/dw2_config.h>
 
-#include "exptypes.h"
-#include "szs_als.h"
-#include "expmacs.h"
+#include <local/exptypes.h>
+#include <local/szs_als.h>
+#include <local/expmacs.h>
 
 #include <reader/basicread.h>
 

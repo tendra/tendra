@@ -32,7 +32,7 @@
 
 #include <refactor/refactor.h>
 
-#include "expmacs.h"
+#include <local/expmacs.h>
 
 /* intercepts specially defined tokens */
 

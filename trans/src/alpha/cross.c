@@ -22,7 +22,7 @@
 #include "cross.h"
 #include "main.h"
 #include "fail.h"
-#include "expmacs.h"
+#include <local/expmacs.h>
 
 #if BLDARCHBITS == 64
 

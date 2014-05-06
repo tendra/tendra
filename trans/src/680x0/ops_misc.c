@@ -20,8 +20,8 @@
 
 #include <refactor/refactor.h>
 
-#include "expmacs.h"
-#include "exptypes.h"
+#include <local/expmacs.h>
+#include <local/exptypes.h>
 #include "assembler.h"
 #include "mach.h"
 #include "mach_ins.h"
@@ -36,7 +36,7 @@
 #include "evaluate.h"
 #include "utility.h"
 #include "translate.h"
-#include "localflags.h"
+#include <local/localflags.h>
 #include "ops_shared.h"
 #include "special_exps.h"
 

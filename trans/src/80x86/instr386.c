@@ -19,7 +19,7 @@
 #include <shared/check.h>
 
 #ifdef NEWDWARF
-#include "dw2_config.h"
+#include <local/dw2_config.h>
 #endif
 
 #include <reader/basicread.h>
@@ -38,15 +38,15 @@
 
 #include <refactor/refactor.h>
 
-#include "expmacs.h"
+#include <local/expmacs.h>
 #include "coder.h"
-#include "out.h"
+#include <local/out.h>
 #include "reg_record.h"
-#include "codermacs.h"
-#include "localflags.h"
+#include <local/codermacs.h>
+#include <local/localflags.h>
 #include "overlap.h"
 #include "messages_8.h"
-#include "exptypes.h"
+#include <local/exptypes.h>
 #include "operand.h"
 #include "instr.h"
 #include "instr386.h"
@@ -59,7 +59,7 @@
 #ifdef NEWDWARF
 #include <dwarf2/dw2_basic.h>
 #include "dw2_extra.h"
-#include "diag_config.h"
+#include <local/diag_config.h>
 #endif
 
 

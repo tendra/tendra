@@ -11,10 +11,10 @@
 
 #include <shared/check.h>
 
-#include "diag_config.h"
+#include <local/diag_config.h>
 
 #ifdef NEWDWARF
-#include "dw2_config.h"
+#include <local/dw2_config.h>
 #endif
 
 #include <reader/basicread.h>
@@ -29,11 +29,11 @@
 #include <construct/flpt.h>
 #include <construct/f64.h>
 
-#include "exptypes.h"
+#include <local/exptypes.h>
 #include "addrtypes.h"
 #include "extra_tags.h"
-#include "expmacs.h"
-#include "exptypes.h"
+#include <local/expmacs.h>
+#include <local/exptypes.h>
 #include "maxminmacs.h"
 #include "proctypes.h"
 #include "eval.h"
@@ -56,11 +56,11 @@
 #include "special.h"
 #include "diag_out.h"
 #include "translat.h"
-#include "out.h"
+#include <local/out.h>
 #include "makecode.h"
-#include "szs_als.h"
+#include <local/szs_als.h>
 #include "new_tags.h"
-#include "localflags.h"
+#include <local/localflags.h>
 
 #ifdef NEWDIAGS
 #include <newdiag/dg_aux.h>

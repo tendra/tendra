@@ -19,8 +19,8 @@ For trivial 'peephole' optimisations
 #include <construct/tags.h>
 #include <construct/shapemacs.h>
 
-#include "exptypes.h"
-#include "expmacs.h"
+#include <local/exptypes.h>
+#include <local/expmacs.h>
 #include "addrtypes.h"
 #include "move.h"
 #include "bitsmacs.h"

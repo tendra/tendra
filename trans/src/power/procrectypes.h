@@ -13,7 +13,7 @@
 
 #include <construct/installtypes.h>
 
-#include "exptypes.h"
+#include <local/exptypes.h>
 
 #define wfixno		32
 #define wfloatno	32

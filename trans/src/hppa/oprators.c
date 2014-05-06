@@ -12,7 +12,7 @@
 #include <construct/flags.h>
 
 #include "codehere.h"
-#include "expmacs.h"
+#include <local/expmacs.h>
 #include "addrtypes.h"
 #include "inst_fmt.h"
 #include "move.h"
@@ -32,7 +32,7 @@
 #include <construct/install_fns.h>
 #include "regmacs.h"
 #include <construct/exp.h>
-#include "out.h"
+#include <local/out.h>
 #include "locate.h"
 #include "eval.h"
 #include "muldvrem.h"

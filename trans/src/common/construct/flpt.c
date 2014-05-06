@@ -20,7 +20,7 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
-#include "szs_als.h"
+#include <local/szs_als.h>
 
 #include <reader/basicread.h>
 

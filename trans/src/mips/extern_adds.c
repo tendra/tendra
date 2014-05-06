@@ -18,7 +18,7 @@
 
 #include "extern_adds.h"
 #include "procrectypes.h"
-#include "expmacs.h"
+#include <local/expmacs.h>
 #include "needs_scan.h"
 
 

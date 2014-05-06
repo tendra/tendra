@@ -21,10 +21,10 @@
 #ifndef addressingtkey
 #define addressingtkey 1
 
-#include "exptypes.h"
+#include <local/exptypes.h>
 #include "cross.h"
 #include <construct/installtypes.h>
-#include "localtypes.h"
+#include <local/localtypes.h>
 
 
 struct makeansst {

@@ -28,8 +28,8 @@ into the table of externals (or 0 meaning anonymous). XXX
 #include <construct/flags.h>
 
 #include "addrtypes.h"
-#include "expmacs.h"
-#include "exptypes.h"
+#include <local/expmacs.h>
+#include <local/exptypes.h>
 #include "maxminmacs.h"
 #include "syms.h"
 #include "out_ba.h"

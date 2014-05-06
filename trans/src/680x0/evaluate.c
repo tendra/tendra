@@ -26,9 +26,9 @@
 #include <construct/flags.h>
 
 #include "assembler.h"
-#include "expmacs.h"
+#include <local/expmacs.h>
 #include "instrs.h"
-#include "fbase.h"
+#include <local/fbase.h>
 #include "evaluate.h"
 #include "mach.h"
 #include "mach_ins.h"
@@ -36,7 +36,7 @@
 #include "codex.h"
 #include "translate.h"
 #include "utility.h"
-#include "localflags.h"
+#include <local/localflags.h>
 #include "68k_globals.h"
 
 #include "xdb_basics.h"

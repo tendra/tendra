@@ -9,6 +9,6 @@
 
 
 #include <construct/installtypes.h>
-#include "exptypes.h"
+#include <local/exptypes.h>
 
 extern bool is_denormal(exp);

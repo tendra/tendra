@@ -24,7 +24,7 @@
 
 #include <refactor/optimise.h>
 
-#include "exptypes.h"
+#include <local/exptypes.h>
 #include "memtdf.h"
 #include "codegen.h"
 #include "tempdecs.h"

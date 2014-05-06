@@ -9,7 +9,7 @@
 
 #include <construct/installtypes.h>
 
-#include "exptypes.h"
+#include <local/exptypes.h>
 
 extern bool tempdecopt;
 extern bool tempdec(exp e, bool enoughs);

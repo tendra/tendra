@@ -17,8 +17,8 @@
 
 #include <refactor/optimise.h>
 
-#include "exptypes.h"
-#include "expmacs.h"
+#include <local/exptypes.h>
+#include <local/expmacs.h>
 
 #define crit_inline 50
 #define decs_allowed 4

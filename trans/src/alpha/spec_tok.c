@@ -32,8 +32,8 @@
 
 #include <diag/diag_fns.h>
 
-#include "expmacs.h"
-#include "szs_als.h"
+#include <local/expmacs.h>
+#include <local/szs_als.h>
 #include "new_tags.h"
 
 /* intercepts specially defined tokens */

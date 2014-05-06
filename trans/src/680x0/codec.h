@@ -10,8 +10,8 @@
 #ifndef CODEC_INCLUDED
 #define CODEC_INCLUDED
 
-#include "exptypes.h"
-#include "localtypes.h"
+#include <local/exptypes.h>
+#include <local/localtypes.h>
 
 extern void codec(where, ash, exp);
 extern exp sim_exp(shape, where);

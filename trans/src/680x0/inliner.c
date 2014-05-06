@@ -19,8 +19,8 @@
 
 #include <refactor/optimise.h>
 
-#include "exptypes.h"
-#include "expmacs.h"
+#include <local/exptypes.h>
+#include <local/expmacs.h>
 
 static int complexity(exp e, int count, int newdecs);
 

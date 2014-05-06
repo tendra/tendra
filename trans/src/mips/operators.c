@@ -17,7 +17,7 @@
 #include <construct/shapemacs.h>
 
 #include "code_here.h"
-#include "expmacs.h"
+#include <local/expmacs.h>
 #include "addrtypes.h"
 #include "inst_fmt.h"
 #include "move.h"

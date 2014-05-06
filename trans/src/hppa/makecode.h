@@ -11,7 +11,7 @@
 #define MAKECODE_INCLUDED
 
 #include "proctypes.h"
-#include "exptypes.h"
+#include <local/exptypes.h>
 
 extern where nowhere;
 extern makeans make_code(exp, space, where, int);

@@ -12,7 +12,7 @@
 
 #include <stdio.h>
 
-#include "exptypes.h"
+#include <local/exptypes.h>
 
 #include <construct/installtypes.h>
 

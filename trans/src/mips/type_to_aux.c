@@ -38,7 +38,7 @@ If the entry generated is greater than 1 AUXU in length the index corresponding 
 #include <diag/diagtypes.h>
 #include <diag/diag_fns.h>
 
-#include "expmacs.h"
+#include <local/expmacs.h>
 #include "symtab.h"
 #include "new_symbol.h"
 #include "diag_out.h"

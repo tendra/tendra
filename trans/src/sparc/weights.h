@@ -12,7 +12,7 @@
 
 #include <construct/installtypes.h>
 
-#include "exptypes.h"
+#include <local/exptypes.h>
 #include "procrec.h"
 
 extern weights add_weights(weights *, weights *);

@@ -14,7 +14,7 @@
 #include <construct/shapemacs.h>
 #include <construct/tags.h>
 
-#include "expmacs.h"
+#include <local/expmacs.h>
 #include "float.h"
 
 #define is_negative(x)	(x.sign<0)

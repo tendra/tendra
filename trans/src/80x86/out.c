@@ -15,17 +15,17 @@
 #include <shared/check.h>
 
 #ifdef NEWDWARF
-#include "dw2_config.h"
+#include <local/dw2_config.h>
 #endif
 
 #include <reader/basicread.h>
 
 #include <construct/flags.h>
 
-#include "localflags.h"
+#include <local/localflags.h>
 #include "instr.h"
 #include "messages_8.h"
-#include "out.h"
+#include <local/out.h>
 
 static FILE *fpout;
 

@@ -22,7 +22,7 @@
 #include <construct/shapemacs.h>
 
 #include "addrtypes.h"
-#include "expmacs.h"
+#include <local/expmacs.h>
 #include "inst_fmt.h"
 #include "mips_ins.h"
 #include "bitsmacs.h"

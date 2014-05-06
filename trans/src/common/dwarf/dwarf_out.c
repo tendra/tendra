@@ -35,8 +35,8 @@
 #include <dwarf/dwarf_mc.h>
 #include <dwarf/dwarf_out.h>
 
-#include "out.h"
-#include "expmacs.h"
+#include <local/out.h>
+#include <local/expmacs.h>
 
 #ifdef NEWDIAGS
 #include <construct/tags.h>

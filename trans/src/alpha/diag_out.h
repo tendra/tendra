@@ -7,9 +7,9 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include "exptypes.h"
+#include <local/exptypes.h>
 
-#include "exptypes.h"
+#include <local/exptypes.h>
 #include <diag/diagtypes.h>
 extern int nofds;
 extern int *file_dnos;		/* dense nos for files */

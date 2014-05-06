@@ -11,8 +11,8 @@
 
 #include <shared/xalloc.h>
 
-#include "exptypes.h"
-#include "expmacs.h"
+#include <local/exptypes.h>
+#include <local/expmacs.h>
 
 #include <reader/externs.h>
 

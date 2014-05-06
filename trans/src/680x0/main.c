@@ -33,12 +33,12 @@
 #include "codex.h"
 #include "output.h"
 #include "peephole.h"
-#include "szs_als.h"
+#include <local/szs_als.h>
 #include "tests.h"
 #include "utility.h"
 #include "version.h"
 #include "where.h"
-#include "localflags.h"
+#include <local/localflags.h>
 #include "evaluate.h"
 #include "68k_globals.h"
 

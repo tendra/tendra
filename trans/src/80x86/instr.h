@@ -10,8 +10,8 @@
 #ifndef INSTR_H
 #define INSTR_H
 
-#include "exptypes.h"
-#include "localtypes.h"
+#include <local/exptypes.h>
+#include <local/localtypes.h>
 
 #include <construct/installtypes.h>
 

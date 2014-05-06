@@ -10,7 +10,7 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
-#include "dw2_config.h"
+#include <local/dw2_config.h>
 
 #include <reader/externs.h>
 #include <reader/basicread.h>
@@ -34,8 +34,8 @@
 
 #include <refactor/refactor.h>
 
-#include "expmacs.h"
-#include "szs_als.h"
+#include <local/expmacs.h>
+#include <local/szs_als.h>
 
 
 static void fail_unimplemented
