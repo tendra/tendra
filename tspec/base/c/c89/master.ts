@@ -5,8 +5,9 @@
 #
 # See doc/copyright/ for the full copyright terms.
 
-# This is ANSI C, as defined in X3.159 by X3J11.
+# This is ANSI C, as defined in X3.159 by X3J11,
 # developed by the the X3J11 Technical Committee.
+# X3.159 is commonly known as C89.
 
 $UNIQUE  = 1;
 $VERSION = "2.6";
