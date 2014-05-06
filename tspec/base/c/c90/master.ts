@@ -5,6 +5,11 @@
 #
 # See doc/copyright/ for the full copyright terms.
 
+# This is ISO C, as defined in ISO/IEC 9899:1990 and
+# commonly known as C90.
+#
+# C90 extends ANSI X3.159 C89, adding wint_t and friends.
+
 $UNIQUE  = 1;
 $VERSION = "2.6";
 +BASE_API;
