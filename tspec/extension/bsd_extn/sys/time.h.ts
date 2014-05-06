@@ -18,6 +18,6 @@
     } ;
 } ;
 
-+IFDEF ~protect ( "svid3", "sys/types.h.ts" )
-+USE ( "svid3" ), "sys/time.h.ts" ;
++IFDEF ~protect ( "svid/svid3", "sys/types.h.ts" )
++USE ( "svid/svid3" ), "sys/time.h.ts" ;
 +ENDIF

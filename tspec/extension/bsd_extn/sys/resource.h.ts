@@ -8,9 +8,9 @@
 
 +USE "bsd_extn", "sys/time.h.ts" ;
 
-+IFDEF ~protect ( "svid3", "sys/types.h.ts" )
++IFDEF ~protect ( "svid/svid3", "sys/types.h.ts" )
 
-+USE ( "svid3" ), "sys/resource.h.ts" ;
++USE ( "svid/svid3" ), "sys/resource.h.ts" ;
 
 +ELSE
 

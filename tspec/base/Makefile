@@ -16,7 +16,7 @@ APIS+=	posix2
 APIS+=	unix95
 APIS+=	xpg3
 APIS+=	xpg4
-APIS+=	svid3
+APIS+=	svid/svid3
 
 .include <tendra.tspec.mk>
 
