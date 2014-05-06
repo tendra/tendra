@@ -13,7 +13,6 @@ APIS+=	c/c90
 APIS+=	posix
 APIS+=	posix1
 APIS+=	posix2
-#APIS+=	posix3
 APIS+=	unix95
 APIS+=	xpg3
 APIS+=	xpg4
