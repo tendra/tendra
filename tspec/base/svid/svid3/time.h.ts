@@ -6,6 +6,6 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "xpg3", "time.h.ts" ;
++IMPLEMENT "cae/xpg3", "time.h.ts" ;
 +FUNC struct tm *getdate ( char * ) ;
 +EXP (extern) int getdate_err ;

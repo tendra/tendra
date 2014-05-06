@@ -8,5 +8,5 @@
 
 +USE "svid/svid3", "", "config" ;
 +IF %% __SYSV_KERNEL_EXTENSION %%
-+IMPLEMENT "xpg3", "sys/sem.h.ts" ;
++IMPLEMENT "cae/xpg3", "sys/sem.h.ts" ;
 +ENDIF

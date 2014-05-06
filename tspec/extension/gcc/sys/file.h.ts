@@ -6,4 +6,4 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+USE "xpg3", "fcntl.h.ts" ;
++USE "cae/xpg3", "fcntl.h.ts" ;

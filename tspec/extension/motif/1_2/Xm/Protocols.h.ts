@@ -9,7 +9,7 @@
 
 +USE "motif/1_2","Xm/Xm.h.ts";
 +USE "motif/1_2","Xm/AtomMgr.h.ts";
-+IMPLEMENT "xpg3", "sys/types.h.ts", "caddr_t";
++IMPLEMENT "cae/xpg3", "sys/types.h.ts", "caddr_t";
 
 
 +CONST Atom XmCR_WM_PROTOCOLS;

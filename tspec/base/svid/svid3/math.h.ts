@@ -7,7 +7,7 @@
 
 
 +USE "svid/svid3", "", "config" ;
-+IMPLEMENT "xpg3", "math.h.ts" ;
++IMPLEMENT "cae/xpg3", "math.h.ts" ;
 
 +FUNC double acosh ( double ) ;
 +FUNC double asinh ( double ) ;

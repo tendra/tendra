@@ -10,7 +10,7 @@
 +IF %% __SYSV_KERNEL_EXTENSION %%
 +USE "svid/svid3", "sys/types.h.ts" ;
 +USE "svid/svid3", "sys/ipc.h.ts" ;
-+IMPLEMENT "xpg3", "sys/shm.h.ts", "shm_proto" ;
++IMPLEMENT "cae/xpg3", "sys/shm.h.ts", "shm_proto" ;
 
 # These are different from xpg3
 +FUNC void *shmat ( int, void *, int ) ;

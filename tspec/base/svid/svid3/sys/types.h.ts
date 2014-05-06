@@ -7,8 +7,8 @@
 
 
 +USE "svid/svid3", "", "config" ;
-+IMPLEMENT "xpg3", "sys/types.h.ts", "caddr_t" ;
-+IMPLEMENT "xpg3", "sys/types.h.ts" ;
++IMPLEMENT "cae/xpg3", "sys/types.h.ts", "caddr_t" ;
++IMPLEMENT "cae/xpg3", "sys/types.h.ts" ;
 
 +TYPE ( signed ) ssize_t ;
 

@@ -6,8 +6,8 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "xpg3", "sys/stat.h.ts", "st_proto" ;
-+IMPLEMENT "xpg3", "sys/stat.h.ts", "s_isvtx" ;
++IMPLEMENT "cae/xpg3", "sys/stat.h.ts", "st_proto" ;
++IMPLEMENT "cae/xpg3", "sys/stat.h.ts", "s_isvtx" ;
 
 +FIELD struct stat {
     long st_blksize ;

@@ -6,5 +6,5 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+USE "xpg3", "sys/types.h.ts", "caddr_t" ;
-+USE "xpg3", "sys/types.h.ts" ;
++USE "cae/xpg3", "sys/types.h.ts", "caddr_t" ;
++USE "cae/xpg3", "sys/types.h.ts" ;

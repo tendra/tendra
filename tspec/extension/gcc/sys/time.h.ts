@@ -6,7 +6,7 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+USE "xpg3", "time.h.ts" ;
++USE "cae/xpg3", "time.h.ts" ;
 
 +SUBSET "timeval" := {
     # Duplicated in a number of places

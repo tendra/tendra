@@ -6,5 +6,5 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "xpg3", "fcntl.h.ts";
++IMPLEMENT "cae/xpg3", "fcntl.h.ts";
 +CONST int O_NDELAY ;

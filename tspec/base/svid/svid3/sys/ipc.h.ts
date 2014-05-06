@@ -9,6 +9,6 @@
 +USE "svid/svid3", "", "config" ;
 +IF %% __SYSV_KERNEL_EXTENSION %%
 +USE "svid/svid3", "sys/types.h.ts" ;
-+IMPLEMENT "xpg3", "sys/ipc.h.ts" ;
++IMPLEMENT "cae/xpg3", "sys/ipc.h.ts" ;
 +FUNC key_t ftok ( const char *, int ) ;
 +ENDIF

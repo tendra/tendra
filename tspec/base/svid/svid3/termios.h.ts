@@ -7,7 +7,7 @@
 
 
 +USE "svid/svid3", "sys/types.h.ts" ;
-+IMPLEMENT "xpg3", "termios.h.ts" ;
++IMPLEMENT "cae/xpg3", "termios.h.ts" ;
 +IMPLEMENT "posix", "unistd.h.ts", "tcpgrp" (!?) ;
 
 +FUNC pid_t tcgetsid ( int ) ;

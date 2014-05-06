@@ -7,4 +7,4 @@
 
 
 +USE ( "posix" ), "sys/types.h.ts" ;
-+IMPLEMENT "xpg3", "sys/types.h.ts", "caddr_t" ;
++IMPLEMENT "cae/xpg3", "sys/types.h.ts", "caddr_t" ;

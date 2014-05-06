@@ -6,7 +6,7 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "xpg3", "ftw.h.ts" ;
++IMPLEMENT "cae/xpg3", "ftw.h.ts" ;
 
 +CONST int FTW_PHYS, FTW_MOUNT, FTW_DEPTH, FTW_CHDIR ;
 +CONST int FTW_DP, FTW_SL ;

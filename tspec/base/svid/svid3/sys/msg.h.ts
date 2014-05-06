@@ -11,6 +11,6 @@
 
 +USE "svid/svid3", "sys/types.h.ts" ;
 +USE "svid/svid3", "sys/ipc.h.ts" ;
-+IMPLEMENT "xpg3", "sys/msg.h.ts";
++IMPLEMENT "cae/xpg3", "sys/msg.h.ts";
 
 +ENDIF

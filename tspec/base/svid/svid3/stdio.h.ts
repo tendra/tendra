@@ -6,6 +6,6 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "xpg3", "stdio.h.ts" ;
++IMPLEMENT "cae/xpg3", "stdio.h.ts" ;
 /* NAME_MAX is optional in limits.h */
 +CONST char *P_tmpdir ;
