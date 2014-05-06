@@ -20,12 +20,12 @@ APIS+=	cpp
 #APIS+=	x5/proto
 #APIS+=	x5/t
 
-APIS+=	cae_xa
-APIS+=	cae_xap
+APIS+=	cae/dtp-xa
+APIS+=	cae/acse-xap
+APIS+=	cae/xns5-socket
+APIS+=	cae/xns5-ar
 
-APIS+=	sus2_xsh
-APIS+=	sus2_xns_socket
-APIS+=	sus2_xns_ipaddr
+APIS+=	sus/xsh2
 
 .include <tendra.tspec.mk>
 

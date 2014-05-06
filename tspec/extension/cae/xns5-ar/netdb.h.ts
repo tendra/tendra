@@ -6,9 +6,8 @@
 
 +USE "c/c89", "stddef.h.ts", "size_t" (!?);
 
-+IMPLEMENT "sus2_xns_ipaddr", "netinet/in.h", "port_addr" (!?);
-
-+IMPLEMENT "sus2_xsh", "inttypes.h.ts"; # explicitly #include
++IMPLEMENT "cae/xns5-ar", "netinet/in.h", "port_addr" (!?);
++IMPLEMENT "sus/xsh2", "inttypes.h.ts"; # explicitly #include
 
 +FIELD struct hostent {
 	char *h_name;

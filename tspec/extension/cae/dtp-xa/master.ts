@@ -7,5 +7,5 @@
 $UNIQUE = 1;
 $VERSION = "2.8";
 
-+IMPLEMENT "cae_xa", "xa.h.ts";
++IMPLEMENT "cae/dtp-xa", "xa.h.ts";
 

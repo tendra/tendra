@@ -7,5 +7,5 @@
 $UNIQUE = 1;
 $VERSION = "2.8";
 
-+IMPLEMENT "cae_xap", "xap.h.ts";
++IMPLEMENT "cae/acse-xap", "xap.h.ts";
 

@@ -8,5 +8,5 @@ $UNIQUE = 1;
 $VERSION = "2.8";
 
 # TODO: WIP
-+IMPLEMENT "sus2_xsh", "inttypes.h.ts";
++IMPLEMENT "sus/xsh2", "inttypes.h.ts";
 

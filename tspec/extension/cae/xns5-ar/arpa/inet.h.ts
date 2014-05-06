@@ -4,11 +4,11 @@
 #
 # See doc/copyright/ for the full copyright terms.
 
-+IMPLEMENT "sus2_xns_ipaddr", "netinet/in.h.ts", "port_addr" (!?);
-+IMPLEMENT "sus2_xns_ipaddr", "netinet/in.h.ts", "in_addr"   (!?);
++IMPLEMENT "cae/xns5-ar", "netinet/in.h.ts", "port_addr" (!?);
++IMPLEMENT "cae/xns5-ar", "netinet/in.h.ts", "in_addr"   (!?);
 
 +SUBSET "endian" := {
-	+IMPLEMENT "sus2_xsh", "inttypes.h.ts"; # explicitly #include
+	+IMPLEMENT "sus/xsh2", "inttypes.h.ts"; # explicitly #include
 
 	+FUNC uint32_t htonl(uint32_t hostlong);
 	+FUNC uint16_t htons(uint16_t hostshort);

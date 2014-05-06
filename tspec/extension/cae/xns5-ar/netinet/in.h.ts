@@ -4,9 +4,8 @@
 #
 # See doc/copyright/ for the full copyright terms.
 
-+IMPLEMENT "sus2_xns_socket", "sys/socket.h.ts", "sa_family_t" (!?);
-
-+IMPLEMENT "sus2_xns_ipaddr", "arpa/inet.h.ts", "endian" (!?);
++IMPLEMENT "cae/xns5-socket", "sys/socket.h.ts", "sa_family_t" (!?);
++IMPLEMENT "cae/xns5-ar", "arpa/inet.h.ts", "endian" (!?);
 
 +SUBSET "port_addr" := {
 	+TYPE (unsigned) in_port_t; # exactly 16-bit only
