@@ -6,11 +6,11 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "posix", "errno.h.ts" ;
++IMPLEMENT "posix/posix", "errno.h.ts" ;
 
 +SUBSET "enums" := {
     +SUBSET "expg4" := {
-	+IMPLEMENT "posix", "errno.h.ts", "enums" ;
+	+IMPLEMENT "posix/posix", "errno.h.ts", "enums" ;
 	+CONST int EIDRM, ENOMSG, ETXTBSY ;
     } ;
     +CONST int ENOTBLK ;

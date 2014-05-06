@@ -6,7 +6,7 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "posix", "ctype.h.ts" ;
++IMPLEMENT "posix/posix", "ctype.h.ts" ;
 
 +FUNC int toascii ( int ) ;
 +FUNC int isascii ( int ) ;

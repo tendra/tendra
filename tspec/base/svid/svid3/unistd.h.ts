@@ -7,7 +7,7 @@
 
 
 # Main body from posix
-+IMPLEMENT "posix", "unistd.h.ts", "u_proto" ;
++IMPLEMENT "posix/posix", "unistd.h.ts", "u_proto" ;
 
 +SUBSET "u_old" := {
     # Different from posix

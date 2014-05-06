@@ -7,4 +7,4 @@
 
 
 $SOURCENAME = "sys/sys_wait.h.ts" ;
-+IMPLEMENT "posix", "sys/wait.h.ts" ;
++IMPLEMENT "posix/posix", "sys/wait.h.ts" ;

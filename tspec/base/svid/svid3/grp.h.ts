@@ -7,7 +7,7 @@
 
 
 +USE "svid/svid3", "sys/types.h.ts" (!?) ;
-+IMPLEMENT "posix", "grp.h.ts";
++IMPLEMENT "posix/posix", "grp.h.ts";
 
 /* Do these belong here? */
 +FUNC int initgroups ( const char *, gid_t ) ;

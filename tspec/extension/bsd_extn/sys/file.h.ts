@@ -6,4 +6,4 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+USE ( "posix" ), "fcntl.h.ts" ;
++USE ( "posix/posix" ), "fcntl.h.ts" ;

@@ -8,7 +8,7 @@
 
 # Corrigenda U013 1170/02: define timeval and pid_t
 +IMPLEMENT "cae/unix95", "sys/time.h.ts", "timeval" ;
-+IMPLEMENT "posix", "sys/types.h.ts", "pid_t" ;
++IMPLEMENT "posix/posix", "sys/types.h.ts", "pid_t" ;
 
 +NAT ~ut_user_size, ~ut_id_size, ~ut_line_size ;
 

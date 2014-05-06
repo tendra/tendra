@@ -6,4 +6,4 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "posix", "signal.h.ts" ;
++IMPLEMENT "posix/posix", "signal.h.ts" ;

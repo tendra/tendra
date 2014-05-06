@@ -18,10 +18,10 @@
 +CONST int F_ULOCK, F_LOCK, F_TLOCK, F_TEST ;
 
 +IMPLEMENT "c/c89", "stddef.h.ts", "size_t" ;
-+IMPLEMENT "posix1", "sys/types.h.ts", "ssize_t" ;
-+IMPLEMENT "posix", "sys/types.h.ts", "guid" ;
-+IMPLEMENT "posix", "sys/types.h.ts", "off_t" ;
-+IMPLEMENT "posix", "sys/types.h.ts", "pid_t" ;
++IMPLEMENT "posix/posix1", "sys/types.h.ts", "ssize_t" ;
++IMPLEMENT "posix/posix", "sys/types.h.ts", "guid" ;
++IMPLEMENT "posix/posix", "sys/types.h.ts", "off_t" ;
++IMPLEMENT "posix/posix", "sys/types.h.ts", "pid_t" ;
 +IMPLEMENT "cae/unix95", "sys/types.h.ts", "useconds_t" ;
 +IMPLEMENT "cae/xpg4", "stdio.h.ts", "optopt" ;
 

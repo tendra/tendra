@@ -9,7 +9,7 @@
 +USE "c/c89", "stddef.h.ts", "size_t" ;
 
 # Corrigenda U013 1170/02: define mode_t
-+IMPLEMENT "posix", "sys/types.h.ts", "mode_t" ;
++IMPLEMENT "posix/posix", "sys/types.h.ts", "mode_t" ;
 
 +FIELD ( struct ) datum {
     void *dptr ;

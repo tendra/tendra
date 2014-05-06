@@ -8,7 +8,7 @@
 
 +IMPLEMENT "c/c89", "stddef.h.ts", "size_t" ;
 +IMPLEMENT "c/c89", "time.h.ts", "time_t" ;
-+IMPLEMENT "posix", "sys/types.h.ts", "pid_t" ;
++IMPLEMENT "posix/posix", "sys/types.h.ts", "pid_t" ;
 
 # don't really need this
 +IMPLEMENT "cae/xpg3", "sys/types.h.ts", "key_t" ;

@@ -7,7 +7,7 @@
 
 
 +IMPLEMENT "c/c89", "stddef.h.ts", "size_t" ;
-+IMPLEMENT "posix", "sys/types.h.ts", "off_t" ;
++IMPLEMENT "posix/posix", "sys/types.h.ts", "off_t" ;
 
 +CONST int PROT_READ, PROT_WRITE, PROT_EXEC, PROT_NONE ;
 +CONST int MAP_SHARED, MAP_PRIVATE, MAP_FIXED ;

@@ -6,5 +6,5 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "posix2", "sys/stat.h.ts" ;
++IMPLEMENT "posix/posix2", "sys/stat.h.ts" ;
 +IMPLEMENT "cae/xpg3", "sys/stat.h.ts", "st_proto" ;

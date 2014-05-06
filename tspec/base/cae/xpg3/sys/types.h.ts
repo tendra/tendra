@@ -6,7 +6,7 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "posix", "sys/types.h.ts" ;
++IMPLEMENT "posix/posix", "sys/types.h.ts" ;
 +IMPLEMENT "c/c89", "time.h.ts", "clock_t" (!?) ;
 +IMPLEMENT "c/c89", "stddef.h.ts", "size_t" (!?) ;
 +IMPLEMENT "c/c89", "time.h.ts", "time_t" (!?) ;

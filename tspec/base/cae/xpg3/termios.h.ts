@@ -6,7 +6,7 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "posix", "termios.h.ts" ;
++IMPLEMENT "posix/posix", "termios.h.ts" ;
 
 +CONST int BSDLY, BS0, BS1, CRDLY, CR0, CR1, CR2, CR3, FFDLY, FF0, FF1 ;
 +CONST int IUCLC, IXANY, NLDLY, NL0, NL1, OFDEL, OFILL, OLCUC, ONLCR ;

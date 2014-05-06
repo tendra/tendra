@@ -6,9 +6,9 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "posix", "stdio.h.ts" ;
++IMPLEMENT "posix/posix", "stdio.h.ts" ;
 +IMPLEMENT "c/c89", "stdlib.h.ts", "system" ;
-+IMPLEMENT "posix", "unistd.h.ts", "getopt" ;
++IMPLEMENT "posix/posix", "unistd.h.ts", "getopt" ;
 
 +FUNC int getw ( FILE * ) ;
 +FUNC int putw ( int, FILE * ) ;

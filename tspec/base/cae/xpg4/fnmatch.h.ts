@@ -6,4 +6,4 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "posix2", "fnmatch.h.ts" ;
++IMPLEMENT "posix/posix2", "fnmatch.h.ts" ;

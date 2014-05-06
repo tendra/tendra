@@ -6,6 +6,6 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "posix", "time.h.ts" ;
++IMPLEMENT "posix/posix", "time.h.ts" ;
 +EXP (extern) int daylight ;
 +EXP (extern) long timezone ;

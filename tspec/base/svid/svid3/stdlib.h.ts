@@ -7,7 +7,7 @@
 
 
 +IMPLEMENT "c/c89", "stdlib.h.ts" ;
-+IMPLEMENT "posix", "unistd.h.ts", "getopt" (!?) ;
++IMPLEMENT "posix/posix", "unistd.h.ts", "getopt" (!?) ;
 +IMPLEMENT "cae/xpg3", "stdlib.h.ts", "putenv" ;
 +FUNC int getsubopt ( char **, char * [], char ** ) ;
 +FUNC char *mktemp ( char * ) ;

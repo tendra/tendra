@@ -27,8 +27,8 @@
 } ;
 
 +SUBSET "siginfo_t" := {
-    +USE "posix", "sys/types.h.ts" ;			# for uid_t
-    +IMPLEMENT "posix", "sys/types.h.ts", "pid_t" ;
+    +USE "posix/posix", "sys/types.h.ts" ;			# for uid_t
+    +IMPLEMENT "posix/posix", "sys/types.h.ts", "pid_t" ;
 
     +FIELD ( struct ) siginfo_t {
 	int si_signo ;

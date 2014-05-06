@@ -7,4 +7,4 @@
 
 
 +IMPLEMENT "cae/xpg3", "sys/types.h.ts" ;
-+IMPLEMENT "posix2", "sys/types.h.ts" ;
++IMPLEMENT "posix/posix2", "sys/types.h.ts" ;

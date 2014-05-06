@@ -7,7 +7,7 @@
 
 
 +USE "cae/xpg4", "sys/types.h.ts" (!?) ;
-+IMPLEMENT "posix2", "unistd.h.ts" ;
++IMPLEMENT "posix/posix2", "unistd.h.ts" ;
 +IMPLEMENT "cae/xpg3", "unistd.h.ts", "u_plus" ;
 
 +IFNDEF _XOPEN_VERSION

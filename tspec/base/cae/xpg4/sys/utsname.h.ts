@@ -6,4 +6,4 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "posix", "sys/utsname.h.ts" ;
++IMPLEMENT "posix/posix", "sys/utsname.h.ts" ;

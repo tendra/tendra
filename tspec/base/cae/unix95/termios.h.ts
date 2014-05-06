@@ -6,7 +6,7 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+USE "posix", "sys/types.h.ts", "pid_t" ;
++USE "posix/posix", "sys/types.h.ts", "pid_t" ;
 
 +TYPE ( unsigned ) cc_t, ( unsigned ) speed_t, ( unsigned ) tcflag_t ;
 

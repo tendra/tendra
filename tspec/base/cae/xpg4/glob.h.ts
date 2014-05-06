@@ -6,4 +6,4 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "posix2", "glob.h.ts" ;
++IMPLEMENT "posix/posix2", "glob.h.ts" ;

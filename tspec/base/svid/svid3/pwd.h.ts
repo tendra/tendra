@@ -6,7 +6,7 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "posix", "pwd.h.ts";
++IMPLEMENT "posix/posix", "pwd.h.ts";
 
 +FIELD struct passwd {
     char *pw_passwd ;

@@ -6,14 +6,14 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "posix", "unistd.h.ts" ;
++IMPLEMENT "posix/posix", "unistd.h.ts" ;
 
 +IFNDEF _XOPEN_VERSION
 +DEFINE _XOPEN_VERSION		3 ;
 +ENDIF
 
 +SUBSET "u_plus" := {
-    +IMPLEMENT "posix", "stdio.h.ts", "ctuid" (!?) ;
+    +IMPLEMENT "posix/posix", "stdio.h.ts", "ctuid" (!?) ;
 
     +CONST int _SC_PASS_MAX, _SC_XOPEN_VERSION ;
 

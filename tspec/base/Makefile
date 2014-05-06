@@ -10,13 +10,16 @@ TSPEC=	${OBJ_DIR}/src/tspec
 APIS+=	c/c89
 APIS+=	c/c89-fs
 APIS+=	c/c90
-APIS+=	posix
-APIS+=	posix1
-APIS+=	posix2
+
+APIS+=	svid/svid3
+
+APIS+=	posix/posix
+APIS+=	posix/posix1
+APIS+=	posix/posix2
+
 APIS+=	cae/unix95
 APIS+=	cae/xpg3
 APIS+=	cae/xpg4
-APIS+=	svid/svid3
 
 APIS+=	cae/acse-xap
 APIS+=	cae/dtp-xa

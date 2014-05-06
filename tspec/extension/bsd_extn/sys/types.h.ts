@@ -6,5 +6,5 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+USE ( "posix" ), "sys/types.h.ts" ;
++USE ( "posix/posix" ), "sys/types.h.ts" ;
 +IMPLEMENT "cae/xpg3", "sys/types.h.ts", "caddr_t" ;

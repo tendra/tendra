@@ -6,7 +6,7 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "posix", "sys/stat.h.ts" ;
++IMPLEMENT "posix/posix", "sys/stat.h.ts" ;
 
 +SUBSET "st_proto" := {
     +USE "cae/xpg3", "sys/types.h.ts" ;

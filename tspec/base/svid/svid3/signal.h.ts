@@ -6,7 +6,7 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "posix", "signal.h.ts" ;
++IMPLEMENT "posix/posix", "signal.h.ts" ;
 
 +CONST int SIGBUS, SIGEMT, SIGPOLL, SIGPWR, SIGSYS, SIGTRAP, SIGWINCH ;
 +CONST int SIGXCPU, SIGXFSZ ;

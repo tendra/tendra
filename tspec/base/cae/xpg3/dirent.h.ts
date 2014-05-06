@@ -6,8 +6,8 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "posix", "dirent.h.ts" ;
-+USE "posix", "sys/types.h.ts", "ino_t" ;
++IMPLEMENT "posix/posix", "dirent.h.ts" ;
++USE "posix/posix", "sys/types.h.ts", "ino_t" ;
 
 /* This type is abstracted */
 +IF %% __STRICT_XPG3 %%

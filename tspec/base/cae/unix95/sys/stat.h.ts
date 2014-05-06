@@ -6,7 +6,7 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "posix", "sys/types.h.ts", "stat_t" ;
++IMPLEMENT "posix/posix", "sys/types.h.ts", "stat_t" ;
 +IMPLEMENT "c/c89", "time.h.ts", "time_t" ;
 
 +SUBSET "st_proto" := {

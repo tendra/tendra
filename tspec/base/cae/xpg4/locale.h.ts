@@ -6,4 +6,4 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "posix2", "locale.h.ts" ;
++IMPLEMENT "posix/posix2", "locale.h.ts" ;

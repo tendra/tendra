@@ -6,7 +6,7 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "posix", "fcntl.h.ts" ;
++IMPLEMENT "posix/posix", "fcntl.h.ts" ;
 
 +SUBSET "o_sync" := {
     +USE "cae/xpg3", "sys/types.h.ts" (?!) ;

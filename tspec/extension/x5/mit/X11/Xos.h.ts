@@ -10,10 +10,10 @@
 
 +USE ( "c/c89" ), "time.h.ts" (!?) ;
 
-+IFDEF ~protect ( "posix", "time.h.ts" )
-+USE ( "posix" ), "sys/types.h.ts" (!?) ;
-+USE ( "posix" ), "fcntl.h.ts" (!?) ;
-+USE ( "posix" ), "unistd.h.ts" (!?) ;
++IFDEF ~protect ( "posix/posix", "time.h.ts" )
++USE ( "posix/posix" ), "sys/types.h.ts" (!?) ;
++USE ( "posix/posix" ), "fcntl.h.ts" (!?) ;
++USE ( "posix/posix" ), "unistd.h.ts" (!?) ;
 +ENDIF
 
 +IFNDEF __TDF_STRUCT_TIMEVAL

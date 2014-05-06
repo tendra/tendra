@@ -7,7 +7,7 @@
 
 
 +IMPLEMENT "cae/xpg3", "limits.h.ts", "values" ;
-+IMPLEMENT "posix2", "limits.h.ts" ;
++IMPLEMENT "posix/posix2", "limits.h.ts" ;
 
 /* TO BE WITHDRAWN */
 +IMPLEMENT "c/c89", "float.h.ts", "xpg4_ranges" (!?) ;

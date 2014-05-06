@@ -7,5 +7,5 @@
 
 
 +USE "cae/xpg4", "sys/types.h.ts" ;
-+IMPLEMENT "posix2", "fcntl.h.ts" ;
++IMPLEMENT "posix/posix2", "fcntl.h.ts" ;
 +IMPLEMENT "cae/xpg3", "fcntl.h.ts", "o_sync" ;

@@ -6,8 +6,8 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "posix", "sys/types.h.ts", "guid" ;
-+IMPLEMENT "posix", "sys/types.h.ts", "mode_t" ;
++IMPLEMENT "posix/posix", "sys/types.h.ts", "guid" ;
++IMPLEMENT "posix/posix", "sys/types.h.ts", "mode_t" ;
 +IMPLEMENT "cae/xpg3", "sys/types.h.ts", "key_t" ;
 
 +IMPLEMENT "cae/xpg4", "sys/ipc.h.ts" ;

@@ -9,7 +9,7 @@
 +IMPLEMENT "cae/xpg4", "sys/wait.h.ts" ;
 +IMPLEMENT "cae/unix95", "sys/types.h.ts", "id_t" ;
 +IMPLEMENT "cae/unix95", "signal.h.ts", "siginfo_t" ;
-+IMPLEMENT "posix", "sys/types.h.ts", "pid_t" ;
++IMPLEMENT "posix/posix", "sys/types.h.ts", "pid_t" ;
 +IMPLEMENT "cae/unix95", "sys/resource.h.ts", "rusage" ;
 
 +ENUM idtype_t := { P_ALL, P_PID, P_PGID } ;

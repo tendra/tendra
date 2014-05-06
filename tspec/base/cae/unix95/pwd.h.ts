@@ -8,7 +8,7 @@
 
 +IMPLEMENT "cae/xpg4", "pwd.h.ts" ;
 
-+IMPLEMENT "posix", "sys/types.h.ts", "guid" ;
++IMPLEMENT "posix/posix", "sys/types.h.ts", "guid" ;
 
 +FUNC void endpwent ( void ) ;
 +FUNC struct passwd *getpwent ( void ) ;

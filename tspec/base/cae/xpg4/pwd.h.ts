@@ -6,4 +6,4 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "posix2", "pwd.h.ts" ;
++IMPLEMENT "posix/posix2", "pwd.h.ts" ;

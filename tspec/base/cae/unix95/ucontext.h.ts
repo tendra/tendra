@@ -10,7 +10,7 @@
     # for unix95:signal.h
     +USE "cae/unix95", "sys/types.h.ts" ;
 
-    +IMPLEMENT "posix", "signal.h.ts", "sigset_t" ;
+    +IMPLEMENT "posix/posix", "signal.h.ts", "sigset_t" ;
 
     +TYPE mcontext_t ;
 

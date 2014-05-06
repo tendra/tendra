@@ -7,7 +7,7 @@
 
 
 +SUBSET "values" := {
-    +IMPLEMENT "posix", "limits.h.ts" ;
+    +IMPLEMENT "posix/posix", "limits.h.ts" ;
     +IMPLEMENT "c/c89", "stdio.h.ts", "tmp_max" (!?) ;
 
     +CONST int LONG_BIT, NL_ARGMAX, NL_LANGMAX, NL_MSGMAX, NL_NMAX ;

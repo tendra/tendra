@@ -7,7 +7,7 @@
 
 
 # Corrigenda U013 1170/02: define uid_t and gid_t
-+IMPLEMENT "posix", "sys/types.h.ts", "guid" ;
++IMPLEMENT "posix/posix", "sys/types.h.ts", "guid" ;
 
 +CONST int I_PUSH, I_POP, I_LOOK, I_FLUSH, I_FLUSHBAND, I_SETSIG ;
 +CONST int I_GETSIG, I_FIND, I_PEEK, I_SRDOPT, I_GRDOPT, I_NREAD ;
