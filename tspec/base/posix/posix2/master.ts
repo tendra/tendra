@@ -5,6 +5,18 @@
 #
 # See doc/copyright/ for the full copyright terms.
 
+# This is ISO/IEC 9945-2:1993, which is a ratification of
+# IEEE 1003.2-1992 (aka POSIX.2 in its 1992 revision).
+# As far as I know the texts are identical.
+#
+# But this doesn't make sense, because IEEE 1003.2-1992 (and therefore
+# I presume also ISO/IEC 9945-2:1993) only defines the Shell and Utilities,
+# not C headers.
+# Though ISO/IEC 9945-2:1993 does apparently specify regexps, which is what
+# we have here.
+#
+# TODO: is this really ISO/IEC 9945-2:1993 ? I can't imagine the DRA would
+# have mis-claimed that.
 
 $UNIQUE = 1 ;
 $VERSION = "2.6" ;

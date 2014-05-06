@@ -5,6 +5,7 @@
 #
 # See doc/copyright/ for the full copyright terms.
 
+# This is IEEE Std 1003.1-1988, or "POSIX" for short.
 
 $UNIQUE = 1 ;
 $VERSION = "2.6" ;

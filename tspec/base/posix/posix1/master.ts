@@ -5,6 +5,12 @@
 #
 # See doc/copyright/ for the full copyright terms.
 
+# This is ISO/IEC 9945-1:1990, which is a ratification of
+# IEEE POSIX 1003.1-1990 (aka POSIX.1 in its 1990 revision).
+# As far as I know the texts are identical.
+#
+# Entitled "Portable Operating System Interface (POSIX) -- Part 1:
+# System Application Program Interface (API)"
 
 $UNIQUE = 1 ;
 $VERSION = "2.6" ;
