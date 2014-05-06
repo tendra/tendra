@@ -5,7 +5,7 @@
 
 /* for off_t et al */
 #if defined(_OPENBSD5_1)
-#if defined(__BUILDING_TDF_XNS5_SOCKET_SYS_SOCKET_H_SA_FAMILY_T)
+#if defined(__BUILDING_TDF_XNS5_AR_SYS_SOCKET_H_SA_FAMILY_T)
 #include <sys/types.h>
 #endif
 #endif
