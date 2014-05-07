@@ -270,9 +270,9 @@ static void addsub_const_3_args
 		set_cond(dest, sz);
 		return;
 	    }
-	    if (whi == Areg && (  name(dest.wh_exp) == apply_tag
-                                 || name(dest.wh_exp) == apply_general_tag
-                                 || name(dest.wh_exp) == tail_call_tag)) {
+	    if (whi == Areg && (name(dest.wh_exp) == apply_tag
+                         || name(dest.wh_exp) == apply_general_tag
+                         || name(dest.wh_exp) == tail_call_tag)) {
 		load_ea(sha, c, inc, dest, 1);
 		return;
 	    }
@@ -712,7 +712,7 @@ static void mult_power2
 	(a)  If first_time is true, then q will be zero and r2 will hold
 	     the same value as r1.  r1 is multiplied by P - 1.
 
-	(b)  Otherwise, r1 is set equal to ( P * Q * r1 + ( P - 1 ) * r2 ).
+	(b)  Otherwise, r1 is set equal to (P * Q * r1 + (P - 1) * r2).
 
     The flag D1_used is passed onto mult_power2 if necessary.
 */
@@ -743,20 +743,20 @@ static void mult_utility
 	switch (p) {
 
 	    case 0: {
-		/* P = 1 => r1 = ( Q * r1 ) */
+		/* P = 1 => r1 = (Q * r1) */
 		mult_power2(q, r1, D1_used);
 		return;
 	    }
 
 	    case 1: {
-		/* P = 2 => r1 = ( 2 * Q * r1 + r2 ) */
+		/* P = 2 => r1 = (2 * Q * r1 + r2) */
 		mult_power2(q + 1, r1, D1_used);
 		ins2(m_addl, 32L, 32L, r2, r1, 1);
 		return;
 	    }
 
 	    case 2: {
-		/* P = 4 => r1 = ( 4 * Q * r1 + 3 * r2 ) */
+		/* P = 4 => r1 = (4 * Q * r1 + 3 * r2) */
 		mult_power2(q + 1, r1, D1_used);
 		ins2(m_addl, 32L, 32L, r2, r1, 1);
 		ins2(m_addl, 32L, 32L, r1, r1, 1);
@@ -1223,11 +1223,11 @@ static bool rem_power2_1
     in rem.  Which of the two possible division types used is determined
     by form : for example, if form is 1 then :
 
-		    5 = ( -2 ) * ( -3 ) - 1
+		    5 = (-2) * (-3) - 1
 
     whereas if form is 2 :
 
-		    5 = ( -1 ) * ( -3 ) + 2
+		    5 = (-1) * (-3) + 2
 
     The second form is the standard one.
 */

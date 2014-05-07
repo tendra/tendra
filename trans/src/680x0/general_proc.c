@@ -431,7 +431,7 @@ void cleanup_bt
       op2 = make_register(REG_SP);
       make_instr(m_addl, op1, op2, regmsk(REG_SP));
 
-      op1 = make_value ( 8 ) ;  /* size of callers pointer & ret.addr. */
+      op1 = make_value(8);  /* size of callers pointer & ret.addr. */
       op2 = make_register(REG_SP);
       make_instr(m_addl, op1, op2, regmsk(REG_SP));
    }
@@ -483,7 +483,7 @@ void cleanup
          op2 = make_register(REG_SP);
          make_instr(m_addl, op1, op2, regmsk(REG_SP));
 
-         op1 = make_value ( 4 ) ; /* size of callers pointer */
+         op1 = make_value(4); /* size of callers pointer */
          op2 = make_register(REG_SP);
          make_instr(m_addl, op1, op2, regmsk(REG_SP));
       }
@@ -1368,7 +1368,7 @@ void general_epilogue
       m = smsk & dreg_msk ;     /* m = set of D'regs */
       if (m) {
          /* Replace a used D-register by D1 */
-         r = reg ( m ) ;        /* get the first free register number in the set */
+         r = reg(m);        /* get the first free register number in the set */
          reg_names[r] = reg_names[REG_D1];
          rmsk &= ~regmsk(r);
          smsk &= ~regmsk(r);
@@ -1474,7 +1474,7 @@ void general_epilogue
    /* Calculate the offset between procedure args and sp */
    ldisp = (uses_link ? st + 4 : st);
 
-   /* Calculate env_size ( ldisp + sizeof(return address) + sizeof(params) )*/
+   /* Calculate env_size(ldisp + sizeof(return address) + sizeof(params))*/
    cur_proc_env_size = ldisp + 4 + (cur_proc_callers_size + cur_proc_callees_size) /8;
 #if 0
    if (has_checkstack)
@@ -1669,7 +1669,7 @@ void fix_addptr
       exchange application pointer with callers pointer:
 
       addptr(pointer, offset) --> addptr(pointer2, offset)
-      where pointer2 = reff(addptr( pointer, cont( reff( pointer, 8*8) ) ), 12*8)
+      where pointer2 = reff(addptr(pointer, cont(reff(pointer, 8*8))), 12*8)
 
 
                          addptr
@@ -1754,7 +1754,7 @@ void make_transformations
 }
 /************************************************************************
   Make a label with:
-  value: env_size ( proc )
+  value: env_size(proc)
   name:  L<value of procedure declaration pointer)
   ************************************************************************/
 

@@ -143,8 +143,8 @@ typedef struct tag_mach_ins {
     or an A-register.
 */
 
-#define  is_dreg( X )	( ( X ) < REG_A0 )
-#define  is_areg( X )	( ( X ) >= REG_A0 && ( X ) < REG_FP0 )
+#define  is_dreg(X)	((X) < REG_A0)
+#define  is_areg(X)	((X) >= REG_A0 && (X) < REG_FP0)
 
 
 /*
@@ -155,8 +155,8 @@ typedef struct tag_mach_ins {
     corresponding register mask.
 */
 
-#define  reg( X )	bit_one ( X )
-#define  regmsk( X )	( ( ( bitpattern ) 1 ) << ( X ) )
+#define  reg(X)	bit_one(X)
+#define  regmsk(X)	(((bitpattern) 1) << (X))
 
 
 /*
@@ -168,11 +168,11 @@ typedef struct tag_mach_ins {
     extracts all the F-registers.
 */
 
-#define  dreg_msk	( ( bitpattern ) 0x000000ff )
-#define  areg_msk	( ( bitpattern ) 0x0000ff00 )
-#define  save_msk	( ( bitpattern ) 0xfffc3cfc )
-#define  regs( X )	( ( X ) & ( ( bitpattern ) 0xffff ) )
-#define  fregs( X )	( ( X ) & ( ( bitpattern ) 0xff0000 ) )
+#define  dreg_msk	((bitpattern) 0x000000ff)
+#define  areg_msk	((bitpattern) 0x0000ff00)
+#define  save_msk	((bitpattern) 0xfffc3cfc)
+#define  regs(X)	((X) & ((bitpattern) 0xffff))
+#define  fregs(X)	((X) & ((bitpattern) 0xff0000))
 
 
 /*
@@ -232,7 +232,7 @@ typedef struct tag_mach_ins {
     For example, the register indirect operand 4(%a0) is represented
     by the machine operand a given by :
 
-	    a = { MACH_CONT, regmsk ( REG_A0 ), NULL, &b }
+	    a = { MACH_CONT, regmsk (REG_A0), NULL, &b }
 	    b = { MACH_REG, REG_A0, &c, NULL }
 	    c = { MACH_VAL, 4, NULL, NULL }
 */

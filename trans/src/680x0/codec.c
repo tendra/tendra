@@ -244,11 +244,11 @@ logop(void(*op)(shape, where, where, where), exp e, where dest, ash stack)
 
 	/*
 	 * Deal with the case where all the arguments are operands. This does:
-	 * D1 = op ( arg1, arg2 )
-	 * D1 = op ( arg3, D1 )
-	 * D1 = op ( arg4, D1 )
+	 * D1 = op(arg1, arg2)
+	 * D1 = op(arg3, D1)
+	 * D1 = op(arg4, D1)
 	 * ....................
-	 * dest = op ( argn, D1 )
+	 * dest = op (argn, D1)
 	 */
 
 	if (t == nilexp) {
@@ -275,10 +275,10 @@ logop(void(*op)(shape, where, where, where), exp e, where dest, ash stack)
 	 * Deal with the case where one argument, say arg2, is a non-operand.
 	 * This does:
 	 * D1 = arg2
-	 * D1 = op ( arg1, D1 )
-	 * D1 = op ( arg3, D1 )
+	 * D1 = op(arg1, D1)
+	 * D1 = op(arg3, D1)
 	 * ....................
-	 * dest = op ( argn, D1 )
+	 * dest = op(argn, D1)
 	 */
 
 	coder(w, stack, t);
@@ -308,7 +308,7 @@ logop(void(*op)(shape, where, where, where), exp e, where dest, ash stack)
   PROCESS ADD AND SUBTRACT
 
   This routine processes the binary operation add.  It does dest = b + a.
-  The second argument, a, may be of the form neg ( a1 ), in which case
+  The second argument, a, may be of the form neg(a1), in which case
   we use sub.
 */
 
@@ -864,10 +864,10 @@ codec(where dest, ash stack, exp e)
 
 		/*
 Note: in the following offset operations I have put the
-shape as slongsh rather than sh ( e ).  This is because
+shape as slongsh rather than sh(e).  This is because
 the system stddef.h wrongly says that ptrdiff_t is unsigned
 and I don't trust people to put it right when making up
-TDF libraries.  If this was right sh ( e ) would be slongsh.
+TDF libraries.  If this was right sh(e) would be slongsh.
 		 */
 
 	case offset_add_tag:
@@ -986,7 +986,7 @@ TDF libraries.  If this was right sh ( e ) would be slongsh.
 			/* If e is not an operand, code e into a register */
 			exp s;
 			where w;
-			if ( name(e) == apply_tag
+			if (name(e) == apply_tag
 			     || name(e) == apply_general_tag
 			     || name(e) == tail_call_tag) {
 				s = sim_exp(sh(e), D0);

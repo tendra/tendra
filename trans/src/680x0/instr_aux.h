@@ -677,7 +677,7 @@
 
 #ifdef OPPOSITE_JUMPS
 
-static int oppo_jump_table [] = {
+static int oppo_jump_table[] = {
     m_bcs,
     m_bcc,
     m_bne,
@@ -704,7 +704,7 @@ static int oppo_jump_table [] = {
     m_dont_know
 } ;
 
-#define  oppo_jump( X )		( oppo_jump_table [ ( X ) - m_bcc ] )
+#define  oppo_jump(X)		(oppo_jump_table[(X) - m_bcc])
 
 #undef OPPOSITE_JUMPS
 #endif

@@ -499,7 +499,7 @@ is_indable(exp e)
 
 #ifndef tdf3
 /*
-    MAKES son ( e ) INDIRECTLY ADDRESSABLE
+    MAKES son(e) INDIRECTLY ADDRESSABLE
 */
 static void
 indable_son(bool sto, exp to, exp e)

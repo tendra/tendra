@@ -238,7 +238,7 @@ callins(long longs, exp fn)
 
 	/* Let's see if we have the procedure at compilation time */
 	if (name(fn) == name_tag && ! isvar(s) && isglob(s)) {
-		exp def = son ( s ) ; /* Definition of Identify construct */
+		exp def = son (s) ; /* Definition of Identify construct */
 		if (!def || name(def) == proc_tag ||
 		    name(def) == general_proc_tag) {
 			simple_proc = 1;

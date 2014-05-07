@@ -730,7 +730,7 @@ reset_stack_pointer(void)
 	make_instr(m_lea, op1, op2, regmsk(REG_SP));
 
 #if 0
-	/* gas misinterpret lea a6@( <label> ) if <label> isn't declared ?? */
+	/* gas misinterpret lea a6@(<label>) if <label> isn't declared ?? */
 	op1 = make_indirect(REG_AP, 0);
 	op2 = new_mach_op();
 	op1->of->plus = op2;

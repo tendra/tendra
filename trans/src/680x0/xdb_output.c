@@ -536,7 +536,7 @@ void diag_proc_main
 
     /* Step over actual procedure arguments */
     a = son(e);
-    while ( name ( a ) == ident_tag /* && isparam ( a ) */ ) {
+    while (name(a) == ident_tag /* && isparam(a) */ ) {
 	a = bro(son(a));
     }
 

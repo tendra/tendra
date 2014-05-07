@@ -562,8 +562,8 @@ void init_wheres
 /*
     ARE TWO WHERE'S EQUAL?
 
-    This is actually an auxiliary routine.  eq_where ( a, b ) is a macro
-    defined to be eq_where_a ( a, b, 1 ).  It returns 1 if the where's
+    This is actually an auxiliary routine.  eq_where(a, b) is a macro
+    defined to be eq_where_a(a, b, 1).  It returns 1 if the where's
     a and b are equal, but 0 otherwise.
 */
 

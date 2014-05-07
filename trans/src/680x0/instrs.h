@@ -16,7 +16,7 @@
 #define INSTRUCTIONS_INCLUDED
 
 #define  LPREFIX		'L'
-#define  is_local( X )		( *( X ) == LPREFIX )
+#define  is_local(X)		(*(X) == LPREFIX)
 
 #define  m_label_ins		0
 #define  m_extern_ins		1
@@ -363,13 +363,13 @@
 #define  ml_subx		m_subxb, m_subxw, m_subxl
 #define  ml_tst			m_tstb, m_tstw, m_tstl
 
-#define  is_jump( X )		( ( X ) >= m_bcc && ( X ) <= m_fbnltl )
-#define  is_unsized( X )	( ( X ) < m_bccb )
-#define  byte_jump		( m_bccb - m_bcc )
-#define  word_jump		( m_bccw - m_bcc )
-#define  long_jump		( m_bccl - m_bcc )
-#define  bra2trap( X )          ( X + ( m_trapcc - m_bcc ) )
-#define  is_simple( X )		( ( X ) < m_dd_normal )
+#define  is_jump(X)		((X) >= m_bcc && (X) <= m_fbnltl)
+#define  is_unsized(X)	((X) < m_bccb)
+#define  byte_jump		(m_bccb - m_bcc)
+#define  word_jump		(m_bccw - m_bcc)
+#define  long_jump		(m_bccl - m_bcc)
+#define  bra2trap(X)          (X + (m_trapcc - m_bcc))
+#define  is_simple(X)		((X) < m_dd_normal)
 
 #endif
 

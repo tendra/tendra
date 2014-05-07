@@ -449,7 +449,7 @@ static weights weightsv
 	case test_tag: {
 	    weights twl;
 	    twl = add_wlist(son(e), el);
-	    /* scale = scale * ( ( ( float ) 1.0 ) - fno ( e ) ) ; */
+	    /* scale = scale * (((float) 1.0) - fno(e)); */
 	    return twl;
 	}
 

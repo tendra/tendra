@@ -161,8 +161,8 @@ andetc_const(int instr, shape sha, long sz, long c, where a, where dest,
     AUXILLARY ROUTINE FOR AND/OR/XOR
 
     The values a1 and a2 of shape sha have the logical operation indicated
-    by logop applied to them and the result is stored in dest.  ( opb,
-    opw, opl ) is an ordered triple giving the byte, word and long forms of
+    by logop applied to them and the result is stored in dest.  (opb,
+    opw, opl) is an ordered triple giving the byte, word and long forms of
     the appropriate machine instruction.
 */
 
