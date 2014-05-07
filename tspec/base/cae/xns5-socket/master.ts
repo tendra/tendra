@@ -7,6 +7,10 @@
 $UNIQUE = 1;
 $VERSION = "2.8";
 
-# TODO: WIP
 +IMPLEMENT "cae/xns5-socket", "sys/socket.h.ts";
++IMPLEMENT "cae/xns5-socket", "sys/stat.h.ts";
++IMPLEMENT "cae/xns5-socket", "sys/uio.h.ts";
++IMPLEMENT "cae/xns5-socket", "sys/un.h.ts";
+
++IMPLEMENT "cae/xns5-socket", "fcntl.h.ts";
 
