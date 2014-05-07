@@ -7,7 +7,7 @@
 +USE "c/c89", "stddef.h.ts", "size_t" (!?);
 
 +IMPLEMENT "cae/xns5-ar", "netinet/in.h", "port_addr" (!?);
-+IMPLEMENT "cae/xsh2", "inttypes.h.ts"; # explicitly #include
++USE "cae/xsh2", "inttypes.h.ts";
 
 +FIELD struct hostent {
 	char *h_name;
@@ -40,10 +40,7 @@
 +CONST unsigned IPPORT_RESERVED;
 
 +EXP (extern) int h_errno;
-+CONST int HOST_NOT_FOUND;
-+CONST int NO_DATA;
-+CONST int NO_RECOVERY;
-+CONST int TRY_AGAIN;
++CONST int HOST_NOT_FOUND, NO_DATA, NO_RECOVERY, TRY_AGAIN;
 
 +FUNC void             endhostent(void);
 +FUNC void             endnetent(void);
