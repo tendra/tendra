@@ -24,12 +24,11 @@ APIS+=	posix
 
 #APIS+= sus/xsh2
 
-APIS+= xns5-socket
-
 # This OS makes no attempt to provide conformance for these APIs
 #APIS+= acse-xap
 #APIS+= dtp-xa
 #APIS+= xns5-ar
+#APIS+= xns5-socket
 
 .include <tendra.api.mk>
 
