@@ -9,14 +9,12 @@
 # IEEE 1003.2-1992 (aka POSIX.2 in its 1992 revision).
 # As far as I know the texts are identical.
 #
-# But this doesn't make sense, because IEEE 1003.2-1992 (and therefore
-# I presume also ISO/IEC 9945-2:1993) only defines the Shell and Utilities,
-# not C headers.
-# Though ISO/IEC 9945-2:1993 does apparently specify regexps, which is what
-# we have here.
+# ISO/IEC 9945-2:1993 defines the "Shell and Utilities", but also
+# C headers in Appendix B. It is this appendix which is specified here.
 #
-# TODO: is this really ISO/IEC 9945-2:1993 ? I can't imagine the DRA would
-# have mis-claimed that.
+# These headers expose functionality (such as globbing) which the
+# shell uses, and is made available by a C interface for consistency
+# of other programs to use.
 
 $UNIQUE = 1 ;
 $VERSION = "2.6" ;
