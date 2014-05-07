@@ -11,6 +11,9 @@
 
 #include <shared/check.h>
 
+#include <local/expmacs.h>
+#include <local/szs_als.h>
+
 #include <reader/codetypes.h>
 #include <reader/basicread.h>
 #include <reader/spec_tok.h>
@@ -32,8 +35,6 @@
 
 #include <diag/diag_fns.h>
 
-#include <local/expmacs.h>
-#include <local/szs_als.h>
 #include "new_tags.h"
 
 /* intercepts specially defined tokens */

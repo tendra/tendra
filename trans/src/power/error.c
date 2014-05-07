@@ -12,13 +12,15 @@
 
 #include <shared/error.h>
 
+#include <local/exptypes.h>
+#include <local/localflags.h>
+
 #include <reader/codetypes.h>
 #include <reader/externs.h>
 
 #include <construct/flpttypes.h>
 #include <construct/me_fns.h>
 
-#include <local/exptypes.h>
 #include "memtdf.h"
 #include "codegen.h"
 #include "comment.h"
@@ -27,7 +29,6 @@
 #include "stack.h"
 #include "instruct.h"
 #include "error.h"
-#include <local/localflags.h>
 
 /* Labels to call the error handler */
 /* NOTE there are three one for each ERROR_CODE */

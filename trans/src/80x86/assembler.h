@@ -10,10 +10,10 @@
 #ifndef ASSEMBLER_H
 #define ASSEMBLER_H
 
-#include <construct/flags.h>
-
 #include <local/exptypes.h>
 #include <local/localtypes.h>
+
+#include <construct/flags.h>
 
 void outbyte(void);
 void outshort(void);

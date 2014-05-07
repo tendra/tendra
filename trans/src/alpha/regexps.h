@@ -7,9 +7,10 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <local/exptypes.h>
+
 #include <construct/installtypes.h>
 
-#include <local/exptypes.h>
 #include "addresstypes.h"
 
 struct regpeept {

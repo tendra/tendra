@@ -18,6 +18,10 @@
 
 #include <string.h>
 
+#include <local/exptypes.h>
+#include <local/expmacs.h>
+#include <local/localflags.h>
+
 #include <reader/externs.h>
 #include <reader/basicread.h>
 #include <reader/table_fns.h>
@@ -29,10 +33,6 @@
 #include <construct/installglob.h>
 #include <construct/me_fns.h>
 #include <construct/spec.h>
-
-#include <local/exptypes.h>
-#include <local/expmacs.h>
-#include <local/localflags.h>
 
 
 /* PROCEDURES */

@@ -24,6 +24,9 @@ around the syms modules provided in the system library.
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
+#include <local/exptypes.h>
+#include <local/expmacs.h>
+
 #include "cross_config.h"
 
 #ifndef CROSS_INCLUDE
@@ -45,8 +48,6 @@ around the syms modules provided in the system library.
 #include <diag/mark_scope.h>
 
 #include "symtab.h"
-#include <local/exptypes.h>
-#include <local/expmacs.h>
 #include "procrectypes.h"
 #include "bitsmacs.h"
 #include "ibinasm.h"

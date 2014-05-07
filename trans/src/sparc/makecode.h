@@ -10,9 +10,11 @@
 #ifndef MAKECODE_INCLUDED
 #define MAKECODE_INCLUDED
 
-#include <construct/installtypes.h>
-#include "proctypes.h"
 #include <local/exptypes.h>
+
+#include <construct/installtypes.h>
+
+#include "proctypes.h"
 
 extern where nowhere;
 extern bool last_param(exp);

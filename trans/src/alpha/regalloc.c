@@ -21,9 +21,10 @@
 
 #include <stddef.h>
 
+#include <local/expmacs.h>
+
 #include <construct/tags.h>
 
-#include <local/expmacs.h>
 #include "procrectypes.h"
 #include "procrecs.h"
 #include "bitsmacs.h"

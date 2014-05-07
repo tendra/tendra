@@ -22,6 +22,9 @@ understood by the assembler.
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
+#include <local/out.h>
+#include <local/expmacs.h>
+
 #include <construct/tags.h>
 #include <construct/flags.h>
 
@@ -35,11 +38,9 @@ understood by the assembler.
 #include "comment.h"
 #include "translat.h"
 #include "inst_fmt.h"
-#include <local/out.h>
 #include "misc.h"
 #include "frames.h"
 #include "new_tags.h"
-#include <local/expmacs.h>
 #include "eval.h"
 
 #define name( x ) ( ( x )->namef )

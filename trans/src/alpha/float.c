@@ -9,12 +9,13 @@
 
 #include <shared/xalloc.h>
 
+#include <local/expmacs.h>
+
 #include <construct/flpttypes.h>
 #include <construct/flpt.h>
 #include <construct/shapemacs.h>
 #include <construct/tags.h>
 
-#include <local/expmacs.h>
 #include "float.h"
 
 #define is_negative(x)	(x.sign<0)

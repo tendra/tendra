@@ -11,6 +11,10 @@
 
 #include <shared/check.h>
 
+#include <local/codermacs.h>
+#include <local/expmacs.h>
+#include <local/out.h>
+
 #include <reader/basicread.h>
 
 #include <construct/machine.h>
@@ -24,10 +28,6 @@
 #include <dwarf/dwarf_type.h>
 #include <dwarf/dwarf_out.h>
 #include <dwarf/dwarf_mc.h>
-
-#include <local/codermacs.h>
-#include <local/expmacs.h>
-#include <local/out.h>
 
 #ifdef CROSS_INCLUDE
 #include CROSS_INCLUDE/dwarf.h>

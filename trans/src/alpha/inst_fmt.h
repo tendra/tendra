@@ -13,13 +13,17 @@
 */
 #ifndef INSTFMTDECS_H
 #define INSTFMTDECS_H
+
+#include <local/exptypes.h>
+
+#include <construct/installtypes.h>
+
 #include "addresstypes.h"
 #include "cross.h"
 #include "instypes.h"
 #include "ins_data.h"
-#include <local/exptypes.h>
 #include "procrectypes.h"
-#include <construct/installtypes.h>
+
 #define IMMEDIATE_MAX	255
 #define IMMEDIATE_MIN	-128
 

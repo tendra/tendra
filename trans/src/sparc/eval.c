@@ -18,6 +18,12 @@
 #include <local/dw2_config.h>
 #endif
 
+#include <local/expmacs.h>
+#include <local/exptypes.h>
+#include <local/fbase.h>
+#include <local/szs_als.h>
+#include <local/out.h>
+
 #include <construct/tags.h>
 #include <construct/exp.h>
 #include <construct/shapemacs.h>
@@ -28,15 +34,10 @@
 #include <construct/flags.h>
 
 #include "addrtypes.h"
-#include <local/expmacs.h>
-#include <local/exptypes.h>
 #include "maxminmacs.h"
-#include <local/fbase.h>
 #include "translat.h"
 #include "comment.h"
 #include "inst_fmt.h"
-#include <local/szs_als.h>
-#include <local/out.h>
 #include "locate.h"
 #include "regmacs.h"
 #include "procrec.h"

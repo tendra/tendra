@@ -13,6 +13,9 @@
 #include <shared/error.h>
 #include <shared/getopt.h>
 
+#include <local/szs_als.h>
+#include <local/localflags.h>
+
 #include <reader/basicread.h>
 #include <reader/main_reads.h>
 #include <reader/externs.h>
@@ -33,12 +36,10 @@
 #include "codex.h"
 #include "output.h"
 #include "peephole.h"
-#include <local/szs_als.h>
 #include "tests.h"
 #include "utility.h"
 #include "version.h"
 #include "where.h"
-#include <local/localflags.h>
 #include "evaluate.h"
 #include "68k_globals.h"
 

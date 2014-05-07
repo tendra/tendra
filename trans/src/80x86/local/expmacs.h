@@ -11,6 +11,7 @@
 #define EXPMACS_H
 
 #include <local/exptypes.h>
+
 #include <construct/installtypes.h>
 
 #define nilexp NULL

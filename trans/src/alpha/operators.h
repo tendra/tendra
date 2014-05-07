@@ -7,10 +7,10 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include <local/exptypes.h>
 #include "addresstypes.h"
 #include "instypes.h"
 
+#include <local/exptypes.h>
 
 extern int  comm_op(exp,space,where,instruction);
 extern int  non_comm_op(exp,space,where,instruction);

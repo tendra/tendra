@@ -9,12 +9,13 @@
 
 #include <stdlib.h>
 
+#include <local/expmacs.h>
+
 #include <construct/tags.h>
 #include <construct/exp.h>
 #include <construct/shapemacs.h>
 #include <construct/is_worth.h>
 
-#include <local/expmacs.h>
 #include "sparcins.h"
 
 /*

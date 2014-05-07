@@ -10,6 +10,9 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
+#include <local/out.h>
+#include <local/expmacs.h>
+
 #include "cross_config.h"
 
 #include <reader/codetypes.h>
@@ -24,9 +27,6 @@
 #include <dwarf/dwarf_queue.h>
 #include <dwarf/dwarf_loc.h>
 #include <dwarf/dwarf_type.h>
-
-#include <local/out.h>
-#include <local/expmacs.h>
 
 #ifndef CROSS_INCLUDE
 #include <dwarf.h>

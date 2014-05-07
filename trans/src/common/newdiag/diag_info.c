@@ -9,6 +9,8 @@
 
 #include <shared/xalloc.h>
 
+#include <local/expmacs.h>
+
 #include <reader/readglob.h>
 #include <reader/table_fns.h>
 #include <reader/basicread.h>
@@ -16,8 +18,6 @@
 #include <reader/main_reads.h>
 
 #include <refactor/refactor.h>
-
-#include <local/expmacs.h>
 
 #include <reader/externs.h>
 

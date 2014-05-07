@@ -10,6 +10,10 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
+#include <local/expmacs.h>
+#include <local/fbase.h>
+#include <local/localflags.h>
+
 #include <reader/basicread.h>
 #include <reader/externs.h>
 
@@ -21,8 +25,6 @@
 #include <construct/tags.h>
 
 #include "assembler.h"
-#include <local/expmacs.h>
-#include <local/fbase.h>
 #include "mach.h"
 #include "mach_ins.h"
 #include "where.h"
@@ -36,7 +38,6 @@
 #include "evaluate.h"
 #include "utility.h"
 #include "translate.h"
-#include <local/localflags.h>
 #include "ops_shared.h"
 
 /*

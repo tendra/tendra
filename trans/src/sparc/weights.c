@@ -52,13 +52,15 @@
 
 #include <local/exptypes.h>
 #include <local/expmacs.h>
+
+#include <construct/shapemacs.h>
+
 #include "proctypes.h"
 #include "procrec.h"
 #include "bitsmacs.h"
 #include "maxminmacs.h"
 #include "regable.h"
 #include "comment.h"
-#include <construct/shapemacs.h>
 #include "special.h"
 #include "weights.h"
 

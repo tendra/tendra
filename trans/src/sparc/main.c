@@ -14,6 +14,9 @@
 #include <shared/check.h>
 #include <shared/getopt.h>
 
+#include <local/exptypes.h>
+#include <local/out.h>
+
 #include <reader/main_reads.h>	
 #include <reader/basicread.h>
 #include <reader/externs.h>
@@ -29,8 +32,6 @@
 #include "translat.h"
 #include "addrtypes.h"
 #include "makecode.h"
-#include <local/exptypes.h>
-#include <local/out.h>
 #include "special.h"
 #include "labels.h"
 

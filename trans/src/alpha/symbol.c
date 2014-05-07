@@ -20,20 +20,21 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
+#include <local/localtypes.h>
+#include <local/expmacs.h>
+
+#include <construct/flags.h>
+
+#include <diag/diagtypes.h>
+
 #include "cross_config.h"
 #include "symtab.h" 	/* type definitions for translator
 			   produced debugging information
 			   to be incorporated into a .T file */
 #include "bstack.h"
 #include "makesymtab.h"
-#include <local/localtypes.h>
-#include <local/expmacs.h>
 #include "symbol.h"
 #include "type_to_aux.h"
-
-#include <construct/flags.h>
-
-#include <diag/diagtypes.h>
 
 #ifndef CROSS_INCLUDE
 #include <symconst.h>

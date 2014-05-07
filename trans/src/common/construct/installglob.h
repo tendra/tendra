@@ -11,8 +11,8 @@
 #define installglob_key 1
 
 #include <local/exptypes.h>
-#include <reader/toktypes.h>
 
+#include <reader/toktypes.h>
 
 extern exp crt_repeat;
 extern exp repeat_list;

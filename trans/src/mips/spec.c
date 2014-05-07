@@ -19,6 +19,9 @@
 #include <stddef.h>
 #include <string.h>
 
+#include <local/exptypes.h>
+#include <local/expmacs.h>
+
 #include <reader/externs.h>
 #include <reader/basicread.h>
 #include <reader/table_fns.h>
@@ -29,9 +32,6 @@
 #include <construct/flags.h>
 #include <construct/installglob.h>
 #include <construct/spec.h>
-
-#include <local/exptypes.h>
-#include <local/expmacs.h>
 
 speci
 special_fn(exp a1, exp a2, shape s)

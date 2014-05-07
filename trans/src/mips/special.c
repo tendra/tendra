@@ -13,13 +13,14 @@
 
 #include <string.h>
 
+#include <local/exptypes.h>
+#include <local/expmacs.h>
+
 #include <reader/basicread.h>
 
 #include <construct/shapemacs.h>
 #include <construct/tags.h>
 
-#include <local/exptypes.h>
-#include <local/expmacs.h>
 #include "addrtypes.h"
 #include "move.h"
 #include "psu_ops.h"

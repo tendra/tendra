@@ -16,12 +16,13 @@
 
 ****************************************************************/
 
+#include <local/expmacs.h>
+
 #include <reader/basicread.h>
 
 #include "mips_ins.h"
 #include "inst_fmt.h"
 #include "addrtypes.h"
-#include <local/expmacs.h>
 #include "frames.h"
 #include "handle_sregs.h"
 

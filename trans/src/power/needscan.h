@@ -11,10 +11,9 @@
 #ifndef NEEDSCANDECS_H
 #define NEEDSCANDECS_H
 
-#include <construct/installtypes.h>
-
 #include <local/exptypes.h>
 
+#include <construct/installtypes.h>
 
 extern int maxfix, maxfloat;
 extern long callee_size;

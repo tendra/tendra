@@ -15,6 +15,8 @@
 
 #include <stdio.h>
 
+#include <local/expmacs.h>
+
 #include <reader/basicread.h>
 
 #include <construct/tags.h>
@@ -22,7 +24,6 @@
 #include <construct/shapemacs.h>
 
 #include "addrtypes.h"
-#include <local/expmacs.h>
 #include "inst_fmt.h"
 #include "mips_ins.h"
 #include "bitsmacs.h"

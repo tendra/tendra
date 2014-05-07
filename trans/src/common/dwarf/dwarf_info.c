@@ -10,6 +10,9 @@
 #include <string.h>
 
 #include <local/diag_config.h>
+#include <local/out.h>
+#include <local/expmacs.h>
+#include <local/exptypes.h>
 
 #include <reader/readglob.h>
 #include <reader/table_fns.h>
@@ -35,10 +38,6 @@
 #include <dwarf/dwarf_loc.h>
 #include <dwarf/dwarf_queue.h>
 #include <dwarf/dwarf_mc.h>
-
-#include <local/out.h>
-#include <local/expmacs.h>
-#include <local/exptypes.h>
 
 #ifdef NEWDIAGS
 #include <construct/tags.h>

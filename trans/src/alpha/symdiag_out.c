@@ -18,6 +18,9 @@
 
 #include <shared/xalloc.h>
 
+#include <local/exptypes.h>
+#include <local/expmacs.h>
+
 #include "cross_config.h"
 
 #include <reader/codetypes.h>
@@ -31,8 +34,6 @@
 #include <diag/diagglob.h>
 #include <diag/mark_scope.h>
 
-#include <local/exptypes.h>
-#include <local/expmacs.h>
 #include "procrectypes.h"
 #include "procrecs.h"
 #include "bitsmacs.h"

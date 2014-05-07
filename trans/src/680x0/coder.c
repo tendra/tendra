@@ -14,6 +14,9 @@
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
+#include <local/exptypes.h>
+#include <local/expmacs.h>
+
 #include <reader/externs.h>
 
 #include <construct/exp.h>
@@ -26,8 +29,6 @@
 
 #include <refactor/optimise.h>
 
-#include <local/exptypes.h>
-#include <local/expmacs.h>
 #include "mach.h"
 #include "where.h"
 #include "codec.h"

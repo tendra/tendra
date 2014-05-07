@@ -17,6 +17,9 @@ into the table of externals (or 0 meaning anonymous). XXX
 
 #include <assert.h>
 
+#include <local/expmacs.h>
+#include <local/exptypes.h>
+
 #include <reader/basicread.h>
 
 #include <construct/tags.h>
@@ -28,8 +31,6 @@ into the table of externals (or 0 meaning anonymous). XXX
 #include <construct/flags.h>
 
 #include "addrtypes.h"
-#include <local/expmacs.h>
-#include <local/exptypes.h>
 #include "maxminmacs.h"
 #include "syms.h"
 #include "out_ba.h"

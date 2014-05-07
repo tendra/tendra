@@ -7,10 +7,11 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <local/expmacs.h>
+
 #include <construct/tags.h>
 #include <construct/exp.h>
 
-#include <local/expmacs.h>
 #include "overlap.h"
 
 /* PROCEDURES */

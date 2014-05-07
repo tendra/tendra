@@ -13,6 +13,9 @@
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
+#include <local/exptypes.h>
+#include <local/szs_als.h>
+
 #if defined(CROSS_INCLUDE)
 #include CROSS_INCLUDE/dbxstclass.h>
 #include CROSS_INCLUDE/sys/debug.h>
@@ -37,10 +40,8 @@
 #include <diag/diagglob.h>
 #include <diag/mark_scope.h>
 
-#include <local/exptypes.h>
 #include "memtdf.h"
 #include "translat.h"
-#include <local/szs_als.h>
 #include "maxminmacs.h"
 #include "proc.h"
 #include "comment.h"

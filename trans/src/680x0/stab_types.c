@@ -7,10 +7,12 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include <reader/codetypes.h>
-#include <reader/externs.h>
+#include <local/expmacs.h>
 
 #include <construct/shapemacs.h>
+
+#include <reader/codetypes.h>
+#include <reader/externs.h>
 
 #include "instrs.h"
 #include "mach.h"
@@ -20,7 +22,6 @@
 #include "utility.h"
 #include "xdb_output.h"
 #include "stab_types.h"
-#include <local/expmacs.h>
 
 /*
     CREATE A STABS INSTRUCTION

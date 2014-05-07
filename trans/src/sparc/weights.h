@@ -10,9 +10,10 @@
 #ifndef WEIGHTS_INCLUDED
 #define WEIGHTS_INCLUDED
 
+#include <local/exptypes.h>
+
 #include <construct/installtypes.h>
 
-#include <local/exptypes.h>
 #include "procrec.h"
 
 extern weights add_weights(weights *, weights *);

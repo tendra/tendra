@@ -10,6 +10,7 @@
 #include <local/exptypes.h>
 
 #include <construct/exp.h>
+
 #include "procrectypes.h"
 #include "addresstypes.h"
 

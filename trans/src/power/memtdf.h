@@ -11,17 +11,19 @@
 #ifndef	MEMTDF_H
 #define MEMTDF_H	1
 
-#include "bitsmacs.h"
 #include <local/expmacs.h>
 #include <local/exptypes.h>
-#include "extratags.h"
 
 #include <reader/codetypes.h>
+
 #include <construct/installtypes.h>
 #include <construct/install_fns.h>
 #include <construct/exp.h>
 #include <construct/shapemacs.h>
 #include <construct/tags.h>
+
+#include "bitsmacs.h"
+#include "extratags.h"
 
 #if 0
 #include <reader/externs.h>	/* for rounding_modes, when we use them */

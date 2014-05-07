@@ -7,9 +7,9 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include <local/dw2_config.h>
-
 #include <shared/check.h>
+
+#include <local/dw2_config.h>
 
 #include <dwarf2/dw2_entries.h>
 #include <dwarf2/dw2_basic.h>

@@ -8,6 +8,7 @@
  */
 
 #include <local/exptypes.h>
+
 #include "addrtypes.h"
 
 extern int comm_op(exp e, space sp, where d, char *rins);

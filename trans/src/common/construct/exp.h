@@ -11,7 +11,9 @@
 #define expdecs_key 1
 
 #include <local/exptypes.h>
+
 #include <reader/codetypes.h>
+
 #include <construct/installtypes.h>
 
 extern exp getexp (shape s, exp b, int l, exp sn, exp p, prop pr, int n,

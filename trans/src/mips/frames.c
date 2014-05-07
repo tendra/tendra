@@ -7,12 +7,13 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <local/expmacs.h>
+
 #include <reader/basicread.h>
 
 #include <construct/tags.h>
 
 #include "procrectypes.h"
-#include <local/expmacs.h>
 #include "bitsmacs.h"
 #include "frames.h"
 #include "new_code.h"

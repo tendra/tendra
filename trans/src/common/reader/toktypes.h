@@ -18,6 +18,7 @@
 #endif
 
 #include <local/exptypes.h>
+
 #include <construct/installtypes.h>
 
 #ifdef NEWDIAGS

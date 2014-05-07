@@ -17,6 +17,11 @@
 
 #include <shared/check.h>
 
+#include <local/expmacs.h>
+#include <local/exptypes.h>
+#include <local/out.h>
+#include <local/szs_als.h>
+#include <local/localflags.h>
 #include <local/diag_config.h>
 
 #ifdef NEWDWARF
@@ -33,8 +38,6 @@
 #include <construct/flags.h>
 
 #include "addrtypes.h"
-#include <local/expmacs.h>
-#include <local/exptypes.h>
 #include "maxminmacs.h"
 #include "proctypes.h"
 #include "eval.h"
@@ -54,11 +57,8 @@
 #include "special.h"
 #include "translat.h"
 #include "makecode.h"
-#include <local/out.h>
 #include "proc.h"
-#include <local/szs_als.h>
 #include "sparctrans.h"
-#include <local/localflags.h>
 
 #ifdef NEWDIAGS
 #include <newdiag/dg_globs.h>

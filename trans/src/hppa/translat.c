@@ -94,6 +94,10 @@
 
 #include <shared/xalloc.h>
 
+#include <local/exptypes.h>
+#include <local/expmacs.h>
+#include <local/out.h>
+
 #include <reader/codetypes.h>
 #include <reader/toktypes.h>
 #include <reader/basicread.h>
@@ -109,9 +113,7 @@
 
 #include <refactor/optimise.h>
 
-#include <local/exptypes.h>
 #include "frames.h"
-#include <local/expmacs.h>
 #include "tempdecs.h"
 #include "weights.h"
 #include "proctypes.h"
@@ -127,7 +129,6 @@
 #include "labels.h"
 #include "comment.h"
 #include "diag_out.h"
-#include <local/out.h>
 #include "translat.h"
 #include "version.h"
 #include "inst_fmt.h"

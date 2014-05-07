@@ -12,6 +12,8 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
+#include <local/expmacs.h>
+
 #include "cross_config.h"
 
 #ifndef CROSS_INCLUDE
@@ -34,7 +36,6 @@
 #include <refactor/optimise.h>
 
 #include "symtab.h"
-#include <local/expmacs.h>
 #include "tempdecs.h"
 #include "weights.h"
 #include "procrectypes.h"

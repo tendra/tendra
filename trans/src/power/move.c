@@ -24,6 +24,8 @@ Delivers register used if 1-word destination is instore; otherwise NOREG.
 
 #include <shared/error.h>
 
+#include <local/localflags.h>
+
 #include "memtdf.h"
 #include "codegen.h"
 #include "geninst.h"
@@ -32,7 +34,6 @@ Delivers register used if 1-word destination is instore; otherwise NOREG.
 #include "maxminmacs.h"
 #include "makecode.h"
 #include "move.h"
-#include <local/localflags.h>
 
 
 #define	MAX_STEPS_INLINE_MOVE	12	/* 24 instructions */

@@ -26,11 +26,12 @@ number of ident = (word displacement in locals)*64 + 29
 
 #include <stddef.h>
 
+#include <local/localtypes.h>
+#include <local/expmacs.h>
+
 #include <construct/tags.h>
 #include <construct/flags.h>
 
-#include <local/localtypes.h>
-#include <local/expmacs.h>
 #include "procrectypes.h"
 #include "bitsmacs.h"
 #include "maxminmacs.h"

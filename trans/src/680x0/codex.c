@@ -12,6 +12,10 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
+#include <local/exptypes.h>
+#include <local/expmacs.h>
+#include <local/exptypes.h>
+
 #include <reader/basicread.h>
 #include <reader/externs.h>
 
@@ -26,10 +30,7 @@
 
 #include <refactor/optimise.h>
 
-#include <local/exptypes.h>
 #include "assembler.h"
-#include <local/expmacs.h>
-#include <local/exptypes.h>
 #include "instrs.h"
 #include "evaluate.h"
 #include "mach.h"

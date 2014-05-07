@@ -21,6 +21,11 @@
 
 #include <shared/check.h>
 
+#include <local/exptypes.h>
+#include <local/expmacs.h>
+#include <local/szs_als.h>
+#include <local/localflags.h>
+
 #include <reader/externs.h>
 
 #include <construct/exp.h>
@@ -34,8 +39,6 @@
 #include <refactor/const.h>
 #include <refactor/optimise.h>
 
-#include <local/exptypes.h>
-#include <local/expmacs.h>
 #include "extra_tags.h"
 #include "new_tags.h"
 #include "proctypes.h"
@@ -50,9 +53,7 @@
 #include "comment.h"
 #include "needscan.h"
 #include "reg_defs.h"
-#include <local/szs_als.h>
 #include "makecode.h"
-#include <local/localflags.h>
 
 extern prop notbranch[];
 

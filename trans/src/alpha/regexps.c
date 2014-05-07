@@ -11,11 +11,12 @@
 
 #include <shared/check.h>
 
+#include <local/exptypes.h>
+#include <local/expmacs.h>
+
 #include <construct/tags.h>
 #include <construct/shapemacs.h>
 
-#include <local/exptypes.h>
-#include <local/expmacs.h>
 #include "addresstypes.h"
 #include "move.h"
 #include "bitsmacs.h"

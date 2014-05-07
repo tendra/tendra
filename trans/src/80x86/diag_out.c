@@ -11,14 +11,10 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include <shared/check.h>
-#include <shared/xalloc.h>
-
 #include <local/exptypes.h>
-#include <reader/codetypes.h>
-#include <construct/flags.h>
-#include <construct/installtypes.h>
-#include <linkinfo/li_types.h>
+#include <local/out.h>
+#include <local/expmacs.h>
+#include <local/szs_als.h>
 
 #ifdef NEWDIAGS
 #include <newdiag/dg_first.h>
@@ -31,15 +27,21 @@
 #include <diag/diagtypes.h> /* old diags */
 #endif
 
-#include <reader/basicread.h>
-#include <local/out.h>
+#include <shared/check.h>
+#include <shared/xalloc.h>
+
+#include <construct/flags.h>
+#include <construct/installtypes.h>
 #include <construct/machine.h>
 #include <construct/shapemacs.h>
-#include <local/expmacs.h>
 #include <construct/tags.h>
-#include <local/szs_als.h>
 #include <construct/exp.h>
+
+#include <reader/codetypes.h>
+#include <reader/basicread.h>
 #include <reader/externs.h>
+
+#include <linkinfo/li_types.h>
 
 #ifdef NEWDIAGS
 
@@ -57,8 +59,6 @@
 #include <diag/diagglob.h>
 
 #endif
-
-
 
 
 extern int locals_offset;	/* declared in cproc.c */

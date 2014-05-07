@@ -7,13 +7,13 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include <construct/exp.h>
-#include <construct/shapemacs.h>
-
 #include <local/expmacs.h>
-#include <local/out.h>
 #include <local/localflags.h>
 #include <local/szs_als.h>
+#include <local/out.h>
+
+#include <construct/exp.h>
+#include <construct/shapemacs.h>
 
 /*
  * is the result of a procedure delivering

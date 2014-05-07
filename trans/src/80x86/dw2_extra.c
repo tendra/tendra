@@ -9,6 +9,12 @@
 
 #include <shared/check.h>
 
+#include <local/expmacs.h>
+#include <local/exptypes.h>
+#include <local/localtypes.h>
+#include <local/codermacs.h>
+#include <local/szs_als.h>
+
 #ifdef NEWDWARF
 #include <local/dw2_config.h>
 
@@ -37,14 +43,9 @@
 #include <dwarf2/dw2_info.h>
 #include <dwarf2/dw2_locdata.h>
 
-#include <local/expmacs.h>
-#include <local/exptypes.h>
-#include <local/localtypes.h>
-#include <local/codermacs.h>
 #include "operand.h"
 #include "instr386.h"
 #include "instr.h"
-#include <local/szs_als.h>
 #include "coder.h"
 #include "dw2_extra.h"
 #include "operand.h"

@@ -12,6 +12,9 @@
 
 #include <shared/check.h>
 
+#include <local/expmacs.h>
+#include <local/localflags.h>
+
 #include <reader/codetypes.h>
 #include <reader/basicread.h>
 #include <reader/externs.h>
@@ -39,10 +42,8 @@
 
 #include <refactor/refactor.h>
 
-#include <local/expmacs.h>
 #include "translat.h"
 #include "new_tags.h"
-#include <local/localflags.h>
 
 /* intercepts specially defined tokens */
 

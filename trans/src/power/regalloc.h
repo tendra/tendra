@@ -12,6 +12,7 @@
 #define REGALLOCDECS_H
 
 #include <local/exptypes.h>
+
 #include "procrectypes.h"
 
 extern spacereq regalloc(exp, int, int, long);

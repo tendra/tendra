@@ -10,18 +10,17 @@
 #include <stddef.h>
 
 #include <local/diag_config.h>
+#include <local/exptypes.h>
+#include <local/expmacs.h>
+#include <local/codermacs.h>
 
 #include <construct/tags.h>
 #include <construct/exp.h>
 #include <construct/shapemacs.h>
 #include <construct/flags.h>
 
-#include <local/exptypes.h>
 #include "operand.h"
-#include <local/expmacs.h>
 #include "instr386.h"
-#include <local/codermacs.h>
-
 #include "reg_record.h"
 
 #ifdef NEWDWARF

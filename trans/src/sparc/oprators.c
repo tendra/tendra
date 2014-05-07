@@ -9,6 +9,10 @@
 
 #include <assert.h>
 
+#include <local/exptypes.h>
+#include <local/expmacs.h>
+#include <local/out.h>
+
 #include <reader/externs.h>
 
 #include <construct/tags.h>
@@ -17,9 +21,7 @@
 #include <construct/exp.h>
 #include <construct/flags.h>
 
-#include <local/exptypes.h>
 #include "codehere.h"
-#include <local/expmacs.h>
 #include "addrtypes.h"
 #include "inst_fmt.h"
 #include "move.h"
@@ -29,7 +31,6 @@
 #include "bitsmacs.h"
 #include "regmacs.h"
 #include "regexps.h"
-#include <local/out.h>
 #include "locate.h"
 #include "eval.h"
 #include "muldvrem.h"

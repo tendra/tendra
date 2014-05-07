@@ -10,10 +10,9 @@
 #ifndef PROCTYPES_INCLUDED
 #define PROCTYPES_INCLUDED
 
-#include <construct/installtypes.h>
-
 #include <local/exptypes.h>
 
+#include <construct/installtypes.h>
 
 typedef struct {
       int fixneeds  ;

@@ -10,9 +10,9 @@
 #ifndef REGEXPS_INCLUDED
 #define REGEXPS_INCLUDED
 
-#include <construct/installtypes.h>
-
 #include <local/exptypes.h>
+
+#include <construct/installtypes.h>
 
 typedef struct {
     ans inans;

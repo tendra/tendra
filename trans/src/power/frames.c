@@ -11,20 +11,21 @@
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
-#include <reader/externs.h>	    
+#include <local/exptypes.h>
+
+#include <reader/externs.h>
 #include <reader/basicread.h>
 #include <reader/main_reads.h>
 #include <reader/readglob.h>
 
 #include <construct/installglob.h>
 #include <construct/exp.h>
-#include <construct/flpt.h>	
+#include <construct/flpt.h>
 #include <construct/flags.h>
 #include <construct/machine.h>
 
 #include <refactor/optimise.h>
 
-#include <local/exptypes.h>
 #include "memtdf.h"
 #include "codegen.h"
 #include "tempdecs.h"

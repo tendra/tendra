@@ -7,11 +7,12 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <local/expmacs.h>
+
 #include <construct/tags.h>
 
 #include "frames.h"
 #include "procrecs.h"
-#include <local/expmacs.h>
 #include "bitsmacs.h"
 #include "reg_defs.h"
 #include "fail.h"

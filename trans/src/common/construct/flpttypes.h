@@ -14,7 +14,6 @@
 
 #include <local/fbase.h>
 
-
 #if FBASE == 10
 
 /* FBASE 10 is obsolete */

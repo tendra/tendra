@@ -11,9 +11,9 @@
 #ifndef localtypes_key
 #define localtypes_key 1
 
-#include <construct/installtypes.h>
-
 #include <local/exptypes.h>
+
+#include <construct/installtypes.h>
 
 struct asht {			/* structure definition for ash  */
   int  ashsize;	/*  the minimum size in bits of a shape

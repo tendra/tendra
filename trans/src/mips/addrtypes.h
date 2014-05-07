@@ -21,9 +21,9 @@ baseoff, instore, freg, ans, where
 #ifndef addressingtkey
 #define addressingtkey 1
 
-#include <construct/installtypes.h>
-
 #include <local/localtypes.h>
+
+#include <construct/installtypes.h>
 
 struct makeansst {
   int   lab;

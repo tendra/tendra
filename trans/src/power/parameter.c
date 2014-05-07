@@ -11,10 +11,11 @@
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
+#include <local/exptypes.h>
+
 #include <construct/machine.h>
 #include <construct/flags.h>
 
-#include <local/exptypes.h>
 #include "memtdf.h"
 #include "codegen.h"
 #include "geninst.h"

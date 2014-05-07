@@ -7,9 +7,9 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include <construct/installtypes.h>
-
 #include <local/exptypes.h>
+
+#include <construct/installtypes.h>
 
 extern  bool fixregable(exp e);
 extern  bool floatregable(exp e);

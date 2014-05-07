@@ -7,11 +7,12 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <local/localtypes.h>
+#include <local/expmacs.h>
+
 #include <construct/shapemacs.h>
 #include <construct/tags.h>
 
-#include <local/localtypes.h>
-#include <local/expmacs.h>
 #include "regable.h"
 
 /***************************************************************

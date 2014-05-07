@@ -19,6 +19,10 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
+#include <local/expmacs.h>
+#include <local/exptypes.h>
+#include <local/fbase.h>
+
 #include <construct/tags.h>
 #include <construct/exp.h>
 #include <construct/shapemacs.h>
@@ -28,14 +32,11 @@
 #include <construct/flags.h>
 
 #include "addresstypes.h"
-#include <local/expmacs.h>
-#include <local/exptypes.h>
 #include "maxminmacs.h"
 #include "main.h"
 #include "frames.h"
 #include "reg_defs.h"
 #include "output.h"
-#include <local/fbase.h>
 #include "cross.h"
 #include "pseudo.h"
 #include "ibinasm.h"

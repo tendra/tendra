@@ -10,9 +10,11 @@
 #ifndef OPERATIONS_INCLUDED
 #define OPERATIONS_INCLUDED
 
-#include <construct/installtypes.h>
 #include <local/exptypes.h>
 #include <local/localtypes.h>
+
+#include <construct/installtypes.h>
+
 #include <reader/ecodes.h>
 
 extern bool have_cond;

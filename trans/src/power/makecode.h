@@ -11,11 +11,11 @@
 #ifndef MAKECODEDECS_H
 #define MAKECODEDECS_H
 
+#include <local/exptypes.h>
+
 #include <construct/installtypes.h>
 
 #include "procrectypes.h"
-#include <local/exptypes.h>
-
 
 extern where nowhere;
 extern void adjust_to_size(int,int,int,int,int);

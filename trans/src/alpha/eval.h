@@ -8,8 +8,10 @@
  */
 
 #include <local/localtypes.h>
-#include "addresstypes.h"
+
 #include <construct/flpttypes.h>
+
+#include "addresstypes.h"
 #include "cross.h"
 
 extern int  next_data_lab(void);

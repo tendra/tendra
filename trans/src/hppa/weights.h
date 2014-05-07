@@ -11,6 +11,7 @@
 #define WEIGHTS_INCLUDED
 
 #include <local/exptypes.h>
+
 #include "procrec.h"
 
 extern weights weightsv(double, exp);

@@ -10,6 +10,9 @@
 #include <stddef.h>
 #include <string.h>
 
+#include <local/expmacs.h>
+#include <local/glopt.h>
+
 #include <reader/externs.h>
 #include <reader/basicread.h>
 #include <reader/table_fns.h>
@@ -19,9 +22,6 @@
 #include <construct/exp.h>
 #include <construct/flags.h>
 #include <construct/installglob.h>
-
-#include <local/expmacs.h>
-#include <local/glopt.h>
 
 void
 glopt(dec *dp)

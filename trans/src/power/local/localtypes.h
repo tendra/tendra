@@ -11,9 +11,10 @@
 #ifndef localtypes_key
 #define localtypes_key 1
 
+#include <local/exptypes.h>
+
 #include <construct/installtypes.h>
 
-#include <local/exptypes.h>
 #include "memtdf.h"
 
 

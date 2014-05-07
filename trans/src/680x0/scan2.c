@@ -19,13 +19,13 @@
 
 #include <shared/check.h>
 
+#include <local/expmacs.h>
+#include <local/exptypes.h>
+
 #include <construct/exp.h>
 #include <construct/shapemacs.h>
 #include <construct/tags.h>
 #include <construct/install_fns.h>
-
-#include <local/expmacs.h>
-#include <local/exptypes.h>
 
 #ifndef tdf3
 #include "68k_globals.h"

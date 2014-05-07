@@ -11,6 +11,10 @@
 
 #include <shared/check.h>
 
+#include <local/exptypes.h>
+#include <local/expmacs.h>
+#include <local/exptypes.h>
+
 #include <reader/externs.h>
 
 #include <construct/tags.h>
@@ -19,11 +23,8 @@
 #include <construct/shapemacs.h>
 #include <construct/flags.h>
 
-#include <local/exptypes.h>
 #include "needscan.h"
 #include "addrtypes.h"
-#include <local/expmacs.h>
-#include <local/exptypes.h>
 #include "maxminmacs.h"
 #include "proctypes.h"
 #include "eval.h"

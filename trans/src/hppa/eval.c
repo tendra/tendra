@@ -18,6 +18,12 @@ into the table of externals (or 0 meaning anonymous).
 #include <assert.h>
 #include <ctype.h>
 
+#include <local/expmacs.h>
+#include <local/exptypes.h>
+#include <local/fbase.h>
+#include <local/szs_als.h>		/* for MAX_BF_SIZE */
+#include <local/out.h>
+
 #include <reader/basicread.h>
 
 #include <construct/flags.h>
@@ -29,15 +35,10 @@ into the table of externals (or 0 meaning anonymous).
 #include <construct/f64.h>
 
 #include "addrtypes.h"
-#include <local/expmacs.h>
-#include <local/exptypes.h>
 #include "maxminmacs.h"
-#include <local/fbase.h>
 #include "translat.h"
 #include "comment.h"
 #include "inst_fmt.h"
-#include <local/szs_als.h>		/* for MAX_BF_SIZE */
-#include <local/out.h>
 #include "frames.h"
 #include "procrec.h"
 #include "eval.h"

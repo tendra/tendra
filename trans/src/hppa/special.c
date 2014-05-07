@@ -9,6 +9,10 @@
 
 #include <string.h>
 
+#include <local/exptypes.h>
+#include <local/expmacs.h>
+#include <local/out.h>
+
 #include <reader/codetypes.h>
 
 #include <construct/installtypes.h>
@@ -20,8 +24,6 @@
 
 #include <refactor/const.h>
 
-#include <local/exptypes.h>
-#include <local/expmacs.h>
 #include "translat.h"
 #include "addrtypes.h"
 #include "move.h"
@@ -36,7 +38,6 @@
 #include "bitsmacs.h"
 #include "comment.h"
 #include "proc.h"
-#include <local/out.h>
 #include "frames.h"
 #include "regexps.h"
 #include "special.h"

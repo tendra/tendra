@@ -10,6 +10,9 @@
 
 #include <string.h>
 
+#include <local/expmacs.h>
+#include <local/glopt.h>
+
 #include <reader/externs.h>
 #include <reader/basicread.h>
 #include <reader/table_fns.h>
@@ -20,12 +23,7 @@
 #include <construct/flags.h>
 #include <construct/installglob.h>
 
-#include <local/expmacs.h>
-#include <local/glopt.h>
-
-
 #define MAX_STRCPY_INLINE_LEN	4
-
 
 void glopt(dec *dp)
 {

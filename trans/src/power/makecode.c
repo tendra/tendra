@@ -11,16 +11,6 @@
 #include <shared/error.h>
 
 #include <local/exptypes.h>
-#include "memtdf.h"
-#include "codegen.h"
-#include "geninst.h"
-
-#include "maxminmacs.h"
-#include "comment.h"
-#include "muldvrem.h"
-#include "proc.h"
-#include "translat.h"
-#include "eval.h"
 #include <local/localflags.h>
 
 #include <reader/externs.h>
@@ -33,6 +23,17 @@
 #include <diag/diag_fns.h>
 
 #include <refactor/optimise.h>
+
+#include "memtdf.h"
+#include "codegen.h"
+#include "geninst.h"
+
+#include "maxminmacs.h"
+#include "comment.h"
+#include "muldvrem.h"
+#include "proc.h"
+#include "translat.h"
+#include "eval.h"
 
 #include "makecode.h"
 #include "frames.h"

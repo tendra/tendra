@@ -13,20 +13,21 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
+#include <local/expmacs.h>
+#include <local/localflags.h>
+
 #include <reader/codetypes.h>
 #include <reader/externs.h>
 
 #include <construct/shapemacs.h>
 #include <construct/flags.h>
 
-#include <local/expmacs.h>
 #include "instrs.h"
 #include "mach.h"
 #include "mach_ins.h"
 #include "mach_op.h"
 #include "output.h"
 #include "utility.h"
-#include <local/localflags.h>
 #include "xdb_output.h"
 #include "xdb_types.h"
 

@@ -22,13 +22,14 @@
 
 #include <stddef.h>
 
+#include <local/exptypes.h>
+#include <local/expmacs.h>
+
 #include <construct/exp.h>
 #include <construct/tags.h>
 #include <construct/shapemacs.h>
 #include <construct/flags.h>
 
-#include <local/exptypes.h>
-#include <local/expmacs.h>
 #include "bitsmacs.h"
 #include "new_tags.h"
 #include "procrectypes.h"

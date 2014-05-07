@@ -9,8 +9,8 @@
 
 #include <local/exptypes.h>
 
-#include <local/exptypes.h>
 #include <diag/diagtypes.h>
+
 extern int nofds;
 extern int *file_dnos;		/* dense nos for files */
 extern void collect_files(filename f);

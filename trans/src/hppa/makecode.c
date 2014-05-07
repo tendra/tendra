@@ -12,6 +12,10 @@
 
 #include <shared/xalloc.h>
 
+#include <local/expmacs.h>
+#include <local/exptypes.h>
+#include <local/out.h>
+
 #include <reader/externs.h>
 #include <reader/basicread.h>
 
@@ -29,8 +33,6 @@
 
 #include "addrtypes.h"
 #include "new_tags.h"
-#include <local/expmacs.h>
-#include <local/exptypes.h>
 #include "maxminmacs.h"
 #include "proctypes.h"
 #include "eval.h"
@@ -53,7 +55,6 @@
 #include "diag_out.h"
 #include "translat.h"
 #include "frames.h"
-#include <local/out.h>
 #include "makecode.h"
 #include "extratags.h"
 #include "special.h"

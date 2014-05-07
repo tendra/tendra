@@ -40,23 +40,21 @@ stack, (this is obviously always available for parameters).
 
 #include <shared/error.h>
 
-#include "memtdf.h"
+#include <local/exptypes.h>
+#include <local/expmacs.h>
+#include <local/localtypes.h>
 
 #include <construct/exp.h>
 #include <construct/tags.h>
 #include <construct/shapemacs.h>
 
-#include <local/exptypes.h>
-#include <local/expmacs.h>
-#include <local/localtypes.h>
 #include "procrectypes.h"
 #include "procrecs.h"
 #include "bitsmacs.h"
 #include "maxminmacs.h"
 #include "regable.h"
 #include "weights.h"
-
-
+#include "memtdf.h"
 
 static const weights zeroweights =
 {

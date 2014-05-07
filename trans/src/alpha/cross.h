@@ -25,10 +25,12 @@
 
 #include <limits.h>
 
-#include <construct/installtypes.h>
-#include "output.h"
-#include <construct/flpttypes.h>
 #include <local/exptypes.h>
+
+#include <construct/installtypes.h>
+#include <construct/flpttypes.h>
+
+#include "output.h"
 
 extern flt64 exp_to_f64(exp);
 typedef int INT32;

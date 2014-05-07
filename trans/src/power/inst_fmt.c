@@ -22,6 +22,8 @@ understood by the assembler.
 
 #include <shared/error.h>
 
+#include <local/localflags.h>
+
 #include <construct/flags.h>
 
 #include "geninst.h"
@@ -33,7 +35,6 @@ understood by the assembler.
 #include "inst_fmt.h"
 #include "macro.h"
 #include "mask.h"
-#include <local/localflags.h>
 
 #define IS_POW2(c)		((c)!= 0 && ((c) & ((c) -1)) == 0)
 

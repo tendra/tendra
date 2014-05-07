@@ -8,6 +8,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <local/expmacs.h>
+
 #include <construct/tags.h>
 #include <construct/exp.h>
 #include <construct/shapemacs.h>
@@ -15,7 +17,6 @@
 /* construct/is_worth.h defines the interface each installer must implement */
 #include <construct/is_worth.h>
 
-#include <local/expmacs.h>
 #include "instruct.h"	/* IMM_SIZE() */
 #include "regable.h"
 

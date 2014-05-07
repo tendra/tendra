@@ -10,9 +10,10 @@
 #ifndef ADDRTYPES_INCLUDED
 #define ADDRTYPES_INCLUDED
 
+#include <local/localtypes.h>
+
 #include <construct/installtypes.h>
 
-#include <local/localtypes.h>
 #include "proctypes.h"
 
 #define NOREG	100

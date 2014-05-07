@@ -9,6 +9,8 @@
 
 #include <stddef.h>
 
+#include <local/expmacs.h>
+
 #include <reader/externs.h>
 #include <reader/basicread.h>
 
@@ -18,7 +20,6 @@
 
 #include "extern_adds.h"
 #include "procrectypes.h"
-#include <local/expmacs.h>
 #include "needs_scan.h"
 
 

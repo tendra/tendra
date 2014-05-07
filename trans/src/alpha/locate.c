@@ -14,12 +14,13 @@
 
 #include <stdio.h>
 
+#include <local/expmacs.h>
+
 #include <construct/tags.h>
 #include <construct/exp.h>
 #include <construct/shapemacs.h>
 
 #include "addresstypes.h"
-#include <local/expmacs.h>
 #include "inst_fmt.h"
 #include "alpha_ins.h"
 #include "bitsmacs.h"

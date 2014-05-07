@@ -7,12 +7,11 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include <construct/shapemacs.h>
-#include <construct/installtypes.h>
-
 #include <local/expmacs.h>
 #include <local/localtypes.h>
 
+#include <construct/shapemacs.h>
+#include <construct/installtypes.h>
 
 int
 reg_result(shape sha)

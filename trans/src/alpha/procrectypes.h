@@ -16,7 +16,6 @@
 #include <local/exptypes.h>
 
 #ifndef procreckey
-
 #define procreckey 1
 
 #define wfixno 25

@@ -15,14 +15,15 @@
 
 #include <stddef.h>
 
+#include <local/exptypes.h>
+#include <local/expmacs.h>
+
 #include <construct/tags.h>
 #include <construct/exp.h>
 #include <construct/flags.h>
 
 #include <refactor/const.h>
 
-#include <local/exptypes.h>
-#include <local/expmacs.h>
 #include "bitsmacs.h"
 #include "tempdecs.h"
 

@@ -11,6 +11,9 @@
 
 #include <shared/check.h>
 
+#include <local/exptypes.h>
+#include <local/expmacs.h>
+
 #include <construct/installglob.h>
 #include <construct/exp.h>
 #include <construct/tags.h>
@@ -18,9 +21,6 @@
 #include <construct/shapemacs.h>
 
 #include <refactor/optimise.h>
-
-#include <local/exptypes.h>
-#include <local/expmacs.h>
 
 static int complexity(exp e, int count, int newdecs);
 

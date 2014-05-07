@@ -21,6 +21,8 @@ If the entry generated is greater than 1 AUXU in length the index corresponding 
 
 #include <shared/xalloc.h>
 
+#include <local/expmacs.h>
+
 #include "cross_config.h"
 
 #ifndef CROSS_INCLUDE
@@ -38,7 +40,6 @@ If the entry generated is greater than 1 AUXU in length the index corresponding 
 #include <diag/diagtypes.h>
 #include <diag/diag_fns.h>
 
-#include <local/expmacs.h>
 #include "symtab.h"
 #include "new_symbol.h"
 #include "diag_out.h"

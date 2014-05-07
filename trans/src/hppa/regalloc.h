@@ -11,6 +11,7 @@
 #define REGALLOC_INCLUDED
 
 #include <local/exptypes.h>
+
 #include "proctypes.h"
 
 extern spacereq regalloc(exp, int, int, long);

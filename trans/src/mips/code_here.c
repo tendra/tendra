@@ -26,6 +26,8 @@ in a register.
 
 ******************************************************************/
 
+#include <local/expmacs.h>
+
 #include <construct/tags.h>
 #include <construct/exp.h>
 #include <construct/shapemacs.h>
@@ -33,7 +35,6 @@ in a register.
 #include "addrtypes.h"
 #include "procrectypes.h"
 #include "labels.h"
-#include <local/expmacs.h>
 #include "new_code.h"
 #include "bitsmacs.h"
 #include "locate.h"

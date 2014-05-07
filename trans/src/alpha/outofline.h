@@ -15,8 +15,9 @@
 #define OUTOFLINE 1
 
 #include <local/exptypes.h>
-#include "addresstypes.h"
 #include <local/localtypes.h>
+
+#include "addresstypes.h"
 
 typedef struct outofline_t {
   struct outofline_t * next;

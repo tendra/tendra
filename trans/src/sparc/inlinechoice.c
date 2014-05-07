@@ -10,6 +10,9 @@
 #include <assert.h>
 #include <stdio.h>
 
+#include <local/exptypes.h>
+#include <local/expmacs.h>
+
 #include <construct/installglob.h>
 #include <construct/exp.h>
 #include <construct/tags.h>
@@ -18,8 +21,6 @@
 
 #include <refactor/optimise.h>
 
-#include <local/exptypes.h>
-#include <local/expmacs.h>
 #include "sparcins.h"
 
 int crit_inline    = 120;

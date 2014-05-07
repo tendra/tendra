@@ -14,8 +14,8 @@
 #include <local/exptypes.h>
 
 #include <reader/codetypes.h>
-#include <construct/installtypes.h>			/* for bool */
 
+#include <construct/installtypes.h>			/* for bool */
 
 extern bool do_comment;
 

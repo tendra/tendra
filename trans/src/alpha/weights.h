@@ -16,7 +16,6 @@
 
 #include "procrecs.h"
 
-
 extern  weights weightsv(double scale, exp e);
 
 

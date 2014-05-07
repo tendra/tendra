@@ -38,8 +38,9 @@
 
 #include <local/exptypes.h>
 #include <local/szs_als.h>
-#include "addrtypes.h"
 #include <local/expmacs.h>
+
+#include "addrtypes.h"
 #include "bitsmacs.h"
 #include "regmacs.h"
 #include "locate.h"

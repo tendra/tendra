@@ -18,6 +18,12 @@
 
 #include <shared/check.h>
 
+#include <local/expmacs.h>
+#include <local/out.h>
+#include <local/codermacs.h>
+#include <local/localflags.h>
+#include <local/exptypes.h>
+
 #ifdef NEWDWARF
 #include <local/dw2_config.h>
 #endif
@@ -38,15 +44,10 @@
 
 #include <refactor/refactor.h>
 
-#include <local/expmacs.h>
 #include "coder.h"
-#include <local/out.h>
 #include "reg_record.h"
-#include <local/codermacs.h>
-#include <local/localflags.h>
 #include "overlap.h"
 #include "messages_8.h"
-#include <local/exptypes.h>
 #include "operand.h"
 #include "instr.h"
 #include "instr386.h"

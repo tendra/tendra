@@ -11,6 +11,7 @@
 #define NEEDSCAN_INCLUDED
 
 #include <local/exptypes.h>
+
 #include "proctypes.h"
 
 extern needs scan(exp *, exp **);

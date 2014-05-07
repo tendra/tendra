@@ -15,6 +15,12 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
+#include <local/exptypes.h>
+#include <local/expmacs.h>
+#include <local/exptypes.h>
+#include <local/szs_als.h>
+#include <local/out.h>
+
 #include <reader/codetypes.h>
 #include <reader/codetypes.h>
 #include <reader/toktypes.h>
@@ -36,17 +42,12 @@
 
 #include "addrtypes.h"
 #include "frames.h"
-#include <local/exptypes.h>
-#include <local/expmacs.h>
-#include <local/exptypes.h>
 #include "proctypes.h"
 #include "procrec.h"
 #include "bitsmacs.h"
 #include "locate.h"
 #include "comment.h"
 #include "translat.h"
-#include <local/szs_als.h>
-#include <local/out.h>
 #include "diag_out.h"
 
 #ifdef _SYMTAB_INCLUDED

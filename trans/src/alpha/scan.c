@@ -22,6 +22,10 @@
 
 #include <shared/check.h>
 
+#include <local/exptypes.h>
+#include <local/expmacs.h>
+#include <local/szs_als.h>
+
 #include <reader/externs.h>
 
 #include <construct/exp.h>
@@ -33,8 +37,6 @@
 
 #include <refactor/const.h>
 
-#include <local/exptypes.h>
-#include <local/expmacs.h>
 #include "procrectypes.h"
 #include "bitsmacs.h"
 #include "maxminmacs.h"
@@ -49,7 +51,6 @@
 #include "bool.h"
 #include "oddtest.h"
 #include "coder.h"
-#include <local/szs_als.h>
 #include "scan.h"
 
 int maxfix, maxfloat;		/* the maximum number of t-regs */

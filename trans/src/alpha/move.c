@@ -15,6 +15,8 @@
   in store, otherwise NOREG.
 */
 
+#include <local/expmacs.h>
+
 #include <shared/check.h>
 
 #include "alpha_ins.h"
@@ -32,7 +34,6 @@
 #include "guard.h"
 #include "getregs.h"
 #include "bool.h"
-#include <local/expmacs.h>
 #include "frames.h"
 #include "pseudo.h"
 #include "labels.h"

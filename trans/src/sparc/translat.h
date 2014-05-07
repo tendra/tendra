@@ -10,8 +10,9 @@
 #ifndef TRANSLAT_INCLUDED
 #define TRANSLAT_INCLUDED
 
-#include "addrtypes.h"
 #include <local/localtypes.h>
+
+#include "addrtypes.h"
 
 extern int optim_level;
 extern int g_reg_max;

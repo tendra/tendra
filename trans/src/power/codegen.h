@@ -28,7 +28,9 @@
 #include "regexps.h"
 
 #include <local/localtypes.h>
+
 #include <construct/installtypes.h>
+
 #include "inst_fmt.h"
 
 #endif

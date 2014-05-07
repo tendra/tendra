@@ -52,7 +52,6 @@
 
 #include <refactor/refactor.h>
 
-
 extern shape shcomplexsh;
 extern shape complexsh;
 extern shape complexdoublesh;

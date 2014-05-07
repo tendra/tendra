@@ -23,6 +23,12 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
+#include <local/exptypes.h>
+#include <local/out.h>
+#include <local/expmacs.h>
+#include <local/codermacs.h>
+#include <local/localflags.h>
+
 #ifdef NEWDWARF
 #include <local/dw2_config.h>
 #endif
@@ -45,19 +51,13 @@
 
 #include <refactor/refactor.h>
 
-#include <local/exptypes.h>
-#include <local/out.h>
 #include "operand.h"
-#include <local/expmacs.h>
 #include "instr386.h"
 #include "coder.h"
 #include "reg_record.h"
-#include <local/codermacs.h>
-#include <local/localflags.h>
 #include "assembler.h"
 #include "messages_8.h"
 #include "instrmacs.h"
-
 #include "instr.h"
 
 #ifdef NEWDWARF

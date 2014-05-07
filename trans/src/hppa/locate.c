@@ -15,12 +15,13 @@
 
 #include <assert.h>
 
+#include <local/expmacs.h>
+
 #include <construct/tags.h>
 #include <construct/exp.h>
 #include <construct/shapemacs.h>
 
 #include "addrtypes.h"
-#include <local/expmacs.h>
 #include "inst_fmt.h"
 #include "regmacs.h"
 #include "hppains.h"

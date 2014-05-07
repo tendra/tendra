@@ -10,13 +10,14 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
+#include <local/expmacs.h>
+
 #include <reader/externs.h>
 
 #include <construct/exp.h>
 #include <construct/shapemacs.h>
 #include <construct/tags.h>
 
-#include <local/expmacs.h>
 #include "tests.h"
 #include "utility.h"
 #include "mach.h"

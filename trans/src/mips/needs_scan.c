@@ -21,6 +21,9 @@ the proc independent (common to other  translators)
 
 #include <string.h>
 
+#include <local/exptypes.h>
+#include <local/expmacs.h>
+
 #include <reader/externs.h>
 #include <reader/basicread.h>
 #include <reader/externs.h>
@@ -36,8 +39,6 @@ the proc independent (common to other  translators)
 #include <refactor/const.h>
 #include <refactor/optimise.h>
 
-#include <local/exptypes.h>
-#include <local/expmacs.h>
 #include "procrectypes.h"
 #include "bitsmacs.h"
 #include "maxminmacs.h"

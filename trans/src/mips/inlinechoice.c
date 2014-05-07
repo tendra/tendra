@@ -9,6 +9,9 @@
 
 #include <shared/check.h>
 
+#include <local/exptypes.h>
+#include <local/expmacs.h>
+
 #include <construct/installglob.h>
 #include <construct/exp.h>
 #include <construct/tags.h>
@@ -16,9 +19,6 @@
 #include <construct/shapemacs.h>
 
 #include <refactor/optimise.h>
-
-#include <local/exptypes.h>
-#include <local/expmacs.h>
 
 #define crit_inline 50
 #define decs_allowed 4

@@ -10,10 +10,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include <local/out.h>
+
 #include <refactor/const.h>
 
 #include "comment.h"
-#include <local/out.h>
 
 
 /*

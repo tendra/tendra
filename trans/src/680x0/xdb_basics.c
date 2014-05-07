@@ -10,6 +10,9 @@
 #include <stdio.h>
 #include <string.h>
 
+#include <local/exptypes.h>
+#include <local/expmacs.h>
+
 #include <reader/codetypes.h>
 
 #include <construct/flags.h>
@@ -18,9 +21,7 @@
 #include <diag/diagglob.h>
 #include <diag/mark_scope.h>
 
-#include <local/exptypes.h>
 #include "codex.h"
-#include <local/expmacs.h>
 #include "instrs.h"
 #include "mach.h"
 #include "mach_ins.h"

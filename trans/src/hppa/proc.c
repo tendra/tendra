@@ -12,6 +12,10 @@
 
 #include <shared/check.h>
 
+#include <local/expmacs.h>
+#include <local/exptypes.h>
+#include <local/out.h>
+
 #include <reader/basicread.h>
 
 #include <construct/tags.h>
@@ -23,8 +27,6 @@
 #include <refactor/optimise.h>
 
 #include "addrtypes.h"
-#include <local/expmacs.h>
-#include <local/exptypes.h>
 #include "frames.h"
 #include "maxminmacs.h"
 #include "proctypes.h"
@@ -45,7 +47,6 @@
 #include "special.h"
 #include "translat.h"
 #include "makecode.h"
-#include <local/out.h>
 #include "proc.h"
 #include "misc.h"
 #include "diag_out.h"

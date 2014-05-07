@@ -15,15 +15,16 @@ syms.c   - produce symbol numbers for binasm (dense numbers)
 
 #include <shared/xalloc.h>
 
+#include <local/expmacs.h>
+#include <local/localtypes.h>
+
 #include <construct/flags.h>
 #include <construct/shapemacs.h>
 #include <construct/tags.h>
 
-#include <local/expmacs.h>
 #include "syms.h"
 #include "main.h"
 #include "diag_out.h"
-#include <local/localtypes.h>
 #include "symbol.h"
 
 extern int currentfile;

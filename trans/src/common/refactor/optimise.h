@@ -10,9 +10,9 @@
 #ifndef OPTIMISE_H
 #define OPTIMISE_H
 
-#include <construct/installtypes.h>
-
 #include <local/exptypes.h>
+
+#include <construct/installtypes.h>
 
 extern unsigned jump_table_density;
 extern unsigned min_jump_table_size;

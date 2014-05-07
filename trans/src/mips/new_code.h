@@ -7,11 +7,12 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <local/exptypes.h>
+
 #include <construct/installtypes.h>
 
 #include "addrtypes.h"
 #include "procrectypes.h"
-#include <local/exptypes.h>
 
 extern  where nowhere;
 

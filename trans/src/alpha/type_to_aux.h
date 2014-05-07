@@ -7,15 +7,16 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <local/exptypes.h>
+
 #include <reader/codetypes.h>
 
 #include <diag/dg_first.h>
-
 #include <diag/diaginfo.h>
-#include <local/exptypes.h>
-#include <construct/installtypes.h>
 #include <diag/dg_types.h>		/* NEW DIAGS */
 #include <diag/diagtypes.h>		/* OLD DIAGS */
+
+#include <construct/installtypes.h>
 
 
 /* 	$Id$	 */

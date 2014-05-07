@@ -11,6 +11,10 @@
 
 #include <shared/error.h>
 
+#include <local/expmacs.h>
+#include <local/fbase.h>
+#include <local/localflags.h>
+
 #if FS_NO_ANSI_ENVIRON
 #include <floatingpoint.h>
 #else
@@ -26,9 +30,7 @@
 #include <construct/flags.h>
 
 #include "assembler.h"
-#include <local/expmacs.h>
 #include "instrs.h"
-#include <local/fbase.h>
 #include "evaluate.h"
 #include "mach.h"
 #include "mach_ins.h"
@@ -36,9 +38,7 @@
 #include "codex.h"
 #include "translate.h"
 #include "utility.h"
-#include <local/localflags.h>
 #include "68k_globals.h"
-
 #include "xdb_basics.h"
 
 extern int is_comm(exp);

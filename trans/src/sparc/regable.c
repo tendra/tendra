@@ -7,13 +7,14 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <local/expmacs.h>
+#include <local/localtypes.h>
+
 #include <construct/shapemacs.h>
 #include <construct/tags.h>
 #include <construct/flags.h>
 
-#include <local/expmacs.h>
 #include "regable.h"
-#include <local/localtypes.h>
 
 /*
   DOES A VALUE OF SHAPE s FIT INTO A FIXED REGISTER?

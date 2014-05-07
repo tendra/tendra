@@ -19,6 +19,11 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
+#include <local/exptypes.h>
+#include <local/expmacs.h>
+#include <local/exptypes.h>
+#include <local/szs_als.h>
+
 #include <reader/externs.h>
 #include <reader/basicread.h>
 
@@ -35,10 +40,7 @@
 #include <diag/diag_fns.h>
 
 #include "addresstypes.h"
-#include <local/exptypes.h>
 #include "coder.h"
-#include <local/expmacs.h>
-#include <local/exptypes.h>
 #include "maxminmacs.h"
 #include "procrectypes.h"
 #include "eval.h"
@@ -71,7 +73,6 @@
 #include "outofline.h"
 #include "out_ba.h"
 #include "float.h"
-#include <local/szs_als.h>
 #include "translate.h"
 
 extern  FILE * as_file;

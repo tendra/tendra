@@ -11,9 +11,9 @@
 #ifndef TEMPDECSDECS_H
 #define TEMPDECSDECS_H
 
-#include <construct/installtypes.h>
-
 #include <local/exptypes.h>
+
+#include <construct/installtypes.h>
 
 extern int tempdec(exp, bool);
 extern bool APPLYLIKE(exp);

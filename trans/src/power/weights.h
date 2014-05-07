@@ -12,6 +12,7 @@
 #define WEIGHTSDECS_H
 
 #include <local/exptypes.h>
+
 #include "procrecs.h"
 
 #define UNITWEIGHT	((double)1.0)

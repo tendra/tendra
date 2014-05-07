@@ -28,6 +28,8 @@ in a register.
 
 #include <assert.h>
 
+#include <local/expmacs.h>
+
 #include <construct/tags.h>
 #include <construct/exp.h>
 #include <construct/shapemacs.h>
@@ -35,7 +37,6 @@ in a register.
 #include "addrtypes.h"
 #include "proctypes.h"
 #include "labels.h"
-#include <local/expmacs.h>
 #include "makecode.h"
 #include "bitsmacs.h"
 #include "locate.h"
@@ -48,7 +49,6 @@ in a register.
 #include "guard.h"
 #include "move.h"
 #include "comment.h"
-
 #include "codehere.h"
 
 

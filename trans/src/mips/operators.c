@@ -13,11 +13,12 @@
 
 #include <shared/xalloc.h>
 
+#include <local/expmacs.h>
+
 #include <construct/tags.h>
 #include <construct/shapemacs.h>
 
 #include "code_here.h"
-#include <local/expmacs.h>
 #include "addrtypes.h"
 #include "inst_fmt.h"
 #include "move.h"

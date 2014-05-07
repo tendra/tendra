@@ -9,10 +9,11 @@
 
 #include <assert.h>
 
+#include <local/out.h>
+
 #include "addrtypes.h"
 #include "regexps.h"
 #include "labels.h"
-#include <local/out.h>
 
 
 /*

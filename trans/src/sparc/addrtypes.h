@@ -12,10 +12,9 @@
 
 #include <shared/check.h>
 
-#include <construct/installtypes.h>
-
 #include <local/localtypes.h>
 
+#include <construct/installtypes.h>
 
 #define NOREG	100
 

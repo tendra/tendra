@@ -16,6 +16,9 @@
 
 #include <shared/check.h>
 
+#include <local/exptypes.h>
+#include <local/expmacs.h>
+
 #include <reader/externs.h>
 #include <reader/basicread.h>
 
@@ -28,9 +31,7 @@
 
 #include <diag/diag_fns.h>
 
-#include <local/exptypes.h>
 #include "addrtypes.h"
-#include <local/expmacs.h>
 #include "loc_signal.h"
 #include "maxminmacs.h"
 #include "procrectypes.h"

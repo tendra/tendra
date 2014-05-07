@@ -10,12 +10,13 @@
 
 #ifdef DEBUG_POWERTRANS
 
+#include <local/exptypes.h>
+#include <local/expmacs.h>
+
 #include <construct/exp.h>
 #include <construct/tags.h>
 #include <construct/shapemacs.h>
 
-#include <local/exptypes.h>
-#include <local/expmacs.h>
 #include "ash.h"
 #include "addresstypes.h"
 #include "locate.h"

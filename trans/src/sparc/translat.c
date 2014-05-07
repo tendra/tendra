@@ -92,6 +92,10 @@
 #include <shared/xalloc.h>
 
 #include <local/diag_config.h>
+#include <local/expmacs.h>
+#include <local/exptypes.h>
+#include <local/localflags.h>
+#include <local/out.h>
 
 #ifdef NEWDWARF
 #include <local/dw2_config.h>
@@ -111,8 +115,6 @@
 
 #include <refactor/optimise.h>
 
-#include <local/expmacs.h>
-#include <local/exptypes.h>
 #include "tempdecs.h"
 #include "weights.h"
 #include "proctypes.h"
@@ -128,14 +130,12 @@
 #include "labels.h"
 #include "comment.h"
 #include "diag_out.h"
-#include <local/out.h>
 #include "translat.h"
 #include "proc.h"
 #include "special.h"
 #include "target_v.h"
 #include "locate.h"
 #include "sparctrans.h"
-#include <local/localflags.h>
 
 #ifdef NEWDWARF
 #include <dwarf2/dw2_iface.h>

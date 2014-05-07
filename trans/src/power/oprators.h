@@ -12,8 +12,8 @@
 #define OPRATORSDECS_H
 
 #include <local/exptypes.h>
-#include "addresstypes.h"
 
+#include "addresstypes.h"
 
 extern int comm_op(exp , space , where , Instruction_P);
 extern int non_comm_op(exp , space , where , Instruction_P);

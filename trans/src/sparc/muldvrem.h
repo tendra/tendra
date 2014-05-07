@@ -10,12 +10,13 @@
 #ifndef MULDVREM_INCLUDED
 #define MULDVREM_INCLUDED
 
+#include <local/exptypes.h>
+#include <local/exptypes.h>
+
 #include <construct/installtypes.h>
 
-#include <local/exptypes.h>
 #include "addrtypes.h"
 #include "proctypes.h"
-#include <local/exptypes.h>
 
 extern bool is_muldivrem_call(exp);
 extern int call_muldivrem(exp, exp, space, int, int);

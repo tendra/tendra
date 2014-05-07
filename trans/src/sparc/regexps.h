@@ -10,9 +10,10 @@
 #ifndef REGEXPS_INCLUDED
 #define REGEXPS_INCLUDED
 
+#include <local/exptypes.h>
+
 #include <construct/installtypes.h>
 
-#include <local/exptypes.h>
 #include "addrtypes.h"
 
 typedef struct {

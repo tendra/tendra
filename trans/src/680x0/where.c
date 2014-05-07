@@ -12,6 +12,10 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
+#include <local/exptypes.h>
+#include <local/expmacs.h>
+#include <local/fbase.h>
+
 #include <reader/externs.h>
 
 #include <construct/exp.h>
@@ -20,9 +24,6 @@
 #include <construct/tags.h>
 #include <construct/flpt.h>
 
-#include <local/exptypes.h>
-#include <local/expmacs.h>
-#include <local/fbase.h>
 #include "mach.h"
 #include "tests.h"
 #include "where.h"

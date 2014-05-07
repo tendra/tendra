@@ -7,9 +7,9 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include <construct/installtypes.h>
-
 #include <local/exptypes.h>
+
+#include <construct/installtypes.h>
 
 extern bool tempdecopt;
 extern bool tempdec(exp e, bool enoughs);

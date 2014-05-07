@@ -14,33 +14,33 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
-#include <construct/flags.h>
-#include <reader/codetypes.h>
 #include <local/exptypes.h>
-#include "addrtypes.h"
-#include <local/exptypes.h>
-#include <construct/shapemacs.h>
 #include <local/expmacs.h>
-#include <reader/codetypes.h>
+#include <local/szs_als.h>
+#include <local/out.h>
+
+#include <construct/flags.h>
+#include <construct/shapemacs.h>
+#include <construct/tags.h>
 #include <construct/installtypes.h>
-#include <reader/toktypes.h>
+#include <construct/machine.h>
 #include <construct/exp.h>
-#include <local/exptypes.h>
+#include <construct/installglob.h>
+
+#include <reader/codetypes.h>
+#include <reader/toktypes.h>
+#include <reader/read_fns.h>
+#include <reader/externs.h>
+#include <reader/basicread.h>
+
+#include "addrtypes.h"
 #include "proctypes.h"
 #include "procrec.h"
-#include <construct/tags.h>
 #include "bitsmacs.h"
 #include "locate.h"
 #include "comment.h"
 #include "translat.h"
-#include <construct/machine.h>
-#include <local/szs_als.h>
-#include <reader/read_fns.h>
-#include <construct/installglob.h>
-#include <reader/externs.h>
-#include <local/out.h>
 #include "diag_out.h"
-#include <reader/basicread.h>
 
 #ifdef NEWDIAGS
 

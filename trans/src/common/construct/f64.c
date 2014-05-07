@@ -17,7 +17,6 @@
 #include <construct/exp.h>
 #include <construct/f64.h>
 
-
 /* PROCEDURES */
 
 flt64

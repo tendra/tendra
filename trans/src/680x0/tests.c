@@ -7,6 +7,9 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <local/expmacs.h>
+#include <local/localflags.h>
+
 #include <construct/exp.h>
 #include <construct/shapemacs.h>
 #include <construct/tags.h>
@@ -16,9 +19,7 @@
 #include <refactor/optimise.h>
 
 #include "assembler.h"
-#include <local/expmacs.h>
 #include "tests.h"
-#include <local/localflags.h>
 
 #ifndef tdf3
 #include "68k_globals.h"

@@ -9,6 +9,9 @@
 
 #include <shared/error.h>
 
+#include <local/exptypes.h>
+#include <local/expmacs.h>
+
 #include <construct/exp.h>
 #include <construct/flags.h>
 #include <construct/shapemacs.h>
@@ -17,8 +20,6 @@
 #include <construct/f64.h>
 #include <construct/me_fns.h>
 
-#include <local/exptypes.h>
-#include <local/expmacs.h>
 #include "mach.h"
 #include "where.h"
 #include "codec.h"

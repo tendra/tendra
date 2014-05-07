@@ -31,6 +31,12 @@
 #include <local/dw2_config.h>
 #endif
 
+#include <local/exptypes.h>
+#include <local/codermacs.h>
+#include <local/expmacs.h>
+#include <local/out.h>
+#include <local/localflags.h>
+
 #include <reader/codetypes.h>
 #include <reader/basicread.h>
 #include <reader/externs.h>
@@ -49,18 +55,13 @@
 
 #include <refactor/refactor.h>
 
-#include <local/exptypes.h>
 #include "weights.h"
-#include <local/codermacs.h>
 #include "instr386.h"
-#include <local/expmacs.h>
 #include "operand.h"
 #include "instr.h"
 #include "instrmacs.h"
-#include <local/out.h>
 #include "codec.h"
 #include "reg_record.h"
-#include <local/localflags.h>
 #include "messages_8.h"
 #include "assembler.h"
 #include "cproc.h"

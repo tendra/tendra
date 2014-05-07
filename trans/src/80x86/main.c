@@ -12,6 +12,10 @@
 #include <shared/check.h>
 #include <shared/getopt.h>
 
+#include <local/expmacs.h>
+#include <local/localflags.h>
+#include <local/out.h>
+
 #include <reader/basicread.h>
 #include <reader/externs.h>
 #include <reader/main_reads.h>
@@ -25,12 +29,9 @@
 #include <construct/exp.h>
 #include <construct/construct_v.h>
 
-#include <local/out.h>
 #include "weights.h"
 #include "instr.h"
-#include <local/expmacs.h>
 #include "instr386.h"
-#include <local/localflags.h>
 #include "messages_8.h"
 #include "assembler.h"
 #include "target_v.h"

@@ -11,9 +11,9 @@
 #ifndef RECORD_BIT_H
 #define RECORD_BIT_H
 
-#include <construct/installtypes.h>
-
 #include <local/exptypes.h>
+
+#include <construct/installtypes.h>
 
 extern void try_record_bit(exp);
 extern bool record_bit_set(exp);

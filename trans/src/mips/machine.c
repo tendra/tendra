@@ -7,11 +7,10 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include <construct/shapemacs.h>
-#include <construct/installtypes.h>
-
 #include <local/expmacs.h>
 
+#include <construct/shapemacs.h>
+#include <construct/installtypes.h>
 
 /* is the result of a procedure delivering
    this shape produced in registers. */

@@ -7,13 +7,13 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <local/expmacs.h>
+#include <local/localtypes.h>
+
 #include <construct/shapemacs.h>
 #include <construct/tags.h>
 
-#include <local/expmacs.h>
 #include "regable.h"
-#include <local/localtypes.h>
-
 
 bool
 valregable(shape s)

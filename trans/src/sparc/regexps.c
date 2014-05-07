@@ -9,6 +9,9 @@
 
 #include <assert.h>
 
+#include <local/exptypes.h>
+#include <local/expmacs.h>
+
 #include <shared/check.h>
 
 #ifdef NEWDWARF
@@ -19,8 +22,6 @@
 #include <construct/shapemacs.h>
 #include <construct/flags.h>
 
-#include <local/exptypes.h>
-#include <local/expmacs.h>
 #include "addrtypes.h"
 #include "move.h"
 #include "bitsmacs.h"

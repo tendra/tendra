@@ -7,6 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <local/expmacs.h>
+
 #include <construct/tags.h>
 #include <construct/exp.h>
 #include <construct/shapemacs.h>
@@ -14,7 +16,6 @@
 #include "addresstypes.h"
 #include "procrectypes.h"
 #include "labels.h"
-#include <local/expmacs.h>
 #include "coder.h"
 #include "bitsmacs.h"
 #include "locate.h"

@@ -22,6 +22,8 @@
 
 #include <shared/xalloc.h>
 
+#include <local/expmacs.h>
+
 #include "cross_config.h"
 
 #include <reader/codetypes.h>
@@ -32,7 +34,6 @@
 #include <diag/diagtypes.h>
 #include <diag/diag_fns.h>
 
-#include <local/expmacs.h>
 #include "main.h"
 #include "symtab.h"
 #include "symbol.h"

@@ -11,6 +11,8 @@
 #include <shared/xalloc.h>
 
 #include <local/dw2_config.h>
+#include <local/expmacs.h>
+#include <local/szs_als.h>
 
 #include <reader/externs.h>
 #include <reader/basicread.h>
@@ -33,10 +35,6 @@
 #include <dwarf2/dw2_info.h>
 
 #include <refactor/refactor.h>
-
-#include <local/expmacs.h>
-#include <local/szs_als.h>
-
 
 static void fail_unimplemented
     ( long a1 , long a2 )

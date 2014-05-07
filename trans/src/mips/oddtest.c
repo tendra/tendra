@@ -18,12 +18,13 @@ where f is any sequence of unary operators including identity
 
 #include <stddef.h>
 
-#include <construct/tags.h>
-#include <construct/shapemacs.h>
-
 #include <local/exptypes.h>
 #include <local/expmacs.h>
 #include <local/exptypes.h>
+
+#include <construct/tags.h>
+#include <construct/shapemacs.h>
+
 #include "comp_eq_exp.h"
 #include "oddtest.h"
 

@@ -7,15 +7,16 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <local/exptypes.h>
+#include <local/expmacs.h>
+#include <local/expmacs.h>
+
 #include <construct/exp.h>
 #include <construct/tags.h>
 
 #include "procrectypes.h"
-#include <local/exptypes.h>
 #include "procrecs.h"
-#include <local/expmacs.h>
 #include "regexps.h"
-#include <local/expmacs.h>
 #include "bitsmacs.h"
 #include "fail.h"
 #include "getregs.h"

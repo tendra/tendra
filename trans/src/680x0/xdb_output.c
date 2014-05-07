@@ -12,6 +12,9 @@
 
 #include <shared/error.h>
 
+#include <local/exptypes.h>
+#include <local/expmacs.h>
+
 #include <construct/installtypes.h>
 #include <construct/exp.h>
 #include <construct/tags.h>
@@ -22,10 +25,8 @@
 #include <diag/dg_types.h>		/* NEW DIAGS */
 #include <diag/diagtypes.h>		/* OLD DIAGS */
 
-#include <local/exptypes.h>
 #include "assembler.h"
 #include "codex.h"
-#include <local/expmacs.h>
 #include "instrs.h"
 #include "mach.h"
 #include "mach_ins.h"

@@ -9,6 +9,8 @@
 
 #include <stddef.h>
 
+#include <local/expmacs.h>
+
 #include <reader/externs.h>
 
 #include <construct/installglob.h>
@@ -17,7 +19,6 @@
 #include <construct/tags.h>
 #include <construct/exp.h>
 
-#include <local/expmacs.h>
 #include "tv_callees.h"
 
 void transform_var_callees

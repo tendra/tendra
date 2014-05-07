@@ -11,9 +11,9 @@
 #ifndef procreckey
 #define procreckey 1
 
-#include <construct/installtypes.h>
-
 #include <local/exptypes.h>
+
+#include <construct/installtypes.h>
 
 #define wfixno		32
 #define wfloatno	32

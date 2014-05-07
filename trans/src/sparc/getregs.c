@@ -14,17 +14,18 @@
 
 #include <assert.h>
 
+#include <local/exptypes.h>
+#include <local/expmacs.h>
+#include <local/expmacs.h>
+
 #include <construct/exp.h>
 #include <construct/tags.h>
 
 #include "regexps.h"
 #include "regmacs.h"
 #include "proctypes.h"
-#include <local/exptypes.h>
 #include "procrec.h"
-#include <local/expmacs.h>
 #include "addrtypes.h"
-#include <local/expmacs.h>
 #include "bitsmacs.h"
 #include "getregs.h"
 #include "comment.h"

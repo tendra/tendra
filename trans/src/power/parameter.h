@@ -11,9 +11,9 @@
 #ifndef PARAMETER_H
 #define PARAMETER_H
 
-#include <construct/installtypes.h>
-
 #include <local/exptypes.h>
+
+#include <construct/installtypes.h>
 
 extern void output_parameters(exp);
 extern bool suspected_varargs;

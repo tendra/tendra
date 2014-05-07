@@ -9,6 +9,8 @@
 
 #include <shared/error.h>
 
+#include <local/expmacs.h>
+
 #include <reader/externs.h>
 
 #include <construct/exp.h>
@@ -16,7 +18,6 @@
 #include <construct/shapemacs.h>
 #include <construct/tags.h>
 
-#include <local/expmacs.h>
 #include "instrs.h"
 #include "mach.h"
 #include "mach_ins.h"

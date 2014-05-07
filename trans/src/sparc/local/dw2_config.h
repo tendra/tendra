@@ -11,6 +11,8 @@
 #define dw2_config_key 1
 
 #include <local/exptypes.h>
+#include <local/out.h>
+
 #include <construct/installtypes.h>
 
 #ifdef NEWDIAGS
@@ -21,10 +23,6 @@
 #include <diag/diaginfo.h>
 #include <diag/dg_types.h>		/* NEW DIAGS */
 #endif
-
-#include <construct/installtypes.h>
-#include <local/exptypes.h>
-#include <local/out.h>
 
 #define DWARF_MOD_VERSION	(needs_debug_align ? DWARF_VERSION  * 101 : DWARF_VERSION)
 #define DW_CIE_MOD_VERSION	(needs_debug_align ? DW_CIE_VERSION * 101 : DW_CIE_VERSION)

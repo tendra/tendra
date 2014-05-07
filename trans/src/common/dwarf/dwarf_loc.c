@@ -9,16 +9,16 @@
 
 #include "cross_config.h"
 
+#include <local/codermacs.h>
+#include <local/expmacs.h>
+#include <local/out.h>
+
 #include <reader/basicread.h>
 
 #include <construct/installtypes.h>
 #include <construct/shapemacs.h>
 #include <construct/machine.h>
 #include <construct/tags.h>
-
-#include <local/codermacs.h>
-#include <local/expmacs.h>
-#include <local/out.h>
 
 #include <dwarf/dwarf_codes.h>
 #include <dwarf/dwarf_types.h>

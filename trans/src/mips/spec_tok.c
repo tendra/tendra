@@ -11,6 +11,8 @@
 
 #include <shared/check.h>
 
+#include <local/expmacs.h>
+
 #include <reader/codetypes.h>
 #include <reader/basicread.h>
 #include <reader/c_arith_type.h>
@@ -30,8 +32,6 @@
 #include <diag/diag_fns.h>
 
 #include <refactor/refactor.h>
-
-#include <local/expmacs.h>
 
 /* intercepts specially defined tokens */
 

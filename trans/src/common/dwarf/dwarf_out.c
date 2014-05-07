@@ -12,6 +12,9 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
+#include <local/out.h>
+#include <local/expmacs.h>
+
 #include "cross_config.h"
 
 #include <reader/codetypes.h>
@@ -34,9 +37,6 @@
 #include <dwarf/dwarf_loc.h>
 #include <dwarf/dwarf_mc.h>
 #include <dwarf/dwarf_out.h>
-
-#include <local/out.h>
-#include <local/expmacs.h>
 
 #ifdef NEWDIAGS
 #include <construct/tags.h>

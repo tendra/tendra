@@ -9,6 +9,8 @@
 
 #include <shared/error.h>
 
+#include <local/expmacs.h>
+
 #include <reader/basicread.h>
 #include <reader/externs.h>
 
@@ -18,7 +20,6 @@
 #include <construct/tags.h>
 
 #include "assembler.h"
-#include <local/expmacs.h>
 #include "mach.h"
 #include "mach_ins.h"
 #include "where.h"

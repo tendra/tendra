@@ -18,6 +18,9 @@ A clear bit indicates that the corresponding register is free for use.
 
 ******************************************************************/
 
+#include <local/exptypes.h>
+#include <local/expmacs.h>
+
 #include <reader/basicread.h>
 
 #include <construct/exp.h>
@@ -25,10 +28,7 @@ A clear bit indicates that the corresponding register is free for use.
 #include <construct/flags.h>
 
 #include "procrectypes.h"
-#include <local/exptypes.h>
-#include <local/expmacs.h>
 #include "regexps.h"
-#include <local/expmacs.h>
 #include "bitsmacs.h"
 #include "getregs.h"
 

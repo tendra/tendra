@@ -7,10 +7,11 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <local/out.h>
+
 #include "addrtypes.h"
 #include "regexps.h"
 #include "labels.h"
-#include <local/out.h>
 
 
 int firstlab=50, labno;

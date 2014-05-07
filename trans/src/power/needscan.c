@@ -22,6 +22,11 @@ the proc independent (common to other  translators)
 
 #include <shared/error.h>
 
+#include <local/exptypes.h>
+#include <local/expmacs.h>
+#include <local/localtypes.h>
+#include <local/localflags.h>
+
 #include <reader/codetypes.h>
 #include <reader/externs.h>
 
@@ -36,12 +41,9 @@ the proc independent (common to other  translators)
 
 #include <refactor/const.h>
 
-#include <local/exptypes.h>
 #include "comment.h"
 #include "memtdf.h"
 #include "codegen.h"
-#include <local/expmacs.h>
-#include <local/localtypes.h>
 #include "procrectypes.h"
 #include "bitsmacs.h"
 #include "maxminmacs.h"
@@ -53,7 +55,6 @@ the proc independent (common to other  translators)
 #include "stack.h"
 #include "error.h"
 #include "dynamic_init.h"
-#include <local/localflags.h>
 
 /*
  * Will an ident exp be in memory?

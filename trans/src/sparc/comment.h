@@ -15,6 +15,7 @@
 #include <local/exptypes.h>
 
 #include <reader/codetypes.h>
+
 #include <construct/installtypes.h>
 
 extern char *sparctrans;

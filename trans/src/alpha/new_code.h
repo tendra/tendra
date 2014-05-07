@@ -12,12 +12,11 @@
    new_codedecs.h
 */
 
-#include "addresstypes.h"
-#include "procrectypes.h"
 #include <local/exptypes.h>
 
+#include "addresstypes.h"
+#include "procrectypes.h"
+
 extern  where nowhere;
-
-
-
 extern  makeans make_code(exp e, space sp, where dest, int exitlab);
+

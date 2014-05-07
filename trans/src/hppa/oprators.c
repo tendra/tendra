@@ -7,12 +7,13 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <local/expmacs.h>
+
 #include <construct/tags.h>
 #include <construct/shapemacs.h>
 #include <construct/flags.h>
 
 #include "codehere.h"
-#include <local/expmacs.h>
 #include "addrtypes.h"
 #include "inst_fmt.h"
 #include "move.h"

@@ -14,15 +14,16 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
+#include <local/fbase.h>
+#include <local/localflags.h>
+
 #include "assembler.h"
 #include "instrs.h"
-#include <local/fbase.h>
 #include "mach.h"
 #include "mach_ins.h"
 #include "mach_op.h"
 #include "output.h"
 #include "codex.h"
-#include <local/localflags.h>
 
 
 /*

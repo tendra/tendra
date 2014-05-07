@@ -7,6 +7,9 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <local/exptypes.h>
+#include <local/expmacs.h>
+
 #include <construct/exp.h>
 #include <construct/flags.h>
 #include <construct/installglob.h>
@@ -15,8 +18,6 @@
 
 #include <refactor/optimise.h>
 
-#include <local/exptypes.h>
-#include <local/expmacs.h>
 #include "instrs.h"
 #include "evaluate.h"
 #include "mach.h"

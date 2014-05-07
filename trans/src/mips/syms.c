@@ -11,6 +11,9 @@
 
 #include <shared/xalloc.h>
 
+#include <local/expmacs.h>
+#include <local/localtypes.h>
+
 #include "cross_config.h"
 
 #ifndef CROSS_INCLUDE
@@ -26,12 +29,10 @@
 #include <construct/tags.h>
 
 #include "symtab.h"
-#include <local/expmacs.h>
 #include "syms.h"
 #include "main.h"
 #include "diag_out.h"
 #include "new_symbol.h"
-#include <local/localtypes.h>
 
 extern long currentfile;
 

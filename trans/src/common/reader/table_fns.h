@@ -11,8 +11,8 @@
 #define TABLE_FNS_H
 
 #include <local/exptypes.h>
-#include <reader/toktypes.h>
 
+#include <reader/toktypes.h>
 
 /* find the exp which is labelled by l */
 exp get_lab(label l);

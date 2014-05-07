@@ -16,11 +16,12 @@ For trivial 'peephole' optimisations
 #include <assert.h>
 #include <stddef.h>
 
+#include <local/exptypes.h>
+#include <local/expmacs.h>
+
 #include <construct/tags.h>
 #include <construct/shapemacs.h>
 
-#include <local/exptypes.h>
-#include <local/expmacs.h>
 #include "addrtypes.h"
 #include "move.h"
 #include "bitsmacs.h"

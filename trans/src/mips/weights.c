@@ -40,12 +40,13 @@ stack, (this is obviously always available for parameters).
 #include <limits.h>
 #include <stddef.h>
 
+#include <local/exptypes.h>
+#include <local/expmacs.h>
+
 #include <construct/exp.h>
 #include <construct/tags.h>
 #include <construct/shapemacs.h>
 
-#include <local/exptypes.h>
-#include <local/expmacs.h>
 #include "procrectypes.h"
 #include "bitsmacs.h"
 #include "maxminmacs.h"

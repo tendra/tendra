@@ -12,6 +12,8 @@
 
 #include <shared/xalloc.h>
 
+#include <local/expmacs.h>
+
 #include "cross_config.h"
 
 #include <reader/codetypes.h>
@@ -25,7 +27,6 @@
 
 #include <refactor/optimise.h>
 
-#include <local/expmacs.h>
 #include "tempdecs.h"
 #include "weights.h"
 #include "procrectypes.h"

@@ -11,9 +11,9 @@
 #ifndef DIAGOUT_H
 #define DIAGOUT_H	1
 
-#include <construct/installtypes.h>
-
 #include <local/exptypes.h>
+
+#include <construct/installtypes.h>
 
 extern void init_diag(void);
 extern void fixup_name(exp , dec * , dec *);

@@ -18,11 +18,12 @@
 
 #include <stddef.h>
 
+#include <local/expmacs.h>
+#include <local/exptypes.h>
+
 #include <construct/tags.h>
 #include <construct/shapemacs.h>
 
-#include <local/expmacs.h>
-#include <local/exptypes.h>
 #include "comp_eq_exp.h"
 #include "oddtest.h"
 

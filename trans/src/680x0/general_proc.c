@@ -13,6 +13,10 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
+#include <local/exptypes.h>
+#include <local/expmacs.h>
+#include <local/szs_als.h>
+
 #include <construct/exp.h>
 #include <construct/flags.h>
 #include <construct/shapemacs.h>
@@ -24,8 +28,6 @@
 
 #include <refactor/optimise.h>
 
-#include <local/exptypes.h>
-#include <local/expmacs.h>
 #include "mach.h"
 #include "where.h"
 #include "codec.h"
@@ -39,7 +41,6 @@
 #include "output.h"
 #include "instrs.h"
 #include "peephole.h"
-#include <local/szs_als.h>
 #include "tests.h"
 #include "utility.h"
 #include "weights.h"

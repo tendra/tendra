@@ -12,19 +12,20 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
+#include <local/exptypes.h>
+#include <local/out.h>
+#include <local/expmacs.h>
+#include <local/localflags.h>
+
 #include <reader/basicread.h>
 
 #include <construct/exp.h>
 #include <construct/machine.h>
 #include <construct/install_fns.h>
 
-#include <local/exptypes.h>
 #include "instr.h"
 #include "instr386.h"
-#include <local/out.h>
-#include <local/expmacs.h>
 #include "operand.h"
-#include <local/localflags.h>
 #include "coder.h"
 
 static int pic_label;

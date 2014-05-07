@@ -13,6 +13,9 @@
 #include <shared/check.h>
 #include <shared/getopt.h>
 
+#include <local/exptypes.h>
+#include <local/out.h>
+
 #include <reader/main_reads.h>		/* for d_capsule */
 #include <reader/basicread.h>	/* for good_trans */
 #include <reader/reader_v.h>
@@ -28,8 +31,6 @@
 #include "comment.h"		/* for do_comment */
 #include "addrtypes.h"		/* for where */
 #include "makecode.h"		/* for nowhere */
-#include <local/exptypes.h>
-#include <local/out.h>
 #include "version.h"
 #include "diag_out.h"
 #include "frames.h"

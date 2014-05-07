@@ -10,6 +10,10 @@
 #include <shared/check.h>
 
 #include <local/diag_config.h>
+#include <local/expmacs.h>
+#include <local/out.h>
+#include <local/codermacs.h>
+#include <local/localflags.h>
 
 #include <reader/basicread.h>
 #include <reader/externs.h>
@@ -30,13 +34,9 @@
 #include <diag/diag_fns.h>
 #endif
 
-#include <local/expmacs.h>
 #include "coder.h"
 #include "instr.h"
-#include <local/out.h>
-#include <local/codermacs.h>
 #include "instr386.h"
-#include <local/localflags.h>
 #include "assembler.h"
 #include "messages_8.h"
 #include "evaluate.h"

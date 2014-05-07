@@ -23,6 +23,7 @@
 #include <shared/xalloc.h>
 
 #include <local/exptypes.h>
+
 #include "inst_fmt.h"
 #include "main.h"
 #include "fail.h"

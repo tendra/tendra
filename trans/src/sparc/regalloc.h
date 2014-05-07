@@ -10,9 +10,10 @@
 #ifndef REGALLOC_INCLUDED
 #define REGALLOC_INCLUDED
 
+#include <local/exptypes.h>
+
 #include <construct/installtypes.h>
 
-#include <local/exptypes.h>
 #include "proctypes.h"
 
 extern bool avoid_L7;

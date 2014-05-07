@@ -27,6 +27,9 @@
 
 #include <shared/check.h>
 
+#include <local/exptypes.h>
+#include <local/expmacs.h>
+
 #include <reader/externs.h>
 #include <reader/basicread.h>
 
@@ -37,8 +40,6 @@
 #include <construct/label_ops.h>
 #include <construct/install_fns.h>
 
-#include <local/exptypes.h>
-#include <local/expmacs.h>
 #include "coder.h"
 #include "instr386.h"
 #include "scan2.h"

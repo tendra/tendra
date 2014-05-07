@@ -39,6 +39,9 @@ stack, (this is obviously always available for parameters).
 
 #include <stddef.h>
 
+#include <local/exptypes.h>
+#include <local/expmacs.h>
+
 #include <reader/codetypes.h>
 
 #include <construct/installtypes.h>
@@ -48,8 +51,6 @@ stack, (this is obviously always available for parameters).
 
 #include <refactor/const.h>
 
-#include <local/exptypes.h>
-#include <local/expmacs.h>
 #include "proctypes.h"
 #include "procrec.h"
 #include "bitsmacs.h"

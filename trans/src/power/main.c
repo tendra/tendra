@@ -14,6 +14,8 @@
 #include <shared/check.h>
 #include <shared/getopt.h>
 
+#include <local/localflags.h>
+
 #include <reader/reader_v.h>		/* for reader_revison */
 
 #include <construct/flags.h>		/* for option flags */
@@ -23,7 +25,6 @@
 #include "comment.h"		/* for do_comment */
 #include "target_v.h"		/* for comiple_date */
 #include "macro.h"
-#include <local/localflags.h>
 #include "dynamic_init.h"
 
 enum cpu cpu;

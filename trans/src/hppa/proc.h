@@ -10,11 +10,12 @@
 #ifndef PROCDECS_INCLUDED
 #define PROCDECS_INCLUDED
 
+#include <local/exptypes.h>
+
 #include <construct/installtypes.h>
 
 #include "addrtypes.h"
 #include "proctypes.h"
-#include <local/exptypes.h>
 
 struct proc_state {
     ans procans;

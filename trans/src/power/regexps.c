@@ -11,9 +11,10 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
+#include <local/exptypes.h>
+
 #include <construct/flags.h>
 
-#include <local/exptypes.h>
 #include "memtdf.h"
 #include "codegen.h"
 #include "maxminmacs.h"		/* for absval() */

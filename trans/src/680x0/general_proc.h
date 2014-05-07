@@ -7,10 +7,10 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include <construct/installtypes.h>
-
 #include <local/exptypes.h>
 #include <local/localtypes.h>
+
+#include <construct/installtypes.h>
 
 void apply_general_proc(exp e, where dest, ash stack);
 void tail_call(exp e, where dest, ash stack);

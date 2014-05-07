@@ -10,8 +10,9 @@
 #ifndef LOCALTYPES_INCLUDED
 #define LOCALTYPES_INCLUDED
 
-#include <construct/installtypes.h>
 #include <local/exptypes.h>
+
+#include <construct/installtypes.h>
 
 typedef struct {
     long ashsize;

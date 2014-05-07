@@ -14,6 +14,8 @@
   portably.
 */
 
+#include <local/expmacs.h>
+
 #include <construct/flpttypes.h>
 #include <construct/flpt.h>
 #include <construct/f64.h>
@@ -22,7 +24,6 @@
 #include "cross.h"
 #include "main.h"
 #include "fail.h"
-#include <local/expmacs.h>
 
 #if BLDARCHBITS == 64
 
