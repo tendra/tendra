@@ -8,7 +8,7 @@
 +IMPLEMENT "cae/xns5-ar", "netinet/in.h.ts", "in_addr"   (!?);
 
 +SUBSET "endian" := {
-	+USE "cae/xsh2", "inttypes.h.ts";
+	+USE "cae/xsh5", "inttypes.h.ts";
 
 	+FUNC uint32_t htonl(uint32_t hostlong);
 	+FUNC uint16_t htons(uint16_t hostshort);

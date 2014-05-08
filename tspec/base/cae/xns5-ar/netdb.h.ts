@@ -7,7 +7,7 @@
 +USE "c/c89", "stddef.h.ts", "size_t" (!?);
 
 +IMPLEMENT "cae/xns5-ar", "netinet/in.h", "port_addr" (!?);
-+USE "cae/xsh2", "inttypes.h.ts";
++USE "cae/xsh5", "inttypes.h.ts";
 
 +FIELD struct hostent {
 	char *h_name;

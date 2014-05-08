@@ -26,7 +26,7 @@ APIS+=	cae/dtp-xa
 APIS+=	cae/xns5-ar
 APIS+=	cae/xns5-socket
 APIS+=	cae/xns5-xti
-APIS+=	cae/xsh2
+APIS+=	cae/xsh5
 
 .include <tendra.tspec.mk>
 

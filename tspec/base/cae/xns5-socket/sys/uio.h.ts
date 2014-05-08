@@ -4,5 +4,5 @@
 #
 # See doc/copyright/ for the full copyright terms.
 
-+USE "cae/xsh2", "sys/uio.h.ts" (!?);
++USE "cae/xsh5", "sys/uio.h.ts" (!?);
 

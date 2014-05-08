@@ -5,8 +5,8 @@
 # See doc/copyright/ for the full copyright terms.
 
 +USE "c/c89", "stddef.h.ts", "size_t"        (!?);
-+USE "cae/xsh2", "sys/types.h.ts", "ssize_t" (!?);
-+USE "cae/xsh2", "sys/uio.h.ts", "iovec"     (!?);
++USE "cae/xsh5", "sys/types.h.ts", "ssize_t" (!?);
++USE "cae/xsh5", "sys/uio.h.ts", "iovec"     (!?);
 
 +TYPE (unsigned) socklen_t; # at least 32 bits
 
