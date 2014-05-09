@@ -6,6 +6,6 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+USE "cae/xpg4", "sys/types.h.ts" ;
++USE "cae/xsh4-base", "sys/types.h.ts" ;
 +IMPLEMENT "posix/posix2", "fcntl.h.ts" ;
 +IMPLEMENT "cae/xpg3", "fcntl.h.ts", "o_sync" ;

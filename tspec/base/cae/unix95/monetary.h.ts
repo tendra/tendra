@@ -8,4 +8,4 @@
 
 +IMPLEMENT "posix/posix1", "sys/types.h.ts", "ssize_t" ;
 +IMPLEMENT "c/c89", "stddef.h.ts", "size_t" ;
-+IMPLEMENT "cae/xpg4", "monetary.h.ts" ;
++IMPLEMENT "cae/xsh4-i18n", "monetary.h.ts" ;

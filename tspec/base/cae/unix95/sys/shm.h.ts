@@ -15,4 +15,4 @@
 
 +IMPLEMENT "cae/unix95", "sys/ipc.h.ts" ;
 
-+IMPLEMENT "cae/xpg4", "sys/shm.h.ts" ;
++IMPLEMENT "cae/xsh4-shm", "sys/shm.h.ts" ;

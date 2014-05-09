@@ -6,7 +6,7 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "cae/xpg4", "stdlib.h.ts" ;
++IMPLEMENT "cae/xsh4-base", "stdlib.h.ts" ;
 
 +FUNC long a64l ( const char * ) ;
 +FUNC char *l64a ( long ) ;

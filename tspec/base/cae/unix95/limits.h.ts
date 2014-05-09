@@ -6,7 +6,7 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "cae/xpg4", "limits.h.ts" ;
++IMPLEMENT "cae/xsh4-base", "limits.h.ts" ;
 
 +DEFINE _XOPEN_IOV_MAX 16 ;
 

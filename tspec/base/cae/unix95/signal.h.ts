@@ -6,7 +6,7 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "cae/xpg4", "signal.h.ts" ;
++IMPLEMENT "cae/xsh4-base", "signal.h.ts" ;
 +IMPLEMENT "cae/unix95", "ucontext.h.ts", "sig" ;
 
 +CONST void ( *SIG_HOLD ) ( int ) ;

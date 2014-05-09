@@ -6,7 +6,7 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "cae/xpg4", "math.h.ts" ;
++IMPLEMENT "cae/xsh4-base", "math.h.ts" ;
 
 +FUNC double asinh ( double ) ;
 +FUNC double acosh ( double ) ;

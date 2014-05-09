@@ -6,7 +6,7 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "cae/xpg4", "unistd.h.ts" ;
++IMPLEMENT "cae/xsh4-base", "unistd.h.ts" ;
 +IMPLEMENT "c/c89", "stddef.h.ts", "null" ;
 +IMPLEMENT "c/c89", "stdio.h.ts", "seek_consts" ;
 
@@ -23,7 +23,7 @@
 +IMPLEMENT "posix/posix", "sys/types.h.ts", "off_t" ;
 +IMPLEMENT "posix/posix", "sys/types.h.ts", "pid_t" ;
 +IMPLEMENT "cae/unix95", "sys/types.h.ts", "useconds_t" ;
-+IMPLEMENT "cae/xpg4", "stdio.h.ts", "optopt" ;
++IMPLEMENT "cae/xsh4-base", "stdio.h.ts", "optopt" ;
 
 +FUNC int brk ( void * ) ;
 +FUNC int fchown ( int, uid_t, gid_t ) ;

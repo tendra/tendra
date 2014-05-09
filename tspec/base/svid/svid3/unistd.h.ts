@@ -19,6 +19,7 @@
 
 # Added in xpg3
 +IMPLEMENT "cae/xpg3", "unistd.h.ts", "u_plus" ;
++IMPLEMENT "cae/xpg3", "unistd.h.ts", "u_plus-crypt" ;
 +FUNC void swab ( char *, char *, int ) ;
 
 +IF 0

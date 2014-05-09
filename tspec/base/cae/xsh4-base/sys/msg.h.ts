@@ -6,7 +6,7 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+USE "cae/xpg4", "sys/ipc.h.ts" ;
++USE "cae/xsh4-base", "sys/ipc.h.ts" ;
 +IMPLEMENT "cae/xpg3", "sys/msg.h.ts" ;
 
 /* Define XPG4 hacks in terms of my hacks */

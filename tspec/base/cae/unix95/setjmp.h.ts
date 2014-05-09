@@ -6,7 +6,7 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "cae/xpg4", "setjmp.h.ts" ;
++IMPLEMENT "cae/xsh4-base", "setjmp.h.ts" ;
 
 +FUNC ~bottom _longjmp ( jmp_buf, int ) ;
 +FUNC int _setjmp ( jmp_buf ) ;

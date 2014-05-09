@@ -10,7 +10,7 @@
 +IMPLEMENT "c/c89", "time.h.ts", "time_t" ;
 
 +SUBSET "st_proto" := {
-    +IMPLEMENT "cae/xpg4", "sys/stat.h.ts" ;
+    +IMPLEMENT "cae/xsh4-base", "sys/stat.h.ts" ;
     +IMPLEMENT "cae/xpg3", "sys/stat.h.ts", "s_isvtx" ;
 
     +FIELD struct stat {

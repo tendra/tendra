@@ -6,6 +6,6 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "cae/xpg4", "string.h.ts" ;
++IMPLEMENT "cae/xsh4-base", "string.h.ts" ;
 
 +FUNC char *strdup ( const char * ) ;

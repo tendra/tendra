@@ -6,4 +6,4 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "cae/xpg4", "sys/utsname.h.ts" ;
++IMPLEMENT "cae/xsh4-base", "sys/utsname.h.ts" ;

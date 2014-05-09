@@ -6,7 +6,7 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "cae/xpg4", "pwd.h.ts" ;
++IMPLEMENT "cae/xsh4-base", "pwd.h.ts" ;
 
 +IMPLEMENT "posix/posix", "sys/types.h.ts", "guid" ;
 

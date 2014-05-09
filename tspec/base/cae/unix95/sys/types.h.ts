@@ -6,7 +6,7 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "cae/xpg4", "sys/types.h.ts" ;
++IMPLEMENT "cae/xsh4-base", "sys/types.h.ts" ;
 
 +SUBSET "id_t" := { +TYPE ( arith ) id_t ; } ;
 

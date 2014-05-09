@@ -21,6 +21,9 @@
     +FUNC int fsync ( int ) ;
     +FUNC char *getpass ( const char * ) ;
     +FUNC int nice ( int ) ;
+} ;
+
++SUBSET "u_plus-crypt" := {
     +IF 0
     /* These are optional */
     +FUNC char *crypt ( const char *, const char * ) ;

@@ -6,7 +6,7 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+USE "cae/xpg4", "sys/types.h.ts" (!?) ;
++USE "cae/xsh4-base", "sys/types.h.ts" (!?) ;
 +IMPLEMENT "posix/posix2", "unistd.h.ts" ;
 +IMPLEMENT "cae/xpg3", "unistd.h.ts", "u_plus" ;
 

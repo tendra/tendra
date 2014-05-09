@@ -5,5 +5,7 @@
 #
 # See doc/copyright/ for the full copyright terms.
 
++USE "c/c89", "time.h.ts" (!?);
 
-+IMPLEMENT "posix/posix2", "fnmatch.h.ts" ;
++FUNC char *strptime(const char *, const char *, struct tm *);
+

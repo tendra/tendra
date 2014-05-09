@@ -10,6 +10,6 @@
 +IMPLEMENT "posix/posix", "sys/types.h.ts", "mode_t" ;
 +IMPLEMENT "cae/xpg3", "sys/types.h.ts", "key_t" ;
 
-+IMPLEMENT "cae/xpg4", "sys/ipc.h.ts" ;
++IMPLEMENT "cae/xsh4-base", "sys/ipc.h.ts" ;
 
 +FUNC key_t ftok ( const char *, int ) ;

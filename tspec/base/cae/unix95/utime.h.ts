@@ -6,6 +6,6 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "cae/xpg4", "utime.h.ts" ;
++IMPLEMENT "cae/xsh4-base", "utime.h.ts" ;
 
 +IMPLEMENT "c/c89", "time.h.ts", "time_t" ;

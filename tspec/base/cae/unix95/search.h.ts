@@ -6,7 +6,7 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "cae/xpg4", "search.h.ts" ;
++IMPLEMENT "cae/xsh4-base", "search.h.ts" ;
 +IMPLEMENT "c/c89", "stddef.h.ts", "size_t" ;
 
 +FUNC void insque ( void *, void * ) ;

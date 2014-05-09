@@ -6,7 +6,7 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "cae/xpg4", "sys/wait.h.ts" ;
++IMPLEMENT "cae/xsh4-base", "sys/wait.h.ts" ;
 +IMPLEMENT "cae/unix95", "sys/types.h.ts", "id_t" ;
 +IMPLEMENT "cae/unix95", "signal.h.ts", "siginfo_t" ;
 +IMPLEMENT "posix/posix", "sys/types.h.ts", "pid_t" ;

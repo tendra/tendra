@@ -6,4 +6,4 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "cae/xpg4", "wordexp.h.ts" ;
++IMPLEMENT "cae/xsh4-clb", "wordexp.h.ts" ;

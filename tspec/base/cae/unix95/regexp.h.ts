@@ -8,4 +8,4 @@
 
 /* TO BE WITHDRAWN */
 
-+IMPLEMENT "cae/xpg4", "regexp.h.ts" ;
++IMPLEMENT "cae/xsh4-base", "regexp.h.ts" ;

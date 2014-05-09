@@ -10,10 +10,12 @@
 
 +SUBSET "putenv" := {
     +FUNC int putenv ( const char * ) ;
-    +IF 0
-    /* This is optional */
-    +FUNC void setkey ( const char * ) ;
-    +ENDIF
+} ;
++SUBSET "setkey" := {
+	+IF 0
+	/* This is optional */
+	+FUNC void setkey ( const char * ) ;
+	+ENDIF
 } ;
 
 +IF 0

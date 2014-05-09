@@ -6,8 +6,8 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+USE "cae/xpg4", "sys/types.h.ts" ;
-+USE "cae/xpg4", "sys/ipc.h.ts" ;
++USE "cae/xsh4-base", "sys/types.h.ts" ;
++USE "cae/xsh4-base", "sys/ipc.h.ts" ;
 +IMPLEMENT "cae/xpg3", "sys/sem.h.ts", "sem_proto" ;
 
 # These are different from xpg3

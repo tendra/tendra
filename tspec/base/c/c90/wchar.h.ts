@@ -43,9 +43,7 @@
 
 	# 7.16.4.4.n
 	+FUNC int wcscmp(const wchar_t *, const wchar_t *);
-	+FUNC int wcscoll(const wchar_t *, const wchar_t *);
 	+FUNC int wcsncmp(const wchar_t *, const wchar_t *, size_t);
-	+FUNC size_t wcsxfrm(wchar_t *, const wchar_t *, size_t);
 
 	# 7.16.4.5.n
 	+FUNC size_t wcscspn(const wchar_t *, const wchar_t *);
@@ -57,6 +55,12 @@
 	+FUNC wchar_t *wcsrchr(const wchar_t *, wchar_t);
 	+FUNC wchar_t *wcspbrk(const wchar_t *, const wchar_t *);
 	+ENDIF
+};
+
++SUBSET "mse-i18n" := {
+	# 7.16.4.4.n
+	+FUNC int wcscoll(const wchar_t *, const wchar_t *);
+	+FUNC size_t wcsxfrm(wchar_t *, const wchar_t *, size_t);
 };
 
 # 7.16.1
@@ -98,7 +102,9 @@
 +FUNC wchar_t *wmemset(wchar_t *, wchar_t, size_t);
 
 # 7.16.5
-+FUNC size_t wcsftime(wchar_t *, size_t, const wchar_t *, const struct tm *);
++SUBSET "wcsftime" := {
+	+FUNC size_t wcsftime(wchar_t *, size_t, const wchar_t *, const struct tm *);
+};
 
 # 7.16.6.1.n
 +FUNC wint_t btowc(int);

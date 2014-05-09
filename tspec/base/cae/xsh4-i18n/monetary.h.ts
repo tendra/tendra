@@ -6,5 +6,5 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "cae/xpg3", "time.h.ts" ;
-+FUNC char *strptime ( const char *, const char *, struct tm * ) ;
++USE "cae/xsh4-base", "sys/types.h.ts" ;
++FUNC ssize_t strfmon ( char *, size_t, const char *, ... ) ;

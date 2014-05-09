@@ -6,7 +6,7 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "cae/xpg4", "grp.h.ts" ;
++IMPLEMENT "cae/xsh4-base", "grp.h.ts" ;
 
 +FUNC void endgrent ( void ) ;
 +FUNC struct group *getgrent ( void ) ;

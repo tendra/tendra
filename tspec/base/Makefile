@@ -19,14 +19,20 @@ APIS+=	posix/posix2
 
 APIS+=	cae/unix95
 APIS+=	cae/xpg3
-APIS+=	cae/xpg4
 
 APIS+=	cae/acse-xap
 APIS+=	cae/dtp-xa
+
+APIS+=	cae/xsh4-base
+APIS+=	cae/xsh4-clb
+APIS+=	cae/xsh4-crypt
+APIS+=	cae/xsh4-i18n
+APIS+=	cae/xsh4-shm
+
+APIS+=	cae/xsh5
 APIS+=	cae/xns5-ar
 APIS+=	cae/xns5-socket
 APIS+=	cae/xns5-xti
-APIS+=	cae/xsh5
 
 .include <tendra.tspec.mk>
 

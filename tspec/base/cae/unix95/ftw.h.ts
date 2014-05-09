@@ -6,7 +6,7 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "cae/xpg4", "ftw.h.ts" ;
++IMPLEMENT "cae/xsh4-base", "ftw.h.ts" ;
 +IMPLEMENT "cae/unix95", "sys/stat.h.ts", "st_proto" ;
 
 +CONST int FTW_PHYS, FTW_MOUNT, FTW_DEPTH, FTW_CHDIR ;

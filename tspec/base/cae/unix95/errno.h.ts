@@ -6,7 +6,7 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "cae/xpg4", "errno.h.ts" ;
++IMPLEMENT "cae/xsh4-base", "errno.h.ts" ;
 
 +CONST int EADDRINUSE, EADDRNOTAVAIL, EAFNOSUPPORT, EALREADY, EBADMSG ;
 +CONST int ECONNABORTED, ECONNREFUSED, ECONNRESET, EDESTADDRREQ, EDQUOT ;
