@@ -14,6 +14,10 @@
 #include "object.h"
 #endif
 
+extern object *crt_object;
+
+extern const char *api_info;
+
 /*
  * PROCEDURE DECLARATIONS
  *
@@ -21,8 +25,6 @@
  */
 void set_string(char *, char *);
 void set_integer(char *, int);
-
-extern object *crt_object;
 
 #endif
 

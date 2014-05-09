@@ -149,6 +149,16 @@
 				</tr>
 			
 				<tr>
+					<td><code>INFO</code></td>
+					<td>string</td>
+					<td>The formal name of the API. This is intended to be a complete
+						and unambigious name which can be used to find the relevant
+						standards which define this API. For example,
+						<code>&quot;ISO/IEC 9899:1990/Amendment 1:1995 (E)&quot;</code>.
+						This is to be set in the master file only.</td>
+				</tr>
+			
+				<tr>
 					<td><code>INTERFACE</code></td>
 					<td>numeric</td>
 					<td>Set to force the creation of the source output file and

@@ -30,6 +30,11 @@
 object *crt_object = NULL;
 
 /*
+ * A human-readable descrption of the API's formal name.
+ */
+const char *api_info;
+
+/*
  * SET A STRING VARIABLE
  *
  * This routine sets the string variable with identifier v to have value s.
@@ -43,6 +48,16 @@ set_string(char *v, char *s)
 			i->api = s;
 			i->prefix = NULL;
 		}
+	} else if (0 == strcmp(v, "$INFO")) {
+		char *p;
+
+		for (p = s; *p != '\0'; p++) {
+			if (*p == ' ') {
+				*p = '@'; /* for tcc */
+			}
+		}
+
+		api_info = s;
 	} else if (0 == strcmp(v, "$BLOCKNAME")) {
 		if (crt_object) {
 			info *i = crt_object->u.u_info;
