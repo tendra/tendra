@@ -3,9 +3,11 @@
 .include "Makefile.inc"
 
 
-# TODO: ugly and confusing
-ENVCOMMON+= ${OBJ_DIR:C|^${BASE_DIR}/||}/share/TenDRA/env
-LISTENVS = ls -1
+# TODO: confusing
+LISTENVS= ls -1
+LISTENV_BASE= ${OBJ_DIR}
+
+ENVCOMMON+= share/TenDRA/env
 
 ENVFILE+=	c89
 ENVFILE+=	c89-fs
