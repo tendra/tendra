@@ -71,7 +71,7 @@
 			described using the appropriate <code>#pragma</code> token statement. These
 			statements are arranged in TenDRA header files corresponding to the
 			headers comprising the API. Each API consists of a separate set of
-			header files. For example, if the ANSI API is used, the statement:</para>
+			header files. For example, if the ANSI C89 API is used, the statement:</para>
 
 		<programlisting language="c">#include &lt;sys/types.h&gt;</programlisting>
 
@@ -82,7 +82,7 @@
 			explicit in the headers. For example, the POSIX version of stdio.h
 			consists of the ANSI version plus some extra objects. This is
 			implemented by making the TenDRA header describing the POSIX
-			version of <code>stdio.h</code> include the ANSI version of
+			version of <code>stdio.h</code> include the ANSI C89 version of
 			<code>stdio.h</code>.</para>
 	</section>
 
@@ -92,7 +92,7 @@
 		<para>The API against which a program is to be checked is
 			specified to tchk by means of a command-line option of the form
 			<code>-Y<replaceable>api</replaceable></code> where <replaceable>api</replaceable> is the API
-			name. For example, ANSI X3.159 is specified by <code>-Yansi</code>
+			name. For example, ANSI X3.159 is specified by <code>-Yc89</code>
 			(this is the default API) and POSIX 1003.1 is specified by
 			<code>-Yposix</code> (for a full list of the supported APIs
 			see Chapter 2).</para>

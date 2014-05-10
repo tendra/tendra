@@ -133,13 +133,13 @@
 			specifies ISO C with no extensions and no extra checks, the
 			<code>-Xa</code> option specifies ISO C with common extensions, and
 			<code>-Xs</code> specifies ISO C with no extensions and lots of extra
-			checks. Similarly <code>-Yansi</code> specifies the ISO C API (excluding
+			checks. Similarly <code>-Yc89</code> specifies the ANSI C89 API (excluding
 			Amendment 1), <code>-Yposix</code> specifies the POSIX 1003.1 API etc.
 			It is also possible to make <application>tcc</application> use the system
 			headers on the host machine by the use of the <code>-Ysystem</code>
 			option. The <code>-Yc++</code> option is required to enable the C++
 			facilities. The default mode is equivalent to <code>-Xc
-			-Yansi.</code></para>
+			-Yc89.</code></para>
 
 		<para>How to configure the C compiler checks is described in more detail
 			in the &tchk.doc;.

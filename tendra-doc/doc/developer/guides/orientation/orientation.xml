@@ -166,7 +166,7 @@
 					<td><filename><replaceable>${PREFIX_LIB}</replaceable>/tcc/api</filename></td>
 					<td><filename>.tl</filename></td>
 					<td>&tdf; implementations of &api; tokens
-						(e.g. <filename>ansi.tl</filename>, the &ansi; C &api;).
+						(e.g. <filename>c89.tl</filename>, the &ansi; C89 &api;).
 						These are platform-specific.</td>
 				</tr>
 
@@ -349,7 +349,7 @@ TODO: consider showing as three large graphs; build, runtime and regeneration - 
 				<para><dt:source path="/tendra/src/lib/apis/"/></para>
 			</footnote> which represent a similar level of abstraction that their
 			respective standards represent. For example, <code>size_t</code>
-			for the &ansi; &api; is defined to be an unsigned arithmetic
+			for the C89 &api; is defined to be an unsigned arithmetic
 			type, but exactly which type is left to the implementation.
 			See <dt:doc name="tspecguide"/> for details on specifying
 			&api;s.</para>
@@ -430,10 +430,10 @@ TODO: consider showing as three large graphs; build, runtime and regeneration - 
 			<code>tcc -E</code>:</para>
 
 <programlisting language="C">
-clarion% tcc -Yansi -E hello.c
+clarion% tcc -Yc89 -E hello.c
 #line 1 "hello.c"
 ...
-#line 13 "<replaceable>$PREFIX_TSPEC</replaceable>/TenDRA/include/shared/ansi.api/size_t.h"
+#line 13 "<replaceable>$PREFIX_TSPEC</replaceable>/TenDRA/include/shared/c89.api/size_t.h"
 ...
 #pragma token VARIETY unsigned size_t # size_t
 #pragma token VARIETY __size_t # __size_t
@@ -442,12 +442,12 @@ clarion% tcc -Yansi -E hello.c
 #pragma no_def size_t __size_t
 
 ...
-#line 25 "<replaceable>$PREFIX_TSPEC</replaceable>/TenDRA/include/ansi.api/stdio.h"
-#pragma token EXP rvalue : FILE * : stdin # ansi.stdio.stdin
-#pragma token EXP rvalue : FILE * : stdout # ansi.stdio.stdout
-#pragma token EXP rvalue : FILE * : stderr # ansi.stdio.stderr
+#line 25 "<replaceable>$PREFIX_TSPEC</replaceable>/TenDRA/include/c89.api/stdio.h"
+#pragma token EXP rvalue : FILE * : stdin # c89.stdio.stdin
+#pragma token EXP rvalue : FILE * : stdout # c89.stdio.stdout
+#pragma token EXP rvalue : FILE * : stderr # c89.stdio.stderr
 ...
-#pragma token FUNC int ( __local_printf_string, ... ) : printf # ansi.stdio.printf
+#pragma token FUNC int ( __local_printf_string, ... ) : printf # c89.stdio.printf
 
 #line 3 "hello.c"
 int main(void) {

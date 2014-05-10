@@ -354,13 +354,13 @@
 
 		<para>to be printed.</para>
 
-		<para>As was mentioned above, the default &api; is &ansi;.
+		<para>As was mentioned above, the default &api; is <code>C89</code>.
 			Thus invoking &tcc; without specifying an &api; environment
-			is equivalent to giving the <option>-Yansi</option>
+			is equivalent to giving the <option>-Yc89</option>
 			command-line option.
 			On the basis that, when it comes to portability, explicit
 			decisions are better than implicit ones, the use of
-			<option>-Yansi</option> is recommended.</para>
+			<option>-Yc89</option> is recommended.</para>
 	</section>
 
 	<section>
