@@ -7,3 +7,4 @@
 +API_NAME		"-Acpp"
 +FLAG			"-special cpp"
 <INFO			"C++@ABI"
++LIB			"-lc++"

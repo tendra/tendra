@@ -1,3 +1,4 @@
 /* tcc environment for c */
 
-+INCL			"-Yansi"
++INCL			"-Yc89"
++LIB			"-lc"
