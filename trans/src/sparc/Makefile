@@ -27,7 +27,7 @@ PARTS+=	src/common/refactor
 .include <tendra.partial.mk>
 
 
-#TCCOPTS=	-Xc -Y32bit -Yansi
+#TCCOPTS=	-Xc -Y32bit -Yc89
 
 CCOPTS+=	${TRANS_CFLAGS}
 

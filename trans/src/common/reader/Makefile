@@ -27,7 +27,7 @@
 #   @${RMFILE} ${SRC6}/temp_fns.new
 #   ${MAKE_TDF} ${SPEC} ${SRC7}/temp_fns.c ${SRC6}/temp_fns.new
 
-#TCCOPTS=-Xc -Y32bit -Yansi
+#TCCOPTS=-Xc -Y32bit -Yc89
 
 .include "Makefile.inc"
 
