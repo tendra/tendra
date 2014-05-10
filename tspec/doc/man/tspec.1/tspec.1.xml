@@ -128,16 +128,22 @@
 				<arg choice="plain">&s.opt;</arg>
 			</group>
 			<group choice="req">
-				<arg choice="plain">&api.arg;</arg>
-			</group>
-			<group choice="req">
-				<arg choice="plain">&api.arg;</arg>
-				<arg choice="plain">&header.arg;</arg>
-			</group>
-			<group choice="req">
-				<arg choice="plain">&api.arg;</arg>
-				<arg choice="plain">&header.arg;</arg>
-				<arg choice="plain">&subset.arg;</arg>
+				<arg choice="plain">
+					<!-- Input local file -->
+					<arg choice="plain">&l.opt;</arg>
+					<arg choice="plain">&file.arg;</arg>
+				</arg>
+				<arg choice="plain">
+					<!-- Input API -->
+					&api.arg;
+					<group choice="opt">
+						<arg choice="plain">&header.arg;
+							<group choice="opt">
+								<arg choice="plain">&subset.arg;</arg>
+							</group>
+						</arg>
+					</group>
+				</arg>
 			</group>
 		</cmdsynopsis>
 
@@ -171,76 +177,23 @@
 				<arg choice="plain">&s.opt;</arg>
 			</group>
 			<group choice="req">
-				<arg choice="plain">&api.arg;</arg>
+				<arg choice="plain">
+					<!-- Input local file -->
+					<arg choice="plain">&l.opt;</arg>
+					<arg choice="plain">&file.arg;</arg>
+				</arg>
+				<arg choice="plain">
+					<!-- Input API -->
+					&api.arg;
+					<group choice="opt">
+						<arg choice="plain">&header.arg;
+							<group choice="opt">
+								<arg choice="plain">&subset.arg;</arg>
+							</group>
+						</arg>
+					</group>
+				</arg>
 			</group>
-			<group choice="req">
-				<arg choice="plain">&api.arg;</arg>
-				<arg choice="plain">&header.arg;</arg>
-			</group>
-			<group choice="req">
-				<arg choice="plain">&api.arg;</arg>
-				<arg choice="plain">&header.arg;</arg>
-				<arg choice="plain">&subset.arg;</arg>
-			</group>
-		</cmdsynopsis>
-
-		<cmdsynopsis>
-			<command>tspec</command>
-
-			<!-- Options out -->
-			<group choice="opt">
-				<arg choice="plain">&O.opt;</arg>
-				<arg choice="plain">&S.opt;</arg>
-			</group>
-			<group choice="opt">
-				<arg choice="plain">&f.opt;</arg>
-				<arg choice="plain">&n.opt;</arg>
-			</group>
-
-			<sbr/>
-
-			<!-- Common options -->
-			<arg choice="opt">&C.opt;</arg>
-			<arg choice="opt">&b.opt;</arg>
-			<arg choice="opt">&p.opt;</arg>
-			<arg choice="opt">&r.opt;</arg>
-			<arg choice="opt">&t.opt;</arg>
-			<arg choice="opt">&u.opt;</arg>
-			<arg choice="opt">&v.opt;</arg>
-
-			<sbr/>
-
-			<!-- Input local file -->
-			<arg choice="plain">&l.opt;</arg>
-			<arg choice="plain">&file.arg;</arg>
-		</cmdsynopsis>
-
-		<cmdsynopsis>
-			<command>tspec</command>
-
-			<!-- Options noout -->
-			<group choice="req">
-				<arg choice="plain">&c.opt;</arg>
-				<arg choice="plain">&e.opt;</arg>
-				<arg choice="plain">&i.opt;</arg>
-				<arg choice="plain">&m.opt;</arg>
-			</group>
-
-			<sbr/>
-
-			<!-- Common options -->
-			<arg choice="opt">&C.opt;</arg>
-			<arg choice="opt">&p.opt;</arg>
-			<arg choice="opt">&r.opt;</arg>
-			<arg choice="opt">&t.opt;</arg>
-			<arg choice="opt">&u.opt;</arg>
-			<arg choice="opt">&v.opt;</arg>
-
-			<sbr/>
-
-			<!-- Input local file -->
-			<arg choice="plain">&l.opt;</arg>
-			<arg choice="plain">&file.arg;</arg>
 		</cmdsynopsis>
 
 		<cmdsynopsis>
