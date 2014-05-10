@@ -8,6 +8,7 @@
 	<!ENTITY I.opt "<option>-I</option>&dir.arg;">
 	<!ENTITY O.opt "<option>-O</option>&dir.arg;">
 	<!ENTITY S.opt "<option>-S</option>&dir.arg;">
+	<!ENTITY E.opt "<option>-E</option>&dir.arg;">
 	<!ENTITY V.opt "<option>-V</option>">
 	<!ENTITY a.opt "<option>-a</option>">
 	<!ENTITY b.opt "<option>-b</option>">
@@ -23,6 +24,7 @@
 	<!ENTITY s.opt "<option>-s</option>">
 	<!ENTITY t.opt "<option>-t</option>">
 	<!ENTITY u.opt "<option>-u</option>">
+	<!ENTITY y.opt "<option>-y</option>">
 	<!ENTITY v.opt "<option>-v</option>">
 ]>
 
@@ -199,6 +201,54 @@
 		<cmdsynopsis>
 			<command>tspec</command>
 
+			<!-- Options out -->
+			<group choice="opt">
+				<arg choice="plain">&E.opt;</arg>
+			</group>
+			<group choice="req">
+				<arg choice="plain">&y.opt;</arg>
+			</group>
+
+			<sbr/>
+
+			<!-- Common options -->
+			<arg choice="opt">&C.opt;</arg>
+			<arg choice="opt">&b.opt;</arg>
+			<arg choice="opt">&r.opt;</arg>
+			<arg choice="opt">&t.opt;</arg>
+			<arg choice="opt">&v.opt;</arg>
+
+			<sbr/>
+
+			<!-- Input API -->
+			<arg choice="opt">&I.opt;</arg>
+			<group choice="opt">
+				<arg choice="plain">&a.opt;</arg>
+				<arg choice="plain">&s.opt;</arg>
+			</group>
+			<group choice="req">
+				<arg choice="plain">
+					<!-- Input local file -->
+					<arg choice="plain">&l.opt;</arg>
+					<arg choice="plain">&file.arg;</arg>
+				</arg>
+				<arg choice="plain">
+					<!-- Input API -->
+					&api.arg;
+					<group choice="opt">
+						<arg choice="plain">&header.arg;
+							<group choice="opt">
+								<arg choice="plain">&subset.arg;</arg>
+							</group>
+						</arg>
+					</group>
+				</arg>
+			</group>
+		</cmdsynopsis>
+
+		<cmdsynopsis>
+			<command>tspec</command>
+
 			<group choice="req">
 				<arg choice="plain">&V.opt;</arg>
 			</group>
@@ -275,6 +325,19 @@
 						the <varname>TSPEC_OUTPUT</varname> environmental variable.
 						In the latter case it is given by
 						<filename><replaceable>${TSPEC_OUTPUT}</replaceable>/src</filename>.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>&E.opt;</term>
+
+				<listitem>
+					<para>Specifies that the directory &dir.arg; should be used
+						as a base for the &tcc; environment output files.
+						This can also be specified using the <varname>TSPEC_ENV_OUTPUT</varname>
+						or the <varname>TSPEC_OUTPUT</varname> environmental variable.
+						In the latter case it is given by
+						<filename><replaceable>${TSPEC_OUTPUT}</replaceable>/env</filename>.</para>
 				</listitem>
 			</varlistentry>
 
@@ -430,6 +493,16 @@
 						reports on the output files it creates. If two &v.opt;
 						options are given then &tspec; enters very verbose mode,
 						in which it gives more information on its activities.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>&y.opt;</term>
+
+				<listitem>
+					<para>Causes &tspec; to generate &tcc; environment files.
+						These contain the relevant configuration for &tcc; to
+						use an &api;.</para>
 				</listitem>
 			</varlistentry>
 		</variablelist>

@@ -154,7 +154,10 @@
 			file if it is needed for TDF library building. If the corresponding
 			include output file does not contain any token specifications then
 			the source output file is suppressed (see
-			<link linkend="Libraries">section 6.4</link>).</para>
+			<link linkend="Libraries">section 5.5</link>).</para>
+
+		<para><code>tspec</code> can also generate environment files suitable
+			for &tcc; (see <link linkend="Environment">section 5.4</link>).</para>
 	</section>
 
 	<section id="Copyright">

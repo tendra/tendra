@@ -112,12 +112,34 @@ dep_free(struct dep *deps)
 }
 
 void
-print_env(FILE *f, object *input)
+print_env(object *input)
 {
 	struct dep *deps;
+	const char *api;
+	FILE *f;
 
 	object *ss = input->u.u_obj;
 	info *i = ss->u.u_info;
+
+	api = basename(i->api);
+
+	{
+		char *nm = string_printf(ENV_FILE, output_env_dir, api);
+
+		create_dir(nm);
+		if (verbose) {
+			IGNORE printf("Creating environment %s ...\n", nm);
+		}
+
+		check_name(nm);
+		f = fopen(nm, "w");
+		if (f == NULL) {
+			error(ERROR_SERIOUS, "Can't open output file, %s", nm);
+			return;
+		}
+
+		free(nm);
+	}
 
 	deps = NULL;
 
@@ -130,8 +152,8 @@ print_env(FILE *f, object *input)
 	fprintf(f, "\n");
 
 	fprintf(f, "+INCL         \"-N%s:<PREFIX_TSPEC>/TenDRA/include/%s.api\"\n", i->api, i->api);
-	fprintf(f, "+FLAG_INSTALL \"-Y%s\"\n", basename(i->api));
-	fprintf(f, "+API_NAME     \"-A%s\"\n", basename(i->api));
+	fprintf(f, "+FLAG_INSTALL \"-Y%s\"\n", api);
+	fprintf(f, "+API_NAME     \"-A%s\"\n", api);
 
 	dep_print(f, deps);
 
@@ -142,5 +164,7 @@ print_env(FILE *f, object *input)
 	fprintf(f, "\n");
 
 	dep_free(deps);
+
+	fclose(f);
 }
 

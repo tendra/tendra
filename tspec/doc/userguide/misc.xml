@@ -124,6 +124,17 @@
 			be usable as quick reference guides to the underlying APIs.</para>
 	</section>
 
+	<section id="Environment">
+		<title>Environment Generation</title>
+
+		<para>When invoked with the <option>-y</option> command-line
+			option, <code>tspec</code> outputs an environment file suitable
+			for use with the &tcc; frontend. This contains a description of
+			the API (per its <code>$INFO</code> field) which can be presented
+			to the user, along with internal configuration and library
+			dependencies for how &tcc; is to invoke that API.</para>
+	</section>
+
 	<section id="Libraries">
 		<title>TDF Library Building</title>
 

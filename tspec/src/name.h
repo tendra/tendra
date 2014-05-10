@@ -22,6 +22,7 @@
 #define OUTPUT_ENV    "TSPEC_OUTPUT"
 #define INCLUDE_ENV   "TSPEC_INCL_OUTPUT"
 #define SRC_ENV       "TSPEC_SRC_OUTPUT"
+#define TCC_ENV       "TSPEC_ENV_OUTPUT"
 #define COPYRIGHT_ENV "TSPEC_COPYRIGHT"
 
 /*
@@ -44,6 +45,13 @@
 #define SOURCE_API    "%s/%s.api/master.c"
 #define SOURCE_FILE	  "%s/%s.api/%s.c"
 #define SOURCE_SUBSET "%s/%s.api/%s.c"
+
+/*
+ * OUTPUT ENVIRONMENT FILES
+ *
+ * These macros are concerned with the tcc environment output files.
+ */
+#define ENV_FILE      "%s/%s"
 
 /*
  * MISCELLANEOUS FILES
@@ -107,6 +115,7 @@ extern int verbose;
 extern char *input_dir;
 extern char *output_incl_dir;
 extern char *output_src_dir;
+extern char *output_env_dir;
 
 #endif
 

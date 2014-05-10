@@ -17,7 +17,7 @@
 #include "type.h"
 #endif
 
-void print_env(FILE *, object *);
+void print_env(object *);
 
 #endif
 

@@ -18,6 +18,7 @@
 
 #include <out/index.h>
 #include <out/print.h>
+#include <out/env.h>
 
 #include "object.h"
 #include "hash.h"
@@ -39,13 +40,14 @@
  *
  * The variable input_dir consists of a colon-separated list of directories
  * to be searched for input files.  output_incl_dir and output_src_dir
- * give respectively the output include and output source directories.
- * The lengths of these directory names (plus one) are also given.
+ * give respectively the output include and output source directories,
+ * and output_env_dir gives the directory for generating tcc environments.
  */
 
 char *input_dir;
 char *output_incl_dir;
 char *output_src_dir;
+char *output_env_dir;
 
 
 /*
@@ -158,6 +160,7 @@ main(int argc, char **argv)
 
 	int show_index      = 0;
 	bool check_only     = 0;
+	bool output_env     = 0;
 	bool preproc_input  = 0;
 	bool separate_files = 0;
 
@@ -185,6 +188,7 @@ main(int argc, char **argv)
 	if (env != NULL) {
 		output_incl_dir = string_printf("%s/include", env);
 		output_src_dir  = string_printf("%s/src", env);
+		output_env_dir  = string_printf("%s/env", env);
 	}
 
 	env = getenv(INCLUDE_ENV);
@@ -195,6 +199,11 @@ main(int argc, char **argv)
 	env = getenv(SRC_ENV);
 	if (env != NULL) {
 		output_src_dir = xstrdup(env);
+	}
+
+	env = getenv(TCC_ENV);
+	if (env != NULL) {
+		output_env_dir = xstrdup(env);
 	}
 
 	env = getenv(COPYRIGHT_ENV);
@@ -213,6 +222,8 @@ main(int argc, char **argv)
 				output_incl_dir = arg + 2;
 			} else if (arg [1] == 'S') {
 				output_src_dir = arg + 2;
+			} else if (arg [1] == 'E') {
+				output_env_dir = arg + 2;
 			} else if (arg [1] == 'C') {
 				copyright = arg + 2;
 			} else {
@@ -234,6 +245,7 @@ main(int argc, char **argv)
 					case 't': allow_long_long = 1; break;
 					case 'u': unique_names    = 1; break;
 					case 'w': warnings        = 0; break;
+					case 'y': output_env      = 1; break;
 
 					case 'e': preproc_file = stdout;           break;
 					case 'n': progdate = date_stamp(argv [0]); break;
@@ -263,6 +275,10 @@ main(int argc, char **argv)
 			error(ERROR_WARNING, "Too many arguments");
 			}
 		}
+	}
+
+	if (show_index && output_env) {
+		error(ERROR_FATAL, "Can't output both an index and an environment");
 	}
 
 	if (local_input) {
@@ -359,6 +375,11 @@ main(int argc, char **argv)
 	}
 
 	if (check_only) {
+		return exit_status;
+	}
+
+	if (output_env) {
+		print_env(commands);
 		return exit_status;
 	}
 
