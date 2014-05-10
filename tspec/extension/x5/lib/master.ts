@@ -13,6 +13,8 @@
 $UNIQUE = 1 ;
 $VERSION = "2.6" ;
 
+$INFO = "X11 Release 5 - Library";
+
 # Headers from Xlib
 +IMPLEMENT "x5/lib", "X11/X.h.ts" ;		# NEW
 +IMPLEMENT "x5/lib", "X11/X10.h.ts" ;		# NEW

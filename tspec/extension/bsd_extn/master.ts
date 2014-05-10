@@ -9,6 +9,8 @@
 $UNIQUE = 1 ;
 $VERSION = "2.6" ;
 
+$INFO = "BSD extension API (ad hoc)";
+
 +IMPLEMENT "bsd_extn", "alloca.h.ts" ;
 +IMPLEMENT "bsd_extn", "arpa/inet.h.ts" ;
 +IMPLEMENT "bsd_extn", "errno.h.ts" ;

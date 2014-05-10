@@ -14,5 +14,7 @@ $UNIQUE  = 1;
 $VERSION = "2.6";
 +BASE_API;
 
+$INFO = "X/Open CAE XSH Issue 4 - Shared Memory";
+
 +IMPLEMENT "cae/xsh4-shm", "sys/shm.h.ts";
 

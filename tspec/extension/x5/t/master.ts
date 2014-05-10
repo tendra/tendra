@@ -13,6 +13,8 @@
 $UNIQUE = 1 ;
 $VERSION = "2.6" ;
 
+$INFO = "X11 Release 5 - Intrinsics Toolkit";
+
 # Headers from Xt
 +IMPLEMENT "x5/t", "X11/Composite.h.ts" ;		# NEW
 +IMPLEMENT "x5/t", "X11/Constraint.h.ts" ;		# NEW

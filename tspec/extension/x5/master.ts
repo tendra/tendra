@@ -11,6 +11,8 @@
 # Release 5 (1991).
 #
 
+$INFO = "X11 Release 5 - X Protocol";
+
 +IMPLEMENT "x5/lib" ;
 +IMPLEMENT "x5/t" ;
 +IMPLEMENT "x5/mu" ;

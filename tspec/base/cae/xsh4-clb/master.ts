@@ -14,6 +14,8 @@ $UNIQUE  = 1;
 $VERSION = "2.6";
 +BASE_API;
 
+$INFO = "X/Open CAE XSH Issue 4 - POSIX2 C-Language Binding";
+
 +IMPLEMENT "cae/xsh4-clb", "fnmatch.h.ts";
 +IMPLEMENT "cae/xsh4-clb", "glob.h.ts";
 +IMPLEMENT "cae/xsh4-clb", "regex.h.ts";

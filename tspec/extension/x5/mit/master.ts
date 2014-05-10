@@ -13,6 +13,8 @@
 $UNIQUE = 1 ;
 $VERSION = "2.6" ;
 
+$INFO = "X11 Release 5 - MIT Implementation";
+
 # Standard MIT headers
 +IMPLEMENT "x5/mit", "X11/Xfuncs.h.ts" ;
 +IMPLEMENT "x5/mit", "X11/Xos.h.ts" ;

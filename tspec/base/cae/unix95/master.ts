@@ -10,6 +10,8 @@ $UNIQUE = 1 ;
 $VERSION = "2.7" ;
 +BASE_API ;
 
+$INFO = "X/Open Single UNIX Specification";
+
 +IMPLEMENT "cae/unix95", "arpa/inet.h.ts" ;		# Networking
 +IMPLEMENT "cae/unix95", "assert.h.ts" ;
 +IMPLEMENT "cae/unix95", "cpio.h.ts" ;

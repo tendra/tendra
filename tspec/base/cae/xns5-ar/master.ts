@@ -9,8 +9,10 @@
 # Specified by The Open Group. Document number C523,
 # ISBN: 1-85912-165-9 published Feburary 1997.
 
-$UNIQUE = 1;
+$UNIQUE  = 1;
 $VERSION = "2.8";
+
+$INFO = "X/Open CAE XNS Issue 5 - IP Address Resolution Headers";
 
 +IMPLEMENT "cae/xns5-ar", "arpa/inet.h.ts";
 +IMPLEMENT "cae/xns5-ar", "netdb.h.ts";

@@ -14,6 +14,8 @@ $UNIQUE  = 1;
 $VERSION = "2.6";
 +BASE_API;
 
+$INFO = "X/Open CAE XSH Issue 4 - Enhanced Internationalisation";
+
 +IMPLEMENT "cae/xsh4-i18n", "monetary.h.ts";
 +IMPLEMENT "cae/xsh4-i18n", "time.h.ts";
 +IMPLEMENT "cae/xsh4-i18n", "wchar.h.ts";

@@ -13,6 +13,8 @@
 $UNIQUE = 1 ;
 $VERSION = "2.6" ;
 
+$INFO = "X11 Release 5 - Miscellaneous Utilities";
+
 # Headers from Xt
 +IMPLEMENT "x5/mu", "X11/StringDefs.h.ts" ;	# EXTENDED
 

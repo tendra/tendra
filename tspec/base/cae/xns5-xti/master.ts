@@ -12,5 +12,7 @@
 $UNIQUE = 1;
 $VERSION = "2.8";
 
+$INFO = "X/Open CAE XNS Issue 5 - Headers and Definitions for XTI";
+
 +IMPLEMENT "cae/xns5-xti", "xti.h.ts";
 

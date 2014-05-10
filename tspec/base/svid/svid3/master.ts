@@ -10,6 +10,8 @@ $UNIQUE = 1 ;
 $VERSION = "2.6" ;
 +BASE_API ;
 
+$INFO = "System V Interface Definition 3rd edition";
+
 +IMPLEMENT "svid/svid3", "acl.h.ts" ;
 +IMPLEMENT "svid/svid3", "assert.h.ts" ;
 +IMPLEMENT "svid/svid3", "cpio.h.ts" ;

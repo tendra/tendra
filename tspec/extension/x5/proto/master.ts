@@ -13,6 +13,8 @@
 $UNIQUE = 1 ;
 $VERSION = "2.6" ;
 
+$INFO = "X11 Release 5 - Protocol Extension";
+
 +IMPLEMENT "x5/proto", "X11/Xlibint.h.ts" ;
 +IMPLEMENT "x5/proto", "X11/Xproto.h.ts" ;
 +IMPLEMENT "x5/proto", "X11/Xprotostr.h.ts" ;

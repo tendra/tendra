@@ -13,6 +13,8 @@
 $UNIQUE = 1 ;
 $VERSION = "2.6" ;
 
+$INFO = "X11 Release 5 - Extensions";
+
 +IMPLEMENT "x5/ext", "X11/extensions/XShm.h.ts" ;
 +IMPLEMENT "x5/ext", "X11/extensions/multibuf.h.ts" ;
 +IMPLEMENT "x5/ext", "X11/extensions/shape.h.ts" ;

@@ -9,6 +9,8 @@
 $UNIQUE = 1 ;
 $VERSION = "2.6" ;
 
+$INFO = "X11 Release 5 - Xlib+Xt+Xmu+Xaw";
+
 # Headers from Xt
 +IMPLEMENT "x5/aw", "X11/StringDefs.h.ts" ;	# EXTENDED
 

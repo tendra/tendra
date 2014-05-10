@@ -13,6 +13,8 @@ $UNIQUE  = 1;
 $VERSION = "2.6";
 +BASE_API;
 
+$INFO = "ANSI X3.159 - Hosted";
+
 # 4.1.2 Standard headers
 +IMPLEMENT "c/c89", "assert.h.ts";
 +IMPLEMENT "c/c89", "ctype.h.ts";

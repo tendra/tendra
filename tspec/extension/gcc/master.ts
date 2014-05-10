@@ -9,6 +9,8 @@
 $UNIQUE = 1 ;
 $VERSION = "2.6" ;
 
+$INFO = "gcc SPEC test API (ad hoc)";
+
 +IMPLEMENT "gcc", "stab.h.ts" ;
 +IMPLEMENT "gcc", "tdf_alloca.h.ts" ;
 +IMPLEMENT "gcc", "sys/types.h.ts" ;

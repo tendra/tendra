@@ -15,6 +15,8 @@ $UNIQUE  = 1;
 $VERSION = "2.6";
 +BASE_API;
 
+$INFO = "X/Open CAE XSH Issue 4 - System Interfaces and Headers";
+
 +IMPLEMENT "cae/xsh4-base", "sys/ipc.h.ts";
 +IMPLEMENT "cae/xsh4-base", "sys/msg.h.ts";
 +IMPLEMENT "cae/xsh4-base", "sys/sem.h.ts";

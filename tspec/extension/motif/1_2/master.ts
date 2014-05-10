@@ -17,6 +17,9 @@
 # rev. os_ri July 31st, 1996 [added uil/UilDef.h]
 $UNIQUE = 1 ;
 $VERSION = "2.6" ;
+
+$INFO = "IEEE Std 1295-1993 - MTE";
+
 +IMPLEMENT "motif/1_2", "Xm/ArrowBGP.h.ts";
 +IMPLEMENT "motif/1_2", "Xm/ArrowB.h.ts";
 +IMPLEMENT "motif/1_2", "Xm/ArrowBG.h.ts";

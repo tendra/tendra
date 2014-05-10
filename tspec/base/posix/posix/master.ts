@@ -11,6 +11,8 @@ $UNIQUE = 1 ;
 $VERSION = "2.6" ;
 +BASE_API ;
 
+$INFO = "IEEE Std 1003.1-1988";
+
 +IMPLEMENT "posix/posix", "assert.h.ts" ;
 +IMPLEMENT "posix/posix", "ctype.h.ts" ;
 +IMPLEMENT "posix/posix", "dirent.h.ts" ;

@@ -11,6 +11,8 @@ $UNIQUE  = 1;
 $VERSION = "2.6";
 +BASE_API;
 
+$INFO = "ANSI X3.159 - Freestanding";
+
 +IMPLEMENT "c/c89-fs", "dummy.ts";
 
 # 1.7

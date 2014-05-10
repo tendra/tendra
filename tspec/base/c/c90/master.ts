@@ -14,6 +14,8 @@ $UNIQUE  = 1;
 $VERSION = "2.6";
 +BASE_API;
 
+$INFO = "ISO/IEC 9899:1990 - Hosted";
+
 # these inherit as-is from c89
 +IMPLEMENT "c/c90", "assert.h.ts";
 +IMPLEMENT "c/c90", "ctype.h.ts";

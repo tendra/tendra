@@ -14,6 +14,8 @@ $UNIQUE  = 1;
 $VERSION = "2.6";
 +BASE_API;
 
+$INFO = "X/Open CAE XSH Issue 4 - Encryption";
+
 +IMPLEMENT "cae/xsh4-crypt", "stdlib.h.ts";
 +IMPLEMENT "cae/xsh4-crypt", "unistd.h.ts";
 

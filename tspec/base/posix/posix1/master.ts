@@ -16,6 +16,8 @@ $UNIQUE = 1 ;
 $VERSION = "2.6" ;
 +BASE_API ;
 
+$INFO = "ISO/IEC 9945-1:1990";
+
 +IMPLEMENT "posix/posix1", "assert.h.ts" ;
 +IMPLEMENT "posix/posix1", "ctype.h.ts" ;
 +IMPLEMENT "posix/posix1", "dirent.h.ts" ;

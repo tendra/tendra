@@ -10,6 +10,8 @@ $UNIQUE = 1 ;
 $VERSION = "2.6" ;
 +BASE_API ;
 
+$INFO = "X/Open Portability Guide Issue 3";
+
 +IMPLEMENT "cae/xpg3", "assert.h.ts" ;
 +IMPLEMENT "cae/xpg3", "ctype.h.ts" ;
 +IMPLEMENT "cae/xpg3", "dirent.h.ts" ;
