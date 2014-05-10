@@ -1,3 +1,6 @@
-/* tcc environment for cose */
+/* $Id$ */
+
+/* COSE is the Common Open Software Environment, of which SUS is part */
 
 +FLAG		"-Yunix95"
+

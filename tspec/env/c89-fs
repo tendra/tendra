@@ -1,4 +1,4 @@
-/* tcc environment for c89-fs */
+/* $Id$ */
 
 +FLAG_TDFC		"-ma"
 

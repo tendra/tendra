@@ -1,4 +1,6 @@
-/* tcc environment for iso */
+/* $Id$ */
+
+/* ISO is short for C90 */
 
 +FLAG	"-Yc90"
 

@@ -1,4 +1,4 @@
-/* tcc environment for gcc */
+/* $Id$ */
 
 +FLAG			"-ftdf_alloca.h"
 

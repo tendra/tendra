@@ -1,4 +1,4 @@
-/* tcc environment for c90 */
+/* $Id$ */
 
 +FLAG_TDFC		"-ms"
 

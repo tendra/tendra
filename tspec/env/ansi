@@ -1,4 +1,6 @@
-/* tcc environment for ansi */
+/* $Id$ */
+
+/* ANSI is short for C89 */
 
 +FLAG	"-Yc89"
 

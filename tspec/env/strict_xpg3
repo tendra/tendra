@@ -1,6 +1,8 @@
-/* tcc environment for strict xpg3 */
+/* $Id$ */
+
 +FLAG		"-Yxpg3"
 +FLAG		"-D__STRICT_XPG3"
 +FLAG		"-D__STRICT_POSIX"
 +FLAG		"-D__JUST_XPG3"
 +INFO		"Strict@X/Open@Portability@Guide@3"
+

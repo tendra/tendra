@@ -1,4 +1,4 @@
-/* tcc environment for posix2 */
+/* $Id$ */
 
 /*
  * POSIX mandates that function pointers share the same representation 

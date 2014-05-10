@@ -1,4 +1,6 @@
-/* tcc environment for xsh4 */
+/* $Id$ */
+
+/* XSH4 is a collection of feature groups */
 
 +FLAG		"-Yxsh4-base -Yxsh4-clb -Yxsh4-crypt -Yxsh4-i18n -Yxsh4-shm"
 

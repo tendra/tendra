@@ -1,4 +1,4 @@
-/* tcc environment for x5_proto */
+/* $Id$ */
 
 +FLAG			"-D__X11_PROTO__"
 

@@ -1,4 +1,6 @@
-/* tcc environment for xpg4 */
+/* $Id$ */
+
+/* XPG4 is the environment of which XSH4 is part */
 
 +FLAG		"-Yxsh4"
 

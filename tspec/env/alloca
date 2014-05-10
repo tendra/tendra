@@ -1,3 +1,5 @@
-/* inline alloca */
+/* $Id$ */
 
+/* inline alloca */
 +FLAG		"-f<PREFIX_TSPEC>/TenDRA/include/gcc.api/tdf_alloca.h"
+

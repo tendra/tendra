@@ -1,4 +1,5 @@
-/* tcc environment for X11R5 private headers */
+/* $Id$ */
 
 +FLAG		"-D__X11_P_HEADERS"
 <INFO		"X11@Release@5@Private@Headers"
+
