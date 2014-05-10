@@ -1,7 +1,0 @@
-/* tcc environment for xpg3 */
-
-+INCL			"-Nxpg3:<PREFIX_TSPEC>/TenDRA/include/xpg3.api"
-+LIB			"-lxpg3 -lposix -lc89 -lc"
-+FLAG_INSTALL		"-Yxpg3"
-+API_NAME		"-Axpg3"
-+INFO			"X/Open@Portability@Guide@3"

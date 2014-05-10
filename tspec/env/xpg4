@@ -1,7 +1,4 @@
 /* tcc environment for xpg4 */
 
-+INCL			"-Nxpg4:<PREFIX_TSPEC>/TenDRA/include/xpg4.api"
-+LIB			"-lxpg4 -lxpg3 -lposix2 -lposix1 -lposix -lc90 -lc89 -lc"
-+FLAG_INSTALL		"-Yxpg4"
-+API_NAME		"-Axpg4"
-+INFO			"X/Open@Portability@Guide@4"
++FLAG		"-Yxsh4"
+

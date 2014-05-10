@@ -1,8 +1,4 @@
 /* tcc environment for c90 */
 
-+INCL			"-Nc90:<PREFIX_TSPEC>/TenDRA/include/c90.api"
-+LIB			"-lc90 -lc89 -lc"
-+FLAG_INSTALL		"-Yc90"
 +FLAG_TDFC		"-ms"
-+API_NAME		"-Ac90"
-+INFO			"ISO/IEC@9899:1990/Amendment@1:1995@(E)"
+

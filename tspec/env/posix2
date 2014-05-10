@@ -1,11 +1,5 @@
 /* tcc environment for posix2 */
 
-+INCL			"-Nposix2:<PREFIX_TSPEC>/TenDRA/include/posix2.api"
-+LIB			"-lposix2 -lposix1 -lposix -lc89 -lc"
-+FLAG_INSTALL		"-Yposix2"
-+API_NAME		"-Aposix2"
-+INFO			"POSIX.2@(ISO/IEC@9945-2:1993)"
-
 /*
  * POSIX mandates that function pointers share the same representation 
  * as object pointers. The new scope avoids conflicts with -Xp.

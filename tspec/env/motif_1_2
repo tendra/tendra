@@ -1,7 +1,0 @@
-/* tcc environment for motif_1_2 */
-
-<INCL			"-Nmotif_1_2:<PREFIX_TSPEC>/TenDRA/include/motif/1_2.api"
-<LIB			"-lmotif_1_2"
-+FLAG_INSTALL		"-Ymotif_1_2"
-<API_NAME		"-Amotif_1_2"
-<INFO			"Motif@Release@1.2"

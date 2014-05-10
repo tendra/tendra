@@ -1,7 +1,0 @@
-/* tcc environment for aes */
-
-+INCL			"-Naes:<PREFIX_TSPEC>/TenDRA/include/aes.api"
-+LIB			"-laes -lxpg3 -lposix -lc89 -lc"
-+FLAG_INSTALL		"-Yaes"
-+API_NAME		"-Aaes"
-+INFO			"Application@Environment@Specification@(Revision@A)"

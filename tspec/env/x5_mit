@@ -1,7 +1,0 @@
-/* tcc environment for x5_mit */
-
-<INCL			"-Nx5_mit:<PREFIX_TSPEC>/TenDRA/include/x5/mit.api"
-+FLAG_INSTALL		"-Yx5_mit"
-<LIB			"-lx5_mit"
-<API_NAME		"-Ax5_mit"
-<INFO			"X11@Release@5@(MIT@Implementation)"

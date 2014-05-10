@@ -1,9 +1,4 @@
 /* tcc environment for c89-fs */
 
-+INCL			"-Nc89-fs:<PREFIX_TSPEC>/TenDRA/include/c89-fs.api"
-+LIB			"-lc89-fs -lc"
 +FLAG_TDFC		"-ma"
-+FLAG_INSTALL		"-Yc89-fs"
-+API_NAME		"-Ac89-fs"
-+INFO			"ANSI@(X3.159)@Freestanding"
 

@@ -1,7 +1,0 @@
-/* tcc environment for cae_xap */
-
-<INCL			"-Ncae_xap:<PREFIX_TSPEC>/TenDRA/include/cae_xap.api"
-<LIB			"-lcae_xap"
-+FLAG_INSTALL		"-Ycae_xap"
-<API_NAME		"-Acae_xap"
-<INFO			"X/Open@CAE@ACSE/Presentation@Services@API@(XAP),@1991"

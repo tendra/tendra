@@ -1,9 +1,4 @@
 /* tcc environment for gcc */
 
-+FLAG			"-Yxpg3"
-<INCL			"-Ngcc:<PREFIX_TSPEC>/TenDRA/include/gcc.api"
-<LIB			"-lgcc"
-+FLAG_INSTALL		"-Ygcc"
 +FLAG			"-ftdf_alloca.h"
-<API_NAME		"-Agcc"
-<INFO			"API@for@gcc@SPEC@test"
+

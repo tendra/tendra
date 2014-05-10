@@ -1,0 +1,4 @@
+/* tcc environment for xsh4 */
+
++FLAG		"-Yxsh4-base -Yxsh4-clb -Yxsh4-crypt -Yxsh4-i18n -Yxsh4-shm"
+
