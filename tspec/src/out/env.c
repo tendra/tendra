@@ -85,7 +85,7 @@ dep_print(FILE *f, const struct dep *deps)
 {
 	const struct dep *p;
 
-	fprintf(f, "+LIB          \"");
+	fprintf(f, "<LIB          \"");
 
 	for (p = deps; p != NULL; p = p->next) {
 		fprintf(f, "-l%s", basename(p->api));
