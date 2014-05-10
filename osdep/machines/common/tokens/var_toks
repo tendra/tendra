@@ -5,11 +5,11 @@
  */
 
 /*
- * The -Yansi environment brings in c.tl, which is what this is used to build.
- * So, after loading -Yansi, +LIB is overridden here to remove -lc.
+ * The -Yc89 environment brings in c.tl, which is what this is used to build.
+ * So, after loading -Yc89, +LIB is overridden here to remove -lc.
  */
-+FLAG "-Yansi"
-+LIB  "-lansi"
++FLAG "-Yc89"
++LIB  "-lc89"
 
 >FLAG_TLD	"-H token"
 >FLAG_TLD	"-k token ~va_list"
