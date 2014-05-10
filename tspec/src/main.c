@@ -46,8 +46,6 @@
 char *input_dir;
 char *output_incl_dir;
 char *output_src_dir;
-int output_incl_len;
-int output_src_len;
 
 
 /*
@@ -186,21 +184,17 @@ main(int argc, char **argv)
 	env = getenv(OUTPUT_ENV);
 	if (env != NULL) {
 		output_incl_dir = string_printf("%s/include", env);
-		output_incl_len = (int)strlen(output_incl_dir) + 1;
 		output_src_dir  = string_printf("%s/src", env);
-		output_src_len  = (int)strlen(output_src_dir) + 1;
 	}
 
 	env = getenv(INCLUDE_ENV);
 	if (env != NULL) {
 		output_incl_dir = xstrdup(env);
-		output_incl_len = (int)strlen(output_incl_dir) + 1;
 	}
 
 	env = getenv(SRC_ENV);
 	if (env != NULL) {
 		output_src_dir = xstrdup(env);
-		output_src_len = (int)strlen(output_src_dir) + 1;
 	}
 
 	env = getenv(COPYRIGHT_ENV);
@@ -217,10 +211,8 @@ main(int argc, char **argv)
 				dir = string_printf("%s:%s", dir, arg + 2);
 			} else if (arg [1] == 'O') {
 				output_incl_dir = arg + 2;
-				output_incl_len = (int)strlen(arg + 2) + 1;
 			} else if (arg [1] == 'S') {
 				output_src_dir = arg + 2;
-				output_src_len = (int) strlen(arg + 2) + 1;
 			} else if (arg [1] == 'C') {
 				copyright = arg + 2;
 			} else {

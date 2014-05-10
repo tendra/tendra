@@ -107,8 +107,6 @@ extern int verbose;
 extern char *input_dir;
 extern char *output_incl_dir;
 extern char *output_src_dir;
-extern int output_incl_len;
-extern int output_src_len;
 
 #endif
 
