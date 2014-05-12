@@ -5,5 +5,7 @@
 #
 # See doc/copyright/ for the full copyright terms.
 
++IMPLEMENT "posix/posix", "sys/types.h.ts", "guid" ;
 
 +IMPLEMENT "posix/posix2", "pwd.h.ts" ;
+

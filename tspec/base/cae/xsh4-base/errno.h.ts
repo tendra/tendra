@@ -5,6 +5,7 @@
 #
 # See doc/copyright/ for the full copyright terms.
 
++IMPLEMENT "cae/xpg3", "errno.h.ts", "enums" ;
 
-+IMPLEMENT "c/c90", "errno.h.ts" ;
-+IMPLEMENT "cae/xpg3", "errno.h.ts", "expg4" ;
+# ENOTBLK withdrawn
+

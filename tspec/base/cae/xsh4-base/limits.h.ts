@@ -5,11 +5,11 @@
 #
 # See doc/copyright/ for the full copyright terms.
 
-
 +IMPLEMENT "cae/xpg3", "limits.h.ts", "values" ;
 +IMPLEMENT "posix/posix2", "limits.h.ts" ;
+
++CONST int CHARCLASS_NAME_MAX ;
 
 /* TO BE WITHDRAWN */
 +IMPLEMENT "c/c89", "float.h.ts", "xpg4_ranges" (!?) ;
 
-+CONST int CHARCLASS_NAME_MAX ;

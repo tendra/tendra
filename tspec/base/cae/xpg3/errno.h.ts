@@ -9,9 +9,11 @@
 +IMPLEMENT "posix/posix", "errno.h.ts" ;
 
 +SUBSET "enums" := {
-    +SUBSET "expg4" := {
 	+IMPLEMENT "posix/posix", "errno.h.ts", "enums" ;
 	+CONST int EIDRM, ENOMSG, ETXTBSY ;
-    } ;
-    +CONST int ENOTBLK ;
 } ;
+
++SUBSET "enums-notblk" := {
+	+CONST int ENOTBLK ;
+} ;
+

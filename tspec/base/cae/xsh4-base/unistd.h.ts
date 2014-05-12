@@ -5,10 +5,18 @@
 #
 # See doc/copyright/ for the full copyright terms.
 
++IMPLEMENT "c/c89", "stddef.h.ts", "size_t" ;
++IMPLEMENT "posix/posix1", "sys/types.h.ts", "ssize_t" ;
++IMPLEMENT "posix/posix", "sys/types.h.ts", "guid" ;
++IMPLEMENT "posix/posix", "sys/types.h.ts", "off_t" ;
++IMPLEMENT "posix/posix", "sys/types.h.ts", "pid_t" ;
 
-+USE "cae/xsh4-base", "sys/types.h.ts" (!?) ;
++IMPLEMENT "cae/xsh4-base", "stdio.h.ts", "optopt" ;
+
 +IMPLEMENT "posix/posix2", "unistd.h.ts" ;
 +IMPLEMENT "cae/xpg3", "unistd.h.ts", "u_plus" ;
+
++DEFINE _XOPEN_XPG4 %% %% ; # XXX: how to require just that something is defined, with no value?
 
 +IFNDEF _XOPEN_VERSION
 +DEFINE _XOPEN_VERSION.1	4 ;

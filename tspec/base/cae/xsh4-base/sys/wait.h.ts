@@ -5,5 +5,7 @@
 #
 # See doc/copyright/ for the full copyright terms.
 
-
 +IMPLEMENT "posix/posix2", "sys/wait.h.ts" ;
+
++IMPLEMENT "posix/posix", "sys/types.h.ts", "pid_t" ;
+

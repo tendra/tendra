@@ -5,5 +5,6 @@
 #
 # See doc/copyright/ for the full copyright terms.
 
-
 +IMPLEMENT "cae/xpg3", "utime.h.ts" ;
++IMPLEMENT "c/c89", "time.h.ts", "time_t" ;
+

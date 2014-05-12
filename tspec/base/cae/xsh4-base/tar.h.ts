@@ -14,7 +14,7 @@
 +DEFINE REGTYPE		%% '0' %% ;
 +DEFINE AREGTYPE	%% '\0' %% ;
 +DEFINE LNKTYPE		%% '1' %% ;
-+DEFINE SYMTYPE		%% '2' %% ;
+/* SYMTYPE provided by XSH4v2-unix */
 +DEFINE CHRTYPE		%% '3' %% ;
 +DEFINE BLKTYPE		%% '4' %% ;
 +DEFINE DIRTYPE		%% '5' %% ;
@@ -23,7 +23,7 @@
 
 +DEFINE TSUID		%% 04000 %% ;
 +DEFINE TSGID		%% 02000 %% ;
-+DEFINE TSVTX		%% 01000 %% ;
+/* TSVTX provided by XSH4v2-unix */
 +DEFINE TUREAD		%% 00400 %% ;
 +DEFINE TUWRITE		%% 00200 %% ;
 +DEFINE TUEXEC		%% 00100 %% ;

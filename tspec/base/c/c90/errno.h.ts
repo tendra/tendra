@@ -8,5 +8,7 @@
 +IMPLEMENT "c/c89", "errno.h.ts";
 
 # 7.1.4
-+CONST int EILSEQ;
++SUBSET "i18n" := {
+	+CONST int EILSEQ;
+};
 
