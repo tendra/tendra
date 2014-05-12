@@ -6,6 +6,6 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "cae/xsh4v2-base", "curses.h.ts", "chtype" ;
++IMPLEMENT "cae/xcurses4v2", "curses.h.ts", "chtype" ;
 
 +FUNC char *unctrl ( chtype ) ;

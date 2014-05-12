@@ -96,7 +96,7 @@
 +CONST int KEY_SSAVE, KEY_SSUSPEND, KEY_SUNDO, KEY_SUSPEND, KEY_UNDO ;
 
 
-+IMPLEMENT "cae/xsh4v2-base", "term.h.ts", "curs" ;	# FUNC both in term.h and curses.h
++IMPLEMENT "cae/xcurses4v2", "term.h.ts", "curs" ;	# FUNC both in term.h and curses.h
 
 +FUNC int addch ( const chtype ) ;
 +FUNC int addchstr ( chtype * const ) ;

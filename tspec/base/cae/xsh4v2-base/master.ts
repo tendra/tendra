@@ -11,7 +11,7 @@ $VERSION = "2.7" ;
 
 $INFO = "X/Open Single UNIX Specification";
 
-# XXX: networking (-ar, -socket etc?) and curses need to go elsewhere
+# XXX: networking (-ar, -socket etc?) needs to go elsewhere
 
 +IMPLEMENT "cae/xsh4v2-base", "sys/ipc.h.ts" ;
 +IMPLEMENT "cae/xsh4v2-base", "sys/msg.h.ts" ;
@@ -28,7 +28,6 @@ $INFO = "X/Open Single UNIX Specification";
 +IMPLEMENT "cae/xsh4v2-base", "assert.h.ts" ;
 +IMPLEMENT "cae/xsh4v2-base", "cpio.h.ts" ;
 +IMPLEMENT "cae/xsh4v2-base", "ctype.h.ts" ;
-+IMPLEMENT "cae/xsh4v2-base", "curses.h.ts" ;		# Curses
 +IMPLEMENT "cae/xsh4v2-base", "dirent.h.ts" ;
 +IMPLEMENT "cae/xsh4v2-base", "errno.h.ts" ;
 +IMPLEMENT "cae/xsh4v2-base", "fcntl.h.ts" ;
@@ -54,11 +53,9 @@ $INFO = "X/Open Single UNIX Specification";
 +IMPLEMENT "cae/xsh4v2-base", "stdlib.h.ts" ;
 +IMPLEMENT "cae/xsh4v2-base", "string.h.ts" ;
 +IMPLEMENT "cae/xsh4v2-base", "tar.h.ts" ;
-+IMPLEMENT "cae/xsh4v2-base", "term.h.ts" ;			# Curses
 +IMPLEMENT "cae/xsh4v2-base", "termios.h.ts" ;
 +IMPLEMENT "cae/xsh4v2-base", "time.h.ts" ;
 +IMPLEMENT "cae/xsh4v2-base", "ulimit.h.ts" ;
-+IMPLEMENT "cae/xsh4v2-base", "unctrl.h.ts" ;		# Curses
 +IMPLEMENT "cae/xsh4v2-base", "unistd.h.ts" ;
 +IMPLEMENT "cae/xsh4v2-base", "utime.h.ts" ;
 +IMPLEMENT "cae/xsh4v2-base", "varargs.h.ts" ;
