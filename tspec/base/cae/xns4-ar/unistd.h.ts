@@ -5,5 +5,5 @@
 #
 # See doc/copyright/ for the full copyright terms.
 
-+IMPLEMENT "cae/xsh4-base", "unistd.h.ts" ;
-
+# CAE, Networking Services, Issue 4
++FUNC int gethostname ( char *, size_t ) ;

@@ -7,6 +7,7 @@
 
 
 +IMPLEMENT "cae/xpg3", "sys/stat.h.ts", "st_proto" ;
++IMPLEMENT "cae/xpg3", "sys/stat.h.ts", "s_ifmt" ;
 +IMPLEMENT "cae/xpg3", "sys/stat.h.ts", "s_isvtx" ;
 
 +FIELD struct stat {

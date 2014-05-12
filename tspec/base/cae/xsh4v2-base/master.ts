@@ -11,20 +11,15 @@ $VERSION = "2.7" ;
 
 $INFO = "X/Open Single UNIX Specification";
 
-# XXX: networking (-ar, -socket etc?) needs to go elsewhere
-
 +IMPLEMENT "cae/xsh4v2-base", "sys/ipc.h.ts" ;
 +IMPLEMENT "cae/xsh4v2-base", "sys/msg.h.ts" ;
 +IMPLEMENT "cae/xsh4v2-base", "sys/sem.h.ts" ;
-+IMPLEMENT "cae/xsh4v2-base", "sys/socket.h.ts" ;		# Networking
 +IMPLEMENT "cae/xsh4v2-base", "sys/stat.h.ts" ;
 +IMPLEMENT "cae/xsh4v2-base", "sys/times.h.ts" ;
 +IMPLEMENT "cae/xsh4v2-base", "sys/types.h.ts" ;
-+IMPLEMENT "cae/xsh4v2-base", "sys/un.h.ts" ;		# Networking
 +IMPLEMENT "cae/xsh4v2-base", "sys/utsname.h.ts" ;
 +IMPLEMENT "cae/xsh4v2-base", "sys/wait.h.ts" ;
 
-+IMPLEMENT "cae/xsh4v2-base", "arpa/inet.h.ts" ;		# Networking
 +IMPLEMENT "cae/xsh4v2-base", "assert.h.ts" ;
 +IMPLEMENT "cae/xsh4v2-base", "cpio.h.ts" ;
 +IMPLEMENT "cae/xsh4v2-base", "ctype.h.ts" ;
@@ -39,8 +34,6 @@ $INFO = "X/Open Single UNIX Specification";
 +IMPLEMENT "cae/xsh4v2-base", "limits.h.ts" ;
 +IMPLEMENT "cae/xsh4v2-base", "locale.h.ts" ;
 +IMPLEMENT "cae/xsh4v2-base", "math.h.ts" ;
-+IMPLEMENT "cae/xsh4v2-base", "netdb.h.ts" ;		# Networking
-+IMPLEMENT "cae/xsh4v2-base", "netinet/in.h.ts" ;		# Networking
 +IMPLEMENT "cae/xsh4v2-base", "nl_types.h.ts" ;
 +IMPLEMENT "cae/xsh4v2-base", "pwd.h.ts" ;
 +IMPLEMENT "cae/xsh4v2-base", "regexp.h.ts" ;
@@ -60,5 +53,4 @@ $INFO = "X/Open Single UNIX Specification";
 +IMPLEMENT "cae/xsh4v2-base", "utime.h.ts" ;
 +IMPLEMENT "cae/xsh4v2-base", "varargs.h.ts" ;
 +IMPLEMENT "cae/xsh4v2-base", "wchar.h.ts" ;
-+IMPLEMENT "cae/xsh4v2-base", "xti.h.ts" ;			# Networking
 

@@ -9,7 +9,7 @@
 # CAE, Networking Services, Issue 4
 
 +USE "c/c89", "stddef.h.ts", "size_t" (!?) ;
-+IMPLEMENT "cae/xsh4v2-base", "netinet/in.h.ts", "in_t" ;
++IMPLEMENT "cae/xns4-ar", "netinet/in.h.ts", "in_t" ;
 
 +FIELD struct hostent {
     char *h_name ;

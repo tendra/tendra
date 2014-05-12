@@ -20,11 +20,6 @@
     +CONST int S_IFLNK ;
 
     +MACRO int S_ISLNK ( mode_t ) ;
-
-    # CAE, Networking Services, Issue 4
-    +CONST int S_IFSOCK ;
-
-    +MACRO int S_ISSOCK ( mode_t ) ;
 } ;
 
 +FUNC int fchmod ( int, mode_t ) ;

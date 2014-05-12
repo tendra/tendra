@@ -5,8 +5,5 @@
 #
 # See doc/copyright/ for the full copyright terms.
 
-
 +IMPLEMENT "cae/xsh4-base", "fcntl.h.ts" ;
 
-# CAE, Networking Services, Issue 4
-+CONST int F_GETOWN, F_SETOWN ;

@@ -5,14 +5,10 @@
 #
 # See doc/copyright/ for the full copyright terms.
 
-
 # CAE, Networking Services, Issue 4
++CONST int S_IFSOCK ;
 
-+IMPLEMENT "cae/xsh4v2-base", "sys/socket.h.ts", "sa_family_t" ;
++MACRO int S_ISSOCK ( mode_t ) ;
 
-+NAT ~sun_path_size ;
++CONST int S_IFMT ;
 
-+FIELD struct sockaddr_un {
-    sa_family_t sun_family ;
-    char sun_path [ ~sun_path_size ] ;
-} ;

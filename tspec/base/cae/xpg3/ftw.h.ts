@@ -7,6 +7,7 @@
 
 
 +USE "cae/xpg3", "sys/stat.h.ts", "st_proto" ;
++USE "cae/xpg3", "sys/stat.h.ts", "s_ifmt" ;
 
 +CONST int FTW_F, FTW_D, FTW_DNR, FTW_NS ;
 +FUNC int ftw ( const char *,

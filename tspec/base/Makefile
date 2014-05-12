@@ -37,6 +37,10 @@ APIS+=	cae/xsh4v2-unix
 
 APIS+=	cae/xcurses4v2
 
+APIS+=	cae/xns4-ar
+APIS+=	cae/xns4-socket
+APIS+=	cae/xns4-xti
+
 APIS+=	cae/xsh5
 APIS+=	cae/xns5-ar
 APIS+=	cae/xns5-socket

@@ -15,7 +15,11 @@
 	dev_t st_rdev ;
     } ;
 
-    +CONST int S_IFMT, S_IFBLK, S_IFCHR, S_IFDIR, S_IFIFO, S_IFREG ;
+    +CONST int S_IFBLK, S_IFCHR, S_IFDIR, S_IFIFO, S_IFREG ;
+} ;
+
++SUBSET "s_ifmt" := {
+	+CONST int S_IFMT ; # XSH4 leaves this to XNS4 only. Is the same true for XPG3?
 } ;
 
 +SUBSET "s_isvtx" := {

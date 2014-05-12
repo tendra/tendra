@@ -8,8 +8,8 @@
 
 # CAE, Networking Services, Issue 4
 
-+USE "cae/xsh4v2-base", "sys/socket.h.ts" ;
-+IMPLEMENT "cae/xsh4v2-base", "sys/socket.h.ts", "sa_family_t" ;
++USE "cae/xns4-socket", "sys/socket.h.ts" ;
++IMPLEMENT "cae/xns4-socket", "sys/socket.h.ts", "sa_family_t" ;
 
 +SUBSET "in_t" := {
     +TYPE ( unsigned ) in_port_t ;	# 16 bits

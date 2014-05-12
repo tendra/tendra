@@ -8,8 +8,8 @@
 
 # CAE, Networking Services, Issue 4
 
-+USE "cae/xsh4v2-base", "netinet/in.h.ts" ;
-+IMPLEMENT "cae/xsh4v2-base", "netinet/in.h.ts", "in_t" ;
++USE "cae/xns4-ar", "netinet/in.h.ts" ;
++IMPLEMENT "cae/xns4-ar", "netinet/in.h.ts", "in_t" ;
 
 # function, macro, or both; macro is minimal interface so maximally portable
 +MACRO in_addr_t htonl ( in_addr_t ) ;
