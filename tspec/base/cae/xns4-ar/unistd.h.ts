@@ -6,4 +6,4 @@
 # See doc/copyright/ for the full copyright terms.
 
 # CAE, Networking Services, Issue 4
-+FUNC int gethostname ( char *, size_t ) ;
++FUNC int gethostname ( char *, int ) ;
