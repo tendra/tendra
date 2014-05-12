@@ -60,7 +60,7 @@ main(int argc, char **argv)
 	/* Check arguments */
 	if (argc >= 1)
 		input = argv[0];
-	if (argc >= 2)
+	if (argc == 2)
 		output = argv[1];
 	if (argc > 2)
 		error(ERROR_FATAL, "Too many arguments");
