@@ -9,7 +9,3 @@
 	+TYPE (signed) ssize_t;
 };
 
-+SUBSET "mode_t" := {
-	+TYPE (int) mode_t;	# XXX: (int) is just a placeholder. check this
-};
-

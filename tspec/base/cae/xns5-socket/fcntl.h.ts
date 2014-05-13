@@ -4,5 +4,5 @@
 #
 # See doc/copyright/ for the full copyright terms.
 
-+CONST int F_GETOWN, F_SETOWN;
++IMPLEMENT "cae/xns4-socket", "fcntl.h.ts";
 

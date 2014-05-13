@@ -11,7 +11,6 @@
 +IMPLEMENT "cae/xns4-socket", "sys/socket.h.ts", "sa_family_t" ;
 
 +NAT ~sun_path_size ;
-
 +FIELD struct sockaddr_un {
     sa_family_t sun_family ;
     char sun_path [ ~sun_path_size ] ;

@@ -1,4 +1,4 @@
 # $Id$
 
-+FUNC int gethostname(char *address, int address_len);
++IMPLEMENT "cae/xns4-ar", "unistd.h.ts";
 

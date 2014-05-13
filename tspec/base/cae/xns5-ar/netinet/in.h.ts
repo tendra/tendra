@@ -4,29 +4,19 @@
 #
 # See doc/copyright/ for the full copyright terms.
 
-+IMPLEMENT "cae/xns5-socket", "sys/socket.h.ts", "sa_family_t" (!?);
-+IMPLEMENT "cae/xns5-ar", "arpa/inet.h.ts", "endian" (!?);
++SUBSET "in_t" := {
+	+USE "cae/xsh5", "inttypes.h.ts";
 
-+SUBSET "port_addr" := {
-	+TYPE (unsigned) in_port_t; # exactly 16-bit only
-	+TYPE (unsigned) in_addr_t; # exactly 32-bit only
-};
+	# XNS4 had these as in_addr_t and in_port_t which were defined to be
+	# "an unsigned integral type of exactly 32 [and 16] bits". So really
+	# there's no difference here.
+	#
+	# I'm specifying these as uint32_t and uint16_t instead, because that's
+	# what XNS5 says, despite that it isn't mentioned in the change history.
 
-+SUBSET "in_addr" := {
-	+FIELD struct in_addr {
-		in_addr_t s_addr;
-	};
-};
+	+TYPEDEF uint16_t in_port_t ;
+	+TYPEDEF uint32_t in_addr_t ;
+} ;
 
-+FIELD struct sockaddr_in {
-	sa_family_t    sin_family;
-	in_port_t      sin_port;
-	struct in_addr sin_addr;
-	unsigned char  sin_zero[8];
-};
-
-+TYPE struct sockaddr;
-
-+CONST int IPPROTO_IP, IPPROTO_ICMP, IPPROTO_TCP, IPPROTO_UDP;
-+CONST int INADDR_ANY, INADDR_BROADCAST;
++IMPLEMENT "cae/xns4-ar", "netinet/in.h.ts", "in_generic";
 

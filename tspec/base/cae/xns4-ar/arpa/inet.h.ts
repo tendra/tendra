@@ -8,18 +8,26 @@
 
 # CAE, Networking Services, Issue 4
 
-+USE "cae/xns4-ar", "netinet/in.h.ts" ;
 +IMPLEMENT "cae/xns4-ar", "netinet/in.h.ts", "in_t" ;
 
-# function, macro, or both; macro is minimal interface so maximally portable
-+MACRO in_addr_t htonl ( in_addr_t ) ;
-+MACRO in_port_t htons ( in_port_t ) ;
-+MACRO in_addr_t ntohl ( in_addr_t ) ;
-+MACRO in_port_t ntohs ( in_port_t ) ;
++TYPEDEF in_addr_t ~to_addr_t;
++TYPEDEF in_port_t ~to_port_t;
 
-+FUNC in_addr_t inet_addr ( const char * ) ;
-+FUNC in_addr_t inet_lnaof ( struct in_addr ) ;
-+FUNC struct in_addr inet_makeaddr ( in_addr_t, in_addr_t ) ;
-+FUNC in_addr_t inet_netof ( struct in_addr ) ;
-+FUNC in_addr_t inet_network ( const char * ) ;
-+FUNC char *inet_ntoa ( struct in_addr ) ;
++SUBSET "inet_generic" := {
+	+USE "cae/xns4-ar", "netinet/in.h.ts", "in_generic" ;
+
+	# function, macro, or both; macro is minimal interface so maximally portable
+	# XNS5 has these as uint32_t et al.
+	+MACRO ~to_addr_t htonl ( ~to_addr_t ) ;
+	+MACRO ~to_port_t htons ( ~to_port_t ) ;
+	+MACRO ~to_addr_t ntohl ( ~to_addr_t ) ;
+	+MACRO ~to_port_t ntohs ( ~to_port_t ) ;
+
+	+FUNC in_addr_t inet_addr ( const char * ) ;
+	+FUNC in_addr_t inet_lnaof ( struct in_addr ) ;
+	+FUNC struct in_addr inet_makeaddr ( in_addr_t, in_addr_t ) ;
+	+FUNC in_addr_t inet_netof ( struct in_addr ) ;
+	+FUNC in_addr_t inet_network ( const char * ) ;
+	+FUNC char *inet_ntoa ( struct in_addr ) ;
+} ;
+
