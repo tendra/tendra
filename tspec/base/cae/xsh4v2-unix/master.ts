@@ -5,8 +5,16 @@
 #
 # See doc/copyright/ for the full copyright terms.
 
+# This is the "UNIX" (UX) Feature Group
+# of XSH Issue 4 Version 2, "System Interfaces and Headers",
+# which constitutes the C headers part of XPG4v2.
+# Specified by X/Open as part of CAE. Document number C435,
+# ISBN: 1-85912-037-7 published September 1994.
+
 $UNIQUE = 1 ;
 $VERSION = "2.7" ;
+
+$INFO = "X/Open CAE XSH Issue 4 - UNIX";
 
 +IMPLEMENT "cae/xsh4v2-unix", "sys/mman.h.ts" ;
 +IMPLEMENT "cae/xsh4v2-unix", "sys/resource.h.ts" ;
