@@ -16,8 +16,8 @@ $INFO = "ANSI X3.159 - Freestanding";
 +IMPLEMENT "c/c89-fs", "dummy.ts";
 
 # 1.7
-#+IMPLEMENT "c/c89-fs", "float.h.ts";
-#+IMPLEMENT "c/c89-fs", "limits.h.ts";
-#+IMPLEMENT "c/c89-fs", "stdarg.h.ts";
-#+IMPLEMENT "c/c89-fs", "stddef.h.ts";
++IMPLEMENT "c/c89-fs", "float.h.ts";
++IMPLEMENT "c/c89-fs", "limits.h.ts";
++IMPLEMENT "c/c89-fs", "stdarg.h.ts";
++IMPLEMENT "c/c89-fs", "stddef.h.ts";
 
