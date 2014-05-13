@@ -63,8 +63,12 @@ JOPTS${api}+=	-f${.CURDIR}/${api}.h
 
 # These are included before ${STARTUP_MACH}/${api}.h so that the hacked includes
 # may #undef or override them if neccessary.
-. if exists(${PREFIX_TSPEC}/TenDRA/feature/${api}.h)
-JOPTS${api}+=	-f${PREFIX_TSPEC}/TenDRA/feature/${api}.h
+#
+# APIs are named with the convention "api-subset", and subsets are considered
+# to use the same feature selection defines as the rest of the specification to
+# which they belong. So subset naming is removed here.
+. if exists(${PREFIX_TSPEC}/TenDRA/feature/${api:C/-.*//}.h)
+JOPTS${api}+=	-f${PREFIX_TSPEC}/TenDRA/feature/${api:C/-.*//}.h
 . endif
 
 . for startup in ${STARTUP_MACH}
