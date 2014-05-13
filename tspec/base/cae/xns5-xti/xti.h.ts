@@ -1,5 +1,9 @@
 +USE "c/c89", "stddef.h.ts", "size_t" (!?);
 
+# Copyright 2014, The TenDRA Project.
+#
+# See doc/copyright/ for the full copyright terms.
+
 # TODO: of equal size, and at least 32 bits
 +TYPE (signed)   t_scalar_t;
 +TYPE (unsigned) t_uscalar_t;
