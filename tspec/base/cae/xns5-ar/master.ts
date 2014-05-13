@@ -14,6 +14,8 @@ $VERSION = "2.8";
 
 $INFO = "X/Open CAE XNS Issue 5 - IP Address Resolution Headers";
 
++IMPLEMENT "cae/xns5-ar", "dummy.ts";
+
 +IMPLEMENT "cae/xns5-ar", "arpa/inet.h.ts";
 +IMPLEMENT "cae/xns5-ar", "netdb.h.ts";
 +IMPLEMENT "cae/xns5-ar", "netinet/in.h.ts";
