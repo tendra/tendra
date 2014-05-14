@@ -1043,7 +1043,7 @@ print_object(FILE *output, object *input, int pass)
 			char *m;
 			size_t n;
 
-			if (pass >= 2 || nm[pass] != '1') {
+			if (nm[pass] != '1') {
 				break;
 			}
 
@@ -1109,7 +1109,7 @@ print_object(FILE *output, object *input, int pass)
 					print_ifs(output, ifs);
 				}
 				print_object(output, i->elements, pass);
-			} else if (pass < 2) {
+			} else {
 				if (ifs[0].dir != CMD_END) {
 					print_ifs(output, ifs);
 				}
@@ -1153,8 +1153,6 @@ print_object(FILE *output, object *input, int pass)
 					print_ifs(output, ifs);
 				}
 				print_token(output, p->u.u_obj, nm);
-			} else if (pass == 2) {
-				print_interface(output, p->u.u_obj, ifs);
 			}
 			break;
 
@@ -1265,7 +1263,7 @@ print_object2(FILE *output, object *input)
  * This routine scans the object input, calling print_set on any subsets.
  */
 static void
-scan_object(object *input, int pass)
+scan_object1(object *input)
 {
 	object *p;
 
@@ -1281,9 +1279,9 @@ scan_object(object *input, int pass)
 		i = q->u.u_info;
 
 		if (0 == strcmp(i->api, LOCAL_API)) {
-			scan_object(i->elements, pass);
-		} else if (pass < 2) {
-			print_set(p, pass);
+			scan_object1(i->elements);
+		} else {
+			print_set(p, 1);
 		}
 	}
 }
@@ -1324,7 +1322,7 @@ print_set(object *input, int pass)
 		nm = (pass ? i->src : i->incl);
 
 		if (nm == NULL || (restrict_use && i->implemented == 0)) {
-			scan_object(i->elements, 1);
+			scan_object1(i->elements);
 			return;
 		}
 
@@ -1333,7 +1331,7 @@ print_set(object *input, int pass)
 				IGNORE printf("%s is not required ...\n", nm);
 			}
 
-			scan_object(i->elements, 1);
+			scan_object1(i->elements);
 			return;
 		}
 
