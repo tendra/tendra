@@ -160,17 +160,6 @@
 			for &tcc; (see <link linkend="Environment">section 5.4</link>).</para>
 	</section>
 
-	<section id="Copyright">
-		<title>Copyright Messages</title>
-
-		<para><code>tspec</code> will optionally add a copyright message to
-			the start of each include output file. This message is copied from a
-			file which may be specified either using the
-			<code>TSPEC_COPYRIGHT</code> system variable, or by the
-			<option>-C</option><filename>file</filename> command-line
-			option.</para>
-	</section>
-
 	<section id="Options">
 		<title>Command-line Options</title>
 
@@ -188,12 +177,6 @@ tspec [options] api header subset</literallayout>
 		<para>The valid options include:</para>
 
 		<itemizedlist>
-			<listitem>
-				<para>The option <option>-C</option><filename>file</filename>
-					specifies the copyright message file (see
-					<link linkend="Copyright">section 2.4</link>).</para>
-			</listitem>
-	
 			<listitem>
 				<para>The option <option>-I</option><filename>dir</filename>
 					adds a directory to the input directory search path (see

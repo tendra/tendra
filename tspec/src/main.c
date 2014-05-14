@@ -206,11 +206,6 @@ main(int argc, char **argv)
 		output_env_dir = xstrdup(env);
 	}
 
-	env = getenv(COPYRIGHT_ENV);
-	if (env != NULL) {
-		copyright = xstrdup(env);
-	}
-
 	/* Process options */
 	for (a = 1; a < argc; a++) {
 		char *arg = argv[a];
@@ -224,8 +219,6 @@ main(int argc, char **argv)
 				output_src_dir = arg + 2;
 			} else if (arg [1] == 'E') {
 				output_env_dir = arg + 2;
-			} else if (arg [1] == 'C') {
-				copyright = arg + 2;
 			} else {
 				char *s;
 

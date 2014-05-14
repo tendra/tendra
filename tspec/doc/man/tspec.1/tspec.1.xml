@@ -4,7 +4,6 @@
 	<!ENTITY header.arg "<replaceable>header</replaceable>">
 	<!ENTITY subset.arg "<replaceable>subset</replaceable>">
 
-	<!ENTITY C.opt "<option>-C</option>&file.arg;">
 	<!ENTITY I.opt "<option>-I</option>&dir.arg;">
 	<!ENTITY O.opt "<option>-O</option>&dir.arg;">
 	<!ENTITY S.opt "<option>-S</option>&dir.arg;">
@@ -113,7 +112,6 @@
 			<sbr/>
 
 			<!-- Common options -->
-			<arg choice="opt">&C.opt;</arg>
 			<arg choice="opt">&b.opt;</arg>
 			<arg choice="opt">&p.opt;</arg>
 			<arg choice="opt">&r.opt;</arg>
@@ -163,7 +161,6 @@
 			<sbr/>
 
 			<!-- Common options -->
-			<arg choice="opt">&C.opt;</arg>
 			<arg choice="opt">&p.opt;</arg>
 			<arg choice="opt">&r.opt;</arg>
 			<arg choice="opt">&t.opt;</arg>
@@ -212,7 +209,6 @@
 			<sbr/>
 
 			<!-- Common options -->
-			<arg choice="opt">&C.opt;</arg>
 			<arg choice="opt">&b.opt;</arg>
 			<arg choice="opt">&r.opt;</arg>
 			<arg choice="opt">&t.opt;</arg>
@@ -276,21 +272,6 @@
 		<title>Options</title>
 
 		<variablelist>
-			<varlistentry>
-				<term>&C.opt;</term>
-
-				<listitem>
-					<para>Causes &tspec; to insert the contents of &file.arg;
-						as a copyright message at the start of each output file.
-						This can also be specified using the
-						<varname>TSPEC_COPYRIGHT</varname>
-						environmental variable. The order of precedence for this
-						and other similar options is, built-in values lowest,
-						environmental variables next, and command-line options
-						highest.</para>
-				</listitem>
-			</varlistentry>
-
 			<varlistentry>
 				<term>&I.opt;</term>
 

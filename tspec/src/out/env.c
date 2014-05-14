@@ -148,6 +148,7 @@ print_env(object *input)
 	fprintf(f, "/*\n");
 	fprintf(f, " * tcc environment for %s version %s\n", i->api, i->version);
 	fprintf(f, " * Generated from %s by %s %s\n", ss->filename, progname, progvers);
+	fprintf(f, " * Copyright terms for the input source also apply to this generated code.\n");
 	fprintf(f, " */\n");
 	fprintf(f, "\n");
 
