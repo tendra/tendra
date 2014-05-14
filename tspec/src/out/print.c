@@ -1180,6 +1180,86 @@ print_object(FILE *output, object *input, int pass)
 }
 
 /*
+ * PRINT AN OBJECT, PASS 2
+ */
+static void
+print_object2(FILE *output, object *input)
+{
+	ifcmd ifs [100];
+	object *p;
+
+	ifs[0].dir = CMD_END;
+
+	for (p = input; p != NULL; p = p->next) {
+		switch (p->objtype) {
+		case OBJ_IF: {
+			int i;
+
+			/* If statements etc. */
+
+			for (i = 0; ifs[i].dir != CMD_END; i++)
+				;
+
+			ifs[i].dir = p->u.u_num;
+			ifs[i].nm  = p->name;
+			ifs[i + 1].dir = CMD_END;
+
+			if (i >= 90) {
+				print_ifs(output, ifs);
+			}
+
+			break;
+		}
+
+		case OBJ_IMPLEMENT:
+		case OBJ_USE:
+			/* Inclusion statements */
+			break;
+
+		case OBJ_SET: {
+			/* Subsets */
+			object *q = p->u.u_obj;
+			info *i = q->u.u_info;
+
+			if (strcmp(i->api, LOCAL_API) == 0) {
+				if (ifs[0].dir != CMD_END) {
+					print_ifs(output, ifs);
+				}
+				print_object2(output, i->elements);
+			}
+			break;
+		}
+
+		case OBJ_TEXT_INCL:
+			/* Include file quoted text */
+			break;
+
+		case OBJ_TEXT_SRC:
+			/* Source file quoted text */
+			break;
+
+		case OBJ_TOKEN:
+			/* Tokenised objects */
+			print_interface(output, p->u.u_obj, ifs);
+			break;
+
+		case OBJ_TYPE:
+			/* Definition of previously declared type */
+			break;
+
+		default:
+			/* Unknown objects */
+			error(ERROR_INTERNAL, "Unknown object type, '%d'", p->objtype);
+			break;
+		}
+	}
+
+	if (ifs[0].dir != CMD_END) {
+		print_ifs(output, ifs);
+	}
+}
+
+/*
  * SCAN AN OBJECT
  *
  * This routine scans the object input, calling print_set on any subsets.
@@ -1381,7 +1461,7 @@ print_set(object *input, int pass)
 				OUTC(output, '\n');
 			}
 
-			print_object(output, i->elements, 2);
+			print_object2(output, i->elements);
 			if (column) {
 				OUTC(output, '\n');
 			}
