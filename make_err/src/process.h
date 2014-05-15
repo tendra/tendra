@@ -12,10 +12,6 @@
 #define PROCESS_INCLUDED
 
 
-/*
-    DECLARATIONS FOR PROCESSING ROUTINES
-*/
-
 extern char *db_name;
 extern char *db_name_alt;
 extern char *rig_name;

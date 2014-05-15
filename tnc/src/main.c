@@ -73,13 +73,6 @@ output_option(char *arg, boolean t)
 }
 
 
-/*
-    MAIN ROUTINE
-
-    This is the main routine.  It processes the command line arguments
-    and calls the appropriate input and output routines.
-*/
-
 int
 main(int argc, char **argv)
 {

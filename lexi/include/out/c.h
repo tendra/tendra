@@ -14,8 +14,6 @@ struct ast;
 struct options;
 
 /*
- * Main output routine.
- *
  * This routine is the entry point for the main output routine.
  *
  * This interface provides support for generating code for both C90 and C99.

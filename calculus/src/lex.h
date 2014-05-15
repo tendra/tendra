@@ -12,10 +12,6 @@
 #define LEX_INCLUDED
 
 
-/*
- * DECLARATIONS FOR LEXICAL ANALYSIS ROUTINES
- */
-
 extern void process_file(char *, int);
 extern int read_token(void);
 extern int allow_stack;

@@ -30,10 +30,7 @@
 
 
 /*
- * ACTIONS
- *
- * These macros are used to describe the various actions which the
- * program can perform.
+ * These describe the various actions which the program can perform.
  */
 
 #define ACTION_C		0
@@ -73,13 +70,6 @@ list_action(char *nm)
     return;
 }
 
-
-/*
- * MAIN ROUTINE
- *
- * This is the main routine.  It processes the command-line options,
- * reads the input file, and writes the output files.
- */
 
 int
 main(int argc, char **argv)

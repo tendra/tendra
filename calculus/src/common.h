@@ -11,10 +11,6 @@
 #ifndef COMMON_INCLUDED
 #define COMMON_INCLUDED
 
-/*
- * DECLARATIONS FOR TYPE MANIPULATION ROUTINES
- */
-
 extern ALGEBRA_DEFN *algebra;
 extern void new_algebra(void);
 extern ALGEBRA_DEFN *find_algebra(char *);
@@ -32,9 +28,7 @@ extern int is_complex_type(TYPE_P);
 
 
 /*
- * MACROS FOR BASIC CLASS SIZES
- *
- * These macros give the sizes of the basic types.
+ * These constants give the sizes of the basic types.
  */
 
 #define SIZE_PRIM	1

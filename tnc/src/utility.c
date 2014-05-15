@@ -169,12 +169,6 @@ warning(char *s, ...)
 }
 
 
-/*
-    MAKE A COPY OF A STRING
-
-    This routine makes a permanent copy of the string s of length n.
-*/
-
 char *
 string_copy(char *s, int n)
 {

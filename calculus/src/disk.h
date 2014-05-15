@@ -12,10 +12,6 @@
 #define DISK_INCLUDED
 
 
-/*
- * DECLARATIONS FOR DISK OUTPUT ROUTINES
- */
-
 extern void disk_action(char *);
 
 

@@ -12,10 +12,6 @@
 #define PRINT_INCLUDED
 
 
-/*
- * DECLARATIONS FOR PRETTY PRINTING OUTPUT ROUTINES
- */
-
 extern void print_action(char *);
 
 

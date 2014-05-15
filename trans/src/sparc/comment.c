@@ -31,10 +31,6 @@ char *sparctrans = "sparctrans" ;
 bool do_comment = 0 ;
 
 
-/*
-  ERROR REPORTING ROUTINE
-*/
-
 void 
 fail ( char * mess ){
   if ( do_comment ) {

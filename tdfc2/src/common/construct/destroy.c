@@ -64,12 +64,6 @@ free_id(IDENTIFIER id, int force)
 }
 
 
-/*
-    FREE A NAMESPACE
-
-    This routine frees the block namespace ns.
-*/
-
 void
 free_nspace(NAMESPACE ns)
 {

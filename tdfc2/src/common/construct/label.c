@@ -55,12 +55,6 @@ NAMESPACE label_namespace = NULL_nspace;
 #define dspec_scope		dspec_inline
 
 
-/*
-    CREATE A LABEL
-
-    This routine creates a label named nm with usage information info.
-*/
-
 static IDENTIFIER
 make_label(HASHID nm, DECL_SPEC info, int op)
 {

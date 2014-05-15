@@ -96,14 +96,6 @@ static char *seek_line_id;
 alignment MAX_BF_SIZE;
 
 
-/*
-    MAIN ROUTINE
-
-    This routine processes the command-line arguments, calls the
-    initialization routines, and then calls the main processing
-    routines.
-*/
-
 int main
 (int argc, char **argv)
 {

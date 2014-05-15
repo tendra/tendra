@@ -41,12 +41,6 @@
 #endif
 
 
-/*
- * PRINT THE CURRENT VERSION
- *
- * This routine prints the version number.
- */
-
 void
 print_version(void)
 {
@@ -151,12 +145,6 @@ main_start(char *prog)
 	initialise_options();
 }
 
-
-/*
- * MAIN ROUTINE
- *
- * This is the main routine.
- */
 
 int
 main(int argc, char **argv)

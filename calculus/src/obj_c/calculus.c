@@ -339,12 +339,6 @@ add_calculus_list(calculus *p, calculus *q, int sz)
 }
 
 
-/*
- * ASSERTION ROUTINES
- *
- * These routine implement the assertion checks.
- */
-
 #ifdef ASSERTS
 #define assert_calculus assertion
 #include "assert_def.h"

@@ -12,13 +12,6 @@
 #define READ_INCLUDED
 
 
-/*
- * CONFIGURATION CONSTANTS
- *
- * These macros describe the number of bits in a byte, how to mask N
- * bits etc.
- */
-
 #ifndef NO_LIMITS_H
 #include <limits.h>
 #endif
@@ -29,10 +22,6 @@
 
 #define MASK(N)	((unsigned long)((1 << (N)) - 1))
 
-
-/*
- * DECLARATIONS FOR DISK READING ROUTINES
- */
 
 extern unsigned long bitmask[];
 extern void init_bitmask(void);

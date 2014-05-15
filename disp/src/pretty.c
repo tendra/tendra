@@ -16,20 +16,9 @@
 #include "tree.h"
 
 
-/*
-    FORWARD DECLARATIONS
-*/
-
 static void display(int);
 static void expression(word *, int, int, int, int, int);
 
-
-/*
-    FLAGS SET BY EXTERNAL OPTIONS
-
-    Various flags may be given on the command line with affect the form
-    of the output.  These are documented elsewhere.
-*/
 
 int helpflag = 1;
 int dflag = 1;

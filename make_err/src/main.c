@@ -18,13 +18,6 @@
 #include "syntax.h"
 
 
-/*
-    MAIN ROUTINE
-
-    This is the main routine.  It processes the command-line options,
-    reads the input file, and writes the output files.
-*/
-
 int
 main(int argc, char **argv)
 {

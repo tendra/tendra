@@ -12,10 +12,6 @@
 #define LEX_INCLUDED
 
 
-/*
-    DECLARATIONS FOR LEXICAL ANALYSIS ROUTINES
-*/
-
 extern void process_file(char *);
 extern int read_token(void);
 extern char *first_comment;
@@ -23,10 +19,6 @@ extern char token_buff[];
 extern int crt_lex_token;
 extern int saved_lex_token;
 
-
-/*
-     PARSER MACROS
-*/
 
 #define CURRENT_TERMINAL	crt_lex_token
 #define ADVANCE_LEXER		crt_lex_token = read_token()

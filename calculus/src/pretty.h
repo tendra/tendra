@@ -12,10 +12,6 @@
 #define PRETTY_INCLUDED
 
 
-/*
- * DECLARATIONS FOR PRETTY PRINTING ROUTINES
- */
-
 extern void pretty_file(char *);
 
 

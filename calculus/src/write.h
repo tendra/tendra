@@ -12,10 +12,6 @@
 #define WRITE_INCLUDED
 
 
-/*
- * DECLARATIONS FOR DISK WRITING ROUTINES
- */
-
 extern void write_file(char *);
 
 

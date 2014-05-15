@@ -12,10 +12,6 @@
 #define ANALYSER_H
 
 
-/*
-    INPUT TYPES
-*/
-
 #define INPUT_OPEN		0
 #define INPUT_CLOSE		1
 #define INPUT_EOF		2
@@ -31,10 +27,6 @@
 #define INPUT_ARROW		12
 
 
-/*
-    INPUT VARIABLES
-*/
-
 extern char *word;
 extern int word_type;
 extern long word_length;
@@ -42,10 +34,6 @@ extern boolean looked_ahead;
 extern long line_no;
 extern boolean func_input;
 
-
-/*
-    INPUT ROUTINES
-*/
 
 void read_word(void);
 void store_position(position *);

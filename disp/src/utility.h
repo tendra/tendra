@@ -12,12 +12,6 @@
 #define UTILITY_INCLUDED
 
 
-/*
-    GENERAL UTILITY ROUTINES
-
-    These fall into two types, error reporting and memory allocation.
-*/
-
 extern void fatal_error(char *, ...);
 extern void input_error(char *, ...);
 extern int recover;

@@ -108,10 +108,6 @@ open_files ( char * infname, char * outfname ){
 }
 
 
-/*
-  MAIN ROUTINE
-*/
-
 int 
 main ( int argc, char ** argv )
 {

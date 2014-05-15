@@ -24,16 +24,8 @@
 #include "utility.h"
 
 
-/*
-    CURRENT VERSION
-*/
-
 #define version_string		"Version: 1.5"
 
-
-/*
-    MAIN ROUTINE
-*/
 
 int
 main(int argc, char **argv)

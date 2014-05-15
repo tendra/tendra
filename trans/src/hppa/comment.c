@@ -92,10 +92,6 @@ comment4(char * mess, long p1, long p2, long p3, long p4)
 #endif /* DO_COMMENT */
 
 
-/*
-    ERROR REPORTING ROUTINE
-*/
-
 void
 fail(char * mess)
 {

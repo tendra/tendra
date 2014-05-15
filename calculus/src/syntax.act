@@ -347,12 +347,6 @@ string : () -> ( s : STRING ) = @{
 @} ;
 
 
-/*
-    TYPE ERROR
-
-    This routine prints an error.
-*/
-
 <error-type> : () -> ( t : TYPE ) = @{
     error ( ERROR_SERIOUS, "Type expected" ) ;
     @t = find_type ( algebra, "ERROR!" ) ;

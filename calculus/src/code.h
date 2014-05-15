@@ -12,10 +12,6 @@
 #define CODE_INCLUDED
 
 
-/*
- * DECLARATIONS FOR MAIN C OUTPUT ROUTINES
- */
-
 extern int extra_asserts;
 extern int extra_headers;
 extern int map_proto;

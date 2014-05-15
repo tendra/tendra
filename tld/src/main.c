@@ -8,8 +8,6 @@
  */
 
 /*
- * main.c - tld program main routine.
- *
  * This file contains the main routine for the TDF linker.  It performs
  * argument parsing, and then calls one of "builder_main", "contents_main",
  * "extract_main" or "linker_main" to do the actual work.  See the files in

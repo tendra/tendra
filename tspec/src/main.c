@@ -138,12 +138,6 @@ implement(object *p, int depth)
     }
 }
 
-/*
- * MAIN ROUTINE
- *
- * This is the main routine which interprets the command-line options
- * and calls the appropriate routines.
- */
 int
 main(int argc, char **argv)
 {
@@ -164,7 +158,6 @@ main(int argc, char **argv)
 	bool preproc_input  = 0;
 	bool separate_files = 0;
 
-	/* Initialisation */
 	set_progname("tspec", "2.8");
 	crt_line_no = 1;
 	set_filename("built-in definitions");
@@ -176,7 +169,6 @@ main(int argc, char **argv)
 	IGNORE signal(SIGSEGV, handler);
 	IGNORE signal(SIGTERM, handler);
 
-	/* Read system variables */
 	env = getenv(INPUT_ENV);
 	if (env != NULL) {
 		input_dir = xstrdup(env);
@@ -206,7 +198,6 @@ main(int argc, char **argv)
 		output_env_dir = xstrdup(env);
 	}
 
-	/* Process options */
 	for (a = 1; a < argc; a++) {
 		char *arg = argv[a];
 		crt_line_no = a;

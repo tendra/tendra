@@ -224,8 +224,7 @@ static long running_pid = -1;
  * KILL ANY STRAY PROCESSES
  *
  * Occasionally a runaway process may occur. This routine is indended to deal
- * with these by sending the signal SIGTERM to the process. This routine is
- * POSIX compliant.
+ * with these by sending the signal SIGTERM to the process.
  */
 
 void
@@ -235,7 +234,7 @@ kill_stray(void)
 		return;
 	}
 
-	IGNORE kill((pid_t)running_pid, SIGTERM);
+	IGNORE kill((pid_t) running_pid, SIGTERM);
 	running_pid = -1;
 }
 

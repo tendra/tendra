@@ -35,12 +35,6 @@ hash_table *tokens;
 hash_table *types;
 hash_table *type_fields;
 
-/*
- * INITIALISATION ROUTINE
- *
- * This routine initialises the standard hash tables and sets a few
- * miscellaneous variables.
- */
 void
 init_hash(void)
 {

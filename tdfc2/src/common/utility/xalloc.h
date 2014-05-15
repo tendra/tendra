@@ -12,13 +12,6 @@
 #define XALLOC_INCLUDED
 
 
-/*
-    MEMORY ALLOCATION DECLARATIONS
-
-    The routines in this module are concerned with the allocation of
-    heap memory.
-*/
-
 extern gen_ptr xmalloc(gen_size);
 extern gen_ptr xrealloc(gen_ptr, gen_size);
 extern void xfree(gen_ptr);
@@ -30,14 +23,6 @@ extern void xufree(string, gen_size);
 extern void xumemcpy(string, string, gen_size);
 extern int xumemcmp(string, string, gen_size);
 
-
-/*
-    MACROS FOR ACCESSING MEMORY ALLOCATION ROUTINES
-
-    These macros give a convenient method for accessing the routines above.
-    For example, xmalloc_nof ( T, N ) allocates space for N objects of
-    type T.
-*/
 
 #define xalloc_scale(T, N)\
 	((gen_size)(N)*(gen_size)sizeof(T))

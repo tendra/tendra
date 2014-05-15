@@ -12,10 +12,6 @@
 #define HELP_H
 
 
-/*
-    HELP ROUTINE
-*/
-
 void help(char *);
 
 
