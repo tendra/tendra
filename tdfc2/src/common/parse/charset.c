@@ -94,6 +94,78 @@ slide(char map[], size_t n, char a[], size_t l)
 	rotate(map, n, d - i);
 }
 
+/*
+ * Floor of the binary logarithm of i.
+ * (i.e. the index of a bit)
+ */
+static int
+ilog2(int i)
+{
+	int k = 0;
+
+	while (i >>= 1) {
+		k++;
+	}
+
+	return k;
+}
+
+static int /* XXX: unsigned char? */
+next(unsigned char bits[], size_t n)
+{
+	size_t i;
+	int k;
+
+	for (i = 0; i <= n; i++) {
+		if (bits[i] != 0xFF) { /* XXX: byte-specific */
+			/* Peter Wegner's method, inverted */
+			k = ~bits[i] & (bits[i] + 1);
+
+			return i * CHAR_BIT + ilog2(k);
+		}
+	}
+
+	return 0;
+}
+
+static void
+fill(char map[], size_t n, char a[], size_t l)
+{
+	size_t i, j;
+	int k;
+
+	/* TODO: unsigned int instead */
+	unsigned char bits[(UCHAR_MAX + 1) / CHAR_BIT] = { 0 };
+
+	assert(sizeof bits * CHAR_BIT >= n);
+	assert(a >= map);
+	assert(n <= UCHAR_MAX + 1);
+	assert(n >= l);
+
+	/*
+	 * This populates a bitmap of values currently in use outside of a[],
+	 * then walks through a[] filling in with each next unused value.
+	 */
+
+	for (i = 0; i < n; i++) {
+		if (&map[i] >= a && &map[i] < a + l) {
+			continue;
+		}
+
+		k = map[i];
+
+		bits[k / CHAR_BIT] |= 1 << k % CHAR_BIT;
+	}
+
+	for (j = 0; j < l; j++) {
+		k = next(bits, sizeof bits);
+
+		a[j] = k;
+
+		bits[k / CHAR_BIT] |= 1 << k % CHAR_BIT;
+	}
+}
+
 static int
 x(char map[], FILE *f)
 {
@@ -222,6 +294,12 @@ buf[strcspn(buf, "\n")] = '\0'; /* XXX */
 			if (4 == sscanf(p, " slide %hhu..%hhu in %hhu..%hhu ; %n", &w1, &w2, &v1, &v2, &n)) {
 				/* TODO: assert w1,w2 is within v1,v2 */
 				slide(map + v1, v2 - v1 + 1, map + w1, w2 - w1 + 1);
+				continue;
+			}
+
+			if (4 == sscanf(p, " fill %hhu..%hhu in %hhu..%hhu ; %n", &w1, &w2, &v1, &v2, &n)) {
+				/* TODO: assert w1,w2 is within v1,v2 */
+				fill(map + v1, v2 - v1 + 1, map + w1, w2 - w1 + 1);
 				continue;
 			}
 
