@@ -8,6 +8,7 @@
  */
 
 
+#include <assert.h>
 #include <limits.h>
 
 #include "config.h"
@@ -66,6 +67,36 @@ to_ascii(unsigned long c, int *ch)
 }
 
 
+void
+init_ascii(void)
+{
+	unsigned c;
+	int asc;
+
+	assert(is_ascii == -1);
+
+	/* Set up conversion tables */
+	asc = 1;
+	for (c = 0; c < NO_CHAR; c++) {
+		to_ascii_tab[c] = (character)c;
+	}
+
+	for (c = 0; c < NO_CHAR; c++) {
+		unsigned a = (unsigned)from_ascii_tab[c];
+		if (a == NONE) {
+			a = c;
+		}
+		if (a != c) {
+			asc = 0;
+		}
+		from_ascii_tab[c] = (character)a;
+		to_ascii_tab[a] = (character)c;
+	}
+
+	is_ascii = asc;
+}
+
+
 /*
     CONVERT A CHARACTER TO NATIVE CODESET
 
@@ -94,28 +125,10 @@ void
 map_ascii(unsigned char *p)
 {
 	unsigned c;
-	int asc = is_ascii;
-	if (asc == -1) {
-		/* Set up conversion tables */
-		asc = 1;
-		for (c = 0; c < NO_CHAR; c++) {
-			to_ascii_tab[c] = (character)c;
-		}
-		for (c = 0; c < NO_CHAR; c++) {
-			unsigned a = (unsigned)from_ascii_tab[c];
-			if (a == NONE) {
-				a = c;
-			}
-			if (a != c) {
-				asc = 0;
-			}
-			from_ascii_tab[c] = (character)a;
-			to_ascii_tab[a] = (character)c;
-		}
-		is_ascii = asc;
-	}
 
-	if (asc == 0) {
+	assert(is_ascii != -1);
+
+	if (is_ascii == 0) {
 		/* Map table */
 		unsigned char b = p[NONE];
 		unsigned char copy[NO_CHAR];
@@ -129,7 +142,6 @@ map_ascii(unsigned char *p)
 			p[a] = copy[c];
 		}
 	}
-	return;
 }
 
 

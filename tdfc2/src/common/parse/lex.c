@@ -2096,6 +2096,7 @@ init_char(void)
 #endif
 
 	/* Allow for non-ASCII codesets */
+	init_ascii();
 	map_ascii(main_characters);
 	map_ascii(digit_values);
 	map_ascii(escape_sequences);
