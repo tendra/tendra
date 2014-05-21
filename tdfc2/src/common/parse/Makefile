@@ -19,6 +19,7 @@ CCOPTS+=	-I ../utility
 SRCS!=	ls -1 psyntax*.c
 
 SRCS+=	char.c
+SRCS+=	charset.c
 SRCS+=	constant.c
 SRCS+=	file.c
 SRCS+=	hash.c

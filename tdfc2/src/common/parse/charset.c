@@ -1,9 +1,19 @@
+/* $Id$ */
+
+/*
+ * Copyright 2014, The TenDRA Project.
+ *
+ * See doc/copyright/ for the full copyright terms.
+ */
+
 #include <assert.h>
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
 #include <stdlib.h>
 #include <limits.h>
+
+#include "charset.h"
 
 static void
 swap(char *a, char *b)
@@ -166,10 +176,12 @@ fill(char map[], size_t n, char a[], size_t l)
 	}
 }
 
-static int
-x(char map[], FILE *f)
+int
+charset_load(char map[], FILE *f, unsigned int seed)
 {
 	char buf[1024];
+
+	srand(seed);
 
 	while (fgets(buf, sizeof buf, f) != NULL) {
 		const char *p;
@@ -316,15 +328,10 @@ error:
 	return 0;
 }
 
-int main(int argc, char *argv[]) {
-	char map[256] = { 1 };
-	unsigned i;
-
-	srand(argc == 2 ? atoi(argv[1]) : 0);
-
-	if (-1 == x(map, stdin)) {
-		perror("x");
-	}
+void
+charset_dump(char map[], FILE *f)
+{
+	size_t i;
 
 	for (i = 0; i < sizeof map; i++) {
 		char c;
@@ -355,7 +362,5 @@ int main(int argc, char *argv[]) {
 
 		printf("%s", (i + 1) % 16 ? " " : "\n");
 	}
-
-	return 0;
 }
 
