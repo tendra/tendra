@@ -364,3 +364,65 @@ charset_dump(char map[], size_t n, FILE *f)
 	}
 }
 
+#ifdef CHARSET_TOOL
+
+int
+main(int argc, char *argv[])
+{
+	unsigned int seed;
+	char map[256] = { 1 };
+	FILE *f;
+
+	seed = 210881;
+
+	{
+		int c;
+
+		while (c = getopt(argc, argv, "s:"), c != -1) {
+			switch (c) {
+			case 's': seed = atoi(optarg); break;
+
+			default:
+				goto usage;
+			}
+		}
+
+		argc -= optind;
+		argv += optind;
+	}
+
+	if (argc > 1) {
+		goto usage;
+	}
+
+	if (argc == 0 || 0 == strcmp(argv[0], "-")) {
+		argv[0] = "/dev/stdin";
+	}
+
+	f = fopen(argv[0], "r");
+	if (f == NULL) {
+		perror(argv[0]);
+		return 1;
+	}
+
+	if (-1 == charset_load(map, f, seed)) {
+		perror(argv[0]);
+		fclose(f);
+		return 1;
+	}
+
+	charset_dump(map, sizeof map, stdout);
+
+	fclose(f);
+
+	return 0;
+
+usage:
+
+	fprintf(stderr, "usage: charset [-s seed] [path]\n");
+
+	return 1;
+}
+
+#endif
+

@@ -43,3 +43,7 @@ SYNTAX+=	psyntax.sid
 
 .include <tendra.sid.mk>
 
+
+charset: charset.c
+	${CC} -o ${.TARGET} ${CFLAGS} -DCHARSET_TOOL ${.ALLSRC}
+
