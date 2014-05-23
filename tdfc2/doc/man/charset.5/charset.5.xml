@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE refentry SYSTEM "minidocbook.dtd" [
+	<!ENTITY to.lit   "<literal>..</literal>">
+	<!ENTITY map.lit  "<literal>-></literal>">
+]>
+
+<refentry>
+<!--
+        Copyright (c) 2002-2007 The TenDRA Project <http://www.tendra.org/>.
+        All rights reserved.
+
+        Redistribution and use in source and binary forms, with or without
+        modification, are permitted provided that the following conditions are met:
+
+        1. Redistributions of source code must retain the above copyright notice,
+           this list of conditions and the following disclaimer.
+        2. Redistributions in binary form must reproduce the above copyright notice,
+           this list of conditions and the following disclaimer in the documentation
+           and/or other materials provided with the distribution.
+        3. Neither the name of The TenDRA Project nor the names of its contributors
+           may be used to endorse or promote products derived from this software
+           without specific, prior written permission.
+
+        THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+        IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+        THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+        PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+        CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+        EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+        PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+        OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+        WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+        OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+        ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+
+	<refmeta>
+		<refentrytitle>charset</refentrytitle>
+		<manvolnum>5</manvolnum>
+	</refmeta>
+
+	<refnamediv>
+		<refname>charset</refname>
+		<refpurpose>tdfc2 execution character set syntax</refpurpose>
+	</refnamediv>
+
+	<refsection>
+		<title>Lexical conventions</title>
+
+		<para>Input is line-buffered, and a directive must be completed within a
+			single line. Whitespace within a line is not syntactically significant.
+			Directives are terminated by the statement separator <code>;</code>.</para>
+
+		<para>Comments begin with <code>#</code> and run to the end of the line.</para>
+
+		<para>The following lexical conventions are used within
+			this reference:</para>
+
+		<table>
+			<col align="left"/>
+			<col align="left"/>
+
+			<thead>
+				<tr>
+					<th>Symbol</th>
+					<th>Meaning</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr>
+					<td><replaceable>c</replaceable></td>
+					<td>A single character (including single quote,
+						&ldquo;<literal>'</literal>&rdquo;)</td>
+				</tr>
+				<tr>
+					<td><replaceable>\...</replaceable></td>
+					<td>An escape sequence (see below).</td>
+				</tr>
+				<tr>
+					<td><replaceable>v</replaceable></td>
+					<td>A value in the execution character set,
+						in base 10.</td>
+				</tr>
+				<tr>
+					<td><replaceable>n</replaceable></td>
+					<td>A numerical digit in an appropriate base (case insensitive)</td>
+				</tr>
+				<tr>
+					<td><replaceable>0..9</replaceable><br/>
+					<replaceable>9..0</replaceable></td>
+					<td>A range of any digits within 0 to 9,
+						in ascending and descending order, respectively.</td>
+				</tr>
+				<tr>
+					<td><replaceable>'A'..'Z'</replaceable><br/>
+						<replaceable>'Z'..'A'</replaceable></td>
+					<td>A range of characters in ascending descending order,
+						respectively.</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<para>Character ranges may be either digits (<code>'0'..'9'</code>),
+			uppercase (<code>'A'..'Z'</code>)
+			or lowercase (<code>'a'..'z'</code>), but not a mix.
+			Any endpoints within a range may be specified.
+			For example <replaceable>'A'..'Z'</replaceable> could be written
+			as <code>'3'..'7'</code> specifically.
+			All ranges are inclusive.</para>
+
+		<para>The following character escapes are permitted:</para>
+
+		<table>
+			<col align="center"/>
+			<col align="left"/>
+
+			<thead>
+				<tr>
+					<th>Escape</th>
+					<th>Meaning</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr>
+					<td><code>\\</code></td>
+					<td>Backslash</td>
+				</tr>
+				<tr>
+					<td><code>\'</code></td>
+					<td>Single quote</td>
+				</tr>
+				<tr>
+					<td><code>\t</code></td>
+					<td>Horizontal tab</td>
+				</tr>
+				<tr>
+					<td><code>\v</code></td>
+					<td>Vertical tab</td>
+				</tr>
+				<tr>
+					<td><code>\f</code></td>
+					<td>Form feed</td>
+				</tr>
+				<tr>
+					<td><code>\a</code></td>
+					<td>Alert</td>
+				</tr>
+				<tr>
+					<td><code>\b</code></td>
+					<td>Backspace</td>
+				</tr>
+				<tr>
+					<td><code>\r</code></td>
+					<td>Carriage return</td>
+				</tr>
+				<tr>
+					<td><code>\n</code></td>
+					<td>New line</td>
+				</tr>
+				<tr>
+					<td><code>\0nn</code></td>
+					<td>An octal ASCII value of zero or more digits</td>
+				</tr>
+				<tr>
+					<td><code>\xnn</code></td>
+					<td>A hexadecimal ASCII value of one or more digits</td>
+				</tr>
+				<tr>
+					<td><code>\nnn</code></td>
+					<td>A decimal ASCII value of one or more digits</td>
+				</tr>
+			</tbody>
+		</table>
+	</refsection>
+
+	<refsection>
+		<title>Directives</title>
+
+		<para>Directives of the form
+			<code><replaceable>x</replaceable> -> <replaceable>y</replaceable></code>
+			are concerned with mapping ASCII characters (on the left)
+			to corresponding values in the execution character set (on the right).
+			Note these replace any previous mappings.</para>
+
+		<variablelist>
+			<varlistentry>
+				<term><code>'c'&nbsp;&nbsp;&nbsp; -> <replaceable>v</replaceable>;</code></term>
+				<term><code>'\c'&nbsp;&nbsp; -> <replaceable>v</replaceable>;</code></term>
+
+				<term><code>'\0<replaceable>nn</replaceable>' -> <replaceable>v</replaceable>;</code></term>
+				<term><code>'\x<replaceable>nn</replaceable>' -> <replaceable>v</replaceable>;</code></term>
+				<term><code>'\<replaceable>nnn</replaceable>' -> <replaceable>v</replaceable>;</code></term>
+
+				<listitem>
+					<para>Map a single character literal or ASCII value
+						to an arbitrary execution set value.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code><replaceable>'A'..'Z'</replaceable> -> <replaceable>0..9</replaceable>;</code></term>
+				<term><code><replaceable>'Z'..'A'</replaceable> -> <replaceable>0..9</replaceable>;</code></term>
+
+				<listitem>
+					<para>Map a range of characters to a range of execution set values.
+						The arity of these ranges must match.</para>
+
+					<para>Note the ASCII character ranges include digits
+						and lowercase.</para>
+<!-- TODO: ordering -->
+				</listitem>
+			</varlistentry>
+		</variablelist>
+
+		<para>Rearranging mapped ranges:</para>
+
+		<variablelist>
+			<varlistentry>
+				<term><code>permute <replaceable>0..9</replaceable>;</code></term>
+
+				<listitem>
+					<para>Randomly permute (shuffle) the values within the given range.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>reverse <replaceable>0..9</replaceable>;</code></term>
+
+				<listitem>
+					<para>Reverse the order of the values within the given range.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>rotate  <replaceable>0..9</replaceable> by <replaceable>n</replaceable>;</code></term>
+
+				<listitem>
+					<para>Rotate the values within the given range by
+						<replaceable>n</replaceable> elements. Values are rotated
+						as in a circular queue, and values pushed off one side wrap
+						around to the opposing side.
+						<replaceable>n</replaceable> may be positive (to rotate to
+						the right) or negative (to the left).</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>slide   <replaceable>0..9</replaceable> in <replaceable>0..9</replaceable>;</code></term>
+
+				<listitem>
+					<para>Rotate the containing range by a random number of elements,
+						such that the inner range is moved at most to either end,
+						but will never wrap over the edge.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>fill    <replaceable>0..9</replaceable> in <replaceable>0..9</replaceable>;</code></term>
+
+				<listitem>
+					<para>Populate the inner range with arbitrary values
+						not present in the containing range.</para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
+	</refsection>
+
+	<refsection>
+		<title>Conformance</title>
+
+		<para>Each directive is interpreted in order, and operates on the current
+			mapping in turn. It is permitted to have (for example) duplicate values
+			and other non-legal constructs whilst building the mapping, but the final
+			result is expected to conform to the requirements for the
+			execution character set as outlined in section 2.2.1 of the ANSI C89
+			standard.</para>
+
+		<para>Briefly, these requirements are that
+			<code>'\0'</code> must be mapped to value <code>0</code>, that
+			the numeric characters <code>'0'</code> to <code>'9'</code> are
+			mapped to contiguous values,
+			and that various characters (specified by the C standard) are required
+			to be present.
+			No duplicate values are permitted.</para>
+	</refsection>
+
+	<refsection>
+		<title>Caveats</title>
+
+		<para>Only execution character sets in the range 0..255 inclusive are currently
+			supported. Likewise source character set values are only supported in the
+			same range, despite that the compiler uses Unicode for its source
+			character set.</para>
+
+		<para>No attempt is made to cater for locale or for wide characters,
+			despite being supported by the compiler itself.</para>
+	</refsection>
+</refentry>
+
