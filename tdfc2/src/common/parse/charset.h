@@ -20,7 +20,7 @@ int
 charset_load(char map[], FILE *f, unsigned int seed);
 
 void
-charset_dump(char map[], FILE *f);
+charset_dump(char map[], size_t n, FILE *f);
 
 
 #endif

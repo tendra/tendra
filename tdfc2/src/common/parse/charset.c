@@ -329,11 +329,11 @@ error:
 }
 
 void
-charset_dump(char map[], FILE *f)
+charset_dump(char map[], size_t n, FILE *f)
 {
 	size_t i;
 
-	for (i = 0; i < sizeof map; i++) {
+	for (i = 0; i < n; i++) {
 		char c;
 
 		c = map[i];
