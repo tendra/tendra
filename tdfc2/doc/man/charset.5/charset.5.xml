@@ -47,7 +47,7 @@
 	<refsection>
 		<title>Lexical conventions</title>
 
-		<para>Input is line-buffered, and a directive must be completed within a
+		<para>Input is line delimited, and a directive must be completed within a
 			single line. Whitespace within a line is not syntactically significant.
 			Directives are terminated by the statement separator <code>;</code>.</para>
 
