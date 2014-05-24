@@ -8,6 +8,8 @@
  */
 
 #include <limits.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 #include "config.h"
 
@@ -962,12 +964,19 @@ process_files(LIST(string)files)
 int
 main(int argc, char **argv)
 {
+    const char *charset;
     LIST(string)files;
     set_progname(argv[0], PROG_VERSION);
     IGNORE set_machine(FS_MACHINE);
     init_loc();
     files = process_args(argc - 1, argv + 1);
     builtin_startup();
+    charset = getenv("TDFC2_CHARSET");
+    if (charset != NULL) {
+	if (-1 == init_literal_map(charset)) {
+	    return 1;
+	}
+    }
     if (!quit_immediately) {
 	/* Process files */
 	init_main();
