@@ -11,9 +11,20 @@
 
 typedef unsigned long bitpattern;
 
-/* count the bits in b */
+/*
+ * Count the bits set.
+ */
 int
 bits_in(bitpattern);
+
+/*
+ * Find the first non-zero bit
+ *
+ * Returns the bit number of the least significant set bit.
+ * For 0 it returns -1.
+ */
+int
+bit_one(bitpattern);
 
 #endif
 

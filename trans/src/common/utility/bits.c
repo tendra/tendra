@@ -24,3 +24,18 @@ bits_in(bitpattern n)
 	return c;
 }
 
+int
+bit_one(bitpattern n)
+{
+	int c = 0;
+	bitpattern m;
+
+	for (m = n; m; m >>= 1, c++) {
+		if (m & 1) {
+			return c;
+		}
+	}
+
+	return -1;
+}
+

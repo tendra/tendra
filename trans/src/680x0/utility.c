@@ -29,27 +29,6 @@ long total_calloced;
 
 
 /*
-    FIND THE FIRST NONZERO BIT
-
-    This routine returns the bit number of the least significant set
-    bit in n.  For 0 it returns -1.
-*/
-
-int
-bit_one(bitpattern n)
-{
-	int c = 0;
-	bitpattern m;
-	for (m = n; m; m >>= 1, c++) {
-		if (m & 1) {
-			return c;
-		}
-	}
-	return -1;
-}
-
-
-/*
     BIT PATTERNS
 
     lo_bits [n] is the number with its bottom n bits set and the rest

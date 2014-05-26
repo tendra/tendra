@@ -16,8 +16,6 @@
 
 #include <utility/bits.h> /* XXX */
 
-extern int bit_one(bitpattern);
-
 extern bitpattern lo_bits[];
 extern bitpattern hi_bits[];
 
