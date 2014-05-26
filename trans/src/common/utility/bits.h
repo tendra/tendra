@@ -9,9 +9,11 @@
 #ifndef UTILITY_BITS_H
 #define UTILITY_BITS_H
 
+typedef unsigned long bitpattern;
+
 /* count the bits in b */
 int
-bitsin(long);
+bits_in(bitpattern);
 
 #endif
 

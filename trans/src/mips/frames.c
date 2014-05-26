@@ -94,9 +94,9 @@ void setframe_info
 
 	pr->floatdump = (No_S)?0xffc00000 :((sppr->fltdump) << 20);
 
-	nofixdump = bitsin(pr->fixdump);
+	nofixdump = bits_in(pr->fixdump);
 	/* no of fixed s-regs to be dumped */
-		ma += (nofixdump + bitsin(pr->floatdump))*32;
+		ma += (nofixdump + bits_in(pr->floatdump))*32;
 	ma = (ma + 32) & ~63;
 	/* include space for dumped s-regs */
 

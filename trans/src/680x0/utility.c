@@ -50,26 +50,6 @@ bit_one(bitpattern n)
 
 
 /*
-    FIND THE NUMBER OF SET BITS
-
-    The number of set bits in n is returned.
-*/
-
-int
-bits_in(bitpattern n)
-{
-	/* Table of bits in : 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, A, B, C, D, E, F */
-	static int b[16] = { 0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4 };
-	int c = 0;
-	while (n) {
-		c += b[n & 0xf];
-		n >>= 4;
-	}
-	return c;
-}
-
-
-/*
     BIT PATTERNS
 
     lo_bits [n] is the number with its bottom n bits set and the rest

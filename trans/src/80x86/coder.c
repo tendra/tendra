@@ -50,6 +50,8 @@
 
 #include <refactor/refactor.h>
 
+#include <utility/bits.h>
+
 #include "weights.h"
 #include "instr386.h"
 #include "operand.h"
@@ -366,9 +368,6 @@ static int push_cees
  * rs is the bit pattern for the registers in use. All the registers must
  * be above br (register number as integer, ie 0 for reg0 etc)
  */
-int  bits_in[16] = {		/* number of bits in the index */
-  0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4
-};
 
 /*
  * Allocate registers ebx esi edi, providing br registers are left.
@@ -387,8 +386,8 @@ static regu alloc_reg_big
   if (sz <= 8 || byteuse)
     noshort = 3;
   nr = (sz + 31) / 32;
-  reg_left = noreg - noshort - bits_in[rs & 0xf]
-		 - bits_in[((unsigned int)rs >> 4) & 0x7];
+  reg_left = noreg - noshort - bits_in(rs & 0xf)
+		 - bits_in(((unsigned int)rs >> 4) & 0x7);
 
 
   if ((reg_left) < (br)) {	/* can't allocate */
@@ -446,8 +445,8 @@ static regu alloc_reg_small
   if (sz <= 8 || byteuse)
     noshort = 3;
   nr = (sz + 31) / 32;
-  reg_left = noreg - noshort - bits_in[rs & 0xf]
-		 - bits_in[((unsigned int)rs >> 4) & 0x7];
+  reg_left = noreg - noshort - bits_in(rs & 0xf)
+		 - bits_in(((unsigned int)rs >> 4) & 0x7);
 
 
   if ((reg_left) < (br)) {	/* can't allocate */
@@ -497,8 +496,8 @@ static regu alloc_fl_small
 {
   int  mask, i, reg_left;
   regu ru;
-  reg_left = nofl - bits_in[((unsigned int)rs >> 8) & 0xf]
-		- bits_in[((unsigned int)rs >> 12) & 0xf];
+  reg_left = nofl - bits_in(((unsigned int)rs >> 8) & 0xf)
+		- bits_in(((unsigned int)rs >> 12) & 0xf);
 
 
   if ((reg_left) < (br)) {	/* can't allocate */

@@ -14,9 +14,8 @@
 
 #include <shared/xalloc.h>
 
-typedef unsigned long bitpattern;
+#include <utility/bits.h> /* XXX */
 
-extern int bits_in(bitpattern);
 extern int bit_one(bitpattern);
 
 extern bitpattern lo_bits[];

@@ -98,8 +98,8 @@ void setframe_info
     pr->fixdump |= (Has_fp)?0x7e00:0xfe00;
   }
   pr->floatdump = (sppr->fltdump<<1);	/* wrong! */
-  nofixdump = bitsin(pr->fixdump);
-  nofloatdump = bitsin(pr->floatdump);
+  nofixdump = bits_in(pr->fixdump);
+  nofloatdump = bits_in(pr->floatdump);
   /* no of fixed s-regs to be dumped */
   pr->frame_size=pa+st+save_offset+ (nofixdump+nofloatdump)*64;
   pr->frame_size+= ((has_float(e)!=0 || !optop(e))?64:0);

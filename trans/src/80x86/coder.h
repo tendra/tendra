@@ -22,7 +22,6 @@ void diag_arg(where dest, ash stack, exp e);
 
 extern int regsinuse;
 extern int min_rfree;
-extern int bits_in[16];
 extern int max_stack;
 extern int crt_ret_lab;
 extern int crt_ret_lab_used;

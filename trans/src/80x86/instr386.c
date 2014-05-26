@@ -41,6 +41,8 @@
 
 #include <refactor/refactor.h>
 
+#include <utility/bits.h>
+
 #include "coder.h"
 #include "reg_record.h"
 #include "overlap.h"
@@ -284,7 +286,7 @@ static int   use_pop
 int  count_regs
 (int mask)
 {
-  return bits_in[mask & 0xf] + bits_in[(mask >> 4) & 0x3];
+  return bits_in(mask & 0xf) + bits_in((mask >> 4) & 0x3);
 }
 
 static void cmp64_contop

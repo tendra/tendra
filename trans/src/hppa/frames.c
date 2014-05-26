@@ -274,7 +274,7 @@ void set_up_frame
        }
        else
        {
-	  nos = bitsin(fixdump); /* = number of s regs used in body of proc */
+	  nos = bits_in(fixdump); /* = number of s regs used in body of proc */
        }
        st+= (nos<<5);
     }

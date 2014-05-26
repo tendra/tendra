@@ -10,20 +10,17 @@
 #include <utility/bits.h>
 
 int
-bitsin(long b)
+bits_in(bitpattern n)
 {
-	int   n;
-	long  mask;
+	/* Table of bits in: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, A, B, C, D, E, F */
+	static int b[16] = { 0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4 };
+	int c = 0;
 
-	n    = 0;
-	mask = 1;
-
-	for ( ; b != 0; ) {
-		n += ((b & mask) != 0) ? 1 : 0;
-		b &= ~mask;
-		mask <<= 1;
+	while (n) {
+		c += b[n & 0xf];
+		n >>= 4;
 	}
 
-	return n;
+	return c;
 }
 
