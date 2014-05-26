@@ -49,6 +49,7 @@ extern void set_string_qual(CV_SPEC);
 extern void set_escape(EXP, EXP);
 extern void set_char_lit(TYPE);
 extern void init_literal(void);
+extern int init_literal_map(const char *);
 
 extern unsigned char digit_values[];
 extern unsigned char escape_sequences[];

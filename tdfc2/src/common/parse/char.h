@@ -19,6 +19,7 @@
     ASCII and checks on unicode characters.
 */
 
+extern void init_ascii(void);
 extern void map_ascii(unsigned char *);
 extern unsigned long to_ascii(unsigned long, int *);
 extern unsigned long from_ascii(unsigned long, int *);

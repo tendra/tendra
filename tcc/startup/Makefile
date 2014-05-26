@@ -9,6 +9,7 @@ STARTUPSUBDIR+=	Literal
 STARTUPSUBDIR+=	Modes
 STARTUPSUBDIR+=	Modes.cpp
 STARTUPSUBDIR+=	Promotion
+STARTUPSUBDIR+=	charmap
 
 .include <tendra.startup.mk>
 

@@ -8,6 +8,8 @@
  */
 
 #include <limits.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 #include "config.h"
 
@@ -112,6 +114,7 @@ typedef struct {
 
 static PROGRAM_ARG prog_args[] = {
     { 'A', 1, "<pre>(<tok>)", "assert a predicate" },
+    { 'C', 1, "<file>", "load a character set map" },
     { 'D', 1, "<mac>=<def>", "define a macro" },
     { 'E', 0, NULL, "preprocess input file only" },
     { 'F', 1, "<file>", "read list of options from file" },
@@ -350,6 +353,13 @@ process_args(int argc, char **argv)
 			have_startup = 1;
 			break;
 		    }
+
+		    case 'C':
+			if (-1 == init_literal_map(arg)) {
+			    const char *err = "Can't open charset map file '%s'";
+			    error(ERROR_FATAL, err, arg);
+			}
+			break;
 
 		    case 'D': {
 			/* Macro definition */
@@ -962,6 +972,7 @@ process_files(LIST(string)files)
 int
 main(int argc, char **argv)
 {
+    const char *charset;
     LIST(string)files;
     set_progname(argv[0], PROG_VERSION);
     IGNORE set_machine(FS_MACHINE);

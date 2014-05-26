@@ -19,6 +19,7 @@ CCOPTS+=	-I ../utility
 SRCS!=	ls -1 psyntax*.c
 
 SRCS+=	char.c
+SRCS+=	charset.c
 SRCS+=	constant.c
 SRCS+=	file.c
 SRCS+=	hash.c
@@ -41,4 +42,8 @@ SIDOPTS+=	-s split=5000
 SYNTAX+=	psyntax.sid
 
 .include <tendra.sid.mk>
+
+
+charset: charset.c
+	${CC} -o ${.TARGET} ${CFLAGS} -DCHARSET_TOOL ${.ALLSRC}
 

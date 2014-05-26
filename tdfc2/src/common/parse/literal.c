@@ -11,6 +11,7 @@
 
 #include "config.h"
 #include "c_types.h"
+#include "charset.h"
 #include "exp_ops.h"
 #include "flt_ops.h"
 #include "id_ops.h"
@@ -40,6 +41,18 @@
 #include "token.h"
 #include "ustring.h"
 #include "xalloc.h"
+
+
+/*
+    Execution character set mapping. Possibly this could be combined
+    into the to/from_ascii_tab[] tables, but I'm keeping it seperate
+    for the moment.
+
+    This is indexed by execution character set value, and each element
+    is the corresponding ASCII value.
+*/
+
+char map[256] = { 1 };
 
 
 /*
@@ -444,7 +457,31 @@ init_literal(void)
 		}
 		string_hash_table = q;
 	}
-	return;
+}
+
+
+/* TODO: this can be folded into init_literal() when it has fatal error reporting */
+int
+init_literal_map(const char *path)
+{
+	FILE *f;
+
+	f = fopen(path, "r");
+	if (f == NULL) {
+		perror(path);
+		return -1;
+	}
+
+	/* TODO: seed */
+	if (-1 == charset_load(map, f, 210881)) {
+		/* TODO: tdfc2 error reporting */
+		perror("charset_load");
+		return -1;
+	}
+
+	fclose(f);
+
+	return 0;
 }
 
 
@@ -1578,6 +1615,11 @@ illegal_lab: {
 			multi = 1;
 			str = a;
 		}
+
+		if (map[0] == '\0') {
+			c = map[c];
+		}
+
 		if (multi) {
 			add_multi_char(str + len, c, ch);
 			len += MULTI_WIDTH;
