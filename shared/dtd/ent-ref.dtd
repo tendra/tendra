@@ -59,6 +59,7 @@
 
 
 <!-- TenDRA Section 5 -->
+<!ENTITY charset.5    "<citerefentry><refentrytitle>charset</refentrytitle>   %vol.5;</citerefentry>">
 <!ENTITY tdfcdump.5   "<citerefentry><refentrytitle>tdfcdump</refentrytitle>  %vol.5;</citerefentry>">
 <!ENTITY tdfcpragma.5 "<citerefentry><refentrytitle>tdfcpragma</refentrytitle>%vol.5;</citerefentry>">
 <!ENTITY tccenv.5     "<citerefentry><refentrytitle>tccenv</refentrytitle>    %vol.5;</citerefentry>">
