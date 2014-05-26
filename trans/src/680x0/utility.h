@@ -16,8 +16,6 @@
 
 typedef unsigned long bitpattern;
 
-extern char *basename(char *);
-
 extern int bits_in(bitpattern);
 extern int bit_one(bitpattern);
 

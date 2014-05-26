@@ -29,26 +29,6 @@ long total_calloced;
 
 
 /*
-    FIND THE BASENAME OF A FILE
-
-    The string nm is analysed and a pointer to the character after the
-    last '/' is returned.
-*/
-
-char *
-basename(char *nm)
-{
-	char *bn = nm;
-	for (; *nm; nm++) {
-		if (*nm == '/') {
-			bn = nm + 1;
-		}
-	}
-	return bn;
-}
-
-
-/*
     FIND THE FIRST NONZERO BIT
 
     This routine returns the bit number of the least significant set
