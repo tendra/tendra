@@ -3,6 +3,7 @@
 <!ENTITY dot.lit        "<literal>.</literal>">
 <!ENTITY comma.lit      "<literal>,</literal>">
 <!ENTITY colon.lit      "<literal>:</literal>">
+<!ENTITY semi.lit       "<literal>;</literal>">
 <!ENTITY equal.lit      "<literal>=</literal>">
 <!ENTITY hyphen.lit     "<literal>-</literal>">
 <!ENTITY plus.lit       "<literal>+</literal>">
