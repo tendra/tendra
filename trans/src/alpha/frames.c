@@ -11,6 +11,8 @@
 
 #include <construct/tags.h>
 
+#include <utility/bits.h>
+
 #include "frames.h"
 #include "procrecs.h"
 #include "bitsmacs.h"
@@ -19,7 +21,6 @@
 #include "cross.h"
 #include "bool.h"
 
-extern int bitsin(int32);
 extern exp father(exp);
 
 bool Has_fp = FALSE;

@@ -13,6 +13,8 @@
 
 #include <construct/tags.h>
 
+#include <utility/bits.h>
+
 #include "procrectypes.h"
 #include "bitsmacs.h"
 #include "frames.h"

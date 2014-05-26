@@ -18,4 +18,4 @@ extern  where nowhere;
 
 extern makeans make_code(exp e, space sp, where dest, int exitlab);
 extern bool last_param(exp e);
-extern int bitsin(long);
+

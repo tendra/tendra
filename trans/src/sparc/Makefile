@@ -23,6 +23,7 @@ PARTS+=	src/common/dwarf2
 PARTS+=	src/common/linkinfo
 PARTS+=	src/common/reader
 PARTS+=	src/common/refactor
+PARTS+= src/common/utility
 
 .include <tendra.partial.mk>
 

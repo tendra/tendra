@@ -260,22 +260,6 @@ static const char *(fbranch_tab[]) =
 /* used to invert TDF tests */
 long notbranch[] ={7,4,3,2,1,6,5,0};
 
-
-int bitsin
-(long b)
-{
-   /* counts the bits in b */
-   int n = 0;
-   long mask = 1;
-   for (; b != 0;)
-   {
-      n += ((b & mask)!= 0)? 1 : 0;
-      b &= ~mask;
-      mask = mask << 1;
-   }
-   return n;
-}
-
 /*
  * Find the last test in sequence e which is a branch to second,
  * if any, otherwise nil

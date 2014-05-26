@@ -790,22 +790,6 @@ long  notbranch[6] = {
 /* used to invert TDF tests */
 
 /*
- * count the number of bits set in b.
- */
-int bitsin
-(int32 b)
-{
-  int   n = 0;
-  int32  mask = 1;
-  for (; b != 0;) {
-    n += ((b & mask)!= 0)? 1 : 0;
-    b &= ~mask;
-    mask = mask << 1;
-  }
-  return n;
-}
-
-/*
  * Move sizereg bytes to dest from source using movereg bytemove is the maximum
  * number of bytes which can be moved in a single instruction if available.
  *

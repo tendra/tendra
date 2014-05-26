@@ -22,7 +22,6 @@ extern int fscopefile;
 
 extern bool last_param(exp);
 extern makeans make_code(exp e, space sp, where dest, int exitlab);
-extern int bitsin(int);
 
 
 typedef struct _postl {

@@ -12,6 +12,8 @@
 #include <construct/tags.h>
 #include <construct/flags.h>
 
+#include <utility/bits.h>
+
 #include "bitsmacs.h"
 #include "procrec.h"
 #include "addrtypes.h"
@@ -20,7 +22,6 @@
 #include "frames.h"
 
 extern char *proc_name;
-extern int bitsin(long);
 extern exp father(exp);
 
 bool Has_fp = 0;

@@ -403,19 +403,6 @@ long  notbranch[6] = {
 };
  /* used to invert TDF tests */
 
-int   bitsin
-(long b)
-{		/* counts the bits in b */
-  int   n = 0;
-  long  mask = 1;
-  for (; b != 0;) {
-    n += ((b & mask)!= 0)? 1 : 0;
-    b &= ~mask;
-    mask = mask << 1;
-  }
-  return n;
-}
-
 void move_dlts
 (int dr, int sr, int szr, int mr, int bytemove)
 {
