@@ -89,7 +89,7 @@
 				<tr>
 					<td><replaceable>0..9</replaceable><br/>
 					<replaceable>9..0</replaceable></td>
-					<td>A range of any digits within 0 to 9,
+					<td>A range of ASCII values in base 10,
 						in ascending and descending order, respectively.</td>
 				</tr>
 				<tr>

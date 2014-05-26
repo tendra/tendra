@@ -114,6 +114,7 @@ typedef struct {
 
 static PROGRAM_ARG prog_args[] = {
     { 'A', 1, "<pre>(<tok>)", "assert a predicate" },
+    { 'C', 1, "<file>", "load a character set map" },
     { 'D', 1, "<mac>=<def>", "define a macro" },
     { 'E', 0, NULL, "preprocess input file only" },
     { 'F', 1, "<file>", "read list of options from file" },
@@ -352,6 +353,13 @@ process_args(int argc, char **argv)
 			have_startup = 1;
 			break;
 		    }
+
+		    case 'C':
+			if (-1 == init_literal_map(arg)) {
+			    const char *err = "Can't open charset map file '%s'";
+			    error(ERROR_FATAL, err, arg);
+			}
+			break;
 
 		    case 'D': {
 			/* Macro definition */
@@ -971,12 +979,6 @@ main(int argc, char **argv)
     init_loc();
     files = process_args(argc - 1, argv + 1);
     builtin_startup();
-    charset = getenv("TDFC2_CHARSET");
-    if (charset != NULL) {
-	if (-1 == init_literal_map(charset)) {
-	    return 1;
-	}
-    }
     if (!quit_immediately) {
 	/* Process files */
 	init_main();

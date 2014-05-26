@@ -4,6 +4,7 @@
 	<!ENTITY D2.opt "<option>-D</option>&nbsp;&macro.arg;&equal.lit;&tokens.arg;">
 
 	<!ENTITY A.opt "<option>-A</option>&nbsp;&predicate.arg;&open.lit;&tokens.arg;&close.lit;">
+	<!ENTITY C.opt "<option>-C</option>&nbsp;&file.arg;">
 	<!ENTITY E.opt "<option>-E</option>">
 	<!ENTITY F.opt "<option>-F</option>&nbsp;&file.arg;">
 	<!ENTITY H.opt "<option>-H</option>">
@@ -113,6 +114,7 @@
 			<command>tdfc2</command>
 
 			<arg choice="opt">&A.opt;</arg>
+			<arg choice="opt">&C.opt;</arg>
 			<arg choice="opt">&D1.opt;</arg>
 			<arg choice="opt">&D2.opt;</arg>
 			<arg choice="opt">&E.opt;</arg>
@@ -226,6 +228,15 @@
 					<para>Asserts that the given predicate is true.
 						The special case <option>-A-</option> undefines all the
 						built-in predicates (of which there are none).</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>&C.opt;</term>
+
+				<listitem>
+					<para>Load the given file as as a character set map.
+						See &charset.5; for the syntax of this file.</para>
 				</listitem>
 			</varlistentry>
 
@@ -603,7 +614,7 @@
 	<refsection>
 		<title>See Also</title>
 
-		<para>&tcc;, &tcpplus;.</para>
+		<para>&tcc;, &tcpplus;, &charset.5;.</para>
 	</refsection>
 </refentry>
 
