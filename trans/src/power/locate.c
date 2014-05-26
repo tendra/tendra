@@ -8,11 +8,11 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/* locate.c
-     discovers "where" an "exp" is;
-     The where coding of an address tells one whether the result of
-      evaluating an exp is in a register or directly or literally in store,
-*/
+/*
+ * Discovers "where" an "exp" is;
+ * The where coding of an address tells one whether the result of
+ * evaluating an exp is in a register or directly or literally in store,
+ */
 
 #include <shared/error.h>
 
@@ -25,48 +25,51 @@
 #include "locate.h"
 #include "frames.h"
 
-/******************************************************************************
-For non globals, boff encodes things in the following way.
-The number of bytes gives a displacement from different positions on
-the stack depending on whether it is relative to R_SP R_FP or R_TP
-
-The stack below gives the worst case of the stack i.e a general_proc with
-alloca
-  |           |
-  |           | #
-  |           | |  x relative to R_TP i.e caller parameters
-  |-----------| |                     in input caller parameter area
-  | STACK     | |
-  | LINK      | | STACK_ARG_AREA
-  | AREA      | |
-  |-----------|<--------R_TP
-  | Input     |
-  | Callees   |
-  |           |
-  |           |
-  |           |
-  |           |
-  |-----------|<--------R_FP
-  |           | |
-  |           | |
-  |           | |                          #
-  |           | |                          | displacement x relative to R_FP
-  |           | |                          | coded like this in regalloc
-  |           | | p_frame_size          #
-  |           | |                          |
-  |           | |                          | p_locals_offset
-  |           | |                          |
-  |           | |                          |
-  |           | # <--initial R_SP was here
-  |-----------|
-  |           | #
-  |           | | x relative to R_SP i.e output caller parameter construction
-  |-----------| |
-  | STACK     | |
-  | LINK      | | STACK_ARG_AREA
-  | AREA      | |
-  |-----------|<--------R_SP
-******************************************************************************/
+/*
+ * For non globals, boff encodes things in the following way:
+ *
+ * The number of bytes gives a displacement from different positions on
+ * the stack depending on whether it is relative to R_SP R_FP or R_TP
+ *
+ * The stack below gives the worst case of the stack i.e a general_proc with
+ * alloca:
+ *
+ *   |           |
+ *   |           | #
+ *   |           | |  x relative to R_TP i.e caller parameters
+ *   |-----------| |                     in input caller parameter area
+ *   | STACK     | |
+ *   | LINK      | | STACK_ARG_AREA
+ *   | AREA      | |
+ *   |-----------|<--------R_TP
+ *   | Input     |
+ *   | Callees   |
+ *   |           |
+ *   |           |
+ *   |           |
+ *   |           |
+ *   |-----------|<--------R_FP
+ *   |           | |
+ *   |           | |
+ *   |           | |                          #
+ *   |           | |                          | displacement x relative to R_FP
+ *   |           | |                          | coded like this in regalloc
+ *   |           | | p_frame_size             #
+ *   |           | |                          |
+ *   |           | |                          | p_locals_offset
+ *   |           | |                          |
+ *   |           | |                          |
+ *   |           | # <--initial R_SP was here
+ *   |-----------|
+ *   |           | #
+ *   |           | | x relative to R_SP i.e output caller parameter construction
+ *   |-----------| |
+ *   | STACK     | |
+ *   | LINK      | | STACK_ARG_AREA
+ *   | AREA      | |
+ *   |-----------|<--------R_SP
+ *
+ */
 
 /* decodes e to give a baseoff suitable for xxx_ins functions */
 baseoff boff(exp e)
@@ -98,24 +101,27 @@ baseoff boff_location(int n)
   if (br<0)
     br = -br;
 
-  /* There are three possiblilities for br */
-  /* i.e R_TP R_FP R_SP */
-  /* R_TP|
-     -----
-     if something is relative to R_TP it is a caller of the previous proc
-     since R_TP is the top of the frame
-     R_FP|
-     -----
-     This is all locals to the current procedure
-     R_SP|
-     -----
-     This is used for constructing argument lists for calling parameters
-
-     It is possible that all three are the same
-     i.e they are all calculated from the stack pointer.
-     However in a general_proc
-     things get nasty and all three will point to different places
-     */
+  /*
+   * There are three possiblilities for br
+   * i.e R_TP R_FP R_SP
+   *
+   *   R_TP|
+   *   -----
+   *   if something is relative to R_TP it is a caller of the previous proc
+   *   since R_TP is the top of the frame
+   *
+   *   R_FP|
+   *   -----
+   *   This is all locals to the current procedure
+   *
+   *   R_SP|
+   *   -----
+   *   This is used for constructing argument lists for calling parameters
+   *
+   * It is possible that all three are the same i.e they are all calculated
+   * from the stack pointer. However in a general_proc things get nasty
+   * and all three will point to different places
+   */
   if (br == R_SP)
   {
     an.base = R_SP;
@@ -159,12 +165,14 @@ baseoff boff_location(int n)
   }
   return an;
 }
+
+/*
+ * type is either:
+ * INPUT_CALLER_PARAMETER, INPUT_CALLEE_PARAMETER, OUTPUT_CALLER_PARAMETER
+ * offset shoulb be in bytes
+ */
 int ENCODE_FOR_BOFF(int off, int type)
 {
-
-  /* type is either */
-  /* INPUT_CALLER_PARAMETER, INPUT_CALLEE_PARAMETER, OUTPUT_CALLER_PARAMETER */
-  /* offset shoulb be in bytes */
   int encode_offset;
   int encode_base;
 
@@ -194,16 +202,13 @@ int ENCODE_FOR_BOFF(int off, int type)
   return (encode_offset<<6) + encode_base;
 }
 
-
-
 /* mutual recursion between locate1() and locate() */
 where locate(exp, space, shape, int);
 
-
- /*
-  * finds the address of e using shape s; sp gives available t-regs for any
-  * inner evaluation. dreg is historical.
-  */
+/*
+ * finds the address of e using shape s; sp gives available t-regs for any
+ * inner evaluation. dreg is historical.
+ */
 static where locate1(exp e, space sp, shape s, int dreg)
 {
   ash a;
@@ -216,7 +221,6 @@ static where locate1(exp e, space sp, shape s, int dreg)
 
   switch (name(e))
   {
-    /***********************************************/
    case name_tag:
     {
       /* NAME_TAG */
@@ -308,9 +312,10 @@ static where locate1(exp e, space sp, shape s, int dreg)
 	{
 	  /*
 	   * A global which has to be accessed via TOC.
-	   * We load it explicitly into reg here so we can
-	   * use the reg contents tracking mechanism for
-	   * addresses found in the TOC.
+	   *
+	   * We load it explicitly into reg here so we can use the reg contents
+	   * tracking mechanism for addresses found in the TOC.
+	   *
 	   * If we did not do this, we would still generate correct code,
 	   * but needlessly reload from TOC.
 	   * +++ offset != 0 -> keepglob for 0 offset & keepreg for offset
@@ -333,7 +338,7 @@ static where locate1(exp e, space sp, shape s, int dreg)
       wans.ashwhere = a;
       return wans;
     }
-    /***********************************************/
+
   case addptr_tag:
     {
       exp sum = son(e);
@@ -447,8 +452,10 @@ static where locate1(exp e, space sp, shape s, int dreg)
       return wans;
     }				/* end add_ptr */
 
-  case subptr_tag:		/* this is nugatory - previous transforms make
-				 * it into addptr or reff */
+  case subptr_tag:
+	/*
+	 * This is nugatory - previous transforms make it into addptr or reff
+	 */
     {
       exp sum = son(e);
       int ind = reg_operand(sum, sp);
@@ -549,7 +556,6 @@ static where locate1(exp e, space sp, shape s, int dreg)
 
       fc = locate(p, sp, sh(e), 0);
       ason = fc.answhere;
-
 
       /*
        * answer is going to be the contents of address represented by fc
@@ -685,11 +691,10 @@ static where locate1(exp e, space sp, shape s, int dreg)
   }
 }
 
-
- /*
-  * locate differs from locate1 only in that it looks to see if e has already
-  * been evaluated and remembered by register contents tracking scheme
-  */
+/*
+ * locate differs from locate1 only in that it looks to see if e has already
+ * been evaluated and remembered by register contents tracking scheme
+ */
 where locate(exp e, space sp, shape s, int dreg)
 {
   ans ak;

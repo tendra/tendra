@@ -7,35 +7,36 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/******************************************************************
-		weights.c
-
-	The main procedure here is weightsv which determines
-the allocation of s regs. It considers which of those tags not already
-allocated to a t reg by scan, are best put in an s register. The same
-conditions as for t regs apply as to the suitability of the tags for registers.
-Weights estimates the usage of each tag and hence the amount that would
-be saved if it were held in an s reg. Thus it computes break points for
-register allocation for later use by reg_alloc.
-	The type weights consists of two arrays of integers. In the first
-array each integer corresponds to a fixpnt reg and the second arrays'
-integers correspond to floating point regs.
-	At the end of a call of weights on an ident exp the props field
-of the ident may still contain inreg_bits or infreg_bits, set by scan, to
-indicate that a t reg should be used. Otherwise number of ident is set up to
-represent the break point for allocation. A similar process occurs for
-proc parameters which have the break value in the forweights field
-of the parapair of the corresponding procrec. This value has three
-meanings:
-	1) The ident (or parameter) defines a fixpnt value and number
-of ident (forweights of parpair) is an integer brk with the interpretation
-that if there are at least brk fixpt s registers unallocated at this point then
-one will be used for this tag (parameter).
-	2) As 1 but for floating point values.
-	3) number of ident = 100 in which case allocate value on the
-stack, (this is obviously always available for parameters).
-
-******************************************************************/
+/*
+ * The main procedure here is weightsv which determines the allocation
+ * of s regs. It considers which of those tags not already allocated
+ * to a t reg by scan, are best put in an s register. The same conditions
+ * as for t regs apply as to the suitability of the tags for registers.
+ *
+ * Weights estimates the usage of each tag and hence the amount that would
+ * be saved if it were held in an s reg. Thus it computes break points for
+ * register allocation for later use by reg_alloc.
+ *
+ * The type weights consists of two arrays of integers. In the first array
+ * each integer corresponds to a fixpnt reg and the second arrays' integers
+ * correspond to floating point regs.
+ *
+ * At the end of a call of weights on an ident exp the props field of the
+ * ident may still contain inreg_bits or infreg_bits, set by scan,
+ * to indicate that a t reg should be used. Otherwise number of ident
+ * is set up to represent the break point for allocation. A similar process
+ * occurs for proc parameters which have the break value in the forweights
+ * field of the parapair of the corresponding procrec. This value has three
+ * meanings:
+ *
+ *  1) The ident (or parameter) defines a fixpnt value and number of ident
+ *     (forweights of parpair) is an integer brk with the interpretation that
+ *     if there are at least brk fixpt s registers unallocated at this point
+ *     then one will be used for this tag (parameter).
+ *  2) As 1 but for floating point values.
+ *  3) number of ident = 100 in which case allocate value on the
+ *     stack, (this is obviously always available for parameters).
+ */
 
 #include <limits.h>
 #include <stddef.h>
@@ -64,8 +65,10 @@ weights zeroweights =
 }
 };
 
-/* NB scale, throughout,  should be a float but mips cc V2.10 compiles calls and
-		proc body inconsistently !! */
+/*
+ * NB scale, throughout, should be a float but mips cc V2.10 compiles
+ * calls and proc body inconsistently !!
+ */
 
 weights weightsv(double scale, exp e);
 
@@ -84,26 +87,23 @@ weights add_weights
   return r;
 }
 
+/*
+ * loc is the usage count of a tag, ws is the weights computed for the scope of
+ * the tag and fix distinguishes between fix and float. This computes the
+ * weights for the declaration and a break point for register allocation which
+ * gives the number of available regs for which it is worthwhile to allocate this
+ * tag into a reg ("regged"). This proc is the source of all non-zero weights.
+ *
+ * NB loc may be negative since using a s-reg will involve a dump and restore
+ */
 wp max_weights
 (double loc, weights * ws, bool fix)
 {
-				/* loc is the usage count of a tag, ws is
-				   the weights computed for the scope of
-				   the tag and fix distinguishes between
-				   fix and float. This computes the
-				   weights for the declaration and a break
-				   point for register allocation which
-				   gives the number of available regs for
-				   which it is worthwhile to allocate this
-				   tag into a reg ("regged"). This proc is
-				   the source of all non-zero weights. NB
-				   loc may be negative since using a s-reg
-				   will involve a dump and restore  */
   long  bk = wfixno + 1;
 
   long  i;
   float *w = (ws -> fix);
-  /*  w[i] = greatest usage of (i+1) inner fixed tags  */
+  /* w[i] = greatest usage of (i+1) inner fixed tags  */
   wp res;
   float *pw = & (((res.wp_weights).fix)[0]);
   if (fix) {
@@ -119,8 +119,7 @@ wp max_weights
       }
       else {
 	if ((loc + w[i - 1]) > w[i]) {
-	  /* this tag and i inner ones have higher usage than any other
-	     (i+1) inner ones ... */
+	  /* this tag and i inner ones have higher usage than any other (i+1) inner ones ... */
 	  pw[i] = loc + w[i - 1];
 	  if (i < bk)
 	    bk = i;
@@ -180,8 +179,7 @@ wp max_weights
 weights mult_weights
 (double m, weights * ws)
 {
-				/* multiply weights by scalar - non
-				   overflowing */
+	/* multiply weights by scalar - non overflowing */
   weights res;
   float *r = & (res.fix)[0];
   float *w = ws -> fix;
@@ -200,7 +198,8 @@ weights mult_weights
 
 weights add_wlist
 (double scale, exp re)
-{/* sum of  weights of list re */
+{
+	/* sum of  weights of list re */
   weights w, w1;
   exp r = re;
   if (r == nilexp) {
@@ -221,19 +220,15 @@ weights add_wlist
     }
 }
 
-
-
-/*****************************************************************
-	weightsv
-
-This procedure estimates the usage of tags and parameters to help
-determine whether they can advantageously be placed in s registers.
-The parameter scale allows more importance to be placed on usage
-inside 'for' loops for example. The procedure reg_alloc in reg_alloc.c
-finally determines the actual choice of s reg and recodes the number
-field of an ident.
-
-******************************************************************/
+/*
+ * This procedure estimates the usage of tags and parameters to help
+ * determine whether they can advantageously be placed in s registers.
+ *
+ * The parameter scale allows more importance to be placed on usage
+ * inside 'for' loops for example. The procedure reg_alloc in reg_alloc.c
+ * finally determines the actual choice of s reg and recodes the number
+ * field of an ident.
+ */
 weights weightsv
 (double scale, exp e)
 {
@@ -277,8 +272,8 @@ tailrecurse:
 	  wbody = weightsv(scale, bro(son(e)));
 	  /* weights of body of scan */
 
-	  if (props (e) & defer_bit) {/* declaration will be treated
-				   transparently in code production */
+	  if (props (e) & defer_bit) {
+		/* declaration will be treated transparently in code production */
 	    exp t = son(e);
 	    exp s;
 	    if (name(t) == val_tag || name(t) == real_tag) {
@@ -300,8 +295,7 @@ tailrecurse:
 	  if ((props(e) & inreg_bits) == 0 && fixregable(e)) {
 	    wp p;
 	    p = max_weights(fno(e) - 2.0*scale , &wbody, 1);
-	    /* usage decreased by 2 because of dump and restore of s-reg
-	    */
+	    /* usage decreased by 2 because of dump and restore of s-reg */
 	    no(e) = p.fix_break;
 	    return add_weights(&wdef, &p.wp_weights);
 	  }
@@ -309,8 +303,7 @@ tailrecurse:
 	    if ((props(e) & infreg_bits) == 0 && floatregable(e)) {
 	      wp p;
 	      p = max_weights(fno(e) - 4 * scale, &wbody, 0);
-	      /* usage decreased by 4 because of dump and restore of
-	         double s-reg */
+	      /* usage decreased by 4 because of dump and restore of double s-reg */
 	      no(e) = p.float_break;
 	      return add_weights(&wdef, &p.wp_weights);
 	    }

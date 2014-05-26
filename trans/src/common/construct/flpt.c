@@ -7,12 +7,9 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/***********************************************************************
-                                flpt.c
-
-  Routines for handling the internal floating point representation.
-
- ***********************************************************************/
+/*
+ * Routines for handling the internal floating point representation.
+ */
 
 #include <limits.h>
 #include <stdlib.h>
@@ -31,20 +28,17 @@
 #include <construct/flags.h>
 #include <construct/flpt.h>
 
-/* MACROS */
-
 #define MAX_USEFUL_DECEXP 10000
 /* plenty big enough for IEEE and VAX */
 #define initial_flpts 50
 #define extra_flpts 50
 
-
-
-/***********************************************************************
-          ---------- Floating point emulator code ----------
- NB - lines which assume the use of an ASCII character set are accompanied
-      by the comment ASCII
- ***********************************************************************/
+/*
+ * Floating point emulator code
+ *
+ * Lines which assume the use of an ASCII character set are accompanied
+ * by the comment "ASCII"
+ */
 
 typedef struct _dbl {
   /* Double precision type - used for internal working */
@@ -53,15 +47,16 @@ typedef struct _dbl {
   int  exp;
 } dbl;
 
-/* The current rounding rule. This may be one of the following :
-     R2ZERO - round towards zero.
-     R2PINF - round towards positive infinity.
-     R2NINF - round towards negative infinity.
-     R2NEAR - round to nearest integer.
- It should be set using the "set_round" function.
-*/
-
-/* IDENTITIES */
+/*
+ * The current rounding rule. This may be one of the following :
+ *
+ *   R2ZERO - round towards zero.
+ *   R2PINF - round towards positive infinity.
+ *   R2NINF - round towards negative infinity.
+ *   R2NEAR - round to nearest integer.
+ *
+ * It should be set using the "set_round" function.
+ */
 
 static Fdig bitround[16] = {0x1, 0x2, 0x4, 0x8, 0x10, 0x20, 0x40, 0x80,
 			     0x100, 0x200, 0x400, 0x800, 0x1000, 0x2000,
@@ -94,7 +89,6 @@ static int two_powers[] = {1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024,
 			    2048, 4096, 8192, 16384, 32768};
 static int round_type = R2NEAR;
 
-/* VARIABLES */
 /* All variables initialised */
 
 int tot_flpts;		/* total number of floating point numbers */
@@ -106,18 +100,18 @@ flt *flptnos;		/* the extendable array of floating point numbers */
 int fzero_no;
 int fone_no;
 
-
-/* PROCEDURES */
-
 flpt new_flpt(void);
 
-/* ----- internal functions ----- */
+/*
+ * Internal functions
+ */
 
-
-/* "f1" and "f2" are two legal single precision numbers. The result is -1, 0 or
- * +1 depending on whether the magnitude of "f1" is less than, equal to or
- * greater than that of "f2" */
-
+/*
+ * "f1" and "f2" are two legal single precision numbers.
+ *
+ * The result is -1, 0 or +1 depending on whether the magnitude of "f1"
+ * is less than, equal to or greater than that of "f2"
+ */
 static int
 mag_cmp(flt f1, flt f2)
 {
@@ -142,11 +136,12 @@ mag_cmp(flt f1, flt f2)
   return 0;
 }
 
-
-/* "d1" and "d2" are two legal double precision numbers. The result is -1, 0 or
- * +1 depending on whether the magnitude of "d1" is less than, equal to or
- * greater than that of "d2" */
-
+/*
+ * "d1" and "d2" are two legal double precision numbers.
+ *
+ * The result is -1, 0 or +1 depending on whether the magnitude of "d1"
+ * is less than, equal to or greater than that of "d2"
+ */
 static int
 dbl_mag_cmp (dbl d1, dbl d2)
 {
@@ -171,12 +166,15 @@ dbl_mag_cmp (dbl d1, dbl d2)
   return 0;
 }
 
-
-/* "f" is a pointer to a legal single precision number. "c" is a character
- * value from 0 to FBASE-1. On return, the single precision number pointed to
- * by "f" will have been modified as if "c" were the digit following the least
- * significant digit of the number pointed to by "f" and the number has been
- * rounded according to the current rounding rule */
+/*
+ * "f" is a pointer to a legal single precision number. "c" is a character
+ * value from 0 to FBASE-1.
+ *
+ * On return, the single precision number pointed to by "f" will have been
+ * modified as if "c" were the digit following the least significant digit
+ * of the number pointed to by "f" and the number has been rounded according
+ * to the current rounding rule.
+ */
 static void
 flt_int_round(flt *f, unsigned int ic)
 {
@@ -214,11 +212,14 @@ flt_int_round(flt *f, unsigned int ic)
   }
 }
 
-
-/* "d" is a legal double precision number.  "f" is a pointer to a single
- * precision number. On return, the number pointed to by "f" contains the value
- * of "d" but to less precision. The current rounding rule is used to truncate
- * the mantissa */
+/*
+ * "d" is a legal double precision number. "f" is a pointer to a single
+ * precision number.
+ *
+ * On return, the number pointed to by "f" contains the value of "d"
+ * but to less precision. The current rounding rule is used to truncate
+ * the mantissa.
+ */
 static void
 dbl2float(dbl d, flt *f)
 {
@@ -231,11 +232,12 @@ dbl2float(dbl d, flt *f)
   flt_int_round(f, (unsigned int)d.mant[MANT_SIZE]);
 }
 
-
-/* "f" is a legal single precision number.  "d" is a pointer to a double
- * precision number. On return, the number pointed to by "d" will contain the
- * value of "f" */
-
+/*
+ * "f" is a legal single precision number. "d" is a pointer to a double
+ * precision number.
+ *
+ * On return, the number pointed to by "d" will contain the value of "f"
+ */
 static void
 flt2double(flt f, dbl *d)
 {
@@ -250,13 +252,15 @@ flt2double(flt f, dbl *d)
   }
 }
 
-
-/* "d" is a pointer to a legal double precision number. "dist" is a int with
- * value greater than zero. On return, the number pointed to by "d" keeps the
- * same value ( although some loss of precision may occur ) but is no longer in
- * normalised form. The mantissa is shifted right "dist" places, and the
- * exponent is adjusted to keep the value the same */
-
+/*
+ * "d" is a pointer to a legal double precision number. "dist" is a int with
+ * value greater than zero.
+ *
+ * On return, the number pointed to by "d" keeps the same value (although some
+ * loss of precision may occur) but is no longer in normalised form.
+ * The mantissa is shifted right "dist" places, and the exponent is adjusted
+ * to keep the value the same
+ */
 static void
 shift_right(dbl *d, int dist)
 {
@@ -268,14 +272,16 @@ shift_right(dbl *d, int dist)
   (d->exp) += dist;
 }
 
-
-/* "d1" and "d2" are double precision numbers, with the same exponent and
+/*
+ * "d1" and "d2" are double precision numbers, with the same exponent and
  * opposite (non-zero) signs. "res" is a pointer to a single precision number,
- * whose exponent has been set to the same value as "d1" and "d2". On return,
- * the number pointed to by "res" is the result of adding "d1" to "d2" and
- * rounding it by the current rounding rule. The return value is either OKAY or
- * EXP2BIG ( in which case the value of the number pointed to by "res" is
- * undefined ) */
+ * whose exponent has been set to the same value as "d1" and "d2".
+ *
+ * On return, the number pointed to by "res" is the result of adding
+ * "d1" to "d2" and rounding it by the current rounding rule.
+ * The return value is either OKAY or EXP2BIG (in which case the value of
+ * the number pointed to by "res" is undefined)
+ */
 static int
 sub_mantissas(dbl d1, dbl d2, flt *res)
 {
@@ -317,13 +323,16 @@ sub_mantissas(dbl d1, dbl d2, flt *res)
   return OKAY;
 }
 
-
-/* "d1" and "d2" are double precision numbers, with the same exponent and
+/*
+ * "d1" and "d2" are double precision numbers, with the same exponent and
  * non-zero signs. "res" is a pointer to a single precision number which has
- * the same exponent as "d1" and "d2". On return, the number pointed to by
- * "res" will be the result of adding "d1" to "d2" and rounding it according to
- * the current rounding rule. The return value will be either OKAY or EXP2BIG (
- * in which case the value of the number pointed to by "res" is undefined ) */
+ * the same exponent as "d1" and "d2".
+ *
+ * On return, the number pointed to by "res" will be the result of adding
+ * "d1" to "d2" and rounding it according to the current rounding rule.
+ * The return value will be either OKAY or EXP2BIG (in which case the value
+ * of the number pointed to by "res" is undefined)
+ */
 static int
 add_mantissas(dbl d1, dbl d2, flt * res)
 {
@@ -354,11 +363,15 @@ add_mantissas(dbl d1, dbl d2, flt * res)
   return sub_mantissas(d1, d2, res);
 }
 
+/*
+ * "public" emulator functions
+ */
 
-/* ----- "public" emulator functions ----- */
-
-/* "f" is a pointer to a single precision number. On return, the number pointed
- * to by "f" will have the value zero */
+/*
+ * "f" is a pointer to a single precision number.
+ *
+ * On return, the number pointed to by "f" will have the value zero
+ */
 void
 flt_zero(flt *f)
 {
@@ -370,10 +383,12 @@ flt_zero(flt *f)
   }
 }
 
-
-/* "f" is a legal single precision number.  "res" is a pointer to a single
- * precision number. On return, the number pointed to by "res" is the same as
- * "f" */
+/*
+ * "f" is a legal single precision number. "res" is a pointer to a single
+ * precision number.
+ *
+ * On return, the number pointed to by "res" is the same as "f"
+ */
 void
 flt_copy(flt f, flt *res)
 {
@@ -386,12 +401,14 @@ flt_copy(flt f, flt *res)
   return;
 }
 
-
-/* "f1" and "f2" are legal single precision numbers. "res" is a pointer to a
- * single precision number. On return, if the result is OKAY, then the number
- * pointed to by "res" will contain the value of adding "f1" to "f2". If the
- * result is EXP2BIG, then the value of the number pointed to by "res" is
- * undefined */
+/*
+ * "f1" and "f2" are legal single precision numbers. "res" is a pointer to a
+ * single precision number.
+ *
+ * On return, if the result is OKAY, then the number pointed to by "res" will
+ * contain the value of adding "f1" to "f2". If the result is EXP2BIG,
+ * then the value of the number pointed to by "res" is undefined.
+ */
 int
 flt_add(flt f1, flt f2, flt *res)
 {
@@ -414,12 +431,14 @@ flt_add(flt f1, flt f2, flt *res)
   return add_mantissas(d1, d2, res);
 }
 
-
-/* "f1" and "f2" are legal single precision numbers. "res" is a pointer to a
- * single precision number. On return, if the result is OKAY, then the number
- * pointed to by "res" will contain the value of subtracting "f2" from "f1". If
- * the result is EXP2BIG, then the value of the number pointed to by "res" is
- * undefined */
+/*
+ * "f1" and "f2" are legal single precision numbers. "res" is a pointer to a
+ * single precision number.
+ *
+ * On return, if the result is OKAY, then the number pointed to by "res" will
+ * contain the value of subtracting "f2" from "f1". If the result is EXP2BIG,
+ * then the value of the number pointed to by "res" is undefined.
+ */
 int
 flt_sub(flt f1, flt f2, flt *res)
 {
@@ -430,11 +449,14 @@ flt_sub(flt f1, flt f2, flt *res)
 
 #if FBASE == 10
 
-/* "f1" and "f2" are legal single precision numbers. "res" is a pointer to a
- * single precision number. On return, if the result is OKAY, then the number
- * pointed to by "res" will contain the value of multiplying "f1" by "f2".  If
- * the result is EXP2BIG, then the value of the number pointed to by "res" is
- * undefined */
+/*
+ * "f1" and "f2" are legal single precision numbers. "res" is a pointer to a
+ * single precision number.
+ *
+ * On return, if the result is OKAY, then the number pointed to by "res" will
+ * contain the value of multiplying "f1" by "f2". If the result is EXP2BIG,
+ * then the value of the number pointed to by "res" is undefined.
+ */
 int
 flt_mul(flt f1, flt f2, flt *res)
 {
@@ -476,13 +498,17 @@ flt_mul(flt f1, flt f2, flt *res)
   dbl2float(rdbl, res);
   return OKAY;
 }
-#else
-/* "f1" and "f2" are legal single precision numbers. "res" is a pointer to a
- * single precision number. On return, if the result is OKAY, then the number
- * pointed to by "res" will contain the value of multiplying "f1" by "f2".  If
- * the result is EXP2BIG, then the value of the number pointed to by "res" is
- * undefined */
 
+#else
+
+/*
+ * "f1" and "f2" are legal single precision numbers. "res" is a pointer to a
+ * single precision number.
+ *
+ * On return, if the result is OKAY, then the number pointed to by "res" will
+ * contain the value of multiplying "f1" by "f2". If the result is EXP2BIG,
+ * then the value of the number pointed to by "res" is undefined.
+ */
 int
 flt_mul(flt f1, flt f2, flt *res)
 {
@@ -537,11 +563,14 @@ flt_mul(flt f1, flt f2, flt *res)
 
 #if FBASE == 10
 
-/* "f1" and "f2" are legal single precision numbers, and "f2" is non-zero.
- * "res" is a pointer to a single precision number. On return, if the result is
- * OKAY, then the number pointed to by "res" contains the result of dividing
- * "f1" by "f2". If the result is EXP2BIG or DIVBY0 then the contents of the
- * number pointed to by "res" are undefined */
+/*
+ * "f1" and "f2" are legal single precision numbers, and "f2" is non-zero.
+ * "res" is a pointer to a single precision number.
+ *
+ * On return, if the result is OKAY, then the number pointed to by "res"
+ * contains the result of dividing "f1" by "f2". If the result is EXP2BIG
+ * or DIVBY0 then the contents of the number pointed to by "res" are undefined.
+ */
 int
 flt_div(flt f1, flt f2, flt *res)
 {
@@ -637,8 +666,10 @@ flt_div(flt f1, flt f2, flt *res)
   a2[MANT_SIZE] = 0;
   r[MANT_SIZE] = 0;
 
-  /* Shift first digit of a1 or a2 right until a1[0] < a2[0] and a1[0] >=
-   * 2*a2[0] Count the places in bit_diff.  */
+  /*
+   * Shift first digit of a1 or a2 right until a1[0] < a2[0] and a1[0] >= 2*a2[0]
+   * Count the places in bit_diff.
+   */
   t = (int)(a1[0]);
   s = (int)(a2[0]);
   if (t >= s) {
@@ -653,8 +684,9 @@ flt_div(flt f1, flt f2, flt *res)
   }
 
 
-  /* Shift a1 bit_diff places right if bit_diff positive.
-     Shift a2 -bit_diff places right if bit_diff negative.
+  /*
+   * Shift a1  bit_diff places right if bit_diff positive.
+   * Shift a2 -bit_diff places right if bit_diff negative.
    */
   if (bit_diff > 0) {
     for (i = 0; i < (MANT_SIZE + 1); ++i) {
@@ -757,9 +789,12 @@ flt_div(flt f1, flt f2, flt *res)
 
 #endif
 
-/* "f1" and "f2" are legal single precision numbers. The return value will be
- * -1, 0 or 1 depending whether "f1" is less than, equal to or greater than
- * "f2" */
+/*
+ * "f1" and "f2" are legal single precision numbers.
+ *
+ * The return value will be -1, 0 or 1 depending whether "f1" is
+ * less than, equal to or greater than "f2"
+ */
 int
 flt_cmp(flt f1, flt f2)
 {
@@ -774,10 +809,13 @@ flt_cmp(flt f1, flt f2)
   return (f1.sign == -1) ? -ret : ret;
 }
 
-
-/* "f" is a legal single precision number.  "res" is a pointer to a single
- * precision number. On return, the number pointed to by "res" will be the
- * integer value of "f" rounded using the current rounding rule */
+/*
+ * "f" is a legal single precision number. "res" is a pointer to a single
+ * precision number.
+ *
+ * On return, the number pointed to by "res" will be the integer value of
+ * "f" rounded using the current rounding rule.
+ */
 void
 flt_round(flt f, flt *res)
 {
@@ -839,10 +877,13 @@ flt_round(flt f, flt *res)
   }
 }
 
-
-/* "f" is a legal single precision number.  "res" is a pointer to a single
- * precision number. On return, the number pointed to by "res" will be the
- * integer value of "f" rounded towards zero */
+/*
+ * "f" is a legal single precision number. "res" is a pointer to a single
+ * precision number.
+ *
+ * On return, the number pointed to by "res" will be the integer value of
+ * "f" rounded towards zero.
+ */
 void
 flt_trunc(flt f, flt *res)
 {
@@ -857,18 +898,22 @@ flt_trunc(flt f, flt *res)
   }
 }
 
-
-/* "s" is a pointer to an array of characters.  "f" is a pointer to a single
- * precision number.  "ret" is NULL, or a pointer to a pointer to a character.
- * On return, if the return value is OKAY, then the number pointed to by "f" is
- * the floating point number represented in the string "s". If "ret" was not
- * NULL, then it will point to a pointer to the next character in "s" not used
- * in the number. If the return value is SYNTAX or EXP2BIG, then the value of
- * the number pointed to by "f" is undefined. In this case, if "ret" was not
- * NULL, then it will point to a pointer to the start of the string.  Leading
- * white space in the string will be ignored. Numbers have the following form :
+/*
+ * "s" is a pointer to an array of characters. "f" is a pointer to a single
+ * precision number. "ret" is NULL, or a pointer to a pointer to a character.
+ *
+ * On return, if the return value is OKAY, then the number pointed to by
+ * "f" is the floating point number represented in the string "s".
+ *
+ * If "ret" was not NULL, then it will point to a pointer to the next character
+ * in "s" not used in the number. If the return value is SYNTAX or EXP2BIG,
+ * then the value of the number pointed to by "f" is undefined. In this case,
+ * if "ret" was not NULL, then it will point to a pointer to the start of the
+ * string. Leading white space in the string will be ignored.
+ *
+ * Numbers have the following form:
  * [+-]?(([0-9]+(\.[0-9]*)?)|([0-9]*\.[0-9]+))([Ee][+-]?[0-9]+)?
-*/
+ */
 
 #if FBASE == 10
 
@@ -978,13 +1023,13 @@ str2flt(char *s, flt *f, char **r)
 
 #endif
 
+/*
+ * Interface to  TDF translator
+ */
 
-/***********************************************************************
-          ========== interface to  TDF translator ==========
- ***********************************************************************/
-
-/* memory allocation */
-
+/*
+ * Memory allocation
+ */
 void
 init_flpt(void)
 {
@@ -1021,7 +1066,6 @@ init_flpt(void)
   return;
 }
 
-
 void
 more_flpts(void)
 {
@@ -1037,7 +1081,6 @@ more_flpts(void)
   return;
 }
 
-
 flpt
 new_flpt(void)
 {
@@ -1050,7 +1093,6 @@ new_flpt(void)
   return r;
 }
 
-
 void
 flpt_ret(flpt f)
 {
@@ -1061,12 +1103,9 @@ flpt_ret(flpt f)
   return;
 }
 
-
-/***********************************************************************/
-
-/* do the test testno on and and b deliver
-   1 if true, 0 otherwise */
-
+/*
+ * Do the test testno on and and b deliver 1 if true, 0 otherwise.
+ */
 int
 cmpflpt(flpt a, flpt b, int testno)
 {
@@ -1082,7 +1121,6 @@ cmpflpt(flpt a, flpt b, int testno)
   }
 }
 
-
 #if FBASE == 10
 
 flpt
@@ -1097,7 +1135,6 @@ floatrep(int n)
   return res;
 }
 
-
 flpt
 floatrep_unsigned(unsigned int n)
 {
@@ -1105,13 +1142,11 @@ floatrep_unsigned(unsigned int n)
   return 0;
 }
 
-
 int
 flpt_bits(floating_variety fv)
 {
   return 0;
 }
-
 
 void
 flpt_round(int round_t, int posn, flt *res)
@@ -1120,7 +1155,6 @@ flpt_round(int round_t, int posn, flt *res)
 }
 
 #else
-
 
 static flpt
 floatrep_aux(int n, int sign)
@@ -1155,7 +1189,6 @@ floatrep_aux(int n, int sign)
   return res;
 }
 
-
 flpt
 floatrep(int n)
 {
@@ -1165,13 +1198,11 @@ floatrep(int n)
   return floatrep_aux(n, 1);
 }
 
-
 flpt
 floatrep_unsigned(unsigned int n)
 {
   return floatrep_aux((int)n, 1);
 }
-
 
 void
 flpt_newdig(unsigned int dig, flt *res, int base)
@@ -1227,7 +1258,6 @@ flpt_newdig(unsigned int dig, flt *res, int base)
 		res->mant[0] = (unsigned short)c;
 	}
 }
-
 
 void
 flpt_scale(int expt, flt *res, int base)
@@ -1293,9 +1323,9 @@ flpt_scale(int expt, flt *res, int base)
   return;
 }
 
-
-/* posn is the number of bits to be left correct after the rounding operation */
-
+/*
+ * posn is the number of bits to be left correct after the rounding operation.
+ */
 void
 flpt_round(int round_t, int posn, flt * res)
 {
@@ -1323,8 +1353,10 @@ flpt_round(int round_t, int posn, flt * res)
 
   --bitpos;
 
-  /* digpos holds the number of the FBASE digit to be rounded, bitpos holds the
-   * number of the bit within that digit to have one added */
+  /*
+   * digpos holds the number of the FBASE digit to be rounded,
+   * bitpos holds the number of the bit within that digit to have one added.
+   */
 
   for (i = digpos + 1; i < MANT_SIZE; ++i) {
     if (res->mant[i]) {
@@ -1391,7 +1423,6 @@ flpt_round(int round_t, int posn, flt * res)
   return;
 }
 
-
 int
 flpt_bits(floating_variety fv)
 {
@@ -1403,7 +1434,6 @@ flpt_bits(floating_variety fv)
 
   return 0;
 }
-
 
 int
 flpt_round_to_integer(int rndmd, flt *f)
@@ -1448,7 +1478,6 @@ flpt_round_to_integer(int rndmd, flt *f)
     }
   }
 
-
   /*
   if (has & HAS_64_BIT) {
     if (f->exp > 3) {
@@ -1479,9 +1508,10 @@ flpt_round_to_integer(int rndmd, flt *f)
   return res * f->sign;  /* this is only valid for 32-bit results */
 }
 
-
-/* convert flt* to IEEE representation in ints.  sw is 0 for single, 1 for
- * double, 2 for extended */
+/*
+ * Convert flt * to IEEE representation in ints.
+ * sw is 0 for single, 1 for double, 2 for extended.
+ */
 r2l
 real2longs_IEEE(flt *fp, int sw)
 {

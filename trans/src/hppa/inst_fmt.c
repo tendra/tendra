@@ -7,14 +7,12 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/******************************************************************
-		inst_formats.c
-
-	Procs for outputting various HPPA RISC instruction formats to the
-external file - outf. Each procedure produces assembler code for a family
-of HPPA RISC operations, the actual member is passed as the string
-understood by the assembler.
-******************************************************************/
+/*
+ * Procs for outputting various HPPA RISC instruction formats to the
+ * external file - outf. Each procedure produces assembler code for a family
+ * of HPPA RISC operations, the actual member is passed as the string
+ * understood by the assembler.
+ */
 
 #include <assert.h>
 #include <string.h>
@@ -388,9 +386,8 @@ ext_name(long id)
   }
 }
 
-
 /*
-*   3 register instructions
+ * 3 register instructions
  */
 void
 rrr_ins(ins_p ins, ins_p cond, int a, int b, int c)
@@ -419,10 +416,8 @@ rrr_ins(ins_p ins, ins_p cond, int a, int b, int c)
    }
 }
 
-
-
 /*
-*   1 register pseudo instructions
+ * 1 register pseudo instructions
  */
 void
 r_ins(ins_p ins, int a)
@@ -431,10 +426,8 @@ r_ins(ins_p ins, int a)
    fprintf(outf,"\t%s\t%s\n",ins,RN(a));
 }
 
-
-
- /*
-*    non-store register, immediate, destination register instructions
+/*
+ * non-store register, immediate, destination register instructions
  */
 void
 rir_ins(ins_p ins, ins_p cc, int a, long imm, int d)
@@ -444,11 +437,8 @@ rir_ins(ins_p ins, ins_p cc, int a, long imm, int d)
    fprintf(outf,"\t%s%s\t%s,%ld,%s\n",ins,cc,RN(a),imm,RN(d));
 }
 
-
-
-
 /*
-*   register to register pseudo instructions
+ * register to register pseudo instructions
  */
 void
 rr_ins(ins_p ins, int s, int d)
@@ -458,9 +448,8 @@ rr_ins(ins_p ins, int s, int d)
   fprintf(outf,"\t%s\t%s,%s\n",ins,RN(s),RN(d));
 }
 
-
 /*
-*   non-load immediate, register, register instructions
+ * non-load immediate, register, register instructions
  */
 void
 irr_ins(ins_p ins, ins_p cc, ins_p fs, long i, int a, int d)
@@ -470,9 +459,8 @@ irr_ins(ins_p ins, ins_p cc, ins_p fs, long i, int a, int d)
    fprintf(outf,"\t%s%s\t%s%ld,%s,%s\n",ins,cc,fs,i,RN(a),RN(d));
 }
 
-
 /*
-*   immediate, immediate, register instructions
+ * immediate, immediate, register instructions
  */
 void
 iir_ins(ins_p ins, ins_p cc, int a, int b, int d)
@@ -482,9 +470,8 @@ iir_ins(ins_p ins, ins_p cc, int a, int b, int d)
    fprintf(outf,"\t%s%s\t%d,%d,%s\n",ins,cc,a,b,RN(d));
 }
 
-
 /*
-*   immediate, immediate, immediate, register instructions
+ * immediate, immediate, immediate, register instructions
  */
 void
 iiir_ins(ins_p ins, ins_p cond, int a, int b, int c, int d)
@@ -494,9 +481,8 @@ iiir_ins(ins_p ins, ins_p cond, int a, int b, int c, int d)
    fprintf(outf,"\t%s%s\t%d,%d,%d,%s\n",ins,cond,a,b,c,RN(d));
 }
 
-
 /*
-*   immediate (i.e. field selector literal+long) to register instructions
+ * immediate (i.e. field selector literal+long) to register instructions
  */
 void
 ir_ins(ins_p ins, ins_p fs, const char *ltrl, long l, int d)
@@ -522,9 +508,8 @@ ir_ins(ins_p ins, ins_p fs, const char *ltrl, long l, int d)
 
 }
 
-
 /*
-*   register, register, immediate, register instructions
+ * register, register, immediate, register instructions
  */
 void
 rrir_ins(ins_p ins, ins_p cc, int a, int b, long i, int d)
@@ -545,10 +530,8 @@ rrir_ins(ins_p ins, ins_p cc, int a, int b, long i, int d)
    fprintf(outf,"\t%s%s\t%s,%s,%ld,%s\n",ins,cc,RN(a),RN(b),i,RN(d));
 }
 
-
-
 /*
-*   zeroadic pseudo instruction, not a branch
+ * zeroadic pseudo instruction, not a branch
  */
 void
 z_ins(ins_p ins)
@@ -559,10 +542,8 @@ z_ins(ins_p ins)
       fprintf(outf, "\t%s\n", ins);
 }
 
-
-
 /*
-*   register, immediate, immediate, register instructions
+ * register, immediate, immediate, register instructions
  */
 void
 riir_ins(ins_p ins, ins_p cc, int s, long a, long b, int d)
@@ -572,11 +553,9 @@ riir_ins(ins_p ins, ins_p cc, int s, long a, long b, int d)
    fprintf(outf,"\t%s%s\t%s,%ld,%ld,%s\n",ins,cc,RN(s),a,b,RN(d));
 }
 
-
 /*
-*   fixed point load instructions
+ * fixed point load instructions
  */
-
 void
 ld_ir_ins(ins_p ins, ins_p cmplt, ins_p fs, const char *ltrl, long l, int b, int d)
 {
@@ -599,9 +578,8 @@ ld_ir_ins(ins_p ins, ins_p cmplt, ins_p fs, const char *ltrl, long l, int b, int
    fprintf(outf,"\t%s%s\t%s(%s),%s\n",ins,cmplt,O,RN(b),RN(d));
 }
 
-
 /*
-*   loads a long, l, into a register, d, in at most two instructions
+ * loads a long, l, into a register, d, in at most two instructions
  */
 void
 imm_to_r(long l, int d)
@@ -634,7 +612,6 @@ imm_to_r(long l, int d)
       }
    }
 }
-
 
 void
 set_ins(char *e, baseoff a, int d)
@@ -704,7 +681,6 @@ set_ins(char *e, baseoff a, int d)
       }
    }
 }
-
 
 void
 ld_rr_ins(ins_p ins, ins_p cmplt, int a, int b, int d)
@@ -788,12 +764,9 @@ ld_ins(ins_p ins, int sgnd, baseoff a, int d)
    }
 }
 
-
-
 /*
-*   fixed point store instructions
+ * fixed point store instructions
  */
-
 void
 st_ir_ins(ins_p ins, ins_p cmplt, int s, ins_p fs, const char *ltrl, long l, int b)
 {
@@ -882,7 +855,6 @@ st_ins(ins_p ins, int s, baseoff a)
    }
 }
 
-
 void
 ldsid_in(int s, int b, int t)
 {
@@ -891,7 +863,6 @@ ldsid_in(int s, int b, int t)
    fprintf(outf,"\tldsid\t(%s,%s),%s\n",SN(s),RN(b),RN(t));
 }
 
-
 void
 mtsp_in(int r, int sr)
 {
@@ -899,13 +870,12 @@ mtsp_in(int r, int sr)
    fprintf(outf,"\tmtsp\t%s,%s\n",RN(r),SN(sr));
 }
 
-
-/******************************************************************************
-Branch instructions. These have labels as destination.
-******************************************************************************/
+/*
+ * Branch instructions. These have labels as destination.
+ */
 
 /*
-*   Unconditional branch.
+ * Unconditional branch.
  */
 void
 ub_ins(const char *cmplt, int lab)
@@ -924,9 +894,8 @@ ub_ins(const char *cmplt, int lab)
     }
 }
 
-
 /*
-*   Call instructions
+ * Call instructions
  */
 void
 bl_in(ins_p n, char *target, int t)
@@ -989,9 +958,8 @@ call_ins(ins_p n, char *target, int t, char stub[128])
       rr_ins(i_copy,GR5,GR19);
 }
 
-
 /*
-*   jump/call to compiler generated external identifier, eg .mulI
+ * jump/call to compiler generated external identifier, eg .mulI
  */
 void
 extj_special_ins(const char *nm, int r, char stub[128], int import)
@@ -1007,9 +975,8 @@ extj_special_ins(const char *nm, int r, char stub[128], int import)
    rr_ins(i_copy,MRP,r);
 }
 
-
 /*
-*   jump/call to value of reg
+ * jump/call to value of reg
  */
 void
 extj_reg_ins(ins_p ins, int reg)
@@ -1018,11 +985,9 @@ extj_reg_ins(ins_p ins, int reg)
    fprintf(outf,"\tbv\t%%r0(%s)\n",RN(reg));
 }
 
-
 /*
-*   Conditional pseudo instructions.
+ * Conditional pseudo instructions.
  */
-
 void
 addb_in(char *cond, int l, int d, int lab)
 {
@@ -1033,7 +998,6 @@ addb_in(char *cond, int l, int d, int lab)
    fprintf(outf,"\taddb%s,N\t%s,%s,L$$%d\n",cond,RN(l),RN(d),lab);
    z_ins(i_nop);
 }
-
 
 void
 addib_in(char *cond, int i, int d, int lab)
@@ -1046,9 +1010,8 @@ addib_in(char *cond, int i, int d, int lab)
    z_ins(i_nop);
 }
 
-
 /*
-*   register comparisons
+ * register comparisons
  */
 void
 comb_ins(const char *cond, int l, int r, int lab)
@@ -1063,9 +1026,8 @@ comb_ins(const char *cond, int l, int r, int lab)
       fprintf(outf,"\tcomb%s\t%s,%s,L$$%d\n",cond,RN(l),RN(r),lab);
 }
 
-
 /*
-*   constant/register comparison
+ * constant/register comparison
  */
 void
 comib_ins(ins_p cond, int l, int r, int lab)
@@ -1079,7 +1041,6 @@ comib_ins(ins_p cond, int l, int r, int lab)
    else
       fprintf(outf,"\tcomib%s\t%d,%s,L$$%d\n",cond,l,RN(r),lab);
 }
-
 
 void
 cj_ins(const char *cond, int l, int r, int lab)
@@ -1099,9 +1060,8 @@ cj_ins(const char *cond, int l, int r, int lab)
    }
 }
 
-
 /*
-*   register, immediate comparison
+ * register, immediate comparison
  */
 void
 cij_ins(const char *cond, long l, int r, int lab)
@@ -1144,9 +1104,8 @@ cij_ins(const char *cond, long l, int r, int lab)
    }
 }
 
-
 /*
-*   Branch on bit.
+ * Branch on bit.
  */
 void
 bb_in(ins_p cond, int r, int b, int lab)
@@ -1158,12 +1117,9 @@ bb_in(ins_p cond, int r, int b, int lab)
    fprintf(outf,"%s",GAP);
 }
 
-
 /*
-*   Floating point instructions.
+ * Floating point instructions.
  */
-
-
 void
 ldf_ir_ins(ins_p ins, int o, int b, int d)
 {
@@ -1172,7 +1128,6 @@ ldf_ir_ins(ins_p ins, int o, int b, int d)
    fprintf(outf,"\t%s\t%d(%s),%s\n",ins,o,RN(b),FN(d));
 }
 
-
 void
 ldf_rr_ins(ins_p ins, ins_p cmplt, int a, int b, int d)
 {
@@ -1180,7 +1135,6 @@ ldf_rr_ins(ins_p ins, ins_p cmplt, int a, int b, int d)
    outp(ins,NOCOND,zops,NA);
    fprintf(outf,"\t%s%s\t%s(%s),%s\n",ins,cmplt,RN(a),RN(b),FN(d));
 }
-
 
 void
 ldf_ins(ins_p ins, baseoff a, int d)
@@ -1214,7 +1168,6 @@ ldf_ins(ins_p ins, baseoff a, int d)
    }
 }
 
-
 void
 stf_ir_ins(ins_p ins, int s, int o, int b)
 {
@@ -1222,14 +1175,12 @@ stf_ir_ins(ins_p ins, int s, int o, int b)
    fprintf(outf,"\t%s\t%s,%d(%s)\n",ins,FN(s),o,RN(b));
 }
 
-
 void
 stf_rr_ins(ins_p ins, int s, int a, int b)
 {
    outp(ins,NOCOND,zops,NA);
    fprintf(outf,"\t%s\t%s,%s(%s)\n",ins,FN(s),RN(a),RN(b));
 }
-
 
 void
 stf_ins(ins_p ins, int s, baseoff a)
@@ -1265,7 +1216,6 @@ stf_ins(ins_p ins, int s, baseoff a)
    }
 }
 
-
 void
 cmp_rrf_ins(ins_p ins, ins_p fmt, ins_p cond, int a, int b)
 {
@@ -1280,7 +1230,6 @@ rrf_ins(ins_p ins, ins_p from_fmt, ins_p to_fmt, int a, int b)
    fprintf(outf,"\t%s%s%s\t%s,%s\n",ins,from_fmt,to_fmt,FN(a),FN(b));
 }
 
-
 void
 rrrf_ins(ins_p ins, ins_p fmt, int a, int b, int dest)
 {
@@ -1289,11 +1238,8 @@ rrrf_ins(ins_p ins, ins_p fmt, int a, int b, int dest)
    outp(ins,NOCOND,zops,NA);
 }
 
-
-
-
 /*
-*   Directives
+ * Directives
  */
 void
 out_directive(const char *d, const char *params)
@@ -1303,10 +1249,8 @@ out_directive(const char *d, const char *params)
    fprintf(outf,"\t%s\t%s\n",d,params);
 }
 
-
-
 /*
-*   Print a label
+ * Print a label
  */
 void
 outlab(char *prefix, int n)
@@ -1317,3 +1261,4 @@ outlab(char *prefix, int n)
        outp(i_,NOCOND,zops,NA);
     fprintf(outf,"%s%d\n",prefix,n);
 }
+

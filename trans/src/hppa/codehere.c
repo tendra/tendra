@@ -7,24 +7,22 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/******************************************************************
-		code_here
-
-This contains procedures :-
-
-regofval, fregofval : to see if an exp is a load_tag that has been allocated to a register.
-
-regoperand, freoperand : to evaluate an exp into a register using make_code
-
-code_here :  calls make_code and ensures that any internal exit labels are tied up after the call
-
-
-	The procedures regoperand and fregoperand evaluate their
-exp parameter into a single register using make_code. This register is
-returned. An initial test with regofval checks to see if the exp is already
-in a register.
-
-******************************************************************/
+/*
+ * This contains procedures :-
+ *
+ * regofval, fregofval:    to see if an exp is a load_tag that has been
+ *                         allocated to a register.
+ *
+ * regoperand, freoperand: to evaluate an exp into a register using make_code
+ *
+ * code_here:              calls make_code and ensures that any internal
+ *                         exit labels are tied up after the call
+ *
+ * The procedures regoperand and fregoperand evaluate their exp parameter
+ * into a single register using make_code. This register is returned.
+ * An initial test with regofval checks to see if the exp is already
+ * in a register.
+ */
 
 #include <assert.h>
 
@@ -51,12 +49,10 @@ in a register.
 #include "comment.h"
 #include "codehere.h"
 
-
-/*********************************************************************
-regofval
-The procedure regofval checks to see if an exp is a load_tag
-that has been allocated into a fixpnt register and if so return it or else R_NO_REG.
-*********************************************************************/
+/*
+ * The procedure regofval checks to see if an exp is a load_tag that has
+ * been allocated into a fixpnt register and if so return it or else R_NO_REG.
+ */
 int
 regofval(exp e)
 {
@@ -107,7 +103,6 @@ fregofval(exp e)
   }
 }
 
-
 /* calls make_code and tie up any internal exit labels */
 static int
 make_code_here(exp e, space sp, where dest)
@@ -122,7 +117,6 @@ make_code_here(exp e, space sp, where dest)
   }
   return mka.regmove;
 }
-
 
 /* return reg if 'e' e can easily go to one reg only */
 static int
@@ -163,10 +157,8 @@ is_reg_operand(exp e, space sp)
     }
   }
 
-  return R_NO_REG;		/* exprssion can go to many regs just as
-				 * easily */
+  return R_NO_REG;		/* exprssion can go to many regs just as easily */
 }
-
 
 int
 reg_operand(exp e, space sp)
@@ -231,7 +223,6 @@ reg_operand_here(exp e, space sp, int this_reg)
   keepreg(e, this_reg);
 }
 
-
 int
 freg_operand(exp e, space sp, int reg)
 {
@@ -281,7 +272,6 @@ freg_operand(exp e, space sp, int reg)
   keepexp(e, aa);
   return reg;
 }
-
 
 
 /*

@@ -7,11 +7,10 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/**********************************************************************
-The identifier names and values in the first part of this file were derived from
-
-DWARF Debugging Information Format, Revision 2.0.0, July 27, 1993
-**********************************************************************/
+/*
+ * The identifier names and values in the first part of this file were derived from:
+ * DWARF Debugging Information Format, Revision 2.0.0, July 27, 1993
+ */
 
 #define DWARF_VERSION	2
 
@@ -436,3 +435,4 @@ DWARF Debugging Information Format, Revision 2.0.0, July 27, 1993
 #define DW_AT_DD_obj_noassgn		(DW_AT_lo_user + 0x27)
 #define DW_AT_DD_obj_assgn		(DW_AT_lo_user + 0x28)
 #define DW_AT_DD_ext_location		(DW_AT_lo_user + 0x29)
+

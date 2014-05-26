@@ -7,22 +7,22 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/****************************************************************
-		regalloc.c
-
-	The main procedure defined here is reg_alloc which
-allocates registers and stack space for a proc exp. After the application of
-weights to the body reg_alloc re-codes the number field of each ident within it.
-Paralloc in paralloc.c does the corresponding work for the parameters.
-	At the end of reg_alloc:-
-1) props of ident contains inreg_bits or infreg_bits and number = 0
-then the value will be in a t reg to be chosen in make_code
-2) if props contains the reg bits then number of ident is fixpt s reg
-or floatpnt s reg (divided by 2)
-3) value is on the stack and:
-number of ident = (word displacement in locals)*64 + 29
-
-*****************************************************************/
+/*
+ * The main procedure defined here is reg_alloc which allocates registers and
+ * stack space for a proc exp. After the application of weights to the body
+ * reg_alloc re-codes the number field of each ident within it.
+ *
+ * Paralloc in paralloc.c does the corresponding work for the parameters.
+ *
+ * At the end of reg_alloc:
+ *
+ *  1) props of ident contains inreg_bits or infreg_bits and number = 0
+ *     then the value will be in a t reg to be chosen in make_code
+ *  2) if props contains the reg bits then number of ident is fixpt s reg
+ *     or floatpnt s reg (divided by 2)
+ *  3) value is on the stack and:
+ *     number of ident = (word displacement in locals)*64 + 29
+ */
 
 #include <stddef.h>
 
@@ -44,16 +44,13 @@ spacereq zerospace = {
   0, 0, 0
 };
 
-/*****************************************************************
-	maxspace
-
-Procedure to find the total spacereq of two spacereqs. The bit
-representations of the s regs used are simply 'or'ed so that the
-resulting dump fields contain all the regs of the parameters.
-The largest of the two stack sizes is returned as the stack of the result.
-
-*****************************************************************/
-
+/*
+ * Procedure to find the total spacereq of two spacereqs. The bit
+ * representations of the s regs used are simply 'or'ed so that the
+ * resulting dump fields contain all the regs of the parameters.
+ *
+ * The largest of the two stack sizes is returned as the stack of the result.
+ */
 spacereq
 maxspace(spacereq a, spacereq b)
 {
@@ -65,23 +62,19 @@ maxspace(spacereq a, spacereq b)
 
 static int spareparregs = 0;
 
-/******************************************************************
-	reg_alloc
-
-Delivers a spacereq which gives the local stack bit requirement in the
-stack field and the s regs used as bit positions in the fixdump, sdump and
-ddump fields for fixed point, single and double floats respectively.
-
-******************************************************************/
-
+/*
+ * Delivers a spacereq which gives the local stack bit requirement in the
+ * stack field and the s regs used as bit positions in the fixdump, sdump and
+ * ddump fields for fixed point, single and double floats respectively.
+ */
 spacereq
 regalloc(exp e, int freefixed, int freefloat, long stack)
 {
-				/* e is a proc body . freefixed and
-				   freefloat are the number of fixed and
-				   floating s regs available. These are
-				   initialised at the outer level but may
-				   be reduced by usage in paralloc */
+	/*
+	 * e is a proc body . freefixed and freefloat are the number of fixed and
+	 * floating s regs available. These are initialised at the outer level
+	 * but may be reduced by usage in paralloc
+	 */
   int   n = name (e);
   exp s = son (e);
   spacereq def;
@@ -94,8 +87,8 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
 
     spacereq body;
     ash a;
-    if (props (e) & defer_bit) {/* the tag declared is transparent to code
-				   production */
+    if (props (e) & defer_bit) {
+	/* the tag declared is transparent to code production */
       def = zerospace;
     }
     else {
@@ -104,7 +97,8 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
          	&& name(s) != concatnof_tag ) {
       	def = regalloc (s, freefixed, freefloat, stack);
       }
-      else  { /* elements of tuples are done separately so evaluate above dec */
+      else  {
+		/* elements of tuples are done separately so evaluate above dec */
           if (a.ashalign <= 32 || (stack & 0x20) == 0) {
               st = stack + ((a.ashsize + 31) & ~31);
           }
@@ -114,8 +108,7 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
          def = regalloc (s, freefixed, freefloat, st);
       }
       if ((props (e) & inreg_bits) == 0 && fixregable (e) && no (e) < ffix) {
-				/* suitable for s reg , no(e) has been set
-				   up by weights */
+		/* suitable for s reg , no(e) has been set up by weights */
 	props (e) |= inreg_bits;
         if( ffix == 9) {
 		no(e)=30;
@@ -131,11 +124,10 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
       else
 	if ((props (e) & infreg_bits) == 0
 	    && floatregable (e) && no (e) < ffloat) {
-				/* suitable for float s reg , no(e) has
-				   been set up by weights */
+			/* suitable for float s reg , no(e) has been set up by weights */
 	  props (e) |= infreg_bits;
 
-	  no (e) = ffloat + 9;	/* will be in s reg , note start from $f20      */
+	  no (e) = ffloat + 9;	/* will be in s reg , note start from $f20 */
 	  ffloat -= 1;
 	  def.fltdump |= (3 << (ffloat << 1));
 	}
@@ -149,8 +141,7 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
 	    else
 				/* not suitable for reg allocation */
 	    if (name (son (e)) == val_tag && !isvar (e) && !isvis(e)) {
-				/* must have been forced by const- replace
-				   uses by the value */
+				/* must have been forced by const- replace uses by the value */
 	      exp t = pt (e);
 	      for (; t != nilexp;) {
 		exp p = pt (t);
@@ -196,8 +187,7 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
 	  else
 	    if (no (e) == 101) {
 	      no (e) = ((props (e) & inreg_bits) != 0) ? 2 : 16;
-	      /* set up result of proc as declared id ($f16 = $f0 later)
-	      */
+	      /* set up result of proc as declared id ($f16 = $f0 later) */
 	    }
       /* else  allocation of stack like regs in make_code */
     }

@@ -7,13 +7,11 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/*****************************************************************
-		eval.c
-
-	The main procedure defined here is evaluated which ouputs
-assembler for data. The parameters are an evaluated exp and an index
-into the table of externals (or 0 meaning anonymous). XXX
-*****************************************************************/
+/*
+ * The main procedure defined here is evaluated which ouputs
+ * assembler for data. The parameters are an evaluated exp and an index
+ * into the table of externals (or 0 meaning anonymous). XXX
+ */
 
 #include <assert.h>
 
@@ -47,19 +45,20 @@ long  G_number = 64;		/* to give choice of .sdata or data */
 
 int   data_lab = 33;
 
+/* anonymous label in data space - $$n in assember o/p */
 int next_data_lab
 (void)
-{	/*  anonymous label in data space - $$n in assember o/p */
+{
         return data_lab++;
 }
 
+/* as above - but also gives it a symno for .G output */
 int next_dlab_sym
 (void)
-{	/* as above - but also gives it a symno for .G output */
+{
         symnofordata(data_lab);
   return data_lab++;
 }
-
 
 /* various pieces of info for outputting data depending on shape */
 mm scmm = {
@@ -81,11 +80,9 @@ mm uswmm = {
   0xffffffff, 0, "\t.word %ld :%ld\n"
 };
 
-/*************************************************************
-maxmin
-
-finds the data size from the range of an integer shape
-**************************************************************/
+/*
+ * finds the data size from the range of an integer shape
+ */
 mm maxmin
 (shape s)
 {
@@ -110,14 +107,10 @@ mm maxmin
 
 }
 
-
-/**************************************************************
-outlab
-
-outputs the label parameter if non negative else interprets it
-to be an index into the externals and outputs the identifier.
-**************************************************************/
-
+/*
+ * Outputs the label parameter if non negative else interprets it
+ * to be an index into the externals and outputs the identifier.
+ */
 void outlab
 (int l)
 {
@@ -130,19 +123,13 @@ void outlab
   }
 }
 
-
-
-
-
-/***************************************************************
-evalone
-
-This procedure outputs all non-pack expressions and puts in label
-values for the pack exps (putting new label numbers into their number
-fields) which it accumulates for later application in the ptr parameter
-of evalone. This is done to cope with the fact that the exp to evaluated
-may contain pack operations which are graph-like .
-***************************************************************/
+/*
+ * This procedure outputs all non-pack expressions and puts in label
+ * values for the pack exps (putting new label numbers into their number fields)
+ * which it accumulates for later application in the ptr parameter
+ * of evalone. This is done to cope with the fact that the exp to evaluated
+ * may contain pack operations which are graph-like.
+ */
 long  evalexp
 (exp e)
 {
@@ -286,12 +273,10 @@ void oneval
 }
 
 
-
+/* outputs constant expression e, rep times; */
 void evalone
 (exp e, long rep)
 {
-				/* outputs constant expression e, rep
-				   times;  */
   ash a;
   a = ashof(sh(e));
   switch (name(e)) {
@@ -616,18 +601,13 @@ void evalone
   }				/* end switch */
 }
 
-
-/*****************************************************************
-evaluated
-
-This outputs data from the evaluated exp into either .sdata or .data
-depending on size and labels this data either with either id in main_globals
-or an anonymous label derived from l. The result is the instore "address"
-of the constant. A negative l implies that this is the initialisation of a global
-variable.
-
-*****************************************************************/
-
+/*
+ * This outputs data from the evaluated exp into either .sdata or .data
+ * depending on size and labels this data either with either id in main_globals
+ * or an anonymous label derived from l. The result is the instore "address"
+ * of the constant. A negative l implies that this is the initialisation of a global
+ * variable.
+ */
 instore evaluated
 (exp e, long l, dec * dc)
 {

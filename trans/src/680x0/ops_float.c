@@ -53,13 +53,13 @@ extern where mfw(int, long *, int);
 #endif
 
 extern int need_dummy_double;
-/************************************************************************
-  Test for overflow.
 
-  freg is a Freg which is moved to a dummy memory location to force the
-  overflow (if any) before the test.
- ************************************************************************/
-
+/*
+ * Test for overflow.
+ *
+ * freg is a Freg which is moved to a dummy memory location to force the
+ * overflow (if any) before the test.
+ */
 void test_float_overflow_reg
 (where freg, long sz)
 {
@@ -70,13 +70,12 @@ void test_float_overflow_reg
    }
 }
 
-/************************************************************************
-  Test for overflow.
-
-  If dest is zero, freg is moved to a memory location to force the
-  overflow (if any) before the test.
-  ************************************************************************/
-
+/*
+ * Test for overflow.
+ *
+ * If dest is zero, freg is moved to a memory location to force the
+ * overflow (if any) before the test.
+ */
 void test_float_overflow
 (where freg, where dest, long sz)
 {
@@ -89,15 +88,13 @@ void test_float_overflow
    }
 }
 
-
 /*
-    GENERAL PURPOSE FLOATING POINT ROUTINE
-
-    The values a1 and a2 of shape sha have the binary floating-point
-    operation indicated by the tag t applied to them and the result is
-    stored in dest.
-*/
-
+ * GENERAL PURPOSE FLOATING POINT ROUTINE
+ *
+ * The values a1 and a2 of shape sha have the binary floating-point
+ * operation indicated by the tag t applied to them and the result is
+ * stored in dest.
+ */
 void fl_binop
 (int t, shape sha, where a1, where a2, where dest)
 {
@@ -170,13 +167,11 @@ void fl_binop
     return;
 }
 
-
 /*
-    NEGATE A FLOATING-POINT NUMBER
-
-    The floating-point value a of shape sha is negated and stored in dest.
-*/
-
+ * NEGATE A FLOATING-POINT NUMBER
+ *
+ * The floating-point value a of shape sha is negated and stored in dest.
+ */
 void negate_float
 (shape sha, where a, where dest)
 {
@@ -198,14 +193,12 @@ void negate_float
    have_cond = 0;
 }
 
-
 /*
-    FIND THE ABSOLUTE VALUE OF A FLOATING-POINT NUMBER
-
-    The floating-point value a of shape sha is has its absolute value
-    stored in dest.
-*/
-
+ * FIND THE ABSOLUTE VALUE OF A FLOATING-POINT NUMBER
+ *
+ * The floating-point value a of shape sha is has its absolute value
+ * stored in dest.
+ */
 void abs_float
 (shape sha, where a, where dest)
 {
@@ -225,14 +218,12 @@ void abs_float
     have_cond = 0;
 }
 
-
 /*
-    CHANGE FLOATING VARIETY
-
-    The floating-point value from is converted to a value of shape sha
-    and stored in to.
-*/
-
+ * CHANGE FLOATING VARIETY
+ *
+ * The floating-point value from is converted to a value of shape sha
+ * and stored in to.
+ */
 void change_flvar
 (shape sha, where from, where to)
 {
@@ -261,20 +252,15 @@ void change_flvar
     test_float_overflow(FP0, to, shape_size(sha));
 }
 
-
 /*
-    CURRENT ROUNDING MODE
-
-    This gives the rounding mode for round_float.
-*/
-
+ * The current rounding mode for round_float.
+ */
 int crt_rmode = R2NEAR;
 
-
-/* Make floating point representing range_min(sha) - adjustment
-Where Adjustment(adj) is 0,1,0.5 when adj is 0,1,2
-*/
-
+/*
+ * Make floating point representing range_min(sha) - adjustment
+ * Where Adjustment(adj) is 0,1,0.5 when adj is 0,1,2
+ */
 where get_min_limit
 (shape sha, int adj)
 {
@@ -346,10 +332,10 @@ where get_min_limit
    return mfw(0,fmd,0);
 }
 
-/* Make floating point representing range_max(sha) + adjustment
-Where Adjustment(adj) is 0,1,0.5 when adj is 0,1,2
-*/
-
+/*
+ * Make floating point representing range_max(sha) + adjustment
+ * Where Adjustment(adj) is 0,1,0.5 when adj is 0,1,2
+ */
 where get_max_limit
 (shape sha, int adj)
 {
@@ -420,9 +406,9 @@ void check_limit
 }
 
 /*
-  Check that the floating point value in 'from' will, when rounded, fall
-  within the range of the integer variety given by 'sha'.
-*/
+ * Check that the floating point value in 'from' will, when rounded, fall
+ * within the range of the integer variety given by 'sha'.
+ */
 static void check_float_round_overflow
 (shape sha, where from, int mode)
 {
@@ -472,19 +458,17 @@ static void check_float_round_overflow
   make_comment("check_float_round_overflow done");
 }
 
-
-/*
-   SET_ROUND_MODE
-
-   Changes the default floating point rounding mode.
-   Set bits 4 & 5 of fpcr (floating point control register)
-   according to rounding mode.
-
-   The global flag changed_round_mode is set to TRUE.
-*/
-
 bool changed_round_mode = 0;
 
+/*
+ * SET_ROUND_MODE
+ *
+ * Changes the default floating point rounding mode.
+ * Set bits 4 & 5 of fpcr (floating point control register)
+ * according to rounding mode.
+ *
+ * The global flag changed_round_mode is set to TRUE.
+ */
 void set_round_mode
 (int mode)
 {
@@ -558,12 +542,11 @@ float_to_unsigned(where from, where to, char *s)
 }
 
 /*
-    ROUND A FLOATING POINT NUMBER TO AN INTEGER
-
-    The floating-point value from is rounded to an integer value of shape
-    sha and stored in to.  The rounding mode is given by crt_rmode.
-*/
-
+ * ROUND A FLOATING POINT NUMBER TO AN INTEGER
+ *
+ * The floating-point value from is rounded to an integer value of shape
+ * sha and stored in to.  The rounding mode is given by crt_rmode.
+ */
 void round_float
 (shape sha, where from, where to)
 {
@@ -573,8 +556,10 @@ void round_float
 
     if (name(sha) == ulonghd) {
         if (have_overflow()) {
-            /* This must be checked before a round operation is attempted
-               because out-of-range values can cause an exception */
+            /*
+             * This must be checked before a round operation is attempted
+             * because out-of-range values can cause an exception
+             */
             check_float_round_overflow(sha,from,mode);
         }
 
@@ -657,8 +642,10 @@ void round_float
 	}
 
 	if (have_overflow()) {
-	  /* This must be checked before a round operation is attempted
-	     because out-of-range values can cause an exception */
+	  /*
+       * This must be checked before a round operation is attempted
+	   * because out-of-range values can cause an exception.
+       */
 	  check_float_round_overflow(sha,from,mode);
 	}
 
@@ -727,15 +714,13 @@ void round_float
     return;
 }
 
-
 /*
-    CONVERT AN INTEGER TO A FLOATING POINT NUMBER
-
-    The integer value from is converted to a floating-point value of
-    shape sha and stored in to.  Unsigned longs are difficult.  Error
-    treatments are ignored (they cannot occur at present).
-*/
-
+ * CONVERT AN INTEGER TO A FLOATING POINT NUMBER
+ *
+ * The integer value from is converted to a floating-point value of
+ * shape sha and stored in to. Unsigned longs are difficult.
+ * Error treatments are ignored (they cannot occur at present).
+ */
 void int_to_float
 (shape sha, where from, where to)
 {

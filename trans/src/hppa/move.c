@@ -7,19 +7,16 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/**********************************************************************
-		move.c
-
-	The procedure move produces code to move a value from a to the
-destination dest. This takes the form of a switch test on the parameter
-a (type ans) which is either a reg, freg instore or bitad value. In
-each of the three cases the ans field of the dest is similarly dealt
-with to determine the necessary instructions for the move. Sizes and
-alignment are taken from the ash field of the destination.
-
-Delivers register used if 1-word destination is instore; otherwise NOREG.
-
-**********************************************************************/
+/*
+ * The procedure move produces code to move a value from a to the
+ * destination dest. This takes the form of a switch test on the parameter
+ * a (type ans) which is either a reg, freg instore or bitad value. In
+ * each of the three cases the ans field of the dest is similarly dealt
+ * with to determine the necessary instructions for the move. Sizes and
+ * alignment are taken from the ash field of the destination.
+ *
+ * Delivers register used if 1-word destination is instore; otherwise NOREG.
+ */
 
 #include <assert.h>
 
@@ -40,13 +37,11 @@ Delivers register used if 1-word destination is instore; otherwise NOREG.
 extern char reg_name_tab[32][5];
 #define	MAX_STEPS_INLINE_MOVE	12	/* (was 8) 16 instructions */
 
-
 #define NBITMASK(n)		((unsigned long)( (n)==32 ? 0L : ((1<<(n))-1) ))
 
-
 /*
- *	ins_sgn_pair[FALSE]		unsigned instruction
- *	ins_sgn_pair[TRUE]		signed instruction
+ * ins_sgn_pair[FALSE]		unsigned instruction
+ * ins_sgn_pair[TRUE]		signed instruction
  */
 typedef ins_p ins_sgn_pair[2 /* FALSE..TRUE */ ];
 
@@ -64,17 +59,12 @@ static const ins_sgn_pair st_ins_sz[] =
    /* 64 */ {I_NIL, I_NIL}
 };
 
-
-
-
 /* the st instruction for object sized bits */
 ins_p
 i_st_sz(int bits)
 {
     return st_ins_sz[(bits) / 8][0];
 }
-
-
 
 /* load address represented by is into reg */
 void
@@ -92,7 +82,6 @@ ld_addr(instore is, int reg)
   else
      ld_ins(i_lw,1,is.b,reg);
 }
-
 
 /* get address represented by is */
 int
@@ -113,8 +102,6 @@ addr_reg(instore is, long regs)
   ld_addr(is, r);
   return r;
 }
-
-
 
 int
 move(ans a, where dest, long regs, bool sgned)
@@ -390,7 +377,6 @@ start:
 	  /*
 	   * Set bpos, bsize, bshift to number of bits in a 32 bit word as in
 	   * following picture:
-	   * 
 	   */
 	  bpos = is.b.offset - word_base.offset;
 	  bsize = dest.ashwhere.ashsize;
@@ -930,12 +916,12 @@ regs |= RMASK(pr);
 	      /*
 	       * now generate overlapping sequence with ld rX seperated from
 	       * following st rX
-	       * 
+	       *
 	       *	st	r1
 	       *	ld	r1
 	       *	st	r2
 	       *	ld	r2
-	       * 
+	       *
 	       * while there's still data
 	       */
 	      while (st_steps > 0)
@@ -982,18 +968,18 @@ regs |= RMASK(pr);
 
 	    /*
 	     * Copy with loop.
-	     * 
+	     *
 	     * Currently generate:
-	     * 
+	     *
 	     * !%srcptr and %destptr set mov	bytes,%cnt loop: subc
 	     * %cnt,bytes_per_step,%cnt ldX	%tmp,[%srcptr+%cnt] stX
 	     * %tmp,[%destptr+%cnt] bne	loop
-	     * 
+	     *
 	     * +++ unroll, and use two copy regs to seperate ld and st using same
 	     * reg
 	     */
 
-	  
+
 	    int srcptr;
 	    int destptr;
 	    int count;
@@ -1063,6 +1049,4 @@ regs |= RMASK(pr);
   fail("move not handled");
   return 0;  /* NOTREACHED */
 }
-
-
 

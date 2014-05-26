@@ -7,15 +7,10 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/*********************************************************************
-                              operand.c
-
-  operand outputs a 80386 operand, given a "where" and the number of
-  bits the operand occupies.
-
-
-
-*********************************************************************/
+/*
+ * operand outputs a 80386 operand, given a "where" and the number of
+ * bits the operand occupies.
+ */
 
 #include <local/exptypes.h>
 #include <local/expmacs.h>
@@ -48,7 +43,6 @@
 #include "messages_8.h"
 #include "operand.h"
 
-/* VARIABLES */
 /* All variables initialised */
 
 int  crt_proc_id;	/* init by cproc */
@@ -58,10 +52,9 @@ exp const_list;		/* init by init_all */
 			/* list of constants belonging to current
 				   procedure */
 
-/* PROCEDURES */
-
-/* turns an exp and an offset (in bits)
-   into a where */
+/*
+ * Turns an exp and an offset (in bits) into a where
+ */
 where mw
 (exp e, int off)
 {
@@ -71,11 +64,12 @@ where mw
   return w;
 }
 
-/* compares wheres for equality of operand.
-   This is also used by equiv_reg to detect
-   invalidity of register copy, in which case
-   we need to detect overlaps, this case
-   determined by 'overlap' */
+/*
+ * Compares wheres for equality of operand.
+ *
+ * This is also used by equiv_reg to detect invalidity of register copy,
+ * in which case we need to detect overlaps, this case determined by 'overlap'
+ */
 int eq_where_exp
 (exp a, exp b, int first, int overlap)
 {
@@ -229,7 +223,9 @@ rept:
   return 0;
 }
 
-/* compares wheres for equality of operand */
+/*
+ * Compares wheres for equality of operand
+ */
 int eq_where
 (where wa, where wb)
 {
@@ -242,8 +238,9 @@ int eq_where
   return eq_where_exp(a, b, 1, 0);
 }
 
-
-/* find the first register in the register bit pattern r */
+/*
+ * Find the first register in the register bit pattern r
+ */
 frr first_reg
 (int r)
 {
@@ -261,22 +258,19 @@ frr first_reg
   return t;
 }
 
-/* output operand,  wh is a where Note
-   that the pt field of a declaration now
-   hold a code for the position of the
-   value (eg. reg_pl for in a register,
-   local_pl for relative to sp etc.). The
-   no field hold the location, bit pattern
-   for register, offset (in bits) for
-   local etc. stack_dec hold the amount
-   the stack is decremented from its
-   position at the start of the procedure
-   (ie the place where no is measured
-   from). This is to allow for push
-   operations. b is passed to extn to
-   control whether a bracket is output
-   (index instructions). addr is true if
-   we need a literal address. */
+/*
+ * Output operand, wh is a where
+ *
+ * Note that the pt field of a declaration now hold a code for the position of
+ * the value (eg. reg_pl for in a register, local_pl for relative to sp etc.).
+ *
+ * The no field hold the location, bit pattern for register, offset (in bits)
+ * for local etc. stack_dec hold the amount the stack is decremented from its
+ * position at the start of the procedure (ie the place where no is measured
+ * from). This is to allow for push operations. b is passed to extn to control
+ * whether a bracket is output (index instructions). addr is true if we need
+ * a literal address.
+ */
 void operand
 (int le, where wh, int b, int addr)
 {
@@ -602,8 +596,7 @@ void operand
       const_intnl((addr || n == proc_tag || n == general_proc_tag), ln, 0);
       return;
     };
-    /* assumes this is only used just after using the first part of the
-       constant */
+    /* assumes this is only used just after using the first part of the constant */
     const_intnl(0, no(const_list), off);
     return;
   };

@@ -125,7 +125,6 @@ static void testusigned(int r, long maxval, long lab)
   return;
 }
 
-
 /* find the last test in sequence e which is a branch to second, if any, otherwise nil */
 static exp testlast(exp e, exp second)
 {
@@ -168,8 +167,6 @@ static exp testlast(exp e, exp second)
   return 0;
 }
 
-
-
 /* Does e, or components of e contain a bitfield? */
 /* +++ should detect this earlier and record in props(e) once-and-for-all */
 static int has_bitfield(exp e)
@@ -211,9 +208,9 @@ static int has_bitfield(exp e)
   /*NOTREACHED*/
 }
 
-
-/* Convert all NON-bitfields from byte-offsets back to bit-offsets, so
- * the compound can be output correctly by eval().
+/*
+ * Convert all NON-bitfields from byte-offsets back to bit-offsets,
+ * so the compound can be output correctly by eval().
  * Permanently undoes the needscan.c:scan() case val_tag:.
  *
  * NB must do this EXACTLY ONCE.
@@ -239,15 +236,15 @@ static void fix_nonbitfield(exp e)
   /*NOTREACHED*/
 }
 
-
-
 /*
  * Some functions to build and maintain a queue of conditional branch
  * instuctions, so the generation of these instructions can be delayed.
- * This is so the compare instruction will not immediately follow
- * compare, thus reducing RS/6000 compare..branch delays.
- * No side effecting instructions should be emitted while
- * branches are queued.  Currently only used with case_tag.
+ *
+ * This is so the compare instruction will not immediately follow compare,
+ * thus reducing RS/6000 compare..branch delays.
+ *
+ * No side effecting instructions should be emitted while branches are queued.
+ * Currently only used with case_tag.
  */
 
 /* params of bc_ins() */
@@ -831,12 +828,12 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
   makeans mka;
   static long exp_num = 0;  /* count of exps in order of evaluation */
 
-  /*
-   * A heuristic to estimate if conditional branch is close enough for
-   * bc instruction, which can branch +-8k words.  Tests indicate
-   * 13500 exp nodes generate 8k words of instructions.
-   * We play safe and allow 1 instruction per exp.
-   */
+/*
+ * A heuristic to estimate if conditional branch is close enough for
+ * bc instruction, which can branch +-8k words.  Tests indicate
+ * 13500 exp nodes generate 8k words of instructions.
+ * We play safe and allow 1 instruction per exp.
+ */
 #define TEST_TAG_NEAR_BRANCH(e)	(ptno(e) < 0 || absval(ptno(son(pt(e))) -exp_num) < 8192)
 
  tailrecurse:
@@ -857,24 +854,24 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
       make_proc_tag_code(e, sp);
       return mka;
     }
-/*****************************************************************************/
+
    case ident_tag:		/* ident/param definition within proc */
     {
       return make_ident_tag_code(e, sp, dest, exitlab);
     }
-/*****************************************************************************/
+
    case untidy_return_tag:
    case res_tag:			/* procedure result */
     {
       make_res_tag_code(e, sp);
       return mka;
     }
-/*****************************************************************************/
+
    case apply_tag:		/* procedure call */
     {
       return make_apply_tag_code(e, sp, dest, exitlab);
     }
-/*****************************************************************************/
+
    case clear_tag:
     {
       if (dest.answhere.discrim == insomereg)
@@ -906,7 +903,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 
       return mka;
     }
-/*****************************************************************************/
+
    case seq_tag:
     {
       exp t = son(son(e));
@@ -945,7 +942,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 	t = bro(t);
       }
     }				/* end seq */
-/*****************************************************************************/
+
    case cond_tag:
     {
       exp first = son(e);
@@ -1043,7 +1040,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 	return mka;
       }
     }
-/*****************************************************************************/
+
    case labst_tag:
     {
       ptno(son(e)) = exp_num;	/* update estimate made in scan() */
@@ -1078,7 +1075,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
       }
       return make_code(bro(son(e)), sp, dest, exitlab);
     }				/* end labst */
-/*****************************************************************************/
+
   case rep_tag:
     {
       exp first = son(e);
@@ -1112,8 +1109,8 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 	      && TEST_TAG_NEAR_BRANCH(last_test))
 	  {
 	    /*
-	     * It jumps to head of repeat.  Generate code out of
-	     * order to reduce RS/6000 branch delays.  RS/6000
+	     * It jumps to head of repeat. Generate code out of
+	     * order to reduce RS/6000 branch delays. RS/6000
 	     * assumes fall-through conditional branches are
 	     * most common and speculatively executes non-branch
 	     * instructions ahaead.  Rearrange as follows:
@@ -1189,7 +1186,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
        */
       return make_code(second, sp, dest, exitlab);
     }				/* end rep */
-/*****************************************************************************/
+
   case goto_tag:
     {
       exp gotodest = pt(e);
@@ -1212,7 +1209,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
       }/* otherwise dest is next in sequence */
       return mka;
     }				/* end goto */
-/*****************************************************************************/
+
   case test_tag:
     {
       bc_info bcinfo;
@@ -1249,7 +1246,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
       }
       return mka;
     }				/* end test */
-/*****************************************************************************/
+
    case ass_tag:
    case assvol_tag:
     {
@@ -1261,8 +1258,10 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
       int hdrhs = name(sh(rhs));
       bool is_float = is_floating(hdrhs);
 
-      /* +++ lose chvar_tag on rhs if no result, remember to invalidate reg */
-      /* +++ remove name(e)==ass_tag tests now assbits_tag has gone */
+      /*
+       * +++ lose chvar_tag on rhs if no result, remember to invalidate reg
+       * remove name(e)==ass_tag tests now assbits_tag has gone
+       */
 
       if (name(e) == assvol_tag)
       {
@@ -1280,8 +1279,10 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
       {
 	where apply_res;
 	/* This is not an optimisation this is necessary */
-	/* Since if we have a procedure call doing the locate will make a pointer which
-	   will be trashed in the call*/
+	/*
+	 * Since if we have a procedure call doing the locate will make a pointer
+	 * which will be trashed in the call
+	 */
 	if (is_float)
 	{
 	  freg frg;
@@ -1303,8 +1304,10 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 	assdest = locate(lhs, nsp, sh(rhs), 0);
 
 	move(apply_res.answhere, assdest, nsp.fixed, 1);
-	/* The evaluation of an assignment is the rhs so
-	   we move the rhs to dest as well */
+	/*
+	 * The evaluation of an assignment is the rhs so
+	 * we move the rhs to dest as well
+     */
 	move(apply_res.answhere, dest, nsp.fixed, 1);
 	clear_dep_reg(lhs);
 
@@ -1390,9 +1393,11 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 
 	is = insalt(assdest.answhere);
 	if (!is.adval)
-	{			/* this is an indirect assignment, so make it
-				 * direct by loading pointer into reg  (and
-				 * remember it) */
+	{
+	 /*
+	  * This is an indirect assignment, so make it direct by loading
+	  * pointer into reg (and * remember it)
+	  */
 	  int r = getreg(nsp.fixed);
 
 	  ld_ins(i_l, is.b, r);
@@ -1431,7 +1436,6 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 
       contreg = code_here(rhs, nsp, assdest);
       /* evaluate source into assignment destination .... */
-
 
       /* ... and move it into dest - could use assignment as value */
 
@@ -1532,7 +1536,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 
       return mka;
     }				/* end ass */
-/*****************************************************************************/
+
   case compound_tag:
     {
       exp t;
@@ -1643,7 +1647,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 	fail("no compounds in float reg");
       }
     }				/* end tup */
-/*****************************************************************************/
+
   case nof_tag:
   case concatnof_tag:
     {
@@ -1725,7 +1729,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 	fail("No Tuples in freg");
       }
     }
-/*****************************************************************************/
+
   case ncopies_tag:
     {
       exp t = son(e);
@@ -1799,7 +1803,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 	fail("no compounds in float reg");
       }
     }
-/*****************************************************************************/
+
    case diagnose_tag:
     {
       output_diag(dno(e), 0, e);
@@ -1807,7 +1811,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
       output_end_scope(dno(e), e);
       return mka;
     }
-/*****************************************************************************/
+
   case solve_tag:
     {
       exp m = bro(son(e));
@@ -1876,7 +1880,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 	m = bro(m);
       }
     }				/* end solve */
-/*****************************************************************************/
+
   case case_tag:
     {
       exp control = son(e);
@@ -1885,7 +1889,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
       case_tag_code(control_reg, e, sp);
       return mka;
     }				/* end case */
-/*****************************************************************************/
+
   case plus_tag:
     {
       if (!optop(e))
@@ -1906,7 +1910,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
       }
       return mka;
     }				/* end plus */
-/*****************************************************************************/
+
    case chvar_tag:
     {
       exp arg = son(e);			/* source of chvar, adjusted below   */
@@ -1975,9 +1979,11 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
       {
       case inreg:
 	{
-	  /* +++ if same size, paste down signed/unsigned to op */
-	  /* +++ paste down and adjust address as per big-endian */
-	  /* +++ for big-endians, use locate() */
+	  /* +++
+	   * if same size, paste down signed/unsigned to op
+	   * paste down and adjust address as per big-endian
+	   * for big-endians, use locate()
+	   */
 
 	  sreg = reg_operand(arg, sp);
 	  dreg = regalt(dest.answhere);
@@ -2039,7 +2045,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 
       return mka;
     }				/* end chvar */
-/*****************************************************************************/
+
    case minus_tag:
     {
       if (ERROR_TREATMENT(e))
@@ -2052,7 +2058,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
       }
       return mka;
     }				/* end minus */
-/*****************************************************************************/
+
    case mult_tag:
    case offset_mult_tag:
     {
@@ -2067,7 +2073,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
       }
       return mka;
     }
-/*****************************************************************************/
+
    case div0_tag:
    case div1_tag:
    case div2_tag:
@@ -2079,7 +2085,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
       mka.regmove = do_div_op(e, sp, dest, sgned);
       return mka;
     }				/* end div */
-/*****************************************************************************/
+
    case mod_tag:
    case rem0_tag:
    case rem2_tag:
@@ -2089,7 +2095,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
       mka.regmove = do_rem_op(e, sp, dest, sgned);
       return mka;
     }				/* end rem */
-/*****************************************************************************/
+
   case neg_tag:
   case offset_negate_tag:
     {
@@ -2115,7 +2121,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
       }
       return mka;
     }				/* end neg */
-/*****************************************************************************/
+
    case abs_tag:
     {
       if (ERROR_TREATMENT(e))
@@ -2140,7 +2146,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 	return mka;
       }
     }
-/*****************************************************************************/
+
   case shl_tag:
   case shr_tag:
     {
@@ -2291,56 +2297,56 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
       mka.regmove = d;
       return mka;
     }				/* end shl, shr */
-/*****************************************************************************/
+
    case minptr_tag:
    case make_stack_limit_tag:
     {
       mka.regmove = non_comm_op(e, sp, dest, i_s);
       return mka;
     }
-/*****************************************************************************/
+
    case fplus_tag:
     {
       mka.regmove =
 	fop(e, sp, dest, is_single_precision(sh(e))? i_fa : i_fa);
       return mka;
     }
-/*****************************************************************************/
+
   case fminus_tag:
     {
       mka.regmove =
 	fop(e, sp, dest, is_single_precision(sh(e))? i_fs : i_fs);
       return mka;
     }
-/*****************************************************************************/
+
   case fmult_tag:
     {
       mka.regmove =
 	fop(e, sp, dest, is_single_precision(sh(e))? i_fm : i_fm);
       return mka;
     }
-/*****************************************************************************/
+
   case fdiv_tag:
     {
       mka.regmove =
 	fop(e, sp, dest, is_single_precision(sh(e))? i_fd : i_fd);
       return mka;
     }
-/*****************************************************************************/
+
   case fneg_tag:
     {
       mka.regmove =
 	fmop(e, sp, dest, is_single_precision(sh(e))? i_fneg : i_fneg);
       return mka;
     }
-/*****************************************************************************/
+
   case fabs_tag:
     {
       mka.regmove =
 	fmop(e, sp, dest, is_single_precision(sh(e))? i_fabs : i_fabs);
       return mka;
     }
-/*****************************************************************************/
+
   case float_tag:
     {
       exp in = son(e);
@@ -2391,7 +2397,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
       mka.regmove = (frg.dble)? - (f + 32):(f + 32);
       return mka;
     }
-/*****************************************************************************/
+
   case chfl_tag:
     {
       int to = name(sh(e));
@@ -2433,7 +2439,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 	return mka;
       }
     }
-/*****************************************************************************/
+
   case and_tag:
     {
       exp arg1 = son(e);
@@ -2504,19 +2510,19 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 
       return mka;
     }
-/*****************************************************************************/
+
   case or_tag:
     {
       mka.regmove = comm_op(e, sp, dest, i_or);
       return mka;
     }
-/*****************************************************************************/
+
   case xor_tag:
     {
       mka.regmove = comm_op(e, sp, dest, i_xor);
       return mka;
     }
-/*****************************************************************************/
+
   case not_tag:
     {
       /* i_not is a pseudo instruction expanded to sfi dest,-1,src */
@@ -2532,7 +2538,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 
       return mka;
     }
-/*****************************************************************************/
+
   case cont_tag:
   case contvol_tag:
     {
@@ -2547,8 +2553,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 	clear_all();
       }
       /*
-       * Check to see if we can use
-       * [reg+reg] addressing for this load
+       * Check to see if we can use [reg+reg] addressing for this load
        */
       if (name(son(e)) == addptr_tag)
       {
@@ -2595,8 +2600,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 	    ld_rr_ins(i_ld_sz(cont_size,sgned), lhsreg, rhsreg, dreg);
 	    if (sgned && cont_size==8)
 	    {
-	      /* No load signed byte instruction, so propagate sign
-	       */
+	      /* No load signed byte instruction, so propagate sign */
 	      adjust_to_size(ulonghd,dreg,scharhd,dreg,no_error_jump);
 	    }
 	    setregalt(aa, dreg);
@@ -2627,7 +2631,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 	mka.regmove = NOREG;
       return mka;
     }				/* end cont */
-/*****************************************************************************/
+
   case string_tag:
   case real_tag:
     {
@@ -2643,7 +2647,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
       mka.regmove = move(aa, dest, sp.fixed, sgned);
       return mka;
     }				/* end eval */
-/*****************************************************************************/
+
   case val_tag:
     {
       int size = shape_size(sh(e));
@@ -2651,8 +2655,10 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 
       if (size == 64)
       {
-        /* could be evaluating into nowhere so check
-           to see it is trying to evaluate into a genuine place */
+		/*
+		 * Could be evaluating into nowhere so check to see it is
+		 * trying to evaluate into a genuine place
+		 */
         if (dest.answhere.discrim==notinreg)
         {
           flt64 temp;
@@ -2709,18 +2715,18 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 	goto moveconst;
       }
     }
-/*****************************************************************************/
+
     case top_tag:
     case prof_tag:
     {
       return mka;
     }
-/*****************************************************************************/
+
   case null_tag:
     {
       goto moveconst_zero;
     }
-/*****************************************************************************/
+
   case round_tag:
     {
       int sfr;
@@ -2758,7 +2764,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
       mka.regmove = move(aa, dest, sp.fixed, 1);
       return mka;
     }
-/*****************************************************************************/
+
      case int_to_bitf_tag:
     {
       int r;
@@ -2800,7 +2806,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
       move(aa, dest, nsp.fixed, 0);
       return mka;
     }
-/*****************************************************************************/
+
   case bitf_to_int_tag:
     {
       ash a;
@@ -2862,7 +2868,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
       keepreg(e, r);
       return mka;
     }
-/*****************************************************************************/
+
    case movecont_tag:
     {
       exp szarg = bro(bro(son(e)));
@@ -2915,7 +2921,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
       return mka;
     }
 
-/*****************************************************************************/
+
    case offset_pad_tag:
     {
       int r;
@@ -2953,7 +2959,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
       mka.regmove = move(aa, dest, guardreg(r,sp).fixed, 0);
       return mka;
     }
-/*****************************************************************************/
+
 
    case min_tag:
    case max_tag:
@@ -2998,14 +3004,13 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
       mka.regmove = r;
       return mka;
     }
-/*****************************************************************************/
+
    case offset_add_tag:
     {
       /*
        * byte offset + bit offset
-       * all others converted to plus_tag by needscan
-       * The byte offset must be converted into bits for
-       * the addition
+       * All others converted to plus_tag by needscan.
+       * The byte offset must be converted into bits for the addition
        */
       exp byte_offset = son(e);
       exp bit_offset = bro(byte_offset);
@@ -3033,12 +3038,12 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
       mka.regmove = move(aa, dest, nsp.fixed, 0);
       return mka;
     }
-/*****************************************************************************/
+
    case offset_subtract_tag:
     {
      /*
       * bit offset - byte offset
-      * all others converted to minus_tag by needscan
+      * All others converted to minus_tag by needscan.
       */
      exp bit_offset = son(e);
      exp byte_offset = bro(bit_offset);
@@ -3066,7 +3071,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
      mka.regmove = move(aa, dest, nsp.fixed, 0);
      return mka;
    }
-/*****************************************************************************/
+
    case current_env_tag:
     {
       int r=regfrmdest(&dest, sp);
@@ -3077,15 +3082,17 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
       }
       else
       {
-	/* If we don't have a frame pointer we give the location
-	   of where the frame pointer would be anyway */
+	/*
+	 * If we don't have a frame pointer we give the location
+	 * of where the frame pointer would be anyway.
+	 */
 	rir_ins(i_a , R_SP, p_frame_size , r);
       }
       setregalt(aa, r);
       mka.regmove = move(aa, dest, sp.fixed, 0);
       return mka;
     }
-/*****************************************************************************/
+
    case env_offset_tag:
     {
       /* NOTE: env_offset works in conjunction with current_env.
@@ -3093,7 +3100,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
       constval = frame_offset(son(e));
       goto moveconst;
     }
-/*****************************************************************************/
+
    case goto_lv_tag:
     {
       int r = reg_operand(son(e),sp);
@@ -3103,7 +3110,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
       clear_all();
       return mka;
     }
-/*****************************************************************************/
+
    case make_lv_tag:
     {
       int r = regfrmdest(&dest,sp);
@@ -3123,7 +3130,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
       mka.regmove = r;
       return mka;
     }
-/*****************************************************************************/
+
    case long_jump_tag:
     {
      int fp = reg_operand(son(e), sp);
@@ -3143,7 +3150,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
      clear_all();
      return mka;
    }
-/*****************************************************************************/
+
    case alloca_tag:
     {
       int dreg = regfrmdest(&dest,sp);
@@ -3221,7 +3228,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
       move(aa,dest,guardreg(dreg,sp).fixed,0);
       return mka;
     }
-/*****************************************************************************/
+
    case last_local_tag:
     {
       int r = regfrmdest(&dest, sp);
@@ -3240,7 +3247,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
       mka.regmove = move(aa, dest, sp.fixed, 1);
       return mka;
     }
-/*****************************************************************************/
+
    case local_free_all_tag:
     {
       if (p_has_alloca)
@@ -3259,7 +3266,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
       }
       return mka;
     }
-/*****************************************************************************/
+
    case local_free_tag:
     {
       int r;
@@ -3306,13 +3313,17 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
       }
       return mka;
     }
-/*****************************************************************************/
-/* SPEC 3.1 constructions */
-/**************************/
+
+/*
+ * SPEC 3.1 constructions
+ */
+
    case locptr_tag:
     {
-      /* this is the only way of accessing callers in a general proc
-       when calculating general_env_offset using current_env */
+      /*
+	   * This is the only way of accessing callers in a general proc
+       * when calculating general_env_offset using current_env
+	   */
       int destr = regfrmdest(&dest,sp);
       int pr = reg_operand(son(e),sp);
       space nsp;
@@ -3326,47 +3337,47 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
       mka.regmove = move(aa,dest,nsp.fixed,0);
       return mka;
     }
-/*****************************************************************************/
+
    case apply_general_tag:		/* procedure call */
     {
       return make_apply_general_tag_code(e, sp, dest, exitlab);
     }
-/*****************************************************************************/
+
    case tail_call_tag:
     {
       make_tail_call_tag_code(e,sp);
       return mka;
     }
-/*****************************************************************************/
+
    case make_callee_list_tag:
     {
       make_callee_list_tag_code(e,sp);
       return mka;
     }
-/*****************************************************************************/
+
    case same_callees_tag:
     {
       make_same_callees_tag_code(e,sp);
       return mka;
     }
-/*****************************************************************************/
+
    case make_dynamic_callee_tag:
     {
       make_dynamic_callee_tag_code(e,sp);
       return mka;
     }
-/*****************************************************************************/
+
    case caller_name_tag:
     {
       return mka;
     }
-/*****************************************************************************/
+
    case return_to_label_tag:
     {
       make_return_to_label_tag_code(e,sp);
       return mka;
     }
-/*****************************************************************************/
+
    case set_stack_limit_tag:
     {
       baseoff b;
@@ -3375,7 +3386,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
       st_ins(i_st,r,b);
       return mka;
     }
-/*****************************************************************************/
+
    case env_size_tag:
     {
       exp tg = son(son(e));
@@ -3383,13 +3394,13 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
       constval = ((pr->frame_size) >>3) + pr->max_callee_bytes;
       goto moveconst;
     }
-/*****************************************************************************/
+
    case trap_tag:
     {
       do_trap(e);
       return mka;
     }
-/*****************************************************************************/
+
    default:
     fail("TDF construct not done yet in make_code");
   }				/* end outer switch */
@@ -3512,23 +3523,23 @@ void adjust_to_size(int src_shpe, int sreg, int dest_shpe, int dreg, int trap)
 {
 
 /*
-   0 means nothing to be done
-
-                      d   e   s   t
-
-                  s   u   s   u   s   u
-                  c   c   w   w   l   l
-                  h   h   o   o   o   o
-                  a   a   r   r   n   n
-		  r   r   d   d   g   g
-
-      schar       0   X   0   X   0   0
-      uchar       X   0   0   0   0   0
- s    sword       X   X   0   X   0   0
- r    uword       X   X   X   0   0   0
- c    slong       X   X   X   X   0   0
-      ulong       X   X   X   X   0   0
-   */
+ *     0 means nothing to be done
+ *
+ *                        d   e   s   t
+ *
+ *                    s   u   s   u   s   u
+ *                    c   c   w   w   l   l
+ *                    h   h   o   o   o   o
+ *                    a   a   r   r   n   n
+ *  		  r   r   d   d   g   g
+ *
+ *        schar       0   X   0   X   0   0
+ *        uchar       X   0   0   0   0   0
+ *   s    sword       X   X   0   X   0   0
+ *   r    uword       X   X   X   0   0   0
+ *   c    slong       X   X   X   X   0   0
+ *        ulong       X   X   X   X   0   0
+ */
   /* Perform the options on the above table */
   if (src_shpe == dest_shpe ||
       dest_shpe == slonghd  ||

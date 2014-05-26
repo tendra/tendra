@@ -8,8 +8,8 @@
  */
 
 /*
-    This file contains routines for outputting constant initialisations.
-*/
+ * This file contains routines for outputting constant initialisations.
+ */
 
 #include <assert.h>
 #include <ctype.h>
@@ -47,11 +47,12 @@
 #ifdef NEWDWARF
 #include <dwarf2/dw2_iface.h>
 #endif
-/*
-    INFORMATION FOR OUTPUTTING DATA
 
-    The values are maximum, minimum, output directive.
-*/
+/*
+ * Information for outputting data
+ *
+ * The values are maximum, minimum, output directive.
+ */
 
 static mm scmm = { 127, -128, "\t.byte\t%ld\n" } ;
 static mm uscmm = { 255, 0, "\t.byte\t%ld\n" } ;
@@ -63,10 +64,9 @@ static mm uswmm = { 0xffffffff, 0, "\t.word\t%ld\n" } ;
 #define max(X,Y) ((X>Y)?X:Y)
 
 /*
-    FIND THE OUTPUT DATA CORRESPONDING TO A SHAPE
-*/
-
-mm 
+ * Find the output data corresponding to a shape
+ */
+mm
 maxmin ( shape s ){
   switch ( name ( s ) ) {
     case scharhd: return scmm;
@@ -79,22 +79,18 @@ maxmin ( shape s ){
   return uswmm;
 }
 
-
 /*
-    FIND THE NEXT DATA LABEL
-*/
-
-int 
+ * Find the next data label
+ */
+int
 next_data_lab (){
   static int data_lab = 100 ;
   return ++data_lab;
 }
 
-
 /*
-    OUTPUT A LABEL
-*/
-
+ * Output a label
+ */
 void 
 outlab ( int ll ){
   /* no preference for section here */
@@ -102,14 +98,12 @@ outlab ( int ll ){
   return ;
 }
 
-
-/*
-  OUTPUT A FLOATING POINT CONSTANT
-
-  This routine should only be called if FBASE is 10.
-*/
-
 #if 0
+/*
+ * Output a floating point constant
+ *
+ * This routine should only be called if FBASE is 10.
+ */
 static void 
 outfloat ( flpt f, bool ro ){
 #if ( FBASE == 10 )
@@ -141,11 +135,9 @@ outfloat ( flpt f, bool ro ){
 }
 #endif
 
-
-
 /*
-  FIND THE VALUE OF AN INTEGER CONSTANT EXPRESSION
-*/
+ * Find the value of an integer constant expression
+ */
 long 
 evalexp ( exp e ){
   switch ( name ( e ) ) {
@@ -278,10 +270,9 @@ evalexp ( exp e ){
   return 0;
 }
 
-
 /*
-  OUTPUT A SIMPLE VALUE
-*/
+ * Output a simple value
+ */
 static void 
 oneval ( int val, long al, int rep ){
   char *as ;
@@ -301,10 +292,9 @@ oneval ( int val, long al, int rep ){
   return ;
 }
 
-
 /*
-  OUTPUT A STRING
-*/
+ * Output a string
+ */
 static void 
 outascii ( char * s, long strsize ){
   while ( strsize > 0 ) {
@@ -339,34 +329,30 @@ outascii ( char * s, long strsize ){
   return ;
 }
 
-
 /*
-    TYPE REPRESENTING BIT PATTERNS
-*/
-
+ * Type representing bit patterns
+ */
 typedef struct {
   int bitposn ;
   int value_size ;
   unsigned long value ;
 } concbittype ;
 
-
 /*
-    FORM AN EMPTY BIT PATTERN
-*/
-static concbittype 
+ * Form an empty bit pattern
+ */
+static concbittype
 emptyconcbit ( int bitposn ){
   concbittype start ;
   start.bitposn = bitposn ;
   start.value_size = 0 ;
   start.value = 0 ;
   return start;
-}	
-
+}
 
 /*
-  OUTPUT A BIT PATTERN
-*/
+ * Output a bit pattern
+ */
 static void 
 outconcbit ( concbittype c, bool ro ){
   unsigned long w = c.value ;
@@ -404,11 +390,11 @@ outconcbit ( concbittype c, bool ro ){
 }
 
 /*
-  Output a unary representation of the number val.  val should be 
-  less than or equal to 31 as it represent the number of bits
-  in a bitfield which does not occupy a whole machine word.
-*/
-long 
+ * Output a unary representation of the number val. val should be
+ * less than or equal to 31 as it represent the number of bits
+ * in a bitfield which does not occupy a whole machine word.
+ */
+long
 unary ( int val ){
   int loop;
   long result=0;
@@ -420,12 +406,9 @@ unary ( int val ){
   return result;
 }
 
-
-
 /*
-  ADD A VALUE TO A BIT PATTERN
-*/
-
+ * Add a value to a bit pattern
+ */
 static concbittype 
 addconcbitaux ( unsigned long w, int size, concbittype b4, bool ro ){
   int wordpos ; /* bit position within word */
@@ -477,8 +460,8 @@ addconcbitaux ( unsigned long w, int size, concbittype b4, bool ro ){
 
 
 /*
-  EVALUATE A CONSTANT BIT PATTERN
-*/
+ * Evaulate a constant bit pattern
+ */
 static concbittype 
 evalconcbitaux ( exp e, concbittype b4, bool ro ){
   switch ( name ( e ) )    {
@@ -497,10 +480,9 @@ evalconcbitaux ( exp e, concbittype b4, bool ro ){
   }
 }
 
-
 /*
-  OUTPUT A CONSTANT BIT PATTERN
-*/
+ * Output a constant bit pattern
+ */
 static void 
 evalconcbit ( exp e, int bitposn, bool ro ){
   concbittype start ;
@@ -509,13 +491,11 @@ evalconcbit ( exp e, int bitposn, bool ro ){
   return ;
 }
 
-
-/*
-  DOES AN EXPRESSION REPRESENT ZERO?
-*/
-
 #if 1
 
+/*
+ * Does an expression represent zero?
+ */
 #define is_zero( e )	is_comm ( e )
 
 #else
@@ -557,10 +537,9 @@ is_zero ( exp e ){
 
 #endif
 
-
 /*
-    OUTPUT AN ALIGNMENT
-*/
+ * Output an alignment
+ */
 static void 
 set_align ( long al ){
 #if 0
@@ -574,11 +553,10 @@ set_align ( long al ){
   return ;
 }
 
- 
 /*
-    EVALUATE AN EXPRESSION
-*/
-void 
+ * Evaulate an expression
+ */
+void
 evalone ( exp e, int bitposn, bool ro ){
   long al = ( long ) shape_align ( sh ( e ) ) ;
   long sz = ( long ) shape_size ( sh ( e ) ) ;
@@ -899,19 +877,15 @@ evalone ( exp e, int bitposn, bool ro ){
   }
 }
 
-
-/*
-  FLAG
-*/
 bool know_size = 0 ;
 
-
 /*
-  OUTPUT DATA INITIALISERS FOR AN EXPRESSION
-  The result is the instore address of the constant.  A negative 
-  value of ll indicates the initialisation of a global variable.
-*/
-instore 
+ * Output data initialisers for an expression.
+ *
+ * The result is the instore address of the constant. A negative
+ * value of ll indicates the initialisation of a global variable.
+ */
+instore
 evaluated ( exp e, long ll, bool ro ){
   ash a ;
   int lab ;

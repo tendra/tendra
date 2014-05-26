@@ -7,15 +7,10 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-
-                            codec.c
-
-   codec produces code for operations which produce values.
-   e is the operation and dest is where the result is to be put.
-
-**********************************************************************/
+/*
+ * codec produces code for operations which produce values.
+ * e is the operation and dest is where the result is to be put.
+ */
 
 #include <shared/check.h>
 
@@ -46,10 +41,9 @@
 
 #include "codec.h"
 
-
-/* PROCEDURES */
-
-/* returns true if is_o(e) but not a possible 80386 operand */
+/*
+ * returns true if is_o(e) but not a possible 80386 operand
+ */
 int is_crc
 (exp e)
 {
@@ -77,16 +71,18 @@ int is_crc
 	  name(son(son(e))) == cont_tag;
 }
 
-/* op is a procedure for encoding a unary
-   operation. If a is a possible 80386
-   operand, uop applies this operator to
-   produce the code for a, leaving the
-   result in dest. sha gives the shape for
-   the operation. If a is not a possible
-   80386 operand, then uop produces code
-   for a to put it into eax (reg0) and
-   then applies op to eax, putting the
-   result into dest. */
+/*
+ * op is a procedure for encoding a unary operation.
+ *
+ * If a is a possible 80386 operand, uop applies this operator
+ * to produce the code for a, leaving the result in dest.
+ *
+ * sha gives the shape for the operation.
+ *
+ * If a is not a possible 80386 operand, then uop produces code
+ * for a to put it into eax (reg0) and then applies op to eax,
+ * putting the result into dest.
+ */
 void uop
 (void(*op)(shape, where, where), shape sha, exp a, where dest, ash stack)
 {
@@ -125,20 +121,20 @@ static int no_reg_needed
   return 0;
 }
 
-/* op is a procedure for encoding a binary
-   operation. Not more than one of a and b
-   will not be a possible 80386 operand.
-   This has been ensured by scan2. If a
-   and b are both possible 80386 operands,
-   bop applies this operator to produce
-   the code, leaving the result in dest.
-   sha gives the shape for the operation.
-   If either a or b is not a possible
-   80386 operand, then bop produces code
-   for it to put it into eax (reg0) and
-   then applies op to eax and the other
-   operand, putting the result into dest.
-*/
+/*
+ * op is a procedure for encoding a binary operation.
+ *
+ * Not more than one of a and b will not be a possible 80386 operand.
+ *
+ * This has been ensured by scan2. If a and b are both possible 80386 operands,
+ * bop applies this operator to produce the code, leaving the result in dest.
+ *
+ * sha gives the shape for the operation.
+ *
+ * If either a or b is not a possible 80386 operand, then bop produces code
+ * for it to put it into eax (reg0) and then applies op to eax and the other
+ * operand, putting the result into dest.
+ */
 void bop
 (void(*op)(shape, where, where, where), shape sha, exp a, exp b, where dest, ash stack)
 {
@@ -175,19 +171,17 @@ void bop
   return;
 }
 
-/* process the binary logical operation
-   exp. op is the compiling procedure for
-   the operation. It is commutative and
-   associative, the operation takes a
-   variable number of arguments. It is
-   therefore necessary to avoid the
-   mistake of assigning to the destination
-   (dest) inappropriately if its value is
-   used in the expression. At most one of
-   the arguments will not be a possible
-   80386 operand. If there is such an
-   argument, logop precomputes it, putting
-   the value into reg0. */
+/*
+ * Process the binary logical operation exp.
+ *
+ * op is the compiling procedure for the operation. It is commutative and
+ * associative, the operation takes a variable number of arguments.
+ * It is therefore necessary to avoid the mistake of assigning to the
+ * destination (dest) inappropriately if its value is used in the expression.
+ *
+ * At most one of the arguments will not be a possible 80386 operand. If there
+ * is such an argument, logop precomputes it, putting the value into reg0.
+ */
 static void logop
 (void(*op)(shape, where, where, where), exp e, where dest, ash stack)
 {
@@ -206,8 +200,10 @@ static void logop
     bop(op, sha, arg1, arg2, dest, stack);
     return;
   };
-  /* need to take care about overlap between dest and args or to avoid
-     extra push. So use reg0. */
+  /*
+   * need to take care about overlap between dest and args or to avoid
+   * extra push. So use reg0.
+   */
   qw.where_exp = copyexp(reg0.where_exp);
   sh(qw.where_exp) = sha;
   qw.where_off = 0;
@@ -257,19 +253,17 @@ static void logop
   return;
 }
 
-/* process the multiply operation
-   exp. op is the compiling procedure for
-   the operation. It is commutative and
-   associative, the operation takes a
-   variable number of arguments. It is
-   therefore necessary to avoid the
-   mistake of assigning to the destination
-   (dest) inappropriately if its value is
-   used in the expression. At most one of
-   the arguments will not be a possible
-   80386 operand. If there is such an
-   argument, it is precomputed, putting
-   the value into reg0. */
+/*
+ * Process the multiply operation exp.
+ *
+ * op is the compiling procedure for the operation. It is commutative and
+ * associative, the operation takes a variable number of arguments.
+ * It is therefore necessary to avoid the mistake of assigning to the
+ * destination (dest) inappropriately if its value is used in the expression.
+ *
+ * At most one of the arguments will not be a possible 80386 operand. If there
+ * is such an argument, it is precomputed, putting the value into reg0.
+ */
 static void multop
 (void(*op)(shape, where, where, where), exp e, where dest, ash stack)
 {
@@ -287,8 +281,10 @@ static void multop
     bop(op, sh(e), arg1, arg2, dest, stack);
     return;
   };
-  /* need to take care about overlap between dest and args or to avoid
-     extra push. So use reg0. */
+  /*
+   * need to take care about overlap between dest and args or to avoid
+   * extra push. So use reg0.
+   */
   qw.where_exp = copyexp(reg0.where_exp);
   sh(qw.where_exp) = sh(e);
   qw.where_off = 0;
@@ -304,8 +300,8 @@ static void multop
     t = bro(t);
   };
 
-  if (t == nilexp) {		/* all arguments are possible 80386
-				   operands */
+  if (t == nilexp) {
+	/* all arguments are possible 80386 operands */
    (*op)(sh(e), mw(arg1, 0), mw(arg2, 0), qw);
     t = bro(arg2);
     while (!last(t)) {
@@ -318,8 +314,9 @@ static void multop
     return;
   };
 
-  coder (qw, stack, t);		/* encode the single argument which is not
-				   a possible 80386 operend */
+  /* encode the single argument which is not a possible 80386 operand */
+  coder (qw, stack, t);
+
   u = arg1;
   /* now encode the remaining operations */
   while (1) {
@@ -338,8 +335,9 @@ static void multop
   return;
 }
 
-/* if a is a negation form b-son(a)
-   otherwise b+a in dest */
+/*
+ * if a is a negation form b-son(a) otherwise b+a in dest
+ */
 static void addsub
 (shape sha, where a, where b, where dest, exp e)
 {
@@ -351,23 +349,18 @@ static void addsub
   return;
 }
 
-
-
-/***********************************************************************
-   codec outputs the code which evaulates e and puts the result into
-   dest.
- ***********************************************************************/
-
-
-/* encode e, putting the result into dest.
-   stack is the current stack level */
+/*
+ * codec outputs the code which evaulates e and puts the result into dest.
+ *
+ * encode e, putting the result into dest. stack is the current stack level
+ */
 void codec
 (where dest, ash stack, exp e)
 {
   switch (name(e)) {
     case plus_tag:
-      {				/* at most one of the arguments will not
-				   be a possible 80386 operand */
+      {
+		/* at most one of the arguments will not be a possible 80386 operand */
 	exp arg1 = son(e);
 	exp arg2 = bro(arg1);
 	exp t, u, v;
@@ -392,8 +385,10 @@ void codec
           overflow_e = old_overflow_e;
 	  return;
 	};
-	/* need to take care about overlap between dest and args or to
-	   avoid extra push. So use reg0. */
+    /*
+     * need to take care about overlap between dest and args or to
+     * avoid extra push. So use reg0.
+     */
 	t = arg1;
 	qw.where_exp = copyexp(reg0.where_exp);
 	sh(qw.where_exp) = sh(e);
@@ -416,8 +411,7 @@ void codec
 	    name(arg2) == neg_tag)
 	  t = arg1;
 
-	if (t == nilexp) {	/* all arguments are possible 80386
-				   operands */
+	if (t == nilexp) {	/* all arguments are possible 80386 operands */
 	  t = bro(arg2);
 	  if (name(arg1) == neg_tag)
 	    addsub(sh(e), mw(arg1, 0), mw(arg2, 0),
@@ -440,8 +434,9 @@ void codec
 	  return;
 	};
 
-	coder (qw, stack, t);	/* encode the argument which is not a
-				   possible 80386 operand */
+	/* encode the argument which is not a possible 80386 operand */
+	coder (qw, stack, t);
+
 	u = arg1;
 	/* now encode the remaining operations */
 	while (1) {
@@ -471,8 +466,7 @@ void codec
         if (!optop(e))
           overflow_e = e;
 	if (!is_o(name(a)) || is_crc(a)) {
-				/* argument is not a possible 80386
-				   operand, so evaluate it in reg0 */
+	  /* argument is not a possible 80386 operand, so evaluate it in reg0 */
 	  if (inmem(dest) ||
 		(shape_size(sh(a)) == 8 && bad_from_reg(dest)) ||
 		shape_size(sh(a)) == 64) {
@@ -838,9 +832,11 @@ void codec
        /* deliberate fall through into default */
     default:
       {
-	if (!is_o (name (e))) {	/* e is not a possible 80386 operand,
-				   precompute it into reg0 and move to
-				   dest */
+	if (!is_o (name (e))) {
+	  /*
+	   * e is not a possible 80386 operand, precompute it into reg0
+	   * and move to dest
+	   */
 	  where qw;
 	  qw.where_exp = copyexp(reg0.where_exp);
 	  sh(qw.where_exp) = sh(e);

@@ -76,7 +76,6 @@ baseoff mem_temp(int byte_offset)
   return b;
 }
 
-
 /*
  * Implement -p option, by calling mcount with static location address as param.
  */
@@ -141,14 +140,12 @@ bool last_caller_param(exp e)
   }
 }
 
-
 /*
  * The following functions generate code for various procedure related
- * constructs.  They put the result in dest using t-regs given by sp.
+ * constructs. They put the result in dest using t-regs given by sp.
  * If non-zero, exitlab is the label of where the code is to continue.
  * These functions are called by make_code(), the code selection switch.
  */
-
 
 /* procedure definition */
 void make_proc_tag_code(exp e, space sp)
@@ -179,8 +176,11 @@ void make_proc_tag_code(exp e, space sp)
    * Profiling info
    */
   if (do_profile && !p_leaf)
-  {/* In the event of the procedure having no parameters, mcount would not
-      have been called,so we call it here */
+  {
+	/*
+	 * In the event of the procedure having no parameters,
+	 * mcount would not have been called, so we call it here.
+	 */
     call_mcount();
   }
 
@@ -233,7 +233,7 @@ makeans make_ident_tag_code(exp e, space sp, where dest, int exitlab)
     return make_code(bro(init_exp), sp, dest, exitlab);
   }
 
-  /**************Is it an identification of a caller in a postlude?***********/
+  /* Is it an identification of a caller in a postlude? */
   if (name(init_exp) ==caller_name_tag)
   {
     exp ote = find_ote(e,no(init_exp));
@@ -246,7 +246,7 @@ makeans make_ident_tag_code(exp e, space sp, where dest, int exitlab)
     /* Should not have been allocated a register by regalloc or scan */
     placew = nowhere;
   }
-  /**************Is it in a fixed point register?***************/
+  /* Is it in a fixed point register? */
   else if (props(e) &inreg_bits)
   {
     if (ident_no==R_NO_REG)	/* Need to allocate a t-reg */
@@ -266,7 +266,7 @@ makeans make_ident_tag_code(exp e, space sp, where dest, int exitlab)
     }
     setregalt(placew.answhere,ident_no);
   }
-  /**************Is it in a floating point register?***************/
+  /* Is it in a floating point register? */
   else if (props(e) & infreg_bits)
   {
     freg frg;
@@ -289,7 +289,7 @@ makeans make_ident_tag_code(exp e, space sp, where dest, int exitlab)
     frg.dble = (ident_size==64);
     setfregalt(placew.answhere, frg);
   }
-  /**************Is it a parameter on the stack?***************/
+  /* Is it a parameter on the stack? */
   else if (isparam(e))
   {
     instore is;
@@ -319,7 +319,7 @@ makeans make_ident_tag_code(exp e, space sp, where dest, int exitlab)
     is.adval = 1;
     setinsalt(placew.answhere, is);
   }
-  /**************Allocate on the stack?***************/
+  /* Allocate on the stack? */
   else
   {
     /* It is a local living on the stack */
@@ -377,10 +377,8 @@ makeans make_ident_tag_code(exp e, space sp, where dest, int exitlab)
   return mka;
 }
 
-
 /*
- * Delivers the procedure result
- * with either a normal or an untidy return
+ * Delivers the procedure result with either a normal or an untidy return
  */
 void make_res_tag_code(exp e, space sp)
 {
@@ -485,11 +483,13 @@ makeans make_apply_general_tag_code(exp e, space sp, where dest, int exitlab)
  (void) do_general_function_call(fn,nsp);
 
 
-  /* This code works on the assumption that the stack pointer is returned to
-     where it was initially
-     i.e no untidy returns from the general_proc */
-  /* The postlude also works on the assumption that no calls to alloca are
-     done within it */
+  /*
+   * This code works on the assumption that the stack pointer is returned
+   * to where it was initially. i.e no untidy returns from the general_proc.
+   *
+   * The postlude also works on the assumption that no calls to alloca are
+   * done within it.
+   */
 
   /* clear all register associations */
   clear_all();
@@ -497,11 +497,11 @@ makeans make_apply_general_tag_code(exp e, space sp, where dest, int exitlab)
   /* move the result to the destination */
   mka = move_result_to_dest(e,sp,dest,exitlab);
 
-  /* Possibility here that the function is untidy
-   * In this case we must ensure that there is room to construct
-   * subsequent parameter lists within this procedure
-   * The only way to guarantee this is to pull down the stack pointer by
-   * an extra p_args_and_link_size
+  /*
+   * Possibility here that the function is untidy. In this case we must
+   * ensure that there is room to construct subsequent parameter lists
+   * within this procedure. The only way to guarantee this is to pull down
+   * the stack pointer by an extra p_args_and_link_size
    */
   if (call_is_untidy(cees))
   {
@@ -755,12 +755,15 @@ void make_same_callees_tag_code(exp e, space sp)
   mov_rr_ins(R_SP,roldsp);comment(NIL);
 
   if (p_has_vcallees)
-  {  /* We use the difference between R_TP and R_FP to
-     calculate the size of the vcallees and then pulls the
-     stack pointer down by this amount and copies the callees
-     onto the bottom of the stack.
-     Finally it sets up the callee pointer which points to
-     the top of the newly constructed callee list */
+  {
+	/*
+	 * We use the difference between R_TP and R_FP to calculate the size
+	 * of the vcallees and then pulls the stack pointer down by this amount
+	 * and copies the callees onto the bottom of the stack.
+	 *
+	 * Finally it sets up the callee pointer which points to the top of
+	 * the newly constructed callee list.
+	 */
     int rsize;
     rsize = getreg(nsp.fixed);nsp = guardreg(rsize,nsp);
 
@@ -796,12 +799,14 @@ void make_callee_list_tag_code(exp e, space sp)
   instore is;
   baseoff new_stackpos;
 
-  /* This is an explicit creation of the callee list on the bottom
-     of the stack. no(e) contains the total size in bits required
-     to create the callee list.  The EXTRA_CALLEE_BYTES are the
-     bytes needed to store the extra info on the bottom of the callee
-     list. At present only 4 bytes are required to hold a pointer which
-     points to the top of the list.*/
+	/*
+	 * This is an explicit creation of the callee list on the bottom of
+	 * the stack. no(e) contains the total size in bits required to create
+	 * the callee list. The EXTRA_CALLEE_BYTES are the bytes needed to
+	 * store the extra info on the bottom of the callee list.
+	 * At present only 4 bytes are required to hold a pointer which
+	 * points to the top of the list.
+	 */
 
   x = ALIGNNEXT((no(e) >>3) + EXTRA_CALLEE_BYTES  , 8);
   new_stackpos.base = R_SP;
@@ -876,8 +881,10 @@ void make_dynamic_callee_tag_code(exp e, space sp)
 
 space do_callers(int n, exp list, space sp)
 {
-  /* Evaluates parameters into fixed registers or float registers or stack
-   according to the calling convention */
+	/*
+	 * Evaluates parameters into fixed registers or float registers or stack
+	 * according to the calling convention.
+	 */
   int disp = 0;
   int param_reg = R_FIRST_PARAM;
   int last_param_reg = R_FIRST_PARAM;
@@ -908,14 +915,17 @@ space do_callers(int n, exp list, space sp)
       frg.dble = dble;
       setfregalt(w.answhere, frg);
 
-      /* The floating parameter is evaluated into a floating parameter t-reg
-	 (If we have not filled them all up ) else a spare t-reg */
+	/*
+	 * The floating parameter is evaluated into a floating parameter t-reg
+	 * (If we have not filled them all up ) else a spare t-reg.
+	 */
       code_here(par, nsp, w);
 
       if (frg.fr == fr_param_reg)
       {
-	/* The floatind paramter is in a floating parameter t-reg so
-	   we must guard it */
+	/*
+	 * The floatind paramter is in a floating parameter t-reg so we must guard it
+	 */
 	nsp = guardfreg(frg.fr, nsp);
       }
       /* Copy it onto the stack at its correct position */
@@ -987,8 +997,10 @@ space do_callers(int n, exp list, space sp)
       }
       else if (param_reg <= final_param)
       {
-	/* By elimination it must be an aggregrate whose
-	   whole or part is to be passed in regs */
+	/*
+	 * By elimination it must be an aggregrate whose whole or part
+	 * is to be passed in regs
+	 */
 	int last_ld_reg;
 	int r;
 	bool allinreg;
@@ -1289,9 +1301,7 @@ void restore_callers(int n)
       /* should be in reg is in store */
       if (is_aggregate)
       {
-	/* this is an aggregate which was passed partially or
-	   totally in register
-	   */
+	/* this is an aggregate which was passed partially or totally in register */
 	int last_st_reg = param_reg + (ALIGNNEXT(ident_size,32)) -1;
 	int r;
 	baseoff bo;
@@ -1353,8 +1363,10 @@ void restore_callers(int n)
 }
 void restore_callees(void)
 {
-  /* It is possible that callees are allocated s-regs in which case they must
-     be moved back on to their proper place on the stack */
+	/*
+	 * It is possible that callees are allocated s-regs in which case they
+	 * must be moved back on to their proper place on the stack.
+	 */
   exp bdy = son(p_current);
   COMMENT("restore callees");
 

@@ -8,12 +8,9 @@
  */
 
 /*
-  symbol.c
-
-  This file contains code to generate the alpha symbol table
-  (the .t file).  This code is based on the MIPS translator file
-  new_symbol.c
-*/
+ * This file contains code to generate the alpha symbol table (the .t file).
+ * This code is based on the MIPS translator file new_symbol.c
+ */
 
 #include <string.h>
 
@@ -28,9 +25,13 @@
 #include <diag/diagtypes.h>
 
 #include "cross_config.h"
-#include "symtab.h" 	/* type definitions for translator
-			   produced debugging information
-			   to be incorporated into a .T file */
+
+/*
+ * Type definitions for translator produced debugging information
+ * to be incorporated into a .T file
+ */
+#include "symtab.h"
+
 #include "bstack.h"
 #include "makesymtab.h"
 #include "symbol.h"
@@ -42,19 +43,18 @@
 #include CROSS_INCLUDE/symconst.h>
 #endif
 
-
-/* Procedures to accumulate symbol table records for MIPS translator
-
-   new_lsym
-   new_lsym_d
-   new_esym
-   new_esym_d
-
-   and to output the table
-
-   output_symtab(name)
-
-   by R.R.R.  25/1/91	*/
+/*
+ * Procedures to accumulate symbol table records for MIPS translator
+ *
+ *    new_lsym
+ *    new_lsym_d
+ *    new_esym
+ *    new_esym_d
+ *
+ * and to output the table
+ *
+ *    output_symtab(name)
+ */
 
 int numfiles;
 int numprocs;	/* provided by mipstrans in call to init */
@@ -147,7 +147,6 @@ void init_table_space
 
 }
 
-
 void add_proc
 (int sympos, int filenum)
 {
@@ -159,10 +158,9 @@ void add_proc
   symcount++;
 }
 
-
-
-
-/*********************  STRING procedures  ********************/
+/*
+ * String procedures
+ */
 
 int add_string
 (char *str, STRINGS *list)
@@ -187,7 +185,6 @@ int add_string
   return stringind;
 }
 
-
 int add_to_loc_strings
 (char *locstr, int index)
 {
@@ -207,9 +204,9 @@ int add_to_ext_strings
   return posind;
 }
 
-
-/******************  DENSE NUMBERS  ********************/
-
+/*
+ * Dense numbers
+ */
 
 int add_dense_no
 (int rfd, int index)
@@ -246,8 +243,9 @@ DNR * get_dense_ptr
   return denseptr->densenolist+ (denseptr->num- (densecount-densind));
 }
 
-
-/********************  SYMBOL PROCEDURES  ********************/
+/*
+ * Symbol procedures
+ */
 
 int get_sym_index
 (int ind)
@@ -273,8 +271,6 @@ SYMR * get_sym_ptr
   return lsymlist->symlist+ (lsymlist->noofsyms- (symcount-symind));
 }
 
-
-
 int add_lsym
 (int ind, SYMR *newsym)
 {
@@ -296,7 +292,6 @@ int add_lsym
   lsymlist->noofsyms += 1;
   return lsymindex;
 }
-
 
 int add_esym
 (int ind, SYMR *newsym)
@@ -328,8 +323,8 @@ int new_lsym
   newsym.value = value;
   newsym.st = symtype;
   newsym.sc = symclass;
-/* do the following as a switch statment */
 
+  /* do the following as a switch statment */
   if (symtype == stEnd) {
     SYMSTR symstrind;
     int isymstart;
@@ -418,9 +413,7 @@ int new_lsym_d
 {
   return add_dense_no(filenum,new_lsym(chars, value, symtype, symclass,s,
 					filenum));
-
 }
-
 
 int new_esym
 (char *chars, int value, int symtype, int symclass, diag_type s, int filenum)
@@ -445,7 +438,6 @@ int new_esym
   return add_esym(filenum, &newsym);
 }
 
-
 int new_esym_d
 (char *chars, int value, int symtype, int symclass, diag_type s, int filenum)
 {
@@ -453,9 +445,9 @@ int new_esym_d
 					  , filenum));
 }
 
-
-/********************* Auxillary information  ********************/
-
+/*
+ * Auxillary information
+ */
 AUXU * get_aux_ptr
 (int index, int auxind)
 {
@@ -469,7 +461,6 @@ AUXU * get_aux_ptr
   }
   return auxdata->auxinfo+ (auxdata->num- (auxcount-auxind));
 }
-
 
 int add_aux
 (AUXU auxent, int index)
@@ -495,7 +486,6 @@ int add_aux
   auxind++;
   return auxind-1;
 }
-
 
 int add_st_aux
 (int ind)
@@ -525,7 +515,6 @@ int add_un_aux
   return indaux;
 }
 
-
 void output_symtab
 (char *symfilename)
 {
@@ -543,9 +532,4 @@ void output_symtab
   return;
 
 }
-
-
-
-
-
 

@@ -68,7 +68,6 @@ void chfl_error_treatment(exp,int);
 void do_fmop_error_jump(exp,int,int);
 void do_fop_error_jump(exp,int,int,int);
 
-
 /*
  * init_proc_errors: initialises variables used
  */
@@ -92,10 +91,10 @@ void init_proc_errors(exp e)
   }
   return;
 }
+
 /*
  * output_error_labels:
- * Sets up the labels at the end of the proc to handle
- * the three error codes
+ * Sets up the labels at the end of the proc to handle the three error codes
  */
 void output_error_labels(void)
 {
@@ -117,10 +116,10 @@ void output_error_labels(void)
   }
   return;
 }
+
 /*
- * get_nil_access_lab returns the label to jump to
- * when a nil_access error_code is created
- * or sets it if it is un-initialized
+ * get_nil_access_lab returns the label to jump to when a nil_access error_code
+ * is created or sets it if it is un-initialized
  */
 long get_nil_access_lab(void)
 {
@@ -130,10 +129,10 @@ long get_nil_access_lab(void)
   }
   return nil_access_lab;
 }
+
 /*
- * get_overflow_lab returns the label to jump to
- * when an overflow error_code is created
- * or sets it if it is un-initialized
+ * get_overflow_lab returns the label to jump to when an overflow error_code
+ * is created or sets it if it is un-initialized
  */
 long get_overflow_lab(void)
 {
@@ -143,10 +142,10 @@ long get_overflow_lab(void)
   }
   return overflow_lab;
 }
+
 /*
- * get_stack_overflow_lab returns the label to jump to
- * when a stack_overflow error_code is created
- * or sets it if it is un-initialized
+ * get_stack_overflow_lab returns the label to jump to when a stack_overflow
+ * error_code is created or sets it if it is un-initialized
  */
 long get_stack_overflow_lab(void)
 {
@@ -156,10 +155,10 @@ long get_stack_overflow_lab(void)
   }
   return stack_overflow_lab;
 }
+
 /*
- * do_trap is called from make_code and branches to
- * the corresponding error label depending on which
- * error code needs to be invoked
+ * do_trap is called from make_code and branches to the corresponding
+ * error label depending on which error code needs to be invoked
  */
 void do_trap(exp e)
 {
@@ -188,8 +187,7 @@ void do_trap(exp e)
 }
 
 /*
- * test_signed: tests whether a register lies
- * between two values and
+ * test_signed: tests whether a register lies between two values and
  * jumps to label if it does not
  */
 void test_signed(int r, long lower, long upper, long lab)
@@ -202,6 +200,7 @@ void test_signed(int r, long lower, long upper, long lab)
   long_bc_ins(i_bgt,creg2,lab,UNLIKELY_TO_JUMP);
   return;
 }
+
 /*
  * test_unsigned: tests whether a register is greater than an unsigned number
  */
@@ -233,6 +232,7 @@ static long trap_label(exp e)
     return no(son(pt(e)));
   }
 }
+
 /*
  * Generates a call to the TDFhandler for exceptions
  */
@@ -242,6 +242,7 @@ static void do_exception(int ex)
   call_TDFhandler();
   return;
 }
+
 static void call_TDFhandler(void)
 {
   baseoff b;
@@ -257,13 +258,9 @@ static void call_TDFhandler(void)
   return;
 }
 
-
-
-/*****************************/
-/*                           */
-/* INTEGER  error treatments */
-/*                           */
-/*****************************/
+/*
+ * Integer error treatments
+ */
 
 /*
  * ABS
@@ -307,7 +304,7 @@ int abs_error_treatment(exp e, space sp, where dest)
 }
 
 /*
- * CHVAR
+ * chvar
  */
 int chvar_error_treatment(exp e, space sp, where dest)
 {
@@ -371,8 +368,9 @@ int chvar_error_treatment(exp e, space sp, where dest)
   }
   return move(aa,dest,sp.fixed,1);
 }
+
 /*
- * DIV0,DIV1,DIV2
+ * div0, div1, div2
  */
 void div_error_treatment(int l, int r, exp e)
 {
@@ -409,10 +407,8 @@ void div_error_treatment(int l, int r, exp e)
   return;
 }
 
-
-
 /*
- * MINUS_TAG
+ * minus_tag
  */
 int minus_error_treatment(exp e, space sp, where dest)
 {
@@ -472,7 +468,7 @@ int minus_error_treatment(exp e, space sp, where dest)
 }
 
 /*
- * MULT_TAG
+ * mult_tag
  */
 int mult_error_treatment(exp e, space sp, where dest)
 {
@@ -575,7 +571,7 @@ int mult_error_treatment(exp e, space sp, where dest)
 }
 
 /*
- * PLUS_TAG
+ * plus_tag
  */
 int plus_error_treatment(exp e, space sp, where dest)
 {
@@ -634,9 +630,12 @@ int plus_error_treatment(exp e, space sp, where dest)
   }
   return move(aa, dest, sp.fixed, 0);
 }
+
 #if 0
+
 /*
- * ROUND
+ * round
+ *
  * This is now done in installl_fns.c
  */
 void round_error_treatment(exp *e)
@@ -766,10 +765,11 @@ void round_error_treatment(exp *e)
   bro(id) = round;
   son(round) = id;
 }
+
 #endif
 
 /*
- * NEG
+ * neg
  */
 int neg_error_treatment(exp e, space sp, where dest)
 {
@@ -813,8 +813,9 @@ int neg_error_treatment(exp e, space sp, where dest)
   setregalt(aa,destr);
   return move(aa,dest,nsp.fixed,1);
 }
+
 /*
- * REM0,REM1,REM2
+ * rem0, rem1, rem2
  */
 void rem_error_treatment(int l, int r, exp e)
 {
@@ -826,11 +827,9 @@ void rem_error_treatment(int l, int r, exp e)
   return;
 }
 
-/*****************************/
-/*                           */
-/* FLOATING error treatments */
-/*                           */
-/*****************************/
+/*
+ * Floating error treatments
+ */
 void chfl_error_treatment(exp e, int f)
 {
   long trap = trap_label(e);
@@ -841,7 +840,6 @@ void chfl_error_treatment(exp e, int f)
   long_bc_ins(i_bso,CRF0,trap,UNLIKELY_TO_JUMP);
   return;
 }
-
 
 void do_fmop_error_jump(exp e, int fs, int fd)
 {
@@ -865,6 +863,7 @@ void do_fmop_error_jump(exp e, int fs, int fd)
   }
   return;
 }
+
 void do_fop_error_jump(exp e, int fs1, int fs2, int fd)
 {
   long trap = trap_label(e);
@@ -898,3 +897,4 @@ void do_fop_error_jump(exp e, int fs1, int fs2, int fd)
   }
   return;
 }
+

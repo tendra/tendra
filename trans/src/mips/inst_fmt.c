@@ -7,17 +7,14 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/******************************************************************
-		inst_fmt.c
-
-	Procs for outputting various MIPS instruction formats to the
-files as_file and ba_file. Each procedure produces assembler for a family of
-MIPS operations, the actual member is passed as the string understood
-by the assembler. The string contains as its first element the binasm coding for
-the instruction +1; see mips_ins.c. Each instruction which alters a register clears
-any memory of its contents - see regexps.c
-
-******************************************************************/
+/*
+ * Procs for outputting various MIPS instruction formats to the files
+ * as_file and ba_file. Each procedure produces assembler for a family of
+ * MIPS operations, the actual member is passed as the string understood
+ * by the assembler. The string contains as its first element the binasm coding for
+ * the instruction +1; see mips_ins.c. Each instruction which alters a register clears
+ * any memory of its contents - see regexps.c
+ */
 
 #include <reader/basicread.h>
 
@@ -31,26 +28,20 @@ any memory of its contents - see regexps.c
 #include "main.h"
 #include "inst_fmt.h"
 
-
-/*******************************************************************
-ls_ins
-This procedure outputs asembler for load and store instructions.
-These necessarily take a reg and a baseoff as parameters, the latter argument allowing
-the address to be constructed formrom its base and offset field, see addressingtypes.h.
-********************************************************************/
-
-
-int   andpeep = 0;		/* used to do trivial peepholing of and
-				   instructions */
+int   andpeep = 0;		/* used to do trivial peepholing of and instructions */
 long  andop = 0;
 
-
-
-
+/*
+ * This procedure outputs asembler for load and store instructions.
+ *
+ * These necessarily take a reg and a baseoff as parameters, the latter argument
+ * allowing the address to be constructed formrom its base and offset field,
+ * see addressingtypes.h.
+ */
 void
 ls_ins(char *ins, int reg, baseoff a)
 {
-				/* load and store instructions */
+	/* load and store instructions */
 
 
   if (reg <0) {reg = 0; /* pathological load of clear_tag */ }
@@ -121,11 +112,9 @@ ls_ins(char *ins, int reg, baseoff a)
 
 }
 
-
-/*************** monadic operations ***************************
-e.g move, neg, abs
-************************************************************/
-
+/*
+ * Monadic operations, e.g move, neg, abs
+ */
 void
 mon_ins(char *ins, int dest, int src)
 {
@@ -139,9 +128,9 @@ mon_ins(char *ins, int dest, int src)
   return;
 }
 
-
-/* 3 register operand instructions:- destination, source1, source2 */
-
+/*
+ * 3 register operand instructions:- destination, source1, source2
+ */
 void
 rrr_ins(char *ins, int dest, int src1, int src2)
 {
@@ -157,10 +146,9 @@ rrr_ins(char *ins, int dest, int src1, int src2)
   return;
 }
 
-
-
-/* register, register, immediate instructions */
-
+/*
+ * register, register, immediate instructions
+ */
 void
 rri_ins(char *ins, int dest, int src1, long imm)
 {
@@ -186,8 +174,9 @@ rri_ins(char *ins, int dest, int src1, long imm)
   return;
 }
 
-/* register, immediate instructions */
-
+/*
+ * register, immediate instructions
+ */
 void
 ri_ins(char *ins, int dest, long imm)
 {
@@ -198,10 +187,9 @@ ri_ins(char *ins, int dest, long imm)
   out_iinst (0, ins[0] - 1, dest, xnoreg, formri, imm);
 }
 
-
-/******************************************************************************
-Branch instructions. These have labels as destination.
-******************************************************************************/
+/*
+ * Branch instructions. These have labels as destination.
+ */
 
 /* unconditional */
 
@@ -218,7 +206,7 @@ uncond_ins(char *ins, int lab)
     out_iinst (0, ins[0] - 1, lab, xnoreg, formr, 0);
 }
 
-/*conditional */
+/* conditional */
 
 /* register comparisons */
 void
@@ -247,7 +235,7 @@ condri_ins(char *ins, int src1, long imm, int lab)
   }
 }
 
-/* register comparison with zero*/
+/* register comparison with zero */
 void
 condr_ins(char *ins, int src1, int lab)
 {
@@ -256,11 +244,7 @@ condr_ins(char *ins, int src1, int lab)
   out_iinst (-lab, ins[0] - 1, src1, xnoreg, formrl, 0);
 }
 
-
-/*******************************************************************************
-coprocessor instructions
-*******************************************************************************/
-
+/* coprocessor instructions */
 void
 cop_ins(char *ins, int gr, int fr)
 {
@@ -280,7 +264,6 @@ cop_ins(char *ins, int gr, int fr)
 }
 
 /* floating point instructions */
-
 void
 lsfp_ins(char *ins, int reg, baseoff a)
 {
@@ -371,10 +354,7 @@ rrrfp_ins(char *ins, int dest, int src1, int src2)
 }
 
 
-/******************************************************************************
-jump to address given by register parameter dest
-*******************************************************************************/
-
+/* jump to address given by register parameter dest */
 void
 br_ins(char *ins, int dest)
 {
@@ -387,7 +367,6 @@ br_ins(char *ins, int dest)
   else
     out_iinst (0, ins[0] - 1, dest, xnoreg, formr, 0);
 }
-
 
 /* jump to external identifier */
 void

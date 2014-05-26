@@ -7,13 +7,11 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/*****************************************************************
-		eval.c
-
-	The main procedure defined here is evaluated which outputs
-assembler for data. The parameters are an evaluated exp and an index
-into the table of externals (or 0 meaning anonymous).
-*****************************************************************/
+/*
+ * The main procedure defined here is evaluated which outputs assembly
+ * for data. The parameters are an evaluated exp and an index
+ * into the table of externals (or 0 meaning anonymous).
+ */
 
 #include <assert.h>
 #include <ctype.h>
@@ -47,12 +45,6 @@ into the table of externals (or 0 meaning anonymous).
 #define proc_tag 118
 #define is_zero( e ) is_comm( e )
 
-/*************************************************************
-maxmin
-
-finds the data size from the range of an integer shape
-**************************************************************/
-
 /* various pieces of info for outputting data depending on shape */
 static mm scmm = {127, -128, "\t.BYTE\t%ld\n"};
 static mm uscmm = {255, 0, "\t.BYTE\t%ld\n"};
@@ -61,8 +53,9 @@ static mm ushmm = {0xffff, 0, "\t.HALF\t%ld\n"};
 static mm swmm = {0x7fffffff, 0x80000000, "\t.WORD\t%ld\n"};
 static mm uswmm = {0xffffffff, 0, "\t.WORD\t%ld\n"};
 
-
-
+/*
+ * finds the data size from the range of an integer shape
+ */
 mm
 maxmin(shape s)
 {
@@ -102,12 +95,11 @@ next_PIC_pcrel_lab(void)
   return ++n;
 }
 
-
 /*
-  Output a unary representation of the number val.  val should be 
-  less than or equal to 31 as it represent the number of bits
-  in a bitfield which does not occupy a whole machine word.
-*/
+ * Output a unary representation of the number val. val should be
+ * less than or equal to 31 as it represent the number of bits
+ * in a bitfield which does not occupy a whole machine word.
+ */
 long
 unary(int val)
 {
@@ -122,7 +114,9 @@ unary(int val)
    return result;
 }
 
-/* output assembler representation of floating number */
+/*
+ * Output assembler representation of floating number
+ */
 static void outfloat(f)
 flpt f;
 {
@@ -159,15 +153,14 @@ flpt f;
 }
 
 /*
-    CONVERT A REAL VALUE TO A BITPATTERN
-
-    This routine converts the real constant e into an array of longs
-    giving the bitpattern corresponding to this constant.  Although
-    care has been taken, this may not work properly on all machines
-    (although it should for all IEEE machines).  It returns NULL if
-    it cannot convert the number sufficiently accurately.
-*/
-
+ * CONVERT A REAL VALUE TO A BITPATTERN
+ *
+ * This routine converts the real constant e into an array of longs giving the
+ * bitpattern corresponding to this constant. Although care has been taken,
+ * this may not work properly on all machines (although it should for all
+ * IEEE machines).
+ * It returns NULL if it cannot convert the number sufficiently accurately.
+ */
 long *
 realrep(exp e)
 {
@@ -267,7 +260,6 @@ realrep(exp e)
     return longs;
 #endif
 }
-
 
 long
 evalexp(exp e)
@@ -561,10 +553,9 @@ outconcbit(concbittype c)
   assert(w == 0);
 }
 
-
 /*
-    ADD A VALUE TO A BIT PATTERN
-*/
+ * Add a value to a bit pattern
+ */
 static concbittype
 addconcbitaux(unsigned long w, int sz, concbittype before)
 {
@@ -652,12 +643,10 @@ evalconcbit(exp e, int bitposn)
 }
 
 /*
- * Determine whether an exp is definitely zero valued.
- * Zero-valued initialisers can be put in the bss section.
- * Does not exhaust all possibilities, some zero valued expressions
- * may have "is_zero(e)==0".
+ * Determine whether an exp is definitely zero valued. Zero-valued initialisers
+ * can be put in the bss section. Does not exhaust all possibilities;
+ * some zero valued expressions may have "is_zero(e) == 0".
  */
-
 #if 0
 bool
 is_zero(exp e)
@@ -725,10 +714,9 @@ set_align(int al)
     return ;
 }
 
-/***************************************************************
-This procedure outputs all expressions.
-***************************************************************/
-
+/*
+ * This procedure outputs all expressions.
+ */
 void
 evalone(exp e, int bitposn)
 {
@@ -1171,8 +1159,6 @@ evalone(exp e, int bitposn)
   }				/* end switch */
 }
 
-
-
 /*
  * Outputs data initialisers for the evaluated exp.
  * The result is the instore "address" of the constant.
@@ -1251,16 +1237,4 @@ evaluated(exp e, long l)
   }
   return isa;
 }
-
-
-
-
-
-
-
-
-
-
-
-
 

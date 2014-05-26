@@ -20,8 +20,10 @@
 #include "symtab.h"	
 #include "makesymtab.h"	
 
-/* type definitions for translator produced debugging 
-   information to be incorporated into a .T file  */
+/*
+ * Type definitions for translator produced debugging information to be
+ * incorporated into a .T file
+ */
 
 #ifndef CROSS_INCLUDE
 #include <symconst.h>
@@ -68,13 +70,12 @@ count_aux(AUXTAB *auxdata)
 #define MAJOR_ASSEMBLER_VERSION 3
 #define MINOR_ASSEMBLER_VERSION 11
 
-
-/* 
-   Function to make a symbol table from various components. 
-   Sets up a .T file for use by as1 (this function is called 
-   from new_symbol.c using output_symtab(name of .T file). )
-   by R.R.R  3/12/90  
-*/
+/*
+ * Function to make a symbol table from various components.
+ *
+ * Sets up a .T file for use by as1 (this function is called from new_symbol.c
+ * using output_symtab(name of .T file).)
+ */
 void
 makesymtab(STRINGS *extstrings, ESYMS* extsymbols, DENSETAB* densenos,
 	      pSYMFDR filedescs, int numfiles, char* symtabname,
@@ -82,17 +83,17 @@ makesymtab(STRINGS *extstrings, ESYMS* extsymbols, DENSETAB* densenos,
 	      int stringsize, int noaux, int densind,
 	      PROCSYM* procinds, int noprocs)
 {
-  
 
-/* 
-   function to produce a symbol table (.T file), from information 
-   supplied by the translator, including TDF diagnostics. 
-   The output file and the binary assembler file (.G , made by 
-   as0 on a *.s file) can then be passed to as1 
-*/
+/*
+ * Function to produce a symbol table (.T file), from information
+ * supplied by the translator, including TDF diagnostics.
+ *
+ * The output file and the binary assembler file (.G, made by
+ * as0 on a *.s file) can then be passed to as1
+ */
   LSYMS * symlist;
 
-  HDRR symhdrout;				/* symbolic header */	
+  HDRR symhdrout;				/* symbolic header */
   int i,j;
   FDR fdrtab;
   long stroff=0;
@@ -105,9 +106,9 @@ makesymtab(STRINGS *extstrings, ESYMS* extsymbols, DENSETAB* densenos,
   pSYMFDR tempfileptr;
   FILE* sym_tab_file = fopen(symtabname,"w");
 
-
-/**************  set up new symbolic header  **********************/
-
+  /*
+   * Set up new symbolic header
+   */
 
   symhdrout.magic = magicSym;	/* defined in symconst.h */
   symhdrout.vstamp = MAJOR_ASSEMBLER_VERSION*256+MINOR_ASSEMBLER_VERSION;
@@ -133,26 +134,26 @@ makesymtab(STRINGS *extstrings, ESYMS* extsymbols, DENSETAB* densenos,
   symhdrout.iextMax = noextsyms;
   symhdrout.cbExtOffset = symhdrout.cbFdOffset + symhdrout.ifdMax*sizeof(FDR);
 
-/* Dense numbers */
+  /* Dense numbers */
 
   symhdrout.idnMax = densind;
   symhdrout.cbDnOffset = symhdrout.cbExtOffset + symhdrout.iextMax*sizeof(EXTR);
 
-/* write header to output file */
+  /* write header to output file */
 
   fwrite(&symhdrout,sizeof(HDRR),1,sym_tab_file);
 
-/********************  header completed  *************************/
+  /*
+   * Header completed
+   */
 
-
-
-/**************** write the tables to the file  ******************/
-
+  /*
+   * Write the tables to the file
+   */
 
   tempfileptr=filedescs;
 
-
-/* initialise proc info */
+  /* Initialise proc info */
   pdr_ptr=(PDR*)xcalloc(1,sizeof(PDR));
   for (j=0;j<numfiles;j++){
     PROCSYM* procindptr=procinds;
@@ -164,8 +165,7 @@ makesymtab(STRINGS *extstrings, ESYMS* extsymbols, DENSETAB* densenos,
     }
   }
 
-/* write local symbols */
-
+  /* Write local symbols */
   for (i=1;i<=numfiles;i++,tempfileptr++){
     symlist=tempfileptr->symbols;
     while (symlist){
@@ -174,8 +174,7 @@ makesymtab(STRINGS *extstrings, ESYMS* extsymbols, DENSETAB* densenos,
     }
   }
 
-/* write auxillary symbol entries */
-
+  /* Write auxillary symbol entries */
   tempfileptr=filedescs;
   for (i=1;i<=numfiles;i++,tempfileptr++){
     auxdata=tempfileptr->auxtabs;
@@ -185,8 +184,7 @@ makesymtab(STRINGS *extstrings, ESYMS* extsymbols, DENSETAB* densenos,
     }
   }
 
-/* write local strings */
-
+  /* Write local strings */
   tempfileptr=filedescs;
   for (i=1;i<=numfiles;i++,tempfileptr++){
     tempstrings = tempfileptr->filestr;
@@ -196,18 +194,14 @@ makesymtab(STRINGS *extstrings, ESYMS* extsymbols, DENSETAB* densenos,
     }	
   }
 
-
-/* write external strings */
-
+  /* Write external strings */
   tempstrings=extstrings;
   while (tempstrings){
     fwrite(tempstrings->str, sizeof(char), tempstrings->usage,sym_tab_file);
     tempstrings=tempstrings->overspill;
   }
 
-
-/* write file descriptors */
-
+  /* Write file descriptors */
   tempfileptr=filedescs;
   for(i=1;i<=numfiles;i++,tempfileptr++){
     long count;
@@ -246,8 +240,10 @@ makesymtab(STRINGS *extstrings, ESYMS* extsymbols, DENSETAB* densenos,
     fwrite(&fdrtab,sizeof(FDR),1,sym_tab_file);
   }
 
-/*appears to write the right stuff so is it the right place?? */
-/* write external symbols */
+  /*
+   * Appears to write the right stuff so is it the right place?
+   */
+  /* Write external symbols */
 
   while (extsymbols){
     fwrite(extsymbols->symlist, sizeof(EXTR), extsymbols->noofsyms, 
@@ -255,8 +251,7 @@ makesymtab(STRINGS *extstrings, ESYMS* extsymbols, DENSETAB* densenos,
     extsymbols=extsymbols->nextsyms;
   }
 
-/* write dense nos */
-
+  /* Write dense nos */
   while (densenos){
     fwrite(densenos->densenolist,sizeof(DNR),densenos->num,sym_tab_file);
     densenos=densenos->moredensenos;

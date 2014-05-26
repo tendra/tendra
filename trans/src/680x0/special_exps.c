@@ -21,11 +21,10 @@
 #include "special_exps.h"
 #include "utility.h"
 
-/************************************************************************
-  Make an exp representing the contents of an external tag with
-  name n of shape s and variable if v.
- ************************************************************************/
-
+/*
+ * Make an exp representing the contents of an external tag with
+ * name n of shape s and variable if v.
+ */
 exp
 make_extn(char* n, shape s, int v)
 {
@@ -43,37 +42,37 @@ make_extn(char* n, shape s, int v)
 	return nme;
 }
 
-/************************************************************************
-  Make an exp representing a dummy double destination used to force a
-  floating point overflow (if any) for expression with zero destination.
- ************************************************************************/
+/*
+ * Make an exp representing a dummy double destination used to force a
+ * floating point overflow (if any) for expression with zero destination.
+ */
 exp
 get_dummy_double_dest(void)
 {
 	return make_extn("___m68k_dummy_double", doublesh, 1);
 }
 
-
-/************************************************************************
-  Make an exp representing the stack limit
- ************************************************************************/
+/*
+ * Make an exp representing the stack limit
+ */
 exp
 get_stack_limit(void)
 {
 	return make_extn("___m68k_stack_limit", ulongsh, 1);
 }
 
-/************************************************************************
-  Make an exp representing the error handler
- ************************************************************************/
+/*
+ * Make an exp representing the error handler
+ */
 exp
 get_error_handler(void)
 {
 	return make_extn("___m68k_errhandler", ulongsh, 1);
 }
-/************************************************************************
-  Make an exp representing env_size
- ************************************************************************/
+
+/*
+ * Make an exp representing env_size
+ */
 exp
 get_env_size(dec *decl)
 {
@@ -82,3 +81,4 @@ get_env_size(dec *decl)
 	sprintf(lab_name, "#%c%lu", LPREFIX,(unsigned long)decl);
 	return make_extn(lab_name, ulongsh, 1);
 }
+

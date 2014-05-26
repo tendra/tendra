@@ -7,31 +7,30 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/********************************************************************
-
-   refactor_id tries to apply transformations to improve identity and
-   variable declarations.
-
-   refactor_id delivers 1 if it makes any change, 0 otherwise.
-
-   used_in delivers 0 if the identifier declared by vardec is unused in
-   the exp piece, 1 if it is used for contents operation only, 3 if it is
-   used otherwise.
-
-   simple_const tests whether e is used as a simple constant in whole.
-   This is true in the following circumstances only.
-   1) e is a constant.
-   2) e is an identity declaration(not a variable) and the declaration is
-      external to whole.
-   3) e is the contents of a variable, and the variable is not used
-      in whole as the destination of an assignment, and the variable
-      is only used (anywhere) as the destination of assignment or
-      argument of contents (ie there is no alias for it).
-
-   no_ass is true iff there are no assignments to things that might
-   be aliased during the evaluation of whole. (beware procedure calls!)
-
- ********************************************************************/
+/*
+ * refactor_id tries to apply transformations to improve identity and
+ * variable declarations.
+ *
+ * refactor_id delivers 1 if it makes any change, 0 otherwise.
+ *
+ * used_in delivers 0 if the identifier declared by vardec is unused in
+ * the exp piece, 1 if it is used for contents operation only, 3 if it is
+ * used otherwise.
+ *
+ * simple_const tests whether e is used as a simple constant in whole.
+ * This is true in the following circumstances only:
+ *
+ *  1) e is a constant.
+ *  2) e is an identity declaration(not a variable) and the declaration is
+ *     external to whole.
+ *  3) e is the contents of a variable, and the variable is not used
+ *     in whole as the destination of an assignment, and the variable
+ *     is only used (anywhere) as the destination of assignment or
+ *     argument of contents (ie there is no alias for it).
+ *
+ * no_ass is true iff there are no assignments to things that might
+ * be aliased during the evaluation of whole. (beware procedure calls!)
+ */
 
 #include <stddef.h>
 
@@ -61,13 +60,10 @@
 extern int check_anyway(exp);
 #endif
 
-/* PROCEDURES */
-
-/*********************************************************************
-   make_onearg makes up an exp with the given tag (n), shape (sha)
-   and single argument (a).
- *********************************************************************/
-
+/*
+ * make_onearg makes up an exp with the given tag (n), shape (sha)
+ * and single argument (a).
+ */
 exp
 hc(exp e, exp t)
 {
@@ -76,7 +72,6 @@ hc(exp e, exp t)
 	return hold_refactor(e);
 }
 
-
 static exp
 make_onearg(unsigned char n, shape sha, exp a)
 {
@@ -84,12 +79,10 @@ make_onearg(unsigned char n, shape sha, exp a)
 	return hc(r, a);
 }
 
-
-/*********************************************************************
-   make_twoarg makes up an exp with the given tag (n), shape (sha)
-   and two arguments (a,b) in that order.
- *********************************************************************/
-
+/*
+ * make_twoarg makes up an exp with the given tag (n), shape (sha)
+ * and two arguments (a,b) in that order.
+ */
 static exp
 make_twoarg(unsigned char n, shape sha, exp a, exp b)
 {
@@ -99,13 +92,11 @@ make_twoarg(unsigned char n, shape sha, exp a, exp b)
 	return hc(r, b);
 }
 
-
-/************************************************************************
-   used_in delivers 0 if the identifier declared by vardec is unused in
-   the exp piece, 1 if it is used for contents operation only, 3 if it is
-   used otherwise.
- ************************************************************************/
-
+/*
+ * used_in delivers 0 if the identifier declared by vardec is unused in
+ * the exp piece, 1 if it is used for contents operation only, 3 if it is
+ * used otherwise.
+ */
 int
 used_in(exp vardec, exp piece)
 {
@@ -138,22 +129,21 @@ used_in(exp vardec, exp piece)
 	return res;
 }
 
-
-/***********************************************************************
-  simple_const tests whether e is used as a simple constant in whole.
-  This is true in the following circumstances only.
-  1) e is a constant.
-  2) e is an identity declaration(not a variable) and the declaration is
-     external to whole.
-  3) e is the contents of a variable, and the variable is not used
-     in whole as the destination of an assignment, and the variable
-     is only used (anywhere) as the destination of assignment or
-     argument of contents (ie there is no alias for it).
-
-  no_ass is true iff there are no assignements to things that might
-  be aliased during the evaluation of whole. (ware procedure calls!)
- ***********************************************************************/
-
+/*
+ * simple_const tests whether e is used as a simple constant in whole.
+ * This is true in the following circumstances only:
+ *
+ *  1) e is a constant.
+ *  2) e is an identity declaration(not a variable) and the declaration is
+ *     external to whole.
+ *  3) e is the contents of a variable, and the variable is not used
+ *     in whole as the destination of an assignment, and the variable
+ *     is only used (anywhere) as the destination of assignment or
+ *     argument of contents (ie there is no alias for it).
+ *
+ * no_ass is true iff there are no assignements to things that might
+ * be aliased during the evaluation of whole. (ware procedure calls!)
+ */
 int
 simple_const(exp whole, exp e, int decl, int no_ass)
 {
@@ -179,9 +169,10 @@ simple_const(exp whole, exp e, int decl, int no_ass)
 	return 0;
 }
 
-
-/* replace declaration by sequence of definition and body. Done if the
- * identifier is not used. */
+/*
+ * replace declaration by sequence of definition and body.
+ * Done if the identifier is not used.
+ */
 static void
 repbyseq(exp e)
 {
@@ -219,20 +210,20 @@ repbyseq(exp e)
 	return;
 }
 
-
-/************************************************************************
-   propagate looks right and upwards from plc through the tree, looking
-   for contents operations applied to the variable defined by vardec.
-   The assumption is that plc made an assignment to the variable defined
-   by vardec, and this scan looks forward from this point, marking any
-   contents operations on that variable for later modification to use the
-   value assigned. The variable is previously checked to make
-   sure there is no alias for it.
-   The scan terminates if ende is reached or when it is no longer safe
-   to propagate the value forward. 1 is delivered if ende was reached
-   while propagation was still safe, 0 otherwise.
- ************************************************************************/
-
+/*
+ * propagate looks right and upwards from plc through the tree, looking
+ * for contents operations applied to the variable defined by vardec.
+ *
+ * The assumption is that plc made an assignment to the variable defined
+ * by vardec, and this scan looks forward from this point, marking any
+ * contents operations on that variable for later modification to use the
+ * value assigned. The variable is previously checked to make sure there
+ * is no alias for it.
+ *
+ * The scan terminates if ende is reached or when it is no longer safe
+ * to propagate the value forward. 1 is delivered if ende was reached
+ * while propagation was still safe, 0 otherwise.
+ */
 static int
 propagate(exp vardec, exp ende, exp plc, int bfirst)
 {
@@ -366,13 +357,11 @@ rep:	if (name(p) == ass_tag || name(p) == assvol_tag) {
 ex:	return good;
 }
 
-
-/*******************************************************************
-   change_cont looks at all the cont uses of the variable defined by
-   vardec. If they have been marked by propagate or if force is 1,
-   the cont(var) is replaced by val.
- *******************************************************************/
-
+/*
+ * change_cont looks at all the cont uses of the variable defined by
+ * vardec. If they have been marked by propagate or if force is 1,
+ * the cont(var) is replaced by val.
+ */
 static exp
 change_shape(exp e, shape sha)
 {
@@ -425,11 +414,9 @@ change_cont(exp vardec, exp val, int force)
 	return ch;
 }
 
-
-/*********************************************************************
-   checks identity and variable declarations.
- *********************************************************************/
-
+/*
+ * checks identity and variable declarations.
+ */
 int
 refactor_id(exp e, exp scope)
 {
@@ -535,8 +522,10 @@ refactor_id(exp e, exp scope)
 	name(sh(def)) <= ulonghd) ||
 #endif
 
-       /* substitute the definitions of identity declarations into body
-	* if it seems cheaper to do so */
+	/*
+	 * Substitute the definitions of identity declarations into body
+	 * if it seems cheaper to do so.
+	 */
        (name(def) == reff_tag && name(son(def)) == cont_tag &&
 	name(son(son(def))) == name_tag && isvar(son(son(son(def)))) &&
 	!isglob(son(son(son(def)))) &&
@@ -598,8 +587,9 @@ refactor_id(exp e, exp scope)
   }
 
   if (!is_vis && !is_var && name(def) == reff_tag && al1(sh(def)) == 1) {
-    /* also substitute identity definitions which are references
-       to bitfields. */
+    /*
+	 * Also substitute identity definitions which are references to bitfields.
+	 */
     exp t = pt(e);
     int n = no(def);
     shape sha = sh(def);
@@ -679,8 +669,7 @@ refactor_id(exp e, exp scope)
     if (name(tb) == name_tag && son(tb) == e &&
 	son(bro(son(body))) == e && last(son(son(body))) &&
 	sh(tb) == sh(def) && sh(tb) == sh(bro(son(body)))) {
-      /*  e=id(def, seq(ass(tz, n(e)), n(e)) -> seq(ass(tz,
-       *  def), cont(tz)) */
+	/* e=id(def, seq(ass(tz, n(e)), n(e)) -> seq(ass(tz, def), cont(tz)) */
       exp ass = son(son(body));
       exp tz = son(ass);
       exp r, s, c;
@@ -698,18 +687,20 @@ refactor_id(exp e, exp scope)
     }
   }
 
-  /* look to see if we can replace variable definitions by identities.
-     This can be done if there are only contents operations and no
-     aliasing */
+	/*
+	 * Look to see if we can replace variable definitions by identities.
+	 * This can be done if there are only contents operations and no aliasing.
+	 */
   if (!is_vis && is_var) {
     /* variable declaration */
     int all_c = 1;	/* every use is a contents operation */
     int all_a = 1;	/* every use is an assignment operation */
     int not_aliased = 1;
     int ca = 0;		/* there is an assignment of a constant */
-    int vardecass = 0;	/* there is an assignment of a variable
-			   (not its contents) (lhvalue in C
-			   terms). */
+
+	/* there is an assignment of a variable (not its contents) (lhvalue in C terms). */
+	int vardecass = 0;
+
     exp assd_val;	/* the assigned value */
     int conversion = 0;
     int biggest_assigned_const = 0;
@@ -735,8 +726,7 @@ refactor_id(exp e, exp scope)
 	    (name(sh(bro(tc))) <shrealhd || name(sh(bro(tc))) >doublehd ||
 	     (name(sh(def)) >= shrealhd && name(sh(def)) <= doublehd))) {
 	  int qq = shape_size(sh(bro(tc)));
-	  /* contents op so not all
-	   * assignments */
+	  /* contents op so not all assignments */
 	  all_a = 0;
 
 	  if (name(father(bro(tc))) != test_tag) {
@@ -858,8 +848,10 @@ refactor_id(exp e, exp scope)
       }
 
       if (all_c) {
-	/* if only cont operations replace by an identity declaration and
-	 * change the uses accordingly */
+	/*
+	 * If only cont operations replace by an identity declaration and
+	 * change the uses accordingly.
+	 */
 	exp bh = hold(body);
 	int i, j;
 	setid(e);
@@ -941,8 +933,7 @@ refactor_id(exp e, exp scope)
 	  (name(sh(def)) < shrealhd || name(sh(def)) > doublehd) &&
 	  (ca || vardecass || name(def) == val_tag ||
 	   name(son(e)) == real_tag || name(def) == null_tag)) {
-	/* propagate constant assignment forward from the place where they
-	   occur */
+	/* propagate constant assignment forward from the place where they occur */
 	int  no_ass;
 	int chv;
 	if (name(def) == val_tag || name(son(e)) == real_tag ||
@@ -1084,9 +1075,11 @@ refactor_id(exp e, exp scope)
 #else
       if (all_a && !isparam(e) && diag == DIAG_NONE) {
 #endif
-	/* if only assignments replace them by evaluating the value assigned
-	 * and discarding it. replace the declaration by a sequence of
-	 * definition and body */
+	/*
+	 * If only assignments replace them by evaluating the value assigned
+	 * and discarding it. Replace the declaration by a sequence of
+	 * definition and body.
+	 */
 	tc = pt(e);
 
 	while (1) {

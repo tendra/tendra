@@ -8,11 +8,8 @@
  */
 
 /*
-  cross.c
-
-  This file contains code to allow 64 bit arithmetic to be handled 
-  portably.
-*/
+ * This file contains code to allow 64 bit arithmetic to be handled portably.
+ */
 
 #include <local/expmacs.h>
 
@@ -47,17 +44,14 @@ exp_to_INT64(exp e)
   }
 }
 
-
-
-
 #else /* BLDARCHBITS */
 
 /*
-  This function outputs a literal 64 bit int value to the 
-  assembler file.  If the value of the argument exceeds the integer
-  range of the machine it is output in hexadecimal representation;
-  otherwise it is output as a decimal.
-*/
+ * This function outputs a literal 64 bit int value to the assembler file.
+ * If the value of the argument exceeds the integer range of the machine
+ * it is output in hexadecimal representation; otherwise it is output
+ * as a decimal.
+ */
 void
 out_INT64(INT64 val)
 {
@@ -70,23 +64,23 @@ out_INT64(INT64 val)
   }
 }
 
-
-
 /*
-  The following functions implement the basic arithmetic 
-  operations for the INT64 type.  In each case the procedure 
-  is to convert the arguments into the internal floating point 
-  representation and then use the floating point arithmetic and 
-  conversion functions provided by the common installer code to 
-  calculate the result.  In the event of an error in evaluation 
-  the functions will each print an error message and execution 
-  will halt; otherwise the result will be returned as an INT64.
-  note: as the f64_to_flt function can change the base address 
-  of flptnos, all references to the flptnos array should be made 
-  _after_ this function has been called.
-*/
-
-/*******************************************************************/
+ * The following functions implement the basic arithmetic operations
+ * for the INT64 type.
+ *
+ * In each case the procedure is to convert the arguments into the internal
+ * floating point representation and then use the floating point arithmetic
+ * and conversion functions provided by the common installer code to
+ * calculate the result.
+ *
+ * In the event of an error in evaluation the functions will each print an error
+ * message and execution will halt; otherwise the result will be returned
+ * as an INT64.
+ *
+ * Note: As the f64_to_flt function can change the base address of flptnos,
+ * all references to the flptnos array should be made _after_ this function
+ * has been called.
+ */
 
 INT64
 INT64_mult(INT64 arg1, INT64 arg2, bool sgned)
@@ -200,18 +194,10 @@ INT64_decrement(INT64 arg)
   return INT64_subtract(arg,dec_64,1);
 }
 
-  
-
-/*******************************************************************/
-  
-
-
 /*
-   The following functions implement bitwise logical operations 
-   for the INT64 type.  
-*/
-
-/*******************************************************************/
+ * The following functions implement bitwise logical operations
+ * for the INT64 type.
+ */
 
 INT64
 INT64_or(INT64 arg1, INT64 arg2)
@@ -240,17 +226,10 @@ INT64_not(INT64 arg)
   return res;
 }
 
-
-/*******************************************************************/
-
-
-
 /*
-   The following functions implement left and right shift operations 
-   for the INT64 type.
-*/
-
-/*******************************************************************/
+ * The following functions implement left and right shift operations
+ * for the INT64 type.
+ */
 
 INT64
 INT64_shift_left(INT64 arg, int shift, int sgned)
@@ -284,17 +263,11 @@ INT64_shift_right(INT64 arg, int shift, int sgned)
   return INT64_divide(arg,divisor,sgned);
 }
 
-/*******************************************************************/
-  
-
-
-
 /*
-   The following functions implement the comparison operations 
-   >,>= and = for the INT64 type.
-*/
+ * The following functions implement the comparison operations
+ * >, >= and = for the INT64 type.
+ */
 
-/*******************************************************************/
 bool
 INT64_eq(INT64 arg1, INT64 arg2)
 {
@@ -305,9 +278,7 @@ INT64_eq(INT64 arg1, INT64 arg2)
 bool
 INT64_leq(INT64 arg1, INT64 arg2)
 {
-  /*
-     test arg1<arg2
-     */
+  /* test arg1<arg2 */
   return (high_INT64(arg1)<high_INT64(arg2))||
 	  ((high_INT64(arg1)==high_INT64(arg2))&&
 	   (low_INT64(arg1)<=low_INT64(arg2)));
@@ -321,14 +292,9 @@ INT64_lt(INT64 arg1, INT64 arg2)
 	   (low_INT64(arg1)<low_INT64(arg2)));
 }
 
-
-
-
-
-  
 /*
-   This function constructs an INT64 variable from two INT32
-*/
+ * This function constructs an INT64 variable from two INT32
+ */
 INT64
 make_INT64(INT32 big, UINT32 small)
 {

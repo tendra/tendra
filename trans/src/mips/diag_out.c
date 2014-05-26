@@ -7,16 +7,14 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/*****************************************************************
-
-Provides the routines for outputting diagnostic information, suitable for
-MIPS dbx.
-These diagnostics, in the absence of any documentation, have been
-produced in a suck-it-and-see mode, but they are vaguely based
-around the syms modules provided in the system library.
-
-
-********************************************************************/
+/*
+ * Provides the routines for outputting diagnostic information, suitable for
+ * MIPS dbx.
+ *
+ * These diagnostics, in the absence of any documentation, have been produced
+ * in a suck-it-and-see mode, but they are vaguely based around the syms
+ * modules provided in the system library.
+ */
 
 #include <stdio.h>
 #include <string.h>
@@ -170,21 +168,18 @@ diagbr_close(long findex)
   out_ent (symno, iendb, 0);
 }
 
-
+/*
+ * Output appropriate rubbish to symbol table to indicate the declaration
+ * of a local identifier, nm, defined by id, displaced by disp;
+ * findex is the index of the file containing the declaration.
+ *
+ * The text below gives o/p for identifiers allocated in registers; in fact,
+ * with current translator, none are used by stab_local. I don't even know
+ * whether the MIPS dbx can actually use them.
+ */
 void
 stab_local(char *nm, diag_type dt, exp ldid, long disp, long findex)
 {
-                            /* output appropriate rubbish to symbol
-                               table to indicate the declaration of a
-                               local identifier, nm, defined by id,
-                               displaced by disp; findex is the index
-                               of the file containing the declaration.
-                                The text below gives o/p for
-                               identifiers allocated in registers; in
-                               fact, with current translator, none are
-                               used by stab_local. I don't even know
-                               whether the MIPS dbx can actually use
-                               them. */
   long  fs = frame_size >> 3;
   exp id = son(ldid);
   short   sc;
@@ -291,13 +286,11 @@ output_end_scope(diag_info *d, exp e)
     }
 }
 
-/****************************************************************
-	The following procs are concerned with expressing TDF
-	types as dbx types.  The possible circularity of types and
-	the vagaries of the type representation contribute to their
-	complication.
-****************************************************************/
-
+/*
+ * The following procs are concerned with expressing TDF types as dbx types.
+ * The possible circularity of types and the vagaries of the type representation
+ * contribute to their complication.
+ */
 typedef struct {
   char *n;
   long  v;
@@ -308,9 +301,11 @@ typedef struct {
 static int  notsyms = 0;
 static int  nexttsym = 0;
 static  tsym * ats = (tsym *) 0;
- /* used to accumulate all the type reprs arising from shapes in the
-    program by calling addtsym .... */
 
+/*
+ * Used to accumulate all the type reprs arising from shapes in the program
+ * by calling addtsym ....
+ */
 void
 addtsym(char *n, long v, int st, int sc, diag_type s)
 {
@@ -335,9 +330,11 @@ typedef struct {
 static int  noshaux = 0;
 int   nextshaux = 0;
 shauxt * shaux = (shauxt *) 0;
- /* used to remember all the indexes into the auxilliary symbol table for
-    all the shapes in the program */
 
+/*
+ * Used to remember all the indexes into the auxilliary symbol table for
+ * all the shapes in the program
+ */
 bool
 eq_sutype(diag_type a, diag_type b)
 {
@@ -361,11 +358,12 @@ eq_sutype(diag_type a, diag_type b)
    return eq_shape(a->data.t_struct.tdf_shape, b->data.t_struct.tdf_shape);
 }
 
+/*
+ * Finds the index into the auxilliary table for type s
+ */
 long
 find_aux(diag_type s /* struct or union shape */ )
 {
-				/* finds the index into the auxilliary
-				   table for type s */
   int   i;
   for (i = 0; i < nextshaux; i++) {
     if (eq_sutype(s, shaux[i].sutype) )
@@ -374,11 +372,12 @@ find_aux(diag_type s /* struct or union shape */ )
   return - 1;
 }
 
+/*
+ * Remembers ind as index into aux table for shape s
+ */
 static void
 addaux(diag_type s, int ind)
 {
-				/* remembers ind as index into aux table
-				   for shape s */
           shauxt * x;
   if (nextshaux >= noshaux) {
     shaux =
@@ -426,11 +425,12 @@ OUTPUT_DIAG_TAGS(void)
   return;
 }
 
-
+/*
+ * Outputs symbol table info for all struct & union in program
+ */
 void
 stab_types(void)
-{		/* outputs symbol table info for all
-		   struct & union  in program */
+{
   int   i;
   int   firsts = get_sym_index (mainfile);
 

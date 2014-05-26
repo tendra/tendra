@@ -177,8 +177,9 @@ void update_plc
    }
 }
 
-
-/* ensure everywhere has a checknan() that needs one (cf. mips) */
+/*
+ * Ensure everywhere has a checknan() that needs one (cf. mips)
+ */
 void checknan
 (exp e, int fr)
 {
@@ -191,7 +192,9 @@ void checknan
 #endif
 }
 
-/* start of volatile use */
+/*
+ * Start of volatile use
+ */
 void setvolatile
 (void)
 {
@@ -207,7 +210,9 @@ void setnovolatile
     return;
 }
 
-/* unsigned branch table */
+/*
+ * Unsigned branch table
+ */
 static const char *(usbranch_tab[]) =
 {
    c_,  /* never branch (shouldn't be used) */
@@ -220,10 +225,11 @@ static const char *(usbranch_tab[]) =
 };
 
 
-
 #define usbranches(i)(usbranch_tab[i])
 
-/* signed branch table */
+/*
+ * Signed branch table
+ */
 const char *(sbranch_tab[]) =
 {
    c_,  /* never branch (shouldn't be used) */
@@ -270,8 +276,10 @@ int bitsin
    return n;
 }
 
-
-/* find the last test in sequence e which is a branch to second, if any, otherwise nil */
+/*
+ * Find the last test in sequence e which is a branch to second,
+ * if any, otherwise nil
+ */
 static exp testlast
 (exp e, exp second)
 {
@@ -312,7 +320,6 @@ static exp testlast
   return 0;
 }
 
-
 bool last_param
 (exp e)
 {
@@ -342,9 +349,9 @@ static int has_bitfield
   case compound_tag:
     {
 
-       /*
-       *   (compound_tag <offset> <initialiser> ... )
-	*/
+	/*
+	 * (compound_tag <offset> <initialiser> ... )
+	 */
       /* look at alignment of initialisers */
       e = bro(son(e));
       while (1)
@@ -366,8 +373,9 @@ static int has_bitfield
   /* NOTREACHED */
 }
 
-/* Convert all NON-bitfields from byte-offsets back to bit-offsets, so
- * the compound can be output correctly by eval().
+/*
+ * Convert all NON-bitfields from byte-offsets back to bit-offsets,
+ * so the compound can be output correctly by eval().
  * Permanently undoes the needscan.c:scan() case val_tag:.
  *
  * NB must do this EXACTLY ONCE.
@@ -398,8 +406,10 @@ static void fix_nonbitfield
 void restore_callees
 (void)
 {
-   /*    Puts back on the stack those callees, if any, which were kept in
-   **  registers  **/
+	/*
+	 * Puts back on the stack those callees, if any, which were kept in
+	 * registers.
+	 */
 
    exp bdy = son(crt_proc);
    while (name(bdy) ==dump_tag || name(bdy) ==diagnose_tag)
@@ -509,10 +519,12 @@ space do_callers
 	 code_here(par,sp,w);
 	 sp = guardfreg(frg.fr, sp);
 #if 1
-	 /*    This "#if" statement copies parameters passed in floating
-	 *   point registers to the corresponding fixed point registers. It
-	 *   is neccessary to ensure that possible varargs are correctly
-	 *   dumped on the stack.  */
+	/*
+	 * This "#if" statement copies parameters passed in floating
+	 * point registers to the corresponding fixed point registers.
+	 * It is neccessary to ensure that possible varargs are correctly
+	 * dumped on the stack.
+	 */
 	 fixpar = ARG0+ (off>>5) -9;
 	 if (hd == shrealhd)
 	 {
@@ -550,10 +562,11 @@ space do_callers
 #if 1
 	 if (valregable(sh(list)) && ap.ashsize<32)
 	 {
- 	     /*   Byte or 16bit scalar parameter - convert to integer.
-	    *   We must expand source to a full word to conform to HP PA
-	    *   conventions. We do this by loading into a reg.
-	     */
+		/*
+		 * Byte or 16bit scalar parameter - convert to integer.
+		 * We must expand source to a full word to conform to HP PA
+		 * conventions. We do this by loading into a reg.
+		 */
 	    int r = reg_operand(par,sp);
 	    st_ins(i_sw,r,is.b);
 	 }
@@ -565,8 +578,10 @@ space do_callers
 	    fixpar = ARG0+ ((-is.b.offset) >>2) -9;
 	    while (par_sz)
 	    {
-	       /*    Copy (parts of) compound paramater into vacant parameter
-	       *   registers.  */
+			/*
+			 * Copy (parts of) compound paramater into vacant parameter
+	         * registers.
+			 */
 	       if (fixpar<ARG3+1)
 	       {
 		  ld_ins(i_lw,0,is.b,fixpar);
@@ -625,7 +640,6 @@ void do_callee_list
    }
 }
 
-
 void load_reg
 (exp e, int r, space sp)
 {
@@ -634,7 +648,6 @@ void load_reg
    setregalt(w.answhere,r);
    code_here(e,sp,w);
 }
-
 
 /*
  * Produce code for expression e, putting its result in dest using t-regs
@@ -659,11 +672,10 @@ makeans make_code
   switch (name(e))
   {
 
-
-    /*
-     * Procedure related code selection is handled by make_XXX_tag_code()
-     * functions in proc.c.
-     */
+	/*
+	 * Procedure related code selection is handled by make_XXX_tag_code()
+	 * functions in proc.c.
+	 */
 
   case env_size_tag:
   {
@@ -724,8 +736,7 @@ makeans make_code
 	b.offset -= 4;
     	r = getreg(nsp.fixed);
     	load_reg(bro(son(cees)),r,nsp);
-	st_ins(i_sw,r,b);  /*     NB The sum of the callee sizes has been
-			   **  put on the stack.  **/
+	st_ins(i_sw,r,b);  /* NB The sum of the callee sizes has been put on the stack. */
      }
      else
      if (name(cees) == same_callees_tag)
@@ -739,7 +750,7 @@ makeans make_code
 	 st_ins(i_sw, r, mem_temp(0));
      }
 
-     /**  Move the callers to the correct place if neccessary.  **/
+     /* Move the callers to the correct place if neccessary. */
      bdy = son(crt_proc);
      while (name(bdy) == dump_tag || name(bdy) == diagnose_tag)
 	bdy = son(bdy);
@@ -757,8 +768,7 @@ makeans make_code
 #endif
 	if (pr == 0 && (props(bdy) &inanyreg)!= 0)
 	{
-	   /*    Parameter is passed on stack, but is kept in reg given by
-	   **  no(bdy).  **/
+	   /* Parameter is passed on stack, but is kept in reg given by no(bdy). */
 	   if (isvar(bdy))
 	   {
 	      baseoff b;
@@ -766,7 +776,7 @@ makeans make_code
 	      b.offset = - ((no(sbdy) +params_offset) >>3);
 	      if (is_floating(name(sh(sbdy))))
 	      {
-		 /**  Cannot occur whilst floats are kept on the stack.  **/
+		 /* Cannot occur whilst floats are kept on the stack. */
 	      }
 	      else
 	      {
@@ -777,7 +787,7 @@ makeans make_code
 	else
 	if (pr && (props(bdy) &inanyreg) == 0)
 	{
-	   /**  Parameter is passed in reg, but is kept on stack.  **/
+	   /* Parameter is passed in reg, but is kept on stack. */
 	   if (Has_no_vcallers)
 	   {
 	      baseoff stkpos;
@@ -794,8 +804,10 @@ makeans make_code
 		 ld_ins(i_lw, 1, stkpos, pr);
 		 if (sz > 32)
 		 {
-		    /*    Parameter must be a compound passed by value with
-		    **  sz<=64, load the second half into register.  **/
+			/*
+			 * Parameter must be a compound passed by value with sz<=64,
+			 * load the second half into register.
+			 */
 		    stkpos.offset+=4;
 		    ld_ins(i_lw, 1, stkpos, pr-1);
 		 }
@@ -805,11 +817,12 @@ makeans make_code
 	else
 	if (pr != 0 && props(sbdy)!= no(bdy))
 	{
-	   /*    Parameter is passed in a different register to that which
-	   **  it is kept in.  **/
+		/*
+		 * Parameter is passed in a different register to that which it is kept in.
+		 */
 	   if (is_floating(name(sh(sbdy))))
 	   {
-	      /**  Cannot occur whilst floats are kept on the stack.  **/
+	      /* Cannot occur whilst floats are kept on the stack. */
 	   }
 	   else
 	   {
@@ -845,7 +858,7 @@ makeans make_code
      }
      if (name(cees) == make_callee_list_tag)
      {
-       	/** Copy callees from top of stack. **/
+       	/* Copy callees from top of stack. */
 	int i;
 	baseoff b;
 	b.offset = - (frame_sz>>3);
@@ -856,7 +869,7 @@ makeans make_code
 	}
 	if (call_has_vcallees(cees))
 	{
-	   /**  Store the callee size.  **/
+	   /* Store the callee size. */
 	   ir_ins(i_ldi, fs_, empty_ltrl, no(cees) >> 3, GR1);
 	   st_ir_ins(i_stw, cmplt_, GR1, fs_, empty_ltrl, 64,                                       Has_fp ? FP : T4);
 	}
@@ -869,12 +882,12 @@ makeans make_code
        	   st_ins(i_sw, T3, b);
        	}
     	/*
-    	**	sp + 72 + 0  ->  sp -(frame size) + 72 + 0
-    	**	sp + 72 + 4  ->  sp -(frame size) + 72 + 4
-    	**	sp + 72 + 8  ->  sp -(frame size) + 72 + 8
-    	**                     ....
-    	**                     ....
-    	*/
+    	 *	sp + 72 + 0  ->  sp -(frame size) + 72 + 0
+    	 *	sp + 72 + 4  ->  sp -(frame size) + 72 + 4
+    	 *	sp + 72 + 8  ->  sp -(frame size) + 72 + 8
+    	 *                     ....
+    	 *                     ....
+    	 */
 	if (Has_fp)
 	{
 	   rr_ins(i_copy, FP, SP);
@@ -901,10 +914,10 @@ makeans make_code
 	b.base = SP;  b.offset = 68;
 
 	ld_ins(i_lw,0,b,T2);
-	/**  T2 = pointer to the bytes constituting the dynamic callees. **/
+	/* T2 = pointer to the bytes constituting the dynamic callees. */
 	b.offset-=4;
 	ld_ins(i_lw,0,b,T3);
-	/**  T3 = number of bytes constituting the dynamic callees.  **/
+	/* T3 = number of bytes constituting the dynamic callees. */
 
 	lb = new_label();
 	le = new_label();
@@ -930,8 +943,10 @@ makeans make_code
 	}
 	if (name(cees) == same_callees_tag && call_has_vcallees(cees)                    && !Has_vcallees)
 	{
-	      /*  We must store the sum of the callee sizes - it hasn't
-	      **  yet been done.  **/
+		/*
+		 * We must store the sum of the callee sizes - it hasn't
+		 * yet been done.
+		 */
 	      ir_ins(i_ldi, fs_, empty_ltrl, no(cees) >> 3, GR1);
 	      st_ir_ins(i_stw, cmplt_, GR1, fs_, empty_ltrl, 64, SP);
 	}
@@ -1262,7 +1277,7 @@ makeans make_code
 	   z_ins(i_nop);
 	}
 	/*
-	    Copy 72(FP),76(FP),...,68+callee_sz(FP) to 72(SP),76(FP),...,68+callee_sz(SP)
+	 * Copy 72(FP),76(FP),...,68+callee_sz(FP) to 72(SP),76(FP),...,68+callee_sz(SP)
 	 */
 	ld_ir_ins(i_ldo,cmplt_,fs_,empty_ltrl,72,FP,T3);
 	rrr_ins(i_add,c_,T4,T3,T4);
@@ -1286,8 +1301,10 @@ makeans make_code
 	   }
 	   if (csz<17)
 	   {
-	       /*  16 or fewer bytes to move - may as well move them word
-		   by word then finish off byte by byte.  */
+	       /*
+			* 16 or fewer bytes to move - may as well move them word
+		    * by word then finish off byte by byte.
+		    */
 	      int nw = csz& (~3);
 	      int o,base,off;
 	      if (SIMM14(co))
@@ -1358,9 +1375,10 @@ makeans make_code
        load_reg(bro(son(e)),szr,nsp);
        guardreg(szr,nsp);
        szr = reg_operand(bro(son(e)),nsp);
-       /*  lower = pointer to the bytes constituting the dynamic callees
-	   szr = number of bytes constituting the dynamic callees
-	*/
+		/*
+		 * lower = pointer to the bytes constituting the dynamic callees
+		 * szr = number of bytes constituting the dynamic callees
+		 */
        upper = getreg(nsp.fixed);
        lb = new_label();
        le = new_label();
@@ -1376,8 +1394,6 @@ makeans make_code
        return mka;
     }
 
-/*****************************************************************************/
-
   case ident_tag:
   {
      where placew;
@@ -1391,7 +1407,7 @@ makeans make_code
      }
      if (se == nilexp)
      {
-	/*  Historical - unused tags are now removed cleanly  */
+	/* Historical - unused tags are now removed cleanly */
 	placew = nowhere;
      }
      else
@@ -1412,7 +1428,7 @@ makeans make_code
 	   /* tag is to be found in a fixed pt reg */
 	   if (n == 0)
 	   {
- 	      /*  We need to allocate a fixed t-reg  */
+ 	      /* We need to allocate a fixed t-reg */
 	      int s = sp.fixed;
 	      if (props(e) & notparreg)
 	      {
@@ -1476,7 +1492,7 @@ makeans make_code
 	   long n = no(se);  /* bit disp of param */
 	   if (name(son(e))!= formal_callee_tag)
 	   {
-	      /**  A caller parameter kept on the stack.  **/
+	      /* A caller parameter kept on the stack. */
     	      is.adval = 1;
 	      is.b.base = GR17;
 	      is.b.offset = - ((n+params_offset) >>3);
@@ -1487,7 +1503,7 @@ makeans make_code
 				     (isvis(e) && props(se)!=0))) ||
 		   a.ashsize==0)
 	      {
- 	         /*  possible varargs, dump remaining param regs on stack */
+ 	         /* possible varargs, dump remaining param regs on stack */
 		 int i = n >> 5; /* next offset */
 		 int off =- (params_offset>>3) - (i<<2);
 		 i--;
@@ -1626,7 +1642,7 @@ makeans make_code
 
       if (remember && r != NOREG && pt(e)!= nilexp && eq_sze(sh(son(e)), sh(pt(e))))
       {
- 	 /*  Temporarily in a register, track it to optimise future access  */
+ 	 /* Temporarily in a register, track it to optimise future access */
  	 if (isvar(e))
 	 {
 	    keepcont(pt(e), r);
@@ -1641,9 +1657,6 @@ makeans make_code
       mka = make_code(bro(son(e)), guard(placew, sp), dest, exitlab);
       return mka;
   }
-  /* ENDS ident_tag */
-
-/*****************************************************************************/
 
   case seq_tag:
   {
@@ -1666,9 +1679,6 @@ makeans make_code
 	t = bro(t);
      }
   }
-  /*  ENDS seq_tag  */
-
-/*****************************************************************************/
 
   case cond_tag:
   {
@@ -1809,9 +1819,6 @@ makeans make_code
 	return mka;
      }
   }
-  /*  ENDS cond_tag  */
-
-/*****************************************************************************/
 
   case labst_tag:
   {
@@ -1840,9 +1847,6 @@ makeans make_code
      }
      return make_code(bro(son(e)), sp, dest, exitlab);
   }
-  /*  ENDS labst_tag  */
-
-/*****************************************************************************/
 
   case rep_tag:
   {
@@ -1856,9 +1860,6 @@ makeans make_code
      -- repeat_level;
      return mka;
   }
-  /*  ENDS rep_tag  */
-
-/*****************************************************************************/
 
   case goto_lv_tag:
   {
@@ -1868,9 +1869,6 @@ makeans make_code
      clear_all();
      return mka;
   }
-  /*  ENDS goto_lv_tag  */
-
-/*****************************************************************************/
 
   case goto_tag:
   {
@@ -1883,18 +1881,12 @@ makeans make_code
      }
      return mka;
   }
-  /*  ENDS goto_tag  */
-
-/*****************************************************************************/
 
   case absbool_tag:
   {
      fail("make_code: absbool_tag not used on HPPA");
      /* NOTREACHED */
   }
-  /*  ENDS absbool_tag  */
-
-/*****************************************************************************/
 
   case test_tag:
   {
@@ -1965,9 +1957,11 @@ makeans make_code
 	unsgn = (bool)(!is_signed(shl) && name(shl)!=ptrhd);
 	branch = unsgn ? usbranches(n): sbranches(n);
 
-	/* Generally, anding with an immediate requires 2 instructions. But,
-	   if the and is only being compared to 0, we may be able to get by
-	   with one instruction */
+	/*
+	 * Generally, anding with an immediate requires 2 instructions.
+	 * But, if the and is only being compared to 0, we may be able to get by
+	 * with one instruction.
+	 */
 	if (name(l) == and_tag && name(r) ==val_tag && no(r) ==0 &&
 	   (branch == c_eq || branch == c_neq) && !(unsgn && (n==2 || n==3)))
 	{
@@ -2063,9 +2057,6 @@ makeans make_code
 	return mka;
      }
   }
-  /*  ENDS test_tag  */
-
-/*****************************************************************************/
 
   case ass_tag:
   case assvol_tag:
@@ -2175,9 +2166,11 @@ makeans make_code
 	instore is;
 	is = insalt(assdest.answhere);
 	if (!is.adval)
-	{			/* this is an indirect assignment, so make it
-				 * direct by loading pointer into reg  (and
-				 * remember it) */
+	{
+	/*
+	 * This is an indirect assignment, so make it direct by
+	 * loading pointer into reg  (and remember it)
+	 */
 	   int r = getreg(nsp.fixed);
 	   ld_ins(i_lw,1,is.b,r);
 	   nsp = guardreg(r, nsp);
@@ -2298,10 +2291,6 @@ makeans make_code
 	setnovolatile();
      return mka;
   }
-  /*  ENDS ass_tag and
-	   assvol_tag  */
-
-/*****************************************************************************/
 
   case compound_tag:
   {
@@ -2310,8 +2299,8 @@ makeans make_code
      instore str;
      int r;
 
-      /*  Initialse bitfield by constructing an appropriate constant. */
-     /* Other compounds are initialised from register values below   */
+      /* Initialse bitfield by constructing an appropriate constant. */
+     /* Other compounds are initialised from register values below */
      if (has_bitfield(e))
      {
 	instore isa;
@@ -2422,9 +2411,6 @@ makeans make_code
     }
 
   }
-  /*  ENDS compound_tag  */
-
-/*****************************************************************************/
 
   case nof_tag:
   case concatnof_tag:
@@ -2496,10 +2482,6 @@ makeans make_code
 	 failer("No Tuples in freg");
     }
   }
-  /*  ENDS nof_tag and
-	   concatnof_tag  */
-
-/*****************************************************************************/
 
   case ncopies_tag:
   {
@@ -2564,9 +2546,6 @@ makeans make_code
 	  failer("No Tuples in freg");
      }
    }
-   /*  ENDS ncopies_tag  */
-
-/*****************************************************************************/
 
     case diagnose_tag:
     {
@@ -2577,9 +2556,6 @@ makeans make_code
        stab_end(d,e);
        return mka;
     }
-    /*  ENDS diagnose_tag  */
-
-/*****************************************************************************/
 
   case solve_tag:
   {
@@ -2632,9 +2608,6 @@ makeans make_code
 	m = bro(m);
      }
   }
-  /*  ENDS solve_tag  */
-
-/*****************************************************************************/
 
   case case_tag:
   {
@@ -2670,10 +2643,10 @@ makeans make_code
 	}
 	zt = bro(zt);
      }
-     /*
-     *    Now l is lowest controlling value, u is highest, and n is number of
-      *   cases
-       */
+	/*
+	 * Now l is lowest controlling value, u is highest, and n is number of
+	 * cases
+	 */
      if (u - l < 0)
 	approx_range = 0x7fffffff;  /* u-l overflowed into -ve, use huge */
      else
@@ -2806,9 +2779,9 @@ makeans make_code
      }
      else
      {
-	/*
-	*    Use branches - tests are already ordered
-	 */
+		/*
+		 * Use branches - tests are already ordered
+		 */
 	int over = 0;
 	mm lims;
 	lims = maxmin(sh(son(e)));
@@ -2930,9 +2903,6 @@ makeans make_code
 	}
      }
   }
-  /*  ENDS case_tag  */
-
-/*****************************************************************************/
 
   case offset_add_tag:
   case plus_tag:
@@ -2973,9 +2943,6 @@ makeans make_code
      }
      return mka;
   }
-  /*  ENDS offset_add_tag and plus_tag  */
-
-/*****************************************************************************/
 
   case offset_pad_tag:
   {
@@ -2996,7 +2963,7 @@ makeans make_code
 	   logical_op(i_and,-al,o,r);
 	if (al2(sh(son(e))) ==1)
 	{
-	   /*   Operand is bit-offset, byte-offset required.   */
+	   /* Operand is bit-offset, byte-offset required. */
 	   riir_ins(i_extrs,c_,r,28,29,r);
 	}
      }
@@ -3004,7 +2971,7 @@ makeans make_code
      {
 	if (al2(sh(e))!=1 || al2(sh(son(e))) ==1)
 	{
-	   /*   Already aligned correctly, whether as bit or byte-offset.   */
+	   /* Already aligned correctly, whether as bit or byte-offset. */
 	   e = son(e);
 	   goto tailrecurse;
 	}
@@ -3017,9 +2984,6 @@ makeans make_code
      mka.regmove = move(aa,dest,nsp.fixed,0);
      return mka;
   }
-  /*  ENDS offset_pad_tag  */
-
-/*****************************************************************************/
 
   case locptr_tag:
   {
@@ -3035,14 +2999,11 @@ makeans make_code
      mka.regmove = move(aa,dest,nsp.fixed,0);
      return mka;
   }
-  /*  ENDS locptr_tag  */
-
-/*****************************************************************************/
 
   case chvar_tag:
   {
       /*
-       *   Change integer variety.
+       * Change integer variety.
        */
       exp arg = son(e); 		/* source of chvar, adjusted below */
       int size_e = shape_size(sh(e));  /* shape of result */
@@ -3051,9 +3012,9 @@ makeans make_code
       int sreg,dreg;
       bool inmem_dest;
       space nsp;
-       /*
-       *   For a series of chvar_tags, do large to small in one go.
-      */
+      /*
+       * For a series of chvar_tags, do large to small in one go.
+       */
       while (name(arg) == chvar_tag && shape_size(sh(arg)) >= size_e)
       {
   	 arg = son(arg);
@@ -3099,7 +3060,7 @@ makeans make_code
       }
 #endif
       /*
-       *   Small to large conversions.
+       * Small to large conversions.
        */
       if (from == to || (to == uwordhd && from == ucharhd) ||
 	  (to == ulonghd && (from == ucharhd || from == uwordhd)) ||
@@ -3326,9 +3287,6 @@ makeans make_code
       }
       return mka;
    }
-   /*  ENDS chvar_tag  */
-
-/*****************************************************************************/
 
   case minus_tag:
   case offset_subtract_tag:
@@ -3370,10 +3328,6 @@ makeans make_code
      }
      return mka;
   }
-  /*  ENDS minus_tag and
-	   offset_subtract_tag  */
-
-/*****************************************************************************/
 
   case mult_tag:
   case offset_mult_tag:
@@ -3454,10 +3408,6 @@ makeans make_code
 	return mka;
      }
   }
-  /*  ENDS mult_tag and
-	   offset_mult_tag  */
-
-/*****************************************************************************/
 
   case div0_tag:
   case div1_tag:
@@ -3469,13 +3419,6 @@ makeans make_code
      mka.regmove = do_div_op(e,sp,dest,sgned);
      return mka;
   }
-  /*  ENDS div0_tag,
-	   div1_tag,
-	   div2_tag,
-	   offset_div_by_int_tag and
-	   offset_div_tag  */
-
-/*****************************************************************************/
 
   case rem0_tag:
   case mod_tag: /* i.e. rem1_tag */
@@ -3485,11 +3428,6 @@ makeans make_code
      mka.regmove = do_rem_op(e, sp, dest, sgned);
      return mka;
   }
-  /*  ENDS rem0_tag,
-	   mod_tag and
-	   rem2_tag  */
-
-/*****************************************************************************/
 
   case abs_tag:
   {
@@ -3555,9 +3493,6 @@ makeans make_code
      mka.regmove = move(a, dest, nsp.fixed, 0);
      return mka;
   }
-  /*  ENDS abs_tag  */
-
-/*****************************************************************************/
 
   case max_tag:
   case min_tag:
@@ -3600,11 +3535,6 @@ makeans make_code
      mka.regmove = move(aa, dest, sp.fixed, 1);
      return mka;
   }
-  /*  ENDS max_tag,
-	   min_tag and
-	   offset_max_tag  */
-
-/*****************************************************************************/
 
   case make_lv_tag:
   {
@@ -3640,7 +3570,6 @@ makeans make_code
      return mka;
   }
 
-
   case long_jump_tag:
   {
      int envr = reg_operand(son(e),sp);
@@ -3650,14 +3579,11 @@ makeans make_code
      return mka;
   }
 
-
   case offset_negate_tag:
   {
      mka.regmove=monop(e,sp,dest,i_subi);
      return mka;
   }
-  /*  ENDS offset_negate_tag  */
-
 
   case neg_tag:
   {
@@ -3694,8 +3620,6 @@ makeans make_code
      }
      return mka;
   }
-  /* end neg_tag */
-
 
   case shl_tag:
   case shr_tag:
@@ -3985,7 +3909,7 @@ makeans make_code
       from_sgned = is_signed(sh(in));
 
       /*
-       *   error_jump would be superfluous.
+       * error_jump would be superfluous.
        */
 
       if (use_long_double && name(sh(e)) ==doublehd)
@@ -4002,8 +3926,8 @@ makeans make_code
       {
 
 	/*
-	 * Unsigned 32 bit to float. No single HPPA instruction to handle
-	 * this. We handle it thus:  stw r,mem_temp(0), fldws memtemp(0) fR,
+	 * Unsigned 32 bit to float. No single HPPA instruction to handle this.
+	 * We handle it thus: stw r,mem_temp(0), fldws memtemp(0) fR,
 	 * fcpy,sgl 0,f, fcnvxf,dbl,(sgl or dbl) f,(fL or f).
 	 */
 
@@ -4422,8 +4346,6 @@ makeans make_code
       return mka;
     }				/* end cont */
 
-
-
   case string_tag:
   case real_tag:
   {
@@ -4533,7 +4455,6 @@ null_tag_case:
       return mka;
     }
 
-
   case last_local_tag:
   {
      int r = GETREG(dest,sp);
@@ -4547,8 +4468,6 @@ null_tag_case:
      mka.regmove = move(aa,dest,sp.fixed,1);
      return mka;
   }
-  /*  ENDS last_local_tag  */
-
 
   case local_free_tag:
   {
@@ -4566,8 +4485,6 @@ null_tag_case:
 	reset_tos();
      return mka;
   }
-  /*  ENDS local_free  */
-
 
   case local_free_all_tag:
   {
@@ -4595,7 +4512,6 @@ null_tag_case:
      constval = frame_offset(son(e));
      goto moveconst;
   }
-
 
   case set_stack_limit_tag:
   {
@@ -4645,7 +4561,7 @@ null_tag_case:
   case round_tag:
   {
       /*
-      *   Floating point variety to integer variety conversion.
+       * Floating point variety to integer variety conversion.
        */
      int r = GETREG(dest,sp);
      freg f1,f2;
@@ -4664,7 +4580,7 @@ null_tag_case:
      if (!optop(e))
 	trap = trap_label(e);
       /*
-      *   rm = 0 = nearest, rm = 1 = smaller, rm = 2 = larger, rm = 3 = to zero
+       * rm = 0 = nearest, rm = 1 = smaller, rm = 2 = larger, rm = 3 = to zero
        */
      if (r==0 && !optop(e))
      {
@@ -4675,10 +4591,11 @@ null_tag_case:
      s = shape_size(sh(son(e)));
      if (name(sh(son(e))) ==doublehd && use_long_double)
      {
-	if ( rm==3 && errhandle(e)<2 )  /* can't risk calling
-				        *  "_U_Qfcnvfxt_dbl_to_sgl" if
-				        *  error_treatment is continue
-				         */
+	if ( rm==3 && errhandle(e)<2 )
+	/*
+	 * Can't risk calling "_U_Qfcnvfxt_dbl_to_sgl"
+	 * if error_treatment is continue
+	 */
 	{
      	   quad_op(e, nsp, dest);
 	   if (nm == ucharhd && !inmem)
@@ -4700,10 +4617,10 @@ null_tag_case:
 	}
 	else
 	{
-	   /*  Convert to double putting result in %fr4  */
+	   /* Convert to double putting result in %fr4 */
       	   quad_op(e, nsp, dest);
 	   f1.fr = 4;
-	   /* and treat as a double..  */
+	   /* and treat as a double.. */
 	}
      }
      else
@@ -4756,8 +4673,8 @@ null_tag_case:
 	if (rm > 0)
 	{
 	   /*
-	   *   Reset rounding mode to rm = nearest (without corrupting
-	   *   the exception register data)
+	    * Reset rounding mode to rm = nearest (without corrupting
+	    * the exception register data)
 	    */
 	   iiir_ins(i_zdepi,c_,0,22,2,r);
 	   b.offset = 4;
@@ -4806,8 +4723,8 @@ null_tag_case:
 	else
 	{
 	   /*
-	   *   If the unimplemented flag in the exception
-	   *   register was set, then jump to trap.
+	    * If the unimplemented flag in the exception
+	    * register was set, then jump to trap.
 	    */
 	   ld_ins(i_lw,0,b,r);
 	   imm_to_r(64,GR1);
@@ -4823,7 +4740,7 @@ null_tag_case:
      else
      {
 	stf_ins(i_fstw,(f2.fr*3) +2,b);
-	/*   Load and shorten to type if needed.   */
+	/* Load and shorten to type if needed. */
 	if (nm == ucharhd)
 	{
 	   b.offset += 3;
@@ -4989,7 +4906,7 @@ null_tag_case:
 	   n+=4;
 	}
 	/*
-	*   Adjust n to be multiple of 64 so stack stays 64 byte aligned
+	 * Adjust n to be multiple of 64 so stack stays 64 byte aligned
 	 */
 	n = (n+63) & ~(63);
 	if (n != 0)
@@ -5100,7 +5017,7 @@ null_tag_case:
 	alt = new_label();
 	cj_ins(c_l,sr,dr,alt);
      }
-     /*  No overlap or dr<sr  */
+     /* No overlap or dr<sr */
      lab = new_label();
      if (0 && name(szarg) ==val_tag)
      {
@@ -5190,7 +5107,8 @@ null_tag_case:
 }				/* end make_code */
 
 
-/* commented out return_to_label_tag and make_stack_limit_tag for puposes
-of debugging until proper 4.0 libraries are built. */
-
+/*
+ * commented out return_to_label_tag and make_stack_limit_tag for puposes
+ * of debugging until proper 4.0 libraries are built.
+ */
 

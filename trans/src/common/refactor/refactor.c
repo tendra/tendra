@@ -7,25 +7,22 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/*********************************************************************
-
-  The routine refactor performs the bottom-up TDF-to-TDF optimising
-  transformations. When a new exp is created refactor is applied to
-  see if a recognised situation has arisen. refactor assumes that
-  all components of this new exp have already had refactor applied to them.
-  It returns 1 if it has made a change, 0 if not.
-
-
-  hold_refactor holds an exp as the son of a dummy exp and then
-  applies refactor. the need for this operation is explained in
-  the overall documentation.
-
-  eq_exp compares two exp for equality of effect.
-
-  dochvar takes the int, i, and delivers the number which results from
-  changing its variety to that specified by the shape, t.
-
- *********************************************************************/
+/*
+ * The routine refactor performs the bottom-up TDF-to-TDF optimising
+ * transformations. When a new exp is created refactor is applied to see
+ * if a recognised situation has arisen. refactor assumes that all components
+ * of this new exp have already had refactor applied to them.
+ * It returns 1 if it has made a change, 0 if not.
+ *
+ * hold_refactor holds an exp as the son of a dummy exp and then
+ * applies refactor. The need for this operation is explained in the
+ * overall documentation.
+ *
+ * eq_exp compares two exp for equality of effect.
+ *
+ * dochvar takes the int, i, and delivers the number which results from
+ * changing its variety to that specified by the shape, t.
+ */
 
 #include <stdlib.h>
 
@@ -71,13 +68,9 @@
 
 extern shape containedshape(int, int);
 
-/* MACROS */
-
 /* codes for error treaments */
 #define impossible 1
 #define ignore 2
-
-/* IDENTITIES */
 
 static int masks[33] = {
 	0,
@@ -99,14 +92,10 @@ ntest exchange_ntest[] = {0, 3, 4, 1, 2, 5, 6, 9, 10, 7, 8, 11, 12, 13, 14};
 static char maxdigs[] = "4294967296";
 #endif
 
-/* PROCEDURES */
-
-/***********************************************************************
-
-  hold_refactor holds an exp as the son of a dummy exp and then
-  applies refactor. After refactoring it retcells the dummy exp.
-
- ***********************************************************************/
+/*
+ * hold_refactor holds an exp as the son of a dummy exp and then
+ * applies refactor. After refactoring it retcells the dummy exp.
+ */
 /* puts body on a hold */
 exp
 hold(exp body)
@@ -178,15 +167,13 @@ flpt_power_of_2(flpt f)
 	return 1;
 }
 
-
-/***********************************************************************
-   eq_explist compares two descendant lists of exp for equality.
-   The given values, their bro's, bro(bro)'s etc are compared until
-   an unequal pair is found or the end of one of the lists (last) is
-   found. In this case the lists are equal iff both ends have been
-   reached.
- ***********************************************************************/
-
+/*
+ * eq_explist compares two descendant lists of exp for equality.
+ *
+ * The given values, their bro's, bro(bro)'s etc are compared until an
+ * unequal pair is found or the end of one of the lists (last) is found.
+ * In this case the lists are equal iff both ends have been reached.
+ */
 static int
 eq_explist(exp al, exp bl)
 {
@@ -208,14 +195,13 @@ eq_explist(exp al, exp bl)
 	return eq_explist(bro(al), bro(bl));
 }
 
-
-/***********************************************************************
-    eq_exp compares two exp for equality of effect. If the name of either
-    exp is in the side-effecting group (!is_a) the exp are not equal.
-    This is a crude test, but if it says the exps are equal this is so.
-    contvol is forbidden.
- ***********************************************************************/
-
+/*
+ * eq_exp compares two exp for equality of effect. If the name of either
+ * exp is in the side-effecting group (!is_a) the exp are not equal.
+ *
+ * This is a crude test, but if it says the exps are equal this is so.
+ * contvol is forbidden.
+ */
 int
 eq_exp(exp a, exp b)
 {
@@ -251,11 +237,9 @@ eq_exp(exp a, exp b)
 	return 0;
 }
 
-
-/**********************************************************************
-   repbycont replaces e by the exp which loads top, ie. does nothing.
- **********************************************************************/
-
+/*
+ * repbycont replaces e by the exp which loads top, ie. does nothing.
+ */
 static void
 repbycont(exp e, bool has_label, exp scope)
 {
@@ -275,11 +259,9 @@ repbycont(exp e, bool has_label, exp scope)
 	}
 }
 
-
-/**********************************************************************
-   repbygo replaces e by a goto the label.
- **********************************************************************/
-
+/*
+ * repbygo replaces e by a goto the label.
+ */
 static void
 repbygo(exp e, exp lab, exp scope)
 {
@@ -297,11 +279,10 @@ repbygo(exp e, exp lab, exp scope)
 	}
 }
 
-
-/**********************************************************************
-   nos tests the exp t to see if it is a construction that can be
-   eliminated from a sequence.  It is ignorable or has no side effect.
- **********************************************************************/
+/*
+ * nos tests the exp t to see if it is a construction that can be
+ * eliminated from a sequence. It is ignorable or has no side effect.
+ */
 static int nos(exp t);
 
 static int
@@ -334,15 +315,15 @@ nos(exp t)
 				       nos(son(t)) && nos(bro(son(t)))));
 }
 
-
-/**********************************************************************
-   refactor_seq carries out transformations on sequences.
-   Statements with no effect are removed.
-   Anything after an unconditional goto, or any other statement
-   producing a bottom shape, is removed.
-
-   No changes are propagated outside the exp "scope".
- **********************************************************************/
+/*
+ * refactor_seq carries out transformations on sequences.
+ * Statements with no effect are removed.
+ *
+ * Anything after an unconditional goto, or any other statement
+ * producing a bottom shape, is removed.
+ *
+ * No changes are propagated outside the exp "scope".
+ */
 static int maxes[] = {0, 0, 0, 127, 255, 32767, 65535, (int)0x7fffffff,
 	(int)0xffffffff};
 static int mins[] = {0, 0, 0, -128, 0, -32768, 0, (int)0xffffffff, 0};
@@ -669,34 +650,31 @@ refactor_seq(exp e, exp scope)
 }
 
 
-/**********************************************************************
-
-   comm_ass applies the commutative and associative laws to replace e
-   by an improved version. op_tag is the operation involved. If
-   the errtreat is not ignore or impossible, no change is made. C
-   programs will always use ignore or impossible.
-
-   All the arguments of sub-operations with the same op_tag (they will
-   anyway have the same shape) are flattened into one argument list,
-   provided that dive is 1.
-
-   All the constants are combined into one, which is placed as the last
-   constant. The parameter "one" is the unit for the given operation
-   (0 for + , 1 for * , allones for and, 0 for or, 0 for xor) and this
-   constant is eliminated. If the operation has a zero, "has_zero" is
-   set and "zero" is the constant (0 for * , 0 for and, allones for or).
-
-   No changes are propagated outside the exp "scope".
-
-   If isreal is 1 the operation has real arguments and results, otherwise
-   integer.
-
-   fn(a, b) is applicable to exps defining constants of the correct type
-   (integer or real) and delivers an exp defining a constant which is
-   the result of the op_tag applied to these constants.
-
-
- **********************************************************************/
+/*
+ * comm_ass applies the commutative and associative laws to replace e
+ * by an improved version. op_tag is the operation involved.
+ * If the errtreat is not ignore or impossible, no change is made.
+ * C programs will always use ignore or impossible.
+ *
+ * All the arguments of sub-operations with the same op_tag (they will
+ * anyway have the same shape) are flattened into one argument list,
+ * provided that dive is 1.
+ *
+ * All the constants are combined into one, which is placed as the last
+ * constant. The parameter "one" is the unit for the given operation
+ * (0 for + , 1 for * , allones for and, 0 for or, 0 for xor) and this
+ * constant is eliminated. If the operation has a zero, "has_zero" is
+ * set and "zero" is the constant (0 for * , 0 for and, allones for or).
+ *
+ * No changes are propagated outside the exp "scope".
+ *
+ * If isreal is 1 the operation has real arguments and results, otherwise
+ * integer.
+ *
+ * fn(a, b) is applicable to exps defining constants of the correct type
+ * (integer or real) and delivers an exp defining a constant which is
+ * the result of the op_tag applied to these constants.
+ */
 static int f_one(flpt f);
 static int seq_distr(exp e, exp scope);
 
@@ -795,8 +773,10 @@ comm_ass(exp e, unsigned char op_tag, void (*fn)(exp, exp, int), int one,
 		if (has_zero &&
 		    ((!isreal && no(cst) == zero && !isbigval(cst)) ||
 		     (isreal && flptnos[no(cst)].sign == 0))) {
-			/* zero constant. Replace by a sequence of expressions
-			 * delivering the zero, so as to keep side effects */
+			/*
+			 * Zero constant. Replace by a sequence of expressions
+			 * delivering the zero, so as to keep side effects.
+			 */
 			exp r;
 			setname(q, 0);		/* use q a seq holder */
 			son(q) = bro(q);
@@ -873,10 +853,10 @@ comm_ass(exp e, unsigned char op_tag, void (*fn)(exp, exp, int), int one,
 	return 0;	/* return from here if no change made */
 }
 
-
-/* dochvar takes the int, i, and delivers the number which results from
- * changing its variety to that specified by the shape, t. */
-
+/*
+ * dochvar takes the int, i, and delivers the number which results
+ * from changing its variety to that specified by the shape, t.
+ */
 int
 dochvar(int i, shape t)
 {
@@ -973,8 +953,9 @@ check_size(flt64 a, int sg, int sz)
 }
 
 
-/* used as a fn parameter for comm_ass q.v. */
-
+/*
+ * Used as a fn parameter for comm_ass q.v.
+ */
 static void
 fplus_fn(exp ap, exp b, int et)
 {
@@ -997,9 +978,9 @@ fplus_fn(exp ap, exp b, int et)
 	return;
 }
 
-
-/* used as a fn parameter for comm_ass q.v. */
-
+/*
+ * Used as a fn parameter for comm_ass q.v.
+ */
 static void
 fmult_fn(exp ap, exp b, int et)
 {
@@ -1022,9 +1003,7 @@ fmult_fn(exp ap, exp b, int et)
 	return;
 }
 
-
-/* auxiliary function used for comm_ass by plus */
-
+/* Auxiliary function used for comm_ass by plus. */
 static void
 plus_fn(exp ap, exp b, int et)
 {
@@ -1061,9 +1040,9 @@ plus_fn(exp ap, exp b, int et)
 	return;
 }
 
-
-/* subtract constant from constant */
-
+/*
+ * Subtract constant from constant.
+ */
 static void
 minus_fn(exp ap, exp b, int et)
 {
@@ -1101,9 +1080,9 @@ minus_fn(exp ap, exp b, int et)
 	return;
 }
 
-
-/* negate a constant exp, b, producing int */
-
+/*
+ * Negate a constant exp, b, producing int.
+ */
 static void
 neg_fn(exp b)
 {
@@ -1119,9 +1098,9 @@ neg_fn(exp b)
 	return;
 }
 
-
-/* negate a constant exp, b, producing int */
-
+/*
+ * Negate a constant exp, b, producing int.
+ */
 static void
 not_fn(exp b)
 {
@@ -1133,9 +1112,7 @@ not_fn(exp b)
 	return;
 }
 
-
-/* auxiliary function used for comm_ass by mult */
-
+/* Auxiliary function used for comm_ass by mult. */
 static void
 mult_fn(exp ap, exp b, int et)
 {
@@ -1172,9 +1149,7 @@ mult_fn(exp ap, exp b, int et)
 	return;
 }
 
-
-/* auxiliary function used for comm_ass by and */
-
+/* Auxiliary function used for comm_ass by and */
 static void
 and_fn(exp ap, exp b, int et)
 {
@@ -1188,9 +1163,7 @@ and_fn(exp ap, exp b, int et)
 	return;
 }
 
-
-/* auxiliary function used for comm_ass by or */
-
+/* Auxiliary function used for comm_ass by or */
 static void
 or_fn(exp ap, exp b, int et)
 {
@@ -1204,9 +1177,7 @@ or_fn(exp ap, exp b, int et)
 	return;
 }
 
-
-/* auxiliary function used for comm_ass by xor */
-
+/* Auxiliary function used for comm_ass by xor */
 static void
 xor_fn(exp ap, exp b, int et)
 {
@@ -1220,9 +1191,9 @@ xor_fn(exp ap, exp b, int et)
 	return;
 }
 
-
-/* not used for comm_ass */
-
+/*
+ * Not used for comm_ass
+ */
 static void
 domaxmin(exp ap, exp b, int mx)
 {
@@ -1268,9 +1239,9 @@ domaxmin(exp ap, exp b, int mx)
 	return;
 }
 
-
-/* produce allones for integer length of shape of e. */
-
+/*
+ * Produce allones for integer length of shape of e.
+ */
 static int
 all_ones(exp e)
 {
@@ -1281,9 +1252,9 @@ all_ones(exp e)
 	}
 }
 
-
-/* obey div1 on constants */
-
+/*
+ * Obey div1 on constants
+ */
 static void
 dodiv1(exp ap, exp b)
 {
@@ -1308,9 +1279,9 @@ dodiv1(exp ap, exp b)
 	return;
 }
 
-
-/* obey div2 on constants */
-
+/*
+ * Obey div2 on constants
+ */
 static void
 dodiv2(exp ap, exp b)
 {
@@ -1337,9 +1308,9 @@ dodiv2(exp ap, exp b)
 	return;
 }
 
-
-/* obey mod on constants */
-
+/*
+ * Obey mod on constants
+ */
 static void
 domod(exp ap, exp b)
 {
@@ -1352,9 +1323,9 @@ domod(exp ap, exp b)
 	return;
 }
 
-
-/* obey rem2 on constants */
-
+/*
+ * Obey rem2 on constants
+ */
 static void
 dorem2(exp ap, exp b)
 {
@@ -1367,9 +1338,9 @@ dorem2(exp ap, exp b)
 	return;
 }
 
-
-/* obey shift (places signed) on constants */
-
+/*
+ * Obey shift (places signed) on constants
+ */
 static void
 doshl(exp e)
 {
@@ -1439,15 +1410,17 @@ doshl(exp e)
 	return;
 }
 
-
- /* included if target has a setcc operation, to set a bit from the
-    condition flags */
-
+/*
+ * Included if target has a setcc operation, to set a bit from the
+ * condition flags.
+ */
 static exp
 absbool(exp id)
 {
-	/* check if e is (let a = 0 in cond(test(L) = result; a = 1 | L:top); a)
-	   If so, return the test, otherwise nilexp. */
+	/*
+     * Check if e is (let a = 0 in cond(test(L) = result; a = 1 | L:top); a)
+	 * If so, return the test, otherwise nilexp.
+     */
 	if (isvar(id) && name(son(id)) == val_tag && no(son(id)) == 0 &&
 	    !isbigval(son(id)) && no(id) == 2) {
 		/* name initially 0 only used twice */
@@ -1506,9 +1479,10 @@ absbool(exp id)
 	return nilexp;
 }
 
-
- /* distributes the operation e into a sequence, ie if e = op(seq(d ...;
-    c), a) produces seq(d...; op(c, a)) */
+/*
+ * Distributes the operation e into a sequence,
+ * ie. if e = op(seq(d ...; c), a) produces seq(d...; op(c, a))
+ */
 static int
 seq_distr(exp e, exp scope)
 {
@@ -1580,14 +1554,14 @@ seq_distr(exp e, exp scope)
 	return 0;
 }
 
- /* reverses (ie. nots) test numbers */
+/* Reverses (ie. nots) test numbers */
 unsigned char revtest[6] = {
 	4, 3, 2, 1, 6, 5
 };
 
-
-/* returns sign if |f|=1, otherwise 0 */
-
+/*
+ * Returns sign if |f| = 1, otherwise 0.
+ */
 static int
 f_one(flpt f)
 {
@@ -1609,9 +1583,9 @@ f_one(flpt f)
 	}
 }
 
-
-/* applies fneg */
-
+/*
+ * Applies fneg.
+ */
 static exp
 fneg(exp e)
 {
@@ -1621,9 +1595,9 @@ fneg(exp e)
 	return n;
 }
 
-
-/* applies binary floating point operations */
-
+/*
+ * Applies binary floating point operations.
+ */
 static int
 refactor_fp2(exp e, exp scope)
 {
@@ -1754,9 +1728,9 @@ refactor_fp2(exp e, exp scope)
 	return 0;
 }
 
-
-/* compares integer constants using the test given by test_no */
-
+/*
+ * Compares integer constants using the test given by test_no.
+ */
 static int
 docmp(shape sha, unsigned char test_no, int c1, int c2)
 {
@@ -1911,10 +1885,10 @@ docmp_f(int test_no, exp a, exp b)
 	return -1;
 }
 
-
-/* main bottom-to-top optimise routine Optimises e. No change propagates
-   outside scope */
-
+/*
+ * Main bottom-to-top optimise routine Optimises e.
+ * No change propagates outside scope.
+ */
 int
 refactor(exp e, exp scope)
 {
@@ -1927,8 +1901,7 @@ refactor(exp e, exp scope)
 			exp temp = son(e);
 			while (1) {
 				if (name(sh(temp)) == bothd) {
-					/* unordered; temp can be first, iwc
-					 * all siblings unreachable */
+					/* unordered; temp can be first, iwc all siblings unreachable */
 #ifdef NEWDIAGS
 					if (diag != DIAG_NONE) {
 						exp sib = son(e);
@@ -1966,13 +1939,12 @@ refactor(exp e, exp scope)
 					    shape_size(sh(v)) ==
 					    shape_size(sh(e))
 					    && (optim & OPTIM_UNPAD_APPLY || name(v) != apply_tag)
-					   ) { /* remove the operation if the
-						  offset is zero and the size
-						  is the same. This typically
-						  happens in selecting from a
-						  union if the component has
-						  the maximum size in the union
-						*/
+					   ) {
+						/*
+						 * Remove the operation if the offset is zero and the size is the same.
+						 * This typically happens in selecting from a union if the component has
+						 * the maximum size in the union.
+						 */
 						sh(v) = sh(e);
 #ifdef NEWDIAGS
 						if (diag != DIAG_NONE) {
@@ -2000,8 +1972,10 @@ refactor(exp e, exp scope)
 					return 1;
 				}
 				if (name(v) == cont_tag) {
-					/* replace selecting from contents by
-					 * taking contents of reff selection */
+					/*
+					 * Replace selecting from contents by
+					 * taking contents of reff selection.
+					 */
 					exp ap = hold_refactor(f_add_to_ptr(son(v),
 									 a));
 					ap = hold_refactor(f_contents(sh(e), ap));
@@ -2016,8 +1990,7 @@ refactor(exp e, exp scope)
 					retcell(e);
 					return 1;
 				}
-				{ /* always remove component_tag: use a
-				      declaration */
+				{ /* Always remove component_tag: use a declaration */
 					exp var = me_startid(sh(e), v, 1);
 					exp ap, c;
 					exp ob;
@@ -2161,8 +2134,7 @@ refactor(exp e, exp scope)
 				}
 				if (name(son(e)) == val_tag &&
 				    !isbigval(son(e)) && no(son(e)) == 0) {
-					/* multiply by 0 - replace by sequence
-					 * - side-effects!*/
+					/* multiply by 0 - replace by sequence - side-effects! */
 					exp_list el;
 					el.start = bro(son(e));
 					el.end = bro(son(e));
@@ -2176,8 +2148,7 @@ refactor(exp e, exp scope)
 
 				if (name(bro(son(e))) == val_tag &&
 				    name(son(e)) == plus_tag) {
-					/* distribute offset_mult over plus
-					 * (giving offset_adds) */
+					/* distribute offset_mult over plus (giving offset_adds) */
 					/* the plus operation */
 					exp pl = son(e);
 
@@ -2365,11 +2336,14 @@ refactor(exp e, exp scope)
 #endif /* TRANS_80x86 */
 
 		case fplus_tag:
-			/* apply zero, unit and constant evaluation.  NB dive
-			 * MUST be false, because floating point is not really
-			 * commutative and associative */
-			/* XXX: floating point is actually commutative, but
-			 * not associative */
+			/*
+			 * Apply zero, unit and constant evaluation.
+			 *
+			 * NB dive MUST be false, because floating point is not really
+			 * commutative and associative.
+			 *
+			 * XXX: floating point is actually commutative, but not associative.
+			 */
 			return comm_ass(e, fplus_tag, fplus_fn, fzero_no, 0, 0,
 					scope, 0, 1);
 		case addptr_tag:
@@ -2414,8 +2388,7 @@ refactor(exp e, exp scope)
 #endif
 				if (name(bro(son(e))) == val_tag &&
 				    !isbigval(bro(son(e)))) {
-					/* replace addptr(x, const) by
-					 * refffield operation */
+					/* replace addptr(x, const) by refffield operation */
 					exp p = son(e);
 					int k = no(bro(p));
 					exp r;
@@ -2430,8 +2403,7 @@ refactor(exp e, exp scope)
 				}
 				if (name(son(e)) == reff_tag &&
 				    shape_size(sh(e)) == 32) {
-					/* replace addptr(reff[n](a), b) by
-					 * reff[n](addptr(a, b)) */
+					/* replace addptr(reff[n](a), b) by reff[n](addptr(a, b)) */
 					exp p = son(son(e));
 					exp a = bro(son(e));
 					exp ap1 = getexp(sh(e), nilexp, 0, p,
@@ -2601,16 +2573,16 @@ refactor(exp e, exp scope)
 				return 1;
 			}
 			if (endian == ENDIAN_LITTLE && has & HAS_BYTEREGS) {
-			  /* only for little enders which have byte
-			   * registers */
+			  /* only for little enders which have byte registers */
 			  if ((shape_size(sh(e)) <=
 						shape_size(sh(son(e)))) && optop(e) &&
 					(name(son(e)) == name_tag ||
 					 name(son(e)) == cont_tag ||
 					 name(son(e)) == cond_tag)) {
-				/* if the chvar operation never needs
-				 * any action for a little end machine,
-				 * eliminate it */
+				/*
+				 * If the chvar operation never needs any action
+				 * for a little end machine, eliminate it.
+				 */
 #if TRANS_80x86
 				if (shape_size(sh(e)) == 8) {
 					if (name(son(e)) == name_tag) {
@@ -2628,14 +2600,14 @@ refactor(exp e, exp scope)
 				/* should this retcell(e) ? */
 				return 1;
 			  }
-			  /* only for little enders which have byte
-			   * registers */
+			  /* Only for little enders which have byte registers */
 			  if (name(son(e)) == chvar_tag &&
 					shape_size(sh(e)) <=
 					shape_size(sh(son(e)))) {
-				/* if the chvar operation never needs
-				 * any action for a little end machine,
-				 * eliminate it */
+				/*
+				 * If the chvar operation never needs any action
+				 * for a little end machine, eliminate it.
+				 */
 				exp w;
 				sh(son(e)) = sh(e);
 				w = hold(son(e));
@@ -2647,8 +2619,7 @@ refactor(exp e, exp scope)
 			  }
 			}
 			if (endian == ENDIAN_LITTLE) {
-			  /* only for little enders with byte and short
-			   * operations */
+			  /* Only for little enders with byte and short operations */
 			  if (has & HAS_BYTEOPS && shape_size(sh(e)) <=
 					shape_size(sh(son(e))) && optop(e) &&
 					name(sh(e)) != bitfhd &&
@@ -2657,10 +2628,10 @@ refactor(exp e, exp scope)
 					 name(son(e)) == and_tag ||
 					 name(son(e)) == or_tag ||
 					 name(son(e)) == neg_tag)) {
-				/* replace chvar(op(a ...)) by
-				 * op(chvar(a)...) if the changevar
-				 * requires no action on a little end
-				 * machine */
+				/*
+				 * Replace chvar(op(a ...)) by op(chvar(a)...) if the changevar
+				 * requires no action on a little end machine
+				 */
 
 				exp p = son(e);
 				exp r;
@@ -2669,9 +2640,7 @@ refactor(exp e, exp scope)
 				int l = (int)last(a);
 
 				/* if (optim & OPTIM_SHORTEN_OPS || shape_size(sh(e)) >= 16) */
-				/* this is to avoid allocating bytes to
-				 * edi/esi in 80386 !!! bad
-				 */
+				/* this is to avoid allocating bytes to edi/esi in 80386 !!! bad */
 				{
 					exp sha = sh(e);
 					exp t = varchange(sha, a);
@@ -2698,8 +2667,7 @@ refactor(exp e, exp scope)
 			}
 			if (name(son(e)) == ident_tag &&
 					isvar(son(e))) {
-				/* distribute chvar into variable declaration of simple form
-				*/
+				/* distribute chvar into variable declaration of simple form */
 				exp vardec = son(e);
 				exp def = son(vardec);
 				exp body = bro(def);
@@ -2943,8 +2911,10 @@ refactor(exp e, exp scope)
 			    last(bro(son(e))) &&
 			    name(son(e)) == plus_tag &&
 			    name(bro(son(son(e)))) == val_tag) {
-				/* replace mult(plus(a, const1), const2) by
-				 * plus(mult(a, const2), const1*const2) */
+				/*
+				 * Replace mult(plus(a, const1), const2) by
+				 * plus(mult(a, const2), const1*const2)
+				 */
 				int k = no(bro(son(e)))* no(bro(son(son(e))));
 				exp ke = me_shint(sh(e), k);
 				exp m = getexp(sh(e), nilexp, 0, son(son(e)),
@@ -3008,8 +2978,7 @@ refactor(exp e, exp scope)
 			}
 			if (name(son(e)) == neg_tag && optop(e) &&
 			    optop(son(e))) {
-				/* replace --a by a if errtreat is impossible
-				 * or ignore */
+				/* replace --a by a if errtreat is impossible or ignore */
 				sh(son(son(e))) = sh(e);
 #ifdef NEWDIAGS
 				if (diag != DIAG_NONE) {
@@ -3024,8 +2993,10 @@ refactor(exp e, exp scope)
 			}
 			if (name(son(e)) == plus_tag && optop(e) &&
 			    optop(son(e))) {
-				/* replace negate(plus(a, b ..)) by
-				 * plus(negate(a), negate(b) ..)) */
+				/*
+				 * Replace negate(plus(a, b ..)) by
+				 * plus(negate(a), negate(b) ..))
+				 */
 				exp r = getexp(sh(e), nilexp, 0, nilexp, nilexp,
 					       0, 0, plus_tag);
 				exp t = son(son(e));
@@ -3095,9 +3066,11 @@ refactor(exp e, exp scope)
 				return 1;
 			}
 #endif
-			/* only use if the shift left and shift right
-			 * operations are performed by the same instruction,
-			 * distinguished by the sign of the number of places */
+			/*
+			 * Only use if the shift left and shift right operations
+			 * are performed by the same instruction,
+			 * distinguished by the sign of the number of places.
+			 */
 			if (has & HAS_NEGSHIFT && name(e) == shr_tag) {
 				exp places = bro(son(e));
 				exp r;
@@ -3327,8 +3300,10 @@ refactor(exp e, exp scope)
 			if (name(son(e)) == chfl_tag &&
 			    name(sh(son(son(e)))) == name(sh(e)) &&
 			    name(sh(e)) < name(sh(son(e)))) {
-				/* chfl(flsh1, chfl(flsh2, exp of shape flsh1))
-				 * to internal exp iff flsh2 includes flsh1 */
+				/*
+				 * chfl(flsh1, chfl(flsh2, exp of shape flsh1))
+				 * to internal exp iff flsh2 includes flsh1
+				 */
 				sh(son(son(e))) = sh(e);
 				replace(e, son(son(e)), scope);
 				retcell(son(e));
@@ -3495,11 +3470,13 @@ refactor(exp e, exp scope)
 			return 0;
 
 		case fmult_tag:
-			/* apply zero, unit and constant evaluation.  NB dive
-			 * MUST be false, because floating point is not really
-			 * commutative and associative */
-			/* XXX: floating point is actually commutative, but
-			 * not associative */
+			/*
+			 * Apply zero, unit and constant evaluation.
+			 *
+			 * NB dive MUST be false, because floating point is not really
+			 * commutative and associative
+			 * XXX: floating point is actually commutative, but not associative
+			 */
 
 			return comm_ass(e, fmult_tag, fmult_fn, fone_no, 1,
 					fzero_no, scope, 0, 1);
@@ -3782,8 +3759,7 @@ refactor(exp e, exp scope)
 				return 1;
 			}
 			if (name(son(e)) == cont_tag) {
-				/* replace field[n](cont(x)) by
-				 * cont(reff[n](x)) */
+				/* replace field[n](cont(x)) by cont(reff[n](x)) */
 				exp arg = son(son(e));
 				exp rf1 = getexp(sh(arg), nilexp, 0, arg,
 						 nilexp, 0, no(e), reff_tag);
@@ -3849,8 +3825,7 @@ refactor(exp e, exp scope)
 		case reff_tag:
 			if (name(son(e)) == name_tag &&
 			    isvar(son(son(e))) && al1(sh(e)) > 1) {
-				/* replace reff on name of var by name with
-				 * offset in no */
+				/* replace reff on name of var by name with offset in no */
 				no(son(e)) += no(e);
 				sh(son(e)) = sh(e);
 #ifdef NEWDIAGS
@@ -3946,8 +3921,7 @@ refactor(exp e, exp scope)
 			}
 #endif
 			else {
-				/* all of bitfield must be within same integer
-				 * variety */
+				/* all of bitfield must be within same integer variety */
 				while ((off / rsz) != (temp / rsz)) {
 					rsz = rsz << 1;
 				}
@@ -4110,10 +4084,11 @@ refactor(exp e, exp scope)
 		    shn != prokhd && (shn < shrealhd || shn > doublehd)
 		    && (optim & OPTIM_UNPAD_APPLY || name(bse) != apply_tag)
 		   ) {
-			/* remove the creation of a compound if it consists of
-			 * a single value of the same size and provided that
-			 * the component is not real (because it might be in
-			 * the wrong place. */
+			/*
+			 * Remove the creation of a compound if it consists of a
+			 * single value of the same size and provided that the component
+			 * is not real (because it might be in the wrong place.
+			 */
 			if (name(bse) == name_tag && isvar(son(bse)) &&
 			    !isglob(son(bse)) &&
 			    name(sh(son(son(bse)))) >= shrealhd &&
@@ -4135,11 +4110,12 @@ refactor(exp e, exp scope)
 	}
 
 		if (optim & OPTIM_COMPOUNDS && in_proc_def) {
-			/* Provided that the exp is inside a procedure
-			 * definition we always remove compound creation and
-			 * replace it by a variable declaration for the
-			 * compound, assignments to the components, and deliver
-			 * the compound. */
+			/*
+			 * Provided that the exp is inside a procedure definition we
+			 * always remove compound creation and replace it by a
+			 * variable declaration for the compound, assignments to
+			 * the components, and deliver the compound.
+			 */
 			shape she = sh(e);
 			exp var = me_start_clearvar(she, she);
 			exp cont = getexp(she, nilexp, 0, nilexp, nilexp, 0, 0,
@@ -4271,13 +4247,16 @@ refactor(exp e, exp scope)
 			return 1;
 		}
 		if (name(son(e)) == goto_tag && pt(son(e)) == bro(son(e))) {
-			/* replace cond which has first a simple goto to the
-			 * alt by the alt (removing the label) */
+			/*
+			 * Replace cond which has first a simple goto to the
+			 * alt by the alt (removing the label)
+			 */
 			exp x = bro(son(bro(son(e))));
-			/* copy shape of cond to the alt. they should be the
-			 * same, but optimisations may have changed signed
-			 * to unsigned and vice versa, and these changes would
-			 * otherwise be undone */
+			/*
+			 * Copy shape of cond to the alt. they should be the same,
+			 * but optimisations may have changed signed to unsigned
+			 * and vice versa, and these changes would otherwise be undone.
+			 */
 			sh(x) = sh(e);
 #ifdef NEWDIAGS
 			if (diag != DIAG_NONE) {
@@ -4298,8 +4277,7 @@ refactor(exp e, exp scope)
 
 		if (name(son(e)) == seq_tag && no(son(bro(son(e)))) == 1 &&
 		    name(bro(son(son(e)))) == goto_tag) {
-			/* is e = cond(seq(..;goto m), l: x) and is only 1 use
-			 * of l */
+			/* is e = cond(seq(..;goto m), l: x) and is only 1 use of l */
 			exp t = son(son(son(e)));
 			while (!last(t)) {
 				t = bro(t);
@@ -4311,10 +4289,11 @@ refactor(exp e, exp scope)
 #endif
 			if ((name(t) == test_tag || name(t) == testbit_tag) &&
 			    pt(t) == bro(son(e)) && test_number(t) <= 6) {
-				/* look at last element of sequence before goto
-				 * m to see if it is a conditional jump to l.
-				 * If so reverse the test, make it jump to m
-				 * and remove the goto */
+				/*
+				 * Look at last element of sequence before goto m to see
+				 * if it is a conditional jump to l. If so reverse the test,
+				 * make it jump to m and remove the goto.
+				 */
 
 				settest_number(t, revtest[test_number(t) - 1]);
 				pt(t) = pt(bro(son(son(e))));
@@ -4437,10 +4416,11 @@ refactor(exp e, exp scope)
 		if (0 && redo_structfns && !reg_result(sh(bro(son(e)))) &&
 		    name(bro(son(e))) == ident_tag &&
 		    isvar (bro(son(e)))) {
-			/* prepare to replace the assignment of structure
-			 * results of procedures.  If it decides to do so it
-			 * will put the destination in as the first parameter
-			 * of the procedure */
+			/*
+			 * Prepare to replace the assignment of structure results of
+			 * procedures. If it decides to do so it will put the destination
+			 * in as the first parameter of the procedure.
+			 */
 			exp id = bro(son(e));
 			exp def = son(id);
 			exp body = bro(def);
@@ -4564,8 +4544,10 @@ refactor(exp e, exp scope)
 
 		if ((name(arg1) == val_tag || name(arg1) == null_tag) &&
 		    (name(arg2) == val_tag || name(arg2) == null_tag)) {
-			/* see if we know which way to jump and replace by
-			 * unconditional goto or nop. For integers. */
+			/*
+			 * See if we know which way to jump and replace by unconditional
+			 * goto or nop. For integers.
+			 */
 			int c = docmp_f((int)test_number(e), arg1, arg2);
 
 			if (c) {
@@ -4580,8 +4562,10 @@ refactor(exp e, exp scope)
 		      name(arg2) == name_tag && isvar(son(arg2))) ||
 		     (name(arg2) == null_tag && no(arg2) == 0 &&
 		      name(arg1) == name_tag && isvar(son(arg1))))) {
-			/* if we are comparing NULL with a variable we
-			   know the way to jump. */
+			/*
+			 * If we are comparing NULL with a variable we know
+			 * the way to jump.
+			 */
 			if (test_number(e) == 6) {
 				repbycont(e, 1, scope);
 			} else {
@@ -4624,8 +4608,7 @@ refactor(exp e, exp scope)
 		    (is_signed(sh(son(arg1))) == is_signed(sh(arg1)))) {
 			exp ee;
 #if TRANS_80x86 || TRANS_HPPA
-			/* optimise if both args are result of sign extension
-			 * removal */
+			/* optimise if both args are result of sign extension removal */
 			if ((test_number(e) == f_equal ||
 			     test_number(e) == f_not_equal) &&
 			    name(sh(arg1)) == slonghd &&
@@ -4648,8 +4631,10 @@ refactor(exp e, exp scope)
 				}
 			}
 #endif
-			/* arrange to do test in smallest size integers by
-			 * removing chvar and altering shape of test args */
+			/*
+			 * Arrange to do test in smallest size integers by removing
+			 * chvar and altering shape of test args.
+			 */
 			ee = copyexp(e);
 			son(ee) = son(arg1);
 			bro(son(arg1)) = son(arg2);
@@ -4926,9 +4911,10 @@ refactor(exp e, exp scope)
 
 	case case_tag:
 		if (name(son(e)) == val_tag) {
-			/* if we know the case argument select the right case
-			 * branch and replace by goto. Knock on effect will be
-			 * to eliminate dead code. */
+			/*
+			 * If we know the case argument select the right case branch and
+			 * replace by goto. Knock on effect will be to eliminate dead code.
+			 */
 			exp n = son(e);
 			int changed = 0;
 			exp t = son(e);

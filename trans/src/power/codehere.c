@@ -19,21 +19,22 @@
 #include "regable.h"
 #include "codehere.h"
 
-/* regofval returns R_NO_REG unlesss e is a name tag
-   which is obtaining something which is inreg */
-
+/*
+ * regofval returns R_NO_REG unlesss e is a name tag which is obtaining
+ * something which is inreg
+ */
 int regofval(exp e)
 {
   exp dc = son(e);
 
-  /*********************************/
-  /*        _________              */
-  /* e--->  | name  |              */
-  /*        ~~~~|~~~~              */
-  /*        ____|____              */
-  /* dc-->  | ident |              */ 
-  /*        ~~~~~~~~~              */
-  /*********************************/
+  /*
+   *        _________
+   * e--->  | name  |
+   *        ~~~~|~~~~
+   *        ____|____
+   * dc-->  | ident |
+   *        ~~~~~~~~~
+   */
   if (name(e) == name_tag)
   {
     ASSERT(name(dc) == ident_tag);
@@ -43,7 +44,8 @@ int regofval(exp e)
     }
     if (props(dc) & inreg_bits)
     {
-      /* HACK: The no(dc) is a register number 0-31 i.e positive
+      /*
+       * HACK: The no(dc) is a register number 0-31 i.e positive
        * so by negating it if it isvar we can pass back more info
        */
       return (isvar(dc)) ? (-no(dc)) : (no(dc));
@@ -55,23 +57,26 @@ int regofval(exp e)
     return R_NO_REG;
   }
 }
-/* fregofval same as regofval, but used for float regs */
+
+/*
+ * fregofval same as regofval, but used for float regs
+ */
 int fregofval(exp e)
 {
   exp dc = son(e);
 
   if (name(e) == name_tag)
   {
-    /*********************************/
-    /*        _________              */
-    /* e--->  | name  |              */
-    /*        ~~~~|~~~~              */
-    /*        ____|____              */
-    /* dc-->  | ident |              */ 
-    /*        ~~~~|~~~~              */
-    /*********************************/
+    /*
+     *        _________
+     * e--->  | name  |
+     *        ~~~~|~~~~
+     *        ____|____
+     * dc-->  | ident |
+     *        ~~~~|~~~~
+     */
     ASSERT(name(dc) == ident_tag);
-    
+
     if ((props(dc) & infreg_bits) != 0)
     {
       return no(dc);
@@ -84,28 +89,30 @@ int fregofval(exp e)
   }
 }
 
-/* is_reg_operand returns R_NO_REG unless the exp e
-   is in a register already. This can be due to the 
-   fact that it is an ident in a register,
-   or that it has been tracked in the register tracking
-   mechanism. */
+/*
+ * is_reg_operand returns R_NO_REG unless the exp e is in a register already.
+ * This can be due to the fact that it is an ident in a register, or that
+ * it has been tracked in the register tracking mechanism.
+ */
 static int is_reg_operand(exp e)
 {
   int x = regofval(e);  
 
   if (x >= 0 && x < R_NO_REG)
   {
-    /* This is the case where we are getting the
-       contents of an ident which is not a variable,
-       and lives in a register.*/
-    /*********************************/
-    /*        _________              */
-    /* e--->  | name  |              */
-    /*        ~~~~|~~~~              */
-    /*        ____|____              */
-    /*        | ident |  isvar=0     */ 
-    /*        ~~~~|~~~~  inreg       */
-    /*********************************/
+    /*
+	 * This is the case where we are getting the contents of an ident
+	 * which is not a variable, and lives in a register.
+	 */
+
+    /*
+     *        _________
+     * e--->  | name  |
+     *        ~~~~|~~~~
+     *        ____|____
+     *        | ident |  isvar = 0
+     *        ~~~~|~~~~  inreg
+     */
     return x;
   }
   
@@ -114,32 +121,33 @@ static int is_reg_operand(exp e)
     x = regofval(son(e));
     if (x < 0)
     {
-      /* This is the case when we have the contents of
-	 a variable which is inreg. Thus no one could
-	 have taken the address of this ident, since
-	 that would mean it was not inreg. Therefore
-	 we have a variable living in a register. */
-      /*********************************/
-      /*        _________              */
-      /* e--->  | cont  |              */
-      /*        ~~~~|~~~~              */
-      /*        ____|____              */
-      /*        | name  |              */ 
-      /*        ~~~~|~~~~              */
-      /*        ____|____              */
-      /*        | ident |  isvar=1     */
-      /*        ~~~~|~~~~  inreg       */
-      /*********************************/
+	/*
+	 * This is the case when we have the contents of a variable which is inreg.
+	 * Thus no one could have taken the address of this ident, since that
+	 * would mean it was not inreg. Therefore we have a variable living
+	 * in a register.
+	 */
+
+      /*
+       *        _________
+       * e--->  | cont  |
+       *        ~~~~|~~~~
+       *        ____|____
+       *        | name  |
+       *        ~~~~|~~~~
+       *        ____|____
+       *        | ident |  isvar = 1
+       *        ~~~~|~~~~  inreg
+       */
       return -x;
     }
   }
   return ans_reg(iskept_reg(e));
 }
 
-
-/* 
+/*
  * make_code_here
- * Calls make_code and tie up any internal exit labels 
+ * Calls make_code and tie up any internal exit labels
  */
 static int make_code_here(exp e, space sp, where dest)
 {
@@ -154,22 +162,23 @@ static int make_code_here(exp e, space sp, where dest)
   return mka.regmove;
 }
 
-
-
-/* reg_operand evaluates the exp e into a register,
-   and returns that register. is_reg_operand is used
-   in order to activate the register tracking scheme,
-   or to see if the exp is something simple. */
+/*
+ * reg_operand evaluates the exp e into a register, and returns that register.
+ * is_reg_operand is used in order to activate the register tracking scheme,
+ * or to see if the exp is something simple.
+ */
 int reg_operand(exp e, space sp)
 {
   int reg;
-  
+
   reg = is_reg_operand(e);
 
   if (IS_R_NO_REG(reg))
   {
-    /* We allow make_code_here to evaluate e into a register 
-       of its choice by setting someregalt. */
+    /*
+	 * We allow make_code_here to evaluate e into a register of its choice
+	 * by setting someregalt.
+	 */
     ans aa;
     where w;
 
@@ -183,7 +192,7 @@ int reg_operand(exp e, space sp)
       reg = -1;
       setsomeregalt(aa, &reg);
     }
-    
+
     w.answhere = aa;
     w.ashwhere = ashof(sh(e));
     make_code_here(e, sp, w);
@@ -192,16 +201,13 @@ int reg_operand(exp e, space sp)
   }
   else
   {
-    /* The exp e was found in a register by 
-       is_reg_operand */
+    /* The exp e was found in a register by is_reg_operand */
     ASSERT(IS_FIXREG(reg));
     return reg;
   }
 }
 
-
-/* like reg_operand, but to specified reg 
- */
+/* like reg_operand, but to specified reg */
 void reg_operand_here(exp e, space sp, int this_reg)
 {
   int reg;
@@ -209,8 +215,7 @@ void reg_operand_here(exp e, space sp, int this_reg)
   ASSERT(!IS_R_NO_REG(this_reg));
   ASSERT(IS_FIXREG(this_reg));
 
-  /* First check to see if e is lying around 
-     in exact reg we want */
+  /* First check to see if e is lying around in exact reg we want */
   reg = ans_reg(iskept_inreg(e, this_reg));
 
   if (reg == this_reg)
@@ -302,11 +307,10 @@ int freg_operand(exp e, space sp, int reg)
   return reg;
 }
 
-
-
 /*
  * The procedure code_here calls make_code and ensures that
  * any internal exit labels are tied up after the call.
+ *
  * Optimises the case where the value of 'e' is in a register.
  */
 int code_here(exp e, space sp, where dest)

@@ -7,21 +7,20 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/****************************************************************
-		regalloc.c
-
-	The main procedure defined here is reg_alloc which
-allocates registers and stack space for a proc exp. After the application of
-weights to the body reg_alloc re-codes the number field of each ident within it.
-	At the end of reg_alloc:-
-1) props of ident contains inreg_bits or infreg_bits and number = 0
-then the value will be in a t reg to be chosen in make_code
-2) if props contains the reg bits then number of ident is fixpt s reg
-or floatpnt s reg (divided by 2)
-3) value is on the stack and:
-number of ident = (word displacement in locals)*64 + GR17
-
-*****************************************************************/
+/*
+ * The main procedure defined here is reg_alloc which allocates registers
+ * and stack space for a proc exp. After the application of weights to
+ * the body reg_alloc re-codes the number field of each ident within it.
+ *
+ * At the end of reg_alloc:
+ *
+ *  1) props of ident contains inreg_bits or infreg_bits and number = 0
+ *     then the value will be in a t reg to be chosen in make_code
+ *  2) if props contains the reg bits then number of ident is fixpt s reg
+ *     or floatpnt s reg (divided by 2)
+ *  3) value is on the stack and:
+ *     number of ident = (word displacement in locals)*64 + GR17
+*/
 
 #include <assert.h>
 #include <stddef.h>
@@ -62,21 +61,18 @@ int real_reg[16] =
   GR18 };
 
 
-
 #define ALIGNNEXT(bitposn, bitalign)	(((bitposn)+(bitalign)-1) & ~((bitalign)-1))
 
 spacereq zerospace = {0, 0, 0};
 
-/*****************************************************************
-	maxspace
-
-Procedure to find the total spacereq of two spacereqs. The bit
-representations of the s regs used are simply 'or'ed so that the
-resulting dump fields contain all the regs of the parameters.
-The largest of the two stack sizes is returned as the stack of the result.
-
-*****************************************************************/
-
+/*
+ * Procedure to find the total spacereq of two spacereqs.
+ *
+ * The bit representations of the s regs used are simply 'or'ed so that the
+ * resulting dump fields contain all the regs of the parameters.
+ *
+ * The largest of the two stack sizes is returned as the stack of the result.
+ */
 spacereq
 maxspace(spacereq a, spacereq b)
 {
@@ -86,24 +82,18 @@ maxspace(spacereq a, spacereq b)
   return a;
 }
 
-
-/******************************************************************
-	reg_alloc
-
-Delivers a spacereq which gives the local stack bit requirement in the
-stack field and the s regs used as bit positions in the fixdump, sdump and
-ddump fields for fixed point, single and double floats respectively.
-
-******************************************************************/
-
-spacereq
-regalloc(exp e, int freefixed, int freefloat, long stack)
 /*
+ * Delivers a spacereq which gives the local stack bit requirement in the
+ * stack field and the s regs used as bit positions in the fixdump, sdump and
+ * ddump fields for fixed point, single and double floats respectively.
+ *
  * e is a proc body.
  * freefixed and freefloat are the number of fixed and floating s regs
  * available. These are initialised at the outer level but may be reduced
  * by usage in paralloc.
  */
+spacereq
+regalloc(exp e, int freefixed, int freefloat, long stack)
 {
   int n = name(e);
   exp s = son(e);
@@ -138,9 +128,8 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
        )
     {
       /*
-       * dont take space for this constant dec,
-       * initialiser is another simple constant ident
-       * (eg from double nested loop optimisation)
+       * Dont take space for this constant dec, initialiser is another
+	   * simple constant ident (eg from double nested loop optimisation)
        */
       props(e) |= defer_bit;
       def = zerospace;
@@ -152,8 +141,9 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
       if (name(s) == compound_tag || name(s) == nof_tag || name(s) == concatnof_tag )
       {
 	/*
-	 * elements of tuples are done separately so evaluate above dec
+	 * Elements of tuples are done separately so evaluate above dec
 	 * using stack space
+	 *
 	 * stack - bit address for current allocation
 	 * st - bit address for next allocation
 	 */
@@ -198,13 +188,13 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
       {
 
 	/*
-	 * not suitable for reg allocation
+	 * Not suitable for reg allocation
 	 */
 	if (name(son(e)) == val_tag && !isvar(e) && !isenvoff(e))
 	{
 
 	  /*
-	   * must have been forced by const optimisation - replace uses by the
+	   * Must have been forced by const optimisation - replace uses by the
 	   * value
 	   */
 	  exp t = pt(e);
@@ -242,7 +232,7 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
 	{
 
 	  /*
-	   * allocate on stack stack - bit address for current allocation st -
+	   * Allocate on stack stack - bit address for current allocation st -
 	   * bit address for next allocation
 	   */
 
@@ -264,7 +254,7 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
       {
 
 	/*
-	 * optimisation: use result reg for ident_tag to avoid reg move
+	 * Optimisation: use result reg for ident_tag to avoid reg move
 	 */
 	assert (!isenvoff(e));
 	FULLCOMMENT2("regalloc no(e)==R_USE_RES_REG:	no(e)=%ld, inreg_bits=%d", no(e), (props(e) & inreg_bits) != 0);
@@ -306,8 +296,4 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
     return def;
   }
 }
-
-
-
-
 

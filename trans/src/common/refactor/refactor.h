@@ -7,25 +7,22 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/*******************************************************************
-
-  The routine refactor performs the bottom-up TDF-to-TDF optimising
-  transformations. When a new exp is created refactor is applied to
-  see if a recognised situation has arisen. refactor assumes that
-  all components of this new exp have already had refactor applied to them.
-  It returns 1 if it has made a change, 0 if not.
-
-
-  hold_refactor holds an exp as the son of a dummy exp and then
-  applies refactor. the need for this operation is explained in
-  the overall documentation.
-
-  eq_exp compares two exp for equality of effect.
-
-  dochvar takes the int, i, and delivers the number which results from
-  changing its variety to that specified by the shape, t.
-
- *******************************************************************/
+/*
+ * The routine refactor performs the bottom-up TDF-to-TDF optimising
+ * transformations. When a new exp is created refactor is applied to
+ * see if a recognised situation has arisen. refactor assumes that
+ * all components of this new exp have already had refactor applied to them.
+ * It returns 1 if it has made a change, 0 if not.
+ *
+ * hold_refactor holds an exp as the son of a dummy exp and then
+ * applies refactor. the need for this operation is explained in
+ * the overall documentation.
+ *
+ * eq_exp compares two exp for equality of effect.
+ *
+ * dochvar takes the int, i, and delivers the number which results from
+ * changing its variety to that specified by the shape, t.
+ */
 
 #include <local/exptypes.h>
 

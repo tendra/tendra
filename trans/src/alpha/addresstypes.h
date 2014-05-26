@@ -8,15 +8,9 @@
  */
 
 /*
-   
-  addresstypes.h
-
-  Types for usable addressing modes are defined here :-
-  baseoff, instore, freg, ans, where
-
-*/
-
-
+ * Types for usable addressing modes are defined here:
+ * baseoff, instore, freg, ans, where
+ */
 
 #ifndef addressingtkey
 #define addressingtkey 1
@@ -27,7 +21,6 @@
 #include <construct/installtypes.h>
 
 #include "cross.h"
-
 
 struct makeansst {
   int   lab;
@@ -95,13 +88,15 @@ enum ansdiscrim {
 };
  /* use to discriminate the above union type */
 
+/*
+ * this type used as union of a fixpnt reg,
+ * a float reg and an instore value
+ */
 struct anst {
   enum ansdiscrim discrim;
   union anstu val;
 };
-typedef struct anst ans;	/* this type used as union of a fixpnt
-				   reg, a float reg and an instore 
-				   value */
+typedef struct anst ans;
 
 struct wheret {
   ans answhere;			/* reg or store position */
@@ -117,22 +112,20 @@ struct mmt {
 };
 typedef struct mmt  mm;
 
-/******************************************************************
-macros for ease of use of unions, allow 'hiding' of discriminator.
-******************************************************************/
-
+/* Macros for ease of use of unions, allow 'hiding' of discriminator. */
 #define regalt(x) (x).val.regans
 #define fregalt(x) (x).val.fregans
 #define insalt(x) (x).val.instoreans
 #define someregalt(x) (x).val.someregans.r;
 #define somefregalt(x) (x).val.somefregans;
 
-/* assign to field of union, discriminator set as appropriate */
+/* Assign to field of union, discriminator set as appropriate */
 #define setregalt(x,y) (x).discrim = inreg; (x).val.regans = y
 #define setfregalt(x,y) (x).discrim = infreg; (x).val.fregans = y
 #define setinsalt(x,y) (x).discrim = notinreg; (x).val.instoreans =y
 #define setsomeregalt(x,y) (x).discrim = insomereg; (x).val.someregans.r =y
 #define setsomefregalt(x,y) (x).discrim = insomefreg; (x).val.somefregans=y
+
 #endif
 
 

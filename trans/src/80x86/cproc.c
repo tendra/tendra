@@ -7,12 +7,10 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-   cproc produces the code for the procedure defined by which has
-   name pname.
-
-**********************************************************************/
+/*
+ * cproc produces the code for the procedure defined by which has
+ * name pname.
+ */
 
 #include <string.h>
 
@@ -70,11 +68,7 @@ static exp returns_list;
 int locals_offset;	/* global, needed for solaris stabs */
 exp hasenvoff_list = nilexp;	/* global, used by coder */
 
-/* MACROS */
-
 #define GLOBALTABLEMASK 0x8
-
-/* PROCEDURES */
 
 static void add_odd_bits
 (outofline * r)
@@ -273,7 +267,6 @@ static void out_untidy_pops
   return;
 }
 
-
 int cproc
 (exp p, char *pname, int cname, int global, diag_global * diag_props)
 {
@@ -305,8 +298,7 @@ int cproc
   returns_list = nilexp;
   crt_proc_exp = p;
   crt_proc_id = next_lab();
-  crt_ret_lab = next_lab ();	/* set up the return label for the
-				   procedure */
+  crt_ret_lab = next_lab ();	/* set up the return label for the procedure */
   crt_ret_lab_used = 0;
   odd_bits = (outofline*)0;
   scale = (float)1.0;
@@ -352,8 +344,7 @@ int cproc
     stack_aligned_8byte = 0;
 
   if (!no_frame)
-    regsinuse = 0x40; /* prevent ebp from being used as an ordinary
-                          register */
+    regsinuse = 0x40; /* prevent ebp from being used as an ordinary register */
 
   fstack_pos = first_fl_reg;
 
@@ -605,12 +596,12 @@ int cproc
     set_label(jr);
   };
 
-	/* If the procedure loads the current env and uses make_lv
-	   it may be the destination of a long_jump. In that case
-	   ebx, esi and edi must be saved at and restored at exit.
-	   ebp will be saved and restored anyway because such a
-	   procedure will have a frame pointer.
-	*/
+	/*
+	 * If the procedure loads the current env and uses make_lv it may be
+	 * the destination of a long_jump. In that case ebx, esi and edi must
+	 * be saved at and restored at exit. ebp will be saved and restored
+	 * anyway because such a procedure will have a frame pointer.
+	 */
   if (proc_uses_crt_env(p) && proc_has_lv(p))
     min_rfree |= 0x38;
 
@@ -672,14 +663,18 @@ int cproc
 #endif
   }
 
-  /* now set in the information at the head of the procedure */
+  /*
+   * Now set in the information at the head of the procedure
+   */
   {
 
     this_pos = out_tell_pos();
     out_set_pos(old_pos1);
 
-    /* set the label which says how much the stack was decreased, in case
-       frame pointer addressing is used  */
+    /*
+	 * Set the label which says how much the stack was decreased, in case
+     * frame pointer addressing is used
+	 */
     outs(".set ");
     outs(local_prefix);
     outs("disp");
@@ -797,7 +792,9 @@ int cproc
     }
   }
 
-  /* now prepare params with env_offset for possible constant evaluation */
+  /*
+   * now prepare params with env_offset for possible constant evaluation
+   */
   t = son(p);
   while (name(t) == ident_tag && isparam(t)) {
     if (isenvoff(t)) {
@@ -824,10 +821,11 @@ int cproc
   return proc_needs_envsize(p)? tot_sp + 4 + max_extra_stack/8 : 0;
 }
 
-
-/* Restore call_save registers (%ebp, %esi, %edi, %ebx)
-   when we know which ones are reused.
-   This preserves %eax, %ecx, %edx */
+/*
+ * Restore call_save registers (%ebp, %esi, %edi, %ebx)
+ * when we know which ones are reused.
+ * This preserves %eax, %ecx, %edx
+ */
 void restore_callregs
 (int untidy)
 {

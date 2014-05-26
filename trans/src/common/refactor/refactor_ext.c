@@ -26,12 +26,10 @@
 #include <refactor/optimise.h>
 #include <refactor/refactor_ext.h>
 
-
-/***********************************************************************
-  refactor_ext examines the external definition e to see if it can be
-  improved. It returns 1 if it makes a change, 0 otherwise.
- ***********************************************************************/
-
+/*
+ * refactor_ext examines the external definition e to see if it can be improved.
+ * It returns 1 if it makes a change, 0 otherwise.
+ */
 void
 refactor_ext(exp e)
 {

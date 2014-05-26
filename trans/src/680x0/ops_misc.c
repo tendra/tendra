@@ -41,14 +41,14 @@
 #include "ops_shared.h"
 #include "special_exps.h"
 
-/************************************************************************
-  SET_OVERFLOW
-  If the expression e has a long_jump error treatment then
-  the global variable overflow_jump is set the the corresponding label.
-  If e has the error treatment trap overflow_jump is set to -1 instead.
-  The previous value of overflow_jump is returned, so it can be restored.
- ************************************************************************/
-
+/*
+ * SET_OVERFLOW
+ *
+ * If the expression e has a long_jump error treatment then
+ * the global variable overflow_jump is set the the corresponding label.
+ * If e has the error treatment trap overflow_jump is set to -1 instead.
+ * The previous value of overflow_jump is returned, so it can be restored.
+ */
 int
 set_overflow(exp e)
 {
@@ -69,33 +69,27 @@ set_overflow(exp e)
 	return prev_overflow_jump;
 }
 
-/************************************************************************
-  CLEAR_OVERFLOW
-  Restore the global variable overflow_jump with a previous value.
- ************************************************************************/
-
+/*
+ * Restore the global variable overflow_jump with a previous value.
+ */
 void
 clear_overflow(int prev_overflow_jump)
 {
 	overflow_jump = prev_overflow_jump;
 }
 
-/************************************************************************
-  HAVE_OVERFLOW
-  Used to test if overflow_jump has been set (we have an error treatment)
- ************************************************************************/
-
+/*
+ * Used to test if overflow_jump has been set (we have an error treatment)
+ */
 int
 have_overflow(void)
 {
 	return overflow_jump;
 }
 
-/************************************************************************
-  TRAP_INS
-  Calls the error handler with ec as argument
- ************************************************************************/
-
+/*
+ * Calls the error handler with ec as argument
+ */
 void
 trap_ins(int ec)
 {
@@ -104,25 +98,21 @@ trap_ins(int ec)
 }
 
 /*
-    OVERFLOW JUMP LABEL
-
-    This is 0 to denote that overflows should be ignored.  Otherwise
-    it gives the label to be jumped to.
-*/
-
+ * OVERFLOW JUMP LABEL
+ *
+ * This is 0 to denote that overflows should be ignored.
+ * Otherwise it gives the label to be jumped to.
+ */
 int overflow_jump = 0;
 
 int err_continue = 0;
 
-/************************************************************************
-  TEST_OVERFLOW2
-
-  If an error_treatment is specified and the previous instruction
-  overflowed then either a trap or a jump is takken.
-
-  The test condition is specified by br_ins
-  ************************************************************************/
-
+/*
+ * If an error_treatment is specified and the previous instruction
+ * overflowed then either a trap or a jump is takken.
+ *
+ * The test condition is specified by br_ins
+ */
 void
 test_overflow2(int br_ins)
 {
@@ -133,16 +123,12 @@ test_overflow2(int br_ins)
 	}
 }
 
-
-/************************************************************************
-  TEST_OVERFLOW
-
-  If an error_treatment is specified and the previous instruction
-  overflowed then either a trap or a jump is takken.
-
-  This function finds the right test condition based on overflow_type
-  ************************************************************************/
-
+/*
+ * If an error_treatment is specified and the previous instruction
+ * overflowed then either a trap or a jump is takken.
+ *
+ * This function finds the right test condition based on overflow_type
+ */
 void
 test_overflow(overflow_type typ)
 {
@@ -181,15 +167,11 @@ test_overflow(overflow_type typ)
 	test_overflow2(instr);
 }
 
-/************************************************************************
-  CHECKALLOC_STACK
-
-  Checks if it is possible to allocate sz bytes on the stack.
-  If it is not possible an exception is generated.
-  else if do_alloc is TRUE, the allocation is done.
-
-  ************************************************************************/
-
+/*
+ * Checks if it is possible to allocate sz bytes on the stack.
+ * If it is not possible an exception is generated.
+ * Otherwise, if do_alloc is TRUE, the allocation is done.
+ */
 void
 checkalloc_stack(where sz, int do_alloc)
 {
@@ -211,23 +193,20 @@ checkalloc_stack(where sz, int do_alloc)
 }
 
 /*
-    MARK D1 AS SPECIAL
-
-    This flag is used to indicate that the D1 regsiter is being used
-    as a special register and should be treated with care.
-*/
-
+ * MARK D1 AS SPECIAL
+ *
+ * This flag is used to indicate that the D1 regsiter is being used
+ * as a special register and should be treated with care.
+ */
 bool D1_is_special = 0;
 
-
 /*
-    OUTPUT A CALL INSTRUCTION
-
-    The procedure call given by fn is output.  A temporary A-register
-    needs to be used when fn is not a simple procedure name.  The
-    stack is then increased by longs to overwrite the procedure arguments.
-*/
-
+ * OUTPUT A CALL INSTRUCTION
+ *
+ * The procedure call given by fn is output.  A temporary A-register
+ * needs to be used when fn is not a simple procedure name.  The
+ * stack is then increased by longs to overwrite the procedure arguments.
+ */
 void
 callins(long longs, exp fn)
 {
@@ -267,20 +246,19 @@ callins(long longs, exp fn)
 	return;
 }
 
-/************************************************************************
-    OUTPUT A JMP INSTRUCTION
-
-    The jump to the procedure given by fn is output.  A temporary A-register
-    needs to be used when fn is not a simple procedure name.
-
- ************************************************************************/
-
+/*
+ * OUTPUT A JMP INSTRUCTION
+ *
+ * The jump to the procedure given by fn is output.  A temporary A-register
+ * needs to be used when fn is not a simple procedure name.
+ */
 void
 jmpins(exp fn)
 {
 	mach_op *op;
 	exp s = son(fn), jmp_exp, fn_exp;
 	fn_exp = fn;
+
 	/* If this is not a straight jmp, put the name into an A register */
 	if (name(fn)!= name_tag || isvar(s) || !isglob(s)) {
 		where w;
@@ -292,6 +270,7 @@ jmpins(exp fn)
 			fn_exp = register(r).wh_exp;
 		}
 	}
+
 	/* Now output the jmp instruction */
 	jmp_exp = getexp(proksh, nilexp, 0, fn_exp, nilexp, 0, 0L, cont_tag);
 	op = operand(32L, zw(jmp_exp));
@@ -301,41 +280,37 @@ jmpins(exp fn)
 	return;
 }
 
-
-
 /*
-    CONDITION CODES STATUS
-
-    Many comparison instructions are unnecessary because the previous
-    instruction has set the appropriate condition flags.  The flag
-    have_cond deals with this.  A value of 0 indicates that we have
-    no information on the flag values.  A value of 1 indicates that
-    the last instruction set the flags appropriate to the where
-    last_cond of size last_cond_sz.  A value of 2 is used immediately
-    after a cmp instruction, the two arguments of the cmp being
-    last_cond and last_cond2.  Finally a value of 3 is used immediately
-    after certain move instructions to indicate that the flags are
-    appropriate to either of the arguments, last_cond or last_cond_alt.
-*/
-
+ * CONDITION CODES STATUS
+ *
+ * Many comparison instructions are unnecessary because the previous
+ * instruction has set the appropriate condition flags.  The flag
+ * have_cond deals with this.  A value of 0 indicates that we have
+ * no information on the flag values.  A value of 1 indicates that
+ * the last instruction set the flags appropriate to the where
+ * last_cond of size last_cond_sz.  A value of 2 is used immediately
+ * after a cmp instruction, the two arguments of the cmp being
+ * last_cond and last_cond2.  Finally a value of 3 is used immediately
+ * after certain move instructions to indicate that the flags are
+ * appropriate to either of the arguments, last_cond or last_cond_alt.
+ */
 bool have_cond = 0;
 where last_cond;
 where last_cond2;
 where last_cond_alt;
 long last_cond_sz;
 
-
 /*
-    COMPARE WITH ZERO
-
-    The value a (of shape sha and size sz) is compared with 0.  The
-    cases when have_cond is 1 or 3 are dealt with by this routine.
-*/
-
+ * COMPARE WITH ZERO
+ *
+ * The value a (of shape sha and size sz) is compared with 0.  The
+ * cases when have_cond is 1 or 3 are dealt with by this routine.
+ */
 void
 cmp_zero(shape sha, long sz, where a)
 {
 	long w;
+
 	/* Check existing condition codes */
 	if (have_cond == 1 && last_cond_sz == sz) {
 		if (eq_where(last_cond, a)) {
@@ -370,18 +345,17 @@ cmp_zero(shape sha, long sz, where a)
 			ins1(instr, sz, a, 0);
 		}
 	}
+
 	/* Set new condition codes */
 	set_cond(a, sz);
 	return;
 }
 
-
 /*
-    AUXILIARY COMPARISON ROUTINE
-
-    The values a and b of size sz are compared.
-*/
-
+ * AUXILIARY COMPARISON ROUTINE
+ *
+ * The values a and b of size sz are compared.
+ */
 static bool
 cmp_aux(long sz, where a, where b)
 {
@@ -420,15 +394,13 @@ cmp_aux(long sz, where a, where b)
 	return 1;
 }
 
-
 /*
-    COMPARE WITH A CONSTANT
-
-    The value a is compared with the constant value c, the type of the
-    comparison being given by ntst.  The value returned by this routine
-    has the same meaning as that returned by cmp.
-*/
-
+ * COMPARE WITH A CONSTANT
+ *
+ * The value a is compared with the constant value c, the type of the
+ * comparison being given by ntst.  The value returned by this routine
+ * has the same meaning as that returned by cmp.
+ */
 static bool
 cmp_const(shape sha, long sz, where c, where a, long ntst)
 {
@@ -473,17 +445,15 @@ cmp_const(shape sha, long sz, where c, where a, long ntst)
 	return !sw;
 }
 
-
 /*
-    MAIN COMPARISON ROUTINE
-
-    The values var and limit of shape sha are compared for the test
-    indicated by ntst.  Depending on the addressing modes of var and
-    limit we may do "cmp var,limit" or "cmp limit,var".  In the first
-    case we return 1 and in the second 0.  The case when have_cond is
-    2 is dealt with by this routine.
-*/
-
+ * MAIN COMPARISON ROUTINE
+ *
+ * The values var and limit of shape sha are compared for the test
+ * indicated by ntst.  Depending on the addressing modes of var and
+ * limit we may do "cmp var,limit" or "cmp limit,var".  In the first
+ * case we return 1 and in the second 0.  The case when have_cond is
+ * 2 is dealt with by this routine.
+ */
 bool
 cmp(shape sha, where var, where limit, long ntst)
 {
@@ -602,13 +572,11 @@ cmp(shape sha, where var, where limit, long ntst)
 	return !sw;
 }
 
-
 /*
-    OUTPUT A PUSH INSTRUCTION
-
-    The value wh of shape sha and size sz is pushed onto the stack.
-*/
-
+ * OUTPUT A PUSH INSTRUCTION
+ *
+ * The value wh of shape sha and size sz is pushed onto the stack.
+ */
 void
 push(shape sha, long sz, where wh)
 {
@@ -651,13 +619,11 @@ push(shape sha, long sz, where wh)
 	return;
 }
 
-
 /*
-    PUSH A FLOATING POINT REGISTER
-
-    The floating-point register wh of size sz is pushed onto the stack.
-*/
-
+ * PUSH A FLOATING POINT REGISTER
+ *
+ * The floating-point register wh of size sz is pushed onto the stack.
+ */
 void
 push_float(long sz, where wh)
 {
@@ -670,13 +636,11 @@ push_float(long sz, where wh)
 	return;
 }
 
-
 /*
-    OUTPUT A POP OPERATION
-
-    A value of shape sha and size sz is popped from the stack into wh.
-*/
-
+ * OUTPUT A POP OPERATION
+ *
+ * A value of shape sha and size sz is popped from the stack into wh.
+ */
 void
 pop(shape sha, long sz, where wh)
 {
@@ -700,14 +664,12 @@ pop(shape sha, long sz, where wh)
 	return;
 }
 
-
 /*
-    POP A FLOATING POINT REGISTER
-
-    A value of size sz is popped from the stack into the floating-point
-    register wh.
-*/
-
+ * POP A FLOATING POINT REGISTER
+ *
+ * A value of size sz is popped from the stack into the floating-point
+ * register wh.
+ */
 void
 pop_float(long sz, where wh)
 {
@@ -720,15 +682,13 @@ pop_float(long sz, where wh)
 	return;
 }
 
-
 /*
-    MOVE AN ADDRESS INTO A TEMPORARY REGISTER
-
-    The effective address of wh is loaded into a temporary register and
-    the register number is returned.  By default, register r is used,
-    but if try is true we see if we can do better.
-*/
-
+ * MOVE AN ADDRESS INTO A TEMPORARY REGISTER
+ *
+ * The effective address of wh is loaded into a temporary register and
+ * the register number is returned.  By default, register r is used,
+ * but if try is true we see if we can do better.
+ */
 static int
 tmp_mova(where wh, int r, bool try)
 {
@@ -766,14 +726,12 @@ tmp_mova(where wh, int r, bool try)
 	return r;
 }
 
-
 /*
-    MOVE A CONSTANT VALUE
-
-    The constant value c is assigned to the where to (of shape sha and
-    size sz).
-*/
-
+ * MOVE A CONSTANT VALUE
+ *
+ * The constant value c is assigned to the where to (of shape sha and
+ * size sz).
+ */
 void
 move_const(shape sha, long sz, long c, where to)
 {
@@ -849,14 +807,12 @@ move_const(shape sha, long sz, long c, where to)
 	return;
 }
 
-
 /*
-    MOVE FROM A FLOATING-POINT REGISTER
-
-    The value in the floating-point register from (of size sz) is moved
-    into to.
-*/
-
+ * MOVE FROM A FLOATING-POINT REGISTER
+ *
+ * The value in the floating-point register from (of size sz) is moved
+ * into to.
+ */
 static void
 move_from_freg(long sz, where from, where to)
 {
@@ -888,14 +844,12 @@ move_from_freg(long sz, where from, where to)
 	}
 }
 
-
 /*
-    MOVE TO A FLOATING-POINT REGISTER
-
-    The value in from (of size sz) is moved into the floating-point
-    register to.
-*/
-
+ * MOVE TO A FLOATING-POINT REGISTER
+ *
+ * The value in from (of size sz) is moved into the floating-point
+ * register to.
+ */
 static void
 move_to_freg(long sz, where from, where to)
 {
@@ -932,14 +886,12 @@ move_to_freg(long sz, where from, where to)
 	}
 }
 
-
 /*
-    TEST AN EXTERNAL FOR SIMPLE CONTENTS/ASSIGN
-
-    The expression e of external storage type is checked for simple
-    operand type.
-*/
-
+ * TEST AN EXTERNAL FOR SIMPLE CONTENTS/ASSIGN
+ *
+ * The expression e of external storage type is checked for simple
+ * operand type.
+ */
 static bool
 ca_extern(exp e)
 {
@@ -950,14 +902,12 @@ ca_extern(exp e)
 	return name(son(e)) == name_tag ? 1 : 0;
 }
 
-
 /*
-    MOVE LARGE OBJECTS
-
-    sz bits are copied from from to to.  down can be 0 (start at the
-    top), 1 (start at the bottom) or 2 (don't care).
-*/
-
+ * MOVE LARGE OBJECTS
+ *
+ * sz bits are copied from from to to.  down can be 0 (start at the
+ * top), 1 (start at the bottom) or 2 (don't care).
+ */
 void
 move_bytes(long sz, where from, where to, int down)
 {
@@ -1089,15 +1039,13 @@ move_bytes(long sz, where from, where to, int down)
 	return;
 }
 
-
 /*
-    MAIN MOVE ROUTINE
-
-    A value of shape sha is moved from from into to.  There are several
-    main subcases : floating-point values, values of sizes 8, 16 and 32,
-    and all other cases.
-*/
-
+ * MAIN MOVE ROUTINE
+ *
+ * A value of shape sha is moved from from into to.  There are several
+ * main subcases : floating-point values, values of sizes 8, 16 and 32,
+ * and all other cases.
+ */
 void
 move(shape sha, where from, where to)
 {
@@ -1366,13 +1314,11 @@ move(shape sha, where from, where to)
 	return;
 }
 
-
 /*
-    MOVE ADDRESS ROUTINE
-
-    The effective address of from is loaded into to.
-*/
-
+ * MOVE ADDRESS ROUTINE
+ *
+ * The effective address of from is loaded into to.
+ */
 void
 mova(where from, where to)
 {
@@ -1446,8 +1392,6 @@ mova(where from, where to)
 	return;
 }
 
-
-
 long
 range_max(shape shp)
 {
@@ -1490,14 +1434,12 @@ range_min(shape shp)
 	return 0;
 }
 
-
 /*
-    AUXILIARY CHANGE VARIETY ROUTINE
-
-    The value from of shape shf is converted to a value of shape sht and
-    moved into to.
-*/
-
+ * AUXILIARY CHANGE VARIETY ROUTINE
+ *
+ * The value from of shape shf is converted to a value of shape sht and
+ * moved into to.
+ */
 void
 change_var_sh(shape sht, shape shf, where from, where to)
 {
@@ -1727,13 +1669,11 @@ change_var_sh(shape sht, shape shf, where from, where to)
 	return;
 }
 
-
 /*
-    MAIN CHANGE VARIETY ROUTINE
-
-    The value from is converted to a value of shape sha and moved into to.
-*/
-
+ * MAIN CHANGE VARIETY ROUTINE
+ *
+ * The value from is converted to a value of shape sha and moved into to.
+ */
 void
 change_var(shape sha, where from, where to)
 {
@@ -1743,14 +1683,13 @@ change_var(shape sha, where from, where to)
 }
 
 /*
-    FIND APPROPRIATE BRANCH INSTRUCTION TYPE
-
-    This routine returns the appropriate branch instruction for test number
-    test_no, which should be switched if sw is 0.  sf indicates whether
-    a floating-point instruction should be used.  If not, sg indicates
-    whether a signed or unsigned instruction should be used.
-*/
-
+ * FIND APPROPRIATE BRANCH INSTRUCTION TYPE
+ *
+ * This routine returns the appropriate branch instruction for test number
+ * test_no, which should be switched if sw is 0.  sf indicates whether
+ * a floating-point instruction should be used.  If not, sg indicates
+ * whether a signed or unsigned instruction should be used.
+ */
 int
 branch_ins(long test_no, int sw, int sg, int sf)
 {
@@ -1843,17 +1782,16 @@ branch_ins(long test_no, int sw, int sg, int sf)
 	return m_dont_know;
 }
 
-
 /*
-    OUTPUT CONDITIONAL JUMP
-
-    A jump to the label indicated by jr is output.  test_no, sw, sg and sf
-    have the same meanings as in branch_ins.
-*/
-
+ * OUTPUT CONDITIONAL JUMP
+ *
+ * A jump to the label indicated by jr is output.  test_no, sw, sg and sf
+ * have the same meanings as in branch_ins.
+ */
 void
 branch(long test_no, exp jr, int sg, int sw, int sf)
 {
 	make_jump(branch_ins(test_no, sw, sg, sf), ptno(jr));
 	return;
 }
+

@@ -7,27 +7,24 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/************************************************************************
- *                         const.c
- *  This file defines the routines which implement the TDF-to-TDF
- *  optimising transformation which removes constant expressions from
- *  program fragments (typically loops).
+/*
+ * This file defines the routines which implement the TDF-to-TDF optimising
+ * transformation which removes constant expressions from program fragments
+ * (typically loops).
  *
- *  The type maxconst returns information about the expression under
- *  consideration. The field self is true if the expression as a whole is
- *  constant within the program fragment under consideration. If the
- *  entire expression is not constant (self is false) then the field cont
- *  is a list of the sub-expressions which are constant within the
- *  specified region.
+ * The type maxconst returns information about the expression under
+ * consideration. The field self is true if the expression as a whole is
+ * constant within the program fragment under consideration. If the entire
+ * expression is not constant (self is false) then the field cont is a list
+ * of the sub-expressions which are constant within the specified region.
  *
- *  The type maxconst is defined in consttypes.h
+ * The type maxconst is defined in consttypes.h
  *
- *  The principal procedures defined here are mc_list, repeat_consts and
- *  return_repeats. They are described below.
+ * The principal procedures defined here are mc_list, repeat_consts and
+ * return_repeats. They are described below.
  *
- *  Also used externally is intnl_to.
- *
- ************************************************************************/
+ * Also used externally is intnl_to.
+ */
 
 #include <shared/check.h>
 #include <shared/xalloc.h>
@@ -60,17 +57,12 @@
 #include <newdiag/dg_aux.h>
 #endif
 
-
-/* MACROS */
-
 #define false 0
 #define true  1
 #define MAXUSE 16
 #define VERYBIGUSAGE 100
 #define MEMINC 64
 #define nilmem	((memlist *)0)
-
-/* IDENTITIES */
 
 static maxconst self_const = {
   true, nilexp
@@ -81,7 +73,6 @@ static maxconst self_const = {
 };
 /* no part of the expression is constant */
 
-/* VARIABLES */
 /* All variables initialised */
 
 typedef struct _memlist {
@@ -106,9 +97,6 @@ static exp glob_dest[globmax];
 
 static int has_lj_dest;
 
-
-/* PROCEDURES */
-
 exp get_repeats(void);
 
 static int
@@ -121,9 +109,9 @@ find_glob(exp e)
   return 0;
 }
 
-/************************************************************************
- *  ret_constlist returns the elements of a constants-list
- ************************************************************************/
+/*
+ * ret_constlist returns the elements of a constants-list
+ */
 static void
 ret_constlist(exp head)
 {
@@ -143,23 +131,18 @@ ret_constlist(exp head)
 static maxconst max_const(exp, exp, int);
 /* declaration - max_const and mc_list are mutually recursive */
 
-
-
-/************************************************************************
- *  mc_list examines a list of expressions, and for each of them
- *  extracts the largest expressions which are constant within the
- *  region of interest.
+/*
+ * mc_list examines a list of expressions, and for each of them
+ * extracts the largest expressions which are constant within the
+ * region of interest.
  *
- *  Parameters:
- *        whole   the program region under consideration
- *        e       the first expression in the list. Expressions are
- *                linked via the brother field.
- *        ass_ok  all assignments in this region are to simple unaliassed
- *                variables
- *        good    if this is true AND all the expressions in the list are
- *                constant then the value self_const is returned.
- ************************************************************************/
-
+ *  whole   the program region under consideration
+ *  e       the first expression in the list. Expressions are
+ *          linked via the brother field.
+ *  ass_ok  all assignments in this region are to simple unaliassed variables
+ *  good    if this is true AND all the expressions in the list are
+ *          constant then the value self_const is returned.
+ */
 static
 maxconst mc_list(exp whole, exp e, int ass_ok, int good)
 {
@@ -213,11 +196,9 @@ maxconst mc_list(exp whole, exp e, int ass_ok, int good)
   return result;
 }
 
-
-/************************************************************************
- *  intnl_to returns true if part is contained in whole
- ************************************************************************/
-
+/*
+ * intnl_to returns true if part is contained in whole
+ */
 int
 intnl_to(exp whole, exp part)
 {
@@ -310,7 +291,6 @@ not_ass2(exp vardec, exp piece)
   return true;
 }
 
-
 static int
 not_assigned_to(exp vardec, exp body)
 {
@@ -319,12 +299,16 @@ not_assigned_to(exp vardec, exp body)
   }
 
   if (no(vardec) > MAXUSE) {
-    /* when a variable is used many times the result from not_ass2 */
-    /* is saved in an ordered list to avoid n-squared run-times    */
+    /*
+	 * When a variable is used many times the result from not_ass2
+     * is saved in an ordered list to avoid n-squared run-times.
+     */
     memlist *ptr = mem;
     /* is this declaration known? */
-    /* NOTE: memory is cleared after each repeat is processed */
-    /* so any in memory refer to the current repeat */
+    /*
+	 * Note: memory is cleared after each repeat is processed,
+     * so any in memory refer to the current repeat.
+	 */
     while (ptr != nilmem && (ptr->dec) != vardec)
       ptr = ptr->next;
     if (ptr == nilmem) {
@@ -361,19 +345,14 @@ not_assigned_to(exp vardec, exp body)
   }
 }
 
-
-
-/************************************************************************
- *  max_const extracts the largest expressions which are constant within
- *  the region of interest.
+/*
+ * max_const extracts the largest expressions which are constant within
+ * the region of interest.
  *
- *  Parameters:
- *        whole   the program region under consideration
- *        e       the expression under consideration
- *        ass_ok  all assignments in this region are to simple unaliassed
- *                variables
- ************************************************************************/
-
+ *   whole   the program region under consideration
+ *   e       the expression under consideration
+ *   ass_ok  all assignments in this region are to simple unaliassed variables
+ */
 static maxconst
 max_const(exp whole, exp e, int ass_ok)
 {
@@ -459,8 +438,7 @@ max_const(exp whole, exp e, int ass_ok)
       if (!intnl_to(whole, var) && (not_assigned_to(var, whole))
 	  && ass_ok) {
 	/*
-	 * variable declared external to whole, and NEVER assigned to in
-	 * whole
+	 * variable declared external to whole, and NEVER assigned to in whole
 	 */
 	if (iscaonly(var)) {
 	  return self_const;
@@ -637,16 +615,14 @@ max_const(exp whole, exp e, int ass_ok)
 	return self_const;
       }
       if (mc2.self && mc1.cont != nilexp) {
-	/**********************************************************
-         * the offset is const, and arg1 has some constant parts
-         * so transform:
-         *   offset_mult((a*b),K)
-         * to:
-         *   offset_mult(a,offset_mult(b,K))
-         * rearranged so that the constant factors are grouped
-         * with K so that the largest possible structure can be
-         * extracted as constant
-         *********************************************************/
+	/*
+	 * The offset is const, and arg1 has some constant parts so transform:
+	 *   offset_mult((a*b),K)
+	 * to:
+	 *   offset_mult(a,offset_mult(b,K))
+	 * rearranged so that the constant factors are grouped with K so that
+	 * the largest possible structure can be extracted as constant
+	 */
 	exp klist = nilexp, nklist = nilexp;
 	exp *ref;
 	exp m_res;
@@ -720,22 +696,17 @@ max_const(exp whole, exp e, int ass_ok)
   }
 }
 
-
-/************************************************************************
- *  do_this_k
- *    replaces simple and compound constants in list by uses of a
- *    newly declared constant.
- *  Parameters:
- *        kdec    declaration of this new constant
- *        patn    pattern to look for
- *                NB where safe_eval has NOT been used,
- *                   patn is son(kdec)
- *        list    list of constant expresion holders
- *        limit   last constant holder in list
- ************************************************************************/
-
+/*
+ * do_this_k replaces simple and compound constants in list by uses
+ * of a newly declared constant.
+ *
+ *   kdec    declaration of this new constant
+ *   patn    pattern to look for
+ *           NB where safe_eval has NOT been used, patn is son(kdec)
+ *   list    list of constant expresion holders
+ *   limit   last constant holder in list
+ */
 void do_this_k(exp kdec, exp patn, exp list, exp limit);
-
 void
 do_this_k(exp kdec, exp patn, exp list, exp limit)
 {
@@ -864,18 +835,14 @@ do_this_k(exp kdec, exp patn, exp list, exp limit)
   }
 }
 
-/************************************************************************
- *  safe_arg
- *
+/*
  * insert run-time checks on this argument - see safe_eval
  *
- *  Parameters:
- *        e	argument to be tested
- *        esc	label: jump to this if e is:
+ *   e	argument to be tested
+ *   esc	label: jump to this if e is:
  *			pointer and nil
  *			numeric and zero
- ************************************************************************/
-
+ */
 static exp
 safe_arg(exp e, exp esc)
 {
@@ -944,15 +911,15 @@ safe_arg(exp e, exp esc)
   return hc(decl, s);
 }
 
-
-/************************************************************************
- *  safe_eval	ensure that the evaluation of e cannot fail
+/*
+ * safe_eval	ensure that the evaluation of e cannot fail
  *
- * insert run-time checks into the evaluation of this expression - this is
- * only used when a constant is extracted from inside a conditional inside
- * a loop. Where this happens, the extraction of the constant and its
- * unconditional evaluation outside the loop can result in program failure
- * when the program would not otherwise have failed.
+ * Insert run-time checks into the evaluation of this expression - this is only
+ * used when a constant is extracted from inside a conditional inside a loop.
+ * Where this happens, the extraction of the constant and its unconditional
+ * evaluation outside the loop can result in program failure when the program
+ * would not otherwise have failed.
+ *
  * This should be called with "escape_route" as nilexp - this marks the
  * outermost call of safe_eval, and causes the contruction of a label for
  * the code to escape to if a "dangerous" value is encountered during
@@ -967,12 +934,9 @@ safe_arg(exp e, exp esc)
  * Note that checking the result of reffield for NIL is a waste of time
  * since any offset from NIL will make the result different from NIL.
  *
- *
- *  Parameters:
- *        e		expression being evaluated
- *        escape_route	label: jump to this if evaluation would fail
- ************************************************************************/
-
+ *   e		expression being evaluated
+ *   escape_route	label: jump to this if evaluation would fail
+ */
 static exp
 safe_eval(exp e, exp escape_route)
 {
@@ -1097,17 +1061,6 @@ safe_eval(exp e, exp escape_route)
   }
 }
 
-
-/************************************************************************
- *  extract_consts
- *
- *  Parameters:
- *        issn         loop is son(rf) else bro(rf)
- *        rf           EXP holding loop
- *        list_head    exp containing list of constant expressions
- *                     this must not be empty
- ************************************************************************/
-
 static void
 look_for_caonly(exp e)
 {
@@ -1126,7 +1079,12 @@ look_for_caonly(exp e)
   return;
 }
 
-
+/*
+ *  issn         loop is son(rf) else bro(rf)
+ *  rf           EXP holding loop
+ *  list_head    exp containing list of constant expressions
+ *               this must not be empty
+ */
 static int
 extract_consts(int issn, exp rf, exp list_head)
 {
@@ -1161,12 +1119,14 @@ extract_consts(int issn, exp rf, exp list_head)
 
 	/* ?????????????????? */
 	if (!last(e) && last(bro(e)) && (name(f) == ident_tag) && !isvar(f)) {
-	  /* this is an in-register constant declaration */
-	  /* so remove the force register bit from f so  */
-	  /* that it becomes a simple renaming           */
+	  /*
+	   * This is an in-register constant declaration so remove the
+	   * force register bit from f so that it becomes a simple renaming
+	   */
 	  clearusereg(f);
-	  /* and set the force register bit for the      */
-	  /* outer declaration                           */
+	  /*
+	   * ...and set the force register bit for the outer declaration.
+	   */
 	  force = 1;
 	}
 #ifdef NEWDIAGS
@@ -1219,8 +1179,10 @@ extract_consts(int issn, exp rf, exp list_head)
 	}
 #endif
 	if (props(t) > 1) {
-	  /* this const. is in a conditional in the loop */
-	  /* ensure that extraction from loop does not cause a failure */
+	  /*
+	   * This const. is in a conditional in the loop; ensure that extraction
+	   * from loop does not cause a failure.
+	   */
 	  kill_e = true;
 	  konst = safe_eval(e, nilexp);
 	} else {
@@ -1288,15 +1250,6 @@ extract_consts(int issn, exp rf, exp list_head)
   return changed;
 }
 
-
-/************************************************************************
- *  assigns_alias
- *
- *  scans e - returns true if any aliased variables are assigned to
- *
- *
- ************************************************************************/
-
 int named_dest(exp dest);
 
 int
@@ -1331,6 +1284,9 @@ named_dest(exp dest)
   }
 }
 
+/*
+ * Scans e - returns true if any aliased variables are assigned to.
+ */
 int
 assigns_alias(exp e)
 {
@@ -1378,15 +1334,9 @@ assigns_alias(exp e)
   }
 }
 
-
-/************************************************************************
- *  scan_for_lv
- *
- *  scans e - returns true if any label may be long jump destination
- *
- *
- ************************************************************************/
-
+/*
+ * Scans e - returns true if any label may be long jump destination
+ */
 static int
 scan_for_lv(exp e)
 {
@@ -1417,13 +1367,9 @@ scan_for_lv(exp e)
   }
 }
 
-
-/************************************************************************
- *  repeat_consts
- *
- *  calls extract_consts on each element of the list of repeat loops
- ************************************************************************/
-
+/*
+ * Calls extract_consts on each element of the list of repeat loops.
+ */
 void
 repeat_consts(void)
 {
@@ -1493,15 +1439,12 @@ repeat_consts(void)
   }
 }
 
-
-/************************************************************************
- *  get_repeats
+/*
+ * Calculates maximum distance of every repeat from a leaf node
+ * (this allows repeat processing to be restricted to inner loops)
  *
- *  calculates maximum distance of every repeat from a leaf node
- *  (this allows repeat processing to be restricted to inner loops)
- *  returns the repeat_list
- ************************************************************************/
-
+ * Returns the repeat_list
+ */
 exp
 get_repeats(void)
 {
@@ -1529,13 +1472,9 @@ get_repeats(void)
   return repeat_list;
 }
 
-
-/************************************************************************
- *  return_repeats
- *
- *  returns the storage used by repeat_list
- ************************************************************************/
-
+/*
+ * Returns the storage used by repeat_list.
+ */
 void
 return_repeats(void)
 {

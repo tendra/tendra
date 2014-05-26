@@ -7,14 +7,9 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/**********************************************************************
-
-                               spec.c
-
-  Defines special_fn which recognises and replaces some special
-  function calls.
-
-**********************************************************************/
+/*
+ * Defines special_fn which recognises and replaces some special function calls.
+ */
 
 #include <string.h>
 
@@ -34,13 +29,10 @@
 #include <construct/me_fns.h>
 #include <construct/spec.h>
 
-
-/* PROCEDURES */
-
 speci special_fn
 (exp a1, exp a2, shape s)
 {
-				/* look for special functions */
+		/* look for special functions */
   speci spr;
   dec* dp = brog(son(a1));
   char *id = dp -> dec_u.dec_val.dec_id;

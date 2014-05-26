@@ -8,19 +8,17 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/**********************************************************************
-		move.c
-
-	The procedure move produces code to move a value from a to the
-destination dest. This takes the form of a switch test on the parameter
-a (type ans) which is either a reg, freg instore or bitad value. In
-each of the three cases the ans field of the dest is similarly dealt
-with to determine the necessary instructions for the move. Sizes and
-alignment are taken from the ash field of the destination.
-
-Delivers register used if 1-word destination is instore; otherwise NOREG.
-
-**********************************************************************/
+/*
+ * The procedure move produces code to move a value from a to the
+ * destination dest. This takes the form of a switch test on the parameter
+ * a (type ans) which is either a reg, freg instore or bitad value.
+ *
+ * In each of the three cases the ans field of the dest is similarly dealt
+ * with to determine the necessary instructions for the move. Sizes and
+ * alignment are taken from the ash field of the destination.
+ *
+ * Delivers register used if 1-word destination is instore; otherwise NOREG.
+ */
 
 #include <shared/error.h>
 
@@ -51,8 +49,7 @@ typedef Instruction_P ins_sgn_pair[2 /* FALSE..TRUE */ ];
 static /* const */ ins_sgn_pair ld_ins_sz[] =
 {
    /* 0 */	{&INSTRUCTION_I_NIL,    &INSTRUCTION_I_NIL},
-   /* 8 */	{&INSTRUCTION_i_lbz,    &INSTRUCTION_i_lbz},	/* no signed byte load on POWER,
-                                               * sign bit must be propagated after load */
+   /* 8 */	{&INSTRUCTION_i_lbz,    &INSTRUCTION_i_lbz}, /* no signed byte load on POWER, sign bit must be propagated after load */
    /* 16 */	{&INSTRUCTION_i_lhz,    &INSTRUCTION_i_lha},
    /* 24 */	{&INSTRUCTION_I_NIL,	&INSTRUCTION_I_NIL},
    /* 32 */	{&INSTRUCTION_i_l,	&INSTRUCTION_i_l},
@@ -207,30 +204,28 @@ static void store(Instruction_P st, int r, instore is, long regs)
 /*
  * Copy a large inmem object with a loop.
  * Compact code, but slower than loopmove2() so no longer used.
+ *
+ * Copy with loop.
+ *
+ * Currently generate:
+ *
+ *		!%srcptr and %destptr set
+ *		lil	%cnt,bytes
+ *	loop:
+ *		ai.	%cnt,%cnt,-bytes_per_step
+ *		lx	%tmp,[%srcptr+%cnt]
+ *		stX	%tmp,[%destptr+%cnt]
+ *		bnz	loop
+ *
+ * +++ unroll, and use two copy regs to seperate ld and st using same reg
+ * +++ use CR
+ * +++ use lu/stu
+ * +++ use lsi/stsi
  */
 static void loopmove1
     (instore iss, instore isd, int bytes_per_step, int no_steps,
 	     Instruction_P ld, Instruction_P st, long regs)
 {
-  /*
-   * Copy with loop.
-   *
-   * Currently generate:
-   *
-   *		!%srcptr and %destptr set
-   *		lil	%cnt,bytes
-   *	loop:
-   *		ai.	%cnt,%cnt,-bytes_per_step
-   *		lx	%tmp,[%srcptr+%cnt]
-   *		stX	%tmp,[%destptr+%cnt]
-   *		bnz	loop
-   *
-   * +++ unroll, and use two copy regs to seperate ld and st using same reg
-   * +++ use CR
-   * +++ use lu/stu
-   * +++ use lsi/stsi
-   */
-
   int srcptr_reg;
   int destptr_reg;
   int cnt_reg;
@@ -273,30 +268,26 @@ static void loopmove1
 
 /*
  * Copy a large inmem object with a loop, using only 2 regs and R_TMP.
+ *
+ * Currently generate:
+ *
+ *		!%srcptr and %destptr set in regs that will be changed
+ *		lil	%tmp,steps
+ *		mtctr	%tmp
+ *		ai	%srcptr,%srcptr,-bytes_per_step [if needed]
+ *		ai	%dstptr,%dstptr,-bytes_per_step [if needed]
+ *	loop:
+ *		lXu	%tmp,[%srcptr+bytes_per_step]
+ *		stXu	%tmp,[%destptr+bytes_per_step]
+ *		bdn	loop
+ *
+ * +++ do extra plain ld/st outside loop to avoid decrements
+ * +++ use lsi/stsi
  */
 static void loopmove2
     (instore iss, instore isd, int bytes_per_step, int no_steps,
 	     Instruction_P ld, Instruction_P st, long regs)
 {
-  /*
-   * Copy with loop, need 2 regs and R_TMP.
-   *
-   * Currently generate:
-   *
-   *		!%srcptr and %destptr set in regs that will be changed
-   *		lil	%tmp,steps
-   *		mtctr	%tmp
-   *		ai	%srcptr,%srcptr,-bytes_per_step [if needed]
-   *		ai	%dstptr,%dstptr,-bytes_per_step [if needed]
-   *	loop:
-   *		lXu	%tmp,[%srcptr+bytes_per_step]
-   *		stXu	%tmp,[%destptr+bytes_per_step]
-   *		bdn	loop
-   *
-   * +++ do extra plain ld/st outside loop to avoid decrements
-   * +++ use lsi/stsi
-   */
-
   Instruction_P ldu, stu;
   int srcptr_reg;
   int destptr_reg;
@@ -362,33 +353,29 @@ static void loopmove2
 
 /*
  * Copy a large inmem object with unrolled loop, using 3 regs and R_TMP.
+ *
+ * Currently generate:
+ *
+ *		!%srcptr and %destptr set in regs that will be changed
+ *		ai	%srcptr,%srcptr,-bytes_per_step [if needed]
+ *		ai	%dstptr,%dstptr,-bytes_per_step [if needed]
+ *		lXu	%tmp2,[%srcptr+bytes_per_step]	[if needed]
+ *		lil	%tmp1,half_steps
+ *		mtctr	%tmp1
+ *		stXu	%tmp2,[%destptr+bytes_per_step]	[if needed]
+ *	loop:
+ *		lXu	%tmp1,[%srcptr+bytes_per_step]
+ *		lXu	%tmp2,[%srcptr+bytes_per_step]
+ *		stXu	%tmp1,[%destptr+bytes_per_step]
+ *		stXu	%tmp2,[%destptr+bytes_per_step]
+ *		bdn	loop
+ *
+ * +++ use lsi/stsi
  */
 static void loopmove3
     (instore iss, instore isd, int bytes_per_step, int no_steps,
 	     Instruction_P ld, Instruction_P st, long regs)
 {
-  /*
-   * Copy with unrolled loop, need 3 regs and R_TMP.
-   *
-   * Currently generate:
-   *
-   *		!%srcptr and %destptr set in regs that will be changed
-   *		ai	%srcptr,%srcptr,-bytes_per_step [if needed]
-   *		ai	%dstptr,%dstptr,-bytes_per_step [if needed]
-   *		lXu	%tmp2,[%srcptr+bytes_per_step]	[if needed]
-   *		lil	%tmp1,half_steps
-   *		mtctr	%tmp1
-   *		stXu	%tmp2,[%destptr+bytes_per_step]	[if needed]
-   *	loop:
-   *		lXu	%tmp1,[%srcptr+bytes_per_step]
-   *		lXu	%tmp2,[%srcptr+bytes_per_step]
-   *		stXu	%tmp1,[%destptr+bytes_per_step]
-   *		stXu	%tmp2,[%destptr+bytes_per_step]
-   *		bdn	loop
-   *
-   * +++ use lsi/stsi
-   */
-
   int half_no_steps = no_steps/2;
   Instruction_P ldu, stu;
   int srcptr_reg;

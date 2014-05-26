@@ -32,18 +32,11 @@
 
 extern char * init_NAME;
 
-/* Procedures to accumulate symbol table records for MIPS translator
-
-new_lsym
-new_lsym_d
-new_esym
-new_esym_d
-
-and to output the table
-
-output_symtab(name)
-
-by R.R.R.  25/1/91	*/
+/*
+ * Procedures to accumulate symbol table records for MIPS translator
+ * new_lsym, new_lsym_d, new_esym, new_esym_d
+ * and to output the table output_symtab(name)
+ */
 
 long numfiles;
 long numprocs;	/* provided by mipstrans in call to init */
@@ -153,11 +146,9 @@ add_proc(long sympos, long filenum)
 	symcount++;
 }
 
-
-
-
-/*********************  STRING procedures  ********************/
-
+/*
+ * String procedures
+ */
 
 long
 add_string(char* str, STRINGS* list)
@@ -201,10 +192,9 @@ add_to_ext_strings(char* extstr)
 	return posind;
 }
 
-
-/******************  DENSE NUMBERS  ********************/
-
-
+/*
+ * Dense numbers
+ */
 
 long
 add_dense_no(long rfd, long index)
@@ -242,8 +232,9 @@ get_dense_ptr(long densind)
 	return denseptr->densenolist+(denseptr->num-(densecount-densind));
 }
 
-
-/********************  SYMBOL PROCEDURES  ********************/
+/*
+ * Symbol procedures
+ */
 
 long
 get_sym_index(long ind)
@@ -257,7 +248,6 @@ get_sym_index(long ind)
 	return lsymindex;
 }
 
-
 SYMR*
 get_sym_ptr(long ind, long symind)
 {
@@ -269,9 +259,6 @@ get_sym_ptr(long ind, long symind)
 	   }
 	return lsymlist->symlist+(lsymlist->noofsyms-(symcount-symind));
 }
-
-
-
 
 long
 add_lsym(long ind, SYMR* newsym)
@@ -294,8 +281,6 @@ add_lsym(long ind, SYMR* newsym)
 	lsymlist->noofsyms += 1;
 	return lsymindex;
 }
-
-
 
 long
 add_esym(long ind, SYMR* newsym)
@@ -416,14 +401,11 @@ new_lsym(char* str, long value, short symtype, short symclass, diag_type s, long
    return add_lsym (filenum, &newsym);
 }
 
-
 long
 new_lsym_d(char* str, long value, short symtype, short symclass, diag_type s, long filenum)
 {
 	return add_dense_no(filenum,new_lsym (str, value, symtype, symclass,s, filenum));
 }
-
-
 
 long
 new_esym(char* str, long value, short symtype, short symclass, diag_type s, long filenum)
@@ -452,8 +434,9 @@ new_esym_d(char* str, long value, short symtype, short symclass, diag_type s, lo
 	return add_dense_no(0x7fffffff,new_esym(str, value, symtype, symclass, s, filenum));
 }
 
-
-/********************* Auxillary information  ********************/
+/*
+ * Auxillary information
+ */
 
 AUXU*
 get_aux_ptr(long index, long auxind)
@@ -495,7 +478,6 @@ add_aux(AUXU auxent, long index)
 	return auxind;
 }
 
-
 long
 add_st_aux(long ind)
 {
@@ -510,7 +492,6 @@ add_st_aux(long ind)
    return indaux;
 }
 
-
 long
 add_un_aux(long ind)
 {
@@ -524,7 +505,6 @@ add_un_aux(long ind)
 	add_aux(maxaux, ind);
    return indaux;
 }
-
 
 void
 output_symtab(char* symfilename)

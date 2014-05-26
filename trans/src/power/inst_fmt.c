@@ -8,15 +8,12 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/******************************************************************
-		inst_formats.c
-
-	Procs for outputting various POWER instruction formats to the
-external file - as_file. Each procedure produces assembler for a family
-of POWER operations, the actual member is passed as the string
-understood by the assembler.
-
-******************************************************************/
+/*
+ * Procs for outputting various POWER instruction formats to the
+ * external file - as_file. Each procedure produces assembler for a family
+ * of POWER operations, the actual member is passed as the string
+ * understood by the assembler.
+ */
 
 #include <stdio.h>
 
@@ -291,7 +288,7 @@ void rir_ins(Instruction_P ins, int src, long imm, int dest)
 
   /*
    * Check agaonst IBM assembler bug which we should avoid at higher levels:
-   * IX25505 bosadt : SRI 30,29,0 DOES NOT ASSEMBLE CORRECTLY
+   * IX25505 bosadt: SRI 30,29,0 DOES NOT ASSEMBLE CORRECTLY
    */
   ASSERT(!(ins==i_sr && imm==0));
 
@@ -561,26 +558,21 @@ void mt_ins(Instruction_P ins, int src)
 #endif
 }
 
-
-
 /* zeroadic pseudo instruction */
 void z_ins(Instruction_P ins)
 {
   fprintf(as_file, "\t%s\n", get_instruction(ins));
 }
 
-
-/******************************************************************************
-Branch instructions. These have labels as destination.
-******************************************************************************/
+/*
+ * Branch instructions. These have labels as destination.
+ */
 
 /* unconditional branch */
 void uncond_ins(Instruction_P ins, int lab)
 {
   fprintf(as_file, "\t%s\tL.%d\n", get_instruction(ins), lab);
 }
-
-
 
 
 /*
@@ -688,7 +680,10 @@ void bc_ins(Instruction_P ins, int creg, int lab, int prediction)
 /* branch conditional instruction */
 void long_bc_ins(Instruction_P ins, int creg, int lab, int prediction)
 {
-  /* same as bc_ins only the test is reversed so that the lab is called directly so that there is no chance of the branch being out of range */
+	/*
+	 * Same as bc_ins only the test is reversed so that the lab is called
+	 * directly so that there is no chance of the branch being out of range.
+	 */
 
   long new_lab = lab;
   lab = new_label();
@@ -817,9 +812,6 @@ void cmp_ri_ins(Instruction_P ins, int reg, long imm, int cr_dest)
     cmp_rr_ins(ins, reg, R_TMP0, cr_dest);
   }
 }
-
-
-
 
 /*
  * Floating point instructions.

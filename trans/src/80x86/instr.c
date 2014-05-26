@@ -7,15 +7,9 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/**********************************************************************
-                           instr.c
-
-
-   defines the general routines for outputting instructions and labels:
-
-
-
-**********************************************************************/
+/*
+ * Defines the general routines for outputting instructions and labels.
+ */
 
 #include <string.h>
 #include <stdlib.h>
@@ -66,15 +60,10 @@
 #endif
 
 
-/* LOCAL TYPE */
-
 typedef union eu_u {int i; exp e;} punner;
-
-/* MACROS */
 
 #define fstack_base 8
 
-/* VARIABLES */
 /* All variables initialised */
 
 int  extra_stack = 0;	/* init by init_all */
@@ -88,8 +77,6 @@ int avoid_intov; /* No software interrupts */
 
 static exp cont_err_handler = nilexp;
 
-
-/* IDENTITIES */
 
 char *margin = " ";		/* instruction left margin */
 char *spx = " ";		/* separates instruction from operands */
@@ -110,8 +97,6 @@ char *fl_reg_name[8] = {
   "%st(7)",
 };
 
-/* PROCEDURES */
-
 void temp_push_fl
 (void)
 {
@@ -125,13 +110,9 @@ void temp_pop_fl
   return;
 }
 
-
-/***************************************************************
-
-outreal outputs a floating point number
-
-****************************************************************/
-
+/*
+ * Outputs a floating point number.
+ */
 void outreal
 (exp e)
 {
@@ -165,17 +146,16 @@ void outreal
   return;
 }
 
-/* output operand i (in bytes) relative to
-   stack pointer  uses address relative to
-   frame pointer if it might be shorter */
+/*
+ * Output operand i (in bytes) relative to stack pointer
+ * uses address relative to frame pointer if it might be shorter
+ */
 void rel_sp
 (int i, int b)
 {
   int  n = i + (extra_stack / 8);
   if (!must_use_bp) {
-				/* if we might use alloca all
-				   displacements must be relative to frame
-				   pointer */
+				/* if we might use alloca all displacements must be relative to frame pointer */
     if (n == 0) {
       outs("(%esp");
       if (b)
@@ -183,8 +163,7 @@ void rel_sp
       return;
     };
     if (n <= 127 || no_frame || stack_aligned_8byte) {
-				/* use stack pointer if displacement from
-				   it is small */
+				/* use stack pointer if displacement from it is small */
       outn((long)n);
       outs("(%esp");
       if (b)
@@ -204,8 +183,9 @@ void rel_sp
   return;
 }
 
-/* output operand i (in bytes) relative to
-   stack pointer */
+/*
+ * Output operand i (in bytes) relative to stack pointer
+ */
 void rel_cp
 (int i, int b)
 {
@@ -223,8 +203,9 @@ void rel_cp
   return;
 }
 
-/* output operand relative to frame
-   pointer */
+/*
+ * Output operand relative to frame pointer
+ */
 void rel_ap
 (int i, int b)
 {
@@ -248,8 +229,9 @@ void rel_ap
   };
 }
 
-/* output operand relative to frame
-   pointer and push space*/
+/*
+ * Output operand relative to frame pointer and push space
+ */
 void rel_ap1
 (int i, int b)
 {
@@ -289,10 +271,11 @@ int  get_reg_no
   return fr.fr_no;		/* this is the register number */
 }
 
-/* output a register address, regs is a
-   bit pattern, rdisp is an offset in bit
-   units. le tells us how to refer to the
-   register (eg al or ax or eax) */
+/*
+ * Output a register address, regs is a bit pattern,
+ * rdisp is an offset in bit units.
+ * le tells us how to refer to the register (eg al or ax or eax)
+ */
 void regn
 (int regs, int rdisp, exp ldname, int le)
 {
@@ -314,9 +297,11 @@ void regn
       exit(EXIT_FAILURE);
     };
     outs(fl_reg_name[fstack_pos - z]);
-    /* variables held in the floating point registers have to be addressed
-       relative to the current stack position, because the registers are a
-       stack as well as a register bank */
+    /*
+	 * Variables held in the floating point registers have to be addressed
+     * relative to the current stack position, because the registers are a
+     * stack as well as a register bank
+	 */
     return;
   };
 
@@ -335,8 +320,7 @@ void regn
   return;
 }
 
-
-/* output a displacement from register operand */
+/* Output a displacement from register operand */
 void ind_reg
 (int regs, int rdisp, int offset, exp ldname, int b)
 {
@@ -359,7 +343,7 @@ void ind_reg
   return;
 }
 
-/* use indexed addressing */
+/* Use indexed addressing */
 void index_opnd
 (where whmain, where wh, int sc)
 {
@@ -379,8 +363,7 @@ void index_opnd
   return;
 }
 
-
-/* output an external operand */
+/* Output an external operand */
 void extn
 (exp id, int off, int b)
 {
@@ -421,7 +404,7 @@ void extn
   return;
 }
 
-/* an integer constant */
+/* An integer constant */
 void int_operand
 (int k, int l)
 {
@@ -441,8 +424,7 @@ void int_operand
   return;
 }
 
-
-/* an external literal */
+/* An external literal */
 void const_extn
 (exp ident, int noff)
 {
@@ -452,7 +434,7 @@ void const_extn
   return;
 }
 
-/* an external literal */
+/* An external literal */
 void proc_extn
 (exp id, int off)
 {
@@ -573,7 +555,7 @@ void ins0
   return;
 }
 
-/* one operand */
+/* One operand */
 void ins1
 (char *i, int le1, where a1)
 {
@@ -585,7 +567,7 @@ void ins1
   return;
 }
 
-/* one operand, which is indirect */
+/* One operand, which is indirect */
 void ins1ind
 (char *i, int le1, where a1)
 {
@@ -598,7 +580,7 @@ void ins1ind
   return;
 }
 
-/* one operand, which is immediate */
+/* One operand, which is immediate */
 void ins1lit
 (char *i, int le1, where a1)
 {
@@ -610,7 +592,7 @@ void ins1lit
   return;
 }
 
-/* two operands */
+/* Two operands */
 void ins2
 (char *i, int le1, int le2, where a1, where a2)
 {
@@ -624,7 +606,7 @@ void ins2
   return;
 }
 
-/* three operands */
+/* Three operands */
 void ins3
 (char *i, int le1, int le2, int le3, where a1, where a2, where a3)
 {
@@ -640,7 +622,6 @@ void ins3
   return;
 }
 
-
 void simplest_set_lab
 (int labno)
 {
@@ -650,7 +631,6 @@ void simplest_set_lab
   outnl();
 }
 
-
 void simple_set_label
 (int labno)
 {
@@ -659,7 +639,7 @@ void simple_set_label
     failer("redundant jump");
 #endif
 #ifndef NEWDIAGS
-  /* eliminate immediately previous jump to this label */
+  /* Eliminate immediately previous jump to this label */
   if (diag == DIAG_NONE && labno == last_jump_label) {
 		out_set_pos(last_jump_pos);
   };
@@ -668,8 +648,7 @@ void simple_set_label
   cond1_set = 0;
   cond2_set = 0;
   outs(local_prefix);
-  outn ((long)labno);		/* the label no is held in the ptr field
-				*/
+  outn ((long)labno);		/* the label no is held in the ptr field */
   outs(":");
   outnl();
 /* Removed for experiments: improves compress?
@@ -678,20 +657,21 @@ void simple_set_label
   return;
 }
 
-/* set label described by the jump record jr */
+/* Set label described by the jump record jr */
 void set_label
 (exp jr)
 {
   simple_set_label(ptno(jr));
 }
 
-/*  jump record: exp
-    pt - label;
-    last - forward;
-    son - stack_dec;
-    prop - floating stack position
-*/
-
+/*
+ * jump record: exp
+ *
+ *  pt   - label;
+ *  last - forward;
+ *  son  - stack_dec;
+ *  prop - floating stack position
+ */
 void discard_fstack
 (void)
 {
@@ -709,9 +689,9 @@ void discard_st1
   pop_fl;
 }
 
-
-/* output a jump to the label described by
-   jump record jr */
+/*
+ * Output a jump to the label described by jump record jr
+ */
 void jump
 (exp jr, int with_fl_reg)
 {
@@ -757,10 +737,10 @@ void jump
 static char* xse = "<=0";	/* no corresponding jump instruction */
 static char* xnse = ">0";
 
-
-/* output code for a branch instruction
-   determined by test_no. The test is
-   signed if sg is true */
+/*
+ * Output code for a branch instruction determined by test_no.
+ * The test is signed if sg is true
+ */
 static char *out_branch
 (int sg, int test_no, int shnm)
 {
@@ -875,12 +855,12 @@ void simple_branch
 
 }
 
-
-/* output conditional jump to jr. testno
-   specifies kind of test. sg is 1 if
-   signed arithmetic, 0 unsigned, -1 if
-   signed vs zero (ignoring overflow).
-   shnm name of shape */
+/*
+ * Output conditional jump to jr. testno specifies kind of test.
+ * sg is 1 if signed arithmetic, 0 unsigned,
+ * -1 if signed vs zero (ignoring overflow).
+ * shnm name of shape
+ */
 void branch
 (int test_no, exp jr, int sg, int shnm)
 {
@@ -985,8 +965,10 @@ void setcc
   return;
 }
 
-/* output conditional jump to jr if overflow
-   sg is 1 if signed arithmetic, 0 unsigned */
+/*
+ * Output conditional jump to jr if overflow
+ * sg is 1 if signed arithmetic, 0 unsigned
+ */
 void jmp_overflow
 (exp jr, int sg, int inv)
 {
@@ -1015,8 +997,7 @@ void jmp_overflow
   return;
 }
 
-
-/* software interrupt */
+/* Software interrupt */
 void trap_ins
 (int s)
 {
@@ -1050,9 +1031,10 @@ void trap_ins
   return;
 }
 
-
-/* output software interrupt if overflow
-   sg is 1 if signed arithmetic, 0 unsigned */
+/*
+ * Output software interrupt if overflow
+ * sg is 1 if signed arithmetic, 0 unsigned
+ */
 void trap_overflow
 (int sg, int inv)
 {
@@ -1076,10 +1058,10 @@ void trap_overflow
     }
 }
 
-
-/* conditional software interrupt
-   sg is 1 if signed arithmetic
-   shnm name of shape */
+/*
+ * Conditional software interrupt
+ * sg is 1 if signed arithmetic shnm name of shape
+ */
 void test_trap
 (int test_no, int sg, int shnm)
 {
@@ -1094,10 +1076,9 @@ void test_trap
   return;
 }
 
-
-
-/* special output for doing multiply by
-   using index instructions */
+/*
+ * Special output for doing multiply by using index instructions
+ */
 void mult_op
 (int inc, where rmain, where rind, int sc, where dest)
 {
@@ -1133,7 +1114,7 @@ void mult_op
   return;
 }
 
-/* output the case switch jump and the jump table */
+/* Output the case switch jump and the jump table */
 void caseins
 (int sz, exp arg, int min, int max, int *v, int exhaustive, int in_eax, exp case_exp)
 {
@@ -1180,7 +1161,6 @@ void caseins
   };
   return;
 }
-
 
 void const_intnl
 (int addr, int lab, int off)
@@ -1287,9 +1267,7 @@ exp make_extn
   return nme;
 }
 
-
-
-/* shift or rotate 64 bits in reg0/reg1 */
+/* Shift or rotate 64 bits in reg0/reg1 */
 void rotshift64
 (int shft, int sig, where wshift)
 {

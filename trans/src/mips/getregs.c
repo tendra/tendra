@@ -7,16 +7,19 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/******************************************************************
-		getregs.c
-
-	Routines for choosing temporary registers. The next free
-register is chosen cyclically from the registers 8-15, 24 and 25 for
-fixed point and 4-10 and 16-18 in floating point (a factor of 2 is involved here) by examining the bit pattern of the parameter. If the current proc allows it, regs 4-7 may also be used as t-regs - this is the function of chooseafter25 etc. The parameter is usuallytaken from a value of type
- space (which has bits for fixed and floating regs).
-A clear bit indicates that the corresponding register is free for use.
-
-******************************************************************/
+/*
+ * Routines for choosing temporary registers. The next free register is
+ * chosen cyclically from the registers 8-15, 24 and 25 for fixed point
+ * and 4-10 and 16-18 in floating point (a factor of 2 is involved here)
+ * by examining the bit pattern of the parameter.
+ *
+ * If the current proc allows it, regs 4-7 may also be used as t-regs
+ * - this is the function of chooseafter25 etc. The parameter is usually
+ * taken from a value of type space (which has bits for fixed and
+ * floating regs).
+ *
+ * A clear bit indicates that the corresponding register is free for use.
+ */
 
 #include <local/exptypes.h>
 #include <local/expmacs.h>
@@ -57,15 +60,14 @@ static int   maxfloat = 9;
 static int minfixed;
 static long formin;
 
-
+/*
+ * tg is a proc; sets up useable_fixed etc depending on how the proc
+ * treats its parameters; if they are destined for store or s-registers
+ * we can use some of regs 4-7
+ */
 void
 settempregs(exp tg)
 {
-				/* tg is a proc; sets up useable_fixed etc
-				   depending on how the proc treats its
-				   parameters; if they are destined for
-				   store or s-registers we can use some of
-				    regs 4-7 */
   procrec * pr = &procrecs[no(tg)];
   bool leaf = ((pr->needsproc).propsneeds & anyproccall)==0;
   exp stg = son(tg);
@@ -75,8 +77,7 @@ settempregs(exp tg)
   choosefloat = for0;
   useable_fixed = 0x8300fffc;
 	/* r31 (lnk) /r24-25/ r8-r15/ r4-r7 (pars) /r2-r3*/
-  useable_float = 0x3ff;	/* f0-f2 (resreg) f4-f10 f12-f14 (pars)
-  					f16-f18*/
+  useable_float = 0x3ff;	/* f0-f2 (resreg) f4-f10 f12-f14 (pars) f16-f18*/
   if (leaf) {
   	useable_fixed &= ~0x80000000;
   	maxfixed = 25;

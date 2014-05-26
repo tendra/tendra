@@ -33,7 +33,6 @@
 #include <newdiag/dg_aux.h>
 #endif
 
-/* VARIABLES */
 /* All variables initialised */
 
 int crt_labno = 0;	/* init by init_exp */
@@ -46,8 +45,10 @@ int exps_left;	/* init by init_exp */
 static exp next_exp_ptr;	/* no need to init */
 
 
-/* the types used to record a list of blocks for reuse, if separate_units is
- * set */
+/*
+ * The types used to record a list of blocks for reuse,
+ * if separate_units is set
+ */
 struct expalloc_cell_t {
 	struct expalloc_cell_t *tl;
 	exp hd;
@@ -59,14 +60,9 @@ static expalloc_cell *alloc_list = (expalloc_cell *)0;
 static expalloc_cell *alloc_freelist = (expalloc_cell *)0;
 /* good init for the whole run */
 
-
 static char  ic_buff[21];	/* no init needed */
 
-/* IDENTITY */
-
 static int current_alloc_size = 20000;
-
-/* PROCEDURES */
 
 void altered(exp, exp);
 
@@ -85,8 +81,10 @@ next_exp(void)
   if (exps_left == 0) {
     /* if the block is empty we must allocate another */
     if (alloc_freelist) {
-      /* if there is anything in this list of blocks we can reuse
-       * it and we do not need to calloc */
+	/*
+	 * If there is anything in this list of blocks we can reuse it and
+	 * we do not need to calloc
+	 */
       exps_left = current_alloc_size;
       next_exp_ptr = alloc_freelist->hd;
       alloc_freelist = alloc_freelist->tl;
@@ -94,9 +92,11 @@ next_exp(void)
       /* otherwise we must calloc a new block */
       exps_left = current_alloc_size;
       next_exp_ptr = (exp)xcalloc(exps_left, sizeof(struct exp_t));
-      { /* and if we are after the start of tagdefs we put
-	   the block on to alloc_list so that it can be reused
-	   for the next unit */
+      {
+	/*
+	 * And if we are after the start of tagdefs we put the block on to
+	 * alloc_list so that it can be reused for the next unit
+	 */
 	expalloc_cell * temp =
 	    (expalloc_cell *)xmalloc(sizeof(expalloc_cell));
 	temp->tl = alloc_list;
@@ -111,7 +111,6 @@ next_exp(void)
   return res;
 }
 
-
 void
 set_large_alloc(void)
 {
@@ -122,9 +121,9 @@ set_large_alloc(void)
   return;
 }
 
-
-/* create a new exp */
-
+/*
+ * Create a new exp
+ */
 exp
 getexp(shape s, exp b, int l, exp sn, exp px, prop pr, int n, unsigned char tg)
 {
@@ -157,9 +156,9 @@ copyexp(exp e)
   return res;
 }
 
-
-/* makes a new shape */
-
+/*
+ * Makes a new shape
+ */
 exp
 getshape(int l, alignment sn, alignment px, alignment pr, int n,
 	 unsigned char tg)
@@ -178,9 +177,9 @@ getshape(int l, alignment sn, alignment px, alignment pr, int n,
   return res;
 }
 
-
-/* return an exp cell to the freelist */
-
+/*
+ * Return an exp cell to the freelist
+ */
 void
 retcell(exp e)
 {
@@ -189,8 +188,9 @@ retcell(exp e)
   return;
 }
 
-
-/* true if part is inside whole */
+/*
+ * true if part is inside whole
+ */
 int
 internal_to(exp whole, exp part)
 {
@@ -205,13 +205,13 @@ internal_to(exp whole, exp part)
   return f && q == whole;
 }
 
-
 static void kill_el(exp e, exp scope);
 
-/* kill an exp, return it and its components to the freelist, if necessary
+/*
+ * Kill an exp, return it and its components to the freelist, if necessary
  * remove uses of tags and labels, and propagate changes to identity and
- * variable declarations and to labels but not outside scope */
-
+ * variable declarations and to labels but not outside scope.
+ */
 void
 kill_exp(exp e, exp scope)
 {
@@ -353,9 +353,9 @@ kill_exp(exp e, exp scope)
   }
 }
 
-
-/* kill the arguments of a construction */
-
+/*
+ * Kill the arguments of a construction.
+ */
 static void
 kill_el (exp e, exp scope)
 {
@@ -372,8 +372,10 @@ kill_el (exp e, exp scope)
   }
 }
 
-  /* return the shape delivered by a conditional (or similar construct)
-     which delivers an a from one branch and a b from the other */
+/*
+ * Return the shape delivered by a conditional (or similar construct)
+ * which delivers an a from one branch and a b from the other.
+ */
 shape
 lub_shape(shape a, shape b)
 {
@@ -391,7 +393,9 @@ lub_shape(shape a, shape b)
   return f_top;
 }
 
-  /* true if the shapes are equal */
+/*
+ * true if the shapes are equal
+ */
 int
 eq_shape(shape a, shape b)
 {
@@ -409,7 +413,9 @@ eq_shape(shape a, shape b)
   }
 }
 
-  /* source of numbers for local labels */
+/*
+ * Source of numbers for local labels.
+ */
 int
 next_lab(void)
 {
@@ -439,7 +445,6 @@ intchars(int n)
 
   return ind + 1;
 }
-
 
 void
 case_item(exp i)
@@ -539,11 +544,10 @@ case_item(exp i)
   return;
 }
 
-
-/*******************************************************************
-  scan_solve is part of the process of reading a solve construction.
-  It scans the exp e, to increment the count of labels used by e.
- *******************************************************************/
+/*
+ * scan_solve is part of the process of reading a solve construction.
+ * It scans the exp e, to increment the count of labels used by e.
+ */
 void
 scan_solve(exp e)
 {
@@ -589,12 +593,10 @@ scan_solve(exp e)
   };
 }
 
-
-/*********************************************************************
-  clean_labelled processes a labelled statement after it has been read.
-  It places the labelled statements in a good order.
- *********************************************************************/
-
+/*
+ * clean_labelled processes a labelled statement after it has been read.
+ * It places the labelled statements in a good order.
+ */
 exp
 clean_labelled(exp main, label_list placelabs)
 {
@@ -603,8 +605,7 @@ clean_labelled(exp main, label_list placelabs)
   shape s;
   exp r, q;
   int n = placelabs.number;
-  int *ord;			/* records the order in which the
-				   statemnts are to be placed */
+  int *ord;			/* records the order in which the statemnts are to be placed */
   int ord_no;
   for (i = 0; i < n; ++i) {	/* set up the labels */
     exp l = get_lab(placelabs.elems[i]);
@@ -664,9 +665,9 @@ clean_labelled(exp main, label_list placelabs)
   return r;
 }
 
-
-/* find the (unique) downward reference to e */
-
+/*
+ * Find the (unique) downward reference to e
+ */
 exp *
 refto(exp f, exp e)
 {
@@ -677,9 +678,9 @@ refto(exp f, exp e)
   return x;
 }
 
-
-/* find the father of u */
-
+/*
+ * Find the father of u
+ */
 exp
 father(exp e)
 {
@@ -692,9 +693,9 @@ father(exp e)
   return bro(e);
 }
 
-
-/* auxiliary routine for altered, looks up in the tree n levels, checking */
-
+/*
+ * Auxiliary routine for altered, looks up in the tree n levels, checking
+ */
 static void
 altaux(exp e, int n, exp scope)
 {
@@ -719,19 +720,20 @@ altaux(exp e, int n, exp scope)
   }
 }
 
-
-/* e has been altered. see if any exp higher up the tree can now recognise an
- * optimisation (using check) */
-
+/*
+ * e has been altered. see if any exp higher up the tree can now recognise an
+ * optimisation (using check)
+ */
 void
 altered (exp e, exp scope)
 {
   altaux(e, 1, scope);
 }
 
-/* replace old by e, and (if not doing deadvar) check whether any consequential
- * optimisations are possible */
-
+/*
+ * Replace old by e, and (if not doing deadvar) check whether any consequential
+ * optimisations are possible.
+ */
 void
 replace(exp old, exp e, exp scope)
 {
@@ -750,10 +752,10 @@ replace(exp old, exp e, exp scope)
   altered(e, scope);
 }
 
-
-/* copy a labelled statement and put links into pt so that copies of uses of
- * the original can refer to the copy */
-
+/*
+ * Copy a labelled statement and put links into pt so that copies of uses of
+ * the original can refer to the copy.
+ */
 void
 copy_labst(exp e)
 {
@@ -769,9 +771,9 @@ copy_labst(exp e)
   ++proc_label_count;
 }
 
-
-/* end the copy of a labelled statement and restore the original state */
-
+/*
+ * End the copy of a labelled statement and restore the original state.
+ */
 exp
 undo_labst(exp e)
 {
@@ -781,13 +783,13 @@ undo_labst(exp e)
   return r;
 }
 
-
 exp copy_res(exp, exp, exp);
 exp copy(exp);
 
-/* used to copy cond, repeat and solve so that copies of references to the
- * labelled statements can refer to the copies of the labelled statements */
-
+/*
+ * Used to copy cond, repeat and solve so that copies of references to the
+ * labelled statements can refer to the copies of the labelled statements.
+ */
 static
 exp copy_cpd(exp e, exp new_record, exp var, exp lab)
 {
@@ -835,13 +837,11 @@ exp copy_cpd(exp e, exp new_record, exp var, exp lab)
   return t;
 }
 
-
-/******************************************************************
-  copy copies e and all its sub-cells recursively, amending usage
-  counts as necessary. It sets up identifier usage lists for the
-  declarations which it copies.
- ******************************************************************/
-
+/*
+ * Copy copies e and all its sub-cells recursively, amending usage counts
+ * as necessary. It sets up identifier usage lists for the declarations
+ * which it copies.
+ */
 exp
 copy_res(exp e, exp var, exp lab)
 {
@@ -901,12 +901,13 @@ copy_res(exp e, exp var, exp lab)
     }
 
     if (n == env_offset_tag || n == general_env_offset_tag) {
-      /* see if the corresponding declaration is being copied and pick up
-         the correct usage list */
+    /*
+	 * See if the corresponding declaration is
+	 * being copied and pick up the correct usage list
+	 */
       exp tp = (copying(son(e))? pt(son(e)): son(e));
       exp r = copyexp(e);
-      son(r) = tp;		/* add this use onto the correct usage
-				   list */
+      son(r) = tp;		/* add this use onto the correct usage list */
       return r;
     }
 
@@ -1025,10 +1026,12 @@ copy_res(exp e, exp var, exp lab)
 	  exp old_var;
 	  exp ident;
 
-	  old_var = copyexp(var);	/* careful - we must not use
-					   copy on var because it belongs
-					   in the other context recurse!
-					*/
+	/*
+	 * Careful - we must not use copy on var
+	 * because it belongs in the other context recurse!
+	 */
+	  old_var = copyexp(var);
+
 	  ident = (copying(son(var)))? pt(son(var)): son(var);
 	  pt(old_var) = pt(ident);
 	  pt(ident) = old_var;
@@ -1076,8 +1079,7 @@ copy_res(exp e, exp var, exp lab)
 
       if (p != nilexp) {
 	/* the pt field must be a label */
-	/* look to see if label is being copied and pick up right
-	   statement */
+	/* look to see if label is being copied and pick up right statement */
 	tp = (copying(p)) ? pt(p) : p;
 	pt(z) = tp;
 	no(son(tp))++;	/* update label use count */
@@ -1111,13 +1113,11 @@ copy_res(exp e, exp var, exp lab)
   }
 }
 
-
 exp
 copy(exp e)
 {
   return copy_res(e, nilexp, nilexp);
 }
-
 
 int
 is_comm(exp e)

@@ -7,9 +7,9 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/* normalised_inlining chooses the order in which inlining is to be
-   done.
-*/
+/*
+ * normalised_inlining chooses the order in which inlining is to be done.
+ */
 
 #include <stdio.h>
 
@@ -34,14 +34,10 @@
 
 int print_inlines = 0;
 
-/* Procedures */
-
-/*********************************************************************
-  test a declaration to see that the identifier is only used as an
-  applied procedure.
- *********************************************************************/
-
-
+/*
+ * test a declaration to see that the identifier is only used as an
+ * applied procedure.
+ */
 int
 apply_only(exp e)
 {
@@ -109,12 +105,13 @@ normalised_inlining(void)
     my_def = my_def->def_next;
   }
 
-  /* allocate
-     a matrix, uses, to hold uses[i, j] - i calls j
-     a vector, to_dec, to hold dec* (number -> dec)
-     a vector, consider, 1 if still considering.
-     a vector, order, of the procedure numbers (+1) ordered
-  */
+  /*
+   * Allocate
+   * a matrix, uses, to hold uses[i, j] - i calls j
+   * a vector, to_dec, to hold dec* (number -> dec)
+   * a vector, consider, 1 if still considering.
+   * a vector, order, of the procedure numbers (+1) ordered
+   */
 
   if (proc_count == 0) {
     uses     = NULL;
@@ -130,9 +127,10 @@ normalised_inlining(void)
       /* assumes calloc clears order */
   }
 
-
-  /* form the to_dec vector and set index in each proc dec.
-     set consider vector */
+  /*
+   * Form the to_dec vector and set index in each proc dec.
+   * set consider vector.
+   */
 
   my_def = top_def;
   i = 0;
@@ -151,7 +149,7 @@ normalised_inlining(void)
     my_def = my_def->def_next;
   }
 
-  /* form uses matrix: uses[i, j] implies i calls j */
+  /* Form uses matrix: uses[i, j] implies i calls j */
 
   for (i = 0; i < proc_count; i++) {
     exp crt_exp = to_dec[i]->dec_u.dec_val.dec_exp;
@@ -184,7 +182,7 @@ normalised_inlining(void)
     }
   }
 
-  /* form the order list from uses */
+  /* Form the order list from uses */
 
   low = 0;
   high = proc_count - 1;
@@ -223,7 +221,7 @@ normalised_inlining(void)
     }
   }
 
-  /* permit inlining of static recursive functions */
+  /* Permit inlining of static recursive functions */
 
   for (i = 0; i < proc_count; i++) {
     if (consider[i]) {
@@ -231,7 +229,7 @@ normalised_inlining(void)
     }
   }
 
-  /* try to inline in given order */
+  /* Try to inline in given order */
 
   for (i = proc_count-1; i >= 0; i--) {
     if (order[i] > 0) {
@@ -281,7 +279,7 @@ normalised_inlining(void)
 	    this_changed = 1;
 	    break;
 	  } else if (no_inlined > 10000) {
-	    break; /* pathological expansion in AVS */
+	    break; /* Pathological expansion in AVS */
           } else {
 	    int ch = inlinechoice(t, def, total_uses);
 	    if (ch == 0) {

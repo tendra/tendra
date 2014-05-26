@@ -7,17 +7,14 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/******************************************************************
-		getregs.c
-
-	Routines for choosing temporary registers. The next free
-register is chosen cyclically from available t regs.
-
-	The parameter is usually taken from a value of type space
-(which has bits for fixed and floating regs).  A clear bit indicates
-that the corresponding register is free for use.
-
-******************************************************************/
+/*
+ * Routines for choosing temporary registers. The next free register
+ * is chosen cyclically from available t regs.
+ *
+ * The parameter is usually taken from a value of type space (which has
+ * bits for fixed and floating regs).  A clear bit indicates that the
+ * corresponding register is free for use.
+ */
 
 #include <assert.h>
 
@@ -171,55 +168,4 @@ getfreg(long fl) /* get a free temporary floating reg */
     }
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

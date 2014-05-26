@@ -7,18 +7,17 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/**********************************************************************
-		move.c
-
-	The procedure move produces code to move a value from a to the
-destination dest. This takes the form of a switch test on the parameter a (type
-ans) which is either a reg, freg or instore value. In each of the three cases the
-ans field of the dest is similarly dealt with to determine the necessary
-instructions for the move. Sizes and alignment are taken from the ash field of
-the destination.
-Delivers register used if 1-word destination is instore; otherwise NOREG.
-
-**********************************************************************/
+/*
+ * The procedure move produces code to move a value from a to the
+ * destination dest. This takes the form of a switch test on the parameter a
+ * (type ans) which is either a reg, freg or instore value.
+ *
+ * In each of the three cases the ans field of the dest is similarly dealt with
+ * to determine the necessary instructions for the move. Sizes and alignment
+ * are taken from the ash field of the destination.
+ *
+ * Delivers register used if 1-word destination is instore; otherwise NOREG.
+ */
 
 #include <shared/check.h>
 
@@ -58,12 +57,12 @@ start:
       }
 
     case inreg:
-/***************** source in fixed point register ********************/
+	/* source in fixed point register */
       {
 	int   r = regalt (a);
 	switch (dest.answhere.discrim) {
 	  case inreg:
-	    /* ******* source and dest in fixed register ************ */
+	    /* source and dest in fixed register */
 	    {
 	      int   rd = regalt (dest.answhere);
 	      if (rd != 0 /* nowhere */ && rd != r) {
@@ -74,7 +73,7 @@ start:
 	    }			/* end inreg dest */
 
 	  case insomereg:
-	    /* **** can choose dest register to be source reg **** */
+	    /* can choose dest register to be source reg */
 	    {
 	      int  *sr = someregalt (dest.answhere);
 	      if (*sr != -1) {
@@ -85,8 +84,7 @@ start:
 	    }
 
 	  case infreg:
-	    /* ***source in fix reg,  dest in floating point register **********
-	    */
+	    /* source in fix reg, dest in floating point register */
 	    {
 	      freg fr;
 	      fr = fregalt (dest.answhere);
@@ -110,7 +108,7 @@ start:
 	       goto start;
 	  }
 	  case notinreg:
-	    /* **source in fix reg, dest instore ******************* */
+	    /* source in fix reg, dest instore */
 	    {
 	      char *st = (size==al) ?(
 	           	(size <= 8) ? i_sb : ((size <= 16) ? i_sh : i_sw)):
@@ -135,14 +133,13 @@ start:
 	}			/* end switch dest */
       }				/* end inreg a */
     case infreg:
-/****************** source in floating point register ******************/
+	/* source in floating point register */
       {
 	freg fr;
 	fr = fregalt (a);
 	switch (dest.answhere.discrim) {
 	  case inreg:
-	    /* *source in float reg, dest in fixed point register ********
-	    */
+	    /* source in float reg, dest in fixed point register */
 	    {
 	      int   rd = regalt (dest.answhere);
 	      if (rd != 0) {
@@ -164,7 +161,7 @@ start:
 	      return NOREG;
 	    }			/* end inreg dest */
 	  case insomereg:
-	    /* *** source in flt reg, can choose dest reg ***** */
+	    /* source in flt reg, can choose dest reg */
 	    {
 	      int  *sr = someregalt (dest.answhere);
 	      if (*sr != -1) {
@@ -183,8 +180,7 @@ start:
 	        return NOREG;
 	   }
 	  case infreg:
-	    /* ******* source and dest in floating point registers *******
-	    */
+	    /* source and dest in floating point registers */
 	    {
 	      freg frd;
 	      frd = fregalt (dest.answhere);
@@ -194,8 +190,7 @@ start:
 	      return NOREG;
 	    }			/* end infreg dest */
 	  case notinreg:
-	    /* ********** source in flt reg, dest instore ******************
-	    */
+	    /* source in flt reg, dest instore */
 	    {
 	      char *st = (fr.dble) ? i_s_d : i_s_s;
 	      instore is;
@@ -226,7 +221,7 @@ start:
 
 
     case notinreg:
-/*********************** source instore *************************/
+	/* source instore */
       {
 	instore iss;
 	char *ld;
@@ -257,7 +252,7 @@ start:
 	       goto start;
 	  }
 	  case insomereg:
-	    /* **** source instore, can choose dest reg ***** */
+	    /* source instore, can choose dest reg */
 	    {
 	      int  *sr = someregalt (dest.answhere);
 	      if (*sr != -1) {
@@ -268,7 +263,7 @@ start:
 	      /* and continue to next case */
 	    }
 	  case inreg:
-	    /* ********** source and dest in fixpnt reg ************* */
+	    /* source and dest in fixpnt reg */
 	    {
 	      int   rd = regalt (dest.answhere);
 	      if (rd != 0 /* nowhere */ ) {
@@ -279,8 +274,7 @@ start:
 
 
 	  case infreg:
-	    /* *********** source instore, dest in floating pnt reg ********
-	    */
+	    /* source instore, dest in floating pnt reg */
 	    {
 	      freg frd;
 	      frd = fregalt (dest.answhere);
@@ -297,11 +291,10 @@ start:
 
 
 	  case notinreg:
-	    /* *********** source and dest  instore ************* */
+	    /* source and dest instore */
 	    {
 	      char *st = (al <= 8) ? i_sb : ((al <= 16) ? i_sh : i_sw);
-	      /* determine which store instruction from al (align from
-	         dest) */
+	      /* determine which store instruction from al (align from dest) */
 	      instore isd;
 	      int   sunit = min (al, 32);
 	      int   step = sunit >> 3;
@@ -329,9 +322,8 @@ start:
 		  }
 
 		}
-		else {		/* unaligned loop move *//* copy with
-				   loop, length in r1, to in 2, from in 3
-				*/
+		else {
+		/* unaligned loop move *//* copy with loop, length in r1, to in 2, from in 3 */
 		  int   l = new_label ();
 		  int   r1 = getreg (freeregs.fixed);
 		  int r3, r2;
@@ -408,8 +400,7 @@ start:
 		  return NOREG;
 		}
 	      }			/* inline end */
-	      else {		/* copy with loop, length in r1, to in r2,
-				   from in r3 */
+	      else {		/* copy with loop, length in r1, to in r2, from in r3 */
 		int   a = getreg (regs);
 				/* get register for transferring values */
 		int   l = new_label ();

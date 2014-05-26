@@ -7,24 +7,20 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/******************************************************************
-		code_here
-
-This contains procedures :-
-
-regofval, fregofval : to see if an exp is a load_tag that has been allocated to a register.
-
-regoperand, freoperand : to evaluate an exp into a register using make_code
-
-code_here :  calls make_code and ensures that any internal exit labels are tied up after the call
-
-
-	The procedures regoperand and fregoperand evaluate their
-exp parameter into a single register using make_code. This register is
-returned. An initial test with regofval checks to see if the exp is already
-in a register.
-
-******************************************************************/
+/*
+ * This contains procedures:
+ *
+ * regofval, fregofval:    to see if an exp is a load_tag that has been
+ *                         allocated to a register.
+ * regoperand, freoperand: to evaluate an exp into a register using make_code
+ * code_here:              calls make_code and ensures that any internal
+ *                         exit labels are tied up after the call
+ *
+ * The procedures regoperand and fregoperand evaluate their exp parameter
+ * into a single register using make_code. This register is returned.
+ * An initial test with regofval checks to see if the exp is already
+ * in a register.
+ */
 
 #include <local/expmacs.h>
 
@@ -45,12 +41,10 @@ in a register.
 #include "handle_sregs.h"
 #include "code_here.h"
 
-
-/*********************************************************************
-regofval
-The procedure regofval checks to see if an exp is a load_tag
-that has been allocated into a fixpnt register and if so return it or else 100.
-*********************************************************************/
+/*
+ * The procedure regofval checks to see if an exp is a load_tag that has been
+ * allocated into a fixpnt register and if so return it or else 100.
+ */
 int
 regofval(exp e)
 {
@@ -93,12 +87,10 @@ fregofval(exp e)
   }
 }
 
-/**********************************************************************
-code_here
-The procedure code_here calls make_code and ensures that
-any internal exit labels are tied up after the call.
-**********************************************************************/
-
+/*
+ * The procedure code_here calls make_code and ensures that any internal
+ * exit labels are tied up after the call.
+ */
 int
 code_here(exp e, space sp, where dest)
 {
@@ -140,14 +132,12 @@ reg_operand(exp e, space sp)
       w.answhere = aa;
       w.ashwhere = ash0;
       make_code (e, sp, w, 0);
-      return 2;			/* simple proc calls give result in reg 2
-				*/
+      return 2;			/* simple proc calls give result in reg 2 */
     }
 
   aa = iskept (e);
   if (aa.discrim == inreg && regalt (aa) != 0) {
-				/* the same expression has already been
-				   evaluated into a reg */
+		/* the same expression has already been evaluated into a reg */
     return regalt (aa);
   }
   if (aa.discrim == notinreg) {

@@ -7,9 +7,9 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/************************************************************
-  OPTIMIZATION of case_tag's
-************************************************************/
+/*
+ * Optimisation of case_tag's
+ */
 
 #include <assert.h>
 
@@ -43,9 +43,6 @@ static exp set_up_assign(exp, int);
 static exp set_up_unsigned_test(exp, exp, int, ntest);
 static exp like_me_q1(int, ntest, exp, exp, exp, unsigned char);
 
-
-/* VARIABLES */
-
 static int  no_of_nodes;
 static exp *node_start;
 static exp *node_end;
@@ -63,9 +60,6 @@ unsigned jump_table_density  =  60;
 unsigned min_jump_table_size =  10;
 unsigned max_jump_table_size = 100;
 unsigned min_no_of_default_destinations = 3;
-
-
-/* PROCEDURES */
 
 /*
  * case_optimisation takes a case_tag and an ident_tag and
@@ -95,16 +89,22 @@ case_optimisation(exp body, exp id, shape shape_of_case, exp control_expression)
 	node_end = (exp *)xcalloc(no_of_cases, sizeof(exp));
 	node_weight = (double *)xcalloc(no_of_cases, sizeof(double));
 
-	/* Set up the values of these arrays * First set up the ELEMENTS array
+	/*
+	 * Set up the values of these arrays
 	 */
+
+	/* First set up the ELEMENTS array */
 	t = body;
 	for (i = 0; i < no_of_cases; i++) {
 		ELEMENTS[i] = t;
 		t = bro(t);
 	}
+
+	/*
+	 * Calculation of where should do jump tables
+	 * This sets up the arrays node_weight, node_start and node_end
+	 */
 	n = 0;
-	/* Calculation of where should do jump tables * This sets up the arrays
-	   node_weight, node_start and node_end */
 	while (n < no_of_cases) {
 		int z;
 		double node_weight_sum = 0.0;
@@ -139,8 +139,10 @@ case_optimisation(exp body, exp id, shape shape_of_case, exp control_expression)
 			i = n;
 		}
 
-		/* Lump together into a jump_table or a single * Sets up the
-		   node_start pointers */
+		/*
+		 * Lump together into a jump_table or a single
+		 * Sets up the node_start pointers
+		 */
 		node_start[no_of_nodes] = ELEMENTS[n];
 
 		/* Sets up the node_end pointers */
@@ -171,8 +173,10 @@ case_optimisation(exp body, exp id, shape shape_of_case, exp control_expression)
 		bro(ELEMENTS[i]) = nilexp;
 		/* Chops up the list for later use */
 		setlast(ELEMENTS[i]);
-		/* Sets the last of ELEMENTS[i] so can be substituted directly into
-		   new case_tag's */
+		/*
+		 * Sets the last of ELEMENTS[i] so can be substituted directly into
+	 	 * new case_tag's
+		 */
 		n = i + 1;
 	}
 
@@ -238,7 +242,6 @@ case_optimisation(exp body, exp id, shape shape_of_case, exp control_expression)
 	return t;
 }
 
-
 /*
  * density is used for calculating whether the elements of the
  * case_tag should be made into jump tables.
@@ -289,10 +292,8 @@ density(exp *ELEMENTS, int start, int end, int sgn)
 	return (int)(100.0 * (numerator / denominator));
 }
 
-
 /*
- * set_up_sequence creates a simple sequence with a
- * test_tag.
+ * set_up_sequence creates a simple sequence with a test_tag.
  */
 static exp
 set_up_sequence(exp left, exp right, ntest test, int integer_value, exp id,
@@ -317,10 +318,8 @@ set_up_sequence(exp left, exp right, ntest test, int integer_value, exp id,
 	return SEQ__TAG;
 }
 
-
 /*
- * set_up_conditional creates a conditional based on a simple
- * integer test.
+ * set_up_conditional creates a conditional based on a simple integer test.
  */
 static exp
 set_up_conditional(exp left, exp right, ntest test, int integer_value, exp id,
@@ -353,7 +352,6 @@ set_up_conditional(exp left, exp right, ntest test, int integer_value, exp id,
 	return COND__TAG;
 }
 
-
 /*
  * set_up_exhaustive_case does exactly what it suggests.
  */
@@ -379,7 +377,6 @@ set_up_exhaustive_case(exp body_of_case, exp id)
 	bro(r) = CASE__TAG;
 	return CASE__TAG;
 }
-
 
 /*
  * set_up_inexhaustive_case does exactly what it suggests.
@@ -415,7 +412,6 @@ set_up_inexhaustive_case(exp body_of_case, exp id, exp default_exp)
 	return SEQ__TAG;
 }
 
-
 /*
  * like_me_q1 sets up a test_tag and is very similar to me_q1.
  * me_q1 is found in me_fns.c
@@ -435,11 +431,10 @@ like_me_q1(int prob, ntest nt, exp lab, exp arg1, exp arg2, unsigned char nm)
 	return r;
 }
 
-
 /*
- *  find_the_split_value is used by exhaustive_conditional_maker
- *  and inexhaustive_conditional_maker in order to calculate
- *  where to do a comparison.
+ * find_the_split_value is used by exhaustive_conditional_maker
+ * and inexhaustive_conditional_maker in order to calculate
+ * where to do a comparison.
  */
 static int
 find_the_split_value(int start, int end)
@@ -475,11 +470,9 @@ find_the_split_value(int start, int end)
 	return split_value;
 }
 
-
 /*
- * exhaustive_conditional_maker is the recursive routine for
- * making the internal transformed tdf in the case of an
- * exhaustive case_tag.
+ * exhaustive_conditional_maker is the recursive routine for making the
+ * internal transformed tdf in the case of an exhaustive case_tag.
  */
 static exp
 exhaustive_conditional_maker(int start, int end, exp id)
@@ -513,11 +506,9 @@ exhaustive_conditional_maker(int start, int end, exp id)
 				  no(node_start[split_value + 1]), id, 1000);
 }
 
-
 /*
- * inexhaustive_conditional_maker is the recursive routine for
- * making the internal transformed tdf in the case of an
- * inexhaustive case_tag.
+ * inexhaustive_conditional_maker is the recursive routine for making the
+ * internal transformed tdf in the case of an inexhaustive case_tag.
  */
 static exp
 inexhaustive_conditional_maker(int start, int end, exp id, exp default_exp)
@@ -640,8 +631,10 @@ inexhaustive_conditional_maker(int start, int end, exp id, exp default_exp)
 					       f_greater_than_or_equal,
 					       no(node_start[start]), id, 1000);
 		}
-		/* Put in a jump table by doing a subtraction first and comparison for
-		   both sides */
+		/*
+		 * Put in a jump table by doing a subtraction first and comparison
+		 * for both sides.
+		 */
 		node_start_flag[start] = node_end_flag[start] = 1;
 		{
 			exp ZERO__TAG;
@@ -676,11 +669,15 @@ inexhaustive_conditional_maker(int start, int end, exp id, exp default_exp)
 		}
 	}
 	split_value = find_the_split_value(start, end);
-	/* assert that node_start_flag[split_value+1] and
-	   node_end_flag[split_value] should be zero or split_value = end */
+	/*
+	 * assert that node_start_flag[split_value+1] and
+	 * node_end_flag[split_value] should be zero or split_value = end
+	 */
 	if (split_value == start && (node_start[start] == node_end[start])) {
-		/* This is the case when we have a simple single range node in
-		 * the 1:n split */
+		/*
+		 * This is the case when we have a simple single range node in
+		 * the 1:n split.
+		 */
 		option_left =
 		    inexhaustive_conditional_maker(start + 1, end, id,
 						   default_exp);
@@ -690,8 +687,10 @@ inexhaustive_conditional_maker(int start, int end, exp id, exp default_exp)
 				       1000);
 	}
 	if (split_value >= end - 1 && (node_start[end] == node_end[end])) {
-		/* This is the case when we have a simple single range node in
-		 * the n:1 split */
+		/*
+		 * This is the case when we have a simple single range node in
+		 * the n:1 split.
+		 */
 		option_left =
 		    inexhaustive_conditional_maker(start, end - 1, id,
 						   default_exp);
@@ -703,11 +702,12 @@ inexhaustive_conditional_maker(int start, int end, exp id, exp default_exp)
 	if (split_value == start &&
 	    (son(node_start[start]) == node_end[start]) &&
 	    node_start_flag[start] == 1) {
-		/* This is the case when we have a multi range to the in the
-		 * 1:n split where the left hand comparison has been done */
+		/*
+		 * This is the case when we have a multi range to the in the
+		 * 1:n split where the left hand comparison has been done
+		 */
 
-		/* If we have a close together split there is no need to
-		 * recompare */
+		/* If we have a close together split there is no need to recompare */
 		if (no(node_end[start]) == (no(node_start[start+1]) -1)) {
 			node_start_flag[start+1] = 1;
 		}
@@ -723,11 +723,12 @@ inexhaustive_conditional_maker(int start, int end, exp id, exp default_exp)
 	if (split_value >= end - 1 &&
 	    (son(node_start[end]) == node_end[end]) &&
 	    node_end_flag[end] == 1) {
-		/* This is the case when we have a multi range to the in the
-		 * n:1 split where the right hand comparison has been done */
+		/*
+		 * This is the case when we have a multi range to the in the
+		 * n:1 split where the right hand comparison has been done.
+		 */
 
-		/* If we have a close together split there is no need to
-		 * recompare */
+		/* If we have a close together split there is no need to recompare. */
 		if (no(node_end[end - 1]) == (no(node_start[end]) - 1)) {
 			node_end_flag[end-1] = 1;
 		}
@@ -743,16 +744,17 @@ inexhaustive_conditional_maker(int start, int end, exp id, exp default_exp)
 	if (split_value == end) {
 		split_value --;
 	}
-	/* If we have a multi range or a jump table to the left or right of the
-	   split, it is better to do one of those comparisons because it will
-	   save a comparison whereas doing a comparison against a single range
-	   saves nothing */
+	/*
+	 * If we have a multi range or a jump table to the left or right of the
+	 * split, it is better to do one of those comparisons because it will
+	 * save a comparison whereas doing a comparison against a single range
+	 * saves nothing.
+	 */
 	if (node_start[split_value] == node_end[split_value]) {
 		/* do the comparison against split_value+1 */
 		node_start_flag[split_value + 1] = 1;
 
-		/* If we have a close together split there is no need to
-		 * recompare */
+		/* If we have a close together split there is no need to recompare. */
 		if (no(node_end[split_value]) ==
 		    (no(node_start[split_value + 1]) - 1)) {
 			node_end_flag[split_value] = 1;
@@ -771,8 +773,7 @@ inexhaustive_conditional_maker(int start, int end, exp id, exp default_exp)
 	} else {
 		/* do the comparison against split_value */
 		node_end_flag[split_value] = 1;
-		/* If we have a close together split there is no need to
-		 * recompare */
+		/* If we have a close together split there is no need to recompare. */
 		if (no(node_end[split_value]) ==
 		    (no(node_start[split_value + 1]) - 1)) {
 			node_start_flag[split_value + 1] = 1;
@@ -789,7 +790,6 @@ inexhaustive_conditional_maker(int start, int end, exp id, exp default_exp)
 					  no(node_end[split_value]), id, 1000);
 	}
 }
-
 
 /*
  * set_up_assign takes a variable and adds an integer to
@@ -812,12 +812,11 @@ set_up_assign(exp id, int number)
 	return ASSIGN__TAG;
 }
 
-
 /*
- * set_up_unsigned_test returns a test_tag. The test is
- * specified, along with the value to be tested against
- * the default_exp labst_tag and the var_tag to test
- * against.
+ * set_up_unsigned_test returns a test_tag.
+ *
+ * The test is specified, along with the value to be tested against
+ * the default_exp labst_tag and the var_tag to test against.
  */
 static exp
 set_up_unsigned_test(exp default_exp, exp id, int test_value, ntest test)

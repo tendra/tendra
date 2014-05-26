@@ -7,15 +7,12 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/******************************************************************
-
-   refactor_ext looks to see if it can improve the definition (exp)
-   of an globally declared item. If it makes a change it returns 1,
-   otherwise 0.
-
-   The most important transformation is inlining of procedures.
-
- *******************************************************************/
-
+/*
+ * refactor_ext looks to see if it can improve the definition (exp)
+ * of an globally declared item. If it makes a change it returns 1,
+ * otherwise 0.
+ *
+ * The most important transformation is inlining of procedures.
+ */
 extern void refactor_ext(exp e);
 

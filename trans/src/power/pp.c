@@ -770,8 +770,10 @@ static void exp_show(exp e, int depth, int depth_of_recursion, int flag)
 
   switch (name(e))
   {
-    /* Don't want to look down son's of name_tag's or env_offset_tag because this will take you to
-ident_tag's and thus into an infinite loop */
+    /*
+	 * Don't want to look down son's of name_tag's or env_offset_tag
+	 * because this will take you to ident_tag's and thus into an infinite loop
+	 */
 
    case proc_tag:
    case general_proc_tag:
@@ -1078,9 +1080,6 @@ ident_tag's and thus into an infinite loop */
     printf("%s:\n",tagname);
     exp_show(son(e),depth+1,depth_of_recursion,0);
   }
-
-
-
 
   /* always look at brother unless told not to or it is last */
   if (last(e) || flag)

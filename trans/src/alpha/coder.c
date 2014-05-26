@@ -8,9 +8,8 @@
  */
 
 /*
-   coder.c
-   This is the principal code producing module
-*/
+ * This is the principal code producing module
+ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -117,6 +116,7 @@ int testrev[] = {
 outofline *odd_bits;
 int doing_odd_bits;
 */
+
 /* put register number 'Reg' back into the current space. */
 #define replace_reg(Reg,Space)((Space) & ~(1<< (Reg)))
 
@@ -127,9 +127,8 @@ operate_fmt_immediate(i_addl,X,0,X);\
 #define error_treatment_is_trap(e)((errhandle(e) &3) ==3)
 
 /*
-  Return TRUE if the floating point number is zero and FALSE
-  otherwise.
-*/
+ * Return true if the floating point number is zero and false otherwise.
+ */
 static bool is_fzero
 (flt fnum)
 {
@@ -138,11 +137,9 @@ static bool is_fzero
   return i==MANT_SIZE;
 }
 
-
-
 /*
-  Functions to handle the 'trap' exception handling mechanism
-*/
+ * Functions to handle the 'trap' exception handling mechanism.
+ */
 static int trap_label
 (exp e)
 {
@@ -171,12 +168,10 @@ static void do_exception
   return;
 }
 
-
 /*
-  check that the floating point register contains a non-negative
-  value and,if it does, convert to signed by adding the
-  appropriate constant.
-*/
+ * Check that the floating point register contains a non-negative value
+ * and, if it does, convert to signed by adding the appropriate constant.
+ */
 static void fix_unsigned
 (freg fr, space sp, int name)
 {
@@ -228,11 +223,9 @@ INT64 unsigned_rep
   return val;
 }
 
-
-
 /*
-  Inserts global pointer reference.
-*/
+ * Inserts global pointer reference.
+ */
 static void set_global_pointer
 (void)
 {
@@ -245,12 +238,13 @@ static void set_global_pointer
 
 #if !DO_NEW_DIVISION
 /*
-  This function produces a code sequence to divide the contents of
-  register 'src' by constant value 'm' and store the result in
-  register 'target'.  The division is performed by calculating
-  umax64/b and then performing an umulh of this with the source
-  register.
-*/
+ * This function produces a code sequence to divide the contents
+ * of register 'src' by constant value 'm' and store the result
+ * in register 'target'.
+ *
+ * The division is performed by calculating umax64/b and then
+ * performing an umulh of this with the source register.
+ */
 static void divide_by_constant
 (int src, INT64 m, int target, space sp)
 {
@@ -278,8 +272,8 @@ static void divide_by_constant
 #if DO_NEW_DIVISION
 
 /*
-   Output log2(x) rounding up.
-*/
+ * Output log2(x) rounding up.
+ */
 int log2
 (INT64 val)
 {
@@ -302,15 +296,11 @@ int log2
   return res;
 }
 
-
-
-
 /*
-  If 1/m can be transformed into the form:
-
-  1/m = 1/(2^n) * (2^x/b).  Then return the values of n and x
-  required.  If successfull, return TRUE, otherwise, return FALSE.
-*/
+ * If 1/m can be transformed into the form: 1/m = 1/(2^n) * (2^x/b).
+ * Then return the values of n and x required.
+ * If successful, return true, otherwise, return false.
+ */
 bool calculate_shift_for_division
 (INT64 m, int *n, int *x, bool is_quad)
 {
@@ -356,14 +346,15 @@ bool calculate_shift_for_division
   /*return (power<val)?TRUE:FALSE;*/
 }
 
-
 /*
-  This function produces a code sequence to divide the contents of
-  register 'src' by constant value 'm' and store the result in
-  register 'target'.  The division is performed by calculating
-  umax64/b and then performing an umulh of this with the source
-  register.  The code produced makes use of the AT register.
-*/
+ * This function produces a code sequence to divide the contents of
+ * register 'src' by constant value 'm' and store the result in
+ * register 'target'.
+ *
+ * The division is performed by calculating umax64/b and then performing
+ * an umulh of this with the source register.
+ * The code produced makes use of the AT register.
+ */
 static void divide_by_constant
 (exp div, exp lhs, exp valexp, int r_dest, space nsp)
 {
@@ -495,13 +486,12 @@ static void divide_by_constant
 
 #endif
 
-
-
 /*
-  This function produces a code sequence to convert the value in
-  register reg from shape src_shape to shape dest_shape.
-  Returns TRUE if any code is produced and FALSE otherwise.
-*/
+ * This function produces a code sequence to convert the value in
+ * register reg from shape src_shape to shape dest_shape.
+ *
+ * Returns true if any code is produced and false otherwise.
+ */
 static bool convert_shapes
 (int dest_shape, int src_shape, int reg, int dreg)
 {
@@ -544,20 +534,21 @@ static bool convert_shapes
 }
 
 #define OVERFLOW_VALUE 0x02e0000000000000
-/*
-  Checks for floating point error.
 
-  This function outputs code to look at the contents of the
-  floating  point control register (FPCR) and determine whether
-  or not a floating point error has occured.  If an error is
-  detected a jump is made to the label specified in no(son(pt(e))).
-
-  The error status is determined by looking at the summary bit
-  of the FPCR (bit 63) which is a bitwise OR of all the error bits.
-  The errors recognised are : integer overflow,inexact result,
-  underflow,overflow,division by zero, and invalid operation.
-*/
 #if 0
+/*
+ * Checks for floating point error.
+ *
+ * This function outputs code to look at the contents of the
+ * floating  point control register (FPCR) and determine whether
+ * or not a floating point error has occured. If an error is
+ * detected a jump is made to the label specified in no(son(pt(e))).
+ *
+ * The error status is determined by looking at the summary bit
+ * of the FPCR (bit 63) which is a bitwise OR of all the error bits.
+ * The errors recognised are: integer overflow, inexact result,
+ * underflow,overflow,division by zero, and invalid operation.
+ */
 static void check_exception
 (exp e, space sp)
 {
@@ -603,11 +594,10 @@ void set_up_rounding_mode
   return;
 }
 
-
 /*
-  This function returns the appropriate branch instruction
-  for the test represented by 'i'
-*/
+ * This function returns the appropriate branch instruction
+ * for the test represented by 'i'
+ */
 static instruction sbranches
 (int i)
 {
@@ -624,7 +614,6 @@ static instruction sbranches
   return i_ble;
 }
 
-
 void testunsigned
 (int r, long max, int lab, space sp)
 {
@@ -633,8 +622,6 @@ void testunsigned
   integer_branch(i_bne,rtmp,lab);
   return;
 }
-
-
 
 static bool fdouble_comparisons
 (instruction *ins, int i)
@@ -655,15 +642,14 @@ static bool fdouble_comparisons
   return rev;
 }
 
-
 /*
-  This function selects an appropriate compare instruction for
-  the test represented by 'i', returning the instruction name in
-  the 'ins' parameter.  As the set of instructions available does
-  not directly cover all the required tests, some instructions
-  carry out the inverse of the required test.  In these cases, the
-  return value is TRUE, otherwise it is FALSE.
-*/
+ * This function selects an appropriate compare instruction for the test
+ * represented by 'i', returning the instruction name in the 'ins' parameter.
+ *
+ * As the set of instructions available does not directly cover all the
+ * required tests, some instructions carry out the inverse of the required test.
+ * In these cases, the return value is true, otherwise it is false.
+ */
 static bool comparisons
 (instruction *ins, shape s, int i)
 {
@@ -699,11 +685,9 @@ static bool comparisons
   return rev;
 }
 
-
-
 /*
-  conditional moves
-*/
+ * Conditional moves
+ */
 static instruction condmove
 (int i)
 {
@@ -720,6 +704,7 @@ static instruction condmove
   }
   return i_cmovle;
 }
+
 /*
 static instruction
 fcondmove(int i)
@@ -737,7 +722,6 @@ fcondmove(int i)
  }
 }
 */
-
 
 static bool compares
 (instruction *ins, shape s, int i)
@@ -806,8 +790,8 @@ long  notbranch[6] = {
 /* used to invert TDF tests */
 
 /*
-  count the number of bits set in b.
-*/
+ * count the number of bits set in b.
+ */
 int bitsin
 (int32 b)
 {
@@ -821,26 +805,22 @@ int bitsin
   return n;
 }
 
-
-/*****************************************************************/
+/*
+ * Move sizereg bytes to dest from source using movereg bytemove is the maximum
+ * number of bytes which can be moved in a single instruction if available.
+ *
+ * In order to reduce the time for the operation the function attempts to use
+ * the most appropriate load & store instructions, which requires that the
+ * number of bytes remaining to be copied and the alignment of the object be
+ * taken into account.
+ *
+ * As the code sequence required to generate word (16 bit) load/store is
+ * prohibitively long, these cases are treated as bytes.
+ */
 
 /*
-  Move sizereg bytes to dest from source using movereg
-  bytemove is the maximum number of bytes which can be moved
-  in a single instruction if available.
-  In order to reduce the time for the operation the function
-  attempts to use the most appropriate load & store instructions,
-  which requires that the number of bytes remaining to be copied
-  and the alignment of the object be taken into account.
-  As the code sequence required to generate word (16 bit)
-  load/store is prohibitively long, these cases are treated
-  as bytes.
-*/
-
-
-/*
-  Without overlap (destination < source)
-*/
+ * Without overlap (destination < source)
+ */
 void move_dlts
 (int dest, int src, int sizereg, int movereg, int bytemove, space sp)
 {
@@ -915,10 +895,9 @@ void move_dlts
   return;
 }
 
-
 /*
-  With overlap (destination > src)
-*/
+ * With overlap (destination > src)
+ */
 void move_dgts
 (int dest, int src, int sizereg, int movereg, int bytemove, space sp)
 {
@@ -997,11 +976,6 @@ void move_dgts
   return;
 }
 
-/****************************************************************/
-
-
-
-
 static void reset_tos
 (void)
 {
@@ -1014,12 +988,10 @@ static void reset_tos
   return;
 }
 
-
-
 /*
-  This function finds the last test in the sequence e which is
-  a branch to second, if any exists, otherwise it returns nil.
-*/
+ * This function finds the last test in the sequence e which is
+ * a branch to second, if any exists, otherwise it returns nil.
+ */
 static exp testlast
 (exp e, exp second)
 {
@@ -1050,7 +1022,6 @@ static exp testlast
   return 0;
 }
 
-
 bool last_param
 (exp e)
 {
@@ -1065,7 +1036,6 @@ bool last_param
   }
   return res;
 }
-
 
 void test_unsigned
 (int reg, unsigned long upper, unsigned trap)
@@ -1088,7 +1058,6 @@ void test_signed
   setat();
   return;
 }
-
 
 void test_signed_and_trap
 (int reg, long lower, long upper, int except)
@@ -1122,14 +1091,12 @@ void test_unsigned_and_trap
   return;
 }
 
-
-
-
 /*
-  This function returns a register for use as a destination operand.
-  If the final destination is in a register then that register is
-  returned, otherwise a new register is selected from the pool.
-*/
+ * This function returns a register for use as a destination operand.
+ *
+ * If the final destination is in a register then that register is returned,
+ * otherwise a new register is selected from the pool.
+ */
 int regfrmdest
 (where *dest, space sp)
 {
@@ -1138,7 +1105,6 @@ int regfrmdest
     default:    return getreg(sp.fixed);
   }
 }
-
 
 freg fregfrmdest
 (where *dest, space sp)
@@ -1155,13 +1121,13 @@ freg fregfrmdest
   }
 }
 
-
 /*
-  Divide dividend by divisor using the divide instructions supplied
-  by the the assembler.  These divide instructions corrupt the t-regs
-  23,24,25,27(PV), and 28(AT) which have to be protected if in use.
-  Returns result register.
-*/
+ * Divide dividend by divisor using the divide instructions supplied
+ * by the the assembler. These divide instructions corrupt the t-regs
+ * 23, 24, 25, 27 (PV), and 28 (AT) which have to be protected if in use.
+ *
+ * Returns result register.
+ */
 static int divide_using_div
 (exp div, exp dividend, exp divisor, where dest, space sp, instruction div_ins)
 {
@@ -1331,13 +1297,11 @@ static int divide_using_div
   return r_result;
 }
 
-
 static int proc_has_vararg;
 
-
 /*
-  Process a parameter list
-*/
+ * Process a parameter list
+ */
 space do_callers
 (exp list, space sp, int *sizecallers)
 {
@@ -1396,8 +1360,7 @@ space do_callers
     }
     else if (((valregable(sh(list)) || (name(sh(list)) ==cpdhd)) ||
 	    (name(sh(list)) ==nofhd)) && spar<=21) {
-      /* compound types are always passed in registers
-	 (given enough space). */
+      /* compound types are always passed in registers (given enough space). */
       ans ansr;
       int par_reg;
       int numleft = parsize- ((LAST_INT_ARG-spar+1) <<6);
@@ -1415,9 +1378,7 @@ space do_callers
       }
     }
     else {
-      /* pass remaining parameters on the stack.
-	 The parameters are aligned on 8 byte boundaries.
-	 */
+      /* pass remaining parameters on the stack. The parameters are aligned on 8 byte boundaries. */
       setinsalt(w.answhere, is);
       is.b.offset+= (max(ap.ashsize,REG_SIZE) >>3);
       /* 'size' was used here */
@@ -1437,7 +1398,6 @@ space do_callers
   return sp;
 }
 
-
 void load_reg
 (exp e, int r, space sp)
 {
@@ -1447,8 +1407,6 @@ void load_reg
   code_here(e,sp,w);
   return;
 }
-
-
 
 static postlude_chain * old_postludes;
 
@@ -1466,10 +1424,9 @@ void update_plc
   return;
 }
 
-
 /*
-  This function finds the caller_tag corresponding to a caller_name tag
-*/
+ * This function finds the caller_tag corresponding to a caller_name tag
+ */
 exp find_ote
 (exp name, int n)
 {
@@ -1486,12 +1443,10 @@ exp find_ote
   return dad;
 }
 
-
-
 /*
-  This function produces code for expression e, evaluating
-  its result into dest.
-*/
+ * This function produces code for expression e,
+ * evaluating its result into dest.
+ */
 makeans make_code
 (exp e, space sp, where dest, int exitlab)
 {
@@ -1524,10 +1479,10 @@ tailrecurse:
 	operate_fmt_immediate(i_addl,no(e),0,no(e));
       }
       if (props(e) & defer_bit) {
-	/* the tag of this declaration is
-	   transparently identified with its
-	   definition, without reserving more
-	   space */
+	/*
+	 * The tag of this declaration is transparently identified
+	 * with its definition, without reserving more space
+	 */
 	e = bro(son(e));
 	goto tailrecurse;
       }
@@ -1561,9 +1516,10 @@ tailrecurse:
 	if (((props(e) & inreg_bits)!= 0)) {
 	  /* tag in some fixed pt reg */
 	  if (n == NO_REG) {
-	    /* if it hasn't been already allocated
-	       into a s-reg (or r0) allocate tag into
-	       fixed t-reg ... */
+	    /*
+		 * If it hasn't been already allocated into a s-reg (or r0)
+		 * allocate tag into fixed t-reg ...
+		 */
 	    int   s = sp.fixed;
 	    if (props (e) & notparreg)/* ... but not a parameter reg */
 	      s |= PARAM_REGS;
@@ -1576,9 +1532,10 @@ tailrecurse:
 	  /* tag in some float reg */
 	  freg frg;
 	  if (n == NO_REG) {
-	    /* if it hasn't been already allocated
-	       into a s-reg (or r0) allocate tag into
-	       float-reg ... */
+	    /*
+		 * If it hasn't been already allocated into a s-reg (or r0)
+		 * allocate tag into float-reg ...
+		 */
 	    int s = sp.flt;
 	    if (props(e) & notparreg)
 	      s |= 0xc0;
@@ -1597,9 +1554,10 @@ tailrecurse:
 	    instore is;
 	    int this_reg=-1;
 	    int comp_size;
-	    /* floating point registers are to be separated
-	       from fixed point registers when saving to the
-	       stack  */
+	    /*
+		 * Floating point registers are to be separated from fixed point
+		 * registers when saving to the stack
+		 */
 	    int n;
 	    int offset_adjustment;
 	    if (proc_has_vararg && !is_floating(name(sh(son(e))))) {
@@ -1670,11 +1628,13 @@ tailrecurse:
 	    }
 	    else{
 	      if ((name(sh(son(e))) ==cpdhd) && (a.ashsize==64)) {
-		/* the alignment of a complex shape is the
-		   maximum of the alignments of its components.
-		   This assignment overrides that rule in order
-		   to simplify saving the parameter to the stack.
-		   */
+		/*
+		 * The alignment of a complex shape is the maximum of the alignments
+		 * of its components.
+		 *
+		 * This assignment overrides that rule in order to simplify saving the
+		 * parameter to the stack.
+		 */
 		a.ashalign=a.ashsize;
 	      }
 	      is.b.offset = n;
@@ -1767,7 +1727,7 @@ tailrecurse:
 	  }
 	  else {
 	    if ((fixdone & (1<<sr))!=0) {
-	      /*	      operate_fmt(i_bis,no(d),no(d),(int)props(se));*/
+	      /* operate_fmt(i_bis,no(d),no(d),(int)props(se));*/
 	      operate_fmt(i_bis,(int)props(se), (int)props(se),no(d));
 	    }
 	    else {
@@ -1795,8 +1755,7 @@ tailrecurse:
       }
       else{
 	r = code_here(son(e), sp, placew);
-	/* evaluate the initialisation of tag, putting it into place
-	   allocated ... */
+	/* evaluate the initialisation of tag, putting it into place allocated ... */
       }
       if (remember && r != NOREG && pt(e)!= nilexp
 	  && eq_sze(sh(son(e)), sh(pt(e)))) {
@@ -1973,9 +1932,7 @@ tailrecurse:
       integer_jump(i_jmp,31,labval,0);
       return mka;
     }
-    /*
-      max(x,y) and min(x,y)
-      */
+    /* max(x,y) and min(x,y) */
     case offset_max_tag:
     case max_tag:
     case min_tag:{
@@ -2020,12 +1977,15 @@ tailrecurse:
     }
 
     case abslike_tag:{
-      /* if (test x) then res = -x, else res = x *
-	 The code produced for this construct is:
-	 move x to res, neg x -> y, cmov(test) x,y,res.
-	 If the test is unsigned then we can optimise certain
-	 cases, i.e. less-than and greater-than-or-equal are
-	 always false and true respectively
+	/*
+	 * If (test x) then res = -x, else res = x *
+	 *
+	 * The code produced for this construct is:
+	 * move x to res, neg x -> y, cmov(test) x,y,res.
+	 *
+	 * If the test is unsigned then we can optimise certain cases,
+	 * i.e. less-than and greater-than-or-equal are
+	 * always false and true respectively
 	 */
       exp l = son(son(e));
       shape shl = sh(l);
@@ -2058,10 +2018,7 @@ tailrecurse:
 
     case absbool_tag:
     /*case abslike_tag:*/{
-      /*
-	need to clear up the distinctions between comparison and
-	conditional move.
-	*/
+      /* need to clear up the distinctions between comparison and conditional move. */
       exp l = son(son(e));
       exp r = bro(l);
       shape shl = sh(l);
@@ -2194,12 +2151,11 @@ tailrecurse:
 
 
     case test_tag: {
-      /*
-	Tests are performed by either a comparison or subraction
-	instruction, followed by a conditional branch.  If the
-	test is unsigned, or if a subtraction could cause an
-	overflow, then comparisons must be used.
-	*/
+	/*
+	 * Tests are performed by either a comparison or subraction instruction,
+	 * followed by a conditional branch. If the test is unsigned, or if
+	 * a subtraction could cause an overflow, then comparisons must be used.
+	 */
       exp l = son(e);
       exp r = bro(l);
       int   lab = (ptno (e) < 0) ? -ptno (e) : no (son (pt (e))); /* !! */
@@ -2348,8 +2304,7 @@ tailrecurse:
 
       if (name(e) == ass_tag && name(rhs) == apply_tag &&
 	 (is_floating(name(sh(rhs))) || valregable(sh(rhs)))) {
-	/* if source is simple proc call, evaluate it first and do
-	   assignment */
+	/* if source is simple proc call, evaluate it first and do assignment */
 	ans aa;
 	code_here(rhs, sp, nowhere);
 	if (is_floating(name(sh(rhs)))) {
@@ -2379,8 +2334,7 @@ tailrecurse:
       /* evaluate address of destination */
 
       if (assdest.ashwhere.ashalign == 1) {
-	/* this is an assignment of a bitfield, so get address
-	   in proper form */
+	/* this is an assignment of a bitfield, so get address in proper form */
 	instore is;
 	switch (assdest.answhere.discrim) {
 	  case inreg: {
@@ -2421,9 +2375,10 @@ tailrecurse:
 	instore is;
 	is = insalt(assdest.answhere);
 	if (!is.adval) {
-	  /* this is an indirect assignment, so make
-	     it direct by loading pointer into a register
-	     (and remember it) */
+	/*
+	 * This is an indirect assignment, so make it direct
+	 * by loading pointer into a register (and remember it)
+	 */
 	  int   r = getreg(nsp.fixed);
 	  load_store(i_ldq,r,is.b);
 	  nsp = guardreg(r, nsp);
@@ -2436,9 +2391,9 @@ tailrecurse:
       }
 
       contreg = code_here(rhs, guard(assdest,nsp), assdest);
-      /*
-	 evaluate source into assignment destination
-	 and move it into dest - could use assignment as value
+	/*
+	 * Evaluate source into assignment destination and move it into dest
+	 * - could use assignment as value
 	 */
 
       switch (assdest.answhere.discrim) {
@@ -2785,9 +2740,10 @@ tailrecurse:
 	    }
 	  }
 	  else {
-	    /* pass remaining parameters on the stack.
-	       The parameters are aligned on 8 byte boundaries.
-	       */
+		/*
+		 * Pass remaining parameters on the stack.
+		 * The parameters are aligned on 8 byte boundaries.
+		 */
 	    setinsalt(w.answhere, is);
 	    is.b.offset+= (max(ap.ashsize,REG_SIZE) >>3);
 	    /* 'size' was used here */
@@ -2841,8 +2797,8 @@ tailrecurse:
 
 	}
       }
-      else {			/* the address of the proc is evaluated
-				   and entered indirectly */
+      else {
+		/* the address of the proc is evaluated and entered indirectly */
 	int destreg=reg_operand(fn,guardreg(26,sp));
 	operate_fmt(i_bis,destreg,destreg,PV);
 	integer_jump(i_jsr,RA,destreg,0);
@@ -2871,8 +2827,7 @@ tailrecurse:
 	  setregalt(aa, RESULT_REG);
 	  mka.regmove = 0;
 	  move(aa,dest, sp, 1);
-	  /* move floating point result of application to
-	     destination */
+	  /* move floating point result of application to destination */
 	}
 	/* else struct results are moved by body of proc */
       }
@@ -2975,7 +2930,7 @@ tailrecurse:
 	  x = bro(x);
 	}
 	comment("In postlude, with call");
-	/*	operate_fmt_immediate(i_subq,SP,max_args>>3,SP);*/
+	/* operate_fmt_immediate(i_subq,SP,max_args>>3,SP);*/
 
 	mka.regmove = NOREG;
 	update_plc(old_postludes,postlude_arg_space);
@@ -3193,8 +3148,7 @@ tailrecurse:
       for (;name(bdy) ==dump_tag || name(bdy) ==diagnose_tag;bdy = son(bdy));
 
       while (name(bdy) == ident_tag && isparam(bdy)) {
-	/* go throught the current callers, making sure they are
-	   in the right place */
+	/* go throught the current callers, making sure they are in the right place */
 	exp sbody = son(bdy);
 	baseoff b;
 	if (Has_fp) {
@@ -3209,9 +3163,7 @@ tailrecurse:
 
 
 	b.base = FP;
-	b.offset = (no(sbody)>>3) - (PTR_SZ>>3)  ;  /* This will work its
-						       way through the
-						       caller param area */
+	b.offset = (no(sbody)>>3) - (PTR_SZ>>3)  ;  /* This will work its way through the caller param area */
 	b.offset = no(sbody) >>3;
 #endif
 
@@ -3284,11 +3236,10 @@ tailrecurse:
       }
       restore_sregs(fixdone,fltdone);
 
-      /*
-	Allocate space on the frame for the number of callees used
-	in the tail call which exceed the number of callees for
-	this procedure
-	*/
+	/*
+	 * Allocate space on the frame for the number of callees used in the
+	 * tail call which exceed the number of callees for this procedure
+	 */
       if (name(cllees) == make_callee_list_tag) {
 	int x = (((no(cllees) >> 3) + 39) & ~7) + stack_space;
 	baseoff b;
@@ -3523,8 +3474,8 @@ tailrecurse:
 	setfregalt(dest.answhere, fr);
       }
 
-      for (;;) {		/* set up all the labels in the component
-				   labst_tags */
+      for (;;) {
+		/* set up all the labels in the component labst_tags */
 	no(son(m)) = new_label();
 	if (last(m))
 	  break;
@@ -3532,8 +3483,7 @@ tailrecurse:
       }
 
       m = son(e);
-      for (;;) {		/* evaluate all the component statements
-				 */
+      for (;;) {		/* evaluate all the component statements */
 	int   fl = make_code(m, sp, dest, l).lab;
 	clear_all();
 	if (fl != 0)
@@ -3553,9 +3503,7 @@ tailrecurse:
       }
     }				/* end solve */
 
-      /*
-	case_tag now uses the INT64 type.
-	*/
+      /* case_tag now uses the INT64 type.  */
     case case_tag: {
       int   r = reg_operand(son(e), sp);
       /* evaluate controlling integer into reg r */
@@ -3572,8 +3520,7 @@ tailrecurse:
       comment(" begin case ");
       INT64_assign(l,exp_to_INT64(zt));
       for (n=make_INT64(0,1);;n=INT64_increment(n)) {
-	/* calculate crude criterion for using
-	   jump vector or branches */
+	/* Calculate crude criterion for using jump vector or branches */
 	if (!(INT64_eq(INT64_increment(u),exp_to_INT64(zt))) &&
 	  (son(zt)!=nilexp)) {
 	  n = INT64_increment(n);
@@ -3594,7 +3541,7 @@ tailrecurse:
 	zt = bro(zt);
       }
 
-      /* now l is lowest controlling value and u is highest */
+      /* Now l is lowest controlling value and u is highest */
       /*	 The above actually means: */
       if (control_sgned) {
 	xt = (INT64_subtract(INT64_shift_right(u,1,1),
@@ -3615,8 +3562,10 @@ tailrecurse:
 
 
        if (xt <= yt) {
-	/* space-time product criterion for jump vector instead
-	   of tests  and branches */
+	/*
+	 * Space-time product criterion for jump vector instead of
+	 * tests and branches.
+	 */
 	/* use jump vector */
 	int   endlab = new_label();
 	int   veclab = next_dlab_sym();
@@ -3698,8 +3647,7 @@ tailrecurse:
 	return mka;
       }
       else {
-	int   over = 0;	/* use branches - tests are already
-			   ordered */
+	int   over = 0;	/* use branches - tests are already ordered */
 	int rtmp = getreg(guardreg(r,sp).fixed);
 	bool usw;
 	lims = maxmin(sh(son(e)));
@@ -3739,8 +3687,8 @@ tailrecurse:
 	      lims.mini = INT64_increment(u);
 	    }
 	  }
-	  else if  (INT64_lt(u,lims.maxi)) {/*lower is <= lower limit
-					      of shape*/
+	  else if  (INT64_lt(u,lims.maxi)) {
+		/* lower is <= lower limit of shape */
 	    operate_fmt_big_immediate(i_cmple,r,u,rtmp);
 	    integer_branch(i_bne,rtmp,lab);
 	    lims.mini = INT64_increment(u);
@@ -3906,10 +3854,11 @@ tailrecurse:
       }
 
       if (nsh >= s64hd) {
-	/* destination is 64 bits wide, the only thing we have
-	   to worry about is the conversion of unsigned
-	   values to signed, which can be avoided by the
-	   following code */
+	/*
+	 * Destination is 64 bits wide, the only thing we have to worry about
+	 * is the conversion of unsigned values to signed, which can be avoided
+	 * by the following code.
+	 */
 	if (convert_shapes(nsh,name(sh(son(e))),a,tmpreg)) {
 	  setregalt(aa,tmpreg);
 	}
@@ -3917,7 +3866,7 @@ tailrecurse:
 	return mka;
       }
       if (sh (son (e)) == sh (e) /*|| nsh  >= slonghd*/) {
-	/* no changes required, so just move to dest*/
+	/* no changes required, so just move to dest */
 
 	mka.regmove = move(aa, dest, sp, 1);
 	return mka;
@@ -4286,8 +4235,7 @@ tailrecurse:
 		     (m & (p2 = m + 1)) == 0 ||
 		     ((p2 = m - 1) & (m - 2)) == 0
 		     )) {
-	  /* m = 2^shleng   or  m = 2^(shleng +/- 1)
-	   */
+	  /* m = 2^shleng   or  m = 2^(shleng +/- 1) */
 	  int   r = reg_operand(son(e), sp);
 	  /* evaluate first arguement */
 	  int   rr;
@@ -4822,9 +4770,11 @@ tailrecurse:
       nsp = guardreg(a, sp);
       d = regfrmdest(&dest, nsp);
 
-      /* when applying right shifts to unsigned data which is less then
-	 the full (64 bit) register length, we must ensure that all the
-	 unused bits in the upper part of the register are set to zero */
+	/*
+	 * When applying right shifts to unsigned data which is less then
+	 * the full (64 bit) register length, we must ensure that all the
+	 * unused bits in the upper part of the register are set to zero.
+	 */
      if (!is64(sh(son(e))) && !is_signed(sh(son(e)))
 	 && ins_equal(i_srl,shnat)) {
 	src_reg = getreg(nsp.fixed);
@@ -4840,16 +4790,16 @@ tailrecurse:
       }
       nsp = guardreg(src_reg,nsp);
       if (name(b) == val_tag) {
-	/* if its a constant shift we dont have to choose shift
-	   dynamically ... */
+	/* if its a constant shift we dont have to choose shift dynamically ... */
 	if (no(b) >= 0) {
 #if 0
 	  if (!is64(sh(son(e))) && !is_signed(sh(son(e))) &&
 	     ins_equal(i_srl,shnat)) {
-	    /* if quantity being shifted right is not 64 bits wide
-	       then the top 32 bits of the register containing it
-	       must be set to zero.  This does not apply to
-	       arithmetic shifts. */
+		/*
+		 * If quantity being shifted right is not 64 bits wide then
+		 * the top 32 bits of the register containing it must be set to zero.
+		 * This does not apply to arithmetic shifts.
+		 */
 	    operate_fmt_immediate(i_zapnot,a,15,a);
 	  }
 #endif
@@ -4937,9 +4887,11 @@ tailrecurse:
       return mka;
     }
 #endif
-      /* Remainder operations have the same effect on the registers
-	 AT,23,24,25 and 27 as the division operations,
-	 so they must be treated in the same way.*/
+	/*
+	 * Remainder operations have the same effect on the registers
+	 * AT, 23, 24, 25 and 27 as the division operations,
+	 * So they must be treated in the same way.
+	 */
     case mod_tag:
     case rem0_tag:
     case rem2_tag:{
@@ -4954,10 +4906,11 @@ tailrecurse:
 #endif
       nsp = sp;
       if (name(rop) ==val_tag) {
-	/* if the second argument is a constant then we can
-	   replace the rem* instruction by either an and
-	   instruction, or an umulh and multiplication
-	   followed by a subtraction */
+	/*
+	 * If the second argument is a constant then we can replace the rem*
+	 * instruction by either an and instruction, or an umulh and multiplication
+	 * followed by a subtraction.
+	 */
 	int r = reg_operand(son(e),sp);
 	int m = no(rop);	/* value of constant */
 	int rres = regfrmdest(&dest,sp);
@@ -5313,8 +5266,7 @@ tailrecurse:
 	else
 	  frg.type = IEEE_single;
 	if ((!dto) && dfrom) {
-	  /* If converting from double to single then we
-	     need to use a conversion */
+	  /* If converting from double to single then we need to use a conversion */
 	  float_convert(i_cvtts,frg.fr,frg.fr);
 	}
 	setfregalt(aa, frg);
@@ -5632,39 +5584,40 @@ tailrecurse:
 
     case general_proc_tag:
     case proc_tag: {
-      /*
-	 set up locals_offset, fixdump, floatdump,
-	 frame_size, dumpstart
-	 dec stack  ; output frame and mask
-	 code here;
-
-	 The standard stack layout for a make_proc is as follows:
-
-	 -------------------------------------  Bottom of env
-	 space for caller params to be passed on stack
-	 (If containing apply or apply_general)
-
-	 space for dumped s registers
-	 locals
-	 space for dumped arguments (first 6)
-	 -------------------------------------- Top of env
-	 remaining arguments (in callers frame)
-
-
-	 for general procs the frame will be set up as follows:
-
-	 ----------------------------  Bottom of callee env
-	 extra caller parameters (If containing apply or apply_general)
-	 callee parameters (1,2,,,,,)
-	 space for dumped s registers
-	 locals
-	 caller local reg
-	 callee local reg
-	 callee top of stack
-	 caller frame pointer
-	 Up to 6 caller parameters
-	 --------------------------- Top of callee env
-	 Any remaining caller parameters
+	/*
+	 * set up locals_offset, fixdump, floatdump,
+	 * frame_size, dumpstart
+	 * dec stack  ; output frame and mask
+	 * code here;
+	 *
+	 * The standard stack layout for a make_proc is as follows:
+	 *
+	 *     ------------------------------------- Bottom of env
+	 *     space for caller params to be passed on stack
+	 *     (If containing apply or apply_general)
+	 *
+	 *     space for dumped s registers
+	 *     locals
+	 *     space for dumped arguments (first 6)
+	 *     -------------------------------------- Top of env
+	 *     remaining arguments (in callers frame)
+	 *
+	 *
+	 * for general procs the frame will be set up as follows:
+	 *
+	 *     ----------------------------  Bottom of callee env
+	 *     extra caller parameters (If containing apply or apply_general)
+	 *     callee parameters (1,2,,,,,)
+	 *     space for dumped s registers
+	 *     locals
+	 *     caller local reg
+	 *     callee local reg
+	 *     callee top of stack
+	 *     caller frame pointer
+	 *     Up to 6 caller parameters
+	 *     --------------------------- Top of callee env
+	 *     Any remaining caller parameters
+	 *
 	 */
 
       procrec * pr = & procrecs[no(e)];
@@ -5709,23 +5662,25 @@ tailrecurse:
 	  frame_size += ((arg_stack_space - old_arg_count) <<3);
       }
 
-      /*
-	param_stack_space contains the maximum number of bytes
-	that will be required to save the registers used by this
-	proc when passing parameters to other procedures.  As
-	the space is actually allocated in the callee frame, this
-	is only needed for apply_general_proc.  arg_stack_space
-	contains the number of arguments passed to this proc,
-	and for which space must be reserved within the current
-	frame.
-	*/
+	/*
+	 * param_stack_space contains the maximum number of bytes that will be
+	 * required to save the registers used by this proc when passing parameters
+	 * to other procedures.
+	 *
+	 * As the space is actually allocated in the callee frame, this is only
+	 * needed for apply_general_proc. arg_stack_space contains the number of
+	 * arguments passed to this proc, and for which space must be reserved
+	 * within the current frame.
+	 */
       for (i=0;i<min(pr->needsproc.numparams>>6,NUM_PARAM_REGS);++i) {
 	sp = guardreg(FIRST_INT_ARG+i,sp);
       }
 
       paramsdumpstart = pr->paramsdumpstart;
-      /* the fixed point registers will be stored in the space
-	 starting from gpdumpstart */
+     /*
+	  * The fixed point registers will be stored in the space
+	  * starting from gpdumpstart
+	  */
       gpdumpstart = (has_va)?paramsdumpstart+384:paramsdumpstart;
       proc_has_vararg = (has_va)?1:0;
       fixdump = pr->fixdump;
@@ -6010,9 +5965,11 @@ null_tag_case : {
 	r = getreg(sp.fixed);
       }
 
-      /* start of round */
-      /* simply do a conversion: double->long or float->int */
-      /* need to check FPCR for possible [over/under]flow */
+      /*
+	   * start of round
+       * simply do a conversion: double->long or float->int
+       * need to check FPCR for possible [over/under]flow
+	   */
       ins = (truncate)?i_cvttqc:i_cvttq;
       if (round_number(e) == f_toward_zero) {
 	ins = i_cvttqc;
@@ -6178,14 +6135,16 @@ null_tag_case : {
 
 #if 1
      case condassign_tag:{
-       /*
-	 This handles a conditional assignment of the form:
-	 IF ( A .rel. B) THEN X = Y, using conditional moves.
-	 son(e) is the test_tag and bro(son(e)) is the assignment.
-	 Note that the test condition is the opposite of the
-	 condition for the conditional move (because the original
-	 test is a jump over the assigment).
-	*/
+	/*
+	 * This handles a conditional assignment of the form:
+	 * IF ( A .rel. B) THEN X = Y, using conditional moves.
+	 *
+	 * son(e) is the test_tag and bro(son(e)) is the assignment.
+	 *
+	 * Note that the test condition is the opposite of the condition
+	 * for the conditional move (because the original test is a
+	 * jump over the assigment).
+	 */
        where assdest;
        instruction cinst;
        exp ctest = son(e);

@@ -8,35 +8,37 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/******************************************************************
-		weights.c
-
-	The main procedure here is weightsv which determines
-the allocation of s regs. It considers which of those tags not already
-allocated to a t reg by scan, are best put in an s register. The same
-conditions as for t regs apply as to the suitability of the tags for registers.
-Weights estimates the usage of each tag and hence the amount that would
-be saved if it were held in an s reg. Thus it computes break points for
-register allocation for later use by reg_alloc.
-	The type weights consists of two arrays of integers. In the first
-array each integer corresponds to a fixpnt reg and the second arrays'
-integers correspond to floating point regs.
-	At the end of a call of weights on an ident exp the props field
-of the ident may still contain inreg_bits or infreg_bits, set by scan, to
-indicate that a t reg should be used. Otherwise number of ident is set up to
-represent the break point for allocation. A similar process occurs for
-proc parameters which have the break value in the forweights field
-of the parapair of the corresponding procrec. This value has three
-meanings:
-	1) The ident (or parameter) defines a fixpnt value and number
-of ident (forweights of parpair) is an integer brk with the interpretation
-that if there are at least brk fixpt s registers unallocated at this point then
-one will be used for this tag (parameter).
-	2) As 1 but for floating point values.
-	3) number of ident = 100 in which case allocate value on the
-stack, (this is obviously always available for parameters).
-
-******************************************************************/
+/*
+ * The main procedure here is weightsv which determines the allocation
+ * of s regs. It considers which of those tags not already allocated
+ * to a t reg by scan, are best put in an s register. The same conditions
+ * as for t regs apply as to the suitability of the tags for registers.
+ *
+ * Weights estimates the usage of each tag and hence the amount that would
+ * be saved if it were held in an s reg. Thus it computes break points for
+ * register allocation for later use by reg_alloc.
+ *
+ * The type weights consists of two arrays of integers. In the first
+ * array each integer corresponds to a fixpnt reg and the second arrays'
+ * integers correspond to floating point regs.
+ *
+ * At the end of a call of weights on an ident exp the props field
+ * of the ident may still contain inreg_bits or infreg_bits, set by scan,
+ * to indicate that a t reg should be used. Otherwise number of ident is
+ * set up to represent the break point for allocation. A similar process
+ * occurs for proc parameters which have the break value in the forweights
+ * field of the parapair of the corresponding procrec.
+ *
+ * This value has three meanings:
+ *
+ *  1) The ident (or parameter) defines a fixpnt value and number of ident
+ *     (forweights of parpair) is an integer brk with the interpretation
+ *     that if there are at least brk fixpt s registers unallocated at this
+ *     point then one will be used for this tag (parameter).
+ *  2) As 1 but for floating point values.
+ *  3) number of ident = 100 in which case allocate value on the
+ *     stack, (this is obviously always available for parameters).
+ */
 
 #include <shared/error.h>
 
@@ -243,19 +245,15 @@ weights add_wlist(double scale, exp re)
   }
 }
 
-
-
-/*****************************************************************
-	weightsv
-
-This procedure estimates the usage of tags and parameters to help
-determine whether they can advantageously be placed in s registers.
-The parameter scale allows more importance to be placed on usage
-inside 'for' loops for example. The procedure reg_alloc in reg_alloc.c
-finally determines the actual choice of s reg and recodes the number
-field of an ident.
-
-******************************************************************/
+/*
+ * This procedure estimates the usage of tags and parameters to help
+ * determine whether they can advantageously be placed in s registers.
+ *
+ * The parameter scale allows more importance to be placed on usage
+ * inside 'for' loops for example. The procedure reg_alloc in reg_alloc.c
+ * finally determines the actual choice of s reg and recodes the number
+ * field of an ident.
+ */
 weights weightsv(double scale, exp e)
 {
 
@@ -427,9 +425,6 @@ tailrecurse:
       e = son(e);
       goto tailrecurse;
     }
-
-
-
 
   default:
     {

@@ -7,29 +7,29 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/*  S Y M B O L   T A B L E   P R O D U C T I O N   
-
-by R. R. Rowlingson
-
-Type definitions for the MIPS TDF translator to produce a .T , file (symbol table) suitable for as1.
-
-*/
+/*
+ * Symbol table production
+ *
+ * Type definitions for the MIPS TDF translator to produce a .T file
+ * (symbol table) suitable for as1.
+ */
 
 #include "cross_config.h"
 
 #include "sym.h"
 
-/********************************************************************
-The following types store the symbolic information for each table
-in the .T file. They consist of a count of the number of elements
-(num,noofsyms) or size (usage) in the case of strings. This is followed
-by a pointer to a fixed number of elements of the appropriate type . The
-size of this space is given by the appropriate macro at the end of this file.
-Consequently, when the number of elements in the table exceeds this fixed size
-a new array is set up and pointed to by the nextsyms or overspill field.
-This mechanism is transparent to the caller of the symbol table routines
-given in new_symbol.c
-********************************************************************/
+/*
+ * The following types store the symbolic information for each table in the
+ * .T file. They consist of a count of the number of elements (num, noofsyms)
+ * or size (usage) in the case of strings. This is followed by a pointer to
+ * a fixed number of elements of the appropriate type. The size of this space
+ * is given by the appropriate macro at the end of this file.
+ *
+ * Consequently, when the number of elements in the table exceeds this fixed
+ * size a new array is set up and pointed to by the nextsyms or overspill field.
+ * This mechanism is transparent to the caller of the symbol table routines
+ * given in new_symbol.c
+ */
 
 /* array of local symbols and number of entries */
 typedef struct lsymsd	{long noofsyms;
@@ -66,8 +66,10 @@ typedef struct	{long num;
 		pFDR filelist;
 		} FILETAB;
 
-/* File description info, 1 for each file. Will be converted to FDR for the symbol table by adding indices etc */
-
+/*
+ * File description info, 1 for each file.
+ * Will be converted to FDR for the symbol table by adding indices etc
+ */
 typedef struct symfdrd	{STRINGS* filestr;
 			LSYMS* symbols;
 			AUXTAB* auxtabs;
@@ -80,8 +82,10 @@ typedef struct {long fnum;
 		long procsymindex;
 		} PROCSYM;
 
-/* this macro is only used by the symbol table printer and is not a genuine
-part of the installer */
+/*
+ * This macro is only used by the symbol table printer and is not a genuine
+ * part of the installer
+ */
 #define IFAUXINFO(X) (((X>=1)&&(X<5))||(X==6)||(X==9)||(X==10)||(X==14))
 
 /* The following are the units of space allocated for the various tables */

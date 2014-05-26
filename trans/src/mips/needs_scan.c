@@ -7,17 +7,15 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/******************************************************************
-
-		needs_scan.c
-
-	Defines the scan through a program which reorganises it so that all
-arguments of operations are suitable for later code-production. The procedure
-scan evaluates the register requirements of an exp. The exps are produced
-from the decoding process and the various exp -> exp transformations  in
-the proc independent (common to other  translators)
-
-*************************************************************/
+/*
+ * Defines the scan through a program which reorganises it so that all
+ * arguments of operations are suitable for later code-production.
+ *
+ * The procedure scan evaluates the register requirements of an exp.
+ * The exps are produced from the decoding process and the various
+ * exp -> exp transformations in the proc independent
+ * (common to other translators)
+ */
 
 #include <string.h>
 
@@ -67,25 +65,25 @@ static int callerfortr;
 bool gen_call;
 
 
-/* declaration of scan.
-	 needs is defined in procrectypes.h.
- This is a structure which has two integers giving
-the number of fixed and floating point registers required to contain live values
-in the expression parameters. A further field prop is used for various
-flags about certain forms of exp (mainly idents and procs). The maxargs
-field gives the maximum size in bits for the parameters of all the procs
-called in the exp. The needs of a proc body are preserved in the needs field
-of the procrec (see procrectypes.h).
-*/
+/*
+ * declaration of scan.
+ *
+ * needs is defined in procrectypes.h.
+ *
+ * This is a structure which has two integers giving the number of fixed
+ * and floating point registers required to contain live values in the
+ * expression parameters. A further field prop is used for various flags
+ * about certain forms of exp (mainly idents and procs). The maxargs field
+ * gives the maximum size in bits for the parameters of all the procs
+ * called in the exp. The needs of a proc body are preserved in the
+ * needs field of the procrec (see procrectypes.h).
+ */
 
-/***************************************************************
-		cca
-
-This procedure effectively inserts a new declaration into an exp. This
-is used to stop a procedure requiring more than the available number of
-registers.
-****************************************************************/
-
+/*
+ * This procedure effectively inserts a new declaration into an exp.
+ * This is used to stop a procedure requiring more than the available
+ * number of registers.
+ */
 void
 cca(exp ** to, exp * x)
 {
@@ -172,9 +170,11 @@ shapeneeds(shape s)
   else {
     if (valregable (s))
       return onefix;
-    else {			/* if the shape does not fit into a reg,
-				   it may need up to four fixed regs for moving
-				 */
+    else {
+	/*
+	 * If the shape does not fit into a reg,
+	 * it may need up to four fixed regs for moving
+	 */
       int al = shape_align(s);
       if (al == 1) {
 	return threefix;
@@ -196,9 +196,11 @@ shapeneeds(shape s)
 
 bool
 complex(exp e)
-{		/* these are basically the expressions
-				   which cannot be accessed by a simple
-				   load or store instruction */
+{
+	/*
+	 * These are basically the expressions which cannot be accessed
+	 * by a simple load or store instruction
+	 */
   if (name (e) == name_tag ||
       (name (e) == cont_tag && name (son (e)) == name_tag &&
 	isvar (son (son (e))))
@@ -292,8 +294,7 @@ scan_cond(exp * e, exp outer_id)
 	  }
 	  else
 	  if (c2 && eq_exp (op21, op22)) {
-				/* ....if second operands of tests are
-				   same, identify them */
+			/* ....if second operands of tests are same, identify them */
 
 	      exp newid = getexp (sh (ste), bro (ste), last (ste), op21,
 		  nilexp, 0, 2, ident_tag);
@@ -325,8 +326,7 @@ scan_cond(exp * e, exp outer_id)
 		  && name (op11) == name_tag
 		  && son (op11) == outer_id
 		  && eq_exp (son (outer_id), op12)
-		) {		/* 1st param of test1 is already identified with
-				   1st param of  test2 */
+		) {		/* 1st param of test1 is already identified with 1st param of  test2 */
 		exp tg = getexp (sh (op12), op22, 0, outer_id,
 		    pt (outer_id), 0, 0, name_tag);
 		pt (outer_id) = tg;

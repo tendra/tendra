@@ -7,8 +7,10 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/* This file consists of the floating point and complex operations
-   extracted from install_fns.c, to reduce compilation unit sizes */
+/*
+ * This file consists of the floating point and complex operations
+ * extracted from install_fns.c, to reduce compilation unit sizes.
+ */
 
 #include <ctype.h>
 #include <time.h>
@@ -71,8 +73,6 @@ static exp f_bin_floating_plus(error_treatment, exp, exp);
 static exp f_bin_floating_mult(error_treatment, exp, exp);
 static exp real_power(error_treatment, exp, exp);
 
-
-
 exp
 f_change_floating_variety(error_treatment flpt_err, floating_variety r,
 			  exp arg1)
@@ -128,8 +128,6 @@ f_change_floating_variety(error_treatment flpt_err, floating_variety r,
   return me_c1(f_floating(r), flpt_err, arg1, chfl_tag);
 }
 
-
-
 exp
 f_complex_conjugate(exp arg1)
 {
@@ -167,8 +165,6 @@ f_complex_conjugate(exp arg1)
 
   return me_u3(sh(arg1), arg1, conj_tag);
 }
-
-
 
 exp
 f_float_int(error_treatment flpt_err, floating_variety f, exp arg1)
@@ -224,7 +220,6 @@ f_float_int(error_treatment flpt_err, floating_variety f, exp arg1)
   return me_c1(f_floating(f), flpt_err, arg1, float_tag);
 }
 
-
 exp
 f_floating_abs(error_treatment ov_err, exp arg1)
 {
@@ -252,7 +247,6 @@ f_floating_abs(error_treatment ov_err, exp arg1)
 #endif
   return me_u1(ov_err, arg1, fabs_tag);
 }
-
 
 exp
 f_floating_div(error_treatment ov_err, exp arg1, exp arg2)
@@ -357,7 +351,6 @@ f_floating_div(error_treatment ov_err, exp arg1, exp arg2)
   return hold_refactor(me_b1(ov_err, arg1, arg2, fdiv_tag));
 }
 
-
 exp
 f_floating_maximum(error_treatment flpt_err, exp arg1, exp arg2)
 {
@@ -378,7 +371,6 @@ f_floating_maximum(error_treatment flpt_err, exp arg1, exp arg2)
 
   return hold_refactor(me_b1(flpt_err, arg1, arg2, fmax_tag));
 }
-
 
 exp
 f_floating_minimum(error_treatment flpt_err, exp arg1, exp arg2)
@@ -401,31 +393,24 @@ f_floating_minimum(error_treatment flpt_err, exp arg1, exp arg2)
   return hold_refactor(me_b1(flpt_err, arg1, arg2, fmin_tag));
 }
 
-
-
-
-/****************************************************************/
-/*  The following code needs to generate labels for use with    */
-/*  'cond_tag'.  This is currently implemented using the        */
-/*  knowledge that a label can be obtained by taking a pointer  */
-/*  to an EXP - a hack which was introduced because of the      */
-/*  need to use 'f_integer_test' with 64-bit integers.  This    */
-/*  hack is performed exclusively by the MACRO 'make_label'     */
-/****************************************************************/
+/*
+ * The following code needs to generate labels for use with 'cond_tag'.
+ *
+ * This is currently implemented using the knowledge that a label can be
+ * obtained by taking a pointer to an EXP - a hack which was introduced
+ * because of the need to use 'f_integer_test' with 64-bit integers.
+ * This hack is performed exclusively by the MACRO 'make_label'
+ */
 
 #define make_label(EXP) &EXP
 
-
-/************************************************/
-/*  'is_constant_arg' checks to see if E1 is    */
-/*   a constant that will fit into type 'int'.  */
-/************************************************/
-
+/*
+ * 'is_constant_arg' checks to see if E1 is
+ * a constant that will fit into type 'int'.
+ */
 #define is_constant_arg(E1)\
 	((name(E1) == val_tag) && !isbigval(E1) && \
 	(is_signed(sh(E1)) || (no(E1) >> 31 == 0)))
-
-
 
 exp
 f_floating_power(error_treatment ov_err, exp arg1, exp arg2)
@@ -584,9 +569,7 @@ f_floating_power(error_treatment ov_err, exp arg1, exp arg2)
 	  u = me_startid(real_shape, real1, 1);	/* re(w) = 1.0 */
 	  v = me_startid(real_shape, real0, 1);	/* im(w) = 0.0 */
 
-
-	  /*  change value of w to z if n is odd  */
-
+	  /* change value of w to z if n is odd  */
 	  {
 	      exp constant1 = me_shint(integer_shape, 1);
 	      exp constant2 = me_shint(integer_shape, 2);
@@ -617,9 +600,7 @@ f_floating_power(error_treatment ov_err, exp arg1, exp arg2)
 						seq, alt_labst, cond_tag));
 	  }
 
-
-	  /*  z=z*z  */
-
+	  /* z = z * z */
 	  {
 	      exp minus_x_y = f_floating_minus(ov_err, me_contents(x),
 					       me_contents(y));
@@ -646,8 +627,7 @@ f_floating_power(error_treatment ov_err, exp arg1, exp arg2)
 	      square_z = me_complete_id(tmp, seq);
 	  }
 
-
-	  /*  w=z*w  */
+	  /* w = z * w */
 	  {
 	      exp mult_x_u = f_bin_floating_mult(ov_err, me_contents(x),
 						 me_contents(u));
@@ -676,9 +656,7 @@ f_floating_power(error_treatment ov_err, exp arg1, exp arg2)
 	      mult_z_w = me_complete_id(tmp, seq);
 	  }
 
-
-	  /*  n = n / 2  */
-
+	  /* n = n / 2 */
 	  {
 	      exp constant2 = me_shint(integer_shape, 2);
 
@@ -687,9 +665,7 @@ f_floating_power(error_treatment ov_err, exp arg1, exp arg2)
 	      half_n = hold_refactor(me_b3(f_top, me_obtain(n), answer, ass_tag));
 	  }
 
-
-	  /*  if n is odd then w = z * w  */
-
+	  /* if n is odd then w = z * w */
 	  {
 	      exp constant1 = me_shint(integer_shape, 1);
 	      exp constant2 = me_shint(integer_shape, 2);
@@ -713,9 +689,7 @@ f_floating_power(error_treatment ov_err, exp arg1, exp arg2)
 					  seq, alt_labst, cond_tag));
 	  }
 
-
-	  /*  repeat + body  */
-
+	  /* repeat + body */
 	  {
 	      exp if_n_equals_1, seq_zero, seq, body_labst;
 
@@ -731,8 +705,8 @@ f_floating_power(error_treatment ov_err, exp arg1, exp arg2)
 					     me_contents(n), constant1);
 
 	      seq_zero = me_b2(square_z, update_w, 0);
-	      setbro(square_z, half_n);	/*  insert half_n between   */
-	      setbro(half_n, update_w);	/*  square_x and update_w   */
+	      setbro(square_z, half_n);	/* insert half_n between */
+	      setbro(half_n, update_w);	/* square_x and update_w */
 	      clearlast(half_n);
 	      seq_zero = hold_refactor(seq_zero);
 
@@ -748,9 +722,7 @@ f_floating_power(error_treatment ov_err, exp arg1, exp arg2)
 	      note_repeat(repeat_body);
 	  }
 
-
-	  /*  make loop - only done if  mod(n) > 1  */
-
+	  /* make loop - only done if mod(n) > 1 */
 	  {
 	      exp constant1 = me_shint(integer_shape, 1);
 
@@ -778,9 +750,7 @@ f_floating_power(error_treatment ov_err, exp arg1, exp arg2)
 				     me_contents(v), me_contents(v),
 				     me_contents(v));
 
-
 	  /* if arg2 is negative then make_comp2 else make_comp1 */
-
 	  {
 	      exp constant0 = me_shint(integer_shape, 0);
 
@@ -818,7 +788,6 @@ f_floating_power(error_treatment ov_err, exp arg1, exp arg2)
 
   return real_power(ov_err, arg1, arg2);
 }
-
 
 exp
 f_floating_minus(error_treatment ov_err, exp arg1, exp arg2)
@@ -876,7 +845,6 @@ f_floating_minus(error_treatment ov_err, exp arg1, exp arg2)
 #endif
   return hold_refactor(me_b1(ov_err, arg1, arg2, fminus_tag));
 }
-
 
 exp
 f_floating_mult(error_treatment ov_err, exp_list arg1)
@@ -984,7 +952,6 @@ f_floating_mult(error_treatment ov_err, exp_list arg1)
   return r;
 }
 
-
 exp
 f_floating_negate(error_treatment ov_err, exp arg1)
 {
@@ -1012,8 +979,8 @@ f_floating_negate(error_treatment ov_err, exp arg1)
       exp x1 = f_real_part(obtain1_c1);			/* re(arg1) */
       exp y1 = f_imaginary_part(obtain2_c1);		/* im(arg1) */
 
-      exp neg_re = f_floating_negate(ov_err, x1);	/* - re(arg1) */
-      exp neg_im = f_floating_negate(ov_err, y1);	/* - im(arg1) */
+      exp neg_re = f_floating_negate(ov_err, x1);	/* -re(arg1) */
+      exp neg_im = f_floating_negate(ov_err, y1);	/* -im(arg1) */
       exp make_comp = f_make_complex(complex_fv, neg_re, neg_im);
 
       c1 = me_complete_id(c1, make_comp);
@@ -1034,7 +1001,6 @@ f_floating_negate(error_treatment ov_err, exp arg1)
 #endif
   return hold_refactor(me_u1(ov_err, arg1, fneg_tag));
 }
-
 
 exp
 f_floating_plus(error_treatment ov_err, exp_list arg1)
@@ -1092,7 +1058,7 @@ f_floating_plus(error_treatment ov_err, exp_list arg1)
 	  z2 = push(z2, me_startid(complex_shape, t, 0));
 
 	  x2 = f_real_part(me_obtain(z2));	/* contents of next */
-	  y2 = f_imaginary_part(me_obtain(z2));	/*   list element   */
+	  y2 = f_imaginary_part(me_obtain(z2));	/* list element */
 
 	  x1 = f_bin_floating_plus(ov_err, x1, x2);	/* pass it this on */
 	  y1 = f_bin_floating_plus(ov_err, y1, y2);	/*  as new result  */
@@ -1112,7 +1078,6 @@ f_floating_plus(error_treatment ov_err, exp_list arg1)
 #endif
   return r;
 }
-
 
 exp
 f_floating_test(nat_option prob, error_treatment flpt_err, ntest nt,
@@ -1191,8 +1156,6 @@ f_floating_test(nat_option prob, error_treatment flpt_err, ntest nt,
   return me_q2(prob, flpt_err, nt, dest, arg1, arg2, test_tag);
 }
 
-
-
 exp
 f_imaginary_part(exp arg1)
 {
@@ -1218,7 +1181,6 @@ f_imaginary_part(exp arg1)
   return me_u3(real_shape, arg1, imag_tag);
 }
 
-
 exp
 f_real_part(exp arg1)
 {
@@ -1243,8 +1205,6 @@ f_real_part(exp arg1)
 
   return me_u3(real_shape, arg1, realpart_tag);
 }
-
-
 
 exp
 f_make_complex(floating_variety f, exp arg1, exp arg2)
@@ -1330,7 +1290,6 @@ f_make_complex(floating_variety f, exp arg1, exp arg2)
        }
   }
 }
-
 
 #if FBASE == 10
 
@@ -1475,8 +1434,6 @@ f_make_floating(floating_variety fv, rounding_mode rm, bool sign,
 
 #endif
 
-
-
 exp
 f_power(error_treatment ov_err, exp arg1, exp arg2)
 {
@@ -1497,7 +1454,6 @@ f_power(error_treatment ov_err, exp arg1, exp arg2)
 
   return real_power(ov_err, arg1, arg2);
 }
-
 
 exp
 f_round_with_mode(error_treatment flpt_err, rounding_mode mode, variety r,
@@ -1540,8 +1496,10 @@ f_round_with_mode(error_treatment flpt_err, rounding_mode mode, variety r,
   }
 
 #if TRANS_MIPS
-	/* mips does not seem to get float->unsigned long right -
-	   so convert to signed long and adjust if too big*/
+	/*
+	 * mips does not seem to get float->unsigned long right,
+	 * so convert to signed long and adjust if too big.
+	 */
 	else if (name(arg1) != real_tag && shape_size(r) == 32 &&
 		 !is_signed(r)) {
 		floating_variety fa = (shape_size(sh(arg1)) == 32) ? 0 : 1;
@@ -1578,6 +1536,7 @@ f_round_with_mode(error_treatment flpt_err, rounding_mode mode, variety r,
 
 	}
 #endif
+
 #if TRANS_POWER
  if (name(arg1) != real_tag || flpt_err.err_code > 2) {
    if (cpu != CPU_POWERPC) {
@@ -1670,8 +1629,6 @@ f_round_with_mode(error_treatment flpt_err, rounding_mode mode, variety r,
   return res;
 }
 
-
-
 floating_variety
 f_flvar_parms(nat base, nat mantissa_digits, nat minimum_exponent,
 	      nat maximum_exponent)
@@ -1708,7 +1665,6 @@ f_flvar_parms(nat base, nat mantissa_digits, nat minimum_exponent,
   }
 }
 
-
 floating_variety
 f_complex_parms(nat base, nat mantissa_digits, nat minimum_exponent,
 		nat maximum_exponent)
@@ -1717,7 +1673,6 @@ f_complex_parms(nat base, nat mantissa_digits, nat minimum_exponent,
 					    minimum_exponent,
 					    maximum_exponent));
 }
-
 
 void
 init_floating_variety(void)
@@ -1745,8 +1700,6 @@ init_floating_variety(void)
 
   return;
 }
-
-
 
 floating_variety f_dummy_floating_variety;
 
@@ -1803,8 +1756,6 @@ fv_of_shape(shape sha)
 	return f_dummy_floating_variety;
 }
 
-
-
 static
 void square_x_iy(error_treatment ov_err, exp *arg1, exp *arg2, exp arg3)
 {
@@ -1838,7 +1789,6 @@ void square_x_iy(error_treatment ov_err, exp *arg1, exp *arg2, exp arg3)
 
     return;
 }
-
 
 static
 void mult_w_by_z(error_treatment ov_err, exp *arg1, exp *arg2, exp arg3,
@@ -1879,7 +1829,6 @@ void mult_w_by_z(error_treatment ov_err, exp *arg1, exp *arg2, exp arg3,
     return;
 }
 
-
 static exp
 make_comp_1_z(floating_variety complex_fv, error_treatment ov_err,
 	      exp contents1_u, exp contents2_u, exp contents3_u,
@@ -1901,7 +1850,6 @@ make_comp_1_z(floating_variety complex_fv, error_treatment ov_err,
     exp make_comp = f_make_complex(complex_fv, answer_re, answer_im);
     return me_complete_id(mod_sq, make_comp);
 }
-
 
 #define is_const(X)	(name(X) != ident_tag)
 
@@ -1939,7 +1887,6 @@ reorder_list(exp_list arg1, int consts_first)
     return arg1;
 }
 
-
 exp
 me_contents(exp arg1)
 {
@@ -1948,19 +1895,18 @@ me_contents(exp arg1)
   return hold_refactor(r);
 }
 
-
-
-  /* Used in conjunction with the function "me_complete_chain",
-     this function is used to push "ident_tag" declarations
-     onto a "stack" so that they can be linked up later.  It is
-     used in loops where the number of "ident_tag"s is unknown
-     and they need to be bound together in a "first-used last-
-     bound" order - hence the stack.
-
-     arg1 is the new element
-     arg2 is the top element on the stack
+/*
+ * Used in conjunction with the function "me_complete_chain",
+ * this function is used to push "ident_tag" declarations onto a "stack"
+ * so that they can be linked up later.
+ *
+ * It is used in loops where the number of "ident_tag"s is unknown
+ * and they need to be bound together in a "first-used last-bound" order
+ * - hence the stack.
+ *
+ * arg1 is the new element
+ * arg2 is the top element on the stack
  */
-
 static exp
 push(exp arg1, exp arg2)
 {
@@ -1968,12 +1914,11 @@ push(exp arg1, exp arg2)
     return arg2;
 }
 
-
-  /* Take the stack full of "ident_tag" declarations and link them
-     together with the last element in the list being "last_link"
-     and the body around which the declarations are put be "link_to".
-  */
-
+/*
+ * Take the stack full of "ident_tag" declarations and link them together
+ * with the last element in the list being "last_link" and the body
+ * around which the declarations are put be "link_to".
+ */
 static exp
 me_complete_chain(exp ident_chain, exp last_link, exp link_to)
 {
@@ -1988,10 +1933,9 @@ me_complete_chain(exp ident_chain, exp last_link, exp link_to)
     return me_complete_id(ident_chain, link_to);
 }
 
-
-
-/* Binary version of 'f_floating_plus' */
-
+/*
+ * Binary version of 'f_floating_plus'
+ */
 static exp
 f_bin_floating_plus(error_treatment ov_err, exp arg1, exp arg2)
 {
@@ -2002,9 +1946,9 @@ f_bin_floating_plus(error_treatment ov_err, exp arg1, exp arg2)
   return f_floating_plus(ov_err, el);
 }
 
-
-/* Binary version of 'f_floating_mult' */
-
+/*
+ * Binary version of 'f_floating_mult'
+ */
 static exp
 f_bin_floating_mult(error_treatment ov_err, exp arg1, exp arg2)
 {
@@ -2035,7 +1979,6 @@ real_power(error_treatment ov_err, exp arg1, exp arg2)
     exp(*f_real_mult)(error_treatment, exp, exp);
     shape real_shape, integer_shape, tmp_shape;
 
-
 /* With wrap, we may as well work with 'int's and change back after */
 
     tmp_shape = sh(arg1);
@@ -2043,7 +1986,6 @@ real_power(error_treatment ov_err, exp arg1, exp arg2)
 	shape_size(sh(arg1)) < 32 && eq_et(ov_err, f_wrap)) {
 	arg1 = hold_refactor(f_change_variety(f_impossible, ulongsh, arg1));
     }
-
 
 /* Widen to 'int' if necessary - guarantees negate will work */
 
@@ -2055,7 +1997,6 @@ real_power(error_treatment ov_err, exp arg1, exp arg2)
     integer_shape = sh(arg2);
     sn = me_startid(integer_shape, arg2, 0);
 
-
 /* Identify an exp which represents the value 1 (or 1.0) */
 
     if (is_integer(real_shape)) {
@@ -2066,7 +2007,6 @@ real_power(error_treatment ov_err, exp arg1, exp arg2)
 	real1 = hold_refactor(real1);	/* This should be reduced to 1.0 */
     }
     real1 = push(sn, me_startid(real_shape, real1, 0));
-
 
 /* Decide which is the suitable function for multiplying two numbers */
 
@@ -2162,7 +2102,7 @@ real_power(error_treatment ov_err, exp arg1, exp arg2)
 	w = push(n, me_startid(real_shape, me_obtain(real1), 1));
 	x = push(w, me_startid(real_shape, arg1, 1));
 
-	/*  change value of w to z if n is odd  */
+	/* change value of w to z if n is odd  */
 	{
 	    exp rem_n_2 = f_and(me_contents(n), me_shint(integer_shape, 1));
 	    exp assign_w = f_assign(me_obtain(w), me_contents(x));
@@ -2177,28 +2117,28 @@ real_power(error_treatment ov_err, exp arg1, exp arg2)
 					      seq, alt_labst, cond_tag));
 	}
 
-	/*  x=x*x  */
+	/* x = x * x */
 	{
 	    exp mult_x_x;
 	    mult_x_x = (*f_real_mult)(ov_err, me_contents(x), me_contents(x));
 	    square_x = f_assign(me_obtain(x), mult_x_x);
 	}
 
-	/*  w=x*w  */
+	/* w = x * w */
 	{
 	    exp answer;
 	    answer = (*f_real_mult)(ov_err, me_contents(x), me_contents(w));
 	    mult_x_w = f_assign(me_obtain(w), answer);
 	}
 
-	/*  n = n / 2  */
+	/* n = n / 2 */
 	{
 	    exp answer = f_shift_right(me_contents(n),
 				       me_shint(integer_shape, 1));
 	    half_n = f_assign(me_obtain(n), answer);
 	}
 
-	/*  if n is odd then w = z * w  */
+	/* if n is odd then w = z * w */
 	{
 	    exp rem_n_2 = f_and(me_contents(n), me_shint(integer_shape, 1));
 	    exp alt_labst = hold_refactor(me_b3(f_top, f_make_value(f_top),
@@ -2212,7 +2152,7 @@ real_power(error_treatment ov_err, exp arg1, exp arg2)
 					seq, alt_labst, cond_tag));
 	}
 
-	/*  repeat + body  */
+	/* repeat + body */
 	{
 	    exp body_labst, if_n_equals_1;
 	    exp_list st;
@@ -2241,7 +2181,7 @@ real_power(error_treatment ov_err, exp arg1, exp arg2)
 	    note_repeat(repeat_body);
 	}
 
-	/*  make loop - only done if  mod(n) > 1  */
+	/* make loop - only done if  mod(n) > 1 */
 	{
 	    exp alt_labst = hold_refactor(me_b3(f_top, f_make_value(f_top),
 					     f_make_top(), labst_tag));

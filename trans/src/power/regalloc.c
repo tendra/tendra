@@ -8,22 +8,22 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/****************************************************************
-		regalloc.c
-
-	The main procedure defined here is reg_alloc which
-allocates registers and stack space for a proc exp. After the application of
-weights to the body reg_alloc re-codes the number field of each ident within it.
-Paralloc in paralloc.c does the corresponding work for the parameters.
-	At the end of reg_alloc:-
-1) props of ident contains inreg_bits or infreg_bits and number = 0
-then the value will be in a t reg to be chosen in make_code
-2) if props contains the reg bits then number of ident is fixpt s reg
-or floatpnt s reg (divided by 2)
-3) value is on the stack and:
-number of ident = (word displacement in locals)*64 + R_SP
-
-*****************************************************************/
+/*
+ * The main procedure defined here is reg_alloc which allocates registers
+ * and stack space for a proc exp. After the application of weights to the
+ * body reg_alloc re-codes the number field of each ident within it.
+ * Paralloc in paralloc.c does the corresponding work for the parameters.
+ *
+ * At the end of reg_alloc:
+ *
+ *  1) props of ident contains inreg_bits or infreg_bits and number = 0
+ *     then the value will be in a t reg to be chosen in make_code
+ *  2) if props contains the reg bits then number of ident is fixpt s reg
+ *     or floatpnt s reg (divided by 2)
+ *  3) value is on the stack and:
+ *
+ * Number of ident = (word displacement in locals)*64 + R_SP
+ */
 
 #include <shared/error.h>
 
@@ -34,19 +34,14 @@ number of ident = (word displacement in locals)*64 + R_SP
 #include "regalloc.h"
 #include "stack.h"
 
-
 spacereq zerospace = {0, 0, 0, 0x0};
 
-/*****************************************************************
-	maxspace
-
-Procedure to find the total spacereq of two spacereqs. The bit
-representations of the s regs used are simply 'or'ed so that the
-resulting dump fields contain all the regs of the parameters.
-The largest of the two stack sizes is returned as the stack of the result.
-
-*****************************************************************/
-
+/*
+ * Procedure to find the total spacereq of two spacereqs. The bit
+ * representations of the s regs used are simply 'or'ed so that the
+ * resulting dump fields contain all the regs of the parameters.
+ * The largest of the two stack sizes is returned as the stack of the result.
+ */
 spacereq maxspace(spacereq a, spacereq b)
 {
   a.fixdump |= b.fixdump;
@@ -56,8 +51,10 @@ spacereq maxspace(spacereq a, spacereq b)
   return a;
 }
 
-/* maxspace2 is used by seq tags and ident_tags since the result of these tags
-   could be the result of one of the brothers */
+/*
+ * maxspace2 is used by seq tags and ident_tags since the result of
+ * these tags could be the result of one of the brothers.
+ */
 spacereq maxspace2(spacereq a, spacereq b)
 {
   a.fixdump |= b.fixdump;
@@ -65,24 +62,19 @@ spacereq maxspace2(spacereq a, spacereq b)
   a.stack = max(a.stack, b.stack);
   a.obtain = b.obtain;
   return a;
-} 
+}
 
-/******************************************************************
-	reg_alloc
-
-Delivers a spacereq which gives the local stack bit requirement in the
-stack field and the s regs used as bit positions in the fixdump and
-fltdump fields for fixed and float regs.
-
-******************************************************************/
-
-spacereq regalloc(exp e, int freefixed, int freefloat, long stack)
 /*
+ * Delivers a spacereq which gives the local stack bit requirement in the
+ * stack field and the s regs used as bit positions in the fixdump and
+ * fltdump fields for fixed and float regs.
+ *
  * e is a proc body.
  * freefixed and freefloat are the number of fixed and floating s regs
  * available. These are initialised at the outer level but may be reduced
  * by usage in paralloc.
  */
+spacereq regalloc(exp e, int freefixed, int freefloat, long stack)
 {
   int n = name(e);
   exp s = son(e);
@@ -225,14 +217,15 @@ spacereq regalloc(exp e, int freefixed, int freefloat, long stack)
 	  }
 	  else if (isparam(e) || caller_in_postlude)
 	  {
-	    /* Caller parameters and callee parameters are
-	       calculated in make_ident_tag_code
-	       Caller parameters identified in postludes are
-	       also done in make_ident_tag_code
-	       
-	       It is essential that caller parameters identified
-	       in postludes are not allocated into s-regs
-	       */
+	    /*
+	     * Caller parameters and callee parameters are
+	     * calculated in make_ident_tag_code
+	     * Caller parameters identified in postludes are
+	     * also done in make_ident_tag_code
+	     *
+	     * It is essential that caller parameters identified
+	     * in postludes are not allocated into s-regs
+	     */
 	    no(e) = 0;
 	  }
 	  else

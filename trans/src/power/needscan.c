@@ -8,17 +8,15 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/******************************************************************
-
-		needs_scan.c
-
-	Defines the scan through a program which reorganises it so that all
-arguments of operations are suitable for later code-production. The procedure
-scan evaluates the register requirements of an exp. The exps are produced
-from the decoding process and the various exp -> exp transformations  in
-the proc independent (common to other  translators)
-
-******************************************************************/
+/*
+ * Defines the scan through a program which reorganises it so that all
+ * arguments of operations are suitable for later code-production.
+ *
+ * The procedure scan evaluates the register requirements of an exp.
+ * The exps are produced from the decoding process and the various
+ * exp -> exp transformations in the proc independent
+ * (common to other translators)
+ */
 
 #include <shared/error.h>
 
@@ -102,26 +100,25 @@ needs scan(exp *, exp **);
 static void number_caller_parameter(exp);
 static void number_callee_parameter(exp);
 
-/* declaration of scan.
-   needs is defined in procrectypes.h.
-   This is a structure which has two integers giving
-   the number of fixed and floating point registers required to contain live values
-   in the expression parameters. A further field prop is used for various
-   flags about certain forms of exp (mainly idents and procs). The maxargs
-   field gives the maximum size in bits for the parameters of all the procs
-   called in the exp. The needs of a proc body are preserved in the needs field
-   of the procrec (see procrectypes.h).
-   */
+/*
+ * declaration of scan.
+ *
+ * needs is defined in procrectypes.h.
+ *
+ * This is a structure which has two integers giving the number of fixed
+ * and floating point registers required to contain live values in the
+ * expression parameters. A further field prop is used for various
+ * flags about certain forms of exp (mainly idents and procs).
+ * The maxargs field gives the maximum size in bits for the parameters of
+ * all the procs called in the exp. The needs of a proc body are preserved
+ * in the needs field of the procrec (see procrectypes.h).
+ */
 
-
-/***************************************************************
-		cca
-
-This procedure effectively inserts a new declaration into an exp. This
-is used to stop a procedure requiring more than the available number of
-registers.
-****************************************************************/
-
+/*
+ * This procedure effectively inserts a new declaration into an exp.
+ * This is used to stop a procedure requiring more than the available
+ * number of registers.
+ */
 static void cca(exp * *to, exp * x)
 {
   if (name((**to)) ==diagnose_tag)
@@ -174,8 +171,8 @@ static needs zeroneeds = { 0, 0, 0, 0 };		/* has no needs */
 
 
 static needs shapeneeds(shape s)
-{				/* this gives the needs for manipulating a
-				 * value of shape s */
+{
+  /* This gives the needs for manipulating a value of shape s */
   if (is_floating(name(s)))
   {
     return onefloat;
@@ -187,18 +184,21 @@ static needs shapeneeds(shape s)
       return onefix;
     }
     else
-    {				/* if the shape does not fit into a reg, needs
-				 * two fixed regs for moving ... */
+    {
+		/* If the shape does not fit into a reg, needs
+		 * two fixed regs for moving ... */
       return twofix;
     }
   }
 }
 
 
+/*
+ * These are basically the expressions which cannot be accessed
+ * by a simple load or store instruction.
+ */
 static bool complex(exp e)
-{				/* these are basically the expressions which
-				 * cannot be accessed by a simple load or
-				 * store instruction */
+{
   if (name(e) == name_tag ||
      (
        name(e) == cont_tag &&
@@ -217,13 +217,12 @@ static bool complex(exp e)
   }
 }
 
-
+/*
+ * does the scan on commutative and associative operations and may perform
+ * various transformations allowed by these properties
+ */
 needs commutative_scan(exp * e, exp * *at)
 {
-  /*
-   * does the scan on commutative and associative operations and may perform
-   * various transformations allowed by these properties
-   */
   needs a1;
   needs a2;
   exp dad = *(e);
@@ -313,11 +312,11 @@ needs commutative_scan(exp * e, exp * *at)
 }
 
 
+/*
+ * scan non-commutative fix pt operation
+ */
 needs non_commutative_scan(exp * e, exp * *at)
 {
-  /*
-   * scan non-commutative fix pt operation
-   */
   needs l;
   needs r;
   prop pc;
@@ -390,13 +389,11 @@ static needs fpop(exp * e, exp * *at)
   }
   return l;
 }
-/**********************************************************************
-	maxneeds
 
-Calculates a needs value. Each element of which is the maximum of the
-corresponding elements in the two parameter needs
-**********************************************************************/
-
+/*
+ * Calculates a needs value. Each element of which is the maximum of the
+ * corresponding elements in the two parameter needs.
+ */
 static needs maxneeds(needs a, needs b)
 {
   needs an;
@@ -408,17 +405,12 @@ static needs maxneeds(needs a, needs b)
   return an;
 }
 
-
-/**********************************************************************
-	maxsequence
-
-**********************************************************************/
-
+/*
+ * Calculates the needs of a tuple of expressions; any new declarations
+ * required by a component expression will replace the component expression.
+ */
 static needs maxtup(exp e, exp ** at)
-{				/* calculates the needs of a tuple of
-				 * expressions; any new declarations required
-				 * by a component expression will replace the
-				 * component expression */
+{
   exp *stat = &son(e);
   needs an;
 
@@ -434,13 +426,12 @@ static needs maxtup(exp e, exp ** at)
   return an;
 }
 
-
+/*
+ * Finds if usedname is only used in cont operation or as result of ident
+ * i.e. value of name is unchanged over its scope.
+ */
 static bool unchanged(exp usedname, exp ident)
 {
-  /*
-   * finds if usedname is only used in cont operation or as result of ident
-   * i.e. value of name is unchanged over its scope
-   */
   exp uses = pt(usedname);
 
   while (uses != nilexp)
@@ -490,15 +481,14 @@ static exp *ptr_position(exp e)
   return a;
 }
 
-
-
 /*
  * The POWER convention for delivering a struct from a procedure is is have an
  * extra pointer parameter in the proc; this means that there always must be
  * space in the calling work-space for the result struct whether or not the
- * value is used e.g. as in f(x); or f(x).a etc. This proc is part of the
- * mechanism to determine whether it is necessary to insert a dummy
- * declaration to ensure that this space exists.
+ * value is used e.g. as in f(x); or f(x).a etc.
+ *
+ * This proc is part of the mechanism to determine whether it is necessary to
+ * insert a dummy declaration to ensure that this space exists.
  */
 static bool chase(exp sel, exp * e)
 {
@@ -565,39 +555,35 @@ static bool chase(exp sel, exp * e)
   return b;
 }
 
-
-
-/********************************************************************
-		scan
-
-	This procedure works out register requirements of an exp. At each
-call the fix field of the needs is the number of fixpnt registers required to contain live values to evaluate this expression. This never exceeds maxfix
-because if it would have, a new declaration is introduced in the exp tree (similarly for floating regs and maxfloat). In these cases the prop field will
-contain the bits morefix (or morefloat).
-	Scan also works out various things concerned with proc calls.
-The maxargs field contains the max size in bits of the space required for the
-parameters of all the procedures called in the exp. An exp proc call
-produces a hasproccall bit in the prop field, if this is transformed as part of
-the definition of a new declaration the bit is replaced by a usesproccall. The
-distinction is only used in unfolding nested proc calls; POWER requires this to
-be done statically. The condition that a proc exp is a leaf (i.e no proc calls)
-is that its prop contains neither bit.
-	If an ident exp is suitable, scan marks the props of ident with
-either inreg or infreg bits to indicate that a t reg may be used for this tag.
-
-	A thorough understanding of needs along with other procedures
-that do switch(name(exp)) requires a knowledge of the meaning of the fields
-of the exp in each case.
-
-********************************************************************/
-
-
+/*
+ * This procedure works out register requirements of an exp. At each call
+ * the fix field of the needs is the number of fixpnt registers required
+ * to contain live values to evaluate this expression. This never exceeds
+ * maxfix because if it would have, a new declaration is introduced in
+ * the exp tree (similarly for floating regs and maxfloat).
+ * In these cases the prop field will contain the bits morefix (or morefloat).
+ *
+ * Scan also works out various things concerned with proc calls. The maxargs
+ * field contains the max size in bits of the space required for the parameters
+ * of all the procedures called in the exp. An exp proc call produces a
+ * hasproccall bit in the prop field, if this is transformed as part of
+ * the definition of a new declaration the bit is replaced by a usesproccall.
+ * The distinction is only used in unfolding nested proc calls; POWER requires
+ * this to be done statically. The condition that a proc exp is a leaf
+ * (i.e no proc calls) is that its prop contains neither bit.
+ *
+ * If an ident exp is suitable, scan marks the props of ident with either
+ * inreg or infreg bits to indicate that a t reg may be used for this tag.
+ *
+ * A thorough understanding of needs along with other procedures that do
+ * switch(name(exp)) requires a knowledge of the meaning of the fields
+ * of the exp in each case.
+ *
+ * e is the expression to be scanned, at is the place to put any new decs.
+ * NB order of recursive calls with same at is critical
+ */
 needs scan(exp * e, exp * *at)
 {
-  /*
-   * e is the expression to be scanned, at is the place to put any new decs .
-   * NB order of recursive calls with same at is critical
-   */
   exp ste = *(e);
   int nstare = name(ste);
   static long exp_num = 0;		/* count of exps we evaluate */
@@ -702,24 +688,24 @@ needs scan(exp * e, exp * *at)
       an = zeroneeds;
       rep_tag_scanned=0;
       /*
-       * Simply scan each argument
-       * The arguments are effectively independent pieces
-       * of code for these constructions
+       * Simply scan each argument.
+       *
+       * The arguments are effectively independent pieces of code
+       * for these constructions.
+       *
+       *    _        _________
+       *   |_|----->|        _|
+       *  /         |    _  |_|
+       * e          |___|_|___|
+       *               / |
+       *              /  |
+       *          stat(1)|       stat(2)       stat(3)
+       *             ____v____  /  _________  /  _________
+       *            |        _|/  |        _|/  |        _|
+       *            |    _  |_|-->|    _  |_|-->|    _  |_|-->
+       *            |___|_|___|   |___|_|___|   |___|_|___|
+       *
        */
-      /***********************************************************/
-      /*    _        _________                                   */
-      /*   |_|----->|        _|                                  */
-      /*  /         |    _  |_|                                  */
-      /* e          |___|_|___|                                  */
-      /*               / |                                       */
-      /*              /  |                                       */
-      /*          stat(1)|       stat(2)       stat(3)           */
-      /*             ____v____  /  _________  /  _________       */
-      /*            |        _|/  |        _|/  |        _|      */
-      /*            |    _  |_|-->|    _  |_|-->|    _  |_|-->   */
-      /*            |___|_|___|   |___|_|___|   |___|_|___|      */
-      /*                                                         */
-      /***********************************************************/
       while (an = maxneeds(an, scan(stat, &statat)), !last(*(stat)))
       {
 	stat = &bro(*stat);
@@ -754,18 +740,18 @@ needs scan(exp * e, exp * *at)
       ASSERT(!last(son(*e)));
       ASSERT(last(bro(son(*e))));
 
-      /****************************************/
-      /*    _     _________                   */
-      /*   |_|-->| labst   |                  */
-      /*  /      |    _    |                  */
-      /* e       |___|_|___|   stat           */
-      /*              |       /               */
-      /*          ____v____  /  ________      */
-      /*         | clear  _|/  |       _|     */
-      /*         |       |_|-->|      |_|     */
-      /*         |_________|   |________|     */
-      /*                                      */
-      /****************************************/
+      /*
+       *    _     _________
+       *   |_|-->| labst   |
+       *  /      |    _    |
+       * e       |___|_|___|   stat
+       *              |       /
+       *          ____v____  /  ________
+       *         | clear  _|/  |       _|
+       *         |       |_|-->|      |_|
+       *         |_________|   |________|
+       *
+       */
       stat = &bro(son(*e));
       statat = stat;
       an = scan(stat, &statat);
@@ -784,14 +770,10 @@ needs scan(exp * e, exp * *at)
       return an;
     }
 
-
-/*********************************************************************
-  ident_tag
-
-shape of exp is body,
-son is def, brother of son is body,
-ptr of ident exp is chain of uses
-*********************************************************************/
+	/*
+	 * shape of exp is body, son is def, brother of son is body,
+	 * ptr of ident exp is chain of uses.
+	 */
    case ident_tag:
     {
       needs bdy;
@@ -846,17 +828,19 @@ ptr of ident exp is chain of uses
       flregble = floatregable(stare);
       uses_R_RESULT = (bdy.propsneeds & uses_R_RESULT_bit)!=0;
       uses_FR_RESULT = (bdy.propsneeds & uses_FR_RESULT_bit)!=0;
-/*****************************************************************************/
+
       if (name(son(stare)) ==caller_name_tag)
       {
 	/*
 	 * IDENT is a caller in postlude
 	 */
 	no(stare) = R_NO_REG;
-	/* At present all callers in postludes are only allowed on the stack*/
-	/* This is because of the problems created by nested postludes */
+	/*
+	 * At present all callers in postludes are only allowed on the stack
+	 * This is because of the problems created by nested postludes
+	 */
       }
-/*****************************************************************************/
+
       else if (isparam(stare) && name(son(stare)) ==formal_callee_tag)
       {
 	/*
@@ -864,7 +848,7 @@ ptr of ident exp is chain of uses
 	 */
 	no(stare) = R_NO_REG;
       }
-/*****************************************************************************/
+
       else if (isparam(stare) && name(son(stare))!=formal_callee_tag)
       {
 	/*
@@ -878,7 +862,7 @@ ptr of ident exp is chain of uses
 	}
 	no(stare) =R_NO_REG;
       }
-/*****************************************************************************/
+
       else
       {
 	/*
@@ -967,8 +951,10 @@ ptr of ident exp is chain of uses
 	  props(stare) |= defer_bit;
 	}
 #endif
-	/* All the parameters have been scanned at this point so
-	   maxfix gives the total no of free t-regs */
+	/*
+	 * All the parameters have been scanned at this point so
+	 * maxfix gives the total no of free t-regs
+	 */
 	else if (fxregble &&
 		 bdy.fixneeds < maxfix &&
 		(bdy.propsneeds & morefix) == 0 &&
@@ -1032,12 +1018,10 @@ ptr of ident exp is chain of uses
       return bdy;
     }
 
-/*********************************************************************
-	sequence
-
-shape of exp is shape of end of sequence
-son is sequence holder, son of this is list of voided statements.
-*********************************************************************/
+	/*
+	 * Shape of exp is shape of end of sequence
+	 * son is sequence holder, son of this is list of voided statements.
+	 */
 
   case seq_tag:
     {
@@ -1122,13 +1106,11 @@ son is sequence holder, son of this is list of voided statements.
 
     };
 
-/********************************************************************
-	goto
-
-shape is bottom
-son is exp for value jumped with
-ptr is labelled exp
-*********************************************************************/
+	/*
+	 * shape is bottom
+	 * son is exp for value jumped with
+	 * ptr is labelled exp
+	 */
 
    case goto_tag:
     /* By popular request the  infamous trap_tag */
@@ -1603,8 +1585,10 @@ ptr is labelled exp
 		   test_number(stare) == TEST_LT)
 	      )
       {
-	/* The only reason for this optimisation is that it increases
-	   the chance of using the Record bit */
+	/*
+	 * The only reason for this optimisation is that it increases
+	 * the chance of using the Record bit.
+	 */
 	no(r) = 0;
 	if (test_number(stare) == TEST_GE)
 	{
@@ -1633,8 +1617,7 @@ ptr is labelled exp
      nsz = scan(sz, at);
      prps = (ns.propsneeds & hasproccall) << 1;
      if (ns.fixneeds >= maxfix || prps != 0) {
-       /* if reg requirements overlap, identify
-	  second operand */
+       /* if reg requirements overlap, identify second operand */
        cca(at, s);
        ns = shapeneeds(sh(*(s)));
        ns.propsneeds |= morefix;
@@ -1645,8 +1628,7 @@ ptr is labelled exp
      nd = maxneeds(nd, ns);
      prps= (nsz.propsneeds & hasproccall) << 1;
      if (nd.fixneeds +nsz.fixneeds >= maxfix || prps != 0) {
-       /* if reg requirements overlap, identify
-	  last operand */
+       /* if reg requirements overlap, identify last operand */
        cca(at, sz);
        nsz = shapeneeds(sh(*(sz)));
        nsz.propsneeds |= morefix;
@@ -1662,8 +1644,7 @@ ptr is labelled exp
 
 
    case plus_tag:
-    {				/* replace any operands which are neg(..) by -
-				 * if poss */
+    {				/* replace any operands which are neg(..) by - if poss */
       exp sum = *(e);
       exp list = son(sum);
       bool someneg = 0;
@@ -1912,10 +1893,8 @@ ptr is labelled exp
 
 	       if (ns > pn)
 	       {
-		 /* can do transform:
-		    (((shop1>>ns) & na) * n) =>
-		    shop1>>(ns-pn) & (na*n)
-		      */
+		 /* can do transform: (((shop1>>ns) & na) * n) =>
+		    shop1>>(ns-pn) & (na*n) */
 		 no(shop2) = ns-pn;
 		 no(ac) = na*n;
 		 bro(op1) = bro(*e);
@@ -2010,9 +1989,11 @@ ptr is labelled exp
       exp a2 = bro(son(op));
 
       if (!last(a2))
-      {				/* + and * can have >2 parameters - make them
-				 * diadic - can do better a+exp => let x = exp
-				 * in a+x */
+      {
+	/*
+	 * + and * can have >2 parameters - make them diadic
+	 * - can do better a+exp => let x = exp in a+x
+	 */
 	exp opn = getexp(sh(op), op, 0, a2, nilexp, 0, 0, name(op));
 
 	/* dont need to transfer error treatment - nans */
@@ -2053,12 +2034,9 @@ ptr is labelled exp
       return maxneeds(str, shapeneeds(sh(*(e))));
     };
 
-/*********************************************************************
-	load_proc
-
-
-number is number of proc (useful for indexing)
-*********************************************************************/
+	/*
+	 * number is number of proc (useful for indexing)
+	 */
    case proc_tag:
    case general_proc_tag:
     {
@@ -2104,24 +2082,7 @@ number is number of proc (useful for indexing)
 
       return body;
     }
-/********************************************************************
- |  TDF SPECIFICATION 4.0 ADDITIONS       |
- ******************************************
- The new tags introduced for the move from spec 3.0 to spec 4.0 are
- general_proc
- apply_general
- make_callee_list
- make_dynamic_callee
- tail_call
- same_callees
- untidy_return
- set_stack_limit
- env_size
- general_env_offset
- caller_name
- formal_callee
- caller
-********************************************************************/
+
    case apply_general_tag:
     {
       exp application = *(e);
@@ -2210,7 +2171,7 @@ number is number of proc (useful for indexing)
       nds.propsneeds |= hasproccall;
       return nds;
     }
-/********************************************************************/
+
    case make_callee_list_tag:
     {
       exp cees = *e;
@@ -2247,7 +2208,6 @@ number is number of proc (useful for indexing)
       return nds;
     }
 
-/********************************************************************/
    case make_dynamic_callee_tag:
     {
       exp cees = *e;
@@ -2284,7 +2244,7 @@ number is number of proc (useful for indexing)
       if (nds.fixneeds<5)nds.fixneeds = 5;
       return nds;
     }
-/********************************************************************/
+
    case tail_call_tag:
     {
       needs ndsp;
@@ -2308,7 +2268,7 @@ number is number of proc (useful for indexing)
       nds = maxneeds(nds,ndsp);
       return nds;
     }
-/********************************************************************/
+
    case same_callees_tag:
     {
       needs nds;
@@ -2317,7 +2277,7 @@ number is number of proc (useful for indexing)
       max_callees = max(max_callees, callee_size);
       return nds;
     }
-/********************************************************************/
+
    case env_size_tag:
    case set_stack_limit_tag:
    case return_to_label_tag:
@@ -2325,24 +2285,24 @@ number is number of proc (useful for indexing)
       exp *arg = &son(*e);
       return scan(arg,at);
     }
-/********************************************************************/
+
    case general_env_offset_tag:
    case caller_name_tag:
     {
       return shapeneeds(sh(*e));
     }
-/********************************************************************/
+
    case formal_callee_tag:
     {
       return zeroneeds;
     }
-/********************************************************************/
+
    case caller_tag:
     {
       fail("Shouldn't be scanning a caller_tag");
       return zeroneeds;
     }
-/********************************************************************/
+
    default:
     {
       FULLCOMMENT1("scan: bad nstare=%d", nstare);
@@ -2351,6 +2311,7 @@ number is number of proc (useful for indexing)
     }
   }
 }
+
 int scan_cond(exp * e, exp outer_id)
 {
   exp ste = *e;
@@ -2362,9 +2323,10 @@ int scan_cond(exp * e, exp outer_id)
 
   if (name(second) ==top_tag && name(sh(first)) ==bothd && no(son(labst)) ==1
       && name(first) ==seq_tag && name(bro(son(first))) == goto_tag) {
-    /* cond is { ... test(L); ? ; goto X | L:make_top}
-       if ? empty can replace by seq { ... not-test(X); make_top }
-       */
+    /*
+     * cond is { ... test(L); ? ; goto X | L:make_top}
+     * if ? empty can replace by seq { ... not-test(X); make_top }
+     */
     exp l = son(son(first));
     while (!last(l)) { l = bro(l); }
     while (name(l) ==seq_tag) { l = bro(son(l)); }
@@ -2389,7 +2351,7 @@ int scan_cond(exp * e, exp outer_id)
       && name(son(second)) == seq_tag
       && name(son(son(son(second)))) == test_tag) {
     /* cond is ( seq (test to L;....|
-       L:cond(seq(test;...),...) ) ..... */
+     * L:cond(seq(test;...),...) ) ..... */
     exp test1 = son(son(first));
     exp test2 = son(son(son(second)));
     exp op11 = son(test1);
@@ -2400,8 +2362,7 @@ int scan_cond(exp * e, exp outer_id)
     bool c2 = complex(op21);
 
     if (c1 && eq_exp(op11, op12)) {
-      /* ....if first operands of tests are
-	 same, identify them */
+      /* ....if first operands of tests are same, identify them */
       exp newid = getexp(sh(ste), bro(ste), last(ste), op11, nilexp,
 			  0, 2, ident_tag);
       exp tg1 = getexp(sh(op11), op21, 0, newid, nilexp, 0, 0, name_tag);
@@ -2417,7 +2378,7 @@ int scan_cond(exp * e, exp outer_id)
       son (test2) = tg2;	/* relace 1st operands of test */
       if (!complex(op21)) {
 	/* if the second operand of 1st test is simple, then identification
-	   could go in a t-teg (!!!NB overloading of inlined flag!!!).... */
+	 * could go in a t-teg (!!!NB overloading of inlined flag!!!).... */
 	setinlined(newid);
       }
       kill_exp(op12, op12);
@@ -2432,7 +2393,7 @@ int scan_cond(exp * e, exp outer_id)
     else
       if (c2 && eq_exp(op21, op22)) {
 	/* ....if second operands of tests are
-	   same, identify them */
+	 * same, identify them */
 
 	exp newid = getexp(sh(ste), bro(ste), last(ste), op21,
 			    nilexp, 0, 2, ident_tag);
@@ -2464,8 +2425,8 @@ int scan_cond(exp * e, exp outer_id)
 	    && name(op11) == name_tag
 	    && son(op11) == outer_id
 	    && eq_exp(son(outer_id), op12)
-	    ) {		/* 1st param of test1 is already identified with
-			   1st param of  test2 */
+	    ) {
+		/* 1st param of test1 is already identified with 1st param of  test2 */
 	  exp tg = getexp(sh(op12), op22, 0, outer_id,
 			   pt(outer_id), 0, 0, name_tag);
 	  pt(outer_id) = tg;

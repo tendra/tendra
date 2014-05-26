@@ -36,8 +36,7 @@ typedef struct baseofft baseoff;
 struct instoret
 {
   baseoff b;
-  bool adval;			/* if true then b is itself an address value
-				 * i.e not a pointer to a value */
+  bool adval;			/* if true then b is itself an address value i.e not a pointer to a value */
 };
 typedef struct instoret instore;
 
@@ -86,8 +85,7 @@ struct anst
   enum ansdiscrim discrim;
   union anstu val;
 };
-typedef struct anst ans;	/* this type used as union of a fixpnt reg,
-				 *  float reg and an instore value */
+typedef struct anst ans;	/* this type used as union of a fixpnt reg, float reg and an instore value */
 
 struct wheret
 {
@@ -105,10 +103,7 @@ struct mmt
 };
 typedef struct mmt mm;
 
-/******************************************************************
-macros for ease of use of unions, allow 'hiding' of discriminator.
-******************************************************************/
-
+/* macros for ease of use of unions, allow 'hiding' of discriminator. */
 #define regalt(x) (x).val.regans
 #define fregalt(x) (x).val.fregans
 #define insalt(x) (x).val.instoreans
@@ -121,4 +116,6 @@ macros for ease of use of unions, allow 'hiding' of discriminator.
 #define setinsalt(x,y) (x).discrim = notinreg; (x).val.instoreans =y
 #define setsomeregalt(x,y) (x).discrim = insomereg; (x).val.someregans.r =y
 #define setsomefregalt(x,y) (x).discrim = insomefreg; (x).val.somefregans=y
+
 #endif
+

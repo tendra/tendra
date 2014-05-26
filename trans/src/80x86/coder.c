@@ -7,16 +7,11 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/**********************************************************************
-
-                             coder.c
-
-   coder produces code for expressions. It calls codec to produce code
-   for expressions which deliver results, and produces code itself for
-   the others.
-
-**********************************************************************/
+/*
+ * coder produces code for expressions. It calls codec to produce code
+ * for expressions which deliver results, and produces code itself for
+ * the others.
+ */
 
 #include <limits.h>
 
@@ -85,8 +80,6 @@
 extern exp hasenvoff_list;
 
 
-/* MACROS */
-
 #define crit_noframe 300
 
 #define align_crit 10000.0
@@ -107,9 +100,7 @@ extern exp hasenvoff_list;
 #define bigflmask 0x1000
 #define smallflmask 0x200
 
-/* VARIABLES */
 /* All variables initialised */
-
 
 float scale = (float)1.0;	/* init by cproc */
 
@@ -137,9 +128,6 @@ int need_preserve_stack = 0;	/* init by cproc */
 int proc_has_asm = 0;	/* init by cproc */
 
 
-
-/* PROCEDURES */
-
 void clean_stack
 (void)
 {
@@ -147,8 +135,9 @@ void clean_stack
     stack_return(-stack_dec);
 }
 
-
-/* is this a pushable proc argument ? */
+/*
+ * Is this a pushable proc argument?
+ */
 static int push_arg
 (exp e)
 {
@@ -177,8 +166,9 @@ static void code_push
   return;
 }
 
-/* produce the code for proc params in
-   order from last to first */
+/*
+ * Produce the code for proc params in order from last to first.
+ */
 static void code_pars
 (ash stack, exp t)
 {
@@ -195,7 +185,9 @@ static void code_pars
   };
 }
 
-/* stack parameters ready for apply_proc */
+/*
+ * Stack parameters ready for apply_proc
+ */
 static int procargs
 (ash stack, exp arg, int has_checkstack)
 {
@@ -221,9 +213,11 @@ static int procargs
   longs += extra;
 
   if (use_push) {
-	  /* push instructions can be used. Note that stack_dec is moved
-	     so that instructions which address positively with respect to
-	     sp can be changed. */
+	  /*
+	   * Push instructions can be used. Note that stack_dec is moved
+	   * so that instructions which address positively with respect to
+	   * sp can be changed.
+	   */
     if (extra != 0) {
       sub(slongsh, mw(zeroe, extra/8), sp, sp);
       stack_dec -= extra;  /* align stack to param_align */
@@ -241,8 +235,10 @@ static int procargs
     }
   }
   else {
-	  /* if push cannot be used, move the stack down first, and then
-	     assemble the parameters in place. Again, adjust stack_dec. */
+	  /*
+	   * If push cannot be used, move the stack down first, and then
+	   * assemble the parameters in place. Again, adjust stack_dec.
+	   */
     int off = extra;
     if (has_checkstack)
       checkalloc_stack(mw(zeroe, longs/8), 1);
@@ -269,8 +265,10 @@ static int procargs
   return longs;
 }
 
-/* stack dynamic or same callees */
-/* %edx and %ecx don't need to be preserved */
+/*
+ * Stack dynamic or same callees.
+ * %edx and %ecx don't need to be preserved.
+ */
 static int push_cees
 (exp src, exp siz, int vc, ash stack)
 {
@@ -360,23 +358,21 @@ static int push_cees
   return longs;
 }
 
-
-
-/*********************************************************************
-   alloc_reg tries to choose registers for a value of shape sha.
-   If there is no room, can_do of the result is 0, otherwise 1.
-   If it can, ru_regs of result is the registers (as bit pattern)
-   and ru_reg_free contains the bit pattern for the registers in use.
-   rs is the bit pattern for the registers in use. All the registers must
-   be above br (register number as integer, ie 0 for reg0 etc)
-
- *********************************************************************/
+/*
+ * alloc_reg tries to choose registers for a value of shape sha.
+ * If there is no room, can_do of the result is 0, otherwise 1.
+ * If it can, ru_regs of result is the registers (as bit pattern)
+ * and ru_reg_free contains the bit pattern for the registers in use.
+ * rs is the bit pattern for the registers in use. All the registers must
+ * be above br (register number as integer, ie 0 for reg0 etc)
+ */
 int  bits_in[16] = {		/* number of bits in the index */
   0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4
 };
 
-/* allocate registers ebx esi edi,
-   providing br registers are left */
+/*
+ * Allocate registers ebx esi edi, providing br registers are left.
+ */
 static regu alloc_reg_big
 (int rs, shape sha, int br, int byteuse)
 {
@@ -435,16 +431,15 @@ static regu alloc_reg_big
   return ru;
 }
 
-/* allocate registers ecx edx ebx esi edi
-   if at least br registers are available */
+/*
+ * Allocate registers ecx edx ebx esi edi if at least br registers
+ * are available.
+ */
 static regu alloc_reg_small
 (int rs, shape sha, int br, int byteuse)
 {
-  int  sz,
-        nr,
-        mask,
-        i,
-        reg_left;		/* number of registers left */
+  int sz, nr, mask, i;
+  int reg_left;		/* number of registers left */
   regu ru;
   int  noshort = 0;
   sz = shape_size(sha);
@@ -494,15 +489,13 @@ static regu alloc_reg_small
 
 }
 
-
-/* allocate floating point registers, if
-   at least br are available */
+/*
+ * Allocate floating point registers, if at least br are available.
+ */
 static regu alloc_fl_small
 (int rs, int br)
 {
-  int  mask,
-        i,
-        reg_left;
+  int  mask, i, reg_left;
   regu ru;
   reg_left = nofl - bits_in[((unsigned int)rs >> 8) & 0xf]
 		- bits_in[((unsigned int)rs >> 12) & 0xf];
@@ -532,7 +525,9 @@ static regu alloc_fl_small
   return ru;
 }
 
-/* allocate all registers */
+/*
+ * Allocate all registers.
+ */
 static regu alloc_reg
 (int rs, shape sha, int br, int big_reg, exp e)
 {
@@ -556,27 +551,25 @@ static regu alloc_reg
     return alloc_reg_small(rs, sha, br, isbyteuse(e));
 }
 
-
-/************************************************************************
-   def_where choose where to put a declaration. e is the declaration.
-   def is the definition (for identity) or initialisation (for variable).
-   stack is the ash for the current stack position. The alignment for the
-   stack on the 80386 for the cc implementation is always 32 bits, but it
-   might not be on other implementations.
-   The dcl returned gives
-     dcl_pl - code for where value is (eg reg_pl for registers). These
-              codes are defined in codermacs.h
-     dcl_n  - the offset (in bits) where the value starts if it is on the
-              stack.
-              the bit pattern for the registers if it is in registers.
-     dcl_place - the ash for the stack after the allocation. This will
-              be the same as stack if the allocation is in registers.
-     dcl_new - 1 if this is a new declaration. 0 if it renaming an
-              existing value, and the old one is being reused.
-
- ************************************************************************/
-
-
+/*
+ * def_where choose where to put a declaration. e is the declaration.
+ * def is the definition (for identity) or initialisation (for variable).
+ * stack is the ash for the current stack position. The alignment for the
+ * stack on the 80386 for the cc implementation is always 32 bits, but it
+ * might not be on other implementations.
+ *
+ * The dcl returned gives:
+ *
+ *   dcl_pl - code for where value is (eg reg_pl for registers). These
+ *            codes are defined in codermacs.h
+ *   dcl_n  - the offset (in bits) where the value starts if it is on the
+ *            stack.
+ *            the bit pattern for the registers if it is in registers.
+ *   dcl_place - the ash for the stack after the allocation. This will
+ *            be the same as stack if the allocation is in registers.
+ *   dcl_new - 1 if this is a new declaration. 0 if it renaming an
+ *            existing value, and the old one is being reused.
+ */
 static dcl alloc_regable
 (dcl dc, exp def, exp e, int big_reg)
 {
@@ -665,9 +658,11 @@ static dcl def_where
 	 (!isglob(son(son(def)))) &&
 
 	  no_side(body)))) {
-    /* either we are identifying something already identified or the
-       contents of a variable which is not altered by the body of the
-       definition */
+    /*
+	 * Either we are identifying something already identified or the
+     * contents of a variable which is not altered by the body of the
+     * definition.
+	 */
     if (name(def) == name_tag) {
       dc.dcl_pl = ptno(son(def));
       dc.dcl_n = no(son(def)) + no(def);
@@ -676,7 +671,8 @@ static dcl def_where
       dc.dcl_pl = ptno(son(son(def)));
       dc.dcl_n = no(son(son(def))) + no(son(def));
     };
-    /* we have the declaration */
+
+    /* We have the declaration */
 
     if (dc.dcl_pl == reg_pl) {	/* if the old one was in registers, reuse
 				   it. */
@@ -691,13 +687,12 @@ static dcl def_where
 	  return ndc;
     };
 
-    dc.dcl_new = 0;		/* if there was not room, reuse the old
-				   dec */
+    dc.dcl_new = 0;		/* if there was not room, reuse the old dec */
     return dc;
 
   };
 
-  /* try to allocate in registers, except when narrowing fp variety */
+  /* Try to allocate in registers, except when narrowing fp variety */
   if (regable(e) &&
 	(name(def)!= chfl_tag || name(sh(def)) >= name(sh(son(def))))) {
     dcl ndc;
@@ -707,7 +702,7 @@ static dcl def_where
   };
 
 
-  /* otherwise allocate on the stack */
+  /* Otherwise allocate on the stack */
 
   {
     int a = 32;
@@ -728,16 +723,15 @@ static dcl def_where
 
 }
 
-/***********************************************************************
-   solve produces the code for the solve construction.
-    s is the whole list of braches
-    l is the branches of which the label record have not been created.
-    dest is the destination for the value produced by each branch
-    jr is the jump record for the end of the construction.
-    stack is the initial stack ash
- ***********************************************************************/
-
-
+/*
+ * Solve produces the code for the solve construction.
+ *
+ *  s is the whole list of braches
+ *  l is the branches of which the label record have not been created.
+ *  dest is the destination for the value produced by each branch
+ *  jr is the jump record for the end of the construction.
+ *  stack is the initial stack ash
+ */
 static void solve
 (exp s, exp l, where dest, exp jr, ash stack)
 {
@@ -749,16 +743,22 @@ static void solve
     sonno(record) = stack_dec;
     ptno(record) = next_lab();
     fstack_pos_of(record) = (prop)fstack_pos;	/* CAST:jmf: */
-    /* record the floating point stack position, fstack_pos */
-    /* record is jump record for the label */
+
+    /*
+	 * Record the floating point stack position, fstack_pos
+     * record is jump record for the label
+	 */
     pt (son (bro (l))) = record;/* put it away */
     l = bro(l);
   };
 
   {
-    int  r1 = regsinuse;	/* record regsinuse for the start of each
-				   branch and for the end. */
+    int  r1;
     exp t;
+
+	/* Record regsinuse for the start of each branch and for the end. */
+    r1 = regsinuse;
+
     if (name(s)!= goto_tag || pt(s)!= bro(s))
       coder (dest, stack, s);	/* code the starting exp */
 #ifdef NEWDIAGS
@@ -785,11 +785,10 @@ static void solve
   }
 }
 
-/**************************************************************************
-   caser produces the code for the case construction e, putting the
-   result into dest.
- *************************************************************************/
-
+/*
+ * caser produces the code for the case construction e, putting the
+ * result into dest.
+ */
 static void caser
 (exp arg, int exhaustive, exp case_exp)
 {
@@ -810,7 +809,7 @@ static void caser
   max= ((son(t) ==nilexp)? no(t): no(son(t)));
 
 
-  /* prepare to use jump table */
+  /* Prepare to use jump table */
   v = (int *)xcalloc(max - min + 1, sizeof(int));
   for (i = 0; i < (max - min + 1); ++i)
     v[i] = -1;
@@ -843,18 +842,16 @@ static void caser
   };
 
   caseins(sz, arg, min, max,v, exhaustive, 0 , case_exp);
-		/* put in jump table */
+  /* put in jump table */
   return;
 }
 
-
-/********************************************************************
-   coder produces code for all constructions. It uses codec to
-   produce the code for the non side-effecting constructions. e is
-   the construction to be processed, dest is where the result is to go,
-   stack is the ash for the current stack.
- ********************************************************************/
-
+/*
+ * coder produces code for all constructions. It uses codec to
+ * produce the code for the non side-effecting constructions. e is
+ * the construction to be processed, dest is where the result is to go,
+ * stack is the ash for the current stack.
+ */
 static ash stack_room
 (ash stack, where dest, int off)
 {
@@ -868,8 +865,6 @@ static ash stack_room
 
   return stack;
 }
-
-
 
 #ifdef NEWDIAGS
 static void coder1
@@ -902,17 +897,17 @@ void coder
 
 	sz = (dc.dcl_place).ashsize;
 
-
-	ptno (e) = dc.dcl_pl;	/* record the allocation in pt and no for
-				   when the value is used. */
-	no(e) = dc.dcl_n;
+	/* Record the allocation in pt and no for when the value is used. */
+	ptno(e) = dc.dcl_pl;
+	no(e)   = dc.dcl_n;
 
 	if (ptno(e) == reg_pl && name(sh(def)) >= shrealhd &&
 	    name(sh(def)) <= doublehd) {
-	  /* if the value being defined is going in the floating point
-	     registers, record the floating point stack level, so that we
-	     can ensure that it is the same at the end of the construction
-	     */
+	  /*
+	   * If the value being defined is going in the floating point
+	   * registers, record the floating point stack level, so that we
+	   * can ensure that it is the same at the end of the construction
+	   */
 	  old_fstack_pos = fstack_pos;
 	};
 
@@ -920,8 +915,8 @@ void coder
           set_env_off(-dc.dcl_n, e);
         };
 
-	if (dc.dcl_new) {	/* if it is new we must evaluate the def
-				*/
+	if (dc.dcl_new) {
+	  /* if it is new we must evaluate the def */
 	  if (ptno(e) == nowhere_pl)
 	    coder (zero, stack, def);/* discard the value */
 	  else
@@ -943,11 +938,12 @@ void coder
 	coder (dest, dc.dcl_place, body);/* code the body */
 
 	if (dc.dcl_new && ptno(e) == reg_pl) {
-	  regsinuse &= ~dc.dcl_n;/* restore regsinuse. It is done by
-				   removing the bits of this allocation,
-				   rather than restoring the old value, so
-				   that allocation and restoration need
-				   not nest */
+	  regsinuse &= ~dc.dcl_n;
+	  /*
+	   * Restore regsinuse. It is done by removing the bits of this allocation,
+	   * rather than restoring the old value, so that allocation and restoration
+	   * need not nest.
+	   */
 	  if (name(sh(def)) >= shrealhd && name(sh(def)) <= doublehd &&
 	      fstack_pos != (SET(old_fstack_pos)old_fstack_pos) &&
 	      ptno(e) == reg_pl &&
@@ -977,7 +973,8 @@ void coder
 	  retcell(temp);
 	}
 
-	if (isenvoff(e)) {	/* prepare for possible later constant evaluation */
+	if (isenvoff(e)) {
+	  /* prepare for possible later constant evaluation */
 	  hasenvoff_list = getexp(f_bottom, hasenvoff_list, 0, e, nilexp, 0, 0, 0);
 	}
 
@@ -996,7 +993,8 @@ void coder
 	  coder(dest, stack, bro(son(e)));
 #ifdef NEWDIAGS
 	else
-	if (diag != DIAG_NONE) {			/* Beware lost information !!! */
+	if (diag != DIAG_NONE) {
+	  /* Beware lost information !!! */
 	  name(bro(son(e))) = top_tag;
 	  son(bro(son(e))) = nilexp;
 	  dgf(bro(son(e))) = nildiag;
@@ -1011,12 +1009,13 @@ void coder
 	exp alt = bro(first);
 	exp record;	/* jump record for alt */
 	int  r1;
-	exp jr = nilexp;/* jump record for end of construction */
+	exp jr = nilexp; /* jump record for end of construction */
 
 	if (no(son(alt)) == 0) {
 	  coder(dest, stack, first);
 #ifdef NEWDIAGS
-	  if (diag != DIAG_NONE) {		/* Beware lost information !!! */
+	  if (diag != DIAG_NONE) {
+		/* Beware lost information !!! */
 	    name(bro(son(alt))) = top_tag;
 	    son(bro(son(alt))) = nilexp;
 	    dgf(bro(son(alt))) = nildiag;
@@ -1120,15 +1119,19 @@ void coder
         old_scale = scale;
         scale = (float)0.5*scale;
 
-	/* record floating point stack position so that we can align the
-	   positions */
+	/*
+	 * Record floating point stack position so that we can align the positions.
+	 */
 	/* jump record set up for alt */
 	pt(son(alt)) = record;
 	/* set the record in for use by jumps in first. */
 
-	r1 = regsinuse;		/* regsinuse is the same at the start of
-				   first and alt, and at the end of the
-				   construction. */
+	/*
+	 * regsinuse is the same at the start of first and alt,
+	 * and at the end of the construction.
+	 */
+	r1 = regsinuse;
+
 	coder(dest, stack, first);
 	reset_fpucon();
 	clean_stack();
@@ -1156,8 +1159,10 @@ void coder
 
 	if (name(sh(first))!= bothd &&
 		(no(son(alt))!= 0 || name(bro(son(alt)))!= goto_tag)) {
-	  /* if the first did not end with jump or ret, put in a jump to
-	     the end of the construction, and make a jump record for it */
+	  /*
+	   * If the first did not end with jump or ret, put in a jump to
+	   * the end of the construction, and make a jump record for it
+	   */
 	    jr = getexp(f_bottom, nilexp, 0, nilexp, nilexp, 0,
 	        0, 0);
             sonno(jr) = stack_dec;
@@ -1176,8 +1181,7 @@ void coder
 	regsinuse = r1;		/* restore regsinuse for end of
 				   construction */
 	if (name(sh(first))!= bothd) {
-	  /* set the label for the end of the construction if first needed
-	     it. */
+	  /* Set the label for the end of the construction if first needed it. */
 	  SET(jr);
 	  if (name(sh(alt)) == bothd)
 	    align_label(2, jr);
@@ -1188,8 +1192,7 @@ void coder
 	};
       };
 	cond1_set = 0;
-	cond2_set = 0;		/* we don't know what condition flags are
-				   set */
+	cond2_set = 0;		/* we don't know what condition flags are set */
         scale = old_scale;
 	return;
       };
@@ -1296,8 +1299,8 @@ void coder
 	return;
       };
     case testbit_tag:
-      {				/* not more than one argument will not be
-				   a possible 80386 operand */
+      {
+		/* Not more than one argument will not be a possible 80386 operand */
 	exp lab = pt(e);
 	exp temp;
 	ntest testno = test_number(e);
@@ -1361,8 +1364,7 @@ void coder
 	exp arg1 = son(e);
 	exp arg2 = bro(arg1);
 	if (!is_o(name(arg1)) || is_crc(arg1)) {
-	  /* arg1 is not a possible 80386 operand, precompute it in reg0
-	  */
+	  /* arg1 is not a possible 80386 operand, precompute it in reg0 */
 	  qw.where_exp = copyexp(reg0.where_exp);
 	  sh(qw.where_exp) = sh(arg1);
 	  qw.where_off = 0;
@@ -1370,8 +1372,7 @@ void coder
 	  arg1 = qw.where_exp;
 	};
 	if (!is_o(name(arg2)) || is_crc(arg2)) {
-	  /* arg2 is not a possible 80386 operand, precompute it in reg0
-	  */
+	  /* arg2 is not a possible 80386 operand, precompute it in reg0 */
 	  qw.where_exp = copyexp(reg0.where_exp);
 	  sh(qw.where_exp) = sh(arg2);
 	  qw.where_off = 0;
@@ -1399,8 +1400,8 @@ void coder
       };
     case absbool_tag:
     case test_tag:
-      {				/* not more than one argument will not be
-				   a possible 80386 operand */
+      {
+		/* not more than one argument will not be a possible 80386 operand */
 	exp lab = pt(e);
 	exp temp;
 	ntest testno = test_number(e);
@@ -1471,8 +1472,7 @@ void coder
 	  if (name(e) ==test_tag)
 	    jr = pt(son(lab_exp));
 	  if (!is_o(name(arg1)) || is_crc(arg1)) {
-	    /* arg1 is not a possible 80386 operand, precompute it in reg0
-	       */
+	    /* arg1 is not a possible 80386 operand, precompute it in reg0 */
 	    qw.where_exp = copyexp(reg0.where_exp);
 	    sh(qw.where_exp) = sh(arg1);
 	    qw.where_off = 0;
@@ -1484,8 +1484,7 @@ void coder
 	    diag_arg(dest, stack, arg1);
 #endif
 	  if (!is_o(name(arg2)) || is_crc(arg2)) {
-	    /* arg2 is not a possible 80386 operand, precompute it in reg0
-	       */
+	    /* arg2 is not a possible 80386 operand, precompute it in reg0 */
 	    qw.where_exp = copyexp(reg0.where_exp);
 	    sh(qw.where_exp) = sh(arg2);
 	    qw.where_off = 0;
@@ -1570,7 +1569,10 @@ void coder
 	      move(sh(e), reg0, dest);
 	    };
 	  };
-	  pt(e) = original_lab;		/* may be needed for extra_diags */
+
+	  /* may be needed for extra_diags */
+	  pt(e) = original_lab;
+
 	  return;
 	};
       };
@@ -1690,7 +1692,9 @@ void coder
 	longs = procargs(stack, arg, has_checkstack);
 	ret_stack_dec = stack_dec;
 
-	prev_use_bp = must_use_bp;	/* may be altered by push_cees */
+	/* may be altered by push_cees */
+	prev_use_bp = must_use_bp;
+
 	if (cees == nilexp)
 	  more_longs = 0;
 	else {
@@ -1750,8 +1754,7 @@ void coder
 
 	clear_low_reg_record(crt_reg_record);
 	cond1_set = 0;
-	cond2_set = 0;		/* we don't know the state of the
-				   conditions */
+	cond2_set = 0;		/* we don't know the state of the conditions */
 	if (eq_where(dest, zero))
 	{
 	  if (reg_result (sh (e))) {/* answer in register */
@@ -1769,7 +1772,8 @@ void coder
 	    push_result = 1;
 	    temp_dest = pushdest;
 	  }
-	  if (reg_result (sh (e))) {/* answer in register */
+	  if (reg_result (sh (e))) {
+		/* answer in register */
 	    if (name(sh(e)) >= shrealhd && name(sh(e)) <= doublehd) {
 	      push_fl;
 	      move(sh(e), flstack, temp_dest);
@@ -1949,8 +1953,10 @@ void coder
 
 	  restore_callregs(1);
 
-		/* callees, return and proc to call are stacked */
-		/* size in %ecx if longs<0; callers at %eax unless stacked for vcallees */
+		/*
+		 * callees, return and proc to call are stacked
+		 * size in %ecx if longs<0; callers at %eax unless stacked for vcallees
+		 */
 	  outs(" pushl %esi\n");
 	  outs(" pushl %edi\n");
 	  if (call_has_vcallees(cees))
@@ -2089,7 +2095,9 @@ void coder
 
 	    if (name(sh(son(e)))!= bothd) {
 	      good_fs = fstack_pos;
-	      if (with_fl_reg) {/* jumping with a floating value */
+	      if (with_fl_reg) {
+			/* jumping with a floating value */
+
 	        /* clear off any unwanted stack registers */
 	        while (fstack_pos > (first_fl_reg + 1))
 	          discard_st1();
@@ -2514,5 +2522,5 @@ void diag_arg
   return;
 }
 
-
 #endif
+

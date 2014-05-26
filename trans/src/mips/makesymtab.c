@@ -64,14 +64,16 @@ count_aux(AUXTAB* auxdata)
 	return auxcount;
 }
 
-
-
-/* Function to make a symbol table from various components.
-   Sets up a .T file for use by as1 (this function is called from
-   new_symbol.c using output_symtab(name of .T file). )
-   by R.R.R  3/12/90  */
-
-
+/*
+ * Function to make a symbol table from various components.
+ * Sets up a .T file for use by as1 (this function is called from
+ * new_symbol.c using output_symtab(name of .T file).)
+ *
+ * function to produce a symbol table (.T file), from information supplied
+ * by the translator, including TDF diagnostics. The output file and the
+ * binary assembler file (.G , made by as0 on a *.s file) can then be
+ * passed to as1
+ */
 void
 makesymtab(STRINGS* extstrings, ESYMS* extsymbols, DENSETAB* densenos,
 	      pSYMFDR filedescs, long numfiles, char* symtabname,
@@ -79,11 +81,6 @@ makesymtab(STRINGS* extstrings, ESYMS* extsymbols, DENSETAB* densenos,
 	      long stringsize, long noaux, long densind,
 	      PROCSYM* procinds, long noprocs )
 {
-
-/* function to produce a symbol table (.T file), from information supplied
-   by the translator, including TDF diagnostics. The output file and the
-   binary assembler file (.G , made by as0 on a *.s file) can then be
-   passed to as1 */
 
 
    LSYMS * symlist;
@@ -101,9 +98,9 @@ makesymtab(STRINGS* extstrings, ESYMS* extsymbols, DENSETAB* densenos,
   pSYMFDR tempfileptr;
   FILE* sym_tab_file = fopen(symtabname,"w");
 
-
-/******************  set up new symbolic header  **********************/
-
+	/*
+	 * set up new symbolic header
+	 */
 
   symhdrout.magic = magicSym;	/* defined in symconst.h */
   symhdrout.vstamp = MAJOR_VERSION_as*256+MINOR_VERSION_as;
@@ -138,12 +135,13 @@ makesymtab(STRINGS* extstrings, ESYMS* extsymbols, DENSETAB* densenos,
 
   fwrite(&symhdrout,sizeof(HDRR),1,sym_tab_file);
 
-/********************  header completed  *************************/
+	/*
+	 * header completed
+	 */
 
-
-
-/**************** write the tables to the file  ******************/
-
+	/*
+	 * write the tables to the file
+	 */
 
   tempfileptr=filedescs;
 
@@ -248,7 +246,7 @@ sym_tab_file);
 	fwrite(&fdrtab,sizeof(FDR),1,sym_tab_file);
 	}
 
-/*appears to write the right stuff so is it the right place?? */
+/* appears to write the right stuff so is it the right place?? */
 /* write external symbols */
 
   while (extsymbols)

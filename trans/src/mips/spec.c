@@ -7,14 +7,10 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/**********************************************************************
-
-                               spec.c
-
-  Defines special_fn which recognises and replaces some special
-  function calls.
-
- **********************************************************************/
+/*
+ * Defines special_fn which recognises and replaces some special
+ * function calls.
+ */
 
 #include <stddef.h>
 #include <string.h>
@@ -42,8 +38,10 @@ special_fn(exp a1, exp a2, shape s)
   spr.is_special = 0;
   if (id == (char *) 0)
     return spr;
-  /* at present the detection of special cases is done on the identifiers,
-     but it really ought to be on special tokens, as for diagnostics */
+  /*
+   * At present the detection of special cases is done on the identifiers,
+   * but it really ought to be on special tokens, as for diagnostics.
+   */
 
   if (builtin & BUILTIN_LONGJMP) {
     if (!strcmp (id, "setjmp"))

@@ -24,19 +24,12 @@
 #include <construct/f64.h>
 #include <construct/installglob.h>
 
-/* MACROS */
+#define bpby 8 /* bits per byte */
 
-#define bpby 8
- /* bits per byte */
+#define cppkt 256 /* bytes per packet */
 
-#define cppkt 256
- /* bytes per packet */
+#define bppkt (bpby*cppkt) /* the number of bits per packet (from the file). */
 
-#define bppkt (bpby*cppkt)
- /* the number of bits per packet (from the file). */
-
-
-/* VARIABLES */
 /* All variables are initialised, jmf */
 
 static char *crt_ptr;	/* initialised by init_reader */
@@ -47,8 +40,6 @@ static union pun_u
   { unsigned int intc;
     struct pun_s {char a; char b; char c; char d;} chars;
   } crt_bits;		/* set before use */
-
-
 
 static char *crt_dot_t;		/* initialised by init_reader */
 int crt_lno;			/* initialised to -1 by init_reader */
@@ -75,11 +66,7 @@ static place current_place;	/* set before use */
 static place bytestream_pickup;	/* set before use */
 				/* records the end of a bytestream */
 
-
-
-
-/* IDENTITIES */
-
+/* used to mask bits out of characters */
 static unsigned int  mask[33] = {
   0, 1, 3, 7, 15, 31, 63, 127, 255,
   0x1ff, 0x3ff, 0x7ff, 0xfff, 0x1fff, 0x3fff, 0x7fff, 0xffff,
@@ -87,14 +74,11 @@ static unsigned int  mask[33] = {
   0x1ffffff, 0x3ffffff, 0x7ffffff, 0xfffffff, 0x1fffffff, 0x3fffffff,
     0x7fffffff, 0xffffffff
 };
- /* used to mask bits out of characters */
 
-
-
-/**********************************************************************
-   failer prints an error message on the standard output, and sets
-   good_trans to 1 to indicate an error.
- **********************************************************************/
+/*
+ * failer prints an error message on the standard output,
+ * and sets good_trans to 1 to indicate an error.
+ */
 
 /* fails, giving error message s */
 void
@@ -115,13 +99,10 @@ failer(char *s)
   return;
 }
 
-
-
-/**************************************************************
-  read_line reads the next line from the file and
-  updates pkt_index, file_pkt and crt_line.
- **************************************************************/
-
+/*
+ * read_line reads the next line from the file and updates pkt_index,
+ * file_pkt and crt_line.
+ */
 static void
 read_line(int complain)
 {
@@ -137,12 +118,11 @@ read_line(int complain)
   crt_line = (char *)buff;
 }
 
-/***************************************************************
-  initreader opens the file called n and sets initial values
-  into variables.
- ***************************************************************/
 void check_magic_no(void);
 
+/*
+ * initreader opens the file called n and sets initial values into variables.
+ */
 bool
 initreader(char *n)
 {
@@ -240,12 +220,11 @@ get_big_code(int n)
   }
 }
 
-/********************************************************************
-   keep_place records the present state of the getcode variables
-   in a place. It condenses the position variables into the
-   bits_on field, measured from the start of the recorded line.
- ********************************************************************/
-
+/*
+ * keep_place records the present state of the getcode variables in a place.
+ * It condenses the position variables into the bits_on field, measured
+ * from the start of the recorded line.
+ */
 place
 keep_place(void)
 {
@@ -261,13 +240,11 @@ keep_place(void)
   return new_pl;
 }
 
-/********************************************************************
-  set_place resets the getcode variables from the place pl, which
-  was produced by keep_place or add_place. If necessary it reads more
-  lines from the file.
- ********************************************************************/
-
-
+/*
+ * set_place resets the getcode variables from the place pl, which was
+ * produced by keep_place or add_place. If necessary it reads more lines
+ * from the file.
+ */
 void
 set_place(place pl)
 {
@@ -301,11 +278,9 @@ set_place(place pl)
   return;
 }
 
-/********************************************************************
-   add_place produces a place n bits on from the place pl.
- ********************************************************************/
-
-
+/*
+ * add_place produces a place n bits on from the place pl.
+ */
 place
 add_place(place pl, int n)
 {
@@ -316,11 +291,10 @@ add_place(place pl, int n)
   return new_pl;
 }
 
-/**********************************************************************
-   new_place memorises a line starting from the current position
-   and going on for bn bits. This may cause more lines to be read
-   from the file.
- **********************************************************************/
+/*
+ * new_place memorises a line starting from the current position and going on
+ * for bn bits. This may cause more lines to be read from the file.
+ */
 void
 add_capsule_frees(void *vp)
 {
@@ -331,7 +305,6 @@ add_capsule_frees(void *vp)
   capsule_freelist = cf;
   return;
 }
-
 
 place
 new_place(int bn)
@@ -373,13 +346,11 @@ new_place(int bn)
   return pl;
 }
 
-/*********************************************************************
-  small_dtdfint reads one TDF integer using getcode. TDF integers are
-  encoded as a number of octal digits, most significant first.
-  These octal digits are encoded in 4-bit chunks with 8 added on
-  to the last digit only.
- *********************************************************************/
-
+/*
+ * small_dtdfint reads one TDF integer using getcode. TDF integers are encoded
+ * as a number of octal digits, most significant first. These octal digits are
+ * encoded in 4-bit chunks with 8 added on to the last digit only.
+ */
 int
 small_dtdfint(void)
 {
@@ -391,8 +362,9 @@ small_dtdfint(void)
   return 8 * total + (digit - 8);
 }
 
- /* step the input stream on to the next byte boundary */
-
+/*
+ * step the input stream on to the next byte boundary
+ */
 void
 to_boundary(void)
 {
@@ -400,10 +372,9 @@ to_boundary(void)
   return;
 }
 
-
- /* delivers a new place for the bitstream in the input stream and steps
-    over it */
-
+/*
+ * delivers a new place for the bitstream in the input stream and steps over it
+ */
 bitstream
 d_bitstream(void)
 {
@@ -416,9 +387,6 @@ d_bitstream(void)
   set_place(add_place(here, length));
   return crt_bitstream;
 }
-
-
-
 
 bytestream
 d_bytestream(void)
@@ -439,8 +407,9 @@ ignore_bytestream(void)
   return;
 }
 
- /* records in bytestream_pickup the end of a bytestream */
-
+/*
+ * records in bytestream_pickup the end of a bytestream
+ */
 void
 start_bytestream(void)
 {
@@ -453,9 +422,9 @@ start_bytestream(void)
   return;
 }
 
-
- /* resets the input stream from bytestream_pickup */
-
+/*
+ * resets the input stream from bytestream_pickup
+ */
 void
 end_bytestream(void)
 {
@@ -563,8 +532,6 @@ d_tdfbool(void)
   /* reads a tdfbool from the input stream */
   return (tdfbool) getcode(1);
 }
-
-
 
 tdfint
 d_tdfint(void)

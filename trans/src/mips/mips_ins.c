@@ -7,16 +7,16 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/*****************************************************************
-		mips_ins.c
-
-This file defines the MIPS instruction set as C strings for use by assembler
-producing routines such as make_code.
-Each MIPS instruction is a unique string starting with  i_ using MIPS
- names  with . replaced by _
-The first character of each string is  ( binasm coding +1) for the instruction
-
-*****************************************************************/
+/*
+ * This file defines the MIPS instruction set as C strings for use
+ * by assembler producing routines such as make_code.
+ *
+ * Each MIPS instruction is a unique string starting with i_
+ * using MIPS names  with . replaced by _
+ *
+ * The first character of each string is (binasm coding + 1)
+ * for the instruction.
+ */
 
 #include "mips_ins.h"
 

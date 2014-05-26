@@ -7,12 +7,9 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/**********************************************************************
-                          instr386.c
-
-   Defines 80386 instructions such as add, sub etc.
-
-**********************************************************************/
+/*
+ * Defines 80386 instructions such as add, sub etc.
+ */
 
 #include <string.h>
 
@@ -64,11 +61,8 @@
 #endif
 
 
-/* MACROS */
-
 #define PREFETCH_COUNT 1000
 
-/* VARIABLES */
 /* All variables initialised */
 
 static where SPILLREG;	/* no init needed */
@@ -161,8 +155,6 @@ static exp lib64_error = nilexp;
 static int lib64_set = 0;
 
 
-/* IDENTITIES */
-
 int first_fl_reg = 8;
 
 char  maxdigs[] = "4294967296";
@@ -194,8 +186,6 @@ int  msmask[33] = {
 static int flpt_test_no[] = {0, 0x45, 0x5, 0x5, 0x41, 0x44, 0x44,
 			     0x41, 0x5, 0x5, 0x45, 0x40, 0x40, 0x4, 0x4};
 
-
-/* PROCEDURES */
 
 static void try_overflow
 (shape sha, int inv)
@@ -257,8 +247,6 @@ static void do_exception
   return;
 }
 
-
-
 static int use_pop_ass
 (exp n, exp ln)
 {
@@ -276,7 +264,6 @@ static int use_pop_ass
     return get_reg_no(no(id)) - fstack_pos + 2;
   return 0;
 }
-
 
 static int   use_pop
 (exp n, exp ln)
@@ -328,7 +315,6 @@ static void cmp64_contop
   return;
 }
 
-
 void end_contop
 (void)
 {
@@ -357,8 +343,9 @@ void end_contop
   return;
 }
 
-
-/* if a in cont or ass of an identified object, load the address */
+/*
+ * If a in cont or ass of an identified object, load the address
+ */
 void contop
 (exp a, int r0inuse, where dest)
 {
@@ -380,18 +367,14 @@ void contop
       && name(son(a)) == ident_tag) {
 		/* IF 1 */
     ash st;				/* dummy stack for use by coder */
-    exp fin = bro (son (son (a)));	/* fin holds body of final
-					   identity */
-    unsigned char  oldn = name (fin);		/* oldn hold name of final
-					   identity */
+    exp fin = bro (son (son (a)));	/* fin holds body of final identity */
+    unsigned char  oldn = name (fin);		/* oldn hold name of final identity */
     exp id1 = son (a);			/* outer identity */
     int  inreg1 = ptno(son(son(id1))) == reg_pl;
-					/* true if def of outer identity
-					   is already in a register */
+					/* true if def of outer identity is already in a register */
     int  reg_mask = (~regsinuse) & 0x3e;
     int  regs_free = count_regs(reg_mask);
-					/* number of free integer
-					   registers */
+					/* number of free integer registers */
     exp old_overflow_e;
     st.ashsize = 0;
     st.ashalign = 0;
@@ -401,16 +384,12 @@ void contop
 
     if (oldn == ident_tag) {
 		/* IF 2 */
-	/* body of id1 is an identity, so TWO identities, so
-	   addptr ivolved */
+	/* body of id1 is an identity, so TWO identities, so addptr ivolved */
       exp id2 = bro (son (id1));	/* inner identity */
       int  inreg2 = ptno(son(son(id2))) == reg_pl;
-					/* true if def of inner identity
-					   is already in a register */
+					/* true if def of inner identity is already in a register */
       int  regs_good = regs_free + inreg1 + inreg2;
-					/* we want two registers but the
-					   definitions of id1 and id2 will
-					   do */
+					/* we want two registers but the definitions of id1 and id2 will do */
       fin = bro(son(fin));
       oldn = name (fin);		/* correct fin and oldn */
 
@@ -442,15 +421,13 @@ void contop
 
 
 	if (regs_free == 1 || !reg0_in_use) {
-					/* there is one free register,
-					   no need to spill */
+					/* there is one free register, no need to spill */
 	  where use_reg;		/* holds free register */
 
 	  if (regs_free == 1) {
 	    frr f;
 	    f = first_reg(reg_mask);
-	    use_reg = reg_wheres[f.fr_no];	/* free register from
-						   mask */
+	    use_reg = reg_wheres[f.fr_no];	/* free register from mask */
 	    min_rfree |= reg_mask;	/* mark as used */
 	  }
 	  else
@@ -462,17 +439,22 @@ void contop
 	  };
           old_overflow_e = overflow_e;
           overflow_e = nilexp;
-			/* this must be an addptr, note that the
-			   calculations cannot involve the free reg */
+			/*
+			 * This must be an addptr, note that the calculations
+			 * cannot involve the free reg.
+			 */
 	  if (name(bro(son(fin))) == name_tag) {
-			/* the offset is named, so add the pointer to the
-			   offset and put in the free register */
+			/*
+			 * The offset is named, so add the pointer to the
+			 * offset and put in the free register.
+			 */
 	    add(slongsh, mw(son(id2), 0), mw(son(id1), 0), use_reg);
 	  }
 	  else {
-			/* this is an offset_mult so do the arithmetic of
-			   address calculation and put the address in
-			   the free register */
+			/*
+			 * This is an offset_mult so do the arithmetic of address
+			 * calculation and put the address in the free register.
+			 */
 	    exp m = bro(son(fin));
             move(slongsh, mw(son(id1), 0), use_reg);
             mult(slongsh, use_reg, mw(bro(son(m)), 0),
@@ -489,8 +471,7 @@ void contop
 	  }
 	  else
 	    son(a) = use_reg.where_exp;
-		/* the address is in the free register, code the rest
-		   in caller */
+		/* The address is in the free register, code the rest in caller */
 	  contop_level--;
 	  return;
 	};
@@ -612,8 +593,7 @@ void contop
 
 
     setname (fin, top_tag);	/* nullify fin */
-    coder (reg0, st, son (a));	/* we are coding the identity declaration
-				*/
+    coder (reg0, st, son (a));	/* we are coding the identity declaration */
     contop_level--;
     setname (fin, oldn);	/* restore fin */
     son (a) = fin;		/* code the rest in caller */
@@ -623,9 +603,6 @@ void contop
   top_regsinuse = regsinuse;
   return;
 }
-
-
-
 
 void initzeros
 (void)
@@ -793,13 +770,11 @@ void initzeros
   ferrmemid = getexp(f_bottom, nilexp, 0, nilexp, nilexp, 0, 0, ident_tag);
   ptno(ferrmemid) = ferr_pl;
   ferrmem = getexp(realsh, nilexp, 0, ferrmemid, nilexp, 0, 0, name_tag);
-
 }
 
-
-
- /* 80386 output routines */
-
+/*
+ * 80386 output routines
+ */
 
 /* is w in memory and not a constant */
 int flinmem
@@ -846,9 +821,9 @@ int flinmem
   return 1;
 }
 
-
-/* is w in memory or an integer or null
-   pointer constant */
+/*
+ * Is w in memory or an integer or null pointer constant?
+ */
 int inmem
 (where w)
 {
@@ -871,8 +846,9 @@ int w_islastuse
   return 0;
 }
 
-/* abs value a1 of shape sha and put
-   it in dest */
+/*
+ * abs value a1 of shape sha and put it in dest
+ */
 void absop
 (shape sha, where a1, where dest)
 {
@@ -934,7 +910,6 @@ void absop
   move(sha, q, dest);
   return;
 }
-
 
 static void maxmin
 (shape sha, where a1, where a2, where dest, int ismax)
@@ -1169,9 +1144,9 @@ void add_plus
 
   cond1_set = 1;
   cond2_set = 0;
-  cond1 = dest;			/* we know the conditions are set
-				   according to the which will be in dest
-				*/
+
+  /* we know the conditions are set according to the which will be in dest */
+  cond1 = dest;
 
   if (eq_where(a1, dest) &&
 	(!keep_short || !flinmem(dest))) {	/* altering dest */
@@ -1502,7 +1477,6 @@ void add_plus
   };
 }
 
-
 /* add values a1, a2 of shape sha and put them in dest */
 void add
 (shape sha, where a1, where a2, where dest)
@@ -1510,7 +1484,6 @@ void add
   add_plus(sha, a1, a2, dest, 0);
   return;
 }
-
 
 /* negate a1 in sup_dest then add a2 and put in dest */
 void inverted_sub
@@ -1530,10 +1503,10 @@ void inverted_sub
   return;
 }
 
-
-/* subtract a1 from a2 and put in dest,
-   shape sha, structure similar to add qv.
-   for comments */
+/*
+ * Subtract a1 from a2 and put in dest, shape sha, structure similar to add qv.
+ * for comments
+ */
 void sub
 (shape sha, where a1, where a2, where dest)
 {
@@ -1715,8 +1688,9 @@ void sub
   };
 }
 
-
-/* put a negated into dest, shape sha */
+/*
+ * Put a negated into dest, shape sha
+ */
 void negate
 (shape sha, where a, where dest)
 {
@@ -1727,7 +1701,8 @@ void negate
   cond2_set = 0;
   cond1 = dest;
 
-  if (!inmem (a) && eq_where (a, dest)) {/* negating in situ */
+  if (!inmem (a) && eq_where (a, dest)) {
+    /* negating in situ */
     if (sz == 8) {
       ins1(negb, sz, dest);
       invalidate_dest(dest);
@@ -1770,8 +1745,7 @@ void negate
     return;
   };
 
-  /* dest is in memory, a is either in memory or needed, it won't be reg0
-  */
+  /* dest is in memory, a is either in memory or needed, it won't be reg0 */
   move(sha, a, reg0);
   negate(sha, reg0, reg0);
   move(sha, reg0, dest);
@@ -1788,7 +1762,8 @@ void not
   cond1_set = 0;
   cond2_set = 0;
 
-  if (!inmem (a) && eq_where (a, dest)) {/* inverting in situ */
+  if (!inmem (a) && eq_where (a, dest)) {
+    /* inverting in situ */
     if (sz == 8) {
       ins1(notb, sz, dest);
       invalidate_dest(dest);
@@ -1804,7 +1779,8 @@ void not
       invalidate_dest(dest);
       return;
     };
-    if (sz == 64) {	/* must be reg0/1 */
+    if (sz == 64) {
+	  /* must be reg0/1 */
       ins1(notl, 32, reg0);
       ins1(notl, 32, reg1);
       invalidate_dest(reg0);
@@ -1820,25 +1796,24 @@ void not
     return;
   };
 
-  if (!inmem (dest)) {		/* dest is a register */
+  if (!inmem (dest)) {
+    /* dest is a register */
     move(sha, a, dest);
     not(sha, dest, dest);
     invalidate_dest(dest);
     return;
   };
 
-  /* dest is in memory, a is either in memory or needed, it won't be reg0
-  */
+  /* dest is in memory, a is either in memory or needed, it won't be reg0 */
   move(sha, a, reg0);
   not(sha, reg0, reg0);
   move(sha, reg0, dest);
   return;
 }
 
-
-
-
-/* floating register for e */
+/*
+ * Floating register for e
+ */
 int  in_fl_reg
 (exp e)
 {
@@ -1866,8 +1841,9 @@ int  in_fl_reg
   return 0;
 }
 
-
-/* is e in the floating point stack top ? */
+/*
+ * Is e in the floating point stack top?
+ */
 int in_fstack
 (exp e)
 {
@@ -1876,9 +1852,9 @@ int in_fstack
   return fpos == fstack_pos;
 }
 
-
-
-/* is e in a register */
+/*
+ * Is e in a register?
+ */
 int  in_reg
 (exp e)
 {
@@ -1947,8 +1923,9 @@ int two_contops
   return all_in_regs(fe) && all_in_regs(te);
 }
 
-
-/* move value of shape sha from "from" to "to" */
+/*
+ * Move value of shape sha from "from" to "to"
+ */
 void move
 (shape sha, where from, where to)
 {
@@ -1962,13 +1939,10 @@ void move
   where reg_w;
   sz = rounder(shape_size(sha), 8);
 
-
-
   if (sz == 0 || eq_where(from, to))
     return;
 
   /* move does not set conditions. Only clear if to spoils cond record */
-
   if ((cond1_set && (eq_where(to, cond1) ||
 	  invalidates(to.where_exp, cond1.where_exp))) ||
      (cond2_set &&
@@ -2000,10 +1974,9 @@ void move
     if (f1pos && f1pos > f2pos && f2 != 0x10000) {
       if (f1pos == fstack_pos &&
 	  from.where_exp != flstack.where_exp &&
-	/*  name (sha) != doublehd && */
+	/* name (sha) != doublehd && */
 	  use_pop_ass(to.where_exp, from.where_exp)!= 2) {
-	if (flinmem (to)) {	/* are going to pop the floating point
-				   stack */
+	if (flinmem (to)) {	/* are going to pop the floating point stack */
 	  contop (te, 0, reg0);	/* compute address of to if necessary */
 	  if (name(sha) == shrealhd)
 	    ins1(fsts, 32, to);
@@ -2027,8 +2000,7 @@ void move
       if (f1pos != fstack_pos)
 	move(sha, from, flstack);
       /* push from into floating point stack */
-      if (flinmem (to)) {	/* store from fstack0 into memory and pop
-				*/
+      if (flinmem (to)) {	/* store from fstack0 into memory and pop */
 	contop(te, 0, reg0);
 	if (name(sha) == shrealhd)
 	  ins1(fstps, 32, to);
@@ -2043,8 +2015,7 @@ void move
 	son(te) = holdte;
 	return;
       };
-      ins1 (fstp, 0, to);	/* pop from fstack0 into floating point
-				   register */
+      ins1 (fstp, 0, to);	/* pop from fstack0 into floating point register */
       pop_fl;
       son(fe) = holdfe;
       son(te) = holdte;
@@ -2063,8 +2034,7 @@ void move
       }
       else {
 	if (flinmem (from)) {	/* push from into fstack0 from memory */
-	  contop (fe, 0, reg0);	/* put address of from into reg0 if
-				   necessary */
+	  contop (fe, 0, reg0);	/* put address of from into reg0 if necessary */
 	  if (name(sha) == shrealhd)
 	    ins1(flds, 32, from);
 	  else
@@ -2107,8 +2077,7 @@ void move
 	return;
       }
 
-      ins1 (fstp, 0, to);	/* store fstack0 in to (a reg) and pop
-				   floating point stack */
+      ins1 (fstp, 0, to);	/* store fstack0 in to (a reg) and pop floating point stack */
       pop_fl;
       son(fe) = holdfe;
       son(te) = holdte;
@@ -2350,8 +2319,6 @@ void move
   };
 
   /* moving a non-constant value */
-
-
 
   if (sz == 8) {		/* moving a byte */
     if (!inmem(from) &&
@@ -2614,7 +2581,8 @@ void move
     return;
   };
 
-  {				/* use rep movsl to do the move */
+  {
+		/* use rep movsl to do the move */
     int  old_extra_stack = extra_stack;
     int  old_regsinuse;
     if (regsinuse & 0x20) {
@@ -2710,7 +2678,9 @@ void move
   };
 }
 
-/* use rep movsb */
+/*
+ * Use rep movsb
+ */
 void movecont
 (where from, where to, where length, int nooverlap)
 {
@@ -2811,14 +2781,13 @@ void movecont
   return;
 }
 
-
-
-
 void retins
 (void)
 {
-		/* leave proc, discarding any callee parameters */
-		/* can overwrite %ecx */
+ /*
+  * leave proc, discarding any callee parameters
+  * can overwrite %ecx
+  */
   int n = (remove_struct_ref && has_struct_res(crt_proc_exp))? 32 : 0;
   if (callee_size >= 0) {
     if ((n += callee_size) == 0)
@@ -2902,7 +2871,9 @@ void stack_return
   return;
 }
 
-/* call instruction */
+/*
+ * Call instruction
+ */
 void callins
 (int longs, exp fn, int ret_stack_dec)
 {
@@ -2970,15 +2941,13 @@ void jumpins
     return;
 }
 
-
-
-/* compare from with min (from - min)
-   values have shape sha. The testno for
-   which it is being used is supplied so
-   that we can optimise cmp(0,x)
-
-   Result true (1) if optimised compare with 0
-   in which case we need to ignore overflow */
+/*
+ * Compare from with min (from - min) values have shape sha. The testno for
+ * which it is being used is supplied so that we can optimise cmp(0, x)
+ *
+ * Result true (1) if optimised compare with 0 in which case we need
+ * to ignore overflow
+ */
 int cmp
 (shape sha, where from, where min, int nt, exp e)
 {
@@ -3008,8 +2977,7 @@ int cmp
 	  eq_shape(sh(cc2a), sha)) &&
 	eq_where(cond2a, from) &&
 	eq_where(cond2b, min))
-    return 0;			/* we are repeating the previous
-				   comparison */
+    return 0;			/* we are repeating the previous comparison */
 
 
   if (!is_floating(name(sha))) {
@@ -3033,16 +3001,14 @@ int cmp
 	 (name(cc) == ass_tag && eq_shape(sh(bro(son(cc))), sha)) ||
 	  eq_shape(sh(cc), sha)) &&
         eq_where(cond1, from) && sz <= 32)
-      return 1;			/* we are comparing the value from which
-				   the conditions are set with zero */
+      return 1;			/* we are comparing the value from which the conditions are set with zero */
 
     if (cond2_set &&
 	 ((name(cc2a) == ident_tag && eq_shape(sh(son(cc2a)), sha)) ||
 	    eq_shape(sh(cc2a), sha)) &&
 	  eq_where(cond2a, from) &&
 	  eq_where(cond2b, min))
-      return 0;			/* we are repeating the previous
-				   comparison */
+      return 0;			/* we are repeating the previous comparison */
 
     if (((name(min.where_exp) == null_tag && no(min.where_exp) == 0)
 	 || eq_where(min, zero)) &&
@@ -3093,8 +3059,7 @@ int cmp
        ((name(from.where_exp) == null_tag && no(from.where_exp) == 0) ||
 		 eq_where(from, zero)) &&
         !inmem(min)) {
-      /* from is zero and the test is == or != so we don't have to reverse
-         its sense */
+      /* from is zero and the test is == or != so we don't have to reverse its sense */
 
       if (sz == 8) {
 	ins2(testb, sz, sz, min, min);
@@ -3355,8 +3320,9 @@ int bad_from_reg
 	(in_reg(from.where_exp) & 0x70);
 }
 
-/* change variety from (which has shape
-   fsh) to sha, and put in to */
+/*
+ * Change variety from (which has shape fsh) to sha, and put in to
+ */
 void change_var_sh
 (shape sha, shape fsh, where from, where to)
 {
@@ -3773,12 +3739,11 @@ void change_var_refactor
   return;
 }
 
-/* op values a1, a2 of shape sha and put
-   them in dest. opb, opw and opl are the
-   byte, short and long versions of the
-   operator. one is the unit for the
-   operator. Similar to plus qv. for
-   comments.  */
+/*
+ * op values a1, a2 of shape sha and put them in dest. opb, opw and opl are the
+ * byte, short and long versions of the operator. one is the unit for the
+ * operator. Similar to plus qv. for comments.
+ */
 void andetc
 (char *opb, char *opw, char *opl, int one, shape sha, where a1, where a2, where dest)
 {
@@ -4036,10 +4001,10 @@ static void needs_lib64
   return;
 }
 
-
-/* 64-bit multiply a1 by a2, result to reg0/1
-   arg shapes sh1, sh2 may be 32 or 64-bit
-   proper subset varieties for sha */
+/*
+ * 64-bit multiply a1 by a2, result to reg0/1 arg shapes sh1,
+ * sh2 may be 32 or 64-bit proper subset varieties for sha
+ */
 static void mult64
 (shape sha, shape sh1, shape sh2, where a1, where a2)
 {
@@ -4274,9 +4239,10 @@ static void clean_multiply
   return;
 }
 
-/* multiply a1 by a2 add inc and put into
-   dest. optimisation have already been
-   done. */
+/*
+ * multiply a1 by a2 add inc and put into dest.
+ * optimisation has already been done.
+ */
 void multiply
 (shape sha, where a1, where a2, where dest)
 {
@@ -4688,9 +4654,10 @@ void longc_mult
   };
 }
 
-/* multiply a1 by a2 and put into dest.
-   look out for special cases by calling
-   longc_mult */
+/*
+ * Multiply a1 by a2 and put into dest.
+ * look out for special cases by calling longc_mult
+ */
 void mult
 (shape sha, where a1, where a2, where dest)
 {
@@ -4713,9 +4680,9 @@ void mult
   return;
 }
 
-
-
-/* shift from wshift places to to. */
+/*
+ * Shift from wshift places to to.
+ */
 void shiftl
 (shape sha, where wshift, where from, where to)
 {
@@ -4766,8 +4733,7 @@ void shiftl
     return;
   }
 
-  switch (sz) {			/* choose shift operation from signedness
-				   and length */
+  switch (sz) {			/* choose shift operation from signedness and length */
     case 8:
       shifter = (sig)? salb : shlb;
       break;
@@ -4868,7 +4834,9 @@ void shiftl
 
 }
 
-/* shift from wshift places to to. */
+/*
+ * Shift from wshift places to to.
+ */
 static void rotshiftr
 (int shft, shape sha, where wshift, where from, where to)
 {
@@ -5070,10 +5038,12 @@ static void divit
   shape shb = sh(bottom.where_exp);
   d = bottom;
 
+ /*
+  * Fudge because some systems have ptrdiff_t as unsigned
+  * though ANSI C says it must be signed
+  */
   if (name(sh(top.where_exp)) == offsethd)
-    sg = 1;  /* fudge because some systems have ptrdiff_t as unsigned
-                though ANSI C says it must be signed
-             */
+    sg = 1;
 
   if (overflow_e != nilexp && !istrap(overflow_e)) {
     if (name(bottom.where_exp)!= val_tag || no(bottom.where_exp) == 0)
@@ -5356,7 +5326,9 @@ void div0
   return;
 }
 
-/* remainder after dividing top by bottom to dest */
+/*
+ * Remainder after dividing top by bottom to dest
+ */
 static void remit
 (shape sha, where bottom, where top, where dest, int whichrem, int use_mask)
 {
@@ -5383,8 +5355,7 @@ static void remit
   if ((use_mask || !sg) &&
       name(bottom.where_exp) == val_tag && !isbigval(bottom.where_exp) &&
      (v = no(bottom.where_exp), v > 0 && (v & (v - 1)) == 0)) {
-    /* use and if possible (Note this is compatible with ANSI C, but not
-       with Ada) */
+    /* Use and if possible (Note this is compatible with ANSI C, but not with Ada) */
     int  c = 0;
     int  m = 1;
     while (m != v) {
@@ -5635,7 +5606,6 @@ void mod
   return;
 }
 
-
 /* move address of from to to */
 void mova
 (where from, where to)
@@ -5725,9 +5695,10 @@ int   adjust_pos
   return pos;
 }
 
-/* find bit position of bitfield defined
-   by e, and alter e to address the start
-   of the byte */
+/*
+ * Find bit position of bitfield defined by e, and alter e to address
+ * the start of the byte.
+ */
 int   bit_pos_cont
 (exp e, int nbits)
 {
@@ -5758,11 +5729,11 @@ int   bit_pos_cont
 
 }
 
-/* find bit position of bitfield defined
-   by e, and alter e to address the start
-   of the byte. Looks at top level and
-   calls bit_pos_cont to it is a cont or
-   ass (which needs recursive calling) */
+/*
+ * Find bit position of bitfield defined by e, and alter e to address the start
+ * of the byte. Looks at top level and calls bit_pos_cont to it is a cont or ass
+ * (which needs recursive calling)
+ */
 int   bit_pos
 (exp e, int nbits)
 {
@@ -5798,8 +5769,7 @@ void mem_to_bits
 
   lsn = 32 - nbits - pos;
   rs = (is_signed(sha))? sarl : shrl;
-	/* right shift with sign extension or not
-				*/
+	/* right shift with sign extension or not */
 
   if (pos == 0 && (nbits == 8 || nbits == 16)) {
     /* can use byte or word instructions. */
@@ -5839,8 +5809,7 @@ void mem_to_bits
     /* shift it left to remove unwanted bits */
     if (nbits != 32)
       ins2(rs,  32,  32, mw(zeroe, 32 - nbits), dest);
-    /* shift it right to remove unwanted bits and propagate sign if
-       necessary */
+    /* shift it right to remove unwanted bits and propagate sign if necessary */
     invalidate_dest(dest);
     return;
   };
@@ -5852,8 +5821,7 @@ void mem_to_bits
   /* shift it left to remove unwanted bits */
   if (nbits != 32)
     ins2(rs,  32,  32, mw(zeroe, 32 - nbits), reg0);
-  /* shift it right to remove unwanted bits and propagate sign if
-     necessary */
+  /* shift it right to remove unwanted bits and propagate sign if necessary */
   move (dsh, reg0, dest);/* move to dest */
   return;
 }
@@ -5946,11 +5914,9 @@ void bits_to_mem
     k = (no(e) & lsmask[nbits]) << pos;
     /* constant bits we are assigning */
     if (k == 0)
-      return;			/* if we are assigning zero we don't need
-				   anything more */
+      return;			/* if we are assigning zero we don't need anything more */
     move(slongsh, mw(zeroe, k), reg0);
-    /* we don't need this move to reg0 since add looks after this better
-    */
+    /* we don't need this move to reg0 since add looks after this better */
     keep_short = 0;
     and(move_sh, mw(zeroe, mask), dest, dest);
     add (move_sh, reg0, dest, dest);/* add into dest */
@@ -5958,12 +5924,10 @@ void bits_to_mem
   };
 }
 
-
-
-
-/* apply floating point operation op
-   between fstack0 and memory. reverse
-   arguments of operation if rev. */
+/*
+ * Apply floating point operation op between fstack0 and memory.
+ * Reverse arguments of operation if rev.
+ */
 void fopm
 (shape sha, unsigned char op, int rev, where wh)
 {
@@ -6040,11 +6004,10 @@ void fopm
   };
 }
 
-
-
-/* apply floating point operation op
-   between fstack0 and fstackn. Reverse
-   arguments of operation if rev. */
+/*
+ * Apply floating point operation op between fstack0 and fstackn.
+ * Reverse arguments of operation if rev.
+ */
 void fopr
 (unsigned char op, int rev, where wh, where d, int and_pop)
 {
@@ -6109,10 +6072,10 @@ void fopr
   return;
 }
 
-
-/* apply binary floating point operation
-   to arg1 and arg2 and put result into
-   dest */
+/*
+ * Apply binary floating point operation to arg1 and arg2 and
+ * put result into dest
+ */
 void fl_binop
 (unsigned char op, shape sha, where arg1, where arg2, where dest, exp last_arg)
 {
@@ -6281,10 +6244,10 @@ void fl_binop
   };
 }
 
-
-/* apply binary floating point operation
-   to list of arguments arglist and put result
-   into dest */
+/*
+ * Apply binary floating point operation to list of arguments arglist and
+ * put result into dest
+ */
 void fl_multop
 (unsigned char op, shape sha, exp arglist, where dest)
 {
@@ -6318,17 +6281,19 @@ void fl_multop
   return;
 }
 
-
-/* rounds the value in the top of fl stack
-   and pops it into "to". Rounding
-   according to mode:
-      0 round to nearest,midway to even:
-      1 round down:
-      2 round up:
-      3 round toward 0
-      4 is round as state
-   ul is true iff dest is unsigned >= 32
-   sz is 32 unless dest is 64-bit */
+/*
+ * Rounds the value in the top of fl stack and pops it into "to".
+ * Rounding according to mode:
+ *
+ *    0 round to nearest,midway to even:
+ *    1 round down:
+ *    2 round up:
+ *    3 round toward 0
+ *    4 is round as state
+ *
+ * ul is true iff dest is unsigned >= 32
+ * sz is 32 unless dest is 64-bit
+ */
 static  void round_code
 (int mode, int ul, int sz)
 {
@@ -6384,7 +6349,6 @@ static  void round_code
   return;
 }
 
-
 static  void roundit
 (shape sha, where from, where to, int mode)
 {
@@ -6419,8 +6383,7 @@ static  void roundit
   return;
 }
 
-
-/* floating point round */
+/* Floating point round */
 void frnd0
 (shape sha, where from, where to)
 {
@@ -6428,7 +6391,7 @@ void frnd0
   return;
 }
 
-/* floating point round */
+/* Floating point round */
 void frnd1
 (shape sha, where from, where to)
 {
@@ -6436,7 +6399,7 @@ void frnd1
   return;
 }
 
-/* floating point round */
+/* Floating point round */
 void frnd2
 (shape sha, where from, where to)
 {
@@ -6444,7 +6407,7 @@ void frnd2
   return;
 }
 
-/* floating point round */
+/* Floating point round */
 void frnd3
 (shape sha, where from, where to)
 {
@@ -6452,7 +6415,7 @@ void frnd3
   return;
 }
 
-/* floating point round */
+/* Floating point round */
 void frnd4
 (shape sha, where from, where to)
 {
@@ -6460,7 +6423,7 @@ void frnd4
   return;
 }
 
-/* float the integer from, result to */
+/* Float the integer from, result to */
 void floater
 (shape sha, where from, where to)
 {
@@ -6532,9 +6495,10 @@ void floater
   return;
 }
 
-/* change floating variety of from to sha,
-   put in to. Shortening change now dealt
-   with by test_fl_ovfl */
+/*
+ * Change floating variety of from to sha, put in to.
+ * Shortening change now dealt with by test_fl_ovfl
+ */
 void changefl
 (shape sha, where from, where to)
 {
@@ -6551,7 +6515,7 @@ void changefl
   return;
 }
 
-/* floating point negate */
+/* Floating point negate */
 void fl_neg
 (shape sha, where from, where to)
 {
@@ -6571,7 +6535,7 @@ void fl_neg
   return;
 }
 
-/* floating point abs */
+/* Floating point abs */
 void fl_abs
 (shape sha, where from, where to)
 {
@@ -6592,25 +6556,23 @@ void fl_abs
 }
 
 /*
-    For each of 14 possible comparison operators replace the sahf, j??
-    as follows:
+ * For each of 14 possible comparison operators replace the sahf,
+ * j?? as follows:
+ *
+ *     <   andb $0b00000101,%ah; jpo    !<   andb $0b00000101,%ah; jpe
+ *     >   andb $0b01000101,%ah; jz    	!>   andb $0b01000101,%ah; jnz
+ *     <=  andb $0b01000001,%ah; jpo    !<=  andb $0b01000001,%ah; jpe
+ *     >=  andb $0b00000101,%ah; jz     !>=  andb $0b00000101,%ah; jnz
+ *     ==  andb $0b01000100,%ah; jpo    !=   andb $0b01000100,%ah; jpe
+ *     <>  andb $0b01000000,%ah; jz     !<>  andb $0b01000000,%ah; jnz
+ *     <>= andb $0b00000100,%ah; jz     !<>= andb $0b00000100,%ah; jnz
+ */
 
-<	andb $0b00000101,%ah; jpo	!<	andb $0b00000101,%ah; jpe
->	andb $0b01000101,%ah; jz	!>	andb $0b01000101,%ah; jnz
-<=	andb $0b01000001,%ah; jpo	!<=	andb $0b01000001,%ah; jpe
->=	andb $0b00000101,%ah; jz	!>=	andb $0b00000101,%ah; jnz
-==	andb $0b01000100,%ah; jpo	!=	andb $0b01000100,%ah; jpe
-<>	andb $0b01000000,%ah; jz	!<>	andb $0b01000000,%ah; jnz
-<>=	andb $0b00000100,%ah; jz	!<>=	andb $0b00000100,%ah; jnz
-*/
-
-
-/* floating point compare */
+/* Floating point compare */
 void fl_comp
 (shape sha, where pos, where neg, exp e)
 {
-				/* can improve this to use other
-				   comparison instructions */
+	/* can improve this to use other comparison instructions */
   cond1_set = 0;
   cond2_set = 0;
   move(sha, neg, flstack);
@@ -6627,7 +6589,7 @@ void fl_comp
   return;
 }
 
-/* use test instruction */
+/* Use test instruction */
 void test
 (shape sha, where a, where b)
 {
@@ -6678,8 +6640,7 @@ void test
   return;
 }
 
-
-/* decrease the stack */
+/* Decrease the stack */
 void decstack
 (int longs)
 {
@@ -6695,8 +6656,6 @@ void long_jump
   ins0(ret);
   return;
 }
-
-
 
 static int fp_clear = 0;
 
@@ -6842,7 +6801,9 @@ void checkalloc_stack
     ins2(movl, 32, 32, reg1, sp);
 }
 
-/* Builtin functions. All args are operands */
+/*
+ * Builtin functions. All args are operands
+ */
 void special_ins
 (char * id, exp arg, where dest)
 {

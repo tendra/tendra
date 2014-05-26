@@ -7,14 +7,11 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/*********************************************************************
-                     main.c
-
-   This is the main routine.
-    It constructs .G (binasm) and .T (symbol table) files from the input .t
-    files. If -S is given it will also construct a .s (assembler) file in as_file.
-
- *********************************************************************/
+/*
+ * This is the main routine.
+ * It constructs .G (binasm) and .T (symbol table) files from the input .t
+ * files. If -S is given it will also construct a .s (assembler) file in as_file.
+ */
 
 #include <stdio.h>
 
@@ -57,8 +54,7 @@ int   majorno = 3;
 int   minorno = 18;
 
 long  currentfile = -1;		/* our source fileno 0.. */
-long  mainfile = 0;		/* would be best if it  actually contained
-				   main ! */
+long  mainfile = 0;		/* would be best if it actually contained main ! */
 
 bool opt
 (char c)
@@ -216,8 +212,8 @@ main(int argc, char **argv)
  	}
 
 	if (produce_binasm) {
-		dname = argv[1];	/* the .T file */
-		nm    = argv[2];		/* the .G file */
+		dname = argv[1]; /* the .T file */
+		nm    = argv[2]; /* the .G file */
 
 		ba_file = fopen(nm, "w");
 		if (ba_file == NULL) {

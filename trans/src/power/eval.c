@@ -8,13 +8,11 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/*****************************************************************
-		eval.c
-
-	The main procedure defined here is evaluated which outputs
-assembler for data. The parameters are an evaluated exp and an index
-into the table of externals (or 0 meaning anonymous).
-*****************************************************************/
+/*
+ * The main procedure defined here is evaluated which outputs
+ * assembler for data. The parameters are an evaluated exp and an index
+ * into the table of externals (or 0 meaning anonymous).
+ */
 
 #include <ctype.h>
 #include <stdio.h>
@@ -56,12 +54,9 @@ int next_data_lab(void)
   return ++data_lab;
 }
 
-
-/*************************************************************
-maxmin
-
-finds the data size from the range of an integer shape
-**************************************************************/
+/*
+ * Finds the data size from the range of an integer shape
+ */
 mm maxmin(shape s)
 {
   switch (name(s))
@@ -81,23 +76,20 @@ mm maxmin(shape s)
   default:
     return uswmm;
   }
-
 }
 
-
-/**************************************************************
-outlab
-
-outputs the label parameter if non negative else interprets it
-to be an index into the externals and outputs the identifier.
-**************************************************************/
-
+/*
+ * outputs the label parameter if non negative else interprets it
+ * to be an index into the externals and outputs the identifier.
+ */
 void outlab(int l)
 {
   fprintf(as_file, "%s", ext_name(l));
 }
 
-/* translate time evaluate integer exp 'e' */
+/*
+ * translate time evaluate integer exp 'e'
+ */
 long evalexp(exp e)
 {
   switch (name(e))
@@ -106,8 +98,7 @@ long evalexp(exp e)
     return 0;
    case val_tag:
     {
-      /* offsets appear as bits, but are converted to bytes if alignment
-       is not bits */
+      /* offsets appear as bits, but are converted to bytes if alignment is not bits */
       if (name(sh(e)) == offsethd && al2(sh(e)) >= 8)
       {
 	return no(e) >>3;
@@ -315,11 +306,12 @@ static void outconcbit(concbittype c)
   fprintf(as_file, "\n");
   ASSERT(w == 0);
 }
+
 /*
-  Output a unary representation of the number val.  val should be
-  less than or equal to 31 as it represent the number of bits
-  in a bitfield which does not occupy a whole machine word.
-*/
+ * Output a unary representation of the number val. val should be
+ * less than or equal to 31 as it represent the number of bits
+ * in a bitfield which does not occupy a whole machine word.
+ */
 long unary(int val)
 {
   int loop;
@@ -333,12 +325,10 @@ long unary(int val)
   return result;
 }
 
-
-
 static concbittype addconcbitaux(unsigned long w, int size, concbittype before)
 {
-  int wordbitposn;			/* 0..32 bit position in current word,
-					 * 0 only at start of bit sequence */
+	/* 0..32 bit position in current word, 0 only at start of bit sequence */
+  int wordbitposn;
 
   if (before.value_size==32 || (before.value_size != 0 && (before.bitposn&31) ==0))
   {
@@ -783,7 +773,7 @@ static void evalone(exp e, int bitposn)
 	  return;
 	s = bro(s);
       }
-      /*NOTREACED*/
+      /* NOTREACED */
     }
 
   case ncopies_tag:
@@ -902,8 +892,6 @@ static void evalone(exp e, int bitposn)
     fail("illegal constant");
   }				/* end switch */
 }
-
-
 
 /*
  * Outputs data initialisers for the evaluated exp.

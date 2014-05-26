@@ -15,18 +15,6 @@
 
 #include "regable.h"
 
-/***************************************************************
-	fixregable
-
-determines whether the exp e can fit in a single fixed point register. Uses
-macros isvis, isglob, iscaonly from expmacs.h which examine the props
-field. The iscaonly bit is set by proc independent if the tag is only used
-by the contents operator or as the left hand side of an assignment. The
-procedure also uses the macro is_floating from shapemacs.h which checks
-the shape number is in the range for floating point shapes.
-****************************************************************/
-
-
 bool
 valregable(shape s)
 {
@@ -44,6 +32,15 @@ valregable(shape s)
   }
 }
 
+/*
+ * determines whether the exp e can fit in a single fixed point register.
+ * Uses macros isvis, isglob, iscaonly from expmacs.h which examine the props
+ * field. The iscaonly bit is set by proc independent if the tag is only used
+ * by the contents operator or as the left hand side of an assignment.
+ *
+ * The procedure also uses the macro is_floating from shapemacs.h which checks
+ * the shape number is in the range for floating point shapes.
+ */
 bool
 fixregable(exp e)
 {
@@ -57,13 +54,10 @@ fixregable(exp e)
   }
 }
 
-/***************************************************************
-	floatregable
-
-determines whether the exp e can fit in a floating point register, single
-or double.
-***************************************************************/
-
+/*
+ * Determines whether the exp e can fit in a floating point register,
+ * single or double.
+ */
 bool
 floatregable(exp e)
 {

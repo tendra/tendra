@@ -55,13 +55,7 @@
 #include "hpux-symtab.h"
 #endif
 
-
 extern bool last_param(exp);
-
-
-/*
-    FORWARD DECLARATIONS
-*/
 
 static void stab_scope_open(long);
 static void stab_scope_close(long);
@@ -71,9 +65,8 @@ static int last_lno = 0;
 #endif
 
 /*
-    ARRAY OF DIAGNOSTIC SCOPES
-*/
-
+ * Array of diganostic scopes
+ */
 #define MAX_LEX_LEVEL 256
 static long bracket_level = 1;
 static long BB_id = 0;
@@ -81,17 +74,14 @@ static long BE_id = 0;
 static int last_LBRAC_stab = 0;
 
 /*
-    DIAGNOSTICS FILE
-*/
-
+ * Diagnostics files
+ */
 static FILE *dg_file;
 static char dg_file_name[L_tmpnam];
 
-
 /*
-    BASIC TYPE NUMBERS
-*/
-
+ * Basic type numbers
+ */
 #define STAB_SCHAR	4
 #define STAB_UCHAR	6
 #define STAB_SSHRT	2
@@ -104,34 +94,26 @@ static char dg_file_name[L_tmpnam];
 #define STAB_VOID	13
 #define NO_STABS	14
 
-
 /*
-    BASIC POINTERS
-*/
-
+ * Basic pointers
+ */
 static long stab_ptrs[NO_STABS] = {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
 
-
 /*
-    CURRENT TYPE NUMBER
-*/
-
+ * Current type number
+ */
 static long typeno = NO_STABS;
 
-
 /*
-    SIZE OF LAST STAB TYPE OUTPUT
-*/
-
+ * Size of last stab type output
+ */
 static long last_type_sz = 0;
 
-
 /*
-    CURRENT LINE NUMBER AND FILE NUMBER
-*/
-
+ * Current line number and file number
+ */
 long currentlno = -1;
 long currentfile = -1;
 
@@ -143,31 +125,26 @@ typedef int DNTTPOINTER;
 
 static DNTTPOINTER NIL;
 
-/*
-    ARRAY OF TYPE SIZES
-*/
-
 
 /* Information about previously defined types. */
 
 typedef struct { int sz; DNTTPOINTER p; } type_info_t;
 
+/*
+ * Array of type sizes
+ */
 static type_info_t *type_info;
 static int no_type_info = 0;
 
-
 /*
-    SETTING AND GETTING TYPE SIZES
-*/
-
+ * Setting and getting type sizes
+ */
 #define set_stab_size(i)	type_info[(i)].sz = last_type_sz
 #define get_stab_size(i)	(type_info[(i)].sz)
 
-
 /*
-    GET THE NEXT TYPE NUMBER
-*/
-
+ * Get the next type number
+ */
 static long next_typen
 (void)
 {
@@ -180,11 +157,9 @@ static long next_typen
     return typeno++;
 }
 
-
 /*
-    ARRAY OF FILE DESCRIPTORS
-*/
-
+ * Array of file descriptors
+ */
 static filename *fds = NULL;
 static int szfds = 0;
 static int nofds = 0;
@@ -200,9 +175,11 @@ static int nofds = 0;
 #define NATINT(n)		((n).nat_val.small_nat)
 
 
-
 #ifdef _SYMTAB_INCLUDED
-/******************************   XDB stuff  *********************************/
+
+/*
+ * XDB stuff
+ */
 
 static FILE *VT_,*SLT_,*LNTT_,*GNTT_;
 
@@ -985,13 +962,11 @@ void output_DEBUG
     return;
 }
 
-/*****************************************************************************/
 #endif
 
 /*
-    ADD A NEW FILE TO THE ARRAY OF FILE DESCRIPTORS
-*/
-
+ * Add a new file to the array of file descriptors
+ */
 void stab_collect_files
 (filename f)
 {
@@ -1006,11 +981,9 @@ void stab_collect_files
     return;
 }
 
-
 /*
-    FIND THE FILE DESCRIPTOR CORRESPONDING TO A FILE NAME
-*/
-
+ * Find the file descriptor corresponding to a file name
+ */
 static long find_file
 (char * f)
 {
@@ -1021,12 +994,11 @@ static long find_file
     return 0;
 }
 
-
 static char *last_proc_lab = "<<No Proc>>";
 
 /*
-    OUTPUT A FILE POSITION CONSTRUCT
-*/
+ * Output a file position construct
+ */
 
 #define N_SLINE  0x44
 #define N_DSLINE 0x46
@@ -1067,11 +1039,9 @@ void stabd
    return;
 }
 
-
 /*
-    OUTPUT INITIAL DIAGNOSTICS FOR A DIAGNOSE_TAG
-
-*/
+ * Output initial diagnostics for a diagnose_tag
+ */
 /* ARGSUSED */ void stab_begin
 (diag_info * d, int proc_no, exp e)
 {
@@ -1109,11 +1079,9 @@ void stabd
     return;
 }
 
-
 /*
-    OUTPUT FINAL DIAGNOSTICS FOR A DIAGNOSE_TAG
-*/
-
+ * Output final diagnostics for a diagnose_tag
+ */
 void stab_end
 (diag_info * d, exp e)
 {
@@ -1131,11 +1099,9 @@ void stab_end
     return;
 }
 
-
 /*
-    INITIALISE DIAGNOSTICS
-*/
-
+ * Initialise diagnostics
+ */
 void init_stab
 (void)
 {
@@ -1199,11 +1165,9 @@ void init_stab
     return;
 }
 
-
 /*
-    INITIALIZE DIAGNOSTICS
-*/
-
+ * Initialise diagnostics
+ */
 void init_stab_aux
 (void)
 {
@@ -1233,11 +1197,9 @@ void init_stab_aux
     return;
 }
 
-
 /*
-    FIND THE DIAGNOSTICS CORRESPONDING TO THE CURRENT DECLARATION
-*/
-
+ * Find the diagnostics corresponding to the current declaration
+ */
 /* ARGSUSED */ static diag_descriptor *find_dd
 (exp e)
 {
@@ -1245,11 +1207,9 @@ void init_stab_aux
     return diag_def->dec_u.dec_val.diag_info;
 }
 
-
 /*
-    OUTPUT DIAGNOSTICS DIRECTIVE FOR A FILE
-*/
-
+ * Output diagnostics directive for a file
+ */
 void stab_file
 (long findex, bool internal)
 {
@@ -1307,9 +1267,9 @@ void stab_file
     return;
 }
 
-
-/*********************  START OF A DIAGNOSTICS SCOPE  ************************/
-
+/*
+ * Start of a diagnostics scope
+ */
 static void stab_scope_open
 (long findex)
 {
@@ -1337,9 +1297,9 @@ static void stab_scope_open
    bracket_level++;
 }
 
-
-/**********************  END OF A DIAGNOSTICS SCOPE  *************************/
-
+/*
+ * End of a diagnostics scope
+ */
 static void stab_scope_close
 (long findex)
 {
@@ -1371,17 +1331,16 @@ static void stab_scope_close
    return;
 }
 
-
 /*
-    DEPTH COUNT FOR STAB TYPES
-*/
+ * Depth count for stab types
+ */
 
 /* static int max_depth = 64 ; */
 static int depth_now = 0;
 
-
-/***************  OUTPUT THE DIAGNOSTICS FOR A SIMPLE SHAPE  *****************/
-
+/*
+ * Output the diagnostics for a simple shape
+ */
 static long out_sh_type
 (shape s)
 {
@@ -1401,12 +1360,11 @@ static long out_sh_type
     return STAB_VOID;
 }
 
-
-/***********************  OUTPUT A DIAGNOSTICS TYPE  *************************/
-
+/*
+ * Output a diagnostics type
+ */
 
 #ifdef _SYMTAB_INCLUDED
-
 
 struct outed_t { diag_type dt; struct outed_t *prev; };
 typedef struct outed_t *outed;
@@ -1933,8 +1891,10 @@ static DNTTPOINTER out_dt_shape
 	case DIAG_TYPE_ENUM:
 	{
 #if 1
-	   /*  Currently tdfc (August 95) does not generate DIAG_TYPE_ENUM.
-	       Enable and test this when DIAG_TYPE_ENUM is generated.  */
+	/*
+	 * Currently tdfc (August 95) does not generate DIAG_TYPE_ENUM.
+	 * Enable and test this when DIAG_TYPE_ENUM is generated.
+	 */
 
       /*
        * TypeDef:	e EnumList ;		"Enumerated type (default size, 32 bits)"
@@ -2018,11 +1978,9 @@ static DNTTPOINTER out_dt_shape
     return NIL;
 }
 
-
 /*
-    OUTPUT DIAGNOSTICS FOR A GLOBAL VARIABLE
-*/
-
+ * Output diagnostics for a global variable
+ */
 void stab_global
 (exp global, char * id, bool ext)
 {
@@ -2057,11 +2015,9 @@ void stab_global
   return;
 }
 
-
 /*
-    OUTPUT DIAGNOSTICS FOR A PROCEDURE
-*/
-
+ * Output diagnostics for a procedure
+ */
 void stab_proc
 (exp proc, char * id, bool public)
 {
@@ -2145,9 +2101,8 @@ void close_function_scope
 #endif
 
 /*
-    OUTPUT DIAGNOSTICS FOR A LOCAL VARIABLE
-*/
-
+ * Output diagnostics for a local variable
+ */
 /* ARGSUSED */ void stab_local
 (char *nm, diag_type dt, exp ldid, long disp, long findex)
 {
@@ -2244,11 +2199,9 @@ void close_function_scope
     return;
 }
 
-
 /*
-    DEAL WITH BASIC TYPES
-*/
-
+ * Deal with basic types
+ */
 void stab_types
 (void)
 {
@@ -2313,11 +2266,9 @@ void stab_types
     return;
 }
 
-
 /*
-    DEAL WITH STRUCTURE AND UNION TAGS
-*/
-
+ * Deal with structure and union tags
+ */
 void stab_tagdefs
 (void)
 {
@@ -2383,11 +2334,9 @@ void stab_tagdefs
     return;
 }
 
-
 /*
-    DEAL WITH TYPEDEFS
-*/
-
+ * Deal with typedefs
+ */
 void stab_typedefs
 (void)
 {

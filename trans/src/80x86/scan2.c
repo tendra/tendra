@@ -7,21 +7,18 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/**********************************************************************
-                            scan2.c
-     Defines the scan through a program which
-     reorganises it so that all arguments of
-     operations are 80386 operands.
-     80386 specific.
-
-     These procedures use a pair of a boolean and and exp (eg sto and to)
-     instead of a pointer to an exp. The boolean is true if the exp
-     being referred to is the son of the given exp, and false if it is
-     the brother. This is to allow exps to be represented by indices
-     into arrays and to allow the arrays to be realloced, which
-     invalidates the use of &son(to) and &bro(to).
-
-**********************************************************************/
+/*
+ * Defines the scan through a program which reorganises it so that all
+ * arguments of operations are 80386 operands. 80386 specific.
+ *
+ * These procedures use a pair of a boolean and and exp (eg sto and to)
+ * instead of a pointer to an exp. The boolean is true if the exp being
+ * referred to is the son of the given exp, and false if it is the brother.
+ *
+ * This is to allow exps to be represented by indices into arrays and to
+ * allow the arrays to be realloced, which invalidates the use of
+ * &son(to) and &bro(to).
+ */
 
 #include <stddef.h>
 
@@ -44,16 +41,13 @@
 #include "instr386.h"
 #include "scan2.h"
 
-/* MACROS */
-
 #define assexp(isson, p, v) if (isson)setson(p, v); else setbro(p, v)
 #define contexp(isson, p)((isson)? son(p): bro(p))
 
-/* PROCEDURES */
-
-/* inserts an identity declaration of x at
-   to, and replaces x by a use of the
-   identifier */
+/*
+ * Inserts an identity declaration of x at to,
+ * and replaces x by a use of the identifier
+ */
 static void cca
 (int sto, exp to, int sx, exp x)
 {
@@ -93,24 +87,21 @@ static void cca
   return;
 }
 
-/* keeping the same to, scans along the
-   bro list e, applying cca to introduce
-   an identity declaration when doit is 1.
-   Keeps count as the index position along
-   the list in order to pass it to doit.
-   If it uses cca it scans the resulting
-   declaration, using the same to. If it
-   doesnt use cca, it scans the list
-   element, still using the same to. This
-   keeps all operations in the same order.
-   Result of cc is true if the operands
-   are all of 80386 form. some operations
-   are allowed to have not more than one
-   operand not of 80386 form; this is then
-   precomputed in reg0 before the
-   operations. This boolean result is used
-   to ensure that not more than one
-   operand is so treated */
+/*
+ * Keeping the same to, scans along the bro list e, applying cca to introduce
+ * an identity declaration when doit is 1.
+ *
+ * Keeps count as the index position along the list in order to pass it to doit.
+ *
+ * If it uses cca it scans the resulting declaration, using the same to. If it
+ * doesnt use cca, it scans the list element, still using the same to.
+ * This keeps all operations in the same order.
+ *
+ * Result of cc is true if the operands are all of 80386 form. Some operations
+ * are allowed to have not more than one operand not of 80386 form; this is then
+ * precomputed in reg0 before the operations. This boolean result is used
+ * to ensure that not more than one operand is so treated.
+ */
 static int cc
 (int sto, exp to, int se, exp e,	      int(*doit)(exp, int, int),
  int count, int usereg0)
@@ -146,18 +137,18 @@ static int cc
   };
 }
 
-/* keeping the same to, scans along the
-   bro list e, applying cca to introduce
-   an identity declaration when doit is 1.
-   Keeps count as the index position along
-   the list in order to pass it to doit.
-   If it uses cca it scans the resulting
-   declaration, using the same to. If it
-   doesnt use cca, it scans the list
-   element, still using the same to. This
-   keeps all operations in the same order.
-   The difference in detail from cc supports
-   the asymmetry of div etc */
+/*
+ * Keeping the same to, scans along the bro list e, applying cca to introduce
+ * an identity declaration when doit is 1.
+ *
+ * Keeps count as the index position along the list in order to pass it to doit.
+ *
+ * If it uses cca it scans the resulting declaration, using the same to. If it
+ * doesnt use cca, it scans the list element, still using the same to.
+ * This keeps all operations in the same order.
+ *
+ * The difference in detail from cc supports the asymmetry of div etc.
+ */
 static void cc1
 (int sto, exp to, int se, exp e,	      int(*doit)(exp, int, int),
  int count, int usereg0)
@@ -202,8 +193,9 @@ static void cc1
   };
 }
 
-
-/* does cca and forces the declaration to use a register */
+/*
+ * Does cca and forces the declaration to use a register
+ */
 static void ccp
 (int sto, exp to, int sx, exp x)
 {
@@ -215,7 +207,9 @@ static void ccp
   return;
 }
 
-/* is an operand */
+/*
+ * Is an operand
+ */
 static int is_opnd
 (exp e)
 {
@@ -237,19 +231,16 @@ static int is_opnd
       n == proc_tag || n == general_proc_tag;
 }
 
-
-
-
-/* This checks the integer argument of an
-   addptr to make sure that it is of the
-   right form, including the scale factor
-   for the kind of operand. This
-   introduces two declarations, only the
-   inner one forces the use of a register.
-   This guarantees that we only load the
-   registers as close to the actual
-   instruction as possible, since we are
-   short of registers on the 80386 */
+/*
+ * This checks the integer argument of an addptr to make sure that it is of the
+ * right form, including the scale factor for the kind of operand.
+ *
+ * This introduces two declarations, only the inner one forces the use of
+ * a register.
+ *
+ * This guarantees that we only load the registers as close to the actual
+ * instruction as possible, since we are short of registers on the 80386
+ */
 static void ap_argsc
 (int sto, exp to, exp e)
 {
@@ -264,8 +255,7 @@ static void ap_argsc
 
   if ((frame_al_of_ptr(sh(son(q))) & al_includes_vcallees) &&
 	(frame_al1_of_offset(sh(bro(son(q)))) & al_includes_caller_args)) {
-				/* env_offset to arg requires indirection from
-				   frame pointer */
+				/* env_offset to arg requires indirection from frame pointer */
     shape pc_sh = f_pointer(f_callers_alignment(0));
     exp c = getexp(pc_sh, bro(son(q)), 0, nilexp, nilexp, 0, 0, cont_tag);
     exp r = getexp(pc_sh, c, 1, son(q), nilexp, 0, 64, reff_tag);
@@ -300,20 +290,18 @@ static void ap_argsc
 
 }
 
-
-
-/* checks that the argument of a cont or
-   the destination of an assign has the
-   right form for an operand, and
-   introduces a declaration if not.
-   Continues processing with the same to.
-   These arguments can contain
-   declarations, so that we can load
-   addresses as close as possible to the
-   instructions that use them, since we
-   are short of registers in the 80386.
-   This is done by contop in instr386, during
-   the code production. */
+/*
+ * Checks that the argument of a cont or the destination of an assign has the
+ * right form for an operand, and introduces a declaration if not.
+ *
+ * Continues processing with the same to.
+ *
+ * These arguments can contain declarations, so that we can load addresses as
+ * close as possible to the instructions that use them, since we are short
+ * of registers in the 80386.
+ *
+ * This is done by contop in instr386, during the code production.
+ */
 static int cont_arg
 (int sto, exp to, exp e, int usereg0)
 {
@@ -364,8 +352,7 @@ static int cont_arg
   return 0;
 }
 
-
-/* is assignable */
+/* Is assignable */
 static int is_assable
 (exp e)
 {
@@ -435,7 +422,7 @@ static int no_alloca
   return scan_for_alloca(t);
 }
 
-/* uses cc, requiring all to be operands */
+/* Uses cc, requiring all to be operands */
 static void all_opnd
 (int sto, exp to, exp e, int usereg0)
 {
@@ -451,7 +438,7 @@ static int notass
   return !is_assable(t);
 }
 
-/* uses cc, requiring all to be assignable */
+/* Uses cc, requiring all to be assignable */
 static void all_assable
 (int sto, exp to, exp e)
 {
@@ -459,7 +446,7 @@ static void all_assable
   return;
 }
 
-/* just used in the next routine */
+/* Just used in the next routine */
 static int is_direct
 (exp e)
 {
@@ -469,7 +456,7 @@ static int is_direct
 	!isglob(son(son(e))) && isvar(son(son(e))));
 }
 
-/* is indirectly addressable */
+/* Is indirectly addressable */
 static int is_indable
 (exp e)
 {
@@ -489,7 +476,6 @@ static int is_indable
       s == addptr_tag;
 }
 
-
 /* son must be indirectly addressable */
 static void indable_son
 (int sto, exp to, exp e)
@@ -505,9 +491,7 @@ static void indable_son
   return;
 }
 
-
-
-/* apply scan2 to this bro list, moving "to" along it */
+/* Apply scan2 to this bro list, moving "to" along it */
 static void scanargs
 (int st, exp e, int usereg0)
 {
@@ -521,8 +505,6 @@ static void scanargs
   };
   return;
 }
-
-
 
 /* doit routine for plus first arg cant be negate, others can */
 static int plusdo
@@ -560,7 +542,7 @@ static int notado
   return usereg0 ? 0 : !is_opnd(t);
 }
 
-/* change offset representation bytes to bits */
+/* Change offset representation bytes to bits */
 static void make_bitfield_offset
 (exp e, exp pe, int spe, shape sha)
 {
@@ -584,7 +566,7 @@ static void scan_apply_args
     IGNORE scanargs(sato, ato, 1);
 }
 
-/* avoid registers corrupted by dynamic callees */
+/* Avoid registers corrupted by dynamic callees */
 static void cca_for_cees
 (int sto, exp to, exp e)
 {
@@ -601,7 +583,6 @@ static void cca_for_cees
   cca(sto, to, 1, e);
   set_intnl_call(contexp(sto, to));
 }
-
 
 static int is_asm_opnd
 (exp e, int ext)
@@ -655,9 +636,7 @@ void check_asm_seq
   return;
 }
 
-
-
-/* main scan routine */
+/* Main scan routine */
 int scan2
 (int sto, exp to, exp e, int usereg0)
 {

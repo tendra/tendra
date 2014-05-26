@@ -60,13 +60,13 @@ static bool test_push_args(exp args, ash* args_size);
 static void push_args(where w, ash stack, exp args);
 static void place_arguments(exp args, ash stack, long start);
 
-/************************************************************************
-    GCPROC
-
-    This routine encodes a procedure call.  The procedure is named pname
-    with oname as an alternative (used with diagnostics).  The actual
-    body of the procedure is p.
- ************************************************************************/
+/*
+ * GCPROC
+ *
+ * This routine encodes a procedure call.  The procedure is named pname
+ * with oname as an alternative (used with diagnostics).  The actual
+ * body of the procedure is p.
+ */
 
 /* coder.c & codex.c */
 extern ast add_shape_to_stack(ash stack, shape s);
@@ -217,9 +217,11 @@ void gcproc
   }
 
   if (proc_has_checkstack(p)) {
-     /* check that there is room for env_size(<this proc>) */
-     /* since callers, callees & return address are pushed */
-     /* we only check for the rest */
+     /*
+      * Check that there is room for env_size(<this proc>)
+      * since callers, callees & return address are pushed
+      * we only check for the rest.
+      */
      long already_allocated = cur_proc_callers_size + cur_proc_callees_size + 32;
      where w;
      w = mw(get_env_size(cur_proc_dec), - already_allocated);
@@ -277,11 +279,11 @@ void gcproc
 }
 
 
-/************************************************************************
-  restore_regs_subsribers is used by restore_regs.
-  It is a list of places to put insructions to restore registers.
-I If untidy is true, it means that sp shall not be restored.
-*/
+/*
+ * restore_regs_subsribers is used by restore_regs.
+ * It is a list of places to put insructions to restore registers.
+ * If untidy is true, it means that sp shall not be restored.
+ */
 
 typedef struct rrs_tag {
   mach_ins* ins;
@@ -292,13 +294,12 @@ typedef struct rrs_tag {
 rrs* restore_regs_subsribers = 0;
 
 
-/************************************************************************
- RESTORE_REGS
-
- Subscribe on code to restore registers. See restore_regs_output below.
- Restore_type is one of: ALL, NOT_SP, NOT_A6_OR_SP
- ************************************************************************/
-
+/*
+ * RESTORE_REGS
+ *
+ * Subscribe on code to restore registers. See restore_regs_output below.
+ * Restore_type is one of: ALL, NOT_SP, NOT_A6_OR_SP
+ */
 void restore_regs
 (restore_type_t typ)
 {
@@ -308,9 +309,8 @@ void restore_regs
   p->restore_type = typ;
   restore_regs_subsribers = p;
 }
-/************************************************************************/
-/* used by restore_regs_output below */
 
+/* used by restore_regs_output below */
 rrs* pop_restore_regs_subsriber
 (void)
 {
@@ -323,21 +323,20 @@ rrs* pop_restore_regs_subsriber
    return p;
 }
 
-/************************************************************************
-  RESTORE_REGS_OUTPUT
-
-  Output instructions to restore registers.
-  This is done in all places where the restore_regs call has been made.
-
-  This procedure is called by epilogue after installing the body of a
-  General Procedure. First then we know which registers to restore.
-
-  rmsk is the set of normal regs to restore from AP - st
-  fmsk is the set of floating point regs to restore from AP - st1
-
-  side effect: current_ins is changed
- ************************************************************************/
-
+/*
+ * RESTORE_REGS_OUTPUT
+ *
+ * Output instructions to restore registers.
+ * This is done in all places where the restore_regs call has been made.
+ *
+ * This procedure is called by epilogue after installing the body of a
+ * General Procedure. First then we know which registers to restore.
+ *
+ * rmsk is the set of normal regs to restore from AP - st
+ * fmsk is the set of floating point regs to restore from AP - st1
+ *
+ * side effect: current_ins is changed
+ */
 void restore_regs_output
 (bitpattern rmsk, bitpattern fmsk, long st, long st1, bool uses_link)
 {
@@ -393,13 +392,12 @@ void restore_regs_output
    }
 }
 
-/************************************************************************
-  CLEANUP_BT
-
-  Cleanup before a tail call is performed. Used by tail_call.
-  Restore registers and frees callees stack room and return address.
-  ************************************************************************/
-
+/*
+ * CLEANUP_BT
+ *
+ * Cleanup before a tail call is performed. Used by tail_call.
+ * Restore registers and frees callees stack room and return address.
+ */
 void cleanup_bt
 (bool save_ret, int rg)
 {
@@ -444,14 +442,13 @@ void cleanup_bt
    make_comment("Cleanup before tail call done");
 }
 
-/************************************************************************
-  CLEANUP
-
-  Restore registers and frees callees stack room, just before return from
-  a procedure. Used by general_epilogue.
-  The return address is restored.
-  ************************************************************************/
-
+/*
+ * CLEANUP
+ *
+ * Restore registers and frees callees stack room, just before return from
+ * a procedure. Used by general_epilogue.
+ * The return address is restored.
+ */
 void cleanup
 (void)
 {
@@ -502,13 +499,12 @@ void cleanup
    make_comment("Cleanup before return done");
 }
 
-/************************************************************************
-  PUSH_RANGE
-
-  Push memory in the range [start, end] on the stack. (start > end).
-  (modifies start, end, SP)
-  ************************************************************************/
-
+/*
+ * PUSH_RANGE
+ *
+ * Push memory in the range [start, end] on the stack. (start > end).
+ * (modifies start, end, SP)
+ */
 void push_range
 (int start, int end)
 {
@@ -531,13 +527,12 @@ void push_range
    make_jump(m_bne, lb);
 }
 
-/************************************************************************
-  MAKE_CALLEES_SIZE
-
-  Returns an operand specifying the size of the callees for
-  the current procedure.
-  ************************************************************************/
-
+/*
+ * MAKE_CALLEES_SIZE
+ *
+ * Returns an operand specifying the size of the callees for
+ * the current procedure.
+ */
 mach_op* make_callees_size
 (void)
 {
@@ -549,19 +544,18 @@ mach_op* make_callees_size
    return make_value(cur_proc_callees_size / 8);
 }
 
-/************************************************************************
-  PUSH_SAME_CALLEES
-
-  Used by apply_general_proc to push the same callees
-  (modifies A0,D0,D1,SP)
-  ************************************************************************/
-
+/*
+ * PUSH_SAME_CALLEES
+ *
+ * Used by apply_general_proc to push the same callees
+ * (modifies A0,D0,D1,SP)
+ */
 void push_same_callees
 (bool var_callees)
 {
    mach_op *op1, *op2;
 
-   /* do we have any callees to push ? */
+   /* do we have any callees to push? */
    if (cur_proc_has_vcallees || cur_proc_callees_size) {
       make_comment("Push same callees");
       make_comment("end of callees");
@@ -596,14 +590,13 @@ void push_same_callees
    }
 }
 
-/************************************************************************
-  PUSH_DYNAMIC_CALLEES
-
-  Used by apply_general_proc to push dynamic callees
-  Callees size is available in D1 afterwards.
-  (modifies A0,D0,D1,SP)
-  ************************************************************************/
-
+/*
+ * PUSH_DYNAMIC_CALLEES
+ *
+ * Used by apply_general_proc to push dynamic callees
+ * Callees size is available in D1 afterwards.
+ * (modifies A0,D0,D1,SP)
+ */
 void push_dynamic_callees
 (exp pcallees, ash stack)
 {
@@ -675,13 +668,12 @@ void push_dynamic_callees
    }
 }
 
-/************************************************************************
-  PUSH_DYNAMIC_CALLEES_BT
-
-  Used by tail_call to push dynamic callees
-  (modifies A0,A1,D0,D1,SP)
-  ************************************************************************/
-
+/*
+ * PUSH_DYNAMIC_CALLEES_BT
+ *
+ * Used by tail_call to push dynamic callees
+ * (modifies A0,A1,D0,D1,SP)
+ */
 void push_dynamic_callees_bt
 (exp pcallees, ash stack)
 {
@@ -719,13 +711,12 @@ void push_dynamic_callees_bt
    push_range(REG_A0, REG_A1);
 }
 
-/************************************************************************
-  A1_RESULT_POINTER
-
-  For results which do not fit into registers a pointer to
-  where the result is to be put is passed in A1
-  ************************************************************************/
-
+/*
+ * A1_RESULT_POINTER
+ *
+ * For results which do not fit into registers a pointer to
+ * where the result is to be put is passed in A1
+ */
 void A1_result_pointer
 (long comp_size, long longs, long start_stack, where dest)
 {
@@ -782,12 +773,11 @@ void A1_result_pointer
    regsinproc |= regmsk(REG_A1);
 }
 
-/************************************************************************
-  POSTLUDE_HAS_CODE
-
-  Returns true if postlude has code
-  ************************************************************************/
-
+/*
+ * POSTLUDE_HAS_CODE
+ *
+ * Returns true if postlude has code
+ */
 static bool postlude_has_code
 (exp postlude)
 {
@@ -797,13 +787,11 @@ static bool postlude_has_code
    return name(postlude) != top_tag;
 }
 
-
-/************************************************************************
-  APPLY_GENERAL_PROC
-
-  Code a General Procedure Call.
-  ************************************************************************/
-
+/*
+ * APPLY_GENERAL_PROC
+ *
+ * Code a General Procedure Call.
+ */
 void apply_general_proc
 (exp e, where dest, ash stack)
 {
@@ -1011,11 +999,13 @@ void apply_general_proc
             make_comment("save compound result before postlude done");
          }
 
-         /* Compound results should already have been copied to
-            the position pointed to by A1 by the called procedure
-            and returned by it in D0, so no further action should
-            be required by the calling procedure.  Unfortunately
-            cc doesn't always get this right for union results. */
+         /*
+          * Compound results should already have been copied to
+          * the position pointed to by A1 by the called procedure
+          * and returned by it in D0, so no further action should
+          * be required by the calling procedure.  Unfortunately
+          * cc doesn't always get this right for union results.
+          */
 #ifdef OLD_SPEC
          if (cconv == CCONV_HP && name(sh(e)) == unhd) {
             regsinproc |= regmsk(REG_A0);
@@ -1038,8 +1028,10 @@ void apply_general_proc
          stack_dec += result_size;
       }
 
-      /* Delayed clean up of callers and room for ignored compund result.
-         callees are cleaned by the called proc. */
+      /*
+       * Delayed clean up of callers and room for ignored compund result.
+       * callees are cleaned by the called proc.
+       */
       if (! is_untidy) {
          stack_dec += callers_size + comp_size;
          dec_stack(- callers_size - comp_size);
@@ -1047,17 +1039,15 @@ void apply_general_proc
    }
 }
 
-/************************************************************************
-  TEST_PUSH_ARGS
-
-  The total stack space requiered by the arguments is returned in args_size.
-
-  Returns true if all arguments (args) can be pushed to the stack.
-
-  The args_size is also used if false is returned.
-
-  ************************************************************************/
-
+/*
+ * TEST_PUSH_ARGS
+ *
+ * The total stack space requiered by the arguments is returned in args_size.
+ *
+ * Returns true if all arguments (args) can be pushed to the stack.
+ *
+ * The args_size is also used if false is returned.
+ */
 static bool test_push_args
 (exp args, ash* args_size)
 {
@@ -1092,13 +1082,11 @@ static bool test_push_args
    return use_push;
 }
 
-
-/************************************************************************
-  PLACE_ARGUMENTS
-
-  Encodes procedure arguments on the stack.
-  ************************************************************************/
-
+/*
+ * PLACE_ARGUMENTS
+ *
+ * Encodes procedure arguments on the stack.
+ */
 static void place_arguments
 (exp args, ash stack, long start)
 {
@@ -1132,13 +1120,12 @@ static void place_arguments
    apply_tag_flag --;
 }
 
-/************************************************************************
-  PUSH A SET OF PROCEDURE ARGUMENTS
-
-  The arguments are given by a bro-list t.
-  They are coded in reverse order.
-  ************************************************************************/
-
+/*
+ * PUSH A SET OF PROCEDURE ARGUMENTS
+ *
+ * The arguments are given by a bro-list t.
+ * They are coded in reverse order.
+ */
 static void push_args
 (where w, ash stack, exp args)
 {
@@ -1161,12 +1148,11 @@ static void push_args
    return;
 }
 
-/************************************************************************
-  TAIL_CALL
-
-  Code a tail call.
-  ************************************************************************/
-
+/*
+ * TAIL_CALL
+ *
+ * Code a tail call.
+ */
 void tail_call
 (exp e, where dest, ash stack)
 {
@@ -1182,15 +1168,18 @@ void tail_call
    update_stack();
 
    if (name(pcallees) == make_dynamic_callee_tag) {
-      /* A0 and A1 are used by cleanup. We are just about to make the tail
-         call with shape bottom, so they are free */
+      /*
+       * A0 and A1 are used by cleanup. We are just about to make the tail
+       * call with shape bottom, so they are free
+       */
       push_dynamic_callees_bt(pcallees, stack);
       jmpins(proc);
       return;
    }
 
-   /* same callees ? */
-
+   /*
+    * Same callees?
+    */
    if (name(pcallees) == same_callees_tag) {
       restore_regs(ALL);
 
@@ -1218,16 +1207,18 @@ void tail_call
       return;
    }
 
-   /* nothing more than same calleers ? */
-
+   /*
+    * Nothing more than same calleers?
+    */
    if (!(callee_args || cur_proc_has_vcallees || call_has_vcallees(pcallees))) {
       restore_regs(ALL);
       jmpins(proc);
       return;
    }
 
-   /* no callees ? */
-
+   /*
+    * No callees?
+    */
    if (! callee_args) {
       make_comment("save return address");
       op1 = make_indirect(REG_AP, 4);
@@ -1252,7 +1243,9 @@ void tail_call
       return;
    }
 
-   /* new callees ! */
+   /*
+    * New callees!
+    */
 
    if (! test_push_args(callee_args, &new_callees_size))use_push = 0;
 
@@ -1308,16 +1301,14 @@ void tail_call
    jmpins(proc);
 }
 
-
-/************************************************************************
-  GENERAL PURPOSE PROCEDURE EPILOGUE
-
-  The registers used in the procedure and the space used on the stack
-  are analysed and used to form the procedure epilogue.
-  There is some testing to see if D1, A0, A1 and FP1 can be put to
-  better use.
-  ************************************************************************/
-
+/*
+ * GENERAL PURPOSE PROCEDURE EPILOGUE
+ *
+ * The registers used in the procedure and the space used on the stack
+ * are analysed and used to form the procedure epilogue.
+ * There is some testing to see if D1, A0, A1 and FP1 can be put to
+ * better use.
+ */
 void general_epilogue
 (bool uses_callers_pointer, bool has_checkstack)
 {
@@ -1554,12 +1545,12 @@ void general_epilogue
    return;
 }
 
-/************************************************************************
-  CODE_POSTLUDE
-  The postlude parameters positions on the stack are setup, and coder
-  is called with the postlude body.
-
-  ************************************************************************/
+/*
+ * CODE_POSTLUDE
+ *
+ * The postlude parameters positions on the stack are setup, and coder
+ * is called with the postlude body.
+ */
 static void code_postlude
 (exp postlude, exp callers, ash stack, long post_offset)
 {
@@ -1588,10 +1579,9 @@ static void code_postlude
    make_comment("Postlude done");
 }
 
-/************************************************************************
-  Makes code for untidy return
-  ************************************************************************/
-
+/*
+ * Makes code for untidy return
+ */
 void untidy_return
 (void)
 {
@@ -1609,11 +1599,10 @@ void untidy_return
    make_instr(m_rts, NULL, NULL, 0);
 }
 
-/************************************************************************
-  Make a label with named after the address of e and the value of the
-  env offset from e (an ident_tag) to the application pointer.
-  ************************************************************************/
-
+/*
+ * Make a label with named after the address of e and the value of the
+ * env offset from e (an ident_tag) to the application pointer.
+ */
 void make_visible
 (exp e)
 {
@@ -1644,13 +1633,11 @@ void make_visible
    make_instr_aux(m_as_assign, op1, op2, 0, 0);
 }
 
-
-/************************************************************************
-  If a caller parameter is accessed from a framepointer with variable
-  callees we need to transform the pointer in the addptr expression to
-  callers pointer.
-  ************************************************************************/
-
+/*
+ * If a caller parameter is accessed from a framepointer with variable
+ * callees we need to transform the pointer in the addptr expression to
+ * callers pointer.
+ */
 void fix_addptr
 (exp addptr)
 {
@@ -1666,32 +1653,31 @@ void fix_addptr
 
 
    /*
-      exchange application pointer with callers pointer:
-
-      addptr(pointer, offset) --> addptr(pointer2, offset)
-      where pointer2 = reff(addptr(pointer, cont(reff(pointer, 8*8))), 12*8)
-
-
-                         addptr
-                           |
-                           |(son)   bro(son)
-                           |-------------|
-                     E5  reff(8*8)     offset
-                           |(son)
-                           |
-                     E4  addptr
-                           |(son)   bro(son)
-                           |----------|
-                        pointer  E3  cont
-                                      |(son)
-                                      |
-                                 E2  reff(12*8)
-                                      |(son)
-                                      |
-                                 E1  pointer (copy)
-
-
-      */
+    * exchange application pointer with callers pointer:
+    *
+    * addptr(pointer, offset) --> addptr(pointer2, offset)
+    * where pointer2 = reff(addptr(pointer, cont(reff(pointer, 8*8))), 12*8)
+    *
+    *
+    *                addptr
+    *                  |
+    *                  |(son)   bro(son)
+    *                  |-------------|
+    *            E5  reff(8*8)     offset
+    *                  |(son)
+    *                  |
+    *            E4  addptr
+    *                  |(son)   bro(son)
+    *                  |----------|
+    *               pointer  E3  cont
+    *                             |(son)
+    *                             |
+    *                        E2  reff(12*8)
+    *                             |(son)
+    *                             |
+    *                        E1  pointer (copy)
+    *
+    */
 
    pc_sh = f_pointer(f_callers_alignment(0));
 
@@ -1712,9 +1698,9 @@ void fix_addptr
    bro(E5) = offset;
 }
 
-/************************************************************************
-  Transforms an entire exp recursively.
-  ************************************************************************/
+/*
+ * Transforms an entire exp recursively.
+ */
 static void transform
 (exp e)
 {
@@ -1737,10 +1723,10 @@ static void transform
    }
 }
 
-/************************************************************************
-  Scan through the declarations and apply transform
-  called from trans.
-  ************************************************************************/
+/*
+ * Scan through the declarations and apply transform
+ * called from trans.
+ */
 void make_transformations
 (void)
 {
@@ -1752,12 +1738,12 @@ void make_transformations
       d = d->def_next;
    }
 }
-/************************************************************************
-  Make a label with:
-  value: env_size(proc)
-  name:  L<value of procedure declaration pointer)
-  ************************************************************************/
 
+/*
+ * Make a label with:
+ * value: env_size(proc)
+ * name:  L<value of procedure declaration pointer)
+ */
 void output_env_size
 (dec* proc, long envsize)
 {

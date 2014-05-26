@@ -7,16 +7,10 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/***************************************************************** 
-
-		addressingtypes.h
-
-	Types for usable addressing modes are defined here :-
-baseoff, instore, freg, ans, where
-
-*****************************************************************/
-
+/*
+ * Types for usable addressing modes are defined here:
+ * baseoff, instore, freg, ans, where
+ */
 
 #ifndef addressingtkey
 #define addressingtkey 1
@@ -78,13 +72,14 @@ enum ansdiscrim {
 };
  /* use to discriminate the above union type */
 
+/*
+ * This type used as union of a fixpnt reg, a float reg and an instore value
+ */
 struct anst {
   enum ansdiscrim discrim;
   union anstu val;
 };
-typedef struct anst ans;	/* this type used as union of a fixpnt
-				   reg, 				
-				   a float reg and an instore value */
+typedef struct anst ans;
 
 struct wheret {
   ans answhere;			/* reg or store position */
@@ -100,10 +95,9 @@ struct mmt {
 };
 typedef struct mmt  mm;
 
-/******************************************************************
-macros for ease of use of unions, allow 'hiding' of discriminator.
-******************************************************************/
-
+/*
+ * macros for ease of use of unions, allow 'hiding' of discriminator.
+ */
 #define regalt(x) (x).val.regans
 #define fregalt(x) (x).val.fregans
 #define insalt(x) (x).val.instoreans
