@@ -45,7 +45,6 @@
 #include "out_ba.h"
 #include "coder.h"
 #include "cross.h"
-#include "symbol.h"
 #include "symconst.h"
 
 extern FILE * as_file;

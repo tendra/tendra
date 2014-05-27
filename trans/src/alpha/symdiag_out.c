@@ -41,7 +41,6 @@
 #include "out_ba.h"
 #include "syms.h"
 #include "locate.h"
-#include "symbol.h"
 #include "diag_out.h"
 #include "symdiag_out.h"
 #include "pseudo.h"

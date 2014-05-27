@@ -36,7 +36,6 @@
 
 #include "main.h"
 #include "symtab.h"
-#include "symbol.h"
 #include "type_to_aux.h"
 
 #ifndef CROSS_INCLUDE

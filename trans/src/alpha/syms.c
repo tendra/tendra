@@ -25,7 +25,6 @@ syms.c   - produce symbol numbers for binasm (dense numbers)
 #include "syms.h"
 #include "main.h"
 #include "diag_out.h"
-#include "symbol.h"
 
 extern int currentfile;
 

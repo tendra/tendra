@@ -34,7 +34,7 @@
 
 #include "bstack.h"
 #include "makesymtab.h"
-#include "symbol.h"
+#include "new_symbol.h"
 #include "type_to_aux.h"
 
 #ifndef CROSS_INCLUDE

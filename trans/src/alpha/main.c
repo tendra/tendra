@@ -32,7 +32,7 @@
 #include "dump_distr.h"
 #include "file.h"
 #include "fail.h"
-#include "symbol.h"
+#include "new_symbol.h"
 #include "bool.h"
 
 FILE *as_file;		/* assembly file */

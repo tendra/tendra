@@ -40,7 +40,6 @@
 #include "main.h"
 #include "frames.h"
 #include "reg_defs.h"
-#include "symbol.h"
 #include "diag_out.h"
 #include "out_ba.h"
 #include "syms.h"
