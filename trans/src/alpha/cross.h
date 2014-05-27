@@ -30,8 +30,6 @@
 #include <construct/installtypes.h>
 #include <construct/flpttypes.h>
 
-#include "output.h"
-
 extern flt64 exp_to_f64(exp);
 typedef int INT32;
 typedef unsigned int UINT32;
@@ -50,7 +48,7 @@ typedef long INT64;
 #define isquad(x)	((unsigned long)(x) >UINT_MAX)
 
 #define INT64_assign(x,y)((x) = (y))
-#define out_INT64(x)(void)outlong((x))
+#define out_INT64(x)(void)fprintf(as_file, "%ld", (x))
 #define INT64_mult(x,y,z)((z)?((x)*(y)):((unsigned long)((x)*(y))))
 #if 0
 #define INT64_divide(x,y,z)((z)?((x) / (y)):(unsigned long)((x) / (y)))

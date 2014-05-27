@@ -15,16 +15,7 @@
 extern FILE *fpout;
 extern int no_align_directives;
 
-#define  outc(X)	fputc((X), fpout)
-#define  outs(X)	fputs((X), fpout)
-#define  outn(X)	fprintf(fpout, "%ld",(long)(X))
 #define  outh(X)	fprintf(fpout, "0x%lx",(unsigned long)(X))
-
-#ifdef EBUG
-extern void outnl(void);
-#else
-#define  outnl()	fputc('\n', fpout)
-#endif
 
 extern void open_output(char *);
 extern void init_instructions(void);

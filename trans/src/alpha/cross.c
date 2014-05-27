@@ -17,7 +17,6 @@
 #include <construct/flpt.h>
 #include <construct/f64.h>
 
-#include "output.h"
 #include "cross.h"
 #include "main.h"
 #include "fail.h"
@@ -56,11 +55,9 @@ void
 out_INT64(INT64 val)
 {
   if(isquad(val)){
-    outhex(high_INT64(val));
-    outhigh(low_INT64(val));
-  }
-  else{
-    outint(low_INT64(val));
+	fprintf(as_file, "0x%08x%08x", high_INT64(val), low_INT64(val));
+  } else{
+	fprintf(as_file, "%d", low_INT64(val));
   }
 }
 

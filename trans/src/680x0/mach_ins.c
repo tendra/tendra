@@ -20,14 +20,6 @@
 
 extern bool have_cond;
 
-#ifdef EBUG
-extern bool seek_label;
-extern bool seek_extern;
-extern int seek_label_no;
-extern char *seek_extern_id;
-#endif
-
-
 /*
     OUTPUT FLAG
 
@@ -211,30 +203,7 @@ make_label(long n)
 	p->def.num = n;
 	make_instr_aux(m_label_ins, p, NULL,(bitpattern)0xffff, 0);
 	have_cond = 0;
-#ifdef EBUG
-	if (seek_label && n == (long)seek_label_no) {
-		error(ERROR_WARNING, "Label %ld used", n);
-		breakpoint();
-	}
-#endif
-	return;
 }
-
-#ifdef EBUG
-
-void
-make_comment(char* comment)
-{
-	mach_op *p;
-
-	p = new_mach_op();
-	p->type = MACH_COMMENT;
-	p->def.str = comment;
-	make_instr_aux(m_comment, p, NULL,(bitpattern)0x0000, 0);
-
-	return;
-}
-#endif
 
 /*
     CREATE AN EXTERNAL LABEL
@@ -251,13 +220,6 @@ make_external_label(char *nm)
 	p->def.str = nm;
 	make_instr_aux(m_extern_ins, p, NULL,(bitpattern)0xffff, 0);
 	have_cond = 0;
-#ifdef EBUG
-	if (seek_extern && eq(nm, seek_extern_id)) {
-		error(ERROR_WARNING, "Label %s used", nm);
-		breakpoint();
-	}
-#endif
-	return;
 }
 
 

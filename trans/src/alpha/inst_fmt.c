@@ -183,7 +183,7 @@ load_store_immediate(instruction ins, int reg, INT64 val)
   if(as_file){
     (void)fprintf(as_file,"\t%s\t%s,",ins_symbolic_name(ins),reg_name[reg]);
     out_INT64(val);
-    (void)outstring("\n");
+    (void)fprintf(as_file, "\n");
   }
   binasm_data = out_biinst(0,ins_binid(ins),reg,xnoreg,FRI,0,val);
   clear_reg(reg);

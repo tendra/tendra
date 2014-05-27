@@ -70,19 +70,6 @@ static int ignore_errors = 0;
 static int report_trans_version = 0;
 static int report_tdf_versions = 0;
 
-#ifdef EBUG
-
-int seek_label = 0;
-int seek_extern = 0;
-int seek_label_no;
-char *seek_extern_id;
-
-int seek_line = 0;
-int seek_line_no;
-static char *seek_line_id;
-
-#endif
-
 
 /*
     VARIABLE SIZES AND ALIGNMENTS
@@ -123,11 +110,7 @@ int main
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"A:B:C:DE:F:G:H:K:MO:PQRS:VWX:YZ"
-#ifdef EBUG
-			"L:l:"
-#endif
-			"aefiou")) != -1) {
+			"A:B:C:DE:F:G:H:K:MO:PQRS:VWX:YZ" "aefiou")) != -1) {
 			switch (c) {
 			case 'A': abi = switch_abi(optarg,
 				ABI_HPUX | ABI_NEXT | ABI_SUNOS); break;
@@ -163,13 +146,6 @@ int main
 			case 'f': convert_floats = 0;              break;
 			case 'i': output_immediately = 1;          break;
 			case 'u': do_sep_units = 1;                break;
-
-#ifdef EBUG
-			case 'l': seek_line = 1;
-			          seek_line_id = optarg;           break;
-			case 'L': seek_extern = 1;
-			          seek_extern_id = optarg;         break;
-#endif
 
 			case '?':
 			default:
@@ -220,17 +196,6 @@ int main
 		asm_cmp_reversed   = 1;
 		break;
 	}
-
-#ifdef EBUG
-    /* Deal with debugging options */
-    if (seek_extern) {
-	if (is_local(seek_extern_id)) {
-	    seek_label = 1;
-	    seek_label_no = atoi(seek_extern_id + 1);
-	}
-    }
-    if (seek_line)seek_line_no = atoi(seek_line_id);
-#endif
 
     /* Things trans.680x0 does not "has" */
     has &= ~HAS_NEGSHIFT;
@@ -322,7 +287,7 @@ int main
     } else {
 	asm_version_aux;
     }
-    outnl();
+    fputc('\n', fpout);
 #endif
     if (number_errors != 0 && !ignore_errors) {
 	    exit(EXIT_FAILURE);

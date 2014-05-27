@@ -38,7 +38,6 @@
 #include "main.h"
 #include "frames.h"
 #include "reg_defs.h"
-#include "output.h"
 #include "cross.h"
 #include "pseudo.h"
 #include "ibinasm.h"
@@ -189,25 +188,16 @@ outfloat(exp e, int rep, ash a)
   switch(fv){
     case 0:
     if(as_file){
-      outstring("\t.long ");
-      outhex(ieeeflt.i1);	
-      outstring(" : ");
-      outint(rep);
-      outstring("\t# .s floating");
-      outstring("\n");
+      fprintf(as_file, "\t.long 0x%08x : %d\t# .s floating\n",
+		ieeeflt.i1, rep);
     }
     out_value(0,ilong,make_INT64(0,ieeeflt.i1),rep);
 /*    out_value(0,ilong,ieeeflt.i1,rep);*/
     break;
     case 1:
     if(as_file){
-      outstring("\t.quad ");
-      outhex(ieeeflt.i2);
-      outhexlow(ieeeflt.i1);
-      outstring(" : ");
-      outint(rep);
-      outstring("\t# .t floating");
-      outstring("\n");
+      fprintf(as_file, "\t.quad 0x%08x%08x : %d\t# .t floating\n",
+		ieeeflt.i2, ieeeflt.i1, rep);
     }
 /*    val = ((long)ieeeflt.i2<<32) + (unsigned)ieeeflt.i1;*/
     val = make_INT64(ieeeflt.i2,(unsigned)ieeeflt.i1);
@@ -418,7 +408,7 @@ evalone(exp e, int rep)
 	    case 64:{
 	      flt64 bigint;
 	      bigint = flt_to_f64(((flpt*)st)[i],is_signed(sh(e)),&overflow);
-	      out_INT64(flt64_to_INT64(bigint));outstring(" ");
+	      out_INT64(flt64_to_INT64(bigint));fprintf(as_file, " ");
 	      break;
 	    }		        	        
 	    }

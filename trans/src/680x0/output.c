@@ -116,7 +116,7 @@ char *reg_names[NO_OF_REGS];
     register number.
 */
 
-#define  out_reg_name(X)	outs(reg_names[(X)])
+#define  out_reg_name(X)	fputs(reg_names[(X)], fpout)
 
 
 /*
@@ -137,19 +137,18 @@ out_data(mach_op *ptr)
 		case MACH_EXT:
 		case MACH_EXTQ:
 			if (need_plus || neg_next) {
-				outc(neg_next ? '-' : '+');
+				fputc(neg_next ? '-' : '+', fpout);
 			}
-			outs(p->def.str);
+			fputs(p->def.str, fpout);
 			need_plus = 1;
 			neg_next = 0;
 			break;
 		case MACH_LAB:
 		case MACH_LABQ:
 			if (need_plus || neg_next) {
-				outc(neg_next ? '-' : '+');
+				fputc(neg_next ? '-' : '+', fpout);
 			}
-			outc(LPREFIX);
-			outn(p->def.num);
+			fprintf(fpout, "%c%ld", LPREFIX, p->def.num);
 			need_plus = 1;
 			neg_next = 0;
 			break;
@@ -165,18 +164,16 @@ out_data(mach_op *ptr)
 					p->plus->def.num += n;
 				} else {
 					if (need_plus && n >= 0) {
-						outc('+');
+						fputc('+', fpout);
 					}
-					outn(n);
+					fprintf(fpout, "%ld", n);
 					need_plus = 1;
 				}
 			} else {
 				if (need_plus || neg_next) {
-					outc(neg_next ? '-' : '+');
+					fputc(neg_next ? '-' : '+', fpout);
 				}
-				outc(LPREFIX);
-				outs(p->def.str);
-				outn((long)special_no);
+				fprintf(fpout, "%c%s%ld", LPREFIX, p->def.str, (long) special_no);
 				need_plus = 1;
 			}
 			neg_next = 0;
@@ -188,9 +185,9 @@ out_data(mach_op *ptr)
 				n = (-n);
 			}
 			if (need_plus && n >= 0) {
-				outc('+');
+				fputc('+', fpout);
 			}
-			outn(n);
+			fprintf(fpout, "%ld", n);
 			need_plus = 1;
 			neg_next = 0;
 			break;
@@ -202,7 +199,7 @@ out_data(mach_op *ptr)
 				n = (-n);
 			}
 			if (need_plus && n >= 0) {
-				outc('+');
+				fputc('+', fpout);
 			}
 			outh(n);
 			need_plus = 1;
@@ -236,7 +233,7 @@ out_scaled(mach_op *ptr)
 		asm_scale_1();
 	} else {
 		asm_scale();
-		outn(sf);
+		fprintf(fpout, "%ld", sf);
 	}
 	return;
 }
@@ -255,18 +252,17 @@ out_float(flt *f)
 	int i;
 	asm_fprefix();
 	if (f->sign < 0) {
-		outc('-');
+		fputc('-', fpout);
 	}
-	outc('0' + f->mant[0]);
-	outc('.');
+	fprintf(fpout, "%c.", f->mant[0]);
 	for (i = 1; i < MANT_SIZE; i++) {
-		outc('0' + f->mant[i]);
+		fputc('0' + f->mant[i], fpout);
 	}
-	outc('e');
+	fputc('e', fpout);
 	if (f->exp >= 0) {
-		outc('+');
+		fputc('+', fpout);
 	}
-	outn(f->exp);
+	fprintf(fpout, "%ld", f->exp);
 #else
 	error(ERROR_SERIOUS, "Illegal floating point constant");
 #endif
@@ -281,27 +277,27 @@ out_float(flt *f)
 */
 
 #define  out_data_1(X)		if (asm_data_first && X) out_data(X)
-#define  out_data_1a(X)		if (asm_data_first && X) { out_data(X); outc(','); }
-#define  out_data_1b(X)		if (asm_data_first && X) { outc(','); out_data(X); }
-#define  out_sf_data(X, Y)     \
-    if (asm_data_first) {      \
-        if (Y) out_scaled(Y);  \
-    } else {                   \
-        if (X) {               \
-            outc('(');         \
-            out_data(X);       \
-            if (Y) {           \
-                outc(',');     \
-                out_scaled(Y); \
-            }                  \
-            outc(')');         \
-        } else {               \
-            if (Y) {           \
-                outc('(');     \
-                out_scaled(Y); \
-                outc(')');     \
-            }                  \
-        }                      \
+#define  out_data_1a(X)		if (asm_data_first && X) { out_data(X); fputc(',', fpout); }
+#define  out_data_1b(X)		if (asm_data_first && X) { fputc(',', fpout); out_data(X); }
+#define  out_sf_data(X, Y)          \
+    if (asm_data_first) {           \
+        if (Y) out_scaled(Y);       \
+    } else {                        \
+        if (X) {                    \
+            fputc('(', fpout);      \
+            out_data(X);            \
+            if (Y) {                \
+                fputc(',', fpout);  \
+                out_scaled(Y);      \
+            }                       \
+            fputc(')', fpout);      \
+        } else {                    \
+            if (Y) {                \
+                fputc('(', fpout);  \
+                out_scaled(Y);      \
+                fputc(')', fpout);  \
+            }                       \
+        }                           \
     }
 
 
@@ -323,10 +319,10 @@ out_mach_op(mach_op *ptr)
 		out_mach_op(p->of);
 		asm_bf_before();
 		asm_nprefix();
-		outn(bf_off);
+		fprintf(fpout, "%ld", bf_off);
 		asm_bf_middle();
 		asm_nprefix();
-		outn(bf_bits);
+		fprintf(fpout, "%ld", bf_bits);
 		asm_bf_after();
 		return;
 	}
@@ -347,7 +343,7 @@ out_mach_op(mach_op *ptr)
 			if (q1 && q1->type == MACH_SCALE) {
 				if (p2) {
 					error(ERROR_SERIOUS, "Illegal addressing mode");
-					outs("error");
+					fputs("error", fpout);
 					return;
 				}
 				q2 = q1;
@@ -397,7 +393,7 @@ out_mach_op(mach_op *ptr)
 				out_data_1(p1);
 			}
 			asm_ind_before();
-			outs(p->def.str);
+			fputs(p->def.str, fpout);
 			asm_ind_middle();
 			out_sf_data(p1, p2);
 			asm_ind_after();
@@ -414,7 +410,7 @@ out_mach_op(mach_op *ptr)
 			return;
 		}
 		error(ERROR_SERIOUS, "Illegal addressing mode");
-		outs("error");
+		fputs("error", fpout);
 		return;
 	case MACH_DEC:
 		/* Register indirect with predecrement */
@@ -459,7 +455,7 @@ out_mach_op(mach_op *ptr)
 		return;
 	case MACH_VALQ:
 		/* Integer data */
-		outn(p->def.num);
+		fprintf(fpout, "%ld", p->def.num);
 		return;
 	case MACH_HEXQ:
 		/* Integer data */
@@ -467,7 +463,7 @@ out_mach_op(mach_op *ptr)
 		return;
 	}
 	error(ERROR_SERIOUS, "Illegal addressing mode");
-	outs("error");
+	fputs("error", fpout);
 	return;
 }
 
@@ -489,9 +485,7 @@ output_all(void)
 #ifdef EBUG
 #if 1
 		if (n != m_comment) {
-			outs("#inst");
-			outn(p->id);
-			outnl();
+			fprintf(fpout, "#inst%ld\n", p->id);
 		}
 		if (p->id == 4921) {
 			int found = 1;
@@ -501,9 +495,7 @@ output_all(void)
 		switch (n) {
 #ifdef EBUG
 		case m_comment:
-			outs("#");
-			outs(p->op1->def.str);
-			outnl();
+			fprintf(fpout, "#%s\n", p->op1->def.str);
 			break;
 #endif
 
@@ -515,17 +507,15 @@ output_all(void)
 
 		case m_label_ins:
 			/* Labels */
-			outc(LPREFIX);
-			outn(p->op1->def.num);
-			outc(':');
-			outnl();
+			fprintf(fpout, "%c%ld:\n", LPREFIX, p->op1->def.num);
 			break;
+
 		case m_extern_ins:
 			/* Externals */
 			out_data(p->op1);
-			outc(':');
-			outnl();
+			fprintf(fpout, ":\n");
 			break;
+
 		case m_as_byte:
 		case m_as_short:
 		case m_as_long:
@@ -540,11 +530,11 @@ output_all(void)
 			for (q = p->op1; q; q = q->of) {
 				if (c == 0) {
 					if (started) {
-						outnl();
+						fputc('\n', fpout);
 					}
-					outs(instr_names[n]);
+					fputs(instr_names[n], fpout);
 				} else {
-					outc(',');
+					fputc(',', fpout);
 				}
 				out_data(q);
 				started = 1;
@@ -552,15 +542,15 @@ output_all(void)
 					c = 0;
 				}
 			}
-			outnl();
+			fputc('\n', fpout);
 			break;
 		}
 		case m_as_assign:
 			if (asm_uses_equals) {
 			    out_mach_op(p->op1);
-			    outc('=');
+			    fputc('=', fpout);
 			    out_mach_op(p->op2);
-			    outnl();
+			    fputc('\n', fpout);
 			    break;
 			}
 			/* FALLTHROUGH */
@@ -570,32 +560,30 @@ output_all(void)
 				if (!asm_does_jump_lens && is_unsized(n)) {
 					n += long_jump;
 				}
-				outs(instr_names[n]);
-				outc(LPREFIX);
-				outn(p->op1->def.num);
+				fprintf(fpout, "%s%c%ld", instr_names[n], LPREFIX, p->op1->def.num);
 				if (n == m_bra || n == m_brab ||
 				    n == m_braw || n == m_bral) {
 					/* Align after unconditional jumps */
-					outnl();
+					fputc('\n', fpout);
 					if (!no_align_directives) {
-						outs(instr_names[m_as_align4]);
+						fputs(instr_names[m_as_align4], fpout);
 					}
 				}
 			} else {
 				/* Simple instructions */
-				outs(instr_names[n]);
+				fputs(instr_names[n], fpout);
 				if (p->op1) {
 					out_mach_op(p->op1);
 				}
 				if (p->op2) {
-					outc(',');
+					fputc(',', fpout);
 #ifdef EBUG
-					outc(' ');
+					fputc(' ', fpout);
 #endif /* EBUG */
 					out_mach_op(p->op2);
 				}
 			}
-			outnl();
+			fputc('\n', fpout);
 			break;
 		}
 	}
@@ -646,32 +634,3 @@ init_output(void)
 	return;
 }
 
-
-#ifdef EBUG
-
-extern bool seek_line;
-extern int seek_line_no;
-
-
-/*
-    OUTPUT NEW LINE (DEBUG MODE ONLY)
-
-    In debug mode a count is keep of the current line number in the
-    output file to allow stopping the debugger at a given line.  Normally
-    outnl is a macro which just outputs a newline character.
-*/
-
-void
-outnl(void)
-{
-	static int line_no = 0;
-	outc('\n');
-	line_no++;
-	if (seek_line && line_no == seek_line_no) {
-		error(ERROR_WARNING, "Line %d reached", line_no);
-		breakpoint();
-	}
-	return;
-}
-
-#endif /* EBUG */
