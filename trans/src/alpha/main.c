@@ -30,7 +30,6 @@
 #include <construct/exp.h>
 
 #include "dump_distr.h"
-#include "file.h"
 #include "fail.h"
 #include "bool.h"
 
@@ -194,7 +193,10 @@ main(int argc, char *argv[])
 	} else {
 		tname   = argv[0];
 		aname   = argv[1];
-		as_file = open_file(aname,WRITE);
+		as_file = fopen(aname, "w");
+		if (as_file == NULL) {
+			alphafail(CANNOT_OPEN_FILE, aname);
+		}
 	}
 
 	/* Things trans.alpha does not "has" */
@@ -212,7 +214,10 @@ main(int argc, char *argv[])
 	optim &= ~OPTIM_CASE;
 
 	if (produce_binasm) {
-		ba_file = open_file(baname,WRITE);
+		ba_file = fopen(baname, "w");
+		if (ba_file == NULL) {
+			alphafail(CANNOT_OPEN_FILE, baname);
+		}
 	} else {
 		ba_file = NULL;
 	}
@@ -236,9 +241,9 @@ main(int argc, char *argv[])
 	}
 
 	if (produce_binasm) {
-		close_file(ba_file);
+		fclose(ba_file);
 	} else {
-		close_file(as_file);
+		fclose(as_file);
 	}
 
 	return SUCCESS;
