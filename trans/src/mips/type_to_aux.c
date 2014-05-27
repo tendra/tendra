@@ -24,6 +24,7 @@
 #include "cross_config.h"
 
 #include <symtab/symconst.h>
+#include <symtab/symtab.h>
 
 #include <reader/codetypes.h>
 #include <reader/basicread.h>
@@ -34,7 +35,6 @@
 #include <diag/diagtypes.h>
 #include <diag/diag_fns.h>
 
-#include "symtab.h"
 #include "diag_out.h"
 #include "type_to_aux.h"
 

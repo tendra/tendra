@@ -17,7 +17,8 @@
 
 #include <construct/flags.h>
 
-#include "symtab.h"	
+#include <symtab/symtab.h>
+
 #include "makesymtab.h"	
 
 /*

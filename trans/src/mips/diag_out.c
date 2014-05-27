@@ -41,7 +41,6 @@
 #include <diag/diagglob.h>
 #include <diag/mark_scope.h>
 
-#include "symtab.h"
 #include "procrectypes.h"
 #include "bitsmacs.h"
 #include "ibinasm.h"

@@ -18,8 +18,8 @@
 #include <construct/installtypes.h>
 
 #include <symtab/symconst.h>
+#include <symtab/symtab.h>
 
-#include "symtab.h"
 #include "makesymtab.h"
 
 int MAJOR_VERSION_as = 3;

@@ -31,8 +31,7 @@
  * Type definitions for translator produced debugging information
  * to be incorporated into a .T file
  */
-#include "symtab.h"
-
+#include <symtab/symtab.h>
 #include <symtab/symconst.h>
 #include <symtab/new_symbol.h>
 

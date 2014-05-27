@@ -35,9 +35,9 @@
 #include <diag/diag_fns.h>
 
 #include <symtab/symconst.h>
+#include <symtab/symtab.h>
 
 #include "main.h"
-#include "symtab.h"
 #include "type_to_aux.h"
 
 extern long find_aux(diag_type e);
