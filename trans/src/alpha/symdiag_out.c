@@ -34,6 +34,8 @@
 #include <diag/diagglob.h>
 #include <diag/mark_scope.h>
 
+#include <symtab/symconst.h>
+
 #include "procrectypes.h"
 #include "procrecs.h"
 #include "bitsmacs.h"
@@ -44,13 +46,6 @@
 #include "diag_out.h"
 #include "symdiag_out.h"
 #include "pseudo.h"
-
-#ifndef CROSS_INCLUDE
-#include <symconst.h>
-#else
-#include CROSS_INCLUDE/symconst.h>
-#endif
-
 
 static char *currentfile="";	/* The current source file (.c) */
 

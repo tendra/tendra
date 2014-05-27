@@ -27,11 +27,7 @@
 
 #include "cross_config.h"
 
-#ifndef CROSS_INCLUDE
-#include <symconst.h>
-#else
-#include CROSS_INCLUDE/symconst.h>
-#endif
+#include <symtab/symconst.h>
 
 #include <reader/codetypes.h>
 #include <reader/basicread.h>
@@ -54,7 +50,6 @@
 #include "locate.h"
 #include "diag_out.h"
 #include "new_code.h"
-#include "new_symbol.h"
 
 extern  FILE * as_file;
 

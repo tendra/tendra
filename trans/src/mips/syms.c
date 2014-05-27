@@ -16,11 +16,7 @@
 
 #include "cross_config.h"
 
-#ifndef CROSS_INCLUDE
-#include <symconst.h>
-#else
-#include CROSS_INCLUDE/symconst.h>
-#endif
+#include <symtab/symconst.h>
 
 #include <reader/basicread.h>
 
@@ -32,7 +28,6 @@
 #include "syms.h"
 #include "main.h"
 #include "diag_out.h"
-#include "new_symbol.h"
 
 extern long currentfile;
 

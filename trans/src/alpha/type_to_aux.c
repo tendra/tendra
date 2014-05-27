@@ -34,16 +34,11 @@
 #include <diag/diagtypes.h>
 #include <diag/diag_fns.h>
 
+#include <symtab/symconst.h>
+
 #include "main.h"
 #include "symtab.h"
 #include "type_to_aux.h"
-
-#ifndef CROSS_INCLUDE
-#include <symconst.h>
-#else
-#include CROSS_INCLUDE/symconst.h>
-#endif
-
 
 extern long find_aux(diag_type e);
 extern int add_aux(AUXU,int);

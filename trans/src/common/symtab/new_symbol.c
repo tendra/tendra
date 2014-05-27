@@ -12,6 +12,7 @@
  * This code is based on the MIPS translator file new_symbol.c
  */
 
+#include <stddef.h>
 #include <string.h>
 
 #include <shared/check.h>
@@ -32,16 +33,12 @@
  */
 #include "symtab.h"
 
+#include <symtab/symconst.h>
+#include <symtab/new_symbol.h>
+
 #include "bstack.h"
 #include "makesymtab.h"
-#include "new_symbol.h"
 #include "type_to_aux.h"
-
-#ifndef CROSS_INCLUDE
-#include <symconst.h>
-#else
-#include CROSS_INCLUDE/symconst.h>
-#endif
 
 /*
  * Procedures to accumulate symbol table records for MIPS translator
@@ -70,8 +67,6 @@ STRINGS* local_strings;
 AUXTAB* aux_symbols;
 BSTACK* blockstack;
 
-int add_aux(AUXU,int);
-
 int* file_inds;
 int* aux_inds;
 int* str_inds;
@@ -89,13 +84,13 @@ int extind=0;
 
 
 void init_table_space
-(int noofiles, int noprocs)
+(long noofiles, long noprocs)
 {
-  int ind=0;
+  long ind=0;
   AUXU nilaux;
   nilaux.isym=0;
   blockstack= (BSTACK*)xcalloc(noofiles,sizeof(BSTACK));
-  if (noofiles==0)alphafail(NO_DIAGNOSTICS_IN_TDF);
+  if (noofiles==0)failer("TDF capsule does not contain diagnostic information");
   densenos= (DENSETAB*)xcalloc(1,sizeof(DENSETAB));
   densenos->num = 0;
   densenos->densenolist = (pDNR)xcalloc(DENSETABSIZE,sizeof(DNR));
@@ -120,7 +115,12 @@ void init_table_space
   aux_inds = (int*)xcalloc(noofiles,sizeof(int));
   str_inds = (int*)xcalloc(noofiles,sizeof(int));
   sym_inds = (int*)xcalloc(noofiles,sizeof(int));
-  proc_isym_inds = (PROCSYM*)xcalloc(noprocs,sizeof(PROCSYM));
+
+	if (noprocs == 0) {
+		proc_isym_inds = NULL;
+	} else {
+		proc_isym_inds = xcalloc(noprocs, sizeof (PROCSYM));
+	}
 
   fdrlist = (pSYMFDR)xcalloc(noofiles,sizeof(SYMFDR));
   file_desc_table = fdrlist;
@@ -141,6 +141,9 @@ void init_table_space
     fdrlist->proc_count=0;
    (local_symbols+ind) ->symlist=local_symbols->symlist+ind*SYMTABSIZE;
    (local_strings+ind) ->str=local_strings->str+ind*STRINGTABSIZE;
+#ifdef TRANS_MIPS
+	add_to_loc_strings("",ind);
+#endif
    (aux_symbols+ind) ->auxinfo=aux_symbols->auxinfo+ind*AUXTABSIZE;
     add_aux(nilaux,ind);	/* for each file add nilaux so no 0 */
   }
@@ -148,7 +151,7 @@ void init_table_space
 }
 
 void add_proc
-(int sympos, int filenum)
+(long sympos, long filenum)
 {
   static int symcount=0;
   pSYMFDR fdrlist=file_desc_table+filenum;
@@ -162,11 +165,11 @@ void add_proc
  * String procedures
  */
 
-int add_string
+long add_string
 (char *str, STRINGS *list)
 {
-  int stringind=list->usage;
-  int length = strlen(str) +1;
+  long stringind=list->usage;
+  size_t length = strlen(str) +1;
   while (list->overspill!=0) {
     list=list->overspill;
     stringind+=list->usage;
@@ -185,7 +188,7 @@ int add_string
   return stringind;
 }
 
-int add_to_loc_strings
+long add_to_loc_strings
 (char *locstr, int index)
 {
   stringsize+=strlen(locstr) +1;
@@ -195,10 +198,10 @@ int add_to_loc_strings
 
 
 
-int add_to_ext_strings
+long add_to_ext_strings
 (char *extstr)
 {
-  int posind=extind;
+  long posind=extind;
   add_string(extstr, extstrings);
   extind+=strlen(extstr) +1;
   return posind;
@@ -208,8 +211,8 @@ int add_to_ext_strings
  * Dense numbers
  */
 
-int add_dense_no
-(int rfd, int index)
+long add_dense_no
+(long rfd, long index)
 {
   DNR* curr_dense;
   DENSETAB* denseptr= densenos;
@@ -232,10 +235,10 @@ int add_dense_no
 }
 
 DNR * get_dense_ptr
-(int densind)
+(long densind)
 {
   DENSETAB* denseptr = densenos;
-  int densecount=denseptr->num;
+  long densecount=denseptr->num;
   while (densecount<=densind) {
     denseptr=denseptr->moredensenos;
     densecount+=denseptr->num;
@@ -247,11 +250,11 @@ DNR * get_dense_ptr
  * Symbol procedures
  */
 
-int get_sym_index
-(int ind)
+long get_sym_index
+(long ind)
 {
   LSYMS* lsymlist=local_symbols+ind;
-  int lsymindex = lsymlist->noofsyms;
+  long lsymindex = lsymlist->noofsyms;
   while (lsymlist->nextsyms!=0) {
     lsymlist=lsymlist->nextsyms;
     lsymindex+=lsymlist->noofsyms;
@@ -260,10 +263,10 @@ int get_sym_index
 }
 
 SYMR * get_sym_ptr
-(int ind, int symind)
+(long ind, long symind)
 {
   LSYMS* lsymlist=local_symbols+ind;
-  int symcount=lsymlist->noofsyms;
+  long symcount=lsymlist->noofsyms;
   while (symcount<=symind) {
     lsymlist=lsymlist->nextsyms;
     symcount+=lsymlist->noofsyms;
@@ -271,11 +274,11 @@ SYMR * get_sym_ptr
   return lsymlist->symlist+ (lsymlist->noofsyms- (symcount-symind));
 }
 
-int add_lsym
-(int ind, SYMR *newsym)
+long add_lsym
+(long ind, SYMR *newsym)
 {
   LSYMS* lsymlist=local_symbols+ind;
-  int lsymindex = lsymlist->noofsyms;
+  long lsymindex = lsymlist->noofsyms;
   nosyms++;
   while (lsymlist->nextsyms!=0) {
     lsymlist=lsymlist->nextsyms;
@@ -293,8 +296,8 @@ int add_lsym
   return lsymindex;
 }
 
-int add_esym
-(int ind, SYMR *newsym)
+long add_esym
+(long ind, SYMR *newsym)
 {
   if (esymlist->noofsyms==SYMTABSIZE) {
     esymlist->nextsyms= (ESYMS*)xcalloc(1,sizeof(ESYMS));
@@ -310,14 +313,12 @@ int add_esym
   return esymindex-1;
 }
 
-AUXU* get_aux_ptr(int, int);
-
-int new_lsym
-(char *chars, int value, int symtype, int symclass, diag_type s, int filenum)
+long new_lsym
+(char *chars, long value, short symtype, short symclass, diag_type s, long filenum)
 {
   SYMR newsym;
   AUXU nilaux;
-  int strind, symindex;
+  long strind, symindex;
   nilaux.isym=0;
   symindex = get_sym_index(filenum);
   newsym.value = value;
@@ -327,7 +328,7 @@ int new_lsym
   /* do the following as a switch statment */
   if (symtype == stEnd) {
     SYMSTR symstrind;
-    int isymstart;
+    long isymstart;
     symstrind = pop(blockstack+filenum);
     isymstart = symstrind.sym;
     if (symstrind.str>0)
@@ -408,18 +409,18 @@ int new_lsym
 }
 
 
-int new_lsym_d
-(char *chars, int value, int symtype, int symclass, diag_type s, int filenum)
+long new_lsym_d
+(char *str, long value, short symtype, short symclass, diag_type s, long filenum)
 {
-  return add_dense_no(filenum,new_lsym(chars, value, symtype, symclass,s,
+  return add_dense_no(filenum,new_lsym(str, value, symtype, symclass,s,
 					filenum));
 }
 
-int new_esym
-(char *chars, int value, int symtype, int symclass, diag_type s, int filenum)
+long new_esym
+(char *str, long value, short symtype, short symclass, diag_type s, long filenum)
 {
   SYMR newsym;
-  int strind=add_to_ext_strings(chars);
+  long strind=add_to_ext_strings(str);
   newsym.iss = strind;
   newsym.value = value;
   newsym.st = symtype;
@@ -438,10 +439,10 @@ int new_esym
   return add_esym(filenum, &newsym);
 }
 
-int new_esym_d
-(char *chars, int value, int symtype, int symclass, diag_type s, int filenum)
+long new_esym_d
+(char *str, long value, short symtype, short symclass, diag_type s, long filenum)
 {
-  return add_dense_no(0x7fffffff,new_esym(chars, value, symtype, symclass, s
+  return add_dense_no(0x7fffffff,new_esym(str, value, symtype, symclass, s
 					  , filenum));
 }
 
@@ -449,10 +450,10 @@ int new_esym_d
  * Auxillary information
  */
 AUXU * get_aux_ptr
-(int index, int auxind)
+(long index, long auxind)
 {
   AUXTAB* auxdata;
-  int auxcount;
+  long auxcount;
   auxdata=aux_symbols+index;
   auxcount=auxdata->num;
   while (auxcount<auxind) {
@@ -462,11 +463,11 @@ AUXU * get_aux_ptr
   return auxdata->auxinfo+ (auxdata->num- (auxcount-auxind));
 }
 
-int add_aux
-(AUXU auxent, int index)
+long add_aux
+(AUXU auxent, long index)
 {
   AUXTAB* auxdata;
-  int auxind;
+  long auxind;
   noaux++;
   auxdata=aux_symbols+index;
   auxind=auxdata->num;
@@ -487,12 +488,12 @@ int add_aux
   return auxind-1;
 }
 
-int add_st_aux
-(int ind)
+long add_st_aux
+(long ind)
 {
   AUXU straux;
   AUXU maxaux;
-  int indaux;
+  long indaux;
   maxaux.count=0xffffffff;
   straux.ti.bt=btStruct;
   indaux=add_aux(straux, ind);
@@ -501,12 +502,12 @@ int add_st_aux
   return indaux;
 }
 
-int add_un_aux
-(int ind)
+long add_un_aux
+(long ind)
 {
   AUXU uniaux;
   AUXU maxaux;
-  int indaux;
+  long indaux;
   maxaux.count=0xffffffff;
   uniaux.ti.bt=btUnion;
   indaux=add_aux(uniaux, ind);

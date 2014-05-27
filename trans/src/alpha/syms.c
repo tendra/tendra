@@ -22,6 +22,8 @@ syms.c   - produce symbol numbers for binasm (dense numbers)
 #include <construct/shapemacs.h>
 #include <construct/tags.h>
 
+#include <symtab/symconst.h>
+
 #include "syms.h"
 #include "main.h"
 #include "diag_out.h"
@@ -29,10 +31,8 @@ syms.c   - produce symbol numbers for binasm (dense numbers)
 extern int currentfile;
 
 #ifndef CROSS_INCLUDE
-#include <symconst.h>
 #include <sym.h>
 #else
-#include CROSS_INCLUDE/symconst.h>
 #include CROSS_INCLUDE/sym.h>
 #endif
 

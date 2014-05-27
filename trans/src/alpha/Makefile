@@ -25,6 +25,7 @@ PARTS+=	src/common/linkinfo
 PARTS+=	src/common/reader
 PARTS+=	src/common/refactor
 PARTS+= src/common/utility
+PARTS+= src/common/symtab
 
 .include <tendra.partial.mk>
 
@@ -62,7 +63,6 @@ SRCS+=	machine_toks.c
 SRCS+=	main.c
 SRCS+=	makesymtab.c
 SRCS+=	move.c
-SRCS+=	new_symbol.c
 SRCS+=	oddtest.c
 SRCS+=	operators.c
 SRCS+=	out_ba.c

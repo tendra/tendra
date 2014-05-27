@@ -43,5 +43,4 @@ extern void failer(char *);
 #define OUT_OF_TREGS		REG_ALLOC,"Too many fixed point t-regs required",""
 #define OUT_OF_F_TREGS		REG_ALLOC,"Too many floating point t-regs required",""
 #define ILLEGAL_BLOCK_COPY	REG_ALLOC,"illegal block copy.  This should not happen",""
-#define NO_DIAGNOSTICS_IN_TDF	INTERNAL,"This TDF does not contain diagnostic information",""
 #endif

@@ -27,6 +27,8 @@
 
 #include <refactor/optimise.h>
 
+#include <symtab/symconst.h>
+
 #include "tempdecs.h"
 #include "weights.h"
 #include "procrectypes.h"
@@ -56,12 +58,6 @@
 #include "extern_adds.h"
 #include "locate.h"
 #include "translate.h"
-
-#ifndef CROSS_INCLUDE
-#include <symconst.h>
-#else
-#include CROSS_INCLUDE/symconst.h>
-#endif
 
 procrec * procrecs;
 dec ** main_globals;

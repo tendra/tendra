@@ -16,11 +16,7 @@
 
 #include "cross_config.h"
 
-#ifndef CROSS_INCLUDE
-#include <symconst.h>
-#else
-#include CROSS_INCLUDE/symconst.h>
-#endif
+#include <symtab/symconst.h>
 
 #include <reader/codetypes.h>
 #include <reader/basicread.h>
@@ -48,7 +44,6 @@
 #include "ibinasm.h"
 #include "syms.h"
 #include "out_ba.h"
-#include "new_symbol.h"
 #include "diag_out.h"
 #include "extern_adds.h"
 #include "mips_ins.h"

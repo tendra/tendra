@@ -17,11 +17,7 @@
 #include <construct/flags.h>
 #include <construct/installtypes.h>
 
-#ifndef CROSS_INCLUDE
-#include <symconst.h>
-#else
-#include CROSS_INCLUDE/symconst.h>
-#endif
+#include <symtab/symconst.h>
 
 #include "symtab.h"
 #include "makesymtab.h"

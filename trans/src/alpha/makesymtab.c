@@ -25,12 +25,7 @@
  * incorporated into a .T file
  */
 
-#ifndef CROSS_INCLUDE
-#include <symconst.h>
-#else
-#include CROSS_INCLUDE/symconst.h>
-#endif
-
+#include <symtab/symconst.h>
 
 long
 count_syms(LSYMS *symlist)

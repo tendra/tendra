@@ -35,6 +35,8 @@
 #include <diag/diagglob.h>
 #include <diag/mark_scope.h>
 
+#include <symtab/symconst.h>
+
 #include "procrectypes.h"
 #include "procrecs.h"
 #include "bitsmacs.h"
@@ -45,7 +47,6 @@
 #include "out_ba.h"
 #include "coder.h"
 #include "cross.h"
-#include "symconst.h"
 
 extern FILE * as_file;
 extern bool last_param(exp e);
