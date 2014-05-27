@@ -35,7 +35,6 @@ PARTS+= src/common/symtab
 CCOPTS+=	${TRANS_CFLAGS}
 
 SRCS+=	alpha_ins.c
-SRCS+=	bstack.c
 SRCS+=	code_here.c
 SRCS+=	coder.c
 SRCS+=	comp_eq_exp.c
@@ -61,7 +60,6 @@ SRCS+=	locate.c
 SRCS+=	machine.c
 SRCS+=	machine_toks.c
 SRCS+=	main.c
-SRCS+=	makesymtab.c
 SRCS+=	move.c
 SRCS+=	oddtest.c
 SRCS+=	operators.c
@@ -76,7 +74,6 @@ SRCS+=	spec_tok.c
 SRCS+=	special.c
 SRCS+=	tempdecs.c
 SRCS+=	translate.c
-SRCS+=	type_to_aux.c
 SRCS+=	weights.c
 
 .include <tendra.obj.mk>

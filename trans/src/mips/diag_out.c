@@ -25,8 +25,6 @@
 #include <local/exptypes.h>
 #include <local/expmacs.h>
 
-#include "cross_config.h"
-
 #include <symtab/symconst.h>
 
 #include <reader/codetypes.h>

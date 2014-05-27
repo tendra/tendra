@@ -13,19 +13,16 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
-#include "cross_config.h"
-
 #include <construct/flags.h>
-
-#include <symtab/symtab.h>
-
-#include "makesymtab.h"	
 
 /*
  * Type definitions for translator produced debugging information to be
  * incorporated into a .T file
  */
 
+#include <symtab/cross_config.h>
+#include <symtab/symtab.h>
+#include <symtab/makesymtab.h>
 #include <symtab/symconst.h>
 
 long
@@ -67,10 +64,14 @@ count_aux(AUXTAB *auxdata)
 #define MINOR_ASSEMBLER_VERSION 11
 
 /*
- * Function to make a symbol table from various components.
+ * Function to make a symbol table from various components
+ * supplied by the translator, including TDF diagnostics.
  *
  * Sets up a .T file for use by as1 (this function is called from new_symbol.c
  * using output_symtab(name of .T file).)
+ *
+ * The output file and the binary assembler file (.G, made by
+ * as0 on a *.s file) can then be passed to as1
  */
 void
 makesymtab(STRINGS *extstrings, ESYMS* extsymbols, DENSETAB* densenos,
@@ -79,14 +80,6 @@ makesymtab(STRINGS *extstrings, ESYMS* extsymbols, DENSETAB* densenos,
 	      int stringsize, int noaux, int densind,
 	      PROCSYM* procinds, int noprocs)
 {
-
-/*
- * Function to produce a symbol table (.T file), from information
- * supplied by the translator, including TDF diagnostics.
- *
- * The output file and the binary assembler file (.G, made by
- * as0 on a *.s file) can then be passed to as1
- */
   LSYMS * symlist;
 
   HDRR symhdrout;				/* symbolic header */

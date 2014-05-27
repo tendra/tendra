@@ -14,8 +14,6 @@
 
 #include <local/expmacs.h>
 
-#include "cross_config.h"
-
 #include <symtab/symconst.h>
 #include <symtab/syms.h>
 

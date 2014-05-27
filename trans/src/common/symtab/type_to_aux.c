@@ -21,10 +21,9 @@
 
 #include <local/expmacs.h>
 
-#include "cross_config.h"
-
 #include <symtab/symconst.h>
 #include <symtab/symtab.h>
+#include <symtab/type_to_aux.h>
 
 #include <reader/codetypes.h>
 #include <reader/basicread.h>
@@ -34,9 +33,6 @@
 
 #include <diag/diagtypes.h>
 #include <diag/diag_fns.h>
-
-#include "diag_out.h"
-#include "type_to_aux.h"
 
 extern long mainfile;
 
@@ -147,30 +143,12 @@ add_type_to_aux(diag_type dt, long ind)
 	   break;
 	case DIAG_TYPE_VARIETY: {
 	  switch (name(dt->data.var)) {
-            case scharhd:
-               type->bt = btChar;
-               retaux.ti=(*type);
-               break;
-            case ucharhd:
-               type->bt = btUChar;
-               retaux.ti=(*type);
-               break;
-            case swordhd:
-               type->bt = btShort;
-               retaux.ti=(*type);
-               break;
-            case uwordhd:
-               type->bt = btUShort;
-               retaux.ti=(*type);
-               break;
-            case slonghd:
-               type->bt = btInt;
-               retaux.ti=(*type);
-               break;
-            case ulonghd:
-               type->bt = btUInt;
-               retaux.ti=(*type);
-               break;
+            case scharhd: type->bt = btChar;   retaux.ti=(*type); break;
+            case ucharhd: type->bt = btUChar;  retaux.ti=(*type); break;
+            case swordhd: type->bt = btShort;  retaux.ti=(*type); break;
+            case uwordhd: type->bt = btUShort; retaux.ti=(*type); break;
+            case slonghd: type->bt = btInt;    retaux.ti=(*type); break;
+            case ulonghd: type->bt = btUInt;   retaux.ti=(*type); break;
             default: failer("DIAGS - not variety ");
           }
           break;

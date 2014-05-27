@@ -21,8 +21,6 @@
 #include <local/exptypes.h>
 #include <local/expmacs.h>
 
-#include "cross_config.h"
-
 #include <reader/codetypes.h>
 
 #include <construct/shapemacs.h>

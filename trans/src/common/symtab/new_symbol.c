@@ -25,18 +25,17 @@
 
 #include <diag/diagtypes.h>
 
-#include "cross_config.h"
-
 /*
  * Type definitions for translator produced debugging information
  * to be incorporated into a .T file
  */
+#include <symtab/cross_config.h>
 #include <symtab/symtab.h>
 #include <symtab/symconst.h>
 #include <symtab/new_symbol.h>
+#include <symtab/makesymtab.h>
+#include <symtab/bstack.h>
 
-#include "bstack.h"
-#include "makesymtab.h"
 #include "type_to_aux.h"
 
 /*

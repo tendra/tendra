@@ -9,7 +9,7 @@
 
 #include <shared/xalloc.h>
 
-#include "bstack.h"
+#include <symtab/bstack.h>
 
 void
 push(long symval, long strval, BSTACK *stack)

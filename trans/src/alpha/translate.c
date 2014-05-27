@@ -14,8 +14,6 @@
 
 #include <local/expmacs.h>
 
-#include "cross_config.h"
-
 #include <reader/codetypes.h>
 
 #include <construct/installglob.h>
