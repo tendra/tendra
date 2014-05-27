@@ -1,13 +1,13 @@
 /* $Id$ */
 
 /*
- * Copyright 2002-2011, The TenDRA Project.
+ * Copyright 2011, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
  *
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include <stdlib.h>
+#include <stddef.h>
 
 #include <local/exptypes.h>
 #include <local/expmacs.h>
@@ -20,17 +20,12 @@
 
 #include <refactor/optimise.h>
 
-#include <utility/inline.h>
+#include <utility/complexity.h>
 
 #define crit_inline	300
 #define crit_decs	5
 #define crit_decsatapp	5
 #define apply_cost      3
-
-#define MASK 3
-#define REJ_ONCE (1)
-#define OK_ONCE (2)
-
 
 /*
  * delivers 0 if no uses of this proc can be inlined.
@@ -46,41 +41,26 @@ int inlinechoice
   exp fpars;
 
   int newdecs = 0;
-
+  int no_actuals;
   int max_complexity;
 
   int nparam;
-  const unsigned int CONST_BONUS_UNIT = 16;
+  const int CONST_BONUS_UNIT = 16;
   int const_param_bonus;
   int adjusted_max_complexity;
 
-#if 1
-  shape shdef = pt(def);
-  if (!eq_shape(sh(father(t)), shdef))
-  {
-    /* shape required by application is different from definition */
-    return 1;
+  shape shdef = pt(def) /* Oh, yes it is! */;
+
+  if (!eq_shape(sh(father(t)), shdef)) {
+     /* shape required by application is different from definition */
+	return 1;
   }
-#endif
 
   nparam = 0;
   const_param_bonus = 0;
 
-  max_complexity = (crit_inline / total_uses);
 
-  {
-#define QQQ 2
-    int i;
-    if (total_uses >= (1<<QQQ))
-    {
-      for (i= total_uses >> QQQ; i>0; i >>=1)
-      {
-	max_complexity *= 3;
-	max_complexity /= 2;
-      }
-    }
-#undef QQQ
-  }
+  max_complexity = (crit_inline / total_uses);
 
   if (max_complexity < 15) {
     max_complexity = 15;
@@ -89,12 +69,16 @@ int inlinechoice
   }
 
   apars = bro(t); /* only uses are applications */
+  no_actuals = last(t);		/* if so then apars is apply_tag... */
   fpars = son(def);
 
   for (;;) {
      if (name(fpars)!=ident_tag || !isparam(fpars)) {
-       if (name(apars)!= top_tag)newdecs = 10;
-      	 break;
+		 /* first beyond formals */
+       if (!no_actuals)
+	 newdecs = 10;
+	 /* more actuals than formals, since last(apars)->break */
+       break;
      }
      nparam++;
 
@@ -111,6 +95,7 @@ int inlinechoice
      {
       case val_tag: {
 	int n = no(apars);
+	if (isbigval(apars))break;
 
 	/* Simple constant param. Increase desire to
 	   inline since a constant may cause further
@@ -181,19 +166,6 @@ int inlinechoice
   else
     res = 1;
 
-
-  switch (res)
-  {
-   case 2:
-   (ptno(def)) |= OK_ONCE;
-    break;
-   case 1:
-
-   (ptno(def)) |= REJ_ONCE;
-    break;
-   case 0:
-   ;
-  }
 
   return res;
 

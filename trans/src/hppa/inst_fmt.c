@@ -34,7 +34,7 @@
 #include "hppains.h"
 #include "maxminmacs.h"
 #include "comment.h"
-#include "translat.h"
+#include "translate.h"
 #include "inst_fmt.h"
 #include "misc.h"
 #include "frames.h"

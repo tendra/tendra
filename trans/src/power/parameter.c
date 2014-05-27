@@ -19,7 +19,7 @@
 #include "memtdf.h"
 #include "codegen.h"
 #include "geninst.h"
-#include "translat.h"
+#include "translate.h"
 #include "makecode.h"
 #include "comment.h"
 #include "proc.h"

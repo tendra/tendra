@@ -34,7 +34,7 @@
 
 #include "addrtypes.h"
 #include "maxminmacs.h"
-#include "translat.h"
+#include "translate.h"
 #include "comment.h"
 #include "inst_fmt.h"
 #include "frames.h"

@@ -33,7 +33,7 @@
 #include "sparcins.h"
 #include "maxminmacs.h"
 #include "comment.h"
-#include "translat.h"
+#include "translate.h"
 #include "inst_fmt.h"
 #include "labels.h"
 

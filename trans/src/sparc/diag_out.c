@@ -39,7 +39,7 @@
 #include "bitsmacs.h"
 #include "locate.h"
 #include "comment.h"
-#include "translat.h"
+#include "translate.h"
 #include "diag_out.h"
 
 #ifdef NEWDIAGS

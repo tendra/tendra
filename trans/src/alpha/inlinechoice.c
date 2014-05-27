@@ -7,7 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include <stddef.h>
+#include <shared/check.h>
 
 #include <local/exptypes.h>
 #include <local/expmacs.h>
@@ -20,12 +20,16 @@
 
 #include <refactor/optimise.h>
 
-#include <utility/inline.h>
+#include <utility/complexity.h>
 
-#define crit_inline	300
+#define crit_inline	120
 #define crit_decs	5
-#define crit_decsatapp	5
+#define crit_decsatapp 5
 #define apply_cost      3
+
+#define MASK 3
+#define REJ_ONCE (1)
+#define OK_ONCE (2)
 
 /*
  * delivers 0 if no uses of this proc can be inlined.
@@ -41,61 +45,65 @@ int inlinechoice
   exp fpars;
 
   int newdecs = 0;
-  int no_actuals;
   int max_complexity;
 
   int nparam;
-  const int CONST_BONUS_UNIT = 16;
+  const unsigned int CONST_BONUS_UNIT = 16;
   int const_param_bonus;
   int adjusted_max_complexity;
-
-  shape shdef = pt(def) /* Oh, yes it is! */;
-
-  if (!eq_shape(sh(father(t)), shdef)) {
-     /* shape required by application is different from definition */
-	return 1;
+  shape shdef = pt(def);
+  if (!eq_shape(sh(father(t)),shdef)) {
+    return 1;
   }
-
   nparam = 0;
   const_param_bonus = 0;
-
-
-  max_complexity = (crit_inline / total_uses);
-
+  /*
+  pr_ident = son(t);
+  max_complexity = ( 300 / no ( pr_ident ) ) ;*/
+  max_complexity = (crit_inline/total_uses);
+  {
+#define QQQ 2
+    int i;
+    if (total_uses >= (1<<QQQ))
+    {
+      for (i= total_uses >> QQQ; i>0; i >>=1)
+      {
+	max_complexity *= 3;
+	max_complexity /= 2;
+      }
+    }
+#undef QQQ
+  }
   if (max_complexity < 15) {
     max_complexity = 15;
-  } else if (max_complexity > 120) {
-    max_complexity = 120;
+  } else if (max_complexity > crit_inline) {
+    max_complexity = crit_inline;
   }
 
   apars = bro(t); /* only uses are applications */
-  no_actuals = last(t);		/* if so then apars is apply_tag... */
   fpars = son(def);
 
   for (;;) {
      if (name(fpars)!=ident_tag || !isparam(fpars)) {
-		 /* first beyond formals */
-       if (!no_actuals)
-	 newdecs = 10;
-	 /* more actuals than formals, since last(apars)->break */
-       break;
+       if (name(apars)!= top_tag)newdecs = 10;
+      	 break;
      }
      nparam++;
 
      switch (name(apars)) {
       case val_tag: case real_tag: case string_tag: case name_tag:
-      	   break;
+       break;
       case cont_tag: {
-      	   if (name(son(apars)) ==name_tag && isvar(son(son(apars))) &&
-      	        		!isvar(fpars))break;
-      	   } /* ... else continue */
-      default: newdecs++;
+	if (name(son(apars)) ==name_tag && isvar(son(son(apars))) &&
+	    !isvar(fpars))break;
+      } /* ... else continue */
+       FALL_THROUGH
+	default: newdecs++;
      }
      switch (name(apars))
      {
       case val_tag: {
 	int n = no(apars);
-	if (isbigval(apars))break;
 
 	/* Simple constant param. Increase desire to
 	   inline since a constant may cause further
@@ -134,8 +142,7 @@ int inlinechoice
 	    !isvar(fpars)) {
 	  break;
 	}
-	/* FALL THROUGH */
-
+       FALL_THROUGH
       default : {
 	newdecs++;
 	break;
@@ -166,6 +173,13 @@ int inlinechoice
   else
     res = 1;
 
+
+  switch (res)
+  {
+   case 2: (ptno(def)) |= OK_ONCE;  break;
+   case 1: (ptno(def)) |= REJ_ONCE; break;
+   case 0: ;
+  }
 
   return res;
 

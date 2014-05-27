@@ -47,7 +47,7 @@
 #include "maxminmacs.h"
 #include "regable.h"
 #include "tempdecs.h"
-#include "translat.h"
+#include "translate.h"
 #include "makecode.h"
 #include "needscan.h"
 #include "stack.h"

@@ -6,8 +6,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef UTILITY_INLINE_H
-#define UTILITY_INLINE_H
+#ifndef UTILITY_COMPLEXITY_H
+#define UTILITY_COMPLEXITY_H
 
 /*
  * Find the complexity of an expression

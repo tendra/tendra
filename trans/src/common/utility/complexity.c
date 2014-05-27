@@ -14,7 +14,7 @@
 #include <construct/exp.h>
 #include <construct/tags.h>
 
-#include <utility/inline.h>
+#include <utility/complexity.h>
 
 #ifdef TRANS_SPARC
 #include "sparcins.h"

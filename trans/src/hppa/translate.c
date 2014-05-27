@@ -129,7 +129,7 @@
 #include "labels.h"
 #include "comment.h"
 #include "diag_out.h"
-#include "translat.h"
+#include "translate.h"
 #include "version.h"
 #include "inst_fmt.h"
 #include "getregs.h"

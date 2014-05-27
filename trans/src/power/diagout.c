@@ -41,7 +41,7 @@
 #include <diag/mark_scope.h>
 
 #include "memtdf.h"
-#include "translat.h"
+#include "translate.h"
 #include "maxminmacs.h"
 #include "proc.h"
 #include "comment.h"

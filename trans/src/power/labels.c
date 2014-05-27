@@ -10,7 +10,7 @@
 
 #include <shared/error.h>
 
-#include "translat.h"
+#include "translate.h"
 #include "labels.h"
 
 

@@ -39,7 +39,7 @@ SRCS+=	frames.c
 SRCS+=	getregs.c
 SRCS+=	glopt.c
 SRCS+=	guard.c
-SRCS+=	inline.c
+SRCS+=	inlinechoice.c
 SRCS+=	inst_fmt.c
 SRCS+=	instruct.c
 SRCS+=	is_worth.c
@@ -67,7 +67,7 @@ SRCS+=	spec.c
 SRCS+=	spec_tok.c
 SRCS+=	stack.c
 SRCS+=	tempdecs.c
-SRCS+=	translat.c
+SRCS+=	translate.c
 SRCS+=	weights.c
 
 .include <tendra.obj.mk>

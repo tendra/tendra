@@ -44,7 +44,7 @@
 #include "bitsmacs.h"
 #include "regmacs.h"
 #include "locate.h"
-#include "translat.h"
+#include "translate.h"
 #include "codehere.h"
 #include "eval.h"
 #include "proc.h"

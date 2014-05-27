@@ -49,7 +49,7 @@
 #include "special.h"
 #include "regmacs.h"
 #include "muldvrem.h"
-#include "translat.h"
+#include "translate.h"
 #include "comment.h"
 #include "needscan.h"
 #include "reg_defs.h"

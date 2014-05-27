@@ -1,13 +1,14 @@
 /* $Id$ */
 
 /*
- * Copyright 2011, The TenDRA Project.
+ * Copyright 2002-2011, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
  *
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include <shared/check.h>
+#include <assert.h>
+#include <stdio.h>
 
 #include <local/exptypes.h>
 #include <local/expmacs.h>
@@ -20,16 +21,20 @@
 
 #include <refactor/optimise.h>
 
-#include <utility/inline.h>
+#include <utility/complexity.h>
 
-#define crit_inline	120
-#define crit_decs	5
-#define crit_decsatapp 5
-#define apply_cost      3
+#include "sparcins.h"
+
+int crit_inline    = 120;
+int crit_decs	   = 6;
+int crit_decsatapp = 4;
+int apply_cost     = 1;
+int show_inlining  = 0;
 
 #define MASK 3
 #define REJ_ONCE (1)
 #define OK_ONCE (2)
+static char *classify[] = { "Impossible","Never","Always","Sometimes"};
 
 /*
  * delivers 0 if no uses of this proc can be inlined.
@@ -37,42 +42,47 @@
  * delivers 2 if this use can be inlined.
  */
 int inlinechoice
-(exp t, exp def, int total_uses)
+(exp t, exp def, int cnt)
 {
-  int res;
+  int res, left;
 
   exp apars;
   exp fpars;
+  exp pr_ident;
 
   int newdecs = 0;
+  int no_actuals;
   int max_complexity;
 
   int nparam;
   const unsigned int CONST_BONUS_UNIT = 16;
-  int const_param_bonus;
-  int adjusted_max_complexity;
-  shape shdef = pt(def);
-  if (!eq_shape(sh(father(t)),shdef)) {
-    return 1;
-  }
+  unsigned int const_param_bonus;
+  unsigned int adjusted_max_complexity;
+
+/*  static exp last_ident = nilexp;
+  static int last_inlined_times;*/
+
   nparam = 0;
+  newdecs = 0;
   const_param_bonus = 0;
-  /*
-  pr_ident = son(t);
-  max_complexity = ( 300 / no ( pr_ident ) ) ;*/
-  max_complexity = (crit_inline/total_uses);
+
+  pr_ident = son(t);		/* t is name_tag */
+  assert(name(pr_ident) == ident_tag);
+
+  max_complexity = ( 300 / cnt) ; /* was no(pr_ident), but that changes */
+
   {
-#define QQQ 2
+#define LOG2_ALLOW_EXTRA 2
     int i;
-    if (total_uses >= (1<<QQQ))
+    if (cnt >= (1<<LOG2_ALLOW_EXTRA))
     {
-      for (i= total_uses >> QQQ; i>0; i >>=1)
+      for (i= cnt >> LOG2_ALLOW_EXTRA; i>0; i >>=1)
       {
 	max_complexity *= 3;
 	max_complexity /= 2;
       }
     }
-#undef QQQ
+#undef LOG2_ALLOW_EXTRA
   }
   if (max_complexity < 15) {
     max_complexity = 15;
@@ -80,25 +90,43 @@ int inlinechoice
     max_complexity = crit_inline;
   }
 
-  apars = bro(t); /* only uses are applications */
+  if (show_inlining)
+  {
+    exp proc_in = t;
+
+    while (name(proc_in)!= proc_tag)
+    {
+      proc_in = father(proc_in);
+      assert(proc_in != nilexp);
+    }
+    proc_in = bro(proc_in);
+    assert(name(proc_in) = ident_tag);
+
+    fprintf(stderr,"Considering %s in %s\n",
+	    brog(pr_ident) ->dec_u.dec_val.dec_id,
+	    brog(proc_in) ->dec_u.dec_val.dec_id);
+  }
+
+  apars = bro(t);		/* t is name_tag */
+  no_actuals = last(t);		/* if so then apars is apply_tag... */
   fpars = son(def);
 
   for (;;) {
-     if (name(fpars)!=ident_tag || !isparam(fpars)) {
-       if (name(apars)!= top_tag)newdecs = 10;
-      	 break;
+     if (name(fpars)!=ident_tag || !isparam(fpars)) { /* first beyond formals */
+       if (!last(t))
+	 newdecs = 10; /* more actuals than formals, since last(apars)->break */
+       break;
      }
      nparam++;
 
      switch (name(apars)) {
       case val_tag: case real_tag: case string_tag: case name_tag:
-       break;
+      	   break;
       case cont_tag: {
-	if (name(son(apars)) ==name_tag && isvar(son(son(apars))) &&
-	    !isvar(fpars))break;
-      } /* ... else continue */
-       FALL_THROUGH
-	default: newdecs++;
+      	   if (name(son(apars)) ==name_tag && isvar(son(son(apars))) &&
+      	        		!isvar(fpars))break;
+      	   } /* ... else continue */
+      default: newdecs++;
      }
      switch (name(apars))
      {
@@ -112,7 +140,7 @@ int inlinechoice
 
 #define IS_POW2(c)	((c)!= 0 && ((c) & ((c) - 1)) == 0)
 
-	if (0) {
+	if (!SIMM13_SIZE(n)) {
 	  /* needs a register - poor */
 	  const_param_bonus += CONST_BONUS_UNIT / 4;
 	} else if (n == 0 || (n > 0 && IS_POW2(n))) {
@@ -142,7 +170,8 @@ int inlinechoice
 	    !isvar(fpars)) {
 	  break;
 	}
-       FALL_THROUGH
+	/* FALL THROUGH */
+
       default : {
 	newdecs++;
 	break;
@@ -165,20 +194,41 @@ int inlinechoice
 
   /* increase by number of instructions saved for call */
     adjusted_max_complexity += nparam - newdecs + 1;
+  if (show_inlining)
+    fprintf(stderr,"%d params %u complexity, %d newdecs -> ",nparam,
+	 adjusted_max_complexity, newdecs);
 
-  if ((complexity(fpars, adjusted_max_complexity, newdecs, crit_decs, crit_decsatapp, apply_cost)) >= 0)
+  if ((left = complexity(fpars,  adjusted_max_complexity, newdecs, crit_decs, crit_decsatapp, apply_cost)) >= 0)
     res = 2;
   else if (newdecs == 0)
     res = 0;
   else
     res = 1;
 
-
-  switch (res)
+  if (show_inlining)
   {
-   case 2: (ptno(def)) |= OK_ONCE;  break;
-   case 1: (ptno(def)) |= REJ_ONCE; break;
-   case 0: ;
+    switch (res)
+    {
+     case 2:
+      fprintf(stderr,"%d left YES\n",left);
+     (ptno(def)) |= OK_ONCE;
+      break;
+     case 1:
+      if (left == -1)
+	fprintf(stderr,"no (count)\n");
+      else if (left == -2)
+	fprintf(stderr,"no (decs)\n");
+      else
+	fprintf(stderr,"no (appdecs)\n");
+
+     (ptno(def)) |= REJ_ONCE;
+      break;
+     case 0:
+      fprintf(stderr,"NO WAY\n");
+    }
+
+    fprintf(stderr,"--%s %s\n",brog(pr_ident) ->dec_u.dec_val.dec_id,
+	    classify[(ptno(def) & MASK)]);
   }
 
   return res;

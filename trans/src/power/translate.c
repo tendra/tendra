@@ -112,7 +112,7 @@
 #include "needscan.h"
 #include "diagout.h"
 #include "comment.h"
-#include "translat.h"
+#include "translate.h"
 #include "stack.h"
 #include "frames.h"
 #include "macro.h"

@@ -20,7 +20,7 @@
 #include "ash.h"
 #include "addresstypes.h"
 #include "locate.h"
-#include "translat.h"
+#include "translate.h"
 
 #include "pp.h"
 

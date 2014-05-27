@@ -34,7 +34,7 @@
 #include "codehere.h"
 #include "proc.h"
 #include "locate.h"
-#include "translat.h"
+#include "translate.h"
 
 int call_base_reg = R_SP;
 

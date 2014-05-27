@@ -32,7 +32,7 @@
 #include "comment.h"
 #include "muldvrem.h"
 #include "proc.h"
-#include "translat.h"
+#include "translate.h"
 #include "eval.h"
 
 #include "makecode.h"

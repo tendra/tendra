@@ -58,7 +58,7 @@
 #include "proc.h"
 #include "special.h"
 #include "diag_out.h"
-#include "translat.h"
+#include "translate.h"
 #include "makecode.h"
 #include "new_tags.h"
 

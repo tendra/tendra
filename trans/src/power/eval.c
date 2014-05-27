@@ -28,7 +28,7 @@
 #include "codegen.h"
 #include "geninst.h"
 #include "maxminmacs.h"
-#include "translat.h"
+#include "translate.h"
 #include "comment.h"
 #include "eval.h"
 #include "frames.h"

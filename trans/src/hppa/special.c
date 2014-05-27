@@ -24,7 +24,7 @@
 
 #include <refactor/const.h>
 
-#include "translat.h"
+#include "translate.h"
 #include "addrtypes.h"
 #include "move.h"
 #include "regmacs.h"

@@ -7,8 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef TRANSLAT_INCLUDED
-#define TRANSLAT_INCLUDED
+#ifndef TRANSLATE_INCLUDED
+#define TRANSLATE_INCLUDED
 
 extern int maxfix_tregs;
 extern dec **main_globals;

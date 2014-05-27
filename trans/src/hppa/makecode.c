@@ -53,7 +53,7 @@
 #include "muldvrem.h"
 #include "proc.h"
 #include "diag_out.h"
-#include "translat.h"
+#include "translate.h"
 #include "frames.h"
 #include "makecode.h"
 #include "extratags.h"

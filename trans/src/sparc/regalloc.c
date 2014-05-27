@@ -41,7 +41,7 @@
 #include "regmacs.h"
 #include "comment.h"
 #include "proc.h"
-#include "translat.h"
+#include "translate.h"
 #include "regalloc.h"
 
 /*

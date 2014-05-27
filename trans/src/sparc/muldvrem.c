@@ -43,7 +43,7 @@
 #include "special.h"
 #include "regmacs.h"
 #include "needscan.h"
-#include "translat.h"
+#include "translate.h"
 #include "muldvrem.h"
 #include "makecode.h"
 

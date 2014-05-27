@@ -13,7 +13,7 @@
 #include "macro.h"
 #include "stack.h"
 #include "stdio.h"
-#include "translat.h"
+#include "translate.h"
 #include "instruct.h"
 #include "comment.h"
 

@@ -21,7 +21,7 @@
 
 #include <refactor/optimise.h>
 
-#include <utility/inline.h>
+#include <utility/complexity.h>
 
 #define crit_inline 100
 #define decs_allowed 4

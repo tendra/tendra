@@ -42,7 +42,7 @@
 
 #include <refactor/refactor.h>
 
-#include "translat.h"
+#include "translate.h"
 #include "new_tags.h"
 
 /* intercepts specially defined tokens */

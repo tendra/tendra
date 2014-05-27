@@ -130,7 +130,7 @@
 #include "labels.h"
 #include "comment.h"
 #include "diag_out.h"
-#include "translat.h"
+#include "translate.h"
 #include "proc.h"
 #include "special.h"
 #include "target_v.h"

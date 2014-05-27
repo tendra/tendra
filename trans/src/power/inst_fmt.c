@@ -26,7 +26,7 @@
 #include "geninst.h"
 #include "proc.h"
 #include "comment.h"
-#include "translat.h"
+#include "translate.h"
 #include "maxminmacs.h"		/* for absval() */
 #include "stack.h"
 #include "inst_fmt.h"

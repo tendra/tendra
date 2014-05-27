@@ -20,7 +20,7 @@
 #include "needscan.h"
 #include "comment.h"
 #include "muldvrem.h"
-#include "translat.h"
+#include "translate.h"
 #include "error.h"
 
 #define BITS_PER_WORD		32

@@ -29,7 +29,7 @@
 #include <construct/construct_v.h>
 
 #include "comment.h"
-#include "translat.h"
+#include "translate.h"
 #include "addrtypes.h"
 #include "makecode.h"
 #include "special.h"

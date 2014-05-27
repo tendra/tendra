@@ -13,7 +13,7 @@
 
 #include <construct/flags.h>
 
-#include "translat.h"
+#include "translate.h"
 #include "eval.h"
 #include "labels.h"
 #include "target_v.h"
