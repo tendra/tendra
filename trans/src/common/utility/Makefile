@@ -6,6 +6,7 @@
 CCOPTS+=	-I ..
 
 SRCS+=	bits.c
+SRCS+=	inline.c
 
 .include <tendra.obj.mk>
 

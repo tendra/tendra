@@ -2545,7 +2545,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
       if (name(e) == contvol_tag)
       {
 	/*
-	 * Load contents of volatile location. Diasble register-location
+	 * Load contents of volatile location. Disable register-location
 	 * tracing. Disable peep-hole optimisation (not possible with POWER
 	 * assembler).
 	 */

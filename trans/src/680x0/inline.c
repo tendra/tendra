@@ -22,92 +22,12 @@
 
 #include <refactor/optimise.h>
 
-static int complexity(exp e, int count, int newdecs);
-
-
-/*
-    PARAMETERS
-*/
+#include <utility/inline.h>
 
 #define crit_inline	50
 #define decs_allowed	4
 #define decs_with_apply	0
-
-
-/*
-    APPLY COMPLEXITY TO THE EXP e
-*/
-
-static int sbl
-(exp e, int count, int newdecs)
-{
-    int c = complexity(e, count, newdecs);
-    if (c < 0) return c;
-    if (last(e)) return c;
-    return sbl(bro(e), c, newdecs);
-}
-
-
-/*
-    FIND COMPLEXITY OF THE EXP e
-*/
-
-static int complexity
-(exp e, int count, int newdecs)
-{
-    unsigned char n = name(e);
-    if (count < 0 || newdecs >= decs_allowed) return -1;
-    if (son(e) == nilexp) return count;
-
-    switch (n) {
-
-	case apply_tag: {
-	    if (newdecs > decs_with_apply) return -1;
-	    return sbl(son(e), count - 1, newdecs);
-	}
-
-	case res_tag: {
-	    return complexity(son(e), count - 1, newdecs);
-	}
-
-	case ident_tag: {
-	    if (isloadparam(son(e))) {
-		return sbl(son(e), count - 1, newdecs);
-	    } else {
-		return sbl(son(e), count - 1, newdecs + 1);
-	    }
-	}
-
-	case top_tag:
-	case clear_tag:
-	case prof_tag: {
-	    return count;
-	}
-
-	case case_tag: {
-	    return complexity(son(e), count - 1, newdecs);
-	}
-
-	case name_tag:
-	case string_tag:
-	case env_offset_tag: {
-	    return count - 1;
-	}
-
-	case labst_tag: {
-	    return complexity(bro(son(e)), count, newdecs);
-	}
-
-	case solve_tag:
-	case seq_tag: {
-	    return sbl(son(e), count, newdecs);
-	}
-
-	default : {
-	    return sbl(son(e), count - 1, newdecs);
-	}
-    }
-}
+#define apply_cost 1
 
 
 /*
@@ -159,7 +79,7 @@ int inlinechoice
 
     /* newdecs is now the number of declarations (which will not be
        optimised out) arising from actual parameters */
-    if (complexity(fpars, crit_inline, newdecs) >= 0) {
+    if (complexity(fpars, crit_inline, newdecs, decs_allowed, decs_with_apply, apply_cost) >= 0) {
 	return 2;
     } else if (newdecs == 0) {
 	return 0;

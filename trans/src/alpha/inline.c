@@ -20,114 +20,25 @@
 
 #include <refactor/optimise.h>
 
+#include <utility/inline.h>
+
 #define crit_inline	120
 #define crit_decs	5
 #define crit_decsatapp 5
 #define apply_cost      3
 
-static int complexity(exp e, int count, int newdecs);
-static int last_new_decs = -999;
-
-/*
-    APPLY COMPLEXITY TO A LIST OF EXPRESSIONS
-*/
-
-int sbl
-(exp e, int count, int newdecs)
-{
-  int c = complexity(e, count, newdecs);
-  if (c < 0) return c;
-  if (last(e)) return c;
-  return sbl(bro(e), c, newdecs);
-}
-
-
-/*
-    FIND THE COMPLEXITY OF AN EXPRESSION
-
-    This routine examines the structure of e to see if its
-    complexity(roughly the number of nodes) is greater than
-    count.  As soon as the complexity exceeds this value it
-    stops.  It returns the difference between count and the
-    calculated complexity.
-*/
-
-
-static int complexity
-(exp e, int count, int newdecs)
-{
-  unsigned char n = name(e);
-
-  last_new_decs = newdecs;
-
-  if (count < 0)
-    return -1;
-  if (newdecs > crit_decs)
-    return -2;
-  if (son(e) == nilexp)
-    return count;
-
-  switch (n) {
-    case apply_general_tag:
-    case apply_tag:
-     if (newdecs > crit_decsatapp)
-       return -3;
-     return sbl(son(e), (count - apply_cost),
-		  (newdecs + 1));
-
-   case rep_tag:
-     return complexity(bro(son(e)), (count - 1),
-#if 0
-			 ((newdecs > crit_decsatapp)? newdecs :
-			  (crit_decsatapp + 1))
-#else
-			 (newdecs + 1)
-#endif
-			 );
-
-   case res_tag:
-     return complexity(son(e), (count + 1), newdecs);
-
-   case ident_tag:
-     return sbl(son(e), (count - 1), (newdecs + 1));
-
-   case top_tag:
-   case clear_tag:
-      return count;
-
-   case case_tag:
-     return complexity(son(e), (count - 1), newdecs);
-
-   case name_tag:
-   case string_tag:
-   case env_offset_tag:
-       return count - 1;
-
-   case labst_tag:
-     return complexity(bro(son(e)), count, newdecs);
-
-   case solve_tag:
-   case seq_tag:
-   case cond_tag:
-       return sbl(son(e), count, newdecs);
-
-   default:
-     return sbl(son(e), (count - 1), newdecs);
-  }
-    /* NOT REACHED */
-}
-
 #define MASK 3
 #define REJ_ONCE (1)
 #define OK_ONCE (2)
 
+/*
+ * delivers 0 if no uses of this proc can be inlined.
+ * delivers 1 if this use cannot be inlined
+ * delivers 2 if this use can be inlined.
+ */
 int inlinechoice
 (exp t, exp def, int total_uses)
 {
-  /* delivers 0 if no uses of this proc can be inlined.
-     delivers 1 if this use cannot be inlined
-     delivers 2 if this use can be inlined.
-     */
   int res;
 
   exp apars;
@@ -255,7 +166,7 @@ int inlinechoice
   /* increase by number of instructions saved for call */
     adjusted_max_complexity += nparam - newdecs + 1;
 
-  if ((complexity(fpars,  adjusted_max_complexity, newdecs)) >= 0)
+  if ((complexity(fpars, adjusted_max_complexity, newdecs, crit_decs, crit_decsatapp, apply_cost)) >= 0)
     res = 2;
   else if (newdecs == 0)
     res = 0;

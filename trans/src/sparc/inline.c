@@ -21,124 +21,28 @@
 
 #include <refactor/optimise.h>
 
+#include <utility/inline.h>
+
 #include "sparcins.h"
 
 int crit_inline    = 120;
 int crit_decs	   = 6;
 int crit_decsatapp = 4;
+int apply_cost     = 1;
 int show_inlining  = 0;
-
-
-static int complexity(exp e, int count, int newdecs);
-static int last_new_decs = -999;
-
-/*
-    APPLY COMPLEXITY TO A LIST OF EXPRESSIONS
-*/
-
-int sbl
-(exp e, int count, int newdecs)
-{
-    int c = complexity(e, count, newdecs);
-    if (c < 0) return c;
-    if (last(e)) return c;
-    return sbl(bro(e), c, newdecs);
-}
-
-/*
-    FIND THE COMPLEXITY OF AN EXPRESSION
-
-    This routine examines the structure of e to see if its complexity
-    (roughly the number of nodes) is greater than count.  As soon as the
-    complexity exceeds this value it stops.  It returns the difference
-    between count and the calculated complexity.
-*/
-
-static int complexity
-(exp e, int count, int newdecs)
-{
-    unsigned char n = name(e);
-
-    last_new_decs = newdecs;
-
-    if (count < 0)
-      return -1;
-    if (newdecs > crit_decs)
-      return -2;
-    if (son(e) == nilexp)
-      return count;
-
-    switch (n) {
-
-      case apply_tag: {
-	if (newdecs > crit_decsatapp)
-	  return -3;
-	return sbl(son(e), (count - 3),
-		      (newdecs + 1));
-      }
-
-      case rep_tag: {
-	return complexity(bro(son(e)), (count - 1),
-			     (newdecs + 1));
-      }
-
-      case res_tag: {
-	return complexity(son(e), (count + 1),
-			      newdecs);
-      }
-
-      case ident_tag: {
-	return sbl(son(e), (count - 1),
-		      (newdecs + 1));
-      }
-
-      case top_tag:
-      case prof_tag:
-      case clear_tag: {
-	return count;
-      }
-
-      case case_tag: {
-	return complexity(son(e), (count - 1),
-			      newdecs);
-      }
-
-      case name_tag:
-      case string_tag:
-      case env_offset_tag: {
-	return count - 1;
-      }
-
-      case labst_tag: {
-	return complexity(bro(son(e)), count, newdecs);
-      }
-
-      case cond_tag:
-      case solve_tag:
-      case seq_tag:
-      return sbl(son(e), count, newdecs);
-
-      case val_tag:
-      return SIMM13_SIZE(no(e))? count :(count-1);
-
-      default : {
-	return sbl(son(e), (count - 1), newdecs);
-      }
-    }
-    /* NOT REACHED */
-}
 
 #define MASK 3
 #define REJ_ONCE (1)
 #define OK_ONCE (2)
 static char *classify[] = { "Impossible","Never","Always","Sometimes"};
 
+/*
+ * delivers 0 if no uses of this proc can be inlined.
+ * delivers 1 if this use cannot be inlined
+ * delivers 2 if this use can be inlined.
+ */
 int inlinechoice
 (exp t, exp def, int cnt)
-	/* delivers 0 if no uses of this proc can be inlined.
-	   delivers 1 if this use cannot be inlined
-	   delivers 2 if this use can be inlined.
-	*/
 {
   int res, left;
 
@@ -294,7 +198,7 @@ int inlinechoice
     fprintf(stderr,"%d params %u complexity, %d newdecs -> ",nparam,
 	 adjusted_max_complexity, newdecs);
 
-  if ((left = complexity(fpars,  adjusted_max_complexity, newdecs)) >= 0)
+  if ((left = complexity(fpars,  adjusted_max_complexity, newdecs, crit_decs, crit_decsatapp, apply_cost)) >= 0)
     res = 2;
   else if (newdecs == 0)
     res = 0;
@@ -306,12 +210,12 @@ int inlinechoice
     switch (res)
     {
      case 2:
-      fprintf(stderr,"%d left (%d decs) YES\n",left, last_new_decs);
+      fprintf(stderr,"%d left YES\n",left);
      (ptno(def)) |= OK_ONCE;
       break;
      case 1:
       if (left == -1)
-	fprintf(stderr,"no (count, %d decs)\n", last_new_decs);
+	fprintf(stderr,"no (count)\n");
       else if (left == -2)
 	fprintf(stderr,"no (decs)\n");
       else
