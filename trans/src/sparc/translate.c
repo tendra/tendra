@@ -133,7 +133,6 @@
 #include "translate.h"
 #include "proc.h"
 #include "special.h"
-#include "target_v.h"
 #include "locate.h"
 #include "sparctrans.h"
 
@@ -306,10 +305,7 @@ init_translator (void){
   /* mark the as output as TDF compiled */
   outs ( lab_prefix ) ;
   outs ( "TDF.translated:\n" ) ;
-  outs ( "!\tTDF->SPARC, " ) ;
-  outn ( target_version ) ;
-  outs ( " , " ) ;
-  outn ( target_revision ) ;
+  outs ( "!\tTDF->SPARC " ) ;
   if ( sysV_assembler ) outs ( " (SysV)" ) ;
   outnl () ;
 

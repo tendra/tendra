@@ -117,7 +117,6 @@
 #include "frames.h"
 #include "macro.h"
 #include "dynamic_init.h"
-#include "target_v.h"
 #include "stack.h"
 
 
@@ -168,7 +167,7 @@ int translate(char *infname, char *outfname)
   }
 #endif
   fprintf(as_file, "L.TDF.translated:\n");
-  fprintf(as_file, "#\tpowertrans version %d.%d\n", target_version, target_revision);
+  fprintf(as_file, "#\tpowertrans\n");
 
   /* 
    * Initialise the automatically generated reader modules with 

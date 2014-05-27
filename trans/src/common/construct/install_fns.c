@@ -6120,7 +6120,7 @@ add_version_list(version_list list, version elem, int index)
 	if (report_versions) {
 		if (!version_printed) {
 			version_printed = 1;
-			IGNORE fprintf(stderr, "This TDF is composed from Capsules of the following versions:-\n");
+			IGNORE fprintf(stderr, "This TDF is composed from Capsules of the following versions:\n");
 		}
 		IGNORE fprintf(stderr, "TDF Version %d.%d\n",
 			       elem.major_version, elem.minor_version);

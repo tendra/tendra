@@ -11,6 +11,7 @@
 
 #include <shared/check.h>
 #include <shared/getopt.h>
+#include <shared/error.h>
 
 #include <local/expmacs.h>
 #include <local/localflags.h>
@@ -20,34 +21,28 @@
 #include <reader/externs.h>
 #include <reader/main_reads.h>
 #include <reader/readglob.h>
-#include <reader/reader_v.h>
 
 #include <construct/flags.h>
 #include <construct/flpt.h>
 #include <construct/installglob.h>
 #include <construct/machine.h>
 #include <construct/exp.h>
-#include <construct/construct_v.h>
 
 #include "weights.h"
 #include "instr.h"
 #include "instr386.h"
 #include "messages_8.h"
 #include "assembler.h"
-#include "target_v.h"
 #include "operand.h"
 
 #ifdef NEWDIAGS
 #include <newdiag/diag_fns.h>
-#include <newdiag/diag_v.h>
-#include <reader/dg_version.h>
 #else
 #include <diag/diag_fns.h>
 #endif
 
 #ifdef NEWDWARF
 #include <dwarf2/dw2_iface.h>
-#include <dwarf2/dw2_vsn.h>
 #include <dwarf2/dw2_abbrev.h>
 #include <dwarf2/dw2_common.h>
 static bool dump_abbrev = 0;
@@ -58,11 +53,12 @@ static bool dump_abbrev = 0;
 #endif
 
 static void init_all(void);
-static void print_version(void);
 
 extern int print_inlines;
 
 extern int use_link_stuff;
+
+#define target_version "5.12"
 
 static void
 init_all(void)
@@ -93,6 +89,8 @@ main(int argc, char **argv)
 
 	extern char *optarg;
 	extern int optind;
+
+	set_progname(argv[0], target_version);
 
 	/*
 	 * defaults
@@ -221,8 +219,8 @@ main(int argc, char **argv)
 			break;
 #endif
 		case 'V':
-			print_version();
-			break;
+			trans_version();
+			exit(EXIT_SUCCESS);
 		case 'W':
 			writable_strings = (*optarg == '1');
 			break;
@@ -381,28 +379,3 @@ main(int argc, char **argv)
 	exit(EXIT_SUCCESS);
 }
 
-static void
-print_version(void)
-{
-	(void) fprintf(stderr, "DERA ANDF 80x86/Pentium translator (TDF version %d.%d)\n",
-	    MAJOR_VERSION, MINOR_VERSION);
-	(void) fprintf(stderr, "reader %d.%d: ", reader_version,
-	    reader_revision);
-	(void) fprintf(stderr, "construct %d.%d: ", construct_version,
-	    construct_revision);
-	(void) fprintf(stderr, "target %d.%d: ", target_version,
-	    target_revision);
-#if DWARF
-	(void) fprintf(stderr, "dwarf1 %d.%d: ", DWARF_MAJOR,
-	    DWARF_MINOR);
-#endif
-#ifdef NEWDIAGS
-	(void) fprintf(stderr, "diag_info %d.%d:\n%s   ", diag_version,
-	    diag_revision, DG_VERSION);
-#endif
-#ifdef NEWDWARF
-	(void) fprintf(stderr, "dwarf2 %d.%d: ", DWARF2_MAJOR,
-	    DWARF2_MINOR);
-#endif
-	(void) fprintf(stderr, "\n");
-}

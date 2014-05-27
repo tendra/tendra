@@ -19,13 +19,13 @@
 #include <reader/basicread.h>
 #include <reader/main_reads.h>
 #include <reader/externs.h>
-#include <reader/reader_v.h>
 
 #include <construct/flpt.h>
 #include <construct/installglob.h>
 #include <construct/exp.h>
 #include <construct/flags.h>
-#include <construct/construct_v.h>
+
+#include <utility/version.h>
 
 #include "assembler.h"
 #include "weights.h"
@@ -50,19 +50,12 @@ extern int max_errors;
 
 extern char *optarg;
 
-#ifdef RELEASE
-#define RELEASE_INFO RELEASE
-#else
-#define RELEASE_INFO "private"
-#endif
-
 
 /*
     PROGRAM NAME AND VERSION NUMBER
 */
 
 static char *version_str = "0.6";
-static char *revision = "2.0";
 int normal_version = 1;
 
 
@@ -123,6 +116,8 @@ int main
 	trap_on_nil_contents = 0;
 	target_dbl_maxexp = 1024;
 	use_long_double = 0;
+
+	set_progname(argv[0], version_str);
 
 	{
 		int c;
@@ -186,6 +181,15 @@ int main
 		argv += optind;
 	}
 
+    /* Report version if required */
+    if (report_trans_version) {
+		trans_version();
+		return 0;
+    }
+    if (report_tdf_versions) {
+	    report_versions = 1;
+    }
+
 	if (argc != 2) {
 		error(ERROR_FATAL, "Input and output file expected");
 	}
@@ -241,20 +245,6 @@ int main
 
     if (abi == ABI_SUNOS) {
 	promote_pars = 0;
-    }
-
-    /* Report version if required */
-    if (report_trans_version) {
-	fprintf(stderr, "DRA TDF translator (TDF version %d.%d)\n",
-		MAJOR_VERSION, MINOR_VERSION);
-	fprintf(stderr, "reader %d.%d: ", reader_version,
-		reader_revision);
-	fprintf(stderr, "construct %d.%d: ", construct_version,
-		construct_revision);
-	fprintf(stderr, ".\n");
-    }
-    if (report_tdf_versions) {
-	    report_versions = 1;
     }
 
     /* Switch off optimizations if required */
@@ -313,13 +303,6 @@ int main
 
     /* Decode, optimize and process the input TDF */
     open_output(output);
-    asm_comment;
-    outs(" TDF to 680x0, ");
-    outs("Version: ");
-	outs(version_str);
-    outs(", ");
-    outs(revision);
-    outnl();
     init_output();
     area(ptext);
 

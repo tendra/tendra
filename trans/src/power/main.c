@@ -16,16 +16,14 @@
 
 #include <local/localflags.h>
 
-#include <reader/reader_v.h>		/* for reader_revison */
-
 #include <construct/flags.h>		/* for option flags */
 #include <construct/installglob.h>
-#include <construct/construct_v.h>	/* for construct_revision */
 
 #include "comment.h"		/* for do_comment */
-#include "target_v.h"		/* for comiple_date */
 #include "macro.h"
 #include "dynamic_init.h"
+
+#define target_version  "4.26"
 
 enum cpu cpu;
 int no_error_jump;
@@ -49,6 +47,7 @@ int main(int argc, char **argv)
       powertrans = arg + 1 ;
     }
   }
+  set_progname(argv[0], target_version);
 
   /* errors messages are output on stdout, ensure they get out */
   setbuf(stdout, NULL);
@@ -131,14 +130,8 @@ int main(int argc, char **argv)
 			case 'R': round_after_flop = 1;        break;
       
 			case 'V':
-				fprintf(stderr, "DERA TDF translator (TDF version %d.%d)\n",
-				MAJOR_VERSION, MINOR_VERSION);
-				fprintf(stderr, "reader %d.%d: \n", reader_version,
-					reader_revision);
-				fprintf(stderr, "construct %d.%d: \n", construct_version,
-					construct_revision);
-				fprintf(stderr, "translator %d.%d: \n", target_version, target_revision);
-				break;
+				trans_version();
+				exit(EXIT_SUCCESS);
       
 			case 'W': break;
 			case 'Y': dyn_init = 1;                break;

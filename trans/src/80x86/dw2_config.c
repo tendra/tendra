@@ -14,8 +14,6 @@
 #include <construct/flags.h>
 #include <construct/machine.h>
 
-#include "target_v.h"
-
 long dwarf_lab_num = 0;
 
 void
@@ -142,10 +140,7 @@ out_producer(char *s)
 {
   outs(".string \"");
   outs(s);
-  outs("   with TenDRA 80x86/Solaris installer ");
-  outn((long)target_version);
-  outs(".");
-  outn((long)target_revision);
+  outs("   TenDRA 80x86/Solaris installer ");
   outs("\"");
   d_outnl();
   return;

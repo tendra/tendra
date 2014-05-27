@@ -7,6 +7,7 @@ CCOPTS+=	-I ..
 
 SRCS+=	bits.c
 SRCS+=	complexity.c
+SRCS+=	version.c
 
 .include <tendra.obj.mk>
 

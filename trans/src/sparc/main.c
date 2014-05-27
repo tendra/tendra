@@ -13,6 +13,7 @@
 
 #include <shared/check.h>
 #include <shared/getopt.h>
+#include <shared/error.h>
 
 #include <local/exptypes.h>
 #include <local/out.h>
@@ -20,13 +21,11 @@
 #include <reader/main_reads.h>	
 #include <reader/basicread.h>
 #include <reader/externs.h>
-#include <reader/reader_v.h>
 
 #include <construct/flags.h>
 #include <construct/flpt.h>
 #include <construct/exp.h>
 #include <construct/installglob.h>
-#include <construct/construct_v.h>
 
 #include "comment.h"
 #include "translate.h"
@@ -35,16 +34,8 @@
 #include "special.h"
 #include "labels.h"
 
-#include "target_v.h"
-
-#ifdef NEWDIAGS
-#include <newdiag/diag_v.h>
-#include <reader/dg_version.h>
-#endif
-
 #ifdef NEWDWARF
 #include <dwarf2/dw2_iface.h>
-#include <dwarf2/dw2_vsn.h>
 #include <dwarf2/dw2_abbrev.h>
 #include <dwarf2/dw2_common.h>
 static bool dump_abbrev = 0 ;
@@ -59,6 +50,10 @@ extern int use_link_stuff;
 extern int good_trans ;
 
 #include "debug.h"
+
+#define target_version  "3.11"
+
+
 /*
   IDENTIFIER PREFIXES
 */
@@ -121,6 +116,7 @@ main ( int argc, char ** argv )
   for ( arg = sparctrans ; *arg ; arg++ ) {
     if ( *arg == '/' ) sparctrans = arg + 1 ;
   }
+  set_progname(sparctrans, target_version);
   
   /* initialise output file */
   as_file = stdout ;
@@ -237,29 +233,9 @@ main ( int argc, char ** argv )
 #endif
 
 			case 'V':
-				IGNORE fprintf(stderr, "DERA ANDF Sparc translator (TDF version %d.%d)\n",
-		    			MAJOR_VERSION, MINOR_VERSION);
-				IGNORE fprintf(stderr, "reader %d.%d: ", reader_version,
-					reader_revision);
-				IGNORE fprintf(stderr, "construct %d.%d: ", construct_version,
-					construct_revision);
-				IGNORE fprintf(stderr, "target %d.%d: ", target_version,
-					target_revision);
-#if (DWARF == 1)
-				IGNORE fprintf(stderr, "dwarf %d.%d: ", DWARF_MAJOR,
-					DWARF_MINOR);
-#endif
-#ifdef NEWDIAGS
-				IGNORE fprintf(stderr, "diag_info %d.%d:\n%s   ", diag_version,
-					diag_revision, DG_VERSION);
-#endif
-#ifdef NEWDWARF
-				IGNORE fprintf(stderr, "dwarf2 %d.%d: ", DWARF2_MAJOR,
-					DWARF2_MINOR);
-#endif
-				IGNORE fprintf(stderr, "\n");
-				break;
-	     
+				trans_version();
+				exit(EXIT_SUCCESS);
+
 			case 'W': break;
 			case 'Y': dyn_init = 1;                 break;
 			case 'Z': report_versions = 1;          break;

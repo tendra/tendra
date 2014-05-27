@@ -17,18 +17,17 @@
 
 #include <shared/check.h>
 #include <shared/getopt.h>
+#include <shared/error.h>
 
 #include <reader/basicread.h>
 #include <reader/main_reads.h>
 #include <reader/externs.h>
-#include <reader/reader_v.h>
 
 #include <construct/flags.h>
 #include <construct/flpt.h>
 #include <construct/installglob.h>
 #include <construct/machine.h>
 #include <construct/exp.h>
-#include <construct/construct_v.h>
 
 #include "dump_distr.h"
 #include "file.h"
@@ -39,10 +38,7 @@
 FILE *as_file;		/* assembly file */
 FILE *ba_file;
 
-/* installer version */
-#define target_version 2
-#define target_revision 4
-#define target_patchlevel 11
+#define alphatrans_version "2.4.11"
 
 #define SUCCESS 0
 #define FAILURE 1
@@ -57,26 +53,12 @@ static int infoopt = FALSE;	/* set if the -V option has been invoked */
 static bool produce_binasm = FALSE;
 
 void
-printinfo(void)
-{
-  (void)fprintf(stderr,"DRA TDF DEC Alpha/OSF1 translator %d.%d.%d:(TDF version %d.%d)\n",
-		target_version,target_revision,target_patchlevel,
-		MAJOR_VERSION,MINOR_VERSION);
-  (void)fprintf(stderr,"reader %d.%d: ",reader_version,reader_revision);
-  (void)fprintf(stderr,"construct %d.%d: \n",construct_version,
-		construct_revision);
-  return;
-}
-
-void
 out_rename(char *oldid, char *newid)
 {
   UNUSED(oldid);
   UNUSED(newid);
   return;
 }
-
-
 
 int currentfile = -1;
 int mainfile=0;
@@ -91,6 +73,8 @@ main(int argc, char *argv[])
 	char *dname;	/* name of file to hold symbol table */
 	char *baname;
 	char *tname;
+
+	set_progname(argv[0], alphatrans_version);
 
 	target_dbl_maxexp = 308;
 	redo_structfns=1;
@@ -148,7 +132,7 @@ main(int argc, char *argv[])
 			case 'P': do_profile = 1;              break;
 			case 'Q': exit(EXIT_SUCCESS);          break;
 			case 'R': round_after_flop = 1;        break;
-			case 'V': printinfo(); infoopt = TRUE; break;
+			case 'V': trans_version(); infoopt = TRUE; break;
 			case 'W': writable_strings = 1;        break;
 			case 'Y': dyn_init = 1;                break;
 			case 'Z': report_versions = 1;         break;

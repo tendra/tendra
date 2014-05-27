@@ -12,13 +12,13 @@
 
 #include <shared/check.h>
 #include <shared/getopt.h>
+#include <shared/error.h>
 
 #include <local/exptypes.h>
 #include <local/out.h>
 
 #include <reader/main_reads.h>		/* for d_capsule */
 #include <reader/basicread.h>	/* for good_trans */
-#include <reader/reader_v.h>
 #include <reader/externs.h>
 
 #include <construct/flags.h>		/* for option flags */
@@ -26,7 +26,6 @@
 #include <construct/exp.h>		/* for current_alloc_size */
 #include <construct/installglob.h>	/* for top_def */
 #include <construct/installtypes.h>
-#include <construct/construct_v.h>
 
 #include "comment.h"		/* for do_comment */
 #include "addrtypes.h"		/* for where */
@@ -34,8 +33,7 @@
 #include "diag_out.h"
 #include "frames.h"
 
-#define MAJOR 7
-#define MINOR 8
+#define TRANS_VERSION "7.8"
 
 extern int good_trans;
 
@@ -64,6 +62,7 @@ int main
   char *infname= (char*)0;
   char *outfname= (char*)0;
 
+  set_progname(argv[0], TRANS_VERSION);
 
   /* initialise output file */
   outf = stdout;
@@ -157,13 +156,7 @@ target_dbl_maxexp = 308;
 			case 'R': round_after_flop = 1; break;
 
 			case 'V':
-				fprintf(stderr,"DERA TDF->HP PA-RISC translator %d.%d: "
-					"(TDF %d.%d)\n"
-					"reader %d.%d:\n"
-					"construct %d.%d:\n",
-					MAJOR,MINOR,MAJOR_VERSION,MINOR_VERSION,
-					reader_version,reader_revision,construct_version,
-					construct_revision);
+				trans_version();
 				versionflg = 1;
 				break;
 

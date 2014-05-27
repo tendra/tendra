@@ -17,25 +17,23 @@
 
 #include <shared/check.h>
 #include <shared/getopt.h>
+#include <shared/error.h>
 
 #include <reader/basicread.h>
 #include <reader/main_reads.h>
 #include <reader/externs.h>
-#include <reader/reader_v.h>
 
 #include <construct/flags.h>
 #include <construct/flpt.h>
 #include <construct/installglob.h>
 #include <construct/machine.h>
 #include <construct/exp.h>
-#include <construct/construct_v.h>
 
 #include "dump_distr.h"
 
 extern void output_symtab(char*);
 
-#define mipstrans_version   4
-#define mipstrans_revision  49
+#define mipstrans_version   "4.49"
 
 /* extern int bytes_allocated; */
 
@@ -88,11 +86,13 @@ main(int argc, char **argv)
 	cconv = CCONV_O32; /* TODO: confirm this is what we generate */
 	abi = ABI_MIPS;
 
+	set_progname(argv[0], mipstrans_version);
+
 	{
 		int c;
 
 		while ((c = getopt(argc, argv,
-			"A:B:DE:F:G:H:K:MO:PQRS:V:WX:YZ"
+			"A:B:DE:F:G:H:K:MO:PQRS:VWX:YZ"
 			"es")) != -1) {
 			switch (c) {
 			case 'B': builtin = flags_builtin(builtin, optarg); break;
@@ -127,45 +127,8 @@ main(int argc, char **argv)
 			case 'R': round_after_flop = 1;         break;
 
 			case 'V':
-				{
-					int ind = 2;
-					int maj = 0;
-
-					minorno = 0;
-					for (;; ind++) {
-						char si = optarg[ind];
-						if (si != ' ') {
-							if (si >= '0' && si <= '9') {
-								maj = maj * 10 + si - '0';
-							}
-							else
-								break;
-						}
-					}
-
-					if (optarg[ind]!= '.') {
-						fprintf(stderr,
-							"DRA TDF Mips (as:3.x) translator %d.%d: (TDF version %d.%d)\n",
-							mipstrans_version,mipstrans_revision, MAJOR_VERSION, MINOR_VERSION);
-						fprintf(stderr, "reader %d.%d: \n", reader_version,
-							reader_revision);
-						fprintf(stderr, "construct %d.%d: \n", construct_version,
-							construct_revision);
-						break;
-					}
-
-					majorno = maj;
-					minorno = 0;
-
-					for (ind++;; ind++) {
-						char  si = optarg[ind];
-						if (si >= '0' && si <= '9') {
-							minorno = minorno * 10 + si - '0';
-						}
-						else
-							break;
-					}
-				}
+				trans_version();
+				exit(EXIT_SUCCESS);
 
 			case 'W': writable_strings = 1;        break;
 			case 'Y': dyn_init = 1;                break;
