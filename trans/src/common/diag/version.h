@@ -9,3 +9,6 @@
 
 #define diag_version	5
 #define diag_revision	8
+
+#define DG_VERSION "ANDF_Diag_Ext_V1.9.txt"
+

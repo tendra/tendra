@@ -3,13 +3,11 @@
 #include <stdio.h>
 
 #include <construct/installglob.h>
-#include <construct/construct_v.h>
-
-#include <reader/reader_v.h>
-#include <reader/dg_version.h>
-#include <diag/diag_v.h>
-#include <dwarf/dwarf_vsn.h>
-#include <dwarf2/dw2_vsn.h>
+#include <construct/version.h>
+#include <reader/version.h>
+#include <diag/version.h>
+#include <dwarf/version.h>
+#include <dwarf2/version.h>
 
 #include <shared/error.h>
 
