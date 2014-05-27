@@ -7,23 +7,25 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#ifndef SYMTAB_TYPETOAUX_H
+#define SYMTAB_TYPETOAUX_H
+
 #include <local/exptypes.h>
 
 #include <reader/codetypes.h>
 
 #include <diag/dg_first.h>
 #include <diag/diaginfo.h>
-#include <diag/dg_types.h>		/* NEW DIAGS */
-#include <diag/diagtypes.h>		/* OLD DIAGS */
+#include <diag/dg_types.h>  /* NEW DIAGS */
+#include <diag/diagtypes.h>	/* OLD DIAGS */
 
 #include <construct/installtypes.h>
 
-
-/* 	$Id$	 */
-extern long add_type_to_aux(diag_type, long);
-
 /*
-converts a TDF shape into an AUXU (see sym.h) and adds it to the auxillary
-table for the file number given as parameter as required by the MIPS
-(and alpha, hopefully) symbol table.
-*/
+ * Convert a TDF shape into an AUXU (see sym.h) and adds it to the auxillary
+ * table for the file number given as parameter as required by the symbol table.
+ */
+long add_type_to_aux(diag_type, long);
+
+#endif
+

@@ -14,6 +14,9 @@
  * (symbol table) suitable for as1.
  */
 
+#ifndef SYMTAB_SYMTAB_H
+#define SYMTAB_SYMTAB_H
+
 #include "cross_config.h"
 
 #include <symtab/sym.h>
@@ -36,80 +39,86 @@
  */
 
 /* Array of local symbols and number of entries */
-typedef struct lsymsd	{long noofsyms;
-			pSYMR symlist;
-			struct lsymsd *nextsyms;
-			} LSYMS;
+typedef struct lsymsd {
+	long noofsyms;
+	pSYMR symlist;
+	struct lsymsd *nextsyms;
+} LSYMS;
 
 /*
  * Array of external symbols, pEXTR is a pointer to a SYMR and
  * some additional context information
  */
-typedef struct	esymsd	{long noofsyms;
-			pEXTR symlist;
-			struct esymsd *nextsyms;
-			} ESYMS;
+typedef struct esymsd {
+	long noofsyms;
+	pEXTR symlist;
+	struct esymsd *nextsyms;
+} ESYMS;
 
 /*
  * Array of strings, need one for externals and one for each file's locals
  */
-typedef struct strings	{long usage;	/* including end of string chars */
-			char* str;
-			struct strings *overspill;
-			} STRINGS;
+typedef struct strings {
+	long usage;	/* including end of string chars */
+	char* str;
+	struct strings *overspill;
+} STRINGS;
 
 /*
  * Auxillary information, each AUXU differs according to the type of the symbol
  */
-typedef struct auxtabd	{long num;
-			pAUXU auxinfo;
-			struct auxtabd *moreaux;
-			} AUXTAB;
+typedef struct auxtabd {
+	long num;
+	pAUXU auxinfo;
+	struct auxtabd *moreaux;
+} AUXTAB;
 
 /* Dense numbers */
-typedef struct dtab	{long num;
-			pDNR densenolist;
-			struct dtab *moredensenos;
-			} DENSETAB;
+typedef struct dtab	{
+	long num;
+	pDNR densenolist;
+	struct dtab *moredensenos;
+} DENSETAB;
 
 /* File descriptors */
-typedef struct	{long num;
-		pFDR filelist;
-		} FILETAB;
+typedef struct {
+	long num;
+	pFDR filelist;
+} FILETAB;
 
 /*
  * File description info, 1 for each file. Will be converted to FDR for the
  * symbol table by adding indices etc
  */
-typedef struct symfdrd	{STRINGS* filestr;
-			LSYMS* symbols;
-			AUXTAB* auxtabs;
-			short proc_count;
-			} SYMFDR, *pSYMFDR;
-
+typedef struct symfdrd {
+	STRINGS *filestr;
+	LSYMS *symbols;
+	AUXTAB *auxtabs;
+	short proc_count;
+} SYMFDR, *pSYMFDR;
 
 /*
  * Type for recording isyms and filenums for each proc
  */
-typedef struct {long fnum;
-		long procsymindex;
-		} PROCSYM;
+typedef struct {
+	long fnum;
+	long procsymindex;
+} PROCSYM;
 
 /*
  * This macro is only used by the symbol table printer and is not a genuine
  * part of the installer
  */
-#define IFAUXINFO(X) (((X>=1)&&(X<5))||(X==6)||(X==9)||(X==10)||(X==14))
+#define IFAUXINFO(X) (((X) >= 1 && (X) < 5) \
+	|| (X) == 6 || (X) == 9 || (X) == 10 || (X) == 14)
 
 /*
  * The following are the units of space allocated for the various tables
  */
-#define STRINGTABSIZE 500	/* for each file */
-#define SYMTABSIZE 200		/*  "         "  */
-#define AUXTABSIZE  200		/*  "          " */
-#define DENSETABSIZE 200	/* one for all files */
+#define STRINGTABSIZE 500 /* for each file */
+#define SYMTABSIZE    200 /*  "         "  */
+#define AUXTABSIZE    200 /*  "         "  */
+#define DENSETABSIZE  200 /* one for all files */
 
-
-
-
+#endif
 
