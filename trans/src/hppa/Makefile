@@ -28,7 +28,7 @@ PARTS+= src/common/utility
 CCOPTS+=	${TRANS_CFLAGS}
 
 SRCS+=	c_arith_type.c
-SRCS+=	codehere.c
+SRCS+=	code_here.c
 SRCS+=	comment.c
 SRCS+=	diag_out.c
 SRCS+=	eval.c

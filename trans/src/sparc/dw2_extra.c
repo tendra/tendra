@@ -45,7 +45,7 @@
 #include "regmacs.h"
 #include "locate.h"
 #include "translate.h"
-#include "codehere.h"
+#include "code_here.h"
 #include "eval.h"
 #include "proc.h"
 #include "procrec.h"

@@ -32,7 +32,7 @@ PARTS+= src/common/utility
 
 CCOPTS+=	${TRANS_CFLAGS}
 
-SRCS+=	codehere.c
+SRCS+=	code_here.c
 SRCS+=	comment.c
 SRCS+=	diag_out.c
 SRCS+=	dw2_config.c

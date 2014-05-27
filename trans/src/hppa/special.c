@@ -30,7 +30,7 @@
 #include "regmacs.h"
 #include "getregs.h"
 #include "guard.h"
-#include "codehere.h"
+#include "code_here.h"
 #include "inst_fmt.h"
 #include "hppains.h"
 #include "labels.h"

@@ -29,7 +29,7 @@ PARTS+= src/common/utility
 CCOPTS+=	${TRANS_CFLAGS}
 
 SRCS+=	ash.c
-SRCS+=	codehere.c
+SRCS+=	code_here.c
 SRCS+=	comment.c
 SRCS+=	diagout.c
 SRCS+=	dynamic_init.c

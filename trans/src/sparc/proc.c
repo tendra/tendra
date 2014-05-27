@@ -46,7 +46,7 @@
 #include "getregs.h"
 #include "guard.h"
 #include "locate.h"
-#include "codehere.h"
+#include "code_here.h"
 #include "inst_fmt.h"
 #include "sparcins.h"
 #include "bitsmacs.h"
