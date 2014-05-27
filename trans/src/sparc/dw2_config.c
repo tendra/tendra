@@ -16,7 +16,6 @@
 #include "translate.h"
 #include "eval.h"
 #include "labels.h"
-#include "target_v.h"
 
 long dwarf_lab_num = 0;
 
@@ -164,10 +163,7 @@ void out_producer(char *s)
 {
   outs ("\t.asciz \"");
   outs (s);
-  outs ("   with TenDRA SPARC/Solaris installer ");
-  outn ( target_version ) ;
-  outs ( "." ) ;
-  outn ( target_revision ) ;
+  outs ("   TenDRA SPARC/Solaris installer ");
   outs ("\"");
   d_outnl ();
   return;
