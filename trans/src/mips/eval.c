@@ -28,9 +28,10 @@
 #include <construct/f64.h>
 #include <construct/flags.h>
 
+#include <symtab/syms.h>
+
 #include "addrtypes.h"
 #include "maxminmacs.h"
-#include "syms.h"
 #include "out_ba.h"
 #include "main.h"
 #include "ibinasm.h"

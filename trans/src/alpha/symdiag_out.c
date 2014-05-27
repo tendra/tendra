@@ -41,7 +41,6 @@
 #include "bitsmacs.h"
 #include "ibinasm.h"
 #include "out_ba.h"
-#include "syms.h"
 #include "locate.h"
 #include "diag_out.h"
 #include "symdiag_out.h"

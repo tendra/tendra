@@ -31,6 +31,8 @@
 #include <construct/f64.h>
 #include <construct/flags.h>
 
+#include <symtab/syms.h>
+
 #include "addresstypes.h"
 #include "maxminmacs.h"
 #include "main.h"
@@ -41,7 +43,6 @@
 #include "pseudo.h"
 #include "ibinasm.h"
 #include "out_ba.h"
-#include "syms.h"
 #include "shape_range.h"  /* provides definitions of 
 			     scmm_max,scmm_min, etc. */
 #include "inst_fmt.h"

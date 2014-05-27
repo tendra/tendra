@@ -59,8 +59,8 @@ out_rename(char *oldid, char *newid)
   return;
 }
 
-int currentfile = -1;
-int mainfile=0;
+long currentfile = -1;
+long mainfile=0;
 int majorno = 3;
 int minorno = 11;
 

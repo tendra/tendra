@@ -38,6 +38,8 @@
 
 #include <diag/diag_fns.h>
 
+#include <symtab/syms.h>
+
 #include "addresstypes.h"
 #include "coder.h"
 #include "maxminmacs.h"
@@ -58,7 +60,6 @@
 #include "regexps.h"
 #include "special.h"
 #include "new_tags.h"
-#include "syms.h"
 #include "main.h"
 #include "dump_distr.h"
 #include "extratags.h"

@@ -63,7 +63,6 @@ SRCS+=	regexps.c
 SRCS+=	spec.c
 SRCS+=	spec_tok.c
 SRCS+=	special.c
-SRCS+=	syms.c
 SRCS+=	tempdecs.c
 SRCS+=	translate.c
 SRCS+=	type_to_aux.c

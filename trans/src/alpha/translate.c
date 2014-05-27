@@ -28,6 +28,7 @@
 #include <refactor/optimise.h>
 
 #include <symtab/symconst.h>
+#include <symtab/syms.h>
 
 #include "tempdecs.h"
 #include "weights.h"
@@ -44,7 +45,6 @@
 #include "reg_defs.h"
 #include "diag_out.h"
 #include "out_ba.h"
-#include "syms.h"
 #include "ibinasm.h"
 #include "fail.h"
 #include "directives.h"
@@ -178,7 +178,7 @@ code_it(dec *my_def)
 	if (diag != DIAG_NONE && dd != (diag_descriptor*)NULL) {
 	  sourcemark *sm = &dd -> data.id.whence;
 	  set_file(sm->file->file.ints.chars,2);
-	  stabd(fscopefile = find_file(sm->file),
+	  stabd(fscopefile = find_file(sm->file->file.ints.chars),
 		sm->line_no.nat_val.small_nat);
 	}
 	else if (diag != DIAG_NONE){

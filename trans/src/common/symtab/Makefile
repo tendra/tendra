@@ -7,6 +7,7 @@ CCOPTS+=	-I ..
 CCOPTS+=	-I .
 
 SRCS+=	new_symbol.c
+SRCS+=	syms.c
 
 .include <tendra.obj.mk>
 

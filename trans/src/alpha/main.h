@@ -27,8 +27,8 @@ extern FILE * ba_file;
 extern int majorno ;
 extern int minorno ;
 
-extern int currentfile;	/* our source fileno 0.. */
-extern int mainfile;		/* would be best if it  
+extern long currentfile;	/* our source fileno 0.. */
+extern long mainfile;		/* would be best if it  
 			       actually contained main ! */
 extern bool do_extern_adds;
 extern dec** main_globals;

@@ -17,6 +17,7 @@
 #include "cross_config.h"
 
 #include <symtab/symconst.h>
+#include <symtab/syms.h>
 
 #include <reader/codetypes.h>
 #include <reader/basicread.h>
@@ -42,7 +43,6 @@
 #include "bitsmacs.h"
 #include "needs_scan.h"
 #include "ibinasm.h"
-#include "syms.h"
 #include "out_ba.h"
 #include "diag_out.h"
 #include "extern_adds.h"

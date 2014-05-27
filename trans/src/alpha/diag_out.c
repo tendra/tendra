@@ -40,7 +40,6 @@
 #include "procrectypes.h"
 #include "procrecs.h"
 #include "bitsmacs.h"
-#include "syms.h"
 #include "locate.h"
 #include "diag_out.h"
 #include "ibinasm.h"
@@ -88,11 +87,11 @@ void collect_files
 }
 
 int find_file
-(filename f)
+(const char *name)
 {
   int i;
   for (i=0; i<nofds; i++) {
-    if (strcmp(f->file.ints.chars, fds[i] ->file.ints.chars) ==0) return i;
+    if (strcmp(name, fds[i] ->file.ints.chars) ==0) return i;
   }
   return 0;
 }
@@ -270,7 +269,7 @@ void output_diag
   exp x;
   if (d->key == DIAG_INFO_SOURCE) {
     sourcemark * s = & d->data.source.beg;
-    int f = find_file(s->file);
+    int f = find_file(s->file->file.ints.chars);
     stabd(f, s->line_no.nat_val.small_nat);
     return;
   }
@@ -298,7 +297,7 @@ void output_end_scope
 {
   if (d->key == DIAG_INFO_SOURCE) {
     sourcemark * s = & d->data.source.end;
-    int f = find_file(s->file);
+    int f = find_file(s->file->file.ints.chars);
     int lno = s->line_no.nat_val.small_nat;
     stabd(f, (lno==currentlno)?lno+1:lno); /*approx */
     return;

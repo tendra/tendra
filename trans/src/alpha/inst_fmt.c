@@ -22,6 +22,8 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
+#include <symtab/syms.h>
+
 #include <local/exptypes.h>
 
 #include "inst_fmt.h"
@@ -34,7 +36,6 @@
 #include "bool.h"
 #include "ibinasm.h"
 #include "out_ba.h"
-#include "syms.h"
 #include "fail.h"
 #include "instypes.h"
 #include "procrectypes.h"

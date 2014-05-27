@@ -23,7 +23,7 @@ extern void stab_local(char *nm, diag_type dt, exp id, int disp, int findex);
  /* entry for local */
 extern void stab_types(void); /* aux entries for types */
 extern int currentlno;
-extern int find_file(filename);
+extern int find_file(const char *);
 
 extern int find_aux(diag_type s /* struct or union shape */ );
 extern void symnosforfiles(void);

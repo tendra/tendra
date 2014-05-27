@@ -18,13 +18,14 @@
 
 #include <reader/basicread.h>
 
+#include <symtab/syms.h>
+
 #include "addrtypes.h"
 #include "psu_ops.h"
 #include "regexps.h"
 #include "mips_ins.h"
 #include "ibinasm.h"
 #include "out_ba.h"
-#include "syms.h"
 #include "main.h"
 #include "inst_fmt.h"
 
