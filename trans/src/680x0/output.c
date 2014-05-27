@@ -631,7 +631,9 @@ init_instructions(void)
 void
 init_output(void)
 {
-	memcpy(reg_names, glob_reg_names, sizeof(glob_reg_names));
+	memcpy(reg_names, glob_reg_names, asm_percent_regs
+		? sizeof glob_reg_names_percent
+		: sizeof glob_reg_names_simple);
 #ifdef SYSV_ABI
 	{
 		char *r = reg_names[REG_A0];
