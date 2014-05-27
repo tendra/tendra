@@ -138,9 +138,6 @@ int main(int argc, char **argv)
 				fprintf(stderr, "construct %d.%d: \n", construct_version,
 					construct_revision);
 				fprintf(stderr, "translator %d.%d: \n", target_version, target_revision);
-#ifdef __DATE__
-				fprintf(stderr, "installer compilation : %s\n", __DATE__);
-#endif
 				break;
       
 			case 'W': break;

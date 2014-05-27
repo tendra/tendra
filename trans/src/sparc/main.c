@@ -258,9 +258,6 @@ main ( int argc, char ** argv )
 					DWARF2_MINOR);
 #endif
 				IGNORE fprintf(stderr, "\n");
-#ifdef __DATE__
-				IGNORE fprintf(stderr, "installer compilation %s", __DATE__);
-#endif
 				break;
 	     
 			case 'W': break;

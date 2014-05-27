@@ -31,15 +31,11 @@
 #include "comment.h"		/* for do_comment */
 #include "addrtypes.h"		/* for where */
 #include "makecode.h"		/* for nowhere */
-#include "version.h"
 #include "diag_out.h"
 #include "frames.h"
 
-#ifdef __DATE__
-#define compile_date __DATE__
-#else
-#define compile_date "unknown date"
-#endif
+#define MAJOR 7
+#define MINOR 8
 
 extern int good_trans;
 
@@ -164,11 +160,10 @@ target_dbl_maxexp = 308;
 				fprintf(stderr,"DERA TDF->HP PA-RISC translator %d.%d: "
 					"(TDF %d.%d)\n"
 					"reader %d.%d:\n"
-					"construct %d.%d:\n"
-					"translator compilation date = %s\n ",
+					"construct %d.%d:\n",
 					MAJOR,MINOR,MAJOR_VERSION,MINOR_VERSION,
 					reader_version,reader_revision,construct_version,
-					construct_revision,compile_date);
+					construct_revision);
 				versionflg = 1;
 				break;
 

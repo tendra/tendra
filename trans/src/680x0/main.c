@@ -38,7 +38,6 @@
 #include "peephole.h"
 #include "tests.h"
 #include "utility.h"
-#include "version.h"
 #include "where.h"
 #include "evaluate.h"
 #include "68k_globals.h"
@@ -51,16 +50,19 @@ extern int max_errors;
 
 extern char *optarg;
 
+#ifdef RELEASE
+#define RELEASE_INFO RELEASE
+#else
+#define RELEASE_INFO "private"
+#endif
+
 
 /*
     PROGRAM NAME AND VERSION NUMBER
 */
 
 static char *version_str = "0.6";
-static char *revision = REVISION_STRING;
-#ifdef EBUG
-static char *revdate = DATE_STRING;
-#endif
+static char *revision = "2.0";
 int normal_version = 1;
 
 
@@ -249,15 +251,7 @@ int main
 		reader_revision);
 	fprintf(stderr, "construct %d.%d: ", construct_version,
 		construct_revision);
-	fprintf(stderr, "target %d.%d.%d: \n", target_version,
-		target_revision,target_patchlevel);
-#ifdef __DATE__
-	fprintf(stderr," : installer compilation %s\n", __DATE__);
-#endif
 	fprintf(stderr, ".\n");
-#ifdef EBUG
-	fprintf(stderr, "Last revised %s.\n", revdate);
-#endif
     }
     if (report_tdf_versions) {
 	    report_versions = 1;

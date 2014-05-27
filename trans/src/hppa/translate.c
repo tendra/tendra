@@ -130,7 +130,6 @@
 #include "comment.h"
 #include "diag_out.h"
 #include "translate.h"
-#include "version.h"
 #include "inst_fmt.h"
 #include "getregs.h"
 #include "special.h"
@@ -283,7 +282,6 @@ void translate_capsule
 
   /* mark the as output as TDF compiled */
   outs("\t;  Produced by the DERA TDF->HP PA-RISC translator ");
-  fprintf(outf,"%d.%d",MAJOR,MINOR);
   outnl();
   outnl();
   outnl();

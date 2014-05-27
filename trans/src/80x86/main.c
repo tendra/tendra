@@ -405,7 +405,4 @@ print_version(void)
 	    DWARF2_MINOR);
 #endif
 	(void) fprintf(stderr, "\n");
-#ifdef __DATE__
-	(void) fprintf(stderr, "installer compilation %s", __DATE__);
-#endif
 }

@@ -31,10 +31,11 @@
 #include <construct/construct_v.h>
 
 #include "dump_distr.h"
-#include "version.h"
 
 extern void output_symtab(char*);
 
+#define mipstrans_version   4
+#define mipstrans_revision  49
 
 /* extern int bytes_allocated; */
 
@@ -144,7 +145,7 @@ main(int argc, char **argv)
 
 					if (optarg[ind]!= '.') {
 						fprintf(stderr,
-							"DRA TDF Mips (as:3.x) translator %d.%d: (TDF version %d.%d); 30th June 1994\n",
+							"DRA TDF Mips (as:3.x) translator %d.%d: (TDF version %d.%d)\n",
 							mipstrans_version,mipstrans_revision, MAJOR_VERSION, MINOR_VERSION);
 						fprintf(stderr, "reader %d.%d: \n", reader_version,
 							reader_revision);

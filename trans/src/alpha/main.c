@@ -33,23 +33,20 @@
 #include "dump_distr.h"
 #include "file.h"
 #include "fail.h"
-#include "version.h"
 #include "symbol.h"
 #include "bool.h"
 
 FILE *as_file;		/* assembly file */
 FILE *ba_file;
 
+/* installer version */
+#define target_version 2
+#define target_revision 4
+#define target_patchlevel 11
+
 #define SUCCESS 0
 #define FAILURE 1
-#ifndef compile_date
-#ifdef __DATE__
-#define compile_date __DATE__
-#else
-#error "compile_date is not set"
-#define compile_date	"04/07/71"
-#endif
-#endif
+
 int use_umulh_for_div;
 bool fail_with_denormal_constant = TRUE;
 bool treat_denorm_specially = FALSE;
@@ -68,7 +65,6 @@ printinfo(void)
   (void)fprintf(stderr,"reader %d.%d: ",reader_version,reader_revision);
   (void)fprintf(stderr,"construct %d.%d: \n",construct_version,
 		construct_revision);
-  (void)fprintf(stderr,"installer compilation %s\n",compile_date);
   return;
 }
 

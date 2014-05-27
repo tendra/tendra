@@ -55,7 +55,6 @@
 #include "regexps.h"
 #include "getregs.h"
 #include "extern_adds.h"
-#include "version.h"
 #include "locate.h"
 #include "translate.h"
 
@@ -503,8 +502,6 @@ translate_capsule(void)
 
   if(as_file){
     fprintf(as_file," # produced by TDF->Alpha/OSF1 installer\n");
-    fprintf(as_file," # installer version %d.%d.%d\n",target_version,
-	    target_revision,target_patchlevel);
     /*comment(" # produced by TDF->Alpha/OSF1 installer\n");*/
     fprintf(as_file,"\t.ugen\n");
   }
