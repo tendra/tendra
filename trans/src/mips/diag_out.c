@@ -140,7 +140,7 @@ long  findex,
   currentlno = lno;
 }
 
-static char *lexlev = "0";	/* historic !!! */
+static char lexlev[] = "0";	/* historic !!! */
 
 void
 diagbr_open(long findex)
