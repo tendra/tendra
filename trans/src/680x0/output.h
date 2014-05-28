@@ -17,7 +17,6 @@ extern int no_align_directives;
 
 #define  outh(X)	fprintf(as_file, "0x%lx",(unsigned long)(X))
 
-extern void open_output(FILE *f);
 extern void init_instructions(void);
 extern void init_output(void);
 extern void output_all(void);

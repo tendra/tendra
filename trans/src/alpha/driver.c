@@ -30,7 +30,6 @@
 #include "fail.h"
 #include "bool.h"
 
-FILE *as_file;		/* assembly file */
 FILE *ba_file;
 
 #define VERSION_STR "2.4.11"
@@ -144,7 +143,7 @@ unhas(void)
 }
 
 static void
-main(FILE *f)
+main(void)
 {
 	int i;
 	char *aname;	/* name of file for assembly output */
@@ -159,8 +158,6 @@ main(FILE *f)
 		baname  = "TODO"; /* argv[1]; */
 		dname   = "TODO"; /* argv[0]; */
 	}
-
-	as_file = f;
 
 	if (produce_binasm) {
 		ba_file = fopen(baname, "w");

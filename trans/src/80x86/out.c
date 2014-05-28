@@ -28,17 +28,11 @@
 #include "instr.h"
 #include "messages_8.h"
 
-FILE *as_file;
-
 #ifdef NEWDWARF
 long instr_count = -1;
 #endif
 
-void
-outinit(FILE *f)
-{
-	as_file = f;
-}
+extern FILE *as_file;
 
 /*
  * XXX: break as_file encapsulation.

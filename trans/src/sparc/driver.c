@@ -266,13 +266,10 @@ unhas(void)
 }
 
 static void
-main(FILE *f)
+main(void)
 {
 	char *arg ;
 	char *outfname ;
-
-	/* initialise output file */
-	as_file = f;
 
 	/* main decoding routines */
 	init_translator () ;

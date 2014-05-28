@@ -121,7 +121,6 @@
 
 
 int maxfix_tregs;		/* The number of t regs allocatable */
-FILE *as_file;			/* Assembler output file */
 dec **main_globals;		/* The globals decs array */
 procrec *procrecs;		/* The proc records array */
 dec * diag_def = NULL;
@@ -132,10 +131,8 @@ bool done_scan = 0;
 /* 
  * Translate the TDF 
  */
-int translate(FILE *f)
+int translate(void)
 {
-	as_file = f;
-
   /* mark the as output as TDF compiled */
 #ifdef DO_ASSEMBLER_MACROS
   if (do_macros)

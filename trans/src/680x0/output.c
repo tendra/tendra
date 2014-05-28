@@ -26,20 +26,7 @@
 #include "codex.h"
 
 
-/*
-    OUTPUT FILE
-*/
-
-FILE *as_file;
-
 int no_align_directives;
-
-void
-open_output(FILE *f)
-{
-	as_file = f;
-}
-
 
 /*
     ARRAY OF INSTRUCTION NAMES

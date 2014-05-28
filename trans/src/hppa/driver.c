@@ -59,9 +59,6 @@ init(void)
 	cconv     = CCONV_HPPA;
 	abi       = ABI_HPUX;
 
-	/* initialise output file */
-	as_file = stdout;
-
 	/* errors messages are output on stdout, ensure they get out */
 	setbuf(stdout, NULL);
 
@@ -135,11 +132,9 @@ unhas(void)
 }
 
 static void
-main(FILE *f)
+main(void)
 {
 	char *arg;
-
-	as_file = f;
 
 	if (do_profile && PIC_code) {
 		fprintf(stderr,"hppatrans warning: \"-P\" and \"-D\" are mutually exclusive. \"-P\" ignored.\n");

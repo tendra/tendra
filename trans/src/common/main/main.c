@@ -26,6 +26,8 @@ extern int report_versions; /* XXX */
 extern bool dump_abbrev;
 #endif
 
+FILE *as_file; /* assembly text output (.s file) */
+
 static void
 usage(FILE *f)
 {
@@ -53,7 +55,6 @@ int
 main(int argc, char *argv[])
 {
 	int quit = 0;
-	FILE *f;
 
 	set_progname(argv[0], driver.version);
 	argv[0] = (char *) progname;
@@ -166,32 +167,32 @@ main(int argc, char *argv[])
 	 */
 	{
 		if (0 == strcmp(argv[1], "-")) {
-			f = stdout;
+			as_file = stdout;
 		} else {
-			f = fopen(argv[1], "w");
-			if (f == NULL) {
+			as_file = fopen(argv[1], "w");
+			if (as_file == NULL) {
 				error(ERROR_FATAL, "Cannot open output text %s", argv[1]);
 			}
 		}
 
 #ifndef NDEBUG
-		setbuf(f, 0);
+		setbuf(as_file, 0);
 #endif
 	}
 
-	driver.main(f);
+	driver.main();
 
 	if (number_errors != 0) {
 		return 1;
 	}
 
 	{
-		if (ferror(f)) {
+		if (ferror(as_file)) {
 			perror(argv[1]);
 			return 1;
 		}
 
-		if (EOF == fclose(f)) {
+		if (EOF == fclose(as_file)) {
 			perror(argv[1]);
 			return 1;
 		}

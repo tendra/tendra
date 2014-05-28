@@ -158,7 +158,6 @@ int sysV_assembler ;	/* System V version? */
 int optim_level ;	/* optimisation level */
 int g_reg_max ;		/* the maximum number of G registers */
 int maxfix_tregs ;	/* the maximum number of T registers */
-FILE *as_file = NULL ;	/* assembler output file */
 dec **main_globals ;	/* global declarations */
 procrec *procrecs ;	/* procedure records */
 dec *diag_def = NULL ;	/* diagnostics definition */

@@ -46,7 +46,6 @@ out_rename(char * oldid, char * newid)
 
 extern int good_trans;
 bool do_extern_adds;
-FILE * as_file;
 FILE * ba_file;
 
 int majorno =  3;
@@ -123,7 +122,7 @@ unhas(void)
 }
 
 static void
-main(FILE *f)
+main(void)
 {
 	char *nm;
 	char *aname;
@@ -142,8 +141,6 @@ main(FILE *f)
 			exit(EXIT_FAILURE);
 		}
 	}
-
-	as_file = f;
 
 	init_flpt();
 

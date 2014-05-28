@@ -123,9 +123,9 @@ unhas(void)
 }
 
 static void
-main(FILE *f)
+main(void)
 {
-	if (0 != translate(f)) {
+	if (0 != translate()) {
 		exit(EXIT_FAILURE);
 	}
 }

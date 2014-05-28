@@ -14,7 +14,7 @@ struct driver {
 
 	void (*init)(void);
 	void (*unhas)(void);
-	void (*main)(FILE *f);
+	void (*main)(void);
 
 	const char *opts;
 	int (*option)(char c, const char *optarg);
@@ -30,6 +30,8 @@ struct driver {
 };
 
 extern struct driver driver;
+
+extern FILE *as_file;
 
 #endif
 

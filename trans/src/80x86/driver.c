@@ -235,12 +235,10 @@ unhas(void)
 }
 
 static void
-main(FILE *f)
+main(void)
 {
 	int ch;
 	const char *optstring;
-
-	outinit(f);
 
 	{
 		init_all();

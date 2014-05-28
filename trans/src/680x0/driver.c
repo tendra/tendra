@@ -184,11 +184,9 @@ unhas(void)
 }
 
 static void
-main(FILE *f)
+main(void)
 {
 	int a;
-
-	open_output(f);
 
 	/* Set up alignment rules */
 	double_align = DBL_ALIGN;
