@@ -39,8 +39,8 @@ void
 comment(char * mess)
 {
     if ( do_comment ) {
-	fprintf(outf, "!! " ) ;
-	fprintf ( outf,"%s\n", mess ) ;
+	fprintf(as_file, "!! " ) ;
+	fprintf ( as_file,"%s\n", mess ) ;
     }
     return ;
 }
@@ -49,9 +49,9 @@ void
 comment1(char * mess, long p1)
 {
     if ( do_comment ) {
-	fprintf(outf, "!! " ) ;
-	fprintf ( outf, mess, p1 ) ;
-	fputc('\n',outf);
+	fprintf(as_file, "!! " ) ;
+	fprintf ( as_file, mess, p1 ) ;
+	fputc('\n',as_file);
     }
     return ;
 }
@@ -60,9 +60,9 @@ void
 comment2(char * mess, long p1, long p2)
 {
     if ( do_comment ) {
-	fprintf(outf, "!! " ) ;
-	fprintf ( outf, mess, p1, p2 ) ;
-	fputc('\n',outf);
+	fprintf(as_file, "!! " ) ;
+	fprintf ( as_file, mess, p1, p2 ) ;
+	fputc('\n', as_file);
     }
     return ;
 }
@@ -71,9 +71,9 @@ void
 comment3(char * mess, long p1, long p2, long p3)
 {
     if ( do_comment ) {
-	fprintf(outf, "!! " ) ;
-	fprintf ( outf, mess, p1, p2, p3 ) ;
-	fputc('\n',outf);
+	fprintf(as_file, "!! " ) ;
+	fprintf ( as_file, mess, p1, p2, p3 ) ;
+	fputc('\n', as_file);
     }
     return ;
 }
@@ -82,9 +82,9 @@ void
 comment4(char * mess, long p1, long p2, long p3, long p4)
 {
     if ( do_comment ) {
-	fprintf(outf, "!! " ) ;
-	fprintf ( outf, mess, p1, p2, p3, p4 ) ;
-	fputc('\n',outf);
+	fprintf(as_file, "!! " ) ;
+	fprintf ( as_file, mess, p1, p2, p3, p4 ) ;
+	fputc('\n', as_file);
     }
     return ;
 }
@@ -96,9 +96,9 @@ void
 fail(char * mess)
 {
     if ( do_comment ) {
-	fprintf(outf, "!! TRANSLATION FAILED : " ) ;
-	fprintf(outf, "%s\n", mess ) ;
-	fflush ( outf ) ;
+	fprintf(as_file, "!! TRANSLATION FAILED : " ) ;
+	fprintf(as_file, "%s\n", mess ) ;
+	fflush ( as_file ) ;
     }
     fprintf ( stderr, "trans : internal error '%s'\n", mess ) ;
     if ( !do_comment ) exit ( EXIT_FAILURE ) ;

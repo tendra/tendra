@@ -944,20 +944,20 @@ void output_DEBUG
     fclose(GNTT_);
     remove(GNTT_name);
 
-    fprintf(outf,"\n\t.SPACE\t$DEBUG$\n");
-    fprintf(outf,"\t.SUBSPA\t$HEADER$\n");
+    fprintf(as_file,"\n\t.SPACE\t$DEBUG$\n");
+    fprintf(as_file,"\t.SUBSPA\t$HEADER$\n");
 #if USE_XT
-    fprintf(outf,"\t.WORD\t%ld\n",(gntt_next.word * DNTTBLOCKSIZE) |
+    fprintf(as_file,"\t.WORD\t%ld\n",(gntt_next.word * DNTTBLOCKSIZE) |
 	     		       extension_header);	/* MSB indicates XT */
 #else
-    fprintf(outf,"\t.WORD\t%ld\n",(gntt_next.word * DNTTBLOCKSIZE) | 0);
+    fprintf(as_file,"\t.WORD\t%ld\n",(gntt_next.word * DNTTBLOCKSIZE) | 0);
 	     		                        	/* MSB indicates XT */
 #endif
-    fprintf(outf,"\t.WORD\t%ld\n",lntt_next.word * DNTTBLOCKSIZE);
-    fprintf(outf,"\t.WORD\t%ld\n",slt_next * SLTBLOCKSIZE);
-    fprintf(outf,"\t.WORD\t%ld\n",vt_next);
+    fprintf(as_file,"\t.WORD\t%ld\n",lntt_next.word * DNTTBLOCKSIZE);
+    fprintf(as_file,"\t.WORD\t%ld\n",slt_next * SLTBLOCKSIZE);
+    fprintf(as_file,"\t.WORD\t%ld\n",vt_next);
 #if USE_XT
-    fprintf(outf,"\t.WORD\t%ld\n",xt_next * XTBLOCKSIZE);
+    fprintf(as_file,"\t.WORD\t%ld\n",xt_next * XTBLOCKSIZE);
 #endif
     return;
 }
@@ -1180,7 +1180,7 @@ void init_stab_aux
 	if (n && s[n - 1]!= 'h')j = i;
     }
     fclose(dg_file);
-    dg_file = outf;
+    dg_file = as_file;
     stab_file((long)j, 0);
     if (diag == DIAG_GDB)
     {

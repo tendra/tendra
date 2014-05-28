@@ -60,7 +60,7 @@ init(void)
 	abi       = ABI_HPUX;
 
 	/* initialise output file */
-	outf = stdout;
+	as_file = stdout;
 
 	/* errors messages are output on stdout, ensure they get out */
 	setbuf(stdout, NULL);
@@ -139,7 +139,7 @@ main(FILE *f)
 {
 	char *arg;
 
-	outf = f;
+	as_file = f;
 
 	if (do_profile && PIC_code) {
 		fprintf(stderr,"hppatrans warning: \"-P\" and \"-D\" are mutually exclusive. \"-P\" ignored.\n");

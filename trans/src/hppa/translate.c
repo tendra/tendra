@@ -151,7 +151,7 @@ int nexps;
 extern baseoff boff(exp);
 extern int res_label;
 
-FILE *outf = NULL;/* assembler output file */
+FILE *as_file = NULL;/* assembler output file */
 dec **main_globals;
 int main_globals_index;
 
@@ -351,7 +351,7 @@ void translate_capsule
 	   strcat(s,crt_def->dec_u.dec_val.dec_id+7);
 	   crt_def->dec_u.dec_val.dec_id = s;
 	   if (assembler == ASM_HP)
-	      fprintf(outf,"\t.WORD\t%s\n",s);
+	      fprintf(as_file,"\t.WORD\t%s\n",s);
 	}
       }
     }

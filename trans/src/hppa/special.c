@@ -207,8 +207,8 @@ specialmake(int i, exp par, space sp, where dest, int exitlab)
 
       /* asm is dangerous; as the least precaution, zap register tracking. */
       clear_all();
-      fprintf(outf,"!  asm:\n" ) ;
-      fprintf(outf, "%s\n", s) ;
+      fprintf(as_file,"!  asm:\n" ) ;
+      fprintf(as_file, "%s\n", s) ;
       break;
     }
 
@@ -342,5 +342,5 @@ import_millicode(void)
    int n;
    for(n=0; n<sz_millicode_lib; n++)
       if ( millicode_lib[n].called )
-	 fprintf(outf,"\t.IMPORT\t%s,MILLICODE\n",millicode_lib[n].proc_name);
+	 fprintf(as_file,"\t.IMPORT\t%s,MILLICODE\n",millicode_lib[n].proc_name);
 }

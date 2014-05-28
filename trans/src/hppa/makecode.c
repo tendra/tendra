@@ -652,7 +652,7 @@ makeans make_code
   mka.regmove = NOREG;
 
   insection(text_section);
-  fflush(outf);
+  fflush(as_file);
   switch (name(e))
   {
 

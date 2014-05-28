@@ -12,10 +12,10 @@
 
 #include <stdio.h>
 
-extern FILE *outf;
+extern FILE *as_file;
 
-#define outs( X ) fputs( (X), outf )
-#define outc( X ) fputc( (X), outf )
-#define outn( X ) fprintf(outf, "%ld", (long) (X) )
-#define outnl()   fputc( '\n', outf )
+#define outs( X ) fputs( (X), as_file )
+#define outc( X ) fputc( (X), as_file )
+#define outn( X ) fprintf(as_file, "%ld", (long) (X) )
+#define outnl()   fputc( '\n', as_file )
 #endif

@@ -480,9 +480,9 @@ outascii(char * str, int strsize)
 			/* output as a hexadecimal  */
 		    {
 		       if (c<16)
-			   fprintf(outf,"\\x0%x", c) ;
+			   fprintf(as_file,"\\x0%x", c) ;
 		       else
-			   fprintf(outf,"\\x%x", c) ;
+			   fprintf(as_file,"\\x%x", c) ;
 		    }
   	            break ;
 		}
@@ -546,7 +546,7 @@ outconcbit(concbittype c)
   {
     if (i != 0)
        outc(',') ;
-    fprintf(outf,"%#lx", ( w >> 24 ) & 255 ) ;
+    fprintf(as_file,"%#lx", ( w >> 24 ) & 255 ) ;
     w = w << 8;
   }
   outnl();
@@ -768,13 +768,13 @@ evalone(exp e, int bitposn)
 	    switch ( char_size )
 	    {
 	  case 8:
-	      fprintf(outf,"0x%x", st[i]);
+	      fprintf(as_file,"0x%x", st[i]);
 	      break;
 	  case 16:
-	      fprintf(outf,"0x%x", ((short *) st)[i]);
+	      fprintf(as_file,"0x%x", ((short *) st)[i]);
 	      break;
 	  case 32:
-	      fprintf(outf,"0x%x", ((int *) st)[i]);
+	      fprintf(as_file,"0x%x", ((int *) st)[i]);
 	    break;
 	    }
 	  }/*for i*/

@@ -537,7 +537,7 @@ makeans make_proc_tag_code
      int i,j;
      char *hit;
      FILE_POSN Pos;
-     GET_FILE_POSN(outf,Pos);
+     GET_FILE_POSN(as_file,Pos);
      hit = (char*)xmalloc((nLabels+8)*sizeof(char));
      for (i=0;i<line;i++)
      {
@@ -568,7 +568,7 @@ makeans make_proc_tag_code
 	      ins_p cc;
 	      int a,b;
 	      cc=pCode[i] ->cc;
-	      SET_FILE_POSN(outf,(pCode[i] ->fpos));
+	      SET_FILE_POSN(as_file,(pCode[i] ->fpos));
 	      a=pCode[i] ->op[0];
 	      b=pCode[i] ->op[1];
 	      IGNORE sprintf(s,"\tbb%s,N\t%s,%d,L$$%d\n\tnop",cc,RN(a),b,lab);
@@ -576,7 +576,7 @@ makeans make_proc_tag_code
 	      for (;j<63;j++)
 		 s[j] =' ';
 	      s[63] =0;
-	      fprintf(outf,"%s\n",s);
+	      fprintf(as_file,"%s\n",s);
 	   }
 	   else
 	   {
@@ -586,7 +586,7 @@ makeans make_proc_tag_code
 		 cc=c_OD;
 	      else
 		 cc=c_EV;
-	      SET_FILE_POSN(outf,(pCode[i] ->fpos));
+	      SET_FILE_POSN(as_file,(pCode[i] ->fpos));
 	      a=pCode[i] ->op[0];
 	      b=pCode[i] ->op[1];
 	      IGNORE sprintf(s,"\textru%s\t%s,%d,1,0\n\tb\tL$$%d\n\tnop",cc,RN(a),b,lab);
@@ -594,14 +594,14 @@ makeans make_proc_tag_code
 	      for (;j<63;j++)
 		 s[j] =' ';
 	      s[63] =0;
-	      fprintf(outf,"%s\n",s);
+	      fprintf(as_file,"%s\n",s);
 	   }
 	}
 	else
 	if (pCode[i] ->ins==i_ub)
 	{
 	   jump = i-to;
-	   SET_FILE_POSN(outf,(pCode[i] ->fpos));
+	   SET_FILE_POSN(as_file,(pCode[i] ->fpos));
 #if 0
 	   if (SIMM19(jump*4))
 	   {
@@ -612,7 +612,7 @@ makeans make_proc_tag_code
 		 s[j] =' ';
 	      s[63] ='\n';
 	      s[64] =0;
-	      fprintf(outf,"%s",s);
+	      fprintf(as_file,"%s",s);
 #if 0
 	   }
 	   else
@@ -629,7 +629,7 @@ makeans make_proc_tag_code
 	      ins_p cc;
 	      int a,b;
 	      cc=pCode[i] ->cc;
-	      SET_FILE_POSN(outf,(pCode[i] ->fpos));
+	      SET_FILE_POSN(as_file,(pCode[i] ->fpos));
 	      a=pCode[i] ->op[0];
 	      b=pCode[i] ->op[1];
 	      if (jump<0 && line>i)
@@ -650,7 +650,7 @@ makeans make_proc_tag_code
 	      for (;j<63;j++)
 		 s[j] =' ';
 	      s[63] =0;
-	      fprintf(outf,"%s\n",s);
+	      fprintf(as_file,"%s\n",s);
 	   }
 	   else
 #if 0
@@ -660,7 +660,7 @@ makeans make_proc_tag_code
 	      ins_p cc;
 	      int a,b;
 	      cc=opp(pCode[i] ->cc);
-	      SET_FILE_POSN(outf,(pCode[i] ->fpos));
+	      SET_FILE_POSN(as_file,(pCode[i] ->fpos));
 	      a=pCode[i] ->op[0];
 	      b=pCode[i] ->op[1];
 	      if (pCode[i] ->ins==i_cj)
@@ -671,7 +671,7 @@ makeans make_proc_tag_code
 	      for (;j<63;j++)
 		 s[j] =' ';
 	      s[63] =0;
-	      fprintf(outf,"%s\n",s);
+	      fprintf(as_file,"%s\n",s);
 	   }
 #if 0
 	   else
@@ -679,7 +679,7 @@ makeans make_proc_tag_code
 	      ins_p cc;
 	      int a,b;
 	      cc=pCode[i] ->cc;
-	      SET_FILE_POSN(outf,(pCode[i] ->fpos));
+	      SET_FILE_POSN(as_file,(pCode[i] ->fpos));
 	      a=pCode[i] ->op[0];
 	      b=pCode[i] ->op[1];
 	      if (pCode[i] ->ins==i_cj)
@@ -690,12 +690,12 @@ makeans make_proc_tag_code
 	      for (;j<63;j++)
 		 s[j] =' ';
 	      s[63] =0;
-	      fprintf(outf,"%s\n",s);
+	      fprintf(as_file,"%s\n",s);
 	   }
 #endif
 	}
      }
-     SET_FILE_POSN(outf,Pos);
+     SET_FILE_POSN(as_file,Pos);
      free(hit);
   }
 

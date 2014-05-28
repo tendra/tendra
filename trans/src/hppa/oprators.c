@@ -593,7 +593,7 @@ void import_long_double_lib
    int n;
    for (n=0; n<14; n++)
       if (long_double_lib[n].called)
-	 fprintf(outf,"\t.IMPORT\t%s,CODE\n",long_double_lib[n].proc_name);
+	 fprintf(as_file,"\t.IMPORT\t%s,CODE\n",long_double_lib[n].proc_name);
    if (long_double_0)
    {
       outnl();
