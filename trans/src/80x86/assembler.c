@@ -377,7 +377,6 @@ outend(void)
 {
 	if (assembler == ASM_SUN) {
 		dot_align(16);
-		out_close();
 		return;
 	}
 
@@ -393,8 +392,6 @@ outend(void)
 		outs(".section .note.GNU-stack,\"\",@progbits");
 		outnl();
 	}
-
-	out_close();
 }
 
 void

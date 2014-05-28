@@ -8,6 +8,7 @@
  */
 
 #include <stdlib.h>
+#include <string.h>
 
 #include <shared/check.h>
 #include <shared/getopt.h>
@@ -234,26 +235,14 @@ unhas(void)
 }
 
 static void
-main(int argc, char **argv)
+main(FILE *f)
 {
 	int ch;
-	char *outfname;
 	const char *optstring;
 
-	if (argc < 1) {
-		failer(BAD_COMMAND1);
-		exit(EXIT_FAILURE);
-	}
+	outinit(f);
 
-	while (*argv) {
-		outfname = argv[0];
-
-		/* initiate the output file */
-		if (!outinit(outfname)) {
-			failer(CANT_OPEN);
-			exit(EXIT_FAILURE);
-		}
-
+	{
 		init_all();
 
 #ifdef NEWDWARF
@@ -293,13 +282,11 @@ main(int argc, char **argv)
 			if (diag != DIAG_NONE)
 				out_diagnose_postlude();
 
-		outend(); /* close the .s file */
+		outend();
 		endreader();
 
 		if (good_trans)
 			exit(EXIT_FAILURE);
-
-		argv++;
 	}
 }
 

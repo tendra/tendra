@@ -132,23 +132,9 @@ bool done_scan = 0;
 /* 
  * Translate the TDF 
  */
-int translate(char *outfname)
+int translate(FILE *f)
 {
-  if (strcmp(outfname, "-") == 0)
-  {
-    /* "-" by convention means stdout */
-    as_file = stdout;
-    setbuf(as_file, 0);			/* to help debugging */
-  }
-  else
-  {
-    as_file = fopen(outfname, "w");
-    if (as_file == (FILE *) 0)
-    {
-      fprintf(stderr, "powertrans: cannot open output file %s\n", outfname);
-      return 3;
-    }
-  }
+	as_file = f;
 
   /* mark the as output as TDF compiled */
 #ifdef DO_ASSEMBLER_MACROS
@@ -182,22 +168,11 @@ int translate(char *outfname)
   name_prefix = "";
 
 
-  /*
-   * Translate.
-   */
-
   /* 
    * Start the TDF reader, which calls back to translate_capsule() below 
    */
 
   d_capsule();
-
-  /* check for output errors and close the .s file */
-  if (ferror(as_file) != 0 || fclose(as_file) != 0)
-  {
-    fprintf(stderr, "powertrans: error writing to output file %s\n", outfname);
-    return 4;
-  }
 
   return good_trans;			/* return 1 for error, 0 for good */
 }

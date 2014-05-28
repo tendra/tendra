@@ -34,21 +34,10 @@ static FILE *fpout;
 long instr_count = -1;
 #endif
 
-/* XXX: rename to out_open ? */
-int
-outinit(char *intermed)
-{
-	fpout = fopen(intermed, "w");
-	return fpout != NULL;
-}
-
 void
-out_close(void)
+outinit(FILE *f)
 {
-	if (fclose(fpout) == EOF) {
-		failer("out_close: fclose error");
-		exit(EXIT_FAILURE);
-	}
+	fpout = f;
 }
 
 /*

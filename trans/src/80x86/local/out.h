@@ -14,8 +14,7 @@
 
 extern int  last_jump_label;
 
-int outinit(char *intermed);
-void out_close(void);
+void outinit(FILE *f);
 FILE *out_get_stream(void);
 void outs(char *str);
 void out_comment(void);

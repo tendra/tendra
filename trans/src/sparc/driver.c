@@ -67,23 +67,6 @@ int gencompat = 1;
 int do_dynamic_init = 0;
 
 static void
-open_files ( char * outfname )
-{
-  if ( strcmp ( outfname, "-" ) == 0 ) {
-    /* "-" by convention means stdout */
-    as_file = stdout ;
-  } else {
-    as_file = fopen ( outfname, "w" ) ;
-    if ( as_file == NULL ) {
-      fprintf ( stderr, "%s : cannot open output file %s\n",
-		progname, outfname ) ;
-      exit ( EXIT_FAILURE ) ;
-    }
-  }
-  return ;
-}
-
-static void
 init(void)
 {
 	endian    = ENDIAN_BIG;
@@ -283,24 +266,15 @@ unhas(void)
 }
 
 static void
-main ( int argc, char ** argv )
+main(FILE *f)
 {
 	char *arg ;
 	char *outfname ;
 
 	/* initialise output file */
-	as_file = stdout ;
-
-	/* we expect one further filename */
-	if ( argc ==  1 ) {
-		outfname = argv[1] ;
-	} else {
-		fprintf ( stderr, "%s : input file missing\n", progname);
-		exit(EXIT_FAILURE);
-	}
+	as_file = f;
 
 	/* main decoding routines */
-	open_files ( outfname ) ;
 	init_translator () ;
 
 #ifdef NEWDWARF
@@ -316,13 +290,6 @@ main ( int argc, char ** argv )
 
 	exit_translator () ;
 	if ( good_trans ) exit ( EXIT_FAILURE ) ;
-
-	/* check for output errors and close the output file */
-	if ( ferror ( as_file ) != 0 || fclose ( as_file ) != 0 ) {
-		fprintf ( stderr, "%s : output file error, %s\n",
-			progname, outfname ) ;
-		exit ( EXIT_FAILURE ) ;
-	}
 
 	/* success */
 	exit ( EXIT_SUCCESS ) ;

@@ -34,26 +34,10 @@ FILE *fpout;
 
 int no_align_directives;
 
-/*
-    OPEN OUTPUT FILE
-
-    This routine opens the file with the given name for output.  If the
-    name is NULL, the standard output is used.
-*/
-
 void
-open_output(char *nm)
+open_output(FILE *f)
 {
-	if (nm == NULL) {
-		fpout = stdout;
-	} else {
-		fpout = fopen(nm, "w");
-		if (fpout == NULL) {
-			error(ERROR_SERIOUS, "Can't open output file, %s", nm);
-			exit(EXIT_FAILURE);
-		}
-	}
-	return;
+	fpout = f;
 }
 
 

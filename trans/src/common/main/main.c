@@ -7,6 +7,7 @@
  */
 
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
 
 #include <shared/getopt.h>
@@ -52,6 +53,7 @@ int
 main(int argc, char *argv[])
 {
 	int quit = 0;
+	FILE *f;
 
 	set_progname(argv[0], driver.version);
 	argv[0] = (char *) progname;
@@ -159,12 +161,40 @@ main(int argc, char *argv[])
 		exit(EXIT_FAILURE); /* XXX: unreached */
 	}
 
-	/* TODO: open output */
+	/*
+	 * Open assembly text (.s file) for output.
+	 */
+	{
+		if (0 == strcmp(argv[1], "-")) {
+			f = stdout;
+		} else {
+			f = fopen(argv[1], "w");
+			if (f == NULL) {
+				error(ERROR_FATAL, "Cannot open output text %s", argv[1]);
+			}
+		}
 
-	driver.main(argc - 1, argv + 1);
+#ifndef NDEBUG
+		setbuf(f, 0);
+#endif
+	}
+
+	driver.main(f);
 
 	if (number_errors != 0) {
 		return 1;
+	}
+
+	{
+		if (ferror(f)) {
+			perror(argv[1]);
+			return 1;
+		}
+
+		if (EOF == fclose(f)) {
+			perror(argv[1]);
+			return 1;
+		}
 	}
 
 	return 0;

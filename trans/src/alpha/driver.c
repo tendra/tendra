@@ -144,7 +144,7 @@ unhas(void)
 }
 
 static void
-main(int argc, char *argv[])
+main(FILE *f)
 {
 	int i;
 	char *aname;	/* name of file for assembly output */
@@ -152,21 +152,15 @@ main(int argc, char *argv[])
 	char *baname;
 	char *tname;
 
-	if (produce_binasm && argc != 2 || argc != 1) {
-		alphafail(TOO_FEW_PARAMETERS);
-	}
-
 	/* the files are passed in the order { .G .T | .s } */
 	if (produce_binasm) {
-		baname  = argv[1];
-		dname   = argv[0];
-	} else {
-		aname   = argv[0];
-		as_file = fopen(aname, "w");
-		if (as_file == NULL) {
-			alphafail(CANNOT_OPEN_FILE, aname);
-		}
+		/* TODO: these can become separate driver-specific flags,
+		 * and a .s file is always generated */
+		baname  = "TODO"; /* argv[1]; */
+		dname   = "TODO"; /* argv[0]; */
 	}
+
+	as_file = f;
 
 	if (produce_binasm) {
 		ba_file = fopen(baname, "w");
@@ -193,8 +187,6 @@ main(int argc, char *argv[])
 
 	if (produce_binasm) {
 		fclose(ba_file);
-	} else {
-		fclose(as_file);
 	}
 }
 

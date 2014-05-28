@@ -97,26 +97,6 @@ option(char c, const char *optarg)
 	return 0;
 }
 
-/*
- * Open output file.
- */
-static int
-init_trans(char *outfname)
-{
-  if (strcmp(outfname, "-") == 0) {
-    /* "-" by convention means stdout */
-    outf = stdout;
-  } else {
-    outf = fopen(outfname, "w+");
-    if (outf == (FILE *)0) {
-      fprintf(stderr, "hppatrans: cannot open output file %s\n", outfname);
-      return 3;
-    }
-  }
-
-  return 0;
-}
-
 static void
 unhas(void)
 {
@@ -155,18 +135,11 @@ unhas(void)
 }
 
 static void
-main(int argc, char ** argv)
+main(FILE *f)
 {
 	char *arg;
 
-	char *outfname	= NULL;
-
-	/* we expect one further filename */
-	if (argc == 1) {
-		outfname = argv[0];
-	} else {
-		exit(EXIT_FAILURE);
-	};
+	outf = f;
 
 	if (do_profile && PIC_code) {
 		fprintf(stderr,"hppatrans warning: \"-P\" and \"-D\" are mutually exclusive. \"-P\" ignored.\n");
@@ -189,16 +162,10 @@ main(int argc, char ** argv)
 		 init_stab();
 	}
 
-	if (init_trans(outfname) || d_capsule() || good_trans)
+	if (d_capsule() || good_trans)
 		 exit(EXIT_FAILURE);
 
 	exit_translator();
-
-	/* check for output errors and close the .s file */
-	if (ferror(outf) != 0 || fclose(outf) != 0) {
-		fprintf(stderr, "hppatrans: error writing to output file %s\n", outfname);
-		exit(EXIT_FAILURE);
-	}
 }
 
 void

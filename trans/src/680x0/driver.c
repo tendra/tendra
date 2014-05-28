@@ -184,12 +184,11 @@ unhas(void)
 }
 
 static void
-main(int argc, char **argv)
+main(FILE *f)
 {
 	int a;
-	char *output = NULL;
 
-	output = argv[0];
+	open_output(f);
 
 	/* Set up alignment rules */
 	double_align = DBL_ALIGN;
@@ -209,7 +208,6 @@ main(int argc, char **argv)
 	init_wheres();
 
 	/* Decode, optimize and process the input TDF */
-	open_output(output);
 	init_output();
 	area(ptext);
 

@@ -123,30 +123,27 @@ unhas(void)
 }
 
 static void
-main(int argc, char **argv)
+main(FILE *f)
 {
 	char *nm;
 	char *aname;
 	char *dname;
 
 	if (produce_binasm) {
-		dname = argv[0]; /* the .T file */
-		nm    = argv[1]; /* the .G file */
+		/* TODO: these can become separate driver-specific flags,
+		 * and a .s file is always generated */
+
+		dname = "TODO"; /* argv[0]; */ /* the .T file */
+		nm    = "TODO"; /* argv[1]; */ /* the .G file */
 
 		ba_file = fopen(nm, "w");
 		if (ba_file == NULL) {
 			printf("install: can't open output file %s\n", nm);
 			exit(EXIT_FAILURE);
 		}
-	} else {
-		aname = argv[1];
-
-		as_file = fopen(aname, "w");
-		if (as_file == NULL) {
-			failer("can't open .s file");
-			exit(EXIT_FAILURE);
-		}
 	}
+
+	as_file = f;
 
 	init_flpt();
 
@@ -162,8 +159,6 @@ main(int argc, char **argv)
 	if (produce_binasm) {
 		fclose(ba_file);
 		output_symtab(dname);
-	} else {
-		fclose(as_file);
 	}
 }
 

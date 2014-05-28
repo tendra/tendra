@@ -123,19 +123,9 @@ unhas(void)
 }
 
 static void
-main(int argc, char **argv)
+main(FILE *f)
 {
-	char *outfname = NULL;
-	char *arg;
-
-	/* we expect one further filename */
-	if (argc == 1) {
-		outfname = argv[0];
-	} else {
-		exit(EXIT_FAILURE);
-	}
-
-	if (0 != translate(outfname)) {
+	if (0 != translate(f)) {
 		exit(EXIT_FAILURE);
 	}
 }
