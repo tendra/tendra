@@ -26,6 +26,7 @@ PARTS+=	src/common/reader
 PARTS+=	src/common/refactor
 PARTS+= src/common/utility
 PARTS+= src/common/symtab
+PARTS+= src/common/main
 
 .include <tendra.partial.mk>
 
@@ -58,7 +59,7 @@ SRCS+=	labels.c
 SRCS+=	locate.c
 SRCS+=	machine.c
 SRCS+=	machine_toks.c
-SRCS+=	main.c
+SRCS+=	driver.c
 SRCS+=	move.c
 SRCS+=	oddtest.c
 SRCS+=	operators.c

@@ -10,18 +10,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include <shared/error.h>
+
 #include <local/out.h>
 
 #include <refactor/const.h>
 
 #include "comment.h"
-
-
-/*
-  PROGRAM NAME
-*/
-
-char *sparctrans = "sparctrans" ;
 
 
 /*
@@ -39,7 +34,7 @@ fail ( char * mess ){
     outnl () ;
     fflush ( as_file ) ;
   }
-  fprintf ( stderr, "%s : error : %s\n", sparctrans, mess ) ;
+  fprintf ( stderr, "%s : error : %s\n", progname, mess ) ;
   if ( !do_comment ) exit ( EXIT_FAILURE ) ;
   /* generate more code to give the error context when commenting */
   return ;

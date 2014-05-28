@@ -20,6 +20,7 @@ PARTS+=	src/common/linkinfo
 PARTS+=	src/common/reader
 PARTS+=	src/common/refactor
 PARTS+= src/common/utility
+PARTS+= src/common/main
 
 .include <tendra.partial.mk>
 
@@ -48,7 +49,7 @@ SRCS+=	locate.c
 SRCS+=	machine.c
 SRCS+=	machine_toks.c
 SRCS+=	macro.c
-SRCS+=	main.c
+SRCS+=	driver.c
 SRCS+=	makecode.c
 SRCS+=	mask.c
 SRCS+=	mem_copy.c

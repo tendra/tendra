@@ -23,6 +23,7 @@ PARTS+= src/common/linkinfo
 PARTS+= src/common/reader
 PARTS+= src/common/refactor
 PARTS+= src/common/utility
+PARTS+= src/common/main
 
 .include <tendra.partial.mk>
 
@@ -48,7 +49,7 @@ SRCS+=	is_worth.c
 SRCS+=	localflags.c
 SRCS+=	machine.c
 SRCS+=	machine_toks.c
-SRCS+=	main.c
+SRCS+=	driver.c
 SRCS+=	operand.c
 SRCS+=	out.c
 SRCS+=	overlap.c
