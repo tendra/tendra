@@ -501,13 +501,13 @@ dwarf_inspect_filename(filename f)
 			/* note this to validate sourcemarks */
 			main_filename = f;
 
-			fflush(fpout);
+			fflush(as_file);
 			{
-				long old_tell = ftell(fpout);
+				long old_tell = ftell(as_file);
 
-				fseek(fpout, name_space, SEEK_SET);
+				fseek(as_file, name_space, SEEK_SET);
 				outc('"'); outs(str); outc('"');
-				fseek(fpout, old_tell, SEEK_SET);
+				fseek(as_file, old_tell, SEEK_SET);
 			}
 		}
 	}
@@ -545,13 +545,13 @@ maybe_fix_filename(void)
 		strcpy(name_buf, "UNKNOWN_FILE.c");
 	}
 
-	fflush(fpout);
+	fflush(as_file);
 	{
-		long old_tell = ftell(fpout);
+		long old_tell = ftell(as_file);
 
-		fseek(fpout, name_space, SEEK_SET);
+		fseek(as_file, name_space, SEEK_SET);
 		outc('"'); outs(name_buf); outc('"');
-		fseek(fpout, old_tell, SEEK_SET);
+		fseek(as_file, old_tell, SEEK_SET);
 	}
 }
 
@@ -562,8 +562,8 @@ enter_dwarf_comp_unit(void)
 	start_sib_chain(TAG_compile_unit);
 	OUT_DWARF_ATTR(AT_name);
 	outs(STRING_M);
-	fflush(fpout);
-	name_space = ftell(fpout);
+	fflush(as_file);
+	name_space = ftell(as_file);
 	outs("                                                                    ");
 	outs("                                                                    ");
 	outnl();

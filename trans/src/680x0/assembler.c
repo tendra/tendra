@@ -21,11 +21,11 @@
 void asm_nprefix(void) {
 	switch (assembler) {
 	case ASM_HP:
-		fputc('&', fpout);
+		fputc('&', as_file);
 		break;
 
 	case ASM_GAS:
-		fputc('#', fpout);
+		fputc('#', as_file);
 		break;
 	}
 }
@@ -33,11 +33,11 @@ void asm_nprefix(void) {
 void asm_fprefix(void) {
 	switch (assembler) {
 	case ASM_HP:
-		fputs("0f", fpout);
+		fputs("0f", as_file);
 		break;
 
 	case ASM_GAS:
-		fputs("0r", fpout);
+		fputs("0r", as_file);
 		break;
 	}
 }
@@ -45,7 +45,7 @@ void asm_fprefix(void) {
 void asm_ind_before(void) {
 	switch (assembler) {
 	case ASM_HP:
-		fputc('(', fpout);
+		fputc('(', as_file);
 		break;
 	}
 }
@@ -53,7 +53,7 @@ void asm_ind_before(void) {
 void asm_ind_middle(void) {
 	switch (assembler) {
 	case ASM_GAS:
-		fputc('@', fpout);
+		fputc('@', as_file);
 		break;
 	}
 }
@@ -61,7 +61,7 @@ void asm_ind_middle(void) {
 void asm_ind_after(void) {
 	switch (assembler) {
 	case ASM_HP:
-		fputc(')', fpout);
+		fputc(')', as_file);
 		break;
 	}
 }
@@ -69,7 +69,7 @@ void asm_ind_after(void) {
 void asm_predec_before(void) {
 	switch (assembler) {
 	case ASM_HP:
-		fputs(" - (", fpout);
+		fputs(" - (", as_file);
 		break;
 	}
 }
@@ -77,11 +77,11 @@ void asm_predec_before(void) {
 void asm_predec_after(void) {
 	switch (assembler) {
 	case ASM_HP:
-		fputc(')', fpout);
+		fputc(')', as_file);
 		break;
 
 	case ASM_GAS:
-		fputs("@ - ", fpout);
+		fputs("@ - ", as_file);
 		break;
 	}
 }
@@ -89,7 +89,7 @@ void asm_predec_after(void) {
 void asm_postinc_before(void) {
 	switch (assembler) {
 	case ASM_HP:
-		fputc('(', fpout);
+		fputc('(', as_file);
 		break;
 	}
 }
@@ -97,11 +97,11 @@ void asm_postinc_before(void) {
 void asm_postinc_after(void) {
 	switch (assembler) {
 	case ASM_HP:
-		fputs(") + ", fpout);
+		fputs(") + ", as_file);
 		break;
 
 	case ASM_GAS:
-		fputs("@ + ", fpout);
+		fputs("@ + ", as_file);
 		break;
 	}
 }
@@ -109,7 +109,7 @@ void asm_postinc_after(void) {
 void asm_scale_before(void) {
 	switch (assembler) {
 	case ASM_HP:
-		fputc(',', fpout);
+		fputc(',', as_file);
 		break;
 	}
 }
@@ -117,11 +117,11 @@ void asm_scale_before(void) {
 void asm_scale(void) {
 	switch (assembler) {
 	case ASM_HP:
-		fputs(".l*", fpout);
+		fputs(".l*", as_file);
 		break;
 
 	case ASM_GAS:
-		fputs(":l:", fpout);
+		fputs(":l:", as_file);
 		break;
 	}
 }
@@ -129,11 +129,11 @@ void asm_scale(void) {
 void asm_scale_1(void) {
 	switch (assembler) {
 	case ASM_HP:
-		fputs(".l", fpout);
+		fputs(".l", as_file);
 		break;
 
 	case ASM_GAS:
-		fputs(":l", fpout);
+		fputs(":l", as_file);
 		break;
 	}
 }
@@ -141,7 +141,7 @@ void asm_scale_1(void) {
 void asm_mem_before(void) {
 	switch (assembler) {
 	case ASM_HP:
-		fputs("([", fpout);
+		fputs("([", as_file);
 		break;
 	}
 }
@@ -149,7 +149,7 @@ void asm_mem_before(void) {
 void asm_mem_second(void) {
 	switch (assembler) {
 	case ASM_GAS:
-		fputc('@', fpout);
+		fputc('@', as_file);
 		break;
 	}
 }
@@ -157,11 +157,11 @@ void asm_mem_second(void) {
 void asm_mem_third(void) {
 	switch (assembler) {
 	case ASM_HP:
-		fputc(']', fpout);
+		fputc(']', as_file);
 		break;
 
 	case ASM_GAS:
-		fputc('@', fpout);
+		fputc('@', as_file);
 		break;
 	}
 }
@@ -169,28 +169,28 @@ void asm_mem_third(void) {
 void asm_mem_after(void) {
 	switch (assembler) {
 	case ASM_HP:
-		fputc(')', fpout);
+		fputc(')', as_file);
 		break;
 	}
 }
 
 void asm_bf_before(void) {
-	fputc('{', fpout);
+	fputc('{', as_file);
 }
 
 void asm_bf_middle(void) {
-	fputc(':', fpout);
+	fputc(':', as_file);
 }
 
 void asm_bf_after(void) {
-	fputc('}', fpout);
+	fputc('}', as_file);
 }
 
 void asm_rpair_sep(void) {
-	fputc(':', fpout);
+	fputc(':', as_file);
 }
 
 void asm_comment(void) {
-	fputc('#', fpout);
+	fputc('#', as_file);
 }
 

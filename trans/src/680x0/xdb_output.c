@@ -166,7 +166,7 @@ void init_diag
 /*
     COPY A FILE
 
-    The the file is copied to the main output file, fpout.
+    The the file is copied to the main output file, as_file.
 */
 
 static void copy_diag_file
@@ -174,7 +174,7 @@ static void copy_diag_file
 {
     int c;
     rewind(file);
-    while (c = getc(file), c != EOF)putc(c, fpout);
+    while (c = getc(file), c != EOF)putc(c, as_file);
     fclose(file);
     return;
 }

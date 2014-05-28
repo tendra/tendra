@@ -14,8 +14,6 @@
 
 extern FILE *as_file ;
 
-#define fpout		as_file
-
 #define outs( X )	fputs ( ( X ), as_file )
 #define outc( X )	fputc ( ( X ), as_file )
 #define outn( X )	fprintf ( as_file, "%ld", ( long ) ( X ) )

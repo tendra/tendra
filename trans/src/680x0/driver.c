@@ -227,7 +227,7 @@ main(FILE *f)
 	} else {
 		asm_version_aux;
 	}
-	fputc('\n', fpout);
+	fputc('\n', as_file);
 #endif
 }
 

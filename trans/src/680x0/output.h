@@ -12,10 +12,10 @@
 
 #include <stdio.h>
 
-extern FILE *fpout;
+extern FILE *as_file;
 extern int no_align_directives;
 
-#define  outh(X)	fprintf(fpout, "0x%lx",(unsigned long)(X))
+#define  outh(X)	fprintf(as_file, "0x%lx",(unsigned long)(X))
 
 extern void open_output(FILE *f);
 extern void init_instructions(void);
