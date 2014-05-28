@@ -17,6 +17,7 @@
 #include <reader/basicread.h>
 #include <reader/main_reads.h>
 #include <reader/externs.h>
+#include <reader/readglob.h>
 
 #include <construct/flags.h>
 #include <construct/flpt.h>
@@ -31,6 +32,7 @@
 #include "bool.h"
 
 FILE *ba_file;
+char *dname;	/* name of file to hold symbol table */
 
 #define VERSION_STR "2.4.11"
 
@@ -147,7 +149,6 @@ main(void)
 {
 	int i;
 	char *aname;	/* name of file for assembly output */
-	char *dname;	/* name of file to hold symbol table */
 	char *baname;
 	char *tname;
 
@@ -177,7 +178,14 @@ main(void)
 	name_prefix  = "";
 
 	(void) d_capsule();
+	if (good_trans) {
+		exit(EXIT_FAILURE);
+	}
+}
 
+static void
+cleanup(void)
+{
 	if (produce_binasm) {
 		output_symtab(dname);
 	}
@@ -193,6 +201,7 @@ struct driver driver = {
 	init,
 	unhas,
 	main,
+	cleanup,
 
 	"sud:",
 	option,

@@ -15,6 +15,11 @@
 
 #include <main/driver.h>
 
+#include <reader/main_reads.h>
+#include <reader/basicread.h>
+#include <reader/externs.h>
+#include <reader/readglob.h>
+
 #include <construct/flags.h>
 
 #include <utility/version.h>
@@ -29,7 +34,7 @@ extern bool dump_abbrev;
 FILE *as_file; /* assembly text output (.s file) */
 
 static void
-usage(FILE *f)
+trans_usage(FILE *f)
 {
 	fprintf(f, "usage: %s [-DMPQRVWY] [-%s]\n", progname, driver.opts);
 
@@ -93,8 +98,8 @@ main(int argc, char *argv[])
 
 			/* TODO: global options as lower case instead */
 			case 'V':
-			case 'v': trans_version(); return 0;
-			case 'h': usage(stdout);   return 0;
+			case 'v': trans_version();     return 0;
+			case 'h': trans_usage(stdout); return 0;
 
 #ifdef NEWDWARF
 			case 'T':
@@ -128,7 +133,7 @@ main(int argc, char *argv[])
 					argv[0], "illegal option -- ", c);
 
 			case '?':
-				usage(stderr);
+				trans_usage(stderr);
 				return 1;
 			}
 		}
@@ -139,7 +144,7 @@ main(int argc, char *argv[])
 
 	if (argc != 2) {
 		error(ERROR_FATAL, "Input and output file expected");
-		usage(stderr); /* XXX: ERROR_USAGE */
+		trans_usage(stderr); /* XXX: ERROR_USAGE */
 		return 1; /* XXX: unreached */
 	}
 
@@ -181,6 +186,17 @@ main(int argc, char *argv[])
 	}
 
 	driver.main();
+
+	/*
+	 * Start the TDF reader, which calls back to translate_capsule()
+	 */
+	{
+		(void) d_capsule();
+
+		if (good_trans) {
+			exit(EXIT_FAILURE);
+		}
+	}
 
 	if (number_errors != 0) {
 		return 1;

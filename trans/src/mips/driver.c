@@ -48,6 +48,8 @@ extern int good_trans;
 bool do_extern_adds;
 FILE * ba_file;
 
+char *dname;
+
 int majorno =  3;
 int minorno = 18;
 
@@ -124,11 +126,9 @@ unhas(void)
 static void
 main(void)
 {
-	char *nm;
-	char *aname;
-	char *dname;
-
 	if (produce_binasm) {
+		char *nm;
+
 		/* TODO: these can become separate driver-specific flags,
 		 * and a .s file is always generated */
 
@@ -150,9 +150,11 @@ main(void)
 
 	local_prefix = "$$";
 	name_prefix = "";
+}
 
-	d_capsule();
-
+static void
+cleanup(void)
+{
 	if (produce_binasm) {
 		fclose(ba_file);
 		output_symtab(dname);
@@ -165,6 +167,7 @@ struct driver driver = {
 	init,
 	unhas,
 	main,
+	cleanup,
 
 	"es",
 	option,

@@ -156,10 +156,11 @@ main(void)
 	if (diag != DIAG_NONE) {
 		 init_stab();
 	}
+}
 
-	if (d_capsule() || good_trans)
-		 exit(EXIT_FAILURE);
-
+static void
+cleanup(void)
+{
 	exit_translator();
 }
 
@@ -176,6 +177,7 @@ struct driver driver = {
 	init,
 	unhas,
 	main,
+	cleanup,
 
 	"cdi",
 	option,

@@ -19,6 +19,7 @@
 #include <reader/basicread.h>
 #include <reader/main_reads.h>
 #include <reader/externs.h>
+#include <reader/readglob.h>
 
 #include <construct/flpt.h>
 #include <construct/installglob.h>
@@ -212,9 +213,11 @@ main(void)
 	if (diag != DIAG_NONE) {
 		diag_prologue();
 	}
+}
 
-	d_capsule();
-
+static void
+cleanup(void)
+{
 	if (diag != DIAG_NONE) {
 		diag_epilogue();
 	}
@@ -235,6 +238,7 @@ struct driver driver = {
 	init,
 	unhas,
 	main,
+	cleanup,
 
 	"afiou",
 	option,

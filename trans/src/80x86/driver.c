@@ -240,29 +240,30 @@ main(void)
 	int ch;
 	const char *optstring;
 
-	{
-		init_all();
+	init_all();
 
 #ifdef NEWDWARF
-		if (diag == DIAG_DWARF2)
-			init_dwarf2();
-		else
+	if (diag == DIAG_DWARF2)
+		init_dwarf2();
+	else
 #endif
-			if (diag != DIAG_NONE)
-				out_diagnose_prelude();
+		if (diag != DIAG_NONE)
+			out_diagnose_prelude();
 
 #ifdef NEWDWARF
-		if (dump_abbrev) {
-			outs(".text\n");
-			do_abbreviations();
-			dwarf2_prelude();
-			make_dwarf_common();
-			dwarf2_postlude();
-		} else
+	if (dump_abbrev) {
+		outs(".text\n");
+		do_abbreviations();
+		dwarf2_prelude();
+		make_dwarf_common();
+		dwarf2_postlude();
+	} else
 #endif
+}
 
-		(void) d_capsule();
-
+static void
+cleanup(void)
+{
 		while (weak_list) {
 			outs(".set ");
 			outs(weak_list->weak_id);
@@ -285,7 +286,6 @@ main(void)
 
 		if (good_trans)
 			exit(EXIT_FAILURE);
-	}
 }
 
 struct driver driver = {
@@ -294,6 +294,7 @@ struct driver driver = {
 	init,
 	unhas,
 	main,
+	cleanup,
 
 	"abcdfghit:v:",
 	option,

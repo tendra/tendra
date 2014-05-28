@@ -15,6 +15,7 @@ struct driver {
 	void (*init)(void);
 	void (*unhas)(void);
 	void (*main)(void);
+	void (*cleanup)(void);
 
 	const char *opts;
 	int (*option)(char c, const char *optarg);

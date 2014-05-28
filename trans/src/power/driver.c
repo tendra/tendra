@@ -16,6 +16,8 @@
 
 #include <local/localflags.h>
 
+#include <reader/readglob.h>
+
 #include <construct/flags.h>		/* for option flags */
 #include <construct/installglob.h>
 
@@ -136,6 +138,7 @@ struct driver driver = {
 	init,
 	unhas,
 	main,
+	NULL,
 
 	"cen",
 	option,

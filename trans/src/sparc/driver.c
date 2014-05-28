@@ -281,15 +281,17 @@ main(void)
 		dwarf2_prelude () ;
 		make_dwarf_common () ;
 		dwarf2_postlude () ;
-	} else
+		exit_translator () ;
+		exit(EXIT_FAILURE);
+	}
 #endif
-		d_capsule () ;
+}
 
+static void
+cleanup(void)
+{
 	exit_translator () ;
 	if ( good_trans ) exit ( EXIT_FAILURE ) ;
-
-	/* success */
-	exit ( EXIT_SUCCESS ) ;
 }
 
 struct driver driver = {
@@ -298,6 +300,7 @@ struct driver driver = {
 	init,
 	unhas,
 	main,
+	cleanup,
 
 	"bcglmo:i:r:un",
 	option,

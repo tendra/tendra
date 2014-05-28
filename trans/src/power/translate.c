@@ -164,13 +164,6 @@ int translate(void)
   local_prefix = "S.";		/* S for static */
   name_prefix = "";
 
-
-  /* 
-   * Start the TDF reader, which calls back to translate_capsule() below 
-   */
-
-  d_capsule();
-
   return good_trans;			/* return 1 for error, 0 for good */
 }
 
