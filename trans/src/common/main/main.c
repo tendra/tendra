@@ -159,11 +159,9 @@ main(int argc, char *argv[])
 		exit(EXIT_FAILURE); /* XXX: unreached */
 	}
 
-	argc--;
-
 	/* TODO: open output */
 
-	driver.main(argc, argv);
+	driver.main(argc - 1, argv + 1);
 
 	if (number_errors != 0) {
 		return 1;
