@@ -33,6 +33,11 @@ extern int proc_label_count;
 extern float default_freq;
 extern int proc_externs;
 extern int flpt_always_comparable;
+
+/*
+ * Prints on stderr the versions of all the capsules
+ * from which this capsule was made.
+ */
 extern int report_versions;
 
 extern exp proc_struct_result;
