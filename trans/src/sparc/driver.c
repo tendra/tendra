@@ -67,20 +67,12 @@ int gencompat = 1;
 int do_dynamic_init = 0;
 
 static void
-open_files ( char * infname, char * outfname )
+open_files ( char * outfname )
 {
-
-  if ( !initreader ( infname ) ) {
-    fprintf ( stderr, "%s : cannot open input file %s\n",
-	      progname, infname ) ;
-    exit ( EXIT_FAILURE ) ;
-  }
-
   if ( strcmp ( outfname, "-" ) == 0 ) {
     /* "-" by convention means stdout */
     as_file = stdout ;
-  } 
-  else {
+  } else {
     as_file = fopen ( outfname, "w" ) ;
     if ( as_file == NULL ) {
       fprintf ( stderr, "%s : cannot open output file %s\n",
@@ -205,145 +197,142 @@ option(char c, const char *optarg)
 }
 
 static void
-main ( int argc, char ** argv )
+unhas(void)
 {
-	char *arg ;
-	char *infname ;
-	char *outfname ;
-
-	/* initialise output file */
-	as_file = stdout ;
-
 	/* errors messages are output on stdout, ensure they get out */
+	/* XXX: silly */
 	setbuf ( stdout, NULL ) ;
 	setbuf ( stderr, NULL ) ;
+
+	/* Things trans.sparc does not "has" */
+	has &= ~HAS_BYTEOPS;
+	has &= ~HAS_BYTEREGS;
+	has &= ~HAS_NEGSHIFT;
+	has &= ~HAS_ROTATE;
+	has &= ~HAS_MAXMIN;
+	has &= ~HAS_SETCC;
+	has &= ~HAS_COMPLEX;
+	has &= ~HAS_64_BIT;
+
+	/* not implemented */
+	optim &= ~OPTIM_TAIL;
+	optim &= ~OPTIM_ZEROOFFSETS;
+	optim &= ~OPTIM_SUBSTPARAMS;
+
+	/* Careful with procedure results */
+	optim &= ~OPTIM_UNPAD_APPLY;
+
+	/*
+	 * I am not sure that this really counts as an optimisation. Possibly it
+	 * shouldn't be an OPTIM_ flag at all. Or: it could be perfectly okay for
+	 * a user to set this for sparc, and thus this ought to be cleared by the
+	 * tcc environment for sparc. Meanwhile I'm clearing it here just in case.
+	 */
+	optim &= ~OPTIM_COMPOUNDS;
 
 	if (writable_strings) {
 		/* TODO: either always on, or always off. error out accordingly */
 	}
 
-    /* we expect two further filename arguments */
-    if ( argc ==  2 ) {
-      infname  = argv[0] ;
-      outfname = argv[1] ;
-    } 
-    else if ( argc == 1 ) {
-      infname = argv[0] ;
-      outfname = "-" ;
-    } 
-    else {
-      if ( argc == 0 )
-	fprintf ( stderr, "%s : input file missing\n", progname);
-	  exit(EXIT_FAILURE);
-    }
+	if (sysV_assembler) {
+		use_link_stuff = 1;
+	}
 
-    if (sysV_assembler) {
-      use_link_stuff = 1;
-    }
+	switch (abi) {
+	case ABI_SYSV:
+		use_long_double   = 1;
+		target_dbl_maxexp = 16384;
+		break;
 
-    switch (abi) {
-    case ABI_SYSV:
-      use_long_double   = 1;
-      target_dbl_maxexp = 16384;
-      break;
+	case ABI_SUNOS:
+		use_long_double   = 0;
+		target_dbl_maxexp = 308;
+		break;
+	}
 
-    case ABI_SUNOS:
-      use_long_double   = 0;
-      target_dbl_maxexp = 308;
-      break;
-    }
+	/* check ABI conformance */
+	if ( abi == ABI_SYSV && ( g_reg_max > 4 ) ) {
+		fprintf ( stderr, "%s : -r%d conflicts with SYSV ABI\n",
+			progname, g_reg_max ) ;
+	}
 
-    /* check ABI conformance */
-    if ( abi = ABI_SYSV && ( g_reg_max > 4 ) ) {
-      fprintf ( stderr, "%s : -r%d conflicts with SYSV ABI\n",
-		progname, g_reg_max ) ;
-    }
-
-    /* Things trans.sparc does not "has" */
-    has &= ~HAS_BYTEOPS;
-    has &= ~HAS_BYTEREGS;
-    has &= ~HAS_NEGSHIFT;
-    has &= ~HAS_ROTATE;
-    has &= ~HAS_MAXMIN;
-    has &= ~HAS_SETCC;
-    has &= ~HAS_COMPLEX;
-    has &= ~HAS_64_BIT;
-
-    /* not implemented */
-    optim &= ~OPTIM_TAIL;
-    optim &= ~OPTIM_ZEROOFFSETS;
-    optim &= ~OPTIM_SUBSTPARAMS;
-
-    /* Careful with procedure results */
-    optim &= ~OPTIM_UNPAD_APPLY;
-
-    /*
-     * I am not sure that this really counts as an optimisation. Possibly it
-     * shouldn't be an OPTIM_ flag at all. Or: it could be perfectly okay for
-     * a user to set this for sparc, and thus this ought to be cleared by the
-     * tcc environment for sparc. Meanwhile I'm clearing it here just in case.
-     */
-    optim &= ~OPTIM_COMPOUNDS;
-
-    if (diag != DIAG_NONE) {
-	optim = 0;
-        optim_level = 0 ;
-        all_variables_visible = 1;	/* set vis flag for all declarations */
+	if (diag != DIAG_NONE) {
+		optim = 0;
+		optim_level = 0 ;
+		all_variables_visible = 1;	/* set vis flag for all declarations */
 #ifdef NEWDIAGS
-	diag_visible = 1;
+		diag_visible = 1;
 #endif
-    }
+	}
 
-    /* initialise nowhere */
-    setregalt ( nowhere.answhere, 0 ) ;
-    nowhere.ashwhere.ashsize = 0 ;
-    nowhere.ashwhere.ashsize = 0 ;
+	/* initialise nowhere */
+	setregalt ( nowhere.answhere, 0 ) ;
+	nowhere.ashwhere.ashsize = 0 ;
+	nowhere.ashwhere.ashsize = 0 ;
 
-    /* initialise name prefixes and label numbers */
-    name_prefix = ( sysV_assembler ? "" : "_" ) ;
-    local_prefix = ( sysV_assembler ? ".." : "$$" ) ;
-    lab_prefix = ( sysV_assembler ? ".L" : "L." ) ;
-    crt_labno = 101 ;
+	/* initialise name prefixes and label numbers */
+	name_prefix  = ( sysV_assembler ? "" : "_" ) ;
+	local_prefix = ( sysV_assembler ? ".." : "$$" ) ;
+	lab_prefix   = ( sysV_assembler ? ".L" : "L." ) ;
+	crt_labno = 101 ;
 
-    /* other initialisation routines */
-    init_flpt () ;
+	/* other initialisation routines */
+	init_flpt () ;
 #include <reader/inits.h>
-    top_def = NULL ;
+	top_def = NULL ;
+}
 
-    /* main decoding routines */
-    open_files ( infname, outfname ) ;
-    init_translator () ;
+static void
+main ( int argc, char ** argv )
+{
+	char *arg ;
+	char *outfname ;
+
+	/* initialise output file */
+	as_file = stdout ;
+
+	/* we expect one further filename */
+	if ( argc ==  1 ) {
+		outfname = argv[1] ;
+	} else {
+		fprintf ( stderr, "%s : input file missing\n", progname);
+		exit(EXIT_FAILURE);
+	}
+
+	/* main decoding routines */
+	open_files ( outfname ) ;
+	init_translator () ;
+
 #ifdef NEWDWARF
-    if ( dump_abbrev ) {
-	/* Dump abbreviations table */
-	do_abbreviations () ;
-	dwarf2_prelude () ;
-	make_dwarf_common () ;
-	dwarf2_postlude () ;
-    } else
+	if ( dump_abbrev ) {
+		/* Dump abbreviations table */
+		do_abbreviations () ;
+		dwarf2_prelude () ;
+		make_dwarf_common () ;
+		dwarf2_postlude () ;
+	} else
 #endif
-    d_capsule () ;
-    exit_translator () ;
-    if ( good_trans ) exit ( EXIT_FAILURE ) ;
+		d_capsule () ;
 
-    /* check for output errors and close the output file */
-    if ( ferror ( as_file ) != 0 || fclose ( as_file ) != 0 ) {
-      fprintf ( stderr, "%s : output file error, %s\n",
-		progname, outfname ) ;
-      exit ( EXIT_FAILURE ) ;
-    }
+	exit_translator () ;
+	if ( good_trans ) exit ( EXIT_FAILURE ) ;
 
-    /* success */
-    exit ( EXIT_SUCCESS ) ;
-#ifdef lint
-    return 0;
-#endif
+	/* check for output errors and close the output file */
+	if ( ferror ( as_file ) != 0 || fclose ( as_file ) != 0 ) {
+		fprintf ( stderr, "%s : output file error, %s\n",
+			progname, outfname ) ;
+		exit ( EXIT_FAILURE ) ;
+	}
+
+	/* success */
+	exit ( EXIT_SUCCESS ) ;
 }
 
 struct driver driver = {
 	VERSION_STR,
 
 	init,
+	unhas,
 	main,
 
 	"bcglmo:i:r:un",

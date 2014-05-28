@@ -121,37 +121,8 @@ option(char c, const char *optarg)
 }
 
 static void
-main(int argc, char *argv[])
+unhas(void)
 {
-	int i;
-	char *aname;	/* name of file for assembly output */
-	char *dname;	/* name of file to hold symbol table */
-	char *baname;
-	char *tname;
-
-	if (PIC_code) {
-		failer("no PIC code available");
-		exit(EXIT_FAILURE);
-	}
-
-	if (produce_binasm && argc != 3 || argc != 2) {
-		alphafail(TOO_FEW_PARAMETERS);
-	}
-
-	/* the files are passed in the order .t { .G .T | .s } */
-	if (produce_binasm) {
-		tname   = argv[0];
-		baname  = argv[1];
-		dname   = argv[2];
-	} else {
-		tname   = argv[0];
-		aname   = argv[1];
-		as_file = fopen(aname, "w");
-		if (as_file == NULL) {
-			alphafail(CANNOT_OPEN_FILE, aname);
-		}
-	}
-
 	/* Things trans.alpha does not "has" */
 	has &= ~HAS_BYTEOPS;
 	has &= ~HAS_BYTEREGS;
@@ -166,6 +137,37 @@ main(int argc, char *argv[])
 	/* This does not work on the alpha */
 	optim &= ~OPTIM_CASE;
 
+	if (PIC_code) {
+		failer("no PIC code available");
+		exit(EXIT_FAILURE);
+	}
+}
+
+static void
+main(int argc, char *argv[])
+{
+	int i;
+	char *aname;	/* name of file for assembly output */
+	char *dname;	/* name of file to hold symbol table */
+	char *baname;
+	char *tname;
+
+	if (produce_binasm && argc != 2 || argc != 1) {
+		alphafail(TOO_FEW_PARAMETERS);
+	}
+
+	/* the files are passed in the order { .G .T | .s } */
+	if (produce_binasm) {
+		baname  = argv[1];
+		dname   = argv[0];
+	} else {
+		aname   = argv[0];
+		as_file = fopen(aname, "w");
+		if (as_file == NULL) {
+			alphafail(CANNOT_OPEN_FILE, aname);
+		}
+	}
+
 	if (produce_binasm) {
 		ba_file = fopen(baname, "w");
 		if (ba_file == NULL) {
@@ -173,10 +175,6 @@ main(int argc, char *argv[])
 		}
 	} else {
 		ba_file = NULL;
-	}
-
-	if (!initreader(tname)) {
-		alphafail(OPENING_T_FILE, tname);
 	}
 
 	init_flpt();
@@ -204,6 +202,7 @@ struct driver driver = {
 	VERSION_STR,
 
 	init,
+	unhas,
 	main,
 
 	"sud:",

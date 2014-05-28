@@ -113,14 +113,18 @@ option(char c, const char *optarg)
 }
 
 static void
-main(int argc, char **argv)
+unhas(void)
 {
-	int a;
-	char *input = NULL;
-	char *output = NULL;
+    /* Things trans.680x0 does not "has" */
+    has &= ~HAS_NEGSHIFT;
+    has &= ~HAS_ROTATE;
+    has &= ~HAS_MAXMIN;
+    has &= ~HAS_SETCC;
+    has &= ~HAS_COMPLEX;
+    has &= ~HAS_64_BIT;
 
-	input  = argv[0];
-	output = argv[1];
+    /* Careful with procedure results */
+    optim &= ~OPTIM_UNPAD_APPLY;
 
 	switch (assembler) {
 	case ASM_GAS:
@@ -146,93 +150,86 @@ main(int argc, char **argv)
 		break;
 	}
 
-    /* Things trans.680x0 does not "has" */
-    has &= ~HAS_NEGSHIFT;
-    has &= ~HAS_ROTATE;
-    has &= ~HAS_MAXMIN;
-    has &= ~HAS_SETCC;
-    has &= ~HAS_COMPLEX;
-    has &= ~HAS_64_BIT;
+	if (abi == ABI_SUNOS) {
+		promote_pars = 0;
+	}
 
-    /* Careful with procedure results */
-    optim &= ~OPTIM_UNPAD_APPLY;
-
-    if (abi == ABI_SUNOS) {
-	promote_pars = 0;
-    }
-
-    /* Switch off optimizations if required */
-    if (diag != DIAG_NONE
+	/* Switch off optimizations if required */
+	if (diag != DIAG_NONE
 #ifdef EBUG
-    || 1
+	|| 1
 #endif
-    ) {
-	optim = 0;
-    }
+	) {
+		optim = 0;
+	}
 
-    /* Check on separate units */
-    if (do_sep_units) {
-	separate_units = 1;
+	/* Check on separate units */
+	if (do_sep_units) {
+		separate_units = 1;
 #if 0
-	current_alloc_size = first_alloc_size;
+		current_alloc_size = first_alloc_size;
 #endif
-    }
+	}
 
-    do_pic = 0 ; /* TODO */
+	do_pic = 0 ; /* TODO */
 
-    /* Other options */
-    if (do_pic) {
-	    PIC_code = 1;
-    }
-    
-    if (~check & CHECK_EXTRA) {
-	    target_dbl_maxexp = 16384;
-    }
+	/* Other options */
+	if (do_pic) {
+		PIC_code = 1;
+	}
 
-    if (!initreader(input)) {
-	exit(EXIT_FAILURE);
-    }
-    /* open_input(input);*/
+	if (~check & CHECK_EXTRA) {
+		target_dbl_maxexp = 16384;
+	}
+}
 
-    /* Set up alignment rules */
-    double_align = DBL_ALIGN;
-    param_align = PARAM_ALIGN;
-    stack_align = STACK_ALIGN;
+static void
+main(int argc, char **argv)
+{
+	int a;
+	char *output = NULL;
 
-    diagnose_registers = 0;
+	output = argv[0];
 
-    MAX_BF_SIZE = (cconv != CCONV_HP ? MAX_BF_SIZE_CC : MAX_BF_SIZE_GCC);
+	/* Set up alignment rules */
+	double_align = DBL_ALIGN;
+	param_align = PARAM_ALIGN;
+	stack_align = STACK_ALIGN;
 
-    /* Call initialization routines */
-    top_def = NULL;
-    init_flpt();
-    init_instructions();
+	diagnose_registers = 0;
+
+	MAX_BF_SIZE = (cconv != CCONV_HP ? MAX_BF_SIZE_CC : MAX_BF_SIZE_GCC);
+
+	/* Call initialization routines */
+	top_def = NULL;
+	init_flpt();
+	init_instructions();
 #include <reader/inits.h>
-    init_weights();
-    init_wheres();
+	init_weights();
+	init_wheres();
 
-    /* Decode, optimize and process the input TDF */
-    open_output(output);
-    init_output();
-    area(ptext);
+	/* Decode, optimize and process the input TDF */
+	open_output(output);
+	init_output();
+	area(ptext);
 
-    if (diag != DIAG_NONE) {
-	    diag_prologue();
-    }
+	if (diag != DIAG_NONE) {
+		diag_prologue();
+	}
 
-    d_capsule();
+	d_capsule();
 
-    if (diag != DIAG_NONE) {
-	    diag_epilogue();
-    }
+	if (diag != DIAG_NONE) {
+		diag_epilogue();
+	}
 
 #ifdef asm_version
-    if (normal_version) {
-	asm_version;
-    } else {
-	asm_version_aux;
-    }
-    fputc('\n', fpout);
+	if (normal_version) {
+		asm_version;
+	} else {
+		asm_version_aux;
+	}
+	fputc('\n', fpout);
 #endif
 }
 
@@ -240,6 +237,7 @@ struct driver driver = {
 	VERSION_STR,
 
 	init,
+	unhas,
 	main,
 
 	"afiou",

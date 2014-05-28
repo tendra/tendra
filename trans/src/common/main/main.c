@@ -7,6 +7,7 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
 
 #include <shared/getopt.h>
 #include <shared/error.h>
@@ -135,13 +136,32 @@ main(int argc, char *argv[])
 
 	if (argc != 2) {
 		error(ERROR_FATAL, "Input and output file expected");
-		usage(stderr);
-		return 1;
+		usage(stderr); /* XXX: ERROR_USAGE */
+		return 1; /* XXX: unreached */
 	}
 
 	if (quit) {
 		return 0;
 	}
+
+	/*
+	 * Unset any options which are inappropriate for this particular driver,
+	 * resolve options which conflict, and so on.
+	 */
+	driver.unhas();
+
+	/*
+	 * Open TDF capsule for input.
+	 * This is typically target-dependant (.t), but could also be a .j file.
+	 */
+	if (!initreader(argv[0])) {
+		error(ERROR_FATAL, "Cannot open input capsule %s", argv[0]);
+		exit(EXIT_FAILURE); /* XXX: unreached */
+	}
+
+	argc--;
+
+	/* TODO: open output */
 
 	driver.main(argc, argv);
 

@@ -13,6 +13,7 @@ struct driver {
 	const char *version;
 
 	void (*init)(void);
+	void (*unhas)(void);
 	void (*main)(int argc, char *argv[]);
 
 	const char *opts;

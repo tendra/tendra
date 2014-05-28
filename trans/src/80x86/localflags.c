@@ -31,27 +31,3 @@ unsigned normal_fpucon;
 char *local_prefix;
 char *name_prefix;
 
-void
-set_format(enum format format)
-{
-	switch (format) {
-	case FORMAT_AOUT:
-		local_prefix = "L";
-		name_prefix = "_";
-		normal_fpucon = 0x372;
-		break;
-
-	case FORMAT_ELF:
-		local_prefix = ".L";
-		name_prefix = "";
-		normal_fpucon = 0x37f;
-		break;
-
-	default:
-		fprintf(stderr, "unknown format-specific local flags\n");
-		exit(EXIT_FAILURE);
-	}
-
-	prefix_length = strlen(name_prefix);
-}
-

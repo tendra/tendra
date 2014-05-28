@@ -33,7 +33,6 @@
 #define BAD_COMMAND1 "install: needs both an input and an output file"
 #define BAD_COMMAND2 "install: input and output cannot be equal"
 #define CANT_OPEN "install: cant open output file"
-#define CANT_READ "install: cant read input file"
 #define STRUCT_RETURN "cant apply return to struct"
 #define STRUCT_RES "cant get struct result from procedure"
 #define BAD_POSTLUDE "illegal postlude"

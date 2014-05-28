@@ -98,16 +98,11 @@ option(char c, const char *optarg)
 }
 
 /*
- * Open input and output files.
+ * Open output file.
  */
 static int
-init_trans(char *infname, char *outfname)
+init_trans(char *outfname)
 {
-  if (!initreader(infname)) {
-    fprintf(stderr, "hppatrans: cannot open input file %s\n", infname);
-    return 3;
-  }
-
   if (strcmp(outfname, "-") == 0) {
     /* "-" by convention means stdout */
     outf = stdout;
@@ -123,96 +118,87 @@ init_trans(char *infname, char *outfname)
 }
 
 static void
-main(int argc, char ** argv)
+unhas(void)
 {
-	char *arg;
-	bool errflg     = 0;
-	bool versionflg = 0; /* XXX: get rid of this */
+	/* Things trans.hppa does not "has" */
+	has &= ~HAS_BYTEOPS;
+	has &= ~HAS_BYTEREGS;
+	has &= ~HAS_NEGSHIFT;
+	has &= ~HAS_ROTATE;
+	has &= ~HAS_MAXMIN;
+	has &= ~HAS_DIV0;
+	has &= ~HAS_SETCC;
+	has &= ~HAS_COMPLEX;
+	has &= ~HAS_64_BIT;
 
-	char *infname   = NULL;
-	char *outfname  = NULL;
+	/* not implemented */
+	optim &= ~OPTIM_TAIL;
+	optim &= ~OPTIM_ZEROOFFSETS;
+	optim &= ~OPTIM_SUBSTPARAMS;
+
+	/* Careful with procedure results */
+	optim &= ~OPTIM_UNPAD_APPLY;
 
 	if (writable_strings) {
 		/* TODO: either always on, or always off. error out accordingly */
 	}
 
-	if (report_versions) {
-		versionflg = 1;
+	if (diag != DIAG_NONE) {
+		optim = 0;
+		/* TODO: do gdb diagnostics depend on gcc assembly? */
 	}
 
-   /* we expect two further filename arguments */
-   if (argc == 2) {
-     infname = argv[0];
-     outfname = argv[1];
-   } else if (argc == 1) {
-     infname = argv[0];
-     outfname = "-";
-   } else {
-     errflg = 1;
-   };
+	/* init nowhere */
+	setregalt(nowhere.answhere, 0);
+	nowhere.ashwhere.ashsize = 0;
+	nowhere.ashwhere.ashsize = 0;
+}
 
-   if (errflg) {
-     exit(EXIT_FAILURE);
-   }
+static void
+main(int argc, char ** argv)
+{
+	char *arg;
 
-   if (do_profile && PIC_code) {
-      fprintf(stderr,"hppatrans warning: \"-P\" and \"-D\" are mutually exclusive. \"-P\" ignored.\n");
-      do_profile = 0;
-   }
+	char *outfname	= NULL;
 
-   /* Things trans.hppa does not "has" */
-   has &= ~HAS_BYTEOPS;
-   has &= ~HAS_BYTEREGS;
-   has &= ~HAS_NEGSHIFT;
-   has &= ~HAS_ROTATE;
-   has &= ~HAS_MAXMIN;
-   has &= ~HAS_DIV0;
-   has &= ~HAS_SETCC;
-   has &= ~HAS_COMPLEX;
-   has &= ~HAS_64_BIT;
+	/* we expect one further filename */
+	if (argc == 1) {
+		outfname = argv[0];
+	} else {
+		exit(EXIT_FAILURE);
+	};
 
-   /* not implemented */
-   optim &= ~OPTIM_TAIL;
-   optim &= ~OPTIM_ZEROOFFSETS;
-   optim &= ~OPTIM_SUBSTPARAMS;
+	if (do_profile && PIC_code) {
+		fprintf(stderr,"hppatrans warning: \"-P\" and \"-D\" are mutually exclusive. \"-P\" ignored.\n");
+		do_profile = 0;
+	}
 
-   /* Careful with procedure results */
-   optim &= ~OPTIM_UNPAD_APPLY;
+	/* Label prefix */
+	local_prefix = "$";
 
-   if (diag != DIAG_NONE) {
-      optim = 0;
-      /* TODO: do gdb diagnostics depend on gcc assembly? */
-   }
+	/* First label; avoid conflict with reg nos (and backward compatibility) */
+	crt_labno = 101;
 
-   /* init nowhere */
-  setregalt(nowhere.answhere, 0);
-  nowhere.ashwhere.ashsize = 0;
-  nowhere.ashwhere.ashsize = 0;
+	name_prefix = "";
 
-  local_prefix = "$";		/* Label prefix */
-  crt_labno = 101;		/* First label; avoid conflict with reg nos */
-				/* (and backward compatibility) */
+	init_flpt(); /* initialise the floating point array */
+#include <reader/inits.h> /* initialise common parts of translator */
+	top_def = (dec *)0;
 
-   name_prefix = "";
+	if (diag != DIAG_NONE) {
+		 init_stab();
+	}
 
-  init_flpt();			/* initialise the floating point array */
-#include <reader/inits.h>		/* initialise common parts of translator */
-  top_def = (dec *)0;
+	if (init_trans(outfname) || d_capsule() || good_trans)
+		 exit(EXIT_FAILURE);
 
-  if (diag != DIAG_NONE) {
-     init_stab();
-  }
+	exit_translator();
 
-  if (init_trans(infname,outfname) || d_capsule() || good_trans)
-     exit(EXIT_FAILURE);
-
-  exit_translator();
-
-  /* check for output errors and close the .s file */
-  if (ferror(outf) != 0 || fclose(outf) != 0) {
-    fprintf(stderr, "hppatrans: error writing to output file %s\n", outfname);
-    exit(EXIT_FAILURE);
-  }
+	/* check for output errors and close the .s file */
+	if (ferror(outf) != 0 || fclose(outf) != 0) {
+		fprintf(stderr, "hppatrans: error writing to output file %s\n", outfname);
+		exit(EXIT_FAILURE);
+	}
 }
 
 void
@@ -226,6 +212,7 @@ struct driver driver = {
 	VERSION_STR,
 
 	init,
+	unhas,
 	main,
 
 	"cdi",

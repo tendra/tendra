@@ -38,7 +38,5 @@ extern	unsigned normal_fpucon;
 extern	char *local_prefix;
 extern	char *name_prefix;
 
-void set_format(enum format format);
-
 #endif
 

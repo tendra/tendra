@@ -9,7 +9,7 @@
  */
 
 /*
- *  Translation is controlled by translate() in this module.
+ *  Translation is controlled by this module.
  *  Code generation follows the following phases:
  *
  *  1. The TDF is read in, applying bottom-up optimisations.
@@ -132,17 +132,8 @@ bool done_scan = 0;
 /* 
  * Translate the TDF 
  */
-int translate(char *infname, char *outfname)
+int translate(char *outfname)
 {
-  /*
-   * Open files.
-   */
-  if (!initreader(infname))
-  {
-    fprintf(stderr, "powertrans: cannot open input file %s\n", infname);
-    return 3;
-  }
-  
   if (strcmp(outfname, "-") == 0)
   {
     /* "-" by convention means stdout */

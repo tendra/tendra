@@ -95,29 +95,11 @@ switch_cpu(const char *optarg)
 }
 
 static void
-main(int argc, char **argv)
+unhas(void)
 {
-	char *infname  = NULL;
-	char *outfname = NULL;
-	char *arg;
-
 	/* errors messages are output on stdout, ensure they get out */
+	/* XXX: silly */
 	setbuf(stdout, NULL);
-
-	if (writable_strings) {
-		/* TODO: either always on, or always off. error out accordingly */
-	}
-
-	/* we expect two further filename arguments */
-	if (argc == 2) {
-		infname  = argv[0];
-		outfname = argv[1];
-	} else if (argc == 1) {
-		infname  = argv[0];
-		outfname = "-";
-	} else {
-		exit(EXIT_FAILURE);
-	}
 
 	/* Things trans.power does not "has" */
 	has &= ~HAS_BYTEOPS;
@@ -129,13 +111,31 @@ main(int argc, char **argv)
 	has &= ~HAS_COMPLEX;
 	has &= ~HAS_64_BIT;
 
+	if (writable_strings) {
+		/* TODO: either always on, or always off. error out accordingly */
+	}
+
 	/* switch off certain optimisations in diagnostics mode */
 	if (diag != DIAG_NONE) {
 		all_variables_visible = 1;	/* set vis flag for all declarations */
 		optim = 0;
 	}
+}
 
-	if (0 != translate(infname, outfname)) {
+static void
+main(int argc, char **argv)
+{
+	char *outfname = NULL;
+	char *arg;
+
+	/* we expect one further filename */
+	if (argc == 1) {
+		outfname = argv[0];
+	} else {
+		exit(EXIT_FAILURE);
+	}
+
+	if (0 != translate(outfname)) {
 		exit(EXIT_FAILURE);
 	}
 }
@@ -144,6 +144,7 @@ struct driver driver = {
 	VERSION_STR,
 
 	init,
+	unhas,
 	main,
 
 	"cen",

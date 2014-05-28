@@ -94,11 +94,17 @@ option(char c, const char *optarg)
 }
 
 static void
-main(int argc, char **argv)
+unhas(void)
 {
-	char *nm;
-	char *aname;
-	char *dname;
+	/* Things trans.mips does not "has" */
+	has &= ~HAS_BYTEOPS;
+	has &= ~HAS_BYTEREGS;
+	has &= ~HAS_NEGSHIFT;
+	has &= ~HAS_ROTATE;
+	has &= ~HAS_MAXMIN;
+	has &= ~HAS_SETCC;
+	has &= ~HAS_COMPLEX;
+	has &= ~HAS_64_BIT;
 
 	if (diag != DIAG_NONE) {
 		/* dbx does not understand variable frame sizes */
@@ -110,24 +116,22 @@ main(int argc, char **argv)
 		exit(EXIT_FAILURE);
 	}
 
-	/* Things trans.mips does not "has" */
-	has &= ~HAS_BYTEOPS;
-	has &= ~HAS_BYTEREGS;
-	has &= ~HAS_NEGSHIFT;
-	has &= ~HAS_ROTATE;
-	has &= ~HAS_MAXMIN;
-	has &= ~HAS_SETCC;
-	has &= ~HAS_COMPLEX;
-	has &= ~HAS_64_BIT;
-
 	/* line numbering goes to hell with optimisations */
 	if (diag != DIAG_NONE) {
 		optim = 0;
  	}
+}
+
+static void
+main(int argc, char **argv)
+{
+	char *nm;
+	char *aname;
+	char *dname;
 
 	if (produce_binasm) {
-		dname = argv[1]; /* the .T file */
-		nm    = argv[2]; /* the .G file */
+		dname = argv[0]; /* the .T file */
+		nm    = argv[1]; /* the .G file */
 
 		ba_file = fopen(nm, "w");
 		if (ba_file == NULL) {
@@ -142,11 +146,6 @@ main(int argc, char **argv)
 			failer("can't open .s file");
 			exit(EXIT_FAILURE);
 		}
-	}
-
-	if (!initreader(argv[0])) {
-		failer("cant read .t file");
-		exit(EXIT_FAILURE);
 	}
 
 	init_flpt();
@@ -172,6 +171,7 @@ struct driver driver = {
 	VERSION_STR,
 
 	init,
+	unhas,
 	main,
 
 	"es",

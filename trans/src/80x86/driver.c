@@ -180,25 +180,8 @@ switch_cpu(const char *optarg)
 }
 
 static void
-main(int argc, char **argv)
+unhas(void)
 {
-	int ch;
-	char *outfname;
-	const char *optstring;
-
-	if (argc == 0 || (argc % 2) != 0) {
-		failer(BAD_COMMAND1);
-		exit(EXIT_FAILURE);
-	}
-
-	/*
-	 * TODO: unsure about this. I think it ought to be set by the ABI.
-	 * It might not neccessarily always be the same as gcc_compatible,
-	 * because those differed for Solaris x86. Or that was an a.out system,
-	 * and this isn't relevant for ELF.
-	 */
-	remove_struct_ref = gcc_compatible;
-
 	/* Things trans.80x86 does not "has" */
 	has &= ~HAS_NEGSHIFT;
 	has &= ~HAS_CONDASSIGN;
@@ -221,19 +204,53 @@ main(int argc, char **argv)
 #endif
 	}
 
-	set_format(format);
+	/*
+	 * TODO: unsure about this. I think it ought to be set by the ABI.
+	 * It might not neccessarily always be the same as gcc_compatible,
+	 * because those differed for Solaris x86. Or that was an a.out system,
+	 * and this isn't relevant for ELF.
+	 */
+	remove_struct_ref = gcc_compatible;
+
+	switch (format) {
+	case FORMAT_AOUT:
+		local_prefix  = "L";
+		name_prefix   = "_";
+		normal_fpucon = 0x372;
+		break;
+
+	case FORMAT_ELF:
+		local_prefix  = ".L";
+		name_prefix   = "";
+		normal_fpucon = 0x37f;
+		break;
+
+	default:
+		fprintf(stderr, "unknown format-specific local flags\n");
+		exit(EXIT_FAILURE);
+	}
+
+	prefix_length = strlen(name_prefix);
+}
+
+static void
+main(int argc, char **argv)
+{
+	int ch;
+	char *outfname;
+	const char *optstring;
+
+	if (argc < 1) {
+		failer(BAD_COMMAND1);
+		exit(EXIT_FAILURE);
+	}
 
 	while (*argv) {
-		outfname = argv[1];
+		outfname = argv[0];
 
 		/* initiate the output file */
 		if (!outinit(outfname)) {
 			failer(CANT_OPEN);
-			exit(EXIT_FAILURE);
-		}
-
-		if (!initreader(argv[0])) {
-			failer(CANT_READ);
 			exit(EXIT_FAILURE);
 		}
 
@@ -282,7 +299,7 @@ main(int argc, char **argv)
 		if (good_trans)
 			exit(EXIT_FAILURE);
 
-		argv += 2; /* next pair of input/output files */
+		argv++;
 	}
 }
 
@@ -290,6 +307,7 @@ struct driver driver = {
 	VERSION_STR,
 
 	init,
+	unhas,
 	main,
 
 	"abcdfghit:v:",
