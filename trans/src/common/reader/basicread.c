@@ -23,6 +23,8 @@
 #include <construct/f64.h>
 #include <construct/installglob.h>
 
+#include <utility/bits.h>
+
 #include <main/flags.h>
 
 #define bpby 8 /* bits per byte */
@@ -66,15 +68,6 @@ static int buff[64];		/* set by read_line */
 static place current_place;	/* set before use */
 static place bytestream_pickup;	/* set before use */
 				/* records the end of a bytestream */
-
-/* used to mask bits out of characters */
-static unsigned int  mask[33] = {
-  0, 1, 3, 7, 15, 31, 63, 127, 255,
-  0x1ff, 0x3ff, 0x7ff, 0xfff, 0x1fff, 0x3fff, 0x7fff, 0xffff,
-  0x1ffff, 0x3ffff, 0x7ffff, 0xfffff, 0x1fffff, 0x3fffff, 0x7fffff, 0xffffff,
-  0x1ffffff, 0x3ffffff, 0x7ffffff, 0xfffffff, 0x1fffffff, 0x3fffffff,
-    0x7fffffff, 0xffffffff
-};
 
 /*
  * failer prints an error message on the standard output,
@@ -155,7 +148,7 @@ getcode(int np)
     {
       int n = np;
       p = getcode_bitposn - n;
-      m = mask[n];
+      m = lsmask[n];
     }
     if (p >= 0) {
       getcode_bitposn = p;
@@ -169,8 +162,8 @@ getcode(int np)
     unsigned int m;
     {
       int n = np - p;
-      m = mask[n];
-      q = (int)((crt_bits.intc & mask[p]) << n);
+      m = lsmask[n];
+      q = (int)((crt_bits.intc & lsmask[p]) << n);
       p = 32 - n;
     }
 
@@ -199,7 +192,7 @@ get_big_code(int n)
   while (1) {
      t = getcode(n);
      if (t == 0) {
-       res += (int)(mask[n]);
+       res += (int) lsmask[n];
      } else {
        return res + t;
      }

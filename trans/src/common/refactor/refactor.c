@@ -67,23 +67,13 @@
 
 #include <refactor/refactor.h>
 
+#include <utility/bits.h>
+
 extern shape containedshape(int, int);
 
 /* codes for error treaments */
 #define impossible 1
 #define ignore 2
-
-static int masks[33] = {
-	0,
-	0x1, 0x3, 0x7, 0xf,
-	0x1f, 0x3f, 0x7f, 0xff,
-	0x1ff, 0x3ff, 0x7ff, 0xfff,
-	0x1fff, 0x3fff, 0x7fff, 0xffff,
-	0x1ffff, 0x3ffff, 0x7ffff, 0xfffff,
-	0x1fffff, 0x3fffff, 0x7fffff, 0xffffff,
-	0x1ffffff, 0x3ffffff, 0x7ffffff, 0xfffffff,
-	0x1fffffff, 0x3fffffff, 0x7fffffff, (int)0xffffffff
-};
 
 ntest int_inverse_ntest[] = {0, 4, 3, 2, 1, 6, 5};
 ntest real_inverse_ntest[] = {0, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 12, 11, 14, 13};
@@ -862,7 +852,7 @@ int
 dochvar(int i, shape t)
 {
 	if (name(t) == bitfhd) {
-		int m = masks[shape_size(t)];
+		int m = lsmask[shape_size(t)];
 		int x = i & m;
 		if (is_signed(t)) {
 			int sm = ((m + 1) >> 1) & x;
@@ -903,7 +893,7 @@ dochvar(int i, shape t)
 	case 64:
 		return i;
 	default:
-		return i & masks[shape_size(t)];
+		return i & lsmask[shape_size(t)];
 	}
 }
 
