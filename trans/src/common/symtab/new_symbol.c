@@ -12,6 +12,7 @@
  * This code is based on the MIPS translator file new_symbol.c
  */
 
+#include <stdio.h>
 #include <stddef.h>
 #include <string.h>
 
@@ -48,7 +49,7 @@
  *
  * and to output the table
  *
- *    output_symtab(name)
+ *    output_symtab(file)
  */
 
 int numfiles;
@@ -581,7 +582,7 @@ add_un_aux(long ind)
 }
 
 void
-output_symtab(char *symfilename)
+output_symtab(FILE *f)
 {
 	int i;
 
@@ -590,7 +591,7 @@ output_symtab(char *symfilename)
 	}
 
 	makesymtab(external_strings, external_symbols, dense_numbers,
-		file_desc_table, numfiles, symfilename, esymindex, nosyms,
+		file_desc_table, numfiles, f, esymindex, nosyms,
 		extind, stringsize, noaux, densind, proc_isym_inds, numprocs);
 }
 

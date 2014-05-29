@@ -123,18 +123,14 @@ void check_magic_no(void);
 /*
  * initreader opens the file called n and sets initial values into variables.
  */
-bool
-initreader(char *n)
+void
+initreader(FILE *f, char *n)
 {
   crt_dot_t = n;
   crt_lno = -1;
   failer_count = 0;
 
-  fpin = fopen(n, "rb");
-  if (fpin == (FILE *)0) {
-    failer(CANT_OPEN_FILE);
-    return 0;
-  }
+  fpin = f;
 
   pkt_index = -1;
   file_pkt = -1;
@@ -146,17 +142,6 @@ initreader(char *n)
   crt_ptr = crt_line;
   end_ptr = crt_line + cppkt;
   check_magic_no();
-  return 1;
-}
-
-void
-endreader(void)
-{
-  int st = fclose(fpin);
-  if (st == EOF) {
-    failer("failed to close file");
-    exit(EXIT_FAILURE);
-  }
 }
 
 int

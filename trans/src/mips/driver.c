@@ -29,11 +29,14 @@
 #include <construct/machine.h>
 #include <construct/exp.h>
 
+#include <symtab/cross_config.h>
+#include <symtab/symtab.h>
+#include <symtab/symconst.h>
+#include <symtab/new_symbol.h>
+
 #include <main/driver.h>
 
 #include "dump_distr.h"
-
-extern void output_symtab(char*);
 
 #define VERSION_STR "4.49"
 
@@ -46,16 +49,12 @@ out_rename(char * oldid, char * newid)
 
 extern int good_trans;
 bool do_extern_adds;
-FILE * ba_file;
-
-char *dname;
 
 int majorno =  3;
 int minorno = 18;
 
 long currentfile    = -1; /* our source fileno 0.. */
 long mainfile       = 0;  /* would be best if it actually contained main ! */
-bool produce_binasm = 0;
 
 static void
 init(void)
@@ -67,7 +66,6 @@ init(void)
 	cconv     = CCONV_O32; /* TODO: confirm this is what we generate */
 	abi       = ABI_MIPS;
 
-	produce_binasm      = 0;
 	PIC_code            = 0;
 	keep_PIC_vars       = 1;
 	diagnose_registers  = 0;
@@ -85,7 +83,6 @@ option(char c, const char *optarg)
 {
 	switch (c) {
 	case 'e': do_extern_adds = 1; break;
-	case 's': produce_binasm = 1; break;
 
 	default:
 		return -1;
@@ -126,22 +123,6 @@ unhas(void)
 static void
 main(void)
 {
-	if (produce_binasm) {
-		char *nm;
-
-		/* TODO: these can become separate driver-specific flags,
-		 * and a .s file is always generated */
-
-		dname = "TODO"; /* argv[0]; */ /* the .T file */
-		nm    = "TODO"; /* argv[1]; */ /* the .G file */
-
-		ba_file = fopen(nm, "w");
-		if (ba_file == NULL) {
-			printf("install: can't open output file %s\n", nm);
-			exit(EXIT_FAILURE);
-		}
-	}
-
 	init_flpt();
 
 #include <reader/inits.h>
@@ -155,10 +136,18 @@ main(void)
 static void
 cleanup(void)
 {
-	if (produce_binasm) {
-		fclose(ba_file);
-		output_symtab(dname);
-	}
+}
+
+static void
+binasm(void)
+{
+	/* handled during translation */
+}
+
+static void
+symtab(void)
+{
+	output_symtab(st_file);
 }
 
 struct driver driver = {
@@ -167,9 +156,11 @@ struct driver driver = {
 	init,
 	unhas,
 	main,
+	binasm,
+	symtab,
 	cleanup,
 
-	"es",
+	"e",
 	option,
 	NULL,
 

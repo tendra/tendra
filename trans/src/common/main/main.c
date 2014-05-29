@@ -31,12 +31,50 @@ extern int report_versions; /* XXX */
 extern bool dump_abbrev;
 #endif
 
+FILE *tc_file; /* TDF capsule input (.j or .t file) */
 FILE *as_file; /* assembly text output (.s file) */
+FILE *st_file; /* symbol table output (.T file) */
+FILE *ba_file; /* binasm output (.G file) */
+
+static FILE *
+trans_fopen(const char *path, const char *mode)
+{
+	FILE *f;
+
+	if (0 == strcmp(path, "-")) {
+		f = mode[0] == 'r' ? stdin : stdout;
+	} else {
+		f = fopen(path, mode);
+		if (f == NULL) {
+			error(ERROR_FATAL, "Cannot open %s", path);
+		}
+	}
+
+#ifndef NDEBUG
+	setbuf(f, NULL);
+#endif
+
+	return f;
+}
+
+static void
+trans_fclose(FILE *f, const char *name)
+{
+	if (ferror(f)) {
+		perror(name);
+		exit(EXIT_FAILURE);
+	}
+
+	if (EOF == fclose(f)) {
+		perror(name);
+		exit(EXIT_FAILURE);
+	}
+}
 
 static void
 trans_usage(FILE *f)
 {
-	fprintf(f, "usage: %s [-DMPQRVWY] [-%s]\n", progname, driver.opts);
+	fprintf(f, "usage: %s [-DMPQRVWY] [-%s] [capsule.t [text.s [symtab.T [binasm.G]]]]\n", progname, driver.opts);
 
 	/* XXX: generate these... */
 
@@ -142,75 +180,91 @@ main(int argc, char *argv[])
 		argv += optind;
 	}
 
-	if (argc != 2) {
-		error(ERROR_FATAL, "Input and output file expected");
+	if (argc > 4) {
+		error(ERROR_FATAL, "Too many files");
 		trans_usage(stderr); /* XXX: ERROR_USAGE */
 		return 1; /* XXX: unreached */
+	}
+
+	if (driver.binasm == NULL && argc >= 4) {
+		error(ERROR_FATAL, "binasm not provided for this trans");
+	}
+
+	if (driver.symtab == NULL && argc >= 3) {
+		error(ERROR_FATAL, "binary symbol table not provided for this trans");
 	}
 
 	if (quit) {
 		return 0;
 	}
 
-	/*
-	 * Unset any options which are inappropriate for this particular driver,
-	 * resolve options which conflict, and so on.
-	 */
-	driver.unhas();
-
-	/*
-	 * Open TDF capsule for input.
-	 * This is typically target-dependant (.t), but could also be a .j file.
-	 */
-	if (!initreader(argv[0])) {
-		error(ERROR_FATAL, "Cannot open input capsule %s", argv[0]);
-		exit(EXIT_FAILURE); /* XXX: unreached */
-	}
-
-	/*
-	 * Open assembly text (.s file) for output.
-	 */
 	{
-		if (0 == strcmp(argv[1], "-")) {
-			as_file = stdout;
-		} else {
-			as_file = fopen(argv[1], "w");
-			if (as_file == NULL) {
-				error(ERROR_FATAL, "Cannot open output text %s", argv[1]);
-			}
+		size_t i;
+
+		struct {
+			FILE **f;
+			const char *mode;
+		} a[] = {
+			{ &tc_file, "rb" },
+			{ &as_file, "w"  },
+			{ &st_file, "wb" },
+			{ &ba_file, "wb" }
+		};
+
+		tc_file = stdin;
+		as_file = stdout;
+
+		for (i = 0; i < argc; i++) {
+			*a[i].f = trans_fopen(argv[i], a[i].mode);
 		}
 
-#ifndef NDEBUG
-		setbuf(as_file, 0);
-#endif
-	}
+		/*
+		 * Unset any options which are inappropriate for this particular driver,
+		 * resolve options which conflict, and so on.
+		 */
+		driver.unhas();
 
-	driver.main();
+		/*
+		 * Open TDF capsule for reading.
+		 * This is typically target-dependant (.t), but could also be a .j file.
+		 */
+		initreader(tc_file, argc > 0 ? argv[0] : "stdin");
 
-	/*
-	 * Start the TDF reader, which calls back to translate_capsule()
-	 */
-	{
+		driver.main();
+
+		/*
+		 * Start the TDF decoder, which calls back to translate_capsule()
+		 */
 		(void) d_capsule();
 
 		if (good_trans) {
 			exit(EXIT_FAILURE);
 		}
-	}
 
-	if (number_errors != 0) {
-		return 1;
-	}
+		/*
+		 * Output binary symbol table (.T file) if required.
+		 */
+		if (st_file != NULL) {
+			driver.symtab();
+		}
 
-	{
-		if (ferror(as_file)) {
-			perror(argv[1]);
+		/*
+		 * Output binary assembly (.G file) if required.
+		 */
+		if (ba_file != NULL) {
+			driver.binasm();
+		}
+
+		driver.cleanup();
+
+		if (number_errors != 0) {
 			return 1;
 		}
 
-		if (EOF == fclose(as_file)) {
-			perror(argv[1]);
-			return 1;
+		for (i = 0; i < argc; i++) {
+			if (*a[i].f != stdout) {
+				trans_fclose(*a[i].f, argv[i]);
+			}
 		}
 	}
 

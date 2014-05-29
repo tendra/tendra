@@ -132,6 +132,11 @@ main(void)
 	}
 }
 
+static void
+cleanup(void)
+{
+}
+
 struct driver driver = {
 	VERSION_STR,
 
@@ -139,6 +144,8 @@ struct driver driver = {
 	unhas,
 	main,
 	NULL,
+	NULL,
+	cleanup,
 
 	"cen",
 	option,

@@ -15,6 +15,8 @@ struct driver {
 	void (*init)(void);
 	void (*unhas)(void);
 	void (*main)(void);
+	void (*binasm)(void);
+	void (*symtab)(void);
 	void (*cleanup)(void);
 
 	const char *opts;
@@ -33,6 +35,8 @@ struct driver {
 extern struct driver driver;
 
 extern FILE *as_file;
+extern FILE *ba_file;
+extern FILE *st_file;
 
 #endif
 

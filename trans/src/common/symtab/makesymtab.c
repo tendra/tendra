@@ -74,14 +74,14 @@ count_aux(AUXTAB *auxdata)
  * supplied by the translator, including TDF diagnostics.
  *
  * Sets up a .T file for use by as1 (this function is called from new_symbol.c
- * using output_symtab(name of .T file).)
+ * using output_symtab().)
  *
  * The output file and the binary assembler file (.G, made by
  * as0 on a *.s file) can then be passed to as1
  */
 void
 makesymtab(STRINGS *extstrings, ESYMS *extsymbols, DENSETAB *densenos,
-	pSYMFDR filedescs, int numfiles, char *symtabname,
+	pSYMFDR filedescs, int numfiles, FILE *f,
 	int noextsyms, int nosyms, int extstringsize,
 	int stringsize, int noaux, int densind,
 	PROCSYM *procinds, int noprocs)
@@ -102,7 +102,7 @@ makesymtab(STRINGS *extstrings, ESYMS *extsymbols, DENSETAB *densenos,
 	long procoff = 0;
 	long auxoff  = 0;
 
-	sym_tab_file = fopen(symtabname, "w");
+	sym_tab_file = f;
 
 	/*
 	 * Set up new symbolic header
@@ -255,7 +255,5 @@ makesymtab(STRINGS *extstrings, ESYMS *extsymbols, DENSETAB *densenos,
 		fwrite(densenos->densenolist, sizeof (DNR), densenos->num, sym_tab_file);
 		densenos = densenos->moredensenos;
 	}
-
-	fclose(sym_tab_file);
 }
 

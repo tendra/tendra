@@ -25,14 +25,16 @@
 #include <construct/machine.h>
 #include <construct/exp.h>
 
+#include <symtab/cross_config.h>
+#include <symtab/symtab.h>
+#include <symtab/symconst.h>
+#include <symtab/new_symbol.h>
+
 #include <main/driver.h>
 
 #include "dump_distr.h"
 #include "fail.h"
 #include "bool.h"
-
-FILE *ba_file;
-char *dname;	/* name of file to hold symbol table */
 
 #define VERSION_STR "2.4.11"
 
@@ -147,28 +149,6 @@ unhas(void)
 static void
 main(void)
 {
-	int i;
-	char *aname;	/* name of file for assembly output */
-	char *baname;
-	char *tname;
-
-	/* the files are passed in the order { .G .T | .s } */
-	if (produce_binasm) {
-		/* TODO: these can become separate driver-specific flags,
-		 * and a .s file is always generated */
-		baname  = "TODO"; /* argv[1]; */
-		dname   = "TODO"; /* argv[0]; */
-	}
-
-	if (produce_binasm) {
-		ba_file = fopen(baname, "w");
-		if (ba_file == NULL) {
-			alphafail(CANNOT_OPEN_FILE, baname);
-		}
-	} else {
-		ba_file = NULL;
-	}
-
 	init_flpt();
 
 #include <reader/inits.h>
@@ -184,15 +164,20 @@ main(void)
 }
 
 static void
+symtab(void)
+{
+	output_symtab(st_file);
+}
+
+static void
+binasm(void)
+{
+	/* handled during translation */
+}
+
+static void
 cleanup(void)
 {
-	if (produce_binasm) {
-		output_symtab(dname);
-	}
-
-	if (produce_binasm) {
-		fclose(ba_file);
-	}
 }
 
 struct driver driver = {
@@ -201,6 +186,8 @@ struct driver driver = {
 	init,
 	unhas,
 	main,
+	symtab,
+	binasm,
 	cleanup,
 
 	"sud:",

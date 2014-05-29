@@ -237,9 +237,6 @@ unhas(void)
 static void
 main(void)
 {
-	int ch;
-	const char *optstring;
-
 	init_all();
 
 #ifdef NEWDWARF
@@ -257,7 +254,7 @@ main(void)
 		dwarf2_prelude();
 		make_dwarf_common();
 		dwarf2_postlude();
-	} else
+	}
 #endif
 }
 
@@ -282,7 +279,6 @@ cleanup(void)
 				out_diagnose_postlude();
 
 		outend();
-		endreader();
 
 		if (good_trans)
 			exit(EXIT_FAILURE);
@@ -294,6 +290,8 @@ struct driver driver = {
 	init,
 	unhas,
 	main,
+	NULL,
+	NULL,
 	cleanup,
 
 	"abcdfghit:v:",

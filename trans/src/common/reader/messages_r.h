@@ -11,7 +11,6 @@
 #define MESSAGES_R_H
 
 #define READ_PAST_END "read past end of encoding"
-#define CANT_OPEN_FILE "can't open file"
 #define ILLEGAL_CODE_al_tag "illegal code for al_tag"
 #define ILLEGAL_CODE_access "illegal code for access"
 #define ILLEGAL_CODE_al_tagdef "illegal code for al_tagdef"

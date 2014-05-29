@@ -84,7 +84,7 @@ extern long add_aux(AUXU, long);
 /*
  * Procedure to make the symbol table file given its name.
  */
-void output_symtab(char*);
+void output_symtab(FILE *);
 
 #endif
 

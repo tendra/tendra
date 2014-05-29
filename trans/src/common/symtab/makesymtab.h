@@ -14,7 +14,7 @@
  * Make a symbol table using the stored tables from routines in symbol.c
  */
 void makesymtab(STRINGS *, ESYMS *, DENSETAB *, pSYMFDR,
-	int, char *, int, int, int, int, int, int, PROCSYM *, int);
+	int, FILE *, int, int, int, int, int, int, PROCSYM *, int);
 
 #endif
 

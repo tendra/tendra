@@ -10,6 +10,8 @@
 #ifndef BASICREAD_H
 #define BASICREAD_H
 
+#include <stdio.h>
+
 #include <construct/installtypes.h>
 #include <reader/toktypes.h>
 
@@ -17,9 +19,8 @@ extern int crt_lno;
 extern char *crt_flnm;
 extern int crt_charno;
 
-/* start the input stream reading from the file called n */
-char initreader(char *n);
-void endreader(void);
+/* start the input stream reading from the file f */
+void initreader(FILE *f, char *n);
 
 /* read n bits from the input stream */
 int getcode(int n);

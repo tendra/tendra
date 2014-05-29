@@ -300,6 +300,8 @@ struct driver driver = {
 	init,
 	unhas,
 	main,
+	NULL,
+	NULL,
 	cleanup,
 
 	"bcglmo:i:r:un",
