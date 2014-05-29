@@ -94,15 +94,12 @@ makesymtab(STRINGS *extstrings, ESYMS *extsymbols, DENSETAB *densenos,
 	STRINGS *tempstrings;
 	AUXTAB *auxdata;
 	pSYMFDR tempfileptr;
-	FILE *sym_tab_file;
 	int i, j;
 
 	long stroff  = 0;
 	long symoff  = 0;
 	long procoff = 0;
 	long auxoff  = 0;
-
-	sym_tab_file = f;
 
 	/*
 	 * Set up new symbolic header
@@ -138,7 +135,7 @@ makesymtab(STRINGS *extstrings, ESYMS *extsymbols, DENSETAB *densenos,
 	symhdrout.cbDnOffset = symhdrout.cbExtOffset + symhdrout.iextMax*sizeof(EXTR);
 
 	/* write header to output file */
-	fwrite(&symhdrout, sizeof (HDRR), 1, sym_tab_file);
+	fwrite(&symhdrout, sizeof (HDRR), 1, f);
 
 	/*
 	 * Write the tables to the file
@@ -153,7 +150,7 @@ makesymtab(STRINGS *extstrings, ESYMS *extsymbols, DENSETAB *densenos,
 		for (i = 1; i <= noprocs; i++, procindptr++) {
 			if (procindptr->fnum == j) {
 				pdr_ptr->isym = procindptr->procsymindex;
-				fwrite(pdr_ptr, sizeof(PDR), 1, sym_tab_file);
+				fwrite(pdr_ptr, sizeof(PDR), 1, f);
 			}
 		}
 	}
@@ -162,7 +159,7 @@ makesymtab(STRINGS *extstrings, ESYMS *extsymbols, DENSETAB *densenos,
 	for (i = 1; i <= numfiles; i++, tempfileptr++) {
 		symlist = tempfileptr->symbols;
 		while (symlist) {
-			fwrite(symlist->symlist, sizeof (SYMR), symlist->noofsyms, sym_tab_file);
+			fwrite(symlist->symlist, sizeof (SYMR), symlist->noofsyms, f);
 			symlist = symlist->nextsyms;
 		}
 	}
@@ -172,7 +169,7 @@ makesymtab(STRINGS *extstrings, ESYMS *extsymbols, DENSETAB *densenos,
 	for (i = 1; i <= numfiles; i++, tempfileptr++) {
 		auxdata = tempfileptr->auxtabs;
 		while (auxdata) {
-			fwrite(auxdata->auxinfo, sizeof (AUXU), auxdata->num, sym_tab_file);
+			fwrite(auxdata->auxinfo, sizeof (AUXU), auxdata->num, f);
 			auxdata = auxdata->moreaux;
 		}
 	}
@@ -182,7 +179,7 @@ makesymtab(STRINGS *extstrings, ESYMS *extsymbols, DENSETAB *densenos,
 	for (i = 1; i <= numfiles; i++, tempfileptr++) {
 		tempstrings = tempfileptr->filestr;
 		while (tempstrings) {
-			fwrite(tempstrings->str, sizeof (char), tempstrings->usage, sym_tab_file);
+			fwrite(tempstrings->str, sizeof (char), tempstrings->usage, f);
 			tempstrings = tempstrings->overspill;
 		}
 	}
@@ -190,7 +187,7 @@ makesymtab(STRINGS *extstrings, ESYMS *extsymbols, DENSETAB *densenos,
 	/* Write external strings */
 	tempstrings = extstrings;
 	while (tempstrings) {
-		fwrite(tempstrings->str, sizeof (char), tempstrings->usage, sym_tab_file);
+		fwrite(tempstrings->str, sizeof (char), tempstrings->usage, f);
 		tempstrings = tempstrings->overspill;
 	}
 
@@ -237,7 +234,7 @@ makesymtab(STRINGS *extstrings, ESYMS *extsymbols, DENSETAB *densenos,
 		fdrtab.cbLineOffset = 0; /* ??? */
 		fdrtab.cbLine       = 0; /* ??? */
 
-		fwrite(&fdrtab, sizeof (FDR), 1, sym_tab_file);
+		fwrite(&fdrtab, sizeof (FDR), 1, f);
 	}
 
 	/*
@@ -246,13 +243,13 @@ makesymtab(STRINGS *extstrings, ESYMS *extsymbols, DENSETAB *densenos,
 
 	/* Write external symbols */
 	while (extsymbols) {
-		fwrite(extsymbols->symlist, sizeof (EXTR), extsymbols->noofsyms, sym_tab_file);
+		fwrite(extsymbols->symlist, sizeof (EXTR), extsymbols->noofsyms, f);
 		extsymbols = extsymbols->nextsyms;
 	}
 
 	/* Write dense nos */
 	while (densenos) {
-		fwrite(densenos->densenolist, sizeof (DNR), densenos->num, sym_tab_file);
+		fwrite(densenos->densenolist, sizeof (DNR), densenos->num, f);
 		densenos = densenos->moredensenos;
 	}
 }
