@@ -37,7 +37,6 @@ SRCS+=	evaluate.c
 SRCS+=	general_proc.c
 SRCS+=	glopt.c
 SRCS+=	inlinechoice.c
-#SRCS+=	input.c
 SRCS+=	instr.c
 SRCS+=	localflags.c
 SRCS+=	mach_ins.c
