@@ -41,12 +41,13 @@
 #include <construct/tags.h>
 #include <construct/exp.h>
 #include <construct/shapemacs.h>
-#include <construct/flags.h>
 #include <construct/install_fns.h>
 #include <construct/installglob.h>
 #include <construct/machine.h>
 #include <construct/label_ops.h>
 #include <construct/misc_c.h>
+
+#include <main/flags.h>
 
 #include <refactor/refactor.h>
 

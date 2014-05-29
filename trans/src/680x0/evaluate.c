@@ -27,7 +27,8 @@
 #include <construct/flpt.h>
 #include <construct/tags.h>
 #include <construct/f64.h>
-#include <construct/flags.h>
+
+#include <main/flags.h>
 
 #include "assembler.h"
 #include "instrs.h"

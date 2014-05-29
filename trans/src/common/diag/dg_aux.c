@@ -24,7 +24,8 @@
 #include <construct/tags.h>
 #include <construct/exp.h>
 #include <construct/me_fns.h>
-#include <construct/flags.h>
+
+#include <main/flags.h>
 
 #include <refactor/const.h>
 #include <refactor/refactor.h>

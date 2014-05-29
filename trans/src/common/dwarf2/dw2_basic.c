@@ -15,7 +15,8 @@
 #include <reader/basicread.h>
 
 #include <construct/tags.h>
-#include <construct/flags.h>
+
+#include <main/flags.h>
 
 #include <dwarf2/dw2_basic.h>
 #include <dwarf2/dw2_codes.h>

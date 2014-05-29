@@ -28,7 +28,8 @@
 #include <assert.h>
 
 #include <construct/tags.h>
-#include <construct/flags.h>
+
+#include <main/flags.h>
 
 #include <local/expmacs.h>
 #include <local/localflags.h>

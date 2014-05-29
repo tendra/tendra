@@ -19,7 +19,6 @@
 #include <construct/installglob.h>
 #include <construct/tags.h>
 #include <construct/exp.h>
-#include <construct/flags.h>
 #include <construct/shapemacs.h>
 #include <construct/machine.h>
 
@@ -27,6 +26,8 @@
 
 #include <symtab/symconst.h>
 #include <symtab/syms.h>
+
+#include <main/flags.h>
 
 #include "tempdecs.h"
 #include "weights.h"

@@ -21,13 +21,14 @@
 #include <reader/natmacs.h>
 
 #include <construct/exp.h>
-#include <construct/flags.h>
 #include <construct/installglob.h>
 #include <construct/tags.h>
 #include <construct/install_fns.h>
 #include <construct/messages_c.h>
 #include <construct/shapemacs.h>
 #include <construct/me_fns.h>
+
+#include <main/flags.h>
 
 #include <refactor/refactor.h>
 

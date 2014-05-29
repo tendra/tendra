@@ -18,9 +18,9 @@
 
 #include <reader/readglob.h>
 
-#include <construct/flags.h>		/* for option flags */
 #include <construct/installglob.h>
 
+#include <main/flags.h>
 #include <main/driver.h>
 
 #include "comment.h"		/* for do_comment */

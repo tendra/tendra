@@ -27,9 +27,10 @@
 #include <construct/exp.h>
 #include <construct/tags.h>
 #include <construct/shapemacs.h>
-#include <construct/flags.h>
 #include <construct/install_fns.h>
 #include <construct/flpt.h>
+
+#include <main/flags.h>
 
 #include "instr386.h"
 #include "operand.h"
@@ -38,7 +39,6 @@
 #include "messages_8.h"
 #include "reg_record.h"
 #include "instrmacs.h"
-
 #include "codec.h"
 
 /*

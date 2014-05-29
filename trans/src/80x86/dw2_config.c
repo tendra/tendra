@@ -11,8 +11,9 @@
 
 #include <reader/basicread.h>
 
-#include <construct/flags.h>
 #include <construct/machine.h>
+
+#include <main/flags.h>
 
 long dwarf_lab_num = 0;
 

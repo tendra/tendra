@@ -18,7 +18,8 @@
 #include <construct/installtypes.h>
 #include <construct/exp.h>
 #include <construct/tags.h>
-#include <construct/flags.h>
+
+#include <main/flags.h>
 
 #include <diag/dg_first.h>
 #include <diag/diaginfo.h>

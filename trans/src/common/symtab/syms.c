@@ -22,9 +22,10 @@
 
 #include <reader/basicread.h>
 
-#include <construct/flags.h>
 #include <construct/shapemacs.h>
 #include <construct/tags.h>
+
+#include <main/flags.h>
 
 #include "symtab.h"
 #include "syms.h"

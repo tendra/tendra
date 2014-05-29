@@ -20,13 +20,14 @@
 #include <reader/externs.h>
 
 #include <construct/exp.h>
-#include <construct/flags.h>
 #include <construct/installglob.h>
 #include <construct/shapemacs.h>
 #include <construct/flpt.h>
 #include <construct/install_fns.h>
 #include <construct/tags.h>
 #include <construct/install_fns.h>
+
+#include <main/flags.h>
 
 #include <refactor/optimise.h>
 

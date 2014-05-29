@@ -23,10 +23,11 @@
 #include <construct/installtypes.h>
 #include <construct/exp.h>
 #include <construct/shapemacs.h>
-#include <construct/flags.h>
 #include <construct/install_fns.h>
 #include <construct/f64.h>
 #include <construct/misc_c.h>
+
+#include <main/flags.h>
 
 #include <refactor/optimise.h>
 #include <refactor/refactor.h>

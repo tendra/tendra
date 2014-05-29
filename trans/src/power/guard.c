@@ -23,7 +23,7 @@
  * second operand.
  */
 
-#include <construct/flags.h>
+#include <main/flags.h>
 
 #include "codegen.h"
 #include "comment.h"

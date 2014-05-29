@@ -16,12 +16,13 @@
 #include <construct/installglob.h>
 #include <construct/exp.h>
 #include <construct/tags.h>
-#include <construct/flags.h>
 #include <construct/shapemacs.h>
 
 #include <refactor/optimise.h>
 
 #include <utility/complexity.h>
+
+#include <main/flags.h>
 
 #include "sparcins.h"
 

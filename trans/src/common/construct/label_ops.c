@@ -19,7 +19,8 @@
 #include <construct/exp.h>
 #include <construct/installglob.h>
 #include <construct/shapemacs.h>
-#include <construct/flags.h>
+
+#include <main/flags.h>
 
 #include <refactor/refactor.h>
 

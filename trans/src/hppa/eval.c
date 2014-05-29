@@ -24,7 +24,8 @@
 
 #include <reader/basicread.h>
 
-#include <construct/flags.h>
+#include <main/flags.h>
+
 #include <construct/tags.h>
 #include <construct/exp.h>
 #include <construct/shapemacs.h>

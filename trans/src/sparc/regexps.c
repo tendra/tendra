@@ -20,7 +20,8 @@
 
 #include <construct/tags.h>
 #include <construct/shapemacs.h>
-#include <construct/flags.h>
+
+#include <main/flags.h>
 
 #include "addrtypes.h"
 #include "move.h"

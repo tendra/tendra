@@ -6,6 +6,7 @@
 CCOPTS+=	-I ..
 
 SRCS+=	main.c
+SRCS+=	flags.c
 
 .include <tendra.obj.mk>
 

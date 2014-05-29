@@ -8,7 +8,8 @@
  */
 
 #include <construct/shapemacs.h>
-#include <construct/flags.h>
+
+#include <main/flags.h>
 
 #include <local/expmacs.h>
 

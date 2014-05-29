@@ -16,7 +16,8 @@
 #include <local/exptypes.h>
 
 #include <construct/machine.h>
-#include <construct/flags.h>
+
+#include <main/flags.h>
 
 #include "memtdf.h"
 #include "codegen.h"

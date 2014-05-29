@@ -23,13 +23,13 @@
 #include <reader/main_reads.h>
 #include <reader/readglob.h>
 
-#include <construct/flags.h>
 #include <construct/flpt.h>
 #include <construct/installglob.h>
 #include <construct/machine.h>
 #include <construct/exp.h>
 
 #include <main/driver.h>
+#include <main/flags.h>
 
 #include "weights.h"
 #include "instr.h"

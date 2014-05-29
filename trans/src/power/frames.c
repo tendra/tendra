@@ -21,8 +21,9 @@
 #include <construct/installglob.h>
 #include <construct/exp.h>
 #include <construct/flpt.h>
-#include <construct/flags.h>
 #include <construct/machine.h>
+
+#include <main/flags.h>
 
 #include <refactor/optimise.h>
 

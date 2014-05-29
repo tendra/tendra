@@ -26,10 +26,11 @@
 #include <construct/installglob.h>
 #include <construct/exp.h>
 #include <construct/tags.h>
-#include <construct/flags.h>
 #include <construct/shapemacs.h>
 #include <construct/me_fns.h>
 #include <construct/install_fns.h>
+
+#include <main/flags.h>
 
 #include <refactor/optimise.h>
 #include <refactor/const.h>

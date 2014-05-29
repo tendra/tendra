@@ -11,7 +11,7 @@
 
 #include <reader/basicread.h>
 
-#include <construct/flags.h>
+#include <main/flags.h>
 
 #include "translate.h"
 #include "eval.h"

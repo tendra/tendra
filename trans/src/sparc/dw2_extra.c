@@ -21,7 +21,8 @@
 #include <construct/tags.h>
 #include <construct/flpttypes.h>
 #include <construct/f64.h>
-#include <construct/flags.h>
+
+#include <main/flags.h>
 
 #ifdef NEWDIAGS
 #include <newdiag/dg_aux.h>

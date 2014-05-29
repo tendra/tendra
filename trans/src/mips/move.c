@@ -23,7 +23,7 @@
 
 #include <reader/basicread.h>
 
-#include <construct/flags.h>
+#include <main/flags.h>
 
 #include "mips_ins.h"
 #include "inst_fmt.h"

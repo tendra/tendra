@@ -21,7 +21,7 @@
 
 #include <assert.h>
 
-#include <construct/flags.h>
+#include <main/flags.h>
 
 #include "sparcins.h"
 #include "inst_fmt.h"

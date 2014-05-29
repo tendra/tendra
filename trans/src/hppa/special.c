@@ -20,7 +20,8 @@
 #include <construct/shapemacs.h>
 #include <construct/tags.h>
 #include <construct/machine.h>
-#include <construct/flags.h>
+
+#include <main/flags.h>
 
 #include <refactor/const.h>
 

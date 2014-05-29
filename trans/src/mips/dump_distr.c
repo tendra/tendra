@@ -28,7 +28,8 @@
 #include <construct/exp.h>
 #include <construct/tags.h>
 #include <construct/shapemacs.h>
-#include <construct/flags.h>
+
+#include <main/flags.h>
 
 #include "bitsmacs.h"
 #include "new_tags.h"

@@ -20,8 +20,9 @@
 #include <construct/tags.h>
 #include <construct/shapemacs.h>
 #include <construct/exp.h>
-#include <construct/flags.h>
 #include <construct/installglob.h>
+
+#include <main/flags.h>
 
 #define MAX_STRCPY_INLINE_LEN	4
 

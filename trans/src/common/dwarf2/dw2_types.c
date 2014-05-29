@@ -20,7 +20,8 @@
 #include <construct/shapemacs.h>
 #include <construct/exp.h>
 #include <construct/tags.h>
-#include <construct/flags.h>
+
+#include <main/flags.h>
 
 #ifdef NEWDIAGS
 #include <newdiag/diag_fns.h>

@@ -15,10 +15,11 @@
 
 #include <reader/externs.h>
 
-#include <construct/flags.h>
 #include <construct/label_ops.h>
 #include <construct/installglob.h>
 #include <construct/f64.h>
+
+#include <main/flags.h>
 
 #include <diag/diag_fns.h>
 

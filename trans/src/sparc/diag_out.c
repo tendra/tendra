@@ -19,13 +19,14 @@
 #include <local/szs_als.h>
 #include <local/out.h>
 
-#include <construct/flags.h>
 #include <construct/shapemacs.h>
 #include <construct/tags.h>
 #include <construct/installtypes.h>
 #include <construct/machine.h>
 #include <construct/exp.h>
 #include <construct/installglob.h>
+
+#include <main/flags.h>
 
 #include <reader/codetypes.h>
 #include <reader/toktypes.h>

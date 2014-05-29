@@ -12,7 +12,8 @@
 
 #include <construct/shapemacs.h>
 #include <construct/tags.h>
-#include <construct/flags.h>
+
+#include <main/flags.h>
 
 #include "regable.h"
 

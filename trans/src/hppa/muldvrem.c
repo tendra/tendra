@@ -15,7 +15,8 @@
 #include <construct/installtypes.h>
 #include <construct/exp.h>
 #include <construct/shapemacs.h>
-#include <construct/flags.h>
+
+#include <main/flags.h>
 
 #include <local/exptypes.h>
 #include <local/expmacs.h>

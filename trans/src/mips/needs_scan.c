@@ -31,8 +31,9 @@
 #include <construct/shapemacs.h>
 #include <construct/flpt.h>
 #include <construct/install_fns.h>
-#include <construct/flags.h>
 #include <construct/me_fns.h>
+
+#include <main/flags.h>
 
 #include <refactor/const.h>
 #include <refactor/optimise.h>

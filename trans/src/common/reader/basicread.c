@@ -19,10 +19,11 @@
 #include <reader/readglob.h>
 #include <reader/basicread.h>
 
-#include <construct/flags.h>
 #include <construct/flpt.h>
 #include <construct/f64.h>
 #include <construct/installglob.h>
+
+#include <main/flags.h>
 
 #define bpby 8 /* bits per byte */
 

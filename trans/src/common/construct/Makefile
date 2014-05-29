@@ -10,7 +10,6 @@ SRCS+=	aldefs.c
 SRCS+=	complex_eq.c
 SRCS+=	exp.c
 SRCS+=	f64.c
-SRCS+=	flags.c
 SRCS+=	flpt.c
 SRCS+=	flpt_fns.c
 SRCS+=	install_fns.c

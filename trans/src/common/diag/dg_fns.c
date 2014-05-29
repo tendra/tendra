@@ -25,7 +25,8 @@
 
 #include <construct/install_fns.h>
 #include <construct/tags.h>
-#include <construct/flags.h>
+
+#include <main/flags.h>
 
 #include "dg_fns.h"
 #include "dg_aux.h"

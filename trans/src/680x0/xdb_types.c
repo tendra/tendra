@@ -20,7 +20,8 @@
 #include <reader/externs.h>
 
 #include <construct/shapemacs.h>
-#include <construct/flags.h>
+
+#include <main/flags.h>
 
 #include "instrs.h"
 #include "mach.h"

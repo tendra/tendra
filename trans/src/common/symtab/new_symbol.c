@@ -22,7 +22,7 @@
 #include <local/localtypes.h>
 #include <local/expmacs.h>
 
-#include <construct/flags.h>
+#include <main/flags.h>
 
 #include <diag/diagtypes.h>
 

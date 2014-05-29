@@ -25,9 +25,10 @@
 #include <construct/tags.h>
 #include <construct/exp.h>
 #include <construct/shapemacs.h>
-#include <construct/flags.h>
 #include <construct/f64.h>
 #include <construct/flpt.h>
+
+#include <main/flags.h>
 
 #include <symtab/syms.h>
 

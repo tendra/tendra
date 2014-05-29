@@ -25,7 +25,7 @@
 
 #include <local/out.h>
 
-#include <construct/flags.h>
+#include <main/flags.h>
 
 #include "addrtypes.h"
 #include "regexps.h"

@@ -17,9 +17,9 @@
 #include <construct/tags.h>
 #include <construct/shapemacs.h>
 #include <construct/exp.h>
-#include <construct/flags.h>
 #include <construct/installglob.h>
 
+#include <main/flags.h>
 
 /*
     GLOBAL OPTIMISATIONS

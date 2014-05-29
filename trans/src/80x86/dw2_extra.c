@@ -21,13 +21,14 @@
 #include <reader/basicread.h>
 #include <refactor/const.h>
 
-#include <construct/flags.h>
 #include <construct/machine.h>
 #include <construct/shapemacs.h>
 #include <construct/tags.h>
 #include <construct/label_ops.h>
 #include <construct/flpttypes.h>
 #include <construct/f64.h>
+
+#include <main/flags.h>
 
 #ifdef NEWDIAGS
 #include <newdiag/dg_aux.h>

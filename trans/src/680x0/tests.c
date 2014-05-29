@@ -14,7 +14,8 @@
 #include <construct/shapemacs.h>
 #include <construct/tags.h>
 #include <construct/is_worth.h>
-#include <construct/flags.h>
+
+#include <main/flags.h>
 
 #include <refactor/optimise.h>
 

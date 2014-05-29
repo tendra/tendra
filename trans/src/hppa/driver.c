@@ -21,13 +21,13 @@
 #include <reader/basicread.h>	/* for good_trans */
 #include <reader/externs.h>
 
-#include <construct/flags.h>		/* for option flags */
 #include <construct/flpt.h>
 #include <construct/exp.h>		/* for current_alloc_size */
 #include <construct/installglob.h>	/* for top_def */
 #include <construct/installtypes.h>
 
 #include <main/driver.h>
+#include <main/flags.h>
 
 #include "comment.h"		/* for do_comment */
 #include "addrtypes.h"		/* for where */

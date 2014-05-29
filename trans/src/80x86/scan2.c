@@ -33,9 +33,10 @@
 #include <construct/exp.h>
 #include <construct/tags.h>
 #include <construct/shapemacs.h>
-#include <construct/flags.h>
 #include <construct/label_ops.h>
 #include <construct/install_fns.h>
+
+#include <main/flags.h>
 
 #include "coder.h"
 #include "instr386.h"

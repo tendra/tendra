@@ -15,7 +15,7 @@
 
 #include <reader/codetypes.h>
 
-#include <construct/flags.h>
+#include <main/flags.h>
 
 #include <diag/diag_fns.h>
 #include <diag/diagglob.h>

@@ -19,7 +19,8 @@
 #include <construct/shapemacs.h>
 #include <construct/install_fns.h>
 #include <construct/exp.h>
-#include <construct/flags.h>
+
+#include <main/flags.h>
 
 #include "code_here.h"
 #include "addrtypes.h"

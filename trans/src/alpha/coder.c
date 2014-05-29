@@ -29,12 +29,13 @@
 #include <construct/tags.h>
 #include <construct/exp.h>
 #include <construct/shapemacs.h>
-#include <construct/flags.h>
 #include <construct/flpttypes.h>
 #include <construct/flpt.h>
 #include <construct/f64.h>
 #include <construct/f64.h>
 #include <construct/install_fns.h>
+
+#include <main/flags.h>
 
 #include <diag/diag_fns.h>
 

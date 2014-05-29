@@ -28,7 +28,8 @@
 
 #include <construct/exp.h>
 #include <construct/tags.h>
-#include <construct/flags.h>
+
+#include <main/flags.h>
 
 #include "procrectypes.h"
 #include "regexps.h"

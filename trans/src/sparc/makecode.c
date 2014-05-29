@@ -27,7 +27,6 @@
 #include <construct/installtypes.h>
 #include <construct/exp.h>
 #include <construct/shapemacs.h>
-#include <construct/flags.h>
 #include <construct/install_fns.h>
 #include <construct/flpt.h>
 #include <construct/f64.h>
@@ -35,6 +34,9 @@
 #include <local/exptypes.h>
 #include <local/expmacs.h>
 #include <local/exptypes.h>
+
+#include <main/flags.h>
+
 #include "addrtypes.h"
 #include "extra_tags.h"
 #include "maxminmacs.h"

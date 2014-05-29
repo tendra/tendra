@@ -9,7 +9,7 @@
 
 #include <stdio.h>
 
-#include <construct/flags.h>
+#include <main/flags.h>
 
 #include "output.h"
 

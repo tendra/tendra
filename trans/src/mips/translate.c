@@ -24,9 +24,10 @@
 #include <construct/machine.h>
 #include <construct/tags.h>
 #include <construct/exp.h>
-#include <construct/flags.h>
 #include <construct/shapemacs.h>
 #include <construct/me_fns.h>
+
+#include <main/flags.h>
 
 #include <refactor/optimise.h>
 

@@ -16,11 +16,12 @@
 #include <reader/externs.h>
 
 #include <construct/shapemacs.h>
-#include <construct/flags.h>
 #include <construct/flpt.h>
 #include <construct/flpttypes.h>
 #include <construct/f64.h>
 #include <construct/tags.h>
+
+#include <main/flags.h>
 
 #ifdef NEWDIAGS
 #include <newdiag/dg_aux.h>

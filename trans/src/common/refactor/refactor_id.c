@@ -45,9 +45,10 @@
 #include <construct/shapemacs.h>
 #include <construct/tags.h>
 #include <construct/installglob.h>
-#include <construct/flags.h>
 #include <construct/install_fns.h>
 #include <construct/me_fns.h>
+
+#include <main/flags.h>
 
 #include <refactor/refactor.h>
 #include <refactor/refactor_id.h>

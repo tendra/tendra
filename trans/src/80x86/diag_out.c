@@ -30,12 +30,13 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
-#include <construct/flags.h>
 #include <construct/installtypes.h>
 #include <construct/machine.h>
 #include <construct/shapemacs.h>
 #include <construct/tags.h>
 #include <construct/exp.h>
+
+#include <main/flags.h>
 
 #include <reader/codetypes.h>
 #include <reader/basicread.h>

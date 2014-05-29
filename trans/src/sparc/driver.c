@@ -22,12 +22,12 @@
 #include <reader/basicread.h>
 #include <reader/externs.h>
 
-#include <construct/flags.h>
 #include <construct/flpt.h>
 #include <construct/exp.h>
 #include <construct/installglob.h>
 
 #include <main/driver.h>
+#include <main/flags.h>
 
 #include "comment.h"
 #include "translate.h"

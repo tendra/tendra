@@ -13,7 +13,7 @@
 #include <local/exptypes.h>
 #include <local/localtypes.h>
 
-#include <construct/flags.h>
+#include <main/flags.h>
 
 void outbyte(void);
 void outshort(void);

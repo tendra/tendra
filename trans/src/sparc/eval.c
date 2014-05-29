@@ -31,7 +31,8 @@
 #include <construct/flpt.h>
 #include <construct/f64.h>
 #include <construct/installglob.h>
-#include <construct/flags.h>
+
+#include <main/flags.h>
 
 #include "addrtypes.h"
 #include "maxminmacs.h"

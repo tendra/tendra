@@ -14,13 +14,13 @@
 #include <shared/error.h>
 
 #include <main/driver.h>
+#include <main/flags.h>
 
 #include <reader/main_reads.h>
 #include <reader/basicread.h>
 #include <reader/externs.h>
 #include <reader/readglob.h>
 
-#include <construct/flags.h>
 #include <construct/flpt.h>
 #include <construct/installglob.h>
 

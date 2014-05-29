@@ -31,7 +31,8 @@
 #include <construct/shapemacs.h>
 #include <construct/flpt.h>
 #include <construct/install_fns.h>
-#include <construct/flags.h>
+
+#include <main/flags.h>
 
 #include <refactor/const.h>
 #include <reader/externs.h>

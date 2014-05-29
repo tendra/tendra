@@ -33,7 +33,6 @@
 #include <reader/externs.h>
 
 #include <construct/exp.h>
-#include <construct/flags.h>
 #include <construct/tags.h>
 #include <construct/shapemacs.h>
 #include <construct/flpt.h>
@@ -42,6 +41,8 @@
 #include <construct/install_fns.h>
 #include <construct/machine.h>
 #include <construct/label_ops.h>
+
+#include <main/flags.h>
 
 #include <refactor/refactor.h>
 

@@ -13,7 +13,7 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
-#include <construct/flags.h>
+#include <main/flags.h>
 
 /*
  * Type definitions for translator produced debugging information to be

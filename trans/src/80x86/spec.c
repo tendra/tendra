@@ -24,10 +24,11 @@
 #include <construct/tags.h>
 #include <construct/shapemacs.h>
 #include <construct/exp.h>
-#include <construct/flags.h>
 #include <construct/installglob.h>
 #include <construct/me_fns.h>
 #include <construct/spec.h>
+
+#include <main/flags.h>
 
 speci special_fn
 (exp a1, exp a2, shape s)

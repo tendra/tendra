@@ -25,8 +25,9 @@
 #include <construct/exp.h>
 #include <construct/messages_c.h>
 #include <construct/installglob.h>
-#include <construct/flags.h>
 #include <construct/flpt.h>
+
+#include <main/flags.h>
 
 #define MAX_USEFUL_DECEXP 10000
 /* plenty big enough for IEEE and VAX */

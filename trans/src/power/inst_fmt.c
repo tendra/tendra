@@ -21,7 +21,7 @@
 
 #include <local/localflags.h>
 
-#include <construct/flags.h>
+#include <main/flags.h>
 
 #include "geninst.h"
 #include "proc.h"

@@ -19,7 +19,6 @@
 #include <reader/externs.h>
 #include <reader/readglob.h>
 
-#include <construct/flags.h>
 #include <construct/flpt.h>
 #include <construct/installglob.h>
 #include <construct/machine.h>
@@ -31,6 +30,7 @@
 #include <symtab/new_symbol.h>
 
 #include <main/driver.h>
+#include <main/flags.h>
 
 #include "dump_distr.h"
 #include "fail.h"

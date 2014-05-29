@@ -12,10 +12,11 @@
 #include <local/szs_als.h>
 
 #include <construct/exp.h>
-#include <construct/flags.h>
 #include <construct/installglob.h>
 #include <construct/shapemacs.h>
 #include <construct/tags.h>
+
+#include <main/flags.h>
 
 #include <refactor/optimise.h>
 

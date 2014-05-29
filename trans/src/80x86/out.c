@@ -23,7 +23,7 @@
 
 #include <reader/basicread.h>
 
-#include <construct/flags.h>
+#include <main/flags.h>
 
 #include "instr.h"
 #include "messages_8.h"

@@ -17,8 +17,9 @@
 #include <construct/installglob.h>
 #include <construct/exp.h>
 #include <construct/tags.h>
-#include <construct/flags.h>
 #include <construct/shapemacs.h>
+
+#include <main/flags.h>
 
 #include <refactor/refactor.h>
 #include <refactor/refactor_id.h>

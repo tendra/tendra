@@ -24,7 +24,8 @@
 #include <construct/flpt.h>
 #include <construct/installglob.h>
 #include <construct/exp.h>
-#include <construct/flags.h>
+
+#include <main/flags.h>
 
 #include <utility/version.h>
 

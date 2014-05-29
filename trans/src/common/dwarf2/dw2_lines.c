@@ -15,7 +15,7 @@
 #include <local/dw2_config.h>
 #include <local/szs_als.h>
 
-#include <construct/flags.h>
+#include <main/flags.h>
 
 #ifdef NEWDIAGS
 #include <newdiag/dg_globs.h>

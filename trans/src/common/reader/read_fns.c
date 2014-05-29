@@ -38,7 +38,6 @@
 
 #include <construct/exp.h>
 #include <construct/tags.h>
-#include <construct/flags.h>
 #include <construct/me_fns.h>
 #include <construct/installglob.h>
 #include <construct/flpttypes.h>
@@ -47,6 +46,8 @@
 #include <construct/machine.h>
 #include <construct/spec.h>
 #include <construct/aldefs.h>
+
+#include <main/flags.h>
 
 #ifdef NEWDIAGS
 #include <newdiag/diag_fns.h>	/* OLD DIAGS */

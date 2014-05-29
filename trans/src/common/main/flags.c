@@ -12,7 +12,7 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
-#include <construct/flags.h>
+#include <main/flags.h>
 
 int redo_structfns = 0;		/* reorganise proc calls delivering
 				   structures */
