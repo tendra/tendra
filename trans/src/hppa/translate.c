@@ -267,8 +267,8 @@ baseoff find_tg
 
 
 /* translate the TDF */
-void translate_capsule
-(void)
+void
+translate_capsule(void)
 {
   int noprocs;
   int procno;
@@ -279,6 +279,18 @@ void translate_capsule
   int r;
   static int capn=0;
   capn++;
+
+  /* init nowhere */
+  setregalt(nowhere.answhere, 0);
+  nowhere.ashwhere.ashsize = 0;
+  nowhere.ashwhere.ashsize = 0;
+
+  /* First label; avoid conflict with reg nos (and backward compatibility) */
+  crt_labno = 101;
+
+  if (diag != DIAG_NONE) {
+    init_stab();
+  }
 
   /* mark the as output as TDF compiled */
   outs("\t;  Produced by the DERA TDF->HP PA-RISC translator ");

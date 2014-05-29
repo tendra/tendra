@@ -23,11 +23,7 @@ extern FILE *as_file;			/* assembler output file */
 
 dec **main_globals;			/* the globals decs array */
 
-
 extern int maxfix_tregs;		/* the number of t regs allocatable */
-
-
-extern int translate(void);
 
 extern void translate_capsule(void);
 extern baseoff find_tg(char *);

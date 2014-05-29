@@ -77,6 +77,9 @@ init(void)
 #else
 	target_dbl_maxexp = 308;
 #endif
+
+	local_prefix = "$";
+	name_prefix  = "";
 }
 
 static int
@@ -125,36 +128,9 @@ unhas(void)
 		/* TODO: do gdb diagnostics depend on gcc assembly? */
 	}
 
-	/* init nowhere */
-	setregalt(nowhere.answhere, 0);
-	nowhere.ashwhere.ashsize = 0;
-	nowhere.ashwhere.ashsize = 0;
-}
-
-static void
-main(void)
-{
-	char *arg;
-
 	if (do_profile && PIC_code) {
 		fprintf(stderr,"hppatrans warning: \"-P\" and \"-D\" are mutually exclusive. \"-P\" ignored.\n");
 		do_profile = 0;
-	}
-
-	/* Label prefix */
-	local_prefix = "$";
-
-	/* First label; avoid conflict with reg nos (and backward compatibility) */
-	crt_labno = 101;
-
-	name_prefix = "";
-
-	init_flpt(); /* initialise the floating point array */
-#include <reader/inits.h> /* initialise common parts of translator */
-	top_def = (dec *)0;
-
-	if (diag != DIAG_NONE) {
-		 init_stab();
 	}
 }
 
@@ -176,7 +152,6 @@ struct driver driver = {
 
 	init,
 	unhas,
-	main,
 	NULL,
 	NULL,
 	cleanup,

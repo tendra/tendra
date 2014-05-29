@@ -40,7 +40,6 @@
 #include <dwarf2/dw2_iface.h>
 #include <dwarf2/dw2_abbrev.h>
 #include <dwarf2/dw2_common.h>
-bool dump_abbrev = 0 ;
 #endif
 
 #if DWARF
@@ -258,33 +257,6 @@ unhas(void)
 	local_prefix = ( sysV_assembler ? ".." : "$$" ) ;
 	lab_prefix   = ( sysV_assembler ? ".L" : "L." ) ;
 	crt_labno = 101 ;
-
-	/* other initialisation routines */
-	init_flpt () ;
-#include <reader/inits.h>
-	top_def = NULL ;
-}
-
-static void
-main(void)
-{
-	char *arg ;
-	char *outfname ;
-
-	/* main decoding routines */
-	init_translator () ;
-
-#ifdef NEWDWARF
-	if ( dump_abbrev ) {
-		/* Dump abbreviations table */
-		do_abbreviations () ;
-		dwarf2_prelude () ;
-		make_dwarf_common () ;
-		dwarf2_postlude () ;
-		exit_translator () ;
-		exit(EXIT_FAILURE);
-	}
-#endif
 }
 
 static void
@@ -299,7 +271,6 @@ struct driver driver = {
 
 	init,
 	unhas,
-	main,
 	NULL,
 	NULL,
 	cleanup,

@@ -14,7 +14,6 @@ struct driver {
 
 	void (*init)(void);
 	void (*unhas)(void);
-	void (*main)(void);
 	void (*binasm)(void);
 	void (*symtab)(void);
 	void (*cleanup)(void);

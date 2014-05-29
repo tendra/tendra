@@ -25,6 +25,9 @@
 
 #include "comment.h"		/* for do_comment */
 #include "macro.h"
+#include "machine.h"
+#include "addresstypes.h"
+#include "makecode.h"
 #include "dynamic_init.h"
 
 #define VERSION_STR "4.26"
@@ -64,6 +67,15 @@ init(void)
 	trap_on_nil_contents  = 0;
 	target_dbl_maxexp     = 308;
 	use_long_double       = 0;
+
+	/* set assembler id prefixes */
+	local_prefix = "S."; /* S for static */
+	name_prefix  = "";
+
+	/* init nowhere */
+	setregalt(nowhere.answhere, 0);
+	nowhere.ashwhere.ashsize = 0;
+	nowhere.ashwhere.ashsize = 0;
 }
 
 static int
@@ -125,14 +137,6 @@ unhas(void)
 }
 
 static void
-main(void)
-{
-	if (0 != translate()) {
-		exit(EXIT_FAILURE);
-	}
-}
-
-static void
 cleanup(void)
 {
 }
@@ -142,7 +146,6 @@ struct driver driver = {
 
 	init,
 	unhas,
-	main,
 	NULL,
 	NULL,
 	cleanup,

@@ -474,9 +474,9 @@ void translate_capsule
     }
   }
 
+  /* this is the only? use of these nos, to satisfy as1 */
   out_verstamp(majorno, minorno);
-				/* this is the only? use of these nos, to
-				   satisfy as1 */
+
   if (PIC_code) {
 	out_option(2, 2);
   }

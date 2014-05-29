@@ -55,34 +55,11 @@ static bool dump_abbrev = 0;
 #include <dwarf/dwarf_mc.h>
 #endif
 
-static void init_all(void);
-
 extern int print_inlines;
 
 extern int use_link_stuff;
 
 #define VERSION_STR "5.12"
-
-static void
-init_all(void)
-{
-	init_flpt();
-
-#include <reader/inits.h> /* XXX: not nice */
-
-	good_trans       = 0;
-	capsule_freelist = NULL;
-	old_proc_props   = NULL;
-	promote_pars     = 0;
-	load_ptr_pars    = 1;
-
-	/* 80x86 specific */
-	extra_stack = 0;
-	top_def = NULL;
-	init_weights();
-	initzeros();
-	const_list = nilexp;
-}
 
 static void
 init(void)
@@ -126,6 +103,12 @@ init(void)
 	ptr_null  = 0x0; /* NULL value for pointer */
 	proc_null = 0x0; /* NULL value for proc */
 	lv_null   = 0x0; /* NULL value for label_value*/
+
+	good_trans       = 0;
+	capsule_freelist = NULL;
+	old_proc_props   = NULL;
+	promote_pars     = 0;
+	load_ptr_pars    = 1;
 }
 
 static int
@@ -235,30 +218,6 @@ unhas(void)
 }
 
 static void
-main(void)
-{
-	init_all();
-
-#ifdef NEWDWARF
-	if (diag == DIAG_DWARF2)
-		init_dwarf2();
-	else
-#endif
-		if (diag != DIAG_NONE)
-			out_diagnose_prelude();
-
-#ifdef NEWDWARF
-	if (dump_abbrev) {
-		outs(".text\n");
-		do_abbreviations();
-		dwarf2_prelude();
-		make_dwarf_common();
-		dwarf2_postlude();
-	}
-#endif
-}
-
-static void
 cleanup(void)
 {
 		while (weak_list) {
@@ -289,7 +248,6 @@ struct driver driver = {
 
 	init,
 	unhas,
-	main,
 	NULL,
 	NULL,
 	cleanup,

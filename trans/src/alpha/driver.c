@@ -81,6 +81,9 @@ init(void)
 #else
 	use_umulh_for_div = 0;
 #endif
+
+	local_prefix = "$$";
+	name_prefix  = "";
 }
 
 static int
@@ -147,23 +150,6 @@ unhas(void)
 }
 
 static void
-main(void)
-{
-	init_flpt();
-
-#include <reader/inits.h>
-
-	top_def = NULL;
-	local_prefix = "$$";
-	name_prefix  = "";
-
-	(void) d_capsule();
-	if (good_trans) {
-		exit(EXIT_FAILURE);
-	}
-}
-
-static void
 symtab(void)
 {
 	output_symtab(st_file);
@@ -185,7 +171,6 @@ struct driver driver = {
 
 	init,
 	unhas,
-	main,
 	symtab,
 	binasm,
 	cleanup,

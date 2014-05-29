@@ -9,6 +9,7 @@
 
 #include <local/exptypes.h>
 #include <local/expmacs.h>
+#include <local/szs_als.h>
 
 #include <construct/exp.h>
 #include <construct/flags.h>
@@ -104,8 +105,8 @@ static void mark_unaliased
     and applies the dead variable and register allocation analysis.
 */
 
-void translate_capsule
-(void)
+void
+translate_capsule(void)
 {
     dec *d;
 
@@ -171,6 +172,30 @@ void translate_capsule
 	    crt_ext_off += shape_size(d->dec_u.dec_val.dec_shape);
 	}
     }
+
+
+    /* Set up alignment rules */
+    double_align = DBL_ALIGN;
+    param_align = PARAM_ALIGN;
+    stack_align = STACK_ALIGN;
+
+    diagnose_registers = 0;
+
+    MAX_BF_SIZE = (cconv != CCONV_HP ? MAX_BF_SIZE_CC : MAX_BF_SIZE_GCC);
+
+    /* Call initialization routines */
+    init_instructions();
+    init_weights();
+    init_wheres();
+
+    /* Decode, optimize and process the input TDF */
+    init_output();
+    area(ptext);
+
+    if (diag != DIAG_NONE) {
+        diag_prologue();
+    }
+
 
     /* Output all code */
     output_all_exps();

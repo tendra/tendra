@@ -411,6 +411,33 @@ void translate_capsule
       my_def = my_def -> def_next;
     };
 
+
+    extra_stack = 0;
+    init_weights();
+    initzeros();
+    const_list = nilexp;
+
+
+#ifdef NEWDWARF
+    if (diag == DIAG_DWARF2)
+        init_dwarf2();
+    else
+#endif
+        if (diag != DIAG_NONE)
+            out_diagnose_prelude();
+
+#ifdef NEWDWARF
+    if (dump_abbrev) {
+        outs(".text\n");
+        do_abbreviations();
+        dwarf2_prelude();
+        make_dwarf_common();
+        dwarf2_postlude();
+    }
+#endif
+
+
+
   /* compile procedures, evaluate constants, put in the .comm entries for
      undefined objects */
 

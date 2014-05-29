@@ -185,37 +185,6 @@ unhas(void)
 }
 
 static void
-main(void)
-{
-	int a;
-
-	/* Set up alignment rules */
-	double_align = DBL_ALIGN;
-	param_align = PARAM_ALIGN;
-	stack_align = STACK_ALIGN;
-
-	diagnose_registers = 0;
-
-	MAX_BF_SIZE = (cconv != CCONV_HP ? MAX_BF_SIZE_CC : MAX_BF_SIZE_GCC);
-
-	/* Call initialization routines */
-	top_def = NULL;
-	init_flpt();
-	init_instructions();
-#include <reader/inits.h>
-	init_weights();
-	init_wheres();
-
-	/* Decode, optimize and process the input TDF */
-	init_output();
-	area(ptext);
-
-	if (diag != DIAG_NONE) {
-		diag_prologue();
-	}
-}
-
-static void
 cleanup(void)
 {
 	if (diag != DIAG_NONE) {
@@ -237,7 +206,6 @@ struct driver driver = {
 
 	init,
 	unhas,
-	main,
 	NULL,
 	NULL,
 	cleanup,

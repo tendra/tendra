@@ -35,7 +35,6 @@ extern int callee_end_reg;
 extern int caller_offset_used;
 extern enum section current_section;
 extern ash ashof(shape);
-extern void init_translator(void);
 extern void exit_translator(void);
 extern void insection(enum section);
 extern void mark_unaliased(exp);

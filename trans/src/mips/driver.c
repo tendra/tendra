@@ -76,6 +76,9 @@ init(void)
 	do_alloca           = 0;
 
 	as_file = NULL;
+
+	local_prefix = "$$";
+	name_prefix  = "";
 }
 
 static int
@@ -121,19 +124,6 @@ unhas(void)
 }
 
 static void
-main(void)
-{
-	init_flpt();
-
-#include <reader/inits.h>
-
-	top_def = NULL;
-
-	local_prefix = "$$";
-	name_prefix = "";
-}
-
-static void
 cleanup(void)
 {
 }
@@ -155,7 +145,6 @@ struct driver driver = {
 
 	init,
 	unhas,
-	main,
 	binasm,
 	symtab,
 	cleanup,

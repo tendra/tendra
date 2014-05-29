@@ -140,6 +140,9 @@
 #include <dwarf2/dw2_iface.h>
 #endif
 
+#ifdef NEWDWARF
+bool dump_abbrev = 0 ;
+#endif
 
 extern bool know_size ;
 
@@ -294,8 +297,9 @@ out_rename ( char * oldid, char * newid ){
 /*
   INITIALISE TRANSLATOR
 */
-void 
-init_translator (void){
+static void
+init_translator (void)
+{
   /* initialise nowhere */
   setregalt ( nowhere.answhere, 0 ) ;
   nowhere.ashwhere.ashsize = 0 ;
@@ -419,6 +423,22 @@ translate_capsule (void){
 	   name(son(c))==general_proc_tag) noprocs++ ;
     }	
   }	
+
+
+	init_translator () ;
+
+#ifdef NEWDWARF
+	if ( dump_abbrev ) {
+		/* Dump abbreviations table */
+		do_abbreviations () ;
+		dwarf2_prelude () ;
+		make_dwarf_common () ;
+		dwarf2_postlude () ;
+		exit_translator () ;
+		exit(EXIT_FAILURE);
+	}
+#endif
+
 
 #ifdef NEWDWARF
   if (diag == DIAG_DWARF2) {

@@ -21,6 +21,8 @@
 #include <reader/readglob.h>
 
 #include <construct/flags.h>
+#include <construct/flpt.h>
+#include <construct/installglob.h>
 
 #include <utility/version.h>
 
@@ -31,10 +33,10 @@ extern int report_versions; /* XXX */
 extern bool dump_abbrev;
 #endif
 
-FILE *tc_file; /* TDF capsule input (.j or .t file) */
-FILE *as_file; /* assembly text output (.s file) */
-FILE *st_file; /* symbol table output (.T file) */
-FILE *ba_file; /* binasm output (.G file) */
+FILE *tc_file; /* .t or .j: TDF capsule input */
+FILE *as_file; /* .s: assembly text output    */
+FILE *st_file; /* .T: symbol table output     */
+FILE *ba_file; /* .G: binasm output           */
 
 static FILE *
 trans_fopen(const char *path, const char *mode)
@@ -74,7 +76,9 @@ trans_fclose(FILE *f, const char *name)
 static void
 trans_usage(FILE *f)
 {
-	fprintf(f, "usage: %s [-DMPQRVWY] [-%s] [capsule.t [text.s [symtab.T [binasm.G]]]]\n", progname, driver.opts);
+	fprintf(f, "usage: %s [-DMPQRVWY] [-%s] "
+		"[capsule.t [text.s [symtab.T [binasm.G]]]]\n",
+		progname, driver.opts);
 
 	/* XXX: generate these... */
 
@@ -92,6 +96,55 @@ trans_usage(FILE *f)
 	fprintf(f, "\t[-O acdefghijurstopqy]\n");
 	fprintf(f, "\t[-H aorntmcdsiq]\n");
 	fprintf(f, "\t[-C asef]\n");
+}
+
+static void
+translate(FILE *f, const char *name)
+{
+	/*
+	 * Open TDF capsule for reading.
+	 * This is typically target-dependant (.t), but could also be a .j file.
+	 */
+	initreader(f, name);
+
+	init_flpt();
+
+/*
+* Initialise the automatically generated reader modules with
+* automatically generated inits.h
+*/
+#include <reader/inits.h>
+
+	top_def = NULL;
+
+	/*
+	 * Start the TDF decoder, which calls back to translate_capsule()
+	 */
+	(void) d_capsule();
+
+	if (good_trans) {
+		exit(EXIT_FAILURE);
+	}
+
+	/*
+	 * Output binary symbol table (.T file) if required.
+	 */
+	if (st_file != NULL) {
+		driver.symtab();
+	}
+
+	/*
+	 * Output binary assembly (.G file) if required.
+	 */
+	if (ba_file != NULL) {
+		driver.binasm();
+	}
+
+	driver.cleanup();
+
+	if (number_errors != 0) {
+		return 1;
+	}
 }
 
 int
@@ -225,41 +278,9 @@ main(int argc, char *argv[])
 		driver.unhas();
 
 		/*
-		 * Open TDF capsule for reading.
-		 * This is typically target-dependant (.t), but could also be a .j file.
+		 * Read, decode and translate a TDF capsule.
 		 */
-		initreader(tc_file, argc > 0 ? argv[0] : "stdin");
-
-		driver.main();
-
-		/*
-		 * Start the TDF decoder, which calls back to translate_capsule()
-		 */
-		(void) d_capsule();
-
-		if (good_trans) {
-			exit(EXIT_FAILURE);
-		}
-
-		/*
-		 * Output binary symbol table (.T file) if required.
-		 */
-		if (st_file != NULL) {
-			driver.symtab();
-		}
-
-		/*
-		 * Output binary assembly (.G file) if required.
-		 */
-		if (ba_file != NULL) {
-			driver.binasm();
-		}
-
-		driver.cleanup();
-
-		if (number_errors != 0) {
-			return 1;
-		}
+		translate(tc_file, argc > 0 ? argv[0] : "stdin");
 
 		for (i = 0; i < argc; i++) {
 			if (*a[i].f != stdout) {

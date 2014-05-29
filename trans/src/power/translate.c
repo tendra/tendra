@@ -95,7 +95,6 @@
 
 #include <construct/installglob.h>
 #include <construct/exp.h>
-#include <construct/flpt.h>		/* for init_flpt() */
 #include <construct/flags.h>
 #include <construct/machine.h>
 
@@ -128,46 +127,6 @@ bool environ_externed=0;/* environ bug work around */
 long total_no_of_globals = 0;
 bool done_scan = 0;
 
-/* 
- * Translate the TDF 
- */
-int translate(void)
-{
-  /* mark the as output as TDF compiled */
-#ifdef DO_ASSEMBLER_MACROS
-  if (do_macros)
-  {
-    init_macros();
-  }
-#endif
-  fprintf(as_file, "L.TDF.translated:\n");
-  fprintf(as_file, "#\tpowertrans\n");
-
-  /* 
-   * Initialise the automatically generated reader modules with 
-   * automatically generated inits.h 
-   */
-#include <reader/inits.h>
-
-  init_flpt();			/* initialise the floating point array */
-  top_def = (dec*)0;		/* top_def starts as nil */
-
-
-
-  /* init nowhere */
-  setregalt(nowhere.answhere, 0);
-  nowhere.ashwhere.ashsize = 0;
-  nowhere.ashwhere.ashsize = 0;
-
-
-  /* set assembler id prefixes */
-  local_prefix = "S.";		/* S for static */
-  name_prefix = "";
-
-  return good_trans;			/* return 1 for error, 0 for good */
-}
-
-
 /*
  * Translate a TDF capsule 
  */
@@ -192,7 +151,17 @@ void translate_capsule(void)
   {
     init_diag();
   }
-  
+
+
+#ifdef DO_ASSEMBLER_MACROS
+	if (do_macros) {
+		init_macros();
+	}
+#endif
+
+	fprintf(as_file, "L.TDF.translated:\n"); /* XXX: unneccessary */
+	fprintf(as_file, "#\tpowertrans\n");
+
 
   /*
    * Generate .extern, .globl, .lglobl, .comm, .lcomm.
