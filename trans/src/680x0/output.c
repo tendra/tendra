@@ -584,7 +584,7 @@ init_instructions(void)
     INITIALIZE OUTPUT ROUTINES
 
     This routine copies the table of global register names into the
-    table of global register names and
+    table of global register names.
 */
 
 void
