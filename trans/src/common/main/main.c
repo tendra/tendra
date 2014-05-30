@@ -143,7 +143,7 @@ translate(FILE *f, const char *name)
 	driver.cleanup();
 
 	if (number_errors != 0) {
-		return 1;
+		exit(EXIT_FAILURE);
 	}
 }
 
