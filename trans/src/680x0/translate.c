@@ -83,9 +83,9 @@ static void mark_unaliased
 {
     exp p = pt(e);
     bool ca = 1;
-    while (p != nilexp && ca) {
+    while (p != NULL && ca) {
 	exp q = bro(p);
-	if (q == nilexp) {
+	if (q == NULL) {
 	    ca = 0;
 	} else if (!(last(p) && name(q) == cont_tag) &&
 		    !(!last(p) && last(q) &&
@@ -119,7 +119,7 @@ translate_capsule(void)
     exp idval;
       if (!(d -> dec_u.dec_val.dec_var) && (name(sh(crt_exp))!= prokhd ||
           (idval = son(crt_exp),
-             idval != nilexp && name(idval)!= null_tag &&
+             idval != NULL && name(idval)!= null_tag &&
                name(idval)!= proc_tag && name(idval)!= general_proc_tag))) {
 	/* make variable, and change all uses to contents */
         exp p = pt(crt_exp);
@@ -127,13 +127,13 @@ translate_capsule(void)
           sh(crt_exp) = f_pointer(f_alignment(sh(crt_exp)));
 	else
           setvar(crt_exp);
-        while (p != nilexp) {
+        while (p != NULL) {
           exp np = pt(p);
           exp* ptr = refto(father(p), p);
-          exp c = getexp(sh(p), bro(p), last(p), p, nilexp, 0, 0, cont_tag);
+          exp c = getexp(sh(p), bro(p), last(p), p, NULL, 0, 0, cont_tag);
           setfather(c, p);
           if (no(p)!= 0) {
-            exp r = getexp(sh(p), c, 1, p, nilexp, 0, no(p), reff_tag);
+            exp r = getexp(sh(p), c, 1, p, NULL, 0, no(p), reff_tag);
             no(p) = 0;
             son(c) = r;
             setfather(r, p);
@@ -157,7 +157,7 @@ translate_capsule(void)
     if (!separate_units) {
 	for (d = top_def; d; d = d->def_next) {
 	    exp c = d->dec_u.dec_val.dec_exp;
-	    if (son(c)!= nilexp &&
+	    if (son(c)!= NULL &&
 		 !(d->dec_u.dec_val.extnamed) && isvar(c)) {
 		mark_unaliased(c);
 	    }
@@ -230,11 +230,11 @@ void translate_unit
 	while (d) {
 	    exp c = d->dec_u.dec_val.dec_exp;
 	    no(c) = 0;
-	    pt(c) = nilexp;
+	    pt(c) = NULL;
 	    d = d->def_next;
 	}
-	crt_repeat = nilexp;
-	repeat_list = nilexp;
+	crt_repeat = NULL;
+	repeat_list = NULL;
     }
     return;
 }
@@ -308,7 +308,7 @@ static void code_const
 static void code_const_list
 (void)
 {
-    while (const_list != nilexp) {
+    while (const_list != NULL) {
 	exp t = const_list;
 	exp s = son(t);
 	bool b = (name(s)!= res_tag);
@@ -339,7 +339,7 @@ static int const_ready
     return brog(son(son(e))) -> dec_u.dec_val.processed;
   if (n == env_offset_tag)
     return ismarked(son(e));
-  if (n == name_tag || son(e) == nilexp)
+  if (n == name_tag || son(e) == NULL)
     return 1;
   e = son(e);
   while (!last(e)) {
@@ -422,7 +422,7 @@ static void output_all_exps
 
 	    init_output();
 
-	    if (s != nilexp) {
+	    if (s != NULL) {
 		if (name(s) == proc_tag ||
                     name(s) == general_proc_tag) {
 		    code_proc(d, id, c, s);

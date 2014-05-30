@@ -224,7 +224,7 @@ weights add_wlist(double scale, exp re)
   weights w, w1;
   exp r = re;
 
-  if (r == nilexp)
+  if (r == NULL)
   {
     return zeroweights;
   }
@@ -279,7 +279,7 @@ tailrecurse:
 
   case ident_tag:
     {
-      if (son(e)!= nilexp)
+      if (son(e)!= NULL)
       {
 	weights wdef;
 	bool wdef_set;
@@ -428,7 +428,7 @@ tailrecurse:
 
   default:
     {
-      if (son(e) == nilexp)
+      if (son(e) == NULL)
       {
 	return zeroweights;
       }

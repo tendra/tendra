@@ -211,7 +211,7 @@ int trace_uses(exp e, exp id)
 	 any assignments or things to stop flow */
       int ret_value = 0;
 
-      if (s==nilexp)
+      if (s==NULL)
       {
 	/*no arguments */
 	return 1;
@@ -332,7 +332,7 @@ int tempdec(exp e, bool enoughs)
 
   if (isvar(e))
   {
-    for (p = pt(e); p != nilexp; p = pt(p))
+    for (p = pt(e); p != NULL; p = pt(p))
     {
       /* find no of uses which are not assignments to id ... */
       if (!last(p) && last(bro(p))
@@ -361,7 +361,7 @@ int tempdec(exp e, bool enoughs)
 
   if (isvar(e))
   {
-    for (p = pt(e); p != nilexp; p = pt(p))
+    for (p = pt(e); p != NULL; p = pt(p))
     {
       if (!last(p) && last(bro(p))
 	  && name(bro(bro(p))) == ass_tag)
@@ -396,7 +396,7 @@ static int param_uses(exp id)
   ASSERT(nouses==0);
   /* We found all the uses of the ident and we found one of them in a parameter list */
 
-  for (p=pt(id); p!=nilexp;p = pt(p))
+  for (p=pt(id); p!=NULL;p = pt(p))
   {
     if (APPLYLIKE(father(p)))
     {

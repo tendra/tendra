@@ -376,7 +376,7 @@ void evalone
 	dec * globdec= brog(dc);/* must be global name */
 	char *nm = globdec -> dec_u.dec_val.dec_id;
 	long symdef = globdec ->dec_u.dec_val.sym_number;
-	if (!isvar(dc) && son(dc)!= nilexp
+	if (!isvar(dc) && son(dc)!= NULL
 		&& name(son(dc))!= proc_tag && name(son(dc))!= general_proc_tag
 		&& no(e) ==0
 		&& shape_size(sh(e)) == shape_size(sh(son(dc)))) {
@@ -519,7 +519,7 @@ void evalone
 
    case nof_tag: {
    	exp s = son(e);
-	if (s==nilexp) return;
+	if (s==NULL) return;
 	if (rep != 1)
 	  failer("CAN'T REP TUPLES");
    	set_align(a.ashalign);

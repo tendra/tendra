@@ -47,7 +47,7 @@ spacereq maxspace(spacereq a, spacereq b)
   a.fixdump |= b.fixdump;
   a.fltdump |= b.fltdump;
   a.stack = max(a.stack, b.stack);
-  a.obtain = nilexp;
+  a.obtain = NULL;
   return a;
 }
 
@@ -191,18 +191,18 @@ spacereq regalloc(exp e, int freefixed, int freefloat, long stack)
 	     */
 	    exp t = pt(e);
 	    
-	    for (; t != nilexp;)
+	    for (; t != NULL;)
 	    {
 	      exp p = pt(t);
 	      
 	      setname(t, val_tag);
-	      son(t) = nilexp;
+	      son(t) = NULL;
 	      no(t) = no(son(e));
 	      props(t) = 0;
-	      pt(t) = nilexp;
+	      pt(t) = NULL;
 	      t = p;
 	    }
-	    pt(e) = nilexp;
+	    pt(e) = NULL;
 	    
 	    FULLCOMMENT("regalloc heavily used const: no spare regs - replace use by value");
 	    props(e) |= defer_bit;
@@ -265,7 +265,7 @@ spacereq regalloc(exp e, int freefixed, int freefloat, long stack)
     {
       /* We do not wish to recurse down the bro(son(e)) */
       def = regalloc(s, freefixed, freefloat, stack);
-      def.obtain = nilexp;/* A case returns nothing */
+      def.obtain = NULL;/* A case returns nothing */
       return def;
     }
    case cont_tag:
@@ -312,7 +312,7 @@ spacereq regalloc(exp e, int freefixed, int freefloat, long stack)
       /* We do not wish to recurse down these tags */
       def = zerospace;
       def.stack = stack;
-      def.obtain = nilexp;
+      def.obtain = NULL;
       return def;
     }
    case seq_tag:
@@ -325,11 +325,11 @@ spacereq regalloc(exp e, int freefixed, int freefloat, long stack)
    label_default:
    default:
     {
-      if(s == nilexp)
+      if(s == NULL)
       {
 	def = zerospace;
 	def.stack = stack;
-	def.obtain = nilexp;
+	def.obtain = NULL;
 	return def;
       }
       else

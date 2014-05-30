@@ -31,7 +31,7 @@ glopt(dec * dp)
    {
      exp i = dp -> dec_u.dec_val.dec_exp;
      exp t = pt(i);
-     if (t == nilexp)
+     if (t == NULL)
        return;
 
      while (1)
@@ -48,7 +48,7 @@ glopt(dec * dp)
               {
                 dec * source_dec = brog(son(source));
                 if (!source_dec -> dec_u.dec_val.extnamed &&
-                    son(source_dec -> dec_u.dec_val.dec_exp) != nilexp)
+                    son(source_dec -> dec_u.dec_val.dec_exp) != NULL)
                   {
                     exp source_def = son(son(source));
                     shape sha = sh(source_def);
@@ -63,12 +63,12 @@ glopt(dec * dp)
                         {
 	                   exp q;
                            exp to_change = bro(source);
-	                   exp idsc = getexp(sh(bro(source)), nilexp, 0,
-                                              dest, nilexp,
+	                   exp idsc = getexp(sh(bro(source)), NULL, 0,
+                                              dest, NULL,
                                               0, 2, ident_tag);
-	                   exp n1 = getexp(sh(dest), nilexp, 0, idsc,
-                                             nilexp, 0, 0, name_tag);
-	                   exp n2 = getexp(sh(dest), nilexp, 0, idsc, n1,
+	                   exp n1 = getexp(sh(dest), NULL, 0, idsc,
+                                             NULL, 0, 0, name_tag);
+	                   exp n2 = getexp(sh(dest), NULL, 0, idsc, n1,
                                              0, 0, name_tag);
                            exp_list el;
 
@@ -90,7 +90,7 @@ glopt(dec * dp)
               };
           };
 
-        if (pt(t) == nilexp)
+        if (pt(t) == NULL)
           return;
         t = pt(t);
       };

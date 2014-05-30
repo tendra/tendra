@@ -239,7 +239,7 @@ where locate1
 	instore is;
 
 	if (var || (name(sh(e)) == prokhd &&
-		   (son(dc) == nilexp || IS_A_PROC(son(dc)))))
+		   (son(dc) == NULL || IS_A_PROC(son(dc)))))
 	{
 	  is.adval = 1;
 	}

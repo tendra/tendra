@@ -14,8 +14,6 @@
 
 #include <construct/installtypes.h>
 
-#define nilexp NULL
-
 /* main components of exp */
 
 #define son(x) ((x)->sonf.e)

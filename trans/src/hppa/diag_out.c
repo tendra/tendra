@@ -2166,7 +2166,7 @@ void close_function_scope
        {
 	  exp sn = son(id);
 	  long d = disp;
-	  while (sn != nilexp)
+	  while (sn != NULL)
 	  {
 	     switch (name(sn))
 	     {

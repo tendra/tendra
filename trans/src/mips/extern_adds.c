@@ -49,8 +49,8 @@ enter_parents(exp e)
 		else
 		if (name(dad)==proc_tag) {
 			exp nu = usages[no(dad)];
-			if (nu == nilexp) {
-			  nu = getexp(sh(e), e, 1, dad, nilexp, 0,
+			if (nu == NULL) {
+			  nu = getexp(sh(e), e, 1, dad, NULL, 0,
 			  		0, 0);
 			  usages[no(dad)] = nu;
 		        }
@@ -81,15 +81,15 @@ global_usages(exp id, int nop)
 {
 	exp plist, nextpl;
 	int i;
-	Assert(name(id)==ident_tag && isglob(id) && son(id)==nilexp);
+	Assert(name(id)==ident_tag && isglob(id) && son(id)==NULL);
 	if (no(id)==0) return;
 
 	for(i=0; i<nop; i++) {
-		usages[i] = nilexp;
+		usages[i] = NULL;
 	}
 	plist = pt(id);
 	nextpl = pt(plist);
-	pt(id) = nilexp;
+	pt(id) = NULL;
 	no(id) = 0;
 	for(;;) {
 		if (!enter_parents(plist)) {
@@ -97,13 +97,13 @@ global_usages(exp id, int nop)
 			pt(id) = plist;
 			no(id)++;
 		}
-		if ((plist = nextpl) == nilexp) break;
+		if ((plist = nextpl) == NULL) break;
 		nextpl = pt(plist);
 	}
 
 	for(i=0; i<nop; i++) {
 	  exp ui = usages[i];
-	  if (ui != nilexp) {
+	  if (ui != NULL) {
 
 	     if (props(ui) != 0  ) {
 	     	/* id is used enough in proc i - so identify it locally */
@@ -122,19 +122,19 @@ global_usages(exp id, int nop)
 			exp nl = getexp(sname,
 				   *pi, 0, id, pt(id), 0, 0, name_tag);
 			exp ndef = getexp(sh(*pi), bro(*pi),last(*pi),
-					 nl, nilexp, 0x10 /*don't defer */,
+					 nl, NULL, 0x10 /*don't defer */,
 					0, ident_tag);
 			exp lu = pt(ui);
 			setlast(*pi); bro(*pi) = ndef;
 			pt(id) = nl; no(id)++;
 			*pi = ndef;
 			/*... and replace uses of global by ndef */
-			while(lu != nilexp) {
+			while(lu != NULL) {
 			  exp nlu = pt(lu);
 			  if (no(lu)!=0) {
 				exp * plu = ptr_position(lu);
 				exp nrf = getexp(sh(lu), bro(lu), last(lu),
-						lu, nilexp, 0, no(lu), reff_tag);
+						lu, NULL, 0, no(lu), reff_tag);
 				sh(lu) = sname;
 				no(lu) = 0;
 				bro(lu) = nrf; setlast(lu);

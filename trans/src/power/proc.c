@@ -356,7 +356,7 @@ makeans make_ident_tag_code(exp e, space sp, where dest, int exitlab)
 
   COMMENT1("make_ident_tag_code end_init: no(e) =%d", no(e));
 
-  if (remember && r != R_NO_REG && pt(e)!= nilexp
+  if (remember && r != R_NO_REG && pt(e)!= NULL
       && keep_eq_size(sh(init_exp), sh(pt(e))))
   {
     /* It was temporarily in a register, track it to optimise future access */
@@ -517,7 +517,7 @@ makeans make_apply_general_tag_code(exp e, space sp, where dest, int exitlab)
   {
     exp x = son(cers);
     postl_chain p;
-    for (;x != nilexp;)
+    for (;x != NULL;)
     {
       if (name(x) ==caller_tag)
       {
@@ -601,7 +601,7 @@ void make_tail_call_tag_code(exp e, space sp)
   baseoff callee_pointer;
   bool direct_call = (name(fn) == name_tag
 		      && name(son(fn)) == ident_tag
-		      && (son(son(fn)) == nilexp || IS_A_PROC(son(son(fn)))));
+		      && (son(son(fn)) == NULL || IS_A_PROC(son(son(fn)))));
   static int identification = 0;
   identification++;
   fprintf(as_file,"# Begin tail call no %d\n",identification);
@@ -1107,7 +1107,7 @@ void do_function_call(exp fn, space sp)
 {
   if (name(fn) == name_tag
       && name(son(fn)) == ident_tag
-      && (son(son(fn)) == nilexp || IS_A_PROC(son(son(fn))))
+      && (son(son(fn)) == NULL || IS_A_PROC(son(son(fn))))
      )
   {
     /* direct call */
@@ -1145,7 +1145,7 @@ void do_general_function_call(exp fn, space sp)
 {
   if (name(fn) == name_tag
       && name(son(fn)) == ident_tag
-      && (son(son(fn)) == nilexp || IS_A_PROC(son(son(fn))))
+      && (son(son(fn)) == NULL || IS_A_PROC(son(son(fn))))
      )
   {
     /* direct call */

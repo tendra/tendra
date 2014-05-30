@@ -327,7 +327,7 @@ aa:if (name(e) == ident_tag && isparam(e)
 static int has_bitfield
 (exp e)
 {
-  if (e == nilexp)
+  if (e == NULL)
     return 0;
   switch (name(e))
   {
@@ -745,7 +745,7 @@ makeans make_code
       	exp sbdy = son(bdy);
 	int pr =  props(sbdy);
 #if 0
-	if (pt(bdy) == nilexp && diag == DIAG_NONE)
+	if (pt(bdy) == NULL && diag == DIAG_NONE)
 	{
 	   /**  Parameter never used.  **/
 	}
@@ -1190,7 +1190,7 @@ makeans make_code
 	 exp x = son(cers);
 	 postl_chain p;
 	 int ma = (max_args+511) & (~511);
-	 for (;x!=nilexp;)
+	 for (;x!=NULL;)
 	 {
 	    if (name(x) ==caller_tag)
 	    {
@@ -1390,7 +1390,7 @@ makeans make_code
      {
  	return make_code(bro(se), sp, dest, exitlab);
      }
-     if (se == nilexp)
+     if (se == NULL)
      {
 	/* Historical - unused tags are now removed cleanly */
 	placew = nowhere;
@@ -1548,7 +1548,7 @@ makeans make_code
 	   off = - ((n+params_offset) >>3);
 	   stkpos.offset = off;
 #if 0
-	   if (pt(e) ==nilexp && diag == DIAG_NONE)
+	   if (pt(e) ==NULL && diag == DIAG_NONE)
 	   {
 	      /* parameter never used */
 	   }
@@ -1625,7 +1625,7 @@ makeans make_code
 	 r = code_here(son(e), sp, placew);
       }
 
-      if (remember && r != NOREG && pt(e)!= nilexp && eq_sze(sh(son(e)), sh(pt(e))))
+      if (remember && r != NOREG && pt(e)!= NULL && eq_sze(sh(son(e)), sh(pt(e))))
       {
  	 /* Temporarily in a register, track it to optimise future access */
  	 if (isvar(e))
@@ -1671,7 +1671,7 @@ makeans make_code
      exp alt = bro(son(e));
      exp test;
      exp record;	 /* jump record for alt */
-     exp jr = nilexp;   /* jump record for end of construction */
+     exp jr = NULL;   /* jump record for end of construction */
 
      if (discrim(dest.answhere) == insomereg)
      {
@@ -1704,12 +1704,12 @@ makeans make_code
 	   shape sha;
 	   outofline * rec;
 	   exp tst = (is_tester(t, 0))? t : bro(son(t));
-	   record = getexp(f_bottom, nilexp, 0, nilexp, nilexp,0, 0, 0);
-	   if (pt(son(alt))!= nilexp)
+	   record = getexp(f_bottom, NULL, 0, NULL, NULL,0, 0, 0);
+	   if (pt(son(alt))!= NULL)
 	      ptno(record) = ptno(pt(son(alt)));
 	   else
 	      ptno(record) = new_label();
-	   jr = getexp(f_bottom, nilexp, 0, nilexp, nilexp, 0, 0, 0);
+	   jr = getexp(f_bottom, NULL, 0, NULL, NULL, 0, 0, 0);
 	   ptno(jr) = new_label();
 	   sha = sh(son(tst));
 	   rec = (outofline*)xmalloc(sizeof(outofline));
@@ -1731,11 +1731,11 @@ makeans make_code
 	   else
 	      test_n = (int)real_inverse_ntest[test_n];
 	   settest_number(tst, test_n);
-	   z = getexp(f_bottom, nilexp, 0, nilexp, nilexp, 0, 0, 0);
+	   z = getexp(f_bottom, NULL, 0, NULL, NULL, 0, 0, 0);
 	   ptno(z) = rec->labno;/* z->ptf.l */
-	   s = getexp(sha, nilexp, 0, nilexp, z, 0, 0, 0);
+	   s = getexp(sha, NULL, 0, NULL, z, 0, 0, 0);
 	   no(s) = rec->labno;
-	   p = getexp(sha, nilexp, 0, s, nilexp, 0, 0, 0);
+	   p = getexp(sha, NULL, 0, s, NULL, 0, 0, 0);
 	   pt(tst) = p;
   	   mka = make_code(t,sp,dest,0);
 	   if (name(sh(first))!= bothd)
@@ -2248,7 +2248,7 @@ makeans make_code
 	      if (name(lhs) ==name_tag)
 	      {
 		 exp dc = son(lhs);
-		 if (son(dc)!=nilexp)
+		 if (son(dc)!=NULL)
 		    dc = son(dc);
 		 if (shape_size(sh(dc)) ==shape_size(sh(rhs)))
 		    keepcont(lhs,contreg);
@@ -2405,7 +2405,7 @@ makeans make_code
      instore str;
      int r, disp = 0;
 #if 1
-     if (t==nilexp)
+     if (t==NULL)
 	return mka;
 #endif
      nsp = sp;
@@ -2610,14 +2610,14 @@ makeans make_code
      for (n = 1;;n++)
      {
 	/* calculate crude criterion for using jump vector or branches */
-	if (u + 1 != no(zt) && son(zt)!= nilexp)
+	if (u + 1 != no(zt) && son(zt)!= NULL)
 	   n++;
 	if (last(zt))
 	{
-	   u = (son(zt)!= nilexp)? no(son(zt)): no(zt);
+	   u = (son(zt)!= NULL)? no(son(zt)): no(zt);
 	   break;
 	}
-	if (son(zt)!= nilexp)
+	if (son(zt)!= NULL)
 	{
 	   u = no(son(zt));
 	}
@@ -2748,7 +2748,7 @@ makeans make_code
 	      sprintf(labl,"L$$%d",endlab);
 	      out_directive(".WORD",labl);
 	   }
-	   u = (son(z) == nilexp)? n : no(son(z));
+	   u = (son(z) == NULL)? n : no(son(z));
 	   for (; n <= u; n++)
 	   {
 	      sprintf(labl,"L$$%d",no(son(pt(z))));
@@ -2777,7 +2777,7 @@ makeans make_code
 	   {
 	      int lab = no(son(pt(z)));
 	      l = no(z);
-	      if (son(z) == nilexp)
+	      if (son(z) == NULL)
 	      {
  	         /* only single test required */
 		 cij_ins(c_eq,l,r,lab);
@@ -2835,7 +2835,7 @@ makeans make_code
 	   {
 	      int lab = no(son(pt(z)));
 	      l = no(z);
-	      if (son(z) == nilexp)
+	      if (son(z) == NULL)
 	      {
 		 /* only single test required */
 		 cij_ins(c_eq,l,r,lab);

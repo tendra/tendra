@@ -116,7 +116,7 @@ case_optimisation(exp body, exp id, shape shape_of_case, exp control_expression)
 			i--;
 		}
 		for (z = n; z <= i; z++) {
-			if (son(ELEMENTS[z]) != nilexp) {
+			if (son(ELEMENTS[z]) != NULL) {
 				if (is_signed(sh(control_expression))) {
 					node_weight_sum +=
 					    ((double)no(son(ELEMENTS[z])) -
@@ -147,13 +147,13 @@ case_optimisation(exp body, exp id, shape shape_of_case, exp control_expression)
 		node_start[no_of_nodes] = ELEMENTS[n];
 
 		/* Sets up the node_end pointers */
-		node_end[no_of_nodes] = (son(ELEMENTS[i]) == nilexp
+		node_end[no_of_nodes] = (son(ELEMENTS[i]) == NULL
 					 ? ELEMENTS[i] : son(ELEMENTS[i]));
 
 		/* sets up the node_weight of the node */
 		node_weight[no_of_nodes] = 0.0;
 		for (z = n; z <= i; z++) {
-			if (son(ELEMENTS[z]) != nilexp) {
+			if (son(ELEMENTS[z]) != NULL) {
 				if (is_signed(sh(control_expression))) {
 					node_weight[no_of_nodes] +=
 					    ((double)no(son(ELEMENTS[z])) -
@@ -171,7 +171,7 @@ case_optimisation(exp body, exp id, shape shape_of_case, exp control_expression)
 		}
 
 		no_of_nodes = no_of_nodes + 1;
-		bro(ELEMENTS[i]) = nilexp;
+		bro(ELEMENTS[i]) = NULL;
 		/* Chops up the list for later use */
 		setlast(ELEMENTS[i]);
 		/*
@@ -189,7 +189,7 @@ case_optimisation(exp body, exp id, shape shape_of_case, exp control_expression)
 		t = body;
 		for (;;) {
 			sh(t) = sh(control_expression);
-			if (son(t) != nilexp) {
+			if (son(t) != NULL) {
 				sh(son(t)) = sh(control_expression);
 			}
 			if (last(t)) {
@@ -223,9 +223,9 @@ case_optimisation(exp body, exp id, shape shape_of_case, exp control_expression)
 		exp TOP__TAG;
 		exp CLEAR__TAG;
 
-		TOP__TAG = getexp(f_top, nilexp, 0, nilexp, nilexp, 0, 0,
+		TOP__TAG = getexp(f_top, NULL, 0, NULL, NULL, 0, 0,
 				  top_tag);
-		CLEAR__TAG = getexp(f_top, nilexp, 0, nilexp, nilexp, 0, 0,
+		CLEAR__TAG = getexp(f_top, NULL, 0, NULL, NULL, 0, 0,
 				    clear_tag);
 		LABST__TAG = me_b3(sh(TOP__TAG), CLEAR__TAG, TOP__TAG,
 				   labst_tag);
@@ -254,7 +254,7 @@ density(exp *ELEMENTS, int start, int end, int sgn)
 	double numerator;
 	double denominator;
 
-	if (son(ELEMENTS[end]) == nilexp) {
+	if (son(ELEMENTS[end]) == NULL) {
 		if (sgn) {
 			denominator = (double)no(ELEMENTS[end]) -
 			    (double)no(ELEMENTS[start]);
@@ -276,7 +276,7 @@ density(exp *ELEMENTS, int start, int end, int sgn)
 	denominator = denominator + 1.0;
 	numerator = 0.0;
 	for (index = start; index <= end; index++) {
-		if (son(ELEMENTS[index]) == nilexp) {
+		if (son(ELEMENTS[index]) == NULL) {
 			numerator = numerator + 1.0;
 		} else {
 			if (sgn) {
@@ -337,7 +337,7 @@ set_up_conditional(exp left, exp right, ntest test, int integer_value, exp id,
 	exp CONT__TAG;
 
 	/* Sets up the labst_tag for the conditional */
-	CLEAR__TAG = getexp(f_top, nilexp, 0, nilexp, nilexp, 0, 0, clear_tag);
+	CLEAR__TAG = getexp(f_top, NULL, 0, NULL, NULL, 0, 0, clear_tag);
 	LABST__TAG = me_b3(sh(right), CLEAR__TAG, right, labst_tag);
 	/* sets up the test_tag */
 	NAME__TAG = me_obtain(id);
@@ -366,7 +366,7 @@ set_up_exhaustive_case(exp body_of_case, exp id)
 
 	NAME__TAG = me_obtain(id);
 	CONT__TAG = me_u3(sh(id), NAME__TAG, cont_tag);
-	CASE__TAG = getexp(f_bottom, nilexp, 0, CONT__TAG, nilexp, 0, 0,
+	CASE__TAG = getexp(f_bottom, NULL, 0, CONT__TAG, NULL, 0, 0,
 			   case_tag);
 	bro(CONT__TAG) = body_of_case;
 	clearlast(CONT__TAG);
@@ -396,7 +396,7 @@ set_up_inexhaustive_case(exp body_of_case, exp id, exp default_exp)
 	NAME__TAG = me_obtain(id);
 	CONT__TAG = me_u3(sh(id), NAME__TAG, cont_tag);
 	/* shape of case is f_top since it is not exhaustive */
-	CASE__TAG = getexp(f_top, nilexp, 0, CONT__TAG, nilexp, 0, 0, case_tag);
+	CASE__TAG = getexp(f_top, NULL, 0, CONT__TAG, NULL, 0, 0, case_tag);
 	bro(CONT__TAG) = body_of_case;
 	clearlast(CONT__TAG);
 	r = body_of_case;
@@ -404,7 +404,7 @@ set_up_inexhaustive_case(exp body_of_case, exp id, exp default_exp)
 		r = bro(r);
 	}
 	bro(r) = CASE__TAG;
-	GOTO__TAG = getexp(f_bottom, nilexp, 0, nilexp, nilexp, 0, 0, goto_tag);
+	GOTO__TAG = getexp(f_bottom, NULL, 0, NULL, NULL, 0, 0, goto_tag);
 	pt(GOTO__TAG) = default_exp;
 	no(son(default_exp)) ++;
 	ZERO__TAG = me_u3(f_top, CASE__TAG, 0);
@@ -422,7 +422,7 @@ like_me_q1(int prob, ntest nt, exp lab, exp arg1, exp arg2, unsigned char nm)
 {
 	exp r;
 
-	r = getexp(f_top, nilexp, 0, arg1, lab, 0, 0, nm);
+	r = getexp(f_top, NULL, 0, arg1, lab, 0, 0, nm);
 	no(r) = prob;
 	settest_number(r, nt);
 	setbro(arg1, arg2);
@@ -486,8 +486,8 @@ exhaustive_conditional_maker(int start, int end, exp id)
 	/* first test to see if we have only one node */
 	if (start == end) {
 		/* Check to see if not a jump table */
-		if (bro(node_start[start]) == nilexp) {
-			t = getexp(f_bottom, nilexp, 0, nilexp, nilexp, 0, 0,
+		if (bro(node_start[start]) == NULL) {
+			t = getexp(f_bottom, NULL, 0, NULL, NULL, 0, 0,
 				   goto_tag);
 			pt(t) = pt(node_start[start]);
 			return t;
@@ -524,13 +524,13 @@ inexhaustive_conditional_maker(int start, int end, exp id, exp default_exp)
 		if (node_start[start] == node_end[start]) {
 			if ((node_start_flag[start] == 1) &&
 			    (node_end_flag[start] == 1)) {
-				spare = getexp(f_bottom, nilexp, 0, nilexp,
-					       nilexp, 0, 0, goto_tag);
+				spare = getexp(f_bottom, NULL, 0, NULL,
+					       NULL, 0, 0, goto_tag);
 				pt(spare) = pt(node_start[start]);
 				return spare;
 			} else {
-				option_left = getexp(f_bottom, nilexp, 0,
-						     nilexp, nilexp, 0, 0,
+				option_left = getexp(f_bottom, NULL, 0,
+						     NULL, NULL, 0, 0,
 						     goto_tag);
 				pt(option_left) = default_exp;
 				no(son(default_exp)) ++;
@@ -546,15 +546,15 @@ inexhaustive_conditional_maker(int start, int end, exp id, exp default_exp)
 		if (son(node_start[start]) == node_end[start]) {
 			if ((node_start_flag[start] == 1) &&
 			    (node_end_flag[start] == 1)) {
-				spare = getexp(f_bottom, nilexp, 0, nilexp,
-					       nilexp, 0, 0, goto_tag);
+				spare = getexp(f_bottom, NULL, 0, NULL,
+					       NULL, 0, 0, goto_tag);
 				pt(spare) = pt(node_start[start]);
 				return spare;
 			}
 			if ((node_start_flag[start] == 1) &&
 			    (node_end_flag[start] == 0)) {
-				option_left = getexp(f_bottom, nilexp, 0,
-						     nilexp, nilexp, 0, 0,
+				option_left = getexp(f_bottom, NULL, 0,
+						     NULL, NULL, 0, 0,
 						     goto_tag);
 				pt(option_left) = default_exp;
 				no(son(default_exp))++;
@@ -568,8 +568,8 @@ inexhaustive_conditional_maker(int start, int end, exp id, exp default_exp)
 			}
 			if ((node_start_flag[start] == 0) &&
 			    (node_end_flag[start] == 1)) {
-				option_left = getexp(f_bottom, nilexp, 0,
-						     nilexp, nilexp, 0, 0,
+				option_left = getexp(f_bottom, NULL, 0,
+						     NULL, NULL, 0, 0,
 						     goto_tag);
 				pt(option_left) = default_exp;
 				no(son(default_exp)) ++;
@@ -590,8 +590,8 @@ inexhaustive_conditional_maker(int start, int end, exp id, exp default_exp)
 				exp GOTO__TAG;
 				int   subtract_value = no(node_start[start]);
 
-				GOTO__TAG = getexp(f_bottom, nilexp, 0, nilexp,
-						   nilexp, 0, 0, goto_tag);
+				GOTO__TAG = getexp(f_bottom, NULL, 0, NULL,
+						   NULL, 0, 0, goto_tag);
 				pt(GOTO__TAG) = default_exp;
 				no(son(default_exp)) ++;
 				no(son(pt(node_start[start])))--;
@@ -653,9 +653,9 @@ inexhaustive_conditional_maker(int start, int end, exp id, exp default_exp)
 						       f_less_than_or_equal),
 				  0);
 			r = node_start[start];
-			while (r != nilexp) {
+			while (r != NULL) {
 				no(r) = no(r) - subtract_value;
-				if (son(r) != nilexp) {
+				if (son(r) != NULL) {
 					no(son(r)) = no(son(r)) -
 					    subtract_value;
 				}

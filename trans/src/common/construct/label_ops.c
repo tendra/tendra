@@ -26,7 +26,7 @@
 
 
 /* label_is_next returns 1 if lab is a labst which immediately
-   follows e, otherwise 0. e will not be nilexp
+   follows e, otherwise 0. e will not be NULL
 */
 int
 label_is_next(exp lab, exp e)
@@ -36,7 +36,7 @@ label_is_next(exp lab, exp e)
 	}
 	while (last(e)) {
 		e = bro(e);
-		if (e == nilexp || name(e) >= ass_tag || name(sh(e)) != bothd) {
+		if (e == NULL || name(e) >= ass_tag || name(sh(e)) != bothd) {
 			return 0;
 		}
 	}
@@ -54,7 +54,7 @@ is_jumper(exp e)
 	    name(e) == testbit_tag || name(e) == res_tag) {
 		return e;
 	}
-	return nilexp;
+	return NULL;
 }
 
 
@@ -72,21 +72,21 @@ down(exp e)
 
 
 /* next_jump delivers a goto, res, test or testbit exp if this
-   is certain to be the next thing obeyed after e. nilexp
+   is certain to be the next thing obeyed after e. NULL
    otherwise.
 */
 static exp
 next_jump(exp e)
 {
 	if (~optim & OPTIM_JUMPS) {
-		return nilexp;
+		return NULL;
 	}
 
 	do {
 		while (last(e)) {
 			e = bro(e);
-			if (e == nilexp || name(e) >= goto_tag) {
-				return nilexp;
+			if (e == NULL || name(e) >= goto_tag) {
+				return NULL;
 			}
 		}
 		e = bro(e);
@@ -101,25 +101,25 @@ next_jump(exp e)
 	if (name(e) == top_tag) {
 		return next_jump(e);
 	}
-	return nilexp;
+	return NULL;
 }
 
 
 /* next_jump delivers a goto, res, test or testbit exp if this
    is certain to be the next thing obeyed after e and there is no
-   other route to the goto (etc.). nilexp otherwise.
+   other route to the goto (etc.). NULL otherwise.
 */
 exp
 short_next_jump(exp e)
 {
 	if (~optim & OPTIM_JUMPS) {
-		return nilexp;
+		return NULL;
 	}
 
 	while (last(e)) {
 		e = bro(e);
-		if (e == nilexp || name(e) >= cond_tag) {
-			return nilexp;
+		if (e == NULL || name(e) >= cond_tag) {
+			return NULL;
 		}
 	}
 	e = bro(e);
@@ -133,7 +133,7 @@ short_next_jump(exp e)
 	if (name(e) == top_tag) {
 		return short_next_jump(e);
 	}
-	return nilexp;
+	return NULL;
 }
 
 
@@ -151,7 +151,7 @@ final_dest(exp lab)
 	exp temp, ll;
 	while (name(final) == labst_tag) {
 		temp = jump_dest(final);
-		if (temp != nilexp && name(temp) == goto_tag &&
+		if (temp != NULL && name(temp) == goto_tag &&
 		    pt(temp) != final) {
 			ll = lab;
 			while (ll != final) {
@@ -190,7 +190,7 @@ final_dest_test(exp lab, exp e)
 	exp temp, ll;
 	while (name(final) == labst_tag) {
 		temp = jump_dest(final);
-		if (temp == nilexp || final == pt(temp)) {
+		if (temp == NULL || final == pt(temp)) {
 			return final;
 		}
 		if (name(temp) == goto_tag ||

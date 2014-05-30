@@ -386,7 +386,7 @@ static void clear_fixed(void)
   int r;
   for (r=0;r<=12;r++)
   {
-    fixed_array[r].par = nilexp;
+    fixed_array[r].par = NULL;
     fixed_array[r].dest = 0;
     fixed_array[r].copied = 1;
   }
@@ -397,7 +397,7 @@ static void clear_float(void)
   int r;
   for (r=0;r<=13;r++)
   {
-    float_array[r].par = nilexp;
+    float_array[r].par = NULL;
     float_array[r].dest = 0;
     float_array[r].copied = 1;
   }
@@ -441,7 +441,7 @@ void track_fixed(int reg, exp id)
 {
   exp def = son(id);
 
-  if (pt(id)!=nilexp && keep_eq_size(sh(def),sh(pt(id))))
+  if (pt(id)!=NULL && keep_eq_size(sh(def),sh(pt(id))))
   {
     if (isvar(id))
     {

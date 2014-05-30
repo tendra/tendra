@@ -229,7 +229,7 @@ logop(void(*op)(shape, where, where, where), exp e, where dest, ash stack)
 	t = arg1;
 
 	/* Scan the arguments.  t will hold either the first non-operand,
-	   or nilexp if all the arguments are operands.  There should be
+	   or NULL if all the arguments are operands.  There should be
 	   at most one non-operand.  */
 
 	while (1) {
@@ -237,7 +237,7 @@ logop(void(*op)(shape, where, where, where), exp e, where dest, ash stack)
 			break;
 		}
 		if (last(t)) {
-			t = nilexp;
+			t = NULL;
 			break;
 		}
 		t = bro(t);
@@ -252,7 +252,7 @@ logop(void(*op)(shape, where, where, where), exp e, where dest, ash stack)
 	 * dest = op (argn, D1)
 	 */
 
-	if (t == nilexp) {
+	if (t == NULL) {
 		/* Process the first two terms */
 		(*op)(sh(e), zw(arg1), zw(arg2), w);
 		t = bro(arg2);
@@ -335,9 +335,9 @@ addsub(shape sha, where a, where b, where dest, ash stack)
 void
 check_unset_overflow(where dest, shape shp)
 {
-	exp max_val = getexp(shp, nilexp, 0, nilexp, nilexp, 0, range_max(shp),
+	exp max_val = getexp(shp, NULL, 0, NULL, NULL, 0, range_max(shp),
 			     val_tag);
-	exp min_val = getexp(shp, nilexp, 0, nilexp, nilexp, 0, range_min(shp),
+	exp min_val = getexp(shp, NULL, 0, NULL, NULL, 0, range_min(shp),
 			     val_tag);
 	bool sw;
 	move(shp,dest,D0);
@@ -368,7 +368,7 @@ check_unset_overflow(where dest, shape shp)
 void
 codec(where dest, ash stack, exp e)
 {
-	if (e == nilexp) {
+	if (e == NULL) {
 		error(ERROR_SERIOUS, "Internal coding error");
 		return;
 	}
@@ -415,18 +415,18 @@ codec(where dest, ash stack, exp e)
 				break;
 			}
 			if (last(t)) {
-				t = nilexp;
+				t = NULL;
 				break;
 			}
 			t = bro(t);
 		}
-		if (t == nilexp && name(arg1) == neg_tag &&
+		if (t == NULL && name(arg1) == neg_tag &&
 		    name(arg2) == neg_tag) {
 			t = arg1;
 		}
 
 		/* Deal with the case where all the arguments are operands */
-		if (t == nilexp) {
+		if (t == NULL) {
 			t = bro(arg2);
 			/* Deal with the first two arguments */
 			if (name(arg1) == neg_tag) {

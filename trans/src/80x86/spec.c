@@ -43,7 +43,7 @@ speci special_fn
   }
   id += prefix_length;
 
-  if (a2 != nilexp && last(a2) && !strcmp(id, "__trans386_special")) {
+  if (a2 != NULL && last(a2) && !strcmp(id, "__trans386_special")) {
     exp r = me_b3(s, a1, a2, apply_tag);
     setbuiltin(r);	/* dummy proc, so ignore state of builtin */
     spr.is_special = 1;
@@ -58,9 +58,9 @@ speci special_fn
     };
   
     if (!strcmp(id, "longjmp")) {
-      exp r = getexp(f_bottom, nilexp, 0, a1, nilexp, 0, 0,apply_tag);
+      exp r = getexp(f_bottom, NULL, 0, a1, NULL, 0, 0,apply_tag);
       has_setjmp = 1;
-      if (last(a2) || bro(a2) == nilexp)
+      if (last(a2) || bro(a2) == NULL)
         return spr;
       bro(a1) = a2;
       clearlast(a1);
@@ -76,8 +76,8 @@ speci special_fn
   }
 
   if (builtin & BUILTIN_ALLOCA) {
-    if (a2 != nilexp && last(a2) && !strcmp(id, "__builtin_alloca")) {
-      exp r = getexp(s, nilexp, 0, a2, nilexp, 0,
+    if (a2 != NULL && last(a2) && !strcmp(id, "__builtin_alloca")) {
+      exp r = getexp(s, NULL, 0, a2, NULL, 0,
   	0, alloca_tag);
       setfather(r, son(r));
       has_alloca = 1;
@@ -89,14 +89,14 @@ speci special_fn
   }
 
   if (builtin & BUILTIN_API) {
-    if (a2 != nilexp && last(a2) && !strcmp(id, "exit")) {
+    if (a2 != NULL && last(a2) && !strcmp(id, "exit")) {
       exp r = me_b3(f_bottom, a1, a2, apply_tag);
       spr.is_special = 1;
       spr.special_exp = r;
       return spr;
     };
   
-    if (a2 == nilexp && !strcmp(id, "abort")) {
+    if (a2 == NULL && !strcmp(id, "abort")) {
       exp r = me_u3(f_bottom, a1, apply_tag);
       spr.is_special = 1;
       spr.special_exp = r;

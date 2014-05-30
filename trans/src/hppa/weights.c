@@ -244,7 +244,7 @@ weights add_wlist
   weights w, w1;
   exp r = re;
 
-  if (r == nilexp)
+  if (r == NULL)
   {
     return zeroweights;
   }
@@ -304,7 +304,7 @@ weights weightsv
 
   case ident_tag:
     {
-      if (son(e)!= nilexp)
+      if (son(e)!= NULL)
       {
 	weights wdef;
 	bool wdef_set;
@@ -441,7 +441,7 @@ weights weightsv
 
   default:
     {
-      if (son(e) == nilexp || n == env_offset_tag
+      if (son(e) == NULL || n == env_offset_tag
 			   || n == general_env_offset_tag)
       {
 	return zeroweights;

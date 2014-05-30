@@ -30,7 +30,7 @@ glopt(dec *dp)
   if (!writable_strings && !strcmp(dp->dec_u.dec_val.dec_id, "_strcpy")) {
      exp i = dp->dec_u.dec_val.dec_exp;
      exp t = pt(i);
-     if (t == nilexp) {
+     if (t == NULL) {
        return;
      }
 
@@ -45,7 +45,7 @@ glopt(dec *dp)
                 isvar(son(source)) && no(son(source)) == 1) {
                 dec * source_dec = brog(son(source));
                 if (!source_dec->dec_u.dec_val.extnamed &&
-                    son(source_dec->dec_u.dec_val.dec_exp) != nilexp) {
+                    son(source_dec->dec_u.dec_val.dec_exp) != NULL) {
                     exp source_def = son(son(source));
                     shape sha = sh(source_def);
                     if (name(source_def) == string_tag &&
@@ -59,11 +59,11 @@ glopt(dec *dp)
                        if (j < l) {
 	                   exp q;
                            exp to_change = bro(source);
-			   exp idsc = getexp(sh(bro(source)), nilexp, 0, dest,
-					     nilexp, 0, 2, ident_tag);
-			   exp n1 = getexp(sh(dest), nilexp, 0, idsc, nilexp,
+			   exp idsc = getexp(sh(bro(source)), NULL, 0, dest,
+					     NULL, 0, 2, ident_tag);
+			   exp n1 = getexp(sh(dest), NULL, 0, idsc, NULL,
 					   0, 0, name_tag);
-			   exp n2 = getexp(sh(dest), nilexp, 0, idsc, n1, 0, 0,
+			   exp n2 = getexp(sh(dest), NULL, 0, idsc, n1, 0, 0,
 					   name_tag);
                            exp_list el;
 
@@ -86,7 +86,7 @@ glopt(dec *dp)
               }
           }
 
-        if (pt(t) == nilexp) {
+        if (pt(t) == NULL) {
           return;
 	}
         t = pt(t);
@@ -96,7 +96,7 @@ glopt(dec *dp)
   if (!writable_strings && !strcmp(dp->dec_u.dec_val.dec_id, "_strlen")) {
      exp i = dp->dec_u.dec_val.dec_exp;
      exp t = pt(i);
-     if (t == nilexp) {
+     if (t == NULL) {
        return;
      }
 
@@ -109,7 +109,7 @@ glopt(dec *dp)
                 isvar(son(st)) && no(son(st)) == 1) {
                 dec * source_dec = brog(son(st));
                 if (!source_dec->dec_u.dec_val.extnamed &&
-                    son(source_dec->dec_u.dec_val.dec_exp) != nilexp) {
+                    son(source_dec->dec_u.dec_val.dec_exp) != NULL) {
                     exp st_def = son(son(st));
                     shape sha = sh(st_def);
                     if (name(st_def) == string_tag && ptno(st_def) == 8) {
@@ -121,10 +121,10 @@ glopt(dec *dp)
 		       }
                        if (j < l) {
                            exp to_change = bro(st);
-			   exp res = getexp(sh(to_change), nilexp, 0, nilexp,
-					    nilexp, 0, j, val_tag);
+			   exp res = getexp(sh(to_change), NULL, 0, NULL,
+					    NULL, 0, j, val_tag);
                            kill_exp(t, t);
-                           replace(to_change, res, nilexp);
+                           replace(to_change, res, NULL);
                            t = i;
                        }
                     }
@@ -132,7 +132,7 @@ glopt(dec *dp)
             }
         }
 
-        if (pt(t) == nilexp) {
+        if (pt(t) == NULL) {
           return;
 	}
         t = pt(t);

@@ -71,7 +71,7 @@ exp
 next_exp(void)
 {
   exp res;
-  if (freelist != nilexp) {
+  if (freelist != NULL) {
       /* first try to allocate fron the freelist */
       res = freelist;
       freelist = son(freelist);
@@ -117,7 +117,7 @@ set_large_alloc(void)
 {
   /* called at the start of tagdefs */
   alloc_freelist = alloc_list;
-  freelist = nilexp;
+  freelist = NULL;
   exps_left = 0;
   return;
 }
@@ -197,7 +197,7 @@ internal_to(exp whole, exp part)
 {
   int f = 1;
   exp q = part;
-  while (q != whole && q != nilexp &&
+  while (q != whole && q != NULL &&
 	 !(name(q) == ident_tag && isglob(q))) {
     f = (int)(last(q));
     q = bro(q);
@@ -216,7 +216,7 @@ static void kill_el(exp e, exp scope);
 void
 kill_exp(exp e, exp scope)
 {
-  if (e != nilexp) {
+  if (e != NULL) {
     unsigned char n = name(e);
 
 
@@ -233,9 +233,9 @@ kill_exp(exp e, exp scope)
 	q = pt(q);
       }
       pt(q) = pt(e);		/* remove from usage list */
-      if (no(son(e)) == 0 && son(son(e)) != nilexp &&
-	  bro(son(son(e))) != nilexp &&
-	 (scope == nilexp || internal_to(scope, son(e)))) {
+      if (no(son(e)) == 0 && son(son(e)) != NULL &&
+	  bro(son(son(e))) != NULL &&
+	 (scope == NULL || internal_to(scope, son(e)))) {
 	IGNORE refactor(son(e), scope);
       }
       /* check the declaration if now no use */
@@ -253,8 +253,8 @@ kill_exp(exp e, exp scope)
 	  t = bro(t);
 	} while (looping);
       }
-      if (pt(e) != nilexp) {
-        son(pt(e)) = nilexp;
+      if (pt(e) != NULL) {
+        son(pt(e)) = NULL;
       }
       kill_el(son(e), scope);
       retcell(e);
@@ -285,11 +285,11 @@ kill_exp(exp e, exp scope)
 
     if (n == case_tag) {
       exp b = bro(son(e));
-      while (b != nilexp) {
+      while (b != NULL) {
 	exp nextb = bro(b);
 	int l = last(b);
 	--no(son(pt(b)));
-	if (son(b) != nilexp) {
+	if (son(b) != NULL) {
 	  retcell(son(b));
 	}
 	retcell(b);
@@ -311,8 +311,8 @@ kill_exp(exp e, exp scope)
     }
 
     if (n == rep_tag) {
-      if (pt(e) != nilexp) {
-        son(pt(e)) = nilexp;
+      if (pt(e) != NULL) {
+        son(pt(e)) = NULL;
       }
       no(son(bro(son(e)))) = 0;
       kill_el(son(e), scope);
@@ -338,11 +338,11 @@ kill_exp(exp e, exp scope)
 
     {
       exp p = pt(e);
-      if (p != nilexp && (props(son(p)) & 1) == 0) {
+      if (p != NULL && (props(son(p)) & 1) == 0) {
 	/* decrease label usage count */
 	--no(son(p));
-	if (no(son(p)) == 0 && !is_loaded_lv(p) && bro(son(p)) != nilexp &&
-	   (scope == nilexp || internal_to(scope, p))) {
+	if (no(son(p)) == 0 && !is_loaded_lv(p) && bro(son(p)) != NULL &&
+	   (scope == NULL || internal_to(scope, p))) {
 	  /* process if now no use of label and not doing deadvar */
 	  altered (p, scope);
 	}
@@ -360,7 +360,7 @@ kill_exp(exp e, exp scope)
 static void
 kill_el (exp e, exp scope)
 {
-  if (e != nilexp) {
+  if (e != NULL) {
     int l;
     exp next;
     do {
@@ -369,7 +369,7 @@ kill_el (exp e, exp scope)
       kill_exp(e, scope);
       e = next;
     }
-    while (!l && e != nilexp);
+    while (!l && e != NULL);
   }
 }
 
@@ -453,13 +453,13 @@ case_item(exp i)
   exp l = global_case;
   exp t = l;
   int go = 1;
-  exp newhigh = (son(i) == nilexp)? i : son(i);
+  exp newhigh = (son(i) == NULL)? i : son(i);
   exp thigh;
   exp nlow, nhigh;
 
-  while (go && bro(t) != nilexp) {
+  while (go && bro(t) != NULL) {
     exp j = bro(t);
-    exp  highj = (son(j) == nilexp)? j : son(j);
+    exp  highj = (son(j) == NULL)? j : son(j);
     if (docmp_f((int)f_greater_than, i, highj)) {
       t = bro(t);
     } else {
@@ -468,14 +468,14 @@ case_item(exp i)
   }
 
   if (t != l) {
-    thigh = (son(t) == nilexp)? t : son(t);
+    thigh = (son(t) == NULL)? t : son(t);
   } else {
     SET(thigh);
   }
 
-  if (bro(t) != nilexp) {
+  if (bro(t) != NULL) {
     nlow = bro(t);
-    nhigh = (son(bro(t)) == nilexp)? nlow : son(bro(t));
+    nhigh = (son(bro(t)) == NULL)? nlow : son(bro(t));
   } else {
     SET(nlow); SET(nhigh);
   }
@@ -483,7 +483,7 @@ case_item(exp i)
   if (t != l && docmp_f((int)f_less_than_or_equal, i, thigh)) {
     failer(CASE_OVERLAP);
   }
-  if (bro(t) != nilexp &&
+  if (bro(t) != NULL &&
       docmp_f((int)f_greater_than_or_equal, newhigh, nlow)) {
     failer(CASE_OVERLAP);
   }
@@ -495,40 +495,40 @@ case_item(exp i)
   }
 
   if (t != l && (no(i) -1) == no(thigh) && pt(i) == pt(t)) {
-    if (bro(t) != nilexp && (no(newhigh) +1) == no(nlow) &&
+    if (bro(t) != NULL && (no(newhigh) +1) == no(nlow) &&
 	pt(i) == pt(bro(t))) {
-      if (son(bro(t)) != nilexp) {
-	if (son(t) != nilexp) {
+      if (son(bro(t)) != NULL) {
+	if (son(t) != NULL) {
 	  retcell(son(t));
 	}
 	son(t) = son(bro(t));
 	bro(t) = bro(bro(t));
 	return;
       }
-      if (son(t) != nilexp) {
+      if (son(t) != NULL) {
 	no(son(t)) = no(nhigh);
 	bro(t) = bro(bro(t));
 	return;
       }
-      setson(t, getexp(slongsh, nilexp, 1, nilexp, nilexp, 0, no(nhigh), 0));
+      setson(t, getexp(slongsh, NULL, 1, NULL, NULL, 0, no(nhigh), 0));
       bro(t) = bro(bro(t));
       return;
     }
-    if (son(t) != nilexp) {
+    if (son(t) != NULL) {
       no(son(t)) = no(newhigh);
       return;
     }
-    setson(t, getexp(slongsh, nilexp, 1, nilexp, nilexp, 0, no(newhigh), 0));
+    setson(t, getexp(slongsh, NULL, 1, NULL, NULL, 0, no(newhigh), 0));
     return;
   }
 
-  if (bro(t) != nilexp && (no(newhigh) + 1) == no(nlow) &&
+  if (bro(t) != NULL && (no(newhigh) + 1) == no(nlow) &&
       pt(i) == pt(bro(t))) {
-    if (son(bro(t)) != nilexp) {
+    if (son(bro(t)) != NULL) {
       no(bro(t)) = no(i);
       return;
     }
-    if (son(i) != nilexp) {
+    if (son(i) != NULL) {
       no(son(i)) = no(nhigh);
       bro(i) = bro(bro(t));
       bro(t) = i;
@@ -578,13 +578,13 @@ scan_solve(exp e)
 	return;
     }
     default:
-	if (pt(e) != nilexp) {
+	if (pt(e) != NULL) {
 	  exp s = son(pt(e));
 	  if (isvar(s)) {
 	    ++no(s);
 	  }
 	}
-	if (son(e) != nilexp) {
+	if (son(e) != NULL) {
 	  exp t = son(e);
 	  while (scan_solve(t), !last(t)) {
 	    t = bro(t);
@@ -651,7 +651,7 @@ clean_labelled(exp main, label_list placelabs)
       s = lub_shape(s, sh(lab));
     }
   }
-  r = getexp(s, nilexp, 0, main, crt_repeat, 0, 0, solve_tag);
+  r = getexp(s, NULL, 0, main, crt_repeat, 0, 0, solve_tag);
   q = main;
   for (i = 0; i < ord_no; ++i) {
     /* set up the solve with the statements in the order specified by ord */
@@ -685,7 +685,7 @@ refto(exp f, exp e)
 exp
 father(exp e)
 {
-  if (e == nilexp) {
+  if (e == NULL) {
     return e;
   }
   while (!last(e)) {
@@ -701,12 +701,12 @@ static void
 altaux(exp e, int n, exp scope)
 {
   exp f;
-  if (bro(e) == nilexp || e == scope || (name(e) == ident_tag && isglob(e))) {
+  if (bro(e) == NULL || e == scope || (name(e) == ident_tag && isglob(e))) {
     /* ignore if top of tree */
     return;
   }
   f = father(e);
-  if (f == nilexp || bro(f) == nilexp || (name(f) == ident_tag && isglob(f))) {
+  if (f == NULL || bro(f) == NULL || (name(f) == ident_tag && isglob(f))) {
     /* ignore if top of tree */
     return;
   }
@@ -766,7 +766,7 @@ copy_labst(exp e)
   no(t) = 0;
   no(d) = 0;
   pt(d) = pt(e);
-  pt(t) = nilexp;
+  pt(t) = NULL;
   pt(e) = t;
   son(t) = d;
   ++proc_label_count;
@@ -798,7 +798,7 @@ exp copy_cpd(exp e, exp new_record, exp var, exp lab)
   exp q;
   exp j, c, s, n, k;
 
-  if (new_record != nilexp) {
+  if (new_record != NULL) {
     /* record the construction */
     pt(t) = new_record;
     son(new_record) = t;
@@ -846,7 +846,7 @@ exp copy_cpd(exp e, exp new_record, exp var, exp lab)
 exp
 copy_res(exp e, exp var, exp lab)
 {
-  if (e == nilexp) {
+  if (e == NULL) {
     return e;
 #ifdef NEWDIAGS
   } else if (dgf(e) != nildiag) {
@@ -863,7 +863,7 @@ copy_res(exp e, exp var, exp lab)
       no(t) = 0;		/* clear the usage count */
       pt(e) = t;		/* record the copy in the pt field of the
 				   original */
-      pt(t) = nilexp;		/* set the new usage list to empty */
+      pt(t) = NULL;		/* set the new usage list to empty */
       s = copy_res(son(e), var, lab);	/* copy the definition */
       bs = copy_res(bro(son(e)), var, lab);/* copy the body */
       son(t) = s;
@@ -913,7 +913,7 @@ copy_res(exp e, exp var, exp lab)
     }
 
     if (n == cond_tag) {
-      exp z = copy_cpd(e, nilexp, var, lab);
+      exp z = copy_cpd(e, NULL, var, lab);
       return z;
     }
 
@@ -921,10 +921,10 @@ copy_res(exp e, exp var, exp lab)
       /* we have to update the repeat records */
       exp record = pt(e);
       exp z;
-      if (record != nilexp) {
+      if (record != NULL) {
         exp senior = bro(record);
         exp new_record = copyexp(record);
-	if (senior == nilexp) {
+	if (senior == NULL) {
 	  /* XX008 */
 	  senior = crt_repeat;
 	  bro(new_record) = senior;
@@ -932,7 +932,7 @@ copy_res(exp e, exp var, exp lab)
         set_copying_solve (record);/* mark as being copied */
         pt(record) = new_record;
 
-        if (senior != nilexp) {
+        if (senior != NULL) {
 	  /* update repeat records */
 	  if ((props(senior) & 1) == 1) {
 	    bro(new_record) = pt(senior);
@@ -943,7 +943,7 @@ copy_res(exp e, exp var, exp lab)
         z = copy_cpd(e, new_record, var, lab);
         clear_copying_solve(record);	/* unmark copying flag */
       } else {
-	z = copy_cpd(e, nilexp, var, lab);
+	z = copy_cpd(e, NULL, var, lab);
       }
       return z;
     }
@@ -957,7 +957,7 @@ copy_res(exp e, exp var, exp lab)
       son(z) = t;
       while (!last(q)) {
 	setbro(p, copyexp(bro(q)));
-	if (son(bro(q)) != nilexp) {
+	if (son(bro(q)) != NULL) {
 	  setson(bro(p), copyexp(son(bro(q))));
 	}
 	labloc = pt(bro(p));
@@ -994,8 +994,8 @@ copy_res(exp e, exp var, exp lab)
     }
 
     if (n == res_tag) {
-      if (lab != nilexp) {
-	exp go = getexp(f_bottom, nilexp, 0, nilexp, lab, 0, 0, goto_tag);
+      if (lab != NULL) {
+	exp go = getexp(f_bottom, NULL, 0, NULL, lab, 0, 0, goto_tag);
 	no(son(lab)) ++;
 
 	if (name(son(e)) == clear_tag) {
@@ -1005,7 +1005,7 @@ copy_res(exp e, exp var, exp lab)
 	  }
 #endif
 	  return go;
-	} else if (var == nilexp) {
+	} else if (var == NULL) {
 	  exp_list el;
 	  exp c = copy(son(e));
 	  exp s;
@@ -1050,7 +1050,7 @@ copy_res(exp e, exp var, exp lab)
 	}
       }
 
-       /* FALL THROUGH if lab == nilexp */
+       /* FALL THROUGH if lab == NULL */
      }
     {
       exp p = pt(e);
@@ -1078,7 +1078,7 @@ copy_res(exp e, exp var, exp lab)
 	  has_setjmp = 1; break;
       }
 
-      if (p != nilexp) {
+      if (p != NULL) {
 	/* the pt field must be a label */
 	/* look to see if label is being copied and pick up right statement */
 	tp = (copying(p)) ? pt(p) : p;
@@ -1086,7 +1086,7 @@ copy_res(exp e, exp var, exp lab)
 	no(son(tp))++;	/* update label use count */
       }
 
-      if (son(e) == nilexp) {
+      if (son(e) == NULL) {
 	return z;
       }
       {
@@ -1117,7 +1117,7 @@ copy_res(exp e, exp var, exp lab)
 exp
 copy(exp e)
 {
-  return copy_res(e, nilexp, nilexp);
+  return copy_res(e, NULL, NULL);
 }
 
 int
@@ -1142,7 +1142,7 @@ is_comm(exp e)
 
   case compound_tag: {
     exp t = son(e);
-    if (t == nilexp) {
+    if (t == NULL) {
       return 1;
     }
     while (1) {
@@ -1175,7 +1175,7 @@ is_comm(exp e)
 
   case nof_tag: {
     exp t = son(e);
-    if (t == nilexp) {
+    if (t == NULL) {
       return 1;
     }
     while (1) {

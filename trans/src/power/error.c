@@ -726,16 +726,16 @@ void round_error_treatment(exp *e)
 
   id = me_startid(fl_shpe,fl,0);/* start ident */
 
-  clear = getexp(f_bottom,nilexp,0,nilexp,nilexp,0,0,clear_tag);
+  clear = getexp(f_bottom,NULL,0,NULL,NULL,0,0,clear_tag);
 
   if (trap)
   {
-    exp t = getexp(f_bottom,nilexp,0,nilexp,nilexp,0,f_overflow,trap_tag);
+    exp t = getexp(f_bottom,NULL,0,NULL,NULL,0,f_overflow,trap_tag);
     lab = me_b3(f_bottom,clear,t,labst_tag);
   }
   else
   {
-    exp g = getexp(f_bottom,nilexp,0,nilexp,pt(round),0,0,goto_tag);
+    exp g = getexp(f_bottom,NULL,0,NULL,pt(round),0,0,goto_tag);
     lab = me_b3(f_bottom,clear,g,labst_tag);
   }
 

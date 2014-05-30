@@ -175,7 +175,7 @@ where locate1
       else {		/* ... it is in memory */
 	instore is;
 	if (var || (name(sh(e)) == prokhd &&
-		   (son(decx) == nilexp || name(son(decx)) == proc_tag
+		   (son(decx) == NULL || name(son(decx)) == proc_tag
 		     || name(son(decx)) == general_proc_tag))) {
 	  is.adval = 1;
 	}

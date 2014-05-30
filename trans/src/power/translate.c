@@ -200,17 +200,17 @@ void translate_capsule(void)
     id = crt_def->dec_u.dec_val.dec_id;		/* might be changed by fixup_name() */
 
     FULLCOMMENT4("%s: extnamed=%d no(tg)=%d isvar(tg)=%d", (long)id, extnamed, no(tg), isvar(tg));
-    FULLCOMMENT4("\tname(tg)=%d dec_outermost=%d have_def=%d son(tg)!=nilexp=%d",
-		name(tg), crt_def->dec_u.dec_val.dec_outermost, crt_def->dec_u.dec_val.have_def, son(tg) != nilexp);
-    if (son(tg) != nilexp)
+    FULLCOMMENT4("\tname(tg)=%d dec_outermost=%d have_def=%d son(tg)!=NULL=%d",
+		name(tg), crt_def->dec_u.dec_val.dec_outermost, crt_def->dec_u.dec_val.have_def, son(tg) != NULL);
+    if (son(tg) != NULL)
       FULLCOMMENT3("\tdec_shape, sh(tg), sh(son(tg))=%d,%d,%d", name(s), name(sh(tg)), name(sh(son(tg))));
 
-    crt_def->dec_u.dec_val.have_def = (son(tg)!=nilexp);
+    crt_def->dec_u.dec_val.have_def = (son(tg)!=NULL);
 
     ASSERT(name(tg) == ident_tag);
-    ASSERT(son(tg) == nilexp || name(sh(tg)) == name(s));
+    ASSERT(son(tg) == NULL || name(sh(tg)) == name(s));
 
-    if (son(tg) == nilexp)
+    if (son(tg) == NULL)
     {
 #if 0
       if (diag == DIAG_NONE && no(tg) == 0)
@@ -382,7 +382,7 @@ void translate_capsule(void)
       bool extnamed = crt_def->dec_u.dec_val.extnamed;
       char *storage_class;
 
-      if (extnamed && son(tg) == nilexp)
+      if (extnamed && son(tg) == NULL)
       {
 	/* extern from another module */
 	if (name(crt_def->dec_u.dec_val.dec_shape) == prokhd)
@@ -419,7 +419,7 @@ void translate_capsule(void)
     crt_def->dec_u.dec_val.sym_number = globalno;
     globalno++;
 
-    if (son(tg) != nilexp && IS_A_PROC(son(tg)))
+    if (son(tg) != NULL && IS_A_PROC(son(tg)))
     {
       no(son(tg)) = procno;	/* index into procrecs in no(proc) */
       procno++;
@@ -470,7 +470,7 @@ void translate_capsule(void)
   {
     exp tg = crt_def->dec_u.dec_val.dec_exp;
 
-    if (son(tg) != nilexp && IS_A_PROC(son(tg)))
+    if (son(tg) != NULL && IS_A_PROC(son(tg)))
     {
       procrec *pr = &procrecs[no(son(tg))];
       exp *st = &son(tg);
@@ -534,9 +534,9 @@ void translate_capsule(void)
     char *id = crt_def->dec_u.dec_val.dec_id;
     bool extnamed = crt_def->dec_u.dec_val.extnamed;
     diag_def=crt_def;/* just in case find_dd is called */
-    FULLCOMMENT4("no(tg)=%d isvar(tg)=%d extnamed=%d son(tg)==nilexp=%d",
-		 no(tg), isvar(tg), extnamed, son(tg)==nilexp);
-    if (son(tg) != nilexp)
+    FULLCOMMENT4("no(tg)=%d isvar(tg)=%d extnamed=%d son(tg)==NULL=%d",
+		 no(tg), isvar(tg), extnamed, son(tg)==NULL);
+    if (son(tg) != NULL)
     {
       /*
        * Skip if already processed, eg identified as is_comm() 
@@ -600,7 +600,7 @@ void translate_capsule(void)
     char *id = crt_def->dec_u.dec_val.dec_id;
     bool extnamed = crt_def->dec_u.dec_val.extnamed;
     diag_def=crt_def;/* just in case find_dd is called */
-    if (son(tg) != nilexp)
+    if (son(tg) != NULL)
     {
       /* skip if already processed, eg identified as is_comm() */
       if (crt_def->dec_u.dec_val.processed)
@@ -657,7 +657,7 @@ void translate_capsule(void)
     char *id = crt_def->dec_u.dec_val.dec_id;
     bool extnamed = crt_def->dec_u.dec_val.extnamed;
     
-    if (son(tg) != nilexp)
+    if (son(tg) != NULL)
     {
       /* skip if already processed */
       if (crt_def->dec_u.dec_val.processed)
@@ -736,11 +736,11 @@ void translate_unit(void)
       exp crt_exp = crt_def->dec_u.dec_val.dec_exp;
 
       no(crt_exp) = 0;
-      pt(crt_exp) = nilexp;
+      pt(crt_exp) = NULL;
     }
 
-    crt_repeat = nilexp;
-    repeat_list = nilexp;
+    crt_repeat = NULL;
+    repeat_list = NULL;
   }
 
   return;

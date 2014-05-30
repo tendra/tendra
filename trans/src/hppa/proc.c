@@ -175,10 +175,10 @@ static void add_odd_bits
 (outofline *r)
 {
    space sp;
-   if (r!= (outofline*)nilexp)
+   if (r!= (outofline*)NULL)
    {
       add_odd_bits(r->next);
-      if (r->next== (outofline*)nilexp)
+      if (r->next== (outofline*)NULL)
 	 last_odd_bit=1;
    }
    else

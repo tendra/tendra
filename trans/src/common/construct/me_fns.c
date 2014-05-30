@@ -39,9 +39,9 @@
 exp
 me_obtain(exp id)
 {
-	shape sha = (son(id) == nilexp) ? sh(id) : sh(son(id));
+	shape sha = (son(id) == NULL) ? sh(id) : sh(son(id));
 	exp n;
-	n = getexp((isvar(id)) ? f_pointer(align_of(sha)) : sha, nilexp, 0, id,
+	n = getexp((isvar(id)) ? f_pointer(align_of(sha)) : sha, NULL, 0, id,
 		   pt(id), 0, 0, name_tag);
 	++no(id);
 	pt(id) = n;
@@ -52,7 +52,7 @@ me_obtain(exp id)
 exp
 me_startid(shape sha, exp def, int isv)
 {
-	exp r = getexp(sha, nilexp, 0, def, nilexp, 0, 0, ident_tag);
+	exp r = getexp(sha, NULL, 0, def, NULL, 0, 0, ident_tag);
 	if (isv) {
 		setvar(r);
 	}
@@ -63,8 +63,8 @@ me_startid(shape sha, exp def, int isv)
 exp
 me_start_clearvar(shape sha, shape shb)
 {
-	exp init = getexp(shb, nilexp, 0, nilexp, nilexp, 0, 0, clear_tag);
-	exp var = getexp(sha, nilexp, 0, init, nilexp, 0, 0, ident_tag);
+	exp init = getexp(shb, NULL, 0, NULL, NULL, 0, 0, clear_tag);
+	exp var = getexp(sha, NULL, 0, init, NULL, 0, 0, ident_tag);
 	setvar(var);
 	return var;
 }
@@ -85,7 +85,7 @@ me_complete_id(exp id, exp body)
 exp
 me_u1(error_treatment ov_err, exp arg1, unsigned char nm)
 {
-	exp r = getexp(sh(arg1), nilexp, 0, arg1, nilexp, 0, 0, nm);
+	exp r = getexp(sh(arg1), NULL, 0, arg1, NULL, 0, 0, nm);
 	seterrhandle(r, ov_err.err_code);
 	if (isov(r)) {
 		setjmp_dest(r, get_lab(ov_err.jmp_dest));
@@ -98,7 +98,7 @@ me_u1(error_treatment ov_err, exp arg1, unsigned char nm)
 exp
 me_u2(exp arg1, unsigned char nm)
 {
-	exp r = getexp(sh(arg1), nilexp, 0, arg1, nilexp, 0, 0, nm);
+	exp r = getexp(sh(arg1), NULL, 0, arg1, NULL, 0, 0, nm);
 	setfather(r, arg1);
 	return r;
 }
@@ -107,7 +107,7 @@ me_u2(exp arg1, unsigned char nm)
 exp
 me_u3(shape sha, exp arg1, unsigned char nm)
 {
-	exp r = getexp(sha, nilexp, 0, arg1, nilexp, 0, 0, nm);
+	exp r = getexp(sha, NULL, 0, arg1, NULL, 0, 0, nm);
 	setfather(r, arg1);
 	return r;
 }
@@ -116,7 +116,7 @@ me_u3(shape sha, exp arg1, unsigned char nm)
 exp
 me_b1(error_treatment ov_err, exp arg1, exp arg2, unsigned char nm)
 {
-	exp r = getexp(sh(arg1), nilexp, 0, arg1, nilexp, 0, 0, nm);
+	exp r = getexp(sh(arg1), NULL, 0, arg1, NULL, 0, 0, nm);
 	seterrhandle(r, ov_err.err_code);
 	setbro(arg1, arg2);
 	clearlast(arg1);
@@ -131,7 +131,7 @@ me_b1(error_treatment ov_err, exp arg1, exp arg2, unsigned char nm)
 exp
 me_b2(exp arg1, exp arg2, unsigned char nm)
 {
-	exp r = getexp(sh(arg1), nilexp, 0, arg1, nilexp, 0, 0, nm);
+	exp r = getexp(sh(arg1), NULL, 0, arg1, NULL, 0, 0, nm);
 	setbro(arg1, arg2);
 	clearlast(arg1);
 	setfather(r, arg2);
@@ -142,7 +142,7 @@ me_b2(exp arg1, exp arg2, unsigned char nm)
 exp
 me_b3(shape sha, exp arg1, exp arg2, unsigned char nm)
 {
-	exp r = getexp(sha, nilexp, 0, arg1, nilexp, 0, 0, nm);
+	exp r = getexp(sha, NULL, 0, arg1, NULL, 0, 0, nm);
 	setbro(arg1, arg2);
 	clearlast(arg1);
 	setfather(r, arg2);
@@ -153,7 +153,7 @@ me_b3(shape sha, exp arg1, exp arg2, unsigned char nm)
 exp
 me_c1(shape sha, error_treatment ov_err, exp arg1, unsigned char nm)
 {
-	exp r = getexp(sha, nilexp, 0, arg1, nilexp, 0, 0, nm);
+	exp r = getexp(sha, NULL, 0, arg1, NULL, 0, 0, nm);
 	seterrhandle(r, ov_err.err_code);
 	if (isov(r)) {
 		setjmp_dest(r, get_lab(ov_err.jmp_dest));
@@ -166,7 +166,7 @@ me_c1(shape sha, error_treatment ov_err, exp arg1, unsigned char nm)
 exp
 me_c2(shape sha, exp arg1, unsigned char nm)
 {
-	exp r = getexp(sha, nilexp, 0, arg1, nilexp, 0, 0, nm);
+	exp r = getexp(sha, NULL, 0, arg1, NULL, 0, 0, nm);
 	setfather(r, arg1);
 	return r;
 }
@@ -175,7 +175,7 @@ me_c2(shape sha, exp arg1, unsigned char nm)
 exp
 me_l1(shape s, unsigned char nm)
 {
-	exp r = getexp(s, nilexp, 0, nilexp, nilexp, 0, 0, nm);
+	exp r = getexp(s, NULL, 0, NULL, NULL, 0, 0, nm);
 	return r;
 }
 
@@ -185,7 +185,7 @@ me_q1_aux(nat_option prob, ntest nt, exp lab, exp arg1, exp arg2,
 	  unsigned char nm)
 {
 	exp r;
-	r = getexp(f_top, nilexp, 0, arg1, lab, 0, 0, nm);
+	r = getexp(f_top, NULL, 0, arg1, lab, 0, 0, nm);
 	no(r) = (prob.present) ? natint(prob.val) : 1000;
 	settest_number(r, nt);
 	setbro(arg1, arg2);
@@ -210,7 +210,7 @@ me_q2_aux(nat_option prob, error_treatment err, ntest nt, exp lab, exp arg1,
 {
 	exp r;
 	UNUSED(err);
-	r = getexp(f_top, nilexp, 0, arg1, lab, 0, 0, nm);
+	r = getexp(f_top, NULL, 0, arg1, lab, 0, 0, nm);
 	no(r) = (prob.present) ? natint(prob.val) : 1000;
 	settest_number(r, nt);
 	setbro(arg1, arg2);
@@ -233,14 +233,14 @@ me_q2(nat_option prob, error_treatment err, ntest nt, label dest, exp arg1,
 exp
 me_shint(shape sha, int i)
 {
-	return getexp(sha, nilexp, 0, nilexp, nilexp, 0, i, val_tag);
+	return getexp(sha, NULL, 0, NULL, NULL, 0, i, val_tag);
 }
 
 
 exp
 me_null(shape sha, int i, unsigned char nm)
 {
-	return getexp(sha, nilexp, 0, nilexp, nilexp, 0, i, nm);
+	return getexp(sha, NULL, 0, NULL, NULL, 0, i, nm);
 }
 
 
@@ -266,10 +266,10 @@ me_b4(error_treatment div0_err, error_treatment ov_err, exp arg1, exp arg2,
 void
 note_repeat(exp r)
 {
-	if (crt_repeat != nilexp) {
+	if (crt_repeat != NULL) {
 		++no(crt_repeat);
 	}
-	repeat_list = getexp(f_top, crt_repeat, 0, nilexp, repeat_list, 1, 0,
+	repeat_list = getexp(f_top, crt_repeat, 0, NULL, repeat_list, 1, 0,
 			     0);
 	crt_repeat = repeat_list;
 

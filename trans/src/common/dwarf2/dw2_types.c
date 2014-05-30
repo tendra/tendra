@@ -208,7 +208,7 @@ static void out_class_data
     ( class_data * cd )
 {
   /* within info section */
-  exp vtable_exp = nilexp;
+  exp vtable_exp = NULL;
   int i;
   for (i = 0; i < cd->inherits.len; i++) {
     dg_class_base cb;

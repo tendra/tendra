@@ -175,8 +175,8 @@ speci special_fn
     if (!do_alloca) return spec_fn;
 
     if ((/* eq(id, "_alloca") || */ eq(id, "___builtin_alloca")) &&
-	 a2 != nilexp && last(a2)) {
-	exp r = getexp(s, nilexp, 0, a2, nilexp, 0, 0L, alloca_tag);
+	 a2 != NULL && last(a2)) {
+	exp r = getexp(s, NULL, 0, a2, NULL, 0, 0L, alloca_tag);
 	setfather(r, son(r));
 	has_alloca = 1;
 	spec_fn.is_special = 1;
@@ -323,7 +323,7 @@ void libcall
 	 range for an unsigned int, otherwise there will be a floating
 	 point exception in the library routine. */
       bool sw;
-      exp e = getexp(ulongsh,nilexp,0,nilexp,nilexp,0,1333788672,val_tag);
+      exp e = getexp(ulongsh,NULL,0,NULL,NULL,0,1333788672,val_tag);
       exp loc = sim_exp(shrealsh,FP1);
       lab = (have_continue())?next_lab(): overflow_jump;
       ins2(m_fmoves,shape_size(shrealsh),shape_size(shrealsh),zw(e),zw(loc));

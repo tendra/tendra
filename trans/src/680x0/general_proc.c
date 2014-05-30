@@ -819,7 +819,7 @@ void apply_general_proc
 
    tmp_dest = dest;
    proc = son(e);
-   caller_args = (!last(proc))? bro(proc): nilexp;
+   caller_args = (!last(proc))? bro(proc): NULL;
 
    if (name(e) == apply_general_tag) {
       pcallees     = bro(caller_args);
@@ -1060,7 +1060,7 @@ static bool test_push_args
    ash stack = 0;
    ast stack_add_res;
 
-   while (arg != nilexp) {
+   while (arg != NULL) {
       formal = (name(arg) == caller_tag)? son(arg): arg;
 
       if (cpd_param(sh(formal)))use_push = 0;
@@ -1074,7 +1074,7 @@ static bool test_push_args
       if (name(arg) == caller_tag)
       no(arg) = stack_add_res.astoff + stack_add_res.astadj;
 
-      arg = (last(arg)? nilexp : bro(arg));
+      arg = (last(arg)? NULL : bro(arg));
    }
 
   (* args_size) = stack;
@@ -1101,7 +1101,7 @@ static void place_arguments
    apply_tag_flag ++;
 
    /* Encode the arguments onto the stack */
-   while (arg != nilexp) {
+   while (arg != NULL) {
       exp formal = (name(arg) == caller_tag)? son(arg): arg;
 
       char nc = name(sh(formal));
@@ -1115,7 +1115,7 @@ static void place_arguments
       stack_add_res = add_shape_to_stack(st, sh(formal));
       st = stack_add_res.astash;
 
-      arg = (last(arg)? nilexp : bro(arg));
+      arg = (last(arg)? NULL : bro(arg));
    }
 
    apply_tag_flag --;

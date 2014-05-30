@@ -140,7 +140,7 @@ is_ptr_void(shape sha)
 	bool go;
 	int ptrs = 0;
 	exp t = son(sha);
-	if (t == nilexp) {
+	if (t == NULL) {
 		return 0;
 	}
 	do {

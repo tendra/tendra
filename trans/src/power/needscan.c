@@ -131,9 +131,9 @@ static void cca(exp * *to, exp * x)
     exp def = *(x);
 
     /* replace by  Let tg = def In tg Ni */
-    exp id = getexp(sh(def), bro(def), last(def), def, nilexp,
+    exp id = getexp(sh(def), bro(def), last(def), def, NULL,
 		    0, 1, ident_tag);
-    exp tg = getexp(sh(def), id, 1, id, nilexp,
+    exp tg = getexp(sh(def), id, 1, id, NULL,
 		    0, 0, name_tag);
 
     pt(id) = tg;		/* use of tag */
@@ -146,9 +146,9 @@ static void cca(exp * *to, exp * x)
   {				/* replace by Let tg = def In ato/def = tg Ni */
     exp def = *(x);
     exp ato = *(*to);
-    exp id = getexp(sh(ato), bro(ato), last(ato), def, nilexp,
+    exp id = getexp(sh(ato), bro(ato), last(ato), def, NULL,
 		    0, 1, ident_tag);
-    exp tg = getexp(sh(def), bro(def), last(def), id, nilexp,
+    exp tg = getexp(sh(def), bro(def), last(def), id, NULL,
 		    0, 0, name_tag);
 
     pt(id) = tg;		/* use of tg */
@@ -416,7 +416,7 @@ static needs maxtup(exp e, exp ** at)
   needs an;
 
   an = zeroneeds;
-  if (*stat==nilexp)
+  if (*stat==NULL)
   {
     return an;
   }
@@ -435,7 +435,7 @@ static bool unchanged(exp usedname, exp ident)
 {
   exp uses = pt(usedname);
 
-  while (uses != nilexp)
+  while (uses != NULL)
   {
     if (intnl_to(ident, uses))
     {
@@ -541,7 +541,7 @@ static bool chase(exp sel, exp * e)
       if (son(sel)!= *e)
       {				/* only change if not outer */
 	exp stare = *e;
-	exp newsel = getexp(sh(sel), bro(stare), last(stare), stare, nilexp,
+	exp newsel = getexp(sh(sel), bro(stare), last(stare), stare, NULL,
 			    props(sel), no(sel), name(sel));
 
 	*e = newsel;
@@ -590,7 +590,7 @@ needs scan(exp * e, exp * *at)
   static long exp_num = 0;		/* count of exps we evaluate */
 
   exp_num++;
-  ASSERT(*e != nilexp);
+  ASSERT(*e != NULL);
 
 
   switch (nstare)
@@ -609,7 +609,7 @@ needs scan(exp * e, exp * *at)
       bool cantdo;
       exp dad;
 
-      if (nstare==nof_tag && son(ste) ==nilexp)
+      if (nstare==nof_tag && son(ste) ==NULL)
 	return zeroneeds;
 
       if (name(ste) == ncopies_tag && name(son(ste))!= name_tag
@@ -671,7 +671,7 @@ needs scan(exp * e, exp * *at)
 
   case cond_tag:
     {
-      if (scan_cond(e, nilexp)!=0)
+      if (scan_cond(e, NULL)!=0)
       {
 	return scan(e, at);
       }                   /* Else goto next case */
@@ -789,7 +789,7 @@ needs scan(exp * e, exp * *at)
       bool uses_FR_RESULT;
 #if 0
       /* We can't do this because of env_offset not appearing in the list of uses */
-      if (pt(stare) == nilexp)
+      if (pt(stare) == NULL)
       {
 	/* no uses, should have caonly flag set (not already set for params) */
 	setcaonly(stare);
@@ -1418,7 +1418,7 @@ needs scan(exp * e, exp * *at)
       exp ABS__TAG;
       ABS__TAG = *e;
 
-      CLEAR__TAG = getexp(f_top, nilexp, 0, nilexp, nilexp,0, 0, clear_tag);
+      CLEAR__TAG = getexp(f_top, NULL, 0, NULL, NULL,0, 0, clear_tag);
       LABST__TAG = me_b3(int_shpe,CLEAR__TAG,me_obtain(id),labst_tag);
 
       VAL__TAG = me_shint(int_shpe,0);
@@ -1543,8 +1543,8 @@ needs scan(exp * e, exp * *at)
       {				/* same test following in seq res - void
 				 * second test */
 	setname(bro(bro(stare)), top_tag);
-	son(bro(bro(stare))) = nilexp;
-	pt(bro(bro(stare))) = nilexp;
+	son(bro(bro(stare))) = NULL;
+	pt(bro(bro(stare))) = NULL;
       }
 
       /*
@@ -1710,7 +1710,7 @@ needs scan(exp * e, exp * *at)
 	   * create new neg_tag to replace plus_tag,
 	   * old plus_tag being the operand of the new neg_tag.
 	   */
-	  x = getexp(sh(sum), bro(sum), last(sum), sum, nilexp,
+	  x = getexp(sh(sum), bro(sum), last(sum), sum, NULL,
 		     0, 0, neg_tag);
 
 	  setlast(sum);
@@ -1732,7 +1732,7 @@ needs scan(exp * e, exp * *at)
 	  exp x = son(sum);
 	  exp newsum = sum;
 
-	  list = nilexp;
+	  list = NULL;
 	  for (;;)
 	  {
 	    exp nxt = bro(x);
@@ -1768,12 +1768,12 @@ needs scan(exp * e, exp * *at)
 
 	    bro(newsum) = list;
 	    clearlast(newsum);
-	    x = getexp(sh(sum), nilexp, 0, newsum, nilexp, 0, 0, minus_tag);
+	    x = getexp(sh(sum), NULL, 0, newsum, NULL, 0, 0, minus_tag);
 
 	    bro(list) = x;
 	    setlast(list);
 	    newsum = x;
-	    if ((list = nxt) == nilexp)
+	    if ((list = nxt) == NULL)
 	      break;
 	  }
 	  bro(newsum) = brosum;
@@ -1811,7 +1811,7 @@ needs scan(exp * e, exp * *at)
 	{
 	  /* callers are referenced through R_TP */
 	  /* to get this we use locptr to access through R_FP(current_env)*/
-	  exp ne = getexp(sh(p), d, 0, p, nilexp, 0, 0,locptr_tag);
+	  exp ne = getexp(sh(p), d, 0, p, NULL, 0, 0,locptr_tag);
 	  bro(p) = ne; setlast(p);
 	  son(*e) = ne;
 	}
@@ -1995,12 +1995,12 @@ needs scan(exp * e, exp * *at)
 	 * + and * can have >2 parameters - make them diadic
 	 * - can do better a+exp => let x = exp in a+x
 	 */
-	exp opn = getexp(sh(op), op, 0, a2, nilexp, 0, 0, name(op));
+	exp opn = getexp(sh(op), op, 0, a2, NULL, 0, 0, name(op));
 
 	/* dont need to transfer error treatment - nans */
-	exp nd = getexp(sh(op), bro(op), last(op), opn, nilexp, 0, 1,
+	exp nd = getexp(sh(op), bro(op), last(op), opn, NULL, 0, 1,
 			ident_tag);
-	exp id = getexp(sh(op), op, 1, nd, nilexp, 0, 0, name_tag);
+	exp id = getexp(sh(op), op, 1, nd, NULL, 0, 0, name_tag);
 
 	pt(nd) = id;
 	bro(son(op)) = id;
@@ -2364,10 +2364,10 @@ int scan_cond(exp * e, exp outer_id)
 
     if (c1 && eq_exp(op11, op12)) {
       /* ....if first operands of tests are same, identify them */
-      exp newid = getexp(sh(ste), bro(ste), last(ste), op11, nilexp,
+      exp newid = getexp(sh(ste), bro(ste), last(ste), op11, NULL,
 			  0, 2, ident_tag);
-      exp tg1 = getexp(sh(op11), op21, 0, newid, nilexp, 0, 0, name_tag);
-      exp tg2 = getexp(sh(op12), op22, 0, newid, nilexp, 0, 0, name_tag);
+      exp tg1 = getexp(sh(op11), op21, 0, newid, NULL, 0, 0, name_tag);
+      exp tg2 = getexp(sh(op12), op22, 0, newid, NULL, 0, 0, name_tag);
 
       pt(newid) = tg1;
       pt (tg1) = tg2;	/* uses of newid */
@@ -2397,10 +2397,10 @@ int scan_cond(exp * e, exp outer_id)
 	 * same, identify them */
 
 	exp newid = getexp(sh(ste), bro(ste), last(ste), op21,
-			    nilexp, 0, 2, ident_tag);
+			    NULL, 0, 2, ident_tag);
 	exp tg1 = getexp(sh(op21), test1, 1,
-			  newid, nilexp, 0, 0, name_tag);
-	exp tg2 = getexp(sh(op22), test2, 1, newid, nilexp,
+			  newid, NULL, 0, 0, name_tag);
+	exp tg2 = getexp(sh(op22), test2, 1, newid, NULL,
 			  0, 0, name_tag);
 
 	pt(newid) = tg1;

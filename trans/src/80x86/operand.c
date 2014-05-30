@@ -87,8 +87,8 @@ rept:
     if (na == val_tag && !isbigval(a) && !isbigval(b))
       return no(a) == no(b);
     if (na == ident_tag) {
-      int good = son(a)!= nilexp && son(b)!= nilexp &&
-          bro(son(a))!= nilexp && bro(son(b))!= nilexp;
+      int good = son(a)!= NULL && son(b)!= NULL &&
+          bro(son(a))!= NULL && bro(son(b))!= NULL;
       if (good) {
         exp bsa = bro(son(a));
         exp bsb = bro(son(b));
@@ -232,7 +232,7 @@ int eq_where
 {
   exp a = wa.where_exp;
   exp b = wb.where_exp;
-  if (a == nilexp || b == nilexp)
+  if (a == NULL || b == NULL)
      return 0;
   if (wa.where_off != wb.where_off)
     return 0;
@@ -496,7 +496,7 @@ void operand
 
     if (s == addptr_tag) {
       exp u = bro(son(ref));
-      exp c = getexp(f_bottom, nilexp, 0, son(ref), nilexp,
+      exp c = getexp(f_bottom, NULL, 0, son(ref), NULL,
 	  0, 0, cont_tag);
       where wc, wu;
       wc.where_exp = c;
@@ -569,7 +569,7 @@ void operand
 
   if (n == addptr_tag) {
     exp u = bro(son(w));
-    exp c = getexp(f_bottom, nilexp, 0, son(w), nilexp, 0, 0, cont_tag);
+    exp c = getexp(f_bottom, NULL, 0, son(w), NULL, 0, 0, cont_tag);
     where wc, wu;
     wc.where_exp = c;
     wc.where_off = off;
@@ -593,7 +593,7 @@ void operand
     int  ln;
     if (off == 0 || addr) {
       ln = next_lab();
-      const_list = getexp(f_bottom, const_list, 0, w, nilexp, 0, ln, 0);
+      const_list = getexp(f_bottom, const_list, 0, w, NULL, 0, ln, 0);
       const_intnl((addr || n == proc_tag || n == general_proc_tag), ln, 0);
       return;
     };

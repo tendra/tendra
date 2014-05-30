@@ -176,7 +176,7 @@
  *
  * NOTE that an exp can occur in just one place in the tree, because of
  * the backward pointers. Except for name_tag the general structure is
- * that an exp has a son which is nilexp or its first argument exp. The
+ * that an exp has a son which is NULL or its first argument exp. The
  * next argument is the bro of the first, the next the bro of that etc.
  * The last argument has the last field set and its bro is the head exp
  * of the construction. In a name_tag the son contains the ident_tag which
@@ -214,7 +214,7 @@
  *     abs_tag: Represents integer abs construction.
  *     	son(e) is arg1.
  *     	shape is sh(arg1).
- *     	pt(e) is labst if error_jump, nilexp otherwise.
+ *     	pt(e) is labst if error_jump, NULL otherwise.
  *
  *     absbool_tag: Represents comparison and conversion to boolean.
  *     	     Only produced (by refactor.c) is HAS_SETCC is set.
@@ -222,7 +222,7 @@
  *     	bro(arg1) is arg2.
  *     	shape is a variety shape.
  *     	ntest is represented in props, qv.
- *     	pt(e) is nilexp.
+ *     	pt(e) is NULL.
  *     	no(e) is 0.
  *     	Delivers 1 in shape if arg1 ntest arg2, 0 otherwise.
  *
@@ -230,7 +230,7 @@
  *     	son(e) is arg1 (pointer).
  *     	bro(arg1) is arg2 (offset).
  *     	shape is pointer(al2(sh(arg2))).
- *     	pt(e) is nilexp.
+ *     	pt(e) is NULL.
  *     	no(e) is 0.
  *
  *     alloca_tag: Represents local_alloc construction.
@@ -238,7 +238,7 @@
  *     	shape is pointer(x).
  *     	no(e) is 0.
  *     	props(e) is 0.
- *     	pt(e) is nilexp.
+ *     	pt(e) is NULL.
  *
  *     and_tag: represents and
  *     	son(e) is a brother list of argument, all of the same shape.
@@ -249,7 +249,7 @@
  *     		by chvar_tag transformations in check - only if
  *     		HAS_BYTEOPS is set.
  *     	no(e) is 0.
- *     	pt(e) is nilexp.
+ *     	pt(e) is NULL.
  *
  *     apply_tag: Represents apply_proc construction.
  *     	son(e) is arg1
@@ -257,7 +257,7 @@
  *     		more exps.
  *     	shape is result_shape.
  *     	no(e) is 0.
- *     	pt(e) is nilexp.
+ *     	pt(e) is NULL.
  *
  *     	Properties in the props field are defined in expmacs.h
  *
@@ -265,7 +265,7 @@
  *     	son(e) is arg.
  *     	shape is top.
  *     	no(e) is 0.
- *     	pt(e) is nilexp.
+ *     	pt(e) is NULL.
  *
  *     	Properties in the props field are defined in expmacs.h
  *
@@ -274,14 +274,14 @@
  *     	bro(son(e)) is arg2.
  *     	shape is top.
  *     	no(e) is 0.
- *     	pt(e) is nilexp.
+ *     	pt(e) is NULL.
  *
  *     assvol_tag: Represents assign_to_volatile construction.
  *     	son(e) is arg1.
  *     	bro(son(e)) is arg2.
  *     	shape is top.
  *     	no(e) is 0.
- *     	pt(e) is nilexp.
+ *     	pt(e) is NULL.
  *
  *     bfass_tag and bfassvol_tag: represent bitfield assignment ops.
  *     bfcont_tag and bfcontvol_tag: represent bitfield contents ops.
@@ -292,7 +292,7 @@
  *     	son(e)arg1.
  *     	shape is variety being converted to.
  *     	no(e) is 0.
- *     	pt(e) is nilexp.
+ *     	pt(e) is NULL.
  *
  *     case_tag: Represents case construction.
  *     	son(e) is control.
@@ -301,31 +301,31 @@
  *     			pt is destination labst_tag.
  *     			no is lower limit.
  *     			if upper limit is equal to lower
- *     			  then son is nilexp
+ *     			  then son is NULL
  *     			  else son is exp with no the upper limit.
  *     		The elements of this list are arranged in increasing
  *     		order of lower limit.
  *     	shape is bottom if exhausive, top otherwise.
  *     	no(e) is 0.
- *     	pt(e) is nilexp.
+ *     	pt(e) is NULL.
  *
  *     chfl_tag: represents change floating variety
  *     	son(e) is arg1.
  *     	shape is floating shape being converted to.
  *     	no(e) is 0;
- *     	pt(e) is nilexp.
+ *     	pt(e) is NULL.
  *
  *     chvar_tag: represents change variety
  *     	son(e) is arg1.
  *     	shape is variety being converted to.
  *     	no(e) is 0.
- *     	pt(e) is nilexp.
+ *     	pt(e) is NULL.
  *
  *     clear_tag: represents make_value
- *     	son(e) is nilexp.
+ *     	son(e) is NULL.
  *     	shape is shape of value required.
  *     	no(e) is 0.
- *     	pt(e) is nilexp.
+ *     	pt(e) is NULL.
  *
  *     component_tag: represents component
  *     	Always removed by refactor.c. Should not occur elsewhere.
@@ -336,7 +336,7 @@
  *     		with shape some offset. Its no field will be the offset
  *     		in which to put the next item of the pair.
  *     	shape is compound(arg1).
- *     	pt(e) is nilexp.
+ *     	pt(e) is NULL.
  *     	no(e) is 0.
  *
  *     concatnof_tag: represents concat nof
@@ -345,13 +345,13 @@
  *     		arg1 and arg2 will be nof(m, s) and nof(n, s)
  *     	shape is nof(m + n, s)
  *     	no(e) is 0.
- *     	pt(e) is nilexp.
+ *     	pt(e) is NULL.
  *
  *     cond_tag: Represents conditional construction.
  *     	son(e) is first.
  *     	bro(son(e)) is alt, which will be a labst_tag
  *     	shape is LUB of first and alt.
- *     	pt(e) is nilexp.
+ *     	pt(e) is NULL.
  *     	no(e) is 0.
  *
  *     cont_tag: represents contents
@@ -359,21 +359,21 @@
  *     	son(e) is arg1 (a pointer).
  *     	shape is shape of value being extracted.
  *     	no(e) is 0.
- *     	pt(e) is nilexp.
+ *     	pt(e) is NULL.
  *
  *     	Properties in the props field are defined in expmacs.h
  *
  *     current_env_tag: represents current env
- *     	son(e) is nilexp
+ *     	son(e) is NULL
  *     	shape is pointer(frame alignment).
  *     	no(e) is 0.
- *     	pt(e) is nilexp.
+ *     	pt(e) is NULL.
  *
  *     diagnose_tag: represents a diagnosing operation.
  *     	dno(e) is diag_info (qv.).
  *     	son(e) is controlled exp.
  *     	shape is sh(son(e))
- *     	pt(e) is nilexp.
+ *     	pt(e) is NULL.
  *
  *     div0_tag:
  *     div1_tag:
@@ -382,7 +382,7 @@
  *     	bro(arg1) is arg2.
  *     	shape is sh(arg1) unless changed by chvar_tag (HAS_BYTEOPS).
  *     	no(e) is 0.
- *     	pt(e) is labst if error_jump, nilexp otherwise.
+ *     	pt(e) is labst if error_jump, NULL otherwise.
  *
  *     	Remember to increment labst count if used.
  *
@@ -390,13 +390,13 @@
  *     	son(e) is ident_tag referred to.
  *     	shape is offset from frame alignment.
  *     	no(e) is 0.
- *     	pt(e) is nilexp.
+ *     	pt(e) is NULL.
  *
  *     fabs_tag: represents floating abs
  *     	son(e) is arg1.
  *     	shape is sh(arg1).
  *     	no(e) is 0.
- *     	pt(e) is labst if error_jump, nilexp otherwise.
+ *     	pt(e) is labst if error_jump, NULL otherwise.
  *
  *     	Remember to increment labst count if used.
  *
@@ -405,7 +405,7 @@
  *     	bro(arg1) is arg2.
  *     	shape is sh(arg1).
  *     	no(e) is 0.
- *     	pt(e) is labst if error_jump, nilexp otherwise.
+ *     	pt(e) is labst if error_jump, NULL otherwise.
  *
  *     	Remember to increment labst count if used.
  *
@@ -414,13 +414,13 @@
  *     	shape is shape of the component required.
  *     	no(e) is the offset (in bits) from the start of the
  *     		compound to the required component.
- *     	pt(e) is nilexp.
+ *     	pt(e) is NULL.
  *
  *     float_tag: represents conversion from int to float.
  *     	son(e) is arg1 (int).
  *     	shape is the floating shape required.
  *     	no(e) is 0.
- *     	pt(e) is labst if error_jump, nilexp otherwise.
+ *     	pt(e) is labst if error_jump, NULL otherwise.
  *
  *     	Remember to increment labst count if used.
  *
@@ -430,14 +430,14 @@
  *     	bro(arg1) is arg2.
  *     	shape is sh(arg1.
  *     	no(e) is 0.
- *     	pt(e) is nilexp.
+ *     	pt(e) is NULL.
  *
  *     fminus_tag: represents floating subtraction.
  *     	son(e) is arg1.
  *     	bro(arg1) is arg2.
  *     	shape is sh(arg1).
  *     	no(e) is 0.
- *     	pt(e) is labst if error_jump, nilexp otherwise.
+ *     	pt(e) is labst if error_jump, NULL otherwise.
  *
  *     	Remember to increment labst count if used.
  *
@@ -448,7 +448,7 @@
  *     		if there is a constant contribution.
  *     	shape is shape of son(e).
  *     	no(e) is 0.
- *     	pt(e) is labst if error_jump, nilexp otherwise.
+ *     	pt(e) is labst if error_jump, NULL otherwise.
  *
  *     	Remember to increment labst count if used.
  *
@@ -456,7 +456,7 @@
  *     	son(e) is arg1.
  *     	shape is sh(arg1).
  *     	no(e) is 0.
- *     	pt(e) is labst if error_jump, nilexp otherwise.
+ *     	pt(e) is labst if error_jump, NULL otherwise.
  *
  *     	Remember to increment labst count if used.
  *
@@ -467,7 +467,7 @@
  *     		if there is a constant contribution.
  *     	shape is shape of son(e).
  *     	no(e) is 0.
- *     	pt(e) is labst if error_jump, nilexp otherwise.
+ *     	pt(e) is labst if error_jump, NULL otherwise.
  *
  *     	Remember to increment labst count if used.
  *
@@ -476,13 +476,13 @@
  *     	bro(arg1) is arg2.
  *     	shape is shape of son(e).
  *     	no(e) is 0.
- *     	pt(e) is labst if error_jump, nilexp otherwise.
+ *     	pt(e) is labst if error_jump, NULL otherwise.
  *
  *     	Remember to increment labst count if used.
  *
  *
  *     goto_tag: Represents goto construction.
- *     	son(e) is nilexp.
+ *     	son(e) is NULL.
  *     	shape is bottom.
  *     	pt(e) is destination labst_tag.
  *
@@ -492,7 +492,7 @@
  *     goto_lv_tag: Represents the goto_local_lv construction.
  *     	son(e) is local_lv value.
  *     	shape is bottom.
- *     	pt(e) is nilexp.
+ *     	pt(e) is NULL.
  *     	no(e) is 0.
  *
  *     hold_tag: used as a dummy father at some times.
@@ -514,27 +514,27 @@
  *     	son(e) is exp being controlled.
  *     	shape is sh(son(e)).
  *     	no(e) is 0.
- *     	pt(e) is nilexp.
+ *     	pt(e) is NULL.
  *
  *     imag_tag: represents imaginary part.
  *     	son(e) is complex number.
  *     	shape is floating shape with same control parameters as the
  *     	 complex.
  *     	no(e) is 0.
- *     	pt(e) is nilexp.
+ *     	pt(e) is NULL.
  *
  *     int_to_bitf_tag: represents integer to bitfield conversion.
  *     	son(e) is arg1 (int).
  *     	shape is bitfield required.
  *     	no(e) is 0.
- *     	pt(e) is nilexp.
+ *     	pt(e) is NULL.
  *
  *     labst_tag: Represents exps which are destination of jumps. Produced from
  *     	alt of conditional, body of repeat and each place of labelled.
  *     	son(e) is a holder.
  *     	bro(son(e)) is the destination exp.
  *     	shape is shape of bro(son(e)).
- *     	pt(e) is nilexp.
+ *     	pt(e) is NULL.
  *
  *     	Properties in the props field are defined in expmacs.h
  *
@@ -544,22 +544,22 @@
  *
  *
  *     last_local_tag: represents last_local construction.
- *     	son(e) is nilexp.
+ *     	son(e) is NULL.
  *     	shape is top.
  *     	pt(e) is pointer(x).
  *     	no(e) is 0.
  *
  *     local_free_all_tag: represents local_free_all construction.
- *     	son(e) is nilexp.
+ *     	son(e) is NULL.
  *     	shape is top.
- *     	pt(e) is nilexp.
+ *     	pt(e) is NULL.
  *     	no(e) is 0.
  *
  *     local_free_tag: Represents local_free construction.
  *     	son(e) is arg2 (pointer).
  *     	bro(son(e)) is arg1 (offset).
  *     	shape is top.
- *     	pt(e) is nilexp.
+ *     	pt(e) is NULL.
  *     	no(e) is 0.
  *
  *
@@ -567,17 +567,17 @@
  *     	son(e) is arg1.
  *     	bro(son(e)) is arg2.
  *     	shape is bottom.
- *     	pt(e) is nilexp.
+ *     	pt(e) is NULL.
  *     	no(e) is 0.
  *
  *     make_complex_tag: represent make complex number.
  *     	son(e) is arg1.
  *     	bro(arg1) is arg2.
  *     	no(e) is 0.
- *     	pt(e) is nilexp.
+ *     	pt(e) is NULL.
  *
  *     make_lv_tag: represents make label value.
- *     	son(e) is nilexp.
+ *     	son(e) is NULL.
  *     	shape is lv.
  *     	pt(e) is labst.
  *     	no(e) is 0.
@@ -589,13 +589,13 @@
  *     	son(e) is arg1.
  *     	bro(arg1) is arg2.
  *     	no(e) is 0.
- *     	pt(e) is nilexp.
+ *     	pt(e) is NULL.
  *
  *     minptr_tag: Represents subtract_pointers construction.
  *     	son(e) is arg1
  *     	bro(son(e)) is arg2
  *     	shape is offset(al1(arg2),al1(arg1))
- *     	pt(e) is nilexp.
+ *     	pt(e) is NULL.
  *     	no(e) is 0.
  *
  *     minus_tag: represents subtraction.
@@ -605,7 +605,7 @@
  *     	son(e) is arg1.
  *     	bro(son(e)) is arg2
  *     	shape is sh(arg1)
- *     	pt(e) is labst if error_jump, nilexp otherwise.
+ *     	pt(e) is labst if error_jump, NULL otherwise.
  *     	no(e) is 0.
  *
  *     movecont_tag: Represents move_some construction.
@@ -613,7 +613,7 @@
  *     	bro(son(e)) is arg2.
  *     	bro(bro(son(e))) is arg3.
  *     	shape is top.
- *     	pt(e) is nilexp.
+ *     	pt(e) is NULL.
  *     	no(e) is 0.
  *
  *     	Properties in the props field are defined in expmacs.h
@@ -625,7 +625,7 @@
  *     		if there is a constant contribution.
  *     	shape is shape of son(e).
  *     	no(e) is 0.
- *     	pt(e) is labst if error_jump, nilexp otherwise.
+ *     	pt(e) is labst if error_jump, NULL otherwise.
  *
  *     	Remember to increment labst count if used.
  *
@@ -635,7 +635,7 @@
  *     		value.
  *     	pt(e) is the next name_tag on the chain of uses of an ident_tag,
  *     		which started in th pt field of the ident_tag, or
- *     		nilexp if the end of the chain.
+ *     		NULL if the end of the chain.
  *
  *     	Properties in the props field are defined in expmacs.h
  *
@@ -646,86 +646,86 @@
  *     	son(e) is value to be copied.
  *     	no(e) is n, the number of copies.
  *     	shape is nof(n, sh(son(e))).
- *     	pt(e) is nilexp.
+ *     	pt(e) is NULL.
  *
  *     neg_tag: Represents negate construction
  *     	son(e) is arg1.
  *     	shape is sh(arg1).
  *     	no(e) is 0.
  *     	pt(e) is destination labst if ov_err is error_jump, otherwise
- *     		nilexp.
+ *     		NULL.
  *
  *     nof_tag: represents the make_nof construction.
  *     	son(e) is arg1 as a brother list of zero or more exps, each of
  *     		the same shape (under eq_shape).
  *     	shape is nof(n, shape of item)
- *     	pt(e) is nilexp.
+ *     	pt(e) is NULL.
  *     	no(e) is 0.
  *
  *     not_tag: Represents logical complement construction
  *     	son(e) is arg1.
  *     	shape is sh(arg1).
  *     	no(e) is 0.
- *     	pt(e) is nilexp.
+ *     	pt(e) is NULL.
  *
  *     null_tag: represent ptr NULL and proc null.
- *     	son(e) is nilexp.
+ *     	son(e) is NULL.
  *     	shape is pointer(approprite alignment).
  *     	no(e) is 0.
- *     	pt(e) is nilexp.
+ *     	pt(e) is NULL.
  *
  *     offset_add_tag: Represents offset_add construction.
  *     	son(e) is arg1
  *     	bro(son(e)) is arg2.
  *     	shape is offset(max(al1(arg1),al1(arg2)),al2(arg2))
- *     	pt(e) is nilexp.
+ *     	pt(e) is NULL.
  *     	no(e) is 0.
  *
  *     offset_div_tag: Represents offset_div construction.
  *     	son(e) is arg1
  *     	bro(son(e)) is arg2.
  *     	shape is integer(v).
- *     	pt(e) is nilexp.
+ *     	pt(e) is NULL.
  *     	no(e) is 0.
  *
  *     offset_div_by_int_tag: Represents offset_div_by_int construction.
  *     	son(e) is arg1
  *     	bro(son(e)) is arg2.
  *     	shape is offset(x,x)
- *     	pt(e) is nilexp.
+ *     	pt(e) is NULL.
  *     	no(e) is 0.
  *
  *     offset_max_tag: Represents offset_max construction.
  *     	son(e) is arg1
  *     	bro(son(e)) is arg2.
  *     	shape is offset(max(al1(arg1),al1(arg2)),max(al2(arg1),al2(arg2)))
- *     	pt(e) is nilexp.
+ *     	pt(e) is NULL.
  *     	no(e) is 0.
  *
  *     offset_mult_tag: Represents offset_mult construction.
  *     	son(e) is arg1
  *     	bro(son(e)) is arg2.
  *     	shape is offset(x,x)
- *     	pt(e) is nilexp.
+ *     	pt(e) is NULL.
  *     	no(e) is 0.
  *
  *     offset_negate_tag: Represents offset_negate construction.
  *     	son(e) is arg1
  *     	shape is offset(x,x)
- *     	pt(e) is nilexp.
+ *     	pt(e) is NULL.
  *     	no(e) is 0.
  *
  *     offset_pad_tag: represents offset pad.
  *     	son(e) is arg1 (offset).
  *     	shape is offset of required padded shape.
  *     	no(e) is 0.
- *     	pt(e) is nilexp.
+ *     	pt(e) is NULL.
  *
  *     offset_subtract_tag: Represents offset_subtract construction.
  *     	son(e) is arg1
  *     	bro(son(e)) is arg2.
  *     	shape is offset(al2(arg1),al2(arg2))
- *     	pt(e) is nilexp.
+ *     	pt(e) is NULL.
  *     	no(e) is 0.
  *
  *     or_tag: represents or
@@ -735,7 +735,7 @@
  *     		if there is a constant contribution.
  *     	shape is shape of son(e).
  *     	no(e) is 0.
- *     	pt(e) is nilexp.
+ *     	pt(e) is NULL.
  *
  *     plus_tag: represents the combination of plus and minus constructions.
  *     	son(e) is a brother list of argument, all of the same shape.
@@ -745,14 +745,14 @@
  *     	shape is shape of son(e).
  *     	no(e) is 0.
  *     	pt(e) is destination labst if ov_err is error_jump, otherwise
- *     		nilexp.
+ *     		NULL.
  *
  *     power_tag: represents integer power.
  *     	son(e) is arg1.
  *     	bro(arg1) is arg2.
  *     	shape is sh(arg1).
  *     	no(e) is 0.
- *     	pt(e) is labst if error_jump, nilexp otherwise.
+ *     	pt(e) is labst if error_jump, NULL otherwise.
  *
  *     	Remember to increment labst count if used.
  *
@@ -767,35 +767,35 @@
  *
  *
  *     prof_tag: represents profile exp.
- *     	son(e) is nilexp.
+ *     	son(e) is NULL.
  *     	shape is top.
  *     	no(e) is expected number of times through this point.
- *     	pt(e) is nilexp.
+ *     	pt(e) is NULL.
  *
  *     real_tag: represents a floating point constant.
- *     	son(e) is nilexp.
+ *     	son(e) is NULL.
  *     	shape is a floating shape (not complex).
  *     	no(e) is index of number in flptnos.
- *     	pt(e) is nilexp.
+ *     	pt(e) is NULL.
  *
  *     realpart_tag: represents operation to take the real part of a complex.
  *     	son(e) is arg1 (complex).
  *     	shape is floating derived from same controls as complex.
  *     	no(e) is 0.
- *     	pt(e) is nilexp.
+ *     	pt(e) is NULL.
  *
  *     reff_tag: represents increment of a pointer by a constant offset.
  *     	son(e) is arg1 (pointer).
  *     	shape is shape of resulting pointer.
  *     	no(e) is offset in bits.
- *     	pt(e) is nilexp.
+ *     	pt(e) is NULL.
  *
  *     rem0_tag:
  *     rem2_tag: Represents rem0/2 construction.
  *     	son(e) is arg1.
  *     	bro(son(e)) is arg2
  *     	shape is sh(arg1)
- *     	pt(e) is labst if error_jump, nilexp otherwise.
+ *     	pt(e) is labst if error_jump, NULL otherwise.
  *     	no(e) is 0.
  *
  *     rep_tag: represents repeat construction.
@@ -810,7 +810,7 @@
  *     res_tag: Represents the return construction.
  *     	son(e) is arg1
  *     	shape is bottom.
- *     	pt(e) is nilexp.
+ *     	pt(e) is NULL.
  *     	no(e) is 0.
  *
  *     rotl_tag:
@@ -819,14 +819,14 @@
  *     	bro(arg1) is arg2 (no of places).
  *     	shape is sh(arg10.
  *     	no(e) is 0.
- *     	pt(e) is nilexp.
+ *     	pt(e) is NULL.
  *
  *     round_tag: represents round_with_mode construction.
  *     	son(e) is arg1.
  *     	shape is integer(r).
  *     	no(e) is 0.
  *     	pt(e) is destination labst if ov_err is error_jump, otherwise
- *     		nilexp.
+ *     		NULL.
  *
  *     seq_tag: Represents the sequence construction.
  *     	bro(son(e)) is result.
@@ -834,7 +834,7 @@
  *     	  son as the first statement, and the remaining statements
  *     	  chained through the bro fields.
  *     	shape is the shape of result.
- *     	pt(e) is nilexp.
+ *     	pt(e) is NULL.
  *     	no(e) is 0.
  *
  *     	Use new_exp_list to start and empty sequence, add_exp_list to
@@ -847,7 +847,7 @@
  *     	bro(son(e)) is arg2
  *     	shape is sh(arg1)
  *     	no(e) is 0.
- *     	pt(e) is labst if error_jump, nilexp otherwise.
+ *     	pt(e) is labst if error_jump, NULL otherwise.
  *
  *     	Remember to increment labst count if used.
  *
@@ -856,7 +856,7 @@
  *     	bro(son(e)) is arg2
  *     	shape is sh(arg1)
  *     	no(e) is 0.
- *     	pt(e) is nilexp.
+ *     	pt(e) is NULL.
  *
  *     solve_tag: Represents the labelled construction.
  *     	son(e) is starter.
@@ -869,10 +869,10 @@
  *     	Properties in the props field are defined in expmacs.h
  *
  *     string_tag: represents constant array of integers.
- *     	son(e) is nilexp.
+ *     	son(e) is NULL.
  *     	shape is nof(n, s).
  *     	nostr(e) is pointer to array of integers.
- *     	pt(e) is nilexp.
+ *     	pt(e) is NULL.
  *
  *     	Properties in the props field are defined in expmacs.h
  *
@@ -911,15 +911,15 @@
  *     	count must be decreased explicitly.
  *
  *     top_tag: represents "do nothing" operation.
- *     	son(e) is nilexp.
+ *     	son(e) is NULL.
  *     	shape is top
  *     	no(e) is 0.
- *     	pt(e) is nilexp.
+ *     	pt(e) is NULL.
  *
  *     val_tag: represents constant integers and offsets.
- *     	son(e) is nilexp.
+ *     	son(e) is NULL.
  *     	shape is integer or offset shape.
- *     	pt(e) is nilexp.
+ *     	pt(e) is NULL.
  *     	no(e)
  *     	  if shape is integer and !isbigval(e), no(e) is the number.
  *     	  if shape is integer and isbigval(e), no(e) is the index of

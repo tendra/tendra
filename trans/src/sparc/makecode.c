@@ -555,7 +555,7 @@ testlast ( exp e, exp second )
 	       pt ( list ) == second ) {
 	    return list;
 	  } else {
-	    return nilexp;
+	    return NULL;
 	  }
 	} else {
 	  list = bro ( list ) ;
@@ -563,7 +563,7 @@ testlast ( exp e, exp second )
       }
     }
   }
-  return nilexp;
+  return NULL;
 }
 
 /*
@@ -599,7 +599,7 @@ last_param ( exp e )
 static int 
 has_bitfield ( exp e )
 {
-  if ( e == nilexp ) return 0;
+  if ( e == NULL ) return 0;
   switch ( name ( e ) ) {
     case compound_tag : {
       e = bro ( son ( e ) ) ;
@@ -2249,7 +2249,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
     if(!optop(e) && !error_treatment_is_trap(e)){
       if(is_long_double(sh(e))){
 	where newdest;
-	exp zero_exp = getexp(sh(e),nilexp,1,nilexp,nilexp,0,fzero_no,
+	exp zero_exp = getexp(sh(e),NULL,1,NULL,NULL,0,fzero_no,
 			  real_tag);
 	setregalt(newdest.answhere,getreg(sp.fixed));
 	newdest.ashwhere.ashsize = newdest.ashwhere.ashalign = 32;
@@ -2301,7 +2301,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
 	    
     if ( use_long_double && name ( sh ( e ) ) == doublehd ) {
       if(name(e) != fabs_tag){
-	quad_op ( son ( e ), nilexp, sp, dest, ( int ) name ( e ) ) ;
+	quad_op ( son ( e ), NULL, sp, dest, ( int ) name ( e ) ) ;
       }
       else{	/* would it be so hard to implement _Q_abs? */
 	where newdest;
@@ -2311,12 +2311,12 @@ make_code ( exp e, space sp, where dest, int exitlab )
 	int endlab = new_label();
 	setregalt(newdest.answhere,getreg(sp.fixed));
 	newdest.ashwhere.ashsize = newdest.ashwhere.ashalign=32;
-	zero_exp = getexp(sh(e),nilexp,1,nilexp,nilexp,0,fzero_no,
+	zero_exp = getexp(sh(e),NULL,1,NULL,NULL,0,fzero_no,
 			  real_tag);
 	quad_op(son(e),zero_exp,sp,newdest,-2);
 	condrr_ins(i_be,R_O0,R_G0,no_negate);
 	set_label(negate);
-	quad_op(son(e),nilexp,sp,dest,fneg_tag);
+	quad_op(son(e),NULL,sp,dest,fneg_tag);
 	uncond_ins(i_b,endlab);
 	set_label(no_negate);
 	code_here(son(e),sp,dest);
@@ -2379,7 +2379,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
     }
 	    
     if ( use_long_double && name ( sh ( e ) ) == doublehd ) {
-      quad_op ( son ( e ), nilexp, sp, dest, float_tag ) ;
+      quad_op ( son ( e ), NULL, sp, dest, float_tag ) ;
       return mka;
     }
 
@@ -2454,11 +2454,11 @@ make_code ( exp e, space sp, where dest, int exitlab )
 	/* no change in representation */
 	return make_code ( son ( e ), sp, dest, exitlab ) ;
       }
-      quad_op ( son ( e ), nilexp, sp, dest, chfl_tag ) ;
+      quad_op ( son ( e ), NULL, sp, dest, chfl_tag ) ;
       return mka;
     } else if ( name ( sh ( son ( e ) ) ) == doublehd ) {
       int o = ( dto ? 100 : 101 ) ;
-      quad_op ( son ( e ), nilexp, sp, dest, o ) ;
+      quad_op ( son ( e ), NULL, sp, dest, o ) ;
       frg.fr = 0 ;
       frg.dble = dto ;
       setfregalt ( aa, frg ) ;
@@ -2662,7 +2662,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
     }
     /* Get two floating registers */
     if ( use_long_double && name ( sh ( son ( e ) ) ) == doublehd ) {
-      quad_op ( son ( e ), nilexp, sp, dest, 100 ) ;
+      quad_op ( son ( e ), NULL, sp, dest, 100 ) ;
       sfr = getfreg ( sp.flt ) ;
       rrf_ins ( i_fmovd, 0, sfr << 1 ) ;
     } else {
@@ -3096,7 +3096,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
 	for ( ; ; ) {
 	  where newdest ;
 	  instore newis ;
-	  if(t == nilexp) return mka;
+	  if(t == NULL) return mka;
 	  newis = str ;
 	  newis.b.offset += disp ;
 	  setinsalt ( newdest.answhere, newis ) ;
@@ -3119,7 +3119,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
       }
 
       case inreg : {
-	if (t == nilexp) return mka;
+	if (t == NULL) return mka;
 	( void ) code_here ( t, sp, dest ) ;
 	r = regalt ( dest.answhere ) ;
 	nsp = guardreg ( r, sp ) ;
@@ -3232,7 +3232,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
       return make_code ( bro ( son ( e ) ), sp, dest, exitlab ) ;
     }
 
-    if ( son ( e ) == nilexp ) {
+    if ( son ( e ) == NULL ) {
       /* historical - unused tags are now removed cleanly */
       placew = nowhere ;
     } 
@@ -3316,7 +3316,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
 
 	    /* is last param a vararg in reg? */
 	    if ( ((!Has_no_vcallers) || isvis ( e )) && props ( son ( e ) ) != 0 &&
-		 /*pt ( e ) != nilexp &&*/ 
+		 /*pt ( e ) != NULL &&*/ 
 		 last_param ( e ) ) {
 	      /* dump *all* remaining input regs to stack
 		 for varargs */
@@ -3516,7 +3516,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
       return make_code ( first, sp, dest, exitlab ) ;
     }
 
-    if ( test = testlast ( first, second ), test != nilexp ) {
+    if ( test = testlast ( first, second ), test != NULL ) {
       /* effectively an empty then part */
       int l = ( exitlab != 0 ) ? exitlab : new_label () ;
       exp orig = pt(test);	/* hold in case of extra_diags */
@@ -3793,7 +3793,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
 	     that it is not dependent on it */
 	  if ( name ( lhs ) == name_tag ) {
 	    exp dc = son ( lhs ) ;
-	    if ( son ( dc ) != nilexp ) dc = son ( dc ) ;
+	    if ( son ( dc ) != NULL ) dc = son ( dc ) ;
 	    if ( shape_size ( sh ( dc ) ) ==
 		 shape_size ( sh ( rhs ) ) ) {
 	      keepcont ( lhs, contreg ) ;
@@ -3843,15 +3843,15 @@ make_code ( exp e, space sp, where dest, int exitlab )
 	    /* calculate crude criterion for using jump vector or branches */
     l = no ( zt ) ;
     for ( n = 1 ; ; n++ ) {
-      if ( u + 1 != no ( zt ) && son ( zt ) != nilexp ) {
+      if ( u + 1 != no ( zt ) && son ( zt ) != NULL ) {
 	n++ ;
       }
       if ( last ( zt ) ) {
-	u = ( son ( zt ) != nilexp ) ? no ( son ( zt ) ) :
+	u = ( son ( zt ) != NULL ) ? no ( son ( zt ) ) :
 	  no ( zt ) ;
 	break ;
       }
-      if ( son ( zt ) != nilexp ) {
+      if ( son ( zt ) != NULL ) {
 	u = no ( son ( zt ) ) ;
       } else {
 	if ( u + 1 == no ( zt ) ) u += 1 ;
@@ -3968,7 +3968,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
 	  if ( PIC_code ) outs ( "-1b" ) ;
 	  outnl () ;
 	}
-	u = ( son ( z ) == nilexp ) ? n : no ( son ( z ) ) ;
+	u = ( son ( z ) == NULL ) ? n : no ( son ( z ) ) ;
 	for ( ; n != u+1 ; n++ ) {	/* comparison independent of sign */
 	  outs ( "\t.word\t" ) ;
 	  outs ( lab_prefix ) ;
@@ -4001,7 +4001,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
       for ( ; ; ) {
 	int lab = no ( son ( pt ( z ) ) ) ;
 	long l = no ( z ) ;
-	if ( son ( z ) == nilexp ) {
+	if ( son ( z ) == NULL ) {
 	  /* only single test required */
 	  condri_ins ( i_be, r, l, lab ) ;
 	  if ( l == lims.maxi ) {
@@ -4054,7 +4054,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
       for ( ; ; ) {
 	int lab = no ( son ( pt ( z ) ) ) ;
 	unsigned long l = no ( z ) ;
-	if ( son ( z ) == nilexp ) {
+	if ( son ( z ) == NULL ) {
 	  /* only single test required */
 	  condri_ins ( i_be, r, l, lab ) ;
 	  if ( l == maxi ) {

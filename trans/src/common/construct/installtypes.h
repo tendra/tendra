@@ -122,7 +122,7 @@ typedef struct error_treatment_t {
 struct dec_t {
 	struct dec_t *def_next;
 	/* if this is a global declaration this field holds next global
-	   declaration which needs processing. If there is none, it is nilexp */
+	   declaration which needs processing. If there is none, it is NULL */
 	union ut {
 		struct dec_v {
 			char *dec_id;
@@ -130,7 +130,7 @@ struct dec_t {
 			shape dec_shape;
 			/* shape of the value */
 			exp dec_exp;
-			/* definition or nilexp */
+			/* definition or NULL */
 			int unit_number;
 			diag_global *diag_info;
 			access acc;

@@ -24,7 +24,7 @@ static int
 invar_list(exp e)
 {
 	while (1) {
-		if (e==nilexp) {
+		if (e==NULL) {
 			return 1;
 		}
 		if (!invariant_to_apply(e)) {
@@ -42,7 +42,7 @@ invar_list(exp e)
    if evaluated immediately before and after any procedure
    call (including a recursive one). The evaluation of the
    procedure arguments is assumed to to affect the value of e.
-   e will not be nilexp.
+   e will not be NULL.
 */
 int
 invariant_to_apply(exp e)
@@ -116,7 +116,7 @@ take_out_of_line(exp first, exp alt, int in_repeat, double scale)
 	if (!extract && name(first) == seq_tag && no(son(alt)) == 1 &&
 	    (is_tester(son(son(first)), 0) && pt(son(son(first))) == alt)) {
 		exp q = bro(son(son(first)));
-		exp p = nilexp;
+		exp p = NULL;
 		if (name(q) == prof_tag) {
 			p = q;
 		}
@@ -125,7 +125,7 @@ take_out_of_line(exp first, exp alt, int in_repeat, double scale)
 			p = son(son(bro(q)));
 		}
 
-		if (p != nilexp && (double)(no(p)) < (0.29 * scale)) {
+		if (p != NULL && (double)(no(p)) < (0.29 * scale)) {
 			extract = 1;
 		}
 	}
@@ -202,7 +202,7 @@ is_maxop(exp x, exp *t)
 			}
 			xCC = bro(xCC);
 			z = xCC;
-			if (!(complex_eq_exp(z, op1, nilexp,nilexp))) {
+			if (!(complex_eq_exp(z, op1, NULL,NULL))) {
 				goto flab0;
 			}
 			if (!last(xCC)) {
@@ -227,7 +227,7 @@ is_maxop(exp x, exp *t)
 			}
 			xCC = bro(xCC);
 			w = xCC;
-			if (!(complex_eq_exp(w, op2, nilexp, nilexp))) {
+			if (!(complex_eq_exp(w, op2, NULL, NULL))) {
 				goto flab0;
 			}
 			if (!last(xCC)) {
@@ -293,7 +293,7 @@ is_minop(exp x, exp *t)
 			}
 			xCC = bro(xCC);
 			z = xCC;
-			if (!(complex_eq_exp(z, op2,nilexp,nilexp))) {
+			if (!(complex_eq_exp(z, op2,NULL,NULL))) {
 				goto flab0;
 			}
 			if (!last(xCC)) {
@@ -318,7 +318,7 @@ is_minop(exp x, exp *t)
 			}
 			xCC = bro(xCC);
 			w = xCC;
-			if (!(complex_eq_exp(w, op1,nilexp,nilexp))) {
+			if (!(complex_eq_exp(w, op1,NULL,NULL))) {
 				goto flab0;
 			}
 			if (!last(xCC)) {

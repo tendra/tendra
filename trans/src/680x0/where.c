@@ -44,7 +44,7 @@ static int find_where(exp);
     These are used as convenient shorthands.
 */
 
-#define  new_exp(A, B, C, D)	getexp(A, nilexp, 0, B, nilexp, 0L, C, D)
+#define  new_exp(A, B, C, D)	getexp(A, NULL, 0, B, NULL, 0L, C, D)
 #define  ptrsh		 	ptr_shape(slongsh)
 
 
@@ -173,9 +173,9 @@ static int find_where
 	    exp id = son(e);
 #if 0
 	    if ((name(sh(e)) == prokhd) &&
-	      ((son(id) == nilexp) || (name(son(id)) == proc_tag) ||
+	      ((son(id) == NULL) || (name(son(id)) == proc_tag) ||
 		(name(son(id)) == general_proc_tag))) {
-	      exp proc_cont = getexp(sh(e),nilexp,0,e,nilexp,0,
+	      exp proc_cont = getexp(sh(e),NULL,0,e,NULL,0,
 				     0,cont_tag);
 	      /*return find_where(proc_cont);*/
 	      e = proc_cont;
@@ -372,10 +372,10 @@ where mw
 #if 0
 
   if ((name(e) ==name_tag && name(sh(e)) == prokhd) &&
-      !(((son(son(e)) == nilexp || name(son(son(e))) == proc_tag ||
+      !(((son(son(e)) == NULL || name(son(son(e))) == proc_tag ||
 	  name(son(son(e))) == apply_tag ||
 	  name(son(son(e))) == apply_general_tag)))) {
-    exp proc_cont = getexp(sh(e),nilexp,0,e,nilexp,0,0,cont_tag);
+    exp proc_cont = getexp(sh(e),NULL,0,e,NULL,0,0,cont_tag);
     e = proc_cont;
   }
 #endif
@@ -440,7 +440,7 @@ where mfw
     lv = i;
 #endif
     for (i = lv; i < MANT_SIZE; i++)f->mant[i] = 0;
-    fe = new_exp(realsh, nilexp, fm, real_tag);
+    fe = new_exp(realsh, NULL, fm, real_tag);
     make_constant(lab, fe);
     no(ft) = lab;
     w.wh_exp = ft;
@@ -464,7 +464,7 @@ where regpair
     where w;
     exp ea = a.wh_exp;
     exp eb = b.wh_exp;
-    w.wh_exp = getexp(realsh, eb, 0, ea, nilexp, 0, 0, regpair_tag);
+    w.wh_exp = getexp(realsh, eb, 0, ea, NULL, 0, 0, regpair_tag);
     w.wh_off = 0;
     w.wh_is = RegPair;
     where_regmsk = 0;
@@ -517,16 +517,16 @@ void init_wheres
     int i;
 
     /* Set up the exps corresponding to 0 */
-    zeroe = new_exp(botsh, nilexp, 0, val_tag);
-    fzeroe = new_exp(realsh, nilexp, fzero_no, real_tag);
+    zeroe = new_exp(botsh, NULL, 0, val_tag);
+    fzeroe = new_exp(realsh, NULL, fzero_no, real_tag);
 
     /* Set up the corresponding wheres */
     zero = zw(zeroe);
     fzero = zw(fzeroe);
 
     /* Create some dummy exp's */
-    E_long = new_exp(slongsh, nilexp, 0, val_tag);
-    E_float = new_exp(realsh, nilexp, 0, real_tag);
+    E_long = new_exp(slongsh, NULL, 0, val_tag);
+    E_float = new_exp(realsh, NULL, 0, real_tag);
     E_ptr = new_exp(ptrsh, E_long, 0, cont_tag);
     E_A6_4 = new_exp(botsh, E_ptr, 0, ident_tag);
     ptno(E_A6_4) = var_pl;

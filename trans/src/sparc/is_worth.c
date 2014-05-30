@@ -78,7 +78,7 @@ is_worth ( exp c )
 	if(name(sh(c)) == u64hd || name(sh(c)) == s64hd) return false;
 	dad = father ( c ) ;
 
-	if (dad == nilexp)
+	if (dad == NULL)
 	{
 	  if ( SIMM13_SIZE ( n ) ) return false;
 	  return true;

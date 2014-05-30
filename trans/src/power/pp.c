@@ -99,7 +99,7 @@ static int labst_no(exp e)
 }
 void scan_for_labsts(exp e)
 {
-  if (e==nilexp)
+  if (e==NULL)
     return;
   switch (name(e))
   {
@@ -455,8 +455,8 @@ exp infotag(exp e, int i)
    case 5:last_exp_seen5=e;break;
   }
 
-  if (e==nilexp) {
-    printf("Error 'nilexp'\n");
+  if (e==NULL) {
+    printf("Error 'NULL'\n");
     return e;
   }
   printf("-------------------------------------------------------------------------------\n");
@@ -565,7 +565,7 @@ exp infotag(exp e, int i)
   }
 
   printf("-------------------------------------------------------------------------------\n");
-  if (son(e)!=nilexp)
+  if (son(e)!=NULL)
   {
     int finished=0;
     exp point=son(e);
@@ -761,7 +761,7 @@ static void exp_show(exp e, int depth, int depth_of_recursion, int flag)
 {
   char *tagname;
 
-  if (e == nilexp || depth == depth_of_recursion)
+  if (e == NULL || depth == depth_of_recursion)
     return;
   printf("(0x%x)",(int)e);
   tagname = getname(name(e));
@@ -800,7 +800,7 @@ static void exp_show(exp e, int depth, int depth_of_recursion, int flag)
       if (l)
 	printf("%s:<%s> no=%d obtain {tag~%04d}\n",tagname,shape_name(name(sh(e))),no(e),l);
 #if 1
-      else if (name(sh(e)) ==prokhd && (name(son(son(e))) ==proc_tag||son(son(e)) ==nilexp||name(son(son(e))) ==general_proc_tag) && done_scan==1)
+      else if (name(sh(e)) ==prokhd && (name(son(son(e))) ==proc_tag||son(son(e)) ==NULL||name(son(son(e))) ==general_proc_tag) && done_scan==1)
       {
 	baseoff b = boff(son(e));
 	char *ext;
@@ -846,7 +846,7 @@ static void exp_show(exp e, int depth, int depth_of_recursion, int flag)
 	printf("(0x%x)",(int)s);
 	print_spaces(depth+1);
 	printf("(%d",no(s));
-	if (son(s)!=nilexp)
+	if (son(s)!=NULL)
 	  printf("-%d)",no(son(s)));
 	else
 	  printf(")");

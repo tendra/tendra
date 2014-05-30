@@ -71,7 +71,7 @@ static char *ext_eval_name = "???";
     All external constants created are formed into a bro-list.
 */
 
-exp const_list = nilexp;
+exp const_list = NULL;
 
 
 /*
@@ -275,7 +275,7 @@ long  evalexp
    case cont_tag:
     {
        if (PIC_code && name(son(e)) == name_tag && isglob(son(son(e)))
-           && son(son(son(e)))!= nilexp
+           && son(son(son(e)))!= NULL
            && !(brog(son(son(e))) -> dec_u.dec_val.dec_var))
        return evalexp(son(son(son(e))));
        break;
@@ -626,7 +626,7 @@ void evalaux
             int pad;
             bool param_aligned = 0;
 
-	    if (offe == nilexp) return;
+	    if (offe == NULL) return;
 
             /* look ahead to determine if it is parameter aligned */
             val = bro(offe);
@@ -818,7 +818,7 @@ void evalaux
 	case nof_tag: {
 	    /* Array values */
 	    exp t = son(e);
-	    if (t == nilexp) return;
+	    if (t == NULL) return;
 	    while (1) {
 		evalaux(t, isconst, al);
 		if (last(t)) return;
@@ -953,7 +953,7 @@ static int is_comm
 
 	case compound_tag: {
 	    exp t = son(e);
-	    if (t == nilexp) return 1;
+	    if (t == NULL) return 1;
 	    while (1) {
 		t = bro(t);
 		if (name(sh(t))!= bitfhd) {
@@ -975,7 +975,7 @@ static int is_comm
 
 	case nof_tag: {
 	    exp t = son(e);
-	    if (t == nilexp) return 1;
+	    if (t == NULL) return 1;
 	    while (1) {
 		if (!is_comm(t)) return 0;
 		if (last(t)) return 1;

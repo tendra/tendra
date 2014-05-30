@@ -18,7 +18,7 @@
  * is a list of the sub-expressions which are constant within the
  * specified region.
  *
- * If no sub-expressions are constant, cont has the value nilexp.
+ * If no sub-expressions are constant, cont has the value NULL.
  *
  * If cont is not empty, its son is a list of elements, each of which
  * has a son which is a constant within the specified program fragment.

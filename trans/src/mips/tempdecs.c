@@ -127,7 +127,7 @@ trace_uses(exp e, exp id)
 	default: {
 	     exp s = son(e);
 	     int nu = nouses; /* s list can be done in any order ...*/
-	     if (s == nilexp) return 1;
+	     if (s == NULL) return 1;
 	     for(;;) {
 		int el = trace_uses(s, id);
 		if (el!=1 ) { /* ... so reset nouses if any terminate */
@@ -184,7 +184,7 @@ tempdec(exp e, bool enoughs)
 	nouses = 0;
 	useinpar = 0;
 	if (isvar(e) ) {
-	   for (p=pt(e); p!=nilexp; p =pt(p)) {
+	   for (p=pt(e); p!=NULL; p =pt(p)) {
 	    /* find no of uses which are not assignments to id ... */
 	    if (!last(p) && last(bro(p))
 		 && name(bro(bro(p))) == ass_tag ) {
@@ -204,7 +204,7 @@ tempdec(exp e, bool enoughs)
 	if (name(son(e)) != clear_tag || isparam(e)) { after_a(son(e), e); }
 
 	if (isvar(e)) {
-	  for (p=pt(e); p!=nilexp; p =pt(p)) {
+	  for (p=pt(e); p!=NULL; p =pt(p)) {
 	    if (!last(p) && last(bro(p))
 		 && name(bro(bro(p))) == ass_tag ) {
 		after_a(bro(bro(p)), e);

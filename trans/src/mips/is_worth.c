@@ -39,16 +39,16 @@ is_worth(exp c)
 				   big constants from loops ... */
     long  n = no (c);
     exp dad;
-    if (n == 0 || bro(c)==nilexp) {
+    if (n == 0 || bro(c)==NULL) {
       return false;
     }
     dad = father (c);
-    if (dad==nilexp) return false;
+    if (dad==NULL) return false;
     switch (name (dad)) {
       case and_tag:
 	{
 	  exp grandad = father (dad);
-	  if ( grandad != nilexp &&
+	  if ( grandad != NULL &&
 	       name (grandad) == test_tag && (n & (n - 1)) == 0 &&
 	      (props (grandad) == 5 || props (grandad) == 6) &&
 	      ((name (bro (son (grandad))) == val_tag && no (bro (son (grandad))) == 0)

@@ -880,7 +880,7 @@ makeans make_apply_tag_code
   }
   else if (name(fn) == name_tag &&
 	      name(son(fn)) == ident_tag &&
-	     (son(son(fn)) == nilexp ||
+	     (son(son(fn)) == NULL ||
 		(name(son(son(fn))) == proc_tag ||
 		 name(son(son(fn))) == general_proc_tag))) {
     baseoff b;
@@ -1313,7 +1313,7 @@ makeans make_apply_general_tag_code
   call_base_reg = R_SP;
 
   if (name(fn) == name_tag && name(son(fn)) == ident_tag &&
-      (son(son(fn)) == nilexp ||
+      (son(son(fn)) == NULL ||
 	(name(son(son(fn))) == proc_tag ||
 	  name(son(son(fn))) == general_proc_tag))) {
     baseoff b;
@@ -1477,7 +1477,7 @@ makeans make_apply_general_tag_code
     exp x = son(callers);
     postlude_chain p;
 
-    if (x != nilexp) {
+    if (x != NULL) {
       for (;;) {
 	if (name(x) == caller_tag) {
 	  no(x) += proc_state.maxargs;
@@ -1785,7 +1785,7 @@ makeans make_tail_call_tag
   makeans mka;
   baseoff bproc;
   bool glob = ((name(fn) == name_tag) && (name(son(fn)) == ident_tag) &&
-	      ((son(son(fn)) == nilexp) || (name(son(son(fn))) == proc_tag)
+	      ((son(son(fn)) == NULL) || (name(son(son(fn))) == proc_tag)
 		|| (name(son(son(fn))) == general_proc_tag)));
   bool trad_proc = 0;
   if (gencompat && !vc) {

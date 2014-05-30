@@ -50,9 +50,9 @@ bool eq_sze
 bool sim_explist
 (exp al, exp bl)
 {
-  if (al == nilexp && bl == nilexp)
+  if (al == NULL && bl == NULL)
     return 1;
-  if (al == nilexp || bl == nilexp)
+  if (al == NULL || bl == NULL)
     return 0;
   if (!sim_exp(al, bl))
     return 0;
@@ -95,7 +95,7 @@ void clear_all
   int   i;
   for (i = 0; i < 64; i++) {
 /*    if(is_volatile(i)){*/
-      regexps[i].keptexp = nilexp;
+      regexps[i].keptexp = NULL;
       regexps[i].alignment = 0;
       setregalt(regexps[i].inans, NO_REG);
 /*    }*/
@@ -115,7 +115,7 @@ void clear_reg
   /* forget reg i - exp association */
   i = abs(i);
   if (i >= 0 && i < 64) {
-    regexps[i].keptexp = nilexp;
+    regexps[i].keptexp = NULL;
     regexps[i].alignment = 0;
     setregalt(regexps[i].inans, NO_REG);
   }
@@ -127,7 +127,7 @@ void clear_freg
   i=abs(i) +32;
   if (i<64)
   {
-    regexps[i].keptexp=nilexp;
+    regexps[i].keptexp=NULL;
     setregalt(regexps[i].inans,NO_REG);	/* ?? */
   }
 }
@@ -147,7 +147,7 @@ ans iskept
   for (i = 0; i < 48; i++) {
     exp ke = regexps[i].keptexp;
     bool isc = regexps[i].iscont;
-    if (ke != nilexp) {		/* there is an accociation with reg i */
+    if (ke != NULL) {		/* there is an accociation with reg i */
       if (
 	 ((!isc && sim_exp(ke, e)) ||
 	  (name(e) == cont_tag && isc && eq_sze(sh(ke), sh(e))
@@ -316,12 +316,12 @@ bool couldbe
     }
     if (name(s) == proc_tag)
       return lhs == 0;
-    if (son(s) == nilexp)
+    if (son(s) == NULL)
       return 1;
     return couldbe(son(s), lhs);
   }
   if (ne == cont_tag) {
-    if (lhs != 0 && name(s) == name_tag && son(s)!= nilexp) {
+    if (lhs != 0 && name(s) == name_tag && son(s)!= NULL) {
       return son(s) == son(lhs) || isvis(son(lhs)) || isvis(son(s));
     }
     return 1;
@@ -350,7 +350,7 @@ bool couldeffect
       return z == 0 && isvis(son(e));
     if (name(son(e)) == proc_tag)
       return 0;
-    if (son(son(e)) == nilexp)
+    if (son(son(e)) == NULL)
       return 1 /* could it happen? */ ;
 
     return couldeffect(son(son(e)), z);
@@ -361,7 +361,7 @@ bool couldeffect
 
   e = son(e);
 
-  while (e != nilexp) {
+  while (e != NULL) {
     if (couldeffect(e, z))
       return 1;
     if (last(e))
@@ -377,7 +377,7 @@ bool dependson
 (exp e, bool isc, exp z)
 {
   /* does e depend on z */
-  if (e == nilexp) {
+  if (e == NULL) {
     return 0;
   }
   for (;;) {
@@ -403,7 +403,7 @@ bool dependson
       z = 0;
       break;
     }
-    if (son(son(z)) == nilexp)
+    if (son(son(z)) == NULL)
       return 1;			/* can it happen? */
     z = son(son(z));
   }
@@ -425,7 +425,7 @@ void clear_dep_reg
   int   i;
   for (i = 0; i < 64; i++) {
     if (dependson(regexps[i].keptexp, regexps[i].iscont, lhs)) {
-      regexps[i].keptexp = nilexp;
+      regexps[i].keptexp = NULL;
       setregalt(regexps[i].inans, NO_REG);
     }
   }

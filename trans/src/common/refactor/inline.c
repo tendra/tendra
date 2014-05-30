@@ -36,7 +36,7 @@
 static exp
 last_action(exp e)
 {
-	if (e == nilexp) {
+	if (e == NULL) {
 		return e;
 	}
 
@@ -51,7 +51,7 @@ last_action(exp e)
 static void
 change_last_shapes(exp e, shape sha)
 {
-	if (e == nilexp) {
+	if (e == NULL) {
 		return;
 	}
 
@@ -96,7 +96,7 @@ inline_exp(exp e)
 	exp lab;
 	exp var;		/* the destination to which the result is to be
 				   assigned */
-	exp new_var = nilexp;
+	exp new_var = NULL;
 	exp new_dec;		/* a new variable declaration if we make one */
 	shape sha = sh(e);	/* the shape delivered by the application */
 	exp cond_alt;
@@ -105,7 +105,7 @@ inline_exp(exp e)
 
 	if (name(sha) == tophd) {
 		/* not returning a result, no ass needed */
-		var = nilexp;
+		var = NULL;
 		cond_alt = f_make_top();
 	} else {
 		if (last(e) && name(bro(e)) == ass_tag &&
@@ -203,11 +203,11 @@ inline_exp(exp e)
 	}
 	/* make up the cond out of the substituted exp and lab */
 
-	if (var != nilexp) {
+	if (var != NULL) {
 		kill_exp(var, var);
 	}
 
-	if (new_var != nilexp) { /* we made up a new variable */
+	if (new_var != NULL) { /* we made up a new variable */
 		SET(new_dec);
 		if (no(new_dec) != 1) {
 			/* complete the variable def */
@@ -229,7 +229,7 @@ inline_exp(exp e)
 		dg_complete_inline(e, res);
 	}
 #endif
-	replace(e, res, nilexp); /* replace the call by the inlined stuff */
+	replace(e, res, NULL); /* replace the call by the inlined stuff */
 	kill_exp(fn, fn);	 /* kill off the function name_tag */
 
 	return;

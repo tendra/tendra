@@ -157,7 +157,7 @@ operand(long sz, where wh)
 		if (isglob(id)) {
 			if (name(sh(w)) == prokhd) {
 #if 1
-				if ((son(id) == nilexp ||
+				if ((son(id) == NULL ||
 				     name(son(id)) == proc_tag ||
 				     name(son(id)) == general_proc_tag))
 #endif

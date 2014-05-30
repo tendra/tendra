@@ -527,7 +527,7 @@ caser(exp arg, long already)
 	long i, j, n, *jtab;
 	long worth = 0;
 
-	for (t = bro(arg); go && (t != nilexp); t = bro(t)) {
+	for (t = bro(arg); go && (t != NULL); t = bro(t)) {
 		if (is_signed(sh(t))) {
 			low = no(t);
 		}
@@ -554,7 +554,7 @@ caser(exp arg, long already)
 			highest = high;
 		}
 		worth += (low == high ? 1 : 2);
-		if (bro(t) != nilexp) {
+		if (bro(t) != NULL) {
 			double nextlow;
 			if (is_signed(sh(bro(t)))) {
 				nextlow = no(bro(t));
@@ -579,7 +579,7 @@ caser(exp arg, long already)
 		exp new = copyexp(arg);
 		exp old_bro = bro(split_at);
 		bro(new) = old_bro;
-		bro(split_at) = nilexp;
+		bro(split_at) = NULL;
 		setlast(split_at);
 		/* Code the first half */
 		a = caser(arg, already);
@@ -601,7 +601,7 @@ caser(exp arg, long already)
 			jtab[i] = rlab;
 		}
 
-		for (t = bro(arg); t != nilexp; t = bro(t)) {
+		for (t = bro(arg); t != NULL; t = bro(t)) {
 			if (is_signed(sh(t))) {
 				low = no(t);
 			} else {
@@ -674,7 +674,7 @@ caser(exp arg, long already)
 	}
 
 	/* A series of jumps/comparisons */
-	for (t = bro(arg); t != nilexp; t = bro(t)) {
+	for (t = bro(arg); t != NULL; t = bro(t)) {
 		if (is_signed(sh(t))) {
 			low = no(t);
 		} else {
@@ -796,7 +796,7 @@ coder(where dest, ash stack, exp e)
 {
 	bool sw;
 
-	if (e == nilexp) {
+	if (e == NULL) {
 		error(ERROR_SERIOUS, "Internal coding error");
 		return;
 	}
@@ -816,8 +816,8 @@ coder(where dest, ash stack, exp e)
 
 		/* Check up on uses */
 		exp x = pt(e);
-		used_once = (x == nilexp || pt(x) == nilexp);
-		used_twice = (used_once || pt(pt(x)) == nilexp);
+		used_once = (x == NULL || pt(x) == NULL);
+		used_twice = (used_once || pt(pt(x)) == NULL);
 
 		/* Allocate space for definition */
 		if (ismarked(e) && isparam(e) &&  no(e) > 2) {
@@ -949,7 +949,7 @@ coder(where dest, ash stack, exp e)
 
 		/* If first is just a jump to alt, just encode alt */
 		if (name(first) == goto_tag && pt(first) == alt &&
-		    son(first) != nilexp && name(sh(son(first))) == tophd) {
+		    son(first) != NULL && name(sh(son(first))) == tophd) {
 			coder(dest, stack, bro(son(alt)));
 			return;
 		}
@@ -1089,8 +1089,8 @@ coder(where dest, ash stack, exp e)
 	}
 	case goto_lv_tag: {
 		exp dest_exp = son(e); /* destination label */
-		exp cont_exp = getexp(sh(dest_exp), nilexp, 1, dest_exp,
-				      nilexp, 0, 0, cont_tag);
+		exp cont_exp = getexp(sh(dest_exp), NULL, 1, dest_exp,
+				      NULL, 0, 0, cont_tag);
 		where wh;
 		mach_op *op;
 		wh = zw(cont_exp);
@@ -1327,7 +1327,7 @@ coder(where dest, ash stack, exp e)
 		long crt, off;
 		exp v = son(e);
 
-		if (v == nilexp) {
+		if (v == NULL) {
 			return;
 		}
 		if (name(dest.wh_exp) == val_tag) {
@@ -1444,7 +1444,7 @@ coder(where dest, ash stack, exp e)
 
 		/* Find the procedure and the arguments */
 		exp proc = son(e);
-		exp arg = (last(proc)? nilexp : bro(proc));
+		exp arg = (last(proc)? NULL : bro(proc));
 
 
 #if 0
@@ -1464,9 +1464,9 @@ coder(where dest, ash stack, exp e)
 		make_comment("Call Normal Proc");
 		/* See if we can push all the arguments */
 		st = 0;
-		if (arg != nilexp) {
+		if (arg != NULL) {
 			t = arg;
-			while (t != nilexp) {
+			while (t != NULL) {
 				ast a;
 				if (cpd_param(sh(t))) {
 					use_push = 0;
@@ -1481,7 +1481,7 @@ coder(where dest, ash stack, exp e)
 				a = add_shape_to_stack(st, sh(t));
 				st = a.astash;
 
-				t = (last(t) ? nilexp : bro(t));
+				t = (last(t) ? NULL : bro(t));
 			}
 		}
 		longs = st;
@@ -1508,7 +1508,7 @@ coder(where dest, ash stack, exp e)
 				stack_dec -= comp_room;
 			}
 			/* Push the arguments */
-			if (arg != nilexp) {
+			if (arg != NULL) {
 				code_pars(zw(e), stack, arg);
 			}
 		} else {
@@ -1523,7 +1523,7 @@ coder(where dest, ash stack, exp e)
 			/* Encode the arguments onto the stack */
 			st = 0;
 			t = arg;
-			while (t != nilexp) {
+			while (t != NULL) {
 				ast a;
 				where stp;
 				long adj = 0;
@@ -1538,7 +1538,7 @@ coder(where dest, ash stack, exp e)
 				coder(stp, stack, t);
 				a = add_shape_to_stack(st, sh(t));
 				st = a.astash;
-				t = (last(t)? nilexp : bro(t));
+				t = (last(t)? NULL : bro(t));
 			}
 			apply_tag_flag--;
 		}
@@ -1892,7 +1892,7 @@ coder(where dest, ash stack, exp e)
 		while (!last(t)) {
 			t = bro(t);
 		}
-		bro(t) = nilexp;
+		bro(t) = NULL;
 
 		d1 = sim_exp(sh(arg1), D1);
 		w1 = zw(d1);

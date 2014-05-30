@@ -45,7 +45,7 @@ apply_only(exp e)
 	exp t = pt(e);
 	int ao = 1;
 	exp f;
-	while (ao && t != nilexp) {
+	while (ao && t != NULL) {
 #ifdef NEWDIAGS
 		if (isdiaginfo(t)) {
 			t = pt(t);
@@ -98,7 +98,7 @@ normalised_inlining(void)
     exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
 
     def = son(crt_exp);
-    if (def != nilexp && !isvar(crt_exp) && name(def) == proc_tag &&
+    if (def != NULL && !isvar(crt_exp) && name(def) == proc_tag &&
         !isrecursive(def) && apply_only(crt_exp) && !proc_has_setjmp(def) &&
         !proc_uses_crt_env(def) && !proc_has_alloca(def) && !proc_has_lv(def)) {
       proc_count++;
@@ -139,7 +139,7 @@ normalised_inlining(void)
     exp crt_exp = my_def->dec_u.dec_val.dec_exp;
 
     def = son(crt_exp);
-    if (def != nilexp && !isvar(crt_exp) && name(def) == proc_tag &&
+    if (def != NULL && !isvar(crt_exp) && name(def) == proc_tag &&
         !isrecursive(def) && apply_only(crt_exp) && !proc_has_setjmp(def) &&
         !proc_uses_crt_env(def) && !proc_has_alloca(def) && !proc_has_lv(def)) {
       to_dec[i] = my_def;
@@ -155,12 +155,12 @@ normalised_inlining(void)
   for (i = 0; i < proc_count; i++) {
     exp crt_exp = to_dec[i]->dec_u.dec_val.dec_exp;
 
-    if (no(crt_exp) == 0 || son(crt_exp) == nilexp) {
+    if (no(crt_exp) == 0 || son(crt_exp) == NULL) {
       consider[i] = 0;
     } else {
       exp t = pt(crt_exp);
 
-      while (t != nilexp) {
+      while (t != NULL) {
 	exp k = t;
 #ifdef NEWDIAGS
 	if (isdiaginfo(t)) {
@@ -168,11 +168,11 @@ normalised_inlining(void)
 	  continue;
 	}
 #endif
-	while (k != nilexp && name(k) != hold_tag && name(k) != 102 &&
+	while (k != NULL && name(k) != hold_tag && name(k) != 102 &&
 	       name(k) != proc_tag && name(k) != general_proc_tag) {
 	  k = bro(k);
 	}
-	if (k != nilexp && name(k) == proc_tag) {
+	if (k != NULL && name(k) == proc_tag) {
 	  int up = brog(bro(k))->dec_u.dec_val.index;
 	  if (up >=0 && up< proc_count) {
 	  	uses[proc_count *up + i] = 1;
@@ -254,7 +254,7 @@ normalised_inlining(void)
         this_changed = 0;
 	t = pt(crt_exp);
 	crt_uses = no(crt_exp);
-        while (t != nilexp) {
+        while (t != NULL) {
       	  exp nextt = pt(t);
 	  exp dad;
 #ifdef NEWDIAGS
@@ -268,7 +268,7 @@ normalised_inlining(void)
 	    inline_exp(dad);
 
 	    k = t;
-	    while (k != nilexp && name(k) != hold_tag && name(k) != proc_tag) {
+	    while (k != NULL && name(k) != hold_tag && name(k) != proc_tag) {
 	      k = bro(k);
 	    }
 	    if (print_inlines) {
@@ -291,7 +291,7 @@ normalised_inlining(void)
 	      no_inlined++;
 
 	      k = t;
-	      while (k != nilexp && name(k) != hold_tag &&
+	      while (k != NULL && name(k) != hold_tag &&
 		     name(k) != proc_tag) {
 	        k = bro(k);
 	      }

@@ -1450,7 +1450,7 @@ static void stab_local
 	exp sn = son(id);
 	long d = disp;
 
-	while (sn != nilexp) {
+	while (sn != NULL) {
 	  switch (name(sn)) {
 	    case name_tag: {
 	      disp = d + no(sn);
@@ -1510,7 +1510,7 @@ void stab_local
 	exp sn = son(id);
 	long d = disp;
 
-	while (sn != nilexp) {
+	while (sn != NULL) {
 	  switch (name(sn)) {
 	    case name_tag: {
 	      disp = d + no(sn);

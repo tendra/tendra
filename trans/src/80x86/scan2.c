@@ -59,9 +59,9 @@ static void cca
     return;
   }
   ato = contexp(sto, to);
-  id = getexp(sh(ato), bro(ato), (int)(last(ato)), def, nilexp,
+  id = getexp(sh(ato), bro(ato), (int)(last(ato)), def, NULL,
       0, 1, ident_tag);
-  tg = getexp(sh(def), bro(def), (int)(last(def)), id, nilexp,
+  tg = getexp(sh(def), bro(def), (int)(last(def)), id, NULL,
       0, 0, name_tag);
   pt(id) = tg;
   clearlast(def);
@@ -219,7 +219,7 @@ static int is_opnd
   if (n == name_tag) {
     if (isvar(son(e)))
 	return isglob(son(e)) && !PIC_code;
-    return son(son(e))!= nilexp &&
+    return son(son(e))!= NULL &&
 	(!isglob(son(e)) || !PIC_code || name(sh(son(e)))!= prokhd ||
 				(brog(son(e)) -> dec_u.dec_val.extnamed)) &&
 	(name(son(son(e)))!= ident_tag || !isparam(son(son(e))));
@@ -258,8 +258,8 @@ static void ap_argsc
 	(frame_al1_of_offset(sh(bro(son(q)))) & al_includes_caller_args)) {
 				/* env_offset to arg requires indirection from frame pointer */
     shape pc_sh = f_pointer(f_callers_alignment(0));
-    exp c = getexp(pc_sh, bro(son(q)), 0, nilexp, nilexp, 0, 0, cont_tag);
-    exp r = getexp(pc_sh, c, 1, son(q), nilexp, 0, 64, reff_tag);
+    exp c = getexp(pc_sh, bro(son(q)), 0, NULL, NULL, 0, 0, cont_tag);
+    exp r = getexp(pc_sh, c, 1, son(q), NULL, 0, 64, reff_tag);
     setfather(r, son(q));
     son(c) = r;
     son(q) = c;
@@ -410,7 +410,7 @@ static int scan_for_alloca
 	return 1;
       return scan_alloc_args(son(t));
     default:
-      if (son(t) == nilexp)
+      if (son(t) == NULL)
         return 0;
       return scan_alloc_args(son(t));
   };
@@ -551,8 +551,8 @@ static void make_bitfield_offset
   exp val8;
   if (name(e) == val_tag)
     return;
-  omul = getexp(sha, bro(e), (int)(last(e)), e, nilexp, 0, 0, offset_mult_tag);
-  val8 = getexp(slongsh, omul, 1, nilexp, nilexp, 0, 8, val_tag);
+  omul = getexp(sha, bro(e), (int)(last(e)), e, NULL, 0, 0, offset_mult_tag);
+  val8 = getexp(slongsh, omul, 1, NULL, NULL, 0, 8, val_tag);
   clearlast(e);
   setbro(e, val8);
   assexp(spe, pe, omul);
@@ -656,7 +656,7 @@ int scan2
 #endif
     case caller_tag:
       {
-	if (son(e) == nilexp) /* empty make_nof */
+	if (son(e) == NULL) /* empty make_nof */
 	  return 0;
 	scanargs(1, e, 1);
 	return 0;
@@ -792,7 +792,7 @@ int scan2
       {
 	if (name(sh(bro(son(e))))!= slonghd &&  name(sh(bro(son(e))))!= ulonghd) {
 	  exp ch = getexp((name(sh(bro(son(e)))) &1 ? slongsh : ulongsh),
-		e, 1, bro(son(e)), nilexp, 0, 0, chvar_tag);
+		e, 1, bro(son(e)), NULL, 0, 0, chvar_tag);
 	  setbro(bro(son(e)), ch);
 	  setbro(son(e), ch);
 	};
@@ -852,7 +852,7 @@ int scan2
 	while (name(bro(p_post)) == ident_tag && name(son(bro(p_post))) == caller_name_tag)
 	  p_post = son(bro(p_post));
 	scan2(0, p_post, bro(p_post), 1);
-	if (son(cees)!= nilexp)
+	if (son(cees)!= NULL)
 	  scan_apply_args(sto, to, 1, cees);
 	if (no(bro(son(e)))!= 0)
 	  scan_apply_args(sto, to, 1, bro(son(e)));
@@ -870,7 +870,7 @@ int scan2
       {
 	exp cees = bro(son(e));
 	has_tail_call = 1;
-	if (son(cees)!= nilexp)
+	if (son(cees)!= NULL)
 	  IGNORE cc(sto, to, 1, cees, no_alloca, 1, 0);
 	indable_son(sto, to, e);
 	if (name(cees) == make_dynamic_callee_tag && name(bro(son(cees)))!= val_tag)
@@ -927,7 +927,7 @@ int scan2
       {
 	exp f = father(e);
 	exp new_r = getexp(sh(e), bro(e), (int)(last(e)),
-                             e, nilexp, 0,
+                             e, NULL, 0,
 	    0, reff_tag);
 	exp * ref = refto(f, e);
 	setlast(e);

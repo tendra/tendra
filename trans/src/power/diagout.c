@@ -1775,7 +1775,7 @@ again:
       exp sn = son(id);
       int d = disp;
 
-      while (sn != nilexp)
+      while (sn != NULL)
       {
 	switch (name(sn))
 	{

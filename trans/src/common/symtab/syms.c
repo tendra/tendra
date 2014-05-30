@@ -66,9 +66,9 @@ symnoforext(dec * ex, int filen)
 	if (ex->dec_u.dec_val.extnamed) {
 		/* it is global */
 		if (name(s) == prokhd && !isvar(tg)
-			&& (son(tg) == nilexp || name(son(tg)) == proc_tag || name(son(tg)) == general_proc_tag)) {
+			&& (son(tg) == NULL || name(son(tg)) == proc_tag || name(son(tg)) == general_proc_tag)) {
 			/* a declared procedure */
-			if (son(tg) != nilexp) {
+			if (son(tg) != NULL) {
 				/* a defined procedure will be output later with this symbolno */
 				return add_dense_no(0, 0);
 			} else {
@@ -79,7 +79,7 @@ symnoforext(dec * ex, int filen)
 			/* some other global */
 			ash a;
 			symtype  = stGlobal;
-			symclass = (son(tg) != nilexp)
+			symclass = (son(tg) != NULL)
 				? ((name(son(tg))) != clear_tag ? scData : scCommon)
 				: scNil;
 			a = ashof(s);
@@ -90,11 +90,11 @@ symnoforext(dec * ex, int filen)
 	} else {
 		/* statics */
 		if (name(s) == prokhd && !isvar(tg)
-			&& (son(tg) == nilexp || name(son(tg)) == proc_tag || name(son(tg)) == general_proc_tag)) {
+			&& (son(tg) == NULL || name(son(tg)) == proc_tag || name(son(tg)) == general_proc_tag)) {
 			/* a procedure */
 			symtype = stStaticProc;
 
-			if (son(tg) != nilexp) {
+			if (son(tg) != NULL) {
 				return add_dense_no(0, 0);
 			}
 
@@ -104,7 +104,7 @@ symnoforext(dec * ex, int filen)
 		} else {
 			/* other statics */
 			symtype  = stStatic;
-			symclass = (son(tg) == nilexp || name(son(tg)) != clear_tag)
+			symclass = (son(tg) == NULL || name(son(tg)) != clear_tag)
 				? scData : scCommon;
 		}
 

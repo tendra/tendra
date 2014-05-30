@@ -90,7 +90,7 @@ incr_var(exp e)
 }
 
 
-exp alteredset = nilexp;
+exp alteredset = NULL;
 
 void
 isaltered(exp ld, int always)
@@ -98,17 +98,17 @@ isaltered(exp ld, int always)
 	/* make copy of name!! - can be killed later */
 	exp z;
 	exp nld;
-	for (z = alteredset; z != nilexp; z=bro(z)) {
+	for (z = alteredset; z != NULL; z=bro(z)) {
 	     if (son(ld) == son(son(z)) &&
 		 (name(son(ld)) != proc_tag || no(ld) == no(son(z)))) {
 		props(z) &= (prop)always;
 		return;
 	     }
 	}
-	nld = getexp(sh(ld), alteredset, 1, son(ld), nilexp, props(ld), no(ld),
+	nld = getexp(sh(ld), alteredset, 1, son(ld), NULL, props(ld), no(ld),
 		     name(ld));
-	alteredset = getexp(nilexp, alteredset, alteredset == nilexp, nld,
-			    nilexp, (prop)always, 0, 0);
+	alteredset = getexp(NULL, alteredset, alteredset == NULL, nld,
+			    NULL, (prop)always, 0, 0);
 }
 
 
@@ -141,7 +141,7 @@ scan_for_incr(exp e, exp piece, void(*f)(exp, int))
 	            name(son(la)) == name_tag && son(son(la)) == son(dest) &&
 	            no(dest) == no(son(la)) && !intnl_to(piece, son(dest))) {
 		     exp p = pt(son(dest)); /*uses of var */
-		     for (; p != nilexp; p = pt(p)) {
+		     for (; p != NULL; p = pt(p)) {
 #ifdef NEWDIAGS
 			if (isdiaginfo(p) || p == dest || p == son(la) ||
 #else
@@ -198,7 +198,7 @@ tryalias:
 		if (!x) {
 			jump_out = true;
 		}
-		if (son(e) != nilexp) {
+		if (son(e) != NULL) {
 			scan_for_incr(son(e), piece, f);
 		}
 		everytime = (everytime && !x);
@@ -227,7 +227,7 @@ tryalias:
 	case apply_tag: assign_alias = true; /* and do default */
 	default: {
 	    exp z = son(e);
-	    if (z == nilexp) {
+	    if (z == NULL) {
 		    return;
 	    }
 	    for (;;) {
@@ -254,7 +254,7 @@ good_val(exp a, exp piece)
 		!intnl_to(piece, son(son(a))) && !isvis(son(son(a)))) {
 	exp lda = son(a);
 	exp pa = pt(son(lda));
-	for (; pa != nilexp; pa = pt(pa)) {
+	for (; pa != NULL; pa = pt(pa)) {
 #ifdef NEWDIAGS
 	     if (isdiaginfo(pa) || pa == lda || no(pa) != no(lda) ||
 #else
@@ -264,7 +264,7 @@ good_val(exp a, exp piece)
 		 !intnl_to(piece, pa))continue;
 	     break;
 	}
-	return pa == nilexp;
+	return pa == NULL;
      }
      return false;
 }
@@ -276,7 +276,7 @@ usage_in(exp whole, exp part)
   exp q = part;
   int res = 1;
   int n = (int)name(q);
-  while (q != whole && q != nilexp &&
+  while (q != whole && q != NULL &&
 	 (n != ident_tag || (props(q) & 0x40) == 0)) {
     q = father(q);
     n = (int)name(q);
@@ -310,7 +310,7 @@ find_common_index(exp ldname, exp piece, void(*f)(exp, int))
      exp p = pt(son(ldname));
      int otheruses = 0;
      /* examine each use of loop variable */
-     for(; p != nilexp; p = pt(p)) {
+     for(; p != NULL; p = pt(p)) {
 	int usagex;
 #ifdef NEWDIAGS
 	if (isdiaginfo(p)) {
@@ -392,7 +392,7 @@ find_pointer_opt(exp ldname, exp piece, void(*f)(exp, int))
 	 * is no of other uses of varid in piece */
      exp p = pt(son(ldname));
      int otheruses = 0;
-     for(; p != nilexp; p = pt(p)) {
+     for(; p != NULL; p = pt(p)) {
 	/* examine each use of loop variable */
 	int usagex;
 #ifdef NEWDIAGS
@@ -460,7 +460,7 @@ find_pointer_opt(exp ldname, exp piece, void(*f)(exp, int))
 
 
 exp addptrs;
-/* nilexp  initially */
+/* NULL  initially */
 /* son = addptr exp;
    pt = [holder with son = different occurence of addptr exp]**(no-1)
 		chained through ptr
@@ -469,7 +469,7 @@ exp addptrs;
 */
 
 exp tests;
-/* nilexp initially */
+/* NULL initially */
 /* son = test
    pt = [holder with son = different occurence of test]**(no-1)
    props = 1 if done exactly once
@@ -482,22 +482,22 @@ collect_loopthings(exp ind, int everytime)
 	/* builds addptrs and tests*/
 	exp z;
 	exp *loopthing = (name(ind) == test_tag) ? &tests : &addptrs;
-	for (z = *loopthing; z != nilexp; z = bro(z)) {
+	for (z = *loopthing; z != NULL; z = bro(z)) {
 		if (eq_exp(son(z), ind)) {
-			exp n = getexp(topsh, nilexp, 0, ind, pt(z), 0, 0, 0);
+			exp n = getexp(topsh, NULL, 0, ind, pt(z), 0, 0, 0);
 			pt(z) =n;
 			no(z) ++;
 			props(z) &= (prop)everytime;
 		   	return;
 		}
 	}
-	*loopthing = getexp(topsh, *loopthing, *loopthing == nilexp, ind,
-			    nilexp, (prop)everytime, 1, 0);
+	*loopthing = getexp(topsh, *loopthing, *loopthing == NULL, ind,
+			    NULL, (prop)everytime, 1, 0);
 }
 
 
 exp incrs;
-/* nilexp initially */
+/* NULL initially */
 /* son = (v=v+val) exp;
    pt = [holder with son = different occurence with same v]**(no-1)
 		chained through pt
@@ -515,7 +515,7 @@ maybe_incr(exp e)
 	if (name(e) != name_tag) {
 		return 1;
 	}
-	while (incs != nilexp) {
+	while (incs != NULL) {
 		exp dest = son(son(incs));
 		Assert(name(dest) == name_tag);
 		if (son(dest) == son(e)) {
@@ -532,10 +532,10 @@ collect_incrs(exp incr, int everytime)
 {
 	/* builds incrs */
 	exp z;
-	for (z = incrs; z != nilexp; z = bro(z)) {
+	for (z = incrs; z != NULL; z = bro(z)) {
 		if (son(son(son(z))) == son(son(incr))
 			&& no(son(son(z))) == no(son(incr))) {
-			exp n = getexp(topsh, nilexp, 0, incr, pt(z), 0, 0, 0);
+			exp n = getexp(topsh, NULL, 0, incr, pt(z), 0, 0, 0);
 			pt(z) = n;
 			no(z) ++;
 			props(z) &= (prop)everytime;
@@ -543,7 +543,7 @@ collect_incrs(exp incr, int everytime)
 		}
 	}
 
-	incrs = getexp(topsh, incrs, incrs == nilexp, incr, nilexp,
+	incrs = getexp(topsh, incrs, incrs == NULL, incr, NULL,
 		       (prop)everytime, 1, 0);
 
 }
@@ -597,7 +597,7 @@ extract_addptrs(exp incr, exp addptrset, exp loop, exp inc, int inci, int cons)
 	*/
 	shape shvar = f_pointer(long_to_al(shape_align(sh(son(addptrset)))));
 	exp id = getexp(sh(loop), bro(loop), last(loop), son(addptrset),
-			   nilexp, 1 /*var*/, 0, ident_tag);
+			   NULL, 1 /*var*/, 0, ident_tag);
 			/* setsib(son(id), loop); setdad(loop, id) later */
 	int i;
 	exp z = addptrset;
@@ -608,7 +608,7 @@ extract_addptrs(exp incr, exp addptrset, exp loop, exp inc, int inci, int cons)
 	for (i = 0; i < no(addptrset); i++) {
 		/* replace addptrs by cont(ld(id)) */
 	     exp sz = son(z) /*the addptr */;
-	     cont = getexp(sh(son(id)), bro(sz), last(sz), nilexp, nilexp, 0,
+	     cont = getexp(sh(son(id)), bro(sz), last(sz), NULL, NULL, 0,
 			   0, cont_tag);
              ld = getexp(shvar, cont, 1, id, pt(id), 0, 0, name_tag);
 	     pos = position(sz);
@@ -618,7 +618,7 @@ extract_addptrs(exp incr, exp addptrset, exp loop, exp inc, int inci, int cons)
 	     *pos = cont;
              son(z) = cont;
 	     if (i != 0) {
-		     kill_exp(sz, nilexp);
+		     kill_exp(sz, NULL);
 	     }
 	     z = pt(z);
 	}
@@ -634,23 +634,23 @@ extract_addptrs(exp incr, exp addptrset, exp loop, exp inc, int inci, int cons)
 		if (cons) {
 			mult = inci * 8;
 		}
-		ld = getexp(shvar, nilexp, 1, id, pt(id), 0, 0, name_tag);
+		ld = getexp(shvar, NULL, 1, id, pt(id), 0, 0, name_tag);
 		pt(id) = ld;
 		no(id) ++;
-		cont = getexp(sh(son(id)), nilexp, 1, ld, nilexp, 0, 0,
+		cont = getexp(sh(son(id)), NULL, 1, ld, NULL, 0, 0,
 			      cont_tag);
 		bro(ld) = cont;
-		reff = getexp(sh(cont), nilexp, 1, cont, nilexp, 0, mult,
+		reff = getexp(sh(cont), NULL, 1, cont, NULL, 0, mult,
 			      reff_tag);
 		bro(cont) = reff;
 		dest = getexp(shvar, reff, 0, id, pt(id), 0, 0, name_tag);
 		pt(id) = dest;
 		no(id) ++;
-		ass = getexp(topsh, nilexp, 1, dest, nilexp, 0, 0, ass_tag);
+		ass = getexp(topsh, NULL, 1, dest, NULL, 0, 0, ass_tag);
 		bro(reff) = ass;
-		z = getexp(topsh, incr, 0, ass, nilexp, 0, 0, 0);
+		z = getexp(topsh, incr, 0, ass, NULL, 0, 0, 0);
 		bro(ass) = z;
-		seq = getexp(topsh, bro(incr), last(incr), z, nilexp, 0, 0,
+		seq = getexp(topsh, bro(incr), last(incr), z, NULL, 0, 0,
 			     seq_tag);
 		pos = position(incr);
 		bro(incr) = seq;
@@ -659,43 +659,43 @@ extract_addptrs(exp incr, exp addptrset, exp loop, exp inc, int inci, int cons)
 	} else{
 		mult_2 = copy(inc);
 		if (inci < 0) {
-			incr_2 = getexp(sh(inc), nilexp, 1, nilexp, nilexp, 0,
+			incr_2 = getexp(sh(inc), NULL, 1, NULL, NULL, 0,
 					-inci, val_tag);
 			bro(incr_2) = mult_2;
 			clearlast(incr_2);
-			neg_prod_2 = getexp(sh(inc), nilexp, 1, incr_2, nilexp,
+			neg_prod_2 = getexp(sh(inc), NULL, 1, incr_2, NULL,
 					    0, 0, offset_mult_tag);
 			neg_prod_2 = hc(neg_prod_2, mult_2);
-			prod_2 = getexp(sh(inc), nilexp, 1, neg_prod_2, nilexp,
+			prod_2 = getexp(sh(inc), NULL, 1, neg_prod_2, NULL,
 					0, 0, neg_tag);
 			bro(neg_prod_2) = prod_2;
 		} else {
-			incr_2 = getexp(sh(inc), nilexp, 1, nilexp, nilexp, 0,
+			incr_2 = getexp(sh(inc), NULL, 1, NULL, NULL, 0,
 					inci, val_tag);
 			bro(incr_2) = mult_2;
 			clearlast(incr_2);
-			prod_2 = getexp(sh(inc), nilexp, 0, incr_2, nilexp, 0,
+			prod_2 = getexp(sh(inc), NULL, 0, incr_2, NULL, 0,
 					0, offset_mult_tag);
 			prod_2 = hc(prod_2, mult_2);
 		}
-		ld = getexp(shvar, nilexp, 1, id, pt(id), 0, 0, name_tag);
+		ld = getexp(shvar, NULL, 1, id, pt(id), 0, 0, name_tag);
 		pt(id) = ld;
 		no(id)++;
-		cont = getexp(sh(son(id)), nilexp, 0, ld, nilexp, 0, 0,
+		cont = getexp(sh(son(id)), NULL, 0, ld, NULL, 0, 0,
 			      cont_tag);
 		bro(ld) = cont;
-		reff = getexp(sh(son(id)), nilexp, 1, cont, nilexp, 0, 0,
+		reff = getexp(sh(son(id)), NULL, 1, cont, NULL, 0, 0,
 			      addptr_tag);
 		bro(cont) = prod_2;
 		reff = hc(reff, prod_2);
 		dest = getexp(shvar, reff, 0, id, pt(id), 0, 0, name_tag);
 		pt(id) = dest;
 		no(id)++;
-		ass = getexp(topsh, nilexp, 1, dest, nilexp, 0, 0, ass_tag);
+		ass = getexp(topsh, NULL, 1, dest, NULL, 0, 0, ass_tag);
 		bro(reff) = ass;
-		z = getexp(topsh, incr, 0, ass, nilexp, 0, 0, 0);
+		z = getexp(topsh, incr, 0, ass, NULL, 0, 0, 0);
 		bro(ass) = z;
-		seq = getexp(topsh, bro(incr), last(incr), z, nilexp, 0, 0,
+		seq = getexp(topsh, bro(incr), last(incr), z, NULL, 0, 0,
 			     seq_tag);
 		pos = position(incr);
 		bro(incr) = seq;
@@ -717,7 +717,7 @@ scale_loopid(exp loop, exp addptrset, exp incrset)
 
 	*/
 	exp id = getexp(sh(loop), bro(loop), last(loop),
-			bro(son(son(addptrset))), nilexp, 1 /*var*/, 0,
+			bro(son(son(addptrset))), NULL, 1 /*var*/, 0,
 			ident_tag);
 			/* setsib(son(id), loop); setdad(loop, id) later */
 
@@ -725,7 +725,7 @@ scale_loopid(exp loop, exp addptrset, exp incrset)
         exp incr = son(incrset);
         shape shvar = sh(son(bro(son(incr))));
 	exp ld, ass, plus, cont, seq, dest, inc, z, next;
-	while (addptrset != nilexp) {
+	while (addptrset != NULL) {
 		int i;
 		z = addptrset;
 		next = bro(addptrset);
@@ -733,8 +733,8 @@ scale_loopid(exp loop, exp addptrset, exp incrset)
 		for (i = 0; i < no(addptrset); i++) {
 			/* replace addptrs by cont(ld(id)) */
 			exp sz = bro(son(son(z))) /* the offset_mult */;
-			cont = getexp(sh(son(id)), bro(sz), last(sz), nilexp,
-				      nilexp, 0, 0, cont_tag);
+			cont = getexp(sh(son(id)), bro(sz), last(sz), NULL,
+				      NULL, 0, 0, cont_tag);
 			ld = getexp(shvar, cont, 1, id, pt(id), 0, 0, name_tag);
 			pos = position(sz);
 			son(cont) = ld;
@@ -743,7 +743,7 @@ scale_loopid(exp loop, exp addptrset, exp incrset)
 			*pos = cont;
 			bro(son(son(z))) = cont;
 			if (i != 0) {
-				kill_exp(sz, nilexp);
+				kill_exp(sz, NULL);
 			}
 			z = pt(z);
 
@@ -759,25 +759,25 @@ scale_loopid(exp loop, exp addptrset, exp incrset)
 	setlast(loop);
 	*pos = id;
 
-        inc = getexp(sh(son(id)), nilexp, 1, nilexp, nilexp, 0,
+        inc = getexp(sh(son(id)), NULL, 1, NULL, NULL, 0,
 		     stride * 8 * no(bro(son(bro(son(son(incrset)))))),
 		     val_tag);
-        ld = getexp(shvar, nilexp, 1, id, pt(id), 0, 0, name_tag);
+        ld = getexp(shvar, NULL, 1, id, pt(id), 0, 0, name_tag);
 	pt(id) = ld;
 	no(id) ++;
-	cont = getexp(sh(son(id)), nilexp, 0, ld, nilexp, 0, 0, cont_tag);
+	cont = getexp(sh(son(id)), NULL, 0, ld, NULL, 0, 0, cont_tag);
 	bro(ld) = cont;
-	plus = getexp(sh(cont), nilexp, 1, cont, nilexp, 0, 0, plus_tag);
+	plus = getexp(sh(cont), NULL, 1, cont, NULL, 0, 0, plus_tag);
 	bro(cont) = inc;
         bro(inc) = plus;
 	dest = getexp(shvar, plus, 0, id, pt(id), 0, 0, name_tag);
 	pt(id) = dest;
 	no(id) ++;
-	ass = getexp(topsh, nilexp, 1, dest, nilexp, 0, 0, ass_tag);
+	ass = getexp(topsh, NULL, 1, dest, NULL, 0, 0, ass_tag);
 	bro(plus) = ass;
-	z = getexp(topsh, incr, 0, ass, nilexp, 0, 0, 0);
+	z = getexp(topsh, incr, 0, ass, NULL, 0, 0, 0);
 	bro(ass) = z;
-	seq = getexp(topsh, bro(incr), last(incr), z, nilexp, 0, 0, seq_tag);
+	seq = getexp(topsh, bro(incr), last(incr), z, NULL, 0, 0, seq_tag);
 	pos = position(incr);
 	bro(incr) = seq;
 	setlast(incr);
@@ -800,21 +800,21 @@ inner_cont(exp loopbody, exp contset)
 	exp *pos;
 	int i;
 	exp id = getexp(sh(loopbody), bro(loopbody), last(loopbody),
-			son(contset), nilexp, 1/*var*/, 0, ident_tag);
+			son(contset), NULL, 1/*var*/, 0, ident_tag);
 	setcaonly(id);
 
-	for (i=0; z != nilexp; i++) {
-	    exp ld = getexp(sh(son(son(id))), nilexp, 1, id, pt(id), 0, 0,
+	for (i=0; z != NULL; i++) {
+	    exp ld = getexp(sh(son(son(id))), NULL, 1, id, pt(id), 0, 0,
 			    name_tag);
 	    exp cont = getexp(sh(son(id)), bro(son(z)), last(son(z)), ld,
-			      nilexp, 0, 0, cont_tag);
+			      NULL, 0, 0, cont_tag);
 	    bro(ld) = cont;
 	    pt(id) = ld;
 	    no(id) ++;
 	    pos = position(son(z));
 	    *pos = cont;
 	    if (i != 0) {
-		    kill_exp(son(z), nilexp);
+		    kill_exp(son(z), NULL);
 	    }
 	    son(z) = cont;
 	    z = pt(z);
@@ -847,12 +847,12 @@ outer_cont(exp loop, exp contset, exp lastid, exp incr)
 	exp *pos;
 	int i;
 	exp id = getexp(sh(loop), bro(loop), last(loop), son(contset),
-			nilexp, 1/*var*/, 0, ident_tag);
+			NULL, 1/*var*/, 0, ident_tag);
  	setcaonly(id);
-	for (i = 0; z != nilexp; i++) {
-	    ld = getexp(sh(son(son(id))), nilexp, 1, id, pt(id), 0, 0,
+	for (i = 0; z != NULL; i++) {
+	    ld = getexp(sh(son(son(id))), NULL, 1, id, pt(id), 0, 0,
 			name_tag);
-	    cont = getexp(sh(son(id)), bro(son(z)), last(son(z)), ld, nilexp,
+	    cont = getexp(sh(son(id)), bro(son(z)), last(son(z)), ld, NULL,
 			  0, 0, cont_tag);
 	    bro(ld) = cont;
 	    pt(id) = ld;
@@ -860,7 +860,7 @@ outer_cont(exp loop, exp contset, exp lastid, exp incr)
 	    pos = position(son(z));
 	    *pos = cont;
 	    if (i != 0) {
-		    kill_exp(son(z), nilexp);
+		    kill_exp(son(z), NULL);
 	    }
 	    son(z) = cont;
 	    z = pt(z);
@@ -874,20 +874,20 @@ outer_cont(exp loop, exp contset, exp lastid, exp incr)
 	*pos = id;
 
 
-	ld = getexp(sh(son(son(id))), nilexp, 1, lastid, pt(lastid), 0, 0,
+	ld = getexp(sh(son(son(id))), NULL, 1, lastid, pt(lastid), 0, 0,
 		    name_tag);
 	pt(lastid) = ld;
 	no(lastid)++;
-	cont = getexp(sh(son(id)), nilexp, 1, ld, nilexp, 0, 0, cont_tag);
+	cont = getexp(sh(son(id)), NULL, 1, ld, NULL, 0, 0, cont_tag);
 	bro(ld) = cont;
 	dest = getexp(sh(son(son(id))), cont, 0, id, pt(id), 0, 0, name_tag);
 	pt(id) = dest;
 	no(id)++;
-	ass = getexp(topsh, nilexp, 1, dest, nilexp, 0, 0, ass_tag);
+	ass = getexp(topsh, NULL, 1, dest, NULL, 0, 0, ass_tag);
 	bro(cont) = ass;
- 	z = getexp(sh(incr), incr, 0, ass, nilexp, 0, 0, 0);
+ 	z = getexp(sh(incr), incr, 0, ass, NULL, 0, 0, 0);
 	bro(ass) = z;
-	seq = getexp(sh(incr), bro(incr), last(incr), z, nilexp, 0, 0, seq_tag);
+	seq = getexp(sh(incr), bro(incr), last(incr), z, NULL, 0, 0, seq_tag);
 	pos = position(incr);
 	bro(incr) = seq;
 	setlast(incr);
@@ -902,7 +902,7 @@ unaltered(exp e, int assign_alias)
 {
 	exp z = alteredset;
 	if (name(e) == name_tag && isvar(son(e))) {
-	     for (; z != nilexp; z = bro(z)) {
+	     for (; z != NULL; z = bro(z)) {
 		exp dest = son(z);
 		Assert(name(dest) == name_tag);
 		if (!isvar(son(dest))) {
@@ -1024,7 +1024,7 @@ unwind(exp loop, exp contset, exp incr, int incval)
 			for (k = insts - 1; k >= j; k--) {
 				s[k + 1] = s[k];
 			}
-			s[j].e = nilexp;
+			s[j].e = NULL;
 			insts++;
 			break;
 		}
@@ -1032,7 +1032,7 @@ unwind(exp loop, exp contset, exp incr, int incval)
 	    if (j == insts) {
 		/* add another */
 		insts++;
-		s[j].e = nilexp;
+		s[j].e = NULL;
 	    };
 	    pt(z) = s[j].e;
 	    s[j].e = z;
@@ -1042,7 +1042,7 @@ unwind(exp loop, exp contset, exp incr, int incval)
 	if (insts == 0) {
 		return false;
 	}
-	z = nilexp;
+	z = NULL;
 
 	for (i = 0; i < insts; i++) {
 	      if (no(s[i].e) > 1) {
@@ -1050,12 +1050,12 @@ unwind(exp loop, exp contset, exp incr, int incval)
 	      }
 	      for (; i < insts-1 && s[i].disp - incval * 8 == s[i+1].disp;
 		   i++) {
-		if (z == nilexp) {
+		if (z == NULL) {
 			z = inner_cont(body, s[i].e);
 		}
 		z = outer_cont(loop, s[i + 1].e, z, son(incr));
 	      }
-	      z= nilexp;
+	      z= NULL;
 	}
 
 	return true;
@@ -1070,7 +1070,7 @@ all_before(exp addptrset, exp inc, exp body)
      	while (z != body) {
 	    exp b = bro(z);
 	    if (!last(z)) {
-		    for (w=addptrset; w != nilexp; w= pt(w)) {
+		    for (w=addptrset; w != NULL; w= pt(w)) {
 			    /* son(w) is internal to body - is it in bro(z) ?
 			     * ie after z*/
 			    exp s = son(w);
@@ -1097,17 +1097,17 @@ replace_var(exp ldcpy, exp loop, shape shcont)
 	*/
 	exp z;
 	exp *pos;
-	exp ld = getexp(sh(ldcpy), nilexp, 1, son(ldcpy), pt(son(ldcpy)),
+	exp ld = getexp(sh(ldcpy), NULL, 1, son(ldcpy), pt(son(ldcpy)),
 			props(ldcpy), no(ldcpy), name(ldcpy));
-	exp def = getexp(shcont, nilexp, 0, ld, nilexp, 0, 0, cont_tag);
-	exp varid = getexp(sh(loop), bro(loop), last(loop), def, nilexp,
+	exp def = getexp(shcont, NULL, 0, ld, NULL, 0, 0, cont_tag);
+	exp varid = getexp(sh(loop), bro(loop), last(loop), def, NULL,
 			   subvar | 1 /*var*/, 1, ident_tag);
-	exp ldvar = getexp(sh(ld), nilexp, 1, varid, nilexp, 0, 0, name_tag);
-	exp contvar = getexp(shcont, nilexp, 1, ldvar, nilexp, 0, 0, cont_tag);
+	exp ldvar = getexp(sh(ld), NULL, 1, varid, NULL, 0, 0, name_tag);
+	exp contvar = getexp(shcont, NULL, 1, ldvar, NULL, 0, 0, cont_tag);
 	exp nld = getexp(sh(ld), contvar, 0, son(ld), ld, 0, no(ld), name_tag);
-	exp ass = getexp(topsh, nilexp, 1, nld, nilexp, 0, 0, ass_tag);
-	exp seqh = getexp(topsh, ass, 0, loop, nilexp, 0, 0, 0);
-	exp seq = getexp(topsh, varid, 1, seqh, nilexp, 0, 0, seq_tag);
+	exp ass = getexp(topsh, NULL, 1, nld, NULL, 0, 0, ass_tag);
+	exp seqh = getexp(topsh, ass, 0, loop, NULL, 0, 0, 0);
+	exp seq = getexp(topsh, varid, 1, seqh, NULL, 0, 0, seq_tag);
 	bro(ass) = seq; /*father*/
 	bro(contvar) = ass;/*father*/
 	bro(ldvar) = contvar;/*father*/
@@ -1119,7 +1119,7 @@ replace_var(exp ldcpy, exp loop, shape shcont)
 	setcaonly(varid);
 
 	/* now relpace all old uses of ld in loop by varid */
-	for (z = pt(ld); z != nilexp; z = pt(z)) {
+	for (z = pt(ld); z != NULL; z = pt(z)) {
 	      if (no(z) == no(ld) && intnl_to(loop, z)) {
 /* ALTERATION #1 */
 		exp lu = getexp(sh(z), bro(z), last(z), varid, pt(varid), 0,
@@ -1127,7 +1127,7 @@ replace_var(exp ldcpy, exp loop, shape shcont)
 		pos = position(z);
 		pt(varid) = lu;
 		no(varid) ++;
-		kill_exp(z, nilexp); /* this should not kill the def of ld! */
+		kill_exp(z, NULL); /* this should not kill the def of ld! */
 		*pos = lu;
 	      }
 	}
@@ -1152,13 +1152,13 @@ limexp(exp test, exp ld)
 	    son(son(rh)) == son(ld) && no(son(rh)) == no(ld)) {
 		return lh;
 	}
-	return nilexp;
+	return NULL;
 }
 
 exp
 limaddptr(exp arr, exp val, int m)
 {
-	exp naddptr = getexp(sh(arr), nilexp, 0, copy(arr), nilexp, 0, 0,
+	exp naddptr = getexp(sh(arr), NULL, 0, copy(arr), NULL, 0, 0,
 			     addptr_tag);
 	exp z, v;
         shape s;
@@ -1168,8 +1168,8 @@ limaddptr(exp arr, exp val, int m)
 	    setlast(z);
 	} else {
             s = f_offset(al1_of(sh(naddptr)), al1_of(sh(naddptr)));
-	    z = getexp(s, naddptr, 1, copy(val), nilexp, 0, 0, offset_mult_tag);
-	    v = getexp(s, z, 1, nilexp, nilexp, 0, m*8, val_tag);
+	    z = getexp(s, naddptr, 1, copy(val), NULL, 0, 0, offset_mult_tag);
+	    v = getexp(s, z, 1, NULL, NULL, 0, m*8, val_tag);
 	    bro(son(z)) = v;
 	    clearlast(son(z));
 	}
@@ -1182,9 +1182,9 @@ limaddptr(exp arr, exp val, int m)
 exp
 limmult(exp arr, exp val, int m)
 {
-	exp naddptr = getexp(sh(son(arr)), nilexp, 0, copy(val), nilexp, 0, 0,
+	exp naddptr = getexp(sh(son(arr)), NULL, 0, copy(val), NULL, 0, 0,
 			     mult_tag);
-	exp v = getexp(sh(son(arr)), nilexp, 1, nilexp, nilexp, 0, m, val_tag);
+	exp v = getexp(sh(son(arr)), NULL, 1, NULL, NULL, 0, m, val_tag);
 	bro(v) = naddptr;
 	bro(son(naddptr)) = v;
 	clearlast(son(naddptr));
@@ -1197,7 +1197,7 @@ exp
 limreff(exp arr, int bytedisp)
 {
 	if (bytedisp != 0) {
-		exp nreff = getexp(sh(arr), nilexp, 0, copy(arr), nilexp, 0,
+		exp nreff = getexp(sh(arr), NULL, 0, copy(arr), NULL, 0,
 				   bytedisp * 8, reff_tag);
 		bro(son(nreff)) = nreff;
 		setlast(son(nreff));
@@ -1210,7 +1210,7 @@ limreff(exp arr, int bytedisp)
 exp
 limconst(exp arr, int bytedisp)
 {
-	exp nreff = getexp(/*sh(son(arr))*/slongsh, nilexp, 1, nilexp, nilexp,
+	exp nreff = getexp(/*sh(son(arr))*/slongsh, NULL, 1, NULL, NULL,
 			   0, bytedisp, val_tag);
 	UNUSED(arr);
 	bro(nreff) = nreff;
@@ -1225,7 +1225,7 @@ limdec(exp adec, exp val, int mult)
 	exp bdy = bro(init);
 	exp ninit = (name(val) != val_tag) ? limaddptr(son(init), val, mult) :
 		limreff(son(init), mult * no(val));
-	exp nb = getexp(sh(bdy), adec, 1, ninit, nilexp, 0, 0, ident_tag);
+	exp nb = getexp(sh(bdy), adec, 1, ninit, NULL, 0, 0, ident_tag);
 	bro(ninit) = bdy;
 	clearlast(ninit);
 	bro(bdy) = nb;
@@ -1242,7 +1242,7 @@ limdec2(exp adec, exp val, int mult)
 	exp bdy = bro(init);
 	exp ninit = (name(val) != val_tag) ? limmult(son(init), val, mult) :
 		limconst(son(init), mult * no(val));
-	exp nb = getexp(sh(bdy), adec, 1, ninit, nilexp, 0, 0, ident_tag);
+	exp nb = getexp(sh(bdy), adec, 1, ninit, NULL, 0, 0, ident_tag);
 	bro(ninit) = bdy;
 	clearlast(ninit);
 	bro(bdy) = nb;
@@ -1259,12 +1259,12 @@ remove_incr(exp adec, exp test, exp incr, int mult)
 	exp *pos;
 	exp ndec = limdec(adec, le, mult);
 	exp lda = getexp(f_pointer(long_to_al(shape_align(sh(son(adec))))),
-                                   nilexp, 1, adec, pt(adec), 0, 0, name_tag);
-	exp clda = getexp(sh(son(adec)), nilexp, 0, lda, nilexp, 0, 0,
+                                   NULL, 1, adec, pt(adec), 0, 0, name_tag);
+	exp clda = getexp(sh(son(adec)), NULL, 0, lda, NULL, 0, 0,
 			  cont_tag);
-	exp ldn = getexp(sh(son(ndec)), nilexp, 0, ndec, pt(ndec), 0, 0,
+	exp ldn = getexp(sh(son(ndec)), NULL, 0, ndec, pt(ndec), 0, 0,
 			 name_tag);
-	exp ntestx = getexp(sh(test), bro(test), last(test), nilexp, pt(test),
+	exp ntestx = getexp(sh(test), bro(test), last(test), NULL, pt(test),
 			    props(test), no(test), name(test));
 	bro(lda) = clda;
 	pt(adec) = lda;
@@ -1286,11 +1286,11 @@ remove_incr(exp adec, exp test, exp incr, int mult)
 	}
 	pos = position(test);
 	*pos = ntestx;
-	kill_exp(test, nilexp);
+	kill_exp(test, NULL);
 	setname(incr, top_tag);
-	kill_exp(bro(son(incr)), nilexp);
-	kill_exp(son(incr), nilexp);
-	son(incr) = nilexp;
+	kill_exp(bro(son(incr)), NULL);
+	kill_exp(son(incr), NULL);
+	son(incr) = NULL;
 }
 
 
@@ -1305,9 +1305,9 @@ remove_incr2(exp adec, exp test, exp incr, int mult)
         if (name(le) != val_tag && !remove_unused_index_counters) {
            return;
 	}
-	lda = getexp(f_pointer(long_to_al(shape_align(sh(son(adec))))), nilexp,
+	lda = getexp(f_pointer(long_to_al(shape_align(sh(son(adec))))), NULL,
 		     1, adec, pt(adec), 0, 0, name_tag);
-	clda = getexp(/*sh(son(adec))*/slongsh, nilexp, 0, lda, nilexp, 0, 0,
+	clda = getexp(/*sh(son(adec))*/slongsh, NULL, 0, lda, NULL, 0, 0,
 		      cont_tag);
         if (name(le) == val_tag) {
 		ninit = limconst(son(init), mult*no(le));
@@ -1315,19 +1315,19 @@ remove_incr2(exp adec, exp test, exp incr, int mult)
 	} else {
 		exp nb;
 		ninit =  limmult(son(init), le, mult);
-		nb = getexp(sh(bdy), adec, 1, ninit, nilexp, 0, 0, ident_tag);
+		nb = getexp(sh(bdy), adec, 1, ninit, NULL, 0, 0, ident_tag);
 		bro(ninit) = bdy;
 		clearlast(ninit);
 		bro(bdy) = nb;
 		setlast(bdy);
 		bro(init) = nb;
 		ninit = nb;
-		ldn = getexp(sh(son(ninit)), nilexp, 0, ninit, pt(ninit), 0, 0,
+		ldn = getexp(sh(son(ninit)), NULL, 0, ninit, pt(ninit), 0, 0,
 			     name_tag);
 		pt(ninit) = ldn;
 		no(ninit)++;
 	}
-	ntestx = getexp(sh(test), bro(test), last(test), nilexp, pt(test),
+	ntestx = getexp(sh(test), bro(test), last(test), NULL, pt(test),
 			props(test), no(test), name(test));
 	bro(lda) = clda;
 	pt(adec) = lda;
@@ -1347,11 +1347,11 @@ remove_incr2(exp adec, exp test, exp incr, int mult)
 	}
 	pos = position(test);
 	*pos = ntestx;
-	kill_exp(test, nilexp);
+	kill_exp(test, NULL);
 	setname(incr, top_tag);
-	kill_exp(bro(son(incr)), nilexp);
-	kill_exp(son(incr), nilexp);
-	son(incr) = nilexp;
+	kill_exp(bro(son(incr)), NULL);
+	kill_exp(son(incr), NULL);
+	son(incr) = NULL;
 }
 
 
@@ -1380,7 +1380,7 @@ use_in(exp w, exp ld)
 		return 1;
 	default: {
 		exp z = son(w);
-		if (z == nilexp) {
+		if (z == NULL) {
 			return 0;
 		}
 		for (;;) {
@@ -1402,7 +1402,7 @@ suitable_test(exp tests, exp incrld, exp loop)
 	exp t, p;
 	exp decx = son(incrld);
 	exp v;
-	if (tests == nilexp || no(tests) != 1 || bro(tests) != nilexp) {
+	if (tests == NULL || no(tests) != 1 || bro(tests) != NULL) {
 		return 0;
 	}
 	t = son(tests);
@@ -1420,7 +1420,7 @@ suitable_test(exp tests, exp incrld, exp loop)
 	while (name(t) != proc_tag && t != decx) {
 		exp b = bro(t);
 		if (!last(t)) {
-			for (p = pt(decx); p != nilexp; p = pt(p)) {
+			for (p = pt(decx); p != NULL; p = pt(p)) {
 				if (intnl_to(b, p) && use_in(b, incrld) == 1) {
 					return 0;
 				}
@@ -1440,13 +1440,13 @@ do_one_rep(exp loop)
 	int res =0;
 	exp xincrs;
 	Assert(name(loop) == rep_tag);
-	incrs = nilexp;
-	alteredset=nilexp;
+	incrs = NULL;
+	alteredset=NULL;
 	assign_alias = false;
 	jump_out = false;
 	scan_for_incr(body, loop, collect_incrs);
 	if (!jump_out && name(sh(loop)) == tophd) {
-		for (z = alteredset; z != nilexp; z = bro(z)) {
+		for (z = alteredset; z != NULL; z = bro(z)) {
 			/* look to see if var assigned to in loop can be
 			 * locally declared ie Rep f(z) => Var x := cont(z) in
 			 * Rep f(x); z = cont x ni; ? only worth while if z is
@@ -1470,7 +1470,7 @@ do_one_rep(exp loop)
 				     name(son(dc)) == real_tag ||
 				     (name(son(dc)) == name_tag &&
 				      !isvar(son(son(dc)))));
-				for (p = pt(son(a)); p != nilexp; p = pt(p)) {
+				for (p = pt(son(a)); p != NULL; p = pt(p)) {
 #ifdef NEWDIAGS
 					int inb;
 					if (isdiaginfo(p)) {
@@ -1499,7 +1499,7 @@ do_one_rep(exp loop)
 					}
 					break;
 				}
-				if (p != nilexp) {
+				if (p != NULL) {
 					continue;
 				}
 				/* only uses of this id is cont or assign in
@@ -1516,12 +1516,12 @@ do_one_rep(exp loop)
 					/* uses of underlying var */
 					w = pt(son(son(w)));
 
-					for (; w != nilexp; w= pt(w)) {
+					for (; w != NULL; w= pt(w)) {
 						if (intnl_to(body, w)) {
 							break;
 						}
 					}
-					if (w != nilexp) {
+					if (w != NULL) {
 						continue;
 					}
 				}
@@ -1577,26 +1577,26 @@ do_one_rep(exp loop)
 		}
 	}
 	xincrs = incrs;
-	while (xincrs != nilexp) {
+	while (xincrs != NULL) {
 		exp incrld = son(son(xincrs));
 		exp nincr = bro(xincrs);
 		int ou;
-		exp adec = nilexp;
+		exp adec = NULL;
 		int elsize;
 		exp incrdec = son(incrld);
-		tests = nilexp;
-		addptrs = nilexp;
+		tests = NULL;
+		addptrs = NULL;
 		stride = 0;
 		ou=find_common_index(incrld, body, collect_loopthings);
 		if (stride < 1) {
 			exp t;
 			int i;
 			int nap = 0;
-			tests=nilexp;
-			addptrs=nilexp;
+			tests=NULL;
+			addptrs=NULL;
 			stride = 0;
 			ou = find_pointer_opt(incrld, body, collect_loopthings);
-			for (i = 0, t = addptrs; t != nilexp; i++, t = bro(t)) {
+			for (i = 0, t = addptrs; t != NULL; i++, t = bro(t)) {
 				nap += no(t);
 			}
 			if (i >= 3 && i == nap) {
@@ -1618,9 +1618,9 @@ do_one_rep(exp loop)
 					}
 				}
 				ou += nap;
-				addptrs = nilexp;
+				addptrs = NULL;
 			}
-			while (addptrs != nilexp) {
+			while (addptrs != NULL) {
 				int rw = weaken(loop, addptrs, xincrs);
 				exp next = bro(addptrs);
 				if (rw != 0) {
@@ -1652,7 +1652,7 @@ do_one_rep(exp loop)
 
 			/* only other uses (besides addptr & test) of loop var
 			 * is in increment */
-			if (ou == 2 && adec != nilexp &&
+			if (ou == 2 && adec != NULL &&
 			    suitable_test(tests, incrld, loop) &&
 			    multiplier != 0 && remove_unused_counters) {
 				remove_incr(adec, son(tests), son(xincrs),
@@ -1676,12 +1676,12 @@ do_one_rep(exp loop)
 
 		xincrs=nincr;
 	}
-	while (incrs != nilexp) {
+	while (incrs != NULL) {
 		exp z = bro(incrs);
 		retcell(incrs);
 		incrs = z;
 	}
-	while (alteredset != nilexp) {
+	while (alteredset != NULL) {
 		exp z = bro(alteredset);
 		retcell(son(alteredset));
 		retcell(alteredset);
@@ -1696,10 +1696,10 @@ order_loops(exp reps)
 {
 	/* start at outer loop ?! */
 	if ((props(reps) & 0x80) == 0) {
-		if (bro(reps) != nilexp) {
+		if (bro(reps) != NULL) {
 			order_loops(bro(reps));
 		}
-		if (son(reps) != nilexp && name(son(reps)) == rep_tag &&
+		if (son(reps) != NULL && name(son(reps)) == rep_tag &&
 		    no(reps) < max_loop_depth) {
 			exp loop = son(reps);
 			/* ALTERATION #2 - does not effect C */
@@ -1710,12 +1710,12 @@ order_loops(exp reps)
 				exp st = son(loop);
 				exp b = bro(st);
 				exp * pos = ifc_ptr_position(loop);
-				exp mt = getexp(f_top, b, 0, nilexp, nilexp, 0,
+				exp mt = getexp(f_top, b, 0, NULL, NULL, 0,
 						0, top_tag);
-				exp sl = getexp(f_top, loop, 0 ,st, nilexp, 0,
+				exp sl = getexp(f_top, loop, 0 ,st, NULL, 0,
 						0, 0);
 				exp s = getexp(sh(loop), bro(loop), last(loop),
-					       sl, nilexp, 0, 0, seq_tag);
+					       sl, NULL, 0, 0, seq_tag);
 
 				bro(st) = sl;
 				setlast(st);
@@ -1735,7 +1735,7 @@ void
 forall_opt(void)
 {
 	exp reps = get_repeats();
-	while (reps != nilexp) {
+	while (reps != NULL) {
 		order_loops(reps);
 		reps = pt(reps);
 	}

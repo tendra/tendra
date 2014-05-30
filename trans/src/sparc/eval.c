@@ -503,7 +503,7 @@ evalconcbit ( exp e, int bitposn, bool ro ){
 
 bool 
 is_zero ( exp e ){
-  if ( e == nilexp ) return 1;
+  if ( e == NULL ) return 1;
   switch ( name ( e ) ) {
     case null_tag : return 1;
     case val_tag : return no ( e ) == 0 ? 1 : 0 ;

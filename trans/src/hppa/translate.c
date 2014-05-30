@@ -230,9 +230,9 @@ void mark_unaliased
   exp p = pt(e);
   bool ca = 1;
   assert(!separate_units);	/* don't know about aliases in other units */
-  while (p != nilexp && ca)
+  while (p != NULL && ca)
   {
-     if (bro(p) == nilexp)
+     if (bro(p) == NULL)
      {
 	ca = 0;
      }
@@ -340,7 +340,7 @@ translate_capsule(void)
   {
     exp crt_exp = crt_def->dec_u.dec_val.dec_exp;
     exp scexp = son(crt_exp);
-    if (scexp != nilexp)
+    if (scexp != NULL)
     {
       if (diag == DIAG_NONE && !separate_units &&
 	  !crt_def->dec_u.dec_val.extnamed && isvar(crt_exp))
@@ -392,7 +392,7 @@ translate_capsule(void)
   {
     exp crt_exp = crt_def->dec_u.dec_val.dec_exp;
 
-    if (son(crt_exp)!= nilexp && (name(son(crt_exp)) == proc_tag ||
+    if (son(crt_exp)!= NULL && (name(son(crt_exp)) == proc_tag ||
 				    name(son(crt_exp)) == general_proc_tag))
     {
       procrec *pr = &procrecs[procno];
@@ -458,7 +458,7 @@ translate_capsule(void)
   for (crt_def = top_def; crt_def != (dec *)0; crt_def = crt_def->def_next)
   {
     exp crt_exp = crt_def->dec_u.dec_val.dec_exp;
-    if (son(crt_exp)!= nilexp && (name(son(crt_exp)) == proc_tag ||
+    if (son(crt_exp)!= NULL && (name(son(crt_exp)) == proc_tag ||
 				    name(son(crt_exp)) == general_proc_tag))
     {
       procrec *pr = &procrecs[no(son(crt_exp))];
@@ -478,7 +478,7 @@ translate_capsule(void)
   {
     exp crt_exp = crt_def->dec_u.dec_val.dec_exp;
 
-    if (son(crt_exp)!= nilexp && (name(son(crt_exp)) == proc_tag ||
+    if (son(crt_exp)!= NULL && (name(son(crt_exp)) == proc_tag ||
 				    name(son(crt_exp)) == general_proc_tag))
     {
       procrec *pr = &procrecs[no(son(crt_exp))];
@@ -583,14 +583,14 @@ translate_capsule(void)
      exp tg = crt_def->dec_u.dec_val.dec_exp;
      char *id = crt_def->dec_u.dec_val.dec_id;
      bool extnamed = (bool)crt_def->dec_u.dec_val.extnamed;
-     if (son(tg) ==nilexp && no(tg)!=0 && extnamed)
+     if (son(tg) ==NULL && no(tg)!=0 && extnamed)
      {
 	outs("\t.IMPORT\t");
 	outs(id);
 	outs(name(sh(tg)) ==prokhd ?(isvar(tg)? ",DATA\n" : ",CODE\n"): ",DATA\n");
      }
      else
-     if (son(tg)!= nilexp && (extnamed || no(tg)!= 0))
+     if (son(tg)!= NULL && (extnamed || no(tg)!= 0))
      {
 	if (name(son(tg))!= proc_tag && name(son(tg))!= general_proc_tag)
 	{
@@ -628,7 +628,7 @@ translate_capsule(void)
      exp tg = crt_def->dec_u.dec_val.dec_exp;
      char *id = crt_def->dec_u.dec_val.dec_id;
      bool extnamed = (bool)crt_def->dec_u.dec_val.extnamed;
-     if (son(tg) == nilexp && no(tg)!=0 && !extnamed)
+     if (son(tg) == NULL && no(tg)!=0 && !extnamed)
      {
 	shape s = crt_def->dec_u.dec_val.dec_shape;
 	ash a;
@@ -838,11 +838,11 @@ void translate_unit
       exp crt_exp = crt_def->dec_u.dec_val.dec_exp;
 
       no(crt_exp) = 0;
-      pt(crt_exp) = nilexp;
+      pt(crt_exp) = NULL;
       crt_def = crt_def->def_next;
     };
-    crt_repeat = nilexp;
-    repeat_list = nilexp;
+    crt_repeat = NULL;
+    repeat_list = NULL;
   };
   return;
 }

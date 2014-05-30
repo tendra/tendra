@@ -249,9 +249,9 @@ mark_unaliased ( exp e ){
   exp p = pt ( e ) ;
   bool ca = 1 ;
   assert ( !separate_units ) ;
-  while ( p != nilexp && ca ) {
+  while ( p != NULL && ca ) {
     exp q = bro ( p ) ;
-    if ( q == nilexp ) {
+    if ( q == NULL ) {
 #ifdef NEWDIAGS
       if (!isdiaginfo(p))
 #endif
@@ -407,7 +407,7 @@ translate_capsule (void){
   noprocs = 0 ;
   for ( d = top_def ; d != NULL ; d = d->def_next ) {
     exp c = d->dec_u.dec_val.dec_exp ;
-    if ( son ( c ) != nilexp ) {
+    if ( son ( c ) != NULL ) {
 #ifdef NEWDIAGS
       if ( !diag_visible && !separate_units && !d->dec_u.dec_val.extnamed
 #else
@@ -465,7 +465,7 @@ translate_capsule (void){
   for ( d = top_def ; d != NULL ; d = d->def_next ) {
     exp c = d->dec_u.dec_val.dec_exp ;
     exp s = son ( c ) ;
-    if ( s != nilexp && (name ( s ) == proc_tag || 
+    if ( s != NULL && (name ( s ) == proc_tag || 
 			 name(s) == general_proc_tag)) {
       procrec *pr = &procrecs [ procno ] ;
       pr->nameproc = bro ( c ) ;
@@ -497,7 +497,7 @@ translate_capsule (void){
   for ( d = top_def ; d != NULL ; d = d->def_next ) {
     exp c = d->dec_u.dec_val.dec_exp ;
     exp s = son ( c ) ;
-    if ( s != nilexp && (name ( s ) == proc_tag ||
+    if ( s != NULL && (name ( s ) == proc_tag ||
 			 name(s) == general_proc_tag)) {
       exp *st = &s ;
       procrec *pr = &procrecs [ no ( s ) ] ;
@@ -547,7 +547,7 @@ translate_capsule (void){
     for ( d = top_def ; d != NULL ; d = d->def_next ) {
       exp c = d->dec_u.dec_val.dec_exp ;
       exp s = son ( c ) ;
-      if ( s != nilexp && (name ( s ) == proc_tag || 
+      if ( s != NULL && (name ( s ) == proc_tag || 
 			   name(s) == general_proc_tag)){
 	deadvar ( s ) ;
       }
@@ -560,7 +560,7 @@ translate_capsule (void){
   for ( d = top_def ; d != NULL ; d = d->def_next ) {
     exp c = d->dec_u.dec_val.dec_exp ;
     exp s = son ( c ) ;
-    if ( s != nilexp && (name ( s ) == proc_tag || 
+    if ( s != NULL && (name ( s ) == proc_tag || 
 			 name(s) == general_proc_tag)) {
       weights w ;	
       spacereq forrest ;
@@ -608,7 +608,7 @@ translate_capsule (void){
     exp stg = son ( tg ) ;
     char *id = d->dec_u.dec_val.dec_id ;
     bool extnamed = ( bool ) d->dec_u.dec_val.extnamed ;
-    if ( stg != nilexp && (extnamed || no(tg)!= 0 ||
+    if ( stg != NULL && (extnamed || no(tg)!= 0 ||
 	 !strcmp(id,TDF_HANDLER) || !strcmp(id,TDF_STACKLIM))) {
       if ( extnamed ) {
 	assert ( id [ 0 ] != '$' ) ;
@@ -671,7 +671,7 @@ translate_capsule (void){
     char *id = d->dec_u.dec_val.dec_id ;
     bool extnamed = ( bool ) d->dec_u.dec_val.extnamed ;
 
-    if ( stg != nilexp && shape_size (sh(stg)) == 0 && name(stg) == asm_tag) {
+    if ( stg != NULL && shape_size (sh(stg)) == 0 && name(stg) == asm_tag) {
       if (props(stg) != 0)
 	failer ("~asm not in ~asm_sequence");
       check_asm_seq (son(stg), 1);
@@ -681,7 +681,7 @@ translate_capsule (void){
     }
 
     if ( no ( tg ) == 0 && !extnamed ) continue ;
-    if ( stg != nilexp ) {
+    if ( stg != NULL ) {
       if ( name ( stg ) == proc_tag || name(stg)==general_proc_tag) {
 	/* translate code for procedure */
 	int proc_directive ;
@@ -806,11 +806,11 @@ translate_unit (void){
     while ( d != NULL ) {
       exp c = d->dec_u.dec_val.dec_exp ;
       no ( c ) = 0 ;
-      pt ( c ) = nilexp ;
+      pt ( c ) = NULL ;
       d = d->def_next ;
     }
-    crt_repeat = nilexp ;
-    repeat_list = nilexp ;
+    crt_repeat = NULL ;
+    repeat_list = NULL ;
   }
   return ;
 }

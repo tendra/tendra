@@ -31,7 +31,7 @@
 void
 rec_inl(exp p)
 {
-	if (pt(p) != nilexp) {
+	if (pt(p) != NULL) {
 		rec_inl(pt(p));
 	}
 

@@ -58,7 +58,7 @@ complexity(exp e, int count, int newdecs,
 		return -2;
 	}
 
-	if (son(e) == nilexp) {
+	if (son(e) == NULL) {
 		return count;
 	}
 

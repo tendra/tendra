@@ -27,8 +27,8 @@
 static exp
 previous_scope(exp e)
 {
-	if (!last(e) || bro(e) == nilexp) {
-		return nilexp;
+	if (!last(e) || bro(e) == NULL) {
+		return NULL;
 	}
 
 	if (name(bro(e)) == diagnose_tag && (props(bro(e)) & 0x7) == 1) {
@@ -40,8 +40,8 @@ previous_scope(exp e)
 	}
 
 	if (name(bro(e)) == ident_tag && last(bro(e))) {
-		if (bro(bro(e)) == nilexp) {
-			return nilexp;
+		if (bro(bro(e)) == NULL) {
+			return NULL;
 		}
 
 		if (name(bro(bro(e))) == diagnose_tag &&
@@ -53,10 +53,10 @@ previous_scope(exp e)
 			return bro(bro(e));
 		}
 
-		return nilexp;
+		return NULL;
 	}
 
-	return nilexp;
+	return NULL;
 }
 
 
@@ -109,7 +109,7 @@ mark_scope(exp e)
 	while (1) {
 		scope = previous_scope(scope);
 
-		if (scope == nilexp || param_scope(scope) ||
+		if (scope == NULL || param_scope(scope) ||
 		    needs_hiding(e, scope)) {
 			props(e) = (prop)(props(e) | 0x80);
 			return;

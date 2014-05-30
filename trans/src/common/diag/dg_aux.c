@@ -43,7 +43,7 @@
 int doing_inlining = 0;
 
 dg_info current_dg_info = (dg_info)0;	/* needed when coding extra_diags */
-exp current_dg_exp = nilexp;		/* needed when coding extra_diags */
+exp current_dg_exp = NULL;		/* needed when coding extra_diags */
 
 short_sourcepos no_short_sourcepos;
 
@@ -136,8 +136,8 @@ extend_dg_name(dg_name nm)
 	mor->exptns = no_dg_type_list_option;
 	mor->end_pos = no_short_sourcepos;
 	mor->en_family = (dg_dim *)0;
-	mor->vslot = nilexp;
-	mor->repn = nilexp;
+	mor->vslot = NULL;
+	mor->repn = NULL;
 	mor->acc = DG_ACC_NONE;
 	mor->virt = DG_VIRT_NONE;
 	mor->isinline = 0;
@@ -381,7 +381,7 @@ scan_diag_names(exp e, exp whole)
 		}
 		return;
 	}
-	if (son(e) != nilexp && name(e) != env_offset_tag) {
+	if (son(e) != NULL && name(e) != env_offset_tag) {
 		exp t = son(e);
 		for (;;) {
 			scan_diag_names(t, whole);
@@ -405,8 +405,8 @@ diaginfo_exp(exp e)
 	}
 	scan_diag_names(e, e);
 	ans = hold(e);
-	setpt(ans, nilexp);
-	setbro (ans, nilexp);	/* these fields are used in dwarf generation */
+	setpt(ans, NULL);
+	setbro (ans, NULL);	/* these fields are used in dwarf generation */
 	no(ans) = 0;
 	props(ans) = 0;
 	clearlast(ans);

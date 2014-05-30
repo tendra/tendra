@@ -55,7 +55,7 @@ get_component(exp e, alignment shc, alignment align, int size, int nm, shape off
 {
 
   exp offsetexp /* offset in compound for required component */
-    = getexp(offshape,nilexp,0,nilexp,nilexp,0,offset,val_tag);
+    = getexp(offshape,NULL,0,NULL,NULL,0,offset,val_tag);
   
   shape resshape	/* shape of component */
     = getshape(1,shc,shc,align,size,nm);
@@ -120,7 +120,7 @@ special_token(token t, bitstream pars, int sortcode, int *done)
 
   if (builtin & BUILTIN_VARARG) {
     if(!strcmp(t->tok_name, "__builtin_va_token")){
-      tkv.tk_exp = getexp(f_off32_32,nilexp,0,nilexp,nilexp,0,0,val_tag);
+      tkv.tk_exp = getexp(f_off32_32,NULL,0,NULL,NULL,0,0,val_tag);
       set_vararg(tkv.tk_exp);
       *done = 1;
       return tkv;
@@ -129,7 +129,7 @@ special_token(token t, bitstream pars, int sortcode, int *done)
 
   /* TODO: BUILTIN_? */ {
     if(!strcmp(t->tok_name, "~Sync_handler")){
-      tkv.tk_exp = getexp(f_top,nilexp,0,nilexp,nilexp,0,0,special_tag);
+      tkv.tk_exp = getexp(f_top,NULL,0,NULL,NULL,0,0,special_tag);
       *done = 1;
       return tkv;
     }
@@ -147,12 +147,12 @@ special_token(token t, bitstream pars, int sortcode, int *done)
       if(no(arg) == 0){
         /* trapb : used to ensure that all pending execptions have been raised
   	 before continuing */
-        tkv.tk_exp = getexp(f_top,nilexp,0,nilexp,nilexp,0,0,special_tag);
+        tkv.tk_exp = getexp(f_top,NULL,0,NULL,NULL,0,0,special_tag);
         *done = 1;
       }
       else{
         failer("Unsupported argument to token __alpha_special");
-        tkv.tk_exp = getexp(f_top,nilexp,0,nilexp,nilexp,0,0,null_tag);
+        tkv.tk_exp = getexp(f_top,NULL,0,NULL,NULL,0,0,null_tag);
         *done = 1;
       }
       set_place(old_place);
@@ -194,7 +194,7 @@ special_token(token t, bitstream pars, int sortcode, int *done)
       component2 = get_component(copy_of_compound,const_al32,SLONG_ALIGN,
   			       SLONG_SZ,slonghd,f_off32_32,64);
       assignment1 = f_assign(component1,arg2);
-      assignment2 = f_assign(component2,getexp(f_off32_32,nilexp,0,nilexp,nilexp,
+      assignment2 = f_assign(component2,getexp(f_off32_32,NULL,0,NULL,NULL,
   					     0,0,val_tag));
       bro(assignment1)=assignment2;
       list.start = assignment1;
@@ -229,7 +229,7 @@ special_token(token t, bitstream pars, int sortcode, int *done)
         crt_lno = natint(di -> data.source.end.line_no);
         crt_charno = natint(di -> data.source.end.char_off);
         crt_flnm = di -> data.source.beg.file->file.ints.chars;
-        r = getexp(sh(tkv.tk_exp), nilexp, 0, tkv.tk_exp, nilexp,
+        r = getexp(sh(tkv.tk_exp), NULL, 0, tkv.tk_exp, NULL,
   		 1, 0, diagnose_tag);
         setfather(r, tkv.tk_exp);
         dno(r) = di;
@@ -240,7 +240,7 @@ special_token(token t, bitstream pars, int sortcode, int *done)
       if (!strcmp(t -> tok_name, "~diag_id_scope")){
         exp r;
         diag_info * di = read_diag_id_scope();
-        r = getexp(sh(tkv.tk_exp), nilexp, 0, tkv.tk_exp, nilexp,
+        r = getexp(sh(tkv.tk_exp), NULL, 0, tkv.tk_exp, NULL,
   		 2, 0, diagnose_tag);
         setfather(r, tkv.tk_exp);
         dno(r) = di;
@@ -251,7 +251,7 @@ special_token(token t, bitstream pars, int sortcode, int *done)
       if (!strcmp(t -> tok_name, "~diag_type_scope")){
         exp r;
         diag_info * di = read_diag_type_scope();
-        r = getexp(sh(tkv.tk_exp), nilexp, 0, tkv.tk_exp, nilexp,
+        r = getexp(sh(tkv.tk_exp), NULL, 0, tkv.tk_exp, NULL,
   		 3, 0, diagnose_tag);
         setfather(r, tkv.tk_exp);
         dno(r) = di;
@@ -262,7 +262,7 @@ special_token(token t, bitstream pars, int sortcode, int *done)
       if (!strcmp(t -> tok_name, "~diag_tag_scope")){
         exp r;
         diag_info * di = read_diag_tag_scope();
-        r = getexp(sh(tkv.tk_exp), nilexp, 0, tkv.tk_exp, nilexp,
+        r = getexp(sh(tkv.tk_exp), NULL, 0, tkv.tk_exp, NULL,
   		 4, 0, diagnose_tag);
         setfather(r, tkv.tk_exp);
         dno(r) = di;

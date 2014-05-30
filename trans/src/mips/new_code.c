@@ -160,7 +160,7 @@ bool unsafe
     exp u;
     if (isvar (bro (bro (e))))
       return 1;
-    for (u = pt (bro (bro (e))); u != nilexp; u = pt (u)) {
+    for (u = pt (bro (bro (e))); u != NULL; u = pt (u)) {
       if (unsafe (u))
 	return 1;
     }
@@ -713,7 +713,7 @@ tailrecurse:
 
 
 
-	if (son (e) == nilexp) {/* I think this is historical - unused
+	if (son (e) == NULL) {/* I think this is historical - unused
 				   tags are now removed cleanly */
 	  placew = nowhere;
 	}
@@ -915,7 +915,7 @@ tailrecurse:
 		/* evaluate the initialisation of tag, putting it into place
 	   		allocated ... */
 
-	if (remember && r != NOREG && pt(e)!= nilexp && no(pt(e)) ==0
+	if (remember && r != NOREG && pt(e)!= NULL && no(pt(e)) ==0
 	    && eq_sze(sh(son(e)), sh(pt(e)))) {
 	  /* ...if it was temporarily in a register, remember it */
 	  if (isvar(e)) {
@@ -1416,9 +1416,9 @@ tailrecurse:
 		if (name(lhs) == name_tag) {
 			exp dc = son(lhs);
 			exp u = pt(dc);
-			while (u != nilexp) {
+			while (u != NULL) {
 				/* loook through uses to find cont(name) */
-			   if (last(u) && no(u) ==no(lhs) && bro(u)!=nilexp &&
+			   if (last(u) && no(u) ==no(lhs) && bro(u)!=NULL &&
 				name(bro(u)) ==cont_tag &&
 				shape_size(sh(bro(u))) == shape_size(sh(rhs))) {
 				keepreg(bro(u), contreg);
@@ -1548,7 +1548,7 @@ tailrecurse:
 	instore str;
 	int r, disp = 0;
 
-	if (t == nilexp) return mka;
+	if (t == NULL) return mka;
 
 	nsp = sp;
 	switch (dest.answhere.discrim) {
@@ -1683,7 +1683,7 @@ tailrecurse:
     	  IGNORE make_code(cees, nsp, nowhere, 0);
 
     	  if (name(fn) == name_tag && name(son(fn)) == ident_tag
-	    && (son(son(fn)) == nilexp ||
+	    && (son(son(fn)) == NULL ||
 	        name(son(son(fn))) == proc_tag ||
 	     name(son(son(fn))) == general_proc_tag)) {
 	  /* the procedure can be entered directly */
@@ -1733,7 +1733,7 @@ tailrecurse:
 	if (postlude_has_call(e)) {
 		exp x = son(cers);
 		postl_chain p;
-		for (;x != nilexp ;) {
+		for (;x != NULL ;) {
 			if (name(x) ==caller_tag) {
 				no(x) += max_args;
 			}
@@ -1910,7 +1910,7 @@ tailrecurse:
     	exp fn = son(e);
     	exp cees = bro(fn);
     	bool glob = (name(fn) == name_tag && name(son(fn)) == ident_tag
-	    		&& (son(son(fn)) == nilexp ||
+	    		&& (son(son(fn)) == NULL ||
 	        		name(son(son(fn))) == proc_tag ||
 	     			name(son(son(fn))) ==
 	     			general_proc_tag));
@@ -2150,7 +2150,7 @@ tailrecurse:
 
 
 	if (name(fn) == name_tag && name(son(fn)) == ident_tag
-	    && (son(son(fn)) == nilexp || name(son(son(fn))) == proc_tag)) {
+	    && (son(son(fn)) == NULL || name(son(son(fn))) == proc_tag)) {
 	  /* the procedure can be entered directly */
 	  if (! tlrecurse) {
 	  	extj_ins(i_jal, boff(son(fn)));
@@ -2433,14 +2433,14 @@ tailrecurse:
 	l = no(zt);
 	for (n = 1;; n++) {	/* calculate crude criterion for using
 				   jump vector or branches */
-	  if (u + 1 != no(zt) && son(zt)!= nilexp) {
+	  if (u + 1 != no(zt) && son(zt)!= NULL) {
 	    n++;
 	  }
 	  if (last(zt)) {
-	    u = (son(zt)!= nilexp)? no(son(zt)): no(zt);
+	    u = (son(zt)!= NULL)? no(son(zt)): no(zt);
 	    break;
 	  }
-	  if (son(zt)!= nilexp) {
+	  if (son(zt)!= NULL) {
 	    u = no(son(zt));
 	  }
 	  else {
@@ -2482,7 +2482,7 @@ tailrecurse:
 			(PIC_code)?"\t.gpword\t$%d\n":"\t.word\t$%d\n", endlab);
 	      out_value(-endlab,(PIC_code)?igpword:iword, 0, 1);
 	    }
-	    u = (son(z) == nilexp)? n : no(son(z));
+	    u = (son(z) == NULL)? n : no(son(z));
 	    for (; n <= u; n++) {
 	      props(son(pt(z))) = 1; /* as bug - see labst_tag */
 	      if (as_file)
@@ -2524,7 +2524,7 @@ tailrecurse:
 	  for (;;) {
 	    int   lab = no(son(pt(z)));
 	    long l = no(z);
-	    if (son (z) == nilexp) {/* only single test required */
+	    if (son (z) == NULL) {/* only single test required */
 	      condri_ins(i_beq, r, l, lab);
 	      if (l == lims.maxi)
 		lims.maxi -= 1;
@@ -2575,7 +2575,7 @@ tailrecurse:
 	  for (;;) {
 	    int   lab = no(son(pt(z)));
 	    unsigned long l = no(z);
-	    if (son (z) == nilexp) {/* only single test required */
+	    if (son (z) == NULL) {/* only single test required */
 	      condri_ins(i_beq, r, l, lab);
 	      if (l == maxi)
 		maxi -= 1;

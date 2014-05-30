@@ -50,8 +50,8 @@ int is_worth
         )
       || (cnam == cont_tag && name(son(c)) == name_tag &&
 	   isvar(son(son(c))) && isglob(son(son(c))) &&
-	  ((last(c) && bro(c)!= nilexp) ||
-		(!last(c) && last(bro(c)) && bro(bro(c))!= nilexp)) &&
+	  ((last(c) && bro(c)!= NULL) ||
+		(!last(c) && last(bro(c)) && bro(bro(c))!= NULL)) &&
 	   name(father(c)) == test_tag)
    );
 }

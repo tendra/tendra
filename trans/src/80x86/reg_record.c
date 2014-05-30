@@ -81,7 +81,7 @@ void clear_low_reg_record
 static  int inval
 (exp d, exp r)
 {
-  if ((d == nilexp || name(d) == cont_tag) &&
+  if ((d == NULL || name(d) == cont_tag) &&
      (name(r) == cont_tag || (name(r) == name_tag && isglob(son(r)))))
     return 1;
   if ((name(r) == name_tag && !isvar(son(r))) ||
@@ -126,13 +126,13 @@ static int  get_regno
 /* if there is a register holding the same
    value as is in w, return this register
    (as a where), otherwise the where_exp
-   field of the result will be nilexp */
+   field of the result will be NULL */
 where equiv_reg
 (where w, int sz)
 {
   int   i;
   where res;
-  res.where_exp = nilexp;
+  res.where_exp = NULL;
 
   if (w.where_off != 0) {
     return res;
@@ -159,14 +159,14 @@ where equiv_reg
       return reg_wheres[i];
     }
   };
-  res.where_exp = nilexp;
+  res.where_exp = NULL;
   return res;
 }
 
 static int is_aliased
 (exp dest)
 {
-  if (dest == nilexp)
+  if (dest == NULL)
     return 0;
   if (name(dest)!= cont_tag &&
       name(dest)!= ass_tag)
@@ -199,7 +199,7 @@ void invalidate_dest
 (where dest)
 {
   exp d = dest.where_exp;
-  int  regmask = (d == nilexp)? 0 :(in_reg(d) & 0x7fffffff);
+  int  regmask = (d == NULL)? 0 :(in_reg(d) & 0x7fffffff);
   int  regno;
   where weq;
   int   i;
@@ -271,7 +271,7 @@ void invalidate_dest
       crt_reg_record[regno].regcell_key = 4;
   };
 
-  if (regmask || d == nilexp) {
+  if (regmask || d == NULL) {
     for (i = 0; i < no_fixed_regs; ++i) {
       regcell * pr = &crt_reg_record[i];
       switch (pr -> regcell_key) {
@@ -320,7 +320,7 @@ void invalidate_dest
 #endif
   while (1) {
     weq = equiv_reg(dest, 0);
-    if (weq.where_exp == nilexp)
+    if (weq.where_exp == NULL)
       break;
     regmask = (in_reg(weq.where_exp) & 0x7fffffff);
     regno = get_regno(regmask);

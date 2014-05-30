@@ -129,8 +129,8 @@ static void
 add_odd_bits(outofline *r)
 {
   space sp;
-  if (r != (outofline*)nilexp) {
-    if (r -> next == (outofline*)nilexp){
+  if (r != (outofline*)NULL) {
+    if (r -> next == (outofline*)NULL){
     }
     add_odd_bits(r -> next);
   }
@@ -158,7 +158,7 @@ code_it(dec *my_def)
     0, 0
     };
   if (symnos[symdef] >=0){
-    if (son (tg) != nilexp && (!extnamed || !is_comm(son(tg)))) {
+    if (son (tg) != NULL && (!extnamed || !is_comm(son(tg)))) {
       if (name (son (tg)) == proc_tag || name(son(tg)) == general_proc_tag) {
 	diag_descriptor * dd =  my_def -> dec_u.dec_val.diag_info;
 	/* compile code for proc */
@@ -221,7 +221,7 @@ code_it(dec *my_def)
     else {	/* global declarations but no definitions or is_comm */
       long  size;
       shape s = my_def -> dec_u.dec_val.dec_shape;
-      bool vs = son(tg)!=nilexp /* ie is_comm */;
+      bool vs = son(tg)!=NULL /* ie is_comm */;
       size = (shape_size(s) + 7) >> 3;
       if ((isvar(tg) || name(s) != prokhd) && not_reserved (id)) {
 	if (vs /*&& size != 0*/) {
@@ -237,7 +237,7 @@ code_it(dec *my_def)
 	  out_value(symnos[symdef],iextern,size,1);
 	}
       }
-      else if (son (tg) == nilexp && !extnamed) {
+      else if (son (tg) == NULL && !extnamed) {
 	if (as_file){
 	  fprintf (as_file, "\n\t.lcomm\t%s %ld\n", id, size);
 	}
@@ -250,7 +250,7 @@ code_it(dec *my_def)
       */
   }
 /*end:*/
-  /*son(tg) = nilexp;*/
+  /*son(tg) = NULL;*/
   my_def -> dec_u.dec_val.processed = 1;
   return;
 }
@@ -260,8 +260,8 @@ mark_unaliased(exp e)
 {
   exp p = pt (e);
   bool ca = 1;
-  while (p != nilexp && ca) {
-    if (bro(p)==nilexp || (!(last (p) && name (bro (p)) == cont_tag) &&
+  while (p != NULL && ca) {
+    if (bro(p)==NULL || (!(last (p) && name (bro (p)) == cont_tag) &&
 	 !(!last (p) && last (bro (p)) && name (bro (bro (p))) == ass_tag)))
       ca = 0;
     p = pt (p);
@@ -304,7 +304,7 @@ translate_capsule(void)
   my_def = top_def;
   while (my_def != (dec *) 0) {
     exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
-    if (son (crt_exp) != nilexp && !my_def -> dec_u.dec_val.extnamed &&
+    if (son (crt_exp) != NULL && !my_def -> dec_u.dec_val.extnamed &&
 	isvar (crt_exp)) {
       mark_unaliased (crt_exp);
     }
@@ -316,7 +316,7 @@ translate_capsule(void)
     dec **ptr_def = &top_def;
     while(*ptr_def) {
       exp crt_exp = (*ptr_def)->dec_u.dec_val.dec_exp;
-      if(son(crt_exp) != nilexp) {
+      if(son(crt_exp) != NULL) {
 	if(((name(son(crt_exp)) == general_proc_tag) || 
 	   (name(son(crt_exp)) == proc_tag)) &&
 	   ((no(crt_exp) == 0) && (diag != DIAG_NONE) && !(*ptr_def)->dec_u.dec_val.extnamed)) {
@@ -338,7 +338,7 @@ translate_capsule(void)
   my_def = top_def;
   while (my_def != (dec *) 0) {
     exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
-    if (son (crt_exp) != nilexp && (name (son (crt_exp)) == proc_tag ||
+    if (son (crt_exp) != NULL && (name (son (crt_exp)) == proc_tag ||
 	name(son(crt_exp))==general_proc_tag)) {
       noprocs++;
     }
@@ -352,7 +352,7 @@ translate_capsule(void)
   my_def = top_def;
   while (my_def != (dec *) 0) {
     exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
-    if (son (crt_exp) != nilexp && (name (son (crt_exp)) == proc_tag
+    if (son (crt_exp) != NULL && (name (son (crt_exp)) == proc_tag
 				    || name(son(crt_exp))==general_proc_tag)) {
       no (son (crt_exp)) = noprocs++;
       /* put index into procrecs in no(proc) */
@@ -364,7 +364,7 @@ translate_capsule(void)
     my_def = top_def;
     while (my_def != (dec *) 0) {
       exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
-      if (son(crt_exp) == nilexp && isvar(crt_exp) ) {
+      if (son(crt_exp) == NULL && isvar(crt_exp) ) {
 	global_usages(crt_exp, noprocs);
 	/* try to identify globals ptrs in procs */
       }
@@ -403,7 +403,7 @@ translate_capsule(void)
   my_def = top_def;
   while (my_def != (dec *) 0) {
     exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
-    if (son (crt_exp) != nilexp && (name (son (crt_exp)) == proc_tag
+    if (son (crt_exp) != NULL && (name (son (crt_exp)) == proc_tag
 				    || name(son(crt_exp))==general_proc_tag)) {
       procrec * pr = &procrecs[no (son (crt_exp))];
       exp * st = &son(crt_exp);
@@ -427,7 +427,7 @@ translate_capsule(void)
   my_def = top_def;
   while (my_def != (dec *) 0) {
     exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
-    if (son (crt_exp) != nilexp && (name (son (crt_exp)) == proc_tag
+    if (son (crt_exp) != NULL && (name (son (crt_exp)) == proc_tag
 				    || name(son(crt_exp))==general_proc_tag)){
       procrec * pr = &procrecs[no (son (crt_exp))];
       needs * ndpr = & pr->needsproc;
@@ -473,11 +473,11 @@ translate_capsule(void)
     char *id = main_globals[i] -> dec_u.dec_val.dec_id;
     bool extnamed = main_globals[i] -> dec_u.dec_val.extnamed;
     main_globals[i] ->dec_u.dec_val.sym_number = i;	    
-    /* if not nilexp */
-    if ( no (tg) != 0 || (extnamed && son(tg) != nilexp) 
+    /* if not NULL */
+    if ( no (tg) != 0 || (extnamed && son(tg) != NULL) 
 	 || !strcmp(id,"__alpha_errhandler") || !strcmp(id,"__alpha_stack_limit")) {
-      if(no(tg)==1 && son(tg)==nilexp && 
-	 (bro(pt(tg)) == nilexp || 
+      if(no(tg)==1 && son(tg)==NULL && 
+	 (bro(pt(tg)) == NULL || 
 	  name(bro(pt(tg)))==101 || name(bro(pt(tg)))==102 ) 
           /* diagnostics only! */ ) {
 	symnos[i]= -1;
@@ -528,7 +528,7 @@ translate_capsule(void)
     exp tg = my_def -> dec_u.dec_val.dec_exp;
     char *id = my_def -> dec_u.dec_val.dec_id;
     bool extnamed = my_def -> dec_u.dec_val.extnamed;
-    if (son (tg) != nilexp && (extnamed || no (tg) != 0 || 
+    if (son (tg) != NULL && (extnamed || no (tg) != 0 || 
 			       !strcmp (id, "main"))) {
       if (extnamed) {
 	/* globalise all global names  */
@@ -571,11 +571,11 @@ translate_unit(void)
     while (my_def != (dec *) 0) {
       exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
       no(crt_exp) = 0;
-      pt(crt_exp) = nilexp;
+      pt(crt_exp) = NULL;
       my_def = my_def -> def_next;
     }
-    crt_repeat = nilexp;
-    repeat_list = nilexp;
+    crt_repeat = NULL;
+    repeat_list = NULL;
   }
   return;
 }

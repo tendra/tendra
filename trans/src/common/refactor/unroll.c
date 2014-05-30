@@ -74,7 +74,7 @@ unroll_complex(exp e, int n, exp control, int lia, exp ul, int decr)
 		return - 1;	/* complexity exceeded */
 	}
 
-	if (son(e) == nilexp) {
+	if (son(e) == NULL) {
 		if (name(e) == goto_tag) {
 			/* prevent removal of internal test */
 			allow_double = 0;
@@ -222,8 +222,8 @@ simple_unroll(exp candidate, exp body, exp inc, exp te)
 	exp second_body = copy(body);
 	exp second_inc = copy(inc);	/* assignment to control */
 	exp second_test = copy(te);
-	exp z = getexp(f_top, te, 0, nilexp, nilexp, 0, 0, 0);
-	exp seq = getexp(f_top, bro(son(candidate)), 1, z, nilexp, 0, 0,
+	exp z = getexp(f_top, te, 0, NULL, NULL, 0, 0, 0);
+	exp seq = getexp(f_top, bro(son(candidate)), 1, z, NULL, 0, 0,
 			 seq_tag);
 	exp cond_labst;
 	exp cl1, mt;
@@ -258,17 +258,17 @@ simple_unroll(exp candidate, exp body, exp inc, exp te)
 	   body	inc	second_test	second_body	second_inc
 	 */
 
-	cond_labst = getexp(f_top, nilexp, 1, nilexp, nilexp, 0, 0, labst_tag);
+	cond_labst = getexp(f_top, NULL, 1, NULL, NULL, 0, 0, labst_tag);
 	fno(cond_labst) = (float)(freq / 20.0);
-	mt = getexp(f_top, cond_labst, 1, nilexp, nilexp, 0, 0, top_tag);
-	cl1 = getexp(f_top, mt, 0, nilexp, nilexp, 0, 1, clear_tag);
+	mt = getexp(f_top, cond_labst, 1, NULL, NULL, 0, 0, top_tag);
+	cl1 = getexp(f_top, mt, 0, NULL, NULL, 0, 1, clear_tag);
 	son(cond_labst) = cl1;
 
 	pt(second_test) = cond_labst;
 	settest_number(second_test, (int)int_inverse_ntest[test_number(te)]);
 
 	cond = getexp(f_top, bro(candidate), (int)(last(candidate)), candidate,
-		      nilexp, 0, 0, cond_tag);
+		      NULL, 0, 0, cond_tag);
 	bro(cond_labst) = cond;
 
 	f = father(candidate);
@@ -371,7 +371,7 @@ unroll_trans(exp candidate, exp body, exp inc, exp te, exp limit, int nt,
 			exp lia = me_shint(sha, (((i > 1) &&
 						  (i < (times - 1))) ||
 						 i >= times) ? 2 : 1);
-			exp li = getexp(f_bottom, nilexp, 0, lia, nilexp, 0, 0,
+			exp li = getexp(f_bottom, NULL, 0, lia, NULL, 0, 0,
 					labst_tag);
 			fno(li) = (float)(freq / 20.0);
 			name(lia) = clear_tag;
@@ -386,7 +386,7 @@ unroll_trans(exp candidate, exp body, exp inc, exp te, exp limit, int nt,
 			/* set up preliminaries */
 			exp sub = me_b3(f_top, copy(body), copy(inc), 0);
 			exp seq = me_b3(f_bottom, sub,
-					getexp(f_bottom, nilexp, 0, nilexp,
+					getexp(f_bottom, NULL, 0, NULL,
 					       branches[i + 1], 0, 0, goto_tag),
 					seq_tag);
 			bro(son(branches[i])) = seq;
@@ -397,7 +397,7 @@ unroll_trans(exp candidate, exp body, exp inc, exp te, exp limit, int nt,
 		pt(test_out) = branches[times+1];
 		temp = me_u3(f_top, test_out, 0);
 		temp = me_b3(f_bottom, temp,
-			     getexp(f_bottom, nilexp, 0, nilexp,
+			     getexp(f_bottom, NULL, 0, NULL,
 				    branches[times], 0, 0, goto_tag), seq_tag);
 		bro(son(branches[times - 1])) = temp;
 		setlast(temp);
@@ -425,7 +425,7 @@ unroll_trans(exp candidate, exp body, exp inc, exp te, exp limit, int nt,
 				temp1 = bro(temp1);
 			}
 		}
-		bc = getexp(f_top, nilexp, 0, temp, nilexp, 0, 0, 0);
+		bc = getexp(f_top, NULL, 0, temp, NULL, 0, 0, 0);
 		setlast(temp1);
 		bro(temp1) = bc;
 		if (jumps_out) {
@@ -460,7 +460,7 @@ unroll_trans(exp candidate, exp body, exp inc, exp te, exp limit, int nt,
 
 		temp = me_u3(f_top, repeater, 0);
 		temp = me_b3(f_bottom, temp,
-			     getexp(f_bottom, nilexp, 0, nilexp,
+			     getexp(f_bottom, NULL, 0, NULL,
 				    branches[times + 1], 0, 0, goto_tag),
 			     seq_tag);
 		bro(son(branches[times])) = temp;
@@ -479,7 +479,7 @@ unroll_trans(exp candidate, exp body, exp inc, exp te, exp limit, int nt,
 					and_tag));
 
 		id = me_startid(sha, temp, 0);
-		temp = getexp(f_top, nilexp, 0, me_obtain(id), branches[times],
+		temp = getexp(f_top, NULL, 0, me_obtain(id), branches[times],
 			      0, 0, test_tag);
 		settest_number(temp, f_not_equal);
 		bro(son(temp)) = me_shint(sha, 0);
@@ -488,7 +488,7 @@ unroll_trans(exp candidate, exp body, exp inc, exp te, exp limit, int nt,
 		temp1 = temp;
 
 		for (i = 1; i < (times - 1); ++i) {
-			temp2 = getexp(f_top, nilexp, 0, me_obtain(id),
+			temp2 = getexp(f_top, NULL, 0, me_obtain(id),
 				       branches[times - i - 1], 0, 0, test_tag);
 			settest_number(temp2, f_not_equal);
 			bro(son(temp2)) = me_shint(sha, i);
@@ -500,11 +500,11 @@ unroll_trans(exp candidate, exp body, exp inc, exp te, exp limit, int nt,
 			temp1 = temp2;
 		}
 
-		bc = getexp(f_top, nilexp, 0, temp, nilexp, 0, 0, 0);
+		bc = getexp(f_top, NULL, 0, temp, NULL, 0, 0, 0);
 		setlast(temp1);
 		bro(temp1) = bc;
 		bc = me_b3(f_bottom, bc,
-			   getexp(f_bottom, nilexp, 0, nilexp, branches[0], 0,
+			   getexp(f_bottom, NULL, 0, NULL, branches[0], 0,
 				  0, goto_tag), seq_tag);
 		id = me_complete_id(id, bc);
 
@@ -514,7 +514,7 @@ unroll_trans(exp candidate, exp body, exp inc, exp te, exp limit, int nt,
 			clearlast(temp1);
 			temp1 = bro(temp1);
 		}
-		res = getexp(f_top, nilexp, 0, id, nilexp, 0, 0, solve_tag);
+		res = getexp(f_top, NULL, 0, id, NULL, 0, 0, solve_tag);
 		setlast(temp1);
 		bro(temp1) = res;
 		setunrolled(repeater);
@@ -539,8 +539,8 @@ unroller(void)
   exp rb;
 
 
-  while (reps != nilexp) {
-    if (no(reps) == 0 && son(reps) != nilexp && name(son(reps)) == rep_tag) {
+  while (reps != NULL) {
+    if (no(reps) == 0 && son(reps) != NULL && name(son(reps)) == rep_tag) {
       /* this is a leaf repeat node */
       candidate = son(reps);		/* this is the repeat */
       labst = bro(son(candidate));	/* the repeated statement */
@@ -615,7 +615,7 @@ unroller(void)
 */
 		int count;
 		exp limit = bro(son(te));
-		exp unaliased_limit = nilexp;
+		exp unaliased_limit = NULL;
 		int limit_is_aliased = 0;
 
 		if (name(limit) == cont_tag && name(son(limit)) == name_tag &&
@@ -652,7 +652,7 @@ unroller(void)
 	      int count;
 	      names_index = 0;
 	      allow_double = 0;
-	      count = unroll_complex(body, SIMPLE_LIMIT, nilexp, 0, nilexp, 1);
+	      count = unroll_complex(body, SIMPLE_LIMIT, NULL, 0, NULL, 1);
 	      if (count >= 0) {
 	        simple_unroll(candidate, body, ass, te);
 	      }

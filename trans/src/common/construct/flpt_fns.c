@@ -188,7 +188,7 @@ f_float_int(error_treatment flpt_err, floating_variety f, exp arg1)
 	exp res = f_float_int(flpt_err, fv, arg1);
 	res = hold_refactor(res);
 	flt_copy(flptnos[fzero_no], &flptnos[fzero_copy]);
-	zero = getexp(real_shape, nilexp, 1, nilexp, nilexp, 0, fzero_copy,
+	zero = getexp(real_shape, NULL, 1, NULL, NULL, 0, fzero_copy,
 		      real_tag);
 	return f_make_complex(f, res, zero);
     }
@@ -471,9 +471,9 @@ f_floating_power(error_treatment ov_err, exp arg1, exp arg2)
 	      flt_copy(flptnos[fzero_no], &flptnos[fzero_copy]);
 	      flt_copy(flptnos[fone_no], &flptnos[fone_copy]);
 
-	      answer_re = getexp(real_shape, nilexp, 1, nilexp, nilexp, 0,
+	      answer_re = getexp(real_shape, NULL, 1, NULL, NULL, 0,
 				 fone_copy, real_tag);
-	      answer_im = getexp(real_shape, nilexp, 1, nilexp, nilexp, 0,
+	      answer_im = getexp(real_shape, NULL, 1, NULL, NULL, 0,
 				 fzero_copy, real_tag);
 
 	      make_comp = f_make_complex(complex_fv, answer_re, answer_im);
@@ -559,9 +559,9 @@ f_floating_power(error_treatment ov_err, exp arg1, exp arg2)
 	  flt_copy(flptnos[fzero_no], &flptnos[fzero_copy]);
 	  flt_copy(flptnos[fone_no], &flptnos[fone_copy]);
 
-	  real0 = getexp(real_shape, nilexp, 1, nilexp, nilexp, 0, fzero_copy,
+	  real0 = getexp(real_shape, NULL, 1, NULL, NULL, 0, fzero_copy,
 			 real_tag);
-	  real1 = getexp(real_shape, nilexp, 1, nilexp, nilexp, 0, fone_copy,
+	  real1 = getexp(real_shape, NULL, 1, NULL, NULL, 0, fone_copy,
 			 real_tag);
 
 	  x = me_startid(real_shape, z_re, 1);	/* re(arg1) */
@@ -851,7 +851,7 @@ exp
 f_floating_mult(error_treatment ov_err, exp_list arg1)
 {
   exp first = arg1.start;
-  exp r = getexp(sh(first), nilexp, 0, first, nilexp, 0, 0, fmult_tag);
+  exp r = getexp(sh(first), NULL, 0, first, NULL, 0, 0, fmult_tag);
   if (name(sh(first)) == bothd || arg1.number == 1) {
     return first;
   }
@@ -1007,7 +1007,7 @@ exp
 f_floating_plus(error_treatment ov_err, exp_list arg1)
 {
   exp first = arg1.start;
-  exp r = getexp(sh(first), nilexp, 0, first, nilexp, 0, 0, fplus_tag);
+  exp r = getexp(sh(first), NULL, 0, first, NULL, 0, 0, fplus_tag);
   if (name(sh(first)) == bothd || arg1.number == 1) {
     return first;
   }
@@ -1237,7 +1237,7 @@ f_make_complex(floating_variety f, exp arg1, exp arg2)
 	 exp val1 = me_shint(off_set, 0);
 	 exp val2 = me_shint(off_set, SHREAL_SZ);
 	 exp sz = me_shint(off_set, SHREAL_SZ + SHREAL_SZ);
-	 exp r = getexp(f_compound(sz), nilexp, 0, val1, nilexp, 0, 0,
+	 exp r = getexp(f_compound(sz), NULL, 0, val1, NULL, 0, 0,
 			compound_tag);
 
 	 setbro(val1, arg1);
@@ -1255,7 +1255,7 @@ f_make_complex(floating_variety f, exp arg1, exp arg2)
 	 exp val1 = me_shint(off_set, 0);
 	 exp val2 = me_shint(off_set, REAL_SZ);
 	 exp sz = me_shint(off_set, REAL_SZ + REAL_SZ);
-	 exp r = getexp(f_compound(sz), nilexp, 0, val1, nilexp, 0, 0,
+	 exp r = getexp(f_compound(sz), NULL, 0, val1, NULL, 0, 0,
 			compound_tag);
 
 	 setbro(val1, arg1);
@@ -1273,7 +1273,7 @@ f_make_complex(floating_variety f, exp arg1, exp arg2)
 	 exp val1 = me_shint(off_set, 0);
 	 exp val2 = me_shint(off_set, DOUBLE_SZ);
 	 exp sz = me_shint(off_set, DOUBLE_SZ + DOUBLE_SZ);
-	 exp r = getexp(f_compound(sz), nilexp, 0, val1, nilexp, 0, 0,
+	 exp r = getexp(f_compound(sz), NULL, 0, val1, NULL, 0, 0,
 			compound_tag);
 
 	 setbro(val1, arg1);
@@ -1355,7 +1355,7 @@ f_make_floating(floating_variety fv, rounding_mode rm, bool sign,
     failer(BIG_FLPT);
   }
 
-  return getexp(f_floating(fv), nilexp, 0, nilexp, nilexp, 0, f, real_tag);
+  return getexp(f_floating(fv), NULL, 0, NULL, NULL, 0, f, real_tag);
 
 }
 
@@ -1430,7 +1430,7 @@ f_make_floating(floating_variety fv, rounding_mode rm, bool sign,
 
   flptnos[f] = fr;
 
-  return getexp(f_floating(fv), nilexp, 0, nilexp, nilexp, 0, f, real_tag);
+  return getexp(f_floating(fv), NULL, 0, NULL, NULL, 0, f, real_tag);
 }
 
 #endif
@@ -1507,8 +1507,8 @@ f_round_with_mode(error_treatment flpt_err, rounding_mode mode, variety r,
 		exp_list st;
 		exp z;
 		exp d1 = me_startid(r, arg1, 0);
-		exp hldr = getexp(f_top, nilexp, 0, nilexp, nilexp, 0, 0, 0);
-		exp lb = getexp(f_top, nilexp, 0, hldr, nilexp, 0, 0,
+		exp hldr = getexp(f_top, NULL, 0, NULL, NULL, 0, 0, 0);
+		exp lb = getexp(f_top, NULL, 0, hldr, NULL, 0, 0,
 				labst_tag);
 
 		exp fmax = hold_refactor(f_float_int(f_impossible, fa,
@@ -1620,7 +1620,7 @@ f_round_with_mode(error_treatment flpt_err, rounding_mode mode, variety r,
   /* FALL THROUGH */
 #endif
 
-  res = getexp(f_integer(r), nilexp, 0, arg1, nilexp, 0, 0, round_tag);
+  res = getexp(f_integer(r), NULL, 0, arg1, NULL, 0, 0, round_tag);
   setround_number(res, mode);
   seterrhandle(res, flpt_err.err_code);
   if (flpt_err.err_code == 4) {
@@ -1859,18 +1859,18 @@ reorder_list(exp_list arg1, int consts_first)
 {
     exp type1_start, type1_end, type2_start, type2_end, t;
 
-    type1_start = type1_end = type2_start = type2_end = nilexp;
-    setbro(arg1.end, nilexp);
+    type1_start = type1_end = type2_start = type2_end = NULL;
+    setbro(arg1.end, NULL);
     for (t = arg1.start; t != arg1.end; t=bro(t)) {
 	if ((is_const(t) && consts_first) || !(is_const(t) || consts_first)) {
-	    if (type1_start == nilexp) {
+	    if (type1_start == NULL) {
 		type1_start = type1_end = t;	/* first of type 1 */
 	    } else {
 		setbro(type1_end, t);		/* add to existing type 1's */
 		type1_end = t;
 	    }
 	} else {
-	    if (type2_start == nilexp) {
+	    if (type2_start == NULL) {
 		type2_start = type2_end = t;	/* first of type 2 */
 	    } else {
 		setbro(type2_end, t);		/* add to existing type 2's */
@@ -1879,7 +1879,7 @@ reorder_list(exp_list arg1, int consts_first)
 	}
     }
 
-    if ((type1_start != nilexp) && (type2_start != nilexp)) {
+    if ((type1_start != NULL) && (type2_start != NULL)) {
 	arg1.start = type1_start;
         setbro(type1_end, type2_start);	/* if list is not a mixture */
 	arg1.end = type2_end;		/* no reordering has to be done */

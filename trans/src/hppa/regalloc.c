@@ -199,18 +199,18 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
 	   */
 	  exp t = pt(e);
 
-	  for (; t != nilexp;)
+	  for (; t != NULL;)
 	  {
 	    exp p = pt(t);
 
 	    setname(t, val_tag);
-	    son(t) = nilexp;
+	    son(t) = NULL;
 	    no(t) = no(son(e));
 	    props(t) = 0;
-	    pt(t) = nilexp;
+	    pt(t) = NULL;
 	    t = p;
 	  }
-	  pt(e) = nilexp;
+	  pt(e) = NULL;
 
 	  FULLCOMMENT("regalloc heavily used const: no spare regs - replace use by value");
 	  props(e) |= defer_bit;
@@ -278,7 +278,7 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
     return regalloc(s, freefixed, freefloat, stack);
   }
   else
-  if (n != name_tag && n != env_offset_tag && n!=general_env_offset_tag                            && s != nilexp)
+  if (n != name_tag && n != env_offset_tag && n!=general_env_offset_tag                            && s != NULL)
   {
     /* recurse on all expressions in tree */
     def = regalloc(s, freefixed, freefloat, stack);

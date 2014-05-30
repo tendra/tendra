@@ -60,7 +60,7 @@ int inlinechoice
   unsigned int const_param_bonus;
   unsigned int adjusted_max_complexity;
 
-/*  static exp last_ident = nilexp;
+/*  static exp last_ident = NULL;
   static int last_inlined_times;*/
 
   nparam = 0;
@@ -98,7 +98,7 @@ int inlinechoice
     while (name(proc_in)!= proc_tag)
     {
       proc_in = father(proc_in);
-      assert(proc_in != nilexp);
+      assert(proc_in != NULL);
     }
     proc_in = bro(proc_in);
     assert(name(proc_in) = ident_tag);

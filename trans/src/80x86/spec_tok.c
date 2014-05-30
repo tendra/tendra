@@ -223,7 +223,7 @@ tokval special_token
   	tkv.tk_exp = read_exp_to_source(tkv.tk_exp);
 #else
           diag_info * di = read_exp_to_source();
-          exp r = getexp(sh(tkv.tk_exp), nilexp, 0, tkv.tk_exp, nilexp,
+          exp r = getexp(sh(tkv.tk_exp), NULL, 0, tkv.tk_exp, NULL,
                      1, 0, diagnose_tag);
           setfather(r, tkv.tk_exp);
           dno(r) = di;
@@ -242,7 +242,7 @@ tokval special_token
           tkv.tk_exp = read_diag_id_scope(tkv.tk_exp);
 #else
           diag_info * di = read_diag_id_scope();
-          exp r = getexp(sh(tkv.tk_exp), nilexp, 0, tkv.tk_exp, nilexp,
+          exp r = getexp(sh(tkv.tk_exp), NULL, 0, tkv.tk_exp, NULL,
                      2, 0, diagnose_tag);
           setfather(r, tkv.tk_exp);
           dno(r) = di;
@@ -258,7 +258,7 @@ tokval special_token
           tkv.tk_exp = read_diag_type_scope(tkv.tk_exp);
 #else
           diag_info * di = read_diag_type_scope();
-          exp r = getexp(sh(tkv.tk_exp), nilexp, 0, tkv.tk_exp, nilexp,
+          exp r = getexp(sh(tkv.tk_exp), NULL, 0, tkv.tk_exp, NULL,
                      3, 0, diagnose_tag);
           setfather(r, tkv.tk_exp);
           dno(r) = di;
@@ -272,7 +272,7 @@ tokval special_token
          {
 #ifndef NEWDIAGS
           diag_info * di = read_diag_tag_scope();
-          exp r = getexp(sh(tkv.tk_exp), nilexp, 0, tkv.tk_exp, nilexp,
+          exp r = getexp(sh(tkv.tk_exp), NULL, 0, tkv.tk_exp, NULL,
                      4, 0, diagnose_tag);
           setfather(r, tkv.tk_exp);
           dno(r) = di;
@@ -322,7 +322,7 @@ tokval special_token
         arg1 = hold_refactor(d_exp());
       }
       set_place(old_place);
-      tkv.tk_exp = getexp(f_top, nilexp, 0, arg1, nilexp, prp, 0, asm_tag);
+      tkv.tk_exp = getexp(f_top, NULL, 0, arg1, NULL, prp, 0, asm_tag);
       setfather(tkv.tk_exp, arg1);
       *done = 1;
       return tkv;

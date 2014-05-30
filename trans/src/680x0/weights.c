@@ -251,7 +251,7 @@ static weights add_wlist
 (exp re, explist *el)
 {
     weights wl1, wl2;
-    if (re == nilexp) return zeros;
+    if (re == NULL) return zeros;
 
     wl1 = weightsv(re, el);
 
@@ -305,7 +305,7 @@ static weights weightsv
 	    nel.member = e;
 	    nel.next = el;
 
-	    while (isvar(e) && !isvis(e) && t != nilexp) {
+	    while (isvar(e) && !isvis(e) && t != NULL) {
 		/* Scan along pt list */
 		if (!(last(t) && name(bro(t)) == cont_tag) &&
 		     !(last(bro(t)) &&
@@ -315,7 +315,7 @@ static weights weightsv
 		t = pt(t);
 	    }
 
-	    if (d != nilexp) {
+	    if (d != NULL) {
 		int sht;
 		weights wdef, wbody;
 		fno(e) = (float)0.0;
@@ -344,11 +344,11 @@ static weights weightsv
 		     no(d) == 0) {
 		    bool fix = 0;
 		    t = pt(e);
-		    while (t != nilexp) {
+		    while (t != NULL) {
 			exp f = father(t);
 			if (name(f) == cont_tag &&
 			     name(sh(f)) == ptrhd)fix = 1;
-			t = (last(t)? nilexp : pt(t));
+			t = (last(t)? NULL : pt(t));
 		    }
 		    if (fix) {
 			sh(d) = ptr_shape(sha);

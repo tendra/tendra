@@ -37,20 +37,20 @@ refactor_ext(exp e)
 	exp def = son(e);
 
 	/* if it is not used or there is no definition here, do nothing */
-	if (no(e) == 0 || def == nilexp) {
+	if (no(e) == 0 || def == NULL) {
 		return;
 	}
 
 	if ((!PIC_code || brog(e)->dec_u.dec_val.dec_var == 0) && !isvar(e) &&
 	    (name(def) == val_tag || name(def) == real_tag ||
 	     name(def) == null_tag)) {
-		while (pt(e) != nilexp) {
+		while (pt(e) != NULL) {
 			/* substitute constants in */
 			exp q = pt(e);
-			if (bro(q) != nilexp) {
-				/* can be nilexp for diags */
+			if (bro(q) != NULL) {
+				/* can be NULL for diags */
 				exp d = copy(def);
-				replace(q, d, nilexp);
+				replace(q, d, NULL);
 				kill_exp(q, q);
 			} else {
 				pt(e) = pt(q);

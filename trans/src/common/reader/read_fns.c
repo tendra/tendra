@@ -580,7 +580,7 @@ start_make_capsule
     dp->dec_u.dec_val.extnamed = 0;
     dp->dec_u.dec_val.diag_info = (diag_global *)0;
     dp->dec_u.dec_val.have_def = 0;
-    dp->dec_u.dec_val.dec_shape = nilexp;
+    dp->dec_u.dec_val.dec_shape = NULL;
     dp->dec_u.dec_val.processed = 0;
     dp->dec_u.dec_val.isweak = 0;
   }
@@ -1181,8 +1181,8 @@ f_make_id_tagdef(tdfint t, string_option sig, exp e)
   tagdef res;
   res.tg = dp;
   if (dp->dec_u.dec_val.processed ||
-      son(dp->dec_u.dec_val.dec_exp) != nilexp) {
-    res.def = nilexp; /* set to nilexp if already output */
+      son(dp->dec_u.dec_val.dec_exp) != NULL) {
+    res.def = NULL; /* set to NULL if already output */
   } else {
     res.def = e;
   }
@@ -1211,8 +1211,8 @@ f_make_var_tagdef(tdfint t, access_option opt_access, string_option sig, exp e)
   UNUSED(opt_access);
   res.tg = dp;
   if (dp->dec_u.dec_val.processed ||
-      son(dp->dec_u.dec_val.dec_exp) != nilexp) {
-    res.def = nilexp; /* set to nilexp if already output */
+      son(dp->dec_u.dec_val.dec_exp) != NULL) {
+    res.def = NULL; /* set to NULL if already output */
   } else {
     res.def = e;
   }
@@ -2381,7 +2381,7 @@ add_tagdec_list(tagdec_list list, tagdec elem, int index)
     UNUSED(index);
     s = elem.sha;
 
-    e = getexp(s, nilexp, 0, nilexp, nilexp, 0, 0, ident_tag);
+    e = getexp(s, NULL, 0, NULL, NULL, 0, 0, ident_tag);
 
     if (elem.is_variable) {
 	if (keep_PIC_vars) {
@@ -2404,13 +2404,13 @@ add_tagdec_list(tagdec_list list, tagdec elem, int index)
 
     dp->dec_u.dec_val.dec_exp = e;
 
-    if (dp->dec_u.dec_val.dec_shape != nilexp) {
+    if (dp->dec_u.dec_val.dec_shape != NULL) {
       if (shape_size(s) > shape_size(dp->dec_u.dec_val.dec_shape)) {
         dp->dec_u.dec_val.dec_shape = s;
       }
     }
 
-    if (dp->dec_u.dec_val.dec_shape == nilexp) {
+    if (dp->dec_u.dec_val.dec_shape == NULL) {
       dp->dec_u.dec_val.dec_shape = s;
       dp->def_next = (dec *)0;
       *deflist_end = dp;
@@ -2445,11 +2445,11 @@ add_tagdef_list(tagdef_list list, tagdef elem, int index)
   exp new_def = elem.def;
   UNUSED(list);
   UNUSED(index);
-  if (dp->dec_u.dec_val.processed || new_def == nilexp) {
+  if (dp->dec_u.dec_val.processed || new_def == NULL) {
     return 0;
   }
 
-  if (old_def == nilexp ||
+  if (old_def == NULL ||
       shape_size(sh(new_def)) > shape_size(sh(old_def)) ||
       (name(new_def) != clear_tag && name(old_def) == clear_tag)) {
     son(dp->dec_u.dec_val.dec_exp) = new_def;
@@ -2616,10 +2616,10 @@ new_link_list(int n)
          dp->dec_u.dec_val.extnamed = 0;
          dp->dec_u.dec_val.diag_info = (diag_global *)0;
          dp->dec_u.dec_val.have_def = 0;
-         dp->dec_u.dec_val.dec_shape = nilexp;
+         dp->dec_u.dec_val.dec_shape = NULL;
          dp->dec_u.dec_val.processed = 0;
          dp->dec_u.dec_val.isweak = 0;
-         dp->dec_u.dec_val.dec_exp = nilexp;
+         dp->dec_u.dec_val.dec_exp = NULL;
        }
        return 0;
      case AL_TYPE:

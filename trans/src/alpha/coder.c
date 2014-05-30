@@ -196,7 +196,7 @@ static void fix_unsigned
   }
   flptnos[fltval] = constval;
   comment("BEGIN fix_unsigned");
-  float_exp = getexp(realsh,nilexp,1,nilexp,nilexp,0,fltval,real_tag);
+  float_exp = getexp(realsh,NULL,1,NULL,NULL,0,fltval,real_tag);
   isa = evaluated(float_exp,0);
   set_text_section();
   setinsalt(aa,isa);
@@ -1472,7 +1472,7 @@ tailrecurse:
 	e = bro(son(e));
 	goto tailrecurse;
       }
-      if (son(e) == nilexp) {
+      if (son(e) == NULL) {
 	placew = nowhere;	/* is this needed? */
       }
       else if (name(son(e)) == caller_name_tag) {
@@ -1743,7 +1743,7 @@ tailrecurse:
 	r = code_here(son(e), sp, placew);
 	/* evaluate the initialisation of tag, putting it into place allocated ... */
       }
-      if (remember && r != NOREG && pt(e)!= nilexp
+      if (remember && r != NOREG && pt(e)!= NULL
 	  && eq_sze(sh(son(e)), sh(pt(e)))) {
 	/* ...if it was temporarily in a register, remember it */
 	if (isvar(e)) {
@@ -1783,7 +1783,7 @@ tailrecurse:
       exp second = bro(son(e));
       exp test;
       exp record;
-      record = getexp(f_bottom,nilexp,0,nilexp,nilexp,0,0,0);
+      record = getexp(f_bottom,NULL,0,NULL,NULL,0,0,0);
       if (dest.answhere.discrim == insomereg) {
 	/* must make choice of register to contain answer to cond */
 	int  *sr = someregalt(dest.answhere);
@@ -2543,7 +2543,7 @@ tailrecurse:
 	  for (;;) {
 	    where newdest;
 	    instore newis;
-	    if (t == nilexp) return mka;
+	    if (t == NULL) return mka;
 	    newis = str;
 	    newis.b.offset += disp;
 	    setinsalt(newdest.answhere, newis);
@@ -2567,7 +2567,7 @@ tailrecurse:
 	}
 	FALL_THROUGH;
 	case inreg: {
-	  if (t == nilexp) return mka;
+	  if (t == NULL) return mka;
 	  code_here(t, sp, dest);
 	  r = regalt(dest.answhere);
 	  nsp = guardreg(r, sp);
@@ -2750,7 +2750,7 @@ tailrecurse:
       } /* end if list */
 
       if (name(fn) == name_tag && name(son(fn)) == ident_tag
-	  && (son(son(fn)) == nilexp || name(son(son(fn))) == proc_tag)) {
+	  && (son(son(fn)) == NULL || name(son(son(fn))) == proc_tag)) {
 	/* the procedure can be entered directly */
 	if (			/*!tlrecurse*/1) {
 	  baseoff a;
@@ -2848,7 +2848,7 @@ tailrecurse:
 
      (void)make_code(cllees,nsp,nowhere,0);
       if (name(fn) == name_tag && name(son(fn)) == ident_tag &&
-	(son(son(fn)) == nilexp || name(son(son(fn))) == proc_tag ||
+	(son(son(fn)) == NULL || name(son(son(fn))) == proc_tag ||
 	  name(son(son(fn))) == general_proc_tag)) {
 	baseoff a;
 	a.base = RA;
@@ -3508,14 +3508,14 @@ tailrecurse:
       for (n=make_INT64(0,1);;n=INT64_increment(n)) {
 	/* Calculate crude criterion for using jump vector or branches */
 	if (!(INT64_eq(INT64_increment(u),exp_to_INT64(zt))) &&
-	  (son(zt)!=nilexp)) {
+	  (son(zt)!=NULL)) {
 	  n = INT64_increment(n);
 	}
 	if (last(zt)) {
-	  u = (son(zt)!= nilexp)? exp_to_INT64(son(zt)):exp_to_INT64(zt);
+	  u = (son(zt)!= NULL)? exp_to_INT64(son(zt)):exp_to_INT64(zt);
 	  break;
 	}
-	if (son(zt)!= nilexp) {
+	if (son(zt)!= NULL) {
 	  u = exp_to_INT64(son(zt));
 	}
 	else {
@@ -3581,7 +3581,7 @@ tailrecurse:
 	    }
 	    out_value(-endlab, igprel32, make_INT64(0,0), 1);
 	  }
-	  u = (son(z) == nilexp)? n : exp_to_INT64(son(z));
+	  u = (son(z) == NULL)? n : exp_to_INT64(son(z));
 	  for (; INT64_leq(n,u) /*n <= u*/; n=INT64_increment(n)/*n++*/){
 	    if (as_file) {
 	      fprintf(as_file, "\t.gprel32\t$%d\n", no(son(pt(z))));
@@ -3643,7 +3643,7 @@ tailrecurse:
 	  l = exp_to_INT64(z);
 	  if (isbigval(son(pt(z))))
 	    alphafail(BIG_LABEL);
-	  if (son (z) == nilexp) { /* only single test required */
+	  if (son (z) == NULL) { /* only single test required */
 	    operate_fmt_big_immediate(i_cmpeq,r,l,rtmp);
 	    integer_branch(i_bne,rtmp,lab);
 	    if (INT64_eq(l,lims.maxi)) {

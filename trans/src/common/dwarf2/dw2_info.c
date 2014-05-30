@@ -70,7 +70,7 @@ static exp find_id
   if (name(e) == cont_tag && name(son(e)) == name_tag && !isdiscarded(son(e))
 		&& ( isvar(son(son(e))) || isparam(son(son(e))) ))
     return son(son(e));
-  return nilexp;
+  return NULL;
 }
 
 
@@ -870,7 +870,7 @@ static void output_detch
     {
       detch_info * old = sub_detch;
       sub_detch = dl->sub;
-      output_info (nilexp, more_src);
+      output_info (NULL, more_src);
       sub_detch = old;
     }
     if (has_child)

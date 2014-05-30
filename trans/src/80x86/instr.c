@@ -76,7 +76,7 @@ static long  last_jump_pos;	/* set locally */
 int  last_jump_label;	/* cleared to -1 by outnl */
 int avoid_intov; /* No software interrupts */
 
-static exp cont_err_handler = nilexp;
+static exp cont_err_handler = NULL;
 
 
 char *margin = " ";		/* instruction left margin */
@@ -1014,10 +1014,10 @@ void trap_ins
     }
   }
 
-  if (cont_err_handler == nilexp) {
+  if (cont_err_handler == NULL) {
     cont_err_handler = make_extn("__trans386_errhandler", f_proc, 1);
     if (!PIC_code)
-      cont_err_handler = getexp(f_proc, nilexp, 1, cont_err_handler, nilexp, 0, 0, cont_tag);
+      cont_err_handler = getexp(f_proc, NULL, 1, cont_err_handler, NULL, 0, 0, cont_tag);
   }
   ins1(pushl, 32, mw(zeroe, s));
 #ifdef NEWDWARF
@@ -1124,7 +1124,7 @@ void caseins
   where a;
   int need_label_flag=0;
   exp next= short_next_jump(case_exp);
-  if (next != nilexp && name(next) ==goto_tag)
+  if (next != NULL && name(next) ==goto_tag)
   {
     exp lab=final_dest(pt(next));
     absent=ptno(pt(son(lab)));
@@ -1238,8 +1238,8 @@ exp make_extn
 (char * n, shape s, int v)
 {
   dec * g = (dec *)(xmalloc(sizeof(dec)));
-  exp id = getexp(s, nilexp, 1, nilexp, nilexp, 0, 0, ident_tag);
-  exp nme = getexp(s, nilexp, 1, id, nilexp, 0, 0, name_tag);
+  exp id = getexp(s, NULL, 1, NULL, NULL, 0, 0, ident_tag);
+  exp nme = getexp(s, NULL, 1, id, NULL, 0, 0, name_tag);
   setglob(id);
   if (v) {
 	if (keep_PIC_vars) {

@@ -13,13 +13,6 @@
 #include "bitsmacs.h"
 
 /*
-    THE NIL EXPRESSION
-*/
-
-#define nilexp				NULL
-
-
-/*
     MAIN COMPONENTS OF AN EXPRESSION
 */
 

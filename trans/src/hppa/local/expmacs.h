@@ -13,13 +13,6 @@
 #include "bitsmacs.h"
 
 /*
-    THE NIL EXPRESSION
-*/
-
-#define nilexp				NULL
-
-
-/*
     MAIN COMPONENTS OF AN EXPRESSION
 */
 
@@ -306,7 +299,7 @@
 #define proc_has_vcallers(e) ((props(e) & 0x100) != 0)
 #define proc_has_nolongj(e) ((props(e) & 0x1000) !=0)
 #define is_fn_glob(e) ( name(e)==name_tag && name(son(e))==ident_tag\
-			&& ( son(son(e))==nilexp ||\
+			&& ( son(son(e))==NULL ||\
                              name(son(son(e)))==proc_tag ||\
                              name(son(son(e)))==general_proc_tag ) )
 #define call_is_untidy(e) ((props(e) & 4) != 0)

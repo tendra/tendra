@@ -121,11 +121,11 @@ int dw_is_const(exp e)
 }
 
 exp dw_has_location(exp e)
-{			/* return ident or nilexp */
+{			/* return ident or NULL */
   switch (name(e)) {
     case name_tag: {
       if (isdiscarded(e) || isvar(son(e)))
-	return nilexp;
+	return NULL;
       if ( props (son(e)) & defer_bit )
 	return dw_has_location (son(son(e)));
       return son(e);
@@ -134,13 +134,13 @@ exp dw_has_location(exp e)
       do {
 	e = son(e);
 	if (name(e) == name_tag && isdiscarded(e))
-	  return nilexp;
+	  return NULL;
       }
       while (name(e) != ident_tag || (props(e) & defer_bit));
       return e;
     }
     default:
-      return nilexp;
+      return NULL;
   }
 }
 
@@ -980,7 +980,7 @@ static void mark_lab(exp labst)
 {
   if (!dg_labmark (labst)) {
     set_dg_labmark (labst);
-    if (son(son(labst)) != nilexp)
+    if (son(son(labst)) != NULL)
       failer ("strange labst");
     son(son(labst)) = lab_mark_list;
     lab_mark_list = labst;
@@ -1026,13 +1026,13 @@ static void trace_branch_aux(exp whole, exp e)
 
 void trace_dw_branch_exits(exp e)
 {
-  lab_mark_list = nilexp;
+  lab_mark_list = NULL;
   trace_branch_aux (e, e);
   while (lab_mark_list) {
     exp holder = son(lab_mark_list);
     clear_dg_labmark (lab_mark_list);
     lab_mark_list = son(holder);
-    son(holder) = nilexp;
+    son(holder) = NULL;
     dw_entry (dwe_break, (long)0);
     out32 (); out_code_label ((long)no(holder)); d_outnl ();
   }

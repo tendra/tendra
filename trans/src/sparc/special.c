@@ -52,7 +52,7 @@ special_fn ( exp a1, exp a2, shape s )
 {
     speci spr ;
     spr.is_special = 0 ;
-    spr.special_exp = nilexp ;
+    spr.special_exp = NULL ;
     return spr;
 }
 
@@ -194,7 +194,7 @@ int
 specialfn ( exp fn )
 {
     if ( name ( fn ) == name_tag && name ( son ( fn ) ) == ident_tag &&
-	 isglob ( son ( fn ) ) && son ( son ( fn ) ) == nilexp ) {
+	 isglob ( son ( fn ) ) && son ( son ( fn ) ) == NULL ) {
 	char *extname = brog ( son ( fn ) )->dec_u.dec_val.dec_id ;
 	return specno ( extname ) ;
     }
@@ -212,7 +212,7 @@ int
 specialopt ( exp fn )
 {
     if ( name ( fn ) == name_tag && name ( son ( fn ) ) == ident_tag &&
-	 isglob ( son ( fn ) ) && son ( son ( fn ) ) == nilexp ) {
+	 isglob ( son ( fn ) ) && son ( son ( fn ) ) == NULL ) {
 	char *extname = brog ( son ( fn ) )->dec_u.dec_val.dec_id ;
 	if ( extname == NULL ) return 0;
 	extname += strlen ( name_prefix ) ;	/* get rid of any prefix */

@@ -151,7 +151,7 @@ boff_env_offset ( exp e ){
 #define VAL_locals_offset (0)
   while (name(x) != proc_tag && name(x)!=general_proc_tag){
     x = father(x);
-    assert (x != nilexp);
+    assert (x != NULL);
   }
   if ( isparam ( e ) ) {
     /* parameter, positive offset from %fp */
@@ -247,7 +247,7 @@ locate1 ( exp e, space sp, shape s, int dreg ){
 	/* ... it is in memory */
 	instore is ;
 	if ( var || ( name ( sh ( e ) ) == prokhd &&
-		      ( son ( dc ) == nilexp ||
+		      ( son ( dc ) == NULL ||
 			name ( son ( dc ) ) == proc_tag ||
 			name(son(dc)) == general_proc_tag) ) ) {
 	  is.adval = 1 ;

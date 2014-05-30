@@ -55,9 +55,9 @@ make_bitfield_offset(exp e, exp pe, int spe, shape sha)
 		no(e)*= 8;
 		return;
 	}
-	omul = getexp(sha, bro(e), (int)(last(e)), e, nilexp, 0, 0,
+	omul = getexp(sha, bro(e), (int)(last(e)), e, NULL, 0, 0,
 		      offset_mult_tag);
-	val8 = getexp(slongsh, omul, 1, nilexp, nilexp, 0, 8, val_tag);
+	val8 = getexp(slongsh, omul, 1, NULL, NULL, 0, 8, val_tag);
 	clearlast(e);
 	setbro(e, val8);
 	if (spe) {
@@ -89,8 +89,8 @@ cca(bool sto, exp to, bool sx, exp x)
 #endif
 	d = contexp(sx, x);
 	a = contexp(sto, to);
-	id = getexp(sh(a), bro(a), last(a), d, nilexp, 0, 1L, ident_tag);
-	tg = getexp(sh(d), bro(d), last(d), id, nilexp, 0, 0L, name_tag);
+	id = getexp(sh(a), bro(a), last(a), d, NULL, 0, 1L, ident_tag);
+	tg = getexp(sh(d), bro(d), last(d), id, NULL, 0, 0L, name_tag);
 	pt(id) = tg;
 	clearlast(d);
 	if (d != a) {
@@ -181,7 +181,7 @@ is_opnd(exp e)
 	switch (name(e)) {
 	case name_tag: {
 		exp s = son(e);
-		return !isvar(s) && (son(son(e)) != nilexp) &&
+		return !isvar(s) && (son(son(e)) != NULL) &&
 			!isparam(son(son(e)));
 	}
 
@@ -367,7 +367,7 @@ scan_for_alloca(exp t)
 		}
 		return scan_alloc_args(son(t));
 	default:
-		if (son(t) == nilexp) {
+		if (son(t) == NULL) {
 			return 0;
 		}
 		return scan_alloc_args(son(t));
@@ -394,11 +394,11 @@ all_opnd(bool sto, exp to, exp e)
 	if (!last(bro(son(e)))) {
 
 		/* Operation has more than two parameters.  Make it diadic */
-		exp opn = getexp(sh(e), e, 0, bro(son(e)), nilexp, 0, 0,
+		exp opn = getexp(sh(e), e, 0, bro(son(e)), NULL, 0, 0,
 				 name(e));
-		exp nd = getexp(sh(e), bro(e), last(e), opn, nilexp, 0, 1,
+		exp nd = getexp(sh(e), bro(e), last(e), opn, NULL, 0, 1,
 				ident_tag);
-		exp id = getexp(sh(e), e, 1, nd, nilexp, 0, 0, name_tag);
+		exp id = getexp(sh(e), e, 1, nd, NULL, 0, 0, name_tag);
 		pt(nd) = id;
 		bro(son(e)) = id;
 		setlast(e);
@@ -635,7 +635,7 @@ scan2(bool sto, exp to, exp e)
 	case diagnose_tag:
 #ifndef tdf3
 	case caller_tag:
-		if (son(e) == nilexp) {
+		if (son(e) == NULL) {
 			/* empty make_nof */
 			return;
 		}
@@ -757,7 +757,7 @@ scan2(bool sto, exp to, exp e)
 		cur_proc_has_tail_call = 1;
 		cur_proc_use_same_callees = (name(cees) == same_callees_tag);
 
-		if (son(cees) != nilexp) {
+		if (son(cees) != NULL) {
 			cc(sto, to, 1, cees, no_alloca, 1);
 		}
 
@@ -776,7 +776,7 @@ scan2(bool sto, exp to, exp e)
 			p_post = son(bro(p_post));
 		}
 		scan2(0, p_post, bro(p_post));
-		if (son(cees) != nilexp) {
+		if (son(cees) != NULL) {
 			scanargs(1, cees);
 		}
 		if (no(bro(son(e))) != 0) {

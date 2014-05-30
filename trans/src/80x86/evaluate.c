@@ -184,7 +184,7 @@ long  evalexp
     case cont_tag:
       {
 	if (PIC_code && name(son(e)) == name_tag && isglob(son(son(e)))
-		&& son(son(son(e)))!= nilexp
+		&& son(son(son(e)))!= NULL
 		&& !(brog(son(son(e))) -> dec_u.dec_val.dec_var))
 	   return evalexp(son(son(son(e))));
 	break;
@@ -334,7 +334,7 @@ static void evalaux
     int crt_off = 0;
     int off, offn, sz, nx, i;
 
-    if (son(e) == nilexp)
+    if (son(e) == NULL)
       return;
 
     offe = son(e);
@@ -527,7 +527,7 @@ static void evalaux
   if (n == nof_tag)
    {
      exp t = son(e);
-     if (t == nilexp)
+     if (t == NULL)
        return;
      while (1)
       {

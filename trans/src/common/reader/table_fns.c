@@ -311,7 +311,7 @@ apply_tok(token td, bitstream pars, int sortcode, tokval * actual_pars)
 			/* XX008 */
 			if (sn.code == f_exp.code) {
 				old_crt_repeat = crt_repeat;
-				crt_repeat = nilexp;
+				crt_repeat = NULL;
 			} else {
 				SET(old_crt_repeat);
 			}

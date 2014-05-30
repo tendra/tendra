@@ -54,9 +54,9 @@ bool eq_sze
 bool sim_explist
 (exp al, exp bl)
 {
-  if (al == nilexp && bl == nilexp)
+  if (al == NULL && bl == NULL)
     return 1;
-  if (al == nilexp || bl == nilexp)
+  if (al == NULL || bl == NULL)
     return 0;
   if (!sim_exp(al, bl))
     return 0;
@@ -101,7 +101,7 @@ void clear_all
 
   for (i = 0; i < 48; i++)
   {
-    regexps[i].keptexp = nilexp;
+    regexps[i].keptexp = NULL;
     setregalt(regexps[i].inans, 0);
   }
 }
@@ -115,7 +115,7 @@ void clear_reg
   i = ABS_OF(i);
   if (i >= 0 && i < 48)
   {
-    regexps[i].keptexp = nilexp;
+    regexps[i].keptexp = NULL;
     setregalt(regexps[i].inans, 0);
   }
 }
@@ -148,7 +148,7 @@ ans iskept
     exp ke = regexps[i].keptexp;
     bool isc = regexps[i].iscont;
 
-    if (ke != nilexp)
+    if (ke != NULL)
     {
       /* there is an accociation with reg i */
       if (
@@ -365,13 +365,13 @@ bool couldbe
     }
     if (IS_A_PROC(s))
       return lhs == 0;
-    if (son(s) == nilexp)
+    if (son(s) == NULL)
       return 1;
     return couldbe(son(s), lhs);
   }
   if (ne == cont_tag)
   {
-    if (lhs != 0 && name(s) == name_tag && son(s)!= nilexp)
+    if (lhs != 0 && name(s) == name_tag && son(s)!= NULL)
     {
       return son(s) == son(lhs) || isvis(son(lhs)) || isvis(son(s));
     }
@@ -405,7 +405,7 @@ couldeffect(exp e, exp z /* a name or zero */)
       return z == 0 && isvis(son(e));
     if (IS_A_PROC(son(e)))
       return 0;
-    if (son(son(e)) == nilexp)
+    if (son(son(e)) == NULL)
       return 1 /* could it happen? */ ;
 
     return couldeffect(son(son(e)), z);
@@ -416,7 +416,7 @@ couldeffect(exp e, exp z /* a name or zero */)
 
   e = son(e);
 
-  while (e != nilexp)
+  while (e != NULL)
   {
     if (couldeffect(e, z))
       return 1;
@@ -430,7 +430,7 @@ couldeffect(exp e, exp z /* a name or zero */)
 bool dependson
 (exp e, bool isc, exp z)
 {				/* does e depend on z */
-  if (e == nilexp)
+  if (e == NULL)
   {
     return 0;
   }
@@ -457,7 +457,7 @@ bool dependson
       z = 0;
       break;
     }
-    if (son(son(z)) == nilexp)
+    if (son(son(z)) == NULL)
       return 1;			/* can it happen? */
     z = son(son(z));
   }
@@ -478,7 +478,7 @@ void clear_dep_reg
   {
     if (dependson(regexps[i].keptexp, regexps[i].iscont, lhs))
     {
-      regexps[i].keptexp = nilexp;
+      regexps[i].keptexp = NULL;
       setregalt(regexps[i].inans, 0);
     }
   }

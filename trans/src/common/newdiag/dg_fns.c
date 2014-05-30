@@ -176,7 +176,7 @@ f_params_dg(dg_name_list params, exp_option outer_env)
 	if (outer_env.present) {
 		ans->data.i_param.o_env = diaginfo_exp(outer_env.val);
 	} else {
-		ans->data.i_param.o_env = nilexp;
+		ans->data.i_param.o_env = NULL;
 	}
 	ans->data.i_param.b_start = 0;
 	return ans;
@@ -380,7 +380,7 @@ f_destructor_dg(dg_sourcepos whence, exp_option obtain_value)
 	if (obtain_value.present) {
 		ans->data.i_dest.val = diaginfo_exp(obtain_value.val);
 	} else {
-		ans->data.i_dest.val = nilexp;
+		ans->data.i_dest.val = NULL;
 	}
 	return ans;
 }
@@ -432,7 +432,7 @@ f_raise_dg(dg_sourcepos stmt_src_pos, dg_type_option ex, exp_option value)
 	if (value.present) {
 		ans->data.i_raise.x_val = diaginfo_exp(value.val);
 	} else {
-		ans->data.i_raise.x_val = nilexp;
+		ans->data.i_raise.x_val = NULL;
 	}
 	return ans;
 }
@@ -643,7 +643,7 @@ f_dg_object_name(dg_idname idname, dg_sourcepos whence, dg_type type,
 			brog(son(son(acc)))->dec_u.dec_val.diag_info = ans;
 #endif
 	} else {
-		ans->data.n_obj.obtain_val = nilexp;
+		ans->data.n_obj.obtain_val = NULL;
 	}
 
 	if (accessibility != DG_ACC_NONE) {
@@ -672,7 +672,7 @@ f_dg_proc_name(dg_idname idname, dg_sourcepos whence, dg_type type,
 			brog(son(acc))->dec_u.dec_val.diag_info = ans;
 		}
 	} else {
-		ans->data.n_proc.obtain_val = nilexp;
+		ans->data.n_proc.obtain_val = NULL;
 	}
 	ans->data.n_proc.params = (dg_info)0;
 	if (accessibility != DG_ACC_NONE || virtuality != DG_VIRT_NONE ||
@@ -852,7 +852,7 @@ f_dg_module_name(dg_idname idname, dg_sourcepos whence, dg_namelist memlist,
 			brog(son(acc))->dec_u.dec_val.diag_info = ans;
 		}
 	} else {
-		ans->data.n_mod.init = nilexp;
+		ans->data.n_mod.init = NULL;
 	}
 
 	if (elaboration) {
@@ -873,7 +873,7 @@ f_dg_namespace_name(dg_idname idname, dg_sourcepos whence, dg_namelist members)
 	if (members.tg) {
 		members.tg->p.nl = &(ans->data.n_mod.members);
 	}
-	ans->data.n_mod.init = nilexp;
+	ans->data.n_mod.init = NULL;
 	return ans;
 }
 
@@ -1339,12 +1339,12 @@ f_dg_fixed_point_type(dg_type rep_type, exp small, exp_option delta,
 	if (delta.present) {
 		ans->data.t_adanum.delta = diaginfo_exp(delta.val);
 	} else {
-		ans->data.t_adanum.delta = nilexp;
+		ans->data.t_adanum.delta = NULL;
 	}
 	if (digits.present) {
 		ans->data.t_adanum.digits = diaginfo_exp(digits.val);
 	} else {
-		ans->data.t_adanum.digits = nilexp;
+		ans->data.t_adanum.digits = NULL;
 	}
 	return ans;
 }
@@ -1445,7 +1445,7 @@ f_make_dg_class_base(dg_tag base, dg_sourcepos_option whence,
 		shape ptr_sh = f_pointer(f_alignment(ulongsh));
 		ans.location = relative_exp(ptr_sh, location.val);
 	} else {
-		ans.location = nilexp;
+		ans.location = NULL;
 	}
 	ans.acc = accessibility;
 	ans.virt = virtuality;
@@ -1506,7 +1506,7 @@ f_dg_function_classmem(dg_name fn, exp_option vtable_slot)
 	if (vtable_slot.present) {
 		ans.d.cm_fn.slot = diaginfo_exp(vtable_slot.val);
 	} else {
-		ans.d.cm_fn.slot = nilexp;
+		ans.d.cm_fn.slot = NULL;
 	}
 	ans.tg = (dg_tag)0;
 	return ans;
@@ -2014,7 +2014,7 @@ f_make_dg_default(exp_option value, dg_sourcepos_option src_span)
 	if (value.present) {
 		ans.val = diaginfo_exp(value.val);
 	} else {
-		ans.val = nilexp;
+		ans.val = NULL;
 	}
 	ans.span = src_span;
 	ans.lab = (long)0;

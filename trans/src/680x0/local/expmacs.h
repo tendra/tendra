@@ -12,13 +12,6 @@
 
 
 /*
-    THE NULL EXPRESSION
-*/
-
-#define  nilexp			NULL
-
-
-/*
     THE MAIN CONSTITUENTS OF AN EXPRESSION
 */
 

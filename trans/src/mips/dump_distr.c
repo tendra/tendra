@@ -57,7 +57,7 @@ suses(exp e, space * pars, int incpars)
      	pars in registers */
   space ans;
   ans = zsp;
-  if (e == nilexp)
+  if (e == NULL)
     return ans;
   switch (name(e)) {
     case name_tag: {
@@ -147,7 +147,7 @@ suses(exp e, space * pars, int incpars)
     default: default1:{
 	exp t = son (e);
 	maxsp (&ans, suses (t, pars,incpars));
-	while (t!=nilexp && !last (t)) {
+	while (t!=NULL && !last (t)) {
 	  t = bro (t);
 	  maxsp (&ans, suses (t, pars,incpars));
 	}
@@ -181,7 +181,7 @@ placedump(exp * pe, space * dmpd, space * tobd, space * nds)
      dumped ; thread different dumps to same rsc via pt; delivers bool to
      say whether all sregs have been dumped */
   exp e = *pe;
-  exp dflt = getexp(nilexp, nilexp, 1, nilexp,nilexp, 0, nds->flt & ~dmpd->flt, dump_tag);
+  exp dflt = getexp(NULL, NULL, 1, NULL,NULL, 0, nds->flt & ~dmpd->flt, dump_tag);
   exp dump = getexp (sh (e), bro (e), last (e), e, dflt, 0, (nds -> fixed & ~dmpd -> fixed),
        dump_tag);
   bro (e) = dump;
@@ -200,12 +200,12 @@ goodcond(exp first, exp second, space * beforeb, space * pars)
 {
   /* delivers last exp in seq first after all tests (to second) ;
      beforeb is space upto end of tests; second only use beforeb;
-     otherwise nilexp */
+     otherwise NULL */
   exp t;
   space nds;
   int   n = no (son (second));	/* no of uses of labst second */
   if (name (first) != seq_tag)
-    return nilexp;
+    return NULL;
   t = son (son (first));
   *beforeb = zsp;
   for (;;) {
@@ -213,11 +213,11 @@ goodcond(exp first, exp second, space * beforeb, space * pars)
 
     if (name (t) == test_tag) {
       if (pt (t) != second)
-	return nilexp;
+	return NULL;
       if (--n == 0) break;
     }
     if (last (t)) {
-     	return nilexp;
+     	return NULL;
     }
     t = bro (t);
   }
@@ -225,7 +225,7 @@ goodcond(exp first, exp second, space * beforeb, space * pars)
   nds = suses (second, pars, 0);
   if (sameregs (&nds, beforeb))
     return t;
-  return nilexp;
+  return NULL;
 }
 
 bool
@@ -255,7 +255,7 @@ alljumps(exp e, exp slv, int * nol)
 	   	return 0;
 	   default: {
 	   	exp se = son(e);
-	   	if (se==nilexp) return 0;
+	   	if (se==NULL) return 0;
 	   	for(;;) {
 	   		if (last(se)) { e = se; goto recurse; }
 	   		if (alljumps(se, slv, nol)) return 1;
@@ -360,9 +360,9 @@ pushdumps(exp * pe, space * dmpd, space * tobd, space * pars)
 	  if (!sameregs (&nds, dmpd)) {
 	    /* uses undumped s-regs; construct new seq as result of this
 	       one .... */
-	    exp s_hold = getexp (sh (e), bro (son (e)), 0, list, nilexp, 0, 0,
+	    exp s_hold = getexp (sh (e), bro (son (e)), 0, list, NULL, 0, 0,
 		name (son (e)));
-	    exp seq = getexp (sh (e), e, 1, s_hold, nilexp, 0, 0, seq_tag);
+	    exp seq = getexp (sh (e), e, 1, s_hold, NULL, 0, 0, seq_tag);
 
 	    bro (prev) = son (e);
 	    setlast (prev);
@@ -396,7 +396,7 @@ pushdumps(exp * pe, space * dmpd, space * tobd, space * pars)
 
 	same = sameregs (&nds, dmpd);
 
-	if (!same && (t = goodcond (first, second, &beforeb, pars)) != nilexp) {
+	if (!same && (t = goodcond (first, second, &beforeb, pars)) != NULL) {
 	  /* worth looking further  into first part */
 	  if (!sameregs(&beforeb, dmpd) ) {
 	  	if (placedump ( pe, dmpd, tobd, &beforeb)) {
@@ -405,10 +405,10 @@ pushdumps(exp * pe, space * dmpd, space * tobd, space * pars)
 	  }
 	  if (!last (t)) {
 	    exp seq_hold =
-	      getexp (sh (first), bro (son (first)), 0, bro (t), nilexp, 0, 0,
+	      getexp (sh (first), bro (son (first)), 0, bro (t), NULL, 0, 0,
 		name (son (first)));
 	    exp new =
-	      getexp (sh (first), first, 1, seq_hold, nilexp, 0, 0, seq_tag);
+	      getexp (sh (first), first, 1, seq_hold, NULL, 0, 0, seq_tag);
 	    exp x = son (seq_hold);
 	    while (!last (x)) {
 	      x = bro (x);

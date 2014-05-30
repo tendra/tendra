@@ -126,16 +126,16 @@ regalloc(exp e, int freefixed, int freefloat, int stack)
 	    /* not suitable for reg allocation */
 	      if (name (son (e)) == val_tag && !isvar (e) && !isvis(e)) {
 		exp t = pt (e);
-		for (; t != nilexp;) {
+		for (; t != NULL;) {
 		  exp p = pt(t);
 		  setname (t, val_tag);
-		  son(t) = nilexp;
+		  son(t) = NULL;
 		  no(t) = no (son (e));
 		  props(t) = 0;
-		  pt(t) = nilexp;
+		  pt(t) = NULL;
 		  t = p;
 		}
-		pt (e) = nilexp;
+		pt (e) = NULL;
 		props (e) |= defer_bit;
 		def = zerospace;
 	      }
@@ -185,7 +185,7 @@ regalloc(exp e, int freefixed, int freefloat, int stack)
     }
     else
       if (n != name_tag && n!= env_offset_tag && n != general_env_offset_tag 
-	  && s != nilexp) {
+	  && s != NULL) {
 	def = regalloc (s, freefixed, freefloat, stack);
 	while (!last (s)) {
 	  s = bro (s);

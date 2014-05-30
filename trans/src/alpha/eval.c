@@ -351,7 +351,7 @@ evalone(exp e, int rep)
 {
   ash a;
   int overflow;
-  if (e == nilexp) return;
+  if (e == NULL) return;
   a = ashof (sh (e));
   switch (name (e)) {
   case string_tag: {
@@ -601,7 +601,7 @@ evalone(exp e, int rep)
     if (rep != 1)
       failer ("CAN'T REP TUPLES");   	
     set_align(a.ashalign);
-    if (s == nilexp) return;
+    if (s == NULL) return;
     for(;;) {
       evalone(s,1);
       if (last(s)) return;

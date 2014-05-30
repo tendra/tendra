@@ -75,7 +75,7 @@ special_token ( token t, bitstream pars, int sortcode, int * done )
       id = son(arg1);
   
       env_o = getexp(f_offset(f_callers_alignment(1), f_alignment(sh(arg1))),
-  		   nilexp, 0, id, nilexp, 0, 0, env_offset_tag);
+  		   NULL, 0, id, NULL, 0, 0, env_offset_tag);
       setvis(id);
       setenvoff(id);
   
@@ -181,7 +181,7 @@ special_token ( token t, bitstream pars, int sortcode, int * done )
 
   /* TODO: BUILTIN_? */ {
     if (!strcmp(t->tok_name, "~Sync_handler")){
-       tkv.tk_exp = getexp(f_top,nilexp,0,nilexp,nilexp,0,0,special_tag);
+       tkv.tk_exp = getexp(f_top,NULL,0,NULL,NULL,0,0,special_tag);
        *done = 1;
        return tkv;
     }
@@ -197,12 +197,12 @@ special_token ( token t, bitstream pars, int sortcode, int * done )
       arg = d_exp();
       assert(name(arg) == val_tag);
       if(no(arg) == 0){
-        tkv.tk_exp = getexp(f_bottom,nilexp,0,nilexp,nilexp,0,0,special_tag);
+        tkv.tk_exp = getexp(f_bottom,NULL,0,NULL,NULL,0,0,special_tag);
         *done = 1;
       }
       else{
         failer("Unsupported argument to token __sparc_special");
-        tkv.tk_exp = getexp(f_top,nilexp,0,nilexp,nilexp,0,0,null_tag);
+        tkv.tk_exp = getexp(f_top,NULL,0,NULL,NULL,0,0,null_tag);
         *done = 1;
       }
       set_place(old_place);
@@ -236,7 +236,7 @@ special_token ( token t, bitstream pars, int sortcode, int * done )
         tkv.tk_exp = read_exp_to_source (tkv.tk_exp);
 #else
         diag_info * di = read_exp_to_source();
-        exp r = getexp(sh(tkv.tk_exp), nilexp, 0, tkv.tk_exp, nilexp,
+        exp r = getexp(sh(tkv.tk_exp), NULL, 0, tkv.tk_exp, NULL,
   		 1, 0, diagnose_tag);
         setfather(r, tkv.tk_exp);
         dno(r) = di;
@@ -254,7 +254,7 @@ special_token ( token t, bitstream pars, int sortcode, int * done )
         tkv.tk_exp = read_diag_id_scope (tkv.tk_exp);
 #else
         diag_info * di = read_diag_id_scope();
-        exp r = getexp(sh(tkv.tk_exp), nilexp, 0, tkv.tk_exp, nilexp,
+        exp r = getexp(sh(tkv.tk_exp), NULL, 0, tkv.tk_exp, NULL,
   		 2, 0, diagnose_tag);
         setfather(r, tkv.tk_exp);
         dno(r) = di;
@@ -269,7 +269,7 @@ special_token ( token t, bitstream pars, int sortcode, int * done )
         tkv.tk_exp = read_diag_type_scope (tkv.tk_exp);
 #else
         diag_info * di = read_diag_type_scope();
-        exp r = getexp(sh(tkv.tk_exp), nilexp, 0, tkv.tk_exp, nilexp,
+        exp r = getexp(sh(tkv.tk_exp), NULL, 0, tkv.tk_exp, NULL,
   		 3, 0, diagnose_tag);
         setfather(r, tkv.tk_exp);
         dno(r) = di;
@@ -282,7 +282,7 @@ special_token ( token t, bitstream pars, int sortcode, int * done )
       if (!strcmp(t -> tok_name, "~diag_tag_scope")){
 #ifndef NEWDIAGS
         diag_info * di = read_diag_tag_scope();
-        exp r = getexp(sh(tkv.tk_exp), nilexp, 0, tkv.tk_exp, nilexp,
+        exp r = getexp(sh(tkv.tk_exp), NULL, 0, tkv.tk_exp, NULL,
   		 4, 0, diagnose_tag);
         setfather(r, tkv.tk_exp);
         dno(r) = di;
@@ -331,7 +331,7 @@ special_token ( token t, bitstream pars, int sortcode, int * done )
         arg1 = hold_refactor(d_exp());
       }
       set_place(old_place);
-      tkv.tk_exp = getexp (f_top, nilexp, 0, arg1, nilexp, prp, 0, asm_tag);
+      tkv.tk_exp = getexp (f_top, NULL, 0, arg1, NULL, prp, 0, asm_tag);
       setfather (tkv.tk_exp, arg1);
       *done = 1;
       return tkv;

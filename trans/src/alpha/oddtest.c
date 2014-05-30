@@ -39,7 +39,7 @@ oddunary(exp x, exp y, exp *v)
   if (!(name(x)==name(y))) goto flab0;
   { exp xC = son(x);
     z = xC;
-    if (!(z!=nilexp && last(z) && son(y) != nilexp && oddunary(z, son(y),v))) goto flab0;
+    if (!(z!=NULL && last(z) && son(y) != NULL && oddunary(z, son(y),v))) goto flab0;
     if(!last(xC)) goto flab0;
   }
  tlab1:
@@ -141,7 +141,7 @@ is_maxlike(exp x, exp *t)
       if (last(xCC)) goto flab0;
       xCC = bro(xCC);
       z = xCC;
-      if (!(comp_eq_exp(z, op1, nilexp,nilexp))) goto flab0;
+      if (!(comp_eq_exp(z, op1, NULL,NULL))) goto flab0;
       if(!last(xCC)) goto flab0;
     }
     if (last(xC)) goto flab0;
@@ -153,7 +153,7 @@ is_maxlike(exp x, exp *t)
       if (last(xCC)) goto flab0;
       xCC = bro(xCC);
       w = xCC;
-      if (!(comp_eq_exp(w, op2,nilexp,nilexp))) goto flab0;
+      if (!(comp_eq_exp(w, op2,NULL,NULL))) goto flab0;
       if(!last(xCC)) goto flab0;
     }
     if(!last(xC)) goto flab0;
@@ -188,7 +188,7 @@ is_minlike(exp x, exp *t)
       if (last(xCC)) goto flab0;
       xCC = bro(xCC);
       z = xCC;
-      if (!(comp_eq_exp(z, op2,nilexp,nilexp))) goto flab0;
+      if (!(comp_eq_exp(z, op2,NULL,NULL))) goto flab0;
       if(!last(xCC)) goto flab0;
     }
     if (last(xC)) goto flab0;
@@ -200,7 +200,7 @@ is_minlike(exp x, exp *t)
       if (last(xCC)) goto flab0;
       xCC = bro(xCC);
       w = xCC;
-      if (!(comp_eq_exp(w, op1,nilexp,nilexp))) goto flab0;
+      if (!(comp_eq_exp(w, op1,NULL,NULL))) goto flab0;
       if(!last(xCC)) goto flab0;
     }
     if(!last(xC)) goto flab0;
@@ -236,7 +236,7 @@ is_abslike(exp x, exp *t)
       if (last(xCC)) goto flab0;
       xCC = bro(xCC);
       z = xCC;
-      if (!(comp_eq_exp(z, op,nilexp,nilexp))) goto flab0;
+      if (!(comp_eq_exp(z, op,NULL,NULL))) goto flab0;
       if(!last(xCC)) goto flab0;
     }
     if (last(xC)) goto flab0;
@@ -250,7 +250,7 @@ is_abslike(exp x, exp *t)
       if (name(xCC) != neg_tag) goto flab0; 
       { exp xCCC = son(xCC);
         w = xCCC;
-        if (!(comp_eq_exp(op, w,nilexp,nilexp))) goto flab0;
+        if (!(comp_eq_exp(op, w,NULL,NULL))) goto flab0;
         if(!last(xCCC)) goto flab0;
       }
       if(!last(xCC)) goto flab0;

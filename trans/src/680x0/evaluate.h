@@ -20,6 +20,6 @@ extern void evaluate(exp, long, char *, int, int, diag_global *);
 extern void eval_op(long sz, mach_op* op);
 
 #define  make_constant(X, Y)\
-    const_list = getexp(botsh, const_list, 0,(Y), nilexp, 0,(X), 0)
+    const_list = getexp(botsh, const_list, 0,(Y), NULL, 0,(X), 0)
 
 #endif

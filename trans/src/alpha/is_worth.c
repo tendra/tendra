@@ -46,7 +46,7 @@ is_worth(exp c)
       return false;
     }
     dad = father (c);
-    if(dad == nilexp) return 0;	/* bug ? */
+    if(dad == NULL) return 0;	/* bug ? */
     switch (name (dad)) {
     case and_tag: {
       exp grandad = father (dad);

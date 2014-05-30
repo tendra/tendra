@@ -72,8 +72,8 @@ eq_sze ( shape as, shape bs )
 bool 
 sim_explist ( exp al, exp bl )
 {
-    if ( al == nilexp && bl == nilexp ) return 1;
-    if ( al == nilexp || bl == nilexp ) return 0;
+    if ( al == NULL && bl == NULL ) return 1;
+    if ( al == NULL || bl == NULL ) return 0;
     if ( !sim_exp ( al, bl ) ) return 0;
     if ( last ( al ) && last ( bl ) ) return 1;
     if ( last ( al ) || last ( bl ) ) return 0;
@@ -117,7 +117,7 @@ void
 clear_all (void) {
     int i ;
     for ( i = 0 ; i < 48 ; i++ ) {
-	regexps [i].keptexp = nilexp ;
+	regexps [i].keptexp = NULL ;
 	setregalt ( regexps [i].inans, 0 ) ;
 #ifdef NEWDWARF
 	if (diag == DIAG_DWARF2)
@@ -137,7 +137,7 @@ clear_reg ( int i )
 {
     i = ABS_OF ( i ) ;
     if ( i >= 0 && i < 48 ) {
-	regexps [i].keptexp = nilexp ;
+	regexps [i].keptexp = NULL ;
 	setregalt ( regexps [i].inans, 0 ) ;
 #ifdef NEWDWARF
 	if (diag == DIAG_DWARF2)
@@ -173,7 +173,7 @@ iskept ( exp e )
 	exp ke = regexps [i].keptexp ;
 	bool isc = regexps [i].iscont ;
 
-	if ( ke != nilexp ) {
+	if ( ke != NULL ) {
 	    /* there is an association with register i? */
 	    if ( ( ( !isc && sim_exp ( ke, e ) ) ||
 		 ( name ( e ) == cont_tag && isc &&
@@ -375,11 +375,11 @@ couldbe ( exp e, exp lhs )
 	  return ( bool ) ( lhs == 0 && 
 			     (isvis ( s ) || isglob(s)));
 	if ( name ( s ) == proc_tag ) return ( bool ) ( lhs == 0 ) ;
-	if ( son ( s ) == nilexp ) return 1;
+	if ( son ( s ) == NULL ) return 1;
 	return couldbe ( son ( s ), lhs ) ;
     }
     if ( ne == cont_tag ) {
-	if ( lhs != 0 && name ( s ) == name_tag && son ( s ) != nilexp ) {
+	if ( lhs != 0 && name ( s ) == name_tag && son ( s ) != NULL ) {
 	    return ( bool ) ( son ( s ) == son ( lhs ) ||
 				isvis ( son ( lhs ) ) ||
 				isvis ( son ( s ) ) ) ;
@@ -412,14 +412,14 @@ couldeffect ( exp e, exp z )
 	    return ( bool ) ( z == 0 && isvis ( son ( e ) ) ) ;
 	}
 	if ( name ( son ( e ) ) == proc_tag ) return 0;
-	if ( son ( son ( e ) ) == nilexp ) return 1;
+	if ( son ( son ( e ) ) == NULL ) return 1;
 	return couldeffect ( son ( son ( e ) ), z ) ;
 
     }
     if ( ne < plus_tag || ne == contvol_tag ) return 1;
 
     e = son ( e ) ;
-    while ( e != nilexp ) {
+    while ( e != NULL ) {
 	if ( couldeffect ( e, z ) ) return 1;
 	if ( last ( e ) ) return 0;
 	e = bro ( e ) ;
@@ -435,7 +435,7 @@ couldeffect ( exp e, exp z )
 bool 
 dependson ( exp e, bool isc, exp z )
 {
-    if (e == nilexp) {
+    if (e == NULL) {
 	return 0;
     }
     for ( ; ; ) {
@@ -454,7 +454,7 @@ dependson ( exp e, bool isc, exp z )
 	    z = 0 ;
 	    break ;
 	}
-	if ( son ( son ( z ) ) == nilexp ) {
+	if ( son ( son ( z ) ) == NULL ) {
 	    /* can it happen? */
 	    return 1;
 	}
@@ -476,7 +476,7 @@ clear_dep_reg ( exp lhs )
   int i ;
   for ( i = 0 ; i < 48 ; i++ )
   {
-    if (regexps[i].keptexp != nilexp)
+    if (regexps[i].keptexp != NULL)
       switch(name(regexps[i].keptexp))
       {
        case val_tag:
@@ -492,7 +492,7 @@ clear_dep_reg ( exp lhs )
        default:
 	if ( dependson ( regexps [i].keptexp, regexps [i].iscont, lhs ) ) 
 	{	
-	  regexps [i].keptexp = nilexp ;
+	  regexps [i].keptexp = NULL ;
 	  setregalt ( regexps [i].inans, 0 ) ;
 #ifdef NEWDWARF
 	  if (diag == DIAG_DWARF2)

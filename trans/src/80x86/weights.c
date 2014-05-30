@@ -102,7 +102,7 @@ static int no_side_aux
 (exp e)
 {
   exp arg;
-  if (name(e) ==name_tag || name(e) ==env_offset_tag || name(e) ==top_tag || son(e) ==nilexp)
+  if (name(e) ==name_tag || name(e) ==env_offset_tag || name(e) ==top_tag || son(e) ==NULL)
     return 1;
   for (arg=son(e);; arg=bro(arg))
   {
@@ -285,7 +285,7 @@ weights add_wlist
 (exp re, int usemc3, explist * el)
 {
   weights wl1, wl2;
-  if (re == nilexp)
+  if (re == NULL)
     return zeros;
 
   wl1 = weightsv(re, el);
@@ -358,7 +358,7 @@ weights weightsv
 	exp t = pt(e);
 	nel.wident = e;
 	nel.etl = el;
-	while (isvar(e) && !isvis(e) && t != nilexp) {
+	while (isvar(e) && !isvis(e) && t != NULL) {
 	  if (!(last(t) && name(bro(t)) == cont_tag) &&
               !(last(t) && name(bro(t)) == hold_tag) &&
 	      !(last(bro(t)) && (name(bro(bro(t))) == ass_tag ||
@@ -368,7 +368,7 @@ weights weightsv
 	  t = pt(t);
 	};
 
-	if (son(e)!= nilexp) {
+	if (son(e)!= NULL) {
 	  weights wdef, wbody;
 	  exp def = son(e);
 	  exp body = bro(def);
@@ -539,7 +539,7 @@ weights weightsv
      };
 
     default:
-      if (sh(e)!= nilexp &&
+      if (sh(e)!= NULL &&
 		(name(sh(e)) == s64hd || name(sh(e)) == u64hd))
 	markreg1 (el);				/* use of reg0 can include reg1 */
       return add_wlist(son(e), 1, el);

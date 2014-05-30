@@ -236,7 +236,7 @@ again:
     else {
       exp sn = son(id);
       int d = disp;
-      while (sn != nilexp) {
+      while (sn != NULL) {
 	switch (name(sn)) {
 	  case name_tag: {
 	    disp = d + no(sn);

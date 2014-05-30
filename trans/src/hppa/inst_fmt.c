@@ -50,7 +50,7 @@
 #define prokhd 24
 
 #define plabel( X ) ( (X)<0 ?\
-    ( son(main_globals[((-X))-1]->dec_u.dec_val.dec_exp)==nilexp ?\
+    ( son(main_globals[((-X))-1]->dec_u.dec_val.dec_exp)==NULL ?\
     name(sh(main_globals[((-X))-1]->dec_u.dec_val.dec_exp))==prokhd :\
     ( IS_A_PROC(son(main_globals[((-X))-1]->dec_u.dec_val.dec_exp)) ) ) : 0 )
 

@@ -67,7 +67,7 @@
 static exp returns_list;
 
 int locals_offset;	/* global, needed for solaris stabs */
-exp hasenvoff_list = nilexp;	/* global, used by coder */
+exp hasenvoff_list = NULL;	/* global, used by coder */
 
 #define GLOBALTABLEMASK 0x8
 
@@ -296,7 +296,7 @@ int cproc
 
   int request_align_8byte;
 
-  returns_list = nilexp;
+  returns_list = NULL;
   crt_proc_exp = p;
   crt_proc_id = next_lab();
   crt_ret_lab = next_lab ();	/* set up the return label for the procedure */
@@ -362,7 +362,7 @@ int cproc
 
 
 
-  vc_pointer = nilexp;
+  vc_pointer = NULL;
 				/* set up params before any diagnostics */
   t = son(p);
   param_pos = 0;
@@ -589,7 +589,7 @@ int cproc
 
 
   if (crt_ret_lab_used) {
-    jr = getexp(f_bottom, nilexp, 0, nilexp, nilexp, 0,
+    jr = getexp(f_bottom, NULL, 0, NULL, NULL, 0,
                 0, 0);
     sonno(jr) = stack_dec;
     ptno(jr) = crt_ret_lab;
@@ -640,7 +640,7 @@ int cproc
   outnl();
 
   this_pos = out_tell_pos();
-  while (returns_list != nilexp) {
+  while (returns_list != NULL) {
 	  out_set_pos(no(returns_list)); /* XXX: no (macro) returns int */
     if (name(returns_list) == 1)
       out_untidy_pops(tot_sp, push_space);
@@ -805,7 +805,7 @@ int cproc
     }
     t = bro(son(t));
   }
-  while (hasenvoff_list != nilexp) {
+  while (hasenvoff_list != NULL) {
     exp id = son(hasenvoff_list);
     exp next = bro(hasenvoff_list);
     no(id) -= (locals_offset * 8);
@@ -835,8 +835,8 @@ void restore_callregs
   outs("?");	/* will be overwritten, to cause assembler fail if sco bug */
   outs(sp50); outs(sp50); outs(sp50);
   outnl();
-  returns_list = getexp(f_top, returns_list, 0, nilexp,
-				nilexp, 0, 0,(unsigned char)untidy);
+  returns_list = getexp(f_top, returns_list, 0, NULL,
+				NULL, 0, 0,(unsigned char)untidy);
   no(returns_list) = (int)retpos;
   ptno(returns_list) = stack_dec;
 #ifdef NEWDWARF

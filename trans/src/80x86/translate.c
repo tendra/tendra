@@ -61,7 +61,7 @@
 #define ptg(x) ((x)->ptf.glob)		/* addition to expmacs */
 
 
-static exp delayed_const_list = nilexp;
+static exp delayed_const_list = NULL;
 
 static int const_ready
 (exp e)
@@ -71,7 +71,7 @@ static int const_ready
     return brog(son(son(e))) -> dec_u.dec_val.processed;
   if (n == env_offset_tag)
     return name(son(e)) == 0;
-  if (n == name_tag || son(e) == nilexp)
+  if (n == name_tag || son(e) == NULL)
     return 1;
   e = son(e);
   while (!last(e)) {
@@ -147,7 +147,7 @@ void make_code
   exp tg = my_def -> dec_u.dec_val.dec_exp;
   char *id = my_def -> dec_u.dec_val.dec_id;
 
-  if (son(tg)!= nilexp && shape_size(sh(son(tg))) == 0 && name(son(tg)) == asm_tag) {
+  if (son(tg)!= NULL && shape_size(sh(son(tg))) == 0 && name(son(tg)) == asm_tag) {
     ash stack;
     stack.ashsize = stack.ashalign = 0;
     if (props(son(tg))!= 0)
@@ -158,7 +158,7 @@ void make_code
     outnl();
   }
 
-  if (son(tg)!= nilexp && (my_def -> dec_u.dec_val.extnamed || no(tg)!= 0)) {
+  if (son(tg)!= NULL && (my_def -> dec_u.dec_val.extnamed || no(tg)!= 0)) {
     if (name(son(tg)) == proc_tag || name(son(tg)) == general_proc_tag) {
       if (dyn_init && strncmp("__I.TDF", id+prefix_length, 7) ==0) {
 	out_initialiser(id);
@@ -187,7 +187,7 @@ void make_code
       my_def -> dec_u.dec_val.index =	/* for use in constant evaluation */
 	cproc(son(tg), id,(-1), (int)(my_def -> dec_u.dec_val.extnamed),
                 my_def -> dec_u.dec_val.diag_info);
-      while (const_list != nilexp) {
+      while (const_list != NULL) {
 	/* put in the constants required by the procedure */
 	exp t = const_list;
 	const_list = bro(const_list);
@@ -282,7 +282,7 @@ void make_code
 
       else {			/* global values */
 
-	exp t = getexp(f_bottom, nilexp, 0, son(tg), nilexp, props(tg), -1, 0);
+	exp t = getexp(f_bottom, NULL, 0, son(tg), NULL, props(tg), -1, 0);
 	ptg(t) = my_def;
 	eval_if_ready(t, 0);
 
@@ -291,7 +291,7 @@ void make_code
     };
   };
 
-  if (son(tg)!= nilexp) {
+  if (son(tg)!= NULL) {
      my_def -> dec_u.dec_val.processed = 1;
   };
   return;
@@ -302,11 +302,11 @@ void mark_unaliased
 {
   exp p = pt(e);
   int ca = 1;
-  while (p != nilexp && ca) {
+  while (p != NULL && ca) {
 #ifdef NEWDIAGS
-    if ((bro(p) == nilexp ||
+    if ((bro(p) == NULL ||
 #else
-    if (bro(p) == nilexp ||
+    if (bro(p) == NULL ||
 #endif
        (!(last(p) && name(bro(p)) == cont_tag) &&
 	 !(!last(p) && last(bro(p)) &&
@@ -344,11 +344,11 @@ void translate_capsule
     if (PIC_code) {
       exp idval = son(crt_exp);
       if (!(my_def -> dec_u.dec_val.dec_var) &&
-	  (idval == nilexp || (name(idval)!= val_tag && name(idval)!= real_tag &&
+	  (idval == NULL || (name(idval)!= val_tag && name(idval)!= real_tag &&
 		name(idval) != null_tag )	/* optimised out in opt_all_exps/refactor_ext */
 	  ) &&
 	  (name(sh(crt_exp))!= prokhd ||
-		(idval != nilexp && name(idval)!= null_tag &&
+		(idval != NULL && name(idval)!= null_tag &&
 		  name(idval)!= proc_tag && name(idval)!= general_proc_tag)
 	  ))
       {
@@ -358,13 +358,13 @@ void translate_capsule
 	  sh(crt_exp) = f_pointer(f_alignment(sh(crt_exp)));
 	else
 	  setvar(crt_exp);
-	while (p != nilexp) {
+	while (p != NULL) {
 	  exp np = pt(p);
 	  exp* ptr = refto(father(p), p);
-	  exp c = getexp(sh(p), bro(p), last(p), p, nilexp, 0, 0, cont_tag);
+	  exp c = getexp(sh(p), bro(p), last(p), p, NULL, 0, 0, cont_tag);
 	  setfather(c, p);
 	  if (no(p)!= 0) {
-	    exp r = getexp(sh(p), c, 1, p, nilexp, 0, no(p), reff_tag);
+	    exp r = getexp(sh(p), c, 1, p, NULL, 0, no(p), reff_tag);
 	    no(p) = 0;
 	    son(c) = r;
 	    setfather(r, p);
@@ -376,11 +376,11 @@ void translate_capsule
     }
     else {	/* !PIC_code; make indirect global idents direct */
       exp tg = crt_exp;
-      while (!isvar(tg) && son(tg)!= nilexp && name(son(tg)) == name_tag && no(son(tg)) == 0)
+      while (!isvar(tg) && son(tg)!= NULL && name(son(tg)) == name_tag && no(son(tg)) == 0)
 	tg = son(son(tg));
       if (tg != crt_exp) {
 	exp p = pt(crt_exp);
-	while (p != nilexp) {
+	while (p != NULL) {
 	  exp np = pt(p);
 	  if (son(p)!= crt_exp)
 	    failer("not simple name");
@@ -390,7 +390,7 @@ void translate_capsule
 	  ++no(tg);
 	  p = np;
 	}
-	pt(crt_exp) = nilexp;
+	pt(crt_exp) = NULL;
 	no(crt_exp) = 0;
       }
     };
@@ -405,7 +405,7 @@ void translate_capsule
     my_def = top_def;
     while (my_def != (dec *)0) {
       exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
-      if (son(crt_exp)!= nilexp &&
+      if (son(crt_exp)!= NULL &&
 	  !my_def -> dec_u.dec_val.extnamed &&
    	  isvar(crt_exp))
         mark_unaliased(crt_exp);
@@ -416,7 +416,7 @@ void translate_capsule
     extra_stack = 0;
     init_weights();
     initzeros();
-    const_list = nilexp;
+    const_list = NULL;
 
 
 #ifdef NEWDWARF
@@ -457,7 +457,7 @@ void translate_capsule
     my_def = my_def -> def_next;
   };
 
-  while (delayed_const_list != nilexp) {
+  while (delayed_const_list != NULL) {
     exp t = delayed_const_list;
     delayed_const_list = bro(delayed_const_list);
     eval_if_ready(t,1);

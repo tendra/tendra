@@ -90,7 +90,7 @@ is_worth(exp c)
 	if ( shape_size(sh(c))==64 )
 	   return false; /* Cannot put 64 bit integers in registers! */
 	dad = father ( c ) ;
-	if (dad==nilexp)
+	if (dad==NULL)
 	{
 	   if (SIMM13(n)) return false;
 	   return true;

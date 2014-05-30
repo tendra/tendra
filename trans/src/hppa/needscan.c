@@ -137,9 +137,9 @@ void cca
     exp def = *(x);
 
     /* replace by  Let tg = def In tg Ni */
-    exp id = getexp(sh(def), bro(def), last(def), def, nilexp,
+    exp id = getexp(sh(def), bro(def), last(def), def, NULL,
 		    0, 1, ident_tag);
-    exp tg = getexp(sh(def), id, 1, id, nilexp,
+    exp tg = getexp(sh(def), id, 1, id, NULL,
 		    0, 0, name_tag);
 
     pt(id) = tg;		/* use of tag */
@@ -152,9 +152,9 @@ void cca
   {				/* replace by Let tg = def In ato/def = tg Ni */
     exp def = *(x);
     exp ato = *(*to);
-    exp id = getexp(sh(ato), bro(ato), last(ato), def, nilexp,
+    exp id = getexp(sh(ato), bro(ato), last(ato), def, NULL,
 		    0, 1, ident_tag);
-    exp tg = getexp(sh(def), bro(def), last(def), id, nilexp,
+    exp tg = getexp(sh(def), bro(def), last(def), id, NULL,
 		    0, 0, name_tag);
 
     pt(id) = tg;		/* use of tg */
@@ -181,7 +181,7 @@ bool subvar_use
 (exp uses)
 {				/* check to see if any uses of id is
 				 * initialiser to subvar dec */
-  for (; uses != nilexp; uses = pt(uses))
+  for (; uses != NULL; uses = pt(uses))
   {
     if (last(uses) && name(bro(uses)) == cont_tag)
     {
@@ -234,8 +234,8 @@ static void make_bitfield_offset
     no(e)*= 8;
     return;
   }
-  omul = getexp(sha, bro(e), (int)(last(e)), e, nilexp, 0, 0, offset_mult_tag);
-  val8 = getexp(slongsh, omul, 1, nilexp, nilexp, 0, 8, val_tag);
+  omul = getexp(sha, bro(e), (int)(last(e)), e, NULL, 0, 0, offset_mult_tag);
+  val8 = getexp(slongsh, omul, 1, NULL, NULL, 0, 8, val_tag);
   clearlast(e);
   setbro(e, val8);
   if (spe) {
@@ -278,9 +278,9 @@ void change_to_var
 	setvar(e);
 	setcaonly(e);
 	ns = f_pointer(f_alignment(sh(son(e))));
-	while (p != nilexp) {
+	while (p != NULL) {
 		exp * pos = ptr_position(p);
-		exp ncont = getexp(sh(p), bro(p), last(p), p, nilexp, 0, 0,
+		exp ncont = getexp(sh(p), bro(p), last(p), p, NULL, 0, 0,
 					cont_tag);
 		bro(p) = ncont; setlast(p);
 		sh(p) = ns;
@@ -295,7 +295,7 @@ void change_names
 	/* replace uses of ident f (!= except) to uses of t */
 	exp py = pt(f);
 	assert(name(f) ==ident_tag && name(t) ==ident_tag && name(except) ==name_tag);
-	while (py != nilexp) {
+	while (py != NULL) {
 		exp ppy = pt(py);
 		if (py != except) {
 			son(py) = t; /* change f to t */
@@ -477,10 +477,10 @@ int scan_cond
 
 	  if (c1 && eq_exp(op11, op12)) {
 				/* ....if first operands of tests are same, identify them */
-	    exp newid = getexp(sh(ste), bro(ste), last(ste), op11, nilexp,
+	    exp newid = getexp(sh(ste), bro(ste), last(ste), op11, NULL,
 		0, 2, ident_tag);
-	    exp tg1 = getexp(sh(op11), op21, 0, newid, nilexp, 0, 0, name_tag);
-	    exp tg2 = getexp(sh(op12), op22, 0, newid, nilexp, 0, 0, name_tag);
+	    exp tg1 = getexp(sh(op11), op21, 0, newid, NULL, 0, 0, name_tag);
+	    exp tg2 = getexp(sh(op12), op22, 0, newid, NULL, 0, 0, name_tag);
 
 	    pt(newid) = tg1;
 	    pt (tg1) = tg2;	/* uses of newid */
@@ -513,10 +513,10 @@ int scan_cond
 			/* ....if second operands of tests are same, identify them */
 
 	      exp newid = getexp(sh(ste), bro(ste), last(ste), op21,
-		  nilexp, 0, 2, ident_tag);
+		  NULL, 0, 2, ident_tag);
 	      exp tg1 = getexp(sh(op21), test1, 1,
-		  newid, nilexp, 0, 0, name_tag);
-	      exp tg2 = getexp(sh(op22), test2, 1, newid, nilexp,
+		  newid, NULL, 0, 0, name_tag);
+	      exp tg2 = getexp(sh(op22), test2, 1, newid, NULL,
 		  0, 0, name_tag);
 
 	      pt(newid) = tg1;
@@ -801,7 +801,7 @@ bool unchanged
 {
   exp uses = pt(usedname);
 
-  while (uses != nilexp)
+  while (uses != NULL)
   {
     if (intnl_to(ident, uses))
     {
@@ -885,7 +885,7 @@ bool chase
       if ((son(sel)!= *e) && (name(sh(*e))!= bothd))
       {				/* only change if not outer */
 	exp stare = *e;
-	exp newsel = getexp(sh(sel), bro(stare), last(stare), stare, nilexp,
+	exp newsel = getexp(sh(sel), bro(stare), last(stare), stare, NULL,
 			    props(sel), no(sel), name(sel));
 
 	*e = newsel;
@@ -970,7 +970,7 @@ needs scan
 	bool cantdo;
 	exp dad;
 #if 1
-      if (nstare==nof_tag && son(ste) ==nilexp)
+      if (nstare==nof_tag && son(ste) ==NULL)
 	return zeroneeds;
 #endif
 	if (name(ste) ==ncopies_tag && name(son(ste))!=name_tag
@@ -1027,7 +1027,7 @@ needs scan
   case cond_tag:
     {
 #if 1
-      if (scan_cond(e, nilexp)!=0)
+      if (scan_cond(e, NULL)!=0)
       {
 	 return scan(e, at);
       }
@@ -1053,10 +1053,10 @@ needs scan
 	{
 	  exp o21 = bro(son(test1));
 	  exp o22 = bro(son(test2));
-	  exp newid = getexp(sh(ste), bro(ste), last(ste), son(test1), nilexp,
+	  exp newid = getexp(sh(ste), bro(ste), last(ste), son(test1), NULL,
 			     0, 2, ident_tag);
-	  exp tg1 = getexp(sh(son(test1)), o21, 0, newid, nilexp, 0, 0, name_tag);
-	  exp tg2 = getexp(sh(son(test2)), o22, 0, newid, nilexp, 0, 0, name_tag);
+	  exp tg1 = getexp(sh(son(test1)), o21, 0, newid, NULL, 0, 0, name_tag);
+	  exp tg2 = getexp(sh(son(test2)), o22, 0, newid, NULL, 0, 0, name_tag);
 
 	  pt(newid) = tg1;
 	  pt(tg1) = tg2;	/* uses of newid */
@@ -1076,10 +1076,10 @@ needs scan
 	  exp o21 = bro(bro(son(test1)));
 	  exp o22 = bro(bro(son(test2)));
 	  exp newid = getexp(sh(ste), bro(ste), last(ste), bro(son(test1)),
-			     nilexp, 0, 2, ident_tag);
+			     NULL, 0, 2, ident_tag);
 	  exp tg1 = getexp(sh(bro(son(test1))), o21, 1,
-			   newid, nilexp, 0, 0, name_tag);
-	  exp tg2 = getexp(sh(bro(son(test2))), o22, 1, newid, nilexp,
+			   newid, NULL, 0, 0, name_tag);
+	  exp tg2 = getexp(sh(bro(son(test2))), o22, 1, newid, NULL,
 			   0, 0, name_tag);
 
 	  pt(newid) = tg1;
@@ -1164,7 +1164,7 @@ needs scan
      bool flregble;
      bool old_nonevis = nonevis;
 
-     if (pt(stare) == nilexp)
+     if (pt(stare) == NULL)
      {
 	/* no uses, should have caonly flag and no var flag */
 	setcaonly(stare);
@@ -1780,7 +1780,7 @@ needs scan
       }
 
       if (name(fn)!= name_tag ||
-	 (son(son(fn))!= nilexp && name(son(son(fn)))!= proc_tag))
+	 (son(son(fn))!= NULL && name(son(son(fn)))!= proc_tag))
       {
 	tlrecpos = 0;
       }
@@ -2146,8 +2146,8 @@ needs scan
       {
 	/* same test following in seq res - void second test */
 	setname(bro(bro(stare)), top_tag);
-	son(bro(bro(stare))) = nilexp;
-	pt(bro(bro(stare))) = nilexp;
+	son(bro(bro(stare))) = NULL;
+	pt(bro(bro(stare))) = NULL;
       }
 
       if (name(l) == val_tag && (props(stare) == 5 || props(stare) == 6))
@@ -2273,7 +2273,7 @@ needs scan
 	   * create new neg_tag to replace plus_tag,
 	   * old plus_tag being the operand of the new neg_tag.
 	   */
-	  x = getexp(sh(sum), bro(sum), last(sum), sum, nilexp,
+	  x = getexp(sh(sum), bro(sum), last(sum), sum, NULL,
 		     0, 0, neg_tag);
 
 	  setlast(sum);
@@ -2292,7 +2292,7 @@ needs scan
 	  exp x = son(sum);
 	  exp newsum = sum;
 
-	  list = nilexp;
+	  list = NULL;
 	  for (;;)
 	  {
 	    exp nxt = bro(x);
@@ -2328,12 +2328,12 @@ needs scan
 
 	    bro(newsum) = list;
 	    clearlast(newsum);
-	    x = getexp(sh(sum), nilexp, 0, newsum, nilexp, 0, 0, minus_tag);
+	    x = getexp(sh(sum), NULL, 0, newsum, NULL, 0, 0, minus_tag);
 
 	    bro(list) = x;
 	    setlast(list);
 	    newsum = x;
-	    if ((list = nxt) == nilexp)
+	    if ((list = nxt) == NULL)
 	      break;
 	  }
 	  bro(newsum) = brosum;
@@ -2378,7 +2378,7 @@ needs scan
     		if (includes_vcallees(fal) && ((oal & 20)!= 0)) {
     			/* oal = callees and callers are offset relative to
 			   FP when there are variable callees */
-    		   exp ne = getexp(sh(p), d, 0, p, nilexp, 0, 0,
+    		   exp ne = getexp(sh(p), d, 0, p, NULL, 0, 0,
     		   		locptr_tag);
     		   bro(p) = ne; setlast(p);
     		   son(*e) = ne;
@@ -2620,12 +2620,12 @@ needs scan
 	 * + and * can have >2 parameters - make them diadic - can do better
 	 * a+exp => let x = exp in a+x
 	 */
-	exp opn = getexp(sh(op), op, 0, a2, nilexp, 0, 0, name(op));
+	exp opn = getexp(sh(op), op, 0, a2, NULL, 0, 0, name(op));
 
 	/* dont need to transfer error treatment - nans */
-	exp nd = getexp(sh(op), bro(op), last(op), opn, nilexp, 0, 1,
+	exp nd = getexp(sh(op), bro(op), last(op), opn, NULL, 0, 1,
 			ident_tag);
-	exp id = getexp(sh(op), op, 1, nd, nilexp, 0, 0, name_tag);
+	exp id = getexp(sh(op), op, 1, nd, NULL, 0, 0, name_tag);
 
 	pt(nd) = id;
 	bro(son(op)) = id;

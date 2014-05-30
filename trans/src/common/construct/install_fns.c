@@ -205,7 +205,7 @@ dec *
 make_extra_dec(char *nme, int v, int g, exp init, shape s)
 {
 	dec *extra_dec = (dec *)calloc(1, sizeof(dec));
-	exp e = getexp(s, nilexp, 0, init, nilexp, 0, 0, ident_tag);
+	exp e = getexp(s, NULL, 0, init, NULL, 0, 0, ident_tag);
 	setglob(e);
 	if (v) {
 		setvar(e);
@@ -222,11 +222,11 @@ make_extra_dec(char *nme, int v, int g, exp init, shape s)
 	extra_dec->dec_u.dec_val.extnamed = (unsigned int)g;
 	extra_dec->dec_u.dec_val.dec_var = (unsigned int)v;
 	extra_dec->dec_u.dec_val.dec_outermost = 0;
-	extra_dec->dec_u.dec_val.have_def = init != nilexp;
+	extra_dec->dec_u.dec_val.have_def = init != NULL;
 	extra_dec->dec_u.dec_val.processed = 0;
 	extra_dec->dec_u.dec_val.isweak = 0;
 	extra_dec->dec_u.dec_val.is_common = 0;
-	if (init != nilexp) {
+	if (init != NULL) {
 		setfather(e, init);
 	}
 	return extra_dec;
@@ -258,7 +258,7 @@ find_named_tg(char *n, shape s)
 	if (my_def != (dec*)0) {
 		return my_def->dec_u.dec_val.dec_exp;
 	}
-	my_def = make_extra_dec(add_prefix(n), 0, 1, nilexp, s);
+	my_def = make_extra_dec(add_prefix(n), 0, 1, NULL, s);
 	return my_def->dec_u.dec_val.dec_exp;
 }
 
@@ -450,8 +450,8 @@ promote_actuals(exp par)
 			shape ns = (is_signed(s)) ? slongsh : ulongsh;
 			exp w = hold_refactor(f_change_variety(f_wrap, ns,
 							    copy(par)));
-			replace(par, w, nilexp);
-			kill_exp(par, nilexp);
+			replace(par, w, NULL);
+			kill_exp(par, NULL);
 			par = w;
 		}
 		if (last(par)) {
@@ -481,18 +481,18 @@ promote_formals(exp bdy)
 			exp w;
 			sh(son(bdy)) = ns;
 			if (!isvar(bdy)) {
-				while (u != nilexp) {
+				while (u != NULL) {
 					exp nextu = pt(u);
 					sh(u) = ns;
 					w = f_change_variety(f_wrap, spar,
 							     copy(u));
-					replace(u, w, nilexp);
-					kill_exp(u, nilexp);
+					replace(u, w, NULL);
+					kill_exp(u, NULL);
 					u = nextu;
 				}
 			} else {
 				shape ps = f_pointer(f_alignment(ns));
-				while (u != nilexp) {
+				while (u != NULL) {
 					exp nextu = pt(u);
 					if (last(u) && name(bro(u)) == cont_tag) {
 						if (endian == ENDIAN_LITTLE) {
@@ -502,8 +502,8 @@ promote_formals(exp bdy)
 							w = f_change_variety(
 							    f_wrap, spar,
 							    copy(con));
-							replace(con, w, nilexp);
-							kill_exp(con, nilexp);
+							replace(con, w, NULL);
+							kill_exp(con, NULL);
 						}
 					} else {
 						setvis(bdy);
@@ -573,9 +573,9 @@ f_make_otagexp(tag_option tagopt, exp e)
 	if (!tagopt.present) {
 		return e;
 	}
-	e = getexp(sh(e), nilexp, 0, e, nilexp, 0, 0, caller_tag);
-	init = getexp(sh(e), nilexp, 0, nilexp , nilexp, 0, 0, caller_name_tag);
-	pt(e) = getexp(f_top, nilexp, 0, init, nilexp, 0, 0, ident_tag);
+	e = getexp(sh(e), NULL, 0, e, NULL, 0, 0, caller_tag);
+	init = getexp(sh(e), NULL, 0, NULL , NULL, 0, 0, caller_name_tag);
+	pt(e) = getexp(f_top, NULL, 0, init, NULL, 0, 0, ident_tag);
 	/*  	setvar(pt(e));   - NOT ACCORDING TO SPEC */
 	setfather(e, son(e));
 	set_tag(tagopt.val, pt(e));
@@ -588,9 +588,9 @@ new_otagexp_list(int n)
 {
 	otagexp_list res;
 	res.number =0;
-	res.start = nilexp;
-	res.end = nilexp;
-	res.id = nilexp;
+	res.start = NULL;
+	res.end = NULL;
+	res.id = NULL;
 	UNUSED(n);
 	return res;
 }
@@ -611,13 +611,13 @@ add_otagexp_list(otagexp_list list, otagexp ote, int n)
 		exp id = pt(ote);
 		exp lid = list.id;
 		bro(son(id)) = lid;
-		if (lid != nilexp) {
+		if (lid != NULL) {
 			bro(lid) = id;
 			setlast(lid);
 		}
 		no(son(id)) = n;
 		list.id = id;
-		pt(ote) = nilexp; /* this pt is a temp link */
+		pt(ote) = NULL; /* this pt is a temp link */
 	}
 	return list;
 }
@@ -626,7 +626,7 @@ add_otagexp_list(otagexp_list list, otagexp ote, int n)
 callees
 f_make_callee_list(exp_list args)
 {
-	exp e = getexp(f_top, nilexp, 0, args.start, nilexp, 0, args.number,
+	exp e = getexp(f_top, NULL, 0, args.start, NULL, 0, args.number,
 		       make_callee_list_tag);
 	if (args.number != 0) {
 		setfather(e, args.end);
@@ -641,7 +641,7 @@ f_make_callee_list(exp_list args)
 callees
 f_make_dynamic_callees(exp ptr, exp sze)
 {
-	exp e = getexp(f_top, nilexp, 0, ptr, nilexp, 0, 0,
+	exp e = getexp(f_top, NULL, 0, ptr, NULL, 0, 0,
 		       make_dynamic_callee_tag);
 	bro(ptr) = sze;
 	clearlast(ptr);
@@ -660,7 +660,7 @@ void
 clear_exp_list(exp_list el)
 {
 	exp t = el.start;
-	if (t == nilexp) {
+	if (t == NULL) {
 		return;
 	}
 	while (1) {
@@ -974,7 +974,7 @@ callees f_same_callees;
 void
 init_callees(void)
 {
-	f_same_callees = getexp(f_top, nilexp, 0, nilexp, nilexp, 0, 0,
+	f_same_callees = getexp(f_top, NULL, 0, NULL, NULL, 0, 0,
 				same_callees_tag);
 	return;
 }
@@ -1110,7 +1110,7 @@ f_and(exp arg1, exp arg2)
 exp
 f_apply_proc(shape result_shape, exp arg1, exp_list arg2, exp_option varparam)
 {
-	exp res = getexp(result_shape, nilexp, 0, arg1, nilexp, 0, 0,
+	exp res = getexp(result_shape, NULL, 0, arg1, NULL, 0, 0,
 			 apply_tag);
 	int varhack = 0;
 	if (name(sh(arg1)) == bothd) {
@@ -1199,7 +1199,7 @@ f_apply_proc(shape result_shape, exp arg1, exp_list arg2, exp_option varparam)
 					    new_ident = getexp(sh(res),
 							       bro(res),
 							       (int)last(res),
-							       param, nilexp, 0,
+							       param, NULL, 0,
 							       1, ident_tag);
 
 					    setvar(new_ident);
@@ -1209,7 +1209,7 @@ f_apply_proc(shape result_shape, exp arg1, exp_list arg2, exp_option varparam)
 					       new_ident) */
 					    new_par = getexp(ptr_s, bro(param),
 							     (bool)last(param),
-							     new_ident, nilexp,
+							     new_ident, NULL,
 							     0, 0, name_tag);
 					    pt(new_ident) = new_par;
 					    /* use of new new_ident by new_par*/
@@ -1259,12 +1259,12 @@ f_apply_proc(shape result_shape, exp arg1, exp_list arg2, exp_option varparam)
 		exp_list list;
 		shape ptr_res_shape = f_pointer(f_alignment(result_shape));
 
-		init = getexp(result_shape, nilexp, 0, nilexp, nilexp, 0, 0,
+		init = getexp(result_shape, NULL, 0, NULL, NULL, 0, 0,
 			      clear_tag);
-		vardec = getexp(result_shape, nilexp, 0, init, nilexp, 0, 1,
+		vardec = getexp(result_shape, NULL, 0, init, NULL, 0, 1,
 				ident_tag);
 		setvar(vardec);
-		contname = getexp(ptr_res_shape, nilexp, 0, vardec, nilexp, 0,
+		contname = getexp(ptr_res_shape, NULL, 0, vardec, NULL, 0,
 				  0, name_tag);
 		pt(vardec) = contname;
 		cont = f_contents(result_shape, contname);
@@ -1272,7 +1272,7 @@ f_apply_proc(shape result_shape, exp arg1, exp_list arg2, exp_option varparam)
 				 contname, 0, 0, name_tag);
 		++no(vardec);
 		pt(vardec) = appname;
-		app = getexp(f_top, nilexp, 0, son(res), nilexp, 0, 32,
+		app = getexp(f_top, NULL, 0, son(res), NULL, 0, 32,
 			     apply_tag);
 		if (last(son(res))) {
 			clearlast(son(res));
@@ -1336,13 +1336,13 @@ f_assign_with_mode(transfer_mode md, exp arg1, exp arg2)
 
 	if (trap_on_nil_contents && (md & f_trap_on_nil) != 0) {
 		exp d = me_startid(f_top, arg1, 0);
-		exp hldr = getexp(f_top, nilexp, 0, nilexp, nilexp, 0, 0, 0);
-		exp lb = getexp(f_top, nilexp, 0, hldr, nilexp, 0, 0,
+		exp hldr = getexp(f_top, NULL, 0, NULL, NULL, 0, 0, 0);
+		exp lb = getexp(f_top, NULL, 0, hldr, NULL, 0, 0,
 				labst_tag);
 		exp_list el;
 		exp test = me_q1(no_nat_option, f_equal, &lb, me_obtain(d),
 				 f_make_null_ptr(al1_of(sh(arg1))), test_tag);
-		exp trp = getexp(f_bottom, nilexp, 0, nilexp, nilexp, 0,
+		exp trp = getexp(f_bottom, NULL, 0, NULL, NULL, 0,
 				 f_nil_access, trap_tag);
 		md &= ~f_trap_on_nil;
 		el = new_exp_list(1);
@@ -1395,14 +1395,14 @@ f_bitfield_assign(exp p, exp off, exp val)
 		alignment alb = long_to_al(1);
 		shape os = f_offset(als, als);
 		shape bos = f_offset(alb, alb);
-		exp mask0 = getexp(s, nilexp, 0, nilexp, nilexp, 0,
+		exp mask0 = getexp(s, NULL, 0, NULL, NULL, 0,
 				   ((1 << nbits) -1), val_tag);
 
-		exp noff1 = getexp(sh(off), nilexp, 0, nilexp, nilexp, 0, 0,
+		exp noff1 = getexp(sh(off), NULL, 0, NULL, NULL, 0, 0,
 				   name_tag);
-		exp noff2 = getexp(sh(off), nilexp, 0, nilexp, noff1, 0, 0,
+		exp noff2 = getexp(sh(off), NULL, 0, NULL, noff1, 0, 0,
 				   name_tag);
-		exp idoff = getexp(f_top, nilexp, 0, off, noff2, 0, 2,
+		exp idoff = getexp(f_top, NULL, 0, off, noff2, 0, 2,
 				   ident_tag);
 		son(noff1) = idoff; son(noff2) = idoff;
 		{
@@ -1414,13 +1414,13 @@ f_bitfield_assign(exp p, exp off, exp val)
 					  f_offset_pad(als, addbf)),
 					  hold_refactor(f_offset_pad(als,
 					  f_shape_offset(s))));
-			exp v1bit = getexp(bos, nilexp, 0, nilexp, nilexp, 0, 1,
+			exp v1bit = getexp(bos, NULL, 0, NULL, NULL, 0, 1,
 					   val_tag);
-			exp nby1 = getexp(os, nilexp, 0, nilexp, nilexp, 0, 0,
+			exp nby1 = getexp(os, NULL, 0, NULL, NULL, 0, 0,
 					  name_tag);
-			exp nby2 = getexp(os, nilexp, 0, nilexp, nby1, 0, 0,
+			exp nby2 = getexp(os, NULL, 0, NULL, nby1, 0, 0,
 					  name_tag);
-			exp nby3 = getexp(os, nilexp, 0, nilexp, nby2, 0, 0,
+			exp nby3 = getexp(os, NULL, 0, NULL, nby2, 0, 0,
 					  name_tag);
 			exp idby = getexp(f_top, idoff, 1, byteoffinit, nby3, 0,
 					  3, ident_tag);
@@ -1428,9 +1428,9 @@ f_bitfield_assign(exp p, exp off, exp val)
 					 f_offset_subtract(noff2,
 					 f_offset_pad(f_alignment(bfs), nby2)),
 					 v1bit);
-			exp bnt1 = getexp(ulongsh, nilexp, 0, nilexp, nilexp, 0,
+			exp bnt1 = getexp(ulongsh, NULL, 0, NULL, NULL, 0,
 					  0, name_tag);
-			exp bnt2 = getexp(ulongsh, nilexp, 0, nilexp, bnt1, 0,
+			exp bnt2 = getexp(ulongsh, NULL, 0, NULL, bnt1, 0,
 					  0, name_tag);
 
 			switch (endian) {
@@ -1439,16 +1439,16 @@ f_bitfield_assign(exp p, exp off, exp val)
 					   2, ident_tag);
 				break;
 			case ENDIAN_BIG:
-				v = getexp(ulongsh, nilexp, 0, nilexp, nilexp, 0,
+				v = getexp(ulongsh, NULL, 0, NULL, NULL, 0,
 					shape_size(s) - nbits, val_tag);
 				idbnt = getexp(f_top, idby, 1, f_minus(f_wrap, v,
 					bitoffinit), bnt2, 0, 2, ident_tag);
 				break;
 			}
 
-			pn1 = getexp(sh(p), nilexp, 0, nilexp, nilexp, 0, 0,
+			pn1 = getexp(sh(p), NULL, 0, NULL, NULL, 0, 0,
 				 name_tag);
-			pn2 = getexp(sh(p), nilexp, 0, nilexp, pn1, 0, 0,
+			pn2 = getexp(sh(p), NULL, 0, NULL, pn1, 0, 0,
 				 name_tag);
 			idpn = getexp(f_top, idbnt, 1,
 				  f_add_to_ptr(p, nby1), pn2, 0, 2, ident_tag);
@@ -1498,13 +1498,13 @@ f_bitfield_assign_with_mode(transfer_mode md, exp p, exp off, exp val)
 
 	if (trap_on_nil_contents && (md & f_trap_on_nil) != 0) {
 		exp d = me_startid(f_top, p, 0);
-		exp hldr = getexp(f_top, nilexp, 0, nilexp, nilexp, 0, 0, 0);
-		exp lb = getexp(f_top, nilexp, 0, hldr, nilexp, 0, 0,
+		exp hldr = getexp(f_top, NULL, 0, NULL, NULL, 0, 0, 0);
+		exp lb = getexp(f_top, NULL, 0, hldr, NULL, 0, 0,
 				labst_tag);
 		exp_list el;
 		exp test = me_q1(no_nat_option, f_equal, &lb, me_obtain(d),
 				 f_make_null_ptr(al1_of(sh(p))), test_tag);
-		exp trp = getexp(f_bottom, nilexp, 0, nilexp, nilexp, 0,
+		exp trp = getexp(f_bottom, NULL, 0, NULL, NULL, 0,
 				 f_nil_access, trap_tag);
 		md &= ~f_trap_on_nil;
 		el = new_exp_list(1);
@@ -1551,11 +1551,11 @@ f_bitfield_contents(bitfield_variety bf, exp p, exp off)
 		alignment alb = long_to_al(1);
 		shape ob = f_offset(alb, alb);
 		shape os = f_offset(als, als);
-		exp noff1 = getexp(sh(off), nilexp, 0, nilexp, nilexp, 0, 0,
+		exp noff1 = getexp(sh(off), NULL, 0, NULL, NULL, 0, 0,
 				   name_tag);
-		exp noff2 = getexp(sh(off), nilexp, 0, nilexp, noff1, 0, 0,
+		exp noff2 = getexp(sh(off), NULL, 0, NULL, noff1, 0, 0,
 				   name_tag);
-		exp idoff = getexp(s, nilexp, 0, off, noff2, 0, 2, ident_tag);
+		exp idoff = getexp(s, NULL, 0, off, noff2, 0, 2, ident_tag);
 		son(noff1) = idoff; son(noff2) = idoff;
 		{
 			exp addbf = f_offset_add(noff1, f_shape_offset(bfs));
@@ -1563,16 +1563,16 @@ f_bitfield_contents(bitfield_variety bf, exp p, exp off)
 			    f_offset_subtract(hold_refactor(f_offset_pad(als,
 			    addbf)), hold_refactor(f_offset_pad(als,
 			    f_shape_offset(s))));
-			exp nby1 = getexp(os, nilexp, 0, nilexp, nilexp, 0, 0,
+			exp nby1 = getexp(os, NULL, 0, NULL, NULL, 0, 0,
 					  name_tag);
-			exp nby2 = getexp(os, nilexp, 0, nilexp, nby1, 0, 0,
+			exp nby2 = getexp(os, NULL, 0, NULL, nby1, 0, 0,
 					  name_tag);
-			exp idby = getexp(s, nilexp, 0, byteoffinit, nby2, 0, 2,
+			exp idby = getexp(s, NULL, 0, byteoffinit, nby2, 0, 2,
 					  ident_tag);
 			exp cnt; exp sh1; exp sh2; exp bitoff; exp shl;
-			exp v = getexp(ulongsh, nilexp, 0, nilexp, nilexp, 0,
+			exp v = getexp(ulongsh, NULL, 0, NULL, NULL, 0,
 				       shape_size(s) - bf.bits, val_tag);
-			exp v1bit = getexp(ob, nilexp, 0, nilexp, nilexp, 0, 1,
+			exp v1bit = getexp(ob, NULL, 0, NULL, NULL, 0, 1,
 					   val_tag);
 			son(nby1) = idby; son(nby2) = idby;
 			cnt = f_contents(s, f_add_to_ptr(p, nby1));
@@ -1617,13 +1617,13 @@ f_bitfield_contents_with_mode(transfer_mode md, bitfield_variety bf, exp p,
 
 	if (trap_on_nil_contents && (md & f_trap_on_nil) != 0) {
 		exp d = me_startid(f_bitfield(bf), p, 0);
-		exp hldr = getexp(f_top, nilexp, 0, nilexp, nilexp, 0, 0, 0);
-		exp lb = getexp(f_top, nilexp, 0, hldr, nilexp, 0, 0,
+		exp hldr = getexp(f_top, NULL, 0, NULL, NULL, 0, 0, 0);
+		exp lb = getexp(f_top, NULL, 0, hldr, NULL, 0, 0,
 				labst_tag);
 		exp_list el;
 		exp test = me_q1(no_nat_option, f_equal, &lb, me_obtain(d),
 				 f_make_null_ptr(al1_of(sh(p))), test_tag);
-		exp trp = getexp(f_bottom, nilexp, 0, nilexp, nilexp, 0,
+		exp trp = getexp(f_bottom, NULL, 0, NULL, NULL, 0,
 				 f_nil_access, trap_tag);
 		md &= ~f_trap_on_nil;
 		el = new_exp_list(1);
@@ -1663,16 +1663,16 @@ f_case_transform(bool exhaustive, exp control, caselim_list branches)
 		return control;
 	}
 
-	bro(global_case) = nilexp;
-	while (branches != nilexp) {
+	bro(global_case) = NULL;
+	while (branches != NULL) {
 		exp hd = branches;
 		branches = bro(branches);
-		bro(hd) = nilexp;
+		bro(hd) = NULL;
 		sh(hd) = sh(control);
-		if (son(hd) != nilexp) {
+		if (son(hd) != NULL) {
 			sh(son(hd)) = sh(control);
 		}
-		if (son(hd) != nilexp &&
+		if (son(hd) != NULL &&
 		    docmp_f((int)f_less_than, son(hd), hd)) {
 			--no(son(pt(hd)));
 			retcell(son(hd));
@@ -1682,7 +1682,7 @@ f_case_transform(bool exhaustive, exp control, caselim_list branches)
 		}
 	}
 
-	if (bro(global_case) == nilexp) {
+	if (bro(global_case) == NULL) {
 		return control;
 	}
 	case_shape = (exhaustive)? f_bottom : f_top;
@@ -1697,14 +1697,14 @@ f_case_transform(bool exhaustive, exp control, caselim_list branches)
 		}
 	}
 
-	r = getexp(case_shape, nilexp, 0, control, nilexp, 0, 0, case_tag);
+	r = getexp(case_shape, NULL, 0, control, NULL, 0, 0, case_tag);
 	clearlast(control);
 	bro(control) = bro(global_case);
 	ht = control;
-	while (bro(ht) != nilexp) {
+	while (bro(ht) != NULL) {
 		ht = bro(ht);
 		sh(ht) = changer_shape;
-		if (son(ht) != nilexp) {
+		if (son(ht) != NULL) {
 			sh(son(ht)) = changer_shape;
 		}
 	}
@@ -1737,23 +1737,23 @@ f_case_notransform(bool exhaustive, exp control, caselim_list branches)
 	exp r, ht;
 	shape case_shape;
 	/*  UNUSED(branches);
-	    if (name(sh(control)) == bothd || bro(global_case) == nilexp)
+	    if (name(sh(control)) == bothd || bro(global_case) == NULL)
 	    return control;
 	 */
 	if (name(sh(control)) == bothd) {
 		return control;
 	}
 
-	bro(global_case) = nilexp;
-	while (branches != nilexp) {
+	bro(global_case) = NULL;
+	while (branches != NULL) {
 		exp hd = branches;
 		branches = bro(branches);
-		bro(hd) = nilexp;
+		bro(hd) = NULL;
 		sh(hd) = sh(control);
-		if (son(hd) != nilexp) {
+		if (son(hd) != NULL) {
 			sh(son(hd)) = sh(control);
 		}
-		if (son(hd) != nilexp &&
+		if (son(hd) != NULL &&
 		    docmp_f((int)f_less_than, son(hd), hd)) {
 			--no(son(pt(hd)));
 			retcell(son(hd));
@@ -1762,7 +1762,7 @@ f_case_notransform(bool exhaustive, exp control, caselim_list branches)
 			case_item(hd);
 		}
 	}
-	if (bro(global_case) == nilexp) {
+	if (bro(global_case) == NULL) {
 		return control;
 	}
 	case_shape = (exhaustive) ? f_bottom : f_top;
@@ -1777,14 +1777,14 @@ f_case_notransform(bool exhaustive, exp control, caselim_list branches)
 		}
 	}
 
-	r = getexp(case_shape, nilexp, 0, control, nilexp, 0, 0, case_tag);
+	r = getexp(case_shape, NULL, 0, control, NULL, 0, 0, case_tag);
 	clearlast(control);
 	bro(control) = bro(global_case);
 	ht = control;
-	while (bro(ht) != nilexp) {
+	while (bro(ht) != NULL) {
 		ht = bro(ht);
 		sh(ht) = sh(control);
-		if (son(ht) != nilexp) {
+		if (son(ht) != NULL) {
 			sh(son(ht)) = sh(control);
 		}
 	}
@@ -1959,7 +1959,7 @@ f_conditional(label alt_label_intro, exp first, exp alt)
 	labst = get_lab(alt_label_intro);
 
 	res_shape = lub_shape(sh(first), sh(alt));
-	r = getexp(res_shape, nilexp, 0, first, nilexp, 0, 0, cond_tag);
+	r = getexp(res_shape, NULL, 0, first, NULL, 0, 0, cond_tag);
 	def = son(labst);
 	setbro(first, labst);
 	clearlast(first);
@@ -1979,8 +1979,8 @@ start_conditional(label alt_label_intro)
 {
 	exp tg;
 	exp labst;
-	tg = getexp(f_top, nilexp, 0, nilexp, nilexp, 0, 0, clear_tag);
-	labst = getexp(f_bottom, nilexp, 0, tg, nilexp, 0, 0, labst_tag);
+	tg = getexp(f_top, NULL, 0, NULL, NULL, 0, 0, clear_tag);
+	labst = getexp(f_bottom, NULL, 0, tg, NULL, 0, 0, labst_tag);
 	default_freq = (float)(default_freq / 2.0);
 	fno(labst) = default_freq;
 	++proc_label_count;
@@ -2030,13 +2030,13 @@ f_contents_with_mode(transfer_mode md, shape s, exp arg1)
 
 	if (trap_on_nil_contents && (md & f_trap_on_nil) != 0) {
 		exp d = me_startid(s, arg1, 0);
-		exp hldr = getexp(f_top, nilexp, 0, nilexp, nilexp, 0, 0, 0);
-		exp lb = getexp(f_top, nilexp, 0, hldr, nilexp, 0, 0,
+		exp hldr = getexp(f_top, NULL, 0, NULL, NULL, 0, 0, 0);
+		exp lb = getexp(f_top, NULL, 0, hldr, NULL, 0, 0,
 				labst_tag);
 		exp_list el;
 		exp test = me_q1(no_nat_option, f_equal, &lb, me_obtain(d),
 				 f_make_null_ptr(f_alignment(s)), test_tag);
-		exp trp = getexp(f_bottom, nilexp, 0, nilexp, nilexp, 0,
+		exp trp = getexp(f_bottom, NULL, 0, NULL, NULL, 0,
 				 f_nil_access, trap_tag);
 		md &= ~f_trap_on_nil;
 		el = new_exp_list(1);
@@ -2061,7 +2061,7 @@ f_current_env(void)
 	}
 	uses_crt_env = 1;
 	uses_loc_address = 1;
-	return getexp(f_pointer(frame_alignment), nilexp, 0, nilexp, nilexp, 0,
+	return getexp(f_pointer(frame_alignment), NULL, 0, NULL, NULL, 0,
 		      0, current_env_tag);
 }
 
@@ -2084,8 +2084,8 @@ div_rem(error_treatment div0_err, error_treatment ov_err, exp arg1, exp arg2,
 		return f(ov_err, arg1, arg2);
 	} else {
 		exp da2 = me_startid(sh(arg1), arg2, 0);
-		exp hldr = getexp(f_top, nilexp, 0, nilexp, nilexp, 0, 0, 0);
-		exp lb = getexp(f_top, nilexp, 0, hldr, nilexp, 0, 0,
+		exp hldr = getexp(f_top, NULL, 0, NULL, NULL, 0, 0, 0);
+		exp lb = getexp(f_top, NULL, 0, hldr, NULL, 0, 0,
 				labst_tag);
 		exp tst = f_integer_test(no_nat_option, f_equal, &lb,
 					 me_obtain(da2), me_shint(sh(arg2), 0));
@@ -2096,7 +2096,7 @@ div_rem(error_treatment div0_err, error_treatment ov_err, exp arg1, exp arg2,
 		if (div0_err.err_code == 4) {
 			wrong = f_goto(div0_err.jmp_dest);
 		} else if (div0_err.err_code > 4) {
-			wrong = getexp(f_bottom, nilexp, 0, nilexp, nilexp, 0,
+			wrong = getexp(f_bottom, NULL, 0, NULL, NULL, 0,
 				       f_overflow, trap_tag);
 		} else {
 			wrong = me_shint(sh(arg1), 0);
@@ -2227,13 +2227,13 @@ f_env_offset(alignment fa, alignment y, tag t)
 	exp e = get_tag(t);
 	shape s = f_offset(fa, y);
 	exp res;
-	if (e == nilexp) {
-		e = getexp(f_bottom, nilexp, 0, nilexp, nilexp, 0, 0,
+	if (e == NULL) {
+		e = getexp(f_bottom, NULL, 0, NULL, NULL, 0, 0,
 			   ident_tag);
 		son(e) = e; /* used to indicate that tag is not yet defined!?*/
 		set_tag(t, e);
 	}
-	res = getexp(s, nilexp, 0, e, nilexp, 0, 0, env_offset_tag);
+	res = getexp(s, NULL, 0, e, NULL, 0, 0, env_offset_tag);
 	setvis(e);
 	setenvoff(e);
 	return res;
@@ -2251,7 +2251,7 @@ f_fail_installer(string message)
 	m[message.number] = 0;
 	failer(m);
 	exit(EXIT_FAILURE);
-	return nilexp;
+	return NULL;
 }
 
 
@@ -2259,7 +2259,7 @@ exp
 f_goto(label dest)
 {
 	exp lab = get_lab(dest);
-	exp r = getexp(f_bottom, nilexp, 0, nilexp, lab, 0, 0, goto_tag);
+	exp r = getexp(f_bottom, NULL, 0, NULL, lab, 0, 0, goto_tag);
 	++no(son(lab));
 	return r;
 }
@@ -2304,8 +2304,8 @@ void
 start_identify(access_option acc, tag name_intro, exp definition)
 {
 	exp i = get_tag(name_intro);
-	if (i == nilexp || son(i) != i) {
-		i = getexp(f_bottom, nilexp, 0, definition, nilexp, 0, 0,
+	if (i == NULL || son(i) != i) {
+		i = getexp(f_bottom, NULL, 0, definition, NULL, 0, 0,
 			   ident_tag);
 	} else {
 		/* could have been already used in env_offset */
@@ -2354,7 +2354,7 @@ f_integer_test(nat_option prob, ntest nt, label dest, exp arg1, exp arg2)
 		error_treatment ov_err;
 		ov_err = f_wrap;
 		arg1 = TDFcallop2(ov_err, arg1, arg2, test_tag);
-		arg2 = getexp(slongsh, nilexp, 0, nilexp, nilexp, 0, 0,
+		arg2 = getexp(slongsh, NULL, 0, NULL, NULL, 0, 0,
 			      val_tag);
 	}
 
@@ -2400,10 +2400,10 @@ void
 start_labelled(label_list placelabs_intro)
 {
 	UNUSED(placelabs_intro);
-	if (crt_repeat != nilexp) {
+	if (crt_repeat != NULL) {
 		++no(crt_repeat);
 	}
-	repeat_list = getexp(f_top, crt_repeat, 0, nilexp, repeat_list, 0, 0,
+	repeat_list = getexp(f_top, crt_repeat, 0, NULL, repeat_list, 0, 0,
 			     0);
 	crt_repeat = repeat_list;
 
@@ -2415,7 +2415,7 @@ exp
 f_last_local(exp x)
 {
 	UNUSED(x);
-	return getexp(f_pointer(f_alloca_alignment), nilexp, 0, nilexp, nilexp,
+	return getexp(f_pointer(f_alloca_alignment), NULL, 0, NULL, NULL,
 		      0, 0, last_local_tag);
 }
 
@@ -2485,7 +2485,7 @@ f_local_free_all(void)
 {
 	has_setjmp = 1; /* this really means dont inline
 			   and use a stack frame */
-	return getexp(f_top, nilexp, 0, nilexp, nilexp, 0, 0,
+	return getexp(f_top, NULL, 0, NULL, NULL, 0, 0,
 		      local_free_all_tag);
 }
 
@@ -2525,7 +2525,7 @@ exp
 f_make_compound(exp arg1, exp_list arg2)
 {
 	exp first = arg2.start;
-	exp r = getexp(f_compound(arg1), nilexp, 0, first, nilexp, 0, 0,
+	exp r = getexp(f_compound(arg1), NULL, 0, first, NULL, 0, 0,
 		       compound_tag);
 	clear_exp_list(arg2);
 
@@ -2625,8 +2625,8 @@ f_make_int(variety v, signed_nat value)
 			temp = flt_to_f64(
 			    value.signed_nat_val.big_s_nat, 0, &ov);
 			n = temp.small;
-			res = getexp(f_integer(v), nilexp, 0, nilexp,
-				     nilexp, 0, n, val_tag);
+			res = getexp(f_integer(v), NULL, 0, NULL,
+				     NULL, 0, n, val_tag);
 			return res;
 		}
 		if (snat_issmall(value)) {
@@ -2649,7 +2649,7 @@ f_make_int(variety v, signed_nat value)
 			failer(BIG_32);
 			exit(EXIT_FAILURE);
 		}
-		res = getexp(f_integer(v), nilexp, 0, nilexp, nilexp, 0, b,
+		res = getexp(f_integer(v), NULL, 0, NULL, NULL, 0, b,
 			     val_tag);
 		setbigval(res);
 		return res;
@@ -2658,7 +2658,7 @@ f_make_int(variety v, signed_nat value)
 			n = -n;
 		}
 
-		return getexp(f_integer(v), nilexp, 0, nilexp, nilexp, 0, n,
+		return getexp(f_integer(v), NULL, 0, NULL, NULL, 0, n,
 			      val_tag);
 	}
 }
@@ -2668,7 +2668,7 @@ exp
 f_make_local_lv(label lab)
 {
 	exp l = get_lab(lab);
-	exp res = getexp(f_local_label_value, nilexp, 0, nilexp, l, 0, 0,
+	exp res = getexp(f_local_label_value, NULL, 0, NULL, l, 0, 0,
 			 make_lv_tag);
 	++no(son(l));
 	set_loaded_lv(l);
@@ -2687,10 +2687,10 @@ f_make_nof(exp_list arg1)
 	nat_issmall(t) = 1;
 	natint(t) = arg1.number;
 	if (arg1.number == 0) {
-		return getexp(f_nof(t, f_top), nilexp, 0, nilexp, nilexp, 0, 0,
+		return getexp(f_nof(t, f_top), NULL, 0, NULL, NULL, 0, 0,
 			      nof_tag);
 	}
-	r = getexp(f_nof(t, sh(first)), nilexp, 0, first, nilexp, 0, 0,
+	r = getexp(f_nof(t, sh(first)), NULL, 0, first, NULL, 0, 0,
 		   nof_tag);
 
 	if (check & CHECK_SHAPE) {
@@ -2718,7 +2718,7 @@ f_make_nof(exp_list arg1)
 		    f_shape_offset(sh(r)))));
 		exp soff = getexp(f_offset(f_alignment(cpds),
 					   f_alignment(sh(first))),
-				  nilexp, 0, nilexp, nilexp, 0, 0, val_tag);
+				  NULL, 0, NULL, NULL, 0, 0, val_tag);
 		for (i = 0; i < arg1.number; i++) {
 			bro(soff) = *a;
 			*a = copyexp(soff);
@@ -2751,7 +2751,7 @@ f_make_nof_int(variety v, string s)
 	nat_issmall(t) = 1;
 	natint(t) = s.number;
 	sha = f_nof(t, elem_sh);
-	res = getexp(sha, nilexp, 0, nilexp, nilexp, (prop)elem_sz, 0,
+	res = getexp(sha, NULL, 0, NULL, NULL, (prop)elem_sz, 0,
 		     string_tag);
 
 
@@ -3026,7 +3026,7 @@ start_make_proc(shape result_shape, tagshacc_list params_intro,
 	UNUSED(result_shape); UNUSED(params_intro);
 	push_proc_props();
 
-	proc_struct_result = nilexp;
+	proc_struct_result = NULL;
 	has_alloca = 0;
 	proc_is_recursive = 0;
 	uses_crt_env = 0;
@@ -3043,8 +3043,8 @@ start_make_proc(shape result_shape, tagshacc_list params_intro,
 	if (vartag.present) {
 		shape sha = getshape(0, const_al1, const_al1, VAR_PARAM_ALIGN,
 				     0, cpdhd);
-		exp d = getexp(sha, nilexp, 0, nilexp, nilexp, 0, 0, clear_tag);
-		exp i = getexp(f_bottom, nilexp, 1, d, nilexp, 0, 0, ident_tag);
+		exp d = getexp(sha, NULL, 0, NULL, NULL, 0, 0, clear_tag);
+		exp i = getexp(f_bottom, NULL, 1, d, NULL, 0, 0, ident_tag);
 		setvis(i);
 		setvar(i);
 		setparam(i);
@@ -3077,7 +3077,7 @@ f_make_proc(shape result_shape, tagshacc_list params_intro,
 
 	if (vartag.present) {
 		exp i = get_tag(vartag.val.tg);
-		if (params_intro.id == nilexp) {
+		if (params_intro.id == NULL) {
 			params_intro.id = i;
 		} else {
 			bro(params_intro.last_def) = i;
@@ -3090,7 +3090,7 @@ f_make_proc(shape result_shape, tagshacc_list params_intro,
 		varhack = 1;
 	}
 
-	res = getexp(f_proc, nilexp, 0, params_intro.id, result_shape, 0, 0,
+	res = getexp(f_proc, NULL, 0, params_intro.id, result_shape, 0, 0,
 		     proc_tag);
 
 	if (params_intro.number == 0) {
@@ -3167,7 +3167,7 @@ f_make_proc(shape result_shape, tagshacc_list params_intro,
 				 */
 				exp use;	/* use of ident in pt() chain */
 				exp prev;	/* previous use in pt() chain */
-				exp eo = nilexp;
+				exp eo = NULL;
 				shape ptr_s =
 				    f_pointer(f_alignment(sh(son(param))));
 
@@ -3220,7 +3220,7 @@ f_make_proc(shape result_shape, tagshacc_list params_intro,
 				/* visit each use of the parameter modifying
 				   appropriately*/
 				for (prev = param, use = pt(prev);
-				     use != nilexp;
+				     use != NULL;
 				     prev = use, use = pt(prev)) {
 					if (!uses_crt_env ||
 					    (uses_crt_env && use != eo)) {
@@ -3235,7 +3235,7 @@ f_make_proc(shape result_shape, tagshacc_list params_intro,
 								   0, name_tag);
 							son(use) = new_use;
 							pt(prev) = new_use;
-							pt(use) = nilexp;
+							pt(use) = NULL;
 							props(use) = (prop)0;
 							setname(use, cont_tag);
 							/* retain same no and
@@ -3255,7 +3255,7 @@ f_make_proc(shape result_shape, tagshacc_list params_intro,
 								   0, name_tag);
 							son(use) = new_use;
 							pt(prev) = new_use;
-							pt(use) = nilexp;
+							pt(use) = NULL;
 							props(use) = (prop)0;
 							setname(use, reff_tag);
 							/* retain same no and
@@ -3270,7 +3270,7 @@ f_make_proc(shape result_shape, tagshacc_list params_intro,
 				if (!varhack) {
 					/* Change all but ptr's references to
 					   param to references to ptr */
-					for (use = pt(param); use != nilexp;
+					for (use = pt(param); use != NULL;
 					     use = pt(use)) {
 						if ((son(use) ==param) &&
 						    (use != son(son(id))) &&
@@ -3304,7 +3304,7 @@ f_make_proc(shape result_shape, tagshacc_list params_intro,
 		} /* for */
 	}
 
-	if (proc_struct_result != nilexp) {
+	if (proc_struct_result != NULL) {
 		bro(son(proc_struct_result)) = son(res);
 		setfather(proc_struct_result, son(res));
 		son(res) = proc_struct_result;
@@ -3321,7 +3321,7 @@ f_make_proc(shape result_shape, tagshacc_list params_intro,
 		dec *extra_dec = make_extra_dec(make_local_name(), 0, 0, res,
 						f_proc);
 		exp e = extra_dec->dec_u.dec_val.dec_exp;
-		res = getexp(f_proc, nilexp, 0, e, nilexp, 0, 0, name_tag);
+		res = getexp(f_proc, NULL, 0, e, NULL, 0, 0, name_tag);
 		pt(e) = res;
 		no(e) = 1;
 	}
@@ -3341,7 +3341,7 @@ start_make_general_proc(shape result_shape, procprops prcprops,
 
 	push_proc_props();
 
-	proc_struct_result = nilexp;
+	proc_struct_result = NULL;
 	has_alloca = 0;
 	proc_is_recursive = 0;
 	uses_crt_env = 0;
@@ -3379,7 +3379,7 @@ f_make_general_proc(shape result_shape, procprops prcprops,
 		}
 	}
 
-	res = getexp(f_proc, nilexp, 0, caller_intro.id, result_shape, 0, 0,
+	res = getexp(f_proc, NULL, 0, caller_intro.id, result_shape, 0, 0,
 		     general_proc_tag);
 
 	if (caller_intro.number == 0 && callee_intro.number == 0) {
@@ -3476,7 +3476,7 @@ f_make_general_proc(shape result_shape, procprops prcprops,
 				/* visit each use of the parameter modifying
 				   appropriately*/
 				for (prev = param, use = pt(prev);
-				     use != nilexp;
+				     use != NULL;
 				     prev = use, use = pt(prev)) {
 					if (!isvar(param)) {
 						/* add cont */
@@ -3487,7 +3487,7 @@ f_make_general_proc(shape result_shape, procprops prcprops,
 							   name_tag);
 						son(use) = new_use;
 						pt(prev) = new_use;
-						pt(use) = nilexp;
+						pt(use) = NULL;
 						props(use) = (prop)0;
 						/* retain same no and sh */
 						setname(use, cont_tag);
@@ -3503,7 +3503,7 @@ f_make_general_proc(shape result_shape, procprops prcprops,
 							   name_tag);
 						son(use) = new_use;
 						pt(prev) = new_use;
-						pt(use) = nilexp;
+						pt(use) = NULL;
 						props(use) = (prop)0;
 						/* retain same no and sh */
 						setname(use, reff_tag);
@@ -3546,12 +3546,12 @@ f_make_general_proc(shape result_shape, procprops prcprops,
 	}
 
 	if (redo_structfns && !reg_result(result_shape)) {
-		if (proc_struct_result==nilexp) {
+		if (proc_struct_result==NULL) {
 			exp init = getexp(f_pointer(f_alignment(result_shape)),
-					  nilexp, 0, nilexp, nilexp, 0, 0,
+					  NULL, 0, NULL, NULL, 0, 0,
 					  clear_tag);
-			exp iddec = getexp(sh(son(res)), nilexp, 0, init,
-					   nilexp, 0, 0, ident_tag);
+			exp iddec = getexp(sh(son(res)), NULL, 0, init,
+					   NULL, 0, 0, ident_tag);
 			setparam(iddec);
 			proc_struct_result = iddec;
 		}
@@ -3573,7 +3573,7 @@ f_make_general_proc(shape result_shape, procprops prcprops,
 		dec *extra_dec = make_extra_dec(make_local_name(), 0, 0, res,
 						f_proc);
 		exp e = extra_dec->dec_u.dec_val.dec_exp;
-		res = getexp(f_proc, nilexp, 0, e, nilexp, 0, 0, name_tag);
+		res = getexp(f_proc, NULL, 0, e, NULL, 0, 0, name_tag);
 		pt(e) = res;
 		no(e) = 1;
 	}
@@ -3591,7 +3591,7 @@ find_caller_id(int n, exp p)
 		}
 		p = bro(son(p));
 	}
-	return nilexp;
+	return NULL;
 }
 
 
@@ -3609,10 +3609,10 @@ f_apply_general_proc(shape result_shape, procprops prcprops, exp p,
 		     otagexp_list caller_pars, callees callee_pars,
 		     exp postlude)
 {
-	exp res = getexp(result_shape, nilexp, 0, p, nilexp, 0, 0,
+	exp res = getexp(result_shape, NULL, 0, p, NULL, 0, 0,
 			 apply_general_tag);
 	exp r_p;
-	exp redos = nilexp;
+	exp redos = NULL;
 	exp last_redo;
 	has_alloca = 1;
 
@@ -3646,13 +3646,13 @@ f_apply_general_proc(shape result_shape, procprops prcprops, exp p,
 				exp id;
 				if (name(ote) ==caller_tag &&
 				    (id = find_caller_id(i, caller_pars.id)) !=
-				    nilexp) {
+				    NULL) {
 					exp p = pt(id);
 					son(ote) = npar;
 					bro(npar) = ote;
 					setlast(npar);
 					sh(son(id)) = sh(npar);
-					while(p != nilexp) {
+					while(p != NULL) {
 						/* replaces uses in postlude */
 						exp bp = bro(p);
 						int l = last(p);
@@ -3685,7 +3685,7 @@ f_apply_general_proc(shape result_shape, procprops prcprops, exp p,
 				}
 				bro(son(rd)) = redos;
 				clearlast(son(rd));
-				if (redos != nilexp) {
+				if (redos != NULL) {
 					bro(redos) = rd;
 					setlast(redos);
 				} else {
@@ -3697,9 +3697,9 @@ f_apply_general_proc(shape result_shape, procprops prcprops, exp p,
 		}
 	}
 
-	if (caller_pars.id != nilexp) {
+	if (caller_pars.id != NULL) {
 		exp a = caller_pars.id;
-		while (bro(son(a)) != nilexp) {
+		while (bro(son(a)) != NULL) {
 			a = bro(son(a));
 		}
 		bro(son(a)) = postlude;
@@ -3713,7 +3713,7 @@ f_apply_general_proc(shape result_shape, procprops prcprops, exp p,
 	clearlast(callee_pars);
 	props(callee_pars) = prcprops;
 
-	r_p = getexp(f_top, callee_pars, 0, caller_pars.start, nilexp, prcprops,
+	r_p = getexp(f_top, callee_pars, 0, caller_pars.start, NULL, prcprops,
 		     caller_pars.number, 0);
 	if (caller_pars.number != 0) {
 		setfather(r_p, caller_pars.end);
@@ -3738,21 +3738,21 @@ f_apply_general_proc(shape result_shape, procprops prcprops, exp p,
 				if (name(ote) == caller_tag) {
 					sh(ote) = ns;
 				}
-				replace(par, w, nilexp);
-				kill_exp(par, nilexp);
+				replace(par, w, NULL);
+				kill_exp(par, NULL);
 				if (name(ote) == caller_tag &&
 				    (id = find_caller_id(i, postlude)) !=
-				    nilexp) {
+				    NULL) {
 					exp p = pt(id);
 					sh(son(id)) = ns;
-					while(p != nilexp) {
+					while(p != NULL) {
 						/* replaces uses in postlude */
 						exp nextp = pt(p);
 						sh(p) = ns;
 						w = f_change_variety(f_wrap, s,
 								     copy(p));
-						replace(p, w, nilexp);
-						kill_exp(p, nilexp);
+						replace(p, w, NULL);
+						kill_exp(p, NULL);
 						p = nextp;
 					}
 				}
@@ -3771,12 +3771,12 @@ f_apply_general_proc(shape result_shape, procprops prcprops, exp p,
 		exp_list list;
 		shape ptr_res_shape = f_pointer(f_alignment(result_shape));
 
-		init = getexp(result_shape, nilexp, 0, nilexp, nilexp, 0, 0,
+		init = getexp(result_shape, NULL, 0, NULL, NULL, 0, 0,
 			      clear_tag);
-		vardec = getexp(result_shape, nilexp, 0, init, nilexp, 0, 1,
+		vardec = getexp(result_shape, NULL, 0, init, NULL, 0, 1,
 				ident_tag);
 		setvar(vardec);
-		contname = getexp(ptr_res_shape, nilexp, 0, vardec, nilexp, 0,
+		contname = getexp(ptr_res_shape, NULL, 0, vardec, NULL, 0,
 				  0, name_tag);
 		pt(vardec) = contname;
 		cont = f_contents(result_shape, contname);
@@ -3788,7 +3788,7 @@ f_apply_general_proc(shape result_shape, procprops prcprops, exp p,
 		}
 		++no(vardec);
 		pt(vardec) = appname;
-		app = getexp(f_top, nilexp, 0, son(res), nilexp, 0, 32,
+		app = getexp(f_top, NULL, 0, son(res), NULL, 0, 32,
 			     apply_general_tag);
 		son(r_p) = appname;
 
@@ -3810,7 +3810,7 @@ f_apply_general_proc(shape result_shape, procprops prcprops, exp p,
 		res = vardec;
 	}
 
-	if (redos != nilexp) {
+	if (redos != NULL) {
 		/* put in decs given by redo_structparams */
 		bro(son(last_redo)) = res;
 		clearlast(son(last_redo));
@@ -3826,13 +3826,13 @@ f_apply_general_proc(shape result_shape, procprops prcprops, exp p,
 exp
 f_tail_call(procprops prcprops, exp p, callees callee_params)
 {
-	exp res = getexp(f_bottom, nilexp, 0, p, nilexp, 0, 0, tail_call_tag);
+	exp res = getexp(f_bottom, NULL, 0, p, NULL, 0, 0, tail_call_tag);
 	exp e_p;
 	if (name(callee_params) == same_callees_tag) {
 		/* it's a constant */
 		callee_params = copy(callee_params);
 	}
-	e_p = getexp(f_top, res, 1, callee_params, nilexp, prcprops, 0, 0);
+	e_p = getexp(f_top, res, 1, callee_params, NULL, prcprops, 0, 0);
 	has_setjmp = 1; /* stop inlining! */
 	has_alloca = 1; /* make sure has fp */
 	props(callee_params) = prcprops;
@@ -3846,7 +3846,7 @@ f_tail_call(procprops prcprops, exp p, callees callee_params)
 exp
 f_untidy_return(exp arg)
 {
-	exp res = getexp(f_bottom, nilexp, 0, arg, nilexp, 0, 0,
+	exp res = getexp(f_bottom, NULL, 0, arg, NULL, 0, 0,
 			 untidy_return_tag);
 	setfather(res, arg);
 	has_setjmp = 1;
@@ -3870,7 +3870,7 @@ f_set_stack_limit(exp flim)
 exp
 f_give_stack_limit(alignment frame_al)
 {
-   	exp res = getexp(f_pointer(frame_al), nilexp, 0, nilexp, nilexp, 0, 0,
+   	exp res = getexp(f_pointer(frame_al), NULL, 0, NULL, NULL, 0, 0,
 			 give_stack_limit_tag);
    	return res;
 }
@@ -3893,7 +3893,7 @@ exp
 f_env_size(tag proctag)
 {
   	exp res = getexp(f_offset(f_locals_alignment, f_locals_alignment),
-			 nilexp, 0, f_obtain_tag(proctag), nilexp, 0, 0,
+			 NULL, 0, f_obtain_tag(proctag), NULL, 0, 0,
 			 env_size_tag);
   	bro(son(res)) = res;
 	setlast(son(res));
@@ -3914,7 +3914,7 @@ f_error_val(error_code ec)
 exp
 f_make_top(void)
 {
-	return getexp(f_top, nilexp, 0, nilexp, nilexp, 0, 0, top_tag);
+	return getexp(f_top, NULL, 0, NULL, NULL, 0, 0, top_tag);
 }
 
 exp
@@ -3953,7 +3953,7 @@ f_minus(error_treatment ov_err, exp arg1, exp arg2)
 exp
 f_move_some(transfer_mode md, exp arg1, exp arg2, exp arg3)
 {
-	exp r = getexp(f_top, nilexp, 0, arg1, nilexp, 0, 0, movecont_tag);
+	exp r = getexp(f_top, NULL, 0, arg1, NULL, 0, 0, movecont_tag);
 	if (name(sh(arg1)) == bothd) {
 		kill_exp(arg2, arg2);
 		kill_exp(arg3, arg3);
@@ -3981,8 +3981,8 @@ f_move_some(transfer_mode md, exp arg1, exp arg2, exp arg3)
 	if (trap_on_nil_contents && (md & f_trap_on_nil) != 0) {
 		exp d2 = me_startid(f_top, arg2, 0);
 		exp d1 = me_startid(f_top, arg1, 0);
-		exp hldr = getexp(f_top, nilexp, 0, nilexp, nilexp, 0, 0, 0);
-		exp lb = getexp(f_top, nilexp, 0, hldr, nilexp, 0, 0,
+		exp hldr = getexp(f_top, NULL, 0, NULL, NULL, 0, 0, 0);
+		exp lb = getexp(f_top, NULL, 0, hldr, NULL, 0, 0,
 				labst_tag);
 		exp_list el;
 		exp test2 = me_q1(no_nat_option, f_not_equal, &lb,
@@ -3991,7 +3991,7 @@ f_move_some(transfer_mode md, exp arg1, exp arg2, exp arg3)
 		exp test1 = me_q1(no_nat_option, f_not_equal, &lb,
 				  me_obtain(d1), f_make_null_ptr(al1_of(
 				  sh(arg1))), test_tag);
-		exp trp = getexp(f_bottom, nilexp, 0, nilexp, nilexp, 0,
+		exp trp = getexp(f_bottom, NULL, 0, NULL, NULL, 0,
 				 f_nil_access, trap_tag);
 		md &= ~f_trap_on_nil;
 		el = new_exp_list(2);
@@ -4064,7 +4064,7 @@ f_n_copies(nat n, exp arg1)
 		failer(TOO_BIG_A_VECTOR);
 	}
 
-	r = getexp(f_nof(n, sh(arg1)), nilexp, 0, arg1, nilexp, 0, natint(n),
+	r = getexp(f_nof(n, sh(arg1)), NULL, 0, arg1, NULL, 0, natint(n),
 		   ncopies_tag);
 	if (name(sh(arg1)) == bitfhd) {
 		/* make ncopies bitfields into (ncopies) make-compound */
@@ -4076,8 +4076,8 @@ f_n_copies(nat n, exp arg1)
 		shape cpds = f_compound(hold_refactor(f_offset_pad(f_alignment(cs),
 		    f_shape_offset(sh(r)))));
 		exp soff = getexp(f_offset(f_alignment(cpds),
-					   f_alignment(sh(arg1))), nilexp, 0,
-				  nilexp, nilexp, 0, 0, val_tag);
+					   f_alignment(sh(arg1))), NULL, 0,
+				  NULL, NULL, 0, 0, val_tag);
 		exp cexp;
 		a.start = copyexp(soff);
 		a.end = a.start;
@@ -4095,7 +4095,7 @@ f_n_copies(nat n, exp arg1)
 		}
 
 		setlast(a.end);
-		bro(a.end) = nilexp;
+		bro(a.end) = NULL;
 		cexp = f_make_compound(hold_refactor(f_shape_offset(cs)), a);
 		if (shape_size(cs) >= shape_size(cpds)) {
 			return cexp;
@@ -4165,7 +4165,7 @@ f_obtain_tag(tag t)
 	exp r;
 	exp tg = get_tag(t);
 
-	if (tg == nilexp) {
+	if (tg == NULL) {
 		failer(UNDEF_TAG);
 	}
 
@@ -4190,7 +4190,7 @@ f_obtain_tag(tag t)
 		}
 	}
 
-	r = getexp(s, nilexp, 0, tg, pt(tg), 0, 0, name_tag);
+	r = getexp(s, NULL, 0, tg, pt(tg), 0, 0, name_tag);
 	pt(tg) = r;
 	no(tg) = no(tg) +1;
 	return r;
@@ -4473,7 +4473,7 @@ f_offset_test(nat_option prob, ntest nt, label dest, exp arg1, exp arg2)
 exp
 f_offset_zero(alignment a)
 {
-	return getexp(f_offset(a, a), nilexp, 0, nilexp, nilexp, 0, 0, val_tag);
+	return getexp(f_offset(a, a), NULL, 0, NULL, NULL, 0, 0, val_tag);
 }
 
 
@@ -4592,7 +4592,7 @@ f_proc_test(nat_option prob, ntest nt, label dest, exp arg1, exp arg2)
 exp
 f_profile(nat n)
 {
-	return getexp(f_top, nilexp, 0, nilexp, nilexp, 0, natint(n), prof_tag);
+	return getexp(f_top, NULL, 0, NULL, NULL, 0, natint(n), prof_tag);
 }
 
 
@@ -4715,7 +4715,7 @@ static int silly_count = 0; /* for pathological numbers of repeats*/
 exp
 f_repeat(label repeat_label_intro, exp start, exp body)
 {
-	exp r = getexp(sh(body), nilexp, 0, start, crt_repeat, 0, 0, rep_tag);
+	exp r = getexp(sh(body), NULL, 0, start, crt_repeat, 0, 0, rep_tag);
 	exp labst = get_lab(repeat_label_intro);
 
 	bro(start) = labst;
@@ -4743,17 +4743,17 @@ start_repeat(label repeat_label_intro)
 {
 	exp labst;
 	exp def;
-	def = getexp(f_top, nilexp, 0, nilexp, nilexp, 0, 0, clear_tag);
+	def = getexp(f_top, NULL, 0, NULL, NULL, 0, 0, clear_tag);
 
 	/* enter this repeat on crt_repeat and repeat_list - see
 	   documentation */
-	if (crt_repeat != nilexp) {
+	if (crt_repeat != NULL) {
 		++no(crt_repeat);
 	}
-	repeat_list = getexp(f_top, crt_repeat, 0, nilexp, repeat_list, 1, 0,
+	repeat_list = getexp(f_top, crt_repeat, 0, NULL, repeat_list, 1, 0,
 			     0);
 	crt_repeat = repeat_list;
-	labst = getexp(f_bottom, nilexp, 0, def, nilexp, 0, 0, labst_tag);
+	labst = getexp(f_bottom, NULL, 0, def, NULL, 0, 0, labst_tag);
 	if (default_freq < (float)10e10) {
 		default_freq = (float)(20.0 * default_freq);
 	} else {
@@ -4784,24 +4784,24 @@ f_return(exp arg1)
 		shape ptr_res_shape;
 		exp_list list;
 
-		if (proc_struct_result == nilexp) {
+		if (proc_struct_result == NULL) {
 			exp init = getexp(f_pointer(f_alignment(sh(arg1))),
-					  nilexp, 0, nilexp, nilexp, 0, 0,
+					  NULL, 0, NULL, NULL, 0, 0,
 					  clear_tag);
-			exp iddec = getexp(sh(arg1), nilexp, 0, init, nilexp,
+			exp iddec = getexp(sh(arg1), NULL, 0, init, NULL,
 					   0, 0, ident_tag);
 			setparam(iddec);
 			proc_struct_result = iddec;
 		}
 		ptr_res_shape = f_pointer(f_alignment(sh(arg1)));
-		obt = getexp(ptr_res_shape, nilexp, 0, proc_struct_result,
+		obt = getexp(ptr_res_shape, NULL, 0, proc_struct_result,
 			     pt(proc_struct_result), 0, 0, name_tag);
 		++no(proc_struct_result);
 		pt(proc_struct_result) = obt;
 
 		ret = me_u3(f_bottom, obt, res_tag);
 
-		assname = getexp(ptr_res_shape, nilexp, 0, proc_struct_result,
+		assname = getexp(ptr_res_shape, NULL, 0, proc_struct_result,
 				 pt(proc_struct_result), 0, 0, name_tag);
 		++no(proc_struct_result);
 		pt(proc_struct_result) = assname;
@@ -4898,7 +4898,7 @@ exp
 f_sequence(exp_list statements, exp result)
 {
 	exp r;
-	exp h = getexp(f_bottom, result, 0, statements.start, nilexp, 0,
+	exp h = getexp(f_bottom, result, 0, statements.start, NULL, 0,
 		       statements.number, 0);
 	exp l = statements.end;
 	clear_exp_list(statements);
@@ -4911,7 +4911,7 @@ f_sequence(exp_list statements, exp result)
 	if (statements.number <= MAX_ST_LENGTH) {
 		setlast(l);
 		setbro(l, h);
-		r = getexp(sh(result), nilexp, 0, h, nilexp, 0, 0, seq_tag);
+		r = getexp(sh(result), NULL, 0, h, NULL, 0, 0, seq_tag);
 		setfather(r, result);
 		return r;
 	} else {
@@ -4953,8 +4953,8 @@ f_sequence(exp_list statements, exp result)
 exp
 f_shape_offset(shape s)
 {
-	return getexp(f_offset(f_alignment(s), long_to_al(1)), nilexp, 0,
-		      nilexp, nilexp, 0, shape_size(s), val_tag);
+	return getexp(f_offset(f_alignment(s), long_to_al(1)), NULL, 0,
+		      NULL, NULL, 0, shape_size(s), val_tag);
 }
 
 
@@ -5008,10 +5008,10 @@ f_shift_left(error_treatment ov_err, exp arg1, exp arg2)
 		exp_list el;
 		exp right = hold_refactor(f_shift_right(me_obtain(d3),
 						     me_obtain(d2)));
-		exp trp = getexp(f_bottom, nilexp, 0, nilexp, nilexp, 0,
+		exp trp = getexp(f_bottom, NULL, 0, NULL, NULL, 0,
 				 f_overflow, trap_tag);
-		exp hldr = getexp(f_top, nilexp, 0, nilexp, nilexp, 0, 0, 0);
-		exp lb = getexp(f_top, nilexp, 0, hldr, nilexp, 0, 0,
+		exp hldr = getexp(f_top, NULL, 0, NULL, NULL, 0, 0, 0);
+		exp lb = getexp(f_top, NULL, 0, hldr, NULL, 0, 0,
 				labst_tag);
 		exp test = me_q1(no_nat_option, f_equal, &lb, right,
 				 me_obtain(d1), test_tag);
@@ -5097,8 +5097,8 @@ void
 start_variable(access_option acc, tag name_intro, exp init)
 {
 	exp i = get_tag(name_intro);
-	if (i == nilexp || son(i) != i) {
-		i = getexp(f_bottom, nilexp, 0, init, nilexp, 0, 0, ident_tag);
+	if (i == NULL || son(i) != i) {
+		i = getexp(f_bottom, NULL, 0, init, NULL, 0, 0, ident_tag);
 	} else {
 		/* could have been already used in env_offset */
 		son(i) = init;
@@ -5147,12 +5147,12 @@ f_xor(exp arg1, exp arg2)
 void
 init_exp(void)
 {
-	freelist = nilexp;
+	freelist = NULL;
 	exps_left = 0;
 	crt_labno = 0;
-	global_case = getexp(f_bottom, nilexp, 0, nilexp, nilexp, 0, 0, 0);
+	global_case = getexp(f_bottom, NULL, 0, NULL, NULL, 0, 0, 0);
 	in_initial_value = 0;
-	initial_value_pp.proc_struct_result = nilexp;
+	initial_value_pp.proc_struct_result = NULL;
 	initial_value_pp.has_alloca = 0;
 	initial_value_pp.proc_is_recursive = 0;
 	initial_value_pp.uses_crt_env = 0;
@@ -5905,8 +5905,8 @@ new_exp_list(int n)
 	exp_list res;
 	UNUSED(n);
 	res.number = 0;;
-	res.start = nilexp;
-	res.end = nilexp;
+	res.start = NULL;
+	res.end = NULL;
 
 	return res;
 }
@@ -5918,18 +5918,18 @@ add_exp_list(exp_list list, exp elem, int index)
 	UNUSED(index);
 	++list.number;
 	parked(elem) = 1;
-	if (list.start == nilexp) {
+	if (list.start == NULL) {
 		list.start = elem;
 		list.end = elem;
 		setlast(elem);
-		bro(elem) = nilexp;
+		bro(elem) = NULL;
 		return list;
 	}
 	clearlast(list.end);
 	bro(list.end) = elem;
 	list.end = elem;
 	setlast(elem);
-	bro(elem) = nilexp;
+	bro(elem) = NULL;
 	return list;
 }
 
@@ -5938,10 +5938,10 @@ caselim_list
 new_caselim_list(int n)
 {
 	UNUSED(n);
-	/*  bro(global_case) = nilexp;
+	/*  bro(global_case) = NULL;
 	    return 0;
 	 */
-	return nilexp;
+	return NULL;
 }
 
 
@@ -5952,7 +5952,7 @@ add_caselim_list(caselim_list list, caselim elem, int index)
 	exp ht;
 	int low;
 	int high;
-	exp lowval = getexp(slongsh, nilexp, 0, nilexp, nilexp, 0, 0, 0);
+	exp lowval = getexp(slongsh, NULL, 0, NULL, NULL, 0, 0, 0);
 	/* UNUSED(list); */
 	UNUSED(index);
 	pt(lowval) = get_lab(elem.lab);	/* label for this branch */
@@ -5983,9 +5983,9 @@ add_caselim_list(caselim_list list, caselim elem, int index)
 			high = - high;
 		}
 		if (!isbigval(lowval) && high == low) {
-			ht = nilexp;
+			ht = NULL;
 		} else {
-			ht = getexp(slongsh, nilexp, 1, nilexp, nilexp, 0,
+			ht = getexp(slongsh, NULL, 1, NULL, NULL, 0,
 				    high, 0);
 		}
 	} else if (~has & HAS_64_BIT) {
@@ -6007,15 +6007,15 @@ add_caselim_list(caselim_list list, caselim elem, int index)
 		}
 
 		if (!lh_eq) {
-			ht = getexp(slongsh, nilexp, 1, nilexp, nilexp, 0,
+			ht = getexp(slongsh, NULL, 1, NULL, NULL, 0,
 				    high, 0);
 			setbigval(ht);
 		} else {
-			ht = nilexp;
+			ht = NULL;
 		}
 	}
 
-	/*     if (ht != nilexp && docmp_f((int)f_less_than, ht, lowval)){
+	/*     if (ht != NULL && docmp_f((int)f_less_than, ht, lowval)){
 	       retcell(lowval);
 	       retcell(ht);
 	       return 0;
@@ -6045,8 +6045,8 @@ add_label_list(label_list list, label elem, int index)
 {
 	exp def;
 	exp labst;
-	def = getexp(f_top, nilexp, 0, nilexp, nilexp, 0, 0, clear_tag);
-	labst = getexp(f_bottom, nilexp, 0, def, nilexp, 0, 0, labst_tag);
+	def = getexp(f_top, NULL, 0, NULL, NULL, 0, 0, clear_tag);
+	labst = getexp(f_bottom, NULL, 0, def, NULL, 0, 0, labst_tag);
 	fno(labst) = default_freq;
 	++proc_label_count;
 	set_lab(elem, labst);
@@ -6060,9 +6060,9 @@ new_tagshacc_list(int n)
 {
 	tagshacc_list res;
 	res.size = 0;
-	res.id = nilexp;
-	res.last_id = nilexp;
-	res.last_def = nilexp;
+	res.id = NULL;
+	res.last_id = NULL;
+	res.last_def = NULL;
 	res.number = n;
 	return res;
 }
@@ -6071,11 +6071,11 @@ new_tagshacc_list(int n)
 tagshacc_list
 add_tagshacc_list(tagshacc_list list, tagshacc elem, int index)
 {
-	exp d = getexp(elem.sha, nilexp, 0, nilexp, nilexp, 0, 0, clear_tag);
-	exp i = getexp(f_bottom, list.last_id, 1, d, nilexp, 0, 0, ident_tag);
+	exp d = getexp(elem.sha, NULL, 0, NULL, NULL, 0, 0, clear_tag);
+	exp i = getexp(f_bottom, list.last_id, 1, d, NULL, 0, 0, ident_tag);
 	UNUSED(index);
 	set_tag(elem.tg, i);
-	if (list.id == nilexp) {
+	if (list.id == NULL) {
 		list.id = i;
 	} else {
 		bro(list.last_def) = i;
@@ -6342,10 +6342,10 @@ tidy_initial_values(void)
 	dynamic_init_proc = (char *)0;
 	while (my_def != (dec *)0) {
 		exp crt_exp = my_def->dec_u.dec_val.dec_exp;
-		if (son(crt_exp) != nilexp && my_def->dec_u.dec_val.extnamed) {
+		if (son(crt_exp) != NULL && my_def->dec_u.dec_val.extnamed) {
 			good_name = my_def->dec_u.dec_val.dec_id;
 		}
-		if (son(crt_exp) != nilexp &&
+		if (son(crt_exp) != NULL &&
 		    name(son(crt_exp)) == initial_value_tag) {
 			/* accumulate assignments of initial values in one
 			   explist */
@@ -6354,11 +6354,11 @@ tidy_initial_values(void)
 				exp p = pt(crt_exp);
 				setvar(crt_exp);
 				my_def->dec_u.dec_val.dec_var = 1;
-				while (p != nilexp) {
+				while (p != NULL) {
 					exp np = pt(p);
 					exp c = hold_refactor(f_contents(sh(p),
 							   me_obtain(crt_exp)));
-					replace(p, c, nilexp);
+					replace(p, c, NULL);
 					p = np;
 				}
 			}
@@ -6377,7 +6377,7 @@ tidy_initial_values(void)
 							init)), 0);
 			}
 		}
-		if (do_prom && son(crt_exp) != nilexp &&
+		if (do_prom && son(crt_exp) != NULL &&
 		    my_def->dec_u.dec_val.dec_var && !is_comm(son(crt_exp))) {
 			/* accumulate assignments of non-zero initialisations
 			   in one explist */

@@ -652,7 +652,7 @@ evalconcbit(exp e, int bitposn)
 bool
 is_zero(exp e)
 {
-  if (e == nilexp)
+  if (e == NULL)
     return 1;
 
   switch (name(e))
@@ -874,7 +874,7 @@ evalone(exp e, int bitposn)
 
 	assert(isglob(son(e)));
 
-	if ( son(globdec->dec_u.dec_val.dec_exp)!=nilexp &&
+	if ( son(globdec->dec_u.dec_val.dec_exp)!=NULL &&
 	     ( name(son(globdec->dec_u.dec_val.dec_exp))==proc_tag ||
 	       name(son(globdec->dec_u.dec_val.dec_exp))==general_proc_tag ) )
 	{

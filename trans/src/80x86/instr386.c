@@ -78,7 +78,7 @@ int cond1_set = 0;		/* init by cproc */
 int cond2_set = 0;		/* init by cproc */
 int fstack_pos;			/* init by cproc */
 int  top_regsinuse;		/* no init needed */
-exp overflow_e = nilexp;	/* no init needed */
+exp overflow_e = NULL;	/* no init needed */
 int ferrsize;			/* init by cproc */
 int fpucon;			/* init by cproc */
 
@@ -148,13 +148,13 @@ static int   contop_level = 0;	/* initial value for pushing must be 0 */
 static int reg0_in_use = 0;	/* initial value for pushing must be 0 */
 int contop_dopop = 0;		/* initial value for pushing must be 0 */
 
-static exp name_memmove = nilexp;	/* initialised if and when needed */
-static exp cont_stacklimit = nilexp;	/* initialised if and when needed */
-static exp lib64_s_mult = nilexp;
-static exp lib64_u_mult = nilexp;
+static exp name_memmove = NULL;	/* initialised if and when needed */
+static exp cont_stacklimit = NULL;	/* initialised if and when needed */
+static exp lib64_s_mult = NULL;
+static exp lib64_u_mult = NULL;
 static exp lib64_div[4];
 static exp lib64_rem[4];
-static exp lib64_error = nilexp;
+static exp lib64_error = NULL;
 static int lib64_set = 0;
 
 
@@ -170,16 +170,16 @@ static int flpt_test_no[] = {0, 0x45, 0x5, 0x5, 0x41, 0x44, 0x44,
 static void try_overflow
 (shape sha, int inv)
 {
-  if (overflow_e != nilexp) {
+  if (overflow_e != NULL) {
     exp oe = overflow_e;
     if (isov(overflow_e)) {
       exp jd = pt(son(pt(overflow_e)));
-      overflow_e = nilexp;
+      overflow_e = NULL;
       jmp_overflow(jd, is_signed(sha), inv);
     }
     else
     if (istrap(overflow_e)) {
-      overflow_e = nilexp;
+      overflow_e = NULL;
       trap_overflow(is_signed(sha), inv);
     }
     overflow_e = oe;
@@ -190,16 +190,16 @@ static void try_overflow
 static void test_exception
 (int test_no, shape sha)
 {
-  if (overflow_e != nilexp) {
+  if (overflow_e != NULL) {
     exp oe = overflow_e;
     if (isov(overflow_e)) {
       exp jd = pt(son(pt(overflow_e)));
-      overflow_e = nilexp;
+      overflow_e = NULL;
       branch(test_no, jd, is_signed(sha), name(sha));
     }
     else
     if (istrap(overflow_e)) {
-      overflow_e = nilexp;
+      overflow_e = NULL;
       test_trap(test_no, is_signed(sha), name(sha));
     }
     overflow_e = oe;
@@ -210,16 +210,16 @@ static void test_exception
 static void do_exception
 (void)
 {
-  if (overflow_e != nilexp) {
+  if (overflow_e != NULL) {
     exp oe = overflow_e;
     if (isov(overflow_e)) {
       exp jd = pt(son(pt(overflow_e)));
-      overflow_e = nilexp;
+      overflow_e = NULL;
       jump(jd, 0);
     }
     else
     if (istrap(overflow_e)) {
-      overflow_e = nilexp;
+      overflow_e = NULL;
       trap_ins(f_overflow);
     }
     overflow_e = oe;
@@ -283,8 +283,8 @@ static void cmp64_contop
      }
     else
      {
-	exp ap = getexp(f_bottom, nilexp, 0, sp.where_exp,
-                          nilexp, 0, 4, reff_tag);
+	exp ap = getexp(f_bottom, NULL, 0, sp.where_exp,
+                          NULL, 0, 4, reff_tag);
         ins2(leal, size32, size32, mw(ap, 0), sp);
      };
     simple_branch(jmp, cmp_64hilab);
@@ -311,8 +311,8 @@ void end_contop
      }
     else
      {
-	exp ap = getexp(f_bottom, nilexp, 0, sp.where_exp,
-                          nilexp, 0, 4, reff_tag);
+	exp ap = getexp(f_bottom, NULL, 0, sp.where_exp,
+                          NULL, 0, 4, reff_tag);
         ins2(leal, size32, size32, mw(ap, 0), sp);
      };
     invalidate_dest(SPILLREG);
@@ -418,7 +418,7 @@ void contop
 	    fin = son(fin);
 	  };
           old_overflow_e = overflow_e;
-          overflow_e = nilexp;
+          overflow_e = NULL;
 			/*
 			 * This must be an addptr, note that the calculations
 			 * cannot involve the free reg.
@@ -445,8 +445,8 @@ void contop
 
 	  if (offset != 0) {
 			/* put back the reff if there was one */
-	    exp r = getexp(sh(son(a)), nilexp, 0, use_reg.where_exp,
-		nilexp, 0, offset, reff_tag);
+	    exp r = getexp(sh(son(a)), NULL, 0, use_reg.where_exp,
+		NULL, 0, offset, reff_tag);
 	    son(a) = r;
 	  }
 	  else
@@ -471,7 +471,7 @@ void contop
 	};
 
         old_overflow_e = overflow_e;
-        overflow_e = nilexp;
+        overflow_e = NULL;
 		/* it must be an addptr */
 	if (name(bro(son(fin))) == name_tag) {
 		/* the offset is named */
@@ -502,8 +502,8 @@ void contop
         overflow_e = old_overflow_e;
 
 	if (offset != 0) {	/* put back the reff if needed */
-	  exp r = getexp(sh(son(a)), nilexp, 0, SPILLREG.where_exp,
-	      nilexp, 0, offset, reff_tag);
+	  exp r = getexp(sh(son(a)), NULL, 0, SPILLREG.where_exp,
+	      NULL, 0, offset, reff_tag);
 	  son(a) = r;
 	}
 	else
@@ -613,22 +613,22 @@ void initzeros
    (fsllmaxr -> mant)[i] = (unsigned short)((i == 0)? 32768 : 0);
   };
 
-  zeroe = getexp(f_bottom, nilexp, 0, nilexp, nilexp, 0, 0, val_tag);
-  fzeroe = getexp(shrealsh, nilexp, 0, nilexp, nilexp, 0, fzero_no, real_tag);
-  fonee = getexp(shrealsh, nilexp, 0, nilexp, nilexp, 0, fone_no, real_tag);
-  flongmaxe = getexp(shrealsh, nilexp, 0, nilexp, nilexp, 0,
+  zeroe = getexp(f_bottom, NULL, 0, NULL, NULL, 0, 0, val_tag);
+  fzeroe = getexp(shrealsh, NULL, 0, NULL, NULL, 0, fzero_no, real_tag);
+  fonee = getexp(shrealsh, NULL, 0, NULL, NULL, 0, fone_no, real_tag);
+  flongmaxe = getexp(shrealsh, NULL, 0, NULL, NULL, 0,
       flongmax, real_tag);
-  smaxe = getexp(realsh, nilexp, 0, nilexp, nilexp, 0,
+  smaxe = getexp(realsh, NULL, 0, NULL, NULL, 0,
       fslongmax, real_tag);
-  sllmaxe = getexp(doublesh, nilexp, 0, nilexp, nilexp, 0,
+  sllmaxe = getexp(doublesh, NULL, 0, NULL, NULL, 0,
       fsllmax, real_tag);
-  dzeroe = getexp(realsh, nilexp, 0, nilexp, nilexp, 0, fzero_no, real_tag);
-  donee = getexp(realsh, nilexp, 0, nilexp, nilexp, 0, fone_no, real_tag);
-  dlongmaxe = getexp(realsh, nilexp, 0, nilexp, nilexp, 0,
+  dzeroe = getexp(realsh, NULL, 0, NULL, NULL, 0, fzero_no, real_tag);
+  donee = getexp(realsh, NULL, 0, NULL, NULL, 0, fone_no, real_tag);
+  dlongmaxe = getexp(realsh, NULL, 0, NULL, NULL, 0,
       flongmax, real_tag);
-  dllmaxe = getexp(doublesh, nilexp, 0, nilexp, nilexp, 0,
+  dllmaxe = getexp(doublesh, NULL, 0, NULL, NULL, 0,
       fllmax, real_tag);
-  pushid = getexp(f_bottom, nilexp, 0, nilexp, nilexp, 0, 0, apply_tag);
+  pushid = getexp(f_bottom, NULL, 0, NULL, NULL, 0, 0, apply_tag);
   pushdest.where_exp = pushid;
   pushdest.where_off = 0;
   zero.where_exp = zeroe;
@@ -642,102 +642,102 @@ void initzeros
   dzero.where_off = 0;
   done.where_off = 0;
 
-  dummys = getexp(slongsh, nilexp, 0, nilexp, nilexp, 0, 0, val_tag);
-  dummyu = getexp(ulongsh, nilexp, 0, nilexp, nilexp, 0, 0, val_tag);
+  dummys = getexp(slongsh, NULL, 0, NULL, NULL, 0, 0, val_tag);
+  dummyu = getexp(ulongsh, NULL, 0, NULL, NULL, 0, 0, val_tag);
 
-  reg0id = getexp(f_bottom, nilexp, 0, dummys, nilexp, 0,
+  reg0id = getexp(f_bottom, NULL, 0, dummys, NULL, 0,
       0x1, ident_tag);
   ptno(reg0id) = reg_pl;
-  reg0 = mw(getexp(slongsh, nilexp, 0, reg0id, nilexp, 0, 0, name_tag),
+  reg0 = mw(getexp(slongsh, NULL, 0, reg0id, NULL, 0, 0, name_tag),
       0);
 
-  reg0charid = getexp(f_bottom, nilexp, 0, dummys, nilexp, 0,
+  reg0charid = getexp(f_bottom, NULL, 0, dummys, NULL, 0,
       0x1, ident_tag);
   ptno(reg0charid) = reg_pl;
-  reg0char = mw(getexp(scharsh, nilexp, 0, reg0id,
-	nilexp, 0, 0, name_tag),
+  reg0char = mw(getexp(scharsh, NULL, 0, reg0id,
+	NULL, 0, 0, name_tag),
       0);
 
-  reg1id = getexp(f_bottom, nilexp, 0, dummys, nilexp, 0,
+  reg1id = getexp(f_bottom, NULL, 0, dummys, NULL, 0,
       0x2, ident_tag);
   ptno(reg1id) = reg_pl;
-  reg1 = mw(getexp(slongsh, nilexp, 0, reg1id, nilexp, 0, 0, name_tag),
+  reg1 = mw(getexp(slongsh, NULL, 0, reg1id, NULL, 0, 0, name_tag),
       0);
 
-  reg2id = getexp(f_bottom, nilexp, 0, dummys, nilexp, 0,
+  reg2id = getexp(f_bottom, NULL, 0, dummys, NULL, 0,
       0x4, ident_tag);
   ptno(reg2id) = reg_pl;
-  reg2 = mw(getexp(slongsh, nilexp, 0, reg2id, nilexp, 0, 0, name_tag),
+  reg2 = mw(getexp(slongsh, NULL, 0, reg2id, NULL, 0, 0, name_tag),
       0);
 
-  reg3id = getexp(f_bottom, nilexp, 0, dummys, nilexp, 0,
+  reg3id = getexp(f_bottom, NULL, 0, dummys, NULL, 0,
       0x8, ident_tag);
   ptno(reg3id) = reg_pl;
-  reg3 = mw(getexp(slongsh, nilexp, 0, reg3id, nilexp, 0, 0, name_tag),
+  reg3 = mw(getexp(slongsh, NULL, 0, reg3id, NULL, 0, 0, name_tag),
       0);
 
 
-  reg4id = getexp(f_bottom, nilexp, 0, dummys, nilexp, 0,
+  reg4id = getexp(f_bottom, NULL, 0, dummys, NULL, 0,
       0x10, ident_tag);
   ptno(reg4id) = reg_pl;
-  reg4 = mw(getexp(slongsh, nilexp, 0, reg4id, nilexp, 0, 0, name_tag),
+  reg4 = mw(getexp(slongsh, NULL, 0, reg4id, NULL, 0, 0, name_tag),
       0);
 
-  reg5id = getexp(f_bottom, nilexp, 0, dummys, nilexp, 0,
+  reg5id = getexp(f_bottom, NULL, 0, dummys, NULL, 0,
       0x20, ident_tag);
   ptno(reg5id) = reg_pl;
-  reg5 = mw(getexp(slongsh, nilexp, 0, reg5id, nilexp, 0, 0, name_tag),
+  reg5 = mw(getexp(slongsh, NULL, 0, reg5id, NULL, 0, 0, name_tag),
       0);
 
-  reg6id = getexp(f_bottom, nilexp, 0, dummys, nilexp, 0,
+  reg6id = getexp(f_bottom, NULL, 0, dummys, NULL, 0,
       0x40, ident_tag);
   ptno(reg6id) = reg_pl;
-  reg6 = mw(getexp(slongsh, nilexp, 0, reg6id, nilexp, 0, 0, name_tag),
+  reg6 = mw(getexp(slongsh, NULL, 0, reg6id, NULL, 0, 0, name_tag),
       0);
 
-  flstackid = getexp(f_bottom, nilexp, 0, dummys, nilexp, 0,
+  flstackid = getexp(f_bottom, NULL, 0, dummys, NULL, 0,
       0x10000, ident_tag);
   ptno(flstackid) = reg_pl;
-  flstack = mw(getexp(realsh, nilexp, 0, flstackid, nilexp,
+  flstack = mw(getexp(realsh, NULL, 0, flstackid, NULL,
 	0, 0, name_tag),
       0);
 
-  reg0uid = getexp(f_bottom, nilexp, 0, dummyu, nilexp, 0,
+  reg0uid = getexp(f_bottom, NULL, 0, dummyu, NULL, 0,
       0x1, ident_tag);
   ptno(reg0uid) = reg_pl;
-  reg0u = mw(getexp(ulongsh, nilexp, 0, reg0uid, nilexp, 0, 0, name_tag),
+  reg0u = mw(getexp(ulongsh, NULL, 0, reg0uid, NULL, 0, 0, name_tag),
       0);
 
-  spid = getexp(f_bottom, nilexp, 0, dummys, nilexp, 0,
+  spid = getexp(f_bottom, NULL, 0, dummys, NULL, 0,
       128, ident_tag);
   ptno(spid) = reg_pl;
-  sp = mw(getexp(slongsh, nilexp, 0, spid, nilexp, 0, 0, name_tag), 0);
+  sp = mw(getexp(slongsh, NULL, 0, spid, NULL, 0, 0, name_tag), 0);
 
-  bpid = getexp(f_bottom, nilexp, 0, dummys, nilexp, 0,
+  bpid = getexp(f_bottom, NULL, 0, dummys, NULL, 0,
       64, ident_tag);
   ptno(bpid) = reg_pl;
-  bp = mw(getexp(slongsh, nilexp, 0, bpid, nilexp, 0, 0, name_tag), 0);
+  bp = mw(getexp(slongsh, NULL, 0, bpid, NULL, 0, 0, name_tag), 0);
 
 
-  stack0ref = getexp(f_top, nilexp, 0, sp.where_exp, nilexp, 0, -32,
+  stack0ref = getexp(f_top, NULL, 0, sp.where_exp, NULL, 0, -32,
       reff_tag);
-  stack0 = mw(getexp(f_pointer(f_alignment(slongsh)), nilexp, 0,
-	stack0ref, nilexp, 0, 0, cont_tag), 0);
+  stack0 = mw(getexp(f_pointer(f_alignment(slongsh)), NULL, 0,
+	stack0ref, NULL, 0, 0, cont_tag), 0);
 
-  ind_reg0 = mw(getexp(f_pointer(f_alignment(slongsh)), nilexp, 0,
-	reg0.where_exp, nilexp, 0, 0, cont_tag), 0);
-  ind_reg1 = mw(getexp(f_pointer(f_alignment(slongsh)), nilexp, 0,
-	reg1.where_exp, nilexp, 0, 0, cont_tag), 0);
-  ind_reg2 = mw(getexp(f_pointer(f_alignment(slongsh)), nilexp, 0,
-	reg2.where_exp, nilexp, 0, 0, cont_tag), 0);
-  ind_reg4 = mw(getexp(f_pointer(f_alignment(slongsh)), nilexp, 0,
-	reg4.where_exp, nilexp, 0, 0, cont_tag), 0);
-  ind_sp = mw(getexp(f_pointer(f_alignment(slongsh)), nilexp, 0, sp.where_exp,
-	nilexp, 0, 0, cont_tag), 0);
+  ind_reg0 = mw(getexp(f_pointer(f_alignment(slongsh)), NULL, 0,
+	reg0.where_exp, NULL, 0, 0, cont_tag), 0);
+  ind_reg1 = mw(getexp(f_pointer(f_alignment(slongsh)), NULL, 0,
+	reg1.where_exp, NULL, 0, 0, cont_tag), 0);
+  ind_reg2 = mw(getexp(f_pointer(f_alignment(slongsh)), NULL, 0,
+	reg2.where_exp, NULL, 0, 0, cont_tag), 0);
+  ind_reg4 = mw(getexp(f_pointer(f_alignment(slongsh)), NULL, 0,
+	reg4.where_exp, NULL, 0, 0, cont_tag), 0);
+  ind_sp = mw(getexp(f_pointer(f_alignment(slongsh)), NULL, 0, sp.where_exp,
+	NULL, 0, 0, cont_tag), 0);
 
-  firstlocalid = getexp(f_bottom, nilexp, 0, dummys, nilexp, 0, 0, ident_tag);
+  firstlocalid = getexp(f_bottom, NULL, 0, dummys, NULL, 0, 0, ident_tag);
   ptno(firstlocalid) = local_pl;
-  firstlocal = mw(getexp(slongsh, nilexp, 0, firstlocalid, nilexp, 0, 0, name_tag), 0);
+  firstlocal = mw(getexp(slongsh, NULL, 0, firstlocalid, NULL, 0, 0, name_tag), 0);
 
   reg_wheres[0] = reg0;
   reg_wheres[1] = reg1;
@@ -747,9 +747,9 @@ void initzeros
   reg_wheres[5] = reg5;
   reg_wheres[6] = bp;
 
-  ferrmemid = getexp(f_bottom, nilexp, 0, nilexp, nilexp, 0, 0, ident_tag);
+  ferrmemid = getexp(f_bottom, NULL, 0, NULL, NULL, 0, 0, ident_tag);
   ptno(ferrmemid) = ferr_pl;
-  ferrmem = getexp(realsh, nilexp, 0, ferrmemid, nilexp, 0, 0, name_tag);
+  ferrmem = getexp(realsh, NULL, 0, ferrmemid, NULL, 0, 0, name_tag);
 }
 
 /*
@@ -1132,7 +1132,7 @@ void add_plus
 	(!keep_short || !flinmem(dest))) {	/* altering dest */
     if (name(b) == val_tag && !plus1 && !isbigval(b) && (no(b) + boff == 0 ||
 	 ((no(b) + boff == 1 || no(b) + boff == -1) && sz <= 32 &&
-	   (overflow_e == nilexp || is_signed(sha))))) {
+	   (overflow_e == NULL || is_signed(sha))))) {
       exp hold = son(a);
       if (no (b) + boff == 0) {	/* adding zero */
 	cond1_set = 0;		/* we didn't know conditions after all */
@@ -1237,7 +1237,7 @@ void add_plus
 	(!keep_short || !flinmem(dest))) {	/* altering dest */
     if (name(a) == val_tag && !plus1 && !isbigval(a) && (no(a) + aoff == 0 ||
 	 ((no(a) + aoff == 1 || no(a) + aoff == -1) && sz <= 32 &&
-	   (overflow_e == nilexp || is_signed(sha))))) {
+	   (overflow_e == NULL || is_signed(sha))))) {
       exp hold = son(a);
       if (no (a) + aoff == 0) {	/* adding zero */
 	cond1_set = 0;		/* we didn't know conditions after all */
@@ -1358,7 +1358,7 @@ void add_plus
       {				/* none in memory */
 	exp ap;
         int n;
-        if (overflow_e != nilexp || sz > 32)
+        if (overflow_e != NULL || sz > 32)
           {
             move(sha, a2, dest);
             add_plus(sha, a1, dest, dest, plus1);
@@ -1378,7 +1378,7 @@ void add_plus
           else
             n = 8;
           if (n == 8 && (no(a) & (int)0xf0000000) == 0) {
-	    ap = getexp(f_bottom, nilexp, 0, b, nilexp, 0,
+	    ap = getexp(f_bottom, NULL, 0, b, NULL, 0,
 	       (no(a) + a1.where_off)* n,
 	        reff_tag);
 	    cond1_set = 0;
@@ -1399,7 +1399,7 @@ void add_plus
           else
             n = 8;
           if (n == 8 && (no(b) & (int)0xf0000000) == 0) {
-	    ap = getexp(f_bottom, nilexp, 0, a, nilexp, 0,
+	    ap = getexp(f_bottom, NULL, 0, a, NULL, 0,
 	       (no(b) + a2.where_off)* n,
 	        reff_tag);
 	    cond1_set = 0;
@@ -1414,7 +1414,7 @@ void add_plus
             return;
           };
 	};
-	ap = getexp(f_bottom, nilexp, 0, a, nilexp, 0, 0,
+	ap = getexp(f_bottom, NULL, 0, a, NULL, 0, 0,
 	      addptr_tag);
 	{
 	  exp temp = bro(a);
@@ -1469,13 +1469,13 @@ void add
 void inverted_sub
 (shape sha, where a1, where a2, where sup_dest, where dest)
 {
-  if (overflow_e == nilexp) {
+  if (overflow_e == NULL) {
     negate(sha, a1, sup_dest);
     add_plus(sha, a2, sup_dest, dest, 0);
   }
   else {
     exp old_overflow_e = overflow_e;
-    overflow_e = nilexp;
+    overflow_e = NULL;
     not(sha, a1, sup_dest);
     overflow_e = old_overflow_e;
     add_plus(sha, a2, sup_dest, dest, 1);
@@ -1523,7 +1523,7 @@ void sub
 	(!keep_short || !flinmem(dest))) {
     if (name(a) == val_tag && !isbigval(a) && (no(a) + aoff == 0 ||
 	 ((no(a) + aoff == 1 || no(a) + aoff == -1) && sz <= 32 &&
-	   (overflow_e == nilexp || is_signed(sha))))) {
+	   (overflow_e == NULL || is_signed(sha))))) {
       exp hold = son(b);
       if (no (a) + aoff == 0) {	/* we didn't know the conditions */
 	cond1_set = 0;
@@ -2085,7 +2085,7 @@ void move
     /* we are pushing on parameter stack */
     if (sz == 32) {
       reg_w = equiv_reg(from, sz);
-      if (reg_w.where_exp != nilexp) {
+      if (reg_w.where_exp != NULL) {
 	ins1(pushl, 32, reg_w);
 #ifdef NEWDWARF
 	if (diag == DIAG_DWARF2 && no_frame)
@@ -2279,7 +2279,7 @@ void move
 		isvar(son(son(te)))) ||
 		(name(te) == ident_tag)))) {
       reg_w = equiv_reg(from, sz);
-      if (reg_w.where_exp != nilexp)
+      if (reg_w.where_exp != NULL)
 	move(sha, reg_w, to);
       else {
         move(slongsh, from, reg0);
@@ -2340,7 +2340,7 @@ void move
     }
     else {
       reg_w = equiv_reg(from, sz);
-      if (reg_w.where_exp != nilexp) {
+      if (reg_w.where_exp != NULL) {
 	move(sha, reg_w, to);
 	move_reg(from, to, sha);
       }
@@ -2366,7 +2366,7 @@ void move
     }
     else {
       reg_w = equiv_reg(from, sz);
-      if (reg_w.where_exp != nilexp) {
+      if (reg_w.where_exp != NULL) {
 	move(sha, reg_w, to);
 	move_reg(from, to, sha);
       }
@@ -2393,7 +2393,7 @@ void move
     }
     else {
       reg_w = equiv_reg(from, sz);
-      if (reg_w.where_exp != nilexp) {
+      if (reg_w.where_exp != NULL) {
 	move(sha, reg_w, to);
 	move_reg(from, to, sha);
       }
@@ -2748,7 +2748,7 @@ void movecont
     move(sh(from.where_exp), from, pushdest);
     extra_stack += 32;
     move(sh(to.where_exp), to, pushdest);
-    if (name_memmove == nilexp)
+    if (name_memmove == NULL)
       name_memmove = make_extn("memmove", f_proc, 0);
     callins (0, name_memmove, stack_dec);	/* call_libfn("memmove"); */
     extra_stack -= 64;
@@ -2860,7 +2860,7 @@ void callins
   cond1_set = 0;
   cond2_set = 0;
   if (name(fn) == name_tag && !isvar(son(fn)) && isglob(son(fn))) {
-    exp ind = getexp(f_proc, nilexp, 0, fn, nilexp, 0,
+    exp ind = getexp(f_proc, NULL, 0, fn, NULL, 0,
 	0, cont_tag);
 #ifdef NEWDWARF
     if (current_dg_info) {
@@ -2964,12 +2964,12 @@ int cmp
     where orig_min;
     orig_min = min;
     has_equiv_from = equiv_reg(from, sz);
-    if (has_equiv_from.where_exp != nilexp) {
+    if (has_equiv_from.where_exp != NULL) {
       from = has_equiv_from;
       hold_from = son(from.where_exp);
     }
     has_equiv_min = equiv_reg(min, sz);
-    if (has_equiv_min.where_exp != nilexp) {
+    if (has_equiv_min.where_exp != NULL) {
       min = has_equiv_min;
       hold_min = son(min.where_exp);
     }
@@ -3064,7 +3064,7 @@ int cmp
     if (sz != 16 && sz <= 32 && ((name(min.where_exp) == null_tag ||
 		 name(min.where_exp) == val_tag) &&
 			 no(min.where_exp) == 0) &&
-        inmem(from) && has_equiv_from.where_exp == nilexp) {
+        inmem(from) && has_equiv_from.where_exp == NULL) {
       {
         move(sha, from, reg0);
 	cond1_set = 0;
@@ -3364,7 +3364,7 @@ void change_var_sh
     int val;
     if (!isbigval(fe)) {
       val = dochvar(no(fe), sha);
-      if (overflow_e != nilexp && (dochvar(no(fe), fsh)!= val || (val < 0 &&
+      if (overflow_e != NULL && (dochvar(no(fe), fsh)!= val || (val < 0 &&
 		((szt == 32 && (sgt != sgf)) || (szt == 64 && !sgt && sgf)))))
 	do_exception();
       no(fe) = val;
@@ -3374,7 +3374,7 @@ void change_var_sh
       int ov;
       x = flt_to_f64(no(fe), sgf, &ov);
       val = dochvar((int)(x.small), sha);
-      if (overflow_e != nilexp && (
+      if (overflow_e != NULL && (
 		(szt == 64 && x.big < 0 && (sgt != sgf)) ||
 		(szt == 32 && ((!(x.small & (1<<31)) && x.big != 0) ||
 			((x.small & (1<<31)) && x.big != -sgt))) ||
@@ -3420,7 +3420,7 @@ void change_var_sh
     }
   }
 
-  if (overflow_e != nilexp && (sgt < sgf || (szt - sgt) < (szf - sgf))) {
+  if (overflow_e != NULL && (sgt < sgf || (szt - sgt) < (szf - sgf))) {
     int smax = (szt == 64)? 0x7fffffff :(1 << (szt-1)) - 1;
     int min = (sgt)?(-smax) -1 : 0;
     int max = (sgt)? smax : smax+smax+1;
@@ -3430,19 +3430,19 @@ void change_var_sh
     };
     if (szf == 64) {
       if (szt == 64) {
-	IGNORE cmp(slongsh, reg1, zero, f_greater_than_or_equal, nilexp);
+	IGNORE cmp(slongsh, reg1, zero, f_greater_than_or_equal, NULL);
 	test_exception(f_greater_than_or_equal, slongsh);
       }
       else {
 	int lab1;
-	IGNORE cmp(slongsh, reg1, zero, f_equal, nilexp);
+	IGNORE cmp(slongsh, reg1, zero, f_equal, NULL);
 	if (sgf && sgt) {
 	  int lab2 = next_lab();
 	  lab1 = next_lab();
 	  simple_branch(je, lab2);
-	  IGNORE cmp(slongsh, reg1, mw(zeroe,-1), f_equal, nilexp);
+	  IGNORE cmp(slongsh, reg1, mw(zeroe,-1), f_equal, NULL);
 	  test_exception(f_equal, slongsh);
-	  IGNORE cmp(ulongsh, from, mw(zeroe,min), f_greater_than_or_equal, nilexp);
+	  IGNORE cmp(ulongsh, from, mw(zeroe,min), f_greater_than_or_equal, NULL);
 	  test_exception(f_greater_than_or_equal, ulongsh);
 	  simple_branch(jmp, lab1);
 	  simplest_set_lab(lab2);
@@ -3450,7 +3450,7 @@ void change_var_sh
 	else
 	  test_exception(f_equal, slongsh);
 	if (szt != 32 || sgt) {
-	  IGNORE cmp(ulongsh, reg0, mw(zeroe,max), f_less_than_or_equal, nilexp);
+	  IGNORE cmp(ulongsh, reg0, mw(zeroe,max), f_less_than_or_equal, NULL);
 	  test_exception(f_less_than_or_equal, ulongsh);
 	};
 	if (sgf && sgt)
@@ -3459,11 +3459,11 @@ void change_var_sh
     }
     else {
       if (sgf && (!sgt || szt < szf)) {
-	IGNORE cmp(fsh, from, mw(zeroe,min), f_greater_than_or_equal, nilexp);
+	IGNORE cmp(fsh, from, mw(zeroe,min), f_greater_than_or_equal, NULL);
 	test_exception(f_greater_than_or_equal, fsh);
       };
       if ((szt - sgt) < (szf - sgf)) {
-	IGNORE cmp(fsh, from, mw(zeroe,max), f_less_than_or_equal, nilexp);
+	IGNORE cmp(fsh, from, mw(zeroe,max), f_less_than_or_equal, NULL);
 	test_exception(f_less_than_or_equal, fsh);
       };
     };
@@ -3703,7 +3703,7 @@ void change_var
   exp fe = from.where_exp;
   shape fsh = sh(fe);
   exp old_overflow_e = overflow_e;
-  overflow_e = nilexp;
+  overflow_e = NULL;
   change_var_sh(sha, fsh, from, to);
   overflow_e = old_overflow_e;
   return;
@@ -3975,7 +3975,7 @@ static void needs_lib64
     lib64_rem[3] = make_extn("__TDFUs_rem1", f_proc, 0);
     lib64_error = make_extn("__TDFerror", slongsh, 1);
     if (!PIC_code)
-      lib64_error = getexp(slongsh, nilexp, 1, lib64_error, nilexp, 0, 0, cont_tag);
+      lib64_error = getexp(slongsh, NULL, 1, lib64_error, NULL, 0, 0, cont_tag);
     lib64_set = 1;
   };
   return;
@@ -4079,7 +4079,7 @@ static void mult64
     };
   };
 
-  if (overflow_e != nilexp && !optop(overflow_e)) {
+  if (overflow_e != NULL && !optop(overflow_e)) {
 				/* need library proc to check for overflow */
     needs_lib64();
     if (eq_where(a1, reg0)) {
@@ -4254,7 +4254,7 @@ void multiply
   };
   invalidate_dest(reg0);
   if (name(a2.where_exp) == val_tag && sz != 8 &&
-	(is_signed(sha) || overflow_e == nilexp || optop(overflow_e))) {
+	(is_signed(sha) || overflow_e == NULL || optop(overflow_e))) {
     	    /* x * const -> y */
     contop(a1.where_exp, eq_where(reg0, a1), dest);
     if (!inmem(dest)) {
@@ -5025,7 +5025,7 @@ static void divit
   if (name(sh(top.where_exp)) == offsethd)
     sg = 1;
 
-  if (overflow_e != nilexp && !istrap(overflow_e)) {
+  if (overflow_e != NULL && !istrap(overflow_e)) {
     if (name(bottom.where_exp)!= val_tag || no(bottom.where_exp) == 0)
       test_zero = 1;
     if (sg && (name(bottom.where_exp)!= val_tag || no(bottom.where_exp) == -1))
@@ -5100,7 +5100,7 @@ static void divit
     }
     callins(0, lib64_div[sg + 2*(whichdiv==1)], stack_dec);
     ins2(addl, 32, 32, mw(zeroe, 16), sp);
-    if (overflow_e != nilexp && !optop(overflow_e)) {
+    if (overflow_e != NULL && !optop(overflow_e)) {
       ins2(movl, 32, 32, mw(lib64_error, 0), reg2);
       if (PIC_code)
         ins2(movl, 32, 32, ind_reg2, reg2);
@@ -5146,7 +5146,7 @@ static void divit
   };
 
   if (test_zero) {		/* avoid divide by zero trap */
-    IGNORE cmp(shb, d, zero, f_not_equal, nilexp);
+    IGNORE cmp(shb, d, zero, f_not_equal, NULL);
     if (isov(overflow_e))
       test_exception(f_not_equal, shb);
     else {
@@ -5159,7 +5159,7 @@ static void divit
     int divlab = next_lab();
     if (reslab == 0)
       reslab = next_lab();
-    IGNORE cmp(shb, d, mw(zeroe,-1), f_equal, nilexp);
+    IGNORE cmp(shb, d, mw(zeroe,-1), f_equal, NULL);
     simple_branch(jne, divlab);
     negate(sha, reg0, reg0);
     simple_branch(jmp, reslab);
@@ -5322,7 +5322,7 @@ static void remit
   d = bottom;
   sz = shape_size(sha);
 
-  if (overflow_e != nilexp && !istrap(overflow_e)) {
+  if (overflow_e != NULL && !istrap(overflow_e)) {
     if (name(bottom.where_exp)!= val_tag || no(bottom.where_exp) == 0)
       test_zero = 1;
     if (sg && (name(bottom.where_exp)!= val_tag || no(bottom.where_exp) == -1))
@@ -5365,7 +5365,7 @@ static void remit
     }
     callins(0, lib64_rem[sg + 2*(whichrem==1)], stack_dec);
     ins2(addl, 32, 32, mw(zeroe, 16), sp);
-    if (overflow_e != nilexp && !optop(overflow_e)) {
+    if (overflow_e != NULL && !optop(overflow_e)) {
       ins2(movl, 32, 32, mw(lib64_error, 0), reg2);
       if (PIC_code)
         ins2(movl, 32, 32, ind_reg2, reg2);
@@ -5411,7 +5411,7 @@ static void remit
   };
 
   if (test_zero) {		/* avoid divide by zero trap */
-    IGNORE cmp(shb, d, zero, f_not_equal, nilexp);
+    IGNORE cmp(shb, d, zero, f_not_equal, NULL);
     if (isov(overflow_e))
       test_exception(f_not_equal, shb);
     else {
@@ -5424,7 +5424,7 @@ static void remit
     int divlab = next_lab();
     if (reslab == 0)
       reslab = next_lab();
-    IGNORE cmp(shb, d, mw(zeroe,-1), f_equal, nilexp);
+    IGNORE cmp(shb, d, mw(zeroe,-1), f_equal, NULL);
     simple_branch(jne, divlab);
     move(sha, zero, reg0);
     simple_branch(jmp, reslab);
@@ -5770,7 +5770,7 @@ void mem_to_bits
     };
 
     sh(e) = osh;
-    temp = getexp(dsh, nilexp, 0, e, nilexp, 0, 0, chvar_tag);
+    temp = getexp(dsh, NULL, 0, e, NULL, 0, 0, chvar_tag);
     coder(dest, stack, temp);
     retcell(temp);
     return;
@@ -6757,10 +6757,10 @@ void checkalloc_stack
   /* uses reg1 */
   int erlab = next_lab();
   int cnlab = next_lab();
-  if (cont_stacklimit == nilexp) {
+  if (cont_stacklimit == NULL) {
     cont_stacklimit = make_extn("__trans386_stack_limit", ulongsh, 1);
     if (!PIC_code)
-      cont_stacklimit = getexp(ulongsh, nilexp, 1, cont_stacklimit, nilexp, 0, 0, cont_tag);
+      cont_stacklimit = getexp(ulongsh, NULL, 1, cont_stacklimit, NULL, 0, 0, cont_tag);
   }
   ins2(movl, 32, 32, sp, reg1);
   ins2(subl, 32, 32, sz, reg1);

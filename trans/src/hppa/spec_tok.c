@@ -65,7 +65,7 @@ special_token(token t, bitstream pars, int sortcode, int * done)
   	id = son(arg1);
   
   	env_o = getexp(f_offset(frame_alignment, f_alignment(sh(arg1))),
-  			nilexp, 0, id, nilexp, 0, 0, env_offset_tag);
+  			NULL, 0, id, NULL, 0, 0, env_offset_tag);
   	setvis(id);
   	setenvoff(id);
   	tkv.tk_exp = hold_refactor(f_add_to_ptr(f_add_to_ptr(f_current_env(), env_o),f_shape_offset(sh(arg1))));
@@ -191,7 +191,7 @@ special_token(token t, bitstream pars, int sortcode, int * done)
   	crt_lno = natint(di -> data.source.end.line_no);
   	crt_charno = natint(di -> data.source.end.char_off);
   	crt_flnm = di -> data.source.beg.file->file.ints.chars;
-  	r = getexp(sh(tkv.tk_exp), nilexp, 0, tkv.tk_exp, nilexp,
+  	r = getexp(sh(tkv.tk_exp), NULL, 0, tkv.tk_exp, NULL,
   		   1, 0, diagnose_tag);
   	setfather(r, tkv.tk_exp);
   	dno(r) = di;
@@ -203,7 +203,7 @@ special_token(token t, bitstream pars, int sortcode, int * done)
        if (!strcmp(t -> tok_name, "~diag_id_scope"))
          {exp r;
   	diag_info * di = read_diag_id_scope();
-  	r = getexp(sh(tkv.tk_exp), nilexp, 0, tkv.tk_exp, nilexp,
+  	r = getexp(sh(tkv.tk_exp), NULL, 0, tkv.tk_exp, NULL,
   		   2, 0, diagnose_tag);
   	setfather(r, tkv.tk_exp);
   	dno(r) = di;
@@ -215,7 +215,7 @@ special_token(token t, bitstream pars, int sortcode, int * done)
        if (!strcmp(t -> tok_name, "~diag_type_scope"))
          {exp r;
   	diag_info * di = read_diag_type_scope();
-  	r = getexp(sh(tkv.tk_exp), nilexp, 0, tkv.tk_exp, nilexp,
+  	r = getexp(sh(tkv.tk_exp), NULL, 0, tkv.tk_exp, NULL,
   		   3, 0, diagnose_tag);
   	setfather(r, tkv.tk_exp);
   	dno(r) = di;
@@ -227,7 +227,7 @@ special_token(token t, bitstream pars, int sortcode, int * done)
        if (!strcmp(t -> tok_name, "~diag_tag_scope"))
          {exp r;
   	diag_info * di = read_diag_tag_scope();
-  	r = getexp(sh(tkv.tk_exp), nilexp, 0, tkv.tk_exp, nilexp,
+  	r = getexp(sh(tkv.tk_exp), NULL, 0, tkv.tk_exp, NULL,
   		   4, 0, diagnose_tag);
   	setfather(r, tkv.tk_exp);
   	dno(r) = di;

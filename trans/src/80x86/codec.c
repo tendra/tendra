@@ -52,7 +52,7 @@ int is_crc
     if (isvar(son(e)))
       return !isglob(son(e)) || PIC_code;
     /* else */
-      return son(son(e)) == nilexp ||
+      return son(son(e)) == NULL ||
 	(isglob(son(e)) && PIC_code && name(sh(son(e))) == prokhd &&
 			!(brog(son(e)) -> dec_u.dec_val.extnamed)) ||
 	(name(son(son(e))) == ident_tag && isparam(son(son(e))));
@@ -213,13 +213,13 @@ static void logop
     if (!is_o(name(t)) || is_crc(t))
       break;
     if (last(t)) {
-      t = nilexp;
+      t = NULL;
       break;
     };
     t = bro(t);
   };
 
-  if (t == nilexp) {		/* all arguments are possible 80386
+  if (t == NULL) {		/* all arguments are possible 80386
 				   operands */
    (*op)(sha, mw(arg1, 0), mw(arg2, 0), qw);
     t = bro(arg2);
@@ -294,13 +294,13 @@ static void multop
     if (!is_o(name(t)) || is_crc(t))
       break;
     if (last(t)) {
-      t = nilexp;
+      t = NULL;
       break;
     };
     t = bro(t);
   };
 
-  if (t == nilexp) {
+  if (t == NULL) {
 	/* all arguments are possible 80386 operands */
    (*op)(sh(e), mw(arg1, 0), mw(arg2, 0), qw);
     t = bro(arg2);
@@ -401,17 +401,17 @@ void codec
 	       is_crc(son(t))))
 	    break;
 	  if (last(t)) {
-	    t = nilexp;
+	    t = NULL;
 	    break;
 	  };
 	  t = bro(t);
 	};
 
-	if (t == nilexp && name(arg1) == neg_tag &&
+	if (t == NULL && name(arg1) == neg_tag &&
 	    name(arg2) == neg_tag)
 	  t = arg1;
 
-	if (t == nilexp) {	/* all arguments are possible 80386 operands */
+	if (t == NULL) {	/* all arguments are possible 80386 operands */
 	  t = bro(arg2);
 	  if (name(arg1) == neg_tag)
 	    addsub(sh(e), mw(arg1, 0), mw(arg2, 0),

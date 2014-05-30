@@ -53,9 +53,9 @@ bool keep_eq_size(shape as, shape bs)
 
 static bool sim_explist(exp al, exp bl)
 {
-  if (al == nilexp && bl == nilexp)
+  if (al == NULL && bl == NULL)
     return 1;
-  if (al == nilexp || bl == nilexp)
+  if (al == NULL || bl == NULL)
     return 0;
   if (!sim_exp(al, bl))
     return 0;
@@ -111,7 +111,7 @@ void clear_all(void)
 
   for (i = 0; i <= LAST_ALL_REGS; i++)
   {
-    regexps[i].keptexp = nilexp;
+    regexps[i].keptexp = NULL;
     setregalt(regexps[i].inans, 0);
   }
 }
@@ -123,7 +123,7 @@ void clear_reg(int i)
   i = absval(i);
   if (i >= 0 && i <= LAST_ALL_REGS)
   {
-    regexps[i].keptexp = nilexp;
+    regexps[i].keptexp = NULL;
     setregalt(regexps[i].inans, 0);
   }
 }
@@ -158,7 +158,7 @@ static ans iskept_regrange(exp e, int low_reg, int hi_reg)
   {
     exp ke = regexps[i].keptexp;
 
-    if (ke != nilexp)
+    if (ke != NULL)
     {
       /* There is an association with register i */
       bool isc = regexps[i].iscont;
@@ -454,13 +454,13 @@ bool couldbe(exp e, exp lhs)/* is var name_tag exp or 0 meaning cont */
     }
     if (IS_A_PROC(s))
       return lhs == 0;
-    if (son(s) == nilexp)
+    if (son(s) == NULL)
       return 1;
     return couldbe(son(s), lhs);
   }
   if (ne == cont_tag)
   {
-    if (lhs != 0 && name(s) == name_tag && son(s)!= nilexp)
+    if (lhs != 0 && name(s) == name_tag && son(s)!= NULL)
     {
       return son(s) == son(lhs) || isvis(son(lhs)) || isvis(son(s));
     }
@@ -495,7 +495,7 @@ bool couldeffect(exp e, exp z)/* a name or zero */
       return z == 0 && isvis(son(e));
     if (IS_A_PROC(son(e)))
       return 0;
-    if (son(son(e)) == nilexp)
+    if (son(son(e)) == NULL)
       return 1 /* could it happen? */ ;
 
     return couldeffect(son(son(e)), z);
@@ -506,7 +506,7 @@ bool couldeffect(exp e, exp z)/* a name or zero */
 
   e = son(e);
 
-  while (e != nilexp)
+  while (e != NULL)
   {
     if (couldeffect(e, z))
       return 1;
@@ -521,7 +521,7 @@ bool couldeffect(exp e, exp z)/* a name or zero */
 /* does e depend on z */
 bool dependson(exp e, bool isc, exp z)
 {
-  if (e == nilexp)
+  if (e == NULL)
   {
     return 0;
   }
@@ -548,7 +548,7 @@ bool dependson(exp e, bool isc, exp z)
       z = 0;
       break;
     }
-    if (son(son(z)) == nilexp)
+    if (son(son(z)) == NULL)
       return 1;			/* can it happen? */
     z = son(son(z));
   }
@@ -566,7 +566,7 @@ void clear_dep_reg(exp lhs)
 
   for (i = 0; i <= LAST_ALL_REGS; i++)
   {
-    if (regexps[i].keptexp != nilexp)
+    if (regexps[i].keptexp != NULL)
     {
       switch (name(regexps[i].keptexp))
       {
@@ -590,7 +590,7 @@ void clear_dep_reg(exp lhs)
           if (dependson(regexps[i].keptexp, regexps[i].iscont, lhs))
           {
             FULLCOMMENT2("clear_dep_reg: reg=%d iscont=%d", i, regexps[i].iscont);
-            regexps[i].keptexp = nilexp;
+            regexps[i].keptexp = NULL;
             setregalt(regexps[i].inans, 0);
           }
 	}

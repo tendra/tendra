@@ -76,7 +76,7 @@ hc(exp e, exp t)
 static exp
 make_onearg(unsigned char n, shape sha, exp a)
 {
-	exp r = getexp(sha, nilexp, 0, a, nilexp, 0, 0, n);
+	exp r = getexp(sha, NULL, 0, a, NULL, 0, 0, n);
 	return hc(r, a);
 }
 
@@ -87,7 +87,7 @@ make_onearg(unsigned char n, shape sha, exp a)
 static exp
 make_twoarg(unsigned char n, shape sha, exp a, exp b)
 {
-	exp r = getexp(sha, nilexp, 0, a, nilexp, 0, 0, n);
+	exp r = getexp(sha, NULL, 0, a, NULL, 0, 0, n);
 	bro(a) = b;
 	clearlast(a);
 	return hc(r, b);
@@ -108,7 +108,7 @@ used_in(exp vardec, exp piece)
 	/* test each use of the identifier */
 	do {
 		q = t;
-		while (q != nilexp && q != piece && q != vardec &&
+		while (q != NULL && q != piece && q != vardec &&
 		       !parked(q) && (name(q) != ident_tag || !isglob(q))) {
 			upwards = q;
 			q = bro(q);
@@ -126,7 +126,7 @@ used_in(exp vardec, exp piece)
 			}
 		}
 		t = pt(t);
-	} while (t != nilexp && res != 3);
+	} while (t != NULL && res != 3);
 	return res;
 }
 
@@ -182,13 +182,13 @@ repbyseq(exp e)
 	exp seq, s;
 #ifdef NEWDIAGS
 	exp t = pt(e);
-	while (t != nilexp) {
+	while (t != NULL) {
 		if (isdiaginfo(t))
 			setdiscarded(t);
 		t = pt(t);
 	}
 #endif
-	if (son(def) == nilexp) {
+	if (son(def) == NULL) {
 #ifdef NEWDIAGS
 		if (diag != DIAG_NONE) {
 			dg_whole_comp(e, body);
@@ -198,7 +198,7 @@ repbyseq(exp e)
 		retcell(def);
 		return;
 	}
-	seq = getexp(f_bottom, nilexp, 0, def, nilexp, 0, 0, 0);
+	seq = getexp(f_bottom, NULL, 0, def, NULL, 0, 0, 0);
 	bro(def) = seq;
 	setlast(def);
 	s = hold_refactor(make_twoarg(seq_tag, sh(body), seq, body));
@@ -347,7 +347,7 @@ rep:	if (name(p) == ass_tag || name(p) == assvol_tag) {
 		goto ex;
 	}
 
-	if (son(p) == nilexp) {
+	if (son(p) == NULL) {
 		goto up;
 	}
 
@@ -385,7 +385,7 @@ change_cont(exp vardec, exp val, int force)
 	while (go) {
 		t = pt(vardec);
 		go = 0;
-		while (!go && t != nilexp) {
+		while (!go && t != NULL) {
 			if (last(t) && name(bro(t)) == cont_tag &&
 #ifdef NEWDIAGS
 			    !isdiaginfo(t) &&
@@ -468,7 +468,7 @@ refactor_id(exp e, exp scope)
 #ifdef NEWDIAGS
       }
 #endif
-      if (pt(t1) == nilexp) {
+      if (pt(t1) == NULL) {
 	looping = 0;
       } else {
 	t1 = pt(t1);
@@ -488,15 +488,15 @@ refactor_id(exp e, exp scope)
       }
       real_body = bro(son(t1));
 
-      new_n = getexp(sh(def), real_body, 0, e, nilexp, 0, 0, name_tag);
-      new_var = getexp(sh(e), nilexp, 0, new_n, old_pt_list, 1, old_uses,
+      new_n = getexp(sh(def), real_body, 0, e, NULL, 0, 0, name_tag);
+      new_var = getexp(sh(e), NULL, 0, new_n, old_pt_list, 1, old_uses,
 		       ident_tag);
       setloadparam(new_n);
       setfather(new_var, real_body);
       pt(e) = new_n;
       no(e) = 1;
       clearvar(e);
-      while (old_pt_list != nilexp) {
+      while (old_pt_list != NULL) {
 	son(old_pt_list) = new_var;
 	old_pt_list = pt(old_pt_list);
       }
@@ -544,7 +544,7 @@ refactor_id(exp e, exp scope)
       /* don't copy line info to all uses */
       dgf(def) = nildiag;
 #endif
-      while (pt(e) != nilexp) {
+      while (pt(e) != NULL) {
 	exp mem = pt(e);
 	exp cp;
 	pt(e) = pt(mem);
@@ -606,12 +606,12 @@ refactor_id(exp e, exp scope)
 
     while (1) {
       k = pt(t);
-      q = getexp(sha, nilexp, 0, copy(t), nilexp, 0, n, reff_tag);
+      q = getexp(sha, NULL, 0, copy(t), NULL, 0, n, reff_tag);
       sh(son(q)) = shb;
       q = hc(q, son(q));
       replace(t, q, q);
       kill_exp(t, t);
-      if (k == nilexp) {
+      if (k == NULL) {
 	return 1;
       }
       t = k;
@@ -647,7 +647,7 @@ refactor_id(exp e, exp scope)
 	if (name(sh(t)) == ucharhd) {
 	  v = v & 0xff;
 	}
-	c = getexp(sh(t), nilexp, 0, nilexp, nilexp, 0,
+	c = getexp(sh(t), NULL, 0, NULL, NULL, 0,
 		   v, val_tag);
 	replace(t, c, c);
 	kill_exp(t, t);
@@ -677,11 +677,11 @@ refactor_id(exp e, exp scope)
       exp cz = copy(tz);
       bro(tz) = def;
       ass = hc(ass, def);
-      r = getexp(f_top, nilexp, 0, ass, nilexp, 0, 0, 0);
+      r = getexp(f_top, NULL, 0, ass, NULL, 0, 0, 0);
       setlast(ass);
       bro(ass) = r;
-      s = getexp(sh(body), nilexp, 0, r, nilexp, 0, 0, seq_tag);
-      c = getexp(sh(body), s, 1, cz, nilexp, 0, 0, cont_tag);
+      s = getexp(sh(body), NULL, 0, r, NULL, 0, 0, seq_tag);
+      c = getexp(sh(body), s, 1, cz, NULL, 0, 0, cont_tag);
       setbro(r, hc(c, cz));
       replace(e, hc(s, bro(son(s))), e);
       return 1;
@@ -837,7 +837,7 @@ refactor_id(exp e, exp scope)
 	}
 	}
 	tc = pt(tc);
-      } while (tc != nilexp);
+      } while (tc != NULL);
 
       if (not_aliased || iscaonly(e)) {
 	/* set no alias flag if nothing but cont and ass */
@@ -868,15 +868,15 @@ refactor_id(exp e, exp scope)
 #endif
 	    replace(bro(tc), tc, tc);
 	  }
-	} while (pt(tc) != nilexp);
+	} while (pt(tc) != NULL);
 
 	if (no(e) < 100) {
 	  for (i = 0; i < no(e); ++i) {
 	    tc = e;
-	    for (j = 0; tc != nilexp && j <= i; ++j) {
+	    for (j = 0; tc != NULL && j <= i; ++j) {
 	      tc = pt(tc);
 #ifdef NEWDIAGS
-	      while (tc != nilexp && isdiaginfo(tc))
+	      while (tc != NULL && isdiaginfo(tc))
 		tc = pt(tc);
 #endif
 	    }
@@ -902,7 +902,7 @@ refactor_id(exp e, exp scope)
 	exp temp = pt(e);
 	shape ish = (conversion == 8) ? scharsh : swordsh;
 	setse_opt(e);
-	while (temp != nilexp) {
+	while (temp != NULL) {
 	  exp next = pt(temp);
 	  if (last(temp)) {
 	    if ((last(bro(temp)) || name(bro(bro(temp))) != val_tag) &&
@@ -956,7 +956,7 @@ refactor_id(exp e, exp scope)
 	  chv = 0;
 	  no_ass = 0;
 	  tc = pt(e);
-	  while (!chv && tc != nilexp) {
+	  while (!chv && tc != NULL) {
 	    if (!last(tc) &&
 #ifdef NEWDIAGS
 		!isdiaginfo(tc) &&
@@ -982,7 +982,7 @@ refactor_id(exp e, exp scope)
 		va = son(tc);
 		df = son(var);
 
-		if (df != nilexp && (bd = bro(df)) != nilexp &&
+		if (df != NULL && (bd = bro(df)) != NULL &&
 		    !isinlined(e) && !isglob(va) && isvar(va) &&
 		    name(bd) == seq_tag && name(bro(son(bd))) == cont_tag &&
 		    name(son(bro(son(bd)))) == name_tag &&
@@ -998,14 +998,14 @@ refactor_id(exp e, exp scope)
 		    son(pt(tc)) = va;
 		    ++no(va);
 		    tc = pt(tc);
-		  } while (pt(tc) != nilexp);
+		  } while (pt(tc) != NULL);
 		  pt(tc) = prev_uses;
 
 		  if (name(df) == clear_tag) {
-		    ass = getexp(f_top, nilexp, 0, nilexp, nilexp, 0, 0,
+		    ass = getexp(f_top, NULL, 0, NULL, NULL, 0, 0,
 				 top_tag);
 		  } else {
-		    ass = getexp(f_top, nilexp, 0, a, nilexp, 0, 0, ass_tag);
+		    ass = getexp(f_top, NULL, 0, a, NULL, 0, 0, ass_tag);
 		    bro(a) = df;
 		    bro(df) = ass;
 		    setlast(df);
@@ -1025,7 +1025,7 @@ refactor_id(exp e, exp scope)
 	if (no(e) == no_ass && !isparam(e)) {
 	  int diagonly = 1;
 	  tc = pt(e);
-	  while (tc != nilexp) {
+	  while (tc != NULL) {
 	    if (!isdiaginfo(tc)) {
 	      if (diag != DIAG_NONE) {
 		dg_rem_ass(bro(bro(tc)));
@@ -1040,9 +1040,9 @@ refactor_id(exp e, exp scope)
 	  }
 	}
 #else
-	if (no(e) == no_ass && pt(e) != nilexp && !isparam(e)) {
+	if (no(e) == no_ass && pt(e) != NULL && !isparam(e)) {
 	  tc = pt(e);
-	  while (replace(bro(bro(tc)), bro(tc), bro(def)), pt(tc) != nilexp) {
+	  while (replace(bro(bro(tc)), bro(tc), bro(def)), pt(tc) != NULL) {
 	    tc = pt(tc);
 	  }
 	  repbyseq(e);
@@ -1065,7 +1065,7 @@ refactor_id(exp e, exp scope)
 	  /* kill the use of var */
 	  kill_exp(son(son(son(body))), son(son(son(body))));
 	  /* replace assignment by void */
-	  replace(son(son(body)), getexp(f_top, nilexp, 0, nilexp, nilexp, 0,
+	  replace(son(son(body)), getexp(f_top, NULL, 0, NULL, NULL, 0,
 					 0, top_tag), body);
 	  return 1;
 	}
@@ -1093,7 +1093,7 @@ refactor_id(exp e, exp scope)
 	    replace(bro(bro(tc)), bro(tc), body);
 	  }
 	  tc = pt(tc);
-	  if (tc == nilexp) {
+	  if (tc == NULL) {
 	    break;
 	  }
 	}
@@ -1136,7 +1136,7 @@ refactor_id(exp e, exp scope)
 	  int n = name(bro(c));
 	  if (n == val_tag || n == real_tag || n == name_tag || n == null_tag) {
 	    exp u = pt(e);
-	    for (; nuses !=0 && u !=nilexp;) {
+	    for (; nuses !=0 && u !=NULL;) {
 	      exp nextu = pt(u);
 #ifdef NEWDIAGS
 	      if (!isdiaginfo(u) && no(u) ==no(c) &&
@@ -1158,7 +1158,7 @@ refactor_id(exp e, exp scope)
 	  }
 	  c = bro(bro(c));
 	}
-	if ((no(e) ==0 || pt(e) == nilexp) && !isenvoff(e)) {
+	if ((no(e) ==0 || pt(e) == NULL) && !isenvoff(e)) {
 	  repbyseq(e);
 	  return 1;
 	}
@@ -1174,7 +1174,7 @@ refactor_id(exp e, exp scope)
 	  int n = name(c);
 	  if (n == val_tag || n == real_tag || n == name_tag || n == null_tag) {
 	    exp u = pt(e);
-	    for (; nuses !=0 && u !=nilexp;) {
+	    for (; nuses !=0 && u !=NULL;) {
 	      exp nextu = pt(u);
 #ifdef NEWDIAGS
 	      if (!isdiaginfo(u) && no(u) ==nd && eq_shape(sh(u), sh(c))) {
@@ -1196,7 +1196,7 @@ refactor_id(exp e, exp scope)
 	  c = bro(c);
 	  nd+=sz;
 	}
-	if ((no(e) ==0 || pt(e) == nilexp) && !isenvoff(e)) {
+	if ((no(e) ==0 || pt(e) == NULL) && !isenvoff(e)) {
 	  repbyseq(e);
 	  return 1;
 	}

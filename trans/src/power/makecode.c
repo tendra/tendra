@@ -172,7 +172,7 @@ static exp testlast(exp e, exp second)
 /* +++ should detect this earlier and record in props(e) once-and-for-all */
 static int has_bitfield(exp e)
 {
-  if (e == nilexp)
+  if (e == NULL)
     return 0;
 
   switch (name(e))
@@ -350,11 +350,11 @@ static void case_tag_code_transform(int caseint_reg, exp e, space sp)
 				 * used until after lase use of caseint_reg */
 
   l=no(zt);
-  while (bro(zt)!=nilexp)
+  while (bro(zt)!=NULL)
   {
     zt=bro(zt);
   }
-  u = (son(zt) ==nilexp)? no(zt): no(son(zt));
+  u = (son(zt) ==NULL)? no(zt): no(son(zt));
 
 
   zeroveclab.offset = 0;
@@ -394,7 +394,7 @@ static void case_tag_code_transform(int caseint_reg, exp e, space sp)
     {
       fprintf(as_file, "\t.long\tL.%d-%s\n", endlab, veclabname);
     }
-    u = (son(z) == nilexp)? n : no(son(z));
+    u = (son(z) == NULL)? n : no(son(z));
     for (; u+1 != n; n++)	/* comparison independent of sign */
     {
 	fprintf(as_file, "\t.long\tL.%d-%s\n", no(son(pt(z))), veclabname);
@@ -426,16 +426,16 @@ static void case_tag_code_notransform(int caseint_reg, exp e, space sp)
   l = no(zt);
   for (n = 1;; n++)
   {
-    if (u + 1 != no(zt) && son(zt)!= nilexp)
+    if (u + 1 != no(zt) && son(zt)!= NULL)
     {
       n++;
     }
     if (last(zt))
     {
-      u = (son(zt)!= nilexp)? no(son(zt)): no(zt);
+      u = (son(zt)!= NULL)? no(son(zt)): no(zt);
       break;
     }
-    if (son(zt)!= nilexp)
+    if (son(zt)!= NULL)
     {
       u = no(son(zt));
     }
@@ -557,7 +557,7 @@ static void case_tag_code_notransform(int caseint_reg, exp e, space sp)
       {
 	fprintf(as_file, "\t.long\tL.%d-%s\n", endlab, veclabname);
       }
-      u = (son(z) == nilexp)? n : no(son(z));
+      u = (son(z) == NULL)? n : no(son(z));
       for (; u+1 != n; n++)
       {
 	fprintf(as_file, "\t.long\tL.%d-%s\n", no(son(pt(z))), veclabname);
@@ -583,7 +583,7 @@ static void case_tag_code_notransform(int caseint_reg, exp e, space sp)
       int creg = next_creg();
 
       long l = no(z);
-      if (son(z) == nilexp)
+      if (son(z) == NULL)
       {
 	/* only single test required */
 	cmp_ri_ins(i_cmp, caseint_reg, l, creg);
@@ -664,7 +664,7 @@ static void case_tag_code_notransform(int caseint_reg, exp e, space sp)
       int creg = next_creg();
 
       unsigned long l = no(z);
-      if (son(z) == nilexp)
+      if (son(z) == NULL)
       {
 	/* only single test required */
 	cmp_ri_ins(i_cmpl, caseint_reg, l, creg);
@@ -1009,7 +1009,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
       }
 
       test = testlast(first, second);
-      if (test != nilexp && TEST_TAG_NEAR_BRANCH(test))
+      if (test != NULL && TEST_TAG_NEAR_BRANCH(test))
       {
 	/* effectively an empty then part */
 	int l = (exitlab != 0)? exitlab : new_label();
@@ -1507,7 +1507,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 #if 1
 	    if (name(lhs) == name_tag) {
 	      exp dc = son(lhs);
-	      if (son(dc)!= nilexp)dc = son(dc);
+	      if (son(dc)!= NULL)dc = son(dc);
 	      if (shape_size(sh(dc)) ==
 		  shape_size(sh(rhs))) {
 		keepcont(lhs, contreg);
@@ -1657,7 +1657,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
       instore str;
       int r, disp = 0;
 #if 1
-      if (t==nilexp)
+      if (t==NULL)
 	return mka;
 #endif
       nsp = sp;

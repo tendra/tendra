@@ -425,7 +425,7 @@ quad_op ( exp a1, exp a2, space sp, where dest, int op ){
     int r = reg_operand ( a1, sp ) ;
     if ( name ( sh ( a1 ) ) == ulonghd ) s = "_Q_utoq,1" ;
     if ( r != R_O0 ) rr_ins ( i_mov, r, R_O0 ) ;
-    a1 = nilexp ;
+    a1 = NULL ;
   }
   /* hack for change floating variety */
   if ( op == chfl_tag ) {
@@ -453,12 +453,12 @@ quad_op ( exp a1, exp a2, space sp, where dest, int op ){
       stf_ins ( i_st, frg.fr << 1, mem_temp ( 0 ) ) ;
       ld_ro_ins ( i_ld, mem_temp ( 0 ), R_O0 ) ;
     }
-    a1 = nilexp ;
+    a1 = NULL ;
   }
   /* put the arguments into the call registers */
-  if ( a1 != nilexp ) {
+  if ( a1 != NULL ) {
     quad_addr ( a1, R_O0, sp ) ;
-    if ( a2 != nilexp ) {
+    if ( a2 != NULL ) {
       sp = needreg ( R_O0, sp ) ;
       quad_addr ( a2, R_O1, sp ) ;
     }

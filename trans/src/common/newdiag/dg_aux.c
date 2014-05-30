@@ -39,7 +39,7 @@ static int clean_copy = 0; /* set by copy_dg_separate */
 int doing_inlining = 0;
 
 dg_info current_dg_info = (dg_info)0;	/* needed when coding extra_diags */
-exp current_dg_exp = nilexp;		/* needed when coding extra_diags */
+exp current_dg_exp = NULL;		/* needed when coding extra_diags */
 
 short_sourcepos no_short_sourcepos;
 
@@ -132,8 +132,8 @@ extend_dg_name(dg_name nm)
 	mor->exptns = no_dg_type_list_option;
 	mor->end_pos = no_short_sourcepos;
 	mor->en_family = (dg_dim *)0;
-	mor->vslot = nilexp;
-	mor->repn = nilexp;
+	mor->vslot = NULL;
+	mor->repn = NULL;
 	mor->acc = DG_ACC_NONE;
 	mor->virt = DG_VIRT_NONE;
 	mor->isinline = 0;
@@ -377,7 +377,7 @@ scan_diag_names(exp e, exp whole)
 		}
 		return;
 	}
-	if (son(e) != nilexp && name(e) != env_offset_tag) {
+	if (son(e) != NULL && name(e) != env_offset_tag) {
 		exp t = son(e);
 		for (;;) {
 			scan_diag_names(t, whole);
@@ -401,8 +401,8 @@ diaginfo_exp(exp e)
 	}
 	scan_diag_names(e, e);
 	ans = hold(e);
-	setpt(ans, nilexp);
-	setbro (ans, nilexp);	/* these fields are used in dwarf generation */
+	setpt(ans, NULL);
+	setbro (ans, NULL);	/* these fields are used in dwarf generation */
 	no(ans) = 0;
 	props(ans) = 0;
 	clearlast(ans);
@@ -421,7 +421,7 @@ diag_kill_id(exp id)
 		setdiscarded(t);
 		t = pt(t);
 	}
-	son(id) = nilexp;
+	son(id) = NULL;
 	return;
 }
 
@@ -832,7 +832,7 @@ update_detch_copy(detch_info *dl, int update)
 {
 	while (dl) {
 		if (dl->info) {
-			update_diag_copy(nilexp, dl->info, update);
+			update_diag_copy(NULL, dl->info, update);
 		}
 		if (update && dl->tg && dl->tg->copy) {
 			dl->tg = dl->tg->copy;
@@ -996,7 +996,7 @@ copy_detch_tree(detch_info *dl)
 	detch_info *ans = (detch_info *)xcalloc(1, sizeof(detch_info));
 	*ans = *dl;
 	if (dl->info) {
-		ans->info = copy_dg_info(dl->info, nilexp, nilexp, 1);
+		ans->info = copy_dg_info(dl->info, NULL, NULL, 1);
 	}
 	if (dl->sub) {
 		ans->sub = copy_detch_tree(dl->sub);
@@ -1143,7 +1143,7 @@ combine_diaginfo(dg_info d1, dg_info d2)
 	if (!d2) {
 		return d1;
 	}
-	d = copy_dg_info(d1, nilexp, nilexp, 0);
+	d = copy_dg_info(d1, NULL, NULL, 0);
 	d->more = combine_diaginfo(d1->more, d2);
 	return d;
 }

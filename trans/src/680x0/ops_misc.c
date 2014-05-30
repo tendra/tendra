@@ -236,7 +236,7 @@ callins(long longs, exp fn)
 		}
 	}
 	/* Now output the call instruction */
-	call_exp = getexp(proksh, nilexp, 0, fn_exp, nilexp, 0, 0L, cont_tag);
+	call_exp = getexp(proksh, NULL, 0, fn_exp, NULL, 0, 0L, cont_tag);
 	op = operand(32L, zw(call_exp));
 	make_instr(m_call, op, NULL, ~save_msk);
 	no_calls++;
@@ -272,7 +272,7 @@ jmpins(exp fn)
 	}
 
 	/* Now output the jmp instruction */
-	jmp_exp = getexp(proksh, nilexp, 0, fn_exp, nilexp, 0, 0L, cont_tag);
+	jmp_exp = getexp(proksh, NULL, 0, fn_exp, NULL, 0, 0L, cont_tag);
 	op = operand(32L, zw(jmp_exp));
 	make_instr(m_jmp, op, NULL, ~save_msk);
 	retcell(jmp_exp);
@@ -543,9 +543,9 @@ cmp(shape sha, where var, where limit, long ntst)
 
 #if 0
 	if (name(var.wh_exp) == name_tag && name(sha) == prokhd &&
-	    ((son(son(var.wh_exp)) ==nilexp) ||
+	    ((son(son(var.wh_exp)) ==NULL) ||
 	     (name(son(son(var.wh_exp))) == proc_tag))) {
-		exp proc_cont = getexp(sha, nilexp, 0, var.wh_exp, nilexp, 0,
+		exp proc_cont = getexp(sha, NULL, 0, var.wh_exp, NULL, 0,
 				       0, cont_tag);
 		var.wh_exp = proc_cont;
 	}
@@ -1521,7 +1521,7 @@ change_var_sh(shape sht, shape shf, where from, where to)
 		if (is_signed(shf) && !is_signed(sht)) {
 			/* if signed -> unsigned, test lt 0.  */
 
-			exp zero_exp = getexp(shf, nilexp, 0, nilexp, nilexp,
+			exp zero_exp = getexp(shf, NULL, 0, NULL, NULL,
 					      0, 0, val_tag);
 			sw = cmp(shf, from, zw(zero_exp), tst_ls);
 			br_ins = branch_ins(tst_ls, sw, 1,
@@ -1536,8 +1536,8 @@ change_var_sh(shape sht, shape shf, where from, where to)
 			 * zero.
 			 */
 			int br_ins;
-			exp zero_exp = getexp(slongsh, nilexp, 0, nilexp,
-					      nilexp, 0, 0, val_tag);
+			exp zero_exp = getexp(slongsh, NULL, 0, NULL,
+					      NULL, 0, 0, val_tag);
 			sw = cmp(slongsh, from, zw(zero_exp), tst_ls);
 			br_ins = branch_ins(tst_ls, sw, 1,
 					    is_floating(name(shf)));
@@ -1547,9 +1547,9 @@ change_var_sh(shape sht, shape shf, where from, where to)
 
 		if(name(sht) <= name(shf)) {
 			/* shortening variety */
-			exp max_val = getexp(sht, nilexp, 0, nilexp, nilexp, 0,
+			exp max_val = getexp(sht, NULL, 0, NULL, NULL, 0,
 					     range_max(sht), val_tag);
-			exp min_val = getexp(sht, nilexp, 0, nilexp, nilexp, 0,
+			exp min_val = getexp(sht, NULL, 0, NULL, NULL, 0,
 					     range_min(sht), val_tag);
 
 			int br_ins;

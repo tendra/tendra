@@ -14,8 +14,6 @@
 #include "bitsmacs.h"
 #include <construct/shapemacs.h>
 
-#define nilexp NULL
-
 /* main components of exp */
 
 #define son(x) ((x)->sonf.e)

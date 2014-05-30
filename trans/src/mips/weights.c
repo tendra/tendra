@@ -202,7 +202,7 @@ weights add_wlist
 	/* sum of  weights of list re */
   weights w, w1;
   exp r = re;
-  if (r == nilexp) {
+  if (r == NULL) {
     return zeroweights;
   }
   else
@@ -251,7 +251,7 @@ tailrecurse:
 
     case ident_tag:
       {
-	if (son(e)!= nilexp) {
+	if (son(e)!= NULL) {
 	  weights wdef;
 	  weights wbody;
 	  long  noe = no (e) /* set by scan */ ;
@@ -359,7 +359,7 @@ tailrecurse:
 
 
     default: {
-	if (son(e) == nilexp || n == env_offset_tag
+	if (son(e) == NULL || n == env_offset_tag
 		|| n == general_env_offset_tag) {
 	  return zeroweights;
 	}

@@ -197,7 +197,7 @@ static int procargs
   int use_push = 1;
   int longs = 0, extra;
   exp t = arg;
-  while (t != nilexp) {
+  while (t != NULL) {
     if (name(t) ==caller_tag) {
       if (use_push && !push_arg(son(t)))
         use_push = 0;
@@ -229,7 +229,7 @@ static int procargs
 	dw2_track_sp();
 #endif
     };
-    if (arg != nilexp) {
+    if (arg != NULL) {
       if (has_checkstack && longs > 160) {
 	/* check stack before pushing args if more than 5 words */
 	checkalloc_stack(mw(zeroe, longs/8), 0);
@@ -277,9 +277,9 @@ static int push_cees
 {
   int old_regsinuse = regsinuse;
   int longs = -1;
-  if (siz == nilexp && callee_size >= 0)
+  if (siz == NULL && callee_size >= 0)
     longs = callee_size;
-  if (siz != nilexp && name(siz) == val_tag)
+  if (siz != NULL && name(siz) == val_tag)
     longs = rounder(no(siz), param_align);
   if (longs == 0) {
     if (vc) {
@@ -292,7 +292,7 @@ static int push_cees
   }
   if (longs < 0) {
     must_use_bp = 1;	/* scan2 must ensure !no_frame */
-    if (siz == nilexp) {
+    if (siz == NULL) {
 	/* calculate size from calling proc callees */
       outs(" movl 8(%ebp),%eax\n");
       outs(" subl %ebp,%eax\n");
@@ -313,7 +313,7 @@ static int push_cees
     ins0(pusheax);
     stack_dec -= 32;
   }
-  if (src == nilexp) {
+  if (src == NULL) {
     if (callee_size >= 0)
       outs(" leal 8(%ebp),%eax\n");
     else
@@ -578,7 +578,7 @@ static dcl alloc_regable
   regu ru;
   alt = equiv_reg(mw(def, 0), defsize);
 
-  if (alt.where_exp != nilexp) {
+  if (alt.where_exp != NULL) {
     int  mask = no(son(alt.where_exp));
     if (mask != 1 && (!big_reg || mask >= 0x8)) {
       if ((mask & regsinuse)!= 0 && !isvar(e) &&
@@ -596,7 +596,7 @@ static dcl alloc_regable
 
   if (ru = alloc_reg(regsinuse, sh(def), no(e), big_reg, e),
       ru.can_do) {
-    if (alt.where_exp != nilexp) {
+    if (alt.where_exp != NULL) {
       int  mask = no(son(alt.where_exp));
       if (mask != 1 && (!big_reg || mask >= 0x8)) {
 	if ((mask & regsinuse) == 0 &&
@@ -736,10 +736,10 @@ static void solve
 (exp s, exp l, where dest, exp jr, ash stack)
 {
   while (!last (l)) {		/* not the last branch */
-    exp record = getexp(f_bottom, nilexp,
+    exp record = getexp(f_bottom, NULL,
        (bool)(props(son(bro(l))) & 2),
-        nilexp,
-	nilexp, 0, 0, 0);
+        NULL,
+	NULL, 0, 0, 0);
     sonno(record) = stack_dec;
     ptno(record) = next_lab();
     fstack_pos_of(record) = (prop)fstack_pos;	/* CAST:jmf: */
@@ -805,8 +805,8 @@ static void caser
   {
     t=bro(t);
   }
-  while (bro(t)!=nilexp);
-  max= ((son(t) ==nilexp)? no(t): no(son(t)));
+  while (bro(t)!=NULL);
+  max= ((son(t) ==NULL)? no(t): no(son(t)));
 
 
   /* Prepare to use jump table */
@@ -820,11 +820,11 @@ static void caser
     lab = final_dest(pt(t));
     n = ptno(pt(son(lab)));
     for (i = no(t);
-	i <= ((son(t) == nilexp)? no(t): no(son(t)));
+	i <= ((son(t) == NULL)? no(t): no(son(t)));
 	++i)
       v[i - min] = n;
   }
-  while (bro(t)!= nilexp);
+  while (bro(t)!= NULL);
 
   switch (name(sh(arg)))EXHAUSTIVE {
     case scharhd:
@@ -964,9 +964,9 @@ void coder
 	};
 
 	if (dc.dcl_new && ptno(e) == local_pl) {
-	  exp temp = getexp(f_top, nilexp, 1, e, nilexp, 0, 0, name_tag);
+	  exp temp = getexp(f_top, NULL, 1, e, NULL, 0, 0, name_tag);
 	  if (isvar(e))
-	    temp = getexp(f_top, nilexp, 1, temp, nilexp, 0, 0, cont_tag);
+	    temp = getexp(f_top, NULL, 1, temp, NULL, 0, 0, cont_tag);
 	  invalidate_dest(mw(temp, 0));
 	  if (isvar(e))
 	    retcell(son(temp));
@@ -975,7 +975,7 @@ void coder
 
 	if (isenvoff(e)) {
 	  /* prepare for possible later constant evaluation */
-	  hasenvoff_list = getexp(f_bottom, hasenvoff_list, 0, e, nilexp, 0, 0, 0);
+	  hasenvoff_list = getexp(f_bottom, hasenvoff_list, 0, e, NULL, 0, 0, 0);
 	}
 
 	return;
@@ -996,7 +996,7 @@ void coder
 	if (diag != DIAG_NONE) {
 	  /* Beware lost information !!! */
 	  name(bro(son(e))) = top_tag;
-	  son(bro(son(e))) = nilexp;
+	  son(bro(son(e))) = NULL;
 	  dgf(bro(son(e))) = nildiag;
 	}
 #endif
@@ -1009,7 +1009,7 @@ void coder
 	exp alt = bro(first);
 	exp record;	/* jump record for alt */
 	int  r1;
-	exp jr = nilexp; /* jump record for end of construction */
+	exp jr = NULL; /* jump record for end of construction */
 
 	if (no(son(alt)) == 0) {
 	  coder(dest, stack, first);
@@ -1017,7 +1017,7 @@ void coder
 	  if (diag != DIAG_NONE) {
 		/* Beware lost information !!! */
 	    name(bro(son(alt))) = top_tag;
-	    son(bro(son(alt))) = nilexp;
+	    son(bro(son(alt))) = NULL;
 	    dgf(bro(son(alt))) = nildiag;
 	  }
 #endif
@@ -1027,12 +1027,12 @@ void coder
 	clean_stack();
 
 
-	record = getexp(f_bottom, nilexp, 0,
-	      nilexp, nilexp,
+	record = getexp(f_bottom, NULL, 0,
+	      NULL, NULL,
 	      0, 0, 0);
         sonno(record) = stack_dec;
         fstack_pos_of(record) = (prop)fstack_pos;
-	if (pt(son(alt))!= nilexp)
+	if (pt(son(alt))!= NULL)
 	    ptno(record) = ptno(pt(son(alt)));
 	else
             ptno(record) = next_lab();
@@ -1048,7 +1048,7 @@ void coder
 	    shape sha;
 	    outofline * rec;
 	    exp tst = (is_tester(t, 0))? t : bro(son(t));
-	      jr = getexp(f_bottom, nilexp, 0, nilexp, nilexp, 0,
+	      jr = getexp(f_bottom, NULL, 0, NULL, NULL, 0,
 	        0, 0);
               sonno(jr) = stack_dec;
               ptno(jr) = next_lab();
@@ -1081,12 +1081,12 @@ void coder
 	      test_n = (int)real_inverse_ntest[test_n];
 
 	    settest_number(tst, test_n);
-	    z = getexp(f_bottom, nilexp, 0, nilexp, nilexp, 0, 0, 0);
+	    z = getexp(f_bottom, NULL, 0, NULL, NULL, 0, 0, 0);
 	    sonno(z) = stack_dec;
 	    fstack_pos_of(z) = (prop)fstack_pos;
 	    ptno(z) = rec->labno;
-	    s = getexp(sha, nilexp, 0, nilexp, z, 0, 0, 0);
-	    p = getexp(sha, tst, 0, s, nilexp, 0, 0, 0);
+	    s = getexp(sha, NULL, 0, NULL, z, 0, 0, 0);
+	    p = getexp(sha, tst, 0, s, NULL, 0, 0, 0);
 	    pt(tst) = p;
 	    coder(zero, stack, t);
 	    if (name(sh(first))!= bothd) {
@@ -1163,7 +1163,7 @@ void coder
 	   * If the first did not end with jump or ret, put in a jump to
 	   * the end of the construction, and make a jump record for it
 	   */
-	    jr = getexp(f_bottom, nilexp, 0, nilexp, nilexp, 0,
+	    jr = getexp(f_bottom, NULL, 0, NULL, NULL, 0,
 	        0, 0);
             sonno(jr) = stack_dec;
             ptno(jr) = next_lab();
@@ -1234,8 +1234,8 @@ void coder
 	/* code the starter of the loop */
 	reset_fpucon();
 	clean_stack();
-	record = getexp(f_bottom, nilexp, 1, nilexp,
-	    nilexp, 0, 0, 0);
+	record = getexp(f_bottom, NULL, 1, NULL,
+	    NULL, 0, 0, 0);
         sonno(record) = stack_dec;
         ptno(record) = next_lab();
         fstack_pos_of(record) = (prop)fstack_pos;
@@ -1308,7 +1308,7 @@ void coder
 
 	if (name(lab) == labst_tag) {
 	  exp q = short_next_jump(e);
-	  if (q != nilexp &&
+	  if (q != NULL &&
 		(name(q) == goto_tag ||
 		  (name(q) == res_tag && name(son(q)) == top_tag)) &&
 		label_is_next(lab, q)) {
@@ -1318,13 +1318,13 @@ void coder
 	      pt(q) = lab;
 	    }
 	    else {
-              temp = getexp(f_bottom, nilexp, 0, nilexp,
-                                nilexp, 0, 0, 0);
+              temp = getexp(f_bottom, NULL, 0, NULL,
+                                NULL, 0, 0, 0);
 	      ptno(temp) = crt_ret_lab;
 	      fstack_pos_of(temp) = (prop)first_fl_reg;
-	      temp = getexp(f_top, nilexp, 0, nilexp, temp,
+	      temp = getexp(f_top, NULL, 0, NULL, temp,
 				 0, 0, 0);
-	      temp = getexp(f_top, lab, 0, temp, nilexp,
+	      temp = getexp(f_top, lab, 0, temp, NULL,
 				 0, 0, labst_tag);
 	      crt_ret_lab_used = 1;
 	      pt(q) = lab;
@@ -1346,7 +1346,7 @@ void coder
 	if (!isret)
 	  temp = final_dest_test(lab, e);
 	SET(temp);
-	if (pt(son(temp)) == nilexp) {
+	if (pt(son(temp)) == NULL) {
 	  ++no(son(temp));
 	  pt(son(temp)) = copyexp(pt(son(lab)));
 	  ptno(pt(son(temp))) = next_lab();
@@ -1411,7 +1411,7 @@ void coder
 	if (name(e) == test_tag) {
 	  if (name(lab) == labst_tag) {
 	    exp q = short_next_jump(e);
-	    if (q != nilexp &&
+	    if (q != NULL &&
 		 (name(q) == goto_tag ||
 		    (name(q) == res_tag && name(son(q)) == top_tag)) &&
 		  label_is_next(lab, q)) {
@@ -1421,13 +1421,13 @@ void coder
 	        pt(q) = lab;
 	      }
 	      else {
-                temp = getexp(f_bottom, nilexp, 0, nilexp,
-                                nilexp, 0, 0, 0);
+                temp = getexp(f_bottom, NULL, 0, NULL,
+                                NULL, 0, 0, 0);
 		ptno(temp) = crt_ret_lab;
 		fstack_pos_of(temp) = (prop)first_fl_reg;
-	        temp = getexp(f_top, nilexp, 0, nilexp, temp,
+	        temp = getexp(f_top, NULL, 0, NULL, temp,
 				 0, 0, 0);
-	        temp = getexp(f_top, lab, 0, temp, nilexp,
+	        temp = getexp(f_top, lab, 0, temp, NULL,
 				 0, 0, labst_tag);
 		crt_ret_lab_used = 1;
 	        pt(q) = lab;
@@ -1449,7 +1449,7 @@ void coder
 	  if (!isret)
 	    temp = final_dest_test(lab, e);
 	  SET(temp);
-	  if (pt(son(temp)) == nilexp) {
+	  if (pt(son(temp)) == NULL) {
 	    ++no(son(temp));
 	    pt(son(temp)) = copyexp(pt(son(lab)));
 	    ptno(pt(son(temp))) = next_lab();
@@ -1624,7 +1624,7 @@ void coder
         int off;
         int crt = 0;
 
-        if (v == nilexp)
+        if (v == NULL)
           return;
 
         sha = sh(v);
@@ -1643,7 +1643,7 @@ void coder
     case compound_tag:
       {
         exp v = son(e);
-        if (v == nilexp)
+        if (v == NULL)
           return;
 
         while (1)
@@ -1659,9 +1659,9 @@ void coder
     case apply_general_tag:
       {
 	exp proc = son(e);
-	exp arg = (!last(proc))? bro(proc): nilexp;
-	exp cees = nilexp;
-	exp postlude = nilexp;
+	exp arg = (!last(proc))? bro(proc): NULL;
+	exp cees = NULL;
+	exp postlude = NULL;
 	int untidy_call = 0;
 	int has_checkstack = 0;
 	int  longs, more_longs, old_regsinuse, prev_use_bp;
@@ -1695,7 +1695,7 @@ void coder
 	/* may be altered by push_cees */
 	prev_use_bp = must_use_bp;
 
-	if (cees == nilexp)
+	if (cees == NULL)
 	  more_longs = 0;
 	else {
 	  switch (name(cees)) {
@@ -1719,7 +1719,7 @@ void coder
 	      }
 	    case same_callees_tag:
 	      {
-		more_longs = push_cees(nilexp, nilexp, call_has_vcallees(cees), stack);
+		more_longs = push_cees(NULL, NULL, call_has_vcallees(cees), stack);
 		break;
 	      }
 	  }
@@ -1733,7 +1733,7 @@ void coder
 	  ret_stack_dec += no(e);
 	  post_offset = no(e);
 	}
-	if (postlude == nilexp && !untidy_call) {
+	if (postlude == NULL && !untidy_call) {
 	  old_regsinuse = regsinuse;
 	  if (multi_reg)
 	    regsinuse |= 0x2;	/* prevent callins using pop edx */
@@ -1750,7 +1750,7 @@ void coder
 	}
 	must_use_bp = prev_use_bp;
 
-	invalidate_dest(mw(nilexp, 0));
+	invalidate_dest(mw(NULL, 0));
 
 	clear_low_reg_record(crt_reg_record);
 	cond1_set = 0;
@@ -1766,7 +1766,7 @@ void coder
 	}
 	else {
 	  where temp_dest;
-	  if (postlude == nilexp)
+	  if (postlude == NULL)
 	    temp_dest = dest;
 	  else {
 	    push_result = 1;
@@ -1785,7 +1785,7 @@ void coder
 	    failer(STRUCT_RES);  /* compound result */
 	}
 
-	if (postlude != nilexp) {
+	if (postlude != NULL) {
 	  int sz = rounder(shape_size(sh(e)), param_align);
 	  old_nip = not_in_postlude;
 	  not_in_postlude = 0;
@@ -2004,7 +2004,7 @@ void coder
 	    sz_where = mw(zeroe, rounder(n, stack_align) /8);
           }
         else {
-	  exp temp = getexp(slongsh, nilexp, 0, nilexp, nilexp, 0, 0, val_tag);
+	  exp temp = getexp(slongsh, NULL, 0, NULL, NULL, 0, 0, val_tag);
           if (name(sh(son(e))) == offsethd && al2(sh(son(e))) == 1) {
 	    no(temp) = 31;
 	    bop(add, ulongsh, temp, son(e), reg0, stack);
@@ -2180,7 +2180,7 @@ void coder
       };
     case solve_tag:
       {
-	exp jr = getexp(f_bottom, nilexp, 0, nilexp, nilexp, 0,
+	exp jr = getexp(f_bottom, NULL, 0, NULL, NULL, 0,
 	    0, 0);
 	clean_stack();
         sonno(jr) = stack_dec;
@@ -2208,7 +2208,7 @@ void coder
 	exp t = arg1;
 	while (!last(t))
 	  t = bro(t);
-	bro(t) = nilexp;
+	bro(t) = NULL;
 
 	if (!is_o(name(arg1)) || is_crc(arg1)) {
 				/* argument is not a possible 80386
@@ -2274,7 +2274,7 @@ void coder
 	  codec(reg0, stack, e);
       }
       else
-      if (name(e)!=name_tag && name(e)!=env_offset_tag && son(e)!=nilexp) {
+      if (name(e)!=name_tag && name(e)!=env_offset_tag && son(e)!=NULL) {
 	exp l = son(e);		/* catch all discards with side-effects */
 	for (;;) {
 	  coder(dest, stack, l);

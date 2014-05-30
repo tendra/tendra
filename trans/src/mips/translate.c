@@ -136,7 +136,7 @@ void code_it
     };
   if (symnos[symdef] <0) goto end; /* ? unused symbols */
 
-  if (son(tg)!= nilexp && (!extnamed || !is_comm(son(tg)))) {
+  if (son(tg)!= NULL && (!extnamed || !is_comm(son(tg)))) {
     if (name(son(tg)) == proc_tag
 		|| name(son(tg)) == general_proc_tag) {
         diag_descriptor * dd =  my_def -> dec_u.dec_val.diag_info;
@@ -190,13 +190,13 @@ void code_it
   }
   else {	/* global declarations but no definitions or is_comm */
       long  size;
-      shape s = (son(tg) ==nilexp)?my_def -> dec_u.dec_val.dec_shape :
+      shape s = (son(tg) ==NULL)?my_def -> dec_u.dec_val.dec_shape :
 				sh(son(tg));
       size = (shape_size(s) + 7) >> 3;
 
       if ((isvar(tg) || name(s)!= prokhd) && not_reserved(id)) {
-	if ((son(tg)!= nilexp && is_comm(son(tg)))
-		|| (son(tg) ==nilexp && varsize(sh(tg)))) {
+	if ((son(tg)!= NULL && is_comm(son(tg)))
+		|| (son(tg) ==NULL && varsize(sh(tg)))) {
 	  if (size !=0) { /* ? ? ! ? */
 	     globalise_name(my_def);
 	     if (as_file)
@@ -212,7 +212,7 @@ void code_it
 	}
       }
       else
-	if (son(tg) == nilexp && !extnamed) {
+	if (son(tg) == NULL && !extnamed) {
 	  if (size !=0) { /* ? ? ! ? */
 	      if (as_file)
 	        fprintf(as_file, "\t.lcomm\t%s %ld\n", id, size);
@@ -233,8 +233,8 @@ void mark_unaliased
 {
   exp p = pt(e);
   bool ca = 1;
-  while (p != nilexp && ca) {
-    if (bro(p) ==nilexp ||
+  while (p != NULL && ca) {
+    if (bro(p) ==NULL ||
       (!(last(p) && name(bro(p)) == cont_tag) &&
 	!(!last(p) && last(bro(p)) && name(bro(bro(p))) == ass_tag)))
       ca = 0;
@@ -275,17 +275,17 @@ void translate_capsule
     while (my_def != (dec *)0) {
         exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
 	char * id = my_def -> dec_u.dec_val.dec_id;
-	if (strcmp(id, "main") ==0 && son(crt_exp)!= nilexp &&
+	if (strcmp(id, "main") ==0 && son(crt_exp)!= NULL &&
 		name(son(crt_exp)) == proc_tag) {
 	   exp fn = me_obtain(find_named_tg("__DO_I_TDF", f_proc));
-	   exp cll = getexp(f_top, nilexp, 0, fn, nilexp, 0, 0, apply_tag);
+	   exp cll = getexp(f_top, NULL, 0, fn, NULL, 0, 0, apply_tag);
 	   exp * dm = &son(son(crt_exp));
 	   exp hld, seq;
 	   bro(fn) = cll; setlast(fn);
 	   while (name(*dm) ==ident_tag && isparam(*dm))dm = &bro(son(*dm));
 	   /* dm is body of main after params */
-	   hld = getexp(f_top, *dm, 0, cll, nilexp, 0, 1, 0);
-	   seq = getexp(sh(*dm), bro(*dm), last(*dm), hld, nilexp, 0, 0, seq_tag);
+	   hld = getexp(f_top, *dm, 0, cll, NULL, 0, 1, 0);
+	   seq = getexp(sh(*dm), bro(*dm), last(*dm), hld, NULL, 0, 0, seq_tag);
 	   bro(*dm) = seq; setlast(*dm);
 	   bro(cll) = hld; setlast(cll);
 	   *dm = seq;
@@ -299,7 +299,7 @@ void translate_capsule
   my_def = top_def;
   while (my_def != (dec *)0) {
     exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
-    if (son(crt_exp)!= nilexp &&
+    if (son(crt_exp)!= NULL &&
 	!my_def -> dec_u.dec_val.extnamed &&
 	isvar(crt_exp))
       mark_unaliased(crt_exp);
@@ -310,7 +310,7 @@ void translate_capsule
   my_def = top_def;
   while (my_def != (dec *)0) {
     exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
-    if (son(crt_exp)!= nilexp
+    if (son(crt_exp)!= NULL
         && (name(son(crt_exp)) == proc_tag ||
 		name(son(crt_exp)) == general_proc_tag)) {
       noprocs++;
@@ -329,7 +329,7 @@ void translate_capsule
   my_def = top_def;
   while (my_def != (dec *)0) {
     exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
-    if (son(crt_exp)!= nilexp &&
+    if (son(crt_exp)!= NULL &&
 	(name(son(crt_exp)) == proc_tag || name(son(crt_exp)) == general_proc_tag)) {
       no(son(crt_exp)) = noprocs++;
       /* put index into procrecs in no(proc) */
@@ -342,7 +342,7 @@ void translate_capsule
 	my_def = top_def;
   	while (my_def != (dec *)0) {
 		exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
-		if (son(crt_exp) == nilexp && isvar(crt_exp)) {
+		if (son(crt_exp) == NULL && isvar(crt_exp)) {
 			global_usages(crt_exp, noprocs);
 			/* try to identify globals ptrs in procs */
 		}
@@ -369,7 +369,7 @@ void translate_capsule
   my_def = top_def;
   while (my_def != (dec *)0) {
     exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
-    if (son(crt_exp)!= nilexp
+    if (son(crt_exp)!= NULL
 	&& (name(son(crt_exp)) == proc_tag ||
 		name(son(crt_exp)) == general_proc_tag)) {
       procrec * pr = &procrecs[no(son(crt_exp))];
@@ -385,7 +385,7 @@ void translate_capsule
   my_def = top_def;
   while (my_def != (dec *)0) {
     exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
-    if (son(crt_exp)!= nilexp
+    if (son(crt_exp)!= NULL
         && (name(son(crt_exp)) == proc_tag ||
 		name(son(crt_exp)) == general_proc_tag)) {
       procrec * pr = &procrecs[no(son(crt_exp))];
@@ -441,11 +441,11 @@ void translate_capsule
     bool extnamed = main_globals[i] -> dec_u.dec_val.extnamed;
     diag_descriptor * dinf = main_globals[i] -> dec_u.dec_val.diag_info;
     main_globals[i] ->dec_u.dec_val.sym_number = i;
-    if (no(tg)!= 0 || (extnamed && son(tg)!= nilexp)
+    if (no(tg)!= 0 || (extnamed && son(tg)!= NULL)
 		|| strcmp(id,"__TDFhandler") == 0
 		|| strcmp(id,"__TDFstacklim") ==0
 	) {
-     	if (no(tg) ==1 && son(tg) ==nilexp && dinf != (diag_descriptor *)0
+     	if (no(tg) ==1 && son(tg) ==NULL && dinf != (diag_descriptor *)0
  		 /* diagnostics only! */ ) {
     		symnos[i] = -1;
     	}
@@ -503,7 +503,7 @@ void translate_capsule
     exp tg = my_def -> dec_u.dec_val.dec_exp;
     char *id = my_def -> dec_u.dec_val.dec_id;
     bool extnamed = my_def -> dec_u.dec_val.extnamed;
-    if (son (tg) != nilexp && (extnamed || no (tg) != 0 || !strcmp (id, "main"))) {
+    if (son (tg) != NULL && (extnamed || no (tg) != 0 || !strcmp (id, "main"))) {
       if (extnamed) {
 	if (as_file)
 	  fprintf (as_file, "\t.globl\t%s\n", id);
@@ -537,11 +537,11 @@ void translate_unit
      while (my_def != (dec *)0) {
        exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
        no(crt_exp) = 0;
-       pt(crt_exp) = nilexp;
+       pt(crt_exp) = NULL;
        my_def = my_def -> def_next;
      };
-     crt_repeat = nilexp;
-     repeat_list = nilexp;
+     crt_repeat = NULL;
+     repeat_list = NULL;
    };
   return;
 }
