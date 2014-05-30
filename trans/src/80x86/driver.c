@@ -48,8 +48,7 @@
 #include <dwarf2/dw2_iface.h>
 #include <dwarf2/dw2_abbrev.h>
 #include <dwarf2/dw2_common.h>
-static bool dump_abbrev = 0;
-#endif /* NEWDWARF */
+#endif
 
 #if DWARF
 #include <dwarf/dwarf_mc.h>

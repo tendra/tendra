@@ -153,6 +153,10 @@ extern int diag_visible;
 extern int extra_diags;
 #endif
 
+#ifdef NEWDWARF
+extern int dump_abbrev;
+#endif
+
 extern enum has     has;
 extern enum optim   optim;
 extern enum check   check;

@@ -141,10 +141,6 @@
 #include <dwarf2/dw2_iface.h>
 #endif
 
-#ifdef NEWDWARF
-bool dump_abbrev = 0 ;
-#endif
-
 extern bool know_size ;
 
 char * proc_name;

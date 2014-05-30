@@ -28,11 +28,6 @@
 
 extern int report_versions; /* XXX */
 
-#ifdef NEWDWARF
-#include <construct/installtypes.h>
-extern bool dump_abbrev;
-#endif
-
 FILE *tc_file; /* .t or .j: TDF capsule input */
 FILE *as_file; /* .s: assembly text output    */
 FILE *st_file; /* .T: symbol table output     */

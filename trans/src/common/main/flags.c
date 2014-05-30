@@ -52,6 +52,10 @@ int diag_visible = 0;		/* additional visibility if doing diagnostics */
 int extra_diags = 0;		/* option for extended diagnostics */
 #endif
 
+#ifdef NEWDWARF
+int dump_abbrev = 0;
+#endif
+
 enum has     has;
 enum optim   optim;
 enum check   check;
