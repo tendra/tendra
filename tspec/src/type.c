@@ -70,7 +70,7 @@ new_type(void)
 	type *t;
 
 	t = xmalloc(sizeof *t);
-	t->state = 0;
+	t->state = TYPE_IMMEDIATE;
 
 	return t;
 }

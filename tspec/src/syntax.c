@@ -2110,9 +2110,9 @@ ZRspec_Hcommand(SID_COMMAND *ZOc)
 				(ZIc) = make_object(NULL, OBJ_TYPE);
 				(ZIc)->u.u_type = (ZIt);
 				if (0 == strcmp ( (ZIc)->filename, (ZIt)->u.obj->filename )) {
-					(ZIt)->state = 1;
+					(ZIt)->state = TYPE_ELSEWHERE;
 				} else {
-					(ZIt)->state = 3;
+					(ZIt)->state = TYPE_ANOTHER;
 				}
 			}
 		} else {

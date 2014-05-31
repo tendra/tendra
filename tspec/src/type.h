@@ -17,6 +17,16 @@
 #endif
 
 /*
+ * These are silly names.
+ */
+enum type_state {
+	TYPE_IMMEDIATE,
+	TYPE_ELSEWHERE,
+	TYPE_EARLIER,
+	TYPE_ANOTHER
+};
+
+/*
  * TYPE REPRESENTING A C TYPE
  *
  * A type consists of a type identifier followed by a union of different
@@ -37,7 +47,7 @@ typedef struct type_tag {
 		struct type_tag *next;
 	} v;
 
-	bool state;
+	enum type_state state;
 } type;
 
 /*

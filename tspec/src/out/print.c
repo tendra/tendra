@@ -305,7 +305,7 @@ print_struct_defn(FILE *output, type *t, char *nm, char *tnm, int d)
 
 	/* Deal with the various definition cases */
 	switch (t->state) {
-	case 0:
+	case TYPE_IMMEDIATE:
 		/* Definition is immediate */
 		if (is_hidden(nm)) {
 			show_token     = 0;
@@ -314,34 +314,34 @@ print_struct_defn(FILE *output, type *t, char *nm, char *tnm, int d)
 		}
 		break;
 
-	case 1:
+	case TYPE_ELSEWHERE:
 		/* Definition is elsewhere */
 		show_interface = 0;
 		show_ignore    = 0;
 		show_defn      = 0;
 
-		t->state = 2;
+		t->state = TYPE_EARLIER;
 		break;
 
-	case 2:
+	case TYPE_EARLIER:
 		/* Declaration was earlier in file */
 		show_token = 0;
-		t->state = 0;
+		t->state   = TYPE_IMMEDIATE;
 		break;
 
-	case 3:
+	case TYPE_ANOTHER:
 		/* Declaration was in another file */
 		if (d) {
 			show_token     = 0;
 			show_interface = 0;
 
-			t->state = 1;
+			t->state = TYPE_ELSEWHERE;
 		} else {
 			show_interface = 0;
 			show_ignore    = 0;
 			show_defn      = 0;
 
-			t->state = 2;
+			t->state = TYPE_EARLIER;
 		}
 		break;
 	}
@@ -911,8 +911,8 @@ print_interface(FILE *output, object *p, ifcmd *ifs)
 type_struct_lab:
 			/* Some structures and unions are not tokens */
 			if (t->v.obj2) {
-				if (t->state == 2) {
-					t->state = 3;
+				if (t->state == TYPE_EARLIER) {
+					t->state = TYPE_ANOTHER;
 				} else {
 					nm = NULL;
 				}

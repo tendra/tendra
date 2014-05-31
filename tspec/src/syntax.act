@@ -777,9 +777,9 @@
 				@c = make_object(NULL, OBJ_TYPE);
 				@c->u.u_type = @t;
 				if (0 == strcmp ( @c->filename, @t->u.obj->filename )) {
-					@t->state = 1;
+					@t->state = TYPE_ELSEWHERE;
 				} else {
-					@t->state = 3;
+					@t->state = TYPE_ANOTHER;
 				}
 			}
 		} else {
