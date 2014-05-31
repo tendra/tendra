@@ -112,7 +112,7 @@ CXX:=	${CLANG}
 
 CFLAGS+=	${CLANGOPTS}
 CXXFLAGS+=	${CLANGXXOPTS}
-CCOPTS+=	-pedantic -O4
+CCOPTS+=	-pedantic -O3
 
 . elif defined(PCC)
 
