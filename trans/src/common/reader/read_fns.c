@@ -49,6 +49,8 @@
 
 #include <main/flags.h>
 
+#include <utility/prefix.h>
+
 #ifdef NEWDIAGS
 #include <newdiag/diag_fns.h>	/* OLD DIAGS */
 #include <newdiag/dg_fns.h>	/* NEW DIAGS */
@@ -213,19 +215,14 @@ external_to_string(external ext)
 	}
 }
 
-
+/*
+ * Invent a local label identifier.
+ */
 char *
 make_local_name(void)
 {
-  /* invent a local label identifier */
-  char *id;
-  char *st = intchars(next_lab());
-  int   l = (int)strlen(st);
-  int lpl = (int)strlen(local_prefix);
-  id = (char *)xcalloc(l + lpl + 1, sizeof(char));
-  IGNORE strcpy(id, local_prefix);
-  IGNORE strcpy(&id[lpl], st);
-  return id;
+	char *s = intchars(next_lab());
+	return add_prefix(local_prefix, s);
 }
 
 static void
@@ -1262,33 +1259,12 @@ init_al_tagdef(void)
 tagdef f_dummy_tagdef;
 al_tagdef f_dummy_al_tagdef;
 
-char *
-add_prefix(char *nm)
-{
-  char *id;
-  int idl = (int)strlen(nm);
-  int j;
-  int npl = (int)strlen(name_prefix);
-  if (npl == 0) {
-    return nm;
-  }
-  id = (char *)xcalloc((idl + npl + 1), sizeof(char));
-  id[idl + npl] = 0;
-  for (j = npl; j < (idl + npl); ++j) {
-    id[j] = nm[j - npl];
-  }
-  for (j = 0; j < npl; ++j) {
-    id[j] = name_prefix[j];
-  }
-  return id;
-}
-
 tagextern
 f_make_tagextern(tdfint internal, external ext)
 {
   dec *dp = &capsule_tagtab[natint(internal)];
   char *nm = external_to_string(ext);
-  char *id = add_prefix(nm);
+  char *id = add_prefix(name_prefix, nm);
   dp->dec_u.dec_val.dec_id = id;
   dp->dec_u.dec_val.dec_outermost = 1;
   dp->dec_u.dec_val.extnamed = 1;

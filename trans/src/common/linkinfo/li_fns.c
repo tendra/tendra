@@ -33,13 +33,15 @@
 #include <reader/readglob.h>
 #include <reader/basicread.h>
 
-#include <main/flags.h>
-
 #include <construct/exp.h>
 #include <construct/tags.h>
 #include <construct/machine.h>
 
 #include <linkinfo/messages_li.h>
+
+#include <utility/prefix.h>
+
+#include <main/flags.h>
 
 int use_link_stuff;
 weak_cell *weak_list;
@@ -47,23 +49,6 @@ weak_cell *weak_list;
 /* PROCEDURES */
 
 extern void out_rename(char *, char *);
-
-static char *
-id_prefix(char *s)
-{
-	char *r;
-	int l1, l2;
-	l1 = (int)strlen(name_prefix);
-	if (l1==0) {
-		return s;
-	}
-	l2 = (int)strlen(s);
-	r = (char *)xcalloc(l1 + l2 + 1, sizeof(char));
-	IGNORE strcpy(r, name_prefix);
-	IGNORE strcpy(&r[l1], s);
-	return r;
-}
-
 
 linkinfo
 f_make_weak_defn(exp e1, exp e2)
@@ -92,7 +77,7 @@ f_make_weak_symbol(tdfstring id, exp e)
 	if (use_link_stuff) {
 #if TRANS_80x86 || TRANS_SPARC
 		char **lid = &brog(son(e))->dec_u.dec_val.dec_id;
-		char *nid = id_prefix(id.ints.chars);
+		char *nid = add_prefix(name_prefix, id.ints.chars);
 		brog(son(e))->dec_u.dec_val.isweak = 1;
 		brog(son(e))->dec_u.dec_val.extnamed = 1;
 		outs(".weak ");
@@ -114,7 +99,7 @@ f_make_comment(tdfstring id)
 	if (use_link_stuff) {
 #if TRANS_80x86 || TRANS_SPARC
 		outs(".ident \"");
-		outs(id_prefix(id.ints.chars));
+		outs(add_prefix(name_prefix, id.ints.chars));
 		outs("\"");
 		outnl();
 #endif
@@ -128,7 +113,7 @@ linkinfo
 f_static_name_def(exp e, tdfstring id)
 {
 	char **oldid = &brog(son(e))->dec_u.dec_val.dec_id;
-	char *newid = id_prefix(id.ints.chars);
+	char *newid = add_prefix(name_prefix, id.ints.chars);
 
 	if (name(e) != name_tag || !isglob(son(e))) {
 		failer(ILLEGAL_STATIC);

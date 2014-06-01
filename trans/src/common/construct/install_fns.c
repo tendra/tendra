@@ -62,6 +62,8 @@
 
 #include <main/flags.h>
 
+#include <utility/prefix.h>
+
 #include <refactor/optimise.h>
 #include <refactor/refactor.h>
 #include <refactor/refactor_id.h>
@@ -258,7 +260,7 @@ find_named_tg(char *n, shape s)
 	if (my_def != (dec*)0) {
 		return my_def->dec_u.dec_val.dec_exp;
 	}
-	my_def = make_extra_dec(add_prefix(n), 0, 1, NULL, s);
+	my_def = make_extra_dec(add_prefix(name_prefix, n), 0, 1, NULL, s);
 	return my_def->dec_u.dec_val.dec_exp;
 }
 
@@ -6459,9 +6461,8 @@ tidy_initial_values(void)
 					       me_obtain(list_exp),
 					       me_obtain(str_exp))), 0);
 		} else {
-			extra_dec = make_extra_dec(add_prefix(init_NAME(
-						   good_name)), 0, 1, prc,
-						   f_proc);
+			extra_dec = make_extra_dec(add_prefix(name_prefix, init_NAME(good_name)),
+				0, 1, prc, f_proc);
 		}
 	}
 	if (do_prom && prom_as.number != 0) {
@@ -6477,7 +6478,7 @@ tidy_initial_values(void)
 		rep_make_proc = 0;
 		start_make_proc(f_top, tsl, no_tagacc_option);
 		prc = f_make_proc(f_top, tsl, no_tagacc_option, seq);
-		extra_dec = make_extra_dec(add_prefix(init_NAME(good_name)), 0,
-					   1, prc, f_proc);
+		extra_dec = make_extra_dec(add_prefix(name_prefix, init_NAME(good_name)),
+			0, 1, prc, f_proc);
 	}
 }

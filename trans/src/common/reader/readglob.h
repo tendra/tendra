@@ -111,8 +111,6 @@ extern int within_diags;
 
 char *make_local_name(void);
 
-char *add_prefix(char *);
-
 char *external_to_string(external);
 
 #endif /* READGLOB_H */
