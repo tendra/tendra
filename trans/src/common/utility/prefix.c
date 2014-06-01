@@ -7,10 +7,6 @@
 
 #include <utility/prefix.h>
 
-/* XXX: stopgap until these are passed as arguments */
-extern char *name_prefix;
-extern char *local_prefix;
-
 char *
 add_prefix(const char *prefix, char *s)
 {
