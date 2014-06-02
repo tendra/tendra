@@ -11,6 +11,7 @@
 #include <string.h>
 
 #include <shared/check.h>
+#include <shared/xalloc.h>
 
 #include <local/expmacs.h>
 #include <reader/exptypes.h>
