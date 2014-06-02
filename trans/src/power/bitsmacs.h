@@ -39,7 +39,6 @@
 #define defer_bit    0x2000
 #define notparreg    0x4000
 #define notresreg    0x8000
-#define inlined      0x0200
 #define vararg_bit   0x0400 /* Set for the last ident param if vararg */
 /*
  * props of real operations 

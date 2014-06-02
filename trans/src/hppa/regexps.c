@@ -17,7 +17,7 @@ For trivial 'peephole' optimisations
 #include <stddef.h>
 
 #include <reader/exptypes.h>
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 
 #include <construct/tags.h>
 #include <construct/shapemacs.h>
@@ -29,6 +29,7 @@ For trivial 'peephole' optimisations
 #include "regmacs.h"
 #include "comment.h"
 #include "regexps.h"
+#include "localexpmacs.h"
 
 /* 22.11.94. Corrected bug found by Ian Currie, i.e. isglob(s) assertion
    added to line 351 */

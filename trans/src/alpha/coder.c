@@ -18,11 +18,11 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
-#include <reader/exptypes.h>
-#include <local/expmacs.h>
-#include <reader/exptypes.h>
 #include <local/szs_als.h>
 
+#include <reader/exptypes.h>
+#include <reader/expmacs.h>
+#include <reader/exptypes.h>
 #include <reader/externs.h>
 #include <reader/basicread.h>
 
@@ -75,6 +75,7 @@
 #include "out_ba.h"
 #include "float.h"
 #include "translate.h"
+#include "localexpmacs.h"
 
 extern  FILE * as_file;
 int fscopefile;	/* file of current proc */

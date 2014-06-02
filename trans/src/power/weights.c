@@ -43,7 +43,7 @@
 #include <shared/error.h>
 
 #include <reader/exptypes.h>
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 #include <local/localtypes.h>
 
 #include <construct/exp.h>

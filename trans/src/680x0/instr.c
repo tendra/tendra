@@ -9,7 +9,7 @@
 
 #include <shared/error.h>
 
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 
 #include <reader/externs.h>
 

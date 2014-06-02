@@ -12,7 +12,7 @@
 
 #include <main/flags.h>
 
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 #include <local/localtypes.h>
 
 #include "regable.h"

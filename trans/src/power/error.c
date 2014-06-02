@@ -29,6 +29,7 @@
 #include "stack.h"
 #include "instruct.h"
 #include "error.h"
+#include "localexpmacs.h"
 
 /* Labels to call the error handler */
 /* NOTE there are three one for each ERROR_CODE */

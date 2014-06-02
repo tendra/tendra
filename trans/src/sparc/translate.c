@@ -92,7 +92,7 @@
 #include <shared/xalloc.h>
 
 #include <local/diag_config.h>
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 #include <reader/exptypes.h>
 #include <local/localflags.h>
 #include <local/out.h>
@@ -136,6 +136,7 @@
 #include "special.h"
 #include "locate.h"
 #include "sparctrans.h"
+#include "localexpmacs.h"
 
 #ifdef NEWDWARF
 #include <dwarf2/dw2_iface.h>

@@ -24,6 +24,7 @@
 #include "stack.h"
 #include "locate.h"
 #include "frames.h"
+#include "localexpmacs.h"
 
 /*
  * For non globals, boff encodes things in the following way:

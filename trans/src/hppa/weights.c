@@ -41,7 +41,7 @@
 #include <stddef.h>
 
 #include <reader/exptypes.h>
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 
 #include <reader/codetypes.h>
 

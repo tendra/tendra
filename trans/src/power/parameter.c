@@ -29,6 +29,7 @@
 #include "parameter.h"
 #include "stack.h"
 #include "needscan.h"
+#include "localexpmacs.h"
 
 bool suspected_varargs = 0;
 int saved_varargs_register=0;

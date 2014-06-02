@@ -13,7 +13,7 @@
 #include <shared/error.h>
 
 #include <reader/exptypes.h>
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 #include <reader/exptypes.h>
 
 #include <reader/basicread.h>

@@ -11,7 +11,7 @@
 
 #include <shared/error.h>
 
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 #include <local/fbase.h>
 #include <local/localflags.h>
 
@@ -39,8 +39,9 @@
 #include "codex.h"
 #include "translate.h"
 #include "utility.h"
-#include "68k_globals.h"
 #include "xdb_basics.h"
+#include "68k_globals.h"
+#include "localexpmacs.h"
 
 extern int is_comm(exp);
 extern char *get_pointer_name(void *);

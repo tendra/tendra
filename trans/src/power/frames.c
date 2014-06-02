@@ -42,6 +42,7 @@
 #include "stack.h"
 #include "frames.h"
 #include "stack.h"
+#include "localexpmacs.h"
 
 long frame_offset(exp id)
 {

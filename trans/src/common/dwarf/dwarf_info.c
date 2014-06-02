@@ -11,7 +11,7 @@
 
 #include <local/diag_config.h>
 #include <local/out.h>
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 #include <reader/exptypes.h>
 
 #include <reader/readglob.h>

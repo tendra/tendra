@@ -11,7 +11,7 @@
 #include <string.h>
 
 #include <reader/exptypes.h>
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 #include <local/out.h>
 
 #include <reader/codetypes.h>

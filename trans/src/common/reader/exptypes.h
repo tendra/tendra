@@ -27,8 +27,11 @@ struct aldef_t;
 /*
  * STRUCTURE REPRESENTING EXPRESSION PROPERTIES
  *
- * This is basically a bitfield, with different bits representing
- * different properties.  See expmacs.h for details.
+ * This is a bitfield, with different bits representing different properties.
+ * The lower bits are used by common code, and the upper bits are used
+ * for each architecture to specify its own architecture-specific properties.
+ *
+ * See expmacs.h for details.
  */
 typedef unsigned short prop;
 

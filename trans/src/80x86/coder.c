@@ -28,7 +28,7 @@
 
 #include <reader/exptypes.h>
 #include <local/codermacs.h>
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 #include <local/out.h>
 #include <local/localflags.h>
 
@@ -64,6 +64,7 @@
 #include "assembler.h"
 #include "cproc.h"
 #include "coder.h"
+#include "localexpmacs.h"
 
 #ifdef NEWDIAGS
 #include <newdiag/diag_fns.h>

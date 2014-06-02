@@ -12,7 +12,7 @@
 
 #include <shared/check.h>
 
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 #include <local/localflags.h>
 
 #include <reader/codetypes.h>

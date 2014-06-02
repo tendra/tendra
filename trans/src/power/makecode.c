@@ -45,6 +45,7 @@
 #include "record_bit.h"
 #include "mask.h"
 #include "error.h"
+#include "localexpmacs.h"
 
 #ifdef DEBUG_POWERTRANS
 #include "pp.h"

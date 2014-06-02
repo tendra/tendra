@@ -9,7 +9,7 @@
 
 #include <shared/xalloc.h>
 
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 
 #include <reader/readglob.h>
 #include <reader/table_fns.h>

@@ -13,7 +13,7 @@
 
 #include <shared/xalloc.h>
 
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 #include <local/localtypes.h>
 
 #include "cross_config.h"

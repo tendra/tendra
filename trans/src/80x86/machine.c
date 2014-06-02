@@ -7,7 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 #include <local/localflags.h>
 #include <local/szs_als.h>
 #include <local/out.h>

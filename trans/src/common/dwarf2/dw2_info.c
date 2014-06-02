@@ -40,7 +40,7 @@
 #include <dwarf2/dw2_iface.h>
 #include <dwarf2/dw2_locdata.h>
 
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 
 
 long dw2_scope_start = 0;

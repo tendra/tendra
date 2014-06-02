@@ -22,7 +22,7 @@
 #include <shared/check.h>
 
 #include <reader/exptypes.h>
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 #include <local/szs_als.h>
 #include <local/localflags.h>
 
@@ -55,6 +55,7 @@
 #include "needscan.h"
 #include "reg_defs.h"
 #include "makecode.h"
+#include "localexpmacs.h"
 
 extern prop notbranch[];
 

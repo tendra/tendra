@@ -18,6 +18,7 @@
 #include "codegen.h"
 #include "comment.h"
 #include "regable.h"
+#include "localexpmacs.h"
 
 bool valregable(shape s)
 {

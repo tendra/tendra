@@ -9,7 +9,7 @@
 
 #include <stddef.h>
 
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 
 #include <reader/externs.h>
 #include <reader/basicread.h>
@@ -21,6 +21,7 @@
 #include "extern_adds.h"
 #include "procrectypes.h"
 #include "needs_scan.h"
+#include "localexpmacs.h"
 
 
 /* replaces uses of extern in procs by local identification of address;

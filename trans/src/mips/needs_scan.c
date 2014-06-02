@@ -20,7 +20,7 @@
 #include <string.h>
 
 #include <reader/exptypes.h>
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 
 #include <reader/externs.h>
 #include <reader/basicread.h>
@@ -50,6 +50,7 @@
 #include "main.h"
 #include "needs_scan.h"
 #include "oddtest.h"
+#include "localexpmacs.h"
 
 int   maxfix,
       maxfloat;			/* the maximum number of t-regs */
@@ -760,7 +761,7 @@ tidy_ident(exp e)
 			change_to_var(e);
 			e3 = bro(init);
 			if (isvis(init)) { setvis(e); }
-			if (!iscaonly(init)) { ClearCaonly(e); }
+			if (!iscaonly(init)) { clearcaonly(e); }
 		}
 
 		change_names(init,e,idy);
@@ -792,7 +793,7 @@ tidy_ident(exp e)
 			change_to_var(e);
 			e3 = bro(init);
 			if (isvis(init)) { setvis(e); }
-			if (!iscaonly(init)) { ClearCaonly(e); }
+			if (!iscaonly(init)) { clearcaonly(e); }
 		}
 		bro(e1) = e3;
 		son(e) = e1;

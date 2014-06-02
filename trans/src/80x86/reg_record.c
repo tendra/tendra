@@ -11,7 +11,7 @@
 
 #include <local/diag_config.h>
 #include <reader/exptypes.h>
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 #include <local/codermacs.h>
 
 #include <construct/tags.h>

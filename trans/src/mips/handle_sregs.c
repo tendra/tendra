@@ -16,7 +16,7 @@
 
 ****************************************************************/
 
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 
 #include <reader/basicread.h>
 
@@ -25,6 +25,7 @@
 #include "addrtypes.h"
 #include "frames.h"
 #include "handle_sregs.h"
+#include "localexpmacs.h"
 
 extern long frame_size;
 long  dumpstart;		/* where to start dumping fixeds */

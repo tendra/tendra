@@ -10,7 +10,7 @@
 #include <shared/error.h>
 
 #include <reader/exptypes.h>
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 
 #include <construct/exp.h>
 #include <construct/shapemacs.h>
@@ -34,6 +34,7 @@
 #include "evaluate.h"
 #include "ops_shared.h"
 #include "mach_ins.h"
+#include "localexpmacs.h"
 
 extern bool have_cond;
 

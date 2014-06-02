@@ -11,7 +11,7 @@
  * This file contains code to allow 64 bit arithmetic to be handled portably.
  */
 
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 
 #include <construct/flpttypes.h>
 #include <construct/flpt.h>

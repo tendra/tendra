@@ -37,7 +37,7 @@
 #include <shared/check.h>
 
 #include <reader/exptypes.h>
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 
 #include <reader/externs.h>
 
@@ -55,6 +55,10 @@
 
 #ifdef NEWDIAGS
 #include <newdiag/dg_aux.h>
+#endif
+
+#if defined(TRANS_80x86) || defined(TRANS_HPPA)
+#include "localexpmacs.h"
 #endif
 
 #if TRANS_680x0

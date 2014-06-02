@@ -9,7 +9,7 @@
 
 #include <stddef.h>
 
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 
 #include <reader/externs.h>
 
@@ -21,6 +21,7 @@
 #include <main/flags.h>
 
 #include "tv_callees.h"
+#include "localexpmacs.h"
 
 void transform_var_callees
 (void)

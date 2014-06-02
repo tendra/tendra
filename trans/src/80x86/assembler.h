@@ -11,6 +11,9 @@
 #define ASSEMBLER_H
 
 #include <reader/exptypes.h>
+
+#include <construct/installtypes.h>
+
 #include <local/localtypes.h>
 
 #include <main/flags.h>

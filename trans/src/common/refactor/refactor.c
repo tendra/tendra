@@ -30,7 +30,7 @@
 #include <shared/xalloc.h>
 
 #include <reader/exptypes.h>
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 #include <local/szs_als.h>
 
 #include <reader/codetypes.h>
@@ -61,8 +61,8 @@
 #include <newdiag/dg_aux.h>
 #endif
 
-#if TRANS_80x86
-#include <local/localflags.h>
+#if defined(TRANS_80x86) || defined(TRANS_HPPA)
+#include "localexpmacs.h"
 #endif
 
 #include <refactor/refactor.h>

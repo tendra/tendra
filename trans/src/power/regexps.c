@@ -20,6 +20,7 @@
 #include "maxminmacs.h"		/* for absval() */
 #include "comment.h"
 #include "regexps.h"
+#include "localexpmacs.h"
 
 struct regpeept
 {

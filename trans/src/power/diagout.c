@@ -13,8 +13,9 @@
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
-#include <reader/exptypes.h>
 #include <local/szs_als.h>
+
+#include <reader/exptypes.h>
 
 #if defined(CROSS_INCLUDE)
 #include CROSS_INCLUDE/dbxstclass.h>
@@ -47,7 +48,7 @@
 #include "comment.h"
 #include "stack.h"
 #include "diagout.h"
-
+#include "localexpmacs.h"
 
 
 /* configuration options */

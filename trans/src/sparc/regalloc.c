@@ -31,7 +31,7 @@
 
 #include <main/flags.h>
 
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 #include <local/localflags.h>
 
 #include "proctypes.h"

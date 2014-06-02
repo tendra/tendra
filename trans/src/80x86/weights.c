@@ -12,7 +12,7 @@
 
 #include <shared/check.h>
 
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 #include <local/localflags.h>
 
 #include <reader/basicread.h>
@@ -25,6 +25,7 @@
 
 #include "coder.h"
 #include "weights.h"
+#include "localexpmacs.h"
 
 
 /* MACROS */

@@ -9,7 +9,7 @@
 
 #include <shared/xalloc.h>
 
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 
 #include <construct/tags.h>
 #include <construct/shapemacs.h>

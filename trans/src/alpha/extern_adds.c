@@ -9,7 +9,7 @@
 
 #include <stddef.h>
 
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 
 #include <reader/externs.h>
 
@@ -18,6 +18,7 @@
 #include <construct/shapemacs.h>
 
 #include "extern_adds.h"
+#include "localexpmacs.h"
 
 extern exp * ptr_position(exp e);
 

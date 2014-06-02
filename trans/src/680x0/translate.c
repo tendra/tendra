@@ -7,9 +7,10 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include <reader/exptypes.h>
-#include <local/expmacs.h>
 #include <local/szs_als.h>
+
+#include <reader/exptypes.h>
+#include <reader/expmacs.h>
 
 #include <construct/exp.h>
 #include <construct/installglob.h>
@@ -33,8 +34,8 @@
 #include "output.h"
 #include "tests.h"
 #include "utility.h"
-
 #include "xdb_basics.h"
+#include "localexpmacs.h"
 
 extern dec *sort_decs(dec *);
 static void output_all_exps(void);

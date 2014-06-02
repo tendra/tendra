@@ -21,7 +21,7 @@
 #include <shared/error.h>
 
 #include <reader/exptypes.h>
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 #include <local/localtypes.h>
 #include <local/localflags.h>
 
@@ -54,6 +54,7 @@
 #include "stack.h"
 #include "error.h"
 #include "dynamic_init.h"
+#include "localexpmacs.h"
 
 /*
  * Will an ident exp be in memory?

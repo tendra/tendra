@@ -11,7 +11,7 @@
 
 #include <main/flags.h>
 
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 
 #include "regable.h"
 

@@ -39,7 +39,7 @@
 
 #include <reader/exptypes.h>
 #include <local/szs_als.h>
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 
 #include "addrtypes.h"
 #include "bitsmacs.h"
@@ -53,6 +53,7 @@
 #include "regable.h"
 #include "regexps.h"
 #include "dw2_extra.h"
+#include "localexpmacs.h"
 
 extern int call_base_reg;	/* declared in locate.c */
 

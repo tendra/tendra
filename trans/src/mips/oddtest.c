@@ -19,7 +19,7 @@ where f is any sequence of unary operators including identity
 #include <stddef.h>
 
 #include <reader/exptypes.h>
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 #include <reader/exptypes.h>
 
 #include <construct/tags.h>

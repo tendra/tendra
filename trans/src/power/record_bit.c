@@ -33,6 +33,7 @@
 #include "tempdecs.h"
 #include "oprators.h"
 #include "record_bit.h"
+#include "localexpmacs.h"
 
 #define CASE_RECORD_BIT and_tag:case plus_tag:case shr_tag
 

@@ -14,9 +14,10 @@
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
-#include <reader/exptypes.h>
-#include <local/expmacs.h>
+#include <local/szs_als.h>
 
+#include <reader/exptypes.h>
+#include <reader/expmacs.h>
 #include <reader/externs.h>
 
 #include <construct/exp.h>
@@ -42,15 +43,15 @@
 #include "codex.h"
 #include "instrs.h"
 #include "peephole.h"
-#include <local/szs_als.h>
 #include "tests.h"
 #include "utility.h"
 #include "weights.h"
 #include "translate.h"
 #include "ops_shared.h"
 #include "general_proc.h"
-#include "68k_globals.h"
 #include "output.h"
+#include "68k_globals.h"
+#include "localexpmacs.h"
 
 #include "xdb_basics.h"
 

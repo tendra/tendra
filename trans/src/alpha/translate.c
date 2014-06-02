@@ -12,7 +12,7 @@
 
 #include <shared/xalloc.h>
 
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 
 #include <reader/codetypes.h>
 
@@ -57,6 +57,7 @@
 #include "extern_adds.h"
 #include "locate.h"
 #include "translate.h"
+#include "localexpmacs.h"
 
 procrec * procrecs;
 dec ** main_globals;

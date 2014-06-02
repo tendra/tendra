@@ -16,7 +16,7 @@
 #include <stddef.h>
 
 #include <reader/exptypes.h>
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 
 #include <construct/tags.h>
 #include <construct/exp.h>
@@ -27,6 +27,7 @@
 
 #include "bitsmacs.h"
 #include "tempdecs.h"
+#include "localexpmacs.h"
 
 static int nouses;
 static bool useinpar;

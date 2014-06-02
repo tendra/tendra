@@ -10,7 +10,7 @@
 #include <string.h>
 
 #include <local/diag_config.h>
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 #include <local/out.h>
 #include <local/codermacs.h>
 #include <local/localflags.h>

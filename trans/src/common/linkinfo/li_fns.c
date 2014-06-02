@@ -13,7 +13,7 @@
 #include <shared/xalloc.h>
 
 #include <reader/exptypes.h>
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 
 /* TODO: stopgap until outs() is centralised */
 #if TRANS_80x86
@@ -36,6 +36,7 @@
 #include <construct/exp.h>
 #include <construct/tags.h>
 #include <construct/machine.h>
+#include <construct/installtypes.h>
 
 #include <linkinfo/messages_li.h>
 

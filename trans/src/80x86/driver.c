@@ -14,7 +14,7 @@
 #include <shared/getopt.h>
 #include <shared/error.h>
 
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 #include <local/localflags.h>
 #include <local/out.h>
 

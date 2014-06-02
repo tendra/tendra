@@ -26,7 +26,7 @@
 
 #include <assert.h>
 
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 
 #include <construct/tags.h>
 #include <construct/exp.h>

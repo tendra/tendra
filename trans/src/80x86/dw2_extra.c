@@ -9,7 +9,7 @@
 
 #include <shared/check.h>
 
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 #include <reader/exptypes.h>
 #include <local/localtypes.h>
 #include <local/codermacs.h>

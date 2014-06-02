@@ -24,7 +24,7 @@
 #include <shared/check.h>
 
 #include <reader/exptypes.h>
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 
 #include <construct/exp.h>
 #include <construct/tags.h>
@@ -53,6 +53,7 @@
 #include "frames.h"
 #include "extratags.h"
 #include "needscan.h"
+#include "localexpmacs.h"
 
 /* used by scan to set initial parameter positions */
 extern alignment long_to_al(unsigned long);
@@ -383,7 +384,7 @@ void tidy_ident
 		if (!isvar(e)) {
 			change_to_var(e);
 			if (isvis(init)) { setvis(e); }
-			if (!iscaonly(init)) { ClearCaonly(e); }
+			if (!iscaonly(init)) { clearcaonly(e); }
 		}
 
 		change_names(init,e,idy);
@@ -414,7 +415,7 @@ void tidy_ident
 		if (!isvar(e)) {
 			change_to_var(e);
 			if (isvis(init)) { setvis(e); }
-			if (!iscaonly(init)) { ClearCaonly(e); }
+			if (!iscaonly(init)) { clearcaonly(e); }
 		}
 		bro(e1) = e3;
 		son(e) = e1;

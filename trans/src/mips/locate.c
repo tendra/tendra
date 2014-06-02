@@ -15,7 +15,7 @@
 
 #include <stdio.h>
 
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 
 #include <reader/basicread.h>
 

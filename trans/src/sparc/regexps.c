@@ -10,7 +10,7 @@
 #include <assert.h>
 
 #include <reader/exptypes.h>
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 
 #include <shared/check.h>
 

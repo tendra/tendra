@@ -15,7 +15,7 @@
   in store, otherwise NOREG.
 */
 
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 
 #include <shared/check.h>
 
@@ -38,6 +38,7 @@
 #include "pseudo.h"
 #include "labels.h"
 #include "move.h"
+#include "localexpmacs.h"
 
 /* bit masks */
 #if BLDARCHBITS == 64

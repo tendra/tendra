@@ -17,7 +17,7 @@
 #include <shared/check.h>
 
 #include <reader/exptypes.h>
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 
 #include <reader/externs.h>
 #include <reader/basicread.h>
@@ -63,6 +63,7 @@
 #include "frames.h"
 #include "regable.h"
 #include "new_code.h"
+#include "localexpmacs.h"
 
 extern  FILE * as_file;
 extern int current_symno;

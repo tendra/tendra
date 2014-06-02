@@ -13,13 +13,14 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
-#include <reader/exptypes.h>
-#include <local/expmacs.h>
 #include <local/szs_als.h>
+
+#include <reader/exptypes.h>
+#include <reader/expmacs.h>
+#include <reader/externs.h>
 
 #include <construct/exp.h>
 #include <construct/shapemacs.h>
-#include <reader/externs.h>
 #include <construct/install_fns.h>
 #include <construct/spec.h>
 #include <construct/tags.h>
@@ -47,8 +48,9 @@
 #include "weights.h"
 #include "translate.h"
 #include "general_proc.h"
-#include "68k_globals.h"
 #include "special_exps.h"
+#include "68k_globals.h"
+#include "localexpmacs.h"
 
 /* externals */
 

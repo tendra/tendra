@@ -12,7 +12,7 @@
 
 #include <local/dw2_config.h>
 #include <reader/exptypes.h>
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 
 #include <reader/basicread.h>
 #include <reader/externs.h>

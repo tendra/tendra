@@ -23,7 +23,7 @@
 #endif
 
 #include <local/codermacs.h>
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 #include <local/out.h>
 #include <local/localflags.h>
 
@@ -57,6 +57,7 @@
 #include "coder.h"
 #include "scan2.h"
 #include "cproc.h"
+#include "localexpmacs.h"
 
 #ifdef NEWDWARF
 #include <dwarf2/dw2_info.h>

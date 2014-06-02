@@ -19,7 +19,7 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 #include <reader/exptypes.h>
 #include <local/fbase.h>
 
@@ -49,6 +49,7 @@
 #include "eval.h"
 #include "fail.h"
 #include "procrecs.h"
+#include "localexpmacs.h"
 
 /*
   storage types

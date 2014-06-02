@@ -7,7 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 
 #include <construct/tags.h>
 #include <construct/exp.h>
@@ -26,6 +26,7 @@
 #include "regexps.h"
 #include "code_here.h"
 #include "reg_defs.h"
+#include "localexpmacs.h"
 
 
 /*

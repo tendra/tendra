@@ -7,7 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 
 #include <construct/tags.h>
 
@@ -20,6 +20,7 @@
 #include "fail.h"
 #include "cross.h"
 #include "bool.h"
+#include "localexpmacs.h"
 
 extern exp father(exp);
 

@@ -19,7 +19,7 @@
 
 #include <shared/check.h>
 
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 #include <reader/exptypes.h>
 
 #include <construct/exp.h>
@@ -31,6 +31,8 @@
 #include "68k_globals.h"
 #include "special_exps.h"
 #endif
+
+#include "localexpmacs.h"
 
 void scan2(bool, exp, exp);
 

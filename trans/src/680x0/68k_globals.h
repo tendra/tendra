@@ -10,7 +10,7 @@
 #ifndef __68k_globals__
 #define __68k_globals__
 
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 
 #include <construct/exp.h>
 

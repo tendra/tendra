@@ -7,7 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 #include <local/localtypes.h>
 
 #include <construct/shapemacs.h>

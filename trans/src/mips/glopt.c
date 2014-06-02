@@ -10,7 +10,7 @@
 #include <stddef.h>
 #include <string.h>
 
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 #include <local/glopt.h>
 
 #include <reader/externs.h>

@@ -18,7 +18,7 @@
 #include <local/dw2_config.h>
 #endif
 
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 #include <reader/exptypes.h>
 #include <local/fbase.h>
 #include <local/szs_als.h>

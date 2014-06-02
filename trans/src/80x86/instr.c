@@ -19,7 +19,7 @@
 
 #include <reader/exptypes.h>
 #include <local/out.h>
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 #include <local/codermacs.h>
 #include <local/localflags.h>
 

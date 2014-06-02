@@ -15,7 +15,7 @@
 
 #include <assert.h>
 
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 #include <reader/exptypes.h>
 
 #include <reader/basicread.h>
@@ -39,6 +39,7 @@
 #include "frames.h"
 #include "procrectypes.h"
 #include "eval.h"
+#include "localexpmacs.h"
 
 extern void globalise_name(dec*);
 extern  procrec * procrecs;

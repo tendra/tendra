@@ -21,7 +21,7 @@
 #include <shared/xalloc.h>
 
 #include <local/out.h>
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 
 #include <construct/tags.h>
 
@@ -41,10 +41,7 @@
 #include "frames.h"
 #include "new_tags.h"
 #include "eval.h"
-
-#define name( x ) ( ( x )->namef )
-#define sh( x ) ( ( x )->shf )
-#define son( x ) ( ( x )->sonf.e )
+#include "localexpmacs.h"
 
 #define GAP "                                                                "
 #define prokhd 24

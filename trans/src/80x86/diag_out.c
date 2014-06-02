@@ -13,7 +13,7 @@
 
 #include <reader/exptypes.h>
 #include <local/out.h>
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 #include <local/szs_als.h>
 
 #ifdef NEWDIAGS

@@ -15,7 +15,7 @@
 
 #include <shared/check.h>
 
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 #include <local/out.h>
 #include <local/codermacs.h>
 #include <local/localflags.h>
@@ -52,6 +52,7 @@
 #include "instr.h"
 #include "instr386.h"
 #include "instrmacs.h"
+#include "localexpmacs.h"
 
 #ifdef NEWDIAGS
 #include <newdiag/dg_globs.h>

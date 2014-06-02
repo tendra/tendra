@@ -10,7 +10,7 @@
 #include <shared/check.h>
 
 #include <local/diag_config.h>
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 #include <local/out.h>
 #include <local/codermacs.h>
 #include <local/localflags.h>
@@ -41,6 +41,7 @@
 #include "assembler.h"
 #include "messages_8.h"
 #include "evaluate.h"
+#include "localexpmacs.h"
 
 
 /* PROCEDURES */

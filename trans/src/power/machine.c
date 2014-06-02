@@ -10,7 +10,7 @@
 
 #include "memtdf.h"
 #include "machine.h"
-
+#include "localexpmacs.h"
 
 /* prefixes for assembler labels, set in translat.c */
 char *local_prefix;

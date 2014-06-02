@@ -14,7 +14,7 @@
 #include <string.h>
 
 #include <reader/exptypes.h>
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 #include <local/localflags.h>
 
 #include <reader/externs.h>
@@ -29,6 +29,8 @@
 #include <construct/spec.h>
 
 #include <main/flags.h>
+
+#include "localexpmacs.h"
 
 speci special_fn
 (exp a1, exp a2, shape s)

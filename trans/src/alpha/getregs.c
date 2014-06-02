@@ -8,8 +8,8 @@
  */
 
 #include <reader/exptypes.h>
-#include <local/expmacs.h>
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
+#include <reader/expmacs.h>
 
 #include <construct/exp.h>
 #include <construct/tags.h>
@@ -20,6 +20,7 @@
 #include "bitsmacs.h"
 #include "fail.h"
 #include "getregs.h"
+#include "localexpmacs.h"
 
 static int useable_fixed;
 static int useable_float;

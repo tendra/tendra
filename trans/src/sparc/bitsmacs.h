@@ -41,7 +41,6 @@
 #define notparreg		0x4000
 #define notresreg		0x8000
 #define sreguse			0x0200
-#define inlined			0x0400
 
 /*
     PROPERTIES OF REAL OPERATIONS

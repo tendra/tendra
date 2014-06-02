@@ -11,7 +11,7 @@
 #ifdef DEBUG_POWERTRANS
 
 #include <reader/exptypes.h>
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 
 #include <construct/exp.h>
 #include <construct/tags.h>

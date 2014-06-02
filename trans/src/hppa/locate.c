@@ -15,7 +15,7 @@
 
 #include <assert.h>
 
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 
 #include <construct/tags.h>
 #include <construct/exp.h>
@@ -38,6 +38,7 @@
 #include "proc.h"
 #include "frames.h"
 #include "locate.h"
+#include "localexpmacs.h"
 
 
 /* decodes x to give a baseoff suitable for xxxx_ins functions */

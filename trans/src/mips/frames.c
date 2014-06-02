@@ -7,7 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 
 #include <reader/basicread.h>
 
@@ -19,6 +19,7 @@
 #include "bitsmacs.h"
 #include "frames.h"
 #include "new_code.h"
+#include "localexpmacs.h"
 
 extern exp father(exp);
 extern  procrec * procrecs;

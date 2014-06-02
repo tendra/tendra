@@ -23,7 +23,7 @@
 #include <shared/check.h>
 
 #include <reader/exptypes.h>
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 #include <local/szs_als.h>
 
 #include <reader/externs.h>
@@ -53,6 +53,7 @@
 #include "oddtest.h"
 #include "coder.h"
 #include "scan.h"
+#include "localexpmacs.h"
 
 int maxfix, maxfloat;		/* the maximum number of t-regs */
 static int stparam, fixparam, floatparam;

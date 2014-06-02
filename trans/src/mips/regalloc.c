@@ -27,7 +27,7 @@
 #include <stddef.h>
 
 #include <local/localtypes.h>
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 
 #include <construct/tags.h>
 

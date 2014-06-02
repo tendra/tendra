@@ -32,7 +32,7 @@
 #include <construct/f64.h>
 
 #include <reader/exptypes.h>
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 #include <reader/exptypes.h>
 
 #include <main/flags.h>
@@ -63,6 +63,7 @@
 #include "translate.h"
 #include "makecode.h"
 #include "new_tags.h"
+#include "localexpmacs.h"
 
 #ifdef NEWDIAGS
 #include <newdiag/dg_aux.h>

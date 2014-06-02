@@ -25,7 +25,7 @@
 #include <shared/check.h>
 
 #include <reader/exptypes.h>
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 
 #include <reader/externs.h>
 #include <reader/basicread.h>
@@ -41,6 +41,7 @@
 #include "coder.h"
 #include "instr386.h"
 #include "scan2.h"
+#include "localexpmacs.h"
 
 #define assexp(isson, p, v) if (isson)setson(p, v); else setbro(p, v)
 #define contexp(isson, p)((isson)? son(p): bro(p))

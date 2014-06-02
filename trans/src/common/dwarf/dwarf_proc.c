@@ -12,7 +12,7 @@
 #include <shared/check.h>
 
 #include <local/codermacs.h>
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 #include <local/out.h>
 
 #include <reader/basicread.h>

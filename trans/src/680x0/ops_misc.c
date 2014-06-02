@@ -10,9 +10,10 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
-#include <local/expmacs.h>
-#include <reader/exptypes.h>
 #include <local/localflags.h>
+
+#include <reader/expmacs.h>
+#include <reader/exptypes.h>
 
 #include <reader/basicread.h>
 #include <reader/externs.h>
@@ -40,6 +41,7 @@
 #include "translate.h"
 #include "ops_shared.h"
 #include "special_exps.h"
+#include "localexpmacs.h"
 
 /*
  * SET_OVERFLOW

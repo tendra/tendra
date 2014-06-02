@@ -51,7 +51,7 @@
 #include <refactor/const.h>
 
 #include <reader/exptypes.h>
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 
 #include <construct/shapemacs.h>
 

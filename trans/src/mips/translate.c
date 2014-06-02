@@ -12,7 +12,7 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
-#include <local/expmacs.h>
+#include <reader/expmacs.h>
 
 #include <symtab/symconst.h>
 #include <symtab/syms.h>

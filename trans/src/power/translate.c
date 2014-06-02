@@ -118,7 +118,7 @@
 #include "macro.h"
 #include "dynamic_init.h"
 #include "stack.h"
-
+#include "localexpmacs.h"
 
 int maxfix_tregs;		/* The number of t regs allocatable */
 dec **main_globals;		/* The globals decs array */
