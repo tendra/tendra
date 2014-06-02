@@ -12,18 +12,17 @@
 
 
 /*
-    OSSG STANDARD COMPILER HEADER, VERSION 1.1
-
-    This headers defines feature switch macros for various compiler
-    features.  These can be 1, if the feature is allowed, or 0, otherwise.
-    These switches are used to define the PROTO macros described in the
-    OSSG C coding standard.  Standard versions of the TenDRA keywords
-    are also provided.
-*/
+ * OSSG STANDARD COMPILER HEADER, VERSION 1.1
+ *
+ * This headers defines feature switch macros for various compiler
+ * features.  These can be 1, if the feature is allowed, or 0, otherwise.
+ * These switches are used to define the PROTO macros described in the
+ * OSSG C coding standard.  Standard versions of the TenDRA keywords
+ * are also provided.
+ */
 
 
 /* FS_TENDRA indicates the TenDRA C compiler */
-
 #ifndef FS_TENDRA
 #ifdef __TenDRA__
 #define FS_TENDRA		1
@@ -34,7 +33,6 @@
 
 
 /* FS_GNUC indicates the GNU C compiler */
-
 #ifndef FS_GNUC
 #ifdef __GNUC__
 #define FS_GNUC			1
@@ -45,7 +43,6 @@
 
 
 /* FS_LINT indicates lint */
-
 #ifndef FS_LINT
 #if defined ( lint ) || defined ( __lint )
 #define FS_LINT			1
@@ -56,7 +53,6 @@
 
 
 /* Definitions of TenDRA keywords */
-
 #if FS_TENDRA
 #pragma TenDRA keyword SET for set
 #pragma TenDRA keyword UNUSED for discard variable
@@ -69,7 +65,6 @@
 
 
 /* Definitions of TenDRA keywords for lint */
-
 #if FS_LINT
 #define SET( name )
 #define UNUSED( name )		( name ) = ( name )
@@ -82,7 +77,6 @@
 
 
 /* Dummy definitions for TenDRA keywords */
-
 #if !FS_TENDRA && !FS_LINT
 #define SET( name )
 #define UNUSED( name )

@@ -26,19 +26,17 @@
 
 
 /*
-    WARN ABOUT UNDECLARED TOKENS
-*/
-
+ * WARN ABOUT UNDECLARED TOKENS
+ */
 int warn_undeclared = 0;
 
 
 /*
-    DECODING TOKENS
-
-    Simple TOKENs are represented by TDF integers.  They may also be
-    tokenised themselves.
-*/
-
+ * DECODING TOKENS
+ *
+ * Simple TOKENs are represented by TDF integers.  They may also be
+ * tokenised themselves.
+ */
 object *
 de_token_aux(sortname s, char *nm)
 {
@@ -214,9 +212,8 @@ de_token_aux(sortname s, char *nm)
 
 
 /*
-    DECODING SIMPLE LABELS
-*/
-
+ * DECODING SIMPLE LABELS
+ */
 void
 de_make_label(long lab_no)
 {
@@ -238,21 +235,19 @@ de_make_label(long lab_no)
 
 
 /*
-    FORMATTING SIZE FOR TDF STRINGS
-
-    A string will be split by de_format_string into sections of length
-    at most STRING_WIDTH.
-*/
-
+ * FORMATTING SIZE FOR TDF STRINGS
+ *
+ * A string will be split by de_format_string into sections of length
+ * at most STRING_WIDTH.
+ */
 #define STRING_WIDTH		40
 
 
 /*
-    DECODING FORMATTED STRINGS
-
-    A TDF string is read and output in a formatted form.
-*/
-
+ * DECODING FORMATTED STRINGS
+ *
+ * A TDF string is read and output in a formatted form.
+ */
 void
 de_tdfstring_format(void)
 {
@@ -300,21 +295,20 @@ de_tdfstring_format(void)
 
 
 /*
-    DECODING THE EXP "solve" (OR "labelled")
-
-    This is tricky because it is encoded as :
-
-		    A1, ..., An, B, C1, ..., Cn
-
-    where n is a TDF integer, Ai is given by the decode string str1,
-    B is given by str2, and Ci is given by str3, but we want to print
-    it in the order :
-
-		      B, A1, C1, ..., An, Cn
-
-    so there is a certain amount of to-ing and fro-ing.
-*/
-
+ * DECODING THE EXP "solve" (OR "labelled")
+ *
+ * This is tricky because it is encoded as:
+ *
+ *    A1, ..., An, B, C1, ..., Cn
+ *
+ * where n is a TDF integer, Ai is given by the decode string str1,
+ * B is given by str2, and Ci is given by str3, but we want to print
+ * it in the order :
+ *
+ *      B, A1, C1, ..., An, Cn
+ *
+ * so there is a certain amount of to-ing and fro-ing.
+ */
 void
 de_solve_fn(char *nm, char *str1, char *str2, char *str3, int ntwice)
 {
@@ -378,16 +372,15 @@ de_solve_fn(char *nm, char *str1, char *str2, char *str3, int ntwice)
 
 
 /*
-    DECODING THE EXP "case"
-
-    Only the layout makes this a special case.  The general form is :
-
-		      A, L1, B1, ..., Ln, Bn
-
-    where A is given by the decode string str1, Li is a label and Bi
-    is given by str2.
-*/
-
+ * DECODING THE EXP "case"
+ *
+ * Only the layout makes this a special case.  The general form is:
+ *
+ *     A, L1, B1, ..., Ln, Bn
+ *
+ * where A is given by the decode string str1, Li is a label and Bi
+ * is given by str2.
+ */
 void
 de_case_fn(char *nm, char *str1, char *str2)
 {
@@ -414,16 +407,15 @@ de_case_fn(char *nm, char *str1, char *str2)
 
 
 /*
-    DECODING THE EXP "make_proc"
-
-    The general form is :
-
-			A, B1, ..., Bn, C
-
-    where A is given by the decode string str1, B by str2 and C by str3.
-    However each Bi is grouped as a "make_proc_arg".
-*/
-
+ * DECODING THE EXP "make_proc"
+ *
+ * The general form is:
+ *
+ *     A, B1, ..., Bn, C
+ *
+ * where A is given by the decode string str1, B by str2 and C by str3.
+ * However each Bi is grouped as a "make_proc_arg".
+ */
 void
 de_mk_proc_fn(char *nm, char *str1, char *str2, char *str3)
 {

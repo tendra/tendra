@@ -13,11 +13,11 @@
 
 
 /*
-    HIGH LEVEL DECODING ROUTINES
-
-    This file gives the routines for decoding the highest level of TDF,
-    that of the capsule.
-*/
+ * HIGH LEVEL DECODING ROUTINES
+ *
+ * This file gives the routines for decoding the highest level of TDF,
+ * that of the capsule.
+ */
 
 extern int dumb_mode;
 extern int show_stuff;

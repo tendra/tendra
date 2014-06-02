@@ -16,7 +16,6 @@
 
 
 /* USEFUL CHARACTERS */
-
 #define TAB		('\t')
 #define NEWLINE		('\n')
 #define SPACE		(' ')
@@ -29,23 +28,19 @@
 
 
 /* PRINTABLE CHARACTERS */
-
 #define printable(X)	isprint(X)
 
 
 /* TAB WIDTH */
-
 #define TBSIZE		8
 
 
 /* CONVERT CHARACTER TO DIGIT AND VICE VERSA */
-
 #define digit(X)	((int)((X) - ZERO))
 #define charact(X)	((char)(ZERO + (X)))
 
 
 /* IS A CHARACTER A DIGIT? */
-
 #define is_digit(X)	isdigit(X)
 
 

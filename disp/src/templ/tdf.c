@@ -115,12 +115,11 @@ de_%SN(void)
 
 
 /*
-    SKIP TEXT ENCLOSED IN [...]
-
-    On input, s, points to the character '['.  The routine returns a
-    pointer to the character following the corresponding ']'.
-*/
-
+ * SKIP TEXT ENCLOSED IN [...]
+ *
+ * On input, s, points to the character '['.  The routine returns a
+ * pointer to the character following the corresponding ']'.
+ */
 static char *
 skip_sub(char *s)
 {
@@ -141,15 +140,14 @@ skip_sub(char *s)
 
 
 /*
-    DECODE A STRING OF DECODE CHARACTERS
-
-    This routine takes a string of characters, reads it one character
-    at a time, and, according to what it is, calls a particular TDF
-    decoding routine (the character is vaguely mnemonic).  For example,
-    decode ( "Sn*[x]" ) means, decode a SHAPE and a NAT, then read a
-    TDF integer and decode that number of EXPs.
-*/
-
+ * DECODE A STRING OF DECODE CHARACTERS
+ *
+ * This routine takes a string of characters, reads it one character
+ * at a time, and, according to what it is, calls a particular TDF
+ * decoding routine (the character is vaguely mnemonic).  For example,
+ * decode ( "Sn*[x]" ) means, decode a SHAPE and a NAT, then read a
+ * TDF integer and decode that number of EXPs.
+ */
 void
 decode(char *str)
 {
@@ -257,12 +255,11 @@ decode(char *str)
 
 
 /*
-    FIND THE NAME AND DECODE LETTER ASSOCIATED WITH A SORT
-
-    This routine returns a sortid structure corresponding to the sort
-    number n.
-*/
-
+ * FIND THE NAME AND DECODE LETTER ASSOCIATED WITH A SORT
+ *
+ * This routine returns a sortid structure corresponding to the sort
+ * number n.
+ */
 sortid
 find_sort(sortname n)
 {
@@ -309,13 +306,11 @@ find_sort(sortname n)
 
 
 /*
-
-    CONVERT A DECODE LETTER TO A SORT VALUE
-
-    This routine given a decode letter c returns the corresponding sort
-    number.
-*/
-
+ * CONVERT A DECODE LETTER TO A SORT VALUE
+ *
+ * This routine given a decode letter c returns the corresponding sort
+ * number.
+ */
 sortname
 find_sortname(int c)
 {
@@ -341,11 +336,10 @@ find_sortname(int c)
 
 
 /*
-    INITIALISE FOREIGN SORT NAMES
-
-    This routine initialises the array of foreign sort names.
-*/
-
+ * INITIALISE FOREIGN SORT NAMES
+ *
+ * This routine initialises the array of foreign sort names.
+ */
 void
 init_foreign_sorts(void)
 {
@@ -359,11 +353,11 @@ init_foreign_sorts(void)
 
 
 /*
-    LINKAGE VARIABLE NUMBERS
-
-    Usually "tag" and "token" etc. appear in the var_types array.  These
-    variables indicate where (negative values mean not at all).
-*/
+ * LINKAGE VARIABLE NUMBERS
+ *
+ * Usually "tag" and "token" etc. appear in the var_types array.  These
+ * variables indicate where (negative values mean not at all).
+ */
 %1u
 @loop sort
 @if sort.link
@@ -373,12 +367,11 @@ long var_%SN = -%u;
 
 
 /*
-    FIND A LINKAGE VARIABLE CODE
-
-    This routine sets the nth element of the var_types array to the
-    linkage variable indicated by the variable name s.
-*/
-
+ * FIND A LINKAGE VARIABLE CODE
+ *
+ * This routine sets the nth element of the var_types array to the
+ * linkage variable indicated by the variable name s.
+ */
 char
 find_variable(string s, long n)
 {
@@ -395,13 +388,12 @@ find_variable(string s, long n)
 
 
 /*
-    FIND A EQUATION DECODING FUNCTION
-
-    This routine returns the unit decoding function used to deal with
-    units with equation name s.  It also assigns a unit description to
-    pt and a usage flag to po.
-*/
-
+ * FIND A EQUATION DECODING FUNCTION
+ *
+ * This routine returns the unit decoding function used to deal with
+ * units with equation name s.  It also assigns a unit description to
+ * pt and a usage flag to po.
+ */
 equation_func
 find_equation(string s, string *pt, int *po)
 {

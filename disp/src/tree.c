@@ -22,36 +22,33 @@
 
 
 /*
-    INTERNAL MEMORY STORAGE AREA
-
-    Some strings are output directly.  Others are built up gradually
-    in this buffer.  length gives the length of the current string.
-    page_length gives the size of the buffer.
-*/
-
+ * INTERNAL MEMORY STORAGE AREA
+ *
+ * Some strings are output directly.  Others are built up gradually
+ * in this buffer.  length gives the length of the current string.
+ * page_length gives the size of the buffer.
+ */
 int length;
 static int page_length;
 static char *page = null;
 
 
 /*
-    TOP LEVEL WORD AND CURRENT WORD POINTER
-
-    The top of the TDF tree is given by word1.  The current position in
-    the tree is given by word_ptr.
-*/
-
+ * TOP LEVEL WORD AND CURRENT WORD POINTER
+ *
+ * The top of the TDF tree is given by word1.  The current position in
+ * the tree is given by word_ptr.
+ */
 word word1 = { SIMPLE, 0, null, null, null };
 word *word_ptr;
 
 
 /*
-    SET UP INITIAL PAGE AND WORDS
-
-    The page buffer is initialized and the current word pointer is set
-    to the top-level word.
-*/
-
+ * SET UP INITIAL PAGE AND WORDS
+ *
+ * The page buffer is initialized and the current word pointer is set
+ * to the top-level word.
+ */
 void
 initialize_tree(void)
 {
@@ -66,11 +63,10 @@ initialize_tree(void)
 
 
 /*
-    START A NEW WORD
-
-    A new word of layout type c is created.
-*/
-
+ * START A NEW WORD
+ *
+ * A new word of layout type c is created.
+ */
 word *
 new_word(int c)
 {
@@ -118,11 +114,10 @@ new_word(int c)
 
 
 /*
-    OUTPUT A SINGLE CHARACTER INTO INTERNAL MEMORY
-
-    The character c is appended to the internal memory buffer.
-*/
-
+ * OUTPUT A SINGLE CHARACTER INTO INTERNAL MEMORY
+ *
+ * The character c is appended to the internal memory buffer.
+ */
 void
 out_char(int c)
 {
@@ -136,11 +131,10 @@ out_char(int c)
 
 
 /*
-    OUTPUT A STRING INTO INTERNAL MEMORY
-
-    The string str is appended to the internal memory buffer.
-*/
-
+ * OUTPUT A STRING INTO INTERNAL MEMORY
+ *
+ * The string str is appended to the internal memory buffer.
+ */
 void
 out_string(char *str)
 {
@@ -153,12 +147,11 @@ out_string(char *str)
 
 
 /*
-    MAKE A STRING INTO A WORD
-
-    This routine creates a simple word from the string str, appending it
-    to any text in the internal memory buffer.
-*/
-
+ * MAKE A STRING INTO A WORD
+ *
+ * This routine creates a simple word from the string str, appending it
+ * to any text in the internal memory buffer.
+ */
 void
 out(char *str)
 {
@@ -177,11 +170,10 @@ out(char *str)
 
 
 /*
-    MAKE AN INTEGER INTO A WORD
-
-    This routine creates a simple word from an integer.
-*/
-
+ * MAKE AN INTEGER INTO A WORD
+ *
+ * This routine creates a simple word from an integer.
+ */
 void
 out_int(long n)
 {
@@ -207,14 +199,13 @@ out_int(long n)
 
 
 /*
-    MAKE A STRING OF OCTAL DIGITS INTO A WORD
-
-    This routine creates a simple word from a string of octal digits
-    and a sign.  If the string of octal digits corresponds to a
-    number of at most 32 bits, out_int is used, otherwise the string
-    is output directly.
-*/
-
+ * MAKE A STRING OF OCTAL DIGITS INTO A WORD
+ *
+ * This routine creates a simple word from a string of octal digits
+ * and a sign.  If the string of octal digits corresponds to a
+ * number of at most 32 bits, out_int is used, otherwise the string
+ * is output directly.
+ */
 void
 out_signed(char *n, int sn)
 {
@@ -252,11 +243,10 @@ out_signed(char *n, int sn)
 
 
 /*
-    MAKE A UNIQUE INTO A WORD
-
-    The unique u is output.
-*/
-
+ * MAKE A UNIQUE INTO A WORD
+ *
+ * The unique u is output.
+ */
 void
 out_unique(unique u)
 {
@@ -273,13 +263,12 @@ out_unique(unique u)
 
 
 /*
-    UTILITY FORMATTING ROUTINE
-
-    This routine is used to format a function and its arguments.  The
-    function name is given by func, the layout type by c, and the
-    arguments by the decode string args.
-*/
-
+ * UTILITY FORMATTING ROUTINE
+ *
+ * This routine is used to format a function and its arguments.  The
+ * function name is given by func, the layout type by c, and the
+ * arguments by the decode string args.
+ */
 void
 format(int c, char *func, char *args)
 {

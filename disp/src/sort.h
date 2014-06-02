@@ -13,13 +13,13 @@
 
 
 /*
-    AUXILIARY TDF SORT DECODING ROUTINES
-
-    Each TDF sort has an associated decoding routine.  Most of the
-    routines are straightforward, and so have been automatically
-    generated directly from the TDF specification.  This module deals
-    with the few tricky cases.
-*/
+ * AUXILIARY TDF SORT DECODING ROUTINES
+ *
+ * Each TDF sort has an associated decoding routine.  Most of the
+ * routines are straightforward, and so have been automatically
+ * generated directly from the TDF specification.  This module deals
+ * with the few tricky cases.
+ */
 
 extern object *de_token_aux(sortname, char *);
 extern void de_tdfstring_format(void);

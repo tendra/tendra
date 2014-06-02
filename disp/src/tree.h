@@ -13,15 +13,13 @@
 
 
 /*
-    STRUCTURE DEFINITION : WORD
-
-    The structure word is used to record the layout of the pretty
-    printed TDF tree.  It consists of a layout type (see below
-    for details), a string of characters, together with the length
-    of this string, and pointers to the "son" and "brother" words.
-*/
-
-
+ *  STRUCTURE DEFINITION: WORD
+ *
+ *  The structure word is used to record the layout of the pretty
+ *  printed TDF tree.  It consists of a layout type (see below
+ *  for details), a string of characters, together with the length
+ *  of this string, and pointers to the "son" and "brother" words.
+ */
 typedef struct s_word {
     char type;
     int length;
@@ -32,15 +30,15 @@ typedef struct s_word {
 
 
 /*
-    WORD LAYOUT TYPES
-
-    The available layout types are :
-
-	SIMPLE - representing a simple word,
-	HORIZ_NONE - a word with a number of arguments listed horizontally,
-	HORIZ_BRACKETS - a word with arguments listed horizontally in brackets,
-	VERT_NONE - a word with arguments listed vertically,
-	VERT_BRACKETS - a word with arguments listed vertically in brackets.
+ * WORD LAYOUT TYPES
+ *
+ * The available layout types are:
+ *
+ *   SIMPLE         - representing a simple word,
+ *   HORIZ_NONE     - a word with a number of arguments listed horizontally,
+ *   HORIZ_BRACKETS - a word with arguments listed horizontally in brackets,
+ *   VERT_NONE      - a word with arguments listed vertically,
+ *   VERT_BRACKETS  - a word with arguments listed vertically in brackets.
 */
 
 #define SIMPLE			0
@@ -51,15 +49,15 @@ typedef struct s_word {
 
 
 /*
-    TDF TREE MANIPULATION
-
-    The layout of the pretty-printed TDF tree is recorded in the
-    structure word. The routine new_word allocates a new word of
-    a given type.  The macro end_word is used to indicate the end
-    of a complex word.  The routine format combines these with
-    decode to provide a convenient way of decoding a word with a
-    number of arguments of given sorts.
-*/
+ * TDF TREE MANIPULATION
+ *
+ * The layout of the pretty-printed TDF tree is recorded in the
+ * structure word. The routine new_word allocates a new word of
+ * a given type.  The macro end_word is used to indicate the end
+ * of a complex word.  The routine format combines these with
+ * decode to provide a convenient way of decoding a word with a
+ * number of arguments of given sorts.
+ */
 
 #define blank_line()		(void)new_word(SIMPLE)
 #define end_word(X)		word_ptr = (X); word_ptr->bro = null

@@ -12,12 +12,12 @@
 
 
 /*
-    TOKEN/TAG DECLARATIONS/DEFINITIONS
-
-    This file contains the routines for decoding token declarations, token
-    definitions, tag declarations, tag definitions and the standard unit
-    types associated with them.
-*/
+ * TOKEN/TAG DECLARATIONS/DEFINITIONS
+ *
+ * This file contains the routines for decoding token declarations, token
+ * definitions, tag declarations, tag definitions and the standard unit
+ * types associated with them.
+ */
 
 extern void token_sort(object *, sortname, char *, long);
 extern void read_no_labs(void);
@@ -42,11 +42,11 @@ extern int versions;
 
 
 /*
-    UNIT USAGE INFORMATION
-
-    These macros describe the units decoded by the routines above and
-    give the flags which control their use.
-*/
+ * UNIT USAGE INFORMATION
+ *
+ * These macros describe the units decoded by the routines above and
+ * give the flags which control their use.
+ */
 
 #define MSG_tagdec_props		"TAG DECLARATIONS"
 #define MSG_tagdef_props		"TAG DEFINITIONS"

@@ -25,7 +25,6 @@
 
 
 /* DECODE A ACCESS */
-
 long
 de_access(void)
 {
@@ -95,7 +94,6 @@ de_access(void)
 
 
 /* DECODE A AL_TAG */
-
 long
 de_al_tag(void)
 {
@@ -122,7 +120,6 @@ de_al_tag(void)
 
 
 /* DECODE A AL_TAGDEF */
-
 long
 de_al_tagdef(void)
 {
@@ -137,7 +134,6 @@ de_al_tagdef(void)
 
 
 /* DECODE A ALIGNMENT */
-
 long
 de_alignment(void)
 {
@@ -203,7 +199,6 @@ de_alignment(void)
 
 
 /* DECODE A BITFIELD_VARIETY */
-
 long
 de_bitfield_variety(void)
 {
@@ -233,7 +228,6 @@ de_bitfield_variety(void)
 
 
 /* DECODE A BOOL */
-
 long
 de_bool(void)
 {
@@ -267,7 +261,6 @@ de_bool(void)
 
 
 /* DECODE A CALLEES */
-
 long
 de_callees(void)
 {
@@ -297,7 +290,6 @@ de_callees(void)
 
 
 /* DECODE A DG */
-
 long
 de_dg(void)
 {
@@ -452,7 +444,6 @@ de_dg(void)
 
 
 /* DECODE A DG_ACCESSIBILITY */
-
 long
 de_dg_accessibility(void)
 {
@@ -486,7 +477,6 @@ de_dg_accessibility(void)
 
 
 /* DECODE A DG_APPEND */
-
 long
 de_dg_append(void)
 {
@@ -508,7 +498,6 @@ de_dg_append(void)
 
 
 /* DECODE A DG_BOUND */
-
 long
 de_dg_bound(void)
 {
@@ -538,7 +527,6 @@ de_dg_bound(void)
 
 
 /* DECODE A DG_CLASS_BASE */
-
 long
 de_dg_class_base(void)
 {
@@ -560,7 +548,6 @@ de_dg_class_base(void)
 
 
 /* DECODE A DG_CLASSMEM */
-
 long
 de_dg_classmem(void)
 {
@@ -598,7 +585,6 @@ de_dg_classmem(void)
 
 
 /* DECODE A DG_COMPILATION */
-
 long
 de_dg_compilation(void)
 {
@@ -624,7 +610,6 @@ de_dg_compilation(void)
 
 
 /* DECODE A DG_CONSTRAINT */
-
 long
 de_dg_constraint(void)
 {
@@ -650,7 +635,6 @@ de_dg_constraint(void)
 
 
 /* DECODE A DG_DEFAULT */
-
 long
 de_dg_default(void)
 {
@@ -672,7 +656,6 @@ de_dg_default(void)
 
 
 /* DECODE A DG_DIM */
-
 long
 de_dg_dim(void)
 {
@@ -715,7 +698,6 @@ de_dg_dim(void)
 
 
 /* DECODE A DG_DISCRIM */
-
 long
 de_dg_discrim(void)
 {
@@ -737,7 +719,6 @@ de_dg_discrim(void)
 
 
 /* DECODE A DG_ENUM */
-
 long
 de_dg_enum(void)
 {
@@ -767,7 +748,6 @@ de_dg_enum(void)
 
 
 /* DECODE A DG_FILENAME */
-
 long
 de_dg_filename(void)
 {
@@ -794,7 +774,6 @@ de_dg_filename(void)
 
 
 /* DECODE A DG_IDNAME */
-
 long
 de_dg_idname(void)
 {
@@ -837,7 +816,6 @@ de_dg_idname(void)
 
 
 /* DECODE A DG_MACRO */
-
 long
 de_dg_macro(void)
 {
@@ -871,7 +849,6 @@ de_dg_macro(void)
 
 
 /* DECODE A DG_NAME */
-
 long
 de_dg_name(void)
 {
@@ -958,7 +935,6 @@ de_dg_name(void)
 
 
 /* DECODE A DG_NAMELIST */
-
 long
 de_dg_namelist(void)
 {
@@ -984,7 +960,6 @@ de_dg_namelist(void)
 
 
 /* DECODE A DG_PARAM */
-
 long
 de_dg_param(void)
 {
@@ -1010,7 +985,6 @@ de_dg_param(void)
 
 
 /* DECODE A DG_PARAM_MODE */
-
 long
 de_dg_param_mode(void)
 {
@@ -1040,7 +1014,6 @@ de_dg_param_mode(void)
 
 
 /* DECODE A DG_QUALIFIER */
-
 long
 de_dg_qualifier(void)
 {
@@ -1078,7 +1051,6 @@ de_dg_qualifier(void)
 
 
 /* DECODE A DG_SOURCEPOS */
-
 long
 de_dg_sourcepos(void)
 {
@@ -1116,7 +1088,6 @@ de_dg_sourcepos(void)
 
 
 /* DECODE A DG_TAG */
-
 long
 de_dg_tag(void)
 {
@@ -1139,7 +1110,6 @@ de_dg_tag(void)
 
 
 /* DECODE A DG_TYPE */
-
 long
 de_dg_type(void)
 {
@@ -1298,7 +1268,6 @@ de_dg_type(void)
 
 
 /* DECODE A DG_VARIANT */
-
 long
 de_dg_variant(void)
 {
@@ -1320,7 +1289,6 @@ de_dg_variant(void)
 
 
 /* DECODE A DG_VARPART */
-
 long
 de_dg_varpart(void)
 {
@@ -1350,7 +1318,6 @@ de_dg_varpart(void)
 
 
 /* DECODE A DG_VIRTUALITY */
-
 long
 de_dg_virtuality(void)
 {
@@ -1376,7 +1343,6 @@ de_dg_virtuality(void)
 
 
 /* DECODE A DIAG_DESCRIPTOR */
-
 long
 de_diag_descriptor(void)
 {
@@ -1406,7 +1372,6 @@ de_diag_descriptor(void)
 
 
 /* DECODE A DIAG_TAG */
-
 long
 de_diag_tag(void)
 {
@@ -1429,7 +1394,6 @@ de_diag_tag(void)
 
 
 /* DECODE A DIAG_TAGDEF */
-
 long
 de_diag_tagdef(void)
 {
@@ -1444,7 +1408,6 @@ de_diag_tagdef(void)
 
 
 /* DECODE A DIAG_TQ */
-
 long
 de_diag_tq(void)
 {
@@ -1474,7 +1437,6 @@ de_diag_tq(void)
 
 
 /* DECODE A DIAG_TYPE */
-
 long
 de_diag_type(void)
 {
@@ -1545,7 +1507,6 @@ de_diag_type(void)
 
 
 /* DECODE A ERROR_CODE */
-
 long
 de_error_code(void)
 {
@@ -1575,7 +1536,6 @@ de_error_code(void)
 
 
 /* DECODE A ERROR_TREATMENT */
-
 long
 de_error_treatment(void)
 {
@@ -1621,7 +1581,6 @@ de_error_treatment(void)
 
 
 /* DECODE A EXP */
-
 long
 de_exp(void)
 {
@@ -2107,7 +2066,6 @@ de_exp(void)
 
 
 /* DECODE A EXTERNAL */
-
 long
 de_external(void)
 {
@@ -2122,7 +2080,6 @@ de_external(void)
 
 
 /* DECODE A FILENAME */
-
 long
 de_filename(void)
 {
@@ -2149,7 +2106,6 @@ de_filename(void)
 
 
 /* DECODE A FLOATING_VARIETY */
-
 long
 de_floating_variety(void)
 {
@@ -2191,7 +2147,6 @@ de_floating_variety(void)
 
 
 /* DECODE A LABEL */
-
 long
 de_label(void)
 {
@@ -2218,7 +2173,6 @@ de_label(void)
 
 
 /* DECODE A LINKINFO */
-
 long
 de_linkinfo(void)
 {
@@ -2252,7 +2206,6 @@ de_linkinfo(void)
 
 
 /* DECODE A NAT */
-
 long
 de_nat(void)
 {
@@ -2291,7 +2244,6 @@ de_nat(void)
 
 
 /* DECODE A NTEST */
-
 long
 de_ntest(void)
 {
@@ -2373,7 +2325,6 @@ de_ntest(void)
 
 
 /* DECODE A PROCPROPS */
-
 long
 de_procprops(void)
 {
@@ -2427,7 +2378,6 @@ de_procprops(void)
 
 
 /* DECODE A ROUNDING_MODE */
-
 long
 de_rounding_mode(void)
 {
@@ -2473,7 +2423,6 @@ de_rounding_mode(void)
 
 
 /* DECODE A SHAPE */
-
 long
 de_shape(void)
 {
@@ -2539,7 +2488,6 @@ de_shape(void)
 
 
 /* DECODE A SIGNED_NAT */
-
 long
 de_signed_nat(void)
 {
@@ -2578,7 +2526,6 @@ de_signed_nat(void)
 
 
 /* DECODE A SORTNAME */
-
 long
 de_sortname(void)
 {
@@ -2593,7 +2540,6 @@ de_sortname(void)
 
 
 /* DECODE A SOURCEMARK */
-
 long
 de_sourcemark(void)
 {
@@ -2615,7 +2561,6 @@ de_sourcemark(void)
 
 
 /* DECODE A STRING */
-
 long
 de_string(void)
 {
@@ -2650,7 +2595,6 @@ de_string(void)
 
 
 /* DECODE A TAG */
-
 long
 de_tag(void)
 {
@@ -2677,7 +2621,6 @@ de_tag(void)
 
 
 /* DECODE A TAGDEC */
-
 long
 de_tagdec(void)
 {
@@ -2692,7 +2635,6 @@ de_tagdec(void)
 
 
 /* DECODE A TAGDEF */
-
 long
 de_tagdef(void)
 {
@@ -2707,7 +2649,6 @@ de_tagdef(void)
 
 
 /* DECODE A TOKDEC */
-
 long
 de_tokdec(void)
 {
@@ -2722,7 +2663,6 @@ de_tokdec(void)
 
 
 /* DECODE A TOKDEF */
-
 long
 de_tokdef(void)
 {
@@ -2737,7 +2677,6 @@ de_tokdef(void)
 
 
 /* DECODE A TOKEN */
-
 long
 de_token(void)
 {
@@ -2752,7 +2691,6 @@ de_token(void)
 
 
 /* DECODE A TOKEN_DEFN */
-
 long
 de_token_defn(void)
 {
@@ -2767,7 +2705,6 @@ de_token_defn(void)
 
 
 /* DECODE A TRANSFER_MODE */
-
 long
 de_transfer_mode(void)
 {
@@ -2817,7 +2754,6 @@ de_transfer_mode(void)
 
 
 /* DECODE A VARIETY */
-
 long
 de_variety(void)
 {
@@ -2851,7 +2787,6 @@ de_variety(void)
 
 
 /* DECODE A VERSION */
-
 long
 de_version(void)
 {
@@ -2878,12 +2813,11 @@ de_version(void)
 
 
 /*
-    SKIP TEXT ENCLOSED IN [...]
-
-    On input, s, points to the character '['.  The routine returns a
-    pointer to the character following the corresponding ']'.
-*/
-
+ * SKIP TEXT ENCLOSED IN [...]
+ *
+ * On input, s, points to the character '['.  The routine returns a
+ * pointer to the character following the corresponding ']'.
+ */
 static char *
 skip_sub(char *s)
 {
@@ -2904,15 +2838,14 @@ skip_sub(char *s)
 
 
 /*
-    DECODE A STRING OF DECODE CHARACTERS
-
-    This routine takes a string of characters, reads it one character
-    at a time, and, according to what it is, calls a particular TDF
-    decoding routine (the character is vaguely mnemonic).  For example,
-    decode ( "Sn*[x]" ) means, decode a SHAPE and a NAT, then read a
-    TDF integer and decode that number of EXPs.
-*/
-
+ * DECODE A STRING OF DECODE CHARACTERS
+ *
+ * This routine takes a string of characters, reads it one character
+ * at a time, and, according to what it is, calls a particular TDF
+ * decoding routine (the character is vaguely mnemonic).  For example,
+ * decode ( "Sn*[x]" ) means, decode a SHAPE and a NAT, then read a
+ * TDF integer and decode that number of EXPs.
+ */
 void
 decode(char *str)
 {
@@ -3066,14 +2999,12 @@ decode(char *str)
     return;
 }
 
-
 /*
-    FIND THE NAME AND DECODE LETTER ASSOCIATED WITH A SORT
-
-    This routine returns a sortid structure corresponding to the sort
-    number n.
-*/
-
+ * FIND THE NAME AND DECODE LETTER ASSOCIATED WITH A SORT
+ *
+ * This routine returns a sortid structure corresponding to the sort
+ * number n.
+ */
 sortid
 find_sort(sortname n)
 {
@@ -3204,13 +3135,11 @@ find_sort(sortname n)
 
 
 /*
-
-    CONVERT A DECODE LETTER TO A SORT VALUE
-
-    This routine given a decode letter c returns the corresponding sort
-    number.
-*/
-
+ * CONVERT A DECODE LETTER TO A SORT VALUE
+ *
+ * This routine given a decode letter c returns the corresponding sort
+ * number.
+ */
 sortname
 find_sortname(int c)
 {
@@ -3248,11 +3177,10 @@ find_sortname(int c)
 
 
 /*
-    INITIALISE FOREIGN SORT NAMES
-
-    This routine initialises the array of foreign sort names.
-*/
-
+ * INITIALISE FOREIGN SORT NAMES
+ *
+ * This routine initialises the array of foreign sort names.
+ */
 void
 init_foreign_sorts(void)
 {
@@ -3269,12 +3197,11 @@ init_foreign_sorts(void)
 
 
 /*
-    LINKAGE VARIABLE NUMBERS
-
-    Usually "tag" and "token" etc. appear in the var_types array.  These
-    variables indicate where (negative values mean not at all).
-*/
-
+ * LINKAGE VARIABLE NUMBERS
+ *
+ * Usually "tag" and "token" etc. appear in the var_types array.  These
+ * variables indicate where (negative values mean not at all).
+ */
 long var_al_tag = -1;
 long var_dg_tag = -2;
 long var_diag_tag = -3;
@@ -3283,12 +3210,11 @@ long var_token = -5;
 
 
 /*
-    FIND A LINKAGE VARIABLE CODE
-
-    This routine sets the nth element of the var_types array to the
-    linkage variable indicated by the variable name s.
-*/
-
+ * FIND A LINKAGE VARIABLE CODE
+ *
+ * This routine sets the nth element of the var_types array to the
+ * linkage variable indicated by the variable name s.
+ */
 char
 find_variable(string s, long n)
 {
@@ -3317,13 +3243,12 @@ find_variable(string s, long n)
 
 
 /*
-    FIND A EQUATION DECODING FUNCTION
-
-    This routine returns the unit decoding function used to deal with
-    units with equation name s.  It also assigns a unit description to
-    pt and a usage flag to po.
-*/
-
+ * FIND A EQUATION DECODING FUNCTION
+ *
+ * This routine returns the unit decoding function used to deal with
+ * units with equation name s.  It also assigns a unit description to
+ * pt and a usage flag to po.
+ */
 equation_func
 find_equation(string s, string *pt, int *po)
 {

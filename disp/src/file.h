@@ -13,10 +13,10 @@
 
 
 /*
-    FILE HANDLING ROUTINES
-
-    This file contains the low level file reading and writing routines.
-*/
+ * FILE HANDLING ROUTINES
+ *
+ * This file contains the low level file reading and writing routines.
+ */
 
 extern FILE *pp_file;
 extern place here;

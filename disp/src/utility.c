@@ -19,22 +19,20 @@
 
 
 /*
-    RECOVERY FLAG
-
-    This flag controls whether an attempt is made to recover from
-    non-fatal errors.  Anything after an error is likely to be of very
-    little use.
-*/
-
+ * RECOVERY FLAG
+ *
+ * This flag controls whether an attempt is made to recover from
+ * non-fatal errors.  Anything after an error is likely to be of very
+ * little use.
+ */
 int recover = 0;
 
 
 /*
-    REPORT A FATAL ERROR
-
-    An error is reported and the program aborts immediately.
-*/
-
+ * REPORT A FATAL ERROR
+ *
+ * An error is reported and the program aborts immediately.
+ */
 void
 fatal_error(char *s, ...) /* VARARGS */
 {
@@ -50,14 +48,13 @@ fatal_error(char *s, ...) /* VARARGS */
 
 
 /*
-    REPORT AN INPUT ERROR
-
-    An error is reported together with the position within the input
-    file where it occured, and the program either attempts to recover
-    (if the recover flag is true) or outputs what it has read so far
-    and then exits (otherwise).
-*/
-
+ * REPORT AN INPUT ERROR
+ *
+ * An error is reported together with the position within the input
+ * file where it occured, and the program either attempts to recover
+ * (if the recover flag is true) or outputs what it has read so far
+ * and then exits (otherwise).
+ */
 void
 input_error(char *s, ...) /* VARARGS */
 {

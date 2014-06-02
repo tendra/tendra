@@ -23,12 +23,11 @@
 
 
 /*
-    READ AN EXTENDED NUMBER FROM THE INPUT FILE
-
-    This routine reads n bits.  If these are nonzero they give the result.
-    Otherwise the result is ( 2^n - 1 ) plus the next extended number.
-*/
-
+ * READ AN EXTENDED NUMBER FROM THE INPUT FILE
+ *
+ * This routine reads n bits.  If these are nonzero they give the result.
+ * Otherwise the result is ( 2^n - 1 ) plus the next extended number.
+ */
 long
 fetch_extn(int n)
 {
@@ -39,15 +38,14 @@ fetch_extn(int n)
 
 
 /*
-    READ A TDF INTEGER FROM THE INPUT FILE
-
-    This routine reads a TDF integer from the input file, returning
-    the result as a long.  Any overflow is ignored.  A TDF integer
-    is encoded as a series of 4 bit chunks, the least significant
-    three of which represent an octal digit, and the most significant
-    of which is a flag which is set to mark the last digit.
-*/
-
+ * READ A TDF INTEGER FROM THE INPUT FILE
+ *
+ * This routine reads a TDF integer from the input file, returning
+ * the result as a long.  Any overflow is ignored.  A TDF integer
+ * is encoded as a series of 4 bit chunks, the least significant
+ * three of which represent an octal digit, and the most significant
+ * of which is a flag which is set to mark the last digit.
+ */
 long
 tdf_int(void)
 {
@@ -63,24 +61,22 @@ tdf_int(void)
 
 
 /*
-    BUFFER FOR LARGE TDF INTEGERS
-
-    Larger TDF integers are stored as strings of octal digits.  This
-    buffer is used to hold them temporarily.  tdf_int_digits gives
-    the number of octal digits read.
-*/
-
+ * BUFFER FOR LARGE TDF INTEGERS
+ *
+ * Larger TDF integers are stored as strings of octal digits.  This
+ * buffer is used to hold them temporarily.  tdf_int_digits gives
+ * the number of octal digits read.
+ */
 int tdf_int_digits;
 static char tdf_int_buff[1000];
 
 
 /*
-    READ A TDF INTEGER AS A STRING OF OCTAL DIGITS
+ * READ A TDF INTEGER AS A STRING OF OCTAL DIGITS
 
-    A TDF integer is read into the buffer tdf_int_buff, with its length being
-    recorded in tdf_int_digits.
-*/
-
+ * A TDF integer is read into the buffer tdf_int_buff, with its length being
+ * recorded in tdf_int_digits.
+ */
 char *
 tdf_int_str(void)
 {
@@ -109,13 +105,12 @@ tdf_int_str(void)
 
 
 /*
-    READ AN 8-BIT STRING
-
-    Only strings consisting of 8-bit characters are actually dealt with
-    at the moment.  This routine decodes such a string of length n,
-    translating any unprintable characters into escape sequences.
-*/
-
+ * READ AN 8-BIT STRING
+ *
+ * Only strings consisting of 8-bit characters are actually dealt with
+ * at the moment.  This routine decodes such a string of length n,
+ * translating any unprintable characters into escape sequences.
+ */
 string
 get_string(long n, long sz)
 {
@@ -150,14 +145,13 @@ get_string(long n, long sz)
 
 
 /*
-    DECODE A TDF STRING
-
-    A TDF string is read and returned.  This consists of the number
-    of bits per character and the string length followed by the
-    appropriate number of characters.  If the character size is not 8
-    or the string is too long, it is deemed to be unprintable.
-*/
-
+ * DECODE A TDF STRING
+ *
+ * A TDF string is read and returned.  This consists of the number
+ * of bits per character and the string length followed by the
+ * appropriate number of characters.  If the character size is not 8
+ * or the string is too long, it is deemed to be unprintable.
+ */
 string
 de_tdfstring(void)
 {
@@ -175,12 +169,11 @@ de_tdfstring(void)
 
 
 /*
-    DECODE AN ALIGNED TDF STRING
-
-    This routine is identical to that above except that there are a
-    couple of alignments.  This is used by de_extern_name.
-*/
-
+ * DECODE AN ALIGNED TDF STRING
+ *
+ * This routine is identical to that above except that there are a
+ * couple of alignments.  This is used by de_extern_name.
+ */
 string
 de_tdfstring_align(void)
 {
@@ -200,12 +193,11 @@ de_tdfstring_align(void)
 
 
 /*
-    DECODE A UNIQUE IDENTIFIER
-
-    A unique consists of an array of strings.  The end of the array is marked
-    by a null string.
-*/
-
+ * DECODE A UNIQUE IDENTIFIER
+ *
+ * A unique consists of an array of strings.  The end of the array is marked
+ * by a null string.
+ */
 unique
 de_unique(void)
 {
@@ -220,12 +212,11 @@ de_unique(void)
 
 
 /*
-    DECODE AN EXTERNAL NAME
-
-    A number of bits are read and, according to their value, either a
-    string or a unique is decoded.
-*/
-
+ * DECODE AN EXTERNAL NAME
+ *
+ * A number of bits are read and, according to their value, either a
+ * string or a unique is decoded.
+ */
 external
 de_extern_name(void)
 {
@@ -260,12 +251,11 @@ de_extern_name(void)
 
 
 /*
-    ARRAY OF FOREIGN SORTS
-
-    Foreign sorts are identified by means of strings.  This array gives all
-    the foreign sorts known to the program.
-*/
-
+ * ARRAY OF FOREIGN SORTS
+ *
+ * Foreign sorts are identified by means of strings.  This array gives all
+ * the foreign sorts known to the program.
+ */
 int do_foreign_sorts = 0;
 long no_foreign_sorts = 0;
 sortid *foreign_sorts = null;
@@ -273,12 +263,11 @@ static long fs_size = 0;
 
 
 /*
-    ADD A FOREIGN SORT
-
-    The foreign sort with name nm, foreign name fnm and decode letter c is
-    added to the array of foreign sorts.
-*/
-
+ * ADD A FOREIGN SORT
+ *
+ * The foreign sort with name nm, foreign name fnm and decode letter c is
+ * added to the array of foreign sorts.
+ */
 void
 add_foreign_sort(char *nm, char *fnm, int c)
 {
@@ -297,9 +286,8 @@ add_foreign_sort(char *nm, char *fnm, int c)
 
 
 /*
-    DECODE A COMPLEX SORT AS A STRING
-*/
-
+ * DECODE A COMPLEX SORT AS A STRING
+ */
 static
 sortid de_complex_sort(sortname sn)
 {
@@ -350,13 +338,12 @@ sortid de_complex_sort(sortname sn)
 
 
 /*
-    DECODE A SORTNAME
-
-    A value representing a sort is read and returned.  If expand is true
-    then the parameters and result of any high-level sort are read but
-    discarded.
-*/
-
+ * DECODE A SORTNAME
+ *
+ * A value representing a sort is read and returned.  If expand is true
+ * then the parameters and result of any high-level sort are read but
+ * discarded.
+ */
 sortid
 de_sort_name(int expand)
 {

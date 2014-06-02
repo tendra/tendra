@@ -13,11 +13,11 @@
 
 
 /*
-    BASIC BINDING ROUTINES
-
-    This file contains the basic routines for manipulating tokens, tags
-    and similar objects.
-*/
+ * BASIC BINDING ROUTINES
+ *
+ * This file contains the basic routines for manipulating tokens, tags
+ * and similar objects.
+ */
 
 extern object *new_object(long);
 extern binding *new_binding_table(void);

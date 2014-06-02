@@ -13,11 +13,11 @@
 
 
 /*
-    BASIC TDF DECODING ROUTINES
-
-    This file contains the basic decoding routines for TDF integers,
-    strings etc.
-*/
+ * BASIC TDF DECODING ROUTINES
+ *
+ * This file contains the basic decoding routines for TDF integers,
+ * strings etc.
+ */
 
 extern external de_extern_name(void);
 extern sortid de_sort_name(int);
@@ -44,12 +44,11 @@ extern int do_foreign_sorts;
 
 
 /*
-    START OF EXTRA SORTS
-
-    Normal TDF sorts are represented by small values (see tdf.h).  Foreign
-    sorts are represented by values starting at extra_sorts.
-*/
-
+ * START OF EXTRA SORTS
+ *
+ * Normal TDF sorts are represented by small values (see tdf.h).  Foreign
+ * sorts are represented by values starting at extra_sorts.
+ */
 #define extra_sorts     100
 
 

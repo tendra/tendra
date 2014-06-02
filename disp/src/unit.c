@@ -24,20 +24,18 @@
 
 
 /*
-    CURRENT MAXIMUM LABEL NUMBER
-
-    This gives the number of labels in the current unit.
-*/
-
+ * CURRENT MAXIMUM LABEL NUMBER
+ *
+ * This gives the number of labels in the current unit.
+ */
 long max_lab_no = 0;
 
 
 /*
-    READ NUMBER OF LABELS
-
-    This routine reads the number of labels in a unit.
-*/
-
+ * READ NUMBER OF LABELS
+ *
+ * This routine reads the number of labels in a unit.
+ */
 void
 read_no_labs(void)
 {
@@ -55,14 +53,13 @@ read_no_labs(void)
 
 
 /*
-    SET TOKEN SORTS, CHECKING FOR COMPATIBILITY
-
-    The token t (with number n) is set to have result sort rs and
-    argument sorts args.  If t has already been initialized these values
-    are checked against the existing values.  This routine also sets
-    the foreign field of t.
-*/
-
+ * SET TOKEN SORTS, CHECKING FOR COMPATIBILITY
+ *
+ * The token t (with number n) is set to have result sort rs and
+ * argument sorts args.  If t has already been initialized these values
+ * are checked against the existing values.  This routine also sets
+ * the foreign field of t.
+ */
 void
 token_sort(object *t, sortname rs, char *args, long n)
 {
@@ -105,11 +102,10 @@ token_sort(object *t, sortname rs, char *args, long n)
 
 
 /*
-    DECODE A TOKEN DECLARATION
-
-    A single token declaration is decoded.
-*/
-
+ * DECODE A TOKEN DECLARATION
+ *
+ * A single token declaration is decoded.
+ */
 static void
 de_tokdec_aux(void)
 {
@@ -169,12 +165,11 @@ de_tokdec_aux(void)
 
 
 /*
-    DECODE A TOKEN DEFINITION
-
-    A single token definition is decoded.  If skipping is true then only
-    the declaration information will be extracted.
-*/
-
+ * DECODE A TOKEN DEFINITION
+ *
+ * A single token definition is decoded.  If skipping is true then only
+ * the declaration information will be extracted.
+ */
 static void
 de_tokdef_aux(void)
 {
@@ -286,11 +281,10 @@ de_tokdef_aux(void)
 
 
 /*
-    DECODE A TAG DECLARATION
-
-    A single tag declaration is decoded.
-*/
-
+ * DECODE A TAG DECLARATION
+ *
+ * A single tag declaration is decoded.
+ */
 static void
 de_tagdec_aux(void)
 {
@@ -338,11 +332,10 @@ de_tagdec_aux(void)
 
 
 /*
-    DECODE A TAG DEFINITION
-
-    A single tag definition is decoded.
-*/
-
+ * DECODE A TAG DEFINITION
+ *
+ * A single tag definition is decoded.
+ */
 static void
 de_tagdef_aux(void)
 {
@@ -390,11 +383,10 @@ de_tagdef_aux(void)
 
 
 /*
-    DECODE AN ALIGNMENT TAG DEFINITION
-
-    A single alignment tag definition is decoded.
-*/
-
+ * DECODE AN ALIGNMENT TAG DEFINITION
+ *
+ * A single alignment tag definition is decoded.
+ */
 static void
 de_al_tagdef_aux(void)
 {
@@ -423,11 +415,10 @@ de_al_tagdef_aux(void)
 
 
 /*
-    DECODE A TOKEN DECLARATION UNIT
-
-    This routine decodes a list of token declarations.
-*/
-
+ * DECODE A TOKEN DECLARATION UNIT
+ *
+ * This routine decodes a list of token declarations.
+ */
 void
 de_tokdec_props(void)
 {
@@ -443,11 +434,10 @@ de_tokdec_props(void)
 
 
 /*
-    DECODE A TOKEN DEFINITION UNIT
-
-    This routine decodes a list of token definitions.
-*/
-
+ * DECODE A TOKEN DEFINITION UNIT
+ *
+ * This routine decodes a list of token definitions.
+ */
 void
 de_tokdef_props(void)
 {
@@ -465,11 +455,10 @@ de_tokdef_props(void)
 
 
 /*
-    DECODE A TAG DECLARATION UNIT
-
-    This routine decodes a list of tag declarations.
-*/
-
+ * DECODE A TAG DECLARATION UNIT
+ *
+ * This routine decodes a list of tag declarations.
+ */
 void
 de_tagdec_props(void)
 {
@@ -487,11 +476,10 @@ de_tagdec_props(void)
 
 
 /*
-    DECODE A TAG DEFINITION UNIT
-
-    This routine decodes a list of tag definitions.
-*/
-
+ * DECODE A TAG DEFINITION UNIT
+ *
+ * This routine decodes a list of tag definitions.
+ */
 void
 de_tagdef_props(void)
 {
@@ -509,11 +497,10 @@ de_tagdef_props(void)
 
 
 /*
-    DECODE AN ALIGNMENT TAG DEFINITION UNIT
-
-    This routine decodes a list of alignment tag definitions.
-*/
-
+ * DECODE AN ALIGNMENT TAG DEFINITION UNIT
+ *
+ * This routine decodes a list of alignment tag definitions.
+ */
 void
 de_al_tagdef_props(void)
 {
@@ -531,23 +518,21 @@ de_al_tagdef_props(void)
 
 
 /*
-    FLAGS FOR LINKER INFORMATION AND DIAGNOSTICS
-
-    These flags control the output of the various non-core units.
-*/
-
+ * FLAGS FOR LINKER INFORMATION AND DIAGNOSTICS
+ *
+ * These flags control the output of the various non-core units.
+ */
 int show_usage = 0;
 int diagnostics = 0;
 int versions = 1;
 
 
 /*
-    OUTPUT USAGE INFORMATION
-
-    Given a usage n this routine outputs the corresponding usage
-    information.
-*/
-
+ * OUTPUT USAGE INFORMATION
+ *
+ * Given a usage n this routine outputs the corresponding usage
+ * information.
+ */
 static void
 out_usage(long n)
 {
@@ -570,13 +555,12 @@ out_usage(long n)
 
 
 /*
-    DECODE USAGE INFORMATION
-
-    This routine decodes the usage information for the external variables
-    of type v.  This consists of a set of usage values in 1-1 correspondence
-    with the externally named objects of this type.
-*/
-
+ * DECODE USAGE INFORMATION
+ *
+ * This routine decodes the usage information for the external variables
+ * of type v.  This consists of a set of usage values in 1-1 correspondence
+ * with the externally named objects of this type.
+ */
 static void
 de_usage(long v)
 {
@@ -628,12 +612,11 @@ de_usage(long v)
 
 
 /*
-    DECODE LINKER INFORMATION
-
-    This routine decodes the linker information (tld2) units.  These are
-    used to give the linker information on the usage of tokens and tags.
-*/
-
+ * DECODE LINKER INFORMATION
+ *
+ * This routine decodes the linker information (tld2) units.  These are
+ * used to give the linker information on the usage of tokens and tags.
+ */
 void
 de_tld2_unit(void)
 {
@@ -644,13 +627,12 @@ de_tld2_unit(void)
 
 
 /*
-    DECODE LINKER INFORMATION - NEW VERSION
-
-    This routine decodes the linker information (tld) units.  These are
-    used to give the linker information on the usage of the externally
-    named objects.
-*/
-
+ * DECODE LINKER INFORMATION - NEW VERSION
+ *
+ * This routine decodes the linker information (tld) units.  These are
+ * used to give the linker information on the usage of the externally
+ * named objects.
+ */
 void
 de_tld_unit(void)
 {
@@ -674,14 +656,13 @@ de_tld_unit(void)
 }
 
 
-/*
-    DECODE A DIAGNOSTIC TAG DEFINITION
-
-    This routine decodes a single diagnostic tag definition.
-*/
-
 #ifdef HAVE_diag_type_unit
 
+/*
+ * DECODE A DIAGNOSTIC TAG DEFINITION
+ *
+ * This routine decodes a single diagnostic tag definition.
+ */
 static void
 de_diag_tagdef_aux(void)
 {
@@ -709,14 +690,13 @@ de_diag_tagdef_aux(void)
 #endif
 
 
-/*
-    DECODE DIAGNOSTIC TYPE INFORMATION
-
-    This routine decodes a diagnostic type unit.
-*/
-
 #ifdef HAVE_diag_type_unit
 
+/*
+ * DECODE DIAGNOSTIC TYPE INFORMATION
+ *
+ * This routine decodes a diagnostic type unit.
+ */
 void
 de_diag_type_unit(void)
 {
@@ -735,14 +715,13 @@ de_diag_type_unit(void)
 #endif
 
 
-/*
-    DECODE DIAGNOSTIC INFORMATION
-
-    This routine decodes a diagnostic unit.
-*/
-
 #ifdef HAVE_diag_unit
 
+/*
+ * DECODE DIAGNOSTIC INFORMATION
+ *
+ * This routine decodes a diagnostic unit.
+ */
 void
 de_diag_unit(void)
 {
@@ -761,14 +740,13 @@ de_diag_unit(void)
 #endif
 
 
-/*
-    DECODE NEW DIAGNOSTIC INFORMATION
-
-    This routine decodes a new diagnostic unit.
-*/
-
 #ifdef HAVE_dg_comp_props
 
+/*
+ * DECODE NEW DIAGNOSTIC INFORMATION
+ *
+ * This routine decodes a new diagnostic unit.
+ */
 void
 de_dg_comp_props(void)
 {
@@ -790,14 +768,13 @@ de_dg_comp_props(void)
 #endif
 
 
-/*
-    DECODE LINKING INFORMATION
-
-    This routine decode a linkage information unit.
-*/
-
 #ifdef HAVE_linkinfo_props
 
+/*
+ * DECODE LINKING INFORMATION
+ *
+ * This routine decode a linkage information unit.
+ */
 void
 de_linkinfo_props(void)
 {
@@ -817,22 +794,20 @@ de_linkinfo_props(void)
 
 
 /*
-    PREVIOUS VERSION NUMBER
-
-    These variables are used to store the last version number read so
-    that duplicate version numbers can be suppressed.
-*/
-
+ * PREVIOUS VERSION NUMBER
+ *
+ * These variables are used to store the last version number read so
+ * that duplicate version numbers can be suppressed.
+ */
 static long last_major = -1;
 static long last_minor = -1;
 
 
 /*
-    DECODE A VERSION NUMBER
-
-    This routine decodes a version number for an s construct.
-*/
-
+ * DECODE A VERSION NUMBER
+ *
+ * This routine decodes a version number for an s construct.
+ */
 void
 de_make_version(char *s)
 {
@@ -857,14 +832,13 @@ de_make_version(char *s)
 }
 
 
-/*
-    DECODE A VERSION UNIT
-
-    This routine decodes a list of version numbers.
-*/
-
 #ifdef HAVE_version_props
 
+/*
+ * DECODE A VERSION UNIT
+ *
+ * This routine decodes a list of version numbers.
+ */
 void
 de_version_props(void)
 {
@@ -882,11 +856,10 @@ de_version_props(void)
 
 
 /*
-    DECODE A MAGIC NUMBER
-
-    This routine reads the magic number s.
-*/
-
+ * DECODE A MAGIC NUMBER
+ *
+ * This routine reads the magic number s.
+ */
 void
 de_magic(char *s)
 {

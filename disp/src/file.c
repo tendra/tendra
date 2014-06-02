@@ -20,26 +20,24 @@
 
 
 /*
-    MACRO DEFINITIONS
-
-    BUFFSIZE gives the size of the input buffer.  HI_MASK and LO_MASK
-    are bit masks used to extract bits 8-15 and 0-7 respectively from
-    an integer.
-*/
-
+ * MACRO DEFINITIONS
+ *
+ * BUFFSIZE gives the size of the input buffer.  HI_MASK and LO_MASK
+ * are bit masks used to extract bits 8-15 and 0-7 respectively from
+ * an integer.
+ */
 #define BUFFSIZE	((size_t)1024)
 #define HI_MASK		((unsigned)0xff00)
 #define LO_MASK		((unsigned)0x00ff)
 
 
 /*
-    INPUT AND OUTPUT FILES AND BUFFERS
-
-    The input TDF capsule is read from tdf_file.  The pretty-printed
-    output is placed into pp_file.  The input uses the buffer
-    inbuffer.
-*/
-
+ * INPUT AND OUTPUT FILES AND BUFFERS
+ *
+ * The input TDF capsule is read from tdf_file.  The pretty-printed
+ * output is placed into pp_file.  The input uses the buffer
+ * inbuffer.
+ */
 FILE *pp_file;
 static FILE *tdf_file;
 static char inbuffer[BUFFSIZE];
@@ -47,24 +45,23 @@ static int ib_ptr, ib_size;
 
 
 /*
-    POSITION IN INPUT FILE
-
-    The current position in the input file is recorded by means of a
-    place.
-*/
-
+ * POSITION IN INPUT FILE
+ *
+ * The current position in the input file is recorded by means of a
+ * place.
+ */
 place here;
 
 
 /*
-    INPUT AND OUTPUT VARIABLES
-
-    printflag is used to switch the printing on or off.  The present
-    column number in the output file is given by column.  The maximum
-    value attained by column is recorded in maximum.  The last character
-    output is held in lastc.  The flag read_error is used to indicate
-    that an error has occurred in reading the input file.
-*/
+ * INPUT AND OUTPUT VARIABLES
+ *
+ * printflag is used to switch the printing on or off.  The present
+ * column number in the output file is given by column.  The maximum
+ * value attained by column is recorded in maximum.  The last character
+ * output is held in lastc.  The flag read_error is used to indicate
+ * that an error has occurred in reading the input file.
+ */
 
 int printflag = 1;
 int column;
@@ -75,11 +72,11 @@ int dump = 0;
 
 
 /*
-    OPEN FILES
-
-    The file name1 is opened for input and name2 for output.  If name2
-    is the null string, the standard output is used.
-*/
+ * OPEN FILES
+ *
+ * The file name1 is opened for input and name2 for output.  If name2
+ * is the null string, the standard output is used.
+ */
 
 void
 open_files(char *name1, char *name2)
@@ -101,12 +98,11 @@ open_files(char *name1, char *name2)
 
 
 /*
-    READ THE NEXT BYTE FROM THE INPUT FILE
-
-    This routine reads the next byte from the input file, putting it
-    into the worksp field of here.
-*/
-
+ * READ THE NEXT BYTE FROM THE INPUT FILE
+ *
+ * This routine reads the next byte from the input file, putting it
+ * into the worksp field of here.
+ */
 static void
 next_byte(void)
 {
@@ -140,13 +136,12 @@ next_byte(void)
 
 
 /*
-    FETCH THE NEXT n BITS FROM THE INPUT FILE
-
-    This routine reads the next n bits from the input file and returns
-    them as an integer.  n will rarely be as much as 8, so there is
-    no problem with overflow.
-*/
-
+ * FETCH THE NEXT n BITS FROM THE INPUT FILE
+ *
+ * This routine reads the next n bits from the input file and returns
+ * them as an integer.  n will rarely be as much as 8, so there is
+ * no problem with overflow.
+ */
 long
 fetch(int n)
 {
@@ -174,11 +169,10 @@ fetch(int n)
 
 
 /*
-    ALIGN INPUT FILE TO AN 8 BIT BOUNDARY
-
-    Bits are read from the input file until it is on an 8 bit boundary.
-*/
-
+ * ALIGN INPUT FILE TO AN 8 BIT BOUNDARY
+ *
+ * Bits are read from the input file until it is on an 8 bit boundary.
+ */
 void
 byte_align(void)
 {
@@ -190,11 +184,10 @@ byte_align(void)
 
 
 /*
-    GO TO A GIVEN PLACE IN THE INPUT FILE
-
-    The current position is set to the position indicated by the place p.
-*/
-
+ * GO TO A GIVEN PLACE IN THE INPUT FILE
+ *
+ * The current position is set to the position indicated by the place p.
+ */
 void
 set_place(place *p)
 {
@@ -210,12 +203,11 @@ set_place(place *p)
 
 
 /*
-    SKIP THE NEXT n BITS IN THE INPUT FILE
-
-    If n is small, the next n bits are read but discarded.  Otherwise
-    set_place is used.
-*/
-
+ * SKIP THE NEXT n BITS IN THE INPUT FILE
+ *
+ * If n is small, the next n bits are read but discarded.  Otherwise
+ * set_place is used.
+ */
 void
 skip_bits(long n)
 {
@@ -234,21 +226,19 @@ skip_bits(long n)
 
 
 /*
-    ARRAY OF SPACES
-
-    The indentation spaces used during pretty-printing are stored in
-    an array.
-*/
-
+ * ARRAY OF SPACES
+ *
+ * The indentation spaces used during pretty-printing are stored in
+ * an array.
+ */
 static char *spaces1;
 
 
 /*
-    INITIALIZE SPACES
-
-    This routine initializes the array of indentation spaces, spaces1.
-*/
-
+ * INITIALIZE SPACES
+ *
+ * This routine initializes the array of indentation spaces, spaces1.
+ */
 void
 init_spaces(int d)
 {
@@ -270,12 +260,11 @@ init_spaces(int d)
 
 
 /*
-    OUTPUT n SPACES
-
-    This routine outputs n indentation spaces, using the array spaces1
-    when appropriate.
-*/
-
+ * OUTPUT n SPACES
+ *
+ * This routine outputs n indentation spaces, using the array spaces1
+ * when appropriate.
+ */
 void
 spaces(int n)
 {

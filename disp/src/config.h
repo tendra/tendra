@@ -12,10 +12,6 @@
 #define CONFIG_INCLUDED
 
 
-/*
-    INCLUDE THE BASIC HEADERS
-*/
-
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -30,16 +26,8 @@
 #endif
 
 
-/*
-    COMPILER DEPENDENT STUFF
-*/
-
 #include "ossg.h"
 
-
-/*
-    USEFUL MACROS
-*/
 
 #define null			NULL
 #define BYTESIZE		8

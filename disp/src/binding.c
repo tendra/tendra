@@ -20,11 +20,10 @@
 
 
 /*
-    CREATE A NEW OBJECT
-
-    This routine allocates a new object of type v.
-*/
-
+ * CREATE A NEW OBJECT
+ *
+ * This routine allocates a new object of type v.
+ */
 object *
 new_object(long v)
 {
@@ -55,21 +54,19 @@ new_object(long v)
 
 
 /*
-    SPARE BINDING TABLE
-
-    In fact only two binding tables are ever needed.  The one not in use
-    is stored in spare_bt.
-*/
-
+ * SPARE BINDING TABLE
+ *
+ * In fact only two binding tables are ever needed.  The one not in use
+ * is stored in spare_bt.
+ */
 static binding *spare_bt = null;
 
 
 /*
-    CREATE A NEW BINDING TABLE
-
-    This routine allocates a new binding table and initializes its entries.
-*/
-
+ * CREATE A NEW BINDING TABLE
+ *
+ * This routine allocates a new binding table and initializes its entries.
+ */
 binding *
 new_binding_table(void)
 {
@@ -95,11 +92,10 @@ new_binding_table(void)
 
 
 /*
-    FREE A BINDING
-
-    The binding bt is returned to free.
-*/
-
+ * FREE A BINDING
+ *
+ * The binding bt is returned to free.
+ */
 void
 free_binding_table(binding *bt)
 {
@@ -109,11 +105,10 @@ free_binding_table(binding *bt)
 
 
 /*
-    SET THE SIZE OF A BINDING
-
-    The vth entry of bt is set to size n.
-*/
-
+ * SET THE SIZE OF A BINDING
+ *
+ * The vth entry of bt is set to size n.
+ */
 void
 set_binding_size(binding *bt, long v, long n)
 {
@@ -139,11 +134,10 @@ set_binding_size(binding *bt, long v, long n)
 
 
 /*
-    SET AN ENTRY IN A BINDING
-
-    The nth entry of the vth entry of the binding bt is set to p.
-*/
-
+ * SET AN ENTRY IN A BINDING
+ *
+ * The nth entry of the vth entry of the binding bt is set to p.
+ */
 void
 set_binding(binding *bt, long v, long n, object *p)
 {
@@ -174,12 +168,11 @@ set_binding(binding *bt, long v, long n, object *p)
 
 
 /*
-    FILL IN BLANK ENTRIES IN A BINDING
-
-    Objects are allocated for all the entries in the binding bt which
-    are not associated with an existing object.
-*/
-
+ * FILL IN BLANK ENTRIES IN A BINDING
+ *
+ * Objects are allocated for all the entries in the binding bt which
+ * are not associated with an existing object.
+ */
 void
 complete_binding(binding *bt)
 {
@@ -198,11 +191,10 @@ complete_binding(binding *bt)
 
 
 /*
-    FIND AN ENTRY IN A BINDING
-
-    The nth entry of the vth entry of binding bt is returned.
-*/
-
+ * FIND AN ENTRY IN A BINDING
+ *
+ * The nth entry of the vth entry of binding bt is returned.
+ */
 object *
 find_binding(binding *bt, long v, long n)
 {
@@ -222,11 +214,10 @@ find_binding(binding *bt, long v, long n)
 
 
 /*
-    OUTPUT AN OBJECT
-
-    The object p of type v and number n is output.
-*/
-
+ * OUTPUT AN OBJECT
+ *
+ * The object p of type v and number n is output.
+ */
 void
 out_object(long n, object *p, long v)
 {
@@ -267,11 +258,10 @@ out_object(long n, object *p, long v)
 
 
 /*
-    RETURN AN OBJECT NAME (FOR ERROR REPORTING)
-
-    The name of object type v and number n is returned.
-*/
-
+ * RETURN AN OBJECT NAME (FOR ERROR REPORTING)
+ *
+ * The name of object type v and number n is returned.
+ */
 char *
 object_name(long v, long n)
 {

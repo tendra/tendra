@@ -13,14 +13,14 @@
 
 
 /*
-    PRETTY PRINTING ROUTINES
-
-    Once the TDF tree has been read in it needs to be output in a
-    form which reflects the underlying tree structure.  This is
-    done by means of indentation.  The difficult problem is the
-    maximum amount of indentation which can be used while fitting the
-    output into a reasonable number of columns.
-*/
+ * PRETTY PRINTING ROUTINES
+ *
+ * Once the TDF tree has been read in it needs to be output in a
+ * form which reflects the underlying tree structure.  This is
+ * done by means of indentation.  The difficult problem is the
+ * maximum amount of indentation which can be used while fitting the
+ * output into a reasonable number of columns.
+ */
 
 extern void pretty_tree(void);
 extern int helpflag;

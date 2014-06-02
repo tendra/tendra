@@ -24,14 +24,13 @@
 
 
 /*
-    EXPANSION MODE
-
-    The flag dumb_mode determines whether the pretty-printer will
-    attempt to rationalize its input, or whether it will just blindly
-    output what it reads.  If show_stuff is true information on the
-    number of tags and tokens etc will be output.
-*/
-
+ * EXPANSION MODE
+ *
+ * The flag dumb_mode determines whether the pretty-printer will
+ * attempt to rationalize its input, or whether it will just blindly
+ * output what it reads.  If show_stuff is true information on the
+ * number of tags and tokens etc will be output.
+ */
 int dumb_mode = 0;
 int show_stuff = 0;
 
@@ -53,13 +52,12 @@ int skipping = 0;
 
 
 /*
-    ARRAYS OF EQUATION AND VARIABLE NAMES
-
-    These arrays store the names of the types of equations (e.g. tokdefs)
-    and the types of variables these equations are in (e.g. tags and tokens).
-    The number of types of variables is given by no_variables.
-*/
-
+ * ARRAYS OF EQUATION AND VARIABLE NAMES
+ *
+ * These arrays store the names of the types of equations (e.g. tokdefs)
+ * and the types of variables these equations are in (e.g. tags and tokens).
+ * The number of types of variables is given by no_variables.
+ */
 string *eqn_types = null;
 string *var_types = null;
 char *var_letters = "";
@@ -68,21 +66,19 @@ long no_variables = 0;
 
 
 /*
-    CURRENT BINDINGS
-
-    The current binding table is given by crt_binding.
-*/
-
+ * CURRENT BINDINGS
+ *
+ * The current binding table is given by crt_binding.
+ */
 binding *crt_binding;
 
 
 /*
-    DECODE AN EXTERNAL LINKAGE
-
-    An external name is decoded and associated with a variable of type v.
-    r gives the order information.
-*/
-
+ * DECODE AN EXTERNAL LINKAGE
+ *
+ * An external name is decoded and associated with a variable of type v.
+ * r gives the order information.
+ */
 static void
 de_linkextern(long v, long r)
 {
@@ -132,22 +128,20 @@ de_linkextern(long v, long r)
 
 
 /*
-    COUNT OF TOTAL NUMBER OF EQUATIONS OF A PARTICULAR TYPE
-
-    This should be increased appropriately by each unit decoding function.
-*/
-
+ * COUNT OF TOTAL NUMBER OF EQUATIONS OF A PARTICULAR TYPE
+ *
+ * This should be increased appropriately by each unit decoding function.
+ */
 long total = 0;
 long blank_lines = 0;
 
 
 /*
-    DECODE A SET OF EQUATIONS
-
-    A set of equations is decoded.  f gives the procedure which is to be
-    used to decode the equation body.
-*/
-
+ * DECODE A SET OF EQUATIONS
+ *
+ * A set of equations is decoded.  f gives the procedure which is to be
+ * used to decode the equation body.
+ */
 static void
 de_equation(equation_func f)
 {
@@ -261,13 +255,12 @@ de_equation(equation_func f)
 
 
 /*
-    DECODE A CAPSULE
-
-    A capsule consists of a number of equation types, a number of variable
-    sorts, a number of external names for variables and a number of
-    equations of certain types.
-*/
-
+ * DECODE A CAPSULE
+ *
+ * A capsule consists of a number of equation types, a number of variable
+ * sorts, a number of external names for variables and a number of
+ * equations of certain types.
+ */
 void
 de_capsule(void)
 {

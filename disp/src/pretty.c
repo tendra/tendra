@@ -27,28 +27,27 @@ int quickflag = 0;
 
 
 /*
-    VARIABLES USED IN PRINTING ROUTINE
-
-    The variable maxcol is used to specify the maximum number of columns
-    into which the output should be fitted.  maxtab gives the current
-    indentation.  dot_spacing is used to indicate the distance between
-    the vertical alignment lines when helpflag is true.
-*/
-
+ * VARIABLES USED IN PRINTING ROUTINE
+ *
+ * The variable maxcol is used to specify the maximum number of columns
+ * into which the output should be fitted.  maxtab gives the current
+ * indentation.  dot_spacing is used to indicate the distance between
+ * the vertical alignment lines when helpflag is true.
+ */
 int maxcol = 80;
 static int maxtab;
 static int dot_spacing;
 
 
 /*
-    CHOICE TABLE
-
-    This table is used to decide the maximum suitable indentation.  For
-    example the entry { a, b, c } means, try printing with an indentation
-    of a.  If this fits into the required number of columns, try with
-    the (larger) indentation c.  Otherwise try with the (smaller)
-    indentation b.
-*/
+ * CHOICE TABLE
+ *
+ * This table is used to decide the maximum suitable indentation.  For
+ * example the entry { a, b, c } means, try printing with an indentation
+ * of a.  If this fits into the required number of columns, try with
+ * the (larger) indentation c.  Otherwise try with the (smaller)
+ * indentation b.
+ */
 
 #define M 100
 
@@ -64,13 +63,12 @@ static int dec[7][3] = {
 
 
 /*
-    PRINT THE TDF TREE
-
-    This routine has overall control of the printing of the tree.  It
-    determines the most suitable indentation by means of trial runs,
-    and then prints the tree with that indentation.
-*/
-
+ * PRINT THE TDF TREE
+ *
+ * This routine has overall control of the printing of the tree.  It
+ * determines the most suitable indentation by means of trial runs,
+ * and then prints the tree with that indentation.
+ */
 void
 pretty_tree(void)
 {
@@ -118,13 +116,12 @@ pretty_tree(void)
 
 
 /*
-    TRY TO PRETTY-PRINT THE TDF TREE
-
-    This routine actually outputs the tree.  If test is true, then this
-    is only a trial run, and may be aborted if the output exceeds the
-    required number of columns.
-*/
-
+ * TRY TO PRETTY-PRINT THE TDF TREE
+ *
+ * This routine actually outputs the tree.  If test is true, then this
+ * is only a trial run, and may be aborted if the output exceeds the
+ * required number of columns.
+ */
 static void
 display(int test)
 {
@@ -140,11 +137,10 @@ display(int test)
 
 
 /*
-    OUTPUT A CHARACTER
-
-    This routine outputs a single character into the output file.
-*/
-
+ * OUTPUT A CHARACTER
+ *
+ * This routine outputs a single character into the output file.
+ */
 #define put_out(c)						\
     {								\
 	if (c) {						\
@@ -156,12 +152,11 @@ display(int test)
 
 
 /*
-    OUTPUT A NEWLINE
-
-    This routine outputs a newline character into the output file.
-    It also causes column to be compared against maximum.
-*/
-
+ * OUTPUT A NEWLINE
+ *
+ * This routine outputs a newline character into the output file.
+ * It also causes column to be compared against maximum.
+ */
 #define new_line()						\
     {								\
 	if (column > maximum)maximum = column; \
@@ -172,17 +167,16 @@ display(int test)
 
 
 /*
-    OUTPUT A TDF EXPRESSION
-
-    This routine is called recursively to print the tree.  ptr gives
-    the current position within the tree.  col gives the column
-    where printing should start.  flag is true to indicate that a
-    newline should be output at the end.  pending gives the number
-    of trailing close brackets which are pending.  first gives a
-    character which needs to be output before the current
-    expression, and last gives one which should be output after it.
-*/
-
+ * OUTPUT A TDF EXPRESSION
+ *
+ * This routine is called recursively to print the tree.  ptr gives
+ * the current position within the tree.  col gives the column
+ * where printing should start.  flag is true to indicate that a
+ * newline should be output at the end.  pending gives the number
+ * of trailing close brackets which are pending.  first gives a
+ * character which needs to be output before the current
+ * expression, and last gives one which should be output after it.
+ */
 static void
 expression(word *ptr, int col, int first, int last, int flag, int pending)
 {
