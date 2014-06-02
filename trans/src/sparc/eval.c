@@ -19,7 +19,7 @@
 #endif
 
 #include <local/expmacs.h>
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 #include <local/fbase.h>
 #include <local/szs_als.h>
 #include <local/out.h>

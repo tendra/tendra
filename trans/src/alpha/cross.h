@@ -25,7 +25,7 @@
 
 #include <limits.h>
 
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 
 #include <construct/installtypes.h>
 #include <construct/flpttypes.h>

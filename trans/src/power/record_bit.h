@@ -11,7 +11,7 @@
 #ifndef RECORD_BIT_H
 #define RECORD_BIT_H
 
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 
 #include <construct/installtypes.h>
 

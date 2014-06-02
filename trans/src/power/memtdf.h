@@ -12,7 +12,7 @@
 #define MEMTDF_H	1
 
 #include <local/expmacs.h>
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 
 #include <reader/codetypes.h>
 

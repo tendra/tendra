@@ -10,7 +10,7 @@
 #ifndef SYMTAB_TYPETOAUX_H
 #define SYMTAB_TYPETOAUX_H
 
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 
 #include <reader/codetypes.h>
 

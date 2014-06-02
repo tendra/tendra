@@ -10,7 +10,7 @@
 #ifndef misc_c_key
 #define misc_c_key 1
 
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 
 extern int invariant_to_apply(exp e);
 extern int take_out_of_line(exp first, exp alt, int in_repeat, double scale);

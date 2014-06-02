@@ -10,7 +10,7 @@
 #ifndef EXPMACS_H
 #define EXPMACS_H
 
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 
 #include <construct/installtypes.h>
 

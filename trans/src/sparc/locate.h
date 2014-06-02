@@ -10,7 +10,7 @@
 #ifndef LOCATEDECS_INCLUDED
 #define LOCATEDECS_INCLUDED
 
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 
 #include "proctypes.h"
 

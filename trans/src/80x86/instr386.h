@@ -14,7 +14,7 @@
 #ifndef INSTR386_H
 #define INSTR386_H
 
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 #include <local/localtypes.h>
 
 void add(shape sha, where a1, where a2, where dest);

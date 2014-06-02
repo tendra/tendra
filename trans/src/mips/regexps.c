@@ -15,7 +15,7 @@ For trivial 'peephole' optimisations
 
 #include <stddef.h>
 
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 #include <local/expmacs.h>
 
 #include <reader/basicread.h>

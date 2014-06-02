@@ -11,7 +11,7 @@
 #ifndef COMMENT_H
 #define COMMENT_H
 
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 
 #include <reader/codetypes.h>
 

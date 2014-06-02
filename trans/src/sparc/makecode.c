@@ -31,9 +31,9 @@
 #include <construct/flpt.h>
 #include <construct/f64.h>
 
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 #include <local/expmacs.h>
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 
 #include <main/flags.h>
 

@@ -19,7 +19,7 @@
 #include <stddef.h>
 
 #include <local/expmacs.h>
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 
 #include <construct/tags.h>
 #include <construct/shapemacs.h>

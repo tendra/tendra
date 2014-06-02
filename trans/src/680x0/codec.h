@@ -10,7 +10,7 @@
 #ifndef CODEC_INCLUDED
 #define CODEC_INCLUDED
 
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 #include <local/localtypes.h>
 
 extern void codec(where, ash, exp);

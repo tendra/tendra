@@ -9,7 +9,7 @@
 
 #include <stdlib.h>
 
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 #include <local/expmacs.h>
 
 #include <construct/installglob.h>

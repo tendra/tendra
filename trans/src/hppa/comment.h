@@ -10,7 +10,7 @@
 #ifndef COMMENT_INCLUDED
 #define COMMENT_INCLUDED
 
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 
 #include <reader/codetypes.h>
 

@@ -10,7 +10,7 @@
 #ifndef INSTR_H
 #define INSTR_H
 
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 #include <local/localtypes.h>
 
 #include <construct/installtypes.h>

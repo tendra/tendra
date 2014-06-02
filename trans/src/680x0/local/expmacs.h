@@ -16,9 +16,9 @@
 */
 
 #define  name(X)		((X)->namef)
-#define  son(X)		((X)->sonf.expr)
-#define  bro(X)		((X)->brof.expr)
-#define  pt(X)		((X)->ptf.expr)
+#define  son(X)		((X)->sonf.e)
+#define  bro(X)		((X)->brof.e)
+#define  pt(X)		((X)->ptf.e)
 #define  no(X)		((X)->numf.l)
 #define  sh(X)		((X)->shf)
 #define  last(X)		((X)->lastf)
@@ -34,7 +34,7 @@
 #define  brog(X)		((X)->brof.glob)
 #define  ptno(X)		((X)->ptf.l)
 #define  nostr(X)		((X)->numf.str)
-#define  fno(X)		((X)->numf.fp)
+#define  fno(X)		((X)->numf.f)
 #define  dno(X)		((X)->numf.d)
 #define  uno(X)		((X)->numf.ui)
 

@@ -10,7 +10,7 @@
 #ifndef WEIGHTS_INCLUDED
 #define WEIGHTS_INCLUDED
 
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 
 #include <construct/installtypes.h>
 

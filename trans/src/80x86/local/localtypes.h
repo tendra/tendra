@@ -10,7 +10,7 @@
 #ifndef LOCALTYPES_H
 #define LOCALTYPES_H
 
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 
 /* structure definition for ash  */
 struct asht {

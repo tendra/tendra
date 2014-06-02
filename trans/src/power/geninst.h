@@ -14,7 +14,7 @@
 /* needed by "addresstypes.h" */
 
 #include <local/localtypes.h>
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 
 #include <reader/codetypes.h>
 

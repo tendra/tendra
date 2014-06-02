@@ -21,7 +21,7 @@
  * A clear bit indicates that the corresponding register is free for use.
  */
 
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 #include <local/expmacs.h>
 
 #include <reader/basicread.h>

@@ -12,8 +12,6 @@
 
 #include <shared/check.h>
 
-#include <local/expmacs.h>
-
 #include <reader/codetypes.h>
 #include <reader/readglob.h>
 #include <reader/basicread.h>

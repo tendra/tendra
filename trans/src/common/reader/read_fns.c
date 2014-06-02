@@ -21,7 +21,7 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 #include <local/expmacs.h>
 
 #include <reader/codetypes.h>

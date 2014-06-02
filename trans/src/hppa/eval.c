@@ -17,7 +17,7 @@
 #include <ctype.h>
 
 #include <local/expmacs.h>
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 #include <local/fbase.h>
 #include <local/szs_als.h>		/* for MAX_BF_SIZE */
 #include <local/out.h>

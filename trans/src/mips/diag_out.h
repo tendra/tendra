@@ -10,7 +10,7 @@
 #ifndef MIPSDGDECS
 #define MIPSDGDECS
 
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 
 #include <diag/diagtypes.h>
 

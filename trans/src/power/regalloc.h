@@ -11,7 +11,7 @@
 #ifndef REGALLOCDECS_H
 #define REGALLOCDECS_H
 
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 
 #include "procrectypes.h"
 

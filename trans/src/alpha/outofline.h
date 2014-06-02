@@ -14,7 +14,7 @@
 #ifndef OUTOFLINE
 #define OUTOFLINE 1
 
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 #include <local/localtypes.h>
 
 #include "addresstypes.h"

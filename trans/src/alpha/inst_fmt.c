@@ -24,7 +24,7 @@
 
 #include <symtab/syms.h>
 
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 
 #include "inst_fmt.h"
 #include "main.h"

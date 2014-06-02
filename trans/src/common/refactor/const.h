@@ -23,7 +23,7 @@
  * They are decribed in const.c
  */
 
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 
 #include <construct/consttypes.h>
 

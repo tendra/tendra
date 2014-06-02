@@ -10,7 +10,7 @@
 #ifndef MAKECODE_INCLUDED
 #define MAKECODE_INCLUDED
 
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 
 #include "proctypes.h"
 

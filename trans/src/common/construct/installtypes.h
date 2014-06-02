@@ -10,7 +10,7 @@
 #ifndef installtypes_key
 #define installtypes_key 1
 
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 
 #include <reader/codetypes.h>
 

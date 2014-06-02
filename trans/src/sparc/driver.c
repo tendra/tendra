@@ -15,7 +15,7 @@
 #include <shared/getopt.h>
 #include <shared/error.h>
 
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 #include <local/out.h>
 
 #include <reader/main_reads.h>

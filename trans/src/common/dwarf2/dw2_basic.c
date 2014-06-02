@@ -8,7 +8,7 @@
  */
 
 #include <local/dw2_config.h>
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 #include <local/szs_als.h>
 #include <local/expmacs.h>
 

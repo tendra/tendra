@@ -10,7 +10,7 @@
 #ifndef ASSEMBLER_H
 #define ASSEMBLER_H
 
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 #include <local/localtypes.h>
 
 #include <main/flags.h>

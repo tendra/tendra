@@ -13,7 +13,7 @@
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 
 #include <construct/machine.h>
 

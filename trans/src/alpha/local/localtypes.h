@@ -11,7 +11,7 @@
 #ifndef localtypes_key
 #define localtypes_key 1
 
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 
 #include <construct/installtypes.h>
 

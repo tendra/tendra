@@ -10,7 +10,7 @@
 #include "addresstypes.h"
 #include "instypes.h"
 
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 
 extern int  comm_op(exp,space,where,instruction);
 extern int  non_comm_op(exp,space,where,instruction);

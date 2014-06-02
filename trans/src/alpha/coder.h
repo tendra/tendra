@@ -10,7 +10,7 @@
 #ifndef CODER_H
 #define CODER_H
 
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 
 #include <construct/installtypes.h>
 

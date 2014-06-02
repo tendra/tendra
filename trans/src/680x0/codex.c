@@ -12,9 +12,9 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 #include <local/expmacs.h>
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 
 #include <reader/basicread.h>
 #include <reader/externs.h>

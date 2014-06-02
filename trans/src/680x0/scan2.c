@@ -20,7 +20,7 @@
 #include <shared/check.h>
 
 #include <local/expmacs.h>
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 
 #include <construct/exp.h>
 #include <construct/shapemacs.h>

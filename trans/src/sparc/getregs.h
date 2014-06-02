@@ -10,7 +10,7 @@
 #ifndef GETREGDECS_INCLUDED
 #define GETREGDECS_INCLUDED
 
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 
 extern void settempregs(exp);
 extern int getreg(long);

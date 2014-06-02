@@ -12,7 +12,7 @@
 
 #include <stdio.h>
 
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 
 #include <reader/codetypes.h>
 

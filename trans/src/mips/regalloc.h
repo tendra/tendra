@@ -11,7 +11,7 @@
     external for regalloc.c
 */
 
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 
 #include "procrectypes.h"
 

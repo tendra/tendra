@@ -13,7 +13,7 @@
 #include <shared/xalloc.h>
 
 #include <local/expmacs.h>
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 #include <local/out.h>
 
 #include <reader/externs.h>
@@ -60,6 +60,7 @@
 #include "extratags.h"
 #include "special.h"
 #include "loc_signal.h"
+#include "labexp.h"
 
 #define outp fprintf
 #define isdbl(e)((bool)(name(e)!= shrealhd))

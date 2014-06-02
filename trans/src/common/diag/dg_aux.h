@@ -13,7 +13,7 @@
 #include "dg_first.h"
 
 #include "diaginfo.h"
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 #include <construct/installtypes.h>
 #include "dg_types.h"		/* NEW DIAGS */
 #include <reader/toktypes.h>

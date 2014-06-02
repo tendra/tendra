@@ -10,7 +10,7 @@
 #ifndef installglob_key
 #define installglob_key 1
 
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 
 #include <reader/toktypes.h>
 

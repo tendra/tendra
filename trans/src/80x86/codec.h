@@ -10,7 +10,7 @@
 #ifndef CODEC_H
 #define CODEC_H
 
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 #include <local/localtypes.h>
 
 void codec(where dest, ash stack, exp e);

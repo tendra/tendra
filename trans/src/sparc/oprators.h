@@ -12,7 +12,7 @@
 
 #include <construct/installtypes.h>
 
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 
 #include "addrtypes.h"
 

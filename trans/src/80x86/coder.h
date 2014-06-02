@@ -10,7 +10,7 @@
 #ifndef CODER_H
 #define CODER_H
 
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 #include <local/localtypes.h>
 
 void coder(where dest, ash stack, exp e);

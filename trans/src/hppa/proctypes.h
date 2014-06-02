@@ -10,7 +10,7 @@
 #ifndef PROCTYPES_INCLUDED
 #define PROCTYPES_INCLUDED
 
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 
 #include <construct/installtypes.h>
 

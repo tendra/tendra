@@ -26,7 +26,7 @@
 #include <local/dw2_config.h>
 #endif
 
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 #include <local/codermacs.h>
 #include <local/expmacs.h>
 #include <local/out.h>

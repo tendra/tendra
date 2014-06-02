@@ -11,7 +11,7 @@
     externs from locate.c
 */
 
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 
 #include <construct/installtypes.h>
 

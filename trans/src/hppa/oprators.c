@@ -26,6 +26,7 @@
 #include "frames.h"
 #include "oprators.h"
 #include "comment.h"
+#include "labexp.h"
 
 #define isdbl(e)((bool)(name(e)!= shrealhd))
 

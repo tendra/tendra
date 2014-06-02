@@ -7,7 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 
 #include <diag/diagtypes.h>
 

@@ -11,7 +11,7 @@
 #ifndef EXTERN_ADDS
 #define EXTERN_ADDS
 
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 
 extern exp * usages;
 

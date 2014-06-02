@@ -12,7 +12,7 @@
 
 #include <construct/installtypes.h>
 
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 
 struct asht {			/* structure definition for ash  */
   long  ashsize;	/*  the minimum size in bits of a shape

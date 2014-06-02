@@ -18,9 +18,9 @@
 
 #include <main/flags.h>
 
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 #include <local/expmacs.h>
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 #include <local/out.h>
 
 #include "needscan.h"

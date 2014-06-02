@@ -18,7 +18,7 @@
 #include <shared/check.h>
 
 #include <local/expmacs.h>
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 #include <local/out.h>
 #include <local/szs_als.h>
 #include <local/localflags.h>

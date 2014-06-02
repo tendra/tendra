@@ -20,7 +20,7 @@
 #include <shared/xalloc.h>
 
 #include <local/expmacs.h>
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 #include <local/fbase.h>
 
 #include <construct/tags.h>

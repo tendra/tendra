@@ -19,7 +19,7 @@
 #include <local/out.h>
 #include <local/codermacs.h>
 #include <local/localflags.h>
-#include <local/exptypes.h>
+#include <reader/exptypes.h>
 
 #ifdef NEWDWARF
 #include <local/dw2_config.h>
