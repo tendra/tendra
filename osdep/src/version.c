@@ -12,21 +12,21 @@
 **  version.c
 **  ---------
 **
-**    "libtdf.a" always contains a version number and
+**    "libtsl.a" always contains a version number and
 **    release identier.  These are defined to be global
 **    strings, and their definitions are found in this file.
 **
 **    It is always compiled as part of the build for
-**    "libtdf.a", and so "libtdf.a" is never empty.
+**    "libtsl.a", and so "libtsl.a" is never empty.
 */
 
 #ifndef VERSION
-#define VERSION "libtdf version 4.17"
+#define VERSION "libtsl version 4.17"
 #endif /* !defined (VERSION) */
 
 #ifndef RELEASE
 #define RELEASE "LOCAL"
 #endif /* !defined (RELEASE) */
 
-char __libtdf_versionid [] = VERSION;
-char __libtdf_releaseid [] = RELEASE;
+char __libtsl_versionid [] = VERSION;
+char __libtsl_releaseid [] = RELEASE;
