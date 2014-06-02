@@ -7,6 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <shared/xalloc.h>
+
 #include <local/expmacs.h>
 
 #include <construct/tags.h>
