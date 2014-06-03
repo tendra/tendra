@@ -7,22 +7,21 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <stdio.h>
 #include <string.h>
 
 #include <reader/exptypes.h>
 #include <reader/expmacs.h>
-#include <local/out.h>
-
 #include <reader/codetypes.h>
 
 #include <construct/installtypes.h>
 #include <construct/exp.h>
-#include <construct/spec.h>
 #include <construct/shapemacs.h>
 #include <construct/tags.h>
 #include <construct/machine.h>
 
 #include <main/flags.h>
+#include <main/driver.h>
 
 #include <refactor/const.h>
 
@@ -43,18 +42,6 @@
 #include "frames.h"
 #include "regexps.h"
 #include "special.h"
-
-speci
-special_fn(exp a1, exp a2, shape s)
-{				/* look for special functions */
-  speci spr;
-
-  /* +++ implement special fns handling */
-  spr.is_special = 0;
-  spr.special_exp = NULL;
-
-  return spr;
-}
 
 /* these are the procs I could do something about */
 static int
@@ -87,7 +74,6 @@ specno(char * n)
 
   return 0;
 }
-
 
 /* what name to use with call instruction for specials */
 char *
@@ -346,3 +332,4 @@ import_millicode(void)
       if ( millicode_lib[n].called )
 	 fprintf(as_file,"\t.IMPORT\t%s,MILLICODE\n",millicode_lib[n].proc_name);
 }
+

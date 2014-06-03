@@ -24,15 +24,15 @@
 #include <construct/shapemacs.h>
 #include <construct/exp.h>
 #include <construct/installglob.h>
-#include <construct/spec.h>
+#include <construct/special_fn.h>
 
 #include <main/flags.h>
 
-speci
+special
 special_fn(exp a1, exp a2, shape s)
 {
   /* look for special functions */
-  speci spr;
+  special spr;
 #if 0
   dec* dp = brog (son (a1));
   char *id = dp -> dec_u.dec_val.dec_id;

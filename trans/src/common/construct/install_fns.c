@@ -51,7 +51,7 @@
 #include <construct/flpt.h>
 #include <construct/shapemacs.h>
 #include <construct/machine.h>
-#include <construct/spec.h>
+#include <construct/special_fn.h>
 #include <construct/messages_c.h>
 #include <construct/f64.h>
 #include <construct/install_fns.h>
@@ -1134,7 +1134,7 @@ f_apply_proc(shape result_shape, exp arg1, exp_list arg2, exp_option varparam)
 	clear_exp_list(arg2);
 
 	if (name(arg1) == name_tag && isglob(son(arg1)) && !isvar(son(arg1))) {
-		speci sp;
+		special sp;
 		/* check for substitutions for certain global procedures */
 		sp = special_fn(arg1, arg2.start, result_shape);
 		if (sp.is_special) {

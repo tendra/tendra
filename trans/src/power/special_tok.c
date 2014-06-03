@@ -3,6 +3,7 @@
 /*
  * Copyright 2011-2012, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
+ * Copyright 1993, Open Software Foundation, Inc.
  *
  * See doc/copyright/ for the full copyright terms.
  */
@@ -12,15 +13,14 @@
 #include <shared/check.h>
 
 #include <reader/expmacs.h>
-
 #include <reader/codetypes.h>
 #include <reader/basicread.h>
-#include <reader/c_arith_type.h>
-#include <reader/natmacs.h>
-#include <reader/spec_tok.h>
+#include <reader/externs.h>
 #include <reader/messages_r.h>
 #include <reader/main_reads.h>
-#include <reader/externs.h>
+#include <reader/c_arith_type.h>
+#include <reader/natmacs.h>
+#include <reader/special_tok.h>
 
 #include <construct/tags.h>
 #include <construct/exp.h>
@@ -36,8 +36,7 @@
 
 /* intercepts specially defined tokens */
 
-tokval
-special_token(token t, bitstream pars, int sortcode, int * done)
+tokval special_token(token t, bitstream pars, int sortcode, int *done)
 {
   tokval tkv;
   UNUSED(sortcode);

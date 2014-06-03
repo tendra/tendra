@@ -21,7 +21,7 @@
 #include <reader/sortmacs.h>
 #include <reader/main_reads.h>
 #include <reader/externs.h>
-#include <reader/spec_tok.h>
+#include <reader/special_tok.h>
 #include <reader/read_sort.h>
 #include <reader/messages_r.h>
 #include <reader/table_fns.h>

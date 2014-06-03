@@ -24,7 +24,6 @@
 
 #include <construct/flpt.h>
 #include <construct/exp.h>
-#include <construct/spec.h>
 #include <construct/installglob.h>
 
 #include <main/driver.h>

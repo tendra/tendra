@@ -42,7 +42,6 @@
 #include <construct/flpt.h>
 #include <construct/shapemacs.h>
 #include <construct/machine.h>
-#include <construct/spec.h>
 #include <construct/messages_c.h>
 #include <construct/f64.h>
 #include <construct/install_fns.h>

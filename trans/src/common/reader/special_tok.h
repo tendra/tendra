@@ -7,10 +7,13 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef SPEC_TOK_H
-#define SPEC_TOK_H
+#ifndef READER_SPECIAL_TOK_H
+#define READER_SPECIAL_TOK_H
 
-/* intercepts specially defined tokens */
+/*
+ * Intercepts specially defined tokens
+ */
 tokval special_token(token td, bitstream pars, int sortcode, int *done);
 
-#endif /* SPEC_TOK_H */
+#endif
+

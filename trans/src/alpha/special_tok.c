@@ -16,7 +16,7 @@
 
 #include <reader/codetypes.h>
 #include <reader/basicread.h>
-#include <reader/spec_tok.h>
+#include <reader/special_tok.h>
 #include <reader/externs.h>
 #include <reader/messages_r.h>
 #include <reader/main_reads.h>

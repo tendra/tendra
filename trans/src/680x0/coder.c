@@ -23,7 +23,6 @@
 #include <construct/exp.h>
 #include <construct/shapemacs.h>
 #include <construct/install_fns.h>
-#include <construct/spec.h>
 #include <construct/tags.h>
 #include <construct/installglob.h>
 

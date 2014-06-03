@@ -17,7 +17,7 @@
 #include <reader/basicread.h>
 #include <reader/c_arith_type.h>
 #include <reader/natmacs.h>
-#include <reader/spec_tok.h>
+#include <reader/special_tok.h>
 #include <reader/externs.h>
 #include <reader/messages_r.h>
 #include <reader/main_reads.h>

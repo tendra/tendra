@@ -20,7 +20,7 @@
 #include <reader/main_reads.h>
 #include <reader/c_arith_type.h>
 #include <reader/natmacs.h>
-#include <reader/spec_tok.h>
+#include <reader/special_tok.h>
 
 #include <construct/tags.h>
 #include <construct/exp.h>

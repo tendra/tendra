@@ -18,7 +18,6 @@
 
 #include <construct/installtypes.h>
 #include <construct/exp.h>
-#include <construct/spec.h>
 #include <construct/shapemacs.h>
 #include <construct/tags.h>
 #include <construct/machine.h>
@@ -42,21 +41,6 @@
 #include "regexps.h"
 #include "special.h"
 #include "makecode.h"
-
-/*
-    LOOK FOR SPECIAL FUNCTIONS
-*/
-
-/* ARGSUSED */ 
-speci 
-special_fn ( exp a1, exp a2, shape s )
-{
-    speci spr ;
-    spr.is_special = 0 ;
-    spr.special_exp = NULL ;
-    return spr;
-}
-
 
 /*
     FIND SPECIAL PROCEDURE NUMBER

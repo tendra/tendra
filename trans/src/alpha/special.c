@@ -36,7 +36,7 @@
 #include "special.h"
 
 
-int
+static int
 specno( char *n)
 {
 	/* these are the procs I could do

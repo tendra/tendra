@@ -24,18 +24,18 @@
 #include <construct/exp.h>
 #include <construct/installglob.h>
 #include <construct/me_fns.h>
-#include <construct/spec.h>
+#include <construct/special_fn.h>
 
 #include <main/flags.h>
 
 #include "localexpmacs.h"
 #include "prefix.h"
 
-speci special_fn
+special special_fn
 (exp a1, exp a2, shape s)
 {
 		/* look for special functions */
-  speci spr;
+  special spr;
   dec* dp = brog(son(a1));
   char *id = dp -> dec_u.dec_val.dec_id;
   spr.is_special = 0;

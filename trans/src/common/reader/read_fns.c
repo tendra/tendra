@@ -44,7 +44,6 @@
 #include <construct/flpt.h>
 #include <construct/shapemacs.h>
 #include <construct/machine.h>
-#include <construct/spec.h>
 #include <construct/aldefs.h>
 
 #include <main/flags.h>
