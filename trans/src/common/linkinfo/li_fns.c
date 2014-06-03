@@ -15,18 +15,6 @@
 #include <reader/exptypes.h>
 #include <reader/expmacs.h>
 
-/* TODO: stopgap until outs() is centralised */
-#if TRANS_80x86
-#include "assembler.h"
-#include <local/localflags.h>
-#include <local/out.h>
-#endif
-
-/* TODO: stopgap until outs() is centralised */
-#if TRANS_SPARC
-#include <local/out.h>
-#endif
-
 #include <reader/natmacs.h>
 #include <reader/main_reads.h>
 #include <reader/externs.h>
@@ -43,6 +31,18 @@
 #include <utility/prefix.h>
 
 #include <main/flags.h>
+
+/* TODO: stopgap until outs() is centralised */
+#if TRANS_80x86
+#include "assembler.h"
+#include "localflags.h"
+#include <local/out.h>
+#endif
+
+/* TODO: stopgap until outs() is centralised */
+#if TRANS_SPARC
+#include <local/out.h>
+#endif
 
 int use_link_stuff;
 weak_cell *weak_list;

@@ -11,9 +11,9 @@
 
 #include <shared/error.h>
 
-#include <reader/expmacs.h>
 #include <local/fbase.h>
-#include <local/localflags.h>
+
+#include <reader/expmacs.h>
 
 #if FS_NO_ANSI_ENVIRON
 #include <floatingpoint.h>
@@ -30,6 +30,7 @@
 
 #include <main/flags.h>
 
+#include "localflags.h"
 #include "assembler.h"
 #include "instrs.h"
 #include "evaluate.h"

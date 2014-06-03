@@ -92,15 +92,14 @@
 #include <shared/xalloc.h>
 
 #include <local/diag_config.h>
-#include <reader/expmacs.h>
-#include <reader/exptypes.h>
-#include <local/localflags.h>
 #include <local/out.h>
 
 #ifdef NEWDWARF
 #include <local/dw2_config.h>
 #endif
 
+#include <reader/expmacs.h>
+#include <reader/exptypes.h>
 #include <reader/toktypes.h>
 #include <reader/basicread.h>
 #include <reader/externs.h>
@@ -116,6 +115,7 @@
 
 #include <main/flags.h>
 
+#include "localflags.h"
 #include "tempdecs.h"
 #include "weights.h"
 #include "proctypes.h"

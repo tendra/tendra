@@ -8,7 +8,6 @@
  */
 
 #include <reader/expmacs.h>
-#include <local/localflags.h>
 
 #include <construct/exp.h>
 #include <construct/shapemacs.h>
@@ -19,6 +18,7 @@
 
 #include <refactor/optimise.h>
 
+#include "localflags.h"
 #include "assembler.h"
 #include "tests.h"
 

@@ -23,9 +23,8 @@
 #endif
 
 #include <local/codermacs.h>
-#include <reader/expmacs.h>
 #include <local/out.h>
-#include <local/localflags.h>
+#include <local/cpu.h>
 
 #ifdef NEWDIAGS
 #include <newdiag/diag_fns.h>
@@ -33,6 +32,7 @@
 #include <diag/diag_fns.h>
 #endif
 
+#include <reader/expmacs.h>
 #include <reader/basicread.h>
 #include <reader/externs.h>
 
@@ -45,6 +45,7 @@
 
 #include <main/flags.h>
 
+#include "localflags.h"
 #include "weights.h"
 #include "instr386.h"
 #include "operand.h"

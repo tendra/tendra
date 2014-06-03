@@ -23,10 +23,6 @@
 #include <reader/expmacs.h>
 #include <local/szs_als.h>
 
-#ifdef TRANS_POWER
-#include <local/localflags.h>
-#endif
-
 #include <reader/codetypes.h>
 #include <reader/basicread.h>
 #include <reader/main_reads.h>
@@ -54,6 +50,10 @@
 #include <main/flags.h>
 
 #include <refactor/refactor.h>
+
+#ifdef TRANS_POWER
+#include <local/cpu.h>
+#endif
 
 extern shape shcomplexsh;
 extern shape complexsh;

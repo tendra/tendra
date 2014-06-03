@@ -10,16 +10,15 @@
 #include <string.h>
 
 #include <local/diag_config.h>
-#include <reader/expmacs.h>
 #include <local/out.h>
 #include <local/codermacs.h>
-#include <local/localflags.h>
 #include <local/localtypes.h>
 
 #ifdef NEWDWARF
 #include <local/dw2_config.h>
 #endif
 
+#include <reader/expmacs.h>
 #include <reader/externs.h>
 #include <reader/readglob.h>
 #include <reader/basicread.h>
@@ -42,6 +41,7 @@
 
 #include <refactor/optimise.h>
 
+#include "localflags.h"
 #include "coder.h"
 #include "instr.h"
 #include "scan2.h"

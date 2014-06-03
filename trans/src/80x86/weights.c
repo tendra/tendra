@@ -13,8 +13,6 @@
 #include <shared/check.h>
 
 #include <reader/expmacs.h>
-#include <local/localflags.h>
-
 #include <reader/basicread.h>
 
 #include <construct/tags.h>
@@ -23,6 +21,7 @@
 
 #include <main/flags.h>
 
+#include "localflags.h"
 #include "coder.h"
 #include "weights.h"
 #include "localexpmacs.h"

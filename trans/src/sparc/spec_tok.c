@@ -13,8 +13,6 @@
 #include <shared/check.h>
 
 #include <reader/expmacs.h>
-#include <local/localflags.h>
-
 #include <reader/codetypes.h>
 #include <reader/basicread.h>
 #include <reader/externs.h>
@@ -43,6 +41,7 @@
 
 #include <refactor/refactor.h>
 
+#include "localflags.h"
 #include "translate.h"
 #include "new_tags.h"
 

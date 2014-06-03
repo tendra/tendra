@@ -14,8 +14,8 @@
 
 #include <shared/check.h>
 
-#include <local/localflags.h>
 #include <local/out.h>
+#include <local/cpu.h>
 
 #ifdef NEWDWARF
 #include <local/dw2_config.h>
@@ -25,6 +25,7 @@
 
 #include <main/flags.h>
 
+#include "localflags.h"
 #include "instr.h"
 #include "messages_8.h"
 

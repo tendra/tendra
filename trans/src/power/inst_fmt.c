@@ -19,10 +19,11 @@
 
 #include <shared/error.h>
 
-#include <local/localflags.h>
+#include <local/cpu.h>
 
 #include <main/flags.h>
 
+#include "localflags.h"
 #include "geninst.h"
 #include "proc.h"
 #include "comment.h"

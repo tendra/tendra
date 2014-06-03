@@ -6,6 +6,9 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#ifndef LOCALFLAGS_H
+#define LOCALFLAGS_H
+
 extern int asm_dotty_instrs;
 extern int asm_percent_regs;
 
@@ -15,4 +18,6 @@ extern int asm_uses_equals;
 extern int asm_uses_lcomm;
 extern int asm_no_btst_suffix;
 extern int asm_cmp_reversed;
+
+#endif
 

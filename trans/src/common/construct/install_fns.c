@@ -32,10 +32,6 @@
 #include <reader/expmacs.h>
 #include <local/szs_als.h>
 
-#ifdef TRANS_SPARC
-#include <local/localflags.h>
-#endif
-
 #include <reader/codetypes.h>
 #include <reader/basicread.h>
 #include <reader/main_reads.h>
@@ -71,6 +67,10 @@
 #ifdef NEWDIAGS
 #include <newdiag/dg_fns.h>
 #include <newdiag/mark_scope.h>
+#endif
+
+#ifdef TRANS_SPARC
+#include "localflags.h"
 #endif
 
 #define NOTYETDONE(x)	failer(x)

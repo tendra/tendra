@@ -12,12 +12,11 @@
  * bits the operand occupies.
  */
 
-#include <reader/exptypes.h>
-#include <reader/expmacs.h>
 #include <local/out.h>
 #include <local/codermacs.h>
-#include <local/localflags.h>
 
+#include <reader/exptypes.h>
+#include <reader/expmacs.h>
 #include <reader/basicread.h>
 #include <reader/externs.h>
 #include <reader/table_fns.h>
@@ -37,6 +36,7 @@
 #include <diag/diag_fns.h>
 #endif
 
+#include "localflags.h"
 #include "coder.h"
 #include "instr.h"
 #include "instr386.h"

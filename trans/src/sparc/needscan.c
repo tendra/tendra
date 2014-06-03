@@ -21,11 +21,10 @@
 
 #include <shared/check.h>
 
+#include <local/szs_als.h>
+
 #include <reader/exptypes.h>
 #include <reader/expmacs.h>
-#include <local/szs_als.h>
-#include <local/localflags.h>
-
 #include <reader/externs.h>
 
 #include <construct/exp.h>
@@ -40,6 +39,7 @@
 
 #include <main/flags.h>
 
+#include "localflags.h"
 #include "extra_tags.h"
 #include "new_tags.h"
 #include "proctypes.h"

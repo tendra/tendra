@@ -15,8 +15,8 @@
 #include <shared/error.h>
 
 #include <local/fbase.h>
-#include <local/localflags.h>
 
+#include "localflags.h"
 #include "assembler.h"
 #include "instrs.h"
 #include "mach.h"

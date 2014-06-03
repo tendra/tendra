@@ -26,6 +26,7 @@
 #include <diag/dg_types.h>		/* NEW DIAGS */
 #include <diag/diagtypes.h>		/* OLD DIAGS */
 
+#include "localflags.h"
 #include "assembler.h"
 #include "codex.h"
 #include "instrs.h"
@@ -37,7 +38,6 @@
 #include "xdb_types.h"
 #include "xdb_output.h"
 #include "stab_types.h"
-#include <local/localflags.h>
 
 
 /*

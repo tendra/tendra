@@ -10,9 +10,9 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
-#include <reader/expmacs.h>
 #include <local/fbase.h>
-#include <local/localflags.h>
+
+#include <reader/expmacs.h>
 
 #include <reader/basicread.h>
 #include <reader/externs.h>
@@ -24,6 +24,7 @@
 #include <construct/shapemacs.h>
 #include <construct/tags.h>
 
+#include "localflags.h"
 #include "assembler.h"
 #include "mach.h"
 #include "mach_ins.h"

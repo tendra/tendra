@@ -14,15 +14,6 @@
 
 #include <linkinfo/li_types.h>
 
-/* This is a set of feature-selection bits, which may be masked together */
-enum cpu {
-	CPU_80386 = 1 << 0,
-	CPU_80486 = 1 << 1,
-	CPU_80586 = 1 << 2
-};
-
-extern enum cpu cpu;
-
 extern  int always_use_frame;	/* always use %ebp as a frame pointer */
 extern  int gcc_compatible;	/* produce gcc compatible code */
 extern  int module_has_setjmp;

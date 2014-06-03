@@ -12,15 +12,16 @@
 
 #include <shared/error.h>
 
-#include <reader/exptypes.h>
-#include <local/localflags.h>
+#include <local/cpu.h>
 
+#include <reader/exptypes.h>
 #include <reader/codetypes.h>
 #include <reader/externs.h>
 
 #include <construct/flpttypes.h>
 #include <construct/me_fns.h>
 
+#include "localflags.h"
 #include "memtdf.h"
 #include "codegen.h"
 #include "comment.h"

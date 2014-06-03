@@ -14,10 +14,10 @@
 #include <shared/getopt.h>
 #include <shared/error.h>
 
-#include <reader/expmacs.h>
-#include <local/localflags.h>
 #include <local/out.h>
+#include <local/cpu.h>
 
+#include <reader/expmacs.h>
 #include <reader/basicread.h>
 #include <reader/externs.h>
 #include <reader/main_reads.h>
@@ -31,6 +31,7 @@
 #include <main/driver.h>
 #include <main/flags.h>
 
+#include "localflags.h"
 #include "weights.h"
 #include "instr.h"
 #include "instr386.h"

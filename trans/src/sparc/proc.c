@@ -17,12 +17,12 @@
 
 #include <shared/check.h>
 
-#include <reader/expmacs.h>
-#include <reader/exptypes.h>
 #include <local/out.h>
 #include <local/szs_als.h>
-#include <local/localflags.h>
 #include <local/diag_config.h>
+
+#include <reader/expmacs.h>
+#include <reader/exptypes.h>
 
 #ifdef NEWDWARF
 #include <local/dw2_config.h>
@@ -38,6 +38,7 @@
 
 #include <main/flags.h>
 
+#include "localflags.h"
 #include "addrtypes.h"
 #include "maxminmacs.h"
 #include "proctypes.h"

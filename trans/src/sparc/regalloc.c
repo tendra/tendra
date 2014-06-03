@@ -32,8 +32,8 @@
 #include <main/flags.h>
 
 #include <reader/expmacs.h>
-#include <local/localflags.h>
 
+#include "localflags.h"
 #include "proctypes.h"
 #include "procrec.h"
 #include "bitsmacs.h"

@@ -20,11 +20,11 @@
 
 #include <shared/error.h>
 
+#include <local/localtypes.h>
+#include <local/cpu.h>
+
 #include <reader/exptypes.h>
 #include <reader/expmacs.h>
-#include <local/localtypes.h>
-#include <local/localflags.h>
-
 #include <reader/codetypes.h>
 #include <reader/externs.h>
 
@@ -40,6 +40,7 @@
 
 #include <refactor/const.h>
 
+#include "localflags.h"
 #include "comment.h"
 #include "memtdf.h"
 #include "codegen.h"

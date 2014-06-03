@@ -14,7 +14,7 @@
 #include <shared/check.h>
 #include <shared/getopt.h>
 
-#include <local/localflags.h>
+#include <local/cpu.h>
 
 #include <reader/readglob.h>
 
@@ -23,6 +23,7 @@
 #include <main/flags.h>
 #include <main/driver.h>
 
+#include "localflags.h"
 #include "comment.h"		/* for do_comment */
 #include "macro.h"
 #include "machine.h"

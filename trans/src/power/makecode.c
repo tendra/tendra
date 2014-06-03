@@ -10,9 +10,9 @@
 
 #include <shared/error.h>
 
-#include <reader/exptypes.h>
-#include <local/localflags.h>
+#include <local/cpu.h>
 
+#include <reader/exptypes.h>
 #include <reader/externs.h>
 
 #include <construct/label_ops.h>
@@ -46,6 +46,7 @@
 #include "mask.h"
 #include "error.h"
 #include "localexpmacs.h"
+#include "localflags.h"
 
 #ifdef DEBUG_POWERTRANS
 #include "pp.h"

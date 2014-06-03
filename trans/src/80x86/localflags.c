@@ -11,9 +11,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <local/localflags.h>
+#include <local/cpu.h>
 
 #include <main/flags.h>
+
+#include "localflags.h"
 
 enum cpu cpu;
 int always_use_frame;

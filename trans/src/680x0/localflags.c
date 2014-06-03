@@ -6,7 +6,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include <local/localflags.h>
+#include "localflags.h"
 
 /*
  * 0 - instructions are movl etc

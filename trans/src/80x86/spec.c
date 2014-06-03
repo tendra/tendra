@@ -15,8 +15,6 @@
 
 #include <reader/exptypes.h>
 #include <reader/expmacs.h>
-#include <local/localflags.h>
-
 #include <reader/externs.h>
 #include <reader/basicread.h>
 #include <reader/table_fns.h>
@@ -30,6 +28,7 @@
 
 #include <main/flags.h>
 
+#include "localflags.h"
 #include "localexpmacs.h"
 
 speci special_fn

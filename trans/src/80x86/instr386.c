@@ -15,16 +15,16 @@
 
 #include <shared/check.h>
 
-#include <reader/expmacs.h>
-#include <local/out.h>
 #include <local/codermacs.h>
-#include <local/localflags.h>
-#include <reader/exptypes.h>
+#include <local/out.h>
+#include <local/cpu.h>
 
 #ifdef NEWDWARF
 #include <local/dw2_config.h>
 #endif
 
+#include <reader/expmacs.h>
+#include <reader/exptypes.h>
 #include <reader/basicread.h>
 #include <reader/externs.h>
 
@@ -44,6 +44,7 @@
 
 #include <utility/bits.h>
 
+#include "localflags.h"
 #include "coder.h"
 #include "reg_record.h"
 #include "overlap.h"

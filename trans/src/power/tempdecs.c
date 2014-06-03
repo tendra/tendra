@@ -10,9 +10,10 @@
 
 #include <shared/error.h>
 
+#include <local/cpu.h>
+
 #include <reader/exptypes.h>
 #include <reader/expmacs.h>
-#include <local/localflags.h>
 
 #include <construct/tags.h>
 #include <construct/exp.h>
@@ -21,6 +22,7 @@
 
 #include <refactor/const.h>
 
+#include "localflags.h"
 #include "bitsmacs.h"
 #include "regable.h"
 #include "tempdecs.h"

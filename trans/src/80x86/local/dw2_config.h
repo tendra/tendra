@@ -31,7 +31,7 @@
 #include <construct/installtypes.h>
 #include <local/out.h>
 #include "assembler.h"
-#include <local/localflags.h>
+#include "localflags.h"
 #include <dwarf2/dw2_iface.h>
 
 #define	DWARF_MOD_VERSION	DWARF_VERSION

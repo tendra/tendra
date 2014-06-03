@@ -17,16 +17,15 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
-#include <reader/exptypes.h>
 #include <local/out.h>
-#include <reader/expmacs.h>
 #include <local/codermacs.h>
-#include <local/localflags.h>
 
 #ifdef NEWDWARF
 #include <local/dw2_config.h>
 #endif
 
+#include <reader/exptypes.h>
+#include <reader/expmacs.h>
 #include <reader/table_fns.h>
 #include <reader/basicread.h>
 #include <reader/readglob.h>
@@ -46,6 +45,7 @@
 
 #include <refactor/refactor.h>
 
+#include "localflags.h"
 #include "operand.h"
 #include "instr386.h"
 #include "coder.h"

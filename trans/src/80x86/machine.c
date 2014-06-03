@@ -8,12 +8,13 @@
  */
 
 #include <reader/expmacs.h>
-#include <local/localflags.h>
 #include <local/szs_als.h>
 #include <local/out.h>
 
 #include <construct/exp.h>
 #include <construct/shapemacs.h>
+
+#include "localflags.h"
 
 /*
  * is the result of a procedure delivering

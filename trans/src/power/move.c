@@ -22,8 +22,7 @@
 
 #include <shared/error.h>
 
-#include <local/localflags.h>
-
+#include "localflags.h"
 #include "memtdf.h"
 #include "codegen.h"
 #include "geninst.h"

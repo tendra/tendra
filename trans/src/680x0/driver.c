@@ -14,7 +14,6 @@
 #include <shared/getopt.h>
 
 #include <local/szs_als.h>
-#include <local/localflags.h>
 
 #include <reader/basicread.h>
 #include <reader/main_reads.h>
@@ -31,6 +30,7 @@
 
 #include <main/driver.h>
 
+#include "localflags.h"
 #include "assembler.h"
 #include "weights.h"
 #include "instrs.h"

@@ -14,8 +14,6 @@
 #include <shared/error.h>
 
 #include <reader/expmacs.h>
-#include <local/localflags.h>
-
 #include <reader/codetypes.h>
 #include <reader/externs.h>
 
@@ -23,6 +21,7 @@
 
 #include <main/flags.h>
 
+#include "localflags.h"
 #include "instrs.h"
 #include "mach.h"
 #include "mach_ins.h"

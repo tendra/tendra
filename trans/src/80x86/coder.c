@@ -18,6 +18,10 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
+#include <local/codermacs.h>
+#include <local/out.h>
+#include <local/cpu.h>
+
 #ifdef NEWDIAGS
 #include <local/diag_config.h>
 #endif
@@ -27,11 +31,7 @@
 #endif
 
 #include <reader/exptypes.h>
-#include <local/codermacs.h>
 #include <reader/expmacs.h>
-#include <local/out.h>
-#include <local/localflags.h>
-
 #include <reader/codetypes.h>
 #include <reader/basicread.h>
 #include <reader/externs.h>
@@ -53,6 +53,7 @@
 
 #include <utility/bits.h>
 
+#include "localflags.h"
 #include "weights.h"
 #include "instr386.h"
 #include "operand.h"

@@ -11,9 +11,11 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
-#include <reader/exptypes.h>
-#include <local/localflags.h>
+#include <local/cpu.h>
 
+#include <reader/exptypes.h>
+
+#include "localflags.h"
 #include "memtdf.h"
 #include "codegen.h"
 #include "geninst.h"

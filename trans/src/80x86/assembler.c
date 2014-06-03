@@ -12,17 +12,18 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
-#include <reader/exptypes.h>
 #include <local/out.h>
-#include <reader/expmacs.h>
-#include <local/localflags.h>
+#include <local/cpu.h>
 
+#include <reader/exptypes.h>
+#include <reader/expmacs.h>
 #include <reader/basicread.h>
 
 #include <construct/exp.h>
 #include <construct/machine.h>
 #include <construct/install_fns.h>
 
+#include "localflags.h"
 #include "instr.h"
 #include "instr386.h"
 #include "operand.h"

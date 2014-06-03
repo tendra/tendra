@@ -14,7 +14,6 @@
 #include <local/diag_config.h>
 #include <local/out.h>
 #include <local/szs_als.h>
-#include <local/localflags.h>
 
 #ifdef NEWDWARF
 #include <local/dw2_config.h>
@@ -37,6 +36,7 @@
 
 #include <main/flags.h>
 
+#include "localflags.h"
 #include "addrtypes.h"
 #include "extra_tags.h"
 #include "maxminmacs.h"
