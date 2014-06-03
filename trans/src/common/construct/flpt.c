@@ -1423,7 +1423,7 @@ flpt_round(int round_t, int posn, flt * res)
     if (i >= MANT_SIZE) {
       i = MANT_SIZE - 1;
     }
-    for (; i >= 0; --i) {
+    for (; i >= 1; --i) {
       res->mant[i] = res->mant[i-1];
     }
     res-> mant[0] = (unsigned short)c;
