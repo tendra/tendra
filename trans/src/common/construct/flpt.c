@@ -1205,6 +1205,15 @@ floatrep_unsigned(unsigned int n)
   return floatrep_aux((int)n, 1);
 }
 
+/*
+ * Prepend a new digit to the MSB end of the current mantissa.
+ * Sign and exponent are adjusted accordingly.
+ *
+ * The incoming digit may be in an arbitary base (unrelated to FBASE),
+ * given by the base parameter.
+ *
+ * The result is normalised such that the mantissa has no leading zeroes.
+ */
 void
 flpt_newdig(unsigned int dig, flt *res, int base)
 {
