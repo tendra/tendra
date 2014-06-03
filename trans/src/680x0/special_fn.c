@@ -18,8 +18,9 @@
 
 #include <construct/exp.h>
 #include <construct/tags.h>
-#include <construct/special_fn.h>
 #include <construct/installglob.h>
+#include <construct/installtypes.h>
+#include <construct/special_fn.h>
 
 #include <main/flags.h>
 
@@ -35,33 +36,29 @@
     (which is inlined).
 */
 
-special special_fn
-(exp a1, exp a2, shape s)
+bool
+special_fn(exp a1, exp a2, shape s, exp *e)
 {
-    special spec_fn;
     dec *d = brog(son(a1));
     char *id = d->dec_u.dec_val.dec_id;
-    spec_fn.is_special = 0;
-    spec_fn.special_exp = NULL;
 
-    if (id == NULL) return spec_fn;
+    if (id == NULL) return 0;
 
     if (eq(id, "_setjmp"))has_setjmp = 1;
     if (eq(id, "_longjmp"))has_setjmp = 1;
 
-    if (!do_alloca) return spec_fn;
+    if (!do_alloca) return 0;
 
     if ((/* eq(id, "_alloca") || */ eq(id, "___builtin_alloca")) &&
 	 a2 != NULL && last(a2)) {
 	exp r = getexp(s, NULL, 0, a2, NULL, 0, 0L, alloca_tag);
 	setfather(r, son(r));
 	has_alloca = 1;
-	spec_fn.is_special = 1;
-	spec_fn.special_exp = r;
+	*e = r;
 	kill_exp(a1, a1);
-	return spec_fn;
+	return 1;
     }
 
-    return spec_fn;
+    return 0;
 }
 

@@ -23,12 +23,9 @@
  */
 
 /* ARGSUSED */ 
-special
-special_fn ( exp a1, exp a2, shape s )
+bool
+special_fn ( exp a1, exp a2, shape s, exp *e )
 {
-    special spr ;
-    spr.is_special = 0 ;
-    spr.special_exp = NULL ;
-    return spr;
+    return 0;
 }
 

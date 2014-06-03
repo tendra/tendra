@@ -1134,11 +1134,11 @@ f_apply_proc(shape result_shape, exp arg1, exp_list arg2, exp_option varparam)
 	clear_exp_list(arg2);
 
 	if (name(arg1) == name_tag && isglob(son(arg1)) && !isvar(son(arg1))) {
-		special sp;
+		exp e;
+
 		/* check for substitutions for certain global procedures */
-		sp = special_fn(arg1, arg2.start, result_shape);
-		if (sp.is_special) {
-			return sp.special_exp;
+		if (special_fn(arg1, arg2.start, result_shape, &e)) {
+			return e;
 		}
 	}
 
