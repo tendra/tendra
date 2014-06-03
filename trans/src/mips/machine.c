@@ -22,5 +22,3 @@ reg_result(shape sha)
 
 }
 
-char * local_prefix;
-char * name_prefix;

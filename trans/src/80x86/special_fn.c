@@ -26,11 +26,11 @@
 #include <construct/installtypes.h>
 #include <construct/me_fns.h>
 #include <construct/special_fn.h>
+#include <construct/machine.h>
 
 #include <main/flags.h>
 
 #include "localexpmacs.h"
-#include "prefix.h"
 
 bool
 special_fn(exp a1, exp a2, shape s, exp *e)
@@ -41,7 +41,7 @@ special_fn(exp a1, exp a2, shape s, exp *e)
   if (id == (char *)0) {
     return 0;
   }
-  id += prefix_length;
+  id += strlen(name_prefix);
 
   if (a2 != NULL && last(a2) && !strcmp(id, "__trans386_special")) {
     exp r = me_b3(s, a1, a2, apply_tag);

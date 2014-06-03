@@ -50,7 +50,6 @@
 #include "instr386.h"
 #include "coder.h"
 #include "cproc.h"
-#include "prefix.h"
 #include "reg_record.h"
 #include "messages_8.h"
 #include "instrmacs.h"
@@ -1241,6 +1240,7 @@ exp make_extn
   dec * g = (dec *)(xmalloc(sizeof(dec)));
   exp id = getexp(s, NULL, 1, NULL, NULL, 0, 0, ident_tag);
   exp nme = getexp(s, NULL, 1, id, NULL, 0, 0, name_tag);
+  size_t prefix_length = strlen(name_prefix);
   setglob(id);
   if (v) {
 	if (keep_PIC_vars) {

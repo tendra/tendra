@@ -7,13 +7,21 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef machine_key
-#define machine_key 1
+#ifndef CONSTRUCT_MACHINE_H
+#define CONSTRUCT_MACHINE_H
 
 #include <construct/installtypes.h>
 
-extern int reg_result(shape sha);
+/*
+ * LOCAL AND GLOBAL NAME PREFIXES
+ */
 extern char *local_prefix;
 extern char *name_prefix;
 
+/*
+ * DOES A PROCEDURE RETURN THE GIVEN SHAPE IN A REGISTER?
+ */
+int reg_result(shape sha);
+
 #endif
+

@@ -25,6 +25,7 @@
 #include <construct/exp.h>		/* for current_alloc_size */
 #include <construct/installglob.h>	/* for top_def */
 #include <construct/installtypes.h>
+#include <construct/machine.h>
 
 #include <main/driver.h>
 #include <main/flags.h>
@@ -38,8 +39,6 @@
 #define VERSION_STR "7.8"
 
 extern int good_trans;
-
-char *local_prefix, *name_prefix;
 
 /*
  * XXX: Some of the conditional optimisations local to this installer are

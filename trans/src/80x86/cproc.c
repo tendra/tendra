@@ -58,7 +58,6 @@
 #include "scan2.h"
 #include "cproc.h"
 #include "localexpmacs.h"
-#include "prefix.h"
 
 #ifdef NEWDWARF
 #include <dwarf2/dw2_info.h>
@@ -535,7 +534,7 @@ int cproc
 
   if (assembler != ASM_SUN && format == FORMAT_AOUT) {
 	if (pname[0]!= local_prefix[0] &&
-	!strcmp(pname+prefix_length, "main")) {
+	!strcmp(pname + strlen(name_prefix), "main")) {
       out_main_prelude();
     }
   }
@@ -796,7 +795,7 @@ int cproc
 
   if (assembler != ASM_SUN && format == FORMAT_AOUT) {
     if (pname[0]!= local_prefix[0] &&
-	!strcmp(pname+prefix_length, "main")) {
+	!strcmp(pname + strlen(name_prefix), "main")) {
       out_main_postlude();
     }
   }

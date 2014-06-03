@@ -21,5 +21,3 @@ reg_result(shape sha)
   return name(sha) != cpdhd && name(sha) != nofhd;
 }
 
-char * local_prefix;
-char * name_prefix;

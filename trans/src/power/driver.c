@@ -19,13 +19,13 @@
 #include <reader/readglob.h>
 
 #include <construct/installglob.h>
+#include <construct/machine.h>
 
 #include <main/flags.h>
 #include <main/driver.h>
 
 #include "comment.h"		/* for do_comment */
 #include "macro.h"
-#include "machine.h"
 #include "addresstypes.h"
 #include "makecode.h"
 #include "dynamic_init.h"

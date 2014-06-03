@@ -25,6 +25,7 @@
 #include <construct/flpt.h>
 #include <construct/exp.h>
 #include <construct/installglob.h>
+#include <construct/machine.h>
 
 #include <main/driver.h>
 #include <main/flags.h>
@@ -53,8 +54,6 @@ extern int good_trans;
 #include "debug.h"
 
 #define VERSION_STR "3.11"
-
-char *local_prefix = "", *name_prefix = "";
 
 extern int redo_structparams;
 extern int crit_inline;

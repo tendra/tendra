@@ -49,7 +49,6 @@
 #include "operand.h"
 #include "assembler.h"
 #include "cproc.h"
-#include "prefix.h"
 #include "evaluate.h"
 #include "tv_callees.h"
 
@@ -160,7 +159,7 @@ void make_code
 
   if (son(tg)!= NULL && (my_def -> dec_u.dec_val.extnamed || no(tg)!= 0)) {
     if (name(son(tg)) == proc_tag || name(son(tg)) == general_proc_tag) {
-      if (dyn_init && strncmp("__I.TDF", id+prefix_length, 7) ==0) {
+      if (dyn_init && strncmp("__I.TDF", id + strlen(name_prefix), 7) ==0) {
 	out_initialiser(id);
 	set_proc_uses_external (son (tg));	/* for PIC_code, should be done in install_fns? */
       }

@@ -13,6 +13,7 @@
  * the others.
  */
 
+#include <string.h>
 #include <limits.h>
 
 #include <shared/check.h>
@@ -65,7 +66,6 @@
 #include "cproc.h"
 #include "coder.h"
 #include "localexpmacs.h"
-#include "prefix.h"
 
 #ifdef NEWDIAGS
 #include <newdiag/diag_fns.h>
@@ -80,7 +80,6 @@
 #include <dwarf2/dw2_basic.h>
 #include "dw2_extra.h"
 #endif
-
 
 extern exp hasenvoff_list;
 
@@ -1676,7 +1675,7 @@ void coder
 	if (builtinproc(e)) {
 	  dec* dp = brog(son(proc));
 	  char *id = dp -> dec_u.dec_val.dec_id;
-	  special_ins(id + prefix_length, arg, dest);
+	  special_ins(id + strlen(name_prefix), arg, dest);
 	  return;
 	}
 

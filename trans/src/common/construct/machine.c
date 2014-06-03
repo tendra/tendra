@@ -6,10 +6,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef MACHINE_H
-#define MACHINE_H
+#include <construct/machine.h>
 
-extern  int gcc_compatible;	/* produce gcc compatible code */
-
-#endif
+char *local_prefix = "";
+char *name_prefix  = "";
 

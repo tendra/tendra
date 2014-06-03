@@ -21,7 +21,6 @@ extern bool regable(exp);
 extern bool cpd_param(shape);
 extern bool is_ptr_void(shape);
 extern bool issigned(shape);
-extern int reg_result(shape);
 extern bool varsize(shape);
 
 #define  result_in_reg(X)	reg_result(X)

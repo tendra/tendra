@@ -39,8 +39,6 @@
 #include "instr.h"
 #include "instr386.h"
 #include "messages_8.h"
-#include "machine.h"
-#include "prefix.h"
 #include "operand.h"
 
 #ifdef NEWDIAGS
@@ -60,8 +58,8 @@
 #endif
 
 extern int print_inlines;
-
 extern int use_link_stuff;
+extern int gcc_compatible; /* produce gcc compatible code */
 
 #define VERSION_STR "5.12"
 
@@ -219,8 +217,6 @@ unhas(void)
 		fprintf(stderr, "unknown format-specific local flags\n");
 		exit(EXIT_FAILURE);
 	}
-
-	prefix_length = strlen(name_prefix);
 }
 
 static void

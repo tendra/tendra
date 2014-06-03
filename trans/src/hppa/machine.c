@@ -15,6 +15,7 @@
 
 #include "regable.h"
 
+
 /*
     DOES A PROCEDURE RETURN THE GIVEN SHAPE IN A REGISTER?
 */
@@ -30,10 +31,3 @@ reg_result(shape sha)
     return 0;
 }
 
-
-/*
-    NAME PREFIXES
-*/
-
-char *local_prefix = "" ;
-char *name_prefix = "" ;

@@ -15,11 +15,6 @@
 
 #include "regable.h"
 
-
-/*
-    DOES A PROCEDURE RETURN THE GIVEN SHAPE IN A REGISTER?
-*/
-
 int 
 reg_result ( shape sha )
 {

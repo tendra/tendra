@@ -53,7 +53,6 @@ SRCS+=	operand.c
 SRCS+=	out.c
 SRCS+=	overlap.c
 SRCS+=	reg_record.c
-SRCS+=	prefix.c
 SRCS+=	scan2.c
 SRCS+=	special_fn.c
 SRCS+=	special_tok.c

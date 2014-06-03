@@ -17,6 +17,7 @@
 #include <construct/exp.h>
 #include <construct/installglob.h>
 #include <construct/shapemacs.h>
+#include <construct/machine.h>
 #include <construct/tags.h>
 
 #include <main/flags.h>
@@ -61,14 +62,6 @@ void breakpoint(void) {}
 #include "68k_globals.h"
 int need_dummy_double = 0;
 #endif
-
-/*
-    LOCAL AND GLOBAL NAME PREFIXES
-*/
-
-char *local_prefix = "L";
-char *name_prefix = "_";
-
 
 /*
     EXTERNAL POSITIONS
