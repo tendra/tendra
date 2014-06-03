@@ -6,14 +6,11 @@
  *
  * See doc/copyright/ for the full copyright terms.
  */
-    
-#ifndef FBASE_INCLUDED
-#define FBASE_INCLUDED
 
-#ifdef __STDC__
+#ifndef LOCAL_FBASE_H
+#define LOCAL_FBASE_H
+
 #define FBASE 65536L
-#else
-#define FBASE 65536
-#endif
 
 #endif
+

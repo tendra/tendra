@@ -7,11 +7,10 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#ifndef LOCAL_FBASE_H
+#define LOCAL_FBASE_H
 
-#ifndef fbase_key
-#define fbase_key 1
-
-#define FBASE 65536		/* was 10 */
+#define FBASE 65536L
 
 #endif
 

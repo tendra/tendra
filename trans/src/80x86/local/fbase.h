@@ -7,9 +7,10 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef FBASE_H
-#define FBASE_H
+#ifndef LOCAL_FBASE_H
+#define LOCAL_FBASE_H
 
-#define FBASE 65536
+#define FBASE 65536L
 
-#endif /* FBASE_H */
+#endif
+

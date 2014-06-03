@@ -8,13 +8,12 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef FBASE_INCLUDED
-#define FBASE_INCLUDED
+#ifndef LOCAL_FBASE_H
+#define LOCAL_FBASE_H
 
-#define FBASE	65536
+#define FBASE 65536L
 
 #define MANT_SIZE       (use_long_double ? 10 : 8)
 
-#endif /* FBASE_INCLUDED */
-
+#endif
 
