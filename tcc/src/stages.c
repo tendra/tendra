@@ -506,9 +506,7 @@ do_translate(filename *input)
 			cmd_string("-J");
 		} else {
 			if (flag_optim) {
-				cmd_string("-HO");
-			} else {
-				cmd_string("-HN");
+				cmd_string("-Gnone");
 			}
 		}
 	}
