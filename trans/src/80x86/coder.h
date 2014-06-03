@@ -20,6 +20,7 @@ void clean_stack(void);
 void diag_arg(where dest, ash stack, exp e);
 #endif
 
+extern int remove_struct_ref;
 extern int regsinuse;
 extern int min_rfree;
 extern int max_stack;

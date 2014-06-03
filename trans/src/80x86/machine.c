@@ -7,14 +7,17 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include <reader/expmacs.h>
 #include <local/szs_als.h>
 #include <local/out.h>
+
+#include <main/flags.h>
+
+#include <reader/expmacs.h>
 
 #include <construct/exp.h>
 #include <construct/shapemacs.h>
 
-#include "localflags.h"
+int gcc_compatible = 0;
 
 /*
  * is the result of a procedure delivering

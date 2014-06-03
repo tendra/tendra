@@ -15,7 +15,6 @@
 
 #include <reader/exptypes.h>
 
-#include "localflags.h"
 #include "memtdf.h"
 #include "codegen.h"
 #include "geninst.h"

@@ -17,6 +17,10 @@
 #include "addresstypes.h"
 #include "procrectypes.h"
 
+extern int use_umulh_for_div;
+extern bool fail_with_denormal_constant;
+extern bool treat_denorm_specially;
+
 extern where nowhere;
 extern int fscopefile;
 

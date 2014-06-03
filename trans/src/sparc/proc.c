@@ -38,7 +38,6 @@
 
 #include <main/flags.h>
 
-#include "localflags.h"
 #include "addrtypes.h"
 #include "maxminmacs.h"
 #include "proctypes.h"
@@ -82,10 +81,10 @@ static void alloc_reg_space(int,int);
 
 extern int call_base_reg;
 
-
 struct proc_state proc_state;
 static exp current_proc;
 
+int gencompat;
 bool Has_vcallees = 0;
 bool Has_no_vcallers = 0;
 bool in_general_proc = 0;

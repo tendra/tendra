@@ -82,6 +82,10 @@ int fscopefile;	/* file of current proc */
 
 /*extern void add_odd_bits(outofline*);*/
 
+int use_umulh_for_div;
+bool fail_with_denormal_constant;
+bool treat_denorm_specially;
+
 ans procans;
 int rscope_level;
 int rscope_label;

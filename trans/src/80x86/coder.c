@@ -53,7 +53,6 @@
 
 #include <utility/bits.h>
 
-#include "localflags.h"
 #include "weights.h"
 #include "instr386.h"
 #include "operand.h"
@@ -66,6 +65,7 @@
 #include "cproc.h"
 #include "coder.h"
 #include "localexpmacs.h"
+#include "prefix.h"
 
 #ifdef NEWDIAGS
 #include <newdiag/diag_fns.h>
@@ -83,7 +83,6 @@
 
 
 extern exp hasenvoff_list;
-
 
 #define crit_noframe 300
 
@@ -109,7 +108,7 @@ extern exp hasenvoff_list;
 
 float scale = (float)1.0;	/* init by cproc */
 
-
+int  remove_struct_ref;
 int  crt_ret_lab;	/* init by cproc */
 int  crt_ret_lab_used;	/* init by cproc */
 int  min_rfree;		/* init by cproc */

@@ -7,6 +7,21 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#ifndef ASSEMBLER_H
+#define ASSEMBLER_H
+
+extern int no_align_directives;
+
+extern int asm_dotty_instrs;
+extern int asm_percent_regs;
+
+extern int asm_data_first;
+extern int asm_does_jump_lens;
+extern int asm_uses_equals;
+extern int asm_uses_lcomm;
+extern int asm_no_btst_suffix;
+extern int asm_cmp_reversed;
+
 void asm_nprefix(void);
 void asm_fprefix(void);
 void asm_ind_before(void);
@@ -28,4 +43,6 @@ void asm_bf_middle(void);
 void asm_bf_after(void);
 void asm_rpair_sep(void);
 void asm_comment(void);
+
+#endif
 

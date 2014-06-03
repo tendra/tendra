@@ -12,4 +12,6 @@
 
 extern baseoff find_tag(char *);
 
+extern bool do_extern_adds;
+
 #endif /* TRANSLATE_H */

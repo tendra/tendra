@@ -39,7 +39,7 @@
 
 #include <main/flags.h>
 
-#include "localflags.h"
+#include "proc.h"
 #include "extra_tags.h"
 #include "new_tags.h"
 #include "proctypes.h"
@@ -56,6 +56,8 @@
 #include "reg_defs.h"
 #include "makecode.h"
 #include "localexpmacs.h"
+
+#define max(X,Y)(X>Y)?(X):(Y)
 
 extern prop notbranch[];
 

@@ -17,6 +17,8 @@
 
 #include "procrectypes.h"
 
+extern int no_error_jump;
+
 extern where nowhere;
 extern void adjust_to_size(int,int,int,int,int);
 

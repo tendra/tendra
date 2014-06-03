@@ -16,6 +16,11 @@
 
 #include "proctypes.h"
 
+/* condition for shape to be treated as a struct */
+#define sparccpd(s) (name(s) == cpdhd || name(s) == nofhd || \
+                     name(s) == shcomplexhd || shape_size(s) >64 || \
+                     name(s) == u64hd || name(s) == s64hd)
+
 extern bool chase(exp, exp *);
 extern bool complex(exp);
 extern bool subvar_use(exp);
@@ -32,6 +37,5 @@ extern void cca(exp **, exp *);
 extern void check_asm_seq(exp, int);
 
 extern int maxfix, maxfloat;
-#define max(X,Y)(X>Y)?(X):(Y)
-#define min(X,Y)(X<Y)?(X):(Y)
+
 #endif /* NEEDSCAN_INCLUDED */

@@ -16,6 +16,7 @@
 
 #include <local/out.h>
 #include <local/cpu.h>
+#include <local/localtypes.h>
 
 #include <reader/expmacs.h>
 #include <reader/basicread.h>
@@ -31,12 +32,15 @@
 #include <main/driver.h>
 #include <main/flags.h>
 
-#include "localflags.h"
+#include "assembler.h"
+#include "cproc.h"
+#include "coder.h"
 #include "weights.h"
 #include "instr.h"
 #include "instr386.h"
 #include "messages_8.h"
-#include "assembler.h"
+#include "machine.h"
+#include "prefix.h"
 #include "operand.h"
 
 #ifdef NEWDIAGS
@@ -60,6 +64,8 @@ extern int print_inlines;
 extern int use_link_stuff;
 
 #define VERSION_STR "5.12"
+
+enum cpu cpu;
 
 static void
 init(void)

@@ -45,7 +45,6 @@
 
 #include <main/flags.h>
 
-#include "localflags.h"
 #include "weights.h"
 #include "instr386.h"
 #include "operand.h"
@@ -59,6 +58,7 @@
 #include "scan2.h"
 #include "cproc.h"
 #include "localexpmacs.h"
+#include "prefix.h"
 
 #ifdef NEWDWARF
 #include <dwarf2/dw2_info.h>
@@ -68,6 +68,12 @@
 
 static exp returns_list;
 
+unsigned normal_fpucon;
+int stack_aligned_8byte = 0;
+int permit_8byte_align  = 1;
+int useful_double = 0;
+int keep_short = 0;
+int always_use_frame;
 int locals_offset;	/* global, needed for solaris stabs */
 exp hasenvoff_list = NULL;	/* global, used by coder */
 

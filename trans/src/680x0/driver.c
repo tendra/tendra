@@ -30,7 +30,6 @@
 
 #include <main/driver.h>
 
-#include "localflags.h"
 #include "assembler.h"
 #include "weights.h"
 #include "instrs.h"

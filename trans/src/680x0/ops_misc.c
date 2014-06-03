@@ -22,7 +22,6 @@
 
 #include <refactor/refactor.h>
 
-#include "localflags.h"
 #include "assembler.h"
 #include "mach.h"
 #include "mach_ins.h"

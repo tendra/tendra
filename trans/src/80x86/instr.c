@@ -45,12 +45,13 @@
 
 #include <refactor/refactor.h>
 
-#include "localflags.h"
+#include "assembler.h"
 #include "operand.h"
 #include "instr386.h"
 #include "coder.h"
+#include "cproc.h"
+#include "prefix.h"
 #include "reg_record.h"
-#include "assembler.h"
 #include "messages_8.h"
 #include "instrmacs.h"
 #include "instr.h"

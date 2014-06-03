@@ -13,6 +13,12 @@
 int cproc (exp p, char *pname, int cname, int global, diag_global *diag_props);
 void restore_callregs(int untidy);
 
+extern  unsigned normal_fpucon;
+extern  int stack_aligned_8byte;
+extern  int permit_8byte_align;
+extern  int useful_double;
+extern  int keep_short;
+extern  int always_use_frame;   /* always use %ebp as a frame pointer */
 extern  outofline *odd_bits;
 
 #endif /* CPROC_H */

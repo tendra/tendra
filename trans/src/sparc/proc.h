@@ -32,6 +32,7 @@ struct proc_state {
   long callee_size;
 };
 
+extern int gencompat;
 extern bool Has_vcallees;
 extern bool Has_no_vcallers;
 extern bool in_general_proc;

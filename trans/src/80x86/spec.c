@@ -28,8 +28,8 @@
 
 #include <main/flags.h>
 
-#include "localflags.h"
 #include "localexpmacs.h"
+#include "prefix.h"
 
 speci special_fn
 (exp a1, exp a2, shape s)
@@ -55,7 +55,6 @@ speci special_fn
   if (builtin & BUILTIN_LONGJMP) {
     if (!strcmp(id, "setjmp")) {
       has_setjmp = 1;
-      module_has_setjmp = 1;
     };
   
     if (!strcmp(id, "longjmp")) {

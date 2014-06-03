@@ -21,7 +21,6 @@
 
 #include <main/flags.h>
 
-#include "localflags.h"
 #include "instrs.h"
 #include "mach.h"
 #include "mach_ins.h"
@@ -30,6 +29,7 @@
 #include "utility.h"
 #include "xdb_output.h"
 #include "xdb_types.h"
+#include "assembler.h"
 
 #ifndef SEEK_SET
 #define SEEK_SET 0

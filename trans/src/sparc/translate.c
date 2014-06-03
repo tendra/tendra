@@ -115,7 +115,6 @@
 
 #include <main/flags.h>
 
-#include "localflags.h"
 #include "tempdecs.h"
 #include "weights.h"
 #include "proctypes.h"

@@ -40,7 +40,6 @@
 
 #include <refactor/const.h>
 
-#include "localflags.h"
 #include "comment.h"
 #include "memtdf.h"
 #include "codegen.h"

@@ -11,7 +11,6 @@
 
 #include <construct/exp.h>
 
-#include "localflags.h"
 #include "assembler.h"
 #include "instrs.h"
 #include "mach.h"

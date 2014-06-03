@@ -21,7 +21,6 @@
 #include <construct/flpttypes.h>
 #include <construct/me_fns.h>
 
-#include "localflags.h"
 #include "memtdf.h"
 #include "codegen.h"
 #include "comment.h"

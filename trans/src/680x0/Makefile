@@ -38,7 +38,6 @@ SRCS+=	general_proc.c
 SRCS+=	glopt.c
 SRCS+=	inlinechoice.c
 SRCS+=	instr.c
-SRCS+=	localflags.c
 SRCS+=	mach_ins.c
 SRCS+=	mach_op.c
 SRCS+=	driver.c

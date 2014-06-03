@@ -52,6 +52,7 @@
 #include "output.h"
 #include "68k_globals.h"
 #include "localexpmacs.h"
+#include "assembler.h"
 
 #include "xdb_basics.h"
 

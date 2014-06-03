@@ -22,7 +22,6 @@
 
 #include <refactor/const.h>
 
-#include "localflags.h"
 #include "bitsmacs.h"
 #include "regable.h"
 #include "tempdecs.h"

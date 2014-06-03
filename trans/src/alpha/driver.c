@@ -35,17 +35,13 @@
 #include "dump_distr.h"
 #include "fail.h"
 #include "bool.h"
+#include "coder.h"
+#include "inst_fmt.h"
 
 #define VERSION_STR "2.4.11"
 
 #define SUCCESS 0
 #define FAILURE 1
-
-int use_umulh_for_div;
-bool fail_with_denormal_constant = TRUE;
-bool treat_denorm_specially = FALSE;
-bool trap_all_fops = FALSE;
-bool do_extern_adds = FALSE;
 
 static bool produce_binasm = FALSE;
 

@@ -34,7 +34,6 @@
 #include <diag/diag_fns.h>
 #endif
 
-#include "localflags.h"
 #include "coder.h"
 #include "instr.h"
 #include "instr386.h"

@@ -26,6 +26,7 @@
 
 #include <reader/exptypes.h>
 
+#include "coder.h"
 #include "inst_fmt.h"
 #include "main.h"
 #include "fail.h"
@@ -44,6 +45,8 @@
 #include "code_here.h"
 #include "maxminmacs.h"
 #include "pseudo.h"
+
+bool trap_all_fops;
 
 int andpeep = 0;
 extern int extended_comments;

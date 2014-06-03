@@ -41,7 +41,6 @@
 
 #include <refactor/optimise.h>
 
-#include "localflags.h"
 #include "coder.h"
 #include "instr.h"
 #include "scan2.h"
@@ -50,6 +49,7 @@
 #include "operand.h"
 #include "assembler.h"
 #include "cproc.h"
+#include "prefix.h"
 #include "evaluate.h"
 #include "tv_callees.h"
 

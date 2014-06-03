@@ -44,8 +44,8 @@
 
 #include <utility/bits.h>
 
-#include "localflags.h"
 #include "coder.h"
+#include "cproc.h"
 #include "reg_record.h"
 #include "overlap.h"
 #include "messages_8.h"

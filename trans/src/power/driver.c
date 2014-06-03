@@ -23,7 +23,6 @@
 #include <main/flags.h>
 #include <main/driver.h>
 
-#include "localflags.h"
 #include "comment.h"		/* for do_comment */
 #include "macro.h"
 #include "machine.h"
@@ -34,7 +33,6 @@
 #define VERSION_STR "4.26"
 
 enum cpu cpu;
-int no_error_jump;
 
 static void
 init(void)

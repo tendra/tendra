@@ -23,7 +23,6 @@
 
 #include <main/flags.h>
 
-#include "localflags.h"
 #include "geninst.h"
 #include "proc.h"
 #include "comment.h"

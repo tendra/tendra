@@ -33,7 +33,6 @@
 
 #include <reader/expmacs.h>
 
-#include "localflags.h"
 #include "proctypes.h"
 #include "procrec.h"
 #include "bitsmacs.h"

@@ -10,16 +10,7 @@
 #ifndef OUTPUT_INCLUDED
 #define OUTPUT_INCLUDED
 
-#include <stdio.h>
-
-extern FILE *as_file;
-extern int no_align_directives;
-
 #define  outh(X)	fprintf(as_file, "0x%lx",(unsigned long)(X))
-
-extern void init_instructions(void);
-extern void init_output(void);
-extern void output_all(void);
 
 extern char *reg_names[];
 extern char *instr_names_dotty[];
@@ -33,5 +24,9 @@ extern char *instr_names_simple[];
 #else
 #define debug_warning(X)
 #endif
+
+extern void init_instructions(void);
+extern void init_output(void);
+extern void output_all(void);
 
 #endif

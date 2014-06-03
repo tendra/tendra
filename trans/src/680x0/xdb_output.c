@@ -20,13 +20,13 @@
 #include <construct/tags.h>
 
 #include <main/flags.h>
+#include <main/driver.h>
 
 #include <diag/dg_first.h>
 #include <diag/diaginfo.h>
 #include <diag/dg_types.h>		/* NEW DIAGS */
 #include <diag/diagtypes.h>		/* OLD DIAGS */
 
-#include "localflags.h"
 #include "assembler.h"
 #include "codex.h"
 #include "instrs.h"

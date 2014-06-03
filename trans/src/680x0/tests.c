@@ -18,7 +18,6 @@
 
 #include <refactor/optimise.h>
 
-#include "localflags.h"
 #include "assembler.h"
 #include "tests.h"
 

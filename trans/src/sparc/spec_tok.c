@@ -41,8 +41,8 @@
 
 #include <refactor/refactor.h>
 
-#include "localflags.h"
 #include "translate.h"
+#include "needscan.h"
 #include "new_tags.h"
 
 /* intercepts specially defined tokens */

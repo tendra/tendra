@@ -70,7 +70,7 @@
 #endif
 
 #ifdef TRANS_SPARC
-#include "localflags.h"
+#include "needscan.h"
 #endif
 
 #define NOTYETDONE(x)	failer(x)

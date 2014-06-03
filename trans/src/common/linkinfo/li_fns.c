@@ -35,7 +35,6 @@
 /* TODO: stopgap until outs() is centralised */
 #if TRANS_80x86
 #include "assembler.h"
-#include "localflags.h"
 #include <local/out.h>
 #endif
 

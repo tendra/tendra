@@ -46,11 +46,12 @@
 #include "mask.h"
 #include "error.h"
 #include "localexpmacs.h"
-#include "localflags.h"
 
 #ifdef DEBUG_POWERTRANS
 #include "pp.h"
 #endif
+
+int no_error_jump;
 
 bool cr0_set;
 

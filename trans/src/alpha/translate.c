@@ -59,6 +59,8 @@
 #include "translate.h"
 #include "localexpmacs.h"
 
+bool do_extern_adds;
+
 procrec * procrecs;
 dec ** main_globals;
 int main_globals_index;

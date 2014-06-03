@@ -24,7 +24,6 @@
 #include <construct/shapemacs.h>
 #include <construct/tags.h>
 
-#include "localflags.h"
 #include "assembler.h"
 #include "mach.h"
 #include "mach_ins.h"

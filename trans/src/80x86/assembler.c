@@ -23,11 +23,11 @@
 #include <construct/machine.h>
 #include <construct/install_fns.h>
 
-#include "localflags.h"
 #include "instr.h"
 #include "instr386.h"
 #include "operand.h"
 #include "coder.h"
+#include "assembler.h"
 
 static int pic_label;
 

@@ -16,7 +16,8 @@
 
 #include <local/fbase.h>
 
-#include "localflags.h"
+#include <main/driver.h>
+
 #include "assembler.h"
 #include "instrs.h"
 #include "mach.h"
@@ -25,8 +26,6 @@
 #include "output.h"
 #include "codex.h"
 
-
-int no_align_directives;
 
 /*
     ARRAY OF INSTRUCTION NAMES

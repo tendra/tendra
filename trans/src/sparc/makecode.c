@@ -36,7 +36,6 @@
 
 #include <main/flags.h>
 
-#include "localflags.h"
 #include "addrtypes.h"
 #include "extra_tags.h"
 #include "maxminmacs.h"

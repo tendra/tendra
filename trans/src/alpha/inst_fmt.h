@@ -27,6 +27,8 @@
 #define IMMEDIATE_MAX	255
 #define IMMEDIATE_MIN	-128
 
+extern bool trap_all_fops;
+
 extern char *outass(char *);
 extern void load_store(instruction,int,baseoff);
 extern void load_store_immediate(instruction,int,INT64);
@@ -51,9 +53,4 @@ extern void memory_fmt(instruction,int,int);
 extern void operate_fmt(instruction,int,int,int);
 
 #endif /*INSTFMTDECS_H*/
-
-
-
-
-
 
