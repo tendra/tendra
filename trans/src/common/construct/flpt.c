@@ -1677,7 +1677,7 @@ real2longs_IEEE(flt *fp, int sw)
     res.i1 = (int)sig1;
     break;
   case 2:
-#if TRANS_80x86
+#if defined(TRANS_80x86)
     res.i1 = (int)sig1;
     res.i2 = (int)sig2;
     if (f.sign == -1) {
@@ -1687,8 +1687,7 @@ real2longs_IEEE(flt *fp, int sw)
     UNUSED(sig3);
     UNUSED(sig4);
     break;
-#else
-#if TRANS_SPARC || TRANS_HPPA
+#elif defined(TRANS_SPARC) || defined(TRANS_HPPA)
     if (f.sign == -1) {
       res.i4 = 0x80000000;
     }
@@ -1701,7 +1700,6 @@ real2longs_IEEE(flt *fp, int sw)
 #else
     failer("long double not implemented");
     return res;
-#endif
 #endif
   }
 
