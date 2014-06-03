@@ -17,7 +17,6 @@
 #include <shared/xalloc.h>
 
 #include <reader/expmacs.h>
-#include <local/glopt.h>
 
 #include <construct/installglob.h>
 #include <construct/exp.h>

@@ -12,7 +12,6 @@
 #include <shared/error.h>
 
 #include <reader/expmacs.h>
-#include <local/glopt.h>
 
 #include <construct/installglob.h>
 #include <construct/exp.h>
@@ -24,6 +23,7 @@
 #include <refactor/const.h>
 #include <refactor/optimise.h>
 #include <refactor/refactor_ext.h>
+#include <refactor/glopt.h>
 
 /* PROCEDURES */
 

@@ -11,8 +11,6 @@
 #include <string.h>
 
 #include <reader/expmacs.h>
-#include <local/glopt.h>
-
 #include <reader/externs.h>
 #include <reader/basicread.h>
 #include <reader/table_fns.h>
@@ -21,6 +19,8 @@
 #include <construct/shapemacs.h>
 #include <construct/exp.h>
 #include <construct/installglob.h>
+
+#include <refactor/glopt.h>
 
 #include <main/flags.h>
 
