@@ -40,17 +40,6 @@ typedef struct {
 
 
 /*
-
-    STRUCTURE REPRESENTING SPECIAL FUNCTIONS
-*/
-
-typedef struct {
-    bool is_special ;
-    exp special_exp ;
-} speci ;
-
-
-/*
     STRUCTURE USED IN REGISTER ALLOCATION
 */
 

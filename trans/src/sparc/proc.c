@@ -55,7 +55,6 @@
 #include "regexps.h"
 #include "regmacs.h"
 #include "regable.h"
-#include "special.h"
 #include "translate.h"
 #include "makecode.h"
 #include "proc.h"

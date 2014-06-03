@@ -26,12 +26,5 @@ typedef struct asht ash;
 
 extern ash ashof(shape s);
 
-struct specit {
-  bool is_special;
-  exp special_exp;
-};
-typedef struct specit speci;
-
-
 
 #endif

@@ -132,7 +132,6 @@
 #include "diag_out.h"
 #include "translate.h"
 #include "proc.h"
-#include "special.h"
 #include "locate.h"
 #include "sparctrans.h"
 #include "localexpmacs.h"

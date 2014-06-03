@@ -20,6 +20,7 @@
 #include <reader/externs.h>
 
 #include <construct/exp.h>
+#include <construct/spec.h>
 #include <construct/installglob.h>
 #include <construct/shapemacs.h>
 #include <construct/flpt.h>

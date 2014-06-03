@@ -47,7 +47,6 @@
 #include "maxminmacs.h"
 #include "regable.h"
 #include "tempdecs.h"
-#include "special.h"
 #include "regmacs.h"
 #include "muldvrem.h"
 #include "translate.h"

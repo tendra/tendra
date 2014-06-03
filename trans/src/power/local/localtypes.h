@@ -18,12 +18,5 @@
 #include "memtdf.h"
 
 
-struct specit {
-  bool is_special;
-  exp special_exp;
-};
-typedef struct specit speci;
-
-
 
 #endif

@@ -57,14 +57,6 @@ struct frrt {
 typedef struct frrt frr;
 
 
-struct specit {
-	int is_special;
-	exp special_exp;
-};
-
-typedef struct specit speci;
-
-
 struct regcell_t {
 	/*
 	 * 0 - indetermined

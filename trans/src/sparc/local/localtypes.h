@@ -21,9 +21,4 @@ typedef struct {
 
 extern ash ashof(shape);
 
-typedef struct {
-    bool is_special;
-    exp special_exp;
-} speci;
-
 #endif /* LOCALTYPES_INCLUDED */

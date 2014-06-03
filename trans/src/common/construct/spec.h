@@ -13,6 +13,14 @@
 #include <reader/exptypes.h>
 #include <local/localtypes.h>
 
+/*
+ * STRUCTURE REPRESENTING SPECIAL FUNCTIONS
+ */
+typedef struct {
+    bool is_special;
+    exp special_exp;
+} speci;
+
 extern speci special_fn(exp a1, exp a2, shape s);
 
  /* a1 is the function, a2 is the arguments, s is the shape of the result.

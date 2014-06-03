@@ -18,6 +18,7 @@
 
 #include <construct/installtypes.h>
 #include <construct/exp.h>
+#include <construct/spec.h>
 #include <construct/shapemacs.h>
 #include <construct/tags.h>
 #include <construct/machine.h>
