@@ -35,24 +35,11 @@ extern void comment4(char *, long, long, long, long);
 #define FULLCOMMENT3(s, a, b, c)	comment3(s, a, b, c)
 #define FULLCOMMENT4(s, a, b, c, d)	comment4(s, a, b, c, d)
 
-#ifdef DO_PRTDF
-
 /* TDF printing routines */
 #define EXP_NUM(x)			(int)(x)
-#define SH_NAME(x)			sh_name(x)
-#define TAG_NAME(x)			tag_name(x)
-#define ANSDISCRIM_NAME(x)		ansdiscrim_name(x)
+#define SH_NAME(x)			0 /* XXX: sh_name(x) */
+#define TAG_NAME(x)			0 /* XXX: tag_name(x) */
+#define ANSDISCRIM_NAME(x)	0 /* XXX: ansdiscrim_name(x) */
 #define PRTDF(s, e)			prtdf(s, e)
-
-#else /* DO_PRTDF */
-
-/* Dummy TDF printing macros */
-#define EXP_NUM(x)			(int)(x)
-#define SH_NAME(x)			(0)
-#define TAG_NAME(x)			(0)
-#define ANSDISCRIM_NAME(x)		(0)
-#define PRTDF(s, e)			(0)
-
-#endif /* DO_PRTDF */
 
 #endif /* COMMENT_INCLUDED */
