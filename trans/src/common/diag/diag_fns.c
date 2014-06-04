@@ -14,6 +14,8 @@
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
+#include <local/diag_config.h>
+
 #include <reader/exp.h>
 
 #include <reader/code.h>
