@@ -1033,6 +1033,9 @@ void stabd
   	   fprintf(dg_file,"\t.stabn\t0x%x,0,%ld,L$M%ld-%s\n",seg,
 		   lno,i,last_proc_lab);
 	   break;
+
+	default:
+		error(ERROR_SERIOUS, "unsupported diagnostics format");
 	}
 	fprintf(dg_file,"L$M%ld\n",i);
       }
@@ -1262,6 +1265,9 @@ void stab_file
 	  fprintf(dg_file, "\t.stabs\t\"%s\",0x64,0,0,L$M%ld\n",
        	     fds[findex] ->file.ints.chars, i);
 	  break;
+
+	default:
+		error(ERROR_SERIOUS, "unsupported diagnostics format");
        }
        fprintf(dg_file, "L$M%ld\n", i);
     }
@@ -1295,6 +1301,9 @@ static void stab_scope_open
       BB_id++;
       fprintf(dg_file,"L$BB%ld\n",BB_id);
       break;
+
+	default:
+		error(ERROR_SERIOUS, "unsupported diagnostics format");
    }
    bracket_level++;
 }
@@ -1329,6 +1338,9 @@ static void stab_scope_close
 		    last_proc_lab);
       fprintf(dg_file,"L$BE%ld\n",BE_id);
       break;
+
+	default:
+		error(ERROR_SERIOUS, "unsupported diagnostics format");
    }
    return;
 }

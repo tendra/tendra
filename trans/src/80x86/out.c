@@ -85,6 +85,9 @@ out_comment(void)
 		 * a special instruction */
 		outs(" #");
 		break;
+
+	default:
+		error(ERROR_SERIOUS, "unsupported assembler dialect");
 	}
 }
 

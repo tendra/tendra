@@ -148,6 +148,9 @@ unhas(void)
 		asm_no_btst_suffix = 0;
 		asm_cmp_reversed   = 1;
 		break;
+
+	default:
+		error(ERROR_SERIOUS, "unsupported assembler dialect");
 	}
 
 	if (abi == ABI_SUNOS) {

@@ -716,6 +716,9 @@ void out_profile
 	op2 = make_register(REG_A0);
 	make_instr(m_movl, op1, op2, regmsk(REG_A0));
 	break;
+
+    default:
+        error(ERROR_SERIOUS, "unsupported ABI");
     }
 
     if (save_a1) {
@@ -732,6 +735,9 @@ void out_profile
 	case ABI_HPUX:  libcall("mcount"); break;
 	case ABI_NEXT:  libcall("mcount"); break;
 	case ABI_SUNOS: libcall("mcount"); break; /* probably wrong */
+
+    default:
+        error(ERROR_SERIOUS, "unsupported ABI");
 	}
     }
 
@@ -764,6 +770,9 @@ void profile_hack
     case ABI_HPUX:  op1 = make_extern_data("mcount", 0); break;
     case ABI_NEXT:  op1 = make_extern_data("mcount", 0); break;
     case ABI_SUNOS: op1 = make_extern_data("mcount", 0); break;
+
+    default:
+        error(ERROR_SERIOUS, "unsupported ABI");
     }
     make_instr(m_jmp, op1, NULL, 0);
     area(pdata);

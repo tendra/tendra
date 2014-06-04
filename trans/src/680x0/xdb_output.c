@@ -157,6 +157,9 @@ void init_diag
 	    fprintf(diagfp2, "%s\n", instr_names[m_as_data]);
 	    fprintf(diagfp2, "%s\n", instr_names[m_dd_start]);
 	    break;
+
+	default:
+		error(ERROR_SERIOUS, "unsupported assembler dialect");
 	}
     }
     return;

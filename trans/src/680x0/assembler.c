@@ -9,6 +9,8 @@
 
 #include <stdio.h>
 
+#include <shared/error.h>
+
 #include <main/flags.h>
 #include <main/driver.h>
 
@@ -52,6 +54,9 @@ void asm_nprefix(void) {
 	case ASM_GAS:
 		fputc('#', as_file);
 		break;
+
+	default:
+		error(ERROR_SERIOUS, "unsupported assembler dialect");
 	}
 }
 
@@ -64,6 +69,9 @@ void asm_fprefix(void) {
 	case ASM_GAS:
 		fputs("0r", as_file);
 		break;
+
+	default:
+		error(ERROR_SERIOUS, "unsupported assembler dialect");
 	}
 }
 
@@ -72,14 +80,26 @@ void asm_ind_before(void) {
 	case ASM_HP:
 		fputc('(', as_file);
 		break;
+
+	case ASM_GAS:
+		break;
+
+	default:
+		error(ERROR_SERIOUS, "unsupported assembler dialect");
 	}
 }
 
 void asm_ind_middle(void) {
 	switch (assembler) {
+	case ASM_HP:
+		break;
+
 	case ASM_GAS:
 		fputc('@', as_file);
 		break;
+
+	default:
+		error(ERROR_SERIOUS, "unsupported assembler dialect");
 	}
 }
 
@@ -88,6 +108,12 @@ void asm_ind_after(void) {
 	case ASM_HP:
 		fputc(')', as_file);
 		break;
+
+	case ASM_GAS:
+		break;
+
+	default:
+		error(ERROR_SERIOUS, "unsupported assembler dialect");
 	}
 }
 
@@ -96,6 +122,9 @@ void asm_predec_before(void) {
 	case ASM_HP:
 		fputs(" - (", as_file);
 		break;
+
+	default:
+		error(ERROR_SERIOUS, "unsupported assembler dialect");
 	}
 }
 
@@ -108,6 +137,9 @@ void asm_predec_after(void) {
 	case ASM_GAS:
 		fputs("@ - ", as_file);
 		break;
+
+	default:
+		error(ERROR_SERIOUS, "unsupported assembler dialect");
 	}
 }
 
@@ -116,6 +148,12 @@ void asm_postinc_before(void) {
 	case ASM_HP:
 		fputc('(', as_file);
 		break;
+
+	case ASM_GAS:
+		break;
+
+	default:
+		error(ERROR_SERIOUS, "unsupported assembler dialect");
 	}
 }
 
@@ -128,6 +166,9 @@ void asm_postinc_after(void) {
 	case ASM_GAS:
 		fputs("@ + ", as_file);
 		break;
+
+	default:
+		error(ERROR_SERIOUS, "unsupported assembler dialect");
 	}
 }
 
@@ -136,6 +177,12 @@ void asm_scale_before(void) {
 	case ASM_HP:
 		fputc(',', as_file);
 		break;
+
+	case ASM_GAS:
+		break;
+
+	default:
+		error(ERROR_SERIOUS, "unsupported assembler dialect");
 	}
 }
 
@@ -148,6 +195,9 @@ void asm_scale(void) {
 	case ASM_GAS:
 		fputs(":l:", as_file);
 		break;
+
+	default:
+		error(ERROR_SERIOUS, "unsupported assembler dialect");
 	}
 }
 
@@ -160,6 +210,9 @@ void asm_scale_1(void) {
 	case ASM_GAS:
 		fputs(":l", as_file);
 		break;
+
+	default:
+		error(ERROR_SERIOUS, "unsupported assembler dialect");
 	}
 }
 
@@ -168,14 +221,26 @@ void asm_mem_before(void) {
 	case ASM_HP:
 		fputs("([", as_file);
 		break;
+
+	case ASM_GAS:
+		break;
+
+	default:
+		error(ERROR_SERIOUS, "unsupported assembler dialect");
 	}
 }
 
 void asm_mem_second(void) {
 	switch (assembler) {
+	case ASM_HP:
+		break;
+
 	case ASM_GAS:
 		fputc('@', as_file);
 		break;
+
+	default:
+		error(ERROR_SERIOUS, "unsupported assembler dialect");
 	}
 }
 
@@ -188,6 +253,9 @@ void asm_mem_third(void) {
 	case ASM_GAS:
 		fputc('@', as_file);
 		break;
+
+	default:
+		error(ERROR_SERIOUS, "unsupported assembler dialect");
 	}
 }
 
@@ -196,6 +264,12 @@ void asm_mem_after(void) {
 	case ASM_HP:
 		fputc(')', as_file);
 		break;
+
+	case ASM_GAS:
+		break;
+
+	default:
+		error(ERROR_SERIOUS, "unsupported assembler dialect");
 	}
 }
 

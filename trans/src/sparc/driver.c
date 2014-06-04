@@ -221,6 +221,9 @@ unhas(void)
 		use_long_double   = 0;
 		target_dbl_maxexp = 308;
 		break;
+
+	default:
+		error(ERROR_SERIOUS, "unsupported ABI");
 	}
 
 	/* check ABI conformance */

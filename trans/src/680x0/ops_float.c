@@ -622,6 +622,9 @@ void round_float
 		case ABI_NEXT:
 			float_to_unsigned(from, to, "__fixunsdfsi");
 			break;
+
+		default:
+			error(ERROR_SERIOUS, "unsupported ABI");
 		}
 	    return;
 	}
@@ -776,6 +779,9 @@ void int_to_float
 		move(realsh, D0_D1, fpr);
 		move(sha, fpr, to);
 		return;
+
+	default:
+		error(ERROR_SERIOUS, "unsupported ABI");
 	}
     }
 
