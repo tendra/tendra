@@ -179,11 +179,6 @@ option(char c, const char *optarg)
 static void
 unhas(void)
 {
-	/* errors messages are output on stdout, ensure they get out */
-	/* XXX: silly */
-	setbuf ( stdout, NULL ) ;
-	setbuf ( stderr, NULL ) ;
-
 	/* Things trans.sparc does not "has" */
 	has &= ~HAS_BYTEOPS;
 	has &= ~HAS_BYTEREGS;

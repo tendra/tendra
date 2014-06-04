@@ -57,9 +57,6 @@ init(void)
 	cconv     = CCONV_HPPA;
 	abi       = ABI_HPUX;
 
-	/* errors messages are output on stdout, ensure they get out */
-	setbuf(stdout, NULL);
-
 	redo_structfns     = 0; /* procs delivering structs recast to extra param */
 	redo_structparams  = 1; /* struct and union value parameters indirected   */
 	do_profile         = 0; /* -P option for profiling info */
