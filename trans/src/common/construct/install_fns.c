@@ -3834,6 +3834,7 @@ f_tail_call(procprops prcprops, exp p, callees callee_params)
 		callee_params = copy(callee_params);
 	}
 	e_p = getexp(f_top, res, 1, callee_params, NULL, prcprops, 0, 0);
+	(void) e_p; /* XXX: suspicious. should this value be used? */
 	has_setjmp = 1; /* stop inlining! */
 	has_alloca = 1; /* make sure has fp */
 	props(callee_params) = prcprops;
@@ -6411,7 +6412,6 @@ tidy_initial_values(void)
 	if (initial_as.number != 0) {
 		/* ie there are some dynamic initialisations */
 		exp prc;
-		dec *extra_dec;
 		tagshacc_list tsl;
 
 		exp ret = f_return(f_make_top());
@@ -6460,8 +6460,10 @@ tidy_initial_values(void)
 					       me_obtain(list_exp),
 					       me_obtain(str_exp))), 0);
 		} else {
+			dec *extra_dec;
 			extra_dec = make_extra_dec(add_prefix(name_prefix, init_NAME(good_name)),
 				0, 1, prc, f_proc);
+			(void) extra_dec; /* XXX: suspicious; should this value be used? */
 		}
 	}
 	if (do_prom && prom_as.number != 0) {
@@ -6479,5 +6481,6 @@ tidy_initial_values(void)
 		prc = f_make_proc(f_top, tsl, no_tagacc_option, seq);
 		extra_dec = make_extra_dec(add_prefix(name_prefix, init_NAME(good_name)),
 			0, 1, prc, f_proc);
+		(void) extra_dec; /* XXX: suspicious; should this value be used? */
 	}
 }
