@@ -593,7 +593,7 @@ static void check_exception
 #endif
 }
 #endif
-#define check_exception(e, sp)	((void)0)
+#define check_exception(e, sp)	((void) 0)
 
 #define PLUS_INFINITY 3
 

@@ -216,7 +216,7 @@ void make_code
 		outs(".set ");
 		outs(id);
 		outs(",");
-		outn((long)0);
+		outn(0);
 		outnl();
 	}
       }

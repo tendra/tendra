@@ -226,15 +226,15 @@ static void evalval
 	outs(", ");
 	if (isbigval(e)) {
 	  SET(x);
-	  outn((long)x.big);
+	  outn(x.big);
 	} else
 	if (is_signed(sh(e)) && k < 0)
-	  outn((long) -1);
+	  outn(-1);
 	else
-	  outn((long)0);
+	  outn(0);
 	break;
       default:
-	outn((long)k);
+	outn(k);
 	break;
     };
     return;
@@ -249,7 +249,7 @@ static void evalval
     outopenbr();
     outs(brog(son(son(e))) -> dec_u.dec_val.dec_id);
     outs(" + ");
-    outn((long)(no(e) + no(son(e))) / 8);
+    outn((no(e) + no(son(e))) / 8);
     outclosebr();
     return;
   };
@@ -259,7 +259,7 @@ static void evalval
       outopenbr();
       outs(brog(son(e)) -> dec_u.dec_val.dec_id);
       outs(" + ");
-      outn((long)no(e) / 8);
+      outn(no(e) / 8);
       outclosebr();
     }
     else
@@ -312,7 +312,7 @@ static  void clear_out
   }
   else {
     outs(".set .,.+");
-    outn((long)n);
+    outn(n);
     outnl();
   };
 

@@ -321,7 +321,7 @@ static void out_inreg
     else {
       outn((long)DW_OP_bregx); outsep(); uleb128((unsigned long)r);
     }
-    outsep(); outn((long)0);
+    outsep(); outn(0);
   }
   return;
 }
@@ -557,8 +557,8 @@ void dw_at_procdetails
     outn((long)DW_OP_reg0+dw_fp); d_outnl();
   }
   else {
-    outn((long)0); d_outnl();
-    out8(); outn((long)0); d_outnl();
+    outn(0); d_outnl();
+    out8(); outn(0); d_outnl();
   }
   return;
 }
@@ -588,14 +588,14 @@ void dw2_locate_result
   out8(); outn(length); outsep();
   if (multi) {
     outn((long)DW_OP_reg0); outsep();
-    outn((long)DW_OP_piece); outsep(); outn((long)4);
+    outn((long)DW_OP_piece); outsep(); outn(4);
     outsep();
     outn((long)DW_OP_reg0+2); outsep();
-    outn((long)DW_OP_piece); outsep(); outn((long)4);
+    outn((long)DW_OP_piece); outsep(); outn(4);
   }
   else
   if (indirect) {
-    outn((long)DW_OP_breg0); outsep(); outn((long)0);
+    outn((long)DW_OP_breg0); outsep(); outn(0);
   }
   else {
     out_inreg(reg, 0);
@@ -611,7 +611,7 @@ void dw2_locate_val
   out8();
   switch (v.k) {
     case NO_WH: {
-      outn((long)0);
+      outn(0);
       break;
     }
     case WH_STR: {
@@ -1037,7 +1037,7 @@ long dw2_prep_fde_restore_args
 	/* otherwise */
   here = set_dw_text_label();
   enter_section("debug_frame");
-  short_advance((long)0, here);
+  short_advance(0, here);
   out8(); outn((long)DW_CFA_restore + dwarfreg[3]); d_outnl();
   out8(); outn((long)DW_CFA_restore + dwarfreg[4]); d_outnl();
   out8(); outn((long)DW_CFA_restore + dwarfreg[5]); d_outnl();
@@ -1120,7 +1120,7 @@ void dw2_after_fde_exit
 {
   out_dwf_label(here, 1);
   enter_section("debug_frame");
-  short_advance((long)0, here);
+  short_advance(0, here);
   out8(); outn((long)DW_CFA_restore_state); d_outnl();
   exit_section();
   return;
@@ -1131,7 +1131,7 @@ void dw2_track_push
 {
   long here = set_dw_text_label();
   enter_section("debug_frame");
-  short_advance((long)0, here);
+  short_advance(0, here);
   out8(); outn((long)DW_CFA_DD_def_cfa_inc_offset); d_outnl();
   exit_section();
   return;
@@ -1142,7 +1142,7 @@ void dw2_track_pop
 {
   long here = set_dw_text_label();
   enter_section("debug_frame");
-  short_advance((long)0, here);
+  short_advance(0, here);
   out8(); outn((long)DW_CFA_DD_def_cfa_dec_offset); d_outnl();
   exit_section();
   return;
@@ -1153,7 +1153,7 @@ void dw2_track_sp
 {
   long here = set_dw_text_label();
   enter_section("debug_frame");
-  short_advance((long)0, here);
+  short_advance(0, here);
   out8(); outn((long)DW_CFA_DD_def_cfa_fixed_offset); d_outnl();
   out32(); outn((long)((extra_stack - stack_dec) / 8));
     outs("+");
@@ -1266,7 +1266,7 @@ void trace_dw_branch_exits
     clear_dg_labmark(labst);
     lab_mark_list = son(son(labst));
     son(son(labst)) = NULL;
-    IGNORE dw_entry(dwe_break,(long)0);
+    IGNORE dw_entry(dwe_break, 0);
     out32(); out_code_label((long)ptno(pt(son(dest)))); d_outnl();
   }
   return;
@@ -1320,7 +1320,7 @@ void dw_deallocated
     if (regassns[i].alloc == nm) {
       dw_close_regassn(i, 0);
       dw_close_regassn(i, 1);
-      regassns[i].alloc = (dg_name)0;
+      regassns[i].alloc = NULL;
       regassns[i].share_set = NULL;
     }
   }
@@ -1334,9 +1334,9 @@ void dw_all_deallocated		/* initialisation */
   for (i=0; i<TRACKREGS; i++) {
     dw_regassn * a = & (regassns[i].assn[0]);
     dw_regassn * b = & (regassns[i].assn[1]);
-    regassns[i].alloc = (dg_name)0;
+    regassns[i].alloc = NULL;
     regassns[i].share_set = NULL;
-    a->start = a->end = b->start = b->end = (long)0;
+    a->start = a->end = b->start = b->end = 0;
   }
   return;
 }
@@ -1354,7 +1354,7 @@ void dw_init_regassn
       dw_regassn * a = & (regassns[reg].assn[x]);
       a->nm = nm;
       a->start = set_dw_text_label();
-      a->end = (long)0;
+      a->end = 0;
     }
   }
   return;
@@ -1382,11 +1382,11 @@ void dw_close_regassn
     }
     dw_add_regshare(regassns[reg].share_set, a->nm,
 		a->start, a->end);
-    a->end = (long)0;
+    a->end = 0;
     if (!regassns[reg].alloc && !regassns[reg].assn[1-x].start)
       regassns[reg].share_set = NULL;
   }
-  a->start = (long)0;
+  a->start = 0;
   return;
 }
 

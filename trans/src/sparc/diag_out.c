@@ -177,8 +177,8 @@ long currentlno = -1;
 
 #ifdef NEWDIAGS
 
-dg_filename currentfile = (dg_filename)0;
-dg_filename prim_file = (dg_filename)0;
+dg_filename currentfile = NULL;
+dg_filename prim_file = NULL;
 
 #else
 

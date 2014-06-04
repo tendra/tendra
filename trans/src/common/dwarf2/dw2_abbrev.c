@@ -1207,7 +1207,7 @@ do_abbreviations(void)
 	set_attribute(0, 0);
 
 	out8();
-	outn((long)0);
+	outn(0);
 	d_outnl();
 	exit_section();
 	return;

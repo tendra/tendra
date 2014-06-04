@@ -230,11 +230,11 @@ dwarf2_postlude(void)
 				enter_section("debug_macinfo");
 				out_dwf_label(maclab, 1);
 				out_macros(this_comp->macros);
-				dw_at_data(1, (long)0);
+				dw_at_data(1, 0);
 				exit_section();
 			}
 			enter_section("debug_info");
-			IGNORE dw_entry(comp_dwe, (long)0);
+			IGNORE dw_entry(comp_dwe, 0);
 			dw_at_address(dw_text_start);
 			dw_at_address(text_end);
 			if (this_comp->prim_file->file_path[0] &&

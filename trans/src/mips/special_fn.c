@@ -47,8 +47,7 @@ special_fn(exp a1, exp a2, shape s, exp *e)
   if (builtin & BUILTIN_ALLOCA) {
     if (a2 != NULL && last(a2) && ( (do_alloca && !strcmp (id, "alloca"))
     			 || !strcmp (id, "__builtin_alloca"))) {
-      exp r = getexp (s, NULL, 0, a2, NULL, 0,
-  	(long) 0, alloca_tag);
+      exp r = getexp (s, NULL, 0, a2, NULL, 0, 0, alloca_tag);
       setfather(r, son(r));
       has_alloca = 1;
       *e = r;

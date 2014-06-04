@@ -41,7 +41,7 @@
 
 int doing_inlining = 0;
 
-dg_info current_dg_info = (dg_info)0;	/* needed when coding extra_diags */
+dg_info current_dg_info = NULL;	/* needed when coding extra_diags */
 exp current_dg_exp = NULL;		/* needed when coding extra_diags */
 
 short_sourcepos no_short_sourcepos;
@@ -82,7 +82,7 @@ new_dg_name(dg_name_key k)
 	ans = &((next_dg++)->nam);
 	ans->key = k;
 	ans->mor = (dg_more_name)0;
-	ans->next = (dg_name)0;
+	ans->next = NULL;
 	return ans;
 }
 
@@ -113,8 +113,8 @@ new_dg_info(dg_info_key k)
 	dg_clump_left--;
 	ans = &((next_dg++)->inf);
 	ans->key = k;
-	ans->this_tag = (dg_tag)0;
-	ans->more = (dg_info)0;
+	ans->this_tag = NULL;
+	ans->more = NULL;
 	return ans;
 }
 
@@ -128,10 +128,10 @@ extend_dg_name(dg_name nm)
 	}
 	dg_clump_left--;
 	nm->mor = mor = &((next_dg++)->mor);
-	mor->this_tag = (dg_tag)0;
-	mor->inline_ref = (dg_tag)0;
-	mor->refspec = (dg_tag)0;
-	mor->elabn = (dg_tag)0;
+	mor->this_tag = NULL;
+	mor->inline_ref = NULL;
+	mor->refspec = NULL;
+	mor->elabn = NULL;
 	mor->exptns = no_dg_type_list_option;
 	mor->end_pos = no_short_sourcepos;
 	mor->en_family = NULL;
@@ -159,10 +159,10 @@ extend_dg_type(dg_type tp)
 	}
 	dg_clump_left--;
 	tp->mor = mor = &((next_dg++)->mor);
-	mor->this_tag = (dg_tag)0;
-	mor->inline_ref = (dg_tag)0;
-	mor->refspec = (dg_tag)0;
-	mor->elabn = (dg_tag)0;
+	mor->this_tag = NULL;
+	mor->inline_ref = NULL;
+	mor->refspec = NULL;
+	mor->elabn = NULL;
 	mor->acc = DG_ACC_NONE;
 	mor->virt = DG_VIRT_NONE;
 	mor->isinline = 0;
@@ -183,8 +183,8 @@ init_dgtag(dg_tag tg)
 	tg->needed = 0;
 	tg->any_inl = 0;
 	tg->outref.k = NO_LAB;
-	tg->abstract_lab = (long)0;
-	tg->copy = (dg_tag)0;
+	tg->abstract_lab = 0;
+	tg->copy = NULL;
 	return;
 }
 
@@ -203,7 +203,7 @@ gen_tg_tag(void)
 dg_type
 get_qual_dg_type(dg_qual_type_key qual, dg_type typ)
 {
-	static dg_type qual_type_list[N_DG_QUAL_TYPES] = {(dg_type)0 };
+	static dg_type qual_type_list[N_DG_QUAL_TYPES] = {NULL };
 	dg_type ans = qual_type_list[qual];
 	while (ans) {
 		if (ans->data.t_qual.typ == typ) {
@@ -225,7 +225,7 @@ get_qual_dg_type(dg_qual_type_key qual, dg_type typ)
 dg_type
 get_dg_bitfield_type(dg_type typ, shape sha, bitfield_variety bv)
 {
-	static dg_type bf_list = (dg_type)0;
+	static dg_type bf_list = NULL;
 	dg_type ans = bf_list;
 	while (ans) {
 		if (ans->data.t_bitf.expanded == typ &&
@@ -270,7 +270,7 @@ idname_chars(dg_idname nam)
 dg_filename
 get_filename(long dat, char *host, char *path, char *nam)
 {
-	static dg_filename next_file = (dg_filename)0;
+	static dg_filename next_file = NULL;
 	static int filespace_left = 0;
 
 	dg_filename ans = all_files;
@@ -318,7 +318,7 @@ shorten_sourcepos(dg_sourcepos pos)
 		ans.column = 0;
 		break;
 	default:
-		ans.file = (dg_filename)0;
+		ans.file = NULL;
 		ans.line = 0;
 		ans.column = 0;
 	}
@@ -336,7 +336,7 @@ end_sourcepos(dg_sourcepos pos)
 		ans.column = pos.to_column;
 	}
 	else {
-		ans.file = (dg_filename)0;
+		ans.file = NULL;
 		ans.line = 0;
 		ans.column = 0;
 	}

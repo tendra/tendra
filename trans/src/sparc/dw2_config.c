@@ -142,7 +142,7 @@ void out_dwf_dist_to_label(long l)
 void out_dwf_labdiff(long lo, long hi)
 {
   if (hi == lo)
-    outn ((long)0);
+    outn (0);
   else {
     out_dwf_label (hi, 0); 
     outs (" - ");

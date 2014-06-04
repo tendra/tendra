@@ -468,7 +468,7 @@ complete_dw_locdata(void)
 				nm = master;
 				do {
 					if (regitem->nm == nm) {
-						regitem->nm = (dg_name)0;
+						regitem->nm = NULL;
 						break;
 					}
 					nm = (dg_name)((void *)bro(nm->data.n_obj.obtain_val));
@@ -497,7 +497,7 @@ complete_dw_locdata(void)
 			}
 		} else {
 			long share = 0;
-			master = nm = (dg_name)0;
+			master = nm = NULL;
 			while (regitem) {
 				if (!master) {
 					master = regitem->nm;

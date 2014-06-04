@@ -47,7 +47,7 @@ sourcemark f_dummy_sourcemark;
 
 #define DEBUG(x)	x
 
-static dg_filename primary_file = (dg_filename)0;
+static dg_filename primary_file = NULL;
 
 static nat zero_nat;
 
@@ -277,7 +277,7 @@ f_make_diagdef_unit(void)
 		while (* comp_unit_ptr) {
 			comp_unit_ptr = &(* comp_unit_ptr)->another;
 		}
-		primary_file = (dg_filename)0;
+		primary_file = NULL;
 		start_bytestream();
 		no_of_labels = small_dtdfint();
 		unit_no_of_labels = no_of_labels;
@@ -285,8 +285,7 @@ f_make_diagdef_unit(void)
 		desc_list = d_diag_descriptor_list();
 		end_bytestream();
 		if (!primary_file) {
-			primary_file = get_filename((long)0, "", "",
-						    "no_source_file");
+			primary_file = get_filename(0, "", "", "no_source_file");
 		}
 		(*comp_unit_ptr) = ans =
 		    (dg_compilation)xmalloc(sizeof(struct dg_comp_t));
@@ -296,12 +295,11 @@ f_make_diagdef_unit(void)
 		ans->language = 1;	/* assume ANSI C */
 		ans->id_case = 0;	/* case sensitive */
 		ans->producer = "TenDRA";
-		ans->comp_dir = get_filename((long)0, "", "unknown directory",
-					     "");
+		ans->comp_dir = get_filename(0, "", "unknown directory", "");
 		ans->options = new_string_list(0);
 		ans->dn_list = desc_list;
 		ans->macros = new_dg_macro_list(0);
-		ans->another = (dg_compilation)0;
+		ans->another = NULL;
 	}
 	within_diags = was_within_diags;
 	return;
@@ -403,7 +401,7 @@ f_add_diag_volatile(diag_tq qual)
 
 /*--------------------------diag_type -----------------------------*/
 
-diag_type f_diag_type_null = (dg_type)0;
+diag_type f_diag_type_null = NULL;
 
 diag_type
 f_diag_type_apply_token(token token_value, bitstream token_args)
@@ -813,7 +811,7 @@ start_make_diagtype_unit(int toks, int tags, int als, int diags)
 	for (i = 0; i < unit_no_of_diagtags; ++i) {
 		unit_ind_diagtags[i] = NULL;
 	}
-	s_tags = (dg_name)0;
+	s_tags = NULL;
 	return;
 }
 
@@ -883,19 +881,17 @@ f_make_diagtype_unit(void)
 		}
 		(*comp_unit_ptr) = ans =
 		    (dg_compilation)xmalloc(sizeof(struct dg_comp_t));
-		ans->prim_file = get_filename((long)0, "", "",
-					      "no_source_file");
+		ans->prim_file = get_filename(0, "", "", "no_source_file");
 		ans->comp_deps = new_string_list(0);
 		ans->date = 0;
 		ans->language = 1;	/* assume ANSI C */
 		ans->id_case = 0;	/* case sensitive */
 		ans->producer = "TenDRA";
-		ans->comp_dir = get_filename((long)0, "", "unknown directory",
-					     "");
+		ans->comp_dir = get_filename(0, "", "unknown directory", "");
 		ans->options = new_string_list(0);
 		ans->dn_list = s_tags;
 		ans->macros = new_dg_macro_list(0);
-		ans->another = (dg_compilation)0;
+		ans->another = NULL;
 	}
 	within_diags = was_within_diags;
 	return 0;

@@ -37,7 +37,7 @@ static int clean_copy = 0; /* set by copy_dg_separate */
 
 int doing_inlining = 0;
 
-dg_info current_dg_info = (dg_info)0;	/* needed when coding extra_diags */
+dg_info current_dg_info = NULL;	/* needed when coding extra_diags */
 exp current_dg_exp = NULL;		/* needed when coding extra_diags */
 
 short_sourcepos no_short_sourcepos;
@@ -78,7 +78,7 @@ new_dg_name(dg_name_key k)
 	ans = &((next_dg++)->nam);
 	ans->key = k;
 	ans->mor = (dg_more_name)0;
-	ans->next = (dg_name)0;
+	ans->next = NULL;
 	return ans;
 }
 
@@ -109,8 +109,8 @@ new_dg_info(dg_info_key k)
 	dg_clump_left--;
 	ans = &((next_dg++)->inf);
 	ans->key = k;
-	ans->this_tag = (dg_tag)0;
-	ans->more = (dg_info)0;
+	ans->this_tag = NULL;
+	ans->more = NULL;
 	return ans;
 }
 
@@ -124,10 +124,10 @@ extend_dg_name(dg_name nm)
 	}
 	dg_clump_left--;
 	nm->mor = mor = &((next_dg++)->mor);
-	mor->this_tag = (dg_tag)0;
-	mor->inline_ref = (dg_tag)0;
-	mor->refspec = (dg_tag)0;
-	mor->elabn = (dg_tag)0;
+	mor->this_tag = NULL;
+	mor->inline_ref = NULL;
+	mor->refspec = NULL;
+	mor->elabn = NULL;
 	mor->exptns = no_dg_type_list_option;
 	mor->end_pos = no_short_sourcepos;
 	mor->en_family = NULL;
@@ -155,10 +155,10 @@ extend_dg_type(dg_type tp)
 	}
 	dg_clump_left--;
 	tp->mor = mor = &((next_dg++)->mor);
-	mor->this_tag = (dg_tag)0;
-	mor->inline_ref = (dg_tag)0;
-	mor->refspec = (dg_tag)0;
-	mor->elabn = (dg_tag)0;
+	mor->this_tag = NULL;
+	mor->inline_ref = NULL;
+	mor->refspec = NULL;
+	mor->elabn = NULL;
 	mor->acc = DG_ACC_NONE;
 	mor->virt = DG_VIRT_NONE;
 	mor->isinline = 0;
@@ -179,8 +179,8 @@ init_dgtag(dg_tag tg)
 	tg->needed = 0;
 	tg->any_inl = 0;
 	tg->outref.k = NO_LAB;
-	tg->abstract_lab = (long)0;
-	tg->copy = (dg_tag)0;
+	tg->abstract_lab = 0;
+	tg->copy = NULL;
 	return;
 }
 
@@ -199,7 +199,7 @@ gen_tg_tag(void)
 dg_type
 get_qual_dg_type(dg_qual_type_key qual, dg_type typ)
 {
-	static dg_type qual_type_list[N_DG_QUAL_TYPES] = {(dg_type)0 };
+	static dg_type qual_type_list[N_DG_QUAL_TYPES] = {NULL };
 	dg_type ans = qual_type_list[qual];
 	while (ans) {
 		if (ans->data.t_qual.typ == typ) {
@@ -221,7 +221,7 @@ get_qual_dg_type(dg_qual_type_key qual, dg_type typ)
 dg_type
 get_dg_bitfield_type(dg_type typ, shape sha, bitfield_variety bv)
 {
-	static dg_type bf_list = (dg_type)0;
+	static dg_type bf_list = NULL;
 	dg_type ans = bf_list;
 	while (ans) {
 		if (ans->data.t_bitf.expanded == typ &&
@@ -266,7 +266,7 @@ idname_chars(dg_idname nam)
 dg_filename
 get_filename(long dat, char *host, char *path, char *nam)
 {
-	static dg_filename next_file = (dg_filename)0;
+	static dg_filename next_file = NULL;
 	static int filespace_left = 0;
 
 	dg_filename ans = all_files;
@@ -314,7 +314,7 @@ shorten_sourcepos(dg_sourcepos pos)
 		ans.column = 0;
 		break;
 	default:
-		ans.file = (dg_filename)0;
+		ans.file = NULL;
 		ans.line = 0;
 		ans.column = 0;
 	}
@@ -332,7 +332,7 @@ end_sourcepos(dg_sourcepos pos)
 		ans.column = pos.to_column;
 	}
 	else {
-		ans.file = (dg_filename)0;
+		ans.file = NULL;
 		ans.line = 0;
 		ans.column = 0;
 	}
@@ -501,7 +501,7 @@ static dg_tag
 find_obj_ref(exp contex, exp e)
 {
 	/* e is name_tag for required object */
-	dg_tag ans = (dg_tag)0;
+	dg_tag ans = NULL;
 	while ((name(contex) != ident_tag || !isglob(contex)) &&
 	       (!dgf(contex) || !end_ref_search(e, dgf(contex), &ans))) {
 		contex = father(contex);
@@ -757,14 +757,14 @@ update_diag_copy(exp e, dg_info d, int update)
 		} else {
 			/* remove all dg_tag copies */
 			if (d->this_tag && (doing_inlining || clean_copy)) {
-				d->this_tag->copy = (dg_tag)0;
+				d->this_tag->copy = NULL;
 			}
 			/* otherwise keep record for code movement */
 			switch (d->key) {
 			case DGA_NAME: {
 				dg_name a = d->data.i_nam.dnam;
 				if (a->mor && a->mor->this_tag) {
-					a->mor->this_tag->copy = (dg_tag)0;
+					a->mor->this_tag->copy = NULL;
 				}
 				break;
 			}
@@ -773,7 +773,7 @@ update_diag_copy(exp e, dg_info d, int update)
 				while (a) {
 					if (a->mor && a->mor->this_tag) {
 						a->mor->this_tag->copy =
-						    (dg_tag)0;
+						    NULL;
 					}
 					a = a->next;
 				}
@@ -782,7 +782,7 @@ update_diag_copy(exp e, dg_info d, int update)
 			case DGA_X_CATCH: {
 				dg_name a = d->data.i_catch.ex;
 				if (a->mor && a->mor->this_tag) {
-					a->mor->this_tag->copy = (dg_tag)0;
+					a->mor->this_tag->copy = NULL;
 				}
 				break;
 			}
@@ -1055,7 +1055,7 @@ diag_hold_refactor(exp e)
 }
 
 
-static dg_tag current_inliner = (dg_tag)0;
+static dg_tag current_inliner = NULL;
 
 static int
 ref_param(exp e)
@@ -1086,7 +1086,7 @@ start_diag_inlining(exp e, dg_name dn)
 	exp body = son(e);
 	dg_info di;
 	int any_inl;
-	dg_name_list args = (dg_name)0;
+	dg_name_list args = NULL;
 	if (!dn || dn->key != DGN_PROC) {
 		return;
 	}
@@ -1262,7 +1262,7 @@ gather_detch(exp e, dg_info *dx, int reason, int descend, int reuse,
 			d->data.i_movd.lost = 1;
 			if (d->more->key == DGA_INL_CALL) {
 				/* ignore internals */
-				*dx = (dg_info)0;
+				*dx = NULL;
 				return NULL;
 			}
 			*dx = d->more->more;
@@ -1290,12 +1290,12 @@ gather_detch(exp e, dg_info *dx, int reason, int descend, int reuse,
 				failer("lost movd?");
 			}
 			IGNORE f_make_tag_dg(gen_tg_tag(), d);
-			ans->info = (dg_info)0;
+			ans->info = NULL;
 			ans->tg = d->this_tag;
 		} else {
 			/* original about to be discarded */
 			ans->info = d;
-			d->more = (dg_info)0;
+			d->more = NULL;
 			ans->tg = opt_ref;
 		}
 		return ans;
@@ -1361,7 +1361,7 @@ void
 dg_dead_code(exp dead, exp prev)
 {
 	/* mark removal of dead code following prev */
-	dg_detach(dead, prev, +1, DGD_DEAD, 1, 0, (dg_tag)0);
+	dg_detach(dead, prev, +1, DGD_DEAD, 1, 0, NULL);
 	return;
 }
 
@@ -1370,7 +1370,7 @@ void
 dg_rdnd_code(exp rdnd, exp next)
 {
 	/* mark removal of redundant code before next */
-	dg_detach(rdnd, next, -1, DGD_RDND, 1, 0, (dg_tag)0);
+	dg_detach(rdnd, next, -1, DGD_RDND, 1, 0, NULL);
 	return;
 }
 
@@ -1379,7 +1379,7 @@ void
 dg_detach_const(exp part, exp whole)
 {
 	/* incorporated part in whole evaluated constant*/
-	dg_detach(part, whole, 0, DGD_CNST, 0, 0, (dg_tag)0);
+	dg_detach(part, whole, 0, DGD_CNST, 0, 0, NULL);
 	return;
 }
 
@@ -1388,7 +1388,7 @@ void
 dg_restruct_code(exp outer, exp inner, int posn)
 {
 	/* mark movement of inner into outer */
-	dg_detach(inner, outer, posn, DGD_MOVD, 1, 1, (dg_tag)0);
+	dg_detach(inner, outer, posn, DGD_MOVD, 1, 1, NULL);
 	return;
 }
 
@@ -1410,14 +1410,14 @@ dg_rem_ass(exp ass)
 		dgf(val) = nildiag;
 		rem->data.i_remval.val = copy(val);
 		dgf(val) = h;
-		rem->data.i_remval.lo_pc = (long)0;
+		rem->data.i_remval.lo_pc = 0;
 		rem->more = nildiag;
 		while (*dx) {
 			dx = &((*dx)->more);
 		}
 		*dx = rem;
 	}
-	dg_detach(ass, bro(son(ass)), -1, DGD_REM, 0, 0, (dg_tag)0);
+	dg_detach(ass, bro(son(ass)), -1, DGD_REM, 0, 0, NULL);
 	return;
 }
 

@@ -103,16 +103,16 @@ make_dwarf_common(void)
 	capnames = new_dg_name_list(15);
 	make_basic_types();
 	ans = (dg_compilation)xmalloc(sizeof(struct dg_comp_t));
-	ans->prim_file = get_filename((long)0, "", "", "");
+	ans->prim_file = get_filename(0, "", "", "");
 	ans->comp_deps = new_string_list(0);
 	ans->date = 0;
 	ans->language = 1;	/* assume ANSI C */
 	ans->id_case = 0;	/* case sensitive */
 	ans->producer = "TenDRA";
-	ans->comp_dir = get_filename((long)0, "", "", "");
+	ans->comp_dir = get_filename(0, "", "", "");
 	ans->options = new_string_list(0);
 	ans->dn_list = capnames;
 	ans->macros = new_dg_macro_list(0);
-	ans->another = (dg_compilation)0;
+	ans->another = NULL;
 	all_comp_units = ans;
 }

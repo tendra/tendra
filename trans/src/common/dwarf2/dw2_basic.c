@@ -178,7 +178,7 @@ do_compunit_header(void)
 	outn((long)PTR_SZ/8);
 	d_outnl();
 	out8();
-	outn((long)0);
+	outn(0);
 	d_outnl();
 	dot_align(PTR_SZ/4);
 	exit_section();
@@ -197,7 +197,7 @@ close_compunit_info(void)
 	exit_section();
 	enter_section("debug_pubnames");
 	out32();
-	outn((long)0);
+	outn(0);
 	d_outnl();
 	out_dwf_label(pubnames_end, 1);
 	if (needs_debug_align) {
@@ -206,10 +206,10 @@ close_compunit_info(void)
 	exit_section();
 	enter_section("debug_aranges");
 	out32();
-	outn((long)0);
+	outn(0);
 	d_outnl();
 	out32();
-	outn((long)0);
+	outn(0);
 	d_outnl();
 	out_dwf_label(aranges_end, 1);
 	exit_section();
@@ -416,7 +416,7 @@ void
 dw_no_locate(void)
 {
 	out8();
-	outn((long)0);
+	outn(0);
 	outnl_comment("discarded variable");
 	return;
 }

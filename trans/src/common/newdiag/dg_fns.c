@@ -31,8 +31,8 @@
 #include "dg_globs.h"
 
 
-dg_filename all_files = (dg_filename)0;
-dg_compilation all_comp_units = (dg_compilation)0;
+dg_filename all_files = NULL;
+dg_compilation all_comp_units = NULL;
 
 
 
@@ -228,7 +228,7 @@ f_lexical_block_dg(dg_idname_option idname, dg_sourcepos src_pos)
 	ans->data.i_scope.lexname = idname_chars(idname);
 	ans->data.i_scope.lexpos = shorten_sourcepos(src_pos);
 	ans->data.i_scope.endpos = end_sourcepos(src_pos);
-	ans->data.i_scope.begin_st = (long)0;
+	ans->data.i_scope.begin_st = 0;
 	return ans;
 }
 
@@ -256,7 +256,7 @@ f_inline_result_dg(dg_tag inline_id)
 	dg ans = new_dg_info(DGA_INL_RES);
 	ans->data.i_res.call = inline_id;
 	ans->data.i_res.res.k = NO_WH;
-	ans->data.i_res.next = (dg_info)0;
+	ans->data.i_res.next = NULL;
 	return ans;
 }
 
@@ -309,8 +309,8 @@ f_abortable_part_dg(dg_sourcepos src_pos, bool no_code)
 	ans->data.i_rvs.has_iv = 0;
 	ans->data.i_rvs.alt = 0;
 	ans->data.i_rvs.pos = shorten_sourcepos(src_pos);
-	ans->data.i_rvs.u.tg = (dg_tag)0;
-	ans->data.i_rvs.en = (dg_tag)0;
+	ans->data.i_rvs.u.tg = NULL;
+	ans->data.i_rvs.en = NULL;
 	return ans;
 }
 
@@ -446,7 +446,7 @@ f_requeue_dg(dg_sourcepos stmt_src_pos, dg_tag entry, bool with_abort)
 	ans->data.i_rvs.alt = 0;
 	ans->data.i_rvs.w_abort = with_abort;
 	ans->data.i_rvs.pos = shorten_sourcepos(stmt_src_pos);
-	ans->data.i_rvs.u.tg = (dg_tag)0;
+	ans->data.i_rvs.u.tg = NULL;
 	ans->data.i_rvs.en = entry;
 	return ans;
 }
@@ -479,7 +479,7 @@ f_select_dg(dg_sourcepos src_pos, bool async)
 	ans->data.i_rvs.alt = 0;
 	ans->data.i_rvs.async = async;
 	ans->data.i_rvs.pos = shorten_sourcepos(src_pos);
-	ans->data.i_rvs.u.tg = (dg_tag)0;
+	ans->data.i_rvs.u.tg = NULL;
 	return ans;
 }
 
@@ -495,7 +495,7 @@ f_select_alternative_dg(dg_sourcepos src_pos, nat alt_kind, bool no_code,
 	ans->data.i_rvs.alt = 0;
 	ans->data.i_rvs.kind = alt_kind.nat_val.small_nat;
 	ans->data.i_rvs.pos = shorten_sourcepos(src_pos);
-	ans->data.i_rvs.u.tg = (dg_tag)0;
+	ans->data.i_rvs.u.tg = NULL;
 	ans->data.i_rvs.u2.e = diaginfo_exp(alt_value);
 	return ans;
 }
@@ -544,7 +544,7 @@ f_triggering_alternative_dg(dg_sourcepos src_pos, nat alt_kind, bool no_code)
 	ans->data.i_rvs.alt = 0;
 	ans->data.i_rvs.kind = alt_kind.nat_val.small_nat;
 	ans->data.i_rvs.pos = shorten_sourcepos(src_pos);
-	ans->data.i_rvs.u.tg = (dg_tag)0;
+	ans->data.i_rvs.u.tg = NULL;
 	return ans;
 }
 
@@ -672,7 +672,7 @@ f_dg_proc_name(dg_idname idname, dg_sourcepos whence, dg_type type,
 	} else {
 		ans->data.n_proc.obtain_val = NULL;
 	}
-	ans->data.n_proc.params = (dg_info)0;
+	ans->data.n_proc.params = NULL;
 	if (accessibility != DG_ACC_NONE || virtuality != DG_VIRT_NONE ||
 	    isinline || extra_diags || elaboration || exceptions.len >= 0) {
 		extend_dg_name(ans);
@@ -723,7 +723,7 @@ f_dg_type_name(dg_idname_option idname, dg_sourcepos whence,
 	if (idname.id_key == DG_ID_NONE) {
 		ans->data.n_typ.named = type;
 	} else {
-		ans->data.n_typ.named = (dg_type)0;
+		ans->data.n_typ.named = NULL;
 	}
 	if (accessibility != DG_ACC_NONE || new_type ||
 	    (ada_derived.present && ada_derived.val)) {
@@ -776,9 +776,9 @@ f_dg_program_name(dg_idname idname, dg_sourcepos whence, exp obtain_value)
 	dg_name ans = new_dg_name(DGN_PROC);
 	ans->idnam = idname;
 	ans->whence = shorten_sourcepos(whence);
-	ans->data.n_proc.typ = (dg_type)0;
+	ans->data.n_proc.typ = NULL;
 	ans->data.n_proc.obtain_val = diaginfo_exp(obtain_value);
-	ans->data.n_proc.params = (dg_info)0;
+	ans->data.n_proc.params = NULL;
 	extend_dg_name(ans);
 	ans->mor->prognm = 1;
 	return ans;
@@ -1107,7 +1107,7 @@ f_dg_struct_type(dg_classmem_list fields, shape_option sha,
 }
 
 
-dg_type f_dg_void_type = (dg_type)0;
+dg_type f_dg_void_type = NULL;
 
 dg_type
 f_dg_set_type(dg_type element_type, shape sha)
@@ -1404,7 +1404,7 @@ f_dg_synchronous_type(dg_idname idname, dg_sourcepos whence,
 		ans->mor->elabn = elaboration;
 	}
 	ans->data.t_struct.u.td->entries = entries;
-	ans->data.t_struct.u.td->id = (dg_tag)0;
+	ans->data.t_struct.u.td->id = NULL;
 	ans->data.t_struct.u.td->cb = socb;
 	ans->data.t_struct.u.td->members = members;
 	ans->data.t_struct.vpart = varpart;
@@ -1490,7 +1490,7 @@ f_dg_field_classmem(dg_idname idname, dg_sourcepos src_pos, exp offset,
 	}
 	ans.d.cm_f.discr = is_discr;
 	ans.d.cm_f.dflt = deflt;
-	ans.tg = (dg_tag)0;
+	ans.tg = NULL;
 	return ans;
 }
 
@@ -1506,7 +1506,7 @@ f_dg_function_classmem(dg_name fn, exp_option vtable_slot)
 	} else {
 		ans.d.cm_fn.slot = NULL;
 	}
-	ans.tg = (dg_tag)0;
+	ans.tg = NULL;
 	return ans;
 }
 
@@ -1522,7 +1522,7 @@ f_dg_indirect_classmem(dg_idname idname, dg_sourcepos src_pos, token location,
 	ans.d.cm_ind.typ = cmem_type;
 	ans.d.cm_ind.ind_loc = relative_exp(f_pointer(f_alignment(ulongsh)),
 					    location);
-	ans.tg = (dg_tag)0;
+	ans.tg = NULL;
 	return ans;
 }
 
@@ -1533,7 +1533,7 @@ f_dg_name_classmem(dg_name nam)
 	dg_classmem ans;
 	ans.cm_key = DG_CM_STAT;
 	ans.d.cm_stat = nam;
-	ans.tg = (dg_tag)0;
+	ans.tg = NULL;
 	return ans;
 }
 
@@ -1596,7 +1596,7 @@ f_dg_unknown_bound(shape sha)
 {
 	dg_bound ans;
 	ans.is_ref = 1;
-	ans.u.tg = (dg_tag)0;
+	ans.u.tg = NULL;
 	ans.sha = sha;
 	return ans;
 }
@@ -1649,7 +1649,7 @@ f_dg_bounds_dim(dg_bound low, dg_bound high, dg_type index_type)
 	} else {
 		ans.count = (long)(no(son(high.u.x)) - no(son(low.u.x)) + 1);
 	}
-	ans.tg = (dg_tag)0;
+	ans.tg = NULL;
 	return ans;
 }
 
@@ -1671,7 +1671,7 @@ f_dg_count_dim(dg_bound low, dg_bound count, dg_type index_type)
 	} else {
 		ans.count = (long)(no(son(count.u.x)));
 	}
-	ans.tg = (dg_tag)0;
+	ans.tg = NULL;
 	return ans;
 }
 
@@ -1687,7 +1687,7 @@ f_dg_type_dim(dg_type type, nat_option n)
 	} else {
 		ans.count = -1;
 	}
-	ans.tg = (dg_tag)0;
+	ans.tg = NULL;
 	return ans;
 }
 
@@ -1701,11 +1701,11 @@ init_dg_dim(void)
 	f_dg_unspecified_dim.low_ref = f_dg_unspecified_dim.hi_ref = 1;
 	f_dg_unspecified_dim.hi_cnt = 0;
 	f_dg_unspecified_dim.count = -1;
-	f_dg_unspecified_dim.d_typ = (dg_type)0;
+	f_dg_unspecified_dim.d_typ = NULL;
 	f_dg_unspecified_dim.sha = f_top;
 	f_dg_unspecified_dim.lower.tg = f_dg_unspecified_dim.upper.tg =
-	    (dg_tag)0;
-	f_dg_unspecified_dim.tg = (dg_tag)0;
+	    NULL;
+	f_dg_unspecified_dim.tg = NULL;
 	return;
 }
 
@@ -1723,7 +1723,7 @@ f_make_dg_enum(exp value, dg_idname idname, dg_sourcepos src_pos)
 	ans.pos = shorten_sourcepos(src_pos);
 	ans.value = diaginfo_exp(value);
 	ans.is_chn = 0;
-	ans.tg = (dg_tag)0;
+	ans.tg = NULL;
 	return ans;
 }
 
@@ -1739,7 +1739,7 @@ f_dg_char_enum(exp value, nat idchar, dg_sourcepos src_pos)
 	ans.pos = shorten_sourcepos(src_pos);
 	ans.value = diaginfo_exp(value);
 	ans.is_chn = 1;
-	ans.tg = (dg_tag)0;
+	ans.tg = NULL;
 	return ans;
 }
 
@@ -1957,7 +1957,7 @@ f_make_dg_compilation(dg_filename primary_file, string_list comp_unit_deps,
 	if (dnames.tg) {
 		dnames.tg->p.nl = &(ans->dn_list);
 	}
-	ans->another = (dg_compilation)0;
+	ans->another = NULL;
 	ans->macros = macros;
 	return ans;
 }
@@ -1979,7 +1979,7 @@ f_dg_type_constraint(dg_tag_option ref_member, dg_type type)
 	ans->refmem = ref_member;
 	ans->is_val = 0;
 	ans->u.typ = type;
-	ans->next = (dg_constraint)0;
+	ans->next = NULL;
 	return ans;
 }
 
@@ -1991,7 +1991,7 @@ f_dg_value_constraint(dg_tag_option ref_member, exp value)
 	ans->refmem = ref_member;
 	ans->is_val = 1;
 	ans->u.val = value;
-	ans->next = (dg_constraint)0;
+	ans->next = NULL;
 	return ans;
 }
 
@@ -2015,7 +2015,7 @@ f_make_dg_default(exp_option value, dg_sourcepos_option src_span)
 		ans.val = NULL;
 	}
 	ans.span = src_span;
-	ans.lab = (long)0;
+	ans.lab = 0;
 	return ans;
 }
 
@@ -2491,7 +2491,7 @@ f_make_dg_namelist(dg_name_list items)
 {
 	dg_namelist ans;
 	ans.list = items;
-	ans.tg = (dg_tag)0;
+	ans.tg = NULL;
 	return ans;
 }
 
@@ -2600,7 +2600,7 @@ init_dg_idname_option(void)
 }
 
 
-dg_name_option no_dg_name_option = (dg_name)0;
+dg_name_option no_dg_name_option = NULL;
 
 dg_name_option
 yes_dg_name_option(dg_name elem)
@@ -2632,7 +2632,7 @@ init_dg_accessibility_option(void)
 }
 
 
-dg_tag_option no_dg_tag_option = (dg_tag)0;
+dg_tag_option no_dg_tag_option = NULL;
 
 dg_tag_option
 yes_dg_tag_option(dg_tag elem)
@@ -2682,7 +2682,7 @@ init_dg_sourcepos_option(void)
 }
 
 
-dg_type_option no_dg_type_option = (dg_type)0;
+dg_type_option no_dg_type_option = NULL;
 
 dg_type_option
 yes_dg_type_option(dg_type elem)
@@ -2716,7 +2716,7 @@ init_dg_type_list_option(void)
 }
 
 
-dg_constraint_list_option no_dg_constraint_list_option = (dg_constraint)0;
+dg_constraint_list_option no_dg_constraint_list_option = NULL;
 
 dg_constraint_list_option
 yes_dg_constraint_list_option(dg_constraint_list elem)
@@ -2784,7 +2784,7 @@ init_dg_dim_option(void)
 }
 
 
-dg_filename_option no_dg_filename_option = (dg_filename)0;
+dg_filename_option no_dg_filename_option = NULL;
 
 dg_filename_option
 yes_dg_filename_option(dg_filename elem)

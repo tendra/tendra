@@ -213,7 +213,7 @@ static loc_s find_loc(exp e)
 	l.key = L_INREG;
       }
       else
-	l = find_in_store (son(e), (long)no(e)/8);
+	l = find_in_store (son(e), no(e)/8);
       break;
     }
 
@@ -275,7 +275,7 @@ static loc_s find_loc(exp e)
 	l.key = L_INREG;
       }
       else
-	l = find_in_store (son(son(e)), (long)no(son(e))/8);
+	l = find_in_store (son(son(e)), no(son(e))/8);
       break;
     }
 
@@ -312,18 +312,18 @@ static void out_inreg(int r, int more)
 {
   if (!more) {
     if (r < 32)
-      outn ((long)(DW_OP_reg0 + r));
+      outn (DW_OP_reg0 + r);
     else {
-      outn ((long)DW_OP_regx); outsep(); uleb128((unsigned long)r);
+      outn (DW_OP_regx); outsep(); uleb128((unsigned long)r);
     }
   }
   else {
     if (r < 32)
-      outn ((long)(DW_OP_breg0 + r));
+      outn (DW_OP_breg0 + r);
     else {
-      outn ((long)DW_OP_bregx); outsep(); uleb128((unsigned long)r);
+      outn (DW_OP_bregx); outsep(); uleb128((unsigned long)r);
     }
-    outsep(); outn ((long)0);
+    outsep(); outn (0);
   }
   return;
 }
@@ -336,7 +336,7 @@ static int regoff_length(loc_s l)
 
 static void out_regoff(loc_s l)
 {
-  outn ((long)(l.reg == R_FP ? DW_OP_fbreg : DW_OP_breg0 + l.reg)); outsep();
+  outn (l.reg == R_FP ? DW_OP_fbreg : DW_OP_breg0 + l.reg); outsep();
   sleb128 (l.off);
   return;
 }
@@ -358,8 +358,8 @@ static int split_length(loc_s l)
 static void out_split(loc_s l)
 {
   out_inreg (l.reg + R_O0, 0);
-  outsep(); outn ((long)DW_OP_piece);
-  outsep(); outn ((long)4); outsep();
+  outsep(); outn (DW_OP_piece);
+  outsep(); outn (4); outsep();
   if (l.reg == last_param_reg) {
     l.key = L_REGOFF;
     l.off = (l.reg * 4) + 72;
@@ -368,8 +368,8 @@ static void out_split(loc_s l)
   }
   else
     out_inreg (l.reg + R_O1, 0);
-  outsep(); outn ((long)DW_OP_piece);
-  outsep(); outn ((long)4);
+  outsep(); outn (DW_OP_piece);
+  outsep(); outn (4);
   return;
 }
 
@@ -383,11 +383,11 @@ static int glob_length(loc_s l)
 
 static void out_glob(loc_s l)
 {
-  outn ((long)DW_OP_addr); d_outnl ();
+  outn (DW_OP_addr); d_outnl ();
   out32 (); outlab (l.reg);
   if (l.off) {
     outs (" + ");
-    outn ((long)l.off);
+    outn (l.off);
   }
   return;
 }
@@ -466,18 +466,18 @@ static void out_indirect(exp e)
   }
   switch (name(e)) {
     case cont_tag: {
-      outn ((long)DW_OP_deref);
+      outn (DW_OP_deref);
       break;
     }
     case reff_tag: {
       if (no(e) >= 0) {
-	outn ((long)DW_OP_plus_uconst); outsep();
+	outn (DW_OP_plus_uconst); outsep();
 	uleb128 ((unsigned long)(no(e)/8));
       }
       else {
-	outn ((long)DW_OP_constu); outsep();
+	outn (DW_OP_constu); outsep();
 	uleb128 ((unsigned long)(-no(e)/8)); outsep();
-	outn ((long)DW_OP_minus);
+	outn (DW_OP_minus);
       }
       break;
     }
@@ -526,7 +526,7 @@ void dw2_locate_exp(exp e, int locate_const, int cx)
       outs (" - . - 1");
   }
   else
-    outn ((long)length);
+    outn (length);
   d_outnl();
   if (no_location)
     return;
@@ -548,7 +548,7 @@ void dw2_locate_exp(exp e, int locate_const, int cx)
       failer ("constant location???");
 #endif
     outsep();
-    outn ((long)DW_OP_deref);
+    outn (DW_OP_deref);
     extra_deref--;
   }
   d_outnl ();
@@ -602,7 +602,7 @@ void dw2_locate_result(shape sha)
     l.key = L_REGOFF;
     l.reg = R_FP;
     l.off = 64;
-    outn ((long)regoff_length (l)); outsep();
+    outn (regoff_length (l)); outsep();
     out_regoff (l);
   }
   else {
@@ -619,7 +619,7 @@ void dw2_locate_result(shape sha)
       failer ("inconsistent result");
       r = R_G0;
     }
-    outn ((long)inreg_length (r, 0)); outsep();
+    outn (inreg_length (r, 0)); outsep();
     out_inreg (r, 0);
   }
   d_outnl ();
@@ -628,11 +628,11 @@ void dw2_locate_result(shape sha)
 
 void dw_at_procdetails(void)
 {			/* return address and frame base */
-  out8(); outn((long)2); outsep();
-  outn((long)DW_OP_breg0 + R_I7); outsep();
-  outn ((long)(has_struct_res (this_proc) ? 12 : 8)); d_outnl();
-  out8(); outn((long)1); outsep();
-  outn((long)DW_OP_reg0 + R_SP); d_outnl();
+  out8(); outn(2); outsep();
+  outn(DW_OP_breg0 + R_I7); outsep();
+  outn (has_struct_res (this_proc) ? 12 : 8); d_outnl();
+  out8(); outn(1); outsep();
+  outn(DW_OP_reg0 + R_SP); d_outnl();
   return;
 }
 
@@ -660,7 +660,7 @@ void dw2_locate_val(dg_where v)
 	outs (" - . - 1");
       }
       else
-        outn ((long)length);
+        outn (length);
       d_outnl();
       out8 ();
       out_glob (l);
@@ -668,7 +668,7 @@ void dw2_locate_val(dg_where v)
     }
     case WH_REG: {
       int r = v.u.l;
-      outn ((long)inreg_length (r, 0)); outsep();
+      outn (inreg_length (r, 0)); outsep();
       out_inreg (r, 0);
       break;
     }
@@ -677,7 +677,7 @@ void dw2_locate_val(dg_where v)
       l.key = L_REGOFF;
       l.reg = v.u.l;
       l.off = v.o;
-      outn ((long)regoff_length (l)); outsep();
+      outn (regoff_length (l)); outsep();
       out_regoff (l);
       break;
     }
@@ -725,20 +725,20 @@ static int dw_eval_exp(exp e, int line_started)
 	flt64 x;
 	int ov;
 	x = flt_to_f64(no(e), is_signed(sh(e)), &ov);
-	outn((long)(is_signed(sh(e)) ? DW_OP_const8s : DW_OP_const8u)); d_outnl();
-	out32(); outn((long)(x.small)); outsep(); outn((long)(x.big)); d_outnl();
+	outn(is_signed(sh(e)) ? DW_OP_const8s : DW_OP_const8u); d_outnl();
+	out32(); outn(x.small); outsep(); outn(x.big); d_outnl();
 	line_started = 0;
       }
       else
       if (no(e) >= 0 && no(e) < 32)
-	outn((long)(DW_OP_lit0 + no(e)));
+	outn(DW_OP_lit0 + no(e));
       else
       if (is_signed(sh(e))) {
-	outn((long)DW_OP_consts); outsep();
-	sleb128 ((long)no(e));
+	outn(DW_OP_consts); outsep();
+	sleb128 (no(e));
       }
       else {
-	outn((long)DW_OP_constu); outsep();
+	outn(DW_OP_constu); outsep();
 	uleb128 ((unsigned long)no(e));
       }
       break;
@@ -753,7 +753,7 @@ static int dw_eval_exp(exp e, int line_started)
 	  out8 ();
 	  line_started = 1;
 	}
-	outn((long)DW_OP_plus_uconst); outsep();
+	outn(DW_OP_plus_uconst); outsep();
 	uleb128 ((unsigned long)no(e));
       }
       else {
@@ -764,7 +764,7 @@ static int dw_eval_exp(exp e, int line_started)
 	  out8 ();
 	  line_started = 1;
 	}
-	outn((long)DW_OP_plus);
+	outn(DW_OP_plus);
       }
       break;
     }
@@ -778,7 +778,7 @@ static int dw_eval_exp(exp e, int line_started)
 	out8 ();
 	line_started = 1;
       }
-      outn((long)DW_OP_minus);
+      outn(DW_OP_minus);
       break;
     }
     case neg_tag:
@@ -790,7 +790,7 @@ static int dw_eval_exp(exp e, int line_started)
 	out8 ();
 	line_started = 1;
       }
-      outn((long)DW_OP_neg);
+      outn(DW_OP_neg);
       break;
     }
     case mult_tag:
@@ -803,7 +803,7 @@ static int dw_eval_exp(exp e, int line_started)
 	out8 ();
 	line_started = 1;
       }
-      outn((long)DW_OP_mul);
+      outn(DW_OP_mul);
       break;
     }
     case div0_tag :
@@ -819,7 +819,7 @@ static int dw_eval_exp(exp e, int line_started)
 	out8 ();
 	line_started = 1;
       }
-      outn((long)DW_OP_div);
+      outn(DW_OP_div);
       break;
     }
     default:
@@ -839,8 +839,8 @@ void dw2_offset_exp(exp e)
   if (dw_eval_exp (e, 0))
     d_outnl();
   if (name(sh(e)) == offsethd && al2(sh(e)) < 8 ) {
-    out8 (); outn((long)(DW_OP_lit0 + 8)); outsep();
-    outn((long)DW_OP_mul); d_outnl();
+    out8 (); outn(DW_OP_lit0 + 8); outsep();
+    outn(DW_OP_mul); d_outnl();
   }
   out_dwf_label (block_end, 1);
   return;
@@ -857,20 +857,20 @@ void dw2_cie(void)
   outnl_comment ("Common Information Entry");
   out_dwf_label (cie_pointer, 1);
   out32 (); out_dwf_dist_to_label (cie_end); d_outnl ();
-  out32 (); outn ((long)DW_CIE_id); d_outnl ();
-  out8 (); outn ((long)DW_CIE_MOD_VERSION); d_outnl ();
+  out32 (); outn (DW_CIE_id); d_outnl ();
+  out8 (); outn (DW_CIE_MOD_VERSION); d_outnl ();
   out_string ("DERA/DDC-I");
   out8 (); uleb128 ((unsigned long)framecode_factor); d_outnl ();
-  out8 (); sleb128 ((long)framedata_factor); d_outnl ();
-  out8 (); outn ((long)retaddr_column); d_outnl ();	/* return address column */
+  out8 (); sleb128 (framedata_factor); d_outnl ();
+  out8 (); outn (retaddr_column); d_outnl ();	/* return address column */
 
-  out8 (); outn ((long)DW_CFA_DD_sparc_restore_regwindow); outsep();
-	sleb128 ((long) 8); d_outnl ();		/* sparc entry rules, ret offset 8 */
+  out8 (); outn (DW_CFA_DD_sparc_restore_regwindow); outsep();
+	sleb128 (8); d_outnl ();		/* sparc entry rules, ret offset 8 */
 
   for (i = R_FIRST; i <= R_LAST; i++) {
     if ((i > R_G0 && i <= (R_G0 + g_reg_max)) ||
 		(i >= R_O0 && i <= R_O7 && i != R_SP)) {
-	out8 (); outn ((long)DW_CFA_undefined); outsep();
+	out8 (); outn (DW_CFA_undefined); outsep();
 	uleb128 ((unsigned long)i); d_outnl ();
     }
   }
@@ -895,11 +895,11 @@ void dw2_start_fde(exp e)
   out32 (); out_dwf_labdiff (proc_start, proc_end); d_outnl ();
   this_proc = e;
   if (has_struct_res (this_proc)) {
-    out8 (); outn ((long)DW_CFA_DD_location); outsep();
+    out8 (); outn (DW_CFA_DD_location); outsep();
 	uleb128 ((unsigned long)retaddr_column);  outsep();
-	outn ((long)(2 + sleb128_length((long)12))); outsep();
-	outn ((long)DW_OP_drop); outsep();
-	outn ((long)(DW_OP_breg0 + R_O7)); outsep();
+	outn (2 + sleb128_length((long)12)); outsep();
+	outn (DW_OP_drop); outsep();
+	outn (DW_OP_breg0 + R_O7); outsep();
 	sleb128 ((long) 12); d_outnl ();	/* return R_O7 offset 12 */
   }
   exit_section ();
@@ -911,25 +911,25 @@ void dw2_start_fde(exp e)
 static void fde_advance(long here)
 {
   if (fde_count < 0) {
-    out8 (); outn ((long)DW_CFA_set_loc); d_outnl ();
+    out8 (); outn (DW_CFA_set_loc); d_outnl ();
     out32 (); out_dwf_label (here, 0);
   }
   else
   if (fde_count < 0x40) {
-    out8 (); outn ((long)DW_CFA_advance_loc + fde_count);
+    out8 (); outn (DW_CFA_advance_loc + fde_count);
   }
   else
   if (fde_count < 0x100) {
-    out8 (); outn ((long)DW_CFA_advance_loc1); outsep();
+    out8 (); outn (DW_CFA_advance_loc1); outsep();
     outn (fde_count);
   }
   else
   if (fde_count < 0x10000) {
-    out8 (); outn ((long)DW_CFA_advance_loc2); d_outnl ();
+    out8 (); outn (DW_CFA_advance_loc2); d_outnl ();
     out16 (); outn (fde_count);
   }
   else {
-    out8 (); outn ((long)DW_CFA_advance_loc4); d_outnl ();
+    out8 (); outn (DW_CFA_advance_loc4); d_outnl ();
     out32 (); outn (fde_count);
   }
   d_outnl ();
@@ -944,7 +944,7 @@ void dw2_fde_save(void)
     here = set_dw_text_label();
   enter_section ("debug_frame");
   fde_advance (here);
-  out8 (); outn ((long)DW_CFA_DD_sparc_save_regwindow); outsep();
+  out8 (); outn (DW_CFA_DD_sparc_save_regwindow); outsep();
 	sleb128 ((long) (has_struct_res (this_proc) ? 12 : 8));
 	d_outnl ();
   exit_section ();
@@ -958,7 +958,7 @@ void dw2_fde_restore(void)
     here = set_dw_text_label();
   enter_section ("debug_frame");
   fde_advance (here);
-  out8 (); outn ((long)DW_CFA_DD_sparc_restore_regwindow); outsep();
+  out8 (); outn (DW_CFA_DD_sparc_restore_regwindow); outsep();
 	sleb128 ((long) (has_struct_res (this_proc) ? 12 : 8));
 	d_outnl ();
   exit_section ();
@@ -1035,8 +1035,8 @@ void trace_dw_branch_exits(exp e)
     clear_dg_labmark (lab_mark_list);
     lab_mark_list = son(holder);
     son(holder) = NULL;
-    dw_entry (dwe_break, (long)0);
-    out32 (); out_code_label ((long)no(holder)); d_outnl ();
+    dw_entry (dwe_break, 0);
+    out32 (); out_code_label (no(holder)); d_outnl ();
   }
   return;
 }
@@ -1077,7 +1077,7 @@ void dw_allocated(dg_name nm, exp id)
 		      : sim_exp (x, regexps[i].keptexp) )) {
       regassns[i].nm = nm;
       regassns[i].start = set_dw_text_label ();
-      regassns[i].end = (long)0;
+      regassns[i].end = 0;
       break;
     }
   }
@@ -1090,7 +1090,7 @@ void dw_deallocated(dg_name nm)
   for (i=0; i<TRACKREGS; i++) {
     if (regassns[i].alloc == nm) {
       dw_close_regassn (i);
-      regassns[i].alloc = (dg_name)0;
+      regassns[i].alloc = NULL;
       regassns[i].share_set = NULL;
     }
   }
@@ -1101,9 +1101,9 @@ void dw_all_deallocated(void)		/* initialisation */
 {
   int i;
   for (i=0; i<TRACKREGS; i++) {
-    regassns[i].alloc = (dg_name)0;
+    regassns[i].alloc = NULL;
     regassns[i].share_set = NULL;
-    regassns[i].start = regassns[i].end = (long)0;
+    regassns[i].start = regassns[i].end = 0;
   }
   return;
 }
@@ -1117,7 +1117,7 @@ void dw_init_regassn(int reg)
     if (nm) {
       regassns[reg].nm = nm;
       regassns[reg].start = set_dw_text_label ();
-      regassns[reg].end = (long)0;
+      regassns[reg].end = 0;
     }
   }
   return;
@@ -1141,11 +1141,11 @@ void dw_close_regassn(int reg)
     }
     dw_add_regshare (regassns[reg].share_set, regassns[reg].nm,
 			regassns[reg].start, regassns[reg].end);
-    regassns[reg].end = (long)0;
+    regassns[reg].end = 0;
     if (!regassns[reg].alloc)
       regassns[reg].share_set = NULL;
   }
-  regassns[reg].start = (long)0;
+  regassns[reg].start = 0;
   return;
 }
 

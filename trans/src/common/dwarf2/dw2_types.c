@@ -47,7 +47,7 @@ static void fail_unimplemented
   return;
 }
 
-static dg_type needed_types = (dg_type)0;
+static dg_type needed_types = NULL;
 
 static char * sep =  ", ";
 
@@ -244,7 +244,7 @@ static void out_class_data
   }
   for (i = 0; i < cd->friends.len; i++) {
     dg_tag f = cd->friends.array[i];
-    IGNORE dw_entry (dwe_friend, (long)0);
+    IGNORE dw_entry (dwe_friend, 0);
     dw_at_ext_address (f);
   }
   if (cd->vt_s) {
@@ -304,19 +304,19 @@ static void out_variant_part
   switch (v->v_key) {
     case DG_V_D: {
       long l = next_dwarf_label();
-      IGNORE dw_entry (dwe_varpart, (long)0);
+      IGNORE dw_entry (dwe_varpart, 0);
       dw_at_address (l);
       out_dwf_label (l, 1);
       out_classmem (v->u.d);
       break;
     }
     case DG_V_S: {
-      IGNORE dw_entry (dwe_varpart, (long)0);
+      IGNORE dw_entry (dwe_varpart, 0);
       dw_at_ext_address (v->u.s);
       break;
     }
     case DG_V_T: {
-      IGNORE dw_entry (dwe_varpart_t, (long)0);
+      IGNORE dw_entry (dwe_varpart_t, 0);
       dw_at_ext_lab (dw2_find_type_label (v->u.t));
       break;
     }
@@ -325,16 +325,16 @@ static void out_variant_part
     dg_discrim * d_el = v_el[i].discr.array;
     dg_classmem * f_el = v_el[i].fields.array;
     if (v_el[i].discr.len == 0)
-      IGNORE dw_entry (dwe_variant_0, (long)0);
+      IGNORE dw_entry (dwe_variant_0, 0);
     else
     if (v_el[i].discr.len == 1 && no(d_el->lower) == no(d_el->upper)) {
-      IGNORE dw_entry (dwe_variant_1, (long)0);
+      IGNORE dw_entry (dwe_variant_1, 0);
       dw_out_const (d_el->lower);
     }
     else {
       long block_end = next_dwarf_label ();
       int ss = (name(sh(d_el->lower)) & 1);
-      IGNORE dw_entry (dwe_variant_n, (long)0);
+      IGNORE dw_entry (dwe_variant_n, 0);
       out16 (); out_dwf_dist_to_label (block_end); d_outnl();
       for (j = 0; j < v_el[i].discr.len; j++) {
 	out8 ();
@@ -470,7 +470,7 @@ void dw_out_type
 	  encoding = (is_floating (name(sha)) ? DW_ATE_float : DW_ATE_complex_float);
 	  break;
       }
-      IGNORE dw_entry (dwe_base_type, (long)0);
+      IGNORE dw_entry (dwe_base_type, 0);
       dw_at_string (t->data.t_bas.tnam);
       dw_at_data (1, encoding);
       dw_at_udata ((unsigned long)(shape_size (sha) >> 3));
@@ -521,7 +521,7 @@ void dw_out_type
 	case N_DG_QUAL_TYPES:
 	  break;	/* dummy */
       }
-      IGNORE dw_entry (dwe, (long)0);
+      IGNORE dw_entry (dwe, 0);
       dw_at_ext_lab (dw2_find_type_label (t->data.t_qual.typ));
       if (flg)
 	dw_at_flag (flg);
@@ -542,7 +542,7 @@ void dw_out_type
 	  size_known = 0;
       }
 
-      IGNORE dw_entry ((size_known ? dwe_arr_type : dwe_arr_dyn), (long)0);
+      IGNORE dw_entry ((size_known ? dwe_arr_type : dwe_arr_dyn), 0);
       dw_at_ext_lab (dw2_find_type_label (t->data.t_arr.elem_type));
       if (stride_known)
 	dw_out_const (stride_e);
@@ -597,11 +597,11 @@ void dw_out_type
 	if (el[i].tg)
 	  set_ext_address (el[i].tg);
 	if (el[i].is_chn) {
-	  IGNORE dw_entry (dwe_enum_char, (long)0);
+	  IGNORE dw_entry (dwe_enum_char, 0);
 	  out8(); uleb128 ((unsigned long)el[i].chn); d_outnl();
 	}
 	else {
-	  IGNORE dw_entry (dwe_enum_tor, (long)0);
+	  IGNORE dw_entry (dwe_enum_tor, 0);
 	  dw_at_string (el[i].enam);
 	}
 	dw_out_const (son(el[i].value));
@@ -810,7 +810,7 @@ void dw_out_type
     }
 
     case DGT_PMEM: {
-      IGNORE dw_entry (dwe_ptrmem_t, (long)0);
+      IGNORE dw_entry (dwe_ptrmem_t, 0);
       dw_at_ext_address (t->data.t_pmem.pclass);
       dw_at_ext_lab (dw2_find_type_label (t->data.t_pmem.memtyp));
       dw_at_udata ((unsigned long)(shape_size (t->data.t_pmem.sha) >> 3));
@@ -848,17 +848,17 @@ void dw_out_type
       dg_param * el = t->data.t_proc.params.array;
       dg_type res_t = t->data.t_proc.res_type;
       if (res_t) {
-	IGNORE dw_entry (dwe_proc_type, (long)0);
+	IGNORE dw_entry (dwe_proc_type, 0);
 	dw_at_ext_lab (dw2_find_type_label (res_t));
       }
       else
-	IGNORE dw_entry (dwe_procv_t, (long)0);
+	IGNORE dw_entry (dwe_procv_t, 0);
       for (i = 0; i < t->data.t_proc.params.len; i++) {
-	IGNORE dw_entry (dwe_formal, (long)0);
+	IGNORE dw_entry (dwe_formal, 0);
 	dw_at_ext_lab (dw2_find_type_label (el[i].p_typ));
       }
       if (t->data.t_proc.prps & f_var_callers)
-	IGNORE dw_entry (dwe_opt_par, (long)0);
+	IGNORE dw_entry (dwe_opt_par, 0);
       dw_sibling_end ();
       break;
     }
@@ -887,14 +887,14 @@ void dw_out_type
     }
 
     case DGT_FLDIG: {
-      IGNORE dw_entry (dwe_fldg_t, (long)0);
+      IGNORE dw_entry (dwe_fldg_t, 0);
       dw_at_ext_lab (dw2_find_type_label (t->data.t_adanum.rept));
       dw_out_const (son(t->data.t_adanum.digits));
       break;
     }
 
     case DGT_MOD: {
-      IGNORE dw_entry (dwe_modular_t, (long)0);
+      IGNORE dw_entry (dwe_modular_t, 0);
       dw_at_ext_lab (dw2_find_type_label (t->data.t_adanum.rept));
       dw_out_const (son(t->data.t_adanum.digits));
       break;
@@ -903,11 +903,11 @@ void dw_out_type
     case DGT_STRING: {
       exp l_e = son(t->data.t_string.length);	/* other fields ignored */
       if (name(l_e) == val_tag) {
-	IGNORE dw_entry (dwe_stringc_t, (long)0);
+	IGNORE dw_entry (dwe_stringc_t, 0);
 	dw_at_udata ((unsigned long)no(l_e));
       }
       else {
-	IGNORE dw_entry (dwe_string_t, (long)0);
+	IGNORE dw_entry (dwe_string_t, 0);
 	dw2_locate_exp (l_e, 0, 0);
 	dw_at_udata ((unsigned long)(shape_size (sh(l_e)) >> 3));
       }
@@ -915,7 +915,7 @@ void dw_out_type
     }
 
     case DGT_UNKNOWN: {
-      IGNORE dw_entry (dwe_unknown_t, (long)0);
+      IGNORE dw_entry (dwe_unknown_t, 0);
       break;
     }
 

@@ -52,8 +52,8 @@ int dw_doing_branch_tests = 0;
 static long local_var_place;
 static int doing_abstract = 0;
 static int doing_inline = 0;	/* consistency check only */
-static dg_info proc_dg_info = (dg_info)0;
-static dg_type return_type = (dg_type)0;
+static dg_info proc_dg_info = NULL;
+static dg_type return_type = NULL;
 
 static dg_default * default_span_list = NULL;
 
@@ -150,10 +150,10 @@ void complete_defaults
 {
   while (default_span_list) {
     out_dwf_label (default_span_list->lab, 1);
-    IGNORE dw_entry (dwe_span, (long)0);
-    IGNORE dw_entry (dwe_span_strt, (long)0);
+    IGNORE dw_entry (dwe_span, 0);
+    IGNORE dw_entry (dwe_span_strt, 0);
     dw_at_decl (shorten_sourcepos (default_span_list->span));
-    IGNORE dw_entry (dwe_span_end, (long)0);
+    IGNORE dw_entry (dwe_span_end, 0);
     dw_at_decl (end_sourcepos (default_span_list->span));
     dw_sibling_end ();
     default_span_list = default_span_list->next;
@@ -250,13 +250,13 @@ static void output_info
 	break;
       }
       if (d->data.i_comp.is_tag) {
-	IGNORE dw_entry (dwe_for_unit, (long)0);
+	IGNORE dw_entry (dwe_for_unit, 0);
 	dw_at_address (d->data.i_comp.lo_pc);
 	dw_at_address (d->data.i_comp.hi_pc);
 	dw_at_ext_address (d->data.i_comp.corl.comp_tag);
       }
       else {
-	IGNORE dw_entry (dwe_for_lang, (long)0);
+	IGNORE dw_entry (dwe_for_lang, 0);
 	dw_at_address (d->data.i_comp.lo_pc);
 	dw_at_address (d->data.i_comp.hi_pc);
 	dw_at_udata ((unsigned long)d->data.i_comp.corl.comp_lang);
@@ -291,7 +291,7 @@ static void output_info
 	attr1 |= H_PC;
 	if (d->data.i_scope.begin_st) {
 	  if (d->data.i_scope.begin_st == (long)(-1))	/* old diags */
-	    d->data.i_scope.begin_st = (long)0;
+	    d->data.i_scope.begin_st = 0;
 	  else
 	    attr1 |= H_BG;
 	  }
@@ -324,7 +324,7 @@ static void output_info
       dw2_scope_start = d->data.i_scope.start;
       dw2_scope_end = d->data.i_scope.end;
       if (!doing_abstract) {
-	IGNORE dw_entry (dwe_fragment, (long)0);
+	IGNORE dw_entry (dwe_fragment, 0);
 	dw_at_address (dw2_scope_start);
 	dw_at_address (dw2_scope_end);
       }
@@ -339,7 +339,7 @@ static void output_info
     case DGA_LAB: {
       if (!doing_abstract) {
 	if (d->data.i_scope.start) {
-	  IGNORE dw_entry (dwe_label, (long)0);
+	  IGNORE dw_entry (dwe_label, 0);
 	  dw_at_string (d->data.i_scope.lexname);
 	  dw_at_decl (d->data.i_scope.lexpos);
 	  dw_at_address (d->data.i_scope.start);
@@ -365,7 +365,7 @@ static void output_info
 	  output_info (e, d->more);
 	  break;
 	}
-	IGNORE dw_entry (dwe_with, (long)0);
+	IGNORE dw_entry (dwe_with, 0);
 	dw_at_ext_lab (dw2_find_type_label (d->data.i_with.w_typ));
 	dw2_locate_exp (son(d->data.i_with.w_exp), 0, 0);
 	dw_at_address (d->data.i_with.lo_pc);
@@ -387,7 +387,7 @@ static void output_info
 	  output_info (e, d->more);
 	  break;
 	}
-	IGNORE dw_entry (dwe_call, (long)0);
+	IGNORE dw_entry (dwe_call, 0);
 	dw_at_string (d->data.i_call.clnam);
 	dw_at_decl (d->data.i_call.pos);
 	dw_at_udata ((unsigned long)d->data.i_call.ck);
@@ -412,14 +412,14 @@ static void output_info
       res_t = p_t->data.t_proc.res_type;
       return_type = res_t;
       if (brk) {			/* sometimes lo = hi */
-	IGNORE dw_entry (dwe_inl_call, (long)0);
+	IGNORE dw_entry (dwe_inl_call, 0);
 	dw_at_ext_address (d->data.i_inl.proc);
 	dw_at_address (d->data.i_inl.lo_pc);
 	dw_at_address (d->data.i_inl.hi_pc);
       }
       else {	/* call compressed into operand, so no breakpoint */
 	check_trivial (e);
-	IGNORE dw_entry (dwe_inl_opnd, (long)0);
+	IGNORE dw_entry (dwe_inl_opnd, 0);
 	dw_at_ext_address (d->data.i_inl.proc);
       }
       doing_inline = 1;
@@ -470,7 +470,7 @@ static void output_info
 	  output_info (e, d->more);
 	  break;
 	}
-	IGNORE dw_entry (dwe_try, (long)0);
+	IGNORE dw_entry (dwe_try, 0);
 	dw_at_address (d->data.i_try.lo_pc);
 	dw_at_address (d->data.i_try.hi_pc);
       }
@@ -487,13 +487,13 @@ static void output_info
 	  output_info (e, d->more);
 	  break;
 	}
-	IGNORE dw_entry (dwe_catch, (long)0);
+	IGNORE dw_entry (dwe_catch, 0);
 	dw_at_address (d->data.i_catch.lo_pc);
 	dw_at_address (d->data.i_catch.hi_pc);
 	if (d->data.i_catch.ex)
 	  dw2_out_name (d->data.i_catch.ex, EXCEPT_NAME);
 	else
-	  IGNORE dw_entry (dwe_opt_par, (long)0);
+	  IGNORE dw_entry (dwe_opt_par, 0);
       }
       output_info (e, d->more);
       if (!doing_abstract)
@@ -530,7 +530,7 @@ static void output_info
       else {
 	long brk = d->data.i_brn.brk;
 	if (brk) {
-	  IGNORE dw_entry (dwe_branch, (long)0);
+	  IGNORE dw_entry (dwe_branch, 0);
 	  dw_at_decl (d->data.i_brn.pos);
 	  dw_at_address (brk);
 	  dw_at_address (d->data.i_brn.cont);
@@ -538,7 +538,7 @@ static void output_info
 	}
 	else {
 	  check_trivial (e);
-	  IGNORE dw_entry (dwe_branch_0, (long)0);
+	  IGNORE dw_entry (dwe_branch_0, 0);
 	  dw_at_decl (d->data.i_brn.pos);
 	}
         output_info (e, d->more);
@@ -554,7 +554,7 @@ static void output_info
       else {
 	long brk = d->data.i_tst.brk;
 	if (brk) {
-	  IGNORE dw_entry (dwe_test, (long)0);
+	  IGNORE dw_entry (dwe_test, 0);
 	  dw_at_decl (d->data.i_tst.pos);
 	  dw_at_address (d->data.i_tst.brk);
 	  dw_at_address (d->data.i_tst.cont);
@@ -562,7 +562,7 @@ static void output_info
 	}
 	else {
 	  check_trivial (e);
-	  IGNORE dw_entry (dwe_test_0, (long)0);
+	  IGNORE dw_entry (dwe_test_0, 0);
 	  dw_at_decl (d->data.i_tst.pos);
 	}
 	output_info (e, d->more);
@@ -576,14 +576,14 @@ static void output_info
       else {
 	long brk = d->data.i_tst.brk;
 	if (brk) {
-	  IGNORE dw_entry (dwe_jump, (long)0);
+	  IGNORE dw_entry (dwe_jump, 0);
 	  dw_at_decl (d->data.i_tst.pos);
 	  dw_at_address (d->data.i_tst.brk);
 	  dw_at_ext_lab (d->data.i_tst.jlab);
 	}
 	else {
 	  check_trivial (e);
-	  IGNORE dw_entry (dwe_jump_0, (long)0);
+	  IGNORE dw_entry (dwe_jump_0, 0);
 	  dw_at_decl (d->data.i_tst.pos);
 	}
 	output_info (e, d->more);
@@ -597,14 +597,14 @@ static void output_info
       else {
 	long brk = d->data.i_lj.brk;
 	if (brk) {
-	  IGNORE dw_entry (dwe_lj, (long)0);
+	  IGNORE dw_entry (dwe_lj, 0);
 	  dw_at_decl (d->data.i_lj.pos);
 	  dw_at_address (d->data.i_lj.brk);
 	  dw2_locate_val (d->data.i_lj.j);
 	}
 	else {
 	  check_trivial (e);
-	  IGNORE dw_entry (dwe_lj_0, (long)0);
+	  IGNORE dw_entry (dwe_lj_0, 0);
 	  dw_at_decl (d->data.i_lj.pos);
 	}
 	output_info (e, d->more);
@@ -683,7 +683,7 @@ static void output_info
 	    w_en = 1;
 	    break;
 	}
-	IGNORE dw_entry (dwe, (long)0);
+	IGNORE dw_entry (dwe, 0);
 	dw_at_decl (d->data.i_rvs.pos);
 	if (d->data.i_rvs.n_code) {
 	  dw_at_address (d->data.i_rvs.lo_pc);
@@ -746,7 +746,7 @@ static void output_info
 	if (d->this_tag)
 	  set_ext_address (d->this_tag);
 	if (d->data.i_movd.lo_pc) {
-	  IGNORE dw_entry ((tg ? dwe_moved_r : dwe_moved), (long)0);
+	  IGNORE dw_entry ((tg ? dwe_moved_r : dwe_moved), 0);
 	  dw_at_udata ((unsigned long)d->data.i_movd.reason);
 	  if (tg)
 	    dw_at_ext_address (tg);
@@ -755,7 +755,7 @@ static void output_info
 	}
 	else {
 	  check_trivial (e);
-	  IGNORE dw_entry ((tg ? dwe_moved_xr : dwe_moved_x), (long)0);
+	  IGNORE dw_entry ((tg ? dwe_moved_xr : dwe_moved_x), 0);
 	  dw_at_udata ((unsigned long)d->data.i_movd.reason);
 	  if (tg)
 	    dw_at_ext_address (tg);
@@ -772,7 +772,7 @@ static void output_info
 	if (d->this_tag)
 	  set_ext_address (d->this_tag);
 	if (d->data.i_optim.lo_pc) {
-	  IGNORE dw_entry (dwe_optim, (long)0);
+	  IGNORE dw_entry (dwe_optim, 0);
 	  dw_at_udata ((unsigned long)d->data.i_optim.reason);
 	  dw_at_address (d->data.i_optim.lo_pc);
 	  dw_at_address (d->data.i_optim.hi_pc);
@@ -781,7 +781,7 @@ static void output_info
 	}
 	else {
 	  check_trivial (e);
-	  IGNORE dw_entry (dwe_moved_x, (long)0);
+	  IGNORE dw_entry (dwe_moved_x, 0);
 	  dw_at_udata ((unsigned long)d->data.i_movd.reason);
 	}
       }
@@ -814,7 +814,7 @@ static void output_detch
     int has_dest = 0;
     int reason = dl->why;
     dg_info d_src = dl->info;
-    dg_info more_src = (dg_info)0;
+    dg_info more_src = NULL;
     dg_tag tg = dl->tg;
     while (tg && tg->copy)
       tg = tg->copy;
@@ -829,7 +829,7 @@ static void output_detch
     }
     if (has_dest) {
       if (d_src->key == DGA_SRC && !doing_abstract) {
-	IGNORE dw_entry (dwe_displ_x, (long)0);
+	IGNORE dw_entry (dwe_displ_x, 0);
 	dw_at_ext_address (tg);
 	dw_at_decl (d_src->data.i_src.startpos);
       }
@@ -839,13 +839,13 @@ static void output_detch
 		(d_src->key != DGA_RVS || !d_src->data.i_rvs.has_iv) &&
 		d_src->key != DGA_BEG && d_src->key != DGA_BAR)
       {
-	IGNORE dw_entry (dwe_displaced, (long)0);
+	IGNORE dw_entry (dwe_displaced, 0);
 	dw_at_ext_address (tg);
       }
     }
     else {
       if (d_src->key == DGA_SRC && !doing_abstract) {
-	IGNORE dw_entry ((tg ? dwe_absent_xr : dwe_absent_x), (long)0);
+	IGNORE dw_entry ((tg ? dwe_absent_xr : dwe_absent_x), 0);
 	dw_at_udata ((unsigned long)reason);
 	if (tg)
 	  dw_at_ext_address (tg);
@@ -862,8 +862,8 @@ static void output_detch
       {
 	has_child = 1;
 	more_src = d_src;
-	more_src->more = (dg_info)0;
-	IGNORE dw_entry ((tg ? dwe_absent_r : dwe_absent), (long)0);
+	more_src->more = NULL;
+	IGNORE dw_entry ((tg ? dwe_absent_r : dwe_absent), 0);
 	dw_at_udata ((unsigned long)reason);
 	if (tg)
 	  dw_at_ext_address (tg);
@@ -950,7 +950,7 @@ static void dw2_out_proc
   long attr1, attr2;
   dg_instantn * generic = NULL;
   dg_info old_di = proc_dg_info;
-  proc_dg_info = (dg_info)0;
+  proc_dg_info = NULL;
   if (di->idnam.id_key == DG_ID_INST) {
     generic = di->idnam.idd.instance;
     if (generic->nam.id_key == DG_ID_ANON)
@@ -1147,7 +1147,7 @@ static void dw2_out_proc
       for (i = 0; i < p_t->data.t_proc.params.len; i++)
 	out_param (el[i]);
       if (p_t->data.t_proc.prps & f_var_callers)
-	IGNORE dw_entry (dwe_opt_par, (long)0);
+	IGNORE dw_entry (dwe_opt_par, 0);
 
       if (di->mor && di->mor->en_family)
 	dw_out_dim (*(di->mor->en_family));
@@ -1155,7 +1155,7 @@ static void dw2_out_proc
       break;	/* to return */
     }
     {
-      dg_name param = (dg_name)0;
+      dg_name param = NULL;
       dg_param * el = p_t->data.t_proc.params.array;
       int w = 0;
       if (proc_dg_info && proc_dg_info->data.i_prc.p)
@@ -1181,13 +1181,13 @@ static void dw2_out_proc
       }
     }
     if (p_t->data.t_proc.prps & f_var_callers)
-      IGNORE dw_entry (dwe_opt_par, (long)0);
+      IGNORE dw_entry (dwe_opt_par, 0);
 
     if (!doing_abstract && di->mor && di->mor->exptns.len) {
       dg_type * et = di->mor->exptns.array;
       int i;
       for (i = 0; i < di->mor->exptns.len; i++) {
-	IGNORE dw_entry (dwe_thrown_t, (long)0);
+	IGNORE dw_entry (dwe_thrown_t, 0);
 	dw_at_ext_lab (dw2_find_type_label (et[i]));
       }
     }
@@ -1195,7 +1195,7 @@ static void dw2_out_proc
       dw_out_dim (*(di->mor->en_family));
     if (proc_dg_info && proc_dg_info->data.i_prc.barrier) {
       dg_info b = proc_dg_info->data.i_prc.barrier;
-      IGNORE dw_entry (dwe_barrier, (long)0);
+      IGNORE dw_entry (dwe_barrier, 0);
       dw_at_decl (b->data.i_bar.pos);
       dw_at_address (b->data.i_bar.lo_pc);
       dw_at_address (b->data.i_bar.hi_pc);
@@ -1255,7 +1255,7 @@ void dw2_out_generic
   while (p) {
     switch (p->key) {
       case DGN_OBJECT: {
-	IGNORE dw_entry (dwe_tmpl_val, (long)0);
+	IGNORE dw_entry (dwe_tmpl_val, 0);
 	dw_at_string (idname_chars (p->idnam));
 	dw_at_decl (p->whence);
 	dw_at_ext_lab (dw2_find_type_label (p->data.n_obj.typ));
@@ -1263,21 +1263,21 @@ void dw2_out_generic
 	break;
       }
       case DGN_TYPE: {
-	IGNORE dw_entry (dwe_tmpl_type, (long)0);
+	IGNORE dw_entry (dwe_tmpl_type, 0);
 	dw_at_string (idname_chars (p->idnam));
 	dw_at_decl (p->whence);
 	dw_at_ext_lab (dw2_find_type_label (p->data.n_typ.raw));
 	break;
       }
       case DGN_PROC: {
-	IGNORE dw_entry (dwe_tmpl_proc, (long)0);
+	IGNORE dw_entry (dwe_tmpl_proc, 0);
 	dw_at_string (idname_chars (p->idnam));
 	dw_at_decl (p->whence);
 	dw_at_ext_address (p->mor->refspec);
 	break;
       }
       case DGN_MODULE: {
-	IGNORE dw_entry (dwe_tmpl_mod, (long)0);
+	IGNORE dw_entry (dwe_tmpl_mod, 0);
 	dw_at_string (idname_chars (p->idnam));
 	dw_at_decl (p->whence);
 	dw_at_ext_address (p->mor->refspec);
@@ -1296,7 +1296,7 @@ void dw2_out_name
     ( dg_name di , dg_nm_contex contex )
 {
 				/* in debug_info section */
-  dg_tag inl_tag = (di->mor ? di->mor->inline_ref : (dg_tag)0);
+  dg_tag inl_tag = (di->mor ? di->mor->inline_ref : NULL);
   if (di->mor && di->mor->this_tag && !di->mor->this_tag->outref.k) {
     di->mor->this_tag->outref.k = LAB_D;
     di->mor->this_tag->outref.u.l = next_dwarf_label ();
@@ -1692,7 +1692,7 @@ void dw2_out_name
 	for (i = 0; i < p_t->data.t_proc.params.len; i++)
 	  out_param (el[i]);
 	if (p_t->data.t_proc.prps & f_var_callers)
-	  IGNORE dw_entry (dwe_opt_par, (long)0);
+	  IGNORE dw_entry (dwe_opt_par, 0);
 	dw_sibling_end ();
       }
       break;
@@ -1857,7 +1857,7 @@ void dw2_proc_start
   proc_dg_info->data.i_prc.prc_end = 0;
   proc_dg_info->data.i_prc.returns = NULL;
   returns_list = &(proc_dg_info->data.i_prc.returns);
-  proc_dg_info->data.i_prc.p = proc_dg_info->data.i_prc.barrier = (dg_info)0;
+  proc_dg_info->data.i_prc.p = proc_dg_info->data.i_prc.barrier = NULL;
   if (d)
     dw2_source_mark (d->whence, 0);
   return;
@@ -1883,7 +1883,7 @@ void dw2_proc_end
     ( exp p )
 {
   dgf(p)->data.i_prc.prc_end = set_dw_text_label ();
-  proc_dg_info = (dg_info)0;
+  proc_dg_info = NULL;
   return;
 }
 

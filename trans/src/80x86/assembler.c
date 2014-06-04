@@ -36,7 +36,7 @@ dot_align(int n)
 {
 	if (format == FORMAT_ELF) {
 		outs(".align ");
-		outn((long) n);
+		outn(n);
 		outnl();
 		return;
 	}
@@ -54,7 +54,7 @@ dot_align(int n)
 	default: n = 1; break;
 	}
 
-	outn((long) n);
+	outn(n);
 	outnl();
 }
 
@@ -144,7 +144,7 @@ eval_postlude(char *s, exp c)
 	outs(".size ");
 	outs(s);
 	outs(",");
-	outn((long) (shape_size(sh(c)) + 7) / 8);
+	outn((shape_size(sh(c)) + 7) / 8);
 	outnl();
 	outs(".type ");
 	outs(s);
@@ -168,7 +168,7 @@ out_dot_comm(char *id, shape sha)
 	outs(".comm ");
 	outs(id);
 	outs(",");
-	outn((long) (((shape_size(sha) / 8) + 3) / 4) * 4);
+	outn((((shape_size(sha) / 8) + 3) / 4) * 4);
 	outnl();
 }
 
@@ -178,7 +178,7 @@ out_dot_lcomm(char *id, shape sha)
 	outs(".lcomm ");
 	outs(id);
 	outs(",");
-	outn((long) (((shape_size(sha) / 8) + 3) / 4) * 4);
+	outn((((shape_size(sha) / 8) + 3) / 4) * 4);
 	outnl();
 }
 
@@ -188,7 +188,7 @@ out_bss(char *id, shape sha)
 	outs(".bss ");
 	outs(id);
 	outs(",");
-	outn((long) (((shape_size(sha) / 8) + 3) / 4) * 4);
+	outn((((shape_size(sha) / 8) + 3) / 4) * 4);
 	outnl();
 }
 
@@ -200,17 +200,17 @@ pic_prelude(void)
 		pic_label = n;
 		outs(" call ");
 		outs(local_prefix);
-		outn((long) n);
+		outn(n);
 		outnl();
 		outs(local_prefix);
-		outn((long) n);
+		outn(n);
 		outs(":");
 		outnl();
 		outs(" popl %ebx");
 		outnl();
 		outs(" addl $_GLOBAL_OFFSET_TABLE_+ [.-");
 		outs(local_prefix);
-		outn((long)n);
+		outn(n);
 		outs("],%ebx");
 		outnl();
 	}
@@ -229,7 +229,7 @@ out_switch_jump(int tab, where a, int min)
 	if (!PIC_code) {
 		outs(" jmp *");
 		outs(local_prefix);
-		outn((long) tab);
+		outn(tab);
 		if (min >= 0) {
 			outs("-");
 		} else {
@@ -237,7 +237,7 @@ out_switch_jump(int tab, where a, int min)
 			outs("+");
 			min = -min;
 		}
-		outn((long) (4 * min));
+		outn(4 * min);
 		outs("(,");
 		operand(32, a, 1, 0);
 		outs(",4)");
@@ -250,14 +250,14 @@ out_switch_jump(int tab, where a, int min)
 	if (assembler == ASM_SUN && PIC_code) {
 		outs(" leal ");
 		outs(local_prefix);
-		outn((long)tab);
+		outn(tab);
 		outs("@GOTOFF(%ebx,");
 		operand(32, a, 1, 0);
 		outs(",4),%eax");
 		outnl();
 		outs(" movl ");
 		outs("-");
-		outn((long)(4 * min));
+		outn(4 * min);
 		outs("(%eax),%eax");
 		outnl();
 		outs(" addl %ebx,%eax");
@@ -286,7 +286,7 @@ out_switch_jump(int tab, where a, int min)
 	}
 
 	outs(local_prefix);
-	outn((long) tab);
+	outn(tab);
 	outs("@GOTOFF(%ebx,");
 	operand(32, a, 1, 0);
 	outs(",4),%eax");
@@ -312,7 +312,7 @@ out_switch_table(int tab, int min, int max, int *v, int absent)
 	outnl();
 
 	outs(local_prefix);
-	outn((long) tab);
+	outn(tab);
 	outs(":");
 	outnl();
 
@@ -323,11 +323,11 @@ out_switch_table(int tab, int min, int max, int *v, int absent)
 			if (PIC_code) {
 				outs(" _GLOBAL_OFFSET_TABLE_+ [.-");
 				outs(local_prefix);
-				outn((long)v[i - min]);
+				outn(v[i - min]);
 				outs("]");
 			} else {
 				outs(local_prefix);
-				outn((long)v[i - min]);
+				outn(v[i - min]);
 			}
 
 			outnl();
@@ -335,16 +335,16 @@ out_switch_table(int tab, int min, int max, int *v, int absent)
 		}
 
 		if (absent == -1) {
-			outn((long) 0);
+			outn(0);
 		} else {
 			if (PIC_code) {
 				outs(" _GLOBAL_OFFSET_TABLE_+ [.-");
 				outs(local_prefix);
-				outn((long)absent);
+				outn(absent);
 				outs("]");
 			} else {
 				outs(local_prefix);
-				outn((long)absent);
+				outn(absent);
 			}
 		}
 		outnl();
@@ -451,7 +451,7 @@ out_main_prelude(void) /* FORMAT_AOUT */
 
 	outs(" movl $___TDFI_LIST__+4, %ebx\n");
 	outs(local_prefix);
-	outn((long) nl1);
+	outn(nl1);
 	outs(":\n");
 
 	outs(" movl (%ebx),%eax\n");
@@ -462,7 +462,7 @@ out_main_prelude(void) /* FORMAT_AOUT */
 	simple_branch("jmp", nl1);
 
 	outs(local_prefix);
-	outn((long) nl2);
+	outn(nl2);
 	outs(":\n");
 }
 

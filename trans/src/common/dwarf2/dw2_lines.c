@@ -163,7 +163,7 @@ static void
 ext_opcode(int op, long arg_length, long align_lab)
 {
 	out8();
-	outn((long)0);
+	outn(0);
 	outs(sep);
 	if (needs_debug_align && align_lab) {
 		out_dwf_label(align_lab, 0);
@@ -335,7 +335,7 @@ close_statprog(long l_end)
 	current_ad_count = instr_count;
 	update_statprog();
 	enter_section("debug_line");
-	ext_opcode(DW_LNE_end_sequence, (long)0, (long)0);
+	ext_opcode(DW_LNE_end_sequence, 0, 0);
 	out_dwf_label(l_end, 1);
 	exit_section();
 	return;
