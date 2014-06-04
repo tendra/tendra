@@ -36,7 +36,6 @@ extern void exit_translator(void);
 extern void insection(enum section);
 extern void mark_unaliased(exp);
 extern void translate_capsule(void);
-extern void translate_tagdef(void);
 extern void translate_unit(void);
 extern baseoff find_tag(char *);
 

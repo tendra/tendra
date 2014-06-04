@@ -202,17 +202,6 @@ translate_capsule(void)
 
 
 /*
-    TRANSLATE A SINGLE TAG DEFINITION
-*/
-
-void translate_tagdef
-(void)
-{
-    return;
-}
-
-
-/*
     TRANSLATE A SINGLE UNIT
 */
 

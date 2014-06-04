@@ -575,23 +575,3 @@ translate_unit(void)
   return;
 }
 
-void
-translate_tagdef(void)
-{
-  return;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

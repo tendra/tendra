@@ -11,7 +11,6 @@
 #define READ_FNS_H
 
 void translate_capsule(void);
-void translate_tagdef(void);
 void translate_unit(void);
 
 char *init_NAME(char *);

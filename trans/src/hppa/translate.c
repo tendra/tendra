@@ -811,12 +811,6 @@ translate_capsule(void)
   return;
 }
 
-void translate_tagdef
-(void)
-{
-  return;
-}
-
 void translate_unit
 (void)
 {

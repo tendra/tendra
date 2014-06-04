@@ -763,18 +763,6 @@ translate_capsule (void){
   return ;
 }
 
-
-/*	
-  TRANSLATE A SINGLE TAG DEFINITION
-*/
-
-void 
-translate_tagdef (void){
-  /* not implemented */
-  return ;
-}
-
-
 /*
   TRANSLATE A SINGLE UNIT
 */	
@@ -795,9 +783,4 @@ translate_unit (void){
   }
   return ;
 }
-
-
-
-
-
 

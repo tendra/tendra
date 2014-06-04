@@ -538,9 +538,3 @@ void translate_unit
   return;
 }
 
-
-void translate_tagdef
-(void)
-{
-  return;
-}
