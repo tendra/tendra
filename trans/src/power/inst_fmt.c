@@ -75,19 +75,19 @@ void ld_ro_ins(Instruction_P ins, baseoff a, int dest)
     if (a.offset != 0)
       fail("ld_ro_ins: non zero offset to R_0");
     /* with XXXx (indexed instructions) RA of R_0 is taken as constant 0 */
-#ifdef DO_ASSEMBLER_MACROS
-    fprintf(as_file, "\t%sx\t%s,%s,%s",get_instruction(ins),reg_macro(dest),reg_macro(R_0),reg_macro(R_0));
-#else
-    fprintf(as_file, "\t%sx\t%d,%d,%d", get_instruction(ins), dest, R_0, R_0);
-#endif
+	if (do_macros) {
+ 	   fprintf(as_file, "\t%sx\t%s,%s,%s",get_instruction(ins),reg_macro(dest),reg_macro(R_0),reg_macro(R_0));
+	} else {
+	    fprintf(as_file, "\t%sx\t%d,%d,%d", get_instruction(ins), dest, R_0, R_0);
+	}
   }
   else if (IMM_SIZE(a.offset))
   {
-#ifdef DO_ASSEMBLER_MACROS
-    fprintf(as_file, "\t%s\t%s,%d(%s)", get_instruction(ins), reg_macro(dest), (int)a.offset, reg_macro(a.base));
-#else
-    fprintf(as_file, "\t%s\t%d,%d(%d)", get_instruction(ins), dest,(int)a.offset, a.base);
-#endif
+	if (do_macros) {
+	    fprintf(as_file, "\t%s\t%s,%d(%s)", get_instruction(ins), reg_macro(dest), (int)a.offset, reg_macro(a.base));
+	} else {
+	    fprintf(as_file, "\t%s\t%d,%d(%d)", get_instruction(ins), dest,(int)a.offset, a.base);
+	}
   }
   else
   {
@@ -106,11 +106,11 @@ void ld_rr_ins(Instruction_P ins, int reg1, int reg2, int dest)
   assert(reg1!=R_0);
 
   clear_reg(dest);
-#ifdef DO_ASSEMBLER_MACROS
+	if (do_macros) {
   fprintf(as_file, "\t%sx\t%s,%s,%s\n", get_instruction(ins), reg_macro(dest), reg_macro(reg1), reg_macro(reg2));
-#else
+	} else {
   fprintf(as_file, "\t%sx\t%d,%d,%d\n", get_instruction(ins), dest, reg1, reg2);
-#endif
+	}
 }
 
 
@@ -121,11 +121,11 @@ void set_ins(baseoff a, int dest)
   CHECKREG(dest);
 
   clear_reg(dest);
-#ifdef DO_ASSEMBLER_MACROS
+	if (do_macros) {
   fprintf(as_file, "\t%s\t%s,T.%s(%s)\n", get_instruction(i_l), reg_macro(dest), extname, reg_macro(R_TOC));
-#else
+	} else {
   fprintf(as_file, "\t%s\t%d,T.%s(%d)\n", get_instruction(i_l), dest, extname, R_TOC);
-#endif
+	}
   /* +++ offsets in TOC */
   if (a.offset != 0)
     rir_ins(i_a, dest, a.offset, dest);
@@ -181,19 +181,19 @@ void st_ro_ins(Instruction_P ins, int src, baseoff a)
     if (a.offset != 0)
       fail("st_ro_ins: non zero offset to R_0");
     /* with XXXx (indexed instructions) RA of R_0 is taken as constant 0 */
-#ifdef DO_ASSEMBLER_MACROS
-    fprintf(as_file, "\t%sx\t%s,%s,%s", get_instruction(ins), reg_macro(src), reg_macro(R_0), reg_macro(R_0));
-#else
-    fprintf(as_file, "\t%sx\t%d,%d,%d", get_instruction(ins), src, R_0, R_0);
-#endif
+	if (do_macros) {
+	    fprintf(as_file, "\t%sx\t%s,%s,%s", get_instruction(ins), reg_macro(src), reg_macro(R_0), reg_macro(R_0));
+	} else {
+	    fprintf(as_file, "\t%sx\t%d,%d,%d", get_instruction(ins), src, R_0, R_0);
+	}
   }
   else if (IMM_SIZE(a.offset))
   {
-#ifdef DO_ASSEMBLER_MACROS
-    fprintf(as_file, "\t%s\t%s,%d(%s)", get_instruction(ins), reg_macro(src), (int)a.offset, reg_macro(a.base));
-#else
-    fprintf(as_file, "\t%s\t%d,%d(%d)", get_instruction(ins), src,(int)a.offset, a.base);
-#endif
+	if (do_macros) {
+	    fprintf(as_file, "\t%s\t%s,%d(%s)", get_instruction(ins), reg_macro(src), (int)a.offset, reg_macro(a.base));
+	} else {
+	    fprintf(as_file, "\t%s\t%d,%d(%d)", get_instruction(ins), src,(int)a.offset, a.base);
+	}
   }
   else
   {
@@ -211,11 +211,11 @@ void st_rr_ins(Instruction_P ins, int src, int reg1, int reg2)
 {
   CHECKREG(src); CHECKREG(reg1); CHECKREG(reg2);
   assert(reg1!=R_0);
-#ifdef DO_ASSEMBLER_MACROS
-  fprintf(as_file, "\t%sx\t%s,%s,%s\n", get_instruction(ins), reg_macro(src), reg_macro(reg1), reg_macro(reg2));
-#else
-  fprintf(as_file, "\t%sx\t%d,%d,%d\n", get_instruction(ins), src, reg1, reg2);
-#endif
+	if (do_macros) {
+	  fprintf(as_file, "\t%sx\t%s,%s,%s\n", get_instruction(ins), reg_macro(src), reg_macro(reg1), reg_macro(reg2));
+	} else {
+	  fprintf(as_file, "\t%sx\t%d,%d,%d\n", get_instruction(ins), src, reg1, reg2);
+	}
 }
 
 
@@ -259,19 +259,19 @@ void rrr_ins(Instruction_P ins, int src1, int src2, int dest)
   /* i_s is a pseudo instruction, use i_sf with reversed ops */
   if (ins == i_s)
   {
-#ifdef DO_ASSEMBLER_MACROS
-    fprintf(as_file, "\t%s\t%s,%s,%s\n", get_instruction(i_sf), reg_macro(dest), reg_macro(src2), reg_macro(src1));
-#else
-    fprintf(as_file, "\t%s\t%d,%d,%d\n", get_instruction(i_sf), dest, src2, src1);
-#endif
+	if (do_macros) {
+	    fprintf(as_file, "\t%s\t%s,%s,%s\n", get_instruction(i_sf), reg_macro(dest), reg_macro(src2), reg_macro(src1));
+	} else {
+	    fprintf(as_file, "\t%s\t%d,%d,%d\n", get_instruction(i_sf), dest, src2, src1);
+	}
   }
   else
   {
-#ifdef DO_ASSEMBLER_MACROS
-    fprintf(as_file, "\t%s\t%s,%s,%s\n", get_instruction(ins), reg_macro(dest), reg_macro(src1), reg_macro(src2));
-#else
-    fprintf(as_file, "\t%s\t%d,%d,%d\n", get_instruction(ins), dest, src1, src2);
-#endif
+	if (do_macros) {
+	    fprintf(as_file, "\t%s\t%s,%s,%s\n", get_instruction(ins), reg_macro(dest), reg_macro(src1), reg_macro(src2));
+	} else {
+	    fprintf(as_file, "\t%s\t%d,%d,%d\n", get_instruction(ins), dest, src1, src2);
+	}
   }
 
 }
@@ -314,11 +314,11 @@ void rir_ins(Instruction_P ins, int src, long imm, int dest)
       imins=ins;
     }
 
-#ifdef DO_ASSEMBLER_MACROS
-    fprintf(as_file,"\t%s\t%s,%s,%ld\n",get_instruction(imins), reg_macro(dest), reg_macro(src), imm);
-#else
-    fprintf(as_file,"\t%s\t%d,%d,%ld\n",get_instruction(imins), dest, src, imm);
-#endif
+	if (do_macros) {
+	    fprintf(as_file,"\t%s\t%s,%s,%ld\n",get_instruction(imins), reg_macro(dest), reg_macro(src), imm);
+	} else {
+	    fprintf(as_file,"\t%s\t%d,%d,%ld\n",get_instruction(imins), dest, src, imm);
+	}
 
     return;
   }
@@ -326,11 +326,11 @@ void rir_ins(Instruction_P ins, int src, long imm, int dest)
   if (ins == i_a && IMMLOGU_SIZE(imm))
   {
     unsigned long uimm = imm;
-#ifdef DO_ASSEMBLER_MACROS
-    fprintf(as_file, "\t%s\t%s,%s,%ld\n", get_instruction(i_cau), reg_macro(dest), reg_macro(src), uimm >> 16);
-#else
-    fprintf(as_file, "\t%s\t%d,%d,%ld\n", get_instruction(i_cau), dest, src, uimm >> 16);
-#endif
+	if (do_macros) {
+	    fprintf(as_file, "\t%s\t%s,%s,%ld\n", get_instruction(i_cau), reg_macro(dest), reg_macro(src), uimm >> 16);
+	} else {
+	    fprintf(as_file, "\t%s\t%d,%d,%ld\n", get_instruction(i_cau), dest, src, uimm >> 16);
+	}
     return;
   }
 
@@ -366,11 +366,11 @@ void rir_ins(Instruction_P ins, int src, long imm, int dest)
     if (is_a_mask(x) || is_a_mask(~x))
     {
       COMMENT1("rir_ins: special casing and of constant %#lx", imm);
-#ifdef DO_ASSEMBLER_MACROS
+	if (do_macros) {
       fprintf(as_file, "\t%s\t%s,%s,0,0x%lx\n", get_instruction(i_rlinm), reg_macro(dest), reg_macro(src), imm);
-#else
+	} else {
       fprintf(as_file, "\t%s\t%d,%d,0,0x%lx\n", get_instruction(i_rlinm), dest, src, imm);
-#endif
+	}
       return;
     }
   }
@@ -387,11 +387,11 @@ void rir_ins(Instruction_P ins, int src, long imm, int dest)
     if (is_a_mask(x) || is_a_mask(~x))
     {
       COMMENT1("rir_ins: special casing and of constant %#lx", imm);
-#ifdef DO_ASSEMBLER_MACROS
+	if (do_macros) {
       fprintf(as_file, "\t%s\t%s,%s,0,0x%lx\n", get_instruction(i_rlinm_cr), reg_macro(dest), reg_macro(src), imm);
-#else
+	} else {
       fprintf(as_file, "\t%s\t%d,%d,0,0x%lx\n", get_instruction(i_rlinm_cr), dest, src, imm);
-#endif
+	}
       return;
     }
   }
@@ -405,11 +405,11 @@ void rir_ins(Instruction_P ins, int src, long imm, int dest)
     else if (ins==i_xor) ilins = i_xoril;
     else if (ins==i_and_cr)ilins = i_andil_cr;
     else fail("Should never reach here");
-#ifdef DO_ASSEMBLER_MACROS
-    fprintf(as_file, "\t%s\t%s,%s,%ld\n", get_instruction(ilins), reg_macro(dest), reg_macro(src), imm);
-#else
-    fprintf(as_file, "\t%s\t%d,%d,%ld\n", get_instruction(ilins), dest, src, imm);
-#endif
+	if (do_macros) {
+	    fprintf(as_file, "\t%s\t%s,%s,%ld\n", get_instruction(ilins), reg_macro(dest), reg_macro(src), imm);
+	} else {
+	    fprintf(as_file, "\t%s\t%d,%d,%ld\n", get_instruction(ilins), dest, src, imm);
+	}
     return;
   }
 
@@ -422,11 +422,11 @@ void rir_ins(Instruction_P ins, int src, long imm, int dest)
     else if (ins==i_xor) iuins = i_xoriu;
     else if (ins==i_and_cr)iuins = i_andiu_cr;
     else fail("Should never reach here");
-#ifdef DO_ASSEMBLER_MACROS
-    fprintf(as_file, "\t%s\t%s,%s,%ld\n",get_instruction(iuins), reg_macro(dest), reg_macro(src), uimm >> 16);
-#else
-    fprintf(as_file, "\t%s\t%d,%d,%ld\n",get_instruction(iuins), dest, src, uimm >> 16);
-#endif
+	if (do_macros) {
+	    fprintf(as_file, "\t%s\t%s,%s,%ld\n",get_instruction(iuins), reg_macro(dest), reg_macro(src), uimm >> 16);
+	} else {
+	    fprintf(as_file, "\t%s\t%d,%d,%ld\n",get_instruction(iuins), dest, src, uimm >> 16);
+	}
     return;
   }
 
@@ -434,13 +434,13 @@ void rir_ins(Instruction_P ins, int src, long imm, int dest)
   {
     /* or lower and then upper end */
     unsigned long uimm = imm;
-#ifdef DO_ASSEMBLER_MACROS
-    fprintf(as_file, "\t%s\t%s,%s,0x%lx\n", get_instruction(i_oril), reg_macro(dest), reg_macro(src), uimm & 0xffff);
-    fprintf(as_file, "\t%s\t%s,%s,0x%lx\n", get_instruction(i_oriu), reg_macro(dest), reg_macro(dest), uimm >> 16);
-#else
-    fprintf(as_file, "\t%s\t%d,%d,0x%lx\n", get_instruction(i_oril), dest, src, uimm & 0xffff);
-    fprintf(as_file, "\t%s\t%d,%d,0x%lx\n", get_instruction(i_oriu), dest, dest, uimm >> 16);
-#endif
+	if (do_macros) {
+	    fprintf(as_file, "\t%s\t%s,%s,0x%lx\n", get_instruction(i_oril), reg_macro(dest), reg_macro(src), uimm & 0xffff);
+	    fprintf(as_file, "\t%s\t%s,%s,0x%lx\n", get_instruction(i_oriu), reg_macro(dest), reg_macro(dest), uimm >> 16);
+	} else {
+	    fprintf(as_file, "\t%s\t%d,%d,0x%lx\n", get_instruction(i_oril), dest, src, uimm & 0xffff);
+	    fprintf(as_file, "\t%s\t%d,%d,0x%lx\n", get_instruction(i_oriu), dest, dest, uimm >> 16);
+	}
 
     return;
   }
@@ -462,11 +462,11 @@ void rr_ins(Instruction_P ins, int src, int dest)
   if (ins == i_not)
     rir_ins(i_sf, src, -1, dest);		/* implements monadic not */
   else
-#ifdef DO_ASSEMBLER_MACROS
-    fprintf(as_file, "\t%s\t%s,%s\n", get_instruction(ins), reg_macro(dest), reg_macro(src));
-#else
-    fprintf(as_file, "\t%s\t%d,%d\n", get_instruction(ins), dest, src);
-#endif
+	if (do_macros) {
+	    fprintf(as_file, "\t%s\t%s,%s\n", get_instruction(ins), reg_macro(dest), reg_macro(src));
+	} else {
+	    fprintf(as_file, "\t%s\t%d,%d\n", get_instruction(ins), dest, src);
+	}
 }
 
 
@@ -480,11 +480,11 @@ void mov_rr_ins(int src, int dest)
   {
     clear_reg(dest);
     /* move by i_oril of src with 0 to dest */
-#ifdef DO_ASSEMBLER_MACROS
-    fprintf(as_file, "\t%s\t%s,%s,%d", get_instruction(i_oril), reg_macro(dest), reg_macro(src), 0);
-#else
-    fprintf(as_file, "\t%s\t%d,%d,%d", get_instruction(i_oril), dest, src, 0);
-#endif
+	if (do_macros) {
+	    fprintf(as_file, "\t%s\t%s,%s,%d", get_instruction(i_oril), reg_macro(dest), reg_macro(src), 0);
+	} else {
+	    fprintf(as_file, "\t%s\t%d,%d,%d", get_instruction(i_oril), dest, src, 0);
+	}
   }
 }
 
@@ -498,11 +498,11 @@ void ld_const_ins(long imm, int dest)
 
   if (IMM_SIZE(imm))
   {
-#ifdef DO_ASSEMBLER_MACROS
-    fprintf(as_file, "\t%s\t%s,%ld\n", get_instruction(i_lil), reg_macro(dest), imm);
-#else
-    fprintf(as_file, "\t%s\t%d,%ld\n", get_instruction(i_lil), dest, imm);
-#endif
+	if (do_macros) {
+	    fprintf(as_file, "\t%s\t%s,%ld\n", get_instruction(i_lil), reg_macro(dest), imm);
+	} else {
+	    fprintf(as_file, "\t%s\t%d,%ld\n", get_instruction(i_lil), dest, imm);
+	}
   }
   else
   {
@@ -510,19 +510,19 @@ void ld_const_ins(long imm, int dest)
     unsigned long uimml = uimm & 0xffff;
 
     /* load upper 16 bits */
-#ifdef DO_ASSEMBLER_MACROS
-    fprintf(as_file, "\t%s\t%s,0x%lx\n",get_instruction(i_liu), reg_macro(dest), uimm >> 16);
-#else
-    fprintf(as_file, "\t%s\t%d,0x%lx\n",get_instruction(i_liu), dest, uimm >> 16);
-#endif
+	if (do_macros) {
+	    fprintf(as_file, "\t%s\t%s,0x%lx\n",get_instruction(i_liu), reg_macro(dest), uimm >> 16);
+	} else {
+	    fprintf(as_file, "\t%s\t%d,0x%lx\n",get_instruction(i_liu), dest, uimm >> 16);
+	}
     /* or in lower 16 bits if needed */
     if (uimml != 0)
     {
-#ifdef DO_ASSEMBLER_MACROS
-      fprintf(as_file, "\t%s\t%s,%s,0x%lx\n", get_instruction(i_oril), reg_macro(dest), reg_macro(dest), uimml);
-#else
-      fprintf(as_file, "\t%s\t%d,%d,0x%lx\n", get_instruction(i_oril), dest, dest, uimml);
-#endif
+		if (do_macros) {
+	      fprintf(as_file, "\t%s\t%s,%s,0x%lx\n", get_instruction(i_oril), reg_macro(dest), reg_macro(dest), uimml);
+		} else {
+	      fprintf(as_file, "\t%s\t%d,%d,0x%lx\n", get_instruction(i_oril), dest, dest, uimml);
+		}
     }
   }
 }
@@ -541,22 +541,22 @@ void mf_ins(Instruction_P ins, int dest)
     CHECKFREG(dest);
     clear_freg(dest);
   }
-#ifdef DO_ASSEMBLER_MACROS
-  fprintf(as_file, "\t%s\t%s\n", get_instruction(ins), reg_macro(dest));
-#else
-  fprintf(as_file, "\t%s\t%d\n", get_instruction(ins), dest);
-#endif
+	if (do_macros) {
+	  fprintf(as_file, "\t%s\t%s\n", get_instruction(ins), reg_macro(dest));
+	} else {
+	  fprintf(as_file, "\t%s\t%d\n", get_instruction(ins), dest);
+	}
 }
 
 /* move to branch unit from fixed point reg */
 void mt_ins(Instruction_P ins, int src)
 {
   CHECKREG(src);
-#ifdef DO_ASSEMBLER_MACROS
-  fprintf(as_file, "\t%s\t%s\n", get_instruction(ins), reg_macro(src));
-#else
-  fprintf(as_file, "\t%s\t%d\n", get_instruction(ins), src);
-#endif
+	if (do_macros) {
+	  fprintf(as_file, "\t%s\t%s\n", get_instruction(ins), reg_macro(src));
+	} else {
+	  fprintf(as_file, "\t%s\t%d\n", get_instruction(ins), src);
+	}
 }
 
 /* zeroadic pseudo instruction */
@@ -671,11 +671,11 @@ void bc_ins(Instruction_P ins, int creg, int lab, int prediction)
   }
   else
   {
-#ifdef DO_ASSEMBLER_MACROS
-    fprintf(as_file,"\t%s\t%s,L.%d\n",get_instruction(ins),cr_macro(creg),lab);
-#else
-    fprintf(as_file,"\t%s\t%d,L.%d\n",get_instruction(ins),creg,lab);
-#endif
+	if (do_macros) {
+	    fprintf(as_file,"\t%s\t%s,L.%d\n",get_instruction(ins),cr_macro(creg),lab);
+	} else {
+	    fprintf(as_file,"\t%s\t%d,L.%d\n",get_instruction(ins),creg,lab);
+	}
   }
 }
 /* branch conditional instruction */
@@ -756,12 +756,12 @@ void long_bc_ins(Instruction_P ins, int creg, int lab, int prediction)
   }
   else
   {
-#ifdef DO_ASSEMBLER_MACROS
-    fprintf(as_file,"\t%s\t%s,L.%d\n",get_instruction(ins),cr_macro(creg),lab);
-#else
-    fprintf(as_file,"\t%s\t%d,L.%d\n",get_instruction(ins),creg,lab);
+	if (do_macros) {
+	    fprintf(as_file,"\t%s\t%s,L.%d\n",get_instruction(ins),cr_macro(creg),lab);
+	} else {
+	    fprintf(as_file,"\t%s\t%d,L.%d\n",get_instruction(ins),creg,lab);
+	}
 
-#endif
     uncond_ins(i_b,new_lab);
     set_label(lab);
     return;
@@ -773,11 +773,11 @@ void long_bc_ins(Instruction_P ins, int creg, int lab, int prediction)
 void cmp_rr_ins(Instruction_P ins, int reg1, int reg2, int cr_dest)
 {
   CHECKREG(reg1); CHECKREG(reg2);
-#ifdef DO_ASSEMBLER_MACROS
-  fprintf(as_file, "\t%s\t%s,%s,%s\n", get_instruction(ins), cr_macro(cr_dest), reg_macro(reg1), reg_macro(reg2));
-#else
-  fprintf(as_file, "\t%s\t%d,%d,%d\n", get_instruction(ins), cr_dest, reg1, reg2);
-#endif
+	if (do_macros) {
+	  fprintf(as_file, "\t%s\t%s,%s,%s\n", get_instruction(ins), cr_macro(cr_dest), reg_macro(reg1), reg_macro(reg2));
+	} else {
+	  fprintf(as_file, "\t%s\t%d,%d,%d\n", get_instruction(ins), cr_dest, reg1, reg2);
+	}
 }
 
 
@@ -789,19 +789,19 @@ void cmp_ri_ins(Instruction_P ins, int reg, long imm, int cr_dest)
   /* +++ for equality can use cmpi or cmpli for larger constant range */
   if (ins == i_cmp && IMM_SIZE(imm))
   {
-#ifdef DO_ASSEMBLER_MACROS
-    fprintf(as_file, "\t%si\t%s,%s,%ld\n", get_instruction(ins), cr_macro(cr_dest), reg_macro(reg), imm);
-#else
-    fprintf(as_file, "\t%si\t%d,%d,%ld\n", get_instruction(ins), cr_dest, reg, imm);
-#endif
+	if (do_macros) {
+	    fprintf(as_file, "\t%si\t%s,%s,%ld\n", get_instruction(ins), cr_macro(cr_dest), reg_macro(reg), imm);
+	} else {
+	    fprintf(as_file, "\t%si\t%d,%d,%ld\n", get_instruction(ins), cr_dest, reg, imm);
+	}
   }
   else if (ins == i_cmpl && IMMLOGL_SIZE(imm))
   {
-#ifdef DO_ASSEMBLER_MACROS
-    fprintf(as_file, "\t%si\t%s,%s,%ld\n", get_instruction(ins), cr_macro(cr_dest), reg_macro(reg), imm);
-#else
-    fprintf(as_file, "\t%si\t%d,%d,%ld\n", get_instruction(ins), cr_dest, reg, imm);
-#endif
+	if (do_macros) {
+	    fprintf(as_file, "\t%si\t%s,%s,%ld\n", get_instruction(ins), cr_macro(cr_dest), reg_macro(reg), imm);
+	} else {
+	    fprintf(as_file, "\t%si\t%d,%d,%ld\n", get_instruction(ins), cr_dest, reg, imm);
+	}
   }
   else
   {
@@ -829,20 +829,20 @@ void ldf_ro_ins(Instruction_P ins, baseoff a, int dest)
     if (a.offset != 0)
       fail("ldf_ro_ins: non zero offset to R_0");
     /* with XXXx (indexed instructions) RA of R_0 is taken as constant 0 */
-#ifdef DO_ASSEMBLER_MACROS
-    fprintf(as_file, "\t%sx\t%s,%s,%s\n", get_instruction(ins), freg_macro(dest), reg_macro(R_0), reg_macro(R_0));
-#else
-    fprintf(as_file, "\t%sx\t%d,%d,%d\n", get_instruction(ins), dest, R_0, R_0);
-#endif
+	if (do_macros) {
+	    fprintf(as_file, "\t%sx\t%s,%s,%s\n", get_instruction(ins), freg_macro(dest), reg_macro(R_0), reg_macro(R_0));
+	} else {
+	    fprintf(as_file, "\t%sx\t%d,%d,%d\n", get_instruction(ins), dest, R_0, R_0);
+	}
   }
   else
   if (IMM_SIZE(a.offset))
   {
-#ifdef DO_ASSEMBLER_MACROS
-    fprintf(as_file, "\t%s\t%s,%d(%s)\n", get_instruction(ins), freg_macro(dest), (int)a.offset, reg_macro(a.base));
-#else
-    fprintf(as_file, "\t%s\t%d,%d(%d)\n", get_instruction(ins), dest,(int)a.offset, a.base);
-#endif
+	if (do_macros) {
+	    fprintf(as_file, "\t%s\t%s,%d(%s)\n", get_instruction(ins), freg_macro(dest), (int)a.offset, reg_macro(a.base));
+	} else {
+	    fprintf(as_file, "\t%s\t%d,%d(%d)\n", get_instruction(ins), dest,(int)a.offset, a.base);
+	}
   }
   else
   {
@@ -861,11 +861,11 @@ void ldf_rr_ins(Instruction_P ins, int reg1, int reg2, int dest)
   CHECKREG(reg1); CHECKREG(reg2); CHECKFREG(dest);
 
   clear_freg(dest);
-#ifdef DO_ASSEMBLER_MACROS
-  fprintf(as_file, "\t%sx\t%s,%s,%s\n", get_instruction(ins), freg_macro(dest), reg_macro(reg1), reg_macro(reg2));
-#else
-  fprintf(as_file, "\t%sx\t%d,%d,%d\n", get_instruction(ins), dest, reg1, reg2);
-#endif
+	if (do_macros) {
+	  fprintf(as_file, "\t%sx\t%s,%s,%s\n", get_instruction(ins), freg_macro(dest), reg_macro(reg1), reg_macro(reg2));
+	} else {
+	  fprintf(as_file, "\t%sx\t%d,%d,%d\n", get_instruction(ins), dest, reg1, reg2);
+	}
 }
 
 
@@ -909,20 +909,20 @@ void stf_ro_ins(Instruction_P ins, int src, baseoff a)
     if (a.offset != 0)
       fail("stf_ro_ins: non zero offset to R_0");
     /* with XXXx (indexed instructions) RA of R_0 is taken as constant 0 */
-#ifdef DO_ASSEMBLER_MACROS
-    fprintf(as_file, "\t%sx\t%s,%s,%s\n", get_instruction(ins), freg_macro(src), reg_macro(R_0), reg_macro(R_0));
-#else
-    fprintf(as_file, "\t%sx\t%d,%d,%d\n", get_instruction(ins), src, R_0, R_0);
-#endif
+	if (do_macros) {
+	    fprintf(as_file, "\t%sx\t%s,%s,%s\n", get_instruction(ins), freg_macro(src), reg_macro(R_0), reg_macro(R_0));
+	} else {
+	    fprintf(as_file, "\t%sx\t%d,%d,%d\n", get_instruction(ins), src, R_0, R_0);
+	}
   }
   else
   if (IMM_SIZE(a.offset))
   {
-#ifdef DO_ASSEMBLER_MACROS
-    fprintf(as_file, "\t%s\t%s,%d(%s)\n", get_instruction(ins), freg_macro(src), (int)a.offset, reg_macro(a.base));
-#else
-    fprintf(as_file, "\t%s\t%d,%d(%d)\n", get_instruction(ins), src,(int)a.offset, a.base);
-#endif
+	if (do_macros) {
+	    fprintf(as_file, "\t%s\t%s,%d(%s)\n", get_instruction(ins), freg_macro(src), (int)a.offset, reg_macro(a.base));
+	} else {
+	    fprintf(as_file, "\t%s\t%d,%d(%d)\n", get_instruction(ins), src,(int)a.offset, a.base);
+	}
   }
   else
   {
@@ -939,11 +939,11 @@ void stf_ro_ins(Instruction_P ins, int src, baseoff a)
 void stf_rr_ins(Instruction_P ins, int src, int reg1, int reg2)
 {
   CHECKREG(reg1); CHECKREG(reg2);
-#ifdef DO_ASSEMBLER_MACROS
-  fprintf(as_file, "\t%sx\t%s,%s,%s\n", get_instruction(ins), freg_macro(src), reg_macro(reg1), reg_macro(reg2));
-#else
-  fprintf(as_file, "\t%sx\t%d,%d,%d\n", get_instruction(ins), src, reg1, reg2);
-#endif
+	if (do_macros) {
+	  fprintf(as_file, "\t%sx\t%s,%s,%s\n", get_instruction(ins), freg_macro(src), reg_macro(reg1), reg_macro(reg2));
+	} else {
+	  fprintf(as_file, "\t%sx\t%d,%d,%d\n", get_instruction(ins), src, reg1, reg2);
+	}
 }
 
 
@@ -977,11 +977,11 @@ void stf_ins(Instruction_P ins, int src, baseoff a)
 void rrf_cmp_ins(Instruction_P ins, int reg1, int reg2, int cr_dest)
 {
   CHECKFREG(reg1); CHECKFREG(reg2);
-#ifdef DO_ASSEMBLER_MACROS
-  fprintf(as_file, "\t%s\t%s,%s,%s\n", get_instruction(ins), cr_macro(cr_dest), freg_macro(reg1), freg_macro(reg2));
-#else
-  fprintf(as_file, "\t%s\t%d,%d,%d\n", get_instruction(ins), cr_dest, reg1, reg2);
-#endif
+	if (do_macros) {
+	  fprintf(as_file, "\t%s\t%s,%s,%s\n", get_instruction(ins), cr_macro(cr_dest), freg_macro(reg1), freg_macro(reg2));
+	} else {
+	  fprintf(as_file, "\t%s\t%d,%d,%d\n", get_instruction(ins), cr_dest, reg1, reg2);
+	}
 }
 
 
@@ -990,11 +990,11 @@ void rrf_ins(Instruction_P ins, int src, int dest)
   CHECKFREG(dest); CHECKFREG(src);
 
   clear_freg(dest);
-#ifdef DO_ASSEMBLER_MACROS
+	if (do_macros) {
   fprintf(as_file, "\t%s\t%s,%s\n", get_instruction(ins), freg_macro(dest), freg_macro(src));
-#else
+	} else {
   fprintf(as_file, "\t%s\t%d,%d\n", get_instruction(ins), dest, src);
-#endif
+	}
 }
 
 
@@ -1003,11 +1003,11 @@ void rrrf_ins(Instruction_P ins, int src1, int src2, int dest)
   CHECKFREG(dest); CHECKFREG(src1); CHECKFREG(src2);
 
   clear_freg(dest);
-#ifdef DO_ASSEMBLER_MACROS
-  fprintf(as_file, "\t%s\t%s,%s,%s\n", get_instruction(ins), freg_macro(dest), freg_macro(src1), freg_macro(src2));
-#else
-  fprintf(as_file, "\t%s\t%d,%d,%d\n", get_instruction(ins), dest, src1, src2);
-#endif
+	if (do_macros) {
+	  fprintf(as_file, "\t%s\t%s,%s,%s\n", get_instruction(ins), freg_macro(dest), freg_macro(src1), freg_macro(src2));
+	} else {
+	  fprintf(as_file, "\t%s\t%d,%d,%d\n", get_instruction(ins), dest, src1, src2);
+	}
 }
 
 void rrrrf_ins(Instruction_P ins, int src1, int src2, int src3, int dest)
@@ -1015,33 +1015,33 @@ void rrrrf_ins(Instruction_P ins, int src1, int src2, int src3, int dest)
   CHECKFREG(dest); CHECKFREG(src1); CHECKFREG(src2); CHECKFREG(src3);
 
   clear_freg(dest);
-#ifdef DO_ASSEMBLER_MACROS
-  fprintf(as_file,"\t%s\t%s,%s,%s,%s\n",get_instruction(ins),freg_macro(dest),freg_macro(src1),freg_macro(src2),freg_macro(src3));
-#else
-  fprintf(as_file,"\t%s\t%d,%d,%d,%d\n",get_instruction(ins),dest,src1,src2,src3);
-#endif
+	if (do_macros) {
+	  fprintf(as_file,"\t%s\t%s,%s,%s,%s\n",get_instruction(ins),freg_macro(dest),freg_macro(src1),freg_macro(src2),freg_macro(src3));
+	} else {
+	  fprintf(as_file,"\t%s\t%d,%d,%d,%d\n",get_instruction(ins),dest,src1,src2,src3);
+	}
 }
 void rlinm_ins(Instruction_P ins, int src1, int sl, unsigned int mask, int dest)
 {
   CHECKREG(dest);CHECKREG(src1);
   assert(ins==i_rlinm||ins==i_rlinm_cr);
   clear_reg(dest);
-#ifdef DO_ASSEMBLER_MACROS
-  fprintf(as_file,"\t%s\t%s,%s,%d,0x%x\n",get_instruction(ins),reg_macro(dest),reg_macro(src1),sl,mask);
-#else
-  fprintf(as_file,"\t%s\t%d,%d,%d,0x%x\n",get_instruction(ins),dest,src1,sl,mask);
-#endif
+	if (do_macros) {
+	  fprintf(as_file,"\t%s\t%s,%s,%d,0x%x\n",get_instruction(ins),reg_macro(dest),reg_macro(src1),sl,mask);
+	} else {
+	  fprintf(as_file,"\t%s\t%d,%d,%d,0x%x\n",get_instruction(ins),dest,src1,sl,mask);
+	}
 }
 
 void mfspr_ins(int spr, int dest)
 {
   CHECKREG(dest);
   clear_reg(dest);
-#ifdef DO_ASSEMBLER_MACROS
-  fprintf(as_file,"\t%s\t%s,%s\n",get_instruction(i_mfspr),reg_macro(dest),spr_macro(spr));
-#else
-  fprintf(as_file,"\t%s\t%d,%d\n",get_instruction(i_mfspr),dest,spr);
-#endif
+	if (do_macros) {
+	  fprintf(as_file,"\t%s\t%s,%s\n",get_instruction(i_mfspr),reg_macro(dest),spr_macro(spr));
+	} else {
+	  fprintf(as_file,"\t%s\t%d,%d\n",get_instruction(i_mfspr),dest,spr);
+	}
 }
 void mtfsfi_ins(int fld, int imm)
 {
@@ -1061,11 +1061,11 @@ void mcrfs_ins(int a, int b)
 {
   assert(a>=0 && a<=7);
   assert(b>=0 && b<=7);
-#ifdef DO_ASSEMBLER_MACROS
-  fprintf(as_file,"\t%s\t%s,%d\n",get_instruction(i_mcrfs),cr_macro(a),b);
-#else
-  fprintf(as_file,"\t%s\t%d,%d\n",get_instruction(i_mcrfs),a,b);
-#endif
+	if (do_macros) {
+	  fprintf(as_file,"\t%s\t%s,%d\n",get_instruction(i_mcrfs),cr_macro(a),b);
+	} else {
+	  fprintf(as_file,"\t%s\t%d,%d\n",get_instruction(i_mcrfs),a,b);
+	}
 }
 void lsi_ins(int src, int dest, int nb)
 {

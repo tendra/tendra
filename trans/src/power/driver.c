@@ -46,8 +46,8 @@ init(void)
 	abi       = ABI_POWER;
 
 	/*
-	 * If you have compiled with -DDO_ASSEMBLER_MACROS
-	 * this makes the output easier to read
+	 * This makes the output easier to read, rather than the traditional
+	 * integers for register names.
 	 */
 	do_macros = 0;
 
@@ -81,6 +81,7 @@ option(char c, const char *optarg)
 {
 	switch (c) {
 	case 'e': no_error_jump   = 1; break;
+	case 'm': do_macros       = 1; break;
 	case 'n': do_dynamic_init = 1; break;
 
 	default:
@@ -147,7 +148,7 @@ struct driver driver = {
 	NULL,
 	cleanup,
 
-	"en",
+	"emn",
 	option,
 	switch_cpu,
 

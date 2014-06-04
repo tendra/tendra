@@ -155,12 +155,9 @@ void translate_capsule(void)
     init_diag();
   }
 
-
-#ifdef DO_ASSEMBLER_MACROS
 	if (do_macros) {
 		init_macros();
 	}
-#endif
 
 	fprintf(as_file, "L.TDF.translated:\n"); /* XXX: unneccessary */
 	fprintf(as_file, "#\tpowertrans\n");
