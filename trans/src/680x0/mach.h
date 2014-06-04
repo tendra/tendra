@@ -34,7 +34,7 @@ typedef struct tag_mach_op {
     struct tag_mach_op *plus ;
     struct tag_mach_op *of ;
 #ifndef tdf3
-#ifdef EBUG
+#ifndef NDEBUG
     int id ;
 #endif
 #endif
@@ -58,7 +58,7 @@ typedef struct tag_mach_ins {
     bitpattern changed ;
     struct tag_mach_ins *next ;
 #ifndef tdf3
-#ifdef EBUG
+#ifndef NDEBUG
     int id ;
 #endif
 #endif
@@ -93,7 +93,7 @@ typedef struct tag_mach_ins {
 #define  MACH_VALQ	18
 
 #ifndef tdf3
-#ifdef EBUG
+#ifndef NDEBUG
 #define  MACH_COMMENT   19
 #endif
 #endif

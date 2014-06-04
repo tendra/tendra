@@ -8,6 +8,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <assert.h>
+
 #include <shared/error.h>
 
 #include "memtdf.h"
@@ -26,7 +28,7 @@ void static_memory_copy(int reg_from, int reg_to, int number_of_bytes)
   int words;
   int i;
   COMMENT3("memory copy of %d bytes from R_%d to R_%d",number_of_bytes,reg_from,reg_to);
-  ASSERT(number_of_bytes >=0);
+  assert(number_of_bytes >=0);
   if(reg_from == reg_to || number_of_bytes==0 )
   {
     /* Nothing to do */
@@ -135,7 +137,7 @@ void reverse_static_memory_copy(int reg_from, int reg_to, int number_of_bytes)
     ld_ro_ins(i_l,from,R_TMP0);comment(NULL);
     st_ro_ins(i_st,R_TMP0,to);comment(NULL);
   }
-  ASSERT(offset ==0);
+  assert(offset ==0);
   return;
 }
 

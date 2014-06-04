@@ -8,6 +8,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <assert.h>
+
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
@@ -246,7 +248,7 @@ void output_parameters(exp e)
     {
       /* REGISTER  --->  REGISTER */
       int dest_reg = no(par);
-      ASSERT(dest_reg!=0);/* This is now set up in needscan*/
+      assert(dest_reg!=0);/* This is now set up in needscan*/
       if ((props(par) & inreg_bits)!=0)
       {
 	if (IS_SREG(dest_reg))
@@ -409,9 +411,9 @@ static void clear_float(void)
 
 static void set_fixed(exp p, int from, int to)
 {
-  ASSERT(IS_PARAM_REG(from));
-  ASSERT(IS_TREG(to));
-  ASSERT(to!=R_TMP0);
+  assert(IS_PARAM_REG(from));
+  assert(IS_TREG(to));
+  assert(to!=R_TMP0);
   fixed_array[from].par = p;
   fixed_array[from].dest = to;
   fixed_array[from].copied = 0;
@@ -419,8 +421,8 @@ static void set_fixed(exp p, int from, int to)
 }
 static void set_float(exp p, int from, int to)
 {
-  ASSERT(IS_FLT_PARAM_REG(from));
-  ASSERT(IS_FLT_TREG(to));
+  assert(IS_FLT_PARAM_REG(from));
+  assert(IS_FLT_TREG(to));
   float_array[from].par = p;
   float_array[from].dest = to;
   float_array[from].copied = 0;

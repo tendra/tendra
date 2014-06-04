@@ -8,6 +8,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <assert.h>
+
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
@@ -52,7 +54,7 @@ long frame_offset(exp id)
   long n = no (id);
   long off = n>>6;
 
-  ASSERT(name(id) == ident_tag);
+  assert(name(id) == ident_tag);
   for (p = father(id); !IS_A_PROC(p); p = father(p));
 
   pr = & procrecs[no(p)];
@@ -174,11 +176,11 @@ void set_up_frame_info(procrec * pr, exp e)
   if (pr->leaf_proc)
   {
     COMMENT("leaf_proc");
-    ASSERT(maxargs==0);
+    assert(maxargs==0);
   }
   else
   {
-    ASSERT(maxargs >=0);
+    assert(maxargs >=0);
 
     if (maxargs < STACK_MIN_MAXARGS*8)
     {
@@ -204,7 +206,7 @@ void set_up_frame_info(procrec * pr, exp e)
   
   
   COMMENT2("gpr use mask = %#x, lowest = %d", pr->spacereqproc.fixdump, pr->sreg_first_save);
-  ASSERT(pr->sreg_first_save==R_NO_REG || IS_SREG(pr->sreg_first_save));
+  assert(pr->sreg_first_save==R_NO_REG || IS_SREG(pr->sreg_first_save));
   
   
   
@@ -222,7 +224,7 @@ void set_up_frame_info(procrec * pr, exp e)
   
   
   COMMENT2("fpr use mask = %#x, lowest = %d", pr->spacereqproc.fltdump, pr->sfreg_first_save);
-  ASSERT(pr->sfreg_first_save==FR_NO_REG || IS_FLT_SREG(pr->sfreg_first_save));
+  assert(pr->sfreg_first_save==FR_NO_REG || IS_FLT_SREG(pr->sfreg_first_save));
   if (pr->leaf_proc)
   {
     pr->locals_offset = 0;

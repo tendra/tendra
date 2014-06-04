@@ -19,7 +19,7 @@ extern char *instr_names_simple[];
 #define instr_names ((asm_dotty_instrs) ? (instr_names_dotty) : (instr_names_simple))
 #define glob_reg_names ((asm_percent_regs) ? (glob_reg_names_percent) : (glob_reg_names_simple))
 
-#ifdef EBUG
+#ifndef NDEBUG
 #define debug_warning(X)        error(ERROR_WARNING, X)
 #else
 #define debug_warning(X)

@@ -8,6 +8,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <assert.h>
 #include <limits.h>
 
 #include <shared/error.h>
@@ -664,7 +665,7 @@ void round_error_treatment(exp *e)
   exp seq2;
   exp cond;
 
-  ASSERT(shape_size(sh(round)) ==32);
+  assert(shape_size(sh(round)) ==32);
   if (name(sh(round)) ==ulonghd)
   {
     lower_bound = me_u3(fl_shpe,me_shint(ulongsh,0)      ,float_tag);
@@ -835,7 +836,7 @@ void chfl_error_treatment(exp e, int f)
 {
   long trap = trap_label(e);
 
-  ASSERT(name(e) ==chfl_tag);
+  assert(name(e) ==chfl_tag);
   rrf_ins(i_frsp_cr,f,f);
   mcrfs_ins(CRF0,0);
   long_bc_ins(i_bso,CRF0,trap,UNLIKELY_TO_JUMP);

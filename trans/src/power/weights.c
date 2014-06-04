@@ -40,6 +40,8 @@
  *     stack, (this is obviously always available for parameters).
  */
 
+#include <assert.h>
+
 #include <shared/error.h>
 
 #include <reader/exp.h>
@@ -304,7 +306,7 @@ tailrecurse:
 	   * 64-bit & 32-bit float load same speed on POWER,
 	   * so don't differentiate, eg by adding sacle*2.0
 	   */
-	  ASSERT(!isparam(e));
+	  assert(!isparam(e));
 	  fno(e) = scale;
 	  wdef = weightsv(scale, son(e));
 	  wdef_set = 1;

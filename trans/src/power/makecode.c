@@ -8,6 +8,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <assert.h>
 #include <stdio.h>
 
 #include <shared/error.h>
@@ -53,7 +54,7 @@
 #include "error.h"
 #include "localexpmacs.h"
 
-#ifdef DEBUG_POWERTRANS
+#ifndef NDEBUG
 #include "pp.h"
 #endif
 
@@ -290,7 +291,7 @@ static void clear_branch_queue(void)
 
 static void issue_bc_ins(int i)
 {
-  ASSERT(i >= 0 && i < NQUEUE);
+  assert(i >= 0 && i < NQUEUE);
   bc_ins(bqueue[i].branch, bqueue[i].creg, bqueue[i].lab,LIKELY_TO_JUMP);
 }
 
@@ -301,15 +302,15 @@ static void queue_bc_ins(Instruction_P ins, int creg, int lab)
 
   COMMENT2("queue_bc_ins(%s,%d,lab)",(int)ins, creg);
 
-#ifdef DO_ASSERT
+#ifndef NDEBUG
   /* check there is not a queued instruction using same creg (now corrupted) */
   for (i = 0; i < NQUEUE; i++)
-    ASSERT(bqueue[i].creg != creg);
+    assert(bqueue[i].creg != creg);
 #endif
 
   i = bqueuepos;
 
-  ASSERT(i >= 0 && i < NQUEUE);
+  assert(i >= 0 && i < NQUEUE);
 
   /* if queue full, clear one entry */
   if (bqueue[i].branch != I_NIL)
@@ -429,7 +430,7 @@ static void case_tag_code_notransform(int caseint_reg, exp e, space sp)
   unsigned long approx_range;	/* max(u-l, 0x7fffffff) avoiding overflow */
   bool use_jump_vector;
 
-  ASSERT(name(e) == case_tag);
+  assert(name(e) == case_tag);
 
   /* calculate crude criterion for using jump vector or branches */
   l = no(zt);
@@ -503,11 +504,11 @@ static void case_tag_code_notransform(int caseint_reg, exp e, space sp)
 
   COMMENT4("case_tag: n=%d l,u=%d,%d approx_range=%d", n, l, u, approx_range);
   if (is_signed(sh(son(e)))) {
-    ASSERT(l <= u);
+    assert(l <= u);
   } else {
-    ASSERT((unsigned long)l <= (unsigned long)u);
+    assert((unsigned long)l <= (unsigned long)u);
   }
-  ASSERT(n >= 0);
+  assert(n >= 0);
 
   if (use_jump_vector)
   {
@@ -1092,7 +1093,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
       exp second = bro(first);
 
       code_here(first,sp,nowhere);
-      ASSERT(name(second) ==labst_tag);
+      assert(name(second) ==labst_tag);
       no(son(second)) = new_label();
 #if 1
       if (cpu != CPU_POWERPC)
@@ -1144,7 +1145,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 	    COMMENT("make_code rep_tag: last exp is rep_tag test_tag - evaluate out of order");
 
 	    /* labst_tag label should be in use */
-	    ASSERT(start_of_rep_lab!=0);
+	    assert(start_of_rep_lab!=0);
 
 	    /* allocate new label number for use with .org: L.R%d and L.S%d */
 	    rep_org_lab = ++rep_org_labnos;
@@ -1603,7 +1604,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 
 	    FULLCOMMENT4("make_code compound_tag: name(t) =%d no(t) =%d al2=%d offset=%d",
 		name(t), no(t), al2(sh(t)), newis.b.offset);
-	    ASSERT(name(t) == val_tag && al2(sh(t)) >= 8);
+	    assert(name(t) == val_tag && al2(sh(t)) >= 8);
 
 	    setinsalt(newdest.answhere, newis);
 	    newdest.ashwhere = ashof(sh(bro(t)));
@@ -1633,7 +1634,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 	{
 	  code_here(bro(t), sp, dest);
 	  r = regalt(dest.answhere);
-	  ASSERT(name(t) == val_tag);
+	  assert(name(t) == val_tag);
 	  if (no(t)!= 0)
 	    rir_ins(i_sl, r,((al2(sh(t)) >= 8)?(no(t) << 3): no(t)), r);
 	  nsp = guardreg(r, sp);
@@ -1642,7 +1643,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 	    int z;
 
 	    t = bro(bro(t));
-	    ASSERT(name(t) == val_tag);
+	    assert(name(t) == val_tag);
 	    z = reg_operand(bro(t), nsp);
 	    if (no(t)!= 0)
 	    {
@@ -2036,7 +2037,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 	return mka;
       }
 
-      ASSERT(from != to);		/* done above */
+      assert(from != to);		/* done above */
 
       /* shorten to type if needed */
       adjust_to_size(from,sreg,to,dreg,no_error_jump);
@@ -2690,7 +2691,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
           dest.ashwhere.ashalign = 32;
           move(aa,dest,nsp.fixed,1);
           ld_const_ins(temp.big,r);
-          ASSERT(dest.answhere.discrim==notinreg);
+          assert(dest.answhere.discrim==notinreg);
           dest.answhere.val.instoreans.b.offset+=4;
           move(aa,dest,nsp.fixed,1);
         }
@@ -3167,8 +3168,8 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
       ans aa;
       int xdreg = (IS_R_TMP(dreg) && checkalloc(e))? getreg(sp.fixed): dreg;
 
-      ASSERT(p_has_alloca);
-      ASSERT(p_has_fp);
+      assert(p_has_alloca);
+      assert(p_has_fp);
 
 
 
@@ -3283,7 +3284,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
       int off;
       space nsp;
 
-      ASSERT(p_has_alloca);
+      assert(p_has_alloca);
       r = reg_operand(son(e), sp);
       /* r is a pointer returned by alloca
 	 off is the number of bytes to free up */
@@ -3414,8 +3415,8 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
    default:
     fail("TDF construct not done yet in make_code");
   }				/* end outer switch */
-  ASSERT(0);			/* should have return/goto from switch */
-#ifdef DEBUG_POWERTRANS
+  assert(0);			/* should have return/goto from switch */
+#ifndef NDEBUG
   showme(e,0,1);
 #endif
   /*NOTREACHED*/

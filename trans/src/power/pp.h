@@ -10,7 +10,7 @@
 
 #ifndef PP_H
 #define PP_H
-#ifdef DEBUG_POWERTRANS
+#ifndef NDEBUG
 extern void showme(exp,int,int);
 extern exp infotag(exp,int);
 extern exp show_bro(int);

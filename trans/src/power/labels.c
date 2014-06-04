@@ -8,6 +8,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <assert.h>
 #include <stdio.h>
 
 #include <shared/error.h>
@@ -34,7 +35,7 @@ void seed_label(void)
   last_label = ((last_label + 100) / 100) * 100;
 
   (void) old_last_label;
-  ASSERT(last_label >= old_last_label);
+  assert(last_label >= old_last_label);
 }
 
 

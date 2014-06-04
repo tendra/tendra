@@ -18,6 +18,8 @@
  * (common to other translators)
  */
 
+#include <assert.h>
+
 #include <shared/error.h>
 
 #include <local/cpu.h>
@@ -233,7 +235,7 @@ needs commutative_scan(exp * e, exp * *at)
   exp prev;
   bool dont_commute;
 
-  ASSERT(father(son(*e)) == *e);
+  assert(father(son(*e)) == *e);
 
   /* scan the first operand - won't be a val_tag */
   a1 = scan(br, at);
@@ -592,7 +594,7 @@ needs scan(exp * e, exp * *at)
   static long exp_num = 0;		/* count of exps we evaluate */
 
   exp_num++;
-  ASSERT(*e != NULL);
+  assert(*e != NULL);
 
 
   switch (nstare)
@@ -740,8 +742,8 @@ needs scan(exp * e, exp * *at)
       needs an;
       int expn = exp_num;
 
-      ASSERT(!last(son(*e)));
-      ASSERT(last(bro(son(*e))));
+      assert(!last(son(*e)));
+      assert(last(bro(son(*e))));
 
       /*
        *    _     _________
@@ -822,7 +824,7 @@ needs scan(exp * e, exp * *at)
       /* Scan the def of the ident */
       arg = &son(stare);
       defneeds = scan(arg, &arg);
-      ASSERT(stare == *e);
+      assert(stare == *e);
 
       nonevis = old_nonevis;
       t = son(stare);
@@ -871,7 +873,7 @@ needs scan(exp * e, exp * *at)
 	/*
 	 * IDENT is a normal ident
 	 */
-	ASSERT(!isparam(*e));
+	assert(!isparam(*e));
 
 
 	if (!isvis(*e) &&
@@ -1215,7 +1217,7 @@ needs scan(exp * e, exp * *at)
 	{
 	  if (!valregable(s))
 	  {
-	    ASSERT(redo_structfns==0);
+	    assert(redo_structfns==0);
 	    x.propsneeds |= long_result_bit;
 	  }
 	}
@@ -1655,7 +1657,7 @@ needs scan(exp * e, exp * *at)
 
       /* check BUGP13 [corruption by extract_consts()] is fixed */
       /* check father set correctly */
-      ASSERT(father(son(sum)) ==sum);
+      assert(father(son(sum)) ==sum);
 
       for (; optop(sum);)
       {
@@ -1689,7 +1691,7 @@ needs scan(exp * e, exp * *at)
 	     * eventually new list is made son of plus_tag
 	     */
 
-	    ASSERT(list == son(x));
+	    assert(list == son(x));
 
 	    bro(list) = son(bro(x));
 	    if (!last(x))
@@ -1721,7 +1723,7 @@ needs scan(exp * e, exp * *at)
 	  bro(sum) = x;
 
 	  /* check father of sum is correct */
-	  ASSERT(father(son(sum)) ==sum);
+	  assert(father(son(sum)) ==sum);
 
 	  *(e) = x;
 	}			/* end allneg */
@@ -1791,7 +1793,7 @@ needs scan(exp * e, exp * *at)
 	}			/* end else allneg */
 
 	/* check father set correctly */
-	ASSERT(father(son(*e)) ==*e);
+	assert(father(son(*e)) ==*e);
 
 	return scan(e, at);
 
@@ -2322,7 +2324,7 @@ int scan_cond(exp * e, exp outer_id)
   exp labst = bro(first);
   exp second = bro(son(labst));
 
-  ASSERT(name(ste) ==cond_tag);
+  assert(name(ste) ==cond_tag);
 
   if (name(second) ==top_tag && name(sh(first)) ==bothd && no(son(labst)) ==1
       && name(first) ==seq_tag && name(bro(son(first))) == goto_tag) {
@@ -2453,7 +2455,7 @@ static void number_caller_parameter(exp param_id)
   long par_size = shape_size(param_shape);
   long par_stack_location = ALIGNNEXT(stparam,32);
 
-  ASSERT(name(init_exp) ==clear_tag);
+  assert(name(init_exp) ==clear_tag);
 
   if (is_floating(name(param_shape)))
   {

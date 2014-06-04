@@ -157,7 +157,7 @@ unhas(void)
 
 	/* Switch off optimizations if required */
 	if (diag != DIAG_NONE
-#ifdef EBUG
+#ifndef NDEBUG
 	|| 1
 #endif
 	) {

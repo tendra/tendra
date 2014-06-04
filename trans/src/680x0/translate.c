@@ -43,13 +43,7 @@
 extern dec *sort_decs(dec *);
 static void output_all_exps(void);
 
-/*
-    INCLUDE DEBUGGING ROUTINES
-
-    These are used to aid in debugging.
-
-*/
-#ifdef EBUG
+#ifndef NDEBUG
 /*
 #include <misc/debug>
 */
@@ -145,7 +139,7 @@ translate_capsule(void)
 
     make_transformations();
 
-#ifndef EBUG
+#ifndef NDEBUG
     opt_all_exps();
 #endif
 

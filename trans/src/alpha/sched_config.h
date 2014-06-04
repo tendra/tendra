@@ -25,7 +25,6 @@
 #define CHANGE_OVER		1
 #define REMOVE_TEXT		1
 #define FS_TEXT_AVAILABLE	1	/* can we assume existence of the 'text' macro ? */
-#define FS_ASSERT		DEBUG	/*  ASSERT has no effect unless DEBUG is 1  */
 #define FS_DUAL_ISSUE		1
 #define FS_PIPELINE_DIAGRAM	0
 #define FS_NOP_REQUIRED		0

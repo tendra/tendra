@@ -20,6 +20,8 @@
  * Delivers register used if 1-word destination is instore; otherwise NOREG.
  */
 
+#include <assert.h>
+
 #include <shared/error.h>
 
 #include <local/ash.h>
@@ -77,9 +79,9 @@ static /* const */ ins_sgn_pair st_ins_sz[] =
 /* the ld instruction for object sized bits, and sgned or not */
 Instruction_P i_ld_sz(int bits, int sgned)
 {
-  ASSERT((bits&7)==0);
-  ASSERT(bits<=64);
-  ASSERT(ld_ins_sz[(bits)/8][sgned]!=I_NIL);
+  assert((bits&7)==0);
+  assert(bits<=64);
+  assert(ld_ins_sz[(bits)/8][sgned]!=I_NIL);
   return ld_ins_sz[(bits)/8][sgned];
 }
 
@@ -87,9 +89,9 @@ Instruction_P i_ld_sz(int bits, int sgned)
 /* the st instruction for object sized bits */
 Instruction_P i_st_sz(int bits)
 {
-  ASSERT((bits&7)==0);
-  ASSERT(bits<=64);
-  ASSERT(st_ins_sz[(bits)/8][0]!=I_NIL);
+  assert((bits&7)==0);
+  assert(bits<=64);
+  assert(st_ins_sz[(bits)/8][0]!=I_NIL);
   return st_ins_sz[(bits)/8][0];
 }
 
@@ -187,7 +189,7 @@ static void store(Instruction_P st, int r, instore is, long regs)
   {
     baseoff b;
 
-    ASSERT(r!=R_TMP0);
+    assert(r!=R_TMP0);
 #if 0
     b.base = R_TMP0;
 #else 
@@ -235,14 +237,14 @@ static void loopmove1
   COMMENT("loopmove1: loop move");
 
   /* moves of addresses not handled by this long move */
-  ASSERT(!iss.adval);
+  assert(!iss.adval);
 
-  ASSERT(bytes_per_step <= 4);	/* only using 1 word regs */
+  assert(bytes_per_step <= 4);	/* only using 1 word regs */
 
   cnt_reg = getreg(regs);
   regs |= RMASK(cnt_reg);
 
-  ASSERT(!iss.adval);
+  assert(!iss.adval);
   iss.adval = 1;	/* we want address of value */
   srcptr_reg = addr_reg(iss, regs);
   regs |= RMASK(srcptr_reg);
@@ -298,7 +300,7 @@ static void loopmove2
 
   COMMENT("loopmove2: loop move");
 
-  ASSERT(bytes_per_step <= 4);	/* only using 1 word regs */
+  assert(bytes_per_step <= 4);	/* only using 1 word regs */
 
   switch(bytes_per_step)
   {
@@ -312,7 +314,7 @@ static void loopmove2
   mt_ins(i_mtctr, R_TMP0);
 
   /* moves of addresses not handled by this long move */
-  ASSERT(!iss.adval);
+  assert(!iss.adval);
   iss.adval = 1;	/* we want address of value */
   iss.b.offset -= bytes_per_step;
   srcptr_reg = getreg(regs);
@@ -389,8 +391,8 @@ static void loopmove3
 
   COMMENT("loopmove3: loop move");
 
-  ASSERT(bytes_per_step <= 4);	/* only using 1 word regs */
-  ASSERT(half_no_steps>=1);
+  assert(bytes_per_step <= 4);	/* only using 1 word regs */
+  assert(half_no_steps>=1);
 
   switch(bytes_per_step)
   {
@@ -401,7 +403,7 @@ static void loopmove3
   }
 
   /* moves of addresses not handled by this long move */
-  ASSERT(!iss.adval);
+  assert(!iss.adval);
   iss.adval = 1;	/* we want address of value */
   iss.b.offset -= bytes_per_step;
   srcptr_reg = getreg(regs);
@@ -532,11 +534,11 @@ static int moveinstore(instore iss, instore isd, int size, int al, long regs, bo
    * we are assuming the following, eg 8 bit object cannot have 32 bit
    * alignment
    */
-  ASSERT((bits % al) == 0);
+  assert((bits % al) == 0);
 
-  ASSERT(bytes_per_step > 0 && bytes_per_step <= 4);
-  ASSERT(no_steps > 0);
-  ASSERT((no_steps * bytes_per_step) == (bits / 8));
+  assert(bytes_per_step > 0 && bytes_per_step <= 4);
+  assert(no_steps > 0);
+  assert((no_steps * bytes_per_step) == (bits / 8));
 
   /* multi step objects by unsigned move, single step special cased below */
   ld = i_ld_sz(bits_per_step, 0 /* unsgned */);
@@ -599,12 +601,12 @@ static int moveinstore(instore iss, instore isd, int size, int al, long regs, bo
 
       COMMENT("moveinstore: inline move");
 
-      ASSERT(ld_steps >= 2);
+      assert(ld_steps >= 2);
 
       /* moves of addresses not handled by this long move */
-      ASSERT(!iss.adval);
+      assert(!iss.adval);
 
-      ASSERT(bits_per_step <= 32);	/* only using byte regs */
+      assert(bits_per_step <= 32);	/* only using byte regs */
 
       r1 = getreg(regs);
       regs |= RMASK(r1);
@@ -705,7 +707,7 @@ static int moveinstore(instore iss, instore isd, int size, int al, long regs, bo
 
       COMMENT("moveinstore: end inline move");
 
-      ASSERT(ld_steps == 0);
+      assert(ld_steps == 0);
 
       return NOREG;
     }
@@ -763,7 +765,7 @@ int move(ans a, where dest, long regs, bool sgned)
   FULLCOMMENT4("move: %d -> %d, dest ashsize,ashalign = %d,%d",
 	       a.discrim, dest.answhere.discrim, dest.ashwhere.ashsize, dest.ashwhere.ashalign);
 #if 0
-  ASSERT((dest.answhere.discrim == inreg && dest.answhere.val.regans == R_0)	/* nowhere */
+  assert((dest.answhere.discrim == inreg && dest.answhere.val.regans == R_0)	/* nowhere */
 	 || dest.ashwhere.ashsize > 0);	/* unitialised dest.ashwhere */
 #endif
 
@@ -1046,7 +1048,7 @@ start:
 
 	  frd = fregalt(dest.answhere);
 
-	  ASSERT(!iss.adval);	/* address should never go to float reg */
+	  assert(!iss.adval);	/* address should never go to float reg */
 	  /* allow doubles not to be double aligned in mem, ie param */
 	  if (frd.dble)
 	  {

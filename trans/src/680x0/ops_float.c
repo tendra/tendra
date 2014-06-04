@@ -7,11 +7,14 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <stdio.h>
+
 #include <shared/check.h>
 #include <shared/error.h>
 
 #include <local/fbase.h>
 
+#include <main/driver.h>
 
 #include <reader/basicread.h>
 #include <reader/externs.h>

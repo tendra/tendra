@@ -7,6 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <stdio.h>
+
 #include <shared/check.h>
 #include <shared/error.h>
 
@@ -18,6 +20,8 @@
 #include <construct/install_fns.h>
 #include <construct/shape.h>
 #include <construct/tags.h>
+
+#include <main/driver.h>
 
 #include <refactor/refactor.h>
 

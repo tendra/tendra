@@ -129,7 +129,7 @@ free_all_ins(void)
     same first four arguments, but has susp always false.
 */
 
-#ifdef EBUG
+#ifndef NDEBUG
 static int next_id = 0;
 #endif
 
@@ -152,7 +152,7 @@ make_instr_aux(int insno, mach_op *op1, mach_op *op2, bitpattern ch, int susp)
 	}
 	p = mach_ins_list;
 	mach_ins_list = p->next;
-#ifdef EBUG
+#ifndef NDEBUG
 	p->id = ++next_id;
 #if 1
 	if (p->id == 4803) {

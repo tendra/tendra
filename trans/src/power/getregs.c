@@ -8,6 +8,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <assert.h>
+
 #include <shared/error.h>
 
 #include "memtdf.h"
@@ -70,15 +72,15 @@ int getreg(long fixed)
   FULLCOMMENT3("getreg: from %#x, choosefix=%#x currentfix=%d", fixed, choosefix, currentfix);
 
   /* currentfix and choosefix are in step, one the reg number, one the mask */
-  ASSERT(choosefix == RMASK(currentfix));
+  assert(choosefix == RMASK(currentfix));
 
   for (;;)
   {
     if ((choosefix & fixed) == 0)
       reg = currentfix;
 
-    ASSERT(reg != R_0);		/* R_0 not a fully functional reg, should never be in set */
-    ASSERT(!IS_R_TMP(reg));	/* +++ R_TMP currently used as ad-hoc temp in
+    assert(reg != R_0);		/* R_0 not a fully functional reg, should never be in set */
+    assert(!IS_R_TMP(reg));	/* +++ R_TMP currently used as ad-hoc temp in
 				 * various places */
 
     if (currentfix == R_LAST)
@@ -97,7 +99,7 @@ int getreg(long fixed)
     if (reg != -1)
     {
       FULLCOMMENT1("getreg: allocating %d", reg);
-      ASSERT(IS_TREG(reg));
+      assert(IS_TREG(reg));
       return reg;
     }
 
@@ -128,7 +130,7 @@ int getfreg(long fl)
    * currentfloat and choosefloat are in step, one the reg number, one the
    * mask
    */
-  ASSERT(choosefloat == RMASK(currentfloat));
+  assert(choosefloat == RMASK(currentfloat));
 
   for (;;)
   {
@@ -151,7 +153,7 @@ int getfreg(long fl)
     if (reg != -1)
     {
       FULLCOMMENT1("getfreg: allocating %d", reg);
-      ASSERT(IS_FLT_TREG(reg));
+      assert(IS_FLT_TREG(reg));
       return reg;
     }
 

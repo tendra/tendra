@@ -50,8 +50,6 @@ dg_xcalloc(size_t count, size_t size)
 
 #include "diagglob.h"
 
-#define DEBUG(x)	x
-
 /* VARIABLES */
 /* All variables initialised */
 

@@ -25,6 +25,8 @@
  * Number of ident = (word displacement in locals)*64 + R_SP
  */
 
+#include <assert.h>
+
 #include <shared/error.h>
 
 #include <local/ash.h>
@@ -97,8 +99,8 @@ spacereq regalloc(exp e, int freefixed, int freefloat, long stack)
       
       FULLCOMMENT4("regalloc ident_tag:	vis=%d	freefixed,freefloat,stack = %d %d %ld", isvis(e)!=0, freefixed, freefloat, stack);
       
-      ASSERT(freefixed >= 0);
-      ASSERT(freefloat >= 0);
+      assert(freefixed >= 0);
+      assert(freefloat >= 0);
       
       if (props(e) & defer_bit)
       {
@@ -138,13 +140,13 @@ spacereq regalloc(exp e, int freefixed, int freefloat, long stack)
 	   * st - bit address for next allocation
 	   */
 	  
-	  ASSERT((stack&31)==0);	/* we expect stack to be word aligned */
+	  assert((stack&31)==0);	/* we expect stack to be word aligned */
 	  
 	  st = ALIGNNEXT(stack, a.ashalign);
 	  st = ALIGNNEXT(st+a.ashsize, 32);	/* maintain word alignment */
 	  
-	  ASSERT(st-stack>=a.ashsize);
-	  ASSERT((st&31)==0);
+	  assert(st-stack>=a.ashsize);
+	  assert((st&31)==0);
 	  
 	  def = regalloc (s, freefixed, freefloat, st);
 	}
@@ -165,9 +167,9 @@ spacereq regalloc(exp e, int freefixed, int freefloat, long stack)
 	  def.fixdump |= RMASK(no(e));
 	  ffix--;
 	  FULLCOMMENT1("regalloc suitable for s reg:	no(e)=%ld", no(e));
-	  ASSERT(ffix >= 0);
-	  ASSERT(IS_SREG(no(e)));
-	  ASSERT(a.ashsize <= 32);
+	  assert(ffix >= 0);
+	  assert(IS_SREG(no(e)));
+	  assert(a.ashsize <= 32);
 	}
 	else if ((props(e) & infreg_bits) == 0 && 
 		 floatregable(e) && no(e) < ffloat
@@ -179,9 +181,9 @@ spacereq regalloc(exp e, int freefixed, int freefloat, long stack)
 	  def.fltdump |= RMASK(no(e));
 	  ffloat--;
 	  FULLCOMMENT1("regalloc suitable for s freg:	no(e)=%ld", no(e));
-	  ASSERT(ffloat >= 0);
-	  ASSERT(IS_FLT_SREG(no(e)));
-	  ASSERT(a.ashsize <= 64);
+	  assert(ffloat >= 0);
+	  assert(IS_FLT_SREG(no(e)));
+	  assert(a.ashsize <= 64);
 	}
 	else if ((props(e) & inanyreg) == 0)
 	{
@@ -241,17 +243,17 @@ spacereq regalloc(exp e, int freefixed, int freefloat, long stack)
 	     * st - bit address for next allocation
 	     */
 	    
-	    ASSERT((stack&31)==0);	/* we expect stack to be word aligned */
+	    assert((stack&31)==0);	/* we expect stack to be word aligned */
 	    
 	    stack = ALIGNNEXT(stack, a.ashalign);
 	    st = ALIGNNEXT(stack+a.ashsize, 32);	/* maintain word alignment */
 	    
-	    ASSERT(st-stack>=a.ashsize);
-	    ASSERT((stack&31)==0);
+	    assert(st-stack>=a.ashsize);
+	    assert((stack&31)==0);
 	    
 	    def.stack = max(def.stack, st);
 	    no(e) = (stack<<3) + R_FP;		/* no() decoded by boff() */
-	    ASSERT((stack&7)==0);			/* must be byte aligned */
+	    assert((stack&7)==0);			/* must be byte aligned */
 	    FULLCOMMENT3("regalloc allocate on stack:	stack,st=%ld,%ld	no(e)=%ld", stack,st,no(e));
 	  }
 	}

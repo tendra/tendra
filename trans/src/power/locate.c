@@ -14,6 +14,8 @@
  * evaluating an exp is in a register or directly or literally in store,
  */
 
+#include <assert.h>
+
 #include <shared/error.h>
 
 #include <local/ash.h>
@@ -103,7 +105,7 @@ baseoff boff_location(int n)
   int br = n & 0x3f;		/* base reg in bottom 6 bits */
   long off = (n>>6);		/* offset in bytes from br in rest */
 
-  ASSERT((n<0)==(off<0));	/* any sign propagated */
+  assert((n<0)==(off<0));	/* any sign propagated */
   if (br<0)
     br = -br;
 
@@ -132,7 +134,7 @@ baseoff boff_location(int n)
   {
     an.base = R_SP;
     an.offset = off;
-    ASSERT(off >= 0);
+    assert(off >= 0);
   }
   else if (br == R_FP)
   {

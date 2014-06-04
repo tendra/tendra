@@ -8,6 +8,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <assert.h>
+
 #include <shared/error.h>
 
 #include <local/cpu.h>
@@ -395,9 +397,9 @@ int tempdec(exp e, bool enoughs)
 static int param_uses(exp id)
 {
   exp p;
-  ASSERT(isparam(id));
-  ASSERT(useinpar);
-  ASSERT(nouses==0);
+  assert(isparam(id));
+  assert(useinpar);
+  assert(nouses==0);
   /* We found all the uses of the ident and we found one of them in a parameter list */
 
   for (p=pt(id); p!=NULL;p = pt(p))
@@ -417,7 +419,7 @@ static int locate_param(exp e)
   exp par;
 
 
-  ASSERT(APPLYLIKE(f));
+  assert(APPLYLIKE(f));
   switch (name(f))
   {
    case apply_general_tag:

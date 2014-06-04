@@ -15,6 +15,7 @@
  * understood by the assembler.
  */
 
+#include <assert.h>
 #include <stdio.h>
 
 #include <shared/error.h>
@@ -36,8 +37,8 @@
 
 #define IS_POW2(c)		((c)!= 0 && ((c) & ((c) -1)) == 0)
 
-#define CHECKREG(r)		ASSERT(IS_FIXREG(r) && (!IS_SREG(r) || (r) >= p_sreg_first_save || (r == R_FP)));
-#define CHECKFREG(r)		ASSERT((!IS_FLT_SREG(r) || (r) >= p_sfreg_first_save));
+#define CHECKREG(r)		assert(IS_FIXREG(r) && (!IS_SREG(r) || (r) >= p_sreg_first_save || (r == R_FP)));
+#define CHECKFREG(r)		assert((!IS_FLT_SREG(r) || (r) >= p_sfreg_first_save));
 
 char * get_instruction(Instruction_P);
 
@@ -53,7 +54,7 @@ char *ext_name(long id)
   {
     static char sp[16];
 
-    ASSERT(id > R_LAST);	/* not a confused register */
+    assert(id > R_LAST);	/* not a confused register */
 
     sprintf(sp, "L.D%ld", id);
     return sp;
@@ -92,7 +93,7 @@ void ld_ro_ins(Instruction_P ins, baseoff a, int dest)
   {
     /* offset too big, put in temp reg and used ld_rr_ins */
     /* +++ arrange stack variable to minimise this */
-    ASSERT(a.base!=R_TMP0);
+    assert(a.base!=R_TMP0);
     ld_const_ins(a.offset, R_TMP0);
     ld_rr_ins(ins, a.base, R_TMP0, dest);
   }
@@ -102,7 +103,7 @@ void ld_ro_ins(Instruction_P ins, baseoff a, int dest)
 void ld_rr_ins(Instruction_P ins, int reg1, int reg2, int dest)
 {
   CHECKREG(dest); CHECKREG(reg1); CHECKREG(reg2);
-  ASSERT(reg1!=R_0);
+  assert(reg1!=R_0);
 
   clear_reg(dest);
 #ifdef DO_ASSEMBLER_MACROS
@@ -146,7 +147,7 @@ void ld_ins(Instruction_P ins, baseoff a, int dest)
     baseoff tmp_off;
 
     FULLCOMMENT2("ld_ins ext: off=%#x -> r%d", a.offset, dest);
-    ASSERT(a.offset==0 || dest!=R_TMP0);
+    assert(a.offset==0 || dest!=R_TMP0);
 
     /* load base into dest reg, then let ld_ro_ins do offset (which may need R_TMP0) */
     tmp_off.base = a.base;
@@ -199,7 +200,7 @@ void st_ro_ins(Instruction_P ins, int src, baseoff a)
     /* offset too big, put in temp reg and used st_rr_ins */
     /* +++ arrange stack variable to minimise this */
     COMMENT("st_ro_ins: big offset, use temp reg and st_rr_ins");
-    ASSERT(a.base!=R_TMP0);		/* otherwise we corrupt it */
+    assert(a.base!=R_TMP0);		/* otherwise we corrupt it */
     ld_const_ins(a.offset, R_TMP0);
     st_rr_ins(ins, src, a.base, R_TMP0);
   }
@@ -209,7 +210,7 @@ void st_ro_ins(Instruction_P ins, int src, baseoff a)
 void st_rr_ins(Instruction_P ins, int src, int reg1, int reg2)
 {
   CHECKREG(src); CHECKREG(reg1); CHECKREG(reg2);
-  ASSERT(reg1!=R_0);
+  assert(reg1!=R_0);
 #ifdef DO_ASSEMBLER_MACROS
   fprintf(as_file, "\t%sx\t%s,%s,%s\n", get_instruction(ins), reg_macro(src), reg_macro(reg1), reg_macro(reg2));
 #else
@@ -284,13 +285,13 @@ void rir_ins(Instruction_P ins, int src, long imm, int dest)
     ins ==i_and_cr|| ins==i_or_cr || ins==i_xor_cr;
 
   CHECKREG(dest); CHECKREG(src);
-  ASSERT(ins!=i_divs&&ins!=i_div);	/* no divi, so we should not be called for div */
+  assert(ins!=i_divs&&ins!=i_div);	/* no divi, so we should not be called for div */
 
   /*
    * Check agaonst IBM assembler bug which we should avoid at higher levels:
    * IX25505 bosadt: SRI 30,29,0 DOES NOT ASSEMBLE CORRECTLY
    */
-  ASSERT(!(ins==i_sr && imm==0));
+  assert(!(ins==i_sr && imm==0));
 
   clear_reg(dest);
 
@@ -361,7 +362,7 @@ void rir_ins(Instruction_P ins, int src, long imm, int dest)
      */
     unsigned long x = imm;
 
-    ASSERT(x != 0);		/* should be handled above */
+    assert(x != 0);		/* should be handled above */
     if (is_a_mask(x) || is_a_mask(~x))
     {
       COMMENT1("rir_ins: special casing and of constant %#lx", imm);
@@ -382,7 +383,7 @@ void rir_ins(Instruction_P ins, int src, long imm, int dest)
      */
     unsigned long x = imm;
 
-    ASSERT(x != 0);		/* should be handled above */
+    assert(x != 0);		/* should be handled above */
     if (is_a_mask(x) || is_a_mask(~x))
     {
       COMMENT1("rir_ins: special casing and of constant %#lx", imm);
@@ -585,7 +586,7 @@ void extj_ins(Instruction_P ins, baseoff b)
   char *ext;
 
   FULLCOMMENT1("extj_ins: global proc no=%d",(-b.base) - 1);
-  ASSERT(((-b.base) -1) >=0);
+  assert(((-b.base) -1) >=0);
 
   ext = main_globals[(-b.base) - 1] ->dec_u.dec_val.dec_id;
 
@@ -848,7 +849,7 @@ void ldf_ro_ins(Instruction_P ins, baseoff a, int dest)
     /* offset too big, put in temp reg and used ld_rr_ins */
     /* +++ arrange stack variable to minimise this */
     COMMENT("ldf_ro_ins: big offset, use R_TMP0 and ldf_rr_ins");
-    ASSERT(a.base!=R_TMP0);		/* otherwise we corrupt it */
+    assert(a.base!=R_TMP0);		/* otherwise we corrupt it */
     ld_const_ins(a.offset, R_TMP0);
     ldf_rr_ins(ins, a.base, R_TMP0, dest);
   }
@@ -928,7 +929,7 @@ void stf_ro_ins(Instruction_P ins, int src, baseoff a)
     /* offset too big, put in temp reg and used stf_rr_ins */
     /* +++ arrange stack variable to minimise this */
     COMMENT("stf_ro_ins: big offset, use temp reg and stf_rr_ins");
-    ASSERT(a.base!=R_TMP0);		/* otherwise we corrupt it */
+    assert(a.base!=R_TMP0);		/* otherwise we corrupt it */
     ld_const_ins(a.offset, R_TMP0);
     stf_rr_ins(ins, src, a.base, R_TMP0);
   }
@@ -1023,7 +1024,7 @@ void rrrrf_ins(Instruction_P ins, int src1, int src2, int src3, int dest)
 void rlinm_ins(Instruction_P ins, int src1, int sl, unsigned int mask, int dest)
 {
   CHECKREG(dest);CHECKREG(src1);
-  ASSERT(ins==i_rlinm||ins==i_rlinm_cr);
+  assert(ins==i_rlinm||ins==i_rlinm_cr);
   clear_reg(dest);
 #ifdef DO_ASSEMBLER_MACROS
   fprintf(as_file,"\t%s\t%s,%s,%d,0x%x\n",get_instruction(ins),reg_macro(dest),reg_macro(src1),sl,mask);
@@ -1048,18 +1049,18 @@ void mtfsfi_ins(int fld, int imm)
 }
 void mtfsb0_ins(int bit)
 {
-  ASSERT(bit>=0 && bit<=31);
+  assert(bit>=0 && bit<=31);
   fprintf(as_file,"\t%s\t%d\n",get_instruction(i_mtfsb0),bit);
 }
 void mtfsb1_ins(int bit)
 {
-  ASSERT(bit>=0 && bit<=31);
+  assert(bit>=0 && bit<=31);
   fprintf(as_file,"\t%s\t%d\n",get_instruction(i_mtfsb1),bit);
 }
 void mcrfs_ins(int a, int b)
 {
-  ASSERT(a>=0 && a<=7);
-  ASSERT(b>=0 && b<=7);
+  assert(a>=0 && a<=7);
+  assert(b>=0 && b<=7);
 #ifdef DO_ASSEMBLER_MACROS
   fprintf(as_file,"\t%s\t%s,%d\n",get_instruction(i_mcrfs),cr_macro(a),b);
 #else
@@ -1076,7 +1077,7 @@ void stsi_ins(int src, int dest, int nb)
 }
 void comment(char *p)
 {
-#ifdef DEBUG_POWERTRANS
+#ifndef NDEBUG
   if (p==NULL)
   {
     fprintf(as_file,"\n");

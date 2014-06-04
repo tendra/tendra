@@ -8,6 +8,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <assert.h>
+
 #include <shared/error.h>
 
 #include <local/ash.h>
@@ -102,7 +104,7 @@ void do_comm(exp seq, space sp, int final, Instruction_P rins)
   int a2;
 
   /* should have been optimised in scan... */
-  ASSERT(!(rins == i_a && name(seq) == neg_tag && name(bro(seq)) != val_tag));
+  assert(!(rins == i_a && name(seq) == neg_tag && name(bro(seq)) != val_tag));
 
   /* evaluate 1st operand into a1 */
   a1 = reg_operand(seq, sp);

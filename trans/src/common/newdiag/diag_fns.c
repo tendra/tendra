@@ -45,8 +45,6 @@ diag_tq f_dummy_diag_tq;
 filename f_dummy_filename;
 sourcemark f_dummy_sourcemark;
 
-#define DEBUG(x)	x
-
 static dg_filename primary_file = NULL;
 
 static nat zero_nat;

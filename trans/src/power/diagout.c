@@ -88,7 +88,7 @@
 #define CSTRING(tdfstring)	((tdfstring).ints.chars)
 
 /* tdf exp -> C int */
-#define EXPINT(exp)		(ASSERT(name(exp) == val_tag), no(exp))
+#define EXPINT(exp)		(assert(name(exp) == val_tag), no(exp))
 
 /* tdf nat -> C int */
 #define NATINT(n)		((n).nat_val.small_nat)
@@ -370,7 +370,7 @@ static void number_and_stab_basicshapes(void)
   {
     int n = next_typen();	/* use up the typen TYPEID_TOKEN */
 
-    ASSERT(TYPEID_TOKEN == n);
+    assert(TYPEID_TOKEN == n);
 
     /*
      * TypeId:	    INTEGER = TypeDef	"New type number described by TypeDef"
@@ -457,7 +457,7 @@ static void stab_typedefs(void)
     int non;
     diag_type dt = dd->data.typ.new_type;
     stab_internal_types(dt,0);
-    ASSERT(CSTRING(dd->data.typ.nme)[0]!=0);/* Not an empty string */
+    assert(CSTRING(dd->data.typ.nme)[0]!=0);/* Not an empty string */
 
     fprintf(as_file, "\t.stabx\t\"%s:t", CSTRING(dd->data.typ.nme));
 
@@ -590,7 +590,7 @@ void output_diag(diag_info * d, int proc_no, exp e)
     return;
   }
 
-  ASSERT(name(id) == ident_tag);
+  assert(name(id) == ident_tag);
 
   mark_scope(e);
   FULLCOMMENT1("output_diag: DIAG_INFO_ID mark_scope props(e) =%#x", props(e));
@@ -917,7 +917,7 @@ static int TypeNo_of_shape(shape s)
 
    default:
     {
-      ASSERT(0);		/* fail if debugging */
+      assert(0);		/* fail if debugging */
       return TYPEID_VOID;	/* return something that will work */
     }
     /* NOTREACHED */
@@ -1011,7 +1011,7 @@ static int size_dt(diag_type dt)
 
       if (stride > 0)
       {
-	ASSERT(stride >= size_dt(dt->data.array.element_type));
+	assert(stride >= size_dt(dt->data.array.element_type));
 	return nelements * stride;
       }
       else
@@ -1064,7 +1064,7 @@ static int size_dt(diag_type dt)
     }
    default:
     {
-      ASSERT(0);		/* fail if in debug mode */
+      assert(0);		/* fail if in debug mode */
       return -1;
     }
   }
@@ -1093,7 +1093,7 @@ static void out_dt_TypeDef_no_recurse(diag_type dt)
       diag_type index_type = dt->data.array.index_type;
       diag_type element_type = dt->data.array.element_type;
 
-      ASSERT(stride >= size_dt(element_type));
+      assert(stride >= size_dt(element_type));
 
 #if 0
       /* +++ maybe this works better thab Packed array with dbx/gdb, try it */
@@ -1164,13 +1164,13 @@ static void out_dt_TypeDef_no_recurse(diag_type dt)
 	int offset = EXPINT(sf->where);
 
 	/* Field:	NAME : TypeId , BitOffset , NumBits ; */
-	ASSERT(CSTRING(sf->field_name)[0]!=0);
+	assert(CSTRING(sf->field_name)[0]!=0);
 	fprintf(as_file, "%s:", CSTRING(sf->field_name));
 	out_dt_TypeId(sf->field_type);
 
 	size = size_dt(sf->field_type);
 
-#ifdef DO_ASSERT
+#ifndef NDEBUG
 	/* check object size <= field size */
 	if (size > 0)
 	{
@@ -1187,7 +1187,7 @@ static void out_dt_TypeDef_no_recurse(diag_type dt)
 	  }
 	  sizetonext = next_start - offset;
 
-	  ASSERT(size <= sizetonext);
+	  assert(size <= sizetonext);
 	}
 #endif
 
@@ -1241,7 +1241,7 @@ static void out_dt_TypeDef_no_recurse(diag_type dt)
       int nvals = enumvals->len;
       int i;
 
-      ASSERT(size_dt(dt->data.t_enum.base_type) == 32);
+      assert(size_dt(dt->data.t_enum.base_type) == 32);
 
       fprintf(as_file, "e");
       for (i = 0; i < nvals; i++)
@@ -1367,7 +1367,7 @@ static void out_dt_TypeDef_no_recurse(diag_type dt)
   default:
     {
       /* nothing expected now, but maybe there will be extensions */
-      ASSERT(0);		/* fail if in debug mode */
+      assert(0);		/* fail if in debug mode */
       /* We must output something here to satisfy the syntax */
 
       /*
@@ -1525,7 +1525,7 @@ void stab_global(exp global, char *id, bool ext)
    * Variable:		G TypeId	"Global (external) variable of type TypeId"
    *		|	S TypeId	"Module variable of type TypeId (C static global)"
    */
-  ASSERT(CSTRING(dd->data.id.nme)[0]!=0);
+  assert(CSTRING(dd->data.id.nme)[0]!=0);
   fprintf(as_file, "\t.stabx\t\"%s:%c",
 	  CSTRING(dd->data.id.nme),
 	 (ext ? 'G' : 'S'));
@@ -1581,7 +1581,7 @@ void stab_proc2(exp proc, char *id, bool ext)
   dt = dd->data.id.new_type;
   nm = CSTRING(dd->data.id.nme);	/* source proc name, id is just the
 					 * assembler label */
-  ASSERT(nm[0]!=0);
+  assert(nm[0]!=0);
 
   /* first a .stabx for the proc descriptor */
 
@@ -1675,7 +1675,7 @@ void stab_endproc(exp proc, char *id, bool ext)
 
     nm = CSTRING(dd->data.id.nme);	/* source proc name, id is just the
 					 * assembler label */
-    ASSERT(nm[0]!=0);
+    assert(nm[0]!=0);
     tbtable_sht = zero_tbtable_short;
 
     /* +++ set up tbtable_sht more fully */
@@ -1722,8 +1722,8 @@ void stab_endproc(exp proc, char *id, bool ext)
     fprintf(as_file, "\t.long\tE.%s-.%s\n", id, id);
 
     /* we never use hand_mask, ctl_info and ctl_info_disp optional components */
-    ASSERT(!tbtable_sht.int_hndl);
-    ASSERT(!tbtable_sht.has_ctl);
+    assert(!tbtable_sht.int_hndl);
+    assert(!tbtable_sht.has_ctl);
 
     /* proc name */
     fprintf(as_file, "\t.short\t%d\n",(int)strlen(nm));
@@ -1914,7 +1914,7 @@ static void stab_basicshape
 {
   int n = next_typen();
 
-  ASSERT(tdf_typeidnum == n);
+  assert(tdf_typeidnum == n);
 
   fprintf(as_file, "\t.stabx\t\"%s:t%d=%d", typename, tdf_typeidnum, ibm_typeidnum);
   fprintf(as_file, "\",%d,%d,%d\n", 0, C_DECL, 0);

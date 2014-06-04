@@ -47,7 +47,7 @@ static int bit_no(unsigned long c)
   int shift_const;
   unsigned long mask;
 
-  ASSERT(IS_POW2(c));
+  assert(IS_POW2(c));
 
   for (mask = 1, shift_const = 0; mask != c; mask = mask << 1)
   {
@@ -146,12 +146,12 @@ static void mul_const_simple(int src, long constval, int dest, bool sgned)
   add_sub = offset_mul_const_simple(constval, sgned);
   c = constval - add_sub;
 
-  ASSERT(constval == c + add_sub);
+  assert(constval == c + add_sub);
 
   shift_const = bit_no(c);
 
   FULLCOMMENT3("mul_const_simple: constval=%#lx shift_const=%d add_sub=%d", constval, shift_const, add_sub);
-  ASSERT(constval == (1 << shift_const) + add_sub);
+  assert(constval == (1 << shift_const) + add_sub);
 
   if (add_sub == 0)
   {
@@ -185,7 +185,7 @@ static void mul_const_simple(int src, long constval, int dest, bool sgned)
       inter_reg = dest;
     }
 
-    ASSERT(src != inter_reg);
+    assert(src != inter_reg);
 
     rir_ins(i_sl, src, shift_const, inter_reg);
 
@@ -208,12 +208,12 @@ static int do_mul_comm_const(exp seq, space sp, int final_reg, bool sgned)
   exp arg2 = bro(seq);
   int lhs_reg = reg_operand(seq, sp);
 
-  ASSERT(name(arg2) == val_tag && offset_mul_const_simple(no(arg2), sgned)!= NOT_MUL_CONST_SIMPLE);
+  assert(name(arg2) == val_tag && offset_mul_const_simple(no(arg2), sgned)!= NOT_MUL_CONST_SIMPLE);
 
 
   sp = guardreg(lhs_reg, sp);
 
-  ASSERT(last(arg2));			/* refactor() & scan() should move const to last */
+  assert(last(arg2));			/* refactor() & scan() should move const to last */
 
   if (final_reg == R_NO_REG)
     final_reg = getreg(sp.fixed);	/* better code from mul_const if src != dest reg */
@@ -244,7 +244,7 @@ static int do_div(exp seq, space sp, int final_reg, bool sgned)
     sp = guardreg(final_reg, sp);
   }
 
-  ASSERT(last(rhs));
+  assert(last(rhs));
 
   if (name(rhs) == val_tag && IS_POW2(no(rhs)))
   {
@@ -281,7 +281,7 @@ static int do_div(exp seq, space sp, int final_reg, bool sgned)
 
 	int tmp_reg = R_TMP0;
 
-	ASSERT(shift_const>0);			/* assumed below */
+	assert(shift_const>0);			/* assumed below */
 
 	if (shift_const-1 != 0)
 	{
@@ -383,7 +383,7 @@ static int do_div(exp seq, space sp, int final_reg, bool sgned)
       int creg2 = next_creg();
       int endlab = new_label();
 
-      ASSERT(creg1 != creg2);
+      assert(creg1 != creg2);
 
       if (final_reg != rhs_reg)
       {
@@ -432,7 +432,7 @@ static int do_rem(exp seq, space sp, int final_reg, bool sgned)
   int lhs_reg;
   int rem_type=name(bro(rhs));
   int rhs_reg;
-  ASSERT(last(rhs));
+  assert(last(rhs));
 
   lhs_reg = reg_operand(lhs, sp);
 
@@ -466,7 +466,7 @@ static int do_rem(exp seq, space sp, int final_reg, bool sgned)
 	int tmp_reg = R_TMP0;
 	int shift_const = bit_no(constval);
 
-	ASSERT(shift_const>0);			/* assumed below */
+	assert(shift_const>0);			/* assumed below */
 
 	/* do the divide, as in do_div */
 	if (shift_const-1 != 0)
@@ -566,7 +566,7 @@ static int do_rem(exp seq, space sp, int final_reg, bool sgned)
       int creg2 = next_creg();
       int endlab = new_label();
 
-      ASSERT(creg1 != creg2);
+      assert(creg1 != creg2);
 
       if (final_reg != rhs_reg)
       {
@@ -639,7 +639,7 @@ static int find_reg_and_apply
     dest_reg = (*do_fn)(seq, sp, R_NO_REG, sgned);	/* leave (*do_fn)() to allocate reg */
   }
 
-  ASSERT(dest_reg != R_NO_REG);
+  assert(dest_reg != R_NO_REG);
 
   setregalt(a, dest_reg);
   sp = guardreg(dest_reg, sp);
@@ -716,7 +716,7 @@ needs divneeds(exp *e, exp **at)
   exp rhs = bro(lhs);
   bool sgned = name(sh(*e)) & 1;
 
-  ASSERT(last(rhs));
+  assert(last(rhs));
 
   if (name(rhs) ==val_tag)
   {
@@ -745,7 +745,7 @@ needs remneeds(exp *e, exp **at)
   exp rhs = bro(lhs);
   bool sgned = name(sh(*e)) & 1;
 
-  ASSERT(last(rhs));
+  assert(last(rhs));
 
   if (name(rhs) ==val_tag)
   {

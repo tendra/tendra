@@ -82,6 +82,7 @@
  *  Library procedures such as memcpy() are not treated specially.
  */
 
+#include <assert.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -208,8 +209,8 @@ void translate_capsule(void)
 
     crt_def->dec_u.dec_val.have_def = (son(tg)!=NULL);
 
-    ASSERT(name(tg) == ident_tag);
-    ASSERT(son(tg) == NULL || name(sh(tg)) == name(s));
+    assert(name(tg) == ident_tag);
+    assert(son(tg) == NULL || name(sh(tg)) == name(s));
 
     if (son(tg) == NULL)
     {
@@ -253,7 +254,7 @@ void translate_capsule(void)
 	long byte_size = ALIGNNEXT(shape_size(sh(son(tg))), 64) >> 3;
 	/* +++ is .lcomm always kept double aligned?  Otherwise how do we do it? */
 
-	ASSERT(extnamed);
+	assert(extnamed);
 	fprintf(as_file, "\t.lcomm\t%s,%ld\n", id, byte_size);
       }
     }
@@ -315,7 +316,7 @@ void translate_capsule(void)
 	}
       }
 
-      ASSERT((align&63)==0 || align < 64);
+      assert((align&63)==0 || align < 64);
 
       /* mark the defininition as processed */
       crt_def->dec_u.dec_val.processed = 1;
@@ -427,8 +428,8 @@ void translate_capsule(void)
     }
   }
 
-  ASSERT(procno==noprocs);
-  ASSERT(globalno==noglobals);
+  assert(procno==noprocs);
+  assert(globalno==noglobals);
   total_no_of_globals=globalno;
   
  /*

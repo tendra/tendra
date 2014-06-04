@@ -452,7 +452,7 @@ output_all(void)
 	mach_ins *p;
 	for (p = all_mach_ins; p; p = p->next) {
 		n = p->ins_no;
-#ifdef EBUG
+#ifndef NDEBUG
 #if 1
 		if (n != m_comment) {
 			fprintf(as_file, "#inst%ld\n", p->id);
@@ -463,11 +463,11 @@ output_all(void)
 #endif
 #endif
 		switch (n) {
-#ifdef EBUG
 		case m_comment:
+#ifndef NDEBUG
 			fprintf(as_file, "#%s\n", p->op1->def.str);
-			break;
 #endif
+			break;
 
 #ifdef m_ignore_ins
 		case m_ignore_ins:
@@ -547,9 +547,9 @@ output_all(void)
 				}
 				if (p->op2) {
 					fputc(',', as_file);
-#ifdef EBUG
+#ifndef NDEBUG
 					fputc(' ', as_file);
-#endif /* EBUG */
+#endif
 					out_mach_op(p->op2);
 				}
 			}

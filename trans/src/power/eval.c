@@ -14,6 +14,7 @@
  * into the table of externals (or 0 meaning anonymous).
  */
 
+#include <assert.h>
 #include <ctype.h>
 #include <stdio.h>
 
@@ -214,9 +215,9 @@ long evalexp(exp e)
       ash_lhs = ashof(sh(son(e)));
       ash_rhs = ashof(sh(bro(son(e))));
 
-      ASSERT(ash_lhs.ashalign==1 && ash_lhs.ashsize<=32);
-      ASSERT(ash_rhs.ashalign==1 && ash_rhs.ashsize<=32);
-      ASSERT(ash_lhs.ashsize+ash_rhs.ashsize<=32);
+      assert(ash_lhs.ashalign==1 && ash_lhs.ashsize<=32);
+      assert(ash_rhs.ashalign==1 && ash_rhs.ashsize<=32);
+      assert(ash_lhs.ashsize+ash_rhs.ashsize<=32);
 
       FULLCOMMENT4("evalexp() concatnof_tag: lhs,rhs=%#x,%#x ash(rhs) =%d,%d",
 		w_lhs, w_rhs, ash_rhs.ashalign, ash_rhs.ashsize);
@@ -224,7 +225,7 @@ long evalexp(exp e)
       if (ash_rhs.ashsize == 32)
       {
 	/* avoid illegal shift by 32 */
-	ASSERT(w_lhs==0);
+	assert(w_lhs==0);
 	return w_rhs;
       }
       return (w_lhs << ash_rhs.ashsize) | w_rhs;
@@ -290,7 +291,7 @@ static void outconcbit(concbittype c)
   if (c.value_size==0)
     return;			/* avoid .byte with no data */
 
-  ASSERT(c.value_size<=32);
+  assert(c.value_size<=32);
 
   /* to left end of word */
   if (c.value_size != 32)
@@ -308,7 +309,7 @@ static void outconcbit(concbittype c)
     w = w << 8;
   }
   fprintf(as_file, "\n");
-  ASSERT(w == 0);
+  assert(w == 0);
 }
 
 /*
@@ -320,7 +321,7 @@ long unary(int val)
 {
   int loop;
   long result=0;
-  ASSERT(val <=31);
+  assert(val <=31);
   for (loop=0;loop<val;++loop)
   {
     result <<=1;
@@ -336,7 +337,7 @@ static concbittype addconcbitaux(unsigned long w, int size, concbittype before)
 
   if (before.value_size==32 || (before.value_size != 0 && (before.bitposn&31) ==0))
   {
-    ASSERT((before.bitposn&31) ==0);
+    assert((before.bitposn&31) ==0);
     wordbitposn = 32;
   }
   else
@@ -349,12 +350,12 @@ static concbittype addconcbitaux(unsigned long w, int size, concbittype before)
   FULLCOMMENT4("\tbefore=%d(%d) %#x:%d",
 	       before.bitposn, wordbitposn, before.value, before.value_size);
 #if 0
-  ASSERT(size>0);		/* no longer have to handle zero for C */
+  assert(size>0);		/* no longer have to handle zero for C */
 #endif
-  ASSERT(size<=32);
+  assert(size<=32);
 
-  ASSERT(before.value_size<=32);
-  ASSERT(wordbitposn==0 || before.value_size<=wordbitposn);
+  assert(before.value_size<=32);
+  assert(wordbitposn==0 || before.value_size<=wordbitposn);
 
   if (
      (size == 0 && (wordbitposn != 0 || before.value_size != 0))
@@ -369,7 +370,7 @@ static concbittype addconcbitaux(unsigned long w, int size, concbittype before)
     int pad_bits = 32 - wordbitposn;
 
 #if 1
-    ASSERT(pad_bits==0);		/* padding should now be explicit */
+    assert(pad_bits==0);		/* padding should now be explicit */
 
     before.value_size += pad_bits;
     before.value <<= pad_bits;
@@ -383,7 +384,7 @@ static concbittype addconcbitaux(unsigned long w, int size, concbittype before)
     before.value = 0;
 
     /* should be at word boundary */
-    ASSERT((before.bitposn&31) ==0);
+    assert((before.bitposn&31) ==0);
   }
 
   if (size == 0)
@@ -400,7 +401,7 @@ static concbittype addconcbitaux(unsigned long w, int size, concbittype before)
   FULLCOMMENT4("\t after=%d(%d) %#x:%d",
 	       before.bitposn, wordbitposn, before.value, before.value_size);
 
-  ASSERT(before.value_size<=32);
+  assert(before.value_size<=32);
 
   return before;
 }
@@ -421,7 +422,7 @@ static concbittype evalconcbitaux(exp e, concbittype before)
 
   default:
     {
-      ASSERT(shape_align(sh(e)) ==1);
+      assert(shape_align(sh(e)) ==1);
 
       return addconcbitaux(evalexp(e), shape_size(sh(e)), before);
     }
@@ -656,7 +657,7 @@ static void evalone(exp e, int bitposn)
       dec *globdec = brog(son(e));
       char *nm = globdec->dec_u.dec_val.dec_id;
 
-      ASSERT(isglob(son(e)));
+      assert(isglob(son(e)));
 
       /* no() is offset */
       if (no(e) == 0)
@@ -696,10 +697,12 @@ static void evalone(exp e, int bitposn)
 		gap, no(off), tupa.ashsize, tupa.ashalign);
 
 	/* check that component's alignment matches offset in struct */
-	ASSERT((no(off) /tupa.ashalign)*tupa.ashalign <= no(off));
+	assert((no(off) /tupa.ashalign)*tupa.ashalign <= no(off));
 
 	/* and is no greater that struct's alignment */
-	ASSERT(tupa.ashalign<=maxalign);
+/* XXX: what declares maxalign?
+	assert(tupa.ashalign<=maxalign);
+*/
 
 	if (no(off) < last_offset)
 	  fail("eval compound_tag: not ascending order");
@@ -722,7 +725,7 @@ static void evalone(exp e, int bitposn)
 	last_offset = no(off);
 	last_align = tupa.ashalign;
 
-	ASSERT(remainderbits.bitposn - bitposn == no(off));
+	assert(remainderbits.bitposn - bitposn == no(off));
 
 	/* consecutive bitfields must be collected together for .byte */
 	if (tupa.ashalign == 1)
@@ -747,7 +750,7 @@ static void evalone(exp e, int bitposn)
 
 	  outconcbit(remainderbits);
 
-	  ASSERT(a.ashsize >= databits);
+	  assert(a.ashsize >= databits);
 
 	  /* pad out trailing unitialised space, eg union */
 	  if (a.ashsize > databits && trailing_bytes > 0)
@@ -758,7 +761,7 @@ static void evalone(exp e, int bitposn)
 	}
 
 	off = bro(bro(off));
-	ASSERT(!last(off));
+	assert(!last(off));
 	tup = bro(off);
 
 	tupa = ashof(sh(tup));
@@ -916,7 +919,7 @@ instore evaluated(exp e, int l)
   isa.b.base = lab;
 
 
-  ASSERT(name(e) != clear_tag);	/* +++ history */
+  assert(name(e) != clear_tag);	/* +++ history */
   if (name(e) == clear_tag)	/* uninitialised global */
   {
     long byte_size = (a.ashsize + 7) >> 3;

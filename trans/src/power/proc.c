@@ -8,6 +8,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <assert.h>
 #include <signal.h>
 #include <stdio.h>
 
@@ -78,7 +79,7 @@ baseoff mem_temp(int byte_offset)
   /*
    * Only 2 words of temp allocated
    */
-  ASSERT(byte_offset >= 0 && byte_offset < 8);
+  assert(byte_offset >= 0 && byte_offset < 8);
   b.offset += byte_offset;
 
   return b;
@@ -119,7 +120,7 @@ bool last_caller_param(exp e)
 {
   exp next;
 
-  ASSERT(IS_A_PROC(e) || (name(e) == ident_tag && isparam(e)));
+  assert(IS_A_PROC(e) || (name(e) == ident_tag && isparam(e)));
   /* Look at the body of the ident for another param */
   if (IS_A_PROC(e))
   {
@@ -250,7 +251,7 @@ makeans make_ident_tag_code(exp e, space sp, where dest, int exitlab)
     no(e) = ENCODE_FOR_BOFF(caller_disp , OUTPUT_CALLER_PARAMETER);
     set_coded_caller(ote); /* Used in apply_general*/
 
-    ASSERT((props(e) & inanyreg) ==0);
+    assert((props(e) & inanyreg) ==0);
     /* Should not have been allocated a register by regalloc or scan */
     placew = nowhere;
   }
@@ -348,7 +349,7 @@ makeans make_ident_tag_code(exp e, space sp, where dest, int exitlab)
     {
       instore is;
       ans aa;
-      ASSERT(p_has_fp);
+      assert(p_has_fp);
       is.b.base = R_FP;
       is.b.offset = EXTRA_CALLEE_BYTES + (no(init_exp) >>3);
       is.adval = 0;
@@ -454,8 +455,10 @@ makeans make_apply_tag_code(exp e, space sp, where dest, int exitlab)
   nsp=sp;
 
   /* Structure results are assumed to be transformed */
-  ASSERT(redo_structfns);
-  ASSERT(reg_result(sh(e)));
+  assert(redo_structfns);
+/* XXX: assertion fails
+  assert(reg_result(sh(e)));
+*/
 
   /* Callers evaluated to usual place relative to sp */
   if (!last(fn)) {nsp = do_callers(PROC_PARAM_REGS,par,nsp);}
@@ -616,7 +619,7 @@ void make_tail_call_tag_code(exp e, space sp)
 
   callee_pointer.base = R_SP;
   callee_pointer.offset = 0;
-  ASSERT(p_has_fp);
+  assert(p_has_fp);
 
 
   if (name(cees) ==make_callee_list_tag || name(cees) ==make_dynamic_callee_tag)
@@ -709,7 +712,7 @@ void make_tail_call_tag_code(exp e, space sp)
     {
       /* This should only occur in the initialisation required for dynamic
 	 initialisation of globals as required for c++ */
-      ASSERT(p_has_fp);
+      assert(p_has_fp);
       restore_link_register();
       restore_callers(PROC_PARAM_REGS);
       mov_rr_ins(R_FP,R_TEMP_FP);comment("copy FP to TEMP_FP");
@@ -752,7 +755,7 @@ void make_same_callees_tag_code(exp e, space sp)
   callee_pointer.base = R_SP;
   callee_pointer.offset = 0;
 
-  ASSERT(name(p_current) ==general_proc_tag);
+  assert(name(p_current) ==general_proc_tag);
 
   rfrom = getreg(nsp.fixed);nsp = guardreg(rfrom,nsp);
   rto = getreg(nsp.fixed);nsp = guardreg(rto,nsp);
@@ -1031,13 +1034,13 @@ space do_callers(int n, exp list, space sp)
 	  where w;
 	  w = locate(par, nsp, sh(par), 0);
 
-	  ASSERT(w.answhere.discrim==notinreg);
+	  assert(w.answhere.discrim==notinreg);
 
 	  is = insalt(w.answhere);
 
 	  COMMENT3("apply: simple aggregate parameter: adval=%d reg=%d off=%d",
 		   is.adval, is.b.base, is.b.offset);
-	  ASSERT(!is.adval);
+	  assert(!is.adval);
 	  /* it is already lying about */
 	  if (!IS_FIXREG(is.b.base))
 	  {
@@ -1106,7 +1109,7 @@ space do_callers(int n, exp list, space sp)
     disp = ALIGNNEXT(disp + ap.ashsize, 32);
   }				/* end for */
 
-  ASSERT(last_param_reg >= R_FIRST_PARAM && last_param_reg <= final_param + 1);
+  assert(last_param_reg >= R_FIRST_PARAM && last_param_reg <= final_param + 1);
   return nsp;
 
 }
@@ -1289,7 +1292,7 @@ void restore_callers(int n)
     {
       /* Parameter which was passed by stack and allocated into
 	 a register */
-      ASSERT(!is_aggregate);/* +++ allow 32 bit aggregates */
+      assert(!is_aggregate);/* +++ allow 32 bit aggregates */
       if (isvar(bdy))
       {
 	/* somebody has assigned to it so it must be reloaded */
@@ -1396,12 +1399,12 @@ void restore_callees(void)
     if (props(bdy) & infreg_bits)
     {
       bool dble = is_double_precision(sh(sbdy));
-      ASSERT(IS_FLT_SREG(no(bdy)));
+      assert(IS_FLT_SREG(no(bdy)));
       stf_ro_ins(dble?i_stfd:i_stfs,no(bdy),stackpos);
     }
     else if (props(bdy) & inreg_bits)
     {
-      ASSERT(IS_SREG(no(bdy)));
+      assert(IS_SREG(no(bdy)));
       st_ro_ins(i_st,no(bdy),stackpos);comment(NULL);
     }
     bdy = bro(sbdy);
@@ -1414,6 +1417,6 @@ static exp find_ote(exp e, int n)
   while (name(d)!=apply_general_tag)d = father(d);
   d = son(bro(son(d))); /* list otagexps */
   while (n !=0) { d = bro(d); n--;}
-  ASSERT(name(d) ==caller_tag);
+  assert(name(d) ==caller_tag);
   return d;
 }

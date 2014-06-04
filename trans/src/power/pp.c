@@ -8,7 +8,9 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifdef DEBUG_POWERTRANS
+#ifndef NDEBUG
+
+#include <stdio.h>
 
 #include <local/ash.h>
 
@@ -18,7 +20,7 @@
 #include <construct/tags.h>
 #include <construct/shape.h>
 
-#include "ash.h"
+#include "localexpmacs.h"
 #include "addresstypes.h"
 #include "locate.h"
 #include "translate.h"
@@ -1070,7 +1072,7 @@ static void exp_show(exp e, int depth, int depth_of_recursion, int flag)
 
 
   case string_tag:
-    printf(    myprint(nostr(e));
+    myprint(nostr(e));
     printf("\"\n");
     exp_show(son(e),depth+1,depth_of_recursion,0);
     break;

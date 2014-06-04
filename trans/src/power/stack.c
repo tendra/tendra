@@ -8,6 +8,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <assert.h>
+
 #include <shared/error.h>
 
 #include <construct/machine.h>
@@ -124,8 +126,8 @@ void initialise_procedure(procrec *pr)
   p_float_params = 0;		/* Updated in make_ident_tag_code */
   p_has_back_chain = p_leaf ? 0 : diag != DIAG_NONE;
   p_args_and_link_size = p_leaf ? 0 : STACK_LINK_AREA_SIZE + p_maxargbytes;
-  ASSERT(pr->frame_size>=0 && (pr->frame_size&63) == 0);
-  ASSERT(pr->frame_size>=pr->maxargs);
+  assert(pr->frame_size>=0 && (pr->frame_size&63) == 0);
+  assert(pr->frame_size>=pr->maxargs);
   return;
 }
 
@@ -156,7 +158,7 @@ void generate_procedure_prologue(void)
 	stf_ro_ins(i_stfd, r, stackpos);
       }
     }
-    ASSERT(stackpos.offset >= -STACK_FLOAT_REG_DUMP_AREA_SIZE);
+    assert(stackpos.offset >= -STACK_FLOAT_REG_DUMP_AREA_SIZE);
   }
   /*
    * Save fixed point s-regs
@@ -178,7 +180,7 @@ void generate_procedure_prologue(void)
 	st_ro_ins(i_st,r,stackpos);comment("save fixed point s-reg");
       }
     }
-    ASSERT(stackpos.offset >= -STACK_REG_DUMP_AREA_SIZE);
+    assert(stackpos.offset >= -STACK_REG_DUMP_AREA_SIZE);
   }
   /* Align to next 8 byte boundary */
   stackpos.offset= -ALIGNNEXT(-stackpos.offset,8);
@@ -365,8 +367,8 @@ void save_sp_on_stack(void)
   baseoff saved_sp;
   
   /* Saves the value of the stack pointer on stack */
-  ASSERT(p_has_saved_sp);
-  ASSERT(p_has_fp);
+  assert(p_has_saved_sp);
+  assert(p_has_fp);
   saved_sp.base = R_FP;
   saved_sp.offset = p_saved_sp_offset;
   st_ro_ins(i_st,R_SP,saved_sp);comment("save sp on stack");
@@ -377,8 +379,8 @@ void get_sp_from_stack(void)
   baseoff saved_sp;
   
   /* Restores the stack pointer from the stack */
-  ASSERT(p_has_saved_sp);
-  ASSERT(p_has_fp);
+  assert(p_has_saved_sp);
+  assert(p_has_fp);
   saved_sp.base = R_FP;
   saved_sp.offset = p_saved_sp_offset;
   ld_ro_ins(i_l,saved_sp,R_SP);comment("get SP of stack");
@@ -390,7 +392,7 @@ void save_back_chain_using_frame_pointer(void)
   baseoff back_chain;
   back_chain.base = R_SP;
   back_chain.offset = 0;
-  ASSERT(p_has_fp);
+  assert(p_has_fp);
   st_ro_ins(i_st,R_FP,back_chain);comment("save back chain");
   return;
 }
@@ -400,8 +402,8 @@ void restore_sregs(int start_base, int start_offset)
   baseoff stackpos;
   int r;
   
-  ASSERT(IS_TREG(start_base) || start_base == R_SP);
-  ASSERT(start_base!=R_TMP0);
+  assert(IS_TREG(start_base) || start_base == R_SP);
+  assert(start_base!=R_TMP0);
   stackpos.base = start_base;
   stackpos.offset = start_offset;
   COMMENT2("restore s-regs using %d offset %d bytes",start_base,start_offset);

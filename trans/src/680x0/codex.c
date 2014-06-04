@@ -207,7 +207,7 @@ void dec_stack
 	stack_change -= d;
 	stack_direction = (d > 0 ? 1 : 0);
 	have_cond = 0;
-#ifdef EBUG
+#ifndef NDEBUG
         update_stack();
 #endif
     }

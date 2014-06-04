@@ -39,7 +39,7 @@ static mach_op *mach_op_list = NULL;
     list of free mach_op's.
 */
 #ifndef tdf3
-#ifdef EBUG
+#ifndef NDEBUG
 static int next_id = 0;
 #endif
 #endif
@@ -74,7 +74,7 @@ new_mach_op(void)
 	p->plus = NULL;
 	p->of = NULL;
 #ifndef tdf3
-#ifdef EBUG
+#ifndef NDEBUG
 	if (next_id == 70) {
 		int dummy = next_id;
 	}

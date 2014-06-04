@@ -7,8 +7,9 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include <limits.h>
+#include <stdio.h>
 #include <string.h>
+#include <limits.h>
 
 #include <shared/check.h>
 #include <shared/error.h>
@@ -25,6 +26,7 @@
 #include <construct/tags.h>
 #include <construct/installglob.h>
 
+#include <main/driver.h>
 #include <main/flags.h>
 
 #include <refactor/optimise.h>

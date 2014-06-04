@@ -164,7 +164,7 @@ static ans iskept_regrange(exp e, int low_reg, int hi_reg)
       /* There is an association with register i */
       bool isc = regexps[i].iscont;
 
-      ASSERT(!IS_R_TMP(i));	/* should not track R_TMP */
+      assert(!IS_R_TMP(i));	/* should not track R_TMP */
 
       if (
 	 ((!isc && sim_exp(ke, e)) ||
@@ -345,7 +345,7 @@ void keepexp(exp e, ans loc)
 
   }
 
-  ASSERT(pos >= 0 && pos <= LAST_ALL_REGS);
+  assert(pos >= 0 && pos <= LAST_ALL_REGS);
 
   if (IS_R_TMP(pos))
     return;			/* don't track R_TMP which is used outside
@@ -388,7 +388,7 @@ void keepcont(exp e, int reg)
     setinsalt(regexps[z].inans, is);
   }
 
-  ASSERT(z >= 0 && z <= LAST_ALL_REGS);
+  assert(z >= 0 && z <= LAST_ALL_REGS);
   regexps[z].keptexp = e;
   regexps[z].iscont = 1;
   COMMENT2("keepcont : reg %d kept name is %d",z,name(e));
@@ -429,7 +429,7 @@ void keepreg(exp e, int reg)
     setinsalt(regexps[z].inans, is);
   }
 
-  ASSERT(z >= 0 && z <= LAST_ALL_REGS);
+  assert(z >= 0 && z <= LAST_ALL_REGS);
   regexps[z].keptexp = e;
   regexps[z].iscont = 0;
   COMMENT3("keepreg : reg %d kept name is %d no %d",z,name(e),no(e));

@@ -8,6 +8,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <assert.h>
+
 #include <shared/error.h>
 
 #include <local/ash.h>
@@ -42,7 +44,7 @@ int regofval(exp e)
    */
   if (name(e) == name_tag)
   {
-    ASSERT(name(dc) == ident_tag);
+    assert(name(dc) == ident_tag);
     if (props(dc) & defer_bit)
     {
       return regofval(son(dc));
@@ -80,7 +82,7 @@ int fregofval(exp e)
      * dc-->  | ident |
      *        ~~~~|~~~~
      */
-    ASSERT(name(dc) == ident_tag);
+    assert(name(dc) == ident_tag);
 
     if ((props(dc) & infreg_bits) != 0)
     {
@@ -207,7 +209,7 @@ int reg_operand(exp e, space sp)
   else
   {
     /* The exp e was found in a register by is_reg_operand */
-    ASSERT(IS_FIXREG(reg));
+    assert(IS_FIXREG(reg));
     return reg;
   }
 }
@@ -217,8 +219,8 @@ void reg_operand_here(exp e, space sp, int this_reg)
 {
   int reg;
 
-  ASSERT(!IS_R_NO_REG(this_reg));
-  ASSERT(IS_FIXREG(this_reg));
+  assert(!IS_R_NO_REG(this_reg));
+  assert(IS_FIXREG(this_reg));
 
   /* First check to see if e is lying around in exact reg we want */
   reg = ans_reg(iskept_inreg(e, this_reg));
@@ -245,7 +247,7 @@ void reg_operand_here(exp e, space sp, int this_reg)
   else
   {
     /* e was found in a reg, move to this_reg if needed */
-    ASSERT(IS_FIXREG(reg));
+    assert(IS_FIXREG(reg));
 
     if (reg != this_reg)
     {
@@ -335,8 +337,8 @@ int code_here(exp e, space sp, where dest)
     /* e was found easily in a reg */
     ans aa;
 
-    ASSERT(IS_FIXREG(reg));
-    ASSERT(ashof(sh(e)).ashsize<=32);
+    assert(IS_FIXREG(reg));
+    assert(ashof(sh(e)).ashsize<=32);
 
     setregalt(aa, reg);
     move(aa, dest, guardreg(reg, sp).fixed, 1);

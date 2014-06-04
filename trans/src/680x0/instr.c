@@ -7,8 +7,9 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include <shared/error.h>
+#include <stdio.h>
 
+#include <shared/error.h>
 
 #include <reader/externs.h>
 
@@ -16,6 +17,8 @@
 #include <construct/install_fns.h>
 #include <construct/shape.h>
 #include <construct/tags.h>
+
+#include <main/driver.h>
 
 #include "instrs.h"
 #include "mach.h"
@@ -90,7 +93,7 @@ index_opnd(where w1, where w2, int sf)
     In debugging mode a little extra information is always useful.
 */
 
-#ifdef EBUG
+#ifndef NDEBUG
 static char *illegal_operand = "Illegal operand, case %d";
 #else
 static char *illegal_operand = "Illegal operand";

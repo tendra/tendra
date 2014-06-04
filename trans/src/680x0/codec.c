@@ -7,6 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <stdio.h>
+
 #include <shared/error.h>
 
 #include <local/ash.h>
@@ -20,6 +22,7 @@
 #include <construct/f64.h>
 #include <construct/me_fns.h>
 
+#include <main/driver.h>
 #include <main/flags.h>
 
 #include "mach.h"

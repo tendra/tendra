@@ -32,8 +32,9 @@ extern void make_external_label(char *);
 extern void make_jump(int, long);
 extern void make_label(long);
 extern void set_special(char *, mach_op *);
-#ifdef EBUG
-extern void make_comment(char *);
+
+#ifndef NDEBUG
+#define make_comment(X) fprintf(as_file, "# %s\n", (X))
 #else
 #define make_comment(X)
 #endif
