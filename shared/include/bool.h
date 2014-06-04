@@ -15,5 +15,8 @@ typedef _Bool bool;
 typedef int bool;
 #endif
 
+#define true  1
+#define false 0
+
 #endif
 
