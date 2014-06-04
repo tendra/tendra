@@ -125,8 +125,7 @@ static void eval_if_ready
 	     outs(".data");
 	     outnl();
 	   };
-	evaluate(son(t), no(t), (char *)0,
-	       (name(son(t))!= res_tag), 0,(diag_global*)0);
+	evaluate(son(t), no(t), NULL, (name(son(t))!= res_tag), 0, NULL);
     }
     retcell(t);
   }
@@ -338,7 +337,7 @@ void translate_capsule
 
 
   my_def = top_def;
-  while (my_def != (dec *)0) {
+  while (my_def != NULL) {
     exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
     if (PIC_code) {
       exp idval = son(crt_exp);
@@ -402,7 +401,7 @@ void translate_capsule
 
       /* mark static unaliased */
     my_def = top_def;
-    while (my_def != (dec *)0) {
+    while (my_def != NULL) {
       exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
       if (son(crt_exp)!= NULL &&
 	  !my_def -> dec_u.dec_val.extnamed &&
@@ -450,7 +449,7 @@ void translate_capsule
 
   my_def = top_def;
 
-  while (my_def != (dec *)0) {
+  while (my_def != NULL) {
     if (!my_def -> dec_u.dec_val.processed)
        make_code(my_def);
     my_def = my_def -> def_next;

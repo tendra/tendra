@@ -82,8 +82,8 @@ exp hasenvoff_list = NULL;	/* global, used by coder */
 static void add_odd_bits
 (outofline * r)
 {
-  if (r != (outofline*)0) {
-    if (r -> next == (outofline*)0)
+  if (r != NULL) {
+    if (r -> next == NULL)
       last_odd_bit = 1;
     add_odd_bits(r -> next);
   }
@@ -309,7 +309,7 @@ int cproc
   crt_proc_id = next_lab();
   crt_ret_lab = next_lab ();	/* set up the return label for the procedure */
   crt_ret_lab_used = 0;
-  odd_bits = (outofline*)0;
+  odd_bits = NULL;
   scale = (float)1.0;
   not_in_params = 1;
   not_in_postlude = 1;
@@ -588,9 +588,9 @@ int cproc
 
   stack_dec = 0;
   doing_odd_bits = 1;
-  while (odd_bits != (outofline*)0) {
+  while (odd_bits != NULL) {
     outofline * ol = odd_bits;
-    odd_bits = (outofline*)0;
+    odd_bits = NULL;
     last_odd_bit = 0;
     add_odd_bits(ol);
   }

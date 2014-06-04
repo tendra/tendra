@@ -73,7 +73,6 @@ extern char *get_instruction(Instruction_P);
 extern void lsi_ins(int,int,int);
 extern void stsi_ins(int,int,int);
 extern void comment(char *);
-#define NIL (char *)0
 /* for mtfsfi_ins */
 
 #define BITS_0_to_3     0

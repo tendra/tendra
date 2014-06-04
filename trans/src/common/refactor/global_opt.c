@@ -55,7 +55,7 @@ opt_all_exps(void)
 	}
 
 	my_def = top_def;
-	while (my_def != (dec *)0) {
+	while (my_def != NULL) {
 		exp crt_exp = my_def->dec_u.dec_val.dec_exp;
 		refactor_ext(crt_exp);
 		glopt(my_def);

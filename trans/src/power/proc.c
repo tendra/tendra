@@ -54,7 +54,7 @@ static postl_chain * old_pls;
 
 void update_plc(postl_chain * ch, int ma)
 {
-	while (ch != (postl_chain*)0) {
+	while (ch != NULL) {
 	  exp pl= ch->pl;
 	  while (name(pl) ==ident_tag && name(son(pl)) ==caller_name_tag) {
 		no(pl) += (ma<<6);
@@ -165,7 +165,7 @@ void make_proc_tag_code(exp e, space sp)
 
   suspected_varargs = 0;
 
-  old_pls = (postl_chain *)0;
+  old_pls = NULL;
 
   p_current = e;
 
@@ -632,10 +632,10 @@ void make_tail_call_tag_code(exp e, space sp)
 
       b.base = desc_base;
       b.offset = 0;
-      ld_ro_ins(i_l,b,R_TMP0);comment(NIL);
+      ld_ro_ins(i_l,b,R_TMP0);comment(NULL);
       b.base = R_SP;
       b.offset = 4;
-      st_ro_ins(i_st,R_TMP0,b);comment(NIL);
+      st_ro_ins(i_st,R_TMP0,b);comment(NULL);
     }
     restore_link_register();
     restore_callers(GENERAL_PROC_PARAM_REGS);
@@ -658,24 +658,24 @@ void make_tail_call_tag_code(exp e, space sp)
     if (name(cees) ==make_callee_list_tag)
     {
       int size_of_callee_list=ALIGNNEXT((no(cees) >>3) +EXTRA_CALLEE_BYTES , 8);
-      st_ro_ins(i_st,R_TEMP_TP,callee_pointer);comment(NIL);
+      st_ro_ins(i_st,R_TEMP_TP,callee_pointer);comment(NULL);
 
-      mov_rr_ins(R_SP,R_TEMP_FP);comment(NIL);
+      mov_rr_ins(R_SP,R_TEMP_FP);comment(NULL);
       rir_ins(i_a,R_TEMP_TP,- (long)(size_of_callee_list),R_TEMP_TP);
       reverse_static_memory_copy(R_TEMP_FP,R_TEMP_TP,size_of_callee_list);
-      mov_rr_ins(R_TEMP_TP,R_SP);comment(NIL);
+      mov_rr_ins(R_TEMP_TP,R_SP);comment(NULL);
     }
     else
     {
 
-      ld_ro_ins(i_l,callee_pointer,R_TMP0);comment(NIL);
+      ld_ro_ins(i_l,callee_pointer,R_TMP0);comment(NULL);
       rrr_ins(i_s,R_TMP0,R_SP,R_TMP0);
       /* R_TMP0 should now contain the callee size */
-      st_ro_ins(i_st,R_TEMP_TP,callee_pointer);comment(NIL);
+      st_ro_ins(i_st,R_TEMP_TP,callee_pointer);comment(NULL);
       rrr_ins(i_s,R_TEMP_TP,R_TMP0,R_TEMP_TP);
-      mov_rr_ins(R_SP,R_TEMP_FP);comment(NIL);
+      mov_rr_ins(R_SP,R_TEMP_FP);comment(NULL);
       reverse_dynamic_word_memory_copy(R_TEMP_FP,R_TEMP_TP,R_TMP0);
-      mov_rr_ins(R_TEMP_TP,R_SP);comment(NIL);
+      mov_rr_ins(R_TEMP_TP,R_SP);comment(NULL);
     }
     /* The memory copy does not corrupt R_TEMP_TP or R_TEMP_FP */
     /* Finally put the stack pointer at the bottom of the callees */
@@ -693,10 +693,10 @@ void make_tail_call_tag_code(exp e, space sp)
 
 	b.base = desc_base;
 	b.offset = 0;
-	ld_ro_ins(i_l,b,R_TMP0);comment(NIL);
+	ld_ro_ins(i_l,b,R_TMP0);comment(NULL);
 	b.base = R_FP;
 	b.offset = 4;
-	st_ro_ins(i_st,R_TMP0,b);comment(NIL);
+	st_ro_ins(i_st,R_TMP0,b);comment(NULL);
       }
       restore_link_register();
       restore_callees();
@@ -733,7 +733,7 @@ void make_tail_call_tag_code(exp e, space sp)
     baseoff b;
     b.base = R_SP;
     b.offset = 4;
-    ld_ro_ins(i_l,b,R_TMP0);comment(NIL);
+    ld_ro_ins(i_l,b,R_TMP0);comment(NULL);
     mt_ins(i_mtctr,R_TMP0);
     z_ins(i_bctr);
   }
@@ -759,8 +759,8 @@ void make_same_callees_tag_code(exp e, space sp)
   roldsp = getreg(nsp.fixed);nsp = guardreg(roldsp,nsp);
 
   restore_callees();
-  mov_rr_ins(R_FP,rfrom);comment(NIL);
-  mov_rr_ins(R_SP,roldsp);comment(NIL);
+  mov_rr_ins(R_FP,rfrom);comment(NULL);
+  mov_rr_ins(R_SP,roldsp);comment(NULL);
 
   if (p_has_vcallees)
   {
@@ -778,7 +778,7 @@ void make_same_callees_tag_code(exp e, space sp)
 
     rrr_ins(i_s,R_TP,R_FP,rsize);
     rrr_ins(i_s,R_SP,rsize,R_SP);
-    mov_rr_ins(R_SP,rto);comment(NIL);
+    mov_rr_ins(R_SP,rto);comment(NULL);
 
     dynamic_word_memory_copy(rfrom,rto,rsize); /* copy the callees */
   }
@@ -788,10 +788,10 @@ void make_same_callees_tag_code(exp e, space sp)
     long csize = ALIGNNEXT(p_callee_size + EXTRA_CALLEE_BYTES,8);
 
     rir_ins(i_a,R_SP,-csize,R_SP);
-    mov_rr_ins(R_SP,rto);comment(NIL);
+    mov_rr_ins(R_SP,rto);comment(NULL);
     static_memory_copy(rfrom,rto,csize);
   }
-  st_ro_ins(i_st,roldsp,callee_pointer);comment(NIL);
+  st_ro_ins(i_st,roldsp,callee_pointer);comment(NULL);
   return;
 }
 
@@ -819,7 +819,7 @@ void make_callee_list_tag_code(exp e, space sp)
   x = ALIGNNEXT((no(e) >>3) + EXTRA_CALLEE_BYTES  , 8);
   new_stackpos.base = R_SP;
   new_stackpos.offset = -x;
-  st_ro_ins(i_stu , R_SP , new_stackpos);comment(NIL);
+  st_ro_ins(i_stu , R_SP , new_stackpos);comment(NULL);
 
   disp = EXTRA_CALLEE_BYTES * 8;/* start coding them here */
   update_plc(old_pls,x);
@@ -883,7 +883,7 @@ void make_dynamic_callee_tag_code(exp e, space sp)
   reverse_dynamic_word_memory_copy(rfrom,rto,rsize);
   /* the memory copy preserves rfrom,rto and rsize */
   rrr_ins(i_a,rsize_adjusted,R_SP,R_TMP0);
-  st_ro_ins(i_st,R_TMP0,callee_pointer);comment(NIL);
+  st_ro_ins(i_st,R_TMP0,callee_pointer);comment(NULL);
   return;
 }
 
@@ -1300,7 +1300,7 @@ void restore_callers(int n)
 	}
 	else
 	{
-	  st_ro_ins(i_st,no(bdy),parampos);comment(NIL);
+	  st_ro_ins(i_st,no(bdy),parampos);comment(NULL);
 	}
       }
     }
@@ -1402,7 +1402,7 @@ void restore_callees(void)
     else if (props(bdy) & inreg_bits)
     {
       ASSERT(IS_SREG(no(bdy)));
-      st_ro_ins(i_st,no(bdy),stackpos);comment(NIL);
+      st_ro_ins(i_st,no(bdy),stackpos);comment(NULL);
     }
     bdy = bro(sbdy);
   }

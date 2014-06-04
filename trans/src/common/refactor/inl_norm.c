@@ -92,7 +92,7 @@ normalised_inlining(void)
   /* count the defined procedures */
 
   my_def = top_def;
-  while (my_def != (dec *)0) {
+  while (my_def != NULL) {
     exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
 
     def = son(crt_exp);
@@ -133,7 +133,7 @@ normalised_inlining(void)
 
   my_def = top_def;
   i = 0;
-  while (my_def != (dec *)0) {
+  while (my_def != NULL) {
     exp crt_exp = my_def->dec_u.dec_val.dec_exp;
 
     def = son(crt_exp);

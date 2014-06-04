@@ -329,7 +329,7 @@ translate_capsule(void)
      opt_all_exps();  /* optimise */
   /* mark static unaliased; count procs */
   noprocs = 0;
-  for (crt_def = top_def; crt_def != (dec *)0; crt_def = crt_def->def_next)
+  for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next)
   {
     exp crt_exp = crt_def->dec_u.dec_val.dec_exp;
     exp scexp = son(crt_exp);
@@ -381,7 +381,7 @@ translate_capsule(void)
 
   /* number proc defs */
   procno = 0;
-  for (crt_def = top_def; crt_def != (dec *)0; crt_def = crt_def->def_next)
+  for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next)
   {
     exp crt_exp = crt_def->dec_u.dec_val.dec_exp;
 
@@ -395,7 +395,7 @@ translate_capsule(void)
 	 /* Retrieve diagnostic info neccessary to comply with xdb's
 	    requirement that procedures be compiled in source file order. */
 	 diag_descriptor * dd =  crt_def -> dec_u.dec_val.diag_info;
-	 if (dd != (diag_descriptor*)0)
+	 if (dd != NULL)
 	 {
 	    sourcemark *sm = &dd -> data.id.whence;
 	    src_line[procno] = sm->line_no.nat_val.small_nat;
@@ -448,7 +448,7 @@ translate_capsule(void)
 
   /* scan all the procs, to put everything in HP_PA form */
   nexps = 0;
-  for (crt_def = top_def; crt_def != (dec *)0; crt_def = crt_def->def_next)
+  for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next)
   {
     exp crt_exp = crt_def->dec_u.dec_val.dec_exp;
     if (son(crt_exp)!= NULL && (name(son(crt_exp)) == proc_tag ||
@@ -467,7 +467,7 @@ translate_capsule(void)
   }
 
   /* calculate the break points for register allocation */
-  for (crt_def = top_def; crt_def != (dec *)0; crt_def = crt_def->def_next)
+  for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next)
   {
     exp crt_exp = crt_def->dec_u.dec_val.dec_exp;
 
@@ -553,7 +553,7 @@ translate_capsule(void)
 
   /*  Set up main_globals and output global definitions. */
   i = 0;
-  for (crt_def=top_def; crt_def!= (dec*)0; crt_def=crt_def->def_next)
+  for (crt_def=top_def; crt_def!= NULL; crt_def=crt_def->def_next)
   {
      i++;
   }
@@ -564,14 +564,14 @@ translate_capsule(void)
     main_globals = NULL;
   }
   i = 0;
-  for (crt_def = top_def; crt_def != (dec *)0; crt_def = crt_def->def_next)
+  for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next)
   {
      main_globals[i] = crt_def;
      main_globals[i] ->dec_u.dec_val.sym_number = i;
      i++;
   }
 
-  for (crt_def = top_def; crt_def != (dec *)0; crt_def = crt_def->def_next)
+  for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next)
   {
      exp tg = crt_def->dec_u.dec_val.dec_exp;
      char *id = crt_def->dec_u.dec_val.dec_id;
@@ -616,7 +616,7 @@ translate_capsule(void)
 
   /* Uninitialized data local to module. */
 
-  for (crt_def=top_def; crt_def != (dec *)0; crt_def=crt_def->def_next)
+  for (crt_def=top_def; crt_def != NULL; crt_def=crt_def->def_next)
   {
      exp tg = crt_def->dec_u.dec_val.dec_exp;
      char *id = crt_def->dec_u.dec_val.dec_id;
@@ -820,7 +820,7 @@ void translate_unit
 
     translate_capsule();
     crt_def = top_def;
-    while (crt_def != (dec *)0)
+    while (crt_def != NULL)
     {
       exp crt_exp = crt_def->dec_u.dec_val.dec_exp;
 

@@ -144,7 +144,7 @@ static void store(Instruction_P st, int r, instore is, long regs)
   {
     if (IS_FIXREG(is.b.base))
     {
-      st_ro_ins(st, r, is.b);comment(NIL);
+      st_ro_ins(st, r, is.b);comment(NULL);
     }
     else if (IMM_SIZE(is.b.offset))
     {
@@ -160,7 +160,7 @@ static void store(Instruction_P st, int r, instore is, long regs)
 	
 	b.base = addr_reg;
 	b.offset = is.b.offset;
-	st_ro_ins(st, r, b);comment(NIL);
+	st_ro_ins(st, r, b);comment(NULL);
       }
       else
       {
@@ -180,7 +180,7 @@ static void store(Instruction_P st, int r, instore is, long regs)
       set_ins(is.b, b.base);
 
       /* store r to [b+0] */
-      st_ro_ins(st, r, b);comment(NIL);
+      st_ro_ins(st, r, b);comment(NULL);
     }
   }
   else
@@ -195,7 +195,7 @@ static void store(Instruction_P st, int r, instore is, long regs)
 #endif
     b.offset = 0;
     ld_ins(i_l, is.b, b.base);
-    st_ro_ins(st, r, b);comment(NIL);
+    st_ro_ins(st, r, b);comment(NULL);
   }
 }
 
@@ -338,11 +338,11 @@ static void loopmove2
 
   src_bo.base = srcptr_reg;
   src_bo.offset = bytes_per_step;
-  ld_ro_ins(ldu, src_bo, copy_reg);comment(NIL);
+  ld_ro_ins(ldu, src_bo, copy_reg);comment(NULL);
   
   dest_bo.base = destptr_reg;
   dest_bo.offset = bytes_per_step;
-  st_ro_ins(stu, copy_reg, dest_bo);comment(NIL);
+  st_ro_ins(stu, copy_reg, dest_bo);comment(NULL);
   
   uncond_ins(i_bdn, loop);
 
@@ -441,7 +441,7 @@ static void loopmove3
   dest_bo.offset = bytes_per_step;
 
   if (2*half_no_steps < no_steps)
-    ld_ro_ins(ldu, src_bo, copy2_reg);comment(NIL);
+    ld_ro_ins(ldu, src_bo, copy2_reg);comment(NULL);
   
   ld_const_ins(half_no_steps, copy1_reg);
   mt_ins(i_mtctr, copy1_reg);
@@ -452,12 +452,12 @@ static void loopmove3
     {
       /* no need to do the decr, use plain st not stu for first step */
       dest_bo.offset -= bytes_per_step;
-      st_ro_ins(st, copy2_reg, dest_bo);comment(NIL);
+      st_ro_ins(st, copy2_reg, dest_bo);comment(NULL);
       dest_bo.offset += bytes_per_step;
     }
     else
     {
-      st_ro_ins(stu, copy2_reg, dest_bo);comment(NIL);
+      st_ro_ins(stu, copy2_reg, dest_bo);comment(NULL);
     }
   }
   else
@@ -468,11 +468,11 @@ static void loopmove3
 
   set_label(loop);
 
-  ld_ro_ins(ldu, src_bo, copy1_reg);comment(NIL);
-  ld_ro_ins(ldu, src_bo, copy2_reg);comment(NIL);
+  ld_ro_ins(ldu, src_bo, copy1_reg);comment(NULL);
+  ld_ro_ins(ldu, src_bo, copy2_reg);comment(NULL);
   
-  st_ro_ins(stu, copy1_reg, dest_bo);comment(NIL);
-  st_ro_ins(stu, copy2_reg, dest_bo);comment(NIL);
+  st_ro_ins(stu, copy1_reg, dest_bo);comment(NULL);
+  st_ro_ins(stu, copy2_reg, dest_bo);comment(NULL);
   
   uncond_ins(i_bdn, loop);
 
@@ -793,7 +793,7 @@ start:
 	  if (rd != R_0 /* nowhere */ && rd != r)
 	  {
 	    /* move reg r to reg rd */
-	    mov_rr_ins(r, rd);comment(NIL);
+	    mov_rr_ins(r, rd);comment(NULL);
 	  }
 	  return NOREG;
 	}			/* end inreg dest */
@@ -817,10 +817,10 @@ start:
 	  freg fr;
 
 	  fr = fregalt(dest.answhere);
-	  st_ro_ins(i_st, r, mem_temp(0));comment(NIL);
+	  st_ro_ins(i_st, r, mem_temp(0));comment(NULL);
 	  if (fr.dble)
 	  {
-	    st_ro_ins(i_st, r + 1, mem_temp(4));comment(NIL);
+	    st_ro_ins(i_st, r + 1, mem_temp(4));comment(NULL);
 	    ldf_ro_ins(i_lfd, mem_temp(0), fr.fr);
 	  }
 	  else
@@ -879,13 +879,13 @@ start:
 	    if (fr.dble)
 	    {
 	      stf_ins(i_stfd, fr.fr, mem_temp(0));
-	      ld_ro_ins(i_l, mem_temp(0), rd);comment(NIL);
-	      ld_ro_ins(i_l, mem_temp(4), rd + 1);comment(NIL);
+	      ld_ro_ins(i_l, mem_temp(0), rd);comment(NULL);
+	      ld_ro_ins(i_l, mem_temp(4), rd + 1);comment(NULL);
 	    }
 	    else
 	    {
 	      stf_ins(i_stfs, fr.fr, mem_temp(0));
-	      ld_ro_ins(i_l, mem_temp(0), rd);comment(NIL);
+	      ld_ro_ins(i_l, mem_temp(0), rd);comment(NULL);
 	    }
 	  }
 	  return NOREG;
@@ -945,7 +945,7 @@ start:
 
 	    b.base = getreg(regs);
 	    b.offset = 0;
-	    ld_ro_ins(i_l, is.b, b.base);comment(NIL);
+	    ld_ro_ins(i_l, is.b, b.base);comment(NULL);
 	    stf_ro_ins(st, fr.fr, b);
 	  };
 

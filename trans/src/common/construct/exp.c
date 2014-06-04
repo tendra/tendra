@@ -55,9 +55,9 @@ struct expalloc_cell_t {
 };
 typedef struct expalloc_cell_t expalloc_cell;
 
-static expalloc_cell *alloc_list = (expalloc_cell *)0;
+static expalloc_cell *alloc_list = NULL;
 /* good init for the whole run */
-static expalloc_cell *alloc_freelist = (expalloc_cell *)0;
+static expalloc_cell *alloc_freelist = NULL;
 /* good init for the whole run */
 
 static char  ic_buff[21];	/* no init needed */

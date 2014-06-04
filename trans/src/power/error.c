@@ -521,7 +521,7 @@ int mult_error_treatment(exp e, space sp, where dest)
 	ld_const_ins(0,tmp_reg);
 	cmp_ri_ins(i_cmp,lhs_reg,0,creg);
 	bc_ins(i_bgt,creg,lab,LIKELY_TO_JUMP);
-	mov_rr_ins(lhs_reg,tmp_reg);comment(NIL);
+	mov_rr_ins(lhs_reg,tmp_reg);comment(NULL);
 	set_label(lab);
 	cmp_ri_ins(i_cmp,rhs_reg,0,creg2);
 	bc_ins(i_bgt,creg2,lab2,LIKELY_TO_JUMP);

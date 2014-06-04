@@ -173,7 +173,7 @@ void markcall
 (explist * el)
 {
   explist * t = el;
-  while (t != (explist *)0) {
+  while (t != NULL) {
     set_intnl_call(t -> wident);
     t = t -> etl;
   };
@@ -187,7 +187,7 @@ void markmove
 (explist * el)
 {
   explist * t = el;
-  while (t != (explist *)0) {
+  while (t != NULL) {
     set_intnl_call(t -> wident);
     t = t -> etl;
   };
@@ -198,7 +198,7 @@ void markreg1
 (explist * el)
 {
   explist * t = el;
-  while (t != (explist *)0) {
+  while (t != NULL) {
     set_intnl_call(t -> wident);
     t = t -> etl;
   };
@@ -506,7 +506,7 @@ weights weightsv
       };
     case proc_tag:
     case general_proc_tag: {
-	IGNORE weightsv(son(e), (explist *)0);
+	IGNORE weightsv(son(e), NULL);
 	return zeros;
       };
     case movecont_tag:
@@ -550,6 +550,6 @@ void comp_weights
 (exp e)
 {
   scale = 1.0;
-  IGNORE weightsv(e,(explist *)0);
+  IGNORE weightsv(e, NULL);
   return;
 }

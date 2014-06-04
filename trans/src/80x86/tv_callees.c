@@ -34,7 +34,7 @@ void transform_var_callees
 				*/
 {
   dec * my_def = top_def;
-  while (my_def != (dec *)0) {
+  while (my_def != NULL) {
     exp tg = my_def -> dec_u.dec_val.dec_exp;
     if (son(tg)!= NULL && name(son(tg)) == general_proc_tag
 		&& proc_has_vcallees(son(tg))) {

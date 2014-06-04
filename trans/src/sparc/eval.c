@@ -921,7 +921,7 @@ evaluated ( exp e, long ll, bool ro ){
     int align = ( ( a.ashalign > 32 || a.ashsize > 32 ) ? 8 : 4 ) ;
     if ( !extnamed || (name(e) == clear_tag && no(e) == -1) ||
 		/* SUNOS simplifies extraction of .common from library modules */
-	 (!sysV_assembler && dynamic_init_proc != (char *)0 &&
+	 (!sysV_assembler && dynamic_init_proc != NULL &&
 		!(main_globals [ -lab - 1 ]->dec_u.dec_val.is_common))
 	) {
       outs ( "\t.reserve\t" ) ;

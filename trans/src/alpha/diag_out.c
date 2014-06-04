@@ -163,7 +163,7 @@ void diagbr_open
 {
   int symno;
   stab_file(findex);
-  symno = new_lsym_d((char *)0, 0, stBlock, scText,(diag_type)0,
+  symno = new_lsym_d(NULL, 0, stBlock, scText,(diag_type)0,
       currentfile);
   lexlev[0] ++;
   if (as_file) {
@@ -177,7 +177,7 @@ void diagbr_close
 {
   int symno;
   stab_file(findex);
-  symno = new_lsym_d((char *)0, 0, stEnd, scText,(diag_type)0,
+  symno = new_lsym_d(NULL, 0, stEnd, scText,(diag_type)0,
       currentfile);
   lexlev[0] --;
   if (as_file) {
@@ -320,7 +320,7 @@ typedef struct {
 } tsym;
 static int notsyms = 0;
 static int nexttsym = 0;
-static tsym * ats = (tsym *)0;
+static tsym * ats = NULL;
 
 
 /*
@@ -350,7 +350,7 @@ typedef struct {
 } shauxt;
 static int noshaux = 0;
 int nextshaux = 0;
-shauxt * shaux = (shauxt *)0;
+shauxt * shaux = NULL;
 
 
 /*
@@ -414,7 +414,7 @@ static void addaux
   x -> symindex = ind;
 }
 
-static diag_tagdef ** su_diags = (diag_tagdef**)0;
+static diag_tagdef ** su_diags = NULL;
 static long no_of_sus = 0;
 static long leng_sus = 0;
 

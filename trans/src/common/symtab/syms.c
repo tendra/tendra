@@ -126,7 +126,7 @@ symnoforstart(int i, int filen)
 
 	if (diag != DIAG_NONE) {
 		diag_descriptor *t = ex->dec_u.dec_val.diag_info;
-		if (t != (diag_descriptor *) 0) {
+		if (t != NULL) {
 			id = t->data.id.nme.ints.chars;
 			dt = t->data.id.new_type;
 			filen = find_file(t->data.id.whence.file->file.ints.chars);
@@ -147,7 +147,7 @@ symnoforend(dec * ex, int filen)
 
 	if (diag != DIAG_NONE) {
 		diag_descriptor *t = ex->dec_u.dec_val.diag_info;
-		if (t != (diag_descriptor *) 0) {
+		if (t != NULL) {
 			id = t->data.id.nme.ints.chars;
 			dt = t->data.id.new_type;
 			filen = find_file(t->data.id.whence.file->file.ints.chars);

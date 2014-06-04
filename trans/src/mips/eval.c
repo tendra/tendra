@@ -635,7 +635,7 @@ instore evaluated
     int   size = (ashof(sh(e)).ashsize + 7) >> 3;
     bool temp = (l == 0 ||
 	(main_globals[-lab - 1] -> dec_u.dec_val.dec_id)[0] == '$');
-    if (dc != (dec*)0)globalise_name(dc);
+    if (dc != NULL)globalise_name(dc);
     if (as_file) {
       fprintf(as_file,(temp)? "\t.lcomm\t" : "\t.comm\t");
       outlab(lab);
@@ -660,7 +660,7 @@ instore evaluated
       out_common(0, idata);
     }
     set_align(a.ashalign);   /* I think this is unnecessary ? bug in as */
-    if (dc != (dec*)0)globalise_name(dc);
+    if (dc != NULL)globalise_name(dc);
     if (as_file) {
       outlab(lab);
       fprintf(as_file, ":\n");

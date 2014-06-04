@@ -841,7 +841,7 @@ static char *out_branch
 	failer(BAD_TESTNO);
     };
   };
-  return (char *)0;
+  return NULL;
 }
 
 void simple_branch

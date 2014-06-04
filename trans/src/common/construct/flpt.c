@@ -1131,7 +1131,7 @@ floatrep(int n)
   char *pr = intchars(n);
   /* this is wrong for unsigned integers */
   flt fr;
-  IGNORE str2flt(pr, &fr,(char **)0);
+  IGNORE str2flt(pr, &fr, NULL);
   flptnos[res] = fr;
   return res;
 }

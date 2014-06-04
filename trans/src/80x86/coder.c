@@ -2403,7 +2403,7 @@ void coder
 	  d = d->more;
 	if (!d) {
 	  d = new_dg_info(DGA_CALL);
-	  d->data.i_call.clnam = (char*)0;
+	  d->data.i_call.clnam = NULL;
 	  d->data.i_call.pos = no_short_sourcepos;
 	  d->data.i_call.ck = 0;
 	  dgf(e) = combine_diaginfo(dgf(e), d);

@@ -141,7 +141,7 @@ static int nofds = 0;		/* how many are known */
  * (See function OUTPUT_DIAG_TAGS)
  */
 
-static diag_tagdef **su_diags = (diag_tagdef **)0;
+static diag_tagdef **su_diags = NULL;
 static int no_of_sus = 0;
 static int leng_sus = 0;
 
@@ -150,7 +150,7 @@ static int leng_sus = 0;
  * (See function OUTPUT_GLOBALS_TAB)
  */
 
-static diag_descriptor **typedef_diags = (diag_descriptor **)0;
+static diag_descriptor **typedef_diags = NULL;
 static int no_of_typedefs = 0;
 static int leng_typedefs = 0;
 
@@ -205,7 +205,7 @@ void INSPECT_FILENAME(filename f)
 {
   FULLCOMMENT2("INSPECT_FILENAME %d: '%s'", nofds,(int)CSTRING(f->file));
 
-  if (fds == (filename *)0)
+  if (fds == NULL)
   {
     fds = (filename *)xmalloc((szfds += 5)* sizeof(filename));
   }
@@ -269,7 +269,7 @@ void OUTPUT_DIAG_TAGS(void)
 	}
 	if (no_of_sus >= leng_sus)
 	{
-	  if (su_diags == (diag_tagdef **)0)
+	  if (su_diags == NULL)
 	  {
 	    su_diags= (diag_tagdef**)xmalloc((leng_sus+=20)*sizeof(diag_tagdef*));
 	  }
@@ -324,7 +324,7 @@ void OUTPUT_GLOBALS_TAB(void)
 	/* We have a new one */
 	if (no_of_typedefs >= leng_typedefs)
 	{
-	  if (typedef_diags == (diag_descriptor **)0)
+	  if (typedef_diags == NULL)
 	  {
 	    typedef_diags = (diag_descriptor **)xmalloc((leng_typedefs+=20)*sizeof(diag_descriptor *));
 	  }
@@ -422,7 +422,7 @@ static void stab_structs_and_unions(void)
 
     stab_internal_types(dt, 0);
 
-    if (nme == (char *)0 || *nme == (char)0)
+    if (nme == NULL || *nme == (char)0)
     {
       /*
        * Output unnamed object here for 2 reasons:
@@ -518,7 +518,7 @@ void fixup_name(exp global, dec * top_def, dec * crt_def)
 
   dd = find_dd(global);
 
-  if (dd == (diag_descriptor *)0)
+  if (dd == NULL)
   {
     /* eg string constant or currently static within proc */
     FULLCOMMENT("correct_name: no descriptor");
@@ -528,7 +528,7 @@ void fixup_name(exp global, dec * top_def, dec * crt_def)
   nm = CSTRING(dd->data.id.nme);
 
   /* search def chain to see if name is already used as assembler label */
-  for (d = top_def; d != crt_def && d != (dec *)0; d = d->def_next)
+  for (d = top_def; d != crt_def && d != NULL; d = d->def_next)
   {
     if (strcmp(nm, d->dec_u.dec_val.dec_id) == 0)
     {
@@ -1513,7 +1513,7 @@ void stab_global(exp global, char *id, bool ext)
 #if defined(__AIX) || defined(CROSS_INCLUDE)
   diag_descriptor *dd = find_dd(global);
 
-  if (dd == (diag_descriptor *)0)
+  if (dd == NULL)
     return;
 
   /* +++ inefficient */
@@ -1547,7 +1547,7 @@ void stab_proc1(exp proc, char *id, bool ext)
 
   block_depth = 0;
 
-  if (dd == (diag_descriptor *)0)
+  if (dd == NULL)
   {
     COMMENT("stab_proc1: no descriptor");	/* should never happen */
     current_procstart_lineno = NOT_IN_PROC;
@@ -1572,7 +1572,7 @@ void stab_proc2(exp proc, char *id, bool ext)
   char *nm;
   diag_type dt;
 
-  if (dd == (diag_descriptor *)0)
+  if (dd == NULL)
   {
     COMMENT("stab_proc2: no descriptor");	/* should never happen */
     return;
@@ -1666,7 +1666,7 @@ void stab_endproc(exp proc, char *id, bool ext)
     char *nm;
     int i;
 
-    if (dd == (diag_descriptor *)0)
+    if (dd == NULL)
     {
       COMMENT("stab_endproc: no descriptor");	/* should never happen */
       return;

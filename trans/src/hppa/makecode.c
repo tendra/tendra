@@ -172,7 +172,7 @@ static postl_chain * old_pls;
 void update_plc
 (postl_chain * ch, int ma)
 {
-   while (ch != (postl_chain*)0)
+   while (ch != NULL)
    {
       exp pl= ch->pl;
       while (name(pl) ==ident_tag && name(son(pl)) ==caller_name_tag)
@@ -680,7 +680,7 @@ makeans make_code
   case proc_tag: case general_proc_tag:
   {
      crt_proc = e;
-     old_pls = (postl_chain*)0;
+     old_pls = NULL;
      return make_proc_tag_code(e, sp, dest, exitlab);
   }
 

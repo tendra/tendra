@@ -110,7 +110,7 @@ translate_capsule(void)
     /* Fix procedure handling (copied from trans386) */
     d = top_def;
 #if 0
-    while (d != (dec *)0) {
+    while (d != NULL) {
     exp crt_exp = d -> dec_u.dec_val.dec_exp;
     exp idval;
       if (!(d -> dec_u.dec_val.dec_var) && (name(sh(crt_exp))!= prokhd ||

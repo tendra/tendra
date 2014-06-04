@@ -475,7 +475,7 @@ end_toplevel_chain(void)
 /* HACK to get a filename */
 static long name_space;
 
-static char *first_filename = (char *)0;
+static char *first_filename = NULL;
 
 void
 dwarf_inspect_filename(filename f)

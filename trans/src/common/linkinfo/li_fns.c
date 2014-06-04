@@ -176,7 +176,7 @@ start_make_linkinfo_unit(int no_of_tokens, int no_of_tags, int no_of_als,
 							 sizeof(tok_define *));
 	}
 	for (i = 0; i < unit_no_of_tokens; ++i) {
-		unit_ind_tokens[i] = (tok_define *)0;
+		unit_ind_tokens[i] = NULL;
 	}
 
 	unit_no_of_tags = no_of_tags;
@@ -186,7 +186,7 @@ start_make_linkinfo_unit(int no_of_tokens, int no_of_tags, int no_of_als,
 		unit_ind_tags = (dec **)xcalloc(unit_no_of_tags, sizeof(dec *));
 	}
 	for (i = 0; i < unit_no_of_tags; ++i) {
-		unit_ind_tags[i] = (dec *)0;
+		unit_ind_tags[i] = NULL;
 	}
 
 	unit_no_of_als = no_of_als;
@@ -196,7 +196,7 @@ start_make_linkinfo_unit(int no_of_tokens, int no_of_tags, int no_of_als,
 		unit_ind_als = (aldef **)xcalloc(unit_no_of_als, sizeof(aldef *));
 	}
 	for (i = 0; i < unit_no_of_als; ++i) {
-		unit_ind_als[i] = (aldef *)0;
+		unit_ind_als[i] = NULL;
 	}
 
 	return;
@@ -210,17 +210,17 @@ f_make_linkinfo_unit(void)
 	int j = 0;
 	int no_of_labels;
 	for (i = 0; i < unit_no_of_tokens; ++i) {
-		if (unit_ind_tokens[i] == (tok_define *)0)
+		if (unit_ind_tokens[i] == NULL)
 			unit_ind_tokens[i] = &unit_toktab[j++];
 	}
 	j = 0;
 	for (i = 0; i < unit_no_of_tags; ++i) {
-		if (unit_ind_tags[i] == (dec *)0)
+		if (unit_ind_tags[i] == NULL)
 			unit_ind_tags[i] = &unit_tagtab[j++];
 	}
 	j = 0;
 	for (i = 0; i < unit_no_of_als; ++i) {
-		if (unit_ind_als[i] == (aldef *)0)
+		if (unit_ind_als[i] == NULL)
 			unit_ind_als[i] = &unit_altab[j++];
 	}
 	start_bytestream();

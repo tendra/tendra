@@ -211,14 +211,14 @@ make_extra_dec(char *nme, int v, int g, exp init, shape s)
 		setvar(e);
 	}
 	brog(e) = extra_dec;
-	extra_dec->def_next = (dec *)0;
+	extra_dec->def_next = NULL;
 	*deflist_end = extra_dec;
 	deflist_end = &((*deflist_end)->def_next);
 	extra_dec->dec_u.dec_val.dec_id = nme;
 	extra_dec->dec_u.dec_val.dec_shape = s;
 	extra_dec->dec_u.dec_val.dec_exp = e;
 	extra_dec->dec_u.dec_val.unit_number = crt_tagdef_unit_no;
-	extra_dec->dec_u.dec_val.diag_info = (diag_global *)0;
+	extra_dec->dec_u.dec_val.diag_info = NULL;
 	extra_dec->dec_u.dec_val.extnamed = (unsigned int)g;
 	extra_dec->dec_u.dec_val.dec_var = (unsigned int)v;
 	extra_dec->dec_u.dec_val.dec_outermost = 0;
@@ -239,14 +239,14 @@ find_named_dec(char *n)
 	/* find a global with name n */
 	dec *my_def = top_def;
 
-	while (my_def != (dec *)0) {
+	while (my_def != NULL) {
 		char *id = my_def->dec_u.dec_val.dec_id;
 		if (strcmp(id + strlen(name_prefix), n) == 0) {
 			return my_def;
 		}
 		my_def = my_def->def_next;
 	}
-	return (dec *)0;
+	return NULL;
 }
 
 
@@ -255,7 +255,7 @@ find_named_tg(char *n, shape s)
 {
 	/* find a global with name n */
 	dec *my_def = find_named_dec(n);
-	if (my_def != (dec*)0) {
+	if (my_def != NULL) {
 		return my_def->dec_u.dec_val.dec_exp;
 	}
 	my_def = make_extra_dec(add_prefix(name_prefix, n), 0, 1, NULL, s);
@@ -853,7 +853,7 @@ init_alignment(void)
 	const_al512->al.al_val.al_frame = 0;
 	const_al512->al.sh_hd = 0;
 
-	cache_pals = (struct CAL *)0;
+	cache_pals = NULL;
 
 	init_frame_als();
 	f_alloca_alignment = ALLOCA_ALIGN;
@@ -871,7 +871,7 @@ get_pal(alignment a, int sh_hd, int al)
 {
 	struct CAL *c = cache_pals;
 	alignment res;
-	while (c != (struct CAL *)0) {
+	while (c != NULL) {
 		if (c->sh_hd == sh_hd && c->al == al) {
 			return c->res;
 		}
@@ -3317,7 +3317,7 @@ f_make_proc(shape result_shape, tagshacc_list params_intro,
 
 	pop_proc_props();
 
-	if (old_proc_props != (proc_props *)0 || rep_make_proc) {
+	if (old_proc_props != NULL || rep_make_proc) {
 		dec *extra_dec = make_extra_dec(make_local_name(), 0, 0, res,
 						f_proc);
 		exp e = extra_dec->dec_u.dec_val.dec_exp;
@@ -3569,7 +3569,7 @@ f_make_general_proc(shape result_shape, procprops prcprops,
 	set_make_procprops(res, prcprops);
 
 	pop_proc_props();
-	if (old_proc_props != (proc_props *)0 || rep_make_proc) {
+	if (old_proc_props != NULL || rep_make_proc) {
 		dec *extra_dec = make_extra_dec(make_local_name(), 0, 0, res,
 						f_proc);
 		exp e = extra_dec->dec_u.dec_val.dec_exp;
@@ -5163,7 +5163,7 @@ init_exp(void)
 	initial_value_pp.default_freq = default_freq;
 	initial_value_pp.proc_externs = 0;
 	initial_value_pp.in_proc_def = 0;
-	initial_value_pp.pushed = (proc_props*)0;
+	initial_value_pp.pushed = NULL;
 	initial_value_pp.rep_make_proc = 0;
 	return;
 }
@@ -5467,7 +5467,7 @@ f_pointer(alignment arg)
 	if (arg->al.sh_hd != 0) {
 		struct SAL *c = cache_pashs;
 		shape res;
-		while (c != (struct SAL*)0) {
+		while (c != NULL) {
 			if (arg == c->al) return c->ptr_sh;
 			c = c->rest;
 		}
@@ -5503,7 +5503,7 @@ init_shape(void)
 	for (i = 0; i < 32; i++) {
 		frame_ptrs[i] = (shape)0;
 	}
-	cache_pashs = (struct SAL *)0;
+	cache_pashs = NULL;
 
 	f_bottom = getshape(0, const_al1, const_al1, const_al1, 0, bothd);
 
@@ -6285,8 +6285,8 @@ void
 start_initial_value(void)
 {
 	if (in_initial_value++ == 0) {
-		proc_props *real_pp = (proc_props *)0;
-		if (old_proc_props != (proc_props *)0) {
+		proc_props *real_pp = NULL;
+		if (old_proc_props != NULL) {
 			/* initial value in proc */
 			push_proc_props();
 			real_pp = old_proc_props;
@@ -6318,7 +6318,7 @@ f_initial_value(exp e)
 	initial_value_pp.in_proc_def = in_proc_def;
 	initial_value_pp.pushed = old_proc_props;
 	initial_value_pp.rep_make_proc = rep_make_proc;
-	if (old_proc_props != (proc_props *)0) {
+	if (old_proc_props != NULL) {
 		/* init was in a proc - must make new variable */
 		dec *my_def = make_extra_dec(make_local_name(), 1, 0, me_u2(e,
 					     initial_value_tag), sh(e));
@@ -6336,11 +6336,11 @@ tidy_initial_values(void)
 	dec *my_def = top_def;
 	exp_list initial_as;
 	exp_list prom_as;
-	char *good_name = (char *)0;
+	char *good_name = NULL;
 	initial_as = new_exp_list(0);
 	prom_as = new_exp_list(0);
-	dynamic_init_proc = (char *)0;
-	while (my_def != (dec *)0) {
+	dynamic_init_proc = NULL;
+	while (my_def != NULL) {
 		exp crt_exp = my_def->dec_u.dec_val.dec_exp;
 		if (son(crt_exp) != NULL && my_def->dec_u.dec_val.extnamed) {
 			good_name = my_def->dec_u.dec_val.dec_id;
@@ -6365,7 +6365,7 @@ tidy_initial_values(void)
 			{
 				exp init = son(son(crt_exp));
 				exp new_init = f_make_value(sh(init));
-				if (good_name == (char *)0) {
+				if (good_name == NULL) {
 					good_name =
 					    my_def->dec_u.dec_val.dec_id;
 				}
@@ -6383,7 +6383,7 @@ tidy_initial_values(void)
 			   in one explist */
 			exp init = son(crt_exp);
 			exp new_init = f_make_value(sh(init));
-			if (good_name == (char *)0) {
+			if (good_name == NULL) {
 				good_name = my_def->dec_u.dec_val.dec_id;
 			}
 			if (name(init) == compound_tag ||
@@ -6418,7 +6418,7 @@ tidy_initial_values(void)
 		tsl = new_tagshacc_list(0);
 
 		old_proc_props = &initial_value_pp;  pop_proc_props();
-		old_proc_props = (proc_props *)0;
+		old_proc_props = NULL;
 		rep_make_proc = 0;
 		push_proc_props();
 		prc = f_make_proc(f_top, tsl, no_tagacc_option, seq);

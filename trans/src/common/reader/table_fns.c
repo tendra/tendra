@@ -43,7 +43,7 @@
 /* VARIABLES */
 /* The initial values are only to give something to push, jmf */
 
-context *crt_context = (context *)0;
+context *crt_context = NULL;
 
 
 /* IDENTITY */
@@ -59,9 +59,9 @@ get_lab(label l)
 {
 	/* find the exp which is labelled by l */
 	context *con = crt_context;
-	while (con != (context *)0) {
+	while (con != NULL) {
 	   lab_con *lc = con->labs;
-	   while (lc != (lab_con *)0) {
+	   while (lc != NULL) {
 	   	if (lc->namel == l) {
 			return lc->e;
 		}
@@ -77,7 +77,7 @@ void
 set_lab(label l, exp e)
 {
 	/* set the exp which is labelled by l */
-	if (crt_context == (context *)0 || crt_context->recursive == 0) {
+	if (crt_context == NULL || crt_context->recursive == 0) {
 		*l = e;
 	} else {
 		lab_con *lc = (lab_con *)xmalloc(sizeof(lab_con));
@@ -111,7 +111,7 @@ get_tok(int tk)
 {
 	/* find the token declaration indexed by tg */
 	context *con = crt_context;
-	while (con != (context *)0) {
+	while (con != NULL) {
 		int n = con->no_toks;
 		int nl = (n > LOCAL_TOKS) ? LOCAL_TOKS : n;
 		tok_define *cbind = &con->loctoks[0];
@@ -138,9 +138,9 @@ get_tag(tag tg)
 {
 	/* find the exp known as tg */
 	context *con = crt_context;
-	while (con != (context *)0) {
+	while (con != NULL) {
 		tag_con *tc = con->tags;
-		while (tc != (tag_con *)0) {
+		while (tc != NULL) {
 			if (tc->namet == tg) {
 				return tc->e;
 			}
@@ -156,7 +156,7 @@ void
 set_tag(tag tg, exp e)
 {
 	/* set the exp known as tg */
-	if (crt_context == (context *)0 || crt_context->recursive == 0) {
+	if (crt_context == NULL || crt_context->recursive == 0) {
 		tg->dec_u.dec_val.dec_exp = e;
 	} else {
 		tag_con *tc = (tag_con *)xmalloc(sizeof(tag_con));
@@ -190,7 +190,7 @@ apply_tok(token td, bitstream pars, int sortcode, tokval * actual_pars)
 		if (td->is_capsule_token &&
 		    td->tok_index < capsule_no_of_tokens &&
 		    td->tok_index >= 0 &&
-		    td->tok_name != (char *)0) {
+		    td->tok_name != NULL) {
 			IGNORE fprintf(stderr, "token is: %s\n",
 				       td -> tok_name);
 		} else {
@@ -314,7 +314,7 @@ apply_tok(token td, bitstream pars, int sortcode, tokval * actual_pars)
 			} else {
 				SET(old_crt_repeat);
 			}
-			if (actual_pars != (tokval*)0) {
+			if (actual_pars != NULL) {
 				/* this is not used at present*/
 				new_bindings[i].tdvalue =
 					actual_pars[j];
@@ -343,8 +343,8 @@ apply_tok(token td, bitstream pars, int sortcode, tokval * actual_pars)
 
 		new_context.recursive = td->recursive;
 		new_context.outer = td->tok_context;
-		new_context.tags = (tag_con *)0;
-		new_context.labs = (lab_con *)0;
+		new_context.tags = NULL;
+		new_context.labs = NULL;
 
 		crt_context = &new_context;
 
@@ -415,13 +415,13 @@ apply_tok(token td, bitstream pars, int sortcode, tokval * actual_pars)
 				 * binding */
 			}
 		}
-		while (new_context.tags != (tag_con *)0) {
+		while (new_context.tags != NULL) {
 			tag_con *r = new_context.tags;
 			new_context.tags =
 				new_context.tags->rest;
 			xfree((void *)r);
 		}
-		while (new_context.labs != (lab_con *)0) {
+		while (new_context.labs != NULL) {
 			lab_con *r = new_context.labs;
 			new_context.labs =
 				new_context.labs->rest;

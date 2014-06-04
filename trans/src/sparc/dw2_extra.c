@@ -1068,7 +1068,7 @@ void dw_allocated(dg_name nm, exp id)
   if (!isglob(id) && (props(id) & inreg_bits) && reg < TRACKREGS) {
     dw_close_regassn (reg);
     regassns[reg].alloc = nm;
-    regassns[reg].share_set = (void *)0;
+    regassns[reg].share_set = NULL;
   }
   for (i=0; i<TRACKREGS; i++) {
     if (regexps[i].keptexp && 
@@ -1091,7 +1091,7 @@ void dw_deallocated(dg_name nm)
     if (regassns[i].alloc == nm) {
       dw_close_regassn (i);
       regassns[i].alloc = (dg_name)0;
-      regassns[i].share_set = (void *)0;
+      regassns[i].share_set = NULL;
     }
   }
   return;
@@ -1102,7 +1102,7 @@ void dw_all_deallocated(void)		/* initialisation */
   int i;
   for (i=0; i<TRACKREGS; i++) {
     regassns[i].alloc = (dg_name)0;
-    regassns[i].share_set = (void *)0;
+    regassns[i].share_set = NULL;
     regassns[i].start = regassns[i].end = (long)0;
   }
   return;
@@ -1143,7 +1143,7 @@ void dw_close_regassn(int reg)
 			regassns[reg].start, regassns[reg].end);
     regassns[reg].end = (long)0;
     if (!regassns[reg].alloc)
-      regassns[reg].share_set = (void *)0;
+      regassns[reg].share_set = NULL;
   }
   regassns[reg].start = (long)0;
   return;

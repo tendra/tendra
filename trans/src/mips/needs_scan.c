@@ -2380,7 +2380,7 @@ ptr is labelled exp
 	if (name (a2) == real_tag) { replace X/const by X*const^-1
 	  flt inverse;
 	  flt unitflt;
-	  str2flt ("1.0", &unitflt, (char **) 0);
+	  str2flt ("1.0", &unitflt, NULL);
 	  if (flt_div (unitflt, flptnos[no (a2)], &inverse) == OKAY) {
 				  a/const => a* (1.0/const)
 	    int   f = new_flpt ();

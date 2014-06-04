@@ -7,6 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <stddef.h>
+
 #include <reader/readglob.h>
 
 /* VARIABLES */
@@ -94,7 +96,7 @@ int good_trans = 0;		/* 0 if translation is good, 1 for error
 
 char *crt_filename;
 
-capsule_frees *capsule_freelist = (capsule_frees *)0;
+capsule_frees *capsule_freelist = NULL;
 
 int newcode = 1;
 

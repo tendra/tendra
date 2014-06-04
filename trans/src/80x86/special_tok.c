@@ -46,7 +46,7 @@ tokval special_token
   tokval tkv;
   UNUSED(sortcode);
 
-  if (t -> tok_name == (char*)0) {
+  if (t -> tok_name == NULL) {
     SET(tkv); /* call looks at done to see if result is meaningful */
     return tkv;
   };

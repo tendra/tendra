@@ -7,6 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <stddef.h>
+
 #include <construct/installglob.h>
 
 /* All variables initialised */
@@ -36,9 +38,9 @@ exp proc_struct_result;
 
 version global_version;
 
-char *dynamic_init_proc = (char *)0;
+char *dynamic_init_proc = NULL;
 
-proc_props *old_proc_props = (proc_props *)0;	/* initial value for pushing */
+proc_props *old_proc_props = NULL;	/* initial value for pushing */
 int in_proc_def = 0;				/* initial value for pushing */
 
 aldef const_aldefs[6];

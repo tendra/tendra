@@ -134,7 +134,7 @@ extend_dg_name(dg_name nm)
 	mor->elabn = (dg_tag)0;
 	mor->exptns = no_dg_type_list_option;
 	mor->end_pos = no_short_sourcepos;
-	mor->en_family = (dg_dim *)0;
+	mor->en_family = NULL;
 	mor->vslot = NULL;
 	mor->repn = NULL;
 	mor->acc = DG_ACC_NONE;

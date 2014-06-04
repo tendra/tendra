@@ -227,7 +227,7 @@ check_tok_sig(tok_define *t, string sig)
 {
 	char *sid = sig.ints.chars;
 	int s = (sig.size * sig.number) / 8;
-	if (t->signature != (char*)0) {
+	if (t->signature != NULL) {
 		char *id = t->signature;
 		int i;
 		for (i = 0; i < s; i++) {
@@ -247,7 +247,7 @@ procprops
 f_procprops_apply_token(token token_value, bitstream token_args)
 {
    tokval v;
-   v = apply_tok(token_value, token_args, PROCPROPS,(tokval *)0);
+   v = apply_tok(token_value, token_args, PROCPROPS, NULL);
    return v.tk_procprops;
 }
 
@@ -283,7 +283,7 @@ string
 f_string_apply_token(token token_value, bitstream token_args)
 {
    tokval v;
-   v = apply_tok(token_value, token_args, STRING,(tokval *)0);
+   v = apply_tok(token_value, token_args, STRING, NULL);
    return v.tk_string;
 }
 
@@ -320,7 +320,7 @@ alignment
 f_alignment_apply_token(token token_value, bitstream token_args)
 {
   tokval v;
-  v = apply_tok(token_value, token_args, ALIGNMENT_SORT,(tokval *)0);
+  v = apply_tok(token_value, token_args, ALIGNMENT_SORT, NULL);
   return v.tk_alignment;
 }
 
@@ -356,7 +356,7 @@ access
 f_access_apply_token(token token_value, bitstream token_args)
 {
   tokval v;
-  v = apply_tok(token_value, token_args, ACCESS_SORT,(tokval *)0);
+  v = apply_tok(token_value, token_args, ACCESS_SORT, NULL);
   return v.tk_access;
 }
 
@@ -392,7 +392,7 @@ transfer_mode
 f_transfer_mode_apply_token(token token_value, bitstream token_args)
 {
    tokval v;
-   v = apply_tok(token_value, token_args, TRANSFER_MODE_SORT,(tokval *)0);
+   v = apply_tok(token_value, token_args, TRANSFER_MODE_SORT, NULL);
    return v.tk_transfer_mode;
 }
 
@@ -429,7 +429,7 @@ bitfield_variety
 f_bfvar_apply_token(token token_value, bitstream token_args)
 {
    tokval v;
-   v = apply_tok(token_value, token_args, BITFIELD_VARIETY,(tokval*)0);
+   v = apply_tok(token_value, token_args, BITFIELD_VARIETY, NULL);
    return v.tk_bitfield_variety;
 }
 
@@ -461,7 +461,7 @@ f_bool_apply_token
 (token token_value, bitstream token_args)
 {
    tokval v;
-   v = apply_tok(token_value, token_args, BOOL,(tokval *)0);
+   v = apply_tok(token_value, token_args, BOOL, NULL);
    return v.tk_bool;
 }
 
@@ -519,7 +519,7 @@ start_make_capsule
 
   crt_tagdef_unit_no = -1;
   unit_index = 0;
-  top_aldef = (aldef *)0;
+  top_aldef = NULL;
   doing_aldefs = 0;
 
   crt_capsule_groups = prop_names.elems;
@@ -570,9 +570,9 @@ start_make_capsule
     /* initialise the table of tags */
     dec *dp = &capsule_tagtab[i];
     dp->dec_u.dec_val.dec_outermost = 0;
-    dp->dec_u.dec_val.dec_id = (char *)0;
+    dp->dec_u.dec_val.dec_id = NULL;
     dp->dec_u.dec_val.extnamed = 0;
-    dp->dec_u.dec_val.diag_info = (diag_global *)0;
+    dp->dec_u.dec_val.diag_info = NULL;
     dp->dec_u.dec_val.have_def = 0;
     dp->dec_u.dec_val.dec_shape = NULL;
     dp->dec_u.dec_val.processed = 0;
@@ -623,7 +623,7 @@ error_treatment
 f_errt_apply_token(token token_value, bitstream token_args)
 {
    tokval v;
-   v = apply_tok(token_value, token_args, ERROR_TREATMENT,(tokval *)0);
+   v = apply_tok(token_value, token_args, ERROR_TREATMENT, NULL);
    return v.tk_error_treatment;
 }
 
@@ -655,7 +655,7 @@ exp
 f_exp_apply_token(token token_value, bitstream token_args)
 {
    tokval v;
-   v = apply_tok(token_value, token_args, EXP_S,(tokval *)0);
+   v = apply_tok(token_value, token_args, EXP_S, NULL);
    return v.tk_exp;
 }
 
@@ -721,7 +721,7 @@ floating_variety
 f_flvar_apply_token(token token_value, bitstream token_args)
 {
    tokval v;
-   v = apply_tok(token_value, token_args, FLOATING_VARIETY,(tokval *)0);
+   v = apply_tok(token_value, token_args, FLOATING_VARIETY, NULL);
    return v.tk_floating_variety;
 }
 
@@ -753,7 +753,7 @@ label
 f_label_apply_token(token token_value, bitstream token_args)
 {
    tokval v;
-   v = apply_tok(token_value, token_args, LABEL,(tokval *)0);
+   v = apply_tok(token_value, token_args, LABEL, NULL);
    return v.tk_label;
 }
 
@@ -775,7 +775,7 @@ nat
 f_nat_apply_token(token token_value, bitstream token_args)
 {
    tokval v;
-   v = apply_tok(token_value, token_args, NAT, (tokval *)0);
+   v = apply_tok(token_value, token_args, NAT, NULL);
    return v.tk_nat;
 }
 
@@ -806,7 +806,7 @@ ntest
 f_ntest_apply_token(token token_value, bitstream token_args)
 {
    tokval v;
-   v = apply_tok(token_value, token_args, NTEST, (tokval *)0);
+   v = apply_tok(token_value, token_args, NTEST, NULL);
    return v.tk_ntest;
 }
 
@@ -837,7 +837,7 @@ rounding_mode
 f_rounding_mode_apply_token(token token_value, bitstream token_args)
 {
    tokval v;
-   v = apply_tok(token_value, token_args, ROUNDING_MODE, (tokval *)0);
+   v = apply_tok(token_value, token_args, ROUNDING_MODE, NULL);
    return v.tk_rounding_mode;
 }
 
@@ -867,7 +867,7 @@ shape
 f_shape_apply_token(token token_value, bitstream token_args)
 {
    tokval v;
-   v = apply_tok(token_value, token_args, SHAPE, (tokval *)0);
+   v = apply_tok(token_value, token_args, SHAPE, NULL);
    return v.tk_shape;
 }
 
@@ -898,7 +898,7 @@ signed_nat
 f_signed_nat_apply_token(token token_value, bitstream token_args)
 {
    tokval v;
-   v = apply_tok(token_value, token_args, SIGNED_NAT, (tokval *)0);
+   v = apply_tok(token_value, token_args, SIGNED_NAT, NULL);
    return v.tk_signed_nat;
 }
 
@@ -1037,7 +1037,7 @@ tag
 f_tag_apply_token(token token_value, bitstream token_args)
 {
    tokval v;
-   v = apply_tok(token_value, token_args, TAG, (tokval *)0);
+   v = apply_tok(token_value, token_args, TAG, NULL);
    return v.tk_tag;
 }
 
@@ -1045,7 +1045,7 @@ al_tag
 f_al_tag_apply_token(token token_value, bitstream token_args)
 {
    tokval v;
-   v = apply_tok(token_value, token_args, AL_TAG, (tokval *)0);
+   v = apply_tok(token_value, token_args, AL_TAG, NULL);
    return v.tk_al_tag;
 }
 
@@ -1323,7 +1323,7 @@ f_make_tokdef(tdfint tokn, string_option sig, bitstream def)
   tok->params = params;
   tok->tdplace = keep_place();
   tok->defined = 1;
-  tok->tok_context = (context *)0;
+  tok->tok_context = NULL;
 
     /* record the tables which are current so that they can be
        used when the token is applied */
@@ -1400,7 +1400,7 @@ token
 f_token_apply_token(token token_value, bitstream token_args)
 {
    tokval v;
-   v = apply_tok(token_value, token_args, TOKEN, (tokval *)0);
+   v = apply_tok(token_value, token_args, TOKEN, NULL);
    return v.tk_token;
 }
 
@@ -1532,7 +1532,7 @@ variety
 f_var_apply_token(token token_value, bitstream token_args)
 {
    tokval v;
-   v = apply_tok(token_value, token_args, VARIETY,(tokval *)0);
+   v = apply_tok(token_value, token_args, VARIETY, NULL);
    return v.tk_variety;
 }
 
@@ -1570,33 +1570,33 @@ start_make_tokdec_unit(int no_of_tokens, int no_of_tags, int no_of_als,
   unit_ind_tokens = (tok_define **)rf_xcalloc(unit_no_of_tokens,
 					   sizeof(tok_define *));
   for (i = 0; i < unit_no_of_tokens; ++i) {
-    unit_ind_tokens[i] = (tok_define *)0;
+    unit_ind_tokens[i] = NULL;
   }
 
   unit_no_of_tags = no_of_tags;
   unit_ind_tags = (dec **)rf_xcalloc(unit_no_of_tags, sizeof(dec *));
   for (i = 0; i < unit_no_of_tags; ++i) {
-    unit_ind_tags[i] = (dec *)0;
+    unit_ind_tags[i] = NULL;
   }
 
   unit_no_of_als = no_of_als;
   unit_ind_als = (aldef **)rf_xcalloc(unit_no_of_als, sizeof(aldef *));
   for (i = 0; i < unit_no_of_als; ++i) {
-    unit_ind_als[i] = (aldef *)0;
+    unit_ind_als[i] = NULL;
   }
 
   unit_no_of_diagtags = no_of_diagtags;		/* OLD DIAGS */
   unit_ind_diagtags = (diag_tagdef **)rf_xcalloc(unit_no_of_diagtags,
 					      sizeof(diag_tagdef *));
   for (i = 0; i < unit_no_of_diagtags; ++i) {
-    unit_ind_diagtags[i] = (diag_tagdef *)0;
+    unit_ind_diagtags[i] = NULL;
   }
 
   unit_no_of_dgtags = no_of_dgtags;		/* NEW DIAGS */
   unit_ind_dgtags = (dgtag_struct **)rf_xcalloc(unit_no_of_dgtags,
 					     sizeof(dgtag_struct *));
   for (i = 0; i < unit_no_of_dgtags; ++i) {
-    unit_ind_dgtags[i] = (dgtag_struct *)0;
+    unit_ind_dgtags[i] = NULL;
   }
 
   return;
@@ -1608,7 +1608,7 @@ f_make_tokdec_unit(void)
   int i;
   int j = 0;
   for (i = 0; i < unit_no_of_tokens; ++i) {
-    if (unit_ind_tokens[i] == (tok_define *)0) {
+    if (unit_ind_tokens[i] == NULL) {
       unit_ind_tokens[i] = &unit_toktab[j++];
     }
   }
@@ -1628,33 +1628,33 @@ start_make_tokdef_unit(int no_of_tokens, int no_of_tags, int no_of_als,
   unit_ind_tokens = (tok_define **)rf_xcalloc(unit_no_of_tokens,
 					   sizeof(tok_define *));
   for (i = 0; i < unit_no_of_tokens; ++i) {
-    unit_ind_tokens[i] = (tok_define *)0;
+    unit_ind_tokens[i] = NULL;
   }
 
   unit_no_of_tags = no_of_tags;
   unit_ind_tags = (dec **)rf_xcalloc(unit_no_of_tags, sizeof(dec *));
   for (i = 0; i < unit_no_of_tags; ++i) {
-    unit_ind_tags[i] = (dec *)0;
+    unit_ind_tags[i] = NULL;
   }
 
   unit_no_of_als = no_of_als;
   unit_ind_als = (aldef **)rf_xcalloc(unit_no_of_als, sizeof(aldef *));
   for (i = 0; i < unit_no_of_als; ++i) {
-    unit_ind_als[i] = (aldef *)0;
+    unit_ind_als[i] = NULL;
   }
 
   unit_no_of_diagtags = no_of_diagtags;		/* OLD DIAGS */
   unit_ind_diagtags = (diag_tagdef **)rf_xcalloc(unit_no_of_diagtags,
 					      sizeof(diag_tagdef *));
   for (i = 0; i < unit_no_of_diagtags; ++i) {
-    unit_ind_diagtags[i] = (diag_tagdef *)0;
+    unit_ind_diagtags[i] = NULL;
   }
 
   unit_no_of_dgtags = no_of_dgtags;		/* NEW DIAGS */
   unit_ind_dgtags = (dgtag_struct **)rf_xcalloc(unit_no_of_dgtags,
 					     sizeof(dgtag_struct *));
   for (i = 0; i < unit_no_of_dgtags; ++i) {
-    unit_ind_dgtags[i] = (dgtag_struct *)0;
+    unit_ind_dgtags[i] = NULL;
   }
 
   return;
@@ -1667,25 +1667,25 @@ f_make_tokdef_unit(void)
   int j = 0;
   int no_of_labels;
   for (i = 0; i < unit_no_of_tokens; ++i) {
-    if (unit_ind_tokens[i] == (tok_define *)0) {
+    if (unit_ind_tokens[i] == NULL) {
       unit_ind_tokens[i] = &unit_toktab[j++];
     }
   }
   j = 0;
   for (i = 0; i < unit_no_of_tags; ++i) {
-    if (unit_ind_tags[i] == (dec *)0) {
+    if (unit_ind_tags[i] == NULL) {
       unit_ind_tags[i] = &unit_tagtab[j++];
     }
   }
   j = 0;
   for (i = 0; i < unit_no_of_als; ++i) {
-    if (unit_ind_als[i] == (aldef *)0) {
+    if (unit_ind_als[i] == NULL) {
       unit_ind_als[i] = &unit_altab[j++];
     }
   }
   j = 0;
   for (i = 0; i < unit_no_of_dgtags; ++i) {	/* NEW DIAGS */
-    if (unit_ind_dgtags[i] == (dgtag_struct *)0) {
+    if (unit_ind_dgtags[i] == NULL) {
       unit_ind_dgtags[i] = &unit_dgtagtab[j++];
     }
   }
@@ -1711,33 +1711,33 @@ start_make_tagdec_unit(int no_of_tokens, int no_of_tags, int no_of_als,
   unit_ind_tokens = (tok_define **)rf_xcalloc(unit_no_of_tokens,
 					   sizeof(tok_define *));
   for (i = 0; i < unit_no_of_tokens; ++i) {
-    unit_ind_tokens[i] = (tok_define *)0;
+    unit_ind_tokens[i] = NULL;
   }
 
   unit_no_of_tags = no_of_tags;
   unit_ind_tags = (dec **)rf_xcalloc(unit_no_of_tags, sizeof(dec *));
   for (i = 0; i < unit_no_of_tags; ++i) {
-    unit_ind_tags[i] = (dec *)0;
+    unit_ind_tags[i] = NULL;
   }
 
   unit_no_of_als = no_of_als;
   unit_ind_als = (aldef **)rf_xcalloc(unit_no_of_als, sizeof(aldef *));
   for (i = 0; i < unit_no_of_als; ++i) {
-    unit_ind_als[i] = (aldef *)0;
+    unit_ind_als[i] = NULL;
   }
 
   unit_no_of_diagtags = no_of_diagtags;		/* OLD DIAGS */
   unit_ind_diagtags = (diag_tagdef **)rf_xcalloc(unit_no_of_diagtags,
 					      sizeof(diag_tagdef *));
   for (i = 0; i < unit_no_of_diagtags; ++i) {
-    unit_ind_diagtags[i] = (diag_tagdef *)0;
+    unit_ind_diagtags[i] = NULL;
   }
 
   unit_no_of_dgtags = no_of_dgtags;		/* NEW DIAGS */
   unit_ind_dgtags = (dgtag_struct **)rf_xcalloc(unit_no_of_dgtags,
 					     sizeof(dgtag_struct *));
   for (i = 0; i < unit_no_of_dgtags; ++i) {
-    unit_ind_dgtags[i] = (dgtag_struct *)0;
+    unit_ind_dgtags[i] = NULL;
   }
 
   return;
@@ -1750,25 +1750,25 @@ f_make_tagdec_unit(void)
   int j = 0;
   int no_of_labels;
   for (i = 0; i < unit_no_of_tokens; ++i) {
-    if (unit_ind_tokens[i] == (tok_define *)0) {
+    if (unit_ind_tokens[i] == NULL) {
       unit_ind_tokens[i] = &unit_toktab[j++];
     }
   }
   j = 0;
   for (i = 0; i < unit_no_of_tags; ++i) {
-    if (unit_ind_tags[i] == (dec *)0) {
+    if (unit_ind_tags[i] == NULL) {
       unit_ind_tags[i] = &unit_tagtab[j++];
     }
   }
   j = 0;
   for (i = 0; i < unit_no_of_als; ++i) {
-    if (unit_ind_als[i] == (aldef *)0) {
+    if (unit_ind_als[i] == NULL) {
       unit_ind_als[i] = &unit_altab[j++];
     }
   }
   j = 0;
   for (i = 0; i < unit_no_of_dgtags; ++i) {	/* NEW DIAGS */
-    if (unit_ind_dgtags[i] == (dgtag_struct *)0) {
+    if (unit_ind_dgtags[i] == NULL) {
       unit_ind_dgtags[i] = &unit_dgtagtab[j++];
     }
   }
@@ -1799,33 +1799,33 @@ start_make_versions_unit(int no_of_tokens, int no_of_tags, int no_of_als,
   unit_ind_tokens = (tok_define **)rf_xcalloc(unit_no_of_tokens,
 					   sizeof(tok_define *));
   for (i = 0; i < unit_no_of_tokens; ++i) {
-    unit_ind_tokens[i] = (tok_define *)0;
+    unit_ind_tokens[i] = NULL;
   }
 
   unit_no_of_tags = no_of_tags;
   unit_ind_tags = (dec **)rf_xcalloc(unit_no_of_tags, sizeof(dec *));
   for (i = 0; i < unit_no_of_tags; ++i) {
-    unit_ind_tags[i] = (dec *)0;
+    unit_ind_tags[i] = NULL;
   }
 
   unit_no_of_als = no_of_als;
   unit_ind_als = (aldef **)rf_xcalloc(unit_no_of_als, sizeof(aldef *));
   for (i = 0; i < unit_no_of_als; ++i) {
-    unit_ind_als[i] = (aldef *)0;
+    unit_ind_als[i] = NULL;
   }
 
   unit_no_of_diagtags = no_of_diagtags;		/* OLD DIAGS */
   unit_ind_diagtags = (diag_tagdef **)rf_xcalloc(unit_no_of_diagtags,
 					      sizeof(diag_tagdef *));
   for (i = 0; i < unit_no_of_diagtags; ++i) {
-    unit_ind_diagtags[i] = (diag_tagdef *)0;
+    unit_ind_diagtags[i] = NULL;
   }
 
   unit_no_of_dgtags = no_of_dgtags;		/* NEW DIAGS */
   unit_ind_dgtags = (dgtag_struct **)rf_xcalloc(unit_no_of_dgtags,
 					     sizeof(dgtag_struct *));
   for (i = 0; i < unit_no_of_dgtags; ++i) {
-    unit_ind_dgtags[i] = (dgtag_struct *)0;
+    unit_ind_dgtags[i] = NULL;
   }
 
   return;
@@ -1837,19 +1837,19 @@ f_make_versions_unit(void)
   int i;
   int j = 0;
   for (i = 0; i < unit_no_of_tokens; ++i) {
-    if (unit_ind_tokens[i] == (tok_define *)0) {
+    if (unit_ind_tokens[i] == NULL) {
       unit_ind_tokens[i] = &unit_toktab[j++];
     }
   }
   j = 0;
   for (i = 0; i < unit_no_of_tags; ++i) {
-    if (unit_ind_tags[i] == (dec *)0) {
+    if (unit_ind_tags[i] == NULL) {
       unit_ind_tags[i] = &unit_tagtab[j++];
     }
   }
   j = 0;
   for (i = 0; i < unit_no_of_als; ++i) {
-    if (unit_ind_als[i] == (aldef *)0) {
+    if (unit_ind_als[i] == NULL) {
       unit_ind_als[i] = &unit_altab[j++];
     }
   }
@@ -1882,33 +1882,33 @@ start_make_tagdef_unit(int no_of_tokens, int no_of_tags, int no_of_als,
   unit_ind_tokens = (tok_define **)rf_xcalloc(unit_no_of_tokens,
 					   sizeof(tok_define *));
   for (i = 0; i < unit_no_of_tokens; ++i) {
-    unit_ind_tokens[i] = (tok_define *)0;
+    unit_ind_tokens[i] = NULL;
   }
 
   unit_no_of_tags = no_of_tags;
   unit_ind_tags = (dec **)rf_xcalloc(unit_no_of_tags, sizeof(dec *));
   for (i = 0; i < unit_no_of_tags; ++i) {
-    unit_ind_tags[i] = (dec *)0;
+    unit_ind_tags[i] = NULL;
   }
 
   unit_no_of_als = no_of_als;
   unit_ind_als = (aldef **)rf_xcalloc(unit_no_of_als, sizeof(aldef *));
   for (i = 0; i < unit_no_of_als; ++i) {
-    unit_ind_als[i] = (aldef *)0;
+    unit_ind_als[i] = NULL;
   }
 
   unit_no_of_diagtags = no_of_diagtags;		/* OLD DIAGS */
   unit_ind_diagtags = (diag_tagdef **)rf_xcalloc(unit_no_of_diagtags,
 					      sizeof(diag_tagdef *));
   for (i = 0; i < unit_no_of_diagtags; ++i) {
-    unit_ind_diagtags[i] = (diag_tagdef *)0;
+    unit_ind_diagtags[i] = NULL;
   }
 
   unit_no_of_dgtags = no_of_dgtags;		/* NEW DIAGS */
   unit_ind_dgtags = (dgtag_struct **)rf_xcalloc(unit_no_of_dgtags,
 					     sizeof(dgtag_struct *));
   for (i = 0; i < unit_no_of_dgtags; ++i) {
-    unit_ind_dgtags[i] = (dgtag_struct *)0;
+    unit_ind_dgtags[i] = NULL;
   }
 
   return;
@@ -1924,25 +1924,25 @@ f_make_tagdef_unit(void)
   int j = 0;
   int no_of_labels;
   for (i = 0; i < unit_no_of_tokens; ++i) {
-    if (unit_ind_tokens[i] == (tok_define *)0) {
+    if (unit_ind_tokens[i] == NULL) {
       unit_ind_tokens[i] = &unit_toktab[j++];
     }
   }
   j = 0;
   for (i = 0; i < unit_no_of_tags; ++i) {
-    if (unit_ind_tags[i] == (dec *)0) {
+    if (unit_ind_tags[i] == NULL) {
       unit_ind_tags[i] = &unit_tagtab[j++];
     }
   }
   j = 0;
   for (i = 0; i < unit_no_of_als; ++i) {
-    if (unit_ind_als[i] == (aldef *)0) {
+    if (unit_ind_als[i] == NULL) {
       unit_ind_als[i] = &unit_altab[j++];
     }
   }
   j = 0;
   for (i = 0; i < unit_no_of_dgtags; ++i) {	/* NEW DIAGS */
-    if (unit_ind_dgtags[i] == (dgtag_struct *)0) {
+    if (unit_ind_dgtags[i] == NULL) {
       unit_ind_dgtags[i] = &unit_dgtagtab[j++];
     }
   }
@@ -1976,33 +1976,33 @@ start_make_aldef_unit(int no_of_tokens, int no_of_tags, int no_of_als,
   unit_ind_tokens = (tok_define **)rf_xcalloc(unit_no_of_tokens,
 					   sizeof(tok_define *));
   for (i = 0; i < unit_no_of_tokens; ++i) {
-    unit_ind_tokens[i] = (tok_define *)0;
+    unit_ind_tokens[i] = NULL;
   }
 
   unit_no_of_tags = no_of_tags;
   unit_ind_tags = (dec **)rf_xcalloc(unit_no_of_tags, sizeof(dec *));
   for (i = 0; i < unit_no_of_tags; ++i) {
-    unit_ind_tags[i] = (dec *)0;
+    unit_ind_tags[i] = NULL;
   }
 
   unit_no_of_als = no_of_als;
   unit_ind_als = (aldef **)rf_xcalloc(unit_no_of_als, sizeof(aldef *));
   for (i = 0; i < unit_no_of_als; ++i) {
-    unit_ind_als[i] = (aldef *)0;
+    unit_ind_als[i] = NULL;
   }
 
   unit_no_of_diagtags = no_of_diagtags;		/* OLD DIAGS */
   unit_ind_diagtags = (diag_tagdef **)rf_xcalloc(unit_no_of_diagtags,
 					      sizeof(diag_tagdef *));
   for (i = 0; i < unit_no_of_diagtags; ++i) {
-    unit_ind_diagtags[i] = (diag_tagdef *)0;
+    unit_ind_diagtags[i] = NULL;
   }
 
   unit_no_of_dgtags = no_of_dgtags;		/* NEW DIAGS */
   unit_ind_dgtags = (dgtag_struct **)rf_xcalloc(unit_no_of_dgtags,
 					     sizeof(dgtag_struct *));
   for (i = 0; i < unit_no_of_dgtags; ++i) {
-    unit_ind_dgtags[i] = (dgtag_struct *)0;
+    unit_ind_dgtags[i] = NULL;
   }
 
   return;
@@ -2015,13 +2015,13 @@ f_make_aldef_unit(void)
   int j = 0;
   int no_of_labels;
   for (i = 0; i < unit_no_of_tokens; ++i) {
-    if (unit_ind_tokens[i] == (tok_define *)0) {
+    if (unit_ind_tokens[i] == NULL) {
       unit_ind_tokens[i] = &unit_toktab[j++];
     }
   }
   j = 0;
   for (i = 0; i < unit_no_of_als; ++i) {
-    if (unit_ind_als[i] == (aldef *)0) {
+    if (unit_ind_als[i] == NULL) {
       unit_ind_als[i] = &unit_altab[j++];
     }
   }
@@ -2385,7 +2385,7 @@ add_tagdec_list(tagdec_list list, tagdec elem, int index)
 
     if (dp->dec_u.dec_val.dec_shape == NULL) {
       dp->dec_u.dec_val.dec_shape = s;
-      dp->def_next = (dec *)0;
+      dp->def_next = NULL;
       *deflist_end = dp;
       deflist_end = & ((*deflist_end)->def_next);
     }
@@ -2396,7 +2396,7 @@ add_tagdec_list(tagdec_list list, tagdec elem, int index)
     }
     /* the defining exp */
     brog(dp->dec_u.dec_val.dec_exp) = dp;
-    if (dp->dec_u.dec_val.dec_id == (char *)0) {
+    if (dp->dec_u.dec_val.dec_id == NULL) {
       dp->dec_u.dec_val.dec_id = make_local_name();
     }
 
@@ -2585,9 +2585,9 @@ new_link_list(int n)
        for (i = 0; i < unit_no_of_tags - n; ++i) {
          dec *dp = &unit_tagtab[i];
          dp->dec_u.dec_val.dec_outermost = 0;
-         dp->dec_u.dec_val.dec_id = (char *)0;
+         dp->dec_u.dec_val.dec_id = NULL;
          dp->dec_u.dec_val.extnamed = 0;
-         dp->dec_u.dec_val.diag_info = (diag_global *)0;
+         dp->dec_u.dec_val.diag_info = NULL;
          dp->dec_u.dec_val.have_def = 0;
          dp->dec_u.dec_val.dec_shape = NULL;
          dp->dec_u.dec_val.processed = 0;

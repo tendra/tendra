@@ -130,7 +130,7 @@ extend_dg_name(dg_name nm)
 	mor->elabn = (dg_tag)0;
 	mor->exptns = no_dg_type_list_option;
 	mor->end_pos = no_short_sourcepos;
-	mor->en_family = (dg_dim *)0;
+	mor->en_family = NULL;
 	mor->vslot = NULL;
 	mor->repn = NULL;
 	mor->acc = DG_ACC_NONE;
@@ -1257,22 +1257,22 @@ gather_detch(exp e, dg_info *dx, int reason, int descend, int reuse,
 				d->data.i_movd.tg = opt_ref;
 			}
 			if (reuse) {
-				return (detch_info *)0;
+				return NULL;
 			}
 			d->data.i_movd.lost = 1;
 			if (d->more->key == DGA_INL_CALL) {
 				/* ignore internals */
 				*dx = (dg_info)0;
-				return (detch_info *)0;
+				return NULL;
 			}
 			*dx = d->more->more;
 			return gather_detch(e, dx, reason, descend, reuse,
 					    opt_ref);
 		}
 		ans = (detch_info *)xcalloc(1, sizeof(detch_info));
-		ans->next = (detch_info *)0;
+		ans->next = NULL;
 		if (d->key == DGA_INL_CALL) {
-			ans->sub = (detch_info *)0;
+			ans->sub = NULL;
 		} else {
 			ans->sub = gather_detch(e, &(d->more), reason, descend,
 						reuse, opt_ref);
@@ -1309,7 +1309,7 @@ gather_detch(exp e, dg_info *dx, int reason, int descend, int reuse,
 		}
 		if (!x) {
 			*dx = d = new_dg_info(DGA_CALL);
-			d->data.i_call.clnam = (char*)0;
+			d->data.i_call.clnam = NULL;
 			d->data.i_call.pos = no_short_sourcepos;
 			d->data.i_call.ck = 0;
 			return gather_detch(e, dx, reason, descend, reuse,
@@ -1317,12 +1317,12 @@ gather_detch(exp e, dg_info *dx, int reason, int descend, int reuse,
 		}
 	}
 	if (!descend) {
-		return (detch_info *)0;
+		return NULL;
 	}
 	s = son(e);
 	if (name(e) == name_tag || name(e) == env_size_tag ||
 	    name(e) == env_offset_tag || !s) {
-		return (detch_info *)0;
+		return NULL;
 	}
 	ans = gather_detch(s, &(dgf(s)), reason, descend, reuse, opt_ref);
 	if (name(e) != case_tag) {
@@ -1568,7 +1568,7 @@ make_optim_dg(int reason, exp e)
 	    (*dx)->data.i_optim.reason != reason) {
 		dg_info ans = new_dg_info(DGA_OPTIM);
 		ans->data.i_optim.reason = reason;
-		ans->data.i_optim.objs = (objset *)0;
+		ans->data.i_optim.objs = NULL;
 		ans->data.i_optim.lo_pc = ans->data.i_optim.hi_pc = 0;
 		IGNORE f_make_tag_dg(gen_tg_tag(), ans);
 		ans->more = *dx;

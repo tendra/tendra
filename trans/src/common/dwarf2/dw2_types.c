@@ -619,7 +619,7 @@ void dw_out_type
       char* nam;
       char* gnam = "";
       long attr1 = 0, attr2;
-      dg_instantn * generic = (dg_instantn *)0;
+      dg_instantn * generic = NULL;
       if (t->data.t_struct.is_union)
 	dwe = dwe_union_t;
       else

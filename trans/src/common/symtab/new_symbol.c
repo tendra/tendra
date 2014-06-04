@@ -96,19 +96,19 @@ init_table_space(long noofiles, long noprocs)
     densenos = xcalloc(1, sizeof (DENSETAB));
     densenos->num          = 0;
     densenos->densenolist  = xcalloc(DENSETABSIZE, sizeof (DNR));
-    densenos->moredensenos = (DENSETAB *) 0;
+    densenos->moredensenos = NULL;
     dense_numbers          = densenos;
 
     extstrings = xcalloc(1, sizeof (STRINGS));
     extstrings->str       = xcalloc(STRINGTABSIZE, sizeof (char));
     extstrings->usage     = 0;
-    extstrings->overspill = (STRINGS *) 0;
+    extstrings->overspill = NULL;
     external_strings      = extstrings;
 
     esymlist = xcalloc(1, sizeof (ESYMS));
     esymlist->symlist  = xcalloc(SYMTABSIZE, sizeof (EXTR));
     esymlist->noofsyms = 0;
-    esymlist->nextsyms = (ESYMS *) 0;
+    esymlist->nextsyms = NULL;
     external_symbols   = esymlist;
 
     numfiles  = noofiles;
@@ -242,7 +242,7 @@ add_dense_no(long rfd, long index)
 		denseptr = denseptr->moredensenos;
 		denseptr->num = 0;
 		denseptr->densenolist  = xcalloc(DENSETABSIZE, sizeof (DNR));
-		denseptr->moredensenos = (DENSETAB *) 0;
+		denseptr->moredensenos = NULL;
 	}
 
 	curr_dense = (denseptr->densenolist) + denseptr->num;
@@ -318,7 +318,7 @@ add_lsym(long ind, SYMR * newsym)
 		lsymlist = lsymlist->nextsyms;
 		lsymlist->symlist = xcalloc(SYMTABSIZE, sizeof (SYMR));
 		lsymlist->noofsyms = 0;
-		lsymlist->nextsyms = (LSYMS *) 0;
+		lsymlist->nextsyms = NULL;
 	}
 
 	lsymlist->symlist[lsymlist->noofsyms] = (*newsym);
@@ -335,7 +335,7 @@ add_esym(long ind, SYMR * newsym)
 		esymlist = esymlist->nextsyms;
 		esymlist->symlist = xcalloc(SYMTABSIZE, sizeof (EXTR));
 		esymlist->noofsyms = 0;
-		esymlist->nextsyms = (ESYMS *) 0;
+		esymlist->nextsyms = NULL;
 	}
 
 	esymlist->symlist[esymlist->noofsyms].ifd = ind;
@@ -535,7 +535,7 @@ add_aux(AUXU auxent, long index)
 
 		auxdata = auxdata->moreaux;
 		auxdata->auxinfo = xcalloc(AUXTABSIZE, sizeof (AUXU));
-		auxdata->moreaux = (AUXTAB *) 0;
+		auxdata->moreaux = NULL;
 		auxdata->num = 0;
 	}
 

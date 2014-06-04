@@ -1380,7 +1380,7 @@ void undo_outed
    outed p = (outed)xmalloc(sizeof(struct outed_t));
    uo->prev = p;
    p->dt = dt;
-   p->prev = (struct outed_t*)0;
+   p->prev = NULL;
    uo = p;
 }
 
@@ -1561,7 +1561,7 @@ DNTTPOINTER pos_of_dnttpointer
    int t = typeno;
    pos = lntt_next;
    uo = (struct outed_t*)xmalloc(sizeof(struct outed_t));
-   uo->prev = (struct outed_t*)0;
+   uo->prev = NULL;
    f = uo;
    traverse_diag_type(dt);
    while (f->prev)

@@ -141,7 +141,7 @@ void code_it
 	out_common(0, itext);
 	out_value(0, ialign, 3, 0);
 	if (diag != DIAG_NONE) {
-	 if (dd != (diag_descriptor*)0) {
+	 if (dd != NULL) {
 	    sourcemark *sm = &dd -> data.id.whence;
 	    stabd(fscopefile = find_file(sm->file->file.ints.chars),
 	               sm->line_no.nat_val.small_nat);
@@ -165,7 +165,7 @@ void code_it
 	symnoforstart(symdef, currentfile);
 	settempregs(son(tg));
 	code_here(son(tg), tempspace, nowhere);
-	if (diag != DIAG_NONE && dd != (diag_descriptor*)0) {
+	if (diag != DIAG_NONE && dd != NULL) {
 		stabd(fscopefile, currentlno+1);
 	}
 	if (as_file)
@@ -240,7 +240,7 @@ void mark_unaliased
 void remove_unused
 (void)
 { dec ** sdef = &top_def;
-  while (*sdef != (dec *)0) {
+  while (*sdef != NULL) {
     exp crt_exp = (*sdef) -> dec_u.dec_val.dec_exp;
     bool extnamed = (*sdef) -> dec_u.dec_val.extnamed;
     if (no(crt_exp) == 0 && !extnamed) {
@@ -264,7 +264,7 @@ void translate_capsule
 
   if (dyn_init) {
     my_def = top_def;
-    while (my_def != (dec *)0) {
+    while (my_def != NULL) {
         exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
 	char * id = my_def -> dec_u.dec_val.dec_id;
 	if (strcmp(id, "main") ==0 && son(crt_exp)!= NULL &&
@@ -289,7 +289,7 @@ void translate_capsule
 
     /* mark static unaliased */
   my_def = top_def;
-  while (my_def != (dec *)0) {
+  while (my_def != NULL) {
     exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
     if (son(crt_exp)!= NULL &&
 	!my_def -> dec_u.dec_val.extnamed &&
@@ -300,7 +300,7 @@ void translate_capsule
 
   noprocs = 0;
   my_def = top_def;
-  while (my_def != (dec *)0) {
+  while (my_def != NULL) {
     exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
     if (son(crt_exp)!= NULL
         && (name(son(crt_exp)) == proc_tag ||
@@ -319,7 +319,7 @@ void translate_capsule
   }
 
   my_def = top_def;
-  while (my_def != (dec *)0) {
+  while (my_def != NULL) {
     exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
     if (son(crt_exp)!= NULL &&
 	(name(son(crt_exp)) == proc_tag || name(son(crt_exp)) == general_proc_tag)) {
@@ -332,7 +332,7 @@ void translate_capsule
   if (do_extern_adds) {
 	usages = (exp*)xcalloc(noprocs, sizeof(exp));
 	my_def = top_def;
-  	while (my_def != (dec *)0) {
+  	while (my_def != NULL) {
 		exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
 		if (son(crt_exp) == NULL && isvar(crt_exp)) {
 			global_usages(crt_exp, noprocs);
@@ -359,7 +359,7 @@ void translate_capsule
   /* scan to put everything in MIPS form */
 
   my_def = top_def;
-  while (my_def != (dec *)0) {
+  while (my_def != NULL) {
     exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
     if (son(crt_exp)!= NULL
 	&& (name(son(crt_exp)) == proc_tag ||
@@ -375,7 +375,7 @@ void translate_capsule
 
   /* calculate the break points for register allocation and do it */
   my_def = top_def;
-  while (my_def != (dec *)0) {
+  while (my_def != NULL) {
     exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
     if (son(crt_exp)!= NULL
         && (name(son(crt_exp)) == proc_tag ||
@@ -410,7 +410,7 @@ void translate_capsule
   /* put defs in main globals and set up symnos*/
   my_def = top_def;
   main_globals_index = 0;
-  while (my_def != (dec*)0) {
+  while (my_def != NULL) {
   	main_globals_index++;
   	my_def = my_def -> def_next;
   }
@@ -437,8 +437,7 @@ void translate_capsule
 		|| strcmp(id,"__TDFhandler") == 0
 		|| strcmp(id,"__TDFstacklim") ==0
 	) {
-     	if (no(tg) ==1 && son(tg) ==NULL && dinf != (diag_descriptor *)0
- 		 /* diagnostics only! */ ) {
+     	if (no(tg) ==1 && son(tg) ==NULL && dinf != NULL /* diagnostics only! */ ) {
     		symnos[i] = -1;
     	}
     	else {
@@ -491,7 +490,7 @@ void translate_capsule
   my_def = top_def;
 
 /*
-  while (my_def != (dec *) 0) {
+  while (my_def != NULL) {
     exp tg = my_def -> dec_u.dec_val.dec_exp;
     char *id = my_def -> dec_u.dec_val.dec_id;
     bool extnamed = my_def -> dec_u.dec_val.extnamed;
@@ -507,7 +506,7 @@ void translate_capsule
 */
   my_def = top_def;
 
-  while (my_def != (dec *)0) {
+  while (my_def != NULL) {
     if (!my_def -> dec_u.dec_val.processed)
        code_it(my_def);
     my_def = my_def -> def_next;
@@ -526,7 +525,7 @@ void translate_unit
      dec * my_def;
      translate_capsule();
      my_def = top_def;
-     while (my_def != (dec *)0) {
+     while (my_def != NULL) {
        exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
        no(crt_exp) = 0;
        pt(crt_exp) = NULL;

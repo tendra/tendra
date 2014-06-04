@@ -59,7 +59,6 @@
 #define MAXUSE 16
 #define VERYBIGUSAGE 100
 #define MEMINC 64
-#define nilmem	((memlist *)0)
 
 static maxconst self_const = {
   true, NULL
@@ -79,8 +78,8 @@ typedef struct _memlist {
 }   memlist;
 
 		/* no need to init mem and fmem */
-static memlist *mem = nilmem,	/* current list of frequent identifiers */
-   *fmem = nilmem;		/* list of free cells */
+static memlist *mem = NULL,	/* current list of frequent identifiers */
+   *fmem = NULL;		/* list of free cells */
 
 static prop cond_flag = 0;	/* pushed value */
 /* 1 => inside cond(..);  2 => after test() in cond() */
@@ -306,15 +305,15 @@ not_assigned_to(exp vardec, exp body)
 	 * Note: memory is cleared after each repeat is processed,
      * so any in memory refer to the current repeat.
 	 */
-    while (ptr != nilmem && (ptr->dec) != vardec)
+    while (ptr != NULL && (ptr->dec) != vardec)
       ptr = ptr->next;
-    if (ptr == nilmem) {
+    if (ptr == NULL) {
       memlist **pp = &mem;
       /* insert with heavier used decs first */
-      while (*pp != nilmem && no((*pp) ->dec) > no(vardec)) {
+      while (*pp != NULL && no((*pp) ->dec) > no(vardec)) {
 	pp = & ((*pp) ->next);
       }
-      if (fmem == nilmem) {
+      if (fmem == NULL) {
 	/* add some cells onto the free list */
 	memlist **fpp = &fmem;
 	int i;
@@ -323,7 +322,7 @@ not_assigned_to(exp vardec, exp body)
 	 (*fpp) ->next = (*fpp) + 1;
 	  fpp = & ((*fpp) ->next);
 	}
-	*fpp = nilmem;
+	*fpp = NULL;
       }
       /* get a cell from the free list */
       ptr = fmem;
@@ -1386,12 +1385,12 @@ repeat_consts(void)
 
       glob_index = 0;
       no_alias = !assigns_alias(sts);
-      while (*mptr != nilmem) {
+      while (*mptr != NULL) {
 	mptr = & ((*mptr) ->next);
       }
       *mptr = fmem;
       fmem = mem;
-      mem = nilmem;
+      mem = NULL;
 
       mx = mc_list(loop, sts, no_alias, false);
 

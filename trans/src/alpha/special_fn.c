@@ -35,7 +35,7 @@ special_fn(exp a1, exp a2, shape s, exp *e)
 #if 0
   dec* dp = brog (son (a1));
   char *id = dp -> dec_u.dec_val.dec_id;
-  if (id == (char *) 0)
+  if (id == NULL)
     return 0;
 	/*
 	 * At present the detection of special cases is done on the identifiers,

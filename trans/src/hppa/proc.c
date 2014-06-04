@@ -248,7 +248,7 @@ makeans make_proc_tag_code
 	 labIntro[line] =-1;
       line=0;
    }
-   odd_bits = (outofline*)0;
+   odd_bits = NULL;
    repeat_level=0;
 
    mka.lab = exitlab;
@@ -520,10 +520,10 @@ makeans make_proc_tag_code
   }
 
   doing_odd_bits = 1;
-  while (odd_bits != (outofline*)0)
+  while (odd_bits != NULL)
   {
      outofline *ol = odd_bits;
-     odd_bits = (outofline*)0;
+     odd_bits = NULL;
      last_odd_bit=0;
      add_odd_bits(ol);
   }

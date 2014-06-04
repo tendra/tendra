@@ -132,7 +132,7 @@ static void mul_const_simple(int src, long constval, int dest, bool sgned)
   {
     if (src != dest)
     {
-      mov_rr_ins(src, dest);comment(NIL);
+      mov_rr_ins(src, dest);comment(NULL);
     }
     return;
   }
@@ -267,7 +267,7 @@ static int do_div(exp seq, space sp, int final_reg, bool sgned)
       if (constval==1)
       {
 	/* result always lhs */
-	mov_rr_ins(lhs_reg, final_reg);comment(NIL);
+	mov_rr_ins(lhs_reg, final_reg);comment(NULL);
       }
       else if (sgned && div_type!=div1_tag)
       {
@@ -393,7 +393,7 @@ static int do_div(exp seq, space sp, int final_reg, bool sgned)
       {
 	/* early setting of final_reg will clobber rhs_reg so make safe copy */
 	safe_rhs_reg = getreg(sp.fixed);
-	mov_rr_ins(rhs_reg, safe_rhs_reg);comment(NIL);
+	mov_rr_ins(rhs_reg, safe_rhs_reg);comment(NULL);
       }
 
       /* compares as early as possible to minimise cr def-use delay */
@@ -576,7 +576,7 @@ static int do_rem(exp seq, space sp, int final_reg, bool sgned)
       {
 	/* early setting of final_reg will clobber rhs_reg so make safe copy */
 	safe_rhs_reg = getreg(sp.fixed);
-	mov_rr_ins(rhs_reg, safe_rhs_reg);comment(NIL);
+	mov_rr_ins(rhs_reg, safe_rhs_reg);comment(NULL);
       }
 
       /* compares as early as possible to minimise cr def-use delay */
@@ -587,7 +587,7 @@ static int do_rem(exp seq, space sp, int final_reg, bool sgned)
       mt_ins(i_mtmq, lhs_reg);
 
       /* if rhs > lhs then result is lhs */
-      mov_rr_ins(lhs_reg, final_reg);comment(NIL);
+      mov_rr_ins(lhs_reg, final_reg);comment(NULL);
       bc_ins(i_bgt, creg1, endlab,LIKELY_TO_JUMP);
 
       /* otherwise if rhs has top bit set then result is lhs - rhs */

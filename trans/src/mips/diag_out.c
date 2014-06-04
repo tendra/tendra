@@ -137,8 +137,7 @@ diagbr_open(long findex)
 {/* block begin directive */
   int   symno;
   stab_file (findex);
-  symno = new_lsym_d ((char *) 0, 0, stBlock, scText, (diag_type)0,
-      currentfile);
+  symno = new_lsym_d(NULL, 0, stBlock, scText, (diag_type)0, currentfile);
   lexlev[0]++;
   if (as_file)
     x (fprintf (as_file, "\t.bgnb\t%d\n", symno));
@@ -150,8 +149,7 @@ diagbr_close(long findex)
 {/* block end directive */
   int   symno;
   stab_file (findex);
-  symno = new_lsym_d ((char *) 0, 0, stEnd, scText, (diag_type)0,
-      currentfile);
+  symno = new_lsym_d(NULL, 0, stEnd, scText, (diag_type)0, currentfile);
   lexlev[0]--;
   if (as_file)
     x (fprintf (as_file, "\t.endb\t%d\n", symno));
@@ -290,7 +288,7 @@ typedef struct {
 }               tsym;
 static int  notsyms = 0;
 static int  nexttsym = 0;
-static  tsym * ats = (tsym *) 0;
+static  tsym * ats = NULL;
 
 /*
  * Used to accumulate all the type reprs arising from shapes in the program
@@ -319,7 +317,7 @@ typedef struct {
 }               shauxt;
 static int  noshaux = 0;
 int   nextshaux = 0;
-shauxt * shaux = (shauxt *) 0;
+shauxt * shaux = NULL;
 
 /*
  * Used to remember all the indexes into the auxilliary symbol table for
@@ -378,7 +376,7 @@ addaux(diag_type s, int ind)
   x -> symindex = ind;
 }
 
-static diag_tagdef ** su_diags = (diag_tagdef**)0;
+static diag_tagdef ** su_diags = NULL;
 static long no_of_sus = 0;
 static long leng_sus = 0;
 

@@ -142,7 +142,7 @@ dw_add_regshare(void * w, dg_name nm, long start, long end)
 }
 
 
-obj_list *local_objects = (obj_list *)0;
+obj_list *local_objects = NULL;
 
 static void
 check_taggable(dg_name nm)
@@ -447,8 +447,8 @@ out_regshare_set(regshare_item it)
 void
 init_dw_locdata(void)
 {
-	all_regshares = (regshare_list)0;
-	local_objects = (obj_list *)0;
+	all_regshares = NULL;
+	local_objects = NULL;
 	dw_all_deallocated();
 	return;
 }

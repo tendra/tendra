@@ -15,10 +15,6 @@
 #include <dwarf/dwarf_type.h>
 #include <dwarf/dwarf_queue.h>
 
-#ifndef NULL
-#define NULL((t_q_elem *)0)
-#endif
-
 typedef struct t_q_t {
 	diag_type val;
 	struct t_q_t *next;

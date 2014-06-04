@@ -625,7 +625,7 @@ static postl_chain * old_pls;
 void update_plc
 (postl_chain * ch, int ma)
 {
-	while (ch != (postl_chain*)0) {
+	while (ch != NULL) {
 	  exp pl= ch->pl;
 	  while (name(pl) ==ident_tag && name(son(pl)) ==caller_name_tag) {
 		no(pl) += (ma<<1);
@@ -3737,7 +3737,7 @@ tailrecurse:
 	    if (r->dble == dble && r->r.i1 == x.i1 && r-> r.i2 == x.i2)
 		{isa = r->ad; goto found;}
 	}
-	isa = evaluated(e, 0,(dec*)0);
+	isa = evaluated(e, 0, NULL);
         rca[nca & 15].dble = dble; rca[nca & 15].r = x; rca[nca & 15].ad = isa;
 	nca++;
 	settext();
@@ -3750,7 +3750,7 @@ tailrecurse:
 	instore isa;
 	ans aa;
 	bool sgned = ((ashof(sh(e)).ashsize >= 32) || is_signed(sh(e)))? 1 : 0;
-	isa = evaluated(e, 0,(dec*)0);
+	isa = evaluated(e, 0, NULL);
 	/* place constant in appropriate data segment */
 	settext();
 	setinsalt(aa, isa);
@@ -3901,7 +3901,7 @@ tailrecurse:
 	exp l;
 
 	crt_proc = e;
-	old_pls = (postl_chain*)0;
+	old_pls = NULL;
 
 	frame_size = pr->frame_size;
 	locals_offset = pr->locals_offset;

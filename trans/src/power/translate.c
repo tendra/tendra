@@ -177,7 +177,7 @@ void translate_capsule(void)
   noprocs = 0;
   noglobals = 0;
 
-  for (crt_def = top_def; crt_def != (dec *) 0; crt_def = crt_def->def_next)
+  for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next)
   {
     exp tg = crt_def->dec_u.dec_val.dec_exp;
     shape s = crt_def->dec_u.dec_val.dec_shape;
@@ -367,7 +367,7 @@ void translate_capsule(void)
    */
   fprintf(as_file, "\n\t.toc\n");
 
-  for (crt_def = top_def; crt_def != (dec *) 0; crt_def = crt_def->def_next)
+  for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next)
   {
     exp tg = crt_def->dec_u.dec_val.dec_exp;
     char *id = crt_def->dec_u.dec_val.dec_id;
@@ -412,7 +412,7 @@ void translate_capsule(void)
   /* number proc defs and setup main_globals */
   procno = 0;
   globalno = 0;
-  for (crt_def = top_def; crt_def != (dec *) 0; crt_def = crt_def->def_next)
+  for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next)
   {
     exp tg = crt_def->dec_u.dec_val.dec_exp;
 
@@ -467,7 +467,7 @@ void translate_capsule(void)
    * Scan all the procs, to put the TDF in POWER form,
    * and do register allocation.
    */
-  for (crt_def = top_def; crt_def != (dec *) 0; crt_def = crt_def->def_next)
+  for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next)
   {
     exp tg = crt_def->dec_u.dec_val.dec_exp;
 
@@ -529,7 +529,7 @@ void translate_capsule(void)
    * Evaluate outer level data initialisers in [RW] section.
    */
   anydone = 0;
-  for (crt_def = top_def; crt_def != (dec *) 0; crt_def = crt_def->def_next)
+  for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next)
   {
     exp tg = crt_def->dec_u.dec_val.dec_exp;
     char *id = crt_def->dec_u.dec_val.dec_id;
@@ -595,7 +595,7 @@ void translate_capsule(void)
    */
   anydone = 0;			/* set to 1 after first tag output */
 
-  for (crt_def = top_def; crt_def != (dec *) 0; crt_def = crt_def->def_next)
+  for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next)
   {
     exp tg = crt_def->dec_u.dec_val.dec_exp;
     char *id = crt_def->dec_u.dec_val.dec_id;
@@ -652,7 +652,7 @@ void translate_capsule(void)
   /*
    * Translate procedures.
    */
-  for (crt_def = top_def; crt_def != (dec *) 0; crt_def = crt_def->def_next)
+  for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next)
   {
     exp tg = crt_def->dec_u.dec_val.dec_exp;
     char *id = crt_def->dec_u.dec_val.dec_id;
@@ -732,7 +732,7 @@ void translate_unit(void)
 
     translate_capsule();
 
-    for (crt_def = top_def; crt_def != (dec *) 0; crt_def = crt_def->def_next)
+    for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next)
     {
       exp crt_exp = crt_def->dec_u.dec_val.dec_exp;
 

@@ -47,7 +47,7 @@ process_aldefs(void)
 		my_aldef = top_aldef;
 		changed = 0;
 		complete = 1;
-		while (my_aldef != (aldef *)0) {
+		while (my_aldef != NULL) {
 			switch (my_aldef->al.al_n) {
 			case 1: break;
 			case 2: {

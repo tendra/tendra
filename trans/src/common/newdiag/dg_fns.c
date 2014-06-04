@@ -139,7 +139,7 @@ dg
 f_dg_apply_token(token token_value, bitstream token_args)
 {
 	tokval v;
-	v = apply_tok(token_value, token_args, DG_SORT, (tokval *)0);
+	v = apply_tok(token_value, token_args, DG_SORT, NULL);
 	return v.tk_dg;
 }
 
@@ -601,7 +601,7 @@ dg_name
 f_dg_name_apply_token(token token_value, bitstream token_args)
 {
 	tokval v;
-	v = apply_tok(token_value, token_args, DG_NAME_SORT, (tokval *)0);
+	v = apply_tok(token_value, token_args, DG_NAME_SORT, NULL);
 	return v.tk_dg_name;
 }
 
@@ -930,7 +930,7 @@ dg_type
 f_dg_type_apply_token(token token_value, bitstream token_args)
 {
 	tokval v;
-	v = apply_tok(token_value, token_args, DG_TYPE_SORT, (tokval *)0);
+	v = apply_tok(token_value, token_args, DG_TYPE_SORT, NULL);
 	return v.tk_dg_type;
 }
 
@@ -1615,7 +1615,7 @@ dg_dim
 f_dg_dim_apply_token(token token_value, bitstream token_args)
 {
 	tokval v;
-	v = apply_tok(token_value, token_args, DG_DIM_SORT, (tokval *)0);
+	v = apply_tok(token_value, token_args, DG_DIM_SORT, NULL);
 	return v.tk_dg_dim;
 }
 
@@ -1849,7 +1849,7 @@ dg_filename
 f_dg_filename_apply_token(token token_value, bitstream token_args)
 {
 	tokval v;
-	v = apply_tok(token_value, token_args, DG_FILENAME_SORT, (tokval *)0);
+	v = apply_tok(token_value, token_args, DG_FILENAME_SORT, NULL);
 	return v.tk_dg_filename;
 }
 
@@ -2033,7 +2033,7 @@ dg_idname
 f_dg_idname_apply_token(token token_value, bitstream token_args)
 {
 	tokval v;
-	v = apply_tok(token_value, token_args, DG_IDNAME_SORT, (tokval *)0);
+	v = apply_tok(token_value, token_args, DG_IDNAME_SORT, NULL);
 	return v.tk_dg_idname;
 }
 
@@ -2711,7 +2711,7 @@ void
 init_dg_type_list_option(void)
 {
 	no_dg_type_list_option.len = -1;
-	no_dg_type_list_option.array = (dg_type *)0;
+	no_dg_type_list_option.array = NULL;
 	return;
 }
 
@@ -2800,7 +2800,7 @@ init_dg_filename_option(void)
 }
 
 
-dg_default_option no_dg_default_option = (dg_default *)0;
+dg_default_option no_dg_default_option = NULL;
 
 dg_default_option
 yes_dg_default_option(dg_default elem)
@@ -2857,26 +2857,26 @@ start_make_dg_comp_unit(int toks, int tags, int als, int dgnames)
 	unit_ind_tokens = (tok_define **)dg_xcalloc(unit_no_of_tokens,
 						 sizeof(tok_define *));
 	for (i = 0; i < unit_no_of_tokens; ++i) {
-		unit_ind_tokens[i] = (tok_define *)0;
+		unit_ind_tokens[i] = NULL;
 	}
 
 	unit_no_of_tags = tags;
 	unit_ind_tags = (dec **)dg_xcalloc(unit_no_of_tags, sizeof(dec *));
 	for (i = 0; i < unit_no_of_tags; ++i) {
-		unit_ind_tags[i] = (dec *)0;
+		unit_ind_tags[i] = NULL;
 	}
 
 	unit_no_of_als = als;
 	unit_ind_als = (aldef **)dg_xcalloc(unit_no_of_als, sizeof(aldef *));
 	for (i = 0; i < unit_no_of_als; ++i) {
-		unit_ind_als[i] = (aldef *)0;
+		unit_ind_als[i] = NULL;
 	}
 
 	unit_no_of_dgtags = dgnames;
 	unit_ind_dgtags = (dgtag_struct **)dg_xcalloc(unit_no_of_dgtags,
 						   sizeof(dgtag_struct *));
 	for (i = 0; i < unit_no_of_dgtags; ++i) {
-		unit_ind_dgtags[i] = (dgtag_struct *)0;
+		unit_ind_dgtags[i] = NULL;
 	}
 
 	return;
@@ -2892,27 +2892,27 @@ f_make_dg_comp_unit(void)
 	int was_within_diags;
 
 	for (i = 0; i < unit_no_of_tokens; ++i) {
-		if (unit_ind_tokens[i] == (tok_define *)0) {
+		if (unit_ind_tokens[i] == NULL) {
 			unit_ind_tokens[i] = &unit_toktab[j++];
 		}
 	}
 
 	j = 0;
 	for (i = 0; i < unit_no_of_tags; ++i) {
-		if (unit_ind_tags[i] == (dec *)0) {
+		if (unit_ind_tags[i] == NULL) {
 			unit_ind_tags[i] = &unit_tagtab[j++];
 		}
 	}
 
 	j = 0;
 	for (i = 0; i < unit_no_of_als; ++i) {
-		if (unit_ind_als[i] == (aldef *)0)
+		if (unit_ind_als[i] == NULL)
 			unit_ind_als[i] = &unit_altab[j++];
 	}
 
 	j=0;
 	for (i = 0; i < unit_no_of_dgtags; ++i) {
-		if (unit_ind_dgtags[i] == (dgtag_struct *)0) {
+		if (unit_ind_dgtags[i] == NULL) {
 			unit_ind_dgtags[i] = &unit_dgtagtab[j++];
 		}
 	}

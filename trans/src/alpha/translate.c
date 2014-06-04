@@ -297,7 +297,7 @@ translate_capsule(void)
   opt_all_exps ();
     /* mark static unaliased */
   my_def = top_def;
-  while (my_def != (dec *) 0) {
+  while (my_def != NULL) {
     exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
     if (son (crt_exp) != NULL && !my_def -> dec_u.dec_val.extnamed &&
 	isvar (crt_exp)) {
@@ -331,7 +331,7 @@ translate_capsule(void)
 
   noprocs = 0;
   my_def = top_def;
-  while (my_def != (dec *) 0) {
+  while (my_def != NULL) {
     exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
     if (son (crt_exp) != NULL && (name (son (crt_exp)) == proc_tag ||
 	name(son(crt_exp))==general_proc_tag)) {
@@ -345,7 +345,7 @@ translate_capsule(void)
   noprocs = 0;
 
   my_def = top_def;
-  while (my_def != (dec *) 0) {
+  while (my_def != NULL) {
     exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
     if (son (crt_exp) != NULL && (name (son (crt_exp)) == proc_tag
 				    || name(son(crt_exp))==general_proc_tag)) {
@@ -357,7 +357,7 @@ translate_capsule(void)
   if(do_extern_adds) {
     usages = (exp*)xcalloc(noprocs, sizeof(exp));
     my_def = top_def;
-    while (my_def != (dec *) 0) {
+    while (my_def != NULL) {
       exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
       if (son(crt_exp) == NULL && isvar(crt_exp) ) {
 	global_usages(crt_exp, noprocs);
@@ -396,7 +396,7 @@ translate_capsule(void)
     (void)new_lsym_d ("NOFILE.c",0,stFile,scText,0,0);
   }
   my_def = top_def;
-  while (my_def != (dec *) 0) {
+  while (my_def != NULL) {
     exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
     if (son (crt_exp) != NULL && (name (son (crt_exp)) == proc_tag
 				    || name(son(crt_exp))==general_proc_tag)) {
@@ -420,7 +420,7 @@ translate_capsule(void)
 
   /* calculate the break points for register allocation and do it */
   my_def = top_def;
-  while (my_def != (dec *) 0) {
+  while (my_def != NULL) {
     exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
     if (son (crt_exp) != NULL && (name (son (crt_exp)) == proc_tag
 				    || name(son(crt_exp))==general_proc_tag)){
@@ -447,7 +447,7 @@ translate_capsule(void)
   /* put defs in main globals and set up symnos*/
   my_def = top_def;
   main_globals_index = 0;
-  while (my_def != (dec*) 0) {
+  while (my_def != NULL) {
     main_globals_index++;
     my_def = my_def -> def_next;
   }
@@ -519,7 +519,7 @@ translate_capsule(void)
   */
   my_def = top_def;
 
-  while (my_def != (dec *) 0) {
+  while (my_def != NULL) {
     exp tg = my_def -> dec_u.dec_val.dec_exp;
     char *id = my_def -> dec_u.dec_val.dec_id;
     bool extnamed = my_def -> dec_u.dec_val.extnamed;
@@ -547,7 +547,7 @@ translate_capsule(void)
   }
      
   my_def = top_def;
-  while (my_def != (dec *) 0) {
+  while (my_def != NULL) {
     if (!my_def -> dec_u.dec_val.processed){
       code_it (my_def);
       my_def = my_def -> def_next;
@@ -563,7 +563,7 @@ translate_unit(void)
     dec * my_def;
     translate_capsule();
     my_def = top_def;
-    while (my_def != (dec *) 0) {
+    while (my_def != NULL) {
       exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
       no(crt_exp) = 0;
       pt(crt_exp) = NULL;

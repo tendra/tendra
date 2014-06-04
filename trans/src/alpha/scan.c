@@ -1986,7 +1986,7 @@ needs scan
       if (name(a2) == real_tag) {
 	flt inverse;
 	flt unitflt;
-	str2flt("1.0", &unitflt,(char **)0);
+	str2flt("1.0", &unitflt, NULL);
 	if (flt_div(unitflt, flptnos[no(a2)], &inverse) == OKAY) {
 
 	  int   f = new_flpt();

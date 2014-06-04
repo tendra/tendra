@@ -157,11 +157,11 @@ void ld_ins(Instruction_P ins, baseoff a, int dest)
     tmp_off.base = dest;
     tmp_off.offset = a.offset;
 
-    ld_ro_ins(ins, tmp_off, dest);comment(NIL);
+    ld_ro_ins(ins, tmp_off, dest);comment(NULL);
   }
   else
   {
-    ld_ro_ins(ins, a, dest);comment(NIL);
+    ld_ro_ins(ins, a, dest);comment(NULL);
   }
 }
 
@@ -239,11 +239,11 @@ void st_ins(Instruction_P ins, int src, baseoff a)
     tmp_off.offset = 0;
 
     set_ins(a, R_TMP0);
-    st_ro_ins(ins, src, tmp_off);comment(NIL);
+    st_ro_ins(ins, src, tmp_off);comment(NULL);
   }
   else
   {
-    st_ro_ins(ins, src, a);comment(NIL);
+    st_ro_ins(ins, src, a);comment(NULL);
   }
 }
 
@@ -1077,7 +1077,7 @@ void stsi_ins(int src, int dest, int nb)
 void comment(char *p)
 {
 #ifdef DEBUG_POWERTRANS
-  if (p==NIL)
+  if (p==NULL)
   {
     fprintf(as_file,"\n");
   }

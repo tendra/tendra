@@ -55,7 +55,7 @@ static int doing_inline = 0;	/* consistency check only */
 static dg_info proc_dg_info = (dg_info)0;
 static dg_type return_type = (dg_type)0;
 
-static dg_default * default_span_list = (dg_default *)0;
+static dg_default * default_span_list = NULL;
 
 static void fail_unimplemented
 (void)
@@ -217,7 +217,7 @@ static void check_trivial
 
 static void output_detch (detch_info *	dl);
 
-static detch_info * sub_detch = (detch_info *)0;
+static detch_info * sub_detch = NULL;
 
 
 static void output_info
@@ -948,7 +948,7 @@ static void dw2_out_proc
   char* nam;
   char* gnam = "";
   long attr1, attr2;
-  dg_instantn * generic = (dg_instantn *)0;
+  dg_instantn * generic = NULL;
   dg_info old_di = proc_dg_info;
   proc_dg_info = (dg_info)0;
   if (di->idnam.id_key == DG_ID_INST) {
@@ -1168,7 +1168,7 @@ static void dw2_out_proc
 	  if (w < p_t->data.t_proc.params.len)
 	    param->data.n_obj.p = &(el[w]);
 	  else
-	    param->data.n_obj.p = (dg_param *)0;
+	    param->data.n_obj.p = NULL;
 	}
 	if (doing_abstract) {
 	  if (!(param->mor) || !(param->mor->this_tag))
@@ -1313,7 +1313,7 @@ void dw2_out_name
     case DGN_OBJECT: {
       exp x = di->data.n_obj.obtain_val;
       dg_type typ = di->data.n_obj.typ;
-      dg_param * ppar = (contex == PARAM_NAME ? di->data.n_obj.p : (dg_param *)0);
+      dg_param * ppar = (contex == PARAM_NAME ? di->data.n_obj.p : NULL);
       char* nam = idname_chars (di->idnam);
       long attr1 = 0, attr2;
       long loclab = 0, loclabext = 0, infolab = 0;
@@ -1520,7 +1520,7 @@ void dw2_out_name
       abbrev_entry dwe;
       int has_init_code = 0;
       exp id = di->data.n_mod.init;
-      dg_instantn * generic = (dg_instantn *)0;
+      dg_instantn * generic = NULL;
       dg_name mem;
       if (id && name(id) == hold_tag && name(son(id)) == name_tag) {
 	id = son(son(id));
@@ -1855,7 +1855,7 @@ void dw2_proc_start
   proc_dg_info = dgf(p) = new_dg_info (DGA_PRC);
   proc_dg_info->data.i_prc.prc_start = set_dw_text_label ();
   proc_dg_info->data.i_prc.prc_end = 0;
-  proc_dg_info->data.i_prc.returns = (retrec *)0;
+  proc_dg_info->data.i_prc.returns = NULL;
   returns_list = &(proc_dg_info->data.i_prc.returns);
   proc_dg_info->data.i_prc.p = proc_dg_info->data.i_prc.barrier = (dg_info)0;
   if (d)
@@ -1870,7 +1870,7 @@ void dw2_return_pos
   retrec * rec = (retrec *) xmalloc (sizeof (retrec));
   rec->lab = set_dw_text_label ();
   rec->over = over;
-  rec->next = (retrec *)0;
+  rec->next = NULL;
   *returns_list = rec;
   returns_list = &(rec->next);
   if (over)
@@ -1944,7 +1944,7 @@ void dw2_code_info
       obj_list hold_pars;
       hold_pars.obj = d->data.i_param.args;
       hold_pars.islist = 1;
-      hold_pars.next = (obj_list *)0;
+      hold_pars.next = NULL;
       local_objects = &hold_pars;
       set_locdata (hold_pars);
       if (proc_dg_info)
@@ -1952,7 +1952,7 @@ void dw2_code_info
       d->data.i_param.b_start = set_dw_text_label ();
       dw2_code_info (d->more, mcode, args);
       close_locdata (hold_pars);
-      local_objects = (obj_list *)0;
+      local_objects = NULL;
       break;
     }
 

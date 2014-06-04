@@ -1307,7 +1307,7 @@ void dw_allocated
     dw_close_regassn(reg, 0);
     dw_close_regassn(reg, 1);
     regassns[reg].alloc = nm;
-    regassns[reg].share_set = (void *)0;
+    regassns[reg].share_set = NULL;
   }
   return;
 }
@@ -1321,7 +1321,7 @@ void dw_deallocated
       dw_close_regassn(i, 0);
       dw_close_regassn(i, 1);
       regassns[i].alloc = (dg_name)0;
-      regassns[i].share_set = (void *)0;
+      regassns[i].share_set = NULL;
     }
   }
   return;
@@ -1335,7 +1335,7 @@ void dw_all_deallocated		/* initialisation */
     dw_regassn * a = & (regassns[i].assn[0]);
     dw_regassn * b = & (regassns[i].assn[1]);
     regassns[i].alloc = (dg_name)0;
-    regassns[i].share_set = (void *)0;
+    regassns[i].share_set = NULL;
     a->start = a->end = b->start = b->end = (long)0;
   }
   return;
@@ -1384,7 +1384,7 @@ void dw_close_regassn
 		a->start, a->end);
     a->end = (long)0;
     if (!regassns[reg].alloc && !regassns[reg].assn[1-x].start)
-      regassns[reg].share_set = (void *)0;
+      regassns[reg].share_set = NULL;
   }
   a->start = (long)0;
   return;

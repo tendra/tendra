@@ -77,26 +77,26 @@ start_make_diagdef_unit(int toks, int tags, int als, int diagtags)
 	unit_ind_tokens = (tok_define **)dg_xcalloc(unit_no_of_tokens,
 						 sizeof(tok_define *));
 	for (i = 0; i < unit_no_of_tokens; ++i) {
-		unit_ind_tokens[i] = (tok_define *)0;
+		unit_ind_tokens[i] = NULL;
 	}
 
 	unit_no_of_tags = tags;
 	unit_ind_tags = (dec **)dg_xcalloc(unit_no_of_tags, sizeof(dec *));
 	for (i = 0; i < unit_no_of_tags; ++i) {
-		unit_ind_tags[i] = (dec *)0;
+		unit_ind_tags[i] = NULL;
 	}
 
 	unit_no_of_als = als;
 	unit_ind_als = (aldef **)dg_xcalloc(unit_no_of_als, sizeof(aldef *));
 	for (i = 0; i < unit_no_of_als; ++i) {
-		unit_ind_als[i] = (aldef *)0;
+		unit_ind_als[i] = NULL;
 	}
 
 	unit_no_of_diagtags = diagtags;
 	unit_ind_diagtags = (diag_tagdef **)dg_xcalloc(unit_no_of_diagtags,
 						    sizeof(diag_tagdef *));
 	for (i = 0; i < unit_no_of_diagtags; ++i) {
-		unit_ind_diagtags[i] = (diag_tagdef *)0;
+		unit_ind_diagtags[i] = NULL;
 	}
 
 	return;
@@ -138,27 +138,27 @@ f_make_diagdef_unit(void)
 	int no_of_labels;
 
 	for (i = 0; i < unit_no_of_tokens; ++i) {
-		if (unit_ind_tokens[i] == (tok_define *)0)
+		if (unit_ind_tokens[i] == NULL)
 			unit_ind_tokens[i] = &unit_toktab[j++];
 	}
 
 	j = 0;
 	for (i = 0; i < unit_no_of_tags; ++i) {
-		if (unit_ind_tags[i] == (dec *)0) {
+		if (unit_ind_tags[i] == NULL) {
 			unit_ind_tags[i] = &unit_tagtab[j++];
 		}
 	}
 
 	j = 0;
 	for (i = 0; i < unit_no_of_als; ++i) {
-		if (unit_ind_als[i] == (aldef *)0) {
+		if (unit_ind_als[i] == NULL) {
 			unit_ind_als[i] = &unit_altab[j++];
 		}
 	}
 
 	j=0;
 	for (i = 0; i < unit_no_of_diagtags; ++i) {
-		if (unit_ind_diagtags[i] == (diag_tagdef *)0) {
+		if (unit_ind_diagtags[i] == NULL) {
 			unit_ind_diagtags[i] = &unit_diag_tagdeftab[j++];
 		}
 	}
@@ -292,7 +292,7 @@ diag_type
 f_diag_type_apply_token(token token_value, bitstream token_args)
 {
 	tokval v;
-	v = apply_tok(token_value, token_args,  DIAG_TYPE_SORT, (tokval *)0);
+	v = apply_tok(token_value, token_args,  DIAG_TYPE_SORT, NULL);
 	return v.tk_diag_type;
 }
 
@@ -618,7 +618,7 @@ filename
 f_filename_apply_token(token token_value, bitstream token_args)
 {
 	tokval v;
-	v = apply_tok(token_value, token_args, DIAG_FILENAME, (tokval *)0);
+	v = apply_tok(token_value, token_args, DIAG_FILENAME, NULL);
 	return v.tk_filename;
 }
 
@@ -683,26 +683,26 @@ start_make_diagtype_unit(int toks, int tags, int als, int diags)
 	unit_ind_tokens = (tok_define **)dg_xcalloc(unit_no_of_tokens,
 						 sizeof(tok_define *));
 	for (i = 0; i < unit_no_of_tokens; ++i) {
-		unit_ind_tokens[i] = (tok_define *)0;
+		unit_ind_tokens[i] = NULL;
 	}
 
 	unit_no_of_tags = tags;
 	unit_ind_tags = (dec **)dg_xcalloc(unit_no_of_tags, sizeof(dec *));
 	for (i = 0; i < unit_no_of_tags; ++i) {
-		unit_ind_tags[i] = (dec *)0;
+		unit_ind_tags[i] = NULL;
 	}
 
 	unit_no_of_als = als;
 	unit_ind_als = (aldef **)dg_xcalloc(unit_no_of_als, sizeof(aldef *));
 	for (i = 0; i < unit_no_of_als; ++i) {
-		unit_ind_als[i] = (aldef *)0;
+		unit_ind_als[i] = NULL;
 	}
 
 	unit_no_of_diagtags = diags;
 	unit_ind_diagtags = (diag_tagdef **)dg_xcalloc(unit_no_of_diagtags,
 						    sizeof(diag_tagdef *));
 	for (i = 0; i < unit_no_of_diagtags; ++i) {
-		unit_ind_diagtags[i] = (diag_tagdef *)0;
+		unit_ind_diagtags[i] = NULL;
 	}
 	return;
 }
@@ -733,28 +733,28 @@ f_make_diagtype_unit(void)
 	int no_of_labels;
 
 	for (i = 0; i < unit_no_of_tokens; ++i) {
-		if (unit_ind_tokens[i] == (tok_define *)0) {
+		if (unit_ind_tokens[i] == NULL) {
 			unit_ind_tokens[i] = &unit_toktab[j++];
 		}
 	}
 
 	j = 0;
 	for (i = 0; i < unit_no_of_tags; ++i) {
-		if (unit_ind_tags[i] == (dec *)0) {
+		if (unit_ind_tags[i] == NULL) {
 			unit_ind_tags[i] = &unit_tagtab[j++];
 		}
 	}
 
 	j = 0;
 	for (i = 0; i < unit_no_of_als; ++i) {
-		if (unit_ind_als[i] == (aldef *)0) {
+		if (unit_ind_als[i] == NULL) {
 			unit_ind_als[i] = &unit_altab[j++];
 		}
 	}
 
 	j=0;
 	for (i = 0; i < unit_no_of_diagtags; ++i) {
-		if (unit_ind_diagtags[i] == (diag_tagdef *)0) {
+		if (unit_ind_diagtags[i] == NULL) {
 			unit_ind_diagtags[i] = &unit_diag_tagdeftab[j++];
 		}
 	}
