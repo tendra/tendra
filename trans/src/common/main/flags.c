@@ -9,6 +9,7 @@
 
 #include <string.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
 
@@ -46,6 +47,7 @@ int PIC_code = 0;		/* produce PIC code */
 int keep_PIC_vars = 0;
 int do_prom = 0;		/* produce PROM code (avoiding .data) */
 int dyn_init = 0;		/* produce calls for dynamic initialisation */
+int do_comment = 0;		/* produce comments in generated assembly */
 
 #ifdef NEWDIAGS
 int diag_visible = 0;		/* additional visibility if doing diagnostics */

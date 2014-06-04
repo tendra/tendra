@@ -156,7 +156,7 @@ main(int argc, char *argv[])
 		char opts[256];
 		int c;
 
-		sprintf(opts, "%s%s", "A:B:C:DE:F:G:H:K:MO:PQRS:VWX:YZ" "hv", driver.opts);
+		sprintf(opts, "%s%s", "A:B:C:DE:F:G:H:IK:MO:PQRS:VWX:YZ" "TJ" "hv", driver.opts);
 
 		while (c = getopt(argc, argv, opts), c != -1) {
 			switch (c) {
@@ -178,6 +178,7 @@ main(int argc, char *argv[])
 			case 'P': do_profile       = 1; break;
 			case 'Q': quit             = 1; break;
 			case 'R': round_after_flop = 1; break;
+			case 'I': do_comment       = 1; break;
 			case 'W': writable_strings = 1; break;
 			case 'Y': dyn_init         = 1; break;
 			case 'Z': report_versions  = 1; break;

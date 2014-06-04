@@ -15,27 +15,10 @@
 #include <refactor/const.h>
 
 #include <main/driver.h>
+#include <main/flags.h>
 
 #include "comment.h"
 
-
-/*
-    FLAG : PRINT COMMENTS?
-
-    This is set in hppatrans.c.
-*/
-
-bool do_comment ;
-
-
-/*
-    COMMENTING ROUTINES
-
-    If DO_COMMENT is not defined then these routines are replaced by
-    the macros in comment.h.
-*/
-
-#ifdef DO_COMMENT
 
 void
 comment(char * mess)
@@ -90,9 +73,6 @@ comment4(char * mess, long p1, long p2, long p3, long p4)
     }
     return ;
 }
-
-#endif /* DO_COMMENT */
-
 
 void
 fail(char * mess)

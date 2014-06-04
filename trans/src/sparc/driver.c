@@ -31,7 +31,6 @@
 #include <main/driver.h>
 #include <main/flags.h>
 
-#include "comment.h"
 #include "translate.h"
 #include "addrtypes.h"
 #include "makecode.h"
@@ -127,7 +126,6 @@ option(char c, const char *optarg)
 {
 	switch (c) {
 	case 'b': sysV_assembler = 0; break;
-	case 'c': do_comment     = 1; break;
 	case 'g': library_key    = 2; break;
 	case 'l': library_key    = 1; break;
 	case 'm': gencompat      = 0; break;
@@ -275,7 +273,7 @@ struct driver driver = {
 	NULL,
 	cleanup,
 
-	"bcglmo:i:r:un",
+	"bglmo:i:r:un",
 	option,
 	NULL,
 

@@ -11,13 +11,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include <main/flags.h>
 #include <main/driver.h>
 
 #include "comment.h"
-
-bool do_comment;			/* set in powertrans.c */
-
-#ifdef DO_COMMENT
 
 void COMMENT(char *mess)
 {
@@ -66,13 +63,6 @@ void COMMENT4(char *mess, long p1, long p2, long p3, long p4)
     fprintf(as_file, "\n");
   }
 }
-
-#else				/* DO_COMMENT */
-
-/* defined as NULL macros in comment.h */
-
-#endif				/* DO_COMMENT */
-
 
 void fail(char *mess)
 {

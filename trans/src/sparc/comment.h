@@ -11,13 +11,11 @@
 #define COMMENT_INCLUDED
 
 #include <reader/exp.h>
-
 #include <reader/code.h>
 
 #include <construct/installtypes.h>
 
 extern char *sparctrans;
-extern bool do_comment;
 extern void fail(char *);
 
 #define comment(st)	fprintf(as_file,"\t! %s\n",st);

@@ -16,16 +16,10 @@
 
 #include <refactor/const.h>
 
+#include <main/flags.h>
 #include <main/driver.h>
 
 #include "comment.h"
-
-
-/*
-  COMMENT FAILURES
-*/
-
-bool do_comment = 0 ;
 
 
 void 

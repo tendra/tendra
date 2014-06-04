@@ -21,6 +21,7 @@
 #include <construct/shape.h>
 #include <construct/tags.h>
 
+#include <main/flags.h>
 #include <main/driver.h>
 
 #include <refactor/refactor.h>

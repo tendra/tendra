@@ -11,8 +11,6 @@
 
 #include <shared/error.h>
 
-#include <main/driver.h>
-
 #include <reader/basicread.h>
 #include <reader/externs.h>
 
@@ -20,6 +18,9 @@
 #include <construct/install_fns.h>
 #include <construct/shape.h>
 #include <construct/tags.h>
+
+#include <main/flags.h>
+#include <main/driver.h>
 
 #include "assembler.h"
 #include "mach.h"

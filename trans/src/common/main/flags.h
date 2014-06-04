@@ -147,6 +147,7 @@ extern int round_after_flop;
 extern int strict_fl_div;
 extern int do_prom;
 extern int dyn_init;
+extern int do_comment;
 
 #ifdef NEWDIAGS
 extern int diag_visible;

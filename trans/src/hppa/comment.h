@@ -17,11 +17,8 @@
 #include <construct/installtypes.h>
 
 
-extern bool do_comment;
 extern void fail(char *);
 
-
-#ifdef DO_COMMENT
 
 /* Commenting routines */
 extern void comment(char *);
@@ -30,19 +27,6 @@ extern void comment2(char *, long, long);
 extern void comment3(char *, long, long, long);
 extern void comment4(char *, long, long, long, long);
 
-#else /* DO_COMMENT */
-
-/* Dummy commenting macros */
-#define comment(s)
-#define comment1(s, a)
-#define comment2(s, a, b)
-#define comment3(s, a, b, c)
-#define comment4(s, a, b, c, d)
-
-#endif /* DO_COMMENT */
-
-
-#ifdef DO_FULLCOMMENT
 
 /* Full comments */
 #define FULLCOMMENT(s)		comment(s)
@@ -70,17 +54,5 @@ extern void comment4(char *, long, long, long, long);
 #define PRTDF(s, e)			(0)
 
 #endif /* DO_PRTDF */
-
-#else /* DO_FULLCOMMENT */
-
-/* Dummy full commenting macros */
-#define FULLCOMMENT(s)
-#define FULLCOMMENT1(s, a)
-#define FULLCOMMENT2(s, a, b)
-#define FULLCOMMENT3(s, a, b, c)
-#define FULLCOMMENT4(s, a, b, c, d)
-#define PRTDF(s, e)
-
-#endif /* DO_FULLCOMMENT */
 
 #endif /* COMMENT_INCLUDED */

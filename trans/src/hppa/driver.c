@@ -30,7 +30,6 @@
 #include <main/driver.h>
 #include <main/flags.h>
 
-#include "comment.h"		/* for do_comment */
 #include "addrtypes.h"		/* for where */
 #include "makecode.h"		/* for nowhere */
 #include "diag_out.h"
@@ -69,7 +68,6 @@ init(void)
 	keep_PIC_vars      = 1;
 	diagnose_registers = 0;
 	use_long_double    = 1;
-	do_comment         = 0; /* implement -c option */
 
 #if use_long_double
 	target_dbl_maxexp = 16384;
@@ -85,7 +83,6 @@ static int
 option(char c, const char *optarg)
 {
 	switch (c) {
-	case 'c': do_comment       = 1; break;
 	case 'd': plusZ            = 1; break; /* -d emulates cc's +Z flag */
 	case 'i': do_indexed_loads = 0; break;
 
@@ -155,7 +152,7 @@ struct driver driver = {
 	NULL,
 	cleanup,
 
-	"cdi",
+	"di",
 	option,
 	NULL,
 

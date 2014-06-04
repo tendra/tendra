@@ -453,7 +453,12 @@ output_all(void)
 	for (p = all_mach_ins; p; p = p->next) {
 		n = p->ins_no;
 #ifndef NDEBUG
-#if 1
+#if 0
+		/*
+		 * This is for debugging convenience; the idea is to watch 'found'
+		 * for the instruction number just before the one you're after,
+		 * and then step forwards.
+		 */
 		if (n != m_comment) {
 			fprintf(as_file, "#inst%ld\n", p->id);
 		}

@@ -702,9 +702,9 @@ translate_capsule (void){
 	outs ( "\t.proc\t" ) ;
 	outn ( proc_directive ) ;
 	outnl () ;
-#ifdef DO_COMMENT
-	if ( p & long_result_bit ) outs ( "!\tstruct result\n" ) ;
-#endif
+	if (do_comment) {
+		if ( p & long_result_bit ) outs ( "!\tstruct result\n" ) ;
+	}
 
 	if ( diag != DIAG_NONE ) {
 	  DIAG_PROC_BEGIN ( diag_props, extnamed, -1, id, stg ) ;
@@ -741,11 +741,11 @@ translate_capsule (void){
 	  outnl () ;
 	} 
 	else {
-#ifdef DO_COMMENT
-	  outs ( "!\t.end\t" ) ;
-	  outs ( id ) ;
-	  outnl () ;
-#endif	
+		if (do_comment) {
+		  outs ( "!\t.end\t" ) ;
+		  outs ( id ) ;
+		  outnl () ;
+		}
 	}
 	if ( diag != DIAG_NONE ) {
 	  DIAG_PROC_END ( stg ) ;

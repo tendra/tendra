@@ -25,7 +25,6 @@
 #include <main/flags.h>
 #include <main/driver.h>
 
-#include "comment.h"		/* for do_comment */
 #include "macro.h"
 #include "addresstypes.h"
 #include "makecode.h"
@@ -63,7 +62,6 @@ init(void)
 	all_variables_visible = 0; /* Set vis flag for all declarations */
 	strict_fl_div         = 1; /* Don't mult by 1/constant */
 	round_after_flop      = 1; /* Round every time */
-	do_comment            = 0; /* (see comment.c) */
 	trap_on_nil_contents  = 0;
 	target_dbl_maxexp     = 308;
 	use_long_double       = 0;
@@ -82,7 +80,6 @@ static int
 option(char c, const char *optarg)
 {
 	switch (c) {
-	case 'c': do_comment      = 1; break;
 	case 'e': no_error_jump   = 1; break;
 	case 'n': do_dynamic_init = 1; break;
 
@@ -150,7 +147,7 @@ struct driver driver = {
 	NULL,
 	cleanup,
 
-	"cen",
+	"en",
 	option,
 	switch_cpu,
 
