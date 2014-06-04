@@ -607,7 +607,6 @@ bitf_to_int(exp e, shape sha, where dest, ash stack)
 	int instr = (extend ? m_bfexts : m_bfextu);
 
 	long off, sz, bstart;
-	bitpattern pmask;
 	long nbits = shape_size(sha);
 	long boff = bitf_posn(e);
 
@@ -618,8 +617,6 @@ bitf_to_int(exp e, shape sha, where dest, ash stack)
 		off -= 8;
 	}
 	bstart = boff - off;
-
-	pmask = ((hi_bits[nbits]) >> bstart) >> (32 - sz);
 
 	switch (name(t)) {
 	case ident_tag:
