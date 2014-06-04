@@ -265,7 +265,6 @@ cmp_dec(dec *x, dec *y)
 {
 	int c;
 	long lx, ly;
-	char *fx, *fy;
 	sourcemark *sx, *sy;
 	diag_global *dx = x->dec_u.dec_val.diag_info;
 	diag_global *dy = y->dec_u.dec_val.diag_info;
@@ -276,10 +275,8 @@ cmp_dec(dec *x, dec *y)
 		return 1;
 	}
 	sx = & (dx->data.id.whence);
-	fx = sx->file->file.ints.chars;
 	lx = sx->line_no.nat_val.small_nat;
 	sy = & (dy->data.id.whence);
-	fy = sy->file->file.ints.chars;
 	ly = sy->line_no.nat_val.small_nat;
 	c = strcmp((char *)sx, (char *)sy);
 	if (c < 0) {
