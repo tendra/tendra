@@ -472,8 +472,6 @@ typedef struct exp_t *exp;
 #define  size16      16L
 #define  size8        8L
 
-#define  Z            0L
-
 
 /* New operations for spec 3.1 (previously from extra_expmacs.h) */
 /* TODO: rewrite to use ptst() */
