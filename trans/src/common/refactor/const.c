@@ -26,6 +26,7 @@
  * Also used externally is intnl_to.
  */
 
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
@@ -55,8 +56,6 @@
 #include <newdiag/dg_aux.h>
 #endif
 
-#define false 0
-#define true  1
 #define MAXUSE 16
 #define VERYBIGUSAGE 100
 #define MEMINC 64

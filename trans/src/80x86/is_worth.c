@@ -9,19 +9,16 @@
 
 #include <stddef.h>
 
+#include <shared/bool.h>
 
 #include <construct/tags.h>
 #include <construct/exp.h>
 #include <construct/shape.h>
 #include <construct/is_worth.h>
 
-/* PROCEDURES */
-
-int is_worth
-(exp c)
+bool
+is_worth(exp c)
 {
-				/* decide if constant c is worth declaring
-				   separately */
   unsigned char cnam = name(c);
 
   if (name(sh(c)) == realhd && cnam == cont_tag &&

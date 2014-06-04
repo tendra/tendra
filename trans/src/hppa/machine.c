@@ -7,19 +7,15 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <shared/bool.h>
+
 #include <construct/shape.h>
 
 #include <main/flags.h>
 
-
 #include "regable.h"
 
-
-/*
-    DOES A PROCEDURE RETURN THE GIVEN SHAPE IN A REGISTER?
-*/
-
-int
+bool
 reg_result(shape sha)
 {
     if ( valregable ( sha ) ) return 1;

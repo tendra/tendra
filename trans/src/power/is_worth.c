@@ -8,21 +8,16 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <shared/bool.h>
 
 #include <construct/tags.h>
 #include <construct/exp.h>
 #include <construct/shape.h>
 
-/* construct/is_worth.h defines the interface each installer must implement */
 #include <construct/is_worth.h>
 
 #include "instruct.h"	/* IMM_SIZE() */
 #include "regable.h"
-
-
-
-#define true 1
-#define false 0
 
 
 /*
@@ -30,8 +25,6 @@
  * We have to guess at this stage for non globals.
  */
 #define INMEMIDENT(ident_exp)	(isvis(ident_exp) || isglob(ident_exp))
-
-
 
 
 /*
@@ -67,9 +60,9 @@ static bool is_worth_cont_aux(exp c)
  * We have to balance the value of this against likely register pressure
  * impact.
  */
-int is_worth(exp c) /* used only in mc_list */
-{				/* decide if constant c is worth declaring
-				 * separately */
+bool
+is_worth(exp c)
+{
   int cnam = name(c);
   shape s = sh(c);
 

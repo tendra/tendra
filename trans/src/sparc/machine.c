@@ -7,14 +7,15 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <shared/bool.h>
+
 #include <construct/shape.h>
 
 #include <main/flags.h>
 
-
 #include "regable.h"
 
-int 
+bool
 reg_result ( shape sha )
 {
     if ( valregable ( sha ) ) return 1;

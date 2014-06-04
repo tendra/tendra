@@ -14,6 +14,7 @@
 
 #include <stdio.h>
 
+#include <shared/bool.h>
 #include <shared/xalloc.h>
 
 #include "cross.h"
@@ -22,7 +23,6 @@
 #include "ibinasm.h"
 #include "out_ba.h"
 #include "reg_defs.h"
-#include "bool.h"
 #include "inst_fmt.h"
 
 extern  FILE * as_file;
@@ -99,11 +99,11 @@ setnovolatile(void)
 void
 setnoat(void)
 {
-  if (in_noat_block == TRUE) {
+  if (in_noat_block == true) {
     return;
   }
   else {
-    in_noat_block = TRUE;
+    in_noat_block = true;
   }
   if(as_file){
     fprintf (as_file, "\t.set\tnoat\n");
@@ -115,11 +115,11 @@ setnoat(void)
 void
 setat(void)
 {
-  if (in_noat_block == FALSE) {
+  if (in_noat_block == false) {
     return;
   }
   else {
-    in_noat_block = FALSE;
+    in_noat_block = false;
   }
   if(as_file){
     fprintf (as_file, "\t.set\tat\n");

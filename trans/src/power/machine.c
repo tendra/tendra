@@ -8,14 +8,15 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <shared/bool.h>
+
 #include <construct/installtypes.h>
 #include <construct/machine.h>
 
 #include "memtdf.h"
 #include "localexpmacs.h"
 
-/* Is the result of a procedure delivering this shape produced in registers? */
-int
+bool
 reg_result(shape sha)
 {
   return is_floating(name(sha) ||

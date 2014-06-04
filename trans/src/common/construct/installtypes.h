@@ -10,6 +10,8 @@
 #ifndef installtypes_key
 #define installtypes_key 1
 
+#include <shared/bool.h>
+
 #include <reader/exp.h>
 
 #include <reader/code.h>
@@ -98,8 +100,6 @@ struct bfvar_t {
 	int has_sign;	/* 1 if signed */
 };
 typedef struct bfvar_t bitfield_variety;
-
-typedef char bool;
 
 typedef exp shape;
 

@@ -7,8 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <shared/bool.h>
 #include <shared/check.h>
-
 
 #include <construct/tags.h>
 #include <construct/exp.h>
@@ -17,14 +17,9 @@
 
 #include "coder.h"
 
-#define true 1
-#define false 0
-
-int
+bool
 is_worth(exp c)
 {
-  /* decide if constant c is worth declaring
-     separately */
   unsigned char cnam = name (c);
   bool isflt = is_floating(name(sh(c)));
   

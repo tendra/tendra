@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/getopt.h>
 #include <shared/error.h>
@@ -34,7 +35,6 @@
 
 #include "dump_distr.h"
 #include "fail.h"
-#include "bool.h"
 #include "coder.h"
 #include "inst_fmt.h"
 
@@ -43,7 +43,7 @@
 #define SUCCESS 0
 #define FAILURE 1
 
-static bool produce_binasm = FALSE;
+static bool produce_binasm = false;
 
 void
 out_rename(char *oldid, char *newid)
@@ -87,21 +87,21 @@ option(char c, const char *optarg)
 {
 	switch (c) {
 	case 'u': use_umulh_for_div = 1; break;
-	case 's': produce_binasm = TRUE; break;
+	case 's': produce_binasm = true; break;
 	case 'd':
 		/* handle IEEE denormals */
-		treat_denorm_specially = TRUE;
+		treat_denorm_specially = true;
 
 		switch (atoi(optarg)) {
 		case 0:
 			/* replace denormal const with 0.0 (don't do this) */
 			alphawarn("Unsupported denormal switch");
-			fail_with_denormal_constant = FALSE;
+			fail_with_denormal_constant = false;
 			break;
 
 		case 1:
 			/* error if denormal const is encountered */
-			fail_with_denormal_constant = TRUE;
+			fail_with_denormal_constant = true;
 			break;
 
 		case 2:
@@ -110,8 +110,8 @@ option(char c, const char *optarg)
 			 * interleaving of floating point operations and using the
 			 * OS exception handler
 			 */
-			treat_denorm_specially = FALSE;
-			trap_all_fops = TRUE;
+			treat_denorm_specially = false;
+			trap_all_fops = true;
 			break;
 
 		default:

@@ -19,6 +19,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
@@ -34,7 +35,6 @@
 #include "cross.h"
 #include "regexps.h"
 #include "alpha_ins.h"
-#include "bool.h"
 #include "ibinasm.h"
 #include "out_ba.h"
 #include "fail.h"
@@ -50,7 +50,7 @@ bool trap_all_fops;
 
 int andpeep = 0;
 extern int extended_comments;
-bool in_noat_block=FALSE;
+bool in_noat_block=false;
 
 
 static char *reg_name[]=
@@ -79,7 +79,7 @@ static char *reg_name[]=
 instruction
 trap_ins(instruction ins, bool *traps)
 {
-  *traps = TRUE;
+  *traps = true;
   if (ins_equal(ins,i_adds))
     return i_addssu;
   if (ins_equal(ins,i_addt))	
@@ -96,7 +96,7 @@ trap_ins(instruction ins, bool *traps)
     return i_subssu;
   if (ins_equal(ins,i_subt))	
     return i_subtsu;
-  *traps = FALSE;
+  *traps = false;
   return ins;
 }
 
@@ -446,7 +446,7 @@ void
 float_op(instruction ins, int src1, int src2, int dest)
 {
   char * binasm_data;
-  bool special_trap_ins = FALSE;
+  bool special_trap_ins = false;
   instruction real_ins = trap_all_fops?trap_ins(ins,&special_trap_ins):ins;
   if(special_trap_ins) no_parameter_instructions(i_trapb);
   if(as_file){

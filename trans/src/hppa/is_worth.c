@@ -9,6 +9,7 @@
 
 #include <stddef.h>
 
+#include <shared/bool.h>
 
 #include <construct/tags.h>
 #include <construct/exp.h>
@@ -17,21 +18,7 @@
 
 #include "hppains.h"
 
-/*
-    BOOLEAN VALUES
-*/
-
-#define true 1
-#define false 0
-
-
-/*
-    IS THE EXPRESSION c WORTH EXTRACTING FROM A LOOP?
-
-    This is called from mc_list.
-*/
-
-int
+bool
 is_worth(exp c)
 {
     unsigned char cnam = name ( c ) ;

@@ -7,11 +7,12 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <shared/bool.h>
+
 #include <construct/installtypes.h>
 #include <construct/shape.h>
 #include <construct/machine.h>
 #include <construct/exp.h>
-
 
 #include <main/flags.h>
 
@@ -25,7 +26,7 @@
  * register.  This routine works out whether or not a procedure
  * delivering a result of shape sha will use the first method.
  */
-int
+bool
 reg_result(shape sha)
 {
 	char n = name(sha);

@@ -92,7 +92,7 @@ special_token(token t, bitstream pars, int sortcode, int *done)
   if (builtin & BUILTIN_FLOAT) {
     if(!strcmp(t->tok_name,"__builtin_isfloat")){
       /* builtin function taking a TYPE argument and returning 
-         TRUE if the argument is float,double or long double and FALSE
+         true if the argument is float,double or long double and false
          otherwise */
       place old_place;
       shape arg;

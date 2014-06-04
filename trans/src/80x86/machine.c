@@ -7,11 +7,12 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <shared/bool.h>
+
 #include <local/szs_als.h>
 #include <local/out.h>
 
 #include <main/flags.h>
-
 
 #include <construct/exp.h>
 #include <construct/shape.h>
@@ -22,7 +23,7 @@ int gcc_compatible = 0;
  * is the result of a procedure delivering
  * this shape produced in registers.
  */
-int
+bool
 reg_result(shape sha)
 {
 	unsigned char n = name(sha);

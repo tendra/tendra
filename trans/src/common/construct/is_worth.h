@@ -7,9 +7,12 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef is_worth_key
-#define is_worth_key 1
+#ifndef CONSTRUCT_IS_WORTH_H
+#define CONSTRUCT_IS_WORTH_H
 
-extern int is_worth(exp c);
+/*
+ * Is a constant worth extracting from a loop and declaring separately?
+ */
+bool is_worth(exp c);
 
 #endif

@@ -7,12 +7,11 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <shared/bool.h>
 
 #include <construct/shape.h>
 #include <construct/installtypes.h>
 
-/* is the result of a procedure delivering
-   this shape produced in registers. */
 bool
 reg_result(shape sha)
 {

@@ -20,6 +20,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 
 #include <local/szs_als.h>
@@ -51,7 +52,6 @@
 #include "frames.h"
 #include "regexps.h"
 #include "reg_defs.h"
-#include "bool.h"
 #include "oddtest.h"
 #include "coder.h"
 #include "scan.h"
@@ -701,7 +701,7 @@ bool chase
 bool vascan
 (exp *e)
 {
-  bool result = FALSE;
+  bool result = false;
   exp tr;
   int s2;
   for (tr=son(*e);(name(tr) ==ident_tag) && (isparam(tr)) && (!result);

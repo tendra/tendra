@@ -7,6 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <shared/bool.h>
 
 #include <construct/tags.h>
 
@@ -18,16 +19,15 @@
 #include "reg_defs.h"
 #include "fail.h"
 #include "cross.h"
-#include "bool.h"
 #include "localexpmacs.h"
 
 extern exp father(exp);
 
-bool Has_fp = FALSE;
-bool Has_tos = FALSE;
-bool No_S = FALSE;
-bool Has_vcallees = FALSE;
-bool Has_no_vcallers = TRUE;
+bool Has_fp = false;
+bool Has_tos = false;
+bool No_S = false;
+bool Has_vcallees = false;
+bool Has_no_vcallers = true;
 
 int local_reg = 14;
 int callee_size;
@@ -47,13 +47,13 @@ void setframe_flags
   Has_vcallees = (name(e) == general_proc_tag && proc_has_vcallees(e));
   Has_no_vcallers = (name(e) == proc_tag || !proc_has_vcallers(e));
 #ifdef Try_No_S
-  No_S = TRUE;
+  No_S = true;
 #endif
 #ifdef Try_Has_fp
   Has_fp = !leaf;
 #endif
 #ifdef Try_Has_tos
-  Has_tos = TRUE;
+  Has_tos = true;
 #endif
 }
 

@@ -7,6 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
@@ -30,9 +31,6 @@
 #include <refactor/refactor_id.h>
 
 #define subvar 0x100
-
-#define false 0
-#define true  1
 
 #define topsh f_top
 

@@ -15,6 +15,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
@@ -70,7 +71,6 @@
 #include "reg_defs.h"
 #include "cross.h"
 #include "fail.h"
-#include "bool.h"
 #include "regable.h"
 #include "diag_out.h"
 #include "outofline.h"
@@ -351,8 +351,8 @@ bool calculate_shift_for_division
   }
   *n = shift;
   *x = power;
-  return INT64_lt(make_INT64(0,power),val)?TRUE:FALSE;
-  /*return (power<val)?TRUE:FALSE;*/
+  return INT64_lt(make_INT64(0,power),val)?true:false;
+  /*return (power<val)?true:false;*/
 }
 
 /*
@@ -509,37 +509,37 @@ static bool convert_shapes
       case s64hd:
       case u64hd:
       switch (src_shape) {
-	case ucharhd: operate_fmt_immediate(i_zapnot,reg,1,dreg); return TRUE; /* clear all but the bottom byte */
-	case uwordhd: operate_fmt_immediate(i_zapnot,reg,3,dreg); return TRUE;
-	case ulonghd: operate_fmt_immediate(i_zapnot,reg,15,dreg); return TRUE;
-	default: return FALSE;
+	case ucharhd: operate_fmt_immediate(i_zapnot,reg,1,dreg); return true; /* clear all but the bottom byte */
+	case uwordhd: operate_fmt_immediate(i_zapnot,reg,3,dreg); return true;
+	case ulonghd: operate_fmt_immediate(i_zapnot,reg,15,dreg); return true;
+	default: return false;
       }
       case slonghd:
       switch (src_shape) {
-	case ucharhd: operate_fmt_immediate(i_zapnot,reg,1,dreg); return TRUE;
-	case uwordhd: operate_fmt_immediate(i_zapnot,reg,3,dreg); return TRUE;
-	case ulonghd: return FALSE; /* operate_fmt_immediate(i_addl,reg,0,dreg); return TRUE; */
+	case ucharhd: operate_fmt_immediate(i_zapnot,reg,1,dreg); return true;
+	case uwordhd: operate_fmt_immediate(i_zapnot,reg,3,dreg); return true;
+	case ulonghd: return false; /* operate_fmt_immediate(i_addl,reg,0,dreg); return true; */
 	/* sign extend */
 #if 0
 	case s64hd: operate_fmt_immediate(i_zapnot,reg,15,dreg);
-	          /*operate_fmt_immediate(i_addl,reg,0,reg);*/ return TRUE;
+	          /*operate_fmt_immediate(i_addl,reg,0,reg);*/ return true;
 #endif
-	default:return FALSE;
+	default:return false;
       }
       case ulonghd:
       switch (src_shape) {
-	case scharhd: operate_fmt_immediate(i_zapnot,reg,1,dreg); return TRUE;
-	case swordhd: operate_fmt_immediate(i_zapnot,reg,3,dreg); return TRUE;
-	case slonghd: return FALSE; /* operate_fmt_immediate(i_zapnot,reg,15,dreg); return TRUE; */
+	case scharhd: operate_fmt_immediate(i_zapnot,reg,1,dreg); return true;
+	case swordhd: operate_fmt_immediate(i_zapnot,reg,3,dreg); return true;
+	case slonghd: return false; /* operate_fmt_immediate(i_zapnot,reg,15,dreg); return true; */
 #if 0
-	case s64hd: operate_fmt_immediate(i_zapnot,reg,15,dreg); return TRUE;
+	case s64hd: operate_fmt_immediate(i_zapnot,reg,15,dreg); return true;
 #endif
-	default: return FALSE;
+	default: return false;
       }
-      default:return FALSE;
+      default:return false;
     }
   }
-  return FALSE;
+  return false;
 }
 
 #define OVERFLOW_VALUE 0x02e0000000000000
@@ -635,13 +635,13 @@ void testunsigned
 static bool fdouble_comparisons
 (instruction *ins, int i)
 {
-  bool rev = FALSE;
+  bool rev = false;
   switch (i) {
     case 1: *ins = i_cmptle;             break;
     case 2: *ins = i_cmptlt;             break;
-    case 3: *ins = i_cmptlt; rev = TRUE; break;
-    case 4: *ins = i_cmptle; rev = TRUE; break;
-    case 5: *ins = i_cmpteq; rev = TRUE; break;
+    case 3: *ins = i_cmptlt; rev = true; break;
+    case 4: *ins = i_cmptle; rev = true; break;
+    case 5: *ins = i_cmpteq; rev = true; break;
     case 6: *ins = i_cmpteq;             break;
 
     default:
@@ -662,15 +662,15 @@ static bool fdouble_comparisons
 static bool comparisons
 (instruction *ins, shape s, int i)
 {
-  bool rev=FALSE;
+  bool rev=false;
   if ((is_signed(s))) {
     /* treat pointer as signed (even though it isn't) */
     switch (i) {
       case 1: *ins = i_cmple;             break;
       case 2: *ins = i_cmplt;             break;
-      case 3: *ins = i_cmplt; rev = TRUE; break;
-      case 4: *ins = i_cmple; rev = TRUE; break;
-      case 5: *ins = i_cmpeq; rev = TRUE; break;
+      case 3: *ins = i_cmplt; rev = true; break;
+      case 4: *ins = i_cmple; rev = true; break;
+      case 5: *ins = i_cmpeq; rev = true; break;
       case 6: *ins = i_cmpeq;             break;
 
       default:
@@ -682,8 +682,8 @@ static bool comparisons
     switch (i) {
       case 1: *ins = i_cmpule;             break;
       case 2: *ins = i_cmpult;             break;
-      case 3: *ins = i_cmpult; rev = TRUE; break; /* actually >= */
-      case 4: *ins = i_cmpule; rev = TRUE; break; /* actually > */
+      case 3: *ins = i_cmpult; rev = true; break; /* actually >= */
+      case 4: *ins = i_cmpule; rev = true; break; /* actually > */
       case 5: *ins = i_cmpeq;  rev = 1;    break;
       case 6: *ins = i_cmpeq;              break;
 
@@ -735,7 +735,7 @@ fcondmove(int i)
 static bool compares
 (instruction *ins, shape s, int i)
 {
-  bool rev=FALSE;
+  bool rev=false;
   if (is_signed(s)) {
     /* signed comparison */
     switch (i) {
@@ -751,8 +751,8 @@ static bool compares
     switch (i) {
       case 1: *ins = i_cmpult;             break;
       case 2: *ins = i_cmpule;             break;
-      case 3: *ins = i_cmpult; rev = TRUE; break;
-      case 4: *ins = i_cmpule; rev = TRUE; break;
+      case 3: *ins = i_cmpult; rev = true; break;
+      case 4: *ins = i_cmpule; rev = true; break;
       case 5: *ins = i_cmpeq;              break;
       case 6: *ins = i_cmpeq;              break;
     }
@@ -2159,7 +2159,7 @@ tailrecurse:
       bool rev;
       bool is_compare = ((!is_signed(shl)) && ((n-5) <0) &&
 			(name(shl)!=ptrhd)) || ((is64(shl)));
-      is_compare = TRUE;
+      is_compare = true;
       if (is_floating(name(sh(l)))) {
 	instruction compare_ins;
 	space nsp;

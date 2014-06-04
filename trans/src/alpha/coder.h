@@ -10,6 +10,8 @@
 #ifndef CODER_H
 #define CODER_H
 
+#include <shared/bool.h>
+
 #include <reader/exp.h>
 
 #include <construct/installtypes.h>
@@ -36,7 +38,5 @@ typedef struct _postl {
 
 #define start_new_capsule(X)
 #define close_capsule()
-#define false 0
-#define true 1
 
 #endif

@@ -10,6 +10,8 @@
 #ifndef CONSTRUCT_MACHINE_H
 #define CONSTRUCT_MACHINE_H
 
+#include <shared/bool.h>
+
 #include <construct/installtypes.h>
 
 /*
@@ -21,7 +23,7 @@ extern char *name_prefix;
 /*
  * DOES A PROCEDURE RETURN THE GIVEN SHAPE IN A REGISTER?
  */
-int reg_result(shape sha);
+bool reg_result(shape sha);
 
 #endif
 

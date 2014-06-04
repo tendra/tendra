@@ -15,7 +15,7 @@
   in store, otherwise NOREG.
 */
 
-
+#include <shared/bool.h>
 #include <shared/check.h>
 
 #include <local/ash.h>
@@ -34,7 +34,6 @@
 #include "regexps.h"
 #include "guard.h"
 #include "getregs.h"
-#include "bool.h"
 #include "frames.h"
 #include "pseudo.h"
 #include "labels.h"
@@ -64,7 +63,7 @@ INT64 one_64 = {0,1};
 #endif
 
 /*
-  Returns TRUE if the data is aligned properly, false otherwise.
+  Returns true if the data is aligned properly, false otherwise.
 */
 static bool
 aligned(baseoff address, int al)
@@ -130,7 +129,7 @@ choose_block_size(where dest, int al)
   src	: 	the location of the source
   dest	:	the destination
   freeregs:	registers available for use 
-  sgned:	TRUE if data is signed, FALSE otherwise
+  sgned:	true if data is signed, false otherwise
 */
 int
 move(ans src, where dest, space freeregs, bool sgned)
