@@ -39,9 +39,6 @@
 
 #define VERSION_STR "2.4.11"
 
-#define SUCCESS 0
-#define FAILURE 1
-
 static bool produce_binasm = false;
 
 void
