@@ -102,7 +102,6 @@ void fl_binop
 {
     int op, op1, op2;
     bool commutes = 0;
-    int err = ON_FP_OVERFLOW;
     long sz = shape_size(sha);
 
     switch (t) {
@@ -126,7 +125,6 @@ void fl_binop
 	case fdiv_tag: {
 	    op1 = insf(sz, ml_fdiv);
 	    op2 = m_fdivx;
-	    err = ON_FP_CARRY;
 	    break;
 	}
 	default : {
