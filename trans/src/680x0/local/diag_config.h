@@ -14,6 +14,11 @@
 
 typedef diag_descriptor diag_global;
 typedef void *OUTPUT_REC;
-#define NEW_DIAG_GLOBAL(X)	X
+
+#define NEW_DIAG_GLOBAL(x)      (x)
+
+extern void OUTPUT_GLOBALS_TAB(void);
+extern void OUTPUT_DIAG_TAGS(void);
+extern void INSPECT_FILENAME(filename);
 
 #endif
