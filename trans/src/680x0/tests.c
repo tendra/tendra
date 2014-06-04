@@ -12,6 +12,7 @@
 #include <construct/shape.h>
 #include <construct/tags.h>
 #include <construct/is_worth.h>
+#include <construct/machine.h>
 
 #include <main/flags.h>
 
