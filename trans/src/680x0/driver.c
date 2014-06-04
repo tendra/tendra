@@ -63,7 +63,6 @@ int normal_version = 1;
 
 int do_pic = 0;
 static int do_sep_units = 0;
-static int report_trans_version = 0;
 
 
 /*
