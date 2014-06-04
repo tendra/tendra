@@ -10,13 +10,12 @@
 #include "cross_config.h"
 
 #include <local/codermacs.h>
-#include <reader/expmacs.h>
 #include <local/out.h>
 
 #include <reader/basicread.h>
 
 #include <construct/installtypes.h>
-#include <construct/shapemacs.h>
+#include <construct/shape.h>
 #include <construct/machine.h>
 #include <construct/tags.h>
 

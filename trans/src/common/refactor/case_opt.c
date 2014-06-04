@@ -18,14 +18,13 @@
 
 #include <local/szs_als.h>
 
-#include <reader/exptypes.h>
-#include <reader/expmacs.h>
+#include <reader/exp.h>
 #include <reader/externs.h>
 
 #include <construct/installglob.h>
 #include <construct/exp.h>
 #include <construct/tags.h>
-#include <construct/shapemacs.h>
+#include <construct/shape.h>
 #include <construct/me_fns.h>
 #include <construct/install_fns.h>
 

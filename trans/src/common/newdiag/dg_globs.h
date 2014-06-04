@@ -17,7 +17,7 @@
 #include "dg_first.h"
 #include "dg_types.h"		/* NEW DIAGS */
 
-#include <reader/exptypes.h>
+#include <reader/exp.h>
 
 extern dg_filename all_files;
 extern dg_compilation all_comp_units;

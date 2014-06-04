@@ -16,7 +16,6 @@
 
 ****************************************************************/
 
-#include <reader/expmacs.h>
 
 #include <reader/basicread.h>
 

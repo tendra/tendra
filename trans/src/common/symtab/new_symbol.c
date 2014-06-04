@@ -21,7 +21,6 @@
 
 #include <construct/installtypes.h>
 
-#include <reader/expmacs.h>
 
 #include <main/flags.h>
 

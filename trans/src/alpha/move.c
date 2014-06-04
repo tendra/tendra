@@ -15,7 +15,6 @@
   in store, otherwise NOREG.
 */
 
-#include <reader/expmacs.h>
 
 #include <shared/check.h>
 

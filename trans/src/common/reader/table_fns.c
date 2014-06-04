@@ -13,12 +13,11 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
-#include <reader/exptypes.h>
-#include <reader/expmacs.h>
+#include <reader/exp.h>
 
 #include <reader/readglob.h>
 #include <reader/basicread.h>
-#include <reader/sortmacs.h>
+#include <reader/sort.h>
 #include <reader/main_reads.h>
 #include <reader/externs.h>
 #include <reader/special_tok.h>

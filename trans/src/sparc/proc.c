@@ -22,8 +22,7 @@
 #include <local/out.h>
 #include <local/diag_config.h>
 
-#include <reader/expmacs.h>
-#include <reader/exptypes.h>
+#include <reader/exp.h>
 
 #ifdef NEWDWARF
 #include <local/dw2_config.h>
@@ -37,7 +36,7 @@
 #include <construct/tags.h>
 #include <construct/installtypes.h>
 #include <construct/exp.h>
-#include <construct/shapemacs.h>
+#include <construct/shape.h>
 
 #include <main/flags.h>
 

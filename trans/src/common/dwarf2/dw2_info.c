@@ -15,7 +15,7 @@
 #include <reader/basicread.h>
 #include <reader/externs.h>
 
-#include <construct/shapemacs.h>
+#include <construct/shape.h>
 #include <construct/flpt.h>
 #include <construct/flpttypes.h>
 #include <construct/f64.h>
@@ -40,7 +40,6 @@
 #include <dwarf2/dw2_iface.h>
 #include <dwarf2/dw2_locdata.h>
 
-#include <reader/expmacs.h>
 
 
 long dw2_scope_start = 0;

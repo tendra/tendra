@@ -23,14 +23,13 @@
 #include <local/out.h>
 #include <local/fbase.h>
 
-#include <reader/expmacs.h>
-#include <reader/exptypes.h>
+#include <reader/exp.h>
 
 #include <construct/installtypes.h>
 #include <construct/ash.h>
 #include <construct/tags.h>
 #include <construct/exp.h>
-#include <construct/shapemacs.h>
+#include <construct/shape.h>
 #include <construct/flpttypes.h>
 #include <construct/flpt.h>
 #include <construct/f64.h>

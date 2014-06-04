@@ -7,8 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef constkey
-#define constkey 1
+#ifndef CONSTRUCT_CONST_H
+#define CONSTRUCT_CONST_H
 
 /*
  * The type maxconst returns information about the expression under
@@ -29,4 +29,28 @@ typedef struct {
 	exp cont;
 } maxconst;
 
+
+/*
+ * This file contains macros used in repeat_list
+ */
+
+/* "no_alias" flag - set in consts.c and used by foralls.c */
+#define set_noalias(x)	props(x) = (prop)(props(x) | 0x01)
+#define clr_noalias(x)	props(x) &= 0xfe
+#define is_noalias(x)	(props(x) & 0x01)
+
+/*
+ * "dist" flag
+ *
+ * When x is an element of the repeat_list, if is_dist(x), then
+ * no(x) is maximum distance from a leaf repeat. Otherwise it is
+ * the count of repeats in the next level down (as set in dexp.c)
+ */
+#define set_dist(x)	(props(x) = (prop)(props(x) | 0x02))
+#define is_dist(x)	(props(x) & 0x02)
+
+#define max_loop_depth 6
+
+
 #endif
+

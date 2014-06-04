@@ -15,14 +15,13 @@
 
 #include <local/ash.h>
 
-#include <reader/exptypes.h>
-#include <reader/expmacs.h>
+#include <reader/exp.h>
 
 #include <reader/basicread.h>
 
 #include <construct/installtypes.h>
 #include <construct/ash.h>
-#include <construct/shapemacs.h>
+#include <construct/shape.h>
 #include <construct/tags.h>
 
 #include "addrtypes.h"

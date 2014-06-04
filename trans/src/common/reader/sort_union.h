@@ -10,7 +10,7 @@
 #ifndef SORT_UNION_H
 #define SORT_UNION_H
 
-#include <reader/codetypes.h>
+#include <reader/code.h>
 #include <construct/installtypes.h>
 
 #ifdef NEWDIAGS

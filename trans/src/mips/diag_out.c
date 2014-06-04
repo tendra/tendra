@@ -22,15 +22,14 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
-#include <reader/exptypes.h>
-#include <reader/expmacs.h>
+#include <reader/exp.h>
 
 #include <symtab/symconst.h>
 
-#include <reader/codetypes.h>
+#include <reader/code.h>
 #include <reader/basicread.h>
 
-#include <construct/shapemacs.h>
+#include <construct/shape.h>
 #include <construct/exp.h>
 #include <construct/tags.h>
 

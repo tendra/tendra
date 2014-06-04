@@ -9,7 +9,6 @@
 
 #include <stddef.h>
 
-#include <reader/expmacs.h>
 
 #include <construct/exp.h>
 #include <construct/tags.h>

@@ -11,7 +11,7 @@
 #ifndef LOCATEDECS_H
 #define LOCATEDECS_H
 
-#include <reader/exptypes.h>
+#include <reader/exp.h>
 
 #include "procrectypes.h"
 

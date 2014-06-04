@@ -10,7 +10,7 @@
 #ifndef REGALLOC_INCLUDED
 #define REGALLOC_INCLUDED
 
-#include <reader/exptypes.h>
+#include <reader/exp.h>
 
 #include "proctypes.h"
 

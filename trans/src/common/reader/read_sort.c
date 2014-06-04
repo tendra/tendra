@@ -12,10 +12,10 @@
 
 #include <shared/check.h>
 
-#include <reader/codetypes.h>
+#include <reader/code.h>
 #include <reader/readglob.h>
 #include <reader/basicread.h>
-#include <reader/sortmacs.h>
+#include <reader/sort.h>
 #include <reader/main_reads.h>
 #include <reader/externs.h>
 #include <reader/messages_r.h>

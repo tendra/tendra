@@ -12,7 +12,7 @@
 
 #include <local/ash.h>
 
-#include <reader/exptypes.h>
+#include <reader/exp.h>
 
 extern void coder(where, ash, exp);
 

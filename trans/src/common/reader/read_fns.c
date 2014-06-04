@@ -21,20 +21,18 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
-#include <reader/exptypes.h>
-#include <reader/expmacs.h>
+#include <reader/exp.h>
 
-#include <reader/codetypes.h>
+#include <reader/code.h>
 #include <reader/basicread.h>
-#include <reader/toktypes.h>
+#include <reader/token.h>
 #include <reader/main_reads.h>
 #include <reader/readglob.h>
 #include <reader/table_fns.h>
 #include <reader/read_fns.h>
-#include <reader/sortmacs.h>
+#include <reader/sort.h>
 #include <reader/externs.h>
 #include <reader/messages_r.h>
-#include <reader/natmacs.h>
 
 #include <construct/exp.h>
 #include <construct/tags.h>
@@ -42,7 +40,7 @@
 #include <construct/installglob.h>
 #include <construct/flpttypes.h>
 #include <construct/flpt.h>
-#include <construct/shapemacs.h>
+#include <construct/shape.h>
 #include <construct/machine.h>
 #include <construct/aldefs.h>
 

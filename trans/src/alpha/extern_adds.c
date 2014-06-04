@@ -9,13 +9,12 @@
 
 #include <stddef.h>
 
-#include <reader/expmacs.h>
 
 #include <reader/externs.h>
 
 #include <construct/tags.h>
 #include <construct/exp.h>
-#include <construct/shapemacs.h>
+#include <construct/shape.h>
 
 #include "extern_adds.h"
 #include "localexpmacs.h"

@@ -12,7 +12,7 @@
 #include <reader/basicread.h>
 #include <reader/externs.h>
 
-#include <construct/shapemacs.h>
+#include <construct/shape.h>
 #include <construct/install_fns.h>
 
 #ifdef NEWDIAGS

@@ -12,9 +12,9 @@
 
 #include <stdio.h>
 
-#include <reader/exptypes.h>
+#include <reader/exp.h>
 
-#include <reader/codetypes.h>
+#include <reader/code.h>
 
 #include <construct/installtypes.h>
 

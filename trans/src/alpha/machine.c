@@ -7,9 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include <reader/expmacs.h>
 
-#include <construct/shapemacs.h>
+#include <construct/shape.h>
 #include <construct/installtypes.h>
 
 int

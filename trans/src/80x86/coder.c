@@ -32,17 +32,15 @@
 #include <local/dw2_config.h>
 #endif
 
-#include <reader/exptypes.h>
-#include <reader/expmacs.h>
-#include <reader/codetypes.h>
+#include <reader/exp.h>
+#include <reader/code.h>
 #include <reader/basicread.h>
 #include <reader/externs.h>
-#include <reader/natmacs.h>
 #include <reader/readglob.h>
 
 #include <construct/tags.h>
 #include <construct/exp.h>
-#include <construct/shapemacs.h>
+#include <construct/shape.h>
 #include <construct/install_fns.h>
 #include <construct/installglob.h>
 #include <construct/machine.h>

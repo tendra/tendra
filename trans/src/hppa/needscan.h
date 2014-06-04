@@ -10,7 +10,7 @@
 #ifndef NEEDSCAN_INCLUDED
 #define NEEDSCAN_INCLUDED
 
-#include <reader/exptypes.h>
+#include <reader/exp.h>
 
 #include "proctypes.h"
 

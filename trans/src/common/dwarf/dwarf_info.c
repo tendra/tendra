@@ -11,13 +11,12 @@
 
 #include <local/diag_config.h>
 #include <local/out.h>
-#include <reader/expmacs.h>
-#include <reader/exptypes.h>
+#include <reader/exp.h>
 
 #include <reader/readglob.h>
 #include <reader/table_fns.h>
 #include <reader/basicread.h>
-#include <reader/sortmacs.h>
+#include <reader/sort.h>
 #include <reader/main_reads.h>
 
 #include <construct/tags.h>

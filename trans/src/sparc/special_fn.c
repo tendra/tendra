@@ -10,9 +10,8 @@
 #include <assert.h>
 #include <string.h>
 
-#include <reader/exptypes.h>
-#include <reader/expmacs.h>
-#include <reader/codetypes.h>
+#include <reader/exp.h>
+#include <reader/code.h>
 
 #include <construct/installtypes.h>
 #include <construct/exp.h>

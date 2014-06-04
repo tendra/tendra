@@ -9,11 +9,10 @@
 
 #include <stddef.h>
 
-#include <reader/expmacs.h>
 
 #include <construct/tags.h>
 #include <construct/exp.h>
-#include <construct/shapemacs.h>
+#include <construct/shape.h>
 #include <construct/is_worth.h>
 
 #include "hppains.h"

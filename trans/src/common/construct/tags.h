@@ -205,9 +205,9 @@
  * are also explained below, as are the uses of some functions defined
  * in me_fns.c to help in creating them.
  *
- * The props field is zero except for those properties defined in the
- * expmacs.h file. Operations with ntests, rounding modes or error treatments
- * have these represented in the props field. as in expmacs.h.
+ * The props field is zero except for those properties defined in <reader/exp.h>.
+ * Operations with ntests, rounding modes or error treatments
+ * have these represented in the props field. as in <reader/exp.h>.
  *
  * An exp should normally have hold_refactor applied to it after being created.
  *
@@ -259,7 +259,7 @@
  *     	no(e) is 0.
  *     	pt(e) is NULL.
  *
- *     	Properties in the props field are defined in expmacs.h
+ *     	Properties in the props field are defined in <reader/exp.h>
  *
  *     asm_tag: Represents the ~asm group of token applications
  *     	son(e) is arg.
@@ -267,7 +267,7 @@
  *     	no(e) is 0.
  *     	pt(e) is NULL.
  *
- *     	Properties in the props field are defined in expmacs.h
+ *     	Properties in the props field are defined in <reader/exp.h>
  *
  *     ass_tag: Represents assign construction.
  *     	son(e) is arg1.
@@ -361,7 +361,7 @@
  *     	no(e) is 0.
  *     	pt(e) is NULL.
  *
- *     	Properties in the props field are defined in expmacs.h
+ *     	Properties in the props field are defined in <reader/exp.h>
  *
  *     current_env_tag: represents current env
  *     	son(e) is NULL
@@ -505,7 +505,7 @@
  *             The no(e) is a count of the number of uses.
  *             The pt(e) is the start of a chain of uses through name_tag's.
  *
- *     	Properties in the props field are defined in expmacs.h
+ *     	Properties in the props field are defined in <reader/exp.h>
  *
  *     	Create an ident_tag using me_startid, add name_tag uses of it
  *     	using me_obtain, complete the definition using me_complete_id.
@@ -536,7 +536,7 @@
  *     	shape is shape of bro(son(e)).
  *     	pt(e) is NULL.
  *
- *     	Properties in the props field are defined in expmacs.h
+ *     	Properties in the props field are defined in <reader/exp.h>
  *
  *     	The holder (i.e. the son of the labst) can have any name_tag;
  *     	its no field is the number of uses of the labst and
@@ -616,7 +616,7 @@
  *     	pt(e) is NULL.
  *     	no(e) is 0.
  *
- *     	Properties in the props field are defined in expmacs.h
+ *     	Properties in the props field are defined in <reader/exp.h>
  *
  *     mult_tag: represents integer multiplication.
  *     	son(e) is a brother list of argument, all of the same shape.
@@ -637,7 +637,7 @@
  *     		which started in th pt field of the ident_tag, or
  *     		NULL if the end of the chain.
  *
- *     	Properties in the props field are defined in expmacs.h
+ *     	Properties in the props field are defined in <reader/exp.h>
  *
  *     	Remember to increment ident_tag count or use me_obtain from
  *     	me_fns.c to create this.
@@ -763,7 +763,7 @@
  *     	no(e) is 0.
  *     	pt(e) is shape of return.
  *
- *     	Properties in the props field are defined in expmacs.h
+ *     	Properties in the props field are defined in <reader/exp.h>
  *
  *
  *     prof_tag: represents profile exp.
@@ -805,7 +805,7 @@
  *     	pt(e) is loop record of this repeat.
  *     	no(e) is 0.
  *
- *     	Properties in the props field are defined in expmacs.h
+ *     	Properties in the props field are defined in <reader/exp.h>
  *
  *     res_tag: Represents the return construction.
  *     	son(e) is arg1
@@ -866,7 +866,7 @@
  *     	pt(e) is loop record of this solve.
  *     	no(e) is 0;
  *
- *     	Properties in the props field are defined in expmacs.h
+ *     	Properties in the props field are defined in <reader/exp.h>
  *
  *     string_tag: represents constant array of integers.
  *     	son(e) is NULL.
@@ -874,7 +874,7 @@
  *     	nostr(e) is pointer to array of integers.
  *     	pt(e) is NULL.
  *
- *     	Properties in the props field are defined in expmacs.h
+ *     	Properties in the props field are defined in <reader/exp.h>
  *
  *     subptr_tag: represents subtract offset from pointer.
  *     	No longer used.
@@ -926,7 +926,7 @@
  *     		a representation of the integer in flptnos.
  *     	  if shape is offset, no(e) is the offset measured in bits.
  *
- *     	Properties in the props field are defined in expmacs.h
+ *     	Properties in the props field are defined in <reader/exp.h>
  *
  *     general_proc_tag:
  *     	son = (ident for caller-formal as in proc_tag)

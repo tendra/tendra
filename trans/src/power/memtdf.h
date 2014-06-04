@@ -11,15 +11,14 @@
 #ifndef	MEMTDF_H
 #define MEMTDF_H	1
 
-#include <reader/expmacs.h>
-#include <reader/exptypes.h>
+#include <reader/exp.h>
 
-#include <reader/codetypes.h>
+#include <reader/code.h>
 
 #include <construct/installtypes.h>
 #include <construct/install_fns.h>
 #include <construct/exp.h>
-#include <construct/shapemacs.h>
+#include <construct/shape.h>
 #include <construct/tags.h>
 
 #include "bitsmacs.h"

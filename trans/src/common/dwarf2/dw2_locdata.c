@@ -11,8 +11,7 @@
 #include <shared/xalloc.h>
 
 #include <local/dw2_config.h>
-#include <reader/exptypes.h>
-#include <reader/expmacs.h>
+#include <reader/exp.h>
 
 #include <reader/basicread.h>
 #include <reader/externs.h>

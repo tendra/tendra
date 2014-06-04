@@ -12,12 +12,11 @@
 
 #include <shared/check.h>
 
-#include <reader/expmacs.h>
 #include <reader/basicread.h>
 
 #include <construct/tags.h>
 #include <construct/exp.h>
-#include <construct/shapemacs.h>
+#include <construct/shape.h>
 
 #include <main/flags.h>
 

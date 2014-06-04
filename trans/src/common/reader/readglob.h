@@ -11,7 +11,7 @@
 #define READGLOB_H
 
 #include <construct/installtypes.h>
-#include <reader/toktypes.h>
+#include <reader/token.h>
 
 #ifdef NEWDIAGS
 #include <newdiag/dg_first.h>

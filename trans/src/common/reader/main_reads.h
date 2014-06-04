@@ -14,7 +14,7 @@
 #define MAIN_READS_INCLUDED
 
 #include <construct/installtypes.h>
-#include <reader/toktypes.h>
+#include <reader/token.h>
 #include <linkinfo/li_types.h>
 
 

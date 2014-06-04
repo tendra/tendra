@@ -8,11 +8,10 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include <reader/expmacs.h>
 
 #include <construct/tags.h>
 #include <construct/exp.h>
-#include <construct/shapemacs.h>
+#include <construct/shape.h>
 
 /* construct/is_worth.h defines the interface each installer must implement */
 #include <construct/is_worth.h>

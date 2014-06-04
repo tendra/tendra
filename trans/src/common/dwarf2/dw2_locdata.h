@@ -10,7 +10,7 @@
 #ifndef dw2_loc_key
 #define dw2_loc_key
 
-#include <reader/exptypes.h>
+#include <reader/exp.h>
 
 typedef struct obl {
 	dg_name		obj;

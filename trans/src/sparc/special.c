@@ -10,15 +10,14 @@
 #include <assert.h>
 #include <string.h>
 
-#include <reader/exptypes.h>
-#include <reader/expmacs.h>
+#include <reader/exp.h>
 #include <local/out.h>
 
-#include <reader/codetypes.h>
+#include <reader/code.h>
 
 #include <construct/installtypes.h>
 #include <construct/exp.h>
-#include <construct/shapemacs.h>
+#include <construct/shape.h>
 #include <construct/tags.h>
 #include <construct/machine.h>
 

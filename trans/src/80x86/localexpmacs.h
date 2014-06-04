@@ -10,7 +10,7 @@
 #ifndef LOCALEXPMACS_H
 #define LOCALEXPMACS_H
 
-#include <reader/exptypes.h>
+#include <reader/exp.h>
 
 #include <construct/installtypes.h>
 

@@ -13,9 +13,8 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
-#include <reader/codetypes.h>
+#include <reader/code.h>
 #include <reader/messages_r.h>
-#include <reader/natmacs.h>
 #include <reader/readglob.h>
 #include <reader/basicread.h>
 

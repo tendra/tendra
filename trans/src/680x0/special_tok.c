@@ -11,12 +11,10 @@
 
 #include <shared/check.h>
 
-#include <reader/expmacs.h>
 
-#include <reader/codetypes.h>
+#include <reader/code.h>
 #include <reader/basicread.h>
 #include <reader/c_arith_type.h>
-#include <reader/natmacs.h>
 #include <reader/special_tok.h>
 #include <reader/externs.h>
 #include <reader/messages_r.h>

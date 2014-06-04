@@ -7,7 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include <reader/exptypes.h>
+#include <reader/exp.h>
 
 extern int refactor_id(exp e, exp scope);
 extern int used_in(exp vardec, exp piece);

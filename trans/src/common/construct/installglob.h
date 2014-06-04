@@ -10,9 +10,9 @@
 #ifndef installglob_key
 #define installglob_key 1
 
-#include <reader/exptypes.h>
+#include <reader/exp.h>
 
-#include <reader/toktypes.h>
+#include <reader/token.h>
 
 extern exp crt_repeat;
 extern exp repeat_list;

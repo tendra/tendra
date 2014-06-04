@@ -13,12 +13,11 @@ initial call : comp_eq_exp(a,b,NULL,NULL)  */
 
 #include <stddef.h>
 
-#include <reader/exptypes.h>
-#include <reader/expmacs.h>
-#include <reader/exptypes.h>
+#include <reader/exp.h>
+#include <reader/exp.h>
 
 #include <construct/tags.h>
-#include <construct/shapemacs.h>
+#include <construct/shape.h>
 #include <construct/exp.h>
 
 #include "comp_eq_exp.h"

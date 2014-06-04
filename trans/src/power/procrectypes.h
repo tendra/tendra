@@ -11,7 +11,7 @@
 #ifndef procreckey
 #define procreckey 1
 
-#include <reader/exptypes.h>
+#include <reader/exp.h>
 
 #include <construct/installtypes.h>
 

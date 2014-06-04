@@ -12,13 +12,13 @@
 
 #ifdef NEWDIAGS
 #include <newdiag/dg_first.h>
-#include <reader/exptypes.h>
+#include <reader/exp.h>
 #include <construct/installtypes.h>
 #include <newdiag/dg_types.h>		/* NEW DIAGS */
 #else
 #include <diag/dg_first.h>
 #include <diag/diaginfo.h>
-#include <reader/exptypes.h>
+#include <reader/exp.h>
 #include <construct/installtypes.h>
 #include <diag/dg_types.h>		/* NEW DIAGS */
 #endif

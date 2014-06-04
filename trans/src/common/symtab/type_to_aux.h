@@ -10,9 +10,9 @@
 #ifndef SYMTAB_TYPETOAUX_H
 #define SYMTAB_TYPETOAUX_H
 
-#include <reader/exptypes.h>
+#include <reader/exp.h>
 
-#include <reader/codetypes.h>
+#include <reader/code.h>
 
 #include <diag/dg_first.h>
 #include <diag/diaginfo.h>

@@ -24,8 +24,7 @@
 #include <local/dw2_config.h>
 #endif
 
-#include <reader/exptypes.h>
-#include <reader/expmacs.h>
+#include <reader/exp.h>
 #include <reader/table_fns.h>
 #include <reader/basicread.h>
 #include <reader/readglob.h>
@@ -33,7 +32,7 @@
 
 #include <construct/exp.h>
 #include <construct/tags.h>
-#include <construct/shapemacs.h>
+#include <construct/shape.h>
 #include <construct/flpt.h>
 #include <construct/flpttypes.h>
 #include <construct/installglob.h>

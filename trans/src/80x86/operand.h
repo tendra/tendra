@@ -10,7 +10,7 @@
 #ifndef OPERAND_H
 #define OPERAND_H
 
-#include <reader/exptypes.h>
+#include <reader/exp.h>
 
 void operand(int sz, where wh, int b, int addr);
 

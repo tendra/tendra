@@ -10,7 +10,7 @@
 #ifndef dw2_config_key
 #define dw2_config_key 1
 
-#include <reader/exptypes.h>
+#include <reader/exp.h>
 #include <local/out.h>
 
 #include <construct/installtypes.h>

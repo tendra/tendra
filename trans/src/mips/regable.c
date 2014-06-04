@@ -9,11 +9,10 @@
 
 #include <local/ash.h>
 
-#include <reader/expmacs.h>
 
 #include <construct/installtypes.h>
 #include <construct/ash.h>
-#include <construct/shapemacs.h>
+#include <construct/shape.h>
 #include <construct/tags.h>
 
 #include "regable.h"
@@ -37,9 +36,9 @@ valregable(shape s)
 
 /*
  * determines whether the exp e can fit in a single fixed point register.
- * Uses macros isvis, isglob, iscaonly from expmacs.h which examine the props
- * field. The iscaonly bit is set by proc independent if the tag is only used
- * by the contents operator or as the left hand side of an assignment.
+ * Uses macros isvis, isglob, iscaonly from <reader/exp.h> which examine the
+ * props field. The iscaonly bit is set by proc independent if the tag is only
+ * used by the contents operator or as the left hand side of an assignment.
  *
  * The procedure also uses the macro is_floating from shapemacs.h which checks
  * the shape number is in the range for floating point shapes.

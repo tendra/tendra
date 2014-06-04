@@ -13,7 +13,6 @@
 #include <shared/xalloc.h>
 
 #include <local/dw2_config.h>
-#include <reader/expmacs.h>
 
 #include <reader/basicread.h>
 

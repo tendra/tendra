@@ -13,7 +13,7 @@
 #include <stdio.h>
 
 #include <construct/installtypes.h>
-#include <reader/toktypes.h>
+#include <reader/token.h>
 
 extern int crt_lno;
 extern char *crt_flnm;

@@ -7,7 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include <reader/expmacs.h>
 
 #include <construct/tags.h>
 #include <construct/exp.h>

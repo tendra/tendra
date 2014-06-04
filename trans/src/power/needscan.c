@@ -23,16 +23,15 @@
 #include <local/cpu.h>
 #include <local/ash.h>
 
-#include <reader/exptypes.h>
-#include <reader/expmacs.h>
-#include <reader/codetypes.h>
+#include <reader/exp.h>
+#include <reader/code.h>
 #include <reader/externs.h>
 
 #include <construct/installtypes.h>
 #include <construct/ash.h>
 #include <construct/exp.h>
 #include <construct/tags.h>
-#include <construct/shapemacs.h>
+#include <construct/shape.h>
 #include <construct/flpt.h>
 #include <construct/install_fns.h>
 #include <construct/machine.h>

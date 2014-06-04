@@ -10,7 +10,7 @@
 #ifndef WEIGHTS_H
 #define WEIGHTS_H
 
-#include <reader/exptypes.h>
+#include <reader/exp.h>
 
 void init_weights(void);
 void comp_weights(exp e);

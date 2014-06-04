@@ -13,7 +13,7 @@
 #ifdef NEWDIAGS
 
 #include <newdiag/dg_first.h>
-#include <reader/exptypes.h>
+#include <reader/exp.h>
 #include <construct/installtypes.h>
 #include <newdiag/dg_types.h>		/* NEW DIAGS */
 
@@ -21,13 +21,13 @@
 
 #include <diag/dg_first.h>
 #include <diag/diaginfo.h>
-#include <reader/exptypes.h>
+#include <reader/exp.h>
 #include <construct/installtypes.h>
 #include <diag/dg_types.h>		/* NEW DIAGS */
 
 #endif
 
-#include <reader/exptypes.h>
+#include <reader/exp.h>
 #include <construct/installtypes.h>
 #include <local/out.h>
 #include <dwarf2/dw2_iface.h>

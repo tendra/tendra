@@ -10,7 +10,7 @@
 #ifndef PROCDECS_INCLUDED
 #define PROCDECS_INCLUDED
 
-#include <reader/exptypes.h>
+#include <reader/exp.h>
 
 #include <construct/installtypes.h>
 

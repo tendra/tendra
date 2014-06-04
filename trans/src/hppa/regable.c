@@ -11,12 +11,11 @@
 
 #include <construct/installtypes.h>
 #include <construct/ash.h>
-#include <construct/shapemacs.h>
+#include <construct/shape.h>
 #include <construct/tags.h>
 
 #include <main/flags.h>
 
-#include <reader/expmacs.h>
 
 #include "regable.h"
 

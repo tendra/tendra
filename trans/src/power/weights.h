@@ -11,7 +11,7 @@
 #ifndef WEIGHTSDECS_H
 #define WEIGHTSDECS_H
 
-#include <reader/exptypes.h>
+#include <reader/exp.h>
 
 #include "procrecs.h"
 

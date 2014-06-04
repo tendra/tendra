@@ -35,7 +35,6 @@
 
 #include <main/flags.h>
 
-#include <reader/expmacs.h>
 
 #include "proctypes.h"
 #include "procrec.h"

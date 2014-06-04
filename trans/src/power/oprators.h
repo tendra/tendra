@@ -11,7 +11,7 @@
 #ifndef OPRATORSDECS_H
 #define OPRATORSDECS_H
 
-#include <reader/exptypes.h>
+#include <reader/exp.h>
 
 #include "addresstypes.h"
 

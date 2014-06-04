@@ -12,10 +12,9 @@
 
 #include <main/flags.h>
 
-#include <reader/expmacs.h>
 
 #include <construct/exp.h>
-#include <construct/shapemacs.h>
+#include <construct/shape.h>
 
 int gcc_compatible = 0;
 

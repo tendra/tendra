@@ -10,7 +10,7 @@
 #ifndef label_ops_key
 #define label_ops_key 1
 
-#include <reader/exptypes.h>
+#include <reader/exp.h>
 
 extern int label_is_next(exp lab, exp e);
 extern exp short_next_jump(exp e);

@@ -9,13 +9,12 @@
 
 #include <string.h>
 
-#include <reader/expmacs.h>
 #include <reader/externs.h>
 #include <reader/table_fns.h>
 #include <reader/basicread.h>
 
 #include <construct/tags.h>
-#include <construct/shapemacs.h>
+#include <construct/shape.h>
 #include <construct/exp.h>
 #include <construct/installglob.h>
 

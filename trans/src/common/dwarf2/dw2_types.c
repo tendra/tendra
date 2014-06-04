@@ -11,13 +11,12 @@
 #include <shared/xalloc.h>
 
 #include <local/dw2_config.h>
-#include <reader/expmacs.h>
 #include <local/szs_als.h>
 
 #include <reader/externs.h>
 #include <reader/basicread.h>
 
-#include <construct/shapemacs.h>
+#include <construct/shape.h>
 #include <construct/exp.h>
 #include <construct/tags.h>
 

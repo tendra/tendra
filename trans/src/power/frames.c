@@ -11,7 +11,7 @@
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
-#include <reader/exptypes.h>
+#include <reader/exp.h>
 
 #include <reader/externs.h>
 #include <reader/basicread.h>

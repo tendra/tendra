@@ -13,7 +13,7 @@
 #include <reader/readglob.h>
 #include <reader/table_fns.h>
 #include <reader/basicread.h>
-#include <reader/sortmacs.h>
+#include <reader/sort.h>
 #include <reader/main_reads.h>
 
 #include <refactor/refactor.h>

@@ -11,7 +11,7 @@
     routines for grabbing registers
 */
 
-#include <reader/exptypes.h>
+#include <reader/exp.h>
 
 #include "cross.h"
 

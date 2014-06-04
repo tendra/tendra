@@ -17,14 +17,13 @@
 
 #include <local/ash.h>
 
-#include <reader/expmacs.h>
 #include <reader/basicread.h>
 
 #include <construct/installtypes.h>
 #include <construct/ash.h>
 #include <construct/tags.h>
 #include <construct/exp.h>
-#include <construct/shapemacs.h>
+#include <construct/shape.h>
 
 #include "addrtypes.h"
 #include "inst_fmt.h"

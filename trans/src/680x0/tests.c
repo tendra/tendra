@@ -7,10 +7,9 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include <reader/expmacs.h>
 
 #include <construct/exp.h>
-#include <construct/shapemacs.h>
+#include <construct/shape.h>
 #include <construct/tags.h>
 #include <construct/is_worth.h>
 

@@ -10,14 +10,13 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
-#include <reader/expmacs.h>
-#include <reader/exptypes.h>
+#include <reader/exp.h>
 #include <reader/basicread.h>
 #include <reader/externs.h>
 
 #include <construct/exp.h>
 #include <construct/install_fns.h>
-#include <construct/shapemacs.h>
+#include <construct/shape.h>
 #include <construct/tags.h>
 
 #include <refactor/refactor.h>

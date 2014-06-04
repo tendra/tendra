@@ -18,7 +18,7 @@
 #include <local/ash.h>
 #include <local/out.h>
 
-#include <reader/exptypes.h>
+#include <reader/exp.h>
 #include <reader/main_reads.h>
 #include <reader/basicread.h>
 #include <reader/externs.h>

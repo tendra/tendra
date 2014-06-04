@@ -7,8 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef SORTMACS_H
-#define SORTMACS_H
+#ifndef READER_SORT_H
+#define READER_SORT_H
 
 /* code numbers for each of the TDF sorts */
 #define ALIGNMENT_SORT		1
@@ -41,4 +41,5 @@
 #define DG_NAME_SORT		28	/* NEW DIAGS */
 #define DG_TYPE_SORT		29	/* NEW DIAGS */
 
-#endif /* SORTMACS_H */
+#endif
+

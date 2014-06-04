@@ -7,11 +7,10 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include <construct/shapemacs.h>
+#include <construct/shape.h>
 
 #include <main/flags.h>
 
-#include <reader/expmacs.h>
 
 #include "regable.h"
 

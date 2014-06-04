@@ -13,7 +13,7 @@
 #include <construct/installtypes.h>
 #include <diag/dg_first.h>
 #include <diag/diaginfo.h>
-#include <reader/exptypes.h>
+#include <reader/exp.h>
 
 extern void init_stab(void);
 extern void init_stab_aux(void);

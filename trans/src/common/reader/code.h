@@ -7,9 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef codetypes_key
-#define codetypes_key 1
-
+#ifndef READER_CODE_H
+#define READER_CODE_H
 
 
 typedef int flpt;
@@ -40,4 +39,15 @@ typedef char tdfbool;
  /* the definition of the internal representation of the sort tdfint */
 typedef nat tdfint;
 
+
+#define natint(x)	((x).nat_val.small_nat)
+#define natbig(x)	((x).nat_val.big_nat)
+#define nat_issmall(x)	((x).issmall)
+#define snatint(x)	((x).signed_nat_val.small_s_nat)
+#define snatneg(x)	((x).negative)
+#define snatbig(x)	((x).signed_nat_val.big_s_nat)
+#define snat_issmall(x)	((x).issmall)
+
+
 #endif
+

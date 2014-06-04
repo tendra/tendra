@@ -18,7 +18,6 @@
 #include <local/dw2_config.h>
 #endif
 
-#include <reader/expmacs.h>
 #include <reader/externs.h>
 #include <reader/readglob.h>
 #include <reader/basicread.h>
@@ -26,7 +25,7 @@
 #include <construct/installglob.h>
 #include <construct/tags.h>
 #include <construct/exp.h>
-#include <construct/shapemacs.h>
+#include <construct/shape.h>
 #include <construct/machine.h>
 #include <construct/flpt.h>
 #include <construct/flpttypes.h>

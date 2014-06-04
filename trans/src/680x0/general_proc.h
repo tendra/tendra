@@ -9,7 +9,7 @@
 
 #include <local/ash.h>
 
-#include <reader/exptypes.h>
+#include <reader/exp.h>
 
 #include <construct/installtypes.h>
 

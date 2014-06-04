@@ -15,10 +15,9 @@
 
 #include <local/ash.h>
 
-#include <reader/expmacs.h>
 
 #include <construct/tags.h>
-#include <construct/shapemacs.h>
+#include <construct/shape.h>
 
 #include "code_here.h"
 #include "addrtypes.h"

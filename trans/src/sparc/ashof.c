@@ -16,7 +16,6 @@
 #include <construct/installtypes.h>
 #include <construct/ash.h>
 
-#include <reader/expmacs.h>
 
 ash
 ashof(shape s)

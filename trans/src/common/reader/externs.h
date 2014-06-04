@@ -15,19 +15,19 @@
 
 #ifdef NEWDIAGS
 #include <newdiag/dg_first.h>
-#include <reader/codetypes.h>
+#include <reader/code.h>
 #include <construct/installtypes.h>
 #include <newdiag/dg_types.h>
 #include <newdiag/diagtypes.h>
 #else
 #include <diag/dg_first.h>
-#include <reader/codetypes.h>
+#include <reader/code.h>
 #include <construct/installtypes.h>
 #include <diag/dg_types.h>
 #include <diag/diagtypes.h>
 #endif
 
-#include <reader/toktypes.h>
+#include <reader/token.h>
 #include <linkinfo/li_types.h>
 
 /* CONSTRUCTS FOR ACCESS */

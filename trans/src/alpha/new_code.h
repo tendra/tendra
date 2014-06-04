@@ -12,7 +12,7 @@
    new_codedecs.h
 */
 
-#include <reader/exptypes.h>
+#include <reader/exp.h>
 
 #include "addresstypes.h"
 #include "procrectypes.h"

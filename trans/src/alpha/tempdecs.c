@@ -15,8 +15,7 @@
 
 #include <stddef.h>
 
-#include <reader/exptypes.h>
-#include <reader/expmacs.h>
+#include <reader/exp.h>
 
 #include <construct/tags.h>
 #include <construct/exp.h>

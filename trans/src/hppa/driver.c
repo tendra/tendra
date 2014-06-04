@@ -14,7 +14,7 @@
 #include <shared/getopt.h>
 #include <shared/error.h>
 
-#include <reader/exptypes.h>
+#include <reader/exp.h>
 #include <local/out.h>
 
 #include <reader/main_reads.h>		/* for d_capsule */

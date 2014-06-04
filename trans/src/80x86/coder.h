@@ -12,7 +12,7 @@
 
 #include <local/ash.h>
 
-#include <reader/exptypes.h>
+#include <reader/exp.h>
 
 void coder(where dest, ash stack, exp e);
 void clean_stack(void);

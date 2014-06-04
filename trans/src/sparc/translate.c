@@ -99,16 +99,15 @@
 #include <local/dw2_config.h>
 #endif
 
-#include <reader/expmacs.h>
-#include <reader/exptypes.h>
-#include <reader/toktypes.h>
+#include <reader/exp.h>
+#include <reader/token.h>
 #include <reader/basicread.h>
 #include <reader/externs.h>
 
 #include <construct/flpt.h>
 #include <construct/tags.h>
 #include <construct/exp.h>
-#include <construct/shapemacs.h>
+#include <construct/shape.h>
 #include <construct/tags.h>
 #include <construct/installglob.h>
 

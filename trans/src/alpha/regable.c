@@ -9,11 +9,10 @@
 
 #include <local/ash.h>
 
-#include <reader/expmacs.h>
 
 #include <construct/installtypes.h>
 #include <construct/ash.h>
-#include <construct/shapemacs.h>
+#include <construct/shape.h>
 #include <construct/tags.h>
 
 #include "regable.h"
@@ -38,7 +37,7 @@ valregable(shape s)
   fixregable
   
   determines whether the exp e can fit in a single fixed point 
-  register. Uses macros isvis, isglob from expmacs.h which examine 
+  register. Uses macros isvis, isglob from <reader/exp.h> which examine 
   the props field. 
 */
 

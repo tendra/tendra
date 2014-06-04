@@ -12,7 +12,6 @@
 
 #include <local/fbase.h>
 
-#include <reader/expmacs.h>
 
 #include <reader/basicread.h>
 #include <reader/externs.h>
@@ -21,7 +20,7 @@
 #include <construct/install_fns.h>
 #include <construct/flpt.h>
 #include <construct/flpttypes.h>
-#include <construct/shapemacs.h>
+#include <construct/shape.h>
 #include <construct/tags.h>
 
 #include "assembler.h"

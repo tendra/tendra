@@ -11,7 +11,7 @@
 #ifndef DIAGOUT_H
 #define DIAGOUT_H	1
 
-#include <reader/exptypes.h>
+#include <reader/exp.h>
 
 #include <construct/installtypes.h>
 

@@ -11,7 +11,7 @@
 #ifndef PROCDECS_H
 #define PROCDECS_H
 
-#include <reader/exptypes.h>
+#include <reader/exp.h>
 
 #include <construct/installtypes.h>
 

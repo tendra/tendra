@@ -12,7 +12,7 @@
    external for regalloc.c
 */
 
-#include <reader/exptypes.h>
+#include <reader/exp.h>
 
 #include "procrectypes.h"
 

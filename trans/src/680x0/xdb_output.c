@@ -12,8 +12,7 @@
 
 #include <shared/error.h>
 
-#include <reader/exptypes.h>
-#include <reader/expmacs.h>
+#include <reader/exp.h>
 
 #include <construct/installtypes.h>
 #include <construct/exp.h>

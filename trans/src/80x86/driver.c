@@ -17,7 +17,6 @@
 #include <local/out.h>
 #include <local/cpu.h>
 
-#include <reader/expmacs.h>
 #include <reader/basicread.h>
 #include <reader/externs.h>
 #include <reader/main_reads.h>

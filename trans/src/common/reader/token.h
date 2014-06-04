@@ -7,8 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef TOKTYPES_H
-#define TOKTYPES_H
+#ifndef READER_TOKEN_H
+#define READER_TOKEN_H
 
 #ifdef NEWDIAGS
 #include <newdiag/dg_first.h>
@@ -17,7 +17,7 @@
 #include <diag/diaginfo.h>
 #endif
 
-#include <reader/exptypes.h>
+#include <reader/exp.h>
 
 #include <construct/installtypes.h>
 

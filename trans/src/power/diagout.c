@@ -16,7 +16,7 @@
 #include <local/szs_als.h>
 #include <local/ash.h>
 
-#include <reader/exptypes.h>
+#include <reader/exp.h>
 
 #if defined(CROSS_INCLUDE)
 #include CROSS_INCLUDE/dbxstclass.h>
@@ -26,8 +26,8 @@
 #include <sys/debug.h>
 #endif
 
-#include <reader/codetypes.h>
-#include <reader/toktypes.h>
+#include <reader/code.h>
+#include <reader/token.h>
 #include <reader/externs.h>		/* for f_floating() */
 
 #include <construct/installglob.h>

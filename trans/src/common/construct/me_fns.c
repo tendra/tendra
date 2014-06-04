@@ -11,21 +11,19 @@
 
 #include <shared/check.h>
 
-#include <reader/exptypes.h>
-#include <reader/expmacs.h>
+#include <reader/exp.h>
 
-#include <reader/codetypes.h>
+#include <reader/code.h>
 #include <reader/table_fns.h>
 #include <reader/externs.h>
 #include <reader/basicread.h>
-#include <reader/natmacs.h>
 
 #include <construct/exp.h>
 #include <construct/installglob.h>
 #include <construct/tags.h>
 #include <construct/install_fns.h>
 #include <construct/messages_c.h>
-#include <construct/shapemacs.h>
+#include <construct/shape.h>
 #include <construct/me_fns.h>
 
 #include <main/flags.h>

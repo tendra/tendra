@@ -42,7 +42,7 @@
      stack,(this is obviously always available for parameters).
 */
 
-#include <reader/codetypes.h>
+#include <reader/code.h>
 
 #include <construct/installtypes.h>
 #include <construct/exp.h>
@@ -50,10 +50,9 @@
 
 #include <refactor/const.h>
 
-#include <reader/exptypes.h>
-#include <reader/expmacs.h>
+#include <reader/exp.h>
 
-#include <construct/shapemacs.h>
+#include <construct/shape.h>
 
 #include "proctypes.h"
 #include "procrec.h"

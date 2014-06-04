@@ -13,11 +13,10 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
-#include <reader/expmacs.h>
-#include <reader/codetypes.h>
+#include <reader/code.h>
 #include <reader/externs.h>
 
-#include <construct/shapemacs.h>
+#include <construct/shape.h>
 
 #include <main/flags.h>
 

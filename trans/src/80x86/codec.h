@@ -12,7 +12,7 @@
 
 #include <local/ash.h>
 
-#include <reader/exptypes.h>
+#include <reader/exp.h>
 
 void codec(where dest, ash stack, exp e);
 void uop(void(*op)(shape, where, where), shape sha, exp a, where dest, ash stack);

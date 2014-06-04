@@ -10,7 +10,7 @@
 #ifndef WEIGHTS_INCLUDED
 #define WEIGHTS_INCLUDED
 
-#include <reader/exptypes.h>
+#include <reader/exp.h>
 
 #include "procrec.h"
 

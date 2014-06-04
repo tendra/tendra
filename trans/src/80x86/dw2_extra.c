@@ -9,8 +9,7 @@
 
 #include <shared/check.h>
 
-#include <reader/expmacs.h>
-#include <reader/exptypes.h>
+#include <reader/exp.h>
 
 #include <local/szs_als.h>
 #include <local/codermacs.h>
@@ -22,7 +21,7 @@
 #include <refactor/const.h>
 
 #include <construct/machine.h>
-#include <construct/shapemacs.h>
+#include <construct/shape.h>
 #include <construct/tags.h>
 #include <construct/label_ops.h>
 #include <construct/flpttypes.h>

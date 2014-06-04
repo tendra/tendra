@@ -9,8 +9,7 @@
 
 #include <stddef.h>
 
-#include <reader/exptypes.h>
-#include <reader/expmacs.h>
+#include <reader/exp.h>
 
 #include <reader/externs.h>
 
@@ -18,7 +17,7 @@
 #include <construct/label_ops.h>
 #include <construct/exp.h>
 #include <construct/installglob.h>
-#include <construct/shapemacs.h>
+#include <construct/shape.h>
 
 #include <main/flags.h>
 

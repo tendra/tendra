@@ -19,16 +19,15 @@
 
 #include <shared/xalloc.h>
 
-#include <reader/expmacs.h>
 
 #include <symtab/symconst.h>
 #include <symtab/symtab.h>
 #include <symtab/type_to_aux.h>
 
-#include <reader/codetypes.h>
+#include <reader/code.h>
 #include <reader/basicread.h>
 
-#include <construct/shapemacs.h>
+#include <construct/shape.h>
 #include <construct/exp.h>
 
 #include <diag/diagtypes.h>

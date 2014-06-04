@@ -13,19 +13,17 @@
 
 #include <local/szs_als.h>
 
-#include <reader/expmacs.h>
-#include <reader/codetypes.h>
+#include <reader/code.h>
 #include <reader/basicread.h>
 #include <reader/externs.h>
 #include <reader/messages_r.h>
 #include <reader/main_reads.h>
 #include <reader/c_arith_type.h>
-#include <reader/natmacs.h>
 #include <reader/special_tok.h>
 
 #include <construct/tags.h>
 #include <construct/exp.h>
-#include <construct/shapemacs.h>
+#include <construct/shape.h>
 #include <construct/me_fns.h>
 #include <construct/installglob.h>
 #include <construct/install_fns.h>

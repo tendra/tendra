@@ -10,7 +10,7 @@
 #ifndef TEMPDECS_INCLUDED
 #define TEMPDECS_INCLUDED
 
-#include <reader/exptypes.h>
+#include <reader/exp.h>
 
 #include <construct/installtypes.h>
 

@@ -14,7 +14,7 @@
 
 #include <shared/check.h>
 
-#include <reader/codetypes.h>
+#include <reader/code.h>
 #include <reader/basicread.h>
 #include <reader/ecodes.h>
 #include <reader/externs.h>

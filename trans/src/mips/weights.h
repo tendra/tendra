@@ -11,7 +11,7 @@
    externals for weights.c
 */
 
-#include <reader/exptypes.h>
+#include <reader/exp.h>
 
 #include "procrectypes.h"
 

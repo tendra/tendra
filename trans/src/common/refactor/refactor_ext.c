@@ -11,12 +11,11 @@
 
 #include <shared/error.h>
 
-#include <reader/expmacs.h>
 
 #include <construct/installglob.h>
 #include <construct/exp.h>
 #include <construct/tags.h>
-#include <construct/shapemacs.h>
+#include <construct/shape.h>
 
 #include <main/flags.h>
 

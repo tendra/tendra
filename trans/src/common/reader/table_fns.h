@@ -10,9 +10,9 @@
 #ifndef TABLE_FNS_H
 #define TABLE_FNS_H
 
-#include <reader/exptypes.h>
+#include <reader/exp.h>
 
-#include <reader/toktypes.h>
+#include <reader/token.h>
 
 /* find the exp which is labelled by l */
 exp get_lab(label l);

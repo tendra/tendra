@@ -10,7 +10,7 @@
 #ifndef OPRATORS_INCLUDED
 #define OPRATORS_INCLUDED
 
-#include <reader/exptypes.h>
+#include <reader/exp.h>
 
 #include "addrtypes.h"
 

@@ -12,7 +12,6 @@
   This file contains code to handle preserved registers.
 */
 
-#include <reader/expmacs.h>
 
 #include "alpha_ins.h"
 #include "inst_fmt.h"

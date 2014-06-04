@@ -13,16 +13,15 @@
 #include <shared/xalloc.h>
 
 #include <local/out.h>
-#include <reader/expmacs.h>
 
 #include "cross_config.h"
 
-#include <reader/codetypes.h>
+#include <reader/code.h>
 #include <reader/basicread.h>
 
 #include <construct/installtypes.h>
 #include <construct/machine.h>
-#include <construct/shapemacs.h>
+#include <construct/shape.h>
 
 #ifdef NEWDIAGS
 #include <newdiag/diagglob.h>

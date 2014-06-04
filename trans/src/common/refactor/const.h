@@ -23,9 +23,9 @@
  * They are decribed in const.c
  */
 
-#include <reader/exptypes.h>
+#include <reader/exp.h>
 
-#include <construct/consttypes.h>
+#include <construct/const.h>
 
 extern void repeat_consts(void);
 extern void return_repeats(void);

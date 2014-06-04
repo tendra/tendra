@@ -10,7 +10,7 @@
 #ifndef REGEXPS_INCLUDED
 #define REGEXPS_INCLUDED
 
-#include <reader/exptypes.h>
+#include <reader/exp.h>
 
 #include <construct/installtypes.h>
 

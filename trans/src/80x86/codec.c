@@ -19,8 +19,7 @@
 
 #include <stddef.h>
 
-#include <reader/exptypes.h>
-#include <reader/expmacs.h>
+#include <reader/exp.h>
 
 #include <reader/basicread.h>
 #include <reader/readglob.h>
@@ -28,7 +27,7 @@
 
 #include <construct/exp.h>
 #include <construct/tags.h>
-#include <construct/shapemacs.h>
+#include <construct/shape.h>
 #include <construct/install_fns.h>
 #include <construct/flpt.h>
 

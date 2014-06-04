@@ -24,7 +24,7 @@
  * changing its variety to that specified by the shape, t.
  */
 
-#include <reader/exptypes.h>
+#include <reader/exp.h>
 
 #include <construct/installtypes.h>
 

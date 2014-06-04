@@ -35,7 +35,7 @@ extern void init_stab_aux(void);
 
 #else
 
-#include <reader/exptypes.h>
+#include <reader/exp.h>
 
 extern void dw2_proc_start(exp p, dg_name d);
 extern void dw2_proc_end(exp p);

@@ -13,7 +13,6 @@
 
 #include <local/fbase.h>
 
-#include <reader/expmacs.h>
 
 #if FS_NO_ANSI_ENVIRON
 #include <floatingpoint.h>
@@ -23,7 +22,7 @@
 
 #include <reader/basicread.h>
 
-#include <construct/shapemacs.h>
+#include <construct/shape.h>
 #include <construct/flpt.h>
 #include <construct/tags.h>
 #include <construct/f64.h>

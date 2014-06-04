@@ -13,14 +13,13 @@
 
 #include <string.h>
 
-#include <reader/exptypes.h>
-#include <reader/expmacs.h>
+#include <reader/exp.h>
 #include <reader/externs.h>
 #include <reader/basicread.h>
 #include <reader/table_fns.h>
 
 #include <construct/tags.h>
-#include <construct/shapemacs.h>
+#include <construct/shape.h>
 #include <construct/exp.h>
 #include <construct/installglob.h>
 #include <construct/installtypes.h>

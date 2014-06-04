@@ -15,7 +15,6 @@
 
 #include <local/ash.h>
 
-#include <reader/expmacs.h>
 
 #include "cross_config.h"
 
@@ -24,7 +23,7 @@
 #include <reader/basicread.h>
 
 #include <construct/ash.h>
-#include <construct/shapemacs.h>
+#include <construct/shape.h>
 #include <construct/tags.h>
 
 #include <main/flags.h>

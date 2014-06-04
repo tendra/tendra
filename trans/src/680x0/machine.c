@@ -8,11 +8,10 @@
  */
 
 #include <construct/installtypes.h>
-#include <construct/shapemacs.h>
+#include <construct/shape.h>
 #include <construct/machine.h>
 #include <construct/exp.h>
 
-#include <reader/expmacs.h>
 
 #include <main/flags.h>
 

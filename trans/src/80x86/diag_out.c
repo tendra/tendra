@@ -11,9 +11,8 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include <reader/exptypes.h>
+#include <reader/exp.h>
 #include <local/out.h>
-#include <reader/expmacs.h>
 #include <local/szs_als.h>
 
 #ifdef NEWDIAGS
@@ -32,13 +31,13 @@
 
 #include <construct/installtypes.h>
 #include <construct/machine.h>
-#include <construct/shapemacs.h>
+#include <construct/shape.h>
 #include <construct/tags.h>
 #include <construct/exp.h>
 
 #include <main/flags.h>
 
-#include <reader/codetypes.h>
+#include <reader/code.h>
 #include <reader/basicread.h>
 #include <reader/externs.h>
 

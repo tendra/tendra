@@ -17,7 +17,7 @@
 
 #include <reader/basicread.h>
 
-#include <construct/shapemacs.h>
+#include <construct/shape.h>
 #include <construct/tags.h>
 #include <construct/flpttypes.h>
 #include <construct/f64.h>
@@ -37,9 +37,8 @@
 
 #include <refactor/const.h>
 
-#include <reader/exptypes.h>
+#include <reader/exp.h>
 #include <local/szs_als.h>
-#include <reader/expmacs.h>
 
 #include "addrtypes.h"
 #include "bitsmacs.h"

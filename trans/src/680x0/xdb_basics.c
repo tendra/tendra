@@ -10,10 +10,9 @@
 #include <stdio.h>
 #include <string.h>
 
-#include <reader/exptypes.h>
-#include <reader/expmacs.h>
+#include <reader/exp.h>
 
-#include <reader/codetypes.h>
+#include <reader/code.h>
 
 #include <main/flags.h>
 

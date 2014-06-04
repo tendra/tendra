@@ -13,10 +13,10 @@
 #include "dg_first.h"
 
 #include "diaginfo.h"
-#include <reader/exptypes.h>
+#include <reader/exp.h>
 #include <construct/installtypes.h>
 #include "dg_types.h"		/* NEW DIAGS */
-#include <reader/toktypes.h>
+#include <reader/token.h>
 
 extern dg_name new_dg_name(dg_name_key k);
 extern dg_type new_dg_type(dg_type_key k);

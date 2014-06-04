@@ -14,8 +14,7 @@
 
 #include <local/ash.h>
 
-#include <reader/expmacs.h>
-#include <reader/codetypes.h>
+#include <reader/code.h>
 #include <reader/basicread.h>
 
 #include <symtab/symconst.h>
@@ -25,7 +24,7 @@
 #include <construct/machine.h>
 #include <construct/tags.h>
 #include <construct/exp.h>
-#include <construct/shapemacs.h>
+#include <construct/shape.h>
 #include <construct/me_fns.h>
 
 #include <main/flags.h>

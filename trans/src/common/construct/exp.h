@@ -10,9 +10,9 @@
 #ifndef expdecs_key
 #define expdecs_key 1
 
-#include <reader/exptypes.h>
+#include <reader/exp.h>
 
-#include <reader/codetypes.h>
+#include <reader/code.h>
 
 #include <construct/installtypes.h>
 

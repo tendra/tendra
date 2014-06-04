@@ -13,7 +13,7 @@
 
 #include <local/cpu.h>
 
-#include <reader/exptypes.h>
+#include <reader/exp.h>
 
 #include "memtdf.h"
 #include "codegen.h"

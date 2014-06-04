@@ -10,7 +10,7 @@
 #ifndef SCAN2_H
 #define SCAN2_H
 
-#include <reader/exptypes.h>
+#include <reader/exp.h>
 
 int scan2(int sto, exp to, exp e, int usereg0);
 void check_asm_seq(exp e, int ext);

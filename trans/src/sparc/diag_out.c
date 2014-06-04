@@ -14,12 +14,11 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
-#include <reader/exptypes.h>
-#include <reader/expmacs.h>
+#include <reader/exp.h>
 #include <local/szs_als.h>
 #include <local/out.h>
 
-#include <construct/shapemacs.h>
+#include <construct/shape.h>
 #include <construct/tags.h>
 #include <construct/installtypes.h>
 #include <construct/machine.h>
@@ -28,8 +27,8 @@
 
 #include <main/flags.h>
 
-#include <reader/codetypes.h>
-#include <reader/toktypes.h>
+#include <reader/code.h>
+#include <reader/token.h>
 #include <reader/read_fns.h>
 #include <reader/externs.h>
 #include <reader/basicread.h>

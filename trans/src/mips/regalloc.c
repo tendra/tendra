@@ -28,7 +28,6 @@
 
 #include <local/ash.h>
 
-#include <reader/expmacs.h>
 
 #include <construct/installtypes.h>
 #include <construct/ash.h>

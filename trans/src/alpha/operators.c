@@ -20,10 +20,9 @@
 
 #include <local/ash.h>
 
-#include <reader/expmacs.h>
 
 #include <construct/tags.h>
-#include <construct/shapemacs.h>
+#include <construct/shape.h>
 #include <construct/f64.h>
 
 #include "code_here.h"

@@ -7,7 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef bothd
+#ifndef CONSTRUCT_SHAPE_H
+#define CONSTRUCT_SHAPE_H
 
 #define bothd  1
 #define tophd  2
@@ -45,4 +46,5 @@
 
 #define is_floating(x)	((x) >= shrealhd && (x) <= doublehd)
 
-#endif /* bothd */
+#endif
+
