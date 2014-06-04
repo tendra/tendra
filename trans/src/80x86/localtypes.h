@@ -55,7 +55,7 @@ typedef struct {
 
 typedef regcell reg_record[7];
 
-typedef struct {
+typedef struct outofline_t {
 	struct outofline_t *next;
 	where dest;
 	ash stack;
