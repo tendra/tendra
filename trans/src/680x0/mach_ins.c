@@ -154,7 +154,12 @@ make_instr_aux(int insno, mach_op *op1, mach_op *op2, bitpattern ch, int susp)
 	mach_ins_list = p->next;
 #ifndef NDEBUG
 	p->id = ++next_id;
-#if 1
+#if 0
+	/*
+	 * This is for debugging convenience; the idea is to watch 'found'
+	 * for the instruction number just before the one you're after,
+	 * and then step forwards.
+	 */
 	if (p->id == 4803) {
 		int found = 1;
 	}

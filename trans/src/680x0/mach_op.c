@@ -75,10 +75,6 @@ new_mach_op(void)
 	p->of = NULL;
 #ifndef tdf3
 #ifndef NDEBUG
-	if (next_id == 70) {
-		int dummy = next_id;
-	}
-
 	p->id = next_id++;
 #endif
 #endif
