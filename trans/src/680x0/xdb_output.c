@@ -112,9 +112,9 @@ static FILE *diagfp3;
 void init_diag
 (void)
 {
+#ifdef dynamic_test
     double vs = (diag == DIAG_XDB_NEW ? 7.40 : 7.05);
 
-#ifdef dynamic_test
     struct utsname u;
     char *os = "HP-UX";
     uname(&u);
