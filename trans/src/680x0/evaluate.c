@@ -9,6 +9,7 @@
 
 #include <assert.h>
 
+#include <shared/check.h>
 #include <shared/error.h>
 
 #include <local/fbase.h>
@@ -450,6 +451,8 @@ long *realrep
 
 #else
 
+	UNUSED(mant_bits); /* only for FBASE 10 */
+
     if (name(e) == real_tag) {
 	int j, k = -1;
 	flt *f = flptnos + no(e);
@@ -623,7 +626,6 @@ void evalaux
 	    long work = 0;
 	    long crt_off = 0;
 	    long bits_left = 0;
-            int pad;
             bool param_aligned = 0;
 
 	    if (offe == NULL) return;
@@ -661,7 +663,6 @@ void evalaux
 		}
 
 		if (name(sh(val))!= bitfhd) {
-                   pad = 0;
                    if (param_aligned) {
                       switch (name(sh(val))) {
                       case scharhd:
