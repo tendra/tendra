@@ -97,8 +97,6 @@ extern int rep_make_proc;
 
 extern int replace_arith_type;
 
-extern int good_trans;
-
 extern char *crt_filename;
 
 extern capsule_frees *capsule_freelist;

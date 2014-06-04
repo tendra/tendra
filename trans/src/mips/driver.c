@@ -48,7 +48,6 @@ out_rename(char * oldid, char * newid)
 	return;
 }
 
-extern int good_trans;
 bool do_extern_adds;
 
 int majorno =  3;

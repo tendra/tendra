@@ -49,8 +49,6 @@
 
 extern int use_link_stuff;
 
-extern int good_trans;
-
 #include "debug.h"
 
 #define VERSION_STR "3.11"
@@ -256,7 +254,6 @@ static void
 cleanup(void)
 {
 	exit_translator () ;
-	if ( good_trans ) exit ( EXIT_FAILURE ) ;
 }
 
 struct driver driver = {

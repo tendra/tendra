@@ -18,7 +18,6 @@
 #include <local/out.h>
 
 #include <reader/main_reads.h>		/* for d_capsule */
-#include <reader/basicread.h>	/* for good_trans */
 #include <reader/externs.h>
 
 #include <construct/flpt.h>
@@ -36,8 +35,6 @@
 #include "frames.h"
 
 #define VERSION_STR "7.8"
-
-extern int good_trans;
 
 /*
  * XXX: Some of the conditional optimisations local to this installer are

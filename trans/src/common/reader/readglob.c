@@ -12,7 +12,7 @@
 #include <reader/readglob.h>
 
 /* VARIABLES */
-/* All variables except good_trans are initialised. This assumes
+/* All variables are initialised. This assumes
 that translation stops after the first error */
 
 dec *capsule_tagtab;
@@ -90,9 +90,6 @@ int rep_make_proc = 1;  /* identify any make_procs not in make_id_tagdef*/
 
 int replace_arith_type = 0;	/* do not use C definitions of promote
 				   etc. */
-
-int good_trans = 0;		/* 0 if translation is good, 1 for error
-				*/
 
 char *crt_filename;
 

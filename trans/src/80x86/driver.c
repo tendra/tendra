@@ -107,7 +107,6 @@ init(void)
 	proc_null = 0x0; /* NULL value for proc */
 	lv_null   = 0x0; /* NULL value for label_value*/
 
-	good_trans       = 0;
 	capsule_freelist = NULL;
 	old_proc_props   = NULL;
 	promote_pars     = 0;
@@ -238,9 +237,6 @@ cleanup(void)
 				out_diagnose_postlude();
 
 		outend();
-
-		if (good_trans)
-			exit(EXIT_FAILURE);
 }
 
 struct driver driver = {

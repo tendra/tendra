@@ -117,7 +117,7 @@ translate(FILE *f, const char *name)
 	 */
 	(void) d_capsule();
 
-	if (good_trans) {
+	if (exit_status != 0) {
 		exit(EXIT_FAILURE);
 	}
 
@@ -136,6 +136,10 @@ translate(FILE *f, const char *name)
 	}
 
 	driver.cleanup();
+
+	if (exit_status != 0) {
+		exit(exit_status);
+	}
 
 	if (number_errors != 0) {
 		exit(EXIT_FAILURE);

@@ -10,6 +10,7 @@
 #include <stdio.h>
 
 #include <shared/check.h>
+#include <shared/error.h>
 
 #include <local/dw2_config.h>
 
@@ -35,9 +36,7 @@ static void
 set_abbrev_tag(abbrev_entry *en, int c, int tag_code, int has_children)
 {
 	if (!en->index && !c) {
-		good_trans = 1;
-		IGNORE printf("!!!	abbreviation index unset: %s\n",
-			      en->aname);
+		error(ERROR_SERIOUS, "abbreviation index unset: %s\n", en->aname);
 	}
 	out8();
 	uleb128((unsigned long)(en->index + c));
