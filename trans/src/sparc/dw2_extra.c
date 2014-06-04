@@ -7,14 +7,18 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#ifdef NEWDWARF
+
 #include <assert.h>
+#include <stdio.h>
 
 #include <shared/check.h>
 
-#ifdef NEWDWARF
+#include <local/szs_als.h>
 
 #include <local/dw2_config.h>
 
+#include <reader/exp.h>
 #include <reader/basicread.h>
 
 #include <construct/shape.h>
@@ -22,6 +26,7 @@
 #include <construct/flpttypes.h>
 #include <construct/f64.h>
 
+#include <main/driver.h>
 #include <main/flags.h>
 
 #ifdef NEWDIAGS
@@ -36,9 +41,6 @@
 #include <dwarf2/dw2_locdata.h>
 
 #include <refactor/const.h>
-
-#include <reader/exp.h>
-#include <local/szs_als.h>
 
 #include "addrtypes.h"
 #include "bitsmacs.h"

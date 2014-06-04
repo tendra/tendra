@@ -16,7 +16,6 @@
 
 #include <local/ash.h>
 
-
 #include <construct/installtypes.h>
 #include <construct/ash.h>
 #include <construct/tags.h>
@@ -40,8 +39,6 @@
 #include "reg_defs.h"
 #include "locate.h"
 #include "fail.h"
-
-extern  FILE * as_file;
 
 int locals_offset; /* the offset in bits of start of current locals */
 int frame_size;	/* the size of the current stack frame in bits */

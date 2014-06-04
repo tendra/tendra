@@ -16,6 +16,8 @@
 
 #include <refactor/const.h>
 
+#include <main/driver.h>
+
 #include "comment.h"
 
 

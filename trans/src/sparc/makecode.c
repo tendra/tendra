@@ -8,6 +8,7 @@
  */
 
 #include <assert.h>
+#include <stdio.h>
 
 #include <shared/check.h>
 
@@ -35,6 +36,7 @@
 #include <construct/flpt.h>
 #include <construct/f64.h>
 
+#include <main/driver.h>
 #include <main/flags.h>
 
 #include "addrtypes.h"

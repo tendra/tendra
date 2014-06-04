@@ -9,6 +9,7 @@
 
 #include <assert.h>
 #include <string.h>
+#include <stdio.h>
 
 #include <reader/exp.h>
 #include <local/out.h>
@@ -22,6 +23,8 @@
 #include <construct/machine.h>
 
 #include <refactor/const.h>
+
+#include <main/driver.h>
 
 #include "translate.h"
 #include "addrtypes.h"

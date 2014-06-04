@@ -30,6 +30,7 @@
 #include <construct/f64.h>
 #include <construct/flpt.h>
 
+#include <main/driver.h>
 #include <main/flags.h>
 
 #include <symtab/syms.h>
@@ -67,7 +68,6 @@
 #include "new_code.h"
 #include "localexpmacs.h"
 
-extern  FILE * as_file;
 extern int current_symno;
 extern  procrec * procrecs;
 

@@ -9,6 +9,7 @@
 
 #include <assert.h>
 #include <string.h>
+#include <stdio.h>
 
 #include <shared/xalloc.h>
 
@@ -29,6 +30,7 @@
 #include <construct/f64.h>
 #include <construct/misc_c.h>
 
+#include <main/driver.h>
 #include <main/flags.h>
 
 #include <refactor/optimise.h>

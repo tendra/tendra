@@ -15,12 +15,12 @@
 
 #include <stdio.h>
 
+#include <main/driver.h>
+
 #include "regexps.h"
 #include "ibinasm.h"
 #include "out_ba.h"
 #include "labels.h"
-
-extern  FILE * as_file;
 
 int   last_label = 31;
 

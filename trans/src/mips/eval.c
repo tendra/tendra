@@ -14,6 +14,7 @@
  */
 
 #include <assert.h>
+#include <stdio.h>
 
 #include <local/ash.h>
 
@@ -29,6 +30,7 @@
 #include <construct/flpt.h>
 #include <construct/f64.h>
 
+#include <main/driver.h>
 #include <main/flags.h>
 
 #include <symtab/syms.h>

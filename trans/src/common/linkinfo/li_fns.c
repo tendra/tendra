@@ -8,6 +8,7 @@
  */
 
 #include <string.h>
+#include <stdio.h>
 
 #include <shared/check.h>
 #include <shared/xalloc.h>
@@ -28,6 +29,7 @@
 
 #include <utility/prefix.h>
 
+#include <main/driver.h>
 #include <main/flags.h>
 
 /* TODO: stopgap until outs() is centralised */

@@ -10,10 +10,6 @@
 #ifndef OUTDECS_INCLUDED
 #define OUTDECS_INCLUDED
 
-#include <stdio.h>
-
-extern FILE *as_file;
-
 #define outs( X ) fputs( (X), as_file )
 #define outc( X ) fputc( (X), as_file )
 #define outn( X ) fprintf(as_file, "%ld", (long) (X) )

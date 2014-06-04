@@ -16,6 +16,7 @@
 
 #include <assert.h>
 #include <string.h>
+#include <stdio.h>
 
 #include <shared/check.h>
 #include <shared/xalloc.h>
@@ -24,6 +25,7 @@
 
 #include <construct/tags.h>
 
+#include <main/driver.h>
 #include <main/flags.h>
 
 #include <refactor/optimise.h>

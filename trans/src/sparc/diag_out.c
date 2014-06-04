@@ -25,6 +25,7 @@
 #include <construct/exp.h>
 #include <construct/installglob.h>
 
+#include <main/driver.h>
 #include <main/flags.h>
 
 #include <reader/code.h>

@@ -11,12 +11,14 @@
 /* dynamic_init.c does all the dynamic initialisation code */
 
 #include <string.h>
+#include <stdio.h>
 
 #include <shared/error.h>
 
 #include <construct/machine.h>
 #include <construct/installglob.h>
 
+#include <main/driver.h>
 #include <main/flags.h>
 
 #include "memtdf.h"

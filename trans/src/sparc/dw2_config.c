@@ -7,10 +7,13 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <stdio.h>
+
 #include <local/dw2_config.h>
 
 #include <reader/basicread.h>
 
+#include <main/driver.h>
 #include <main/flags.h>
 
 #include "translate.h"

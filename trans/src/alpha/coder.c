@@ -38,6 +38,7 @@
 #include <construct/f64.h>
 #include <construct/install_fns.h>
 
+#include <main/driver.h>
 #include <main/flags.h>
 
 #include <diag/diag_fns.h>
@@ -79,7 +80,6 @@
 #include "translate.h"
 #include "localexpmacs.h"
 
-extern  FILE * as_file;
 int fscopefile;	/* file of current proc */
 
 /*extern void add_odd_bits(outofline*);*/

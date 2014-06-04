@@ -9,6 +9,7 @@
  */
 
 #include <signal.h>
+#include <stdio.h>
 
 #include <shared/error.h>
 #include <shared/xalloc.h>
@@ -21,6 +22,7 @@
 #include <construct/ash.h>
 #include <construct/machine.h>
 
+#include <main/driver.h>
 #include <main/flags.h>
 
 #include "memtdf.h"

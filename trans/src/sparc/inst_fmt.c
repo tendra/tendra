@@ -15,6 +15,7 @@
 */
 
 #include <assert.h>
+#include <stdio.h>
 
 #include <shared/check.h>
 #include <shared/xalloc.h>
@@ -25,6 +26,7 @@
 
 #include <local/out.h>
 
+#include <main/driver.h>
 #include <main/flags.h>
 
 #include "addrtypes.h"

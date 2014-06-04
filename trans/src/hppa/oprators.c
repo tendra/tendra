@@ -7,16 +7,18 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <stdio.h>
+
 #include <shared/xalloc.h>
 
 #include <local/ash.h>
-
 
 #include <construct/installtypes.h>
 #include <construct/ash.h>
 #include <construct/tags.h>
 #include <construct/shape.h>
 
+#include <main/driver.h>
 #include <main/flags.h>
 
 #include "code_here.h"

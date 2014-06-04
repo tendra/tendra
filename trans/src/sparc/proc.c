@@ -14,6 +14,7 @@
 
 #include <assert.h>
 #include <string.h>
+#include <stdio.h>
 
 #include <shared/check.h>
 
@@ -38,6 +39,7 @@
 #include <construct/exp.h>
 #include <construct/shape.h>
 
+#include <main/driver.h>
 #include <main/flags.h>
 
 #include "addrtypes.h"

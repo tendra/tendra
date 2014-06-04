@@ -8,7 +8,11 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <stdio.h>
+
 #include <shared/error.h>
+
+#include <main/driver.h>
 
 #include "translate.h"
 #include "labels.h"

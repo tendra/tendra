@@ -8,6 +8,7 @@
  */
 
 #include <string.h>
+#include <stdio.h>
 
 #include <shared/check.h>
 #include <shared/xalloc.h>
@@ -17,6 +18,8 @@
 #include <reader/basicread.h>
 
 #include <construct/tags.h>
+
+#include <main/driver.h>
 
 #include <dwarf2/dw2_iface.h>
 #include <dwarf2/dw2_types.h>

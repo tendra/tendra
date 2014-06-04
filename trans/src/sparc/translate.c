@@ -86,8 +86,8 @@
  */
 
 #include <assert.h>
-#include <stdio.h>
 #include <string.h>
+#include <stdio.h>
 
 #include <shared/xalloc.h>
 
@@ -113,6 +113,7 @@
 
 #include <refactor/optimise.h>
 
+#include <main/driver.h>
 #include <main/flags.h>
 
 #include "tempdecs.h"

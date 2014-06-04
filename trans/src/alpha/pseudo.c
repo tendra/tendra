@@ -17,6 +17,8 @@
 #include <shared/bool.h>
 #include <shared/xalloc.h>
 
+#include <main/driver.h>
+
 #include "cross.h"
 #include "frames.h"
 #include "pseudo.h"
@@ -25,7 +27,6 @@
 #include "reg_defs.h"
 #include "inst_fmt.h"
 
-extern  FILE * as_file;
 extern bool in_noat_block;
 
 void

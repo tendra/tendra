@@ -7,6 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <stdio.h>
+
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
@@ -17,6 +19,8 @@
 #include <reader/externs.h>
 
 #include <construct/tags.h>
+
+#include <main/driver.h>
 
 #ifdef NEWDIAGS
 #include <newdiag/dg_types.h>

@@ -13,12 +13,11 @@
 
 #include <stdio.h>
 
+#include <main/driver.h>
+
 #include "ibinasm.h"
 #include "out_ba.h"
 #include "psu_ops.h"
-
-extern  FILE * as_file;
-
 
 void
 setnoreorder(void)

@@ -9,6 +9,7 @@
 
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 #include <shared/xalloc.h>
 
@@ -27,6 +28,7 @@
 #include <symtab/symconst.h>
 #include <symtab/syms.h>
 
+#include <main/driver.h>
 #include <main/flags.h>
 
 #include "tempdecs.h"

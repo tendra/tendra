@@ -8,8 +8,11 @@
  */
 
 #include <assert.h>
+#include <stdio.h>
 
 #include <local/out.h>
+
+#include <main/driver.h>
 
 #include "addrtypes.h"
 #include "regexps.h"

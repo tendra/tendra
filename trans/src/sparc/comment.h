@@ -10,8 +10,6 @@
 #ifndef COMMENT_INCLUDED
 #define COMMENT_INCLUDED
 
-#include <stdio.h>
-
 #include <reader/exp.h>
 
 #include <reader/code.h>
@@ -21,7 +19,6 @@
 extern char *sparctrans;
 extern bool do_comment;
 extern void fail(char *);
-extern FILE *as_file;
 
 #define comment(st)	fprintf(as_file,"\t! %s\n",st);
 

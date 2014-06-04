@@ -20,7 +20,6 @@
 #include <shared/xalloc.h>
 
 #include <reader/exp.h>
-
 #include <reader/code.h>
 
 #include <construct/shape.h>
@@ -34,6 +33,8 @@
 
 #include <symtab/symconst.h>
 
+#include <main/driver.h>
+
 #include "procrectypes.h"
 #include "procrecs.h"
 #include "bitsmacs.h"
@@ -44,7 +45,6 @@
 #include "coder.h"
 #include "cross.h"
 
-extern FILE * as_file;
 extern bool last_param(exp e);
 extern int currentfile;
 /* our current fileno  */

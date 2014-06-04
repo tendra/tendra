@@ -41,8 +41,6 @@
 #include "code_here.h"
 #include "locate.h"
 
-extern  FILE * as_file;
-
 long  locals_offset;		/* the offset in bits of start of current
 				   locals */
 long  frame_size;		/* the size of the current stack frame in

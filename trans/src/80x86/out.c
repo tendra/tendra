@@ -23,6 +23,7 @@
 
 #include <reader/basicread.h>
 
+#include <main/driver.h>
 #include <main/flags.h>
 
 #include "localtypes.h"
@@ -33,8 +34,6 @@
 #ifdef NEWDWARF
 long instr_count = -1;
 #endif
-
-extern FILE *as_file;
 
 /*
  * XXX: break as_file encapsulation.

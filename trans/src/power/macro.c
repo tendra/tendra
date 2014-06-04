@@ -8,6 +8,10 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <stdio.h>
+
+#include <main/driver.h>
+
 #include "memtdf.h"
 #include "codegen.h"
 #include "macro.h"

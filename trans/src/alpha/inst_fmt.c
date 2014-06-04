@@ -27,6 +27,8 @@
 
 #include <reader/exp.h>
 
+#include <main/driver.h>
+
 #include "coder.h"
 #include "inst_fmt.h"
 #include "main.h"

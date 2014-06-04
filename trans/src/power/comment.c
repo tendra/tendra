@@ -11,7 +11,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "translate.h"	/* for as_file */
+#include <main/driver.h>
+
 #include "comment.h"
 
 bool do_comment;			/* set in powertrans.c */

@@ -8,6 +8,7 @@
  */
 
 #include <string.h>
+#include <stdio.h>
 
 #include <shared/check.h>
 #include <shared/xalloc.h>
@@ -27,6 +28,7 @@
 #include <construct/shape.h>
 #include <construct/me_fns.h>
 
+#include <main/driver.h>
 #include <main/flags.h>
 
 #include <refactor/optimise.h>

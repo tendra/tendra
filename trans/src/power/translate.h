@@ -11,15 +11,11 @@
 #ifndef TRANSLATDECS_H
 #define TRANSLATDECS_H
 
-#include <stdio.h>
-
 #include <construct/installtypes.h>
 
 #include "codegen.h"
 
 extern dec * diag_def;
-
-extern FILE *as_file;			/* assembler output file */
 
 dec **main_globals;			/* the globals decs array */
 

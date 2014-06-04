@@ -7,18 +7,21 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <stdio.h>
+
 #include <shared/check.h>
 
 #include <local/dw2_config.h>
 
 #include <reader/readglob.h>
 
+#include <main/driver.h>
+
 #include <dwarf2/dw2_basic.h>
 #include <dwarf2/dw2_abbrev.h>
 #include <dwarf2/dw2_abbrev_vn.h>
 #include <dwarf2/dw2_codes.h>
 #include <dwarf2/dw2_entries.h>
-
 
 static void
 sep(void)

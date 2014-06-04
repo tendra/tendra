@@ -16,9 +16,13 @@
  * any memory of its contents - see regexps.c
  */
 
+#include <stdio.h>
+
 #include <reader/basicread.h>
 
 #include <symtab/syms.h>
+
+#include <main/driver.h>
 
 #include "addrtypes.h"
 #include "psu_ops.h"

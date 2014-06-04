@@ -38,6 +38,8 @@
 #include <diag/diagglob.h>
 #include <diag/mark_scope.h>
 
+#include <main/driver.h>
+
 #include "procrectypes.h"
 #include "bitsmacs.h"
 #include "ibinasm.h"
@@ -45,8 +47,6 @@
 #include "locate.h"
 #include "diag_out.h"
 #include "new_code.h"
-
-extern  FILE * as_file;
 
 extern long currentfile;
  /* our current fileno  */

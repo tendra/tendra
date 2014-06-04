@@ -33,6 +33,7 @@
 #include <construct/install_fns.h>
 #include <construct/installglob.h>
 
+#include <main/driver.h>
 #include <main/flags.h>
 
 #include <diag/diagtypes.h>

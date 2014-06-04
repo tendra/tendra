@@ -7,14 +7,17 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include <local/dw2_config.h>
-#include <reader/exp.h>
-#include <local/szs_als.h>
+#include <stdio.h>
 
+#include <local/szs_als.h>
+#include <local/dw2_config.h>
+
+#include <reader/exp.h>
 #include <reader/basicread.h>
 
 #include <construct/tags.h>
 
+#include <main/driver.h>
 #include <main/flags.h>
 
 #include <dwarf2/dw2_basic.h>

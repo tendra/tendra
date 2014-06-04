@@ -7,14 +7,16 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include <time.h>
 #include <string.h>
+#include <stdio.h>
+#include <time.h>
 
 #include <shared/check.h>
 
 #include <local/dw2_config.h>
 #include <local/szs_als.h>
 
+#include <main/driver.h>
 #include <main/flags.h>
 
 #ifdef NEWDIAGS

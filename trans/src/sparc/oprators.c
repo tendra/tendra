@@ -8,6 +8,7 @@
  */
 
 #include <assert.h>
+#include <stdio.h>
 
 #include <local/ash.h>
 #include <local/out.h>
@@ -22,6 +23,7 @@
 #include <construct/install_fns.h>
 #include <construct/exp.h>
 
+#include <main/driver.h>
 #include <main/flags.h>
 
 #include "code_here.h"

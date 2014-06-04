@@ -21,6 +21,7 @@
 
 #include <local/cpu.h>
 
+#include <main/driver.h>
 #include <main/flags.h>
 
 #include "geninst.h"
@@ -38,7 +39,6 @@
 #define CHECKREG(r)		ASSERT(IS_FIXREG(r) && (!IS_SREG(r) || (r) >= p_sreg_first_save || (r == R_FP)));
 #define CHECKFREG(r)		ASSERT((!IS_FLT_SREG(r) || (r) >= p_sfreg_first_save));
 
-extern FILE *as_file;
 char * get_instruction(Instruction_P);
 
 char *ext_name(long id)

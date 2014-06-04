@@ -8,6 +8,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <stdio.h>
+
 #include <shared/error.h>
 
 #include <local/cpu.h>
@@ -22,6 +24,7 @@
 #include <construct/installglob.h>
 #include <construct/f64.h>
 
+#include <main/driver.h>
 #include <main/flags.h>
 
 #include <diag/diag_fns.h>

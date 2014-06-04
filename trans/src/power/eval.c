@@ -28,6 +28,8 @@
 #include <construct/machine.h>
 #include <construct/f64.h>
 
+#include <main/driver.h>
+
 #include "memtdf.h"
 #include "codegen.h"
 #include "geninst.h"
@@ -36,8 +38,6 @@
 #include "comment.h"
 #include "eval.h"
 #include "frames.h"
-
-extern FILE *as_file;
 
 long correct_shape(long, int);
 

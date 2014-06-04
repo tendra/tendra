@@ -6,8 +6,9 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include <time.h>
 #include <string.h>
+#include <stdio.h>
+#include <time.h>
 
 #include <shared/check.h>
 #include <shared/error.h>
@@ -17,6 +18,8 @@
 #include <local/ash.h>
 
 #include <reader/exp.h>
+
+#include <main/driver.h>
 
 #if defined(CROSS_INCLUDE)
 #include CROSS_INCLUDE/dbxstclass.h>

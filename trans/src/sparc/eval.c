@@ -12,6 +12,7 @@
  */
 
 #include <assert.h>
+#include <stdio.h>
 #include <ctype.h>
 
 #ifdef NEWDWARF
@@ -35,6 +36,7 @@
 #include <construct/f64.h>
 #include <construct/installglob.h>
 
+#include <main/driver.h>
 #include <main/flags.h>
 
 #include "addrtypes.h"

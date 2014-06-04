@@ -14,6 +14,7 @@
  */
 
 #include <assert.h>
+#include <stdio.h>
 #include <ctype.h>
 
 #include <local/szs_als.h>		/* for MAX_BF_SIZE */
@@ -24,6 +25,7 @@
 #include <reader/exp.h>
 #include <reader/basicread.h>
 
+#include <main/driver.h>
 #include <main/flags.h>
 
 #include <construct/installtypes.h>

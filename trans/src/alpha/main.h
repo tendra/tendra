@@ -10,12 +10,7 @@
 #ifndef MAIN_H
 #define MAIN_H
 
-#include <stdio.h>
-
 #include <construct/installtypes.h>
-
-extern FILE *as_file;
-extern FILE *ba_file;
 
 extern int majorno;
 extern int minorno;
