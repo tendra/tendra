@@ -1286,6 +1286,7 @@ f_make_complex(floating_variety f, exp arg1, exp arg2)
      default:
        {
 	 error(ERROR_INTERNAL, "Illegal floating_variety for make_complex_tag");
+	 return NULL;
        }
   }
 }
