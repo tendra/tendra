@@ -22,9 +22,10 @@
 #include <local/diag_config.h>
 #endif
 
-#include <local/codermacs.h>
+#include <local/ash.h>
 #include <local/out.h>
 #include <local/cpu.h>
+#include <local/codermacs.h>
 
 #ifdef NEWDIAGS
 #include <newdiag/diag_fns.h>
@@ -45,6 +46,7 @@
 
 #include <main/flags.h>
 
+#include "localtypes.h"
 #include "weights.h"
 #include "instr386.h"
 #include "operand.h"

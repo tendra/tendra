@@ -29,6 +29,7 @@ PARTS+= src/common/main
 
 CCOPTS+=	${TRANS_CFLAGS}
 
+SRCS+=	ashof.c
 SRCS+=	code_here.c
 SRCS+=	comp_eq_exp.c
 SRCS+=	diag_out.c

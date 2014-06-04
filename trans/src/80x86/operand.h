@@ -11,7 +11,6 @@
 #define OPERAND_H
 
 #include <reader/exptypes.h>
-#include <local/localtypes.h>
 
 void operand(int sz, where wh, int b, int addr);
 

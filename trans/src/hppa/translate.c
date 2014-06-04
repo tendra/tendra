@@ -94,15 +94,18 @@
 
 #include <shared/xalloc.h>
 
-#include <reader/exptypes.h>
-#include <reader/expmacs.h>
+#include <local/ash.h>
 #include <local/out.h>
 
+#include <reader/exptypes.h>
+#include <reader/expmacs.h>
 #include <reader/codetypes.h>
 #include <reader/toktypes.h>
 #include <reader/basicread.h>
 #include <reader/externs.h>
 
+#include <construct/installtypes.h>
+#include <construct/ash.h>
 #include <construct/flpt.h>
 #include <construct/tags.h>
 #include <construct/exp.h>
@@ -163,16 +166,6 @@ dec *diag_def = NULL ;	/* diagnostics definition */
 
 #define is_zero(e)is_comm(e)
 #define TRANSLATE_GLOBALS_FIRST 1
-
-ash ashof
-(shape s)
-{
-  ash a;
-
-  a.ashsize = shape_size(s);
-  a.ashalign = shape_align(s);
-  return a;
-}
 
 void insection
 (enum section s)

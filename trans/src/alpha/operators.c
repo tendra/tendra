@@ -18,6 +18,8 @@
 
 #include <shared/xalloc.h>
 
+#include <local/ash.h>
+
 #include <reader/expmacs.h>
 
 #include <construct/tags.h>

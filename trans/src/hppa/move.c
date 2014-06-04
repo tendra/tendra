@@ -20,6 +20,8 @@
 
 #include <assert.h>
 
+#include <local/ash.h>
+
 #include "hppains.h"
 #include "inst_fmt.h"
 #include "addrtypes.h"

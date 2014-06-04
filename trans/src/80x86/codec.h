@@ -10,8 +10,9 @@
 #ifndef CODEC_H
 #define CODEC_H
 
+#include <local/ash.h>
+
 #include <reader/exptypes.h>
-#include <local/localtypes.h>
 
 void codec(where dest, ash stack, exp e);
 void uop(void(*op)(shape, where, where), shape sha, exp a, where dest, ash stack);

@@ -23,6 +23,7 @@
 #include <construct/machine.h>
 #include <construct/install_fns.h>
 
+#include "localtypes.h"
 #include "instr.h"
 #include "instr386.h"
 #include "operand.h"

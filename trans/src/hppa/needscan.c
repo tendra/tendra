@@ -23,9 +23,13 @@
 
 #include <shared/check.h>
 
+#include <local/ash.h>
+
 #include <reader/exptypes.h>
 #include <reader/expmacs.h>
 
+#include <construct/installtypes.h>
+#include <construct/ash.h>
 #include <construct/exp.h>
 #include <construct/tags.h>
 #include <construct/shapemacs.h>

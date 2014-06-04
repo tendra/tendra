@@ -14,6 +14,7 @@
 #include <shared/error.h>
 
 #include <local/szs_als.h>
+#include <local/ash.h>
 
 #include <reader/exptypes.h>
 #include <reader/expmacs.h>
@@ -29,6 +30,7 @@
 
 #include <refactor/optimise.h>
 
+#include "localtypes.h"
 #include "mach.h"
 #include "where.h"
 #include "codec.h"

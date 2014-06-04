@@ -12,13 +12,14 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
+#include <local/ash.h>
+
 #include <reader/expmacs.h>
+#include <reader/codetypes.h>
+#include <reader/basicread.h>
 
 #include <symtab/symconst.h>
 #include <symtab/syms.h>
-
-#include <reader/codetypes.h>
-#include <reader/basicread.h>
 
 #include <construct/installglob.h>
 #include <construct/machine.h>
@@ -64,16 +65,6 @@ int main_globals_index;
 
 extern long fscopefile;
 extern bool do_extern_adds;
-
-ash ashof
-(shape s)
-{
-	ash a;
-	a.ashsize = shape_size(s);
-	a.ashalign = shape_align(s);
-	return a;
-}
-
 
 bool not_reserved
 (char *id)

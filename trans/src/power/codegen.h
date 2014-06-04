@@ -13,7 +13,6 @@
 
 #include "regmacs.h"
 
-#include "ash.h"
 #include "addresstypes.h"
 #include "bitsmacs.h"
 #include "code_here.h"
@@ -26,8 +25,6 @@
 #include "procrectypes.h"
 #include "regable.h"
 #include "regexps.h"
-
-#include <local/localtypes.h>
 
 #include <construct/installtypes.h>
 

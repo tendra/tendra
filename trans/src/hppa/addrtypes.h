@@ -10,7 +10,7 @@
 #ifndef ADDRTYPES_INCLUDED
 #define ADDRTYPES_INCLUDED
 
-#include <local/localtypes.h>
+#include <local/ash.h>
 
 #include <construct/installtypes.h>
 

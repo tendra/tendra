@@ -12,8 +12,9 @@
 
 #include <shared/xalloc.h>
 
-#include <reader/expmacs.h>
+#include <local/ash.h>
 
+#include <reader/expmacs.h>
 #include <reader/codetypes.h>
 
 #include <construct/installglob.h>
@@ -83,16 +84,6 @@ storage_class(int size)
     failer("illegal size for global");
   }
   return s_byte;
-}
-
-
-ash
-ashof(shape s)
-{
-  ash a;
-  a.ashsize = shape_size(s);
-  a.ashalign = shape_align(s);
-  return a;
 }
 
 /*

@@ -14,6 +14,7 @@
 #include <shared/check.h>
 #include <shared/getopt.h>
 
+#include <local/ash.h>
 #include <local/cpu.h>
 
 #include <reader/readglob.h>

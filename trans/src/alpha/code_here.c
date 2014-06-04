@@ -7,8 +7,12 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <local/ash.h>
+
 #include <reader/expmacs.h>
 
+#include <construct/installtypes.h>
+#include <construct/ash.h>
 #include <construct/tags.h>
 #include <construct/exp.h>
 #include <construct/shapemacs.h>

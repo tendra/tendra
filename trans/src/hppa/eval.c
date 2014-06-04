@@ -16,16 +16,19 @@
 #include <assert.h>
 #include <ctype.h>
 
-#include <reader/expmacs.h>
-#include <reader/exptypes.h>
-#include <local/fbase.h>
 #include <local/szs_als.h>		/* for MAX_BF_SIZE */
+#include <local/ash.h>
+#include <local/fbase.h>
 #include <local/out.h>
 
+#include <reader/expmacs.h>
+#include <reader/exptypes.h>
 #include <reader/basicread.h>
 
 #include <main/flags.h>
 
+#include <construct/installtypes.h>
+#include <construct/ash.h>
 #include <construct/tags.h>
 #include <construct/exp.h>
 #include <construct/shapemacs.h>

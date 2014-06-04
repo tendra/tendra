@@ -18,12 +18,16 @@
 #include <local/dw2_config.h>
 #endif
 
+#include <local/szs_als.h>
+#include <local/ash.h>
+#include <local/out.h>
+#include <local/fbase.h>
+
 #include <reader/expmacs.h>
 #include <reader/exptypes.h>
-#include <local/fbase.h>
-#include <local/szs_als.h>
-#include <local/out.h>
 
+#include <construct/installtypes.h>
+#include <construct/ash.h>
 #include <construct/tags.h>
 #include <construct/exp.h>
 #include <construct/shapemacs.h>

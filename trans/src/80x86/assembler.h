@@ -14,8 +14,6 @@
 
 #include <construct/installtypes.h>
 
-#include <local/localtypes.h>
-
 #include <main/flags.h>
 
 void outbyte(void);

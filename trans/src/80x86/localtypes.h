@@ -7,77 +7,55 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef LOCALTYPES_H
-#define LOCALTYPES_H
+#ifndef LOCAL_TYPES_H
+#define LOCAL_TYPES_H
+
+#include <local/ash.h>
 
 #include <reader/exptypes.h>
 
-/* structure definition for ash  */
-struct asht {
-	int ashsize;	/* the minimum size in bits of a shape */
-	int ashalign;	/* the required alignment in bit units of
-			   the start of a shape */
-};
-
-typedef struct asht ash;
-
-
-struct wht {
+typedef struct {
 	exp where_exp;
 	int where_off;
-};
+} where;
 
-typedef struct wht where;
-
-
-struct regut {
+typedef struct {
 	int can_do;
 	int ru_regs;
 	int ru_reg_free;
-};
+} regu;
 
-typedef struct regut regu;
-
-
-struct dclt {
+typedef struct {
 	int dcl_pl;
 	int dcl_n;
 	ash dcl_place;
 	int dcl_new;
-};
+} dcl;
 
-typedef struct dclt dcl;
-
-
-struct frrt {
+typedef struct {
 	int fr_no;
 	int regno;
-};
+} frr;
 
-typedef struct frrt frr;
-
-
-struct regcell_t {
+typedef struct {
 	/*
 	 * 0 - indetermined
 	 * 1 - has first_dest, not second
 	 * 2 - has second_dest, not first
 	 * 3 - has first_dest and second_dest
 	 * 4 - overdetermined
+	 * TODO: enum?
 	 */
 	int regcell_key;
 	exp first_dest;
 	int first_size;
 	exp second_dest;
 	int second_size;
-};
-
-typedef struct regcell_t regcell;
+} regcell;
 
 typedef regcell reg_record[7];
 
-
-typedef struct outofline_t {
+typedef struct {
 	struct outofline_t *next;
 	where dest;
 	ash stack;
@@ -99,4 +77,5 @@ typedef struct outofline_t {
 #endif
 } outofline;
 
-#endif /* LOCALTYPES_H */
+#endif
+

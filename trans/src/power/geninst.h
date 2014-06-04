@@ -13,14 +13,11 @@
 
 /* needed by "addresstypes.h" */
 
-#include <local/localtypes.h>
 #include <reader/exptypes.h>
-
 #include <reader/codetypes.h>
 
 #include <construct/installtypes.h>
 
-#include "ash.h"
 #include "addresstypes.h"	/* for baseoff */
 #include "inst_fmt.h"
 #include "instruct.h"

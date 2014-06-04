@@ -7,13 +7,16 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <local/ash.h>
+
+#include <construct/installtypes.h>
+#include <construct/ash.h>
 #include <construct/shapemacs.h>
 #include <construct/tags.h>
 
 #include <main/flags.h>
 
 #include <reader/expmacs.h>
-#include <local/localtypes.h>
 
 #include "regable.h"
 

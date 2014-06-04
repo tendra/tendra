@@ -9,10 +9,10 @@
 
 #include <string.h>
 
+#include <local/ash.h>
 #include <local/diag_config.h>
 #include <local/out.h>
 #include <local/codermacs.h>
-#include <local/localtypes.h>
 
 #ifdef NEWDWARF
 #include <local/dw2_config.h>
@@ -41,6 +41,7 @@
 
 #include <refactor/optimise.h>
 
+#include "localtypes.h"
 #include "coder.h"
 #include "instr.h"
 #include "scan2.h"

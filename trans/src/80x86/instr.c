@@ -45,6 +45,7 @@
 
 #include <refactor/refactor.h>
 
+#include "localtypes.h"
 #include "assembler.h"
 #include "operand.h"
 #include "instr386.h"

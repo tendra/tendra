@@ -12,6 +12,8 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
+#include <local/ash.h>
+
 #include <reader/exptypes.h>
 #include <reader/expmacs.h>
 #include <reader/exptypes.h>
@@ -29,6 +31,7 @@
 
 #include <refactor/optimise.h>
 
+#include "localtypes.h"
 #include "assembler.h"
 #include "instrs.h"
 #include "evaluate.h"

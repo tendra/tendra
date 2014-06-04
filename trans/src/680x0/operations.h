@@ -10,12 +10,12 @@
 #ifndef OPERATIONS_INCLUDED
 #define OPERATIONS_INCLUDED
 
+#include <local/ash.h>
+
 #include <reader/exptypes.h>
-#include <local/localtypes.h>
+#include <reader/ecodes.h>
 
 #include <construct/installtypes.h>
-
-#include <reader/ecodes.h>
 
 extern bool have_cond;
 extern bool D1_is_special;

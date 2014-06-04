@@ -8,11 +8,9 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include <local/localtypes.h>
+#include <local/ash.h>
 
 #include <construct/installtypes.h>
-
-#include "ash.h"
 
 #ifndef addressingtkey
 #define addressingtkey 1

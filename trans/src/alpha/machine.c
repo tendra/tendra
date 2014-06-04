@@ -8,7 +8,6 @@
  */
 
 #include <reader/expmacs.h>
-#include <local/localtypes.h>
 
 #include <construct/shapemacs.h>
 #include <construct/installtypes.h>

@@ -11,9 +11,9 @@
 
 #include <reader/expmacs.h>
 #include <reader/exptypes.h>
-#include <local/localtypes.h>
-#include <local/codermacs.h>
+
 #include <local/szs_als.h>
+#include <local/codermacs.h>
 
 #ifdef NEWDWARF
 #include <local/dw2_config.h>

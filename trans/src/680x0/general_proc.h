@@ -7,8 +7,9 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <local/ash.h>
+
 #include <reader/exptypes.h>
-#include <local/localtypes.h>
 
 #include <construct/installtypes.h>
 

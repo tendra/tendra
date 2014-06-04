@@ -38,6 +38,7 @@
 
 #include <main/flags.h>
 
+#include "localtypes.h"
 #include "coder.h"
 #include "instr386.h"
 #include "scan2.h"

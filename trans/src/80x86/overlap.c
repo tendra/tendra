@@ -12,6 +12,7 @@
 #include <construct/tags.h>
 #include <construct/exp.h>
 
+#include "localtypes.h"
 #include "overlap.h"
 
 /* PROCEDURES */

@@ -15,9 +15,10 @@
 
 #include <shared/check.h>
 
-#include <local/codermacs.h>
+#include <local/ash.h>
 #include <local/out.h>
 #include <local/cpu.h>
+#include <local/codermacs.h>
 
 #ifdef NEWDWARF
 #include <local/dw2_config.h>
@@ -44,6 +45,7 @@
 
 #include <utility/bits.h>
 
+#include "localtypes.h"
 #include "coder.h"
 #include "cproc.h"
 #include "reg_record.h"

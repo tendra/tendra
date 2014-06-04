@@ -19,6 +19,8 @@
 
 #include <shared/check.h>
 
+#include <local/ash.h>
+
 #include "alpha_ins.h"
 #include "inst_fmt.h"
 #include "addresstypes.h"

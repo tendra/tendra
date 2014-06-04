@@ -27,6 +27,11 @@
 
 #include <shared/error.h>
 
+#include <local/ash.h>
+
+#include <construct/installtypes.h>
+#include <construct/ash.h>
+
 #include "memtdf.h"
 #include "codegen.h"
 #include "maxminmacs.h"

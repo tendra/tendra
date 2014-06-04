@@ -14,6 +14,7 @@
 #include <shared/xalloc.h>
 
 #include <local/szs_als.h>
+#include <local/ash.h>
 
 #include <reader/exptypes.h>
 
@@ -36,7 +37,6 @@
 #include <linkinfo/li_types.h>
 
 #include <diag/diagtypes.h>
-
 #include <diag/diag_fns.h>
 #include <diag/diagglob.h>
 #include <diag/mark_scope.h>

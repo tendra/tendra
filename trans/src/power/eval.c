@@ -19,6 +19,10 @@
 
 #include <shared/error.h>
 
+#include <local/ash.h>
+
+#include <construct/installtypes.h>
+#include <construct/ash.h>
 #include <construct/flpttypes.h>
 #include <construct/flpt.h>
 #include <construct/machine.h>

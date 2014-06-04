@@ -14,8 +14,9 @@
 #ifndef OUTOFLINE
 #define OUTOFLINE 1
 
+#include <local/ash.h>
+
 #include <reader/exptypes.h>
-#include <local/localtypes.h>
 
 #include "addresstypes.h"
 

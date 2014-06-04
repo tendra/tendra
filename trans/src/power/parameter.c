@@ -11,6 +11,8 @@
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
+#include <local/ash.h>
+
 #include <reader/exptypes.h>
 
 #include <construct/machine.h>

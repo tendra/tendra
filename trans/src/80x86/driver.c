@@ -16,7 +16,6 @@
 
 #include <local/out.h>
 #include <local/cpu.h>
-#include <local/localtypes.h>
 
 #include <reader/expmacs.h>
 #include <reader/basicread.h>
@@ -32,6 +31,7 @@
 #include <main/driver.h>
 #include <main/flags.h>
 
+#include "localtypes.h"
 #include "assembler.h"
 #include "cproc.h"
 #include "coder.h"

@@ -27,6 +27,10 @@
 
 #include <assert.h>
 
+#include <local/ash.h>
+
+#include <construct/installtypes.h>
+#include <construct/ash.h>
 #include <construct/tags.h>
 
 #include <main/flags.h>

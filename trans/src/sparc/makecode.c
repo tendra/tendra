@@ -11,9 +11,10 @@
 
 #include <shared/check.h>
 
+#include <local/szs_als.h>
+#include <local/ash.h>
 #include <local/diag_config.h>
 #include <local/out.h>
-#include <local/szs_als.h>
 
 #ifdef NEWDWARF
 #include <local/dw2_config.h>
@@ -21,7 +22,12 @@
 
 #include <reader/basicread.h>
 #include <reader/externs.h>
+#include <reader/exptypes.h>
+#include <reader/expmacs.h>
+#include <reader/exptypes.h>
 
+#include <construct/installtypes.h>
+#include <construct/ash.h>
 #include <construct/tags.h>
 #include <construct/installtypes.h>
 #include <construct/exp.h>
@@ -29,10 +35,6 @@
 #include <construct/install_fns.h>
 #include <construct/flpt.h>
 #include <construct/f64.h>
-
-#include <reader/exptypes.h>
-#include <reader/expmacs.h>
-#include <reader/exptypes.h>
 
 #include <main/flags.h>
 

@@ -10,8 +10,9 @@
 #ifndef CODER_H
 #define CODER_H
 
+#include <local/ash.h>
+
 #include <reader/exptypes.h>
-#include <local/localtypes.h>
 
 void coder(where dest, ash stack, exp e);
 void clean_stack(void);

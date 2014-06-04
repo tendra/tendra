@@ -91,8 +91,9 @@
 
 #include <shared/xalloc.h>
 
-#include <local/diag_config.h>
+#include <local/ash.h>
 #include <local/out.h>
+#include <local/diag_config.h>
 
 #ifdef NEWDWARF
 #include <local/dw2_config.h>
@@ -163,25 +164,6 @@ dec *diag_def = NULL ;	/* diagnostics definition */
 int main_globals_index = 0;	/* number of globals */
 int caller_offset_used = 0;
 enum section current_section = no_section ;
-
-
-/*
-    FIND THE SIZE AND ALIGNMENT OF A SHAPE
-*/
-
-ash 
-ashof ( shape s ){
-  ash a ;
-  a.ashsize =  shape_size ( s ) ;
-  a.ashalign = shape_align ( s ) ;
-  return a;
-}
-
-
-
-
-
-  
 
 
 /*

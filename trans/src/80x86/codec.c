@@ -14,11 +14,13 @@
 
 #include <shared/check.h>
 
+#include <local/ash.h>
+#include <local/codermacs.h>
+
 #include <stddef.h>
 
 #include <reader/exptypes.h>
 #include <reader/expmacs.h>
-#include <local/codermacs.h>
 
 #include <reader/basicread.h>
 #include <reader/readglob.h>
@@ -32,6 +34,7 @@
 
 #include <main/flags.h>
 
+#include "localtypes.h"
 #include "instr386.h"
 #include "operand.h"
 #include "coder.h"

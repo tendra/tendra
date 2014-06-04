@@ -13,8 +13,12 @@
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
+#include <local/ash.h>
+
 #include <reader/exptypes.h>
 
+#include <construct/installtypes.h>
+#include <construct/ash.h>
 #include <construct/machine.h>
 
 #include <main/flags.h>

@@ -11,7 +11,6 @@
 #define INSTR_H
 
 #include <reader/exptypes.h>
-#include <local/localtypes.h>
 
 #include <construct/installtypes.h>
 

@@ -15,6 +15,8 @@
 
 #include <main/flags.h>
 
+#include "localtypes.h"
+
 long dwarf_lab_num = 0;
 
 void

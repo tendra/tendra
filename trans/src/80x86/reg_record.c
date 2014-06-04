@@ -20,6 +20,7 @@
 
 #include <main/flags.h>
 
+#include "localtypes.h"
 #include "operand.h"
 #include "instr386.h"
 #include "reg_record.h"

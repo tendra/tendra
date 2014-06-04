@@ -21,6 +21,8 @@
 
 #include <shared/check.h>
 
+#include <local/ash.h>
+
 #include <reader/basicread.h>
 
 #include <main/flags.h>

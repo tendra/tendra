@@ -32,6 +32,7 @@
 #include <local/out.h>
 #include <dwarf2/dw2_iface.h>
 
+#include "localtypes.h"
 #include "assembler.h"
 
 #define	DWARF_MOD_VERSION	DWARF_VERSION

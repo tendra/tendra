@@ -16,7 +16,6 @@
 
 #include <local/out.h>
 #include <local/cpu.h>
-#include <local/localtypes.h>
 
 #ifdef NEWDWARF
 #include <local/dw2_config.h>
@@ -26,6 +25,7 @@
 
 #include <main/flags.h>
 
+#include "localtypes.h"
 #include "cproc.h"
 #include "instr.h"
 #include "messages_8.h"

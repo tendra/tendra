@@ -8,18 +8,13 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include "ash.h"
+#ifndef LOCAL_ASH_H
+#define LOCAL_ASH_H
 
-/*
- * ash.c:
- * ashof is for historical compatibility, from before 
- * shape_size() & shape_align() 
- */
-ash ashof(shape s)
-{
-  ash a;
+typedef struct {
+	long  ashsize;  /* the minimum size in bits of a shape */
+	long  ashalign; /* the required alignment in bit units of the start of a shape */
+} ash;
 
-  a.ashsize = shape_size(s);
-  a.ashalign = shape_align(s);
-  return a;
-}
+#endif
+

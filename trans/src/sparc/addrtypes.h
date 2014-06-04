@@ -12,7 +12,7 @@
 
 #include <shared/check.h>
 
-#include <local/localtypes.h>
+#include <local/ash.h>
 
 #include <construct/installtypes.h>
 

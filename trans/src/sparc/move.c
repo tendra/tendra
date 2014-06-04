@@ -21,6 +21,8 @@
 
 #include <assert.h>
 
+#include <local/ash.h>
+
 #include <main/flags.h>
 
 #include "sparcins.h"

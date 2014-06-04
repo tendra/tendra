@@ -7,18 +7,21 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef LOCALTYPES_INCLUDED
-#define LOCALTYPES_INCLUDED
-
-#include <reader/exptypes.h>
+#include <local/ash.h>
 
 #include <construct/installtypes.h>
+#include <construct/ash.h>
 
-typedef struct {
-    int ashsize;
-    int ashalign;
-} ash;
+#include <reader/expmacs.h>
 
-extern ash ashof(shape);
+ash
+ashof(shape s)
+{
+	ash a;
 
-#endif /* LOCALTYPES_INCLUDED */
+	a.ashsize  = shape_size(s);
+	a.ashalign = shape_align(s);
+
+	return a;
+}
+

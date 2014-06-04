@@ -10,6 +10,8 @@
 
 #ifdef DEBUG_POWERTRANS
 
+#include <local/ash.h>
+
 #include <reader/exptypes.h>
 #include <reader/expmacs.h>
 

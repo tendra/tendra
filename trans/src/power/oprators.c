@@ -10,6 +10,8 @@
 
 #include <shared/error.h>
 
+#include <local/ash.h>
+
 #include <reader/exptypes.h>
 
 #include <main/flags.h>

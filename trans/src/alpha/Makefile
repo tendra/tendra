@@ -35,6 +35,7 @@ PARTS+= src/common/main
 
 CCOPTS+=	${TRANS_CFLAGS}
 
+SRCS+=	ashof.c
 SRCS+=	alpha_ins.c
 SRCS+=	code_here.c
 SRCS+=	coder.c

@@ -19,7 +19,8 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
-#include <local/localtypes.h>
+#include <construct/installtypes.h>
+
 #include <reader/expmacs.h>
 
 #include <main/flags.h>

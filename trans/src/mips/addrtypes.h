@@ -15,7 +15,7 @@
 #ifndef addressingtkey
 #define addressingtkey 1
 
-#include <local/localtypes.h>
+#include <local/ash.h>
 
 #include <construct/installtypes.h>
 

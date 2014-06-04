@@ -28,6 +28,7 @@ PARTS+= src/common/main
 
 CCOPTS+=	${TRANS_CFLAGS}
 
+SRCS+=	ashof.c
 SRCS+=	c_arith_type.c
 SRCS+=	code_here.c
 SRCS+=	comment.c

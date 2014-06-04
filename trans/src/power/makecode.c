@@ -11,10 +11,13 @@
 #include <shared/error.h>
 
 #include <local/cpu.h>
+#include <local/ash.h>
 
 #include <reader/exptypes.h>
 #include <reader/externs.h>
 
+#include <construct/installtypes.h>
+#include <construct/ash.h>
 #include <construct/label_ops.h>
 #include <construct/installglob.h>
 #include <construct/f64.h>

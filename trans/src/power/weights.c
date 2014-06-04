@@ -44,7 +44,6 @@
 
 #include <reader/exptypes.h>
 #include <reader/expmacs.h>
-#include <local/localtypes.h>
 
 #include <construct/exp.h>
 #include <construct/tags.h>

@@ -19,9 +19,10 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
-#include <local/codermacs.h>
+#include <local/ash.h>
 #include <local/out.h>
 #include <local/cpu.h>
+#include <local/codermacs.h>
 
 #ifdef NEWDIAGS
 #include <local/diag_config.h>
@@ -54,6 +55,7 @@
 
 #include <utility/bits.h>
 
+#include "localtypes.h"
 #include "weights.h"
 #include "instr386.h"
 #include "operand.h"
