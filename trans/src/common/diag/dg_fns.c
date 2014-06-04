@@ -2916,7 +2916,5 @@ f_dg_exp(exp body, dg diagnostic)
 exp
 read_dg_exp(exp body)
 {
-	dg diag;
-
 	return NULL;
 }
