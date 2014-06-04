@@ -140,10 +140,6 @@ translate(FILE *f, const char *name)
 	if (exit_status != 0) {
 		exit(exit_status);
 	}
-
-	if (number_errors != 0) {
-		exit(EXIT_FAILURE);
-	}
 }
 
 int
