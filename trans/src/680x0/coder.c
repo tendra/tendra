@@ -11,6 +11,7 @@
 #include <string.h>
 #include <limits.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
 #include <shared/xalloc.h>
@@ -26,6 +27,7 @@
 #include <construct/install_fns.h>
 #include <construct/tags.h>
 #include <construct/installglob.h>
+#include <construct/machine.h>
 
 #include <main/driver.h>
 #include <main/flags.h>
@@ -400,7 +402,7 @@ alloc_variable(exp e, exp def, ash stack)
 	}
 
 	if (n == apply_tag || n == apply_general_tag || n == tail_call_tag) {
-		in_reg3 = result_in_reg(sh(def));
+		in_reg3 = reg_result(sh(def));
 	}
 
 	/* Try to allocate in registers */
@@ -1491,7 +1493,7 @@ coder(where dest, ash stack, exp e)
 		longs = st;
 
 		/* Does the result go into a register? */
-		reg_res = result_in_reg(sh(e));
+		reg_res = reg_result(sh(e));
 		if (!reg_res) {
 			if (eq_where(dest, zero)) {
 				/* Calculate room for ignored compound result */
@@ -1731,6 +1733,7 @@ coder(where dest, ash stack, exp e)
 			}
 			off = rounder(off, stack_align) / 8;
 			size_w = mw(zeroe, off);
+			(void) size_w; /* XXX: suspicious; should this value be used? */
 			add(sh(offset),A0,zw(offset),SP);
 		} else {
 			exp s_d0 = sim_exp(sh(offset),D0);
@@ -1775,7 +1778,7 @@ coder(where dest, ash stack, exp e)
 			shape rsha = sh(son(e));
 
 			/* Does the result go into a register? */
-			if (result_in_reg(rsha)) {
+			if (reg_result(rsha)) {
 				if (shape_size(rsha) <= 32) {
 					/* Small register results go into D0 */
 					coder(D0, stack, son(e));

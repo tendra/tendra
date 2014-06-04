@@ -23,6 +23,4 @@ extern bool is_ptr_void(shape);
 extern bool issigned(shape);
 extern bool varsize(shape);
 
-#define  result_in_reg(X)	reg_result(X)
-
 #endif

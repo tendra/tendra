@@ -11,6 +11,7 @@
 #include <string.h>
 #include <limits.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
 
@@ -25,6 +26,7 @@
 #include <construct/install_fns.h>
 #include <construct/tags.h>
 #include <construct/installglob.h>
+#include <construct/machine.h>
 
 #include <main/driver.h>
 #include <main/flags.h>
@@ -53,6 +55,9 @@
 #include "special_exps.h"
 #include "68k_globals.h"
 #include "localexpmacs.h"
+
+#include "xdb_basics.h"
+#include "xdb_output.h"
 
 /* externals */
 
@@ -853,7 +858,7 @@ void apply_general_proc
    longs = callers_size + callees_size_total;
 
    /* Does the result go into a register? */
-   reg_res = result_in_reg(sh(e));
+   reg_res = reg_result(sh(e));
    if (!reg_res) {
       if (eq_where(dest, zero)) {
          /* Calculate size of ignored compound result */
