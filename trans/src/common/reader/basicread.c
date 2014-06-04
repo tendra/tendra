@@ -11,6 +11,7 @@
 #include <stdlib.h>
 
 #include <shared/check.h>
+#include <shared/error.h>
 #include <shared/xalloc.h>
 
 #include <reader/code.h>
@@ -47,9 +48,6 @@ static const char *crt_dot_t;		/* initialised by init_reader */
 int crt_lno;			/* initialised to -1 by init_reader */
 int crt_charno;			/* only used if crt_lno != -1. No init needed */
 char *crt_flnm;			/* only used if crt_lno != -1. No init needed */
-static int failer_count;	/* initialised by init_reader */
-				/* number of failures so far. To allow for
-				   limiting error messages */
 static int pkt_index;		/* initialised by init_reader */
 				/* the index of the current packet in the
 				   file */
@@ -69,30 +67,6 @@ static place bytestream_pickup;	/* set before use */
 				/* records the end of a bytestream */
 
 /*
- * failer prints an error message on the standard output,
- * and sets good_trans to 1 to indicate an error.
- */
-
-/* fails, giving error message s */
-void
-failer(char *s)
-{
-
-  good_trans = 1;
-  if (crt_lno != -1) {
-    IGNORE fprintf(stderr, "trans:%s: internal error: after line %d: char %d: %s\n", crt_flnm, crt_lno, crt_charno, s);
-  } else {
-    IGNORE fprintf(stderr, "trans:%s: internal error: %s\n", crt_dot_t, s);
-  }
-  ++failer_count;
-  /* errors limited to 15 */
-  if (failer_count >= 15) {
-    exit(EXIT_FAILURE);
-  }
-  return;
-}
-
-/*
  * read_line reads the next line from the file and updates pkt_index,
  * file_pkt and crt_line.
  */
@@ -103,7 +77,7 @@ read_line(int complain)
   size_t test = fread((char *)buff, sizeof(char), cppkt, fpin);
 
   if (test == (size_t)0 && complain) {
-    failer(READ_PAST_END);
+    error(ERROR_INTERNAL, READ_PAST_END);
     exit(EXIT_FAILURE);
   }
   pkt_index++;
@@ -121,7 +95,6 @@ initreader(FILE *f, const char *n)
 {
   crt_dot_t = n;
   crt_lno = -1;
-  failer_count = 0;
 
   fpin = f;
 
@@ -460,7 +433,7 @@ d_tdfstring(void)
     tdb.size = 64;
     return tdb;
   }
-  failer(NO_BIG_STRINGS);
+  error(ERROR_INTERNAL, NO_BIG_STRINGS);
   return tdb;
 }
 
@@ -561,22 +534,19 @@ check_magic_no(void)
 
 	if (getcode(8) != 'T' || getcode(8) != 'D' || getcode(8) != 'F' ||
 	    getcode(8) != 'C') {
-		failer("This is not a TDF Version >= 4 capsule");
-		exit(EXIT_FAILURE);
+		error(ERROR_FATAL, "This is not a TDF Version >= 4 capsule");
 	}
 	maj = d_tdfint();
 	if (natint(maj) > MAJOR_VERSION) {
-		failer("TDF version of capsule is later than version dealt with by translator - update the translator");
-		exit(EXIT_FAILURE);
+		error(ERROR_FATAL, "TDF version of capsule is later than version dealt with by translator - update the translator");
 	}
 	else
 	if (natint(maj) < MAJOR_VERSION) {
-		failer("TDF version dealt with by translator is later than version of capsule - recompile capsule with later compiler");
-		exit(EXIT_FAILURE);
+		error(ERROR_FATAL, "TDF version dealt with by translator is later than version of capsule - recompile capsule with later compiler");
 	}
 	min = d_tdfint();
 	if (natint(min) > MINOR_VERSION) {
-	    IGNORE fprintf(stderr, "Warning: capsule may contain constructions not dealt with in this minor version of the translator\n");
+	    error(ERROR_WARNING, "capsule may contain constructions not dealt with in this minor version of the translator");
 	}
 	to_boundary();
 }

@@ -27,6 +27,7 @@
 
 #include <local/ash.h>
 
+#include <shared/error.h>
 
 #include <construct/installtypes.h>
 #include <construct/ash.h>
@@ -185,7 +186,7 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
       else if ((props(e) & infreg_bits) == 0 && floatregable(e) && no(e) < ffloat)
       {
 	/* suitable for float s reg , no(e) has been set up by weights */
-	fail("regalloc: no float point s regs acknowledged");
+	error(ERROR_SERIOUS, "regalloc: no float point s regs acknowledged");
       }
       else if ((props(e) & inanyreg) == 0)
       {

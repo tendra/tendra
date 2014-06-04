@@ -307,7 +307,7 @@ static void loopmove2
   case 1:	ldu = i_lbzu; stu = i_stbu; break;
   case 2:	ldu = i_lhzu; stu = i_sthu; break;
   case 4:	ldu = i_lu; stu = i_stu; break;
-  default:	fail("bad bytes_per_step in loopmove");
+  default:	error(ERROR_SERIOUS, "bad bytes_per_step in loopmove");
   }
 
   ld_const_ins(no_steps, R_TMP0);
@@ -399,7 +399,7 @@ static void loopmove3
   case 1:	ldu = i_lbzu; stu = i_stbu; break;
   case 2:	ldu = i_lhzu; stu = i_sthu; break;
   case 4:	ldu = i_lu; stu = i_stu; break;
-  default:	fail("bad bytes_per_step in loopmove");
+  default:	error(ERROR_SERIOUS, "bad bytes_per_step in loopmove");
   }
 
   /* moves of addresses not handled by this long move */
@@ -526,7 +526,7 @@ static int moveinstore(instore iss, instore isd, int size, int al, long regs, bo
 
   if ((al % 8) != 0 || (bits % 8) != 0)
   {
-    fail("moveinstore: bits mem to mem move");
+    error(ERROR_SERIOUS, "moveinstore: bits mem to mem move");
     return NOREG;
   }
 
@@ -777,7 +777,7 @@ start:
    case insomereg:
    case insomefreg:
     {
-      fail("move: source somereg not specified");
+      error(ERROR_SERIOUS, "move: source somereg not specified");
       return NOREG;
     }
    case inreg:
@@ -807,7 +807,7 @@ start:
 
 	  if (*sr != -1)
 	  {
-	    fail("move: somereg already set");
+	    error(ERROR_SERIOUS, "move: somereg already set");
 	  }
 	  *sr = r;
 	  return NOREG;
@@ -900,7 +900,7 @@ start:
 
 	  if (*sr != -1)
 	  {
-	    fail("move: somereg already set");
+	    error(ERROR_SERIOUS, "move: somereg already set");
 	  }
 	  *sr = getreg(regs);
 	  setregalt(dest.answhere, *sr);
@@ -927,7 +927,7 @@ start:
 	  if ((dest.ashwhere.ashsize == 64 && !fr.dble) ||
 	      (dest.ashwhere.ashsize == 32 && fr.dble))
 	  {
-	    fail("inconsistent sizes");
+	    error(ERROR_SERIOUS, "inconsistent sizes");
 	  }
 	  is = insalt(dest.answhere);
 	  if (is.adval)
@@ -1002,7 +1002,7 @@ start:
 
 	  if (*sr != -1)
 	  {
-	    fail("move: somereg already set");
+	    error(ERROR_SERIOUS, "move: somereg already set");
 	  }
 	  *sr = getreg(regs);
 	  setregalt(dest.answhere, *sr);
@@ -1071,7 +1071,7 @@ start:
     }				/* end notinreg a */
   }				/* end switch a */
 
-  fail("move not handled");
+  error(ERROR_SERIOUS, "move not handled");
   return NOREG;
   /*NOTREACHED*/
 }

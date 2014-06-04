@@ -35,7 +35,6 @@ CCOPTS+=	${TRANS_CFLAGS}
 
 SRCS+=	ashof.c
 SRCS+=	code_here.c
-SRCS+=	comment.c
 SRCS+=	diag_out.c
 SRCS+=	dw2_config.c
 SRCS+=	dw2_extra.c

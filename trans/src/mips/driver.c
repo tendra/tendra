@@ -114,7 +114,7 @@ unhas(void)
 	}
 
 	if (do_alloca && PIC_code) {
-		failer("Can't do inline alloca with PIC code at the moment");
+		error(ERROR_INTERNAL, "Can't do inline alloca with PIC code at the moment");
 		exit(EXIT_FAILURE);
 	}
 

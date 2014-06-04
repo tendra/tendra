@@ -8,6 +8,7 @@
  */
 
 #include <shared/check.h>
+#include <shared/error.h>
 
 #include <local/diag_config.h>
 #include <local/out.h>
@@ -85,7 +86,7 @@ long  evalexp
       {
 	long  w = evalexp(son(e));
 	if (shape_align(sh(e))!= 1) {
-	  failer("should be align 1");
+	  error(ERROR_INTERNAL, "should be align 1");
 	}
 	if (shape_size(sh(e))!= 32) {
 	  w &= ((1 << shape_size(sh(e))) - 1);
@@ -190,7 +191,7 @@ long  evalexp
 	break;
       }
   }
-  failer(BAD_VAL);
+  error(ERROR_INTERNAL, BAD_VAL);
   return 0;
 }
 
@@ -355,7 +356,7 @@ static void evalaux
          };
 
        if (off < crt_off)
-              failer(CPD_ORDER);
+              error(ERROR_INTERNAL, CPD_ORDER);
        if (off >= (crt_off + 8))
            {
               clear_out((off-crt_off) /8, isconst, al);

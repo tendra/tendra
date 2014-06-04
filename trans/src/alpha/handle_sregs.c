@@ -12,6 +12,7 @@
   This file contains code to handle preserved registers.
 */
 
+#include <shared/error.h>
 
 #include "alpha_ins.h"
 #include "inst_fmt.h"
@@ -19,7 +20,6 @@
 #include "frames.h"
 #include "reg_defs.h"
 #include "maxminmacs.h"
-#include "fail.h"
 
 extern long frame_size;
 extern int arg_stack_space;
@@ -78,7 +78,7 @@ dump_sregs(unsigned int fdi, unsigned int fldi)
     }
     mask>>=1;
   }
-  if(fd!=0) failer("fd <> 0");
+  if(fd!=0) error(ERROR_INTERNAL, "fd != 0");
   mask=1<<31;
   b = dump_baseoff(fds);
   for (i = 31; (fld != 0)&&(mask!=0); i--){
@@ -92,7 +92,7 @@ dump_sregs(unsigned int fdi, unsigned int fldi)
     }	
     mask>>=1;
   }
-  if(fld!=0)failer("float dump failed\n");
+  if(fld!=0)error(ERROR_SERIOUS, "float dump failed");
   fixdone |= fdi;
   fltdone |= fldi;
 }
@@ -120,7 +120,7 @@ restore_sregs(unsigned int fd, unsigned int fld)
     }
     mask >>= 1;
   }
-  if(fd != 0) failer("fd<>0");
+  if(fd != 0) error(ERROR_INTERNAL, "fd != 0");
   b = dump_baseoff(fds);
   mask = 1<<31;
   for (i = 31; (fld != 0)&(mask!=0); i--) {

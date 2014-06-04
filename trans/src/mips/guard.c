@@ -22,6 +22,8 @@
  * used by make_code for the second operand.
  */
 
+#include <shared/error.h>
+
 #include <reader/basicread.h>
 
 #include "procrectypes.h"
@@ -91,7 +93,7 @@ guard(where w, space sp)
 	return sp;
       }
     default: {
-	failer ("Guard ? reg ");
+	error(ERROR_INTERNAL, "Guard ? reg ");
       }
   }
   return sp;

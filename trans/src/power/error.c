@@ -181,7 +181,7 @@ void do_trap(exp e)
   }
   else
   {
-    fail("do_trap::Unknown error code");
+    error(ERROR_SERIOUS, "do_trap::Unknown error code");
   }
   uncond_ins(i_b,err_lab);
   clear_all();
@@ -221,7 +221,7 @@ static long trap_label(exp e)
 {
   if (NO_ERROR_TREATMENT(e))
   {
-    fail("No error treatment");
+    error(ERROR_SERIOUS, "No error treatment");
     return 0;
   }
   else if (ERROR_TREATMENT_IS_TRAP(e))
@@ -298,7 +298,7 @@ int abs_error_treatment(exp e, space sp, where dest)
     long_bc_ins(i_beq,cr,trap,UNLIKELY_TO_JUMP);
     break;
    default:
-    fail("Unknown Integer shape for abs_tag\n");
+    error(ERROR_SERIOUS, "Unknown Integer shape for abs_tag");
   }
   rr_ins(i_abs,r,destr);
   setregalt(aa,destr);
@@ -366,7 +366,7 @@ int chvar_error_treatment(exp e, space sp, where dest)
     }
     break;
    default:
-    fail("Unknown integer shape in chvar_tag");
+    error(ERROR_SERIOUS, "Unknown integer shape in chvar_tag");
   }
   return move(aa,dest,sp.fixed,1);
 }
@@ -400,7 +400,7 @@ void div_error_treatment(int l, int r, exp e)
      case slonghd:minus_infinity = 0x80000000;break;
      case swordhd:minus_infinity = 0xffff8000;break;
      case scharhd:minus_infinity = 0xffffff80;break;
-     default:fail("Should not get here\n");
+     default:error(ERROR_SERIOUS, "Should not get here");
     }
     cmp_ri_ins(i_cmp,l,minus_infinity,creg3);
     long_bc_ins(i_beq,creg3,trap,UNLIKELY_TO_JUMP);
@@ -464,7 +464,7 @@ int minus_error_treatment(exp e, space sp, where dest)
       break;
     }
    default:
-    fail("NOT integer in minus with o/f");
+    error(ERROR_SERIOUS, "NOT integer in minus with o/f");
   }
   return move(aa, dest, sp.fixed, 1);
 }
@@ -567,7 +567,7 @@ int mult_error_treatment(exp e, space sp, where dest)
       break;
     }
    default:
-    fail("NOT integer in mult with o/f");
+    error(ERROR_SERIOUS, "NOT integer in mult with o/f");
   }
   return move(aa, dest, nsp.fixed, 1);
 }
@@ -628,7 +628,7 @@ int plus_error_treatment(exp e, space sp, where dest)
       break;
     }
    default:
-    fail("NOT integer shape in plus with overflow");
+    error(ERROR_SERIOUS, "NOT integer shape in plus with overflow");
   }
   return move(aa, dest, sp.fixed, 0);
 }
@@ -810,7 +810,7 @@ int neg_error_treatment(exp e, space sp, where dest)
     long_bc_ins(i_beq,cr,trap,UNLIKELY_TO_JUMP);
     break;
    default:
-    fail("Unknown Integer shape for neg tag\n");
+    error(ERROR_SERIOUS, "Unknown Integer shape for neg tag");
   }
   setregalt(aa,destr);
   return move(aa,dest,nsp.fixed,1);
@@ -852,7 +852,7 @@ void do_fmop_error_jump(exp e, int fs, int fd)
   {
    case fabs_tag:ins=i_fabs;break;
    case fneg_tag:ins=i_fneg;break;
-   default:fail("Unknown error jump for fmop");
+   default:error(ERROR_SERIOUS, "Unknown error jump for fmop");
   }
   rrf_ins(ins,fs,fd);
   mcrfs_ins(CRF0,0);
@@ -877,7 +877,7 @@ void do_fop_error_jump(exp e, int fs1, int fs2, int fd)
    case fminus_tag:ins = i_fs;break;
    case fmult_tag: ins = i_fm;break;
    case fdiv_tag:  ins = i_fd;break;
-   default:fail("Unknown error jump for fop");
+   default:error(ERROR_SERIOUS, "Unknown error jump for fop");
   }
   rrrf_ins(ins,fs1,fs2,fd);
   mcrfs_ins(CRF0,0);

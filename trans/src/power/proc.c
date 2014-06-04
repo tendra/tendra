@@ -1242,7 +1242,7 @@ makeans move_result_to_dest(exp e, space sp, where dest, int exitlab)
       COMMENT("apply: dest insomereg set to R_RESULT");
       if (*dr != -1)
       {
-	fail("somereg been set up");
+	error(ERROR_SERIOUS, "somereg been set up");
       }
       *dr = R_RESULT;
     }

@@ -17,6 +17,8 @@
 #include <stdio.h>
 #include <ctype.h>
 
+#include <shared/error.h>
+
 #include <local/szs_als.h>		/* for MAX_BF_SIZE */
 #include <local/ash.h>
 #include <local/fbase.h>
@@ -153,7 +155,7 @@ flpt f;
   }
   outs(fltrepr);
 #else
-  fail ( "Illegal floating point constant" ) ;
+  error(ERROR_SERIOUS,  "Illegal floating point constant" ) ;
 #endif
 }
 
@@ -231,14 +233,14 @@ realrep(exp e)
 	}
 
     } else {
-	fail ( "Illegal floating-point constant" ) ;
+	error(ERROR_SERIOUS,  "Illegal floating-point constant" ) ;
 	return NULL;
     }
 
     /* Fill in exponent */
     ex += ( 1 << ( exp_bits - 1 ) ) - 1 ;
     if ( ex <= 0 || ex >= ( 1 << exp_bits ) - 1 ) {
-	fail ( "Floating point constant out of range" ) ;
+	error(ERROR_SERIOUS,  "Floating point constant out of range" ) ;
     }
     for ( i = 0 ; i < exp_bits ; i++ ) {
 	int j = exp_bits - i ;
@@ -294,7 +296,7 @@ evalexp(exp e)
       a = ashof(sh(e));
       if (a.ashalign != 1 && !(name(sh(e)) == cpdhd && a.ashalign == 32))
       {
-	fail("should be align 1");
+	error(ERROR_SERIOUS, "should be align 1");
       }
       if (a.ashsize != 32)
       {
@@ -413,7 +415,7 @@ evalexp(exp e)
 
 
   default:
-    fail("tag not in evalexp");
+    error(ERROR_SERIOUS, "tag not in evalexp");
     return 0;
   }
   /* NOTREACHED */
@@ -938,7 +940,7 @@ evalone(exp e, int bitposn)
 
  	 if (no(off) < last_offset)
 	 {
-	    fail( "Compound components badly ordered" ) ;
+	    error(ERROR_SERIOUS,  "Compound components badly ordered" ) ;
 	 }
 	 if (last_align <= 1 || tupa.ashalign <= 1 || gap >= tupa.ashalign)
 	 {
@@ -1153,13 +1155,13 @@ evalone(exp e, int bitposn)
 		sh ( son ( e ) ) = sh ( e ) ;
 		evalone ( son ( e ), bitposn ) ;
 	    } else {
-		fail ( "Illegal chvar constant" ) ;
+		error(ERROR_SERIOUS,  "Illegal chvar constant" ) ;
 	    }
 	    return ;
 	}
 
     default: 
-       fail("tag not in evaluated");
+       error(ERROR_SERIOUS, "tag not in evaluated");
 
   }				/* end switch */
 }

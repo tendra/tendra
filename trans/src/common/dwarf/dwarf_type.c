@@ -33,8 +33,6 @@
 #include CROSS_INCLUDE/dwarf.h>
 #endif
 
-#define NOT_YET(x)	fprintf(stderr, "%s not yet implemented\n", x)
-
 #define BEEN_PUT_OUT(x)	((x)->been_outed != NULL)
 
 #define gcc_FT_long_long		0x8008
@@ -62,10 +60,10 @@ is_fund_dwarf(diag_type t)
 	case DIAG_TYPE_PTR:
 		return is_fund_dwarf(t->data.ptr.object);
 	case DIAG_TYPE_INITED:
-		failer("Initialized but undefined diag type in is_fund_dwarf - may be caused by using libraries without diagnostic information");
+		error(ERROR_INTERNAL, "Initialized but undefined diag type in is_fund_dwarf - may be caused by using libraries without diagnostic information");
 	case DIAG_TYPE_UNINIT:
 	default:
-		failer("Illegal diag type in is_fund_dwarf");
+		error(ERROR_INTERNAL, "Illegal diag type in is_fund_dwarf");
 	}
 	exit(EXIT_FAILURE);
 }
@@ -88,7 +86,7 @@ out_plain_fund_attr(diag_type t)
 			dwarf2c(FT_ext_prec_float);
 			break;
 		default:
-			failer("unknown float type");
+			error(ERROR_INTERNAL, "unknown float type");
 			exit(EXIT_FAILURE);
 		}
 		break;
@@ -119,14 +117,14 @@ out_plain_fund_attr(diag_type t)
 			dwarf2c(gcc_FT_unsigned_long_long);
 			break;
 		default:
-			failer("Unknown int type");
+			error(ERROR_INTERNAL, "Unknown int type");
 			exit(EXIT_FAILURE);
 		}
 		break;
 	case DIAG_TYPE_BITFIELD:
 		out_plain_fund_attr(t->data.bitfield.result_type);
 		if (t->data.bitfield.result_type->key != DIAG_TYPE_VARIETY) {
-			failer("non variety base type in bitfield");
+			error(ERROR_INTERNAL, "non variety base type in bitfield");
 		}
 		out_dwarf_bytesize_attr(t->data.bitfield.result_type->data.var);
 		OUT_DWARF_ATTR(AT_bit_size);
@@ -137,12 +135,12 @@ out_plain_fund_attr(diag_type t)
 		break;
 	case DIAG_TYPE_PTR:
 		if (t->data.ptr.object->key != DIAG_TYPE_NULL) {
-			failer("non void ptr in out_plain_fund_attr");
+			error(ERROR_INTERNAL, "non void ptr in out_plain_fund_attr");
 		}
 		dwarf2c(FT_pointer);
 		break;
 	default:
-		failer("wrong type in out_plain_fund_attr");
+		error(ERROR_INTERNAL, "wrong type in out_plain_fund_attr");
 		exit(EXIT_FAILURE);
 	}
 }
@@ -249,7 +247,7 @@ out_plain_user_attr(diag_type t)
 	/*  this NEVER writes out the actual TAG_xxxx block, but instead
 	    outputs the FORM_REF 4 byte offset of the actual block */
 	if (!BEEN_PUT_OUT(t)) {
-		failer("out_plain_user_attr without an asm label");
+		error(ERROR_INTERNAL, "out_plain_user_attr without an asm label");
 		exit(EXIT_FAILURE);
 	}
 	dwarf4(&((*t->been_outed)[0]));
@@ -276,7 +274,7 @@ static void
 queue_up_type_out(diag_type t)
 {
 	if (BEEN_PUT_OUT(t)) {
-		failer("Whhops, queueing twice");
+		error(ERROR_INTERNAL, "Whhops, queueing twice");
 		return;
 	}
 	t->been_outed = next_dwarf_type_lab();
@@ -335,7 +333,7 @@ out_dwarf_user_type(diag_type t)
 		cont_sib_chain(TAG_enumeration_type);
 		out_dwarf_name_attr(TDFSTRING2CHAR(t->data.t_enum.nme));
 		if (t->data.t_enum.base_type->key != DIAG_TYPE_VARIETY) {
-			failer("non integral enum type");
+			error(ERROR_INTERNAL, "non integral enum type");
 		}
 		out_dwarf_bytesize_attr(t->data.t_enum.base_type->data.var);
 		OUT_DWARF_ATTR(AT_element_list);
@@ -366,7 +364,7 @@ out_dwarf_user_type(diag_type t)
 		out_dwarf_bytesize_attr(t->data.t_union.tdf_shape);
 		break;
 	default:
-		failer("Illegal diag type in out_dwarf_user_type");
+		error(ERROR_INTERNAL, "Illegal diag type in out_dwarf_user_type");
 	}
 	/* now we must set the dwarf type label
 	   to be the dwarf label of this block */

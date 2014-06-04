@@ -11,9 +11,11 @@
 #include <string.h>
 #include <stdio.h>
 
-#include <reader/exp.h>
+#include <shared/error.h>
+
 #include <local/out.h>
 
+#include <reader/exp.h>
 #include <reader/code.h>
 
 #include <construct/installtypes.h>
@@ -93,7 +95,7 @@ special_call_name ( int i )
 	case 5: return sysV_assembler ? "alloca" : "_alloca";
 
 	default:
-	    fail ( "Attempting external call to builtin" ) ;
+	    error(ERROR_SERIOUS,  "Attempting external call to builtin" ) ;
 	    return "";
     }
     /* NOT REACHED */
@@ -165,7 +167,7 @@ specialneeds ( int i, exp application, exp pars )
 	case 5: return zeroneeds;	 /* alloca */
 
 	default : {
-	    fail ( "Unimplemented builtin" ) ;
+	    error(ERROR_SERIOUS,  "Unimplemented builtin" ) ;
 	    return zeroneeds;
 	}
     }
@@ -231,7 +233,7 @@ specialmake ( int i, exp par, space sp, where dest, int exitlab ){
       char *s ;
       e = son ( son ( par ) ) ;
       if ( name ( e ) != string_tag ) {
-	fail ( "asm argument is not a string" ) ;
+	error(ERROR_SERIOUS,  "asm argument is not a string" ) ;
 	return 0;
       }
       s = nostr ( e ) ;
@@ -315,7 +317,7 @@ specialmake ( int i, exp par, space sp, where dest, int exitlab ){
     }
     
     default : {
-      fail ( "Unimplemented builtin" ) ;
+      error(ERROR_SERIOUS,  "Unimplemented builtin" ) ;
       return 0;
     }
   }
@@ -460,7 +462,7 @@ output_special_routines (void)
 		    }
 
 		    default : {
-			fail ( "Unimplemented special routine" ) ;
+			error(ERROR_SERIOUS,  "Unimplemented special routine" ) ;
 			break ;
 		    }
 		}

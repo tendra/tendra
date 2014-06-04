@@ -10,6 +10,7 @@
 #include <stdio.h>
 
 #include <shared/check.h>
+#include <shared/error.h>
 #include <shared/xalloc.h>
 
 #include <local/dw2_config.h>
@@ -42,9 +43,8 @@
 static void fail_unimplemented
     ( long a1 , long a2 )
 {
-  IGNORE fprintf (stderr, "%lx  %lx\n", a1, a2);
-  failer ("unimplemented attribute");
-  return;
+  error(ERROR_INTERNAL, "unimplemented attribute: %lx %lx",
+		(unsigned long) a1, (unsigned long) a2);
 }
 
 static dg_type needed_types = NULL;
@@ -262,7 +262,7 @@ static void out_class_data
 	exp a, b, c;
 	if (!vtable_exp || !cm->d.cm_fn.slot ||
 		name(sh(son(cm->d.cm_fn.slot))) != offsethd)
-	  failer ("wrong virtual function data");
+	  error(ERROR_INTERNAL, "wrong virtual function data");
 	a = copy (son(vtable_exp));
 	b = copy (son(cm->d.cm_fn.slot));
 	c = f_add_to_ptr (a, b);
@@ -441,7 +441,7 @@ void dw_out_type
     case DGT_TAGGED: {
       dg_tag tg = t->data.t_tag;
       if (tg->done || tg->key != DGK_NAME || tg->p.nam->key != DGN_TYPE) {
-	failer ("unexpected out_type");
+	error(ERROR_INTERNAL, "unexpected out_type");
 	outnl_comment ("		ERROR");
 	break;
       }
@@ -864,7 +864,7 @@ void dw_out_type
     }
 
     case DGT_BITF: {
-      failer ("bitfields shouldn't occur here");
+      error(ERROR_INTERNAL, "bitfields shouldn't occur here");
       break;
     }
 
@@ -920,7 +920,7 @@ void dw_out_type
     }
 
     default:
-      failer ("illegal type");
+      error(ERROR_INTERNAL, "illegal type");
   }
   return;
 }

@@ -10,6 +10,7 @@
 #include <stddef.h>
 
 #include <shared/check.h>
+#include <shared/error.h>
 
 #include <reader/exp.h>
 
@@ -316,7 +317,7 @@ inc_offset(exp var, shape sha, exp konst, exp body, int i)
 			t = q;
 		}
 		if (t != rest) {
-			failer("unroll failure");
+			error(ERROR_INTERNAL, "unroll failure");
 		}
 
 		kill_exp(sum, sum);

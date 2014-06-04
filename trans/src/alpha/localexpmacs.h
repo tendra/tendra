@@ -7,7 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include "fail.h"
 
 #ifndef LOCALEXPMACS_H
 #define LOCALEXPMACS_H

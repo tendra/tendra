@@ -16,6 +16,8 @@ For trivial 'peephole' optimisations
 #include <assert.h>
 #include <stddef.h>
 
+#include <shared/error.h>
+
 #include <reader/exp.h>
 
 #include <construct/tags.h>
@@ -246,7 +248,7 @@ void keepexp
   case insomereg:
   case insomefreg:
     {
-      fail("keep ? reg");
+      error(ERROR_SERIOUS, "keep ? reg");
     }
 #if USE_BITAD
   case bitad:

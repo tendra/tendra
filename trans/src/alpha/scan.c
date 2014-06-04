@@ -1865,7 +1865,7 @@ needs scan
 	int offalign = frame_al1_of_offset(sh(offset_arg));
 #if 0
 	if (((offalign-1) &offalign)!= 0) {
-	  failer("Mixed frame offsets not supported");
+	  error(ERROR_INTERNAL, "Mixed frame offsets not supported");
 	}
 #endif
 	if (includes_vcallees(fralign) && l_or_cees(offalign)) {

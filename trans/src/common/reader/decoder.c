@@ -13,6 +13,7 @@
 #include <stdlib.h>
 
 #include <shared/check.h>
+#include <shared/error.h>
 
 #include <reader/code.h>
 #include <reader/basicread.h>
@@ -29,7 +30,7 @@
 static void
 decode_error(char *s)
 {
-    failer(s);
+    error(ERROR_INTERNAL, s);
     exit(EXIT_FAILURE);
 }
 

@@ -155,7 +155,7 @@ long  evalexp
     {
        long  w = evalexp(son(e));
        if (shape_align(sh(e))!= 1) {
-	  failer("should be align 1");
+	  error(ERROR_INTERNAL, "should be align 1");
        }
        if (shape_size(sh(e))!= 32) {
 	  w &= ((1 << shape_size(sh(e))) - 1);

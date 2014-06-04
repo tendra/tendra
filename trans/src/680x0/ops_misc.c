@@ -1412,7 +1412,7 @@ range_max(shape shp)
 	case ulonghd:
 		return 0xffffffff;
 	default:
-		fprintf(stderr, "Illegal shape in comparison");
+		error(ERROR_INTERNAL, "Illegal shape in comparison");
 	}
 	return 0;
 }
@@ -1432,7 +1432,7 @@ range_min(shape shp)
 	case ulonghd:
 		return 0;
 	default:
-		fprintf(stderr, "Illegal shape in comparison");
+		error(ERROR_INTERNAL, "Illegal shape in comparison");
 	}
 	return 0;
 }

@@ -16,10 +16,6 @@
 
 #include <construct/installtypes.h>
 
-
-extern void fail(char *);
-
-
 /* Commenting routines */
 extern void comment(char *);
 extern void comment1(char *, long);

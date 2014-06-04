@@ -23,6 +23,7 @@
 #include <stddef.h>
 
 #include <shared/check.h>
+#include <shared/error.h>
 
 #include <reader/exp.h>
 
@@ -634,7 +635,7 @@ void check_asm_seq
   }
   else
   if (name(e)!= top_tag)
-    failer("illegal ~asm");
+    error(ERROR_INTERNAL, "illegal ~asm");
   return;
 }
 
@@ -1011,7 +1012,7 @@ int scan2
     case asm_tag:
       {
 	if (props(e)!= 0)
-	  failer("~asm not in ~asm_sequence");
+	  error(ERROR_INTERNAL, "~asm not in ~asm_sequence");
 	check_asm_seq(son(e), 0);
 	proc_has_asm = 1;
 	return 0;

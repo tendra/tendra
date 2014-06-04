@@ -12,6 +12,7 @@
 #include <reader/exp.h>
 
 #include <shared/check.h>
+#include <shared/error.h>
 
 #ifdef NEWDWARF
 #include <local/dw2_config.h>
@@ -263,7 +264,7 @@ keepexp ( exp e, ans loc )
     switch ( discrim ( loc ) ) {
 	case insomereg:
 	case insomefreg:
-	    fail ( "Illegal location in keepexp" ) ;
+	    error(ERROR_SERIOUS,  "Illegal location in keepexp" ) ;
 	    return ;
 	case inreg:
 	    reg = regalt ( loc ) ;

@@ -89,6 +89,7 @@
 #include <string.h>
 #include <stdio.h>
 
+#include <shared/error.h>
 #include <shared/xalloc.h>
 
 #include <local/ash.h>
@@ -187,7 +188,7 @@ insection ( enum section s ){
     switch ( s ) {
       case data_section :
 	if (do_prom)
-	  failer ("prom .data");
+	  error(ERROR_INTERNAL, "prom .data");
 	outs ( "\t.section\t\".data\"\n" ) ;
 	return ;
       case text_section :
@@ -216,7 +217,7 @@ insection ( enum section s ){
     }
   }
   current_section = no_section ;
-  fail ( "bad \".section\" name" ) ;
+  error(ERROR_SERIOUS,  "bad \".section\" name" ) ;
   return ;
 }	
 
@@ -322,7 +323,7 @@ find_tag ( char * tag_name ){
     if(!strcmp(id,tag_name)) return boff(newtag);
   }
   printf("%s\n: ",tag_name);
-  fail("tag not declared");
+  error(ERROR_SERIOUS, "tag not declared");
   exit(1);
 }
 
@@ -654,7 +655,7 @@ translate_capsule (void){
 
     if ( stg != NULL && shape_size (sh(stg)) == 0 && name(stg) == asm_tag) {
       if (props(stg) != 0)
-	failer ("~asm not in ~asm_sequence");
+	error(ERROR_INTERNAL, "~asm not in ~asm_sequence");
       check_asm_seq (son(stg), 1);
       insection ( text_section ) ;
       (void)code_here ( stg, tempregs, nowhere ) ;

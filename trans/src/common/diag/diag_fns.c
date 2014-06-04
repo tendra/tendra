@@ -11,6 +11,7 @@
 #include <string.h>
 
 #include <shared/check.h>
+#include <shared/error.h>
 #include <shared/xalloc.h>
 
 #include <reader/exp.h>
@@ -113,7 +114,7 @@ f_build_diag_unit(tdfint labels, diag_descriptor_list descriptors)
 {
 	UNUSED(labels);
 	UNUSED(descriptors);
-	failer("f_build_diag_unit isn't really here");
+	error(ERROR_INTERNAL, "f_build_diag_unit isn't really here");
 	exit(EXIT_FAILURE);
 }
 
@@ -123,7 +124,7 @@ f_build_diagtype_unit(tdfint labels, diag_tagdef_list descriptors)
 {
 	UNUSED(labels);
 	UNUSED(descriptors);
-	failer("f_build_diagtype_unit isn't really here");
+	error(ERROR_INTERNAL, "f_build_diagtype_unit isn't really here");
 	exit(EXIT_FAILURE);
 }
 
@@ -187,7 +188,7 @@ f_diag_desc_id(tdfstring n, sourcemark whence, exp acc, diag_type new_type)
 	diag_descriptor new;
 
 	if (name(acc) != name_tag) {
-		failer("No name in f_diag_desc_id");
+		error(ERROR_INTERNAL, "No name in f_diag_desc_id");
 	}
 
 	new.key	= DIAG_ID_KEY;

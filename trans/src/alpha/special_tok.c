@@ -11,6 +11,7 @@
 #include <string.h>
 
 #include <shared/check.h>
+#include <shared/error.h>
 
 #include <local/szs_als.h>
 
@@ -151,7 +152,7 @@ special_token(token t, bitstream pars, int sortcode, int *done)
         *done = 1;
       }
       else{
-        failer("Unsupported argument to token __alpha_special");
+        error(ERROR_INTERNAL, "Unsupported argument to token __alpha_special");
         tkv.tk_exp = getexp(f_top,NULL,0,NULL,NULL,0,0,null_tag);
         *done = 1;
       }

@@ -11,6 +11,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include <shared/error.h>
 #include <shared/xalloc.h>
 
 #include <local/ash.h>
@@ -47,7 +48,6 @@
 #include "diag_out.h"
 #include "out_ba.h"
 #include "ibinasm.h"
-#include "fail.h"
 #include "directives.h"
 #include "pseudo.h"
 #include "outofline.h"
@@ -82,9 +82,8 @@ storage_class(int size)
     case 4: return s_long;
     case 8: return s_quad;
     default:
-    failer("illegal size for global");
+    error(ERROR_FATAL, "illegal size for global");
   }
-  return s_byte;
 }
 
 /*
@@ -279,8 +278,7 @@ find_tag(char *name)
     if(!strcmp(id,name)) return boff(tag);
   }
   printf("%s\n: ",name);
-  failer("tag not declared");
-  exit(EXIT_FAILURE);
+  error(ERROR_FATAL, "tag not declared");
 }
 
 

@@ -11,6 +11,7 @@
 #include <string.h>
 
 #include <shared/check.h>
+#include <shared/error.h>
 
 #include <reader/code.h>
 #include <reader/basicread.h>
@@ -68,7 +69,7 @@ special_token ( token t, bitstream pars, int sortcode, int * done )
       arg1 = hold_refactor(d_exp());
       set_place(old_place);
   
-      if (name(arg1) != name_tag) failer("Not a tag in va_start");
+      if (name(arg1) != name_tag) error(ERROR_INTERNAL, "Not a tag in va_start");
       id = son(arg1);
   
       env_o = getexp(f_offset(f_callers_alignment(1), f_alignment(sh(arg1))),
@@ -198,7 +199,7 @@ special_token ( token t, bitstream pars, int sortcode, int * done )
         *done = 1;
       }
       else{
-        failer("Unsupported argument to token __sparc_special");
+        error(ERROR_INTERNAL, "Unsupported argument to token __sparc_special");
         tkv.tk_exp = getexp(f_top,NULL,0,NULL,NULL,0,0,null_tag);
         *done = 1;
       }

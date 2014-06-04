@@ -17,8 +17,8 @@
  * corresponding to the first entry made is returned.
  */
 
+#include <shared/error.h>
 #include <shared/xalloc.h>
-
 
 #include <symtab/symconst.h>
 #include <symtab/symtab.h>
@@ -174,7 +174,7 @@ add_type_to_aux(diag_type dt, long ind)
 			case ulonghd: type->bt = btUInt;   retaux.ti = (*type); break;
 
 			default:
-				failer("DIAGS - not variety ");
+				error(ERROR_INTERNAL, "DIAGS - not variety ");
 			}
 			break;
 		}
@@ -239,7 +239,7 @@ add_type_to_aux(diag_type dt, long ind)
 			break;
 
 		default:
-			failer("bad diagnostics type");
+			error(ERROR_INTERNAL, "bad diagnostics type");
 			break;
 		};
 	}

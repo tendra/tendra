@@ -56,7 +56,7 @@ static dwarf_label lex_blk_stk[100];
 #define POP_LEX_BLK	(&lex_blk_stk[lex_blk_stk_ptr--])
 #define TOS_LEX_BLK	(&lex_blk_stk[lex_blk_stk_ptr])
 #define CHK_LEX_STK	if (lex_blk_stk_ptr < -1) {		\
-				failer("lex stk underflow");	\
+				error(ERROR_INTERNAL, "lex stk underflow");	\
 			}
 
 static void
@@ -122,7 +122,7 @@ code_diag_info(diag_info *d, int proc_no, void(*mcode)(void *), void *args)
 		OUT_DWARF_BEG(&tlab);	/* always needed for start_scope */
 		while (1) {
 			if (name(x) != hold_tag) {
-				failer("access should be in hold");
+				error(ERROR_INTERNAL, "access should be in hold");
 				break;
 			}
 			x = son(x);
@@ -137,7 +137,7 @@ code_diag_info(diag_info *d, int proc_no, void(*mcode)(void *), void *args)
 
 			if ((base_type(d->data.id_scope.typ))->key ==
 			    DIAG_TYPE_INITED) {
-				fprintf(stderr, "ERROR: %s has no diagtype... omitting\n",
+				error(ERROR_WARNING, "%s has no diagtype... omitting",
 					TDFSTRING2CHAR(d->data.id_scope.nme));
 				break;
 			}
@@ -161,7 +161,7 @@ code_diag_info(diag_info *d, int proc_no, void(*mcode)(void *), void *args)
 			out_dwarf_name_attr(TDFSTRING2CHAR(d->data.id_scope.nme));
 			out_dwarf_type_attr(d->data.id_scope.typ);
 			if (!out_dwarf_loc_attr(x, proc_no)) {
-				fprintf(stderr, "Unable to generate location info for variable '%s'\n",
+				error(ERROR_SERIOUS, "Unable to generate location info for variable '%s'",
 					TDFSTRING2CHAR(d->data.id_scope.nme));
 			}
 			leave_dwarf_blk();
@@ -185,8 +185,7 @@ code_diag_info(diag_info *d, int proc_no, void(*mcode)(void *), void *args)
 		comment_end_scope(d);
 		return;
 	}
-		failer("Illegal key in output_diag");
-		fprintf(stderr, "key was %d\n", d->key);
+		error(ERROR_INTERNAL, "Illegal key in output_diag. key was %d", d->key);
 		code_diag_info(d->more, proc_no, mcode, args);
 	}
 }
@@ -225,13 +224,13 @@ output_diag(diag_info *d, int proc_no, exp e)
 			exp x = d->data.id_scope.access;
 
 			if (name(x) != name_tag) {
-				failer("diagnosing non-identifier");
+				error(ERROR_INTERNAL, "diagnosing non-identifier");
 				return;
 			}
 
 			if ((base_type(d->data.id_scope.typ))->key ==
 			    DIAG_TYPE_INITED) {
-				fprintf(stderr, "ERROR: %s %s has no diagtype... omitting\n",
+				error(ERROR_WARNING, "%s %s has no diagtype... omitting",
 					isparam(son(x)) ? "Formal parameter" :
 					"Local variable",
 					TDFSTRING2CHAR(d->data.id_scope.nme));
@@ -257,7 +256,7 @@ output_diag(diag_info *d, int proc_no, exp e)
 			out_dwarf_name_attr(TDFSTRING2CHAR(d->data.id_scope.nme));
 			out_dwarf_type_attr(d->data.id_scope.typ);
 			if (!out_dwarf_loc_attr(x, proc_no)) {
-				fprintf(stderr, "Unable to generate location info for variable '%s'\n",
+				error(ERROR_SERIOUS, "Unable to generate location info for variable '%s'",
 					TDFSTRING2CHAR(d->data.id_scope.nme));
 			}
 			leave_dwarf_blk();
@@ -279,13 +278,12 @@ output_diag(diag_info *d, int proc_no, exp e)
 			{
 				fprintf(stderr, "diag type gives name as %s\n",
 					TDFSTRING2CHAR(d->data.tag_scope.typ->data.t_struct.nme));
-				failer("different names in output_diag");
+				error(ERROR_INTERNAL, "different names in output_diag");
 			}
 			out_dwarf_user_type(d->data.tag_scope.typ);
 			break;
 		default:
-			failer("Illegal key in output_diag");
-			fprintf(stderr, "key was %d\n", d->key);
+			error(ERROR_INTERNAL, "Illegal key in output_diag. key was %d", d->key);
 		}
 	}
 }

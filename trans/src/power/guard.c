@@ -23,6 +23,8 @@
  * second operand.
  */
 
+#include <shared/error.h>
+
 #include <main/flags.h>
 
 #include "codegen.h"
@@ -64,7 +66,7 @@ space needreg(int r, space sp)
   if (!(optim & OPTIM_TEMPDEC && IS_TREG(r)) && (sp.fixed&RMASK(r))!=0)
   {
     COMMENT1("needreg: %d", r);
-    fail("needreg: fixed reg already in use");
+    error(ERROR_SERIOUS, "needreg: fixed reg already in use");
   }
   return guardreg(r, sp);
 }
@@ -75,7 +77,7 @@ space needfreg(int r, space sp)
   if (!(optim & OPTIM_TEMPDEC && IS_FLT_TREG(r)) && (sp.flt&RMASK(r))!=0)
   {
     COMMENT1("needfreg: %d", r);
-    fail("needfreg: float reg already in use");
+    error(ERROR_SERIOUS, "needfreg: float reg already in use");
   }
   return guardreg(r, sp);
 }
@@ -127,12 +129,12 @@ space guard(where w, space sp)
   case insomereg:
   case insomefreg:
     {
-      fail("guard: Guard ? reg");
+      error(ERROR_SERIOUS, "guard: Guard ? reg");
       return sp;
     }
   default:
     {
-      fail("guard: not in switch");
+      error(ERROR_SERIOUS, "guard: not in switch");
       return sp;
     }
   }

@@ -10,6 +10,7 @@
 #include <stddef.h>
 
 #include <shared/check.h>
+#include <shared/error.h>
 
 #include <reader/exp.h>
 
@@ -294,7 +295,7 @@ long_to_al(int n)
 	case 512: return const_al512;
 
 	default:
-		failer(BAD_LONG_AL);
+		error(ERROR_INTERNAL, BAD_LONG_AL);
 		return const_al32;
 	}
 }

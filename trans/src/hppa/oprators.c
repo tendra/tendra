@@ -9,6 +9,7 @@
 
 #include <stdio.h>
 
+#include <shared/error.h>
 #include <shared/xalloc.h>
 
 #include <local/ash.h>
@@ -547,12 +548,12 @@ static void quad_addr
        where w;
        w=locate1(e,sp,sh(e),0);
        if (discrim(w.answhere)!=notinreg)
-	  failer("Illegal expression in quad_addr");
+	  error(ERROR_INTERNAL, "Illegal expression in quad_addr");
        is=insalt(w.answhere);
     }
     if (is.adval)
     {
-	failer("Illegal expression in quad_addr");
+	error(ERROR_INTERNAL, "Illegal expression in quad_addr");
     }
     if (IS_FIXREG(is.b.base))
     {
@@ -639,7 +640,7 @@ void quad_op
 	 tn = (int)test_number(e);
 	 if (tn < 1 || tn > 6)
 	 {
-	    fail("Illegal floating-point test");
+	    error(ERROR_SERIOUS, "Illegal floating-point test");
 	 }
 	 ir_ins(i_ldi, fs_, empty_ltrl, tn==1 ? 17 : tn==2 ? 21 : tn==3 ? 9 : tn==4 ? 13 : tn==5 ? 4 : 25,               ARG2);
 	 if (IsRev(e))
@@ -835,14 +836,14 @@ void quad_op
 	 break;
       }
       default :
-	fail("Illegal floating-point operation");
+	error(ERROR_SERIOUS, "Illegal floating-point operation");
    }
    if (quad_ret)
    {
       instore is;
       is = insalt(dest.answhere);
       if (discrim(dest.answhere)!=notinreg)
-	  failer("Illegal expression in quad_op");
+	  error(ERROR_INTERNAL, "Illegal expression in quad_op");
       if (is.adval)
       {
 	 if (IS_FIXREG(is.b.base))
@@ -872,7 +873,7 @@ void quad_op
 	 end=new_label();
 	 is = insalt(dest.answhere);
 	 if (discrim(dest.answhere)!=notinreg)
-	    failer("Illegal expression in quad_op");
+	    error(ERROR_INTERNAL, "Illegal expression in quad_op");
 	 if (is.adval)
 	 {
 	    if (IS_FIXREG(is.b.base))

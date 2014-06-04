@@ -892,7 +892,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 	 */
 	int *sr = someregalt(dest.answhere);
 
-	if (*sr != -1) {fail("somereg *2");}
+	if (*sr != -1) {error(ERROR_SERIOUS, "somereg *2");}
 	*sr = getreg(sp.fixed);
 	setregalt(dest.answhere, *sr);
       }
@@ -905,7 +905,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 	freg fr;
 
 	sfr = somefregalt(dest.answhere);
-	if (*sfr.fr != -1) {fail("somefreg *2");}
+	if (*sfr.fr != -1) {error(ERROR_SERIOUS, "somefreg *2");}
 	*sfr.fr = getfreg(sp.flt);
 	fr.fr = *sfr.fr;
 	fr.dble = sfr.dble;
@@ -967,7 +967,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 	 */
 	int *sr = someregalt(dest.answhere);
 
-	if (*sr != -1) {fail("somereg *2");}
+	if (*sr != -1) {error(ERROR_SERIOUS, "somereg *2");}
 	*sr = getreg(sp.fixed);
 	setregalt(dest.answhere, *sr);
       }
@@ -980,7 +980,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 	freg fr;
 
 	sfr = somefregalt(dest.answhere);
-	if (*sfr.fr != -1) {fail("somefreg *2");}
+	if (*sfr.fr != -1) {error(ERROR_SERIOUS, "somefreg *2");}
 	*sfr.fr = getfreg(sp.flt);
 	fr.fr = *sfr.fr;
 	fr.dble = sfr.dble;
@@ -1542,7 +1542,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 	    break;
 	  }
       default:
-	  fail("make_code: unexpected answhere in assign");
+	  error(ERROR_SERIOUS, "make_code: unexpected answhere in assign");
       }				/* end sw on answhere */
 
       return mka;
@@ -1624,7 +1624,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 
 	  if (*sr != -1)
 	  {
-	    fail("Somereg *2");
+	    error(ERROR_SERIOUS, "Somereg *2");
 	  }
 	  *sr = getreg(sp.fixed);
 	  setregalt(dest.answhere, *sr);
@@ -1655,7 +1655,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 	}
 #endif
       default:
-	fail("no compounds in float reg");
+	error(ERROR_SERIOUS, "no compounds in float reg");
       }
     }				/* end tup */
 
@@ -1710,7 +1710,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 
 	  if (*sr != -1)
 	  {
-	    fail("Somereg *2");
+	    error(ERROR_SERIOUS, "Somereg *2");
 	  }
 	  *sr = getreg(sp.fixed);
 	  setregalt(dest.answhere, *sr);
@@ -1737,7 +1737,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 	  return mka;
 	}
       default:
-	fail("No Tuples in freg");
+	error(ERROR_SERIOUS, "No Tuples in freg");
       }
     }
 
@@ -1785,7 +1785,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 
 	  if (*sr != -1)
 	  {
-	    fail("Somereg *2");
+	    error(ERROR_SERIOUS, "Somereg *2");
 	  }
 	  *sr = getreg(sp.fixed);
 	  setregalt(dest.answhere, *sr);
@@ -1811,7 +1811,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 	  return mka;
 	}
       default:
-	fail("no compounds in float reg");
+	error(ERROR_SERIOUS, "no compounds in float reg");
       }
     }
 
@@ -1832,7 +1832,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
       {
 	/* Choose register for fixed result */
 	int *sr = someregalt(dest.answhere);
-	if (*sr != -1) {fail("somereg *2");}
+	if (*sr != -1) {error(ERROR_SERIOUS, "somereg *2");}
 	*sr = getreg(sp.fixed);
 	setregalt(dest.answhere, *sr);
       }
@@ -1842,7 +1842,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 	somefreg sfr;
 	freg fr;
 	sfr = somefregalt(dest.answhere);
-	if (*sfr.fr != -1) { fail("somefreg *2"); }
+	if (*sfr.fr != -1) { error(ERROR_SERIOUS, "somefreg *2"); }
 	*sfr.fr = getfreg(sp.flt);
 	fr.fr = *sfr.fr;
 	fr.dble = sfr.dble;
@@ -2189,7 +2189,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 #endif
       if (ERROR_TREATMENT(e))
       {
-	fail("Unexpected error treatment for shl");
+	error(ERROR_SERIOUS, "Unexpected error treatment for shl");
       }
       if (name(s) ==and_tag && name(b) ==val_tag &&
 	 name(bro(son(s))) ==val_tag &&
@@ -2721,7 +2721,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 	}
 	else
 	{
-	  fail("make_code val_tag: unexpected bit size");
+	  error(ERROR_SERIOUS, "make_code val_tag: unexpected bit size");
 	}
 	goto moveconst;
       }
@@ -2756,7 +2756,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
         case R2PINF:mtfsb1_ins(30);mtfsb0_ins(31);changed_mode=1;break;
         case R2NINF:mtfsb1_ins(30);mtfsb1_ins(31);changed_mode=1;break;
         case 4: break;
-        default: fail("Unknown rounding mode");break;
+        default: error(ERROR_SERIOUS, "Unknown rounding mode");break;
       }
       /* can use fctiw command */
 
@@ -3413,7 +3413,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
     }
 
    default:
-    fail("TDF construct not done yet in make_code");
+    error(ERROR_SERIOUS, "TDF construct not done yet in make_code");
   }				/* end outer switch */
   assert(0);			/* should have return/goto from switch */
 #ifndef NDEBUG
@@ -3596,7 +3596,7 @@ void adjust_to_size(int src_shpe, int sreg, int dest_shpe, int dreg, int trap)
       mov_rr_ins(sreg,dreg);comment(NULL);
       break;
      default:
-      fail("Unexpected integer shape in adjust_to_size");
+      error(ERROR_SERIOUS, "Unexpected integer shape in adjust_to_size");
       break;
     }
   }
@@ -3625,7 +3625,7 @@ void adjust_to_size(int src_shpe, int sreg, int dest_shpe, int dreg, int trap)
       mov_rr_ins(sreg,dreg);comment(NULL);
       break;
      default:
-      fail("Unexpected integer shape in adjust_to_size");
+      error(ERROR_SERIOUS, "Unexpected integer shape in adjust_to_size");
       break;
     }
   }

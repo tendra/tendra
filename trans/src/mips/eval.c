@@ -18,6 +18,8 @@
 
 #include <local/ash.h>
 
+#include <shared/error.h>
+
 #include <reader/exp.h>
 #include <reader/basicread.h>
 
@@ -157,7 +159,7 @@ long  evalexp
 	long  w = evalexp(son(e));
 	a = ashof(sh(e));
 	if (a.ashalign != 1) {
-	  failer("should be align 1");
+	  error(ERROR_INTERNAL, "should be align 1");
 	}
 	if (a.ashsize != 32) {
 	  w &= ((1 << a.ashsize) - 1);
@@ -204,7 +206,7 @@ long  evalexp
 	ash a;
 	a = ashof(sh(e));
 	if (a.ashsize > 32)
-	  failer("clearshape");
+	  error(ERROR_INTERNAL, "clearshape");
 	return 0;
       }
    case env_offset_tag:
@@ -238,7 +240,7 @@ long  evalexp
 	return - evalexp(son(e));
    }
     default:
-      failer("tag not in evalexp");
+      error(ERROR_INTERNAL, "tag not in evalexp");
   }
   return 0;
 }
@@ -408,7 +410,7 @@ void evalone
 	long offs =0;
 
 	if (rep != 1)
-	  failer("CAN'T REP TUPLES");
+	  error(ERROR_INTERNAL, "CAN'T REP TUPLES");
 	set_align(a.ashalign);
 
 
@@ -458,7 +460,7 @@ void evalone
 		     }
                 }
                 else {
-                   failer("Constant bitfield does not fit into 32 bits");
+                   error(ERROR_INTERNAL, "Constant bitfield does not fit into 32 bits");
                 }
 	     }
 	     else {
@@ -526,7 +528,7 @@ void evalone
    	exp s = son(e);
 	if (s==NULL) return;
 	if (rep != 1)
-	  failer("CAN'T REP TUPLES");
+	  error(ERROR_INTERNAL, "CAN'T REP TUPLES");
    	set_align(a.ashalign);
    	for (;;) {
    		evalone(s,1);
@@ -560,7 +562,7 @@ void evalone
 	}
 	else {
 	  if (rep != 1)
-	    failer("CAN'T REP concat");
+	    error(ERROR_INTERNAL, "CAN'T REP concat");
 	  evalone(son(e), 1);
 	  evalone(bro(son(e)), 1);
 	}
@@ -603,7 +605,7 @@ void evalone
 
 
     default:
-      failer("tag not in evaluated");
+      error(ERROR_INTERNAL, "tag not in evaluated");
 
   }				/* end switch */
 }

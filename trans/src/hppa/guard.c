@@ -22,6 +22,8 @@
  * used by make_code for the second operand.
  */
 
+#include <shared/error.h>
+
 #include <refactor/optimise.h>
 
 #include "regmacs.h"
@@ -70,7 +72,7 @@ needreg(int r, space sp)
   if (!(optim & OPTIM_TEMPDEC && IS_TREG(r)) && (sp.fixed & RMASK(r)) != 0)
   {
     comment1("needreg: %d", r);
-    fail("needreg: fixed reg already in use");
+    error(ERROR_SERIOUS, "needreg: fixed reg already in use");
   }
 #endif
   return guardreg(r, sp);
@@ -84,7 +86,7 @@ needfreg(int r, space sp)
   if (!(optim & OPTIM_TEMPDEC && IS_FLT_TREG(r)) && (sp.flt & RMASK(r)) != 0)
   {
     comment1("needfreg: %d", r);
-    fail("needfreg: float reg already in use");
+    error(ERROR_SERIOUS, "needfreg: float reg already in use");
   }
 #endif
   return guardreg(r, sp);
@@ -140,13 +142,13 @@ guard(where w, space sp)
   case insomefreg:
     {
       comment1("guard: BAD discrim %d", discrim ( w.answhere ) );
-      fail("guard: Guard ? reg");
+      error(ERROR_SERIOUS, "guard: Guard ? reg");
       return sp;
     }
   default:
     {
       comment1("guard: BAD discrim %d", discrim ( w.answhere ) );
-      fail("guard: not in switch");
+      error(ERROR_SERIOUS, "guard: not in switch");
       return sp;
     }
   }

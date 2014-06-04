@@ -123,7 +123,7 @@ void init_diag
     if (strcmp(os, "HP-UX") == 0) {
 	diag = (vs >= 7.40 ? DIAG_XDB_NEW : DIAG_XDB_OLD);
     } else {
-	fprintf(stderr, "diagnostic format not recognised\n");
+	error(ERROR_INTERNAL, "diagnostic format not recognised");
 	exit(1);
    }
 #endif

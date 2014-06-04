@@ -13,7 +13,8 @@
   These routines are provided to guard registers from use.
 */
 
-#include "fail.h"
+#include <shared/error.h>
+
 #include "procrecs.h"
 #include "addresstypes.h"
 #include "guard.h"
@@ -79,11 +80,11 @@ guard(where w, space sp)
     }
     case insomereg : 
     case insomefreg : {
-      failer ("Guard ? reg ");
+      error(ERROR_INTERNAL, "Guard ? reg ");
       break;
     }
     default:{
-      failer ("error in guard\n");
+      error(ERROR_INTERNAL, "error in guard");
       break;
     }
   }	

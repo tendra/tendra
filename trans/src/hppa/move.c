@@ -20,6 +20,8 @@
 
 #include <assert.h>
 
+#include <shared/error.h>
+
 #include <local/ash.h>
 
 #include "hppains.h"
@@ -126,7 +128,7 @@ start:
   case insomereg:
   case insomefreg:
     {
-      fail("move: source somereg not specified");
+      error(ERROR_SERIOUS, "move: source somereg not specified");
       return NOREG;
     }
 #if USE_BITAD
@@ -184,7 +186,7 @@ start:
       comment3("	bpos=%d, bsize=%d, bshift=%d", bpos, bsize, bshift);
 
       if (bpos + bsize > 32)
-	fail("bit load > 32 ");
+	error(ERROR_SERIOUS, "bit load > 32 ");
 
       {
 	int tmp = bpos;
@@ -286,7 +288,7 @@ start:
 
 	  if (*sr != -1)
 	  {
-	    fail("move: somereg already set");
+	    error(ERROR_SERIOUS, "move: somereg already set");
 	  }
 	  *sr = r;
 	  return NOREG;
@@ -369,7 +371,7 @@ start:
 
 	  if (!is.adval)
 	  {
-	    fail("no move to var bits");
+	    error(ERROR_SERIOUS, "no move to var bits");
 	  }
 
 	  /* word_base is bit address of word containing source */
@@ -389,7 +391,7 @@ start:
 	  comment3("	bpos=%d, bsize=%d, bshift=%d", bpos, bsize, bshift);
 
 	  if (bpos + bsize > 32)
-	    fail("store bits over w-boundary");
+	    error(ERROR_SERIOUS, "store bits over w-boundary");
 
 	  {
 	    int tmp = bpos;
@@ -491,7 +493,7 @@ start:
 	}
 #endif
 		default:
- 		 fail("fixed -> wrong dest");
+ 		 error(ERROR_SERIOUS, "fixed -> wrong dest");
 
       }				/* end switch dest */
       /* NOTREACHED */
@@ -532,7 +534,7 @@ start:
 
 	  if (*sr != -1)
 	  {
-	    fail("move: somereg already set");
+	    error(ERROR_SERIOUS, "move: somereg already set");
 	  }
 	  *sr = getreg(regs);
 	  setregalt(dest.answhere, *sr);
@@ -564,7 +566,7 @@ start:
 	  if ((dest.ashwhere.ashsize == 64 && !fr.dble) ||
 	      (dest.ashwhere.ashsize == 32 && fr.dble) )
 	  {
-	    fail("inconsistent sizes");
+	    error(ERROR_SERIOUS, "inconsistent sizes");
 	  }
 	  is = insalt(dest.answhere);
 	  if (is.adval)
@@ -654,7 +656,7 @@ start:
 
 	  if (*sr != -1)
 	  {
-	    fail("move: somereg already set");
+	    error(ERROR_SERIOUS, "move: somereg already set");
 	  }
 	  *sr = getreg(regs);
 	  setregalt(dest.answhere, *sr);
@@ -720,7 +722,7 @@ start:
       case bitad:
 	/* source instore, dest bitadd should be coped with elsewhere */
 	{
-	  fail("mem to mem bit move");
+	  error(ERROR_SERIOUS, "mem to mem bit move");
 	  /* NOTREACHED */
 	}
 #endif
@@ -756,7 +758,7 @@ start:
 		   bits, al, bytes_per_step, no_steps);
 	  if ((al % 8) != 0 || (bits % 8) != 0)
 	  {
-	    fail("move: bits mem to mem move");
+	    error(ERROR_SERIOUS, "move: bits mem to mem move");
 	    return NOREG;
 	  }
 
@@ -1048,7 +1050,7 @@ regs |= RMASK(pr);
     default:{}
   }				/* end switch a */
 
-  fail("move not handled");
+  error(ERROR_SERIOUS, "move not handled");
   return 0;  /* NOTREACHED */
 }
 

@@ -9,6 +9,8 @@
 
 #include <assert.h>
 
+#include <shared/error.h>
+
 #include <reader/basicread.h>
 
 #include <construct/tags.h>
@@ -154,6 +156,6 @@ long frame_offset
 	   if (isparam(id) && name(son(id)) ==formal_callee_tag) {
            	return (Has_vcallees)? n:(cs-n);
            }
-           else { failer("Wrong env_offset"); return 0; }
+           else { error(ERROR_INTERNAL, "Wrong env_offset"); return 0; }
        }
 }

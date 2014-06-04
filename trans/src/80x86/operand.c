@@ -12,6 +12,8 @@
  * bits the operand occupies.
  */
 
+#include <shared/error.h>
+
 #include <local/out.h>
 #include <local/codermacs.h>
 
@@ -248,7 +250,7 @@ frr first_reg
   t.regno = 1;
   t.fr_no = 0;
   if (r == 0)
-    failer(BAD_REGISTER);
+    error(ERROR_INTERNAL, BAD_REGISTER);
   else {
     while (!(t.regno & r)) {
       t.regno = t.regno << 1;
@@ -297,7 +299,7 @@ void operand
 	  return;
 	};
       default: {
-	  failer(BAD_OPND);
+	  error(ERROR_INTERNAL, BAD_OPND);
 	  return;
 	};
     };
@@ -344,7 +346,7 @@ void operand
 	  return;
 	};
       default: {		/* doesnt happen */
-	  failer(BAD_OPND);
+	  error(ERROR_INTERNAL, BAD_OPND);
 	  return;
 	};
     };
@@ -361,11 +363,11 @@ void operand
       if (!isvar(son(ref))) {
 	exp ident = son(ref);
 	if (ptno(ident)!= reg_pl && off != 0) {
-	  failer(BAD_OPND);
+	  error(ERROR_INTERNAL, BAD_OPND);
 	};
 	if (isglob(ident)) {
 	  if (name(sh(w))!= prokhd)
-	    failer(BAD_OPND);
+	    error(ERROR_INTERNAL, BAD_OPND);
 	  else
            {
 	     if (PIC_code)
@@ -381,7 +383,7 @@ void operand
 	      return;
 	    };
 	  default: {
-	      failer(BAD_OPND);
+	      error(ERROR_INTERNAL, BAD_OPND);
 	      return;
 	    };
 	};
@@ -416,7 +418,7 @@ void operand
 	      return;
 	    };
 	  default: {		/* doesnt happen */
-	      failer(BAD_OPND);
+	      error(ERROR_INTERNAL, BAD_OPND);
 	      return;
 	    };
 	};
@@ -427,11 +429,11 @@ void operand
 	isvar(son(son(ref)))) {
       exp ident = son(son(ref));
       if (ptno(ident)!= reg_pl && off != 0) {
-	failer(BAD_OPND);
+	error(ERROR_INTERNAL, BAD_OPND);
       };
       if (isglob(ident)) {
 	if (name(sh(w))!= prokhd)
-	  failer(BAD_OPND);
+	  error(ERROR_INTERNAL, BAD_OPND);
 	else
 	  extn(ident, no(son(ref)), b);
 	return;
@@ -442,7 +444,7 @@ void operand
 	    return;
 	  };
 	default: {
-	    failer(BAD_OPND);
+	    error(ERROR_INTERNAL, BAD_OPND);
 	    return;
 	  };
       };
@@ -463,7 +465,7 @@ void operand
 	      return;
 	    };
 	  default: {
-	      failer(BAD_OPND);
+	      error(ERROR_INTERNAL, BAD_OPND);
 	      return;
 	    };
 	};
@@ -477,7 +479,7 @@ void operand
 	      return;
 	    };
 	  default: {
-	      failer(BAD_OPND);
+	      error(ERROR_INTERNAL, BAD_OPND);
 	      return;
 	    };
 	};
@@ -490,7 +492,7 @@ void operand
 	operand(le, new_w, b, 0);
 	return;
       };			/* end of cont(reff(addptr())) */
-      failer(BAD_OPND);
+      error(ERROR_INTERNAL, BAD_OPND);
     };				/* end of cont(reff()) */
 
     if (s == addptr_tag) {
@@ -533,7 +535,7 @@ void operand
 	    return;
 	  };
 	default: {
-	    failer(BAD_OPND);
+	    error(ERROR_INTERNAL, BAD_OPND);
 	    return;
 	  };
       };
@@ -551,7 +553,7 @@ void operand
 	    return;
 	  };
 	default: {
-	    failer(BAD_OPND);
+	    error(ERROR_INTERNAL, BAD_OPND);
 	    return;
 	  };
       };
@@ -666,7 +668,7 @@ void operand
     };
   };
 
-  failer(BAD_OPND);
+  error(ERROR_INTERNAL, BAD_OPND);
 
   return;
 }

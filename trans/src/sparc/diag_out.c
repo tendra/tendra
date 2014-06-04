@@ -12,6 +12,7 @@
 #include <string.h>
 
 #include <shared/check.h>
+#include <shared/error.h>
 #include <shared/xalloc.h>
 
 #include <reader/exp.h>
@@ -877,7 +878,7 @@ static void out_dt_shape
 	break;
       }
       if (tag->key == DGK_NONE) {
-	failer("external type");
+	error(ERROR_INTERNAL, "external type");
 	tag->done = 1;
 	tag->outref.k = LAB_D;
 	tag->outref.u.l = 0;
@@ -888,7 +889,7 @@ static void out_dt_shape
 	dg_type ref_t = tag->p.typ;
 	if (ref_t == dt) {
 	  if (ref_t->outref.k != LAB_STR)
-	    failer("uninitialised?");
+	    error(ERROR_INTERNAL, "uninitialised?");
 	  ref_t->outref.k = LAB_D;
 	  ref_t->outref.u.l = find_basic_type(ref_t->outref.u.s);
 	}
@@ -907,7 +908,7 @@ static void out_dt_shape
 	  break;
 	}
       }
-      failer("unfinished convolution");
+      error(ERROR_INTERNAL, "unfinished convolution");
       tag->done = 1;
       tag->outref.k = LAB_D;
       tag->outref.u.l = 0;
@@ -993,7 +994,7 @@ static void out_dt_shape
 	  break;
 	}
       }
-      failer("complex array");
+      error(ERROR_INTERNAL, "complex array");
       break;
     }
 
@@ -1822,7 +1823,7 @@ void init_stab
   dg_file_name = tmpnam(NULL);
   dg_file = fopen(dg_file_name, "w");
   if (dg_file == NULL) {
-    fail("Can't open temporary diagnostics file");
+    error(ERROR_SERIOUS, "Can't open temporary diagnostics file");
     exit(EXIT_FAILURE);
   }
   stab_types();
@@ -1845,7 +1846,7 @@ void init_stab_aux
   stab_file((long)j, 0);
   f = fopen(dg_file_name, "r");
   if (f == NULL) {
-    fail("Can't open temporary diagnostics file");
+    error(ERROR_SERIOUS, "Can't open temporary diagnostics file");
     exit(EXIT_FAILURE);
   }
   while (c = fgetc(f), c != EOF)outc(c);

@@ -75,7 +75,7 @@ long frame_offset(exp id)
   }
   else if (name(init_exp)==caller_name_tag)
   {
-    fail("Taking env_offset of an identified caller within a postlude");
+    error(ERROR_SERIOUS, "Taking env_offset of an identified caller within a postlude");
     return 0;
   }
   else

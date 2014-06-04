@@ -18,6 +18,8 @@
 
 #include <assert.h>
 
+#include <shared/error.h>
+
 #include <reader/exp.h>
 
 #include <construct/exp.h>
@@ -106,7 +108,7 @@ getreg(long fixed)
     }
     if (choosefix == start)
     {
-       fail("getreg: too many regs required");
+       error(ERROR_SERIOUS, "getreg: too many regs required");
        return GR0;
     }
   }
@@ -161,7 +163,7 @@ getfreg(long fl) /* get a free temporary floating reg */
 
     if (choosefloat == start)
     {
-      fail("getfreg: too many floating point regs required");
+      error(ERROR_SERIOUS, "getfreg: too many floating point regs required");
       return 0;
     }
   }

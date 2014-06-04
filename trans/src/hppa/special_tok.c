@@ -10,6 +10,7 @@
 #include <string.h>
 
 #include <shared/check.h>
+#include <shared/error.h>
 
 #include <local/szs_als.h>
 
@@ -59,7 +60,7 @@ special_token(token t, bitstream pars, int sortcode, int * done)
   	set_place(pars);
   	arg1 = hold_refactor(d_exp());
   	set_place(old_place);
-  	if (name(arg1) != name_tag) failer("Not a tag in va_start");
+  	if (name(arg1) != name_tag) error(ERROR_INTERNAL, "Not a tag in va_start");
   	id = son(arg1);
   
   	env_o = getexp(f_offset(frame_alignment, f_alignment(sh(arg1))),

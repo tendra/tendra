@@ -10,6 +10,8 @@
 
 #include <stdio.h>
 
+#include <shared/error.h>
+
 #include <main/driver.h>
 
 #include "memtdf.h"
@@ -171,7 +173,7 @@ char * spr_macro(int spr)
      case SPR_LR:return spr_lr;
      case SPR_CTR:return spr_ctr;
      default:
-      fail("Unknown spr code");
+      error(ERROR_SERIOUS, "Unknown spr code");
     }
   }
   return 0;

@@ -15,8 +15,9 @@ For trivial 'peephole' optimisations
 
 #include <stddef.h>
 
-#include <reader/exp.h>
+#include <shared/error.h>
 
+#include <reader/exp.h>
 #include <reader/basicread.h>
 
 #include <construct/tags.h>
@@ -186,7 +187,7 @@ void keepexp
   switch (loc.discrim) {
     case insomereg:
     case insomefreg: {
-	failer("Keep ? reg");
+	error(ERROR_INTERNAL, "Keep ? reg");
       }
     case inreg:
       {

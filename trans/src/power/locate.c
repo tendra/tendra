@@ -169,7 +169,7 @@ baseoff boff_location(int n)
   }
   else
   {
-    fail("Error:boff_location: Unknown base");
+    error(ERROR_SERIOUS, "Error:boff_location: Unknown base");
   }
   return an;
 }
@@ -205,7 +205,7 @@ int ENCODE_FOR_BOFF(int off, int type)
       break;
     }
    default:
-    fail("Unknown encodeing for ENCODE_FOR_BOFF");
+    error(ERROR_SERIOUS, "Unknown encodeing for ENCODE_FOR_BOFF");
   }
   return (encode_offset<<6) + encode_base;
 }
@@ -264,7 +264,7 @@ static where locate1(exp e, space sp, shape s, int dreg)
 	      break;
 	    }
 	   default:
-	    fail("name not deferable");
+	    error(ERROR_SERIOUS, "name not deferable");
 	  }
 
 	  setinsalt(aa, is);
@@ -425,7 +425,7 @@ static where locate1(exp e, space sp, shape s, int dreg)
 
       default:
 	{
-	  fail("locate ? reg");
+	  error(ERROR_SERIOUS, "locate ? reg");
 	}
       }				/* end case */
 
@@ -546,7 +546,7 @@ static where locate1(exp e, space sp, shape s, int dreg)
 	}
       default:
 	{
-	  fail("locate ? reg ");
+	  error(ERROR_SERIOUS, "locate ? reg ");
 	}
       }
       wans.ashwhere = a;
@@ -622,7 +622,7 @@ static where locate1(exp e, space sp, shape s, int dreg)
 	}
       default:
 	{
-	  fail("locate ? reg");
+	  error(ERROR_SERIOUS, "locate ? reg");
 	}
       }
   breakson:
@@ -662,7 +662,7 @@ static where locate1(exp e, space sp, shape s, int dreg)
 	  break;
 	}
        default:
-	fail("field should be transformed");
+	error(ERROR_SERIOUS, "field should be transformed");
       }
       wans.ashwhere = a;
       return wans;

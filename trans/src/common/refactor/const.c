@@ -28,6 +28,7 @@
 
 #include <shared/bool.h>
 #include <shared/check.h>
+#include <shared/error.h>
 #include <shared/xalloc.h>
 
 #include <reader/exp.h>
@@ -879,7 +880,7 @@ safe_arg(exp e, exp esc)
     break;
   default:
       SET(konst);
-      failer(BAD_SHAPE);
+      error(ERROR_INTERNAL, BAD_SHAPE);
   }
 
   v1 = getexp(sh(e), NULL, 0, decl, pt(decl), 0,  0, name_tag);
@@ -953,7 +954,7 @@ safe_eval(exp e, exp escape_route)
   case rep_tag:
   case solve_tag:
   case case_tag:
-      failer(CONSTC_ERROR);
+      error(ERROR_INTERNAL, CONSTC_ERROR);
       return NULL;
   case name_tag:
   case env_offset_tag:

@@ -9,6 +9,8 @@
 
 #include <stdio.h>
 
+#include <shared/error.h>
+
 #include <local/dw2_config.h>
 
 #include <reader/basicread.h>
@@ -115,7 +117,7 @@ void outnl_comment_i(char *s, long i)
 void out_dwf_label(long l, int set)
 {
   if (!l)
-    failer ("unknown label");
+    error(ERROR_INTERNAL, "unknown label");
   outs (".Ldw");
   outn (l);
   if (set) {

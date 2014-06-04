@@ -15,6 +15,7 @@
 #include <stdlib.h>
 
 #include <shared/check.h>
+#include <shared/error.h>
 #include <shared/xalloc.h>
 
 #include <local/szs_als.h>
@@ -1139,7 +1140,7 @@ floatrep(int n)
 flpt
 floatrep_unsigned(unsigned int n)
 {
-  failer("floatrep_unsigned not used");
+  error(ERROR_INTERNAL, "floatrep_unsigned not used");
   return 0;
 }
 
@@ -1277,7 +1278,7 @@ flpt_scale(int expt, flt *res, int base)
   if (base == 10) {
     if (expt > 0) {
       if (expt > MAX_USEFUL_DECEXP) {
-	failer(BIG_FLPT);
+	error(ERROR_INTERNAL, BIG_FLPT);
 	exit(EXIT_FAILURE);
 	/* UNREACHED */
       }
@@ -1575,7 +1576,7 @@ real2longs_IEEE(flt *fp, int sw)
 
   if (expt > bias) {
     if (check & CHECK_FLPT_OVERFLOW) {
-      failer(BIG_FLPT);
+      error(ERROR_INTERNAL, BIG_FLPT);
       exit(EXIT_FAILURE);
     }
     switch (sw) {
@@ -1607,7 +1608,7 @@ real2longs_IEEE(flt *fp, int sw)
       res.i4 += 0x7fff;
       return res;
 #else
-      failer("long double not implemented");
+      error(ERROR_INTERNAL, "long double not implemented");
       return res;
 #endif
 #endif
@@ -1698,7 +1699,7 @@ real2longs_IEEE(flt *fp, int sw)
     res.i1 = (int)sig1;
     break;
 #else
-    failer("long double not implemented");
+    error(ERROR_INTERNAL, "long double not implemented");
     return res;
 #endif
   }

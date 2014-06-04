@@ -17,6 +17,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <shared/error.h>
 #include <shared/xalloc.h>
 
 #include <reader/exp.h>
@@ -113,8 +114,7 @@ static  void x
 (int i)
 {
   if (i == EOF) {
-    failer("can't output");
-    exit(EXIT_FAILURE);
+    error(ERROR_FATAL, "can't output");
   }
   return;
 }

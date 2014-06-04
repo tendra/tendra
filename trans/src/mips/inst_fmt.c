@@ -18,6 +18,8 @@
 
 #include <stdio.h>
 
+#include <shared/error.h>
+
 #include <reader/basicread.h>
 
 #include <symtab/syms.h>
@@ -274,7 +276,7 @@ lsfp_ins(char *ins, int reg, baseoff a)
 {
   clear_reg ((reg >> 1) + 32);
   if (a.base == 0) {
-    failer ("ZERO BASE in fp op");/* can't have literal operand */
+    error(ERROR_INTERNAL, "ZERO BASE in fp op");/* can't have literal operand */
     if (as_file)
       fprintf (as_file, "\t%s\t$f%d, %ld\n", ins + 1, reg, a.offset);
   }

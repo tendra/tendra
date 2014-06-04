@@ -43,9 +43,6 @@ void set_place(place pl);
  */
 place new_place(int bn);
 
-/* records the failure message s and sets good_trans to false */
-void failer(char *s);
-
 int  small_dtdfint(void);
 
 /* step the input stream on to the next byte boundary */

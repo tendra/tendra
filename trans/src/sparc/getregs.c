@@ -14,6 +14,8 @@
 
 #include <assert.h>
 
+#include <shared/error.h>
+
 #include <reader/exp.h>
 
 #include <construct/exp.h>
@@ -98,7 +100,7 @@ getreg ( long fixed ){
       if ( (fixed & RMASK (R_O7)) == 0 ) {
 	return R_O7;
       }
-      fail ( "Can't allocate temporary register" ) ;
+      error(ERROR_SERIOUS,  "Can't allocate temporary register" ) ;
       return R_G1;
     }
   }
@@ -136,7 +138,7 @@ getfreg ( long fl ){
       return reg;
     }
     if ( choosefloat == start ) {
-      fail ( "Can't allocate temporary floating register" ) ;
+      error(ERROR_SERIOUS,  "Can't allocate temporary floating register" ) ;
       return 0;
     }
   }

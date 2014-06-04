@@ -15,6 +15,7 @@
 #include <stdlib.h>
 
 #include <shared/check.h>
+#include <shared/error.h>
 #include <shared/xalloc.h>
 
 #include <local/out.h>
@@ -294,7 +295,7 @@ void regn
       return;
     };
     if (fstack_pos > 16) {
-      failer(BAD_FSTACK);
+      error(ERROR_INTERNAL, BAD_FSTACK);
       exit(EXIT_FAILURE);
     };
     outs(fl_reg_name[fstack_pos - z]);
@@ -637,7 +638,7 @@ void simple_set_label
 {
 #ifdef CHECKIMPROVE
   if (labno == last_jump_label)
-    failer("redundant jump");
+    error(ERROR_INTERNAL, "redundant jump");
 #endif
 #ifndef NEWDIAGS
   /* Eliminate immediately previous jump to this label */
@@ -700,7 +701,7 @@ void jump
   int  good_fs = fstack_pos;
   int  good_sd = stack_dec;
   if (fs_dest < first_fl_reg)
-    failer(FSTACK_UNSET);
+    error(ERROR_INTERNAL, FSTACK_UNSET);
   if (with_fl_reg) {		/* jumping with a floating value */
     /* clear off any unwanted stack registers */
     while (fstack_pos > (fs_dest + 1))
@@ -790,7 +791,7 @@ static char *out_branch
 	return je;
 
       default:
-	failer(BAD_TESTNO);
+	error(ERROR_INTERNAL, BAD_TESTNO);
     };
   };
 
@@ -814,7 +815,7 @@ static char *out_branch
 	return je;
 
       default:
-	failer(BAD_TESTNO);
+	error(ERROR_INTERNAL, BAD_TESTNO);
     };
   }
   else {
@@ -838,7 +839,7 @@ static char *out_branch
 	return je;
 
       default:
-	failer(BAD_TESTNO);
+	error(ERROR_INTERNAL, BAD_TESTNO);
     };
   };
   return NULL;
@@ -869,7 +870,7 @@ void branch
   int  good_fs = fstack_pos;
   int  good_fpucon = fpucon;
   if (fs_dest < first_fl_reg)
-    failer(FSTACK_UNSET);
+    error(ERROR_INTERNAL, FSTACK_UNSET);
   if (fstack_pos > fs_dest || sonno(jr)!= stack_dec || fpucon != normal_fpucon
 	|| cmp_64hilab >= 0) {
 	/* floating point stack or call stack need attention */
@@ -898,7 +899,7 @@ void branch
     if (cmp_64hilab >= 0) {
       int nl2 = ptno(jr);
       if (shnm != s64hd)
-	failer("uncompleted 64-bit comparison");
+	error(ERROR_INTERNAL, "uncompleted 64-bit comparison");
       if (fstack_pos > fs_dest || sonno(jr)!= stack_dec || fpucon != normal_fpucon) {
 	nl2 = next_lab();
 	simplest_set_lab(nl2);
@@ -945,7 +946,7 @@ void setcc
     int chl = cmp_64hilab;
     int nl = next_lab();
     if (shnm != s64hd)
-      failer("uncompleted 64-bit comparison");
+      error(ERROR_INTERNAL, "uncompleted 64-bit comparison");
     cmp_64hilab = -1;
     setcc(test_no, 0, ulonghd);
     simple_branch(jmp, nl);
@@ -956,7 +957,7 @@ void setcc
 
   b = out_branch(sg, test_no, shnm);
   if (*b != 'j')
-    failer(NO_SETCC);
+    error(ERROR_INTERNAL, NO_SETCC);
   outs(margin);
   outs("set");
   outs(&b[1]);
@@ -977,7 +978,7 @@ void jmp_overflow
   int  good_fs = fstack_pos;
   int  good_fpucon = fpucon;
   if (fs_dest < first_fl_reg)
-    failer(FSTACK_UNSET);
+    error(ERROR_INTERNAL, FSTACK_UNSET);
   if (fstack_pos > fs_dest || sonno(jr)!= stack_dec || fpucon != normal_fpucon) {
 	/* floating point stack or call stack need attention */
     int  nl = next_lab();

@@ -213,8 +213,7 @@ unhas(void)
 		break;
 
 	default:
-		fprintf(stderr, "unknown format-specific local flags\n");
-		exit(EXIT_FAILURE);
+		error(ERROR_INTERNAL, "unknown format-specific local flags");
 	}
 }
 

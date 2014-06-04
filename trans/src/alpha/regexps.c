@@ -10,6 +10,7 @@
 #include <stdlib.h>
 
 #include <shared/check.h>
+#include <shared/error.h>
 
 #include <reader/exp.h>
 
@@ -23,7 +24,6 @@
 #include "extratags.h"
 #include "reg_defs.h"
 #include "regexps.h"
-#include "fail.h"
 
 regpeep regexps[64];
 
@@ -219,7 +219,7 @@ void keepexp
   switch (loc.discrim) {
    case insomereg:
    case insomefreg:
-     failer("Keep ? reg");
+     error(ERROR_INTERNAL, "Keep ? reg");
      return;
    case inreg:
       pos = regalt(loc);

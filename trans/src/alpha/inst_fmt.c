@@ -21,6 +21,7 @@
 
 #include <shared/bool.h>
 #include <shared/check.h>
+#include <shared/error.h>
 #include <shared/xalloc.h>
 
 #include <symtab/syms.h>
@@ -32,14 +33,12 @@
 #include "coder.h"
 #include "inst_fmt.h"
 #include "main.h"
-#include "fail.h"
 #include "reg_defs.h"
 #include "cross.h"
 #include "regexps.h"
 #include "alpha_ins.h"
 #include "ibinasm.h"
 #include "out_ba.h"
-#include "fail.h"
 #include "instypes.h"
 #include "procrectypes.h"
 #include "locate.h"
@@ -514,7 +513,7 @@ fetch(instruction ins, baseoff a)
 /*  setmemory_base(new_ins,a.base);
   setmemory_offset(new_ins,a.offset);*/
   if(a.offset!=0)
-    failer("fetch offset must be zero");
+    error(ERROR_INTERNAL, "fetch offset must be zero");
   if(as_file){
     (void)fprintf(as_file,"\t%s\t%ld($%d)\n",ins_symbolic_name(ins),
 		  a.offset,a.base);

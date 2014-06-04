@@ -125,7 +125,7 @@ unhas(void)
 	}
 
 	if (do_profile && PIC_code) {
-		fprintf(stderr,"hppatrans warning: \"-P\" and \"-D\" are mutually exclusive. \"-P\" ignored.\n");
+		error(ERROR_WARNING, "\"-P\" and \"-D\" are mutually exclusive; \"-P\" ignored.");
 		do_profile = 0;
 	}
 }

@@ -11,6 +11,7 @@
 #include <stdio.h>
 
 #include <shared/check.h>
+#include <shared/error.h>
 #include <shared/xalloc.h>
 
 #include <local/dw2_config.h>
@@ -89,7 +90,7 @@ dwarf2_prelude(void)
 {
 	static int dw_started = 0;
 	if (dw_started) {
-		failer("DWARF output not compatible with separate units");
+		error(ERROR_INTERNAL, "DWARF output not compatible with separate units");
 	}
 	dw_started = 1;
 

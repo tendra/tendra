@@ -34,7 +34,6 @@
 #include <main/flags.h>
 
 #include "dump_distr.h"
-#include "fail.h"
 #include "coder.h"
 #include "inst_fmt.h"
 
@@ -95,7 +94,7 @@ option(char c, const char *optarg)
 		switch (atoi(optarg)) {
 		case 0:
 			/* replace denormal const with 0.0 (don't do this) */
-			alphawarn("Unsupported denormal switch");
+			error(ERROR_WARNING, "Unsupported denormal switch");
 			fail_with_denormal_constant = false;
 			break;
 
@@ -140,8 +139,7 @@ unhas(void)
 	optim &= ~OPTIM_CASE;
 
 	if (PIC_code) {
-		failer("no PIC code available");
-		exit(EXIT_FAILURE);
+		error(ERROR_FATAL, "no PIC code available");
 	}
 }
 

@@ -15,6 +15,8 @@
 #include <stdio.h>
 #include <ctype.h>
 
+#include <shared/error.h>
+
 #ifdef NEWDWARF
 #include <local/dw2_config.h>
 #endif
@@ -135,7 +137,7 @@ outfloat ( flpt f, bool ro ){
   }
   outs ( fltrepr ) ;
 #else
-  fail ( "Illegal floating point constant" ) ;
+  error(ERROR_SERIOUS,  "Illegal floating point constant" ) ;
 #endif
   return ;
 }
@@ -198,7 +200,7 @@ evalexp ( exp e ){
       a = ashof ( sh ( e ) ) ;
       if ( a.ashalign != 1 && !( name ( sh ( e ) ) == cpdhd &&
 				 a.ashalign == 32 ) ) {
-	fail ( "Illegal bitfield constant" ) ;
+	error(ERROR_SERIOUS,  "Illegal bitfield constant" ) ;
       }
 				 if ( a.ashsize != 32 ) {
 				   w &= ( ( 1 << a.ashsize ) - 1 ) ;
@@ -272,7 +274,7 @@ evalexp ( exp e ){
       return 0;
     }
   }
-  fail ( "Illegal integer constant" ) ;
+  error(ERROR_SERIOUS,  "Illegal integer constant" ) ;
   return 0;
 }
 
@@ -701,7 +703,7 @@ evalone ( exp e, int bitposn, bool ro ){
 	}
 	/* and is no greater that struct's alignment */
 	if ( noff < last_offset ) {
-	  fail ( "Compound components badly ordered" ) ;
+	  error(ERROR_SERIOUS,  "Compound components badly ordered" ) ;
 	}
 	if ( last_align <= 1 || ta <= 1 || gap >= ta ) {
 	  /* get gap down */
@@ -847,7 +849,7 @@ evalone ( exp e, int bitposn, bool ro ){
 	evalone ( son ( e ), bitposn, ro ) ;
       } 
       else {
-	fail ( "Illegal chvar constant" ) ;
+	error(ERROR_SERIOUS,  "Illegal chvar constant" ) ;
       }
       return ;
     }
@@ -877,7 +879,7 @@ evalone ( exp e, int bitposn, bool ro ){
     }
 
     default : {
-      fail ( "Illegal constant" ) ;
+      error(ERROR_SERIOUS,  "Illegal constant" ) ;
       return ;
     }
   }

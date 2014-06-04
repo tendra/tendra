@@ -92,6 +92,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <shared/error.h>
 #include <shared/xalloc.h>
 
 #include <local/ash.h>
@@ -214,7 +215,7 @@ void insection
        case rodata_section:
        default: {}
     }
-    failer("bad \".section\" name");
+    error(ERROR_INTERNAL, "bad \".section\" name");
 }
 
 void mark_unaliased
@@ -255,7 +256,7 @@ baseoff find_tg
 	 return boff(tg);
       }
    }
-   failer("Extension name not declared ");
+   error(ERROR_INTERNAL, "Extension name not declared ");
    exit(EXIT_FAILURE);
 }
 

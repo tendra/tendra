@@ -13,6 +13,7 @@
  */
 
 #include <shared/check.h>
+#include <shared/error.h>
 
 #include <local/ash.h>
 #include <local/codermacs.h>
@@ -804,7 +805,7 @@ void codec
       };
     case absbool_tag:
       {
-	failer(NO_SETCC);
+	error(ERROR_INTERNAL, NO_SETCC);
         return;
       };
 
@@ -823,7 +824,7 @@ void codec
       coder(dest, stack, e);
       return;
     case power_tag:
-      failer("integer power not implemented");
+      error(ERROR_INTERNAL, "integer power not implemented");
       return;
     case cont_tag:
       if (!newcode && name(sh(e)) == bitfhd)

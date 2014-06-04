@@ -8,6 +8,7 @@
  */
 
 #include <shared/check.h>
+#include <shared/error.h>
 #include <shared/xalloc.h>
 
 #include <reader/exp.h>
@@ -150,7 +151,7 @@ dg
 f_make_tag_dg(dg_tag tg, dg diag)
 {
 	if (tg->key) {
-		failer("dg_tag defined twice");
+		error(ERROR_INTERNAL, "dg_tag defined twice");
 	}
 	tg->key = DGK_INFO;
 	tg->p.info = diag;
@@ -582,7 +583,7 @@ f_make_dg_tag(tdfint num)
 {
 	int index = natint(num);
 	if (index >= unit_no_of_dgtags) {
-		failer("make_dg_tag out of range");
+		error(ERROR_INTERNAL, "make_dg_tag out of range");
 	}
 	return unit_ind_dgtags[index];
 }
@@ -610,7 +611,7 @@ dg_name
 f_dg_tag_name(dg_tag tg, dg_name nam)
 {
 	if (tg->key) {
-		failer("dg_tag defined twice");
+		error(ERROR_INTERNAL, "dg_tag defined twice");
 	}
 	tg->key = DGK_NAME;
 	tg->p.nam = nam;
@@ -730,7 +731,7 @@ f_dg_subunit_name(dg_tag parent, dg_name nam, nat subunit_kind,
 		ans->data.n_sub.split = 1;
 		break;
 	default:
-		failer("unexpected SUK_kind");
+		error(ERROR_INTERNAL, "unexpected SUK_kind");
 	}
 	return ans;
 }
@@ -892,7 +893,7 @@ dg_type
 f_dg_tag_type(dg_tag tg, dg_type type)
 {
 	if (tg->key && tg->key != DGK_TYPE) {
-		failer("dg_tag defined twice");
+		error(ERROR_INTERNAL, "dg_tag defined twice");
 	}
 	tg->key = DGK_TYPE;
 	tg->p.typ = type;
@@ -1417,7 +1418,7 @@ dg_classmem
 f_dg_tag_classmem(dg_tag tg, dg_classmem mem)
 {
 	if (tg->key) {
-		failer("dg_tag defined twice");
+		error(ERROR_INTERNAL, "dg_tag defined twice");
 	}
 	tg->key = DGK_CLASSMEM;
 	mem.tg = tg;
@@ -1535,7 +1536,7 @@ f_dg_static_bound(exp bound)
 {
 	dg_bound ans;
 	if (name(bound) != val_tag) {
-		failer("not a constant");
+		error(ERROR_INTERNAL, "not a constant");
 	}
 	ans.is_ref = 0;
 	ans.u.x = diaginfo_exp(bound);
@@ -1577,7 +1578,7 @@ dg_dim
 f_dg_tag_dim(dg_tag tg, dg_dim d)
 {
 	if (tg->key) {
-		failer("dg_tag defined twice");
+		error(ERROR_INTERNAL, "dg_tag defined twice");
 	}
 	tg->key = DGK_DIM;
 	d.tg = tg;
@@ -1670,7 +1671,7 @@ f_make_dg_enum(exp value, dg_idname idname, dg_sourcepos src_pos)
 {
 	dg_enum ans;
 	if (!value || name(value) != val_tag) {
-		failer("enum value not const");
+		error(ERROR_INTERNAL, "enum value not const");
 	}
 	ans.enam = idname_chars(idname);
 	ans.pos = shorten_sourcepos(src_pos);
@@ -1686,7 +1687,7 @@ f_dg_char_enum(exp value, nat idchar, dg_sourcepos src_pos)
 {
 	dg_enum ans;
 	if (!value || name(value) != val_tag) {
-		failer("enum value not const");
+		error(ERROR_INTERNAL, "enum value not const");
 	}
 	ans.chn = idchar.nat_val.small_nat;
 	ans.pos = shorten_sourcepos(src_pos);
@@ -1701,7 +1702,7 @@ dg_enum
 f_dg_tag_enum(dg_tag tg, dg_enum e)
 {
 	if (tg->key) {
-		failer("dg_tag defined twice");
+		error(ERROR_INTERNAL, "dg_tag defined twice");
 	}
 	tg->key = DGK_ENUM;
 	e.tg = tg;
@@ -1736,7 +1737,7 @@ dg_param
 f_dg_type_param(dg_idname_option idname, dg_sourcepos_option src_pos,
 		dg_param_list fparams)
 {
-	failer("dg_type_param not yet supported");
+	error(ERROR_INTERNAL, "dg_type_param not yet supported");
 	UNUSED(idname);
 	UNUSED(src_pos);
 	UNUSED(fparams);
@@ -1883,7 +1884,7 @@ dg_compilation
 f_dg_tag_compilation(dg_tag tg, dg_compilation comp)
 {
 	if (tg->key) {
-		failer("dg_tag defined twice");
+		error(ERROR_INTERNAL, "dg_tag defined twice");
 	}
 	tg->key = DGK_COMP;
 	tg->p.comp = comp;
@@ -2039,7 +2040,7 @@ f_dg_instance_idname(dg_idname_option idname, dg_idname spec,
 	ans.idd.instance->params = aparams;
 	if (ans.idd.instance->nam.id_key == DG_ID_INST ||
 	    ans.idd.instance->spec.id_key == DG_ID_INST) {
-		failer("multiple instantiation");
+		error(ERROR_INTERNAL, "multiple instantiation");
 	}
 	return ans;
 }
@@ -2131,7 +2132,7 @@ f_make_dg_discrim(exp lower, exp upper)
 	dg_discrim ans;
 	if (name(lower) != val_tag || name(upper) != val_tag ||
 	    sh(lower) != sh(upper)) {
-		failer("malformed discriminant");
+		error(ERROR_INTERNAL, "malformed discriminant");
 	}
 	ans.lower = diaginfo_exp(lower);
 	ans.upper = diaginfo_exp(upper);
@@ -2453,7 +2454,7 @@ dg_namelist
 f_dg_tag_namelist(dg_tag tg, dg_namelist nl)
 {
 	if (tg->key) {
-		failer("dg_tag defined twice");
+		error(ERROR_INTERNAL, "dg_tag defined twice");
 	}
 	tg->key = DGK_NAMELIST;
 	nl.tg = tg;
@@ -2474,7 +2475,7 @@ dg_append
 f_dg_name_append(dg_tag tg, dg_name nam)
 {
 	if (tg->key != DGK_NAMELIST) {
-		failer("wrong dg_tag");
+		error(ERROR_INTERNAL, "wrong dg_tag");
 	}
 	*(tg->p.nl) = add_dg_name_list(*(tg->p.nl), nam, 0);
 	return f_dummy_dg_append;
@@ -2725,7 +2726,7 @@ dg_dim_option no_dg_dim_option;
 dg_dim_option
 yes_dg_dim_option(dg_dim elem)
 {
-	failer("dg_dim_option not done yet");
+	error(ERROR_INTERNAL, "dg_dim_option not done yet");
 	return no_dg_dim_option;
 }
 

@@ -22,6 +22,7 @@
 #include <string.h>
 
 #include <shared/check.h>
+#include <shared/error.h>
 
 #include <local/ash.h>
 
@@ -2376,7 +2377,7 @@ needs scan
     		int oal = frame_al1_of_offset(sh(d));
 #if 0
     		if (((oal-1) &oal)!= 0) {
-    			failer("can't cope with mixed frame offsets yet");
+    			error(ERROR_INTERNAL, "can't cope with mixed frame offsets yet");
     		}
 #endif
     		if (includes_vcallees(fal) && ((oal & 20)!= 0)) {
@@ -2708,7 +2709,7 @@ needs scan
  case absbool_tag:
   {
     assert(~has & HAS_SETCC);
-    fail("absbool_tag not covered in needs scan");
+    error(ERROR_SERIOUS, "absbool_tag not covered in needs scan");
     /* NOTREACHED */
   }
 
@@ -2765,7 +2766,7 @@ needs scan
  case testbit_tag:
   {
     /* not in MIPS */
-    fail("testbit_tag not covered in needs scan");
+    error(ERROR_SERIOUS, "testbit_tag not covered in needs scan");
     /*NOTREACHED*/
   }
 
@@ -2784,7 +2785,7 @@ needs scan
 	 */
        FULLCOMMENT1("scan: bad nstare=%d", nstare);
        sprintf(s,"case %d not covered in needs scan",nstare);
-       fail(s);
+       error(ERROR_SERIOUS, s);
        return zeroneeds;
     }
 

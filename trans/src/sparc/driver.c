@@ -144,7 +144,7 @@ option(char c, const char *optarg)
 			break;
 
 		default:
-			fprintf(stderr, "Incorrect inline option %c\n", optarg[2]);
+			error(ERROR_FATAL, "Incorrect inline option: %c", optarg[2]);
 		}
 		break;
 
@@ -232,7 +232,7 @@ unhas(void)
 
 	/* check ABI conformance */
 	if ( abi == ABI_SYSV && ( g_reg_max > 4 ) ) {
-		fprintf ( stderr, "%s : -r%d conflicts with SYSV ABI\n",
+		error(ERROR_FATAL, "%s : -r%d conflicts with SYSV ABI",
 			progname, g_reg_max ) ;
 	}
 

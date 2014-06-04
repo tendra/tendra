@@ -17,6 +17,7 @@
 #include <string.h>
 
 #include <shared/check.h>
+#include <shared/error.h>
 #include <shared/xalloc.h>
 
 #include <construct/installtypes.h>
@@ -90,7 +91,7 @@ init_table_space(long noofiles, long noprocs)
     blockstack = xcalloc(noofiles, sizeof (BSTACK));
 
     if (noofiles == 0) {
-		failer("TDF capsule does not contain diagnostic information");
+		error(ERROR_INTERNAL, "TDF capsule does not contain diagnostic information");
 	}
 
     densenos = xcalloc(1, sizeof (DENSETAB));

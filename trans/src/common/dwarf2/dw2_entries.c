@@ -8,6 +8,7 @@
  */
 
 #include <shared/check.h>
+#include <shared/error.h>
 
 #include <local/dw2_config.h>
 
@@ -787,7 +788,7 @@ dw_entry(abbrev_entry en, long attr)
 				break;
 			}
 			if (!*(++comb)) {
-				failer("unsupported attribute combination");
+				error(ERROR_INTERNAL, "unsupported attribute combination");
 			}
 			d_tag++;
 		}

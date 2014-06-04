@@ -64,14 +64,3 @@ void COMMENT4(char *mess, long p1, long p2, long p3, long p4)
   }
 }
 
-void fail(char *mess)
-{
-  COMMENT1("TRANSLATION FAILED: %s", (long) mess);
-  fflush(as_file);
-  fprintf(stderr, "powertrans: internal error '%s'\n", mess);
-  if (!do_comment)
-  {
-    exit(3);
-  }
-  /* else go on to generate more code to give the error context */
-}

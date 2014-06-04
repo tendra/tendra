@@ -10,6 +10,8 @@
 #include <stdio.h>
 #include <string.h>
 
+#include <shared/error.h>
+
 #include <reader/exp.h>
 #include <reader/code.h>
 
@@ -88,7 +90,7 @@ special_call_name(int i)
     return "_alloca";
 
   default:
-    fail("attempting external call to builtin");
+    error(ERROR_SERIOUS, "attempting external call to builtin");
     return "";
   }
   /* NOTREACHED */
@@ -121,7 +123,7 @@ specialneeds(int i, exp application, exp pars)
 
   default:
     comment1("specialneeds: unimplemented builtin %d", i);
-    fail("unimplemented builtin");
+    error(ERROR_SERIOUS, "unimplemented builtin");
     return zeroneeds;
   }
   /* NOTREACHED */
@@ -187,7 +189,7 @@ specialmake(int i, exp par, space sp, where dest, int exitlab)
       e = son(son(par));
       if (name(e) != string_tag)
       {
-	fail("asm argument not string");
+	error(ERROR_SERIOUS, "asm argument not string");
 	return 0;
       }
       s = nostr(e);
@@ -267,7 +269,7 @@ specialmake(int i, exp par, space sp, where dest, int exitlab)
 
   default:
     comment1("specialmake: unimplemented builtin %d", i);
-    fail("unimplemented builtin");
+    error(ERROR_SERIOUS, "unimplemented builtin");
     return 0;
   }
 

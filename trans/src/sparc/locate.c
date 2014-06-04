@@ -10,6 +10,7 @@
 #include <assert.h>
 
 #include <shared/check.h>
+#include <shared/error.h>
 
 #include <local/ash.h>
 
@@ -133,7 +134,7 @@ boff ( exp e ){
   }
 #endif
   else {
-    fail ( "not a baseoff in boff" ) ;
+    error(ERROR_SERIOUS,  "not a baseoff in boff" ) ;
   }
   return an;
 }
@@ -220,7 +221,7 @@ locate1 ( exp e, space sp, shape s, int dreg ){
 	      break ;
 	    }
 	    default : {
-	      fail ( "name not deferable" ) ;
+	      error(ERROR_SERIOUS,  "name not deferable" ) ;
 	    }
 	  }
 	  setinsalt ( aa, is ) ;
@@ -329,7 +330,7 @@ locate1 ( exp e, space sp, shape s, int dreg ){
 	  break ;
 	}
 	default : {
-	  fail ( "locate ? reg" ) ;
+	  error(ERROR_SERIOUS,  "locate ? reg" ) ;
 	}
       }
     /*register ind contains the evaluation of 1st operand of addptr*/
@@ -412,7 +413,7 @@ locate1 ( exp e, space sp, shape s, int dreg ){
 	  break ;
 	}
 	default : {
-	  fail ( "locate ? reg " ) ;
+	  error(ERROR_SERIOUS,  "locate ? reg " ) ;
 	}
       }
       wans.ashwhere = a ;
@@ -467,7 +468,7 @@ locate1 ( exp e, space sp, shape s, int dreg ){
 	  goto breakson ;
 	}
 	default : {
-	  fail ( "locate ? reg" ) ;
+	  error(ERROR_SERIOUS,  "locate ? reg" ) ;
 	}
       }
       breakson :
@@ -495,7 +496,7 @@ locate1 ( exp e, space sp, shape s, int dreg ){
 	  break ;
 	}
 	default : {
-	  fail ( "field should be transformed" ) ;
+	  error(ERROR_SERIOUS,  "field should be transformed" ) ;
 	}
       }
       wans.ashwhere = a ;

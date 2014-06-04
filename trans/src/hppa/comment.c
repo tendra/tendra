@@ -74,18 +74,3 @@ comment4(char * mess, long p1, long p2, long p3, long p4)
     return ;
 }
 
-void
-fail(char * mess)
-{
-    if ( do_comment ) {
-	fprintf(as_file, "!! TRANSLATION FAILED : " ) ;
-	fprintf(as_file, "%s\n", mess ) ;
-	fflush ( as_file ) ;
-    }
-    fprintf ( stderr, "trans : internal error '%s'\n", mess ) ;
-    if ( !do_comment ) exit ( EXIT_FAILURE ) ;
-    /* generate more code to give the error context when commenting */
-    return ;
-}
-
-

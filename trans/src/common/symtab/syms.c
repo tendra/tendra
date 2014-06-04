@@ -11,10 +11,10 @@
  * Produce symbol numbers for binasm (dense numbers)
  */
 
+#include <shared/error.h>
 #include <shared/xalloc.h>
 
 #include <local/ash.h>
-
 
 #include "cross_config.h"
 
@@ -100,7 +100,7 @@ symnoforext(dec * ex, int filen)
 			}
 
 			/* a defined procedure will be output later with this symbolno */
-			failer("Static procs should have bodies ");
+			error(ERROR_INTERNAL, "Static procs should have bodies ");
 			symclass = scNil;
 		} else {
 			/* other statics */

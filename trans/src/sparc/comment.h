@@ -15,9 +15,6 @@
 
 #include <construct/installtypes.h>
 
-extern char *sparctrans;
-extern void fail(char *);
-
 #define comment(st)	fprintf(as_file,"\t! %s\n",st);
 
 #endif /* COMMENT_INCLUDED */

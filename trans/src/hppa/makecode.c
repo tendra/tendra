@@ -11,6 +11,7 @@
 #include <string.h>
 #include <stdio.h>
 
+#include <shared/error.h>
 #include <shared/xalloc.h>
 
 #include <local/ash.h>
@@ -23,7 +24,6 @@
 #include <construct/installtypes.h>
 #include <construct/ash.h>
 #include <construct/tags.h>
-#include <construct/installtypes.h>
 #include <construct/exp.h>
 #include <construct/shape.h>
 #include <construct/install_fns.h>
@@ -195,7 +195,7 @@ void checknan
   int t = (ABS_OF(fr) - 32) << 1;
 
   FULLCOMMENT2("checknan: %%f%d trap=%d", t, trap);
-  fail("checknan");
+  error(ERROR_SERIOUS, "checknan");
 #endif
 }
 
@@ -1684,7 +1684,7 @@ makeans make_code
 	/* must make choice of register to contain answer to cond */
 	int *sr = someregalt(dest.answhere);
 	if (*sr != -1)
-	   fail("somereg *2");
+	   error(ERROR_SERIOUS, "somereg *2");
 	*sr = getreg(sp.fixed);
 	setregalt(dest.answhere, *sr);
      }
@@ -1875,7 +1875,7 @@ makeans make_code
 
   case absbool_tag:
   {
-     fail("make_code: absbool_tag not used on HPPA");
+     error(ERROR_SERIOUS, "make_code: absbool_tag not used on HPPA");
      /* NOTREACHED */
   }
 
@@ -2144,7 +2144,7 @@ makeans make_code
 	      break;
 	   }
 	   default:
-	     fail("wrong assbits");
+	     error(ERROR_SERIOUS, "wrong assbits");
 	}
 	setbitadalt(assdest.answhere, is);
      }
@@ -2354,7 +2354,7 @@ makeans make_code
 	{
 	   int *sr = someregalt(dest.answhere);
   	   if (*sr != -1)
-	      failer("Somereg *2");
+	      error(ERROR_INTERNAL, "Somereg *2");
  	   *sr = getreg(sp.fixed);
 	   setregalt(dest.answhere, *sr);
 	   /* ,... */
@@ -2385,7 +2385,7 @@ makeans make_code
 	  freg fr;
    	  sfr = somefregalt(dest.answhere);
 	  if (*sfr.fr != -1)
-	     failer("Somefreg *2");
+	     error(ERROR_INTERNAL, "Somefreg *2");
 	  *sfr.fr = getfreg(sp.flt);
 	  fr.fr = *sfr.fr;
 	  fr.dble = sfr.dble;
@@ -2395,7 +2395,7 @@ makeans make_code
        {
 	  code_here(bro(t), sp, dest);
 	  if (!last(bro(t)) || name(t)!=val_tag || no(t)!=0)
-	     failer("No Tuples in freg");
+	     error(ERROR_INTERNAL, "No Tuples in freg");
 	  return mka;
        }
        default:;
@@ -2448,7 +2448,7 @@ makeans make_code
 	{
 	   int *sr = someregalt(dest.answhere);
  	   if (*sr != -1)
- 	      failer("Somereg *2");
+ 	      error(ERROR_INTERNAL, "Somereg *2");
 	   *sr = getreg(sp.fixed);
 	   setregalt(dest.answhere, *sr);
 	   /* ,... */
@@ -2470,7 +2470,7 @@ makeans make_code
 	  return mka;
        }
        default:
-	 failer("No Tuples in freg");
+	 error(ERROR_INTERNAL, "No Tuples in freg");
     }
   }
 
@@ -2513,7 +2513,7 @@ makeans make_code
 	{
 	   int *sr = someregalt(dest.answhere);
  	   if (*sr != -1)
- 	      failer("Somereg *2");
+ 	      error(ERROR_INTERNAL, "Somereg *2");
 	   *sr = getreg(sp.fixed);
 	   setregalt(dest.answhere, *sr);
 	   /* ,... */
@@ -2534,7 +2534,7 @@ makeans make_code
 	   return mka;
 	}
 	default:
-	  failer("No Tuples in freg");
+	  error(ERROR_INTERNAL, "No Tuples in freg");
      }
    }
 
@@ -2557,7 +2557,7 @@ makeans make_code
      {
 	int *sr = someregalt(dest.answhere);
 	if (*sr != -1)
- 	   fail("somereg *2");
+ 	   error(ERROR_SERIOUS, "somereg *2");
 	*sr = getreg(sp.fixed);
 	setregalt(dest.answhere, *sr);
      }
@@ -4430,7 +4430,7 @@ makeans make_code
      {
 	int *sr = someregalt(dest.answhere);
 	if (*sr!=-1)
-	   fail("Illegal register");
+	   error(ERROR_SERIOUS, "Illegal register");
 	*sr = GR0;
      }
      return mka;
@@ -5065,7 +5065,7 @@ null_tag_case:
   {
       char C[64];
       sprintf(C,"TDF construct %d not done yet in make_code",name(e));
-      fail(C);
+      error(ERROR_SERIOUS, C);
     }
   }
 

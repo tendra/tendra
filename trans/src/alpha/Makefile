@@ -46,7 +46,6 @@ SRCS+=	symdiag_out.c
 SRCS+=	dump_distr.c
 SRCS+=	eval.c
 SRCS+=	extern_adds.c
-SRCS+=	fail.c
 SRCS+=	float.c
 SRCS+=	frames.c
 SRCS+=	getregs.c

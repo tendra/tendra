@@ -10,6 +10,7 @@
 #include <string.h>
 
 #include <shared/check.h>
+#include <shared/error.h>
 #include <shared/xalloc.h>
 
 #include <reader/exp.h>
@@ -255,7 +256,7 @@ idname_chars(dg_idname nam)
 	static char *empty = "";
 	switch (nam.id_key) {
 	case DG_ID_INST:
-		failer("inappropriate dg_instance_idname");
+		error(ERROR_INTERNAL, "inappropriate dg_instance_idname");
 		return empty;
 	case DG_ID_NONE:
 		return empty;
@@ -362,7 +363,7 @@ find_proc_type(dg_type t)
 			}
 		}
 	}
-	failer("proc type details unavailable");
+	error(ERROR_INTERNAL, "proc type details unavailable");
 	return f_dg_proc_type(new_dg_param_list(0), f_dg_void_type,
 			      no_bool_option, no_nat_option, no_nat_option,
 			      no_procprops_option);

@@ -18,6 +18,7 @@
 #include <stdio.h>
 
 #include <shared/check.h>
+#include <shared/error.h>
 #include <shared/xalloc.h>
 
 #ifdef NEWDWARF
@@ -222,7 +223,7 @@ st_ro_ins ( ins_p ins, int src, baseoff a )
     /* in general we cannot cope with store using temp reg, catch it always */
     if ( ( src == R_TMP || a.base == R_TMP )
 	 && ABS_OF ( off ) > ( 16 + 1 + 6 ) * 4 /* leeway for mem_temp */ ) {
-	fail ( "Temporary register problem in st_ro_ins" ) ;
+	error(ERROR_SERIOUS,  "Temporary register problem in st_ro_ins" ) ;
     }
 
     if ( SIMM13_SIZE ( off ) ) {
@@ -282,7 +283,7 @@ st_ins ( ins_p ins, int src, baseoff a )
 	/* global */
 	baseoff tmp_off ;
 	if ( src == R_TMP ) {
-	    fail ( "Temporary register problem in st_ins" ) ;
+	    error(ERROR_SERIOUS,  "Temporary register problem in st_ins" ) ;
 	}
 	tmp_off.base = R_TMP ;
 	tmp_off.offset = 0 ;
@@ -369,7 +370,7 @@ rir_ins ( ins_p ins, int src1, long imm, int dest )
     } else {
 	/* use temporary register for large constant */
 	if ( src1 == R_TMP ) {
-	    fail ( "Temporary register problem in rir_ins" ) ;
+	    error(ERROR_SERIOUS,  "Temporary register problem in rir_ins" ) ;
 	} else {
 	    fprintf ( as_file, "\tset\t%ld,%s\n", imm, RN ( R_TMP ) ) ;
 #ifdef NEWDWARF
@@ -831,7 +832,7 @@ condri_ins ( ins_p ins, int src1, long imm, int lab ){
   else {
     /* Large constant */
     if ( src1 == R_TMP ) {
-      fail ( "Temporary register problem in condri_ins" ) ;
+      error(ERROR_SERIOUS,  "Temporary register problem in condri_ins" ) ;
     }
     fprintf ( as_file, "\tset\t%ld,%s\n", imm, RN ( R_TMP ) ) ;
 #ifdef NEWDWARF
@@ -1008,7 +1009,7 @@ stf_ro_ins ( ins_p ins, int src, baseoff a ){
   long off = a.offset ;
   assert ( IS_FIXREG ( a.base ) ) ;
   if ( a.base == R_TMP && ABS_OF ( off )  > ( 16 + 1 + 6 ) * 4 ) {
-    fail ( "Temporary register problem in stf_ro_ins" ) ;
+    error(ERROR_SERIOUS,  "Temporary register problem in stf_ro_ins" ) ;
   }
   if ( SIMM13_SIZE ( off ) ) {
     /* Small offset */

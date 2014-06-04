@@ -19,6 +19,7 @@
 #include <string.h>
 
 #include <shared/check.h>
+#include <shared/error.h>
 #include <shared/xalloc.h>
 
 #include <reader/exp.h>
@@ -234,8 +235,7 @@ check_tok_sig(tok_define *t, string sig)
 			if (id[i] != sid[i])break;
 		}
 		if (i !=s || id[s] != 0) {
-			IGNORE fprintf(stderr, "%s\n%s\n", id, sid);
-			failer("Token signatures should be equal");
+			error(ERROR_INTERNAL, "Token signatures should be equal: %s != %s", id, sid);
 		}
 	} else {
 		t->signature = sid;
@@ -262,7 +262,7 @@ f_procprops_cond(exp control, bitstream e1, bitstream e2)
 
   /* the control must evaluate to a constant */
   if (name(control) != val_tag) {
-    failer(CONTROL_EXP);
+    error(ERROR_INTERNAL, CONTROL_EXP);
   }
   n = no(control);
   retcell(control);
@@ -298,7 +298,7 @@ f_string_cond(exp control, bitstream e1, bitstream e2)
 
   /* the control must evaluate to a constant */
   if (name(control) != val_tag) {
-    failer(CONTROL_EXP);
+    error(ERROR_INTERNAL, CONTROL_EXP);
   }
   n = no(control);
   retcell(control);
@@ -335,7 +335,7 @@ f_alignment_cond(exp control, bitstream e1, bitstream e2)
 
   /* the control must evaluate to a constant */
   if (name(control) != val_tag) {
-    failer(CONTROL_EXP);
+    error(ERROR_INTERNAL, CONTROL_EXP);
   }
   n = no(control);
   retcell(control);
@@ -371,7 +371,7 @@ f_access_cond(exp control, bitstream e1, bitstream e2)
 
   /* the control must evaluate to a constant */
   if (name(control) != val_tag) {
-    failer(CONTROL_EXP);
+    error(ERROR_INTERNAL, CONTROL_EXP);
   }
   n = no(control);
   retcell(control);
@@ -407,7 +407,7 @@ f_transfer_mode_cond(exp control, bitstream e1, bitstream e2)
 
   /* the control must evaluate to a constant */
   if (name(control) != val_tag) {
-    failer(CONTROL_EXP);
+    error(ERROR_INTERNAL, CONTROL_EXP);
   }
   n = no(control);
   retcell(control);
@@ -441,7 +441,7 @@ f_bfvar_cond(exp control, bitstream e1, bitstream e2)
   int n;
   bs = keep_place();
   if (name(control) != val_tag) {
-    failer(CONTROL_EXP);
+    error(ERROR_INTERNAL, CONTROL_EXP);
   }
   n = no(control);
   retcell(control);
@@ -473,7 +473,7 @@ f_bool_cond(exp control, bitstream e1, bitstream e2)
   int n;
   bs = keep_place();
   if (name(control) != val_tag) {
-    failer(CONTROL_EXP);
+    error(ERROR_INTERNAL, CONTROL_EXP);
   }
   n = no(control);
   retcell(control);
@@ -635,7 +635,7 @@ f_errt_cond(exp control, bitstream e1, bitstream e2)
   int n;
   bs = keep_place();
   if (name(control) != val_tag) {
-    failer(CONTROL_EXP);
+    error(ERROR_INTERNAL, CONTROL_EXP);
   }
   n = no(control);
   retcell(control);
@@ -667,7 +667,7 @@ f_exp_cond(exp control, bitstream e1, bitstream e2)
   int n;
   bs = keep_place();
   if (name(control) != val_tag) {
-    failer(CONTROL_EXP);
+    error(ERROR_INTERNAL, CONTROL_EXP);
   }
   n = no(control);
   retcell(control);
@@ -705,7 +705,7 @@ f_chain_extern(tdfstring s, tdfint i)
 {
 	UNUSED(s);
 	UNUSED(i);
-	failer("chain_extern not yet done");
+	error(ERROR_INTERNAL, "chain_extern not yet done");
 	return f_dummy_external;
 }
 
@@ -733,7 +733,7 @@ f_flvar_cond(exp control, bitstream e1, bitstream e2)
   int n;
   bs = keep_place();
   if (name(control) != val_tag) {
-    failer(CONTROL_EXP);
+    error(ERROR_INTERNAL, CONTROL_EXP);
   }
   n = no(control);
   retcell(control);
@@ -787,7 +787,7 @@ f_nat_cond(exp control, bitstream e1, bitstream e2)
   int n;
   bs = keep_place();
   if (name(control) != val_tag) {
-    failer(CONTROL_EXP);
+    error(ERROR_INTERNAL, CONTROL_EXP);
   }
   n = no(control);
   retcell(control);
@@ -818,7 +818,7 @@ f_ntest_cond(exp control, bitstream e1, bitstream e2)
   int n;
   bs = keep_place();
   if (name(control) != val_tag) {
-    failer(CONTROL_EXP);
+    error(ERROR_INTERNAL, CONTROL_EXP);
   }
   n = no(control);
   retcell(control);
@@ -849,7 +849,7 @@ f_rounding_mode_cond(exp control, bitstream e1, bitstream e2)
   int n;
   bs = keep_place();
   if (name(control) != val_tag)
-    failer(CONTROL_EXP);
+    error(ERROR_INTERNAL, CONTROL_EXP);
   n = no(control);
   retcell(control);
   if (n == 0) {
@@ -879,7 +879,7 @@ f_shape_cond(exp control, bitstream e1, bitstream e2)
   int n;
   bs = keep_place();
   if (name(control) != val_tag) {
-    failer(CONTROL_EXP);
+    error(ERROR_INTERNAL, CONTROL_EXP);
   }
   n = no(control);
   retcell(control);
@@ -910,7 +910,7 @@ f_signed_nat_cond(exp control, bitstream e1, bitstream e2)
   int n;
   bs = keep_place();
   if (name(control) != val_tag) {
-    failer(CONTROL_EXP);
+    error(ERROR_INTERNAL, CONTROL_EXP);
   }
   n = no(control);
   retcell(control);
@@ -1090,8 +1090,7 @@ check_sig(tag tg, string sig)
 			}
 		}
 		if (i != s || id[s] != 0) {
-			   IGNORE fprintf(stderr, "%s\n%s\n", id, sid);
-			   failer("Signatures should be equal");
+			   error(ERROR_INTERNAL, "Signatures should be equal. %s != %s", id, sid);
 		}
 	} else {
 		tg->dec_u.dec_val.dec_id = sid;
@@ -1423,7 +1422,7 @@ f_token_definition(sortname result_sort, tokformals_list tok_params)
 {
   UNUSED(result_sort);
   UNUSED(tok_params);
-  failer("dummy");
+  error(ERROR_INTERNAL, "dummy");
   return f_dummy_token_defn;
 }
 
@@ -1510,7 +1509,7 @@ f_make_link(tdfint internal, tdfint ext)
      case DGTAG_TYPE:   IGNORE f_make_dglink(internal, ext);      return 0; /* NEW DIAGS */
 
      default:
-       failer(VARIABLE_TYPE);
+       error(ERROR_INTERNAL, VARIABLE_TYPE);
        return 0;
    }
 }
@@ -1544,7 +1543,7 @@ f_var_cond(exp control, bitstream e1, bitstream e2)
   int n;
   bs = keep_place();
   if (name(control) != val_tag) {
-    failer(CONTROL_EXP);
+    error(ERROR_INTERNAL, CONTROL_EXP);
   }
   n = no(control);
   retcell(control);
@@ -2175,7 +2174,7 @@ f_make_linkextern(tdfint internal, external ext)
      case DGTAG_TYPE:   return f_make_dgtagextern(internal, ext);   /* NEW DIAGS */
 
      default:
-       failer(VARIABLE_TYPE);
+       error(ERROR_INTERNAL, VARIABLE_TYPE);
        return 0;
    }
 }
@@ -2609,7 +2608,7 @@ new_link_list(int n)
        init_unit_dgtags(n);
        return 0;
      default:
-       failer(LINK_TYPE);
+       error(ERROR_INTERNAL, LINK_TYPE);
        return 0;
    }
 }

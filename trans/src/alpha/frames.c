@@ -10,6 +10,7 @@
 #include <assert.h>
 
 #include <shared/bool.h>
+#include <shared/error.h>
 
 #include <construct/tags.h>
 
@@ -19,7 +20,6 @@
 #include "procrecs.h"
 #include "bitsmacs.h"
 #include "reg_defs.h"
-#include "fail.h"
 #include "cross.h"
 #include "localexpmacs.h"
 
@@ -152,7 +152,7 @@ int frame_offset
       return (Has_vcallees)?n:((pr->callee_size>>3) - n);
     }
     else{
-      failer("Illegal frame offset");
+      error(ERROR_INTERNAL, "Illegal frame offset");
       return 0;
     }
   }

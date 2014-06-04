@@ -14,6 +14,8 @@
 
 #include <stdio.h>
 
+#include <shared/error.h>
+
 #include <local/ash.h>
 
 #include <construct/installtypes.h>
@@ -38,7 +40,6 @@
 #include "code_here.h"
 #include "reg_defs.h"
 #include "locate.h"
-#include "fail.h"
 
 int locals_offset; /* the offset in bits of start of current locals */
 int frame_size;	/* the size of the current stack frame in bits */
@@ -91,7 +92,7 @@ baseoff boff
       /* global anonymous */
     }
     else {
-      failer("not a baseoff in boff ");
+      error(ERROR_INTERNAL, "not a baseoff in boff");
     }
   }
   return an;
@@ -141,7 +142,7 @@ where locate1
 	      break;
 	    }
 	    default:
-	    failer("NOT deferable");
+	    error(ERROR_INTERNAL, "NOT deferable");
 	  }
 
 	  setinsalt(aa, is);
@@ -287,7 +288,7 @@ where locate1
       }
 
       default: {
-	failer("Locate ? reg");
+	error(ERROR_INTERNAL, "Locate ? reg");
       }
       }			/* end case */
 
@@ -413,7 +414,7 @@ where locate1
 	    break;
 	  }
 	  default: {
-	    failer("Locate ? reg ");
+	    error(ERROR_INTERNAL, "Locate ? reg ");
 	  }
 	}
 	wans.ashwhere = a;
@@ -479,7 +480,7 @@ where locate1
 	}
 
        default: {
-	 failer("Locate ? reg");
+	 error(ERROR_INTERNAL, "Locate ? reg");
        }
       }
      breakson:
@@ -514,7 +515,7 @@ where locate1
 	break;
       }
       default:
-       failer(" field should be transformed ");
+       error(ERROR_INTERNAL, "field should be transformed");
      }
      wans.ashwhere = a;
      return wans;

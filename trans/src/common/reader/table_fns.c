@@ -11,6 +11,7 @@
 #include <stdlib.h>
 
 #include <shared/check.h>
+#include <shared/error.h>
 #include <shared/xalloc.h>
 
 #include <reader/exp.h>
@@ -184,15 +185,14 @@ apply_tok(token td, bitstream pars, int sortcode, tokval * actual_pars)
 	if (td->defined == 0) {
 		/* detect various errors and give helpful information */
 		if (td->defined == 0) {
-			failer(UNDEFINED_TOK);
+			error(ERROR_INTERNAL, UNDEFINED_TOK);
 		}
 
 		if (td->is_capsule_token &&
 		    td->tok_index < capsule_no_of_tokens &&
 		    td->tok_index >= 0 &&
 		    td->tok_name != NULL) {
-			IGNORE fprintf(stderr, "token is: %s\n",
-				       td -> tok_name);
+			IGNORE fprintf(stderr, "token is: %s\n", td -> tok_name);
 		} else {
 			if (td->is_capsule_token &&
 			    td->tok_index < capsule_no_of_tokens &&

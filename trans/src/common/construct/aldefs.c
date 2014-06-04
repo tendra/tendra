@@ -7,6 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <shared/error.h>
 
 #include <reader/basicread.h>
 
@@ -78,14 +79,14 @@ process_aldefs(void)
 				break;
 			}
 			default:
-				failer(ILLEGAL_ALIGNMENT);
+				error(ERROR_INTERNAL, ILLEGAL_ALIGNMENT);
 			}
 			my_aldef = my_aldef->next_aldef;
 		}
 	} while (changed);
 
 	if (!complete) {
-		failer(INCOMPLETE_ALIGNMENT_EQS);
+		error(ERROR_INTERNAL, INCOMPLETE_ALIGNMENT_EQS);
 	}
 	return;
 }

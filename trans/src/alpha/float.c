@@ -9,6 +9,7 @@
 
 #include <assert.h>
 
+#include <shared/error.h>
 #include <shared/xalloc.h>
 
 #include <construct/flpttypes.h>
@@ -80,7 +81,7 @@ is_denormal(exp e)
     fraction = (ieeeflt.i2 & ~0xfff00000) | ieeeflt.i1;
     break;
   default:
-    failer("Invalid floating point variety");
+    error(ERROR_INTERNAL, "Invalid floating point variety");
     break;
   }
   result = (exponent == 0) && (fraction != 0);

@@ -17,9 +17,6 @@
 
 #include <construct/installtypes.h>			/* for bool */
 
-extern void fail(char *);
-
-
 /* implemented as functions in comment.c */
 extern void COMMENT(char *);
 extern void COMMENT1(char *, long);

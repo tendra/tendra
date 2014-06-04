@@ -27,6 +27,7 @@
 #include <stdlib.h>
 
 #include <shared/check.h>
+#include <shared/error.h>
 #include <shared/xalloc.h>
 
 #include <reader/exp.h>
@@ -962,7 +963,7 @@ fplus_fn(exp ap, exp b, int et)
 		flptnos[nob] = resval;
 		no(ap) = nob;
 	} else {
-		failer(ILLEGAL_FLADD);
+		error(ERROR_INTERNAL, ILLEGAL_FLADD);
 	}
 	return;
 }
@@ -987,7 +988,7 @@ fmult_fn(exp ap, exp b, int et)
 		flptnos[nob] = resval;
 		no(ap) = nob;
 	} else {
-		failer(ILLEGAL_FLMULT);
+		error(ERROR_INTERNAL, ILLEGAL_FLMULT);
 	}
 	return;
 }
@@ -1018,7 +1019,7 @@ plus_fn(exp ap, exp b, int et)
 	if (check & CHECK_EXTRA) {
 		 if (sg && !in_proc_def &&
 		    (ov || (shape_size(sh(ap)) <= 32 && check_size(x, sg, 32)))) {
-		    failer(ADD_OUT_OF_BOUNDS);
+		    error(ERROR_INTERNAL, ADD_OUT_OF_BOUNDS);
 		    exit(EXIT_FAILURE);
 	    };
 	 */
@@ -1057,7 +1058,7 @@ minus_fn(exp ap, exp b, int et)
 	if (check & CHECK_EXTRA) {
 		if (sg && !in_proc_def &&
 		    (ov || (shape_size(sh(ap)) <= 32 && check_size(x, sg, 32)))) {
-		    failer(ADD_OUT_OF_BOUNDS);
+		    error(ERROR_INTERNAL, ADD_OUT_OF_BOUNDS);
 		    exit(EXIT_FAILURE);
 	    };
 	}
@@ -1126,7 +1127,7 @@ mult_fn(exp ap, exp b, int et)
 	if (check & CHECK_EXTRA) {
 		if (sg &&
 		    (ov || (shape_size(sh(ap)) <= 32 && check_size(x, sg, 32)))) {
-			failer(MULT_OUT_OF_BOUNDS);
+			error(ERROR_INTERNAL, MULT_OUT_OF_BOUNDS);
 			exit(EXIT_FAILURE);
 		}
 	}
@@ -2495,7 +2496,7 @@ refactor(exp e, exp scope)
 						if (sg && !in_proc_def &&
 						    shape_size(sha) <= 32 &&
 						    check_size(x, sg, 32)) {
-							failer("Change_variety out of range");
+							error(ERROR_INTERNAL, "Change_variety out of range");
 							exit(EXIT_FAILURE);
 						}
 					}

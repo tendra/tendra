@@ -8,6 +8,7 @@
  */
 
 #include <shared/check.h>
+#include <shared/error.h>
 #include <shared/xalloc.h>
 
 #include <reader/exp.h>
@@ -480,11 +481,11 @@ case_item(exp i)
   }
 
   if (t != l && docmp_f((int)f_less_than_or_equal, i, thigh)) {
-    failer(CASE_OVERLAP);
+    error(ERROR_INTERNAL, CASE_OVERLAP);
   }
   if (bro(t) != NULL &&
       docmp_f((int)f_greater_than_or_equal, newhigh, nlow)) {
-    failer(CASE_OVERLAP);
+    error(ERROR_INTERNAL, CASE_OVERLAP);
   }
 
   if (isbigval(i) || isbigval(newhigh)) {

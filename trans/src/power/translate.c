@@ -762,7 +762,7 @@ baseoff find_tg(char *n)
     if (strcmp(id, n) == 0) return boff(tg);
   }
   printf("%s\n", n);
-  fail("Extension name not declared ");
+  error(ERROR_SERIOUS, "Extension name not declared ");
   tg = main_globals[0] -> dec_u.dec_val.dec_exp;
   return boff(tg);
 }

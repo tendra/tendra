@@ -14,6 +14,8 @@
 
 #include <string.h>
 
+#include <shared/error.h>
+
 #include <local/ash.h>
 
 #include <reader/exp.h>
@@ -35,7 +37,6 @@
 #include "procrectypes.h"
 #include "bitsmacs.h"
 #include "reg_defs.h"
-#include "fail.h"
 #include "special.h"
 
 
@@ -72,7 +73,7 @@ specialneeds(int i)
     case 2: return strlenneeds;
     case 3: return strcmpneeds;
     default: 
-	failer ("not special fn");
+	error(ERROR_INTERNAL, "not special fn");
   }
   return strcpyneeds;
 }
@@ -124,7 +125,7 @@ specialmake(int n, exp par, space sp, where dest, int exitlab)
 	return exitlab;
       }
     default: 
-	failer ("not special");
+	error(ERROR_INTERNAL, "not special");
   }
   return exitlab;
 }

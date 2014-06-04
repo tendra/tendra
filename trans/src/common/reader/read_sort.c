@@ -11,6 +11,7 @@
    given by sn and delivers the result inserted into the union tokval */
 
 #include <shared/check.h>
+#include <shared/error.h>
 
 #include <reader/code.h>
 #include <reader/readglob.h>
@@ -60,7 +61,7 @@ read_sort(int sn)
 
      default:
 	SET(v);
-	failer(SORT_NAME);
+	error(ERROR_INTERNAL, SORT_NAME);
     }
   return v;
 }

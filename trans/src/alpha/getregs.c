@@ -7,6 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <shared/error.h>
+
 #include <reader/exp.h>
 
 #include <construct/exp.h>
@@ -16,7 +18,6 @@
 #include "procrecs.h"
 #include "regexps.h"
 #include "bitsmacs.h"
-#include "fail.h"
 #include "getregs.h"
 #include "localexpmacs.h"
 
@@ -113,7 +114,7 @@ getreg(int32 fixed)
     out_of_regs = (reg==-1)&&(choosefix==start);
   }
   if(out_of_regs){
-    alphafail(OUT_OF_TREGS);
+    error(ERROR_SERIOUS, "Register allocation: Too many fixed point t-regs required");
   }
   clear_reg(reg);
   return reg;
@@ -144,7 +145,7 @@ getfreg(int fl)
     out_of_regs = (freg==-1)&&(choosefloat==start);
   }
   if(out_of_regs){
-    alphafail(OUT_OF_F_TREGS);
+    error(ERROR_SERIOUS, "Register allocation: Too many floating point t-regs required");
   }
   return freg;
 }

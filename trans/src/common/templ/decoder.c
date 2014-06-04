@@ -25,7 +25,7 @@
 static void
 decode_error(char *s)
 {
-    failer(s);
+    error(ERROR_INTERNAL, s);
     exit(EXIT_FAILURE);
 }
 @use all

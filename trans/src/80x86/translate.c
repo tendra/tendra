@@ -9,6 +9,8 @@
 
 #include <string.h>
 
+#include <shared/error.h>
+
 #include <local/ash.h>
 #include <local/diag_config.h>
 #include <local/out.h>
@@ -99,7 +101,7 @@ static void eval_if_ready
 	}
 	else {
 	  if (do_prom)
-	    failer("prom data");
+	    error(ERROR_INTERNAL, "prom data");
 	  outs(".data");
 	  outnl();
 #ifdef NEWDWARF
@@ -121,7 +123,7 @@ static void eval_if_ready
 	   }
 	else {
 	     if (do_prom)
-	       failer("prom data");
+	       error(ERROR_INTERNAL, "prom data");
 	     outs(".data");
 	     outnl();
 	   };
@@ -149,7 +151,7 @@ void make_code
     ash stack;
     stack.ashsize = stack.ashalign = 0;
     if (props(son(tg))!= 0)
-      failer("~asm not in ~asm_sequence");
+      error(ERROR_INTERNAL, "~asm not in ~asm_sequence");
     check_asm_seq(son(son(tg)), 1);
     outs(".text");
     coder(zero, stack, son(tg));
@@ -381,7 +383,7 @@ void translate_capsule
 	while (p != NULL) {
 	  exp np = pt(p);
 	  if (son(p)!= crt_exp)
-	    failer("not simple name");
+	    error(ERROR_INTERNAL, "not simple name");
 	  son(p) = tg;
 	  pt(p) = pt(tg);
 	  pt(tg) = p;

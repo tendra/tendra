@@ -324,7 +324,7 @@ void keepexp(exp e, ans loc)
   case insomereg:
   case insomefreg:
     {
-      fail("Keep ? reg");
+      error(ERROR_SERIOUS, "Keep ? reg");
     }
   case inreg:
     {

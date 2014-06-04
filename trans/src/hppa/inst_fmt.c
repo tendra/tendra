@@ -19,6 +19,7 @@
 #include <stdio.h>
 
 #include <shared/check.h>
+#include <shared/error.h>
 #include <shared/xalloc.h>
 
 #include <local/out.h>
@@ -1086,7 +1087,7 @@ cij_ins(const char *cond, long l, int r, int lab)
       /* use temp reg for large constant */
       if (r == GR1)
 	 /* should not happen */
-	 fail("ins: temp reg in use when needed for large constant");
+	 error(ERROR_SERIOUS, "ins: temp reg in use when needed for large constant");
       else
       {
 	 imm_to_r(l,GR1);

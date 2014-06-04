@@ -15,8 +15,9 @@
 
 #include <assert.h>
 
-#include <local/ash.h>
+#include <shared/error.h>
 
+#include <local/ash.h>
 
 #include <construct/installtypes.h>
 #include <construct/ash.h>
@@ -124,7 +125,7 @@ baseoff boff
   else
   {
     comment3("baseoff: n=%lx, b=%d, n>>4=%ld", n, b, n >> 4);
-    fail("not a baseoff in boff");
+    error(ERROR_SERIOUS, "not a baseoff in boff");
   }
   FULLCOMMENT2("baseoff: base=%d off=%d", an.base, an.offset);
   return an;
@@ -199,7 +200,7 @@ where locate1
 	      break;
 	    }
 	  default:
-	    fail("name not deferable");
+	    error(ERROR_SERIOUS, "name not deferable");
 	  }
 
 	  setinsalt(aa, is);
@@ -365,7 +366,7 @@ where locate1
 
       default:
 	{
-	  fail("locate ? reg");
+	  error(ERROR_SERIOUS, "locate ? reg");
 	}
       }				/* end case */
 
@@ -497,7 +498,7 @@ where locate1
 	  isa = bitadalt(wans.answhere);
 	  if (!isa.adval)
 	  {
-	    fail("no var bit selection");
+	    error(ERROR_SERIOUS, "no var bit selection");
 	  }
 	  /* wans is a literal bit address */
 	  isa.b.offset += no(e);
@@ -526,7 +527,7 @@ where locate1
 	}
       default:
 	{
-	  fail("locate ? reg ");
+	  error(ERROR_SERIOUS, "locate ? reg ");
 	}
       }
       wans.ashwhere = a;
@@ -626,7 +627,7 @@ where locate1
 	  isa = bitadalt(ason);
 	  if (!isa.adval)
 	  {
-	    fail("no ptr bits");
+	    error(ERROR_SERIOUS, "no ptr bits");
 	  }
 	  /* fc is a literal address of bits, so make it direct */
 	  isa.adval = 0;
@@ -636,7 +637,7 @@ where locate1
 #endif
       default:
 	{
-	  fail("locate ? reg");
+	  error(ERROR_SERIOUS, "locate ? reg");
 	}
       }
   breakson:
@@ -693,7 +694,7 @@ where locate1
 	}
 #endif
       default:
-	fail("field should be transformed");
+	error(ERROR_SERIOUS, "field should be transformed");
       }
       wans.ashwhere = a;
       return wans;

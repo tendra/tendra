@@ -11,9 +11,15 @@
 #include <string.h>
 #include <stdlib.h>
 
+#include <shared/check.h>
+#include <shared/error.h>
+#include <shared/xalloc.h>
+
 #include <reader/exp.h>
-#include <local/out.h>
+
 #include <local/szs_als.h>
+#include <local/out.h>
+#include <local/codermacs.h>
 
 #ifdef NEWDIAGS
 #include <newdiag/dg_first.h>
@@ -25,9 +31,6 @@
 #include <diag/dg_types.h>  /* new diags */
 #include <diag/diagtypes.h> /* old diags */
 #endif
-
-#include <shared/check.h>
-#include <shared/xalloc.h>
 
 #include <construct/installtypes.h>
 #include <construct/machine.h>
@@ -49,7 +52,6 @@
 #include <newdiag/dg_aux.h>
 #include <newdiag/dg_globs.h>
 
-#include <local/codermacs.h>
 #include "instr.h"
 
 #else
@@ -921,7 +923,7 @@ out_dt_shape(dg_type dt)
 	break;
       }
       if (tg->key == DGK_NONE) {
-	failer("external type");
+	error(ERROR_INTERNAL, "external type");
 	tg->done = 1;
 	tg->outref.k = LAB_D;
 	tg->outref.u.l = 0;
@@ -932,7 +934,7 @@ out_dt_shape(dg_type dt)
 	dg_type ref_t = tg->p.typ;
 	if (ref_t == dt) {
 	  if (ref_t->outref.k != LAB_STR)
-	    failer("uninitialised?");
+	    error(ERROR_INTERNAL, "uninitialised?");
 	  ref_t->outref.k = LAB_D;
 	  ref_t->outref.u.l = find_basic_type(ref_t->outref.u.s);
 	}
@@ -951,7 +953,7 @@ out_dt_shape(dg_type dt)
 	  break;
 	}
       }
-      failer("unfinished convolution");
+      error(ERROR_INTERNAL, "unfinished convolution");
       tg->done = 1;
       tg->outref.k = LAB_D;
       tg->outref.u.l = 0;
@@ -1035,7 +1037,7 @@ out_dt_shape(dg_type dt)
 	  break;
 	}
       }
-      failer("complex array");
+      error(ERROR_INTERNAL, "complex array");
       break;
     }
 
@@ -1844,7 +1846,7 @@ out_diagnose_prelude(void)
     dg_file_name = tmpnam(NULL);
     dg_file = fopen(dg_file_name, "w");
     if (dg_file == NULL) {
-	failer("Can't open temporary diagnostics file");
+	error(ERROR_INTERNAL, "Can't open temporary diagnostics file");
 	exit(EXIT_FAILURE);
     }
     stab_types();
@@ -1874,7 +1876,7 @@ init_stab_aux(void)
     stab_file((long)j, 0);
     f = fopen(dg_file_name, "r");
     if (f == NULL) {
-	failer("Can't open temporary diagnostics file");
+	error(ERROR_INTERNAL, "Can't open temporary diagnostics file");
 	exit(EXIT_FAILURE);
     }
     while (c = fgetc(f), c != EOF) {

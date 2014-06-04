@@ -13,6 +13,7 @@
 #include <string.h>
 
 #include <shared/check.h>
+#include <shared/error.h>
 #include <shared/xalloc.h>
 
 #include <reader/exp.h>
@@ -256,7 +257,7 @@ void output_LNTT
       {
 	 if (EXTENSION_BIT(e.dgeneric.word[3]) ==0)
 	 {
-	    fprintf(stderr,"hppatrans warning: trans made an error whilst compiling XDB diagnostics tables (extension bit not set)\n");
+	    error(ERROR_SERIOUS, "error whilst compiling XDB diagnostics tables (extension bit not set)");
 	 }
 	 else
 	 {
@@ -271,7 +272,7 @@ void output_LNTT
       {
 	 if (EXTENSION_BIT(e.dgeneric.word[3]) ==0)
 	 {
-	    fprintf(stderr,"hppatrans warning: trans made an error whilst compiling XDB diagnostics tables (extension bit not set)\n");
+	    error(ERROR_SERIOUS, "error whilst compiling XDB diagnostics tables (extension bit not set)");
 	    break;
 	 }
 	 else
@@ -280,7 +281,7 @@ void output_LNTT
 	 }
 	 if (EXTENSION_BIT(e.dgeneric.word[6]) ==0)
 	 {
-	    fprintf(stderr,"hppatrans warning: trans made an error whilst compiling XDB diagnostics tables (extension bit not set)\n");
+	    error(ERROR_SERIOUS, "error whilst compiling XDB diagnostics tables (extension bit not set)");
 	 }
 	 else
 	 {
@@ -303,7 +304,7 @@ void output_GNTT
       fprintf(GNTT_,"\t.WORD\t%lu,%lu,%s",e.dgeneric.word[0], e.dgeneric.word[1],(char*)e.dgeneric.word[2]);
       if (EXTENSION_BIT(e.dgeneric.word[3]) ==0)
       {
-	 fprintf(stderr,"hppatrans warning: trans made an error whilst compiling XDB diagnostics tables (extension bit not set)\n");
+	 error(ERROR_SERIOUS, "error whilst compiling XDB diagnostics tables (extension bit not set)");
       }
       else
       {
@@ -911,7 +912,7 @@ void output_DEBUG
     fclose(GNTT_);
     f = fopen(VT_name, "r");
     if (f == NULL) {
-	fail("Can't open temporary diagnostics file");
+	error(ERROR_SERIOUS, "Can't open temporary diagnostics file");
 	exit(EXIT_FAILURE);
     }
     while (c = fgetc(f), c != EOF) outc(c);
@@ -920,7 +921,7 @@ void output_DEBUG
     remove(VT_name);
     f = fopen(SLT_name, "r");
     if (f == NULL) {
-	fail("Can't open temporary diagnostics file");
+	error(ERROR_SERIOUS, "Can't open temporary diagnostics file");
 	exit(EXIT_FAILURE);
     }
     while (c = fgetc(f), c != EOF) outc(c);
@@ -929,7 +930,7 @@ void output_DEBUG
     remove(SLT_name);
     f = fopen(LNTT_name, "r");
     if (f == NULL) {
-	fail("Can't open temporary diagnostics file");
+	error(ERROR_SERIOUS, "Can't open temporary diagnostics file");
 	exit(EXIT_FAILURE);
     }
     while (c = fgetc(f), c != EOF) outc(c);
@@ -938,7 +939,7 @@ void output_DEBUG
     remove(LNTT_name);
     f = fopen(GNTT_name, "r");
     if (f == NULL) {
-	fail("Can't open temporary diagnostics file");
+	error(ERROR_SERIOUS, "Can't open temporary diagnostics file");
 	exit(EXIT_FAILURE);
     }
     while (c = fgetc(f), c != EOF) outc(c);
@@ -1109,7 +1110,7 @@ void init_stab
     tmpnam(dg_file_name);
     dg_file = fopen(dg_file_name, "w+");
     if (dg_file == NULL) {
-	fail("Can't open temporary diagnostics file");
+	error(ERROR_SERIOUS, "Can't open temporary diagnostics file");
 	exit(EXIT_FAILURE);
     }
 #ifdef _SYMTAB_INCLUDED
@@ -1125,28 +1126,28 @@ void init_stab
        VT_ = fopen(VT_name, "w+");
        if (VT_ == NULL)
        {
-	  fail("Can't open temporary diagnostics file");
+	  error(ERROR_SERIOUS, "Can't open temporary diagnostics file");
 	  exit(EXIT_FAILURE);
        }
        tmpnam(SLT_name);
        SLT_ = fopen(SLT_name, "w+");
        if (SLT_ == NULL)
        {
-	  fail("Can't open temporary diagnostics file");
+	  error(ERROR_SERIOUS, "Can't open temporary diagnostics file");
 	  exit(EXIT_FAILURE);
        }
        tmpnam(LNTT_name);
        LNTT_ = fopen(LNTT_name, "w+");
        if (LNTT_ == NULL)
        {
-	  fail("Can't open temporary diagnostics file");
+	  error(ERROR_SERIOUS, "Can't open temporary diagnostics file");
 	  exit(EXIT_FAILURE);
        }
        tmpnam(GNTT_name);
        GNTT_ = fopen(GNTT_name, "w+");
        if (GNTT_ == NULL)
        {
-	  fail("Can't open temporary diagnostics file");
+	  error(ERROR_SERIOUS, "Can't open temporary diagnostics file");
 	  exit(EXIT_FAILURE);
        }
        fprintf(VT_,"\t.SPACE\t$DEBUG$\n");
@@ -1189,7 +1190,7 @@ void init_stab_aux
     }
     f = fopen(dg_file_name, "r");
     if (f == NULL) {
-	fail("Can't open temporary diagnostics file");
+	error(ERROR_SERIOUS, "Can't open temporary diagnostics file");
 	exit(EXIT_FAILURE);
     }
     while (c = fgetc(f), c != EOF)outc(c);
@@ -1770,7 +1771,7 @@ static DNTTPOINTER out_dt_shape
 
 	      if (lntt_next.word != p.word)
 	      {
-		 fprintf(stderr,"hppatrans warning: trans made an error whilst compiling XDB diagnostics tables\n");
+		 error(ERROR_SERIOUS, "error whilst compiling XDB diagnostics tables");
 	      }
 
  	      if (dt->key == DIAG_TYPE_STRUCT)

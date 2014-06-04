@@ -11,6 +11,7 @@
 #include <stdio.h>
 
 #include <shared/check.h>
+#include <shared/error.h>
 
 #include <local/szs_als.h>
 #include <local/ash.h>
@@ -100,7 +101,7 @@ checknan ( exp e, int fr )
   long trap = no ( son ( pt ( e ) ) ) ;
   int t = ( ABS_OF ( fr ) - 32 ) << 1 ;
 #endif
-  fail ( "checknan not implemented" ) ;
+  error(ERROR_SERIOUS,  "checknan not implemented" ) ;
   return ;
 }
 
@@ -828,7 +829,7 @@ check_range_and_do_error_jump ( shape rep_var, int r, int lab, space sp, int rmo
       break;
     }
     default : {
-      fail("shape not covered in range check");
+      error(ERROR_SERIOUS, "shape not covered in range check");
     }
   }
   return;
@@ -865,7 +866,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
       static int inside_proc = 0 ;
       exceptions_initialised = 0;
       if ( inside_proc ) {
-	fail ( "Nested procedures not implemented" ) ;
+	error(ERROR_SERIOUS,  "Nested procedures not implemented" ) ;
       } else {
 	inside_proc = 1 ;
 	mka = make_proc_tag_code ( e, sp, dest, exitlab ) ;
@@ -945,7 +946,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
       /* Do nothing */
       if ( discrim ( dest.answhere ) == insomereg ) {
 	int *sr = someregalt ( dest.answhere ) ;
-	if ( *sr != -1 ) fail ( "Illegal register" ) ;
+	if ( *sr != -1 ) error(ERROR_SERIOUS,  "Illegal register" ) ;
 	*sr = R_G0 ;
       }
       return mka;
@@ -1223,7 +1224,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
 
       if ( discrim ( dest.answhere ) == insomereg ) {
 	int *sr = someregalt ( dest.answhere ) ;
-	if ( *sr != -1 ) fail ( "Illegal register" ) ;
+	if ( *sr != -1 ) error(ERROR_SERIOUS,  "Illegal register" ) ;
 	*sr = getreg ( sp.fixed ) ;
 	setregalt ( dest.answhere, *sr ) ;
       }
@@ -1646,7 +1647,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
 	   break;
 	 }
 	 default:
-	  failer("unimplemented shape");
+	  error(ERROR_INTERNAL, "unimplemented shape");
        }
        setregalt(aa,res_reg);
        mka.regmove = move(aa,dest,sp.fixed,0);
@@ -1745,7 +1746,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
 	  break;
 	}
 	default:
-	failer("unimplemented shape");
+	error(ERROR_INTERNAL, "unimplemented shape");
       }	
       setregalt(aa,res_reg);
       mka.regmove = move(aa,dest,sp.fixed,0);
@@ -1827,7 +1828,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
 	  break;
 	}
 	default :
-	failer("unimplemented shape");
+	error(ERROR_INTERNAL, "unimplemented shape");
       }	
       setregalt(aa,res_reg);
       mka.regmove = move(aa,dest,sp.fixed,0);
@@ -1985,7 +1986,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
 	  }
 	  break;
 	}
-	default: failer("unimplemented shape");
+	default: error(ERROR_INTERNAL, "unimplemented shape");
       }
       setregalt(aa,res_reg);
       mka.regmove = move(aa,dest,sp.fixed,0);
@@ -2081,7 +2082,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
 	  }
 	  break;
 	}
-	default: failer("unimplemented shape");
+	default: error(ERROR_INTERNAL, "unimplemented shape");
       }
     }
     setregalt(aa,rd);
@@ -2121,7 +2122,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
 	  }
 	  break;
 	}
-	default: failer("unimplemented shape");
+	default: error(ERROR_INTERNAL, "unimplemented shape");
       }
     }
     return mka;
@@ -3017,7 +3018,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
 
       case insomereg : {
 	int *sr = someregalt ( dest.answhere ) ;
-	if ( *sr != -1 ) fail ( "Illegal register" ) ;
+	if ( *sr != -1 ) error(ERROR_SERIOUS,  "Illegal register" ) ;
 	*sr = getreg ( sp.fixed ) ;
 	setregalt ( dest.answhere, *sr ) ;
 	/* FALL THROUGH */
@@ -3072,7 +3073,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
 	/* fall through to fail */
       }
     }
-    fail ( "Illegal compound expression" ) ;
+    error(ERROR_SERIOUS,  "Illegal compound expression" ) ;
     return mka;
   }
 
@@ -3115,7 +3116,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
 
       case insomereg : {
 	int *sr = someregalt ( dest.answhere ) ;
-	if ( *sr != -1 ) fail ( "Illegal register" ) ;
+	if ( *sr != -1 ) error(ERROR_SERIOUS,  "Illegal register" ) ;
 	*sr = getreg ( sp.fixed ) ;
 	setregalt ( dest.answhere, *sr ) ;
 	/* FALL THROUGH */
@@ -3141,7 +3142,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
 	/* fall through to fail */
       }
     }
-    fail ( "Illegal array expression" ) ;
+    error(ERROR_SERIOUS,  "Illegal array expression" ) ;
     return mka;
   }
 
@@ -3180,7 +3181,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
 
       case insomereg : {
 	int *sr = someregalt ( dest.answhere ) ;
-	if ( *sr != -1 ) fail ( "Illegal register" ) ;
+	if ( *sr != -1 ) error(ERROR_SERIOUS,  "Illegal register" ) ;
 	*sr = getreg ( sp.fixed ) ;
 	setregalt ( dest.answhere, *sr ) ;
 	/* FALL THROUGH */
@@ -3205,7 +3206,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
 	/* fall through to fail */
       }
     }
-    fail ( "Illegal array expression" ) ;
+    error(ERROR_SERIOUS,  "Illegal array expression" ) ;
     return mka;
   }
 
@@ -3221,7 +3222,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
 	/* ??? changed al1 to al2 here */
 	/* and back ???? */
 #if 0
-	fail ( "ident ref bits" ) ;
+	error(ERROR_SERIOUS,  "ident ref bits" ) ;
 #endif
       }
     }
@@ -3482,7 +3483,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
     if ( discrim ( dest.answhere ) == insomereg ) {
       /* must make choice of register to contain answer to cond */
       int *sr = someregalt ( dest.answhere ) ;
-      if ( *sr != -1 ) fail ( "somereg *2" ) ;
+      if ( *sr != -1 ) error(ERROR_SERIOUS,  "somereg *2" ) ;
       *sr = getreg ( sp.fixed ) ;
       setregalt ( dest.answhere, *sr ) ;
     }
@@ -3692,7 +3693,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
 	}
 #endif
 	default : {
-	  fail ( "wrong assbits" ) ;
+	  error(ERROR_SERIOUS,  "wrong assbits" ) ;
 	  break ;
 	}
       }
@@ -3821,7 +3822,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
       }
       case insomefreg:
       {
-	fail("Insomefreg not expected here...\n");
+	error(ERROR_INTERNAL, "Insomefreg not expected here...");
       } 
     }
 
@@ -4435,7 +4436,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
 	      out_asm_boff (boff(son(son(s))), no(son(s))/8);
 	  }
 	  else
-	    failer ("unsupported ASM operand");
+	    error(ERROR_INTERNAL, "unsupported ASM operand");
 	}
 	else
 	if (asm_var(e)) {
@@ -4451,10 +4452,10 @@ make_code ( exp e, space sp, where dest, int exitlab )
 	      out_asm_boff (boff(son(s)), no(s)/8);
 	  }
 	  else
-	    failer ("unsupported ASM operand");
+	    error(ERROR_INTERNAL, "unsupported ASM operand");
 	}
 	else
-	  failer ("illegal asm");
+	  error(ERROR_INTERNAL, "illegal asm");
       }
       else {
 	outs ("\n\t! ASM sequence start\n");
@@ -4469,7 +4470,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
     }
   }
   /* Uncovered cases */
-  fail ( "TDF construct not done yet in make_code" ) ;
+  error(ERROR_SERIOUS,  "TDF construct not done yet in make_code" ) ;
   return mka;
 }
 
@@ -4526,7 +4527,7 @@ find_diag_res ( void * args )
       break;
     }
     default:
-      fail ("unexpected diag_res dest");
+      error(ERROR_SERIOUS, "unexpected diag_res dest");
   }
   return w;
 }

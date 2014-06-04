@@ -21,8 +21,9 @@
  * A clear bit indicates that the corresponding register is free for use.
  */
 
-#include <reader/exp.h>
+#include <shared/error.h>
 
+#include <reader/exp.h>
 #include <reader/basicread.h>
 
 #include <construct/exp.h>
@@ -138,7 +139,7 @@ getreg(long fixed)
     	else continue;
     }
     if (choosefix == start) {
-    	failer("Too many fixed regs required");
+    	error(ERROR_INTERNAL, "Too many fixed regs required");
     		break;
     }
     goto cycle;
@@ -172,7 +173,7 @@ getfreg(long fl)
     	else continue;
     }
     if (choosefloat == start) {
-    	failer("Too many float regs required");
+    	error(ERROR_INTERNAL, "Too many float regs required");
     		break;
     }
     goto cycle;

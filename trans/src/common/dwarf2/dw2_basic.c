@@ -9,6 +9,8 @@
 
 #include <stdio.h>
 
+#include <shared/error.h>
+
 #include <local/szs_als.h>
 #include <local/dw2_config.h>
 
@@ -251,7 +253,7 @@ dw_at_ext_lab(ext_lab lab)
 		out_dwf_label(lab.u.l, 0);
 		break;
 	default:
-		failer("unset label");
+		error(ERROR_INTERNAL, "unset label");
 	}
 	d_outnl();
 	return;
@@ -269,7 +271,7 @@ dw_set_ext_lab(ext_lab lab)
 		out_dwf_label(lab.u.l, 1);
 		break;
 	default:
-		failer("unexpected set label");
+		error(ERROR_INTERNAL, "unexpected set label");
 	}
 	return;
 }
@@ -360,7 +362,7 @@ dw_at_data(int n, long d)
 		break;
 	}
 	default:
-		failer("dwarf data size not supported");
+		error(ERROR_INTERNAL, "dwarf data size not supported");
 	}
 	outn(d);
 	d_outnl();
@@ -444,7 +446,7 @@ refloc_length(exp e, exp id)
 	switch (name(e)) {
 	case name_tag:
 		if (son(e) != id) {
-			failer(bad_refloc);
+			error(ERROR_INTERNAL, bad_refloc);
 		}
 		if (no(e) == 0) {
 			return 0;
@@ -454,12 +456,12 @@ refloc_length(exp e, exp id)
 		return refloc_length(son(e), id) + 1;
 	case reff_tag:
 		if (no(e) <0) {
-			failer(bad_refloc);
+			error(ERROR_INTERNAL, bad_refloc);
 		}
 		return refloc_length(son(e), id) + 1 +
 		       uleb128_length((unsigned long)no(e) / 8);
 	default:
-		failer(bad_refloc);
+		error(ERROR_INTERNAL, bad_refloc);
 		return 0;
 	}
 }
@@ -471,7 +473,7 @@ out_refloc(exp e, exp id)
 	switch (name(e)) {
 	case name_tag:
 		if (son(e) != id) {
-			failer(bad_refloc);
+			error(ERROR_INTERNAL, bad_refloc);
 		}
 		outs(sep);
 		outn((long)DW_OP_plus_uconst);
@@ -485,7 +487,7 @@ out_refloc(exp e, exp id)
 		return;
 	case reff_tag:
 		if (no(e) <0) {
-			failer(bad_refloc);
+			error(ERROR_INTERNAL, bad_refloc);
 		}
 		out_refloc(son(e), id);
 		outs(sep);
@@ -494,7 +496,7 @@ out_refloc(exp e, exp id)
 		uleb128((unsigned long)no(e) /8);
 		return;
 	default:
-		failer(bad_refloc);
+		error(ERROR_INTERNAL, bad_refloc);
 	}
 }
 
@@ -504,7 +506,7 @@ dw_locate_reloffset(exp e)
 {
 	int length;
 	if (name(e) != ident_tag) {
-		failer(bad_refloc);
+		error(ERROR_INTERNAL, bad_refloc);
 		return;
 	}
 	length = refloc_length(bro(son(e)), e);

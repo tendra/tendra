@@ -157,7 +157,7 @@ long evalexp(exp e)
       a = ashof(sh(e));
       if (a.ashalign != 1)
       {
-	fail("should be align 1");
+	error(ERROR_SERIOUS, "should be align 1");
       }
       if (a.ashsize != 32)
       {
@@ -239,7 +239,7 @@ long evalexp(exp e)
 
       FULLCOMMENT2("evalexp() clearshape_tag: ash=%d,%d", a.ashalign, a.ashsize);
       if (a.ashsize > 32)
-	fail("clear for more than 32 bits");
+	error(ERROR_SERIOUS, "clear for more than 32 bits");
 
       return 0;
     }
@@ -252,7 +252,7 @@ long evalexp(exp e)
 
   default:
     COMMENT1("tag not in evalexp: %d", name(e));
-    fail("tag not in evalexp");
+    error(ERROR_SERIOUS, "tag not in evalexp");
     return 0;
   }
   /*NOTREACHED*/
@@ -463,7 +463,7 @@ static void set_align(int al)
     break;
 
   default:
-    fail("unexpected alignment");
+    error(ERROR_SERIOUS, "unexpected alignment");
   }
 }
 
@@ -517,7 +517,7 @@ static void evalone(exp e, int bitposn)
 	    break;
 	    /* +++ case 64 ??? */
 	   default:
-	    fail("unexpected wide char data width");
+	    error(ERROR_SERIOUS, "unexpected wide char data width");
 	  }
 	  fprintf(as_file, "\t%s\t%#x\n", directive, c);
 	}
@@ -705,7 +705,7 @@ static void evalone(exp e, int bitposn)
 */
 
 	if (no(off) < last_offset)
-	  fail("eval compound_tag: not ascending order");
+	  error(ERROR_SERIOUS, "eval compound_tag: not ascending order");
 
 	if (last_align <= 1 || tupa.ashalign <= 1 || gap >= tupa.ashalign)
 	{
@@ -896,7 +896,7 @@ static void evalone(exp e, int bitposn)
 
    default:
     COMMENT1("tag not in evaluated: %d", name(e));
-    fail("illegal constant");
+    error(ERROR_SERIOUS, "illegal constant");
   }				/* end switch */
 }
 
@@ -1008,6 +1008,6 @@ long correct_shape(long n, int shpe)
    case ulonghd:
     return n;
   }
-  fail("Unknown shape in correct_shape");
+  error(ERROR_SERIOUS, "Unknown shape in correct_shape");
   return 0;
 }

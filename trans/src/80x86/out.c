@@ -13,6 +13,7 @@
 #include <stdlib.h>
 
 #include <shared/check.h>
+#include <shared/error.h>
 
 #include <local/out.h>
 #include <local/cpu.h>
@@ -54,7 +55,7 @@ outc(char c)
 
 	st = fputc(c, as_file);
 	if (st == EOF) {
-		failer(BAD_OUTPUT);
+		error(ERROR_INTERNAL, BAD_OUTPUT);
 		exit(EXIT_FAILURE);
 	}
 }
@@ -66,7 +67,7 @@ outs(char *s)
 
 	st = fputs(s, as_file);
 	if (st == EOF) {
-		failer(BAD_OUTPUT);
+		error(ERROR_INTERNAL, BAD_OUTPUT);
 		exit(EXIT_FAILURE);
 	}
 }
@@ -94,7 +95,7 @@ outnl(void)
 
 	st = fputs("\n", as_file);
 	if (st == EOF) {
-		failer(BAD_OUTPUT);
+		error(ERROR_INTERNAL, BAD_OUTPUT);
 		exit(EXIT_FAILURE);
 	}
 
@@ -113,7 +114,7 @@ outn(long n)
 
 	st = fprintf(as_file, "%ld", n);
 	if (st == EOF) {
-		failer(BAD_OUTPUT);
+		error(ERROR_INTERNAL, BAD_OUTPUT);
 		exit(EXIT_FAILURE);
 	}
 }
@@ -125,7 +126,7 @@ outhex(int n)
 
 	st = fprintf(as_file, "0x%x",(unsigned int)n);
 	if (st == EOF) {
-		failer(BAD_OUTPUT);
+		error(ERROR_INTERNAL, BAD_OUTPUT);
 		exit(EXIT_FAILURE);
 	}
 }
@@ -139,7 +140,7 @@ out_tell_pos(void)
 	long p;
 
 	if ((p = ftell(as_file)) == -1L) {
-		failer("out_tell_pos: ftell error");
+		error(ERROR_INTERNAL, "out_tell_pos: ftell error");
 		exit(EXIT_FAILURE);
 	}
 
@@ -153,7 +154,7 @@ void
 out_set_pos(long pos)
 {
 	if (fseek(as_file, pos, SEEK_SET) == -1) {
-		failer("out_set_pos: fseek error");
+		error(ERROR_INTERNAL, "out_set_pos: fseek error");
 		exit(EXIT_FAILURE);
 	}
 }
