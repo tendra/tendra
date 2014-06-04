@@ -17,6 +17,7 @@
  * (common to other translators)
  */
 
+#include <assert.h>
 #include <string.h>
 
 #include <local/ash.h>
@@ -225,7 +226,7 @@ scan_cond(exp * e, exp outer_id)
 	exp labst = bro (first);
 	exp second = bro (son (labst));
 
-	Assert(name(ste)==cond_tag);
+	assert(name(ste)==cond_tag);
 
 	if (name(second)==top_tag && name(sh(first))==bothd && no(son(labst))==1
 		&& name(first)==seq_tag && name(bro(son(first))) == goto_tag){
@@ -655,7 +656,7 @@ change_to_var(exp e)
 {	/* change identity to variable definition */
 	exp p = pt(e);
 	shape ns;
-	Assert(name(e)==ident_tag && !isvar(e));
+	assert(name(e)==ident_tag && !isvar(e));
 	setvar(e);
 	setcaonly(e);
 	ns = f_pointer(f_alignment(sh(son(e))));
@@ -674,7 +675,7 @@ void
 change_names(exp f, exp t, exp except)
 {	/* replace uses of ident f (!= except) to uses of t */
 	exp py = pt(f);
-	Assert(name(f)==ident_tag && name(t)==ident_tag && name(except)==name_tag);
+	assert(name(f)==ident_tag && name(t)==ident_tag && name(except)==name_tag);
 	while (py != NULL) {
 		exp ppy = pt(py);
 		if (py != except) {
@@ -699,7 +700,7 @@ tidy_ident(exp e)
 	exp init; exp bdyinit; exp idy;
 	exp e1;
 	exp e3;
-	Assert(name(e)==ident_tag);
+	assert(name(e)==ident_tag);
 	init = son(e);
 	e3 = bro(init);
 	if ( name(init) != ident_tag || isparam(e)) { return ;}
@@ -1115,7 +1116,7 @@ ptr of ident exp is chain of uses
 	  	long n = rounder(stparam, shape_align(shdef));
 	  	long sizep = shape_size(shdef);
 
-	  	Assert(name(def)==clear_tag);
+	  	assert(name(def)==clear_tag);
 		if (is_floating(name(shdef)) ) {
 			if (n + sizep <= 128 ) {
 				props(def) = floatparam++;

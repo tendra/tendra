@@ -7,6 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <assert.h>
 
 #include <reader/basicread.h>
 
@@ -123,7 +124,7 @@ long frame_offset
     	int  b = x & 0x3f;
     	int lo; int fs; int cs;
 
-	Assert(name(id) == ident_tag);
+	assert(name(id) == ident_tag);
 	for (p = father(id);(name(p)!=proc_tag && name(p)!=
 		general_proc_tag); p = father(p));
 	pr = & procrecs[no(p)];

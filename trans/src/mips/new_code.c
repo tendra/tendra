@@ -11,6 +11,7 @@
 	This is the principal code producing module
 ****************************************************************/
 
+#include <assert.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -676,7 +677,7 @@ exp find_ote
 	while (name(d)!=apply_general_tag)d = father(d);
 	d = son(bro(son(d))); /* list otagexps */
 	while (n !=0) { d = bro(d); n--;}
-	Assert(name(d) ==caller_tag);
+	assert(name(d) ==caller_tag);
 	return d;
 }
 
@@ -1482,7 +1483,7 @@ tailrecurse:
               newis = str;
               newis.b.offset += no(t);
 
-              Assert(name(t) ==val_tag && al2(sh(t)) >= 8);
+              assert(name(t) ==val_tag && al2(sh(t)) >= 8);
 
 
               setinsalt(newdest.answhere, newis);
@@ -1506,7 +1507,7 @@ tailrecurse:
           case inreg: {
             code_here(bro(t), sp, dest);
             r = regalt(dest.answhere);
-            Assert(name(t) ==val_tag);
+            assert(name(t) ==val_tag);
             if (no(t)!=0) {
             	rri_ins(i_sll, r, r,(al2(sh(t)) >= 8)?(no(t) <<3):no(t));
             }
@@ -1514,7 +1515,7 @@ tailrecurse:
             while (!last(bro(t))) {
             	int z;
             	t = bro(bro(t));
-            	Assert(name(t) ==val_tag);
+            	assert(name(t) ==val_tag);
             	z = reg_operand(bro(t), nsp);
             	if (no(t)!=0) {
             		rri_ins(i_sll, z,z,(al2(sh(t)) >= 8)?(no(t) <<3):no(t));
@@ -1730,7 +1731,7 @@ tailrecurse:
 	if (call_is_untidy(cees)) {
 		rri_ins(i_subu, 29, 29, max_args>>3);
 		reset_tos();
-		Assert(name(pl) ==top_tag);
+		assert(name(pl) ==top_tag);
 	}
 	else
 	if (postlude_has_call(e)) {

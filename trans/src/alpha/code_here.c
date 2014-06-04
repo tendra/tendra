@@ -7,8 +7,9 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include <local/ash.h>
+#include <assert.h>
 
+#include <local/ash.h>
 
 #include <construct/installtypes.h>
 #include <construct/ash.h>
@@ -170,7 +171,7 @@ reg_operand(exp e, space sp)
     w.answhere = aa;
     w.ashwhere = ashof (sh (e));
     (void)code_here (e, sp, w);	
-    Assert(reg!=-1);
+    assert(reg!=-1);
     keepreg (e, reg);
     return reg;
   }

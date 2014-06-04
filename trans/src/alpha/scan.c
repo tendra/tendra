@@ -17,6 +17,7 @@
   independent (common to other  translators)
 */
 
+#include <assert.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -255,7 +256,7 @@ int scan_cond
   exp labst = bro(first);
   exp second = bro(son(labst));
 
-  Assert(name(ste) ==cond_tag);
+  assert(name(ste) ==cond_tag);
 
   if (name(second) ==top_tag && name(sh(first)) ==bothd && no(son(labst)) ==1
       && name(first) ==seq_tag && name(bro(son(first))) == goto_tag) {
@@ -397,7 +398,7 @@ needs likeplus
 
 #if 0
   if (optop(*e)) {
-    Assert(name(*br)!= val_tag);
+    assert(name(*br)!= val_tag);
   }
 #endif
   a1 = scan(br, at);
@@ -912,7 +913,7 @@ needs scan
 	long sizep = shape_size(shdef);
 	numparams = min(numparams+rounder(sizep,REG_SIZE),6*REG_SIZE);
 	/*numparams=min(numparams+max(REG_SIZE,sizep),6*REG_SIZE);*/
-	/*Assert(name(def)==clear_tag); */
+	/*assert(name(def)==clear_tag); */
 	if (is_floating(name(shdef))) {
 	  if (sizep<=64 && stparam <= 320) {
 	    props(def) = floatparam;

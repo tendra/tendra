@@ -12,13 +12,6 @@
 #ifndef LOCALEXPMACS_H
 #define LOCALEXPMACS_H
 
-#ifdef __STDC__
-#define Assert(x) if(!(x)) failer(#x)
-#else
-#define Assert(x) if(!(x)) failer("x")	/* might work, if not, who cares */
-#endif
-
-
 /* properties of IDENT */
 
 /* Set in weights and used in coder. At this time no copying */

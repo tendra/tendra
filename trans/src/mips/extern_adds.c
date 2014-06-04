@@ -7,8 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <assert.h>
 #include <stddef.h>
-
 
 #include <reader/externs.h>
 #include <reader/basicread.h>
@@ -40,7 +40,7 @@ enter_parents(exp e)
 {
 	exp dad =e;
 	bool inloop = 0;
-	Assert(name(e)==name_tag);
+	assert(name(e)==name_tag);
 	for(;;) {
 	  	dad = father(dad);
 		if (name(dad)==rep_tag) {
@@ -81,7 +81,7 @@ global_usages(exp id, int nop)
 {
 	exp plist, nextpl;
 	int i;
-	Assert(name(id)==ident_tag && isglob(id) && son(id)==NULL);
+	assert(name(id)==ident_tag && isglob(id) && son(id)==NULL);
 	if (no(id)==0) return;
 
 	for(i=0; i<nop; i++) {

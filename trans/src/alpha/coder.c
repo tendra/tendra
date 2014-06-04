@@ -11,6 +11,7 @@
  * This is the principal code producing module
  */
 
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -1432,7 +1433,7 @@ exp find_ote
     dad = bro(dad);
     n --;
   }
-  Assert(name(dad) == caller_tag);
+  assert(name(dad) == caller_tag);
   return dad;
 }
 
@@ -2482,7 +2483,7 @@ tailrecurse:
 	    instore newis;
 	    newis = str;
 	    newis.b.offset += no(t);
-	    Assert(name(t) ==val_tag && al2(sh(t)) >= 8);
+	    assert(name(t) ==val_tag && al2(sh(t)) >= 8);
 	    setinsalt(newdest.answhere, newis);
 	    newdest.ashwhere = ashof(sh(bro(t)));
 	    code_here(bro(t), nsp, newdest);
@@ -2504,7 +2505,7 @@ tailrecurse:
 	case inreg: {
 	  code_here(bro(t), sp, dest);
 	  r = regalt(dest.answhere);
-	  Assert(name(t) ==val_tag);
+	  assert(name(t) ==val_tag);
 	  if (no(t)!=0) {
 	    operate_fmt_immediate(i_sll, r,
 				 (al2(sh(t)) >= 8)?(no(t) <<3):no(t),r);
@@ -2513,7 +2514,7 @@ tailrecurse:
 	  while (!last(bro(t))) {
 	    int z;
 	    t = bro(bro(t));
-	    Assert(name(t) ==val_tag);
+	    assert(name(t) ==val_tag);
 	    z = reg_operand(bro(t), nsp);
 	    if (no(t)!=0) {
 	      operate_fmt_immediate
@@ -2910,7 +2911,7 @@ tailrecurse:
       if (call_is_untidy(cllees)) {
 	operate_fmt_immediate(i_subq,SP,postlude_arg_space>>3,SP);
 	reset_tos();
-	Assert(name(bro(cllees)) == top_tag);
+	assert(name(bro(cllees)) == top_tag);
       }
       else if (postlude_has_call(e)) {
 	exp x = son(callers);
@@ -3196,7 +3197,7 @@ tailrecurse:
 	    if (isvis(bdy) && last_param(bdy) && !Has_no_vcallers) {
 	      int this_reg = props(sbody);
 	      int r;
-	      Assert(this_reg>=16);
+	      assert(this_reg>=16);
 	      b.offset = ((this_reg+1-16) <<3) + ((gpdumpstart - frame_size) >>3);
 	      for (r = this_reg+1;r <= LAST_INT_ARG;++r) {
 		load_store(i_ldq,r,b);
@@ -5811,7 +5812,7 @@ tailrecurse:
       for (l = son(e);name(l) == ident_tag && isparam(l);l=bro(son(l))) {
 	if (props(l) & inreg_bits) {
 	  int n = props(son(l));
-	  Assert((n>=FIRST_INT_ARG) && (n<=LAST_INT_ARG));
+	  assert((n>=FIRST_INT_ARG) && (n<=LAST_INT_ARG));
 	  if (is32(sh(son(l))))operate_fmt_immediate(i_addl,n,0,n);
 	}
       }
@@ -5954,7 +5955,7 @@ null_tag_case : {
       a = ashof(sh(son(e)));
       s = a.ashsize;
       if (r == NO_REG) {
-	Assert(!optop(e));
+	assert(!optop(e));
 	r = getreg(sp.fixed);
       }
 

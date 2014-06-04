@@ -42,6 +42,7 @@
 
 */
 
+#include <assert.h>
 #include <limits.h>
 #include <stddef.h>
 
@@ -217,7 +218,7 @@ weights add_wlist
     }
     else {
       w = weightsv(scale, r);
-      Assert(r != bro(r));
+      assert(r != bro(r));
       do {
 	r = bro(r);
 	w1 = weightsv(scale, r);

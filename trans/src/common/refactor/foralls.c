@@ -7,13 +7,15 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <assert.h>
+
 #include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
-#include <reader/exp.h>
 #include <local/foralls.h>
 
+#include <reader/exp.h>
 #include <reader/basicread.h>
 #include <reader/externs.h>
 
@@ -33,10 +35,6 @@
 #define subvar 0x100
 
 #define topsh f_top
-
-#ifndef Assert
-#define Assert(x) if (!(x)) failer(#x)
-#endif
 
 exp *
 ifc_ptr_position(exp e)
@@ -513,7 +511,7 @@ maybe_incr(exp e)
 	}
 	while (incs != NULL) {
 		exp dest = son(son(incs));
-		Assert(name(dest) == name_tag);
+		assert(name(dest) == name_tag);
 		if (son(dest) == son(e)) {
 			return 1;
 		}
@@ -900,13 +898,13 @@ unaltered(exp e, int assign_alias)
 	if (name(e) == name_tag && isvar(son(e))) {
 	     for (; z != NULL; z = bro(z)) {
 		exp dest = son(z);
-		Assert(name(dest) == name_tag);
+		assert(name(dest) == name_tag);
 		if (!isvar(son(dest))) {
 			dest = son(son(dest));
 			if (name(dest) == reff_tag) {
 				dest = son(dest);
 			}
-			Assert(name(dest) == addptr_tag);
+			assert(name(dest) == addptr_tag);
 			dest = son(dest);
 		}
 		if (son(e) == son(dest) &&
@@ -990,7 +988,7 @@ unwind(exp loop, exp contset, exp incr, int incval)
 	    exp w;
 	    int n;
 	    exp next = pt(z);
-	    Assert(name(c) == cont_tag);
+	    assert(name(c) == cont_tag);
 	    if (!last(c)) {
 		    z = next;
 		    continue;
@@ -1435,7 +1433,7 @@ do_one_rep(exp loop)
 	exp z;
 	int res =0;
 	exp xincrs;
-	Assert(name(loop) == rep_tag);
+	assert(name(loop) == rep_tag);
 	incrs = NULL;
 	alteredset=NULL;
 	assign_alias = false;
@@ -1508,7 +1506,7 @@ do_one_rep(exp loop)
 					if (name(w) == reff_tag) {
 						w = son(w);
 					}
-					Assert(name(w) == addptr_tag);
+					assert(name(w) == addptr_tag);
 					/* uses of underlying var */
 					w = pt(son(son(w)));
 

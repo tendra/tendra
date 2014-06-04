@@ -510,7 +510,7 @@ void evalone
                                      break;
                        }
 		     }
-		     Assert(a.ashsize >= offs);
+		     assert(a.ashsize >= offs);
 		     while (a.ashsize > offs) { /* pad out unions etc */
 		     	oneval(0,8,1);
 		     	offs+=8;

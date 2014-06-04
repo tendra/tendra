@@ -15,6 +15,8 @@
   in store, otherwise NOREG.
 */
 
+#include <assert.h>
+
 #include <shared/bool.h>
 #include <shared/check.h>
 
@@ -82,7 +84,7 @@ unary(int in)
 {
   int result=0;
   int loop;
-  Assert(in<9);	/* in is a number of bytes */
+  assert(in<9);	/* in is a number of bytes */
   for(loop=0;loop<in;++loop){
     result <<= 1;
     result |= 1;
@@ -358,7 +360,7 @@ move(ans src, where dest, space freeregs, bool sgned)
 	case insomereg:{
 	  somefreg sfr;
 	  sfr = somefregalt(dest.answhere);
-	  Assert(*(sfr.fr)== -1);
+	  assert(*(sfr.fr)== -1);
 	  *(sfr.fr) = fr.fr;
 	  return NOREG;
 	}

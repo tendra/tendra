@@ -13,6 +13,7 @@
   in t-reg, rather than s-reg.
 */
 
+#include <assert.h>
 #include <stddef.h>
 
 #include <reader/exp.h>
@@ -40,8 +41,8 @@ static bool useinpar;
 int
 trace_uses(exp e, exp id)
 {
-  Assert(e!=(exp)0);
-  Assert(id!=(exp)0);
+  assert(e!=(exp)0);
+  assert(id!=(exp)0);
   switch(name(e)) {
     case name_tag: {
       nouses -=(son(e)==id);

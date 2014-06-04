@@ -7,8 +7,9 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include <shared/xalloc.h>
+#include <assert.h>
 
+#include <shared/xalloc.h>
 
 #include <construct/flpttypes.h>
 #include <construct/flpt.h>
@@ -68,7 +69,7 @@ is_denormal(exp e)
   int fv = name(sh(e)) - shrealhd;
   bool result;
   r2l ieeeflt = real2longs_IEEE(&flptnos[no(e)],fv);
-  Assert(name(e) == real_tag);
+  assert(name(e) == real_tag);
   switch(name(sh(e))){
   case shrealhd:
     exponent = ieeeflt.i1 & 0x7f800000;

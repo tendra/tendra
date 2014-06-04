@@ -7,6 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <assert.h>
 #include <string.h>
 
 #include <shared/check.h>
@@ -142,7 +143,7 @@ special_token(token t, bitstream pars, int sortcode, int *done)
       place old_place = keep_place();
       set_place(pars);
       arg = d_exp();
-      Assert(name(arg) == val_tag);
+      assert(name(arg) == val_tag);
       if(no(arg) == 0){
         /* trapb : used to ensure that all pending execptions have been raised
   	 before continuing */

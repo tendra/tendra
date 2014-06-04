@@ -10,8 +10,6 @@
 #ifndef LOCALEXPMACS_H
 #define LOCALEXPMACS_H
 
-#define Assert(x) if(!(x)) failer("x")
-
 #define frame_al_of_ptr(x) (x)->sonf.ald->al.al_val.al_frame
 #define frame_al1_of_offset(x) (x)->sonf.ald->al.al_val.al_frame
 #define includes_vcallees(x) ((x & 16) != 0)

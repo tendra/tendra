@@ -169,8 +169,8 @@ void
 output_data_records(char *strng, char *str, int size)
 {
   int pos = 0;
-  Assert(size>0);
-  Assert(!strng);
+  assert(size>0);
+  assert(!strng);
   while(size>0){
     out_data(str,min(size,binasm_record_length));
     pos += binasm_record_length;
@@ -334,8 +334,8 @@ bits_list(int val)
 {
   int loop;
   INT64 result=make_INT64(0,0);
-/*  Assert (val <=31);*/
-  Assert (val <=64);
+/*  assert(val <=31);*/
+  assert(val <=64);
   for(loop=0;loop<val;++loop){
     result = INT64_shift_left(result,1,1);
     result = INT64_or(result,make_INT64(0,1));

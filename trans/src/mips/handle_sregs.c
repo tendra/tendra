@@ -16,6 +16,7 @@
 
 ****************************************************************/
 
+#include <assert.h>
 
 #include <reader/basicread.h>
 
@@ -57,7 +58,7 @@ dump_sreg(int n)
    int i;
    baseoff b;
    b = dump_baseoff(dumpstart);
-   Assert(maskn & fixdump);
+   assert(maskn & fixdump);
 
    for(i = 31; ; i--) {
        if (mask & fixdump) b.offset -=4;
@@ -78,7 +79,7 @@ dump_sfreg(int n)
    int i;
    baseoff b;
    b = dump_baseoff(fldumpstart);
-   Assert(maskn & floatdump);
+   assert(maskn & floatdump);
 
    for (i =30; ; i-=2) {
       if (mask & floatdump) b.offset -=8;
@@ -99,7 +100,7 @@ recover_sreg(int n)
    int i;
    baseoff b;
    b = dump_baseoff(dumpstart);
-   Assert(maskn & fixdump);
+   assert(maskn & fixdump);
 
    for(i = 31; ; i--) {
        if (mask & fixdump) b.offset -=4;
@@ -120,7 +121,7 @@ recover_sfreg(int n)
    int i;
    baseoff b;
    b = dump_baseoff(fldumpstart);
-   Assert(maskn & floatdump);
+   assert(maskn & floatdump);
 
    for (i =30; ; i-=2) {
       if (mask & floatdump) b.offset -=8;
