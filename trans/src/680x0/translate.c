@@ -43,13 +43,6 @@
 extern dec *sort_decs(dec *);
 static void output_all_exps(void);
 
-#ifndef NDEBUG
-/*
-#include <misc/debug>
-*/
-void breakpoint(void) {}
-#endif
-
 #ifndef tdf3
 #include "general_proc.h"
 #include "68k_globals.h"
