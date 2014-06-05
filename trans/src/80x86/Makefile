@@ -60,6 +60,9 @@ SRCS+=	translate.c
 SRCS+=	tv_callees.c
 SRCS+=	weights.c
 
+SRCS+=	cv_fns.c
+SRCS+=	cv_outtype.c
+
 .include <tendra.obj.mk>
 
 
