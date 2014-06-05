@@ -7,13 +7,21 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include "config.h"
-#include "common_types.h"
-#include "cv_types.h"
-#include "expmacs.h"
-#include "out.h"
-#include "xalloc.h"
+#include <stdio.h>
+#include <string.h>
 
+#include <shared/xalloc.h>
+
+#ifndef NEWDIAGS
+#include <diag/dg_first.h>
+#include <diag/dg_types.h>  /* new diags */
+#include <diag/diagtypes.h> /* old diags */
+#endif
+
+#include <main/driver.h>
+
+#include "cv_types.h"
+#include "cv_outtype.h"
 
 /* PROCEDURES */
 
@@ -197,7 +205,7 @@ out_tagged(diag_type d)
 	   out_tagged(f.field_type);
 	}
 
-        fprintf(fpout, " .def %s; .scl 10; .type 010; .size %d; .endef\n",
+        fprintf(as_file, " .def %s; .scl 10; .type 010; .size %d; .endef\n",
 		d->data.t_struct.nme.ints.chars, sz);
 	d->been_outed = 1;
         for (i=fs.len-1; i>=0; --i) {
@@ -206,19 +214,19 @@ out_tagged(diag_type d)
            f = *fs.array[i];
 
            if (f.field_type->key == DIAG_TYPE_BITFIELD) {
-             fprintf(fpout,
+             fprintf(as_file,
 		     " .def %s; .val %d; .scl 18; .type 04; .size %d; .endef\n",
 		     f.field_name.ints.chars, no(f.where),
 		     f.field_type->data.bitfield.no_of_bits.nat_val.small_nat);
            } else {
-             fprintf(fpout, " .def %s; .val %d; .scl 8; ",
+             fprintf(as_file, " .def %s; .val %d; .scl 8; ",
 		     f.field_name.ints.chars, no(f.where) / 8);
              ty = out_type(f.field_type, 1);
-             fprintf(fpout, ".type 0%o; .endef\n", ty.type +
+             fprintf(as_file, ".type 0%o; .endef\n", ty.type +
 		     (ty.modifier << 4));
 	   }
 	}
-        fprintf(fpout,
+        fprintf(as_file,
 		" .def .eos; .val %d; .scl 102; .tag %s; .size %d; .endef\n",
 		sz, d->data.t_struct.nme.ints.chars, sz);
         return;
@@ -238,7 +246,7 @@ out_tagged(diag_type d)
 	   out_tagged(f.field_type);
 	}
 
-        fprintf(fpout, " .def %s; .scl 12; .type 011; .size %d; .endef\n",
+        fprintf(as_file, " .def %s; .scl 12; .type 011; .size %d; .endef\n",
 		d->data.t_union.nme.ints.chars, sz);
 	d->been_outed = 1;
         for (i = fs.len - 1; i >= 0; --i) {
@@ -246,12 +254,12 @@ out_tagged(diag_type d)
            ot ty;
            f = *fs.array[i];
 
-           fprintf(fpout, " .def %s; .val 0; .scl 11; ",
+           fprintf(as_file, " .def %s; .val 0; .scl 11; ",
 		   f.field_name.ints.chars);
            ty = out_type(f.field_type, 1);
-           fprintf(fpout, ".type 0%o; .endef\n", ty.type + (ty.modifier << 4));
+           fprintf(as_file, ".type 0%o; .endef\n", ty.type + (ty.modifier << 4));
 	}
-        fprintf(fpout,
+        fprintf(as_file,
 		" .def .eos; .val %d; .scl 102; .tag %s; .size %d; .endef\n",
 		sz, d->data.t_union.nme.ints.chars, sz);
         return;
@@ -263,15 +271,15 @@ out_tagged(diag_type d)
         es = *d->data.t_enum.values;
         fixup(&d->data.t_enum.nme.ints.chars);
 
-        fprintf(fpout, " .def %s; .scl 15; .type 012; .size %d; .endef\n",
+        fprintf(as_file, " .def %s; .scl 15; .type 012; .size %d; .endef\n",
 		d->data.t_enum.nme.ints.chars, sz);
         for (i = es.len - 1; i >= 0; --i) {
 	   struct enum_values_t e;
            e = *es.array[i];
-           fprintf(fpout, " .def %s; .val %d; .scl 16; .type 013; .endef\n",
+           fprintf(as_file, " .def %s; .val %d; .scl 16; .type 013; .endef\n",
 		   e.nme.ints.chars, no(e.val));
 	}
-        fprintf(fpout,
+        fprintf(as_file,
 		" .def .eos; .val %d; .scl 102; .tag %s; .size %d; .endef\n",
 		sz, d->data.t_enum.nme.ints.chars, sz);
         return;

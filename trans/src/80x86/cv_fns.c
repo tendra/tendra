@@ -7,18 +7,18 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include "config.h"
-#include "common_types.h"
-#include "basicread.h"
-#include "out.h"
-#include "machine.h"
+#include <string.h>
+#include <stdio.h>
+
+#include <diag/diag_fns.h>
+#include <diag/diagglob.h>
+
+#include <main/driver.h>
+
+#include <construct/machine.h>
+
 #include "cv_types.h"
 #include "cv_outtype.h"
-#include "expmacs.h"
-#include "tags.h"
-#include "diag_fns.h"
-#include "diagglob.h"
-#include "mark_scope.h"
 
 
 /* VARIABLES */
@@ -74,10 +74,10 @@ code_diag_info(diag_info *d, int proc_no, void(*mcode)(void *), void *args)
   }
   switch (d->key) {
     case DIAG_INFO_SCOPE: {
-	fprintf(fpout, " .def .bb; .val .; .scl 100;  .line %d; .endef\n",
+	fprintf(as_file, " .def .bb; .val .; .scl 100;  .line %d; .endef\n",
 		last_line_no);
 	code_diag_info(d->more, proc_no, mcode, args);
-	fprintf(fpout, " .def .eb; .val .; .scl 100; .line %d; .endef\n",
+	fprintf(as_file, " .def .eb; .val .; .scl 100; .line %d; .endef\n",
 		last_line_no);
 	return;
     }
@@ -87,7 +87,7 @@ code_diag_info(diag_info *d, int proc_no, void(*mcode)(void *), void *args)
 	if (check_filename(d -> data.source.beg) && l != last_line_no) {
 	  last_line_no = l;
 	  if (l > 0) {
-	    fprintf(fpout, " .ln %d\n", l);
+	    fprintf(as_file, " .ln %d\n", l);
 	  }
 	}
 	code_diag_info(d->more, proc_no, mcode, args);
@@ -108,15 +108,15 @@ code_diag_info(diag_info *d, int proc_no, void(*mcode)(void *), void *args)
 	if (name(acc) == name_tag && !isdiscarded(acc) && !isglob(son(acc))) {
 	  p = (no(acc) + no(son(acc))) / 8;
 	  param_dec = isparam(son(acc));
-	  fprintf(fpout, " .def %s; .val ", d->data.id_scope.nme.ints.chars);
+	  fprintf(as_file, " .def %s; .val ", d->data.id_scope.nme.ints.chars);
 	  if (param_dec) {
-	    fprintf(fpout, "%d", p + 8);
+	    fprintf(as_file, "%d", p + 8);
 	  } else {
-	    fprintf(fpout, "%d-.Ldisp%d", p, proc_no);
+	    fprintf(as_file, "%d-.Ldisp%d", p, proc_no);
 	  }
-	  fprintf(fpout, "; .scl %d; ",(param_dec) ? 9 : 1);
+	  fprintf(as_file, "; .scl %d; ",(param_dec) ? 9 : 1);
 	  ty = out_type(d->data.id_scope.typ, 0);
-	  fprintf(fpout, ".type 0%o; .endef\n", ty.type + (ty.modifier << 4));
+	  fprintf(as_file, ".type 0%o; .endef\n", ty.type + (ty.modifier << 4));
 	}
 	code_diag_info(d->more, proc_no, mcode, args);
     }
@@ -141,7 +141,7 @@ output_diag(diag_info *d, int proc_no, exp e)
      }
      last_line_no = l;
      if (l > 0) {
-       fprintf(fpout, " .ln %d\n", l);
+       fprintf(as_file, " .ln %d\n", l);
      }
      return;
   }
@@ -154,19 +154,19 @@ output_diag(diag_info *d, int proc_no, exp e)
      mark_scope(e);
 
      if (props(e) & 0x80) {
-       fprintf(fpout, " .def .bb; .val .; .scl 100;  .line %d; .endef\n",
+       fprintf(as_file, " .def .bb; .val .; .scl 100;  .line %d; .endef\n",
 	       last_line_no);
      }
 
-     fprintf(fpout, " .def %s; .val ", d->data.id_scope.nme.ints.chars);
+     fprintf(as_file, " .def %s; .val ", d->data.id_scope.nme.ints.chars);
      if (param_dec) {
-       fprintf(fpout, "%d", p + 8);
+       fprintf(as_file, "%d", p + 8);
      } else {
-       fprintf(fpout, "%d-.Ldisp%d", p, proc_no);
+       fprintf(as_file, "%d-.Ldisp%d", p, proc_no);
      }
-     fprintf(fpout, "; .scl %d; ",(param_dec) ? 9 : 1);
+     fprintf(as_file, "; .scl %d; ",(param_dec) ? 9 : 1);
      ty = out_type(d -> data.id_scope.typ, 0);
-     fprintf(fpout, ".type 0%o; .endef\n", ty.type + (ty.modifier<<4));
+     fprintf(as_file, ".type 0%o; .endef\n", ty.type + (ty.modifier<<4));
 
      return;
    }
@@ -179,7 +179,7 @@ void
 output_end_scope(diag_info *d, exp e)
 {
   if (d -> key == DIAG_INFO_ID && props(e) & 0x80) {
-    fprintf(fpout, " .def .eb; .val .; .scl 100; .line %d; .endef\n",
+    fprintf(as_file, " .def .eb; .val .; .scl 100; .line %d; .endef\n",
 	    last_line_no);
   }
   return;
@@ -203,7 +203,7 @@ diag_val_begin(diag_global *d, int global, int cname, char *pname)
   outn((long)(global ? 2 : 3));
   outs("; ");
   typ = out_type(d->data.id.new_type, 0);
-  fprintf(fpout, ".type 0%o; .endef\n", typ.type + (typ.modifier << 4));
+  fprintf(as_file, ".type 0%o; .endef\n", typ.type + (typ.modifier << 4));
   return;
 }
 
@@ -234,13 +234,13 @@ diag_proc_begin(diag_global *d, int global, int cname, char *pname)
   outn((long)(global ? 2 : 3));
   outs("; ");
   typ = out_type(d->data.id.new_type->data.proc.result_type, 0);
-  fprintf(fpout, ".type 0%o; .endef\n", typ.type + (typ.modifier << 6) + 32);
+  fprintf(as_file, ".type 0%o; .endef\n", typ.type + (typ.modifier << 6) + 32);
 
   crt_proc_start = d->data.id.whence.line_no.nat_val.small_nat;
   last_line_no = 1;
-  fprintf(fpout, " .def .bf; .val .; .scl 101; .line %d; .endef\n",
+  fprintf(as_file, " .def .bf; .val .; .scl 101; .line %d; .endef\n",
 	  crt_proc_start);
-  fprintf(fpout, " .ln 1\n");
+  fprintf(as_file, " .ln 1\n");
   return;
 }
 
@@ -250,9 +250,9 @@ diag_proc_end(diag_global *d)
   if (!d) {
     return;
   }
-  fprintf(fpout, " .def .ef; .val .; .scl 101; .line %d; .endef\n",
+  fprintf(as_file, " .def .ef; .val .; .scl 101; .line %d; .endef\n",
 	  last_line_no + 1);
-  fprintf(fpout, " .def %s; .val .; .scl -1; .endef\n",
+  fprintf(as_file, " .def %s; .val .; .scl -1; .endef\n",
 	  d->data.id.nme.ints.chars);
   return;
 }
@@ -268,9 +268,9 @@ OUTPUT_GLOBALS_TAB(void)
 
   for (i=0; i<n; i++) {
      if (di[i].key == DIAG_TYPEDEF_KEY) {
-	fprintf(fpout, " .def %s; .scl 13; ", di[i].data.typ.nme.ints.chars);
+	fprintf(as_file, " .def %s; .scl 13; ", di[i].data.typ.nme.ints.chars);
 	typ = out_type(di[i].data.typ.new_type, 0);
-	fprintf(fpout, ".type 0%o; .endef\n", typ.type + (typ.modifier << 4));
+	fprintf(as_file, ".type 0%o; .endef\n", typ.type + (typ.modifier << 4));
      }
   }
   return;
@@ -284,7 +284,7 @@ OUTPUT_DIAG_TAGS(void)
   int i;
 
   if (!filename_space) {
-     filename_pos = ftell(fpout);
+     filename_pos = ftell(as_file);
      outs("                                                                                                                      ");
      outnl();
      filename_space = 1;
@@ -327,12 +327,12 @@ INSPECT_FILENAME(filename fn)
   filename_gate = 1;
 
   if (!filename_space) {
-    fprintf(fpout, " .file \"%s\"\n", f);
+    fprintf(as_file, " .file \"%s\"\n", f);
   } else {
-    here = ftell(fpout);
-    fseek(fpout, filename_pos, 0);
-    fprintf(fpout, " .file \"%s\"\n", f);
-    fseek(fpout, here, 0);
+    here = ftell(as_file);
+    fseek(as_file, filename_pos, 0);
+    fprintf(as_file, " .file \"%s\"\n", f);
+    fseek(as_file, here, 0);
   }
   return;
 }
