@@ -8,6 +8,7 @@
  */
 
 #include <shared/check.h>
+#include <shared/error.h>
 
 #include <local/codermacs.h>
 #include <local/out.h>

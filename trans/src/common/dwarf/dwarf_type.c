@@ -8,6 +8,7 @@
  */
 
 #include <shared/check.h>
+#include <shared/error.h>
 #include <shared/xalloc.h>
 
 #include <local/out.h>
@@ -18,6 +19,9 @@
 #include <construct/installtypes.h>
 #include <construct/machine.h>
 #include <construct/shape.h>
+
+#include <main/driver.h>
+#include <main/flags.h>
 
 #include <dwarf/dwarf_types.h>
 #include <dwarf/dwarf_out.h>

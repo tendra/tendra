@@ -7,6 +7,10 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <stdlib.h>
+
+#include <shared/error.h>
+
 #include <local/codermacs.h>
 #include <local/out.h>
 
