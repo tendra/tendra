@@ -153,6 +153,11 @@ enum {
 };
 
 enum {
+	FMT_FT_C_C = 0x0,
+	FMT_ET     = 0x8
+};
+
+enum {
 	MOD_pointer_to   = 0x01,
 	MOD_reference_to = 0x02,
 	MOD_const        = 0x03,
