@@ -76,6 +76,8 @@ SRCS+=	tempdecs.c
 SRCS+=	translate.c
 SRCS+=	weights.c
 
+SRCS+=	stabs_reform.c
+
 .include <tendra.obj.mk>
 
 

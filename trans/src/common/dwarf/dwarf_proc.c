@@ -21,7 +21,6 @@
 #include <construct/shape.h>
 
 #include <dwarf/dwarf.h>
-#include <dwarf/dwarf_diag_config.h>
 #include <dwarf/dwarf_types.h>
 #include <dwarf/dwarf_type.h>
 #include <dwarf/dwarf_out.h>

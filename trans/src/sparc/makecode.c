@@ -15,7 +15,6 @@
 
 #include <local/szs_als.h>
 #include <local/ash.h>
-#include <local/diag_config.h>
 #include <local/out.h>
 
 #ifdef NEWDWARF
@@ -77,6 +76,8 @@
 #include <dwarf2/dw2_info.h>
 #include <dwarf2/dw2_basic.h>
 #endif
+
+#include "local_reform.h"
 
 
 /* 

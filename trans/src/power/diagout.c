@@ -138,7 +138,7 @@ static int nofds = 0;		/* how many are known */
 
 /*
  * Struct/union type information.
- * (See function OUTPUT_DIAG_TAGS)
+ * (See function pOUTPUT_DIAG_TAGS)
  */
 
 static diag_tagdef **su_diags = NULL;
@@ -147,7 +147,7 @@ static int leng_sus = 0;
 
 /*
  * Typedef information
- * (See function OUTPUT_GLOBALS_TAB)
+ * (See function pOUTPUT_GLOBALS_TAB)
  */
 
 static diag_descriptor **typedef_diags = NULL;
@@ -198,10 +198,10 @@ static void number_typedefs(void);
 static void stab_typedefs(void);
 
 
-/*(See diag_config.h)
- * remember a filename so that find_file() can map onto filename number
+/*
+ * Remember a filename so that find_file() can map onto filename number
  */
-void INSPECT_FILENAME(filename f)
+void pINSPECT_FILENAME(filename f)
 {
   FULLCOMMENT2("INSPECT_FILENAME %d: '%s'", nofds,(int)CSTRING(f->file));
 
@@ -234,10 +234,10 @@ void INSPECT_FILENAME(filename f)
   return;
 }
 
-/*(See diag_config.h)
+/*
  * outputs structs & unions from global level types
  */
-void OUTPUT_DIAG_TAGS(void)
+void pOUTPUT_DIAG_TAGS(void)
 {
   diag_tagdef **di = unit_ind_diagtags;
   unsigned int n = unit_no_of_diagtags;
@@ -291,7 +291,7 @@ void OUTPUT_DIAG_TAGS(void)
 /*
  * Collects information
  */
-void OUTPUT_GLOBALS_TAB(void)
+void pOUTPUT_GLOBALS_TAB(void)
 {
   diag_descriptor * unit_typedef_array = unit_diagvar_tab.array;
   unsigned int no_of_typedefs_in_unit =unit_diagvar_tab.lastused;

@@ -10,7 +10,6 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
-#include <local/diag_config.h>
 #include <local/out.h>
 #include <local/codermacs.h>
 
@@ -43,6 +42,7 @@
 #include "evaluate.h"
 #include "localexpmacs.h"
 
+#include "local_reform.h"
 
 /* PROCEDURES */
 

@@ -259,7 +259,7 @@ diag_proc_end(diag_global *d)
 
 
 void
-OUTPUT_GLOBALS_TAB(void)
+cvOUTPUT_GLOBALS_TAB(void)
 {
   diag_descriptor *di = unit_diagvar_tab.array;
   int n = unit_diagvar_tab.lastused;
@@ -277,7 +277,7 @@ OUTPUT_GLOBALS_TAB(void)
 }
 
 void
-OUTPUT_DIAG_TAGS(void)
+cvOUTPUT_DIAG_TAGS(void)
 {
   diag_tagdef **di = unit_ind_diagtags;
   int n = unit_no_of_diagtags;
@@ -306,7 +306,7 @@ OUTPUT_DIAG_TAGS(void)
 }
 
 void
-INSPECT_FILENAME(filename fn)
+cvINSPECT_FILENAME(filename fn)
 {
   long here;
   char *nm = fn->file.ints.chars;

@@ -60,23 +60,8 @@ int nofds = 0;
 int szfds = 0;
 
 
-#if 0
-void collect_files
-(filename f)
-{
-  return;
-}
-
-void OUTPUT_DIAG_TAGS
-(void)
-{
-  return;
-}
-#endif
-
-
-void collect_files
-(filename f)
+void
+collect_files(filename f)
 {
   if (nofds>=szfds) {
     fds = (filename*)xrealloc(fds,(size_t)(szfds+=5)*sizeof(filename));
@@ -418,8 +403,8 @@ static diag_tagdef ** su_diags = NULL;
 static long no_of_sus = 0;
 static long leng_sus = 0;
 
-void OUTPUT_DIAG_TAGS
-(void)
+void
+aOUTPUT_DIAG_TAGS(void)
 {
   /*collects structs & unions */
   diag_tagdef ** di = unit_ind_diagtags;

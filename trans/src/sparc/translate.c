@@ -94,7 +94,6 @@
 
 #include <local/ash.h>
 #include <local/out.h>
-#include <local/diag_config.h>
 
 #ifdef NEWDWARF
 #include <local/dw2_config.h>
@@ -141,6 +140,8 @@
 #ifdef NEWDWARF
 #include <dwarf2/dw2_iface.h>
 #endif
+
+#include "local_reform.h"
 
 extern bool know_size ;
 

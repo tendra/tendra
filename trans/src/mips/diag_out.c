@@ -382,7 +382,7 @@ static long no_of_sus = 0;
 static long leng_sus = 0;
 
 void
-OUTPUT_DIAG_TAGS(void)
+mOUTPUT_DIAG_TAGS(void)
 {
   diag_tagdef ** di = unit_ind_diagtags;
   unsigned long n = unit_no_of_diagtags;

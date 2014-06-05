@@ -12,7 +12,6 @@
 #include <shared/error.h>
 
 #include <local/ash.h>
-#include <local/diag_config.h>
 #include <local/out.h>
 #include <local/codermacs.h>
 
@@ -57,6 +56,8 @@
 #ifdef NEWDWARF
 #include <dwarf2/dw2_iface.h>
 #endif
+
+#include "local_reform.h"
 
 
 #define ptg(x) ((x)->ptf.glob)		/* addition to expmacs */

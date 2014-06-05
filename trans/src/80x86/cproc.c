@@ -19,7 +19,6 @@
 
 #ifdef NEWDWARF
 #include <local/dw2_config.h>
-#include <local/diag_config.h>
 #endif
 
 #include <local/ash.h>
@@ -65,6 +64,8 @@
 #include <dwarf2/dw2_basic.h>
 #include "dw2_extra.h"
 #endif
+
+#include "local_reform.h"
 
 static exp returns_list;
 

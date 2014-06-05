@@ -217,7 +217,7 @@ xdb_diag_val_begin(diag_global *di, char *pname, long cname, int is_ext)
 */
 
 void
-OUTPUT_GLOBALS_TAB(void)
+xOUTPUT_GLOBALS_TAB(void)
 {
 	diag_descriptor *di = unit_diagvar_tab.array;
 	unsigned long i, n = unit_diagvar_tab.lastused;
@@ -237,7 +237,7 @@ OUTPUT_GLOBALS_TAB(void)
 */
 
 void
-OUTPUT_DIAG_TAGS(void)
+xOUTPUT_DIAG_TAGS(void)
 {
 	return;
 }
@@ -248,7 +248,7 @@ OUTPUT_DIAG_TAGS(void)
 */
 
 void
-INSPECT_FILENAME(filename fn)
+xINSPECT_FILENAME(filename fn)
 {
 	char *nm = fn->file.ints.chars;
 	diag_source(nm, 1, 0);

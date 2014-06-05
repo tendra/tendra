@@ -52,6 +52,7 @@
 #include <newdiag/dg_aux.h>
 #include <newdiag/dg_globs.h>
 
+#include "localtypes.h"
 #include "instr.h"
 
 #else

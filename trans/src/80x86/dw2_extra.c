@@ -8,6 +8,7 @@
  */
 
 #include <shared/check.h>
+#include <shared/error.h>
 
 #include <reader/exp.h>
 
@@ -50,6 +51,7 @@
 #include "dw2_extra.h"
 #include "operand.h"
 #include "reg_record.h"
+#include "localexpmacs.h"
 
 
 extern int locals_offset; /* declared in cproc.c */

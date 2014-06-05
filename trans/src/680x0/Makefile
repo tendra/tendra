@@ -52,12 +52,15 @@ SRCS+=	scan2.c
 SRCS+=	special_exps.c
 SRCS+=	special_fn.c
 SRCS+=	special_tok.c
-SRCS+=	stab_types.c
 SRCS+=	tests.c
 SRCS+=	translate.c
 SRCS+=	utility.c
 SRCS+=	weights.c
 SRCS+=	where.c
+
+SRCS+=	stab_types.c
+SRCS+=	stabs_reform.c
+
 SRCS+=	xdb_basics.c
 SRCS+=	xdb_output.c
 SRCS+=	xdb_types.c

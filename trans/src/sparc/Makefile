@@ -19,6 +19,7 @@ PART_CFLAGS+=	${TRANS_CFLAGS}
 PARTS+=	src/common/shared
 PARTS+=	src/common/construct
 PARTS+=	src/common/newdiag
+#PARTS+=	src/common/diag
 PARTS+=	src/common/dwarf2
 PARTS+=	src/common/linkinfo
 PARTS+=	src/common/reader
@@ -66,6 +67,8 @@ SRCS+=	special_tok.c
 SRCS+=	tempdecs.c
 SRCS+=	translate.c
 SRCS+=	weights.c
+
+#SRCS+=	stabs_reform.c
 
 .include <tendra.obj.mk>
 

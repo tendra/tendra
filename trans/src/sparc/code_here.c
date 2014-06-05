@@ -10,8 +10,6 @@
 #include <assert.h>
 
 #include <local/ash.h>
-#include <local/diag_config.h>
-
 
 #include <construct/installtypes.h>
 #include <construct/ash.h>
@@ -37,6 +35,8 @@
 #include "move.h"
 #include "comment.h"
 #include "code_here.h"
+
+#include "local_reform.h"
 
 
 /*

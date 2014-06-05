@@ -22,7 +22,6 @@
 #include <local/szs_als.h>
 #include <local/ash.h>
 #include <local/out.h>
-#include <local/diag_config.h>
 
 #include <reader/exp.h>
 
@@ -75,6 +74,8 @@
 #include <dwarf2/dw2_basic.h>
 #include "dw2_extra.h"
 #endif
+
+#include "local_reform.h"
 
 /*
   CODE GENERATION STATE FOR THE CURRENT PROCEDURE

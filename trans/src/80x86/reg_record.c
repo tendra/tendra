@@ -9,7 +9,6 @@
 
 #include <stddef.h>
 
-#include <local/diag_config.h>
 #include <reader/exp.h>
 #include <local/codermacs.h>
 

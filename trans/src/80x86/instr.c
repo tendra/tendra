@@ -58,9 +58,9 @@
 
 #ifdef NEWDWARF
 #include "dw2_extra.h"
-#include <local/diag_config.h>
 #endif
 
+#include "local_reform.h"
 
 typedef union eu_u {int i; exp e;} punner;
 

@@ -64,9 +64,9 @@
 #ifdef NEWDWARF
 #include <dwarf2/dw2_basic.h>
 #include "dw2_extra.h"
-#include <local/diag_config.h>
 #endif
 
+#include "local_reform.h"
 
 #define PREFETCH_COUNT 1000
 

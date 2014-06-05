@@ -12,7 +12,7 @@
 
 #include "diagtypes1.h"	/* gets diag_descriptor */
 
-#include <local/diag_config.h>
+#include <diag/diag_reform.h>
 
 typedef struct diag_info_t diag_info; /* let's break a type cycle */
 

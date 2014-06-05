@@ -22,8 +22,8 @@ extern void xdb_diag_proc_return(void);
 extern void xdb_diag_proc_end(diag_global *);
 extern void xdb_diag_val_begin(diag_global *, char *, long, int);
 extern dec *sort_decs(dec *);
-extern void OUTPUT_GLOBALS_TAB(void);
-extern void OUTPUT_DIAG_TAGS(void);
-extern void INSPECT_FILENAME(filename);
+extern void xOUTPUT_GLOBALS_TAB(void);
+extern void xOUTPUT_DIAG_TAGS(void);
+extern void xINSPECT_FILENAME(filename);
 
 #endif

@@ -9,10 +9,11 @@
 
 #include <string.h>
 
-#include <local/diag_config.h>
-#include <local/out.h>
-#include <reader/exp.h>
+#include <shared/error.h>
 
+#include <local/out.h>
+
+#include <reader/exp.h>
 #include <reader/readglob.h>
 #include <reader/table_fns.h>
 #include <reader/basicread.h>

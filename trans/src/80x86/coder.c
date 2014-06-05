@@ -25,10 +25,6 @@
 #include <local/cpu.h>
 #include <local/codermacs.h>
 
-#ifdef NEWDIAGS
-#include <local/diag_config.h>
-#endif
-
 #ifdef NEWDWARF
 #include <local/dw2_config.h>
 #endif
@@ -81,6 +77,8 @@
 #include <dwarf2/dw2_basic.h>
 #include "dw2_extra.h"
 #endif
+
+#include "local_reform.h"
 
 extern exp hasenvoff_list;
 
