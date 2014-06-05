@@ -272,8 +272,8 @@ out_dwarf_loc_attr(exp t, int proc_no)
 #else
 		error need machine specific non-global location description code
 #endif
-		}
 #endif
+		}
 	}
 #ifdef LOCS_IN_BLKS
 	leave_dwarf_blk2();
