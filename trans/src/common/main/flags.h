@@ -93,7 +93,8 @@ enum diag {
 	DIAG_DWARF   = 1 << 5,
 	DIAG_DWARF2  = 1 << 6,
 	DIAG_GDB     = 1 << 7,
-	DIAG_XDB     = 1 << 8
+	DIAG_XDB     = 1 << 8,
+	DIAG_CV      = 1 << 9
 };
 
 /* TODO: these need their proper names (stdcall, fastcall, cdecl, etc) */

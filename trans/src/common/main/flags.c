@@ -370,7 +370,8 @@ switch_diag(const char *s, unsigned permitted)
 		{ "dwarf",   DIAG_DWARF   },
 		{ "dwarf2",  DIAG_DWARF2  },
 		{ "gdb",     DIAG_GDB     }, /* TODO: name per its specific format */
-		{ "xdb",     DIAG_XDB     }  /* TODO: name per its specific format */
+		{ "xdb",     DIAG_XDB     }, /* TODO: name per its specific format */
+		{ "cv",      DIAG_CV      }
 	};
 
 	for (i = 0; i < sizeof a / sizeof *a; i++) {
