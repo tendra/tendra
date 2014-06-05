@@ -7,8 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include <dwarf/dwarf_vsn.h>
-
 #if TRANS_80x86
 #define COMMENT_2(x, y)	x "#" y
 #else
