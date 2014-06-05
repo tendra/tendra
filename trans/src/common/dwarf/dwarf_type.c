@@ -23,6 +23,7 @@
 #include <main/driver.h>
 #include <main/flags.h>
 
+#include <dwarf/dwarf.h>
 #include <dwarf/dwarf_types.h>
 #include <dwarf/dwarf_out.h>
 #include <dwarf/dwarf_queue.h>
