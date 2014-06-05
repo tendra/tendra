@@ -14,8 +14,6 @@
 
 #include <local/out.h>
 
-#include "cross_config.h"
-
 #include <reader/code.h>
 #include <reader/basicread.h>
 

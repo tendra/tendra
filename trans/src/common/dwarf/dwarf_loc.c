@@ -7,8 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include "cross_config.h"
-
 #include <local/codermacs.h>
 #include <local/out.h>
 
