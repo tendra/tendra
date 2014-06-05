@@ -21,7 +21,7 @@
 #include <construct/machine.h>
 #include <construct/tags.h>
 
-#include <dwarf/dwarf_codes.h>
+#include <dwarf/dwarf.h>
 #include <dwarf/dwarf_types.h>
 #include <dwarf/dwarf_out.h>
 #include <dwarf/dwarf_queue.h>

@@ -32,7 +32,7 @@
 #include <diag/diagtypes.h>
 #endif
 
-#include <dwarf/dwarf_codes.h>
+#include <dwarf/dwarf.h>
 #include <dwarf/dwarf_types.h>
 #include <dwarf/dwarf_loc.h>
 #include <dwarf/dwarf_mc.h>
