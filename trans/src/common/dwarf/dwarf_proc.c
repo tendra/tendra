@@ -27,10 +27,6 @@
 #include <dwarf/dwarf_out.h>
 #include <dwarf/dwarf_mc.h>
 
-#ifdef CROSS_INCLUDE
-#include CROSS_INCLUDE/dwarf.h>
-#endif
-
 extern int continue_decs;
 
 void

@@ -28,10 +28,6 @@
 #include <dwarf/dwarf_type.h>
 #include <dwarf/dwarf_loc.h>
 
-#ifdef CROSS_INCLUDE
-#include CROSS_INCLUDE/dwarf.h>
-#endif
-
 void
 out_dwarf_const4(exp x)
 {

@@ -42,10 +42,6 @@
 #include <construct/tags.h>
 #endif
 
-#ifdef CROSS_INCLUDE
-#include CROSS_INCLUDE/dwarf.h>
-#endif
-
 int continue_decs;
 
 static long lex_blk_stk_ptr = -1;

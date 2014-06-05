@@ -42,10 +42,6 @@
 #include <construct/tags.h>
 #endif
 
-#ifdef CROSS_INCLUDE
-#include CROSS_INCLUDE/dwarf.h>
-#endif
-
 #define WHOLE_LINE (0xffff)	/* this should be in dwarf.h */
 #define WHOLE_SECT (0)		/* this should be in dwarf.h */
 

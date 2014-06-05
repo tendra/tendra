@@ -29,12 +29,6 @@
 #include <dwarf/dwarf_loc.h>
 #include <dwarf/dwarf_type.h>
 
-#ifndef CROSS_INCLUDE
-#include <dwarf.h>
-#else
-#include CROSS_INCLUDE/dwarf.h>
-#endif
-
 #define BEEN_PUT_OUT(x)	((x)->been_outed != NULL)
 
 #define gcc_FT_long_long		0x8008
