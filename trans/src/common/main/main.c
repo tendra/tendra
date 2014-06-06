@@ -15,6 +15,7 @@
 
 #include <main/driver.h>
 #include <main/flags.h>
+#include <main/version.h>
 
 #include <reader/main_reads.h>
 #include <reader/basicread.h>
@@ -23,8 +24,6 @@
 
 #include <construct/flpt.h>
 #include <construct/installglob.h>
-
-#include <utility/version.h>
 
 extern int report_versions; /* XXX */
 

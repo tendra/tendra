@@ -25,9 +25,6 @@
 #include <construct/exp.h>
 
 #include <main/flags.h>
-
-#include <utility/version.h>
-
 #include <main/driver.h>
 
 #include "assembler.h"
