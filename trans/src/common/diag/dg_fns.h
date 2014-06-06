@@ -21,8 +21,5 @@ extern void f_make_dg_comp_unit(void);
 extern void f_make_dglink(tdfint i, tdfint ext);
 extern linkextern f_make_dgtagextern(tdfint internal, external ext);
 
-extern exp f_dg_exp(exp body, dg diagnostic);
-extern exp read_dg_exp(exp body);
-
 
 #endif

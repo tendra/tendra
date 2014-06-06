@@ -32,7 +32,6 @@ extern void init_unit_diagtags(int n);
 extern exp read_exp_to_source(exp body);
 extern exp read_diag_id_scope(exp body);
 extern exp read_diag_type_scope(exp body);
-extern exp read_diag_tag_scope(exp body);
 
 extern int unit_no_of_diagtags;
 extern diag_tagdef **unit_ind_diagtags;

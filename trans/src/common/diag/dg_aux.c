@@ -40,11 +40,6 @@
 #define setisdiscarded(e)
 
 
-int doing_inlining = 0;
-
-dg_info current_dg_info = NULL;	/* needed when coding extra_diags */
-exp current_dg_exp = NULL;		/* needed when coding extra_diags */
-
 short_sourcepos no_short_sourcepos;
 
 
@@ -187,15 +182,6 @@ init_dgtag(dg_tag tg)
 	tg->abstract_lab = 0;
 	tg->copy = NULL;
 	return;
-}
-
-
-dg_tag
-gen_tg_tag(void)
-{
-	dg_tag tg = (dgtag_struct *)xcalloc(1, sizeof(dgtag_struct));
-	init_dgtag(tg);
-	return tg;
 }
 
 

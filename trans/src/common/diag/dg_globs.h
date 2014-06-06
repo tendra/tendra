@@ -22,9 +22,6 @@
 
 extern dg_filename all_files;
 extern dg_compilation all_comp_units;
-extern int doing_inlining;
-extern dg_info current_dg_info;
-extern exp current_dg_exp;
 extern short_sourcepos no_short_sourcepos;
 
 #endif

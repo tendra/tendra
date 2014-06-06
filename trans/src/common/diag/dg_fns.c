@@ -2905,16 +2905,3 @@ f_make_dgtagextern(tdfint internal, external ext)
 	return 0;
 }
 
-
-exp
-f_dg_exp(exp body, dg diagnostic)
-{
-	return body;
-}
-
-
-exp
-read_dg_exp(exp body)
-{
-	return NULL;
-}
