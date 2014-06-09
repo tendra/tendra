@@ -1420,7 +1420,7 @@ absbool(exp id)
 		    son(son(bro(son(bdy)))) == id) {
 			/* one use is result of sequence body */
 			exp c = son(son(bdy));
-#ifndef NEWDIAGS
+#if !(defined(NEWDIAGS) || defined(DIAGREFORM))
 			if (name(c) == diagnose_tag) {
 				c = son(c);
 			}
@@ -3685,7 +3685,7 @@ refactor(exp e, exp scope)
 				}
 			}
 
-#ifndef NEWDIAGS
+#if !(defined(NEWDIAGS) || defined(DIAGREFORM))
 			if (name(son(e)) == diagnose_tag) {
 				exp diag = son(e);
 				exp p = son(diag);
@@ -4151,7 +4151,7 @@ refactor(exp e, exp scope)
 		}
 
 		return 0;
-#ifndef NEWDIAGS
+#if !(defined(NEWDIAGS) || defined(DIAGREFORM))
 	case diagnose_tag:
 #endif
 	case prof_tag:
@@ -4272,7 +4272,7 @@ refactor(exp e, exp scope)
 			while (!last(t)) {
 				t = bro(t);
 			}
-#ifndef NEWDIAGS
+#if !(defined(NEWDIAGS) || defined(DIAGREFORM))
 			if (name(t) == diagnose_tag) {
 				t = son(t);
 			}

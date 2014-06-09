@@ -47,7 +47,7 @@
 #define testbit_tag 27
 #define alloca_tag 28
 
-#ifndef NEWDIAGS
+#if !defined(NEWDIAGS) || defined(DIAGREFORM)
 #define diagnose_tag 29
 #endif
 

@@ -467,7 +467,7 @@ static void
 promote_formals(exp bdy)
 {
 	while ((name(bdy) == ident_tag && isparam(bdy))
-#ifndef NEWDIAGS
+#if !(defined(NEWDIAGS) || defined(DIAGREFORM))
 	       || name(bdy) == diagnose_tag
 #endif
 	      ) {
