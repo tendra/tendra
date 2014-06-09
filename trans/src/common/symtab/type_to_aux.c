@@ -30,8 +30,8 @@
 #include <construct/shape.h>
 #include <construct/exp.h>
 
-#include <diag/diagtypes.h>
-#include <diag/diag_fns.h>
+#include <newdiag/dg_types.h>
+#include <newdiag/dg_fns.h>
 
 extern long mainfile;
 

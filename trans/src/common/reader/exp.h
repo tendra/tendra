@@ -55,7 +55,7 @@ typedef union {
 	float f;
 	struct dec_t *glob;
 
-#ifndef NEWDIAGS
+#if NEWDIAGS || DIAGREFORM
 	diag_info *d;
 #endif
 
@@ -143,7 +143,7 @@ typedef struct exp_t *exp;
 #define fno(x)            ((x)->numf.f)
 #define uno(x)            ((x)->numf.ui)
 
-#ifndef NEWDIAGS
+#if NEWDIAGS || DIAGREFORM
 #define dno(x)            ((x)->numf.d)
 #endif
 

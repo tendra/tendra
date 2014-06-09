@@ -22,10 +22,9 @@
 
 #include <construct/installtypes.h>
 
-
 #include <main/flags.h>
 
-#include <diag/diagtypes.h>
+#include <newdiag/dg_types.h>
 
 /*
  * Type definitions for translator produced debugging information
