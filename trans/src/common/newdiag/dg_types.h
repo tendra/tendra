@@ -14,6 +14,14 @@
 
 #include "dg_first.h"
 
+/*
+ * Entry point for diag/ backwards-compatibility reform_* types.
+ * This should be the only place reform_* types are included.
+ */
+#include "reform_diagtypes.h"
+#include "reform_diaginfo.h"
+#include "reform_diagglob.h"
+
 
 typedef dg_info dg;
 #define nildiag	NULL
@@ -52,7 +60,6 @@ typedef struct {
 	char		**array;
 } string_list;
 
-
 struct file_t {
 	long		file_dat;
 	char 		*file_host;
@@ -60,6 +67,9 @@ struct file_t {
 	char 		*file_name;
 	struct file_t	*another;
 	int		index;
+#ifdef DIAGREFORM
+	struct reform_filename_t reform_filename; /* TODO: populate */
+#endif
 };
 
 typedef enum {
@@ -417,6 +427,9 @@ typedef enum {
 } dg_cons_type_key;
 
 struct dg_type_t {
+#ifdef DIAGREFORM
+	struct reform_diag_type_t reform_diag_type; /* TODO: populate */
+#endif
 	dg_type_key	key;
 	ext_lab		outref;
 	union {
@@ -516,6 +529,10 @@ struct dg_name_t {
 	dg_name_key	key;
 	dg_idname	idnam;
 	short_sourcepos	whence;
+#ifdef DIAGREFORM
+	/* note diag_descriptor is typedef'd as diagdef_t */
+	struct reform_diagdef_t reform_diagdef; /* TODO: populate */
+#endif
 	union {
 		struct {
 			dg_type		typ;
@@ -658,6 +675,9 @@ typedef enum {
 
 struct dg_info_t {
 	dg_info_key	key;
+#ifdef DIAGREFORM
+	struct reform_diag_info_t reform_diag_info; /* TODO: populate */
+#endif
 	union {
 		struct {
 			dg_name_list	args;
@@ -834,6 +854,9 @@ typedef enum {
 } dg_tag_key;
 
 typedef struct dg_tag_t {
+#ifdef DIAGREFORM
+	struct reform_diag_tagdef_t reform_diag_tagdef; /* TODO: populate */
+#endif
 	union
 	{
 		dg_type		typ;
