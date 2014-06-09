@@ -702,6 +702,12 @@ f_make_filename(nat date, tdfstring machine, tdfstring file)
 	    (dot = strrchr(f->file_name, '.'), !dot || dot[1]!= 'h')) {
 		primary_file = f;
 	}
+#ifdef DIAGREFORM
+	/* TODO: possibly would need to keep this after DIAGREFORM is gone, because
+	 * e.g. sparc/diag_out.c populates its own fds[].
+	 * Currently unsure if newdiags keeps an equivalent list of filenames */
+    INSPECT_FILENAME(f);
+#endif
 	return f;
 }
 
