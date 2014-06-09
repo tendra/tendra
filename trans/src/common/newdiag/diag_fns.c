@@ -29,8 +29,14 @@
 
 #include "diag_fns.h"
 
+#ifdef DIAGREFORM
+reform_diag_descriptor_list  reform_unit_diagvar_tab; /* TODO: populate */
+#endif
+
 /* allocate space in this file */
+#ifndef EXTERN_DIAG
 #define EXTERN_DIAG
+#endif
 
 #include "diagglob.h"
 #include "dg_globs.h"
