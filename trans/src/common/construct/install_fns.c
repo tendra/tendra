@@ -4497,7 +4497,7 @@ f_or(exp arg1, exp arg2)
 		}
 	}
 
-	if (~has && HAS_64_BIT && (name(sh(arg1)) >= s64hd &&
+	if (~has & HAS_64_BIT && (name(sh(arg1)) >= s64hd &&
 	    (name(arg1) != val_tag || name(arg2) != val_tag))) {
 		return TDFcallop3(arg1, arg2, or_tag);
 	}
@@ -4601,7 +4601,7 @@ f_profile(nat n)
 exp
 rem1_aux(error_treatment ov_err, exp arg1, exp arg2)
 {
-	if (~has && HAS_64_BIT && (name(sh(arg1)) >= s64hd &&
+	if (~has & HAS_64_BIT && (name(sh(arg1)) >= s64hd &&
 	    (name(arg1) != val_tag || name(arg2) != val_tag ||
 	     ov_err.err_code > 2))) {
 		return TDFcallop2(ov_err, arg1, arg2, mod_tag);

@@ -210,7 +210,7 @@ flags_builtin(enum builtin o, const char *s)
 	v = 1;
 
 	for (p = s; *p != '\0'; p++) {
-		enum check e;
+		enum builtin e;
 
 		switch (*p) {
 		case '+': v = 1; continue;
