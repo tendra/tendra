@@ -215,7 +215,8 @@ c_code_append_terminal(CCodeT *code)
 }
 
 void
-c_code_check(CCodeT *code, BoolT exceptions, BoolT param_op, TypeTupleT *param,
+c_code_check(CCodeT *code, BoolT exceptions, BoolT cct_exceptions,
+	BoolT param_op, TypeTupleT *param,
 	TypeTupleT *result, TableT *table)
 {
 	CCodeItemT *item;
@@ -294,7 +295,7 @@ c_code_check(CCodeT *code, BoolT exceptions, BoolT param_op, TypeTupleT *param,
 			break;
 
 		case CCT_EXCEPTION:
-			if (!exceptions) {
+			if (!cct_exceptions) {
 				error_posn(ERROR_SERIOUS, c_code_file(code), (int) c_code_line(code),
 					"substituted exception call in unsuitable code block");
 			}
@@ -514,7 +515,7 @@ c_output_c_code_action(COutputInfoT *info, CCodeT *code, TypeTupleT *param,
 
 void
 c_output_c_code_basic(COutputInfoT * info, CCodeT * code, TypeTupleT * result,
-SaveRStackT * state)
+	SaveRStackT * state, RuleT *handler_rule)
 {
 	OStreamT   *ostream      = c_out_info_ostream(info);
 	NStringT   *label_prefix = c_out_info_label_prefix(info);
@@ -552,9 +553,14 @@ SaveRStackT * state)
 			c_output_key(info, entry_key(stack_entry), in_prefix);
 			break;
 
+		case CCT_EXCEPTION:
+			write_cstring(ostream, "goto ");
+			write_nstring(ostream, label_prefix);
+			write_unsigned(ostream, rule_get_handler_label(handler_rule));
+			break;
+
 		case CCT_MOD_IDENT:
 		case CCT_REF_IDENT:
-		case CCT_EXCEPTION:
 		case CCT_ADVANCE:
 		case CCT_TERMINAL:
 			UNREACHED;

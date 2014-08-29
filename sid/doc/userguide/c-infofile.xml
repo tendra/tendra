@@ -307,9 +307,10 @@
 				<term><code>@!</code></term>
 
 				<listitem>
-					<para>This form marks an exception raise. In the generated code, a
-						jump to the current exception handler will be substituted. This
-						substitution is only valid in actions.</para>
+					<para>This form marks an exception raise. In the generated code,
+						a jump to the current exception handler will be substituted.
+						This substitution is only valid in actions
+						and terminal extraction rules.</para>
 				</listitem>
 			</varlistentry>
 

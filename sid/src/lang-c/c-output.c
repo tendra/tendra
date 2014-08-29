@@ -463,8 +463,8 @@ c_output_unreachable(COutputInfoT *info, unsigned indent)
 }
 
 static void
-c_output_basic_extract(COutputInfoT *info, CCodeT *code, ItemT *item, KeyT *key,
-	SaveRStackT *state, unsigned indent)
+c_output_basic_extract(COutputInfoT *info, CCodeT *code, ItemT *item, RuleT *handler_rule,
+	KeyT *key, SaveRStackT *state, unsigned indent)
 {
 	OStreamT *ostream = c_out_info_ostream(info);
 
@@ -472,7 +472,7 @@ c_output_basic_extract(COutputInfoT *info, CCodeT *code, ItemT *item, KeyT *key,
 		indent);
 	c_output_open(info, indent);
 	c_output_location(info, c_code_file(code), c_code_line(code));
-	c_output_c_code_basic(info, code, item_result(item), state);
+	c_output_c_code_basic(info, code, item_result(item), state, handler_rule);
 	c_output_location(info, ostream_name(ostream), ostream_line(ostream) + 1);
 	c_output_close(info, indent);
 	c_output_key_message (info, "/* END OF EXTRACT: ", key, " */", indent);
@@ -493,7 +493,7 @@ c_output_basic_in_alt(COutputInfoT *info, ItemT *item, RuleT *handler_rule,
 		c_output_switch (info, indent);
 		c_output_case(info, entry, indent);
 		if (code) {
-			c_output_basic_extract(info, code, item, key, state, code_indent);
+			c_output_basic_extract(info, code, item, handler_rule, key, state, code_indent);
 		}
 		c_output_break(info, code_indent);
 		if (need_check) {
@@ -506,7 +506,7 @@ c_output_basic_in_alt(COutputInfoT *info, ItemT *item, RuleT *handler_rule,
 	} else {
 		assert(!need_check);
 		if (code) {
-			c_output_basic_extract(info, code, item, key, state, code_indent);
+			c_output_basic_extract(info, code, item, handler_rule, key, state, code_indent);
 		}
 	}
 	c_output_advance(info, indent);

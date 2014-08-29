@@ -313,12 +313,12 @@
 	 */
 
 	<set-header1>: (code) -> () = @{
-		c_code_check(@code, FALSE, FALSE, NULL, NULL, c_current_table);
+		c_code_check(@code, FALSE, FALSE, FALSE, NULL, NULL, c_current_table);
 		c_out_info_set_header1(c_current_out_info, @code);
 	@};
 
 	<set-header2>: (code) -> () = @{
-		c_code_check(@code, FALSE, FALSE, NULL, NULL, c_current_table);
+		c_code_check(@code, FALSE, FALSE, FALSE, NULL, NULL, c_current_table);
 		c_out_info_set_header2(c_current_out_info, @code);
 	@};
 
@@ -423,7 +423,7 @@
 			TypeT *type;
 
 				type = entry_get_type (c_current_entry);
-				c_code_check(@code, FALSE, FALSE, &c_saved_type, &c_current_type, c_current_table);
+				c_code_check(@code, FALSE, FALSE, FALSE, &c_saved_type, &c_current_type, c_current_table);
 				type_set_assign_code(type,  @code);
 			}
 		} else {
@@ -487,7 +487,7 @@
 			} else {
 				TypeT *type = entry_get_type(c_current_entry);
 
-				c_code_check(@code, FALSE, TRUE, &c_saved_type,
+				c_code_check(@code, FALSE, FALSE, FALSE, &c_saved_type,
 					&c_current_type, c_current_table);
 				type_set_param_assign_code(type,  @code);
 			}
@@ -552,7 +552,7 @@
 			} else {
 				TypeT *type = entry_get_type(c_current_entry);
 
-				c_code_check(@code, FALSE, FALSE, &c_saved_type,
+				c_code_check(@code, FALSE, FALSE, FALSE, &c_saved_type,
 					&c_current_type, c_current_table);
 				type_set_result_assign_code (type,  @code);
 			}
@@ -631,7 +631,7 @@
 				c_current_entry = NULL;
 			} else {
 				types_destroy(&c_saved_type);
-				c_code_check(@code, FALSE, FALSE, NULL, &c_current_type, c_current_table);
+				c_code_check(@code, FALSE, TRUE, FALSE, NULL, &c_current_type, c_current_table);
 				basic_set_result_code(basic,  @code);
 			}
 		} else {
@@ -705,7 +705,7 @@
 				c_code_deallocate(@code);
 				c_current_entry = NULL;
 			} else {
-				c_code_check(@code, TRUE, FALSE, &c_saved_type, &c_current_type, c_current_table);
+				c_code_check(@code, TRUE, TRUE, FALSE, &c_saved_type, &c_current_type, c_current_table);
 				types_propogate_mutations(param, &c_saved_type);
 				action_set_code(action,  @code);
 			}
@@ -717,12 +717,12 @@
 	@};
 
 	<set-trailer1>: (code) -> () = @{
-		c_code_check(@code, FALSE, FALSE, NULL, NULL, c_current_table);
+		c_code_check(@code, FALSE, FALSE, FALSE, NULL, NULL, c_current_table);
 		c_out_info_set_trailer1 (c_current_out_info, @code);
 	@};
 
 	<set-trailer2>: (code) -> () = @{
-		c_code_check(@code, FALSE, FALSE, NULL, NULL, c_current_table);
+		c_code_check(@code, FALSE, FALSE, FALSE, NULL, NULL, c_current_table);
 		c_out_info_set_trailer2(c_current_out_info, @code);
 	@};
 

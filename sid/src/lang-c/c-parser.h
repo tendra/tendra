@@ -1,12 +1,3 @@
-/* $Id$ */
-
-/*
- * Copyright 2011, The TenDRA Project.
- * Copyright 1997, United Kingdom Secretary of State for Defence.
- *
- * See doc/copyright/ for the full copyright terms.
- */
-
 /*
  * Automatically generated from the files:
  *	c-parser.sid
@@ -15,9 +6,20 @@
  * by:
  *	sid
  */
-/* BEGINNING OF HEADER */
-#line 239 "c-parser.act"
 
+/* BEGINNING OF HEADER */
+
+#line 148 "c-parser.act"
+
+
+	/* $Id$ */
+
+	/*
+	 * Copyright 2008-2011, The TenDRA Project.
+	 * Copyright 1997, United Kingdom Secretary of State for Defence.
+	 *
+	 * See doc/copyright/ for the full copyright terms.
+	 */
 
 	/*
 	 * c-parser.h - SID C parser.
@@ -35,16 +37,16 @@
 	COutputInfoT  *c_current_out_info;
 	TableT        *c_current_table;
 
-#line 61 "c-parser.h"
+#line 41 "c-parser.h"
 
 /* BEGINNING OF FUNCTION DECLARATIONS */
 
 extern void c_parse_grammar(void);
 /* BEGINNING OF TRAILER */
 
-#line 1208 "c-parser.act"
+#line 1117 "c-parser.act"
 
 
-#line 71 "c-parser.h"
+#line 51 "c-parser.h"
 
 /* END OF FILE */
