@@ -88,7 +88,7 @@ process_lct_file(struct ast *ast, char *path)
 
 static void
 report_usage(void) {
-	fputs("usage: lexi [-vh] [-a] [-t token-prefix] [-p lexi-prefix] "
+	fputs("usage: lexi [-vh] [-t token-prefix] [-p lexi-prefix] "
 		"[-l output-language]  "
 		"input-file [lct-input-file] [output-file ...]\n", stdout);
 }
