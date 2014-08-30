@@ -25,7 +25,7 @@ param_append(struct param **params, char *str, struct entry *et, bool isref)
 	p->et         = et;
 	p->is_ref     = isref;
 	p->local_name = str;
-	p->next       = *params;
+	p->next       = NULL;
 
 	while (*params != NULL) {
 		params = &(*params)->next;
