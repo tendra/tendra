@@ -75,7 +75,7 @@ I don't care about any of that
 ------------------------------
 
 I'd suggest using either OpenBSD or Linux. If you're using Linux,
-install bmake.
+install pmake.
 
 Look at /shared/mk/tendra.makedefs.mk for some idea of supported
 versions, pick one, and try it. Talk to me if it doesn't work. [3]
