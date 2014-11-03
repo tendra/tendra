@@ -45,17 +45,9 @@ boolean func_output = 0;
 static void
 print_spaces(int d)
 {
-	int n = 2 * d;
-
-	while (n >= 8) {
-		(void) fputc('\t', output);
-		n -= 8;
-	}
-
-	while (n) {
+	d *= 2;
+	while (d--)
 		(void) fputc(' ', output);
-		n--;
-	}
 }
 
 
