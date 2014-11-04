@@ -230,16 +230,16 @@ enc_node(bitstream *b, node *p)
 		long i, n = q->encoding;
 		if (n == -1) {
 		    node *r = p->son;
-		    long m = octval(r);
+		    long m = r->cons->encoding;
 		    if (m < 0)m = -m;
-		    r = r->bro->bro;
+		    r = r->bro;
 		    n = r->cons->encoding;
 		    r = r->son;
 		    enc_tdf_int(b, m);
 		    enc_tdf_int(b, n);
 		    for (i = 0; i < n; i++) {
-			enc_bits(b,(int)m, octval(r));
-			r = r->bro->bro;
+			enc_bits(b,(int)m, r->cons->encoding);
+			r = r->bro;
 		    }
 		} else {
 		    enc_tdf_int(b,(long)8);
