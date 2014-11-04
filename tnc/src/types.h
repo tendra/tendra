@@ -37,7 +37,7 @@ struct x_construct;
 
     Each TDF construct has an associated sort.  This is represented
     by a value of type sortname.  It can take any of the values of
-    the form sort_* in tags.h.
+    the form sort_* in tdf.h.
 */
 
 typedef int sortname;
