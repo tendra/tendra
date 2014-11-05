@@ -318,8 +318,9 @@
 				<term>&U.opt;</term>
 
 				<listitem>
-					<para>Undefines the given macro.
-						The special case <option>-U-</option> undefines all the
+					<para>Undefines the given macro.</para>
+
+					<para>The special case <option>-U-</option> undefines all the
 						built-in macros.
 						These are <code>__FILE__</code>,
 						<code>__LINE__</code>,
