@@ -75,10 +75,10 @@ XMLLINTOPTS+= --loaddtd --valid
 XSLTPARAMS+=	--stringparam tendra.base   '${DOC_BASE}'
 XSLTPARAMS+=	--stringparam tendra.ext    '${DOC_EXT}'
 
-XSLT_DIR=	${BASE_DIR}/doc/xsl
-CSS_DIR=	${BASE_DIR}/doc/css
-JS_DIR= 	${BASE_DIR}/doc/js
-DTD_DIR= 	${BASE_DIR}/doc/dtd
+XSLT_DIR=	${BASE_DIR}/shared/xsl
+CSS_DIR=	${BASE_DIR}/shared/css
+JS_DIR= 	${BASE_DIR}/shared/js
+DTD_DIR= 	${BASE_DIR}/shared/dtd
 
 XSLT_ROFF=	${XSLT_DIR}/roff/docbook.xsl
 XSLT_HTML=	${XSLT_DIR}/${DOC_EXT}/minidocbook/minidocbook.xsl

@@ -8,5 +8,5 @@ BASE_DIR!=	cd ${_BASEDIR_RELATIVE} && pwd
 . endif
 .endif
 
-.MAKEFLAGS:	-m ${BASE_DIR}/mk -r
+.MAKEFLAGS:	-m ${BASE_DIR}/shared/mk -r
 
