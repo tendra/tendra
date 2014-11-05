@@ -11,6 +11,7 @@ SUBDIR+=	env
 
 .if defined(WITHDOCS)
 SUBDIR+=	doc
+SUBDIR+=	man
 .endif
 
 .include <tendra.subdir.mk>

@@ -149,18 +149,29 @@ bootstrap-regen:
 
 test-doc:
 	@echo "===> validating documents"
-.for project in calculus disp trans lexi make_err make_tdf \
+.for project in calculus trans lexi make_err \
 	osdep tdfc2 sid tcc tendra-doc tld tnc tpl tspec
 	cd ${.CURDIR}/${project}/doc && ${MAKE} test
+.endfor
+	@echo "===> validating manpages"
+.for project in calculus disp trans lexi make_err make_tdf \
+	tdfc2 sid tcc tendra-doc tld tnc tpl tspec
+	cd ${.CURDIR}/${project}/man && ${MAKE} test
 .endfor
 
 # XXX: just temporary
 # XXX: need the per-project prefix that -DWEBSITE uses
 doc:
 	@echo "===> building documents"
-.for project in calculus disp trans lexi make_err make_tdf \
+.for project in calculus trans lexi make_err \
 	osdep tdfc2 sid tcc tendra-doc tld tnc tpl tspec
 	cd ${.CURDIR}/${project}/doc && ${MAKE} \
+	    OBJ_DIR=${OBJ_DOC}/${project}
+.endfor
+	@echo "===> building manpages"
+.for project in calculus disp trans lexi make_err make_tdf \
+	tdfc2 sid tcc tld tnc tpl tspec
+	cd ${.CURDIR}/${project}/man && ${MAKE} \
 	    OBJ_DIR=${OBJ_DOC}/${project}
 .endfor
 
