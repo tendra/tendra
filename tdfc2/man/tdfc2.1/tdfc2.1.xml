@@ -29,12 +29,23 @@
 	<!ENTITY n.opt "<option>-n</option>&nbsp;&port-table.arg;">
 	<!ENTITY o.opt "<option>-o</option>&nbsp;&out-file.arg;">
 	<!ENTITY q.opt "<option>-q</option>">
-	<!ENTITY s.opt "<option>-s</option>&nbsp;&spec-file.arg;">
+	<!ENTITY s.opt "<option>-s</option>&nbsp;&spec-file.arg;&k.ext;/&kk.ext;">
 	<!ENTITY t.opt "<option>-t</option>">
 	<!ENTITY u.opt "<option>-u</option>&nbsp;&name.arg;&nbsp;&ellipsis.lit;&nbsp;&name.arg;">
 	<!ENTITY v.opt "<option>-v</option>">
 	<!ENTITY w.opt "<option>-w</option>">
 	<!ENTITY z.opt "<option>-z</option>">
+
+	<!ENTITY tdfc2.x   "<command>tdfc2</command>">
+	<!ENTITY tcpplus.x "<command>tcpplus</command>">
+
+	<!ENTITY both      "&tdfc2.x; and &tcpplus.x;">
+	<!ENTITY either    "&tdfc2.x; or  &tcpplus.x;">
+
+	<!ENTITY in-file.c-or-cc "<replaceable>input-file</replaceable>&c.ext;/&cc.ext;">
+	<!ENTITY in-file.k-or-kk "<replaceable>input-file</replaceable>&k.ext;/&kk.ext;">
+	<!ENTITY out-file.i      "<replaceable>output-file</replaceable>&i.ext;">
+	<!ENTITY out-file.j      "<replaceable>output-file</replaceable>&j.ext;">
 ]>
 
 <!-- $Id$ -->
@@ -106,119 +117,190 @@
 
 	<refnamediv>
 		<refname>tdfc2</refname>
-		<refpurpose>DRA C to TDF producer</refpurpose>
+		<refname>tcpplus</refname>
+		<refpurpose>DRA C/C++ to TDF producers</refpurpose>
 	</refnamediv>
 
 	<refsynopsisdiv>
 		<cmdsynopsis>
-			<command>tdfc2</command>
+			<command>tdfc2/tcpplus</command>
 
-			<arg choice="opt">&A.opt;</arg>
-			<arg choice="opt">&C.opt;</arg>
-			<arg choice="opt">&D1.opt;</arg>
-			<arg choice="opt">&D2.opt;</arg>
-			<arg choice="opt">&E.opt;</arg>
-			<arg choice="opt">&F.opt;</arg>
-			<arg choice="opt">&H.opt;</arg>
-			<arg choice="opt">&I.opt;</arg>
-			<arg choice="opt">&W.opt;</arg>
-			<arg choice="opt">&z.opt;</arg>
-
-			<sbr/>
-
-			<arg choice="opt">&N.opt;</arg>
-			<arg choice="opt">&S.opt;</arg>
-			<arg choice="opt">&U.opt;</arg>
-			<arg choice="opt">&V.opt;</arg>
-			<arg choice="opt">&X.opt;</arg>
-			<arg choice="opt">&Z.opt;</arg>
-			<arg choice="opt">&a.opt;</arg>
-			<arg choice="opt">&c.opt;</arg>
-			<arg choice="opt">&d.opt;</arg>
-			<arg choice="opt">&e.opt;</arg>
-			<arg choice="opt">&w.opt;</arg>
-
-			<sbr/>
-
-			<arg choice="opt">&f.opt;</arg>
-			<arg choice="opt">&g.opt;</arg>
-			<arg choice="opt">&j.opt;</arg>
-			<arg choice="opt">&m.opt;</arg>
-			<arg choice="opt">&n.opt;</arg>
-			<arg choice="opt">&o.opt;</arg>
-			<arg choice="opt">&q.opt;</arg>
 			<arg choice="opt">&s.opt;</arg>
-			<arg choice="opt">&t.opt;</arg>
 
 			<sbr/>
 
-			<arg choice="opt">&u.opt;</arg>
+			<arg choice="opt"><option>--</option></arg>
 
-			<sbr/>
-
-			<arg choice="opt">&in-file.arg;</arg>
-			<arg choice="opt">&out-file.arg;</arg>
+			<arg choice="opt" rep="repeat">&in-file.c-or-cc;</arg>
+			<arg choice="opt">&out-file.j;</arg>
 		</cmdsynopsis>
 
 		<cmdsynopsis>
-			<command>tdfc2</command>
+			<command>tdfc2/tcpplus</command>
+
+			<arg choice="opt">&E.opt;</arg>
+
+			<sbr/>
+
+			<arg choice="opt"><option>--</option></arg>
+
+			<arg choice="opt" rep="repeat">&in-file.c-or-cc;</arg>
+			<arg choice="opt">&out-file.i;</arg>
+		</cmdsynopsis>
+
+		<cmdsynopsis>
+			<command>tdfc2/tcpplus</command>
+
+			<arg choice="opt">&S.opt;</arg>
+			<arg choice="opt">&s.opt;</arg>
+
+			<sbr/>
+
+			<arg choice="opt"><option>--</option></arg>
+
+			<arg choice="opt" rep="repeat">&in-file.k-or-kk;</arg>
+			<arg choice="opt">&out-file.j;</arg>
+		</cmdsynopsis>
+
+		<cmdsynopsis>
+			<command>tdfc2/tcpplus</command>
 
 			<group choice="req">
 				<arg choice="plain">&h.opt;</arg>
 				<arg choice="plain">&v.opt;</arg>
 			</group>
 		</cmdsynopsis>
+
+		<para>Most options are common to all modes.
+			For brevity, these are not repeated above:</para>
+
+		<!-- TODO: are things like -D relevant for spec file linking? -->
+		<cmdsynopsis>
+			<command>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</command>
+
+			<arg choice="opt">&A.opt;</arg>
+			<arg choice="opt">&C.opt;</arg>
+			<arg choice="opt">&D1.opt;</arg>
+			<arg choice="opt">&D2.opt;</arg>
+			<arg choice="opt">&F.opt;</arg>
+
+			<sbr/>
+
+			<arg choice="opt">&H.opt;</arg>
+			<arg choice="opt">&I.opt;</arg>
+			<arg choice="opt">&N.opt;</arg>
+			<arg choice="opt">&U.opt;</arg>
+			<arg choice="opt">&V.opt;</arg>
+			<arg choice="opt">&W.opt;</arg>
+			<arg choice="opt">&X.opt;</arg>
+			<arg choice="opt">&Z.opt;</arg>
+
+			<sbr/>
+
+			<arg choice="opt">&a.opt;</arg>
+			<arg choice="opt">&c.opt;</arg>
+			<arg choice="opt">&d.opt;</arg>
+			<arg choice="opt">&e.opt;</arg>
+			<arg choice="opt">&f.opt;</arg>
+			<arg choice="opt">&g.opt;</arg>
+			<arg choice="opt">&j.opt;</arg>
+			<arg choice="opt">&m.opt;</arg>
+
+			<sbr/>
+
+			<arg choice="opt">&n.opt;</arg>
+			<arg choice="opt">&o.opt;</arg>
+			<arg choice="opt">&q.opt;</arg>
+			<arg choice="opt">&t.opt;</arg>
+			<arg choice="opt">&u.opt;</arg>
+			<arg choice="opt">&w.opt;</arg>
+			<arg choice="opt">&z.opt;</arg>
+		</cmdsynopsis>
 	</refsynopsisdiv>
 
 	<refsection>
 		<title>Description</title>
 
-		<para>In its default action, &tdfc2; translates the input C source
-			file, &in-file.arg;, into a &tdf; capsule, &out-file.arg;.
+		<para>&both; have three modes which determine the form
+			of their input and output files.</para>
+
+		<para>The default mode is compilation, in which an input source file,
+			&in-file.c-or-cc;, is translated into a &tdf; capsule, &out-file.j;.
+			&tdfc2.x; translates C source, and &tcpplus.x; translates C++ source.
+			The output file can alternatively be specified using the
+			<option>-o</option> option.
 			If the output file name is omitted or is &hyphen.lit;,
-			the standard output is used.
+			standard output is used.
+			In general there can be any number of input files.
 			If the input file name is omitted or is &hyphen.lit;,
-			the standard input is used.</para>
+			standard input is used.</para>
 
-		<para>By use of the <option>-s</option>&spec-file.arg; option, &tdfc2;
-			can additionally be made to output a C spec file which contains
-			information enabling intermodule analysis to be performed.
-			Alternatively usage and error information suitable for processing
-			by other tools can be output using the &d.opt; option.</para>
+		<para>In preprocessing mode, specified using the &E.opt; option,
+			the single input source file, &in-file.c-or-cc;, is preprocessed
+			to an output file, &out-file.j;.
+			Note that the preprocessor is built into &both;, rather than,
+			as with most other compilers, being a separate program.</para>
 
-		<para>&tdfc2; also has a preprocessing action, when
-			invoked with the <option>-E</option> option, in which the input
-			C source file, &in-file.arg;, is preprocessed to an output file,
-			&out-file.arg;.</para>
+		<para>The final mode is spec linking, invoked using the &S.opt; option,
+			in which any number of spec input files, &in-file.k-or-kk;,
+			are linked and any code generated as a result
+			(for example, template instantiations)
+			is written to the output &tdf; capsule, &out-file.j;.</para>
 
-		<para>Finally &tdfc2; has a spec linker action,
-			when invoked with the <option>-S</option> option, in which any
-			number of spec input files, &in-file.arg;, are combined into a
-			spec output file, which may be specified using the
-			<option>-s</option> option.	Any extra code generation resulting
-			from this linking phase is written to the &tdf; capsule,
-			&out-file.arg;.</para>
+		<!-- TODO: are spec output file always C++ only? -->
+		<para>In either compilation or spec linking mode, a <!-- C++ -->spec file
+			can be generated in addition to the &tdf; capsule, using the
+			<option>-s</option> option.
+			The generated spec file contains information enabling intermodule
+			analysis to be performed.</para>
 
-		<para>It is recommended that &tdfc2; is invoked via &tcc;.
-			The <option>-Yc++</option> option is required to enable the C++
-			capabilities.
-			Files with a <filename>.c</filename> suffix are recognised as C
-			source files.
-			Options can be passed directly to &tdfc2;
-			using the <option>-Wc,</option>&opt.arg; option to &tcc;.</para>
+		<para>In any mode a &tdfcdump.5; symbol table dump output file can
+			be generated using the <option>-d</option> option.
+			This outputs usage and error information suitable for processing
+			by other tools, output as a symbol table dump file.
+			See &tdfcdump.5; for the dump file format.</para>
+	</refsection>
+
+	<refsection>
+		<title>Invocation</title>
+
+		<para>While it is possible to use &both; as stand-alone
+			programs, it is recommended that they should be invoked via &tcc; or &tchk;.
+			The &tcc-userguide.doc; should be consulted for more details.</para>
+
+		<para>The command-line options can appear in any order and can be
+			interspersed with the input and output files,
+			except following a <option>--</option> option..
+			All the multi-part options can be given either as one or two
+			command-line arguments, so that <option>-I</option>&dir.arg; and
+			<option>-I</option>&nbsp;&dir.arg; are equivalent.</para>
+
+		<para>Most of the command-line option handling for &both;
+			is done by &tcc; and &tchk;, however when invoking &tcc; or &tchk;,
+			options may be passed directly to
+			&tdfc2.x;   using <option>-W<literal>c</literal>,</option>&opt.arg; and to
+			&tcpplus.x; using <option>-W<literal>x</literal>,</option>&opt.arg;.
+			Similarly <option>-W<literal>g</literal>,</option>&opt.arg; and
+			<option>-W<literal>S</literal>,</option>&opt.arg; can be used to
+			pass options to the C++ preprocessor and the C++ spec linker
+			(both of which are actually &either; invoked
+			with different options) respectively.</para>
+
+		<para>Both &tcc; and &tchk; require the <option>-Y</option><literal>c++</literal>
+			command-line option in order to enable their C++ capabilities.
+			Files with a &C.ext; suffix are recognised as C++ source files and
+			passed to &tcpplus.x; for processing
+			It is possible to change the suffix used for C++ source files; for
+			example <option>-s</option><literal>C:cc</literal> causes &cc.ext;
+			files to be recognised as C++ source files.
+			An interesting variation is <option>-s</option><literal>C:c</literal>
+			which causes C source files to be processed by the C++ producer.
+			Similarly &I.ext; files are recognised as preprocessed C++ source
+			files and &K.ext; files are recognised as C++ spec files.</para>
 	</refsection>
 
 	<refsection>
 		<title>Options</title>
-
-		<para>The command-line options can appear in any order and can be
-			interspersed with the input and output files.
-			All the multi-part options can be given either as one or two
-			command-line arguments, so that <option>-I</option>&dir.arg; and
-			<option>-I</option>&nbsp;&dir.arg; are equivalent.
-			Most of the option handling required is handled by &tcc;
-			when this is being used, but options may be passed directly to
-			&tdfc2; using the <option>-Wc,</option>&opt.arg; option.</para>
 
 		<variablelist>
 			<varlistentry>
@@ -226,8 +308,15 @@
 
 				<listitem>
 					<para>Asserts that the given predicate is true.
-						The special case <option>-A-</option> undefines all the
-						built-in predicates (of which there are none).</para>
+						That is to say:</para>
+
+					<programlisting language="cpp">#assert &predicate.arg; ( &tokens.arg; )</programlisting>
+
+					<para>The special case <option>-A-</option> undefines all the
+						built-in predicates (of which there are none).
+						Use of this option automatically enables support for the
+						&tdfcpragma.5; <code>#assert</code> and
+						<code>#unassert</code> directives.</para>
 				</listitem>
 			</varlistentry>
 
@@ -242,18 +331,22 @@
 
 			<varlistentry>
 				<term>&D1.opt;</term>
-
-				<listitem>
-					<para>Defines the given macro to be 1.</para>
-				</listitem>
-			</varlistentry>
-
-			<varlistentry>
 				<term>&D2.opt;</term>
 
 				<listitem>
-					<para>Defines the given macro to be the given sequence
-						of preprocessing tokens.</para>
+					<para>Defines the given macro to be 1 in the first case,
+						or the given sequence of preprocessing tokens in the
+						second case. That is to say, respectively:</para>
+
+					<programlisting language="cpp">#define &macro.arg; 1
+#define &macro.arg; &tokens.arg;</programlisting>
+
+					<para>In fact <option>-D</option> and <option>-U</option>
+						options to &tcc; are not passed as <option>-D</option>
+						and <option>-U</option> options to &either;.
+						Instead a start-up file
+						containing the equivalent <code>#define</code> and
+						<code>#undef</code> directives is used.</para>
 				</listitem>
 			</varlistentry>
 
@@ -270,7 +363,10 @@
 				<term>&F.opt;</term>
 
 				<listitem>
-					<para>Causes a list of options to be read from &file.arg;.</para>
+					<para>Causes a list of options to be read from &file.arg;.
+						Other than empty lines and lines beginning with <code>#</code>,
+						each line in the file is treated as if it had been specified
+						as a separate command-line option.</para>
 				</listitem>
 			</varlistentry>
 
@@ -288,9 +384,9 @@
 				<term>&I.opt;</term>
 
 				<listitem>
-					<para>Adds the given directory to the list searched by
-						&tdfc2; for included source files.
-						No such directories are built into &tdfc2;.</para>
+					<para>Adds the given directory to the list searched
+						for included source files.
+						No such directories are built in.</para>
 				</listitem>
 			</varlistentry>
 
@@ -298,9 +394,12 @@
 				<term>&N.opt;</term>
 
 				<listitem>
-					<para>Is identical to &I.opt; except that it also
+					<para>Is identical to &I.opt;&dir.arg; except that it also
 						associates the given identifier with the
-						directory.</para>
+						directory.
+						The directory name can be used to specify a &tdfcpragma.5;
+						compilation profile to be used on
+						files included from this directory.</para>
 				</listitem>
 			</varlistentry>
 
@@ -308,9 +407,9 @@
 				<term>&S.opt;</term>
 
 				<listitem>
-					<para>Enables spec linker mode in which any number of C
-						spec input files are linked into a single C spec output
-						file.</para>
+					<para>Enables spec linker mode in which any number of
+						input spec files are linked into a single
+						output spec file.</para>
 				</listitem>
 			</varlistentry>
 
@@ -322,12 +421,25 @@
 
 					<para>The special case <option>-U-</option> undefines all the
 						built-in macros.
-						These are <code>__FILE__</code>,
+						These are the standard macros
+						<code>__FILE__</code>,
 						<code>__LINE__</code>,
 						<code>__TIME__</code>,
 						<code>__DATE__</code>,
 						<code>__STDC__</code> and
-						<code>__STDC_VERSION__</code>.</para>
+						<code>__STDC_VERSION__</code>,
+						and also <code>__cplusplus</code> for &tcpplus.x; only.
+
+						<!-- XXX: why? remove this macro -->
+						Additionally, the macro <code>__tcpplus</code> is undefined;
+						by default this is <code>0</code> for &tdfc2.x;
+						and <code>1</code> for &tcpplus.x;.</para>
+
+					<para>The actual value of <code>__cplusplus</code> gives the date of the
+						draft ISO C++ standard on which the current version of the producer
+						is based. The value given above gives the expected date of the final
+						C++ standard.</para>
+					<!-- TODO: update; 199707L according to http://predef.sourceforge.net/prestd.html -->
 				</listitem>
 			</varlistentry>
 
@@ -335,8 +447,7 @@
 				<term>&V.opt;</term>
 
 				<listitem>
-					<para>Causes &tdfc2; to print the name of each function to
-						the standard output as it is compiled.</para>
+					<para>Print the name of each function to standard output as it is compiled.</para>
 				</listitem>
 			</varlistentry>
 
@@ -344,16 +455,21 @@
 				<term>&W.opt;</term>
 
 				<listitem>
-					<para>Causes &tdfc2; to print a warning in the
-						circumstances described by &opt.arg;.
-						The special case <option>-Wall</option> enables a wide range
-						of warnings.</para>
+					<para>Give a warning in the circumstances described by &opt.arg;.
+						This sets the given compiler option thus:</para>
+
+					<programlisting language="cpp">#pragma TenDRA option &quot;&opt.arg;&quot; warning</programlisting>
+
+					<para>The special case
+						<option>-W</option><literal>all</literal> enables a wide
+						range of warnings.</para>
 				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&X.opt;</term>
 
+				<!-- TODO link "current implementation" to lib.html -->
 				<listitem>
 					<para>Disables exception handling.
 						The current implementation can be a large run-time overhead
@@ -369,7 +485,7 @@
 				<term>&Z.opt;</term>
 
 				<listitem>
-					<para>Sets the maximum number of errors printed by &tdfc2;
+					<para>Sets the maximum number of errors printed
 						before bailing out to be &num.arg;.
 						The default is 32.</para>
 				</listitem>
@@ -379,10 +495,9 @@
 				<term>&a.opt;</term>
 
 				<listitem>
-					<para>Causes &tdfc2; to apply complete program analysis to
-						its input files.
-						That is it assumes that no other translation units need to
-						be linked in order for the program to execute.</para>
+					<para>Apply complete program analysis to input files.
+						That is, assume that no other translation units need
+						to be linked in order for the program to execute.</para>
 				</listitem>
 			</varlistentry>
 
@@ -402,10 +517,10 @@
 				<term>&d.opt;</term>
 
 				<listitem>
-					<para>Causes &tdfc2; to dump information about its input
-						file into &dump-file.arg;. &opt.arg; is a series of
-						characters describing the information to be dumped,
-						as follows:</para>
+					<para>Dump information about the input source file into
+						&dump-file.arg;.
+						&opt.arg; is a set of characters describing the
+						information to be dumped, as follows:</para>
 
 					<table>
 						<col align="center"/>
@@ -457,28 +572,27 @@
 							</tr>
 						</tbody>
 					</table>
+
+					<para>These correspond to the
+						&tcc; <option>-sym</option> options.</para>
 				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&e.opt;</term>
-
-				<listitem>
-					<para>Specifies the given file as an end-up file.
-						This is equivalent to adding a <code>#include</code>
-						directive for this file at the end of the input source
-						file.</para>
-				</listitem>
-			</varlistentry>
-
-			<varlistentry>
 				<term>&f.opt;</term>
 
 				<listitem>
-					<para>Specifies the given file as a start-up file.
-						This is equivalent to adding a <code>#include</code>
-						directive for this file at the start of the input source
-						file.</para>
+					<para>Specifies the given file as a <quote>start-up</quote>
+						or <quote>end-up</quote> file respectivelyfile.
+						This is equivalent to adding:</para>
+
+					<programlisting language="cpp">#include &quot;&file.arg;&quot;</programlisting>
+
+					<para>at the start or end of the input source file.</para>
+
+					<para>More than one start-up and end-up file may be given;
+						they are processed in the order given.</para>
 				</listitem>
 			</varlistentry>
 
@@ -498,18 +612,121 @@
 				<term>&h.opt;</term>
 
 				<listitem>
-					<para>Causes &tdfc2; to print a full list of its available
+					<para>Causes &tdfc2.x; to print a full list of its available
 						command-line options.
 						This includes a number not documented here which are
 						unlikely to prove useful to the normal user.</para>
 				</listitem>
+				<!-- TODO document them! -->
 			</varlistentry>
 
 			<varlistentry>
 				<term>&j.opt;</term>
 
 				<listitem>
-					<para>Sets the &tdf; output options given by &opt.arg;.</para>
+					<para>Sets the &tdf; output options given by &opt.arg;.
+						This consists of a sequence of characters describing
+						the options to be enabled or disabled.
+						By default, or following a <code>+</code>, the options
+						are enabled; following a <code>-</code> they are disabled.
+						The available options are:</para>
+
+					<table>
+						<col align="center"/>
+						<col align="center"/>
+						<col align="left"/>
+
+						<thead>
+							<tr>
+								<th>Key</th>
+								<th>Default</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+
+						<tbody>
+							<tr>
+								<td><code>a</code></td>
+								<td>off</td>
+								<td>output external names for local objects</td>
+							</tr>
+							<tr>
+								<td><code>b</code></td>
+								<td>off</td>
+								<td>work around old installer bugs</td>
+							</tr>
+							<tr>
+								<td><code>c</code></td>
+								<td>on</td>
+								<td>output &tdf; capsule</td>
+							</tr>
+							<tr>
+								<td><code>d</code></td>
+								<td>off</td>
+								<td>output termination function</td>
+							</tr>
+							<tr>
+								<td><code>e</code></td>
+								<td>on</td>
+								<td>output exceptions</td>
+							</tr>
+							<tr>
+								<td><code>f</code></td>
+								<td>on</td>
+								<td>mangle template function signatures</td>
+							</tr>
+							<tr>
+								<td><code>g</code></td>
+								<td>off</td>
+								<td>output debugging information</td>
+							</tr>
+							<tr>
+								<td><code>i</code></td>
+								<td>off</td>
+								<td>output dynamic initialisers as a function</td>
+							</tr>
+							<tr>
+								<td><code>n</code></td>
+								<td>on</td>
+								<td>mangle object names</td>
+							</tr>
+							<tr>
+								<td><code>o</code></td>
+								<td>off</td>
+								<td>order class data members by access</td>
+							</tr>
+							<tr>
+								<td><code>p</code></td>
+								<td>on</td>
+								<td>output partial destructors</td>
+							</tr>
+							<tr>
+								<td><code>r</code></td>
+								<td>on</td>
+								<td>output run-time type information</td>
+							</tr>
+							<tr>
+								<td><code>s</code></td>
+								<td>on</td>
+								<td>output shared string literals</td>
+							</tr>
+							<tr>
+								<td><code>t</code></td>
+								<td>off</td>
+								<td>output token declarations</td>
+							</tr>
+							<tr>
+								<td><code>u</code></td>
+								<td>on</td>
+								<td>output unused static variables</td>
+							</tr>
+							<tr>
+								<td><code>v</code></td>
+								<td>off</td>
+								<td>output local virtual function tables</td>
+							</tr>
+						</tbody>
+					</table>
 				</listitem>
 			</varlistentry>
 
@@ -517,13 +734,92 @@
 				<term>&m.opt;</term>
 
 				<listitem>
-					<para>Sets the error formatting options given by &opt.arg;.</para>
+					<para>Sets the error formatting options given by &opt.arg;.
+						This consists of a sequence of characters describing
+						the options to be enabled or disabled.
+						By default, or following a <code>+</code>, the options
+						are enabled; following a <code>-</code> they are
+						disabled.
+						The available options are:</para>
+
+					<table>
+						<col align="center"/>
+						<col align="center"/>
+						<col align="left"/>
+
+						<thead>
+							<tr>
+								<th>Key</th>
+								<th>Default</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+
+						<tbody>
+						<tr>
+							<td><code>c</code></td>
+							<td>off</td>
+							<td>show source code with error</td>
+						</tr>
+						<tr>
+							<td><code>e</code></td>
+							<td>off</td>
+							<td>show error name</td>
+						</tr>
+						<tr>
+							<td><code>f</code></td>
+							<td>on</td>
+							<td>reliable <code>fseek</code> function</td>
+						</tr>
+						<tr>
+							<td><code>g</code></td>
+							<td>off</td>
+							<td>record statement locations</td>
+						</tr>
+						<tr>
+							<td><code>i</code></td>
+							<td>on</td>
+							<td>reliable <code>stat</code> function</td>
+						</tr>
+						<tr>
+							<td><code>k</code></td>
+							<td>off</td>
+							<td>enable C++ spec output</td>
+						</tr>
+						<tr>
+							<td><code>l</code></td>
+							<td>off</td>
+							<td>output full error location</td>
+						</tr>
+						<tr>
+							<td><code>s</code></td>
+							<td>on</td>
+							<td>output ISO section number</td>
+						</tr>
+						<tr>
+							<td><code>t</code></td>
+							<td>off</td>
+							<td>use <code>typedef</code> names in errors</td>
+						</tr>
+						<tr>
+							<td><code>w</code></td>
+							<td>off</td>
+							<td>disable warnings</td>
+						</tr>
+						<tr>
+							<td><code>z</code></td>
+							<td>off</td>
+							<td>continue after error</td>
+						</tr>
+						</tbody>
+					</table>
 				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&n.opt;</term>
 
+				<!-- TODO link to user guide to discuss portability tables; they ought to be in a .5 manpage, too -->
 				<listitem>
 					<para>Specifies that the given portability table should be
 						used to specify the basic configuration parameters.</para>
@@ -534,7 +830,7 @@
 				<term>&o.opt;</term>
 
 				<listitem>
-					<para>Gives an alternative method of specifying the output file.</para>
+					<para>An alternative method of specifying the output file.</para>
 				</listitem>
 			</varlistentry>
 
@@ -542,9 +838,8 @@
 				<term>&q.opt;</term>
 
 				<listitem>
-					<para>Causes &tdfc2; to quit immediately without processing
-						its input file.
-						This is useful primarily in version and option queries.</para>
+					<para>Quit immediately without processing input files.
+						This is useful primarily in version and command line queries.</para>
 				</listitem>
 			</varlistentry>
 
@@ -552,7 +847,7 @@
 				<term>&s.opt;</term>
 
 				<listitem>
-					<para>Causes &tdfc2; to write a C spec file describing the
+					<para>Write a spec file describing the
 						input source file to &spec-file.arg;.</para>
 				</listitem>
 			</varlistentry>
@@ -561,8 +856,7 @@
 				<term>&t.opt;</term>
 
 				<listitem>
-					<para>Specifies that &tdfc2; should include token
-						declarations in its output &tdf; capsule.
+					<para>Include token declarations in the output &tdf; capsule.
 						While these are strictly unnecessary, they help when
 						pretty-printing the output.
 						This is equivalent to
@@ -574,8 +868,14 @@
 				<term>&u.opt;</term>
 
 				<listitem>
-					<para>Causes &tdfc2; to print the unmangle forms of the
-						given mangled identifier names.</para>
+					<para>Print the unmangled forms of the given mangled
+						identifier names. The form:</para>
+
+					<screen>tcpplus -u &name.arg; .... &name.arg;</screen>
+
+					<para>can be used to print the unmangled forms of a
+						list of mangled identifier
+						names to standard output.</para>
 				</listitem>
 			</varlistentry>
 
@@ -583,7 +883,9 @@
 				<term>&v.opt;</term>
 
 				<listitem>
-					<para>Causes &tdfc2; to print its version number.</para>
+					<para>Print the producer version number to
+						standard error, along with the versions of
+						the source language and &tdf; supported.</para>
 				</listitem>
 			</varlistentry>
 
@@ -601,12 +903,22 @@
 				<term>&z.opt;</term>
 
 				<listitem>
-					<para>Forces &tdfc2; to produce an output file even if
+					<para>Forces &both; to produce an output file even if
 						compilation errors occur.
 						The effect of installing a &tdf; capsule produced using
 						this option is undefined.
 						This is equivalent to
 						<option>-m</option><literal>z</literal>.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>--</option></term>
+
+				<listitem>
+					<para>Marks the last option.
+						Any subsequent arguments are interpreted as input and
+						output files even if they resemble command-line options.</para>
 				</listitem>
 			</varlistentry>
 		</variablelist>
@@ -615,7 +927,9 @@
 	<refsection>
 		<title>See Also</title>
 
-		<para>&tcc;, &tcpplus;, &charset.5;.</para>
+		<para>&tcc;, &tchk;, &tdfcdump.5;, &tdfcpragma.5;, &charset.5;.</para>
+
+		<para>&tcc-userguide.doc;.</para>
 	</refsection>
 </refentry>
 
