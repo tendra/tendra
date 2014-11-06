@@ -10,6 +10,7 @@
 <!ENTITY tpl.ext "<filename>.tpl</filename>">
 
 <!ENTITY cc.ext "<filename>.cc</filename>">
+<!ENTITY kk.ext "<filename>.kk</filename>">
 <!ENTITY ta.ext "<filename>.ta</filename>">
 <!ENTITY tl.ext "<filename>.tl</filename>">
 
