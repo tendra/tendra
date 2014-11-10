@@ -18,6 +18,7 @@
 #include "check.h"
 #include "de_types.h"
 #include "de_capsule.h"
+#include "dot.h"
 #include "enc_cap.h"
 #include "eval.h"
 #include "file.h"
@@ -151,6 +152,15 @@ main(int argc, char **argv)
 					known = 1;
 				} else if (strcmp(arg, "-expand") == 0) {
 					expand = 1;
+					known = 1;
+				}
+				break;
+			case 'g':
+				/* Graphviz mode */
+				if (arg[2] == 0 ||
+				    strcmp(arg, "-graphviz") == 0) {
+					output_fn = dot_capsule;
+					text_output = 1;
 					known = 1;
 				}
 				break;

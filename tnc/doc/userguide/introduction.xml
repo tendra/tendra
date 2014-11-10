@@ -10,7 +10,7 @@
 		The version here described is that supporting version 3.1 of the &tdf;
 		specification.</para>
 
-	<para><code>tnc</code> has four modes, two input modes and two output modes.
+	<para><code>tnc</code> has four modes, two input modes and three output modes.
 		These are as follows:</para>
 
 	<table>
@@ -40,6 +40,11 @@
 			<tr>
 				<td><code>write</code></td>
 				<td>Translate the internal representation into an output text file.</td>
+			</tr>
+			<tr>
+				<td><code>dot</code></td>
+				<td>Translate the internal representation into an output Dot format graph,
+					suitable for processing with Graphviz tools.</td>
 			</tr>
 		</tbody>
 	</table>

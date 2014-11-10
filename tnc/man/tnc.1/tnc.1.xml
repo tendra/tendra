@@ -3,6 +3,7 @@
 	<!ENTITY decode.mode "<literal>decode</literal>">
 	<!ENTITY encode.mode "<literal>decode</literal>">
 	<!ENTITY read.mode   "<literal>read</literal>">
+	<!ENTITY graph.mode  "<literal>dot</literal>">
 	<!ENTITY write.mode  "<literal>write</literal>">
 
 	<!ENTITY prefix.arg "<replaceable>prefix</replaceable>">
@@ -16,6 +17,7 @@
 	<!ENTITY d.opt "<option>-d</option>">
 	<!ENTITY e.opt "<option>-e</option>">
 	<!ENTITY f.opt "<option>-f</option>">
+	<!ENTITY g.opt "<option>-e</option>">
 	<!ENTITY I.opt "<option>-I</option>&dir.arg;">
 	<!ENTITY l.opt "<option>-l</option>">
 	<!ENTITY p.opt "<option>-p</option>">
@@ -31,6 +33,7 @@
 	<!ENTITY func.opt    "<option>-func</option>">
 	<!ENTITY eval.opt    "<option>-eval</option>">
 	<!ENTITY check.opt   "<option>-check</option>">
+	<!ENTITY graph.opt   "<option>-graphviz</option>">
 	<!ENTITY write.opt   "<option>-write</option>">
 	<!ENTITY tsimp.opt   "<option>-tsimp</option>">
 	<!ENTITY print.opt   "<option>-print</option>">
@@ -124,6 +127,8 @@
 				<arg choice="plain">&write.opt;</arg>
 				<arg choice="plain">&e.opt;</arg>
 				<arg choice="plain">&encode.opt;</arg>
+				<arg choice="plain">&g.opt;</arg>
+				<arg choice="plain">&graph.opt;</arg>
 			</group>
 			<arg choice="opt">&I.opt;</arg>
 
@@ -227,12 +232,14 @@
 			&tdf; text.
 			In the second &in-file.arg; is a &tdf; capsule.</para>
 
-		<para>There are also two output modes, &encode.mode; and &write.mode;.
+		<para>There are also three output modes, &encode.mode;, &write.mode;
+			and &graph.mode;.
 			In the first, which is default, a &tdf; capsule is written to
 			&out-file.arg;
 			In the second, &tdf; text is written to &out-file.arg;.
 			If the &out-file.arg; argument is absent, the standard output is
-			used instead.</para>
+			used instead. &graph.mode; is the same, except that the output
+			format is Dot, suitable for processing with Graphviz tools.</para>
 
 		<para>Combination of these modes give four actions: text to &tdf; (which
 			is default), &tdf; to text, text to text, and &tdf; to &tdf;.  The last
@@ -272,6 +279,13 @@
 					<td>&p.ext;</td>
 				</tr>
 				<tr>
+					<td>&g.opt;</td>
+					<td>&read.mode;&nbsp;(default)</td>
+					<td>&graph.mode;</td>
+					<td>&p.ext;</td>
+					<td>&dot.ext;</td>
+				</tr>
+				<tr>
 					<td>&d.opt;</td>
 					<td>&decode.mode;</td>
 					<td>&encode.mode;&nbsp;(default)</td>
@@ -284,6 +298,13 @@
 					<td>&write.mode;</td>
 					<td>&j.ext;/&t.ext;</td>
 					<td>&p.ext;</td>
+				</tr>
+				<tr>
+					<td><option>-dg</option></td>
+					<td>&decode.mode;</td>
+					<td>&graph.mode;</td>
+					<td>&j.ext;/&t.ext;</td>
+					<td>&dot.ext;</td>
 				</tr>
 				<tr>
 					<td><option>-dl</option></td>
@@ -337,6 +358,17 @@
 				<listitem>
 					<para>Specifies that &tnc; should be in &decode.mode; mode.
 						That is, that &in-file.arg; is a &tdf; capsule.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>&g.opt;</term>
+				<term>&graph.opt;</term>
+
+				<listitem>
+					<para>Specifies that &tnc; should be in &graph.mode; mode.
+						That is, that &out-file.arg; is a Dot format graph,
+						suitable for rendering with Graphviz tools.</para>
 				</listitem>
 			</varlistentry>
 
