@@ -17,6 +17,7 @@ SRCS+=	de_unit.c
 SRCS+=	decode.c
 SRCS+=	enc_cap.c
 SRCS+=	encode.c
+SRCS+=	dot.c
 SRCS+=	eval.c
 SRCS+=	fetch.c
 SRCS+=	file.c
