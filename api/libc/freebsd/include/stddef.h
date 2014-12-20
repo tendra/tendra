@@ -4,7 +4,7 @@
 #define __HACKED_LIBC_STDDEF_H
 
 /*
- * We're providing this primarily for offset(), because the system header
+ * We're providing this primarily for offsetof(), because the system header
  * has the typical implementation which gives a non-constant expression.
  * Unfortunately it's not in an #ifndef guard, and so we can't override
  * just that macro.
