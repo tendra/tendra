@@ -36,6 +36,12 @@
 #include_next <stdarg.h>
 
 #endif
+
+#else
+
+/* no hacks */
+#include_next <stdarg.h>
+
 #endif
 
 #endif
