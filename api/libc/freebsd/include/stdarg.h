@@ -11,12 +11,11 @@
  * c89:stdarg header. The only difference is that va_list is defined
  * as its implementation type, rather than being a tokenised type.
  *
- * va_list is expected to be defined by $os/$arch/include/$machine/stdarg.h
+ * va_list is expected to be defined by $os/$arch/include/machine/stdarg.h
  * included below.
  */
 
-/* XXX: this should be machine/ rather than x86 */
-#include <x86/stdarg.h>
+#include_next <stdarg.h>
 
 #pragma token TYPE __va_t # ~__va_t
 #pragma token PROC ( EXP rvalue : __va_t : ) EXP rvalue : va_list : __va_start # c89.stdarg.__va_start
