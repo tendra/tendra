@@ -6,15 +6,15 @@
 # See doc/copyright/ for the full copyright terms.
 
 # 7.14
-+DEFINE and	    %% && %%;
++DEFINE and   	%% && %%;
 +DEFINE and_eq	%% &= %%;
 +DEFINE bitand	%% &  %%;
-+DEFINE bitor	%% |  %%;
-+DEFINE compl	%% ~  %%;
-+DEFINE not	    %% !  %%;
++DEFINE bitor 	%% |  %%;
++DEFINE compl 	%% ~  %%;
++DEFINE not   	%% !  %%;
 +DEFINE not_eq	%% != %%;
-+DEFINE or	    %% || %%;
-+DEFINE or_eq	%% |= %%;
-+DEFINE xor	    %% ^  %%;
++DEFINE or    	%% || %%;
++DEFINE or_eq 	%% |= %%;
++DEFINE xor   	%% ^  %%;
 +DEFINE xor_eq	%% ^= %%;
 
