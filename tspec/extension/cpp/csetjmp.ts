@@ -8,4 +8,4 @@
 
 $LINKAGE = "C++" ;
 $NAMESPACE = "std" ;
-+USE ("c/c90"), "setjmp.h.ts" ;
++USE ("c/c95"), "setjmp.h.ts" ;

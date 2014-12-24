@@ -8,7 +8,7 @@
 
 $LINKAGE = "C++" ;
 $NAMESPACE = "std" ;
-+USE ("c/c90"), "math.h.ts" ;
++USE ("c/c95"), "math.h.ts" ;
 
 %%
 float abs ( float ) ;

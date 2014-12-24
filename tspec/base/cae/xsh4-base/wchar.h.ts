@@ -6,9 +6,9 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "c/c90", "wchar.h.ts", "wint" ;
-+IMPLEMENT "c/c90", "wchar.h.ts", "mse" ;
-+IMPLEMENT "c/c90", "wctype.h.ts", "mse2" (!?) ;
++IMPLEMENT "c/c95", "wchar.h.ts", "wint" ;
++IMPLEMENT "c/c95", "wchar.h.ts", "mse" ;
++IMPLEMENT "c/c95", "wctype.h.ts", "mse2" (!?) ;
 
 +FUNC wint_t fputwc ( wint_t, FILE * ) ;
 +FUNC wint_t putwc ( wint_t, FILE * ) ;

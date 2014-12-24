@@ -8,4 +8,4 @@
 
 $LINKAGE = "C++" ;
 $NAMESPACE = "std" ;
-+USE ("c/c90"), "stddef.h.ts" ;
++USE ("c/c95"), "stddef.h.ts" ;

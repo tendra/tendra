@@ -7,6 +7,4 @@
  */
 
 #include "c89.h"
-#define __WRONG_C90_WCHAR_H
-#define __WRONG_C90_WCTYPE_H
-#define __WRONG_C90_WCTYPE_H_MSE2
+#define __WRONG_C95

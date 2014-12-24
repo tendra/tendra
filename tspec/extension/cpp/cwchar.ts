@@ -8,7 +8,7 @@
 
 $LINKAGE = "C++" ;
 $NAMESPACE = "std" ;
-+USE ("c/c90"), "wchar.h.ts" ;
++USE ("c/c95"), "wchar.h.ts" ;
 
 %%
 wchar_t *wcschr ( wchar_t *, wchar_t ) ;

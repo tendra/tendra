@@ -8,4 +8,4 @@
 
 $LINKAGE = "C++" ;
 $NAMESPACE = "std" ;
-+USE ("c/c90"), "wctype.h.ts" ;
++USE ("c/c95"), "wctype.h.ts" ;

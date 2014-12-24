@@ -8,7 +8,7 @@
 
 $LINKAGE = "C++" ;
 $NAMESPACE = "std" ;
-+USE ("c/c90"), "string.h.ts" ;
++USE ("c/c95"), "string.h.ts" ;
 
 %%
 char *strchr ( char *, int ) ;

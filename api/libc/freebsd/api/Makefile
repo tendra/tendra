@@ -6,7 +6,7 @@
 JOPTS+=	-I/usr/include
 
 APIS+=  c89
-#APIS+=	c90
+#APIS+=	c95
 #APIS+=	cpp
 #APIS+=	system
 

@@ -8,7 +8,7 @@
 
 $LINKAGE = "C++" ;
 $NAMESPACE = "std" ;
-+USE ("c/c90"), "stdlib.h.ts" ;
++USE ("c/c95"), "stdlib.h.ts" ;
 
 %%
 long abs ( long ) ;

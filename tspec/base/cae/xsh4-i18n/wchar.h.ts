@@ -7,6 +7,6 @@
 
 +USE "c/c89", "stddef.h.ts", "wchar_t" (!?);
 
-+IMPLEMENT "c/c90", "wchar.h.ts", "mse-i18n";
-+IMPLEMENT "c/c90", "wchar.h.ts", "wcsftime";
++IMPLEMENT "c/c95", "wchar.h.ts", "mse-i18n";
++IMPLEMENT "c/c95", "wchar.h.ts", "wcsftime";
 

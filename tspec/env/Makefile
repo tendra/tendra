@@ -11,7 +11,7 @@ ENVCOMMON+= share/TenDRA/env
 
 ENVFILE+=	c89
 ENVFILE+=	c89-fs
-ENVFILE+=	c90
+ENVFILE+=	c95
 ENVFILE+=	ansi
 ENVFILE+=	iso
 

@@ -9,7 +9,7 @@ TSPEC=	${OBJ_DIR}/src/tspec
 
 APIS+=	c/c89
 APIS+=	c/c89-fs
-APIS+=	c/c90
+APIS+=	c/c95
 
 APIS+=	svid/svid3
 
