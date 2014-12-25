@@ -3,11 +3,11 @@
 .include "Makefile.inc"
 
 
-JOPTS+=	-Nsystem:/usr/include
+SYSOPTS+=	-Nsystem:/usr/include
 
 # for Ubuntu and other Debian-like systems
 .if exists(/usr/include/i386-linux-gnu)
-JOPTS+=	-Nsystem_arch:/usr/include/i386-linux-gnu
+SYSOPTS+=	-Nsystem_arch:/usr/include/i386-linux-gnu
 .endif
 
 APIS+=  c89

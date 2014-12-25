@@ -84,7 +84,7 @@ APISRCS${api}:=	${APISRCS${api}:T}
 ${OBJ_SDIR}/apis/${api}.api/${src:R}.j: ${PREFIX_TSPEC}/TenDRA/src/${api}.api/${src}
 	@${CONDCREATE} "${.TARGET:H}"
 	@${ECHO} "==> Compiling ${api}.api/${src}"
-	${TCC} ${HACKOPTS} ${TCCOPTS} ${CCOPTS} ${JOPTS} ${JOPTS${api}} \
+	${TCC} ${HACKOPTS} ${SYSOPTS} ${TCCOPTS} ${CCOPTS} ${JOPTS} ${JOPTS${api}} \
 		-Ymakelib -Y${api} -Xp \
 		-o ${.TARGET} ${.ALLSRC}
 

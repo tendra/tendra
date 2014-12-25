@@ -3,7 +3,7 @@
 .include "Makefile.inc"
 
 
-JOPTS+=	-Nsystem:/usr/include
+SYSOPTS+=	-Nsystem:/usr/include
 
 APIS+=  c89
 #APIS+=	c95
