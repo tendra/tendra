@@ -3,10 +3,10 @@
 .include "Makefile.inc"
 
 
-JOPTS+=	-I/boot/develop/headers/posix
-JOPTS+=	-I/boot/develop/headers
-JOPTS+=	-I/boot/develop/headers/os
-JOPTS+=	-I/boot/develop/headers/os/support
+JOPTS+=	-Nsystem_posix:/boot/develop/headers/posix
+JOPTS+=	-Nsystem_headers:/boot/develop/headers
+JOPTS+=	-Nsystem_os:/boot/develop/headers/os
+JOPTS+=	-Nsystem_support:/boot/develop/headers/os/support
 
 APIS+=  c89
 #APIS+=	c95
