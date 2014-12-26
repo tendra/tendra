@@ -3,10 +3,10 @@
 .include "Makefile.inc"
 
 
-SYSOPTS+=	-Nsystem_posix:/boot/develop/headers/posix
-SYSOPTS+=	-Nsystem_headers:/boot/develop/headers
-SYSOPTS+=	-Nsystem_os:/boot/develop/headers/os
-SYSOPTS+=	-Nsystem_support:/boot/develop/headers/os/support
+LIBCOPTS+=	-Nsystem_posix:/boot/develop/headers/posix
+LIBCOPTS+=	-Nsystem_headers:/boot/develop/headers
+LIBCOPTS+=	-Nsystem_os:/boot/develop/headers/os
+LIBCOPTS+=	-Nsystem_support:/boot/develop/headers/os/support
 
 APIS+=  c89
 #APIS+=	c95

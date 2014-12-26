@@ -3,7 +3,7 @@
 .include "Makefile.inc"
 
 
-SYSOPTS+=	-Nsystem:/usr/include
+LIBCOPTS+=	-Nsystem:/usr/include
 
 APIS+=  c89
 APIS+=  c89-fs
