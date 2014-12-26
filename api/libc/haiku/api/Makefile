@@ -3,10 +3,10 @@
 .include "Makefile.inc"
 
 
-LIBCOPTS+=	-Nsystem_posix:/boot/develop/headers/posix
-LIBCOPTS+=	-Nsystem_headers:/boot/develop/headers
-LIBCOPTS+=	-Nsystem_os:/boot/develop/headers/os
-LIBCOPTS+=	-Nsystem_support:/boot/develop/headers/os/support
+LIBCOPTS+=	-Nsystem_posix:${LIBCPREFIX}/develop/headers/posix
+LIBCOPTS+=	-Nsystem_headers:${LIBCPREFIX}/develop/headers
+LIBCOPTS+=	-Nsystem_os:${LIBCPREFIX}/develop/headers/os
+LIBCOPTS+=	-Nsystem_support:${LIBCPREFIX}/develop/headers/os/support
 
 APIS+=  c89
 #APIS+=	c95

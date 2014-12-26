@@ -98,6 +98,7 @@ OSFAM?=      	${MD_OSFAM}
 OSVER?=      	${MD_OSVER}
 LIBCFAM?=     	${MD_LIBCFAM}
 LIBCVER?=     	${MD_LIBCVER}
+LIBCPREFIX?= 	${MD_LIBCPREFIX}
 
 
 .endif

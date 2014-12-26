@@ -3,7 +3,7 @@
 .include "Makefile.inc"
 
 
-LIBCOPTS+=	-Nsystem:/usr/include
+LIBCOPTS+=	-Nsystem:${LIBCPREFIX}/usr/include
 
 APIS+=  c89
 #APIS+=	c95

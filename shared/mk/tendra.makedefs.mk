@@ -161,4 +161,9 @@ MD_LIBCVER!=                              \
         *)             echo ${MD_OSVER};; \
     esac;
 
+MD_LIBCPREFIX!=                           \
+    case "${SYSTEM}" in                   \
+        Haiku)     echo /boot;;           \
+        *)         echo ;;                \
+
 .endif
