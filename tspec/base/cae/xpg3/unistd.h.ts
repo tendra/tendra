@@ -13,7 +13,8 @@
 +ENDIF
 
 +SUBSET "u_plus" := {
-    +IMPLEMENT "posix/posix", "stdio.h.ts", "ctuid" (!?) ;
+    +IMPLEMENT "posix/posix", "stdio.h.ts", "ctermid" (!?) ;
+    +IMPLEMENT "posix/posix", "stdio.h.ts", "cuserid" (!?) ;
 
     +CONST int _SC_PASS_MAX, _SC_XOPEN_VERSION ;
 

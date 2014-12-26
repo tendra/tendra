@@ -8,12 +8,21 @@
 
 +IMPLEMENT "c/c89", "stdio.h.ts" ;
 
-+SUBSET "ctuid" := {
++SUBSET "ctermid" := {
     +FUNC char *ctermid ( char * ) ;
+} ;
+
++SUBSET "cuserid" := {
     +FUNC char *cuserid ( char * ) ;
 } ;
 
-+CONST int L_ctermid, L_cuserid ;
++SUBSET "L_ctermid" := {
+	+CONST int L_ctermid ;
+} ;
+
++SUBSET "L_cuserid" := {
+	+CONST int L_cuserid ;
+} ;
 
 +FUNC FILE *fdopen ( int, const char * ) ;
 +FUNC int fileno ( FILE * ) ;
