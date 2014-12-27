@@ -166,5 +166,6 @@ MD_LIBCPREFIX!=                           \
     case "${SYSTEM}" in                   \
         Haiku)     echo /boot;;           \
         *)         echo ;;                \
+    esac;
 
 .endif
