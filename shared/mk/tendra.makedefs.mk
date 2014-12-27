@@ -13,8 +13,8 @@ _TENDRA_MAKEDEFS_MK_=1
 # a new system; the guide to porting covers the process in detail.
 
 
-# We use ${UNAME} to tell us about the architecture we're building for. That
-# variable may be overridden for systems with an incompatible (or no) uname(1)
+# We use ${UNAME_*} to tell us about the architecture we're building for. Those
+# variables may be overridden for systems with an incompatible (or no) uname(1)
 # output.
 #
 # This is flawed in that it assumes the version of the kernel (as reported by
@@ -32,9 +32,9 @@ _TENDRA_MAKEDEFS_MK_=1
 # inconveniencing the user with running a `makedefs` script per-project.
 
 
-HOSTARCH!=	${UNAME} -m
-SYSTEM!=	${UNAME} -s
-VERSION!=	${UNAME} -r
+HOSTARCH?=	${:!${UNAME} -m!}
+SYSTEM?=	${:!${UNAME} -s!}
+VERSION?=	${:!${UNAME} -r!}
 
 
 .if ${SYSTEM} == Linux
