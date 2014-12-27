@@ -84,7 +84,6 @@ bootstrap: ${BOOTSTRAP_DEPS}
 	cd ${.CURDIR}/osdep && ${MAKE}    \
 	    OBJ_DIR=${OBJ_BOOT}/osdep     \
 	    PREFIX=${OBJ_BPREFIX}         \
-	    TSPEC_PREFIX=${TSPEC_BPREFIX} \
 	    TCC=${OBJ_BPREFIX}/bin/tcc    \
 	    TPL=${OBJ_BPREFIX}/bin/tpl    \
 	    TNC=${OBJ_BPREFIX}/bin/tnc    \
@@ -94,7 +93,6 @@ bootstrap: ${BOOTSTRAP_DEPS}
 	cd ${.CURDIR}/api && ${MAKE}      \
 	    OBJ_DIR=${OBJ_BOOT}/api       \
 	    PREFIX=${OBJ_BPREFIX}         \
-	    TSPEC_PREFIX=${TSPEC_BPREFIX} \
 	    TCC=${OBJ_BPREFIX}/bin/tcc    \
 	    TLD=${OBJ_BPREFIX}/bin/tld    \
 	    install
@@ -104,7 +102,6 @@ bootstrap-test: ${OBJ_BPREFIX}/bin/tcc
 	cd ${.CURDIR}/${project} && ${MAKE} \
 	    OBJ_DIR=${OBJ_TEST}/${project}  \
 	    PREFIX=${OBJ_BPREFIX}           \
-	    TSPEC_PREFIX=${TSPEC_BPREFIX}   \
 	    TCC=${OBJ_BPREFIX}/bin/tcc      \
 	    TPL=${OBJ_BPREFIX}/bin/tpl      \
 	    TNC=${OBJ_BPREFIX}/bin/tnc      \
