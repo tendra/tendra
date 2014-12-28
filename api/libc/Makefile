@@ -5,14 +5,8 @@
 .include <tendra.base.mk>
 
 
-.if exists(${OSFAM})
-SUBDIR+=	${OSFAM}
-.endif
-
-.if defined(GLIBC_NAME)
-.if exists(${GLIBC_NAME:tl})
-SUBDIR+=	${GLIBC_NAME:tl}
-.endif
+.if exists(${LIBCFAM})
+SUBDIR+=	${LIBCFAM}
 .endif
 
 .include <tendra.subdir.mk>
