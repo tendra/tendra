@@ -135,6 +135,7 @@ MD_OSVER!=                                \
         OpenBSD.5.3)   echo OPENBSD5_3;;  \
         OpenBSD.5.4)   echo OPENBSD5_4;;  \
         OpenBSD.5.5)   echo OPENBSD5_5;;  \
+        OpenBSD.5.6)   echo OPENBSD5_6;;  \
         AerieBSD.1*)   echo AERIELBSD1;;  \
         SunOS.5.10*)   echo SUNOS510;;    \
         SunOS.5.11*)   echo SUNOS511;;    \
