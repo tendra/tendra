@@ -32,9 +32,13 @@ _TENDRA_MAKEDEFS_MK_=1
 # inconveniencing the user with running a `makedefs` script per-project.
 
 
-HOSTARCH?=	${:!${UNAME} -m!}
-SYSTEM?=	${:!${UNAME} -s!}
-VERSION?=	${:!${UNAME} -r!}
+UNAME_MACHINE!= 	${UNAME} -m
+UNAME_SYSTEM!=   	${UNAME} -s
+UNAME_REVISION!= 	${UNAME} -r
+
+HOSTARCH?=	${UNAME_MACHINE}
+SYSTEM?=	${UNAME_SYSTEM}
+VERSION?=	${UNAME_REVISION}
 
 
 .if ${SYSTEM} == Linux
