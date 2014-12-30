@@ -10,7 +10,7 @@
 
 #if defined(_GLIBC2_5) || defined(_GLIBC2_7) || defined(_GLIBC2_11) \
 	|| defined(_GLIBC2_12) || defined(_GLIBC2_14) || defined(_GLIBC2_15) \
-	|| defined(_GLIBC2_17)
+	|| defined(_GLIBC2_17) || defined(_GLIBC2_19)
 
 #define NULL 0
 
