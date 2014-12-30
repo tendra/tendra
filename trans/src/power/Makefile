@@ -2,6 +2,9 @@
 
 .include "Makefile.inc"
 
+.include <tendra.base.mk>
+.include <tendra.makedefs.mk>
+
 
 TRANS_CFLAGS+=	-D TRANS_POWER
 TRANS_CFLAGS+=	-D BLDARCHBITS=${BLDARCHBITS}

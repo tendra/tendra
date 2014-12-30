@@ -18,9 +18,6 @@ ${target}:: .PHONY
 .endfor
 
 
-.include <tendra.makedefs.mk>
-
-
 # Please override locations as best suits your system.
 # ${PREFIX_LIBEXEC} should not be in $PATH
 PREFIX?=         /usr/local
