@@ -84,15 +84,4 @@ XSLTPROC?=	xsltproc
 XMLLINT?=	xmllint
 
 
-# Platform-specific things
-EXECFMT?=    	${MD_EXECFMT}
-BLDARCH?=    	${MD_BLDARCH}
-BLDARCHBITS?=	${MD_BLDARCHBITS}
-OSFAM?=      	${MD_OSFAM}
-OSVER?=      	${MD_OSVER}
-LIBCFAM?=     	${MD_LIBCFAM}
-LIBCVER?=     	${MD_LIBCVER}
-LIBCPREFIX?= 	${MD_LIBCPREFIX}
-
-
 .endif
