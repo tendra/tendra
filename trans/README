@@ -1,9 +1,9 @@
 DRA TDF Installers
 ------------------
 
-trans contains the compiler back-ends, which translate the compiler
-intermediate form, TDF, to the appropriate machine instructions.
-See <http://www.tendra.org/> for details.
+trans contains the compiler code generation back-ends, which translate
+the compiler intermediate form, TDF, to the appropriate machine instructions.
+In TDF's terminology this process is known as "installing" TDF.
 
 
 Structure
@@ -13,36 +13,40 @@ The src directory is split into a common section, containing code
 which is used by all the back ends, plus a directory for each of the
 target CPUs:
 
-    680x0           Motorola 68020, 68030 and 68040,
-    80x86           Intel i386, i486 and Pentium,
-    alpha           DEC Alpha,
-    hppa            HP Precision Architecture,
-    mips            SGI/DEC MIPS,
-    power           POWER,
-    ppc601          POWER PC,
-    sparc           SPARC.
+    680x0       Motorola 68020, 68030 and 68040,
+    80x86       Intel i386, i486 and Pentium,
+    alpha       DEC Alpha,
+    hppa        HP Precision Architecture,
+    mips        SGI/DEC MIPS,
+    power       POWER and POWER PC,
+    sparc       SPARC.
 
 The common installer directory is subdivided, for convenience, into
 a number of different subdirectories:
 
-    construct   which contains the main routines for transforming
-                and optimising the internal representation;
+    construct   routines and datatypes for the internal representation;
 
-    diag        which contains routines for reading and processing
-                diagnostic information contained within the TDF;
+    diag
+    newdiag     routines for reading and processing diagnostic information
+                contained within the TDF;
 
-    dwarf       which contains routines for writing out diagnostic
-                information as DWARF directives;
-
-    dwarf2      which contains routines for writing out diagnostic
-                information as DWARF 2 directives;
+    dwarf
+    dwarf2      routines for writing out diagnostic information
+                as DWARF and DWARF 2 directives;
 
     linkinfo    which contains routines for reading linkage
                 information contained within the TDF;
 
+    main        the main program interface and argument processing;
+
     reader      which contains the main routine for reading the
                 input TDF and building up the internal representation;
 
-    templ       which contains template files used to generate
-                the TDF reading routines.
+    refactor    routines for optimising the internal representation;
+
+    symtab      representation of the Third Eye binary symbol table format;
+
+    templ       template files used to generate the TDF reading routines;
+
+    utility     things that didn't fit anywhere else.
 

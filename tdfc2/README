@@ -2,8 +2,8 @@ DRA TDF Producers
 -----------------
 
 tdfc2 contains the compiler front-ends, which translate C and C++
-to the compiler intermediate form, TDF;
-See <http://www.tendra.org/> for details.
+to the compiler intermediate form, TDF.
+In TDF's terminology this process is known as "producing" TDF.
 
 
 
