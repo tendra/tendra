@@ -18,8 +18,6 @@ ${target}:: .PHONY
 .endfor
 
 
-UNAME?= uname
-
 .include <tendra.makedefs.mk>
 
 
@@ -80,6 +78,7 @@ TLD?=		tld
 TNC?=		tnc
 TPL?=		tpl
 TSPEC?=		tspec
+UNAME?=		uname
 XSLTPROC?=	xsltproc
 XMLLINT?=	xmllint
 
