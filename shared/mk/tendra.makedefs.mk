@@ -46,7 +46,7 @@ VERSION?=	${UNAME_REVISION}
 GLIBC_VER!= /lib/libc.so.6 | sed -n 's/^.* version \(.*\), .*$$/\1/p' | tr . _
 GLIBC_NAME!= /lib/libc.so.6 | grep EGLIBC > /dev/null && echo -n E; echo GLIBC
 . else
-GLIBC_VER!= ldd --version | sed -n 's/^ldd (\(GNU libc\|.* EGLIBC .*\)) //p' | tr . _
+GLIBC_VER!= ldd --version | sed -n 's/^ldd (\(GNU libc\|.* E\?GLIBC .*\)) //p' | tr . _
 GLIBC_NAME!= ldd --version | grep EGLIBC > /dev/null && echo -n E; echo GLIBC
 . endif
 
