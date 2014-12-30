@@ -1,0 +1,1 @@
+../../../shared/mk/tendra.subdir.mk
