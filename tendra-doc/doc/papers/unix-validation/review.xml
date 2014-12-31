@@ -140,7 +140,7 @@
 			-KPIC option were concerned, we have modified the svr4_i386/K-PIC file
 			already mentioned in this document, adding the line:</para>
 
-		<para>&gt;STARTUP -f/andf/svr4_i386/env/static_pic</para>
+		<para>&gt;STARTUP -f/andf/svr4_i386/env/static_pic.h</para>
 
 		<para>This static_pic file was then created, containing:</para>
 

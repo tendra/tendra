@@ -1,4 +1,4 @@
 /* ENVIRONMENT FOR -Xw ON common */
 
-+STARTUP		"-f<PREFIX_STARTUP>/modes/Xw"
-+STARTUP_CPP		"-f<PREFIX_STARTUP>/modes.cpp/Xw"
++STARTUP		"-f<PREFIX_STARTUP>/modes/Xw.h"
++STARTUP_CPP		"-f<PREFIX_STARTUP>/modes.cpp/Xw.h"

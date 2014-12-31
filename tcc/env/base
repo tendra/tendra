@@ -28,9 +28,9 @@
 +SPLIT_ARCH	"builtin/split_archive"
 
 +STARTUP_DIR		"-I<PREFIX_STARTUP>/bounds.ansi -I<PREFIX_STARTUP>/modes"
-+STARTUP		"-f<PREFIX_STARTUP>/modes/Xc"
++STARTUP		"-f<PREFIX_STARTUP>/modes/Xc.h"
 +STARTUP_CPP_DIR	"-I<PREFIX_STARTUP>/bounds.ansi -I<PREFIX_STARTUP>/modes.cpp"
-+STARTUP_CPP		"-f<PREFIX_STARTUP>/modes.cpp/Xc"
++STARTUP_CPP		"-f<PREFIX_STARTUP>/modes.cpp/Xc.h"
 +PORTABILITY		"<PREFIX_STARTUP>/bounds.ansi/default.pf"
 
 +MACHINE		"*-*-*"

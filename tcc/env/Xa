@@ -1,4 +1,4 @@
 /* ENVIRONMENT FOR -Xa ON common */
 
-+STARTUP		"-f<PREFIX_STARTUP>/modes/Xa"
-+STARTUP_CPP		"-f<PREFIX_STARTUP>/modes.cpp/Xa"
++STARTUP		"-f<PREFIX_STARTUP>/modes/Xa.h"
++STARTUP_CPP		"-f<PREFIX_STARTUP>/modes.cpp/Xa.h"
