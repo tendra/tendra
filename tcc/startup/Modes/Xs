@@ -7,14 +7,13 @@
  */
 
 /*
-    STARTUP FILE FOR COMPILATION MODE XS
-
-    Xs represents ANSI compliance plus strict extra checks.  Your code
-    is going to have to be pretty good to get through this!
-*/
+ * STARTUP FILE FOR COMPILATION MODE XS
+ *
+ * Xs represents ANSI compliance plus strict extra checks.
+ * Your code is going to have to be pretty good to get through this!
+ */
 
 #pragma TenDRA declaration block Xs__startup begin
-
 #pragma TenDRA begin
 
 #include "../Literal/ansi.pf"

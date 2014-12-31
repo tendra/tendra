@@ -8,11 +8,11 @@
  */
 
 /*
-    COMPILATION MODE APPLIED TO SYSTEM HEADERS
-
-    This file describes the compilation mode which is applied to the
-    system headers.  Basically everything is turned off.
-*/
+ * COMPILATION MODE APPLIED TO SYSTEM HEADERS
+ *
+ * This file describes the compilation mode which is applied to the
+ * system headers. Basically everything is turned off.
+ */
 
 #ifndef __TDF_SYS_MODE_INCLUDED
 #define __TDF_SYS_MODE_INCLUDED
@@ -68,3 +68,4 @@
 #pragma TenDRA ident ... allow
 
 #endif
+

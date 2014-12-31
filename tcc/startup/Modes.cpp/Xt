@@ -6,7 +6,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
 // START-UP FILE FOR PRE-ISO C++
 #include "Xc"
 
@@ -41,3 +40,4 @@
 #pragma TenDRA undef keyword or_eq
 #pragma TenDRA undef keyword xor
 #pragma TenDRA undef keyword xor_eq
+

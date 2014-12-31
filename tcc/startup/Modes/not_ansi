@@ -7,12 +7,12 @@
  */
 
 /*
-    STARTUP FILE FOR NON-ANSI FEATURES
-
-    not_ansi allows for variety of non-ANSI and pre-ANSI features
-    through.  It is primarily concerned with syntactic, as opposed to
-    portability, features.
-*/
+ * STARTUP FILE FOR NON-ANSI FEATURES
+ *
+ * not_ansi allows for variety of non-ANSI and pre-ANSI features through.
+ * It is primarily concerned with syntactic, as opposed to portability,
+ * features.
+ */
 
 #pragma TenDRA begin
 

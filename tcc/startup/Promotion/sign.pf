@@ -11,7 +11,6 @@
 #ifndef __STARTUP_PROMOTION_INCLUDED
 #define __STARTUP_PROMOTION_INCLUDED
 
-
 #pragma token PROC ( VARIETY ) VARIETY __prom # ~sign_promote
 #pragma promote char:int
 #pragma promote signed char:int
@@ -29,6 +28,7 @@
 #pragma promote long long:long long
 #pragma promote unsigned long long:unsigned long long
 #pragma TenDRA end
+
 #pragma TenDRA begin
 
 #pragma compute promote __prom
@@ -37,5 +37,5 @@
 #undef __prom
 #undef __ushort_to_int
 
-
 #endif
+

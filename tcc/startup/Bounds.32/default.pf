@@ -1,3 +1,11 @@
+/* $Id$ */
+
+/*
+ * Copyright 2014, The TenDRA Project.
+ *
+ * See doc/copyright/ for the full copyright terms.
+ */
+
 char_bits			8
 short_bits			16
 int_bits			32
@@ -11,3 +19,4 @@ ptr_int				int
 ptr_fn				yes
 non_prototype_checks		yes
 multibyte			1
+

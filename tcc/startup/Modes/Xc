@@ -7,12 +7,12 @@
  */
 
 /*
-    STARTUP FILE FOR COMPILATION MODE XC
+ * STARTUP FILE FOR COMPILATION MODE XC
+ *
+ * Xc represents strict ANSI compliance, no more, no less.
+ */
 
-    Xc represents strict ANSI compliance, no more, no less.
-*/
 #pragma TenDRA declaration block Xc__startup begin
-
 #pragma TenDRA begin
 
 #include "../Literal/ansi.pf"
@@ -29,5 +29,6 @@
 #ifndef __NO_PRINTF_CHECKS
 #define __NO_PRINTF_CHECKS 1
 #endif
+
 #pragma TenDRA declaration block end
 

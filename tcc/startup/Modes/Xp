@@ -7,14 +7,14 @@
  */
 
 /*
-    STARTUP FILE FOR COMPILATION MODE XP
+ * STARTUP FILE FOR COMPILATION MODE XP
+ *
+ * Xp represents ANSI C with a few extra portability checks. Nothing
+ * too drastic. This mode is suitable for checking portability to
+ * 32-bit machines.
+ */
 
-    Xp represents ANSI C with a few extra portability checks.  Nothing
-    too drastic.  This mode is suitable for checking portability to
-    32-bit machines.
-*/
 #pragma TenDRA declaration block Xp__startup begin
-
 #pragma TenDRA begin
 
 #include "../Literal/ansi.pf"
@@ -35,3 +35,4 @@
 #pragma TenDRA unknown pragma warning
 
 #pragma TenDRA declaration block end
+

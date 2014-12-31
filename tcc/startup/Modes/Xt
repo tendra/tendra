@@ -7,14 +7,13 @@
  */
 
 /*
-    STARTUP FILE FOR COMPILATION MODE XT
-
-    Xt represents traditional C.  It is quite useless for portability
-    checking and is only provided for compiling old code.
-*/
+ * STARTUP FILE FOR COMPILATION MODE XT
+ *
+ * Xt represents traditional C. It is quite useless for portability
+ * checking and is only provided for compiling old code.
+ */
 
 #pragma TenDRA declaration block Xt__startup begin
-
 #pragma TenDRA begin
 
 #include "../Literal/trad.pf"
@@ -51,13 +50,13 @@
 #pragma TenDRA unknown pragma warning
 #pragma TenDRA weak macro equality allow
 
-/* The pragmas below replace #pragma nepc*/
+/* The pragmas below replace #pragma nepc */
 
 #pragma TenDRA character escape overflow allow
 #pragma TenDRA no nline after file end allow
 #pragma TenDRA bitfield overflow allow
 
-/* The pragmas below replace #pragma not_ansi*/
+/* The pragmas below replace #pragma not_ansi */
 
 #pragma TenDRA extra ... allow
 #pragma TenDRA extra , allow
@@ -79,3 +78,4 @@
 #endif
 
 #pragma TenDRA declaration block end
+

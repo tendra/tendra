@@ -12,6 +12,7 @@
 #define __STARTUP_INT_LIT_INCLUDED
 
 #pragma TenDRA begin
+
 #pragma TenDRA no external declaration allow
 #pragma TenDRA longlong type allow
 
@@ -54,3 +55,4 @@
 #undef __i
 
 #endif
+

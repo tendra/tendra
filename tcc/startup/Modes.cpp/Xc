@@ -7,10 +7,10 @@
  */
 
 /*
-    STANDARD START-UP FILE FOR ISO C++
-
-    This file defines the built-in operators used in ISO C++.
-*/
+ * STANDARD START-UP FILE FOR ISO C++
+ *
+ * This file defines the built-in operators used in ISO C++.
+ */
 
 #line 1 "<start-up>"
 #pragma TenDRA begin
@@ -29,3 +29,4 @@ void *operator new ( __size_t ) throw ( __bad_alloc ) ;
 void *operator new [] ( __size_t ) throw ( __bad_alloc ) ;
 void operator delete ( void * ) throw () ;
 void operator delete [] ( void * ) throw () ;
+

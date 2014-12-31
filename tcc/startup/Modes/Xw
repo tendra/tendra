@@ -7,14 +7,14 @@
  */
 
 /*
-    STARTUP FILE FOR COMPILATION MODE XW
-
-    Xw represents a "warning" oriented compilation mode.
-    Many non ANSI C features are permitted with a warning.
-    Extra checks are performed again producing warnings.
-    This will compile most code, possibly generating many
-    warnings that can be used to progressively improve the code.
-*/
+ * STARTUP FILE FOR COMPILATION MODE XW
+ *
+ * Xw represents a "warning" oriented compilation mode.
+ * Many non ANSI C features are permitted with a warning.
+ * Extra checks are performed again producing warnings.
+ * This will compile most code, possibly generating many
+ * warnings that can be used to progressively improve the code.
+ */
 
 #pragma TenDRA declaration block Xw__startup begin
 #pragma TenDRA begin
@@ -97,3 +97,4 @@
 #pragma TenDRA variable hiding analysis warning
 
 #pragma TenDRA declaration block end
+
