@@ -8,8 +8,8 @@
 
 /* SIGNED PROMOTION RULES */
 
-#ifndef __STARTUP_PROMOTION_INCLUDED
-#define __STARTUP_PROMOTION_INCLUDED
+#ifndef __TCC_PROMOTION_H
+#define __TCC_PROMOTION_H
 
 #pragma token PROC ( VARIETY ) VARIETY __prom # ~sign_promote
 #pragma promote char:int

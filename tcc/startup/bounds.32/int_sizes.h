@@ -6,8 +6,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef __STARTUP_INTSIZES_INCLUDED
-#define __STARTUP_INTSIZES_INCLUDED
+#ifndef __TCC_INTSIZES_H
+#define __TCC_INTSIZES_H
 
 #define __ushort_to_int
 

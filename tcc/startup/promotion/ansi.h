@@ -8,8 +8,8 @@
 
 /* ANSI PROMOTION RULES */
 
-#ifndef __STARTUP_PROMOTION_INCLUDED
-#define __STARTUP_PROMOTION_INCLUDED
+#ifndef __TCC_PROMOTION_H
+#define __TCC_PROMOTION_H
 
 #pragma token VARIETY __prom_ushort # ~int_promot
 #pragma token PROC ( VARIETY ) VARIETY __prom # ~promote

@@ -8,8 +8,8 @@
 
 /* SIMPLE INTEGER LITERAL RULES */
 
-#ifndef __STARTUP_INT_LIT_INCLUDED
-#define __STARTUP_INT_LIT_INCLUDED
+#ifndef __TCC_LITERAL_H
+#define __TCC_LITERAL_H
 
 #include <int_sizes.h>
 
