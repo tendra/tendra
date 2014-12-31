@@ -11,7 +11,7 @@
 #ifndef __STARTUP_INT_LIT_INCLUDED
 #define __STARTUP_INT_LIT_INCLUDED
 
-#include <int_sizes.pf>
+#include <int_sizes.h>
 
 #pragma TenDRA begin
 
