@@ -1,5 +1,4 @@
 /* tcc environment for 16-bit portability checking */
 
-+PORTABILITY		"<PREFIX_STARTUP>/bounds.ansi/default.pf"
-<STARTUP_DIR		"-I<PREFIX_STARTUP>/bounds.ansi"
-<STARTUP_CPP_DIR	"-I<PREFIX_STARTUP>/bounds.ansi"
++PORTABILITY		"<PREFIX_STARTUP>/bounds/c89.pf"
+

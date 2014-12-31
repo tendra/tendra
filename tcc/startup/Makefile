@@ -3,8 +3,7 @@
 .include "Makefile.inc"
 
 
-STARTUPSUBDIR+=	bounds.32
-STARTUPSUBDIR+=	bounds.ansi
+STARTUPSUBDIR+=	bounds
 STARTUPSUBDIR+=	literal
 STARTUPSUBDIR+=	modes
 STARTUPSUBDIR+=	modes.cpp
