@@ -11,8 +11,6 @@
 #ifndef __TCC_LITERAL_H
 #define __TCC_LITERAL_H
 
-#include <int_sizes.h>
-
 #pragma TenDRA begin
 
 #pragma TenDRA no external declaration allow

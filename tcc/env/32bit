@@ -3,3 +3,7 @@
 +PORTABILITY		"<PREFIX_STARTUP>/bounds.32/default.pf"
 <STARTUP_DIR		"-I<PREFIX_STARTUP>/bounds.32"
 <STARTUP_CPP_DIR	"-I<PREFIX_STARTUP>/bounds.32"
+
+/* for 32-bit promotions */
+<FLAG_TDFC	"-D__ushort_to_int"
+
