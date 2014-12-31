@@ -1,4 +1,4 @@
 /* ENVIRONMENT FOR -Xs ON common */
 
-+STARTUP		"-f<PREFIX_STARTUP>/Modes/Xs"
-+STARTUP_CPP		"-f<PREFIX_STARTUP>/Modes.cpp/Xs"
++STARTUP		"-f<PREFIX_STARTUP>/modes/Xs"
++STARTUP_CPP		"-f<PREFIX_STARTUP>/modes.cpp/Xs"

@@ -1,5 +1,5 @@
 /* tcc environment for 32-bit portability checking */
 
-+PORTABILITY		"<PREFIX_STARTUP>/Bounds.32/default.pf"
-<STARTUP_DIR		"-I<PREFIX_STARTUP>/Bounds.32"
-<STARTUP_CPP_DIR	"-I<PREFIX_STARTUP>/Bounds.32"
++PORTABILITY		"<PREFIX_STARTUP>/bounds.32/default.pf"
+<STARTUP_DIR		"-I<PREFIX_STARTUP>/bounds.32"
+<STARTUP_CPP_DIR	"-I<PREFIX_STARTUP>/bounds.32"

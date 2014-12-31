@@ -1,8 +1,8 @@
 /* $Id$ */
 
 /* XXX: This is a hack to overwrite tcc/env/Xp */
-+STARTUP		"-f<PREFIX_STARTUP>/Modes/Xp"
-+STARTUP_CPP		"-f<PREFIX_STARTUP>/Modes.cpp/Xp"
++STARTUP		"-f<PREFIX_STARTUP>/modes/Xp"
++STARTUP_CPP		"-f<PREFIX_STARTUP>/modes.cpp/Xp"
 
 +CRT1			"/usr/ccs/lib/values-Xc.o"
 

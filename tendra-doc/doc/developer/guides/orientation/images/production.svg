@@ -68,7 +68,7 @@
 
 		<g transform="translate(75 5)" text-anchor="end">
 			<text y="-5">$PREFIX_STARTUP/</text>
-			<text y="5">Modes[.cpp]/X*</text>
+			<text y="5">modes[.cpp]/X*</text>
 		</g>
 
 		<g transform="translate(-70 30)" text-anchor="start">
@@ -87,7 +87,7 @@
 
 		<g transform="translate(75 5)" text-anchor="end">
 			<text y="-5">$PREFIX_STARTUP/</text>
-			<text y="5">Bounds.*/*.pf</text>
+			<text y="5">bounds.*/*.pf</text>
 		</g>
 
 		<g transform="translate(-70 30)" text-anchor="start">
@@ -104,7 +104,7 @@
 			<text y="-5">Integer literal suffixes</text>
 		</g>
 		<text x="75" text-anchor="end">$PREFIX_STARTUP/</text>
-		<text x="75" y="10" text-anchor="end">Literal/*.pf</text>
+		<text x="75" y="10" text-anchor="end">literal/*.pf</text>
 
 		<g transform="translate(-70 30)" text-anchor="start">
 			<text y="-5">Specification of suffixes,</text>
@@ -122,7 +122,7 @@
 
 		<g transform="translate(75 5)" text-anchor="end">
 			<text y="-5">$PREFIX_STARTUP/</text>
-			<text y="5">Promotion/*.pf</text>
+			<text y="5">promotion/*.pf</text>
 		</g>
 
 		<g transform="translate(-70 30)" text-anchor="start">

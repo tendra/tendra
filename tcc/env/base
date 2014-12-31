@@ -27,11 +27,11 @@
 +BUILD_ARCH	"builtin/build_archive"
 +SPLIT_ARCH	"builtin/split_archive"
 
-+STARTUP_DIR		"-I<PREFIX_STARTUP>/Bounds.ansi -I<PREFIX_STARTUP>/Modes"
-+STARTUP		"-f<PREFIX_STARTUP>/Modes/Xc"
-+STARTUP_CPP_DIR	"-I<PREFIX_STARTUP>/Bounds.ansi -I<PREFIX_STARTUP>/Modes.cpp"
-+STARTUP_CPP		"-f<PREFIX_STARTUP>/Modes.cpp/Xc"
-+PORTABILITY		"<PREFIX_STARTUP>/Bounds.ansi/default.pf"
++STARTUP_DIR		"-I<PREFIX_STARTUP>/bounds.ansi -I<PREFIX_STARTUP>/modes"
++STARTUP		"-f<PREFIX_STARTUP>/modes/Xc"
++STARTUP_CPP_DIR	"-I<PREFIX_STARTUP>/bounds.ansi -I<PREFIX_STARTUP>/modes.cpp"
++STARTUP_CPP		"-f<PREFIX_STARTUP>/modes.cpp/Xc"
++PORTABILITY		"<PREFIX_STARTUP>/bounds.ansi/default.pf"
 
 +MACHINE		"*-*-*"
 

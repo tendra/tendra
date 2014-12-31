@@ -15,8 +15,8 @@
 #pragma TenDRA declaration block Xc__startup begin
 #pragma TenDRA begin
 
-#include "../Literal/ansi.pf"
-#include "../Promotion/ansi.pf"
+#include "../literal/ansi.pf"
+#include "../promotion/ansi.pf"
 
 #pragma TenDRA weak prototype analysis off
 #pragma TenDRA incompatible interface declaration warning

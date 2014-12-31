@@ -16,8 +16,8 @@
 #pragma TenDRA declaration block Xs__startup begin
 #pragma TenDRA begin
 
-#include "../Literal/ansi.pf"
-#include "../Promotion/ansi.pf"
+#include "../literal/ansi.pf"
+#include "../promotion/ansi.pf"
 
 #pragma TenDRA complete struct/union analysis warning
 #pragma TenDRA conversion analysis (int-int implicit) warning
