@@ -11,6 +11,8 @@
 #ifndef __STARTUP_INT_LIT_INCLUDED
 #define __STARTUP_INT_LIT_INCLUDED
 
+#include <int_sizes.pf>
+
 #pragma TenDRA begin
 
 #pragma TenDRA no external declaration allow
