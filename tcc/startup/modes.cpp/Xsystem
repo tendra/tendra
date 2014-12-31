@@ -14,9 +14,6 @@
  * system headers.  Basically everything is turned off.
  */
 
-#ifndef __TDF_SYS_MODE_INCLUDED
-#define __TDF_SYS_MODE_INCLUDED
-
 #pragma TenDRA begin name environment NO_CHECKS
 #pragma TenDRA no external declaration allow
 #pragma TenDRA assignment as bool allow
@@ -66,6 +63,4 @@
 #pragma TenDRA directory system1 use environment NO_CHECKS
 
 #pragma TenDRA ident ... allow
-
-#endif
 
