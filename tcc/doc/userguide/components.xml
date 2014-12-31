@@ -175,9 +175,9 @@
 				This is specified by means of the <code>PORTABILITY</code>
 				environmental identifier.
 				There are in fact only two portability tables provided,
-				<filename>Ansi_Max.pf</filename>, which specifies the
+				<filename>bounds.ansi/default.pf</filename>, which specifies the
 				minimum sizes permitted by the ISO/ANSI standard, and
-				<filename>Common.pf</filename>, which specifies the
+				<filename>bounds.32/default.pf</filename>, which specifies the
 				minimum sizes found on most 32-bits machines.
 				The main difference between the two is that in ISO/ANSI
 				it is stated that <code>int</code> is only guaranteed to

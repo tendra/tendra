@@ -139,7 +139,7 @@
 				<tr>
 					<td><code>PREFIX_STARTUP</code></td>
 					<td><filename><replaceable>${PREFIX_LIB}</replaceable>/tcc/startup</filename></td>
-					<td><filename>.pf</filename>, environments</td> <!-- TODO: due to become .env -->
+					<td><filename>.pf</filename>, <filename>.h</filename>, environments</td> <!-- TODO: due to become .env -->
 					<td>&tcc; portability tables and strictness profiles.
 						These are platform-independent.</td>
 				</tr>

@@ -16,8 +16,8 @@
 #pragma TenDRA declaration block Xt__startup begin
 #pragma TenDRA begin
 
-#include "../literal/trad.pf"
-#include "../promotion/sign.pf"
+#include "../literal/trad.h"
+#include "../promotion/sign.h"
 
 #undef __STDC__
 #define __STDC__ 0
