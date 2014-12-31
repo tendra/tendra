@@ -19,8 +19,8 @@
 #pragma TenDRA declaration block Xw__startup begin
 #pragma TenDRA begin
 
-#include "../literal/ansi.h"
-#include "../promotion/ansi.h"
+#include "../literal/c89.h"
+#include "../promotion/c89.h"
 
 /* Xs level checks, but set to warn */
 #pragma TenDRA complete struct/union analysis warning

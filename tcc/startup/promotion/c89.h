@@ -6,7 +6,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/* ANSI PROMOTION RULES */
+/* ANSI C89 PROMOTION RULES */
 
 #ifndef __TCC_PROMOTION_H
 #define __TCC_PROMOTION_H

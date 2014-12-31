@@ -6,7 +6,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/* ANSI INTEGER LITERAL RULES */
+/* ANSI C89 INTEGER LITERAL RULES */
 
 #ifndef __TCC_LITERAL_H
 #define __TCC_LITERAL_H

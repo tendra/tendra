@@ -15,8 +15,8 @@
 #pragma TenDRA declaration block Xc__startup begin
 #pragma TenDRA begin
 
-#include "../literal/ansi.h"
-#include "../promotion/ansi.h"
+#include "../literal/c89.h"
+#include "../promotion/c89.h"
 
 #pragma TenDRA weak prototype analysis off
 #pragma TenDRA incompatible interface declaration warning

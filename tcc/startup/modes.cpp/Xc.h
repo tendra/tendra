@@ -16,7 +16,7 @@
 #pragma TenDRA begin
 
 // LITERAL AND PROMOTION INFORMATION
-#include "../literal/ansi.h"
+#include "../literal/c89.h"
 #ifdef __ushort_to_int
 #pragma promote unsigned short:int
 #undef __ushort_to_int

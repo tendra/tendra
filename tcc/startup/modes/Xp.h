@@ -17,8 +17,8 @@
 #pragma TenDRA declaration block Xp__startup begin
 #pragma TenDRA begin
 
-#include "../literal/ansi.h"
-#include "../promotion/ansi.h"
+#include "../literal/c89.h"
+#include "../promotion/c89.h"
 
 #pragma TenDRA conversion analysis (int-pointer explicit) warning
 #pragma TenDRA function pointer as pointer warning
