@@ -182,6 +182,8 @@
 			For brevity, these are not repeated above:</para>
 
 		<cmdsynopsis>
+			<command>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</command>
+
 			<arg choice="opt">&A.opt;</arg>
 			<arg choice="opt">&C.opt;</arg>
 			<arg choice="opt">&F.opt;</arg>
