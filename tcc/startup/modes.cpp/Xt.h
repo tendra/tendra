@@ -7,7 +7,7 @@
  */
 
 // START-UP FILE FOR PRE-ISO C++
-#include "Xc"
+#include "Xc.h"
 
 #pragma TenDRA for initialization block off
 

@@ -7,6 +7,6 @@
  */
 
 /* This isn't really satisfactory */
-#include "Xc"
+#include "Xc.h"
 #pragma TenDRA use environment __ALL__ reset allow
 
