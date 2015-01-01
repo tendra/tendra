@@ -164,6 +164,7 @@ MD_LIBCVER!=                              \
         GLIBC_2_14_*)  echo GLIBC2_14;;   \
         GLIBC_2_15*)   echo GLIBC2_15;;   \
         GLIBC_2_17*)   echo GLIBC2_17;;   \
+        GLIBC_2_18*)   echo GLIBC2_18;;   \
         GLIBC_2_19*)   echo GLIBC2_19;;   \
         *)             echo ${MD_OSVER};; \
     esac;
