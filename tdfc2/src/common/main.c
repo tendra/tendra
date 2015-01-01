@@ -972,7 +972,6 @@ process_files(LIST(string)files)
 int
 main(int argc, char **argv)
 {
-    const char *charset;
     LIST(string)files;
     set_progname(argv[0], PROG_VERSION);
     IGNORE set_machine(FS_MACHINE);
