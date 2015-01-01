@@ -152,8 +152,8 @@ print_env(object *input)
 	fprintf(f, " */\n");
 	fprintf(f, "\n");
 
-	fprintf(f, ">INCL         \"-N%s:<PREFIX_TSPEC>/TenDRA/include/%s.api\"\n", i->api, i->api);
-	fprintf(f, ">INCL         \"-Nshared:<PREFIX_TSPEC>/TenDRA/include\"\n", i->api);
+	fprintf(f, "<INCL         \"-N%s:<PREFIX_TSPEC>/TenDRA/include/%s.api\"\n", i->api, i->api);
+	fprintf(f, "<INCL         \"-Nshared:<PREFIX_TSPEC>/TenDRA/include\"\n", i->api);
 	fprintf(f, "+FLAG_INSTALL \"-Y%s\"\n", api);
 	fprintf(f, "+API_NAME     \"-A%s\"\n", api);
 
