@@ -8,6 +8,7 @@
  */
 
 #include <string.h>
+#include <stdlib.h>
 
 #include <shared/check.h>
 #include <shared/error.h>
