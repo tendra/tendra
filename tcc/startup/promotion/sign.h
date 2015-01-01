@@ -35,7 +35,7 @@
 
 #pragma no_def __prom
 #undef __prom
-#undef __ushort_to_int
+#undef __TCC_USHORT_TO_INT
 
 #endif
 

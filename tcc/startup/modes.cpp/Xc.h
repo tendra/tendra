@@ -17,9 +17,9 @@
 
 // LITERAL AND PROMOTION INFORMATION
 #include "../literal/c89.h"
-#ifdef __ushort_to_int
+#ifdef __TCC_USHORT_TO_INT
 #pragma promote unsigned short:int
-#undef __ushort_to_int
+#undef __TCC_USHORT_TO_INT
 #endif
 
 // BUILT-IN ALLOCATION FUNCTIONS

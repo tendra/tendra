@@ -3,5 +3,5 @@
 +PORTABILITY		"<PREFIX_STARTUP>/bounds/32bit.pf"
 
 /* for 32-bit promotions */
-<FLAG_TDFC	"-D__ushort_to_int"
+<FLAG_TDFC	"-D__TCC_USHORT_TO_INT"
 

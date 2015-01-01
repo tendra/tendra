@@ -30,7 +30,7 @@
 #pragma TenDRA end
 #pragma TenDRA begin
 
-#ifdef __ushort_to_int
+#ifdef __TCC_USHORT_TO_INT
 #pragma promote unsigned short:int
 #else
 #pragma promote unsigned short:__prom_ushort
@@ -41,7 +41,7 @@
 #pragma no_def __prom_ushort __prom
 #undef __prom_ushort
 #undef __prom
-#undef __ushort_to_int
+#undef __TCC_USHORT_TO_INT
 
 #endif
 
