@@ -82,11 +82,18 @@ APISRCS${api}!=	find ${PREFIX_TSPEC}/TenDRA/src/${api}.api -name '*.c'
 APISRCS${api}:=	${APISRCS${api}:T}
 
 . for src in ${APISRCS${api}}
+
+# -Yc89 is included by default, so omit it here. This is a little ugly because
+# I don't see why this makefile should have knowledge of tcc's default API.
+.  if "${api}" != "c89"
+APIENV= -Y${api}
+.  endif
+
 ${OBJ_SDIR}/apis/${api}.api/${src:R}.j: ${PREFIX_TSPEC}/TenDRA/src/${api}.api/${src}
 	@${CONDCREATE} "${.TARGET:H}"
 	@${ECHO} "==> Compiling ${api}.api/${src}"
 	${TCC} ${HACKOPTS} ${LIBCOPTS} ${TCCOPTS} ${CCOPTS} ${JOPTS} ${JOPTS${api}} \
-		-Ymakelib -Y${api} -Xp \
+		-Ymakelib ${APIENV} -Xp \
 		-o ${.TARGET} ${.ALLSRC}
 
 APIOBJS${api}+=	${OBJ_SDIR}/apis/${api}.api/${src:R}.j
