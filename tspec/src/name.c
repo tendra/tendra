@@ -126,36 +126,6 @@ dirname(char *nm)
 }
 
 /*
- * FIND A RELATIVE PATHNAME
- *
- * This routine prints the relative pathname from the file from to the
- * file to, ignoring the first n characters.
- */
-char *
-relative(char *from, char *to, int n)
-{
-    char *s = buffer;
-
-    if (from == NULL) {
-		return to;
-	}
-
-    if (to == NULL) {
-		return from;
-	}
-
-    for (from = from + n; *from != '\0'; from++) {
-		if (*from == '/') {
-			IGNORE strcpy(s, "../");
-			s += 3;
-		}
-    }
-
-    IGNORE strcpy(s, to + n);
-    return buffer;
-}
-
-/*
  * HACK A NAME
  *
  * This routine hacks the name nm according to the given key.

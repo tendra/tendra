@@ -83,7 +83,6 @@
 char *basename(char *);
 char *strip_extension(char *);
 char *dirname(char *);
-char *relative(char *, char *, int);
 char *hack_name(char *, char *);
 char *token_name(char *);
 char *token_prefix(char *, char *, char *);
