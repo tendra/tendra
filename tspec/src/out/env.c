@@ -124,7 +124,7 @@ print_env(object *input)
 	api = basename(i->api);
 
 	{
-		char *nm = string_printf(ENV_FILE, output_env_dir, api);
+		char *nm = string_printf(ENV_FILE, output_dir, "env", api);
 
 		create_dir(nm);
 		if (verbose) {

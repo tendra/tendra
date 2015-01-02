@@ -123,9 +123,7 @@ set_string(char *v, char *s)
 		if (crt_object) {
 			info *i = crt_object->u.u_info;
 			if (*s) {
-				char *dir = output_src_dir;
-				char *sub = NULL;
-				i->src = src_name(dir, i->api, s, sub);
+				i->src = src_name(i->api, s, NULL);
 			} else {
 				i->src = NULL;
 			}

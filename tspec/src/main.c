@@ -30,26 +30,24 @@
 #include "utility.h"
 
 /*
- * The default search path for when $INPUT_ENV is not
- * defined. This is also prefixed to user-supplied paths.
+ * The default path for when input and output directories
+ * are not specified.
+ * This is also prefixed to user-supplied paths.
  */
 #define INPUT_DEFAULT "."
+#define OUTPUT_DEFAULT "."
 
 
 /*
  * INPUT AND OUTPUT DIRECTORIES
  *
  * The variable input_dir consists of a colon-separated list of directories
- * to be searched for input files.  output_incl_dir and output_src_dir
- * give respectively the output include and output source directories,
- * and output_env_dir gives the directory for generating tcc environments.
+ * to be searched for input files. output_dir gives the output directory
+ * for generated source, headers and tcc environments.
  */
 
 char *input_dir;
-char *output_incl_dir;
-char *output_subset_dir;
-char *output_src_dir;
-char *output_env_dir;
+char *output_dir;
 
 
 /*
@@ -180,30 +178,9 @@ main(int argc, char **argv)
 
 	env = getenv(OUTPUT_ENV);
 	if (env != NULL) {
-		output_incl_dir   = string_printf("%s/include", env);
-		output_subset_dir = string_printf("%s/subset", env);
-		output_src_dir    = string_printf("%s/src", env);
-		output_env_dir    = string_printf("%s/env", env);
-	}
-
-	env = getenv(INCLUDE_ENV);
-	if (env != NULL) {
-		output_incl_dir = xstrdup(env);
-	}
-
-	env = getenv(SUBSET_ENV);
-	if (env != NULL) {
-		output_subset_dir = xstrdup(env);
-	}
-
-	env = getenv(SRC_ENV);
-	if (env != NULL) {
-		output_src_dir = xstrdup(env);
-	}
-
-	env = getenv(TCC_ENV);
-	if (env != NULL) {
-		output_env_dir = xstrdup(env);
+		output_dir = string_printf("%s", env);
+	} else {
+		output_dir = xstrdup(OUTPUT_DEFAULT);
 	}
 
 	for (a = 1; a < argc; a++) {
@@ -213,13 +190,7 @@ main(int argc, char **argv)
 			if (arg [1] == 'I') {
 				dir = string_printf("%s:%s", dir, arg + 2);
 			} else if (arg [1] == 'O') {
-				output_incl_dir = arg + 2;
-			} else if (arg [1] == 'U') {
-				output_subset_dir = arg + 2;
-			} else if (arg [1] == 'S') {
-				output_src_dir = arg + 2;
-			} else if (arg [1] == 'E') {
-				output_env_dir = arg + 2;
+				output_dir = arg + 2;
 			} else {
 				char *s;
 

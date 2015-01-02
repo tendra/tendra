@@ -13,17 +13,13 @@
 #include <shared/bool.h>
 
 /*
- * ENVIRONMENTAL VARIABLES
+ * ENVIRONMENT VARIABLES
  *
- * These macros give the names of the various environmental variables
+ * These macros give the names of the various environment variables
  * which are checked for input and output directories.
  */
 #define INPUT_ENV     "TSPEC_INPUT"
 #define OUTPUT_ENV    "TSPEC_OUTPUT"
-#define INCLUDE_ENV   "TSPEC_INCL_OUTPUT"
-#define SUBSET_ENV    "TSPEC_SUBSET_OUTPUT"
-#define SRC_ENV       "TSPEC_SRC_OUTPUT"
-#define TCC_ENV       "TSPEC_ENV_OUTPUT"
 
 /*
  * OUTPUT INCLUDE FILES
@@ -31,9 +27,9 @@
  * These macros are concerned with the include output files.
  */
 
-#define OUTPUT_API    "%s/%s.api/master.h"
-#define OUTPUT_FILE   "%s/%s.api/%s"
-#define OUTPUT_SUBSET "%s/%s.api/%s.h"
+#define OUTPUT_API    "%s/%s/%s.api/master.h"
+#define OUTPUT_FILE   "%s/%s/%s.api/%s"
+#define OUTPUT_SUBSET "%s/%s/%s.api/%s.h"
 #define OUTPUT_SUFFIX ".api"
 #define OUTPUT_LENGTH 8
 
@@ -42,16 +38,16 @@
  *
  * These macros are concerned with the source output files.
  */
-#define SOURCE_API    "%s/%s.api/master.c"
-#define SOURCE_FILE	  "%s/%s.api/%s.c"
-#define SOURCE_SUBSET "%s/%s.api/%s.c"
+#define SOURCE_API    "%s/%s/%s.api/master.c"
+#define SOURCE_FILE	  "%s/%s/%s.api/%s.c"
+#define SOURCE_SUBSET "%s/%s/%s.api/%s.c"
 
 /*
  * OUTPUT ENVIRONMENT FILES
  *
  * These macros are concerned with the tcc environment output files.
  */
-#define ENV_FILE      "%s/%s"
+#define ENV_FILE      "%s/%s/%s"
 
 /*
  * MISCELLANEOUS FILES
@@ -88,7 +84,7 @@ char *token_name(char *);
 char *token_prefix(char *, char *, char *);
 char *subset_name(char *, char *, char *);
 char *include_name(char *, char *, char *);
-char *src_name(char *, char *, char *, char *);
+char *src_name(char *, char *, char *);
 char *macro_name(char *, char *, char *, char *);
 char *block_name(char *, char *, char *);
 
@@ -112,10 +108,7 @@ extern int verbose;
  * These variables give the input and output directories.
  */
 extern char *input_dir;
-extern char *output_incl_dir;
-extern char *output_subset_dir;
-extern char *output_src_dir;
-extern char *output_env_dir;
+extern char *output_dir;
 
 #endif
 

@@ -258,20 +258,20 @@ include_name(char *api, char *file, char *subset)
     char *dir;
 
     if (subset != NULL) {
-        dir = output_subset_dir;
+        dir = "subset";
     } else {
-        dir = output_incl_dir;
+        dir = "include";
     }
 
     if (subset != NULL) {
 		char s[20];
 		IGNORE strncpy(s, subset, 18);
 		s[OUTPUT_LENGTH] = 0;
-		nm = string_printf(OUTPUT_SUBSET, dir, api, s);
+		nm = string_printf(OUTPUT_SUBSET, output_dir, dir, api, s);
     } else if (file != NULL) {
-		nm = string_printf(OUTPUT_FILE, dir, api, strip_extension(file));
+		nm = string_printf(OUTPUT_FILE, output_dir, dir, api, strip_extension(file));
     } else {
-		nm = string_printf(OUTPUT_API, dir, api);
+		nm = string_printf(OUTPUT_API, output_dir, dir, api);
     }
 
     return nm;
@@ -284,24 +284,25 @@ include_name(char *api, char *file, char *subset)
  * api:file:subset using the directory dir as a base.
  */
 char *
-src_name(char *dir, char *api, char *file, char *subset)
+src_name(char *api, char *file, char *subset)
 {
     char *nm;
+    char *dir = "src";
 
     if (subset != NULL) {
 		char s[20];
 		IGNORE strncpy(s, subset, 18);
 		s[OUTPUT_LENGTH] = 0;
-		nm = string_printf(SOURCE_SUBSET, dir, api, s);
+		nm = string_printf(SOURCE_SUBSET, output_dir, dir, api, s);
     } else if (file != NULL) {
 		int n;
-		nm = string_printf(SOURCE_FILE, dir, api, strip_extension(basename(file)));
+		nm = string_printf(SOURCE_FILE, output_dir, dir, api, strip_extension(basename(file)));
 		n = (int) strlen(nm) - 4;
 		if (n >= 0 && strcmp(nm + n, ".h.c") == 0) {
 			IGNORE strcpy(nm + n, ".c");
 		}
     } else {
-		nm = string_printf(SOURCE_API, dir, api);
+		nm = string_printf(SOURCE_API, output_dir, dir, api);
     }
 
     return nm;

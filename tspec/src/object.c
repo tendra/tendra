@@ -143,7 +143,7 @@ make_info(char *api, char *file, char *subset)
 
 	p->age   = date_stamp(filename);
 	p->incl  = include_name(api, file, subset);
-	p->src   = src_name(output_src_dir, api, file, subset);
+	p->src   = src_name(api, file, subset);
 	p->block = block_name(api, file, subset);
 	p->linkage = "C";
 	p->nspace = NULL;
