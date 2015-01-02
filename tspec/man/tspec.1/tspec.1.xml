@@ -6,6 +6,7 @@
 
 	<!ENTITY I.opt "<option>-I</option>&dir.arg;">
 	<!ENTITY O.opt "<option>-O</option>&dir.arg;">
+	<!ENTITY U.opt "<option>-U</option>&dir.arg;">
 	<!ENTITY S.opt "<option>-S</option>&dir.arg;">
 	<!ENTITY E.opt "<option>-E</option>&dir.arg;">
 	<!ENTITY V.opt "<option>-V</option>">
@@ -102,6 +103,7 @@
 			<!-- Options out -->
 			<group choice="opt">
 				<arg choice="plain">&O.opt;</arg>
+				<arg choice="plain">&U.opt;</arg>
 				<arg choice="plain">&S.opt;</arg>
 			</group>
 			<group choice="opt">
@@ -288,11 +290,24 @@
 
 				<listitem>
 					<para>Specifies that the directory &dir.arg; should be used
-						as a base for the include output files.  This can also be
+						as a base for the include output headers.  This can also be
 						specified using the <varname>TSPEC_INCL_OUTPUT</varname> or the
 						<varname>TSPEC_OUTPUT</varname> environmental variable.
 						In the latter case it is given by
 						<filename><replaceable>${TSPEC_OUTPUT}</replaceable>/include</filename>.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>&U.opt;</term>
+
+				<listitem>
+					<para>Specifies that the directory &dir.arg; should be used
+						as a base for the subset output headers.  This can also be
+						specified using the <varname>TSPEC_SUBSET_OUTPUT</varname> or the
+						<varname>TSPEC_OUTPUT</varname> environmental variable.
+						In the latter case it is given by
+						<filename><replaceable>${TSPEC_OUTPUT}</replaceable>/subset</filename>.</para>
 				</listitem>
 			</varlistentry>
 

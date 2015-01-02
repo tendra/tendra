@@ -79,9 +79,7 @@ set_string(char *v, char *s)
 		if (crt_object) {
 			info *i = crt_object->u.u_info;
 			if (*s) {
-				char *dir = output_incl_dir;
-				char *sub = NULL;
-				i->incl = include_name(dir, i->api, s, sub);
+				i->incl = include_name(i->api, s, NULL);
 			} else {
 				i->incl = NULL;
 			}

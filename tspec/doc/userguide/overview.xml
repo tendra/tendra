@@ -136,7 +136,7 @@
 			output file <filename>src_dir/c/c89.api/stdio.c</filename>.
 			The header subset <code>c/c89:stdio.h:file</code> is mapped to its own
 			pair of output files,
-			<filename>incl_dir/shared/c/c89.api/file.h</filename> and
+			<filename>subset_dir/c/c89.api/file.h</filename> and
 			<filename>src_dir/c/c89.api/file.c</filename>.</para>
 	
 		<para>The default output file names can be overridden by means of the

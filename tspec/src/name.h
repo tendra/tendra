@@ -21,6 +21,7 @@
 #define INPUT_ENV     "TSPEC_INPUT"
 #define OUTPUT_ENV    "TSPEC_OUTPUT"
 #define INCLUDE_ENV   "TSPEC_INCL_OUTPUT"
+#define SUBSET_ENV    "TSPEC_SUBSET_OUTPUT"
 #define SRC_ENV       "TSPEC_SRC_OUTPUT"
 #define TCC_ENV       "TSPEC_ENV_OUTPUT"
 
@@ -30,9 +31,9 @@
  * These macros are concerned with the include output files.
  */
 
-#define OUTPUT_API    "%s/shared/%s.api/master.h"
+#define OUTPUT_API    "%s/%s.api/master.h"
 #define OUTPUT_FILE   "%s/%s.api/%s"
-#define OUTPUT_SUBSET "%s/shared/%s.api/%s.h"
+#define OUTPUT_SUBSET "%s/%s.api/%s.h"
 #define OUTPUT_SUFFIX ".api"
 #define OUTPUT_LENGTH 8
 
@@ -87,7 +88,7 @@ char *hack_name(char *, char *);
 char *token_name(char *);
 char *token_prefix(char *, char *, char *);
 char *subset_name(char *, char *, char *);
-char *include_name(char *, char *, char *, char *);
+char *include_name(char *, char *, char *);
 char *src_name(char *, char *, char *, char *);
 char *macro_name(char *, char *, char *, char *);
 char *block_name(char *, char *, char *);
@@ -113,6 +114,7 @@ extern int verbose;
  */
 extern char *input_dir;
 extern char *output_incl_dir;
+extern char *output_subset_dir;
 extern char *output_src_dir;
 extern char *output_env_dir;
 

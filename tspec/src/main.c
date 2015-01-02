@@ -47,6 +47,7 @@
 
 char *input_dir;
 char *output_incl_dir;
+char *output_subset_dir;
 char *output_src_dir;
 char *output_env_dir;
 
@@ -179,14 +180,20 @@ main(int argc, char **argv)
 
 	env = getenv(OUTPUT_ENV);
 	if (env != NULL) {
-		output_incl_dir = string_printf("%s/include", env);
-		output_src_dir  = string_printf("%s/src", env);
-		output_env_dir  = string_printf("%s/env", env);
+		output_incl_dir   = string_printf("%s/include", env);
+		output_subset_dir = string_printf("%s/subset", env);
+		output_src_dir    = string_printf("%s/src", env);
+		output_env_dir    = string_printf("%s/env", env);
 	}
 
 	env = getenv(INCLUDE_ENV);
 	if (env != NULL) {
 		output_incl_dir = xstrdup(env);
+	}
+
+	env = getenv(SUBSET_ENV);
+	if (env != NULL) {
+		output_subset_dir = xstrdup(env);
 	}
 
 	env = getenv(SRC_ENV);
@@ -207,6 +214,8 @@ main(int argc, char **argv)
 				dir = string_printf("%s:%s", dir, arg + 2);
 			} else if (arg [1] == 'O') {
 				output_incl_dir = arg + 2;
+			} else if (arg [1] == 'U') {
+				output_subset_dir = arg + 2;
 			} else if (arg [1] == 'S') {
 				output_src_dir = arg + 2;
 			} else if (arg [1] == 'E') {

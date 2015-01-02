@@ -282,9 +282,16 @@ subset_name(char *api, char *file, char *subset)
  * api:file:subset using the directory dir as a base.
  */
 char *
-include_name(char *dir, char *api, char *file, char *subset)
+include_name(char *api, char *file, char *subset)
 {
     char *nm;
+    char *dir;
+
+    if (subset != NULL) {
+        dir = output_subset_dir;
+    } else {
+        dir = output_incl_dir;
+    }
 
     if (subset != NULL) {
 		char s[20];
