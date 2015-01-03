@@ -42,11 +42,6 @@ component (to_sh,
 );
 
 
-Tokdef PTR_V = [] VARIETY
-	/* variety for converted pointers */
-var_width (true, 64);
-
-
 
 
 	/* INTEGER VARIETY REPRESENTATIONS */
@@ -164,35 +159,9 @@ true;
 
 
 
-	/* COMMON CONVERSION ROUTINES */
-
-
-Tokdef .~ptr_to_ptr = [a1:ALIGNMENT, a2:ALIGNMENT, p:EXP] EXP
-PUN [ pointer(a1), pointer(a2), p ];
-
-
-Tokdef .~ptr_to_int = [a:ALIGNMENT, v:VARIETY, p:EXP] EXP
-([v] PUN [ pointer(a), integer(PTR_V), p ]);
-
-
-Tokdef .~int_to_ptr = [v:VARIETY, a:ALIGNMENT, i:EXP] EXP
-PUN [ integer(PTR_V), pointer(a), [PTR_V] i ];
-
-
-Tokdef .~f_to_ptr = [a:ALIGNMENT, fn:EXP] EXP
-PUN [ proc, pointer(a), fn ];
-
-
-Tokdef .~ptr_to_f = [a:ALIGNMENT, p:EXP] EXP
-PUN [ pointer(a), proc, p ];
-
-
-
-
 Keep (
 .~rep_var_width, .~rep_atomic_width,
 .~rep_fv, .~rep_fv_width, .~rep_fv_radix, .~rep_fv_mantissa, .~rep_fv_min_exp, 
 .~rep_fv_max_exp, .~rep_fv_epsilon, .~rep_fv_min_val, .~rep_fv_max_val,
-.~best_div, .~little_endian,
-.~ptr_to_ptr, .~ptr_to_int, .~int_to_ptr, .~f_to_ptr, .~ptr_to_f
+.~best_div, .~little_endian
 )

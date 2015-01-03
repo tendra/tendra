@@ -54,6 +54,11 @@ ${OBJ_SDIR}/dep_toks.j: ${MACHTOK_DEP}
 	@${ECHO} "==> Translating ${WRKDIR}/${.ALLSRC}"
 	${TPL} ${.ALLSRC} ${.TARGET}
 
+${OBJ_SDIR}/pun.j: ${BASE_DIR}/${TOKENS_COMMON}/pun.tpl
+	@${CONDCREATE} "${OBJ_SDIR}"
+	@${ECHO} "==> Translating ${WRKDIR}/${.ALLSRC}"
+	${TPL} ${.ALLSRC} ${.TARGET}
+
 ${OBJ_SDIR}/model_toks.j: ${BASE_DIR}/${TOKENS_MODEL}/${MACHTOK_MODEL}
 	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Translating ${WRKDIR}/${.ALLSRC}"
@@ -77,6 +82,7 @@ ${OBJ_SDIR}/sys.j: ${OBJ_SDIR}/sys_toks.j
 	${TNC} -t -d -L'.~' ${.ALLSRC} ${.TARGET}
 
 ${OBJ_SDIR}/sys_toks.j: ${OBJ_SDIR}/c_toks.j ${OBJ_SDIR}/dep_toks.j \
+	${OBJ_SDIR}/pun.j \
 	${OBJ_SDIR}/map_toks.j ${OBJ_SDIR}/model_toks.j
 	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Linking ${WRKDIR}/${.TARGET:T}"
@@ -86,6 +92,7 @@ ${OBJ_SDIR}/sys_toks.j: ${OBJ_SDIR}/c_toks.j ${OBJ_SDIR}/dep_toks.j \
 
 # Target-dependent token library
 ${OBJ_SDIR}/target_tok.tl: ${OBJ_SDIR}/dep_toks.j ${OBJ_SDIR}/map_toks.j \
+		${OBJ_SDIR}/pun.j \
 		${OBJ_SDIR}/except_toks.t ${OBJ_SDIR}/var_toks.t ${OBJ_SDIR}/model_toks.j
 	@rm -f ${.TARGET}
 	@${CONDCREATE} "${OBJ_SDIR}"
@@ -156,6 +163,7 @@ all:: ${OBJ_SDIR}/c.tl ${OBJ_DIR}/src/c.tl ${OBJ_DIR}/src/target_tok.tl
 
 clean::
 	${RMFILE} ${OBJ_SDIR}/c.tl ${OBJ_DIR}/src/target_tok.tl
+	${RMFILE} ${OBJ_SDIR}/pun.j
 	${RMFILE} ${OBJ_SDIR}/dep_toks.j ${OBJ_SDIR}/c_toks.j ${OBJ_SDIR}/map_toks.j
 	${RMFILE} ${OBJ_SDIR}/sys.j ${OBJ_SDIR}/sys_toks.j
 	${RMFILE} ${OBJ_SDIR}/except_toks.j ${OBJ_SDIR}/except_toks.t
