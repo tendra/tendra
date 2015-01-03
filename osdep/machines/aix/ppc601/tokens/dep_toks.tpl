@@ -152,10 +152,6 @@ EXP ? ( NATTEST [n, ==, 1],
 	/* NON-NUMERIC REPRESENTATIONS */
 
 
-Tokdef .~ptr_width = [] NAT
-32;
-
-
 Tokdef .~best_div = [] NAT
 2;
 
@@ -195,6 +191,6 @@ Keep (
 .~rep_var_width, .~rep_atomic_width,
 .~rep_fv, .~rep_fv_width, .~rep_fv_radix, .~rep_fv_mantissa, .~rep_fv_min_exp, 
 .~rep_fv_max_exp, .~rep_fv_epsilon, .~rep_fv_min_val, .~rep_fv_max_val,
-.~ptr_width, .~best_div, .~little_endian,
+.~best_div, .~little_endian,
 .~ptr_to_ptr, .~ptr_to_int, .~int_to_ptr, .~f_to_ptr, .~ptr_to_f
 )

@@ -31,8 +31,14 @@ _TENDRA_WORK_MACHTOK_MK_=1
 	@${EXIT} 1;
 .endif
 
+.if !defined(MACHTOK_MODEL)
+.BEGIN:
+	@${ECHO} '$${MACHTOK_MODEL} must be set'
+	@${EXIT} 1;
+.endif
 
 TOKENS_COMMON?=	machines/common/tokens
+TOKENS_MODEL?=	model
 
 .if !defined(MACHTOK_VAR)
 _machtok_target+=	${OBJ_SDIR}/${TOKENS_COMMON}/var_toks.t
@@ -44,6 +50,11 @@ ${OBJ_SDIR}/c_toks.j: ${BASE_DIR}/${TOKENS_COMMON}/c_toks.tpl
 	${TPL} ${.ALLSRC} ${.TARGET}
 
 ${OBJ_SDIR}/dep_toks.j: ${MACHTOK_DEP}
+	@${CONDCREATE} "${OBJ_SDIR}"
+	@${ECHO} "==> Translating ${WRKDIR}/${.ALLSRC}"
+	${TPL} ${.ALLSRC} ${.TARGET}
+
+${OBJ_SDIR}/model_toks.j: ${BASE_DIR}/${TOKENS_MODEL}/${MACHTOK_MODEL}
 	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Translating ${WRKDIR}/${.ALLSRC}"
 	${TPL} ${.ALLSRC} ${.TARGET}
@@ -66,7 +77,7 @@ ${OBJ_SDIR}/sys.j: ${OBJ_SDIR}/sys_toks.j
 	${TNC} -t -d -L'.~' ${.ALLSRC} ${.TARGET}
 
 ${OBJ_SDIR}/sys_toks.j: ${OBJ_SDIR}/c_toks.j ${OBJ_SDIR}/dep_toks.j \
-	${OBJ_SDIR}/map_toks.j
+	${OBJ_SDIR}/map_toks.j ${OBJ_SDIR}/model_toks.j
 	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Linking ${WRKDIR}/${.TARGET:T}"
 	${TLD} -o ${.TARGET} ${.ALLSRC}
@@ -75,7 +86,7 @@ ${OBJ_SDIR}/sys_toks.j: ${OBJ_SDIR}/c_toks.j ${OBJ_SDIR}/dep_toks.j \
 
 # Target-dependent token library
 ${OBJ_SDIR}/target_tok.tl: ${OBJ_SDIR}/dep_toks.j ${OBJ_SDIR}/map_toks.j \
-		${OBJ_SDIR}/except_toks.t ${OBJ_SDIR}/var_toks.t
+		${OBJ_SDIR}/except_toks.t ${OBJ_SDIR}/var_toks.t ${OBJ_SDIR}/model_toks.j
 	@rm -f ${.TARGET}
 	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Linking ${WRKDIR}/${.TARGET:T}"
