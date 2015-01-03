@@ -32,16 +32,6 @@ Tokdef NATTEST = [a:NAT, comp:NTEST, b:NAT] EXP
 };
 
 
-Tokdef PUN = [from_sh:SHAPE, to_sh:SHAPE, val:EXP] EXP
-	/* representation preserving conversion */
-component (to_sh,
-  Cons [ shape_offset(from_sh) .max. shape_offset(to_sh) ] (
-    offset_zero(alignment(from_sh)) : val
-  ),
-  offset_zero(alignment(to_sh))
-);
-
-
 
 
 	/* INTEGER VARIETY REPRESENTATIONS */
