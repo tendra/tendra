@@ -7,12 +7,11 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
 /*
-    Exception tokens for m68ktrans
-*/
+ * Exception tokens for trans.680x0
+ */
 
-Common __m68k_stack_limit : pointer (locals_alignment) = 
+Common __m68k_stack_limit : pointer (locals_alignment) =
                             make_null_ptr(locals_alignment);
 
 Common __m68k_errhandler : proc; /* initialised by ~Set_signal_handler */
@@ -32,67 +31,70 @@ Tokdec posix.signal.sigaction.sa_mask : [] EXP;
 Tokdec posix.signal.sigaction.sa_flags : [] EXP;
 Tokdec posix.signal.sigprocmask : [EXP, EXP, EXP] EXP;
 
-
 /*
-    Sync handler delays subsequent processing until any pending
-    exceptions have been raised
-*/
+ * Sync handler delays subsequent processing until any pending
+ * exceptions have been raised
+ */
 Tokdec ~Sync_handler : [] EXP;
 
 Var allsigs : posix.signal.sigset_t;
 
 /*
-  Called before any use of error treatment
-
-  Sets up each of the signal handlers
-*/
-Tokdef ~Set_signal_handler = [] EXP 
+ * Called before any use of error treatment
+ *
+ * Sets up each of the signal handlers
+ */
+Tokdef ~Set_signal_handler = [] EXP
 
 Let ovhandler = Proc bottom (sig : Int)
-  {
-    posix.signal.sigprocmask [posix.signal.SIG_SETMASK, allsigs,
-                make_null_ptr (alignment (posix.signal.sigset_t)) ];
-    (* __m68k_errhandler) [bottom] (+ error_val(overflow)(Int));
-  }
-
-
-Let nil_access_handler = Proc bottom (sig : Int){
-      posix.signal.sigprocmask [posix.signal.SIG_SETMASK, allsigs,
-                make_null_ptr (alignment (posix.signal.sigset_t)) ];
-      (* __m68k_errhandler) [bottom] (+ error_val(nil_access)(Int));
+{
+	posix.signal.sigprocmask [posix.signal.SIG_SETMASK, allsigs,
+		make_null_ptr (alignment (posix.signal.sigset_t)) ];
+	(* __m68k_errhandler) [bottom] (+ error_val(overflow)(Int));
 }
 
+Let nil_access_handler = Proc bottom (sig : Int)
+{
+	posix.signal.sigprocmask [posix.signal.SIG_SETMASK, allsigs,
+		make_null_ptr (alignment (posix.signal.sigset_t)) ];
+	(* __m68k_errhandler) [bottom] (+ error_val(nil_access)(Int));
+}
 
-
+/* called from numerical exception interrupt or from translated code */
 Let errhandler = Proc bottom (err : Int)
-{	/* called from numerical exception interrupt or from translated code */
-  ?{	? (* err == + error_val(overflow)(Int));
-	~Throw[error_val(overflow)];
-	c89.stdlib.abort ;
-  | ?{	? (* err == + error_val(stack_overflow)(Int));
-	~Throw[error_val(stack_overflow)];
-	c89.stdlib.abort ;
-  |  	~Throw[error_val(nil_access)];
-	c89.stdlib.abort ;
-  } }
+{
+	?{ ? (* err == + error_val(overflow)(Int));
+		~Throw[error_val(overflow)];
+		c89.stdlib.abort ;
+	| ?{ ? (* err == + error_val(stack_overflow)(Int));
+		  ~Throw[error_val(stack_overflow)];
+		  c89.stdlib.abort ;
+		| ~Throw[error_val(nil_access)];
+		  c89.stdlib.abort ;
+		}
+	}
 }
-
 
 Var sigact : posix.signal.struct_sigaction
 {
-  __m68k_errhandler = errhandler;
-  posix.signal.sigemptyset [allsigs];
-  (sigact *+. posix.signal.sigaction.sa_handler) = ovhandler;
-  posix.signal.sigemptyset [sigact *+. posix.signal.sigaction.sa_mask];
-  (sigact *+. posix.signal.sigaction.sa_flags) = 0(Int);
-  posix.signal.sigaction [ c89.signal.SIGFPE, sigact, 
+	__m68k_errhandler = errhandler;
+
+	posix.signal.sigemptyset [allsigs];
+	(sigact *+. posix.signal.sigaction.sa_handler) = ovhandler;
+	posix.signal.sigemptyset [sigact *+. posix.signal.sigaction.sa_mask];
+	(sigact *+. posix.signal.sigaction.sa_flags) = 0(Int);
+	posix.signal.sigaction [ c89.signal.SIGFPE, sigact,
 		make_null_ptr (alignment (posix.signal.struct_sigaction)) ];
-  (sigact *+. posix.signal.sigaction.sa_handler) = nil_access_handler;
-  posix.signal.sigaction [c89.signal.SIGSEGV,sigact,
-		 make_null_ptr(alignment(posix.signal.struct_sigaction)) ];
-  env_size (errhandler)
+	(sigact *+. posix.signal.sigaction.sa_handler) = nil_access_handler;
+	posix.signal.sigaction [c89.signal.SIGSEGV,sigact,
+		make_null_ptr(alignment(posix.signal.struct_sigaction)) ];
+
+	env_size (errhandler)
 };
 
 Tokdef ~Sync_handler = [] EXP make_top;
 
-Keep (~Set_signal_handler, ~Sync_handler, __m68k_errhandler, __m68k_stack_limit)
+Keep (
+	~Set_signal_handler, ~Sync_handler, __m68k_errhandler, __m68k_stack_limit
+)
+
