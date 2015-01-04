@@ -333,5 +333,30 @@
 				<code>f</code>). The same procedure <code>f</code> is delivered.</para>
 		</section>
 	</section>
+
+	<section>
+		<title>Data model representations</title>
+
+		<section>
+			<title><code>.~model_char_width</code></title>
+			<title><code>.~model_short_width</code></title>
+			<title><code>.~model_int_width</code></title>
+			<title><code>.~model_long_width</code></title>
+			<title><code>.~model_longlong_width</code></title>
+			<title><code>.~model_ptr_width</code></title>
+
+			<programlisting language="tdf">-&gt; NAT</programlisting>
+
+			<para>These represent the number of bits for the respectively named
+				sizes belonging to the target machine's data model.</para>
+
+			<para>Note that these names (<code>char</code>, <code>short</code> etc.)
+				are not C types; they are the names defined by a data model.
+				These are provided as an abstraction, so that their respective
+				C (and other &lpi;) tokens such as <code>.~char_width</code> may
+				be mapped to the data model in such a way that the underlying
+				data model may be easily substituted.</para>
+		</section>
+	</section>
 </chapter>
 

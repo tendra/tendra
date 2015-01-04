@@ -47,6 +47,10 @@ TOKENS_COMMON?=	machines/common/tokens
 TOKENS_MODEL?=	model
 TOKENS_FLOAT?=	float
 TOKENS_EXCEPT?=	except
+TOKENS_MAP?=	map
+
+MAP_LANG += c
+MAP_LANG += f
 
 .if !defined(MACHTOK_VAR)
 _machtok_target+=	${OBJ_SDIR}/${TOKENS_COMMON}/var_toks.t
@@ -77,6 +81,12 @@ ${OBJ_SDIR}/float_toks.j: ${BASE_DIR}/${TOKENS_FLOAT}/${MACHTOK_FLOAT}
 	@${ECHO} "==> Translating ${WRKDIR}/${.ALLSRC}"
 	${TPL} ${.ALLSRC} ${.TARGET}
 
+.for lang in ${MAP_LANG}
+${OBJ_SDIR}/map_${lang}.j: ${BASE_DIR}/${TOKENS_MAP}/${lang}.tpl
+	@${CONDCREATE} "${OBJ_SDIR}"
+	@${ECHO} "==> Translating ${WRKDIR}/${.ALLSRC}"
+	${TPL} ${.ALLSRC} ${.TARGET}
+.endfor
 
 #
 # Rules proper
@@ -93,6 +103,10 @@ ${OBJ_SDIR}/sys.j: ${OBJ_SDIR}/sys_toks.j
 	@${ECHO} "==> Rewriting ${WRKDIR}/${.TARGET:T}"
 	${TNC} -t -d -L'.~' ${.ALLSRC} ${.TARGET}
 
+.for lang in ${MAP_LANG}
+${OBJ_SDIR}/sys_toks.j: ${OBJ_SDIR}/map_${lang}.j
+.endfor
+
 ${OBJ_SDIR}/sys_toks.j: ${OBJ_SDIR}/c_toks.j ${OBJ_SDIR}/dep_toks.j \
 	${OBJ_SDIR}/pun.j \
 	${OBJ_SDIR}/map_toks.j ${OBJ_SDIR}/model_toks.j ${OBJ_SDIR}/float_toks.j
@@ -101,6 +115,9 @@ ${OBJ_SDIR}/sys_toks.j: ${OBJ_SDIR}/c_toks.j ${OBJ_SDIR}/dep_toks.j \
 	${TLD} -o ${.TARGET} ${.ALLSRC}
 
 
+.for lang in ${MAP_LANG}
+${OBJ_SDIR}/target_tok.tl: ${OBJ_SDIR}/map_${lang}.j
+.endfor
 
 # Target-dependent token library
 ${OBJ_SDIR}/target_tok.tl: ${OBJ_SDIR}/dep_toks.j ${OBJ_SDIR}/map_toks.j \
@@ -181,6 +198,9 @@ clean::
 	${RMFILE} ${OBJ_SDIR}/sys.j ${OBJ_SDIR}/sys_toks.j
 	${RMFILE} ${OBJ_SDIR}/except_toks.j ${OBJ_SDIR}/except_toks.t
 	${RMFILE} ${OBJ_SDIR}/var_toks.j ${OBJ_SDIR}/var_toks.t
+.for lang in ${MAP_LANG}
+	${RMFILE} ${OBJ_SDIR}/map_${lang}.j
+.endfor
 
 
 install:: ${OBJ_SDIR}/c.tl ${OBJ_DIR}/src/c.tl ${OBJ_DIR}/src/target_tok.tl
