@@ -32,9 +32,14 @@ Tokdef SIGUSR1 = [] SIGNED_NAT snat_from_nat(false, computed_nat(posix.signal.SI
 /* This token must be defined to throw the language specific error value */
 Tokdec ~Throw:[NAT]EXP;
 
-Struct longptr(hi:Int, lo:Ptr proc);
+Struct longptr (
+	hi:Int,
+	lo:Ptr proc
+);
 
-Struct sigcontext(sc_onstack:Int, sc_mask:Int,
+Struct sigcontext (
+	sc_onstack:Int,
+	sc_mask:Int,
 	sc_pc:longptr,
 	sc_regs:nof(32,longptr),
 	sc_fpregs:nof(32,longptr),
