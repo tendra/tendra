@@ -55,7 +55,7 @@ Tokdef ~Set_signal_handler = [] EXP
 {
 /* This token must be called before any possible exceptions */
 
- Let mh =  Proc top(sig:Int, code:Int, scp:Ptr sigcontext) {
+ Let mh = Proc top(sig:Int, code:Int, scp:Ptr sigcontext) {
   /* This procedure is obeyed at an automatic error trap, using signal.
    It's action calls __TDFhandler on top of the user stack by overwriting
    the relevant registers of the failing process and simply returning.
@@ -80,7 +80,7 @@ Tokdef ~Set_signal_handler = [] EXP
 	/* reinstates the failing process ie does a call of __TDFhandler */
     }
  {
-    __mipshandler = mh; 
+    __mipshandler = mh;
     __TDFhandler = Proc top( sig:Int, code:Int)
    {
    /* This procedure may either be called via __mipshandler or else as a

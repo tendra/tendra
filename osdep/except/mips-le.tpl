@@ -12,17 +12,15 @@ Common __TDFhandler:proc;
 Common __mipshandler:proc;
 Common __TDFstacklim:pointer(locals_alignment);
 
+Tokdec c89.signal.signal: [EXP, EXP]EXP;
+Tokdec c89.stdlib.exit: [EXP]EXP;
+
 Tokdef SIGFPE = []SIGNED_NAT 8;
 Tokdef SIGBUS = []SIGNED_NAT 10;
 Tokdef SIGSEGV = []SIGNED_NAT 11;
 Tokdef SIGUSR1 = []SIGNED_NAT 30;
 	/* signal numbers - SIGUSR1 is used for stack overflow
 	*/
-
-Tokdec c89.signal.signal: [EXP, EXP]EXP;
-Tokdec c89.stdlib.exit: [EXP]EXP;
-
-
 
 Tokdec ~Throw:[NAT]EXP;
 	/* This token must be defined to throw the language specific error
@@ -77,7 +75,7 @@ Tokdef ~Set_signal_handler = [] EXP
 	return(make_top)
 	/* reinstates the failing process ie does a call of __TDFhandler */
     }
- {  
+ {
     __mipshandler = mh;
     __TDFhandler = Proc top( sig:Int, code:Int)
    {

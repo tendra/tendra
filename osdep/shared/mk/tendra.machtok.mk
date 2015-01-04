@@ -44,9 +44,9 @@ _TENDRA_WORK_MACHTOK_MK_=1
 .endif
 
 TOKENS_COMMON?=	machines/common/tokens
-TOKENS_COMMON?=	machines/common/tokens
 TOKENS_MODEL?=	model
 TOKENS_FLOAT?=	float
+TOKENS_EXCEPT?=	except
 
 .if !defined(MACHTOK_VAR)
 _machtok_target+=	${OBJ_SDIR}/${TOKENS_COMMON}/var_toks.t
@@ -143,7 +143,7 @@ ${OBJ_SDIR}/map_toks.j: ${MACHTOK_MAP}
 	@${ECHO} "==> Translating ${WRKDIR}/${.ALLSRC}"
 	${TPL} ${.ALLSRC} ${.TARGET}
 
-${OBJ_SDIR}/except_toks.j: ${MACHTOK_EXCEPT}
+${OBJ_SDIR}/except_toks.j: ${BASE_DIR}/${TOKENS_EXCEPT}/${MACHTOK_EXCEPT}
 	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Translating ${WRKDIR}/${.ALLSRC}"
 	${TPL} ${.ALLSRC} ${.TARGET}
