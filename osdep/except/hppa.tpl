@@ -15,7 +15,6 @@
 Tokdec ~Throw : [NAT] EXP;
 
 Tokdec c89.stdlib.abort : [] EXP;
-Tokdec c89.signal.SIGFPE : [] EXP;
 Tokdec posix.signal.SIG_SETMASK : [] EXP;
 Tokdec posix.signal.sigaction : [EXP, EXP, EXP] EXP;
 Tokdec posix.signal.sigemptyset : [EXP] EXP;
@@ -35,11 +34,16 @@ Common __TDFstacklim : pointer (locals_alignment)
  */
 Common __hppahandler : proc;
 
+Tokdec c89.signal.SIGFPE         : [] EXP;
+Tokdec c89.signal.SIGSEGV        : [] EXP;
+Tokdec xsh4v2_unix.signal.SIGBUS : [] EXP;
+Tokdec posix.signal.SIGUSR1      : [] EXP;
+
 /* signal numbers - SIGUSR1 is used for stack overflow */
-Tokdef SIGFPE  = []SIGNED_NAT  8;
-Tokdef SIGBUS  = []SIGNED_NAT 10;
-Tokdef SIGSEGV = []SIGNED_NAT 11;
-Tokdef SIGUSR1 = []SIGNED_NAT 16;
+Tokdef SIGFPE  = [] SIGNED_NAT snat_from_nat(false, computed_nat(c89.signal.SIGFPE));
+Tokdef SIGSEGV = [] SIGNED_NAT snat_from_nat(false, computed_nat(c89.signal.SIGSEGV));
+Tokdef SIGBUS  = [] SIGNED_NAT snat_from_nat(false, computed_nat(xsh4v2_unix.signal.SIGBUS));
+Tokdef SIGUSR1 = [] SIGNED_NAT snat_from_nat(false, computed_nat(posix.signal.SIGUSR1));
 
 Var allsigs : posix.signal.sigset_t;
 

@@ -19,10 +19,15 @@ Tokdec c89.signal.signal: [EXP, EXP]EXP;
 Tokdec c89.stdlib.exit: [EXP]EXP;
 
 /* signal numbers - SIGUSR1 is used for stack overflow */
-Tokdef SIGFPE  = []SIGNED_NAT  8;
-Tokdef SIGBUS  = []SIGNED_NAT 10;
-Tokdef SIGSEGV = []SIGNED_NAT 11;
-Tokdef SIGUSR1 = []SIGNED_NAT 30;
+Tokdec c89.signal.SIGFPE         : [] EXP;
+Tokdec c89.signal.SIGSEGV        : [] EXP;
+Tokdec xsh4v2_unix.signal.SIGBUS : [] EXP;
+Tokdec posix.signal.SIGUSR1      : [] EXP;
+
+Tokdef SIGFPE  = [] SIGNED_NAT snat_from_nat(false, computed_nat(c89.signal.SIGFPE));
+Tokdef SIGSEGV = [] SIGNED_NAT snat_from_nat(false, computed_nat(c89.signal.SIGSEGV));
+Tokdef SIGBUS  = [] SIGNED_NAT snat_from_nat(false, computed_nat(xsh4v2_unix.signal.SIGBUS));
+Tokdef SIGUSR1 = [] SIGNED_NAT snat_from_nat(false, computed_nat(posix.signal.SIGUSR1));
 
 /* This token must be defined to throw the language specific error value */
 Tokdec ~Throw:[NAT]EXP;
