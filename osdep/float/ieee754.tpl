@@ -100,42 +100,36 @@ NAT ? ( NATTEST [n, ==, 1],
 
 /* n must be in range */
 Tokdef .~rep_fv_epsilon = [n:NAT] EXP
-EXP ? ( NATTEST [n, ==, 1],
-	(2r1.0 E -23 (.~rep_fv[n])),
-	EXP ? ( NATTEST [n, ==, 2],
-		(2r1.0 E -52 (.~rep_fv[n])),
-		EXP ? ( NATTEST [n, ==, 3],
-			(2r1.0 E -63 (.~rep_fv[n])),
-			(2r1.0 E -112 (.~rep_fv[n]))
-		)
-	)
-);
+	Var r:Int = snat_from_nat(false, n)(Int)
+	Labelled {
+		Case * r (1 -> l1, 2 -> l2, 3 -> l3, 4 -> l4)
+		| :l1: 2r1.0 E -23  (.~rep_fv[n])
+		| :l2: 2r1.0 E -52  (.~rep_fv[n])
+		| :l3: 2r1.0 E -63  (.~rep_fv[n])
+		| :l4: 2r1.0 E -112 (.~rep_fv[n])
+	};
 
 /* n must be in range */
 Tokdef .~rep_fv_min_val = [n:NAT] EXP
-EXP ? ( NATTEST [n, ==, 1],
-	(2r1.0 E -149 (.~rep_fv[n])),
-	EXP ? ( NATTEST [n, ==, 2],
-		(2r1.0 E -1074 (.~rep_fv[n])),
-		EXP ? ( NATTEST [n, ==, 3],
-			(2r1.0 E -16445 (.~rep_fv[n])),
-			(2r1.0 E -16494 (.~rep_fv[n]))
-		)
-	)
-);
+	Var r:Int = snat_from_nat(false, n)(Int)
+	Labelled {
+		Case * r (1 -> l1, 2 -> l2, 3 -> l3, 4 -> l4)
+		| :l1: 2r1.0 E -149   (.~rep_fv[n])
+		| :l2: 2r1.0 E -1074  (.~rep_fv[n])
+		| :l3: 2r1.0 E -16445 (.~rep_fv[n])
+		| :l4: 2r1.0 E -16494 (.~rep_fv[n])
+	};
 
 /* n must be in range */
 Tokdef .~rep_fv_max_val = [n:NAT] EXP
-EXP ? ( NATTEST [n, ==, 1],
-	(8r3.77777774 E 42 (.~rep_fv[n])),
-	EXP ? ( NATTEST [n, ==, 2],
-		(8r1.777777777777777774 E 341 (.~rep_fv[n])),
-		EXP ? ( NATTEST [n, ==, 3],
-			(8r1.777777777777777777777 E 5461 (.~rep_fv[n])),
-			(8r1.77777777777777777777777777777777777774 E 5461 (.~rep_fv[n]))
-		)
-	)
-);
+	Var r:Int = snat_from_nat(false, n)(Int)
+	Labelled {
+		Case * r (1 -> l1, 2 -> l2, 3 -> l3, 4 -> l4)
+		| :l1: 8r3.77777774 E 42                                 (.~rep_fv[n])
+		| :l2: 8r1.777777777777777774 E 341                      (.~rep_fv[n])
+		| :l3: 8r1.777777777777777777777 E 5461                  (.~rep_fv[n])
+		| :l4: 8r1.77777777777777777777777777777777777774 E 5461 (.~rep_fv[n])
+	};
 
 /*
  * Here we map IEEE 754 names to the sequence numbers used by ieee754.tpl
