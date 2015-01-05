@@ -137,8 +137,24 @@ EXP ? ( NATTEST [n, ==, 1],
 	)
 );
 
-Keep (
-	.~rep_fv, .~rep_fv_width, .~rep_fv_radix, .~rep_fv_mantissa, .~rep_fv_min_exp,
-	.~rep_fv_max_exp, .~rep_fv_epsilon, .~rep_fv_min_val, .~rep_fv_max_val
-)
+/*
+ * Here we map IEEE 754 names to the sequence numbers used by ieee754.tpl
+ * to index its various TDF tokens. Each index represents a particular width.
+ *
+ * These sequence numbers are monotonic with respect to the width. So for
+ * example, if IEEE 754 half precision representations are ever implemented,
+ * the sequence number for iee754_half_rep would need to be 1, and everything
+ * else would increment to make space for it.
+ *
+ * Note these token names are not exposed to TDF at large; they are private
+ * to the ieee754-*.tpl files which include this file. In other words, these
+ * form an internal abstraction which serves to keep knowledge of the sequence
+ * numbers contained within this file only.
+ */
+
+Tokdec iee754_half_rep   : [] NAT;   /* not implemented */
+Tokdef iee754_float_rep  = [] NAT 1; /* 32 bit */
+Tokdef iee754_double_rep = [] NAT 2; /* 64 bit */
+Tokdef iee754_ext80_rep  = [] NAT 3; /* 80 bit */
+Tokdef iee754_quad_rep   = [] NAT 4; /* 128 bit */
 
