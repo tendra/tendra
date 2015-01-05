@@ -11,7 +11,7 @@
  * Floating variety representations
  * Sequence: 1=single, 2=double, 3=extended
  *
- * IEEE 754 Double-Extended Format (x87)
+ * IEEE 754 80 bit Double-Extended Format (as used by the x87)
  */
 
 /* variety for integer widths and float_sequence */
@@ -40,7 +40,7 @@ NAT ? ( NATTEST [n, ==, 1],
 	NAT ? ( NATTEST [n, ==, 2],
 		64,
 		NAT ? ( NATTEST [n, ==, 3],
-			80,	/* 80 bits memory, increased to 96 by ABI */
+			80,	/* 80 bits memory, increased to 96 by x87 ABI */
 			0   /* provides test for end of range */
 		)
 	)
