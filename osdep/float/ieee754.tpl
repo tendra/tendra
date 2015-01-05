@@ -8,10 +8,13 @@
  */
 
 /*
- * Floating variety representations
- * Sequence: 1=single, 2=double, 3=extended
+ * IEEE 754 Format floating variety representations
  *
- * IEEE 754 Quad-Precision Format
+ * Sequence:
+ *   1 = Single
+ *   2 = Double
+ *   3 = Double-Extended 80 bit (as used by the x87)
+ *   4 = Quad
  */
 
 /* variety for integer widths and float_sequence */
@@ -25,12 +28,16 @@ Tokdef NATTEST = [a:NAT, comp:NTEST, b:NAT] EXP
 	| 0(REP_V)
 };
 
+/* n must be in range */
 Tokdef .~rep_fv = [n:NAT] FLOATING_VARIETY
 FLOATING_VARIETY ? ( NATTEST [n, ==, 1],
 	flvar_parms (2, 24, 126, 127),
 	FLOATING_VARIETY ? ( NATTEST [n, ==, 2],
 		flvar_parms (2, 53, 1022, 1023),
-		flvar_parms (2, 113, 16382, 16383)
+		FLOATING_VARIETY ? ( NATTEST [n, ==, 3],
+			flvar_parms (2, 64, 16382, 16383),
+			flvar_parms (2, 113, 16382, 16383)
+		)
 	)
 );
 
@@ -40,8 +47,11 @@ NAT ? ( NATTEST [n, ==, 1],
 	NAT ? ( NATTEST [n, ==, 2],
 		64,
 		NAT ? ( NATTEST [n, ==, 3],
-			128,
-			0 /* provides test for end of range */
+			80, /* 80 bits memory, increased to 96 by x87 ABI */
+			NAT ? ( NATTEST [n, ==, 4],
+				128,
+				0 /* provides test for end of range */
+			)
 		)
 	)
 );
@@ -49,57 +59,81 @@ NAT ? ( NATTEST [n, ==, 1],
 Tokdef .~rep_fv_radix = [n:NAT] NAT
 2;
 
+/* n must be in range */
 Tokdef .~rep_fv_mantissa = [n:NAT] NAT
 NAT ? ( NATTEST [n, ==, 1],
 	24,
 	NAT ? ( NATTEST [n, ==, 2],
 		53,
-		113
+		NAT ? ( NATTEST [n, ==, 3],
+			64,
+			113
+		)
 	)
 );
 
+/* n must be in range */
 Tokdef .~rep_fv_min_exp = [n:NAT] NAT
 NAT ? ( NATTEST [n, ==, 1],
 	149,
 	NAT ? ( NATTEST [n, ==, 2],
 		1074,
-		16494
+		NAT ? ( NATTEST [n, ==, 3],
+			16445,
+			16494
+		)
 	)
 );
 
+/* n must be in range */
 Tokdef .~rep_fv_max_exp = [n:NAT] NAT
 NAT ? ( NATTEST [n, ==, 1],
 	127,
 	NAT ? ( NATTEST [n, ==, 2],
 		1023,
-		16383
+		NAT ? ( NATTEST [n, ==, 3],
+			16383,
+			16383
+		)
 	)
 );
 
+/* n must be in range */
 Tokdef .~rep_fv_epsilon = [n:NAT] EXP
 EXP ? ( NATTEST [n, ==, 1],
 	(2r1.0 E -23 (.~rep_fv[n])),
 	EXP ? ( NATTEST [n, ==, 2],
 		(2r1.0 E -52 (.~rep_fv[n])),
-		(2r1.0 E -112 (.~rep_fv[n]))
+		EXP ? ( NATTEST [n, ==, 3],
+			(2r1.0 E -63 (.~rep_fv[n])),
+			(2r1.0 E -112 (.~rep_fv[n]))
+		)
 	)
 );
 
+/* n must be in range */
 Tokdef .~rep_fv_min_val = [n:NAT] EXP
 EXP ? ( NATTEST [n, ==, 1],
 	(2r1.0 E -149 (.~rep_fv[n])),
 	EXP ? ( NATTEST [n, ==, 2],
 		(2r1.0 E -1074 (.~rep_fv[n])),
-		(2r1.0 E -16494 (.~rep_fv[n]))
+		EXP ? ( NATTEST [n, ==, 3],
+			(2r1.0 E -16445 (.~rep_fv[n])),
+			(2r1.0 E -16494 (.~rep_fv[n]))
+		)
 	)
 );
 
+/* n must be in range */
 Tokdef .~rep_fv_max_val = [n:NAT] EXP
 EXP ? ( NATTEST [n, ==, 1],
 	(8r3.77777774 E 42 (.~rep_fv[n])),
 	EXP ? ( NATTEST [n, ==, 2],
 		(8r1.777777777777777774 E 341 (.~rep_fv[n])),
-		(8r1.77777777777777777777777777777777777774 E 5461 (.~rep_fv[n]))
+		EXP ? ( NATTEST [n, ==, 3],
+			(8r1.777777777777777777777 E 5461 (.~rep_fv[n])),
+			(8r1.77777777777777777777777777777777777774 E 5461 (.~rep_fv[n]))
+		)
 	)
 );
 

@@ -37,12 +37,6 @@ _TENDRA_WORK_MACHTOK_MK_=1
 	@${EXIT} 1;
 .endif
 
-.if !defined(MACHTOK_FLOAT)
-.BEGIN:
-	@${ECHO} '$${MACHTOK_FLOAT} must be set'
-	@${EXIT} 1;
-.endif
-
 .if !defined(MACHTOK_FREP)
 .BEGIN:
 	@${ECHO} '$${MACHTOK_FREP} must be set'
@@ -58,6 +52,8 @@ TOKENS_FREP?=	frep
 
 MAP_LANG += c
 MAP_LANG += f
+
+FLOAT_REP += ieee754
 
 .if !defined(MACHTOK_VAR)
 _machtok_target+=	${OBJ_SDIR}/${TOKENS_COMMON}/var_toks.t
@@ -83,10 +79,12 @@ ${OBJ_SDIR}/model_toks.j: ${BASE_DIR}/${TOKENS_MODEL}/${MACHTOK_MODEL}
 	@${ECHO} "==> Translating ${WRKDIR}/${.ALLSRC}"
 	${TPL} ${.ALLSRC} ${.TARGET}
 
-${OBJ_SDIR}/float_toks.j: ${BASE_DIR}/${TOKENS_FLOAT}/${MACHTOK_FLOAT}
+.for rep in ${FLOAT_REP}
+${OBJ_SDIR}/float_toks_${rep}.j: ${BASE_DIR}/${TOKENS_FLOAT}/${rep}.tpl
 	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Translating ${WRKDIR}/${.ALLSRC}"
 	${TPL} ${.ALLSRC} ${.TARGET}
+.endfor
 
 ${OBJ_SDIR}/frep_toks.j: ${BASE_DIR}/${TOKENS_FREP}/${MACHTOK_FREP}
 	@${CONDCREATE} "${OBJ_SDIR}"
@@ -119,10 +117,13 @@ ${OBJ_SDIR}/sys.j: ${OBJ_SDIR}/sys_toks.j
 ${OBJ_SDIR}/sys_toks.j: ${OBJ_SDIR}/map_${lang}.j
 .endfor
 
+.for rep in ${FLOAT_REP}
+${OBJ_SDIR}/sys_toks.j: ${OBJ_SDIR}/float_toks_${rep}.j
+.endfor
+
 ${OBJ_SDIR}/sys_toks.j: ${OBJ_SDIR}/c_toks.j ${OBJ_SDIR}/dep_toks.j \
 	${OBJ_SDIR}/pun.j \
-	${OBJ_SDIR}/map_toks.j ${OBJ_SDIR}/model_toks.j ${OBJ_SDIR}/frep_toks.j \
-	${OBJ_SDIR}/float_toks.j
+	${OBJ_SDIR}/map_toks.j ${OBJ_SDIR}/model_toks.j ${OBJ_SDIR}/frep_toks.j
 	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Linking ${WRKDIR}/${.TARGET:T}"
 	${TLD} -o ${.TARGET} ${.ALLSRC}
@@ -132,12 +133,15 @@ ${OBJ_SDIR}/sys_toks.j: ${OBJ_SDIR}/c_toks.j ${OBJ_SDIR}/dep_toks.j \
 ${OBJ_SDIR}/target_tok.tl: ${OBJ_SDIR}/map_${lang}.j
 .endfor
 
+.for rep in ${FLOAT_REP}
+${OBJ_SDIR}/target_tok.tl: ${OBJ_SDIR}/float_toks_${rep}.j
+.endfor
+
 # Target-dependent token library
 ${OBJ_SDIR}/target_tok.tl: ${OBJ_SDIR}/dep_toks.j ${OBJ_SDIR}/map_toks.j \
 		${OBJ_SDIR}/pun.j \
 		${OBJ_SDIR}/except_toks.t ${OBJ_SDIR}/var_toks.t \
-		${OBJ_SDIR}/model_toks.j ${OBJ_SDIR}/frep_toks.j \
-		${OBJ_SDIR}/float_toks.j
+		${OBJ_SDIR}/model_toks.j ${OBJ_SDIR}/frep_toks.j
 	@rm -f ${.TARGET}
 	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Linking ${WRKDIR}/${.TARGET:T}"
@@ -210,12 +214,14 @@ clean::
 	${RMFILE} ${OBJ_SDIR}/pun.j
 	${RMFILE} ${OBJ_SDIR}/dep_toks.j ${OBJ_SDIR}/c_toks.j ${OBJ_SDIR}/map_toks.j
 	${RMFILE} ${OBJ_SDIR}/model_toks.j ${OBJ_SDIR}/frep_toks.j
-	${RMFILE} ${OBJ_SDIR}/float_toks.j
 	${RMFILE} ${OBJ_SDIR}/sys.j ${OBJ_SDIR}/sys_toks.j
 	${RMFILE} ${OBJ_SDIR}/except_toks.j ${OBJ_SDIR}/except_toks.t
 	${RMFILE} ${OBJ_SDIR}/var_toks.j ${OBJ_SDIR}/var_toks.t
 .for lang in ${MAP_LANG}
 	${RMFILE} ${OBJ_SDIR}/map_${lang}.j
+.endfor
+.for rep in ${FLOAT_REP}
+	${RMFILE} ${OBJ_SDIR}/float_toks_${rep}.j
 .endfor
 
 
