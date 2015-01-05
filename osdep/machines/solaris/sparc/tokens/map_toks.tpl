@@ -19,18 +19,6 @@
 	/* C MAPPING TOKENS */
 
 
-Tokdef .~fl_rep = [] NAT
-1;
-
-
-Tokdef .~dbl_rep = [] NAT
-2;
-
-
-Tokdef .~ldbl_rep = [] NAT
-3;
-
-
 Tokdef .~pv_align = [] ALIGNMENT
 alignment(integer(var_width(false,8)));
 
@@ -49,21 +37,7 @@ true;
 
 
 
-	/* FORTRAN MAPPING TOKENS */
-
-
-Tokdef .~F_fl_rep = [] NAT
-1;
-
-
-Tokdef .~F_dbl_rep = [] NAT
-2;
-
-
-
-
 Keep (
-.~fl_rep, .~dbl_rep, .~ldbl_rep, .~pv_align, .~min_struct_rep,
-.~char_is_signed, .~bitfield_is_signed,
-.~F_fl_rep, .~F_dbl_rep
+.~pv_align, .~min_struct_rep,
+.~char_is_signed, .~bitfield_is_signed
 )

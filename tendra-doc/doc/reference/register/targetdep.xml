@@ -358,5 +358,32 @@
 				data model may be easily substituted.</para>
 		</section>
 	</section>
+
+	<section>
+		<title>Floating point representations</title>
+
+		<section>
+			<title><code>.~frep_float_rep</code></title>
+			<title><code>.~frep_double_rep</code></title>
+			<title><code>.~frep_longdouble_rep</code></title>
+
+			<programlisting language="tdf">-&gt; NAT</programlisting>
+
+			<para>These represent the sequence number for the respectively named
+				floating point tokens belonging to the target machine's
+				floating point representations.</para>
+
+			<para>Note that these names (<code>float</code>, <code>double</code> etc.)
+				are not C types; they are the names defined by a
+				model of floating point representations.
+				These are provided as an abstraction, so that their respective
+				C (and other &lpi;) tokens such as <code>.~char_width</code> may
+				be mapped to the data model in such a way that the underlying
+				representation may be easily substituted.</para>
+
+			<para>The sequence numbers correspond to the values defined under
+				<xref linkend="floatreps"/>.</para>
+		</section>
+	</section>
 </chapter>
 

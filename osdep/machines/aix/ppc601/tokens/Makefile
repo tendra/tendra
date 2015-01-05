@@ -11,6 +11,7 @@ MACHTOK_MAP   	= map_toks.tpl
 MACHTOK_EXCEPT	= ${BLDARCH}.tpl
 MACHTOK_MODEL 	= ilp32.tpl
 MACHTOK_FLOAT 	= ieee754-double.tpl
+MACHTOK_FREP  	= ieee754-double.tpl
 
 .include <tendra.machtok.mk>
 
