@@ -385,5 +385,15 @@
 				<xref linkend="floatreps"/>.</para>
 		</section>
 	</section>
+
+	<section>
+		<title>Signedness</title>
+
+		<section>
+			<title><code>.~abi_char_is_signed</code></title>
+
+			<programlisting language="tdf">-&gt; BOOL</programlisting>
+		</section>
+	</section>
 </chapter>
 

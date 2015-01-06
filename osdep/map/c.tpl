@@ -18,6 +18,8 @@ Tokdec .~abi_float_rep      : [] NAT;
 Tokdec .~abi_double_rep     : [] NAT;
 Tokdec .~abi_longdouble_rep : [] NAT;
 
+Tokdec .~abi_char_is_signed : [] BOOL;
+
 /*
  * C mapping tokens
  */
@@ -34,9 +36,12 @@ Tokdef .~fl_rep         = [] NAT .~abi_float_rep;
 Tokdef .~dbl_rep        = [] NAT .~abi_double_rep;
 Tokdef .~ldbl_rep       = [] NAT .~abi_longdouble_rep;
 
+Tokdef .~char_is_signed = [] BOOL .~abi_char_is_signed;
+
 Keep (
 	.~char_width, .~short_width, .~int_width, .~long_width,
 	.~longlong_width, .~size_t_width, .~ptr_width,
-	.~fl_rep, .~dbl_rep, .~ldbl_rep
+	.~fl_rep, .~dbl_rep, .~ldbl_rep,
+	.~char_is_signed
 )
 

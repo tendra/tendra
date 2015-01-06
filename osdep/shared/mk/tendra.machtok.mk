@@ -43,12 +43,19 @@ _TENDRA_WORK_MACHTOK_MK_=1
 	@${EXIT} 1;
 .endif
 
+.if !defined(MACHTOK_CHAR)
+.BEGIN:
+	@${ECHO} '$${MACHTOK_CHAR} must be set'
+	@${EXIT} 1;
+.endif
+
 TOKENS_COMMON?=	machines/common/tokens
 TOKENS_MODEL?=	model
 TOKENS_EXCEPT?=	except
 TOKENS_MAP?=	map
 TOKENS_FLOAT?=	float
 TOKENS_INT?=  	int
+TOKENS_CHAR?=  	char
 
 MAP_LANG += c
 MAP_LANG += f
@@ -84,6 +91,11 @@ ${OBJ_SDIR}/int_toks.j: ${BASE_DIR}/${TOKENS_INT}/${MACHTOK_INT}
 	@${ECHO} "==> Translating ${WRKDIR}/${.ALLSRC}"
 	${TPL} -I${BASE_DIR}/${TOKENS_INT} ${.ALLSRC} ${.TARGET}
 
+${OBJ_SDIR}/char_toks.j: ${BASE_DIR}/${TOKENS_CHAR}/${MACHTOK_CHAR}
+	@${CONDCREATE} "${OBJ_SDIR}"
+	@${ECHO} "==> Translating ${WRKDIR}/${.ALLSRC}"
+	${TPL} -I${BASE_DIR}/${TOKENS_CHAR} ${.ALLSRC} ${.TARGET}
+
 .for lang in ${MAP_LANG}
 ${OBJ_SDIR}/map_${lang}.j: ${BASE_DIR}/${TOKENS_MAP}/${lang}.tpl
 	@${CONDCREATE} "${OBJ_SDIR}"
@@ -113,7 +125,7 @@ ${OBJ_SDIR}/sys_toks.j: ${OBJ_SDIR}/map_${lang}.j
 ${OBJ_SDIR}/sys_toks.j: ${OBJ_SDIR}/c_toks.j \
 	${OBJ_SDIR}/pun.j \
 	${OBJ_SDIR}/map_toks.j \
-	${OBJ_SDIR}/model_toks.j ${OBJ_SDIR}/float_toks.j ${OBJ_SDIR}/int_toks.j
+	${OBJ_SDIR}/model_toks.j ${OBJ_SDIR}/float_toks.j ${OBJ_SDIR}/int_toks.j ${OBJ_SDIR}/char_toks.j
 	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Linking ${WRKDIR}/${.TARGET:T}"
 	${TLD} -o ${.TARGET} ${.ALLSRC}
@@ -127,7 +139,7 @@ ${OBJ_SDIR}/target_tok.tl: ${OBJ_SDIR}/map_${lang}.j
 ${OBJ_SDIR}/target_tok.tl: ${OBJ_SDIR}/map_toks.j \
 		${OBJ_SDIR}/pun.j \
 		${OBJ_SDIR}/except_toks.t ${OBJ_SDIR}/var_toks.t \
-		${OBJ_SDIR}/model_toks.j ${OBJ_SDIR}/float_toks.j ${OBJ_SDIR}/int_toks.j
+		${OBJ_SDIR}/model_toks.j ${OBJ_SDIR}/float_toks.j ${OBJ_SDIR}/int_toks.j ${OBJ_SDIR}/char_toks.j
 	@rm -f ${.TARGET}
 	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Linking ${WRKDIR}/${.TARGET:T}"
@@ -199,7 +211,7 @@ clean::
 	${RMFILE} ${OBJ_SDIR}/c.tl ${OBJ_DIR}/src/target_tok.tl
 	${RMFILE} ${OBJ_SDIR}/pun.j
 	${RMFILE} ${OBJ_SDIR}/dep_toks.j ${OBJ_SDIR}/c_toks.j ${OBJ_SDIR}/map_toks.j
-	${RMFILE} ${OBJ_SDIR}/model_toks.j ${OBJ_SDIR}/float_toks.j ${OBJ_SDIR}/int_toks.j
+	${RMFILE} ${OBJ_SDIR}/model_toks.j ${OBJ_SDIR}/float_toks.j ${OBJ_SDIR}/int_toks.j ${OBJ_SDIR}/char_toks.j
 	${RMFILE} ${OBJ_SDIR}/sys.j ${OBJ_SDIR}/sys_toks.j
 	${RMFILE} ${OBJ_SDIR}/except_toks.j ${OBJ_SDIR}/except_toks.t
 	${RMFILE} ${OBJ_SDIR}/var_toks.j ${OBJ_SDIR}/var_toks.t
