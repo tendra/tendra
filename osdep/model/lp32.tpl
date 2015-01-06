@@ -7,15 +7,15 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-Tokdef .~model_char_width     = [] NAT  8;
-Tokdef .~model_short_width    = [] NAT 16;
-Tokdef .~model_int_width      = [] NAT 16;
-Tokdef .~model_long_width     = [] NAT 32;
-Tokdef .~model_longlong_width = [] NAT 64; /* unofficial */
-Tokdef .~model_ptr_width      = [] NAT 32;
+Tokdef .~abi_char_width     = [] NAT  8;
+Tokdef .~abi_short_width    = [] NAT 16;
+Tokdef .~abi_int_width      = [] NAT 16;
+Tokdef .~abi_long_width     = [] NAT 32;
+Tokdef .~abi_longlong_width = [] NAT 64; /* unofficial */
+Tokdef .~abi_ptr_width      = [] NAT 32;
 
 Keep (
-	.~model_char_width, .~model_short_width, .~model_int_width,
-	.~model_long_width, .~model_longlong_width, .~model_ptr_width
+	.~abi_char_width, .~abi_short_width, .~abi_int_width,
+	.~abi_long_width, .~abi_longlong_width, .~abi_ptr_width
 )
 

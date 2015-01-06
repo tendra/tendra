@@ -338,12 +338,12 @@
 		<title>Data model representations</title>
 
 		<section>
-			<title><code>.~model_char_width</code></title>
-			<title><code>.~model_short_width</code></title>
-			<title><code>.~model_int_width</code></title>
-			<title><code>.~model_long_width</code></title>
-			<title><code>.~model_longlong_width</code></title>
-			<title><code>.~model_ptr_width</code></title>
+			<title><code>.~abi_char_width</code></title>
+			<title><code>.~abi_short_width</code></title>
+			<title><code>.~abi_int_width</code></title>
+			<title><code>.~abi_long_width</code></title>
+			<title><code>.~abi_longlong_width</code></title>
+			<title><code>.~abi_ptr_width</code></title>
 
 			<programlisting language="tdf">-&gt; NAT</programlisting>
 
@@ -363,9 +363,9 @@
 		<title>Floating point representations</title>
 
 		<section>
-			<title><code>.~frep_float_rep</code></title>
-			<title><code>.~frep_double_rep</code></title>
-			<title><code>.~frep_longdouble_rep</code></title>
+			<title><code>.~abi_float_rep</code></title>
+			<title><code>.~abi_double_rep</code></title>
+			<title><code>.~abi_longdouble_rep</code></title>
 
 			<programlisting language="tdf">-&gt; NAT</programlisting>
 
