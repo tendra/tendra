@@ -42,61 +42,59 @@ FLOATING_VARIETY ? ( NATTEST [n, ==, 1],
 );
 
 Tokdef .~rep_fv_width = [n:NAT] NAT
-NAT ? ( NATTEST [n, ==, 1],
-	32,
-	NAT ? ( NATTEST [n, ==, 2],
-		64,
-		NAT ? ( NATTEST [n, ==, 3],
-			80, /* 80 bits memory, increased to 96 by x87 ABI */
-			NAT ? ( NATTEST [n, ==, 4],
-				128,
-				0 /* provides test for end of range */
-			)
-		)
-	)
-);
+	computed_nat(
+		Var r:Int = snat_from_nat(false, n)(Int)
+		Labelled {
+			Case * r (1 -> l1, 2 -> l2, 3 -> l3, 4 -> l4);
+			       0   (Int) /* provides test for end of range */
+			| :l1: 32  (Int)
+			| :l2: 64  (Int)
+			| :l3: 80  (Int)
+			| :l4: 128 (Int)
+		}
+	);
 
 Tokdef .~rep_fv_radix = [n:NAT] NAT
 2;
 
 /* n must be in range */
 Tokdef .~rep_fv_mantissa = [n:NAT] NAT
-NAT ? ( NATTEST [n, ==, 1],
-	24,
-	NAT ? ( NATTEST [n, ==, 2],
-		53,
-		NAT ? ( NATTEST [n, ==, 3],
-			64,
-			113
-		)
-	)
-);
+	computed_nat(
+		Var r:Int = snat_from_nat(false, n)(Int)
+		Labelled {
+			Case * r (1 -> l1, 2 -> l2, 3 -> l3, 4 -> l4)
+			| :l1: 24  (Int)
+			| :l2: 53  (Int)
+			| :l3: 64  (Int)
+			| :l4: 113 (Int)
+		}
+	);
 
 /* n must be in range */
 Tokdef .~rep_fv_min_exp = [n:NAT] NAT
-NAT ? ( NATTEST [n, ==, 1],
-	149,
-	NAT ? ( NATTEST [n, ==, 2],
-		1074,
-		NAT ? ( NATTEST [n, ==, 3],
-			16445,
-			16494
-		)
-	)
-);
+	computed_nat(
+		Var r:Int = snat_from_nat(false, n)(Int)
+		Labelled {
+			Case * r (1 -> l1, 2 -> l2, 3 -> l3, 4 -> l4)
+			| :l1: 149   (Int)
+			| :l2: 1074  (Int)
+			| :l3: 16445 (Int)
+			| :l4: 16494 (Int)
+		}
+	);
 
 /* n must be in range */
 Tokdef .~rep_fv_max_exp = [n:NAT] NAT
-NAT ? ( NATTEST [n, ==, 1],
-	127,
-	NAT ? ( NATTEST [n, ==, 2],
-		1023,
-		NAT ? ( NATTEST [n, ==, 3],
-			16383,
-			16383
-		)
-	)
-);
+	computed_nat(
+		Var r:Int = snat_from_nat(false, n)(Int)
+		Labelled {
+			Case * r (1 -> l1, 2 -> l2, 3 -> l3, 4 -> l4)
+			| :l1: 127   (Int)
+			| :l2: 1023  (Int)
+			| :l3: 16383 (Int)
+			| :l4: 16383 (Int)
+		}
+	);
 
 /* n must be in range */
 Tokdef .~rep_fv_epsilon = [n:NAT] EXP
