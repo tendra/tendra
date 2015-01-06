@@ -73,24 +73,11 @@ Tokdef .~rep_fv_max_exp = [n:NAT] NAT
 	);
 
 /* n must be in range */
-Tokdef neg_minexp = [n:NAT] NAT
-	computed_nat(
-		Var r:Int = snat_from_nat(false, n)(Int)
-		Labelled {
-			Case * r (1 -> l1, 2 -> l2, 3 -> l3, 4 -> l4)
-			| :l1: 126   (Int)
-			| :l2: 1022  (Int)
-			| :l3: 16382 (Int)
-			| :l4: 16382 (Int)
-		}
-	);
-
-/* n must be in range */
 Tokdef .~rep_fv = [n:NAT] FLOATING_VARIETY
 	flvar_parms(
 		.~rep_fv_radix[n],
 		.~rep_fv_mantissa[n],
-		neg_minexp[n], /* TODO: would rather calculate as .~rep_fv_max_exp[n] - 1 */
+		computed_nat(snat_from_nat(false, .~rep_fv_max_exp[n])(Int) - 1(Int)),
 		.~rep_fv_max_exp[n]
 	);
 
