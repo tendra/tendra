@@ -13,12 +13,6 @@ _TENDRA_WORK_MACHTOK_MK_=1
 .include <tendra.compiler.mk>
 
 
-.if !defined(MACHTOK_DEP)
-.BEGIN:
-	@${ECHO} '$${MACHTOK_DEP} must be set'
-	@${EXIT} 1;
-.endif
-
 .if !defined(MACHTOK_MAP)
 .BEGIN:
 	@${ECHO} '$${MACHTOK_MAP} must be set'
@@ -43,11 +37,18 @@ _TENDRA_WORK_MACHTOK_MK_=1
 	@${EXIT} 1;
 .endif
 
+.if !defined(MACHTOK_INT)
+.BEGIN:
+	@${ECHO} '$${MACHTOK_INT} must be set'
+	@${EXIT} 1;
+.endif
+
 TOKENS_COMMON?=	machines/common/tokens
 TOKENS_MODEL?=	model
 TOKENS_EXCEPT?=	except
 TOKENS_MAP?=	map
 TOKENS_FLOAT?=	float
+TOKENS_INT?=  	int
 
 MAP_LANG += c
 MAP_LANG += f
@@ -61,11 +62,6 @@ _machtok_target+=	${OBJ_SDIR}/${TOKENS_COMMON}/var_toks.t
 
 ${OBJ_SDIR}/c_toks.j: ${BASE_DIR}/${TOKENS_COMMON}/c_toks.tpl
 	@${CONDCREATE} "${OBJ_SDIR}"
-	${TPL} ${.ALLSRC} ${.TARGET}
-
-${OBJ_SDIR}/dep_toks.j: ${MACHTOK_DEP}
-	@${CONDCREATE} "${OBJ_SDIR}"
-	@${ECHO} "==> Translating ${WRKDIR}/${.ALLSRC}"
 	${TPL} ${.ALLSRC} ${.TARGET}
 
 ${OBJ_SDIR}/pun.j: ${BASE_DIR}/${TOKENS_COMMON}/pun.tpl
@@ -82,6 +78,11 @@ ${OBJ_SDIR}/float_toks.j: ${BASE_DIR}/${TOKENS_FLOAT}/${MACHTOK_FLOAT}
 	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Translating ${WRKDIR}/${.ALLSRC}"
 	${TPL} -I${BASE_DIR}/${TOKENS_FLOAT} ${.ALLSRC} ${.TARGET}
+
+${OBJ_SDIR}/int_toks.j: ${BASE_DIR}/${TOKENS_INT}/${MACHTOK_INT}
+	@${CONDCREATE} "${OBJ_SDIR}"
+	@${ECHO} "==> Translating ${WRKDIR}/${.ALLSRC}"
+	${TPL} ${.ALLSRC} ${.TARGET}
 
 .for lang in ${MAP_LANG}
 ${OBJ_SDIR}/map_${lang}.j: ${BASE_DIR}/${TOKENS_MAP}/${lang}.tpl
@@ -109,9 +110,10 @@ ${OBJ_SDIR}/sys.j: ${OBJ_SDIR}/sys_toks.j
 ${OBJ_SDIR}/sys_toks.j: ${OBJ_SDIR}/map_${lang}.j
 .endfor
 
-${OBJ_SDIR}/sys_toks.j: ${OBJ_SDIR}/c_toks.j ${OBJ_SDIR}/dep_toks.j \
+${OBJ_SDIR}/sys_toks.j: ${OBJ_SDIR}/c_toks.j \
 	${OBJ_SDIR}/pun.j \
-	${OBJ_SDIR}/map_toks.j ${OBJ_SDIR}/model_toks.j ${OBJ_SDIR}/float_toks.j
+	${OBJ_SDIR}/map_toks.j \
+	${OBJ_SDIR}/model_toks.j ${OBJ_SDIR}/float_toks.j ${OBJ_SDIR}/int_toks.j
 	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Linking ${WRKDIR}/${.TARGET:T}"
 	${TLD} -o ${.TARGET} ${.ALLSRC}
@@ -122,10 +124,10 @@ ${OBJ_SDIR}/target_tok.tl: ${OBJ_SDIR}/map_${lang}.j
 .endfor
 
 # Target-dependent token library
-${OBJ_SDIR}/target_tok.tl: ${OBJ_SDIR}/dep_toks.j ${OBJ_SDIR}/map_toks.j \
+${OBJ_SDIR}/target_tok.tl: ${OBJ_SDIR}/map_toks.j \
 		${OBJ_SDIR}/pun.j \
 		${OBJ_SDIR}/except_toks.t ${OBJ_SDIR}/var_toks.t \
-		${OBJ_SDIR}/model_toks.j ${OBJ_SDIR}/float_toks.j
+		${OBJ_SDIR}/model_toks.j ${OBJ_SDIR}/float_toks.j ${OBJ_SDIR}/int_toks.j
 	@rm -f ${.TARGET}
 	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Linking ${WRKDIR}/${.TARGET:T}"
@@ -197,7 +199,7 @@ clean::
 	${RMFILE} ${OBJ_SDIR}/c.tl ${OBJ_DIR}/src/target_tok.tl
 	${RMFILE} ${OBJ_SDIR}/pun.j
 	${RMFILE} ${OBJ_SDIR}/dep_toks.j ${OBJ_SDIR}/c_toks.j ${OBJ_SDIR}/map_toks.j
-	${RMFILE} ${OBJ_SDIR}/model_toks.j ${OBJ_SDIR}/float_toks.j
+	${RMFILE} ${OBJ_SDIR}/model_toks.j ${OBJ_SDIR}/float_toks.j ${OBJ_SDIR}/int_toks.j
 	${RMFILE} ${OBJ_SDIR}/sys.j ${OBJ_SDIR}/sys_toks.j
 	${RMFILE} ${OBJ_SDIR}/except_toks.j ${OBJ_SDIR}/except_toks.t
 	${RMFILE} ${OBJ_SDIR}/var_toks.j ${OBJ_SDIR}/var_toks.t
