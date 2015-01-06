@@ -82,7 +82,7 @@ ${OBJ_SDIR}/float_toks.j: ${BASE_DIR}/${TOKENS_FLOAT}/${MACHTOK_FLOAT}
 ${OBJ_SDIR}/int_toks.j: ${BASE_DIR}/${TOKENS_INT}/${MACHTOK_INT}
 	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Translating ${WRKDIR}/${.ALLSRC}"
-	${TPL} ${.ALLSRC} ${.TARGET}
+	${TPL} -I${BASE_DIR}/${TOKENS_INT} ${.ALLSRC} ${.TARGET}
 
 .for lang in ${MAP_LANG}
 ${OBJ_SDIR}/map_${lang}.j: ${BASE_DIR}/${TOKENS_MAP}/${lang}.tpl
