@@ -387,7 +387,7 @@
 	</section>
 
 	<section>
-		<title>Signedness</title>
+		<title>Sign</title>
 
 		<section>
 			<title><code>.~abi_char_is_signed</code></title>
