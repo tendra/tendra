@@ -17,29 +17,8 @@
  *   4 = Quad
  */
 
-/* variety for integer widths and float_sequence */
-Tokdef REP_V = [] VARIETY
-var_width (false, 16);
-
-/* comparison of nats, for static conditionals */
-Tokdef NATTEST = [a:NAT, comp:NTEST, b:NAT] EXP
-? { ?(snat_from_nat(false,a)(REP_V) comp snat_from_nat(false,b)(REP_V));
-	  1(REP_V)
-	| 0(REP_V)
-};
-
-/* n must be in range */
-Tokdef .~rep_fv = [n:NAT] FLOATING_VARIETY
-FLOATING_VARIETY ? ( NATTEST [n, ==, 1],
-	flvar_parms (2, 24, 126, 127),
-	FLOATING_VARIETY ? ( NATTEST [n, ==, 2],
-		flvar_parms (2, 53, 1022, 1023),
-		FLOATING_VARIETY ? ( NATTEST [n, ==, 3],
-			flvar_parms (2, 64, 16382, 16383),
-			flvar_parms (2, 113, 16382, 16383)
-		)
-	)
-);
+Tokdef .~rep_fv_radix = [n:NAT] NAT
+	2;
 
 Tokdef .~rep_fv_width = [n:NAT] NAT
 	computed_nat(
@@ -53,9 +32,6 @@ Tokdef .~rep_fv_width = [n:NAT] NAT
 			| :l4: 128 (Int)
 		}
 	);
-
-Tokdef .~rep_fv_radix = [n:NAT] NAT
-2;
 
 /* n must be in range */
 Tokdef .~rep_fv_mantissa = [n:NAT] NAT
@@ -94,6 +70,28 @@ Tokdef .~rep_fv_max_exp = [n:NAT] NAT
 			| :l3: 16383 (Int)
 			| :l4: 16383 (Int)
 		}
+	);
+
+/* n must be in range */
+Tokdef neg_minexp = [n:NAT] NAT
+	computed_nat(
+		Var r:Int = snat_from_nat(false, n)(Int)
+		Labelled {
+			Case * r (1 -> l1, 2 -> l2, 3 -> l3, 4 -> l4)
+			| :l1: 126   (Int)
+			| :l2: 1022  (Int)
+			| :l3: 16382 (Int)
+			| :l4: 16382 (Int)
+		}
+	);
+
+/* n must be in range */
+Tokdef .~rep_fv = [n:NAT] FLOATING_VARIETY
+	flvar_parms(
+		.~rep_fv_radix[n],
+		.~rep_fv_mantissa[n],
+		neg_minexp[n], /* TODO: would rather calculate as .~rep_fv_max_exp[n] - 1 */
+		.~rep_fv_max_exp[n]
 	);
 
 /* n must be in range */
