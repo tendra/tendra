@@ -26,8 +26,6 @@
 #include <stdio.h>
 #endif
 
-#include "ossg.h"
-
 #if defined(__TenDRA__)
 #include "abstract.h"
 #else
