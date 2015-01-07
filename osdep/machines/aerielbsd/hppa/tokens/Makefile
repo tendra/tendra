@@ -13,6 +13,7 @@ MACHTOK_MODEL 	= ilp32.tpl
 MACHTOK_FLOAT 	= ieee754-quad.tpl
 MACHTOK_INT   	= ${BLDARCH}.tpl
 MACHTOK_CHAR   	= signed.tpl
+MACHTOK_BITF  	= signed.tpl
 
 .include <tendra.machtok.mk>
 

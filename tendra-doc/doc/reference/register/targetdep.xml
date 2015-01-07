@@ -391,6 +391,7 @@
 
 		<section>
 			<title><code>.~abi_char_is_signed</code></title>
+			<title><code>.~abi_bitfield_is_signed</code></title>
 
 			<programlisting language="tdf">-&gt; BOOL</programlisting>
 		</section>

@@ -27,13 +27,8 @@ Tokdef .~min_struct_rep = [] NAT
 16;
 
 
-Tokdef .~bitfield_is_signed = [] BOOL
-true;
-
-
 
 
 Keep (
-.~pv_align, .~min_struct_rep,
-.~bitfield_is_signed
+.~pv_align, .~min_struct_rep
 )
