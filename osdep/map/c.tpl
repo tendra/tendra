@@ -17,6 +17,7 @@ Tokdec .~abi_ptr_width      : [] NAT;
 Tokdec .~abi_float_rep      : [] NAT;
 Tokdec .~abi_double_rep     : [] NAT;
 Tokdec .~abi_longdouble_rep : [] NAT;
+Tokdec .~abi_min_struct_rep : [] NAT;
 
 Tokdec .~abi_pv_align       : [] ALIGNMENT;
 
@@ -38,6 +39,7 @@ Tokdef .~ptr_width      = [] NAT .~abi_ptr_width;
 Tokdef .~fl_rep         = [] NAT .~abi_float_rep;
 Tokdef .~dbl_rep        = [] NAT .~abi_double_rep;
 Tokdef .~ldbl_rep       = [] NAT .~abi_longdouble_rep;
+Tokdef .~min_struct_rep = [] NAT .~abi_min_struct_rep;
 
 Tokdef .~pv_align       = [] ALIGNMENT .~abi_pv_align;
 
@@ -47,7 +49,7 @@ Tokdef .~bitfield_is_signed = [] BOOL .~abi_bitfield_is_signed;
 Keep (
 	.~char_width, .~short_width, .~int_width, .~long_width,
 	.~longlong_width, .~size_t_width, .~ptr_width,
-	.~fl_rep, .~dbl_rep, .~ldbl_rep,
+	.~fl_rep, .~dbl_rep, .~ldbl_rep, .~min_struct_rep,
 	.~pv_align,
 	.~char_is_signed, .~bitfield_is_signed
 )

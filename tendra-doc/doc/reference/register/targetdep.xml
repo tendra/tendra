@@ -360,6 +360,14 @@
 	</section>
 
 	<section>
+		<title>Struct representations</title>
+
+		<section>
+			<title><code>.~abi_min_struct_rep</code></title>
+		</section>
+	</section>
+
+	<section>
 		<title>Floating point representations</title>
 
 		<section>

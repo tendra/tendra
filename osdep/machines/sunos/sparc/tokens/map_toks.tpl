@@ -16,15 +16,5 @@
 
 
 
-	/* C MAPPING TOKENS */
-
-
-Tokdef .~min_struct_rep = [] NAT
-8;
-
-
-
-
 Keep (
-.~min_struct_rep
 )

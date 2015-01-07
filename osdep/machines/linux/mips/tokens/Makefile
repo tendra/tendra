@@ -14,6 +14,7 @@ MACHTOK_INT   	= ${BLDARCH}-le.tpl
 MACHTOK_CHAR   	= unsigned.tpl
 MACHTOK_BITF  	= signed.tpl
 MACHTOK_ALIGN 	= char.tpl
+MACHTOK_STRUCT	= min8.tpl
 
 .include <tendra.machtok.mk>
 
