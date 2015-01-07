@@ -7,65 +7,61 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+/*
+ * This file contains PL_TDF token declarations which act as the interface
+ * to the tokens defined in the file abstract.tpl.
+ */
 
 /*
-**		abstract.tph
-**
-**  This file contains PL_TDF token declarations which
-**  act as the interface to the tokens defined in the
-**  file abstract.tpl.
-*/
-
-
-/*  Define the generic 32-bit signed and unsigned types  */
-
+ * Define the generic 32-bit signed and unsigned types
+ */
 Tokdec  ~INT32 : [] VARIETY;
 Tokdec   INT32 : [] SHAPE;
 Tokdec ~UINT32 : [] VARIETY;
 Tokdec  UINT32 : [] SHAPE;
 
-
-/*  Define the new types for 64-bit integers  */
-
+/*
+ * Define the new types for 64-bit integers
+ */
 Tokdec  INT64 : [] SHAPE;
 Tokdec UINT64 : [] SHAPE;
 
-
-/*  Define the widest floating variety - not possible in C  */
-
+/*
+ * Define the widest floating variety - not possible in C
+ */
 Tokdec ~BigFloat : [] FLOATING_VARIETY;
 Tokdec  BigFloat : [] SHAPE;
 
-
-
-/*  Macros for extracting the high- and low-32 bits      */
-/*    (These necessarily differ from the C equivalents)  */
+/*
+ * Macros for extracting the high- and low-32 bits
+ * (These necessarily differ from the C equivalents)
+ */
 
 Tokdec TDF_INT64 : [] SHAPE;
 
-Tokdec hi_32 : [EXP] EXP;
-Tokdec lo_32 : [EXP] EXP;
+Tokdec  hi_32  : [EXP] EXP;
+Tokdec  lo_32  : [EXP] EXP;
 
-Tokdec hi_u32 : [EXP] EXP;
-Tokdec lo_u32 : [EXP] EXP;
+Tokdec  hi_u32 : [EXP] EXP;
+Tokdec  lo_u32 : [EXP] EXP;
 
-Tokdec .hi_32 : [] EXP;
-Tokdec .lo_32 : [] EXP;
+Tokdec .hi_32  : [] EXP;
+Tokdec .lo_32  : [] EXP;
 
 Tokdec .hi_u32 : [] EXP;
 Tokdec .lo_u32 : [] EXP;
 
-Tokdec  PARAM : [EXP] EXP;
-Tokdec UPARAM : [EXP] EXP;
+Tokdec   PARAM : [EXP] EXP;
+Tokdec  UPARAM : [EXP] EXP;
 
 Tokdec  .PARAM : [] EXP;
 Tokdec .UPARAM : [] EXP;
 
-
-
-/*  64-bit constants used in the implementation  */
-
+/*
+ * 64-bit constants used in the implementation
+ */
 Tokdec const_0  : [] EXP;
 Tokdec const_u0 : [] EXP;
 Tokdec const_1  : [] EXP;
 Tokdec const_u1 : [] EXP;
+

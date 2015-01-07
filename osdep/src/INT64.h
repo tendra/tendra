@@ -7,7 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
 #ifndef __INT64_h
 #define __INT64_h
 
@@ -51,12 +50,13 @@ extern UINT64	__TDFUor(UINT64, UINT64);
 extern UINT64	__TDFUxor(UINT64, UINT64);
 extern UINT64	__TDFUnot(UINT64);
 
-extern INT64 const_0;
+extern INT64  const_0;
 extern UINT64 const_u0;
-extern INT64 const_1;
+extern INT64  const_1;
 extern UINT64 const_u1;
 
 extern void INT64_print(char *,  INT64, char *);
 extern void UINT64_print(char *, UINT64, char *);
 
-#endif  /* ndef __INT64_h */
+#endif
+
