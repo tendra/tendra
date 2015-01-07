@@ -19,10 +19,6 @@
 	/* C MAPPING TOKENS */
 
 
-Tokdef .~pv_align = [] ALIGNMENT
-alignment(integer(var_width(false,8)));
-
-
 Tokdef .~min_struct_rep = [] NAT
 16;
 
@@ -30,5 +26,5 @@ Tokdef .~min_struct_rep = [] NAT
 
 
 Keep (
-.~pv_align, .~min_struct_rep
+.~min_struct_rep
 )

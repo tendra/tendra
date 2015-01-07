@@ -14,6 +14,7 @@ MACHTOK_FLOAT 	= ieee754-quad.tpl
 MACHTOK_INT   	= ${BLDARCH}.tpl
 MACHTOK_CHAR   	= signed.tpl
 MACHTOK_BITF  	= signed.tpl
+MACHTOK_ALIGN 	= char.tpl
 
 .include <tendra.machtok.mk>
 

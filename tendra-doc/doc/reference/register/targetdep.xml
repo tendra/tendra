@@ -396,5 +396,15 @@
 			<programlisting language="tdf">-&gt; BOOL</programlisting>
 		</section>
 	</section>
+
+	<section>
+		<title>Alignment</title>
+
+		<section>
+			<title><code>.~abi_pv_align</code></title>
+
+			<programlisting language="tdf">-&gt; ALIGNMENT</programlisting>
+		</section>
+	</section>
 </chapter>
 

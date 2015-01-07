@@ -13,6 +13,7 @@ MACHTOK_FLOAT 	= ieee754-double.tpl
 MACHTOK_INT   	= ${BLDARCH}-le.tpl
 MACHTOK_CHAR   	= unsigned.tpl
 MACHTOK_BITF  	= signed.tpl
+MACHTOK_ALIGN 	= char.tpl
 
 .include <tendra.machtok.mk>
 
