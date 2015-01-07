@@ -75,8 +75,6 @@ TOKENS_STRUCT?=	struct
 MAP_LANG += c
 MAP_LANG += f
 
-FLOAT_REP += ieee754
-
 .if !defined(MACHTOK_VAR)
 _machtok_target+=	${OBJ_SDIR}/${TOKENS_COMMON}/var_toks.t
 .endif
