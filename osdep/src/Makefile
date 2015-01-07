@@ -24,16 +24,7 @@ ${OBJ_SDIR}/INT64.o: INT64a.c ${CAPSULES}
 		-J${OBJ_SDIR} -jc \
 		-M -WP,-I. ${.ALLSRC}
 
-# TODO: i'm adding c.tl because of use of undefined token, ~char
-# but I don't think it belongs here.
-${OBJ_SDIR}/version.o: version.c
-	${TCC} ${TCCOPTS} -c -o ${.TARGET} \
-		-J${OBJ_SDIR} -jc \
-		version.c
-
-
 OBJS+=	${OBJ_SDIR}/INT64.o
-OBJS+=	${OBJ_SDIR}/version.o
 
 
 LIB=		tsl
