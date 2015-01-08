@@ -67,6 +67,12 @@ _TENDRA_WORK_MACHTOK_MK_=1
 	@${EXIT} 1;
 .endif
 
+.if !defined(MACHTOK_PUN)
+.BEGIN:
+	@${ECHO} '$${MACHTOK_PUN} must be set'
+	@${EXIT} 1;
+.endif
+
 TOKENS_COMMON?=	machines/common/tokens
 TOKENS_EXCEPT?=	except
 TOKENS_MODEL?=	abi/model
@@ -79,6 +85,7 @@ TOKENS_MAP?=	map
 TOKENS_LPI?=	lpi
 TOKENS_INT?=  	int
 TOKENS_VAR?=   	var
+TOKENS_PUN?=   	pun
 
 MAP += c
 MAP += f
@@ -93,7 +100,7 @@ ABI += bitfield
 ABI += align
 ABI += struct
 
-${OBJ_SDIR}/pun.j: ${BASE_DIR}/${TOKENS_COMMON}/pun.tpl
+${OBJ_SDIR}/pun.j: ${BASE_DIR}/${TOKENS_PUN}/${MACHTOK_PUN}
 	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Translating ${WRKDIR}/${.ALLSRC}"
 	${TPL} ${.ALLSRC} ${.TARGET}
@@ -192,8 +199,7 @@ ${OBJ_SDIR}/target_tok.tl: ${OBJ_SDIR}/map_${lang}.j
 # Target-dependent token library
 ${OBJ_SDIR}/target_tok.tl: ${OBJ_SDIR}/pun.j \
 		${OBJ_SDIR}/except_toks.t ${OBJ_SDIR}/var_toks.t \
-		${OBJ_SDIR}/abi_model.j ${OBJ_SDIR}/abi_float.j ${OBJ_SDIR}/int_toks.j \
-		${OBJ_SDIR}/abi_char.j ${OBJ_SDIR}/abi_bitfield.j ${OBJ_SDIR}/abi_align.j ${OBJ_SDIR}/abi_struct.j
+		${OBJ_SDIR}/abi.j
 	@rm -f ${.TARGET}
 	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Linking ${WRKDIR}/${.TARGET:T}"
