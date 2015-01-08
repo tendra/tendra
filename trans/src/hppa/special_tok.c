@@ -75,7 +75,7 @@ special_token(token t, bitstream pars, int sortcode, int * done)
   }
 
   /* TODO: BUILTIN_? */ {
-    if (!strcmp(t -> tok_name,"~next_caller_offset")) {
+    if (!strcmp(t -> tok_name,"__trans_next_caller_offset")) {
         exp arg1, arg2;
         shape sha1, sha2, sha3;
         place old_place;
@@ -106,7 +106,7 @@ special_token(token t, bitstream pars, int sortcode, int * done)
         return tkv;
     }
   
-    if (!strcmp(t -> tok_name,"~next_callee_offset")) {
+    if (!strcmp(t -> tok_name,"__trans_next_callee_offset")) {
         exp arg1, arg2, off;
         shape sha1, sha2;
         place old_place;

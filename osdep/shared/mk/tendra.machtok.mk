@@ -61,9 +61,15 @@ _TENDRA_WORK_MACHTOK_MK_=1
 	@${EXIT} 1;
 .endif
 
-.if !defined(MACHTOK_VAR)
+.if !defined(MACHTOK_STACK)
 .BEGIN:
-	@${ECHO} '$${MACHTOK_VAR} must be set'
+	@${ECHO} '$${MACHTOK_STACK} must be set'
+	@${EXIT} 1;
+.endif
+
+.if !defined(MACHTOK_VA)
+.BEGIN:
+	@${ECHO} '$${MACHTOK_STACK} must be set'
 	@${EXIT} 1;
 .endif
 
@@ -81,10 +87,11 @@ TOKENS_CHAR?=  	abi/char
 TOKENS_BITF?=  	abi/bitfield
 TOKENS_ALIGN?= 	abi/align
 TOKENS_STRUCT?=	abi/struct
+TOKENS_STACK?= 	abi/stack
+TOKENS_VA?=   	abi/va
 TOKENS_MAP?=	map
 TOKENS_LPI?=	lpi
 TOKENS_INT?=  	int
-TOKENS_VAR?=   	var
 TOKENS_PUN?=   	pun
 
 MAP += c
@@ -99,6 +106,8 @@ ABI += char
 ABI += bitfield
 ABI += align
 ABI += struct
+ABI += stack
+ABI += va
 
 ${OBJ_SDIR}/pun.j: ${BASE_DIR}/${TOKENS_PUN}/${MACHTOK_PUN}
 	@${CONDCREATE} "${OBJ_SDIR}"
@@ -135,15 +144,20 @@ ${OBJ_SDIR}/abi_struct.j: ${BASE_DIR}/${TOKENS_STRUCT}/${MACHTOK_STRUCT}
 	@${ECHO} "==> Translating ${WRKDIR}/${.ALLSRC}"
 	${TPL} -I${BASE_DIR}/${TOKENS_STRUCT} ${.ALLSRC} ${.TARGET}
 
+${OBJ_SDIR}/abi_stack.j: ${BASE_DIR}/${TOKENS_STACK}${MACHTOKS_STACK}
+	@${CONDCREATE} "${OBJ_SDIR}"
+	@${ECHO} "==> Translating ${TOKENS_STACK}/${MACHTOKS_STACK}"
+	${TPL} -I${BASE_DIR}/${TOKENS_STACK} ${.ALLSRC} ${.TARGET}
+
+${OBJ_SDIR}/abi_va.j: ${BASE_DIR}/${TOKENS_VA}${MACHTOKS_VA}
+	@${CONDCREATE} "${OBJ_SDIR}"
+	@${ECHO} "==> Translating ${TOKENS_VA}/${MACHTOKS_VA}"
+	${TPL} -I${BASE_DIR}/${TOKENS_VA} ${.ALLSRC} ${.TARGET}
+
 ${OBJ_SDIR}/int_toks.j: ${BASE_DIR}/${TOKENS_INT}/${MACHTOK_INT}
 	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Translating ${WRKDIR}/${.ALLSRC}"
 	${TPL} -I${BASE_DIR}/${TOKENS_INT} ${.ALLSRC} ${.TARGET}
-
-${OBJ_SDIR}/var_toks.j: ${BASE_DIR}/${TOKENS_VAR}${MACHTOKS_VAR}
-	@${CONDCREATE} "${OBJ_SDIR}"
-	@${ECHO} "==> Translating ${TOKENS_VAR}/${MACHTOKS_VAR}"
-	${TPL} -I${BASE_DIR}/${TOKENS_VAR} ${.ALLSRC} ${.TARGET}
 
 .for lang in ${MAP}
 ${OBJ_SDIR}/map_${lang}.j: ${BASE_DIR}/${TOKENS_MAP}/${lang}.tpl
@@ -173,10 +187,6 @@ ${OBJ_SDIR}/sys.j: ${OBJ_SDIR}/sys_toks.j
 	@${ECHO} "==> Rewriting ${WRKDIR}/${.TARGET:T}"
 	${TNC} -t -d -L'.~' ${.ALLSRC} ${.TARGET}
 
-.for lang in ${MAP}
-${OBJ_SDIR}/sys_toks.j: ${OBJ_SDIR}/map_${lang}.j
-.endfor
-
 .for abi in ${ABI}
 ${OBJ_SDIR}/abi.j: ${OBJ_SDIR}/abi_${abi}.j
 .endfor
@@ -185,6 +195,10 @@ ${OBJ_SDIR}/abi.j:
 	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Linking ${WRKDIR}/${.TARGET:T}"
 	${TLD} -o ${.TARGET} ${.ALLSRC}
+
+.for lang in ${MAP}
+${OBJ_SDIR}/sys_toks.j: ${OBJ_SDIR}/map_${lang}.j
+.endfor
 
 ${OBJ_SDIR}/sys_toks.j: ${OBJ_SDIR}/lpi_tdfc2.j ${OBJ_SDIR}/pun.j ${OBJ_SDIR}/abi.j
 	@${CONDCREATE} "${OBJ_SDIR}"
@@ -198,7 +212,7 @@ ${OBJ_SDIR}/target_tok.tl: ${OBJ_SDIR}/map_${lang}.j
 
 # Target-dependent token library
 ${OBJ_SDIR}/target_tok.tl: ${OBJ_SDIR}/pun.j \
-		${OBJ_SDIR}/except_toks.t ${OBJ_SDIR}/var_toks.t \
+		${OBJ_SDIR}/except_toks.t ${OBJ_SDIR}/abi_stack.j \
 		${OBJ_SDIR}/abi.j
 	@rm -f ${.TARGET}
 	@${CONDCREATE} "${OBJ_SDIR}"
@@ -211,13 +225,6 @@ ${OBJ_SDIR}/except_toks.t: ${OBJ_SDIR}/except_toks.j \
 	@${ECHO} "==> Linking ${WRKDIR}/${.TARGET:T}"
 	${TCC} -o ${.TARGET} ${TCCENVOPTS} -Ft \
 		-Y${BASE_DIR}/${TOKENS_COMMON}/except_toks ${OBJ_SDIR}/except_toks.j
-
-${OBJ_SDIR}/var_toks.t: ${OBJ_SDIR}/var_toks.j \
-		${BASE_DIR}/${TOKENS_COMMON}/var_toks
-	@${CONDCREATE} "${OBJ_SDIR}"
-	@${ECHO} "==> Translating ${WRKDIR}/${.TARGET}"
-	${TCC} -o ${.TARGET} ${TCCENVOPTS} -Ft \
-		-Y${BASE_DIR}/${TOKENS_COMMON}/var_toks ${OBJ_SDIR}/var_toks.j
 
 ${OBJ_SDIR}/except_toks.j: ${BASE_DIR}/${TOKENS_EXCEPT}/${MACHTOK_EXCEPT}
 	@${CONDCREATE} "${OBJ_SDIR}"
@@ -255,7 +262,6 @@ clean::
 	${RMFILE} ${OBJ_SDIR}/dep_toks.j
 	${RMFILE} ${OBJ_SDIR}/sys.j ${OBJ_SDIR}/sys_toks.j
 	${RMFILE} ${OBJ_SDIR}/except_toks.j ${OBJ_SDIR}/except_toks.t
-	${RMFILE} ${OBJ_SDIR}/var_toks.j ${OBJ_SDIR}/var_toks.t
 	${RMFILE} ${OBJ_SDIR}/abi.j
 .for lang in ${MAP}
 	${RMFILE} ${OBJ_SDIR}/map_${lang}.j
