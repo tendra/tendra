@@ -20,7 +20,7 @@ component (to_sh,
 
 /* variety for converted pointers */
 Tokdef PTR_V = [] VARIETY
-var_width (true, .~ptr_width);
+	var_width (true, .~ptr_width);
 
 
 /*
@@ -28,19 +28,19 @@ var_width (true, .~ptr_width);
  */
 
 Tokdef .~ptr_to_ptr = [a1:ALIGNMENT, a2:ALIGNMENT, p:EXP] EXP
-PUN [ pointer(a1), pointer(a2), p ];
+	PUN [ pointer(a1), pointer(a2), p ];
 
 Tokdef .~ptr_to_int = [a:ALIGNMENT, v:VARIETY, p:EXP] EXP
-([v] PUN [ pointer(a), integer(PTR_V), p ]);
+	([v] PUN [ pointer(a), integer(PTR_V), p ]);
 
 Tokdef .~int_to_ptr = [v:VARIETY, a:ALIGNMENT, i:EXP] EXP
-PUN [ integer(PTR_V), pointer(a), [PTR_V] i ];
+	PUN [ integer(PTR_V), pointer(a), [PTR_V] i ];
 
 Tokdef .~f_to_ptr = [a:ALIGNMENT, fn:EXP] EXP
-PUN [ proc, pointer(a), fn ];
+	PUN [ proc, pointer(a), fn ];
 
 Tokdef .~ptr_to_f = [a:ALIGNMENT, p:EXP] EXP
-PUN [ pointer(a), proc, p ];
+	PUN [ pointer(a), proc, p ];
 
 Keep (
 	.~ptr_to_ptr, .~ptr_to_int, .~int_to_ptr, .~f_to_ptr, .~ptr_to_f
