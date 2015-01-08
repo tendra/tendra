@@ -14,11 +14,6 @@
 	/* **************************************************** */
 
 
-Tokdef ~toks_major_v = [] NAT 3;
-Tokdef ~toks_minor_v = [] NAT 1;
-
-
-
 	/* Target dependency tokens declarations */
 
 Tokdec .~rep_var_width : [NAT] NAT;
@@ -603,7 +598,6 @@ SIGNED_NAT ? ( NATTEST [.~ptr_width, ==, .~int_width],
 
 
 Keep (
-~toks_major_v, ~toks_minor_v,
 ~div, ~rem, ~ptr_add, ~ptr_sub, ~char, ~unsigned_char, ~signed_char,
 ~unsigned_short, ~signed_short, ~unsigned_int, ~signed_int,
 ~unsigned_long, ~signed_long, ~unsigned_longlong, ~signed_longlong,
