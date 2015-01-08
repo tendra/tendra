@@ -7,14 +7,9 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-	/* **************************************************** */
-	/*							*/
-	/*	Generic pl_tdf source for sys.j			*/
-	/*							*/
-	/* **************************************************** */
-
-
-	/* Target dependency tokens declarations */
+/*
+ * Target dependency tokens
+ */
 
 Tokdec .~rep_var_width : [NAT] NAT;
 Tokdec .~rep_atomic_width : [] NAT;
@@ -36,126 +31,103 @@ Tokdec .~int_to_ptr : [VARIETY, ALIGNMENT, EXP] EXP;
 Tokdec .~f_to_ptr : [ALIGNMENT, EXP] EXP;
 Tokdec .~ptr_to_f : [ALIGNMENT, EXP] EXP;
 
+/*
+ * C mapping tokens
+ */
 
-	/* C mapping token declarations */
+Tokdec .~char_width         : [] NAT;
+Tokdec .~short_width        : [] NAT;
+Tokdec .~int_width          : [] NAT;
+Tokdec .~long_width         : [] NAT;
+Tokdec .~longlong_width     : [] NAT;
+Tokdec .~size_t_width       : [] NAT;
+Tokdec .~fl_rep             : [] NAT;
+Tokdec .~dbl_rep            : [] NAT;
+Tokdec .~ldbl_rep           : [] NAT;
+Tokdec .~min_struct_rep     : [] NAT;
 
-Tokdec .~char_width : [] NAT;
-Tokdec .~short_width : [] NAT;
-Tokdec .~int_width : [] NAT;
-Tokdec .~long_width : [] NAT;
-Tokdec .~longlong_width : [] NAT;
-Tokdec .~size_t_width : [] NAT;
-Tokdec .~fl_rep : [] NAT;
-Tokdec .~dbl_rep : [] NAT;
-Tokdec .~ldbl_rep : [] NAT;
-Tokdec .~pv_align : [] ALIGNMENT;
-Tokdec .~min_struct_rep : [] NAT;
-Tokdec .~char_is_signed : [] BOOL;
+Tokdec .~pv_align           : [] ALIGNMENT;
+
+Tokdec .~char_is_signed     : [] BOOL;
 Tokdec .~bitfield_is_signed : [] BOOL;
 
+/*
+ * Variety encoding constants for representing integer
+ * types in conversion, promotion rules etc.
+ */
 
+Tokdef t_char     = [] SIGNED_NAT		0;
+Tokdef t_short    = [] SIGNED_NAT		1;
+Tokdef t_int      = [] SIGNED_NAT		2;
+Tokdef t_long     = [] SIGNED_NAT		3;
 
-	/* Variety encoding constants for representing integer */
-	/* types in conversion, promotion rules etc            */
-
-Tokdef t_char = [] SIGNED_NAT		0;
-Tokdef t_short = [] SIGNED_NAT		1;
-Tokdef t_int = [] SIGNED_NAT		2;
-Tokdef t_long = [] SIGNED_NAT		3;
-
-Tokdef t_signed = [] SIGNED_NAT		4;
+Tokdef t_signed   = [] SIGNED_NAT		4;
 Tokdef t_unsigned = [] SIGNED_NAT	8;
 Tokdef t_longlong = [] SIGNED_NAT	16;
 
-Tokdef t_vmask = [] SIGNED_NAT		19;
-Tokdef t_smask = [] SIGNED_NAT		12;
+Tokdef t_vmask    = [] SIGNED_NAT		19;
+Tokdef t_smask    = [] SIGNED_NAT		12;
 
-Tokdef t_vty = [] VARIETY	/* variety for above constants */
-var_width(false,8);
+Tokdef t_vty = [] VARIETY /* variety for above constants */
+	var_width(false, 8);
 
-	/* Constants derived from the above */
+/*
+ * Constants derived from the above
+ */
 
 Tokdef t_s_char = [] SIGNED_NAT
-computed_signed_nat (t_char(t_vty) Or t_signed(t_vty));
+	computed_signed_nat(t_char(t_vty) Or t_signed(t_vty));
 
 Tokdef t_u_char = [] SIGNED_NAT
-computed_signed_nat (t_char(t_vty) Or t_unsigned(t_vty));
+	computed_signed_nat(t_char(t_vty) Or t_unsigned(t_vty));
 
 Tokdef t_s_short = [] SIGNED_NAT
-computed_signed_nat (t_short(t_vty) Or t_signed(t_vty));
+	computed_signed_nat(t_short(t_vty) Or t_signed(t_vty));
 
 Tokdef t_u_short = [] SIGNED_NAT
-computed_signed_nat (t_short(t_vty) Or t_unsigned(t_vty));
+	computed_signed_nat(t_short(t_vty) Or t_unsigned(t_vty));
 
 Tokdef t_s_int = [] SIGNED_NAT
-computed_signed_nat (t_int(t_vty) Or t_signed(t_vty));
+	computed_signed_nat(t_int(t_vty) Or t_signed(t_vty));
 
 Tokdef t_u_int = [] SIGNED_NAT
-computed_signed_nat (t_int(t_vty) Or t_unsigned(t_vty));
+	computed_signed_nat(t_int(t_vty) Or t_unsigned(t_vty));
 
 Tokdef t_s_long = [] SIGNED_NAT
-computed_signed_nat (t_long(t_vty) Or t_signed(t_vty));
+	computed_signed_nat(t_long(t_vty) Or t_signed(t_vty));
 
 Tokdef t_u_long = [] SIGNED_NAT
-computed_signed_nat (t_long(t_vty) Or t_unsigned(t_vty));
+	computed_signed_nat(t_long(t_vty) Or t_unsigned(t_vty));
 
 Tokdef t_s_longlong = [] SIGNED_NAT
-computed_signed_nat (t_longlong(t_vty) Or t_s_long(t_vty));
+	computed_signed_nat(t_longlong(t_vty) Or t_s_long(t_vty));
 
 Tokdef t_u_longlong = [] SIGNED_NAT
-computed_signed_nat (t_longlong(t_vty) Or t_u_long(t_vty));
+	computed_signed_nat(t_longlong(t_vty) Or t_u_long(t_vty));
 
+/*
+ * C integer and float varieties
+ */
 
+Tokdef ~char              = [] VARIETY var_width(.~char_is_signed, .~char_width);
+Tokdef ~signed_char       = [] VARIETY var_width(true, .~char_width);
+Tokdef ~unsigned_char     = [] VARIETY var_width(false, .~char_width);
+Tokdef ~signed_short      = [] VARIETY var_width(true, .~short_width);
+Tokdef ~unsigned_short    = [] VARIETY var_width(false, .~short_width);
+Tokdef ~signed_int        = [] VARIETY var_width(true, .~int_width);
+Tokdef ~unsigned_int      = [] VARIETY var_width(false, .~int_width);
+Tokdef ~signed_long       = [] VARIETY var_width(true, .~long_width);
+Tokdef ~unsigned_long     = [] VARIETY var_width(false, .~long_width);
+Tokdef ~signed_longlong   = [] VARIETY var_width(true, .~longlong_width);
+Tokdef ~unsigned_longlong = [] VARIETY var_width(false, .~longlong_width);
 
+Tokdef ~float             = [] FLOATING_VARIETY .~rep_fv[.~fl_rep];
+Tokdef ~double            = [] FLOATING_VARIETY .~rep_fv[.~dbl_rep];
+Tokdef ~long_double       = [] FLOATING_VARIETY .~rep_fv[.~ldbl_rep];
 
-	/* C integer and float varieties */
-
-Tokdef ~char = [] VARIETY
-var_width (.~char_is_signed, .~char_width);
-
-Tokdef ~signed_char = [] VARIETY
-var_width (true, .~char_width);
-
-Tokdef ~unsigned_char = [] VARIETY
-var_width (false, .~char_width);
-
-Tokdef ~signed_short = [] VARIETY
-var_width (true, .~short_width);
-
-Tokdef ~unsigned_short = [] VARIETY
-var_width (false, .~short_width);
-
-Tokdef ~signed_int = [] VARIETY
-var_width (true, .~int_width);
-
-Tokdef ~unsigned_int = [] VARIETY
-var_width (false, .~int_width);
-
-Tokdef ~signed_long = [] VARIETY
-var_width (true, .~long_width);
-
-Tokdef ~unsigned_long = [] VARIETY
-var_width (false, .~long_width);
-
-Tokdef ~signed_longlong = [] VARIETY
-var_width (true, .~longlong_width);
-
-Tokdef ~unsigned_longlong = [] VARIETY
-var_width (false, .~longlong_width);
-
-Tokdef ~float = [] FLOATING_VARIETY
-.~rep_fv [.~fl_rep];
-
-Tokdef ~double = [] FLOATING_VARIETY
-.~rep_fv [.~dbl_rep];
-
-Tokdef ~long_double = [] FLOATING_VARIETY
-.~rep_fv [.~ldbl_rep];
-
-
-
-
-	/* max values needed to determine types of literals */
+/*
+ * max values needed to determine types of literals
+ */
 
 Tokdef max_signed_int = [] SIGNED_NAT
 computed_signed_nat (
@@ -183,75 +155,75 @@ computed_signed_nat (
   - 1(~unsigned_longlong)
 );
 
+/*
+ * Shorthand tests producing EXP boolean
+ * for use in constant evaluation constructions
+ */
 
+/* exp integer test */
+Tokdef ITEST = [a:EXP, comp:NTEST, b:EXP] EXP
+	? { ?(a comp b); 1(~unsigned_int) | 0(~unsigned_int) };
 
+/* exp offset test */
+Tokdef OTEST = [a:EXP, comp:NTEST, b:EXP] EXP
+	? { .?(a comp b); 1(~unsigned_int) | 0(~unsigned_int) };
 
-	/* Shorthand tests producing EXP boolean 	*/
-	/* for use in constant evaluation constructions */
+/* s_nat test */
+Tokdef SNTEST = [a:SIGNED_NAT, comp:NTEST, b:SIGNED_NAT] EXP
+	ITEST [a(~unsigned_long), comp, b(~unsigned_long)];
 
-Tokdef ITEST = [a:EXP, comp:NTEST, b:EXP] EXP	/* exp integer test */
-? { ?(a comp b); 1(~unsigned_int) | 0(~unsigned_int) };
+/* s_nat test */
+Tokdef SNLLTEST = [a:SIGNED_NAT, comp:NTEST, b:SIGNED_NAT] EXP
+	ITEST [a(~unsigned_longlong), comp, b(~unsigned_longlong)];
 
-Tokdef OTEST = [a:EXP, comp:NTEST, b:EXP] EXP	/* exp offset test */
-? { .?(a comp b); 1(~unsigned_int) | 0(~unsigned_int) };
+/* nat test */
+Tokdef NATTEST = [a:NAT, comp:NTEST, b:NAT] EXP
+	SNTEST [snat_from_nat(false,a), comp, snat_from_nat(false,b)];
 
-Tokdef SNTEST = [a:SIGNED_NAT, comp:NTEST, b:SIGNED_NAT] EXP	/* s_nat test */
-ITEST [a(~unsigned_long), comp, b(~unsigned_long)];
-
-Tokdef SNLLTEST = [a:SIGNED_NAT, comp:NTEST, b:SIGNED_NAT] EXP	/* s_nat test */
-ITEST [a(~unsigned_longlong), comp, b(~unsigned_longlong)];
-
-Tokdef NATTEST = [a:NAT, comp:NTEST, b:NAT] EXP		/* nat test */
-SNTEST [snat_from_nat(false,a), comp, snat_from_nat(false,b)];
-
-Tokdef TV_SNTEST = [a:SIGNED_NAT, comp:NTEST, b:SIGNED_NAT] EXP	/* s_nat test */
-ITEST [a(t_vty), comp, b(t_vty)];
+/* s_nat test */
+Tokdef TV_SNTEST = [a:SIGNED_NAT, comp:NTEST, b:SIGNED_NAT] EXP
+	ITEST [a(t_vty), comp, b(t_vty)];
 
 Tokdef BOOLTEST = [b:BOOL] EXP
-ITEST [snat_from_nat(b,1)(~signed_int), <, 0(~signed_int)];
-
-
+	ITEST [snat_from_nat(b,1)(~signed_int), <, 0(~signed_int)];
 
 
 Tokdef ~div = [arg1:EXP, arg2:EXP] EXP
-div0 (impossible, wrap, arg1, arg2);
+	div0(impossible, wrap, arg1, arg2);
 
 Tokdef ~rem = [arg1:EXP, arg2:EXP] EXP
-rem0 (impossible, wrap, arg1, arg2);
+	rem0(impossible, wrap, arg1, arg2);
 
 Tokdef ~assign = [ptr:EXP, val:EXP, sh:SHAPE] EXP
-Let desttag = ptr {
-  desttag = val ;
-  *(sh) desttag
-};
+	Let desttag = ptr {
+		desttag = val ;
+		* (sh) desttag
+	};
 
 Tokdef ~assign_vol = [ptr:EXP, val:EXP, sh:SHAPE] EXP
-Let assigned_val = val {
-  assign_with_mode (volatile, ptr, assigned_val) ;
-  assigned_val
-};
+	Let assigned_val = val {
+		assign_with_mode (volatile, ptr, assigned_val) ;
+		assigned_val
+	};
 
 Tokdef ~ptr_add = [ptr:EXP, n:EXP, sh:SHAPE] EXP
-( ptr *+. ( Sizeof(sh) .* n ) );
+	( ptr *+. ( Sizeof(sh) .* n ) );
 
 Tokdef ~ptr_sub = [ptr:EXP, n:EXP, sh:SHAPE] EXP
-( ptr *+. offset_negate(( Sizeof(sh) .* n )) );
+	( ptr *+. offset_negate(( Sizeof(sh) .* n )) );
 
 Tokdef ~sizeof = [sh:SHAPE] EXP
-offset_div (
-  var_width (false, .~size_t_width),
-  Sizeof (sh),
-  Sizeof (integer(~unsigned_char))
-);
+	offset_div (
+		var_width (false, .~size_t_width),
+		Sizeof (sh),
+		Sizeof (integer(~unsigned_char))
+	);
 
 Tokdef ~comp_off = [sz:EXP] EXP
-offset_pad (
-  alignment (integer (var_width (false, .~min_struct_rep))),
-  offset_pad (alignment(compound(sz)), sz)
-);
-
-
-
+	offset_pad (
+		alignment (integer (var_width (false, .~min_struct_rep))),
+		offset_pad (alignment(compound(sz)), sz)
+	);
 
 Tokdef ~convert = [which_v:SIGNED_NAT] VARIETY
 VARIETY ? ( TV_SNTEST [which_v, ==, t_char],
@@ -358,12 +330,11 @@ SIGNED_NAT ? ( TV_SNTEST [arg1, ==, t_u_longlong],
   )
 );
 
-
 Tokdef ~int_promot = [] SIGNED_NAT
-SIGNED_NAT ? ( NATTEST [.~int_width, >, .~short_width],
-  t_s_int,
-  t_u_int
-);
+	SIGNED_NAT ? ( NATTEST [.~int_width, >, .~short_width],
+		t_s_int,
+		t_u_int
+	);
 
 
 Tokdef ~promote = [arg:SIGNED_NAT] SIGNED_NAT
@@ -412,68 +383,57 @@ SIGNED_NAT ? ( SNTEST [arg, <=, max_signed_int],
   )
 );
 
-
 Tokdef ~lit_unsigned = [arg:SIGNED_NAT] SIGNED_NAT
-SIGNED_NAT ? ( SNTEST [arg, <=, max_unsigned_int],
-  t_u_int,
-  t_u_long
-);
-
+	SIGNED_NAT ? ( SNTEST [arg, <=, max_unsigned_int],
+		t_u_int,
+		t_u_long
+	);
 
 Tokdef ~lit_long = [arg:SIGNED_NAT] SIGNED_NAT
-SIGNED_NAT ? ( SNTEST [arg, <=, max_signed_long],
-  t_s_long,
-  t_u_long
-);
-
+	SIGNED_NAT ? ( SNTEST [arg, <=, max_signed_long],
+		t_s_long,
+		t_u_long
+	);
 
 Tokdef ~lit_ulong = [arg:SIGNED_NAT] SIGNED_NAT
-t_u_long;
-
+	t_u_long;
 
 Tokdef ~lit_longlong = [arg:SIGNED_NAT] SIGNED_NAT
-SIGNED_NAT ? ( SNLLTEST [arg, <=, max_signed_longlong],
-  t_s_longlong,
-  t_u_longlong
-);
-
+	SIGNED_NAT ? ( SNLLTEST [arg, <=, max_signed_longlong],
+		t_s_longlong,
+		t_u_longlong
+	);
 
 Tokdef ~lit_ulonglong = [arg:SIGNED_NAT] SIGNED_NAT
-t_u_longlong;
-
-
+	t_u_longlong;
 
 Tokdef ~char_lit = [chars:EXP, length:SIGNED_NAT, v:VARIETY] EXP
-EXP ? ( SNTEST [length, ==, 1],
-  Var char_val = chars {
-    [ v ] * (integer(~char)) char_val
-  },
-  #"Too many characters in char literal"
-);
+	EXP ? ( SNTEST [length, ==, 1],
+		Var char_val = chars {
+			[ v ] * (integer(~char)) char_val
+		},
+		#"Too many characters in char literal"
+	);
 
 
 Tokdef ~wchar_lit = [chars:EXP, length:SIGNED_NAT, v:VARIETY] EXP
-~char_lit [ chars, length, v ];
-
+	~char_lit [ chars, length, v ];
 
 Tokdef ~string_lit = [string:EXP, length:SIGNED_NAT, v:VARIETY] EXP
-(string);
-
+	(string);
 
 Tokdef ~checked_plus = [arg1:EXP, arg2:EXP] EXP
-EXP ? ( ITEST [arg1, >, (max_signed_int(~unsigned_long) - arg2)],
-  #"Constant out of range for its type",
-  arg1 + arg2
-);
+	EXP ? ( ITEST [arg1, >, (max_signed_int(~unsigned_long) - arg2)],
+		#"Constant out of range for its type",
+		arg1 + arg2
+	);
 
-
-
-
-	/* pointer conversions, simple for byte-addressed architectures */
+/*
+ * pointer conversions, simple for byte-addressed architectures
+ */
 
 Tokdef ~ptr_void = [] SHAPE
-pointer (.~pv_align);
-
+	pointer (.~pv_align);
 
 Tokdef ~pun = [from_sh:SHAPE, to_sh:SHAPE, val:EXP] EXP
 component (
@@ -484,131 +444,142 @@ component (
   offset_zero(alignment(to_sh))
 );
 
-
 Tokdef ~ptr_to_ptr = [from_al:ALIGNMENT, to_al:ALIGNMENT, ptr:EXP] EXP
-~pun [ pointer(from_al), pointer(to_al), ptr ];
-
+	~pun [ pointer(from_al), pointer(to_al), ptr ];
 
 Tokdef ~to_ptr_void = [al:ALIGNMENT, ptr:EXP] EXP
-~ptr_to_ptr [ al, .~pv_align, ptr ];
-
+	~ptr_to_ptr [ al, .~pv_align, ptr ];
 
 Tokdef ~from_ptr_void = [al:ALIGNMENT, ptr:EXP] EXP
-~ptr_to_ptr [ .~pv_align, al, ptr ];
-
+	~ptr_to_ptr [ .~pv_align, al, ptr ];
 
 Tokdef ~i_to_p = [v:VARIETY, al:ALIGNMENT, val:EXP] EXP
-~pun [
-  integer (var_width (true, .~ptr_width)),
-  pointer (al),
-  [var_width (true, .~ptr_width)] val
-];
-
+	~pun [
+		integer (var_width (true, .~ptr_width)),
+		pointer (al),
+		[var_width (true, .~ptr_width)] val
+	];
 
 Tokdef ~p_to_i = [al:ALIGNMENT, v:VARIETY, val:EXP] EXP
-([v] ~pun [
-  pointer (al),
-  integer (var_width (true,.~ptr_width)),
-  val
-]);
-
+	([v] ~pun [
+		pointer (al),
+		integer (var_width (true,.~ptr_width)),
+		val
+	]);
 
 Tokdef ~null_pv = [] EXP
-make_null_ptr(.~pv_align);
-
+	make_null_ptr(.~pv_align);
 
 Tokdef ~pv_test = [ptr:EXP, escape:LABEL, comparison:NTEST] EXP
-*?(ptr comparison ~null_pv | escape);
-
+	*?(ptr comparison ~null_pv | escape);
 
 Tokdef ~cpp.pv_compare = [ptr1:EXP, ptr2:EXP, escape:LABEL, comparison:NTEST] EXP
-*?(ptr1 comparison ptr2 | escape);
-
+	*?(ptr1 comparison ptr2 | escape);
 
 Tokdef ~pad = [off:EXP, sh1:SHAPE, sh2:SHAPE] EXP
-EXP ? ( OTEST [offset_pad(alignment(sh1), (off .+. shape_offset(sh2))),
-               >,
-	       offset_pad(alignment(sh1), off)],
-  offset_pad(alignment(sh1), off),
-  offset_pad(alignment(sh2), off)
-);
-
+		EXP ? ( OTEST [offset_pad(alignment(sh1), (off .+. shape_offset(sh2))),
+			>,
+			offset_pad(alignment(sh1), off)],
+		offset_pad(alignment(sh1), off),
+		offset_pad(alignment(sh2), off)
+	);
 
 Tokdef ~i_to_pv = [v:VARIETY, val:EXP] EXP
-~i_to_p [ v, .~pv_align, val ];
-
+	~i_to_p [ v, .~pv_align, val ];
 
 Tokdef ~pv_to_i = [v:VARIETY, val:EXP] EXP
-~p_to_i [ .~pv_align, v, val ];
-
+	~p_to_i [ .~pv_align, v, val ];
 
 Tokdef ~f_to_pv = [fn:EXP] EXP
-.~f_to_ptr [ .~pv_align, fn ];
-
+	.~f_to_ptr [ .~pv_align, fn ];
 
 Tokdef ~pv_to_f = [ptr:EXP] EXP
-.~ptr_to_f [ .~pv_align, ptr ];
-
+	.~ptr_to_f [ .~pv_align, ptr ];
 
 Tokdef ~debug_exp = [diagi:NAT, body:EXP] EXP
-(body);
+	(body);
 
 Tokdef ~debug_scope = [starti:NAT, endi:NAT, body:EXP] EXP
-(body);
+	(body);
 
 Tokdef ~fn_scope = [body:EXP, starti:NAT, endi:NAT] EXP
-(body);
-
+	(body);
 
 Tokdef ~little_endian = [] EXP
-EXP ? ( BOOLTEST [.~little_endian],
-  1(~signed_int),
-  0(~signed_int)
-);
-
+	EXP ? ( BOOLTEST [.~little_endian],
+		1(~signed_int),
+		0(~signed_int)
+	);
 
 Tokdef ~cpp.empty.offset = [] EXP
-~comp_off [
-  offset_add (
-    offset_zero(alignment(integer(~char))),
-    shape_offset(integer(~char)))
-];
+	~comp_off [
+		offset_add (
+			offset_zero(alignment(integer(~char))),
+			shape_offset(integer(~char)))
+	];
 
 Tokdef ~cpp.empty.shape = [] SHAPE
-compound(~cpp.empty.offset);
+	compound(~cpp.empty.offset);
 
 Tokdef ~cpp.empty.align = [] ALIGNMENT
-alignment(floating(~long_double));
+	alignment(floating(~long_double));
 
 Tokdef ~cpp.bitf_sign = [which_v: SIGNED_NAT] BOOL
-BOOL ? ( BOOLTEST [.~bitfield_is_signed],
-  BOOL ? ( which_v(t_vty) And t_unsigned(t_vty),
-    false,
-    true
-  ),
-  false
-);
+		BOOL ? ( BOOLTEST [.~bitfield_is_signed],
+			BOOL ? ( which_v(t_vty) And t_unsigned(t_vty),
+				false,
+				true
+			),
+			false
+	);
 
 Tokdef ~cpp.ptr_rep = [] SIGNED_NAT
-SIGNED_NAT ? ( NATTEST [.~ptr_width, ==, .~int_width],
-  t_s_int,
-  t_s_long
-);
-
-
+	SIGNED_NAT ? ( NATTEST [.~ptr_width, ==, .~int_width],
+		t_s_int,
+		t_s_long
+	);
 
 Keep (
-~div, ~rem, ~ptr_add, ~ptr_sub, ~char, ~unsigned_char, ~signed_char,
-~unsigned_short, ~signed_short, ~unsigned_int, ~signed_int,
-~unsigned_long, ~signed_long, ~unsigned_longlong, ~signed_longlong,
-~float, ~double, ~long_double,
-~ptr_void, ~assign, ~assign_vol, ~convert, ~arith_type, ~int_promot,
-~debug_exp, ~debug_scope, ~fn_scope, ~promote, ~sign_promote,
-~lit_int, ~lit_hex, ~lit_unsigned, ~lit_long, ~lit_ulong, ~lit_longlong,
-~lit_ulonglong, ~char_lit, ~wchar_lit,
-~string_lit, ~checked_plus, ~to_ptr_void, ~from_ptr_void, ~ptr_to_ptr,
-~sizeof, ~i_to_p, ~p_to_i, ~null_pv, ~pv_test, ~cpp.pv_compare, ~pad,
-~i_to_pv, ~pv_to_i, ~f_to_pv, ~pv_to_f, ~comp_off, ~little_endian,
-~cpp.empty.offset, ~cpp.empty.shape, ~cpp.empty.align,
-~cpp.bitf_sign, ~cpp.ptr_rep
+	~char, ~unsigned_char, ~signed_char,
+	~unsigned_short, ~signed_short,
+	~unsigned_int, ~signed_int,
+	~unsigned_long, ~signed_long,
+	~unsigned_longlong, ~signed_longlong,
+
+	~float, ~double, ~long_double,
+
+	~div, ~rem,
+	~assign, ~assign_vol,
+	~ptr_add, ~ptr_sub,
+	~sizeof,
+	~comp_off,
+
+	~convert,
+	~arith_type,
+	~int_promot, ~promote, ~sign_promote,
+
+	~lit_int, ~lit_hex, ~lit_unsigned, ~lit_long, ~lit_ulong,
+	~lit_longlong, ~lit_ulonglong,
+	~char_lit, ~wchar_lit, ~string_lit,
+
+	~checked_plus,
+	~ptr_void,
+
+	/* XXX: ~pun */
+	~ptr_to_ptr, ~to_ptr_void, ~from_ptr_void,
+	~i_to_p, ~p_to_i,
+
+	~null_pv, ~pv_test, ~cpp.pv_compare,
+
+	~pad,
+
+	~i_to_pv, ~pv_to_i, ~f_to_pv, ~pv_to_f,
+
+	~debug_exp, ~debug_scope, ~fn_scope,
+
+	~little_endian,
+
+	~cpp.empty.offset, ~cpp.empty.shape, ~cpp.empty.align,
+	~cpp.bitf_sign, ~cpp.ptr_rep
 )
+
