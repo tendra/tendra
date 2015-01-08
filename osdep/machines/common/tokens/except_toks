@@ -9,7 +9,7 @@
  * So, after loading -Yposix, +LIB is overridden here to remove -lc.
  */
 +FLAG "-Yposix"
-+LIB  "-lposix -lansi"
++LIB  "-lposix"
 
 >FLAG_TLD	"-H token"
 >FLAG_TLD	"-k token ~Set_signal_handler"

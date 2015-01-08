@@ -61,6 +61,12 @@ _TENDRA_WORK_MACHTOK_MK_=1
 	@${EXIT} 1;
 .endif
 
+.if !defined(MACHTOK_VAR)
+.BEGIN:
+	@${ECHO} '$${MACHTOK_VAR} must be set'
+	@${EXIT} 1;
+.endif
+
 TOKENS_COMMON?=	machines/common/tokens
 TOKENS_MODEL?=	model
 TOKENS_EXCEPT?=	except
@@ -71,13 +77,10 @@ TOKENS_CHAR?=  	char
 TOKENS_BITF?=  	bitfield
 TOKENS_ALIGN?= 	align
 TOKENS_STRUCT?=	struct
+TOKENS_VAR?=   	var
 
 MAP_LANG += c
 MAP_LANG += f
-
-.if !defined(MACHTOK_VAR)
-_machtok_target+=	${OBJ_SDIR}/${TOKENS_COMMON}/var_toks.t
-.endif
 
 
 ${OBJ_SDIR}/c_toks.j: ${BASE_DIR}/${TOKENS_COMMON}/c_toks.tpl
@@ -123,6 +126,11 @@ ${OBJ_SDIR}/struct_toks.j: ${BASE_DIR}/${TOKENS_STRUCT}/${MACHTOK_STRUCT}
 	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Translating ${WRKDIR}/${.ALLSRC}"
 	${TPL} -I${BASE_DIR}/${TOKENS_STRUCT} ${.ALLSRC} ${.TARGET}
+
+${OBJ_SDIR}/var_toks.j: ${BASE_DIR}/${TOKENS_VAR}${MACHTOKS_VAR}
+	@${CONDCREATE} "${OBJ_SDIR}"
+	@${ECHO} "==> Translating ${TOKENS_VAR}/${MACHTOKS_VAR}"
+	${TPL} -I${BASE_DIR}/${TOKENS_VAR} ${.ALLSRC} ${.TARGET}
 
 .for lang in ${MAP_LANG}
 ${OBJ_SDIR}/map_${lang}.j: ${BASE_DIR}/${TOKENS_MAP}/${lang}.tpl
@@ -186,19 +194,6 @@ ${OBJ_SDIR}/var_toks.t: ${OBJ_SDIR}/var_toks.j \
 	@${ECHO} "==> Translating ${WRKDIR}/${.TARGET}"
 	${TCC} -o ${.TARGET} ${TCCENVOPTS} -Ft \
 		-Y${BASE_DIR}/${TOKENS_COMMON}/var_toks ${OBJ_SDIR}/var_toks.j
-
-.if defined(MACHTOK_VAR)
-${OBJ_SDIR}/var_toks.j: ${MACHTOK_VAR}
-.else
-${OBJ_SDIR}/var_toks.j: ${BASE_DIR}/${TOKENS_COMMON}/var_toks.tpl
-.endif
-	@${CONDCREATE} "${OBJ_SDIR}"
-.if defined(MACHTOK_VAR)
-	@${ECHO} "==> Translating ${WRKDIR}/${.ALLSRC}"
-.else
-	@${ECHO} "==> Translating ${TOKENS_COMMON}/var_toks.tpl"
-.endif
-	${TPL} ${.ALLSRC} ${.TARGET}
 
 ${OBJ_SDIR}/except_toks.j: ${BASE_DIR}/${TOKENS_EXCEPT}/${MACHTOK_EXCEPT}
 	@${CONDCREATE} "${OBJ_SDIR}"

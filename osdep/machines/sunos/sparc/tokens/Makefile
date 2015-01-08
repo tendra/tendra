@@ -14,6 +14,7 @@ MACHTOK_CHAR   	= signed.tpl
 MACHTOK_BITF  	= unsigned.tpl
 MACHTOK_ALIGN 	= char.tpl
 MACHTOK_STRUCT	= min8.tpl
+MACHTOK_VAR   	= offset.tpl
 
 .include <tendra.machtok.mk>
 

@@ -6,7 +6,6 @@
 .include <tendra.makedefs.mk>
 
 
-MACHTOK_VAR   	= var_toks.tpl  # Note hpux/hppa has its own var_toks.tpl
 MACHTOK_EXCEPT	= ${BLDARCH}.tpl
 MACHTOK_MODEL 	= ilp32.tpl
 MACHTOK_FLOAT 	= ieee754-quad.tpl
@@ -15,6 +14,7 @@ MACHTOK_CHAR   	= signed.tpl
 MACHTOK_BITF  	= signed.tpl
 MACHTOK_ALIGN 	= char.tpl
 MACHTOK_STRUCT	= min8.tpl
+MACHTOK_VAR   	= none.tpl
 
 .include <tendra.machtok.mk>
 
