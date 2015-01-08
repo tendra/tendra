@@ -435,37 +435,20 @@ Tokdef ~checked_plus = [arg1:EXP, arg2:EXP] EXP
 Tokdef ~ptr_void = [] SHAPE
 	pointer (.~pv_align);
 
-Tokdef ~pun = [from_sh:SHAPE, to_sh:SHAPE, val:EXP] EXP
-component (
-  to_sh,
-  Cons [ shape_offset(from_sh) .max. shape_offset(to_sh) ] (
-    offset_zero(alignment(from_sh)) : val
-  ),
-  offset_zero(alignment(to_sh))
-);
-
 Tokdef ~ptr_to_ptr = [from_al:ALIGNMENT, to_al:ALIGNMENT, ptr:EXP] EXP
-	~pun [ pointer(from_al), pointer(to_al), ptr ];
+	.~ptr_to_ptr[from_al, to_al, ptr];
 
 Tokdef ~to_ptr_void = [al:ALIGNMENT, ptr:EXP] EXP
-	~ptr_to_ptr [ al, .~pv_align, ptr ];
+	.~ptr_to_ptr[al, .~pv_align, ptr];
 
 Tokdef ~from_ptr_void = [al:ALIGNMENT, ptr:EXP] EXP
-	~ptr_to_ptr [ .~pv_align, al, ptr ];
+	.~ptr_to_ptr[.~pv_align, al, ptr];
 
 Tokdef ~i_to_p = [v:VARIETY, al:ALIGNMENT, val:EXP] EXP
-	~pun [
-		integer (var_width (true, .~ptr_width)),
-		pointer (al),
-		[var_width (true, .~ptr_width)] val
-	];
+	.~int_to_ptr[v, al, val];
 
 Tokdef ~p_to_i = [al:ALIGNMENT, v:VARIETY, val:EXP] EXP
-	([v] ~pun [
-		pointer (al),
-		integer (var_width (true,.~ptr_width)),
-		val
-	]);
+	.~ptr_to_int[al, v, val];
 
 Tokdef ~null_pv = [] EXP
 	make_null_ptr(.~pv_align);
@@ -564,8 +547,6 @@ Keep (
 
 	~checked_plus,
 	~ptr_void,
-
-	/* XXX: ~pun */
 	~ptr_to_ptr, ~to_ptr_void, ~from_ptr_void,
 	~i_to_p, ~p_to_i,
 
