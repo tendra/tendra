@@ -76,15 +76,15 @@ TOKENS_BITF?=  	abi/bitfield
 TOKENS_ALIGN?= 	abi/align
 TOKENS_STRUCT?=	abi/struct
 TOKENS_MAP?=	map
+TOKENS_LPI?=	lpi
 TOKENS_INT?=  	int
 TOKENS_VAR?=   	var
 
 MAP += c
 MAP += f
 
-${OBJ_SDIR}/c_toks.j: ${BASE_DIR}/${TOKENS_COMMON}/c_toks.tpl
-	@${CONDCREATE} "${OBJ_SDIR}"
-	${TPL} ${.ALLSRC} ${.TARGET}
+LPI += tdfc2
+LPI += tcpplus
 
 ${OBJ_SDIR}/pun.j: ${BASE_DIR}/${TOKENS_COMMON}/pun.tpl
 	@${CONDCREATE} "${OBJ_SDIR}"
@@ -138,6 +138,12 @@ ${OBJ_SDIR}/map_${lang}.j: ${BASE_DIR}/${TOKENS_MAP}/${lang}.tpl
 	${TPL} ${.ALLSRC} ${.TARGET}
 .endfor
 
+.for prod in ${LPI}
+${OBJ_SDIR}/lpi_${prod}.j: ${BASE_DIR}/${TOKENS_LPI}/${prod}.tpl
+	@${CONDCREATE} "${OBJ_SDIR}"
+	${TPL} ${.ALLSRC} ${.TARGET}
+.endfor
+
 #
 # Rules proper
 #
@@ -157,7 +163,7 @@ ${OBJ_SDIR}/sys.j: ${OBJ_SDIR}/sys_toks.j
 ${OBJ_SDIR}/sys_toks.j: ${OBJ_SDIR}/map_${lang}.j
 .endfor
 
-${OBJ_SDIR}/sys_toks.j: ${OBJ_SDIR}/c_toks.j \
+${OBJ_SDIR}/sys_toks.j: ${OBJ_SDIR}/lpi_tdfc2.j \
 	${OBJ_SDIR}/pun.j \
 	${OBJ_SDIR}/abi_model.j ${OBJ_SDIR}/abi_float.j ${OBJ_SDIR}/int_toks.j \
 	${OBJ_SDIR}/abi_char.j ${OBJ_SDIR}/abi_bitfield.j ${OBJ_SDIR}/abi_align.j ${OBJ_SDIR}/abi_struct.j
@@ -227,7 +233,7 @@ all:: ${OBJ_SDIR}/c.tl ${OBJ_DIR}/src/c.tl ${OBJ_DIR}/src/target_tok.tl
 clean::
 	${RMFILE} ${OBJ_SDIR}/c.tl ${OBJ_DIR}/src/target_tok.tl
 	${RMFILE} ${OBJ_SDIR}/pun.j
-	${RMFILE} ${OBJ_SDIR}/dep_toks.j ${OBJ_SDIR}/c_toks.j
+	${RMFILE} ${OBJ_SDIR}/dep_toks.j ${OBJ_SDIR}/lpi_tdfc2.j
 	${RMFILE} ${OBJ_SDIR}/abi_model.j ${OBJ_SDIR}/abi_float.j ${OBJ_SDIR}/int_toks.j
 	${RMFILE} ${OBJ_SDIR}/abi_char.j ${OBJ_SDIR}/abi_bitfield.j ${OBJ_SDIR}/abi_align.j ${OBJ_SDIR}/abi_struct.j
 	${RMFILE} ${OBJ_SDIR}/sys.j ${OBJ_SDIR}/sys_toks.j
