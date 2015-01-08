@@ -86,6 +86,13 @@ MAP += f
 LPI += tdfc2
 LPI += tcpplus
 
+ABI += model
+ABI += float
+ABI += char
+ABI += bitfield
+ABI += align
+ABI += struct
+
 ${OBJ_SDIR}/pun.j: ${BASE_DIR}/${TOKENS_COMMON}/pun.tpl
 	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Translating ${WRKDIR}/${.ALLSRC}"
@@ -163,10 +170,16 @@ ${OBJ_SDIR}/sys.j: ${OBJ_SDIR}/sys_toks.j
 ${OBJ_SDIR}/sys_toks.j: ${OBJ_SDIR}/map_${lang}.j
 .endfor
 
-${OBJ_SDIR}/sys_toks.j: ${OBJ_SDIR}/lpi_tdfc2.j \
-	${OBJ_SDIR}/pun.j \
-	${OBJ_SDIR}/abi_model.j ${OBJ_SDIR}/abi_float.j ${OBJ_SDIR}/int_toks.j \
-	${OBJ_SDIR}/abi_char.j ${OBJ_SDIR}/abi_bitfield.j ${OBJ_SDIR}/abi_align.j ${OBJ_SDIR}/abi_struct.j
+.for abi in ${ABI}
+${OBJ_SDIR}/abi.j: ${OBJ_SDIR}/abi_${abi}.j
+.endfor
+
+${OBJ_SDIR}/abi.j:
+	@${CONDCREATE} "${OBJ_SDIR}"
+	@${ECHO} "==> Linking ${WRKDIR}/${.TARGET:T}"
+	${TLD} -o ${.TARGET} ${.ALLSRC}
+
+${OBJ_SDIR}/sys_toks.j: ${OBJ_SDIR}/lpi_tdfc2.j ${OBJ_SDIR}/pun.j ${OBJ_SDIR}/abi.j
 	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Linking ${WRKDIR}/${.TARGET:T}"
 	${TLD} -o ${.TARGET} ${.ALLSRC}
@@ -233,14 +246,19 @@ all:: ${OBJ_SDIR}/c.tl ${OBJ_DIR}/src/c.tl ${OBJ_DIR}/src/target_tok.tl
 clean::
 	${RMFILE} ${OBJ_SDIR}/c.tl ${OBJ_DIR}/src/target_tok.tl
 	${RMFILE} ${OBJ_SDIR}/pun.j
-	${RMFILE} ${OBJ_SDIR}/dep_toks.j ${OBJ_SDIR}/lpi_tdfc2.j
-	${RMFILE} ${OBJ_SDIR}/abi_model.j ${OBJ_SDIR}/abi_float.j ${OBJ_SDIR}/int_toks.j
-	${RMFILE} ${OBJ_SDIR}/abi_char.j ${OBJ_SDIR}/abi_bitfield.j ${OBJ_SDIR}/abi_align.j ${OBJ_SDIR}/abi_struct.j
+	${RMFILE} ${OBJ_SDIR}/dep_toks.j
 	${RMFILE} ${OBJ_SDIR}/sys.j ${OBJ_SDIR}/sys_toks.j
 	${RMFILE} ${OBJ_SDIR}/except_toks.j ${OBJ_SDIR}/except_toks.t
 	${RMFILE} ${OBJ_SDIR}/var_toks.j ${OBJ_SDIR}/var_toks.t
+	${RMFILE} ${OBJ_SDIR}/abi.j
 .for lang in ${MAP}
 	${RMFILE} ${OBJ_SDIR}/map_${lang}.j
+.endfor
+.for prod in ${LPI}
+	${RMFILE} ${OBJ_SDIR}/lpi_${prod}.j
+.endfor
+.for abi in ${ABI}
+	${RMFILE} ${OBJ_SDIR}/abi_${abi}.j
 .endfor
 
 
