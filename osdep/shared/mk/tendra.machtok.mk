@@ -75,12 +75,12 @@ TOKENS_CHAR?=  	abi/char
 TOKENS_BITF?=  	abi/bitfield
 TOKENS_ALIGN?= 	abi/align
 TOKENS_STRUCT?=	abi/struct
-TOKENS_LPI?=	lpi
+TOKENS_MAP?=	map
 TOKENS_INT?=  	int
 TOKENS_VAR?=   	var
 
-LPI += c
-LPI += f
+MAP += c
+MAP += f
 
 ${OBJ_SDIR}/c_toks.j: ${BASE_DIR}/${TOKENS_COMMON}/c_toks.tpl
 	@${CONDCREATE} "${OBJ_SDIR}"
@@ -131,8 +131,8 @@ ${OBJ_SDIR}/var_toks.j: ${BASE_DIR}/${TOKENS_VAR}${MACHTOKS_VAR}
 	@${ECHO} "==> Translating ${TOKENS_VAR}/${MACHTOKS_VAR}"
 	${TPL} -I${BASE_DIR}/${TOKENS_VAR} ${.ALLSRC} ${.TARGET}
 
-.for lang in ${LPI}
-${OBJ_SDIR}/lpi_${lang}.j: ${BASE_DIR}/${TOKENS_LPI}/${lang}.tpl
+.for lang in ${MAP}
+${OBJ_SDIR}/map_${lang}.j: ${BASE_DIR}/${TOKENS_MAP}/${lang}.tpl
 	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Translating ${WRKDIR}/${.ALLSRC}"
 	${TPL} ${.ALLSRC} ${.TARGET}
@@ -153,8 +153,8 @@ ${OBJ_SDIR}/sys.j: ${OBJ_SDIR}/sys_toks.j
 	@${ECHO} "==> Rewriting ${WRKDIR}/${.TARGET:T}"
 	${TNC} -t -d -L'.~' ${.ALLSRC} ${.TARGET}
 
-.for lang in ${LPI}
-${OBJ_SDIR}/sys_toks.j: ${OBJ_SDIR}/lpi_${lang}.j
+.for lang in ${MAP}
+${OBJ_SDIR}/sys_toks.j: ${OBJ_SDIR}/map_${lang}.j
 .endfor
 
 ${OBJ_SDIR}/sys_toks.j: ${OBJ_SDIR}/c_toks.j \
@@ -166,8 +166,8 @@ ${OBJ_SDIR}/sys_toks.j: ${OBJ_SDIR}/c_toks.j \
 	${TLD} -o ${.TARGET} ${.ALLSRC}
 
 
-.for lang in ${LPI}
-${OBJ_SDIR}/target_tok.tl: ${OBJ_SDIR}/lpi_${lang}.j
+.for lang in ${MAP}
+${OBJ_SDIR}/target_tok.tl: ${OBJ_SDIR}/map_${lang}.j
 .endfor
 
 # Target-dependent token library
@@ -233,8 +233,8 @@ clean::
 	${RMFILE} ${OBJ_SDIR}/sys.j ${OBJ_SDIR}/sys_toks.j
 	${RMFILE} ${OBJ_SDIR}/except_toks.j ${OBJ_SDIR}/except_toks.t
 	${RMFILE} ${OBJ_SDIR}/var_toks.j ${OBJ_SDIR}/var_toks.t
-.for lang in ${LPI}
-	${RMFILE} ${OBJ_SDIR}/lpi_${lang}.j
+.for lang in ${MAP}
+	${RMFILE} ${OBJ_SDIR}/map_${lang}.j
 .endfor
 
 
