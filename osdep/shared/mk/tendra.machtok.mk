@@ -79,7 +79,6 @@ _TENDRA_WORK_MACHTOK_MK_=1
 	@${EXIT} 1;
 .endif
 
-TOKENS_COMMON?=	machines/common/tokens
 TOKENS_EXCEPT?=	except
 TOKENS_MODEL?=	abi/model
 TOKENS_FLOAT?=	abi/float
