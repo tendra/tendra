@@ -211,8 +211,7 @@ ${OBJ_SDIR}/target_tok.tl: ${OBJ_SDIR}/map_${lang}.j
 
 # Target-dependent token library
 ${OBJ_SDIR}/target_tok.tl: ${OBJ_SDIR}/pun.j \
-		${OBJ_SDIR}/except_toks.j ${OBJ_SDIR}/abi_stack.j \
-		${OBJ_SDIR}/abi.j
+		${OBJ_SDIR}/except_toks.j ${OBJ_SDIR}/abi.j
 	@rm -f ${.TARGET}
 	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Linking ${WRKDIR}/${.TARGET:T}"
