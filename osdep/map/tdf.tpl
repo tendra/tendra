@@ -27,23 +27,23 @@ Tokdef ~va_list = [] SHAPE
 	.~abi_va_list;
 
 Tokdef ~__va_start = [i:EXP] EXP
-	.~abi_va_start;
+	.~abi_va_start[i];
 
 Tokdef ~va_arg = [l:EXP, s:SHAPE] EXP
-	.~abi_va_arg;
+	.~abi_va_arg[l, s];
 
 Tokdef ~va_end = [l:EXP] EXP
-	.~abi_va_end;
+	.~abi_va_end[l];
 
 /*
  * Tokens for general procedures
  */
 
 Tokdef ~next_caller_offset = [this_offset:EXP, this_sh:SHAPE, next_sh:SHAPE] EXP
-	.~abi_next_caller_offset;
+	.~abi_next_caller_offset[this_offset, this_sh, next_sh];
 
 Tokdef ~next_callee_offset = [this_offset:EXP, this_sh:SHAPE, next_sh:SHAPE] EXP
-	.~abi_next_callee_offset;
+	.~abi_next_callee_offset[this_offset, this_sh, next_sh];
 
 Keep (
 	~next_caller_offset, ~next_callee_offset,
