@@ -212,19 +212,12 @@ ${OBJ_SDIR}/target_tok.tl: ${OBJ_SDIR}/map_${lang}.j
 
 # Target-dependent token library
 ${OBJ_SDIR}/target_tok.tl: ${OBJ_SDIR}/pun.j \
-		${OBJ_SDIR}/except_toks.t ${OBJ_SDIR}/abi_stack.j \
+		${OBJ_SDIR}/except_toks.j ${OBJ_SDIR}/abi_stack.j \
 		${OBJ_SDIR}/abi.j
 	@rm -f ${.TARGET}
 	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Linking ${WRKDIR}/${.TARGET:T}"
 	${TLD} -mc ${TLDOPTS} -o ${.TARGET} ${.ALLSRC}
-
-${OBJ_SDIR}/except_toks.t: ${OBJ_SDIR}/except_toks.j \
-		${BASE_DIR}/${TOKENS_COMMON}/except_toks
-	@${CONDCREATE} "${OBJ_SDIR}"
-	@${ECHO} "==> Linking ${WRKDIR}/${.TARGET:T}"
-	${TCC} -o ${.TARGET} ${TCCENVOPTS} -Ft \
-		-Y${BASE_DIR}/${TOKENS_COMMON}/except_toks ${OBJ_SDIR}/except_toks.j
 
 ${OBJ_SDIR}/except_toks.j: ${BASE_DIR}/${TOKENS_EXCEPT}/${MACHTOK_EXCEPT}
 	@${CONDCREATE} "${OBJ_SDIR}"
@@ -261,7 +254,7 @@ clean::
 	${RMFILE} ${OBJ_SDIR}/pun.j
 	${RMFILE} ${OBJ_SDIR}/dep_toks.j
 	${RMFILE} ${OBJ_SDIR}/sys.j ${OBJ_SDIR}/sys_toks.j
-	${RMFILE} ${OBJ_SDIR}/except_toks.j ${OBJ_SDIR}/except_toks.t
+	${RMFILE} ${OBJ_SDIR}/except_toks.j
 	${RMFILE} ${OBJ_SDIR}/abi.j
 .for lang in ${MAP}
 	${RMFILE} ${OBJ_SDIR}/map_${lang}.j
