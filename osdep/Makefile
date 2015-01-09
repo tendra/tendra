@@ -4,6 +4,7 @@
 
 
 .if !defined(WEBSITE)
+SUBDIR+=	map
 SUBDIR+=	machines
 SUBDIR+=	arch
 SUBDIR+=	src
