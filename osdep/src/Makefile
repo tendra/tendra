@@ -16,7 +16,16 @@ TPLOPTS=	-I${.CURDIR}
 .include <tendra.tpl.mk>
 
 
-${OBJ_SDIR}/INT64.o: INT64a.c ${CAPSULES}
+${OBJ_SDIR}/INT64a.j: INT64a.c
+	@${CONDCREATE} "${OBJ_SDIR}"
+	@${ECHO} "==> Compiling ${.ALLSRC}"
+	${TCC} ${TCCOPTS} -Fj -o ${.TARGET} \
+		${.ALLSRC}
+
+CAPSULES += ${OBJ_SDIR}/INT64a.j
+
+
+${OBJ_SDIR}/INT64.o: ${CAPSULES}
 	${TCC} ${TCCOPTS} -c -o ${.TARGET} \
 		-J${OBJ_SDIR} -jtarget_tok \
 		-M -WP,-I. ${.ALLSRC}
