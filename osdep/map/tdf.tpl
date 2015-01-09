@@ -7,10 +7,10 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-Tokdec .~abi_va_list   : [] SHAPE;
-Tokdec .~abi__va_start : [EXP] EXP;
-Tokdec .~abi_va_arg    : [EXP, SHAPE] EXP;
-Tokdec .~abi_va_end    : [EXP] EXP;
+Tokdec .~abi_va_list  : [] SHAPE;
+Tokdec .~abi_va_start : [EXP] EXP;
+Tokdec .~abi_va_arg   : [EXP, SHAPE] EXP;
+Tokdec .~abi_va_end   : [EXP] EXP;
 
 Tokdec .~abi_next_caller_offset : [EXP, SHAPE, SHAPE] EXP;
 Tokdec .~abi_next_callee_offset : [EXP, SHAPE, SHAPE] EXP;
