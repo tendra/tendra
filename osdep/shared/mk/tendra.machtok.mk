@@ -88,12 +88,8 @@ TOKENS_ALIGN?= 	abi/align
 TOKENS_STRUCT?=	abi/struct
 TOKENS_STACK?= 	abi/stack
 TOKENS_VA?=   	abi/va
-TOKENS_LPI?=	lpi
 TOKENS_INT?=  	int
 TOKENS_PUN?=   	pun
-
-LPI += tdfc2
-LPI += tcpplus
 
 ABI += model
 ABI += float
@@ -154,12 +150,6 @@ ${OBJ_SDIR}/int_toks.j: ${BASE_DIR}/${TOKENS_INT}/${MACHTOK_INT}
 	@${ECHO} "==> Translating ${WRKDIR}/${.ALLSRC}"
 	${TPL} -I${BASE_DIR}/${TOKENS_INT} ${.ALLSRC} ${.TARGET}
 
-.for prod in ${LPI}
-${OBJ_SDIR}/lpi_${prod}.j: ${BASE_DIR}/${TOKENS_LPI}/${prod}.tpl
-	@${CONDCREATE} "${OBJ_SDIR}"
-	${TPL} ${.ALLSRC} ${.TARGET}
-.endfor
-
 #
 # Rules proper
 #
@@ -184,7 +174,7 @@ ${OBJ_SDIR}/abi.j:
 	@${ECHO} "==> Linking ${WRKDIR}/${.TARGET:T}"
 	${TLD} -o ${.TARGET} ${.ALLSRC}
 
-${OBJ_SDIR}/sys_toks.j: ${OBJ_SDIR}/lpi_tdfc2.j ${OBJ_SDIR}/pun.j ${OBJ_SDIR}/abi.j
+${OBJ_SDIR}/sys_toks.j: ${OBJ_SDIR}/pun.j ${OBJ_SDIR}/abi.j
 	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Linking ${WRKDIR}/${.TARGET:T}"
 	${TLD} -o ${.TARGET} ${.ALLSRC}
@@ -240,9 +230,6 @@ clean::
 	${RMFILE} ${OBJ_SDIR}/sys.j ${OBJ_SDIR}/sys_toks.j
 	${RMFILE} ${OBJ_SDIR}/except_toks.j
 	${RMFILE} ${OBJ_SDIR}/abi.j
-.for prod in ${LPI}
-	${RMFILE} ${OBJ_SDIR}/lpi_${prod}.j
-.endfor
 .for abi in ${ABI}
 	${RMFILE} ${OBJ_SDIR}/abi_${abi}.j
 .endfor
