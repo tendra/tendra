@@ -100,6 +100,11 @@ ABI += struct
 ABI += stack
 ABI += va
 
+${OBJ_SDIR}/tdi.j: ${BASE_DIR}/tdi/va.tpl
+	@${CONDCREATE} "${OBJ_SDIR}"
+	@${ECHO} "==> Translating tdi/va.tpl"
+	${TPL} ${.ALLSRC} ${.TARGET}
+
 ${OBJ_SDIR}/pun.j: ${BASE_DIR}/${TOKENS_PUN}/${MACHTOK_PUN}
 	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Translating ${WRKDIR}/${.ALLSRC}"
@@ -174,14 +179,14 @@ ${OBJ_SDIR}/abi.j:
 	@${ECHO} "==> Linking ${WRKDIR}/${.TARGET:T}"
 	${TLD} -o ${.TARGET} ${.ALLSRC}
 
-${OBJ_SDIR}/sys_toks.j: ${OBJ_SDIR}/pun.j ${OBJ_SDIR}/abi.j
+${OBJ_SDIR}/sys_toks.j: ${OBJ_SDIR}/tdi.j ${OBJ_SDIR}/pun.j ${OBJ_SDIR}/abi.j
 	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Linking ${WRKDIR}/${.TARGET:T}"
 	${TLD} -o ${.TARGET} ${.ALLSRC}
 
 
 # Target-dependent token library
-${OBJ_SDIR}/target_tok.tl: ${OBJ_SDIR}/pun.j \
+${OBJ_SDIR}/target_tok.tl: ${OBJ_SDIR}/tdi.j ${OBJ_SDIR}/pun.j \
 		${OBJ_SDIR}/except_toks.j ${OBJ_SDIR}/abi.j
 	@rm -f ${.TARGET}
 	@${CONDCREATE} "${OBJ_SDIR}"
@@ -225,7 +230,7 @@ all:: ${OBJ_SDIR}/c.tl ${OBJ_DIR}/src/c.tl ${OBJ_DIR}/src/target_tok.tl
 
 clean::
 	${RMFILE} ${OBJ_SDIR}/c.tl ${OBJ_DIR}/src/target_tok.tl
-	${RMFILE} ${OBJ_SDIR}/pun.j
+	${RMFILE} ${OBJ_SDIR}/tdi.j ${OBJ_SDIR}/pun.j
 	${RMFILE} ${OBJ_SDIR}/dep_toks.j
 	${RMFILE} ${OBJ_SDIR}/sys.j ${OBJ_SDIR}/sys_toks.j
 	${RMFILE} ${OBJ_SDIR}/except_toks.j

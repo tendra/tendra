@@ -10,7 +10,6 @@
 
 TPLSRCS+= c.tpl
 TPLSRCS+= f.tpl
-TPLSRCS+= tdf.tpl
 
 .include <tendra.tpl.mk>
 
