@@ -22,7 +22,7 @@ Common __TDFstacklim : pointer (locals_alignment)
 Common __TDFhandler : proc;
 
 /* Set_signal_handler must be called before any possible exceptions */
-Tokdef ~Set_signal_handler = [] EXP
+Tokdef .~abi_Set_signal_handler = [] EXP
 	Let handler = Proc bottom (err : Int)
 	{
 		?{
@@ -42,10 +42,10 @@ Tokdef ~Set_signal_handler = [] EXP
 		env_size(handler)
 	};
 
-Tokdef ~Sync_handler = [] EXP make_top;
+Tokdef .~abi_Sync_handler = [] EXP make_top;
 
 Keep (
-	~Set_signal_handler, ~Sync_handler,
+	.~abi_Set_signal_handler, .~abi_Sync_handler,
 	__TDFhandler, __TDFstacklim
 )
 

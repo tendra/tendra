@@ -35,14 +35,14 @@ Iddec __trans386_special : proc; /* special interface to trans386 */
 Common __trans386_stack_limit : pointer (locals_alignment)
 	= make_null_ptr (locals_alignment);
 
-/* Initialised by ~Set_signal_handler */
+/* Initialised by .~abi_Set_signal_handler */
 /* called from numerical exception interrupt or from translated code */
 Common __trans386_errhandler : proc;
 
 Var allsigs : posix.signal.sigset_t;
 
 /* must be called before any possible exceptions */
-Tokdef ~Set_signal_handler = [] EXP
+Tokdef .~abi_Set_signal_handler = [] EXP
 
 Let ovhandler = Proc bottom (sig : Int)
 {
@@ -75,7 +75,7 @@ Let errhandler = Proc bottom (err : Int)
 	}
 }
 
-/* main body of ~Set_signal_handler */
+/* main body of .~abi_Set_signal_handler */
 Var sigact : posix.signal.struct_sigaction
 {
 	__trans386_errhandler = errhandler;
@@ -94,13 +94,13 @@ Var sigact : posix.signal.struct_sigaction
 };
 
 /* must be called prior to any action that modifies ~Trap handling */
-Tokdef ~Sync_handler = [] EXP
+Tokdef .~abi_Sync_handler = [] EXP
 {
 	__trans386_special [top](0(Int)); /* fwait */
 };
 
 Keep (
-	~Set_signal_handler, ~Sync_handler,
+	.~abi_Set_signal_handler, .~abi_Sync_handler,
 	__trans386_errhandler, __trans386_stack_limit
 )
 

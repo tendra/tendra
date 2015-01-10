@@ -79,7 +79,7 @@ _TENDRA_WORK_MACHTOK_MK_=1
 	@${EXIT} 1;
 .endif
 
-TOKENS_EXCEPT?=	except
+TOKENS_EXCEPT?=	abi/except
 TOKENS_MODEL?=	abi/model
 TOKENS_FLOAT?=	abi/float
 TOKENS_CHAR?=  	abi/char
@@ -91,6 +91,7 @@ TOKENS_VA?=   	abi/va
 TOKENS_INT?=  	int
 TOKENS_PUN?=   	pun
 
+ABI += except
 ABI += model
 ABI += float
 ABI += char
@@ -100,12 +101,15 @@ ABI += struct
 ABI += stack
 ABI += va
 
-${OBJ_SDIR}/tdi.j: ${BASE_DIR}/tdi/va.tpl
-	@${CONDCREATE} "${OBJ_SDIR}"
-	@${ECHO} "==> Translating tdi/va.tpl"
-	${TPL} ${.ALLSRC} ${.TARGET}
+TDI += except
+TDI += va
 
 ${OBJ_SDIR}/pun.j: ${BASE_DIR}/${TOKENS_PUN}/${MACHTOK_PUN}
+	@${CONDCREATE} "${OBJ_SDIR}"
+	@${ECHO} "==> Translating ${WRKDIR}/${.ALLSRC}"
+	${TPL} ${.ALLSRC} ${.TARGET}
+
+${OBJ_SDIR}/abi_except.j: ${BASE_DIR}/${TOKENS_EXCEPT}/${MACHTOK_EXCEPT}
 	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Translating ${WRKDIR}/${.ALLSRC}"
 	${TPL} ${.ALLSRC} ${.TARGET}
@@ -150,6 +154,13 @@ ${OBJ_SDIR}/abi_va.j: ${BASE_DIR}/${TOKENS_VA}${MACHTOKS_VA}
 	@${ECHO} "==> Translating ${TOKENS_VA}/${MACHTOKS_VA}"
 	${TPL} -I${BASE_DIR}/${TOKENS_VA} ${.ALLSRC} ${.TARGET}
 
+.for tdi in ${TDI}
+${OBJ_SDIR}/tdi_${tdi}.j: ${BASE_DIR}/tdi/${tdi}.tpl
+	@${CONDCREATE} "${OBJ_SDIR}"
+	@${ECHO} "==> Translating ${WRKDIR}/${.ALLSRC}"
+	${TPL} ${.ALLSRC} ${.TARGET}
+.endfor
+
 ${OBJ_SDIR}/int_toks.j: ${BASE_DIR}/${TOKENS_INT}/${MACHTOK_INT}
 	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Translating ${WRKDIR}/${.ALLSRC}"
@@ -179,6 +190,15 @@ ${OBJ_SDIR}/abi.j:
 	@${ECHO} "==> Linking ${WRKDIR}/${.TARGET:T}"
 	${TLD} -o ${.TARGET} ${.ALLSRC}
 
+.for tdi in ${TDI}
+${OBJ_SDIR}/tdi.j: ${OBJ_SDIR}/tdi_${tdi}.j
+.endfor
+
+${OBJ_SDIR}/tdi.j:
+	@${CONDCREATE} "${OBJ_SDIR}"
+	@${ECHO} "==> Linking ${WRKDIR}/${.TARGET:T}"
+	${TLD} -o ${.TARGET} ${.ALLSRC}
+
 ${OBJ_SDIR}/sys_toks.j: ${OBJ_SDIR}/tdi.j ${OBJ_SDIR}/pun.j ${OBJ_SDIR}/abi.j
 	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Linking ${WRKDIR}/${.TARGET:T}"
@@ -186,17 +206,11 @@ ${OBJ_SDIR}/sys_toks.j: ${OBJ_SDIR}/tdi.j ${OBJ_SDIR}/pun.j ${OBJ_SDIR}/abi.j
 
 
 # Target-dependent token library
-${OBJ_SDIR}/target_tok.tl: ${OBJ_SDIR}/tdi.j ${OBJ_SDIR}/pun.j \
-		${OBJ_SDIR}/except_toks.j ${OBJ_SDIR}/abi.j
+${OBJ_SDIR}/target_tok.tl: ${OBJ_SDIR}/tdi.j ${OBJ_SDIR}/pun.j ${OBJ_SDIR}/abi.j
 	@rm -f ${.TARGET}
 	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Linking ${WRKDIR}/${.TARGET:T}"
 	${TLD} -mc ${TLDOPTS} -o ${.TARGET} ${.ALLSRC}
-
-${OBJ_SDIR}/except_toks.j: ${BASE_DIR}/${TOKENS_EXCEPT}/${MACHTOK_EXCEPT}
-	@${CONDCREATE} "${OBJ_SDIR}"
-	@${ECHO} "==> Translating ${WRKDIR}/${.ALLSRC}"
-	${TPL} ${.ALLSRC} ${.TARGET}
 
 
 
@@ -233,7 +247,6 @@ clean::
 	${RMFILE} ${OBJ_SDIR}/tdi.j ${OBJ_SDIR}/pun.j
 	${RMFILE} ${OBJ_SDIR}/dep_toks.j
 	${RMFILE} ${OBJ_SDIR}/sys.j ${OBJ_SDIR}/sys_toks.j
-	${RMFILE} ${OBJ_SDIR}/except_toks.j
 	${RMFILE} ${OBJ_SDIR}/abi.j
 .for abi in ${ABI}
 	${RMFILE} ${OBJ_SDIR}/abi_${abi}.j

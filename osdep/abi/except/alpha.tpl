@@ -14,7 +14,7 @@
 Common __alpha_stack_limit : pointer (locals_alignment) =
                              make_null_ptr(locals_alignment);
 
-Common __alpha_errhandler : proc; /* initialised by ~Set_signal_handler */
+Common __alpha_errhandler : proc; /* initialised by .~abi_Set_signal_handler */
 
 Tokdec ~Throw: [NAT] EXP;
 Tokdec c89.stdlib.abort : [] EXP;
@@ -47,7 +47,7 @@ Var allsigs : posix.signal.sigset_t;
  *
  * Sets up each of the signal handlers
  */
-Tokdef ~Set_signal_handler = [] EXP
+Tokdef .~abi_Set_signal_handler = [] EXP
 
 Let ovhandler = Proc bottom (sig : Int)
 {
@@ -111,7 +111,7 @@ Var sigact : posix.signal.struct_sigaction
 };
 
 Keep (
-	~Set_signal_handler, ~Sync_handler,
+	.~abi_Set_signal_handler, .~abi_Sync_handler,
 	__alpha_errhandler, __alpha_stack_limit
 )
 

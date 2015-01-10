@@ -8,7 +8,7 @@
  */
 
 /*
- * This is intended for Dec ULTRIX
+ * This is intended for SGI IRIX 32-bit
  */
 
 Common __TDFhandler:proc;
@@ -32,31 +32,57 @@ Tokdef SIGUSR1 = [] SIGNED_NAT snat_from_nat(false, computed_nat(posix.signal.SI
 /* This token must be defined to throw the language specific error value */
 Tokdec ~Throw:[NAT]EXP;
 
+/*
+ * This PL_TDF was written to target IRIX on 32-bit MIPS. The floating point
+ * registers for this are 32-bit wide. The corresponding PL_TDF for Ultrix
+ * also targets 32-bit MIPS, and so both systems use ieee754-double.tpl
+ * for their floating point representations.
+ *
+ * However, Struct sigcontext defined here (and for the corresponding PL_TDF
+ * for Ultrix) must match the OS's standard C library's datastructure ABI,
+ * which is not neccessarily the same as the processor's layout.
+ *
+ * The reason the PL_TDF differs between Ultrix and IRIX is because their
+ * C datastructures differ. That's because IRIX's headers also provide for
+ * 64-bit MIPS, whereas Ultrix's do not. IRIX caters for this by defining
+ * sigcontext using 64-bit types (on both 64-bit and 32-bit systems).
+ *
+ * As far as I understand, for IRIX on 32-bit MIPS, half the width is unused
+ * space and is 0-padded. I imagine which half depends on the endianness.
+ * So, that's why Struct longptr here has two fields; the .hi field is the
+ * high bits (as TenDRA's IRIX target is for big-endian MIPS) are padding.
+ */
+
+Struct longptr (
+	hi:Int,
+	lo:Ptr proc
+);
+
 Struct sigcontext (
 	sc_onstack:Int,
 	sc_mask:Int,
-	sc_pc:Int,
-	sc_regs:nof(32,Int),
-	sc_mdlo:Int,
-	sc_mdhi:Int,
+	sc_pc:longptr,
+	sc_regs:nof(32,longptr),
+	sc_fpregs:nof(32,longptr),
 	sc_ownedfp:Int,
-	sc_fpregs:nof(32,Int),
 	sc_fpc_csr:Int,
 	sc_fpc_eir:Int,
-	sc_cause:Int,
-	sc_badvaddr:Int
+	sc_ssflags:Int,
+	sc_mdhi:longptr,
+	sc_mdlo:longptr,
+	sc_cause:longptr,
+	sc_badvaddr:longptr
 );
 
 Tokdef SETREG = [scp:EXP, r:NAT, val:EXP]EXP
 {
-	((scp *+. .sc_regs) *+. (Sizeof(Int) .* (+ r(Int)))) = val
+	((scp *+. .sc_regs) *+. (.lo .+. (Sizeof(longptr) .* (+ r(Int))))) = val
 };
-
 
 Tokdef CAUSE_BD = []SIGNED_NAT 16r80000000;
 
 /* This token must be called before any possible exceptions */
-Tokdef ~Set_signal_handler = [] EXP
+Tokdef .~abi_Set_signal_handler = [] EXP
 {
 	/*
 	 * This procedure is obeyed at an automatic error trap, using signal.
@@ -65,24 +91,24 @@ Tokdef ~Set_signal_handler = [] EXP
 	 * Could have written this in C.
 	 */
 	Let mh = Proc top(sig:Int, code:Int, scp:Ptr sigcontext) {
-		(* scp *+. .sc_pc) = * __TDFhandler; /* the pc of the failing process */
+		((* scp *+. .sc_pc) *+. .lo) = * __TDFhandler; /* the pc of the failing process */
 
 		SETREG[* scp, 4, * sig];  /* the first parameter */
 		SETREG[* scp, 5, * code]; /* the second parameter */
 		SETREG[* scp, 25, * __TDFhandler]; /* required for PIC code  */
 
-		Let x = *(Int)(* scp *+. .sc_cause)
+		Let x = *(Int)(* scp *+. (.lo .+. .sc_cause))
 		{
 			/*
 			 * the exception could have occurred in a delay slot
 			 * - make sure the return does not treat it as one.
 			 */
-			(* scp *+. .sc_cause) = (x And not(CAUSE_BD(Int)))
+			(* scp *+. (.lo .+. .sc_cause)) = (x And not(CAUSE_BD(Int)))
 		};
 
 		/* reinstates the failing process ie does a call of __TDFhandler */
 		return(make_top)
-	}
+    }
 
 	{
 		__mipshandler = mh;
@@ -128,10 +154,10 @@ Tokdef ~Set_signal_handler = [] EXP
 	}
 };
 
-Tokdef ~Sync_handler = [] EXP make_top;
+Tokdef .~abi_Sync_handler = [] EXP make_top;
 
 Keep (
-	~Set_signal_handler,
-	__TDFhandler, ~Sync_handler, __TDFstacklim
+	.~abi_Set_signal_handler, .~abi_Sync_handler,
+	__TDFhandler, __TDFstacklim
 )
 

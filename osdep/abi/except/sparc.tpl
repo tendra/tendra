@@ -8,13 +8,13 @@
  */
 
 /*
- * Exception tokens for trans.680x0
+ * Exception tokens for trans.sparc
  */
 
-Common __m68k_stack_limit : pointer (locals_alignment) =
-                            make_null_ptr(locals_alignment);
+Common __sparc_stack_limit : pointer (locals_alignment) =
+                             make_null_ptr(locals_alignment);
 
-Common __m68k_errhandler : proc; /* initialised by ~Set_signal_handler */
+Common __sparc_errhandler : proc; /* initialised by .~abi_Set_signal_handler */
 
 Tokdec ~Throw: [NAT] EXP;
 Tokdec c89.stdlib.abort : [] EXP;
@@ -38,7 +38,7 @@ Tokdef SIGSEGV = [] SIGNED_NAT snat_from_nat(false, computed_nat(c89.signal.SIGS
  * Sync handler delays subsequent processing until any pending
  * exceptions have been raised
  */
-Tokdec ~Sync_handler : [] EXP;
+Tokdec .~abi_Sync_handler : [] EXP;
 
 Var allsigs : posix.signal.sigset_t;
 
@@ -47,20 +47,20 @@ Var allsigs : posix.signal.sigset_t;
  *
  * Sets up each of the signal handlers
  */
-Tokdef ~Set_signal_handler = [] EXP
+Tokdef .~abi_Set_signal_handler = [] EXP
 
 Let ovhandler = Proc bottom (sig : Int)
 {
 	posix.signal.sigprocmask [posix.signal.SIG_SETMASK, allsigs,
 		make_null_ptr (alignment (posix.signal.sigset_t)) ];
-	(* __m68k_errhandler) [bottom] (+ error_val(overflow)(Int));
+	(* __sparc_errhandler) [bottom] (+ error_val(overflow)(Int));
 }
 
 Let nil_access_handler = Proc bottom (sig : Int)
 {
 	posix.signal.sigprocmask [posix.signal.SIG_SETMASK, allsigs,
 		make_null_ptr (alignment (posix.signal.sigset_t)) ];
-	(* __m68k_errhandler) [bottom] (+ error_val(nil_access)(Int));
+	(* __sparc_errhandler) [bottom] (+ error_val(nil_access)(Int));
 }
 
 /* called from numerical exception interrupt or from translated code */
@@ -80,25 +80,23 @@ Let errhandler = Proc bottom (err : Int)
 
 Var sigact : posix.signal.struct_sigaction
 {
-	__m68k_errhandler = errhandler;
+	__sparc_errhandler = errhandler;
 
 	posix.signal.sigemptyset [allsigs];
 	(sigact *+. posix.signal.sigaction.sa_handler) = ovhandler;
 	posix.signal.sigemptyset [sigact *+. posix.signal.sigaction.sa_mask];
 	(sigact *+. posix.signal.sigaction.sa_flags) = 0(Int);
 	posix.signal.sigaction [ SIGFPE(Int), sigact,
-		make_null_ptr(alignment(posix.signal.struct_sigaction)) ];
+		make_null_ptr (alignment (posix.signal.struct_sigaction)) ];
 	(sigact *+. posix.signal.sigaction.sa_handler) = nil_access_handler;
 	posix.signal.sigaction [ SIGSEGV(Int), sigact,
-		make_null_ptr(alignment(posix.signal.struct_sigaction)) ];
+		 make_null_ptr(alignment(posix.signal.struct_sigaction)) ];
 
 	env_size (errhandler)
 };
 
-Tokdef ~Sync_handler = [] EXP make_top;
-
 Keep (
-	~Set_signal_handler, ~Sync_handler,
-	__m68k_errhandler, __m68k_stack_limit
+	.~abi_Set_signal_handler, .~abi_Sync_handler,
+	__sparc_errhandler, __sparc_stack_limit
 )
 

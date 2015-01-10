@@ -29,7 +29,7 @@ Common __TDFstacklim : pointer (locals_alignment)
 	= make_null_ptr (locals_alignment);
 
 /*
- * Initialised by ~Set_signal_handler called from numerical exception
+ * Initialised by .~abi_Set_signal_handler called from numerical exception
  * interrupt or from translated code.
  */
 Common __hppahandler : proc;
@@ -48,7 +48,7 @@ Tokdef SIGUSR1 = [] SIGNED_NAT snat_from_nat(false, computed_nat(posix.signal.SI
 Var allsigs : posix.signal.sigset_t;
 
 /* must be called before any possible exceptions */
-Tokdef ~Set_signal_handler = [] EXP
+Tokdef .~abi_Set_signal_handler = [] EXP
 
 Let ovhandler = Proc bottom (sig : Int)
 {
@@ -114,7 +114,7 @@ Var sigact : posix.signal.struct_sigaction
 Tokdef ~Sync_handler = [] EXP make_top;
 
 Keep (
-	~Set_signal_handler, ~Sync_handler,
+	.~abi_Set_signal_handler, .~abi_Sync_handler,
 	__hppahandler, __TDFstacklim
 )
 
