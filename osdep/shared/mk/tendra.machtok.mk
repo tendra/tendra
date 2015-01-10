@@ -88,13 +88,9 @@ TOKENS_ALIGN?= 	abi/align
 TOKENS_STRUCT?=	abi/struct
 TOKENS_STACK?= 	abi/stack
 TOKENS_VA?=   	abi/va
-TOKENS_MAP?=	map
 TOKENS_LPI?=	lpi
 TOKENS_INT?=  	int
 TOKENS_PUN?=   	pun
-
-MAP += c
-MAP += f
 
 LPI += tdfc2
 LPI += tcpplus
@@ -158,13 +154,6 @@ ${OBJ_SDIR}/int_toks.j: ${BASE_DIR}/${TOKENS_INT}/${MACHTOK_INT}
 	@${ECHO} "==> Translating ${WRKDIR}/${.ALLSRC}"
 	${TPL} -I${BASE_DIR}/${TOKENS_INT} ${.ALLSRC} ${.TARGET}
 
-.for lang in ${MAP}
-${OBJ_SDIR}/map_${lang}.j: ${BASE_DIR}/${TOKENS_MAP}/${lang}.tpl
-	@${CONDCREATE} "${OBJ_SDIR}"
-	@${ECHO} "==> Translating ${WRKDIR}/${.ALLSRC}"
-	${TPL} ${.ALLSRC} ${.TARGET}
-.endfor
-
 .for prod in ${LPI}
 ${OBJ_SDIR}/lpi_${prod}.j: ${BASE_DIR}/${TOKENS_LPI}/${prod}.tpl
 	@${CONDCREATE} "${OBJ_SDIR}"
@@ -195,19 +184,11 @@ ${OBJ_SDIR}/abi.j:
 	@${ECHO} "==> Linking ${WRKDIR}/${.TARGET:T}"
 	${TLD} -o ${.TARGET} ${.ALLSRC}
 
-.for lang in ${MAP}
-${OBJ_SDIR}/sys_toks.j: ${OBJ_SDIR}/map_${lang}.j
-.endfor
-
 ${OBJ_SDIR}/sys_toks.j: ${OBJ_SDIR}/lpi_tdfc2.j ${OBJ_SDIR}/pun.j ${OBJ_SDIR}/abi.j
 	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Linking ${WRKDIR}/${.TARGET:T}"
 	${TLD} -o ${.TARGET} ${.ALLSRC}
 
-
-.for lang in ${MAP}
-${OBJ_SDIR}/target_tok.tl: ${OBJ_SDIR}/map_${lang}.j
-.endfor
 
 # Target-dependent token library
 ${OBJ_SDIR}/target_tok.tl: ${OBJ_SDIR}/pun.j \
@@ -228,12 +209,17 @@ ${OBJ_SDIR}/except_toks.j: ${BASE_DIR}/${TOKENS_EXCEPT}/${MACHTOK_EXCEPT}
 # Internal targets (for use by libtsl)
 #
 
-${OBJ_DIR}/src/target_tok.tl: ${OBJ_SDIR}/target_tok.tl
+#${OBJ_DIR}/src/target_tok.tl: ${OBJ_SDIR}/target_tok.tl
+#	@${ECHO} "==> Symlinking for libtsl use"
+#	@${CONDCREATE} "${OBJ_DIR}/src"
+#	${LN} -s ${.ALLSRC} ${.TARGET}
+
+${OBJ_DIR}/src/c.tl: ${OBJ_SDIR}/c.tl
 	@${ECHO} "==> Symlinking for libtsl use"
 	@${CONDCREATE} "${OBJ_DIR}/src"
 	${LN} -s ${.ALLSRC} ${.TARGET}
 
-${OBJ_DIR}/src/c.tl: ${OBJ_SDIR}/c.tl
+${OBJ_DIR}/src/sys_toks.j: ${OBJ_SDIR}/sys_toks.j
 	@${ECHO} "==> Symlinking for libtsl use"
 	@${CONDCREATE} "${OBJ_DIR}/src"
 	${LN} -s ${.ALLSRC} ${.TARGET}
@@ -254,9 +240,6 @@ clean::
 	${RMFILE} ${OBJ_SDIR}/sys.j ${OBJ_SDIR}/sys_toks.j
 	${RMFILE} ${OBJ_SDIR}/except_toks.j
 	${RMFILE} ${OBJ_SDIR}/abi.j
-.for lang in ${MAP}
-	${RMFILE} ${OBJ_SDIR}/map_${lang}.j
-.endfor
 .for prod in ${LPI}
 	${RMFILE} ${OBJ_SDIR}/lpi_${prod}.j
 .endfor
@@ -265,7 +248,7 @@ clean::
 .endfor
 
 
-install:: ${OBJ_SDIR}/c.tl ${OBJ_DIR}/src/c.tl ${OBJ_DIR}/src/target_tok.tl
+install:: ${OBJ_SDIR}/c.tl ${OBJ_DIR}/src/c.tl ${OBJ_DIR}/src/sys_toks.j # ${OBJ_DIR}/src/target_tok.tl
 	@${ECHO} "==> Installing target-dependent C LPI"
 	@${CONDCREATE} "${PREFIX_LPI}"
 	${INSTALL} -m 644 ${OBJ_SDIR}/c.tl "${PREFIX_LPI}/c.tl"

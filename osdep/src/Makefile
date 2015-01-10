@@ -23,11 +23,12 @@ ${OBJ_SDIR}/INT64a.j: INT64a.c
 		${.ALLSRC}
 
 CAPSULES += ${OBJ_SDIR}/INT64a.j
+CAPSULES += ${OBJ_SDIR}/sys_toks.j
 
 
 ${OBJ_SDIR}/INT64.o: ${CAPSULES}
 	${TCC} ${TCCOPTS} -c -o ${.TARGET} \
-		-J${OBJ_SDIR} -jtarget_tok \
+		-J${OBJ_SDIR} -jc -jmap_c  \
 		-M -WP,-I. ${.ALLSRC}
 
 OBJS+=	${OBJ_SDIR}/INT64.o
