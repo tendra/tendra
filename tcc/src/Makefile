@@ -28,6 +28,7 @@ CCOPTS+=                                   \
 	-DPREFIX_LPI='"${PREFIX_LPI}"'         \
 	-DPREFIX_SYS='"${PREFIX_SYS}"'         \
 	-DPREFIX_TMP='"${PREFIX_TMP}"'         \
+	-DPREFIX_MAP='"${PREFIX_MAP}"'         \
 	                                       \
 	-DEXECFORMAT='"${EXECFORMAT}"'         \
 	-DBLDARCH='"${BLDARCH}"'               \

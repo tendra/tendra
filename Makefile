@@ -73,6 +73,7 @@ bootstrap: ${BOOTSTRAP_DEPS}
 	mkdir -p "${OBJ_BPREFIX}/lib/tcc/api"
 	mkdir -p "${OBJ_BPREFIX}/lib/tcc/lpi"
 	mkdir -p "${OBJ_BPREFIX}/lib/tcc/sys"
+	mkdir -p "${OBJ_BPREFIX}/lib/tcc/map"
 	@echo "===> bootstrapping tcc into ${OBJ_BPREFIX}"
 	cd ${.CURDIR}/tcc && ${MAKE}      \
 	    OBJ_DIR=${OBJ_BOOT}/tcc       \

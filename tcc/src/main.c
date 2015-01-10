@@ -103,6 +103,7 @@ main_start(char *prog)
 		{ "PREFIX_LPI",     PREFIX_LPI     },
 		{ "PREFIX_SYS",     PREFIX_SYS     },
 		{ "PREFIX_TMP",     PREFIX_TMP     },
+		{ "PREFIX_MAP",     PREFIX_MAP     },
 
 		/* Platform-specific things */
 		{ "MD_EXECFORMAT",  EXECFORMAT     },
