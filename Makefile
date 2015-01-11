@@ -42,7 +42,7 @@ build-allarch:
 	cd ${.CURDIR}/trans && ${MAKE} -DALLARCH \
 	    OBJ_DIR=${OBJ_APREFIX}/${project}
 . for project in lexi libexds make_err make_tdf \
-	tdfc2 sid tcc tendra-doc tld tnc tpl tspec
+	tdfc2 sid tcc doc tld tnc tpl tspec
 	cd ${.CURDIR}/${project} && ${MAKE} \
 	    OBJ_DIR=${OBJ_APREFIX}/${project}
 . endfor
@@ -149,12 +149,12 @@ bootstrap-regen:
 test-doc:
 	@echo "===> validating documents"
 .for project in calculus trans lexi make_err \
-	osdep tdf tdfc2 sid tcc tendra-doc tld tnc tpl tspec
+	osdep tdf tdfc2 sid tcc doc tld tnc tpl tspec
 	cd ${.CURDIR}/${project}/doc && ${MAKE} test
 .endfor
 	@echo "===> validating manpages"
 .for project in calculus disp trans lexi make_err make_tdf \
-	tdfc2 sid tcc tendra-doc tld tnc tpl tspec
+	tdfc2 sid tcc doc tld tnc tpl tspec
 	cd ${.CURDIR}/${project}/man && ${MAKE} test
 .endfor
 
@@ -163,7 +163,7 @@ test-doc:
 doc:
 	@echo "===> building documents"
 .for project in calculus trans lexi make_err \
-	osdep tdf tdfc2 sid tcc tendra-doc tld tnc tpl tspec
+	osdep tdf tdfc2 sid tcc doc tld tnc tpl tspec
 	cd ${.CURDIR}/${project}/doc && ${MAKE} \
 	    OBJ_DIR=${OBJ_DOC}/${project}
 .endfor
