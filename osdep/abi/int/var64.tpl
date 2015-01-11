@@ -27,7 +27,7 @@ Tokdef NATTEST = [a:NAT, comp:NTEST, b:NAT] EXP
  *   In no case may such limits be less than 64 bits, signed or unsigned.
  */
 
-Tokdef .~rep_var_width = [w:NAT] NAT
+Tokdef .~abi_rep_var_width = [w:NAT] NAT
 NAT ? ( NATTEST [w, <=, 8],
 	8,
 	NAT ? ( NATTEST [w, <=, 16],

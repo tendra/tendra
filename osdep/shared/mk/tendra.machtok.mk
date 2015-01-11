@@ -88,7 +88,7 @@ TOKENS_ALIGN?= 	abi/align
 TOKENS_STRUCT?=	abi/struct
 TOKENS_STACK?= 	abi/stack
 TOKENS_VA?=   	abi/va
-TOKENS_INT?=  	int
+TOKENS_INT?=  	abi/int
 TOKENS_PUN?=   	pun
 
 ABI += except
@@ -100,9 +100,12 @@ ABI += align
 ABI += struct
 ABI += stack
 ABI += va
+ABI += int
 
 TDI += except
 TDI += va
+
+DEP += int
 
 ${OBJ_SDIR}/pun.j: ${BASE_DIR}/${TOKENS_PUN}/${MACHTOK_PUN}
 	@${CONDCREATE} "${OBJ_SDIR}"
@@ -146,12 +149,17 @@ ${OBJ_SDIR}/abi_struct.j: ${BASE_DIR}/${TOKENS_STRUCT}/${MACHTOK_STRUCT}
 
 ${OBJ_SDIR}/abi_stack.j: ${BASE_DIR}/${TOKENS_STACK}${MACHTOKS_STACK}
 	@${CONDCREATE} "${OBJ_SDIR}"
-	@${ECHO} "==> Translating ${TOKENS_STACK}/${MACHTOKS_STACK}"
+	@${ECHO} "==> Translating ${WRKDIR}/${.ALLSRC}"
 	${TPL} -I${BASE_DIR}/${TOKENS_STACK} ${.ALLSRC} ${.TARGET}
 
 ${OBJ_SDIR}/abi_va.j: ${BASE_DIR}/${TOKENS_VA}${MACHTOKS_VA}
 	@${CONDCREATE} "${OBJ_SDIR}"
-	@${ECHO} "==> Translating ${TOKENS_VA}/${MACHTOKS_VA}"
+	@${ECHO} "==> Translating ${WRKDIR}/${.ALLSRC}"
+	${TPL} -I${BASE_DIR}/${TOKENS_VA} ${.ALLSRC} ${.TARGET}
+
+${OBJ_SDIR}/abi_int.j: ${BASE_DIR}/${TOKENS_INT}${MACHTOKS_INT}
+	@${CONDCREATE} "${OBJ_SDIR}"
+	@${ECHO} "==> Translating ${WRKDIR}/${.ALLSRC}"
 	${TPL} -I${BASE_DIR}/${TOKENS_VA} ${.ALLSRC} ${.TARGET}
 
 .for tdi in ${TDI}
@@ -161,10 +169,13 @@ ${OBJ_SDIR}/tdi_${tdi}.j: ${BASE_DIR}/tdi/${tdi}.tpl
 	${TPL} ${.ALLSRC} ${.TARGET}
 .endfor
 
-${OBJ_SDIR}/int_toks.j: ${BASE_DIR}/${TOKENS_INT}/${MACHTOK_INT}
+.for dep in ${DEP}
+${OBJ_SDIR}/dep_${dep}.j: ${BASE_DIR}/dep/${dep}.tpl
 	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Translating ${WRKDIR}/${.ALLSRC}"
-	${TPL} -I${BASE_DIR}/${TOKENS_INT} ${.ALLSRC} ${.TARGET}
+	${TPL} ${.ALLSRC} ${.TARGET}
+.endfor
+
 
 #
 # Rules proper
@@ -185,16 +196,25 @@ ${OBJ_SDIR}/sys.j: ${OBJ_SDIR}/sys_toks.j
 ${OBJ_SDIR}/abi.j: ${OBJ_SDIR}/abi_${abi}.j
 .endfor
 
+.for tdi in ${TDI}
+${OBJ_SDIR}/tdi.j: ${OBJ_SDIR}/tdi_${tdi}.j
+.endfor
+
+.for dep in ${DEP}
+${OBJ_SDIR}/dep.j: ${OBJ_SDIR}/dep_${dep}.j
+.endfor
+
 ${OBJ_SDIR}/abi.j:
 	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Linking ${WRKDIR}/${.TARGET:T}"
 	${TLD} -o ${.TARGET} ${.ALLSRC}
 
-.for tdi in ${TDI}
-${OBJ_SDIR}/tdi.j: ${OBJ_SDIR}/tdi_${tdi}.j
-.endfor
-
 ${OBJ_SDIR}/tdi.j:
+	@${CONDCREATE} "${OBJ_SDIR}"
+	@${ECHO} "==> Linking ${WRKDIR}/${.TARGET:T}"
+	${TLD} -o ${.TARGET} ${.ALLSRC}
+
+${OBJ_SDIR}/dep.j:
 	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Linking ${WRKDIR}/${.TARGET:T}"
 	${TLD} -o ${.TARGET} ${.ALLSRC}
@@ -244,7 +264,7 @@ all:: ${OBJ_SDIR}/c.tl ${OBJ_DIR}/src/c.tl ${OBJ_DIR}/src/target_tok.tl
 
 clean::
 	${RMFILE} ${OBJ_SDIR}/c.tl ${OBJ_DIR}/src/target_tok.tl
-	${RMFILE} ${OBJ_SDIR}/tdi.j ${OBJ_SDIR}/pun.j
+	${RMFILE} ${OBJ_SDIR}/tdi.j ${OBJ_SDIR}/dep.j ${OBJ_SDIR}/pun.j
 	${RMFILE} ${OBJ_SDIR}/dep_toks.j
 	${RMFILE} ${OBJ_SDIR}/sys.j ${OBJ_SDIR}/sys_toks.j
 	${RMFILE} ${OBJ_SDIR}/abi.j

@@ -28,7 +28,7 @@ CAPSULES += ${OBJ_SDIR}/sys_toks.j
 
 ${OBJ_SDIR}/INT64.o: ${CAPSULES}
 	${TCC} ${TCCOPTS} -c -o ${.TARGET} \
-		-J${OBJ_SDIR} -jc -jmap_c -jlpi_tdfc2 \
+		-J${OBJ_SDIR} -jc -jmap_c -jlpi_tdfc2 -jdep \
 		-M -WP,-I. ${.ALLSRC}
 
 OBJS+=	${OBJ_SDIR}/INT64.o
