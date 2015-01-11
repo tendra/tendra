@@ -9,5 +9,11 @@
 SUBDIR+=	common
 SUBDIR+=	${OSFAM}
 
+.if "${LIBCFAM}" != "${OSFAM}"
+. if exists(${LIBCFAM})
+SUBDIR+=        ${LIBCFAM}
+. endif
+.endif
+
 .include <tendra.subdir.mk>
 

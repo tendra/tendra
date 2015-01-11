@@ -37,10 +37,10 @@ JOPTS+= -Y32bit -D__BUILDING_LIBS
 
 # The include order is important here; CPU-specific hacked includes need to
 # be able to #include_next the more general includes in include/.
-HACKS+=	${BASE_DIR}/libc/${LIBCFAM}/arch/${BLDARCH}
-HACKS+=	${BASE_DIR}/libc/${LIBCFAM}/include
+HACKS+=	${BASE_DIR}/machines/${LIBCFAM}/${BLDARCH}/include
+HACKS+=	${BASE_DIR}/machines/${LIBCFAM}/common/include
 
-STARTUP_MACH+=	${BASE_DIR}/libc/${LIBCFAM}/startup
+STARTUP_MACH+=	${BASE_DIR}/machines/${LIBCFAM}/startup
 
 .for hack in ${HACKS}
 . if exists(${hack})
