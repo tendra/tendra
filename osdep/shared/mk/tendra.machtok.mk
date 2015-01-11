@@ -43,9 +43,9 @@ _TENDRA_WORK_MACHTOK_MK_=1
 	@${EXIT} 1;
 .endif
 
-.if !defined(MACHTOK_BITF)
+.if !defined(MACHTOK_BITFIELD)
 .BEGIN:
-	@${ECHO} '$${MACHTOK_BITF} must be set'
+	@${ECHO} '$${MACHTOK_BITFIELD} must be set'
 	@${EXIT} 1;
 .endif
 
@@ -79,17 +79,17 @@ _TENDRA_WORK_MACHTOK_MK_=1
 	@${EXIT} 1;
 .endif
 
-TOKENS_EXCEPT?=	abi/except
-TOKENS_MODEL?=	abi/model
-TOKENS_FLOAT?=	abi/float
-TOKENS_CHAR?=  	abi/char
-TOKENS_BITF?=  	abi/bitfield
-TOKENS_ALIGN?= 	abi/align
-TOKENS_STRUCT?=	abi/struct
-TOKENS_STACK?= 	abi/stack
-TOKENS_VA?=   	abi/va
-TOKENS_INT?=  	abi/int
-TOKENS_PUN?=   	abi/pun
+TOKENS_EXCEPT?=   abi/except
+TOKENS_MODEL?=    abi/model
+TOKENS_FLOAT?=    abi/float
+TOKENS_CHAR?=     abi/char
+TOKENS_BITFIELD?= abi/bitfield
+TOKENS_ALIGN?=    abi/align
+TOKENS_STRUCT?=   abi/struct
+TOKENS_STACK?=    abi/stack
+TOKENS_VA?=       abi/va
+TOKENS_INT?=      abi/int
+TOKENS_PUN?=      abi/pun
 
 ABI += except
 ABI += model
@@ -122,10 +122,10 @@ ${OBJ_SDIR}/abi_char.j: ${BASE_DIR}/${TOKENS_CHAR}/${MACHTOK_CHAR}
 	@${ECHO} "==> Translating ${WRKDIR}/${.ALLSRC}"
 	${TPL} -I${BASE_DIR}/${TOKENS_CHAR} ${.ALLSRC} ${.TARGET}
 
-${OBJ_SDIR}/abi_bitfield.j: ${BASE_DIR}/${TOKENS_BITF}/${MACHTOK_BITF}
+${OBJ_SDIR}/abi_bitfield.j: ${BASE_DIR}/${TOKENS_BITFIELD}/${MACHTOK_BITFIELD}
 	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Translating ${WRKDIR}/${.ALLSRC}"
-	${TPL} -I${BASE_DIR}/${TOKENS_BITF} ${.ALLSRC} ${.TARGET}
+	${TPL} -I${BASE_DIR}/${TOKENS_BITFIELD} ${.ALLSRC} ${.TARGET}
 
 ${OBJ_SDIR}/abi_align.j: ${BASE_DIR}/${TOKENS_ALIGN}/${MACHTOK_ALIGN}
 	@${CONDCREATE} "${OBJ_SDIR}"

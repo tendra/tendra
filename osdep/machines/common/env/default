@@ -6,9 +6,19 @@
 
 <INCL			"-Nsubset:<PREFIX_TSPEC>/TenDRA/subset"
 
+/* API tokens */
 <INCL			"-Nc89:<PREFIX_TSPEC>/TenDRA/include/c89.api"
-+LINK			"-L<PREFIX_API> -L<PREFIX_LPI> -L<PREFIX_MAP>"
-+LIB			"-lc89 -lc"
++LINK			"-L<PREFIX_API>"
++LIB			"-lc89"
+
+/* LPI tokens */
+>LINK			"-L<PREFIX_LPI> -L<PREFIX_MAP>"
+>LIB			"-ltdfc2 -lc"
+>LIB			"-ltdi"
+
+/* Target dependent tokens */
+>LINK			"-L<PREFIX_SYS>"
+>LIB			"-ldep -labi"
 
 +CRT0			""
 +CRT1			""
