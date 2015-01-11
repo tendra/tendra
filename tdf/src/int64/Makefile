@@ -8,7 +8,7 @@
 .include <tendra.compiler.mk>
 
 
-TPLSRCS+=	INT64b.tpl
+TPLSRCS+=	int64b.tpl
 TPLSRCS+=	abstract.tpl
 
 TPLOPTS=	-I${.CURDIR}
@@ -16,23 +16,23 @@ TPLOPTS=	-I${.CURDIR}
 .include <tendra.tpl.mk>
 
 
-${OBJ_SDIR}/INT64a.j: INT64a.c
+${OBJ_SDIR}/int64a.j: int64a.c
 	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Compiling ${.ALLSRC}"
 	${TCC} ${TCCOPTS} -Fj -o ${.TARGET} \
 		${.ALLSRC}
 
-CAPSULES += ${OBJ_SDIR}/INT64a.j
+CAPSULES += ${OBJ_SDIR}/int64a.j
 
 
-${OBJ_SDIR}/INT64.o: ${CAPSULES}
+${OBJ_SDIR}/int64.o: ${CAPSULES}
 	${TCC} ${TCCOPTS} -c -o ${.TARGET}  \
 	    -J${PREFIX_MAP} -jc             \
 	    -J${PREFIX_LPI} -jtdfc2         \
 	    -J${PREFIX_SYS} -jabi -jdep     \
 	    -M -WP,-I. ${.ALLSRC}
 
-OBJS+=	${OBJ_SDIR}/INT64.o
+OBJS+=	${OBJ_SDIR}/int64.o
 
 
 LIB=		tsl
