@@ -90,6 +90,14 @@ bootstrap: ${BOOTSTRAP_DEPS}
 	    TNC=${OBJ_BPREFIX}/bin/tnc    \
 	    TLD=${OBJ_BPREFIX}/bin/tld    \
 	    install
+	@echo "===> bootstrapping tdf into ${OBJ_BPREFIX}"
+	cd ${.CURDIR}/tdf && ${MAKE}      \
+	    OBJ_DIR=${OBJ_BOOT}/tdf       \
+	    PREFIX=${OBJ_BPREFIX}         \
+	    TCC=${OBJ_BPREFIX}/bin/tcc    \
+	    TPL=${OBJ_BPREFIX}/bin/tpl    \
+	    TLD=${OBJ_BPREFIX}/bin/tld    \
+	    install
 	@echo "===> bootstrapping api into ${OBJ_BPREFIX}"
 	cd ${.CURDIR}/api && ${MAKE}      \
 	    OBJ_DIR=${OBJ_BOOT}/api       \
@@ -148,7 +156,7 @@ bootstrap-regen:
 test-doc:
 	@echo "===> validating documents"
 .for project in calculus trans lexi make_err \
-	osdep tdfc2 sid tcc tendra-doc tld tnc tpl tspec
+	osdep tdf tdfc2 sid tcc tendra-doc tld tnc tpl tspec
 	cd ${.CURDIR}/${project}/doc && ${MAKE} test
 .endfor
 	@echo "===> validating manpages"
@@ -162,7 +170,7 @@ test-doc:
 doc:
 	@echo "===> building documents"
 .for project in calculus trans lexi make_err \
-	osdep tdfc2 sid tcc tendra-doc tld tnc tpl tspec
+	osdep tdf tdfc2 sid tcc tendra-doc tld tnc tpl tspec
 	cd ${.CURDIR}/${project}/doc && ${MAKE} \
 	    OBJ_DIR=${OBJ_DOC}/${project}
 .endfor

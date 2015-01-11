@@ -1,4 +1,4 @@
-# $Id: Makefile 3511 2015-01-09 14:10:09Z kate $
+# $Id$
 
 .include "Makefile.inc"
 

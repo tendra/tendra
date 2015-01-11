@@ -3,10 +3,7 @@
 .include "Makefile.inc"
 
 
-.if !defined(WEBSITE)
-SUBDIR+=	machines
-SUBDIR+=	arch
-.endif
+SUBDIR+=	src
 
 .if defined(WITHDOCS)
 SUBDIR+=	doc
