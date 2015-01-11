@@ -4,7 +4,6 @@
 
 
 SUBDIR+=	src
-#SUBDIR+=	lib
 
 .if defined(WITHDOCS)
 #SUBDIR+=	doc

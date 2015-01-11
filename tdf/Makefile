@@ -4,6 +4,7 @@
 
 
 SUBDIR+=	src
+SUBDIR+=	db
 
 .if defined(WITHDOCS)
 SUBDIR+=	doc
