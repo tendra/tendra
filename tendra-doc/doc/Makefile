@@ -4,7 +4,6 @@
 
 
 SUBDIR+=	papers
-SUBDIR+=	reference
 SUBDIR+=	user
 
 # The developer documentation is relevant for the website, but not appropriate
