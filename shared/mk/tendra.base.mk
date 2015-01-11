@@ -75,6 +75,7 @@ TEST?=		test
 TLD?=		tld
 TNC?=		tnc
 TPL?=		tpl
+TR?=		tr
 TSPEC?=		tspec
 UNAME?=		uname
 XSLTPROC?=	xsltproc

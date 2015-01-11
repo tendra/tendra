@@ -97,10 +97,15 @@ ABI += va
 # Rules proper
 #
 
+# openbsd make(1) doesn't have :tu
 .for abi in ${ABI}
-${OBJ_SDIR}/${abi}.j: ${BASE_DIR}/abi/${abi}/${ABI_${abi:tu}}
+TU_${abi} != ${ECHO} ${abi} | ${TR} a-z A-Z
+.endfor
+
+.for abi in ${ABI}
+${OBJ_SDIR}/${abi}.j: ${BASE_DIR}/abi/${abi}/${ABI_${TU_${abi}}}
 	@${CONDCREATE} "${OBJ_SDIR}"
-	@${ECHO} "==> Translating ${abi}/${ABI_${abi:tu}}"
+	@${ECHO} "==> Translating ${abi}/${ABI_${TU_${abi}}}"
 	${TPL} -I${BASE_DIR}/abi/${abi} ${.ALLSRC} ${.TARGET}
 .endfor
 
