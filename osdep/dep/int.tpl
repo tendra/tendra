@@ -6,7 +6,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-Tokdec .~abi_rep_var_width    : [w:NAT] NAT
+Tokdec .~abi_rep_var_width    : [NAT] NAT;
 Tokdec .~abi_rep_atomic_width : [] NAT;
 Tokdec .~abi_best_div         : [] NAT;
 Tokdec .~abi_little_endian    : [] BOOL;

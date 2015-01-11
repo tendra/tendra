@@ -89,7 +89,7 @@ TOKENS_STRUCT?=	abi/struct
 TOKENS_STACK?= 	abi/stack
 TOKENS_VA?=   	abi/va
 TOKENS_INT?=  	abi/int
-TOKENS_PUN?=   	pun
+TOKENS_PUN?=   	abi/pun
 
 ABI += except
 ABI += model
@@ -106,11 +106,6 @@ TDI += except
 TDI += va
 
 DEP += int
-
-${OBJ_SDIR}/pun.j: ${BASE_DIR}/${TOKENS_PUN}/${MACHTOK_PUN}
-	@${CONDCREATE} "${OBJ_SDIR}"
-	@${ECHO} "==> Translating ${WRKDIR}/${.ALLSRC}"
-	${TPL} ${.ALLSRC} ${.TARGET}
 
 ${OBJ_SDIR}/abi_except.j: ${BASE_DIR}/${TOKENS_EXCEPT}/${MACHTOK_EXCEPT}
 	@${CONDCREATE} "${OBJ_SDIR}"
@@ -161,6 +156,11 @@ ${OBJ_SDIR}/abi_int.j: ${BASE_DIR}/${TOKENS_INT}${MACHTOKS_INT}
 	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Translating ${WRKDIR}/${.ALLSRC}"
 	${TPL} -I${BASE_DIR}/${TOKENS_VA} ${.ALLSRC} ${.TARGET}
+
+${OBJ_SDIR}/abi_pun.j: ${BASE_DIR}/${TOKENS_PUN}/${MACHTOK_PUN}
+	@${CONDCREATE} "${OBJ_SDIR}"
+	@${ECHO} "==> Translating ${WRKDIR}/${.ALLSRC}"
+	${TPL} ${.ALLSRC} ${.TARGET}
 
 .for tdi in ${TDI}
 ${OBJ_SDIR}/tdi_${tdi}.j: ${BASE_DIR}/tdi/${tdi}.tpl
@@ -219,29 +219,16 @@ ${OBJ_SDIR}/dep.j:
 	@${ECHO} "==> Linking ${WRKDIR}/${.TARGET:T}"
 	${TLD} -o ${.TARGET} ${.ALLSRC}
 
-${OBJ_SDIR}/sys_toks.j: ${OBJ_SDIR}/tdi.j ${OBJ_SDIR}/pun.j ${OBJ_SDIR}/abi.j
+${OBJ_SDIR}/sys_toks.j: ${OBJ_SDIR}/tdi.j ${OBJ_SDIR}/dep.j ${OBJ_SDIR}/abi.j
 	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Linking ${WRKDIR}/${.TARGET:T}"
 	${TLD} -o ${.TARGET} ${.ALLSRC}
-
-
-# Target-dependent token library
-${OBJ_SDIR}/target_tok.tl: ${OBJ_SDIR}/tdi.j ${OBJ_SDIR}/pun.j ${OBJ_SDIR}/abi.j
-	@rm -f ${.TARGET}
-	@${CONDCREATE} "${OBJ_SDIR}"
-	@${ECHO} "==> Linking ${WRKDIR}/${.TARGET:T}"
-	${TLD} -mc ${TLDOPTS} -o ${.TARGET} ${.ALLSRC}
 
 
 
 #
 # Internal targets (for use by libtsl)
 #
-
-#${OBJ_DIR}/src/target_tok.tl: ${OBJ_SDIR}/target_tok.tl
-#	@${ECHO} "==> Symlinking for libtsl use"
-#	@${CONDCREATE} "${OBJ_DIR}/src"
-#	${LN} -s ${.ALLSRC} ${.TARGET}
 
 ${OBJ_DIR}/src/c.tl: ${OBJ_SDIR}/c.tl
 	@${ECHO} "==> Symlinking for libtsl use"
@@ -259,21 +246,25 @@ ${OBJ_DIR}/src/sys_toks.j: ${OBJ_SDIR}/sys_toks.j
 # User-facing targets
 #
 
-all:: ${OBJ_SDIR}/c.tl ${OBJ_DIR}/src/c.tl ${OBJ_DIR}/src/target_tok.tl
+all:: ${OBJ_SDIR}/c.tl ${OBJ_DIR}/src/c.tl
 
 
 clean::
-	${RMFILE} ${OBJ_SDIR}/c.tl ${OBJ_DIR}/src/target_tok.tl
-	${RMFILE} ${OBJ_SDIR}/tdi.j ${OBJ_SDIR}/dep.j ${OBJ_SDIR}/pun.j
+	${RMFILE} ${OBJ_SDIR}/c.tl
+	${RMFILE} ${OBJ_SDIR}/tdi.j
+	${RMFILE} ${OBJ_SDIR}/dep.j
+	${RMFILE} ${OBJ_SDIR}/abi.j
 	${RMFILE} ${OBJ_SDIR}/dep_toks.j
 	${RMFILE} ${OBJ_SDIR}/sys.j ${OBJ_SDIR}/sys_toks.j
-	${RMFILE} ${OBJ_SDIR}/abi.j
 .for abi in ${ABI}
 	${RMFILE} ${OBJ_SDIR}/abi_${abi}.j
 .endfor
+.for dep in ${DEP}
+	${RMFILE} ${OBJ_SDIR}/dep_${dep}.j
+.endfor
 
 
-install:: ${OBJ_SDIR}/c.tl ${OBJ_DIR}/src/c.tl ${OBJ_DIR}/src/sys_toks.j # ${OBJ_DIR}/src/target_tok.tl
+install:: ${OBJ_SDIR}/c.tl ${OBJ_DIR}/src/c.tl ${OBJ_DIR}/src/sys_toks.j
 	@${ECHO} "==> Installing target-dependent C LPI"
 	@${CONDCREATE} "${PREFIX_LPI}"
 	${INSTALL} -m 644 ${OBJ_SDIR}/c.tl "${PREFIX_LPI}/c.tl"

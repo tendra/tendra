@@ -5,6 +5,7 @@
 
 .if !defined(WEBSITE)
 SUBDIR+=	map
+SUBDIR+=	dep
 SUBDIR+=	lpi
 SUBDIR+=	machines
 SUBDIR+=	arch
