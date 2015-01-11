@@ -101,6 +101,7 @@ ABI += struct
 ABI += stack
 ABI += va
 ABI += int
+ABI += pun
 
 ${OBJ_SDIR}/abi_except.j: ${BASE_DIR}/${TOKENS_EXCEPT}/${MACHTOK_EXCEPT}
 	@${CONDCREATE} "${OBJ_SDIR}"
