@@ -8,8 +8,8 @@
 
 /* API tokens */
 <INCL			"-Nc89:<PREFIX_TSPEC>/TenDRA/include/c89.api"
-+LINK			"-L<PREFIX_API>"
-+LIB			"-lc89"
+>LINK			"-L<PREFIX_API>"
+>LIB			"-lc89"
 
 /* LPI tokens */
 >LINK			"-L<PREFIX_LPI> -L<PREFIX_MAP>"
