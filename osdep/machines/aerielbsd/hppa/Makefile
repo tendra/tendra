@@ -4,7 +4,7 @@
 
 
 SUBDIR+=	env
-SUBDIR+=	tokens
+SUBDIR+=	abi
 
 .include <tendra.subdir.mk>
 
