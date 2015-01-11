@@ -2,7 +2,7 @@
 
 <SYS_LINK		"-L<PREFIX_SYS>"
 <LIB			"-ltarget_tok"
-<SYS_LIB        	"-ltsl"
+<SYS_LIB        	"-lint64"
 +FLAG_INSTALL		"-Ytdf_ext"
 +FLAG_LD	       	"-z"
 >INFO			"XANDF@Preliminary@Specification@(DRA-005@proposal)"

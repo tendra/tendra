@@ -35,7 +35,7 @@ ${OBJ_SDIR}/int64.o: ${CAPSULES}
 OBJS+=	${OBJ_SDIR}/int64.o
 
 
-LIB=		tsl
+LIB=		int64
 EXEC_LIB=	${PREFIX_SYS}
 
 .include <tendra.lib.mk>
