@@ -23,16 +23,6 @@ ${OBJ_SDIR}/${map}.tl: ${OBJ_SDIR}/${map}.j
 
 
 #
-# Internal targets (for use by libtsl)
-#
-
-${OBJ_DIR}/src/map_c.tl: ${OBJ_SDIR}/c.tl
-	@${ECHO} "==> Symlinking for libtsl use"
-	@${CONDCREATE} "${OBJ_DIR}/src"
-	${LN} -s ${.ALLSRC} ${.TARGET}
-
-
-#
 # User-facing targets
 #
 
@@ -42,13 +32,10 @@ all:: ${OBJ_SDIR}/${map}.tl
 
 
 clean::
-	${RMFILE} ${OBJ_DIR}/src/map_c.tl
 .for map in ${CAPSULES:T:R}
 	${RMFILE} ${OBJ_SDIR}/${map}.tl
 .endfor
 
-
-install:: ${OBJ_DIR}/src/map_c.tl
 
 .for map in ${CAPSULES:T:R}
 install:: ${OBJ_SDIR}/${map}.tl

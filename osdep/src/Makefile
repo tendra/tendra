@@ -23,13 +23,14 @@ ${OBJ_SDIR}/INT64a.j: INT64a.c
 		${.ALLSRC}
 
 CAPSULES += ${OBJ_SDIR}/INT64a.j
-CAPSULES += ${OBJ_SDIR}/sys_toks.j
 
 
 ${OBJ_SDIR}/INT64.o: ${CAPSULES}
-	${TCC} ${TCCOPTS} -c -o ${.TARGET} \
-		-J${OBJ_SDIR} -jc -jmap_c -jlpi_tdfc2 -jdep \
-		-M -WP,-I. ${.ALLSRC}
+	${TCC} ${TCCOPTS} -c -o ${.TARGET}  \
+	    -J${PREFIX_MAP} -jc             \
+	    -J${PREFIX_LPI} -jtdfc2         \
+	    -J${PREFIX_SYS} -jabi -jdep     \
+	    -M -WP,-I. ${.ALLSRC}
 
 OBJS+=	${OBJ_SDIR}/INT64.o
 

@@ -25,27 +25,16 @@ ${OBJ_SDIR}/dep.tl:
 
 
 #
-# Internal targets (for use by libtsl)
-#
-
-${OBJ_DIR}/src/dep.tl: ${OBJ_SDIR}/dep.tl
-	@${ECHO} "==> Symlinking for libtsl use"
-	@${CONDCREATE} "${OBJ_DIR}/src"
-	${LN} -s ${.ALLSRC} ${.TARGET}
-
-
-#
 # User-facing targets
 #
 
-all:: ${OBJ_SDIR}/dep.tl ${OBJ_DIR}/src/dep.tl
+all:: ${OBJ_SDIR}/dep.tl
 
 
 clean::
-	${RMFILE} ${OBJ_DIR}/src/dep.tl
 
 
-install:: ${OBJ_SDIR}/dep.tl ${OBJ_DIR}/src/dep.tl
+install:: ${OBJ_SDIR}/dep.tl
 	@${ECHO} "==> Installing target dependent mapping"
 	@${CONDCREATE} "${PREFIX_SYS}"
 	${INSTALL} -m 644 ${OBJ_SDIR}/dep.tl "${PREFIX_SYS}/dep.tl"

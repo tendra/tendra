@@ -23,16 +23,6 @@ ${OBJ_SDIR}/${prod}.tl: ${OBJ_SDIR}/${prod}.j
 
 
 #
-# Internal targets (for use by libtsl)
-#
-
-${OBJ_DIR}/src/lpi_tdfc2.tl: ${OBJ_SDIR}/tdfc2.tl
-	@${ECHO} "==> Symlinking for libtsl use"
-	@${CONDCREATE} "${OBJ_DIR}/src"
-	${LN} -s ${.ALLSRC} ${.TARGET}
-
-
-#
 # User-facing targets
 #
 
@@ -42,13 +32,10 @@ all:: ${OBJ_SDIR}/${prod}.tl
 
 
 clean::
-	${RMFILE} ${OBJ_DIR}/src/lpi_tdfc2.tl
 .for prod in ${CAPSULES:T:R}
 	${RMFILE} ${OBJ_SDIR}/${prod}.tl
 .endfor
 
-
-install:: ${OBJ_DIR}/src/lpi_tdfc2.tl
 
 .for prod in ${CAPSULES:T:R}
 install:: ${OBJ_SDIR}/${prod}.tl

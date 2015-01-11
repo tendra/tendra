@@ -181,19 +181,18 @@ ${OBJ_SDIR}/dep_${dep}.j: ${BASE_DIR}/dep/${dep}.tpl
 # Rules proper
 #
 
-# C Producer LPI library
-${OBJ_SDIR}/c.tl: ${OBJ_SDIR}/sys.j
+${OBJ_SDIR}/abi.tl:
 	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Linking ${WRKDIR}/${.TARGET:T}"
 	${TLD} -mc ${TLDOPTS} -o ${.TARGET} ${.ALLSRC}
 
-${OBJ_SDIR}/sys.j: ${OBJ_SDIR}/sys_toks.j
-	@${CONDCREATE} "${OBJ_SDIR}"
-	@${ECHO} "==> Rewriting ${WRKDIR}/${.TARGET:T}"
-	${TNC} -t -d -L'.~' ${.ALLSRC} ${.TARGET}
+#${OBJ_SDIR}/sys.j: ${OBJ_SDIR}/sys_toks.j
+#	@${CONDCREATE} "${OBJ_SDIR}"
+#	@${ECHO} "==> Rewriting ${WRKDIR}/${.TARGET:T}"
+#	${TNC} -t -d -L'.~' ${.ALLSRC} ${.TARGET}
 
 .for abi in ${ABI}
-${OBJ_SDIR}/abi.j: ${OBJ_SDIR}/abi_${abi}.j
+${OBJ_SDIR}/abi.tl: ${OBJ_SDIR}/abi_${abi}.j
 .endfor
 
 .for tdi in ${TDI}
@@ -204,7 +203,7 @@ ${OBJ_SDIR}/tdi.j: ${OBJ_SDIR}/tdi_${tdi}.j
 ${OBJ_SDIR}/dep.j: ${OBJ_SDIR}/dep_${dep}.j
 .endfor
 
-${OBJ_SDIR}/abi.j:
+${OBJ_SDIR}/abi.tl:
 	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Linking ${WRKDIR}/${.TARGET:T}"
 	${TLD} -o ${.TARGET} ${.ALLSRC}
@@ -219,43 +218,19 @@ ${OBJ_SDIR}/dep.j:
 	@${ECHO} "==> Linking ${WRKDIR}/${.TARGET:T}"
 	${TLD} -o ${.TARGET} ${.ALLSRC}
 
-${OBJ_SDIR}/sys_toks.j: ${OBJ_SDIR}/tdi.j ${OBJ_SDIR}/dep.j ${OBJ_SDIR}/abi.j
-	@${CONDCREATE} "${OBJ_SDIR}"
-	@${ECHO} "==> Linking ${WRKDIR}/${.TARGET:T}"
-	${TLD} -o ${.TARGET} ${.ALLSRC}
-
-
-
-#
-# Internal targets (for use by libtsl)
-#
-
-${OBJ_DIR}/src/c.tl: ${OBJ_SDIR}/c.tl
-	@${ECHO} "==> Symlinking for libtsl use"
-	@${CONDCREATE} "${OBJ_DIR}/src"
-	${LN} -s ${.ALLSRC} ${.TARGET}
-
-${OBJ_DIR}/src/sys_toks.j: ${OBJ_SDIR}/sys_toks.j
-	@${ECHO} "==> Symlinking for libtsl use"
-	@${CONDCREATE} "${OBJ_DIR}/src"
-	${LN} -s ${.ALLSRC} ${.TARGET}
-
 
 
 #
 # User-facing targets
 #
 
-all:: ${OBJ_SDIR}/c.tl ${OBJ_DIR}/src/c.tl
+all:: ${OBJ_SDIR}/abi.tl
 
 
 clean::
-	${RMFILE} ${OBJ_SDIR}/c.tl
 	${RMFILE} ${OBJ_SDIR}/tdi.j
 	${RMFILE} ${OBJ_SDIR}/dep.j
-	${RMFILE} ${OBJ_SDIR}/abi.j
 	${RMFILE} ${OBJ_SDIR}/dep_toks.j
-	${RMFILE} ${OBJ_SDIR}/sys.j ${OBJ_SDIR}/sys_toks.j
 .for abi in ${ABI}
 	${RMFILE} ${OBJ_SDIR}/abi_${abi}.j
 .endfor
@@ -264,10 +239,10 @@ clean::
 .endfor
 
 
-install:: ${OBJ_SDIR}/c.tl ${OBJ_DIR}/src/c.tl ${OBJ_DIR}/src/sys_toks.j
+install:: ${OBJ_SDIR}/abi.tl
 	@${ECHO} "==> Installing target-dependent C LPI"
 	@${CONDCREATE} "${PREFIX_LPI}"
-	${INSTALL} -m 644 ${OBJ_SDIR}/c.tl "${PREFIX_LPI}/c.tl"
+	${INSTALL} -m 644 ${OBJ_SDIR}/abi.tl "${PREFIX_SYS}/abi.tl"
 
 
 
