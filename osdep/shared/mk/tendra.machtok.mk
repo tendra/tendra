@@ -79,89 +79,34 @@ _TENDRA_WORK_MACHTOK_MK_=1
 	@${EXIT} 1;
 .endif
 
-TOKENS_EXCEPT?=   abi/except
-TOKENS_MODEL?=    abi/model
-TOKENS_FLOAT?=    abi/float
-TOKENS_CHAR?=     abi/char
-TOKENS_BITFIELD?= abi/bitfield
-TOKENS_ALIGN?=    abi/align
-TOKENS_STRUCT?=   abi/struct
-TOKENS_STACK?=    abi/stack
-TOKENS_VA?=       abi/va
-TOKENS_INT?=      abi/int
-TOKENS_PUN?=      abi/pun
 
 ABI += except
 ABI += model
 ABI += float
+ABI += int
 ABI += char
 ABI += bitfield
 ABI += align
 ABI += struct
+ABI += pun
 ABI += stack
 ABI += va
-ABI += int
-ABI += pun
-
-${OBJ_SDIR}/abi_except.j: ${BASE_DIR}/${TOKENS_EXCEPT}/${MACHTOK_EXCEPT}
-	@${CONDCREATE} "${OBJ_SDIR}"
-	@${ECHO} "==> Translating ${WRKDIR}/${.ALLSRC}"
-	${TPL} ${.ALLSRC} ${.TARGET}
-
-${OBJ_SDIR}/abi_model.j: ${BASE_DIR}/${TOKENS_MODEL}/${MACHTOK_MODEL}
-	@${CONDCREATE} "${OBJ_SDIR}"
-	@${ECHO} "==> Translating ${WRKDIR}/${.ALLSRC}"
-	${TPL} ${.ALLSRC} ${.TARGET}
-
-${OBJ_SDIR}/abi_float.j: ${BASE_DIR}/${TOKENS_FLOAT}/${MACHTOK_FLOAT}
-	@${CONDCREATE} "${OBJ_SDIR}"
-	@${ECHO} "==> Translating ${WRKDIR}/${.ALLSRC}"
-	${TPL} -I${BASE_DIR}/${TOKENS_FLOAT} ${.ALLSRC} ${.TARGET}
-
-${OBJ_SDIR}/abi_char.j: ${BASE_DIR}/${TOKENS_CHAR}/${MACHTOK_CHAR}
-	@${CONDCREATE} "${OBJ_SDIR}"
-	@${ECHO} "==> Translating ${WRKDIR}/${.ALLSRC}"
-	${TPL} -I${BASE_DIR}/${TOKENS_CHAR} ${.ALLSRC} ${.TARGET}
-
-${OBJ_SDIR}/abi_bitfield.j: ${BASE_DIR}/${TOKENS_BITFIELD}/${MACHTOK_BITFIELD}
-	@${CONDCREATE} "${OBJ_SDIR}"
-	@${ECHO} "==> Translating ${WRKDIR}/${.ALLSRC}"
-	${TPL} -I${BASE_DIR}/${TOKENS_BITFIELD} ${.ALLSRC} ${.TARGET}
-
-${OBJ_SDIR}/abi_align.j: ${BASE_DIR}/${TOKENS_ALIGN}/${MACHTOK_ALIGN}
-	@${CONDCREATE} "${OBJ_SDIR}"
-	@${ECHO} "==> Translating ${WRKDIR}/${.ALLSRC}"
-	${TPL} -I${BASE_DIR}/${TOKENS_ALIGN} ${.ALLSRC} ${.TARGET}
-
-${OBJ_SDIR}/abi_struct.j: ${BASE_DIR}/${TOKENS_STRUCT}/${MACHTOK_STRUCT}
-	@${CONDCREATE} "${OBJ_SDIR}"
-	@${ECHO} "==> Translating ${WRKDIR}/${.ALLSRC}"
-	${TPL} -I${BASE_DIR}/${TOKENS_STRUCT} ${.ALLSRC} ${.TARGET}
-
-${OBJ_SDIR}/abi_stack.j: ${BASE_DIR}/${TOKENS_STACK}${MACHTOKS_STACK}
-	@${CONDCREATE} "${OBJ_SDIR}"
-	@${ECHO} "==> Translating ${WRKDIR}/${.ALLSRC}"
-	${TPL} -I${BASE_DIR}/${TOKENS_STACK} ${.ALLSRC} ${.TARGET}
-
-${OBJ_SDIR}/abi_va.j: ${BASE_DIR}/${TOKENS_VA}${MACHTOKS_VA}
-	@${CONDCREATE} "${OBJ_SDIR}"
-	@${ECHO} "==> Translating ${WRKDIR}/${.ALLSRC}"
-	${TPL} -I${BASE_DIR}/${TOKENS_VA} ${.ALLSRC} ${.TARGET}
-
-${OBJ_SDIR}/abi_int.j: ${BASE_DIR}/${TOKENS_INT}${MACHTOKS_INT}
-	@${CONDCREATE} "${OBJ_SDIR}"
-	@${ECHO} "==> Translating ${WRKDIR}/${.ALLSRC}"
-	${TPL} -I${BASE_DIR}/${TOKENS_VA} ${.ALLSRC} ${.TARGET}
-
-${OBJ_SDIR}/abi_pun.j: ${BASE_DIR}/${TOKENS_PUN}/${MACHTOK_PUN}
-	@${CONDCREATE} "${OBJ_SDIR}"
-	@${ECHO} "==> Translating ${WRKDIR}/${.ALLSRC}"
-	${TPL} ${.ALLSRC} ${.TARGET}
 
 
 #
 # Rules proper
 #
+
+.for abi in ${ABI}
+${OBJ_SDIR}/abi_${abi}.j: ${BASE_DIR}/abi/${abi}/${MACHTOK_${abi:tu}}
+	@${CONDCREATE} "${OBJ_SDIR}"
+	@${ECHO} "==> Translating ${abi}/${MACHTOK_${abi:tu}}"
+	${TPL} -I${BASE_DIR}/abi/${abi} ${.ALLSRC} ${.TARGET}
+.endfor
+
+.for abi in ${ABI}
+${OBJ_SDIR}/abi.tl: ${OBJ_SDIR}/abi_${abi}.j
+.endfor
 
 ${OBJ_SDIR}/abi.tl:
 	@${CONDCREATE} "${OBJ_SDIR}"
@@ -172,10 +117,6 @@ ${OBJ_SDIR}/abi.tl:
 #	@${CONDCREATE} "${OBJ_SDIR}"
 #	@${ECHO} "==> Rewriting ${WRKDIR}/${.TARGET:T}"
 #	${TNC} -t -d -L'.~' ${.ALLSRC} ${.TARGET}
-
-.for abi in ${ABI}
-${OBJ_SDIR}/abi.tl: ${OBJ_SDIR}/abi_${abi}.j
-.endfor
 
 ${OBJ_SDIR}/abi.tl:
 	@${CONDCREATE} "${OBJ_SDIR}"
