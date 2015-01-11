@@ -4,9 +4,9 @@
 
 
 .if !defined(WEBSITE)
+SUBDIR+=	libc
 SUBDIR+=	machines
 SUBDIR+=	arch
-SUBDIR+=	libc
 .endif
 
 .if defined(WITHDOCS)
