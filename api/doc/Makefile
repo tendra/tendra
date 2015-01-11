@@ -1,4 +1,0 @@
-# $Id$
-
-.include "Makefile.inc"
-
