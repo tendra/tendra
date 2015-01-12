@@ -4,5 +4,8 @@
  * Empty: this is a placeholder for osdep to overwrite.
  */
 
+/* XXX: requisites ought to be pre-populated by tcc itself */
++LIB	""
 +INCL	""
++LINK	""
 
