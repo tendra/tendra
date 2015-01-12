@@ -40,7 +40,7 @@ JOPTS+= -Y32bit -D__BUILDING_LIBS
 HACKS+=	${BASE_DIR}/machines/${LIBCFAM}/${BLDARCH}/include
 HACKS+=	${BASE_DIR}/machines/${LIBCFAM}/common/include
 
-STARTUP_MACH+=	${BASE_DIR}/machines/${LIBCFAM}/startup
+STARTUP_MACH+=	${BASE_DIR}/machines/${LIBCFAM}/common/startup
 
 .for hack in ${HACKS}
 . if exists(${hack})
