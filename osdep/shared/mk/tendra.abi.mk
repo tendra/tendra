@@ -123,11 +123,6 @@ ${OBJ_SDIR}/abi.tl:
 #	@${ECHO} "==> Rewriting ${WRKDIR}/${.TARGET:T}"
 #	${TNC} -t -d -L'.~' ${.ALLSRC} ${.TARGET}
 
-${OBJ_SDIR}/abi.tl:
-	@${CONDCREATE} "${OBJ_SDIR}"
-	@${ECHO} "==> Linking ${WRKDIR}/${.TARGET:T}"
-	${TLD} -o ${.TARGET} ${.ALLSRC}
-
 
 
 #
