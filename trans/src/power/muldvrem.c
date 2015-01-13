@@ -18,7 +18,7 @@
 #include "memtdf.h"
 #include "codegen.h"
 #include "geninst.h"
-#include "needscan.h"
+#include "scan.h"
 #include "comment.h"
 #include "muldvrem.h"
 #include "translate.h"

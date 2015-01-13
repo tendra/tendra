@@ -111,7 +111,7 @@
 #include "regalloc.h"
 #include "makecode.h"
 #include "eval.h"
-#include "needscan.h"
+#include "scan.h"
 #include "diagout.h"
 #include "comment.h"
 #include "translate.h"

@@ -290,7 +290,7 @@ static int push_cees
     return 0;
   }
   if (longs < 0) {
-    must_use_bp = 1;	/* scan2 must ensure !no_frame */
+    must_use_bp = 1;	/* scan() must ensure !no_frame */
     if (siz == NULL) {
 	/* calculate size from calling proc callees */
       outs(" movl 8(%ebp),%eax\n");

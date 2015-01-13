@@ -69,7 +69,7 @@
 #endif
 
 #ifdef TRANS_SPARC
-#include "needscan.h"
+#include "scan.h"
 #endif
 
 #define NOTYETDONE(x)	error(ERROR_INTERNAL, x)

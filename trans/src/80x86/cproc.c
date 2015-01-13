@@ -55,7 +55,7 @@
 #include "messages_8.h"
 #include "assembler.h"
 #include "coder.h"
-#include "scan2.h"
+#include "scan.h"
 #include "cproc.h"
 #include "localexpmacs.h"
 
@@ -320,11 +320,11 @@ int cproc
   ferrsize = 0;
   fpucon = normal_fpucon;
 
-  has_dy_callees = 0;		/* set by scan2 when stack_dec indeterminable */
-  has_tail_call = 0;		/* set by scan2, used in coder */
-  has_same_callees = 0;		/* set by scan2, used in coder */
-  proc_has_asm = 0;		/* set by scan2 if any asm operands */
-  IGNORE scan2(1, p, p, 0);
+  has_dy_callees = 0;		/* set by scan when stack_dec indeterminable */
+  has_tail_call = 0;		/* set by scan, used in coder */
+  has_same_callees = 0;		/* set by scan, used in coder */
+  proc_has_asm = 0;		/* set by scan if any asm operands */
+  IGNORE scan(1, p, p, 0);
   useful_double = 0;
   comp_weights(p);
 

@@ -41,7 +41,7 @@
 #include "localtypes.h"
 #include "coder.h"
 #include "instr386.h"
-#include "scan2.h"
+#include "scan.h"
 #include "localexpmacs.h"
 
 #define assexp(isson, p, v) if (isson)setson(p, v); else setbro(p, v)
@@ -115,12 +115,12 @@ static int cc
     if (doit(ec, count, unused)) {
       cca(sto, to, se, e);
       ec = contexp(sto, to);
-      return scan2(1, ec, son(ec), unused);
+      return scan(1, ec, son(ec), unused);
     }
     else {
       if (unused)
-	return scan2(se, e, ec, 1);
-      return scan2(sto, to, ec, unused);
+	return scan(se, e, ec, 1);
+      return scan(sto, to, ec, unused);
     }
   }
   else {
@@ -130,12 +130,12 @@ static int cc
     if (doit(ec, count, unused)) {
       cca(sto, to, se, e);
       ec = contexp(sto, to);
-      return scan2(1, ec, son(ec), unused);
+      return scan(1, ec, son(ec), unused);
     }
     else {
       if (unused)
-	return scan2(sto, to, ec, 1);
-      return scan2(sto, to, ec, unused);
+	return scan(sto, to, ec, 1);
+      return scan(sto, to, ec, unused);
     };
   };
 }
@@ -163,15 +163,15 @@ static void cc1
     if (doit(ec, count, unused)) {
       cca(sto, to, se, e);
       ec = contexp(sto, to);
-      IGNORE scan2(1, ec, son(ec), unused);
+      IGNORE scan(1, ec, son(ec), unused);
       return;
     }
     else {
       if (unused) {
-	IGNORE scan2(se, e, ec, 1);
+	IGNORE scan(se, e, ec, 1);
         return;
       };
-      IGNORE scan2(sto, to, ec, unused);
+      IGNORE scan(sto, to, ec, unused);
       return;
     }
   }
@@ -182,15 +182,15 @@ static void cc1
     if (doit(ec, count, unused)) {
       cca(sto, to, se, e);
       ec = contexp(sto, to);
-      IGNORE scan2(1, ec, son(ec), unused);
+      IGNORE scan(1, ec, son(ec), unused);
       return;
     }
     else {
       if (unused) {
-	IGNORE scan2(se, e, ec, 1);
+	IGNORE scan(se, e, ec, 1);
 	return;
       };
-      IGNORE scan2(sto, to, ec, unused);
+      IGNORE scan(sto, to, ec, unused);
       return;
     };
   };
@@ -206,7 +206,7 @@ static void ccp
   cca(sto, to, sx, x);
   toc = contexp(sto, to);
   setusereg(toc);
-  IGNORE scan2(1, toc, son(toc), 0);
+  IGNORE scan(1, toc, son(toc), 0);
   return;
 }
 
@@ -487,21 +487,21 @@ static void indable_son
     exp ec;
     cca(sto, to, 1, e);
     ec = contexp(sto, to);
-    IGNORE scan2(1, ec, son(ec), 0);
+    IGNORE scan(1, ec, son(ec), 0);
   }
   else
-    IGNORE scan2(sto, to, son(e), 0);
+    IGNORE scan(sto, to, son(e), 0);
   return;
 }
 
-/* Apply scan2 to this bro list, moving "to" along it */
+/* Apply scan to this bro list, moving "to" along it */
 static void scanargs
 (int st, exp e, int usereg0)
 {
   exp t = e;
   exp temp;
 
-  while (temp = contexp(st, t), IGNORE scan2(st, t, temp, usereg0),
+  while (temp = contexp(st, t), IGNORE scan(st, t, temp, usereg0),
       temp = contexp(st, t), !last(temp)) {
     t = contexp(st, t);
     st = 0;
@@ -640,7 +640,7 @@ void check_asm_seq
 }
 
 /* Main scan routine */
-int scan2
+int scan
 (int sto, exp to, exp e, int usereg0)
 {
   switch (name(e)) {
@@ -666,19 +666,19 @@ int scan2
 
     case labst_tag:
       {
-	IGNORE scan2(0, son(e), bro(son(e)), 1);
+	IGNORE scan(0, son(e), bro(son(e)), 1);
 	return 0;
       };
     case ident_tag:
       {
-	IGNORE scan2(0, son(e), bro(son(e)), 0);
-	IGNORE scan2(1, e, son(e), 0);
+	IGNORE scan(0, son(e), bro(son(e)), 0);
+	IGNORE scan(1, e, son(e), 0);
 	return 0;
       };
     case seq_tag:
       {
 	scanargs(1, son(e), 1);
-	IGNORE scan2(0, son(e), bro(son(e)), 1);
+	IGNORE scan(0, son(e), bro(son(e)), 1);
 	return 0;
       };
 
@@ -734,7 +734,7 @@ int scan2
 	setbro(lim, son(e));
 	setson(e, lim);
 	setname(e, ass_tag);
-	return scan2(sto, to, e, usereg0);
+	return scan(sto, to, e, usereg0);
       };
     case chvar_tag:
       {
@@ -829,10 +829,10 @@ int scan2
 	  /* second argument must be assignable */
 	  cca(sto, to, 0, son(e));
 	  toc = contexp(sto, to);
-	  IGNORE scan2(1, toc, son(toc), 1);
+	  IGNORE scan(1, toc, son(toc), 1);
 	}
 	else
-	  IGNORE scan2(sto, to, bro(son(e)), 1);
+	  IGNORE scan(sto, to, bro(son(e)), 1);
 	return 0;
       };
     case apply_tag:
@@ -853,7 +853,7 @@ int scan2
 	exp p_post = cees;	/* bro(p_post) is postlude */
 	while (name(bro(p_post)) == ident_tag && name(son(bro(p_post))) == caller_name_tag)
 	  p_post = son(bro(p_post));
-	scan2(0, p_post, bro(p_post), 1);
+	scan(0, p_post, bro(p_post), 1);
 	if (son(cees)!= NULL)
 	  scan_apply_args(sto, to, 1, cees);
 	if (no(bro(son(e)))!= 0)
@@ -898,11 +898,11 @@ int scan2
 	  exp ec;
 	  cca(sto, to, 1, e);
 	  ec = contexp(sto, to);
-	  IGNORE scan2(1, ec, son(ec), 0);
+	  IGNORE scan(1, ec, son(ec), 0);
 	  return 0;
 	}
 	else  {
-	  IGNORE(scan2(sto, to, son(e), 1));
+	  IGNORE(scan(sto, to, son(e), 1));
 	  return 0;
 	};
       };
@@ -914,10 +914,10 @@ int scan2
 	      name(son(son(e)))!= name_tag)) {
 	  cca(sto, to, 1, e);
 	  toc = contexp(sto, to);
-	  IGNORE scan2(1, toc, son(toc), 0);
+	  IGNORE scan(1, toc, son(toc), 0);
 	}
 	else
-	  IGNORE scan2(sto, to, son(e), 0);
+	  IGNORE scan(sto, to, son(e), 0);
 	return 0;
       };
     case plus_tag:
@@ -988,10 +988,10 @@ int scan2
 	  exp temp;
 	  cca(sto, to, 1, e);
 	  temp = contexp(sto, to);
-	  return scan2(1, temp, son(temp), usereg0);
+	  return scan(1, temp, son(temp), usereg0);
 	}
 	else
-	  return scan2(sto, to, son(e), usereg0);
+	  return scan(sto, to, son(e), usereg0);
       };
     case reff_tag:
       {
@@ -1006,7 +1006,7 @@ int scan2
     case proc_tag:
     case general_proc_tag:
       {
-	IGNORE scan2(1, e, son(e), 1);
+	IGNORE scan(1, e, son(e), 1);
 	return 0;
       };
     case asm_tag:

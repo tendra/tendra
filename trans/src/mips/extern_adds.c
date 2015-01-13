@@ -19,7 +19,7 @@
 
 #include "extern_adds.h"
 #include "procrectypes.h"
-#include "needs_scan.h"
+#include "scan.h"
 #include "localexpmacs.h"
 
 

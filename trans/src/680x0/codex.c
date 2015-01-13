@@ -803,7 +803,7 @@ void cproc
 #ifndef tdf3
     cur_proc_has_tail_call = 0;
     cur_proc_use_same_callees = 0;
-    scan2(1, p, p);
+    scan(1, p, p);
     comp_weights(p);
 #endif
 

@@ -32,7 +32,7 @@
 #include "mem_copy.h"
 #include "parameter.h"
 #include "stack.h"
-#include "needscan.h"
+#include "scan.h"
 #include "localexpmacs.h"
 
 bool suspected_varargs = 0;
@@ -248,7 +248,7 @@ void output_parameters(exp e)
     {
       /* REGISTER  --->  REGISTER */
       int dest_reg = no(par);
-      assert(dest_reg!=0);/* This is now set up in needscan*/
+      assert(dest_reg!=0);/* This is now set up in scan.c */
       if ((props(par) & inreg_bits)!=0)
       {
 	if (IS_SREG(dest_reg))

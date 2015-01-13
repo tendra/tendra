@@ -44,7 +44,7 @@
 #include "localtypes.h"
 #include "coder.h"
 #include "instr.h"
-#include "scan2.h"
+#include "scan.h"
 #include "weights.h"
 #include "instr386.h"
 #include "operand.h"

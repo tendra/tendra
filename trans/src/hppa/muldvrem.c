@@ -22,7 +22,7 @@
 #include <reader/exp.h>
 #include <local/out.h>
 
-#include "needscan.h"
+#include "scan.h"
 #include "addrtypes.h"
 #include "maxminmacs.h"
 #include "proctypes.h"
@@ -41,7 +41,6 @@
 #include "regexps.h"
 #include "special.h"
 #include "regmacs.h"
-#include "needscan.h"
 #include "translate.h"
 #include "muldvrem.h"
 #include "proc.h"

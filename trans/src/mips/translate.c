@@ -41,7 +41,7 @@
 #include "code_here.h"
 #include "eval.h"
 #include "bitsmacs.h"
-#include "needs_scan.h"
+#include "scan.h"
 #include "ibinasm.h"
 #include "out_ba.h"
 #include "diag_out.h"

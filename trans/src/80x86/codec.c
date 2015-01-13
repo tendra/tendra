@@ -129,7 +129,7 @@ static int no_reg_needed
  *
  * Not more than one of a and b will not be a possible 80386 operand.
  *
- * This has been ensured by scan2. If a and b are both possible 80386 operands,
+ * This has been ensured by scan(). If a and b are both possible 80386 operands,
  * bop applies this operator to produce the code, leaving the result in dest.
  *
  * sha gives the shape for the operation.

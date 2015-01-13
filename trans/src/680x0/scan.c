@@ -8,7 +8,7 @@
  */
 
 /*
-    SCAN2
+    SCAN
 
     Scans through the program and puts all the arguments of operations
     into a suitable 68000 operand form.
@@ -33,7 +33,7 @@
 
 #include "localexpmacs.h"
 
-void scan2(bool, exp, exp);
+void scan(bool, exp, exp);
 
 /*
     MACROS TO SET OR GET THE SON OR BRO
@@ -131,9 +131,9 @@ cc(bool sto, exp to, bool se, exp e, bool(*doit)(exp, int), int count)
 		if (doit(ec, count)) {
 			cca(sto, to, se, e);
 			ec = contexp(sto, to);
-			scan2(1, ec, son(ec));
+			scan(1, ec, son(ec));
 		} else {
-			scan2(sto, to, ec);
+			scan(sto, to, ec);
 		}
 	} else {
 		cc(sto, to, 0, ec, doit, count + 1);
@@ -141,9 +141,9 @@ cc(bool sto, exp to, bool se, exp e, bool(*doit)(exp, int), int count)
 		if (doit(ec, count)) {
 			cca(sto, to, se, e);
 			ec = contexp(sto, to);
-			scan2(1, ec, son(ec));
+			scan(1, ec, son(ec));
 		} else {
-			scan2(sto, to, ec);
+			scan(sto, to, ec);
 		}
 	}
 	return;
@@ -166,7 +166,7 @@ ccp(bool sto, exp to, bool sx, exp x)
 		cca(sto, to, sx, x);
 		toc = contexp(sto, to);
 		setusereg(toc);
-		scan2(1, toc, son(toc));
+		scan(1, toc, son(toc));
 	}
 	return;
 }
@@ -260,7 +260,7 @@ ap_argsc(bool sto, exp to, bool se, exp e, int sz, bool b)
 
 	cca(sto, to, se, e);
 	temp = contexp(sto, to);
-	scan2(1, temp, son(temp));
+	scan(1, temp, son(temp));
 	return;
 }
 
@@ -409,7 +409,7 @@ all_opnd(bool sto, exp to, exp e)
 		}
 		bro(bro(son(e))) = opn;
 		e = nd;
-		scan2(sto, e, e);
+		scan(sto, e, e);
 	}
 #endif
 	cc(sto, to, 1, e, notopnd, 1);
@@ -509,9 +509,9 @@ indable_son(bool sto, exp to, exp e)
 		exp ec;
 		cca(sto, to, 1, e);
 		ec = contexp(sto, to);
-		scan2(1, ec, son(ec));
+		scan(1, ec, son(ec));
 	} else {
-		scan2(sto, to, son(e));
+		scan(sto, to, son(e));
 	}
 	return;
 }
@@ -519,7 +519,7 @@ indable_son(bool sto, exp to, exp e)
 #endif
 
 /*
-    APPLY scan2 TO A BRO LIST
+    APPLY scan TO A BRO LIST
 */
 
 static void
@@ -528,7 +528,7 @@ scanargs(bool st, exp e)
 	exp t = e;
 	exp temp;
 
-	while (temp = contexp(st, t), scan2(st, t, temp),
+	while (temp = contexp(st, t), scan(st, t, temp),
 	       temp = contexp(st, t), !last(temp)) {
 		t = contexp(st, t);
 		st = 0;
@@ -621,7 +621,7 @@ notado(exp t, int i)
 */
 
 void
-scan2(bool sto, exp to, exp e)
+scan(bool sto, exp to, exp e)
 {
 	switch (name(e)) {
 	case cond_tag:
@@ -647,15 +647,15 @@ scan2(bool sto, exp to, exp e)
 		return;
 #endif
 	case labst_tag:
-		scan2(0, son(e), bro(son(e)));
+		scan(0, son(e), bro(son(e)));
 		return;
 	case ident_tag:
-		scan2(0, son(e), bro(son(e)));
-		scan2(1, e, son(e));
+		scan(0, son(e), bro(son(e)));
+		scan(1, e, son(e));
 		return;
 	case seq_tag:
 		scanargs(1, son(e));
-		scan2(0, son(e), bro(son(e)));
+		scan(0, son(e), bro(son(e)));
 		return;
 #if 0
 	case diag_tag:
@@ -678,7 +678,7 @@ scan2(bool sto, exp to, exp e)
 		setbro(lim, son(e));
 		setson(e, lim);
 		setname(e, ass_tag);
-		scan2(sto, to, e);
+		scan(sto, to, e);
 		return;
 	}
 #endif
@@ -745,9 +745,9 @@ scan2(bool sto, exp to, exp e)
 		if (!is_assable(bro(son(e)))) {
 			cca(sto, to, 0, son(e));
 			toc = contexp(sto, to);
-			scan2(1, toc, son(toc));
+			scan(1, toc, son(toc));
 		} else {
-			scan2(sto, to, bro(son(e)));
+			scan(sto, to, bro(son(e)));
 		}
 		cont_arg(sto, to, e, sh(bro(son(e))));
 		return;
@@ -776,7 +776,7 @@ scan2(bool sto, exp to, exp e)
 		       name(son(bro(p_post))) == caller_name_tag) {
 			p_post = son(bro(p_post));
 		}
-		scan2(0, p_post, bro(p_post));
+		scan(0, p_post, bro(p_post));
 		if (son(cees) != NULL) {
 			scanargs(1, cees);
 		}
@@ -788,9 +788,9 @@ scan2(bool sto, exp to, exp e)
 			exp ec;
 			cca(sto, to, 1, e);
 			ec = contexp(sto, to);
-			scan2(1, ec, son(ec));
+			scan(1, ec, son(ec));
 		} else {
-			scan2(sto, to, son(e));
+			scan(sto, to, son(e));
 		}
 		return;
 	}
@@ -803,9 +803,9 @@ scan2(bool sto, exp to, exp e)
 			exp ec;
 			cca(sto, to, 1, e);
 			ec = contexp(sto, to);
-			scan2(1, ec, son(ec));
+			scan(1, ec, son(ec));
 		} else {
-			scan2(sto, to, son(e));
+			scan(sto, to, son(e));
 		}
 		return;
 #ifndef tdf3
@@ -817,7 +817,7 @@ scan2(bool sto, exp to, exp e)
 		if (name(son(e)) == apply_tag ||
 		    name(son(e)) == apply_general_tag)
 		{
-			scan2(sto, to, son(e));
+			scan(sto, to, son(e));
 			return;
 		}
 
@@ -835,16 +835,16 @@ scan2(bool sto, exp to, exp e)
 		if (!is_opnd(son(e))) {
 			cca(sto, to, 1, e);
 			toc = contexp(sto, to);
-			scan2(1, toc, son(toc));
+			scan(1, toc, son(toc));
 		} else {
-			scan2(sto, to, son(e));
+			scan(sto, to, son(e));
 		}
 		return;
 	}
 	case plus_tag:
 		if (name(son(e)) == neg_tag &&
 		    name(bro(son(e))) == val_tag) {
-			scan2(sto, to, son(e));
+			scan(sto, to, son(e));
 			return;
 		}
 		cc(sto, to, 1, e, plusdo, 1);
@@ -889,9 +889,9 @@ scan2(bool sto, exp to, exp e)
 			exp temp;
 			cca(sto, to, 1, e);
 			temp = contexp(sto, to);
-			scan2(1, temp, son(temp));
+			scan(1, temp, son(temp));
 		} else {
-			scan2(sto, to, son(e));
+			scan(sto, to, son(e));
 		}
 		return;
 	case reff_tag: {
@@ -905,7 +905,7 @@ scan2(bool sto, exp to, exp e)
 	}
 	case general_proc_tag:
 	case proc_tag:
-		scan2(1, e, son(e));
+		scan(1, e, son(e));
 		return;
 #if 0
 	case val_tag:

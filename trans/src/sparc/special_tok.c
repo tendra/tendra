@@ -41,7 +41,7 @@
 #include <refactor/refactor.h>
 
 #include "translate.h"
-#include "needscan.h"
+#include "scan.h"
 #include "new_tags.h"
 
 /* intercepts specially defined tokens */

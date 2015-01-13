@@ -39,7 +39,7 @@
 #include "error.h"
 #include "dynamic_init.h"
 #include "stack.h"
-#include "needscan.h"
+#include "scan.h"
 #include "localexpmacs.h"
 
 space do_callers(int,exp,space);
@@ -252,7 +252,7 @@ makeans make_ident_tag_code(exp e, space sp, where dest, int exitlab)
     set_coded_caller(ote); /* Used in apply_general*/
 
     assert((props(e) & inanyreg) ==0);
-    /* Should not have been allocated a register by regalloc or scan */
+    /* Should not have been allocated a register by regalloc or scan() */
     placew = nowhere;
   }
   /* Is it in a fixed point register? */

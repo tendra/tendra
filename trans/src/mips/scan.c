@@ -51,7 +51,7 @@
 #include "extratags.h"
 #include "frames.h"
 #include "main.h"
-#include "needs_scan.h"
+#include "scan.h"
 #include "oddtest.h"
 #include "localexpmacs.h"
 

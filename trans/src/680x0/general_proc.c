@@ -61,7 +61,7 @@
 
 /* externals */
 
-void scan2(bool sto, exp to, exp e);
+void scan(bool sto, exp to, exp e);
 extern bool just_ret;
 extern mach_ins *prologue_ins;
 
@@ -102,7 +102,7 @@ void gcproc
   /* find out if the call has tail_call or same_callees constructs */
   cur_proc_has_tail_call = 0;
   cur_proc_use_same_callees = 0;
-  scan2(1, p, p);
+  scan(1, p, p);
   comp_weights(p);
 
   /* Set up flags, register masks, stack etc. */

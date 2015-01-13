@@ -54,7 +54,7 @@
 #include "muldvrem.h"
 #include "translate.h"
 #include "comment.h"
-#include "needscan.h"
+#include "scan.h"
 #include "reg_defs.h"
 #include "makecode.h"
 #include "localexpmacs.h"

@@ -125,7 +125,7 @@
 #include "makecode.h"
 #include "eval.h"
 #include "bitsmacs.h"
-#include "needscan.h"
+#include "scan.h"
 #include "getregs.h"
 #include "regmacs.h"
 #include "labels.h"

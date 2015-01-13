@@ -53,7 +53,7 @@
 #include "tempdecs.h"
 #include "translate.h"
 #include "makecode.h"
-#include "needscan.h"
+#include "scan.h"
 #include "stack.h"
 #include "error.h"
 #include "dynamic_init.h"

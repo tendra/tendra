@@ -56,7 +56,7 @@
 #include "proc.h"
 #include "frames.h"
 #include "extratags.h"
-#include "needscan.h"
+#include "scan.h"
 #include "localexpmacs.h"
 
 /* used by scan to set initial parameter positions */

@@ -4791,7 +4791,7 @@ void shiftl
       check_stack_max;
     };
 
-    /* scan2 has guaranteed that wshift is not in reg0 */
+    /* scan has guaranteed that wshift is not in reg0 */
 
     change_var(slongsh, from, reg0);
     reg0_in_use = 1;
@@ -4945,7 +4945,7 @@ static void rotshiftr
       check_stack_max;
     };
 
-    /* scan2 has guaranteed that wshift is not in reg0 */
+    /* scan has guaranteed that wshift is not in reg0 */
 
     if (eq_where(from, to) &&
 	 !eq_where(from, reg2) &&
@@ -6852,7 +6852,7 @@ void asm_ins
     outs(nostr(son(e)));
   else {
     int prev_use_bp = must_use_bp;
-    must_use_bp = 1;	/* scan2 must ensure !no_frame */
+    must_use_bp = 1;	/* scan must ensure !no_frame */
     operand(shape_size(son(e)), mw(son(e), 0), 1, 0);
     must_use_bp = prev_use_bp;
   }
