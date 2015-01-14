@@ -16,6 +16,7 @@ SUBDIR+=	hppa
 SUBDIR+=	mips
 SUBDIR+=	power
 SUBDIR+=	sparc
+SUBDIR+=	stub
 .endif
 
 .include <tendra.subdir.mk>
