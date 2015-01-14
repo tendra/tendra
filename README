@@ -23,7 +23,7 @@ Build Dependencies
    bmake, which you can get here: http://www.crufty.net/help/sjg/bmake.html
 
    GNU's gmake uses a completely different syntax, and is not supported.
- 
+
  - A C compiler
 
    See shared/mk/tendra.compiler.mk for supported compilers.
@@ -34,7 +34,7 @@ Build Dependencies
    toolchains will do fine. For Linux and BSDs this is GNU's ld, as, etc.
 
  - A supported OS, libc and architecture combination
-   
+
    This is trickier than it sounds. I've been working to make it easier,
    and it's certainly easier than it was, but there's still some way to
    go before you can expect a build to work on an arbitrary platform.
