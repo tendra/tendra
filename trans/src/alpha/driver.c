@@ -41,14 +41,6 @@
 
 static bool produce_binasm = false;
 
-void
-out_rename(char *oldid, char *newid)
-{
-  UNUSED(oldid);
-  UNUSED(newid);
-  return;
-}
-
 long currentfile = -1;
 long mainfile=0;
 int majorno = 3;

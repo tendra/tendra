@@ -217,13 +217,6 @@ pic_prelude(void)
 }
 
 void
-out_rename(char *oldid, char *newid)
-{
-	UNUSED(oldid);
-	UNUSED(newid);
-}
-
-void
 out_switch_jump(int tab, where a, int min)
 {
 	if (!PIC_code) {

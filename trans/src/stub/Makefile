@@ -43,7 +43,6 @@ SRCS+=	translate.c
 SRCS+=	is_worth.c
 SRCS+=	special_fn.c
 SRCS+=	special_tok.c
-SRCS+=	assembler.c
 SRCS+=	inlinechoice.c
 SRCS+=	machine_toks.c
 SRCS+=	glopt.c

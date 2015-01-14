@@ -50,7 +50,38 @@ weak_cell *weak_list;
 
 /* PROCEDURES */
 
-extern void out_rename(char *, char *);
+/*
+ * Output an identification of two names.
+ * XXX: this may be wrong with diagnostics
+ *
+ * All link information is known by code production time,
+ * so no need to do anything.
+ */
+static void
+out_rename(char *oldid, char *newid)
+{
+#if defined(TRANS_680x0)
+#if 0
+	mach_op *op1 = make_extern_data(old_nm, 0);
+	mach_op *op2 = make_extern_data(nm, 0);
+	make_instr_aux(m_as_assign, op1, op2, 0, 0);
+#endif
+#elif defined(TRANS_SPARC)
+#if 0
+	outs ( "\t" ) ;
+	outs ( oldid ) ;
+	outs ( "=" ) ;
+	outs ( newid ) ;
+	outnl () ;
+#endif
+#elif defined(TRANS_HPPA)
+	comment2("renamed %s as %s", oldid, newid);
+#else
+	UNUSED(oldid);
+	UNUSED(newid);
+#endif
+}
+
 
 linkinfo
 f_make_weak_defn(exp e1, exp e2)

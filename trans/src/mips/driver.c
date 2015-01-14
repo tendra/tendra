@@ -41,13 +41,6 @@
 
 #define VERSION_STR "4.49"
 
-void
-out_rename(char * oldid, char * newid)
-{
-	/* ??? this may be wrong with diagnostics */
-	return;
-}
-
 bool do_extern_adds;
 
 int majorno =  3;

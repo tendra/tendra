@@ -746,12 +746,6 @@ void translate_unit(void)
 }
 
 
-/* output an identification of two names */
-void out_rename(char *old_nm, char *nm)
-{
-  /* all link information is known by code production time, so no need to do anything */
-}
-
 baseoff find_tg(char *n)
 {
   int i;

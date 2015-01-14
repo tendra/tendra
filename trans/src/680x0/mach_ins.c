@@ -264,21 +264,3 @@ set_special(char *nm, mach_op *op)
 	return;
 }
 
-
-/*
-    OUTPUT AN IDENTIFICATION OF TWO NAMES
-
-    This is not required, since all link information is known by the
-    time I get round to code production.
-*/
-
-void
-out_rename(char *old_nm, char *nm)
-{
-#if 0
-	mach_op *op1 = make_extern_data(old_nm, 0);
-	mach_op *op2 = make_extern_data(nm, 0);
-	make_instr_aux(m_as_assign, op1, op2, 0, 0);
-#endif
-	return;
-}

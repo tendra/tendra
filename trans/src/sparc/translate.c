@@ -258,23 +258,6 @@ mark_unaliased ( exp e ){
 
 
 /*
-  RENAMING ROUTINE
-*/
-
-void 
-out_rename ( char * oldid, char * newid ){
-#if 0
-  outs ( "\t" ) ;
-  outs ( oldid ) ;
-  outs ( "=" ) ;
-  outs ( newid ) ;
-  outnl () ;
-#endif
-  return ;
-}
-
-
-/*
   INITIALISE TRANSLATOR
 */
 static void

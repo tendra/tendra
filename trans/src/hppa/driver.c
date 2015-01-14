@@ -130,13 +130,6 @@ cleanup(void)
 	exit_translator();
 }
 
-void
-out_rename(char * oldid, char * newid)
-{
-    comment2("renamed %s as %s", oldid, newid);
-    return;
-}
-
 struct driver driver = {
 	VERSION_STR,
 
