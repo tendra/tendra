@@ -189,30 +189,6 @@ translate_capsule(void)
 
 
 /*
-    TRANSLATE A SINGLE UNIT
-*/
-
-void translate_unit
-(void)
-{
-    if (separate_units) {
-	dec *d;
-	translate_capsule();
-	d = top_def;
-	while (d) {
-	    exp c = d->dec_u.dec_val.dec_exp;
-	    no(c) = 0;
-	    pt(c) = NULL;
-	    d = d->def_next;
-	}
-	crt_repeat = NULL;
-	repeat_list = NULL;
-    }
-    return;
-}
-
-
-/*
     ENCODE A PROCEDURE
 
     The procedure with declaration d, name id, definition c and body s

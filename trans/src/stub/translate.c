@@ -11,8 +11,3 @@ translate_capsule(void)
 {
 }
 
-void
-translate_unit(void)
-{
-}
-

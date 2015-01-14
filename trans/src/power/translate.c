@@ -720,31 +720,6 @@ void translate_capsule(void)
 }
 
 
-/* translate a TDF unit */
-void translate_unit(void)
-{
-  if (separate_units)
-  {
-    dec *crt_def;
-
-    translate_capsule();
-
-    for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next)
-    {
-      exp crt_exp = crt_def->dec_u.dec_val.dec_exp;
-
-      no(crt_exp) = 0;
-      pt(crt_exp) = NULL;
-    }
-
-    crt_repeat = NULL;
-    repeat_list = NULL;
-  }
-
-  return;
-}
-
-
 baseoff find_tg(char *n)
 {
   int i;

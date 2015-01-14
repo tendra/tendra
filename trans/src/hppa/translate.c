@@ -812,30 +812,6 @@ translate_capsule(void)
   return;
 }
 
-void translate_unit
-(void)
-{
-  if (separate_units)
-  {
-    dec *crt_def;
-
-    translate_capsule();
-    crt_def = top_def;
-    while (crt_def != NULL)
-    {
-      exp crt_exp = crt_def->dec_u.dec_val.dec_exp;
-
-      no(crt_exp) = 0;
-      pt(crt_exp) = NULL;
-      crt_def = crt_def->def_next;
-    };
-    crt_repeat = NULL;
-    repeat_list = NULL;
-  };
-  return;
-}
-
-
 
 /*
     EXIT TRANSLATOR

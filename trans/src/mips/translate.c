@@ -516,23 +516,4 @@ void translate_capsule
 
 
 }
-void translate_unit
-(void)
-{
-  if (separate_units)
-   {
-     dec * my_def;
-     translate_capsule();
-     my_def = top_def;
-     while (my_def != NULL) {
-       exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
-       no(crt_exp) = 0;
-       pt(crt_exp) = NULL;
-       my_def = my_def -> def_next;
-     };
-     crt_repeat = NULL;
-     repeat_list = NULL;
-   };
-  return;
-}
 

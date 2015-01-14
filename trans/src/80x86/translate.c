@@ -474,8 +474,3 @@ void translate_capsule
 
 }
 
-void translate_unit
-(void)
-{
-  return;
-}
