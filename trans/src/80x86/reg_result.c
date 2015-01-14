@@ -16,6 +16,7 @@
 
 #include <construct/exp.h>
 #include <construct/shape.h>
+#include <construct/reg_result.h>
 
 int gcc_compatible = 0;
 

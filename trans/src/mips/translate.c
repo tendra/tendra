@@ -22,7 +22,6 @@
 #include <symtab/syms.h>
 
 #include <construct/installglob.h>
-#include <construct/machine.h>
 #include <construct/tags.h>
 #include <construct/exp.h>
 #include <construct/shape.h>

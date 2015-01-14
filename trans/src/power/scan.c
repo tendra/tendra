@@ -36,7 +36,7 @@
 #include <construct/shape.h>
 #include <construct/flpt.h>
 #include <construct/install_fns.h>
-#include <construct/machine.h>
+#include <construct/reg_result.h>
 #include <construct/me_fns.h>
 
 #include <main/flags.h>

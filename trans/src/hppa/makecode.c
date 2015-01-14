@@ -29,6 +29,7 @@
 #include <construct/install_fns.h>
 #include <construct/f64.h>
 #include <construct/misc_c.h>
+#include <construct/reg_result.h>
 
 #include <main/driver.h>
 #include <main/flags.h>
@@ -84,7 +85,6 @@ extern labexp current,first;
 extern int RSCOPE_LEVEL,RSCOPE_LABEL;
 extern exp find_named_tg(char *, shape);
 extern baseoff find_tg(char* s);
-extern int reg_result(shape);
 
 #define GETREG(d, s)(discrim((d).answhere) == inreg ?\
 			  regalt((d).answhere):\

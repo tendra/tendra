@@ -11,12 +11,13 @@
 
 #include <construct/shape.h>
 #include <construct/installtypes.h>
+#include <construct/reg_result.h>
 
 bool
 reg_result(shape sha)
 {
-  /* is the result of a procedure delivering
-     this shape produced in registers. */
-  return name(sha) != cpdhd && name(sha) != nofhd;
+  return ( is_floating(name(sha)) ||
+    (shape_size(sha) <= 32 && name (sha) != cpdhd && name(sha) != nofhd));
+
 }
 

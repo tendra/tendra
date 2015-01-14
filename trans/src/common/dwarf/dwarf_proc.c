@@ -15,7 +15,6 @@
 
 #include <reader/basicread.h>
 
-#include <construct/machine.h>
 #include <construct/tags.h>
 #include <construct/installtypes.h>
 #include <construct/shape.h>

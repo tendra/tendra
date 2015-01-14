@@ -19,7 +19,6 @@
 #include <reader/basicread.h>
 
 #include <construct/installtypes.h>
-#include <construct/machine.h>
 #include <construct/shape.h>
 
 #include <main/driver.h>

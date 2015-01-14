@@ -38,7 +38,7 @@ PARTS+= src/common/main
 CCOPTS+=	${TRANS_CFLAGS}
 
 SRCS+=	driver.c
-SRCS+=	machine.c
+SRCS+=	reg_result.c
 SRCS+=	translate.c
 SRCS+=	is_worth.c
 SRCS+=	special_fn.c

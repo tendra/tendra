@@ -41,6 +41,7 @@
 #include <construct/install_fns.h>
 #include <construct/installglob.h>
 #include <construct/machine.h>
+#include <construct/reg_result.h>
 #include <construct/label_ops.h>
 #include <construct/misc_c.h>
 

@@ -22,7 +22,6 @@
 #include <construct/tags.h>
 #include <construct/exp.h>
 #include <construct/shape.h>
-#include <construct/machine.h>
 
 #include <refactor/optimise.h>
 

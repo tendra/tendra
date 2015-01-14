@@ -15,7 +15,6 @@
 
 #include <shared/error.h>
 
-#include <construct/machine.h>
 #include <construct/installglob.h>
 
 #include <main/driver.h>

@@ -10,19 +10,14 @@
 #include <shared/bool.h>
 
 #include <construct/shape.h>
-
-#include <main/flags.h>
-
-#include "regable.h"
+#include <construct/installtypes.h>
+#include <construct/reg_result.h>
 
 bool
 reg_result(shape sha)
 {
-    if ( valregable ( sha ) ) return 1;
-    if ( is_floating ( name ( sha ) ) ) {
-	if ( use_long_double && shape_size ( sha ) > 64 ) return 0;
-	return 1;
-    }
-    return 0;
+  /* is the result of a procedure delivering
+     this shape produced in registers. */
+  return name(sha) != cpdhd && name(sha) != nofhd;
 }
 

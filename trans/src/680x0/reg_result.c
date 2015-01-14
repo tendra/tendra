@@ -11,7 +11,7 @@
 
 #include <construct/installtypes.h>
 #include <construct/shape.h>
-#include <construct/machine.h>
+#include <construct/reg_result.h>
 #include <construct/exp.h>
 
 #include <main/flags.h>

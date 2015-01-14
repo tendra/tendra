@@ -10,13 +10,14 @@
 #include <shared/bool.h>
 
 #include <construct/shape.h>
+#include <construct/reg_result.h>
 
 #include <main/flags.h>
 
 #include "regable.h"
 
 bool
-reg_result ( shape sha )
+reg_result(shape sha)
 {
     if ( valregable ( sha ) ) return 1;
     if ( is_floating ( name ( sha ) ) ) {
@@ -25,3 +26,4 @@ reg_result ( shape sha )
     }
     return 0;
 }
+

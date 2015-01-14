@@ -17,8 +17,6 @@
 
 #include <reader/exp.h>
 
-#include <construct/machine.h>
-
 #include <main/flags.h>
 
 #include "memtdf.h"

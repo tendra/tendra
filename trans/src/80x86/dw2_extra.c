@@ -22,6 +22,7 @@
 #include <refactor/const.h>
 
 #include <construct/machine.h>
+#include <construct/reg_result.h>
 #include <construct/shape.h>
 #include <construct/tags.h>
 #include <construct/label_ops.h>

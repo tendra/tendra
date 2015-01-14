@@ -35,7 +35,6 @@
 #include <construct/install_fns.h>
 #include <construct/flpt.h>
 #include <construct/flpttypes.h>
-#include <construct/machine.h>
 #include <construct/f64.h>
 #include <construct/installglob.h>
 

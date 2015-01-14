@@ -96,7 +96,6 @@
 
 #include <construct/installglob.h>
 #include <construct/exp.h>
-#include <construct/machine.h>
 
 #include <main/driver.h>
 #include <main/flags.h>

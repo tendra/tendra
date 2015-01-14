@@ -40,7 +40,6 @@
 #include <construct/flpttypes.h>
 #include <construct/flpt.h>
 #include <construct/shape.h>
-#include <construct/machine.h>
 #include <construct/messages_c.h>
 #include <construct/f64.h>
 #include <construct/install_fns.h>

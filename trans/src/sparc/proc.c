@@ -38,6 +38,7 @@
 #include <construct/installtypes.h>
 #include <construct/exp.h>
 #include <construct/shape.h>
+#include <construct/reg_result.h>
 
 #include <main/driver.h>
 #include <main/flags.h>
@@ -704,7 +705,6 @@ makeans make_res_tag_code
 /*
   ENCODE A PROCEDURE CALL
 */
-extern int reg_result(shape);
 
 makeans make_apply_tag_code
 (exp e, space sp, where dest, int exitlab) {

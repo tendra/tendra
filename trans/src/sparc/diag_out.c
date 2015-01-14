@@ -22,7 +22,6 @@
 #include <construct/shape.h>
 #include <construct/tags.h>
 #include <construct/installtypes.h>
-#include <construct/machine.h>
 #include <construct/exp.h>
 #include <construct/installglob.h>
 

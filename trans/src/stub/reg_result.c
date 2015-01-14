@@ -9,6 +9,7 @@
 #include <shared/bool.h>
 
 #include <construct/exp.h>
+#include <construct/reg_result.h>
 
 bool
 reg_result(shape sha)
