@@ -42,6 +42,7 @@ SRCS+=	glopt.c
 SRCS+=	inlinechoice.c
 SRCS+=	instr.c
 SRCS+=	machine.c
+SRCS+=	machine_toks.c
 SRCS+=	mach_ins.c
 SRCS+=	mach_op.c
 SRCS+=	driver.c

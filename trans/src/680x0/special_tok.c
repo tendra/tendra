@@ -135,13 +135,3 @@ special_token(token t, bitstream pars, int sortcode, int *done)
 	return tkv;
 }
 
-
-/*
-    CHECK FOR MACHINE DEPENDENT TOKENS
-*/
-
-int
-machine_toks(char *s)
-{
-	return 0;
-}
