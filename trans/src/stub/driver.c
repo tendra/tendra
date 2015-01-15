@@ -7,26 +7,6 @@
  */
 
 #include <stdio.h>
-/* XXX:
-#include <stdlib.h>
-#include <string.h>
-
-#include <shared/check.h>
-#include <shared/getopt.h>
-#include <shared/error.h>
-
-#include <local/out.h>
-#include <local/cpu.h>
-
-#include <reader/basicread.h>
-#include <reader/externs.h>
-#include <reader/main_reads.h>
-#include <reader/readglob.h>
-
-#include <construct/flpt.h>
-#include <construct/installglob.h>
-#include <construct/exp.h>
-*/
 
 #include <main/driver.h>
 #include <main/flags.h>
