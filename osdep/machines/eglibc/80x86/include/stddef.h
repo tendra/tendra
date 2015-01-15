@@ -27,7 +27,7 @@ typedef long int wchar_t;
 
 #endif
 
-#if defined(_EGLIBC2_11) || defined(_EGLIBC2_15)
+#if defined(_EGLIBC2_11) || defined(_EGLIBC2_15) || defined(_EGLIBC2_19)
 
 #define NULL 0
 
