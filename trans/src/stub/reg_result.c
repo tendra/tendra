@@ -14,6 +14,6 @@
 bool
 reg_result(shape sha)
 {
-	return 0;
+	return false;
 }
 

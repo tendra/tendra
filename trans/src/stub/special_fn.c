@@ -16,5 +16,6 @@
 bool
 special_fn(exp a1, exp a2, shape s, exp *e)
 {
+	return 0;
 }
 

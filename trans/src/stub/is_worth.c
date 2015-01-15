@@ -13,5 +13,6 @@
 bool
 is_worth(exp c)
 {
+	return false;
 }
 
