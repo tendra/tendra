@@ -25,6 +25,8 @@ OBJ_BOOT?=    ${OBJ_BPREFIX}/obj
 # TODO: this should probably be the actual $PREFIX
 OBJ_RPREFIX?=	${OBJ_REBUILD}
 
+PREFIX?=	/usr/local
+
 
 all: bootstrap
 
