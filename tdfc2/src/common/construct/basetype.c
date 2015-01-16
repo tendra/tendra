@@ -1204,10 +1204,10 @@ make_base_type(BASE_TYPE bt)
 		if (bo == btype_none) {
 			bo = (bt & bm);
 		}
-		report(crt_loc, ERR_dcl_type_simple_bad(bt, bo));
+		report(crt_loc, ERR_dcl_type_simple_bad(bt));
 	} else if (bo) {
 		/* Report non-standard type specifiers */
-		report(crt_loc, ERR_dcl_type_simple_bad(bt, bo));
+		report(crt_loc, ERR_dcl_type_simple_bad(bt));
 	}
 	return t;
 }

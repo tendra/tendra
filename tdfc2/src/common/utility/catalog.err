@@ -3542,9 +3542,9 @@ dcl_type_simple_dup ( BASE_TYPE: bt )
     KEY (STD)	"Duplicate type specifier, '"bt" "bt"'"
 }
 
-dcl_type_simple_bad ( BASE_TYPE: bt1, BASE_TYPE: bt2 )
+dcl_type_simple_bad ( BASE_TYPE: bt1 )
 {
-    KEY (STD)	"Illegal type specifier, '"bt1"', assuming '"bt2"'"
+    KEY (STD)	"Illegal type specifier '"bt1"'"
 }
 
 dcl_type_simple_llong ( BASE_TYPE: bt )

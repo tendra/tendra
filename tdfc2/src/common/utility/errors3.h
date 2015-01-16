@@ -3786,11 +3786,11 @@ ERR_DATA ERR_CATALOG [] = {
     },
     {
 	"dcl_type_simple_bad",
-	"11",
+	"1",
 	0,
 	0,
 	NULL,
-	"Illegal type specifier, '%0', assuming '%1'"
+	"Illegal type specifier '%0'"
     },
     {
 	"dcl_type_simple_llong",

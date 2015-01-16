@@ -1517,8 +1517,8 @@ extern plural chk_N ( plural ) ;
 #define ERR_dcl_type_simple_dup( A )\
 	ERR_GEN ( 412, chk_1 ( A ) )
 
-#define ERR_dcl_type_simple_bad( A, B )\
-	ERR_GEN ( 413, chk_1 ( A ), chk_1 ( B ) )
+#define ERR_dcl_type_simple_bad( A )\
+	ERR_GEN ( 413, chk_1 ( A ) )
 
 #define ERR_dcl_type_simple_llong( A )\
 	ERR_GEN ( 414, chk_1 ( A ) )
