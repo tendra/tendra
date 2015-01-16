@@ -1,4 +1,4 @@
-/* $Id$ */
+/* $Id: c89.h 3447 2015-01-01 13:22:24Z kate $ */
 
 /*
  * Copyright 2011, The TenDRA Project.
@@ -6,7 +6,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/* ANSI C89 PROMOTION RULES */
+/* ISO C99 PROMOTION RULES */
 
 #ifndef __TCC_PROMOTION_H
 #define __TCC_PROMOTION_H
@@ -22,6 +22,12 @@
 #pragma promote long:long
 #pragma promote unsigned long:unsigned long
 
+#pragma TenDRA begin
+#pragma TenDRA no external declaration allow
+#pragma TenDRA longlong type allow
+#pragma promote long long:long long
+#pragma promote unsigned long long:unsigned long long
+#pragma TenDRA end
 #pragma TenDRA begin
 
 #ifdef __TCC_USHORT_TO_INT
