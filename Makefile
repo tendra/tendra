@@ -111,6 +111,45 @@ bootstrap-test: ${OBJ_BPREFIX}/bin/tcc
 	    test
 .endfor
 
+# XXX: placeholder until install: is present
+bootstrap-install:
+	mkdir -p "${PREFIX}/bin"
+.for project in trans tdfc2 tld tnc tpl tspec
+	@echo "===> installing ${project} into ${PREFIX}"
+	cd ${.CURDIR}/${project} && ${MAKE} \
+	    OBJ_DIR=${OBJ_BOOT}/${project}  \
+	    PREFIX=${PREFIX} install
+.endfor
+	# TODO: these mkdirs are to be removed pending work on tcc
+	mkdir -p "${PREFIX}/tmp"
+	mkdir -p "${PREFIX}/lib/tcc/api"
+	mkdir -p "${PREFIX}/lib/tcc/lpi"
+	mkdir -p "${PREFIX}/lib/tcc/sys"
+	mkdir -p "${PREFIX}/lib/tcc/map"
+	@echo "===> installing tcc into ${PREFIX}"
+	cd ${.CURDIR}/tcc && ${MAKE}   \
+	    OBJ_DIR=${OBJ_BOOT}/tcc    \
+	    PREFIX_INCLUDE=            \
+	    PREFIX_MAN=                \
+	    PREFIX_TMP=${PREFIX}/tmp   \
+	    PREFIX=${PREFIX} install
+	@echo "===> installing osdep into ${PREFIX}"
+	cd ${.CURDIR}/osdep && ${MAKE} \
+	    OBJ_DIR=${OBJ_BOOT}/osdep  \
+	    PREFIX=${PREFIX}           \
+	    TCC=${PREFIX}/bin/tcc      \
+	    TPL=${PREFIX}/bin/tpl      \
+	    TNC=${PREFIX}/bin/tnc      \
+	    TLD=${PREFIX}/bin/tld      \
+	    install
+	@echo "===> installing tdf into ${PREFIX}"
+	cd ${.CURDIR}/tdf && ${MAKE}   \
+	    OBJ_DIR=${OBJ_BOOT}/tdf    \
+	    PREFIX=${PREFIX}           \
+	    TCC=${PREFIX}/bin/tcc      \
+	    TPL=${PREFIX}/bin/tpl      \
+	    TLD=${PREFIX}/bin/tld      \
+	    install
 
 bootstrap-rebuild:
 	@echo "===> rebuilding with bootstrap from ${OBJ_BOOT} into ${OBJ_REBUILD}"
