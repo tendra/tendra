@@ -114,6 +114,44 @@ Tokdef .~rep_fv_max_val = [n:NAT] EXP
 		| :l4: 8r1.77777777777777777777777777777777777774 E 5461 (.~rep_fv[n])
 	};
 
+/* These are minimum normalised values per the float.h *_MIN macros */
+/* n must be in range */
+Tokdef ieee754_min_val = [n:NAT] EXP
+	Var r:Int = snat_from_nat(false, n)(Int)
+	Labelled {
+		Case * r (1 -> l1, 2 -> l2, 3 -> l3, 4 -> l4)
+		| :l1: 2r1.0 E -126   (.~rep_fv[n]) /* 1.17549435E-38F */
+		| :l2: 2r1.0 E -1022  (.~rep_fv[n]) /* 2.2250738585072014E-308 */
+		| :l3: 2r1.0 E -16382 (.~rep_fv[n]) /* 3.36210314311209350626e-4932L */
+		| :l4: 2r1.0 E -16382 (.~rep_fv[n]) /* 3.362103143112093506262677817321752603E-4932L */
+	};
+
+/* n must be in range */
+Tokdef ieee754_max_10_exp = [n:NAT] NAT
+	computed_nat(
+		Var r:Int = snat_from_nat(false, n)(Int)
+		Labelled {
+			Case * r (1 -> l1, 2 -> l2, 3 -> l3, 4 -> l4)
+			| :l1: 38   (Int)
+			| :l2: 1024 (Int)
+			| :l3: 4932 (Int)
+			| :l4: 4932 (Int)
+		}
+	);
+
+/* n must be in range */
+Tokdef ieee754_dig = [n:NAT] NAT
+	computed_nat(
+		Var r:Int = snat_from_nat(false, n)(Int)
+		Labelled {
+			Case * r (1 -> l1, 2 -> l2, 3 -> l3, 4 -> l4)
+			| :l1:  6 (Int)
+			| :l2: 15 (Int)
+			| :l3: 18 (Int)
+			| :l4: 33 (Int)
+		}
+	);
+
 /*
  * Here we map IEEE 754 names to the sequence numbers used by ieee754.tpl
  * to index its various TDF tokens. Each index represents a particular width.
