@@ -120,10 +120,10 @@ Tokdef ieee754_min_val = [n:NAT] EXP
 	Var r:Int = snat_from_nat(false, n)(Int)
 	Labelled {
 		Case * r (1 -> l1, 2 -> l2, 3 -> l3, 4 -> l4)
-		| :l1: 2r1.0 E -126   (.~rep_fv[n]) /* 1.17549435E-38F */
-		| :l2: 2r1.0 E -1022  (.~rep_fv[n]) /* 2.2250738585072014E-308 */
-		| :l3: 2r1.0 E -16382 (.~rep_fv[n]) /* 3.36210314311209350626e-4932L */
-		| :l4: 2r1.0 E -16382 (.~rep_fv[n]) /* 3.362103143112093506262677817321752603E-4932L */
+		| :l1: 2r1.0 E -126   (.~rep_fv[n])
+		| :l2: 2r1.0 E -1022  (.~rep_fv[n])
+		| :l3: 2r1.0 E -16382 (.~rep_fv[n])
+		| :l4: 2r1.0 E -16382 (.~rep_fv[n])
 	};
 
 /* n must be in range */
