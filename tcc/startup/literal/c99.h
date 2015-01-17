@@ -1,4 +1,4 @@
-/* $Id: c89.h 3438 2014-12-31 17:29:03Z kate $ */
+/* $Id$ */
 
 /*
  * Copyright 2011, The TenDRA Project.
