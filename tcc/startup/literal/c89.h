@@ -16,7 +16,7 @@
 #pragma TenDRA no external declaration allow
 #pragma TenDRA longlong type disallow
 
-#define __lu  ?:unsigned long
+#define __lu  *:unsigned long
 #define __u   ?:unsigned int
 #define __l   ?:long
 #define __i   ?:int
@@ -38,7 +38,7 @@
 #pragma integer literal hexadecimal                    __i | __u | __l | __lu
 
 #undef __lu
-#undef __ll
+#undef __u
 #undef __l
 #undef __i
 
