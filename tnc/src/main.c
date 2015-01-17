@@ -33,12 +33,6 @@
 
 
 
-/*
-    PROCESS AN OUTPUT OPTION
-
-    The show option corresponding to arg is set to t.
-*/
-
 static boolean
 output_option(char *arg, boolean t)
 {

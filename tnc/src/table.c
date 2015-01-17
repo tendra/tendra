@@ -19,32 +19,12 @@
 #include "utility.h"
 
 
-/*
-    CONSTRUCT TABLES
-
-    There are a number of tables of constructs.  cons_table is the
-    table of all built-in constructs (arranged by sort and encoding),
-    and var_table of all user defined constructs.  The tables
-    cons_hash_tables and var_hash_tables give the corresponding
-    hash tables (arranged by sort).  The table cons_sizes gives
-    the number of built-in constructs of each sort.
-*/
-
 construct **var_table;
 construct **cons_table;
 static int *cons_sizes;
 construct **cons_hash_tables;
 static construct **var_hash_tables;
 
-
-/*
-    SORT INFORMATION TABLES
-
-    These tables give information on the various sorts, namely, the
-    number of them created, their decode letters, the number of bits
-    in their encoding, the encoding of their "apply_token" construct,
-    and the number of them removed from the hash tables.
-*/
 
 long *sort_count;
 char *sort_letters;
@@ -57,12 +37,6 @@ decode_func *sort_decode;
 read_func *sort_read;
 
 
-/*
-    SPECIAL CONSTRUCTS
-
-    These constructs are predefined.
-*/
-
 construct bytestream_cons = { SORT_bytestream, 0, NULL, NULL, NULL, NULL };
 construct false_cons = { SORT_tdfbool, 0, NULL, NULL, NULL, NULL };
 construct optional_cons = { SORT_option, 0, NULL, NULL, NULL, NULL };
@@ -74,22 +48,8 @@ construct exp_shape = { SORT_exp, 0, "~exp_with_shape", NULL, NULL, NULL };
 construct shape_of = { SORT_shape, -1, "~shape_of", NULL, NULL, NULL };
 
 
-/*
-    LIST OF ALL REMOVED CONSTRUCTS
-
-    All constructs removed from the user-defined construct hash table
-    are formed into a list.  This is used in node.c to form the
-    completion of a node.
-*/
-
 construct *removals = NULL;
 
-
-/*
-    OUTPUT OPTIONS
-
-    These flags give information on the form of the output.
-*/
 
 boolean show_tokdecs = 1;
 boolean show_tokdefs = 1;
@@ -99,22 +59,8 @@ boolean show_tagdecs = 1;
 boolean show_tagdefs = 1;
 
 
-/*
-    FLAG
-
-    This flag may be set to false to prevent sort_all() sorting its
-    tables.
-*/
-
 boolean order_names = 1;
 
-
-/*
-    HASHING FUNCTION
-
-    This routine is used to construct the hash tables.  It takes a
-    string s and returns a value in the range 0 <= n < hash_size.
-*/
 
 static int
 hash(char *s)
@@ -127,12 +73,6 @@ hash(char *s)
 	return n % hash_size;
 }
 
-
-/*
-    CREATE A TABLE FOR A NEW SORT
-
-    A table of sz constructs of sort s is created and cleared.
-*/
 
 void
 new_sort(sortname s, int sz)
@@ -156,13 +96,6 @@ new_sort(sortname s, int sz)
 }
 
 
-/*
-    PUT A NAME INTO A CONSTRUCT
-
-    The nth construct of sort s is set to have name nm and argument
-    string args.
-*/
-
 void
 new_cons(char *nm, sortname s, int n, char *args)
 {
@@ -176,12 +109,6 @@ new_cons(char *nm, sortname s, int n, char *args)
 }
 
 
-/*
-    DUMMY DECODING FUNCTION
-
-    This routine is a dummy which is used for uninitialised decode functions.
-*/
-
 static node *
 de_dummy(void)
 {
@@ -189,12 +116,6 @@ de_dummy(void)
 	return NULL;
 }
 
-
-/*
-    DUMMY READING FUNCTION
-
-    This routine is a dummy which is used for uninitialised read functions.
-*/
 
 static node *
 read_dummy(long n)
@@ -205,12 +126,6 @@ read_dummy(long n)
 	return NULL;
 }
 
-
-/*
-    INITIALIZE CONSTRUCT TABLES
-
-    The various construct and sort tables are initialized.
-*/
 
 void
 init_tables(void)
@@ -259,12 +174,6 @@ init_tables(void)
 }
 
 
-/*
-    FIND THE NAME OF A GIVEN SORT
-
-    Given the sort s, this routine returns the name of s.
-*/
-
 char *
 sort_name(sortname s)
 {
@@ -279,14 +188,6 @@ sort_name(sortname s)
 	}
 }
 
-
-/*
-    ADD A NAME TO A CONSTRUCT HASH TABLE
-
-    The construct p of sort s is added to the built-in construct hash
-    table.  The routine returns a pointer to any existing entry of
-    the same name, or NULL otherwise.
-*/
 
 construct *
 add_to_cons_hash(construct *p, sortname s)
@@ -306,14 +207,6 @@ add_to_cons_hash(construct *p, sortname s)
 }
 
 
-/*
-    LOOK UP A NAME IN A CONSTRUCT HASH TABLE
-
-    A construct with name p and sort s is looked up in the built-in
-    construct hash table.  The routine returns a pointer to the
-    construct if it is found, or NULL otherwise.
-*/
-
 construct *
 search_cons_hash(char *p, sortname s)
 {
@@ -328,14 +221,6 @@ search_cons_hash(char *p, sortname s)
 	return NULL;
 }
 
-
-/*
-    ADD A NAME TO A VARIABLE HASH TABLE
-
-    The construct p of sort s is added to the user-defined construct
-    hash table.  The routine returns a pointer to any existing entry
-    of the same name, or NULL otherwise.
-*/
 
 construct *
 add_to_var_hash(construct *p, sortname s)
@@ -355,14 +240,6 @@ add_to_var_hash(construct *p, sortname s)
 }
 
 
-/*
-    LOOK UP A NAME IN A VARIABLE HASH TABLE
-
-    A construct with name p and sort s is looked up in the user-defined
-    construct hash table.  The routine returns a pointer to the construct
-    if it is found, or NULL otherwise.
-*/
-
 construct *
 search_var_hash(char *p, sortname s)
 {
@@ -377,14 +254,6 @@ search_var_hash(char *p, sortname s)
 	return NULL;
 }
 
-
-/*
-    REMOVE A NAME FROM A VARIABLE HASH TABLE
-
-    The construct with name p and sort s is removed from the
-    user-defined hash table and added to the removals list.  There
-    is no error if the construct does not exist.
-*/
 
 void
 remove_var_hash(char *p, sortname s)
@@ -426,8 +295,6 @@ remove_var_hash(char *p, sortname s)
 
 
 /*
-    SORT A HASH TABLE
-
     The constructs of sort s in the hash table tab are sorted into
     alphabetical order.  They are formed into a list where the
     constructs with hash value 0 should be.  After sorting the hash
@@ -470,13 +337,6 @@ sort_table(construct **tab, sortname s)
 }
 
 
-/*
-    SORTING ROUTINE
-
-    The user-defined alignment tags, tags and tokens are sorted into
-    alphabetical order.
-*/
-
 void
 sort_all(void)
 {
@@ -487,13 +347,6 @@ sort_all(void)
 	}
 }
 
-
-/*
-    APPLY A PROCEDURE TO ALL CONSTRUCTS
-
-    The routine f is applied to all user-defined constructs of sort s
-    by scanning across the hash table.
-*/
 
 void
 apply_to_all(apply_func f, sortname s)

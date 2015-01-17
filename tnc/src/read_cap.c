@@ -29,8 +29,6 @@
 
 
 /*
-    READ AN EXTERNAL NAME
-
     An external name representing an object of sort s is read from the
     input file.  If local is true this must just be an internal identifier.
 */
@@ -162,8 +160,6 @@ read_external(sortname s, boolean local)
 
 
 /*
-    READ AN ALIGNMENT TAG DECLARATION
-
     An alignment tag declaration is read from the input file.
 */
 
@@ -176,8 +172,6 @@ read_aldec(boolean local)
 
 
 /*
-    READ AN ALIGNMENT TAG DEFINITION
-
     An alignment tag definition is read from the input file.
 */
 
@@ -215,8 +209,6 @@ read_aldef(boolean local)
 
 
 /*
-    READ A TAG DECLARATION
-
     A tag declaration is read from the input file.  Whether it is a
     variable or an identity is indicated by the is_var flag.
 */
@@ -256,8 +248,6 @@ read_tagdec(boolean local, int is_var)
 
 
 /*
-    READ A TAG DEFINITION
-
     A tag definition is read from the input file.  Whether it is a
     variable or an identity is indicated by the is_var flag.
 */
@@ -310,8 +300,6 @@ read_tagdef(boolean local, int is_var)
 
 
 /*
-    READ A SORTNAME
-
     A sortname is read from the input file.
 */
 
@@ -339,8 +327,6 @@ read_sortname(void)
 
 
 /*
-    READ TOKEN SORT
-
     A token sort is read and the information is stored in info.  This
     can be a definition (with formal parameters) or a declaration
     (without) depending on the value of def.
@@ -447,8 +433,6 @@ read_toksort(tok_info *info, boolean def)
 
 
 /*
-    READ A TOKEN DECLARATION
-
     A token declaration is read from the input file.
 */
 
@@ -469,8 +453,6 @@ read_tokdec(boolean local)
 
 
 /*
-    READ A TOKEN DEFINITION
-
     A token definition is read from the input file.
 */
 
@@ -531,8 +513,6 @@ read_tokdef(boolean local)
 
 
 /*
-    READ A TOKEN SORT DEFINITION
-
     A token sort defintion is read from the input file.
 */
 
@@ -561,8 +541,6 @@ read_sortdef(boolean local)
 
 
 /*
-    READ A SUBFILE
-
     A complete subfile is read.  ftype gives the type of the subfile :
     0 = text, 1 = capsule, 2 = library.  ex is true to indicate that
     only the tokens should be read.
@@ -614,8 +592,6 @@ sub_file(int ftype, int ex)
 
 
 /*
-    READ A CAPSULE
-
     A complete capsule is read from the input file.
 */
 

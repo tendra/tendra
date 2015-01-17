@@ -16,24 +16,10 @@
 #include "utility.h"
 
 
-/*
-    CURRENT FILE POINTER
-
-    As they are read from the input file bits are stored in input_buff.
-    The current number of bits in the buffer is bits_in_buff.  bytes_read
-    records the position in the input file.
-*/
-
 static long bytes_read = 0;
 static unsigned int bits_in_buff = 0;
 static unsigned long input_buff = 0;
 
-
-/*
-    ALIGN TO NEXT BYTE BOUNDARY
-
-    Any bits remaining in the current byte are ignored.
-*/
 
 void
 byte_align(void)
@@ -41,13 +27,6 @@ byte_align(void)
 	bits_in_buff = 0;
 }
 
-
-/*
-    FETCH A NUMBER OF BITS
-
-    This routine reads the next n bits from the input file and returns
-    them as a long.
-*/
 
 long
 fetch(int n)
@@ -95,24 +74,12 @@ rewind_posn(void)
 }
 
 
-/*
-    FIND CURRENT POSITION IN FILE
-
-    The current position in the input file (in bits) is returned.
-*/
-
 long
 tell_posn(void)
 {
 	return CHAR_BIT * bytes_read - (long)bits_in_buff;
 }
 
-
-/*
-    GO TO A POSITION IN FILE
-
-    The position in the input file is set to the nth bit.
-*/
 
 void
 seek_posn(long n)
@@ -132,12 +99,6 @@ seek_posn(long n)
 		(void) fetch(b);
 }
 
-
-/*
-    SKIP A NUMBER OF BITS
-
-    The next n bits in the input file are ignored.
-*/
 
 void
 input_skip(long n)

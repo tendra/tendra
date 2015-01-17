@@ -538,13 +538,6 @@ print_title(char *title, construct *p, int dec)
 	(void) fprintf(output, "%s", title);
 }
 
-/*
-    PRINT AN EXTERNAL NAME
-
-    The start of a statement with name title concerning the construct
-    p is output.  dec is true if this is the first statement concerning p.
-*/
-
 static void
 print_name(char *title, construct *p, int dec)
 {
@@ -572,12 +565,6 @@ print_name(char *title, construct *p, int dec)
 }
 
 
-/*
-    ALIGNMENT TAG DECLARATION AUXILIARY PRINTING ROUTINE
-
-    Print the declaration of the alignment tag p.
-*/
-
 static void
 print_aldec(construct *p)
 {
@@ -603,12 +590,6 @@ print_aldec(construct *p)
 	(void) fputs("</table>> ];\n", output);
 }
 
-
-/*
-    ALIGNMENT TAG DEFINITION AUXILIARY PRINTING ROUTINE
-
-    Print the definition of the alignment tag p.
-*/
 
 static void
 print_aldef(construct *p)
@@ -656,12 +637,6 @@ print_aldef(construct *p)
 
 }
 
-
-/*
-    TAG DECLARATION AUXILIARY PRINTING ROUTINE
-
-    Print the declaration of the tag p.
-*/
 
 static void
 print_tagdec(construct *p)
@@ -715,12 +690,6 @@ print_tagdec(construct *p)
 	}
 }
 
-
-/*
-    TAG DEFINITION AUXILIARY PRINTING ROUTINE
-
-    Print the definition of the tag p.
-*/
 
 static void
 print_tagdef(construct *p)
@@ -779,12 +748,6 @@ print_tagdef(construct *p)
 	}
 }
 
-
-/*
-    TOKEN DECLARATION AUXILIARY PRINTING ROUTINE
-
-    Print the declaration of the token p.
-*/
 
 static void
 print_tokdec(construct *p)
@@ -882,12 +845,6 @@ print_tokdec(construct *p)
 	}
 }
 
-
-/*
-    TOKEN DEFINITION AUXILIARY PRINTING ROUTINE
-
-    Print the definition of the token p.
-*/
 
 static void
 print_tokdef(construct *p)
@@ -995,12 +952,6 @@ print_tokdef(construct *p)
 	}
 }
 
-
-/*
-    PRINT A HIGH-LEVEL SORT
-
-    This routine prints the high level sort h.
-*/
 
 static void
 print_high_sort(high_sort *h)

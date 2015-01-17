@@ -25,30 +25,12 @@
 #include "utility.h"
 
 
-/*
-    ARRAY OF ALL LABELS
-
-    The labels in a unit are held in the table labels of size max_lab_no.
-*/
-
 static long max_lab_no = 0;
 static construct *labels;
 
 
-/*
-    FLAG
-
-    Has a version number been read?
-*/
-
 int have_version = 0;
 
-
-/*
-    SET UP LABELS
-
-    A table of n labels is allocated and initialized.
-*/
 
 static void
 set_up_labels(long n)
@@ -80,12 +62,6 @@ set_up_labels(long n)
 }
 
 
-/*
-    FIND A LABEL
-
-    The nth label in the current unit is returned.
-*/
-
 construct *
 find_label(long n)
 {
@@ -97,13 +73,6 @@ find_label(long n)
 	return labels + n;
 }
 
-
-/*
-    DECODE A SORT NAME
-
-    A sortname is decoded.  If expand is true the arguments of any high
-    level sort will be stepped over.
-*/
 
 static sortname
 de_sortname(boolean expand)
@@ -143,12 +112,6 @@ de_sortname(boolean expand)
 }
 
 
-/*
-    DECODE AN ALIGNMENT TAG DEFINITION UNIT
-
-    A number of alignment tag definitions are decoded.
-*/
-
 void
 de_aldef(void)
 {
@@ -187,12 +150,6 @@ de_aldef(void)
 	}
 }
 
-
-/*
-    DECODE A TAG DECLARATION UNIT
-
-    A number of tag declarations are decoded.
-*/
 
 void
 de_tagdec(void)
@@ -245,12 +202,6 @@ de_tagdec(void)
 	}
 }
 
-
-/*
-    DECODE A TAG DEFINITION UNIT
-
-    A number of tag definitions are decoded.
-*/
 
 void
 de_tagdef(void)
@@ -322,12 +273,6 @@ de_tagdef(void)
 }
 
 
-/*
-    DECODE A TOKEN DECLARATION UNIT
-
-    A number of token declarations are decoded.
-*/
-
 void
 de_tokdec(void)
 {
@@ -393,12 +338,6 @@ de_tokdec(void)
 	}
 }
 
-
-/*
-    DECODE A TOKEN DEFINITION BODY
-
-    The actual body of a token definition is decoded.
-*/
 
 void
 de_token_defn(construct *p, node *sig)
@@ -507,12 +446,6 @@ de_token_defn(construct *p, node *sig)
 }
 
 
-/*
-    DECODE A TOKEN DEFINITION UNIT
-
-    A number of token definitions are decoded.
-*/
-
 void
 de_tokdef(void)
 {
@@ -542,12 +475,6 @@ de_tokdef(void)
 }
 
 
-/*
-    CHECK A VERSION NUMBER
-
-    This routine reads and checks a version number.
-*/
-
 static void
 de_version_number(void)
 {
@@ -560,13 +487,6 @@ de_version_number(void)
 	have_version = 1;
 }
 
-
-/*
-    DECODE A VERSION UNIT
-
-    A number of TDF version numbers are decoded.  These were only
-    introduced for version 2.1 of the TDF specification.
-*/
 
 void
 de_version(void)
@@ -583,10 +503,6 @@ de_version(void)
 	}
 }
 
-
-/*
-    DECODE A MAGIC NUMBER
-*/
 
 void
 de_magic(char *m)

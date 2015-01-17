@@ -19,22 +19,8 @@
 #include "utility.h"
 
 
-/*
-    FLAG
-
-    Should help information be printed in functional form?
-*/
-
 boolean func_help = 0;
 
-
-/*
-    PRINT A LIST OF ARGUMENTS
-
-    This routine prints the arguments corresponding to the argument
-    string str.  The flag num is true to indicate an actual TDF
-    integer, rather than the identifier for a tag, token etc.
-*/
 
 static void
 help_args(char *str, boolean num)
@@ -137,12 +123,6 @@ help_args(char *str, boolean num)
 }
 
 
-/*
-    OUTPUT HELP INFORMATION
-
-    The help information on the construct p is output.
-*/
-
 static void
 output_help(construct *p)
 {
@@ -164,12 +144,6 @@ output_help(construct *p)
     return;
 }
 
-
-/*
-    PRINT HELP ON A TDF CONSTRUCT
-
-    The help information on the construct named nm is output.
-*/
 
 void
 help(char *nm)

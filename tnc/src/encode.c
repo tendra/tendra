@@ -20,12 +20,6 @@
 #include "utility.h"
 
 
-/*
-    ENCODE AN EXTENDED VALUE
-
-    The extended value n is encoded in b bits on the bitstream p.
-*/
-
 void
 enc_bits_extn(bitstream *p, int b, long n)
 {
@@ -40,13 +34,6 @@ enc_bits_extn(bitstream *p, int b, long n)
 }
 
 
-/*
-    AUXILIARY TDF INTEGER ENCODING ROUTINE
-
-    The value n is encoded as a series of octal digits into the
-    bitstream p.
-*/
-
 static void
 enc_tdf_int_aux(bitstream *p, long n)
 {
@@ -57,12 +44,6 @@ enc_tdf_int_aux(bitstream *p, long n)
 }
 
 
-/*
-    ENCODE A TDF INTEGER
-
-    The value n is encoded as a TDF integer into the bitstream p.
-*/
-
 void
 enc_tdf_int(bitstream *p, long n)
 {
@@ -72,14 +53,6 @@ enc_tdf_int(bitstream *p, long n)
     return;
 }
 
-
-/*
-    ENCODE AN ALIGNED STRING
-
-    The string s is encoded as an aligned string into the bitstream p.
-    n is either the length of s, or -1, indicating that strlen should
-    be used to find the length.
-*/
 
 void
 enc_aligned_string(bitstream *p, char *s, long n)
@@ -96,12 +69,6 @@ enc_aligned_string(bitstream *p, char *s, long n)
     return;
 }
 
-
-/*
-    ENCODE AN EXTERNAL NAME
-
-    The external name of the construct p is encoded into the bitstream b.
-*/
 
 void
 enc_external(bitstream *b, construct *p)
@@ -139,12 +106,6 @@ enc_external(bitstream *b, construct *p)
 }
 
 
-/*
-    FIND THE VALUE OF A STRING OF OCTAL DIGITS
-
-    The value of the node p, which represents a number, is returned.
-*/
-
 static long
 octval(node *p)
 {
@@ -153,12 +114,6 @@ octval(node *p)
     return n;
 }
 
-
-/*
-    ENCODE A NODE
-
-    The node p is encoded into the bitstream b.
-*/
 
 void
 enc_node(bitstream *b, node *p)
@@ -338,10 +293,6 @@ enc_node(bitstream *b, node *p)
 }
 
 
-/*
-    ENCODE A SORT
-*/
-
 static void
 enc_sort(bitstream *b, sortname s)
 {
@@ -362,12 +313,6 @@ enc_sort(bitstream *b, sortname s)
 }
 
 
-/*
-    ALIGNMENT TAG DEFINITION AUXILIARY ENCODING ROUTINE
-
-    The definition of the alignment tag p is encoded into the bitstream p.
-*/
-
 void
 enc_aldef(bitstream *b, construct *p)
 {
@@ -378,12 +323,6 @@ enc_aldef(bitstream *b, construct *p)
     return;
 }
 
-
-/*
-    TAG DECLARATION AUXILIARY ENCODING ROUTINE
-
-    The declaration of the tag p is encoded into the bitstream p.
-*/
 
 void
 enc_tagdec(bitstream *b, construct *p)
@@ -401,14 +340,6 @@ enc_tagdec(bitstream *b, construct *p)
     return;
 }
 
-
-/*
-    TAG DEFINITION AUXILIARY ENCODING ROUTINE
-
-    The definition of the tag p is encoded into the bitstream p.  Because
-    of common_tagdef, there may actually be more than one definition.
-    The number of definitions is returned.
-*/
 
 int
 enc_tagdef(bitstream *b, construct *p)
@@ -434,10 +365,6 @@ enc_tagdef(bitstream *b, construct *p)
 }
 
 
-/*
-    WORK OUT THE NUMBER OF FORMAL ARGUMENTS GIVEN A STRING
-*/
-
 static long
 no_formals(char *args)
 {
@@ -450,12 +377,6 @@ no_formals(char *args)
     return n;
 }
 
-
-/*
-    TOKEN DECLARATION AUXILIARY ENCODING ROUTINE
-
-    The declaration of the token p is encoded into the bitstream p.
-*/
 
 void
 enc_tokdec(bitstream *b, construct *p)
@@ -494,12 +415,6 @@ enc_tokdec(bitstream *b, construct *p)
     return;
 }
 
-
-/*
-    TOKEN DEFINITION AUXILIARY ENCODING ROUTINE
-
-    The definition of the token p is encoded into the bitstream p.
-*/
 
 void
 enc_tokdef(bitstream *b, construct *p)

@@ -19,43 +19,17 @@
 #include "utility.h"
 
 
-/*
-    BITMASKS
-
-    The nth value in this array can be used to extract the bottom n
-    bits of a value.
-*/
-
 static unsigned long mask[] = {
 	0, 0x01, 0x03, 0x07, 0x0f, 0x1f, 0x3f, 0x7f, 0xff
 };
 
 
-/*
-    SIZE OF A STANDARD BITSTREAM
-
-    Each bitstream contains BITSTREAM_SIZE bytes.  It is worth garbage
-    collecting if it has CRITICAL_SIZE bytes free when it is closed.
-*/
-
 #define BITSTREAM_SIZE		100
 #define CRITICAL_SIZE		50
 
 
-/*
-    LIST OF FREE BITSTREAMS
-
-    Bitstreams are allocated from this list.
-*/
-
 static bitstream *free_bitstreams = NULL;
 
-
-/*
-    CREATE A NEW BITSTREAM
-
-    A new bitstream is allocated and initialized.
-*/
 
 bitstream *
 new_bitstream(void)
@@ -86,13 +60,6 @@ new_bitstream(void)
 
 #if 0
 
-/*
-    CLOSE OFF A BITSTREAM
-
-    The bitstream p is closed off and any free space is garbage collected.
-    (Not currently used.)
-*/
-
 static void
 close_bitstream(bitstream *p)
 {
@@ -113,12 +80,6 @@ close_bitstream(bitstream *p)
 
 #endif
 
-
-/*
-    PRINT A BITSTREAM
-
-    The bitstream p is dumped to the output file.
-*/
 
 void
 print_bitstream(bitstream *p)
@@ -158,12 +119,6 @@ print_bitstream(bitstream *p)
 }
 
 
-/*
-    FIND THE LENGTH OF A BITSTREAM
-
-    The length of the bitstream p (in bits) is returned.
-*/
-
 long
 bitstream_length(bitstream *p)
 {
@@ -176,12 +131,6 @@ bitstream_length(bitstream *p)
 }
 
 
-/*
-    JOIN TWO BITSTREAMS
-
-    The bitstream q is appended to p.
-*/
-
 void
 join_bitstreams(bitstream *p, bitstream *q)
 {
@@ -192,12 +141,6 @@ join_bitstreams(bitstream *p, bitstream *q)
 	p->end = q->end;
 }
 
-
-/*
-    ADD A NUMBER OF BITS TO THE END OF A BITSTREAM
-
-    n bits of value v are added to the end of the bitstream p.
-*/
 
 void
 enc_bits(bitstream *p, int n, long v)
@@ -234,12 +177,6 @@ enc_bits(bitstream *p, int n, long v)
 	q->bits += m;
 }
 
-
-/*
-    ALIGN A BITSTREAM TO A BYTE BOUNDARY
-
-    The bitstream p is aligned to a byte boundary.
-*/
 
 void
 align_bitstream(bitstream *p)

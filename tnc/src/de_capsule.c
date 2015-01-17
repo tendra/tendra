@@ -25,96 +25,32 @@
 #include "utility.h"
 
 
-/*
-    FLAG : DECODE STATUS
-
-    A value of 0 indicates that we are decoding the names at the start
-    of the capsule, 1 that we are decoding the linkage information, and
-    2 that we are decoding a main equation body.
-*/
-
 int decode_status = -1;
 
 
-/*
-    FLAG : ONLY DECODE TOKEN DECLARATIONS
-
-    This flag is true if we are only interested in the token
-    declarations in a capsule.
-*/
-
 boolean extract_tokdecs = 0;
 
-
-/*
-    THE ARRAY OF ALL VARIABLE SORTS
-
-    The array vars of size no_var gives all variable sorts.  The
-    indexes in this array of the alignment tags, tags and tokens are
-    given by al_tag_var, tag_var, tok_var respectively.
-*/
 
 static long no_var;
 static var_sort *vars;
 long al_tag_var, tag_var, tok_var;
 
 
-/*
-    LIST OF UNUSED CONSTRUCTS
-
-    All unused constructs in a capsule are formed into a list for
-    later reuse.
-*/
-
 static construct *garbage = NULL;
 
-
-/*
-    CURRENT BINDINGS
-
-    The current bindings are held in crt_binding.  spare_binding, if not
-    null, contains a binding suitable for reuse.
-*/
 
 binding *crt_binding;
 static binding *spare_binding = NULL;
 
 
-/*
-    FLAG INDICATING SKIP PASS
-
-    This flag is true if we are in the skip pass of a set of equations
-    (primarily token definitions).
-*/
-
 boolean in_skip_pass = 0;
 
-
-/*
-    DECODE A SET OF EQUATIONS
-
-    A set of equations with decoding routine f is decoded.  If f is null
-    the equations are stepped over, otherwise they are decoded.
-*/
 
 typedef void(*equation_func)(void);
 
 
-/*
-    NAME OF CURRENT CAPSULE
-
-    The current capsule of a library is recorded to use in error messages.
-*/
-
 char *capname = NULL;
 
-
-/*
-    CREATE A NEW BINDING
-
-    A new binding with space for no_var variable sorts is created and
-    cleared.
-*/
 
 static binding *
 new_binding(void)
@@ -148,25 +84,12 @@ new_binding(void)
 }
 
 
-/*
-    FREE A BINDING
-
-    The binding b is returned to free.
-*/
-
 static void
 free_binding(binding *b)
 {
 	spare_binding = b;
 }
 
-
-/*
-    SET THE SIZE OF AN ENTRY IN A BINDING
-
-    The size of the table of the vth variable sort in the binding bt
-    is set to n.
-*/
 
 static void
 set_binding_size(binding *bt, long v, long n)
@@ -194,12 +117,6 @@ set_binding_size(binding *bt, long v, long n)
 		p[i] = NULL;
 }
 
-
-/*
-    COMPLETE A BINDING
-
-    The unused entries in the binding b are filled in.
-*/
 
 static void
 complete_binding(binding *b)
@@ -239,13 +156,6 @@ complete_binding(binding *b)
 }
 
 
-/*
-    SET AN ENTRY IN A BINDING
-
-    The nth entry of the vth variable sort of the binding bt is set to
-    the construct p.
-*/
-
 static void
 set_binding(binding *bt, long v, long n, construct *p)
 {
@@ -271,12 +181,6 @@ set_binding(binding *bt, long v, long n, construct *p)
 }
 
 
-/*
-    FIND AN ENTRY IN A BINDING
-
-    The nth entry of the vth variable sort of the binding bt is returned.
-*/
-
 construct *
 find_binding(binding *bt, long v, long n)
 {
@@ -296,13 +200,6 @@ find_binding(binding *bt, long v, long n)
 	return b->table[n];
 }
 
-
-/*
-    DECODE AN ALIGNED STRING
-
-    An aligned string (in an external name) is decoded and returned
-    as an array of characters.
-*/
 
 static char *
 de_aligned_string(void)
@@ -327,13 +224,6 @@ de_aligned_string(void)
 	return p;
 }
 
-
-/*
-    DECODE A SET OF EQUATIONS
-
-    A set of equations with decoding routine f is decoded.  If f is NULL
-    the equations are stepped over, otherwise they are decoded.
-*/
 
 static void
 de_equation(equation_func f)
@@ -405,12 +295,6 @@ de_equation(equation_func f)
 	}
 }
 
-
-/*
-    DECODE A CAPSULE
-
-    An entire TDF capsule is decoded.
-*/
 
 void
 de_capsule(void)
@@ -657,10 +541,6 @@ de_capsule(void)
 	free_construct(&garbage);
 }
 
-
-/*
-    DECODE A TDF LIBRARY
-*/
 
 void
 de_library(void)

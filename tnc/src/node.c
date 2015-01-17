@@ -17,48 +17,17 @@
 #include "tdf.h"
 #include "utility.h"
 
-/*
-    FLAG : SHOULD WE CHECK EQUALITY OF NODES?
-
-    This should be set to 1 to suppress the check in eq_node().
-*/
-
 boolean dont_check = 0;
 
-
-/*
-    LIST OF FREE NODES
-
-    Nodes are allocated from this list.
-*/
 
 static node *free_nodes = NULL;
 
 
-/*
-    LIST OF FREE CONSTRUCTS
-
-    Constructs are allocated from this list.
-*/
-
 static construct *free_constructs = NULL;
 
 
-/*
-    LOCAL IDENTIFIER PREFIX
-
-    All tag, token and alignment tags with this prefix are treated as if
-    they were declared local.
-*/
-
 char *local_prefix = "<none>";
 
-
-/*
-    CREATE A NEW NODE
-
-    A new node is created and its fields cleared.
-*/
 
 node *
 new_node(void)
@@ -90,12 +59,6 @@ new_node(void)
 }
 
 
-/*
-    FREE A NODE
-
-    The node p is recursively returned to the free list.
-*/
-
 void
 free_node(node *p)
 {
@@ -112,14 +75,6 @@ free_node(node *p)
 }
 
 
-/*
-    FORM THE COMPLETION OF A NODE
-
-    The completion of the node p is created.  This consists of p itself
-    and the list of all local variable sorts created during the
-    construction of p, as recorded by the removals list.
-*/
-
 node *
 completion(node *p)
 {
@@ -134,13 +89,6 @@ completion(node *p)
 	return q;
 }
 
-
-/*
-    AUXILIARY EQUALITY ROUTINE
-
-    This routine checks the nodes p and q for equality modulo the
-    lists of local variables ap and aq (which are known to correspond).
-*/
 
 static boolean
 eq_node_aux(node *p, node *q, construct *ap, construct *aq, int args)
@@ -213,13 +161,6 @@ eq_node_aux(node *p, node *q, construct *ap, construct *aq, int args)
 }
 
 
-/*
-    CHECK TWO LISTS OF CONSTRUCTS
-
-    The lists of local variables ap and aq are checked to have the
-    same length and corresponds sorts in each position.
-*/
-
 static boolean
 eq_cons_list(construct *ap, construct *aq)
 {
@@ -238,12 +179,6 @@ eq_cons_list(construct *ap, construct *aq)
 }
 
 
-
-/*
-    ARE TWO NODES EQUAL?
-
-    The nodes p and q are checked for equality.
-*/
 
 boolean
 eq_node(node *p, node *q)
@@ -279,12 +214,6 @@ eq_node(node *p, node *q)
 
 
 
-/*
-    CREATE A NEW CONSTRUCT
-
-    A new construct is allocated.  Its fields are not initialized.
-*/
-
 construct *
 new_construct(void)
 {
@@ -308,13 +237,6 @@ new_construct(void)
 	return p;
 }
 
-
-/*
-    CREATE A NEW CONSTRUCT OF A GIVEN SORT
-
-    A new construct is allocated.  Its fields are initialized for a
-    construct of sort s.
-*/
 
 construct *
 make_construct(sortname s)
@@ -369,12 +291,6 @@ make_construct(sortname s)
 }
 
 
-/*
-    FREE A LIST OF CONSTRUCTS
-
-    The list of constructed pointed to by p is returned to free.
-*/
-
 void
 free_construct(construct **p)
 {
@@ -391,13 +307,6 @@ free_construct(construct **p)
 	*p = NULL;
 }
 
-
-/*
-    SET THE SORT OF A TOKEN
-
-    The token construct p is set to have result sort rs and argument
-    sorts args.
-*/
 
 void
 set_token_sort(construct *p, sortname rs, char *args, node *sig)
@@ -430,13 +339,6 @@ set_token_sort(construct *p, sortname rs, char *args, node *sig)
 }
 
 
-/*
-    SET TAG TYPE
-
-    The tag construct p is set to be a variable or an identity, depending
-    on the flag is_var.
-*/
-
 void
 set_tag_type(construct *p, int is_var)
 {
@@ -453,14 +355,6 @@ set_tag_type(construct *p, int is_var)
 #endif
 }
 
-
-/*
-    CREATE A COPY OF A CONSTRUCT
-
-    This routine creates a copy of the construct p.  This is used during
-    token expansion to ensure that tags and labels which are local to a
-    token definition are handled correctly.
-*/
 
 void
 copy_construct(construct *p)
@@ -480,13 +374,6 @@ copy_construct(construct *p)
 	(sort_removed[s]) ++;
 }
 
-
-/*
-    SKIP TEXT ENCLOSED IN SQUARE BRACKETS
-
-    The decode string s is analysed and a pointer to the first ']'
-    which is not balanced by a '[' is returned.
-*/
 
 char *
 skip_text(char *s)
@@ -511,13 +398,6 @@ skip_text(char *s)
 	return NULL; /* Not reached */
 }
 
-
-/*
-    IS AN IDENTIFIER LOCAL?
-
-    This routine checks whether the identifier name s begins with the
-    local identifier prefix above.
-*/
 
 boolean
 is_local_name(char *s)

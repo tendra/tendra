@@ -22,8 +22,6 @@
 
 
 /*
-    BASIC SHAPES
-
     These shapes are fixed.
 */
 
@@ -33,8 +31,6 @@ node *sh_top = null;
 
 
 /*
-    INITIALIZE BASIC SHAPES
-
     This routine initializes the basic shapes above.
 */
 
@@ -85,8 +81,6 @@ string_length(node *s)
 
 
 /*
-    COPY A NODE
-
     This routine makes a copy of the node p.
 */
 
@@ -108,8 +102,6 @@ copy_node(node *p)
 
 
 /*
-    FORM AN INTEGER SHAPE
-
     This routine creates an integer shape from a variety p.
 */
 
@@ -130,8 +122,6 @@ sh_integer(node *p)
 
 
 /*
-    FORM A FLOATING SHAPE
-
     This routine creates a floating shape from a floating variety p.
 */
 
@@ -152,8 +142,6 @@ sh_floating(node *p)
 
 
 /*
-    FORM A POINTER SHAPE
-
     This routine creates a pointer shape from an alignment p or a shape p.
 */
 
@@ -175,8 +163,6 @@ sh_pointer(node *p)
 
 
 /*
-    FORM AN OFFSET SHAPE
-
     This routine creates an offset shape from the alignments p and q.
 */
 
@@ -207,8 +193,6 @@ sh_offset(node *p, node *q)
 
 
 /*
-    FORM AN ARRAY SHAPE
-
     This routine creates an array shape consisting of n copies of
     the shape p.
 */
@@ -237,8 +221,6 @@ sh_nof(node *n, node *p)
 
 
 /*
-    FORM A BITFIELD SHAPE
-
     This routine creates a bitfield shape from a bitfield variety p.
 */
 
@@ -259,8 +241,6 @@ sh_bitfield(node *p)
 
 
 /*
-    FORM A COMPOUND SHAPE
-
     This routine creates a compound shape from an expression p.
 */
 
@@ -281,8 +261,6 @@ sh_compound(node *p)
 
 
 /*
-    FIND THE NORMALIZED VERSION OF A SHAPE
-
     This routine returns the normalized version of the shape p.
 */
 
@@ -312,8 +290,6 @@ normalize(node *p)
 
 
 /*
-    EXPAND TOKEN APPLICATIONS
-
     If p is the application of a token it is replaced by the definition
     of that token.  If this is null, null is returned, otherwise the
     expansion continues until p is not a token application.
@@ -339,8 +315,6 @@ expand_tok(node *p)
 
 
 /*
-    CHECK THAT TWO SHAPES ARE COMPATIBLE
-
     This routine checks the nodes p and q, which consists of shapes
     or components of shapes, are compatible.  Its action depends on
     the value of tg.  If tg is 0 or 1 then, if the shapes are compatible
@@ -550,8 +524,6 @@ check_shapes(node *p, node *q, int tg)
 
 
 /*
-    FIND THE LEAST UPPER BOUND OF TWO SHAPES
-
     This routine returns the least upper bound of the shapes p and q.
     A return value of null means that the result is unknown.
 */
@@ -564,8 +536,6 @@ lub(node *p, node *q)
 
 
 /*
-    CHECK THAT A SINGLE EXPRESSION HAS THE RIGHT FORM
-
     The shape of the expression p is checked to be of the form indicated
     by t.  If so (or possibly so) the shape is returned, otherwise an error
     is flagged and null is returned.
@@ -608,8 +578,6 @@ check1(int t, node *p)
 
 
 /*
-    CHECK THAT TWO EXPRESSIONS HAVE THE RIGHT FORM
-
     The shapes of the expressions p and q are checked to be of the form
     indicated by t and to be compatible.  The shape or null is returned.
 */
@@ -658,8 +626,6 @@ check2(int t, node *p, node *q)
 
 
 /*
-    CHECK THAT A LIST OF EXPRESSIONS HAVE THE RIGHT FORM
-
     The shapes of the list of expressions given by p are checked to be
     of the form indicated by t and to be compatible.  The shape or
     null is returned.  If nz is true an error is flagged if p is the
@@ -689,8 +655,6 @@ checkn(int t, node *p, int nz)
 
 
 /*
-    SET TOKEN ARGUMENTS
-
     This routine assigns the values given by p to the formal token
     arguments given in c.  It is a prelude to expanding token applications.
     Any missing arguments are set to null.  The routine returns the list
@@ -727,8 +691,6 @@ set_token_args(construct **c, node *p, int set)
 
 
 /*
-    DOES A CONSTRUCT INTRODUCE A TAG OR A LABEL?
-
     This routine checks whether the construct c introduces a local tag or
     label.
 */
@@ -755,8 +717,6 @@ is_intro_exp(construct *c)
 
 
 /*
-    DOES A NODE CONTAIN DEFINED TOKENS?
-
     This routine returns 4 if p is itself an application of a token, 3 if
     it is a make_label construct which introduces a new label (the intro
     flag is used to determine this) or a make_tag construct which introduces
@@ -839,8 +799,6 @@ contains_tokens(node *p, int intro, int tok)
 
 
 /*
-    FULLY EXPAND A NODE
-
     The node p which has contains_tokens value c (see above) is expanded
     recursively.  def is true during the expansion of a token definition.
 */
@@ -928,8 +886,6 @@ expand_fully_aux(node *p, int c, int def)
 
 
 /*
-    EXPAND A SHAPE RECURSIVELY
-
     All applications of tokens in p are expanded.
 */
 
@@ -945,8 +901,6 @@ expand_fully(node *p)
 
 
 /*
-    EXPAND A TOKEN DEFINITION
-
     This routine expands all the token definitions in the definition of the
     token p.
 */
@@ -964,8 +918,6 @@ expand_tokdef(construct *p)
 
 
 /*
-    ELIMINATE A TOKEN DEFINITION
-
     This routine checks whether p is a local token all of whose uses have
     been expanded.  If so it eliminates p.
 */
@@ -984,8 +936,6 @@ elim_tokdef(construct *p)
 
 
 /*
-    EXPAND AN ALIGNMENT TAG DEFINITION
-
     This routine expands all the token definitions in the definition of the
     alignment tag p.
 */
@@ -1002,8 +952,6 @@ expand_aldef(construct *p)
 
 
 /*
-    EXPAND A TAG DECLARATION AND DEFINITION
-
     This routine expands all the token definitions in the declaration and
     definition of the tag p.
 */
@@ -1021,8 +969,6 @@ expand_tagdef(construct *p)
 
 
 /*
-    EXPAND ALL TOKEN DEFINITIONS
-
     This routine expands all defined tokens.
 */
 

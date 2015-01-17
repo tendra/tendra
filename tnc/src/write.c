@@ -22,25 +22,10 @@
 #include "write.h"
 
 
-/*
-    FLAGS CONTROLLING OUTPUT OF TOKENS ETC
-
-    The output is in the fully expanded form if verbose is true.  The
-    shape of each expression is printed if print_shapes is true.  The
-    flag func_output controls whether the output should be lisp-like
-    (default) or c-like.
-*/
-
 boolean verbose = 0;
 boolean print_shapes = 0;
 boolean func_output = 0;
 
-
-/*
-    PRINT A NUMBER OF SPACES
-
-    An indentation of d spaces is printed to the output file.
-*/
 
 static void
 print_spaces(int d)
@@ -50,13 +35,6 @@ print_spaces(int d)
 		(void) fputc(' ', output);
 }
 
-
-/*
-    PRINT A NODE
-
-    The node p is printed to the output file with an indentation of
-    d spaces.
-*/
 
 static boolean
 print_node(node *p, int d)
@@ -298,13 +276,6 @@ default_label:
 }
 
 
-/*
-    PRINT AN EXTERNAL NAME
-
-    The start of a statement with name title concerning the construct
-    p is output.  dec is true if this is the first statement concerning p.
-*/
-
 static void
 print_name(char *title, construct *p, int dec)
 {
@@ -344,12 +315,6 @@ print_name(char *title, construct *p, int dec)
 }
 
 
-/*
-    ALIGNMENT TAG DECLARATION AUXILIARY PRINTING ROUTINE
-
-    Print the declaration of the alignment tag p.
-*/
-
 static void
 print_aldec(construct *p)
 {
@@ -360,12 +325,6 @@ print_aldec(construct *p)
 	(void) fputs((func_output ? " ) ;\n\n" : " )\n\n"), output);
 }
 
-
-/*
-    ALIGNMENT TAG DEFINITION AUXILIARY PRINTING ROUTINE
-
-    Print the definition of the alignment tag p.
-*/
 
 static void
 print_aldef(construct *p)
@@ -389,12 +348,6 @@ print_aldef(construct *p)
 }
 
 
-/*
-    TAG DECLARATION AUXILIARY PRINTING ROUTINE
-
-    Print the declaration of the tag p.
-*/
-
 static void
 print_tagdec(construct *p)
 {
@@ -417,12 +370,6 @@ print_tagdec(construct *p)
 	(void) fputs((func_output ? " ) ;\n\n" : " )\n\n"), output);
 }
 
-
-/*
-    TAG DEFINITION AUXILIARY PRINTING ROUTINE
-
-    Print the definition of the tag p.
-*/
 
 static void
 print_tagdef(construct *p)
@@ -454,12 +401,6 @@ print_tagdef(construct *p)
 	}
 }
 
-
-/*
-    TOKEN DECLARATION AUXILIARY PRINTING ROUTINE
-
-    Print the declaration of the token p.
-*/
 
 static void
 print_tokdec(construct *p)
@@ -526,12 +467,6 @@ print_tokdec(construct *p)
 	(void) fputs((func_output ? " ) ;\n\n" : " )\n\n"), output);
 }
 
-
-/*
-    TOKEN DEFINITION AUXILIARY PRINTING ROUTINE
-
-    Print the definition of the token p.
-*/
 
 static void
 print_tokdef(construct *p)
@@ -607,12 +542,6 @@ print_tokdef(construct *p)
 }
 
 
-/*
-    PRINT A HIGH-LEVEL SORT
-
-    This routine prints the high level sort h.
-*/
-
 static void
 print_high_sort(high_sort *h)
 {
@@ -657,12 +586,6 @@ print_high_sort(high_sort *h)
 	(void) fputs((func_output ? " ) ;\n\n" : " )\n\n"), output);
 }
 
-
-/*
-    MAIN PRINTING ROUTINE
-
-    This routine prints an entire capsule to the output file.
-*/
 
 void
 print_capsule(void)

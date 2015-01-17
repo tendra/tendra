@@ -21,12 +21,6 @@
 #include "utility.h"
 
 
-/*
-    CREATE A NAT CORRESPONDING TO THE VALUE n
-
-    This routine creates a node corresponding to the nat with value n.
-*/
-
 node *
 make_nat(long n)
 {
@@ -38,13 +32,6 @@ make_nat(long n)
     return p;
 }
 
-
-/*
-    CREATE AN INTEGER CORRESPONDING TO THE VALUE n
-
-    This routine creates a node corresponding to the sign bit and the
-    value of n.
-*/
 
 node *
 make_int(long n)
@@ -63,12 +50,6 @@ make_int(long n)
 }
 
 
-/*
-    CREATE A SIGNED_NAT CORRESPONDING TO THE VALUE n
-
-    This routine creates a node corresponding to the signed_nat with value n.
-*/
-
 static node *
 make_signed_nat(long n)
 {
@@ -78,13 +59,6 @@ make_signed_nat(long n)
     return p;
 }
 
-
-/*
-    CREATE A MAKE_INT EXPRESSION CORRESPONDING TO THE VALUE n
-
-    This routine creates a node corresponding to a make_int expression of
-    shape sh and value n or val.
-*/
 
 static node *
 make_int_exp(node *sh, long n, char *val)
@@ -103,13 +77,6 @@ make_int_exp(node *sh, long n, char *val)
     return p;
 }
 
-
-/*
-    IS A NODE A CONSTANT?
-
-    This routine checks whether the node p represents a small integer
-    constant.  If so it returns the value of the constant via pn.
-*/
 
 static boolean
 is_constant(node *p, long *pn)
@@ -155,23 +122,9 @@ is_constant(node *p, long *pn)
 }
 
 
-/*
-    INTEGER TYPE MASKS
-
-    These values give the maximum values for the various known integral
-    types.
-*/
-
 static long var_max = 32;
 static unsigned long *var_mask;
 
-
-/*
-    IS A SHAPE A KNOWN INTEGRAL TYPE?
-
-    This routine checks whether the shape sh represents a known integral
-    type.  If so it returns the sign via pn and the size via pm.
-*/
 
 static boolean
 is_var_width(node *sh, long *pn, long *pm)
@@ -190,12 +143,6 @@ is_var_width(node *sh, long *pn, long *pm)
 }
 
 
-/*
-    CALCULATE 1 << n
-
-    This routine calculates '1 << n' as a string of octal digits.
-*/
-
 static char *
 shift_one(long n)
 {
@@ -212,13 +159,6 @@ shift_one(long n)
     return string_copy(buff,(int)(i + 1));
 }
 
-
-/*
-    CALCULATE val - 1
-
-    This routine calculates 'val - 1' for the string of octal digits val,
-    returning the result as a string of octal digits.
-*/
 
 static char *
 minus_one(char *val)
@@ -237,15 +177,6 @@ minus_one(char *val)
     return res;
 }
 
-
-/*
-    EVALUATE A CONSTANT EXPRESSION
-
-    This routine evaluates the constant expression given by the operation
-    op applied to the operands a and b in the type indicated by the shape
-    sh.  err gives the associated overflow error treatment, if any.  The
-    routine returns null if the value cannot be calculated.
-*/
 
 static node *
 eval_exp(long op, long err, node *sh, long a, long b)
@@ -410,14 +341,6 @@ eval_exp(long op, long err, node *sh, long a, long b)
 }
 
 
-/*
-    EVALUATE A CONSTANT CONDITION
-
-    This routine evaluates the condition tst for the values a and b.  It
-    returns 0 if the test is false, 1 if it is true and -1 if it cannot
-    be evaluated.
-*/
-
 static int
 eval_test(long tst, long a, long b)
 {
@@ -462,13 +385,6 @@ eval_test(long tst, long a, long b)
 }
 
 
-/*
-    EVALUATE A DECREMENT EXPRESSION
-
-    This routine evaluates 'p - 1' for the expression node p.  It returns
-    null if the value cannot be evaluated.
-*/
-
 static node *
 eval_decr(node *p)
 {
@@ -494,12 +410,6 @@ eval_decr(node *p)
     return null;
 }
 
-
-/*
-    EVALUATE A NODE
-
-    This routine evaluates the node p.  p will not be null.
-*/
 
 static node *
 eval_node(node *p)
@@ -711,13 +621,6 @@ eval_node(node *p)
 }
 
 
-/*
-    RECURSIVELY EVALUATE A NODE
-
-    This routine recursively calls eval_node to evaluate the node p and
-    all its subnodes.
-*/
-
 static node *
 eval_fully(node *p)
 {
@@ -731,12 +634,6 @@ eval_fully(node *p)
 }
 
 
-/*
-    EVALUATE A TOKEN DEFINITION
-
-    This routine evaluates the definition of the token p.
-*/
-
 static void
 eval_tokdef(construct *p)
 {
@@ -747,12 +644,6 @@ eval_tokdef(construct *p)
     return;
 }
 
-
-/*
-    EVALUATE AN ALIGNMENT TAG DEFINITION
-
-    This routine evaluates the definition of the alignment tag p.
-*/
 
 static void
 eval_aldef(construct *p)
@@ -765,12 +656,6 @@ eval_aldef(construct *p)
 }
 
 
-/*
-    EVALUATE A TAG DECLARATION AND DEFINITION
-
-    This routine evaluates the declaration and definition of the tag p.
-*/
-
 static void
 eval_tagdef(construct *p)
 {
@@ -782,12 +667,6 @@ eval_tagdef(construct *p)
     return;
 }
 
-
-/*
-    EVALUATE ALL TOKEN DEFINITIONS
-
-    This routine evaluates all token, alignment tag and tag definitions.
-*/
 
 void
 eval_all(void)
