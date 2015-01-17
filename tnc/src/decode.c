@@ -28,9 +28,7 @@
 
 
 /*
-    DECODE AN EXTENDED VALUE
-
-    An extended n bit encoding is decoded.
+	Decode an extended n-bit encoding.
 */
 
 long
@@ -44,12 +42,6 @@ fetch_extn(int n)
 	return r + s;
 }
 
-
-/*
-    DECODE A TDF INTEGER
-
-    A TDF integer is decoded and returned as a long (no overflow checks).
-*/
 
 long
 tdf_int(void)
@@ -66,11 +58,8 @@ tdf_int(void)
 
 
 /*
-    DECODE A TOKEN APPLICATION
-
-    A token application returning sort s is appended to p.  If s is
-    SORT_unknown a simple token (rather than a token application) is
-    read.
+	Append a token application to p returning sort s, unless s is
+	SORT_unknown, in which case read a simple token instead.
 */
 
 construct *
@@ -198,9 +187,7 @@ de_token(node *p, sortname s)
 
 
 /*
-    DECODE A VARIABLE SORT
-
-    A construct of the vth variable sort is decoded.
+	Decode a construct of the v'th variable sort.
 */
 
 node *
@@ -214,27 +201,6 @@ de_var_sort(long v)
 	return p;
 }
 
-
-/*
-    DECODE A LABEL
-
-    A label construct is decoded.
-*/
-/* Unused
-static void
-de_make_label(node *p)
-{
-	long n = tdf_int();
-	p->son = new_node();
-	p->son->cons = find_label(n);
-}
-*/
-
-/*
-    DECODE A STRING OF DECODE CHARACTERS
-
-    The string of decode character str is decoded.
-*/
 
 node *
 de_node(char *str)

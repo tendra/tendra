@@ -36,8 +36,6 @@
 #include "utility.h"
 
 
-/* INITIALISE CONSTRUCTS */
-
 void
 init_constructs(void)
 {
@@ -91,8 +89,6 @@ init_constructs(void)
 }
 @special sortname
 
-
-/* FIND A SORT NAME */
 
 sortname
 find_sort(char c)
