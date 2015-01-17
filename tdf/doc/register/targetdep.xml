@@ -184,6 +184,57 @@
 				that is exactly representable by the <code>FLOATING_VARIETY</code>
 				<code>.~rep_fv(n)</code>.</para>
 		</section>
+
+		<section>
+			<title><code>.~rep_fv_dig</code></title>
+
+			<programlisting language="tdf"><code>n</code>:	NAT
+	-&gt; EXP</programlisting>
+
+			<para><code>.~rep_fv_dig</code>(<code>n</code>) is
+				the number of decimal digits, <code>q</code>,
+				such that any floating point number
+				of <code>FLOATING_VARIETY</code> <code>.~rep_fv(n)</code>
+				with q decimal digits can be rounded into a
+				floating point number (of the same <code>FLOATING_VARIETY</code>)
+				with radix <code>.~rep_fv_radix</code>(<code>n</code>)
+				and back again without change to the
+				<code>q</code> decimal digits.</para>
+		</section>
+
+		<section>
+			<title><code>.~rep_fv_max_10_exp</code></title>
+
+			<programlisting language="tdf"><code>n</code>:	NAT
+	-&gt; EXP</programlisting>
+
+			<para><code>.~rep_fv_max_10_exp</code>(<code>n</code>) is
+				the maximum integer such that 10 raised to that power is in
+				the range of representable finite floating-point numbers
+				for the <code>FLOATING_VARIETY</code> <code>.~rep_fv(n)</code>.</para>
+		</section>
+
+		<section>
+			<title><code>.~rep_fv_min_norm_val</code></title>
+
+			<programlisting language="tdf"><code>n</code>:	NAT
+	-&gt; EXP</programlisting>
+
+			<para><code>.~rep_fv_min_norm_val</code>(<code>n</code>)
+				is the minimum negative integer such that
+				<code>.~rep_fv_radix</code>(<code>n</code>)
+				raised to that power is a normalized floating-point
+				number for the <code>FLOATING_VARIETY</code>
+				<code>.~rep_fv(n)</code>.
+				This is equivalent to
+				<code>.~rep_fv_min_val</code>(<code>n</code>),
+				but for a normalised value.</para>
+
+			<para>This is intended to correspond to C's <code>FLT_MIN</code>,
+				<code>DBL_MIN</code> and <code>LDBL_MIN</code> values,
+				but does not include the <code>-1</code> offset
+				present for those macros.</para>
+		</section>
 	</section>
 
 	<section>

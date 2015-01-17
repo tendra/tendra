@@ -1,7 +1,7 @@
 /* $Id$ */
 
 /*
- * Copyright 2014, The TenDRA Project.
+ * Copyright 2015, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
  *
  * See doc/copyright/ for the full copyright terms.
@@ -116,7 +116,7 @@ Tokdef .~rep_fv_max_val = [n:NAT] EXP
 
 /* These are minimum normalised values per the float.h *_MIN macros */
 /* n must be in range */
-Tokdef ieee754_min_val = [n:NAT] EXP
+Tokdef .~rep_fv_min_norm_val = [n:NAT] EXP
 	Var r:Int = snat_from_nat(false, n)(Int)
 	Labelled {
 		Case * r (1 -> l1, 2 -> l2, 3 -> l3, 4 -> l4)
@@ -127,7 +127,7 @@ Tokdef ieee754_min_val = [n:NAT] EXP
 	};
 
 /* n must be in range */
-Tokdef ieee754_max_10_exp = [n:NAT] NAT
+Tokdef .~rep_fv_max_10_exp = [n:NAT] NAT
 	computed_nat(
 		Var r:Int = snat_from_nat(false, n)(Int)
 		Labelled {
@@ -140,7 +140,7 @@ Tokdef ieee754_max_10_exp = [n:NAT] NAT
 	);
 
 /* n must be in range */
-Tokdef ieee754_dig = [n:NAT] NAT
+Tokdef .~rep_fv_dig = [n:NAT] NAT
 	computed_nat(
 		Var r:Int = snat_from_nat(false, n)(Int)
 		Labelled {

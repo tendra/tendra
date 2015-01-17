@@ -28,7 +28,7 @@ Tokdef __ABI_FLT_RADIX = [] EXP
 
 
 Tokdef __ABI_FLT_DIG = [] EXP
-	snat_from_nat(false, ieee754_dig[.~abi_float_rep]) (Int);
+	snat_from_nat(false, .~rep_fv_dig[.~abi_float_rep]) (Int);
 
 Tokdef __ABI_FLT_EPSILON = [] EXP
 	.~rep_fv_epsilon[.~abi_float_rep];
@@ -37,16 +37,16 @@ Tokdef __ABI_FLT_MANT_DIG = [] EXP
 	snat_from_nat(false, .~rep_fv_mantissa[.~abi_float_rep]) (Int);
 
 Tokdef __ABI_FLT_MIN = [] EXP
-	ieee754_min_val[.~abi_float_rep];
+	.~rep_fv_min_norm_val[.~abi_float_rep];
 
 Tokdef __ABI_FLT_MAX = [] EXP
 	.~rep_fv_max_val[.~abi_float_rep];
 
 Tokdef __ABI_FLT_MAX_10_EXP = [] EXP
-	snat_from_nat(false, ieee754_max_10_exp[.~abi_float_rep]) (Int);
+	snat_from_nat(false, .~rep_fv_max_10_exp[.~abi_float_rep]) (Int);
 
 Tokdef __ABI_FLT_MIN_10_EXP = [] EXP
-	-(snat_from_nat(false, ieee754_max_10_exp[.~abi_float_rep]) (Int) - 1(Int));
+	-(snat_from_nat(false, .~rep_fv_max_10_exp[.~abi_float_rep]) (Int) - 1(Int));
 
 Tokdef __ABI_FLT_MAX_EXP = [] EXP
 	snat_from_nat(false, .~rep_fv_max_exp[.~abi_float_rep]) (Int);
@@ -78,7 +78,7 @@ Tokdef __ABI_FLT_MIN_EXP = [] EXP
 
 
 Tokdef __ABI_DBL_DIG = [] EXP
-	snat_from_nat(false, ieee754_dig[.~abi_double_rep]) (Int);
+	snat_from_nat(false, .~rep_fv_dig[.~abi_double_rep]) (Int);
 
 Tokdef __ABI_DBL_EPSILON = [] EXP
 	.~rep_fv_epsilon[.~abi_double_rep];
@@ -87,16 +87,16 @@ Tokdef __ABI_DBL_MANT_DIG = [] EXP
 	snat_from_nat(false, .~rep_fv_mantissa[.~abi_double_rep]) (Int);
 
 Tokdef __ABI_DBL_MIN = [] EXP
-	ieee754_min_val[.~abi_double_rep];
+	.~rep_fv_min_norm_val[.~abi_double_rep];
 
 Tokdef __ABI_DBL_MAX = [] EXP
 	.~rep_fv_max_val[.~abi_double_rep];
 
 Tokdef __ABI_DBL_MAX_10_EXP = [] EXP
-	snat_from_nat(false, ieee754_max_10_exp[.~abi_double_rep]) (Int);
+	snat_from_nat(false, .~rep_fv_max_10_exp[.~abi_double_rep]) (Int);
 
 Tokdef __ABI_DBL_MIN_10_EXP = [] EXP
-	-(snat_from_nat(false, ieee754_max_10_exp[.~abi_double_rep]) (Int) - 1(Int));
+	-(snat_from_nat(false, .~rep_fv_max_10_exp[.~abi_double_rep]) (Int) - 1(Int));
 
 Tokdef __ABI_DBL_MAX_EXP = [] EXP
 	snat_from_nat(false, .~rep_fv_max_exp[.~abi_double_rep]) (Int);
@@ -106,7 +106,7 @@ Tokdef __ABI_DBL_MIN_EXP = [] EXP
 
 
 Tokdef __ABI_LDBL_DIG = [] EXP
-	snat_from_nat(false, ieee754_dig[.~abi_longdouble_rep]) (Int);
+	snat_from_nat(false, .~rep_fv_dig[.~abi_longdouble_rep]) (Int);
 
 Tokdef __ABI_LDBL_EPSILON = [] EXP
 	.~rep_fv_epsilon[.~abi_longdouble_rep];
@@ -115,16 +115,16 @@ Tokdef __ABI_LDBL_MANT_DIG = [] EXP
 	snat_from_nat(false, .~rep_fv_mantissa[.~abi_longdouble_rep]) (Int);
 
 Tokdef __ABI_LDBL_MIN = [] EXP
-	ieee754_min_val[.~abi_longdouble_rep];
+	.~rep_fv_min_norm_val[.~abi_longdouble_rep];
 
 Tokdef __ABI_LDBL_MAX = [] EXP
 	.~rep_fv_max_val[.~abi_longdouble_rep];
 
 Tokdef __ABI_LDBL_MAX_10_EXP = [] EXP
-	snat_from_nat(false, ieee754_max_10_exp[.~abi_longdouble_rep]) (Int);
+	snat_from_nat(false, .~rep_fv_max_10_exp[.~abi_longdouble_rep]) (Int);
 
 Tokdef __ABI_LDBL_MIN_10_EXP = [] EXP
-	-(snat_from_nat(false, ieee754_max_10_exp[.~abi_longdouble_rep]) (Int) - 1(Int));
+	-(snat_from_nat(false, .~rep_fv_max_10_exp[.~abi_longdouble_rep]) (Int) - 1(Int));
 
 Tokdef __ABI_LDBL_MAX_EXP = [] EXP
 	snat_from_nat(false, .~rep_fv_max_exp[.~abi_longdouble_rep]) (Int);
@@ -136,6 +136,7 @@ Tokdef __ABI_LDBL_MIN_EXP = [] EXP
 Keep (
 	.~rep_fv, .~rep_fv_width, .~rep_fv_radix, .~rep_fv_mantissa, .~rep_fv_min_exp,
 	.~rep_fv_max_exp, .~rep_fv_epsilon, .~rep_fv_min_val, .~rep_fv_max_val,
+	.~rep_fv_min_norm_val, .~rep_fv_max_10_exp, .~rep_fv_dig,
 
 	.~abi_float_rep, .~abi_double_rep, .~abi_longdouble_rep,
 
