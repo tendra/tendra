@@ -20,8 +20,6 @@
 
 
 /*
-    CURRENT AND PREVIOUS LINE NUMBERS
-
     The previous line (where any errors were likely to have been).
 */
 
@@ -29,8 +27,6 @@ long line_no = 1;
 
 
 /*
-    FORM OF INPUT
-
     This flag controls whether the input should be lisp-like (default)
     or c-like.
 */
@@ -39,8 +35,6 @@ boolean func_input = 0;
 
 
 /*
-    ANALYSE FLAGS
-
     The looked_ahead flag is true to indicate that the next word has
     already been read.  The really_analyse flag is false to indicate
     that the next word may be ignored.
@@ -51,8 +45,6 @@ static boolean really_analyse = 1;
 
 
 /*
-    INPUT BUFFER
-
     The input is read into a buffer.
 */
 
@@ -61,8 +53,6 @@ static char word_buff[BUFFSIZE];
 
 
 /*
-    LAST WORD READ
-
     The word just read from the input file is word.  It has length
     word_length and input type word_type.
 */
@@ -73,8 +63,6 @@ int word_type = INPUT_EOF;
 
 
 /*
-    PENDING CHARACTER
-
     In reading a word we almost always read one too many character.
     This is stored in pending.  A value of 0 indicates that there is
     no pending character.
@@ -84,8 +72,6 @@ static int pending = 0;
 
 
 /*
-    READ THE NEXT WORD
-
     The next word is read from the input file.
 */
 
@@ -460,8 +446,6 @@ read_word(void)
 
 
 /*
-    HOW MANY WORDS TO THE NEXT CLOSE BRACKET?
-
     This routine skips over the input until the first closing bracket
     unmatched by an open bracket is read.  The routine returns the
     number of word read at the highest bracket level.  (Not currently
@@ -502,8 +486,6 @@ skip_words(void)
 
 
 /*
-    STORE THE CURRENT POSITION
-
     The current position in the input file is stored in p.
 */
 
@@ -518,8 +500,6 @@ store_position(position *p)
 
 
 /*
-    SET THE CURRENT POSITION
-
     The position in the input file is set from p.
 */
 

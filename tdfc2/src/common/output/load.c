@@ -65,8 +65,6 @@
 
 
 /*
-    FORWARD DECLARATIONS
-
     The following forward declarations are required in the spec input
     routines.
 */
@@ -81,8 +79,6 @@ static void load_nspace(BITSTREAM *, NAMESPACE, int);
 
 
 /*
-    SPEC INPUT ERROR FLAG
-
     This flag is set to true to indicate a spec input error.
 */
 
@@ -90,8 +86,6 @@ static int spec_error = 0;
 
 
 /*
-    SPEC ERROR ROUTINE
-
     This routine is called when a spec input error occurs.  code gives
     the reason for the error.
 */
@@ -107,8 +101,6 @@ spec_fail(int code)
 
 
 /*
-    SPEC ERROR CODES
-
     The spec error codes are given by the corresponding source line.
     This macro gives a convenient shorthand for calling spec_fail.
 */
@@ -121,8 +113,6 @@ spec_fail(int code)
 
 
 /*
-    SIMPLE READING ROUTINES
-
     These macros give the simple reading routines for the enumeration
     types etc.  Note that DE_BITS_2 is used for types which occupy more
     than 16 bits.
@@ -138,8 +128,6 @@ spec_fail(int code)
 
 
 /*
-    READ A LEXICAL TOKEN NUMBER
-
     This routine reads a lexical token number from the bitstream bs.
 */
 
@@ -156,8 +144,6 @@ load_lex(BITSTREAM *bs)
 
 
 /*
-    READ A LIST OF PREPROCESSING TOKENS
-
     This routine reads a list of preprocessing tokens from the
     bitstream bs.
 */
@@ -172,8 +158,6 @@ load_pptoks(BITSTREAM *bs)
 
 
 /*
-    READ A LOCATION
-
     This routine reads the current location from the bitstream bs.
 */
 
@@ -234,8 +218,6 @@ load_loc(BITSTREAM *bs)
 
 
 /*
-    READ AN IDENTIFIER NAME
-
     This routine reads an identifier name from the bitstream bs.  ns gives
     the current namespace.
 */
@@ -322,8 +304,6 @@ load_hashid(BITSTREAM *bs, NAMESPACE ns)
 
 
 /*
-    READ A LIST OF IDENTIFIER NAMES
-
     This routine reads a list of identifier names from the bitstream bs.
 */
 
@@ -345,8 +325,6 @@ load_hashid_list(BITSTREAM *bs, NAMESPACE ns)
 
 
 /*
-    IDENTIFIER LOOK-UP TABLE
-
     These variables give the table which gives the mapping between identifier
     numbers and identifiers.
 */
@@ -357,8 +335,6 @@ static ulong ids_pending = 0;
 
 
 /*
-    LOOK UP IDENTIFIER IN TABLE
-
     This routine returns a pointer to the dth element of the table above,
     extending it if necessary.
 */
@@ -383,8 +359,6 @@ id_lookup(ulong d)
 
 
 /*
-    READ AN IDENTIFIER NUMBER
-
     This routine reads an identifier number from the bitstream bs.  It is
     possible for an identifier to be used before it is declared using
     load_id.
@@ -416,8 +390,6 @@ load_use(BITSTREAM *bs, unsigned tag)
 
 
 /*
-    READ A LIST OF IDENTIFIER NUMBERS
-
     This routine reads a list of identifier numbers from the bitstream bs.
 */
 
@@ -438,8 +410,6 @@ load_use_list(BITSTREAM *bs)
 
 
 /*
-    READ A LIST OF TOKENS
-
     This routine reads a list of tokens from the bitstream bs.  def is
     as in load_tok.
 */
@@ -461,8 +431,6 @@ load_tok_list(BITSTREAM *bs, int def)
 
 
 /*
-    READ AN INTEGER CONSTANT
-
     This routine reads an integer constant from the bitstream bs.
 */
 
@@ -539,8 +507,6 @@ load_nat(BITSTREAM *bs)
 
 
 /*
-    READ AN OFFSET
-
     This routine reads an offset from the bitstream bs.
 */
 
@@ -554,8 +520,6 @@ load_off(BITSTREAM *bs)
 
 
 /*
-    READ AN EXPRESSION
-
     This routine reads an expression from the bitstream bs.
 */
 
@@ -608,8 +572,6 @@ load_exp(BITSTREAM *bs, TYPE t)
 
 
 /*
-    READ A BUILT-IN TYPE
-
     This routine reads a built-in type number from the bitstream bs.
 */
 
@@ -626,8 +588,6 @@ load_ntype(BITSTREAM *bs)
 
 
 /*
-    READ AN INTEGRAL TYPE
-
     This routine reads a integral type from the bitstream bs.  Note that
     the result is returned as a type rather than an integral type.
 */
@@ -729,8 +689,6 @@ load_itype(BITSTREAM *bs, CV_SPEC cv, unsigned tag)
 
 
 /*
-    READ A FLOATING POINT TYPE
-
     This routine reads a floating point type from the bitstream bs.  Note
     that the result is returned as a type rather than a floating point type.
 */
@@ -799,8 +757,6 @@ load_ftype(BITSTREAM *bs, CV_SPEC cv)
 
 
 /*
-    READ A BASE CLASS GRAPH
-
     This routine reads a base class from the bitstream bs.  gu gives the
     parent graph and gt gives the top of the graph.
 */
@@ -842,8 +798,6 @@ load_graph(BITSTREAM *bs, GRAPH gu, GRAPH gt)
 
 
 /*
-    READ A CLASS TYPE
-
     This routine reads a class type from the bitstream bs.  If def is not
     null then the full class definition is read, otherwise just a use is
     read.
@@ -923,8 +877,6 @@ load_ctype(BITSTREAM *bs, IDENTIFIER def, CLASS_TYPE *pct)
 
 
 /*
-    READ AN ENUMERATION TYPE
-
     This routine reads an enumeration type from the bitstream bs.  If def
     is not null then the full enumeration definition is read, otherwise
     just a use is read.
@@ -978,8 +930,6 @@ load_etype(BITSTREAM *bs, IDENTIFIER def, ENUM_TYPE *pet)
 
 
 /*
-    READ A FUNCTION PARAMETER LIST
-
     This routine reads a list of function or template parameters (as
     indicated by tag) from the bitstream bs into the namespace ns.
 */
@@ -1007,8 +957,6 @@ load_param_list(BITSTREAM *bs, NAMESPACE ns, unsigned tag)
 
 
 /*
-    READ A TYPE
-
     This routine reads a type from the bitstream bs.  def is passed to
     load_ctype and load_etype.
 */
@@ -1249,8 +1197,6 @@ load_type(BITSTREAM *bs, IDENTIFIER def)
 
 
 /*
-    READ A LIST OF TYPES
-
     This routine reads a list of types from the bitstream bs.
 */
 
@@ -1271,8 +1217,6 @@ load_type_list(BITSTREAM *bs)
 
 
 /*
-    READ A TOKEN
-
     This routine reads a token from the bitstream bs.  If def is true
     then the token value is also read.
 */
@@ -1433,8 +1377,6 @@ load_tok(BITSTREAM *bs, int def)
 
 
 /*
-    READ AN IDENTIFIER
-
     This routine reads a member of the namespace ns from the bitstream bs.
 */
 
@@ -1730,8 +1672,6 @@ load_id(BITSTREAM *bs, NAMESPACE ns)
 
 
 /*
-    READ NAMESPACE MEMBERS
-
     This routine reads the members of a class or namespace and the instances
     of a template class or template function.
 */
@@ -1788,8 +1728,6 @@ load_members(BITSTREAM *bs, IDENTIFIER id)
 
 
 /*
-    READ A LIST OF NAMESPACE MEMBERS
-
     This routine reads the members of the namespace ns from the bitstream
     bs.  The list is terminated by a null identifier.  The routine is
     also used with inst true to read a list of template instances.
@@ -1852,8 +1790,6 @@ load_nspace(BITSTREAM *bs, NAMESPACE ns, int inst)
 
 
 /*
-    READ A SPEC FILE
-
     This routine reads a spec file from the input file.  It returns zero
     for a legal spec file.  The identifiers are initially read into a
     dummy namespace which is then merged with the existing namespace.

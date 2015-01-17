@@ -51,8 +51,6 @@ extern double atof(const char *);
 
 
 /*
-    ARRAY OF DIAGNOSTIC DIRECTIVES
-
     This array gives information on all the available diagnostic directives,
     included those which are unused.
 */
@@ -88,8 +86,6 @@ diag_directive dd[] = {
 
 
 /*
-    DIAGNOSTICS FILES
-
     There are three sections of diagnostic information in the new
     diagnostics mode (the vt, lntt and gntt sections).  One temporary
     file is used for each.  In the old diagnosics mode there is
@@ -103,8 +99,6 @@ static FILE *diagfp3;
 
 
 /*
-    INITIALIZE DIAGNOSTICS FILES
-
     The temporary files are opened, and the headings of the various
     sections are printed.
 */
@@ -167,8 +161,6 @@ void init_diag
 
 
 /*
-    COPY A FILE
-
     The the file is copied to the main output file, as_file.
 */
 
@@ -184,8 +176,6 @@ static void copy_diag_file
 
 
 /*
-    VT AREA NEWLINE FLAG
-
     This flag is true if a newline has just been output in the vt area.
 */
 
@@ -193,8 +183,6 @@ static int vt_newline = 1;
 
 
 /*
-    COPY DIAGNOSTICS FILES
-
     All the diagnostic files are copied to the main output file.
 */
 
@@ -218,8 +206,6 @@ void copy_diag
 
 
 /*
-    OUTPUT A DIAGNOSTICS STRING
-
     Diagnostic strings (eg. procedure and variable names) are dealt with
     differently in the two formats.  In the old format they are output
     direct, in the new they are added to the vt table and the offset
@@ -264,8 +250,6 @@ void diag_string
 
 
 /*
-    CURRENT FILE INDEX AND LINE NUMBER
-
     These variables record the current position in the source file.
 */
 
@@ -274,8 +258,6 @@ long crt_line_num = -1;
 
 
 /*
-    NUMBER OF SLT INSTRUCTIONS
-
     A count of the number of slt instructions is maintained.
 */
 
@@ -283,8 +265,6 @@ static int slt_num = 0;
 
 
 /*
-    PRINT AN SLT SPECIAL INSTRUCTION
-
     An sltspecial instruction is output.  This goes straight into the
     main output file.
 */
@@ -307,8 +287,6 @@ static void slt_special
 
 
 /*
-    OUTPUT A SLT NORMAL INSTRUCTION
-
     An sltnormal instruction is output.  This goes straight into the
     main output file.
 */
@@ -334,8 +312,6 @@ static void slt_normal
 
 
 /*
-    OUTPUT A SLT EXIT INSTRUCTION
-
     An sltexit instruction is output (new format only).
 */
 
@@ -410,8 +386,6 @@ static bool have_module = 0;
 
 
 /*
-    DIAGNOSTICS FOR FILE NAME
-
     This routine output the necessary instructions to indicate a change
     of source file.
 */
@@ -459,8 +433,6 @@ void diag_source_file
 
 
 /*
-    DIAGNOSTICS FOR LINE NUMBER
-
     This routine outputs an instruction indicating the position within
     the source file.
 */

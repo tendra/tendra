@@ -51,8 +51,6 @@
 
 
 /*
-    FORWARD DECLARATIONS
-
     The following functions, which are concerned with processing assertions,
     are used in read_if_exp before they are defined.
 */
@@ -63,8 +61,6 @@ static int check_assert(HASHID, PPTOKEN *, int);
 
 
 /*
-    PREPROCESSING FLAGS
-
     The flag in_preproc_dir is set to true in a preprocessing directive.
     The flag preproc_only causes only the preprocessor to be run.  Finally
     preproc_loc records the position of the start of each preprocessing
@@ -82,8 +78,6 @@ LOCATION preproc_loc = NULL_loc;
 
 
 /*
-    NEGATE A CONDITIONAL
-
     This routine negates the conditional cond.  Note that skipped and
     unresolved conditions negate to themselves.
 */
@@ -105,8 +99,6 @@ negate_cond(unsigned cond)
 
 
 /*
-    CONDITIONAL COMPILATION STACK
-
     The stack preproc_stack gives all the active conditional compilation
     states.  In addition loc_stack records the corresponding file locations.
     preproc_depth gives the depth of conditional compilation within the
@@ -119,8 +111,6 @@ static unsigned preproc_depth = 0;
 
 
 /*
-    SET UP CONDITIONAL COMPILATION STACK
-
     This routine sets up the conditional compilation stack at the start
     of a source file by pushing an end marker.
 */
@@ -137,8 +127,6 @@ start_preproc_if(void)
 
 
 /*
-    CLEAR CONDITIONAL COMPILATION STACK
-
     This routine is called at the end of each source file to check for
     any unmatched '#if', '#elif' or '#else' directives.  It clears the
     conditional compilation stack down as far as the end marker set up
@@ -180,8 +168,6 @@ clear_preproc_if(void)
 
 
 /*
-    MACRO-LIKE TOKEN IDENTIFIER
-
     If check_macro finds a macro-like token then the corresponding identifier
     is stored in this variable.
 */
@@ -190,8 +176,6 @@ IDENTIFIER token_macro = NULL_id;
 
 
 /*
-    CHECK WHETHER A MACRO IS DEFINED
-
     This routine checks whether the hash table entry macro represents a
     valid macro.  It returns PP_TRUE if macro is already defined and
     PP_FALSE otherwise.  It also reports on ISO keywords and other invalid
@@ -283,8 +267,6 @@ check_macro(HASHID macro, int used)
 
 
 /*
-    TARGET DEPENDENT CONDITION
-
     Any target dependent conditional compilation expressions encountered
     are stored in this variable.
 */
@@ -293,8 +275,6 @@ EXP crt_hash_if_exp = NULL_exp;
 
 
 /*
-    PATCH PREPROCESSING DIRECTIVE INTO PREPROCESSOR OUTPUT
-
     This routine is used to patch the preprocessing directive given by
     the preprocessing tokens p into the main preprocessor output.  It is
     used to preserve target dependent conditionals and other directives
@@ -319,8 +299,6 @@ patch_preproc_dir(PPTOKEN *p)
 
 
 /*
-    READ AN EXPRESSION COMPILATION CONDITION
-
     This routine reads the constant expression following a '#if' or '#elif'
     preprocessing directive.  It returns a value indicating whether the
     expression is zero or nonzero.  The argument act is false to indicate
@@ -574,8 +552,6 @@ read_if_exp(int act, int dir)
 
 
 /*
-    READ A DEFINED COMPILATION CONDITION
-
     This routine reads the macro identifier following a '#ifdef' or
     '#ifndef' preprocessing directive.  It returns a value indicating
     whether the macro is defined or not.  The argument act is false to
@@ -619,8 +595,6 @@ read_if_def(int act, int dir, int prev)
 
 
 /*
-    DEAL WITH CONDITIONAL COMPILATIONS
-
     This routine deals with the various conditional compilation preprocessing
     directives.  dir gives the directive identifier and c indicates the
     associated condition.  The skipping of unused code is incorporated into
@@ -827,8 +801,6 @@ read_if(int dir, unsigned c, int prev)
 
 
 /*
-    PATCH TARGET DEPENDENT CONDITIONALS
-
     Any list of statements in a target dependent conditional are treated
     as if they comprised a compound statement.  In particular any variables
     declared within the conditional are only in scope inside that condition.
@@ -958,8 +930,6 @@ patch_cond(int t, int dir)
 
 
 /*
-    READ AN INCLUDE DIRECTIVE
-
     This routine processes a '#include' or similar directive.  This consists
     of just a header name or a sequence of tokens which expand to a header
     name.  If act is true then the actual inclusion is initialised.
@@ -1087,8 +1057,6 @@ read_include(int act, int dir)
 
 
 /*
-    CHECK THAT TWO PREPROCESSING TOKENS ARE EQUAL
-
     This routine checks whether the lists of preprocessing tokens p and q
     are identical.  It returns 2 if they are equal including preceeding
     white spaces, 1 if they are otherwise equal, and 0 otherwise.
@@ -1174,8 +1142,6 @@ eq_pptok(PPTOKEN *p, PPTOKEN *q)
 
 
 /*
-    CHECK CONSISTENCY OF TWO MACRO DEFINITIONS
-
     This routine checks that a definition of the macro given by id_new is
     consistent with the previous definition, id_old.  It returns an error
     message reporting on the level of consistency.
@@ -1277,8 +1243,6 @@ check_macro_redef(IDENTIFIER id_new, IDENTIFIER id_old)
 
 
 /*
-    FREE A MACRO DEFINITION
-
     This routine frees the macro definition given by the identifier id.
     It returns the previous definition of id.
 */
@@ -1301,8 +1265,6 @@ free_macro_defn(IDENTIFIER id)
 
 
 /*
-    READ A DEFINE DIRECTIVE
-
     This routine processes a '#define' directive.  This consists of a macro
     identifier, and optional list of macro parameters, and a list of token
     comprising the macro definition.  Note that the list of parameters is
@@ -1584,8 +1546,6 @@ read_define(void)
 
 
 /*
-    READ AN UNDEFINE DIRECTIVE
-
     This routine processes a '#undef' directive.  This just consists of a
     macro identifier.  The routine returns true if the macro represents
     a token.
@@ -1680,8 +1640,6 @@ read_undef(void)
 
 
 /*
-    READ A LINE DIRECTIVE
-
     This routine processes a '#line' or '#file' directive (as indicated
     by dir).
 */
@@ -1759,8 +1717,6 @@ read_location(int dir)
 
 
 /*
-    READ AN ERROR DIRECTIVE
-
     This routine processes a '#error' or '#warning' directive (as indicated
     by the error severity level sev).
 */
@@ -1782,8 +1738,6 @@ read_error(int opt)
 
 
 /*
-    READ AN IDENT DIRECTIVE
-
     This routine processes a '#ident' directive.
 */
 
@@ -1810,8 +1764,6 @@ read_ident(int dir)
 
 
 /*
-    CREATE AN ASSERTION
-
     This routine looks up the assertion named pred, creating it if it does
     not already exist.
 */
@@ -1833,8 +1785,6 @@ make_assert(HASHID pred, int key)
 
 
 /*
-    SKIP A PREDICATE
-
     This routine skips a predicate given by the list of preprocessing
     tokens p.  It is entered after the initial open bracket and returns
     the token after the matching close bracket.
@@ -1893,8 +1843,6 @@ skip_predicate(PPTOKEN **p, int dir)
 
 
 /*
-    CHECK A PREDICATE VALUE
-
     This routine checks whether the value p, or any value if def is true,
     has been defined in the predicate pred.
 */
@@ -1973,8 +1921,6 @@ check_assert(HASHID pred, PPTOKEN *p, int def)
 
 
 /*
-    SET A PREDICATE VALUE
-
     This routine sets the assertion value of the preprocessing tokens p
     in the predicate id to be def.
 */
@@ -2011,8 +1957,6 @@ set_assert(IDENTIFIER id, PPTOKEN *p, int def)
 
 
 /*
-    READ AN ASSERT DIRECTIVE
-
     This routine processes a '#assert' directive.
 */
 
@@ -2060,8 +2004,6 @@ read_assert(int dir)
 
 
 /*
-    READ AN UNASSERT DIRECTIVE
-
     This routine processes a '#unassert' directive.
 */
 
@@ -2123,8 +2065,6 @@ read_unassert(int dir)
 
 
 /*
-    LOOK UP AN IDENTIFIER IN A PRAGMA WEAK DIRECTIVE
-
     This routine looks up the identifier named nm used in a '#pragma
     weak' directive.  The result should be an external variable or
     function.  The null identifier is returned to indicate an error.
@@ -2166,8 +2106,6 @@ find_weak_id(HASHID nm)
 
 
 /*
-    READ A PRAGMA WEAK DIRECTIVE
-
     This routine processes a '#pragma weak' directive.
 */
 
@@ -2232,8 +2170,6 @@ read_weak(int dir)
 
 
 /*
-    READ A PREPROCESSING DIRECTIVE
-
     This routine processes a preprocessing directive up to and including
     the terminating newline character.  The act argument indicates
     whether the directive is active or is being skipped in a conditional
@@ -2534,8 +2470,6 @@ print_linedir(FILE *f, LOCATION loc)
 }
 
 /*
-    PREPROCESS A FILE
-
     This routine gives the preprocessor entry point for the compiler.  Each
     token is read, preprocessed, and printed.  The white space in the output
     does not necessarily bear any resemblance to that in the input.

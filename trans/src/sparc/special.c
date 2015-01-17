@@ -47,8 +47,6 @@
 #include "makecode.h"
 
 /*
-    FIND SPECIAL PROCEDURE NUMBER
-
     A value of 0 indicates that the procedure name n is not special.  A
     value > 0 indicates a special procedure handled by specialmake.  A
     value < 0 indicates a special procedure handled bu specialneeds.
@@ -103,8 +101,6 @@ special_call_name ( int i )
 
 
 /*
-    REGISTER REQUIREMENTS
-
     These indicate respectively needs of zero, one and two fixed register.
 */
 
@@ -326,8 +322,6 @@ specialmake ( int i, exp par, space sp, where dest, int exitlab ){
 
 
 /*
-    TDF LIBRARY KEY
-
     A value of 0 means that the library is not present, 1 that it is, and
     2 that it should be generated.
 */

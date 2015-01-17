@@ -36,8 +36,6 @@
 
 
 /*
-    NUMBER OF PENDING DESTRUCTORS
-
     This variable keeps track of the number of destructors for local
     variables which are pending at any moment during the TDF generation.
     This includes such pseudo-destructors as for jump locations in
@@ -48,8 +46,6 @@ unsigned long no_destructors = 0;
 
 
 /*
-    TDF STATEMENT ENCODING ROUTINES
-
     The remaining routines are only included if TDF output is enabled.
 */
 
@@ -57,8 +53,6 @@ unsigned long no_destructors = 0;
 
 
 /*
-    FIND THE NUMBER OF COMPONENTS IN A STATEMENT
-
     This routine finds the number of components in the statement e,
     ignoring trivial statements and expanding compound statements
     recursively.  The result equals the number of statements added to
@@ -116,8 +110,6 @@ stmt_length(EXP e)
 
 
 /*
-    ENCODE A COMPOUND STATEMENT
-
     This routine adds the statement e to the bitstream bs, ignoring
     trivial statements and expanding compound statements recursively.
 */
@@ -178,8 +170,6 @@ enc_compound_stmt(BITSTREAM *bs, EXP e)
 
 
 /*
-    ENCODE A LIST OF DESTRUCTORS
-
     This routine adds all the destructors and pseudo-destructors called
     by a jump from e to d to the bitstream bs.
 */
@@ -262,8 +252,6 @@ enc_destructors(BITSTREAM *bs, EXP e, EXP d)
 
 
 /*
-    ENCODE THE DESTRUCTOR FOR A CONDITION DECLARATION
-
     If a condition-declaration in a while or for loop has a destructor
     then this destructor needs to be called at the completion of the
     loop (this is the normal end-of-scope destructor) and just before
@@ -296,8 +284,6 @@ enc_while_destr(BITSTREAM *bs, LIST(IDENTIFIER)ids)
 
 
 /*
-    ENCODE A LABELLED STATEMENT
-
     This routine adds the labelled statement 'e' to the bitstream bs.
 */
 
@@ -339,8 +325,6 @@ enc_label_stmt(BITSTREAM *bs, EXP e)
 
 
 /*
-    ADD A LABEL TO A LIST
-
     This routine adds the label lab to the list q if it has not been
     output in bitstream bs and is not already a member of the list.
 */
@@ -362,8 +346,6 @@ add_label(BITSTREAM *bs, IDENTIFIER lab, LIST(IDENTIFIER)q)
 
 
 /*
-    ADD A NUMBER OF LABELS TO A LIST
-
     This routine adds the those labels in the list p which have not been
     output in bitstream bs to the list q.
 */
@@ -381,8 +363,6 @@ add_labels(BITSTREAM *bs, LIST(IDENTIFIER)p, LIST(IDENTIFIER)q)
 
 
 /*
-    ENCODE THE START OF A LABELLED STATEMENT
-
     This routine adds the start of a labelled statement for the labels
     lbs to the bitstream bs.  This comprises outputting the list of
     labels.  vars gives a list of variable declarations which need to
@@ -436,8 +416,6 @@ enc_labelled_start(BITSTREAM *bs, LIST(IDENTIFIER)lbs,
 
 
 /*
-    ENCODE A BRANCH OF A LABELLED STATEMENT
-
     This routine adds the branch of the labelled statement d corresponding
     to the label lab to the bitstream bs.  Note that each such branch is
     terminated by a jump to an immediately following label, a jump to an
@@ -607,8 +585,6 @@ enc_labelled_branch(BITSTREAM *bs, IDENTIFIER lab, EXP d)
 
 
 /*
-    ENCODE THE END OF A LABELLED STATEMENT
-
     This routine adds the end of the labelled statement e to the bitstream
     bs.  This comprises outputting the list of label bodies for the labels
     lbs and then taking the labels and the variables vars out of scope.
@@ -667,8 +643,6 @@ enc_labelled_end(BITSTREAM *bs, LIST(IDENTIFIER)lbs, LIST(IDENTIFIER)vars,
 
 
 /*
-    CURRENT ENCODING LOCATION
-
     This location is used to store the current location during the
     encoding of statements.
 */
@@ -677,8 +651,6 @@ PTR(LOCATION)crt_enc_loc = NULL_ptr(LOCATION);
 
 
 /*
-    ENCODE A DECLARATION STATEMENT
-
     This routine adds the declaration statement e to the bitstream bs.
 */
 
@@ -791,8 +763,6 @@ enc_decl_stmt(BITSTREAM *bs, EXP e)
 
 
 /*
-    ENCODE A TDF BODY STATEMENT
-
     This routine is identical to enc_stmt except that it makes explicit
     provision for diagnostic information.
 */
@@ -812,8 +782,6 @@ enc_body_stmt(BITSTREAM *bs, EXP e)
 
 
 /*
-    ENCODE A TDF STATEMENT
-
     This routine adds the statement e to the bitstream bs as a TDF EXP.
 */
 
@@ -1218,8 +1186,6 @@ enc_stmt(BITSTREAM *bs, EXP e)
 
 
 /*
-    ENCODE A TDF EXPRESSION STATEMENT
-
     This routine adds the expression statement e to the bitstream bs as
     a TDF EXP.  use indicates how the value of the expression is used.
 */

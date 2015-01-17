@@ -38,8 +38,6 @@
 
 
 /*
-    FUNDAMENTAL TYPE INFORMATION
-
     These values give the fundamental information about the built-in
     types, the sizes of the various types, whether char is signed, and
     whether the signed ranges are full (for example [-128,127]) or
@@ -73,8 +71,6 @@ BASE_INFO basetype_info[ORDER_ntype] = {
 
 
 /*
-    STANDARD LISTS OF TYPES
-
     These variables give various standard lists of types.
 */
 
@@ -84,8 +80,6 @@ LIST(TYPE) all_llong_types = NULL_list(TYPE);
 
 
 /*
-    TABLE OF BASIC TYPE CONVERSIONS
-
     This table gives the severity levels for conversions between the
     various built-in types (the source types are listed along the right
     hand side, and the destination types along the top).  The first row
@@ -141,8 +135,6 @@ int max_builtin_cast = 3;
 
 
 /*
-    COPY BUILT-IN CASTS
-
     This routine copies the built-in cast values for type m into type n.
 */
 
@@ -163,8 +155,6 @@ copy_builtin_cast(BUILTIN_TYPE n, BUILTIN_TYPE m)
 
 
 /*
-    SET EXACT TYPE RANGES
-
     This routine recalculates the table of built-in casts on the assumption
     that the type sizes given in basetype_info are exact.  The definition
     of what constitutes a safe conversion is adjusted accordingly.  Note
@@ -213,8 +203,6 @@ set_exact_types(void)
 
 
 /*
-    SET THE SIGN OF CHAR
-
     This routine sets the type of char to be bt, which can be btype_signed,
     btype_unsigned, or btype_none.
 */
@@ -248,8 +236,6 @@ set_char_sign(BASE_TYPE bt)
 
 
 /*
-    DEFINE A BUILT-IN TYPE
-
     This routine defines the built-in type indicated by bt to be t.
 */
 
@@ -307,8 +293,6 @@ set_builtin_type(BASE_TYPE bt, TYPE t)
 
 
 /*
-    SET THE IMPLEMENTATION OF LONG LONG
-
     This routine sets the implementation of 'long long' to be the
     real 'long long' type if big is true and 'long' otherwise.
 */
@@ -332,8 +316,6 @@ set_long_long_type(int big)
 
 
 /*
-    IS A TYPE A BUILT-IN TYPE?
-
     This routine checks whether the type t is a qualified version of a
     built-in type (including the semantic type if sem is true).  If so
     it returns the corresponding built-in type number.
@@ -391,8 +373,6 @@ is_builtin_type(TYPE t, int sem)
 
 
 /*
-    EXPAND A BUILT-IN INTEGRAL TYPE
-
     This routine expands the integral type it by replacing built-in types
     such as size_t by their definition.
 */
@@ -412,8 +392,6 @@ expand_itype(INT_TYPE it)
 
 
 /*
-    CHECK BUILT-IN TYPE DEFINITIONS
-
     This routine defines any tokens for the built-in types from their
     set values.
 */
@@ -462,8 +440,6 @@ term_itypes(void)
 
 
 /*
-    SET A PROMOTED TYPE
-
     This routine sets the promotion of type t to be s.  Note that this
     implies that s is its own promotion and that the conversion from t to
     s is deemed to be safe.
@@ -548,8 +524,6 @@ set_promote_type(TYPE t, TYPE s, BUILTIN_TYPE ns)
 
 
 /*
-    SET THE PROMOTION COMPUTATION TOKEN
-
     This routine sets the token used to calculate promoted types to be id.
 */
 
@@ -565,8 +539,6 @@ compute_promote_type(IDENTIFIER id)
 
 
 /*
-    ARRAY OF ALL INTEGRAL AND FLOATING POINT TYPES
-
     This array is used to hold all the integral and floating point types,
     with all the cases of representation and semantics.
 */
@@ -575,8 +547,6 @@ static TYPE all_itypes[ORDER_ntype][ORDER_ntype];
 
 
 /*
-    CONSTRUCT AN INTEGRAL TYPE
-
     This routine constructs an integral type with representation it and
     semantics is.  If the semantic type is the null type then the semantics
     are the same as the representation.
@@ -605,8 +575,6 @@ make_itype(INT_TYPE it, INT_TYPE is)
 
 
 /*
-    CONSTRUCT A FLOATING POINT TYPE
-
     This routine constructs a floating point type with representation ft
     and semantics fs.
 */
@@ -634,8 +602,6 @@ make_ftype(FLOAT_TYPE ft, FLOAT_TYPE fs)
 
 
 /*
-    CREATE AN INTEGRAL PROMOTION TYPE
-
     This routine sets the promotion type of the integral type it to be
     ip.  If ip is the null type then a promotion type is created.  An
     integral type corresponding to it is returned.
@@ -664,8 +630,6 @@ promote_itype(INT_TYPE it, INT_TYPE ip)
 
 
 /*
-    ARITHMETIC TYPES
-
     The only difficult case in the basic arithmetic types is the combination
     of 'signed long' and 'unsigned int'.  The variable arith_slong_uint is
     used to hold this value.  If 'long long' is allowed then combining
@@ -679,8 +643,6 @@ static INT_TYPE arith_sllong_ulong;
 
 
 /*
-    FIND AN ARITHMETIC INTEGRAL TYPE
-
     This routine finds the type to be used for arithmetic involving operands
     of promoted integral types t and s.  The operands a and b are passed
     in to enable the semantic type to be determined.  Note that for base
@@ -823,8 +785,6 @@ arith_itype(TYPE t, TYPE s, EXP a, EXP b)
 
 
 /*
-    CREATE A FLOATING POINT PROMOTION TYPE
-
     This routine sets the argument promotion type of the floating point
     type ft to be fp.  If fp is the null type then an argument promotion
     type is created.  A floating point type corresponding to ft is
@@ -853,8 +813,6 @@ promote_ftype(FLOAT_TYPE ft, FLOAT_TYPE fp)
 
 
 /*
-    FIND AN ARITHMETIC FLOATING POINT TYPE
-
     This routine finds the type to be used for arithmetic involving operands
     of floating point types t and s.
 */
@@ -918,8 +876,6 @@ arith_ftype(TYPE t, TYPE s)
 
 
 /*
-    FIND A KEYWORD TYPE
-
     This routine finds the type corresponding to the keyword with lexical
     token number tok.
 */
@@ -947,8 +903,6 @@ key_type(int tok)
 
 
 /*
-    CREATE A TOKENISED INTEGRAL TYPE
-
     This routine creates a tokenised integral type from the token id
     and the token arguments args.
 */
@@ -999,8 +953,6 @@ apply_itype_token(IDENTIFIER id, LIST(TOKEN) args)
 
 
 /*
-    CREATE A TOKENISED FLOATING POINT TYPE
-
     This routine creates a tokenised floating point type from the token
     id and the token arguments args.
 */
@@ -1032,8 +984,6 @@ apply_ftype_token(IDENTIFIER id, LIST(TOKEN) args)
 
 
 /*
-    FIND THE SIGN OF A TYPE
-
     This routine returns the sign of the type specified by bt.
 */
 
@@ -1053,8 +1003,6 @@ find_itype_sign(BASE_TYPE bt)
 
 
 /*
-    FIND THE SIZE OF AN INTEGRAL TYPE
-
     This routine determines the minimum number of bits in the integral
     type it.  It also returns information on the the maximum number of
     bits and the sign of the type in the given pointer arguments.
@@ -1145,8 +1093,6 @@ find_itype_size(INT_TYPE it, unsigned *mbits, BASE_TYPE *sign)
 
 
 /*
-    FIND THE SIZE OF A TYPE
-
     This routine is identical to find_itype_size except that it works for
     all integer, enumeration and bitfield types.
 */
@@ -1179,8 +1125,6 @@ find_type_size(TYPE t, unsigned *mbits, BASE_TYPE *sign)
 
 
 /*
-    CREATE AN ARITHMETIC INTEGRAL TYPE
-
     This routine constructs an non-trivial arithmetic integral type.
     nu gives the first type (for example, 'unsigned int'), ns gives the
     second type (for example, 'signed long'), and nt gives the default
@@ -1219,8 +1163,6 @@ make_arith(BUILTIN_TYPE nu, BUILTIN_TYPE ns, BUILTIN_TYPE nt)
 
 
 /*
-    INITIALISE INTEGRAL TYPES
-
     This routine initialises the integral and floating-point types.
 */
 

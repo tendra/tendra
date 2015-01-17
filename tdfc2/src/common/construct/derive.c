@@ -42,8 +42,6 @@
 
 
 /*
-    ARE TWO GRAPHS EQUAL?
-
     This routine checks whether the graphs gr and gs are equal.  Allowance
     is made for the equivalence of virtual bases.
 */
@@ -68,8 +66,6 @@ eq_graph(GRAPH gr, GRAPH gs)
 
 
 /*
-    SEARCH A GRAPH FOR A BASE
-
     This routine searches the graph gr for the base class ct.  It returns
     the first node encountered which matches ct, or the null graph if no
     such match is found.  Note that the search algorithm is based on a
@@ -106,8 +102,6 @@ search_graph(GRAPH gr, CLASS_TYPE ct)
 
 
 /*
-    IS ONE GRAPH A SUBGRAPH OF ANOTHER?
-
     This routine checks whether the graph gs is a subgraph of gr (allowing
     for the identification of virtual bases).
 */
@@ -144,8 +138,6 @@ is_subgraph(GRAPH gr, GRAPH gs)
 
 
 /*
-    COPY A GRAPH
-
     This routine recursively copies the graph gr into the base class graph
     of the current class, with access specifiers adjusted by acc and virtual
     specifier virt.  indir is true if the graph is a subgraph of a virtual
@@ -227,8 +219,6 @@ copy_graph(GRAPH gr, OFFSET off, DECL_SPEC acc, int virt, int indir, int templ)
 
 
 /*
-    FIND A COPY OF A SUBGRAPH
-
     Given a graph gs, a subgraph hs of gs, and a copy gr of gs (produced
     by copy_graph above), this routine returns the subgraph of gr which is
     the image of hs under this copy operation, i.e. it is the subgraph
@@ -268,8 +258,6 @@ find_subgraph(GRAPH gr, GRAPH gs, GRAPH hs)
 
 
 /*
-    IDENTIFY TWO GRAPHS
-
     This routine identifies the graph gs with the graph gr by linking
     them by means of their equal fields.
 */
@@ -302,8 +290,6 @@ identify_graph(GRAPH gr, GRAPH gs)
 
 
 /*
-    BASE CLASS INFORMATION
-
     The variable base_info holds information about the graph being analysed
     by fold_graph, for example, does it have a virtual or an ambiguous base
     class?
@@ -314,8 +300,6 @@ static LIST(GRAPH) virtual_bases = NULL_list(GRAPH);
 
 
 /*
-    FOLD A GRAPH
-
     This routine folds the graph gr by identifying all of its equal virtual
     bases.  It also defines values representing the offset of each base
     from the start of its class.  It returns a list of all the base classes
@@ -392,8 +376,6 @@ fold_graph(GRAPH gr, LIST(GRAPH)br)
 
 
 /*
-    FIND A SINGLE INHERITANCE BASE CLASS
-
     This routine returns the single inheritance base class of gr or the
     null graph if there is no such base.  The single inheritance base
     is the first direct base, provided this is not virtual.  Derived
@@ -418,8 +400,6 @@ find_first_base(GRAPH gr)
 
 
 /*
-    END BASE CLASS DEFINITIONS
-
     This routine is called after all the base classes of a class have been
     processed.  ok is false for an empty base class list.  The routine
     folds the base class graph of the current class and records the total
@@ -493,8 +473,6 @@ end_base_class(CLASS_TYPE ct, int ok)
 
 
 /*
-    ADD A BASE CLASS TO A CLASS DEFINITION
-
     This routine adds a base class bid with access specifier acc to the
     current class.  virt is true to indicate a virtual base class.
 */
@@ -649,8 +627,6 @@ add_base_class(IDENTIFIER bid, DECL_SPEC acc, int virt)
 
 
 /*
-    FIND A BASE CLASS
-
     This routine finds whether cs is a base class of ct, returning the
     corresponding node of the base class graph, or the null graph.  The
     first guess is based on the fact that if cs is a base class of ct
@@ -679,8 +655,6 @@ find_base_class(CLASS_TYPE ct, CLASS_TYPE cs, int def)
 
 
 /*
-    COMPARE TWO CLASSES
-
     This routine finds whether cs is a base class of ct, or ct is a base
     class of cs.  It returns whichever class is the base class, or the null
     class if the two classes are not so related.  The first guess is based
@@ -717,8 +691,6 @@ compare_base_class(CLASS_TYPE ct, CLASS_TYPE cs, int def)
 
 
 /*
-    CHECK AN AMBIGUOUS BASE CLASS
-
     This routine checks whether the base class corresponding to the node
     gr is ambiguous.  It returns a suitable error message.
 */
@@ -742,8 +714,6 @@ check_ambig_base(GRAPH gr)
 
 
 /*
-    CHECK A VIRTUAL BASE CLASS
-
     This routine checks whether the base class corresponding to the node
     gr is a virtual base of a base class of a virtual base.  It returns a
     suitable error message.
@@ -768,8 +738,6 @@ check_virt_base(GRAPH gr)
 
 
 /*
-    FIND A UNIQUE BASE CLASS
-
     This routine returns the graph representing the unique direct base
     class of ct if this exists.  Otherwise it adds an error to err and
     returns the null graph.
@@ -790,8 +758,6 @@ uniq_base_class(CLASS_TYPE ct, ERROR *err)
 
 
 /*
-    FIND THE SHORTEST ROUTE TO A BASE CLASS
-
     There may be several path for accessing a virtual base class.  This
     routine finds the shortest such path in terms of virtual base
     indirections for reaching the base gr.
@@ -825,8 +791,6 @@ min_base_class(GRAPH gr)
 
 
 /*
-    FIND A DIRECT OR VIRTUAL BASE CLASS
-
     This routine checks whether the class cs denotes a direct or a virtual
     base class of ct.  If so it returns the corresponding graph.  If it is
     both then an error is added to err and the direct base is returned.
@@ -878,8 +842,6 @@ direct_base_class(CLASS_TYPE ct, CLASS_TYPE cs, ERROR *err)
 
 
 /*
-    FIND AN AMBIGUOUS BASE CLASS
-
     This routine searches the graph gr for any ambiguous base class,
     returning the corresponding node if it is found, or the null graph
     otherwise.
@@ -910,8 +872,6 @@ find_ambig_base(GRAPH gr)
 
 
 /*
-    EXPAND A BASE CLASS GRAPH
-
     This routine expands any token definitions in the base class graph
     gr.  The null graph is returned if the result is not a valid base
     class.
@@ -940,8 +900,6 @@ expand_graph(GRAPH gr, int rec)
 
 
 /*
-    CONSTRUCT AN INHERITED IDENTIFIER
-
     This routine constructs an identifier representing the inherited value
     of id in the namespace ns.  gr and off give the corresponding base class
     if appropriate.
@@ -1057,8 +1015,6 @@ inherit_id(NAMESPACE ns, GRAPH gr, OFFSET off, IDENTIFIER id, int prev)
 
 
 /*
-    TYPE REPRESENTING A SET OF MEMBER LOOK-UPS
-
     This structure is used to represent a list of class member look-ups.
     Each look-up consists of a member identifier plus a base class graph
     indicating from which base class it is inherited.
@@ -1071,8 +1027,6 @@ typedef struct {
 
 
 /*
-    RESOLVE AMBIGUOUS MEMBER LOOK-UP
-
     This routine resolves the potentially ambiguous member look-up for the
     member named nm in the namespace ns given by mems.  If form is not
     the null type then it gives a list of template arguments to be
@@ -1187,8 +1141,6 @@ resolve_member(NAMESPACE ns, HASHID nm, MEMBER_LOOKUP *mems, TYPE form,
 
 
 /*
-    SEARCH A BASE CLASS GRAPH FOR AN IDENTIFIER
-
     This routine searches the graph gr for all visible members named nm,
     storing the result in mems.  If cs is not the null class then only
     base classes lying below such a class are searched.  If type is nonzero
@@ -1254,8 +1206,6 @@ search_base(GRAPH gr, HASHID nm, MEMBER_LOOKUP *mems, CLASS_TYPE cs, int type,
 
 
 /*
-    SEARCH BASE CLASSES FOR A CLASS MEMBER
-
     This routine searches the base classes of the class namespace ns
     for a member named nm.
 */
@@ -1281,8 +1231,6 @@ search_base_field(NAMESPACE ns, HASHID nm, int type, int dominate)
 
 
 /*
-    SEARCH FOR A CLASS MEMBER
-
     This routine searches the class namespace ns and its base classes
     for a member named nm, which is returned if found.  Otherwise if
     create is true then a dummy identifier is created and returned.
@@ -1338,8 +1286,6 @@ search_field(NAMESPACE ns, HASHID nm, int create, int type)
 
 
 /*
-    IS AN IDENTIFIER A MEMBER OF A CLASS?
-
     This routine checks whether the identifier id is a member of the class
     namespace ns or any base class of ns.  It returns the corresponding
     base class graph, or the null graph if id is not such a member.
@@ -1362,8 +1308,6 @@ is_subfield(NAMESPACE ns, IDENTIFIER id)
 
 
 /*
-    SEARCH FOR A SUBFIELD
-
     This routine finds the member of a class corresponding to the member
     id of the base class of ns indicated by gr.
 */
@@ -1397,8 +1341,6 @@ search_subfield(NAMESPACE ns, GRAPH gr, IDENTIFIER id)
 
 
 /*
-    PROCESS INHERITANCE FOR A CLASS
-
     This routine is called at the end of a class definition to handle
     any inheritance issues.  At present an inherited member is only
     recorded as it is looked up.  However the lists of all virtual

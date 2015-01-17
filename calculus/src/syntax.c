@@ -37,8 +37,6 @@
 
 
 /*
-    PARSER TYPES
-
     These types give the implementations of the various types used
     in the syntax.
 */
@@ -56,8 +54,6 @@ typedef LIST ( UNION_P ) UNION_P_LIST ;
 
 
 /*
-    COUNTER VARIABLES
-
     The variable enum_value is used to determine the value of enumerators.
     enum_max is used to record the maximum value of enum_value.  Both are
     reset to zero at the end of each enumeration type.  no_fields is used
@@ -72,8 +68,6 @@ static LIST ( ECONST_P ) enum_list = NULL_list ( ECONST_P ) ;
 
 
 /*
-    COMPILATION MODE
-
     We allow unreached code in the automatically generated sections.
 */
 

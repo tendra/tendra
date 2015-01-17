@@ -30,8 +30,6 @@
 
 
 /*
-    ACCESS CHECKING FLAGS
-
     The flag do_access_checks may be set to false to suppress access
     checking.
 */
@@ -40,8 +38,6 @@ int do_access_checks = 1;
 
 
 /*
-    CURRENT CLASS MEMBER ACCESS
-
     The variable crt_access is used to hold the current access specifier
     during a class definition.  prev_access is used to check for dubious
     base class access specifiers.
@@ -52,8 +48,6 @@ DECL_SPEC prev_access = dspec_public;
 
 
 /*
-    FIND THE COMPOSITE OF TWO ACCESSES
-
     This routine finds the composite of the access specifiers a and b,
     i.e. if Y is a base class of X of access a, and Z is a base class of
     Y of access b, then the result is the access of Z as a sub-class of X.
@@ -77,8 +71,6 @@ join_access(DECL_SPEC a, DECL_SPEC b)
 
 
 /*
-    ADJUST THE ACCESS FOR AN IDENTIFIER
-
     This routine adjusts the access to the identifier id to the access
     level acc.  expl is true for explicit using and access declarations
     and false for simple redeclarations.
@@ -116,8 +108,6 @@ adjust_access(IDENTIFIER id, DECL_SPEC acc, int expl)
 
 
 /*
-    ACCESS DECLARATION FLAG
-
     This flag is set to true by access_decl.
 */
 
@@ -125,8 +115,6 @@ int have_access_decl = 0;
 
 
 /*
-    MAKE AN ACCESS DECLARATION
-
     This routine adjusts the access of the member id of the current class.
     This is equivalent to a using declaration for id.
 */
@@ -142,8 +130,6 @@ access_decl(IDENTIFIER id)
 
 
 /*
-    MAKE A FRIENDLY FUNCTION
-
     This routine makes the function id into a friend of the class cs.
     The effect of this is to add cs to id's chums list and id to cs's
     pals list.
@@ -189,8 +175,6 @@ friend_function(CLASS_TYPE cs, IDENTIFIER id, int expl)
 
 
 /*
-    MAKE A FRIENDLY CLASS
-
     This routine makes the class cid into a friend of the class cs.  The
     effect of this is to add cs to cid's chums list and cid to cs's pals
     list.
@@ -251,8 +235,6 @@ friend_class(CLASS_TYPE cs, IDENTIFIER cid, int expl)
 
 
 /*
-    LISTS OF PENDING ACCESS CHECKS
-
     Access control checking cannot be performed immediately because, for
     example, it is not known until the end of a declaration whether that
     declaration represents a friend function.  The list crt_access_list
@@ -266,8 +248,6 @@ ACCESS_LIST crt_access_list = {
 
 
 /*
-    FIND ACCESS LEVEL
-
     This routine finds the access level for the members of the class
     namespace ns by the identifier pid (or a base class conversion from
     ns if base is true).  It returns the highest access level greater
@@ -408,8 +388,6 @@ find_access(IDENTIFIER *pid, NAMESPACE ns, DECL_SPEC acc, int base)
 
 
 /*
-    COMPARE ACCESS LEVELS
-
     This routine checks whether the access level ok returned by find_access
     is sufficient to access a member of type tag with declaration specifiers
     ds.  It returns true if the access is an error.
@@ -447,8 +425,6 @@ compare_access(DECL_SPEC ok, DECL_SPEC ds, unsigned tag, int mem)
 
 
 /*
-    CAN AN INHERITED MEMBER BE ACCESSED?
-
     This routine checks whether the inherited class member pid can be
     accessed by the identifier id.  If so it returns true.  The direct
     cases, such as a member of a derived class accessing a member of a
@@ -498,8 +474,6 @@ inherit_access(IDENTIFIER id, IDENTIFIER pid, int mem)
 
 
 /*
-    CHECK A MEMBER ACCESS
-
     This routine checks the access of the class member pid by the
     identifier id.  It prints an error and returns true if the access
     is illegal.
@@ -534,8 +508,6 @@ do_member_access(IDENTIFIER id, IDENTIFIER pid, int mem)
 
 
 /*
-    CHECK A BASE CLASS ACCESS
-
     This routine checks the access of the base class gr by the
     identifier id.  It prints an error and returns true if the access
     is illegal.
@@ -569,8 +541,6 @@ do_base_access(IDENTIFIER id, GRAPH gr)
 
 
 /*
-    CLEAR A LIST OF PENDING IDENTIFIER ACCESS CHECKS
-
     This routine clears the list of pending access checks given by p in
     the context given by the identifier id.  It returns true if any
     results in an error.
@@ -594,8 +564,6 @@ clear_id_access(IDENTIFIER id, LIST(IDENTIFIER)p, LIST(int)r)
 
 
 /*
-    CLEAR A LIST OF PENDING BASE CLASS ACCESS CHECKS
-
     This routine clears the list of pending base class access checks given
     by p in the context given by the identifier id.  It returns true if
     any results in an error.
@@ -618,8 +586,6 @@ clear_base_access(IDENTIFIER id, LIST(GRAPH)p)
 
 
 /*
-    CLEAR A LIST OF PENDING ACCESS CHECKS
-
     This routine clears the list of pending access checks given by acc in
     the context given by the identifier id.  It returns true if any
     results in an error.
@@ -645,8 +611,6 @@ clear_access(IDENTIFIER id, ACCESS_LIST *acc)
 
 
 /*
-    CLEAR THE LIST OF CURRENT ACCESSES
-
     This routine clears all outstanding accesses in the scope given by id.
     It returns true if any results in an error.
 */
@@ -662,8 +626,6 @@ report_access(IDENTIFIER id)
 
 
 /*
-    FREE AN ACCESS LIST
-
     This routine frees the list of accesses given by acc.
 */
 
@@ -692,8 +654,6 @@ free_access(ACCESS_LIST *acc)
 
 
 /*
-    SAVE AN ACCESS LIST
-
     This routine saves the current access list into acc and clears the
     list.
 */
@@ -717,8 +677,6 @@ save_access(ACCESS_LIST *acc)
 
 
 /*
-    RESTORE AN ACCESS LIST
-
     This routine clears the current access list in the scope given by
     id and resets the current access list the values stored in acc.
 */
@@ -738,8 +696,6 @@ restore_access(IDENTIFIER id, ACCESS_LIST *acc)
 
 
 /*
-    CHECK THE ACCESS TO AN IDENTIFIER
-
     This routine adds the identifier id with access acc to the list of
     pending access checks.  acc will always be dspec_public, dspec_protected
     or dspec_private.
@@ -780,8 +736,6 @@ check_access(IDENTIFIER id, DECL_SPEC acc)
 
 
 /*
-    CHECK THE ACCESS TO A BASE CLASS
-
     This routine adds the base class graph gr to the list of pending
     base access checks.
 */
@@ -830,8 +784,6 @@ check_base_access(GRAPH gr)
 
 
 /*
-    IMMEDIATELY CHECK THE ACCESS TO AN IDENTIFIER
-
     This routine applies an immediate access check to the identifier id
     by cid.
 */

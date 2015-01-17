@@ -40,8 +40,6 @@
 
 
 /*
-    ENCODE THE ADDRESS OF A DESTRUCTOR
-
     This routine adds the address of the destructor function corresponding
     to d to the bitstream bs.
 */
@@ -71,8 +69,6 @@ enc_destr_func(BITSTREAM *bs, EXP d)
 
 
 /*
-    EXCEPTION HANDLING ROUTINES
-
     The exception handling routines are only included in the C++ producer.
 */
 
@@ -80,8 +76,6 @@ enc_destr_func(BITSTREAM *bs, EXP d)
 
 
 /*
-    ENCODE A CATCH STATEMENT
-
     This routine adds the start of a catch statement to the bitstream bs.
     It checks whether the type t can handle the current exception.  If
     the label lab is given then catching the exception causes a jump to
@@ -117,8 +111,6 @@ enc_catch(BITSTREAM *bs, TYPE t, ulong lab, unsigned seq)
 
 
 /*
-    ENCODE THE START OF A TRY BLOCK
-
     This routine adds the start of a try block to the bitstream bs.  seq
     gives the number of statements to follow.
 */
@@ -164,8 +156,6 @@ enc_try_start(BITSTREAM *bs, ulong *pn, unsigned seq)
 
 
 /*
-    ENCODE THE END OF A TRY BLOCK
-
     This routine adds the end of the current try block to the bitstream bs.
 */
 
@@ -183,8 +173,6 @@ enc_try_end(BITSTREAM *bs, ulong n)
 
 
 /*
-    ENCODE A TRY BLOCK
-
     This routine adds the try block e to the bitstream bs.
 */
 
@@ -269,8 +257,6 @@ enc_try(BITSTREAM *bs, EXP e)
 
 
 /*
-    RETHROW THE CURRENT EXCEPTION
-
     This routine adds the expression 'throw' to the bitstream bs.
 */
 
@@ -292,8 +278,6 @@ enc_rethrow(BITSTREAM *bs)
 
 
 /*
-    ENCODE A THROW EXPRESSION
-
     This routine adds the expression 'throw a' to the bitstream bs.  If
     a is the null expression then the current exception is rethrown.  b
     and d give the size and destructor for the exception type.
@@ -350,8 +334,6 @@ enc_throw(BITSTREAM *bs, EXP a, EXP b, EXP d)
 
 
 /*
-    ENCODE A CAUGHT EXPRESSION
-
     This routine adds the initialiser for an exception handler variable
     of type t to the bitstream bs.  This is obtained by casting the
     current exception value to a pointer to t.
@@ -370,8 +352,6 @@ enc_thrown(BITSTREAM *bs, TYPE t)
 
 
 /*
-    EXCEPTION SPECIFICATION FLAG
-
     This flag is set to true if the current function has an exception
     specification.
 */
@@ -380,8 +360,6 @@ int in_exception_spec = 0;
 
 
 /*
-    ENCODE THE START OF A FUNCTION EXCEPTION HANDLER
-
     This routine is called at the start of a function definition declared
     with a non-trivial exception specification.  It sets up a try block
     enclosing the complete function body.
@@ -410,8 +388,6 @@ enc_try_func(BITSTREAM *bs, EXP a)
 
 
 /*
-    BAD EXCEPTION TYPE
-
     This type represents the standard class 'std::bad_exception' which has
     a special meaning within exception specifications.
 */
@@ -420,8 +396,6 @@ static TYPE bad_except = NULL_type;
 
 
 /*
-    ENCODE THE END OF A FUNCTION EXCEPTION HANDLER
-
     This routine is called at the end of a function definition declared
     with the set of exceptions p.  It sets up a list of exception handlers
     for each element of p which re-throw the current exception.  If the

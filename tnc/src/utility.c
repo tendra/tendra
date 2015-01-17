@@ -30,8 +30,6 @@ extern int have_version;
 
 
 /*
-    ARE INPUT AND OUTPUT TEXT OR CODE?
-
     The form of any error message depends on whether the input file
     is text or code.
 */
@@ -41,8 +39,6 @@ boolean text_output = 0;
 
 
 /*
-    IS AN INPUT ERROR FATAL?
-
     Not all input errors cause an immediate exit.  These should set
     is_fatal to false before calling input_error.
 */
@@ -51,8 +47,6 @@ boolean is_fatal = 1;
 
 
 /*
-    REPORT A FATAL ERROR
-
     The error s is reported and the program exits.
 */
 
@@ -76,8 +70,6 @@ fatal_error(char *s, ...)
 
 
 /*
-    REPORT AN INPUT ERROR
-
     The input error s is reported and the program exits.
 */
 
@@ -147,8 +139,6 @@ input_error(char *s, ...)
 
 
 /*
-    ISSUE A WARNING
-
     The warning message s is printed.
 */
 
@@ -184,8 +174,6 @@ string_copy(char *s, int n)
 
 
 /*
-    MAKE A TEMPORARY COPY OF A STRING
-
     This routine copies a string into a temporary buffer.
 */
 
@@ -208,8 +196,6 @@ temp_copy(char *s)
 
 
 /*
-    CONVERT AN UNSIGNED LONG TO OCTAL
-
     The result is returned as a string of octal digits.
 */
 
@@ -233,8 +219,6 @@ ulong_to_octal(unsigned long n)
 
 
 /*
-    CONVERT AN OCTAL STRING TO AN UNSIGNED LONG
-
     Any overflow is ignored (but see below).
 */
 
@@ -251,8 +235,6 @@ octal_to_ulong(char *num)
 
 
 /*
-    DOES THE GIVEN OCTAL STRING FIT INTO AN UNSIGNED LONG?
-
     The number of binary digits needed to represent the octal number
     is calculated and compared against the number of bits in an
     unsigned long, minus sz (to allow for a sign bit).

@@ -47,8 +47,6 @@
 
 
 /*
-    INITIALISER FLAGS
-
     The flag in_static_init is set to true when encoding a static
     initialiser.  The flag in_dynamic_init is set to true when encoding
     a dynamic initialiser.
@@ -59,8 +57,6 @@ int in_dynamic_init = 0;
 
 
 /*
-    ENCODE AN AGGREGATE ARRAY INITIALISER
-
     This routine adds the aggregate initialiser for an array of type t,
     given by the aggregate expression e followed by n zeros, to the
     bitstream bs.  n may be null to indicate the absence of padding.
@@ -176,8 +172,6 @@ enc_init_array(BITSTREAM *bs, EXP e, NAT n, TYPE t)
 
 
 /*
-    ENCODE AN AGGREGATE CLASS INITIALISER
-
     This routine adds the aggregate initialiser for an object of class
     type t given by the aggregate expression p to the bitstream bs.  Note
     that t cannot have any base classes.
@@ -214,8 +208,6 @@ enc_init_class(BITSTREAM *bs, EXP e, CLASS_TYPE ct)
 
 
 /*
-    ALLOCATION LOOP COUNTER
-
     This variable is used to hold the tag of the loop counter variable
     which is used in new-initialiser expressions.
 */
@@ -224,8 +216,6 @@ static ulong alloc_counter = LINK_NONE;
 
 
 /*
-    DECLARE A LOOP COUNTER
-
     This routine declares the pointer to s variable n to be the pointer
     variable m plus the offset off and the offset of the type t.
 */
@@ -256,8 +246,6 @@ enc_loop_decl(BITSTREAM *bs, ulong n, ulong m, TYPE s, int cnt, OFFSET off,
 
 
 /*
-    TEST A LOOP COUNTER
-
     This routine compares the pointer to t variables n and m using test
     tst, jumping to label lab if appropriate.
 */
@@ -289,8 +277,6 @@ enc_loop_test(BITSTREAM *bs, ulong n, ulong m, TYPE t, ulong lab, NTEST tst)
 
 
 /*
-    TEST A BOOLEAN FLAG
-
     This routine tests the flag given by the tag n, and-ed with a if this
     is not zero, against zero.  A further s expressions to be evaluated
     if tst is true must be added together with the terminating expression
@@ -326,8 +312,6 @@ enc_flag_test(BITSTREAM *bs, ulong n, unsigned s, int a, NTEST tst)
 
 
 /*
-    INCREMENT A LOOP COUNTER
-
     This routine increments (or decrements if neg is true) the pointer
     variable n by the offset of the type t.
 */
@@ -353,8 +337,6 @@ enc_loop_incr(BITSTREAM *bs, ulong n, TYPE t, int neg)
 
 
 /*
-    FIND A TERMINATOR TYPE
-
     This routine returns the type for a terminator for a value of type t.
 */
 
@@ -377,8 +359,6 @@ find_count_type(TYPE t)
 
 
 /*
-    DECLARE A TERMINATOR COUNT VARIABLE
-
     This routine introduces a local variable for the terminator count
     variable given by d.
 */
@@ -408,8 +388,6 @@ enc_count_decl(BITSTREAM *bs, EXP d, TYPE s, ulong *pm)
 
 
 /*
-    END A TERMINATOR COUNT VARIABLE
-
     This routine ends the terminator count given by d.
 */
 
@@ -428,8 +406,6 @@ enc_count_end(EXP d, ulong m)
 
 
 /*
-    INCREMENT A TERMINATOR COUNT VARIABLE
-
     This routine increments the terminator count variable given by d.
     Note that this is only done at the innermost level, i.e. when the
     associated type t is not an array.
@@ -452,8 +428,6 @@ enc_count_incr(BITSTREAM *bs, EXP d, int neg, TYPE t)
 
 
 /*
-    ENCODE A TERMINATOR TYPE
-
     This routine adds the type of the terminator object corresponding to
     type t to the bitstream bs.
 */
@@ -474,8 +448,6 @@ enc_term_type(BITSTREAM *bs, TYPE t)
 
 
 /*
-    DEFINE A GLOBAL TERMINATOR OBJECT
-
     This routine defines a global terminator object corresponding to an
     object of type t and destructor pd.
 */
@@ -516,8 +488,6 @@ make_term_global(TYPE t, EXP *pd)
 
 
 /*
-    DEFINE A LOCAL TERMINATOR OBJECT
-
     This routine defines a local terminator object corresponding to an
     object of type t and destructor pd.
 */
@@ -558,8 +528,6 @@ make_term_local(BITSTREAM *bs, TYPE t, EXP *pd, int var)
 
 
 /*
-    DECREASE A PARTIAL DESTRUCTOR COUNT
-
     This routine decreases the partial destructor count by the value given
     in t and n.
 */
@@ -590,8 +558,6 @@ enc_destr_count(BITSTREAM *bs, TYPE t, int n)
 
 
 /*
-    ENCODE THE TERMINATOR FOR A TAG
-
     This routine adds a terminator expression for the destructor d to the
     bitstream bs.  The other arguments are as in enc_init_tag.  The effect
     of the terminator expression is to add the destructor call to a list
@@ -642,8 +608,6 @@ destr_lab: {
 
 
 /*
-    ENCODE AN ASSIGNMENT TO A TAG
-
     This routine adds an assignment of the value e to the tag n plus offset
     off of type t (or the contents of tag n plus offset off if cnt is true)
     to the bitstream bs.  context is 2 for the initialisation of a global
@@ -996,8 +960,6 @@ default_lab: {
 
 
 /*
-    CREATE A DUMMY INITIALISER EXPRESSION
-
     This routine creates a dummy initialiser expression of type t.
 */
 
@@ -1018,8 +980,6 @@ make_dummy_init(TYPE t)
 
 
 /*
-    ENCODE A GLOBAL INITIALISER EXPRESSION
-
     This routine adds the initialiser expression e for the global variable
     with capsule tag number n and type t to the bitstream bs.  If d is
     not the null expression then the terminator expressions for tag n
@@ -1074,8 +1034,6 @@ enc_init_global(BITSTREAM *bs, EXP e, EXP d, ulong n, TYPE t)
 
 
 /*
-    ENCODE A LOCAL ASSIGNMENT EXPRESSION
-
     This routine is similar to enc_init_local, but handles assignment
     rather than initialisation.
 */
@@ -1105,8 +1063,6 @@ enc_assign_local(BITSTREAM *bs, EXP a, EXP d, ulong n, TYPE t, EXP e)
 
 
 /*
-    ENCODE A LOCAL INITIALISER EXPRESSION
-
     This routine adds the initialiser expression a for the local
     variable with tag number n (in the current unit) and type t to the
     bitstream bs.  e gives the corresponding declaration statement for
@@ -1162,8 +1118,6 @@ dynamic_label: {
 
 
 /*
-    IS AN EXPRESSION A COMPLEX ASSIGNEE?
-
     This routine checks whether the expression a, which forms the right hand
     side of an assignment, requires the use of enc_init_tag rather than a
     simple assignment operation.
@@ -1192,8 +1146,6 @@ is_init_complex(EXP a)
 
 
 /*
-    ENCODE A GLOBAL TERMINATOR EXPRESSION
-
     This routine adds a termination expression e for the object with
     capsule tag number n and type t to the termination function ts.  If m
     is not LINK_NONE then it is the capsule tag number of a flag which
@@ -1229,8 +1181,6 @@ enc_term_global(BITSTREAM *ts, ulong n, TYPE t, EXP e, ulong m)
 
 
 /*
-    ENCODE A LOCAL TERMINATOR EXPRESSION
-
     This routine adds a termination expression e for the object with local
     tag number n and type t to the bitstream bs.  context is 2 for global
     variables, 1, 3 or 4 for local variables, and 0 in destructors and
@@ -1395,8 +1345,6 @@ enc_term_local(BITSTREAM *bs, ulong n, OFFSET off, int cnt, TYPE t, EXP e,
 
 
 /*
-    ALLOCATION ROUTINES
-
     The memory allocation routines are only included in the C++ producer.
 */
 
@@ -1404,8 +1352,6 @@ enc_term_local(BITSTREAM *bs, ulong n, OFFSET off, int cnt, TYPE t, EXP e,
 
 
 /*
-    ENCODE A NEW-INITIALISER EXPRESSION
-
     This routine adds the initialisation of the tag n, obtained from a
     call to an allocation function, with the expression a to the bitstream
     bs.  If d is not the null expression then any exceptions thrown by a
@@ -1484,8 +1430,6 @@ enc_init_new(BITSTREAM *bs, ulong n, EXP a, EXP d)
 
 
 /*
-    ENCODE AN ALLOCATION EXPRESSION
-
     This routine adds the allocation expression e to the bitstream bs.
 */
 
@@ -1622,8 +1566,6 @@ enc_alloc(BITSTREAM *bs, EXP e)
 
 
 /*
-    ENCODE A DEALLOCATION EXPRESSION
-
     This routine adds the deallocation expression e to the bitstream bs.
     If the argument is already stored in a tag then this is given by n.
 */

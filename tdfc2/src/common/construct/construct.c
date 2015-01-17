@@ -59,8 +59,6 @@
 
 
 /*
-    SET AN INFERRED FUNCTION RETURN TYPE
-
     If t is a function type with an inferred return type then the actual
     return type is set according to id.  The routine returns the original
     inferred return type.
@@ -95,8 +93,6 @@ inferred_return(TYPE t, IDENTIFIER id)
 
 
 /*
-    CHECK A COPY CONSTRUCTOR OR ASSIGNMENT OPERATOR TYPE
-
     This routine checks whether the function type fn has first parameter
     of type '[volatile] ct &', 'const [volatile] ct &' or '[const]
     [volatile] ct' with any subsequent parameters being optional.  It
@@ -168,8 +164,6 @@ check_copy_constr(TYPE fn, CLASS_TYPE ct)
 
 
 /*
-    CHECK A CONSTRUCTOR FUNCTION TYPE
-
     This routine checks the function type t for the constructor id declared
     in namespace ns.  The check that the constructor is a non-static member
     function is carried out elsewhere.  Note that no return type can be given
@@ -219,8 +213,6 @@ check_constr(TYPE t, IDENTIFIER id, NAMESPACE ns)
 
 
 /*
-    CHECK A DESTRUCTOR FUNCTION TYPE
-
     This routine checks the function type t for the destructor id.  The
     check that the destructor is a non-static member function is carried
     out elsewhere.  Note that no return type can be given for id - it is
@@ -275,8 +267,6 @@ check_destr(TYPE t, IDENTIFIER id, NAMESPACE ns)
 
 
 /*
-    CHECK A CONVERSION FUNCTION TYPE
-
     This routine checks the function type t for the conversion function id.
     The check that the converter is a non-static member function is carried
     out elsewhere.  Note that no return type can be given for id - it is
@@ -331,8 +321,6 @@ check_conv(TYPE t, IDENTIFIER id)
 
 
 /*
-    LOOK UP AN OVERLOADED OPERATOR FUNCTION
-
     This routine looks up the overloaded operator function 'operator op'
     in the class ct.
 */
@@ -348,8 +336,6 @@ find_operator(CLASS_TYPE ct, int op)
 
 
 /*
-    FIND A DEFAULT CONSTRUCTOR OR DESTRUCTOR
-
     This routine finds either a default constructor, a copy constructor,
     a default destructor or a copy assignment operator of the class ct,
     depending on the value of n.  The null identifier is returned and
@@ -542,8 +528,6 @@ find_constr(CLASS_TYPE ct, int n, ERROR *err)
 
 
 /*
-    FIND NUMBER OF EXTRA CONSTRUCTOR ARGUMENTS
-
     This routine finds the number of extra constructor arguments required
     by the member function id of the class ct.  For constructors and
     assignment operators for classes with a virtual base the extra
@@ -578,8 +562,6 @@ extra_constr_args(IDENTIFIER id, CLASS_TYPE ct)
 
 
 /*
-    CONSTRUCTOR BASE CLASS INITIALISER FLAG
-
     This flag is set to true in a constructor base class initialiser.
     This overrides the value of any extra arguments passed to the
     constructor.
@@ -589,8 +571,6 @@ static int in_ctor_base_init = 0;
 
 
 /*
-    ADD EXTRA CONSTRUCTOR ARGUMENTS
-
     This routine adds any necessary extra constructor arguments to the
     member function call expression e.  ct gives the associate class
     type and v is the value to be passed to such arguments.
@@ -625,8 +605,6 @@ add_constr_args(EXP e, CLASS_TYPE ct, int v)
 
 
 /*
-    CALL A CONSTRUCTOR OR DESTRUCTOR
-
     This routine constructs a default call of the constructor or destructor
     id of type n.  ct gives the corresponding class type and pb gives the
     second argument for copy constructors and assignment operators.
@@ -687,8 +665,6 @@ call_constr(IDENTIFIER id, EXP *pb, int n, int v, CLASS_TYPE ct)
 
 
 /*
-    CREATE A DEFAULT INITIALISER
-
     This routine creates a default initialiser for an object of type t
     in a constructor, destructor or assignment operator (as indicated
     by n).  Any resultant errors are added to err.
@@ -757,8 +733,6 @@ init_default(TYPE t, EXP *pa, int n, int v, ERROR *err)
 
 
 /*
-    REPORT AN INITIALISATION ERROR
-
     This routine reports the error err which occurred in the initialisation
     of id in constructor or destructor fn of type n.
 */
@@ -781,8 +755,6 @@ constr_error(ERROR err, IDENTIFIER id, IDENTIFIER fn, int n)
 
 
 /*
-    CREATE A BASE CLASS INITIALISER
-
     This routine creates a default initialiser for the base class gr
     for the constructor or destructor fn of type n.  For copy constructors
     and assignment operators a dummy expression is used to indicate that
@@ -820,8 +792,6 @@ init_empty_base(GRAPH gr, IDENTIFIER fn, int n, int m)
 
 
 /*
-    CREATE A CLASS MEMBER INITIALISER
-
     This routine creates a default initialiser for a class member id
     for the constructor or destructor fn of type n.  Again a dummy value
     is used in copy constructors and assignment operators.
@@ -856,8 +826,6 @@ init_empty_mem(IDENTIFIER id, IDENTIFIER fn, int n, int m)
 
 
 /*
-    LISTS OF CONSTRUCTOR INITIALISERS
-
     These lists are built up by the constructor initialisers.
 */
 
@@ -870,8 +838,6 @@ static int init_base_last = 1;
 
 
 /*
-    CLEAR THE LISTS OF CONSTRUCTOR INITIALISERS
-
     This routine clears the lists of constructor initialisers above.
 */
 
@@ -894,8 +860,6 @@ destroy_ctor_lists(void)
 
 
 /*
-    FIND A BASE CLASS INITIALISER
-
     This routine finds the base class initialiser for gr in the lists
     given above.  If gr is a member of init_bases then the corresponding
     element of val_bases is returned, otherwise the null expression is
@@ -922,8 +886,6 @@ find_base_init(GRAPH gr)
 
 
 /*
-    FIND A CLASS MEMBER INITIALISER
-
     This routine finds the class member initialiser for id in the lists
     given above.  If id is a member of init_mems then the corresponding
     element of val_mems is returned, otherwise the null expression is
@@ -950,8 +912,6 @@ find_mem_init(IDENTIFIER id)
 
 
 /*
-    MARK A DESTRUCTOR
-
     This routine marks the initialiser expression e for an object of type t
     if t has a non-trivial destructor by enclosing it in parentheses.
 */
@@ -984,8 +944,6 @@ destr_init(TYPE t, EXP e)
 
 
 /*
-    CREATE A CONSTRUCTOR OR DESTRUCTOR
-
     This routine creates a constructor or destructor initialiser list.
     cns gives the corresponding class namespace and fn is the function
     name.  n and m indicate the constructor or destructor type.  This can
@@ -1173,8 +1131,6 @@ make_constr(NAMESPACE cns, IDENTIFIER fn, int n, int m)
 
 
 /*
-    CREATE A DESTRUCTOR PRELUDE EXPRESSION
-
     The destruction of the base classes and members of a class takes
     place at the end of the destructor, and it is this which is handled
     by make_constr.  However for polymorphic classes some action is
@@ -1200,8 +1156,6 @@ make_destr_prelude(NAMESPACE cns)
 
 
 /*
-    COPY A CONSTRUCTOR INITIALISER LIST
-
     This routine copies the constructor initialiser list of type m.
 */
 
@@ -1270,8 +1224,6 @@ copy_ctor(EXP e, int m)
 
 
 /*
-    BEGIN A CONSTRUCTOR INITIALISER LIST
-
     This routine is called at the start of a ctor-initialiser list to
     check that the current function is a constructor.  If so it returns
     the corresponding class namespace.  Otherwise the null namespace
@@ -1297,8 +1249,6 @@ ctor_begin(void)
 
 
 /*
-    END A CONSTRUCTOR INITIALISER LIST
-
     This routine is called at the end of a ctor-initialiser list.  cns
     gives the class namespace, e is the compound statement to which
     the initialisers are to be added and elem is true if the list was
@@ -1328,8 +1278,6 @@ ctor_end(NAMESPACE cns, EXP e, int elem)
 
 
 /*
-    HANDLE AN ABSENT CONSTRUCTOR INITIALISER LIST
-
     This routine is called for a function definition which contains no
     ctor-initialiser.  e gives the compound statement giving the function
     body.  The routine returns the value of e after any initialisers
@@ -1380,8 +1328,6 @@ ctor_none(EXP e, EXP *p)
 
 
 /*
-    ADD A POSTLUDE TO A FUNCTION BODY
-
     This routine adds the postlude expression d to the end of the
     function body e.  This is used in user declared destructors where the
     default destructors need to be called after the main function body.
@@ -1414,8 +1360,6 @@ ctor_postlude(EXP e, EXP d)
 
 
 /*
-    CREATE AN EXCEPTION POSTLUDE EXPRESSION
-
     This routine creates an expression which will be called in the exception
     specifier for the function id.  This is used in constructors to destroy
     the partially complete object.
@@ -1471,8 +1415,6 @@ except_postlude(IDENTIFIER id)
 
 
 /*
-    FIND INITIALISATION ORDER OF TWO BASE GRAPHS
-
     This routine compares the order of initialisation of the base graphs
     gr and gs.  It returns 1 if gr is initialised before gs, -1 if gr is
     initialised before gr and 0 if they are equal.  Note that virtual
@@ -1520,8 +1462,6 @@ compare_base(GRAPH gr, GRAPH gs)
 
 
 /*
-    FIND INITIALISATION ORDER OF TWO MEMBERS
-
     This routine compares the order of initialisation of the members pid
     and mid of the class namespace ns.  It returns 1 if mid is initialised
     before pid, -1 if pid is initialised before mid and 0 if they are equal.
@@ -1550,8 +1490,6 @@ compare_mem(NAMESPACE ns, IDENTIFIER mid, IDENTIFIER pid)
 
 
 /*
-    NAME LOOK-UP FOR CONSTRUCTOR INITIALISER
-
     This routine looks up the name id as a ctor-initialiser for the class
     cns.  If it denotes a base class then the corresponding graph is
     returned via pgr.  If id is the null identifier then this is an
@@ -1693,8 +1631,6 @@ ctor_field(NAMESPACE cns, IDENTIFIER id, GRAPH *pgr)
 
 
 /*
-    PROCESS A CONSTRUCTOR INITIALISER
-
     This routine processes a ctor-initialiser which sets the id component
     of the current constructor function to the initialiser expression init.
     cns gives the value returned by ctor_check.  id may be the null
@@ -1802,8 +1738,6 @@ ctor_initialise(NAMESPACE cns, IDENTIFIER id, EXP init)
 
 
 /*
-    CONSTRUCT A PSEUDO-DESTRUCTOR
-
     This routine creates a pseudo-destructor with class name given by
     id1 and b1 and destructor name given by id2 and b2.
 */
@@ -1897,8 +1831,6 @@ make_pseudo_destr(IDENTIFIER id1, BASE_TYPE b1, IDENTIFIER id2, BASE_TYPE b2)
 
 
 /*
-    DECLARATION SPECIFIERS FOR IMPLICIT CONSTRUCTORS
-
     This value gives the declaration specifiers used for implicitly declared
     constructors and destructors.
 */
@@ -1907,8 +1839,6 @@ make_pseudo_destr(IDENTIFIER id1, BASE_TYPE b1, IDENTIFIER id2, BASE_TYPE b2)
 
 
 /*
-    ADD THE EXCEPTIONS THROWN BY A CONSTRUCTOR TO A LIST
-
     This routine adds the list of exceptions thrown by the implicit
     constructor or destructor (given by n) of the class ct to the list p.
 */
@@ -1929,8 +1859,6 @@ add_constr_except(LIST(TYPE)p, CLASS_TYPE ct, int n)
 
 
 /*
-    FIND EXCEPTIONS THROWN BY AN IMPLICIT CONSTRUCTOR
-
     This routine finds the list of exceptions thrown by the implicit
     constructor or destructor (given by n) of the class ct.
 */
@@ -1995,8 +1923,6 @@ constr_except(CLASS_TYPE ct, int n)
 
 
 /*
-    DECLARE IMPLICIT CONSTRUCTORS AND DESTRUCTORS
-
     This routine is called at the end of a class definition to implicitly
     declare any necessary default constructors, copy constructors, assignment
     operators or destructors.  Note that these are only actually defined
@@ -2202,8 +2128,6 @@ implicit_decl(CLASS_TYPE ct, CLASS_INFO ci, DECL_SPEC cds)
 
 
 /*
-    FIND A CONSTRUCTOR KIND
-
     This routine finds the kind of constructor for the function id of
     type t.
 */
@@ -2238,8 +2162,6 @@ constr_kind(IDENTIFIER id, TYPE t)
 
 
 /*
-    DEFINE AN IMPLICIT CONSTRUCTOR OR DESTRUCTOR
-
     This routine defines the function id, which will be one of the
     implicitly declared constructors or destructors declared in
     implicit_decl.  n gives the constructor type or DEFAULT_USR if this
@@ -2339,8 +2261,6 @@ implicit_defn(IDENTIFIER id, int n)
 
 
 /*
-    EXPLICIT CONSTRUCTOR FLAGS
-
     These flags are used to indicate that an explicit constructor or
     conversion function has been declared.
 */
@@ -2350,8 +2270,6 @@ int have_constr_expl = 0;
 
 
 /*
-    REMOVE EXPLICIT CONSTRUCTORS
-
     This routine removes all explicit constructors from the candidate list
     p beginning with the mth element.
 */
@@ -2373,8 +2291,6 @@ remove_explicit(CANDIDATE_LIST *p, unsigned m)
 
 
 /*
-    CONSTRUCT CONSTRUCTOR CANDIDATES LIST
-
     This routine constructs the candidate list consisting of the constructors
     for the class type t (including the explicit constructors only if cast
     indicates an explicit conversion).  The candidates are added to the
@@ -2405,8 +2321,6 @@ constr_candidates(CANDIDATE_LIST *p, TYPE t, unsigned cast)
 
 
 /*
-    CONSTRUCT CONVERSION CANDIDATES LIST
-
     This routine constructs the candidate list for the conversion functions
     for the type s which can be implicitly converted to type t, plus the
     constructors of t if t is a class type.  The candidates are added to
@@ -2466,8 +2380,6 @@ conv_candidates(CANDIDATE_LIST *p, TYPE t, TYPE s, unsigned cast)
 
 
 /*
-    CONSTRUCT GENERIC CONVERSION CANDIDATES LIST
-
     This routine adds all the conversion functions from the type t to
     types matching the type category mask kind to the candidate list p.
     Note that template conversion functions are excluded - they cannot
@@ -2505,8 +2417,6 @@ gen_candidates(CANDIDATE_LIST *p, TYPE t, unsigned kind)
 
 
 /*
-    APPLY A TRIVIAL DESTRUCTOR
-
     This routine applies a trivial destructor to the expression a.  It
     is used in explicit destructor and pseudo-destructor calls.
 */
@@ -2521,8 +2431,6 @@ trivial_destr(EXP a)
 
 
 /*
-    APPLY A TRIVIAL FUNCTION
-
     This routine applies the trivial constructor or destructor id to
     the arguments args.  The null expression is returned for invalid
     arguments.
@@ -2584,8 +2492,6 @@ apply_trivial_func(IDENTIFIER id, LIST(EXP)args)
 
 
 /*
-    APPLY A CONSTRUCTOR
-
     This routine applies the constructor id to the arguments args, using a
     dummy expression for the object the constructor is applied to.  The
     definition of this object, whether an existing object or a temporary,
@@ -2638,8 +2544,6 @@ apply_constr(IDENTIFIER id, LIST(EXP)args)
 
 
 /*
-    INITIALISATION BY CONSTRUCTOR
-
     This routine converts the argument list args to the class type t by
     constructor.  The cast parameter indicates if this is an explicit
     conversion.  The routine is used, for example, in initialisations of
@@ -2758,8 +2662,6 @@ error_lab: {
 
 
 /*
-    CHECK FOR INITIALISATION BY USER-DEFINED CONVERSION
-
     This routine checks for user-defined conversions of a to type t.
     It is identical to convert_conv except that it returns the null
     expression is there are no viable conversion functions.
@@ -2897,8 +2799,6 @@ convert_conv_aux(TYPE t, EXP a, ERROR *err, unsigned cast)
 
 
 /*
-    INITIALISATION BY USER-DEFINED CONVERSION
-
     This routine converts the expression a to the type t by user-defined
     conversions.  It is used, for example, in initialisations of the form
     't id = a'.
@@ -2948,8 +2848,6 @@ convert_conv(TYPE t, EXP a, ERROR *err, unsigned cast)
 
 
 /*
-    GENERIC INITIALISATION BY USER-DEFINED CONVERSION
-
     This routine selects a user-defined conversion from the expression a
     to a type with category matching kind.  It returns the null expression
     if no such conversion exists.

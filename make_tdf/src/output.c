@@ -26,8 +26,6 @@
 
 
 /*
-    DO THE INITIAL SEGMENTS OF TWO STRINGS MATCH
-
     This macro gives a convenient method for testing whether the first
     C characters of the strings A and B are equal.
 */
@@ -37,8 +35,6 @@
 
 
 /*
-    CURRENT OUTPUT FILE
-
     These variables describe the current output file.
 */
 
@@ -49,8 +45,6 @@ static unsigned crt_column = 0;
 
 
 /*
-    CURRENT LOOP VARIABLES
-
     These variables keep track of the current state of the various
     output loops.
 */
@@ -67,8 +61,6 @@ static int last_param_no = 0;
 
 
 /*
-    PRINT A CHARACTER TO THE OUTPUT FILE
-
     This routine prints the character c to the output file updating the
     current column number.
 */
@@ -96,8 +88,6 @@ output_char(int c)
 
 
 /*
-    PRINT A STRING TO THE OUTPUT FILE
-
     This routine prints the string s to the output file.
 */
 
@@ -113,8 +103,6 @@ output_string(char *s)
 
 
 /*
-    OUTPUT AN ENCODING STRING FOR A CONSTRUCT
-
     This routine writes the encoding strings for the parameter sorts of
     the construct cons to the output file.
 */
@@ -152,8 +140,6 @@ output_cons(CONSTRUCT cons, int intro)
 
 
 /*
-    OUTPUT AN ENCODING STRING FOR A SORT
-
     Every basic and built-in type has an associated code letter.  This,
     together with various control characters for lists and optional sorts,
     allows every sort to be expressed as a sequence of characters.  This
@@ -205,8 +191,6 @@ output_sort(SORT sort, int intro)
 
 
 /*
-    OUTPUT A FORMAT STRING
-
     This routine writes the format string s to the output file.
 */
 
@@ -499,8 +483,6 @@ output(string s)
 
 
 /*
-    EVALUATE A CONDITION
-
     This routine evaluates the condition given by the string s.
 */
 
@@ -705,8 +687,6 @@ eval_cond(string s)
 
 
 /*
-    WRITE A TEMPLATE FILE
-
     This routine writes the template file given by the commands cmd for
     the specification spec to the output file.
 */
@@ -886,8 +866,6 @@ output_template(SPECIFICATION spec, COMMAND cmd)
 
 
 /*
-    MAIN OUTPUT ROUTINE
-
     This routine outputs all the information concerning the TDF specification
     spec to the output file nm using the template cmd.
 */

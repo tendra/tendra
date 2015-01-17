@@ -38,8 +38,6 @@
 static int find_where(exp);
 
 /*
-    MACROS
-
     These are used as convenient shorthands.
 */
 
@@ -48,8 +46,6 @@ static int find_where(exp);
 
 
 /*
-    WHAT SORT OF REGISTER SHOULD WE PUT SOMETHING OF A GIVEN SHAPE IN?
-
     The shape sha is examined and the appropriate register type -
     Dreg, Areg or Freg is returned.
 */
@@ -66,8 +62,6 @@ int shtype
 
 
 /*
-    REGISTERS USED IN OPERAND
-
     This is a bitmask of all the registers used in an operand.  It is
     built up by find_where.
 */
@@ -76,8 +70,6 @@ static bitpattern where_regmsk;
 
 
 /*
-    FIND ADDRESSING TYPE OF A REGISTER INDIRECT WITH DISPLACEMENT
-
     The addressing type of a register indirect operand with register
     mask rgs is returned.  This is RegInd if rgs corresponds to an
     A-register, and Other otherwise.
@@ -95,8 +87,6 @@ static int find_reg_ind
 
 
 /*
-    FIND ADDRESSING TYPE OF AN INDEX OPERAND
-
     The addressing type of the operand given by e1 indexed by e2 times
     some constant is returned.
 */
@@ -113,8 +103,6 @@ static int find_ind
 
 
 /*
-    FIND ADDRESSING TYPE OF AN OPERAND
-
     The addressing type of the operand e is returned.  Meanwhile the
     bitmask of all the registers used in e is built up in where_regmsk.
     This routine should be compared with operand.
@@ -358,8 +346,6 @@ static int find_where
 
 
 /*
-    CREATE A WHERE
-
     A where is created from an expression e and an offset d.  The routine
     find_where is used to calculate the wh_is and wh_regs fields.
 */
@@ -388,8 +374,6 @@ where mw
 
 
 /*
-    CREATE A WHERE REPRESENTING A NUMBER
-
     A where is created corresponding to the integer constant d.
 */
 
@@ -406,8 +390,6 @@ where mnw
 
 
 /*
-    CREATE A WHERE REPRESENTING A FLOATING POINT NUMBER
-
     A where is created corresponding to the floating point number with
     sign sg (+1, 0 or -1), digits v and exponent e.
 */
@@ -451,8 +433,6 @@ where mfw
 
 
 /*
-    CONSTRUCT A REGISTER PAIR
-
     A where is created corresponding to the register pair a:b.  Both
     a and b must represent registers.
 */
@@ -476,8 +456,6 @@ where regpair
 
 
 /*
-    CONSTANT WHERE'S
-
     These represent commonly used numerical constants and registers.
     zero is the integer 0.  RW[] is the array of all registers.  A6_4
     represents a position on the stack.  A0_p, A1_p, SP_p and A6_4_p
@@ -493,8 +471,6 @@ where firstlocal;
 
 
 /*
-    CONSTANT EXP'S
-
     These expressions are the wh_exp fields of the where's above.
 */
 
@@ -505,8 +481,6 @@ static exp E_long, E_float, E_ptr, E_A6_4;
 static exp firstlocalid;
 
 /*
-    SET UP CONSTANTS WHERE'S
-
     The constant where's are initialized.
 */
 
@@ -559,8 +533,6 @@ void init_wheres
 
 
 /*
-    ARE TWO WHERE'S EQUAL?
-
     This is actually an auxiliary routine.  eq_where(a, b) is a macro
     defined to be eq_where_a(a, b, 1).  It returns 1 if the where's
     a and b are equal, but 0 otherwise.

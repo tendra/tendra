@@ -28,8 +28,6 @@
 
 
 /*
-    ARRAY OF INSTRUCTION NAMES
-
     This table gives the mapping between instruction numbers and the
     corresponding names.
 */
@@ -48,8 +46,6 @@ char *instr_names_simple[] = {
 
 
 /*
-    ARRAY OF GLOBAL REGISTER NAMES
-
     This table gives the mapping between register numbers and register
     names.
 */
@@ -69,8 +65,6 @@ static char *glob_reg_names_simple[] = {
 
 
 /*
-    ARRAY OF LOCAL REGISTER NAMES
-
     This table gives the local mapping between register numbers and
     register names.  It is initialized from the table of global register
     names, but may be changed thereafter.
@@ -80,8 +74,6 @@ char *reg_names[NO_OF_REGS];
 
 
 /*
-    OUTPUT A REGISTER NAME
-
     This routine outputs the register name corresponding to a given
     register number.
 */
@@ -90,8 +82,6 @@ char *reg_names[NO_OF_REGS];
 
 
 /*
-    OUTPUT A SUM OF DATA, EXTERNALS AND LABELS
-
     This routine prints the sum of all data, external and labels, starting
     with ptr, and moving down the plus-chain.
 */
@@ -188,8 +178,6 @@ out_data(mach_op *ptr)
 
 
 /*
-    OUTPUT A SCALED OPERAND
-
     This routine outputs a scaled register operand.
 */
 
@@ -210,8 +198,6 @@ out_scaled(mach_op *ptr)
 
 
 /*
-    OUTPUT A FLOATING POINT NUMBER
-
     This routine outputs a floating point number.
 */
 
@@ -439,8 +425,6 @@ out_mach_op(mach_op *ptr)
 
 
 /*
-    OUTPUT ALL MACHINE INSTRUCTIONS
-
     This routine outputs all the machine instructions, together with their
     operands (if any).
 */
@@ -567,8 +551,6 @@ output_all(void)
 
 
 /*
-    INITIALIZE INSTRUCTIONS
-
     Apply a couple of patches for odd instruction quirks.
 */
 
@@ -585,8 +567,6 @@ init_instructions(void)
 
 
 /*
-    INITIALIZE OUTPUT ROUTINES
-
     This routine copies the table of global register names into the
     table of global register names.
 */

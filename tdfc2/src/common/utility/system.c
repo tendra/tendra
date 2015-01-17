@@ -23,8 +23,6 @@
 
 
 /*
-    FILE SEEKING FLAG
-
     The flag good_fseek is true if a simple fseek on the byte count has
     the desired effect, and false otherwise (for example on DOS machines).
     Similarly binary_mode is true if there are separate text and binary
@@ -43,8 +41,6 @@ int drive_sep = 0;
 
 
 /*
-    SEEK A POSITION IN A FILE
-
     This routine seeks a position n bytes from the start of the file f.
     It returns 0 if good_fseek is false, otherwise it returns 1 for
     successful seeks and -1 otherwise.
@@ -71,8 +67,6 @@ file_seek(FILE *f, long n)
 
 
 /*
-    CONVERT A TIME TO AN UNSIGNED LONG
-
     This macro converts the time_t value A to an unsigned long.  Since
     time_t may be any arithmetic type, this may not be totally portable.
 */
@@ -81,8 +75,6 @@ file_seek(FILE *f, long n)
 
 
 /*
-    CURRENT TIME
-
     These variables are used to hold the current time as a struct tm.
     The date is also used to form a string which is unique for each
     translation unit.
@@ -95,8 +87,6 @@ static struct tm crt_time_str;
 
 
 /*
-    FIND THE CURRENT TIME
-
     This routine assigns the current time to the variables above, returning
     a pointer to crt_time_str.  Note that the actual time is taken only the
     first time the function is called.
@@ -133,8 +123,6 @@ get_crt_time(void)
 
 
 /*
-    PRINT THE CURRENT DATE
-
     This routine returns a string giving the current date in the form
     given by fmt.  This is used in the __DATE__ built-in macro.
 */
@@ -157,8 +145,6 @@ find_date(const char *fmt)
 
 
 /*
-    PRINT THE CURRENT TIME
-
     This routine returns a string giving the current time in the form
     given by fmt.  This is used in the __TIME__ built-in macro.
 */
@@ -177,8 +163,6 @@ find_time(const char *fmt)
 
 
 /*
-    FIND FILE STATISTICS
-
     This routine finds the file statistics for the file with pathname nm
     and assigns them into fs.  It returns fs if this is successful and the
     null pointer otherwise.
@@ -199,8 +183,6 @@ stat_func(char *nm, STAT_TYPE *fs)
 
 
 /*
-    FIND A FILE DATE
-
     This routine converts the date from the file statistics fs to an
     unsigned long.
 */
@@ -217,8 +199,6 @@ stat_date(STAT_TYPE *fs)
 
 
 /*
-    ARE TWO FILES EQUAL?
-
     This routine checks whether the files given by the statistics fs and
     gs represent the same file.  Two files are the same if their device
     and inode numbers are equal (except on machines where good_stat is
@@ -238,8 +218,6 @@ stat_equal(STAT_TYPE *fs, STAT_TYPE *gs)
 
 
 /*
-    FIND THE CURRENT WORKING DIRECTORY
-
     This routine finds the current working directory, returning '.' if
     this cannot be found.
 */
@@ -269,8 +247,6 @@ find_cwd(void)
 
 
 /*
-    FIND THE CURRENT MACHINE
-
     This routine finds the name of the machine on which the program is
     running, returning the empty string if this cannot be found.
 */

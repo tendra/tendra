@@ -64,8 +64,6 @@ extern ast add_shape_to_stack(ash, shape);
 
 
 /*
-    SELECT BYTE, WORD OR LONG INSTRUCTION
-
     opb, opw and opl give the byte, word and long versions of an instruction.
     The appropriate instruction for size sz is returned.
 */
@@ -82,8 +80,6 @@ int ins
 
 
 /*
-    SELECT SINGLE OR DOUBLE FLOATING-POINT INSTRUCTION
-
     ops and opd give the single and double precision versions of an
     instruction.  The appropriate instruction for size sz is returned.
 */
@@ -99,8 +95,6 @@ int insf
 
 
 /*
-    ADD A CONSTANT TO AN ADDRESS REGISTER
-
     This routine is used primarily for updating the stack.  It adds d
     to the A-register with number r.
 */
@@ -130,8 +124,6 @@ void add_to_reg
 
 
 /*
-    CHECK RESERVED NAMES
-
     This routine returns 1 if nm is a name reserved by the linker.
 */
 
@@ -150,8 +142,6 @@ bool reserved
 
 
 /*
-    STACK INFORMATION
-
     A number of variable are used to represent the state of the stack.
     used_stack is true to indicate that space has been allocated for
     variables on the stack or that alloca is used in the current
@@ -183,8 +173,6 @@ long ldisp = 0;
 
 
 /*
-    PENDING STACK DISPLACEMENT
-
     Consecutive changes to the stack pointer are combined whenever
     possible.  stack_change gives the current amount of change which
     has not been output as an instruction.
@@ -195,8 +183,6 @@ int stack_direction = 0;
 
 
 /*
-    DECREASE THE STACK
-
     This routine decreases the stack pointer by d bits.
 */
 
@@ -216,8 +202,6 @@ void dec_stack
 
 
 /*
-    OUTPUT STACK DISPLACEMENT
-
     This routine outputs any accummulated stack changes.
 */
 
@@ -235,8 +219,6 @@ void update_stack
 
 
 /*
-    CHANGE DATA AREA
-
     This routine changes the current address area.  p can be one of
     the values ptext, pdata or pbss given in codex.h.
 */
@@ -266,8 +248,6 @@ void area
 
 
 /*
-    OUTPUT A LIBRARY CALL
-
     A call of the library routine with name nm is output.
 */
 
@@ -308,8 +288,6 @@ void libcall
 
 
 /*
-    REGISTER MASKS
-
     regsinuse gives all the registers which are currented allocated
     values.  regsinproc is a cummulative record of all the registers
     which have been used in the current procedure.  reuseables is
@@ -326,8 +304,6 @@ bitpattern bigregs;
 
 
 /*
-    OTHER VARIABLES
-
     crt_ret_lab is a label number assigned to the return sequence of
     the current procedure.  just_ret is set to be true if the return
     sequence just consists of a single rts instruction.  no_calls
@@ -340,8 +316,6 @@ int no_calls = 0;
 
 
 /*
-    PROLOGUE POSITIONS
-
     This records the position of the prologue of the current procedure.
 */
 
@@ -349,8 +323,6 @@ mach_ins *prologue_ins;
 
 
 /*
-    GENERAL PURPOSE PROCEDURE PROLOGUE
-
     There are two cases.  If output_immediately is false then the
     prologue is not inserted until the end of the procedure.  Otherwise
     a number of special labels are used to represent values which will
@@ -384,8 +356,6 @@ void prologue
 
 
 /*
-    GENERAL PURPOSE PROCEDURE EPILOGUE
-
     The registers used in the procedure and the space used on the stack
     are analysed and used to form the procedure epilogue.  If
     output_immediately is false then we go back and fill in the
@@ -662,8 +632,6 @@ void epilogue
 
 
 /*
-    PROFILING
-
     In order for prof and gprof to work, we need to associate four bytes
     of data with each procedure and make the first two lines of the
     procedure move the address of these bytes into the A0 register and
@@ -689,8 +657,6 @@ static bool used_my_mcount = 0;
 
 
 /*
-    OUTPUT PROFILING DATA
-
     This routine outputs the profiling data for a procedure.  If save_a1
     is true, the alternative profiling routine is used.
 */
@@ -750,8 +716,6 @@ void out_profile
 
 
 /*
-    OUTPUT ALTERNATIVE PROFILING ROUTINE
-
     This routine outputs the alternative profiling routine Lmcount
     described above if it is required.
 */
@@ -784,8 +748,6 @@ void profile_hack
 
 #if 0
 /*
-    ENCODE A PROCEDURE
-
     This routine encodes a procedure call.  The procedure is named pname
     with oname as an alternative (used with diagnostics).  The actual
     body of the procedure is p.

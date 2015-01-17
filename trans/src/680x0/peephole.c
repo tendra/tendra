@@ -26,8 +26,6 @@ extern long crt_ret_lab;
 
 
 /*
-    SET UP TABLE OF OPPOSITE JUMPS
-
     This table gives a correspondence between the conditional jump
     "if condition goto ..." and the opposite conditional jump
     "if not condition goto ...".
@@ -38,8 +36,6 @@ extern long crt_ret_lab;
 
 
 /*
-    FIND A LABEL
-
     This routine searches the list of all instructions for label n.
     It returns NULL if it cannot be found.
 */
@@ -58,8 +54,6 @@ find_label(long n)
 
 
 /*
-    CHECK A JUMP ALIAS FOR CYCLES
-
     A jump alias is a label followed immediately by an unconditional
     jump to another label.  It is possible to get cycles of mutually
     dependent jump aliases.  This routine checks whether the alias a=>b
@@ -107,8 +101,6 @@ check_jump_alias(long a, long b)
 
 
 /*
-    CALCULATE ALL JUMP LENGTHS
-
     This routine finds the length of all jumps and marks each as long,
     word or byte.  The length is based on the number of instructions
     jumped over.  It would be better if the assembler could do this.
@@ -184,8 +176,6 @@ find_jump_sizes(long lmin, long lmax)
 
 
 /*
-    MASK OF REGISTERS CHANGED BY PROCEDURE CALLS
-
     Normally this is just ~save_msk, but if, for example D2 is renamed to
     D1 by epilogue then D2 has to be marked as changed by procedure calls.
 */
@@ -194,8 +184,6 @@ bitpattern callmsk = 0;
 
 
 /*
-    APPLY ALL PEEPHOLE OPTIMIZATIONS
-
     This routine scans through the list of all instructions applying
     various simple optimizations.
 */
@@ -521,8 +509,6 @@ peephole(void)
 
 
 /*
-    TABLE OF INSTRUCTION SIZES
-
     This table gives the correspondence between instruction numbers
     and instruction sizes.
 */
@@ -534,8 +520,6 @@ static bool instr_sz[] = {
 
 
 /*
-    CHECK FOR POST-INCREMENT AND PRE-DECREMENT
-
     This routine checks for (some) possible uses of post-increment and
     pre-decrement instructions.  It returns 1 if a change has been
     made.

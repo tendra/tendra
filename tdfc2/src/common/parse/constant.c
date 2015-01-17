@@ -38,8 +38,6 @@
 
 
 /*
-    SMALL LITERALS
-
     These arrays are used to hold the small integer literals to avoid
     duplication.
 */
@@ -49,8 +47,6 @@ NAT small_neg_nat[SMALL_NAT_SIZE];
 
 
 /*
-    SMALL NUMBERS
-
     These strings are used to hold strings representing the small integer
     literals to avoid duplication.
 */
@@ -59,8 +55,6 @@ string small_number[SMALL_FLT_SIZE];
 
 
 /*
-    CREATE A SMALL NUMBER
-
     This routine returns the element of the arrays small_nat or small_neg_nat
     corresponding to the value v, allocating it if necessary.
 */
@@ -89,8 +83,6 @@ make_small_nat(int v)
 
 
 /*
-    CONSTANT EVALUATION BUFFERS
-
     These lists are used to hold single digit lists in the constant
     evaluation routines to allow for uniform handling of both small and
     large literals.
@@ -101,8 +93,6 @@ static LIST(unsigned)small_nat_2;
 
 
 /*
-    ALLOCATE A DIGIT LIST
-
     This routine allocates a list of digits of length n.  The digits in the
     list are initialised to zero.
 */
@@ -120,8 +110,6 @@ digit_list(unsigned n)
 
 
 /*
-    MAKE AN EXTENDED VALUE INTO AN INTEGER CONSTANT
-
     This routine creates an integer constant from an extended value, v.
 */
 
@@ -147,8 +135,6 @@ make_nat_value(unsigned long v)
 
 
 /*
-    MAKE AN INTEGER CONSTANT INTO AN EXTENDED VALUE
-
     This routine finds the extended value corresponding to the integer
     constant n.  If n is the null constant or does not fit into an extended
     value then the maximum extended value is returned.
@@ -177,8 +163,6 @@ get_nat_value(NAT n)
 
 
 /*
-    MAKE A LIST OF DIGITS INTO AN INTEGER CONSTANT
-
     This routine creates an integer constant from a list of digits, p.
     This list may contain initial zero digits, which need to be removed.
 */
@@ -219,8 +203,6 @@ make_large_nat(LIST(unsigned)p)
 
 
 /*
-    BUILD UP AN INTEGER CONSTANT
-
     This routine multiplies the integer constant n by b and adds d.  It is
     used when building up integer constants from strings of digits - b gives
     the base and d the digit being added.  b will not be zero, and n will
@@ -303,8 +285,6 @@ make_nat_literal(NAT n, unsigned b, unsigned d)
 
 
 /*
-    IS AN INTEGER CONSTANT ZERO?
-
     This routine checks whether the integer constant n is zero.
 */
 
@@ -321,8 +301,6 @@ is_zero_nat(NAT n)
 
 
 /*
-    IS AN INTEGER CONSTANT NEGATIVE?
-
     This routine checks whether the integer constant n is negative.
 */
 
@@ -334,8 +312,6 @@ is_negative_nat(NAT n)
 
 
 /*
-    IS AN INTEGER CONSTANT AN ERROR EXPRESSION?
-
     This routine checks whether the integer constant n represents an error
     expression.
 */
@@ -353,8 +329,6 @@ is_error_nat(NAT n)
 
 
 /*
-    IS AN INTEGER CONSTANT A CALCULATED VALUE?
-
     This routine checks whether the integer constant n is a calculated
     value.
 */
@@ -375,8 +349,6 @@ is_calc_nat(NAT n)
 
 
 /*
-    FIND THE VALUE OF A CALCULATED CONSTANT
-
     This routine creates an integer constant expression of type t with
     value n.
 */
@@ -402,8 +374,6 @@ calc_nat_value(NAT n, TYPE t)
 
 
 /*
-    SIMPLIFY AN INTEGER CONSTANT EXPRESSION
-
     This routine simplifies the integer constant expression e by replacing
     it by the value of a calculated constant.  This is avoided when this
     constant may be tokenised.
@@ -426,8 +396,6 @@ calc_exp_value(EXP e)
 
 
 /*
-    NEGATE AN INTEGER CONSTANT
-
     This routine negates the integer constant n.
 */
 
@@ -469,8 +437,6 @@ default_lab:
 
 
 /*
-    COMPARE TWO INTEGER CONSTANTS
-
     This routine compares the integer constants n and m.  It returns 0 if
     they are equal, 1 if n > m and -1 if n < m.  A value of 2 or -2 is
     returned if the result is target dependent or otherwise indeterminate.
@@ -593,8 +559,6 @@ compare_nat(NAT n, NAT m)
 
 
 /*
-    UNIFY TWO INTEGER LITERALS
-
     This routine unifies the integer literals n and m by defining tokens
     if possible.  It returns true if the token is assigned a value.
 */
@@ -631,8 +595,6 @@ unify_nat(NAT n, NAT m)
 
 
 /*
-    ARE TWO INTEGER LITERALS EQUAL?
-
     This routine returns true if the literals n and m are equal.
 */
 
@@ -661,8 +623,6 @@ eq_nat(NAT n, NAT m)
 
 
 /*
-    PERFORM A BINARY INTEGER CONSTANT CALCULATION
-
     This routine is used to evaluate the binary operation indicated by tag
     on the integer constants a and b, which will be simple literals.  The
     permitted operations are '+', '-', '*', '/', '%', '<<', '>>', '&', '|',
@@ -1160,8 +1120,6 @@ exp_minus_label:
 
 
 /*
-    EVALUATE A CONSTANT EXPRESSION
-
     This routine transforms the integer constant expression e into an
     integer constant.  Any errors arising are added to the position
     indicated by err.
@@ -1230,8 +1188,6 @@ default_lab:
 
 
 /*
-    FIND THE NUMBER OF BITS IN AN INTEGER
-
     This routine returns the number of bits in the integer n from the
     range [0, 0xffff].
 */
@@ -1262,8 +1218,6 @@ no_bits(unsigned n)
 
 
 /*
-    FIND THE NUMBER OF BITS IN AN INTEGER CONSTANT
-
     This routine calculates the number of bits in the representation of
     the simple integer constant n.  The flag eq is set to false unless
     n is exactly a power of 2.
@@ -1296,8 +1250,6 @@ get_nat_bits(NAT n, int *eq)
 
 
 /*
-    CHECK WHETHER AN INTEGER CONSTANT FITS INTO A TYPE
-
     This routine checks whether the integer constant n fits into the range
     of values of the integral, enumeration or bitfield type t.  The value
     returned is:
@@ -1389,8 +1341,6 @@ check_nat_range(TYPE t, NAT n)
 
 
 /*
-    CHECK A TYPE SIZE
-
     This routine checks whether the integer literal n exceeds the number
     of bits in the integral, enumeration or bitfield type t.  It is used,
     for example, in checking for overlarge shifts and bitfield sizes.
@@ -1431,8 +1381,6 @@ check_type_size(TYPE t, NAT n)
 
 
 /*
-    FIND THE MAXIMUM VALUE FOR A TYPE
-
     This routine returns the maximum value (or the minimum value if neg is
     true) which is guaranteed to fit into the type t.  The null constant
     is returned if the value can't be determined.  If t is the null type
@@ -1480,8 +1428,6 @@ max_type_value(TYPE t, int neg)
 
 
 /*
-    FIND THE COMPLEMENT-ZERO VALUE FOR A TYPE
-
     This routine returns the complement-zero value for type t.
     A NULL NAT is returned if the value can't be determined.
     If t is the null type the complement-zero value of the widest
@@ -1514,8 +1460,6 @@ czero_type_value(TYPE t)
 
 
 /*
-    CONSTRUCT A CONSTANT INTEGRAL EXPRESSION
-
     This routine constructs an integer literal expression of type t from
     the literal n, performing any appropriate bounds checks.  tag indicates
     the operation used to form this result.  The null expression is returned
@@ -1564,8 +1508,6 @@ make_int_exp(TYPE t, unsigned tag, NAT n)
 
 
 /*
-    CHECK ARRAY BOUNDS
-
     This routine checks an array index operation indicated by op (which
     can be '[]', '+' or '-') for the array type t and the constant integer
     index expression a.  Note that a must be less than the array bound for
@@ -1613,8 +1555,6 @@ check_bounds(int op, TYPE t, EXP a)
 
 
 /*
-    EVALUATE A CONSTANT CAST OPERATION
-
     This routine is used to cast the integer constant expression a to the
     integral, bitfield, or enumeration type t.  The argument cast indicated
     whether the cast used is implicit or explicit (see cast.h).  Any errors
@@ -1671,8 +1611,6 @@ make_cast_nat(TYPE t, EXP a, ERROR *err, unsigned cast)
 
 
 /*
-    EVALUATE A CONSTANT UNARY OPERATION
-
     This routine is used to evaluate the unary operation indicated by tag
     on the integer constant expression a.  Any necessary operand conversions
     and arithmetic type conversions have already been performed on a.  The
@@ -1742,8 +1680,6 @@ negate_lab:
 
 
 /*
-    CHECK A CHARACTER LITERAL CONSTANT
-
     This routine checks whether the integer constant expression a represents
     one of the decimal character literals, '0', '1', ..., '9'.  If so it
     returns the corresponding value in the range [0, 9].  Otherwise it
@@ -1776,8 +1712,6 @@ eval_char_nat(EXP a, unsigned *k)
 
 
 /*
-    ADD A VALUE TO A CHARACTER LITERAL CONSTANT
-
     This routine adds or subtracts (depending on the value of tag) the
     value n to the decimal character literal d, casting the result to
     type t.  The null expression is returned if the result is not a
@@ -1827,8 +1761,6 @@ make_char_nat(TYPE t, unsigned tag, int d, unsigned kind, NAT n)
 
 
 /*
-    EVALUATE A CONSTANT BINARY OPERATION
-
     This routine is used to evaluate the binary operation indicated by tag
     on the integer constant expressions a and b.  Any necessary operand
     conversions and arithmetic type conversions have already been performed
@@ -1997,8 +1929,6 @@ make_binary_nat(unsigned tag, EXP a, EXP b)
 
 
 /*
-    EVALUATE A CONSTANT TEST OPERATION
-
     This routine is used to convert the integer constant expression a to
     a boolean.
 */
@@ -2030,8 +1960,6 @@ make_test_nat(EXP a)
 
 
 /*
-    EVALUATE A CONSTANT COMPARISON OPERATION
-
     This routine is used to evaluate the comparison operation indicated by
     op on the integer constant expressions a and b.  Any necessary operand
     conversions and arithmetic type conversions have already been performed
@@ -2100,8 +2028,6 @@ make_compare_nat(NTEST op, EXP a, EXP b)
 
 
 /*
-    EVALUATE A CONSTANT CONDITIONAL OPERATION
-
     This routine is used to evaluate the conditional operation 'a ? b : c'
     when a, b and c are all integer constant expressions.  Any necessary
     operand conversions and arithmetic type conversions have already been
@@ -2133,8 +2059,6 @@ make_cond_nat(EXP a, EXP b, EXP c)
 
 
 /*
-    DOES ONE EXPRESSION DIVIDE ANOTHER?
-
     This routine returns true if a and b are both integer constant
     expressions and b divides a.
 */
@@ -2169,8 +2093,6 @@ divides_nat(EXP a, EXP b)
 
 
 /*
-    EVALUATE A CONSTANT CONDITION
-
     This routine evaluates the boolean expression e, returning BOOL_FALSE,
     BOOL_TRUE or BOOL_UNKNOWN depending on whether it is always false,
     always true, or constant, but indeterminant.  BOOL_INVALID is returned
@@ -2269,8 +2191,6 @@ eval_const_cond(EXP e)
 
 
 /*
-    IS AN INTEGER CONSTANT EXPRESSION ZERO?
-
     This routine checks whether the expression a is a zero integer constant.
     It is used to identify circumstances when zero is actually the null
     pointer etc.
@@ -2288,8 +2208,6 @@ is_zero_exp(EXP a)
 
 
 /*
-    IS AN INTEGER CONSTANT A LITERAL?
-
     This routine checks whether the integer constant expression a is an
     integer literal or is the result of a constant evaluation.  This
     information is recorded in the etag field of the expression.  It
@@ -2316,8 +2234,6 @@ is_literal(EXP a)
 
 
 /*
-    FIND A SMALL FLOATING POINT LITERAL
-
     This routine returns the nth literal associated with the floating point
     type t.  The null literal is returned if n is too large.
 */
@@ -2340,8 +2256,6 @@ get_float(TYPE t, int n)
 
 
 /*
-    INITIALISE A FLOATING POINT TYPE
-
     This routine initialises the floating point type ft by creating its
     list of small literal values.
 */
@@ -2365,8 +2279,6 @@ init_float(FLOAT_TYPE ft)
 
 
 /*
-    INITIALISE CONSTANT EVALUATION ROUTINES
-
     This routine initialises the small_nat array and the buffers used in
     the constant evaluation routines.
 */

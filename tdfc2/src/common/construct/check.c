@@ -38,8 +38,6 @@
 
 
 /*
-    ARE TWO OFFSETS EQUAL?
-
     This routine checks whether the offsets a and b are equal.  The co
     argument is passed through to eq_exp.
 */
@@ -172,8 +170,6 @@ eq_offset(OFFSET a, OFFSET b, int co)
 
 
 /*
-    ARE TWO LISTS OF EXPRESSIONS EQUAL?
-
     This routine checks whether the expression lists p and q are equal,
     in the sense that each of their components is equal.  The co argument
     is passed through to eq_exp.
@@ -201,8 +197,6 @@ eq_exp_list(LIST(EXP)p, LIST(EXP)q, int co)
 
 
 /*
-    CHECK EXPRESSION EQUALITY
-
     This is an auxiliary routine for eq_exp which checks whether the
     expressions a and b, which have the same tag value, are equal.
 */
@@ -716,8 +710,6 @@ eq_exp_aux(EXP a, EXP b, int co)
 
 
 /*
-    UNIFY TWO EXPRESSIONS
-
     This routine unifies the expressions a and b by defining tokens as
     necessary.  It returns true if a value is assigned to a token.  Note
     that it is necessary to consider integer constant tokens as well as
@@ -755,8 +747,6 @@ unify_exp(EXP a, EXP b)
 
 
 /*
-    ARE TWO EXPRESSIONS EQUAL?
-
     This routine checks whether the expressions a and b are equal.  If
     co is true then commutivity and other such relations are taken
     into account.
@@ -810,8 +800,6 @@ eq_exp(EXP a, EXP b, int co)
 
 
 /*
-    ARE TWO EXPRESSIONS PRECISELY EQUAL?
-
     This routine is similar to eq_exp, but it disallows token and template
     unification and does not allow for commutivity relations.
 */
@@ -832,8 +820,6 @@ eq_exp_exact(EXP a, EXP b)
 
 
 /*
-    ARE TWO TOKENS EQUAL?
-
     This routine checks whether the tokens a and b are equal.
 */
 
@@ -899,8 +885,6 @@ eq_token(TOKEN a, TOKEN b)
 
 
 /*
-    ARE TWO TOKEN APPLICATIONS EQUAL?
-
     This routine checks whether the token applications ia ( pa ) and
     ib ( pb ) are equal.
 */
@@ -942,8 +926,6 @@ eq_token_args(IDENTIFIER ia, IDENTIFIER ib, LIST(TOKEN)pa, LIST(TOKEN)pb)
 
 
 /*
-    IS A TOKEN APPLICATION A CONSTANT?
-
     This routine checks whether the token id applied to the arguments args
     is a constant.
 */
@@ -1019,8 +1001,6 @@ is_const_token(IDENTIFIER id, LIST(TOKEN)args, int c)
 
 
 /*
-    IS AN OFFSET A CONSTANT?
-
     This routine checks whether the offset off is a constant offset.  virt
     is true if virtual base classes are to be taken into account.
 */
@@ -1120,8 +1100,6 @@ is_const_offset(OFFSET off, int c, int virt)
 
 
 /*
-    IS AN EXPRESSION AN ADDRESS CONSTANT?
-
     This routine checks whether the address of e is a constant expression.
     c will be nonzero.
 */
@@ -1196,8 +1174,6 @@ is_const_addr(EXP e, int c)
 
 
 /*
-    IS AN EXPRESSION CONSTANT?
-
     This routine checks whether e is a constant expression.  Note that
     most integer constant expressions are dealt with in a bottom-up
     fashion by means of the constant evaluation routines.  Other
@@ -1509,8 +1485,6 @@ is_const_exp(EXP e, int c)
 
 
 /*
-    DOES AN EXPRESSION CONTAIN AN OVERFLOW?
-
     Certain evaluations on integer constant expressions are only valid
     if it can be shown that the operands cannot raise an exception.
     For example, 'a - a' can only safely be replaced by zero if the
@@ -1617,8 +1591,6 @@ overflow_exp(EXP a)
 
 
 /*
-    FIND THE LINKAGE OF AN EXPRESSION
-
     This routine checks the linkage of the expression a.  If vol is true
     then the result is or-ed with dspec_implicit if a is derived from
     an implicitly volatile external identifier and or-ed with dspec_pure
@@ -1738,8 +1710,6 @@ find_exp_linkage(EXP e, EXP *pa, int vol)
 
 
 /*
-    IS AN OFFSET ZERO?
-
     This routine checks whether the offset off is zero.  The only
     non-trivial case is for base class offsets where the single
     inheritance (zero offset) cases are marked using dspec_ignore.
@@ -1805,8 +1775,6 @@ is_zero_offset(OFFSET off)
 
 
 /*
-    IS THE TYPE OF AN OFFSET STATICALLY DETERMINED?
-
     This routine checks whether the type of a pointer plus the offset off
     can be statically determined.  It returns 2 if the type is known
     independent of the value of the pointer, 1 if it is known if the
@@ -1843,8 +1811,6 @@ know_offset(OFFSET off)
 
 
 /*
-    IS THE TYPE OF AN EXPRESSION STATICALLY DETERMINED?
-
     This routine checks whether the expression of class type or pointer to
     class type, e, is derived from an object so that its type can be
     statically determined.  It is used to check whether the virtual call

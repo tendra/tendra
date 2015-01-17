@@ -22,8 +22,6 @@
 
 
 /*
-    SHAPE CHECKING FLAG
-
     This flag is true to indicate that shape checking should be applied.
 */
 
@@ -31,8 +29,6 @@ boolean do_check = 0;
 
 
 /*
-    THE NAME OF THE CURRENT EXPRESSION BEING CHECKED
-
     The shape checking does not always take place immediately.  By
     printing the name of the expression being checked it is easier
     to find any errors.
@@ -42,8 +38,6 @@ char *checking = "????";
 
 
 /*
-    SHAPE CHECKING FOR EXP_APPLY_TOKEN
-
     The shape checking for the exp_apply_token construct p is implemented
     by this routine.
 */
@@ -68,8 +62,6 @@ chk_token(node *p)
 
 
 /*
-    SHAPE CHECKING FOR EXP_COND
-
     The shape checking for the exp_cond construct p is implemented by
     this routine.  Checking that the control argument is an integer is
     carried out for all _cond constructs as part of the main reading
@@ -110,8 +102,6 @@ chk_cond(node *p)
 
 
 /*
-    SHAPE CHECKING FOR OBTAIN_TAG
-
     The shape checking for the obtain_tag construct p is implemented by
     this routine.  a gives the actual tag.
 */
@@ -154,8 +144,6 @@ chk_tag(node *p, node *a, int intro)
 
 
 /*
-    SHAPE CHECKING MACRO DEFINITIONS
-
     The main body of the shape checking for expressions is in the
     automatically generated file check_exp.h.  This calls a macro of
     the form check_<cons> for each construct <cons>.  The actual
@@ -168,8 +156,6 @@ chk_tag(node *p, node *a, int intro)
 
 
 /*
-    SHAPE CHECK A SHAPE
-
     The construct compound has an exp argument which needs to be
     shape checked.
 */
@@ -185,8 +171,6 @@ check_shape_fn(node *p)
 
 
 /*
-    SHAPE CHECK A NAT
-
     The construct computed_nat has an exp argument which needs to be
     shape checked.
 */
@@ -202,8 +186,6 @@ check_nat_fn(node *p)
 
 
 /*
-    SHAPE CHECK A SIGNED NAT
-
     The construct computed_signed_nat has an exp argument which needs
     to be shape checked.
 */
@@ -219,8 +201,6 @@ check_snat_fn(node *p)
 
 
 /*
-    SHAPE CHECK AN ACCESS
-
     The flag intro_visible is set whenever a visible construct is
     encountered.
 */
@@ -234,8 +214,6 @@ check_access_fn(node *p)
 
 
 /*
-    IS A SHAPE COMPLETELY KNOWN?
-
     This routine returns true if p is not null and does not contain
     any unknown constructs.  In encode mode we can't have any constructs
     which introduce local tags or tokens either.
@@ -275,8 +253,6 @@ is_known(node *p)
 
 
 /*
-    CHECK THAT A TAG DECLARATION AND DEFINITION MATCH
-
     The construct p, representing a declared and defined tag, is checked
     for shape correctness.
 */

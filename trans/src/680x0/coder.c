@@ -65,8 +65,6 @@ static int extra_weight = 0;
 
 
 /*
-    ADD A SHAPE TO A THE STACK
-
     Given an ash p, representing the stack, and a shape s, this procedure
     returns the ast correponding to the new stack formed by adding s to the
     old stack.
@@ -94,8 +92,6 @@ add_shape_to_stack(ash p, shape s)
 
 
 /*
-    REGISTER ALLOCATION ROUTINES
-
     This routine tries to choose registers for a value of shape sha.  br
     gives the breakpoint - the minimum number of registers which need to
     be free for it to be worth putting this value in a register.  The big
@@ -175,8 +171,6 @@ alloc_reg(shape sha, int br, bool big)
 
 
 /*
-    IS A GIVEN EXPRESSION A USE OF A REUSABLE REGISTER?
-
     This routine returns 0 if the expression e is not a use of a reuseable
     register, and the bitmask of the register otherwise.
 */
@@ -197,8 +191,6 @@ reuse_check(exp e)
 
 
 /*
-    CAN WE REUSE A REGISTER?
-
     This routine checks whether or not we can use a reuseable register to
     store def.  It returns the bitmask of a suitable register if so and 0
     otherwise.
@@ -247,8 +239,6 @@ reuse(exp def)
 
 
 /*
-    IS AN EXPRESSION GUARANTEED NOT TO USE D0?
-
     Or if it is, are we really careful?
 */
 
@@ -264,8 +254,6 @@ nouse(exp e)
 
 
 /*
-    WHERE IS A DECLARATION TO BE PUT?
-
     The routine alloc_variable chooses where to put a declaration. e is the
     declaration, def is the definition (for identity) or initialisation
     (for variable), stack is the ash for the current stack position.
@@ -445,8 +433,6 @@ alloc_variable(exp e, exp def, ash stack)
 
 
 /*
-    CURRENT SCOPES
-
     These variables are used for the scope and destination of inlined
     procedures.
 */
@@ -458,8 +444,6 @@ static where rscope_dest;
 
 
 /*
-    PRODUCE CODE FOR A SOLVE STATEMENT
-
     The solve statement with starter s, labelled statements l, destination
     dest and default jump jr is processed.
 */
@@ -515,8 +499,6 @@ solve(exp s, exp l, where dest, exp jr, ash stack)
 
 
 /*
-    PRODUCE CODE FOR A CASE STATEMENT
-
     The controlling number of the case statement is in the D1 register, from
     which already has been deducted.  The list of options is given as a
     bro-list in arg.  The routine returns the total number which has been
@@ -752,8 +734,6 @@ reset_stack_pointer(void)
 }
 
 /*
-    CHECK UP ON JUMPS
-
     This routine checks for jumps to immediately following labels.
 */
 
@@ -788,8 +768,6 @@ stack_room(ash stack, where dest, long off)
 
 
 /*
-    MAIN CODING ROUTINE
-
     This routine is the main coding routine for such things as identity
     definitions and control structures.  Most of the actual expression
     evaluation is dealt with by codec.  The expression e is coded and

@@ -38,8 +38,6 @@
 
 
 /*
-    PROGRAM NAME
-
     These variables give the program name and version number.
 */
 
@@ -48,8 +46,6 @@ const char *progvers = NULL;
 
 
 /*
-    SET PROGRAM NAME
-
     This routine sets the program name to the basename of prog and the
     program version to vers.
 */
@@ -73,8 +69,6 @@ set_progname(const char *prog, const char *vers)
 
 
 /*
-    PRINT VERSION NUMBER
-
     This routine prints the program name and version number plus the
     versions of C++ and the TDF specification it supports to the print
     buffer, returning the result.
@@ -101,8 +95,6 @@ report_version(int vers)
 
 
 /*
-    CURRENT FILE POSITION
-
     This structure gives the current file position.  This consists of a
     string, giving the file name, an integer, giving the line number, and
     a pointer to any previous positions from which this is derived by a
@@ -114,8 +106,6 @@ LOCATION builtin_loc = NULL_loc;
 
 
 /*
-    ERROR REPORTING VARIABLES
-
     These variables are used by the error reporting routines.  exit_status
     gives the overall status of the program - it is EXIT_SUCCESS if no
     serious errors have occurred, and EXIT_FAILURE otherwise.  A count of
@@ -140,8 +130,6 @@ static int print_ansi_ref = 0;
 
 
 /*
-    PROCESS AN ERROR FORMATTING OPTION
-
     This routine processes the error formatting options given by opt.
     This corresponds to the command-line option '-mopt'.
 */
@@ -240,8 +228,6 @@ error_option(string opt)
 
 
 /*
-    ERROR MESSAGE PARAMETERS
-
     These macros are used to parameterise the form of the error messages.
 */
 
@@ -283,8 +269,6 @@ error_option(string opt)
 
 
 /*
-    FORWARD DECLARATION
-
     The following forward declaration is necessary.
 */
 
@@ -292,8 +276,6 @@ static void print_error_msg(ERROR, LOCATION *, FILE *);
 
 
 /*
-    TERMINATE PROGRAM
-
     This routine is called to terminate the program.  It tidies up any
     output files and error messages and then exits.  fatal is true after
     a memory allocation error when the amount of tidying up which can
@@ -338,8 +320,6 @@ term_error(int fatal)
 
 
 /*
-    ERROR BREAKPOINT ROUTINE
-
     This routine is intended to aid in debugging.  It is called just after
     any error message is printed.
 */
@@ -352,8 +332,6 @@ error_break(void)
 
 
 /*
-    FIND AN ERROR MESSAGE HEADER
-
     This routine returns the error message header for an error of severity
     sev.  It also updates the internal flags.
 */
@@ -399,8 +377,6 @@ error_header(int sev)
 
 
 /*
-    PRINT A LOCATION TO A FILE
-
     This routine prints the location loc to the file f.
 */
 
@@ -415,8 +391,6 @@ print_location(LOCATION *loc, FILE *f)
 
 
 /*
-    CONVERT AN ISO SECTION NUMBER TO AN ANSI SECTION NUMBER
-
     The ISO C standard was based on the ANSI C standard but the sections
     were renumbered.  The ISO and ANSI C++ standards are identical.  This
     routine converts the ISO section number s to the corresponding ANSI
@@ -466,8 +440,6 @@ iso_to_ansi(BUFFER *bf, const char *s)
 
 
 /*
-    PRINT THE START OF AN ERROR MESSAGE
-
     This routine prints the start of an error message of severity sev and
     location loc to the file f.
 */
@@ -509,8 +481,6 @@ print_error_start(FILE *f, LOCATION *loc, int sev)
 
 
 /*
-    PRINT THE END OF AN ERROR MESSAGE
-
     This routine prints the end of an error message of severity sev to
     the file f.
 */
@@ -534,8 +504,6 @@ print_error_end(FILE *f, int sev)
 
 
 /*
-    OPTION SEVERITY LEVELS
-
     This table gives the mapping between options and error severity
     levels.
 */
@@ -556,8 +524,6 @@ int default_severity[] = {
 
 
 /*
-    CREATE AN ERROR STRUCTURE
-
     This routine creates a structure for error n in the error catalogue.
     Any extra arguments needed by the error should also be given.  Because
     of restrictions imposed by the way that stdarg is implemented, any
@@ -718,8 +684,6 @@ make_error(int n, ...) /* VARARGS */
 
 
 /*
-    PRINT THE BODY OF AN ERROR STRUCTURE
-
     This routine prints the body of the simple error message e to the
     buffer bf.
 */
@@ -928,8 +892,6 @@ print_error_body(ERROR e, LOCATION *loc, BUFFER *bf)
 
 
 /*
-    PRINT AN ERROR STRUCTURE
-
     This routine prints the body of the error message given by e to the
     file f.
 */
@@ -1000,8 +962,6 @@ print_error_msg(ERROR e, LOCATION *loc, FILE *f)
 
 
 /*
-    DESTROY AN ERROR STRUCTURE
-
     This routine destroys the error structure e.  If d is false then the
     first component of a compound error is not destroyed.
 */
@@ -1026,8 +986,6 @@ destroy_error(ERROR e, int d)
 
 
 /*
-    JOIN TWO ERROR STRUCTURES
-
     This routine joins the error structures e1 and e2 into a single compound
     error structure.
 */
@@ -1054,8 +1012,6 @@ concat_error(ERROR e1, ERROR e2)
 
 
 /*
-    OPTIONALLY JOIN TWO ERROR STRUCTURES
-
     This routine joins the error structures e1 and e2 into a single compound
     error structure if e1 represents a serious error.  Otherwise e2 is
     destroyed and e1 is returned.
@@ -1088,8 +1044,6 @@ concat_warning(ERROR e1, ERROR e2)
 
 
 /*
-    ADD AN ERROR TO A LIST
-
     This routine adds the error e to the end of the list indicated by err.
     If err is the null pointer then e is destroyed.
 */
@@ -1119,8 +1073,6 @@ add_error(ERROR *err, ERROR e)
 
 
 /*
-    STANDARD ERROR PREFIX
-
     These variables give an error message which is added to the start
     of any error before it is printed.  The prefix error severity is not
     taken into account in the overall error severity.
@@ -1130,8 +1082,6 @@ static ERROR error_prefix = NULL_err;
 
 
 /*
-    SET ERROR PREFIX
-
     This routine sets the error prefix to be e, returning the previous
     value.
 */
@@ -1146,8 +1096,6 @@ set_prefix(ERROR e)
 
 
 /*
-    RESTORE ERROR PREFIX
-
     This routine restores the error prefix to e, destroying the previous
     value.
 */
@@ -1162,8 +1110,6 @@ restore_prefix(ERROR e)
 
 
 /*
-    PRINT AN ERROR MESSAGE
-
     This routine prints the error e at location loc.
 */
 
@@ -1203,8 +1149,6 @@ print_error(LOCATION *loc, ERROR e)
 
 
 /*
-    CREATE AN INSTALLER ERROR EXPRESSION
-
     This routine creates an install-time error expression for the error
     e at the location loc.
 */
@@ -1234,8 +1178,6 @@ install_error(LOCATION *loc, ERROR e)
 
 
 /*
-    PRINT A SIMPLE ERROR
-
     This routine prints a simple error message at the current location of
     severity sev given by the printf style string s.  Any extra arguments
     needed by s should also be given.
@@ -1259,8 +1201,6 @@ error(int sev, const char *s, ...) /* VARARGS */
 
 
 /*
-    PRINT A RUNNING COMMENTARY
-
     This routine is used in verbose mode to print a running commentary of
     the compilation of the object id.
 */
@@ -1281,8 +1221,6 @@ commentary(IDENTIFIER id)
 
 
 /*
-    PRINT AN ASSERTION
-
     The routine assertion prints the assertion s which occurred at the
     location given by file and line.  The routine is_true is used to
     check whether the condition of an assertion is false.

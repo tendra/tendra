@@ -41,8 +41,6 @@
 
 
 /*
-    CURRENT LEXICAL TOKEN NUMBERS
-
     These variables are used by the parser to hold the current and former
     lexical token numbers.
 */
@@ -55,8 +53,6 @@ int have_syntax_error = 0;
 
 
 /*
-    LIST OF ACTIVE LEXICAL TOKENS
-
     The currently active lexical tokens are formed into a list starting
     with first_token.  The position of the current token within this list
     is given by crt_token.  The main routine for building up this list
@@ -79,8 +75,6 @@ static STACK(NAMESPACE)lookup_stack = NULL_stack(NAMESPACE);
 
 
 /*
-    INITIALISE ACTIVE TOKEN LIST
-
     This routine initialises a new list of active lexical tokens with the
     value toks by pushing the old values of first_token and crt_token onto
     the stack parser_stack and setting them to point to a new dummy token
@@ -113,8 +107,6 @@ init_parser(PPTOKEN *toks)
 
 
 /*
-    RESTORE ACTIVE TOKEN LIST
-
     This routine restores the previous list of active lexical tokens by
     popping the values of first_token and crt_token from the stack.  The
     previous list is returned.
@@ -137,8 +129,6 @@ restore_parser(void)
 
 
 /*
-    REMOVE A LIST OF TOKENS FROM THE CURRENT LIST
-
     This routine removes the tokens from p to q inclusive from the current
     list.  crt_token must not be included within this range.
 */
@@ -164,8 +154,6 @@ snip_tokens(PPTOKEN *p, PPTOKEN *q)
 
 
 /*
-    PATCH A NUMBER OF TOKENS INTO THE CURRENT LIST
-
     This routine patches n tokens into the current list immediately after
     crt_token, returning the first token.  This is used by the preprocessor
     to pass more than one token to the parser.
@@ -187,8 +175,6 @@ patch_tokens(int n)
 
 
 /*
-    CURRENT PARSER STATE DEPTH
-
     This variable is used to record the current depth of saved parser
     states.
 */
@@ -197,8 +183,6 @@ int crt_state_depth = 0;
 
 
 /*
-    SAVE PARSER STATE
-
     This routine saves the current parser state into s, it also clears the
     syntax error flag.  col is true if column numbers are to be considered
     during the parsing.
@@ -242,8 +226,6 @@ save_state(PARSE_STATE *s, int col)
 
 
 /*
-    RESTORE PARSER STATE
-
     This routine restores the parser state from the value stored in s.
     Note that there is some attempt at recovering the state following
     some intervening error, particularly with regard to resetting the
@@ -297,8 +279,6 @@ restore_state(PARSE_STATE *s)
 
 
 /*
-    SET UP FILE LOCATION TOKENS
-
     This routine sets up preprocessing tokens recording the current file
     position immediately following p.
 */
@@ -324,8 +304,6 @@ make_loc_tokens(PPTOKEN *p)
 
 
 /*
-    READ FILE LOCATION TOKENS
-
     This routine adjusts the current line number according to the
     preprocessing tokens p.
 */
@@ -360,8 +338,6 @@ read_loc_tokens(PPTOKEN *p)
 
 
 /*
-    FIND A DESTRUCTOR NAME
-
     This routine returns the destructor name for the class name cid or the
     null identifier if cid is not a class name.
 */
@@ -400,8 +376,6 @@ find_destr_id(IDENTIFIER cid)
 
 
 /*
-    CHECK A DESTRUCTOR NAME
-
     This routine checks whether the destructor name cid specified using
     nm is legal.  For example, nm might be a typedef-name for the class
     rather than the class itself.  d is the result of the previous call
@@ -430,8 +404,6 @@ check_destr_id(IDENTIFIER cid, HASHID nm, int d)
 
 
 /*
-    READ AND EXPAND THE NEXT TOKEN
-
     This routine reads the next token from the list of all active tokens,
     first_token (see above).  This consists either of advancing crt_token
     along this list, or reading and expanding a new token from the input
@@ -1213,8 +1185,6 @@ compl_label:
 
 
 /*
-    READ AND EXPAND THE NEXT TOKEN (PREPROCESSOR VERSION)
-
     This routine is a cut-down version of expand_token with only the macro
     expansion and keyword actions.  This is for use with the stand-alone
     preprocessor and in the rewriting rules.
@@ -1332,8 +1302,6 @@ expand_label:
 
 
 /*
-    PARSE A TEMPLATE IDENTIFIER
-
     This routine is called after the optional 'template' at the start of
     a qualified identifier or a field member selector.  It forces the
     following identifier to be treated as a template-id even if it doesn't

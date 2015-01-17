@@ -59,8 +59,6 @@
 
 
 /*
-    UNREACHED CODE ANALYSIS
-
     The detection of unreachable code is primarily by means of the simple
     flag, which is true for unreported statements.  The flag unreached_last
     is set to equal unreached_code whenever a reachability check is applied.
@@ -80,8 +78,6 @@ int suppress_fall = 0;
 
 
 /*
-    DOES AN EXPRESSION NOT RETURN?
-
     This routine tests whether the expression e has type bottom, i.e. does
     not return a value.
 */
@@ -99,8 +95,6 @@ is_bottom(EXP e)
 
 
 /*
-    FIND THE PARENT OF A STATEMENT
-
     This routine returns a pointer to the parent of the statement e.  It
     returns the null pointer if e is a simple expression.
 */
@@ -176,8 +170,6 @@ parent_stmt(EXP e)
 
 
 /*
-    GET THE PARENT OF A STATEMENT
-
     This routine returns the parent statement of e.
 */
 
@@ -196,8 +188,6 @@ get_parent_stmt(EXP e)
 
 
 /*
-    SET THE PARENT OF A STATEMENT
-
     This routine sets the parent of the statement e to be p.
 */
 
@@ -215,8 +205,6 @@ set_parent_stmt(EXP e, EXP p)
 
 
 /*
-    STATEMENT LOCATION FLAG
-
     The flag record_location may be set to true to force extra expressions
     giving the location of each statement to be inserted into the output.
     The variable stmt_loc records the last such location.
@@ -228,8 +216,6 @@ static int adjusted_line = 0;
 
 
 /*
-    ADJUST COLUMN NUMBER
-
     This routine sets stmt_loc to point to the start of the preprocessing
     token p.
 */
@@ -263,8 +249,6 @@ adjust_column(PPTOKEN *p)
 
 
 /*
-    ADJUST LINE NUMBER
-
     This routine is called whenever the location of a statement is
     recorded.  It is intended to ensure that the current location points
     to the start of the next statement rather than the end of the current
@@ -326,8 +310,6 @@ adjust_line(int next)
 
 
 /*
-    BLOCK NAMESPACE
-
     This variable can be set to make begin_compound_stmt use an existing
     namespace rather than creating a new one.
 */
@@ -336,8 +318,6 @@ NAMESPACE block_namespace = NULL_nspace;
 
 
 /*
-    BEGIN A COMPOUND STATEMENT
-
     These routine begins the construction of a compound statement.  If
     scope is true then this compound statement also establishes a scope.
     A compound statement consists of a list of statements (the first of
@@ -404,8 +384,6 @@ begin_compound_stmt(int scope)
 
 
 /*
-    MARK THE START OF A COMPOUND STATEMENT
-
     On occasions a compound statement may be created before the open brace
     which marks its start.  In this case this routine is called when the
     open brace is encountered to record the actual position of the start
@@ -429,8 +407,6 @@ mark_compound_stmt(EXP prev)
 
 
 /*
-    EXTEND A COMPOUND STATEMENT
-
     This routine adds the statement stmt to the end of the compound
     statement prev.  Note that this routine also decides where the
     statement after this one is to go on the basis of the rules above.
@@ -513,8 +489,6 @@ extend_compound_stmt(EXP prev, EXP stmt, int loc)
 
 
 /*
-    ADD A STATEMENT TO A COMPOUND STATEMENT
-
     This routine adds the statement stmt to the compound statement prev,
     returning the resulting compound statement.  It differs from the
     previous routine in taking any declarations in stmt into account.
@@ -582,8 +556,6 @@ add_compound_stmt(EXP prev, EXP stmt)
 
 
 /*
-    END A COMPOUND STATEMENT
-
     This routine ends the compound statement prev.
 */
 
@@ -611,8 +583,6 @@ end_compound_stmt(EXP prev)
 
 
 /*
-    CONSTRUCT A TEMPORARY DECLARATION STATEMENT
-
     This routine binds any temporary variable declarations given by the
     namespace members p to q to the expression e.  This is part of the
     action of make_decl_stmt.
@@ -651,8 +621,6 @@ make_temp_decl(MEMBER p, MEMBER q, EXP e)
 
 
 /*
-    CONSTRUCT A DECLARATION STATEMENT
-
     This routine constructs a series of nested declaration statements
     corresponding to the given list of namespace members.  p gives the
     last member of the current block namespace defined, while q gives
@@ -766,8 +734,6 @@ make_decl_stmt(MEMBER p, MEMBER q, int *vars)
 
 
 /*
-    BIND TEMPORARY VARIABLES TO AN EXPRESSION
-
     This routine binds any temporary variables declared in e to the
     expression.  Reference conversions are also applied, but any
     parentheses are preserved for the benefit of the assignment in
@@ -798,8 +764,6 @@ bind_temporary(EXP e)
 
 
 /*
-    DISCARD AN EXPRESSION
-
     This routine discards the expression e.  If e is an lvalue then the
     lvalue conversions are checked but not performed.
 */
@@ -893,8 +857,6 @@ default_lab: {
 
 
 /*
-    CHECK A DISCARDED EXPRESSION
-
     This routine checks whether discarding the expression e should be
     warned about.
 */
@@ -965,8 +927,6 @@ assign_lab:
 
 
 /*
-    CONSTRUCT AN EXPRESSION STATEMENT
-
     This routine constructs an expression statement from the expression e.
     This is basically an identity operation, however various reachability
     and discarded value checks (which need to take account of certain
@@ -1015,8 +975,6 @@ make_exp_stmt(EXP e)
 
 
 /*
-    CURRENT CONDITION
-
     This value is used to hold an indicating of the value of the condition
     in the current conditional or iteration statement.  There are four
     possible values corresponding to true, false and interminate constant
@@ -1027,8 +985,6 @@ unsigned crt_condition = BOOL_INVALID;
 
 
 /*
-    CHECK A CONDITION
-
     This routine converts the condition expression cond to a boolean,
     including setting the value of crt_condition.  Note that the condition
     can be a condition declaration or the null expression (indicating an
@@ -1197,8 +1153,6 @@ check_cond(EXP cond, EXP *pd, int op)
 
 
 /*
-    CHECK A CONDITIONAL BODY
-
     This routine is called following a conditional or loop statement
     (given by op) to check for suspicious empty bodies which may be
     due to a misplaced semicolon.
@@ -1226,8 +1180,6 @@ check_empty_stmt(int op)
 
 
 /*
-    CREATE A CONDITION DECLARATION
-
     This routine combines the condition declaration d with its associated
     condition e.  If tmp is true a temporary variable is introduced for
     the value of e.
@@ -1271,8 +1223,6 @@ make_cond_decl(EXP d, EXP e, int tmp)
 
 
 /*
-    FIND A CONDITIONAL STATEMENT
-
     This routine finds the conditional statement associated with e.
     e may contain an enclosing condition declaration.
 */
@@ -1300,8 +1250,6 @@ find_cond_stmt(EXP e)
 
 
 /*
-    BEGIN AN IF STATEMENT
-
     This routine begins the construction of an if statement with condition
     cond.  In this and all routines involving a condition, a constant true
     condition is replaced by the null expression.
@@ -1333,8 +1281,6 @@ begin_if_stmt(EXP cond)
 
 
 /*
-    CONTINUE AN IF STATEMENT
-
     This routine continues the construction of an if statement by adding
     the statement, right, which is evaluated if the condition is true.
     This is called just before any else clause is processed.
@@ -1360,8 +1306,6 @@ cont_if_stmt(EXP prev, EXP right)
 
 
 /*
-    COMPLETE AN IF STATEMENT
-
     This routine completes the construction of an if statement by adding
     the statement, wrong, which is evaluated if the condition is false.
 */
@@ -1409,8 +1353,6 @@ end_if_stmt(EXP prev, EXP wrong)
 
 
 /*
-    STACK OF CURRENTLY ACTIVE ITERATION AND SWITCH STATEMENTS
-
     This stack is used to record a nested list of iteration and switch
     statements in order to determine which statement a break, continue,
     case or default refers to.
@@ -1420,8 +1362,6 @@ STACK(EXP) crt_loop_stack = NULL_stack(EXP);
 
 
 /*
-    BEGIN A DO STATEMENT
-
     This routine begins the construction of a do statement.
 */
 
@@ -1451,8 +1391,6 @@ begin_do_stmt(void)
 
 
 /*
-    COMPLETE A DO STATEMENT
-
     This routine completes the construction of the do statement prev
     using the statement body and the condition cond.
 */
@@ -1516,8 +1454,6 @@ end_do_stmt(EXP prev, EXP body, EXP cond)
 
 
 /*
-    BEGIN A FOR STATEMENT
-
     The construction of a for statement is in four stages, given by the
     following four routines.  A statement of the form:
 
@@ -1556,8 +1492,6 @@ begin_for_stmt(void)
 
 
 /*
-    ADD AN INITIAL STATEMENT TO A FOR STATEMENT
-
     This routine adds the initial statement pointed to by init to the for
     statement prev (see above).  If the initial statement is a declaration
     then the declaration statement is only created during this routine
@@ -1603,8 +1537,6 @@ init_for_stmt(EXP prev, EXP *init)
 
 
 /*
-    ADD A CONDITION TO A FOR STATEMENT
-
     This routine adds the condition and step statements, cond and step, to
     the for statement prev (see above).  Note that cond is wrapped in a
     location expression.
@@ -1676,8 +1608,6 @@ cond_for_stmt(EXP prev, EXP cond, EXP step)
 
 
 /*
-    END A FOR STATEMENT
-
     This routine completes the construction of the for statement prev by
     adding the body statement, body (see above).
 */
@@ -1723,8 +1653,6 @@ end_for_stmt(EXP prev, EXP body)
 
 
 /*
-    BEGIN A WHILE STATEMENT
-
     This routine begins the construction of a while statement with
     condition cond.
 */
@@ -1777,8 +1705,6 @@ begin_while_stmt(EXP cond)
 
 
 /*
-    COMPLETE A WHILE STATEMENT
-
     This routine completes the construction of the while statement prev
     using the statement body.
 */
@@ -1835,8 +1761,6 @@ end_while_stmt(EXP prev, EXP body)
 
 
 /*
-    CONSTRUCT A BREAK STATEMENT
-
     This routine constructs a break statement.  Note that this must appear
     inside an iteration or a switch statement.  It is implemented as a jump
     to the break label.
@@ -1865,8 +1789,6 @@ make_break_stmt(void)
 
 
 /*
-    CONSTRUCT A CONTINUE STATEMENT
-
     This routine constructs a continue statement.  Note that this must
     appear inside an iteration statement.  It is implemented as a jump to
     the continue label.
@@ -1900,8 +1822,6 @@ make_continue_stmt(void)
 
 
 /*
-    CHECK A RETURN EXPRESSION
-
     This routine checks the return expression a.  In particular returning
     a reference to a local variable is detected.  It is also used to check
     a throw expression (as indicated by op).
@@ -1930,8 +1850,6 @@ check_return_exp(EXP a, int op)
 
 
 /*
-    CONSTRUCT A RETURN EXPRESSION
-
     This routine constructs the value for the statement 'return a'.  a can
     be the null expression to indicate a plain 'return'.  op is lex_return
     to indicate explicit returns rather than the implicit return at the
@@ -2043,8 +1961,6 @@ default_lab:
 
 
 /*
-    CONSTRUCT A RETURN STATEMENT
-
     This routine constructs the return statement 'return a'.  op is as in
     find_return_exp.
 */
@@ -2068,8 +1984,6 @@ make_return_stmt(EXP a, int op)
 
 
 /*
-    FALL OUT OF A FUNCTION DEFINITION
-
     This routine is called at the end of a function definition to check
     the implicit 'return' statement caused by falling out of the function.
 */
@@ -2089,8 +2003,6 @@ fall_return_stmt(void)
 
 
 /*
-    CHECK A SWITCH CONTROL EXPRESSION
-
     This routine checks the switch control expression cont.  pd is as in
     check_cond and pb is used to return an enumeration or boolean control
     expression.
@@ -2178,8 +2090,6 @@ check_control(EXP cont, EXP *pd, EXP *pb)
 
 
 /*
-    BEGIN A SWITCH STATEMENT
-
     This routine begins the construction of a switch statement with
     controlling expression cont.  During construction an enumeration or
     boolean control expression is held in the body field.
@@ -2214,8 +2124,6 @@ begin_switch_stmt(EXP cont)
 
 
 /*
-    DOES A VALUE APPEAR IN A CASE LIST?
-
     This routine checks whether the integer constant n appears in the list
     of cases p.  If so it returns the label corresponding to the case
     statement drawn from the list of labels q.
@@ -2238,8 +2146,6 @@ find_case(LIST(NAT) p, LIST(IDENTIFIER) q, NAT n)
 
 
 /*
-    COMPLETE A SWITCH STATEMENT
-
     This routine completes the construction of the switch statement prev
     using the statement body.  exhaust is true if the switch statement
     is declared to be exhaustive.
@@ -2363,8 +2269,6 @@ end_switch_stmt(EXP prev, EXP body, int exhaust)
 
 
 /*
-    BEGIN A CASE STATEMENT
-
     This routine begins the construction of a case statement (or a jump
     to a case statement if jump is true) with labelling value val.  Note
     that a case statement must appear inside a switch statement.
@@ -2502,8 +2406,6 @@ begin_case_stmt(EXP val, int jump)
 
 
 /*
-    COMPLETE A CASE STATEMENT
-
     This routine completes the construction of the case statement prev
     using the statement body.  This is just a call to end_label_stmt.
 */
@@ -2516,8 +2418,6 @@ end_case_stmt(EXP prev, EXP body)
 
 
 /*
-    BEGIN A DEFAULT STATEMENT
-
     This routine begins the construction of a default statement (or a jump
     to a default statement if jump is true).  Note that a default statement
     must appear inside a switch statement.
@@ -2586,8 +2486,6 @@ begin_default_stmt(int jump)
 
 
 /*
-    COMPLETE A DEFAULT STATEMENT
-
     This routine completes the construction of the default statement prev
     using the statement body.  This is just a call to end_label_stmt.
 */
@@ -2600,8 +2498,6 @@ end_default_stmt(EXP prev, EXP body)
 
 
 /*
-    CURRENT #IF CONDITION
-
     This variable is used to keep track of the cummulative target dependent
     condition at any point in the compilation.  It takes the form
     'c1 && c2 && ... && cn' where c1, c2, ..., cn are the target dependent
@@ -2612,8 +2508,6 @@ EXP crt_hash_cond = NULL_exp;
 
 
 /*
-    ADD A CONDITION TO A LIST OF CONDITIONS
-
     This routine adds the condition a to the list of conditions b by
     forming 'b && a'.
 */
@@ -2629,8 +2523,6 @@ make_if_cond(EXP a, EXP b)
 
 
 /*
-    NEGATE THE LAST CONDITION IN A LIST
-
     This routine negates the last condition in the list of conditions a,
     that is, it maps 'a1 && a2 && ... && an' to 'a1 && a2 && ... && !an'.
 */
@@ -2653,8 +2545,6 @@ make_else_cond(EXP a)
 
 
 /*
-    BEGIN A #IF STATEMENT
-
     This routine begins the construction of a #if statement.  cond gives
     the condition, which is already a boolean value.  The case where cond
     is a target independent constant have already been handled by the
@@ -2682,8 +2572,6 @@ begin_hash_if_stmt(EXP cond, EXP right)
 
 
 /*
-    CONTINUE A #IF STATEMENT
-
     This routine continues the construction of a #if statement, prev, by
     adding a #elif statement to the condition.  cond gives the condition,
     which is already a boolean value.  The case where cond is a target
@@ -2716,8 +2604,6 @@ cont_hash_if_stmt(EXP prev, EXP cond, EXP right)
 
 
 /*
-    COMPLETE A #IF STATEMENT
-
     This routine completes the construction of a #if statement, prev.
     wrong gives the code which is evaluated if none of the conditions in
     prev is true.
@@ -2749,8 +2635,6 @@ end_hash_if_stmt(EXP prev, EXP wrong)
 
 
 /*
-    CREATE A FLOW CONTROL STATEMENT
-
     This routine creates a flow control statement indicating that the
     statement body is either reached or unreached, depending on the
     value of reach.
@@ -2782,8 +2666,6 @@ make_reach_stmt(EXP body, int reach)
 
 
 /*
-    CHECK A CONDITION DECLARATION TYPE
-
     This routine checks the type t of a condition declaration.
 */
 
@@ -2818,8 +2700,6 @@ make_cond_type(TYPE t)
 
 
 /*
-    BEGIN A CONDITION DECLARATION
-
     Condition declarations are declared in their own local scope and
     brought into the outermost scope of the the statements they control
     using inject_cond.  This routine begins the construction of such a
@@ -2836,8 +2716,6 @@ begin_cond(void)
 
 
 /*
-    END A CONDITION DECLARATION
-
     This routine ends the local scope for a condition declaration, returning
     a corresponding declaration statement.
 */
@@ -2854,8 +2732,6 @@ end_cond(void)
 
 
 /*
-    INJECT A CONDITION DECLARATION INTO THE CURRENT SCOPE
-
     This routine injects the condition declaration cond into the current
     scope, prev, returning the result.  It is also used to deal with
     declarations in for-init statements.
@@ -2877,8 +2753,6 @@ inject_cond(EXP prev, EXP cond)
 
 
 /*
-    CONSTRUCT AN ASM STATEMENT
-
     This routine constructs an asm statement from the string literal
     expression e.  Note that the semantics of asm are totally implementation
     dependent, so anything goes.

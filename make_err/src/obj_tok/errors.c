@@ -14,8 +14,6 @@
 
 
 /*
-    DUMMY EMPTY FILE
-
     This file is deliberately empty so that the specification and
     implementation source trees match.
 */

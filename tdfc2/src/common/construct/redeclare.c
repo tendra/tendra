@@ -54,8 +54,6 @@
 
 
 /*
-    CURRENT LINKAGE SPECIFIER
-
     The current linkage specifier is handled by means of this global
     variable.  The default, of no linkage being given, is interpreted
     according to the source language.
@@ -66,8 +64,6 @@ DECL_SPEC new_linkage = dspec_none;
 
 
 /*
-    FIND A LINKAGE SPECIFIER
-
     This routine translates the string literal expression e into a linkage
     specifier.  The only recognised strings are "C" and "C++".
 */
@@ -102,8 +98,6 @@ find_linkage(EXP e)
 
 
 /*
-    FIND A LINKAGE STRING
-
     This routine returns the string corresponding to the linkage specifiers
     given by ds and cv.
 */
@@ -122,8 +116,6 @@ linkage_string(DECL_SPEC ds, CV_SPEC cv)
 
 
 /*
-    ADJUST DECLARATION SPECIFIER FOR LANGUAGE
-
     This routine adds the current language specifier to the declaration
     specifier ds.  mem is true for a member declaration (which always
     has C++ linkage).  ds may contain a language specifier from a
@@ -151,8 +143,6 @@ adjust_linkage(DECL_SPEC ds, int mem)
 
 
 /*
-    CHECK C LINKAGE DECLARATIONS
-
     This routine checks the identifier id declared with C linkage.  Objects
     with C linkage in different namespaces are actually the same.
 */
@@ -215,8 +205,6 @@ c_linkage(IDENTIFIER id, int def)
 
 
 /*
-    FIND A PREVIOUS DECLARATION
-
     If a declaration in block scope is declared extern then it has external
     linkage unless the declaration matches a visible declaration of namespace
     scope.  This routine finds such a declaration for the identifier id
@@ -273,8 +261,6 @@ find_previous(TYPE t, IDENTIFIER id)
 
 
 /*
-    UNIFY AN EXTERNAL IDENTIFIER
-
     This routine checks the identifier id, which is a variable declared
     extern in a block, against conflicts with the namespace ns into
     which it is injected.  p gives all the other extern block identifiers
@@ -359,8 +345,6 @@ unify_extern(IDENTIFIER id, TYPE t, NAMESPACE ns, LIST(IDENTIFIER) p)
 
 
 /*
-    UNIFY A BLOCK DECLARATION WITH A PREVIOUS DECLARATION
-
     This routine is used to unify the external block declaration id of
     type t with its previous declaration pid (as returned by find_previous).
     def is true is id is a function definition.  The routine returns id.
@@ -416,8 +400,6 @@ unify_previous(IDENTIFIER id, TYPE t, IDENTIFIER pid, int def)
 
 
 /*
-    UNIFY A DECLARATION WITH A PREVIOUS BLOCK DECLARATION
-
     This routine is used to unify the external declaration id of type
     t with any previous external block declaration of the same object.
     def is true if id is a function definition.  The routine returns id.
@@ -449,8 +431,6 @@ unify_subsequent(IDENTIFIER id, TYPE t, int def)
 
 
 /*
-    CHECK FOR CLASS-LIKE TYPEDEF NAMES
-
     This routine checks whether the typedef name id behaves like a class
     or an object with respect to name hiding.  It is not entirely clear
     whether it is just original class and enumeration names or all class
@@ -477,8 +457,6 @@ is_tagged_type(IDENTIFIER id)
 
 
 /*
-    REPORT AN OVERLOADIN ERROR
-
     This routine reports the overloading error err for the function id
     which cannot be overloaded for the reason corresponding to reason.
     It returns the severity of the error.
@@ -515,8 +493,6 @@ overload_error(IDENTIFIER id, ERROR err, int reason)
 
 
 /*
-    REDECLARE AN OBJECT IDENTIFIER
-
     This routine checks the redeclaration of the identifier id as an object
     with declaration specifiers ds and type t.  It returns id for a valid
     redeclaration and the null identifier otherwise, reporting any errors
@@ -751,8 +727,6 @@ error_lab:
 
 
 /*
-    REDECLARE A FUNCTION IDENTIFIER
-
     This routine is similar to redecl_id except that it allows for function
     overloading.  As before it returns id if this is a redeclaration of an
     existing function, and the null identifier otherwise.  However in the
@@ -887,8 +861,6 @@ redecl_func(DECL_SPEC ds, TYPE t, IDENTIFIER id, unsigned tag,
 
 
 /*
-    REDECLARE AN INHERITED OR ALIASED MEMBER
-
     This routine is used to allow for declarations of class members to
     override any inherited value of the member.  id gives the inherited
     value, mem is true for a member declaration, fn is true for a function
@@ -936,8 +908,6 @@ redecl_inherit(IDENTIFIER id, QUALIFIER qual, int mem, int fn)
 
 
 /*
-    COPY AN IDENTIFIER
-
     This routine creates a copy of the identifier id.  If type is 1
     then any type components in id are copied using copy_typedef, if it
     is 2 they are further expanded using expand_type.
@@ -1128,8 +1098,6 @@ copy_id(IDENTIFIER id, int type)
 
 
 /*
-    CREATE AN IDENTIFIER ALIAS
-
     This routine creates an alias for the identifier id in the namespace
     ns.  fn gives a list of function which the alias will overload if
     it is a function.
@@ -1173,8 +1141,6 @@ alias_id(IDENTIFIER id, NAMESPACE ns, IDENTIFIER fn, int rec)
 
 
 /*
-    DUMMY DECLARATION SPECIFIER
-
     This value is used as a dummy declaration specifier in the adjusting
     of overloaded functions.
 */
@@ -1183,8 +1149,6 @@ alias_id(IDENTIFIER id, NAMESPACE ns, IDENTIFIER fn, int rec)
 
 
 /*
-    REMOVE HIDDEN FUNCTIONS
-
     This routine adjusts the set of overloaded functions id by removing
     any with storage field equal to dspec_mark.
 */
@@ -1207,8 +1171,6 @@ remove_functions(IDENTIFIER id)
 
 
 /*
-    COMPARE HIDING FUNCTIONS
-
     This routine compares two functions id and over, one declared in the
     normal fashion and the other by a using-declaration.  It returns
     true if the former overrides the latter.
@@ -1237,8 +1199,6 @@ compare_functions(IDENTIFIER id, IDENTIFIER over, int mem)
 
 
 /*
-    MARK HIDDEN FUNCTIONS
-
     This routine marks any functions which hide, or are hidden by, id in
     its set of overloaded functions.  mem is true for member functions.
     Any hidden function is marked by setting its storage field to the
@@ -1295,8 +1255,6 @@ mark_functions(IDENTIFIER id, int mem)
 
 
 /*
-    HANDLE HIDDEN FUNCTIONS WITH USING DECLARATIONS
-
     The interaction of using declarations with the hiding and overriding
     of member functions is somewhat complex.  It is implemented by this
     routine which adjusts the declarations of the overloaded functions id
@@ -1332,8 +1290,6 @@ hide_functions(IDENTIFIER id, IDENTIFIER over, int mem)
 
 
 /*
-    CHECK THE VISIBILITY OF AN IDENTIFIER
-
     A member name in a using declaration should be visible from a direct
     base class.  This routine checks whether the member id meets this
     criterion by comparing it with its look-up in the direct base
@@ -1378,8 +1334,6 @@ using_visible(IDENTIFIER id, IDENTIFIER pid)
 
 
 /*
-    PROCESS A CLASS USING DECLARATION
-
     This routine processes a using-declaration of the identifier id in
     the case when this declaration is a member-declaration.
 */
@@ -1501,8 +1455,6 @@ using_member(IDENTIFIER id, int type)
 
 
 /*
-    PROCESS A NAMESPACE USING DECLARATION
-
     This routine processes a using-declaration of the identifier id in
     the case when this declaration is not a member-declaration.
 */
@@ -1591,8 +1543,6 @@ using_name(IDENTIFIER id)
 
 
 /*
-    PROCESS A USING DECLARATION
-
     This routine processes a using-declaration of the identifier id.  Note
     that this includes the access declarations used to modify access to
     class members.
@@ -1680,8 +1630,6 @@ using_identifier(IDENTIFIER id)
 
 
 /*
-    PROCESS A USING TYPENAME DECLARATION
-
     This routine processes a using-declaration involving the type t
     declared using typename.
 */
@@ -1695,8 +1643,6 @@ using_typename(TYPE t)
 
 
 /*
-    REDECLARE AN IDENTIFIER
-
     This routine redeclares the identifier id in the namespace ns.
 */
 
@@ -1730,8 +1676,6 @@ redeclare_id(NAMESPACE ns, IDENTIFIER id)
 
 
 /*
-    CHECK ANONYMOUS UNION MEMBER
-
     This routine checks whether the identifier id is member of an
     anonymous union.
 */
@@ -1757,8 +1701,6 @@ is_anon_member(IDENTIFIER id)
 
 
 /*
-    REDECLARE A MEMBER OF AN ANONYMOUS UNION
-
     This routine redeclares the member id of an anonymous union.  The
     remaining arguments are as in redecl_anon_union.
 */
@@ -1830,8 +1772,6 @@ redecl_anon_member(IDENTIFIER id, CLASS_TYPE ct, DECL_SPEC ds, IDENTIFIER obj)
 
 
 /*
-    REDECLARE AN ANONYMOUS UNION
-
     This routine redeclares all the members of the anonymous union obj of
     type ct in the current namespace using the declaration specifiers ds.
     The routine returns false if there are no members to redeclare.  The

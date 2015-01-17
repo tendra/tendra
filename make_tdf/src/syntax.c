@@ -40,8 +40,6 @@
 
 
 /*
-    LOCAL TYPE ALIASES
-
     These definitions give the aliases used for compound types within the
     grammar.
 */
@@ -52,8 +50,6 @@ typedef LIST ( PARAMETER ) SID_PARAM_LIST ;
 
 
 /*
-    COMPILATION MODE
-
     We allow unreached code and switch off the variable analysis in the
     automatically generated sections.
 */

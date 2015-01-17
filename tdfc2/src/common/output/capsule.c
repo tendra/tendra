@@ -39,8 +39,6 @@
 
 
 /*
-    START OF TDF OUTPUT ROUTINES
-
     The compiler can optionally be compiled with the TDF output routines
     disabled by defining the TDF_OUTPUT macro to be zero on the
     command-line.  The following routines are concerned with TDF output.
@@ -50,8 +48,6 @@
 
 
 /*
-    TABLE OF TDF UNIT TYPES
-
     This table gives the various TDF unit types (token definitions, tag
     declarations etc.).  These are called equations in the TDF linking
     routines.  Each entry consists of an equation name, a couple of
@@ -86,8 +82,6 @@ static EQN_INFO eqns[EQN_no] = {
 
 
 /*
-    TABLE OF LINKABLE TDF ENTITIES
-
     This table gives the various TDF linkable entities (tokens, tags etc.).
     These are called variables in the TDF linking routines.  Each entry
     consists of a variable name and a table of capsule level variables
@@ -116,8 +110,6 @@ static VAR_INFO vars[VAR_total] = {
 
 
 /*
-    TYPE REPRESENTING A UNIT LINKAGE
-
     This type is used to represent the linkage for a unit.  It records the
     number of each variable type (plus labels) and the mapping of each of
     the external variables in this unit.  It also records a count value
@@ -136,8 +128,6 @@ typedef struct link_tag {
 
 
 /*
-    LIST OF ALL UNIT LINKAGES
-
     A list of all unit linkages is maintained so that extending a list of
     external variables also extends all the unit linkage maps.
 */
@@ -146,8 +136,6 @@ static LINKAGE *all_links = NULL;
 
 
 /*
-    CREATE A NEW LINKAGE BITSTREAM
-
     This routine starts a new bitstream ps and associates a linkage unit
     with it.
 */
@@ -187,8 +175,6 @@ start_linkage(BITSTREAM **ps, int create)
 
 
 /*
-    EXTEND A VARIABLE LINKAGE TABLE
-
     This routine extends the variable linkage table for variable type v.
 */
 
@@ -236,8 +222,6 @@ extend_linkage(int v)
 
 
 /*
-    FIND AN EXTERNAL LINKAGE NUMBER
-
     This routine allocates an external (capsule) linkage number for a
     variable of type v with external name s, returning the result.
 */
@@ -258,8 +242,6 @@ capsule_no(string s, int v)
 
 
 /*
-    SET AN EXTERNAL LINKAGE NAME
-
     This routine sets the external name for the variable of type v with
     external linkage number n to be the contents of ps, allocating a new
     variable if n is LINK_NONE.  It returns the value of n and assigns
@@ -284,8 +266,6 @@ capsule_name(ulong n, string *ps, int v)
 
 
 /*
-    ASSIGN AN EXTERNAL LINKAGE NUMBER
-
     This routine allocates an external (capsule) linkage number to the
     identifier id of variable type v.  It returns false if this number
     has already been allocated.  Note that id cannot be made external
@@ -314,8 +294,6 @@ capsule_id(IDENTIFIER id, int v)
 
 
 /*
-    FIND AN INTERNAL LINKAGE NUMBER
-
     This routine allocates an internal (unit) linkage number in the unit
     corresponding to bs to the external (capsule) variable number n of
     type v.
@@ -339,8 +317,6 @@ link_no(BITSTREAM *bs, ulong n, int v)
 
 
 /*
-    ASSIGN AN INTERNAL LINKAGE NUMBER
-
     This routine allocates an internal (unit) linkage number to the
     identifier id of variable type v within the unit corresponding to bs.
     v can denote a label.  The corresponding number is returned.  Note
@@ -393,8 +369,6 @@ unit_no(BITSTREAM *bs, IDENTIFIER id, int v, int def)
 
 
 /*
-    CLEAR AN IDENTIFIER LINKAGE
-
     This routine clears the identifier linkage for id.
 */
 
@@ -417,8 +391,6 @@ clear_no(IDENTIFIER id)
 
 
 /*
-    SET A DIAGNOSTIC TAG NUMBER
-
     This routine sets the diagnostic tag associated with external identifier
     id of type v to be m.
 */
@@ -440,8 +412,6 @@ set_diag_tag(IDENTIFIER id, int v, ulong m)
 
 
 /*
-    GET A DIAGNOSTIC TAG NUMBER
-
     This routine gets the diagnostic tag associated with external identifier
     id of type v.
 */
@@ -460,8 +430,6 @@ get_diag_tag(IDENTIFIER id, int v)
 
 
 /*
-    FIND THE NUMBER OF LABELS IN A UNIT
-
     This routine returns the number of labels in the unit corresponding
     to the bitstream bs.
 */
@@ -475,8 +443,6 @@ no_labels(BITSTREAM *bs)
 
 
 /*
-    RECORD USAGE INFORMATION
-
     This routine records the usage information u for the external variable
     of type v with number n.
 */
@@ -493,8 +459,6 @@ record_usage(ulong n, int v, unsigned u)
 
 
 /*
-    FIND USAGE INFORMATION
-
     This routine finds the usage information for the external variable of
     type v with number n.
 */
@@ -509,8 +473,6 @@ find_usage(ulong n, int v)
 
 
 /*
-    CLEAR USAGE INFORMATION
-
     This routine clears the usage information for the external variable
     of type v with number n.
 */
@@ -525,8 +487,6 @@ clear_usage(ulong n, int v)
 
 
 /*
-    INCREMENT A LINKAGE COUNTER
-
     This routine increments the linkage counter associated with the
     bitstream bs.  This is used to keep track of the number of tag
     declarations, or similar, within a unit.
@@ -542,8 +502,6 @@ count_item(BITSTREAM *bs)
 
 
 /*
-    ADD A UNIT TO A CAPSULE
-
     This routine adds the unit given by the bitstream bs to the list of
     units of type u.  If the associate unit count is zero then the unit
     is not added.
@@ -569,8 +527,6 @@ add_unit(int u, BITSTREAM *bs, BITSTREAM *ps)
 
 
 /*
-    STANDARD BITSTREAMS
-
     These bitstreams represent standard units within the TDF capsule.
 */
 
@@ -588,8 +544,6 @@ static int written_capsule = 0;
 
 
 /*
-    DYNAMIC INITIALISATION AND TERMINATION FUNCTIONS
-
     These bitstreams are used to build up the bodies of the dynamic
     initialisation and termination functions.  A count of the number
     of statements in each is maintained.
@@ -603,8 +557,6 @@ ulong term_no = 0;
 
 
 /*
-    CREATE A LINKER INFORMATION UNIT
-
     This routine creates a linker information unit containing just a tld
     version number.  The usage information for the external variables is
     added at a subsequent stage.
@@ -620,8 +572,6 @@ make_tld_unit(void)
 
 
 /*
-    CREATE A VERSIONS UNIT
-
     This routine creates a versions unit containing a single version
     which gives the TDF version number.
 */
@@ -647,8 +597,6 @@ make_version_unit(void)
 
 
 /*
-    CREATE ALL CAPSULE UNITS
-
     This routine creates or completes all the units comprising the TDF
     capsule.
 */
@@ -675,8 +623,6 @@ make_capsule_units(void)
 
 
 /*
-    WRITE AN EXTERNAL NAME
-
     This routine writes the external name s to the bitstream bs.  Spaces
     are used to designate the components of unique identifiers.
 */
@@ -726,8 +672,6 @@ enc_name(BITSTREAM *bs, string s, int v)
 
 
 /*
-    WRITE MAIN CAPSULE BODY
-
     This routine writes the main body of the output TDF capsule to the
     bitstream bs.
 */
@@ -969,8 +913,6 @@ write_capsule_body(BITSTREAM *bs)
 
 
 /*
-    CURRENT FUNCTION INFORMATION
-
     At the start of each function definition the associated class type
     and the identifier corresponding to the this parameter are recorded
     in these variables.
@@ -982,8 +924,6 @@ int last_conts[DUMMY_max];
 
 
 /*
-    CLEAR FUNCTION INFORMATION
-
     This routine clears the function information above.
 */
 
@@ -1000,8 +940,6 @@ clear_params(void)
 
 
 /*
-    INITIALISE OUTPUT ROUTINES
-
     This routine initialises the TDF capsule output routines.
 */
 
@@ -1058,8 +996,6 @@ init_capsule(void)
 
 
 /*
-    INITIALISE DIAGNOSTIC ROUTINES
-
     This routine is called at the start of each input file to initialise
     the diagnostic routines.
 */
@@ -1083,8 +1019,6 @@ init_diag(void)
 
 
 /*
-    START OF DUMMY TDF OUTPUT ROUTINES
-
     The following routines are dummies which are used if TDF output is
     disabled.  The output is still a valid TDF capsule, it just contains
     no information.
@@ -1094,8 +1028,6 @@ init_diag(void)
 
 
 /*
-    WRITE MAIN CAPSULE BODY (DUMMY VERSION)
-
     This routine writes the main body of a dummy TDF capsule to the
     bitstream bs.
 */
@@ -1108,8 +1040,6 @@ write_capsule_body(BITSTREAM *bs)
 
 
 /*
-    INITIALISE OUTPUT ROUTINES (DUMMY VERSION)
-
     This is the dummy initialisation routine for when the TDF output
     routines are disabled.
 */
@@ -1123,8 +1053,6 @@ init_capsule(void)
 
 
 /*
-    INITIALISEE DIAGNOSTIC ROUTINES (DUMMY VERSION)
-
     This is the dummy diagnostic initialisation routine for when the TDF
     output routines are disabled.
 */
@@ -1137,8 +1065,6 @@ init_diag(void)
 
 
 /*
-    END OF TDF OUTPUT ROUTINES
-
     The remaining routines in this module are common whether TDF output
     is disabled or not.
 */
@@ -1147,8 +1073,6 @@ init_diag(void)
 
 
 /*
-    TDF OUTPUT FLAGS
-
     The flag output_capsule can be set to false to suppress TDF output.
     The other flags inhibit the output of other optional features.
 */
@@ -1176,8 +1100,6 @@ int output_virtual = 0;
 
 
 /*
-    PROCESS A TDF OUTPUT OPTION
-
     This routine processes the TDF output options given by opt.  This
     corresponds to the command-line option '-jopt'.
 */
@@ -1268,8 +1190,6 @@ output_option(string opt)
 
 
 /*
-    ENCODE A VERSION NUMBER
-
     This routine adds the TDF version number to the bitstream bs, making
     adjustments to the minor version number if the extensions they
     represent are not used.
@@ -1291,8 +1211,6 @@ enc_version(BITSTREAM *bs)
 
 
 /*
-    MAIN TDF OUTPUT ROUTINE
-
     This routine outputs the TDF capsule built up by the parsing and
     construction routines.
 */

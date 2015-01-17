@@ -20,8 +20,6 @@
 
 
 /*
-    DUMP A BITSTREAM TO A FILE
-
     This routine dumps the contents of the bitstream bs to its associated
     file.  The contents will be lost if this is the null file.  Any odd
     bits will remain in the bitstream.
@@ -45,8 +43,6 @@ dump_bitstream(BITSTREAM *bs)
 
 
 /*
-    LIST OF FREE BITSTREAMS
-
     This variable gives the list of bitstreams from which new bitstreams
     are allocated.
 */
@@ -55,8 +51,6 @@ static BITSTREAM *free_bitstreams = NULL;
 
 
 /*
-    CREATE A NEW BITSTREAM
-
     This routine creates a new bitstream with associated file f and
     linkage lnk.
 */
@@ -82,8 +76,6 @@ start_bitstream(FILE *f, gen_ptr lnk)
 
 
 /*
-    END A BITSTREAM
-
     This routine frees the bitstream bs including clearing the buffer
     for any file bitstream if w is true.
 */
@@ -107,8 +99,6 @@ end_bitstream(BITSTREAM *bs, int w)
 
 
 /*
-    EXTEND A BITSTREAM
-
     This routine extends the bitstream bs by dumping its contents to a
     file or linking it to a fresh chunk.
 */
@@ -130,8 +120,6 @@ extend_bitstream(BITSTREAM *bs)
 
 
 /*
-    ADD A NUMBER OF BITS TO A BITSTREAM
-
     This routine adds the n bits given by d to the bitstream bs.  n will
     always be at most 16.
 */
@@ -181,8 +169,6 @@ enc_bits(BITSTREAM *bs, unsigned n, unsigned d)
 
 
 /*
-    ADD A LARGER NUMBER OF BITS TO A BITSTREAM
-
     This routine is identical to enc_bits except that it works for up to
     32 bits.
 */
@@ -200,8 +186,6 @@ enc_long_bits(BITSTREAM *bs, unsigned n, unsigned long d)
 
 
 /*
-    ADD A NUMBER OF BYTES TO A BITSTREAM
-
     This routine adds the n bytes given by s to the bitstream bs.
 */
 
@@ -237,8 +221,6 @@ enc_bytes(BITSTREAM *bs, unsigned long n, string s)
 
 
 /*
-    ADD A NUMBER OF ASCII CHARACTERS TO A BITSTREAM
-
     This routine adds the n ASCII characters given by s to the bitstream bs.
 */
 
@@ -284,8 +266,6 @@ enc_ascii(BITSTREAM *bs, unsigned long n, string s)
 
 
 /*
-    COPY A BITSTREAM
-
     This routine copies a component of the bitstream bs to the end of
     the bitstream fs.
 */
@@ -311,8 +291,6 @@ copy_bitstream(BITSTREAM *fs, BITSTREAM *bs)
 
 
 /*
-    JOIN TWO BITSTREAMS
-
     This routine adds the bitstream bs to the end of the bitstream fs.
     bs will not have an associated file.
 */
@@ -373,8 +351,6 @@ join_bitstreams(BITSTREAM *fs, BITSTREAM *bs)
 
 
 /*
-    FIND THE LENGTH OF A BITSTREAM
-
     This routine returns the length of the bitstream bs in bits.
 */
 
@@ -391,8 +367,6 @@ length_bitstream(BITSTREAM *bs)
 
 
 /*
-    ALIGN A BITSTREAM TO A BYTE BOUNDARY
-
     This routine aligns the bitstream bs so that it consists of a whole
     number of bytes.
 */
@@ -411,8 +385,6 @@ enc_boundary(BITSTREAM *bs)
 
 
 /*
-    ADD AN EXTENDED BIT PATTERN TO A BITSTREAM
-
     This routine adds the bit pattern d to the bitstream bs using the
     extended encoding as n-bit packets.  Note that d cannot be zero.
 */
@@ -433,8 +405,6 @@ enc_extn(BITSTREAM *bs, unsigned n, unsigned d)
 
 
 /*
-    ADD A SERIES OF OCTAL DIGITS TO A BITSTREAM
-
     This is an auxiliary routine used by enc_int.  It is identical
     except that the last digit is not marked.
 */
@@ -453,8 +423,6 @@ enc_int_aux(BITSTREAM *bs, unsigned long n)
 
 
 /*
-    ADD AN INTEGER TO A BITSTREAM
-
     This routine adds the integer n as a series of octal digits to the
     bitstream bs.  The last digit is marked by means of a set bit.
 */
@@ -471,8 +439,6 @@ enc_int(BITSTREAM *bs, unsigned long n)
 
 
 /*
-    ADD AN IDENTIFIER TO A BITSTREAM
-
     This routine adds the identifier string starting with s of length n
     to the bitstream bs.  This is encoded as two integers, giving the
     bits per character and the number of characters, followed by an
@@ -491,8 +457,6 @@ enc_ident(BITSTREAM *bs, string s, unsigned long n)
 
 
 /*
-    ADD A STRING TO A BITSTREAM
-
     This routine adds the string s of length n to the bitstream bs.
 */
 
@@ -507,8 +471,6 @@ enc_tdfstring(BITSTREAM *bs, unsigned long n, string s)
 
 
 /*
-    ADD A STRING TO A BITSTREAM
-
     This routine is identical to enc_tdfstring except that strlen is
     used to calculate the length of the string.
 */
@@ -525,8 +487,6 @@ enc_ustring(BITSTREAM *bs, string s)
 
 
 /*
-    ADD A TDF BITSTREAM TO A BITSTREAM
-
     This routine adds the bitstream ps, preceded by its length, to the
     bitstream bs.
 */

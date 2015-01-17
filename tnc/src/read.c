@@ -24,8 +24,6 @@
 
 
 /*
-    ARE MULTIBYTE STRINGS ALLOWED
-
     This flag is true to indicate that multibyte strings (other than
     8 bits per character) are allowed.
 */
@@ -34,8 +32,6 @@ boolean allow_multibyte = 1;
 
 
 /*
-    READ A TOKEN APPLICATION
-
     A token application of sort s is read and appended to p.
 */
 
@@ -126,8 +122,6 @@ read_token(node *p, sortname s)
 
 
 /*
-    READ A TOKEN NAME
-
     This routine reads a token name (as opposed to a token application).
     The token should have sort s.
 */
@@ -185,8 +179,6 @@ read_token_name(sortname s)
 
 
 /*
-    FIND BASIC CONSTRUCT FOR A VARIABLE SORT
-
     This routine returns the construct for turning an identifier into
     an object of sort s.
 */
@@ -205,8 +197,6 @@ make_obj(sortname s)
 
 
 /*
-    IS A VARIABLE SORT A USE OR AN INTRODUCTION?
-
     This flag is true to indicate that the tag (or whatever) being read
     is a new one being introduced rather than an old one being used.
     The flag intro_tag_var is set to indicate that any tag so introduced
@@ -220,8 +210,6 @@ boolean intro_visible = 0;
 
 
 /*
-    SEARCH FOR A VARIABLE SORT
-
     This routine initializes, if appropriate, and returns the construct
     corresponding to the object named nm of sort s.
 */
@@ -260,8 +248,6 @@ search_var_sort(char *nm, sortname s)
 
 
 /*
-    READ A VARIABLE SORT
-
     An identifier representing a construct of sort s is read.
 */
 
@@ -282,8 +268,6 @@ read_var_sort(sortname s)
 
 
 /*
-    READ A SEQUENCE EXPRESSION
-
     A sequence expression is read.  This is tricky because it is a list
     of exps followed by an exp, which may be read as a list of exps.
 */
@@ -320,8 +304,6 @@ read_seq_node(node *p)
 
 
 /*
-    READ SORT INDICATED BY A SINGLE DECODE LETTER
-
     An object with sort given by the decode letter str is read.  If the next
     object is not of this sort then either an error is flagged (if strict
     is true) or null is returned.
@@ -634,8 +616,6 @@ read_node_aux(char *str, int strict)
 
 
 /*
-    BRING VARIABLES INTO AND OUT OF SCOPE
-
     The tags, labels etc introduced in p are brought into (if end is
     false) or out of (if end is true) scope.  This only works because
     all the constructs which introduce these variables are of a fairly
@@ -710,8 +690,6 @@ adjust_scope(node *p, int end)
 
 
 /*
-    CHECK FOR COMMA OR CLOSE BRACKET
-
     The next word should be a comma, which is stepped over, or a close
     bracket.
 */
@@ -739,8 +717,6 @@ check_comma(void)
 
 
 /*
-    READ SORTS GIVEN BY A STRING OF DECODE LETTERS
-
     A node corresponding to the decode string str is read from the
     input file.
 */

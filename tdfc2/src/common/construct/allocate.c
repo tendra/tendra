@@ -56,8 +56,6 @@
 
 
 /*
-    PERFORM AN ARITHMETIC OPERATION ON AN ARRAY DIMENSION
-
     This routine calculates the simple arithmetic operation 'a op b'.  Any
     conversion errors are suppressed.
 */
@@ -86,8 +84,6 @@ make_dim_exp(int op, EXP a, EXP b)
 
 
 /*
-    ALLOCATION ROUTINES
-
     The memory allocation and deallocation routines are only contained in
     the C++ producer.
 */
@@ -96,8 +92,6 @@ make_dim_exp(int op, EXP a, EXP b)
 
 
 /*
-    BAD ALLOCATION EXCEPTION TYPE
-
     The variable type_bad_alloc is used to represent the standard exception
     type 'std::bad_alloc' thrown when an allocation function fails.  The
     list alloc_types is used to record all the function types for simple
@@ -109,8 +103,6 @@ static LIST(TYPE) alloc_types = NULL_list(TYPE);
 
 
 /*
-    SET THE BAD ALLOCATION EXCEPTION TYPE
-
     This routine sets type_bad_alloc to be t, updating the exception
     specifiers of any simple allocation functions previously declared.
 */
@@ -139,8 +131,6 @@ set_bad_alloc(TYPE t)
 
 
 /*
-    CHECK AN ALLOCATION FUNCTION
-
     This routine checks whether the function type t is a suitable
     declaration for the allocation or deallocation function given by id.
     mem is true for member functions.  The basic forms allowed are:
@@ -259,8 +249,6 @@ check_allocator(TYPE t, IDENTIFIER id, int mem, int templ)
 
 
 /*
-    CHECK AN ALLOCATOR DECLARATION
-
     This routine checks the allocator declaration id.  This should either
     be a class member or a member of the global namespace with external
     linkage.  alloc is 1 for allocator functions and 2 for deallocation
@@ -316,8 +304,6 @@ recheck_allocator(IDENTIFIER id, int alloc)
 
 
 /*
-    FIND A DEALLOCATION FUNCTION
-
     This routine selects a deallocation function from the set of overloaded
     functions id.  If pid is not the null identifier then it is an
     allocation function for which a matching placement delete is required.
@@ -390,8 +376,6 @@ resolve_delete(IDENTIFIER id, IDENTIFIER pid, int mem)
 
 
 /*
-    LOOK UP AN ALLOCATOR FUNCTION
-
     This routine looks up the allocator function 'operator op'.  If b is
     true then the global namespace is checked first, otherwise if t is a
     class type then the members of t are checked, finally the allocator
@@ -499,8 +483,6 @@ find_allocator(TYPE t, int op, int b, IDENTIFIER pid)
 
 
 /*
-    CONSTRUCT A TEMPLATE DEPENDENT DELETE EXPRESSION
-
     This routine constructs a delete expression in the case where the
     expression type depends on a template parameter.
 */
@@ -523,8 +505,6 @@ make_templ_delete(int op, int b, EXP a)
 
 
 /*
-    CONSTRUCT A PLACEMENT DELETE EXPRESSION
-
     This routine constructs the expressions 'delete a' and 'delete [] a'
     (as indicated by op).  b indicates whether the expression was actually
     '::delete'.  pid is used in placement delete expressions to give the
@@ -731,8 +711,6 @@ placement_delete(int op, int b, EXP a, IDENTIFIER pid, LIST(EXP)place)
 
 
 /*
-    CREATE A SIMPLE DELETE EXPRESSION
-
     This routine is a special case of placement_delete which handles the
     explicit delete expressions.
 */
@@ -746,8 +724,6 @@ make_delete_exp(int op, int b, EXP a)
 
 
 /*
-    DELETE ARRAY ANACHRONISM
-
     It used to be necessary to include the size of the array being deleted
     in 'delete []'.  This routine deals with this anachronism.
 */
@@ -766,8 +742,6 @@ old_delete_array(EXP e)
 
 
 /*
-    CONSTRUCT A NEW ARRAY BOUND
-
     In a new-declarator the first array bound can be a variable expression,
     whereas all subsequent array bounds must be constant expressions as
     normal.  This routine is a version of make_array_dim designed exclusively
@@ -792,8 +766,6 @@ make_new_array_dim(EXP e)
 
 
 /*
-    CONSTRUCT A TEMPLATE DEPENDENT NEW EXPRESSION
-
     This routine constructs a new expression in the case where the object
     type is a template parameter.  t gives the given type with array
     dimension d, while p is the pointer type.
@@ -814,8 +786,6 @@ make_templ_new(TYPE t, EXP d, TYPE p, int b, LIST(EXP)place, EXP init)
 
 
 /*
-    CONSTRUCT A NEW EXPRESSION
-
     This routine constructs the expression 'new ( place ) ( t ) ( init )',
     where place is a possibly empty list of expressions and init is
     a new-initialiser expression.  n gives the number of types defined
@@ -997,8 +967,6 @@ make_new_exp(TYPE t, int n, int b, LIST(EXP)place, EXP init)
 
 
 /*
-    CREATE A NEW-INITIALISER
-
     This routine creates a new-initialiser expression of type t from the
     expression list p.
 */
@@ -1065,8 +1033,6 @@ make_new_init(TYPE t, LIST(EXP)p, int init)
 
 
 /*
-    BEGIN A NEW-INITIALISER TRY BLOCK
-
     Each new-initialiser is enclosed in a dummy try block.  This is because
     if the initialiser throws an exception it is necessary to catch it,
     delete the memory just allocated, and then re-throw the exception to
@@ -1084,8 +1050,6 @@ begin_new_try(void)
 
 
 /*
-    END A NEW-INITIALISER TRY BLOCK
-
     This routine adds the new-initialiser expression b to the try block a.
 */
 
@@ -1106,8 +1070,6 @@ end_new_try(EXP a, EXP b)
 
 
 /*
-    FIND THE BODY OF A NEW-INITIALISER TRY BLOCK
-
     This routine returns the initialiser component of the new-initialiser
     try block a.
 */
@@ -1149,8 +1111,6 @@ new_try_body(EXP a)
 
 
 /*
-    END OF ALLOCATION ROUTINES
-
     The remaining routines are common to both producers.
 */
 
@@ -1158,8 +1118,6 @@ new_try_body(EXP a)
 
 
 /*
-    MULTIPLY ARRAY DIMENSIONS
-
     This routine multiplies the dimensions of any array components in the
     type pointed to by pt returning it as an expression of type s.  It
     assigns the non-array components back to pt.
@@ -1186,8 +1144,6 @@ sizeof_array(TYPE *pt, TYPE s)
 
 
 /*
-    FIND THE SIZE OF A TYPE
-
     This routine calculates the size of the type t when this can be precisely
     evaluated, returning the null literal if this is not possible.
 */
@@ -1242,8 +1198,6 @@ sizeof_type(TYPE t)
 
 
 /*
-    CREATE A SIZEOF EXPRESSION
-
     This routine constructs the expression 'sizeof ( t )' without applying
     any checks to t.
 */
@@ -1266,8 +1220,6 @@ sizeof_exp(TYPE t)
 
 
 /*
-    CONSTRUCT A SIZEOF EXPRESSION
-
     This routine constructs the expression 'sizeof ( t )'.  Note that
     'sizeof a' has already been reduced to 'sizeof ( typeof ( a ) )'
     except in the case where the result depends on a template parameter.
@@ -1334,8 +1286,6 @@ make_sizeof_exp(TYPE t, EXP a, int n, int op)
 
 
 /*
-    FIND THE TYPE OF AN EXPRESSION
-
     This routine returns the type of the expression pointed to by pa after
     apply reference conversions to it.  It is used, for example, to
     transform 'sizeof ( a )' into 'sizeof ( t )'.  n gives the number of
@@ -1364,8 +1314,6 @@ typeof_exp(EXP *pa, int n, int op)
 
 
 /*
-    FIND THE NUMBER OF ITEMS IN AN INITIALISER EXPRESSION
-
     This routine returns the number of initialisers in the expression e
     counting each array element separately.
 */

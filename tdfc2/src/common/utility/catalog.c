@@ -24,8 +24,6 @@
 
 
 /*
-    ERROR CATALOGUE
-
     The error catalogue definition is automatically generated.  It consists
     of an array of ERR_DATA structures, ERR_CATALOG.
 */
@@ -34,8 +32,6 @@
 
 
 /*
-    NUMBER OF ERRORS
-
     This value gives the number of errors in the error catalogue.
 */
 
@@ -44,8 +40,6 @@ unsigned catalog_size = (unsigned)CATALOG_SIZE;
 
 
 /*
-    ERROR NAME HASH TABLE
-
     This hash table is used to hold the names of the various errors in
     the error catalogue.
 */
@@ -62,8 +56,6 @@ static ERR_HASH *all_error_hash = NULL;
 
 
 /*
-    INITIALISE THE ERROR NAME HASH TABLE
-
     This routine initialises the error hash table.
 */
 
@@ -98,8 +90,6 @@ init_err_hash(void)
 
 
 /*
-    FIND AN ERROR NUMBER
-
     This routine finds the error number corresponding to the string literal
     expression s.  n gives a likely value to try first.  It returns -1 if
     s is not the name of a known error.
@@ -141,8 +131,6 @@ find_error_no(STRING s, int n)
 
 
 /*
-    SET AN ERROR SEVERITY LEVEL
-
     This routine sets the severity level of error number n to the error
     severity corresponding to the option number opt.
 */
@@ -158,8 +146,6 @@ set_error_sev(int n, int opt)
 
 
 /*
-    LOOK UP A LANGUAGE DEPENDENT TERM
-
     Certain technical terms vary slightly between C and C++.  This routine
     looks up the term corresponding to the lexical token number t in the
     current language.  The default is the normal lexical token name.
@@ -180,8 +166,6 @@ find_vocab(int t)
 
 
 /*
-    INITIALISE THE ERROR CATALOGUE
-
     This routine initialises the error catalogue.
 */
 
@@ -194,8 +178,6 @@ init_catalog(void)
 
 
 /*
-    TERMINATE THE ERROR CATALOGUE
-
     This routine terminates the error catalogue.
 */
 

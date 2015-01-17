@@ -48,8 +48,6 @@
 
 
 /*
-    LANGUAGE DEPENDENT DEFINITIONS
-
     The unmangling routines are only included in the C++ producer; the
     C producer uses a dummy identity mapping.
 */
@@ -58,8 +56,6 @@
 
 
 /*
-    FORWARD DECLARATIONS
-
     The following forward declarations are required in the name unmangling
     routines.
 */
@@ -72,8 +68,6 @@ static TOKEN find_token_arg(string *);
 
 
 /*
-    DUMMY RETURN TYPE
-
     This variable is a dummy used as a return type when none is given in
     a mangled form.  Its printed form is empty.
 */
@@ -82,8 +76,6 @@ static TYPE dummy_ret_type = NULL_type;
 
 
 /*
-    CURRENT UNMANGLING INFORMATION
-
     The following variables are used to hold certain information about the
     identifier being unmangled.
 */
@@ -93,8 +85,6 @@ static LIST(TOKEN)crt_unmangle_args = NULL_list(TOKEN);
 
 
 /*
-    UNMANGLE AN OPERATOR NAME
-
     This routine unmangles an operator name from the string pointed to
     by ps.
 */
@@ -435,8 +425,6 @@ unmangle_op(string *ps)
 
 
 /*
-    UNMANGLE A NUMBER
-
     This routine unmangles a series of digits from the string pointed
     to by ps.  If e is true then the digits should be terminated by an
     underscore.
@@ -461,8 +449,6 @@ unmangle_no(string *ps, int e)
 
 
 /*
-    UNMANGLE A SMALL NUMBER
-
     This routine unmangles a small number from the string pointed to
     by ps.  This consists either of a single digit or a series of digits
     delimited by underscores.
@@ -488,8 +474,6 @@ unmangle_digit(string *ps)
 
 
 /*
-    UNMANGLE AN EXPRESSION
-
     This routine unmangles an expression of type t from the string pointed
     to by ps.
 */
@@ -582,8 +566,6 @@ unmangle_exp(string *ps, TYPE t)
 
 
 /*
-    UNMANGLE AN INTEGER CONSTANT
-
     This routine unmangles an integer constant from the string pointed to
     by ps.
 */
@@ -625,8 +607,6 @@ unmangle_nat(string *ps)
 
 
 /*
-    UNMANGLE A NAMESPACE QUALIFIER
-
     This routine unmangles a namespace qualifier from the string pointed
     to by ps.  Note that all such namespaces are declared as classes even
     if they are not in reality.
@@ -728,8 +708,6 @@ unmangle_nspace(string *ps, NAMESPACE ns, int var)
 
 
 /*
-    UNMANGLE A TOKEN ARGUMENT
-
     This routine unmangles a token or template argument from the string
     pointed to by ps.
 */
@@ -785,8 +763,6 @@ unmangle_token_arg(string *ps)
 
 
 /*
-    UNMANGLE A LIST OF TOKEN ARGUMENTS
-
     This routine unmangles a list of token or template arguments from the
     string pointed to by ps.
 */
@@ -814,8 +790,6 @@ unmangle_token_args(string *ps)
 
 
 /*
-    FIND A TOKEN ARGUMENT VALUE
-
     This routine returns the an argument from the current argument list.
     The arguments are numbered from zero.
 */
@@ -839,8 +813,6 @@ find_token_arg(string *ps)
 
 
 /*
-    FIND A FUNCTION PARAMETER TYPE
-
     This routine returns the mth parameter type from the members mem.
     The parameters are numbered from one, with n giving the total number
     of parameters.
@@ -866,8 +838,6 @@ unmangle_param(unsigned m, unsigned n, MEMBER mem)
 
 
 /*
-    UNMANGLE A FUNCTION TYPE
-
     This routine unmangles a function type from the string pointed to
     by ps.
 */
@@ -965,8 +935,6 @@ unmangle_func(string *ps, CV_SPEC cv, int ret)
 
 
 /*
-    UNMANGLE A TYPE
-
     This routine unmangles a type from the string pointed to by ps.
 */
 
@@ -1228,8 +1196,6 @@ unmangle_type(string *ps, CV_SPEC cv, BASE_TYPE bt, int ret)
 
 
 /*
-    UNMANGLE AN IDENTIFIER NAME
-
     This routine unmangles the identifier s into the buffer bf.
 */
 
@@ -1439,8 +1405,6 @@ unmangle_name(string s, BUFFER *bf)
 
 
 /*
-    INITIALISE UNMANGLING ROUTINES
-
     This routine initialises the unmangling routines.
 */
 
@@ -1457,8 +1421,6 @@ init_unmangle(void)
 
 
 /*
-    END OF LANGUAGE DEPENDENT ROUTINES
-
     The remaining routine is the only one included in the C producer.
 */
 
@@ -1466,8 +1428,6 @@ init_unmangle(void)
 
 
 /*
-    UNMANGLE A LIST OF IDENTIFIER NAMES
-
     This routine unmangles the list of identifier names p to the file f.
 */
 

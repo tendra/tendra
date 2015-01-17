@@ -15,8 +15,6 @@
 
 
 /*
-    FREE OBJECTS
-
     These variables indicate the free tdf.  There is an array containing
     lists of small blocks, plus a single larger block.
 */
@@ -31,8 +29,6 @@ static tdf *free_tdf_array[free_tdf_max] = {
 
 
 /*
-    GENERATE A NEW OBJECT BLOCK
-
     This routine generates a new blcok of tdf of size sz.  Small blocks
     are allocated from the tdf array, others from the main tdf list.
 */
@@ -65,8 +61,6 @@ gen_tdf(unsigned sz)
 
 
 /*
-    DESTROY AN OBJECT BLOCK
-
     This routine destroys the block of tdf p of size sz.  Only small
     blocks are recycled.
 */
@@ -84,8 +78,6 @@ destroy_tdf(tdf *p, unsigned sz)
 
 
 /*
-    DUMMY OBJECT BLOCK DESTRUCTOR
-
     This routine is a dummy destructor which does nothing.
 */
 
@@ -100,8 +92,6 @@ dummy_destroy_tdf(tdf *p, unsigned sz)
 
 
 /*
-    DESTROY A LIST OF OBJECT BLOCKS
-
     This routine destroys the list p of blocks of tdf of size sz.  The
     list is added to the appropriate entry of the free tdf array.
 */
@@ -123,8 +113,6 @@ destroy_tdf_list(tdf *p, unsigned sz)
 
 
 /*
-    FIND THE LENGTH OF A LIST
-
     This routine calculates the length of the list p.
 */
 
@@ -141,8 +129,6 @@ length_tdf_list(tdf *p)
 
 
 /*
-    REVERSE A LIST
-
     This routine reverses the order of the list p.
 */
 
@@ -162,8 +148,6 @@ reverse_tdf_list(tdf *p)
 
 
 /*
-    APPEND TWO LISTS
-
     This routine appends the lists of tdf blocks p and q.
 */
 
@@ -183,8 +167,6 @@ append_tdf_list(tdf *p, tdf *q)
 
 
 /*
-    FIND THE LAST MEMBER OF A LIST
-
     This routine returns the last member of the list of tdf blocks p.
 */
 
@@ -201,8 +183,6 @@ end_tdf_list(tdf *p)
 
 
 /*
-    ASSERTION ROUTINES
-
     These routine implement the assertion checks.
 */
 

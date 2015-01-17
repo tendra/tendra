@@ -29,8 +29,6 @@ long total_calloced;
 
 
 /*
-    BIT PATTERNS
-
     lo_bits [n] is the number with its bottom n bits set and the rest
     zero.  hi_bits [n] is the number with its top n bits set and the rest
     zero.

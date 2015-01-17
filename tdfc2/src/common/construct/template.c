@@ -55,8 +55,6 @@
 
 
 /*
-    TEMPLATE ARGUMENT HACK FLAG
-
     This flag can be set to true to indicate that the template argument
     hack, namely mapping '>>' to '> >' at the end of a set of template
     arguments, should be applied.
@@ -66,8 +64,6 @@ static int apply_rshift_hack = 0;
 
 
 /*
-    SKIP TEMPLATE ARGUMENTS OR PARAMETERS
-
     This routine skips a set of template arguments or parameters.  It
     returns the sequence of preprocessing tokens enclosed between the
     initial '<' and the matching closing '>'.
@@ -167,8 +163,6 @@ skip_template(IDENTIFIER id)
 
 
 /*
-    SKIP A SET OF TEMPLATE ARGUMENTS
-
     This routine skips a set of arguments for the template id.  It is
     entered with the current token equal to the template name preceeding
     the initial '<' if started is false, and equal to the initial '<'
@@ -205,8 +199,6 @@ skip_template_args(IDENTIFIER id, int started)
 
 
 /*
-    PARSE A SET OF TEMPLATE ARGUMENTS
-
     This routine parses the template arguments p.  Note that unlike token
     arguments the template argument sorts are deduced by look-ahead rather
     than from the template sort.
@@ -289,8 +281,6 @@ parse_template_args(PPTOKEN *p)
 
 
 /*
-    CHECK A TEMPLATE PARAMETER TYPE
-
     This routine checks the type t of the template parameter id.
 */
 
@@ -310,8 +300,6 @@ templ_param_type(IDENTIFIER id, TYPE t)
 
 
 /*
-    DEFINE A TEMPLATE PARAMETER
-
     This routine defines the template parameter id to be arg.
 */
 
@@ -468,8 +456,6 @@ define_templ_param(IDENTIFIER id, TOKEN arg, IDENTIFIER tid, int def)
 
 
 /*
-    DEFAULT TEMPLATE ARGUMENTS FLAG
-
     This flag may be set to false to suppress template default arguments.
 */
 
@@ -477,8 +463,6 @@ int allow_templ_dargs = 1;
 
 
 /*
-    CHECK A SET OF TEMPLATE ARGUMENTS
-
     This routine checks the set of template arguments args for the template
     tid of sort tok.  Note that if tid is a function then there may be
     less arguments than parameters, in this case in_template_decl is set
@@ -559,8 +543,6 @@ check_templ_args(TOKEN tok, LIST(TOKEN) args, IDENTIFIER tid)
 
 
 /*
-    CHECK A SET OF DEDUCED TEMPLATE ARGUMENTS
-
     This routine checks the deduced template arguments args for the
     template tid with parameters pids.
 */
@@ -580,8 +562,6 @@ check_deduced_args(IDENTIFIER tid, LIST(IDENTIFIER) pids, LIST(TOKEN) args)
 
 
 /*
-    DOES A SET OF TEMPLATE ARGUMENTS MATCH A SORT?
-
     This routine checks whether the template arguments args form a match
     for an initial segment of the template sort tok.
 */
@@ -610,8 +590,6 @@ match_template_args(TOKEN tok, LIST(TOKEN) args)
 
 
 /*
-    APPLY A FUNCTION TEMPLATE
-
     This routine applies the function template id to the arguments args.
     Because id may comprise several overloaded template functions it is
     necessary to check each to determine whether the template parameter
@@ -659,8 +637,6 @@ apply_func_templ(IDENTIFIER id, LIST(TOKEN) args, int def)
 
 
 /*
-    APPLY A TYPEDEF TEMPLATE
-
     This routine applies the typedef template id to the arguments args.
 */
 
@@ -698,8 +674,6 @@ apply_typedef_templ(IDENTIFIER id, LIST(TOKEN) args)
 
 
 /*
-    APPLY A CLASS TEMPLATE
-
     This routine applies the class template id to the arguments args.
 */
 
@@ -746,8 +720,6 @@ apply_type_templ(IDENTIFIER id, LIST(TOKEN) args, int def)
 
 
 /*
-    APPLY A TEMPLATE TO A SET OF ARGUMENTS
-
     This routine applies the template id to the arguments args.
 */
 
@@ -779,8 +751,6 @@ apply_template(IDENTIFIER id, LIST(TOKEN) args, int def, int force)
 
 
 /*
-    PARSE A SET OF NON-TYPE TEMPLATE ARGUMENTS
-
     This routine parses the template arguments p for the non-class template
     id.  This includes both template functions and dummy template identifiers
     such as in 'ptr->template id < ... >'.
@@ -796,8 +766,6 @@ parse_id_template(IDENTIFIER id, PPTOKEN *p, int def)
 
 
 /*
-    PARSE A SET OF TYPE TEMPLATE ARGUMENTS
-
     This routine parses the template arguments p for the class template
     id.  def is passed to instance_type.
 */
@@ -812,8 +780,6 @@ parse_type_template(IDENTIFIER id, PPTOKEN *p, int def)
 
 
 /*
-    PARSE A SET OF TYPEDEF TEMPLATE ARGUMENTS
-
     This routine parses the template arguments p for the typedef
     template id.
 */
@@ -828,8 +794,6 @@ parse_typedef_templ(IDENTIFIER id, PPTOKEN *p)
 
 
 /*
-    DEDUCE A TEMPLATE TYPE
-
     This routine deduces the arguments for the template type id called
     without arguments.  Within a template class definition the template
     name gives the the template applied to the current arguments.
@@ -860,8 +824,6 @@ deduce_type_template(IDENTIFIER id, int used)
 
 
 /*
-    CURRENT TEMPLATE NAMESPACE
-
     This variable is used within a template declaration to hold the
     namespace in which the template parameters are declared.
 */
@@ -870,8 +832,6 @@ NAMESPACE templ_namespace = NULL_nspace;
 
 
 /*
-    LIST OF ALL TEMPLATE PARAMETERS
-
     These lists are dummy values representing the lists of all template
     parameters and all template or token parameters.
 */
@@ -881,8 +841,6 @@ LIST(IDENTIFIER) any_token_param = NULL_list(IDENTIFIER);
 
 
 /*
-    PARSE A SET OF TEMPLATE PARAMETERS
-
     This routine parses a set of template parameters.  It is entered after
     the initial 'template' has been read.  ex is true if this was preceded
     by 'export'.
@@ -1081,8 +1039,6 @@ template_params(int ex)
 
 
 /*
-    CREATE A TEMPLATE TYPE QUALIFIER
-
     This routine creates a template type qualifier from the template
     parameters tok and the type t.  It also terminates the template
     parameter namespace while leaving its names in scope.
@@ -1133,8 +1089,6 @@ make_template_type(TOKEN tok, TYPE t)
 
 
 /*
-    END A TEMPLATE DECLARATION
-
     This routine ends a template declaration.  It removes the names from
     the template parameter namespace from scope.
 */
@@ -1169,8 +1123,6 @@ end_template(TOKEN tok)
 
 
 /*
-    CHECK A TEMPLATE DECLARATOR
-
     This routine is called whenever the template type t is used to qualify
     a class definition or a function declarator.
 */
@@ -1194,8 +1146,6 @@ template_decl(TYPE t)
 
 
 /*
-    EXPORT A SET OF TEMPLATE INSTANCES
-
     This routine exports the instances associated with the template type t.
     It returns the non-template component of t.
 */
@@ -1223,8 +1173,6 @@ export_instances(TYPE t, int def)
 
 
 /*
-    EXPORT A TEMPLATE IDENTIFIER
-
     This routine marks the template identifier id as having been exported.
     def is 2 for the first explicit declaration of a template, 1 for a
     redeclaration and 0 otherwise.
@@ -1300,8 +1248,6 @@ void export_template(IDENTIFIER id, int def)
 
 
 /*
-    HAS A TEMPLATE BEEN EXPORTED?
-
     This routine checks whether the template instance id has been exported.
 */
 
@@ -1328,8 +1274,6 @@ is_exported(IDENTIFIER id)
 
 
 /*
-    CREATE A SET OF PRIMARY TEMPLATE ARGUMENTS
-
     This routine creates a list of primary template arguments corresponding
     to the template parameters pids.
 */
@@ -1349,8 +1293,6 @@ make_primary_args(LIST(IDENTIFIER) pids)
 
 
 /*
-    CHECK A SET OF PRIMARY TEMPLATE PARAMETERS
-
     This routine checks the template parameters given by the type t for
     the declaration of the primary template class or function id.  It
     returns the non-template component of t.
@@ -1421,8 +1363,6 @@ check_templ_params(TYPE t, IDENTIFIER id)
 
 
 /*
-    CHECK FOR TEMPLATE DEFAULT ARGUMENTS
-
     This routine returns true if the template type t has default arguments.
 */
 
@@ -1445,8 +1385,6 @@ check_templ_dargs(TYPE t)
 
 
 /*
-    FIND AN UNDERLYING TEMPLATE
-
     This routine checks whether the identifier id results from the
     application of a template.  If so it returns the underlying template.
 */
@@ -1529,8 +1467,6 @@ find_template(IDENTIFIER id, int force)
 
 
 /*
-    REDECLARE A TEMPLATE PARAMETER
-
     This routine checks the template parameter id for redeclarations.
 */
 
@@ -1551,8 +1487,6 @@ redecl_templ_param(IDENTIFIER id)
 
 
 /*
-    DECLARE A TEMPLATE TYPE PARAMETER
-
     This routine declares a template type parameter named id.
 */
 
@@ -1568,8 +1502,6 @@ make_type_param(IDENTIFIER id)
 
 
 /*
-    SET A DEFAULT TEMPLATE TYPE ARGUMENT
-
     This routine sets the default value for the template type parameter id
     to be t.
 */
@@ -1586,8 +1518,6 @@ init_type_param(IDENTIFIER id, TYPE t)
 
 
 /*
-    DECLARE A TEMPLATE EXPRESSION PARAMETER
-
     This routine declares a template expression parameter named id of
     type t.
 */
@@ -1604,8 +1534,6 @@ make_exp_param(TYPE t, IDENTIFIER id)
 
 
 /*
-    SET A DEFAULT TEMPLATE EXPRESSION ARGUMENT
-
     This routine sets the default value for the template expression
     parameter id to be e.
 */
@@ -1622,8 +1550,6 @@ init_exp_param(IDENTIFIER id, EXP e)
 
 
 /*
-    DECLARE A TEMPLATE TEMPLATE PARAMETER
-
     This routine declares a template template parameter named id of type t.
 */
 
@@ -1639,8 +1565,6 @@ make_template_param(TYPE t, IDENTIFIER id)
 
 
 /*
-    SET A TEMPLATE TEMPLATE ARGUMENT
-
     This routine sets the value for the template template parameter id to
     be tid.  This is used both to set a default argument value and to
     define a template template parameter.
@@ -1664,8 +1588,6 @@ init_template_param(IDENTIFIER id, IDENTIFIER tid)
 
 
 /*
-    LIST OF DUMMY TYPE PARAMETERS
-
     This list is used to store all the dummy type parameters created by
     make_dummy_type to avoid duplicates.
 */
@@ -1674,8 +1596,6 @@ static LIST(IDENTIFIER) dummy_types = NULL_list(IDENTIFIER);
 
 
 /*
-    CREATE A DUMMY TYPE PARAMETER
-
     This routine creates a dummy type parameter named id in the namespace
     ns.  bt gives the token type kind.
 */
@@ -1716,8 +1636,6 @@ make_dummy_type(NAMESPACE ns, IDENTIFIER id, BASE_TYPE bt, LIST(TOKEN) args)
 
 
 /*
-    DOES A TYPE REPRESENT A TEMPLATE SPECIALISATION?
-
     This routine checks whether the type t represents an explicit template
     specialisation or instantiation.
 */
@@ -1739,8 +1657,6 @@ is_templ_spec(TYPE t)
 
 
 /*
-    IS A TYPE A TEMPLATE PARAMETER?
-
     This routine checks whether the type t represents a template parameter
     and a template declaration is currently being processed.
 */
@@ -1759,8 +1675,6 @@ is_templ_type(TYPE t)
 
 
 /*
-    DOES A TYPE DEPEND ON A TEMPLATE TYPE PARAMETER?
-
     This routine checks whether the type t is dependent on any template
     parameter.
 */
@@ -1777,8 +1691,6 @@ is_templ_depend(TYPE t)
 
 
 /*
-    IS AN IDENTIFIER A TEMPLATE TYPE PARAMETER?
-
     This routine checks whether the token identifier id represents a
     template type parameter.
 */
@@ -1795,8 +1707,6 @@ is_templ_param(IDENTIFIER id)
 
 
 /*
-    IS AN IDENTIFIER AN ALIAS FOR A TEMPLATE TYPE PARAMETER?
-
     This routine checks whether the identifier id is the internal name
     for a template type parameter.
 */
@@ -1826,8 +1736,6 @@ is_templ_alias(IDENTIFIER id)
 
 
 /*
-    IS AN IDENTIFIER A TEMPLATE DECLARATOR?
-
     This routine checks whether the declarator id represents a template
     instance.  If id is a function declaration then t gives the function
     type.
@@ -1860,8 +1768,6 @@ is_templ_decl(IDENTIFIER id, TYPE t)
 
 
 /*
-    IS A NAMESPACE A TEMPLATE CLASS?
-
     This routine checks whether the namespace ns represents a template
     class or a nested class of a template class or a block of a template
     function.
@@ -1887,8 +1793,6 @@ is_templ_nspace(NAMESPACE ns)
 
 
 /*
-    CHECK A TYPENAME
-
     This routine checks whether 'typename ns::id' can be used to declare
     a type.  If so this type is returned, otherwise the null type is
     returned.  Any following template arguments are dealt with in this
@@ -1954,8 +1858,6 @@ check_typename(NAMESPACE ns, IDENTIFIER id, BASE_TYPE key)
 
 
 /*
-    DECLARE A TYPENAME
-
     This routine handles a type declared using typename.  ns gives the
     name qualifiers used in the declaration and id gives the actual member
     name.  Any following template arguments are dealt with in this
@@ -1999,8 +1901,6 @@ make_typename(NAMESPACE ns, IDENTIFIER id)
 
 
 /*
-    LIST OF BAD TYPENAMES
-
     Without some action, an illegal typename can be reported many times.
     A list of all bad typename look-ups is maintained so that the error is
     only reported once.
@@ -2010,8 +1910,6 @@ static LIST(IDENTIFIER) non_typenames = NULL_list(IDENTIFIER);
 
 
 /*
-    FIND THE TYPE GIVEN BY A TYPENAME
-
     This routine expands the type name id.  If no expansion is possible
     then the null type is returned.  type indicates whether the look-up
     should be for a type name or an object name (the latter is used when
@@ -2085,8 +1983,6 @@ find_typename(IDENTIFIER id, LIST(TOKEN) args, BASE_TYPE bt, int type)
 
 
 /*
-    IDENTIFY TWO LISTS OF TEMPLATE PARAMETERS
-
     This routine identifies the list of template parameters ps with those
     in pt, returning true if this is possible.
 */
@@ -2150,8 +2046,6 @@ eq_templ_params(LIST(IDENTIFIER) ps, LIST(IDENTIFIER) pt)
 
 
 /*
-    RESTORE A LIST OF TEMPLATE PARAMETERS
-
     This routine clears the aliases set up by eq_templ_param from the
     list of template parameters ps.
 */
@@ -2169,8 +2063,6 @@ restore_templ_params(LIST(IDENTIFIER)ps)
 
 
 /*
-    CHECK FOR TEMPLATE TYPE EQUALITY
-
     This routine checks whether the template types s and t are equal
     under a simple renaming of template parameters.  If def is false
     only the template parameters (and not the underlying type) are checked.
@@ -2200,8 +2092,6 @@ eq_template(TYPE s, TYPE t, int def, int mq, int rf)
 
 
 /*
-    RENAME TEMPLATE PARAMETERS IN A TYPE
-
     This routine renames the parameters in the given template sort,
     returning the template type formed by applying this renaming to t.
 */
@@ -2228,8 +2118,6 @@ rename_templ_params(TOKEN sort, TYPE t, int rec)
 
 
 /*
-    CHECK FOR TEMPLATE TYPE SPECIALISATION
-
     This routine checks whether the type t is a specialisation of the
     template type s.  Type qualifiers are ignored if qu is false.
 */
@@ -2264,8 +2152,6 @@ deduce_template(TYPE s, TYPE t, int qu)
 
 
 /*
-    REDECLARE A TEMPLATE TYPE
-
     This routine checks the redeclaration of the template id of type ps to
     have type pt.  The primary purpose of this is to check for default
     arguments in the redeclaration.  The non-template components are
@@ -2299,8 +2185,6 @@ redecl_template(TYPE *ps, TYPE *pt, IDENTIFIER id)
 
 
 /*
-    RESET THE PRIMARY FORM OF A TEMPLATE
-
     This routine changes the primary representation of a template from
     s to t.  This is done when, for example, the latter is a definition
     while the former is only a declaration.
@@ -2350,8 +2234,6 @@ reset_primary_templ(TYPE s, TYPE t)
 
 
 /*
-    IS AN IDENTIFIER A TEMPLATE PARAMETER?
-
     This routine checks whether the token identifier id is one of the
     template or token parameters given by pids.
 */
@@ -2392,8 +2274,6 @@ depends_on_param(IDENTIFIER id, LIST(IDENTIFIER) pids)
 
 
 /*
-    DOES AN IDENTIFIER DEPEND ON A TEMPLATE PARAMETER?
-
     This routine checks whether the identifier id is one of the template
     parameters pids or is a template function with an argument depending
     on pids.  If use is true then any other identifiers found are marked
@@ -2479,8 +2359,6 @@ depends_on_id(IDENTIFIER id, LIST(IDENTIFIER) pids, int use)
 
 
 /*
-    DOES A LIST OF TOKEN ARGUMENTS DEPEND ON A TEMPLATE PARAMETER?
-
     This routine checks whether the list of token arguments args depends
     on one of the template parameters pids.  If next is true then the
     algorithm is modified to check whether any token argument depends
@@ -2550,8 +2428,6 @@ depends_on_args(LIST(TOKEN) args, LIST(IDENTIFIER) pids, int use, int next)
 
 
 /*
-    DOES AN INTEGRAL CONSTANT DEPEND ON A TEMPLATE PARAMETER?
-
     This routine checks whether the integral constant n depends on one
     of the template parameters pids.
 */
@@ -2583,8 +2459,6 @@ depends_on_nat(NAT n, LIST(IDENTIFIER) pids, int use)
 
 
 /*
-    DOES A LIST OF EXPRESSIONS DEPEND ON A TEMPLATE PARAMETER?
-
     This routine checks whether the list of expressions p depends on one
     of the template parameters pids.
 */
@@ -2604,8 +2478,6 @@ depends_on_exp_list(LIST(EXP) p, LIST(IDENTIFIER) pids, int use)
 
 
 /*
-    DOES AN EXPRESSION DEPEND ON A TEMPLATE PARAMETER?
-
     This routine checks whether the expression e depends on one of the
     template parameters pids.  If e is actually a template parameter
     then 2 is returned.
@@ -3033,8 +2905,6 @@ depends_on_exp(EXP e, LIST(IDENTIFIER) pids, int use)
 
 
 /*
-    DOES AN OFFSET DEPEND ON A TEMPLATE PARAMETER?
-
     This routine checks whether the offset off depends on one of the
     template parameters pids.
 */
@@ -3154,8 +3024,6 @@ depends_on_off(OFFSET off, LIST(IDENTIFIER) pids, int use)
 
 
 /*
-    DOES A TYPE DEPEND ON A TEMPLATE PARAMETER?
-
     This routine checks whether the type t depends on one of the template
     parameters pids.
 */
@@ -3277,8 +3145,6 @@ depends_on(TYPE t, LIST(IDENTIFIER) pids)
 
 
 /*
-    DOES A FUNCTION CALL DEPEND ON A TEMPLATE PARAMETER?
-
     This routine checks whether the function call 'id ( args )' depends
     on a template parameter.
 */
@@ -3318,8 +3184,6 @@ dependent_call(IDENTIFIER id, LIST(EXP) args)
 
 
 /*
-    DOES A FUNCTION CAST DEPEND ON A TEMPLATE PARAMETER?
-
     This routine checks whether the resolution of the overloaded function
     id to the type t depends on a template parameter.
 */
@@ -3342,8 +3206,6 @@ dependent_cast(IDENTIFIER id, TYPE t)
 
 
 /*
-    DOES A CONVERSION DEPEND ON A TEMPLATE PARAMETER?
-
     This routine checks whether the conversion 't ( args )' depends
     on a template parameter.
 */
@@ -3374,8 +3236,6 @@ dependent_conv(TYPE t, LIST(EXP) args)
 
 
 /*
-    DOES AN IDENTIFIER DEPEND ON A TEMPLATE PARAMETER?
-
     This routine checks whether the identifier id depends on a template
     parameter.
 */
@@ -3395,8 +3255,6 @@ dependent_id(IDENTIFIER id)
 
 
 /*
-    MARK THE IDENTIFIERS IN AN EXPRESSION AS USED
-
     This routine marks all the identifiers in the expression e as having
     been used.  This routine is combined with the depends_on functions
     only because they happen to give a convenient tree-walking skeleton.
@@ -3413,8 +3271,6 @@ mark_used(EXP e)
 
 
 /*
-    FIND AN INJECTED TYPE
-
     This routine modifies the type t which is injected from a template
     into an enclosing scope (for example, a friend of a template class)
     by qualifying it by copies of any unbound template qualifiers.
@@ -3463,8 +3319,6 @@ injected_type(TYPE t, int rec)
 
 
 /*
-    DUMMY TEMPLATE PARAMETER TYPE
-
     This variable gives a dummy template parameter type which allows the
     propagation of types dependent in some non-obvious fashion on some
     template parameter.
@@ -3474,8 +3328,6 @@ TYPE type_templ_param;
 
 
 /*
-    INITIALISE TEMPLATE ROUTINES
-
     This routine initialises the template routines.  In particular it
     initialises the dummy template parameter type.
 */

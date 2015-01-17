@@ -54,8 +54,6 @@
 
 
 /*
-    MANGLED FORMS OF BASIC TYPES
-
     This table gives the mangled forms of the built-in types.
 */
 
@@ -86,8 +84,6 @@ char mangle_ntype[ORDER_ntype][3] = {
 
 
 /*
-    NAME MANGLING FLAGS
-
     The following flags are used to control the form of the mangled names.
 */
 
@@ -97,8 +93,6 @@ unsigned long mangle_length = ULONG_MAX;
 
 
 /*
-    FORWARD DECLARATIONS
-
     A couple of forward declarations are necessary because of the
     recursive nature of many of the routines.
 */
@@ -115,8 +109,6 @@ static void mangle_type(BUFFER *, TYPE, int, int);
 
 
 /*
-    CURRENT CLASS TYPE
-
     This variable is used to hold the parent class of an identifier during
     name mangling.
 */
@@ -125,8 +117,6 @@ static CLASS_TYPE crt_mangle_class = NULL_ctype;
 
 
 /*
-    FIND AN IDENTIFIER DEPTH
-
     This routine finds the depth of the identifier id.  This is one more
     than the depth of the enclosing namespace if id is a simple identifier
     and -1 otherwise.
@@ -151,8 +141,6 @@ ident_depth(IDENTIFIER id)
 
 
 /*
-    FIND A NAMESPACE DEPTH
-
     This routine finds the depth of the namespace ns - that is the number
     of namespaces lying between it and its enclosing global namespace.
     The routine returns -1 if any intermediate namespace is unnamed.
@@ -193,8 +181,6 @@ nspace_depth(NAMESPACE ns)
 
 
 /*
-    NAME MANGLING BUFFER
-
     This buffer is used to build up the mangled names.
 */
 
@@ -203,8 +189,6 @@ static BUFFER name_buff = NULL_buff;
 
 
 /*
-    ADD A NUMBER TO THE BUFFER
-
     This routine adds the number n to the buffer position given by bf.
 */
 
@@ -228,8 +212,6 @@ mangle_number(BUFFER *bf, unsigned long n, int e)
 
 
 /*
-    ADD AN IDENTIFIER NAME TO THE BUFFER
-
     This routine adds the mangled form of the identifier id to the buffer
     position given by bf.  d gives the associated identifier depth.
 */
@@ -265,8 +247,6 @@ mangle_id(BUFFER *bf, IDENTIFIER id, int d)
 
 
 /*
-    ADD A NAMESPACE NAME TO THE BUFFER
-
     This routine adds the mangled form of the name of the namespace ns
     to the buffer position given by bf.  d gives the associated namespace
     depth.
@@ -293,8 +273,6 @@ mangle_nspace(BUFFER *bf, NAMESPACE ns, int d)
 
 
 /*
-    ADD AN EXPRESSION OPERATION TO THE BUFFER
-
     This routine adds the binary expression operation 'a op b' to the
     buffer position given by bf.
 */
@@ -316,8 +294,6 @@ mangle_exp_op(BUFFER *bf, int op, EXP a, EXP b, int n, int rec)
 
 
 /*
-    ADD AN EXPRESSION TO THE BUFFER
-
     This routine adds the expression e to the buffer position given by bf.
 */
 
@@ -545,8 +521,6 @@ mangle_exp(BUFFER *bf, EXP e, int rec)
 
 
 /*
-    ADD AN INTEGER CONSTANT TO THE BUFFER
-
     This routine adds the integer constant n to the buffer position given
     by bf.
 */
@@ -600,8 +574,6 @@ mangle_nat(BUFFER *bf, NAT n, int rec)
 
 
 /*
-    FIND THE MANGLED FORM OF A LITERAL TYPE
-
     This routine finds the mangled form of the integer literal type it.
 */
 
@@ -633,8 +605,6 @@ mangle_literal(INT_TYPE it)
 
 
 /*
-    ADD AN INTEGRAL TYPE TO THE BUFFER
-
     This routine adds the mangled form of the integral type it to the
     buffer position given by bf.
 */
@@ -710,8 +680,6 @@ mangle_itype(BUFFER *bf, INT_TYPE it)
 
 
 /*
-    ADD A FLOATING TYPE TO THE BUFFER
-
     This routine adds the mangled form of the floating-point type ft to
     the buffer position given by bf.
 */
@@ -755,8 +723,6 @@ mangle_ftype(BUFFER *bf, FLOAT_TYPE ft)
 
 
 /*
-    ADD A CV-QUALIFIER TO THE BUFFER
-
     This routine adds the mangled form of the cv-qualifiers cv to the
     buffer position given by bf.  Note that this mangling scheme maps
     'volatile unsigned char *' to 'PVUc' rather than the ARM's 'PUVc'.
@@ -779,8 +745,6 @@ mangle_cv(BUFFER *bf, CV_SPEC cv)
 
 
 /*
-    ADD A TYPE NAME TO THE BUFFER
-
     This routine adds the mangled form of the name of the type t to the
     buffer position given by bf.  The printing of function types (for
     example whether the return type is included) is controlled by fn
@@ -1018,8 +982,6 @@ default_lab: {
 
 
 /*
-    ADD A CLASS NAME TO THE BUFFER
-
     This routine adds the mangled form of the class type ct to the
     buffer position given by bf.
 */
@@ -1049,8 +1011,6 @@ mangle_ctype(BUFFER *bf, CLASS_TYPE ct, int d)
 
 
 /*
-    ADD A BASE CLASS GRAPH TO THE BUFFER
-
     This routine adds the mangled form of the base class graph gr to the
     buffer bf.  first is true for the top node.
 */
@@ -1071,8 +1031,6 @@ mangle_graph(BUFFER *bf, GRAPH gr)
 
 
 /*
-    ADD A TOKEN ARGUMENT TO THE BUFFER
-
     This routine adds the mangled form of the token argument tok to the
     buffer position given by bf.
 */
@@ -1132,8 +1090,6 @@ mangle_token_arg(BUFFER *bf, TOKEN tok)
 
 
 /*
-    ADD A LIST OF TOKEN ARGUMENT TO THE BUFFER
-
     This routine adds the mangled form of the token arguments args to the
     buffer position given by bf.
 */
@@ -1153,8 +1109,6 @@ mangle_token_args(BUFFER *bf, LIST(TOKEN)args)
 
 
 /*
-    ADD A TOKEN APPLICATION TO THE BUFFER
-
     This routine adds the token application 'id ( args )' to the buffer
     position given by bf.
 */
@@ -1210,8 +1164,6 @@ mangle_token(BUFFER *bf, IDENTIFIER id, LIST(TOKEN)args, int d, int force)
 
 
 /*
-    FIND A MANGLED OPERATOR NAME
-
     This routine finds the mangled function name for 'operator op'.  Note
     that op will always be in its primary form.
 */
@@ -1392,8 +1344,6 @@ mangle_op(int op)
 
 
 /*
-    MANGLE AN EXTENDED NAME
-
     This routine mangles the extended identifier name s into the buffer
     bf.  It returns true if the result differs from s.
 */
@@ -1426,8 +1376,6 @@ mangle_ename(BUFFER *bf, string s)
 
 
 /*
-    FIND A MANGLED NAME
-
     This routine returns the mangled form of the identifier name nm.
     For conversion functions and extended names the name is built into
     name_buff and pcopy is set to true.
@@ -1496,8 +1444,6 @@ mangle_hashid(HASHID nm, int *pcopy, int force)
 
 
 /*
-    FIND THE EXTERNAL NAME OF AN IDENTIFIER
-
     This routine finds the external (mangled) name of the identifier id
     of type v returning the result.  ext determines the treatment of inline
     functions with external linkage.  The null string is returned for local
@@ -1698,8 +1644,6 @@ mangle_name(IDENTIFIER id, int v, int ext)
 
 
 /*
-    COMMON TAG COUNTER
-
     This variable is used by mangle_common to ensure that each call
     generates a unique name.
 */
@@ -1708,8 +1652,6 @@ ulong common_no = 0;
 
 
 /*
-    CREATE A LOCAL STATIC NAME
-
     This routine creates a mangled name for the local static variable id
     from the function with mangled name s.
 */
@@ -1743,8 +1685,6 @@ mangle_common(string s, IDENTIFIER id)
 
 
 /*
-    CREATE A VIRTUAL FUNCTION TABLE NAME
-
     This routine creates a mangled name for the virtual function table
     associated with the base class graph gr.
 */
@@ -1768,8 +1708,6 @@ mangle_vtable(const char *pre, GRAPH gr)
 
 
 /*
-    CREATE A TYPE INFORMATION STRUCTURE NAME
-
     This routine creates a mangled name for the type information structure
     associated with the polymorphic class type ct.
 */
@@ -1793,8 +1731,6 @@ mangle_typeid(const char *pre, CLASS_TYPE ct)
 
 
 /*
-    CREATE A TYPE TOKEN NAME
-
     This routine creates a mangled name for the type token name associated
     with the type t.
 */
@@ -1818,8 +1754,6 @@ mangle_tname(const char *pre, TYPE t)
 
 
 /*
-    CREATE AN INITIALISER FUNCTION NAME
-
     This routine creates a dynamic initialiser function name.  For TDF 4.0
     and later this can be the null string since there is direct support
     for dynamic initialisation.
@@ -1840,8 +1774,6 @@ mangle_init(void)
 
 
 /*
-    CREATE A UNIQUE IDENTIFIER NAME
-
     This routine creates a unique identifier name distinct from every other
     identifier name.
 */
@@ -1857,8 +1789,6 @@ mangle_anon(void)
 
 
 /*
-    ADD A DIAGNOSTIC NAME QUALIFIER TO THE BUFFER
-
     This routine adds the name of the namespace ns to the buffer bf.
 */
 
@@ -1895,8 +1825,6 @@ mangle_diag_nspace(BUFFER *bf, NAMESPACE ns)
 
 
 /*
-    FIND THE DIAGNOSTIC NAME FOR AN IDENTIFIER
-
     This routine creates the name used for the identifier id in the
     diagnostic output.  If q is false then no qualifiers are output.
 */

@@ -41,8 +41,6 @@
 
 
 /*
-    EXTENDED DEBUGGING FLAG
-
     This flag enables the extended debug printing routines.
 */
 
@@ -50,8 +48,6 @@ int debugging = 0;
 
 
 /*
-    EXTENDED OFFSET PRINTING
-
     This routine deals with those cases in print_offset which are only
     output in debugging mode.
 */
@@ -77,8 +73,6 @@ print_offset_aux(OFFSET off, BUFFER *bf, int sp)
 
 
 /*
-    PRINT A UNARY OPERATION
-
     This routine prints the unary operation 'op a' to the buffer bf.
 */
 
@@ -92,8 +86,6 @@ print_unary(EXP a, int op, BUFFER *bf, int sp)
 
 
 /*
-    PRINT A BINARY OPERATION
-
     This routine prints the binary operation 'a op b' to the buffer bf.
 */
 
@@ -108,8 +100,6 @@ print_binary(EXP a, EXP b, int op, BUFFER *bf, int sp)
 
 
 /*
-    PRINT A CAST OPERATION
-
     This routine prints the cast operation 'op < t > ( a )' to the
     buffer bf.
 */
@@ -127,8 +117,6 @@ print_cast(TYPE t, EXP a, int op, BUFFER *bf, int sp)
 
 
 /*
-    PRINT A LIST OF EXPRESSIONS
-
     This routine prints the list of expressions p, enclosed in brackets,
     to the buffer bf.
 */
@@ -153,8 +141,6 @@ print_exp_list(LIST(EXP)p, BUFFER *bf, int sp)
 
 
 /*
-    EXTENDED EXPRESSION PRINTING
-
     This routine deals with those cases in print_exp which are only
     output in debugging mode.
 */
@@ -477,8 +463,6 @@ print_exp_aux(EXP e, int paren, BUFFER *bf, int sp)
 
 
 /*
-    PRINT AN INDENTED STRING
-
     This routine prints an indentation of indent steps followed by the
     string text to the file f.
 */
@@ -503,8 +487,6 @@ print_indent(int indent, const char *text, FILE *f)
 
 
 /*
-    PRINT AN EXPRESSION
-
     This routine prints the expression e, enclosed in parentheses if paren
     is true and preceded by a space if sp is true, to the file f.
 */
@@ -526,8 +508,6 @@ print_expr(EXP e, int paren, int sp, FILE *f)
 
 
 /*
-    PRINT AN INTEGER CONSTANT
-
     This routine prints the integer constant n to the file f.
 */
 
@@ -542,8 +522,6 @@ print_nat_val(NAT n, FILE *f)
 
 
 /*
-    PRINT A DECLARATION
-
     This routine prints the declaration id to the file f.
 */
 
@@ -566,8 +544,6 @@ print_decl(IDENTIFIER id, FILE *f)
 
 
 /*
-    PRINT A LABEL
-
     This routine prints the label lab to the file f.
 */
 
@@ -595,8 +571,6 @@ print_label(IDENTIFIER lab, FILE *f)
 
 
 /*
-    PRINT A STATEMENT
-
     This routine prints the statement e at an indentation of indent to the
     file f.  block is false to suppress braces around compound statements.
 */
@@ -817,8 +791,6 @@ print_stmt(EXP e, int indent, int block, FILE *f)
 
 
 /*
-    PRINT A BITMASK TYPE
-
     This routine prints the bitmask value n using the attribute names
     given by s.
 */
@@ -855,8 +827,6 @@ print_bitmask(unsigned long n, const char **s)
 
 
 /*
-    PRINT A BITSTREAM
-
     This routine prints the contents of the bitstream bs to the file f.
 */
 
@@ -895,8 +865,6 @@ print_bitstream(BITSTREAM *bs, FILE *f)
 
 
 /*
-    TYPE DEBUGGING ROUTINES
-
     These routines are used during debugging for printing objects of various
     types.
 */
@@ -1456,8 +1424,6 @@ DEBUG_where(void)
 
 
 /*
-    GENERIC TYPE DEBUGGING ROUTINE
-
     This routine is a generic debugging routine for printing any c_class
     object.  It relies on run-time type information to determine the
     static type of p.
@@ -1589,8 +1555,6 @@ DEBUG(c_class *p)
 
 
 /*
-    PARSER TERMINALS
-
     The terminals used in the parser are listed in two places - in symbols.h
     and in syntax.sid.
 */
@@ -1599,8 +1563,6 @@ DEBUG(c_class *p)
 
 
 /*
-    TERMINAL COUNT
-
     This variable is used to keep count of the number of lexical tokens
     printed.
 */
@@ -1609,8 +1571,6 @@ static int terminal_no = 0;
 
 
 /*
-    PRINT A TERMINAL
-
     This routine prints the single terminal, term, with the given return
     type.  The use argument may be set to false to indicate that the
     terminal is not used in the sid parser.
@@ -1655,8 +1615,6 @@ print_terminal(int t, char *term, int m)
 
 
 /*
-    PRINT ALL THE TERMINALS
-
     This routine prints all the terminals in a form acceptable to sid.
 */
 
@@ -1673,8 +1631,6 @@ sid_terminals(int m)
 
 
 /*
-    PRINT ALL THE ERRORS
-
     This routine lists all the error names.
 */
 
@@ -1693,8 +1649,6 @@ list_errors(void)
 
 
 /*
-    PRINT ALL THE OPTIONS
-
     This routine lists all the option names.
 */
 
@@ -1712,8 +1666,6 @@ list_options(void)
 
 
 /*
-    DEFINE ALL THE OPTION VALUES
-
     This routine prints a list of all option values in a form suitable
     as a usage list in the error catalogue.
 */
@@ -1758,8 +1710,6 @@ define_options(void)
 
 
 /*
-    HANDLE DEBUGGING OPTIONS
-
     This routine is called to handle the debug option '-d arg'.
 */
 
@@ -1787,8 +1737,6 @@ debug_option(char *arg)
 
 
 /*
-    DUMMY DEBUGGING ROUTINE
-
     This routine is a dummy which is used when run-time routines are
     not enabled.
 */

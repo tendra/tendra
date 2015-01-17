@@ -21,8 +21,6 @@
 
 
 /*
-    INPUT FILE
-
     This is the file from which the lexical routine read their input.
 */
 
@@ -30,8 +28,6 @@ static FILE *lex_input;
 
 
 /*
-    PENDING BUFFER
-
     Pending characters are dealt with by means of this buffer.  pending
     is set to the start of the buffer to indicate that there are no
     characters pending, otherwise the pending characters are stored in
@@ -44,8 +40,6 @@ static int *pending = pending_buff;
 
 
 /*
-    MAPPINGS AND DECLARATIONS FOR AUTOMATICALLY GENERATED SECTION
-
     These macros give the mappings between the actions used in the
     automatically generated lexical analyser and the routines defined
     in this file.
@@ -64,8 +58,6 @@ static int read_string(void);
 
 
 /*
-    AUTOMATICALLY GENERATED SECTION
-
     The main body of the lexical analyser is automatically generated.
 */
 
@@ -73,8 +65,6 @@ static int read_string(void);
 
 
 /*
-    GET THE NEXT CHARACTER
-
     This routine reads the next character, either from the pending buffer
     or from the input file.
 */
@@ -100,8 +90,6 @@ read_char(void)
 
 
 /*
-    TOKEN BUFFER
-
     This buffer is used by read_token to hold the values of identifiers
     and strings.
 */
@@ -112,8 +100,6 @@ char *first_comment = NULL;
 
 
 /*
-    READ AN IDENTIFIER
-
     This routine reads an identifier beginning with a, returning the
     corresponding lexical token.  Keywords are dealt with locally.
 */
@@ -144,8 +130,6 @@ read_identifier(int a)
 
 
 /*
-    READ A STRING
-
     This routine reads a string.  It is entered after the initial quote has
     been read.  Note that new line characters are allowed in strings.
 */
@@ -179,8 +163,6 @@ read_string(void)
 
 
 /*
-    READ A COMMENT
-
     This routine reads a C style comment, returning the lexical token
     immediately following.  It is entered after the first two characters
     have been read.
@@ -219,8 +201,6 @@ read_comment(void)
 
 
 /*
-    CURRENT TOKEN
-
     These variables are used by the parser to hold the current and former
     lexical tokens.
 */
@@ -230,8 +210,6 @@ int saved_lex_token;
 
 
 /*
-    PROCESS FILE
-
     This routine processes the input file nm.  If nm is the null string
     then the standard input is used.
 */

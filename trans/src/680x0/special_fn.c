@@ -27,8 +27,6 @@
 
 
 /*
-    LOOK FOR SPECIAL FUNCTIONS
-
     An expression is examined to see if it is a recognised special
     function.  The functions recognised are : strcpy of a constant
     string (which is turned into a move instruction), and alloca

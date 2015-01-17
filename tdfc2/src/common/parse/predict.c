@@ -18,8 +18,6 @@
 
 
 /*
-    PARSING C++ USING SID
-
     The parser for this compiler is generated using the sid tool.
     Basically sid can generate a parser for any grammar it can transform
     into an LL(1) grammar.  Unfortunately, C++ is not a LL(1) language,
@@ -41,8 +39,6 @@
 
 
 /*
-    TOKEN LOOK-UP TABLE
-
     This table gives a simple look-up for lexical tokens to predict which
     kind of construct is likely to start with this token.  The values
     themselves are built into symbols.h.
@@ -78,8 +74,6 @@ static unsigned char tokens[] = {
 
 
 /*
-    PARSER STATE FLAGS
-
     These flags are used to indicate various parser states.  The flag
     have_type_specifier is set during reading a sequence of declaration-
     specifiers or type-specifiers to indicate that a type-specifier (other
@@ -106,8 +100,6 @@ int is_constructor_next = 0;
 
 
 /*
-    PARSER STATE COUNTERS
-
     These variables are used to keep count of various items of interest
     in the parser, such as the number of expressions which have side
     effects and the number of type definitions.
@@ -121,8 +113,6 @@ unsigned long no_token_defns = 0;
 
 
 /*
-    FEATURE USE FLAGS
-
     These flags are set to indicate that certain features, which require
     the program to perform extra checks, have been used.
 */
@@ -132,8 +122,6 @@ int used_register = 0;
 
 
 /*
-    FORWARD DECLARATIONS
-
     The following look-ahead functions need to be declared in advance.
 */
 
@@ -143,8 +131,6 @@ static int predict_declarator(int, int, int);
 
 
 /*
-    SKIP OVER A BRACKETED SEQUENCE
-
     This routine is called after reading an open bracket to skip to the
     corresponding close bracket.  It returns the number of tokens skipped.
 */
@@ -186,8 +172,6 @@ skip_brackets(void)
 
 
 /*
-    SKIP OVER AN OPERATOR NAME
-
     This routine is called after 'operator' has been read to return the
     token immediately following.  It has to deal with both overloaded
     operator function names and conversion function names.  Note that
@@ -343,8 +327,6 @@ skip_operator(void)
 
 
 /*
-    LOOK-AHEAD FOR FUNCTION PARAMETERS
-
     This routine is used to distinguish lists of function parameters from
     lists of expressions (such as function arguments or function style
     initialisers.  It is called after an initial open bracket has been
@@ -423,8 +405,6 @@ predict_func_params(int t, int empty, int depth)
 
 
 /*
-    LOOK-AHEAD FOR DECLARATORS
-
     This routine is used to distinguish declarators from other constructs,
     including expressions.  The argument depth indicates the number of
     open brackets which have been read before the routine is entered.
@@ -694,8 +674,6 @@ predict_declarator(int t, int loc, int depth)
 
 
 /*
-    LOOK-AHEAD FOR DECLARATION STATEMENTS
-
     A look-ahead is needed in declaration-statement to distinguish
     declarations from other statements including, in particular, expression
     statements.  The disambiguation rule is that anything which looks like
@@ -772,8 +750,6 @@ predict_decl(void)
 
 
 /*
-    LOOK-AHEAD FOR UNDECLARED TYPES
-
     This look-ahead is used to handle syntax errors following undeclared
     types.  The context is in a sequence of declaration specifiers in
     which no type specifier has been encountered.  t gives the token read.
@@ -848,8 +824,6 @@ predict_undecl_type(int t, int force)
 
 
 /*
-    LOOK-AHEAD FOR DECLARATION SPECIFIERS
-
     A look-ahead is needed to distinguish decl-specifiers from following
     declarators or other constructs.  Note that linkage-specifications are
     spotted at this stage.  In addition type names are not always what
@@ -971,8 +945,6 @@ predict_dspec(int force)
 
 
 /*
-    LOOK-AHEAD FOR TYPE SPECIFIERS
-
     A look-ahead is needed to distinguish type-specifiers from following
     declarators or other constructs.
 */
@@ -1024,8 +996,6 @@ predict_tspec(int force)
 
 
 /*
-    LOOK-AHEAD FOR FUNCTION QUALIFIERS
-
     A further look-ahead is required when distinguishing type-ids from
     expressions after 'T ()' has been read for some type.  If the next
     token is '+' for example it is an expression, if it is 'const' it
@@ -1101,8 +1071,6 @@ predict_qual(int t, int e)
 
 
 /*
-    LOOK-AHEAD FOR TYPE IDENTIFIERS
-
     A look-ahead is needed to distinguish type-ids from expressions in,
     for example, sizeof expressions.  A type-id consists of a sequence
     of type-specifiers followed by an optional abstract-declarator,
@@ -1198,8 +1166,6 @@ predict_typeid(int e)
 
 
 /*
-    LOOK-AHEAD FOR TEMPLATE TYPE NAMES
-
     A look-ahead is needed to distinguish template type names from other
     types when parsing template arguments.
 */
@@ -1240,8 +1206,6 @@ predict_typename(void)
 
 
 /*
-    LOOK-AHEAD FOR INITIALISERS
-
     A look-ahead is needed to distinguish function-style initialisers in
     init-declarator from function declarators.  This predicate is called
     immediately after an open bracket.  Note that anything which could
@@ -1280,8 +1244,6 @@ predict_init(void)
 
 
 /*
-    LOOK-AHEAD FOR DESTRUCTORS
-
     A look-ahead is required to distinguish a destructor-name from a
     complement operator followed by a class-name.  The latter is only the
     case if it is followed by a bracketed list of expressions.  The
@@ -1351,8 +1313,6 @@ predict_destr(NAMESPACE ns)
 
 
 /*
-    LOOK-AHEAD FOR FUNCTION PARAMETERS
-
     A look-ahead is needed to distinguish a declarator-id representing a
     function parameter from a type-specifier.  The only difficult case is
     a type-name immediately after an open bracket.
@@ -1400,8 +1360,6 @@ predict_param(void)
 
 
 /*
-    LOOK-AHEAD FOR CLASS SPECIFICATIONS
-
     A look-ahead of one token is needed in type-specifier to distinguish a
     class-specifier or an enum-specifier from an elaborated-type-specifier.
     This predicate is called after a class-key to check for a class-specifier
@@ -1472,8 +1430,6 @@ predict_class(int col)
 
 
 /*
-    LOOK-AHEAD FOR FUNCTION DEFINITIONS
-
     A predicate is needed to distinguish function definitions from function
     declarations. A function definition is recognised by means of a '{'
     (starting a function-body), a ':' (starting a ctor-initialiser), or
@@ -1501,8 +1457,6 @@ predict_func_defn(void)
 
 
 /*
-    LOOK-AHEAD FOR OBJECT INITIALISERS
-
     A predicate is needed to determine whether an object declaration
     is followed by an initialising expression.  Note this is not the
     same as the object being defined.
@@ -1525,8 +1479,6 @@ predict_obj_defn(void)
 
 
 /*
-    LOOK-AHEAD FOR POINTER OPERATORS
-
     A look-ahead is needed following a conversion-function-id for possible
     ptr-operators.  This is because, for instance 'operator int *' needs
     to be resolved as the conversion function for 'int *' rather than as
@@ -1556,8 +1508,6 @@ predict_ptr(int ref)
 
 
 /*
-    LOOK-AHEAD FOR OPERATOR NAMES
-
     A look-ahead is needed in the token syntax for overloaded operator
     and conversion function names.
 */
@@ -1576,8 +1526,6 @@ predict_operator(void)
 
 
 /*
-    LOOK-AHEAD FOR ARRAY OPERATORS
-
     A look-ahead of one token is needed following 'operator new' and
     'operator delete'.  A following '[' might be the start of an array index,
     or it may introduce 'operator new []' or 'operator delete []'.  This
@@ -1606,8 +1554,6 @@ predict_array(void)
 
 
 /*
-    LOOK-AHEAD FOR TEMPLATE PARAMETERS
-
     A look-ahead is required to distinguish type template parameters from
     non-type template parameters.
 */

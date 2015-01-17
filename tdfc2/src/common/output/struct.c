@@ -56,8 +56,6 @@
 
 
 /*
-    CLASS AND GRAPH TOKEN NUMBERS
-
     Each node of a base class graph has three associated token numbers.
     The use of these numbers varies depending on whether the node is
     the top node of a graph, a virtual base class, or a non-virtual base
@@ -74,8 +72,6 @@
 
 
 /*
-    DUMMY CLASS TYPE
-
     These types are dummies used in the class layout routines.
 */
 
@@ -91,8 +87,6 @@ IDENTIFIER dummy_type_name = NULL_id;
 
 
 /*
-    ENCODE AN EXPRESSION TOKEN APPLICATION
-
     This routine adds an application of the simple expression token n to
     the bitstream bs.
 */
@@ -109,8 +103,6 @@ enc_exp_token(BITSTREAM *bs, ulong n)
 
 
 /*
-    ENCODE A SHAPE TOKEN APPLICATION
-
     This routine adds an application of the simple shape token n to the
     bitstream bs.
 */
@@ -127,8 +119,6 @@ enc_shape_token(BITSTREAM *bs, ulong n)
 
 
 /*
-    VIRTUAL FUNCTION TABLE ROUTINES
-
     The virtual function table and run-time type information routines are
     only included in the C++ producer.
 */
@@ -137,8 +127,6 @@ enc_shape_token(BITSTREAM *bs, ulong n)
 
 
 /*
-    ENCODE A BUFFER AS A STRING LITERAL
-
     This routine adds the contents of the buffer bf to the bitstream bs
     as a string literal.
 */
@@ -175,8 +163,6 @@ enc_buffer(BITSTREAM *bs, BUFFER *bf)
 
 
 /*
-    ENCODE RUN-TIME BASE CLASS INFORMATION
-
     This routine defines the run-time base class information for the base
     classes br or the sub-types pt and adds the address of the first base
     to bs.
@@ -284,8 +270,6 @@ enc_rtti_bases(BITSTREAM *bs, LIST(GRAPH)br, LIST(TYPE)pt, NAT sz)
 
 
 /*
-    ENCODE A RUN-TIME TYPE INFORMATION STRUCTURE
-
     This routine defines the tag n to be the run-time type information
     structure for the type t.  If def is false then only the declaration
     is output.
@@ -420,8 +404,6 @@ enc_rtti_struct(TYPE t, ulong n, int def)
 
 
 /*
-    LIST OF RUN-TIME TYPE INFORMATION STRUCTURES
-
     These lists gives the tag numbers for the various type information
     structures output.  Polymorphic classes, which form the most common
     such types, are dealt with separately as part of the virtual function
@@ -433,8 +415,6 @@ static LIST(ulong)rtti_tags = NULL_list(ulong);
 
 
 /*
-    ENCODE THE RUN-TIME TYPE INFORMATION FOR A TYPE
-
     This routine adds a reference to the run-time type information
     structure for the type t to the bitstream bs, defining this if
     necessary.
@@ -537,8 +517,6 @@ enc_rtti_type(BITSTREAM *bs, TYPE t, int op)
 
 
 /*
-    ENCODE THE RUN-TIME TYPE INFORMATION FOR AN EXPRESSION
-
     This routine adds the run-time type information expression e to
     the bitstream bs.
 */
@@ -627,8 +605,6 @@ enc_rtti_exp(BITSTREAM *bs, EXP e)
 
 
 /*
-    ENCODE A DYNAMIC CAST EXPRESSION
-
     This routine adds the dynamic cast expression e to the bitstream bs.
 */
 
@@ -728,8 +704,6 @@ enc_dyn_cast(BITSTREAM *bs, EXP e)
 
 
 /*
-    LIST OF PREVIOUSLY DEFINED THUNKS
-
     A list of all previously defined thunks is maintained to avoid
     unnecessary duplication.
 */
@@ -738,8 +712,6 @@ static VIRTUAL all_thunks = NULL_virt;
 
 
 /*
-    CREATE A THUNK FUNCTION
-
     This routine creates a dummy function of type f which calls fid with
     its given arguments and returns its result with the base class conversion
     given by ret applied.  The tag number of the dummy function is returned.
@@ -875,8 +847,6 @@ make_thunk(TYPE f, IDENTIFIER fid, GRAPH ret)
 
 
 /*
-    ENCODE THE SHAPE OF A VIRTUAL FUNCTION TABLE
-
     This routine adds the shape of a virtual function table containing
     n functions to the bitstream bs.
 */
@@ -895,8 +865,6 @@ enc_vtable_shape(BITSTREAM *bs, ulong n)
 
 
 /*
-    ENCODE THE DEFINITION OF A VIRTUAL FUNCTION TABLE
-
     This routine encodes the definition of the virtual function table vt.
     n gives the tag number for the table, gr is the table offset and the
     flag inherited is true for secondary tables.  rtti gives the tag
@@ -995,8 +963,6 @@ enc_vtable_defn(VIRTUAL vt, ulong n, CLASS_TYPE ct, GRAPH gr, int inherited,
 
 
 /*
-    DEFINE VIRTUAL FUNCTION TABLES
-
     This routine defines or declares the virtual function tables for
     the class ct depending on the value of def.  The tables are given
     external names only if ext is true.
@@ -1085,8 +1051,6 @@ define_vtable(CLASS_TYPE ct, int def, int ext)
 
 
 /*
-    ALLOCATE TAG NUMBERS FOR VIRTUAL FUNCTION TABLES
-
     This routine allocates tag and token numbers for the virtual function
     tables of the polymorphic class ct and its base classes.
 */
@@ -1141,8 +1105,6 @@ declare_vtable(CLASS_TYPE ct)
 
 
 /*
-    END OF RUN-TIME TYPE INFORMATION ROUTINES
-
     The remaining routines are common to both the C and C++ producers.
 */
 
@@ -1150,8 +1112,6 @@ declare_vtable(CLASS_TYPE ct)
 
 
 /*
-    FIND THE TABLE OFFSET OF A VIRTUAL FUNCTION
-
     This routine finds the position of the virtual function id in the
     virtual function table vt.
 */
@@ -1174,8 +1134,6 @@ virtual_no(IDENTIFIER id, VIRTUAL vt)
 
 
 /*
-    IS A TYPE A ZERO SIZED BITFIELD?
-
     This routine checks whether the type t represents a zero sized
     bitfield.  These force an alignment in a class rather than being
     a proper class member.
@@ -1196,8 +1154,6 @@ is_zero_bitfield(TYPE t)
 
 
 /*
-    ENCODE A SHAPE OFFSET EXPRESSION
-
     This routine adds the offset of the type t to the bitstream bs,
     unless t is dummy_class, when the offset of the type excluding the
     virtual bases is added.
@@ -1223,8 +1179,6 @@ enc_offset_add(BITSTREAM *bs, TYPE t)
 
 
 /*
-    ENCODE AN OFFSET PAD EXPRESSION
-
     This routine adds the offset of a structure member of type s
     which follows a member of type t with offset given by the token n
     to the bitstream bs.  Note that bitfield types are awkward.
@@ -1276,8 +1230,6 @@ enc_offset_pad(BITSTREAM *bs, ulong n, TYPE t, TYPE s)
 
 
 /*
-    DEFINE AN ALIGNMENT TAG
-
     This routine defines the alignment tag m to be the token n.  The value
     LINK_NONE for n is used to indicate an incomplete structure.
 */
@@ -1306,8 +1258,6 @@ enc_al_tagdef(ulong m, ulong n)
 
 
 /*
-    ENCODE A TDF COMPOUND SHAPE
-
     This routine defines all the shape and offset tokens associated with
     the compound type ct.  It returns the external (capsule) number of
     a token giving the overall shape of the result.
@@ -1647,8 +1597,6 @@ compile_class(CLASS_TYPE ct)
 
 
 /*
-    ENCODE THE SHAPE OF A CLASS TYPE
-
     This routine adds the class type ct to the bitstream bs as a TDF SHAPE.
 */
 
@@ -1662,8 +1610,6 @@ enc_ctype(BITSTREAM *bs, CLASS_TYPE ct)
 
 
 /*
-    LIST OF INCOMPLETE CLASSES
-
     This list is used to hold all the classes which are used while they
     are incomplete.  An alignment tag is introduced for each such class
     which may be defined later if the class is completed.
@@ -1673,8 +1619,6 @@ static LIST(CLASS_TYPE)incompl_classes = NULL_list(CLASS_TYPE);
 
 
 /*
-    DEFINE INCOMPLETE CLASSES
-
     This routine defines the alignment tags for the incomplete classes
     in this list above.  Note that the class is not compiled if it has
     not already been so.
@@ -1702,8 +1646,6 @@ compile_incompl(void)
 
 
 /*
-    ENCODE THE ALIGNMENT OF A CLASS TYPE
-
     This routine adds the alignment of the class type ct to the bitstream
     bs.  Note that ct is not compiled by this routine.
 */
@@ -1737,8 +1679,6 @@ enc_al_ctype(BITSTREAM *bs, CLASS_TYPE ct)
 
 
 /*
-    COMPILE A BASE CLASS
-
     This routine compiles the base class graph gr returning a token
     number representing the base class offset.  If gr is a virtual base
     and ptr is true then this is the offset of the pointer to the base,
@@ -1823,8 +1763,6 @@ compile_base(GRAPH gr, int ptr)
 
 
 /*
-    ENCODE A BASE CLASS OFFSET
-
     This routine adds an offset representing the base class graph gr
     to the bitstream bs.  For virtual bases this is the offset of the
     pointer to the base if ptr is true and the offset of the actual base
@@ -1850,8 +1788,6 @@ enc_base(BITSTREAM *bs, GRAPH gr, int ptr)
 
 
 /*
-    ENCODE THE START OF A VIRTUAL BASE CLASS POINTER EXPRESSION
-
     This routine adds the start of a virtual base class pointer expression
     to the bitstream bs.  off1 gives the direct component of the offset
     and off2 gives the indirect component.
@@ -1887,8 +1823,6 @@ enc_add_base(BITSTREAM *bs, OFFSET off1, OFFSET off2)
 
 
 /*
-    ENCODE THE END OF A VIRTUAL BASE CLASS POINTER EXPRESSION
-
     This routine adds the end of a virtual base class pointer expression
     to the bitstream bs.  off1 gives the direct component of the offset
     and off2 gives the indirect component.
@@ -1925,8 +1859,6 @@ enc_end_base(BITSTREAM *bs, OFFSET off1, OFFSET off2)
 
 
 /*
-    ENCODE A MEMBER OFFSET
-
     This routine adds the offset of the member id to the bitstream bs.
     If id is a data member this is the offset of the member from the start
     of the structure.
@@ -1971,8 +1903,6 @@ enc_member(BITSTREAM *bs, IDENTIFIER id)
 
 
 /*
-    ENCODE A NULL CLASS OBJECT DEFINITION
-
     This routine adds an expression representing a null value of type
     ct to the bitstream bs.  The virtual base components are only
     included if virt is true.  Note that the order of the components
@@ -2106,8 +2036,6 @@ enc_null_class_aux(BITSTREAM *bs, CLASS_TYPE ct, int virt)
 
 
 /*
-    ENCODE A NULL CLASS OBJECT
-
     This routine adds the default null value for the class type ct to the
     bitstream bs.  This is represented by a token which is defined the
     first time the routine is called.
@@ -2137,8 +2065,6 @@ enc_null_class(BITSTREAM *bs, CLASS_TYPE ct)
 
 
 /*
-    CONSTRUCTOR INITIALISER ROUTINES
-
     The constructor initialiser routines are only included in the C++
     producer.
 */
@@ -2147,8 +2073,6 @@ enc_null_class(BITSTREAM *bs, CLASS_TYPE ct)
 
 
 /*
-    ENCODE A CONSTRUCTOR INITIALISER
-
     This routine performs a construct initialisation using a at offset
     off from the tag m.  virt controls how m is accessed.  Note that a
     may be a dummy expression to indicate that m is initialised from
@@ -2216,8 +2140,6 @@ enc_ctor_exp(BITSTREAM *bs, EXP a, OFFSET off, ulong m, int virt, unsigned seq)
 
 
 /*
-    INITIALISE VIRTUAL BASE POINTERS
-
     This routine adds a list of virtual base pointer initialisations
     for an object with tag number m and class ct to the bitstream bs.
 */
@@ -2249,8 +2171,6 @@ enc_virt_init(BITSTREAM *bs, CLASS_TYPE ct, ulong m)
 
 
 /*
-    INITIALISE VIRTUAL FUNCTION TABLES
-
     This routine adds a list of virtual function table initialisations
     for an object with tag number m and class ct to the bitstream bs.
 */
@@ -2284,8 +2204,6 @@ enc_vtab_init(BITSTREAM *bs, CLASS_TYPE ct, ulong m, int virt)
 
 
 /*
-    DELETE AN OBJECT
-
     This routine adds the conditional deletion for an object with tag
     number m and class ct to the bitstream bs.
 */
@@ -2347,8 +2265,6 @@ enc_delete_obj(BITSTREAM *bs, CLASS_TYPE ct, ulong m)
 
 
 /*
-    ENCODE A LIST OF CONSTRUCTOR INITIALISERS
-
     This routine adds the list of constructor initialisers given by e
     to the bitstream bs.
 */

@@ -59,8 +59,6 @@
 
 
 /*
-    SET A CLASS KEY
-
     This routine adjusts the class information ci to be that representing
     the given class key.
 */
@@ -79,8 +77,6 @@ set_class_key(CLASS_INFO ci, BASE_TYPE key)
 
 
 /*
-    IS A NAMESPACE CONTAINED IN A BLOCK?
-
     This routine checks whether the namespace ns is enclosed within a
     block namespace.
 */
@@ -111,8 +107,6 @@ is_local_nspace(NAMESPACE ns)
 
 
 /*
-    CREATE A CLASS OR ENUMERATION TYPE
-
     This routine creates a class or enumeration type (indicated by key)
     with type name nm and template qualifiers q in the namespace ns.
 */
@@ -248,8 +242,6 @@ make_class(NAMESPACE ns, HASHID nm, BASE_TYPE key, DECL_SPEC bds, TYPE q,
 
 
 /*
-    CHECK A CONSTRUCTOR NAME
-
     This routine is called for a declarator id which represents a type
     name in the namespace ns.  It checks whether id is actually a
     constructor name, and if so returns the correct identifier.
@@ -293,8 +285,6 @@ constr_name(NAMESPACE ns, IDENTIFIER id)
 
 
 /*
-    HAS A TYPE BEEN DEFINED?
-
     This routine checks whether the type associated with the identifier id
     has been defined or just declared.  A value of 2 is returned for
     tokenised types.  The value associated with a defined type is returned
@@ -346,8 +336,6 @@ is_defined(IDENTIFIER id, TYPE *pt, int force)
 
 
 /*
-    FIND THE KEY ASSOCIATED WITH A CLASS
-
     This routine returns the class key associated with the class type ct.
 */
 
@@ -366,8 +354,6 @@ find_class_key(CLASS_TYPE ct)
 
 
 /*
-    FIND THE KEY ASSOCIATED WITH A TYPE
-
     This routine returns the class key associated with the identifier id.
     Note that typedef names are only expanded to their definitions if
     expand is true.  If id is a template type parameter which has not
@@ -447,8 +433,6 @@ class_name_lab: {
 
 
 /*
-    CHECK THAT TWO CLASS KEYS ARE CONSISTENT
-
     This routine checks whether the class keys key1 and key2 are consistent.
     Basically they are consistent if they are equal, but also 'class' is
     consistent with 'struct'.
@@ -474,8 +458,6 @@ equal_key(BASE_TYPE key1, BASE_TYPE key2)
 
 
 /*
-    CHECK A CLASS KEY
-
     This routine checks the given class key for the type id.  It returns
     true if either the new or the existing class key is 'enum'.
 */
@@ -501,8 +483,6 @@ check_key(IDENTIFIER id, BASE_TYPE key)
 
 
 /*
-    CREATE A DUMMY CLASS TYPE
-
     This routine creates a dummy class or union type (as indicated by key)
     representing the type 'id < args >' where id depends on a template
     parameter.
@@ -531,8 +511,6 @@ make_dummy_class(IDENTIFIER id, LIST(TOKEN)args, BASE_TYPE key)
 
 
 /*
-    FIND THE CLASS ASSOCIATED WITH AN IDENTIFIER
-
     This routine returns the class type associated with the identifier id.
     The null class type is returned if id is not a class name.
 */
@@ -615,8 +593,6 @@ find_class(IDENTIFIER id)
 
 
 /*
-    FIND A CLASS TYPE
-
     This routine returns the compound type associated with the class ct.
 */
 
@@ -633,8 +609,6 @@ make_class_type(CLASS_TYPE ct)
 
 
 /*
-    REDECLARE A TEMPLATE CLASS
-
     This routine redeclares the template class t using the template type
     qualifiers q.
 */
@@ -667,8 +641,6 @@ redecl_templ_class(TYPE q, TYPE t, IDENTIFIER *pid)
 
 
 /*
-    EXTRACT THE TEMPLATE QUALIFIERS OF A TYPE
-
     This routine does the opposite of inject_pre_type by extracting the
     template qualifiers from the type t.
 */
@@ -687,8 +659,6 @@ extract_templ_qual(TYPE t)
 
 
 /*
-    DECLARE A CLASS OR ENUMERATION NAME
-
     This routine declares a class or enumeration type with name nm,
     class key key (which can be btype_class, btype_struct, btype_union
     or btype_enum) and template specifiers q.  The argument def is 1 if
@@ -825,8 +795,6 @@ declare_type(NAMESPACE ns, HASHID nm, BASE_TYPE key, TYPE q, int def,
 
 
 /*
-    FIND THE TYPE OF A CLASS MEMBER
-
     This routine returns the class type corresponding to the member
     identifier id.  The null type is returned for non-members.
 */
@@ -854,8 +822,6 @@ parent_class(IDENTIFIER id)
 
 
 /*
-    FIND THE TYPE CORRESPONDING TO A NAMESPACE
-
     This routine returns the class type corresponding to the namespace
     ns.  The null type is returned if ns is not a class member namespace.
 */
@@ -878,8 +844,6 @@ namespace_class(NAMESPACE ns)
 
 
 /*
-    CLASS STACK
-
     The variable crt_class holds the class currently being defined.  The
     stack class_stack allows for nested class definitions.
 */
@@ -889,8 +853,6 @@ static STACK(CLASS_TYPE) class_stack = NULL_stack(CLASS_TYPE);
 
 
 /*
-    PUSH A CLASS ONTO THE CLASS STACK
-
     This routine sets the current class to ct pushing the previous class
     to the class stack.
 */
@@ -905,8 +867,6 @@ push_class(CLASS_TYPE ct)
 
 
 /*
-    POP A CLASS FROM THE CLASS STACK
-
     This routine sets the current class from the top of the class stack.
 */
 
@@ -919,8 +879,6 @@ pop_class(void)
 
 
 /*
-    IS A CLASS BEING DEFINED?
-
     This routine checks whether the class ct is in the process of being
     defined by checking it against the current class and the various
     elements of the class stack.
@@ -957,8 +915,6 @@ defining_class(CLASS_TYPE ct)
 
 
 /*
-    BEGIN A CLASS DEFINITION
-
     This routine begins the definition of a class type (this includes
     structures and unions).  The class name is given by id and key is one
     of the values btype_class, btype_struct or btype_union indicating the
@@ -1104,8 +1060,6 @@ begin_class_defn(IDENTIFIER id, BASE_TYPE key, CLASS_INFO ci, TYPE q)
 
 
 /*
-    END A CLASS DEFINITION
-
     This routine completes the definition of the class type id.
 */
 
@@ -1196,8 +1150,6 @@ end_class_defn(IDENTIFIER id)
 
 
 /*
-    CHECK CLASS INFORMATION
-
     This routine checks the effect of a non-static data member or base
     class (as indicated by base) with class information cj on a class
     with class information ci.  In a class definition trivial_constr,
@@ -1263,8 +1215,6 @@ check_class_info(CLASS_INFO ci, CLASS_INFO cj, int base, DECL_SPEC acc)
 
 
 /*
-    CHECK FOR TRIVIAL CLASSES
-
     This routine checks whether the class ct has trivial default
     constructors, destructors, copy constructors and copy assignment
     operators.
@@ -1292,8 +1242,6 @@ check_trivial_class(CLASS_TYPE ct)
 
 
 /*
-    CHECK A CLASS MEMBER TYPE
-
     This routine checks the type t of a non-static data member of the
     class ct.  This is recorded in the effect on the class information ci.
     The criterion for spotting recursively defined classes is that it
@@ -1378,8 +1326,6 @@ check_member_type(CLASS_TYPE ct, CLASS_INFO ci, TYPE t, int ptr)
 
 
 /*
-    REPORT INFORMATION ABOUT A CLASS
-
     This routine reports the information about the class ct indicated by
     the class information mask cm.  It returns an error message summarising
     those properties which hold for ct.  At most n properties are reported.
@@ -1474,8 +1420,6 @@ class_info(CLASS_TYPE ct, CLASS_INFO cm, int n)
 
 
 /*
-    DOES A CLASS TYPE HAVE A NON-TRIVIAL MEMBER?
-
     This routine checks whether the class type ct has a non-trivial member,
     that is to say not all its base classes and members are empty classes.
 */
@@ -1504,8 +1448,6 @@ is_empty_ctype(CLASS_TYPE ct)
 
 
 /*
-    IS A TYPE A TRIVIAL CLASS TYPE?
-
     This routine checks whether the type t is an empty class type or an
     array of such.
 */
@@ -1536,8 +1478,6 @@ is_empty_class(TYPE t)
 
 
 /*
-    BEGIN AN ENUMERATION DEFINITION
-
     This routine begins the definition on an enumeration type.  The
     enumeration name is given by id and q gives any template type qualifiers.
     Note that an enumeration definition does not define a scope.
@@ -1615,8 +1555,6 @@ begin_enum_defn(IDENTIFIER id, TYPE q)
 
 
 /*
-    END AN ENUMERATION DEFINITION
-
     This routine completes the definition of the enumeration type id.
     Note that only at this stage do the enumerators acquire the type
     of the enumeration in C++.
@@ -1679,8 +1617,6 @@ end_enum_defn(IDENTIFIER id)
 
 
 /*
-    LARGEST SIMPLE ENUMERATOR VALUE
-
     The underlying type of an enumeration can be int, unsigned int, long
     or unsigned long, depending on the values of the enumerators.  This
     macro gives the maximum value which is guaranteed to fit into all of
@@ -1692,8 +1628,6 @@ end_enum_defn(IDENTIFIER id)
 
 
 /*
-    DECLARE AN ENUMERATOR
-
     This routine declares an enumerator named id belonging to the enumeration
     type indicated by eid.  The value of the enumerator is given by the
     integer constant expression val, if this is present, or one more than
@@ -1854,8 +1788,6 @@ make_enumerator(IDENTIFIER eid, IDENTIFIER id, EXP val)
 
 
 /*
-    DOES A VALUE APPEAR AS AN ENUMERATOR?
-
     This routine checks whether the integer constant n is a valid enumerator
     for the enumeration et.  If so it returns the enumerator identifier.
 */
@@ -1878,8 +1810,6 @@ find_enumerator(ENUM_TYPE et, NAT n)
 
 
 /*
-    ELABORATE TYPE SPECIFIER FLAG
-
     This flag is set by find_elaborate_type and declare_type to indicate
     that the given type specifier referred to a pre-existing type.
 */
@@ -1888,8 +1818,6 @@ int found_elaborate_type = 0;
 
 
 /*
-    FIND AN ELABORATED TYPE SPECIFIER
-
     This routine finds the type identifier corresponding to the elaborated
     type specifier with identifier id, class key key (which can be
     btype_class, btype_struct, btype_union or btype_enum) and template
@@ -2026,8 +1954,6 @@ find_elaborate_type(IDENTIFIER id, BASE_TYPE key, TYPE q, DECL_SPEC mode)
 
 
 /*
-    CREATE A TYPE ALIAS
-
     This routine creates a typedef with name nm and definition t
     in the namespace ns (but doesn't bring it into scope).  Note that
     typedefs are split into class aliases, enumeration aliases and other
@@ -2127,8 +2053,6 @@ make_typedef(NAMESPACE ns, HASHID nm, TYPE t, DECL_SPEC ds)
 
 
 /*
-    FIND THE COPIED VERSION OF A CLASS MEMBER
-
     This routine finds the member of the class cid corresponding to the
     class member id.  cid will be a copy of the class containing id.
     Note that if res is false a set of overloaded functions is mapped to
@@ -2219,8 +2143,6 @@ find_copied(IDENTIFIER cid, IDENTIFIER id, int res)
 
 
 /*
-    COPY A CLASS TYPE
-
     This routine creates a new class which is a copy of t.  This is used
     in the instantiation of template classes.  Note that the members of
     the class are copied later by copy_members.
@@ -2258,8 +2180,6 @@ copy_class(TYPE t, DECL_SPEC ds)
 
 
 /*
-    COPY A LIST OF TEMPLATE SPECIALISATIONS
-
     This routine copies any partial or explicit specialisations of the
     template member tid of a template class to the corresponding member
     sid of an instance of that template class.
@@ -2297,8 +2217,6 @@ copy_specs(IDENTIFIER sid, IDENTIFIER tid, int type)
 
 
 /*
-    COPY A NESTED CLASS
-
     This routine copies the nested class or enumeration type tid of a
     template class.
 */
@@ -2402,8 +2320,6 @@ copy_nested(IDENTIFIER tid, TYPE t, TYPE q, LOCATION *ploc)
 
 
 /*
-    COPY A MEMBER OF A CLASS
-
     This routine copies the class member id to the namespace ns, renaming
     it to nm.
 */
@@ -2612,8 +2528,6 @@ copy_member(IDENTIFIER id, HASHID nm, NAMESPACE ns, CLASS_TYPE ct,
 
 
 /*
-    COPY A FRIEND CLASS
-
     This routine copies the friend class id of a template class.  This may
     involve name injection.
 */
@@ -2665,8 +2579,6 @@ copy_friend_class(IDENTIFIER id)
 
 
 /*
-    COPY A FRIEND FUNCTION
-
     This routine copies the friend function id of a template class.  This
     may involve name injection.
 */
@@ -2773,8 +2685,6 @@ copy_friend_func(IDENTIFIER id)
 
 
 /*
-    COPY THE MEMBERS OF A CLASS
-
     This routine copies the members of the class cs to the class ct.
     Note that this is done only if cs has been completely defined,
     partially defined classes are not copied.

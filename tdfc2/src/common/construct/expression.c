@@ -43,8 +43,6 @@
 
 
 /*
-    CONSTRUCT AN ERROR EXPRESSION
-
     This routine creates an error expression.  The result is an lvalue
     if lv is true.
 */
@@ -63,8 +61,6 @@ make_error_exp(int lv)
 
 
 /*
-    CONSTRUCT A NULL POINTER CONSTANT
-
     This routine checks converts the integral expression a into a null
     pointer (or pointer to member) constant of type t.  Basically this
     consists of testing whether a evaluates to zero, however writing
@@ -104,8 +100,6 @@ make_null_ptr(EXP a, TYPE t)
 
 
 /*
-    CONSTRUCT A PARENTHESISED EXPRESSION
-
     This routine constructs the expression '( a )'.  Note that parentheses
     are only needed in order to perform analysis for odd precedence in
     expressions.  It is otherwise just an identity operation.
@@ -142,8 +136,6 @@ make_paren_exp(EXP a)
 
 
 /*
-    CONSTRUCT A TYPE OFFSET
-
     This routine constructs an offset of a times the offset of the type t.
     This is negated if neg is true.
 */
@@ -192,8 +184,6 @@ make_off_mult(TYPE t, EXP a, int neg)
 
 
 /*
-    CREATE AN ADD-TO-POINTER EXPRESSION
-
     This routine creates a pointer of type t by adding the offset off to
     the pointer expression a.  For pointers of type 'void *' conversions
     are performed to and from 'char *'.
@@ -219,8 +209,6 @@ make_add_ptr(TYPE t, EXP a, OFFSET off)
 
 
 /*
-    CONSTRUCT AN INDEX EXPRESSION
-
     This routine constructs the expression 'a [b]'.  The result is an
     lvalue.  Note that if a is immediately derived from an array and b is
     an integer constant then bounds checks are applied to the operation.
@@ -348,8 +336,6 @@ make_index_exp(EXP a, EXP b)
 
 
 /*
-    CONSTRUCT A INDIRECTION EXPRESSION
-
     This routine constructs the indirection expression '*a'.  The result
     is an lvalue.
 */
@@ -414,8 +400,6 @@ make_indir_exp(EXP a)
 
 
 /*
-    CONSTRUCT A REFERENCE TO AN OBJECT
-
     This routine constructs a pointer to the expression a which designates
     an object.  Any errors arising are added to err.
 */
@@ -474,8 +458,6 @@ make_ref_object(EXP a, ERROR *err)
 
 
 /*
-    CONSTRUCT A REFERENCE TO A MEMBER
-
     This routine constructs a pointer to the expression a which designates
     a class member.  Note that a can represent an overloaded member function
     in which case the actual result type can only be determined after
@@ -533,8 +515,6 @@ make_ref_member(EXP a, int paren, int res)
 
 
 /*
-    CONSTRUCT A REFERENCE EXPRESSION
-
     This routine constructs the expression '&a' for constructing a pointer
     to a or a pointer member to a.  The res argument is true to indicate
     that any overloaded functions in a have been resolved.
@@ -629,8 +609,6 @@ make_ref_exp(EXP a, int res)
 
 
 /*
-    CONSTRUCT A UNARY ARITHMETIC EXPRESSION
-
     This routine constructs the unary arithmetic expression 'op a'.  For
     '+a' the expression constructed is '( a )' rather than 'a'.  This is
     to prevent expressions like 'a << +( b + c )' confusing the dubious
@@ -723,8 +701,6 @@ make_uminus_exp(int op, EXP a)
 
 
 /*
-    CONSTRUCT A LOGICAL NEGATION EXPRESSION
-
     This routine constructs the expression '!a'.
 */
 
@@ -777,8 +753,6 @@ make_not_exp(EXP a)
 
 
 /*
-    DIVISION MODE
-
     This flag gives the mode to be used in integer division and remainder
     operations.  The values 0, 1 and 2 correspond to the TDF operations
     div0, div1 and div2 and rem0, rem1 and rem2 respectively.  The value 3
@@ -789,8 +763,6 @@ int division_mode = 3;
 
 
 /*
-    CHECK FOR DUBIOUS DIVISION EXPRESSIONS
-
     This routine checks the division operation 'a / b' or 'a % b' for
     dubious constant operands.  All the necessary operand and arithmetic
     type conversions have already been performed on a and b.  The routine
@@ -836,8 +808,6 @@ check_div_exp(int op, EXP a, EXP b)
 
 
 /*
-    CONSTRUCT A MULTIPLICATION OR DIVISION EXPRESSION
-
     This routine constructs the expressions 'a * b' and 'a / b'.
 */
 
@@ -922,8 +892,6 @@ make_mult_exp(int op, EXP a, EXP b)
 
 
 /*
-    CONSTRUCT A REMAINDER EXPRESSION
-
     This routine constructs the expression 'a % b'.
 */
 
@@ -992,8 +960,6 @@ make_rem_exp(EXP a, EXP b)
 
 
 /*
-    CONSTRUCT AN ADDITION EXPRESSION
-
     This routine constructs the expression 'a + b'.
 */
 
@@ -1109,8 +1075,6 @@ make_plus_exp(EXP a, EXP b)
 
 
 /*
-    CONSTRUCT A SUBTRACTION EXPRESSION
-
     This routine constructs the expression 'a - b'.
 */
 
@@ -1269,8 +1233,6 @@ make_minus_exp(EXP a, EXP b)
 
 
 /*
-    CHECK FOR DUBIOUS SHIFT EXPRESSIONS
-
     This routine checks the shift operation 'a << b' or 'a >> b' for
     dubious constant operands.  All the necessary operand and arithmetic
     type conversions have already been performed on a and b, and the type
@@ -1319,8 +1281,6 @@ check_shift_exp(int op, TYPE t, EXP a, EXP b)
 
 
 /*
-    CONSTRUCT A SHIFT EXPRESSION
-
     This routine constructs the expressions 'a << b' and 'a >> b'.  Note
     that this has a lower priority than plus and minus.
 */
@@ -1403,8 +1363,6 @@ make_shift_exp(int op, EXP a, EXP b)
 
 
 /*
-    CONSTRUCT A RELATIONAL OPERATOR
-
     This routine converts the lexical token op to a relational operator.
 */
 
@@ -1430,8 +1388,6 @@ make_ntest(int op)
 
 
 /*
-    CONSTRUCT A RELATIONAL EXPRESSION
-
     This routine constructs the expressions 'a < b', 'a > b', 'a <= b' and
     'a >= b'.
 */
@@ -1593,8 +1549,6 @@ make_relation_exp(int op, EXP a, EXP b)
 
 
 /*
-    CONSTRUCT AN EQUALITY EXPRESSION
-
     This routine constructs the expressions 'a == b' and 'a != b'.
 */
 
@@ -1784,8 +1738,6 @@ make_equality_exp(int op, EXP a, EXP b)
 
 
 /*
-    CONSTRUCT A BIT EXPRESSION
-
     This routine constructs the expressions 'a & b', 'a ^ b' and 'a | b'.
 */
 
@@ -1863,8 +1815,6 @@ make_bit_exp(int op, unsigned tag, EXP a, EXP b)
 
 
 /*
-    CONSTRUCT A BITWISE AND EXPRESSION
-
     This routine constructs the expression 'a & b'.  Note that this
     has lower priority than plus or minus and the equality operators.
 */
@@ -1883,8 +1833,6 @@ make_and_exp(EXP a, EXP b)
 
 
 /*
-    CONSTRUCT A BITWISE XOR EXPRESSION
-
     This routine constructs the expression 'a ^ b'.  Note that this has
     a lower priority than bitwise and, plus and minus.
 */
@@ -1903,8 +1851,6 @@ make_xor_exp(EXP a, EXP b)
 
 
 /*
-    CONSTRUCT A BITWISE OR EXPRESSION
-
     This routine constructs the expression 'a | b'.  Note that this has
     a lower priority than bitwise and, bitwise xor, plus and minus.
 */
@@ -1923,8 +1869,6 @@ make_or_exp(EXP a, EXP b)
 
 
 /*
-    CONSTRUCT A LOGICAL EXPRESSION
-
     This routine constructs the expressions 'a && b' and 'a || b'.
 */
 
@@ -2004,8 +1948,6 @@ make_logic_exp(int op, unsigned tag, EXP a, EXP b)
 
 
 /*
-    CONSTRUCT A LOGICAL AND EXPRESSION
-
     This routine constructs the expression 'a && b'.
 */
 
@@ -2019,8 +1961,6 @@ make_log_and_exp(EXP a, EXP b)
 
 
 /*
-    CONSTRUCT A LOGICAL OR EXPRESSION
-
     This routine constructs the expression 'a || b'.  Note that this
     has a lower priority than logical and.
 */
@@ -2038,8 +1978,6 @@ make_log_or_exp(EXP a, EXP b)
 
 
 /*
-    CONSTRUCT A TEMPLATE DEPENDENT CONDITIONAL EXPRESSION
-
     This routine constructs the expression 'a ? b : c' where one of b
     and c depends on a template parameter.
 */
@@ -2063,8 +2001,6 @@ make_templ_cond(EXP a, EXP b, EXP c)
 
 
 /*
-    ADD A VALUE TO AN EXCEPTION EXPRESSION
-
     This routine is used to turn the throw expression a into an expression
     of type t.  This is required so that a conditional involving a throw
     expression satisfies the shape requirements of a TDF conditional
@@ -2084,8 +2020,6 @@ make_except_value(TYPE t, EXP a)
 
 
 /*
-    CONSTRUCT A CONDITIONAL EXPRESSION
-
     This routine constructs the expression 'a ? b : c'.  Although '?:'
     cannot be overloaded, user-defined conversions which bring the second
     and third operands to a common type are considered.  This is done
@@ -2361,8 +2295,6 @@ return_lab:
 
 
 /*
-    JOIN TWO EXPRESSIONS
-
     This routine joins the expressions a and b by forming a comma
     expression, 'a, b'.
 */
@@ -2388,8 +2320,6 @@ join_exp(EXP a, EXP b)
 
 
 /*
-    CONSTRUCT A SIMPLE COMMA EXPRESSION
-
     This routine constructs the simple comma expression 'a, b'.  If started
     is true and a is itself a comma expression then b is added to the end
     of a.  Otherwise a new comma expression is created.  Note that discard
@@ -2469,8 +2399,6 @@ make_comma_simple(EXP a, EXP b, int started)
 
 
 /*
-    CONSTRUCT A COMMA EXPRESSION
-
     This routine constructs the n-ary comma expression 'p1, p2, ..., pn' for
     the expression list p = ( p1, p2, ..., pn ).  Note that this groups from
     left to right as '( ( ... ( p1, p2 ), ... ), pn )'.

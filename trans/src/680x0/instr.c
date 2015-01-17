@@ -36,8 +36,6 @@
 
 
 /*
-    FIND THE EXTERNAL NAME OF AN OPERAND
-
     The expression e, representing an external, is looked up in the main_globals
     table, and its external name is returned.
 */
@@ -57,8 +55,6 @@ extname(exp e)
 
 
 /*
-    MACROS
-
     These macros are used as convenient shorthands in operand.
 */
 
@@ -68,8 +64,6 @@ extname(exp e)
 
 
 /*
-    TRANSLATE AN INDEX OPERAND
-
     The operand corresponding to w1 indexed by w2 times sf is translated into
     a mach_op.
 */
@@ -89,8 +83,6 @@ index_opnd(where w1, where w2, int sf)
 
 
 /*
-    ERROR MESSAGE
-
     In debugging mode a little extra information is always useful.
 */
 
@@ -102,8 +94,6 @@ static char *illegal_operand = "Illegal operand";
 
 
 /*
-    TRANSLATE A TDF OPERAND INTO A MACHINE OPERAND
-
     The value wh of size sz is converted into a mach_op.
 */
 
@@ -666,8 +656,6 @@ operand(long sz, where wh)
 
 
 /*
-    FIND WHICH REGISTERS ARE CHANGED IN AN OPERAND
-
     This routine returns the bitmask of all the registers changed in the
     operand op.  c is true to indicate that the operand is being assigned
     to.  If c is false, the only way op can change a register is if it is
@@ -695,8 +683,6 @@ regs_changed(mach_op *op, int c)
 
 
 /*
-    OUTPUT AN INSTRUCTION WITH NO OPERANDS
-
     The instruction instr is created.
 */
 
@@ -709,8 +695,6 @@ ins0(int instr)
 
 
 /*
-    OUTPUT AN INSTRUCTION WITH ONE OPERAND
-
     The instruction instr with a single operand, a, of size asz is created.
     a_changed is true to indicate that a is assigned to.
 */
@@ -726,8 +710,6 @@ ins1(int instr, long asz, where a, int a_changed)
 
 
 /*
-    OUTPUT AN INSTRUCTION WITH TWO OPERANDS
-
     The instruction instr with a two operands, a of size asz and b of size bsz,
     is created.  b_changed is true to indicate that b is assigned to.
 */
@@ -745,8 +727,6 @@ ins2(int instr, long asz, long bsz, where a, where b, int b_changed)
 
 
 /*
-    OUTPUT AN INSTRUCTION WITH TWO OPERANDS, ONE A CONSTANT
-
     The instruction instr with a two operands, a constant c and a of size asz,
     is created.  a_changed is true to indicate that a is assigned to.
 */
@@ -763,8 +743,6 @@ ins2n(int instr, long c, long asz, where a, int a_changed)
 
 
 /*
-    OUTPUT AN INSTRUCTION WITH TWO OPERANDS, ONE A HEX CONSTANT
-
     The instruction instr with a two operands, a constant c and a of size asz,
     is created.  a_changed is true to indicate that a is assigned to.  This
     routine only differs from ins2n in that the constant will be output in

@@ -67,8 +67,6 @@ static char *ext_eval_name = "???";
 
 
 /*
-    LIST OF EXTERNAL CONSTANTS
-
     All external constants created are formed into a bro-list.
 */
 
@@ -76,8 +74,6 @@ exp const_list = NULL;
 
 
 /*
-    DATA CONSTANTS
-
     In outputting data constants, current_op is the list of values currently
     being built up.  These values are all of size current_sz.  Values not
     yet of this size are built up in pvalue, which contains psz bits.
@@ -88,8 +84,6 @@ static long current_sz = 0;
 
 
 /*
-    OUTPUT AN EVALUATION INSTRUCTION
-
     An instruction corresponding to current_op is output, and current_op
     is reset.
 */
@@ -108,8 +102,6 @@ static void eval_instr
 
 
 /*
-    OUTPUT AN OPERAND
-
     The operand op of size sz is added to current_op.
 */
 
@@ -129,8 +121,6 @@ void eval_op
 }
 
 /*
-    EVALUATE AN EXPRESSION
-
     The expression e, is evaluated and the integer result is returned.
     (from trans386)
 */
@@ -287,8 +277,6 @@ long  evalexp
 }
 
 /*
-    EVALUATE AN INTEGER VALUE
-
     The expression e, representing an integer value, is evaluated.
 */
 
@@ -355,8 +343,6 @@ static void evalno
 
 
 /*
-    CONVERT A REAL VALUE TO A BITPATTERN
-
     This routine converts the real constant e into an array of longs
     giving the bitpattern corresponding to this constant.  Although
     care has been taken, this may not work properly on all machines
@@ -538,8 +524,6 @@ long *realrep
 
 
 /*
-    EVALUATE A REAL VALUE
-
     The expression e, representing a real value, is evaluated.  There
     are two cases, depending on the flag convert_floats.  Either the
     number itself or its representation in bits is output.
@@ -570,8 +554,6 @@ static void evalreal
 
 
 /*
-    CLEAR A NUMBER OF BYTES
-
     The next n bits are cleared, either by padding with zeros or by
     using a space instruction.
 */
@@ -600,8 +582,6 @@ static void clear_out
 
 
 /*
-    OUTPUT A CONSTANT
-
     This is the main constant evaluation routine.  The expression e is
     evaluated.  al gives the alignment of e.
 */
@@ -932,8 +912,6 @@ void evalaux
 #if 0
 
 /*
-    IS A VALUE ZERO?
-
     If so it can be put into the common area.
 */
 

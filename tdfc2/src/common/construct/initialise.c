@@ -66,8 +66,6 @@
 
 
 /*
-    INLINE MEMBER DEFINITIONS
-
     A static member can be defined inline in its class.  This is only a
     provisional definition for use in constant expressions etc.  The real
     definition (which cannot contain an initialiser) must be provided
@@ -79,8 +77,6 @@
 
 
 /*
-    MEMBER NUMBER
-
     This variable is used to keep track of the number of data members
     within next_data_member.  Anonymous unions, rather than their members,
     are counted.
@@ -90,8 +86,6 @@ unsigned long member_no = 0;
 
 
 /*
-    FIND NEXT DATA MEMBER
-
     This routine returns the first non-static, non-function member of a
     class following mem.  Anonymous unions are included if bit 1 of bf
     is false, but their members if it is true.  Anonymous bitfields are
@@ -144,8 +138,6 @@ next_data_member(MEMBER mem, int bf)
 
 
 /*
-    CONSTRUCT A DYNAMIC INITIALISER
-
     This routine checks whether the expression e is a non-constant
     initialiser for id (or a component of id if off is not null).  If so
     it is embedded in a dynamic initialiser expression and an error is
@@ -211,8 +203,6 @@ dynamic_init(IDENTIFIER id, string off, EXP e)
 
 
 /*
-    CHECK A VARIABLE INITIALISER
-
     This routine is called to check the initialiser for a variable or static
     data member.  Its primary purpose is to mark those temporaries which
     are bound to variables.
@@ -300,8 +290,6 @@ check_init(EXP e)
 
 
 /*
-    TEMPORARY VARIABLE FLAG
-
     The variable made_temporary is set to the temporary variable whenever
     a temporary variable is created.  temp_storage is used to determine
     the storage class for a local variable.
@@ -313,8 +301,6 @@ static DECL_SPEC temp_storage = dspec_auto;
 
 
 /*
-    DECLARE A TEMPORARY VARIABLE
-
     This routine declares a temporary variable of type t, initial value
     e, and destructor d (the implicit destructor will be created if this
     is the null expression).  It returns an expression giving the value of
@@ -424,8 +410,6 @@ make_temporary(TYPE t, EXP e, EXP d, int ref, ERROR *err)
 
 
 /*
-    IS A VARIABLE ALIASED IN AN EXPRESSION
-
     This routine checks whether the variable expression d is aliased in
     the expression e.
 */
@@ -443,8 +427,6 @@ involves_alias(EXP e, EXP d)
 
 
 /*
-    ELIMINATE A TEMPORARY VARIABLE
-
     This routine is called to eliminate any temporary variables from the
     value e which is to be assigned to a variable given by d.  d is the
     null expression in a variable initialisation, otherwise care needs
@@ -507,8 +489,6 @@ remove_temporary(EXP e, EXP d)
 
 
 /*
-    FORCE A REFERENCE INITIALISATION
-
     This flag forces a reference to be initialised by a less cv-qualified
     version of the same type.  Values of greater than 1 can arise in
     copy constructors.
@@ -518,8 +498,6 @@ int init_ref_force = 1;
 
 
 /*
-    INITIALISE A REFERENCE WITH AN LVALUE
-
     This routine checks whether e is a suitable lvalue initialiser for a
     reference to type t.  If so a suitably converted version of e is
     returned.  The null expression is returned otherwise.
@@ -578,8 +556,6 @@ init_ref_lvalue(TYPE t, EXP e, ERROR *err)
 
 
 /*
-    INITIALISE A REFERENCE WITH AN RVALUE
-
     This routine checks whether e is a suitable rvalue initialiser for a
     reference to type t.  It is firstly checked that t is a const reference
     and not a reference to function.  If t is reference compatible with the
@@ -660,8 +636,6 @@ init_ref_rvalue(TYPE t, EXP e, ERROR *err)
 
 
 /*
-    CREATE A REFERENCE INITIALISER
-
     This routine creates a reference initialiser of type t out of the
     expression e.
 */
@@ -693,8 +667,6 @@ make_ref_init(TYPE t, EXP e)
 
 
 /*
-    CREATE A NULL EXPRESSION
-
     This routine creates a null expression (i.e. all zeros) for the type t.
     This is the default value for a non-explicitly initialised variable with
     internal or external linkage.
@@ -731,8 +703,6 @@ make_null_exp(TYPE t)
 
 
 /*
-    CREATE A UNIT EXPRESSION
-
     This routine creates a unit expression (i.e. one) for the type t.
 */
 
@@ -768,8 +738,6 @@ make_unit_exp(TYPE t)
 
 
 /*
-    IS AN EXPRESSION NULL?
-
     This routine checks whether the expression e is a null expression.
 */
 
@@ -820,8 +788,6 @@ is_null_exp(EXP e)
 
 
 /*
-    CREATE AN EMPTY INITIALISER
-
     This routine creates an empty initialiser for the type t.  Basically
     this is the same as make_null_exp except that it also checks for
     uninitialised references and const objects.  Also if force is false
@@ -900,8 +866,6 @@ default_lab: {
 
 
 /*
-    LAST ARRAY INITIALISER SIZE
-
     This variable is used to hold the number of elements in the last array
     initialiser processed.  It is subsequently used to calculate the bound
     for an unbounded, but initialised, array type.
@@ -911,8 +875,6 @@ static NAT last_array_size = NULL_nat;
 
 
 /*
-    IS A TYPE A CHARACTER ARRAY?
-
     This routine checks whether the type t is an array of 'char', 'signed
     char', 'unsigned char' 'wchar_t', and so may be initialised by a single
     literal.  It returns 1 for character arrays, 2 for wide character
@@ -943,8 +905,6 @@ is_char_array(TYPE t)
 
 
 /*
-    PAD AN ARRAY INITIALISER
-
     This routine pads the array initialiser e, which contains m elements,
     with zeros until it matches the type t.  n gives the bound size of t.
 */
@@ -1035,8 +995,6 @@ pad_array(EXP e, NAT m, TYPE t, NAT n, int pad, ERROR *err)
 
 
 /*
-    CHECK AN ASSIGNMENT STYLE ARRAY INITIALISER
-
     This routine checks the assignment style initialiser 't id = e ;' where
     t is an array type.  If arr is true then e is allowed to be another
     array expression of compatible type.  The routine returns the
@@ -1186,8 +1144,6 @@ init_array(TYPE t, CV_SPEC cv, EXP e, int arr, ERROR *err)
 
 
 /*
-    REPORT AN INITIALISATION ERROR
-
     In C there is no distinction between conversion by initialisation and
     conversion by assignment.  This routine adds a suitable error message
     to err which says that the conversion cannot be done by initialisation.
@@ -1212,8 +1168,6 @@ init_error(ERROR err, int init)
 
 
 /*
-    CHECK AN ASSIGNMENT STYLE INITIALISER
-
     This routine checks the assignment style initialiser 'cv t id = e ;'.
     It returns a suitably converted version of e.
 */
@@ -1299,8 +1253,6 @@ init_assign(TYPE t, CV_SPEC cv, EXP e, ERROR *err)
 
 
 /*
-    CHECK A CONSTRUCTOR STYLE INITIALISER
-
     This routine checks the constructor style initialiser 't id ( args ) ;'.
     It returns an expression representing the result of converting args to
     type t.
@@ -1388,8 +1340,6 @@ default_lab: {
 
 
 /*
-    CHECK A DIRECT INITIALISER
-
     This routine checks the direct initialiser 't id ( a ) ;'.  It is
     a special case of init_constr in which there is only one initialiser.
 */
@@ -1405,8 +1355,6 @@ init_direct(TYPE t, EXP a, ERROR *err)
 
 
 /*
-    FIELD NAME BUFFER
-
     This buffer is used to build up field names for use in error reporting.
 */
 
@@ -1414,8 +1362,6 @@ BUFFER field_buff = NULL_buff;
 
 
 /*
-    SET LOCATION FROM AN AGGREGATE INITIALISER
-
     Because aggregate initialisers may be spread over several lines each
     component is embedded in a location expression.  This routine gets
     the first element of the aggregate list p, setting the current location
@@ -1449,8 +1395,6 @@ get_aggr_elem(LIST(EXP) p, unsigned *ptag)
 
 
 /*
-    CHECK AN AGGREGATE INITIALISER
-
     This routine checks the aggregate initialiser expression list pointed
     to by r against the type t.  The argument start is 1 to indicate the
     presence of a open brace immediately preceding r and 2 to indicate
@@ -1904,8 +1848,6 @@ non_aggregate_lab:
 
 
 /*
-    CHECK AN AGGREGATE INITIALISER
-
     This is the top-level routine for analysing the aggregate initialiser
     e for the object id of type t.  Any errors are added to err.
 */
@@ -1930,8 +1872,6 @@ init_aggregate(TYPE t, EXP e, IDENTIFIER id, ERROR *err)
 
 
 /*
-    CHECK ANY INITIALISER
-
     This routine calls init_assign, init_constr or init_aggregate depending
     on the value of e.  If tentative is true then an absent initialiser
     (i.e. when e is null) is treated as a tentative definition.
@@ -2012,8 +1952,6 @@ init_general(TYPE t, EXP e, IDENTIFIER id, int tentative)
 
 
 /*
-    DESTROY AN OBJECT
-
     This routine creates a destructor for the object id of type t,
     reporting any errors.
 */
@@ -2038,8 +1976,6 @@ destroy_general(TYPE t, IDENTIFIER id)
 
 
 /*
-    INITIALISE AN OBJECT
-
     This routine initialises the object given by id to the value e.  Note
     that e can be the null expression, indicating that no initialiser is
     given.  The routine 1 if the object is defined, 2 if it is tentatively
@@ -2294,8 +2230,6 @@ init_object(IDENTIFIER id, EXP e)
 
 
 /*
-    INITIALISE A FUNCTION PARAMETER
-
     This routine initialises the function parameter id with the expression
     e (i.e. sets up a default argument value).  Note that the class
     definition case, where e is initially just skipped over, is dealt
@@ -2334,8 +2268,6 @@ init_param(IDENTIFIER id, EXP e)
 
 
 /*
-    INITIALISE A CLASS MEMBER
-
     This routine initialises the class member id with the expression e
     (which since it is a constant-expression has already undergone the
     appropriate operand conversions).  Note that the pure specifier is
@@ -2490,8 +2422,6 @@ default_lab:
 
 
 /*
-    ALLOW A TOKEN AS AN INITIALISER
-
     This routine enables the token id as an initialiser.
 */
 
@@ -2510,8 +2440,6 @@ allow_initialiser(IDENTIFIER id)
 
 
 /*
-    INITIALISE THE FIELD BUFFER
-
     This routine initialises the field buffer.
 */
 

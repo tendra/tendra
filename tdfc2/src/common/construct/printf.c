@@ -28,8 +28,6 @@
 
 
 /*
-    PRINTF AND SCANF FLAGS
-
     These values are used to indicate the various flags, field widths and
     precision used to modify printf and scanf format strings.
 */
@@ -49,8 +47,6 @@
 
 
 /*
-    SKIP A NUMBER OF DIGITS FROM A STRING
-
     This routine skips a number of decimal digits from the string str.
     The first character and its character type are given by c and pc.
     The routine returns the first non-digit character, assigning the
@@ -80,8 +76,6 @@ read_width(STRING str, unsigned long c, int *pc, unsigned *pn)
 
 
 /*
-    READ A PRINTF ARGUMENT NUMBER
-
     In several places in a printf or scanf format string, a sequence of
     characters of the form 'n$' for a sequence of decimal digits n is
     used to indicate the nth, as opposed to the next, argument.  This
@@ -120,8 +114,6 @@ read_arg_no(STRING str, unsigned margs)
 
 
 /*
-    CHECK A PRINTF OR SCANF FORMAT STRING
-
     This routine combines a printf or scanf format string corresponding to
     the type n, modified by the type modifier m.  flags gives any invalid
     format flags.
@@ -226,8 +218,6 @@ check_format(string s, BUILTIN_TYPE n, BUILTIN_TYPE m, unsigned flags)
 
 
 /*
-    SET AN ARGUMENT TYPE
-
     This routine sets the nth argument of the list p to be t.  The elements
     of p are in reverse order and numbered from 1.  A zero value for n is
     equivalent to 'LENGTH_list ( p ) + 1'.  The state flag is used to keep
@@ -289,8 +279,6 @@ set_printf_arg(LIST(TYPE) p, unsigned n, TYPE t, int *state)
 
 
 /*
-    PRINTF AND SCANF ARGUMENT TYPES
-
     These variables give those printf and scanf argument types which are
     not built-in types or pointers to built-in types.
 */
@@ -302,8 +290,6 @@ static TYPE type_wint_t = NULL_type;
 
 
 /*
-    FIND A PRINTF ARGUMENT TYPE
-
     This routine reads a single printf argument type from the string
     str, adding it to the list p.  It is entered immediately after the
     '%' in the format string has been read.
@@ -513,8 +499,6 @@ wint_lab:
 
 
 /*
-    FIND A SCANF ARGUMENT TYPE
-
     This routine reads a single scanf argument type from the string
     str, adding it to the list p.  It is entered immediately after the
     '%' in the format string has been read.
@@ -654,8 +638,6 @@ add_scanf_arg(STRING str, LIST(TYPE) p, unsigned margs, int *state)
 
 
 /*
-    FIND PRINTF OR SCANF ARGUMENT TYPES
-
     This routine finds the list of arguments expected by a printf-like
     or scanf-like function with format string fmt.  margs gives the
     number argument number which may be specified using '%n$', and pf is
@@ -706,8 +688,6 @@ find_printf_args(STRING str, unsigned margs, int pf)
 
 
 /*
-    PRINTF AND SCANF STRING TYPES
-
     Functions like printf and scanf are indicated by an argument with one
     of the following types, which equal 'const char *' or 'const wchar_t *'.
 */
@@ -719,8 +699,6 @@ TYPE type_wscanf = NULL_type;
 
 
 /*
-    IS A TYPE A PRINTF OR SCANF STRING TYPE?
-
     This routine checks whether the type t is derived from one of the
     printf or scanf string types above.  It returns 1 for type_printf,
     2 for type_scanf, 3 for type_wprintf and 4 for type_wscanf.
@@ -752,8 +730,6 @@ is_printf_type(TYPE t)
 
 
 /*
-    INITIALISE PRINTF AND SCANF TYPES
-
     This routine initialises the printf and scanf strings.
 */
 

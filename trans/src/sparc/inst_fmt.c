@@ -66,8 +66,6 @@ static const char reg_name_tab [66][5] = {
 
 
 /*
-    MACRO FOR ACCESSING REGISTER NAMES
-
     This converts a register number into the corresponding register
     name.
 */
@@ -186,8 +184,6 @@ set_ins ( baseoff a, int dest )
 
 
 /*
-    OUTPUT A LOAD INSTRUCTION
-
     If baseoff is a global this may be two instructions and involve
     a temporary register.
 */
@@ -270,8 +266,6 @@ st_rr_ins ( ins_p ins, int src, int reg1, int reg2 )
 
 
 /*
-    OUTPUT A STORE INSTRUCTION
-
     If baseoff is a global this may be two instructions and involve
     a temporary register.
 */
@@ -563,8 +557,6 @@ lngjmp ( int o_fp_reg, int pc_reg, int r_new_sp )
 }
 
 /*
-    OUTPUT A STRUCTURE RESULT RETURN AND RESTORE INSTRUCTION
-
     See section D.4 of the SPARC architecture manual.
 */
 

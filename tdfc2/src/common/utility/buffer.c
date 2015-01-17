@@ -18,8 +18,6 @@
 
 
 /*
-    FREE A BUFFER
-
     This routine frees the contents of the buffer bf.
 */
 
@@ -35,8 +33,6 @@ free_buffer(BUFFER *bf)
 
 
 /*
-    CLEAR A BUFFER
-
     This routine sets the current position of the buffer bf to the start
     of the buffer and sets the buffer file to f.  It returns bf.
 */
@@ -51,8 +47,6 @@ clear_buffer(BUFFER *bf, FILE *f)
 
 
 /*
-    OUTPUT THE CONTENTS OF A BUFFER
-
     This routine outputs the content of the buffer bf to the associated
     file and resets the position to the start of the buffer.  If fl is
     true then the file is flushed.
@@ -78,8 +72,6 @@ output_buffer(BUFFER *bf, int fl)
 
 
 /*
-    EXTEND A BUFFER
-
     This routine extends the buffer bf.  s gives a pointer into the buffer,
     the corresponding position in the extended buffer is returned.
 */
@@ -98,8 +90,6 @@ extend_buffer(BUFFER *bf, string s)
 
 
 /*
-    MAKE SPACE IN A BUFFER
-
     This routine makes space for at least m + 1 characters in the buffer
     bf following the position s.  It returns the corresponding position
     in the extended buffer.
@@ -118,8 +108,6 @@ stretch_buffer(BUFFER *bf, string s, gen_size m)
 
 
 /*
-    ADD A CHARACTER TO A BUFFER
-
     This routine adds the character c to the buffer bf.  Note that bf will
     not necessarily be null terminated after this routine.
 */
@@ -136,8 +124,6 @@ bfputc(BUFFER *bf, int c)
 
 
 /*
-    ADD A STRING TO A BUFFER
-
     This routine adds the string s to the buffer bf.  Note that this
     guarantees that bf will be null terminated.
 */
@@ -154,8 +140,6 @@ bfputs(BUFFER *bf, string s)
 
 
 /*
-    ADD A FORMATTED STRING TO A BUFFER
-
     This routine adds the string s to the buffer bf, using printf-like
     format characters to print the extra arguments.  Note that this
     guarantees that bf will be null terminated.
@@ -263,8 +247,6 @@ bfprintf(BUFFER *bf, const char *s, ...) /* VARARGS */
 
 
 /*
-    READ A STRING FROM A BUFFER
-
     This routine reads at most n characters from the buffer bf into the
     string s.  It returns the number of characters read.
 */

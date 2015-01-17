@@ -59,8 +59,6 @@
 
 
 /*
-    IS AN EXPRESSION AN UNRESOLVED IMPLICIT CAST?
-
     This routine checks whether the expression e denotes an unresolved
     implicit cast expression.  If so it returns the expression being
     cast.  Otherwise the null expression is returned.  The copying
@@ -91,8 +89,6 @@ implicit_cast_exp(EXP e)
 
 
 /*
-    COPY A VARIABLE DEFINITION
-
     This routine defines the variable or static data member id to be e.
 */
 
@@ -132,8 +128,6 @@ copy_variable(IDENTIFIER id, EXP e)
 
 
 /*
-    COPY A LOCAL VARIABLE
-
     This routine copies the local variable id.
 */
 
@@ -153,8 +147,6 @@ IDENTIFIER copy_local(IDENTIFIER id)
 
 
 /*
-    COPY A TYPE OFFSET
-
     This routine copies the offset for the type t.  The result must be a
     complete object type.
 */
@@ -175,8 +167,6 @@ copy_type_offset(TYPE t, int op)
 
 
 /*
-    COPY AN OFFSET
-
     This routine copies the offset off.
 */
 
@@ -304,8 +294,6 @@ copy_offset(OFFSET off, int op)
 
 
 /*
-    COPY A LIST OF OFFSETS
-
     This routine copies the list of offsets p.
 */
 
@@ -324,8 +312,6 @@ copy_off_list(LIST(OFFSET) p)
 
 
 /*
-    COPY A LIST OF EXPRESSIONS
-
     This routine copies the list of expressions p.
 */
 
@@ -344,8 +330,6 @@ copy_exp_list(LIST(EXP) p, TYPE t1, TYPE t2)
 
 
 /*
-    COPY A FUNCTION EXPRESSION
-
     This routine copies the function expression e.  Any name look-ups
     are postponed until make_func_exp.
 */
@@ -432,8 +416,6 @@ copy_func_exp(EXP e, TYPE t1, TYPE t2)
 
 
 /*
-    COPY A LIST OF FUNCTION ARGUMENTS
-
     This routine copies the list of function arguments p.  id gives the
     function name (for error reporting purposes).
 */
@@ -474,8 +456,6 @@ copy_func_args(LIST(EXP)p, IDENTIFIER id)
 
 
 /*
-    COPY A LABEL
-
     This routine finds the copy of the label lab in the current label
     namespace, copying it if necessary.  If def is true then the labelled
     statement is also copied.
@@ -530,8 +510,6 @@ copy_label(IDENTIFIER lab, int def)
 
 
 /*
-    SET JUMP JOIN STATEMENTS
-
     This routine sets the join field for all jumps to the label lab to
     be e.
 */
@@ -549,8 +527,6 @@ set_jump_joins(IDENTIFIER lab, EXP e)
 
 
 /*
-    COPY A SWITCH STATEMENT
-
     This routine copies the switch statement e.
 */
 
@@ -622,8 +598,6 @@ copy_switch_stmt(EXP e, TYPE t1, TYPE t2)
 
 
 /*
-    COPY A TRY BLOCK
-
     This routine copies the try block e.
 */
 
@@ -679,8 +653,6 @@ copy_try_stmt(EXP e, TYPE t1, TYPE t2)
 
 
 /*
-    COPY A BLOCK DECLARATION
-
     This routine copies the object id declared in block scope.  This is
     primarily to handle local classes and the like, local variables being
     handled by copy_local when their declaration is encountered.
@@ -746,8 +718,6 @@ copy_local_decl(IDENTIFIER id)
 
 
 /*
-    COPY A COMPOUND STATEMENT
-
     This routine copies the compound statement e.
 */
 
@@ -821,8 +791,6 @@ copy_compound_stmt(EXP e, TYPE t1, TYPE t2)
 
 
 /*
-    LISTS OF DUMMY EXPRESSIONS
-
     Dummy expressions are used to point to a component of a complex
     expression.  These lists are used to hold all the dummy expressions to
     be copied by copy_exp.  They are updated as they are copied.
@@ -833,8 +801,6 @@ static LIST(EXP) output_dummy_exps = NULL_list(EXP);
 
 
 /*
-    ADD A DUMMY EXPRESSION TO THE LIST
-
     This routine adds the expression e to the lists of dummy expressions.
 */
 
@@ -848,8 +814,6 @@ save_dummy_exp(EXP e)
 
 
 /*
-    REMOVE A DUMMY EXPRESSION FROM THE LIST
-
     This routine removes an expression from the lists of dummy expressions.
     It returns the copied values.
 */
@@ -869,8 +833,6 @@ restore_dummy_exp(void)
 
 
 /*
-    COPY A DUMMY EXPRESSION
-
     This routine copies the dummy expression e, including updating the lists
     of dummy expressions.
 */
@@ -904,8 +866,6 @@ copy_dummy_exp(EXP e, TYPE t1, TYPE t2)
 
 
 /*
-    COPY AN EXPRESSION
-
     This routine copies the expression e, expanding any template parameters
     and tokens.  It is used in the instantiation of template functions.
     t1 and t2 are used to prevent repeated type expansions.  t1 gives the
@@ -1647,8 +1607,6 @@ copy_exp(EXP e, TYPE t1, TYPE t2)
 
 
 /*
-    EVALUATE A CONSTANT EXPRESSION
-
     This routine evaluates the integer constant expression e, expanding
     any template parameters and tokens.  If ch is true then any character
     literals are replaced by their ASCII values.
@@ -1839,8 +1797,6 @@ eval_exp(EXP e, int ch)
 
 
 /*
-    COPY AN OBJECT FUNCTION DEFINITION
-
     This defines the object id to be a copy of the expression e.  It
     is used in the instantiation of template functions and static data
     members of template classes.
@@ -1908,8 +1864,6 @@ copy_object(IDENTIFIER id, EXP e)
 
 
 /*
-    CHECK FOR NON-CLASS NAMESPACES
-
     Qualifiers of the form 'T::' where T is a template parameter can lead
     to repeated errors if T is bound to a non-class type.  This routine
     is used to keep track of those instances which have been reported
@@ -1941,8 +1895,6 @@ reported_nspace(NAMESPACE ns, TYPE t)
 
 
 /*
-    EXPAND A NAMESPACE
-
     This routine expands the namespace ns by replacing any class namespace
     by the namespace of the expanded class.
 */
@@ -1992,8 +1944,6 @@ rescan_nspace(NAMESPACE ns)
 
 
 /*
-    RESCAN AN IDENTIFIER NAME
-
     This routine looks up the identifier id again in the current context.
     The name is looked up as a type-name if type is true.  The routine is
     used in the resolution of dependent names in template instantiations.
@@ -2085,8 +2035,6 @@ rescan_id(IDENTIFIER id, QUALIFIER qual, int type)
 
 
 /*
-    RESCAN A FUNCTION IDENTIFIER NAME
-
     This routine is a special case of rescan_id which is used to look up
     the names of functions in template instantiations.  If the look-ups
     in the contexts of both the template definition and the template
@@ -2137,8 +2085,6 @@ rescan_func_id(IDENTIFIER id, QUALIFIER qual)
 
 
 /*
-    RESCAN A MEMBER NAME
-
     This routine rescans the identifier id.  If id is a member of a template
     class then the corresponding member of the expanded class is returned.
     id is also marked as having been used and is instantiated if necessary.

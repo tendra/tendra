@@ -17,15 +17,11 @@
 int firstlab=50, labno;
 
 /*
-    CURRENT LABEL NUMBER
-
     The count starts at 50 to avoid confusion with registers.
 */
 
 
 /*
-    ROUND UP CURRENT LABEL NUMBER
-
     This rounds the current label number up to the next multiple of 100.
     It is called at the start of each procedure to aid readability.
 */

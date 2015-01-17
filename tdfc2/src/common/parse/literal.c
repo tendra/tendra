@@ -56,8 +56,6 @@ char map[256] = { 1 };
 
 
 /*
-    SPECIAL TABLE VALUES
-
     These macros are used in the tables of digits and escape sequences
     to indicate special values.
 */
@@ -70,8 +68,6 @@ char map[256] = { 1 };
 
 
 /*
-    TABLE OF DIGITS
-
     This table gives the mapping of characters to digits.  The default
     table assumes the ASCII character set, for other codesets it needs
     to be rewritten.  The valid digits are 0-9, A-Z (which evaluate to
@@ -88,8 +84,6 @@ unsigned char digit_values[NO_CHAR + 1] = {
 
 
 /*
-    TABLE OF ESCAPE SEQUENCES
-
     This table gives the mapping of characters to escape sequences.  The
     default table assumes the ASCII character set, for other codesets it
     needs to be rewritten.  The valid escape sequences are \', \", \?,
@@ -108,8 +102,6 @@ unsigned char escape_sequences[NO_CHAR + 1] = {
 
 
 /*
-    SET AN ESCAPE SEQUENCE
-
     This routine sets the character escape value for the character
     literal expression a to be the character literal b, or an illegal
     escape if b is the null expression.
@@ -134,8 +126,6 @@ set_escape(EXP a, EXP b)
 
 
 /*
-    CHECK A STRING OF DIGITS
-
     This routine scans the string s for valid digits for the given base.
     It returns a pointer to the first character which is not a valid
     digit.
@@ -163,8 +153,6 @@ check_digits(string s, unsigned base)
 
 
 /*
-    EVALUATE A STRING OF DIGITS
-
     This routine evaluates the string of digits starting with s and
     ending with t using the given base (which will be at most 16).  It
     is assumed that all of these digits are in the correct range.
@@ -197,8 +185,6 @@ eval_digits(string s, string t, unsigned base)
 
 
 /*
-    EVALUATE A STRING OF DIGITS
-
     This routine is the same as eval_digits except that it assumes that
     the result fits inside an unsigned long, and reports an error
     otherwise.
@@ -226,8 +212,6 @@ eval_char_digits(string s, string t, unsigned base)
 
 
 /*
-    EVALUATE A LINE NUMBER
-
     This routine evaluates the sequence of decimal digits s as a line
     number in a #line, or similar, preprocessing directive.  Any errors
     arising are indicated using err.  This is a bit pattern consisting
@@ -257,8 +241,6 @@ eval_line_digits(string s, unsigned *err)
 
 
 /*
-    STRING HASH TABLE
-
     This variable gives the hash table used in shared string literals.
 */
 
@@ -267,8 +249,6 @@ static STRING *string_hash_table = NULL;
 
 
 /*
-    STRING AND CHARACTER LITERAL TYPES
-
     The type of a simple character literal is char in C++, but int in C.
     The variable type_char_lit is used to hold the appropriate result
     type.  Other string and character literals have fixed types, however
@@ -284,8 +264,6 @@ CV_SPEC cv_string = cv_none;
 
 
 /*
-    SET THE CHARACTER LITERAL TYPE
-
     This routine sets the type of a character literal to be t.  t must be
     an integral type.  Note that only the representation type is set to t,
     the semantic type is always char.
@@ -306,8 +284,6 @@ set_char_lit(TYPE t)
 
 
 /*
-    TABLE OF INTEGER LITERAL SPECIFICATIONS
-
     The type LITERAL_INFO is used to represent an item in an integer
     literal type specification.  The table int_lit_spec holds the
     specifications for the various combinations of base and suffix.
@@ -334,8 +310,6 @@ static LITERAL_INFO **ptr_int_lit = NULL;
 
 
 /*
-    TABLE OF BUILT-IN INTEGER LITERAL SPECIFICATIONS
-
     This table gives the possible types and built-in tokens for the
     various base and suffix combinations.
 */
@@ -373,8 +347,6 @@ static struct {
 
 
 /*
-    INITIALISE TABLE OF INTEGER LITERAL TYPES
-
     This routine initialises the string and character literal types and
     the table int_lit_info.  The initial values for the table are given
     by the following lists of types:
@@ -486,8 +458,6 @@ init_literal_map(const char *path)
 
 
 /*
-    SET THE CV-QUALIFIERS FOR A STRING LITERAL
-
     This routine sets the string and wide string literal types to be
     cv-qualified.
 */
@@ -503,8 +473,6 @@ set_string_qual(CV_SPEC cv)
 
 
 /*
-    BEGIN A LITERAL SPECIFICATION DEFINITION
-
     This routine is called to begin the specification of the integer
     literals of the given base and suffix.
 */
@@ -521,8 +489,6 @@ begin_literal(int base, int suff)
 
 
 /*
-    ADD A BOUND TO A LITERAL SPECIFICATION
-
     This routine is used to specify a bound in the current literal
     specification.  If n is 0 then the bound matches all values, if it
     is 1 then the bound matches all the values in the following type,
@@ -553,8 +519,6 @@ add_range_literal(EXP e, int n)
 
 
 /*
-    ADD A TYPE TO A LITERAL SPECIFICATION
-
     This routine specifies the type t for all values under the current
     bound in the current literal specification.
 */
@@ -594,8 +558,6 @@ add_type_literal(TYPE t)
 
 
 /*
-    ADD A TOKEN TO A LITERAL SPECIFICATION
-
     This routine specifies that the token id should be used to calculate
     the type for all values under the current bound in the current
     literal specification.  An error with severity sev is reported.
@@ -634,8 +596,6 @@ add_token_literal(IDENTIFIER id, unsigned sev)
 
 
 /*
-    FIND AN INTEGER LITERAL TYPE
-
     This routine finds the type of the integer constant lit specified
     with base base and suffix suff.  num gives the text used to specify
     the constant for the purposes of error reporting.  fit is set to
@@ -792,8 +752,6 @@ find_literal_type(NAT lit, int base, int suff, string num, int *fit)
 
 
 /*
-    ANALYSE AN INTEGER OR FLOATING LITERAL
-
     This routine analyses the integer or floating literal given by the
     string str, constructing the corresponding expression.  The location
     given by ptok is assigned with lex_integer_Hexp or lex_floating_Hexp
@@ -1090,8 +1048,6 @@ make_literal_exp(string str, int *ptok, int force)
 
 
 /*
-    IS A FLOATING LITERAL ZERO?
-
     This routine checks whether the floating point literal f is zero.
 */
 
@@ -1117,8 +1073,6 @@ is_zero_float(FLOAT f)
 
 
 /*
-    ARE TWO FLOATING LITERALS EQUAL?
-
     This routine checks whether the floating point literals f and g are
     equal.  Note that this is equality of representation rather than
     equality of the underlying numbers.
@@ -1156,8 +1110,6 @@ eq_float_lit(FLOAT f, FLOAT g)
 
 
 /*
-    DEFAULT ROUNDING MODE
-
     This variable gives the default rounding mode used for converting
     floating point expressions to integers.
 */
@@ -1166,8 +1118,6 @@ RMODE crt_round_mode = rmode_to_zero;
 
 
 /*
-    ROUND A FLOATING POINT LITERAL
-
     This routine rounds the floating point literal f to an integer
     literal by the rounding mode corresponding to mode.  The null integer
     literal is returned to indicate a target dependent literal.  The
@@ -1281,8 +1231,6 @@ round_float_lit(FLOAT f, RMODE mode)
 
 
 /*
-    EVALUATE A UNICODE CHARACTER
-
     This routine evaluates the unicode character with prefix c, consisting
     of n hex digits, given by ps.  ps is advanced to the position following
     the hex digits.
@@ -1317,8 +1265,6 @@ eval_unicode(int c, unsigned n, int *pc, string *ps, ERROR *err)
 
 
 /*
-    GET A MULTI-BYTE CHARACTER FROM A STRING
-
     This routine returns the multi-byte character pointed to by the
     string s.  It assigns the character type to pc.
 */
@@ -1337,8 +1283,6 @@ get_multi_char(string s, int *pc)
 
 
 /*
-    ADD A MULTI-BYTE CHARACTER TO A STRING
-
     This routine adds the multi-byte character n of type ch to the
     string s.  A multi-byte character is represented by 5 characters.
     The first is a key describing how the character was described (a
@@ -1363,8 +1307,6 @@ add_multi_char(string s, unsigned long n, int ch)
 
 
 /*
-    CREATE A MULTI-BYTE STRING
-
     This routine creates a multi-byte string of length n in s from the
     string t of kind k.
 */
@@ -1388,8 +1330,6 @@ make_multi_string(string s, string t, unsigned long n, unsigned k)
 
 
 /*
-    GET A MULTIBYTE CHARACTER FROM A STRING
-
     This routine reads a multibyte character from the string s (which
     ends at se).  The value (as a wide character) is assigned to pc with
     the new value of s being returned.  Note that this routine is not
@@ -1425,8 +1365,6 @@ get_multibyte(string s, string se, unsigned long *pc)
 
 
 /*
-    ANALYSE A STRING OR CHARACTER LITERAL
-
     This routine analyses the string or character literal given by the
     string s (which ends at se).  Only characters in the range [0, 0xff]
     are assumed to be valid. Note that this is the routine which should
@@ -1666,8 +1604,6 @@ illegal_lab: {
 
 
 /*
-    ARE TWO STRINGS EQUAL?
-
     This routine checks whether the string literals s and t are equal.
 */
 
@@ -1702,8 +1638,6 @@ eq_string_lit(STRING s, STRING t)
 
 
 /*
-    CONCATENATE TWO STRING LITERALS
-
     This routine concatenates the string literals s and t.
 */
 
@@ -1774,8 +1708,6 @@ concat_string_lit(STRING s, STRING t)
 
 
 /*
-    FIND THE SHARED COPY OF A STRING LITERAL
-
     This routine is used to implement shared string literals.  It returns
     the canonical copy of s (i.e. the first string equal to s for which
     the routine was called).
@@ -1801,8 +1733,6 @@ share_string_lit(STRING s)
 
 
 /*
-    GET THE NEXT CHARACTER FROM A STRING
-
     This routine returns the next character from the string s, using
     the tok field as a counter.  The character type is assigned to pc,
     including CHAR_NONE to indicate the end of the string.
@@ -1833,8 +1763,6 @@ get_string_char(STRING s, int *pc)
 
 
 /*
-    FIND A CHARACTER LITERAL
-
     This routine returns the character value corresponding to the character
     literal expression e.
 */
@@ -1878,8 +1806,6 @@ get_char_value(EXP e)
 
 
 /*
-    EVALUATE A CHARACTER LITERAL
-
     This routine evaluates the character literal str by mapping it to
     its ASCII representation.  The value is stored in the tok field
     (the fact that LINK_NONE equals EXTENDED_MAX is convenient, but not
@@ -1936,8 +1862,6 @@ eval_char_lit(STRING str)
 
 
 /*
-    FIND A CHARACTER REPRESENTATION TYPE
-
     In the case where a character literal type doesn't fit into its type
     then this routine gives a type in which the literal value can be
     constructed and then converted into its underlying type.
@@ -1955,8 +1879,6 @@ find_char_type(NAT n)
 
 
 /*
-    CREATE A STRING OR CHARACTER LITERAL EXPRESSION
-
     This routine turns a string or character literal into an expression.
     Note that the type of a normal character literal varies between C
     (where it is a char cast to an int) and C++ (where it stays as a
@@ -2083,8 +2005,6 @@ make_string_exp(STRING s)
 
 
 /*
-    CREATE A BOOLEAN LITERAL EXPRESSION
-
     This routine creates a boolean literal expression given by the boolean
     value b (which should be one of the values BOOL_FALSE and BOOL_TRUE
     defined in literal.h).
@@ -2101,8 +2021,6 @@ make_bool_exp(unsigned b, unsigned tag)
 
 
 /*
-    TEST A BOOLEAN LITERAL EXPRESSION
-
     This routine is the reverse of the one above.  It returns the boolean
     value (BOOL_FALSE, BOOL_TRUE or BOOL_UNKNOWN) corresponding to the
     expression e.

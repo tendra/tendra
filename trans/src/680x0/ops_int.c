@@ -42,8 +42,6 @@
 extern void add_const(shape, long, where);
 
 /*
-    DO AN ADD BY A LOAD EFFECTIVE ADDRESS
-
     The m_lea instruction is used to add the constant offset to the value
     a and put the result into dest.  The flag psh is true to indicate
     that the result should be pushed onto the stack.
@@ -75,8 +73,6 @@ void load_ea
 
 
 /*
-    INCREASE BY A CONSTANT
-
     The value dest is increased or decreased by the constant n.
 */
 
@@ -188,8 +184,6 @@ void sub_const
 }
 
 /*
-    AUXILIARY ADD ROUTINE
-
     The value inc (of shape sha and size sz) is added to dest.
 */
 
@@ -237,8 +231,6 @@ static void add_aux
 
 
 /*
-    ADD CONSTANT ROUTINE
-
     The constant c is added to the value inc, and the result is stored
     in dest.
 */
@@ -289,8 +281,6 @@ static void addsub_const_3_args
 
 
 /*
-    MAIN ADD ROUTINE
-
     The values a1 and a2 of shape sha are added and the result stored in
     dest.
 */
@@ -382,8 +372,6 @@ void add
 
 
 /*
-    AUXILIARY SUBTRACT ROUTINE
-
     The value a is subtracted from dest.
 */
 
@@ -429,8 +417,6 @@ static void sub_aux
 
 
 /*
-    MAIN SUBTRACT ROUTINE
-
     The value a2 of shape sha is subtracted from a1 and the result is
     stored in dest.
 */
@@ -504,8 +490,6 @@ void sub
 
 
 /*
-    NEGATE ROUTINE
-
     The value a of shape sha is negated and the result is stored in dest.
 */
 
@@ -581,8 +565,6 @@ void negate
 
 
 /*
-    AUXILIARY MULTIPLY ROUTINE
-
     The value dest of shape sha is multiplied by a.
 */
 
@@ -646,8 +628,6 @@ static void mult_aux
 
 
 /*
-    MULTIPLY USING LOAD EFFECTIVE ADDRESS
-
     The m_lea instruction is used to multiply a by the constant sf + 1
     where sf is 1, 2, 4 or 8.  If d is true then a further add instruction
     is used to multiply further by 2.  The result is stored in dest.
@@ -685,8 +665,6 @@ static void mult_clever
 
 
 /*
-    MULTIPLY A REGISTER BY A POWER OF 2
-
     The register r is multiplied by 2 to the power of p.  The flag
     D1_used is passed on to shift_aux if necessary.
 */
@@ -706,8 +684,6 @@ static void mult_power2
 
 
 /*
-    MULTIPLICATION UTILITY ROUTINE
-
     This routine is used by mult_const.  The values r1 and r2 represent
     registers.  If P denotes 2 to the power of p and Q denotes 2 to the
     power of q then :
@@ -780,8 +756,6 @@ static void mult_utility
 
 
 /*
-    MULTIPLY BY A CONSTANT
-
     The value a1 of shape sha is multiplied by the constant value a2
     and the result is stored in dest.  All constant multiplications
     are done by means of shifts, adds and subtracts.  Certain small
@@ -945,8 +919,6 @@ static void mult_const
 
 
 /*
-    MAIN MULTIPLICATION ROUTINE
-
     The values a1 and a2 of shape sha are multiplied and the result is
     stored in dest.
 */
@@ -1037,8 +1009,6 @@ void mult
 
 
 /*
-    DIVISION BY A POWER OF 2
-
     The value top of shape sha is divided by the constant v which is a
     power of 2.  The result is stored in dest.
 */
@@ -1084,8 +1054,6 @@ static void div_power2
 
 
 /*
-    REMAINDER MODULO A POWER OF 2
-
     The remainder of the value top of shape sha when divided by the
     constant v (which is a power of 2) is stored in dest.
 */
@@ -1130,8 +1098,6 @@ static void rem_power2
 
 
 /*
-    REMAINDER MODULO A POWER OF 2 MINUS 1
-
     The remainder of the value top of shape sha when divided by the
     constant v (which is a power of 2 minus 1) is stored in dest.  The
     algorithm used is a modification of "casting out the nines".
@@ -1206,8 +1172,6 @@ static bool rem_power2_1
 
 
 /*
-    MARKERS FOR DIVISION AND REMAINDER
-
     Division, remainder and combined division-remainder operations are
     all handled by a single routine.  The following values are used to
     indicate to the routine the operation type.
@@ -1219,8 +1183,6 @@ static bool rem_power2_1
 
 
 /*
-    MAIN DIVISION AND REMAINDER ROUTINE
-
     The value top of shape sha is divided by bottom and, depending on
     the value of type, the quotient is stored in quot and the remainder
     in rem.  Which of the two possible division types used is determined
@@ -1520,8 +1482,6 @@ static void euclid
 
 
 /*
-    DIVISION INSTRUCTION - FORM ONE
-
     The value top of shape sha is divided by bottom and the result is
     stored in dest.  This is the alternative division operation.
 */
@@ -1535,8 +1495,6 @@ void div1
 
 
 /*
-    DIVISION INSTRUCTION - FORM TWO
-
     The value top of shape sha is divided by bottom and the result is
     stored in dest.  This is the standard division operation.
 */
@@ -1550,8 +1508,6 @@ void div2
 
 
 /*
-    REMAINDER INSTRUCTION - FORM ONE
-
     The value top of shape sha is divided by bottom and the remainder is
     stored in dest.  This is the alternative remainder operation.
 */
@@ -1565,8 +1521,6 @@ void rem1
 
 
 /*
-    REMAINDER INSTRUCTION - FORM TWO
-
     The value top of shape sha is divided by bottom and the remainder is
     stored in dest.  This is the standard remainder operation.
 */
@@ -1580,8 +1534,6 @@ void rem2
 
 
 /*
-    DO AN EXACT DIVISION
-
     The value top is divided by bottom and the result is stored in dest.
 */
 

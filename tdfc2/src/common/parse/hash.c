@@ -34,8 +34,6 @@
 
 
 /*
-    HASH TABLES
-
     The hash tables consist of an array of hash identifiers, one for each
     hash value.  All the hash table entries with the same hash value are
     chained into a list using their next field.  There are two hash tables,
@@ -47,8 +45,6 @@ static HASHID *hash_type_table;
 
 
 /*
-    IDENTIFIER NAME HASHING FUNCTION
-
     This routine calculates the hash value associated with the identifier
     name s.  The main parser routine, read_token, calculates the hash values
     of the identifiers it reads on the fly and stores them in token_hash.
@@ -69,8 +65,6 @@ hash(string s)
 
 
 /*
-    TYPE NAME HASHING FUNCTION
-
     This routine calculates the hash value associated with the type t.
     This is used in the look-up for the conversion function identifier
     'operator t'.
@@ -156,8 +150,6 @@ hash_type(TYPE t)
 
 
 /*
-    INITIALISE A HASH TABLE ENTRY
-
     This routine initialises the hash table entry nm by creating a dummy
     identifier with lexical token value tok for it to point to.
 */
@@ -175,8 +167,6 @@ init_hashid(HASHID nm, int tok)
 
 
 /*
-    LOOK UP AN IDENTIFIER NAME IN THE HASH TABLE
-
     This routine looks up the identifier name s in the hash table, creating
     it if it does not already exist.  h gives the value of hash ( s ) (which
     gets checked by an assertion).  The argument tok is set to lex_unknown to
@@ -246,8 +236,6 @@ lookup_name(string s, unsigned long h, int ext, int tok)
 
 
 /*
-    CREATE A SPECIAL FUNCTION NAME
-
     This routine creates a constructor, destructor or conversion function
     name (as indicated by tag) for the non-class type t named id.
 */
@@ -281,8 +269,6 @@ lookup_special(TYPE t, IDENTIFIER id, unsigned tag)
 
 
 /*
-    CREATE THE CONSTRUCTOR FOR A TYPE
-
     This routine creates the hash table entry for the constructor of type t
     and name id.
 */
@@ -314,8 +300,6 @@ lookup_constr(TYPE t, IDENTIFIER id)
 
 
 /*
-    CREATE THE DESTRUCTOR FOR A TYPE
-
     This routine creates the hash table entry for the destructor of type t
     and name id.
 */
@@ -347,8 +331,6 @@ lookup_destr(TYPE t, IDENTIFIER id)
 
 
 /*
-    LOOK UP A CONVERSION FUNCTION NAME
-
     This routine returns the hash table entry for the conversion function
     corresponding to the type t.
 */
@@ -362,8 +344,6 @@ lookup_conv(TYPE t)
 
 
 /*
-    OVERLOADED OPERATOR LOOK-UP TABLE
-
     This table gives the hash table entries for the overloaded operator
     function names, 'operator +' etc.  It gives a straight look-up depending
     on the lexical token number of the operator.  All ISO keyword and
@@ -374,8 +354,6 @@ HASHID *hash_ops_table;
 
 
 /*
-    CREATE AN OPERATOR HASH TABLE ENTRY
-
     This routine creates a hash table entry for 'operator op' when op has
     lexical token number t.
 */
@@ -392,8 +370,6 @@ make_op(int t)
 
 
 /*
-    LOOK UP AN ANONYMOUS IDENTIFIER
-
     This routine creates a hash table entry for an anonymous identifier.
     Note that each anonymous identifier gives a distinct hash table entry.
 */
@@ -411,8 +387,6 @@ lookup_anon(void)
 
 
 /*
-    EXPAND AN IDENTIFIER NAME
-
     This routine expands the identifier name nm.  For example, if t is
     a tokenised type defined to be int, then 'operator t' expands to
     'operator int'.  ct gives the expansion type for constructors and
@@ -464,8 +438,6 @@ expand_name(HASHID nm, CLASS_TYPE ct)
 
 
 /*
-    FIND NEXT VERSION OF AN EXPANDED IDENTIFIER NAME
-
     There is a complication in the expansion of conversion function names
     in that when types are identified more than one name may refer to the
     same type.  This routine finds the next such possible name returning
@@ -495,8 +467,6 @@ next_expand_name(HASHID nm)
 
 
 /*
-    FIND A HASH IDENTIFIER NUMBER
-
     This routine finds the lexical token number associated with the hash
     identifier nm.  For a keyword, whether active or not, this is the
     associated value from syntax.h, otherwise it is lex_identifier.
@@ -517,8 +487,6 @@ find_hashid(HASHID nm)
 
 
 /*
-    FIND AN UNDERLYING IDENTIFIER
-
     This routine finds the dummy identifier underlying id.
 */
 
@@ -536,8 +504,6 @@ underlying_id(IDENTIFIER id)
 
 
 /*
-    SET THE LOCATION OF A COMPLEX IDENTIFIER
-
     The precise location of the last use of a hash identifier is stored
     in the loc field of its associated dummy identifier.  For simple
     identifiers this is set in read_token, however for more complex
@@ -563,8 +529,6 @@ set_hashid_loc(IDENTIFIER id, IDENTIFIER pid)
 
 
 /*
-    MODIFY AN IDENTIFIER NAME
-
     This routine modifies the name of the identifier id by adding a prime
     to it.  This is intended primarily for debugging purposes.
 */
@@ -586,8 +550,6 @@ prime_name(IDENTIFIER id)
 
 
 /*
-    KEYWORD HASH TABLE ENTRIES
-
     The table hash_keyword gives the hash table entries for the keywords.
     These are numbered from LAST_KEYWORD to FIRST_KEYWORD.  The array
     should be accessed through the macro KEYWORD defined in hash.h, which
@@ -599,8 +561,6 @@ IDENTIFIER underlying_op = NULL_id;
 
 
 /*
-    INITIALISE THE HASH TABLE
-
     This routine allocates space for the hash table and sets all its entries
     to NULL.  It also sets up the operator look-up table.
 */

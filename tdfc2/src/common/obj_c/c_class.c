@@ -15,8 +15,6 @@
 
 
 /*
-    CHECK FOR CORRECT HEADERS
-
     The functions defined in this file give the implementations of various
     support functions used by the c_class implementation.  They should
     therefore be compiled with the c_class implementation rather than the
@@ -29,8 +27,6 @@ FAIL_COMPILER(Implementation functions compiled with token specifications)
 
 
 /*
-    FREE OBJECTS
-
     These variables indicate the free c_classes.  There is an array
     containing lists of small blocks, plus a single larger block.
 */
@@ -53,8 +49,6 @@ static c_class *free_c_class_array[SMALL_BLOCK] = {
 
 
 /*
-    GENERATE A NEW OBJECT BLOCK
-
     This routine generates a new block of c_classes of size sz.  Small
     blocks are allocated from the c_class array, others from the main
     c_class list.
@@ -93,8 +87,6 @@ gen_c_class(unsigned sz)
 
 
 /*
-    MARK AN OBJECT AS FREE
-
     This routine is used in the object destruction routines to mark an
     object as having been freed.  This only has any effect in conjunction
     with the debugging routine below.
@@ -113,8 +105,6 @@ gen_c_class(unsigned sz)
 
 
 /*
-    GENERATE A NEW OBJECT BLOCK (DEBUG VERSION)
-
     This routine is identical to gen_c_class except that it includes the
     run-time type information t in the allocated block.
 */
@@ -161,8 +151,6 @@ debug_c_class(unsigned sz, unsigned t)
 
 
 /*
-    DESTROY AN OBJECT BLOCK
-
     This routine destroys the block of c_classes p of size sz.
 */
 
@@ -184,8 +172,6 @@ destroy_c_class(c_class *p, unsigned sz)
 
 
 /*
-    DUMMY OBJECT BLOCK DESTRUCTOR
-
     This routine is a dummy destructor which does nothing.
 */
 
@@ -199,8 +185,6 @@ dummy_destroy_c_class(c_class *p, unsigned sz)
 
 
 /*
-    DESTROY A LIST OF OBJECT BLOCKS
-
     This routine destroys the list p of blocks of c_classes of size sz.
     The list is added to the appropriate entry of the free c_class array.
 */
@@ -228,8 +212,6 @@ destroy_c_class_list(c_class *p, unsigned sz)
 
 
 /*
-    FIND THE LENGTH OF A LIST
-
     This routine calculates the length of the list p.
 */
 
@@ -247,8 +229,6 @@ length_c_class_list(c_class *p)
 
 
 /*
-    REVERSE A LIST
-
     This routine reverses the order of the list p.
 */
 
@@ -268,8 +248,6 @@ reverse_c_class_list(c_class *p)
 
 
 /*
-    APPEND TWO LISTS
-
     This routine appends the lists of c_class blocks p and q.
 */
 
@@ -289,8 +267,6 @@ append_c_class_list(c_class *p, c_class *q)
 
 
 /*
-    FIND THE LAST MEMBER OF A LIST
-
     This routine returns the last member of the list of c_class blocks p.
 */
 
@@ -355,8 +331,6 @@ set_c_class_alias(c_class *p, unsigned n)
 
 
 /*
-    FIND AN ALIAS
-
     This routine searches for alias number n.
 */
 
@@ -377,8 +351,6 @@ find_c_class_alias(unsigned n)
 
 
 /*
-    CLEAR ALL ALIASES
-
     This routine clears all aliases.  Each alias in the list is reset to
     zero, and the list itself is freed.
 */
@@ -406,8 +378,6 @@ clear_c_class_alias(void)
 
 
 /*
-    ASSERTION ROUTINES
-
     These routine implement the assertion checks.
 */
 

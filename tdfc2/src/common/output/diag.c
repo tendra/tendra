@@ -50,8 +50,6 @@
 
 
 /*
-    STANDARD DIAGNOSTIC TOKENS
-
     These variables give the standard tokens used in the diagnostic
     output.
 */
@@ -61,8 +59,6 @@ static ulong exp_to_source_tok = LINK_NONE;
 
 
 /*
-    ENCODE A DIAGNOSTIC FILE NAME
-
     This routine adds the diagnostic file name given by posn to the
     bitstream bs.
 */
@@ -100,8 +96,6 @@ enc_diag_file(BITSTREAM *bs, PTR(POSITION)posn)
 
 
 /*
-    ENCODE A DIAGNOSTIC SOURCE MARK
-
     This routine adds the diagnostic source mark given by loc to the
     bitstream bs.
 */
@@ -131,8 +125,6 @@ enc_diag_loc(BITSTREAM *bs, PTR(LOCATION)loc)
 
 
 /*
-    ENCODE A DIAGNOSTIC IDENTIFIER NAME
-
     This routine adds the name of the identifier id to the bitstream bs
     as a TDF string.
 */
@@ -147,8 +139,6 @@ enc_diag_name(BITSTREAM *bs, IDENTIFIER id, int q)
 
 
 /*
-    ENCODE THE START OF A DIAGNOSTIC TAG DEFINITION
-
     This routine encodes the start of a diagnostic tag definition for
     diagnostic tag number n.  It returns a bitstream to which the
     diagnostic type definition needs to be added.
@@ -167,8 +157,6 @@ enc_diag_tagdef_start(ulong n)
 
 
 /*
-    ENCODE THE END OF A DIAGNOSTIC TAG DEFINITION
-
     This routine completes the definition of a diagnostic tag.  bs is the
     result of a previous call to enc_diag_tagdef_start.
 */
@@ -183,8 +171,6 @@ enc_diag_tagdef_end(BITSTREAM *bs)
 
 
 /*
-    ENCODE A LIST OF DIAGNOSTIC BASE CLASSES
-
     This routine adds the list of diagnostic base classes given by br
     to the bitstream bs in reverse order.  A count of the number of bases
     is maintained in pm.
@@ -215,8 +201,6 @@ enc_diag_bases(BITSTREAM *bs, LIST(GRAPH)br, unsigned *pm)
 
 
 /*
-    ENCODE A LIST OF DIAGNOSTIC CLASS MEMBERS
-
     This routine adds the list of diagnostic class members given by mem
     to the bitstream bs in reverse order.  A count of the number of members
     is maintained in pm.
@@ -241,8 +225,6 @@ enc_diag_mems(BITSTREAM *bs, MEMBER mem, unsigned *pm)
 
 
 /*
-    ENCODE A DIAGNOSTIC VIRTUAL FUNCTION TABLE
-
     This routine adds the diagnostic information for the virtual function
     table vt to the bitstream bs.  A count of the number of items is
     maintained in pm.
@@ -273,8 +255,6 @@ enc_diag_vtable(BITSTREAM *bs, VIRTUAL vt, unsigned *pm)
 
 
 /*
-    LIST OF INCOMPLETE CLASSES
-
     This list is used to hold all the classes which are used while they
     are incomplete.  A diagnostic tag is introduced for each such class
     which may be defined later if the class is completed.
@@ -284,8 +264,6 @@ static LIST(CLASS_TYPE)diag_classes = NULL_list(CLASS_TYPE);
 
 
 /*
-    DEFINE A DIAGNOSTIC TAG FOR A CLASS
-
     This routine defines a diagnostic tag for the class ct if it is complete
     or def is true.
 */
@@ -352,8 +330,6 @@ enc_diag_class(CLASS_TYPE ct, int def)
 
 
 /*
-    DEFINE INCOMPLETE CLASSES
-
     This routine defines the diagnostic tags for the incomplete classes
     in the list above.
 */
@@ -385,8 +361,6 @@ enc_diag_pending(void)
 
 
 /*
-    ENCODE A DIAGNOSTIC CLASS TYPE
-
     This routine encodes the diagnostic information for the class type ct
     to the bitstream bs.
 */
@@ -414,8 +388,6 @@ enc_diag_ctype(BITSTREAM *bs, CLASS_TYPE ct)
 
 
 /*
-    ENCODE A DIAGNOSTIC ENUMERATION TYPE
-
     This routine encodes the diagnostic information for the enumeration
     type et to the bitstream bs.  This is represented by a diagnostic tag.
 */
@@ -464,8 +436,6 @@ enc_diag_etype(BITSTREAM *bs, ENUM_TYPE et)
 
 
 /*
-    ENCODE A TOKENISED DIAGNOSTIC TYPE
-
     This routine adds the diagnostic information for the tokenised type
     id ( args ) to the bitstream bs.
 */
@@ -493,8 +463,6 @@ enc_diag_tok_type(BITSTREAM *bs, IDENTIFIER id, LIST(TOKEN)args)
 
 
 /*
-    ENCODE A DIAGNOSTIC TYPE QUALIFIER
-
     This routine adds the diagnostic type qualifiers cv to the bitstream bs.
 */
 
@@ -513,8 +481,6 @@ enc_diag_type_qual(BITSTREAM *bs, CV_SPEC cv)
 
 
 /*
-    ENCODE A DIAGNOSTIC TYPE
-
     This routine adds the diagnostic information for the type t to the
     bitstream bs.  The type qualifiers are only output if qual is true.
 */
@@ -659,8 +625,6 @@ enc_diag_type(BITSTREAM *bs, TYPE t, int qual)
 
 
 /*
-    ENCODE DIAGNOSTICS FOR A TOKEN DEFINITION
-
     This routine outputs any diagnostic information for the token id
     to the appropriate diagnostic units.  It is only called if id is
     defined.  The type t may be used to override the type of id.
@@ -714,8 +678,6 @@ enc_diag_token(IDENTIFIER id, TYPE t)
 
 
 /*
-    ENCODE A GLOBAL DIAGNOSTIC IDENTIFIER
-
     This routine adds the diagnostic information for the global identifier
     id to the diagnostic definition unit.  def is true for a definition.
 */
@@ -782,8 +744,6 @@ diag_label: {
 
 
 /*
-    ENCODE DIAGNOSTICS INITIALISATION FUNCTION
-
     This routine adds the diagnostic information for the initialisation
     or termination function named s with tag number n to the diagnostics
     definition unit.
@@ -816,8 +776,6 @@ enc_diag_init(const char *s, ulong n, TYPE t)
 
 
 /*
-    ENCODE A LOCAL DIAGNOSTIC IDENTIFIER
-
     This routine adds the diagnostic information for the local identifier
     id to the bitstream bs.  ts gives the encoding of the scope of id.
 */
@@ -858,8 +816,6 @@ enc_diag_local(BITSTREAM *bs, IDENTIFIER id, BITSTREAM *ts)
 
 
 /*
-    ENCODE A LIST OF DIAGNOSTIC PARAMETERS
-
     This routine adds the diagnostic information for the list of function
     parameters p to the bitstream bs.  ts and e give the function body.
 */
@@ -886,8 +842,6 @@ enc_diag_params(BITSTREAM *bs, LIST(IDENTIFIER)p, BITSTREAM *ts, EXP e)
 
 
 /*
-    ENCODE DIAGNOSTIC STATEMENT TOKEN
-
     This routine adds the token used to associate diagnostic information
     with a statement to the bitstream bs.
 */
@@ -916,8 +870,6 @@ enc_diag_start(BITSTREAM *bs)
 
 
 /*
-    ENCODE THE START OF A DIAGNOSTIC STATEMENT
-
     This routine adds the start of a diagnostic statement e to the
     bitstream pointed to by pbs.
 */
@@ -936,8 +888,6 @@ enc_diag_begin(BITSTREAM **pbs)
 
 
 /*
-    SHOULD DIAGNOSTICS BE OUTPUT FOR A STATEMENT?
-
     Not all statements are marked with diagnostic locations because they
     are revelant when single stepping through the program.  This routine
     checks whether diagnostics should be output for the statement e.
@@ -995,8 +945,6 @@ is_diag_stmt(EXP e)
 
 
 /*
-    ENCODE THE BODY OF A DIAGNOSTIC STATEMENT
-
     This routine adds the diagnostic information associated with the
     statement e to the bitstream bs.
 */
@@ -1034,8 +982,6 @@ enc_diag_stmt(BITSTREAM *bs, EXP e, int stmt)
 
 
 /*
-    ENCODE THE END OF A DIAGNOSTIC STATEMENT
-
     This routine adds the end of the diagnostic statement e to the
     bitstream bs.  ts gives the encoding of e.
 */

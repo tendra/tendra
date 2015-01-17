@@ -56,8 +56,6 @@
 
 
 /*
-    ENCODE A SMALL TDF INTEGER CONSTANT
-
     This routine adds the small integer n to the bitstream bs as a TDF
     SIGNED_NAT.
 */
@@ -78,8 +76,6 @@ enc_make_snat(BITSTREAM *bs, int n)
 
 
 /*
-    ENCODE A SMALL TDF INTEGER
-
     This routine adds the small integer n of type t to the bitstream bs
     as a TDF EXP.
 */
@@ -95,8 +91,6 @@ enc_make_int(BITSTREAM *bs, TYPE t, int n)
 
 
 /*
-    ENCODE A NULL TDF EXPRESSION
-
     This routine adds a null TDF EXP with shape corresponding to the type
     t to the bitstream bs.
 */
@@ -206,8 +200,6 @@ enc_null_exp(BITSTREAM *bs, TYPE t)
 
 
 /*
-    CHECK ANONYMOUS UNION MEMBER EXPRESSION
-
     This routine checks whether the identifier expression a arises from a
     member of an anonymous union.  The routine also marks any external
     variables.
@@ -231,8 +223,6 @@ is_anon_exp(EXP a)
 
 
 /*
-    CREATE AN IDENTITY DECLARATION
-
     This routine adds the start of an identity declaration for the
     expression a to the bitstream bs.  The identity body will consist
     of a sequence of seq + 1 expressions.  The identity tag number is
@@ -276,8 +266,6 @@ make_identity(BITSTREAM *bs, EXP a, ulong *pn, int cnt, int seq)
 
 
 /*
-    CREATE A POINTER TO MEMBER FUNCTION TAG
-
     This routine adds the start of an identity or variable declaration
     for the pointer to member function or similar expression a to the
     bitstream bs.  If var is true then a variable declaration is forced.
@@ -303,8 +291,6 @@ make_ptr_mem_func(BITSTREAM *bs, EXP a, ulong *pn, int var)
 
 
 /*
-    ENCODE AN ASSIGNMENT OPERATOR
-
     This routine encodes an assignment operator for an expression of
     type t.  bf is set to true for bitfields.
 */
@@ -334,8 +320,6 @@ enc_assign_op(BITSTREAM *bs, TYPE t, int *bf)
 
 
 /*
-    ENCODE THE ADDRESS OF A TDF EXPRESSION
-
     This routine adds the address of the expression e to the bitstream
     bs as a TDF EXP.
 */
@@ -522,8 +506,6 @@ enc_addr_exp(BITSTREAM *bs, TYPE t, EXP e)
 
 
 /*
-    ENCODE A CONTENTS OPERATOR
-
     This routine encodes a contents operator for an expression of type t.
     bf is set to true for bitfields.
 */
@@ -553,8 +535,6 @@ enc_cont_op(BITSTREAM *bs, TYPE t, int *bf)
 
 
 /*
-    ENCODE THE CONTENTS OF A TDF EXPRESSION
-
     This routine adds the contents of the expression e of type t to the
     bitstream bs as a TDF EXP.
 */
@@ -743,8 +723,6 @@ enc_cont_exp(BITSTREAM *bs, TYPE t, EXP e)
 
 
 /*
-    ENCODE A LIST OF TDF EXPS
-
     This routines adds the expressions p to the bitstream bs as a list
     of TDF EXPs.
 */
@@ -764,8 +742,6 @@ enc_exp_list(BITSTREAM *bs, LIST(EXP)p)
 
 
 /*
-    ENCODE A TDF NTEST
-
     This routine adds the comparison operator tst to the bitstream bs as
     a TDF NTEST.  The macro ENC_NTEST exploits the correlation between
     the internal representation of NTESTs and the TDF encoding.
@@ -780,8 +756,6 @@ enc_ntest(BITSTREAM *bs, NTEST tst)
 
 
 /*
-    ENCODE A COMPARISON
-
     This routine adds a comparison expression to the bitstream bs for
     comparing a with b using test tst.  lab gives the destination label
     number.
@@ -923,8 +897,6 @@ enc_compare(BITSTREAM *bs, EXP a, EXP b, NTEST tst, ulong lab, ulong nlab)
 
 
 /*
-    SIMPLIFY A CONDITION
-
     This routine simplifies the condition e by removing any double
     negations.  sw is set to 1 if the result has the form 'a || b' or
     '!( a && b )'.
@@ -968,8 +940,6 @@ simplify_cond(EXP e, int *sw)
 
 
 /*
-    ENCODE A CONDITION
-
     This routine adds the expression e as a conditional jump to the label
     lab if true or label nlab if false to the bitstream bs.  Either label
     may be LINK_NONE.
@@ -1108,8 +1078,6 @@ default_lab: {
 
 
 /*
-    ENCODE A LOGICAL EXPRESSION
-
     This routine adds the logical expression e of type t to the bitstream
     bs.  The code added is equivalent to '( e ? 1 : 0 )'.
 */
@@ -1155,8 +1123,6 @@ enc_logical(BITSTREAM *bs, EXP e, TYPE t)
 
 
 /*
-    CHECK FOR CONSTANT POINTER TO MEMBERS
-
     This routine checks whether the expression e consists of a cast of the
     address of a member of some class.  If so it returns the corresponding
     member identifier.
@@ -1192,8 +1158,6 @@ is_const_ptr_mem(EXP e, int rev)
 
 
 /*
-    ENCODE A POINTER TO MEMBER
-
     This routine adds the address of the member id plus the base class
     offset gr, converted to type t, to the bitstream bs.
 */
@@ -1270,8 +1234,6 @@ enc_ptr_mem(BITSTREAM *bs, TYPE t, IDENTIFIER id, GRAPH gr)
 
 
 /*
-    ENCODE A CAST EXPRESSION
-
     This routine adds a TDF EXP to the bitstream bs representing a cast
     of the expression e to the type t.  conv represents the conversion
     type (see cast.c).
@@ -1690,8 +1652,6 @@ pointer_void_label: {
 
 
 /*
-    ENCODE A BASE CLASS CONVERSION
-
     This routine adds the base class conversion of e using the base
     offset off to the bitstream bs.  conv represents the conversion type.
 */
@@ -1853,8 +1813,6 @@ ptr_mem_label:
 
 
 /*
-    ENCODE A TDF ERROR TREATMENT
-
     This routine adds an error treatment corresponding to arithmetic
     operations on the arithmetic type t to the bitstream bs.
 */
@@ -1872,8 +1830,6 @@ enc_error_treatment(BITSTREAM *bs, TYPE t)
 
 
 /*
-    ENCODE A LIST OF VIRTUAL FUNCTION ARGUMENTS
-
     This routine adds the list of virtual function arguments p to the
     bitstream bs.  m is a tag number giving a pointer into the virtual
     function table and j gives the number of the argument corresponding
@@ -1913,8 +1869,6 @@ enc_virt_args(BITSTREAM *bs, LIST(EXP)p, ulong m, unsigned j)
 
 
 /*
-    ENCODE A NAMED FUNCTION CALL
-
     This routine outputs an apply_proc construct for the identifier
     function call given by e to the bitstream bs.  t gives the return
     type.
@@ -2043,8 +1997,6 @@ enc_func_id_call(BITSTREAM *bs, TYPE t, EXP e)
 
 
 /*
-    ENCODE A FUNCTION CALL
-
     This routine outputs an apply_proc construct for the expression
     function call given by e to the bitstream bs.  t gives the return
     type.
@@ -2115,8 +2067,6 @@ enc_func_call(BITSTREAM *bs, TYPE t, EXP e)
 
 
 /*
-    ENCODE A DUMMY EXPRESSION
-
     This routine adds the dummy expression given by the tag n plus the
     offset off to the bitstream bs.  cnt gives the expression type.
 */
@@ -2180,8 +2130,6 @@ enc_dummy_exp(BITSTREAM *bs, TYPE t, ulong n, OFFSET off, int cnt, int virt)
 
 
 /*
-    ENCODE AN ASSIGNMENT EXPRESSION
-
     This routine adds the assignment or initialisation expression 'a = b'
     to the bitstream bs.
 */
@@ -2226,8 +2174,6 @@ enc_assign_exp(BITSTREAM *bs, EXP a, EXP b)
 
 
 /*
-    ENCODE A TDF EXP
-
     This routine adds the expression e to the bitstream bs as a TDF EXP.
 */
 

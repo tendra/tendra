@@ -34,8 +34,6 @@
 
 
 /*
-    CONVERT BY ASSIGNMENT
-
     This routine converts the expression a to the type t, as if by
     assignment.  The cases where t is a class type or a reference are
     handled elsewhere.
@@ -50,8 +48,6 @@ convert_assign(TYPE t, EXP a, ERROR *err)
 
 
 /*
-    CONVERT TO A CLASS TYPE BY ASSIGNMENT
-
     This routine converts the expression a to the class t, as if by
     assignment.  The constructors of t are ignored, only base class
     conversions and conversion operators being considered.
@@ -74,8 +70,6 @@ convert_class(TYPE t, EXP a, ERROR *err)
 
 
 /*
-    CONSTRUCT A POSTFIX EXPRESSION
-
     This routine constructs the expressions 'a++' and 'a--'.  Note that
     in this and other assignment expressions, a cannot have array type,
     so that no bounds checks are appropriate.  The result is an rvalue.
@@ -221,8 +215,6 @@ error_lab:
 
 
 /*
-    CREATE A PRE-INCREMENT EXPRESSION
-
     This routine creates a pre-increment or assignment expression for
     the expression a of type t given by the operation b.  If a is a
     bitfield then off gives the bitfield offset.  The result is an
@@ -270,8 +262,6 @@ make_preinc_exp(TYPE t, EXP a, EXP b, OFFSET off, int op)
 
 
 /*
-    CONSTRUCT A PREFIX EXPRESSION
-
     This routine constructs the expressions '++a' and '--a'.  The result is
     an lvalue in C++ but an rvalue in C.
 */
@@ -405,8 +395,6 @@ error_lab:
 
 
 /*
-    CONSTRUCT AN ASSIGNMENT EXPRESSION
-
     This routine constructs the expression 'a = b'.  If c is true then
     assignment of classes is done directly rather than via an assignment
     operator.  The result is an lvalue in C++ but an rvalue in C.
@@ -511,8 +499,6 @@ make_assign_exp(EXP a, EXP b, int c)
 
 
 /*
-    CONSTRUCT A BECOMES EXPRESSION
-
     This routine constructs the expression 'a op b' where op is one of the
     assignment operators, '*=', '/=' etc.  The result is an lvalue in
     C++, but an rvalue in C.

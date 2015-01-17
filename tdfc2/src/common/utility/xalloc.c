@@ -20,8 +20,6 @@
 
 
 /*
-    CONTROLLED VERSION OF MALLOC
-
     All the program's memory allocation is through the routines defined in
     this file.  This routine allocates sz bytes of memory.
 */
@@ -44,8 +42,6 @@ xmalloc(gen_size sz)
 
 
 /*
-    CONTROLLED VERSION OF REALLOC
-
     This routine reallocates the block of memory p to contain sz bytes.
     p can be the result of a previous memory allocation routine, or NULL.
 */
@@ -72,8 +68,6 @@ xrealloc(gen_ptr p, gen_size sz)
 
 
 /*
-    CONTROLLED VERSION OF FREE
-
     This routine frees the block of memory p.  p can be the result of a
     previous memory allocation routine, or NULL.
 */
@@ -89,8 +83,6 @@ xfree(gen_ptr p)
 
 
 /*
-    STRING ALLOCATION BUFFER
-
     This buffer is used in the allocation of small strings.
 */
 
@@ -99,8 +91,6 @@ static string chars_free = NULL;
 
 
 /*
-    ALLOCATE SPACE FOR A STRING
-
     This routine allocates space for n characters.  The memory allocation
     is buffered except for very long strings.
 */
@@ -127,8 +117,6 @@ xustr(gen_size n)
 
 
 /*
-    FREE SPACE ALLOCATED FOR A STRING
-
     This routine frees the space allocated by a previous call to xustr.
     For small strings the memory is only freed for the last call to xustr.
 */
@@ -153,8 +141,6 @@ xufree(string s, gen_size n)
 
 
 /*
-    COPY A STRING OF A GIVEN LENGTH
-
     This routine allocates space for a persistent copy of the string s
     of length n.  There is only one copy of each small string, otherwise
     xustr is used to allocate the space.
@@ -183,8 +169,6 @@ xustrncpy(string s, gen_size n)
 
 
 /*
-    COPY A STRING
-
     This routine allocates space for a persistent copy of the string s.
 */
 
@@ -201,8 +185,6 @@ xustrcpy(string s)
 
 
 /*
-    CONCATENATE TWO STRINGS
-
     This routine allocates space for a persistent copy of the string s
     followed by the string t.  The memory is allocated using xustr.
 */
@@ -228,8 +210,6 @@ xustrcat(string s, string t)
 
 
 /*
-    COPY A NUMBER OF CHARACTERS
-
     This routine copies n characters from t to s.
 */
 
@@ -244,8 +224,6 @@ xumemcpy(string s, string t, gen_size n)
 
 
 /*
-    COMPARE TWO SEQUENCES OF CHARACTERS
-
     This routine compares the n characters given by s and t.
 */
 

@@ -31,8 +31,6 @@
 
 
 /*
-    FIND INLINING OPTIONS
-
     This delivers 0 if no uses of the procedure can be inlined, 1 if this
     use cannot be inlined and 2 if this use can be inlined.
 */

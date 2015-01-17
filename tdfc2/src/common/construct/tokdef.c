@@ -58,8 +58,6 @@
 
 
 /*
-    TOKEN DEFINITION FLAG
-
     Tokens are defined by the equality routines if the flag force_tokdef
     is set.  This is only done if we are reasonably sure that the equality
     should hold.  Similarly template specialisation is only considered
@@ -72,8 +70,6 @@ int expand_tokdef = 0;
 
 
 /*
-    IS A TOKEN BEING DEFINED?
-
     This routine uses the values force_tokdef and force_template to
     determine whether the token id is available for token unification.
 */
@@ -96,8 +92,6 @@ defining_token(IDENTIFIER id)
 
 
 /*
-    FIND THE RESULT COMPONENT OF A TOKEN
-
     This routine finds the result component of the token id.
 */
 
@@ -123,8 +117,6 @@ find_tokdef(IDENTIFIER id)
 
 
 /*
-    DUMMY TOKEN PARAMETER VALUES
-
     These values are used to indicate that a token parameter has been
     redefined inconsistently.
 */
@@ -137,8 +129,6 @@ static OFFSET redef_off = NULL_off;
 
 
 /*
-    INITIALISE DUMMY TOKEN PARAMETER VALUES
-
     This routine initialises the dummy token parameter values above.
     They are set to impossible values which could not arise naturally.
 */
@@ -157,8 +147,6 @@ init_token_args(void)
 
 
 /*
-    DEFINE AN INTEGER CONSTANT TOKEN
-
     This routine defines the integer constant token id to be e.  It
     returns true if the token is assigned a value.
 */
@@ -216,8 +204,6 @@ define_nat_token(IDENTIFIER id, NAT n)
 
 
 /*
-    DEFINE AN EXPRESSION TOKEN
-
     This routine defines the expression, statement or integer constant
     token id to be e.  It returns true if the token is assigned a value.
     expl is false for an enforcing external declaration, such as that
@@ -411,8 +397,6 @@ define_exp_token(IDENTIFIER id, EXP e, int expl)
 
 
 /*
-    DEFINE THE FIELDS OF A TYPE TOKEN
-
     This routine is called when a tokenised structure or union id is defined
     by the compound type t.  It checks for any tokenised members of id
     which may also be defined as a result of this identification.  This
@@ -517,8 +501,6 @@ define_field_tokens(IDENTIFIER id, TYPE t)
 
 
 /*
-    CHECK A TYPE CATEGORY
-
     This routine checks whether the type t of category ca can be used to
     define a token of kind bt.
 */
@@ -564,8 +546,6 @@ match_type_token(BASE_TYPE bt, unsigned ca, TYPE t)
 
 
 /*
-    DEFINE A TYPE TOKEN
-
     This routine defines the type token id to be t.  It returns true if
     the token is assigned a value.  qual is as in check_compatible.
 */
@@ -681,8 +661,6 @@ define_type_token(IDENTIFIER id, TYPE t, int qual)
 
 
 /*
-    DEFINE A TEMPLATE TEMPLATE PARAMETER
-
     This routine defines the template template parameter id to be the
     class given by tid.  It returns true if the parameter is assigned a
     value.
@@ -748,8 +726,6 @@ define_templ_token(IDENTIFIER id, IDENTIFIER tid)
 
 
 /*
-    DEFINE A MEMBER TOKEN
-
     This routine defines the member token id to be a member of offset off
     and type t.  It returns true if the token is assigned a value.  ext is
     true for an external token definition.
@@ -812,8 +788,6 @@ define_mem_token(IDENTIFIER id, OFFSET off, TYPE t, int ext)
 
 
 /*
-    DEFINE A FUNCTION TOKEN
-
     This routine defines the function token id to be the function fid.
 */
 
@@ -883,8 +857,6 @@ define_func_token(IDENTIFIER id, IDENTIFIER fid)
 
 
 /*
-    PROCEDURE TOKEN FLAG
-
     This variable is used to keep track of the depth of procedure token
     arguments being read.
 */
@@ -893,8 +865,6 @@ int in_proc_token = 0;
 
 
 /*
-    FIND A TOKEN MEMBER TYPE
-
     If id represents a member token then this routine returns the type
     of which id is a member, suitably expanded.  Otherwise the null type
     is returned.  This represents the only barrier to doing argument
@@ -918,8 +888,6 @@ expand_member_type(IDENTIFIER id)
 
 
 /*
-    PARSE A TOKEN DEFINITION
-
     This routine reads the definition of the token id.  It returns true
     if a value is assigned to the token.  If mt is not null it is the
     class type for a member token.  fn is true for procedure tokens and
@@ -1070,8 +1038,6 @@ parse_token(IDENTIFIER id, TYPE t, int fn, int mac, LIST(IDENTIFIER) pids)
 
 
 /*
-    SET A TOKEN VALUE
-
     This routine sets the value of the token id to be arg.
 */
 
@@ -1127,8 +1093,6 @@ assign_token(IDENTIFIER id, TOKEN arg)
 
 
 /*
-    TOKEN ARGUMENT STACKS
-
     These stacks are used to store the values of the token arguments to
     allow for recursive token applications.
 */
@@ -1142,8 +1106,6 @@ static STACK(IDENTIFIER) token_class_stack = NULL_stack(IDENTIFIER);
 
 
 /*
-    SAVE TOKEN ARGUMENT VALUES
-
     This routine saves the argument values for the token parameters pids
     by pushing them onto the stacks above.  The argument values set to those
     stored in args, or the null value when these are exhausted.  The routine
@@ -1264,8 +1226,6 @@ save_token_args(LIST(IDENTIFIER) pids, LIST(TOKEN) args)
 
 
 /*
-    RESTORE TOKEN ARGUMENT VALUES
-
     This routine restores the argument values for the token parameters
     pids by popping them from the stacks above.  The pure field of the
     tokens is set if depth is 0.
@@ -1341,8 +1301,6 @@ restore_token_args(LIST(IDENTIFIER) pids, int depth)
 
 
 /*
-    MERGE TOKEN ARGUMENT VALUES
-
     This routine merges the argument values for the token parameters
     pids with the values popped off the stacks above.  It returns true
     if the merge was successful.  The pure field of the tokens is set
@@ -1446,8 +1404,6 @@ merge_token_args(LIST(IDENTIFIER) pids, int depth, int qual)
 
 
 /*
-    HAS A TOKEN BEEN BOUND?
-
     This routine checks whether a value has been bound to the token tok.
     If def is true then a dummy value is constructed for unbound values.
 */
@@ -1542,8 +1498,6 @@ is_bound_tok(TOKEN tok, int def)
 
 
 /*
-    CONSTRUCT A LIST OF TOKEN ARGUMENTS
-
     This routine constructs a list of token arguments for the token id
     from the token parameters pids.  Any errors arising from undefined
     parameters are added to err.
@@ -1576,8 +1530,6 @@ make_token_args(IDENTIFIER id, LIST(IDENTIFIER) pids, ERROR *err)
 
 
 /*
-    SKIP TOKEN ARGUMENTS
-
     This routine skips a set of token arguments for the token id.  It is
     entered with the current token pointing to the token name preceding
     the initial open bracket.
@@ -1613,8 +1565,6 @@ skip_token_args(IDENTIFIER id)
 
 
 /*
-    PARSE A SET OF TOKEN ARGUMENTS
-
     This routine parses the preprocessing tokens p as a list of arguments
     for the procedure token id.
 */
@@ -1740,8 +1690,6 @@ parse_token_args(IDENTIFIER id, PPTOKEN *p)
 
 
 /*
-    PARSE AN EXPRESSION TOKEN
-
     This routine applies the expression procedure token id to the
     arguments given by the preprocessing tokens p.
 */
@@ -1762,8 +1710,6 @@ parse_exp_token(IDENTIFIER id, PPTOKEN *p)
 
 
 /*
-    PARSE A TYPE TOKEN
-
     This routine applies the type procedure token id to the arguments
     given by the preprocessing tokens p.
 */
@@ -1790,8 +1736,6 @@ parse_type_token(IDENTIFIER id, PPTOKEN *p)
 
 
 /*
-    PARSE A MEMBER TOKEN
-
     This routine applies the member procedure token id to the arguments
     given by the preprocessing tokens p.
 */
@@ -1812,8 +1756,6 @@ parse_mem_token(IDENTIFIER id, PPTOKEN *p)
 
 
 /*
-    DEFINE A TOKEN USING A MACRO
-
     This routine defines the tokenised object id by means of the macro
     mid.  It returns true if this is possible.
 */
@@ -1990,8 +1932,6 @@ define_token_macro(IDENTIFIER id, IDENTIFIER mid)
 
 
 /*
-    DEFINE A MEMBER TOKEN
-
     This routine is used to define the tokenised member id of t by the
     list of immediately following preprocessing tokens.  This is used
     to implement the '#pragma TenDRA member definition' command.
@@ -2038,8 +1978,6 @@ define_mem_macro(IDENTIFIER id, TYPE t)
 
 
 /*
-    PENDING TOKEN FOR IDENTIFIER UNIFICATION
-
     The normal unification routine is called immediately after the
     declaration of an object.  However for 'const' objects it is more
     useful to postpone the unification until after the initialisation.
@@ -2049,8 +1987,6 @@ IDENTIFIER unify_id_pending = NULL_id;
 
 
 /*
-    UNIFY TWO IDENTIFIERS
-
     This routine is called whenever an identifier id hides an identifier
     pid from the same namespace.  Normally this is a redeclaration error
     which will have been caught by the declaration routines, however if

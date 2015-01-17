@@ -38,8 +38,6 @@
 
 
 /*
-    CREATE A QUALIFIED TYPE
-
     This routine creates a type consisting of t qualified by the const-
     volatile qualifiers cv.  Note that the existing qualifiers for t are
     not taken into account in the result.  If t already has qualifier cv
@@ -241,8 +239,6 @@ qualify_type(TYPE t, CV_SPEC cv, int force)
 
 
 /*
-    COPY A TYPEDEF TYPE
-
     This routine copies the typedef definition type t (corresponding to the
     typedef-name id) qualified by the const-volatile qualifiers cv.  Note
     that the qualifiers apply to the base type of an array rather than the
@@ -401,8 +397,6 @@ default_lab:
 
 
 /*
-    CREATE AN LVALUE TYPE
-
     This routine creates a type which is an lvalue qualified version of t
     (also preserving any other type qualifiers).
 */
@@ -420,8 +414,6 @@ lvalue_type(TYPE t)
 
 
 /*
-    CREATE AN RVALUE TYPE
-
     This routine creates a type which is identical to t except that it
     is an rvalue rather than an lvalue.
 */
@@ -439,8 +431,6 @@ rvalue_type(TYPE t)
 
 
 /*
-    COMBINE TWO PRE-TYPES
-
     The pre-types are a construction mechanism for allowing built-in types
     such as 'unsigned long int' to be built up.  Each pre-type is associated
     with a bitmask giving the basic keywords used in defining the type.
@@ -468,8 +458,6 @@ join_pre_types(BASE_TYPE b1, BASE_TYPE b2)
 
 
 /*
-    INJECT A TYPE INTO A PRE-TYPE
-
     This routine injects the type t into the pre-type p, returning the
     result.  p will be built up of pointers, arrays etc. but its base
     type will be null.  The routine injects t into the base type position.
@@ -802,8 +790,6 @@ inject_pre_type(TYPE p, TYPE t, int chk)
 
 
 /*
-    CHECK FOR INFERRED TYPES
-
     This routine checks whether the type t is formed from the inferred
     type type_inferred.  It returns INFERRED_EMPTY if there were no
     specifiers or qualifiers in the description of p,  INFERRED_QUAL if
@@ -877,8 +863,6 @@ is_type_inferred(TYPE t)
 
 
 /*
-    CLEAN AN INFERRED TYPE
-
     This routine returns an equivalent type to the inferred type t, but
     with any inferred components replaced by 'signed int'.
 */
@@ -978,8 +962,6 @@ clean_inferred_type(TYPE t)
 
 
 /*
-    REPORT AN INFERRED TYPE
-
     This routine returns an error suitable for the inferred type t.
     infer gives the value of is_type_inferred on t.
 */
@@ -1003,8 +985,6 @@ report_inferred_type(TYPE t, int infer)
 
 
 /*
-    BASE TYPE SHIFT
-
     This macro is used to shift a base type specifier into a more sensible
     range for use in a switch statement.
 */
@@ -1013,8 +993,6 @@ report_inferred_type(TYPE t, int infer)
 
 
 /*
-    FIND A BASE TYPE
-
     This routine determines the type given by the base type specifiers bt.
 */
 
@@ -1214,8 +1192,6 @@ make_base_type(BASE_TYPE bt)
 
 
 /*
-    SHOULD A TYPE NAME BE MARKED AS USED?
-
     This flag is used by complete_pre_type to decide whether a type
     name should be marked as having been used.  This is not the case,
     for example, in a class definition.
@@ -1225,8 +1201,6 @@ static int use_type_name = 1;
 
 
 /*
-    COMPLETE A PRE-TYPE
-
     This routine turns a pre-type comprising the base type qualifiers bt
     and the type specifier t, used during the type construction routines,
     into a genuine type.  The original type is destroyed.  The routine
@@ -1307,8 +1281,6 @@ complete_pre_type(BASE_TYPE bt, TYPE t, CV_SPEC cv, int infer)
 
 
 /*
-    COMPLETE A NON-ELABORATED PRE-TYPE
-
     This routine is equivalent to complete_pre_type except that it leaves
     elaborated type declarations (such as 'struct s') as pre-types.  It is
     used in declarations without declarators where such declarations
@@ -1346,8 +1318,6 @@ empty_complete_pre_type(BASE_TYPE bt, TYPE t, CV_SPEC cv, int infer)
 
 
 /*
-    FIND UNDERLYING BITFIELD TYPE
-
     This routine returns the type underlying the bitfield type t.
 */
 
@@ -1361,8 +1331,6 @@ find_bitfield_type(TYPE t)
 
 
 /*
-    FIND A BITFIELD REPRESENTATION
-
     This routine finds the bitfield representation for a bitfield originally
     declared with representation bt which expands to the type t.
 */
@@ -1399,8 +1367,6 @@ get_bitfield_rep(TYPE t, BASE_TYPE bt)
 
 
 /*
-    CHECK A BITFIELD TYPE
-
     This routine creates a bitfield type with base type t and width n.
     Note that in 'int : 3', t will be 'signed int' whereas the sign of
     the bitfield itself is implementation dependent.  For this reason
@@ -1513,8 +1479,6 @@ check_bitfield_type(CV_SPEC cv, TYPE t, BASE_TYPE bt, NAT n, int zero)
 
 
 /*
-    CREATE A BITFIELD TYPE
-
     This routine is identical to check_bitfield_type except that it
     takes a constant-expression e rather than the integer constant n.
 */
@@ -1534,8 +1498,6 @@ make_bitfield_type(TYPE t, BASE_TYPE bt, EXP e, int zero)
 
 
 /*
-    CHECK AN ARRAY BOUND
-
     This routine checks the array bound n.  n can be null, indicating an
     unbounded array, or a positive constant.
 */
@@ -1556,8 +1518,6 @@ check_array_dim(NAT n)
 
 
 /*
-    CREATE AN ARRAY BOUND
-
     This routine turns the integer constant expression e into an array
     bound.  e may also be the null expression, indicating an unbounded
     array.
@@ -1581,8 +1541,6 @@ make_array_dim(EXP e)
 
 
 /*
-    CHECK AN INTEGER TYPE
-
     This routine checks whether t is an integral type containing the base
     type specifiers m.  It is used to spot signed types, unsigned types,
     character types and so on.
@@ -1623,8 +1581,6 @@ check_int_type(TYPE t, BASE_TYPE m)
 
 
 /*
-    LISTS OF COMPATIBLE TYPES
-
     These lists are used to record the compatible types set by the
     routines below.
 */
@@ -1635,8 +1591,6 @@ static LIST(TYPE) ell_types = NULL_list(TYPE);
 
 
 /*
-    SET TWO TYPES TO BE COMPATIBLE
-
     This routine sets the types t and s to be compatible with option
     level opt.
 */
@@ -1656,8 +1610,6 @@ set_compatible_type(TYPE t, TYPE s, unsigned opt)
 
 
 /*
-    FIND CANONICAL ARGUMENT TYPE
-
     This routine finds the canonical argument type for the type t by
     chasing down the lists of compatible argument types.  It returns
     the null type if t is not compatible with a type from this list.
@@ -1683,8 +1635,6 @@ TYPE find_arg_type(TYPE t)
 
 
 /*
-    SET TWO TYPES TO BE ARGUMENT COMPATIBLE
-
     This routine sets the types t and s to be compatible as function
     parameters.
 */
@@ -1731,8 +1681,6 @@ accept_argument(TYPE t, TYPE s)
 
 
 /*
-    SET A TYPE TO BE ELLIPSIS COMPATIBLE
-
     This routine sets the type t to be compatible with an ellipsis in
     function parameters.
 */
@@ -1752,8 +1700,6 @@ accept_ellipsis(TYPE t)
 
 
 /*
-    ARE TWO TYPES ARGUMENT COMPATIBLE?
-
     This routine checks whether the types t and s are compatible as
     function parameters.  If eq is true then compatibility is only
     checked if one of the types appears in the list of types.  The
@@ -1785,8 +1731,6 @@ eq_argument(TYPE t, TYPE s, int eq)
 
 
 /*
-    IS A TYPE ELLIPSIS COMPATIBLE?
-
     This routine checks whether the type t is compatible with an ellipsis
     in function parameters.
 */
@@ -1808,8 +1752,6 @@ eq_ellipsis(TYPE t)
 
 
 /*
-    BASIC TYPES
-
     These variables stand for the basic types which arise naturally in
     C and C++.  This includes the basic integer and floating-point types,
     bool, size_t and related construct types, void and bottom (the type
@@ -1826,8 +1768,6 @@ TYPE type_error;
 
 
 /*
-    INITIALISE BASIC TYPES
-
     This routine initialises the basic types above.
 */
 

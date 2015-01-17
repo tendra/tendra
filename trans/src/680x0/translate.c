@@ -83,8 +83,6 @@ static void mark_unaliased
 
 
 /*
-    PROCESS THE TDF
-
     This routine gets all the TDF read into the correct operand form
     and applies the dead variable and register allocation analysis.
 */
@@ -189,8 +187,6 @@ translate_capsule(void)
 
 
 /*
-    ENCODE A PROCEDURE
-
     The procedure with declaration d, name id, definition c and body s
     is encoded.
 */
@@ -224,8 +220,6 @@ static void code_proc
 
 
 /*
-    ENCODE A CONSTANT
-
     The constant with declaration d, name id, definition c and body s
     is encoded.
 */
@@ -343,8 +337,6 @@ void eval_delayed_const_list
 
 
 /*
-    OUTPUT ALL THE ENCODED EXPRESSIONS
-
     This routine scans through all the declarations encoding suitably.
 */
 

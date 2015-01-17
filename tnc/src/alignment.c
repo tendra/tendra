@@ -20,8 +20,6 @@
 
 
 /*
-    BASIC ALIGNMENTS
-
     These are the basic alignments from the TDF specification.
 */
 
@@ -36,8 +34,6 @@ static node *al_proc = NULL;
 
 
 /*
-    FIND THE ALIGNMENT OF A SHAPE
-
     For the node p, representing a shape or an alignment, this returns
     the alignment of p.
 */
@@ -94,8 +90,6 @@ al_shape(node *p)
 
 
 /*
-    FIND WHAT A POINTER POINTS TO
-
     For the node p of the form ( pointer a ) this routine returns a.
 */
 
@@ -112,8 +106,6 @@ ptr_to(node *p)
 
 
 /*
-    FIND THE FIRST COMPONENT OF AN OFFSET
-
     For the node p of the form ( offset a b ) this routine returns a.
 */
 
@@ -130,8 +122,6 @@ offset_from(node *p)
 
 
 /*
-    FIND THE SECOND COMPONENT OF AN OFFSET
-
     For the node p of the form ( offset a b ) this routine returns b.
 */
 
@@ -148,8 +138,6 @@ offset_to(node *p)
 
 
 /*
-    CHECK THAT TWO ALIGNMENTS ARE EQUAL
-
     This routine is not yet implemented.
 */
 
@@ -162,8 +150,6 @@ al_equals(node *p, node *q)
 
 
 /*
-    CHECK THAT ONE ALIGNMENT CONTAINS ANOTHER
-
     This routine is not yet implemented.
 */
 
@@ -176,8 +162,6 @@ al_includes(node *p, node *q)
 
 
 /*
-    FIND THE UNIONS OF TWO ALIGNMENTS
-
     The value of ( unite_alignments p q ) is returned.
 */
 
@@ -203,8 +187,6 @@ al_union(node *p, node *q)
 
 
 /*
-    INITIALIZE BASIC ALIGNMENTS
-
     The basic alignments, al_top, al_offset, al_pointer and al_proc, are
     initialized.
 */

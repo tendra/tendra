@@ -63,8 +63,6 @@
 
 
 /*
-    CHECK A FUNCTION RETURN TYPE
-
     This routine checks whether the type t is a suitable function return
     type.  This can be void (unqualified) or a complete type.  def is
     true for a function definition or call, but false otherwise.
@@ -100,8 +98,6 @@ check_ret_type(TYPE t, ERROR *err, int def)
 
 
 /*
-    APPLY REFERENCE CONVERSIONS TO A LIST OF EXPRESSIONS
-
     This routine applies reference conversions to each element of the
     argument list args.
 */
@@ -123,8 +119,6 @@ convert_args(LIST(EXP) args)
 
 
 /*
-    FIND MINIMUM NUMBER OF ARGUMENTS FOR A FUNCTION
-
     This routine calculates the minimum number of arguments for the function
     type fn, taking default arguments and weak prototypes into account.
     The extra argument for member functions is included.
@@ -167,8 +161,6 @@ min_no_args(TYPE fn)
 
 
 /*
-    CHECK FUNCTION DEFAULT ARGUMENTS
-
     This routine checks the default arguments for the function type fn,
     returning true if there is a default argument.  Missing default
     arguments are checked if chk is true.
@@ -219,8 +211,6 @@ check_func_dargs(TYPE fn, int chk, int clr)
 
 
 /*
-    CHECK A WEAK PROTOTYPE ARGUMENT
-
     This routine checks the expression a passed as an argument to a weak
     function parameter of type t.  It returns the composite of t and the
     type of a, adding any errors to err.
@@ -248,8 +238,6 @@ check_weak_arg(TYPE t, EXP a, ERROR *err)
 
 
 /*
-    PERFORM WEAK PROTOTYPE ANALYSIS
-
     This routine performs weak prototype analysis for a call to the
     function id with the arguments args.  It is only called when the
     number of arguments matches the function type.
@@ -344,8 +332,6 @@ check_weak_args(IDENTIFIER id, LIST(EXP) args, unsigned n)
 
 
 /*
-    CHECK PRINTF AND SCANF ARGUMENTS
-
     This routine performs weak prototype analysis for a call to the
     printf-like or scanf-like function id with the arguments args.  p gives
     the parameter types deduced from the format string.
@@ -406,8 +392,6 @@ check_printf_args(IDENTIFIER id, LIST(TYPE) p, LIST(EXP) args, unsigned n,
 
 
 /*
-    APPLY ARGUMENT CONVERSIONS TO A LIST OF EXPRESSIONS
-
     This routine applies the argument conversions indicated by the function
     type fn to the argument list args.  gr gives information on how member
     functions are inherited.  The function return type is returned via pr.
@@ -779,8 +763,6 @@ cast_args(IDENTIFIER id, TYPE fn, GRAPH gr, LIST(EXP) args, TYPE *pr, int mem)
 
 
 /*
-    APPLY A NAMED FUNCTION TO A LIST OF EXPRESSIONS
-
     This routine applies the function id to the list of arguments args.
     Any qualifiers used to express id are passed in as qual, since these
     may suppress the virtual call mechanism.  gr gives the base class
@@ -915,8 +897,6 @@ apply_func_id(IDENTIFIER id, QUALIFIER qual, GRAPH gr, LIST(EXP)args)
 
 
 /*
-    APPLY A FUNCTION TO A LIST OF EXPRESSIONS
-
     This routine applies the function expression a to the list of arguments
     args.
 */
@@ -981,8 +961,6 @@ apply_func_exp(EXP a, LIST(EXP)args)
 
 
 /*
-    APPLY A TEMPLATE DEPENDENT FUNCTION
-
     This routine constructs the template dependent function call
     'a ( args )', or '( a ) ( args )' if is_paren is true.
 */
@@ -1002,8 +980,6 @@ call_func_templ(EXP a, LIST(EXP) args, int is_paren)
 
 
 /*
-    CONSTRUCT A FUNCTION CALL EXPRESSION
-
     This routine constructs the function call expression 'a ( args )'.
 */
 
@@ -1274,8 +1250,6 @@ mem_func_label:
 
 
 /*
-    SHOULD A FUNCTION RETURN VALUE BE IGNORED?
-
     This routine checks whether a function consisting of 'return e ;'
     should be inlined.
 */
@@ -1298,8 +1272,6 @@ check_inline_return(EXP e, TYPE ret)
 
 
 /*
-    SHOULD A FUNCTION CALL BE INLINED?
-
     Function inlining is generally left to the installers which have a
     far better idea of whether a function should be inlined than the
     producer.  This routine checks whether the function call 'id ( args )'
@@ -1351,8 +1323,6 @@ check_inline(IDENTIFIER id, LIST(EXP)args, TYPE ret)
 
 
 /*
-    CHECK FOR COMPLEX FUNCTION RETURN OR ARGUMENT TYPE
-
     This routine checks whether t is a complex function return or argument
     type, that is to say a class type with a non-trivial constructor,
     destructor, or assignment operator.  The calling convention implemented
@@ -1377,8 +1347,6 @@ pass_complex_type(TYPE t)
 
 
 /*
-    CHECK A FUNCTION RETURN OR PARAMETER TYPE
-
     This routine checks whether the type just constructed by the parser
     contains type definitions and so is not suitable for use as a function
     return or parameter type (as indicated by par).  The necessary
@@ -1401,8 +1369,6 @@ func_type_defn(int par)
 
 
 /*
-    CREATE A PARAMETER TYPE
-
     This routine creates the parameter type for a function or template
     parameter (as indicated by loc) declared with type t.  Thus functions
     and, for function parameters, arrays are converted to pointers.
@@ -1433,8 +1399,6 @@ make_param_type(TYPE t, int loc)
 
 
 /*
-    CHECK A PARAMETER TYPE
-
     A parameter cannot include a type of the form pointer to unbound array
     or reference to unbound array.  This routine returns an error if the type
     t includes a type of this form.  Strictly the parameters of any function
@@ -1486,8 +1450,6 @@ check_param_type(IDENTIFIER id, TYPE t)
 
 
 /*
-    ADJUST A FUNCTION LINKAGE
-
     This routine adjusts the function linkage specifier cv to include
     the current linkage specifier.
 */
@@ -1509,8 +1471,6 @@ func_linkage(CV_SPEC cv)
 
 
 /*
-    CREATE A LIST OF FUNCTION PARAMETER TYPES
-
     This routine constructs the function type with parameter declarations
     given by the current namespace and const-volatile qualifiers cv.  The
     kind of function is given by ell, which is a combination of the
@@ -1611,8 +1571,6 @@ make_func_type(TYPE r, int ell, CV_SPEC cv, LIST(TYPE) ex)
 
 
 /*
-    ADJUST MEMBER FUNCTION TYPES
-
     Each function type has two lists of parameter types, ptypes, which
     gives the actual declared parameters, and mtypes, which has an extra
     reference to class parameter for non-static member functions, or an
@@ -1683,8 +1641,6 @@ member_func_type(CLASS_TYPE ct, unsigned itag, TYPE t)
 
 
 /*
-    CHECK A NON-PROTOTYPE FUNCTION TYPE
-
     A parameter list can only be used in a function definition.  This
     routine checks the function type t with def being true for a function
     definition.
@@ -1763,8 +1719,6 @@ check_weak_func(TYPE t, int def)
 
 
 /*
-    CHECK THE FUNCTION COMPONENTS OF AN OBJECT TYPE
-
     This routine checks the function components of an object with the
     given identifier tag and type t.
 */
@@ -1879,8 +1833,6 @@ object_type(TYPE t, unsigned tag)
 
 
 /*
-    DECLARE A FUNCTION TYPE
-
     This routine checks the function or function typedef id of type t,
     including checking that if a default argument is given for a
     particular parameter one is also given for all subsequent parameters.
@@ -1941,8 +1893,6 @@ decl_func_type(IDENTIFIER id, TYPE t, int def)
 
 
 /*
-    REDECLARE DEFAULT ARGUMENTS
-
     This routine checks and unifies the default arguments for the equal
     function types s and t.  It returns the number of default arguments
     added by this unification.
@@ -2018,8 +1968,6 @@ redecl_func_dargs(TYPE s, TYPE t)
 
 
 /*
-    REDECLARE A FUNCTION TYPE
-
     This routine deals with the compatible redeclaration of the function
     id of type s to have type t.  It unifies the parameter types, checking
     default arguments etc.  It also checks any exception specifications
@@ -2123,8 +2071,6 @@ redecl_func_type(IDENTIFIER id, TYPE s, TYPE t, int def, int dargs)
 
 
 /*
-    FIND THE FUNCTION COMPONENT OF A TYPE
-
     This routine returns the function component of a function, pointer to
     function, or pointer to member function type.
 */
@@ -2154,8 +2100,6 @@ find_func_type(TYPE t)
 
 
 /*
-    STACK OF DECLARATOR LOCATIONS
-
     The location decl_loc refers to the current declarator.  This value
     needs to be stored during parameter declarations and this stack is
     used for this purpose.
@@ -2165,8 +2109,6 @@ static STACK(LOCATION) decl_locs = NULL_stack(LOCATION);
 
 
 /*
-    BEGIN FUNCTION PARAMETER NAMESPACE
-
     This routine is called at the start of a list of function parameters to
     initialise the parameter namespace.  id gives the associated function
     name (or the null identifier).
@@ -2183,8 +2125,6 @@ begin_param(IDENTIFIER id)
 
 
 /*
-    END FUNCTION PARAMETER NAMESPACE
-
     This routine is called at the end of a list of function parameters.
 */
 
@@ -2198,8 +2138,6 @@ end_param(void)
 
 
 /*
-    ADJUST A FUNCTION PARAMETER NAMESPACE
-
     This routine adjusts the parameter namespace of the dfunction type
     t used in a function definition.
 */
@@ -2219,8 +2157,6 @@ adjust_param(TYPE t)
 
 
 /*
-    READ A LIST OF NON-PROTOTYPE FUNCTION PARAMETERS
-
     This routine reads a list of function parameters, returning true for
     a function definition.
 */
@@ -2261,8 +2197,6 @@ function_params(TYPE t)
 
 
 /*
-    MAIN FUNCTION
-
     This variable is used to hold the main function.
 */
 
@@ -2270,8 +2204,6 @@ IDENTIFIER main_function = NULL_id;
 
 
 /*
-    CHECK THE TYPE OF THE MAIN FUNCTION
-
     This routine checks the type t of the main function nm.  The return
     type must always be 'int', but the parameter types are implementation
     dependent.  Basically, anything other than:
@@ -2339,8 +2271,6 @@ check_main(TYPE t, HASHID nm)
 
 
 /*
-    RECHECK THE MAIN FUNCTION
-
     This routine rechecks the main function id.  In particular 'main' can't
     be overloaded.
 */
@@ -2360,8 +2290,6 @@ recheck_main(IDENTIFIER id)
 
 
 /*
-    CURRENT FUNCTION INFORMATION
-
     These variables are used to hold information concerning the current
     function, including its name, return type and exception specification.
 */
@@ -2372,8 +2300,6 @@ int crt_func_complex = 0;
 
 
 /*
-    NESTED FUNCTION STACK
-
     Note that it is indirectly possible to have nested function definitions
     (a function definition can include a class definition which can include
     a member function definition).  These stacks are used to preserve
@@ -2408,8 +2334,6 @@ static struct {
 
 
 /*
-    BEGIN A FUNCTION DEFINITION
-
     This routine is called at the start of a function definition.  t gives
     the function type.
 */
@@ -2596,8 +2520,6 @@ begin_function(IDENTIFIER id)
 
 
 /*
-    END A FUNCTION DEFINITION
-
     This routine is called at the end of a function definition.  The
     expression body gives the compound statement comprising the definition.
     Note that the parameters are in the outermost scope of body and so

@@ -48,8 +48,6 @@ reused_parameter(exp e)
 }
 
 /*
-    CAN THE VALUE OF AN EXPRESSION BE PUT INTO A REGISTER?
-
     This routine returns 1 if the expression e can be put into a register.
     It has to have its visible flag false, and to be of a suitable shape.
 */
@@ -78,8 +76,6 @@ regable(exp e)
 
 
 /*
-    DOES AN EXP HAVE NO SIDE EFFECTS?
-
     This routine returns 1 if e has no side effects.
 */
 
@@ -96,8 +92,6 @@ no_side(exp e)
     char n;
 
 /*
-    IS AN EXP A PUSHABLE PROCEDURE ARGUMENT?
-
     Can the expression e be pushed directly onto the stack when it is
     the parameter of a procedure?
 */
@@ -123,8 +117,6 @@ push_arg(exp e)
 #if 0
 
 /*
-    IS A UNION ACTUALLY POINTER VOID?
-
     No longer used.
 */
 
@@ -165,8 +157,6 @@ is_ptr_void(shape sha)
 
 
 /*
-    IS A SHAPE COMPOUND?
-
     This routine is designed to test whether a given shape is compound,
     and thus likely to cause problems when it is the parameter of a
     procedure.
@@ -188,8 +178,6 @@ cpd_param(shape sha)
 
 
 /*
-    IS A SHAPE OF VARIABLE SIZE?
-
     This routine returns 1 if sha involves an array.
 */
 
@@ -203,8 +191,6 @@ varsize(shape sha)
 Use is_signed macro instead
 
 /*
-    IS A SHAPE SIGNED?
-
     This routine returns 1 if the integer variety shape sha is signed
     and 0 otherwise.
 */

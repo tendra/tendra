@@ -40,8 +40,6 @@
 
 
 /*
-    CURRENT NAMESPACE LISTS
-
     These variables give the current namespace (the one which is currently
     being defined) and the stack of all enclosing namespaces.  Another stack
     of namespaces, which will be a superset of the first, gives the list
@@ -57,8 +55,6 @@ STACK(NAMESPACE) local_nspace_stack = NULL_stack(NAMESPACE);
 
 
 /*
-    STANDARD NAMESPACES
-
     These variables give the various standard namespaces, including the
     global namespace and the external token namespace.  In addition a
     dynamic record of the smallest named namespace enclosing the current
@@ -77,8 +73,6 @@ static NAMESPACE scope_namespace = NULL_nspace;
 
 
 /*
-    STANDARD NAMESPACE IDENTIFIERS
-
     The identifier local_namespace_id is used as the name for all unnamed
     namespaces defined within the current translation unit.
 */
@@ -87,8 +81,6 @@ static IDENTIFIER local_namespace_id = NULL_id;
 
 
 /*
-    NAME LOOK-UP CACHE FLAG
-
     This flag is set to indicate that name look-up should be cached
     whenever possible.  It is switched off temporarily in field selectors
     as an optimisation.
@@ -99,8 +91,6 @@ int old_cache_lookup = 1;
 
 
 /*
-    CREATE A STANDARD NAMESPACE
-
     This routine creates a global namespace of size sz with a dummy name
     given by s.
 */
@@ -121,8 +111,6 @@ make_global_nspace(const char *s, int sz)
 
 
 /*
-    INITIALISE STANDARD NAMESPACES
-
     This routine initialises the standard namespaces above.
 */
 
@@ -145,8 +133,6 @@ init_namespace(void)
 
 
 /*
-    DOES ONE NAMESPACE CONTAIN ANOTHER?
-
     This routine checks whether the namespace ns contains the definition
     of the namespace pns.
 */
@@ -168,8 +154,6 @@ is_subnspace(NAMESPACE ns, NAMESPACE pns)
 
 
 /*
-    FIND THE JOIN OF TWO NAMESPACES
-
     This routine finds the join of the namespaces ns and nt, that is to
     say the smallest namespace which contains both ns and nt.  A using
     directive for nt in ns causes the members of nt to be treated as
@@ -201,8 +185,6 @@ join_namespace(NAMESPACE ns, NAMESPACE nt)
 
 
 /*
-    UNCACHE A NAMESPACE
-
     This routine clears the cached name look-ups for all the names
     accessible from the namespace ns.
 */
@@ -250,8 +232,6 @@ uncache_namespace(NAMESPACE ns, int add)
 
 
 /*
-    ADD A NAMESPACE TO THE LOOK-UP LIST
-
     This routine adds the namespace ns to the look-up namespace list.  Note
     that this is automatically called by push_namespace.
 */
@@ -266,8 +246,6 @@ add_namespace(NAMESPACE ns)
 
 
 /*
-    REMOVE A NAMESPACE FROM THE LOOK-UP LIST
-
     This routine removes the top namespace from the look-up namespace list.
     Note that this is automatically called by pop_namespace.
 */
@@ -283,8 +261,6 @@ remove_namespace(void)
 
 
 /*
-    PUSH A NAMESPACE
-
     This routine pushes the namespace ns onto the namespace stack.
 */
 
@@ -319,8 +295,6 @@ store_namespace(NAMESPACE ns)
 
 
 /*
-    POP A NAMESPACE
-
     This routine removes a namespace from the namespace stack.
 */
 
@@ -372,8 +346,6 @@ nonclass_namespace_lab:
 
 
 /*
-    SET CURRENT NAMESPACE
-
     This routine makes the namespace ns into the current namespace, pushing
     the previous namespace onto the stack.
 */
@@ -388,8 +360,6 @@ push_namespace(NAMESPACE ns)
 
 
 /*
-    RESTORE PREVIOUS NAMESPACE
-
     This routine restores the current namespace to its previous value by
     popping it from the stack.  It returns the removed namespace.
 */
@@ -404,8 +374,6 @@ pop_namespace(void)
 
 
 /*
-    RECALCULATE NAMESPACES
-
     This routine forces the recalculation of nonblock_namespace and
     nonclass_namespace by pushing and immediately popping the global
     namespace.
@@ -424,8 +392,6 @@ update_namespace(void)
 
 
 /*
-    CREATE A NAMESPACE
-
     This routine creates a namespace named id of type tag.  If tag is
     indicates a small namespace then sz will be zero.  Otherwise sz gives
     the size of hash table to be created.
@@ -466,8 +432,6 @@ make_namespace(IDENTIFIER id, unsigned tag, int sz)
 
 
 /*
-    USE A NAMESPACE
-
     This routine creates a using directive for the namespace ns in
     the namespace cns.  nt gives the join of cns and ns.  The routine
     returns zero to indicate that ns has already been used from cns.
@@ -498,8 +462,6 @@ use_namespace(NAMESPACE ns, NAMESPACE cns, NAMESPACE nt)
 
 
 /*
-    LIST OF JOIN NAMESPACES
-
     During unqualified name look-up any using-directives are treated as
     injecting the names from the used namespace into the join on the
     used and the using namespaces.  This is implemented by injecting a
@@ -512,8 +474,6 @@ static LIST(NAMESPACE) join_nspaces = NULL_list(NAMESPACE);
 
 
 /*
-    CLEAR LIST OF JOIN NAMESPACES
-
     This routine removes any dummy using-directives from the list of join
     namespaces above.
 */
@@ -546,8 +506,6 @@ clear_join_nspaces(void)
 
 
 /*
-    BEGIN A NAMESPACE DEFINITION
-
     This routine begins the definition of a namespace named id (or an
     anonymous namespace if anon is true).  Note that there may be multiple
     definitions of a namespace, the effect of the later definitions being
@@ -640,8 +598,6 @@ default_lab: {
 
 
 /*
-    END A NAMESPACE DEFINITION
-
     This routine ends the definition of the current namespace.
 */
 
@@ -661,8 +617,6 @@ end_namespace(int anon)
 
 
 /*
-    PROCESS A TARGET DEPENDENT DECLARATION SEQUENCE
-
     This routine is called in the processing of target dependent
     preprocessing directives within declaration sequences.  The directive
     involved is given by dir, while c gives the associated condition for
@@ -680,8 +634,6 @@ target_decl(int dir, EXP c)
 
 
 /*
-    BEGIN A DECLARATION BLOCK
-
     A declaration block is a technique for partitioning the external
     declarations into subsets.  These subsets have no significance within
     the language, but are useful for indicating, for example, those
@@ -722,8 +674,6 @@ begin_decl_block(IDENTIFIER id)
 
 
 /*
-    END A DECLARATION BLOCK
-
     This routine ends a declaration block named id or the current
     declaration block if id is the null identifier.  If there is no
     current declaration block and force is true then an error is
@@ -770,8 +720,6 @@ end_decl_block(IDENTIFIER id, int force)
 
 
 /*
-    END ALL DECLARATION BLOCKS
-
     This routine ends all the declaration blocks associated with the
     current namespace.  This is called at the end of a namespace definition
     and at the end of the input file.
@@ -786,8 +734,6 @@ clear_decl_blocks(void)
 
 
 /*
-    FIND A NAMESPACE
-
     This routine finds the namespace corresponding to the identifier id,
     returning the null namespace if id does not represent a class or a
     namespace.
@@ -829,8 +775,6 @@ find_namespace(IDENTIFIER id)
 
 
 /*
-    LOOK UP A NAMESPACE NAME
-
     This routine looks up the identifier id as a namespace name in a
     namespace alias or namespace directive.
 */
@@ -870,8 +814,6 @@ find_nspace_id(IDENTIFIER id)
 
 
 /*
-    CONSTRUCT A NAMESPACE ALIAS
-
     This routine sets up id as an alias for the namespace ns.  A namespace
     alias may be consistently redefined any number of times.
 */
@@ -950,8 +892,6 @@ alias_namespace(IDENTIFIER id, NAMESPACE ns)
 
 
 /*
-    PROCESS A USING NAMESPACE DIRECTIVE
-
     This routine processes a using namespace directive for the namespace ns.
 */
 
@@ -983,8 +923,6 @@ using_namespace(NAMESPACE ns)
 
 
 /*
-    ADD A NESTED NAMESPACE
-
     This routine adds the namespace ns to the look-up stack.  If ns is
     a nested namespace then the enclosing namespaces are also added.
     It returns true if the stack is changed.
@@ -1015,8 +953,6 @@ add_nested_nspace(NAMESPACE ns)
 
 
 /*
-    REMOVE A NESTED NAMESPACE
-
     This routine removes the namespace ns from the look-up stack.  If
     ns is a namespace class then the enclosing namespaces are also
     removed.  It returns true if the stack is changed.
@@ -1048,8 +984,6 @@ remove_nested_nspace(NAMESPACE ns)
 
 
 /*
-    BEGIN THE LOOK-UP SCOPE FOR A DECLARATOR
-
     This routine is called immediately after the declarator id given with
     identifier qualifiers idtype and qns to set the name look-up
     appropriately.  Thus for example, in 'int C::a = b ;', b is looked up
@@ -1086,8 +1020,6 @@ begin_declarator(IDENTIFIER id, QUALIFIER idtype, NAMESPACE qns, int scan)
 
 
 /*
-    END THE LOOK-UP SCOPE FOR A DECLARATOR
-
     This routine is called at the end of the initialiser or definition
     of the declarator id to reset the name look-up.
 */
@@ -1122,8 +1054,6 @@ end_declarator(IDENTIFIER id, int scan)
 
 
 /*
-    SET A NAMESPACE MEMBER
-
     This routine sets the identifier id to be a namespace member as
     indicated by mem.  It also sets the look-up cache to id if appropriate.
 */
@@ -1174,8 +1104,6 @@ set_member(MEMBER mem, IDENTIFIER id)
 
 
 /*
-    SET A NAMESPACE TYPE MEMBER
-
     This routine sets the type identifier id to be a namespace member
     as indicated by mem.  Note that in C this just sets the alt field
     of mem, whereas in C++ it may also set the id field.
@@ -1212,8 +1140,6 @@ set_type_member(MEMBER mem, IDENTIFIER id)
 
 
 /*
-    CLEAR A NAMESPACE MEMBER
-
     This routine clears all meanings of the member nm of the namespace ns.
 */
 
@@ -1231,8 +1157,6 @@ clear_member(NAMESPACE ns, HASHID nm)
 
 
 /*
-    FIND A MEMBER OF A NAMESPACE
-
     This routine searches the namespace ns for a member named nm.  This
     is returned if found.  Otherwise if create is true then an empty
     member is created and returned.  Otherwise the null member is returned.
@@ -1338,8 +1262,6 @@ search_member(NAMESPACE ns, HASHID nm, int create)
 
 
 /*
-    UPDATE A NAMESPACE MEMBER
-
     This routine copies the member mem of the namespace ns to the end of
     the list of all members.  In block namespaces this is to force the
     member to be re-examined in make_decl_stmt.  In class namespaces this
@@ -1375,8 +1297,6 @@ update_member(NAMESPACE ns, MEMBER mem)
 
 
 /*
-    FIND A TYPE IDENTIFIER
-
     This routine checks whether the identifier id is a type name (if bit 0
     of type is true) or a namespace name (if bit 1 of type is true).  In
     C only struct, union and enum tags are allowed.
@@ -1415,8 +1335,6 @@ select_type_id(IDENTIFIER id, int type)
 
 
 /*
-    FIND A TYPE MEMBER
-
     This routine returns the type or namespace name associated with the
     member mem, or the null identifier if this does not exist.  The
     type argument is as above.  In C++ it is necessary to check both
@@ -1446,8 +1364,6 @@ type_member(MEMBER mem, int type)
 
 
 /*
-    IS AN IDENTIFIER IN A LIST?
-
     This routine checks whether the identifier id is in the list of
     ambiguous meanings given by pid and pids.  Functions are excluded
     because of the complications introduced by using-declarations and
@@ -1491,8 +1407,6 @@ already_found_id(IDENTIFIER id, IDENTIFIER pid, LIST(IDENTIFIER) pids)
 
 
 /*
-    LOOK UP AN IDENTIFIER IN A NAMESPACE
-
     This routine looks up the identifier nm in the namespace ns.
 */
 
@@ -1515,8 +1429,6 @@ search_id(NAMESPACE ns, HASHID nm, int create, int type)
 
 
 /*
-    SEARCH A NAMESPACE FOR AN IDENTIFIER
-
     This routine searches the namespace ns and used namespaces for an
     identifier named nm, which is returned if found.  Otherwise if create
     is true then a dummy identifier is created and returned.  Otherwise
@@ -1602,8 +1514,6 @@ search_nspace(NAMESPACE ns, HASHID nm, NAMESPACE rns, int qual, int create,
 
 
 /*
-    EXTERNAL NAME LOOK-UP
-
     This routine searches all the namespaces in the current namespace stack
     which are contained within pns for the identifier pns.  If type is
     nonzero then only type and namespace names are considered.
@@ -1635,8 +1545,6 @@ find_extern_id(HASHID nm, NAMESPACE pns, int type)
 
 
 /*
-    UNQUALIFIED NAME LOOK-UP
-
     This routine (aka who the feck is fred?) looks up the name nm in the
     current scope, returning the corresponding identifier.  Note that
     there is always a meaning for nm even if it is the underlying dummy
@@ -1669,8 +1577,6 @@ find_id(HASHID nm)
 
 
 /*
-    QUALIFIED NAME LOOK-UP
-
     This routine (aka who the feck is fred::bloggs?) looks up the name nm
     in the namespace ns.  Only type names are considered when type is
     nonzero.  When ns is the null namespace this reduces to an unqualified
@@ -1697,8 +1603,6 @@ find_qual_id(NAMESPACE ns, HASHID nm, int create, int type)
 
 
 /*
-    SIMPLE TYPE NAME LOOK-UP
-
     This routine looks up the name nm as a type in the current scope,
     returning the corresponding identifier.  If there is no type named
     nm then the null identifier is returned.
@@ -1722,8 +1626,6 @@ find_type_id(HASHID nm, int type)
 
 
 /*
-    OPERATOR FUNCTION NAME LOOK-UP
-
     This routine is identical to find_id except that it ignores all class
     namespaces.  This is used when looking up operator functions in C++
     and is the default look-up rule in C.
@@ -1779,8 +1681,6 @@ find_op_id(HASHID nm)
 
 
 /*
-    FINAL NAME LOOK-UP CHECK
-
     This routine gives a final check in the name look-up.  In most cases
     id will already be a valid identifier for the namespace ns - the couple
     of exceptions - undeclared members and non-simple identifier names
@@ -1809,8 +1709,6 @@ check_id(NAMESPACE ns, IDENTIFIER id, int templ)
 
 
 /*
-    REMOVE AN ELEMENT OF A SET OF OVERLOADED FUNCTIONS
-
     This routine removes the function id from the set of overloaded
     functions fid.
 */
@@ -1833,8 +1731,6 @@ remove_func(IDENTIFIER fid, IDENTIFIER id)
 
 
 /*
-    REMOVE AN IDENTIFIER FROM A NAMESPACE
-
     This routine removes the identifier id its parent namespace.
 */
 
@@ -1870,8 +1766,6 @@ remove_id(IDENTIFIER id)
 
 
 /*
-    DOES AN IDENTIFIER HAVE AN EXTERNAL LINKAGE NAME?
-
     This routine checks whether the identifier id has an external linkage
     name.  It cannot be a member of a block, an unnamed class or an
     anonymous namespace.
@@ -1913,8 +1807,6 @@ has_linkage(IDENTIFIER id)
 
 
 /*
-    CHECK HIDING OF LOCAL VARIABLES
-
     This routine is used to report on variables, parameters and functions
     hidden by id.  Note that only the first instance is reported, and that
     the hiding of one declaration by a subsequent incompatible redeclaration

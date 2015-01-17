@@ -52,8 +52,6 @@
 
 
 /*
-    FIND AN EXPRESSION RELATION
-
     This routine returns the lexical token number of associated with
     the test ntst.  The default value returned is lex.
 */
@@ -86,8 +84,6 @@ ntest_token(NTEST ntst, int lex)
 
 
 /*
-    FIND THE TOKEN NUMBER FOR AN OPERATION
-
     This routine returns the lexical token number associated with the
     expression e.  The default value returned is lex.
 */
@@ -178,8 +174,6 @@ op_token(EXP e, int lex)
 
 
 /*
-    APPLY A UNARY OPERATOR
-
     This routine applies the unary operator op to the argument a.  The
     type t2 gives the destination for any cast operator.
 */
@@ -374,8 +368,6 @@ apply_unary(int op, EXP a, TYPE t1, TYPE t2, int cpy)
 
 
 /*
-    APPLY A BINARY OPERATOR
-
     This routine applies the binary operator op to the arguments a and b.
 */
 
@@ -508,8 +500,6 @@ apply_binary(int op, EXP a, EXP b, TYPE t1, TYPE t2, int cpy)
 
 
 /*
-    APPLY AN N-ARY OPERATOR
-
     This routine applies the n-ary operator op to the arguments p.  The
     type t2 gives the destination for any cast operator.
 */
@@ -624,8 +614,6 @@ apply_nary(int op, LIST(EXP)p, TYPE t1, TYPE t2, int cpy)
 
 
 /*
-    CONVERT AN OPERAND TO A BUILT-IN OPERATOR
-
     This routine converts the nth operand a to the built-in operator op
     to type t.
 */
@@ -649,8 +637,6 @@ convert_builtin(TYPE t, EXP a, int op, unsigned n)
 
 
 /*
-    APPLY A BUILT-IN OPERATOR
-
     This routine applies the built-in operator id to the arguments args.
 */
 
@@ -719,8 +705,6 @@ apply_builtin(IDENTIFIER id, LIST(EXP) args)
 
 
 /*
-    OVERLOAD DEPTH FLAG
-
     This flag is used to keep track of the depth of overloaded operator
     resolutions.
 */
@@ -730,8 +714,6 @@ int overload_warn = 1;
 
 
 /*
-    OPERATOR OVERLOADING ROUTINES
-
     The operator overloading routines are only included in the C++
     producer.
 */
@@ -740,8 +722,6 @@ int overload_warn = 1;
 
 
 /*
-    CHECK AN OVERLOADED OPERATOR TYPE
-
     This routine checks the function type t for the overloaded operator id.
     The argument mem is true if id represents a non-static member function.
     Most operators have restrictions on the number and types of their
@@ -937,8 +917,6 @@ check_operator(TYPE t, IDENTIFIER id, int mem, int *alloc)
 
 
 /*
-    LISTS OF BUILT-IN OPERATORS
-
     These values are used in the allocation and deallocation of built-in
     operators.
 */
@@ -952,8 +930,6 @@ static IDENTIFIER nary_all = NULL_id;
 
 
 /*
-    CONSTRUCT A BUILT-IN UNARY OPERATOR
-
     This routine constructs the built-in unary operator 'r nm ( a )'.
 */
 
@@ -983,8 +959,6 @@ unary_builtin(HASHID nm, TYPE a, TYPE r)
 
 
 /*
-    CONSTRUCT A BUILT-IN BINARY OPERATOR
-
     This routine constructs the built-in binary operator 'r nm ( a, b )'.
 */
 
@@ -1017,8 +991,6 @@ binary_builtin(HASHID nm, TYPE a, TYPE b, TYPE r)
 
 
 /*
-    CONSTRUCT A BUILT-IN N-ARY OPERATOR
-
     This routine constructs the built-in n-ary operator 'r nm ( a, p )'.
 */
 
@@ -1049,8 +1021,6 @@ nary_builtin(HASHID nm, TYPE a, LIST(TYPE) p, TYPE r)
 
 
 /*
-    CONSTRUCT OVERLOADED OPERATION CANDIDATE LIST
-
     This routine constructs the candidate list for the overloaded n-ary
     operation op, adding the result to p.  The candidates come from the
     current namespace and the type t, if this is a class.  The routine
@@ -1102,8 +1072,6 @@ overload_candidates(CANDIDATE_LIST *p, int op, TYPE t, TYPE s)
 
 
 /*
-    CONSTRUCT LIST OF INTEGRAL TYPES
-
     This routine adds all the promoted integral types to the list res.
 */
 
@@ -1123,8 +1091,6 @@ add_int_types(LIST(TYPE) res)
 
 
 /*
-    CONSTRUCT LIST OF FLOATING POINT TYPES
-
     This routine adds all the floating point types to the list res.
 */
 
@@ -1139,8 +1105,6 @@ add_float_types(LIST(TYPE) res)
 
 
 /*
-    CONSTRUCT A LIST OF CONVERSION TYPES
-
     This routine constructs a list of types consisting of all the types
     of a certain kind to which the type t can be converted.  Conversions
     which are worse that existing conversions are omitted.  The type kind
@@ -1369,8 +1333,6 @@ find_type_convs(TYPE t, EXP a, unsigned kind)
 
 
 /*
-    FILTER A LIST OF POINTER TYPES
-
     This routine scans through the list of pointer or pointer to member
     types pa replacing any types which are not pointers to complete object
     types by the null type.  If fn is true pointer to function types are
@@ -1438,8 +1400,6 @@ filter_ptr(LIST(TYPE) pa, int fn)
 
 
 /*
-    BUILT-IN OPERATOR TYPES
-
     The following macros are used to describe the return types and the
     constraints on the operand types of the built-in operators.
 */
@@ -1463,8 +1423,6 @@ filter_ptr(LIST(TYPE) pa, int fn)
 
 
 /*
-    FIND RETURN TYPE OF BUILT-IN OPERATOR
-
     This routine finds the return type for a built-in operator with
     operand types ta and tb and return descriptor rtype.  tc gives the
     default return type.  The return type is not used in overload
@@ -1506,8 +1464,6 @@ find_builtin_ret(TYPE ta, TYPE tb, int rtype, TYPE tc)
 
 
 /*
-    CHECK BUILT-IN OPERAND TYPES
-
     This routine checks whether the operand types ta and tb are valid for
     a built-in operator with operand constraints otype.  In some cases
     the return type is returned via pt.
@@ -1598,8 +1554,6 @@ check_builtin_args(TYPE ta, TYPE tb, int otype, TYPE *pt)
 
 
 /*
-    ADD A LIST OF BUILT-IN UNARY CANDIDATES
-
     This routine adds a series of built-in unary candidates for the
     operator nm to the list p.  The possible operand types are given by pa.
     rtype describes how to form the return type from the operand type.
@@ -1623,8 +1577,6 @@ add_unary_builtin(CANDIDATE_LIST *p, HASHID nm, LIST(TYPE) pa, int rtype)
 
 
 /*
-    ADD A LIST OF BUILT-IN BINARY CANDIDATES
-
     This routine adds a series of built-in binary candidates for the
     operator nm to the list p.  The possible first and second operand types
     are given by pa and pb.  rtype describes how to form the return type
@@ -1670,8 +1622,6 @@ add_binary_builtin(CANDIDATE_LIST *p, HASHID nm, LIST(TYPE) pa, LIST(TYPE) pb,
 
 
 /*
-    OVERLOAD A UNARY OPERATOR
-
     This routine calculates the unary overload operator 'op a'.  This can
     be 'a.operator op ()', 'operator op ( a )' or 'op t ( a )' for some
     type t.  Note that '->' is a special case for op, with 'a->b' being
@@ -1830,8 +1780,6 @@ unary_overload(int op, EXP a)
 
 
 /*
-    OVERLOAD A BINARY OPERATOR
-
     This routine calculates the binary overload operator 'a op b'.  This can
     be 'a.operator op ( b )', 'operator op ( a, b )' or 't ( a ) op s ( b )'
     for some types t and s.  Note that postfix '++' and '--' are special
@@ -2129,8 +2077,6 @@ relation_op_lab:
 
 
 /*
-    OVERLOAD A FUNCTION OPERATOR
-
     This routine calculates the function overload operator 'a ( args )'.
     This is expanded as 'a.operator () ( args )'.
 */

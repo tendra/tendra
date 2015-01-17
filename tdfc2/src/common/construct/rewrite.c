@@ -35,8 +35,6 @@
 
 
 /*
-    COUNT OF NUMBER OF SKIPPED FUNCTIONS
-
     This value is used to keep track of the number of functions skipped
     and subsequently compiled.
 */
@@ -45,8 +43,6 @@ static int functions_pending = 0;
 
 
 /*
-    SKIP A FUNCTION DEFINITION
-
     This routine skips the function definition for the function id given by
     the current sequence of lexical tokens.  Note that last_lex_token is
     set to lex_func_Hop to indicate that a function definition has been
@@ -123,8 +119,6 @@ skip_function(IDENTIFIER id)
 
 
 /*
-    SKIP A DEFAULT ARGUMENT VALUE
-
     This routine skips the default argument value for the function parameter
     id given by the current sequence of lexical tokens.  It returns an
     expression giving the skipped value which is associated with id by
@@ -175,8 +169,6 @@ skip_default_arg(IDENTIFIER id)
 
 
 /*
-    BRING A SET OF TEMPLATE ARGUMENTS INTO SCOPE
-
     When rescanning a template member function it is necessary to bring
     the template parameters back into scope.  This routine performs this
     operation for the template type t.  It returns the non-template
@@ -202,8 +194,6 @@ begin_templ_scope(TYPE t)
 
 
 /*
-    TAKE A SET OF TEMPLATE ARGUMENTS OUT OF SCOPE
-
     This routine removes any template parameters brought into scope by
     begin_templ_scope.
 */
@@ -227,8 +217,6 @@ end_templ_scope(TYPE t)
 
 
 /*
-    COMPILE A FUNCTION DEFINITION
-
     This routine compiles any previously skipped definition for the
     function id.
 */
@@ -290,8 +278,6 @@ rescan_function(IDENTIFIER id)
 
 
 /*
-    COMPILE A DEFAULT ARGUMENT VALUE
-
     This routine compiles any previously skipped default argument value
     for the parameter id.
 */
@@ -366,8 +352,6 @@ rescan_param(IDENTIFIER id, int rescan)
 
 
 /*
-    COMPILE ALL FUNCTIONS IN A NAMESPACE
-
     This routine scans through the current class and any nested classes
     compiling any function definitions which remain uncompiled.
 */

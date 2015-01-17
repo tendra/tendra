@@ -24,8 +24,6 @@
 
 
 /*
-    CURRENT BITSTREAM
-
     This is the main bitstream.
 */
 
@@ -33,8 +31,6 @@ static bitstream *crt_bitstream;
 
 
 /*
-    NUMBERS OF EQUATIONS AND VARIABLE SORTS
-
     The number of equation types and variable sorts in the output capsule.
 */
 
@@ -42,8 +38,6 @@ static long eqn_total, var_total;
 
 
 /*
-    LINKAGE INFORMATION ENCODING VARIABLES
-
     The tld2 unit gives information on the use, declaration and
     definition of the externally named tags and tokens.
 */
@@ -52,8 +46,6 @@ static bitstream *tld_bs;
 
 
 /*
-    ALIGNMENT TAG ENCODING VARIABLES
-
     The alignment tag definitions are formed in the bitstream al_tag_defs_bs.
     There are al_tag_total alignment tags, of which al_tag_external have
     external names and al_tag_defs are defined.
@@ -66,8 +58,6 @@ static bitstream *al_tag_defs_bs;
 
 
 /*
-    AUXILIARY ALIGNMENT TAG ENCODING ROUTINE
-
     The alignment tag encoding variables are modified according to the
     construct p.
 */
@@ -89,8 +79,6 @@ enc_al_tag_aux(construct *p)
 
 
 /*
-    AUXILIARY ROUTINE FOR ENCODING ALIGNMENT TAG NAMES
-
     The external name (if any) of the alignment tag construct p is encoded.
 */
 
@@ -104,8 +92,6 @@ enc_al_tag_names(construct *p)
 
 
 /*
-    TAG ENCODING VARIABLES
-
     The tag declarations are formed in the bitstream tag_decs_bs and
     the definitions in tag_defs_bs.  There are tag_total tags, of
     which tag_external have external names, tag_decs have declarations
@@ -121,8 +107,6 @@ static bitstream *tag_defs_bs;
 
 
 /*
-    AUXILIARY TAG ENCODING ROUTINE
-
     The tag encoding variables are modified according to the construct p.
 */
 
@@ -145,8 +129,6 @@ enc_tag_aux(construct *p)
 
 
 /*
-    AUXILIARY ROUTINE FOR ENCODING TAG NAMES
-
     The external name (if any) of the tag construct p is encoded.
 */
 
@@ -162,8 +144,6 @@ enc_tag_names(construct *p)
 
 
 /*
-    TOKEN ENCODING VARIABLES
-
     The token declarations are formed in the bitstream tok_decs_bs and
     the definitions in tok_defs_bs.  There are tok_total tokens, of
     which tok_external have external names, tok_decs have declarations
@@ -179,8 +159,6 @@ static bitstream *tok_defs_bs;
 
 
 /*
-    AUXILIARY TOKEN ENCODING ROUTINE
-
     The token encoding variables are modified according to the construct p.
 */
 
@@ -213,8 +191,6 @@ enc_token_aux(construct *p)
 
 
 /*
-    AUXILIARY ROUTINE FOR ENCODING TOKEN NAMES
-
     The external name (if any) of the token construct p is encoded.
 */
 
@@ -231,8 +207,6 @@ enc_token_names(construct *p)
 
 
 /*
-    LABEL ENCODING VARIABLES
-
     There are lab_total labels.
 */
 
@@ -240,8 +214,6 @@ static long lab_total = 0;
 
 
 /*
-    AUXILIARY LABEL ENCODING ROUTINE
-
     The label encoding variables are modified according to the construct p.
 */
 
@@ -255,8 +227,6 @@ enc_label_aux(construct *p)
 
 
 /*
-    ENCODE A SET OF LINKS
-
     A set of ntok token link, nalign alignment tag links and ntag tag
     nlinks are encoded into the bitstream p.  Since the same numbers
     are used for variable sorts in all the encoded units these links
@@ -317,8 +287,6 @@ enc_links(bitstream *p, long ntok, long nalign, long ntag)
 
 
 /*
-    ENCODE AN EQUATION
-
     The ne equations of type t (see above) given in the bitstream q are
     encoded into the bitstream p.
 */
@@ -378,8 +346,6 @@ enc_equation(bitstream *p, long ne, bitstream *q, int t)
 
 
 /*
-    VERSION NUMBERS
-
     These variables give the major and minor version numbers.
 */
 
@@ -389,8 +355,6 @@ long version_minor = VERSION_minor;
 
 
 /*
-    ENCODE A CAPSULE
-
     A complete capsule is encoded.
 */
 

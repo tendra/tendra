@@ -40,8 +40,6 @@
 
 
 /*
-    OPTION CATALOGUE
-
     This table gives the catalogue of all options.  Each entry consists
     of an option name plus the default value of the option in the
     various standard compilation modes.  The main body is automatically
@@ -66,8 +64,6 @@ OPT_DATA OPT_CATALOG[] = {
 
 
 /*
-    OPTION VALUE CATALOGUE
-
     This table gives the catalogue of all option values.  Each entry
     consists of an option name, its maximum value allowed within the
     program, its minimum maximum value allowed by the standard and a
@@ -136,8 +132,6 @@ OPT_VALUE_DATA OPT_VALUE_CATALOG[] = {
 
 
 /*
-    ERROR TYPE CATALOGUE
-
     This table gives the names of all the types used in the error catalogue
     together with the code letter used to encode them.
 */
@@ -178,8 +172,6 @@ static OPT_TYPE_DATA OPT_TYPE_CATALOG[] = {
 
 
 /*
-    OPTION NAME HASH TABLE
-
     This hash table is used to hold the names of the various options in
     the option catalogue.
 */
@@ -196,8 +188,6 @@ static OPT_HASH *all_option_hash = NULL;
 
 
 /*
-    INITIALISE THE OPTION HASH TABLE
-
     This routine sets up the option hash table.
 */
 
@@ -232,8 +222,6 @@ init_opt_hash(void)
 
 
 /*
-    FIND AN OPTION NUMBER
-
     This routine finds the option number corresponding to the string
     literal expression s.  n gives a likely value to try first.  It
     returns -1 if s is not the name of a known option.
@@ -275,8 +263,6 @@ find_option_no(STRING s, int n)
 
 
 /*
-    FIND A VALUE OPTION NUMBER
-
     This routine finds the value option number corresponding to the
     string literal expression s.  n gives a likely value to try first.
     It returns -1 if s is not the name of a known value option.  Note
@@ -315,8 +301,6 @@ find_value_no(STRING s, int n)
 
 
 /*
-    FIND A ERROR TYPE NUMBER
-
     This routine finds the encoding character for the type corresponding
     to the string literal expression s.  It returns -1 if s is not the
     name of a known value option.  Note that there are not enough cases
@@ -347,8 +331,6 @@ find_type_no(STRING s)
 
 
 /*
-    CURRENT OPTION STATE
-
     The variable crt_opts is used to record the current option state.
     In addition a list of all scopes defined, all_opts, is maintained.
     The variable crt_opt shadows crt_opts->opt and gives a user-accessible
@@ -362,8 +344,6 @@ OPTION *crt_opt = NULL;
 
 
 /*
-    SET AN ERROR TO AN OPTION LEVEL
-
     This routine modifies the severity level of the error err using the
     option n.  Whether the severity is set to that of option n depends
     on the value of set; it is always set if set is zero, only set if
@@ -404,8 +384,6 @@ set_severity(ERROR err, int n, int set)
 
 
 /*
-    PERFORM ACTIONS FOR AN OPTION
-
     This routine performs any actions associated with setting the value
     of option n to opt.  The flag end is true if this call is at the
     end of a scope to restore the old value of option n.
@@ -558,8 +536,6 @@ action_option(int n, unsigned opt, int end)
 
 
 /*
-    SET AN OPTION LEVEL
-
     This routine sets the option n to option level opt.  This can be
     OPTION_OFF (for 'off' or 'allow'), OPTION_WARN (for 'warning') or
     OPTION_ON (for 'on' or 'disallow').  Note that special action needs
@@ -659,8 +635,6 @@ default_lab: {
 
 
 /*
-    PERFORM ACTIONS FOR AN OPTION VALUE
-
     This routine performs any actions associated with setting option value
     n to v.  The flag end is true if this call is at the end of a scope to
     restore the old value of option n.
@@ -696,8 +670,6 @@ action_value(int n, unsigned long v)
 
 
 /*
-    SET OPTION VALUE
-
     This routine sets the option value for option n to the integer literal
     expression e or the value v.  Note that option values are not scoped.
 */
@@ -723,8 +695,6 @@ set_value(int n, EXP e, unsigned long v)
 
 
 /*
-    CHECK AN OPTION VALUE
-
     This routine checks whether the value v is less than the maximum
     permitted value for the option n.  It returns true if so.  Extra
     arguments for use in error reporting may be provided.
@@ -797,8 +767,6 @@ check_value(int n, unsigned long v, ...) /* VARARGS */
 
 
 /*
-    INCREMENT AN OPTION VALUE
-
     This routine increments the current value of the option value n,
     applying check_value to the result.
 */
@@ -814,8 +782,6 @@ incr_value(int n)
 
 
 /*
-    DECREMENT AN OPTION VALUE
-
     This routine decrements the current value of the option value n.
 */
 
@@ -840,8 +806,6 @@ decr_value(int n)
 
 
 /*
-    SET LINKAGE OPTION
-
     This routine sets the current external linkage option to ds.
 */
 
@@ -868,8 +832,6 @@ set_link_opt(DECL_SPEC ds)
 
 
 /*
-    FIND A NAMED CHECKING SCOPE
-
     This routine searches for a checking scope named nm, returning the
     corresponding table of options.  If nm has not been defined then the
     null pointer is returned.
@@ -889,8 +851,6 @@ find_option(HASHID nm)
 
 
 /*
-    CREATE A NEW OPTION
-
     This routine creates a new option scope named nm with initial
     values taken either from the existing scope q or, if this is the
     null pointer, the nth entry of the options catalogue above.
@@ -945,8 +905,6 @@ new_option(HASHID nm, OPTIONS *q, int n)
 
 
 /*
-    BEGIN A CHECKING SCOPE
-
     This routine begins a new checking scope.
 */
 
@@ -968,8 +926,6 @@ begin_option(IDENTIFIER id)
 
 
 /*
-    END A CHECKING SCOPE
-
     This routine ends the current checking scope.
 */
 
@@ -1017,8 +973,6 @@ end_option(int expl)
 
 
 /*
-    USE A CHECKING SCOPE
-
     This routine brings the set of checks given by p into the current
     checking scope.  e indicates the error severity with which to report
     reset options.
@@ -1071,8 +1025,6 @@ use_mode(OPTIONS *p, int e)
 
 
 /*
-    SET CURRENT CHECKING SCOPE
-
     This routine sets the current checking scope to p.  It is used in
     context switching in macro expansion.
 */
@@ -1089,8 +1041,6 @@ set_mode(OPTIONS *p)
 
 
 /*
-    USE A NAMED CHECKING SCOPE
-
     This routine brings the named checking scope id back into scope.  The
     opt argument describes how the resetting of these options are to be
     handled.
@@ -1111,8 +1061,6 @@ use_option(IDENTIFIER id, unsigned opt)
 
 
 /*
-    ASSOCIATE A CHECKING SCOPE WITH A DIRECTORY
-
     This routine associates the named checking scope id with the named
     include file directory dir.
 */
@@ -1134,8 +1082,6 @@ directory_option(IDENTIFIER dir, IDENTIFIER id)
 
 
 /*
-    INITIALISE OPTIONS
-
     This routine initialises the outer checking scope at the checking
     level indicated by level and sets up the option hash table.
 */
@@ -1201,8 +1147,6 @@ init_option(int level)
 
 
 /*
-    TERMINATE OPTIONS
-
     This routine calls end_option for all unterminated checking scopes.
     It also reports any implementation limits which have been exceeded
     but not previously reported.

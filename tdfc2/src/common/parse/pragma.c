@@ -38,8 +38,6 @@
 
 
 /*
-    CHECK THAT PRAGMA SYNTAX AND MAIN SYNTAX ARE IN STEP
-
     By including both psyntax.h and syntax.h, the compiler will check
     that the lex_* macros defined in each are consistent.  Note that
     because the #pragma syntax is the same for both C and C++, this
@@ -53,8 +51,6 @@
 
 
 /*
-    READ A PREPROCESSING TOKEN
-
     This routine reads the next preprocessing token from the input file.
 */
 
@@ -75,8 +71,6 @@ get_token(void)
 
 
 /*
-    FIND A KEYWORD LEXICAL TOKEN NUMBER
-
     This routine finds the lexical token corresponding to the identifier id.
     If id does not represent an underlying keyword then an error is reported
     and lex_identifier is returned.
@@ -95,8 +89,6 @@ find_keyword(IDENTIFIER id)
 
 
 /*
-    DEFINE A KEYWORD
-
     This routine defines id to be a keyword with lexical token number t.
     Certain language extensions are implemented by tokens disguised as
     keywords.
@@ -134,8 +126,6 @@ define_keyword(IDENTIFIER id, int t)
 
 
 /*
-    UNDEFINE A KEYWORD
-
     This routine undefines the keyword id.
 */
 
@@ -168,8 +158,6 @@ undef_keyword(IDENTIFIER id)
 
 
 /*
-    RESCAN A PRAGMA STATEMENT
-
     The routine read_tendra replaces all identifier tokens within a '#pragma'
     command by their corresponding underlying keywords.  This routine restores
     these keywords, except that given by s, to identifiers.
@@ -190,8 +178,6 @@ rescan_pragma(int s)
 
 
 /*
-    SET A TOKEN TO A KEYWORD
-
     This routine sets the preprocessing token p to the keyword corresponding
     to the lexical token number t.
 */
@@ -208,8 +194,6 @@ set_token(PPTOKEN *p, int t)
 
 
 /*
-    PATCH A PRAGMA STATEMENT
-
     This routine is used by the preprocessor to preserve a '#pragma'
     statement.  The arguments are as in parse_pragma.
 */
@@ -257,8 +241,6 @@ patch_pragma(PPTOKEN *p, int tendra)
 
 
 /*
-    PARSE A PRAGMA STATEMENT
-
     This routine parses the '#pragma' statement given by the preprocessing
     tokens p.  tendra is 1 for '#pragma TenDRA' statements, 2 for '#pragma
     TenDRA++' statements, and 0 otherwise.
@@ -341,8 +323,6 @@ parse_pragma(PPTOKEN *p, int tendra)
 
 
 /*
-    SKIP TO NEXT COLON
-
     This routine scans along the list of preprocessing tokens p until it
     finds the first colon.  It then returns the following token.  The null
     token is returned if there is no colon in p.
@@ -363,8 +343,6 @@ skip_to_colon(PPTOKEN *p)
 
 
 /*
-    MARK A TOKEN PARAMETER
-
     This routine marks the TDF token parameter given by the preprocessing
     tokens p.  This consists of an optional 'TAG' followed by an identifier,
     which is optional if n is false.  Macro expansion of this identifier
@@ -427,8 +405,6 @@ mark_tdf_param(PPTOKEN *p, int n, int macro)
 
 
 /*
-    MARK A TOKEN PROGRAM PARAMETER
-
     This routine marks the TDF token program parameter given by the
     preprocessing tokens p.
 */
@@ -498,8 +474,6 @@ mark_prog_param(PPTOKEN *p)
 
 
 /*
-    MARK A PRAGMA TOKEN STATEMENT
-
     The macro expansion of '#pragma token' statements is rather complex.
     The token syntax skeleton is not subject to macro expansion, while
     any types etc. involved in the specification are.  This routine marks
@@ -670,8 +644,6 @@ mark_tdf_token(PPTOKEN *p, int *macro)
 
 
 /*
-    READ AN EXTERNAL TOKEN NAME
-
     This routine processes an external token name.  This consists of a
     hash symbol, pointed to by p, followed a list of preprocessing
     tokens.  Note that the result is an extended identifier, unless it
@@ -710,8 +682,6 @@ quote_token_name(PPTOKEN *p)
 
 
 /*
-    READ A PRAGMA TOKEN STATEMENT
-
     This routine processes a '#pragma token' statement.  p gives the first
     preprocessing token (i.e. 'token').  tendra is as in parse_pragma.
 */
@@ -764,8 +734,6 @@ read_tdf_token(PPTOKEN *p, int tendra)
 
 
 /*
-    READ A PRAGMA TENDRA STATEMENT
-
     This routine processes a '#pragma TenDRA' statement, returning the
     corresponding lexical token.  One or two tokens from the line will
     have already been read into p.  tendra is as in parse_pragma.
@@ -805,8 +773,6 @@ read_tendra(PPTOKEN *p, int tendra)
 
 
 /*
-    READ A PRAGMA INTERFACE STATEMENT
-
     This routine processes a '#pragma interface' statement, returning the
     corresponding lexical token.  One or two tokens from the line will
     have already been read into p.  tendra is as in parse_pragma.
@@ -859,8 +825,6 @@ read_interface(PPTOKEN *p, int tendra)
 
 
 /*
-    PROCESS A NON-TENDRA PRAGMA STATEMENT
-
     This routine processes a '#pragma' statement in which there is no
     TenDRA keyword, or such a keyword is optional.  The argument p gives
     the first preprocessing token of the statement, while tendra is as
@@ -1080,8 +1044,6 @@ read_non_tendra(PPTOKEN *p, int tendra)
 
 
 /*
-    PROCESS A PRAGMA STATEMENT
-
     This routine analyses a '#pragma' statement, returning the corresponding
     lexical token.  It is called from read_preproc_dir (q.v.) immediately
     after the '#pragma' directive has been identified.  It is not called for
@@ -1157,8 +1119,6 @@ read_pragma(void)
 
 
 /*
-    ANALYSE A LINT COMMENT
-
     This routine analyses the comment built up in token_buff for lint
     format comments.  These are interpreted locally.  This can go slightly
     wrong with look-ahead, in which case the more structured keyword

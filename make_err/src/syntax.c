@@ -40,8 +40,6 @@
 
 
 /*
-    PARSER TYPES
-
     These types give the implementation of the types used in the syntax.
 */
 
@@ -54,8 +52,6 @@ typedef LIST ( PROPERTY ) LIST_PROPERTY ;
 
 
 /*
-    COUNTER VARIABLE
-
     This variable is used to keep count of the position in a name or
     parameter list.
 */
@@ -64,8 +60,6 @@ static int counter = 0 ;
 
 
 /*
-    FIND A NAME
-
     This routine searches the name list p for an identifier matching id.
     The null name is returned if no matching name is found.
 */
@@ -84,8 +78,6 @@ static NAME find_name
 
 
 /*
-    FIND A PARAMETER
-
     This routine searches the parameter list p for an identifier matching
     id.  The null parameter is returned if no matching parameter is found.
 */
@@ -104,8 +96,6 @@ static PARAM find_param
 
 
 /*
-    COMPILATION MODE
-
     We allow unreached code and switch off the variable analysis in the
     automatically generated sections.
 */

@@ -24,8 +24,6 @@
 
 
 /*
-    LIST OF FREE OPERANDS
-
     A list of free mach_op's, linked by the plus field.
 */
 
@@ -33,8 +31,6 @@ static mach_op *mach_op_list = NULL;
 
 
 /*
-    ALLOCATE A NEW OPERAND
-
     This routine returns a pointer to a mach_op.  This is taken from the
     list of free mach_op's.
 */
@@ -83,8 +79,6 @@ new_mach_op(void)
 
 
 /*
-    FREE AN OPERAND
-
     A mach_op is freed by adding it to the list of free mach_op's.
 */
 
@@ -105,8 +99,6 @@ free_mach_op(mach_op *ptr)
 
 
 /*
-    SPECIAL LABELS INFORMATION
-
     A special label consists of the label prefix, "L", followed by the
     special label identifier, followed by the value of special_no for
     the current procedure.  A particular special label is that with
@@ -118,8 +110,6 @@ char *special_str = "S";
 
 
 /*
-    TEMPORARY REGISTER STATUS
-
     This records the number of temporary registers which have been allocated
     at any given moment, any temporary register preferences and the last
     temporary register used.
@@ -131,8 +121,6 @@ static int last_reg = 0;
 
 
 /*
-    FIND THE NUMBER OF THE NEXT TEMPORARY REGISTER
-
     This is a look-ahead routine to find what the next temporary register
     allocated will be.  Let X denote the prefered temporary register
     (if specified) and Y denote any A-register used in the procedure
@@ -188,8 +176,6 @@ next_tmp_reg(void)
 
 
 /*
-    AVOID A GIVEN TEMPORARY REGISTER
-
     This marks the given register number as to be avoided by pretending
     that it was the previous temporary register.
 */
@@ -204,8 +190,6 @@ avoid_tmp_reg(int r)
 
 
 /*
-    MOVE AN OPERAND INTO A TEMPORARY REGISTER
-
     It is sometimes necessary to move an operand into a temporary address
     register.  A move instruction (given by instr) is output, and the
     number of the temporary register is returned.
@@ -227,8 +211,6 @@ tmp_reg(int instr, mach_op *ptr)
 
 
 /*
-    TEST IF A REGISTER IS USED IN AN OPERAND
-
     This routine returns 1 if register r is used in the operand op.
 */
 
@@ -258,8 +240,6 @@ check_op(mach_op *op, int r)
 
 
 /*
-    TEST IF TWO OPERANDS ARE EQUAL
-
     This returns 1 if the two operands have equal effect.  Note that,
     for example, consecutive uses of the same pre-decremented register,
     although having the same representation, are not equal in this
@@ -300,8 +280,6 @@ equal_op(mach_op *op1, mach_op *op2)
 
 
 /*
-    MAKE AN INTEGER CONSTANT OPERAND
-
     This and the subsequent routines are used to allocate machine operands.
     The constructions are simple applications of the descriptions given
     in mach.h.  They need very little other comment.
@@ -584,8 +562,6 @@ make_ldisp(long offset)
 
 
 /*
-    MAKE A REGISTER INDIRECT WITH DISPLACEMENT OPERAND
-
     This is the first example where a temporary register may be required.
     Under very rare circumstances, we may be trying to address relative
     to a D-register, if which case we need to use a temporary A-register
@@ -620,8 +596,6 @@ make_indirect(int r, long d)
 
 
 /*
-    MAKE A APPLICATION POINTER INDIRECT WITH DISPLACEMENT OPERAND
-
     Since we don't want to use an applications pointer unless absolutely
     necessary, this is often changed into a stack pointer indirect
     with displacement operand.
@@ -667,8 +641,6 @@ make_rel_ap(long d)
 
 #ifndef tdf3
 /*
-    MAKE A 2. APPLICATION POINTER INDIRECT WITH DISPLACEMENT OPERAND
-
     This application pointer A5 is used by general proc. to access
     the caller parameters, when there are a dynamic number of callees.
 */
@@ -722,8 +694,6 @@ make_rel_sp(long d)
 #endif
 
 /*
-    MAKE A REGISTER INDIRECT WITH INDEX OPERAND
-
     Again we have to be careful, in case r1 is a D-register.
 */
 
@@ -764,8 +734,6 @@ make_reg_index(int r1, int r2, long d, int sf)
 
 
 /*
-    MAKE A APPLICATION POINTER INDEXED WITH DISPLACEMENT OPERAND
-
     It is always quicker to do this using a temporary register rather
     than using the complex addressing mode.  However we do use the
     latter course when temporary registers are short.
@@ -904,8 +872,6 @@ make_reg_pair(int r1, int r2)
 
 
 /*
-    MAKE AN INDEX OPERAND
-
     The machine operands op1 and op2 are turned into an index operand
     with scale factor sf.  Unless op1 is very simple or temporary
     registers are short, it is always quicker to move the contents of
@@ -972,8 +938,6 @@ make_index_op(mach_op *op1, mach_op *op2, int sf)
 
 
 /*
-    MAKE A BITFIELD OPERAND
-
     The machine operand op is turned into the corresponding bitfield
     operand.
 */

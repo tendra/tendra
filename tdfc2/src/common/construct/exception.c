@@ -47,8 +47,6 @@
 
 
 /*
-    THE SET OF ALL TYPES
-
     The dummy list univ_type_set is used to represent the set of all
     types.  These sets of types are used to represent exception
     specifications for functions.  The list empty_type_set is used to
@@ -61,8 +59,6 @@ LIST(TYPE) empty_type_set = NULL_list(TYPE);
 
 
 /*
-    INITIALISE THE SET OF ALL TYPES
-
     This routine initialises the set of all types to a dummy unique list.
 */
 
@@ -81,8 +77,6 @@ init_exception(void)
 
 
 /*
-    IS A TYPE IN A SET OF TYPES?
-
     This routine checks whether the type t is an element of the set of
     types listed as p.
 */
@@ -108,8 +102,6 @@ in_type_set(LIST(TYPE)p, TYPE t)
 
 
 /*
-    IS A TYPE DERIVABLE FROM A SET OF TYPES?
-
     This routine checks whether an exception of type t will be caught by
     an element of the set of types listed as p.  It returns the catching
     type, or the null type if no match is found.
@@ -163,8 +155,6 @@ from_type_set(LIST(TYPE)p, TYPE t)
 
 
 /*
-    ARE TWO TYPE SETS EQUAL?
-
     This routine checks whether the sets of types listed as p and q are
     equal.  It returns 2 if they are equal, 1 if p is a subset of q, and
     0 otherwise.  Because p and q will have been constructed not to contain
@@ -224,8 +214,6 @@ eq_type_set(LIST(TYPE) p, LIST(TYPE) q, int eq)
 
 
 /*
-    ADD AN ELEMENT TO A TYPE SET
-
     This routine adds the type t to the type set p if it is not already
     a member.
 */
@@ -241,8 +229,6 @@ cons_type_set(LIST(TYPE) p, TYPE t)
 
 
 /*
-    FIND THE UNION OF TWO TYPE SETS
-
     This routine adds the elements of the type set q to the type set p.
 */
 
@@ -270,8 +256,6 @@ union_type_set(LIST(TYPE)p, LIST(TYPE)q)
 
 
 /*
-    MAKE A UNIQUE COPY OF A TYPE SET
-
     This routine maintains a list of type sets.  If p equals an element of
     this list then the copy is returned and p is destroyed.  Otherwise p
     is added to the list.
@@ -296,8 +280,6 @@ uniq_type_set(LIST(TYPE)p)
 
 
 /*
-    COMPARE THE EXCEPTION SPECIFIERS OF TWO TYPES
-
     This routine compares the exception specifiers of the similar types
     s and t.  It returns 2 if they are equal, 1 if s is more constrained
     than t, and 0 otherwise.
@@ -389,8 +371,6 @@ eq_except(TYPE s, TYPE t)
 
 
 /*
-    CREATE AN EXCEPTION TYPE
-
     This routine converts the exception type t to its primary form.
     Reference types are replaced by the referenced type and any top level
     type qualifiers are removed.  chk gives the context for the conversion,
@@ -458,8 +438,6 @@ exception_type(TYPE t, int chk)
 
 
 /*
-    CHECK AN EXCEPTION SPECIFIER TYPE
-
     This routine checks the type t, which forms part of an exception
     specification for a function.  The argument n gives the number of types
     defined in t.
@@ -477,8 +455,6 @@ check_except_type(TYPE t, int n)
 
 
 /*
-    STACK OF CURRENTLY ACTIVE TRY BLOCKS
-
     The stack crt_try_block is used to hold all the currently active try
     blocks and exception handlers.  The flag in_func_handler is set to
     1 (or 2 for constructors and destructors) in the handler of a function
@@ -491,8 +467,6 @@ int in_func_handler = 0;
 
 
 /*
-    CHECK A THROWN TYPE
-
     This routine checks the type t thrown from an explicit throw expression
     (if expl is true) or a function call.  The null type is used to
     indicate an unknown type.  The routine returns true if the exception
@@ -556,8 +530,6 @@ check_throw(TYPE t, int expl)
 
 
 /*
-    CHECK THE EXCEPTIONS THROWN IN A TRY BLOCK
-
     This routine checks the exceptions thrown in the try block e.  Any
     which are not caught by the handlers of e are passed to the enclosing
     block or reported if this is the outermost block.  The routine
@@ -618,8 +590,6 @@ check_try_block(EXP e)
 
 
 /*
-    CHECK THE EXCEPTIONS THROWN BY A FUNCTION CALL
-
     This routine checks the possible exceptions thrown by a call to a
     function of type fn.  When known the function name is given by fid.
     The routine returns true if the exception is handled by an enclosing
@@ -659,8 +629,6 @@ check_func_throw(TYPE fn, IDENTIFIER fid)
 
 
 /*
-    START THE EXCEPTION CHECKS FOR A FUNCTION DEFINITION
-
     This routine starts the exception specification checks for a function
     which throws the types p.
 */
@@ -679,8 +647,6 @@ start_try_check(LIST(TYPE) p)
 
 
 /*
-    END THE EXCEPTION CHECKS FOR A FUNCTION DEFINITION
-
     This routine ends the exception specification checks for the function
     id with definition a.
 */
@@ -713,8 +679,6 @@ end_try_check(IDENTIFIER id, EXP a)
 
 
 /*
-    EXCEPTION HANDLING ROUTINES
-
     The exception handling routines are only included in the C++ producer.
 */
 
@@ -722,8 +686,6 @@ end_try_check(IDENTIFIER id, EXP a)
 
 
 /*
-    BEGIN THE CONSTRUCTION OF A TRY STATEMENT
-
     This routine begins the construction of the statement 'try { body }
     handlers'.  It is called immediately after the 'try'.  func is true
     for a function-try-block.
@@ -756,8 +718,6 @@ begin_try_stmt(int func)
 
 
 /*
-    INJECT FUNCTION PARAMETERS INTO A HANDLER
-
     It is not allowed to redeclare a function parameter in the body or
     the handler of a function-try-block.  This routine ensures this by
     injecting the function parameters into the current scope when prev
@@ -790,8 +750,6 @@ inject_try_stmt(EXP prev)
 
 
 /*
-    CONTINUE THE CONSTRUCTION OF A TRY STATEMENT
-
     This routine continues the contruction of the try statement prev by
     filling in the given body statement.
 */
@@ -813,8 +771,6 @@ cont_try_stmt(EXP prev, EXP body)
 
 
 /*
-    COMPLETE THE CONSTRUCTION OF A TRY STATEMENT
-
     This routine completes the contruction of the try statement prev.  It
     checks whether it contains at least one handler and determines the
     reachability of the following statement.
@@ -888,8 +844,6 @@ end_try_stmt(EXP prev, int empty)
 
 
 /*
-    MARK ALL VARIABLES ENCLOSING A TRY BLOCK
-
     This routine marks all the local variables of the function id which
     contain a try block within their scope.
 */
@@ -929,8 +883,6 @@ end_try_blocks(IDENTIFIER id)
 
 
 /*
-    DECLARE AN EXCEPTION HANDLER
-
     This routine declares an exception handler named id with type t and
     declaration specifiers ds (which should always be empty).  n gives
     the number of types defined in t.
@@ -963,8 +915,6 @@ make_except_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int n)
 
 
 /*
-    BEGIN THE CONSTRUCTION OF A CATCH STATEMENT
-
     This routine begins the construction of the handler 'catch ( ex )
     { body }' associated with the try block block.  It is called after the
     declaration of ex.  Note that ex can be the null identifier, indicating
@@ -1022,8 +972,6 @@ begin_catch_stmt(EXP block, IDENTIFIER ex)
 
 
 /*
-    COMPLETE THE CONSTRUCTION OF A CATCH STATEMENT
-
     This routine completes the construction of the catch statement prev by
     filling in the given body statement.
 */
@@ -1056,8 +1004,6 @@ end_catch_stmt(EXP prev, EXP body)
 
 
 /*
-    CONSTRUCT A THROW ARGUMENT FROM A TYPE
-
     The syntax 'throw t' for a type t is exactly equivalent to 'throw t ()'.
     This routine constructs the argument 't ()'.  n gives the number of types
     defined in t.
@@ -1077,8 +1023,6 @@ make_throw_arg(TYPE t, int n)
 
 
 /*
-    CONSTRUCT A THROW EXPRESSION
-
     This routine constructs the expressions 'throw a' and 'throw' (if a is
     the null expression).  Note that a is assigned to a temporary variable
     of its own type.

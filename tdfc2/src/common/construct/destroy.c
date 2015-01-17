@@ -23,8 +23,6 @@
 
 
 /*
-    FREE A LOCAL IDENTIFIER
-
     This routine frees the local identifier id.
 */
 
@@ -84,8 +82,6 @@ free_nspace(NAMESPACE ns)
 
 
 /*
-    FREE AN OFFSET
-
     This routine frees the offset off.  Note that member and base offsets
     are linked directly to the classes they represent and so are not
     destroyed here.
@@ -168,8 +164,6 @@ free_offset(OFFSET off, int force)
 
 
 /*
-    DESTROY A LIST OF EXPRESSIONS
-
     This routine frees the list of expressions p.
 */
 
@@ -186,8 +180,6 @@ free_exp_list(LIST(EXP)p, int force)
 
 
 /*
-    FREE AN EXPRESSION
-
     This routine frees the expression e.  It is possible for the same
     sub-expression to be reused twice in an expression, so freed expressions
     are marked by having their type set to the rule type.  This exploits
@@ -810,8 +802,6 @@ free_exp(EXP e, int force)
 
 
 /*
-    FREE A FUNCTION DEFINITION
-
     This routine frees the definition of the function id, replacing it
     by a dummy definition.
 */

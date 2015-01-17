@@ -49,8 +49,6 @@
 
 
 /*
-    FORM THE ADDRESS OF AN EXPRESSION
-
     This routine forms the address of the expression e.  If e is not an
     lvalue then a temporary is introduced and its address is returned.
 */
@@ -76,8 +74,6 @@ member_address(EXP e)
 
 
 /*
-    BEGIN A FIELD SELECTOR EXPRESSION
-
     This routine begins the construction of the field selector expressions
     'a.b' and 'a->b' (as indicated by op).  The base type of a (after
     removing pointers in the '->' case) is returned via pt.  Note that
@@ -263,8 +259,6 @@ begin_field_exp(int op, EXP a, TYPE *pt, NAMESPACE *pns)
 
 
 /*
-    CREATE A FIELD SELECTOR EXPRESSION
-
     This routine completes the field selector expression constructed by
     begin_field_exp.  The a arguments is the outputs of this routine,
     ns represents the class namespace of the type of a, op indicated which
@@ -452,8 +446,6 @@ apply_field_op(int op, EXP a, NAMESPACE ns, IDENTIFIER fld, int templ)
 
 
 /*
-    COMPLETE A FIELD SELECTOR EXPRESSION
-
     This routine gives the main interface to apply_field_op, allowing for
     the error case and adjusting the name look-up stack.  a is the return
     value from begin_field_exp, while t is the returned base type.  The
@@ -540,8 +532,6 @@ end_field_exp(int op, EXP a, TYPE t, NAMESPACE ns, IDENTIFIER fld, int templ)
 
 
 /*
-    CONSTRUCT A FIELD SELECTOR EXPRESSION
-
     This routine is an alternative interface to the field selector
     expression routines used in the instantiation of template functions.
     It constructs 'a.b' or 'a->b' depending on op, where b is an
@@ -569,8 +559,6 @@ make_field_exp(int op, EXP a, EXP b)
 
 
 /*
-    CONSTRUCT A MEMBER SELECTOR EXPRESSION
-
     This routine constructs the member selector expressions 'a.*b' and
     'a->*b' (as indicated by op).  Note that '->*' can be overloaded but
     '.*' can't.
@@ -771,8 +759,6 @@ error_lab: {
 
 
 /*
-    LOOK UP A MEMBER IN A MEMBER FUNCTION DEFINITION
-
     This routine looks up the member fld.  In a member function definition
     the routine returns 'this->fld' for non-static data members and the
     parameter corresponding to 'this' for non-static function members,
@@ -813,8 +799,6 @@ make_this_field(IDENTIFIER fld)
 
 
 /*
-    DECOMPOSE A BITFIELD OFFSET
-
     This routine decomposes the bitfield member offset off into its member
     component, which is returned, and its base class component, which is
     assigned to off.
@@ -835,8 +819,6 @@ decons_bitf_off(OFFSET *off)
 
 
 /*
-    DECOMPOSE A BITFIELD EXPRESSION
-
     This routine decomposes the lvalue bitfield expression e into its
     bitfield member offset, which is returned, and its class pointer
     component, which is assigned to e.
@@ -920,8 +902,6 @@ decons_bitf_exp(EXP *e)
 
 
 /*
-    SET MEMBER OFFSET LOOK-UP NAMESPACE
-
     This routine sets the look-up namespace to that for the class type t.
     If t is not a class type then the null namespace is returned.
 */
@@ -945,8 +925,6 @@ offset_nspace(TYPE t)
 
 
 /*
-    FIND A MEMBER OFFSET
-
     This routine finds the offset of the member id of the class type t.
     ns gives the namespace associated with t.  The member type is
     returned via pt.  id must denote a simple, non-virtual data member.
@@ -1019,8 +997,6 @@ default_lab: {
 
 
 /*
-    FIND AN INDEX OFFSET
-
     This routine finds the offset of the eth member of the array type t.
     The member type is returned via pt.  e must denote an integer constant
     expression.
@@ -1055,8 +1031,6 @@ offset_index(TYPE t, EXP e, TYPE *pt)
 
 
 /*
-    ADD TWO OFFSETS
-
     This routine adds the two offsets a and b, either of which may be
     null.
 */

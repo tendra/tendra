@@ -43,8 +43,6 @@
 
 
 /*
-    FORWARD DECLARATIONS
-
     The following forward declarations are required in the spec output
     routines.
 */
@@ -57,8 +55,6 @@ static BITSTREAM *save_tok(BITSTREAM *, TOKEN, int);
 
 
 /*
-    SIMPLE WRITING ROUTINES
-
     These macros give the simple writing routines for the enumeration
     types etc.  Note that ENC_BITS_2 is used when the values occupy more
     than 16 bits.
@@ -76,8 +72,6 @@ static BITSTREAM *save_tok(BITSTREAM *, TOKEN, int);
 
 
 /*
-    WRITE A LIST OF PREPROCESSING TOKENS
-
     This routine writes the list of preprocessing tokens p to the
     bitstream bs.
 */
@@ -92,8 +86,6 @@ save_pptoks(BITSTREAM *bs, PPTOKEN *p)
 
 
 /*
-    WRITE A LOCATION
-
     This routine writes the location ploc to the bitstream bs.
 */
 
@@ -162,8 +154,6 @@ save_loc(BITSTREAM *bs, PTR(LOCATION)ploc)
 
 
 /*
-    WRITE AN IDENTIFIER NAME
-
     This routine writes the identifier name nm to the bitstream bs.
     ns gives the current namespace.
 */
@@ -212,8 +202,6 @@ save_hashid(BITSTREAM *bs, HASHID nm, NAMESPACE ns)
 
 
 /*
-    WRITE A LIST OF IDENTIFIER NAMES
-
     This routine saves a list of identifier names to the bitstream bs.
 */
 
@@ -232,8 +220,6 @@ save_hashid_list(BITSTREAM *bs, LIST(HASHID)p, NAMESPACE ns)
 
 
 /*
-    WRITE AN IDENTIFIER NUMBER
-
     This routine writes the identifier number for the identifier id to
     the bitstream bs.  The spec and dump output formats share the same
     identifier numbers, with zero representing the null identifier.
@@ -258,8 +244,6 @@ save_use(BITSTREAM *bs, IDENTIFIER id)
 
 
 /*
-    WRITE A LIST OF IDENTIFIER NUMBERS
-
     This routine saves a list of identifier numbers to the bitstream bs.
 */
 
@@ -278,8 +262,6 @@ save_use_list(BITSTREAM *bs, LIST(IDENTIFIER)p)
 
 
 /*
-    WRITE A LIST OF IDENTIFIERS
-
     This routine saves a list of identifiers to the bitstream bs.
 */
 
@@ -298,8 +280,6 @@ save_id_list(BITSTREAM *bs, LIST(IDENTIFIER)p, NAMESPACE ns)
 
 
 /*
-    WRITE A LIST OF TOKENS
-
     This routine writes the list of tokens p to the bitstream bs.  def
     is as in save_tok.
 */
@@ -319,8 +299,6 @@ save_tok_list(BITSTREAM *bs, LIST(TOKEN)p, int def)
 
 
 /*
-    WRITE AN INTEGER CONSTANT
-
     This routine writes the integer constant n to the bitstream bs.
 */
 
@@ -375,8 +353,6 @@ save_nat(BITSTREAM *bs, NAT n)
 
 
 /*
-    WRITE AN OFFSET
-
     This routine writes the offset off to the bitstream bs.
 */
 
@@ -390,8 +366,6 @@ save_off(BITSTREAM *bs, OFFSET off)
 
 
 /*
-    WRITE AN EXPRESSION
-
     This routine writes the expression e to the bitstream bs.
 */
 
@@ -431,8 +405,6 @@ save_exp(BITSTREAM *bs, EXP e, TYPE t)
 
 
 /*
-    WRITE AN INTEGRAL TYPE
-
     This routine writes the integral type it to the bitstream bs.
 */
 
@@ -496,8 +468,6 @@ save_itype(BITSTREAM *bs, INT_TYPE it)
 
 
 /*
-    WRITE A FLOATING POINT TYPE
-
     This routine writes the floating point type ft to the bitstream bs.
 */
 
@@ -542,8 +512,6 @@ save_ftype(BITSTREAM *bs, FLOAT_TYPE ft)
 
 
 /*
-    WRITE A BASE CLASS GRAPH
-
     This routine writes the base class graph gr to the bitstream bs.
     The graph gt gives the top of the graph which is not output.
 */
@@ -570,8 +538,6 @@ save_graph(BITSTREAM *bs, GRAPH gr, GRAPH gt)
 
 
 /*
-    WRITE A CLASS TYPE
-
     This routine writes the class type ct to the bitstream bs.  If def
     is not null then the full definition is written, otherwise just a use
     is written.
@@ -603,8 +569,6 @@ save_ctype(BITSTREAM *bs, CLASS_TYPE ct, IDENTIFIER def)
 
 
 /*
-    WRITE AN ENUMERATION TYPE
-
     This routine writes the enumeration type et to the bitstream bs.  If
     def is not null then the full definition is written, otherwise just a
     use is written.
@@ -634,8 +598,6 @@ save_etype(BITSTREAM *bs, ENUM_TYPE et, IDENTIFIER def)
 
 
 /*
-    WRITE A TYPE
-
     This routine writes the type t to the bitstream bs.  def is passed to
     save_ctype and save_etype.
 */
@@ -812,8 +774,6 @@ save_type(BITSTREAM *bs, TYPE t, IDENTIFIER def)
 
 
 /*
-    WRITE A LIST OF TYPES
-
     This routine saves a list of types to the bitstream bs.
 */
 
@@ -832,8 +792,6 @@ save_type_list(BITSTREAM *bs, LIST(TYPE)p)
 
 
 /*
-    WRITE A TOKEN
-
     This routine writes the token tok to the bitstream bs.  If def is
     true then the token value is included.
 */
@@ -966,8 +924,6 @@ save_tok(BITSTREAM *bs, TOKEN tok, int def)
 
 
 /*
-    STANDARD BITSTREAM
-
     This bitstream is used to write the spec output file.
 */
 
@@ -977,8 +933,6 @@ int output_spec = 0;
 
 
 /*
-    WRITE AN IDENTIFIER SPEC
-
     This routine writes the spec of the identifier id from the namespace ns
     to the bitstream bs.
 */
@@ -1149,8 +1103,6 @@ save_id(BITSTREAM *bs, IDENTIFIER id, NAMESPACE ns)
 
 
 /*
-    WRITE THE END OF A NAMESPACE
-
     This routine marks the end of the namespace ns by writing the null
     identifier to the bitstream bs.
 */
@@ -1164,8 +1116,6 @@ save_end(BITSTREAM *bs, NAMESPACE ns)
 
 
 /*
-    WRITE A SPEC FILE
-
     This routine begins the writing of a spec file to the second output
     file.
 */
@@ -1204,8 +1154,6 @@ begin_spec(void)
 
 
 /*
-    END A SPEC FILE
-
     This routine completes the output of a spec file.
 */
 

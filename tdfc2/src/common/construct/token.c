@@ -61,8 +61,6 @@
 
 
 /*
-    FIND A TYPE TOKEN KEY
-
     This routine returns the keyword associated with a type token of
     kind bt.
 */
@@ -99,8 +97,6 @@ type_token_key(BASE_TYPE bt)
 
 
 /*
-    CREATE A TYPE TOKEN
-
     This routine creates a type token of kind bt.
 */
 
@@ -114,8 +110,6 @@ make_type_token(BASE_TYPE bt)
 
 
 /*
-    CREATE AN EXPRESSION TOKEN
-
     This routine creates an expression token of type t.
 */
 
@@ -135,8 +129,6 @@ make_exp_token(TYPE t, int lv, int c)
 
 
 /*
-    CREATE A FUNCTION TOKEN
-
     This routine creates a function token of type t.
 */
 
@@ -161,8 +153,6 @@ make_func_token(TYPE t)
 
 
 /*
-    CREATE A MEMBER SELECTOR TOKEN
-
     This routine creates a member selector token for a member of s of
     type t.  acc gives the member access.
 */
@@ -187,8 +177,6 @@ make_member_token(TYPE t, TYPE s, DECL_SPEC acc)
 
 
 /*
-    CHECK A TOKEN PARAMETER OR RESULT SORT
-
     Procedure tokens which take or return other procedure tokens are not
     allowed.  This routine checks the parameter token sort tok.
 */
@@ -210,8 +198,6 @@ check_param_sort(TOKEN tok)
 
 
 /*
-    BEGIN THE DEFINITION OF A PROCEDURE TOKEN
-
     This routine begins the construction of a procedure token.
 */
 
@@ -226,8 +212,6 @@ begin_proc_token(void)
 
 
 /*
-    SET THE PARAMETER NUMBERS FOR A PROCEDURE TOKEN
-
     This routine sets the token numbers for the list of procedure token
     parameters p.
 */
@@ -249,8 +233,6 @@ set_proc_token(LIST(IDENTIFIER) p)
 
 
 /*
-    CONTINUE THE DEFINITION OF A PROCEDURE TOKEN
-
     This routine continues the definition of the procedure token prev
     by adding the lists of bound and program parameters, p and q.
 */
@@ -293,8 +275,6 @@ cont_proc_token(TOKEN prev, LIST(IDENTIFIER) p, LIST(IDENTIFIER) q)
 
 
 /*
-    COMPLETE THE DEFINITION OF A PROCEDURE TOKEN
-
     This routine completes the definition of the procedure token prev by
     filling in the token result sort res.
 */
@@ -312,8 +292,6 @@ end_proc_token(TOKEN prev, TOKEN res)
 
 
 /*
-    CREATE A TOKEN PARAMETER
-
     This routine declares a token bound parameter of sort tok with name
     id, which belongs to the tag namespace if tag is true.
 */
@@ -335,8 +313,6 @@ make_tok_param(TOKEN tok, int tag, IDENTIFIER id)
 
 
 /*
-    FIND A TOKEN MEMBER
-
     This routine looks up a member id of the class type t.  If the member
     is not found or t is not a class type then an error message is printed
     and the null identifier is returned.
@@ -374,8 +350,6 @@ tok_member(IDENTIFIER id, TYPE t, int force)
 
 
 /*
-    CREATE A TOKEN PROGRAM PARAMETER
-
     This routine declares a token program parameter named id.  tt gives
     the associated token sort, while t gives the structure type if this
     denotes a member token or the parameter type if this denotes a type
@@ -444,8 +418,6 @@ prog_tok_param(IDENTIFIER id, TYPE t, unsigned tt, LIST(IDENTIFIER) p)
 
 
 /*
-    FIND AN UNDERLYING PROCEDURE TOKEN
-
     This routine returns the procedure token underlying the function
     token tok, creating this if necessary.
 */
@@ -511,8 +483,6 @@ func_proc_token(TOKEN tok)
 
 
 /*
-    EXPAND A TOKEN VALUE
-
     This routine expands the token value tok. If force is true then a copy
     is always made.
 */
@@ -645,8 +615,6 @@ expand_sort(TOKEN tok, int rec, int force)
 
 
 /*
-    EXPAND A LIST OF TOKEN ARGUMENTS
-
     This routine expands the list of token arguments p passing the parameter
     rec to the individual expansion routines.  The null list is returned to
     indicate that the expansion has no effect.
@@ -677,8 +645,6 @@ expand_args(LIST(TOKEN) p, int rec, int force)
 
 
 /*
-    EXPAND A TEMPLATE SORT
-
     This routine copies the given template sort producing a new sort
     comprising only those parameters which are unbound.  If all the
     parameters are bound then the null sort is returned.
@@ -741,8 +707,6 @@ expand_templ_sort(TOKEN sort, int rec)
 
 
 /*
-    RESTORE A TEMPLATE SORT
-
     This routine is called at the end of the expansion of a template
     type to restore the sort produced by expand_templ_sort.
 */
@@ -756,8 +720,6 @@ reset_templ_sort(TOKEN sort)
 
 
 /*
-    EXPAND AN EXPRESSION TOKEN
-
     This routine expands any token definitions in the expression e.
     rec gives the level of expansion, 0 for just the top level, 1 for a
     complete recursive expansion, and 2 for a recursive expansion of
@@ -854,8 +816,6 @@ expand_exp(EXP e, int rec, int stmt)
 
 
 /*
-    EXPAND AN INTEGER CONSTANT TOKEN
-
     This routine expands any token definitions in the integer constant
     expression n.  rec is as above, ch is as in eval_exp.
 */
@@ -943,8 +903,6 @@ expand_nat(NAT n, int rec, int ch, ERROR *err)
 
 
 /*
-    EXPAND A MEMBER TOKEN
-
     This routine expands any token definitions in the offset off.  rec
     is as above.
 */
@@ -960,8 +918,6 @@ expand_offset(OFFSET off, int rec)
 
 
 /*
-    EXPAND A TEMPLATE TYPE
-
     This routine is a special case of expand_type which deals with
     template types.
 */
@@ -993,8 +949,6 @@ expand_templ_type(TYPE t, int rec)
 
 
 /*
-    EXPAND A LIST OF EXCEPTION TYPES
-
     This routine expands the list of exception types p, setting changed to
     true if any changes.
 */
@@ -1025,8 +979,6 @@ expand_exceptions(LIST(TYPE) p, int rec, int *changed)
 
 
 /*
-    EXPAND A FUNCTION TYPE
-
     This routine is a special case of expand_type which deals with
     function types.  rec will not be zero.
 */
@@ -1152,8 +1104,6 @@ expand_func_type(TYPE t, int rec)
 
 
 /*
-    RESCAN A CLASS NAME
-
     This routine expands the class type ct by rescanning its name in the
     current context.  It returns the null type if the result is not a
     type name.
@@ -1169,8 +1119,6 @@ rescan_class(CLASS_TYPE ct)
 
 
 /*
-    RESCAN AN ENUMERATION NAME
-
     This routine expands the enumeration type et by rescanning its name
     in the current context.  It returns the null type if the result is
     not a type name.
@@ -1186,8 +1134,6 @@ rescan_enum(ENUM_TYPE et)
 
 
 /*
-    EXPAND A CLASS TYPE
-
     This routine expands any token definitions in the class type ct.
     rec is as above.  The null class is returned if the result is not
     a class type with the actual type being assigned to pt.
@@ -1256,8 +1202,6 @@ expand_ctype(CLASS_TYPE ct, int rec, TYPE *pt)
 
 
 /*
-    BITFIELD EXPANSION FLAG
-
     This flag may be set to true to allow for zero sized bitfields in
     expand_type.  The only way this can occur is in the expansion
     of an anonymous member type.
@@ -1267,8 +1211,6 @@ int expand_anon_bitfield = 0;
 
 
 /*
-    EXPAND A TYPE TOKEN
-
     This routine expands any token definitions in the type t.  rec is
     as above.
 */
@@ -1642,8 +1584,6 @@ expand_label: {
 
 
 /*
-    APPLY AN EXPRESSION TOKEN
-
     This routine applies the expression, statement or integer constant
     token id to the arguments args.  If rec is true then the result
     type is expanded.
@@ -1729,8 +1669,6 @@ apply_exp_token(IDENTIFIER id, LIST(TOKEN) args, int rec)
 
 
 /*
-    APPLY AN INTEGER CONSTANT TOKEN
-
     This routine applies the integer constant token id to the arguments args.
 */
 
@@ -1754,8 +1692,6 @@ apply_nat_token(IDENTIFIER id, LIST(TOKEN) args)
 
 
 /*
-    APPLY A BUILT-IN TYPE TOKEN
-
     Certain language extensions are implemented as built-in tokens (see
     define_keyword).  This routine applies such a token, given by the
     keyword lex, to the arguments args.
@@ -1799,8 +1735,6 @@ key_type_token(int lex, LIST(TOKEN) args)
 
 
 /*
-    APPLY A TYPE TOKEN
-
     This routine applies the type token id to the arguments args.  tid
     gives the name, if any, to be given to any class created.
 */
@@ -1888,8 +1822,6 @@ apply_type_token(IDENTIFIER id, LIST(TOKEN) args, IDENTIFIER tid)
 
 
 /*
-    APPLY A MEMBER TOKEN
-
     This routine applies the member token id to the arguments args.
 */
 
@@ -1903,8 +1835,6 @@ apply_mem_token(IDENTIFIER id, LIST(TOKEN) args)
 
 
 /*
-    APPLY A TOKEN
-
     This routine applies the token id to the arguments args.
 */
 
@@ -1962,8 +1892,6 @@ apply_token(IDENTIFIER id, LIST(TOKEN) args)
 
 
 /*
-    COMPARE TWO TOKENS
-
     This routine compares the token sorts a and b.
 */
 
@@ -2110,8 +2038,6 @@ eq_tok(TOKEN a, TOKEN b)
 
 
 /*
-    DECLARE A TOKEN IDENTIFIER
-
     This routine declares a token identifier id with sort tok and external
     name ext in the namespace ns.
 */
@@ -2167,8 +2093,6 @@ declare_token(IDENTIFIER id, TOKEN tok, NAMESPACE ns, IDENTIFIER ext)
 
 
 /*
-    DECLARE AN EXTERNAL TOKEN
-
     This routine declares a token of sort tok with internal name id,
     which belongs to the tag namespace if tag is true, and external name
     ext.  It returns the external token identifier.
@@ -2435,8 +2359,6 @@ make_token_decl(TOKEN tok, int tag, IDENTIFIER id, IDENTIFIER ext)
 
 
 /*
-    FIND A TOKEN IDENTIFIER
-
     This routine finds the token identifier associated with the identifier
     id.
 */
@@ -2504,8 +2426,6 @@ find_token_aux(IDENTIFIER id)
 
 
 /*
-    FIND AN EXTERNAL TOKEN IDENTIFIER
-
     This routine finds the external token corresponding to the identifier id.
     For functions this refers only to the function id itself and not to
     any overloading functions.
@@ -2550,8 +2470,6 @@ find_token(IDENTIFIER id)
 
 
 /*
-    FIND A TAG TOKEN IDENTIFIER
-
     This routine finds the token corresponding to the tag identifier id.
 */
 
@@ -2564,8 +2482,6 @@ find_tag_token(IDENTIFIER id)
 
 
 /*
-    FIND A MEMBER TOKEN IDENTIFIER
-
     This routine finds the token corresponding to the member mid of cid.
 */
 
@@ -2586,8 +2502,6 @@ find_mem_token(IDENTIFIER cid, IDENTIFIER mid)
 
 
 /*
-    FIND AN EXTERNAL TOKEN IDENTIFIER
-
     This routine finds the token with external name given by id.
 */
 
@@ -2604,8 +2518,6 @@ find_ext_token(IDENTIFIER id)
 
 
 /*
-    FIND A FUNCTION TOKEN IDENTIFIER
-
     This routine is identical to find_token except that it does a primitive
     form of overload resolution on function tokens based on the number of
     arguments n.  A value of UINT_MAX indicates that any number of
@@ -2658,8 +2570,6 @@ find_func_token(IDENTIFIER id, unsigned n)
 
 
 /*
-    CURRENT INTERFACE METHOD
-
     This flag is used to record the current interface method.  It gives the
     mapping of any '#pragma interface' to one of '#pragma define', '#pragma
     no_def' or '#pragma ignore'.
@@ -2669,8 +2579,6 @@ int crt_interface = lex_no_Hdef;
 
 
 /*
-    PERFORM A TOKEN INTERFACE OPERATION
-
     This routine performs the token interface operation indicated by i
     (which will be lex_define, lex_no_Hdef, lex_ignore) on the token tid.
 */
@@ -2702,8 +2610,6 @@ mark_interface(IDENTIFIER tid, int i)
 
 
 /*
-    PERFORM A TOKEN INTERFACE OPERATION
-
     This routine looks up the token id and performs the token operation
     i on it.  In addition to the values above i can be lex_undef indicating
     that the token should be undefined.

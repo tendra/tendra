@@ -35,8 +35,6 @@
 
 
 /*
-    COMBINE TWO INHERITED VIRTUAL FUNCTIONS
-
     This routine is called when the same virtual function is inherited
     via both vp and vq.  It combine the two virtual function table entries
     and returns the result.  Note that one or other may be selected using
@@ -77,8 +75,6 @@ inherit_duplicate(VIRTUAL vp, VIRTUAL vq)
 
 
 /*
-    INHERIT A VIRTUAL FUNCTION
-
     This routine inherits the virtual function vq from the direct base
     class gs.  p gives the list of functions already inherited.
 */
@@ -186,8 +182,6 @@ inherit_virtual(VIRTUAL vq, GRAPH gs, LIST(VIRTUAL) p)
 
 
 /*
-    INHERIT A VIRTUAL FUNCTION TABLE
-
     This routine inherits the virtual function table vs to the class
     corresponding to the graph gt.  vt gives any previous virtual function
     tables.
@@ -225,8 +219,6 @@ inherit_table(VIRTUAL vs, VIRTUAL vt, GRAPH gt)
 
 
 /*
-    INHERIT VIRTUAL FUNCTION TABLES
-
     This routine inherits the virtual function tables from the list of
     base classes br.
 */
@@ -247,8 +239,6 @@ inherit_base_tables(LIST(GRAPH) br)
 
 
 /*
-    CREATE A VIRTUAL FUNCTION TABLES
-
     This routine creates the virtual function tables for the class ct.
     If code generation is not enabled then this is just a simple table
     corresponding to ct.  Otherwise it may be necessary to create a
@@ -292,8 +282,6 @@ make_virt_table(CLASS_TYPE ct, CLASS_INFO cj, int bases)
 
 
 /*
-    INITIALISE A VIRTUAL FUNCTION TABLE
-
     This routine initialises the virtual function table for the class
     type ct.
 */
@@ -341,8 +329,6 @@ begin_virtual(CLASS_TYPE ct)
 
 
 /*
-    COMPLETE A VIRTUAL FUNCTION TABLE
-
     This routine is called at the end of a class definition to complete
     the construction of the virtual function table.  It checks for
     inherited pure virtual functions and for final overriding functions.
@@ -423,8 +409,6 @@ end_virtual(CLASS_TYPE ct)
 
 
 /*
-    CHECK VIRTUAL FUNCTION RETURN TYPES
-
     This routine checks whether the return type of the function type s is
     valid for a virtual function which overrides a function of type t.
     If the return types differ by a base class conversion then the
@@ -486,8 +470,6 @@ virtual_return(TYPE s, TYPE t, GRAPH *pgr)
 
 
 /*
-    DOES A FUNCTION OVERRIDE A VIRTUAL FUNCTION?
-
     This routine checks whether a member function nm of type t overrides
     a virtual function in some base class of ct.  It returns a list of
     all such functions.  The function return types are not checked at
@@ -540,8 +522,6 @@ overrides_virtual(CLASS_TYPE ct, HASHID nm, TYPE t, IDENTIFIER *pid)
 
 
 /*
-    FIND AN OVERRIDING VIRTUAL FUNCTION
-
     This routine finds an overriding virtual function for the virtual
     function id inherited from the base class gr of ct.  If the return
     types do not match then the base class conversion is assigned to pgr.
@@ -598,8 +578,6 @@ find_overrider(CLASS_TYPE ct, IDENTIFIER id, GRAPH gr, GRAPH *pgr)
 
 
 /*
-    FIND THE START OF A VIRTUAL FUNCTION TABLE SECTION
-
     This routine finds the offset within the main virtual function table
     for a class of those functions inherited from the base class gr.
 */
@@ -638,8 +616,6 @@ virtual_start(GRAPH gr)
 
 
 /*
-    CREATE AN OVERRIDING VIRTUAL FUNCTION
-
     This routine creates an overriding virtual function id for vq.  gs gives
     the base class graph of the underlying type.
 */
@@ -701,8 +677,6 @@ override_virtual(IDENTIFIER id, VIRTUAL vq, GRAPH gs)
 
 
 /*
-    ADD A VIRTUAL FUNCTION
-
     This routine adds the virtual function id to the virtual function
     table for the class ct.  r is the result of a call to overrides_virtual
     on id.
@@ -759,8 +733,6 @@ add_virtual(CLASS_TYPE ct, IDENTIFIER id, LIST(VIRTUAL) r)
 
 
 /*
-    FIND A PURE VIRTUAL FUNCTION OF A CLASS
-
     This routine returns a pure virtual function of the class ct if such
     exists.  Otherwise the null identifier is returned.
 */

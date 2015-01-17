@@ -43,8 +43,6 @@
 
 
 /*
-    FIND A TYPE TAG
-
     This routine finds the tag of the type t, ignoring any template
     qualifiers.
 */
@@ -65,8 +63,6 @@ type_tag(TYPE t)
 
 
 /*
-    FIND THE CATEGORY OF A TYPE
-
     This routine returns the type category associated with the type pointed
     to by pt.  If this is a reference type then the result is the category
     of the referenced type (which is always an lvalue).  If it is a tokenised
@@ -168,8 +164,6 @@ type_category(TYPE *pt)
 
 
 /*
-    ARE TWO INTEGRAL TYPES EQUAL?
-
     This routine checks whether the integral types s and t are equal.
 */
 
@@ -272,8 +266,6 @@ eq_itype(INT_TYPE s, INT_TYPE t)
 
 
 /*
-    ARE TWO FLOATING POINT TYPES EQUAL?
-
     This routine checks whether the floating point types s and t are equal.
 */
 
@@ -341,8 +333,6 @@ eq_ftype(FLOAT_TYPE s, FLOAT_TYPE t)
 
 
 /*
-    FIND THE CV-QUALIFIER FOR A TYPE
-
     This routine finds the cv-qualifier for the type t.  In most cases this
     is trivial, but for arrays the qualifier is that of the subtype.
 */
@@ -362,8 +352,6 @@ find_cv_qual(TYPE t)
 
 
 /*
-    IS ONE TYPE MORE CV-QUALIFIED THAN ANOTHER?
-
     This routine returns cv_none if the type s is more cv-qualified than the
     type t.  That is to say, if t is const then so is s, and if t is volatile
     then so is s.  Otherwise it returns those cv-qualifiers for which s
@@ -382,8 +370,6 @@ cv_compare(TYPE s, TYPE t)
 
 
 /*
-    ARE TWO FUNCTION LINKAGE SPECIFIERS THE SAME?
-
     This routine compares the function linkage specifiers for the function
     types s and t.
 */
@@ -423,8 +409,6 @@ eq_func_lang(TYPE s, TYPE t)
 
 
 /*
-    ARE TWO FUNCTION TYPES EQUAL?
-
     This routine checks whether the function types s and t are equal.
     Member function qualifiers are only considered if mq is true.
     If rf is true then any parameter of type 'X' is considered to match
@@ -549,8 +533,6 @@ eq_func_type(TYPE s, TYPE t, int mq, int rf)
 
 
 /*
-    CHECK EQUALITY OF NESTED TEMPLATE CLASS
-
     This routine checks whether the instance s of a nested class or
     enumeration type of a template class equals the type tid.
 */
@@ -582,8 +564,6 @@ eq_instance(TYPE s, IDENTIFIER tid)
 
 
 /*
-    CHECK EQUALITY OF CLASS TYPES
-
     This routine checks for equality of the class types cs and ct.
 */
 
@@ -638,8 +618,6 @@ eq_ctype(CLASS_TYPE cs, CLASS_TYPE ct)
 
 
 /*
-    CHECK EQUALITY OF ENUMERATION TYPES
-
     This routine checks for equality of the enumeration types es and et.
 */
 
@@ -676,8 +654,6 @@ eq_etype(ENUM_TYPE es, ENUM_TYPE et)
 
 
 /*
-    CHECK TYPE EQUALITY
-
     This is an auxiliary routine used by eq_type_qual which checks the
     types s and t for equality ignoring qualifiers according to the
     value of qu.  If either s or t is a template type and force_template
@@ -942,8 +918,6 @@ eq_type_aux(TYPE s, TYPE t, int qu)
 
 
 /*
-    UNIFY TWO TYPES
-
     This routine unifies the types s and t by defining tokens if necessary.
     cv gives the type qualifiers which are in t but not in s.  It returns
     true if a value is assigned to a token.
@@ -1054,8 +1028,6 @@ unify_type(TYPE s, TYPE t, CV_SPEC cv, int qual)
 
 
 /*
-    CAN TWO TYPES BE UNIFIED?
-
     This routine checks whether the type s can be unified with t or vice
     versa using token definitions.
 */
@@ -1094,8 +1066,6 @@ unify_types(TYPE s, TYPE t, int qu)
 
 
 /*
-    ARE TWO TYPES EQUAL?
-
     This routine checks whether the types s and t are equal (excluding
     lvalue qualifiers).  If qu is 1 then the top level qualifiers
     are completely ignored, if it is 2 all qualifiers are ignored.
@@ -1119,8 +1089,6 @@ eq_type_qual(TYPE s, TYPE t, int qu)
 
 
 /*
-    IS THE OFFSET OF TWO TYPES EQUAL?
-
     This routine checks whether the types s and t are offset equivalent.
     For example, 'int' is offset equivalent to 'unsigned int' because it
     has the same size and alignment requirements.  Note that the value 6
@@ -1156,8 +1124,6 @@ eq_type_offset(TYPE s, TYPE t)
 
 
 /*
-    FIND THE COMPOSITE OF TWO FUNCTION TYPES
-
     This routine finds the composite type (in the C sense) of the function
     types s and t.  eq gives the result of a previous call to eq_func_type.
     If the types are compatible then a new composite function type, based
@@ -1399,8 +1365,6 @@ func_composite(TYPE s, TYPE t, int eq, ERROR *err, int mk)
 
 
 /*
-    FIND THE COMPOSITE OF TWO TYPES
-
     This routine finds the composite type (in the C sense) of s and t.
     In C++ we only need to worry about compatible bound and unbound array
     types, since all functions will be declared with prototypes.  The
@@ -1721,8 +1685,6 @@ return_lab:
 
 
 /*
-    ARE TWO TYPES COMPATIBLE?
-
     This routine checks whether the types s and t are compatible, returning
     the composite type if they are (or either s or t if mk is false).  If
     the types are not compatible s is returned and an error is added to the
@@ -1745,8 +1707,6 @@ check_compatible(TYPE s, TYPE t, int qual, ERROR *err, int mk)
 
 
 /*
-    IS A TYPE AN OBJECT TYPE?
-
     C++ types are partitioned into object types, reference types and
     function types.  Object types are further partitioned into complete
     and incomplete types.  This routine checks whether the type t is
@@ -1780,8 +1740,6 @@ check_object(TYPE t)
 
 
 /*
-    IS A TYPE AN ABSTRACT CLASS?
-
     This routine checks whether the type t is an abstract class type.
     It returns an error if it is.  It also checks for arrays of abstract
     types, although it shouldn't be possible to construct these.
@@ -1819,8 +1777,6 @@ check_abstract(TYPE t)
 
 
 /*
-    IS A TYPE INCOMPLETE?
-
     This routine checks whether the type t is an incomplete object type.
     It returns an error if it is.
 */
@@ -1881,8 +1837,6 @@ check_incomplete(TYPE t)
 
 
 /*
-    IS A TYPE A COMPLETE OBJECT TYPE?
-
     This routine checks whether the type t is a complete object type.  It
     returns an error if it isn't.
 */
@@ -1902,8 +1856,6 @@ check_complete(TYPE t)
 
 
 /*
-    IS A TYPE A POINTER TO A COMPLETE OBJECT TYPE?
-
     This routine checks whether the type t is a pointer to a complete
     object type, adding an error to err.  It returns the type pointed to.
 */
@@ -1955,8 +1907,6 @@ check_pointer(TYPE t, ERROR *err)
 
 
 /*
-    IS A TYPE MODIFIABLE?
-
     This routine checks whether the expression a of type t represents a
     modifiable lvalue.  If it is then the null error is returned, otherwise
     a sequence of errors giving the reasons why t is not modifiable is
@@ -2020,8 +1970,6 @@ check_modifiable(TYPE t, EXP a)
 
 
 /*
-    DOES A TYPE HAVE LINKAGE?
-
     This routine returns true if the type t has external linkage and is
     not an anonymous type.  Not all the cases are fully checked yet.
 */

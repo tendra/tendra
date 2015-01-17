@@ -21,8 +21,6 @@
 
 
 /*
-    LIST OF DIRECTORIES
-
     This is the list of all directories to be searched for included files.
 */
 
@@ -30,8 +28,6 @@ static directory *search_path = NULL;
 
 
 /*
-    INPUT FILE
-
     The current input file, together with its name.
 */
 
@@ -40,8 +36,6 @@ char *input_file = NULL;
 
 
 /*
-    OUTPUT FILE
-
     The current output file.
 */
 
@@ -49,8 +43,6 @@ FILE *output /* = stdout */ ;
 
 
 /*
-    OPEN INPUT FILE
-
     This routine opens the file nm.  If search is true it will search
     for it along search_path.
 */
@@ -84,8 +76,6 @@ open_input(char *nm, int search)
 
 
 /*
-    ADD A DIRECTORY TO THE SEARCH PATH
-
     The directory nm is added to search_path.
 */
 
@@ -110,8 +100,6 @@ add_directory(char *nm)
 
 
 /*
-    OPEN OUTPUT FILE
-
     The output file nm is opened.
 */
 

@@ -29,8 +29,6 @@
 
 
 /*
-    PORTABILITY TABLE ENTRIES
-
     This table describes the portability table entries.  The entries need
     to be keep in one-to-one correspondence with the PORT_* macros defined
     in table.h.
@@ -54,8 +52,6 @@ PORT_ENTRY port_entry[] = {
 
 
 /*
-    PARSE A PORTABILITY TABLE
-
     This routine parses and processes the portability table.  It returns
     the last token read.
 */
@@ -206,8 +202,6 @@ parse_table(void)
 
 
 /*
-    READ THE PORTABILITY TABLE
-
     This routine reads and processes the portability table given by nm.
 */
 

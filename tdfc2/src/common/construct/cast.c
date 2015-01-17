@@ -67,8 +67,6 @@ make_lit_exp(EXP a)
 
 
 /*
-    CREATE AN EXACT CAST EXPRESSION
-
     This routine introduces a dummy cast expression which converts the
     expression a to its own type t.  This is needed in a couple of places
     where it is necessary to recognise cast expressions.
@@ -91,8 +89,6 @@ cast_exact(TYPE t, EXP a)
 
 
 /*
-    FIND THE RANK OF AN INTEGER-INTEGER CONVERSION
-
     This routine finds the rank of a conversion to the integral type t
     from the integral type s.  For basic types this is given by the
     table builtin_casts.
@@ -143,8 +139,6 @@ rank_int_int(TYPE t, TYPE s)
 
 
 /*
-    FIND THE RANK OF A FLOATING-FLOATING CONVERSION
-
     This routine finds the rank of a conversion to the floating-point
     type t from the floating-point type s.
 */
@@ -176,8 +170,6 @@ rank_float_float(TYPE t, TYPE s)
 
 
 /*
-    PERFORM AN INTEGER-INTEGER CONVERSION
-
     This, and the following routines, are used to perform the basic type
     conversions allowed within the language.  Each takes a destination
     type t and an argument expression a.  In this case both t and the type
@@ -352,8 +344,6 @@ cast_int_int(TYPE t, EXP a, ERROR *err, unsigned cast, int rank)
 
 
 /*
-    PERFORM A INTEGER-FLOAT CONVERSION
-
     This routine converts the integral expression a to the floating point
     type t.
 */
@@ -391,8 +381,6 @@ cast_int_float(TYPE t, EXP a, ERROR *err, unsigned cast)
 
 
 /*
-    PERFORM A FLOAT-INTEGER CONVERSION
-
     This routine converts the floating point expression a to the integral
     type t (which will not be bool).  Note that a floating point literal
     cast to an integral type is an integral constant expression.
@@ -451,8 +439,6 @@ cast_float_int(TYPE t, EXP a, ERROR *err, unsigned cast)
 
 
 /*
-    PERFORM A FLOAT-FLOAT CONVERSION
-
     This routine converts the floating point expression a to the floating
     point type t.
 */
@@ -514,8 +500,6 @@ cast_float_float(TYPE t, EXP a, ERROR *err, unsigned cast)
 
 
 /*
-    CONSTRUCT AN UNRESOLVED CAST EXPRESSION
-
     This routine creates an expression for casting the expression a to
     type t using cast where either t or the type of a depends on a
     template parameter type.
@@ -550,8 +534,6 @@ cast_templ_type(TYPE t, EXP a, unsigned cast)
 
 
 /*
-    REPORT CASTING AWAY CONST-NESS
-
     This routine adds an error to the end of err if the value qual returned
     by check_qualifier indicates that a particular conversion casts away
     const-ness (or volatile-ness).
@@ -581,8 +563,6 @@ cast_away_const(unsigned qual, ERROR *err, unsigned cast)
 
 
 /*
-    CREATE A BASE CAST EXPRESSION
-
     This routine creates a base cast expression for converting the
     expression a to type t using the offset off.  If off is a zero offset
     (indicating single inheritance) or the type of a can be statically
@@ -610,8 +590,6 @@ make_base_cast(TYPE t, EXP a, OFFSET off)
 
 
 /*
-    PERFORM A POINTER-POINTER CONVERSION
-
     This routine converts the pointer expression a to the pointer type t.
     Pointers can be partitioned into pointer to object, pointer to function
     and void * for the purposes of pointer casts.  Note that even identity
@@ -981,8 +959,6 @@ object_lab: {
 
 
 /*
-    PERFORM A INTEGER-POINTER CONVERSION
-
     This routine converts the integral expression a to the pointer type t.
     There are two cases, depending on whether a represents a null pointer.
 */
@@ -1021,8 +997,6 @@ cast_int_ptr(TYPE t, EXP a, ERROR *err, unsigned cast, int nptr)
 
 
 /*
-    PERFORM A POINTER-INTEGER CONVERSION
-
     This routine converts the pointer expression a to the integral type t
     (which will not be bool).
 */
@@ -1059,8 +1033,6 @@ cast_ptr_int(TYPE t, EXP a, ERROR *err, unsigned cast)
 
 
 /*
-    PERFORM A POINTER MEMBER-POINTER MEMBER CONVERSION
-
     This routine converts the pointer to member expression a to the pointer
     to member type t.  force is as in cast_ptr_ptr.
 */
@@ -1252,8 +1224,6 @@ cast_ptr_mem_ptr_mem(TYPE t, EXP a, ERROR *err, unsigned cast, int safe,
 
 
 /*
-    PERFORM A INTEGER-POINTER MEMBER CONVERSION
-
     This routine converts the integral expression a to the pointer to
     member type t.  The only valid case is when a is zero.
 */
@@ -1285,8 +1255,6 @@ cast_int_ptr_mem(TYPE t, EXP a, ERROR *err, unsigned cast, int nptr)
 
 
 /*
-    PERFORM A POINTER MEMBER-INTEGER CONVERSION
-
     This routine converts the pointer to member expression a to the
     integral type t.  The only valid case is when a is a null pointer.
     In all other cases the null expression is returned.
@@ -1308,8 +1276,6 @@ cast_ptr_mem_int(TYPE t, EXP a, ERROR *err, unsigned cast)
 
 
 /*
-    PERFORM A POINTER MEMBER-POINTER CONVERSION
-
     This routine converts the pointer to member expression a to the
     pointer type t.  The only potentially valid case is casting a pointer
     to member function to a pointer to function.  In all other cases the
@@ -1341,8 +1307,6 @@ cast_ptr_mem_ptr(TYPE t, EXP a, ERROR *err, unsigned cast)
 
 
 /*
-    PERFORM A CLASS-CLASS CONVERSION
-
     This routine performs any base class conversion of the class object
     a to the class t.  ref is true if this is a reference binding.  The
     null expression is returned if no such conversion is possible.
@@ -1405,8 +1369,6 @@ cast_class_class(TYPE t, EXP a, ERROR *err, unsigned cast, int ref)
 
 
 /*
-    CONSTRUCT A CAST EXPRESSION
-
     This routine constructs a cast expression for converting the expression
     a to the type t.  Any errors are added to the end of the position given
     by err.
@@ -1743,8 +1705,6 @@ integer_label:
 
 
 /*
-    CONSTRUCT A SIMPLE CAST EXPRESSION
-
     This routine constructs the simple cast expression '( t ) a'.  n gives
     the number of types defined in t.
 */
@@ -1770,8 +1730,6 @@ make_cast_exp(TYPE t, EXP a, int n)
 
 
 /*
-    CONSTRUCT A STATIC CAST EXPRESSION
-
     This routine constructs the static cast expression 'static_cast < t >
     ( a )'.  n gives the number of types defined in t.
 */
@@ -1795,8 +1753,6 @@ make_static_cast_exp(TYPE t, EXP a, int n)
 
 
 /*
-    CONSTRUCT A REINTERPRET CAST EXPRESSION
-
     This routine constructs the reinterpret cast expression 'reinterpret_cast
     < t > ( a )'.  n gives the number of types defined in t.
 */
@@ -1820,8 +1776,6 @@ make_reinterp_cast_exp(TYPE t, EXP a, int n)
 
 
 /*
-    CONSTRUCT A CONST CAST EXPRESSION
-
     This routine constructs the const cast expression 'const_cast < t >
     ( a )'.  n gives the number of types defined in t.
 */
@@ -1845,8 +1799,6 @@ make_const_cast_exp(TYPE t, EXP a, int n)
 
 
 /*
-    CONSTRUCT A NEW-STYLE CAST EXPRESSION
-
     This routine constructs the new-style cast expression 'op < t > ( a )'.
     n gives the number of types defined in t.
 */
@@ -1886,8 +1838,6 @@ make_new_cast_exp(int op, TYPE t, EXP a, int n)
 
 
 /*
-    CONSTRUCT A FUNCTION-STYLE CAST EXPRESSION
-
     This routine constructs the function-style cast expression 't ( args )'.
     If args is a single argument, a, then this is identical to '( t ) a'.
     The expression 't ()' can be formed for any type, otherwise t must be
@@ -1973,8 +1923,6 @@ make_func_cast_exp(TYPE t, LIST(EXP)args)
 
 
 /*
-    LIST OF ALL CONVERSION TOKENS
-
     Whenever a type conversion would raise an error this list of tokens
     is consulted to see if one of them could perform the conversion.
 */
@@ -1983,8 +1931,6 @@ static LIST(IDENTIFIER) conv_tokens = NULL_list(IDENTIFIER);
 
 
 /*
-    ALLOW A TOKEN AS A CONVERSION
-
     This routine enables the token id as a conversion token.
 */
 
@@ -2000,8 +1946,6 @@ allow_conversion(IDENTIFIER id)
 
 
 /*
-    CHECK FOR TOKENISED CONVERSIONS
-
     This routine checks whether the expression a can be converted to the
     type t using a conversion token.  If so it returns the appropriate
     token application.  Otherwise it returns the null expression.

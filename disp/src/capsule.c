@@ -36,8 +36,6 @@ int show_stuff = 0;
 
 
 /*
-    SKIP PASS FOR TOKEN DEFINITIONS FLAG
-
     Tokens may be defined recursively without the necessary previous
     declarations to make this simple.  Thus the token definitions are
     given a preliminary pass to extract the declaration information.

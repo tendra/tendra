@@ -47,8 +47,6 @@
 
 
 /*
-    STANDARD CLASS NAMES
-
     These variables are used to hold the names of the various built-in
     class types.  They are defined here as the majority are concerned
     with run-time type information.
@@ -59,8 +57,6 @@ static NAMESPACE std_namespace = NULL_nspace;
 
 
 /*
-    FIND THE STANDARD NAMESPACE
-
     This routine returns the std namespace if this has been declared.
 */
 
@@ -90,8 +86,6 @@ find_std_namespace(void)
 
 
 /*
-    SET THE STANDARD NAMESPACE
-
     This routine sets the std namespace according to the identifier id.
     The null identifier is used to indicate the global namespace.
 */
@@ -114,8 +108,6 @@ set_std_namespace(IDENTIFIER id)
 
 
 /*
-    LOOK UP A STANDARD CLASS TYPE
-
     This routine looks up the standard class named s in the std namespace.
     The null type is returned if the type has not been declared and, in
     addition, an error is reported if err is true.
@@ -144,8 +136,6 @@ find_std_type(const char *s, int type, int err)
 
 
 /*
-    RUN-TIME TYPE INFORMATION ROUTINES
-
     The run-time type information routines are only included in the
     C++ producer.
 */
@@ -154,8 +144,6 @@ find_std_type(const char *s, int type, int err)
 
 
 /*
-    STANDARD CLASS TYPES
-
     The variable type_info_ref represents the type 'const type_info &'
     returned by the typeid operation.  The variables type_bad_cast and
     type_bad_typeid represent the types 'bad_cast' and 'bad_typeid'
@@ -168,8 +156,6 @@ static TYPE type_bad_typeid = NULL_type;
 
 
 /*
-    GET THE TYPE_INFO TYPE
-
     This routine returns the type of the typeid operator.  An internal
     error is reported if this has not been initialised.
 */
@@ -223,8 +209,6 @@ get_type_info(int op, TYPE t, int err)
 
 
 /*
-    THROW A STANDARD EXCEPTION
-
     This routine returns an expression corresponding to throwing the
     'bad_cast' or 'bad_typeid' types (as indicated by s and pr).  An
     error is reported if this type has not been declared.
@@ -249,8 +233,6 @@ throw_bad_op(const char *s, TYPE *pr)
 
 
 /*
-    FIND A TYPEID ARGUMENT
-
     This routine simplifies the typeid argument expression a according to
     the rule 'p [i]' -> '*p'.  Unfortunately '*( p + i )' which is otherwise
     identical to 'p [i]' is not treated in the same manner.  The result
@@ -284,8 +266,6 @@ typeid_arg(int op, EXP a)
 
 
 /*
-    CONSTRUCT A TYPEID EXPRESSION
-
     This routine constructs the type identification expression 'op ( a )'
     for an expression a.  n gives the number of side effects in a.  Note
     that suppress_usage is true during the evaluation of a and in this
@@ -346,8 +326,6 @@ make_typeid_exp(int op, EXP a, int n)
 
 
 /*
-    CONSTRUCT A TYPEID TYPE EXPRESSION
-
     This routine constructs the type identification expression 'op ( t )'
     for a type t.  The argument n gives the number of types defined in t.
 */
@@ -380,8 +358,6 @@ make_typeid_type(int op, TYPE t, int n)
 
 
 /*
-    CONSTRUCT A TEMPLATE DEPENDENT DYNAMIC CAST EXPRESSION
-
     This routine constructs a template dependent dynamic cast of the
     expression a to the type t.
 */
@@ -396,8 +372,6 @@ dynamic_cast_templ(TYPE t, EXP a)
 
 
 /*
-    CONSTRUCT A DYNAMIC CAST EXPRESSION
-
     This routine constructs the expression 'dynamic_cast < t > ( a )'.
     The argument n gives the number of types defined in t.
 */

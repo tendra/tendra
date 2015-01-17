@@ -37,8 +37,6 @@
 
 
 /*
-    LIST OF FREE LEXICAL TOKENS
-
     All the free lexical tokens are formed into a list.
 */
 
@@ -47,8 +45,6 @@ static LIST(PPTOKEN_P)alloc_tokens = NULL_list(PPTOKEN_P);
 
 
 /*
-    ALLOCATE A NEW TOKEN
-
     This routine allocates a new token from the list free_tokens.
 */
 
@@ -75,8 +71,6 @@ new_pptok(void)
 
 
 /*
-    FREE A SINGLE TOKEN
-
     This macro frees the single token P by adding it to the list of all
     free tokens.
 */
@@ -89,8 +83,6 @@ new_pptok(void)
 
 
 /*
-    FREE A LIST OF TOKENS
-
     This routine adds the list of tokens p to the list of all free tokens.
 */
 
@@ -111,8 +103,6 @@ free_tok_list(PPTOKEN *p)
 
 
 /*
-    FREE ALL ALLOCATED PREPROCESSING TOKENS
-
     This routine frees all the space allocated for preprocessing tokens.
     It should only be called after the input has been completely processed.
 */
@@ -133,8 +123,6 @@ term_macros(void)
 
 
 /*
-    COPY A TOKEN
-
     This macro copies the contents of the token with token value T and data
     Q into P.
 */
@@ -149,8 +137,6 @@ term_macros(void)
 
 
 /*
-    ASSIGN TOKEN COMPONENTS
-
     This routine assigns the token components for the token t, which has
     just been read from the input file (or faked on occasions - these are
     indicated) into p.  It is only necessary to call this routine is T is
@@ -215,8 +201,6 @@ token_parts(int t, PPTOKEN *p)
 
 
 /*
-    REMOVE ANY IGNORED TOKENS FROM A LIST
-
     This routine removes any ignored tokens from the list tok, returning
     the result.
 */
@@ -250,8 +234,6 @@ clean_tok_list(PPTOKEN *toks)
 
 
 /*
-    READ A LINE OF TOKENS
-
     This routine reads the sequence of preprocessing tokens comprising a
     preprocessing directive (for example, a macro definition).  If t1 is
     not lex_ignore_token then it is taken to be the first token in the
@@ -302,8 +284,6 @@ read_line(int t1, int tn)
 
 
 /*
-    COPY A LIST OF TOKENS
-
     This routine copies the list of tokens toks, excluding any ignored
     tokens.
 */
@@ -327,8 +307,6 @@ copy_tok_list(PPTOKEN *toks)
 
 
 /*
-    STRINGISE A LIST OF TOKENS
-
     This routine turns the list of tokens toks into a string.  The result
     is built up in token_buff.  If esc is true then any '"' (or whatever
     the value of quote is) and '\' characters in string and character
@@ -483,8 +461,6 @@ string_label:
 
 
 /*
-    CONCATENATE TWO TOKENS
-
     This routine concatenates the two tokens p and q into a single token.
     This is used to implement the ## operator.  If the result is a valid
     preprocessing token then p is overwritten by the result and 1 is
@@ -635,8 +611,6 @@ concat_pptoks(PPTOKEN *p, PPTOKEN *q)
 
 
 /*
-    DUMMY LOCATION FOR INPUT FILE
-
     This dummy location represents tokens read directly from the input file.
     If present, it will always be the last element of a list of token
     locations.
@@ -648,8 +622,6 @@ TOKEN_LOC *file_loc = &dummy_loc;
 
 
 /*
-    FORWARD DECLARATION
-
     The functions expand_macro, expand_toks and expand_tok_list are defined
     recursively.  This gives the necessary forward declarations.
 */
@@ -658,8 +630,6 @@ static PPTOKEN *expand_toks(PPTOKEN *, TOKEN_LOC *, int);
 
 
 /*
-    HANDLE OLD STYLE STRINGISING
-
     This routine handles the old style stringising for the definition defn
     for the given macro.  Argument replacement has already been performed
     on defn.  If this facility is enabled then in macro definitions of the
@@ -777,8 +747,6 @@ recognise_strings(PPTOKEN *defn, HASHID macro, int act)
 
 
 /*
-    HANDLE TOKEN CONCATENATION
-
     This routine handles any ## operators in the definition defn of the
     given macro.  Note that any initial or terminal ## operators have
     already been reported.
@@ -829,8 +797,6 @@ process_concat(PPTOKEN *defn, HASHID macro)
 
 
 /*
-    MAXIMUM NUMBER OF MACRO PARAMETERS
-
     This macro defines the maximum number of macro parameters which
     expand_macro can handle without having to allocate temporary space
     to hold them.  With allocation the number of parameters is unlimited.
@@ -840,8 +806,6 @@ process_concat(PPTOKEN *defn, HASHID macro)
 
 
 /*
-    EXPAND A MACRO DEFINITION
-
     This routine expands the macro given by the hash table entry macro.
     The argument locs gives a list of locations where macro arguments can
     be read from.  locs will never be NULL.  The argument complete is true
@@ -1297,8 +1261,6 @@ incomplete_macro:
 
 
 /*
-    EXPAND A LIST OF TOKENS
-
     This is the main macro expansion routine.  It expands the list of macros
     tok, returning the result.  If toks ends in an unterminated function-like
     macro then further tokens may be read from the locations given in locs.
@@ -1374,8 +1336,6 @@ expand_toks(PPTOKEN *toks, TOKEN_LOC *locs, int complete)
 
 
 /*
-    EXPAND A SIMPLE LIST OF TOKENS
-
     This routine is the simplest form of expand_toks, where toks is a
     complete list, with no locations for reading further tokens.
 */
@@ -1388,8 +1348,6 @@ expand_tok_list(PPTOKEN *toks)
 
 
 /*
-    ASSERTION NAMESPACE
-
     The assertions occupy a namespace distinct from all other namespaces,
     including the macro namespace.
 */
@@ -1398,8 +1356,6 @@ NAMESPACE assert_namespace;
 
 
 /*
-    CREATE A BUILT-IN MACRO
-
     This routine creates a built-in macro named nm defined by a single
     preprocessing token with token type t and associated data d.
 */
@@ -1450,8 +1406,6 @@ builtin_macro(const char *nm, int t, const char *d)
 
 
 /*
-    INITIALISE BUILT-IN MACROS
-
     This routine initialises the built-in macros, and sets up the assertion
     namespace.
 */

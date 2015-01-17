@@ -38,8 +38,6 @@
 
 
 /*
-    MARKERS FOR AND, OR AND XOR
-
     The logical operations, and, or and xor are handled by a single
     routine with a flag to indicate which is meant.  The flag can take
     the following values.
@@ -51,8 +49,6 @@
 
 
 /*
-    AND/OR/XOR BY A CONSTANT
-
     The value a of shape sha and size sz has the logical operator indicated
     by logop applied to it and the constant c.  The result is stored in
     dest.  instr is one of m_andl, m_orl, eorl.
@@ -158,8 +154,6 @@ andetc_const(int instr, shape sha, long sz, long c, where a, where dest,
 
 
 /*
-    AUXILLARY ROUTINE FOR AND/OR/XOR
-
     The values a1 and a2 of shape sha have the logical operation indicated
     by logop applied to them and the result is stored in dest.  (opb,
     opw, opl) is an ordered triple giving the byte, word and long forms of
@@ -299,8 +293,6 @@ andetc(int opb, int opw, int opl, shape sha, where a1, where a2, where dest,
 
 
 /*
-    AND INSTRUCTION
-
     The values a1 and a2 of shape sha are anded and the result is stored
     in dested.
 */
@@ -314,8 +306,6 @@ and(shape sha, where a1, where a2, where dest)
 
 
 /*
-    OR INSTRUCTION
-
     The values a1 and a2 of shape sha are ored and the result is stored
     in dested.
 */
@@ -329,8 +319,6 @@ or(shape sha, where a1, where a2, where dest)
 
 
 /*
-    XOR INSTRUCTION
-
     The values a1 and a2 of shape sha are xored and the result is stored
     in dested.
 */
@@ -344,8 +332,6 @@ xor(shape sha, where a1, where a2, where dest)
 
 
 /*
-    LOGICAL NEGATION INSTRUCTION
-
     The value a of shape sha is logically negated and the result is stored
     in dest.
 */
@@ -391,8 +377,6 @@ not(shape sha, where a, where dest)
 
 
 /*
-    LOW LEVEL SHIFT
-
     This routine outputs a simple shift instruction, taking overflow
     into account if necessary (not right yet).
 */
@@ -409,8 +393,6 @@ shift_it(shape sha, shape shb, int instr, where by, where to)
 
 
 /*
-    AUXILIARY SHIFT ROUTINE
-
     The value from of shape sha is shifted, either left if sw is 0, or
     right otherwise, by the value by.  The result is stored in to.
     The dont_use_D1 flag indicates that register D1 should not be used.
@@ -522,8 +504,6 @@ shift_aux(shape sha, where by, where from, where to, int sw, int dont_use_D1)
 
 
 /*
-    MAIN LEFT SHIFT ROUTINE
-
     The value from of shape sha is shifted left by the value by.  The
     result is stored in to.
 */
@@ -537,8 +517,6 @@ shift(shape sha, where by, where from, where to)
 
 
 /*
-    MAIN RIGHT SHIFT ROUTINE
-
     The value from of shape sha is shifted right by the value by.  The
     result is stored in to.
 */
@@ -552,8 +530,6 @@ rshift(shape sha, where by, where from, where to)
 
 
 /*
-    ADJUST AN EXPRESSION READY FOR A BITFIELD OPERATION
-
     The value in the no field of e is rounded down to a multiple of 32.
     The remainder is the bitfield offset and is returned.
 */
@@ -590,8 +566,6 @@ bitf_posn(exp e)
 
 
 /*
-    EXTRACT A BITFIELD
-
     The bitfield e of shape sha is extracted into dest.  The current state
     of the stack is also given.
 */
@@ -688,8 +662,6 @@ bitf_to_int(exp e, shape sha, where dest, ash stack)
 
 
 /*
-    INSERT A BITFIELD
-
     The value e is inserted into the bitfield d.  The state of the stack
     is also given.
 */
@@ -791,8 +763,6 @@ int_to_bitf(exp e, exp d, ash stack)
 
 
 /*
-    TEST A NUMBER OF BITS
-
     The value a1 of shape sha is tested to see if the bits indicated by
     the value a2 are set.  If a2 is a constant power of 2 then a bit
     test operation is used.  Otherwise a1 is anded with a2 and the

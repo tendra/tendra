@@ -42,8 +42,6 @@
 
 
 /*
-    TABLE OF SPECIAL TOKENS
-
     This table gives the name, the parameter and result sorts, and external
     (capsule) number for the various special tokens used in the output.
     Each special token may have an associated externally declared token
@@ -237,8 +235,6 @@ static struct {
 
 
 /*
-    TABLE OF BASIC TYPE TOKENS
-
     This table gives the mapping from built-in type numbers to external
     token names.
 */
@@ -270,8 +266,6 @@ BASE_TOKEN base_token[ORDER_ntype] = {
 
 
 /*
-    INITIALISE SPECIAL TOKENS
-
     This routine initialises the special tokens.  This consists of
     marking certain tokens which are used but not defined in C as being
     built-in.
@@ -301,8 +295,6 @@ init_tok(int c)
 
 
 /*
-    SET A SPECIAL TOKEN
-
     This routine sets the special token t to be id.
 */
 
@@ -328,8 +320,6 @@ set_special(int t, IDENTIFIER id)
 
 
 /*
-    GET A SPECIAL TOKEN
-
     This routine returns the token identifier associated with special
     token t.  If force is true then this involves looking up the name
     in the token namespace.  The null identifier is returned if there
@@ -358,8 +348,6 @@ get_special(int t, int force)
 
 
 /*
-    GET A SPECIAL TOKEN NAME
-
     This routine returns the name of the special token t.
 */
 
@@ -371,8 +359,6 @@ special_name(int t)
 
 
 /*
-    FIND A TOKEN CODE LETTER
-
     This routine returns the token code letter corresponding to the token
     tok.
 */
@@ -412,8 +398,6 @@ token_code(TOKEN tok)
 
 
 /*
-    CREATE A TOKEN SORT
-
     This routine creates a token sort corresponding (more or less) to the
     string s.  If proc is true then the result is a procedure token.
 */
@@ -468,8 +452,6 @@ make_sort(const char *s, int proc)
 
 
 /*
-    CHECK A TOKEN SORT
-
     This routine checks whether the sort of the token tok (either the
     program sort or the bound sort, depending on the value of prog)
     corresponds to the string s.
@@ -537,8 +519,6 @@ check_sort(TOKEN tok, const char *s, int prog)
 
 
 /*
-    FIND A TOKEN WITH A GIVEN SORT
-
     This routine checks whether id is a token with the given sort, giving
     an error if id is not a token or has the wrong sort.
 */
@@ -579,8 +559,6 @@ resolve_token(IDENTIFIER id, const char *s, int prog)
 
 
 /*
-    CHECK WHETHER A TOKEN IS A BUILT-IN TOKEN
-
     This routine checks whether the token id is one of the built-in tokens
     listed above.  If so this definition is output, provided TDF output is
     enabled, and the routine returns the corresponding special token number.
@@ -650,8 +628,6 @@ builtin_token(IDENTIFIER id)
 
 
 /*
-    TDF ENCODING ROUTINES
-
     The remaining routines in this module are only included if TDF output
     is enabled.
 */
@@ -660,8 +636,6 @@ builtin_token(IDENTIFIER id)
 
 
 /*
-    ENCODE A FOREIGN SORT
-
     This routine adds the foreign sort named s to the bitstream bs.
 */
 
@@ -676,8 +650,6 @@ enc_foreign_sort(BITSTREAM *bs, const char *s)
 
 
 /*
-    ENCODE A SORT LETTER
-
     This routine adds the TDF SORTNAME corresponding to the code letter s
     to the bitstream bs.
 */
@@ -742,8 +714,6 @@ enc_sort(BITSTREAM *bs, int s)
 
 
 /*
-    ENCODE A TOKEN APPLICATION CONSTRUCT
-
     This routine adds a token application construct for the sort with
     code letter s to the bitstream bs.
 */
@@ -805,8 +775,6 @@ enc_apply_token(BITSTREAM *bs, int s)
 
 
 /*
-    FIND A SPECIAL TOKEN NUMBER
-
     This routine returns the external (capsule) token number of the
     special token given by t.
 */
@@ -851,8 +819,6 @@ special_no(int t)
 
 
 /*
-    ENCODE A SPECIAL TOKEN
-
     This routine adds an application of the special token given by t to
     the bitstream bs.  If the token takes no arguments the zero value
     representing these arguments is added, otherwise the arguments must
@@ -879,8 +845,6 @@ enc_special(BITSTREAM *bs, int t)
 
 
 /*
-    ENCODE A SPECIAL DIAGNOSTICS TAG
-
     Certain of the special tokens which represent types also have diagnostic
     tag forms.  This routine adds a diagnostic tag for the special token t
     to the bitstream bs.
@@ -910,8 +874,6 @@ enc_diag_special(BITSTREAM *bs, int t, int v)
 
 
 /*
-    ENCODE A TOKEN PARAMETER
-
     This routine adds the nth parameter for a token with sort string sort
     and parameters pars to the bitstream bs.
 */
@@ -927,8 +889,6 @@ enc_param(BITSTREAM *bs, int n, const char *sorts, ulong *pars)
 
 
 /*
-    ENCODE THE DEFINITION OF A BUILT-IN SPECIAL TOKEN
-
     Certain of the special tokens have built-in definitions.  This routine
     outputs such a definition for the special token t.
 */
@@ -1138,8 +1098,6 @@ define_special(int t)
 
 
 /*
-    ENCODE A TOKEN DEFINITION
-
     This routine adds the definition of the token tok to the bitstream bs.
 */
 
@@ -1239,8 +1197,6 @@ undefined_token: {
 
 
 /*
-    ENCODE A TOKEN APPLICATION
-
     This routine adds the application of the token id with arguments
     args to the bitstream bs.
 */
@@ -1268,8 +1224,6 @@ enc_token(BITSTREAM *bs, IDENTIFIER id, LIST(TOKEN)args)
 
 
 /*
-    ENCODE AN ASM EXPRESSION
-
     This routine adds the assembler directive e to the bitstream bs.
 */
 
@@ -1298,8 +1252,6 @@ enc_asm(BITSTREAM *bs, EXP e)
 
 
 /*
-    ENCODE THE DEFINITION OF A BUILT-IN SPECIAL TOKEN (DUMMY VERSION)
-
     This routine is a dummy version of define_special used when TDF
     output is disabled.
 */

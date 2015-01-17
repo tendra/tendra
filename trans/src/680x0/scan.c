@@ -8,8 +8,6 @@
  */
 
 /*
-    SCAN
-
     Scans through the program and puts all the arguments of operations
     into a suitable 68000 operand form.
 
@@ -71,8 +69,6 @@ make_bitfield_offset(exp e, exp pe, int spe, shape sha)
 
 
 /*
-    INSERT AN IDENTITY DECLARATION
-
     This routine inserts an identity declaration of x at to and replaces
     x by a use of this identity.
 */
@@ -112,8 +108,6 @@ cca(bool sto, exp to, bool sx, exp x)
 
 
 /*
-    INSERT AN IDENTITY DECLARATION IN A BRO-LIST
-
     Keeping the same to, cc scans along the bro list e, applying cca to
     introduce an identity declaration when doit is 1.  It keeps count as
     the index position along the list in order to pass it to doit.  If it
@@ -151,8 +145,6 @@ cc(bool sto, exp to, bool se, exp e, bool(*doit)(exp, int), int count)
 
 
 /*
-    INSERT AN IDENTITY DECLARATION
-
     This routine is the same as cca, but forces the declaration into
     a register.
 */

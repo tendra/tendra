@@ -50,8 +50,6 @@
 
 
 /*
-    DUMP FILE OPTIONS
-
     These variables give the various dump file options.
 */
 
@@ -67,8 +65,6 @@ int do_usage = 0;
 
 
 /*
-    DUMP FILE VARIABLES
-
     These variables give the dump file and the associated dump buffer.
 */
 
@@ -78,8 +74,6 @@ static BUFFER *dump_buff = &dump_buff_rep;
 
 
 /*
-    DUMP BUFFER TO FILE
-
     This routine adds the contents of the dump buffer to the dump file.
 */
 
@@ -101,8 +95,6 @@ dump_string(void)
 
 
 /*
-    FORWARD DECLARATIONS
-
     The dump routines defined in this module are defined recursively
     so a couple of forward declarations are required.
 */
@@ -114,8 +106,6 @@ static void dump_nat(NAT, int);
 
 
 /*
-    DUMP FLAGS
-
     The flag dump_implicit can be set to true to indicate that the
     following declaration or definition is actually implicit.  The flag
     dump_anon_class can be set to inhibit type definitions which name
@@ -128,8 +118,6 @@ int dump_anon_class = 0;
 
 
 /*
-    FIND AN IDENTIFIER KEY
-
     This routine finds the key corresponding to the identifier id.
     This is a sequence of characters giving the type of identifier.
 */
@@ -317,8 +305,6 @@ dump_key(IDENTIFIER id, int def)
 
 
 /*
-    DUMP A LEXICAL TOKEN
-
     This routine adds the lexical token t to the dump file.
 */
 
@@ -341,8 +327,6 @@ dump_lex(int t)
 
 
 /*
-    DUMP A HASH TABLE ENTRY
-
     This routine adds the hash table entry nm to the dump file.
 */
 
@@ -405,8 +389,6 @@ dump_hashid(HASHID nm)
 
 
 /*
-    DUMP A NAMESPACE
-
     This routine adds the namespace ns to the dump file.  The current
     declaration block is taken into account in blk is true.
 */
@@ -449,8 +431,6 @@ dump_nspace(NAMESPACE ns, int blk)
 
 
 /*
-    DUMP AN ACCESS SPECIFIER
-
     This routine adds the access specifier acc to the dump file.
 */
 
@@ -468,8 +448,6 @@ dump_access(DECL_SPEC acc)
 
 
 /*
-    IDENTIFIER DUMP NUMBER
-
     Each identifier dumped is assigned a number in a sequence given
     by this variable.  The zero value stands for the null identifier.
 */
@@ -478,8 +456,6 @@ ulong dump_id_next = 1;
 
 
 /*
-    DUMP AN IDENTIFIER
-
     This routine adds the identifier id to the dump file.
 */
 
@@ -517,8 +493,6 @@ dump_id(IDENTIFIER id)
 
 
 /*
-    LAST DUMP LOCATION
-
     When dumping locations the previous location is stored in these
     variables and only items which have changed are output.
 */
@@ -531,8 +505,6 @@ static PTR(POSITION)last_posn = NULL_ptr(POSITION);
 
 
 /*
-    DUMP A LOCATION
-
     This routine adds the location loc to the dump file.
 */
 
@@ -589,8 +561,6 @@ dump_loc(LOCATION *loc)
 
 
 /*
-    DUMP AN EXPRESSION
-
     This routine adds the expression e to the dump file.
 */
 
@@ -621,8 +591,6 @@ dump_exp(EXP e)
 
 
 /*
-    DUMP AN OFFSET
-
     This routine adds the offset off to the dump file.
 */
 
@@ -636,8 +604,6 @@ dump_off(OFFSET off)
 
 
 /*
-    DUMP AN INTEGER CONSTANT
-
     This routine adds the integer constant n to the dump file.
 */
 
@@ -690,8 +656,6 @@ dump_nat(NAT n, int neg)
 
 
 /*
-    DUMP A LIST OF TOKEN PARAMETERS
-
     This routine adds the list of token parameters pids to the dump file.
 */
 
@@ -719,8 +683,6 @@ dump_params(LIST(IDENTIFIER)pids)
 
 
 /*
-    DUMP A TOKEN SORT
-
     This routine adds the token sort tok to the dump file.
 */
 
@@ -844,8 +806,6 @@ dump_sort(TOKEN tok)
 
 
 /*
-    DUMP AN INTEGRAL TYPE
-
     This routine adds the integral type it to the dump file.  Note that
     for this and the other type dumping routines the representation
     chosen bears a marked resemblance to the C++ name mangling scheme,
@@ -921,8 +881,6 @@ dump_itype(INT_TYPE it)
 
 
 /*
-    DUMP A FLOATING POINT TYPE
-
     This routine adds the floating point type ft to the dump file.
 */
 
@@ -968,8 +926,6 @@ dump_ftype(FLOAT_TYPE ft)
 
 
 /*
-    DUMP A CLASS TYPE
-
     This routine adds the class type ct to the dump file.
 */
 
@@ -983,8 +939,6 @@ dump_ctype(CLASS_TYPE ct)
 
 
 /*
-    DUMP AN ENUMERATION TYPE
-
     This routine adds the enumeration type et to the dump file.
 */
 
@@ -998,8 +952,6 @@ dump_etype(ENUM_TYPE et)
 
 
 /*
-    DUMP A CONST-VOLATILE QUALIFIER
-
     This routine adds the const-volatile qualifier cv to the dump file.
 */
 
@@ -1017,8 +969,6 @@ dump_cv(CV_SPEC cv)
 
 
 /*
-    DUMP A LIST OF TYPES
-
     This routine adds the list of types p to the dump file.
 */
 
@@ -1044,8 +994,6 @@ dump_type_list(LIST(TYPE)p, int ell, int started)
 
 
 /*
-    DUMP A TYPE
-
     This routine adds the type t to the dump file.
 */
 
@@ -1240,8 +1188,6 @@ dump_type(TYPE t)
 
 
 /*
-    DUMP A GRAPH
-
     This routine adds the graph gr and all its subgraphs to the dump file.
 */
 
@@ -1299,8 +1245,6 @@ dump_graph(GRAPH gr)
 }
 
 /*
-    DUMP A TOKEN APPLICATION
-
     This routine adds the token application id ( args ) to the dump file.
 */
 
@@ -1404,8 +1348,6 @@ dump_tok_appl(IDENTIFIER id, LIST(TOKEN)args)
 
 
 /*
-    DUMP A BASE CLASS GRAPH
-
     This routine adds the base class graph associated with the class type
     ct to the dump file.
 */
@@ -1437,8 +1379,6 @@ dump_base(CLASS_TYPE ct)
 
 
 /*
-    DUMP AN OVERRIDING VIRTUAL FUNCTION
-
     This routine dumps the fact that the virtual function id overrides
     the virtual function fid.
 */
@@ -1459,8 +1399,6 @@ dump_override(IDENTIFIER id, IDENTIFIER fid)
 
 
 /*
-    DUMP A USING DECLARATION
-
     This routine dumps the fact that a using declaration has been used to
     set up the alias id for cid.
 */
@@ -1477,8 +1415,6 @@ dump_alias(IDENTIFIER id, IDENTIFIER cid, LOCATION *loc)
 
 
 /*
-    DUMP A USING DIRECTIVE
-
     This routine dumps the fact that the namespace ns has been the subject
     of a using directive in the namespace cns.
 */
@@ -1495,8 +1431,6 @@ dump_using(NAMESPACE ns, NAMESPACE cns, LOCATION *loc)
 
 
 /*
-    TABLE OF ERROR NUMBERS
-
     This array contains a table of flags indicating whether each error
     has been output or not.
 */
@@ -1505,8 +1439,6 @@ static char *err_output = NULL;
 
 
 /*
-    DUMP AN ERROR
-
     This routine adds the error e of severity sev to the dump file.  It
     returns false if the dump has already been closed or e is an internal
     compiler error.
@@ -1769,8 +1701,6 @@ dump_error(ERROR e, LOCATION *loc, int sev, int cnt)
 
 
 /*
-    DUMP A VARIABLE DESTRUCTOR CALL
-
     This routine adds the call of the destructor for the variable id to
     the dump file.
 */
@@ -1807,8 +1737,6 @@ dump_destr(IDENTIFIER id, LOCATION *loc)
 
 
 /*
-    DUMP AN IDENTIFIER DECLARATION
-
     This routine adds the declaration of the identifier id to the dump
     file.  The parameter def is 1 for a definition, 2 for a tentative
     definition, and 0 for a declaration.
@@ -1963,8 +1891,6 @@ dump_declare(IDENTIFIER id, LOCATION *loc, int def)
 
 
 /*
-    DUMP AN IDENTIFIER UNDEFINITION
-
     This routine adds the undefinition (indicating the end of a scope)
     of the identifier id to the dump file.
 */
@@ -1990,8 +1916,6 @@ dump_undefine(IDENTIFIER id, LOCATION *loc, int def)
 
 
 /*
-    DUMP AN IDENTIFIER USE
-
     This routine adds the use of the identifier id to the dump file.
     expl is true for an explicit use.
 */
@@ -2016,8 +1940,6 @@ dump_use(IDENTIFIER id, LOCATION *loc, int expl)
 
 
 /*
-    DUMP AN IDENTIFIER CALL
-
     This routine adds the call of the identifier id to the dump file.
     expl is true for an explicit call.
 */
@@ -2042,8 +1964,6 @@ dump_call(IDENTIFIER id, LOCATION *loc, int expl)
 
 
 /*
-    DUMP A TEMPLATE INSTANCE
-
     This routine adds the association of the identifier id and the
     template instance form to the dump file.
 */
@@ -2071,8 +1991,6 @@ dump_instance(IDENTIFIER id, TYPE form, TYPE spec)
 
 
 /*
-    DUMP A TOKEN NAME
-
     This routine adds the association of the identifier id and the external
     token name tok to the dump file.
 */
@@ -2097,8 +2015,6 @@ dump_token(IDENTIFIER id, IDENTIFIER tok)
 
 
 /*
-    DUMP A TOKEN PARAMETER
-
     This routine adds the declaration of the token or template parameter
     id to the dump file.
 */
@@ -2117,8 +2033,6 @@ dump_token_param(IDENTIFIER id)
 
 
 /*
-    DUMP A BUILT-IN OPERATOR
-
     This routine adds the declaration of the built-in operator id to the
     dump file.
 */
@@ -2135,8 +2049,6 @@ dump_builtin(IDENTIFIER id)
 
 
 /*
-    DUMP A PROMOTION TYPE
-
     This routine adds the fact that the promotion of the integral type
     it is ip to the dump file.
 */
@@ -2157,8 +2069,6 @@ dump_promote(INT_TYPE it, INT_TYPE ip)
 
 
 /*
-    DUMP THE START OF A SCOPE
-
     This routine adds the start of the scope ns (which may have an associated
     name, id) to the dump file.  pns gives the enclosing scope, if known.
 */
@@ -2202,8 +2112,6 @@ dump_begin_scope(IDENTIFIER id, NAMESPACE ns, NAMESPACE pns, LOCATION *loc)
 
 
 /*
-    DUMP THE END OF A SCOPE
-
     This routine adds the end of the scope ns (which may have an associated
     name, id) to the dump file.
 */
@@ -2227,8 +2135,6 @@ dump_end_scope(IDENTIFIER id, NAMESPACE ns, LOCATION *loc)
 
 
 /*
-    DUMP A STRING LITERAL
-
     This routine adds the string literal of type kind given by the start
     and end points s and e to the dump file.
 */
@@ -2260,8 +2166,6 @@ dump_string_lit(string s, string e, unsigned kind)
 
 
 /*
-    DUMP THE START OF A FILE
-
     This routine adds the start of the file loc to the dump file.  dir
     gives the directory in which the file was found.
 */
@@ -2284,8 +2188,6 @@ dump_start(LOCATION *loc, INCL_DIR *dir)
 
 
 /*
-    DUMP THE END OF A FILE
-
     This routine adds the end of the file loc to the dump file.
 */
 
@@ -2303,8 +2205,6 @@ dump_end(LOCATION *loc)
 
 
 /*
-    DUMP A FILE INCLUSION
-
     This routine adds a file inclusion to the dump file.  loc gives the
     location of the '#include' directive, the following file start gives
     the file included.  st is as in start_include, plus 4 for the
@@ -2354,8 +2254,6 @@ dump_include(LOCATION *loc, string nm, int st, int q)
 
 
 /*
-    OPEN DUMP FILE
-
     This routine opens the dump file nm with dump options given by opt.
     This corresponds to the command-line option '-dopt=nm'.
 */
@@ -2476,8 +2374,6 @@ init_dump(string nm, string opt)
 
 
 /*
-    CLOSE DUMP FILE
-
     This routine closes the dump file.
 */
 

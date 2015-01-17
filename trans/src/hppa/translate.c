@@ -814,8 +814,6 @@ translate_capsule(void)
 
 
 /*
-    EXIT TRANSLATOR
-
 */
 void exit_translator
 (void)

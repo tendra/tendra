@@ -49,8 +49,6 @@
 
 
 /*
-    ENCODE A TDF INT
-
     This routine adds the simple integer constant n to the bitstream bs
     as a TDF INT.  The argument e is true if this is the last sequence of
     digits in a value.
@@ -92,8 +90,6 @@ enc_tdfint(BITSTREAM *bs, NAT n, int e)
 
 
 /*
-    ENCODE A TDF BOOL
-
     This routine adds the value n to the bitstream bs as a TDF BOOL,
     nonzero values map to true, zero to false.
 */
@@ -111,8 +107,6 @@ enc_bool(BITSTREAM *bs, int n)
 
 
 /*
-    ENCODE A CALCULATED INTEGRAL EXPRESSION
-
     This routine adds the calculated integral expression n to the
     bitstream bs.  The value is negated if sgn is true and a token is
     introduced to represent the value if intro is true.  The value is
@@ -229,8 +223,6 @@ enc_calc(BITSTREAM *bs, NAT n, int sgn, int intro, int sort)
 
 
 /*
-    ENCODE A TDF NAT
-
     This routine adds the integer constant n to the bitstream bs as a
     TDF NAT.
 */
@@ -289,8 +281,6 @@ enc_nat(BITSTREAM *bs, NAT n, int intro)
 
 
 /*
-    ENCODE A TDF SIGNED NAT
-
     This routine adds the integer constant n to the bitstream bs as a
     TDF SIGNED NAT.  sgn is true if the value is to be negated and intro
     is true if a token is to be introduced for a calculated value.
@@ -364,8 +354,6 @@ enc_snat(BITSTREAM *bs, NAT n, int sgn, int intro)
 
 
 /*
-    ENCODE AN INTEGER LITERAL EXPRESSION
-
     This routine adds the integer constant expression n of type t to the
     bitstream bs.  etag gives the expression tag which is used to
     determine whether a token should be introduced for the value.
@@ -393,8 +381,6 @@ enc_int_lit(BITSTREAM *bs, NAT n, TYPE t, unsigned etag)
 
 
 /*
-    ENCODE A TDF FLOATING LITERAL
-
     This routine adds the floating literal flt of type t to the bitstream
     bs as a TDF EXP.
 */
@@ -460,8 +446,6 @@ enc_float(BITSTREAM *bs, FLOAT flt, TYPE t)
 
 
 /*
-    ENCODE A SMALL TDF FLOATING LITERAL
-
     This routine adds the small floating literal given by the value v of
     type t to the bitstream bs as a TDF EXP.
 */
@@ -490,8 +474,6 @@ enc_float_int(BITSTREAM *bs, int v, TYPE t)
 
 
 /*
-    ENCODE A STRING LITERAL EXPRESSION
-
     This routine adds the string literal str of type t to the bitstream
     bs.  Note that the type determines the string length - the string
     is truncated or padded with zeros as necessary (this includes the
@@ -607,8 +589,6 @@ enc_string(BITSTREAM *bs, STRING str, TYPE t)
 
 
 /*
-    ENCODE A STRING LITERAL
-
     This routine adds the string literal str to the bitstream bs.
 */
 
@@ -640,8 +620,6 @@ enc_strlit(BITSTREAM *bs, STRING str)
 
 
 /*
-    ENCODE A CHARACTER LITERAL EXPRESSION
-
     This routine adds the character literal str of type t to the bitstream
     bs.  u gives the actual literal type, from which it is cast to t.  Note
     that it is possible that str does not fit into u.
@@ -710,8 +688,6 @@ enc_char(BITSTREAM *bs, STRING str, TYPE t, TYPE u)
 
 
 /*
-    FIND AN INTEGRAL TYPE
-
     This routine returns the integral type corresponding to the type t.
 */
 
@@ -739,8 +715,6 @@ find_itype(TYPE t)
 
 
 /*
-    ENCODE A TDF VARIETY NUMBER
-
     This routine adds the code number of the integral type it to the
     bitstream bs as a TDF SIGNED NAT.
 */
@@ -855,8 +829,6 @@ enc_var_no(BITSTREAM *bs, INT_TYPE it, int alt)
 
 
 /*
-    ENCODE A TDF VARIETY
-
     This routine adds the integral type t to the bitstream bs as a
     TDF VARIETY.  Note that all integral types are tokenised.
 */
@@ -957,8 +929,6 @@ enc_variety(BITSTREAM *bs, TYPE t)
 
 
 /*
-    ENCODE A TDF FLOATING VARIETY NUMBER
-
     This routine adds the code number of the floating point type ft to
     the bitstream bs as a TDF SIGNED NAT.
 */
@@ -1047,8 +1017,6 @@ enc_flvar_no(BITSTREAM *bs, FLOAT_TYPE ft)
 
 
 /*
-    ENCODE A TDF FLOATING VARIETY
-
     This routine adds the floating point type t to the bitstream bs as
     a TDF FLOATING VARIETY.  Note that all floating point types are
     tokenised.
@@ -1120,8 +1088,6 @@ enc_flvar(BITSTREAM *bs, TYPE t)
 
 
 /*
-    ENCODE A TDF BITFIELD VARIETY
-
     This routine adds the bitfield type t to the bitstream bs as a TDF
     FLOATING BITFIELD.
 */
@@ -1154,8 +1120,6 @@ enc_bfvar(BITSTREAM *bs, TYPE t)
 
 
 /*
-    ENCODE AN ARITHMETIC TYPE
-
     This routine adds the code number for the integral or floating point
     type t to the bitstream bs.
 */
@@ -1200,8 +1164,6 @@ enc_arith(BITSTREAM *bs, TYPE t, int alt)
 
 
 /*
-    IS A TYPE A TOKEN APPLICATION?
-
     This routine checks whether the class t represents a token application.
 */
 
@@ -1219,8 +1181,6 @@ is_tokenised_class(TYPE t)
 
 
 /*
-    ENCODE A TDF ALIGNMENT
-
     This routine adds the alignment of the type t to the bitstream bs
     as a TDF ALIGNMENT.
 */
@@ -1305,8 +1265,6 @@ enc_alignment(BITSTREAM *bs, TYPE t)
 
 
 /*
-    DOES A TYPE HAVE A SIMPLE ALIGNMENT?
-
     This routine checks whether the alignment of the type t is of the
     simple form 'alignment ( t )'.
 */
@@ -1355,8 +1313,6 @@ simple_alignment(TYPE t)
 
 
 /*
-    ENCODE A TDF SHAPE OFFSET
-
     This routine adds the offset of the type t to the bitstream bs.
 */
 
@@ -1397,8 +1353,6 @@ enc_shape_offset(BITSTREAM *bs, TYPE t)
 
 
 /*
-    ENCODE A TDF OFFSET
-
     This routine adds the offset off to the bitstream bs as a TDF EXP.
 */
 
@@ -1538,8 +1492,6 @@ enc_offset(BITSTREAM *bs, OFFSET off)
 
 
 /*
-    ENCODE AN EXTRA OFFSET
-
     This routine adds an expression representing n times the offset off
     rounded up to the alignment of t to the bitstream bs.
 */
@@ -1573,8 +1525,6 @@ enc_extra_offset(BITSTREAM *bs, TYPE t, OFFSET off, int n)
 
 
 /*
-    ENCODE AN ADD TO POINTER EXPRESSION
-
     This routine adds the expression formed by adding the offset off
     to the pointer a to the bitstream bs.  virt is true for a virtual
     base offset.
@@ -1669,8 +1619,6 @@ enc_add_ptr(BITSTREAM *bs, EXP a, ulong n, OFFSET off, int virt)
 
 
 /*
-    ENCODE A TDF SHAPE
-
     This routine adds the type t to the bitstream bs as a TDF SHAPE.
 */
 
@@ -1813,8 +1761,6 @@ enc_shape(BITSTREAM *bs, TYPE t)
 
 
 /*
-    DO TWO TYPES HAVE THE SAME REPRESENTATION?
-
     This routine returns true if the types s and t have the same
     representation as shapes (or alignments if ptr is true) in TDF.
 */

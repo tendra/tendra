@@ -41,8 +41,6 @@
 
 
 /*
-    PARSER OPTIONS
-
     These flags control the behaviour of the parser and determine whether
     such features as trigraphs and digraphs are allowed.
 */
@@ -61,8 +59,6 @@ unsigned long max_id_length = 1024;
 
 
 /*
-    TABLE OF SYMBOLS AND KEYWORDS
-
     This table gives the mapping between lexical token numbers and the
     corresponding symbols and keywords.  It is derived from the list of
     tokens in symbols.h.
@@ -77,8 +73,6 @@ const char *token_names[] = {
 
 
 /*
-    TRANSLATION A LEXICAL TOKEN TO ITS PRIMARY FORM
-
     This routine translates the alternative ISO keywords and digraphs
     into their primary form.
 */
@@ -145,8 +139,6 @@ primary_form(int t)
 
 
 /*
-    REPORT A DIGRAPH TOKEN
-
     This routine reports the digraph t, returning the primary form of t.
 */
 
@@ -163,8 +155,6 @@ get_digraph(int t)
 
 
 /*
-    CREATE A KEYWORD
-
     This routine creates a keyword identifier with name nm and lexical
     token number key.  The special case when key is lex_unknown is used
     to indicate a reserved identifier.
@@ -214,8 +204,6 @@ make_keyword(HASHID nm, int key, IDENTIFIER id)
 
 
 /*
-    INITIALISE KEYWORDS
-
     This routine initialises the hash table entries for the keywords.
 */
 
@@ -271,8 +259,6 @@ init_keywords(void)
 
 
 /*
-    ADJUST A CHARACTER FOR TRIGRAPHS
-
     This routine is called after a question mark has been read from the
     input file to allow for trigraphs.  It returns the trigraph replacement
     character or '?' if the following characters do not form a trigraph.
@@ -348,8 +334,6 @@ adjust_trigraph(void)
 
 
 /*
-    READ A NEWLINE CHARACTER
-
     This routine is called after each carriage return character, checking
     for a following newline character.
 */
@@ -372,8 +356,6 @@ read_newline(void)
 
 
 /*
-    READ AN END OF FILE CHARACTER
-
     This routine is called after each terminate character, checking for
     a following end of file character.
 */
@@ -396,8 +378,6 @@ read_eof(void)
 
 
 /*
-    READ THE NEXT CHARACTER ALLOWING FOR TRIGRAPHS ETC.
-
     This routine reads the next character from the input file, adjusting
     it as necessary for trigraphs and escaped newlines.  This routine
     corresponds to phases 1 and 2 of the phases of translation.
@@ -439,8 +419,6 @@ read_char(void)
 
 
 /*
-    CHARACTER LOOK-UP TABLE
-
     This look-up table gives the various character types.  Note that the
     default look-up table is for ASCII, for other codesets the table
     needs to be rewritten.  The only really interesting points in the
@@ -489,8 +467,6 @@ static unsigned char *copy_characters = main_characters;
 
 
 /*
-    SET A CHARACTER LOOK-UP
-
     This routine sets the look-up value for character a to be equal to
     the underlying value for character b.  As a special case, setting
     the look-up for a carriage return to that for newline enables
@@ -520,8 +496,6 @@ set_char_lookup(int a, int b)
 
 
 /*
-    SET A NUMBER OF CHARACTER LOOK-UPS
-
     This routine sets the character look-ups for all the elements of the
     string or character literal expression a to be equal to that for the
     character literal expression b.  If b is the null expression then
@@ -566,8 +540,6 @@ set_character(EXP a, EXP b)
 
 
 /*
-    CHECK FOR WHITE SPACE CHARACTERS
-
     This routine checks whether the character a represents a white space.
     The newline character constitutes a special case.
 */
@@ -585,8 +557,6 @@ is_white_char(unsigned long a)
 
 
 /*
-    CHECK FOR ALPHABETIC CHARACTERS
-
     This routine checks whether the character a represents an alphabetic
     character.
 */
@@ -602,8 +572,6 @@ is_alpha_char(unsigned long a)
 
 
 /*
-    CHECK FOR LEGAL CHARACTERS
-
     This routine checks whether the character a represents a legal character.
 */
 
@@ -618,8 +586,6 @@ is_legal_char(unsigned long a)
 
 
 /*
-    PEEK AHEAD ONE CHARACTER
-
     This routine tests whether the next character is a (which will not be
     newline).  If so the current character is advanced one, otherwise it
     is left unchanged.  legal is set to false if the next character is
@@ -641,8 +607,6 @@ peek_char(int a, int *legal)
 
 
 /*
-    TOKEN BUFFER
-
     This buffer is used by read_token to hold the values of identifiers,
     numbers and strings.
 */
@@ -651,8 +615,6 @@ BUFFER token_buff = NULL_buff;
 
 
 /*
-    TOKEN IDENTIFICATION MACROS
-
     These macros are used to identify the start or end of certain tokens
     such as comments and strings.
 */
@@ -666,8 +628,6 @@ BUFFER token_buff = NULL_buff;
 
 
 /*
-    END OF FILE FLAG
-
     Each source file should end in a newline character, which is not
     preceded by a backspace.  This flag is used to indicate whether the
     end of the present file has the correct form.
@@ -677,8 +637,6 @@ static int good_eof = 0;
 
 
 /*
-    SKIP A STRING
-
     This routine skips a string or character literal.  It is entered after
     the initial quote, q, has been read.  Escape sequences are always
     allowed.  The routine returns lex_string_Hlit if the string terminates
@@ -755,8 +713,6 @@ skip_string(int q)
 
 
 /*
-    READ THE BODY OF A STRING
-
     This routine reads the body of a string or character literal or of a
     header name.  It is entered after the initial quote has been read.
     The corresponding close quote is passed in as q.  The esc argument
@@ -867,8 +823,6 @@ read_string(int q, int esc)
 
 
 /*
-    SKIP A C STYLE COMMENT
-
     This routine skips a C style comment, returning lex_ignore_token if
     the comment is terminated correctly and lex_eof otherwise.  It is
     entered after the first two characters comprising the comment start
@@ -960,8 +914,6 @@ read_label:
 
 
 /*
-    SKIP A C++ STYLE COMMENT
-
     This routine skips a C++ style comment, returning lex_ignore_token
     if the comment terminates correctly and lex_eof otherwise.  It is
     entered after the first two characters comprising the comment start
@@ -1041,8 +993,6 @@ read_label:
 
 
 /*
-    SKIP WHITE-SPACE CHARACTERS
-
     This routine skips any white-space characters (including comments).
     Newline characters are treated as white-space only if nl is true.
     The result is a bitpattern formed from the components:
@@ -1166,8 +1116,6 @@ skip_white(int nl)
 
 
 /*
-    PATCH UP WHITE-SPACE CHARACTERS
-
     Calling skip_white ( 1 ) can mess up the parser as regards spotting
     preprocessing directives and valid end of file markers.  This routine
     may be called with the return value of skip_white as an argument to
@@ -1208,8 +1156,6 @@ patch_white(unsigned long sp)
 
 
 /*
-    SKIP TO END OF LINE
-
     This routine skips to the end of the current line.  It returns 0 if
     only white-space characters are encountered.  It uses skip_white to
     jump over white-space (including comments).
@@ -1278,8 +1224,6 @@ read_label:
 
 
 /*
-    READ A UNICODE CHARACTER
-
     This routine reads a unicode character.  It is entered after the
     initial backslash and the following character, c, have been read.
     It assigns the character type to pc and returns the character code.
@@ -1336,8 +1280,6 @@ read_unicode(int c, int *pc)
 
 
 /*
-    READ AN EXTENDED IDENTIFIER
-
     This routine reads an extended identifier name (one including a unicode
     character).  It is entered after reading the simple characters in the
     token buffer plus the unicode character given by u and ch.
@@ -1387,8 +1329,6 @@ read_extended_id(unsigned long u, int ch)
 
 
 /*
-    HASH VALUE FOR IDENTIFIERS
-
     The hash value for identifiers is built up as the identifier is read.
     It is then stored in this variable.  The algorithm for calculuating
     the hash value needs to be kept in step with the routine hash (it
@@ -1400,8 +1340,6 @@ HASHID token_hashid = NULL_hashid;
 
 
 /*
-    MAIN PASS ANALYSER
-
     This routine reads the next preprocessing token from the input file.
     It is designed for speed rather than elegance, hence the rather
     indiscriminate use of labels.  Trigraphs and escaped newlines
@@ -2076,8 +2014,6 @@ unknown_label:
 
 
 /*
-    INITIALISE INPUT VARIABLES
-
     This routine initialises the tables of character look-ups and the token
     buffer.
 */
@@ -2116,8 +2052,6 @@ init_char(void)
 
 
 /*
-    INITIALISE INPUT FILE READING
-
     This routine initialises the lexical analysis routines in preparation
     for parsing or preprocessing the current input file.
 */
@@ -2149,8 +2083,6 @@ init_lex(void)
 
 
 /*
-    PARSE INPUT FILE
-
     This routine is the main entry point for the parsing of the current
     input file.
 */

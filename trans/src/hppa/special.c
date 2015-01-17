@@ -278,8 +278,6 @@ specialmake(int i, exp par, space sp, where dest, int exitlab)
 
 
 /*
-    TDF LIBRARY KEY
-
     A value of 0 means that the library is not present, 1 that it is, and
     2 that it should be generated.
 */

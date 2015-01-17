@@ -48,8 +48,6 @@ static long choosefloat = RMASK ( R_FLT_FIRST ) ;
 
 
 /*
-    INITIALIZE REGISTER ALLOCATION VARIABLES
-
     This is called at the start of each procedure.
 */
 

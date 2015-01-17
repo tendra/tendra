@@ -19,8 +19,6 @@
 
 
 /*
-    CHECKING CONTROL FLAG
-
     This flag may be set to true to temporarily disable the checks in
     this module.
 */
@@ -29,8 +27,6 @@ int suppress_quality = 0;
 
 
 /*
-    TABLE OF OPERATIONS
-
     This table gives the list of operations checked by check_paren.  They
     are listed in order of decreasing precedence.  Calls to check_paren
     give an entry point into this table beyond which checks are applied.
@@ -53,8 +49,6 @@ static struct {
 
 
 /*
-    FIND AN EXPRESSION TAG
-
     This routine finds the tag associated with the expression e for unusual
     parenthesis analysis etc.  Note that an integer constant expression may
     have been evaluated to give a simple integer constant, however the top
@@ -74,8 +68,6 @@ exp_tag (EXP e)
 
 
 /*
-    CHECK FOR DUBIOUS SHIFTS AND BIT OPERATIONS
-
     For various pairs of operations, op1 and op2, the resolution of the
     expression 'a op1 b op2 c' to '( a op1 b ) op2 c' or 'a op1 ( b op2 c )'
     is not obvious.  This routine checks whether the expression 'a op b'
@@ -120,8 +112,6 @@ check_paren(int n, int op, EXP a, EXP b)
 
 
 /*
-    CHECK FOR DUBIOUS RELATIONS
-
     This routine checks for dubious relations such as 'a < b < c' which
     do not have their mathematical meaning.
 */
@@ -155,8 +145,6 @@ check_relation(int op, EXP a, EXP b)
 
 
 /*
-    CHECK FOR DUBIOUS LOGICAL EXPRESSIONS
-
     The resolution of 'a && b || c' to '( a && b ) || c' is odd.  This
     routine checks a logical or expression to see if it is of this form.
 */

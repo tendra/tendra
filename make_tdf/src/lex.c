@@ -23,8 +23,6 @@
 
 
 /*
-    INPUT FILE
-
     This is the file from which the lexical routine read their input.
 */
 
@@ -32,8 +30,6 @@ static FILE *lex_input;
 
 
 /*
-    PENDING BUFFER
-
     Pending characters are dealt with by means of this buffer.  pending
     is set to the start of the buffer to indicate that there are no
     characters pending, otherwise the pending characters are stored in
@@ -46,8 +42,6 @@ static int *pending = pending_buff;
 
 
 /*
-    MAPPINGS AND DECLARATIONS FOR AUTOMATICALLY GENERATED SECTION
-
     These macros give the mappings between the actions used in the
     automatically generated lexical analyser and the routines defined
     in this file.
@@ -66,8 +60,6 @@ static int read_number(int);
 
 
 /*
-    AUTOMATICALLY GENERATED SECTION
-
     The main body of the lexical analyser is automatically generated.
 */
 
@@ -75,8 +67,6 @@ static int read_number(int);
 
 
 /*
-    GET THE NEXT CHARACTER
-
     This routine reads the next character, either from the pending buffer
     or from the input file.
 */
@@ -98,8 +88,6 @@ read_char(void)
 
 
 /*
-    TOKEN BUFFER
-
     This buffer is used by read_token to hold the values of identifiers.
     Similarly token_value is used to hold the values of numbers.
 */
@@ -111,8 +99,6 @@ unsigned token_value = 0;
 
 
 /*
-    READ AN IDENTIFIER
-
     This routine reads an identifier beginning with a, returning the
     corresponding lexical token.  Keywords are dealt with locally.
 */
@@ -141,8 +127,6 @@ read_identifier(int a)
 
 
 /*
-    READ A NUMBER
-
     This routine reads a number.  It is entered after the initial digit,
     a, has been read.  The number's value is stored in token_value.
 */
@@ -166,8 +150,6 @@ read_number(int a)
 
 
 /*
-    READ A COMMENT
-
     This routine reads a shell style comment.  It is entered after the
     initial hash character has been read.
 */
@@ -201,8 +183,6 @@ read_comment(void)
 
 
 /*
-    GET A COMMAND FROM A STRING
-
     This routine returns the address of the first non-white space character
     from the string ps.  It returns the null pointer if the end of the line
     is reached.
@@ -236,8 +216,6 @@ get_command(char **ps)
 
 
 /*
-    READ A TEMPLATE FILE
-
     This routine reads a template file from the current input file.
 */
 
@@ -370,8 +348,6 @@ read_template(COMMAND p)
 
 
 /*
-    CURRENT TOKEN
-
     These variables are used by the parser to hold the current and former
     lexical tokens.
 */
@@ -381,8 +357,6 @@ int saved_lex_token;
 
 
 /*
-    OPEN AN INPUT FILE
-
     This routine opens the input file nm.  It returns true if the file is
     opened successfully.
 */
@@ -407,8 +381,6 @@ open_file(char *nm)
 
 
 /*
-    CLOSE THE INPUT FILE
-
     This routine closes the current input file.
 */
 

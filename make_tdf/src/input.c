@@ -23,8 +23,6 @@
 
 
 /*
-    ARRAY OF KNOWN SORT NAMES
-
     This table gives the mapping from sort names to sort codes.  Sorts
     not in this list, or with a sort code of zero, have sort codes
     automatically generated for them.
@@ -122,8 +120,6 @@ static struct {
 
 
 /*
-    LIST OF ALL SORTS
-
     A list of all sorts (in alphabetical order) is maintained.
 */
 
@@ -131,8 +127,6 @@ static LIST(SORT)all_sorts = NULL_list(SORT);
 
 
 /*
-    DEFINE A SORT
-
     This routine defines the sort s to be info.
 */
 
@@ -153,8 +147,6 @@ define_sort(SORT s, SORT_INFO info, int code)
 
 
 /*
-    FIND A SORT
-
     This routine looks up a sort named nm, creating it if it does not
     already exist if create is true.
 */
@@ -196,8 +188,6 @@ find_sort(string nm, int create)
 
 
 /*
-    MARK A CONSTRUCT AS USED
-
     This routine marks the parameter sorts of the constructs c with the
     value m.
 */
@@ -219,8 +209,6 @@ mark_construct(CONSTRUCT c, int m)
 
 
 /*
-    MARK A SORT AS USED
-
     This routine marks the sort s and all its constructs with the value m.
 */
 
@@ -263,8 +251,6 @@ mark_sort(SORT s, int m)
 
 
 /*
-    MARK ALL SORTS AS USED
-
     This routine marks all sorts with the value m.
 */
 
@@ -282,8 +268,6 @@ mark_all_sorts(int m)
 
 
 /*
-    DOES A STRING HAVE A GIVEN ENDING?
-
     This routine checks whether the string s ends in the string e.  If so
     it returns a copy of s with this ending removed.  Otherwise it returns
     the null string.
@@ -307,8 +291,6 @@ ends_in(string s, string e)
 
 
 /*
-    CONVERT A STRING TO CAPITALS
-
     This routine returns a copy of the string s with all the lower case
     letters converted to upper case.
 */
@@ -331,8 +313,6 @@ to_capitals(string s)
 
 
 /*
-    DEFINE A BASIC SORT
-
     This routine defines the basic sort s to have b bits (extended if e
     is true) and constructs p.
 */
@@ -364,8 +344,6 @@ basic_sort(SORT s, unsigned b, unsigned e, LIST(CONSTRUCT)p)
 
 
 /*
-    CREATE A CONSTRUCT
-
     This routine creates a construct named nm with result sort s, parameter
     sorts p and encoding e.
 */
@@ -383,8 +361,6 @@ make_construct(string nm, unsigned e, SORT s, LIST(PARAMETER)p)
 
 
 /*
-    DEFINE A COMPOUND SORT
-
     This routine defines the compound sort s with standard suffix suff
     and sort type tag.
 */
@@ -407,8 +383,6 @@ compound_sort(SORT s, string suff, unsigned tag, int code)
 
 
 /*
-    FIND A CONSTRUCT
-
     This routine searches for a construct named c in the sort s.
 */
 
@@ -430,8 +404,6 @@ find_construct(SORT s, string c)
 
 
 /*
-    SET A CONSTRUCT KIND
-
     This routine sets the kind of the construct c of sort s to be kind.
 */
 
@@ -451,8 +423,6 @@ set_special(SORT s, string c, unsigned kind)
 
 
 /*
-    FIND A CONSTRUCT OF A GIVEN KIND
-
     This routine searches for a construct of the sort s of the given kind.
 */
 
@@ -474,8 +444,6 @@ get_special(SORT s, unsigned kind)
 
 
 /*
-    DEFINE THE BUILT-IN SORTS
-
     This routine defines the built-in sorts.
 */
 
@@ -495,8 +463,6 @@ builtin_sorts(void)
 
 
 /*
-    CHECK THE LIST OF ALL SORTS
-
     This routine checks the list of all sorts for undefined sorts,
     returning the reordered list.
 */
@@ -532,8 +498,6 @@ check_sorts(void)
 
 
 /*
-    FIND FOREIGN SORTS
-
     This routine finds all the foreign sorts.
 */
 
@@ -589,8 +553,6 @@ foreign_sorts(void)
 
 
 /*
-    FIND A PARAMETER
-
     This routine returns the nth parameter of the construct c.
 */
 

@@ -30,8 +30,6 @@
 
 
 /*
-    NAME MERGING FLAG
-
     This flag is set to true to indicate that name merging is taking
     place.
 */
@@ -40,8 +38,6 @@ int force_merge = 0;
 
 
 /*
-    ARE TWO CLASSES LAYOUT COMPATIBLE?
-
     This routine checks whether the classes ct and cs are layout compatible,
     i.e. they have the same member types and accesses.
 */
@@ -129,8 +125,6 @@ compatible_class(CLASS_TYPE ct, CLASS_TYPE cs)
 
 
 /*
-    ARE TWO TYPES TO BE MERGED?
-
     This routine checks whether the identifiers tid and sid are to be made
     equal by merge_id.  This essentially means that they should be the
     same.
@@ -199,8 +193,6 @@ merge_type(IDENTIFIER tid, IDENTIFIER sid)
 
 
 /*
-    CHECK FOR CONSISTENT REDEFINITION
-
     This routine checks whether the definitions of the objects pid and
     qid and consistent.
 */
@@ -260,8 +252,6 @@ consistent_redef(IDENTIFIER pid, IDENTIFIER qid)
 
 
 /*
-    EXPAND AN IDENTIFIER
-
     This routine expands the identifier id read from a spec input file.
     This is necessary because id may still contain pending identifiers.
 */
@@ -276,8 +266,6 @@ expand_id(IDENTIFIER id)
 
 
 /*
-    DECLARATION SPECIFIER MASK
-
     The macro dspec_mask is a mask which gives those declaration specifiers
     which should be the same for all declarations.
 */
@@ -290,8 +278,6 @@ expand_id(IDENTIFIER id)
 
 
 /*
-    MERGE AN IDENTIFIER INTO A NAMESPACE
-
     This routine merges the identifier id read from a spec input file
     into the namespace ns.
 */
@@ -471,8 +457,6 @@ merge_id(NAMESPACE ns, IDENTIFIER id)
 
 
 /*
-    MERGE TWO NAMESPACES
-
     This routine merges the namespace ns with the additional members
     read from a spec input file given by pns.
 */

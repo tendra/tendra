@@ -19,8 +19,6 @@
 
 
 /*
-    ASCII FLAG
-
     This flag is true if the native codeset is ASCII.  It is initially -1
     indicating that the conversion tables have not been initialised.
 */
@@ -29,8 +27,6 @@ int is_ascii = -1;
 
 
 /*
-    CONVERSION TABLES
-
     These tables give the conversions of ASCII to and from the native
     codeset.  The ASCII to native table is deduced for the portable
     codeset from the list of characters in char.h which is given in
@@ -50,8 +46,6 @@ static character from_ascii_tab[NO_CHAR + 1] = {
 
 
 /*
-    CONVERT A CHARACTER TO ASCII
-
     This routine converts the character c from the native codeset to
     ASCII.
 */
@@ -98,8 +92,6 @@ init_ascii(void)
 
 
 /*
-    CONVERT A CHARACTER TO NATIVE CODESET
-
     This routine converts the character c to the native codeset from
     ASCII.
 */
@@ -116,8 +108,6 @@ from_ascii(unsigned long c, int *ch)
 
 
 /*
-    TRANSFORM A TABLE FROM ASCII TO NATIVE CODESET
-
     This routine maps the look-up table p from ASCII to native codeset.
 */
 
@@ -146,8 +136,6 @@ map_ascii(unsigned char *p)
 
 
 /*
-    TABLE OF ALPHABETIC UNICODE CHARACTERS
-
     This table gives the ranges of the unicode characters which are
     suitable for use in an identifier name in ascending order.  It is
     derived from Annex E of the standard (which derives from ISO/IEC
@@ -281,8 +269,6 @@ static struct {
 
 
 /*
-    DOES A UNICODE CHARACTER REPRESENT AN ALPHABETIC VALUE?
-
     This routine checks whether the unicode character c represents an
     alphabetic value suitable for use in an identifier name.  It
     operates by performing a binary chop on the table above.

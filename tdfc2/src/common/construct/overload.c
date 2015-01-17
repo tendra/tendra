@@ -56,8 +56,6 @@
 
 
 /*
-    CANDIDATE LIST
-
     This variable gives the main candidate list used in overload resolution.
 */
 
@@ -65,8 +63,6 @@ CANDIDATE_LIST candidates = { NULL, 0, 0, NULL, 0 };
 
 
 /*
-    ADD A CANDIDATE TO A LIST
-
     This routine adds the candidate given by id, bid and kind to the
     candidate list p.
 */
@@ -96,8 +92,6 @@ add_candidate(CANDIDATE_LIST *p, IDENTIFIER id, IDENTIFIER bid, int kind)
 
 
 /*
-    ADD AN IDENTIFIER TO A CANDIDATE LIST
-
     This routine adds the overloaded function identifier id to the candidate
     list given by p.  The kind argument is stored in the kind field of each
     candidate.  The table of candidate functions may need extending.  Note
@@ -146,8 +140,6 @@ add_candidates(CANDIDATE_LIST *p, IDENTIFIER id, int over, int kind)
 
 
 /*
-    LOOK UP A FUNCTION IN AN ARGUMENT NAMESPACE
-
     This routine looks up the function id in the namespace containing the
     type name cid.  Any functions found are added to the candidate list p.
 */
@@ -190,8 +182,6 @@ koenig_id(CANDIDATE_LIST *p, IDENTIFIER id, IDENTIFIER cid, int kind)
 
 
 /*
-    PERFORM ARGUMENT DEPENDENT NAME LOOK-UP FOR A CLASS
-
     This routine performs argument dependent name look-up for the function
     id and the argument class type ct.
 */
@@ -219,8 +209,6 @@ koenig_class(CANDIDATE_LIST *p, IDENTIFIER id, CLASS_TYPE ct, int kind)
 
 
 /*
-    PERFORM ARGUMENT DEPENDENT NAME LOOK-UP FOR A TOKEN ARGUMENT
-
     This routine performs argument dependent name look-up for the function
     id and the token argument tok.
 */
@@ -248,8 +236,6 @@ koenig_token(CANDIDATE_LIST *p, IDENTIFIER id, TOKEN tok, int kind)
 
 
 /*
-    PERFORM ARGUMENT DEPENDENT NAME LOOK-UP
-
     This routine performs argument dependent name look-up for the function
     id and the argument type t, adding any candidates found to the list p.
 */
@@ -326,8 +312,6 @@ koenig_candidates(CANDIDATE_LIST *p, IDENTIFIER id, TYPE t, int kind)
 
 
 /*
-    FREE A LIST OF CANDIDATES
-
     This routine frees the elements of the candidate list p.
 */
 
@@ -346,8 +330,6 @@ free_candidates(CANDIDATE_LIST *p)
 
 
 /*
-    SWAP PARAMETER TYPE FIELDS FOR A FUNCTION
-
     Overload resolution is based on the mtypes field of the function type.
     This routine can be used to force resolution on the ptypes field by
     swapping the two fields for the overloaded function identifier id.
@@ -375,8 +357,6 @@ swap_ptypes(IDENTIFIER id)
 
 
 /*
-    SWAP PARAMETER TYPE FIELDS FOR CANDIDATES FUNCTIONS
-
     This routine swaps the parameter type fields for all the constructor
     candidates in p, starting with the nth entry.
 */
@@ -396,8 +376,6 @@ swap_candidates(CANDIDATE_LIST *p, unsigned n)
 
 
 /*
-    LIST CANDIDATES FOR ERROR REPORTING
-
     This routine appends messages listing all the candidates from the list
     p of rank at least rank to the end of the error message err.  No action
     is taken if err is the null error.
@@ -459,8 +437,6 @@ list_candidates(ERROR err, CANDIDATE_LIST *p, unsigned rank)
 
 
 /*
-    OVERLOAD MATCHING INFORMATION
-
     These variables are used to store information gained during overload
     resolution.  If match_no_args is nonzero it gives the number of
     candidates which take the right number of arguments, otherwise if it
@@ -476,8 +452,6 @@ int resolved_kind = KIND_FUNC;
 
 
 /*
-    IS A CANDIDATE FUNCTION PLAUSIBLE?
-
     A candidate function is plausible for a list of arguments if it accepts
     that number of arguments.  This routine tests whether the candidate r
     is plausible.  It returns the absolute difference between the number
@@ -540,8 +514,6 @@ plausible_candidate(CANDIDATE *r, unsigned nargs)
 
 
 /*
-    INHERITANCE MATCHING FLAG
-
     This flag may be set to true to make the match for the implicit
     this parameter for an inherited function as good as a match for
     a non-inherited function from the point of view of function
@@ -552,8 +524,6 @@ int match_this = 0;
 
 
 /*
-    IS A PLAUSIBLE CANDIDATE FUNCTION VIABLE?
-
     A plausible candidate function is viable for a list of arguments if
     there is an implicit conversion sequence for each argument to the
     corresponding parameter type.  This routine tests whether the plausible
@@ -720,8 +690,6 @@ viable_candidate(CANDIDATE *r, LIST(EXP) args, TYPE ret)
 
 
 /*
-    COMPARE TWO FUNCTIONS
-
     This routine compares the candidate functions rid and sid to determine
     which is better under the template specialisation rules.  It returns
     1 if rid is better than sid, 2 if sid is better than rid, and 0 otherwise.
@@ -761,8 +729,6 @@ compare_funcs(IDENTIFIER rid, IDENTIFIER sid)
 
 
 /*
-    COMPARE TWO CANDIDATE FUNCTIONS
-
     This routine compares the candidate functions r and s for the argument
     list args and return type ret.  It returns 1 if r is better than s, 2 if
     s is better than r, and some other value otherwise.  Better in this
@@ -811,8 +777,6 @@ compare_candidates(CANDIDATE *r, CANDIDATE *s, LIST(EXP) args, TYPE ret)
 
 
 /*
-    OVERLOADED FUNCTION RESOLUTION
-
     This routine selects the best match from the list of overloaded function
     given by p based on the argument list args and the return type ret (which
     may be the null type).  The list of candidate functions will not be empty.
@@ -1013,8 +977,6 @@ resolve_overload(CANDIDATE_LIST *p, LIST(EXP) args, TYPE ret, int replay)
 
 
 /*
-    FIND A LIST OF POSSIBLE TYPE VALUES
-
     This routine constructs a list of the possible resolutions for the
     target dependent type t or its promotion.  In the latter case prom
     is set to true.  If neither t or its promotion is target dependent
@@ -1057,8 +1019,6 @@ possible_types(TYPE t, int *prom)
 
 
 /*
-    CHECK FOR TARGET DEPENDENT OVERLOADED FUNCTION RESOLUTIONS
-
     This routine is called when an ambiguous overload resolution is
     detected to determine which of the viable candidates to proceed with.
     The parameters are as in resolve_overload.
@@ -1225,8 +1185,6 @@ resolve_ambiguous(CANDIDATE_LIST *p, LIST(EXP) args, TYPE ret, int depth)
 
 
 /*
-    LIST OF ALL AMBIGUOUS OVERLOADED FUNCTIONS
-
     This list is used to hold all the dummy tokenised functions constructed
     to represent target dependent overload resolutions.  The functions are
     determined by the list of candidates, the list of argument types and
@@ -1245,8 +1203,6 @@ static AMBIG_FUNCTION *all_ambig_funcs = NULL;
 
 
 /*
-    FIND A PREVIOUS AMBIGUOUS OVERLOADED FUNCTION
-
     This routine searches the list of all ambiguous overloaded functions
     for one which candidate functions p, argument types q and qualifier
     qual.
@@ -1306,8 +1262,6 @@ previous_ambig_func(LIST(IDENTIFIER) p, LIST(TYPE) q, QUALIFIER qual)
 
 
 /*
-    CONSTRUCT AN AMBIGUOUS OVERLOADED FUNCTION
-
     This routine constructs a dummy tokenised function to represent the
     target dependent overload resolution given by the candidates p for
     the function call 'id ( args )' detected by the previous call to
@@ -1554,8 +1508,6 @@ make_ambig_func(CANDIDATE_LIST *p, IDENTIFIER id, LIST(EXP) args,
 
 
 /*
-    IS AN IDENTIFIER A FUNCTION TEMPLATE?
-
     This routine returns true if id is a function template.  In this case
     overload resolution is always done even if id is not overloaded.
 */
@@ -1574,8 +1526,6 @@ is_template_func(IDENTIFIER id)
 
 
 /*
-    RESOLVE AN OVERLOADED FUNCTION CALL
-
     This routine resolves the overloaded function call 'id ( args )' where
     id is an identifier expression.  dep is true when id is a simple
     unqualified function name.  It returns the identifier for id which
@@ -1696,8 +1646,6 @@ resolve_call(IDENTIFIER id, LIST(EXP) args, QUALIFIER qual, int dep)
 
 
 /*
-    RESOLVE AN AMBIGUOUS FUNCTION ADDRESS
-
     This routine resolves the list of functions ids to see which is the
     best under the template specialisation rules.  If no one best candidate
     is found the null identifier is returned.  This rule is not actually
@@ -1759,8 +1707,6 @@ resolve_ambig_func(LIST(IDENTIFIER) ids, int depth)
 
 
 /*
-    FIND AN OVERLOADED FUNCTION OF A GIVEN TYPE
-
     This routine returns whichever of the set of overloaded or ambiguous
     functions id has type t.  Type deduction is allowed for the template
     parameters pids if templ is true. The null identifier is returned if
@@ -1924,8 +1870,6 @@ resolve_func(IDENTIFIER id, TYPE t, int templ, int res, LIST(IDENTIFIER) pids,
 
 
 /*
-    CREATE A RESOLVED OVERLOADED FUNCTION EXPRESSION
-
     This routine creates a resolved overloaded function expression for
     the function id.
 */
@@ -1958,8 +1902,6 @@ make_resolved_exp(IDENTIFIER id, QUALIFIER q, EXP b, int addr, int paren)
 
 
 /*
-    RESOLVE THE ADDRESS OF AN OVERLOADED FUNCTION
-
     This routine checks the conversion of the expression e to type t.  If
     e is an overloaded function identifier expression and t is a function
     type, or pointer to function type, or pointer to member function type,

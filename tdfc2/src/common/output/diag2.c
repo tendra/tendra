@@ -60,8 +60,6 @@
 
 
 /*
-    DWARF TAG VALUES
-
     Certain values used within the diagnostic format are actually DWARF
     tag values.  These macros give the values used.
 */
@@ -98,8 +96,6 @@
 
 
 /*
-    ENCODE A DIAGNOSTIC FILE NAME
-
     This routine adds the diagnostic file name given by posn to the
     bitstream bs.
 */
@@ -156,8 +152,6 @@ enc_dg_filename(BITSTREAM *bs, PTR(POSITION)posn)
 
 
 /*
-    ENCODE A DIAGNOSTIC SOURCE POSITION
-
     This routine adds the source position given by the span from p to q
     to the bitstream bs.
 */
@@ -205,8 +199,6 @@ enc_dg_loc(BITSTREAM *bs, PTR(LOCATION)p, PTR(LOCATION)q)
 
 
 /*
-    FIND THE START OR END OF A BLOCK
-
     This routine returns the location of the start or end of the block e.
 */
 
@@ -237,8 +229,6 @@ PTR(LOCATION)block_loc(EXP e, int end)
 
 
 /*
-    ENCODE THE START OF A NAMESPACE
-
     This routine adds the start of a list of names derived from the
     namespace ns to the bitstream bs.
 */
@@ -262,8 +252,6 @@ enc_dg_namelist(BITSTREAM *bs, NAMESPACE ns)
 
 
 /*
-    ENCODE COMMAND-LINE OPTIONS
-
     This routine adds the revelant command-line options as a list of
     strings to the bitstream bs.
 */
@@ -291,8 +279,6 @@ enc_dg_options(BITSTREAM *bs)
 
 
 /*
-    ENCODE A COMPILATION UNIT
-
     This routine adds the top-level compilation unit information to the
     bitstream bs.  The current location gives information about the
     primary source file.
@@ -351,8 +337,6 @@ enc_dg_compilation(BITSTREAM *bs)
 
 
 /*
-    ENCODE A DIAGNOSTIC ACCESS SPECIFIER
-
     This routine adds the access specifier component of ds to the bitstream
     bs.  All access specifiers are optional, the default being public.
 */
@@ -375,8 +359,6 @@ enc_dg_access(BITSTREAM *bs, DECL_SPEC ds)
 
 
 /*
-    ENCODE A DIAGNOSTIC VIRTUAL SPECIFIER
-
     This routine adds the virtual specifier component of ds to the bitstream
     bs.  All virtual specifiers are optional, the default being non-virtual.
 */
@@ -399,8 +381,6 @@ enc_dg_virtual(BITSTREAM *bs, DECL_SPEC ds)
 
 
 /*
-    ENCODE A TEMPLATE ARGUMENT
-
     Template arguments are encoded as dummy object or type names.
 */
 
@@ -471,8 +451,6 @@ enc_dg_token_arg(BITSTREAM *bs, TOKEN tok)
 
 
 /*
-    ENCODE AN ARTIFICIAL IDENTIFIER NAME
-
     This routine adds the artificial identifier name s to the bitstream bs.
 */
 
@@ -488,8 +466,6 @@ enc_dg_artificial(BITSTREAM *bs, const char *s)
 
 
 /*
-    ENCODE A DIAGNOSTIC IDENTIFIER NAME
-
     This routine adds the name of the identifier id to the bitstream bs.
 */
 
@@ -563,8 +539,6 @@ enc_dg_name(BITSTREAM *bs, IDENTIFIER id, TYPE form)
 
 
 /*
-    ENCODE A DIAGNOSTIC IDENTIFIER
-
     This routine adds the diagnostics for the identifier id to the
     bitstream bs.  use indicates whether a declaration or a definition
     should be output.
@@ -763,8 +737,6 @@ enc_dg_decl(BITSTREAM *bs, IDENTIFIER id, ulong n, unsigned use)
 
 
 /*
-    ENCODE DIAGNOSTICS FOR A TOKEN DEFINITION
-
     This routine outputs any diagnostic information for the token id
     to the appropriate diagnostic units.  It is only called if id is
     defined.  The type t may be used to override the type of id.
@@ -780,8 +752,6 @@ enc_dg_token(IDENTIFIER id, TYPE t)
 
 
 /*
-    LIST OF INCOMPLETE CLASSES
-
     This list is used to hold all the classes which are used while they
     are incomplete.  A diagnostic tag is introduced for each such class
     which may be defined later if the class is completed.
@@ -791,8 +761,6 @@ static LIST(IDENTIFIER)dg_classes = NULL_list(IDENTIFIER);
 
 
 /*
-    DEFINE INCOMPLETE CLASSES
-
     This routine defines the diagnostic tags for the incomplete classes
     in the list above.
 */
@@ -816,8 +784,6 @@ enc_dg_pending(void)
 
 
 /*
-    FIND A DIAGNOSTIC TAG USAGE
-
     This routine determines the usage for the diagnostic tag associated
     with the identifier id in the context given by def (true for
     definitions, false for declarations).  The value returned indicates
@@ -925,8 +891,6 @@ find_dg_usage(IDENTIFIER id, ulong *pn, int def)
 
 
 /*
-    ENCODE A GLOBAL DIAGNOSTIC IDENTIFIER
-
     This routine adds the diagnostic information for the global identifier
     id to the diagnostic definition unit.  def is true for a definition.
 */
@@ -991,8 +955,6 @@ enc_dg_id(IDENTIFIER id, int def)
 
 
 /*
-    DIAGNOSTICS FOR POINTER TO VOID
-
     This table gives the diagnostic tag numbers used to represent the types
     'cv void *'  for the various cv-qualifiers, cv.
 */
@@ -1003,8 +965,6 @@ static ulong diag_ptr_void[4] = {
 
 
 /*
-    ENCODE A BUILT-IN DIAGNOSTIC TYPE
-
     This routine adds the diagnostics for the definition of the built-in
     type t to the diagnostic  bs.  This includes 'void *' as well as the
     more obvious integer and floating point types.
@@ -1119,8 +1079,6 @@ enc_dg_basetype(TYPE t, int def)
 
 
 /*
-    ENCODE A DIAGNOSTIC CLASS TAG
-
     This routine adds the diagnostic tag corresponding to the class ct
     to the bitstream bs.
 */
@@ -1143,8 +1101,6 @@ enc_dg_ctype(BITSTREAM *bs, CLASS_TYPE ct)
 
 
 /*
-    ENCODE A DIAGNOSTIC OFFSET TOKEN
-
     This routine adds the offset off plus the offset token tok to the
     bitstream bs in the form of a token with one expression parameter
     which returns the parameter plus the offset (allowing for virtual
@@ -1187,8 +1143,6 @@ enc_dg_offset(BITSTREAM *bs, OFFSET off, ulong tok, int spec)
 
 
 /*
-    ENCODE A LIST OF DIAGNOSTIC BASE CLASSES
-
     This routine adds the list of diagnostic base classes given by br
     to the bitstream bs.
 */
@@ -1221,8 +1175,6 @@ enc_dg_bases(BITSTREAM *bs, LIST(GRAPH)br)
 
 
 /*
-    ENCODE A DIAGNOSTIC CLASS MEMBER
-
     This routine adds the class member id to the bitstream bs as a
     DG_CLASSMEM if ct is not null, or as a DG_FIELD otherwise.  The
     number of members is recorded in pm.  The routine is also used to
@@ -1341,8 +1293,6 @@ enc_dg_member(BITSTREAM *bs, IDENTIFIER id, unsigned *pm, CLASS_TYPE ct,
 
 
 /*
-    ENCODE A LIST OF DIAGNOSTIC MEMBERS
-
     This routine calls enc_dg_member for all the members of the
     namespace ns.
 */
@@ -1375,8 +1325,6 @@ enc_dg_namespace(BITSTREAM *bs, NAMESPACE ns, unsigned *pm, CLASS_TYPE ct)
 
 
 /*
-    ENCODE VIRTUAL FUNCTION TABLE INFORMATION
-
     This routine adds the information for the virtual function table
     and run-time type information associated with the polymorphic class
     t to the bitstream bs in the form of a number of dummy class members.
@@ -1491,8 +1439,6 @@ enc_dg_vtable(BITSTREAM *bs, TYPE t, ulong *vtags)
 
 
 /*
-    ENCODE A DIAGNOSTIC CLASS
-
     This routine adds the definition of the class type t to the bitstream
     bs.  force is 2 to indicate that a tag name should be output for this
     class.
@@ -1627,8 +1573,6 @@ enc_dg_class(BITSTREAM *bs, TYPE t, int force)
 
 
 /*
-    ENCODE A DIAGNOSTIC ENUMERATION TYPE
-
     This routine adds the definition of the enumeration type t to the
     bitstream bs.  force is 2 to indicate that a tag name should be
     output for this enumeration type.
@@ -1673,8 +1617,6 @@ enc_dg_etype(BITSTREAM *bs, TYPE t, int force)
 
 
 /*
-    ENCODE A DIAGNOSTIC TYPE
-
     This routine adds the diagnostic information for the type t to the
     bitstream bs.
 */
@@ -1922,8 +1864,6 @@ basetype_lab: {
 
 
 /*
-    ENCODE A LOCAL DIAGNOSTIC IDENTIFIER
-
     This routine adds the diagnostic information for the local identifier
     id to the bitstream bs.  ts gives the encoding of the scope of id.
 */
@@ -1940,8 +1880,6 @@ enc_dg_local(BITSTREAM *bs, IDENTIFIER id, BITSTREAM *ts)
 
 
 /*
-    ENCODE A LIST OF DIAGNOSTIC PARAMETERS
-
     This routine adds the diagnostic information for the list of function
     parameters p to the bitstream bs.  ts and e give the function body.
 */
@@ -1967,8 +1905,6 @@ enc_dg_params(BITSTREAM *bs, LIST(IDENTIFIER)p, BITSTREAM *ts, EXP e)
 
 
 /*
-    ENCODE A DIAGNOSTIC STATEMENT
-
     This routine adds the diagnostic information associated with the
     statement e to the bitstream bs.
 */

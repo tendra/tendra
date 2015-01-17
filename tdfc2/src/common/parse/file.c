@@ -33,8 +33,6 @@
 
 
 /*
-    INPUT AND OUTPUT FILES
-
     These are the files from which the lexical routines read their input
     and to which the output routines write.
 */
@@ -44,8 +42,6 @@ FILE *output_file[OUTPUT_FILES] = { NULL, NULL, NULL, NULL, NULL };
 
 
 /*
-    CURRENT FILE NAMES
-
     The variable input_name is used to hold the name of the current input
     file name.  This remains constant and is not, for example, changed by
     #line directives.  Similarly output_name holds the names of the output
@@ -57,8 +53,6 @@ string output_name[OUTPUT_FILES] = { NULL, NULL, NULL, NULL, NULL };
 
 
 /*
-    STANDARD FILE NAME
-
     The macro std_file_name checks whether the file name A is the special
     string "-" used to indicate the standard input or output.  The other
     macros give the corresponding names used in error reports.
@@ -70,8 +64,6 @@ string output_name[OUTPUT_FILES] = { NULL, NULL, NULL, NULL, NULL };
 
 
 /*
-    INTERNAL FILE BUFFER
-
     This buffer is used as the internal file buffer which is used to hold
     any preprocessing directives arising from command-line options.  It
     has an associated dummy file and file name.
@@ -83,8 +75,6 @@ static string internal_name = NULL;
 
 
 /*
-    INCLUDE FILE BUFFER
-
     This buffer is used to build up file names when processing #include
     directives.
 */
@@ -93,8 +83,6 @@ BUFFER incl_buff = NULL_buff;
 
 
 /*
-    INPUT FLAGS
-
     These flags are used to record changes in the current file location.
 */
 
@@ -108,8 +96,6 @@ int bad_crt_loc = 0;
 
 
 /*
-    INPUT BUFFERS
-
     These variables describe the buffers used in reading the input file.
     Each buffer consists of an array of characters, preceded by space
     for the storage of unread characters, and followed by an overflow
@@ -153,8 +139,6 @@ unsigned long crt_buff_no = 0;
 
 
 /*
-    IS A FILE NAME A FULL PATHNAME?
-
     This routine checks whether the file name nm represents a full
     pathname.
 */
@@ -176,8 +160,6 @@ is_full_pathname(string nm)
 
 
 /*
-    CONVERT A FILE NAME TO STANDARD FORMAT
-
     This routine modifies the file name nm to the standard format with
     sensible forward slashes rather backslashes.
 */
@@ -200,8 +182,6 @@ make_pathname(string nm)
 
 
 /*
-    NORMALISE A FILE NAME
-
     This routine normalises the file name s by removing any . or ..
     components.  The result is only used in the printing of error
     messages so it doesn't matter too much if the result isn't quite
@@ -266,8 +246,6 @@ normalise_pathname(string s)
 
 
 /*
-    SET CURRENT LOCATION
-
     This routine sets the current location from the filename nm.  It returns
     the result of applying make_pathname to nm.
 */
@@ -296,8 +274,6 @@ set_crt_loc(string nm, int special)
 
 
 /*
-    OPEN INPUT FILE
-
     This routine opens the input file, using input_name as the name of the
     file to be opened.  If this is the null string then the standard input
     is used.  The file is opened in binary mode if bin is true.  The routine
@@ -343,8 +319,6 @@ open_input(int bin)
 
 
 /*
-    FREE SPACE ALLOCATED FOR INPUT BUFFERS
-
     This routine frees the memory allocated for the input buffers.
 */
 
@@ -368,8 +342,6 @@ term_input(void)
 
 
 /*
-    OPEN OUTPUT FILE
-
     This routine opens the nth output file, using output_name as the name
     of the file to be opened.  If this is the null string then the standard
     output is used.  The file is opened in binary mode if bin is true.  The
@@ -403,8 +375,6 @@ open_output(int n, int bin)
 
 
 /*
-    CLOSE INPUT FILE
-
     This routine closes the input file.
 */
 
@@ -424,8 +394,6 @@ close_input(void)
 
 
 /*
-    CLOSE OUTPUT FILE
-
     This routine closes the nth output file.
 */
 
@@ -445,8 +413,6 @@ close_output(int n)
 
 
 /*
-    FILL THE INPUT BUFFER
-
     This routine fills the current input buffer from the input file, setting
     up the associated buffer pointers.  It returns NULL to indicate that no
     bytes were read.
@@ -489,8 +455,6 @@ fill_buffer(void)
 
 
 /*
-    INITIALISE BUFFER
-
     This routine initialises buffer number i and makes it into the current
     buffer.  It returns NULL to indicate an empty file.
 */
@@ -506,8 +470,6 @@ init_buffer(unsigned long i)
 
 
 /*
-    RESUME BUFFER
-
     This routine makes buffer number i into the current buffer by restoring
     the main values from those stored in the buffer.
 */
@@ -527,8 +489,6 @@ resume_buffer(unsigned long i)
 
 
 /*
-    FIND CURRENT FILE POSITION
-
     This routine finds the current file position and updates the pointers
     in buffer i (which should be the current buffer number).
 */
@@ -551,8 +511,6 @@ tell_buffer(unsigned long i)
 
 
 /*
-    SET CURRENT FILE POSITION
-
     This routine sets the current file position to n and the current buffer
     to number i.  started is false if the file has just been opened.
 */
@@ -609,8 +567,6 @@ seek_buffer(unsigned long i, long n, int started)
 
 
 /*
-    UPDATE THE CURRENT COLUMN POSITION
-
     The current column position is only updated at convenient junctures.
     The variable input_crt is used to keep track of the last such location.
 */
@@ -631,8 +587,6 @@ update_column(void)
 
 
 /*
-    REFILL THE INPUT BUFFER
-
     This routine refills the input buffer, returning the first character.
     It is called whenever the next character in the buffer is char_end.
     It is possible that the character is really char_end, in which case
@@ -664,8 +618,6 @@ refill_char(void)
 
 
 /*
-    INCLUDE FILE SEARCH PATH
-
     The variable dir_path gives the list of directories searched for
     #include'd files.  The variable crt_dir_path is set after each #include
     directive to the position in the path after that at which the included
@@ -678,8 +630,6 @@ static INCL_DIR *crt_found_path = NULL;
 
 
 /*
-    FIND A NAMED DIRECTORY
-
     This routine looks up a named directory called nm.  It returns the
     corresponding directory structure, or the null pointer if nm is not
     defined.
@@ -701,8 +651,6 @@ find_directory(string nm)
 
 
 /*
-    ADD A DIRECTORY TO THE SEARCH PATH
-
     This routine adds the directory dir with associated name nm to the
     include file search path.
 */
@@ -736,8 +684,6 @@ add_directory(string dir, string nm)
 
 
 /*
-    SET A DIRECTORY COMPILATION MODE
-
     This routine sets the compilation mode for the directory named nm
     to be p.
 */
@@ -761,8 +707,6 @@ directory_mode(string nm, OPTIONS *p)
 
 
 /*
-    LISTS OF START-UP AND END-UP FILES
-
     These variables give the lists of start-up and end-up files.  These
     are equivalent to #include "file" directives at respectively the start
     and the end of the main include file.
@@ -773,8 +717,6 @@ LIST(string)endup_files = NULL_list(string);
 
 
 /*
-    SET UP INTERNAL START-UP FILE
-
     This routine sets up the built-in internal start-up file.
 */
 
@@ -795,8 +737,6 @@ builtin_startup(void)
 
 
 /*
-    OPEN NEXT START-UP FILE
-
     This routine opens the next start-up file.  It continues trying until
     a start-up file is successfully opened or there are no start-up files
     left.
@@ -822,8 +762,6 @@ open_startup(void)
 
 
 /*
-    LIST OF INCLUDED FILES
-
     This list is used to record all the files included plus the position
     of the current file within this list.
 */
@@ -845,8 +783,6 @@ static INCL_FILE *crt_included_file = NULL;
 
 
 /*
-    TABLE OF INCLUSIONS
-
     This table is used to hold the file positions for all the currently
     active #include directives.  Note that this is done as a finite
     (but hopefully sufficiently large) array to detect recursive
@@ -874,8 +810,6 @@ static unsigned long position_size = MAX_INCL_DEPTH;
 
 
 /*
-    SIMPLE INCLUSION DEPTH
-
     There are two approaches to suspending the current file - either
     leaving the file open or closing it and reopening it later.  The
     latter is more efficient, but is limited by the maximum number of
@@ -889,8 +823,6 @@ static unsigned long position_size = MAX_INCL_DEPTH;
 
 
 /*
-    SET MAXIMUM INCLUDE DEPTH
-
     This routine sets the maximum include file depth to n.
 */
 
@@ -921,8 +853,6 @@ set_incl_depth(unsigned long n)
 
 
 /*
-    CHECK WHETHER A FILE HAS ALREADY BEEN INCLUDED
-
     This routine checks whether the file with pathname nm and file
     statistics fs has already been included and does not need to be
     included again.  It also sets crt_included_file.  st is as in
@@ -994,8 +924,6 @@ already_included(string nm, STAT_TYPE *fs, int st)
 
 
 /*
-    CHECK A FILE PROTECTION MACRO
-
     This routine checks whether the given macro identifier is a file
     protection macro for the current file, that is to say, whether the
     file has the form:
@@ -1056,8 +984,6 @@ protection_macro(HASHID macro, int prev, int dir)
 
 
 /*
-    CREATE A FILE NAME
-
     This routine forms a composite file name consisting of a directory
     component d and a file component f.  The up argument is true if the
     existing file component is to be removed from d.
@@ -1086,8 +1012,6 @@ add_pathname(string d, string f, int up)
 
 
 /*
-    FIND AN INCLUDE FILE
-
     This routine searches for, and opens, an included file named nm.  The
     argument q equals '"' or '>', depending on the form of the #include
     directive.  The argument st is 0 for normal inclusions, 1 for imported
@@ -1281,8 +1205,6 @@ start_include(string nm, int q, int st, int next)
 
 
 /*
-    END AN INCLUDE FILE
-
     This routine is called at the end of each source file.  prev is as
     in protection_macro.  The routine returns 1 if the end of file causes
     a reversion to a previous file via a #include directive, and 0 if this

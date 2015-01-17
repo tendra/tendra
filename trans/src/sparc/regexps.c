@@ -38,8 +38,6 @@
 
 
 /*
-    ARRAY OF REGISTER-EXP ASSOCIATIONS
-
     0-31 represent the fixed point registers, 32-47 the floating point
     registers.
 */
@@ -82,8 +80,6 @@ sim_explist ( exp al, exp bl )
 
 
 /*
-    ARE TWO EXPRESSIONS SIMILAR?
-
     Basically this is the same as eq_exp except that equal shapes requirement
     is weakened to equal size and alignment.
 */

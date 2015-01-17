@@ -28,8 +28,6 @@
 
 
 /*
-    LABEL NAMESPACE
-
     The labels in a function occupy a distinct namespace.  This is given by
     the following variable.
 */
@@ -38,8 +36,6 @@ NAMESPACE label_namespace = NULL_nspace;
 
 
 /*
-    LABEL USAGE VALUES
-
     The storage field of a label is used primarily to indicate whether that
     label has been used or defined.  However addition information is recorded
     using the following values, namely, whether the label is jumped to in
@@ -66,8 +62,6 @@ make_label(HASHID nm, DECL_SPEC info, int op)
 
 
 /*
-    BEGIN A LABELLED STATEMENT
-
     This routine begins the construction of a statement labelled by the
     label lab.  If lab is the null identifier then a unique identifier
     name is created.  op gives the type of label being defined (for example
@@ -163,8 +157,6 @@ begin_label_stmt(IDENTIFIER lab, int op)
 
 
 /*
-    COMPLETE A LABELLED STATEMENT
-
     This routine completes the construction of the labelled statement prev
     using the statement body.  It is also used to handle case and default
     statements.  If prev is the null expression, indicating any illegal
@@ -205,8 +197,6 @@ end_label_stmt(EXP prev, EXP body)
 
 
 /*
-    CONSTRUCT A JUMP TO A LABEL
-
     This routine constructs a jump to the label lab (including break and
     continue statements).  join gives the smallest statement containing
     both the label and the jump.  This can only be filled in later for
@@ -240,8 +230,6 @@ make_jump_stmt(IDENTIFIER lab, EXP join)
 
 
 /*
-    CONSTRUCT A GOTO STATEMENT
-
     This routine constructs a goto statement where the destination label
     is given by lab.  Note that it is possible to use a label before it
     is defined.
@@ -283,8 +271,6 @@ make_goto_stmt(IDENTIFIER lab)
 
 
 /*
-    POSTLUDE LABEL NAME
-
     This value gives the name associated with all postlude labels.  It is
     assigned when the first postlude label is created.
 */
@@ -293,8 +279,6 @@ static HASHID postlude_name = NULL_hashid;
 
 
 /*
-    CREATE A POSTLUDE LABEL
-
     This routine creates a label name for a postlude expression, that is
     to say an expression which will be called at the end of a function.
     At present this is only used in functions which do not return a value.
@@ -318,8 +302,6 @@ postlude_label(void)
 
 
 /*
-    FIND A POSTLUDE LABEL
-
     This routine returns the postlude label associated with the current
     function or the null identifier if the function has no postlude.
 */
@@ -340,8 +322,6 @@ find_postlude_label(void)
 
 
 /*
-    HAS A LABELLED STATEMENT BEEN REACHED?
-
     This routine checks whether the label label has been reached using
     an explicit goto, break or continue statement in a reached portion of
     the program (when it returns 1) or by fall through from the previous
@@ -363,8 +343,6 @@ used_label(IDENTIFIER lab)
 
 
 /*
-    CHECK ALL LABELS IN A FUNCTION
-
     This routine scans through all the labels defined in the current
     function searching for any which have been used but not defined.
     It returns the number of named labels defined.
@@ -435,8 +413,6 @@ check_labels(void)
 
 
 /*
-    FIND THE VALUE OF A CASE LABEL
-
     This routine determines the value associated with the case label lab.
 */
 
@@ -464,8 +440,6 @@ find_case_nat(IDENTIFIER lab)
 
 
 /*
-    LISTS OF ALL SOLVE STATEMENTS AND TRY BLOCKS
-
     The list all_solve_stmts keeps track of all the solve statements in
     the current function.  Similarly all_try_blocks keeps track of all the
     try blocks.
@@ -476,8 +450,6 @@ LIST(EXP) all_try_blocks = NULL_list(EXP);
 
 
 /*
-    CHECK JUMPED OVER STATEMENTS
-
     This routine checks whether a jump over the statement e to the label
     lab causes the initialisation of a variable to be bypassed or control
     to be transferred into an exception handler or another label body.
@@ -619,8 +591,6 @@ jump_over_stmt(LIST(IDENTIFIER) ids, EXP e, IDENTIFIER lab, int force)
 
 
 /*
-    ADD AN IDENTIFIER TO A LIST
-
     This routine adds the identifier id to the start of the list p if it
     is not already a member.
 */
@@ -642,8 +612,6 @@ add_id(IDENTIFIER id, LIST(IDENTIFIER) p)
 
 
 /*
-    EXTEND A SOLVE STATEMENT
-
     This routine extends the solve statement a by adding the label lab
     and the variables ids.
 */
@@ -670,8 +638,6 @@ extend_solve_stmt(EXP a, IDENTIFIER lab, LIST(IDENTIFIER) ids)
 
 
 /*
-    CHECK FOR UNSTRUCTURED JUMPS
-
     The only instance where the mapping of a statement onto the
     corresponding TDF construct is non-trivial is for unstructured
     labels and gotos.  This routine scans the body of the current
@@ -775,8 +741,6 @@ solve_labels(EXP e)
 
 
 /*
-    CHECK A JUMP TO A CASE OR DEFAULT STATEMENT
-
     This routine checks whether the jump from the switch statement e to
     the case or default label lab bypasses the initialisation of a variable
     or jumps into an exception handler.  The previous labelled statement
@@ -834,8 +798,6 @@ solve_case(EXP e, IDENTIFIER lab, EXP prev)
 
 
 /*
-    CHECK A SWITCH STATEMENT
-
     This routine scans through the switch statement e for jumps which
     bypass the initialisation of a variable.
 */
@@ -863,8 +825,6 @@ solve_switch(EXP e)
 
 
 /*
-    CONSTRUCT A LABEL FOR THE FOLLOWING STATEMENT
-
     This routine turns the list of statements following the position p
     in the block statement e into a labelled statement, returning the
     label created.  If p is the last statement in the block then the
@@ -924,8 +884,6 @@ follow_label(EXP e, LIST(EXP) p)
 
 
 /*
-    FIND THE END OF A BRANCH OF A SOLVE STATEMENT
-
     This routine finds the end of the branch of the solve statement e
     given by the label lab.  This is a label which gives any immediately
     following code.
@@ -1037,8 +995,6 @@ end_solve_branch(IDENTIFIER lab, EXP e)
 
 
 /*
-    END ALL SOLVE STATEMENTS
-
     This routine calls end_solve_branch for all the branches of all the
     solve statements in the current function.
 */

@@ -20,8 +20,6 @@
 
 
 /*
-    FILL A BITSTREAM
-
     This routine fills the bitstream bs from its associated file.  It
     returns the number of bytes read.
 */
@@ -49,8 +47,6 @@ fill_bitstream(BITSTREAM *bs)
 
 
 /*
-    CHECK FOR END OF FILE
-
     This routine checks whether the end of the file associated with the
     bitstream bs has been precisely reached.  Note that the link field
     is set to a non-null value by fill_bitstream if the end of file is
@@ -74,8 +70,6 @@ de_eof(BITSTREAM *bs)
 
 
 /*
-    TABLE OF BIT MASKS
-
     This array gives the bit masks for values up to 16 bits.
 */
 
@@ -89,8 +83,6 @@ static unsigned long bit_mask[17] = {
 
 
 /*
-    READ A NUMBER OF BITS FROM A BITSTREAM
-
     This routine reads the next n bits from the bitstream bs.  n will be
     at most 16.
 */
@@ -142,8 +134,6 @@ de_bits(BITSTREAM *bs, unsigned n)
 
 
 /*
-    READ A LARGE NUMBER OF BITS FROM A BITSTREAM
-
     This routine is identical to de_bits except that it works for up to
     32 bits.
 */
@@ -164,8 +154,6 @@ de_long_bits(BITSTREAM *bs, unsigned n)
 
 
 /*
-    READ AN INTEGER FROM A BITSTREAM
-
     This routine reads an integer as a series of octal digits from the
     bitstream bs.
 */
@@ -187,8 +175,6 @@ de_int(BITSTREAM *bs)
 
 
 /*
-    ALIGN A BITSTREAM TO A BYTE BOUNDARY
-
     This routine reads enough bits from the bitstream bs to align it to
     the next byte boundary.
 */
@@ -205,8 +191,6 @@ de_boundary(BITSTREAM *bs)
 
 
 /*
-    READ A STRING FROM A BITSTREAM
-
     This routine reads a string from the bitstream bs into the buffer bf.
 */
 

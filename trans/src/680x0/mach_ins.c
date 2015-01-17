@@ -21,8 +21,6 @@
 extern bool have_cond;
 
 /*
-    OUTPUT FLAG
-
     If this is true, all instructions are output immediately.  This
     effectively switches off all peephole optimizations.
 */
@@ -30,8 +28,6 @@ extern bool have_cond;
 int output_immediately = 0;
 
 /*
-    LIST OF ALL INSTRUCTIONS
-
     A list of all instructions in maintained.  The current instruction is
     given by current_ins.
 */
@@ -41,8 +37,6 @@ mach_ins *current_ins = NULL;
 
 
 /*
-    RECORD OF LAST JUMP AND REGISTERS CHANGED SINCE
-
     This is used to help get a more accurate idea of which registers
     are known during the peephole optimizations.
 */
@@ -52,8 +46,6 @@ bitpattern last_jump_regs = 0;
 
 
 /*
-    LIST OF FREE INSTRUCTIONS
-
     A list of free mach_ins's, linked by their next field, is maintained.
 */
 
@@ -61,8 +53,6 @@ static mach_ins *mach_ins_list = NULL;
 
 
 /*
-    FREE A SINGLE INSTRUCTION AND ITS OPERANDS
-
     The operands of the instruction are freed and the instruction
     itself is added to the list of all free instructions.
 */
@@ -83,8 +73,6 @@ reclaim_ins(mach_ins *p)
 
 
 /*
-    FREE ALL INSTRUCTIONS AND THEIR OPERANDS
-
     All the instructions in the list of all instructions are freed and
     the list is reset to zero length.
 */
@@ -117,8 +105,6 @@ free_all_ins(void)
 
 
 /*
-    CREATE A NEW INSTRUCTION
-
     A new instruction, with instruction number insno and operands op1 and
     op2 is added to the list of all instructions.  ch gives the mask of
     all registers changed by the instruction.  If susp is true then
@@ -194,8 +180,6 @@ make_instr_aux(int insno, mach_op *op1, mach_op *op2, bitpattern ch, int susp)
 
 
 /*
-    CREATE A LABEL
-
     A label is added to the list of all instructions.  This has the effect
     of marking all registers as changed.
 */
@@ -211,8 +195,6 @@ make_label(long n)
 }
 
 /*
-    CREATE AN EXTERNAL LABEL
-
     An external label is added to the list of all instructions.  This has
     the effect of marking all registers as changed.
 */
@@ -229,8 +211,6 @@ make_external_label(char *nm)
 
 
 /*
-    CREATE A JUMP
-
     A jump, instruction number insno, to label n, is added to the list
     of all instructions.
 */
@@ -251,8 +231,6 @@ make_jump(int insno, long n)
 
 
 /*
-    SET A SPECIAL LABEL VALUE
-
     The special label with identifier nm is set equal to the given value.
 */
 

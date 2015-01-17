@@ -57,8 +57,6 @@
 
 
 /*
-    LIST OF ALL PENDING FUNCTIONS
-
     This list contains all the inline and implicit functions and
     literal constants defined in the program.
 */
@@ -67,8 +65,6 @@ LIST(IDENTIFIER)pending_funcs = NULL_list(IDENTIFIER);
 
 
 /*
-    CHECK A MANGLED IDENTIFIER NAME
-
     This routine checks whether the identifier id is used but not defined
     because, although it has external linkage, its mangled name is empty.
 */
@@ -98,8 +94,6 @@ check_mangled(IDENTIFIER id)
 
 
 /*
-    START OF TDF OUTPUT ROUTINES
-
     The compiler can optionally be compiled with the TDF output routines
     disabled by defining the TDF_OUTPUT macro to be zero on the
     command-line.  The following routines are concerned with TDF output.
@@ -109,8 +103,6 @@ check_mangled(IDENTIFIER id)
 
 
 /*
-    CURRENT FUNCTION ACCESS
-
     This variable is used to hold the declaration specifiers for the
     current function.
 */
@@ -119,8 +111,6 @@ DECL_SPEC crt_func_access = dspec_none;
 
 
 /*
-    ENCODE AN IDENTIFIER ACCESS
-
     This routine adds an optional TDF ACCESS corresponding to the
     declaration specifiers ds.
 */
@@ -144,8 +134,6 @@ enc_access(BITSTREAM *bs, DECL_SPEC ds)
 
 
 /*
-    ENCODE AN IDENTIFIER SIGNATURE
-
     This routine adds an optional identifier signature corresponding to id
     to the bitstream bs.  Note that these signatures were only introduced
     in TDF version 4.0.
@@ -163,8 +151,6 @@ enc_signature(BITSTREAM *bs, IDENTIFIER id)
 
 
 /*
-    SHOULD A VARIABLE BE COMMON?
-
     This routine checks whether the local static variable id should be
     made a common tag.  It returns 2 if it should and 1 otherwise (see
     enc_tagdec).  The prefix to be used for mangling the name is returned
@@ -191,8 +177,6 @@ is_common_tag(IDENTIFIER id, string *ps)
 
 
 /*
-    CREATE A STATIC TAG DEFINITION
-
     This routine adds the tag declaration for the static variable id to
     the bitstream bs.  If id has a constant initialiser and no destructor
     then this is mapped to a simple tag definition, otherwise the
@@ -317,8 +301,6 @@ enc_static_var(BITSTREAM *bs, IDENTIFIER id)
 
 
 /*
-    CREATE A LOCAL TAG DEFINITION
-
     This routine adds the start of a local tag declaration for the variable
     id to the bitstream bs.  The definition body has to be added later.
     Any destructor for id is returned via d.  var is 1 to indicate that
@@ -396,8 +378,6 @@ enc_variable(BITSTREAM *bs, IDENTIFIER id, int var, EXP *d, EXP e)
 
 
 /*
-    ENCODE A FUNCTION DEFINITION
-
     This routine encodes the definition of the function id with body e
     to the bitstream bs.
 */
@@ -640,8 +620,6 @@ enc_func_defn(BITSTREAM *bs, IDENTIFIER id, EXP e)
 
 
 /*
-    ENCODE THE START OF A TAG DECLARATION
-
     This routine adds the start of a declaration of the tag with identifier
     id, capsule number n and type t in the tag declaration unit.  var
     is 0 if the tag is an identity, 1 for a variable and 2 for a common tag.
@@ -672,8 +650,6 @@ enc_tagdec_start(IDENTIFIER id, ulong n, TYPE t, int var)
 
 
 /*
-    ENCODE THE END OF A TAG DECLARATION
-
     This routine ends the tag declaration started by enc_tagdec_start.
 */
 
@@ -687,8 +663,6 @@ enc_tagdec_end(BITSTREAM *bs)
 
 
 /*
-    ENCODE A TAG DECLARATION
-
     This routine adds a complete tag declaration to the tag declaration
     unit if it has not already been declared.
 */
@@ -707,8 +681,6 @@ enc_tagdec(IDENTIFIER id, ulong n, TYPE t, int var)
 
 
 /*
-    ENCODE THE START OF A TAG DEFINITION
-
     This routine adds a definition of the tag with identifier id, capsule
     number n and type t to the tag definition unit.  var is as in
     enc_tagdec_start.  The routine returns a bitstream to allow the actual
@@ -741,8 +713,6 @@ enc_tagdef_start(IDENTIFIER id, ulong n, TYPE t, int var)
 
 
 /*
-    ENCODE THE END OF A TAG DEFINITION
-
     This routine ends the tag definition started by enc_tagdef_start.
 */
 
@@ -756,8 +726,6 @@ enc_tagdef_end(BITSTREAM *bs)
 
 
 /*
-    CREATE A TAG DEFINITION
-
     This routine creates a tag declaration and definition for the tag
     id of type t and definition e.  var is true for a variable tag.
     The expression d gives any associated destructor.  id can be the
@@ -862,8 +830,6 @@ make_tagdef(IDENTIFIER id, TYPE t, EXP e, EXP d, int var)
 
 
 /*
-    CREATE THE DYNAMIC INITIALISATION FUNCTIONS
-
     This routine creates the dynamic initialisation and termination
     functions.
 */
@@ -993,8 +959,6 @@ enc_dynamic_init (void)
 
 
 /*
-    CREATE A TOKEN DECLARATION
-
     This routine creates a token declaration body bitstream for a token
     with external (capsule) number n and sort sorts.  This is only output
     for tokens with at least one parameter to aid in pretty-printing.
@@ -1035,8 +999,6 @@ enc_tokdec(ulong n, const char *sorts)
 
 
 /*
-    START A TOKEN DEFINITION
-
     This routine creates a token definition body bitstream for a token
     with external (capsule) number n and sort given by sorts.  This
     includes the allocation of any parameter token numbers, which are
@@ -1072,8 +1034,6 @@ enc_tokdef_start(ulong n, const char *sorts, ulong *pars, int d)
 
 
 /*
-    COMPLETE A TOKEN DEFINITION
-
     This routine adds the definition of the token with external (capsule)
     number n and token definition body ps to the main token definition unit.
 */
@@ -1094,8 +1054,6 @@ enc_tokdef_end(ulong n, BITSTREAM *ps)
 
 
 /*
-    ENCODE A TOKEN DEFINITION
-
     This routine encodes the declaration and, if necessary, the definition
     of the token id.  If def is true then a dummy definition is output even
     if id is not defined. It returns the code letter of the return sort.
@@ -1243,8 +1201,6 @@ enc_tokdef(IDENTIFIER id, int def)
 
 
 /*
-    SHOULD A VARIABLE BE COMPILED?
-
     This routine determines whether a variable declared with specifiers
     ds and type t should be output.  It returns 1 if it should be output
     immediately, 2 if the decision on whether to output should be deferred
@@ -1296,8 +1252,6 @@ need_variable(DECL_SPEC ds, TYPE t, EXP e, ulong n)
 
 
 /*
-    COMPILE A VARIABLE
-
     This routine compiles the global variable or static data member id.
 */
 
@@ -1400,8 +1354,6 @@ compile_variable(IDENTIFIER id, int force)
 
 
 /*
-    COMPILE ALL PENDING FUNCTIONS
-
     This routine compiles all the inline and implicit functions which
     have been used in the program.  The usage information comes from
     the fact that the function tag has actually been output rather than
@@ -1465,8 +1417,6 @@ compile_pending(void)
 
 
 /*
-    SHOULD A FUNCTION BE COMPILED?
-
     This routine determines whether a function declared with specifiers
     ds should be output.  It returns 1 if it should be output immediately,
     2 if the decision on whether to output should be deferred until later,
@@ -1505,8 +1455,6 @@ need_function(DECL_SPEC ds, ulong n)
 
 
 /*
-    COMPILE A FUNCTION
-
     This routine compiles the function or member function id.  If force
     is true then the definition of id is always output.
 */
@@ -1566,8 +1514,6 @@ compile_function(IDENTIFIER id, int force)
 
 
 /*
-    VIRTUAL FUNCTION DECLARATION CHECK
-
     This value gives those virtual functions which are ignored when
     deciding whether to output a virtual function table.
 */
@@ -1577,8 +1523,6 @@ compile_function(IDENTIFIER id, int force)
 
 
 /*
-    COMPILE A VIRTUAL FUNCTION TABLE
-
     This routine compiles the virtual function table associated with
     the polymorphic class type ct.  anon is as in check_identifier.
     The criterion used to limit duplicate copies is putting the virtual
@@ -1639,8 +1583,6 @@ compile_virtual(CLASS_TYPE ct, int anon)
 
 
 /*
-    COMPILE A TOKEN
-
     This routine compiles the token id.  It is only called if id is defined
     (in which case def is true) or should be defined.
 */
@@ -1664,8 +1606,6 @@ compile_token(IDENTIFIER id, int def)
 
 
 /*
-    COMPILE A TYPE
-
     This routine compiles the type named id.  This only has an effect in
     diagnostics mode.
 */
@@ -1693,8 +1633,6 @@ compile_type(IDENTIFIER id)
 
 
 /*
-    COMPILE AN EXTERNAL ASSEMBLER DIRECTIVE
-
     This routine compiles the asm definition e which is declared outside
     any function definition.
 */
@@ -1709,8 +1647,6 @@ compile_asm(EXP e)
 
 
 /*
-    COMPILE A COMMENT
-
     This routine adds the comment string s of length n to the output
     capsule.  This is used in the implementation of the '#ident' directive.
 */
@@ -1730,8 +1666,6 @@ compile_comment(string s, unsigned long n)
 
 
 /*
-    COMPILE A PRESERVED STATIC IDENTIFIER
-
     This routine adds the preserved static identifier id to the output
     capsule.
 */
@@ -1756,8 +1690,6 @@ compile_preserve(IDENTIFIER id)
 
 
 /*
-    COMPILE A WEAK LINKAGE DIRECTIVE
-
     This routine adds a weak linkage directive '#pragma weak id = aid'
     to the output capsule.
 */
@@ -1804,8 +1736,6 @@ compile_weak(IDENTIFIER id, IDENTIFIER aid)
 
 
 /*
-    UPDATE A TAG NAME
-
     This routine updates the external name of the identifier id forcing
     it to become internal or external, depending on the value of ext.  It
     is used to handle inline functions with external linkage.
@@ -1827,8 +1757,6 @@ update_tag(IDENTIFIER id, int ext)
 
 
 /*
-    START OF DUMMY TDF OUTPUT ROUTINES
-
     The following routines are dummies which are used if TDF output is
     disabled.  The output is still a valid TDF capsule, it just contains
     no information.
@@ -1838,8 +1766,6 @@ update_tag(IDENTIFIER id, int ext)
 
 
 /*
-    COMPILE A VARIABLE (DUMMY VERSION)
-
     This routine is a dummy for compiling the variable id when TDF
     output is disabled.
 */
@@ -1854,8 +1780,6 @@ compile_variable(IDENTIFIER id, int force)
 
 
 /*
-    COMPILE ALL PENDING FUNCTIONS (DUMMY VERSION)
-
     This routine is a dummy for compiling all pending functions when
     TDF output is disabled.
 */
@@ -1868,8 +1792,6 @@ compile_pending(void)
 
 
 /*
-    COMPILE A FUNCTION (DUMMY VERSION)
-
     This routine is a dummy for compiling the function id when TDF
     output is disabled.
 */
@@ -1888,8 +1810,6 @@ compile_function(IDENTIFIER id, int force)
 
 
 /*
-    COMPILE A VIRTUAL FUNCTION TABLE (DUMMY VERSION)
-
     This routine is a dummy for compiling the virtual function table
     associated with the polymorphic class type ct when TDF output is
     disabled.
@@ -1909,8 +1829,6 @@ compile_virtual(CLASS_TYPE ct, int anon)
 
 
 /*
-    COMPILE A TOKEN (DUMMY VERSION)
-
     This routine is a dummy for compiling the token id when TDF output
     is disabled.
 */
@@ -1926,8 +1844,6 @@ compile_token(IDENTIFIER id, int def)
 
 
 /*
-    COMPILE A TYPE (DUMMY VERSION)
-
     This routine is a dummy for compiling the type named id when TDF
     output is disabled.
 */
@@ -1941,8 +1857,6 @@ compile_type(IDENTIFIER id)
 
 
 /*
-    COMPILE AN EXTERNAL ASSEMBLER DIRECTIVE (DUMMY VERSION)
-
     This routine is a dummy for compiling the asm definition e which is
     declared outside any function definition.
 */
@@ -1956,8 +1870,6 @@ compile_asm(EXP e)
 
 
 /*
-    COMPILE A COMMENT (DUMMY VERSION)
-
     This routine is a dummy for compiling the comment given by s and n
     when TDF output is disabled.
 */
@@ -1972,8 +1884,6 @@ compile_comment(string s, unsigned long n)
 
 
 /*
-    COMPILE A PRESERVED STATIC IDENTIFIER (DUMMY VERSION)
-
     This routine is a dummy for compiling the preserved static identifier
     id when TDF output is disabled.
 */
@@ -1987,8 +1897,6 @@ compile_preserve(IDENTIFIER id)
 
 
 /*
-    COMPILE A WEAK LINKAGE DIRECTIVE (DUMMY VERSION)
-
     This routine is a dummy for compiling the weak linkage directive
     '#pragma weak id = aid' when TDF output is disabled.
 */
@@ -2003,8 +1911,6 @@ compile_weak(IDENTIFIER id, IDENTIFIER aid)
 
 
 /*
-    UPDATE A TAG NAME (DUMMY VERSION)
-
     This routine is a dummy for updating the external name of the
     identifier id when TDF output is disabled.
 */

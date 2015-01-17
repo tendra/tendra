@@ -50,8 +50,6 @@
 
 
 /*
-    FIND THE PROMOTION OF A TYPE
-
     This routine finds the promoted type for the type t.  For integral
     types the promoted type is calculated and stored when the type is
     first constructed.  Enumeration types and bitfield types are promoted
@@ -88,8 +86,6 @@ promote_type(TYPE t)
 
 
 /*
-    FIND THE ARGUMENT PROMOTION OF A TYPE
-
     This routine finds the argument promotion type for the type t.  This
     is identical to the normal arithmetic promotion type for integral types,
     but differs for floating point types (float promotes to double etc.).
@@ -143,8 +139,6 @@ arg_promote_type(TYPE t, ERROR *err)
 
 
 /*
-    IS A TYPE EQUAL TO ITS ARGUMENT PROMOTION TYPE?
-
     This routine checks whether the integral or floating point type t is
     equal to its argument promotion type.
 */
@@ -174,8 +168,6 @@ is_arg_promote(TYPE t)
 
 
 /*
-    FIND THE TYPE WHICH PROMOTES TO A GIVEN TYPE
-
     This routine is a partial inverse to arg_promote_type which finds a
     type whose promotion is t.
 */
@@ -208,8 +200,6 @@ unpromote_type(TYPE t)
 
 
 /*
-    FIND THE TYPE FOR AN ARITHMETIC OPERATION
-
     This routine performs finds the result type for an arithmetic operation
     involving operands of types t and s.  These will always be arithmetic
     types.  The operands a and b are passed in order to help determine the
@@ -257,8 +247,6 @@ arith_type(TYPE t, TYPE s, EXP a, EXP b)
 
 
 /*
-    QUALIFIER DEPTH
-
     The value qualifier depth is set by check_qualifier to the depth of
     the deepest different cv-qualifier it encounters.  The easy cases
     are 0 (the types are identically qualified) and 1 (the conversion
@@ -271,8 +259,6 @@ static CV_SPEC qualifier_diff = cv_none;
 
 
 /*
-    CHECK QUALIFICATION CONVERSIONS
-
     This routine checks for qualification conversions from the pointer or
     pointer to member type s to the pointer or pointer to member type t.
     For the qualification conversion to be valid, the two types have to obey
@@ -472,8 +458,6 @@ error_lab: {
 
 
 /*
-    FIND THE TYPE FOR A POINTER OPERATION
-
     This routine finds the common type for a pointer operation involving
     the pointer types t and s (as used, for example, in the relational
     operators).  Pointer conversions and qualification conversions are
@@ -562,8 +546,6 @@ ptr_common_type(TYPE t, TYPE s, int base, int *suspect)
 
 
 /*
-    FIND THE TYPE FOR A POINTER MEMBER OPERATION
-
     This routine finds the common type for a pointer to member operation
     involving the pointer to member types t and s (as used, for example,
     in the equality operators).  If t and s cannot be brought to a common
@@ -623,8 +605,6 @@ ptr_mem_common_type(TYPE t, TYPE s, int *suspect)
 
 
 /*
-    FIND A COMMON TYPE
-
     This routine finds the common type for the types t and s.  This is
     the other type if either type is null, the single type if they are
     equal, the arithmetic type if they are both arithmetic and the common
@@ -719,8 +699,6 @@ common_type(TYPE t, TYPE s, int *suspect)
 
 
 /*
-    CONVERT AN EXPRESSION TO ITS PROMOTED TYPE
-
     This routine converts the expression e to its promoted type, t
     (previously calculated using promote_type).  Note that there is no
     effect unless t is an integral type.
@@ -741,8 +719,6 @@ convert_promote(TYPE t, EXP e)
 
 
 /*
-    CONVERT AN EXPRESSION TO ITS ARITHMETIC TYPE
-
     This routine converts the expression e to an arithmetic result type, t,
     formed by arith_type using the type of e as its nth argument.  Note that
     there are three cases: integer->integer, integer->float and float->float.
@@ -780,8 +756,6 @@ convert_arith(TYPE t, EXP e, int op, int n)
 
 
 /*
-    CONVERT A POINTER TO A COMMON POINTER TYPE
-
     This routine converts the pointer expression e to a common pointer
     type, t, formed by ptr_common_type using the type of e as its nth
     argument.
@@ -805,8 +779,6 @@ convert_ptr_common(TYPE t, EXP e, int op, int n)
 
 
 /*
-    CONVERT A POINTER MEMBER TO A COMMON POINTER MEMBER TYPE
-
     This routine converts the pointer member expression e to a common
     pointer to member type, t, formed by ptr_mem_common_type using the
     type of e as its nth argument.
@@ -830,8 +802,6 @@ convert_ptr_mem_common(TYPE t, EXP e, int op, int n)
 
 
 /*
-    CHECK FOR ASSIGNMENT IN A BOOLEAN
-
     This routine checks whether the expression a, which is to be converted
     to a boolean, is an assignment.  A warning is issued for 'x = y' and
     'x /= y' because of possible confusion with 'x == y' and 'x != y'
@@ -857,8 +827,6 @@ boolean_assign(EXP a, unsigned tag)
 
 
 /*
-    CONVERT AN EXPRESSION TO A BOOLEAN
-
     This routine converts the expression a to a boolean if this is possible,
     returning the corresponding boolean expression.  Any error arising are
     added to the position indicated by the err argument.  User-defined
@@ -951,8 +919,6 @@ convert_boolean(EXP a, unsigned tag, ERROR *err)
 
 
 /*
-    REPORT OVERLOADED FUNCTIONS
-
     This routine prints an error and returns true if e represents an
     overloaded function.  If it represents a non-overloaded function which
     has not already resolved using resolve_cast then the function is
@@ -986,8 +952,6 @@ is_overloaded(EXP e)
 
 
 /*
-    PERFORM QUALIFICATION CONVERSIONS ON A TYPE
-
     This routine removes any type qualifiers from a rvalue, non-class
     type t.  Class types maintain their type qualifiers, lvalue types
     lose theirs in convert_lvalue.
@@ -1010,8 +974,6 @@ convert_qual_type(TYPE t)
 
 
 /*
-    EVALUATE A CONST VARIABLE
-
     This routine evaluates the 'const' variable expression a, so that
     for example, if 'const int c = 5 ;' then 'c' is evaluated to '5'.
 */
@@ -1048,8 +1010,6 @@ convert_const(EXP a)
 
 
 /*
-    PERFORM ARRAY TO POINTER CONVERSION
-
     This routine performs array to pointer conversion on the array
     expression a.  If a is a string literal and str is true then the
     const qualifiers are removed from the string.  A warning is also
@@ -1090,8 +1050,6 @@ convert_array(EXP a, int str, ERROR *err)
 
 
 /*
-    PERFORM LVALUE CONVERSIONS
-
     This routine performs the lvalue conversions on the expression a.
     If e is an lvalue, the lvalue-to-rvalue, array-to-pointer and
     function-to-pointer conversions are applied to transform it into an
@@ -1206,8 +1164,6 @@ default_lab: {
 
 
 /*
-    CHECK AMBIGUOUS IDENTIFIERS
-
     This routine checks whether the identifier id represents a non-member
     function or an ambiguous set of such functions.  It is required because
     overload resolution is used to distinguish between the ambiguous cases
@@ -1240,8 +1196,6 @@ is_ambiguous_func(IDENTIFIER id)
 
 
 /*
-    PERFORM REFERENCE CONVERSIONS
-
     This routine performs the reference conversions on the expression a.
     That is, if a has type reference to t, then it is transformed into an
     lvalue of type t.  Other checks are also applied to a - for example,
@@ -1406,8 +1360,6 @@ call_lab:
 
 
 /*
-    PROMOTE BITFIELD EXPRESSIONS
-
     In certain expressions, even though an integral operand is not subject
     to integer promotion, bitfield expressions need to be converted to
     integral expressions by promotion.  This routine performs this conversion
@@ -1427,8 +1379,6 @@ convert_bitfield(EXP a)
 
 
 /*
-    CONVERT OPERAND WHERE NO CONTEXT IS GIVEN
-
     This routine performs conversions on the operand a in contexts where
     there is no information to resolve overloaded functions etc.  It also
     introduces temporary variables for constructor call expressions.
@@ -1456,8 +1406,6 @@ convert_none(EXP a)
 
 
 /*
-    QUALIFICATION CONVERSIONS
-
     The values cv_const and cv_volatile are used to represent qualification
     conversions which add the corresponding qualifiers at a single level.
     cv_strlit is used to represent the removal of const from a string
@@ -1470,8 +1418,6 @@ convert_none(EXP a)
 
 
 /*
-    CHECK FOR OVERLOADED FUNCTION CONVERSION SEQUENCES
-
     This routine checks for conversion sequences between the overloaded
     function id and the pointer or pointer to member (of the correct class)
     type t.
@@ -1527,8 +1473,6 @@ overload_convert_seq(TYPE t, IDENTIFIER id, CONVERSION *p)
 
 
 /*
-    CHECK FOR REFERENCE CONVERSION SEQUENCES
-
     This routine checks the conversion sequence p, the destination type
     of which is a reference type.  If std is true then only standard
     conversions will be applied.  bind describes the form of reference
@@ -1641,8 +1585,6 @@ ref_convert_seq(CONVERSION *p, EXP e, int bind, int std)
 
 
 /*
-    CHECK FOR STANDARD CONVERSION SEQUENCES
-
     This routine checks whether there is a standard conversion sequence
     between the types given by p.  e gives the argument being converted
     (this is only used in identifying null pointer and null pointer member
@@ -2012,8 +1954,6 @@ pointer_lab:
 
 
 /*
-    CHECK FOR CONVERSION SEQUENCES
-
     This routine checks whether there is an implicit conversion sequence
     corresponding to p.  e gives the argument being converted.  It returns
     the value indicating the rank of this conversion.  This is used in
@@ -2187,8 +2127,6 @@ convert_seq(CONVERSION *p, EXP e, int bind, int ref)
 
 
 /*
-    COMPARE TWO BASE CLASS CONVERSIONS
-
     This routine compares the base classes given by p and q.  It returns 1
     if p is a proper subgraph of q, 2 if q is a proper subgraph of p and
     0 otherwise.
@@ -2243,8 +2181,6 @@ base_compare_seq(GRAPH p, GRAPH q)
 
 
 /*
-    COMPARE TWO QUALIFICATION CONVERSIONS
-
     This routine compares the qualification conversions given by p and q.
     It returns 3 if they are identical, 1 if p is better (in that every
     qualifier added by p is also added by q), 2 if q is better, and 0
@@ -2308,8 +2244,6 @@ qual_compare_seq(CONVERSION *p, CONVERSION *q)
 
 
 /*
-    COMPARE TWO CONVERSION SEQUENCES
-
     This routine compares the implicit conversion sequences given by
     p1 and p2.  In all cases either the from types of the two conversions
     or the to types will be equal.  The routine is used in determining

@@ -53,8 +53,6 @@
 
 
 /*
-    DECLARATION LOCATION
-
     This variable is used to record the location of the current declaration.
     This is primarily so that the location of a declaration can be set to
     the location of the declarator rather than the end of the corresponding
@@ -66,8 +64,6 @@ int is_redeclared = 0;
 
 
 /*
-    DEFAULT LINKAGE FOR INLINE FUNCTIONS AND CONST OBJECTS
-
     These variables give the default linkages for inline functions and
     const objects and the default cv-qualifiers for external objects.
 */
@@ -78,8 +74,6 @@ CV_SPEC cv_extern = cv_none;
 
 
 /*
-    DUMMY EMPTY DECLARATION SPECIFIER
-
     The value dspec_empty is used during the processing of declarations
     to mark any declaration specifier which does not contain an explicit
     specifier.  The value dspec_nonempty gives those declaration
@@ -91,8 +85,6 @@ CV_SPEC cv_extern = cv_none;
 
 
 /*
-    COMPLETE A DECLARATION SPECIFIER
-
     This routine completes the declaration specifier given by the
     specifiers ds, the type t and the cv-qualifier cv.  If these are
     all empty then the result is marked using dspec_empty.  The special
@@ -120,8 +112,6 @@ complete_dspec(DECL_SPEC ds, BASE_TYPE bt, TYPE t, CV_SPEC cv)
 
 
 /*
-    CHECK INFERRED OBJECT TYPES
-
     This routine checks the declaration specifiers ds and the type *p for
     inferred types and empty specifier lists.  It is used in object,
     parameter and class member declarations.
@@ -167,8 +157,6 @@ check_inferred_type(DECL_SPEC ds, TYPE *p, int mem)
 
 
 /*
-    CHECK INFERRED FUNCTION TYPES
-
     This routine checks the declaration specifiers ds and the function
     type t for inferred types and empty specifier lists.  It is used in
     function declarations and definitions (as indicated by def).
@@ -223,8 +211,6 @@ check_func_type(DECL_SPEC ds, TYPE t, int def, int chk, int mem)
 
 
 /*
-    SHIFT A STORAGE CLASS
-
     This macro is used to shift a storage class specifier into a more
     sensible range.
 */
@@ -233,8 +219,6 @@ check_func_type(DECL_SPEC ds, TYPE t, int def, int chk, int mem)
 
 
 /*
-    CHECK STORAGE CLASS SPECIFIERS
-
     This routine extracts the storage class specifiers from the declaration
     specifiers ds in the context given by loc.  It returns a valid storage
     class specifier.
@@ -383,8 +367,6 @@ bad_auto_lab:
 
 
 /*
-    CHECK STORAGE CLASS SPECIFIERS
-
     This routine extracts the function specifiers (plus friend specifiers)
     from the declaration specifiers ds in the context given by loc (as
     above).  It returns a valid combination of function and friend
@@ -444,8 +426,6 @@ check_func_spec(DECL_SPEC ds, int loc)
 
 
 /*
-    CONSTRUCT A TYPE DECLARATION
-
     This routine constructs the declaration of a type with declaration
     specifiers ds (which will include typedef), type t and name id in the
     namespace ns.  mem gives the member of ns corresponding to id or the
@@ -570,8 +550,6 @@ make_type_decl(NAMESPACE ns, DECL_SPEC ds, TYPE t, MEMBER mem, IDENTIFIER id)
 
 
 /*
-    CREATE A SPECIAL TYPE DEFINITION
-
     This routine creates a typedef of the identifier id to the special
     type t.
 */
@@ -602,8 +580,6 @@ typedef_special(IDENTIFIER id, TYPE t)
 
 
 /*
-    FIND THE LINKAGE OF AN IDENTIFIER
-
     This routine finds the linkage of the identifier id (including the
     language specifier), returning the default value st if id does not
     represent an object or function.
@@ -652,8 +628,6 @@ find_storage(IDENTIFIER id, DECL_SPEC st, TYPE t)
 
 
 /*
-    CHECK THE LOCATION OF A DECLARATION
-
     This routine checks whether the namespace cns is a suitable location
     for redeclaring the object id, which is a member of the namespace ns.
     def is true for a definition.
@@ -723,8 +697,6 @@ check_decl_nspace(IDENTIFIER id, NAMESPACE ns, int def, NAMESPACE cns)
 
 
 /*
-    CHECK AN OBJECT TYPE
-
     This routine checks the type t for the object id with declaration
     specifiers ds.
 */
@@ -774,8 +746,6 @@ check_obj_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int tentative)
 
 
 /*
-    DECLARE AN OBJECT
-
     This routine constructs the declaration of an object with declaration
     specifiers ds, type t and name id.
 */
@@ -1001,8 +971,6 @@ make_object_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def)
 
 
 /*
-    DECLARE A FUNCTION
-
     This routine constructs a function declaration for a function with
     declaration specifiers ds, type t and name id.  The argument def is
     true to distinguish function definitions from function declarations.
@@ -1303,8 +1271,6 @@ make_func_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def)
 
 
 /*
-    CHECK A PARAMETER DECLARATION
-
     This routine checks the type of the parameter id declared with type t.
 */
 
@@ -1335,8 +1301,6 @@ check_par_decl(TYPE t, IDENTIFIER id, int loc)
 
 
 /*
-    DECLARE A FUNCTION PARAMETER
-
     This routine constructs the declaration of a function parameter or
     non-type template parameter (as indicated by loc) with declaration
     specifiers ds, type t and name id.  Note that t is not checked - this
@@ -1449,8 +1413,6 @@ make_param_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int loc)
 
 
 /*
-    DECLARE A NON-PROTOTYPE FUNCTION PARAMETER
-
     This routine is used to declare a non-prototype function parameter.
 */
 
@@ -1474,8 +1436,6 @@ weak_param_decl(IDENTIFIER id)
 
 
 /*
-    CHECK A MEMBER DECLARATION
-
     This routine checks the declaration of the class member id with type
     t and declaration specifiers ds.
 */
@@ -1530,8 +1490,6 @@ check_mem_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id)
 
 
 /*
-    DECLARE A CLASS MEMBER
-
     This routine constructs the declaration of a class member with
     declaration specifiers ds, type t and name id.  Note that the access
     declarations (i.e. just a qualified-id and a semicolon) can only be
@@ -1761,8 +1719,6 @@ make_member_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int sm)
 
 
 /*
-    MAINTAIN SPECIAL MEMBER FUNCTIONS FOR A CLASS
-
     This routine updates the special member function information for
     the class ct using the function id.  tag gives the identifier name tag.
 */
@@ -1815,8 +1771,6 @@ special_func_mem(CLASS_TYPE ct, IDENTIFIER id, unsigned tag, IDENTIFIER prev)
 
 
 /*
-    DECLARE A CLASS FUNCTION MEMBER
-
     This routine constructs a function declaration for a class member
     function with declaration specifiers ds, type t and name id.  The
     argument def is true to distinguish function definitions from function
@@ -2113,8 +2067,6 @@ make_func_mem_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def)
 
 
 /*
-    DECLARE A FRIEND FUNCTION
-
     This routine is used to handle the declaration of a friend function
     within a class.  The parameters are identical to those in the previous
     routine.
@@ -2388,8 +2340,6 @@ make_friend_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def, int chum)
 
 
 /*
-    CHECK ON AN ANONYMOUS UNION
-
     An anonymous union cannot have private or protected members or member
     functions (in addition, no union can have static data members).  This
     information is readily accessible from the class information field.
@@ -2415,8 +2365,6 @@ check_anon_union(CLASS_TYPE ct)
 
 
 /*
-    CHECK AN EMPTY OBJECT DECLARATION
-
     This routine handles a declaration with no declarators, comprising the
     declaration specifiers ds, the template type qualifiers q and the type
     specifiers t (which may be an elaborate pre-type).  Whether this is
@@ -2548,8 +2496,6 @@ empty_object_decl(DECL_SPEC ds, TYPE q, TYPE t)
 
 
 /*
-    CHECK AN EMPTY MEMBER DECLARATION
-
     This routine handles a class member declaration with no declarators,
     comprising the declaration specifiers ds, the template type qualifiers
     q and the type specifiers t.  This is similar to empty_object_decl,
@@ -2737,8 +2683,6 @@ empty_member_decl(DECL_SPEC ds, TYPE q, TYPE t)
 
 
 /*
-    CHECK AN EMPTY DECLARATION
-
     This routine checks the empty declaration declared with the declaration
     specifiers ds, the template type qualifiers q, the pre-type bt and t
     and the cv-qualifiers cv (not all of which will be empty).  The tok
@@ -2827,8 +2771,6 @@ empty_decl(DECL_SPEC ds, TYPE q, BASE_TYPE bt, TYPE t, CV_SPEC cv, int tok,
 
 
 /*
-    UPDATE EXTERNAL DECLARATION INFORMATION
-
     This routine is called after each external declaration.  d gives
     the number of objects declared and e gives the associated expression
     for an asm definition.  Note that this is the point of instantiation

@@ -48,8 +48,6 @@
 
 
 /*
-    USAGE SUPPRESSION FLAG
-
     This flag may be set to true to indicate that the parser is in a sizeof
     expression or similar so that any usages should not be included.
 */
@@ -58,8 +56,6 @@ int suppress_usage = 0;
 
 
 /*
-    MARK AN IDENTIFIER AS BEING USED
-
     This routine marks the identifier id as having been used and checks
     any access controls.
 */
@@ -128,8 +124,6 @@ use_id(IDENTIFIER id, int suppress)
 
 
 /*
-    MARK A FUNCTION IDENTIFIER AS BEING USED
-
     This routine marks the function identifier id as having been called
     and checks any access controls.  In addition certain checks are applied
     to the first call of an identifier.  expl is true for explicit calls.
@@ -210,8 +204,6 @@ use_func_id(IDENTIFIER id, int expl, int suppress)
 
 
 /*
-    MARK A VIRTUAL FUNCTION AS BEING USED
-
     Note that use_func_id does not mark virtual functions as having been
     used because the actual function called can only be determined at
     run-time.  If subsequently it is found that the function called can
@@ -242,8 +234,6 @@ reuse_id(IDENTIFIER id, int suppress)
 
 
 /*
-    DEFINE AN IDENTIFIER ALIAS
-
     This routine is called if the function or variable id is defined
     (excluding tentative definitions).  It passes the definition on to
     any alias of id.
@@ -299,8 +289,6 @@ define_id(IDENTIFIER id)
 
 
 /*
-    FIND THE END OF A LIST OF IDENTIFIER ALIASES
-
     In most cases the alias of an identifier is its underlying meaning,
     however for function parameters it is possible to have vast lists
     of identifiers arising from redeclarations all linked by their alias
@@ -323,8 +311,6 @@ chase_alias(IDENTIFIER id)
 
 
 /*
-    CURRENT IDENTIFIER QUALIFIER
-
     This variable is set to describe how the current identifier is
     qualified.
 */
@@ -334,8 +320,6 @@ int crt_templ_qualifier = 0;
 
 
 /*
-    CHECK AN IDENTIFIER NAME
-
     This routine checks whether the identifier name id is suitable for use
     in the context given by loc.  The namespace qualifiers used in describing
     id will be given by crt_id_qualifier.  The routine returns true for
@@ -407,8 +391,6 @@ qualifier_lab:
 
 
 /*
-    DECLARE AN IMPLICIT FUNCTION
-
     This routine declares a function named id in the current scope with
     declaration specifiers ds, return type ret (which may be the null type),
     parameter types p (terminated by the null type), and function kind ell.
@@ -475,8 +457,6 @@ declare_func(DECL_SPEC ds, IDENTIFIER id, TYPE ret, TYPE *p, int ell,
 
 
 /*
-    IMPLICITLY DECLARE AN IDENTIFIER
-
     This routine implicitly declares an identifier id, either as a local
     variable, if fn is false, or as a function.  fn will be 2 in the cases
     where C allows an implicit function declaration.  The routine returns
@@ -637,8 +617,6 @@ implicit_id_exp(IDENTIFIER id, int fn)
 
 
 /*
-    LIST OF MEANINGS
-
     This list is built up by list_ambiguous to give all the meanings of
     its ambiguous identifier which match its type argument.
 */
@@ -647,8 +625,6 @@ static LIST(IDENTIFIER) ambig_meanings = NULL_list(IDENTIFIER);
 
 
 /*
-    LIST MEANINGS OF AN AMBIGUOUS IDENTIFIER
-
     This routine adds all meanings of the ambiguous identifier id to the
     error list err.
 */
@@ -708,8 +684,6 @@ default_lab: {
 
 
 /*
-    REPORT AN AMBIGUOUS IDENTIFIER
-
     This routine reports the identifier id as being ambiguous.  Overloaded
     functions count as a single identifier unless rec is true.  It returns
     one of the possible meanings.  Only types are considered if type is
@@ -754,8 +728,6 @@ report_ambiguous(IDENTIFIER id, int type, int rec, int force)
 
 
 /*
-    FIND THE DECLARATION SPECIFIER FOR AN AMBIGUOUS IDENTIFIER
-
     This routine finds the declaration specifier for an ambiguous identifier
     given by the list of cases pids.  This consists of various properties
     which all the cases share.
@@ -778,8 +750,6 @@ find_ambig_dspec(LIST(IDENTIFIER) pids)
 
 
 /*
-    CREATE AN IDENTIFIER EXPRESSION
-
     This routine creates an expression corresponding to the identifier id.
     Note that static member functions are identifier expressions if they
     are not overloaded, but member expression otherwise.  They are sorted
@@ -955,8 +925,6 @@ default_lab:
 
 
 /*
-    FIND THE THIS PARAMETER OF A FUNCTION
-
     This routine returns the 'this' parameter of the member function fn.
     If use is true then the parameter is marked as used.
 */
@@ -984,8 +952,6 @@ this_param(IDENTIFIER fn, int use)
 
 
 /*
-    CREATE A THIS EXPRESSION
-
     This routine deals with the 'this' expression.  This is only in scope
     in the definition of a non-static member function.   Note that the
     current value of 'this' is given by the address of the dummy parameter
@@ -1019,8 +985,6 @@ make_this_exp(void)
 
 
 /*
-    CREATE A THIS EXPRESSION
-
     This routine creates an expression corresponding to the 'this' parameter
     of a member function.  The parent class namespace is assigned to pns.
     The null expression is returned if we are outside of a member function.
@@ -1043,8 +1007,6 @@ make_this_ref(NAMESPACE *pns)
 
 
 /*
-    DECLARE A THIS PARAMETER
-
     This routine declares the dummy extra parameter for the non-static
     member function given by the identifier fn.  The type of this parameter
     is the first element of the corresponding mtypes list (see
@@ -1101,8 +1063,6 @@ make_this_decl(IDENTIFIER fn)
 
 
 /*
-    CHECK FOR THIS EXPRESSIONS
-
     This routine checks whether the expression e is a 'this' expression.
 */
 
@@ -1140,8 +1100,6 @@ is_this_exp(EXP e)
 
 
 /*
-    FIND THE ELLIPSIS PARAMETER OF A FUNCTION
-
     This routine returns the ellipsis parameter of the function fn.
 */
 
@@ -1165,8 +1123,6 @@ ellipsis_param(IDENTIFIER fn)
 
 
 /*
-    FIND ELLIPSIS TYPE
-
     This routine returns the type of the dummy ellipsis parameter.  If
     force is true then an error is reported if this type has not been
     declared.
@@ -1201,8 +1157,6 @@ find_ellipsis_type(int force)
 
 
 /*
-    DECLARE AN ELLIPSIS PARAMETER
-
     This routine declares the dummy extra parameter representing the
     ellipsis component of the function id.
 */
@@ -1229,8 +1183,6 @@ make_ellipsis_decl(void)
 
 
 /*
-    CREATE AN ELLIPSIS EXPRESSION
-
     This routine creates an expression corresponding to the ellipsis
     expression '...'.  This can only be used in a function definition
     which has an ellipsis type, in which case it is an rvalue of type

@@ -72,8 +72,6 @@
 
 
 /*
-    COMPOUND TYPE ALIASES
-
     These are the aliases for the compound types used in the parser.
 */
 
@@ -81,8 +79,6 @@ typedef LIST ( EXP ) SID_LIST_EXP ;
 
 
 /*
-    FUNCTION DECLARATIONS
-
     The function declarations are included at this point so that the
     type definitions are in scope.
 */
@@ -91,8 +87,6 @@ typedef LIST ( EXP ) SID_LIST_EXP ;
 
 
 /*
-    COMPILATION MODE
-
     The output of sid is automatically generated.  Hence it is not
     necessarily appropriate to apply the same level of checking to this
     as to the rest of the program.  These pragmas describe the relaxations

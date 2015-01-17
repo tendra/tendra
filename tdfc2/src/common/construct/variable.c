@@ -51,8 +51,6 @@
 
 
 /*
-    VARIABLE ANALYSIS FLAGS
-
     The flag suppress_variable may be set to 1 to suppress variable
     analysis on function parameters and to 2 to suppress all variable
     analysis.  The flag anon_c_linkage may be set to true to indicate
@@ -64,8 +62,6 @@ int anon_c_linkage = 0;
 
 
 /*
-    CHECK A VARIABLE OR FUNCTION USAGE
-
     This routine checks the usage of the identifier id.  The flag anon
     is true if the complete reach of the identifier is being analysed.  For
     example, the reach of a local variable is its scope, that of an internal
@@ -195,8 +191,6 @@ check_usage(IDENTIFIER id, EXP blk, int anon)
 
 
 /*
-    CHECK A TEMPLATE IDENTIFIER
-
     This routine calls check_identifier for each instance of the template
     id.  t gives the template type, otherwise the parameters are as in
     check_identifier.
@@ -235,8 +229,6 @@ check_template_id(TYPE t, IDENTIFIER id, NAMESPACE ns, EXP blk, int anon,
 
 
 /*
-    CHECK A CLASS USAGE
-
     This routine checks the class usage information cu for the type ct.
 */
 
@@ -285,8 +277,6 @@ check_class_usage(CLASS_TYPE ct, CLASS_USAGE cu)
 
 
 /*
-    COMPLETE A TENTATIVE DEFINITION
-
     This routine completes a C-style tentative definition of the
     variable id.  That is, if id has not been defined elsewhere, then
     it is defined to be zero.
@@ -336,8 +326,6 @@ define_tentative(IDENTIFIER id, int anon)
 
 
 /*
-    CHECK A GLOBAL IDENTIFIER
-
     This routine applies the global program checks to the identifier id
     from the namespace ns.  If id is a class or namespace name then the
     checks are also applied recursively to the members of id.  The flag
@@ -546,8 +534,6 @@ type_label:
 
 
 /*
-    CHECK A NAMESPACE
-
     This routine scans through all the members of the namespace ns, calling
     check_identifier for each member (including hidden members) and
     compiling any functions or non-local variables.  It returns the number
@@ -614,8 +600,6 @@ check_namespace(NAMESPACE ns, EXP blk, int anon, int chk)
 
 
 /*
-    CHECK THE TOKEN NAMESPACE
-
     This routine applies the usage checks to the tokens declared in the
     translation unit.
 */
@@ -676,8 +660,6 @@ check_token(void)
 
 
 /*
-    CHECK THE GLOBAL NAMESPACE
-
     This routine applies check_namespace to the global namespace,
     including checking the main function if complete is true.  It also
     calls check_token.
@@ -728,8 +710,6 @@ check_global(int complete)
 
 
 /*
-    CONSTRUCT A SET EXPRESSION
-
     This routine constructs the expression 'set ( a )'.
 */
 
@@ -745,8 +725,6 @@ make_set_exp(EXP a)
 
 
 /*
-    CONSTRUCT AN UNUSED EXPRESSION
-
     This routine constructs the expression 'unused ( a )'.
 */
 
@@ -762,8 +740,6 @@ make_unused_exp(EXP a)
 
 
 /*
-    PRESERVE ALL STATIC IDENTIFIERS
-
     This flag is set to true to indicate that all static identifiers
     should be preserved.
 */
@@ -772,8 +748,6 @@ int preserve_all = 0;
 
 
 /*
-    PRESERVE AN IDENTIFIER
-
     This routine preserves or suspends the static identifier id, as
     indicated by the action act.
 */
@@ -813,8 +787,6 @@ action_lab: {
 
 
 /*
-    FLOW ANALYSIS FLAGS
-
     These values are used to mark the various usage states in the flow
     analysis routines.  The fact that va_variable equals dspec_auto and
     va_done equals dspec_done is important, but the other values are
@@ -856,8 +828,6 @@ typedef DECL_SPEC VAR_INFO;
 
 
 /*
-    FORWARD DECLARATIONS
-
     The following declarations are required for the flow analysis
     routines.
 */
@@ -870,8 +840,6 @@ static void set_variable(IDENTIFIER, VAR_INFO);
 
 
 /*
-    LIST OF CURRENTLY ACTIVE VARIABLES
-
     The variable crt_flow_vars is used to hold a list of all the local
     variables which are in scope at any point in the variable analysis
     routines.
@@ -884,8 +852,6 @@ static LIST(IDENTIFIER) crt_flow_assign = NULL_list(IDENTIFIER);
 
 
 /*
-    START VARIABLE ANALYSIS
-
     This routine is called at the start of the analysis of the local
     variable id.
 */
@@ -908,8 +874,6 @@ start_variable(IDENTIFIER id, DECL_SPEC ds, VAR_INFO use)
 
 
 /*
-    SHOULD VARIABLE ANALYSIS BE IGNORED?
-
     This routine checks whether any variable analysis errors involving
     the local variable id should be ignored.  This is done if id is an
     anonymous identifier or is a const variable all of whose uses have
@@ -955,8 +919,6 @@ ignore_variable(IDENTIFIER id)
 
 
 /*
-    END A VARIABLE SETTING
-
     This routine marks the end of the variable setting ds.  ret is true if
     this end of scope is due to a return statement.  In particular it
     checks whether the variable has been assigned to and not used.
@@ -985,8 +947,6 @@ end_usage(IDENTIFIER id, VAR_INFO ds, int ret)
 
 
 /*
-    END VARIABLE ANALYSIS
-
     This routine is called at the end of the analysis of a local
     variable.  Note that unused variable have already been dealt with.
 */
@@ -1025,8 +985,6 @@ end_variable(int flow, int ret)
 
 
 /*
-    SET A VARIABLE
-
     This routine adjusts the variable analysis information for the local
     variable use according to the analysis state use.
 */
@@ -1098,8 +1056,6 @@ set_variable(IDENTIFIER id, VAR_INFO use)
 
 
 /*
-    SET ALL CLASS MEMBERS
-
     This routine calls set_variable for each of the class members in the
     current variable list.
 */
@@ -1120,8 +1076,6 @@ set_members(VAR_INFO use)
 
 
 /*
-    MERGE A VARIABLE SETTING
-
     This routine merges the variable analysis settings given by dp and dq.
     u indicates whether the variable set values are to be taken from dp,
     from dq, from both, or from neither.
@@ -1149,8 +1103,6 @@ merge_usage(VAR_INFO dp, VAR_INFO dq, int u)
 
 
 /*
-    SEARCH A LIST OF VARIABLES
-
     This routine searches the list of variables p for one corresponding to
     id.  q is a member of p which corresponds to id is the simplest case.
     It returns a pointer to the variable if it exists and a null pointer
@@ -1180,8 +1132,6 @@ search_vars(VAR_LIST p, VAR_LIST q, IDENTIFIER id)
 
 
 /*
-    SAVE CURRENT VARIABLE SETTINGS
-
     This routine saves the current variable settings by merging them with
     those stored in the list va.
 */
@@ -1224,8 +1174,6 @@ save_vars(VAR_LIST va, int cond)
 
 
 /*
-    LOAD CURRENT VARIABLE SETTINGS
-
     This routine loads the current variable settings by merging them with
     those stored in the list va.
 */
@@ -1254,8 +1202,6 @@ load_vars(VAR_LIST va, int u)
 
 
 /*
-    SWAP CURRENT VARIABLE SETTINGS
-
     This routine swaps the current variable settings with those stored in
     the list va.
 */
@@ -1277,8 +1223,6 @@ swap_vars(VAR_LIST va)
 
 
 /*
-    MARK VARIABLE SETTINGS
-
     This routine marks all the variables in the list va with use.
 */
 
@@ -1297,8 +1241,6 @@ mark_vars(VAR_LIST va, VAR_INFO use)
 
 
 /*
-    PERFORM FLOW ANALYSIS ON A GOTO STATEMENT
-
     This routine performs flow analysis on a jump to the label lab.  cond
     is true to indicate a conditional jump.
 */
@@ -1326,8 +1268,6 @@ flow_goto_stmt(IDENTIFIER lab, VAR_INFO use, int cond)
 
 
 /*
-    PERFORM FLOW ANALYSIS ON A LABELLED STATEMENT
-
     This routine performs flow analysis on the statement labelled by the
     label lab.
 */
@@ -1364,8 +1304,6 @@ flow_label_stmt(IDENTIFIER lab, VAR_INFO use, int flow)
 
 
 /*
-    CHECK A SEQUENCE POINT
-
     This routine is called at each sequence point in the flow analysis
     routines.  It clears the list of identifiers assigned since the last
     sequence point.
@@ -1389,8 +1327,6 @@ flow_sequence_point(void)
 
 
 /*
-    PERFORM FLOW ANALYSIS ON AN UNREACHABLE STATEMENT
-
     This routine performs flow analysis following a return statement (in
     which case ret is true) or other expression which causes execution to
     cease.
@@ -1416,8 +1352,6 @@ flow_terminate(VAR_INFO use, int ret)
 
 
 /*
-    PERFORM FLOW ANALYSIS ON AN IF EXPRESSION
-
     This routine preforms flow analysis on the if expression with condition
     c and branches a and b.
 */
@@ -1460,8 +1394,6 @@ flow_if_exp(EXP c, EXP a, EXP b, VAR_INFO use, int flow)
 
 
 /*
-    PROCESS A FLOW ANALYSIS DIRECTIVE
-
     This routine processes the flow analysis directive indicated by act
     to the expression e.
 */
@@ -1508,8 +1440,6 @@ flow_set(EXP e, VAR_INFO use, VAR_INFO act)
 
 
 /*
-    PERFORM FLOW ANALYSIS ON A LIST OF TOKEN ARGUMENTS
-
     This routine performs flow analysis on the list of token arguments p.
 */
 
@@ -1547,8 +1477,6 @@ flow_token_list(LIST(TOKEN) p, VAR_INFO use)
 
 
 /*
-    PERFORM FLOW ANALYSIS ON AN OFFSET
-
     This routine performs flow analysis on the offset off.  mem is true
     in member functions when the offset is being added to 'this'.
 */
@@ -1621,8 +1549,6 @@ flow_offset(OFFSET off, VAR_INFO use, int mem)
 
 
 /*
-    PERFORM FLOW ANALYSIS ON A LIST OF EXPRESSIONS
-
     This routine performs flow analysis on the list of expressions p.
 */
 
@@ -1649,8 +1575,6 @@ flow_exp_list(LIST(EXP) p, VAR_INFO use, int fn)
 
 
 /*
-    PERFORM FLOW ANALYSIS ON AN ALIASED EXPRESSION
-
     This routine performs flow analysis on the expression e which may be
     aliased by being on the right hand side of an assignment.  Note that
     there are read-only and read-write aliases, depending on whether the
@@ -1685,8 +1609,6 @@ flow_alias_exp(EXP e, VAR_INFO use)
 
 
 /*
-    PERFORM FLOW ANALYSIS ON AN EXPRESSION
-
     This routine performs flow analysis on the expression e.
 */
 
@@ -2182,8 +2104,6 @@ flow_exp(EXP e, VAR_INFO use)
 
 
 /*
-    PERFORM FLOW ANALYSIS FOR DESTRUCTORS
-
     This routine performs flow analysis for any destructors called by
     the goto or return statement a.  b gives smallest statement enclosing
     both the jump and its destination.
@@ -2220,8 +2140,6 @@ flow_jump(EXP a, EXP b)
 
 
 /*
-    PERFORM FLOW ANALYSIS ON A WHILE STATEMENT
-
     This routine performs flow analysis on the while statement e.
 */
 
@@ -2258,8 +2176,6 @@ flow_while_stmt(EXP e, VAR_INFO use, int flow)
 
 
 /*
-    PERFORM FLOW ANALYSIS ON A DO STATEMENT
-
     This routine performs flow analysis on the do statement e.
 */
 
@@ -2287,8 +2203,6 @@ flow_do_stmt(EXP e, VAR_INFO use, int flow)
 
 
 /*
-    PERFORM FLOW ANALYSIS ON A SOLVE STATEMENT
-
     This routine performs flow analysis on the solve statement e with
     associated variables p.
 */
@@ -2315,8 +2229,6 @@ flow_solve_stmt(EXP e, LIST(IDENTIFIER) p, VAR_INFO use, int flow)
 
 
 /*
-    PERFORM FLOW ANALYSIS ON A SWITCH STATEMENT
-
     This routine performs flow analysis on the switch statement e.
 */
 
@@ -2362,8 +2274,6 @@ flow_switch_stmt(EXP e, VAR_INFO use, int flow)
 
 
 /*
-    PERFORM FLOW ANALYSIS ON A TRY BLOCK
-
     This routine performs flow analysis on the try block e.
 */
 
@@ -2387,8 +2297,6 @@ flow_try_block(EXP e, VAR_INFO use, int flow)
 
 
 /*
-    PERFORM FLOW ANALYSIS ON A DECLARATION STATEMENT
-
     This routine performs flow analysis on the declaration statement e.
 */
 
@@ -2438,8 +2346,6 @@ flow_decl_stmt(EXP e, VAR_INFO use, int flow)
 
 
 /*
-    PERFORM FLOW ANALYSIS ON A STATEMENT
-
     This routine performs flow analysis on the statement e.
 */
 
@@ -2581,8 +2487,6 @@ flow_stmt(EXP e, VAR_INFO use, int flow)
 
 
 /*
-    PERFORM FLOW ANALYSIS ON A FUNCTION DEFINITION
-
     This routine performs the flow analysis on the compound statement e
     which defines the function id.  Full flow analysis is enabled if
     flow is true, otherwise a minimal scan sufficient to determine all

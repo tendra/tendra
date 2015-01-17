@@ -44,8 +44,6 @@ extern bool have_cond;
 
 
 /*
-    CONSTRUCT A SIMILAR EXP
-
     This routine, given a where, copies the corresponding exp, and sets
     its sh equal to the given shape.
 */
@@ -60,8 +58,6 @@ sim_exp(shape sha, where w)
 
 
 /*
-    PROCESS A UNARY OPERATION
-
     This routine processes the unary operation described by the routine
     op.  The operand is given by a and the result, which is of shape
     sha, is put into dest.  The stack argument describes the current
@@ -110,8 +106,6 @@ uop(void(*op)(shape, where, where), shape sha, exp a, where dest, ash stack)
 
 
 /*
-    PROCESS A BINARY OPERATION
-
     This routine processes the binary operation described by the routine
     op.  The operands are given by a and b and the result, which is of
     shape sha, is put into dest.  The stack argument describes the current
@@ -196,8 +190,6 @@ bop(void(*op)(shape, where, where, where), shape sha, exp a, exp b, where dest,
 
 
 /*
-    PROCESS A LOGICAL OPERATION
-
     This routine processes the logical operation described by the routine
     op.  This operation will be binary, commutative and associative.  The
     operands are given by the bro-list starting at the son of e.  The

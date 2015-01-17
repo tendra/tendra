@@ -53,8 +53,6 @@
 
 
 /*
-    PRINT BUFFER
-
     This buffer is used for the error output.
 */
 
@@ -62,8 +60,6 @@ BUFFER print_buff = NULL_buff;
 
 
 /*
-    FUNCTION DECLARATIONS
-
     A couple of forward function declarations are necessary.
 */
 
@@ -72,8 +68,6 @@ static int print_tail(TYPE, BUFFER *, int);
 
 
 /*
-    PRINT FLAGS
-
     These flags are used to control the form of the output.
 */
 
@@ -92,8 +86,6 @@ int print_id_desc = 0;
 
 
 /*
-    PRINT A LEXICAL TOKEN NAME
-
     This routine prints the name of the lexical token t to the buffer bf.
     With all the routines in this file the sp argument is true if a space
     should be printed before the actual text, and the return value is true
@@ -116,8 +108,6 @@ print_lex(int t, BUFFER *bf, int sp)
 
 
 /*
-    PRINT AN ACCESS SPECIFIER
-
     This routine prints the access specifier n to the buffer bf.
 */
 
@@ -139,8 +129,6 @@ print_access(DECL_SPEC n, BUFFER *bf, int sp)
 
 
 /*
-    BUILT-IN TYPE NAMES
-
     This table gives the names of the built-in types.
 */
 
@@ -171,8 +159,6 @@ const char *ntype_name[ORDER_ntype] = {
 
 
 /*
-    PRINT A BUILT-IN TYPE
-
     This routine prints the built-in type n to the buffer bf.
 */
 
@@ -188,8 +174,6 @@ print_ntype(BUILTIN_TYPE n, BUFFER *bf, int sp)
 
 
 /*
-    PRINT A BASE TYPE
-
     This routine prints the base type n to the buffer bf.
 */
 
@@ -273,8 +257,6 @@ print_btype(BASE_TYPE n, BUFFER *bf, int sp)
 
 
 /*
-    PRINT A CONST-VOLATILE QUALIFIER
-
     This routine prints the const-volatile qualifier n to the buffer bf.
 */
 
@@ -294,8 +276,6 @@ print_cv(CV_SPEC n, BUFFER *bf, int sp)
 
 
 /*
-    PRINT A DECLARATION SPECIFIER
-
     This routine prints the declaration specifier n to the buffer bf.  The
     C and C++ linkage specifiers are not included.
 */
@@ -342,8 +322,6 @@ print_dspec(DECL_SPEC n, BUFFER *bf, int sp)
 
 
 /*
-    PRINT A LINKAGE SPECIFIER
-
     This routine prints the linkage specifier n to the buffer bf.
 */
 
@@ -366,8 +344,6 @@ print_linkage(CV_SPEC n, BUFFER *bf, int sp)
 
 
 /*
-    PRINT A BUFFER LOCATION
-
     This routine prints the file location p to the buffer bf.  q gives
     the main location.  If the file names from p and q match then only
     the line number is printed.
@@ -418,8 +394,6 @@ print_loc(LOCATION *p, LOCATION *q, BUFFER *bf, int sp)
 
 
 /*
-    PRINT A HASH TABLE ENTRY
-
     This routine prints the identifier name corresponding to the hash
     table entry p to the buffer bf.
 */
@@ -533,8 +507,6 @@ print_hashid(HASHID p, int sep, int anon, BUFFER *bf, int sp)
 
 
 /*
-    PRINT AN IDENTIFIER (SHORT FORM)
-
     This routines prints the short form of the identifier id to the buffer bf.
 */
 
@@ -615,8 +587,6 @@ print_id_short(IDENTIFIER id, QUALIFIER qual, BUFFER *bf, int sp)
 
 
 /*
-    PRINT AN IDENTIFIER (LONG FORM)
-
     This routines prints the long form of the identifier id to the buffer bf.
 */
 
@@ -863,8 +833,6 @@ print_id_long(IDENTIFIER id, QUALIFIER qual, BUFFER *bf, int sp)
 
 
 /*
-    PRINT A NAMESPACE
-
     This routines prints the namespace ns to the buffer bf.  The argument
     pre is true if this a prefix to an identifier and false if the namespace
     itself is what is required.
@@ -948,8 +916,6 @@ print_nspace(NAMESPACE ns, QUALIFIER qual, int pre, BUFFER *bf, int sp)
 
 
 /*
-    PRINT A GRAPH
-
     This routines prints the graph gr to the buffer bf.  The argument sep is
     true to indicate that a terminal '::' should be included.
 */
@@ -979,8 +945,6 @@ print_graph(GRAPH gr, int sep, BUFFER *bf, int sp)
 
 
 /*
-    PRINT A PREPROCESSING TOKEN
-
     This routine prints the preprocessing token p to the buffer bf.  It
     is used not only in the error reporting routines, but also in the
     preprocessing action.
@@ -1134,8 +1098,6 @@ string_label: {
 
 
 /*
-    INTEGER LITERAL PRINTING
-
     This prints an integer literal to the buffer bf.  The only difficult case
     is when a large literal will not fit into an unsigned long.  The digits
     need to be printed in reverse order, and it is again quickest to reverse
@@ -1223,8 +1185,6 @@ print_nat(NAT n, int paren, BUFFER *bf, int sp)
 
 
 /*
-    FLOATING-POINT LITERAL PRINTING
-
     This routine prints a floating-point literal to the buffer bf.
 */
 
@@ -1250,8 +1210,6 @@ print_flt(FLOAT n, BUFFER *bf, int sp)
 
 
 /*
-    CHARACTER PRINTING
-
     This routine prints the character c to the buffer bf as a string
     character of type ch enclosed by the quote character q.
 */
@@ -1338,8 +1296,6 @@ print_char(unsigned long c, int ch, int q, BUFFER *bf)
 
 
 /*
-    STRING LITERAL PRINTING
-
     This routine prints a string or character literal to the buffer bf.
 */
 
@@ -1392,8 +1348,6 @@ print_str(STRING s, BUFFER *bf, int sp)
 
 
 /*
-    EXPRESSION PRINTING
-
     This routine prints an expression to the buffer bf.
 */
 
@@ -1475,8 +1429,6 @@ print_exp(EXP e, int paren, BUFFER *bf, int sp)
 
 
 /*
-    TOKEN VALUE PRINTING
-
     This routine prints the value of the token tok to the buffer bf.
 */
 
@@ -1530,8 +1482,6 @@ print_tok_value(TOKEN tok, BUFFER *bf, int sp)
 
 
 /*
-    TOKEN APPLICATION PRINTING
-
     This routine prints the token application 'id ( args )' or the template
     application 'id < args >' to the buffer bf.
 */
@@ -1588,8 +1538,6 @@ print_token(IDENTIFIER id, QUALIFIER qual, LIST(TOKEN)args, BUFFER *bf, int sp)
 
 
 /*
-    TOKEN SORT PRINTING
-
     This routine prints the token sort tok to the buffer bf.
 */
 
@@ -1851,8 +1799,6 @@ print_sort(TOKEN tok, int arg, BUFFER *bf, int sp)
 
 
 /*
-    INTEGRAL TYPE PRINTING
-
     This routine prints an integral type to the buffer bf.  Note that the
     standard full forms, such as 'signed short int', are translated into
     shorter forms, such as 'short'.
@@ -1941,8 +1887,6 @@ print_itype(INT_TYPE t, BUFFER *bf, int sp)
 
 
 /*
-    FLOATING-POINT TYPE PRINTING
-
     This routine prints a floating-point type to the buffer bf.
 */
 
@@ -1995,8 +1939,6 @@ print_ftype(FLOAT_TYPE t, BUFFER *bf, int sp)
 
 
 /*
-    CLASS TYPE PRINTING
-
     This routines prints the class type ct to the buffer bf.
 */
 
@@ -2023,8 +1965,6 @@ print_ctype(CLASS_TYPE ct, QUALIFIER qual, int key, BUFFER *bf, int sp)
 
 
 /*
-    ENUMERATION TYPE PRINTING
-
     This routines prints the enumeration type et to the buffer bf.
 */
 
@@ -2043,8 +1983,6 @@ print_etype(ENUM_TYPE et, int key, BUFFER *bf, int sp)
 
 
 /*
-    CHECK FOR TAILED TYPES
-
     This routine tested whether the type t is a tailed type, that is an
     array, bitfield, or function type.
 */
@@ -2073,8 +2011,6 @@ is_tailed_type(TYPE t)
 
 
 /*
-    TYPE HEAD PRINTING
-
     This routine prints the head of a type (i.e. the main part and any
     pointer or reference components) to the buffer bf.
 */
@@ -2281,8 +2217,6 @@ print_head(TYPE t, int key, BUFFER *bf, int sp)
 
 
 /*
-    TYPE TAIL PRINTING
-
     This routine prints the tail of a type (i.e. any array, bitfield or
     function components) to the buffer bf.
 */
@@ -2432,8 +2366,6 @@ print_tail(TYPE t, BUFFER *bf, int sp)
 
 
 /*
-    PRINT A TYPE
-
     This routine prints the type t to the buffer bf.  Note that this is in
     two passes - the first prints the head of the type, comprising the
     base type and any pointer or reference qualifiers, while the second
@@ -2450,8 +2382,6 @@ print_type(TYPE t, BUFFER *bf, int sp)
 
 
 /*
-    PRINT A LIST OF TYPES
-
     This routine prints the list of types p, enclosed in brackets, to the
     buffer bf.
 */
@@ -2479,8 +2409,6 @@ print_type_list(LIST(TYPE)p, BUFFER *bf, int sp)
 
 
 /*
-    OFFSET PRINTING
-
     This routine prints an offset to the buffer bf.
 */
 
@@ -2533,8 +2461,6 @@ print_offset(OFFSET off, BUFFER *bf, int sp)
 
 
 /*
-    FIND A LINE WITHIN THE CURRENT FILE BUFFER
-
     This routine checks whether the start of line n lies within the
     current file buffer.  If so it returns a pointer to the start of
     the line.  m gives the line number of the current position.
@@ -2579,8 +2505,6 @@ find_buffer_line(unsigned long n, unsigned long m)
 
 
 /*
-    FIND A LOCATION WITHIN THE CURRENT FILE BUFFER
-
     This routine checks whether the n lines following line ln of file fn
     lie within the input buffer.  If so it returns the position of the
     first line within the buffer.
@@ -2611,8 +2535,6 @@ find_buffer_loc(string fn, unsigned long ln, unsigned long n)
 
 
 /*
-    PRINT SOURCE LINES
-
     This routine prints a number of lines from the input buffer centred
     on the location loc to the file f.  If loc does not correspond to a
     position within the current buffer then no text is output.

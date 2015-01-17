@@ -25,8 +25,6 @@
 
 
 /*
-    DATABASE HEADER INFORMATION
-
     These variables are used to store the standard header information.
 */
 
@@ -39,8 +37,6 @@ char *rig_from_db = "ERR_NO_";
 
 
 /*
-    DATABASE SECTION LISTS
-
     These variables are used to store the various lists of information
     built up by the parser.
 */
@@ -61,8 +57,6 @@ LIST(USAGE)all_usages_alt = NULL_list(USAGE);
 
 
 /*
-    FIND CODE LETTER
-
     This routine finds a code letter corresponding to the number n.  It
     assumes the ASCII character set.
 */
@@ -84,8 +78,6 @@ code_letter(int n)
 
 
 /*
-    LOOK UP AN ERROR MAP
-
     This routine looks up the value of the property named s in the list
     of property mappings p.
 */
@@ -109,8 +101,6 @@ find_map(LIST(MAP)p, string s)
 
 
 /*
-    OUTPUT A MESSAGE LIST
-
     This routine prints the message list p to the file f.
 */
 
@@ -156,8 +146,6 @@ output_msg(FILE *f, LIST(MESSAGE) p)
 
 
 /*
-    OUTPUT ERROR DEFINITIONS
-
     This routine outputs all the error definitions to the file f.
 */
 
@@ -298,8 +286,6 @@ output_defn(FILE *f)
 
 
 /*
-    OUTPUT ERROR DECLARATIONS
-
     This routine outputs all the error declarations to the file f.
 */
 
@@ -448,8 +434,6 @@ output_decl(FILE *f)
 
 
 /*
-    OUTPUT ERROR NUMBERS
-
     This routine outputs all the error numbers to the file f.
 */
 
@@ -476,8 +460,6 @@ output_number(FILE *f)
 
 
 /*
-    OUTPUT USAGES
-
     This routine output all the usages to the file f.
 */
 
@@ -515,8 +497,6 @@ output_usage(FILE *f)
 
 
 /*
-    OUTPUT ALL INFORMATION
-
     This routine outputs all the information gained into the file nm using
     the action indicated by act.  If nm is the null string then the standard
     output is used.

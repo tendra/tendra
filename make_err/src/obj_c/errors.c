@@ -15,8 +15,6 @@
 
 
 /*
-    FREE OBJECTS
-
     These variables indicate the free errors.  There is an array containing
     lists of small blocks, plus a single larger block.
 */
@@ -31,8 +29,6 @@ static errors *free_errors_array[free_errors_max] = {
 
 
 /*
-    GENERATE A NEW OBJECT BLOCK
-
     This routine generates a new blcok of errors of size sz.  Small blocks
     are allocated from the errors array, others from the main errors list.
 */
@@ -65,8 +61,6 @@ gen_errors(unsigned sz)
 
 
 /*
-    DESTROY AN OBJECT BLOCK
-
     This routine destroys the block of errors p of size sz.  Only small
     blocks are recycled.
 */
@@ -84,8 +78,6 @@ destroy_errors(errors *p, unsigned sz)
 
 
 /*
-    DUMMY OBJECT BLOCK DESTRUCTOR
-
     This routine is a dummy destructor which does nothing.
 */
 
@@ -100,8 +92,6 @@ dummy_destroy_errors(errors *p, unsigned sz)
 
 
 /*
-    DESTROY A LIST OF OBJECT BLOCKS
-
     This routine destroys the list p of blocks of errors of size sz.  The
     list is added to the appropriate entry of the free errors array.
 */
@@ -123,8 +113,6 @@ destroy_errors_list(errors *p, unsigned sz)
 
 
 /*
-    FIND THE LENGTH OF A LIST
-
     This routine calculates the length of the list p.
 */
 
@@ -141,8 +129,6 @@ length_errors_list(errors *p)
 
 
 /*
-    REVERSE A LIST
-
     This routine reverses the order of the list p.
 */
 
@@ -162,8 +148,6 @@ reverse_errors_list(errors *p)
 
 
 /*
-    APPEND TWO LISTS
-
     This routine appends the lists of errors blocks p and q.
 */
 
@@ -183,8 +167,6 @@ append_errors_list(errors *p, errors *q)
 
 
 /*
-    FIND THE LAST MEMBER OF A LIST
-
     This routine returns the last member of the list of errors blocks p.
 */
 
@@ -203,8 +185,6 @@ end_errors_list(errors *p)
 
 
 /*
-    ASSERTION ROUTINES
-
     These routine implement the assertion checks.
 */
 

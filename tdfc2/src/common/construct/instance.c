@@ -51,8 +51,6 @@ static void copy_template(IDENTIFIER, int);
 
 
 /*
-    LIST OF ALL TEMPLATE INSTANCES
-
     All template instances are formed into a linked list by their prev
     field (most recent first).
 */
@@ -61,8 +59,6 @@ INSTANCE all_instances = NULL_inst;
 
 
 /*
-    JOIN TWO LISTS OF TEMPLATE ARGUMENTS
-
     This routine copies the template arguments p to the start of the list q.
 */
 
@@ -81,8 +77,6 @@ add_template_args(LIST(TOKEN) p, LIST(TOKEN) q)
 
 
 /*
-    CREATE A PARTIAL FUNCTION INSTANCE
-
     This routine is a special case of instance_func which allows for the
     case where some of the template arguments are given explicitly and
     others are deduced.  id gives the template with any explicit arguments
@@ -118,8 +112,6 @@ inst_func_deduce(IDENTIFIER id, LIST(IDENTIFIER) pids, LIST(TOKEN) args, int d)
 
 
 /*
-    DEDUCE A BASE CLASS
-
     This routine returns a list of all the base classes of gr which can
     be deduced to be equal to the class ct.
 */
@@ -169,8 +161,6 @@ deduce_graph(GRAPH gr, CLASS_TYPE ct, LIST(IDENTIFIER) pids)
 
 
 /*
-    DEDUCE A DERIVED FUNCTION TEMPLATE PARAMETER TYPE
-
     This routine attempts to deduce the function template parameter type t
     from the corresponding function argument type s in the case where both
     are classes.  s can be deduced to be a derived class of a template class
@@ -213,8 +203,6 @@ deduce_derive(TYPE t, TYPE s, LIST(IDENTIFIER) pids)
 
 
 /*
-    DEDUCE A FUNCTION TEMPLATE PARAMETER TYPE
-
     This routine attempts to deduce the function template parameter type t
     from the corresponding function argument type s.  Qualification
     conversions and other inexact type conversions are allowed.  The
@@ -288,8 +276,6 @@ deduce_param(TYPE t, TYPE s, LIST(IDENTIFIER) pids)
 
 
 /*
-    PERFORM ARGUMENT DEDUCTION FOR A FUNCTION TEMPLATE
-
     This routine performs argument deduction for the call of the function
     template id with the arguments args.  Qualification conversions and
     other inexact deductions are allowed if qual is true.  The null
@@ -437,8 +423,6 @@ deduce_args(IDENTIFIER id, LIST(EXP) args, int qual, int force, int create,
 
 
 /*
-    SPECIALISE A FUNCTION TEMPLATE TO A FUNCTION TYPE
-
     This routine constructs checks whether an instance of the function
     template id of type t exists.  The null identifier is returned to
     indicate that no such instance exists.  peq is as in resolve_func.
@@ -494,8 +478,6 @@ deduce_func(IDENTIFIER id, TYPE t, int *peq)
 
 
 /*
-    DEDUCE A CONVERSION FUNCTION TYPE
-
     This routine is used to find the type of the specialisation of a
     template conversion function of type t which may be used for a
     conversion to type r.  If no such specialisation exists the null
@@ -538,8 +520,6 @@ deduce_conv(TYPE t, TYPE r)
 
 
 /*
-    FIND AN UNDERLYING TEMPLATE
-
     This routine finds the underlying form for the template application id.
     If this is an undefined class then pi is set to true.
 */
@@ -587,8 +567,6 @@ find_form(IDENTIFIER id, int *pi)
 
 
 /*
-    FIND THE INSTANCES FOR A TEMPLATE
-
     This routine returns the list of all instances for the template tid.
 */
 
@@ -610,8 +588,6 @@ find_templ_apps(IDENTIFIER tid)
 
 
 /*
-    FIND A TEMPLATE INSTANCE
-
     This routine searches for a previous instance of the template tid
     of sort tok with the template arguments args.
 */
@@ -659,8 +635,6 @@ find_instance(IDENTIFIER tid, TOKEN tok, LIST(TOKEN) args, int def)
 
 
 /*
-    VALIDATE A SET OF TEMPLATE ARGUMENTS
-
     This routine performs a final validation for the template arguments
     args for the template id of sort sort.
 */
@@ -714,8 +688,6 @@ valid_template_args(IDENTIFIER id, TOKEN sort, LIST(TOKEN) args)
 
 
 /*
-    FIND THE MOST SPECIALISED OF A LIST OF SPECIALISATIONS
-
     This routine forms the main body of body_match.  It runs a tournament
     to find the most specialised of the template specialisations apps.
     Note that the result is not necessarily more specialised than all
@@ -751,8 +723,6 @@ best_match_aux(LIST(INSTANCE)apps)
 
 
 /*
-    FIND THE MOST SPECIALISED OF A LIST OF SPECIALISATIONS
-
     This routine finds the most specialised of the template specialisations
     apps.  It returns the null instance if there is no match or the result
     is ambiguous.
@@ -783,8 +753,6 @@ best_match(LIST(INSTANCE)apps)
 
 
 /*
-    DOES A TEMPLATE CLASS INSTANCE SPECIALISE A MEMBER?
-
     This routine checks whether the template class instance app contains
     a specialisation of the member mid.
 */
@@ -807,8 +775,6 @@ specialise_member(INSTANCE app, IDENTIFIER mid)
 
 
 /*
-    FIND THE MOST SPECIALISED TEMPLATE MATCHING AN INSTANCE
-
     This routine returns the most specialised template specialisation
     from the list apps which contains a specialisation of the member mid
     and matches the instance form.  If there is no such specialisation
@@ -855,8 +821,6 @@ match_form(INSTANCE app, TYPE form, IDENTIFIER mid)
 
 
 /*
-    DEDUCE ARGUMENTS FOR TEMPLATE SPECIALISATION
-
     This routine deduces the arguments required for the template
     specialisation spec to instantiate the matching instance form.
 */
@@ -898,8 +862,6 @@ specialise_args(INSTANCE spec, TYPE form)
 
 
 /*
-    MATCH A TEMPLATE SPECIALISATION
-
     This routine finds the template specialisation which best matches the
     template instance given by form.  If mid is the null identifier then
     only explicit specialisations are considered.  Otherwise any
@@ -950,8 +912,6 @@ specialise_form(TYPE form, IDENTIFIER mid)
 
 
 /*
-    FIND THE COPIED VERSION OF A CLASS MEMBER
-
     This routine is identical to find_copied except that it allows for
     template instances when type is not 2.
 */
@@ -977,8 +937,6 @@ find_copied_member(IDENTIFIER cid, IDENTIFIER id, int res, int type)
 
 
 /*
-    MATCH A TEMPLATE MEMBER SPECIALISATION
-
     This routine finds the specialisation best matching the template instance
     or class template member id and specialising the member pid.
 */
@@ -1019,8 +977,6 @@ match_specialise(IDENTIFIER id, IDENTIFIER pid)
 
 
 /*
-    SET TEMPLATE PARAMETERS
-
     This routine sets the template parameters for the instance form.
 */
 
@@ -1041,8 +997,6 @@ set_templ_args(TYPE form)
 
 
 /*
-    RESTORE TEMPLATE PARAMETERS
-
     This routine restores the template parameters for the instance form.
     d is the value returned from the corresponding call to set_templ_args.
 */
@@ -1062,8 +1016,6 @@ restore_templ_args(TYPE form, int d)
 
 
 /*
-    REPORT THE INSTANTIATION OF A TEMPLATE
-
     This routine reports the instantiation of the template with the
     given form.
 */
@@ -1084,8 +1036,6 @@ report_instance(TYPE form)
 
 
 /*
-    INSTANTIATE A FUNCTION TEMPLATE
-
     This routine creates an instance of the function template id with
     the template arguments args.
 */
@@ -1203,8 +1153,6 @@ instance_func(IDENTIFIER id, LIST(TOKEN) args, int func, int def)
 
 
 /*
-    INSTANTIATE A CLASS TEMPLATE
-
     This routine creates an instance of the class template id with the
     template arguments args.  def is true if the class should be
     defined.
@@ -1356,8 +1304,6 @@ instance_type(IDENTIFIER id, LIST(TOKEN) args, int type, int def)
 
 
 /*
-    COMPLETE A CLASS DEFINITION
-
     This routine is called with def true whenever a class type is
     encountered which is complete but not defined in a context where a
     complete type is required.  If ct is a template class instance then
@@ -1417,8 +1363,6 @@ complete_class(CLASS_TYPE ct, int def)
 
 
 /*
-    CHECK THE ARGUMENTS OF A TEMPLATE SPECIALISATION
-
     This routine checks the template specialisation declared with
     parameters pids and arguments form.
 */
@@ -1444,8 +1388,6 @@ check_spec_args(LIST(IDENTIFIER) pids, TYPE form)
 
 
 /*
-    CHECK A TEMPLATE SPECIALISATION
-
     This routine checks the specialisation spec of the template tid.
     It identifies spec with any previous matching specialisation and
     returns this previous version.  If no such match is found the
@@ -1546,8 +1488,6 @@ check_specialise(IDENTIFIER tid, INSTANCE spec, int type)
 
 
 /*
-    ADJUST THE LINKAGE OF A TEMPLATE FUNCTION
-
     A specialisation of a template function is inline only if it is
     explicitly declared to be, independently of whether its function
     template is.  However no storage class specifiers may be given for
@@ -1607,8 +1547,6 @@ adjust_func_templ(IDENTIFIER id, DECL_SPEC ds, TYPE form)
 
 
 /*
-    EXAMINE A TEMPLATE SPECIALISATION TYPE
-
     This routine examines the template specialisation t of the given form.
     expl is true for an explicit specialisation and false for a simple
     redeclaration.  The routine returns 2 if t represents an explicit
@@ -1700,8 +1638,6 @@ bind_templ_spec(IDENTIFIER *pid, TYPE t, TYPE form, int type, int expl)
 
 
 /*
-    TEMPLATE SPECIALISATION FLAG
-
     This flag is set by bind_specialise to indicate the type of template
     declaration encountered.  The values are as in bind_templ_spec.
 */
@@ -1710,8 +1646,6 @@ int bound_specialise = 0;
 
 
 /*
-    BIND TEMPLATE PARAMETERS IN A TEMPLATE SPECIALISATION
-
     This routine binds any template parameters in the template
     specialisation given by the declarator id of type t and declaration
     specifiers ds.  It returns those components of t which bind to the
@@ -1942,8 +1876,6 @@ bind_specialise(IDENTIFIER *pid, TYPE t, DECL_SPEC ds, int type, int force,
 
 
 /*
-    SYNTHESISE A LIST OF ARGUMENTS FOR A FUNCTION
-
     This routine synthesises a list of dummy arguments for the function
     template id.
 */
@@ -1974,8 +1906,6 @@ synthesise_args(IDENTIFIER id)
 
 
 /*
-    FIND THE MORE SPECIALISED OF TWO FUNCTION TEMPLATES
-
     This routine compares the function templates tid and sid.  It returns
     1 if tid is more specialised than sid, 2 if sid is more specialised,
     and 0 otherwise.
@@ -2012,8 +1942,6 @@ compare_specs(IDENTIFIER tid, IDENTIFIER sid)
 
 
 /*
-    CHECK A TEMPLATE FUNCTION DECLARATION
-
     This routine checks the declaration of the function id which is
     either a template function itself or overloads a template function.
 */
@@ -2032,8 +1960,6 @@ templ_func_decl(IDENTIFIER id)
 
 
 /*
-    LIST OF TEMPLATES FOR DEFINITION
-
     The variable pending_templates holds a list of all the template
     instances which should be defined at the next available opportunity.
     The variable still_pending_templates holds a list of all those
@@ -2046,8 +1972,6 @@ LIST(IDENTIFIER) still_pending_templates = NULL_list(IDENTIFIER);
 
 
 /*
-    MARK ALL MEMBERS OF A TEMPLATE CLASS FOR DEFINITION
-
     This routine adds all members of the template class ct to the list of
     templates to be defined.
 */
@@ -2086,8 +2010,6 @@ define_members(CLASS_TYPE ct)
 
 
 /*
-    MARK A TEMPLATE FOR DEFINITION
-
     This routine adds the template instance id to the list of templates
     to be defined.  The identifier is marked as defined even though the
     actual definition occurs later.  Explicit instantiations are indicated
@@ -2169,8 +2091,6 @@ define_template(IDENTIFIER id, int expl)
 
 
 /*
-    BIND TEMPLATE ARGUMENTS AND DEFINE A TEMPLATE
-
     This routine binds the template arguments for the identifier tid to
     the specialisation sid and then defines id to be e.  It returns false
     if any template argument depends on an unbound template parameter.
@@ -2293,8 +2213,6 @@ bind_template(IDENTIFIER tid, IDENTIFIER id, IDENTIFIER sid, EXP e, int bound)
 
 
 /*
-    DEFINE A TEMPLATE MEMBER
-
     This routine defines the template member id given by form to be the
     specialisation tid of value e.  It returns the declaration specifiers
     of the result.
@@ -2335,8 +2253,6 @@ define_templ_member(IDENTIFIER id, IDENTIFIER tid, TYPE form, EXP e)
 
 
 /*
-    DEFINE A TEMPLATE
-
     This routine defines the template application id.  force is true to
     indicate the end of the translation unit when a non-exported template
     should have been defined.
@@ -2442,8 +2358,6 @@ copy_template(IDENTIFIER id, int force)
 
 
 /*
-    DEFINE A LIST OF TEMPLATES
-
     This routine calls copy_template for each element of the list p.
 */
 
@@ -2462,8 +2376,6 @@ copy_template_list(LIST(IDENTIFIER) p, int force)
 
 
 /*
-    DEFINE ALL PENDING TEMPLATES
-
     This routine defines all the template instances in the list of pending
     templates.  The list of still pending templates is only checked if
     templ is nonzero.  A templ value of 2 is used to indicate the end of
