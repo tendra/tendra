@@ -8,46 +8,17 @@
  */
 
 #include <assert.h>
-#include <errno.h>
 #include <stdarg.h>
 #include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
 #include <limits.h>
 
 #include <shared/error.h>
 #include <shared/xalloc.h>
-#include <shared/string.h>
 
 /* SIZE_MAX is not in C90 */
 #ifndef SIZE_MAX
 # define SIZE_MAX ((size_t) -1)
 #endif
-
-/*
- * Custom error function for xalloc to prevent a dependency on
- * the error library. All errors in this library are fatal and
- * result in the application exiting with EXIT_FAILURE.
- *
- * XXX: but we depend on error/ for progname anyway, so this makes no sense.
- */
-static void
-xalloc_fatal(const char *s, ...)
-{
-	va_list args;
-
-	if (progname != NULL) {
-		(void) fprintf(stderr, "%s: ", progname);
-	}
-
-	(void) fprintf(stderr, "Fatal: ");
-
-	va_start(args, s);
-	(void) vfprintf(stderr, s, args);
-	va_end(args);
-
-	exit(EXIT_FAILURE);
-}
 
 /*
  * CONTROLLED VERSION OF MALLOC
@@ -63,7 +34,7 @@ xmalloc(size_t sz)
 
 	p = malloc(sz);
 	if (p == NULL) {
-		xalloc_fatal("malloc: %s", strerror(errno));
+		error(ERROR_FATAL, "malloc");
 	}
 
 	return p;
@@ -83,12 +54,12 @@ xcalloc(size_t n, size_t sz)
 	assert(sz != 0);
 
 	if (SIZE_MAX / n < sz) {
-		xalloc_fatal("xcalloc: size_t overflow");
+		error(ERROR_FATAL, "xcalloc: size_t overflow");
 	}
 
 	p = calloc(sz, n);
 	if (p == NULL) {
-		xalloc_fatal("calloc: %s", strerror(errno));
+		error(ERROR_FATAL, "calloc");
 	}
 
 	return p;
@@ -112,7 +83,7 @@ xrealloc(void *p, size_t sz)
 
 	q = realloc(p, sz);
 	if (q == NULL) {
-		xalloc_fatal("realloc: %s", strerror(errno));
+		error(ERROR_FATAL, "realloc");
 	}
 
 	return q;
