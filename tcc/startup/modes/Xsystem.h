@@ -14,7 +14,7 @@
  * system headers. Basically everything is turned off.
  */
 
-#pragma TenDRA begin name environment NO_CHECKS
+#pragma TenDRA begin name environment system
 #pragma TenDRA no external declaration allow
 #pragma TenDRA assignment as bool allow
 #pragma TenDRA complete struct/union analysis off
@@ -59,8 +59,8 @@
 #pragma TenDRA weak prototype analysis off
 #pragma TenDRA end
 
-#pragma TenDRA directory system use environment NO_CHECKS
-#pragma TenDRA directory system1 use environment NO_CHECKS
+#pragma TenDRA directory system use environment system
+#pragma TenDRA directory system1 use environment system
 
 #pragma TenDRA ident ... allow
 
