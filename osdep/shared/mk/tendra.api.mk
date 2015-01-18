@@ -93,7 +93,7 @@ ${OBJ_SDIR}/apis/${api}.api/${src:R}.j: ${PREFIX_TSPEC}/TenDRA/src/${api}.api/${
 	@${CONDCREATE} "${.TARGET:H}"
 	@${ECHO} "==> Compiling ${api}.api/${src}"
 	${TCC} ${HACKOPTS} ${LIBCOPTS} ${TCCOPTS} ${CCOPTS} ${JOPTS} ${JOPTS${api}} \
-		-Ymakelib ${APIENV} -Xp \
+		-Ymakelib ${APIENV} -Xsystem \
 		-o ${.TARGET} ${.ALLSRC}
 
 APIOBJS${api}+=	${OBJ_SDIR}/apis/${api}.api/${src:R}.j
