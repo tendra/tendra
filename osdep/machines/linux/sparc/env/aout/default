@@ -1,7 +1,5 @@
 /* $Id$ */
 
-+MACHINE		"linux-1.2.8-80x86"
-
 +FLAG_TRANS			"-Faout"
 +FLAG_LD			"-m486"
 

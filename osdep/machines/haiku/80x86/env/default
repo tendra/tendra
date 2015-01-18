@@ -1,7 +1,5 @@
 /* $Id$ */
 
-+MACHINE	"haiku-*-80x86"
-
 +LD			"/boot/develop/tools/gnupro/bin/ld"
 
 +FLAG_LD	"-m elf_i386_haiku"

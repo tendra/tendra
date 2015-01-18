@@ -1,7 +1,5 @@
 /* $Id$ */
 
-+MACHINE		"aix-*-*"
-
 +LD			"/bin/ld"
 
 +FLAG			"--2DL"

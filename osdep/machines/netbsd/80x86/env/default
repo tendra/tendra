@@ -1,6 +1,4 @@
 /* $Id$ */
 
-+MACHINE	"netbsd-*-80x86"
-
 +LD_FLAG		"-m elf_i386"
 

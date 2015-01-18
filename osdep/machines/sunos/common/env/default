@@ -1,7 +1,5 @@
 /* $Id$ */
 
-+MACHINE		"sunos-*-sparc"
-
 +LD			"/bin/ld -dc -dp -X"
 
 +LINK_ENTRY		"-e start"

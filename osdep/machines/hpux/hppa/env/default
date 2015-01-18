@@ -1,7 +1,5 @@
 /* $Id$ */
 
-+MACHINE		"hpux-*-hppa"
-
 +CRT1			"<PREFIX_SYS>/dyn_begin.o"
 +CRTN			"<PREFIX_SYS>/dyn_end.o"
 

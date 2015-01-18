@@ -1,6 +1,4 @@
 /* $Id$ */
 
-+MACHINE	"openbsd-*-80x86"
-
 +FLAG_LD		"-m elf_i386_obsd"
 

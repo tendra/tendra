@@ -1,6 +1,4 @@
 /* $Id$ */
 
-+MACHINE		"ultrix-4.2-mips"
-
 +VERSION		"2.10"
 

@@ -1,6 +1,4 @@
 /* $Id$ */
 
-+MACHINE	"aerielbsd-*-hppa"
-
 >FLAG_TRANS	"-Sgas"
 

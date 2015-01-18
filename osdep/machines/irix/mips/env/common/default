@@ -1,7 +1,5 @@
 /* $Id$ */
 
-+MACHINE		"irix-*-mips"
-
 +FLAG			"--1BA"
 
 >FLAG_TRANS		"-S -D1 -Y"

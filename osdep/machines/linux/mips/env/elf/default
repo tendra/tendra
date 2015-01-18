@@ -1,6 +1,4 @@
 /* $Id$ */
 
-+MACHINE	"linux-*-mips"
-
 >FLAGS_TRANS	"-Sgas"
 

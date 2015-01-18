@@ -1,7 +1,5 @@
 /* $Id$ */
 
-+MACHINE		"solaris-*-sparc"
-
 +CRT0			"<PREFIX_SYS>/crt1.o <PREFIX_SYS>/crti.o"
 +CRTN			"<PREFIX_SYS>/crtn.o"
 

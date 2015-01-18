@@ -1,7 +1,5 @@
 /* $Id$ */
 
-+MACHINE		"sunos-*-sparc"
-
 +FLAG			"--1SC"
 +FLAG			"--1DL"
 

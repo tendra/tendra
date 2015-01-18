@@ -1,6 +1,4 @@
 /* $Id: default 2583 2011-08-11 19:39:41Z kate $ */
 
-+MACHINE	"openbsd-*-sparc"
-
 +FLAG_AS	"-Av8plus -32"
 
