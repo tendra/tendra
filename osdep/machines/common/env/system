@@ -4,6 +4,5 @@
 +INCL_CPP		""
 +FLAG			"-Xsystem"
 +FLAG			"-Y32bit"
-+FLAG_TRANS		"-B0"
 +API_NAME		"-Asystem"
 +INFO			"System@Headers"
