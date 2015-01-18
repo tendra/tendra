@@ -12,8 +12,8 @@ TRANS_CFLAGS+=	-D BLDARCHBITS=${BLDARCHBITS}
 # TODO: these are not yet selectable at runtime
 #TRANS_CFLAGS+=	-D NEWDIAGS
 #TRANS_CFLAGS+=	-D NEWDWARF
-#TRANS_CFLAGS+=	-D STABS
-TRANS_CFLAGS+=	-D DWARF
+TRANS_CFLAGS+=	-D STABS
+#TRANS_CFLAGS+=	-D DWARF
 
 TRANS_CFLAGS+=	-I ${BASE_DIR}/src/80x86
 TRANS_CFLAGS+=	-I ${BASE_DIR}/src/common
@@ -25,7 +25,7 @@ PARTS+= src/common/shared
 PARTS+= src/common/construct
 PARTS+= src/common/diag
 #PARTS+= src/common/newdiag
-PARTS+= src/common/dwarf
+#PARTS+= src/common/dwarf
 #PARTS+= src/common/dwarf2
 PARTS+= src/common/linkinfo
 PARTS+= src/common/reader
@@ -67,11 +67,11 @@ SRCS+=	translate.c
 SRCS+=	tv_callees.c
 SRCS+=	weights.c
 
-#SRCS+=	stabs_reform.c
+SRCS+=	stabs_reform.c
 #SRCS+=	cv_reform.c
-SRCS+=	dwarf_reform.c
+#SRCS+=	dwarf_reform.c
 
-#SRCS+=	diag_out.c
+SRCS+=	diag_out.c
 #SRCS+=	cv_fns.c
 #SRCS+=	cv_outtype.c
 

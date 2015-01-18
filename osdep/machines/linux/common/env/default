@@ -1,6 +1,6 @@
 /* $Id$ */
 
-+CRT0		"-dynamic-linker /lib/ld-linux.so.2 /usr/lib/crt1.o"
-+CRT1		"/usr/lib/crti.o"
-+CRTN		"/usr/lib/crtn.o"
++CRT0		"-dynamic-linker /lib/ld-linux.so.2 /usr/lib/i386-linux-gnu/crt1.o"
++CRT1		"/usr/lib/i386-linux-gnu/crti.o"
++CRTN		"/usr/lib/i386-linux-gnu/crtn.o"
 
