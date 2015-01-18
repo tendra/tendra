@@ -34,18 +34,13 @@
 #include "temp.h"
 
 
-#define VERSION_STRING		"Version: 5.0"
-
-#ifndef RELEASE
-#define RELEASE			"$Rev$"
-#endif
+#define VERSION "5.0"
 
 
 void
 print_version(void)
 {
-	printf("%s%s, Release: %s\n", VERSION_STRING,
-	      (checker ? " (checker)" : ""), RELEASE);
+	report_version(stdout);
 	flag_no_files = 1;
 }
 
@@ -116,7 +111,7 @@ main_start(char *prog)
 	atexit(main_end);
 
 	buffer = xmalloc_nof(char, buffer_size);
-	set_progname(find_basename(prog), RELEASE);
+	set_progname(find_basename(prog), VERSION);
 
 	srand(time(NULL));
 
