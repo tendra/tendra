@@ -25,6 +25,7 @@ ENVFILE+=	Xp
 ENVFILE+=	Xs
 ENVFILE+=	Xt
 ENVFILE+=	Xw
+ENVFILE+=	Xsystem
 
 ENVFILE+=	pl_tdf
 ENVFILE+=	tdp
