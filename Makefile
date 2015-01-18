@@ -12,6 +12,9 @@
 
 HOSTNAME!=	uname -n | cut -f1 -d.
 
+REVISION!=	svn info | grep ^Revision: | cut -f2 -d' '
+RELEASE?=	svn:${REVISION}
+
 OBJ_DIR?=     ${.CURDIR}/obj.${HOSTNAME}
 OBJ_WWW?=     ${OBJ_DIR}-www
 OBJ_DOC?=     ${OBJ_DIR}-doc
@@ -66,6 +69,7 @@ bootstrap: ${BOOTSTRAP_DEPS}
 	@echo "===> bootstrapping ${project} into ${OBJ_BPREFIX}"
 	cd ${.CURDIR}/${project} && ${MAKE} \
 	    OBJ_DIR=${OBJ_BOOT}/${project}  \
+	    RELEASE=${RELEASE}              \
 	    PREFIX=${OBJ_BPREFIX} install
 .endfor
 	# TODO: these mkdirs are to be removed pending work on tcc
@@ -80,7 +84,9 @@ bootstrap: ${BOOTSTRAP_DEPS}
 	    PREFIX_INCLUDE=               \
 	    PREFIX_MAN=                   \
 	    PREFIX_TMP=${OBJ_BPREFIX}/tmp \
-	    PREFIX=${OBJ_BPREFIX} install
+	    PREFIX=${OBJ_BPREFIX}         \
+	    RELEASE=${RELEASE}            \
+	    install
 	@echo "===> bootstrapping osdep into ${OBJ_BPREFIX}"
 	cd ${.CURDIR}/osdep && ${MAKE}    \
 	    OBJ_DIR=${OBJ_BOOT}/osdep     \
@@ -89,6 +95,7 @@ bootstrap: ${BOOTSTRAP_DEPS}
 	    TPL=${OBJ_BPREFIX}/bin/tpl    \
 	    TNC=${OBJ_BPREFIX}/bin/tnc    \
 	    TLD=${OBJ_BPREFIX}/bin/tld    \
+	    RELEASE=${RELEASE}            \
 	    install
 	@echo "===> bootstrapping tdf into ${OBJ_BPREFIX}"
 	cd ${.CURDIR}/tdf && ${MAKE}      \
@@ -97,6 +104,7 @@ bootstrap: ${BOOTSTRAP_DEPS}
 	    TCC=${OBJ_BPREFIX}/bin/tcc    \
 	    TPL=${OBJ_BPREFIX}/bin/tpl    \
 	    TLD=${OBJ_BPREFIX}/bin/tld    \
+	    RELEASE=${RELEASE}            \
 	    install
 
 bootstrap-test: ${OBJ_BPREFIX}/bin/tcc

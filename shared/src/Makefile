@@ -9,6 +9,8 @@ SRCS+=	xalloc.c
 SRCS+=	string.c
 SRCS+=	getopt.c
 
+CCOPTS+=	-DRELEASE='"${RELEASE}"'
+
 .include <tendra.obj.mk>
 
 .include <tendra.partial.mk>

@@ -48,6 +48,8 @@ OBJ_DDIR?=	${OBJ_SDIR:H}
 # Do some pretty-printing.
 WRKDIR=	${.CURDIR:C/^${BASE_DIR}\///1}
 
+RELEASE?=	
+
 # Keep in alphabetical order
 AR?=		ar
 CAT?=		cat
