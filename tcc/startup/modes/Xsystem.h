@@ -60,7 +60,6 @@
 #pragma TenDRA end
 
 #pragma TenDRA directory system use environment system
-#pragma TenDRA directory system1 use environment system
 
 #pragma TenDRA ident ... allow
 

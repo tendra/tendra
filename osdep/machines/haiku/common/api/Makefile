@@ -3,10 +3,14 @@
 .include "Makefile.inc"
 
 
-LIBCOPTS+=	-Nsystem_posix:${LIBCPREFIX}/develop/headers/posix
+LIBCOPTS+=	-Nsystem:${LIBCPREFIX}/develop/headers/posix
 LIBCOPTS+=	-Nsystem_headers:${LIBCPREFIX}/develop/headers
 LIBCOPTS+=	-Nsystem_os:${LIBCPREFIX}/develop/headers/os
 LIBCOPTS+=	-Nsystem_support:${LIBCPREFIX}/develop/headers/os/support
+
+.for dir in headers os support
+HACKOPTS+=	--@D\#pragma@TenDRA@directory@${dir}@use@environment@system\n
+.endfor
 
 APIS+=  c89
 #APIS+=	c95
