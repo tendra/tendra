@@ -1,8 +1,0 @@
-/* tcc environment for system headers on unknown machine */
-
->INCL			"-Nsystem1:<PREFIX_INCLUDE> -Nsystem:/usr/include"
-+FLAG			"-f<PREFIX_INCLUDE>/startup/system.h"	/* XXX: not installed */
-+FLAG			"-Y32bit"
-+FLAG_TRANS		"-B0"
->API_NAME		"-Asystem1 -Asystem"
->INFO			"System@Headers"

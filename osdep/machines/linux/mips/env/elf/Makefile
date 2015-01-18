@@ -10,8 +10,6 @@ ENVFILE+=	default
 
 ENVFILE+=	K-aout
 
-ENVFILE+=	system
-ENVFILE+=	system+
 ENVFILE+=	tcc_prof
 ENVFILE+=	tdf_ext
 

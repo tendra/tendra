@@ -5,7 +5,6 @@
 
 ENVFILE+=	default
 ENVFILE+=	system
-ENVFILE+=	system+
 ENVFILE+=	building
 
 ENVFILE+=	c
