@@ -15,7 +15,6 @@
  */
 
 #pragma TenDRA begin name environment system
-#pragma TenDRA no external declaration allow
 #pragma TenDRA assignment as bool allow
 #pragma TenDRA complete struct/union analysis off
 #pragma TenDRA const conditional allow

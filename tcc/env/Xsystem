@@ -1,0 +1,4 @@
+/* ENVIRONMENT FOR -Xsystem ON common */
+
++STARTUP		"-f<PREFIX_STARTUP>/modes/Xsystem.h"
++STARTUP_CPP		"-f<PREFIX_STARTUP>/modes.cpp/Xsystem.h"
