@@ -754,11 +754,6 @@
 					<td>&star.arg;<code>TRANS</code></td>
 					<td>modifies the &tdf; translator executable</td>
 				</tr>
-
-				<tr>
-					<td><code>+VERSION</code></td>
-					<td>sets the target machine version (&mips; only)</td>
-				</tr>
 			</tbody>
 		</table>
 	</refsection>

@@ -1,7 +1,5 @@
 /* $Id$ */
 
-+VERSION		"2.10"
-
 +FLAG			"--1BA"
 
 >FLAG_TRANS		"-O-s"

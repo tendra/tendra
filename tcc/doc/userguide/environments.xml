@@ -92,11 +92,6 @@
 				<td>The default temporary directory
 					(see section 6.4)</td>
 			</tr>
-			<tr>
-				<td><code>VERSION</code></td>
-				<td>The target machine version
-					(Mips only, see section 5.3.4)</td>
-			</tr>
 		</tbody>
 	</table>
 

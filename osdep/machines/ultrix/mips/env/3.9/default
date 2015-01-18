@@ -1,6 +1,4 @@
 /* $Id$ */
 
-+VERSION		"1.31"
-
 +AS1			"/usr/lib/as11.31 -O2"
 

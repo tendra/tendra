@@ -866,13 +866,7 @@
 				to be specified to &tcc;.
 				This is done using the <code>AS1</code> environmental
 				identifier, which is normally defined in the
-				<code>default</code> environment.
-				There is a further piece of information required for
-				the compilation scheme to operate correctly:
-				&mipstrans; needs to know the
-				<application>as1</application> version number.
-				This number can be specified by means of the
-				<code>VERSION</code> environmental identifier.</para>
+				<code>default</code> environment.</para>
 		</section>
 	</section>
 

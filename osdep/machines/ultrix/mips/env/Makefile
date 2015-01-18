@@ -7,7 +7,10 @@
 
 
 SUBDIR+=	common
+
+.if exists(${OSVER})
 SUBDIR+=	${OSVER}
+.endif
 
 .include <tendra.subdir.mk>
 
