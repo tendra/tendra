@@ -37,7 +37,7 @@
 #define VERSION_STRING		"Version: 5.0"
 
 #ifndef RELEASE
-#define RELEASE			"unknown"
+#define RELEASE			"$Rev$"
 #endif
 
 
