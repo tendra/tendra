@@ -936,7 +936,7 @@ interpret_cmd(const char *cmd, enum hash_precedence precedence)
 
 	/* Debugging */
 	if (debug_options) {
-		error(ERROR_USAGE, "Interpreting '%s'", cmd);
+		error(ERROR_WARNING, "Interpreting '%s'", cmd);
 	}
 
 	/* Deal with at-hack */
