@@ -182,8 +182,10 @@ main(int argc, char **argv)
 	if (input_files == NULL) {
 		if (flag_no_files) {
 			main_end();
+			return exit_status;
+		} else {
+			error(ERROR_FATAL, "No input files specified");
 		}
-		error(ERROR_FATAL, "No input files specified");
 	}
 
 	if (tempdir == NULL) {
