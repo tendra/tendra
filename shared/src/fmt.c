@@ -32,15 +32,11 @@
 #include <shared/fmt.h>
 
 /*
- * FORMATTING CALLBACKS
- *
  * These are callback functions for efprintf(), indexed by an unsigned char.
  */
 void (*fmtf[256])(FILE *, void *);
 
 /*
- * READ PRECISION
- *
  * Read the precision given by a formatting specifier. This is expected to be
  * passed a pointer to the character after the '.' which begins the precision
  * specificiation. It will consume as many further character as it needs, up to
@@ -85,8 +81,6 @@ readprecision(const char *p, int *precision)
 }
 
 /*
- * FORMAT AN ERROR MESSAGE
- *
  * This is an analogue of fprintf, based on the fmt[] callback functions. This
  * provides a mechanism for custom format specifiers which may be registered
  * by fmt_register().
@@ -207,8 +201,6 @@ efprintf(FILE *fp, const char *fmt, ...)
 }
 
 /*
- * REGISTER A FORMAT SPECIFIER
- *
  * Format specifiers registered here draw a void * from the va_list consumed in
  * vefprintf().
  */
@@ -225,4 +217,3 @@ fmt_register(char c, void (*f)(FILE *fp, void *))
 
 	fmtf[(unsigned char) c] = f;
 }
-

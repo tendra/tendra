@@ -17,11 +17,7 @@
 #include <shared/string.h>
 #include <shared/xalloc.h>
 
-/*
- * COPY A STRING
- *
- * This routine allocates space for a persistent copy of the string s.
- */
+
 char *
 xstrdup(const char *s1)
 {
@@ -36,8 +32,6 @@ xstrdup(const char *s1)
 }
 
 /*
- * ALLOCATE SPACE FOR A STRING
- *
  * This routine allocates space for n characters.  The memory allocation
  * is buffered except for very long strings.
  */
@@ -65,12 +59,7 @@ xstr(size_t n)
 	return r;
 }
 
-/*
- * CONCATENATE TWO STRINGS
- *
- * This routine allocates space for a persistent copy of the string s
- * followed by the string t.
- */
+
 char *
 xstrcat(const char *s, const char *t)
 {
@@ -89,4 +78,3 @@ xstrcat(const char *s, const char *t)
 
 	return r;
 }
-

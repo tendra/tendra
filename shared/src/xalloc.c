@@ -20,11 +20,7 @@
 # define SIZE_MAX ((size_t) -1)
 #endif
 
-/*
- * CONTROLLED VERSION OF MALLOC
- *
- * This routine allocates sz bytes of memory and bails out on error.
-*/
+
 void *
 xmalloc(size_t sz)
 {
@@ -40,11 +36,7 @@ xmalloc(size_t sz)
 	return p;
 }
 
-/*
- * CONTROLLED VERSION OF CALLOC
- *
- * This routine allocates and initializes n objects of size sz bytes.
- */
+
 void *
 xcalloc(size_t n, size_t sz)
 {
@@ -65,12 +57,7 @@ xcalloc(size_t n, size_t sz)
 	return p;
 }
 
-/*
- * CONTROLLED VERSION OF REALLOC
- *
- * This routine reallocates the block of memory p to contain sz bytes.
- * p can be the result of a previous memory allocation routine, or NULL.
- */
+
 void *
 xrealloc(void *p, size_t sz)
 {
@@ -89,15 +76,9 @@ xrealloc(void *p, size_t sz)
 	return q;
 }
 
-/*
- * CONTROLLED VERSION OF FREE
- *
- * This routine frees the block of memory p.  p can be the result of a
- * previous memory allocation routine, or NULL.
- */
+
 void
 xfree(void *p)
 {
 	free(p);
 }
-
