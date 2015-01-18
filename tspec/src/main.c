@@ -220,7 +220,7 @@ main(int argc, char **argv)
 						break;
 
 					case 'V':
-						report_version();
+						report_version(stderr);
 						break;
 
 					default:

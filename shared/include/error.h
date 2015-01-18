@@ -24,7 +24,7 @@ enum error_severity {
 void error(enum error_severity, const char *, ...);
 void error_posn(enum error_severity, const char *, int, const char *, ...);
 void set_progname(const char *, const char *);
-void report_version(void);
+void report_version(FILE *);
 void fmt_register(char c, void (*f)(FILE *fp, void *));
 
 extern const char *progname;

@@ -257,7 +257,7 @@ main(int argc, char **argv)
 					int v1 = VERSION_major;
 					int v2 = VERSION_minor;
 
-					report_version();
+					report_version(stderr);
 					(void) fprintf(stderr,
 					    " (TDF %d.%d)\n", v1, v2);
 					known = 1;

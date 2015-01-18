@@ -24,6 +24,10 @@ int number_errors = 0;
 int crt_line_no = 1;
 const char *crt_file_name = NULL;
 
+#ifndef RELEASE
+#define RELEASE			""
+#endif
+
 /*
  * SET PROGRAM NAME
  *
@@ -43,17 +47,22 @@ set_progname(const char *nm, const char *vers)
  * This routine prints the program name and version number.
  */
 void
-report_version(void)
+report_version(FILE *f)
 {
 	const char *nm = progname;
 	const char *vers = progvers;
+	const char *tver = "";
 
 	if (nm == NULL)
 		nm = "unknown";
+
 	if (vers == NULL)
 		vers = "unknown";
 
-	(void) fprintf(stderr, "%s: Version %s (tendra.org)\n", nm, vers);
+	if (RELEASE[0] != '\0')
+		tver = " " RELEASE;
+
+	(void) fprintf(f, "%s: Version %s%s (tendra.org)\n", nm, vers, tver);
 }
 
 /*

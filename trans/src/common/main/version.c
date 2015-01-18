@@ -44,7 +44,7 @@ trans_version(void)
 		{ "TDF",       MAJOR_VERSION,     MINOR_VERSION,      "def_4_1.db" }
 	};
 
-	report_version();
+	report_version(stderr);
 
 	for (i = 0; i < sizeof a / sizeof *a; i++) {
 		fprintf(stderr, "\t%-10s %d.%d", a[i].name, a[i].major, a[i].minor);
