@@ -34,7 +34,6 @@ const char *api_output = API_ANAL_NAME;
 const char *dump_opts = NULL;
 const char *environ_dir = "";
 const char *final_name = NULL;
-const char *machine_name = "unknown";
 const char *name_E_file = ENDUP_NAME;
 const char *name_h_file = STARTUP_NAME;
 const char *name_j_file = TDF_COMPLEX_NAME;
@@ -214,38 +213,6 @@ default_lab:
 			}
 		}
 	}
-}
-
-
-/*
- * SET THE MACHINE NAME
- *
- * This routine sets any special flags required by the machine indicated by
- * machine_name.
- */
-
-void
-set_machine(void)
-{
-#if 0
-	char *mach = machine_name;
-	use_assembler = 1;
-	use_binasm = 0;
-	use_hp_linker = 0;
-	if (streq(mach, "hp") || streq(mach, "hppa")) {
-		use_hp_linker = 1;
-	} else if (streq(mach, "mips")) {
-		use_bingasm= 1;
-	} else if (streq(mach, "alpha")) {
-		use_binasm = 1;
-	} else if (streq(mach, "sparc") || streq(mach, "svr4_sparc")) {
-		use_sparc_cc = 1;
-	} else if (streq(mach, "svr4_i386")) {
-		use_sparc_cc = 2;
-	} else if (streq(mach, "transputer")) {
-		use_assembler = 0;
-	}
-#endif
 }
 
 

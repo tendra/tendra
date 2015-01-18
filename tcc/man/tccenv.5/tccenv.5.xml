@@ -661,11 +661,6 @@
 				</tr>
 
 				<tr>
-					<td><code>+MACHINE</code></td>
-					<td>sets the target machine type</td>
-				</tr>
-
-				<tr>
 					<td><code>+PORTABILITY</code></td>
 					<td>sets the producer portability table</td>
 				</tr>

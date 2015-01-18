@@ -37,5 +37,4 @@
 
 ?ENVDIR			"Main environment directory (ENVDIR)"
 ?SYS_LINK		"Default system libraries directories (SYS_LINK)"
-?MACHINE		"Machine identifier (MACHINE)"
 ?VERSION		"Machine version number - Mips only (VERSION)"

@@ -33,8 +33,6 @@
 +STARTUP_CPP		"-f<PREFIX_STARTUP>/modes.cpp/Xc.h"
 +PORTABILITY		"<PREFIX_STARTUP>/bounds/c89.pf"
 
-+MACHINE		"*-*-*"
-
 +FLAG	"-D__TenDRA__"
 +FLAG	"-Ydefault"
 

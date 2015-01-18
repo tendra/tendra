@@ -83,10 +83,6 @@
 					<!-- TODO: link --> 4.1)</td>
 			</tr>
 			<tr>
-				<td><code>MACHINE</code></td>
-				<td>The target machine type (see section 4.2)</td>
-			</tr>
-			<tr>
 				<td><code>PORTABILITY</code></td>
 				<td>The producer portability table
 					(see section 5.1.3)</td>
@@ -268,30 +264,14 @@
 			the default compilation mode; the default environments
 			directory (mentioned above).</para>
 
-		<para>The target machine type, defined by the
-			<code>MACHINE</code> environmental identifier, actually
-			plays a very minor role in dealing with the very real
-			target dependency problems in &tcc;.
-			These problems are caused by the fact that &tcc; is
-			designed to work on many different target machines.
+		<para>&tcc; is designed to work on many different target machines.
 			All the information on where the executables, include files,
 			&tdf; libraries etc. are located on a particular machine
 			is stored in the standard environments, and in particular,
 			the <code>default</code> environment.
 			The interaction with the system assembler and, more
 			importantly, the system linker is also expressed using
-			environments.
-			The only target dependencies for which the machine type
-			needs to be known are genuine aberrations.
-			For example, the &tdf; to Mips translator and the Mips
-			assembler are completely different from most other
-			translator-assembler pairs in that they pass two files,
-			a <filename>.G</filename> and a <filename>.T</filename>
-			file, between them, rather than the more normal single
-			<filename>.s</filename> file.
-			Thus it is important for &tcc; to know that the machine
-			type is Mips in this case (see section 5.3.4<!-- TODO: link -->
-			for more details).</para>
+			environments.</para>
 	</section>
 
 	<section>

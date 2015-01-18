@@ -23,7 +23,6 @@
 
 extern void initialise_options(void);
 extern void update_options(void);
-extern void set_machine(void);
 extern void set_stage(enum filetype, int);
 
 
@@ -38,7 +37,6 @@ extern const char *api_output;
 extern const char *dump_opts;
 extern const char *environ_dir;
 extern const char *final_name;
-extern const char *machine_name;
 extern const char *name_E_file;
 extern const char *name_h_file;
 extern const char *name_j_file;

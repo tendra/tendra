@@ -32,7 +32,6 @@
 +API_NAME		"-Ac89"
 +API			"-R<PREFIX_INCLUDE>/c89.d"
 +INFO			"ANSI@(X3.159)"
-+VERSION		""
 
 /*
  * Enable almost all builtins.

@@ -44,8 +44,8 @@
 void
 print_version(void)
 {
-	printf("%s%s, Machine: %s, Release: %s\n", VERSION_STRING,
-	      (checker ? " (checker)" : ""), machine_name, RELEASE);
+	printf("%s%s, Release: %s\n", VERSION_STRING,
+	      (checker ? " (checker)" : ""), RELEASE);
 	flag_no_files = 1;
 }
 

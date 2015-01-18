@@ -537,7 +537,6 @@ lookup_string(const char *s)
 		{ "DO", &dump_opts     },
 		{ "ED", &environ_dir   },
 		{ "FN", &final_name    },
-		{ "MN", &machine_name  },
 		{ "PN", &progname      },
 		{ "VF", &version_flag  },
 		{ "WD", &workdir       },
@@ -637,7 +636,6 @@ lookup_proc(const char *s)
 		{ "AP", add_pragma_aux },
 		{ "AT", add_token_aux  },
 		{ "PV", print_version  },
-		{ "SM", set_machine    },
 		{ "SP", special_option }
 	};
 
