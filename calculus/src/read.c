@@ -133,7 +133,7 @@ static char *
 read_string(void)
 {
     unsigned long i, n = read_int();
-    char *s = xstr((long)(n + 1));
+    char *s = xmalloc((long)(n + 1));
     for (i = 0; i < n; i++) {
 	s[i] = (char)read_bits(8);
     }

@@ -13,7 +13,6 @@
 #include <stddef.h>
 
 char *xstrdup(const char *);
-char *xstr(size_t);
 char *xstrcat(const char *, const char *);
 
 #endif

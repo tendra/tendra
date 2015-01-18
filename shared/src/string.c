@@ -31,34 +31,6 @@ xstrdup(const char *s1)
 	return s2;
 }
 
-/*
- * This routine allocates space for n characters.  The memory allocation
- * is buffered except for very long strings.
- */
-char *
-xstr(size_t n)
-{
-	char *r;
-
-	if (n >= 1000) {
-		r = xmalloc_nof(char, n);
-	} else {
-		static size_t chars_left = 0;
-		static char *chars_free = 0;
-
-		if (n >= chars_left) {
-			chars_left = 5000;
-			chars_free = xmalloc_nof(char, chars_left);
-		}
-
-		r = chars_free;
-		chars_free += n;
-		chars_left -= n;
-	}
-
-	return r;
-}
-
 
 char *
 xstrcat(const char *s, const char *t)
@@ -71,7 +43,7 @@ xstrcat(const char *s, const char *t)
 
 	n = strlen(s);
 	m = n + strlen(t) + 1;
-	r = xstr(m);
+	r = xmalloc(m);
 
 	(void) strcpy(r, s);
 	(void) strcpy(r + n, t);
