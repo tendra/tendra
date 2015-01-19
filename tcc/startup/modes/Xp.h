@@ -17,9 +17,6 @@
 #pragma TenDRA declaration block Xp__startup begin
 #pragma TenDRA begin
 
-#include "../literal/c89.h"
-#include "../promotion/c89.h"
-
 #pragma TenDRA conversion analysis (int-pointer explicit) warning
 #pragma TenDRA function pointer as pointer warning
 #pragma TenDRA weak prototype analysis on

@@ -16,9 +16,6 @@
 #pragma TenDRA declaration block Xs__startup begin
 #pragma TenDRA begin
 
-#include "../literal/c89.h"
-#include "../promotion/c89.h"
-
 #pragma TenDRA complete struct/union analysis warning
 #pragma TenDRA conversion analysis (int-int implicit) warning
 #pragma TenDRA conversion analysis (int-pointer explicit) warning

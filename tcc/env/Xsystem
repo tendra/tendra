@@ -1,4 +1,4 @@
 /* ENVIRONMENT FOR -Xsystem ON common */
 
-+STARTUP		"-f<PREFIX_STARTUP>/modes/Xsystem.h"
-+STARTUP_CPP		"-f<PREFIX_STARTUP>/modes.cpp/Xsystem.h"
++STARTUP		"-f<PREFIX_STARTUP>/lang/c89.h   -f<PREFIX_STARTUP>/modes/Xsystem.h"
++STARTUP_CPP		"-f<PREFIX_STARTUP>/lang/cpp98.h -f<PREFIX_STARTUP>/modes/Xsystem.h"

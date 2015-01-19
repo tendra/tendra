@@ -1,7 +1,7 @@
 /* ENVIRONMENT FOR -Xt ON common */
 
-+STARTUP		"-f<PREFIX_STARTUP>/modes/Xt.h"
-+STARTUP_CPP		"-f<PREFIX_STARTUP>/modes.cpp/Xt.h"
++STARTUP		"-f<PREFIX_STARTUP>/lang/c89.h   -f<PREFIX_STARTUP>/modes/Xt.h"
++STARTUP_CPP		"-f<PREFIX_STARTUP>/lang/cpp98.h -f<PREFIX_STARTUP>/modes/Xt.h"
 
 /* Permit writable strings - just to be kinder to older code */
 <FLAG_TRANS	"-W"

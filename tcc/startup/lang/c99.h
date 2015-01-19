@@ -7,14 +7,14 @@
  */
 
 /*
- * STARTUP FILE FOR COMPILATION MODE XC
- *
- * Xc represents strict language compliance, no more, no less.
- * Which means (in theory) there should be nothing to do here.
+ * ISO C99.
  */
 
-#pragma TenDRA declaration block Xc_startup begin
+#pragma TenDRA declaration block Xc99_startup begin
 #pragma TenDRA begin
+
+#include "../literal/c99.h"
+#include "../promotion/c99.h"
 
 #pragma TenDRA weak prototype analysis off
 #pragma TenDRA incompatible interface declaration warning

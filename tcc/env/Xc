@@ -1,4 +1,4 @@
 /* ENVIRONMENT FOR -Xc ON common */
 
-+STARTUP		"-f<PREFIX_STARTUP>/modes/Xc.h"
-+STARTUP_CPP		"-f<PREFIX_STARTUP>/modes.cpp/Xc.h"
++STARTUP		"-f<PREFIX_STARTUP>/lang/c89.h"
++STARTUP_CPP		"-f<PREFIX_STARTUP>/lang/cpp98.h"
