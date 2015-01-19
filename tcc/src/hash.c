@@ -43,7 +43,7 @@ struct hash {
  * Reconcile the table of user-defined env options. At present this function
  * just makes sure that non-tccenv(5) variables declared by the user were used
  * in the env files. If not, it's likely a subtle bug or typo, and a warning
- * issues if the version -v switch is used.
+ * issued if the version -v switch is used.
  */
 void
 reconcile_envopts(const struct hash *h)
