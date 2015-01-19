@@ -134,7 +134,7 @@ struct optmap main_optmap[] = {
 	{ "-H",             "1PI",              "causes included files to be printed"         },
 	{ "-S?,+$,+*",      "I$1$2",            "specifies input files"                       },
 	{ "-S?:+$",         "I$1$2",            "specifies input files"                       },
-	{ "-V",             "EVersions|1CR",    "causes all tools to print their "
+	{ "-V",             "EVersions",        "causes all tools to print their "
 	                                         "version numbers"                            },
 	{ "-cc",            "1CC",              "forces the system compiler to be used"       },
 	{ "-cc_only",       "2CC",              "forces only the system compiler to be used"  },
