@@ -8,7 +8,7 @@
  */
 
 /*
- * Exception tokens for trans.680x0
+ * Exception tokens for trans.m68k
  */
 
 Common __m68k_stack_limit : pointer (locals_alignment) =
