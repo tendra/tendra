@@ -92,6 +92,7 @@ MD_BLDARCHBITS!=                          \
         9000/7*)       echo 64;;          \
         hppa)          echo 32;;          \
         socppc|macppc) echo 32;;          \
+        mips)          echo 32;;          \
         *)             echo unknown;;     \
     esac;
 
