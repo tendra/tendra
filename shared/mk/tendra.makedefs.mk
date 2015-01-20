@@ -76,7 +76,7 @@ MD_BLDARCH!=                              \
         sparc|sparc64) echo sparc;;       \
         9000/7*)       echo hppa;;        \
         hppa)          echo hppa;;        \
-        socppc|macppc) echo ppc601;;      \
+        socppc|macppc) echo power;;       \
         mips)          echo mips;;        \
         *)             echo unknown;;     \
     esac;
