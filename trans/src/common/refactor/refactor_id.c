@@ -56,7 +56,7 @@
 #include <newdiag/dg_aux.h>
 #endif
 
-#if defined(TRANS_80x86) || defined(TRANS_HPPA)
+#if defined(TRANS_X86) || defined(TRANS_HPPA)
 #include "localexpmacs.h"
 #endif
 
@@ -520,7 +520,7 @@ refactor_id(exp e, exp scope)
 	   (!isparam(son(def)) || name(sh(def)) == ptrhd)))
 	: name(def) == name_tag )
        ||
-#if TRANS_80x86
+#if TRANS_X86
        (name(def) == name_tag && isparam(son(def)) && !isvar(son(def)) &&
 	shape_size(sh(def)) < shape_size(sh(son(son(def)))) &&
 	name(sh(def)) <= ulonghd) ||
@@ -737,7 +737,7 @@ refactor_id(exp e, exp scope)
 	    conversion = -1;
 	  }
 	  if ((defsize != qq) && (name(sh(def)) < shrealhd)) {
-#if TRANS_80x86
+#if TRANS_X86
 	    if (!isparam(e) || no(e) != 1) {
 	      if (no(tc) == 0 && defsize <= 32) {
 		if (qq == 8) {
@@ -784,7 +784,7 @@ refactor_id(exp e, exp scope)
 	    }
 
 	    if (defsize != shape_size(sh(assd_val))) {
-#if TRANS_80x86
+#if TRANS_X86
 	      if (no(tc) == 0 && defsize <= 32) {
 		if (shape_size(sh(bro(tc))) == 8) {
 		  setbyteuse(e);
@@ -895,7 +895,7 @@ refactor_id(exp e, exp scope)
 	return 1;
       }
 
-#if TRANS_80x86 || TRANS_HPPA
+#if TRANS_X86 || TRANS_HPPA
       /* look for places where we can avoid sign extending */
       if (not_aliased && name(sh(def)) == slonghd &&
 	  conversion == 16 && /* not 8 because of 80x86 regs */

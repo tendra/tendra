@@ -10,13 +10,13 @@
 SUBDIR+=	${TRANSARCH}
 .else
 SUBDIR+=	680x0
-SUBDIR+=	80x86
 SUBDIR+=	alpha
 SUBDIR+=	hppa
 SUBDIR+=	mips
 SUBDIR+=	power
 SUBDIR+=	sparc
 SUBDIR+=	stub
+SUBDIR+=	x86
 .endif
 
 .include <tendra.subdir.mk>

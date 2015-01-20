@@ -275,8 +275,8 @@ typedef struct exp_t *exp;
 #define isinlined(x)              ptst(x, 0x0200)
 #endif
 
-/* parameter used for output (needs only to be in memory for 80x86 and 68k) */
-#if defined(TRANS_80x86) || (defined(TRANS_680x0) && !defined(tdf3))
+/* parameter used for output (needs only to be in memory for x86 and 68k) */
+#if defined(TRANS_X86) || (defined(TRANS_680x0) && !defined(tdf3))
 #define setoutpar(x)              setvis(x)
 #define isoutpar(x)               isvis(x)
 #define clearoutpar(x)
@@ -296,7 +296,7 @@ typedef struct exp_t *exp;
 #define test_number(X)            ((int) props(X))
 #define settest_number(X, Y)       props(X) = (Y)
 #define setntest(X, Y)             props(X) = (Y)
-#elif defined(TRANS_80x86) || defined(TRANS_ALPHA)
+#elif defined(TRANS_X86) || defined(TRANS_ALPHA)
 #define test_number(x)            (ntest) ((x)->propsf & 0x1f)
 #define settest_number(x, t)      (x)->propsf = (prop)(((x)->propsf & ~0x1f) | (int) (t))
 #elif defined(TRANS_HPPA)

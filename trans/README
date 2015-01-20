@@ -14,12 +14,12 @@ which is used by all the back ends, plus a directory for each of the
 target CPUs:
 
     680x0       Motorola 68020, 68030 and 68040,
-    80x86       Intel i386, i486 and Pentium,
     alpha       DEC Alpha,
     hppa        HP Precision Architecture,
     mips        SGI/DEC MIPS,
     power       POWER and POWER PC,
     sparc       SPARC.
+    x86         Intel i386, i486 and Pentium,
 
 The common installer directory is subdivided, for convenience, into
 a number of different subdirectories:

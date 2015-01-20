@@ -521,7 +521,7 @@ unroll_trans(exp candidate, exp body, exp inc, exp te, exp limit, int nt,
 
 		replace(candidate, res, res);
 	}
-#if TRANS_80x86
+#if TRANS_X86
 	else {
 		simple_unroll(candidate, body, inc, te);
 	}

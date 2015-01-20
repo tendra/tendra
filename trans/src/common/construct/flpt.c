@@ -1593,7 +1593,7 @@ real2longs_IEEE(flt *fp, int sw)
       res.i2 += 0x7ff00000;
       return res;
     case 2:
-#if TRANS_80x86
+#if TRANS_X86
       if (f.sign == -1) {
 	res.i3 = 0x8000;
       }
@@ -1678,7 +1678,7 @@ real2longs_IEEE(flt *fp, int sw)
     res.i1 = (int)sig1;
     break;
   case 2:
-#if defined(TRANS_80x86)
+#if defined(TRANS_X86)
     res.i1 = (int)sig1;
     res.i2 = (int)sig2;
     if (f.sign == -1) {

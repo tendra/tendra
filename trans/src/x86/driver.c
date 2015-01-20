@@ -169,7 +169,7 @@ switch_cpu(const char *optarg)
 static void
 unhas(void)
 {
-	/* Things trans.80x86 does not "has" */
+	/* Things trans.x86 does not "has" */
 	has &= ~HAS_NEGSHIFT;
 	has &= ~HAS_CONDASSIGN;
 	has &= ~HAS_COMPLEX;

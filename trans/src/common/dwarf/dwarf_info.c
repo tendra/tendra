@@ -80,7 +80,7 @@ comment_end_scope(diag_info *d)
 	char expr_buf[100];
 	sprintf(expr_buf, COMMENT_2("\t", "\tEND diag_info key %d"), d->key);
 	outs(expr_buf);
-	outs("\n");	/* avoid 80x86 outnl which has side effect */
+	outs("\n");	/* avoid x86 outnl which has side effect */
 }
 
 

@@ -7,7 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#if TRANS_80x86
+#if TRANS_X86
 #define COMMENT_2(x, y)	x "#" y
 #else
 #if TRANS_SPARC

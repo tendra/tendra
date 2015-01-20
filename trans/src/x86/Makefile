@@ -6,7 +6,7 @@
 .include <tendra.makedefs.mk>
 
 
-TRANS_CFLAGS+=	-D TRANS_80x86
+TRANS_CFLAGS+=	-D TRANS_X86
 TRANS_CFLAGS+=	-D BLDARCHBITS=${BLDARCHBITS}
 
 # TODO: these are not yet selectable at runtime
@@ -15,7 +15,7 @@ TRANS_CFLAGS+=	-D BLDARCHBITS=${BLDARCHBITS}
 TRANS_CFLAGS+=	-D STABS
 #TRANS_CFLAGS+=	-D DWARF
 
-TRANS_CFLAGS+=	-I ${BASE_DIR}/src/80x86
+TRANS_CFLAGS+=	-I ${BASE_DIR}/src/x86
 TRANS_CFLAGS+=	-I ${BASE_DIR}/src/common
 
 

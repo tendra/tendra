@@ -52,9 +52,9 @@
 #define DWARF_NAME "dwf"
 #endif
 
-#if TRANS_80x86
-static char *nl80x86 = "\n";
-#define outnl()	outs(nl80x86)	/* avoid side effects of 80x86 outnl */
+#if TRANS_X86
+static char *nlx86 = "\n";
+#define outnl()	outs(nlx86)	/* avoid side effects of x86 outnl */
 #endif
 
 void
@@ -106,7 +106,7 @@ next_dwarf_type_lab(void)
 }
 
 
-#if TRANS_80x86
+#if TRANS_X86
 #define GO_DWARF	outs("\t.section\t.debug");outnl()
 #define GO_LINE		outs("\t.section\t.line");outnl()
 #define LEAVE_DWARF	outs("\t.previous");outnl()

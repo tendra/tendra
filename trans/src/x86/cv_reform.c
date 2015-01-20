@@ -1,6 +1,6 @@
 /* $Id$ */
 
-/* TODO: interface for diag/ to call 80x86 local codeview */
+/* TODO: interface for diag/ to call x86 local codeview */
 
 #include <diag/diag_reform.h>
 

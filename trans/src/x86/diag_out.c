@@ -139,7 +139,7 @@ d_outnl(void)
 
 
 /*
-    80x86 register numbers
+    x86_32 register numbers
 */
 
 #ifdef NEWDIAGS

@@ -31,11 +31,11 @@
 #define set_intnl_call(x) props(x) = (prop)(props(x) | 0x80)
 #define has_intnl_call(x) (props(x) & 0x80)
 
-/* variable has had the no-sign-extension opt. (80x86 only) */
+/* variable has had the no-sign-extension opt. (x86 only) */
 #define setse_opt(x) props(x) = (prop)(props(x) | 0x400)
 #define isse_opt(x) (props(x) & 0x400)
 
-/* variable is used both as byte and long (80x86 only) */
+/* variable is used both as byte and long (x86 only) */
 #define setbyteuse(x) props(x) = (prop)(props(x) | 0x800)
 #define isbyteuse(x) (props(x) & 0x800)
 

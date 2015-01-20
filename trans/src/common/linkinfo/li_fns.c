@@ -34,7 +34,7 @@
 #include <main/flags.h>
 
 /* TODO: stopgap until outs() is centralised */
-#if TRANS_80x86
+#if TRANS_X86
 #include "localtypes.h"
 #include "assembler.h"
 #include <local/out.h>
@@ -87,7 +87,7 @@ linkinfo
 f_make_weak_defn(exp e1, exp e2)
 {
 	if (use_link_stuff) {
-#if TRANS_80x86 || TRANS_SPARC
+#if TRANS_X86 || TRANS_SPARC
 		weak_cell *wc = (weak_cell *)xmalloc(sizeof(weak_cell));
 
 		wc->weak_id = brog(son(e1))->dec_u.dec_val.dec_id;
@@ -108,7 +108,7 @@ linkinfo
 f_make_weak_symbol(tdfstring id, exp e)
 {
 	if (use_link_stuff) {
-#if TRANS_80x86 || TRANS_SPARC
+#if TRANS_X86 || TRANS_SPARC
 		char **lid = &brog(son(e))->dec_u.dec_val.dec_id;
 		char *nid = add_prefix(name_prefix, id.ints.chars);
 		brog(son(e))->dec_u.dec_val.isweak = 1;
@@ -130,7 +130,7 @@ linkinfo
 f_make_comment(tdfstring id)
 {
 	if (use_link_stuff) {
-#if TRANS_80x86 || TRANS_SPARC
+#if TRANS_X86 || TRANS_SPARC
 		outs(".ident \"");
 		outs(add_prefix(name_prefix, id.ints.chars));
 		outs("\"");

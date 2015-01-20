@@ -59,7 +59,7 @@
 #include <newdiag/dg_aux.h>
 #endif
 
-#if defined(TRANS_80x86) || defined(TRANS_HPPA)
+#if defined(TRANS_X86) || defined(TRANS_HPPA)
 #include "localexpmacs.h"
 #endif
 
@@ -2229,7 +2229,7 @@ refactor(exp e, exp scope)
 
 		/* apply commutative and associative laws */
 		case plus_tag:
-#if TRANS_80x86
+#if TRANS_X86
 			{
 				exp arg1 = son(e);
 				exp arg2 = bro(arg1);
@@ -2322,7 +2322,7 @@ refactor(exp e, exp scope)
 #else
 			return comm_ass(e, plus_tag, plus_fn, 0, 0, 0, scope,
 					1, 0);
-#endif /* TRANS_80x86 */
+#endif /* TRANS_X86 */
 
 		case fplus_tag:
 			/*
@@ -2572,7 +2572,7 @@ refactor(exp e, exp scope)
 				 * If the chvar operation never needs any action
 				 * for a little end machine, eliminate it.
 				 */
-#if TRANS_80x86
+#if TRANS_X86
 				if (shape_size(sh(e)) == 8) {
 					if (name(son(e)) == name_tag) {
 						setvis(son(son(e)));
@@ -2922,7 +2922,7 @@ refactor(exp e, exp scope)
 			}
 
 			/* apply commutative and associative laws */
-#if TRANS_80x86
+#if TRANS_X86
 			return comm_ass(e, mult_tag, mult_fn, 1, 1, 0, scope,
 					0, 0);
 #else
@@ -4175,7 +4175,7 @@ refactor(exp e, exp scope)
 		if (has & HAS_SETCC) {
 			exp abst = absbool(e);
 			if (abst != NULL) {
-#ifdef TRANS_80x86
+#ifdef TRANS_X86
 				if (name(sh(son(abst))) <= u64hd)
 #endif
 				{
@@ -4596,7 +4596,7 @@ refactor(exp e, exp scope)
 		    (optim & OPTIM_SHORTEN_OPS || shape_size(sh(arg1)) >= 16) &&
 		    (is_signed(sh(son(arg1))) == is_signed(sh(arg1)))) {
 			exp ee;
-#if TRANS_80x86 || TRANS_HPPA
+#if TRANS_X86 || TRANS_HPPA
 			/* optimise if both args are result of sign extension removal */
 			if ((test_number(e) == f_equal ||
 			     test_number(e) == f_not_equal) &&

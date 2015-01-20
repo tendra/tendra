@@ -368,7 +368,7 @@ out_dwarf_user_type(diag_type t)
 	   to be the dwarf label of this block */
 	{
 		char expr_buf[100];
-#if TRANS_80x86
+#if TRANS_X86
 #define DOT_SET	".set"
 #else
 #if TRANS_SPARC
@@ -377,7 +377,7 @@ out_dwarf_user_type(diag_type t)
 #endif
 #endif
 
-#if TRANS_80x86
+#if TRANS_X86
 #define SET_F	"\t"DOT_SET"\t%s , %s"
 #else
 #if TRANS_SPARC

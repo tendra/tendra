@@ -145,7 +145,7 @@ out_producer(char *s)
 {
   outs(".string \"");
   outs(s);
-  outs("   TenDRA 80x86/Solaris installer ");
+  outs("   TenDRA x86 installer ");
   outs("\"");
   d_outnl();
   return;

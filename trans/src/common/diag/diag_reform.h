@@ -42,7 +42,7 @@ typedef diag_descriptor diag_global;
  */
 #if DWARF
 typedef dwarf_type_label *OUTPUT_REC;
-#elif defined(TRANS_80x86) || defined(TRANS_HPPA) || defined(TRANS_SPARC)
+#elif defined(TRANS_X86) || defined(TRANS_HPPA) || defined(TRANS_SPARC)
 typedef long   OUTPUT_REC;
 #else
 typedef void * OUTPUT_REC;
