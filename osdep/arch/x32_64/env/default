@@ -1,0 +1,6 @@
+/* $Id$ */
+
+>FLAG_TRANS	"-O-s"
+>FLAG_AS	"-32"
+>FLAG_LD	"-melf_i386"
+
