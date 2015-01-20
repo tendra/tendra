@@ -753,15 +753,6 @@
 			</varlistentry>
 
 			<varlistentry>
-				<term>&C.opt;</term>
-
-				<listitem>
-					<para>Not implemented and provided for &cc; compatibility only.
-						It is meant to preserve comments when preprocessing.</para>
-				</listitem>
-			</varlistentry>
-
-			<varlistentry>
 				<term>&D1.opt;</term>
 				<term>&D2.opt;</term>
 
@@ -784,14 +775,6 @@
 				<listitem>
 					<para>Causes &file.arg; to be invoked as the executable for
 						the compilation stage given by &letter.arg;.</para>
-				</listitem>
-			</varlistentry>
-
-			<varlistentry>
-				<term>&G.opt;</term>
-
-				<listitem>
-					<para>Provided for &cc; compatibility.</para>
 				</listitem>
 			</varlistentry>
 

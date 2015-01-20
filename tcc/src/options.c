@@ -154,7 +154,6 @@ struct optmap main_optmap[] = {
 	{ "-show_errors",   "1SE",              "causes error producing commands to be shown" },
 	{ "-special+$",     "SXX$1|CSP",        "allows various internal options"             },
 	{ "-startup+$",     "@D$1$n",           "specifies a start-up option"                 },
-	{ "-target+$",      "AOC-target|AOC$1", "provided for cc compatibility"               },
 	{ "-temp+PREFIX_TMP=$", "E?$1?$2",      "specifies the temporary directory"           },
 	{ "-tidy",          "1TU",              "causes %s to tidy up as it goes along"       },
 	{ "-time",          "1TI|1VB",          "causes all commands to be timed"             },
@@ -164,9 +163,7 @@ struct optmap main_optmap[] = {
 	{ "-work+$",        "SWD$1",            "specifies the work directory"                },
 
 	/* Options not allowed in checker */
-	{ "-G",             "EGoption",         "provided for cc compatibility"    },
 	{ "-K+$,+*",        "EK-$1",            "provided for cc compatibility"    },
-	{ "-Z$",            "EZ-$1",            "provided for cc compatibility"    },
 	{ "-b",             "LSc",              "suppresses -lc in system linking" },
 	{ "-dn",            "AOl$0",            "passed to the system linker"      },
 	{ "-dy",            "AOl$0",            "passed to the system linker"      },
