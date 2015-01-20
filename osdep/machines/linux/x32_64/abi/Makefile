@@ -6,10 +6,10 @@
 .include <tendra.makedefs.mk>
 
 
-ABI_EXCEPT   = 80x86.tpl
+ABI_EXCEPT   = x86_32.tpl
 ABI_MODEL    = ilp32.tpl
 ABI_FLOAT    = ieee754-ext80.tpl
-ABI_INT      = 80x86.tpl
+ABI_INT      = x86_32.tpl
 ABI_CHAR     = signed.tpl
 ABI_BITFIELD = signed.tpl
 ABI_ALIGN    = char.tpl

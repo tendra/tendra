@@ -70,9 +70,9 @@ MD_EXECFMT!=                              \
 MD_BLDARCH!=                              \
     case "${HOSTARCH}" in                 \
         alpha)         echo alpha;;       \
-        amd64|x86_64)  echo amd64;;       \
-        BePC)          echo 80x86;;       \
-        i?86|i86pc)    echo 80x86;;       \
+        amd64|x86_64)  echo x86_64;;       \
+        BePC)          echo x86_32;;       \
+        i?86|i86pc)    echo x86_32;;       \
         sparc|sparc64) echo sparc;;       \
         9000/7*)       echo hppa;;        \
         hppa)          echo hppa;;        \

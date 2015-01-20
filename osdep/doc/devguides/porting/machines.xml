@@ -54,7 +54,7 @@
 			</listitem>
 
 			<listitem>
-				<para>add start-up headers (see src/lib/machines/netbsd/80x86/startup/$api.h)
+				<para>add start-up headers (see src/lib/machines/netbsd/x86_32/startup/$api.h)
 					(one per api) put #define __WRONG_&api-rep;_&header-rep;_H
 					here, for standard headers this machine cannot provide.
 					We need to define POSIX feature-requirement macros (like _POSIX_SOURCE) here, to

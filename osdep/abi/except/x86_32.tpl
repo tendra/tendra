@@ -8,7 +8,7 @@
  */
 
 /*
- * Spec Token Definitions for tans.80x86
+ * Spec Token Definitions for trans.x86_32
  */
 
 Tokdec ~Throw : [NAT] EXP;
