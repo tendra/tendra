@@ -1,0 +1,11 @@
+/* $Id$ */
+
+<FLAG_LINK	"-m elf_i386"
+
+/* for -lc */
+<FLAG_LINK	"-L /lib32"
+
++CRT0	"-dynamic-linker /lib/ld-linux.so.2 /usr/lib32/crt1.o"
++CRT1	"/usr/lib32/crti.o"
++CRTN	"/usr/lib32//crtn.o"
+
