@@ -7,7 +7,7 @@
 
 
 .if !defined(ALLARCH)
-SUBDIR+=	${BLDARCH}
+SUBDIR+=	${TRANSARCH}
 .else
 SUBDIR+=	680x0
 SUBDIR+=	80x86

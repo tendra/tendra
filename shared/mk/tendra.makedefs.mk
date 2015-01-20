@@ -96,6 +96,13 @@ MD_BLDARCHBITS!=                          \
         *)             echo unknown;;     \
     esac;
 
+MD_TRANSARCH!=                            \
+    case "${HOSTARCH}" in                 \
+        amd64|x86_64)  echo 80x86;;       \
+        i?86|i86pc)    echo 80x86;;       \
+        *)             echo ${BLDARCH};;  \
+    esac;
+
 MD_OSFAM!=                                \
     case "${SYSTEM}" in                   \
         Darwin)    echo darwin;;          \
@@ -182,6 +189,7 @@ MD_LIBCPREFIX!=                           \
 EXECFMT?=       ${MD_EXECFMT}
 BLDARCH?=       ${MD_BLDARCH}
 BLDARCHBITS?=   ${MD_BLDARCHBITS}
+TRANSARCH?=     ${MD_TRANSARCH}
 OSFAM?=         ${MD_OSFAM}
 OSVER?=         ${MD_OSVER}
 LIBCFAM?=       ${MD_LIBCFAM}
