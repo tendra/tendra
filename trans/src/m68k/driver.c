@@ -112,7 +112,7 @@ option(char c, const char *optarg)
 static void
 unhas(void)
 {
-    /* Things trans.680x0 does not "has" */
+    /* Things trans.m68k does not "has" */
     has &= ~HAS_NEGSHIFT;
     has &= ~HAS_ROTATE;
     has &= ~HAS_MAXMIN;

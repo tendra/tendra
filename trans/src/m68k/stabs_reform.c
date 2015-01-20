@@ -1,6 +1,6 @@
 /* $Id$ */
 
-/* TODO: interface for diag/ to call 680x0 local stabs */
+/* TODO: interface for diag/ to call m68k local stabs */
 
 #include <diag/diag_reform.h>
 

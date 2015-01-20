@@ -9,9 +9,9 @@
 .if !defined(ALLARCH)
 SUBDIR+=	${TRANSARCH}
 .else
-SUBDIR+=	680x0
 SUBDIR+=	alpha
 SUBDIR+=	hppa
+SUBDIR+=	m68k
 SUBDIR+=	mips
 SUBDIR+=	power
 SUBDIR+=	sparc

@@ -60,7 +60,7 @@ weak_cell *weak_list;
 static void
 out_rename(char *oldid, char *newid)
 {
-#if defined(TRANS_680x0)
+#if defined(TRANS_M68K)
 #if 0
 	mach_op *op1 = make_extern_data(old_nm, 0);
 	mach_op *op2 = make_extern_data(nm, 0);

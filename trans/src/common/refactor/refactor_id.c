@@ -60,7 +60,7 @@
 #include "localexpmacs.h"
 #endif
 
-#if TRANS_680x0
+#if TRANS_M68K
 extern int check_anyway(exp);
 #endif
 
@@ -447,7 +447,7 @@ refactor_id(exp e, exp scope)
 
  if (load_ptr_pars) {
   if (!is_vis && is_var && isparam(e) && no(e) > 1 && name(sh(def)) == ptrhd
-#if TRANS_680x0
+#if TRANS_M68K
       && check_anyway(e)
 #endif
      ) {

@@ -88,7 +88,7 @@ complexity(exp e, int count, int newdecs,
 			crit_decs, crit_decsatapp, apply_cost);
 
 	case ident_tag:
-#if defined(TRANS_680x0) || defined(TRANS_HPPA)
+#if defined(TRANS_M68K) || defined(TRANS_HPPA)
 		if (isloadparam(son(e))) {
 			return sbl(son(e), count - 1, newdecs,
 				crit_decs, crit_decsatapp, apply_cost);

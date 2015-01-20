@@ -45,7 +45,7 @@ typedef unsigned short prop;
 typedef union {
 	struct exp_t *e;
 	char *str;
-#if defined(TRANS_680x0) && !defined(tdf3)
+#if defined(TRANS_M68K) && !defined(tdf3)
 	long l;
 	unsigned long ui;
 #else
@@ -276,7 +276,7 @@ typedef struct exp_t *exp;
 #endif
 
 /* parameter used for output (needs only to be in memory for x86 and 68k) */
-#if defined(TRANS_X86) || (defined(TRANS_680x0) && !defined(tdf3))
+#if defined(TRANS_X86) || (defined(TRANS_M68K) && !defined(tdf3))
 #define setoutpar(x)              setvis(x)
 #define isoutpar(x)               isvis(x)
 #define clearoutpar(x)
@@ -292,7 +292,7 @@ typedef struct exp_t *exp;
  */
 
 /* XXX: horrible */
-#if defined(TRANS_680x0) || defined(TRANS_MIPS)
+#if defined(TRANS_M68K) || defined(TRANS_MIPS)
 #define test_number(X)            ((int) props(X))
 #define settest_number(X, Y)       props(X) = (Y)
 #define setntest(X, Y)             props(X) = (Y)
@@ -378,7 +378,7 @@ typedef struct exp_t *exp;
 #define set_loaded_lv(x)          pset(x, 0x10)
 #define is_loaded_lv(x)           ptst(x, 0x10)
 
-#ifdef TRANS_680x0
+#ifdef TRANS_M68K
 #define setunroll(x)              pset(x, 0x20)
 #define clearunroll(x)            pclr(x, 0x20)
 #define isunroll(x)               ptst(x, 0x20)
@@ -399,7 +399,7 @@ typedef struct exp_t *exp;
 #define setloadparam(x)           pset(x, 0x02)
 #define isloadparam(x)            ptst(x, 0x02)
 
-#if defined(TRANS_SPARC) || defined(TRANS_HPPA) || defined(TRANS_680x0)
+#if defined(TRANS_SPARC) || defined(TRANS_HPPA) || defined(TRANS_M68K)
 #define setreallyass(x)           /* not used */
 #define isreallyass(x)            (0)
 #else

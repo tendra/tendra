@@ -156,7 +156,7 @@
 #define is_a(t)	((t) >= plus_tag && (t) <= make_stack_limit_tag)
 
 
-#ifdef TRANS_680x0
+#ifdef TRANS_M68K
 
 /*
  * EXTRA TAGS

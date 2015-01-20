@@ -13,9 +13,9 @@ The src directory is split into a common section, containing code
 which is used by all the back ends, plus a directory for each of the
 target CPUs:
 
-    680x0       Motorola 68020, 68030 and 68040,
     alpha       DEC Alpha,
     hppa        HP Precision Architecture,
+    m68k        Motorola 68020, 68030 and 68040,
     mips        SGI/DEC MIPS,
     power       POWER and POWER PC,
     sparc       SPARC.

@@ -224,7 +224,7 @@ typedef struct tag_mach_ins {
     MACH_SPEC and MACH_SPECQ are used to represent special labels.
     Their def field is a string giving the special identifier.
 
-    Most 680x0 operands and constants can be expressed by using the
+    Most m68k operands and constants can be expressed by using the
     plus and of fields to connect the basic operands.  A special use
     of the of field is to string together a list of constants
     (which do not otherwise use it - see evaluate.c and output.c).
