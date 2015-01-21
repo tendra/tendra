@@ -3,6 +3,8 @@
 .include "Makefile.inc"
 
 
+ENVFILE+=	tcc_prof
+
 ENVFILE+=	K-aout
 ENVFILE+=	K-pic
 ENVFILE+=	K-nopic
