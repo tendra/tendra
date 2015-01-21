@@ -7,7 +7,6 @@
 
 
 TRANS_CFLAGS+=	-D TRANS_X86
-TRANS_CFLAGS+=	-D BLDARCHBITS=${BLDARCHBITS}
 
 # TODO: these are not yet selectable at runtime
 #TRANS_CFLAGS+=	-D NEWDIAGS
