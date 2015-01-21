@@ -53,6 +53,17 @@ GLIBC_NAME!= ldd --version | grep EGLIBC > /dev/null && echo -n E; echo GLIBC
 LIBC_VER?= ${GLIBC_NAME}_${GLIBC_VER}
 .endif
 
+
+# Platform-specific things
+EXECFMT?=       ${MD_EXECFMT}
+BLDARCH?=       ${MD_BLDARCH}
+TRANSARCH?=     ${MD_TRANSARCH}
+OSFAM?=         ${MD_OSFAM}
+OSVER?=         ${MD_OSVER}
+LIBCFAM?=       ${MD_LIBCFAM}
+LIBCVER?=       ${MD_LIBCVER}
+LIBCPREFIX?=    ${MD_LIBCPREFIX}
+
 MD_EXECFMT!=                              \
     case "${SYSTEM}" in                   \
         Darwin)    echo mach;;            \
@@ -162,17 +173,6 @@ MD_LIBCPREFIX!=                           \
         Haiku)     echo /boot;;           \
         *)         echo ;;                \
     esac;
-
-
-# Platform-specific things
-EXECFMT?=       ${MD_EXECFMT}
-BLDARCH?=       ${MD_BLDARCH}
-TRANSARCH?=     ${MD_TRANSARCH}
-OSFAM?=         ${MD_OSFAM}
-OSVER?=         ${MD_OSVER}
-LIBCFAM?=       ${MD_LIBCFAM}
-LIBCVER?=       ${MD_LIBCVER}
-LIBCPREFIX?=    ${MD_LIBCPREFIX}
 
 
 .endif
