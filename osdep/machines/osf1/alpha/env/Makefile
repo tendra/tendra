@@ -5,8 +5,6 @@
 .include <tendra.base.mk>
 
 
-ENVFILE+=	default
-
 ENVFILE+=	posix_lib
 ENVFILE+=	static
 

@@ -6,8 +6,6 @@
 .include <tendra.makedefs.mk>
 
 
-ENVFILE+=	default
-
 ENVFILE+=	K-aout
 
 ENVFILE+=	tcc_prof
