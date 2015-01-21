@@ -99,7 +99,7 @@ produce native x86_64 executables. However, for systems with multilib
 support, you can build TenDRA such that it will generate x86_32
 executables on an x86_64 system:
 
- % make BLDARCH=x86_32 TARGETARCH=x32_64
+ % make TARGETARCH=x32_64
  % ./obj.toki-bootstrap/bin/tcc hello.c
 
 which gives you this:

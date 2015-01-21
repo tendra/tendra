@@ -29,13 +29,9 @@ OBJ_BOOT?=    ${OBJ_BPREFIX}/obj
 OBJ_RPREFIX?=	${OBJ_REBUILD}
 
 # set these to build for a particular target
-# e.g. make BLDARCH=x86_32 TARGETARCH=x32_64
-BLDARCH?=
+# e.g. make TARGETARCH=x32_64
 TARGETARCH?=
 
-.if !empty(BLDARCH)
-BLDFLAGS+=    BLDARCH=${BLDARCH}
-.endif
 .if !empty(TARGETARCH)
 TARGETFLAGS+= BLDARCH=${TARGETARCH}
 .endif
@@ -82,7 +78,6 @@ bootstrap: ${BOOTSTRAP_DEPS}
 	    OBJ_DIR=${OBJ_BOOT}/${project}  \
 	    RELEASE=${RELEASE}              \
 	    PREFIX=${OBJ_BPREFIX}           \
-	    ${BLDFLAGS}                     \
 	    install
 .endfor
 	# TODO: these mkdirs are to be removed pending work on tcc
@@ -99,7 +94,7 @@ bootstrap: ${BOOTSTRAP_DEPS}
 	    PREFIX_TMP=${OBJ_BPREFIX}/tmp \
 	    PREFIX=${OBJ_BPREFIX}         \
 	    RELEASE=${RELEASE}            \
-	    ${BLDFLAGS}                   \
+	    ${TARGETFLAGS}                \
 	    install
 	@echo "===> bootstrapping osdep into ${OBJ_BPREFIX}"
 	cd ${.CURDIR}/osdep && ${MAKE}    \
