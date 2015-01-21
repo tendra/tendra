@@ -1,5 +1,4 @@
 /* tcc environment for the TDF Spec 4.0 extensions */
 
-<LIB			"-ltarget_tok"
 +FLAG_INSTALL		"-Ytdf_ext"
 >INFO			"XANDF@Preliminary@Specification@(DRA-005@proposal)"
