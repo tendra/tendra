@@ -1,4 +1,0 @@
-/* $Id$ */
-
-+FLAG_LD	"-m elf_i386 -dynamic-linker /usr/libexec/ld-elf.so.2"
-

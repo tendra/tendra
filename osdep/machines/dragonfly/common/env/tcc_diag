@@ -1,6 +1,0 @@
-/* $Id$ */
-
-+CRT0		"/usr/lib/crt1.o"
-<LINK		"-L<PREFIX_LIB>/diag"
->SYS_LIB	"-static -lg"
-

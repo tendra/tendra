@@ -1,6 +1,0 @@
-/* $Id$ */
-
-+CRT0		""
-+CRT1		"/usr/lib/gcc34/crt1.o /usr/lib/gcc34/crti.o"
-+CRTN		"/usr/lib/gcc34/crtend.o /usr/lib/gcc34/crtn.o"
-

@@ -1,5 +1,0 @@
-/* TCC ENVIRONMENT : PROFILING FOR DragonFly */
-
-+CRT0		"/usr/lib/gcrt1.o"
-<SYS_LINK	"-lgmon -lc_p"
-

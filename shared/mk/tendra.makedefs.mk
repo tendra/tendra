@@ -56,7 +56,6 @@ LIBC_VER?= ${GLIBC_NAME}_${GLIBC_VER}
 MD_EXECFMT!=                              \
     case "${SYSTEM}" in                   \
         Darwin)    echo mach;;            \
-        DragonFly) echo elf;;             \
         FreeBSD)   echo elf;;             \
         Linux)     echo elf;;             \
         NetBSD)    echo elf;;             \
@@ -106,7 +105,6 @@ MD_TRANSARCH!=                            \
 MD_OSFAM!=                                \
     case "${SYSTEM}" in                   \
         Darwin)    echo darwin;;          \
-        DragonFly) echo dragonfly;;       \
         FreeBSD)   echo freebsd;;         \
         Linux)     echo linux;;           \
         NetBSD)    echo netbsd;;          \
@@ -121,7 +119,6 @@ MD_OSFAM!=                                \
 MD_OSVER!=                                \
     case "${SYSTEM}.${VERSION}" in        \
         Darwin.10.3.*) echo DARWIN103;;   \
-        DragonFly.1*)  echo DRAGONFLY1;;  \
         FreeBSD.4*)    echo FREEBSD4;;    \
         FreeBSD.5*)    echo FREEBSD5;;    \
         FreeBSD.6*)    echo FREEBSD6;;    \
