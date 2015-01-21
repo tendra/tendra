@@ -10,5 +10,9 @@
 SUBDIR+=	${BLDARCH}
 .endif
 
+.if exists(${TRANSARCH})
+SUBDIR+=	${TRANSARCH}
+.endif
+
 .include <tendra.subdir.mk>
 
