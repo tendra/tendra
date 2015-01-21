@@ -32,7 +32,6 @@ CCOPTS+=                                   \
 	                                       \
 	-DEXECFORMAT='"${EXECFORMAT}"'         \
 	-DBLDARCH='"${BLDARCH}"'               \
-	-DBLDARCHBITS='"${BLDARCHBITS}"'       \
 	-DTRANSARCH='"${TRANSARCH}"'           \
 	-DOSFAM='"${OSFAM}"'                   \
 	-DOSVER='"${OSVER}"'

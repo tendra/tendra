@@ -103,7 +103,6 @@ main_start(char *prog)
 		/* Platform-specific things */
 		{ "MD_EXECFORMAT",  EXECFORMAT     },
 		{ "MD_BLDARCH",     BLDARCH        },
-		{ "MD_BLDARCHBITS", BLDARCHBITS    },
 		{ "MD_TRANSARCH",   TRANSARCH      },
 		{ "MD_OSFAM",       OSFAM          },
 		{ "MD_OSVER",       OSVER          }
