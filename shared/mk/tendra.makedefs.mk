@@ -60,7 +60,6 @@ MD_EXECFMT!=                              \
         Linux)     echo elf;;             \
         NetBSD)    echo elf;;             \
         OpenBSD)   echo elf;;             \
-        AerieBSD)  echo elf;;             \
         SunOS)     echo elf;;             \
         HP-UX)     echo parisc;;          \
         *)         echo unknown;;         \
@@ -109,7 +108,6 @@ MD_OSFAM!=                                \
         Linux)     echo linux;;           \
         NetBSD)    echo netbsd;;          \
         OpenBSD)   echo openbsd;;         \
-        AerieBSD)  echo aerielbsd;;       \
         SunOS)     echo solaris;;         \
         Haiku)     echo haiku;;           \
         HP-UX)     echo hpux;;            \
@@ -141,7 +139,6 @@ MD_OSVER!=                                \
         OpenBSD.5.4)   echo OPENBSD5_4;;  \
         OpenBSD.5.5)   echo OPENBSD5_5;;  \
         OpenBSD.5.6)   echo OPENBSD5_6;;  \
-        AerieBSD.1*)   echo AERIELBSD1;;  \
         SunOS.5.10*)   echo SUNOS510;;    \
         SunOS.5.11*)   echo SUNOS511;;    \
         Haiku.1*)      echo HAIKU1;;      \

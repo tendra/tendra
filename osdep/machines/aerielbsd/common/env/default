@@ -1,6 +1,0 @@
-/* $Id$ */
-
-+CRT0		"--dynamic-linker /usr/libexec/ld.so /usr/lib/crt0.o"
-+CRT1		"/usr/lib/crtbegin.o"
-+CRTN		"/usr/lib/crtend.o"
-
