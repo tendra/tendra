@@ -100,7 +100,7 @@ support, you can build TenDRA such that it will generate x86_32
 executables on an x86_64 system:
 
  % make TARGETARCH=x32_64
- % ./obj.toki-bootstrap/bin/tcc hello.c
+ % ./obj.iona-bootstrap/bin/tcc hello.c
 
 which gives you this:
 
