@@ -1,5 +1,0 @@
-/* $Id$ */
-
-+CRT0		"/usr/lib/gcrt0.o"
-<SYS_LINK	"-static -lc_p"
-

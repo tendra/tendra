@@ -6,7 +6,17 @@
 .include <tendra.makedefs.mk>
 
 
-SUBDIR+=	${EXECFMT}
+ENVFILE+=	default
 
-.include <tendra.subdir.mk>
+ENVFILE+=	K-aout
+
+ENVFILE+=	tcc_prof
+ENVFILE+=	tdf_ext
+
+ENVCOMMON+=	machines/common/env
+ENVCOMMON+=	arch/${BLDARCH}/env
+ENVCOMMON+=	machines/${OSFAM}/common/env
+#ENVCOMMON+= machines/${OSFAM}/${BLDARCH}/env/common
+
+.include <tendra.env.mk>
 
