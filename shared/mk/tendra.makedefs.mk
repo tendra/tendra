@@ -79,21 +79,6 @@ MD_BLDARCH!=                              \
         *)             echo unknown;;     \
     esac;
 
-MD_BLDARCHBITS!=                          \
-    case "${HOSTARCH}" in                 \
-        alpha)         echo 64;;          \
-        amd64|x86_64)  echo 64;;          \
-        BePC)          echo 32;;          \
-        i?86|i86pc)    echo 32;;          \
-        sparc)         echo 32;;          \
-        sparc64)       echo 64;;          \
-        9000/7*)       echo 64;;          \
-        hppa)          echo 32;;          \
-        socppc|macppc) echo 32;;          \
-        mips)          echo 32;;          \
-        *)             echo unknown;;     \
-    esac;
-
 MD_TRANSARCH!=                            \
     case "${HOSTARCH}" in                 \
         amd64|x86_64)  echo x86;;         \
@@ -182,7 +167,6 @@ MD_LIBCPREFIX!=                           \
 # Platform-specific things
 EXECFMT?=       ${MD_EXECFMT}
 BLDARCH?=       ${MD_BLDARCH}
-BLDARCHBITS?=   ${MD_BLDARCHBITS}
 TRANSARCH?=     ${MD_TRANSARCH}
 OSFAM?=         ${MD_OSFAM}
 OSVER?=         ${MD_OSVER}
