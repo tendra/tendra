@@ -3,9 +3,8 @@
 .include "Makefile.inc"
 
 
-ENVFILE+=	default
-
-ENVFILE+=	tcc_prof
+ENVFILE+=	K-pic
+ENVFILE+=	K-nopic
 
 .include <tendra.env.mk>
 

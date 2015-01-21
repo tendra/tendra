@@ -9,7 +9,8 @@
 ENVFILE=	default
 
 ENVFILE+=	Goption
-ENVFILE+=	K-PIC
+
+ENVFILE+=	K-pic
 
 ENVCOMMON+=	machines/common/env
 ENVCOMMON+=	arch/${BLDARCH}/env

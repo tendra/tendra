@@ -14,5 +14,7 @@ SUBDIR+=	${BLDARCH}
 SUBDIR+=	${TRANSARCH}
 .endif
 
+SUBDIR+=	common
+
 .include <tendra.subdir.mk>
 
