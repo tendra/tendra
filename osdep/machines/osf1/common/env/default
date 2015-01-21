@@ -1,8 +1,8 @@
 /* $Id$ */
 
-+AS			"/bin/as -O2 -nocpp"
-+AS1			"/usr/lib/cmplrs/as/as1 -O2"
-+LD			"/bin/ld -call_shared"
++AS			"/bin/as"
++AS1			"/usr/lib/cmplrs/as/as1"
++LD			"/bin/ld"
 
 +CRT0			"/usr/lib/cmplrs/cc/crt0.o"
 

@@ -1,0 +1,4 @@
+/* TCC environment for Sparc SunOS PIC code */
+
++FLAG_AS        	"-k"
+

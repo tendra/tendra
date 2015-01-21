@@ -1,0 +1,8 @@
+/* $Id$ */
+
+/* XXX: why not <FLAG_LD ? */
+<FLAG_LINK	"--eh-frame-hdr -e __start"
+
+/* for CRT0, set by $os/common/env/default */
+<FLAG_LINK	"-Bdynamic"
+

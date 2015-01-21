@@ -1,3 +1,2 @@
 +CRT0		"<PREFIX_SYS>/crti.o"
 +SYS_LIBC	""
-+FLAG_LD	"-G"

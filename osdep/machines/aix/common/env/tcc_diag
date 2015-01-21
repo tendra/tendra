@@ -1,5 +1,6 @@
 /* $Id$ */
 
+/* XXX: assumes AIX toolchain */
 >SYS_LIB        "-lg -bexport:/usr/lib/libg.exp"
 <LINK		"-L<PREFIX_LIB>/diag"
 

@@ -1,6 +1,4 @@
 /* $Id$ */
 
-+FLAG			"--1BA"
-
->FLAG_TRANS		"-O-s"
+/* empty */
 

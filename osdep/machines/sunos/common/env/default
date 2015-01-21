@@ -1,5 +1,6 @@
 /* $Id$ */
 
+/* XXX: assumes Sun's toolchain */
 +LD			"/bin/ld -dc -dp -X"
 
 +LINK_ENTRY		"-e start"

@@ -1,8 +1,9 @@
 /* $Id$ */
 
->FLAG_TRANS		"-Y -a"
+>FLAG_TRANS		"-Y"
 +FLAG_TRANS		"-C sun"
 
+/* XXX: assumes GNU toolchain */
 +AS			"/usr/local/bin/gas -mc68020"
 
 +FLAG_LD			"-L/usr/lib/f68881"

@@ -1,11 +1,10 @@
 /* $Id$ */
 
-+FLAG			"--1SC"
 +FLAG			"--1DL"
 
 +FLAG_TRANS		"-b -Y -n"
 
-+AS			"/bin/as -O"
++AS			"/bin/as"
 
 +FLAG_LD			"-x"
 

@@ -4,6 +4,7 @@
 
 
 ENVFILE+=	tcc_prof
+ENVFILE+=	tcc_diag
 
 ENVFILE+=	K-aout
 ENVFILE+=	K-pic

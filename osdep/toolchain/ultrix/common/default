@@ -1,0 +1,9 @@
+/* $Id$ */
+
++FLAG		"--1BA"
+
+>FLAG_TRANS	"-Sultrix"
+
+<AS_FLAGS	"-O2"
+<AS1_FLAGS	"-O2"
+

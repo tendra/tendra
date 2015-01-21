@@ -1,7 +1,8 @@
 /* $Id$ */
 
-+AS			"/usr/bin/as -O2 -pic2"
-+AS1			"/usr/lib/as1 -O2 -pic2 -noglobal"
+/* XXX: assumes IRIX toolchain */
++AS			"/usr/bin/as -pic2"
++AS1			"/usr/lib/as1 -pic2"
 +LD			"/usr/bin/ld -_SYSTYPE_SVR4"
 
 +CRT0			"/usr/lib/crt1.o"

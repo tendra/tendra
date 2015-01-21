@@ -1,5 +1,5 @@
 /* $Id$ */
 
 +CRT0		"/usr/lib/gcrt1.o"
-<SYS_LINK	"-static -lgmon -lc_p"
+<SYS_LINK	"-lgmon -lc_p"
 

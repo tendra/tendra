@@ -1,5 +1,6 @@
 /* TCC ENVIRONMENT : producing old "a.out" for LINUX */
 
+/* XXX: assumes GNU toolchain */
 +AS			"/usr/i486-linuxaout/bin/as"
 +LD			"/usr/i486-linuxaout/bin/ld -m elf_x86_64"
 +CRT0			"/usr/i486-linuxaout/lib/crt0.o"

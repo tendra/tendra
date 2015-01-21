@@ -1,0 +1,7 @@
+/* $Id$ */
+
++FLAG			"--2DL"
++FLAG_LD	"-H512 -T512 -bhalt:4"
+
+>FLAG_TRANS		"-Y"
+

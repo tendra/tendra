@@ -1,4 +1,5 @@
 /* $Id$ */
 
+/* XXX: assumes GNU toolchain */
 +CRT0		"-dynamic-linker /lib/ld-linux.so.1 /usr/lib/gcrt1.o"
 

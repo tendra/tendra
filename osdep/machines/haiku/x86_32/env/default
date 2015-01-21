@@ -2,5 +2,6 @@
 
 +LD			"/boot/develop/tools/gnupro/bin/ld"
 
+/* XXX: assumes GNU toolchain */
 +FLAG_LD	"-m elf_i386_haiku"
 

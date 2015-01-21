@@ -1,7 +1,9 @@
 /* $Id$ */
 
+/* XXX: assumes GNU toolchain */
 +FLAG_LD	"-m elf_i386"
 
+/* XXX: assumes GNU toolchain */
 +CRT0		"-dynamic-linker /lib/ld-linux.so.2 /usr/lib/i386-linux-gnu/crt1.o"
 +CRT1		"/usr/lib/i386-linux-gnu/crti.o"
 +CRTN		"/usr/lib/i386-linux-gnu/crtn.o"

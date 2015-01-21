@@ -15,6 +15,8 @@ ENVFILE+=	K-pic
 ENVCOMMON+=	machines/common/env
 ENVCOMMON+=	arch/${BLDARCH}/env
 ENVCOMMON+=	machines/${OSFAM}/common/env
+ENVCOMMON+=	toolchain/sun/common
+ENVCOMMON+=	toolchain/sun/${BLDARCH}
 
 .include <tendra.env.mk>
 

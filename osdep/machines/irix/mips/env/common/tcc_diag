@@ -1,6 +1,6 @@
 /* $Id$ */
 
 +AS		"/usr/bin/as"
-+AS1		"/usr/lib/as1 -O1 -g2 -pic2"
++AS1		"/usr/lib/as1 -pic2"
 <LINK		"-L<TENDRA_LIBDIR>/diag"
 

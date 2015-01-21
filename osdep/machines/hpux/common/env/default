@@ -1,14 +1,12 @@
 /* $Id$ */
 
-+FLAG	"--1HL"
 +LD		"/bin/ld"
 
-+FLAG_LD		"-u main +k"
+/* XXX: assumes HP toolchain */
++FLAG_LD	"-u main +k"
 
 >FLAG_TRANS	"-Y"
 
 # XXX: GNU's as
 +AS             "/usr/local/bin/as"
->FLAG_TRANS     "-Sgas"
-
 

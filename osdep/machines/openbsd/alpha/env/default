@@ -1,8 +1,0 @@
-/* $Id: default 2583 2011-08-11 19:39:41Z kate $ */
-
-/* XXX: why not <FLAG_LD ? */
-<FLAG_LINK	"--eh-frame-hdr -e __start"
-
-/* for CRT0, set by openbsd/common/env/default */
-<FLAG_LINK	"-Bdynamic"
-

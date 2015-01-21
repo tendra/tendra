@@ -1,6 +1,6 @@
 /* $Id$ */
 
 +AS		"/bin/as"
-+AS1		"/usr/lib/cmplrs/as/as1 -O1 -g2"
++AS1		"/usr/lib/cmplrs/as/as1"
 <LINK		"-L<PREFIX_LIB>/diag"
 

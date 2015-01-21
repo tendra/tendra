@@ -1,0 +1,5 @@
+/* $Id$ */
+
+>AS_FLAGS	"-O2"
+>AS1_FLAGS	"-O2 -noglobal"
+

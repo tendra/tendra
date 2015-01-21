@@ -1,4 +1,5 @@
 /* $Id$ */
 
+/* XXX: assumes GNU toolchain */
 +FLAG_LD		"-m elf_i386_obsd"
 

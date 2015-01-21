@@ -1,0 +1,6 @@
+/* $Id$ */
+
++FLAG			"--1SC"
+
+>FLAG_TRANS		"-a"
+

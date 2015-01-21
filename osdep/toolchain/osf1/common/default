@@ -1,0 +1,8 @@
+/* $Id$ */
+
++FLAG		"--1BA"
+
+<AS_FLAG	"-O2 -nocpp"
+<AS1_FLAG	"-O2"
+<LD_FLAG	"-call_shared"
+

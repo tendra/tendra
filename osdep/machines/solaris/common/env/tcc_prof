@@ -2,7 +2,7 @@
 
 /*	Not supported at present	*/
 
+/* XXX: assumes Sun's toolchain */
 /*	+CRT0		"<PREFIX_SYS>/mcrt1.o <PREFIX_SYS>/crti.o"	*/
 /*	+CRTN		"<PREFIX_SYS>/crtn.o"	*/
 /*	<SYS_LINK	"-Y P,/usr/ccs/lib/libp:/usr/lib/libp:/usr/ccs/lib:/usr/lib -Qy"	*/
-/*	+FLAG_TRANS	"-P"	*/

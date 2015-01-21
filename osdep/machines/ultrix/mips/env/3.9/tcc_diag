@@ -1,4 +1,4 @@
 /* $Id$ */
 
-+AS1		"/usr/lib/as11.31 -O1 -g2"
++AS1		"/usr/lib/as11.31"
 

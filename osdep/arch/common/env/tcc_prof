@@ -1,4 +1,6 @@
 /* $Id$ */
 
++LINE_START	"#pragma@TenDRA@preserve@*"
+
 +FLAG_TRANS     "-P"
 

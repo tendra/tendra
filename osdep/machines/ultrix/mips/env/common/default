@@ -2,5 +2,5 @@
 
 +FLAG			"--1BA"
 
->FLAG_TRANS		"-l1 -A1 -B1 -El -Sultrix"
+>FLAG_TRANS		"-l1 -A1 -B1 -El"
 
