@@ -12,7 +12,6 @@ ENVFILE+=	c++
 
 ENVFILE+=	Goption
 
-ENVFILE+=	target_tok
 ENVFILE+=	tdf_ext
 
 .include <tendra.env.mk>

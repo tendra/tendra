@@ -7,7 +7,6 @@
 
 ENVFILE+=	default
 
-ENVFILE+=	target_tok
 ENVFILE+=	tdf_ext
 
 ENVCOMMON+=	machines/common/env
