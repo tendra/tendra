@@ -5,7 +5,6 @@
 
 .if !defined(WEBSITE)
 SUBDIR+=	machines
-SUBDIR+=	arch
 .endif
 
 .if defined(WITHDOCS)
