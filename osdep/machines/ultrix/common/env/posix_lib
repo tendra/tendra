@@ -1,7 +1,0 @@
-/* $Id$ */
-
-/* use DEC's POSIX-compliant library */
-
-+CRT0		"/usr/lib/cmplrs/cc/pcrt0.o"
->SYS_LIB	"-lcP"
-
