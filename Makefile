@@ -28,6 +28,17 @@ OBJ_BOOT?=    ${OBJ_BPREFIX}/obj
 # TODO: this should probably be the actual $PREFIX
 OBJ_RPREFIX?=	${OBJ_REBUILD}
 
+# set these to build for a particular target
+# e.g. make BLDARCH=x86_32 TARGETARCH=x32_64
+BLDARCH?=
+TARGETARCH?=
+
+.if !empty(BLDARCH)
+BLDFLAGS+=    BLDARCH=${BLDARCH}
+.endif
+.if !empty(TARGETARCH)
+TARGETFLAGS+= BLDARCH=${TARGETARCH}
+.endif
 
 all: bootstrap
 
@@ -35,7 +46,7 @@ doc:
 
 clean:
 
-# TODO: depend on rebuild, and install to $PREFIX
+# TODO: depend on rebuild instead, and install to $PREFIX
 install:
 
 install-doc:
@@ -70,7 +81,9 @@ bootstrap: ${BOOTSTRAP_DEPS}
 	cd ${.CURDIR}/${project} && ${MAKE} \
 	    OBJ_DIR=${OBJ_BOOT}/${project}  \
 	    RELEASE=${RELEASE}              \
-	    PREFIX=${OBJ_BPREFIX} install
+	    PREFIX=${OBJ_BPREFIX}           \
+	    ${BLDFLAGS}                     \
+	    install
 .endfor
 	# TODO: these mkdirs are to be removed pending work on tcc
 	mkdir -p "${OBJ_BPREFIX}/tmp"
@@ -86,6 +99,7 @@ bootstrap: ${BOOTSTRAP_DEPS}
 	    PREFIX_TMP=${OBJ_BPREFIX}/tmp \
 	    PREFIX=${OBJ_BPREFIX}         \
 	    RELEASE=${RELEASE}            \
+	    ${BLDFLAGS}                   \
 	    install
 	@echo "===> bootstrapping osdep into ${OBJ_BPREFIX}"
 	cd ${.CURDIR}/osdep && ${MAKE}    \
@@ -96,6 +110,7 @@ bootstrap: ${BOOTSTRAP_DEPS}
 	    TNC=${OBJ_BPREFIX}/bin/tnc    \
 	    TLD=${OBJ_BPREFIX}/bin/tld    \
 	    RELEASE=${RELEASE}            \
+	    ${TARGETFLAGS}                \
 	    install
 	@echo "===> bootstrapping tdf into ${OBJ_BPREFIX}"
 	cd ${.CURDIR}/tdf && ${MAKE}      \

@@ -95,11 +95,12 @@ Notes on x86_64
 ---------------
 
 There is currently no code generation for x86_64 assembly. So you can't
-produce native x86_64 executables. However, with a bit of trickery,
-you can produce 32-bit code for systems which have multilib support:
+produce native x86_64 executables. However, for systems with multilib
+support, you can build TenDRA such that it will generate x86_32
+executables on an x86_64 system:
 
- % make BLDARCH=80x86 BLDARCHBITS=32 TCCOPTS='-Wa,-32 -Wl,-melf_i386'
- % ./obj.toki-bootstrap/bin/tcc -Wa,-32 -Wl,-melf_i386 -L/usr/lib hello.c
+ % make BLDARCH=x86_32 TARGETARCH=x32_64
+ % ./obj.toki-bootstrap/bin/tcc hello.c
 
 which gives you this:
 
