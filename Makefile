@@ -72,7 +72,14 @@ build-bootstrap:
 
 bootstrap: ${BOOTSTRAP_DEPS}
 	mkdir -p "${OBJ_BPREFIX}/bin"
-.for project in trans tdfc2 tld tnc tpl tspec
+	@echo "===> bootstrapping trans into ${OBJ_BPREFIX}"
+	cd ${.CURDIR}/trans && ${MAKE}      \
+	    OBJ_DIR=${OBJ_BOOT}/trans       \
+	    RELEASE=${RELEASE}              \
+	    PREFIX=${OBJ_BPREFIX}           \
+	    ${TARGETFLAGS}                  \
+	    install
+.for project in tdfc2 tld tnc tpl tspec
 	@echo "===> bootstrapping ${project} into ${OBJ_BPREFIX}"
 	cd ${.CURDIR}/${project} && ${MAKE} \
 	    OBJ_DIR=${OBJ_BOOT}/${project}  \

@@ -80,9 +80,9 @@ MD_BLDARCH!=                              \
     esac;
 
 MD_TRANSARCH!=                            \
-    case "${HOSTARCH}" in                 \
-        amd64|x86_64)  echo x86;;         \
-        i?86|i86pc)    echo x86;;         \
+    case "${BLDARCH}" in                  \
+        x86_32|x32_64) echo x86;;         \
+        x86_64)        echo x86;;         \
         *)             echo ${BLDARCH};;  \
     esac;
 
