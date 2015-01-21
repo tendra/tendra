@@ -5,10 +5,6 @@
 
 ENVFILE+=	default
 
-ENVFILE+=	K-i386
-ENVFILE+=	K-i486
-ENVFILE+=	K-P5
-
 ENVFILE+=	K-frame
 ENVFILE+=	K-noframe
 
