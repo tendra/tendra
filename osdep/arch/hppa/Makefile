@@ -1,9 +1,7 @@
-# $Id: Makefile 2479 2010-12-27 04:16:23Z kate $
+# $Id: Makefile 2581 2011-08-10 12:31:37Z kate $
 
 .include "Makefile.inc"
 
 
-SUBDIR+=	env
-
-.include <tendra.subdir.mk>
+.include <tendra.env.mk>
 

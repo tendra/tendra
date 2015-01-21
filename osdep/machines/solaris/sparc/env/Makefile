@@ -13,7 +13,7 @@ ENVFILE+=	Goption
 ENVFILE+=	K-pic
 
 ENVCOMMON+=	machines/common/env
-ENVCOMMON+=	arch/${BLDARCH}/env
+ENVCOMMON+=	arch/${BLDARCH}
 ENVCOMMON+=	machines/${OSFAM}/common/env
 ENVCOMMON+=	toolchain/sun/common
 ENVCOMMON+=	toolchain/sun/${BLDARCH}

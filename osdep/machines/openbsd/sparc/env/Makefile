@@ -7,7 +7,7 @@
 
 
 ENVCOMMON+=	machines/common/env
-ENVCOMMON+=	arch/${BLDARCH}/env
+ENVCOMMON+=	arch/${BLDARCH}
 ENVCOMMON+=	machines/${OSFAM}/common/env
 ENVCOMMON+=	toolchain/gnu/common
 ENVCOMMON+=	toolchain/gnu/${BLDARCH}

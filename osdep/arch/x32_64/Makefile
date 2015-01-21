@@ -3,7 +3,10 @@
 .include "Makefile.inc"
 
 
-SUBDIR+=	env
+ENVFILE+=	default
 
-.include <tendra.subdir.mk>
+ENVFILE+=	K-frame
+ENVFILE+=	K-noframe
+
+.include <tendra.env.mk>
 

@@ -3,7 +3,8 @@
 .include "Makefile.inc"
 
 
-SUBDIR+=	env
+ENVFILE+=	K-power
+ENVFILE+=	K-ppc
 
-.include <tendra.subdir.mk>
+.include <tendra.env.mk>
 

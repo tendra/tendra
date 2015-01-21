@@ -3,7 +3,12 @@
 .include "Makefile.inc"
 
 
-SUBDIR+=	env
+ENVFILE+=	K-i386
+ENVFILE+=	K-i486
+ENVFILE+=	K-i586
 
-.include <tendra.subdir.mk>
+ENVFILE+=	K-frame
+ENVFILE+=	K-noframe
+
+.include <tendra.env.mk>
 

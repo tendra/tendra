@@ -3,7 +3,15 @@
 .include "Makefile.inc"
 
 
-SUBDIR+=	env
+ENVFILE+=	tcc_prof
+ENVFILE+=	tcc_diag
 
-.include <tendra.subdir.mk>
+ENVFILE+=	K-aout
+ENVFILE+=	K-pic
+ENVFILE+=	K-nopic
+ENVFILE+=	K-ieee
+ENVFILE+=	K-noieee
+ENVFILE+=	K-prom
+
+.include <tendra.env.mk>
 

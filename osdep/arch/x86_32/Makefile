@@ -3,7 +3,7 @@
 .include "Makefile.inc"
 
 
-SUBDIR+=	env
+ENVFILE+=	default
 
-.include <tendra.subdir.mk>
+.include <tendra.env.mk>
 
