@@ -5,7 +5,7 @@
 
 ENVFILE+=	default
 
-ENVFILE+=	posix_lib
+ENVFILE+=	posix
 ENVFILE+=	tcc_diag
 
 .include <tendra.env.mk>
