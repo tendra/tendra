@@ -128,7 +128,7 @@ CCOPTS+=	-O
 
 . elif defined(HPCC)
 
-HPCCOPTS?= -fast -DD${BLDARCHBITS} +w2
+HPCCOPTS?= -fast -DD32 +w2
 
 CC:=	${HPCC}
 CXX:=	${HPCC}
