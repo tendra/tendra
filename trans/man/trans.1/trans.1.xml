@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!DOCTYPE refentry SYSTEM "minidocbook.dtd" [
-	<!ENTITY % ent-misc SYSTEM "ent-misc.dtd"> %ent-misc;
-	<!ENTITY % ent-abbr SYSTEM "ent-abbr.dtd"> %ent-abbr;
-	<!ENTITY % ent-ref  SYSTEM "ent-ref.dtd">  %ent-ref;
-	<!ENTITY % ent-ext  SYSTEM "ent-ext.dtd">  %ent-ext;
-	<!ENTITY % ent-arg  SYSTEM "ent-arg.dtd">  %ent-arg;
-
 	<!ENTITY A.opt "<option>-A</option>&switch.arg;">
 	<!ENTITY C.opt "<option>-C</option>&switch.arg;">
 	<!ENTITY D.opt "<option>-D</option>&switch.arg;">
