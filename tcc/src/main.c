@@ -34,7 +34,7 @@
 #include "temp.h"
 
 
-#define VERSION "5.0"
+#define VERSION "5.0" "/" BLDARCH
 
 
 void
