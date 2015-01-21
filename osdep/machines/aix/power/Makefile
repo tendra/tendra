@@ -8,7 +8,7 @@ SUBDIR = abi
 .include <tendra.subdir.mk>
 
 
-MACHSUBDIR = include startup
+MACHSUBDIR = include
 
 .include <tendra.mach.mk>
 
