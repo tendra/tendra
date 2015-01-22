@@ -28,9 +28,9 @@
 +SPLIT_ARCH	"builtin/split_archive"
 
 +STARTUP_DIR		"-I<PREFIX_STARTUP>/modes"
-+STARTUP_CPP_DIR	"-I<PREFIX_STARTUP>/modes.cpp"
++STARTUP_CPP_DIR	"-I<PREFIX_STARTUP>/modes"
 +STARTUP		"-f<PREFIX_STARTUP>/lang/c89.h   -f<PREFIX_STARTUP>/modes/Xc.h"
-+STARTUP_CPP		"-f<PREFIX_STARTUP>/lang/cpp98.h -f<PREFIX_STARTUP>/modes.cpp/Xc.h"
++STARTUP_CPP		"-f<PREFIX_STARTUP>/lang/cpp98.h -f<PREFIX_STARTUP>/modes/Xc.h"
 +PORTABILITY		"<PREFIX_STARTUP>/bounds/c89.pf"
 
 +FLAG	"-D__TenDRA__"

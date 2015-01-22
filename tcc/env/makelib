@@ -13,5 +13,5 @@
 
 /* XXX: placeholder until lang/c99.h can be specified independently of -Xsystem */
 +STARTUP                "-f<PREFIX_STARTUP>/lang/c99.h   -f<PREFIX_STARTUP>/modes/Xp.h"
-+STARTUP_CPP            "-f<PREFIX_STARTUP>/lang/cpp98.h -f<PREFIX_STARTUP>/modes.cpp/Xs.h"
++STARTUP_CPP            "-f<PREFIX_STARTUP>/lang/cpp98.h -f<PREFIX_STARTUP>/modes/Xs.h"
 
