@@ -7,7 +7,7 @@
  * eglibc does not provide this header; it is expected to be provided by gcc.
  * The definitions here must be compatible.
  */
-#if defined(_EGLIBC2_19)
+#if defined(_EGLIBC2_15) || defined(_EGLIBC2_19)
 #ifndef __BUILDING_TDF_C89_STDARG_H_VA_ARGS
 
 /*
@@ -32,7 +32,7 @@ typedef __gnuc_va_list va_list;
 #pragma token PROC ( EXP lvalue : va_list : e , TYPE t ) EXP rvalue : t : va_arg # c89.stdarg.va_arg
 #pragma token PROC ( EXP lvalue : va_list : ) EXP rvalue : void : va_end # c89.stdarg.va_end
 #pragma interface __va_t __va_start va_arg va_end
- 
+
 #pragma TenDRA ident ... allow
 
 #define va_start(__ap, __arg) ((void) ((__ap) = __va_start(...)))

@@ -8,7 +8,7 @@
  * The definitions here must be compatible.
  */
 
-#if defined(_EGLIBC2_19)
+#if defined(_EGLIBC2_15) || defined(_EGLIBC2_19)
 
 #define NULL 0
 
