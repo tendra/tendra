@@ -112,41 +112,6 @@ create_dir(char *nm)
 }
 
 /*
- * CHECK A FILENAME
- *
- * This routine checks the file name nm for excessively long components,
- * which may cause problems on some machines.
- */
-void
-check_name(char *nm)
-{
-	char *p;
-	int i = 0, n = 0;
-
-	for (p = nm; *p; p++) {
-		if (*p == '/') {
-			if (i > n) {
-				n = i;
-			}
-
-			i = 0;
-			continue;
-		}
-
-		i++;
-	}
-
-	if (i > n) {
-		n = i;
-	}
-
-	if (n > 14) {
-		char *err = "The filename %s contains a component of length %d";
-		error(ERROR_WARNING, err, nm, n);
-	}
-}
-
-/*
  * FIND THE DATE STAMP ON A FILE
  *
  * This routine finds the modification time of the file nm.  Zero is

@@ -1379,7 +1379,6 @@ print_set(object *input, int pass)
 			IGNORE printf("Creating %s ...\n", nm);
 		}
 
-		check_name(nm);
 		q = make_object(nm, OBJ_FILE);
 		q->u.u_file = NULL;
 		IGNORE add_hash(files, q, no_version);

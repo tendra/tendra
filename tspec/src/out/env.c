@@ -131,7 +131,6 @@ print_env(object *input)
 			IGNORE printf("Creating environment %s ...\n", nm);
 		}
 
-		check_name(nm);
 		f = fopen(nm, "w");
 		if (f == NULL) {
 			error(ERROR_SERIOUS, "Can't open output file, %s", nm);

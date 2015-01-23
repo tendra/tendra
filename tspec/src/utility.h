@@ -20,7 +20,6 @@
  */
 char *string_printf(char *, ...);
 void create_dir(char *);
-void check_name(char *);
 time_t date_stamp(char *);
 void set_filename(char *);
 
