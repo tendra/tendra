@@ -23,10 +23,6 @@
 #include "name.h"
 #include "utility.h"
 
-#ifndef errno
-extern int errno;
-#endif
-
 /*
  * INPUT BUFFER
  *
