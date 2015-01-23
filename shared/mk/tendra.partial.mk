@@ -65,7 +65,7 @@ clean::
 ${OBJ_SDIR}/_partial.o: ${OBJS}
 	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Partially linking ${WRKDIR}"
-	${LD} -r -o ${.TARGET} ${OBJS}
+	${LD} ${LDFLAGS} -r -o ${.TARGET} ${OBJS}
 
 _partial: ${OBJ_SDIR}/_partial.o
 
