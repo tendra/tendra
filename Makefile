@@ -137,13 +137,52 @@ bootstrap-test: ${OBJ_BPREFIX}/bin/tcc
 .endfor
 
 bootstrap-rebuild:
-	@echo "===> rebuilding with bootstrap from ${OBJ_BOOT} into ${OBJ_REBUILD}"
-.for project in tspec tcc tpl tnc tdfc2 trans
+.for project in tld tspec tcc tpl tnc tdfc2 trans sid lexi make_tdf make_err calculus disp libexds
+	@echo "===> rebuilding with bootstrap for ${project} from ${OBJ_BOOT} into ${OBJ_REBUILD}"
 	cd ${.CURDIR}/${project} && ${MAKE}   \
-	    TCC=${OBJ_BPREFIX}/bin/tcc        \
 	    OBJ_DIR=${OBJ_REBUILD}/${project} \
-	    PREFIX=${OBJ_RPREFIX} install
+	    TCC=${OBJ_BPREFIX}/bin/tcc        \
+	    PREFIX=${OBJ_RPREFIX}             \
+	    RELEASE=${RELEASE}                \
+	    install
 .endfor
+	# TODO: these mkdirs are to be removed pending work on tcc
+	mkdir -p "${OBJ_RPREFIX}/tmp"
+	mkdir -p "${OBJ_RPREFIX}/lib/tcc/api"
+	mkdir -p "${OBJ_RPREFIX}/lib/tcc/lpi"
+	mkdir -p "${OBJ_RPREFIX}/lib/tcc/sys"
+	mkdir -p "${OBJ_RPREFIX}/lib/tcc/map"
+	@echo "===> rebuilding with bootstrap for tcc from ${OBJ_BOOT} into ${OBJ_REBUILD}"
+	cd ${.CURDIR}/tcc && ${MAKE}      \
+	    OBJ_DIR=${OBJ_REBUILD}/tcc    \
+	    TCC=${OBJ_BPREFIX}/bin/tcc    \
+	    PREFIX_INCLUDE=               \
+	    PREFIX_MAN=                   \
+	    PREFIX_TMP=${OBJ_RPREFIX}/tmp \
+	    PREFIX=${OBJ_RPREFIX}         \
+	    RELEASE=${RELEASE}            \
+	    ${TARGETFLAGS}                \
+	    install
+	@echo "===> rebuilding with bootstrap for osdep from ${OBJ_BOOT} into ${OBJ_REBUILD}"
+	cd ${.CURDIR}/osdep && ${MAKE}    \
+	    OBJ_DIR=${OBJ_REBUILD}/tcc    \
+	    PREFIX=${OBJ_RPREFIX}         \
+	    TCC=${OBJ_RPREFIX}/bin/tcc    \
+	    TPL=${OBJ_RPREFIX}/bin/tpl    \
+	    TNC=${OBJ_RPREFIX}/bin/tnc    \
+	    TLD=${OBJ_RPREFIX}/bin/tld    \
+	    RELEASE=${RELEASE}            \
+	    ${TARGETFLAGS}                \
+	    install
+	@echo "===> rebuilding with bootstrap for tdf from ${OBJ_BOOT} into ${OBJ_REBUILD}"
+	cd ${.CURDIR}/tdf && ${MAKE}      \
+	    OBJ_DIR=${OBJ_REBUILD}/tdf    \
+	    PREFIX=${OBJ_RPREFIX}         \
+	    TCC=${OBJ_RPREFIX}/bin/tcc    \
+	    TPL=${OBJ_RPREFIX}/bin/tpl    \
+	    TLD=${OBJ_RPREFIX}/bin/tld    \
+	    RELEASE=${RELEASE}            \
+	    install
 
 bootstrap-regen:
 	@echo "===> bootstraping into ${OBJ_REGEN} for source regeneration"
