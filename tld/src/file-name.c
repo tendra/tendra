@@ -15,7 +15,6 @@
  * file "file-name.h".  See that file for more details.
  */
 
-#include <sys/stat.h>
 #include <stddef.h>
 #include <string.h>
 
