@@ -151,8 +151,8 @@ main(int argc, char **argv)
 
 			default:
 				/* getopt will report error */
-			case 'h': report_usage();   return EXIT_FAILURE;
-			case 'v': report_version(); return EXIT_SUCCESS;
+			case 'h': report_usage();         return EXIT_FAILURE;
+			case 'v': report_version(stdout); return EXIT_SUCCESS;
 			}
 		}
 

@@ -38,7 +38,7 @@ main(int argc, char **argv)
 	    switch (arg[1]) {
 		case 'v': {
 		    if (arg[2]) break;
-		    report_version();
+		    report_version(stdout);
 		    known = 1;
 		    break;
 		}

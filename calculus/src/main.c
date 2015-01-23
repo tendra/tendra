@@ -159,7 +159,7 @@ main(int argc, char **argv)
 
 		    /* Other options */
 		    case 'q': verbose_output = 0; break;
-		    case 'v': report_version(); break;
+		    case 'v': report_version(stderr); break;
 		    default : known = 0; break;
 		}
 	    }

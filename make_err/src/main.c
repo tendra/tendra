@@ -41,7 +41,7 @@ main(int argc, char **argv)
 			case 'u': act = 3; break;
 
 			case 'v':
-				report_version();
+				report_version(stdout);
 				break;
 
 			default:
