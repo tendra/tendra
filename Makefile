@@ -36,6 +36,13 @@ TARGETARCH?=
 TARGETFLAGS+= BLDARCH=${TARGETARCH}
 .endif
 
+# XXX: assumes GNU ld
+REBUILDFLAGS!=                            \
+    case "${TARGETARCH}" in               \
+        x32_64) echo LDFLAGS=-melf_i386;; \
+        *)      echo '';;                 \
+    esac;
+
 all: bootstrap
 
 doc:
@@ -75,16 +82,16 @@ bootstrap: ${BOOTSTRAP_DEPS}
 	@echo "===> bootstrapping trans into ${OBJ_BPREFIX}"
 	cd ${.CURDIR}/trans && ${MAKE}      \
 	    OBJ_DIR=${OBJ_BOOT}/trans       \
-	    RELEASE=${RELEASE}              \
 	    PREFIX=${OBJ_BPREFIX}           \
+	    RELEASE=${RELEASE}              \
 	    ${TARGETFLAGS}                  \
 	    install
 .for project in tdfc2 tld tnc tpl tspec
 	@echo "===> bootstrapping ${project} into ${OBJ_BPREFIX}"
 	cd ${.CURDIR}/${project} && ${MAKE} \
 	    OBJ_DIR=${OBJ_BOOT}/${project}  \
-	    RELEASE=${RELEASE}              \
 	    PREFIX=${OBJ_BPREFIX}           \
+	    RELEASE=${RELEASE}              \
 	    install
 .endfor
 	# TODO: these mkdirs are to be removed pending work on tcc
@@ -137,13 +144,24 @@ bootstrap-test: ${OBJ_BPREFIX}/bin/tcc
 .endfor
 
 bootstrap-rebuild:
-.for project in tld tspec tcc tpl tnc tdfc2 trans sid lexi make_tdf make_err calculus disp libexds
+	mkdir -p "${OBJ_RPREFIX}/bin"
+	@echo "===> rebuilding with bootstrap for trans from ${OBJ_BOOT} into ${OBJ_REBUILD}"
+	cd ${.CURDIR}/trans && ${MAKE}      \
+	    OBJ_DIR=${OBJ_REBUILD}/trans    \
+	    TCC=${OBJ_BPREFIX}/bin/tcc      \
+	    PREFIX=${OBJ_RPREFIX}           \
+	    RELEASE=${RELEASE}              \
+	    ${TARGETFLAGS}                  \
+	    ${REBUILDFLAGS}                 \
+	    install
+.for project in tld tspec tpl tnc tdfc2 sid lexi make_tdf make_err calculus disp libexds
 	@echo "===> rebuilding with bootstrap for ${project} from ${OBJ_BOOT} into ${OBJ_REBUILD}"
 	cd ${.CURDIR}/${project} && ${MAKE}   \
 	    OBJ_DIR=${OBJ_REBUILD}/${project} \
-	    TCC=${OBJ_BPREFIX}/bin/tcc        \
 	    PREFIX=${OBJ_RPREFIX}             \
+	    TCC=${OBJ_BPREFIX}/bin/tcc        \
 	    RELEASE=${RELEASE}                \
+	    ${REBUILDFLAGS}                   \
 	    install
 .endfor
 	# TODO: these mkdirs are to be removed pending work on tcc
@@ -162,10 +180,11 @@ bootstrap-rebuild:
 	    PREFIX=${OBJ_RPREFIX}         \
 	    RELEASE=${RELEASE}            \
 	    ${TARGETFLAGS}                \
+	    ${REBUILDFLAGS}               \
 	    install
 	@echo "===> rebuilding with bootstrap for osdep from ${OBJ_BOOT} into ${OBJ_REBUILD}"
 	cd ${.CURDIR}/osdep && ${MAKE}    \
-	    OBJ_DIR=${OBJ_REBUILD}/tcc    \
+	    OBJ_DIR=${OBJ_REBUILD}/osdep  \
 	    PREFIX=${OBJ_RPREFIX}         \
 	    TCC=${OBJ_RPREFIX}/bin/tcc    \
 	    TPL=${OBJ_RPREFIX}/bin/tpl    \
@@ -173,6 +192,7 @@ bootstrap-rebuild:
 	    TLD=${OBJ_RPREFIX}/bin/tld    \
 	    RELEASE=${RELEASE}            \
 	    ${TARGETFLAGS}                \
+	    ${REBUILDFLAGS}               \
 	    install
 	@echo "===> rebuilding with bootstrap for tdf from ${OBJ_BOOT} into ${OBJ_REBUILD}"
 	cd ${.CURDIR}/tdf && ${MAKE}      \
@@ -182,6 +202,7 @@ bootstrap-rebuild:
 	    TPL=${OBJ_RPREFIX}/bin/tpl    \
 	    TLD=${OBJ_RPREFIX}/bin/tld    \
 	    RELEASE=${RELEASE}            \
+	    ${REBUILDFLAGS}               \
 	    install
 
 bootstrap-regen:
