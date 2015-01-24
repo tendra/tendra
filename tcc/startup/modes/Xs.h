@@ -22,7 +22,7 @@
 #pragma TenDRA conversion analysis (pointer-pointer explicit) warning
 #pragma TenDRA discard analysis warning
 #pragma TenDRA fall into case warning
-#pragma TenDRA function pointer as pointer warning
+#pragma TenDRA function pointer as pointer disallow
 #pragma TenDRA implicit function declaration off
 #pragma TenDRA implicit int type for function return disallow
 #pragma TenDRA incompatible interface declaration disallow

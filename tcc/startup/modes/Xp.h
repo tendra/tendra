@@ -18,7 +18,7 @@
 #pragma TenDRA begin
 
 #pragma TenDRA conversion analysis (int-pointer explicit) warning
-#pragma TenDRA function pointer as pointer warning
+#pragma TenDRA function pointer as pointer disallow
 #pragma TenDRA weak prototype analysis on
 #pragma TenDRA implicit function declaration warning
 #pragma TenDRA implicit int type for function return warning
