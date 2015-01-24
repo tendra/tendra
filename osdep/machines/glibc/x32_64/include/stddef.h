@@ -10,8 +10,6 @@
 
 #if defined(_GLIBC2_19)
 
-#define NULL 0
-
 typedef unsigned int size_t;
 
 typedef int ptrdiff_t;

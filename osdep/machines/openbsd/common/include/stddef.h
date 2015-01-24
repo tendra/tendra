@@ -12,8 +12,6 @@
 #if defined(_OPENBSD5_1) || defined(_OPENBSD5_2) || defined(_OPENBSD5_3) \
 	|| defined(_OPENBSD5_4) || defined(_OPENBSD5_5) || defined(_OPENBSD5_6)
 
-#define NULL 0
-
 /* for other headers which will define size_t unless we set this */
 #ifndef __BUILDING_TDF_C89_STDDEF_H
 #define _SIZE_T_DEFINED_
