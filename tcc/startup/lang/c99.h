@@ -24,9 +24,5 @@
 #pragma TenDRA unknown pragma allow
 #pragma TenDRA no external declaration disallow
 
-#ifndef __NO_PRINTF_CHECKS
-#define __NO_PRINTF_CHECKS 1
-#endif
-
 #pragma TenDRA declaration block end
 
