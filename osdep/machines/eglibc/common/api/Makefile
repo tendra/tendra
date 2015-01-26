@@ -10,8 +10,6 @@ LIBCOPTS+=	-Nsystem:${LIBCPREFIX}/usr/include
 LIBCOPTS+=	-Nsystem_arch:${LIBCPREFIX}/usr/include/i386-linux-gnu
 .endif
 
-HACKS+= ${BASE_DIR}/proxy/include
-
 PROXY+=	float
 
 .for proxy in ${PROXY}
