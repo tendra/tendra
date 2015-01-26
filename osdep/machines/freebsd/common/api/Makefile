@@ -5,6 +5,17 @@
 
 LIBCOPTS+=	-Nsystem:${LIBCPREFIX}/usr/include
 
+HACKS+= ${BASE_DIR}/proxy/include
+
+PROXY+=	float
+
+.for proxy in ${PROXY}
+APIOBJSc89+= ${OBJ_SDIR}/${proxy}.j
+.endfor
+
+.include <tendra.proxy.mk>
+
+
 APIS+=  c89
 #APIS+=	c95
 #APIS+=	cpp
