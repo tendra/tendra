@@ -11,8 +11,7 @@
 
 #include_next <stddef.h>
 
-#ifndef offsetof
-#define offsetof( __S, __M )	( ( size_t ) &( ( ( __S * ) 0 )->__M ) )
-#endif
+#undef offsetof
+#include <proxy/include/offsetof.h>
 
 #endif
