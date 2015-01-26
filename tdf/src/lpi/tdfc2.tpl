@@ -11,25 +11,25 @@
  * Target dependency tokens
  */
 
-Tokdec .~rep_var_width : [NAT] NAT;
-Tokdec .~rep_atomic_width : [] NAT;
-Tokdec .~rep_fv : [NAT] FLOATING_VARIETY;
-Tokdec .~rep_fv_width : [NAT] NAT;
-Tokdec .~rep_fv_radix : [NAT] NAT;
-Tokdec .~rep_fv_mant : [NAT] NAT;
-Tokdec .~rep_fv_min_exp : [NAT] NAT;
-Tokdec .~rep_fv_max_exp : [NAT] NAT;
-Tokdec .~rep_fv_epsilon : [NAT] EXP;
-Tokdec .~rep_fv_min_val : [NAT] EXP;
-Tokdec .~rep_fv_max_val : [NAT] EXP;
-Tokdec .~ptr_width : [] NAT;
-Tokdec .~best_div : [] NAT;
-Tokdec .~little_endian : [] BOOL;
-Tokdec .~ptr_to_ptr : [ALIGNMENT, ALIGNMENT, EXP] EXP;
-Tokdec .~ptr_to_int : [ALIGNMENT, VARIETY, EXP] EXP;
-Tokdec .~int_to_ptr : [VARIETY, ALIGNMENT, EXP] EXP;
-Tokdec .~f_to_ptr : [ALIGNMENT, EXP] EXP;
-Tokdec .~ptr_to_f : [ALIGNMENT, EXP] EXP;
+Tokdec .~rep_var_width      : [NAT] NAT;
+Tokdec .~rep_atomic_width   : [] NAT;
+Tokdec .~rep_fv             : [NAT] FLOATING_VARIETY;
+Tokdec .~rep_fv_width       : [NAT] NAT;
+Tokdec .~rep_fv_radix       : [NAT] NAT;
+Tokdec .~rep_fv_mant        : [NAT] NAT;
+Tokdec .~rep_fv_min_exp     : [NAT] NAT;
+Tokdec .~rep_fv_max_exp     : [NAT] NAT;
+Tokdec .~rep_fv_epsilon     : [NAT] EXP;
+Tokdec .~rep_fv_min_val     : [NAT] EXP;
+Tokdec .~rep_fv_max_val     : [NAT] EXP;
+Tokdec .~ptr_width          : [] NAT;
+Tokdec .~best_div           : [] NAT;
+Tokdec .~little_endian      : [] BOOL;
+Tokdec .~ptr_to_ptr         : [ALIGNMENT, ALIGNMENT, EXP] EXP;
+Tokdec .~ptr_to_int         : [ALIGNMENT, VARIETY, EXP] EXP;
+Tokdec .~int_to_ptr         : [VARIETY, ALIGNMENT, EXP] EXP;
+Tokdec .~f_to_ptr           : [ALIGNMENT, EXP] EXP;
+Tokdec .~ptr_to_f           : [ALIGNMENT, EXP] EXP;
 
 /*
  * C mapping tokens
@@ -56,17 +56,17 @@ Tokdec .~bitfield_is_signed : [] BOOL;
  * types in conversion, promotion rules etc.
  */
 
-Tokdef t_char     = [] SIGNED_NAT		0;
-Tokdef t_short    = [] SIGNED_NAT		1;
-Tokdef t_int      = [] SIGNED_NAT		2;
-Tokdef t_long     = [] SIGNED_NAT		3;
+Tokdef t_char     = [] SIGNED_NAT  0;
+Tokdef t_short    = [] SIGNED_NAT  1;
+Tokdef t_int      = [] SIGNED_NAT  2;
+Tokdef t_long     = [] SIGNED_NAT  3;
 
-Tokdef t_signed   = [] SIGNED_NAT		4;
-Tokdef t_unsigned = [] SIGNED_NAT	8;
-Tokdef t_longlong = [] SIGNED_NAT	16;
+Tokdef t_signed   = [] SIGNED_NAT  4;
+Tokdef t_unsigned = [] SIGNED_NAT  8;
+Tokdef t_longlong = [] SIGNED_NAT 16;
 
-Tokdef t_vmask    = [] SIGNED_NAT		19;
-Tokdef t_smask    = [] SIGNED_NAT		12;
+Tokdef t_vmask    = [] SIGNED_NAT 19;
+Tokdef t_smask    = [] SIGNED_NAT 12;
 
 Tokdef t_vty = [] VARIETY /* variety for above constants */
 	var_width(false, 8);
@@ -110,15 +110,15 @@ Tokdef t_u_longlong = [] SIGNED_NAT
  */
 
 Tokdef ~char              = [] VARIETY var_width(.~char_is_signed, .~char_width);
-Tokdef ~signed_char       = [] VARIETY var_width(true, .~char_width);
+Tokdef ~signed_char       = [] VARIETY var_width(true,  .~char_width);
 Tokdef ~unsigned_char     = [] VARIETY var_width(false, .~char_width);
-Tokdef ~signed_short      = [] VARIETY var_width(true, .~short_width);
+Tokdef ~signed_short      = [] VARIETY var_width(true,  .~short_width);
 Tokdef ~unsigned_short    = [] VARIETY var_width(false, .~short_width);
-Tokdef ~signed_int        = [] VARIETY var_width(true, .~int_width);
+Tokdef ~signed_int        = [] VARIETY var_width(true,  .~int_width);
 Tokdef ~unsigned_int      = [] VARIETY var_width(false, .~int_width);
-Tokdef ~signed_long       = [] VARIETY var_width(true, .~long_width);
+Tokdef ~signed_long       = [] VARIETY var_width(true,  .~long_width);
 Tokdef ~unsigned_long     = [] VARIETY var_width(false, .~long_width);
-Tokdef ~signed_longlong   = [] VARIETY var_width(true, .~longlong_width);
+Tokdef ~signed_longlong   = [] VARIETY var_width(true,  .~longlong_width);
 Tokdef ~unsigned_longlong = [] VARIETY var_width(false, .~longlong_width);
 
 Tokdef ~float             = [] FLOATING_VARIETY .~rep_fv[.~fl_rep];
