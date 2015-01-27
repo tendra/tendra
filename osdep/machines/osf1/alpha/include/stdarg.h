@@ -11,24 +11,11 @@
 #define _STDARG_H
 
 #ifndef __BUILDING_TDF_C89_STDARG_H_VA_ARGS
-
 #include <standards.h>
 #include <va_list.h>
+#endif
 
-
-/*
-    TOKEN DECLARATIONS
-
-    The tokens __va_t, __va_start, va_arg and va_end are as in the
-    c89:stdarg header.  The only difference is that va_list is defined
-    as its implementation type, rather than being a tokenised type.
-*/
-
-#pragma token TYPE __va_t # ~__va_t
-#pragma token PROC ( EXP rvalue : __va_t : ) EXP rvalue : va_list : __va_start # c89.stdarg.__va_start
-#pragma token PROC ( EXP lvalue : va_list : e , TYPE t ) EXP rvalue : t : va_arg # c89.stdarg.va_arg
-#pragma token PROC ( EXP lvalue : va_list : ) EXP rvalue : void : va_end # c89.stdarg.va_end
-#pragma interface __va_t __va_start va_arg va_end
+#include <proxy/include/stdarg.h>
 
 
 /*
@@ -37,20 +24,18 @@
     How va_start is defined in terms of __va_start depends on whether
     this is stdarg.h or varargs.h.
 */
-
+#ifndef __BUILDING_TDF_C89_STDARG_H_VA_ARGS
 #pragma TenDRA ident ... allow
-
 #ifdef __HACKED_VARARGS
 #define va_alist		...
 #define va_dcl
+#undef va_start
 #define va_start( l )		( ( void ) ( l = __va_start ( ... ) ) )
-#else
-#define va_start( l, i )	( ( void ) ( l = __va_start ( ... ) ) )
+#endif
 #endif
 
 
-#else
-
+#ifdef __BUILDING_TDF_C89_STDARG_H_VA_ARGS
 
 /*
     IMPLEMENTATION OF STDARG
@@ -80,6 +65,8 @@ typedef char *__va_t ;
 	    (mode *)((list)._a0 + (list)._offset - \
 		((__builtin_isfloat(mode) && (list)._offset <= (6 * 8)) ? \
 		(6 * 8) + 8 : ((int)sizeof(mode) + 7) & -8))))
+
+#endif
 
 #endif
 

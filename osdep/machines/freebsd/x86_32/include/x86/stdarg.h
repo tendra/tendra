@@ -4,6 +4,7 @@
 #define __HACKED_X86_STDARG_H
 
 #if defined(_FREEBSD10_1)
+
 #ifndef __BUILDING_TDF_C89_STDARG_H_VA_ARGS
 
 #include <sys/cdefs.h>
@@ -12,7 +13,8 @@
 
 typedef __va_list va_list;
 
-#else
+#endif
+
 
 /*
  * Implementation of stdarg.
@@ -20,6 +22,7 @@ typedef __va_list va_list;
  * The system header does not provide an implementation; it just wraps compiler builtins.
  * There is a "fake" implementation "for lint's benefit", which matches ours here.
  */
+#ifdef __BUILDING_TDF_C89_STDARG_H_VA_ARGS
 
 #include <sys/cdefs.h>
 #include <machine/_types.h>
@@ -32,6 +35,7 @@ typedef __va_list va_list;
 typedef __va_list va_list;
 
 #endif
+
 #endif
 
 #endif
