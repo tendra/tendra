@@ -5,8 +5,6 @@
 
 LIBCOPTS+=	-Nsystem:${LIBCPREFIX}/usr/include
 
-HACKS+= ${BASE_DIR}/proxy/include
-
 PROXY+=	float
 
 .for proxy in ${PROXY}

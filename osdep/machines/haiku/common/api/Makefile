@@ -12,8 +12,6 @@ LIBCOPTS+=	-Nsystem_support:${LIBCPREFIX}/develop/headers/os/support
 HACKOPTS+=	--@D\#pragma@TenDRA@directory@${dir}@use@environment@system\n
 .endfor
 
-HACKS+= ${BASE_DIR}/proxy/include
-
 PROXY+=	float
 
 .for proxy in ${PROXY}
