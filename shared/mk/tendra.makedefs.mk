@@ -49,23 +49,23 @@ LDD_BLURB?= /lib/libc.so.6 2>&1
 LDD_BLURB?= ldd --version  2>&1
 .endif
 
-LDD_NAME!=                      \
-    ${LDD_BLURB}                \
-    | { read v && case "$$v" in \
-        *EGLIBC*) echo EGLIBC;; \
-        *GLIBC*)  echo GLIBC;;  \
-        *musl*)   echo MUSL;;   \
-        *)        echo unknown; \
+LDD_NAME!=                       \
+    ${LDD_BLURB}                 \
+    | { read v && case "$$v" in  \
+        *EGLIBC*) echo EGLIBC;;  \
+        *GLIBC*)  echo GLIBC;;   \
+        *musl*)   echo MUSL;;    \
+        *)        echo unknown;; \
     esac }
 
-LDD_VER!=                       \
-    ${LDD_BLURB}                \
-    | case "${LDD_NAME}" in     \
+LDD_VER!=                        \
+    ${LDD_BLURB}                 \
+    | case "${LDD_NAME}" in      \
         *GLIBC) sed -n 's/^ldd (\(GNU libc\|.* E\?GLIBC .*\)) //p' \
               | sed -n 's/^.* version \(.*\), .*$$/\1/p';;         \
         MUSL)   sed -n 's/^Version \(.*\)/\1/p';;                  \
-        *)        echo unknown; \
-    esac                        \
+        *)        echo unknown;; \
+    esac                         \
     | tr . _
 
 LIBC_VER?= ${LDD_NAME}_${LDD_VER}
