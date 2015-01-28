@@ -40,10 +40,10 @@ Tokdec xsh4v2_unix.signal.SIGBUS : [] EXP;
 Tokdec posix.signal.SIGUSR1      : [] EXP;
 
 /* signal numbers - SIGUSR1 is used for stack overflow */
-Tokdef SIGFPE  = [] SIGNED_NAT snat_from_nat(false, computed_nat(c89.signal.SIGFPE));
-Tokdef SIGSEGV = [] SIGNED_NAT snat_from_nat(false, computed_nat(c89.signal.SIGSEGV));
-Tokdef SIGBUS  = [] SIGNED_NAT snat_from_nat(false, computed_nat(xsh4v2_unix.signal.SIGBUS));
-Tokdef SIGUSR1 = [] SIGNED_NAT snat_from_nat(false, computed_nat(posix.signal.SIGUSR1));
+Tokdef SIGFPE  = [] SIGNED_NAT computed_signed_nat(c89.signal.SIGFPE);
+Tokdef SIGSEGV = [] SIGNED_NAT computed_signed_nat(c89.signal.SIGSEGV);
+Tokdef SIGBUS  = [] SIGNED_NAT computed_signed_nat(xsh4v2_unix.signal.SIGBUS);
+Tokdef SIGUSR1 = [] SIGNED_NAT computed_signed_nat(posix.signal.SIGUSR1);
 
 Var allsigs : posix.signal.sigset_t;
 

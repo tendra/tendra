@@ -31,8 +31,8 @@ Tokdec posix.signal.sigprocmask : [EXP, EXP, EXP] EXP;
 Tokdec c89.signal.SIGFPE  : [] EXP;
 Tokdec c89.signal.SIGSEGV : [] EXP;
 
-Tokdef SIGFPE  = [] SIGNED_NAT snat_from_nat(false, computed_nat(c89.signal.SIGFPE));
-Tokdef SIGSEGV = [] SIGNED_NAT snat_from_nat(false, computed_nat(c89.signal.SIGSEGV));
+Tokdef SIGFPE  = [] SIGNED_NAT computed_signed_nat(c89.signal.SIGFPE);
+Tokdef SIGSEGV = [] SIGNED_NAT computed_signed_nat(c89.signal.SIGSEGV);
 
 /*
  * Sync handler delays subsequent processing until any pending
