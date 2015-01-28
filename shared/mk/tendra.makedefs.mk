@@ -42,15 +42,28 @@ VERSION?=	${UNAME_REVISION}
 
 
 .if ${SYSTEM} == Linux
-. if (exists(/lib/libc.so.6))
-GLIBC_VER!= /lib/libc.so.6 | sed -n 's/^.* version \(.*\), .*$$/\1/p' | tr . _
-GLIBC_NAME!= /lib/libc.so.6 | grep EGLIBC > /dev/null && echo -n E; echo GLIBC
-. else
-GLIBC_VER!= ldd --version | sed -n 's/^ldd (\(GNU libc\|.* E\?GLIBC .*\)) //p' | tr . _
-GLIBC_NAME!= ldd --version | grep EGLIBC > /dev/null && echo -n E; echo GLIBC
-. endif
 
-LIBC_VER?= ${GLIBC_NAME}_${GLIBC_VER}
+LDD_LIBCNAME!=                     \
+    if [ -f /lib/libc.so.6 ]; then \
+        /lib/libc.so.6;            \
+    else                           \
+        ldd --version;             \
+    fi                             \
+    | grep EGLIBC > /dev/null      \
+    && echo -n E; echo GLIBC
+
+LDD_LIBCVER!=                      \
+    if [ -f /lib/libc.so.6 ]; then \
+        /lib/libc.so.6             \
+        | sed -n 's/^.* version \(.*\), .*$/\1/p'; \
+    else                           \
+        ldd --version              \
+        | sed -n 's/^ldd (\(GNU libc\|.* E\?GLIBC .*\)) //p'; \
+    fi                             \
+    | tr . _
+
+LIBC_VER?= ${LDD_LIBCNAME}_${LDD_LIBCVER}
+
 .endif
 
 
