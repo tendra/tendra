@@ -5,7 +5,7 @@
 
 #if defined(_FREEBSD9_0) || defined(_FREEBSD9_1) || defined(_FREEBSD9_2) || defined(_FREEBSD10_1)
 #pragma TenDRA begin
-#pragma TenDRA unknown directive allow /* for #warning */
+#pragma TenDRA directive warning allow
 #endif
 
 #include_next <sys/syslimits.h>

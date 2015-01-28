@@ -6,7 +6,7 @@
 #if defined(_GLIBC2_12) || defined(_GLIBC2_14) || defined(_GLIBC2_15) \
 	|| defined(_GLIBC2_17) || defined(_GLIBC2_18) || defined(_GLIBC2_19)
 #pragma TenDRA begin
-#pragma TenDRA unknown directive allow /* for #warning */
+#pragma TenDRA directive warning allow
 #endif
 
 #include_next <features.h>
