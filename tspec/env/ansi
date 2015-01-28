@@ -1,6 +1,0 @@
-/* $Id$ */
-
-/* ANSI is short for C89 */
-
-+FLAG	"-Yc89"
-

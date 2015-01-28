@@ -1,6 +1,0 @@
-/* $Id$ */
-
-/* ISO is short for C95 */
-
-+FLAG	"-Yc95"
-
