@@ -62,7 +62,7 @@ LDD_VER!=                       \
     ${LDD_BLURB}                \
     | case "${LDD_NAME}" in     \
         *GLIBC) sed -n 's/^ldd (\(GNU libc\|.* E\?GLIBC .*\)) //p' \
-              | sed -n 's/^.* version \(.*\), .*$/\1/p';;          \
+              | sed -n 's/^.* version \(.*\), .*$$/\1/p';;         \
         MUSL)   sed -n 's/^Version \(.*\)/\1/p';;                  \
         *)        echo unknown; \
     esac                        \
