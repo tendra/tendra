@@ -6,8 +6,6 @@
 #ifdef _OPENBSD5_1
 #ifndef __BUILDING_TDF_C89_STDARG_H_VA_ARGS
 
-typedef char * va_list;
-
 #include_next <stdarg.h>
 
 #else
