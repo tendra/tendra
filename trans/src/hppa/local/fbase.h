@@ -13,6 +13,7 @@
 #define FBASE 65536L
 
 #define MANT_SIZE       (use_long_double ? 10 : 8)
+#define MANT_SIZE_MAX 10
 
 #endif
 

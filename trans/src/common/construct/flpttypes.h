@@ -19,6 +19,7 @@
 /* FBASE 10 is obsolete */
 
 #define MANT_SIZE 40
+#define MANT_SIZE_MAX 40
 
 #define Fdig unsigned char
 
@@ -58,6 +59,13 @@ typedef struct _flt {
 #define MANT_SIZE 8
 #endif
 
+/* MANT_SIZE_MAX is the number of mantissas array elements that
+ * supported by the platform's largest floating point type (double or
+ * long double)
+ */
+#ifndef MANT_SIZE_MAX
+#define MANT_SIZE_MAX 8
+#endif
 
 #define Fdig unsigned short
 /* FBITS is the number of bits in one array element */

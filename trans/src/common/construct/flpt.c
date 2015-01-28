@@ -516,7 +516,7 @@ flt_mul(flt f1, flt f2, flt *res)
 {
   dbl rdbl;
   int i, j, k;
-  unsigned int acc[2 * MANT_SIZE];
+  unsigned int acc[2 * MANT_SIZE_MAX];
   if ((f1.sign == 0) || (f2.sign == 0)) {
     flt_zero(res);
     return OKAY;
@@ -636,9 +636,9 @@ flt_div(flt f1, flt f2, flt *res)
 int
 flt_div(flt f1, flt f2, flt *res)
 {
-  Fdig a1[MANT_SIZE+1];
-  Fdig a2[MANT_SIZE+1];
-  Fdig r[MANT_SIZE+1];
+  Fdig a1[MANT_SIZE_MAX+1];
+  Fdig a2[MANT_SIZE_MAX+1];
+  Fdig r[MANT_SIZE_MAX+1];
   int bit_diff = 0;
   int i;
   int t, s;
