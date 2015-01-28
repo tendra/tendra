@@ -43,26 +43,32 @@ VERSION?=	${UNAME_REVISION}
 
 .if ${SYSTEM} == Linux
 
-LDD_LIBCNAME!=                     \
-    if [ -f /lib/libc.so.6 ]; then \
-        /lib/libc.so.6;            \
-    else                           \
-        ldd --version;             \
-    fi                             \
-    | grep EGLIBC > /dev/null      \
-    && echo -n E; echo GLIBC
+.if exists(/lib/libc.so.6)
+LDD_BLURB?= /lib/libc.so.6 2>&1
+.else
+LDD_BLURB?= ldd --version  2>&1
+.endif
 
-LDD_LIBCVER!=                      \
-    if [ -f /lib/libc.so.6 ]; then \
-        /lib/libc.so.6             \
-        | sed -n 's/^.* version \(.*\), .*$/\1/p'; \
-    else                           \
-        ldd --version              \
-        | sed -n 's/^ldd (\(GNU libc\|.* E\?GLIBC .*\)) //p'; \
-    fi                             \
+LDD_NAME!=                      \
+    ${LDD_BLURB}                \
+    | { read v && case "$$v" in \
+        *EGLIBC*) echo EGLIBC;; \
+        *GLIBC*)  echo GLIBC;;  \
+        *musl*)   echo MUSL;;   \
+        *)        echo unknown; \
+    esac }
+
+LDD_VER!=                       \
+    ${LDD_BLURB}                \
+    | case "${LDD_NAME}" in     \
+        *GLIBC) sed -n 's/^ldd (\(GNU libc\|.* E\?GLIBC .*\)) //p' \
+              | sed -n 's/^.* version \(.*\), .*$/\1/p';;          \
+        MUSL)   sed -n 's/^Version \(.*\)/\1/p';;                  \
+        *)        echo unknown; \
+    esac                        \
     | tr . _
 
-LIBC_VER?= ${LDD_LIBCNAME}_${LDD_LIBCVER}
+LIBC_VER?= ${LDD_NAME}_${LDD_VER}
 
 .endif
 
