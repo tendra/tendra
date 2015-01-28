@@ -13,6 +13,8 @@
 
 #include <reader/exp.h>
 
+#include <refactor/refactor.h>
+
 #include <main/flags.h>
 
 #include "memtdf.h"

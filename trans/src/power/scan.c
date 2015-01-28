@@ -42,6 +42,7 @@
 #include <main/flags.h>
 
 #include <refactor/const.h>
+#include <refactor/refactor.h>
 
 #include "comment.h"
 #include "memtdf.h"

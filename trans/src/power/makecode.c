@@ -744,9 +744,9 @@ static void case_tag_code_notransform(int caseint_reg, exp e, space sp)
 static void case_tag_code(int caseint_reg, exp e, space sp)
 {
 	if (optim & OPTIM_CASE) {
-		return case_tag_code_transform(caseint_reg, e, sp);
+		case_tag_code_transform(caseint_reg, e, sp);
 	} else {
-		return case_tag_code_notransform(caseint_reg, e, sp);
+		case_tag_code_notransform(caseint_reg, e, sp);
 	}
 }
 
