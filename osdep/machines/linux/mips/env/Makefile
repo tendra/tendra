@@ -6,15 +6,14 @@
 .include <tendra.makedefs.mk>
 
 
-ENVFILE+=	K-aout
-
-ENVFILE+=	tcc_prof
 ENVFILE+=	tdf_ext
 
 ENVCOMMON+=	machines/common/env
 ENVCOMMON+=	arch/${BLDARCH}
 ENVCOMMON+=	machines/${OSFAM}/common/env
 #ENVCOMMON+= machines/${OSFAM}/${BLDARCH}/env/common
+#ENVCOMMON+=	machines/${LIBCFAM}/common/env
+ENVCOMMON+=	machines/${LIBCFAM}/${BLDARCH}/env
 ENVCOMMON+=	toolchain/gnu/common
 #ENVCOMMON+=	toolchain/gnu/${BLDARCH}
 

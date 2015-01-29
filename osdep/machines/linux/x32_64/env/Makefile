@@ -8,12 +8,12 @@
 
 ENVFILE+=	default
 
-ENVFILE+=	tcc_prof
-
 ENVCOMMON+=	machines/common/env
 ENVCOMMON+=	arch/${BLDARCH}
 ENVCOMMON+=	machines/${OSFAM}/common/env
 #ENVCOMMON+= machines/${OSFAM}/${BLDARCH}/env/common
+#ENVCOMMON+=	machines/${LIBCFAM}/common/env
+ENVCOMMON+=	machines/${LIBCFAM}/${BLDARCH}/env
 ENVCOMMON+=	toolchain/gnu/common
 ENVCOMMON+=	toolchain/gnu/${BLDARCH}
 

@@ -1,0 +1,6 @@
+/* TCC ENVIRONMENT : producing old "a.out" for LINUX */
+
++CRT0			"/usr/i486-linuxaout/lib/crt0.o"
++CRT1			""
++CRTN			""
+
