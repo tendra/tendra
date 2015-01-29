@@ -3,8 +3,9 @@
 /* XXX: assumes GNU toolchain */
 +FLAG_LD	"-e _start -d"
 
-/* XXX: assumes GNU toolchain */
-+CRT0		"-dynamic-linker /libexec/ld-elf.so.1"
-+CRT1		"/usr/lib/crt1.o /usr/lib/crti.o /usr/lib/crtbegin.o"
-+CRTN		"/usr/lib/crtend.o /usr/lib/crtn.o"
++LIB_LDSO	"/libexec/ld-elf.so.1"
+
++LIB_CRT0	""
++LIB_CRTI	"/usr/lib/crt1.o /usr/lib/crti.o /usr/lib/crtbegin.o"
++LIB_CRTN	"/usr/lib/crtend.o /usr/lib/crtn.o"
 

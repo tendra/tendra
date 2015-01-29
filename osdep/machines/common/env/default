@@ -20,9 +20,6 @@
 >LINK			"-L<PREFIX_SYS>"
 >LIB			"-ldep -labi"
 
-+CRT0			""
-+CRT1			""
-+CRTN			""
 +CRTP_N			""
 +SYS_LIB		"-lint64"
 +SYS_LIBC		"-lc"

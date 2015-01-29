@@ -1,7 +1,8 @@
 /* $Id$ */
 
-/* XXX: assumes GNU toolchain */
-+CRT0	"--dynamic-linker /usr/libexec/ld.elf_so /usr/lib/crt0.o"
-+CRT1	"/usr/lib/crti.o /usr/lib/crtbegin.o"
-+CRTN	"/usr/lib/crtend.o /usr/lib/crtn.o"
++LIB_LDSO	"/usr/libexec/ld.elf_so"
+
++LIB_CRT0	"/usr/lib/crt0.o"
++LIB_CRTI	"/usr/lib/crti.o /usr/lib/crtbegin.o"
++LIB_CRTN	"/usr/lib/crtend.o /usr/lib/crtn.o"
 

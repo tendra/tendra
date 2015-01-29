@@ -1,9 +1,10 @@
 /* $Id$ */
 
-/* XXX: assumes GNU toolchain */
-+CRT0	"-dynamic-linker /lib/ld-linux.so.2 /usr/lib32/crt1.o"
-+CRT1	"/usr/lib32/crti.o"
-+CRTN	"/usr/lib32//crtn.o"
++LIB_LDSO	"/lib/ld-linux.so.2"
+
++LIB_CRT0	"/usr/lib32/crt1.o"
++LIB_CRTN	"/usr/lib32/crti.o"
++LIB_CRTN	"/usr/lib32/crtn.o"
 
 /* for -lc */
 <FLAG_LINK  "-L /lib32"

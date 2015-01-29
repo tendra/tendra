@@ -1,7 +1,8 @@
 /* $Id$ */
 
-/* XXX: assumes GNU toolchain */
-+CRT0		"-dynamic-linker /lib/ld-musl-i386.so.1 /usr/lib/crt1.o"
-+CRT1		"/usr/lib/crti.o"
-+CRTN		"/usr/lib/crtn.o"
++LIB_LDSO	"/lib/ld-musl-i386.so.1"
+
++LIB_CRT0	"/usr/lib/crt1.o"
++LIB_CRTI	"/usr/lib/crti.o"
++LIB_CRTN	"/usr/lib/crtn.o"
 

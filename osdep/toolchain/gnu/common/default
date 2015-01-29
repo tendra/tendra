@@ -2,3 +2,7 @@
 
 >FLAG_TRANS	"-Sgas"
 
++CRT0	"-dynamic-linker <LIB_LDSO> <LIB_CRT0>"
++CRT1	"<LIB_CRTI>"
++CRTN	"<LIB_CRTN>"
+
