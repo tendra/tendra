@@ -42,5 +42,36 @@ typedef char *va_list ;
 #endif
 
 
+/*
+    IMPLEMENTATION OF STDARG
+
+    This implementation basically works, and avoids the built-in
+    operators defined in the system header.
+*/
+
+#ifdef __BUILDING_TDF_C89_STDARG_H_VA_ARGS
+#if defined(_ARCH_mips)
+
+#define va_end(__ap) \
+	((void) 0)
+
+#define va_start(__ap, __arg) \
+	(_ap = (va_list) (sizeof (__arg) \
+		? (sizeof(__arg) > 4 \
+			? ((int) &__arg + 2 * 8 - 1) & - 8 \
+			: ((int) &__arg + 2 * 4 - 1) & - 4) \
+				: (int) &__arg))
+
+#define va_arg(__ap, __T) \
+	((__T *) (__ap = (va_list) (sizeof (__T) \
+		? (sizeof (__T) > 4 \
+			? ((int) __ap + 2 * 8 - 1) & -8 \
+			: ((int) __ap + 2 * 4 - 1) & -4) \
+		: (int) __ap)))[-1]
+
+#endif
+#endif
+
+
 #endif
 
