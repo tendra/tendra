@@ -38,7 +38,7 @@
 /*
     IMPLEMENTATION OF STDARG
 
-    This implementation basically works, and avoids the built-in
+    This implementation avoids the built-in
     operators defined in the system header.
 */
 #ifdef __BUILDING_TDF_C89_STDARG_H_VA_ARGS

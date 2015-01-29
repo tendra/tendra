@@ -41,7 +41,7 @@ typedef double *va_list ;
 /*
     IMPLEMENTATION OF STDARG
 
-    This implementation basically works, and avoids the built-in
+    This implementation avoids the built-in
     operators defined in the system header.
 */
 
