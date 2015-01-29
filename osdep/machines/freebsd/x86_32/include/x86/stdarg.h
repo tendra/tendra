@@ -16,10 +16,17 @@
 #include <sys/cdefs.h>
 #include <machine/_types.h>
 
-#define __va_round(__T)       (((sizeof (__T) + 3) / 4) * 4)
-#define va_start(__ap, __arg) ((__ap) = &(__arg) + __va_round((__arg)))
-#define va_end(__ap)          ((void) 0)
-#define va_arg(__ap, __T)     ((__ap += __va_round(__T), *((__T *) ((__ap) - __va_round(__T)))))
+#define __va_round(__T) \
+	(((sizeof (__T) + 3) / 4) * 4)
+
+#define va_start(__ap, __arg) \
+	((__ap) = &(__arg) + __va_round((__arg)))
+
+#define va_end(__ap) \
+	((void) 0)
+
+#define va_arg(__ap, __T) \
+	((__ap += __va_round(__T), * ((__T *) ((__ap) - __va_round(__T)))))
 
 typedef __va_list va_list;
 

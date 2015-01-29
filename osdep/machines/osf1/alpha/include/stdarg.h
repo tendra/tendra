@@ -33,17 +33,21 @@ typedef struct {
     int _offset;	/* byte offset of next param */
 } va_list;
 
-static va_list _v ;
-typedef char *__va_t ;
+static va_list _v;
+typedef char *__va_t;
 
-#define __va_start(X)   (_v._a0 = ( X ), _v._offset = 0, _v)
-#define va_end(X)	( ( void ) 0 )
+#define __va_start(__ap) \
+	(_v._a0 = ( __ap ), _v._offset = 0, _v)
 
-#define va_arg(list, mode) \
-	(*(((list)._offset += ((int)sizeof(mode) + 7) & -8), \
-	    (mode *)((list)._a0 + (list)._offset - \
-		((__builtin_isfloat(mode) && (list)._offset <= (6 * 8)) ? \
-		(6 * 8) + 8 : ((int)sizeof(mode) + 7) & -8))))
+#define va_end(__ap) \
+	((void) 0)
+
+#define va_arg(__ap, __T) \
+	(* (((__ap)._offset += ((int) sizeof (__T) + 7) & - 8),
+		(__T *) ((__ap)._a0 + (__ap)._offset - \
+			((__builtin_isfloat(__T) && (__ap)._offset <= (6 * 8)) \
+				? (6 * 8) + 8 \
+				: ((int) sizeof(__T) + 7) & -8))))
 
 #endif
 

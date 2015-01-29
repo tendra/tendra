@@ -22,9 +22,16 @@
 */
 
 #ifdef __BUILDING_TDF_C89_STDARG_H_VA_ARGS
-#define va_start(__list,__parmN) __list = (char *)((unsigned int)&(__parmN) + (((sizeof(__parmN)+3)/4)*4))
-#define va_end(__list) (__list)=(char *)0
-#define va_arg(__list, __mode) ((__mode *)( (((__list)+=(((sizeof(__mode)+3)/4)*4))-sizeof(__mode)) ))[0]
+
+#define va_start(__ap, __arg) \
+	__ap = (char *) ((unsigned int) & (__arg) + (((sizeof (__arg) + 3) / 4) * 4))
+
+#define va_end(__ap) \
+	(__ap) = (char *) 0
+
+#define va_arg(__ap, __T) \
+	((__T *) ((((__ap) += (((sizeof (__T) + 3) / 4) * 4)) - sizeof (__T))))[0]
+
 #endif
 
 

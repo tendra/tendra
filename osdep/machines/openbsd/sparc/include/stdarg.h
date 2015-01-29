@@ -34,7 +34,7 @@ typedef char * va_list;
         : (char *) (&(__arg) + 1))))
 
 #define __va_arg(__ap, __T, n) \
-    (*(__T *) (&(__ap += ((sizeof (__T) + n) & ~n))[-(int) ((sizeof (__T) + n) & ~n)]))
+    (* (__T *) (&(__ap += ((sizeof (__T) + n) & ~n))[- (int) ((sizeof (__T) + n) & ~n)]))
 
 #define __bigendian_va_arg(__ap, __T, n) (\
     sizeof (__T) == 1 ? * (__T *) (&(__ap += 4)[-1]) : \
@@ -44,9 +44,9 @@ typedef char * va_list;
 
 #define va_end(__ap) ((void) 0)
 
-#define va_arg(__ap, __T)              \
-    (sizeof (__T) > 8                  \
-        ? **(__T **)(&(__ap += 4)[-4]) \
+#define va_arg(__ap, __T)                \
+    (sizeof (__T) > 8                    \
+        ? ** (__T **) (&(__ap += 4)[-4]) \
         : __bigendian_va_arg(__ap, __T, 3U))
 
 #endif

@@ -38,7 +38,7 @@ typedef void *va_list ;
 #define va_alist		...
 #define va_dcl
 #undef va_start
-#define va_start( l )		( ( void ) ( l = __va_start ( ... ) ) )
+#define va_start(__ap)	((void) (__ap = __va_start(...)))
 #endif
 #endif
 

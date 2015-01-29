@@ -26,19 +26,20 @@
     operators defined in the system header.
 */
 
-typedef char *va_list ;
+typedef char *va_list;
 
-#define __va_round( T )\
-    ( ( ( sizeof ( T ) + 3 ) / 4 ) * 4 )
+#define __va_round(__T) \
+	(((sizeof (__T) + 3) / 4) * 4)
 
-#define va_start( AP, ARG )\
-    ( AP = &( ARG ) + __va_round ( ARG ) )
+#define va_start(__ap, __arg) \
+	(__ap = &(__arg) + __va_round(__arg))
 
-#define va_end( AP )	( ( void ) 0 )
+#define va_end(__ap) \
+	((void) 0)
 
-#define va_arg( AP, T )\
-    ( AP += __va_round ( T ),\
-      *( ( T * ) ( ( AP ) - __va_round ( T ) ) ) )
+#define va_arg(__ap, __T) \
+	(__ap += __va_round(__T), \
+		* ((__T *) ((__ap) - __va_round(__T))))
 
 #endif
 

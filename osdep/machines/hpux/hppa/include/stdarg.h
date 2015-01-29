@@ -26,23 +26,26 @@
 
 #define __COMPLEX_VA_LIST
 
-typedef va_list __va_t ;
-#define __va_start( X ) ( ( va_list ) ( ( char * ) ( X ) +4) )
+typedef va_list __va_t;
+
+#define __va_start(__ap) ((va_list) ((char *) (__ap) + 4))
 
 #define __WORD_MASK 0xFFFFFFFC
 #define __DW_MASK   0xFFFFFFF8
 
-#define va_start(AP,ARG) ((AP)=(&(ARG)+4)
-	 /* the `+4' is a hack to compensate for extra TDF `parameter' */
+ /* the `+4' is a hack to compensate for extra TDF `parameter' */
+#define va_start(__ap, __arg) ((__ap) = (&(__arg) + 4)
 
-#define va_arg(AP,T)\
-    (AP = sizeof(T)>8 ? ((double *) ((long)((char*)(AP)-sizeof(int)))) :\
-    (sizeof(T) >4 ? ((double *) ((long)((char *)(AP)-sizeof(T)) & __DW_MASK))\
-    : ((double *) ((long)((char *)(AP) -4)))), sizeof(T)>8 ?\
-    ( *((T*) (*((int*) (AP))))) :\
-    (*((T *) ((char *)(AP) + ((8-sizeof(T)) % 4)))))
+#define va_arg(__ap,__T) \
+    (__ap = sizeof (__T) > 8 \
+		? ((double *) ((long) ((char *) (__ap) - sizeof (int)))) \
+		: (sizeof (__T) > 4 \
+			? ((double *) ((long) ((char *) (__ap) - sizeof(__T)) & __DW_MASK)) \
+			: ((double *) ((long) ((char *) (__ap) - 4)))), sizeof(__T) > 8 \
+				? (* ((__T *) (* ((int *) (__ap))))) \
+				: (* ((__T *) ((char *) (__ap) + ((8 - sizeof(__T)) % 4)))))
 
-#define va_end(AP)	((void) 0)
+#define va_end(__ap)	((void) 0)
 
 #endif
 
