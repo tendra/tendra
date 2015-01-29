@@ -24,7 +24,7 @@ _TENDRA_WORK_TDFTEST_MK=1
 	@${EXIT} 1;
 .endif
 
-API?= ansi
+API?= c89
 
 .for test in ${TESTS}
 ${OBJ_SDIR}/${test:R}: ${test}
