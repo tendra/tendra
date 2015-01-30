@@ -262,8 +262,7 @@ void translate_capsule
   remove_unused();
 
   if (dyn_init) {
-    my_def = top_def;
-    while (my_def != NULL) {
+    for (my_def = top_def; my_def != NULL; my_def = my_def -> def_next) {
         exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
 	char * id = my_def -> dec_u.dec_val.dec_id;
 	if (strcmp(id, "main") ==0 && son(crt_exp)!= NULL &&
@@ -282,31 +281,26 @@ void translate_capsule
 	   *dm = seq;
 	   break;
 	}
-        my_def = my_def -> def_next;
      }
   }
 
     /* mark static unaliased */
-  my_def = top_def;
-  while (my_def != NULL) {
+  for (my_def = top_def; my_def != NULL; my_def = my_def -> def_next) {
     exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
     if (son(crt_exp)!= NULL &&
 	!my_def -> dec_u.dec_val.extnamed &&
 	isvar(crt_exp))
       mark_unaliased(crt_exp);
-    my_def = my_def -> def_next;
   };
 
   noprocs = 0;
-  my_def = top_def;
-  while (my_def != NULL) {
+  for (my_def = top_def; my_def != NULL; my_def = my_def -> def_next) {
     exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
     if (son(crt_exp)!= NULL
         && (name(son(crt_exp)) == proc_tag ||
 		name(son(crt_exp)) == general_proc_tag)) {
       noprocs++;
     }
-    my_def = my_def -> def_next;
   }
   /* count procs */
 
@@ -317,27 +311,23 @@ void translate_capsule
     noprocs = 0;
   }
 
-  my_def = top_def;
-  while (my_def != NULL) {
+  for (my_def = top_def; my_def != NULL; my_def = my_def -> def_next) {
     exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
     if (son(crt_exp)!= NULL &&
 	(name(son(crt_exp)) == proc_tag || name(son(crt_exp)) == general_proc_tag)) {
       no(son(crt_exp)) = noprocs++;
       /* put index into procrecs in no(proc) */
     }
-    my_def = my_def -> def_next;
   }
 
   if (do_extern_adds) {
 	usages = (exp*)xcalloc(noprocs, sizeof(exp));
-	my_def = top_def;
-  	while (my_def != NULL) {
+  	for (my_def = top_def; my_def != NULL; my_def = my_def -> def_next) {
 		exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
 		if (son(crt_exp) == NULL && isvar(crt_exp)) {
 			global_usages(crt_exp, noprocs);
 			/* try to identify globals ptrs in procs */
 		}
-		my_def = my_def -> def_next;
 	}
   }
 
@@ -357,8 +347,7 @@ void translate_capsule
 
   /* scan to put everything in MIPS form */
 
-  my_def = top_def;
-  while (my_def != NULL) {
+  for (my_def = top_def; my_def != NULL; my_def = my_def -> def_next) {
     exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
     if (son(crt_exp)!= NULL
 	&& (name(son(crt_exp)) == proc_tag ||
@@ -368,13 +357,11 @@ void translate_capsule
       pr -> needsproc = scan(st, &st);
       pr->callee_size = (callee_size+63) &~63;
     }
-    my_def = my_def -> def_next;
   }
 
 
   /* calculate the break points for register allocation and do it */
-  my_def = top_def;
-  while (my_def != NULL) {
+  for (my_def = top_def; my_def != NULL; my_def = my_def -> def_next) {
     exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
     if (son(crt_exp)!= NULL
         && (name(son(crt_exp)) == proc_tag ||
@@ -403,15 +390,12 @@ void translate_capsule
 
       setframe_info(son(crt_exp));
     }
-    my_def = my_def -> def_next;
   }
 
   /* put defs in main globals and set up symnos*/
-  my_def = top_def;
   main_globals_index = 0;
-  while (my_def != NULL) {
+  for (my_def = top_def; my_def != NULL; my_def = my_def -> def_next) {
   	main_globals_index++;
-  	my_def = my_def -> def_next;
   }
 
   data_lab = (main_globals_index > 33)?main_globals_index:33;
@@ -486,10 +470,8 @@ void translate_capsule
   /* compile procedures, evaluate constants, put in the .comm entries for
      undefined objects */
 
-  my_def = top_def;
-
 /*
-  while (my_def != NULL) {
+  for (my_def = top_def; my_def != NULL; my_def = my_def -> def_next) {
     exp tg = my_def -> dec_u.dec_val.dec_exp;
     char *id = my_def -> dec_u.dec_val.dec_id;
     bool extnamed = my_def -> dec_u.dec_val.extnamed;
@@ -500,16 +482,13 @@ void translate_capsule
 	out_common (symnos[my_def->dec_u.dec_val.sym_number], iglobal);
       }
     }
-    my_def = my_def -> def_next;
   }
 */
-  my_def = top_def;
 
-  while (my_def != NULL) {
+  for (my_def = top_def; my_def != NULL; my_def = my_def -> def_next) {
     if (!my_def -> dec_u.dec_val.processed)
        code_it(my_def);
-    my_def = my_def -> def_next;
-  };
+  }
 
 
   return;		/* return 1 for error, 0 for good */

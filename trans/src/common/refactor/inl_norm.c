@@ -90,9 +90,7 @@ normalised_inlining(void)
   }
 
   /* count the defined procedures */
-
-  my_def = top_def;
-  while (my_def != NULL) {
+  for (my_def = top_def; my_def != NULL; my_def = my_def->def_next) {
     exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
 
     def = son(crt_exp);
@@ -101,7 +99,6 @@ normalised_inlining(void)
         !proc_uses_crt_env(def) && !proc_has_alloca(def) && !proc_has_lv(def)) {
       proc_count++;
     }
-    my_def = my_def->def_next;
   }
 
   /*
@@ -131,9 +128,8 @@ normalised_inlining(void)
    * set consider vector.
    */
 
-  my_def = top_def;
   i = 0;
-  while (my_def != NULL) {
+  for (my_def = top_def; my_def != NULL; my_def = my_def->def_next) {
     exp crt_exp = my_def->dec_u.dec_val.dec_exp;
 
     def = son(crt_exp);
@@ -145,7 +141,6 @@ normalised_inlining(void)
       consider[i] = 1;
       i++;
     }
-    my_def = my_def->def_next;
   }
 
   /* Form uses matrix: uses[i, j] implies i calls j */

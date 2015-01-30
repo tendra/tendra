@@ -339,8 +339,7 @@ void translate_capsule
 #endif
 
 
-  my_def = top_def;
-  while (my_def != NULL) {
+  for (my_def = top_def; my_def != NULL; my_def = my_def -> def_next) {
     exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
     if (PIC_code) {
       exp idval = son(crt_exp);
@@ -394,8 +393,7 @@ void translate_capsule
 	pt(crt_exp) = NULL;
 	no(crt_exp) = 0;
       }
-    };
-    my_def = my_def -> def_next;
+    }
   }
 
   opt_all_exps();
@@ -403,15 +401,13 @@ void translate_capsule
   transform_var_callees();
 
       /* mark static unaliased */
-    my_def = top_def;
-    while (my_def != NULL) {
+    for (my_def = top_def; my_def != NULL; my_def = my_def -> def_next) {
       exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
       if (son(crt_exp)!= NULL &&
 	  !my_def -> dec_u.dec_val.extnamed &&
    	  isvar(crt_exp))
         mark_unaliased(crt_exp);
-      my_def = my_def -> def_next;
-    };
+    }
 
 
     extra_stack = 0;
@@ -450,13 +446,10 @@ void translate_capsule
   }
 #endif
 
-  my_def = top_def;
-
-  while (my_def != NULL) {
+  for (my_def = top_def; my_def != NULL; my_def = my_def -> def_next) {
     if (!my_def -> dec_u.dec_val.processed)
        make_code(my_def);
-    my_def = my_def -> def_next;
-  };
+  }
 
   while (delayed_const_list != NULL) {
     exp t = delayed_const_list;

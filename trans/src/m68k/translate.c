@@ -92,10 +92,9 @@ translate_capsule(void)
 {
     dec *d;
 
-    /* Fix procedure handling (copied from trans386) */
-    d = top_def;
 #if 0
-    while (d != NULL) {
+    /* Fix procedure handling (copied from trans386) */
+    for (d = top_def; d != NULL; d = d->def_next) {
     exp crt_exp = d -> dec_u.dec_val.dec_exp;
     exp idval;
       if (!(d -> dec_u.dec_val.dec_var) && (name(sh(crt_exp))!= prokhd ||
@@ -123,7 +122,6 @@ translate_capsule(void)
           p = np;
         }
       }
-      d = d->def_next;
     }
 #endif
 
@@ -136,7 +134,7 @@ translate_capsule(void)
 
     /* Mark static unaliases declarations */
     if (!separate_units) {
-	for (d = top_def; d; d = d->def_next) {
+	for (d = top_def; d != NULL; d = d->def_next) {
 	    exp c = d->dec_u.dec_val.dec_exp;
 	    if (son(c)!= NULL &&
 		 !(d->dec_u.dec_val.extnamed) && isvar(c)) {
@@ -146,7 +144,7 @@ translate_capsule(void)
     }
 
     /* Mark locations for all globals */
-    for (d = top_def; d; d = d->def_next) {
+    for (d = top_def; d != NULL; d = d->def_next) {
 	if (d->dec_u.dec_val.processed) {
 	    exp c = d->dec_u.dec_val.dec_exp;
 	    ptno(c) = crt_ext_pt++;
@@ -343,7 +341,8 @@ void eval_delayed_const_list
 static void output_all_exps
 (void)
 {
-    dec *d = top_def;
+    dec *d;
+
     if (diag != DIAG_NONE) d = sort_decs(d);
 
     area(ptext);
@@ -353,7 +352,7 @@ static void output_all_exps
     free_all_ins();
 
     /* Scan through the declarations */
-    while (d) {
+    for (d = top_def; d != NULL; d = d->def_next) {
 
 	if (!d->dec_u.dec_val.processed) {
 	    exp c = d->dec_u.dec_val.dec_exp;
@@ -396,7 +395,6 @@ static void output_all_exps
 	    output_all();
 	    free_all_ins();
 	}
-	d = d->def_next;
     }
 
     eval_delayed_const_list();

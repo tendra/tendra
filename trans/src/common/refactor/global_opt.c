@@ -54,12 +54,10 @@ opt_all_exps(void)
 		unroller();
 	}
 
-	my_def = top_def;
-	while (my_def != NULL) {
+	for (my_def = top_def; my_def != NULL; my_def = my_def -> def_next) {
 		exp crt_exp = my_def->dec_u.dec_val.dec_exp;
 		refactor_ext(crt_exp);
 		glopt(my_def);
-		my_def = my_def -> def_next;
 	}
 
 	normalised_inlining();

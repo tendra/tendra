@@ -33,8 +33,9 @@ void transform_var_callees
 					Also, record need for env_size.
 				*/
 {
-  dec * my_def = top_def;
-  while (my_def != NULL) {
+  dec * my_def;
+
+  for (my_def = top_def; my_def != NULL; my_def = my_def -> def_next) {
     exp tg = my_def -> dec_u.dec_val.dec_exp;
     if (son(tg)!= NULL && name(son(tg)) == general_proc_tag
 		&& proc_has_vcallees(son(tg))) {
@@ -102,8 +103,6 @@ void transform_var_callees
 	nlist = pt(nlist);
       }
     }
-
-    my_def = my_def -> def_next;
   }
   return;
 }

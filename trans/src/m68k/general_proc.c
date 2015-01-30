@@ -1740,9 +1740,9 @@ static void transform
 void make_transformations
 (void)
 {
-   dec *d = top_def;
+   dec *d;
 
-   while (d) {
+   for (d = top_def; d != NULL; d = d->def_next) {
       exp e = son(d->dec_u.dec_val.dec_exp);
       if (e)transform(e);
       d = d->def_next;

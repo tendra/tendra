@@ -238,14 +238,13 @@ dec *
 find_named_dec(char *n)
 {
 	/* find a global with name n */
-	dec *my_def = top_def;
+	dec *my_def;
 
-	while (my_def != NULL) {
+	for (my_def = top_def; my_def != NULL; my_def = my_def->def_next) {
 		char *id = my_def->dec_u.dec_val.dec_id;
 		if (strcmp(id + strlen(name_prefix), n) == 0) {
 			return my_def;
 		}
-		my_def = my_def->def_next;
 	}
 	return NULL;
 }
@@ -6335,14 +6334,16 @@ f_initial_value(exp e)
 void
 tidy_initial_values(void)
 {
-	dec *my_def = top_def;
+	dec *my_def;
+
 	exp_list initial_as;
 	exp_list prom_as;
 	char *good_name = NULL;
 	initial_as = new_exp_list(0);
 	prom_as = new_exp_list(0);
 	dynamic_init_proc = NULL;
-	while (my_def != NULL) {
+
+	for (my_def = top_def; my_def != NULL; my_def = my_def->def_next) {
 		exp crt_exp = my_def->dec_u.dec_val.dec_exp;
 		if (son(crt_exp) != NULL && my_def->dec_u.dec_val.extnamed) {
 			good_name = my_def->dec_u.dec_val.dec_id;
@@ -6407,7 +6408,6 @@ tidy_initial_values(void)
 					       hold_refactor(f_assign(me_obtain(
 							  crt_exp), init)), 0);
 		}
-		my_def = my_def->def_next;
 	}
 	if (initial_as.number != 0) {
 		/* ie there are some dynamic initialisations */
