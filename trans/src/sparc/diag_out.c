@@ -72,11 +72,8 @@ void init_stab_aux
   FORWARD DECLARATIONS
 */
 
-static void stab_file(dg_filename);
-static void stab_scope_open(dg_filename);
-static void stab_scope_close(void);
-static void out_dt_shape(dg_type);
-static void stab_local(dg_name, int);
+static void stab_scope_open(long);
+static void stab_scope_close(long);
 
 
 
