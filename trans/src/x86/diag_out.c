@@ -77,8 +77,6 @@ next_d_lab(void)
 
 static FILE *dg_file;
 
-static char *dg_file_name;
-
 static void
 d_outnl(void)
 {
@@ -974,8 +972,7 @@ stab_typedefs(void)
 void
 out_diagnose_prelude(void)
 {
-    dg_file_name = tmpnam(NULL);
-    dg_file = fopen(dg_file_name, "w");
+    dg_file = tmpfile();
     if (dg_file == NULL) {
 	error(ERROR_INTERNAL, "Can't open temporary diagnostics file");
 	exit(EXIT_FAILURE);
@@ -1005,16 +1002,11 @@ init_stab_aux(void)
 	IGNORE fprintf(dg_file, "\t.file\t\"no_source_file\"\n");
     }
     stab_file((long)j, 0);
-    f = fopen(dg_file_name, "r");
-    if (f == NULL) {
-	error(ERROR_INTERNAL, "Can't open temporary diagnostics file");
-	exit(EXIT_FAILURE);
-    }
-    while (c = fgetc(f), c != EOF) {
+    rewind(dg_file);
+    while (c = fgetc(dg_file), c != EOF) {
 	outc(c);
     }
-    IGNORE fclose(f);
-    remove(dg_file_name);
+    IGNORE fclose(dg_file);
     return;
 }
 

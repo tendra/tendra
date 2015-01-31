@@ -78,7 +78,6 @@ static int last_LBRAC_stab = 0;
  * Diagnostics files
  */
 static FILE *dg_file;
-static char dg_file_name[L_tmpnam];
 
 /*
  * Basic type numbers
@@ -183,9 +182,6 @@ static int nofds = 0;
  */
 
 static FILE *VT_,*SLT_,*LNTT_,*GNTT_;
-
-static char   VT_name[L_tmpnam],  SLT_name[L_tmpnam],
-	      LNTT_name[L_tmpnam], GNTT_name[L_tmpnam];
 
 static DNTTPOINTER DNTT_BEGIN_entry[1024];
 
@@ -905,45 +901,26 @@ void output_DEBUG
     SLTPOINTER slt_prev = slt_next;
     make_sltentry(SLT_END, currentlno, lntt_next);
     make_dnttentry(K_END, K_MODULE, slt_prev, last_DNTT_BEGIN_entry());
-    fclose(VT_);
-    fclose(SLT_);
-    fclose(LNTT_);
-    fclose(GNTT_);
-    f = fopen(VT_name, "r");
-    if (f == NULL) {
-	error(ERROR_SERIOUS, "Can't open temporary diagnostics file");
-	exit(EXIT_FAILURE);
-    }
-    while (c = fgetc(f), c != EOF) outc(c);
+
+    rewind(VT_);
+    while (c = fgetc(VT_), c != EOF) outc(c);
+	fclose(VT_);
     outnl();
-    fclose(VT_);
-    remove(VT_name);
-    f = fopen(SLT_name, "r");
-    if (f == NULL) {
-	error(ERROR_SERIOUS, "Can't open temporary diagnostics file");
-	exit(EXIT_FAILURE);
-    }
-    while (c = fgetc(f), c != EOF) outc(c);
+
+    rewind(SLT_);
+    while (c = fgetc(SLT_), c != EOF) outc(c);
+	fclose(SLT_);
     outnl();
-    fclose(SLT_);
-    remove(SLT_name);
-    f = fopen(LNTT_name, "r");
-    if (f == NULL) {
-	error(ERROR_SERIOUS, "Can't open temporary diagnostics file");
-	exit(EXIT_FAILURE);
-    }
-    while (c = fgetc(f), c != EOF) outc(c);
+
+    rewind(LNTT_);
+    while (c = fgetc(LNTT_), c != EOF) outc(c);
+	fclose(LNTT_);
     outnl();
-    fclose(LNTT_);
-    remove(LNTT_name);
-    f = fopen(GNTT_name, "r");
-    if (f == NULL) {
-	error(ERROR_SERIOUS, "Can't open temporary diagnostics file");
-	exit(EXIT_FAILURE);
-    }
-    while (c = fgetc(f), c != EOF) outc(c);
-    fclose(GNTT_);
-    remove(GNTT_name);
+
+    rewind(GNTT_);
+    while (c = fgetc(GNTT_), c != EOF) outc(c);
+	fclose(GNTT_);
+    outnl();
 
     fprintf(as_file,"\n\t.SPACE\t$DEBUG$\n");
     fprintf(as_file,"\t.SUBSPA\t$HEADER$\n");
@@ -1109,8 +1086,7 @@ void stab_end
 void init_stab
 (void)
 {
-    tmpnam(dg_file_name);
-    dg_file = fopen(dg_file_name, "w+");
+    dg_file = tmpfile();
     if (dg_file == NULL) {
 	error(ERROR_SERIOUS, "Can't open temporary diagnostics file");
 	exit(EXIT_FAILURE);
@@ -1124,29 +1100,25 @@ void init_stab
     {
 #ifdef _SYMTAB_INCLUDED
        stab_types();
-       tmpnam(VT_name);
-       VT_ = fopen(VT_name, "w+");
+       VT_ = tmpfile();
        if (VT_ == NULL)
        {
 	  error(ERROR_SERIOUS, "Can't open temporary diagnostics file");
 	  exit(EXIT_FAILURE);
        }
-       tmpnam(SLT_name);
-       SLT_ = fopen(SLT_name, "w+");
+       SLT_ = tmpfile();
        if (SLT_ == NULL)
        {
 	  error(ERROR_SERIOUS, "Can't open temporary diagnostics file");
 	  exit(EXIT_FAILURE);
        }
-       tmpnam(LNTT_name);
-       LNTT_ = fopen(LNTT_name, "w+");
+       LNTT_ = tmpfile();
        if (LNTT_ == NULL)
        {
 	  error(ERROR_SERIOUS, "Can't open temporary diagnostics file");
 	  exit(EXIT_FAILURE);
        }
-       tmpnam(GNTT_name);
-       GNTT_ = fopen(GNTT_name, "w+");
+       GNTT_ = tmpfile();
        if (GNTT_ == NULL)
        {
 	  error(ERROR_SERIOUS, "Can't open temporary diagnostics file");
@@ -1176,28 +1148,22 @@ void init_stab_aux
 (void)
 {
     int c;
-    FILE *f;
+    FILE *tmp;
     int i, j = 0;
     for (i = 0; i < nofds; i++) {
 	char *s = fds[i] ->file.ints.chars;
 	int n = (int)strlen(s);
 	if (n && s[n - 1]!= 'h')j = i;
     }
-    fclose(dg_file);
+    tmp = dg_file;
     dg_file = as_file;
     stab_file((long)j, 0);
     if (diag == DIAG_GDB)
     {
        stab_types();
     }
-    f = fopen(dg_file_name, "r");
-    if (f == NULL) {
-	error(ERROR_SERIOUS, "Can't open temporary diagnostics file");
-	exit(EXIT_FAILURE);
-    }
-    while (c = fgetc(f), c != EOF)outc(c);
-    fclose(f);
-    remove(dg_file_name);
+    while (c = fgetc(tmp), c != EOF)outc(c);
+    fclose(tmp);
     return;
 }
 
