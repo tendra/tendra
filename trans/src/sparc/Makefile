@@ -38,7 +38,6 @@ CCOPTS+=	${TRANS_CFLAGS}
 
 SRCS+=	ashof.c
 SRCS+=	code_here.c
-SRCS+=	diag_out.c
 SRCS+=	dw2_config.c
 SRCS+=	dw2_extra.c
 SRCS+=	eval.c
@@ -69,6 +68,9 @@ SRCS+=	special_tok.c
 SRCS+=	tempdecs.c
 SRCS+=	translate.c
 SRCS+=	weights.c
+
+#SRCS+=	diag_out.c
+SRCS+=	newdiag_out.c
 
 #SRCS+=	stabs_reform.c
 

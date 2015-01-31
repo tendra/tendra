@@ -71,6 +71,7 @@ SRCS+=	stabs_reform.c
 #SRCS+=	dwarf_reform.c
 
 SRCS+=	diag_out.c
+#SRCS+=	newdiag_out.c
 #SRCS+=	cv_fns.c
 #SRCS+=	cv_outtype.c
 
