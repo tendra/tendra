@@ -330,11 +330,7 @@ void translate_capsule
   dec * my_def;
 
 #ifdef STABS
-#ifdef NEWDWARF
-  if (diag != DIAG_NONE && diag != DIAG_DWARF2)
-#else
-  if (diag != DIAG_NONE)
-#endif
+  if (diag == DIAG_STABS)
     init_stab_aux();
 #endif
 
