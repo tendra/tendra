@@ -7,6 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <assert.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -1867,7 +1868,7 @@ init_stab_aux(void)
 	    j = i;
 	}
     }
-    IGNORE fclose(dg_file);
+    assert(dg_file == NULL);
     dg_file = out_get_stream(); /* XXX: hack! */
     if (j >= 0) {
 	IGNORE fprintf(dg_file, "\t.file\t\"%s\"\n", fds[j] ->file.ints.chars);
