@@ -31,7 +31,7 @@ translate_unit(void)
 
 	translate_capsule();
 
-	for (d = top_def; d != NULL; d->def_next) {
+	for (d = top_def; d != NULL; d = d->def_next) {
 		exp c = d->dec_u.dec_val.dec_exp;
 		no(c) = 0;
 		pt(c) = NULL;
