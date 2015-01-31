@@ -52,23 +52,6 @@
 extern bool last_param(exp);
 
 
-#if 0
-
-void init_stab
-(void)
-{
-  return;
-}
-
-void init_stab_aux
-(void)
-{
-  return;
-}
-
-#endif
-
-
 /*
   FORWARD DECLARATIONS
 */
@@ -776,10 +759,6 @@ static void out_dt_shape
       break;
     }
   }
-#if 0
-  if (dt->mor && dt->mor->this_tag)
-    dt->mor->this_tag->outref = dt->outref;
-#endif
   return;
 }
 
@@ -1041,47 +1020,6 @@ void init_stab_aux
   if (prim_file)
     stab_file(prim_file);
   stab_types();
-#if 0
-  this_comp = all_comp_units;
-  while (this_comp) {
-    dg_name item = this_comp->dn_list;
-    while (item) {
-      if (item->key == DGN_TYPE) {
-	dg_type dt = item->data.n_typ.raw;
-	char * s = idname_chars(item->idnam);
-	if (s[0]) {
-	  if (!dt->outref.k) {
-	    dt->outref.k = -1;
-	    dt->outref.u.l = next_typen();
-	    if (dt->key == DGT_STRUCT)
-	      shape_stab_size(dt->outref.u.l, dt->data.t_struct.sha);
-	    else
-	    if (dt->key == DGT_ENUM)
-	      shape_stab_size(dt->outref.u.l, dt->data.t_enum.sha);
-	  }
-	}
-	else
-	if ((dt->key == DGT_STRUCT &&
-		(dt->data.t_struct.idnam.id_key == DG_ID_SRC ||
-		   dt->data.t_struct.idnam.id_key == DG_ID_EXT)
-		&& (s = dt->data.t_struct.idnam.idd.nam, s[0]))
-	     || (dt->key == DGT_ENUM && (s = dt->data.t_enum.tnam, s[0]))) {
-	  if (!dt->outref.k) {
-	    dt->outref.k = -1;
-	    dt->outref.u.l = next_typen();
-	    if (dt->key == DGT_STRUCT)
-	      shape_stab_size(dt->outref.u.l, dt->data.t_struct.sha);
-	    else
-	    if (dt->key == DGT_ENUM)
-	      shape_stab_size(dt->outref.u.l, dt->data.t_enum.sha);
-	  }
-	}
-      }
-      item = item -> next;
-    }
-    this_comp = this_comp->another;
-  }
-#endif
   this_comp = all_comp_units;
   while (this_comp) {
     dg_name item = this_comp->dn_list;
@@ -1118,10 +1056,6 @@ void init_stab_aux
 	    }
 	    fprintf(dg_file, "\",0x80,0,0,0\n");
 	}
-#if 0
-	if (item->mor && item->mor->this_tag)
-	  item->mor->this_tag->outref = item->data.n_typ.raw->outref;
-#endif
       }
       item = item -> next;
     }

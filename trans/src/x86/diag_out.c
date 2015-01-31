@@ -560,9 +560,6 @@ out_dt_shape(diag_type dt)
 	}
 
 	case DIAG_TYPE_ARRAY: {
-#if 0
-	    long str = no(dt->data.array.stride);
-#endif
 	    long lwb = no(dt->data.array.lower_b);
 	    long upb = no(dt->data.array.upper_b);
 	    diag_type index_type = dt->data.array.index_type;

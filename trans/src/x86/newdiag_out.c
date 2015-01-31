@@ -598,13 +598,6 @@ out_dt_shape(dg_type dt)
     return;
   }
 
-#if 0
-  /* SunOS as(1) rejects stab lines >2k so reduce size arbitrarily */
-  if (depth_now >= max_depth) {
-    IGNORE fprintf(dg_file, "%d", STAB_SLONG);
-    return;
-  }
-#endif
   depth_now++;
 
   switch (dt->key) {
@@ -812,11 +805,6 @@ out_dt_shape(dg_type dt)
       break;
     }
   }
-#if 0
-  if (dt->mor && dt->mor->this_tag) {
-    dt->mor->this_tag->outref = dt->outref;
-  }
-#endif
   return;
 }
 
@@ -1052,27 +1040,6 @@ out_diagnose_prelude(void)
   return;
 }
 
-#if 0
-static void
-prep_type(dg_type dt)
-{
-  if (dt->key == DGT_BASIC) {
-    dt->outref.u.l = out_sh_type(dt->data.t_bas.b_sh, dt->data.t_bas.tnam);
-    dt->outref.k = LAB_D;
-  } else {
-    last_type_sz = type_size(dt);
-    dt->outref.k = -1;
-    dt->outref.u.l = next_typen();
-    set_stab_size(dt->outref.u.l);
-  }
-#if 0
-  if (dt->mor && dt->mor->this_tag) {
-    dt->mor->this_tag->outref = dt->outref;
-  }
-#endif
-}
-#endif
-
 void
 init_stab_aux(void)
 {
@@ -1100,32 +1067,6 @@ init_stab_aux(void)
     IGNORE fprintf(dg_file, "\t.file\t\"no_source_file\"\n");
   }
   stab_types();
-#if 0
-  this_comp = all_comp_units;
-  while (this_comp) {
-    dg_name item = this_comp->dn_list;
-    while (item) {
-      if (item->key == DGN_TYPE) {
-	dg_type dt = item->data.n_typ.raw;
-	char *s = idname_chars(item->idnam);
-	if (s[0]) {
-	  if (!dt->outref.k) {
-	    prep_type(dt);
-	  }
-	} else if ((dt->key == DGT_STRUCT &&
-		    dt->data.t_struct.idnam.id_key == DG_ID_SRC &&
-		    (s = dt->data.t_struct.idnam.idd.nam, s[0])) ||
-		   (dt->key == DGT_ENUM && (s = dt->data.t_enum.tnam, s[0]))) {
-	  if (!dt->outref.k) {
-	    prep_type(dt);
-	  }
-	}
-      }
-      item = item->next;
-    }
-    this_comp = this_comp->another;
-  }
-#endif
   this_comp = all_comp_units;
   while (this_comp) {
     dg_name item = this_comp->dn_list;
@@ -1160,11 +1101,6 @@ init_stab_aux(void)
 	  }
 	  IGNORE fprintf(dg_file, "\",0x80,0,0,0\n");
 	}
-#if 0
-	if (item->mor && item->mor->this_tag) {
-	  item->mor->this_tag->outref = item->data.n_typ.raw->outref;
-	}
-#endif
       }
       item = item->next;
     }

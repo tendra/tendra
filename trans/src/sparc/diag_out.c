@@ -51,23 +51,6 @@
 extern bool last_param(exp);
 
 
-#if 0
-
-void init_stab
-(void)
-{
-  return;
-}
-
-void init_stab_aux
-(void)
-{
-  return;
-}
-
-#endif
-
-
 /*
   FORWARD DECLARATIONS
 */
