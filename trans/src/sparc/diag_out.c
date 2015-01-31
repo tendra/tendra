@@ -332,7 +332,7 @@ void stab_end
 */
 
 static long out_sh_type
-(shape s, char* nm)
+(shape s)
 {
   last_type_sz = shape_size(s);
   switch (name(s)) {
@@ -340,8 +340,8 @@ static long out_sh_type
     case ucharhd:  return STAB_UCHAR;
     case swordhd:  return STAB_SSHRT;
     case uwordhd:  return STAB_USHRT;
-    case slonghd:  return strstr(nm, "long")? STAB_SLONG : STAB_SINT;
-    case ulonghd:  return strstr(nm, "long")? STAB_ULONG : STAB_UINT;
+    case slonghd:  return STAB_SINT;
+    case ulonghd:  return STAB_UINT;
     case s64hd:    return STAB_S64;
     case u64hd:    return STAB_U64;
     case shrealhd: return STAB_FLOAT;
@@ -351,55 +351,34 @@ static long out_sh_type
   return STAB_VOID;
 }
 
-static long find_basic_type
-(char* s)
-{
-  char* x;
-  if (strstr(s, "char"))
-    return strstr(s, "unsigned")? STAB_UCHAR : STAB_SCHAR;
-  if (strstr(s, "double"))
-    return strstr(s, "long")? STAB_LDBL : STAB_DBL;
-  if (strstr(s, "float"))
-    return STAB_FLOAT;
-  if (strstr(s, "short"))
-    return strstr(s, "unsigned")? STAB_USHRT : STAB_SSHRT;
-  if ((x = strstr(s, "long"))) {
-    if (strstr(x+1, "long"))
-      return strstr(s, "unsigned")? STAB_U64 : STAB_S64;
-    return strstr(s, "unsigned")? STAB_ULONG : STAB_SLONG;
-  }
-  if (strstr(s, "int"))
-    return strstr(s, "unsigned")? STAB_UINT : STAB_SINT;
-  if (strstr(s, "void_star"))
-    return STAB_VS;
-  return STAB_VOID;
-}
-
 
 /*
   OUTPUT DIAGNOSTICS DIRECTIVE FOR A FILE
 */
 
-static void stab_file
-(dg_filename f)
+void stab_file
+(long findex, bool internal)
 {
-  long i = next_d_lab();
-  int stb;
+  static long i = 0;
 
-  if (f == currentfile || !f) {
+  if (findex == currentfile || findex < 0 || findex >= szfds) {
     return;
   }
 
-  stb = (f == prim_file ? 0x64 : 0x84);
-
-  if (f->file_name[0]!= '/' && f->file_path[0])
-    fprintf(dg_file, "\t.stabs\t\"%s/\",0x%x,0,0,.LL.%ld\n", f->file_path, stb, i);
-
-  fprintf(dg_file, "\t.stabs\t\"%s\",0x%x,0,0,.LL.%ld\n", f->file_name, stb, i);
-
-  fprintf(dg_file, ".LL.%ld:\n", i);
-  currentfile = f;
-  return;
+  if (!internal) {
+    /* source file */
+    i = next_d_lab();
+    fprintf(dg_file, "\t.stabs\t\"%s\",0x64,0,0,.LL.%ld\n",
+              fds[findex] ->file.ints.chars, i);
+    fprintf(dg_file, ".LL.%ld:\n", i);
+  }
+  else {
+    /* included file */
+    fprintf(dg_file, "\t.stabs\t\"%s\",0x84,0,0,.LL.%ld\n",
+              fds[findex] ->file.ints.chars, i);
+    }
+    currentfile = findex;
+    return;
 }
 
 
