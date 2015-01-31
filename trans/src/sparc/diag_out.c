@@ -992,8 +992,7 @@ void stab_typedefs
 void init_stab
 (void)
 {
-  dg_file_name = tmpnam(NULL);
-  dg_file = fopen(dg_file_name, "w");
+  dg_file = tmpfile();
   if (dg_file == NULL) {
     error(ERROR_SERIOUS, "Can't open temporary diagnostics file");
     exit(EXIT_FAILURE);
@@ -1013,17 +1012,12 @@ void init_stab_aux
     int n = (int)strlen(s);
     if (n && s[n - 1]!= 'h')j = i;
   }
-  fclose(dg_file);
+  assert(dg_file == NULL);
   dg_file = as_file;
   stab_file((long)j, 0);
-  f = fopen(dg_file_name, "r");
-  if (f == NULL) {
-    error(ERROR_SERIOUS, "Can't open temporary diagnostics file");
-    exit(EXIT_FAILURE);
-  }
-  while (c = fgetc(f), c != EOF)outc(c);
-  fclose(f);
-  remove(dg_file_name);
+  rewind(dg_file);
+  while (c = fgetc(dg_file), c != EOF)outc(c);
+  fclose(dg_file);
   return;
 }
 
