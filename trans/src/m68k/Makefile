@@ -12,11 +12,33 @@ TRANS_CFLAGS+=	-I ${BASE_DIR}/src/m68k
 TRANS_CFLAGS+=	-I ${BASE_DIR}/src/common
 
 
+TRANS_DEBUG?= stabs
+
+# TODO: these are not yet selectable at runtime
+.if "${TRANS_DEBUG}" == "stabs"
+
+PARTS+= src/common/diag
+
+SRCS+= stab_types.c
+SRCS+= stabs_reform.c
+
+SRCS+= xdb_basics.c
+SRCS+= xdb_output.c
+SRCS+= xdb_types.c
+
+.else
+
+.BEGIN:
+	@${ECHO} '$${TRANS_DEBUG} unrecognised'
+	@${EXIT} 1;
+
+.endif
+
+
 PART_CFLAGS+=	${TRANS_CFLAGS}
 
 PARTS+= src/common/shared
 PARTS+= src/common/construct
-PARTS+= src/common/diag
 PARTS+= src/common/linkinfo
 PARTS+= src/common/reader
 PARTS+= src/common/refactor
@@ -60,13 +82,6 @@ SRCS+=	translate.c
 SRCS+=	utility.c
 SRCS+=	weights.c
 SRCS+=	where.c
-
-SRCS+=	stab_types.c
-SRCS+=	stabs_reform.c
-
-SRCS+=	xdb_basics.c
-SRCS+=	xdb_output.c
-SRCS+=	xdb_types.c
 
 .include <tendra.obj.mk>
 

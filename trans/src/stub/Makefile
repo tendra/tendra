@@ -8,21 +8,32 @@
 
 TRANS_CFLAGS+=	-D TRANS_STUB
 
-# TODO: these are not yet selectable at runtime
-TRANS_CFLAGS+=	-D NEWDIAGS
-#TRANS_CFLAGS+=	-D NEWDWARF
-#TRANS_CFLAGS+=	-D STABS
-#TRANS_CFLAGS+=	-D DWARF
-
 TRANS_CFLAGS+=	-I ${BASE_DIR}/src/stub
 TRANS_CFLAGS+=	-I ${BASE_DIR}/src/common
+
+# TODO: these are not yet selectable at runtime
+TRANS_DEBUG?= stub
+
+# TODO: these are not yet selectable at runtime
+.if "${TRANS_DEBUG}" == "stub"
+
+TRANS_CFLAGS+= -D NEWDIAGS
+
+PARTS+= src/common/newdiag
+
+.else
+
+.BEGIN:
+	@${ECHO} '$${TRANS_DEBUG} unrecognised'
+	@${EXIT} 1;
+
+.endif
 
 
 PART_CFLAGS+=	${TRANS_CFLAGS}
 
 PARTS+= src/common/shared
 PARTS+= src/common/construct
-PARTS+= src/common/newdiag
 PARTS+= src/common/linkinfo
 PARTS+= src/common/reader
 PARTS+= src/common/refactor

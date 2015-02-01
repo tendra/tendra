@@ -8,24 +8,64 @@
 
 TRANS_CFLAGS+=	-D TRANS_X86
 
-# TODO: these are not yet selectable at runtime
-#TRANS_CFLAGS+=	-D NEWDIAGS
-#TRANS_CFLAGS+=	-D NEWDWARF
-TRANS_CFLAGS+=	-D STABS
-#TRANS_CFLAGS+=	-D DWARF
-
 TRANS_CFLAGS+=	-I ${BASE_DIR}/src/x86
 TRANS_CFLAGS+=	-I ${BASE_DIR}/src/common
+
+
+TRANS_DEBUG?= dwarf
+
+# TODO: these are not yet selectable at runtime
+.if "${TRANS_DEBUG}" == "stabs"
+
+PARTS+= src/common/diag
+
+SRCS+= diag_out.c
+SRCS+= stabs_reform.c
+
+.elif "${TRANS_DEBUG}" == "dwarf"
+
+TRANS_CFLAGS+= -D DWARF
+
+PARTS+=	src/common/dwarf
+PARTS+= src/common/diag
+
+SRCS+= dwarf_reform.c
+
+# XXX: stray calls to stab_global and stab_proc
+
+.elif "${TRANS_DEBUG}" == "dwarf2"
+
+TRANS_CFLAGS+= -D NEWDIAGS
+TRANS_CFLAGS+= -D NEWDWARF
+
+PARTS+= src/common/newdiag
+PARTS+= src/common/dwarf2
+
+SRCS+= newdiag_out.c
+SRCS+= dw2_config.c
+SRCS+= dw2_extra.c
+
+.elif "${TRANS_DEBUG}" == "cv"
+
+PARTS+= src/common/diag
+
+SRCS+= cv_reform.c
+SRCS+= cv_fns.c
+SRCS+= cv_outtype.c
+
+.else
+
+.BEGIN:
+	@${ECHO} '$${TRANS_DEBUG} unrecognised'
+	@${EXIT} 1;
+
+.endif
 
 
 PART_CFLAGS+=	${TRANS_CFLAGS}
 
 PARTS+= src/common/shared
 PARTS+= src/common/construct
-PARTS+= src/common/diag
-#PARTS+= src/common/newdiag
-#PARTS+= src/common/dwarf
-#PARTS+= src/common/dwarf2
 PARTS+= src/common/linkinfo
 PARTS+= src/common/reader
 PARTS+= src/common/refactor
@@ -44,8 +84,6 @@ SRCS+=	c_arith_type.c
 SRCS+=	codec.c
 SRCS+=	coder.c
 SRCS+=	cproc.c
-SRCS+=	dw2_config.c
-SRCS+=	dw2_extra.c
 SRCS+=	evaluate.c
 SRCS+=	glopt.c
 SRCS+=	inlinechoice.c
@@ -65,15 +103,6 @@ SRCS+=	special_tok.c
 SRCS+=	translate.c
 SRCS+=	tv_callees.c
 SRCS+=	weights.c
-
-SRCS+=	stabs_reform.c
-#SRCS+=	cv_reform.c
-#SRCS+=	dwarf_reform.c
-
-SRCS+=	diag_out.c
-#SRCS+=	newdiag_out.c
-#SRCS+=	cv_fns.c
-#SRCS+=	cv_outtype.c
 
 .include <tendra.obj.mk>
 

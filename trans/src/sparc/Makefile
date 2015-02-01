@@ -8,21 +8,55 @@
 
 TRANS_CFLAGS+=	-D TRANS_SPARC
 
-# TODO: these are not yet selectable at runtime
-TRANS_CFLAGS+=	-D NEWDIAGS
-TRANS_CFLAGS+=	-D NEWDWARF
-
 TRANS_CFLAGS+=	-I ${BASE_DIR}/src/sparc
 TRANS_CFLAGS+=	-I ${BASE_DIR}/src/common
+
+
+TRANS_DEBUG?= dwarf2
+
+# TODO: these are not yet selectable at runtime
+.if "${TRANS_DEBUG}" == "stabs"
+
+PARTS+= src/common/diag
+
+SRCS+= diag_out.c
+SRCS+= stabs_reform.c
+
+.elif "${TRANS_DEBUG}" == "dwarf"
+
+TRANS_CFLAGS+= -D DWARF
+
+PARTS+=	src/common/dwarf
+PARTS+= src/common/diag
+
+SRCS+= dwarf_reform.c
+
+# XXX: stray calls to stab_global and stab_proc
+
+.elif "${TRANS_DEBUG}" == "dwarf2"
+
+TRANS_CFLAGS+= -D NEWDIAGS
+TRANS_CFLAGS+= -D NEWDWARF
+
+PARTS+= src/common/newdiag
+PARTS+= src/common/dwarf2
+
+SRCS+= newdiag_out.c
+
+.else
+
+.BEGIN:
+	@${ECHO} '$${TRANS_DEBUG} unrecognised'
+	@${EXIT} 1;
+
+.endif
 
 
 PART_CFLAGS+=	${TRANS_CFLAGS}
 
 PARTS+=	src/common/shared
 PARTS+=	src/common/construct
-PARTS+=	src/common/newdiag
 #PARTS+=	src/common/diag
-PARTS+=	src/common/dwarf2
 PARTS+=	src/common/linkinfo
 PARTS+=	src/common/reader
 PARTS+=	src/common/refactor
@@ -68,11 +102,6 @@ SRCS+=	special_tok.c
 SRCS+=	tempdecs.c
 SRCS+=	translate.c
 SRCS+=	weights.c
-
-#SRCS+=	diag_out.c
-SRCS+=	newdiag_out.c
-
-#SRCS+=	stabs_reform.c
 
 .include <tendra.obj.mk>
 

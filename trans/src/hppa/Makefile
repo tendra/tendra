@@ -12,11 +12,29 @@ TRANS_CFLAGS+=	-I ${BASE_DIR}/src/hppa
 TRANS_CFLAGS+=	-I ${BASE_DIR}/src/common
 
 
+TRANS_DEBUG?= stabs
+
+# TODO: these are not yet selectable at runtime
+.if "${TRANS_DEBUG}" == "stabs"
+
+PARTS+= src/common/diag
+
+SRCS+= diag_out.c
+SRCS+= stabs_reform.c
+
+.else
+
+.BEGIN:
+	@${ECHO} '$${TRANS_DEBUG} unrecognised'
+	@${EXIT} 1;
+
+.endif
+
+
 PART_CFLAGS+=	${TRANS_CFLAGS}
 
 PARTS+=	src/common/shared
 PARTS+=	src/common/construct
-PARTS+=	src/common/diag
 PARTS+=	src/common/linkinfo
 PARTS+=	src/common/reader
 PARTS+=	src/common/refactor
@@ -34,7 +52,6 @@ SRCS+=	ashof.c
 SRCS+=	c_arith_type.c
 SRCS+=	code_here.c
 SRCS+=	comment.c
-SRCS+=	diag_out.c
 SRCS+=	eval.c
 SRCS+=	frames.c
 SRCS+=	getregs.c
@@ -64,8 +81,6 @@ SRCS+=	special_tok.c
 SRCS+=	tempdecs.c
 SRCS+=	translate.c
 SRCS+=	weights.c
-
-SRCS+=  stabs_reform.c
 
 .include <tendra.obj.mk>
 
