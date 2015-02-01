@@ -10,7 +10,11 @@
 #ifndef CPROC_H
 #define CPROC_H
 
+#ifdef NEWDIAGS
+int cproc (exp p, char *pname, int cname, int global, struct dg_name_t *diag_props);
+#else
 int cproc (exp p, char *pname, int cname, int global, diag_global *diag_props);
+#endif
 void restore_callregs(int untidy);
 
 extern  unsigned normal_fpucon;

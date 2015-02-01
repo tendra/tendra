@@ -569,8 +569,13 @@ static void evalaux
 /* output a constant of given label number
    cname, or identifier s cname==-1 means
    use s */
+#ifdef NEWDIAGS
+void evaluate
+(exp c, int cname, char *s, int isconst, int global, struct dg_name_t * diag_props)
+#else
 void evaluate
 (exp c, int cname, char *s, int isconst, int global, diag_global * diag_props)
+#endif
 {
   int al = shape_align(sh(c));
 

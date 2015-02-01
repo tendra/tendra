@@ -239,7 +239,7 @@ normalised_inlining(void)
       total_uses = no(crt_exp);
 #ifdef NEWDIAGS
       if (diag != DIAG_NONE) {
-	start_diag_inlining(def, my_def->dec_u.dec_val.diag_info);
+	start_diag_inlining(def, my_def->dec_u.dec_val.dg_name);
       }
 #endif
 
@@ -306,7 +306,7 @@ normalised_inlining(void)
       }
 #ifdef NEWDIAGS
       if (diag != DIAG_NONE) {
-	end_diag_inlining(def, my_def->dec_u.dec_val.diag_info);
+	end_diag_inlining(def, my_def->dec_u.dec_val.dg_name);
       }
 #endif
     }

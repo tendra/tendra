@@ -572,7 +572,11 @@ start_make_capsule
     dp->dec_u.dec_val.dec_outermost = 0;
     dp->dec_u.dec_val.dec_id = NULL;
     dp->dec_u.dec_val.extnamed = 0;
+#ifdef NEWDIAGS
+    dp->dec_u.dec_val.dg_name = NULL;
+#else
     dp->dec_u.dec_val.diag_info = NULL;
+#endif
     dp->dec_u.dec_val.have_def = 0;
     dp->dec_u.dec_val.dec_shape = NULL;
     dp->dec_u.dec_val.processed = 0;
@@ -2586,7 +2590,11 @@ new_link_list(int n)
          dp->dec_u.dec_val.dec_outermost = 0;
          dp->dec_u.dec_val.dec_id = NULL;
          dp->dec_u.dec_val.extnamed = 0;
+#ifdef NEWDIAGS
+         dp->dec_u.dec_val.dg_name = NULL;
+#else
          dp->dec_u.dec_val.diag_info = NULL;
+#endif
          dp->dec_u.dec_val.have_def = 0;
          dp->dec_u.dec_val.dec_shape = NULL;
          dp->dec_u.dec_val.processed = 0;

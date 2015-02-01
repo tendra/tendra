@@ -603,7 +603,11 @@ translate_capsule (void){
 	  /* evaluate all outer level constants */
 	instore is ;
 	long symdef = d->dec_u.dec_val.sym_number + 1 ;
+#ifdef NEWDIAGS
+	struct dg_name_t *diag_props = d->dec_u.dec_val.dg_name ;
+#else
 	diag_global *diag_props = d->dec_u.dec_val.diag_info ;
+#endif
 	if ( isvar ( tg ) ) symdef = -symdef ;
 	if ( diag_props ) {
 	  DIAG_VAL_BEGIN ( diag_props, extnamed, symdef, id, stg ) ;
@@ -653,7 +657,11 @@ translate_capsule (void){
 	int proc_directive ;
 	exp c = d->dec_u.dec_val.dec_exp ;
 	prop p = procrecs [ no ( son ( c ) ) ].needsproc.prps ;
+#ifdef NEWDIAGS
+	struct dg_name_t *diag_props = d->dec_u.dec_val.dg_name ;
+#else
 	diag_global *diag_props = d->dec_u.dec_val.diag_info ;
+#endif
 	insection ( text_section ) ;
 
 	if(!sysV_assembler){

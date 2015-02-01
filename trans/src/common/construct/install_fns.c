@@ -219,7 +219,11 @@ make_extra_dec(char *nme, int v, int g, exp init, shape s)
 	extra_dec->dec_u.dec_val.dec_shape = s;
 	extra_dec->dec_u.dec_val.dec_exp = e;
 	extra_dec->dec_u.dec_val.unit_number = crt_tagdef_unit_no;
+#ifdef NEWDIAGS
+	extra_dec->dec_u.dec_val.dg_name = NULL;
+#else
 	extra_dec->dec_u.dec_val.diag_info = NULL;
+#endif
 	extra_dec->dec_u.dec_val.extnamed = (unsigned int)g;
 	extra_dec->dec_u.dec_val.dec_var = (unsigned int)v;
 	extra_dec->dec_u.dec_val.dec_outermost = 0;

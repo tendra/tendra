@@ -436,8 +436,8 @@ set_obj_ref(dg_name nm)
 		e = son(e);
 	}
 	if (e && name(e) == name_tag && isglob(son(e)) &&
-	    !(brog(son(e))->dec_u.dec_val.diag_info)) {
-		brog(son(e))->dec_u.dec_val.diag_info = nm;
+	    !(brog(son(e))->dec_u.dec_val.dg_name)) {
+		brog(son(e))->dec_u.dec_val.dg_name = nm;
 	}
 	return;
 }

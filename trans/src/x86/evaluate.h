@@ -10,6 +10,10 @@
 #ifndef EVALUATE_H
 #define EVALUATE_H
 
+#ifdef NEWDIAGS
+extern  void evaluate(exp c, int cname, char *s, int isconst, int global, struct dg_name_t *d);
+#else
 extern  void evaluate(exp c, int cname, char *s, int isconst, int global, diag_global *d);
+#endif
 
 #endif /* EVALUATE_H */

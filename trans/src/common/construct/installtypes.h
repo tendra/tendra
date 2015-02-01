@@ -132,7 +132,11 @@ struct dec_t {
 			exp dec_exp;
 			/* definition or NULL */
 			int unit_number;
+#ifdef NEWDIAGS
+			struct dg_name_t *dg_name;
+#else
 			diag_global *diag_info;
+#endif
 			access acc;
 			int index;
 			/* used in inl_norm to hold procedure index number */

@@ -115,7 +115,12 @@ static void eval_if_ready
                   d -> dec_u.dec_val.dec_id,
 		 (!isvar(t)),
                  (int)(d -> dec_u.dec_val.extnamed),
-                  d -> dec_u.dec_val.diag_info);
+#ifdef NEWDIAGS
+                  d -> dec_u.dec_val.dg_name
+#else
+                  d -> dec_u.dec_val.diag_info
+#endif
+		);
     }
     else {
 	if (!writable_strings && name(son(t))!= res_tag) {
@@ -187,7 +192,12 @@ void make_code
       }
       my_def -> dec_u.dec_val.index =	/* for use in constant evaluation */
 	cproc(son(tg), id,(-1), (int)(my_def -> dec_u.dec_val.extnamed),
-                my_def -> dec_u.dec_val.diag_info);
+#ifdef NEWDIAGS
+                my_def -> dec_u.dec_val.dg_name
+#else
+                my_def -> dec_u.dec_val.diag_info
+#endif
+		);
       while (const_list != NULL) {
 	/* put in the constants required by the procedure */
 	exp t = const_list;
@@ -196,7 +206,11 @@ void make_code
       };
     }
     else {			/* global values */
+#ifdef NEWDIAGS
+     struct dg_name_t * diag_props = my_def -> dec_u.dec_val.dg_name;
+#else
      diag_global * diag_props = my_def -> dec_u.dec_val.diag_info;
+#endif
 
       if (shape_size(sh(son(tg))) == 0) {;
 	if (my_def -> dec_u.dec_val.extnamed) {

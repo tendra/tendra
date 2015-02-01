@@ -18,6 +18,5 @@ typedef struct dg_info_t *dg_info;
 typedef struct file_t *dg_filename;
 
 typedef struct dg_info_t diag_info;
-typedef struct dg_name_t diag_global;
 
 #endif
