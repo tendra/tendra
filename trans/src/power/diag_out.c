@@ -50,7 +50,7 @@
 #include "proc.h"
 #include "comment.h"
 #include "stack.h"
-#include "diagout.h"
+#include "diag_out.h"
 #include "localexpmacs.h"
 
 

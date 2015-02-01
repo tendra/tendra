@@ -111,7 +111,7 @@
 #include "makecode.h"
 #include "eval.h"
 #include "scan.h"
-#include "diagout.h"
+#include "diag_out.h"
 #include "comment.h"
 #include "translate.h"
 #include "stack.h"
@@ -182,7 +182,7 @@ void translate_capsule(void)
     char *id;
 
     noglobals++;
-    /* diag_def needed for find_dd in diagout.c */
+    /* diag_def needed for find_dd in diag_out.c */
     diag_def=crt_def;
 
     if (diag != DIAG_NONE)
