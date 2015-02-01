@@ -10,6 +10,8 @@
 #include <string.h>
 #include <stdio.h>
 
+#include <shared/check.h>
+
 #include <diag/diag_fns.h>
 #include <diag/diagglob.h>
 
