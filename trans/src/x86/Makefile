@@ -48,10 +48,7 @@ SRCS+= dw2_extra.c
 .elif "${TRANS_DEBUG}" == "cv"
 
 PARTS+= src/common/diag
-
-SRCS+= cv_reform.c
-SRCS+= cv_fns.c
-SRCS+= cv_outtype.c
+PARTS+= src/common/codeview
 
 .else
 
