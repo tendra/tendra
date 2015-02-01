@@ -7,8 +7,12 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <stdio.h>
+
 #include <shared/check.h>
 #include <shared/error.h>
+
+#include <main/driver.h>
 
 #include <local/codermacs.h>
 #include <local/out.h>
