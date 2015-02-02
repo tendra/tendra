@@ -15,6 +15,7 @@
 
 #include <construct/installtypes.h>
 
-#define comment(st)	fprintf(as_file,"\t! %s\n",st);
+#define comment(st) 	fprintf(as_file,"\t! %s\n",st);
+#define commenti(st)	fprintf(as_file,"\t! %s %d\n",st,i);
 
 #endif /* COMMENT_INCLUDED */

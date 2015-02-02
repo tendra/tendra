@@ -10,6 +10,7 @@
 #include <shared/error.h>
 
 #include <local/dw2_config.h>
+#include <local/out.h>
 
 #include <reader/basicread.h>
 
@@ -67,7 +68,8 @@ exit_section(void)
 void
 outnl_comment(char *s)
 {
-  outs("\t/");
+  outs("\t");
+  out_comment();
   outs(s);
   d_outnl();
   return;
@@ -76,7 +78,8 @@ outnl_comment(char *s)
 void
 outnl_comment_i(char *s, long i)
 {
-  outs("\t/");
+  outs("\t");
+  out_comment();
   outs(s);
   outs(" ");
   outn(i);

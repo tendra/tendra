@@ -21,6 +21,7 @@
 #include "translate.h"
 #include "eval.h"
 #include "labels.h"
+#include "comment.h"
 
 long dwarf_lab_num = 0;
 
@@ -98,19 +99,13 @@ void exit_section(void)
 
 void outnl_comment(char *s)
 {
-  outs ("\t!");
-  outs (s);
-  d_outnl ();
+  comment (s);
   return;
 }
 
 void outnl_comment_i(char *s, long i)
 {
-  outs ("\t!");
-  outs (s);
-  outs (" ");
-  outn (i);
-  d_outnl ();
+  commenti (s);
   return;
 }
 
