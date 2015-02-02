@@ -106,7 +106,6 @@ outnl(void)
 #ifdef DWARF2
 	instr_count = -1;
 #endif
-	last_jump_label = -1;
 	keep_short = cpu & CPU_80586;
 }
 

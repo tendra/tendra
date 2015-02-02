@@ -12,8 +12,6 @@
 
 #include <stdio.h>
 
-extern int  last_jump_label;
-
 FILE *out_get_stream(void);
 void outs(char *str);
 void out_comment(void);

@@ -74,7 +74,6 @@ int no_frame;		/* init by cproc */
 #ifndef TDF_DIAG4
 static long  last_jump_pos;	/* set locally */
 #endif
-int  last_jump_label;	/* cleared to -1 by outnl */
 int avoid_intov; /* No software interrupts */
 
 static exp cont_err_handler = NULL;
@@ -636,17 +635,6 @@ void simplest_set_lab
 void simple_set_label
 (int labno)
 {
-#ifdef CHECKIMPROVE
-  if (labno == last_jump_label)
-    error(ERROR_INTERNAL, "redundant jump");
-#endif
-#ifndef TDF_DIAG4
-  /* Eliminate immediately previous jump to this label */
-  if (diag == DIAG_NONE && labno == last_jump_label) {
-		out_set_pos(last_jump_pos);
-  };
-#endif
-
   cond1_set = 0;
   cond2_set = 0;
   outs(local_prefix);
@@ -732,7 +720,6 @@ void jump
   outs(local_prefix);
   outn((long)ptno(jr));
   outnl();
-  last_jump_label = ptno(jr);
   return;
 }
 
