@@ -71,7 +71,7 @@ typedef struct outofline_t {
 	where cond2b;
 	int repeat_level;
 	float scale;
-#ifdef NEWDWARF
+#ifdef DWARF2
 	long dw2_hi;
 	long dw2_slave;
 #endif

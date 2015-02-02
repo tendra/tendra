@@ -15,7 +15,7 @@
 #include <local/out.h>
 #include <local/codermacs.h>
 
-#ifdef NEWDWARF
+#ifdef DWARF2
 #include <local/dw2_config.h>
 #endif
 
@@ -53,7 +53,7 @@
 #include "evaluate.h"
 #include "tv_callees.h"
 
-#ifdef NEWDWARF
+#ifdef DWARF2
 #include <dwarf2/dw2_iface.h>
 #endif
 
@@ -95,7 +95,7 @@ static void eval_if_ready
 	    !PIC_code) {
           out_readonly_section();
 	  outnl();
-#ifdef NEWDWARF
+#ifdef DWARF2
 	  if (diag == DIAG_DWARF2)
 	    note_ro(d -> dec_u.dec_val.dec_id);
 #endif
@@ -105,7 +105,7 @@ static void eval_if_ready
 	    error(ERROR_INTERNAL, "prom data");
 	  outs(".data");
 	  outnl();
-#ifdef NEWDWARF
+#ifdef DWARF2
 	  if (diag == DIAG_DWARF2)
 	    note_data(d -> dec_u.dec_val.dec_id);
 #endif
@@ -263,7 +263,7 @@ void make_code
        {
 	 int is_ext = (my_def -> dec_u.dec_val.extnamed);
          if (diag_props)
-#ifdef NEWDWARF
+#ifdef DWARF2
            DIAG_VAL_BEGIN(diag_props, is_ext, -1, id);
 #else
            diag_val_begin(diag_props, is_ext, -1, id);
@@ -276,7 +276,7 @@ void make_code
 	     outnl();
 	   }
            out_bss(id, sh(son(tg)));
-#ifdef NEWDWARF
+#ifdef DWARF2
 	   if (diag == DIAG_DWARF2)
 	     note_data(id);
 #endif
@@ -287,7 +287,7 @@ void make_code
 	 else
            out_dot_lcomm(id, sh(son(tg)));
          if (diag_props) {
-#ifdef NEWDWARF
+#ifdef DWARF2
            DIAG_VAL_END(diag_props);
 #else
            diag_val_end(diag_props);
@@ -426,7 +426,7 @@ void translate_capsule
     const_list = NULL;
 
 
-#ifdef NEWDWARF
+#ifdef DWARF2
     if (diag == DIAG_DWARF2)
         init_dwarf2();
     else
@@ -434,7 +434,7 @@ void translate_capsule
         if (diag != DIAG_NONE)
             out_diagnose_prelude();
 
-#ifdef NEWDWARF
+#ifdef DWARF2
     if (dump_abbrev) {
         outs(".text\n");
         do_abbreviations();
@@ -449,7 +449,7 @@ void translate_capsule
   /* compile procedures, evaluate constants, put in the .comm entries for
      undefined objects */
 
-#ifdef NEWDWARF
+#ifdef DWARF2
   if (diag == DIAG_DWARF2) {
     outs(".text\n");
     dwarf2_prelude();
@@ -468,7 +468,7 @@ void translate_capsule
   }
 
   outs(".text\n");
-#ifdef NEWDWARF
+#ifdef DWARF2
   if (diag == DIAG_DWARF2) {
     dwarf2_postlude();
   }

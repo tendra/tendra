@@ -21,7 +21,7 @@
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
-#ifdef NEWDWARF
+#ifdef DWARF2
 #include <local/dw2_config.h>
 #endif
 
@@ -114,7 +114,7 @@ ld_ro_ins ( ins_p ins, baseoff a, int dest )
 	} else /* if ( off < 0 ) */ {
 	    fprintf ( as_file, "\t%s\t[%s-%ld],%s\n", ins, ra, -off, rd ) ;
 	}
-#ifdef NEWDWARF
+#ifdef DWARF2
 	count_ins(1);
 #endif
     } else {
@@ -128,7 +128,7 @@ ld_ro_ins ( ins_p ins, baseoff a, int dest )
 	    ir_ins ( i_set, off, R_TMP ) ;
 	    ld_rr_ins ( ins, a.base, R_TMP, dest ) ;
 	}
-#ifdef NEWDWARF
+#ifdef DWARF2
 	lost_count_ins();
 #endif
     }
@@ -146,7 +146,7 @@ ld_rr_ins ( ins_p ins, int reg1, int reg2, int dest )
     clear_reg ( dest ) ;
     fprintf ( as_file, "\t%s\t[%s+%s],%s\n", ins,
 	      RN ( reg1 ), RN ( reg2 ), RN ( dest ) ) ;
-#ifdef NEWDWARF
+#ifdef DWARF2
     count_ins(1);
 #endif
     return ;
@@ -171,7 +171,7 @@ set_ins ( baseoff a, int dest )
     } else {
 	fprintf ( as_file, "\tset\t%s-%ld,%s\n", extname, -d, RN ( dest ) ) ;
     }
-#ifdef NEWDWARF
+#ifdef DWARF2
     lost_count_ins();
 #endif
 
@@ -233,14 +233,14 @@ st_ro_ins ( ins_p ins, int src, baseoff a )
 	} else /* if ( off < 0 ) */ {
 	    fprintf ( as_file, "\t%s\t%s,[%s-%ld]\n", ins, rs, ra, -off ) ;
 	}
-#ifdef NEWDWARF
+#ifdef DWARF2
 	count_ins(1);
 #endif
     } else {
 	/* Large offset */
 	assert ( a.base != R_TMP ) ;
 	ir_ins ( i_set, off, R_TMP ) ;
-#ifdef NEWDWARF
+#ifdef DWARF2
 	lost_count_ins();
 #endif
 	st_rr_ins ( ins, src, a.base, R_TMP ) ;
@@ -258,7 +258,7 @@ st_rr_ins ( ins_p ins, int src, int reg1, int reg2 )
 {
     fprintf ( as_file, "\t%s\t%s,[%s+%s]\n", ins,
 	      RN ( src ), RN ( reg1 ), RN ( reg2 ) ) ;
-#ifdef NEWDWARF
+#ifdef DWARF2
     count_ins(1);
 #endif
     return ;
@@ -300,7 +300,7 @@ rrr_ins ( ins_p ins, int src1, int src2, int dest )
     clear_reg ( dest ) ;
     fprintf ( as_file, "\t%s\t%s,%s,%s\n", ins,
 	      RN ( src1 ), RN ( src2 ), RN ( dest ) ) ;
-#ifdef NEWDWARF
+#ifdef DWARF2
     count_ins(1);
 #endif
     return ;
@@ -320,7 +320,7 @@ rir_ins ( ins_p ins, int src1, long imm, int dest )
 	/* Small data */
 	fprintf ( as_file, "\t%s\t%s,%ld,%s\n", ins,
 		  RN ( src1 ), imm, RN ( dest ) ) ;
-#ifdef NEWDWARF
+#ifdef DWARF2
 	count_ins(1);
 #endif
     } else if ( SIMM13_SIZE ( ~imm ) &&
@@ -336,7 +336,7 @@ rir_ins ( ins_p ins, int src1, long imm, int dest )
 	}
 	fprintf ( as_file, "\t%s\t%s,%ld,%s\n", n_ins,
 		  RN ( src1 ), ~imm, RN ( dest ) ) ;
-#ifdef NEWDWARF
+#ifdef DWARF2
 	count_ins(1);
 #endif
     } else if ( ins == i_and && IS_POW2 ( imm + 1 ) ) {
@@ -367,7 +367,7 @@ rir_ins ( ins_p ins, int src1, long imm, int dest )
 	    error(ERROR_SERIOUS,  "Temporary register problem in rir_ins" ) ;
 	} else {
 	    fprintf ( as_file, "\tset\t%ld,%s\n", imm, RN ( R_TMP ) ) ;
-#ifdef NEWDWARF
+#ifdef DWARF2
 	    lost_count_ins();
 #endif
 	    rrr_ins ( ins, src1, R_TMP, dest ) ;
@@ -386,7 +386,7 @@ rr_ins ( ins_p ins, int src, int dest )
 {
     clear_reg ( dest ) ;
     fprintf ( as_file, "\t%s\t%s,%s\n", ins, RN ( src ), RN ( dest ) ) ;
-#ifdef NEWDWARF
+#ifdef DWARF2
     count_ins(1);
 #endif
     return ;
@@ -404,19 +404,19 @@ ir_ins ( ins_p ins, long imm, int dest )
 
     if ( SIMM13_SIZE ( imm ) || ins == i_set ) {
 	fprintf ( as_file, "\t%s\t%ld,%s\n", ins, imm, RN ( dest ) ) ;
-#ifdef NEWDWARF
+#ifdef DWARF2
 	count_ins(1);
 #endif
     } else if ( ins == i_mov ) {
 	/* use a set instruction for move */
 	fprintf ( as_file, "\tset\t%ld,%s\n", imm, RN ( dest ) ) ;
-#ifdef NEWDWARF
+#ifdef DWARF2
 	lost_count_ins();
 #endif
     } else {
 	/* use temporary register for large constant */
 	fprintf ( as_file, "\tset\t%ld,%s\n", imm, RN ( R_TMP ) ) ;
-#ifdef NEWDWARF
+#ifdef DWARF2
 	lost_count_ins();
 #endif
 	rr_ins ( ins, R_TMP, dest ) ;
@@ -435,7 +435,7 @@ lr_ins ( int imm, int dest )
 
     /* use a set instruction to load the label */
     fprintf ( as_file, "\tset\t%s%d,%s\n", lab_prefix, imm, RN ( dest ) ) ;
-#ifdef NEWDWARF
+#ifdef DWARF2
     lost_count_ins();
 #endif
 
@@ -453,7 +453,7 @@ lr_ins ( int imm, int dest )
 void z_ins ( ins_p ins )
 {
     fprintf ( as_file, "\t%s\n", ins ) ;
-#ifdef NEWDWARF
+#ifdef DWARF2
     count_ins(1);
 #endif
     return ;
@@ -470,7 +470,7 @@ uncond_ins ( ins_p ins, int lab )
     fprintf ( as_file, "\t%s\t%s%d\n", ins, lab_prefix, lab ) ;
     assert (lab > 100);
     outs ( "\tnop\n" ) ;	/* delay slot */
-#ifdef NEWDWARF
+#ifdef DWARF2
     count_ins(2);
 #endif
     return ;
@@ -486,7 +486,7 @@ ret_ins ( ins_p ins )
 {
     fprintf ( as_file, "\t%s\n", ins ) ;
     outs ( "\tnop\n" ) ;	/* delay slot */
-#ifdef NEWDWARF
+#ifdef DWARF2
     count_ins(2);
 #endif
     return ;
@@ -502,7 +502,7 @@ ret_restore_ins ()
 {
     fprintf ( as_file, "\t%s\n", i_ret ) ;
     fprintf ( as_file, "\t%s\n", i_restore ) ;	/* delay slot */
-#ifdef NEWDWARF
+#ifdef DWARF2
     count_ins(2);
 #endif
     return ;
@@ -529,7 +529,7 @@ lngjmp ( int o_fp_reg, int pc_reg, int r_new_sp )
   fprintf ( as_file, "\t.word\t0x91d02003\n" ) ; /* ta 3, but SunOS as may
 						    get ta wrong I'm told */
 #endif
-#ifdef NEWDWARF
+#ifdef DWARF2
 	lost_count_ins();
 #endif
   rr_ins ( i_mov, R_SP, r_new_sp);
@@ -541,7 +541,7 @@ lngjmp ( int o_fp_reg, int pc_reg, int r_new_sp )
   ld_ro_ins (i_ld, frm,   R_TMP);
   fprintf ( as_file, "\tcmp\t%s,%s\n", RN (R_TMP ), RN(o_fp_reg));
   fprintf ( as_file, "\tbne,a\t%s%d\n", lab_prefix, lab);
-#ifdef NEWDWARF
+#ifdef DWARF2
   count_ins(2);
 #endif
   rr_ins (i_mov, R_TMP, r_new_sp);
@@ -551,7 +551,7 @@ lngjmp ( int o_fp_reg, int pc_reg, int r_new_sp )
   
   fprintf ( as_file, "\tjmpl\t %s + 0, %%g0\n", RN(pc_reg)) ;
   fprintf ( as_file, "\t%s\n", i_restore ) ;	/* delay slot */
-#ifdef NEWDWARF
+#ifdef DWARF2
   count_ins(2);
 #endif
 }
@@ -565,7 +565,7 @@ stret_restore_ins (void)
 {
     fprintf ( as_file, "\tjmp\t%%i7+12\n" ) ;
     fprintf ( as_file, "\t%s\n", i_restore ) ;	/* delay slot */
-#ifdef NEWDWARF
+#ifdef DWARF2
     count_ins(2);
 #endif
     return ;
@@ -601,7 +601,7 @@ extj_ins ( ins_p ins, baseoff b, int param_regs_used )
     }
   }
   outs ( "\tnop\n" ) ;	/* delay slot */
-#ifdef NEWDWARF
+#ifdef DWARF2
   count_ins(2);
 #endif
   return ;
@@ -623,7 +623,7 @@ void extj_ins_without_delay
     /* param_regs_used = -1 means it is not known */
     fprintf ( as_file, "\t%s\t%s\n", ins, ext ) ;
   }
-#ifdef NEWDWARF
+#ifdef DWARF2
   count_ins(1);
 #endif
   return ;
@@ -650,7 +650,7 @@ extj_special_ins ( ins_p ins, const char * const ext, int param_regs_used ){
     fprintf ( as_file, "\t%s\t%s\n", ins, ext ) ;
   }
   outs ( "\tnop\n" ) ;	/* delay slot */
-#ifdef NEWDWARF
+#ifdef DWARF2
   count_ins(2);
 #endif
   return ;
@@ -670,7 +670,7 @@ extj_special_ins_no_delay ( ins_p ins, const char * const ext, int param_regs_us
     /* param_regs_used = -1 means it is not known */
     fprintf ( as_file, "\t%s\t%s\n", ins, ext ) ;
   }
-#ifdef NEWDWARF
+#ifdef DWARF2
   count_ins(1);
 #endif
   	/* delay slot */
@@ -722,7 +722,7 @@ extj_reg_ins_no_delay ( ins_p ins, int reg, int param_regs_used ){
 void 
 unimp_ins ( long imm ){
     fprintf ( as_file, "\tunimp\t%ld\n", imm ) ;
-#ifdef NEWDWARF
+#ifdef DWARF2
     count_ins(1);
 #endif
     return ;
@@ -738,7 +738,7 @@ br_ins ( ins_p ins, int dest ){
   fprintf ( as_file, "\t%s\t%s%d\n", ins, lab_prefix, dest ) ;
   assert (dest > 100);
   outs ( "\tnop\n" ) ;	/* delay slot */
-#ifdef NEWDWARF
+#ifdef DWARF2
   count_ins(2);
 #endif
   return ;
@@ -752,14 +752,14 @@ void
 br_abs ( int lab ){
 #ifdef NOT_SUN_BUGGY_ASM
   fprintf ( as_file, "\t%s\t%s%s\n", "bpos,a", lab_prefix, lab);
-#ifdef NEWDWARF
+#ifdef DWARF2
   count_ins(1);
 #endif
   /* No nop, delay slot used!!! */
 #else
   fprintf ( as_file, "\t%s\t%s%d\n", "bneg", lab_prefix, lab);
   fprintf ( as_file, "\tnop\n");
-#ifdef NEWDWARF
+#ifdef DWARF2
   count_ins(2);
 #endif
 #endif
@@ -780,7 +780,7 @@ fbr_ins ( ins_p ins, int dest ){
   fprintf ( as_file, "\t%s\t%s%d\n", ins, lab_prefix, dest ) ;
   assert (dest > 100);
   outs ( "\tnop\n" ) ;	/* delay slot */
-#ifdef NEWDWARF
+#ifdef DWARF2
   count_ins(2);
 #endif
   return ;
@@ -799,7 +799,7 @@ condrr_ins ( ins_p ins, int src1, int src2, int lab ){
   else{
     fprintf ( as_file, "\tcmp\t%s,%s\n", RN ( src1 ), RN ( src2 ) ) ;
   }
-#ifdef NEWDWARF
+#ifdef DWARF2
   count_ins(1);
 #endif
   br_ins ( ins, lab ) ;
@@ -816,7 +816,7 @@ condri_ins ( ins_p ins, int src1, long imm, int lab ){
   if ( SIMM13_SIZE(imm) ) {
     /* Small constant */
     fprintf ( as_file, "\tcmp\t%s,%ld\n", RN ( src1 ), imm ) ;
-#ifdef NEWDWARF
+#ifdef DWARF2
     count_ins(1);
 #endif
     br_ins ( ins, lab ) ;
@@ -827,7 +827,7 @@ condri_ins ( ins_p ins, int src1, long imm, int lab ){
       error(ERROR_SERIOUS,  "Temporary register problem in condri_ins" ) ;
     }
     fprintf ( as_file, "\tset\t%ld,%s\n", imm, RN ( R_TMP ) ) ;
-#ifdef NEWDWARF
+#ifdef DWARF2
     lost_count_ins();
 #endif
     condrr_ins ( ins, src1, R_TMP, lab ) ;
@@ -849,7 +849,7 @@ fmaxminrr_ins ( ins_p ins, int src1, int src2, int dest, int ftype ) {
   /* USE the delay slot */
   fprintf ( as_file, "\tfmovs %s, %s\n", RN(src1), RN(dest));
   fprintf ( as_file, "\tfmovs %s, %s\n", RN(src2), RN(dest));
-#ifdef NEWDWARF
+#ifdef DWARF2
   count_ins(4);
 #endif
   
@@ -869,7 +869,7 @@ maxminrr_ins ( ins_p ins, int src1, int src2, int dest ){
   /* USE the delay slot */
   fprintf ( as_file, "\tmov %s, %s\n", RN(src1), RN(dest));
   fprintf ( as_file, "\tmov %s, %s\n", RN(src2), RN(dest));
-#ifdef NEWDWARF
+#ifdef DWARF2
   count_ins(4);
 #endif
   
@@ -894,7 +894,7 @@ maxminri_ins ( ins_p ins, int src1, long val, int dest ){
 			/* note set is two instruction, and
 	       	        must not go in the delay slot... */
     fprintf ( as_file, "\tset %ld, %s\n", val, RN(dest));
-#ifdef NEWDWARF
+#ifdef DWARF2
     lost_count_ins();
 #endif
   } 
@@ -904,7 +904,7 @@ maxminri_ins ( ins_p ins, int src1, long val, int dest ){
     /* USE the delay slot */
     fprintf ( as_file, "\tmov %s, %s\n", RN(src1), RN(dest));
     fprintf ( as_file, "\tmov %ld, %s\n", val, RN(dest));
-#ifdef NEWDWARF
+#ifdef DWARF2
     count_ins(4);
 #endif
   
@@ -935,7 +935,7 @@ ldf_ro_ins ( ins_p ins, baseoff a, int dest ){
     else /* if ( off < 0 ) */ {
       fprintf ( as_file, "\t%s\t[%s-%ld],%s\n", ins, rn, -off, FRN(dest) ) ;
     }
-#ifdef NEWDWARF
+#ifdef DWARF2
     count_ins(1);
 #endif
   } 
@@ -943,7 +943,7 @@ ldf_ro_ins ( ins_p ins, baseoff a, int dest ){
     /* Large offset */
     assert ( a.base != R_TMP ) ;
     ir_ins ( i_set, off, R_TMP ) ;
-#ifdef NEWDWARF
+#ifdef DWARF2
     lost_count_ins();
 #endif
     ldf_rr_ins ( ins, a.base, R_TMP, dest ) ;
@@ -961,7 +961,7 @@ ldf_rr_ins ( ins_p ins, int reg1, int reg2, int dest ){
   clear_freg ( dest ) ;
   fprintf ( as_file, "\t%s\t[%s+%s],%s\n", ins,
 	    RN ( reg1 ), RN ( reg2 ), FRN(dest) ) ;
-#ifdef NEWDWARF
+#ifdef DWARF2
   count_ins(1);
 #endif
   return ;
@@ -1015,7 +1015,7 @@ stf_ro_ins ( ins_p ins, int src, baseoff a ){
     else /* if ( off < 0 ) */ {
       fprintf ( as_file, "\t%s\t%s,[%s-%ld]\n", ins, FRN(src), rn, -off ) ;
     }
-#ifdef NEWDWARF
+#ifdef DWARF2
     count_ins(1);
 #endif
    } 
@@ -1023,7 +1023,7 @@ stf_ro_ins ( ins_p ins, int src, baseoff a ){
     /* Large offset */
     assert ( a.base != R_TMP ) ;
     ir_ins ( i_set, off, R_TMP ) ;
-#ifdef NEWDWARF
+#ifdef DWARF2
     lost_count_ins();
 #endif
     stf_rr_ins ( ins, src, a.base, R_TMP ) ;
@@ -1040,7 +1040,7 @@ void
 stf_rr_ins ( ins_p ins, int src, int reg1, int reg2 ){
   fprintf ( as_file, "\t%s\t%s,[%s+%s]\n", ins, FRN(src), 
 	    RN ( reg1 ), RN ( reg2 ) ) ;
-#ifdef NEWDWARF
+#ifdef DWARF2
   count_ins(1);
 #endif
   return ;
@@ -1078,7 +1078,7 @@ stf_ins ( ins_p ins, int src, baseoff a ){
 void 
 rrf_cmp_ins ( ins_p ins, int src1, int src2 ){
   fprintf ( as_file, "\t%s\t%s,%s\n", ins, FRN(src1), FRN(src2) ) ;
-#ifdef NEWDWARF
+#ifdef DWARF2
   count_ins(1);
 #endif
   return ;
@@ -1093,7 +1093,7 @@ void
 rrf_ins ( ins_p ins, int src, int dest ){
   clear_freg ( dest ) ;
   fprintf ( as_file, "\t%s\t%s,%s\n", ins, FRN(src), FRN(dest) ) ;
-#ifdef NEWDWARF
+#ifdef DWARF2
   count_ins(1);
 #endif
   return ;
@@ -1109,7 +1109,7 @@ rrrf_ins ( ins_p ins, int src1, int src2, int dest ){
   clear_freg ( dest ) ;
   fprintf ( as_file, "\t%s\t%s,%s,%s\n", ins, FRN(src1), 
 	    FRN(src2), FRN(dest) ) ;
-#ifdef NEWDWARF
+#ifdef DWARF2
   count_ins(1);
 #endif
   return ;

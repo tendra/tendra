@@ -23,11 +23,11 @@
 #include <construct/installtypes.h>
 #include <construct/shape.h>
 
-#include <dwarf/dwarf.h>
-#include <dwarf/dwarf_types.h>
-#include <dwarf/dwarf_type.h>
-#include <dwarf/dwarf_out.h>
-#include <dwarf/dwarf_mc.h>
+#include <dwarf1/dwarf.h>
+#include <dwarf1/dwarf_types.h>
+#include <dwarf1/dwarf_type.h>
+#include <dwarf1/dwarf_out.h>
+#include <dwarf1/dwarf_mc.h>
 
 extern int continue_decs;
 

@@ -13,7 +13,7 @@
 #ifndef dw2_extra_key
 #define dw2_extra_key 1
 
-#ifdef NEWDWARF
+#ifdef DWARF2
 
 extern void dw2_start_fde(exp e);
 extern void dw2_fde_save(void);

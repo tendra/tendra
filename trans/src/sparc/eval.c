@@ -17,7 +17,7 @@
 
 #include <shared/error.h>
 
-#ifdef NEWDWARF
+#ifdef DWARF2
 #include <local/dw2_config.h>
 #endif
 
@@ -52,7 +52,7 @@
 #include "bitsmacs.h"
 #include "eval.h"
 
-#ifdef NEWDWARF
+#ifdef DWARF2
 #include <dwarf2/dw2_iface.h>
 #endif
 
@@ -942,7 +942,7 @@ evaluated ( exp e, long ll, bool ro ){
 	outn ( align ) ;
 	outnl () ;
       }
-#ifdef NEWDWARF
+#ifdef DWARF2
       if (diag == DIAG_DWARF2 && (name(e) == clear_tag && no(e) == -1))
         note_data (lab, ro);	/* do_prom */
 #endif
@@ -972,7 +972,7 @@ evaluated ( exp e, long ll, bool ro ){
     know_size = 1 ;
   } 
   else {
-#ifdef NEWDWARF
+#ifdef DWARF2
     if (diag == DIAG_DWARF2)
       note_data (lab, ro);
 #endif

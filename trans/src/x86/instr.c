@@ -21,7 +21,7 @@
 #include <local/out.h>
 #include <local/codermacs.h>
 
-#ifdef NEWDWARF
+#ifdef DWARF2
 #include <local/dw2_config.h>
 #endif
 
@@ -56,7 +56,7 @@
 #include "instrmacs.h"
 #include "instr.h"
 
-#ifdef NEWDWARF
+#ifdef DWARF2
 #include "dw2_extra.h"
 #endif
 
@@ -1021,7 +1021,7 @@ void trap_ins
       cont_err_handler = getexp(f_proc, NULL, 1, cont_err_handler, NULL, 0, 0, cont_tag);
   }
   ins1(pushl, 32, mw(zeroe, s));
-#ifdef NEWDWARF
+#ifdef DWARF2
   if (diag == DIAG_DWARF2 && no_frame)
     dw2_track_push();
 #endif
@@ -1157,7 +1157,7 @@ void caseins
     outn((long)absent);
     outs(":");
     outnl();
-#ifdef NEWDWARF
+#ifdef DWARF2
     START_BB();
 #endif
   };
@@ -1320,12 +1320,12 @@ void rotshift64
         extra_stack += 64;
 	check_stack_max;
 	ins0(pushedx);
-#ifdef NEWDWARF
+#ifdef DWARF2
 	if (diag == DIAG_DWARF2 && no_frame)
 	  dw2_track_push();
 #endif
 	ins0(pusheax);
-#ifdef NEWDWARF
+#ifdef DWARF2
 	if (diag == DIAG_DWARF2 && no_frame)
 	  dw2_track_push();
 #endif
@@ -1334,12 +1334,12 @@ void rotshift64
 	ins3(dsh, 8, 32, 32, mw(zeroe,places),
 		reg0, mw(ind_sp.where_exp,-64));
 	ins0(popeax);
-#ifdef NEWDWARF
+#ifdef DWARF2
 	if (diag == DIAG_DWARF2 && no_frame)
 	  dw2_track_pop();
 #endif
 	ins0(popedx);
-#ifdef NEWDWARF
+#ifdef DWARF2
 	if (diag == DIAG_DWARF2 && no_frame)
 	  dw2_track_pop();
 #endif
@@ -1379,24 +1379,24 @@ void rotshift64
         extra_stack += 64;
 	check_stack_max;
 	ins0(pushedx);
-#ifdef NEWDWARF
+#ifdef DWARF2
 	if (diag == DIAG_DWARF2 && no_frame)
 	  dw2_track_push();
 #endif
 	ins0(pusheax);
-#ifdef NEWDWARF
+#ifdef DWARF2
 	if (diag == DIAG_DWARF2 && no_frame)
 	  dw2_track_push();
 #endif
 	ins3(dsh, 8, 32, 32, reg2, reg1, mw(ind_sp.where_exp,-32));
 	ins3(dsh, 8, 32, 32, reg2, reg0, mw(ind_sp.where_exp,-64));
 	ins0(popeax);
-#ifdef NEWDWARF
+#ifdef DWARF2
 	if (diag == DIAG_DWARF2 && no_frame)
 	  dw2_track_pop();
 #endif
 	ins0(popedx);
-#ifdef NEWDWARF
+#ifdef DWARF2
 	if (diag == DIAG_DWARF2 && no_frame)
 	  dw2_track_pop();
 #endif
@@ -1423,24 +1423,24 @@ void rotshift64
         extra_stack += 64;
 	check_stack_max;
 	ins0(pushedx);
-#ifdef NEWDWARF
+#ifdef DWARF2
 	if (diag == DIAG_DWARF2 && no_frame)
 	  dw2_track_push();
 #endif
 	ins0(pusheax);
-#ifdef NEWDWARF
+#ifdef DWARF2
 	if (diag == DIAG_DWARF2 && no_frame)
 	  dw2_track_push();
 #endif
 	ins3(dsh, 8, 32, 32, reg2, reg1, mw(ind_sp.where_exp,-32));
 	ins3(dsh, 8, 32, 32, reg2, reg0, mw(ind_sp.where_exp,-64));
 	ins0(popeax);
-#ifdef NEWDWARF
+#ifdef DWARF2
 	if (diag == DIAG_DWARF2 && no_frame)
 	  dw2_track_pop();
 #endif
 	ins0(popedx);
-#ifdef NEWDWARF
+#ifdef DWARF2
 	if (diag == DIAG_DWARF2 && no_frame)
 	  dw2_track_pop();
 #endif

@@ -37,14 +37,14 @@
 #include "special.h"
 #include "labels.h"
 
-#ifdef NEWDWARF
+#ifdef DWARF2
 #include <dwarf2/dw2_iface.h>
 #include <dwarf2/dw2_abbrev.h>
 #include <dwarf2/dw2_common.h>
 #endif
 
-#if DWARF
-#include <dwarf/dwarf_mc.h>
+#if DWARF1
+#include <dwarf1/dwarf_mc.h>
 #endif
 
 extern int use_link_stuff;

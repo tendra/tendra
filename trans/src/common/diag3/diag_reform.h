@@ -18,15 +18,15 @@
 
 #include <diag3/diagtypes1.h>
 
-#if DWARF
-#include <dwarf/dwarf_types.h>
+#if DWARF1
+#include <dwarf1/dwarf_types.h>
 #endif
 
 
 /*
  * This is used by common/reader to create common/diag types by the f_* API.
  */
-#if DWARF
+#if DWARF1
 typedef dwarf_global    diag_global;
 #else
 /* XXX: dwarf_diag_config.h has this as int! */
@@ -40,7 +40,7 @@ typedef diag_descriptor diag_global;
  * I think a pointer would suffice for those cases with a little work, too.
  * XXX: meanwhile architecture-specific knowledge here breaks abstraction
  */
-#if DWARF
+#if DWARF1
 typedef dwarf_type_label *OUTPUT_REC;
 #elif defined(TRANS_X86) || defined(TRANS_HPPA) || defined(TRANS_SPARC)
 typedef long   OUTPUT_REC;
@@ -54,7 +54,7 @@ typedef void * OUTPUT_REC;
  * somehow. dwarf_global just associates a dwarf_label field with a
  * diag_descriptor.
  */
-#if DWARF
+#if DWARF1
 dwarf_global *   NEW_DIAG_GLOBAL(diag_descriptor *);
 #else
 diag_descriptor *NEW_DIAG_GLOBAL(diag_descriptor *);

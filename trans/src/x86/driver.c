@@ -47,14 +47,14 @@
 #include <diag3/diag_fns.h>
 #endif
 
-#ifdef NEWDWARF
+#ifdef DWARF2
 #include <dwarf2/dw2_iface.h>
 #include <dwarf2/dw2_abbrev.h>
 #include <dwarf2/dw2_common.h>
 #endif
 
-#if DWARF
-#include <dwarf/dwarf_mc.h>
+#if DWARF1
+#include <dwarf1/dwarf_mc.h>
 #endif
 
 extern int print_inlines;
@@ -229,7 +229,7 @@ cleanup(void)
 			weak_list = weak_list->next;
 		}
 
-#ifdef NEWDWARF
+#ifdef DWARF2
 		if (diag == DIAG_DWARF2)
 			end_dwarf2();
 		else

@@ -17,7 +17,7 @@
 #ifndef DW2_EXTRA_H
 #define DW2_EXTRA_H
 
-#ifdef NEWDWARF
+#ifdef DWARF2
 
 long dw2_start_fde(long proc_start, long fblab);
 void dw2_fde_entry (long dwl0, long dwl1, long dwl2, long dwl3, long dwl4, long dwl8, int space);
@@ -40,5 +40,5 @@ void dw_init_regassn(int reg, int x);
 void dw_used_regassn(int reg, int x);
 void dw_close_regassn(int reg, int x);
 
-#endif /* NEWDWARF */
+#endif /* DWARF2 */
 #endif /* DW2_EXTRA_H */

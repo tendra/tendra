@@ -596,7 +596,7 @@ void evaluate
     dot_align(al/8);
 
   if (diag_props)
-#ifdef NEWDWARF
+#ifdef DWARF2
     DIAG_VAL_BEGIN(diag_props, global, cname, s);
 #else
     diag_val_begin(diag_props, global, cname, s);
@@ -621,7 +621,7 @@ void evaluate
   outnl();
 
   if (diag_props) {
-#ifdef NEWDWARF
+#ifdef DWARF2
     DIAG_VAL_END(diag_props);
 #else
     diag_val_end(diag_props);

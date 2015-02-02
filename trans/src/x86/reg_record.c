@@ -23,7 +23,7 @@
 #include "instr386.h"
 #include "reg_record.h"
 
-#ifdef NEWDWARF
+#ifdef DWARF2
 #include "dw2_extra.h"
 #endif
 
@@ -47,7 +47,7 @@ void clear_reg_record
   int   i;
   for (i = 0; i < no_fixed_regs; ++i) {
     s[i].regcell_key = 4;
-#ifdef NEWDWARF
+#ifdef DWARF2
     if (diag == DIAG_DWARF2) {
       dw_close_regassn(i, 0);
       dw_close_regassn(i, 1);
@@ -65,7 +65,7 @@ void clear_low_reg_record
   int   i;
   for (i = 0; i < no_fixed_regs; ++i) {
     s[i].regcell_key = 4;
-#ifdef NEWDWARF
+#ifdef DWARF2
     if (diag == DIAG_DWARF2) {
       dw_close_regassn(i, 0);
       dw_close_regassn(i, 1);
@@ -142,7 +142,7 @@ where equiv_reg
     if ((p -> regcell_key & 1) &&
 	(sz == 0 || sz == p -> first_size) &&
 	eq_where_exp(p -> first_dest, w.where_exp, 1,(sz==0))) {
-#ifdef NEWDWARF
+#ifdef DWARF2
       if (diag == DIAG_DWARF2)
 	dw_used_regassn(i, 0);
 #endif
@@ -151,7 +151,7 @@ where equiv_reg
     if ((p -> regcell_key & 2) &&
 	(sz == 0 || sz == p -> second_size) &&
 	eq_where_exp(p -> second_dest, w.where_exp, 1,(sz==0))) {
-#ifdef NEWDWARF
+#ifdef DWARF2
       if (diag == DIAG_DWARF2)
 	dw_used_regassn(i, 1);
 #endif
@@ -224,7 +224,7 @@ void invalidate_dest
 	  if (is_aliased(pr -> first_dest) &&
 	      shape_overlap(dest.where_exp, pr -> first_dest)) {
 	    pr -> regcell_key = 4;
-#ifdef NEWDWARF
+#ifdef DWARF2
 	    if (diag == DIAG_DWARF2)
 	      dw_close_regassn(i, 0);
 #endif
@@ -234,7 +234,7 @@ void invalidate_dest
 	  if (is_aliased(pr -> second_dest) &&
 	      shape_overlap(dest.where_exp, pr -> second_dest)) {
 	    pr -> regcell_key = 4;
-#ifdef NEWDWARF
+#ifdef DWARF2
 	    if (diag == DIAG_DWARF2)
 	      dw_close_regassn(i, 1);
 #endif
@@ -244,7 +244,7 @@ void invalidate_dest
 	  if (is_aliased(pr -> first_dest) &&
 	      shape_overlap(dest.where_exp, pr -> first_dest)) {
 	    pr -> regcell_key &= 2;
-#ifdef NEWDWARF
+#ifdef DWARF2
 	    if (diag == DIAG_DWARF2)
 	      dw_close_regassn(i, 0);
 #endif
@@ -252,7 +252,7 @@ void invalidate_dest
 	  if (is_aliased(pr -> second_dest) &&
 	      shape_overlap(dest.where_exp, pr -> second_dest)) {
 	    pr -> regcell_key &= 1;
-#ifdef NEWDWARF
+#ifdef DWARF2
 	    if (diag == DIAG_DWARF2)
 	      dw_close_regassn(i, 1);
 #endif
@@ -277,7 +277,7 @@ void invalidate_dest
 	case 1:
 	  if (invalidates(d, pr -> first_dest)) {
 	    pr -> regcell_key = 4;
-#ifdef NEWDWARF
+#ifdef DWARF2
 	    if (diag == DIAG_DWARF2)
 	      dw_close_regassn(i, 0);
 #endif
@@ -286,7 +286,7 @@ void invalidate_dest
 	case 2:
 	  if (invalidates(d, pr -> second_dest)) {
 	    pr -> regcell_key = 4;
-#ifdef NEWDWARF
+#ifdef DWARF2
 	    if (diag == DIAG_DWARF2)
 	      dw_close_regassn(i, 1);
 #endif
@@ -295,14 +295,14 @@ void invalidate_dest
 	case 3:
 	  if (invalidates(d, pr -> first_dest)) {
 	    pr -> regcell_key &= 2;
-#ifdef NEWDWARF
+#ifdef DWARF2
 	    if (diag == DIAG_DWARF2)
 	      dw_close_regassn(i, 0);
 #endif
 	  }
 	  if (invalidates(d, pr -> second_dest)) {
 	    pr -> regcell_key &= 1;
-#ifdef NEWDWARF
+#ifdef DWARF2
 	    if (diag == DIAG_DWARF2)
 	      dw_close_regassn(i, 1);
 #endif
@@ -314,7 +314,7 @@ void invalidate_dest
     };
     return;
   };
-#ifdef NEWDWARF
+#ifdef DWARF2
   dw_ignore_used_regassn = 1;
 #endif
   while (1) {
@@ -326,7 +326,7 @@ void invalidate_dest
     if (regno < no_fixed_regs)
       crt_reg_record[regno].regcell_key = 4;
   };
-#ifdef NEWDWARF
+#ifdef DWARF2
   dw_ignore_used_regassn = 0;
 #endif
   return;
@@ -359,7 +359,7 @@ void move_reg
 	  p -> regcell_key = 3;
 	  p -> second_dest = from.where_exp;
 	  p -> second_size = sz;
-#ifdef NEWDWARF
+#ifdef DWARF2
 	  if (diag == DIAG_DWARF2)
 	    dw_init_regassn(regno_to, 1);
 #endif
@@ -370,7 +370,7 @@ void move_reg
 	  p -> regcell_key = 3;
 	  p -> first_dest = from.where_exp;
 	  p -> first_size = sz;
-#ifdef NEWDWARF
+#ifdef DWARF2
 	  if (diag == DIAG_DWARF2)
 	    dw_init_regassn(regno_to, 0);
 #endif
@@ -383,7 +383,7 @@ void move_reg
 	  p -> regcell_key = 1;
 	  p -> first_dest = from.where_exp;
 	  p -> first_size = sz;
-#ifdef NEWDWARF
+#ifdef DWARF2
 	  if (diag == DIAG_DWARF2)
 	    dw_init_regassn(regno_to, 0);
 #endif
@@ -400,7 +400,7 @@ void move_reg
 	  p -> regcell_key = 3;
 	  p -> second_dest = to.where_exp;
 	  p -> second_size = sz;
-#ifdef NEWDWARF
+#ifdef DWARF2
 	  if (diag == DIAG_DWARF2)
 	    dw_init_regassn(regno_from, 1);
 #endif
@@ -411,7 +411,7 @@ void move_reg
 	  p -> regcell_key = 3;
 	  p -> first_dest = to.where_exp;
 	  p -> first_size = sz;
-#ifdef NEWDWARF
+#ifdef DWARF2
 	  if (diag == DIAG_DWARF2)
 	    dw_init_regassn(regno_from, 0);
 #endif
@@ -424,7 +424,7 @@ void move_reg
 	  p -> regcell_key = 1;
 	  p -> first_dest = to.where_exp;
 	  p -> first_size = sz;
-#ifdef NEWDWARF
+#ifdef DWARF2
 	  if (diag == DIAG_DWARF2)
 	    dw_init_regassn(regno_from, 0);
 #endif

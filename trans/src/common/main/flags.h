@@ -155,7 +155,7 @@ extern int diag_visible;
 extern int extra_diags;
 #endif
 
-#ifdef NEWDWARF
+#ifdef DWARF2
 extern int dump_abbrev;
 #endif
 

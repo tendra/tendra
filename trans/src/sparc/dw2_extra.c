@@ -7,7 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifdef NEWDWARF
+#ifdef DWARF2
 
 #include <assert.h>
 #include <stdio.h>

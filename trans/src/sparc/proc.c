@@ -25,7 +25,7 @@
 
 #include <reader/exp.h>
 
-#ifdef NEWDWARF
+#ifdef DWARF2
 #include <local/dw2_config.h>
 #endif
 
@@ -70,7 +70,7 @@
 #include <diag4/dg_globs.h>
 #endif
 
-#ifdef NEWDWARF
+#ifdef DWARF2
 #include <dwarf2/dw2_info.h>
 #include <dwarf2/dw2_basic.h>
 #include "dw2_extra.h"
@@ -266,7 +266,7 @@ makeans make_proc_tag_code
 
   st = proc_state.frame_size >> 3;
 
-#ifdef NEWDWARF
+#ifdef DWARF2
   if (diag == DIAG_DWARF2) {
     START_BB();
     dw2_start_fde(current_proc);
@@ -280,7 +280,7 @@ makeans make_proc_tag_code
     else {
       rir_ins(i_save,R_SP,-st,R_SP);
     }
-#ifdef NEWDWARF
+#ifdef DWARF2
     if (diag == DIAG_DWARF2)
       dw2_fde_save();
 #endif
@@ -297,7 +297,7 @@ makeans make_proc_tag_code
   }
   else{
     rir_ins(i_save, R_SP, -st, R_SP);
-#ifdef NEWDWARF
+#ifdef DWARF2
     if (diag == DIAG_DWARF2)
       dw2_fde_save();
 #endif
@@ -314,7 +314,7 @@ makeans make_proc_tag_code
     outs("2:\n");
     outf("\tor\t%%l7,%%lo(%s+ (.-1b)),%%l7\n", g);
     outs("\tadd\t%l7,%o7,%l7\n");
-#ifdef NEWDWARF
+#ifdef DWARF2
     if (diag == DIAG_DWARF2)
       lost_count_ins();
 #endif
@@ -412,7 +412,7 @@ makeans make_proc_tag_code
     outs("\tset\tLP.");
     outn(p_lab);
     outs(",%o0\n");
-#ifdef NEWDWARF
+#ifdef DWARF2
     if (diag == DIAG_DWARF2)
       lost_count_ins();
 #endif
@@ -555,14 +555,14 @@ makeans make_proc_tag_code
 #ifndef RET_IN_CODE
     if (proc_state.result_label !=0) {
       set_label(proc_state.result_label);
-#ifdef NEWDWARF
+#ifdef DWARF2
       if (diag == DIAG_DWARF2)
         dw2_return_pos(0);
 #endif
       ret_restore_ins();
     }
 #endif
-#ifdef NEWDWARF
+#ifdef DWARF2
     if (diag == DIAG_DWARF2)
       dw2_complete_fde();
 #endif
@@ -596,7 +596,7 @@ makeans make_res_tag_code
       if (isw.adval == 0 && isw.b.base == R_FP &&
 	   isw.b.offset == (16 * 4)) {
 	/* struct or union result */
-#ifdef NEWDWARF
+#ifdef DWARF2
 	if (diag == DIAG_DWARF2)
 	  dw2_return_pos(0);
 #endif
@@ -639,7 +639,7 @@ makeans make_res_tag_code
 	    }
 #endif
 	  }
-#ifdef NEWDWARF
+#ifdef DWARF2
 	  if (diag == DIAG_DWARF2)
 	    dw2_return_pos(0);
 #endif
@@ -648,7 +648,7 @@ makeans make_res_tag_code
 	  }
 	  else {
 	    fprintf(as_file, "\t%s\n", i_ret);
-#ifdef NEWDWARF
+#ifdef DWARF2
 	    if (diag == DIAG_DWARF2)
 	      count_ins(1);
 #endif
@@ -676,7 +676,7 @@ makeans make_res_tag_code
 	}
 #endif
 	/* return here, avoiding cost of branch to return */
-#ifdef NEWDWARF
+#ifdef DWARF2
 	if (diag == DIAG_DWARF2)
 	  dw2_return_pos(0);
 #endif
@@ -685,7 +685,7 @@ makeans make_res_tag_code
 	}
 	else {
 	  fprintf(as_file, "\t%s\n", i_ret);
-#ifdef NEWDWARF
+#ifdef DWARF2
 	  if (diag == DIAG_DWARF2)
 	    count_ins(1);
 #endif
@@ -892,7 +892,7 @@ makeans make_apply_tag_code
     baseoff b;
     b = boff(son(fn));
     if (!tlrecurse) {
-#ifdef NEWDWARF
+#ifdef DWARF2
       if (current_dg_info) {
 	current_dg_info->data.i_call.brk = set_dw_text_label();
 	current_dg_info->data.i_call.p.k = WH_CODELAB;
@@ -908,7 +908,7 @@ makeans make_apply_tag_code
   }
   else {
     int r = reg_operand(fn, nsp);
-#ifdef NEWDWARF
+#ifdef DWARF2
     if (current_dg_info) {
       current_dg_info->data.i_call.brk = set_dw_text_label();
       current_dg_info->data.i_call.p.k = WH_REG;
@@ -925,7 +925,7 @@ makeans make_apply_tag_code
     unimp_ins((long)((ansash.ashsize / 8) & 0xfff));
   }
 
-#ifdef NEWDWARF
+#ifdef DWARF2
   if (diag == DIAG_DWARF2)
     START_BB();
 #endif
@@ -1329,7 +1329,7 @@ makeans make_apply_general_tag_code
 	 it optimises away changes to "unused" parameter registers which,
 	 in general procs, are needed to pass callees.
 	 */
-#ifdef NEWDWARF
+#ifdef DWARF2
       if (current_dg_info) {
 	current_dg_info->data.i_call.brk = set_dw_text_label();
 	current_dg_info->data.i_call.p.k = WH_CODELAB;
@@ -1345,7 +1345,7 @@ makeans make_apply_general_tag_code
   }
   else{
     int r = reg_operand(fn,nsp);
-#ifdef NEWDWARF
+#ifdef DWARF2
     if (current_dg_info) {
       current_dg_info->data.i_call.brk = set_dw_text_label();
       current_dg_info->data.i_call.p.k = WH_REG;
@@ -1361,7 +1361,7 @@ makeans make_apply_general_tag_code
     unimp_ins((long)((ansash.ashsize / 8) & 0xfff));
   }
 
-#ifdef NEWDWARF
+#ifdef DWARF2
   if (diag == DIAG_DWARF2)
     START_BB();
 #endif
@@ -1907,7 +1907,7 @@ makeans make_tail_call_tag
 	/* with -O2 SunOS corrupts unusual jmp/restore combination. */
       outs("\t.optim\t\"-O0\"\n");
     }
-#ifdef NEWDWARF
+#ifdef DWARF2
     if (current_dg_info) {
 	current_dg_info->data.i_lj.brk = set_dw_text_label();
 	current_dg_info->data.i_lj.j.k = WH_REG;
@@ -1916,7 +1916,7 @@ makeans make_tail_call_tag
 #endif
     extj_reg_ins_no_delay(i_jmp,r,-1);
     fprintf ( as_file, "\t%s\n", i_restore ) ;	/* delay slot */
-#ifdef NEWDWARF
+#ifdef DWARF2
     if (diag == DIAG_DWARF2)
       count_ins(1);
 #endif
@@ -1936,7 +1936,7 @@ makeans make_tail_call_tag
       int r = getreg(nsp.fixed);
       if (glob) {
 	set_ins(bproc,r);
-#ifdef NEWDWARF
+#ifdef DWARF2
 	if (current_dg_info) {
 	  current_dg_info->data.i_lj.brk = set_dw_text_label();
 	  current_dg_info->data.i_lj.j.k = WH_REG;
@@ -1948,7 +1948,7 @@ makeans make_tail_call_tag
       else{
 	load_reg(fn,r,nsp);
 	rir_ins(i_add,r,12,r);
-#ifdef NEWDWARF
+#ifdef DWARF2
 	if (current_dg_info) {
 	  current_dg_info->data.i_lj.brk = set_dw_text_label();
 	  current_dg_info->data.i_lj.j.k = WH_REG;

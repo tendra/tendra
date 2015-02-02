@@ -14,7 +14,7 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
-#ifdef NEWDWARF
+#ifdef DWARF2
 #include <local/dw2_config.h>
 #endif
 
@@ -31,7 +31,7 @@
 #include "regexps.h"
 #include "comment.h"
 
-#ifdef NEWDWARF
+#ifdef DWARF2
 #include "dw2_extra.h"
 #include <dwarf2/dw2_iface.h>
 #endif
@@ -115,7 +115,7 @@ clear_all (void) {
     for ( i = 0 ; i < 48 ; i++ ) {
 	regexps [i].keptexp = NULL ;
 	setregalt ( regexps [i].inans, 0 ) ;
-#ifdef NEWDWARF
+#ifdef DWARF2
 	if (diag == DIAG_DWARF2)
 	  dw_close_regassn (i);
 #endif
@@ -135,7 +135,7 @@ clear_reg ( int i )
     if ( i >= 0 && i < 48 ) {
 	regexps [i].keptexp = NULL ;
 	setregalt ( regexps [i].inans, 0 ) ;
-#ifdef NEWDWARF
+#ifdef DWARF2
 	if (diag == DIAG_DWARF2)
 	  dw_close_regassn (i);
 #endif
@@ -191,7 +191,7 @@ iskept ( exp e )
 		    }
 
 		    default : {
-#ifdef NEWDWARF
+#ifdef DWARF2
 			if (diag == DIAG_DWARF2)
 			  dw_used_regassn (i);
 #endif
@@ -210,7 +210,7 @@ iskept ( exp e )
 			 sim_exp ( son ( ke ), e ) ) {
 			/* the contents of required expression is here as
 			   a register-offset */
-#ifdef NEWDWARF
+#ifdef DWARF2
 			if (diag == DIAG_DWARF2)
 			  dw_used_regassn (i);
 #endif
@@ -230,7 +230,7 @@ iskept ( exp e )
 			 sim_exp ( son ( ke ), e ) ) {
 			/* a ref selection of required expression is here as
 			   a register-offset */
-#ifdef NEWDWARF
+#ifdef DWARF2
 			if (diag == DIAG_DWARF2)
 			  dw_used_regassn (i);
 #endif
@@ -279,7 +279,7 @@ keepexp ( exp e, ans loc )
     regexps [ reg ].keptexp = e ;
     regexps [ reg ].inans = loc ;
     regexps [ reg ].iscont = 0 ;
-#ifdef NEWDWARF
+#ifdef DWARF2
     if (diag == DIAG_DWARF2)
 	dw_init_regassn (reg);
 #endif
@@ -313,7 +313,7 @@ keepcont ( exp e, int regcode )
 
     regexps [ reg ].keptexp = e ;
     regexps [ reg ].iscont = 1 ;
-#ifdef NEWDWARF
+#ifdef DWARF2
     if (diag == DIAG_DWARF2)
 	dw_init_regassn (reg);
 #endif
@@ -347,7 +347,7 @@ keepreg ( exp e, int regcode )
 
     regexps [ reg ].keptexp = e ;
     regexps [ reg ].iscont = 0 ;
-#ifdef NEWDWARF
+#ifdef DWARF2
     if (diag == DIAG_DWARF2)
 	dw_init_regassn (reg);
 #endif
@@ -490,7 +490,7 @@ clear_dep_reg ( exp lhs )
 	{	
 	  regexps [i].keptexp = NULL ;
 	  setregalt ( regexps [i].inans, 0 ) ;
-#ifdef NEWDWARF
+#ifdef DWARF2
 	  if (diag == DIAG_DWARF2)
 	    dw_close_regassn (i);
 #endif

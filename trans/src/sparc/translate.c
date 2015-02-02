@@ -95,7 +95,7 @@
 #include <local/ash.h>
 #include <local/out.h>
 
-#ifdef NEWDWARF
+#ifdef DWARF2
 #include <local/dw2_config.h>
 #endif
 
@@ -137,7 +137,7 @@
 #include "sparctrans.h"
 #include "localexpmacs.h"
 
-#ifdef NEWDWARF
+#ifdef DWARF2
 #include <dwarf2/dw2_iface.h>
 #endif
 
@@ -277,13 +277,13 @@ init_translator (void)
 
 
   /* start diagnostics if necessary */
-#ifdef NEWDWARF
+#ifdef DWARF2
   if (diag == DIAG_DWARF2)
     init_dwarf2 ();
   else
 #endif
   if (diag != DIAG_NONE) {
-#if DWARF
+#if DWARF1
     out_diagnose_prelude () ;
 #else
     init_stab () ;
@@ -320,13 +320,13 @@ exit_translator (void){
   output_special_routines () ;
   insection ( text_section ) ;
 
-#ifdef NEWDWARF
+#ifdef DWARF2
   if (diag == DIAG_DWARF2)
     end_dwarf2 ();
   else
 #endif
   if (diag != DIAG_NONE) {
-#if DWARF
+#if DWARF1
     out_diagnose_postlude () ;
 #else
     /* do nothing */
@@ -349,12 +349,12 @@ translate_capsule (void){
   space tempregs ;
   
   /* initialize diagnostics */
-#ifdef NEWDWARF
+#ifdef DWARF2
   if ( diag != DIAG_NONE && diag != DIAG_DWARF2 ) {
 #else
   if ( diag != DIAG_NONE ) {
 #endif
-#if DWARF
+#if DWARF1
     /* do nothing */
 #else
     init_stab_aux () ;
@@ -390,7 +390,7 @@ translate_capsule (void){
 
 	init_translator () ;
 
-#ifdef NEWDWARF
+#ifdef DWARF2
 	if ( dump_abbrev ) {
 		/* Dump abbreviations table */
 		do_abbreviations () ;
@@ -403,7 +403,7 @@ translate_capsule (void){
 #endif
 
 
-#ifdef NEWDWARF
+#ifdef DWARF2
   if (diag == DIAG_DWARF2) {
     dwarf2_prelude ();
   }
@@ -748,7 +748,7 @@ translate_capsule (void){
   }	
 
 
-#ifdef NEWDWARF
+#ifdef DWARF2
   if (diag == DIAG_DWARF2) {
     dwarf2_postlude ();
   }

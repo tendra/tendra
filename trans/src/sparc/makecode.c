@@ -17,7 +17,7 @@
 #include <local/ash.h>
 #include <local/out.h>
 
-#ifdef NEWDWARF
+#ifdef DWARF2
 #include <local/dw2_config.h>
 #endif
 
@@ -72,7 +72,7 @@
 #include <diag4/dg_globs.h>
 #endif
 
-#ifdef NEWDWARF
+#ifdef DWARF2
 #include <dwarf2/dw2_info.h>
 #include <dwarf2/dw2_basic.h>
 #endif
@@ -533,7 +533,7 @@ ldconst ( int r, long hi, long word2, long word3, long lo )
   b.base = dlab ;
   b.offset = 0 ;
   ld_ins(i_set,b,r);
-#ifdef NEWDWARF
+#ifdef DWARF2
   lost_count_ins();
 #endif
   /*ldf_ins ( i_ldd, b, f << 1 ) ;*/
@@ -913,7 +913,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
       clear_all();
       rr_ins(i_mov,r,R_TMP);
       /*rir_ins(i_sub,R_FP,proc_state.callee_size>>3,R_FP);*/
-#ifdef NEWDWARF
+#ifdef DWARF2
       if (current_dg_info) {
 	current_dg_info->data.i_lj.brk = set_dw_text_label ();
 	current_dg_info->data.i_lj.j.k = WH_REG;
@@ -983,7 +983,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
       if ( lb != 0 ) {
 	clear_all () ;
 	set_label ( lb ) ;
-#ifdef NEWDWARF
+#ifdef DWARF2
         START_BB ();
 #endif
       }
@@ -1032,7 +1032,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
       int ptr_reg;
       assert (last(son(e)));	  
       ptr_reg = reg_operand (son(e), sp ) ;
-#ifdef NEWDWARF
+#ifdef DWARF2
       if (current_dg_info) {
 	current_dg_info->data.i_lj.brk = set_dw_text_label ();
 	current_dg_info->data.i_lj.j.k = WH_REG;
@@ -1049,7 +1049,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
       assert ( lab >= 100 ) ;
       clear_all () ;
       /* needed if lab == exitlab ? */
-#ifdef NEWDWARF
+#ifdef DWARF2
       if (current_dg_info) {
 	current_dg_info->data.i_tst.brk = set_dw_text_label ();
 	current_dg_info->data.i_tst.jlab.u.l = lab;
@@ -1093,7 +1093,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
 	else {
 	  quad_op ( l, r, sp, dest, -n ) ;
 	}
-#ifdef NEWDWARF
+#ifdef DWARF2
 	if (current_dg_info) {
 	  current_dg_info->data.i_tst.brk = set_dw_text_label ();
 	  current_dg_info->data.i_tst.jlab.u.l = lab;
@@ -1101,7 +1101,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
 	}
 #endif
 	condrr_ins ( i_bne, R_O0, R_G0, lab ) ;
-#ifdef NEWDWARF
+#ifdef DWARF2
 	START_BB ();
 	if (current_dg_info)
 	  current_dg_info->data.i_tst.cont = set_dw_text_label ();
@@ -1128,7 +1128,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
 	  a2 = freg_operand ( r, nsp, getfreg ( nsp.flt ) ) ;
 	}
 	rrf_cmp_ins ( compare, a1 << 1, a2 << 1 ) ;
-#ifdef NEWDWARF
+#ifdef DWARF2
 	if (current_dg_info) {
 	  current_dg_info->data.i_tst.brk = set_dw_text_label ();
 	  current_dg_info->data.i_tst.jlab.u.l = lab;
@@ -1136,7 +1136,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
 	}
 #endif
 	fbr_ins ( branch, lab ) ;
-#ifdef NEWDWARF
+#ifdef DWARF2
 	START_BB ();
 	if (current_dg_info)
 	  current_dg_info->data.i_tst.cont = set_dw_text_label ();
@@ -1154,7 +1154,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
 	a1 = reg_operand ( l, sp ) ;
 	if ( name ( r ) == val_tag ) {
 	  long v = no(r);
-#ifdef NEWDWARF
+#ifdef DWARF2
 	  if (current_dg_info)
 	    current_dg_info->data.i_tst.brk = set_dw_text_label ();
 #endif
@@ -1182,13 +1182,13 @@ make_code ( exp e, space sp, where dest, int exitlab )
 	  space nsp ;
 	  nsp = guardreg ( a1, sp ) ;
 	  a2 = reg_operand ( r, nsp ) ;
-#ifdef NEWDWARF
+#ifdef DWARF2
 	  if (current_dg_info)
 	    current_dg_info->data.i_tst.brk = set_dw_text_label ();
 #endif
 	  condrr_ins ( branch, a1, a2, lab ) ;
 	}
-#ifdef NEWDWARF
+#ifdef DWARF2
 	START_BB ();
 	if (current_dg_info) {
 	  current_dg_info->data.i_tst.jlab.u.l = lab;
@@ -1205,7 +1205,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
     case diagnose_tag : {
       /* Diagnostics */
       diag_info *d = dno ( e ) ;
-#if DWARF
+#if DWARF1
       output_diag ( d, 0, e ) ;
       mka = make_code ( son ( e ), sp, dest, exitlab ) ;
       output_end_scope ( d, e ) ;
@@ -3988,13 +3988,13 @@ make_code ( exp e, space sp, where dest, int exitlab )
       if ( sysV_assembler && !PIC_code )
 	 insection ( text_section ) ;
 
-#ifdef NEWDWARF
+#ifdef DWARF2
       lost_count_ins();
 #endif
 
       clear_all () ;
       set_label ( endlab ) ;
-#ifdef NEWDWARF
+#ifdef DWARF2
       START_BB ();
 #endif
       return mka;
@@ -4039,7 +4039,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
 	  if ( over != 0 ) {
 	    clear_all () ;
 	    set_label ( over ) ;
-#ifdef NEWDWARF
+#ifdef DWARF2
 	    START_BB ();
 #endif
 	  }
@@ -4092,7 +4092,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
 	  if ( over != 0 ) {
 	    clear_all () ;
 	    set_label ( over ) ;
-#ifdef NEWDWARF
+#ifdef DWARF2
 	    START_BB ();
 #endif
 	  }
@@ -4348,7 +4348,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
     nsp = guardreg ( a1, sp ) ;
     a2 = reg_operand ( r, nsp ) ;
     r_spare = getreg( guardreg(a2,nsp).fixed);
-#ifdef NEWDWARF
+#ifdef DWARF2
     if (current_dg_info) {
 	current_dg_info->data.i_lj.brk = set_dw_text_label ();
 	current_dg_info->data.i_lj.j.k = WH_REG;
@@ -4464,7 +4464,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
 	outs ("\t! ASM sequence ends\n\n");
       }
       clear_all ();
-#ifdef NEWDWARF
+#ifdef DWARF2
       lost_count_ins();
 #endif
       return mka;

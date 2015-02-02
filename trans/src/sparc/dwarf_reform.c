@@ -4,8 +4,8 @@
 
 #include <diag3/diag_reform.h>
 
-#include <dwarf/dwarf_types.h>
-#include <dwarf/dwarf_gbl.h>
+#include <dwarf1/dwarf_types.h>
+#include <dwarf1/dwarf_gbl.h>
 
 dwarf_global *
 NEW_DIAG_GLOBAL(diag_descriptor *d)

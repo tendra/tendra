@@ -36,7 +36,7 @@ extern void next_dwarf_lab(dwarf_label *p);
 extern dwarf_type_label *next_dwarf_type_lab(void);
 extern char *current_label_name(void);
 
-#include <dwarf/dwarf_gbl.h>
+#include <dwarf1/dwarf_gbl.h>
 extern void out_dwarf_name_attr(const char * const s);
 #define TDFSTRING2CHAR(x)	(&(((x).ints.chars)[0]))
 extern void out_dwarf_string(const char * const s);

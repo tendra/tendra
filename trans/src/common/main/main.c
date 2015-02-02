@@ -187,7 +187,7 @@ main(int argc, char *argv[])
 			case 'v': trans_version();     return 0;
 			case 'h': trans_usage(stdout); return 0;
 
-#ifdef NEWDWARF
+#ifdef DWARF2
 			case 'T':
 				dump_abbrev = 1;
 			case 'J':

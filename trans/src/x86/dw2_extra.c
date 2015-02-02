@@ -15,7 +15,7 @@
 #include <local/szs_als.h>
 #include <local/codermacs.h>
 
-#ifdef NEWDWARF
+#ifdef DWARF2
 #include <local/dw2_config.h>
 
 #include <reader/basicread.h>

@@ -25,7 +25,7 @@
 #include <local/cpu.h>
 #include <local/codermacs.h>
 
-#ifdef NEWDWARF
+#ifdef DWARF2
 #include <local/dw2_config.h>
 #endif
 
@@ -73,7 +73,7 @@
 #include <diag3/diag_fns.h>
 #endif
 
-#ifdef NEWDWARF
+#ifdef DWARF2
 #include <dwarf2/dw2_info.h>
 #include <dwarf2/dw2_basic.h>
 #include "dw2_extra.h"
@@ -224,7 +224,7 @@ static int procargs
     if (extra != 0) {
       sub(slongsh, mw(zeroe, extra/8), sp, sp);
       stack_dec -= extra;  /* align stack to param_align */
-#ifdef NEWDWARF
+#ifdef DWARF2
       if (diag == DIAG_DWARF2 && no_frame)
 	dw2_track_sp();
 #endif
@@ -250,7 +250,7 @@ static int procargs
     cond1_set = 0;
     cond2_set = 0;
     stack_dec -= longs;
-#ifdef NEWDWARF
+#ifdef DWARF2
     if (diag == DIAG_DWARF2 && no_frame)
       dw2_track_sp();
 #endif
@@ -1092,7 +1092,7 @@ void coder
 	    if (name(sh(first))!= bothd) {
 	      reset_fpucon();
 	      set_label(jr);
-#ifdef NEWDWARF
+#ifdef DWARF2
 	      START_BB();
 #endif
 	      clear_reg_record(crt_reg_record);
@@ -1104,7 +1104,7 @@ void coder
 	    rec->cond2a = cond2a;
 	    rec->cond2b = cond2b;
 #if 0
-#ifdef NEWDWARF
+#ifdef DWARF2
 	    if (diag == DIAG_DWARF2) {
 	      rec->dw2_hi = next_dwarf_label();
 	      rec->dw2_slave = next_dwarf_label();
@@ -1148,7 +1148,7 @@ void coder
 		  name(bro(son(bro(son(first))))) == apply_tag)
 	    align_label(0, record);
 	  set_label(record);
-#ifdef NEWDWARF
+#ifdef DWARF2
 	  START_BB();
 #endif
 	  fstack_pos = old_fstack_pos;
@@ -1186,7 +1186,7 @@ void coder
 	  if (name(sh(alt)) == bothd)
 	    align_label(2, jr);
 	  set_label(jr);
-#ifdef NEWDWARF
+#ifdef DWARF2
 	  START_BB();
 #endif
 	};
@@ -1214,7 +1214,7 @@ void coder
         stack_dec = sonno(pt(son(e)));
 
         old_scale = scale;
-#ifdef NEWDWARF
+#ifdef DWARF2
 	START_BB();
 #endif
 	coder(dest, stack, bro(son(e)));
@@ -1260,7 +1260,7 @@ void coder
 	exp lab;
         clean_stack();
 	lab = final_dest(pt(e));
-#ifdef NEWDWARF
+#ifdef DWARF2
 	if (current_dg_info) {
 	  current_dg_info->data.i_tst.brk = set_dw_text_label();
 	  current_dg_info->data.i_tst.jlab.u.l = ptno(pt(son(lab)));
@@ -1381,7 +1381,7 @@ void coder
 	};
 
 	clean_stack();
-#ifdef NEWDWARF
+#ifdef DWARF2
 	if (current_dg_info) {
 	  current_dg_info->data.i_tst.brk = set_dw_text_label();
 	  current_dg_info->data.i_tst.jlab.u.l = ptno(jr);
@@ -1390,7 +1390,7 @@ void coder
 #endif
 	test(sh(arg1), mw(arg1, 0), mw(arg2, 0));
 	branch((int)test_number(e), jr, 1,(int)name(sh(arg1)));
-#ifdef NEWDWARF
+#ifdef DWARF2
 	START_BB();
 	if (current_dg_info)
 	  current_dg_info->data.i_tst.cont = set_dw_text_label();
@@ -1546,7 +1546,7 @@ void coder
 	    }
 	    if (name(e) == test_tag) {
 	      SET(jr);
-#ifdef NEWDWARF
+#ifdef DWARF2
 	      if (current_dg_info) {
 		current_dg_info->data.i_tst.brk = set_dw_text_label();
 		current_dg_info->data.i_tst.jlab.u.l = ptno(jr);
@@ -1554,7 +1554,7 @@ void coder
 	      }
 #endif
 	      branch((int)test_n, jr, sg,(int)name(sh(arg1)));
-#ifdef NEWDWARF
+#ifdef DWARF2
 	      START_BB();
 	      if (current_dg_info)
 	        current_dg_info->data.i_tst.cont = set_dw_text_label();
@@ -2069,7 +2069,7 @@ void coder
     case untidy_return_tag:
       {
 	int old_stack_dec = stack_dec;
-#ifdef NEWDWARF
+#ifdef DWARF2
 	long over_lab;
 #endif
 	cond1_set = 0;
@@ -2121,12 +2121,12 @@ void coder
 		outs(" pushl ");
 		rel_ap (0, 1);	/* push return address for return after pops */
 		outnl();
-#ifdef NEWDWARF
+#ifdef DWARF2
 		if (diag == DIAG_DWARF2)
 		  dw2_untidy_return();
 #endif
 	      }
-#ifdef NEWDWARF
+#ifdef DWARF2
 	      if (diag == DIAG_DWARF2) {
 		over_lab = next_dwarf_label();
 		dw2_return_pos(over_lab);
@@ -2144,7 +2144,7 @@ void coder
 	      else
 		retins();
 	      outnl();
-#ifdef NEWDWARF
+#ifdef DWARF2
 	      if (diag == DIAG_DWARF2)
 		dw2_after_fde_exit(over_lab);
 #endif
@@ -2191,7 +2191,7 @@ void coder
 	if (name(sh(e))!= bothd) {
 	  align_label(0, jr);
 	  set_label(jr);
-#ifdef NEWDWARF
+#ifdef DWARF2
 	  START_BB();
 #endif
 	};
@@ -2479,7 +2479,7 @@ void coder
       };
       d = d->more;
     };
-#ifdef NEWDWARF
+#ifdef DWARF2
     CODE_DIAG_INFO(dgf(e), crt_proc_id, coder2,(void*) &args);
 #else
     code_diag_info(dgf(e), crt_proc_id, coder2,(void*) &args);
@@ -2513,7 +2513,7 @@ void diag_arg
     args.dest = dest;
     args.stack = stack;
     current_dg_exp = args.e = e;
-#ifdef NEWDWARF
+#ifdef DWARF2
     CODE_DIAG_INFO(dgf(e), crt_proc_id, done_arg,(void*) &args);
 #else
     code_diag_info(dgf(e), crt_proc_id, done_arg,(void*) &args);

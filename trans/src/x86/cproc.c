@@ -17,7 +17,7 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
-#ifdef NEWDWARF
+#ifdef DWARF2
 #include <local/dw2_config.h>
 #endif
 
@@ -59,7 +59,7 @@
 #include "cproc.h"
 #include "localexpmacs.h"
 
-#ifdef NEWDWARF
+#ifdef DWARF2
 #include <dwarf2/dw2_info.h>
 #include <dwarf2/dw2_basic.h>
 #include "dw2_extra.h"
@@ -96,7 +96,7 @@ static void add_odd_bits
     dot_align(4);
   simple_set_label(r->labno);
   clear_reg_record(crt_reg_record);
-#ifdef NEWDWARF
+#ifdef DWARF2
   if (diag == DIAG_DWARF2) {
 #if 1
     dw2_start_extra_bit(r->body);
@@ -123,7 +123,7 @@ static void add_odd_bits
   }
   else
     stack_dec = 0;
-#ifdef NEWDWARF
+#ifdef DWARF2
   if (diag == DIAG_DWARF2)
 #if 1
     dw2_end_extra_bit(r->body);
@@ -137,7 +137,7 @@ static void add_odd_bits
 static void out_pops
 (int tot_sp, int push_space, int extra, int dpos)
 {
-#ifdef NEWDWARF
+#ifdef DWARF2
   long dwl0 = 0, dwl1 = 0, dwl2 = 0, dwl3 = 0, dwl4 = 0;
 #endif
   tot_sp -= extra;
@@ -147,7 +147,7 @@ static void out_pops
       outn((long)(tot_sp - push_space));
       outs(",%esp");
       outnl();
-#ifdef NEWDWARF
+#ifdef DWARF2
       if (diag == DIAG_DWARF2)
 	dwl0 = set_dw_text_label();
 #endif
@@ -166,7 +166,7 @@ static void out_pops
   if (no_frame && (min_rfree & 0x40)) {
     outs(" pop %ebp");
     outnl();
-#ifdef NEWDWARF
+#ifdef DWARF2
     if (diag == DIAG_DWARF2)
       dwl1 = set_dw_text_label();
 #endif
@@ -174,7 +174,7 @@ static void out_pops
   if (min_rfree & 0x20) {
     outs(" pop %esi");
     outnl();
-#ifdef NEWDWARF
+#ifdef DWARF2
     if (diag == DIAG_DWARF2)
       dwl2 = set_dw_text_label();
 #endif
@@ -182,7 +182,7 @@ static void out_pops
   if (min_rfree & 0x10) {
     outs(" pop %edi");
     outnl();
-#ifdef NEWDWARF
+#ifdef DWARF2
     if (diag == DIAG_DWARF2)
       dwl3 = set_dw_text_label();
 #endif
@@ -190,7 +190,7 @@ static void out_pops
   if (min_rfree & 0x8) {
     outs(" pop %ebx");
     outnl();
-#ifdef NEWDWARF
+#ifdef DWARF2
     if (diag == DIAG_DWARF2)
       dwl4 = set_dw_text_label();
 #endif
@@ -199,13 +199,13 @@ static void out_pops
   if (!no_frame) {
     outs(" pop %ebp");
     outnl();
-#ifdef NEWDWARF
+#ifdef DWARF2
     if (diag == DIAG_DWARF2)
       dwl1 = set_dw_text_label();
 #endif
   };
   outnl();
-#ifdef NEWDWARF
+#ifdef DWARF2
   if (diag == DIAG_DWARF2) {
     out_set_pos(dpos);
     dw2_fde_restore_args(dwl0, dwl1, dwl2, dwl3, dwl4, push_space);
@@ -301,7 +301,7 @@ int cproc
         old_pos9,
         this_pos;
   int  push_space = 0;
-#ifdef NEWDWARF
+#ifdef DWARF2
   long dwl0, dwl8, dw_entry_pos;
   long dwl1 = 0, dwl2 = 0, dwl3 = 0, dwl4 = 0;
   char * dw_labroom = "                 ";
@@ -431,7 +431,7 @@ int cproc
 
   if (diag != DIAG_NONE)
     {
-#ifdef NEWDWARF
+#ifdef DWARF2
     DIAG_PROC_BEGIN(diag_props, global, cname, pname, p);
 #else
     diag_proc_begin(diag_props, global, cname, pname);
@@ -449,7 +449,7 @@ int cproc
     };
   outs(":");
   outnl();
-#ifdef NEWDWARF
+#ifdef DWARF2
   if (diag == DIAG_DWARF2) {
     START_BB();
     dwl0 = set_dw_text_label();
@@ -471,7 +471,7 @@ int cproc
     outnl();
     outs(" movl %esp,%ebp");
     outnl();
-#ifdef NEWDWARF
+#ifdef DWARF2
     if (diag == DIAG_DWARF2)
       dwl1 = set_dw_text_label();
 #endif
@@ -481,7 +481,7 @@ int cproc
   old_pos2 = out_tell_pos();
   outs("               ");
      /* " pushl %ebx\n" */
-#ifdef NEWDWARF
+#ifdef DWARF2
   if (diag == DIAG_DWARF2)
     outs(dw_labroom);
 #endif
@@ -489,7 +489,7 @@ int cproc
   old_pos3 = out_tell_pos();
   outs("               ");
      /* " pushl %edi\n" */
-#ifdef NEWDWARF
+#ifdef DWARF2
   if (diag == DIAG_DWARF2)
     outs(dw_labroom);
 #endif
@@ -497,7 +497,7 @@ int cproc
   old_pos4 = out_tell_pos();
   outs("               ");
      /* " pushl %esi\n" */
-#ifdef NEWDWARF
+#ifdef DWARF2
   if (diag == DIAG_DWARF2)
     outs(dw_labroom);
 #endif
@@ -506,7 +506,7 @@ int cproc
     old_pos5 = out_tell_pos();
     outs("               ");
        /* " pushl %ebp\n" */
-#ifdef NEWDWARF
+#ifdef DWARF2
     if (diag == DIAG_DWARF2)
       outs(dw_labroom);
 #endif
@@ -522,7 +522,7 @@ int cproc
   if (proc_has_checkstack(p)) {
     checkalloc_stack(reg0, 1);
   };
-#ifdef NEWDWARF
+#ifdef DWARF2
   if (diag == DIAG_DWARF2) {
     dwl8 = set_dw_text_label();
     dw_entry_pos = dw2_start_fde(dwl0, dwl1);
@@ -636,7 +636,7 @@ int cproc
   tot_sp = rounder(ms + push_space + ferrsize, byte_stack_align);
 
   if (crt_ret_lab_used) {
-#ifdef NEWDWARF
+#ifdef DWARF2
     long over_lab;
     if (diag == DIAG_DWARF2) {
       over_lab = next_dwarf_label();
@@ -646,7 +646,7 @@ int cproc
     restore_callregs(0);
     retins();
     outnl();
-#ifdef NEWDWARF
+#ifdef DWARF2
     if (diag == DIAG_DWARF2)
       dw2_after_fde_exit(over_lab);
 #endif
@@ -667,12 +667,12 @@ int cproc
   locals_offset = tot_sp;
   if (diag != DIAG_NONE) {
     no (p) = tot_sp;	/* may be used by delayed diagnostics */
-#ifdef NEWDWARF
+#ifdef DWARF2
     DIAG_PROC_END(diag_props, p);
 #else
     diag_proc_end(diag_props);
 #endif
-#ifdef NEWDWARF
+#ifdef DWARF2
   if (diag == DIAG_DWARF2)
     dw2_complete_fde();
 #endif
@@ -741,7 +741,7 @@ int cproc
 	  out_set_pos(old_pos2);
     outs(" pushl %ebx");
     outnl();
-#ifdef NEWDWARF
+#ifdef DWARF2
     if (diag == DIAG_DWARF2)
       dwl2 = set_dw_text_label();
 #endif
@@ -751,7 +751,7 @@ int cproc
 	  out_set_pos(old_pos3);
     outs(" pushl %edi");
     outnl();
-#ifdef NEWDWARF
+#ifdef DWARF2
     if (diag == DIAG_DWARF2)
       dwl3 = set_dw_text_label();
 #endif
@@ -762,7 +762,7 @@ int cproc
 	  out_set_pos(old_pos4);
     outs(" pushl %esi");
     outnl();
-#ifdef NEWDWARF
+#ifdef DWARF2
     if (diag == DIAG_DWARF2)
       dwl4 = set_dw_text_label();
 #endif
@@ -772,13 +772,13 @@ int cproc
 	  out_set_pos(old_pos5);
     outs(" pushl %ebp");
     outnl();
-#ifdef NEWDWARF
+#ifdef DWARF2
     if (diag == DIAG_DWARF2)
       dwl1 = set_dw_text_label();
 #endif
   };
 
-#ifdef NEWDWARF
+#ifdef DWARF2
   if (diag == DIAG_DWARF2) {
 	  out_set_pos(dw_entry_pos);
     dw2_fde_entry(dwl0, dwl1, dwl2, dwl3, dwl4, dwl8, tot_sp);
@@ -853,7 +853,7 @@ void restore_callregs
 				NULL, 0, 0,(unsigned char)untidy);
   no(returns_list) = (int)retpos;
   ptno(returns_list) = stack_dec;
-#ifdef NEWDWARF
+#ifdef DWARF2
   if (diag == DIAG_DWARF2)
     sonno(returns_list) = (int)dw2_prep_fde_restore_args(untidy);
 #endif

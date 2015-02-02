@@ -33,11 +33,11 @@
 #include <diag3/diagtypes.h>
 #endif
 
-#include <dwarf/dwarf.h>
-#include <dwarf/dwarf_types.h>
-#include <dwarf/dwarf_loc.h>
-#include <dwarf/dwarf_mc.h>
-#include <dwarf/dwarf_out.h>
+#include <dwarf1/dwarf.h>
+#include <dwarf1/dwarf_types.h>
+#include <dwarf1/dwarf_loc.h>
+#include <dwarf1/dwarf_mc.h>
+#include <dwarf1/dwarf_out.h>
 
 #ifdef TDF_DIAG4
 #include <construct/tags.h>
@@ -578,8 +578,8 @@ enter_dwarf_comp_unit(void)
 }
 
 
-#include <dwarf/dwarf_type.h>
-#include <dwarf/dwarf_queue.h>
+#include <dwarf1/dwarf_type.h>
+#include <dwarf1/dwarf_queue.h>
 
 void
 leave_dwarf_comp_unit(void)

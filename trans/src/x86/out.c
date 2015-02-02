@@ -18,7 +18,7 @@
 #include <local/out.h>
 #include <local/cpu.h>
 
-#ifdef NEWDWARF
+#ifdef DWARF2
 #include <local/dw2_config.h>
 #endif
 
@@ -32,7 +32,7 @@
 #include "instr.h"
 #include "messages_8.h"
 
-#ifdef NEWDWARF
+#ifdef DWARF2
 long instr_count = -1;
 #endif
 
@@ -103,7 +103,7 @@ outnl(void)
 	}
 
 	/* XXX: is out.c the right place? */
-#ifdef NEWDWARF
+#ifdef DWARF2
 	instr_count = -1;
 #endif
 	last_jump_label = -1;

@@ -21,7 +21,7 @@
 #include <local/cpu.h>
 #include <local/codermacs.h>
 
-#ifdef NEWDWARF
+#ifdef DWARF2
 #include <local/dw2_config.h>
 #endif
 
@@ -60,7 +60,7 @@
 #include <diag4/dg_globs.h>
 #endif
 
-#ifdef NEWDWARF
+#ifdef DWARF2
 #include <dwarf2/dw2_basic.h>
 #include "dw2_extra.h"
 #endif
@@ -279,7 +279,7 @@ static void cmp64_contop
     if (contop_dopop == 1)
      {
       ins1(popl, size32, SPILLREG);
-#ifdef NEWDWARF
+#ifdef DWARF2
       if (diag == DIAG_DWARF2 && no_frame)
 	dw2_track_pop();
 #endif
@@ -307,7 +307,7 @@ void end_contop
     if (contop_dopop == 1)
      {
       ins1(popl, size32, SPILLREG);
-#ifdef NEWDWARF
+#ifdef DWARF2
       if (diag == DIAG_DWARF2 && no_frame)
 	dw2_track_pop();
 #endif
@@ -461,7 +461,7 @@ void contop
 
 		/* we are a register short so spill SPILLREG */
 	ins1(pushl, size32, SPILLREG);
-#ifdef NEWDWARF
+#ifdef DWARF2
 	if (diag == DIAG_DWARF2 && no_frame)
 	  dw2_track_push();
 #endif
@@ -540,7 +540,7 @@ void contop
       if (reg0_in_use) {
 		/* we shall have to spill one */
 	ins1 (pushl, size32, SPILLREG);	/* spill SPILLREG */
-#ifdef NEWDWARF
+#ifdef DWARF2
 	if (diag == DIAG_DWARF2 && no_frame)
 	  dw2_track_push();
 #endif
@@ -2090,7 +2090,7 @@ void move
       reg_w = equiv_reg(from, sz);
       if (reg_w.where_exp != NULL) {
 	ins1(pushl, 32, reg_w);
-#ifdef NEWDWARF
+#ifdef DWARF2
 	if (diag == DIAG_DWARF2 && no_frame)
 	  dw2_track_push();
 #endif
@@ -2113,13 +2113,13 @@ void move
 	  c1 = x.big;
 	}
 	ins1(pushl, 32, mw(zeroe, c1));
-#ifdef NEWDWARF
+#ifdef DWARF2
 	if (diag == DIAG_DWARF2 && no_frame)
 	  dw2_track_push();
 #endif
 
 	ins1(pushl, 32, mw(zeroe, c));
-#ifdef NEWDWARF
+#ifdef DWARF2
 	if (diag == DIAG_DWARF2 && no_frame)
 	  dw2_track_push();
 #endif
@@ -2130,13 +2130,13 @@ void move
       }
       move(sha, from, reg0);
       ins0(pushedx);
-#ifdef NEWDWARF
+#ifdef DWARF2
       if (diag == DIAG_DWARF2 && no_frame)
 	dw2_track_push();
 #endif
 
       ins0(pusheax);
-#ifdef NEWDWARF
+#ifdef DWARF2
       if (diag == DIAG_DWARF2 && no_frame)
 	dw2_track_push();
 #endif
@@ -2149,7 +2149,7 @@ void move
         (cpu & CPU_80486 && inmem(from))) {
       move(sha, from, reg0);
       ins1(pushl, 32, reg0);
-#ifdef NEWDWARF
+#ifdef DWARF2
       if (diag == DIAG_DWARF2 && no_frame)
 	dw2_track_push();
 #endif
@@ -2160,7 +2160,7 @@ void move
     };
     contop(from.where_exp, 0, reg0);
     ins1(pushl, sz, from);
-#ifdef NEWDWARF
+#ifdef DWARF2
     if (diag == DIAG_DWARF2 && no_frame)
       dw2_track_push();
 #endif
@@ -2571,7 +2571,7 @@ void move
     if (regsinuse & 0x20) {
       extra_stack += 32;
       ins0(pushesi);
-#ifdef NEWDWARF
+#ifdef DWARF2
       if (diag == DIAG_DWARF2 && no_frame)
 	dw2_track_push();
 #endif
@@ -2579,7 +2579,7 @@ void move
     if (regsinuse & 0x10) {
       extra_stack += 32;
       ins0(pushedi);
-#ifdef NEWDWARF
+#ifdef DWARF2
       if (diag == DIAG_DWARF2 && no_frame)
 	dw2_track_push();
 #endif
@@ -2587,7 +2587,7 @@ void move
     if (regsinuse & 0x4) {
       extra_stack += 32;
       ins0(pushecx);
-#ifdef NEWDWARF
+#ifdef DWARF2
       if (diag == DIAG_DWARF2 && no_frame)
 	dw2_track_push();
 #endif
@@ -2609,7 +2609,7 @@ void move
 
     if (regsinuse & 0x20) {
       ins0(popesi);
-#ifdef NEWDWARF
+#ifdef DWARF2
       if (diag == DIAG_DWARF2 && no_frame)
 	dw2_track_pop();
 #endif
@@ -2632,21 +2632,21 @@ void move
     invalidate_dest(reg5);
     if (regsinuse & 0x4) {
       ins0(popecx);
-#ifdef NEWDWARF
+#ifdef DWARF2
       if (diag == DIAG_DWARF2 && no_frame)
 	dw2_track_pop();
 #endif
     };
     if (regsinuse & 0x10) {
       ins0(popedi);
-#ifdef NEWDWARF
+#ifdef DWARF2
       if (diag == DIAG_DWARF2 && no_frame)
 	dw2_track_pop();
 #endif
     };
     if (regsinuse & 0x20) {
       ins0(popesi);
-#ifdef NEWDWARF
+#ifdef DWARF2
       if (diag == DIAG_DWARF2 && no_frame)
 	dw2_track_pop();
 #endif
@@ -2672,7 +2672,7 @@ void movecont
     if (regsinuse & 0x20) {
       extra_stack += 32;
       ins0(pushesi);
-#ifdef NEWDWARF
+#ifdef DWARF2
       if (diag == DIAG_DWARF2 && no_frame)
 	dw2_track_push();
 #endif
@@ -2680,13 +2680,13 @@ void movecont
     if (regsinuse & 0x10) {
       extra_stack += 32;
       ins0(pushedi);
-#ifdef NEWDWARF
+#ifdef DWARF2
       if (diag == DIAG_DWARF2 && no_frame)
 	dw2_track_push();
 #endif
     }
     ins0(pushecx);
-#ifdef NEWDWARF
+#ifdef DWARF2
     if (diag == DIAG_DWARF2 && no_frame)
       dw2_track_push();
 #endif
@@ -2697,17 +2697,17 @@ void movecont
     extra_stack += 32;
     move(sh(length.where_exp), length, pushdest);
     ins0(popecx);
-#ifdef NEWDWARF
+#ifdef DWARF2
     if (diag == DIAG_DWARF2 && no_frame)
       dw2_track_pop();
 #endif
     ins0(popedi);
-#ifdef NEWDWARF
+#ifdef DWARF2
     if (diag == DIAG_DWARF2 && no_frame)
       dw2_track_pop();
 #endif
     ins0(popesi);
-#ifdef NEWDWARF
+#ifdef DWARF2
     if (diag == DIAG_DWARF2 && no_frame)
       dw2_track_pop();
 #endif
@@ -2720,20 +2720,20 @@ void movecont
     ins0(rep);
     ins0(movsb);
     ins0(popecx);
-#ifdef NEWDWARF
+#ifdef DWARF2
     if (diag == DIAG_DWARF2 && no_frame)
       dw2_track_pop();
 #endif
     if (regsinuse & 0x10) {
       ins0(popedi);
-#ifdef NEWDWARF
+#ifdef DWARF2
       if (diag == DIAG_DWARF2 && no_frame)
 	dw2_track_pop();
 #endif
     }
     if (regsinuse & 0x20) {
       ins0(popesi);
-#ifdef NEWDWARF
+#ifdef DWARF2
       if (diag == DIAG_DWARF2 && no_frame)
 	dw2_track_pop();
 #endif
@@ -2794,7 +2794,7 @@ void stack_return
   if (longs == 32 && (regsinuse & 0x2) == 0)
    {
      ins0(popedx);
-#ifdef NEWDWARF
+#ifdef DWARF2
       if (diag == DIAG_DWARF2 && no_frame)
 	dw2_track_pop();
 #endif
@@ -2805,7 +2805,7 @@ void stack_return
   if (longs == 32 && (regsinuse & 0x4) == 0)
    {
      ins0(popecx);
-#ifdef NEWDWARF
+#ifdef DWARF2
       if (diag == DIAG_DWARF2 && no_frame)
 	dw2_track_pop();
 #endif
@@ -2816,12 +2816,12 @@ void stack_return
   if (cpu & CPU_80586 && longs == 64 && (regsinuse & 0x2) == 0)
    {
      ins0(popedx);
-#ifdef NEWDWARF
+#ifdef DWARF2
       if (diag == DIAG_DWARF2 && no_frame)
 	dw2_track_pop();
 #endif
      ins0(popedx);
-#ifdef NEWDWARF
+#ifdef DWARF2
       if (diag == DIAG_DWARF2 && no_frame)
 	dw2_track_pop();
 #endif
@@ -2832,12 +2832,12 @@ void stack_return
   if (cpu & CPU_80586 && longs == 64 && (regsinuse & 0x4) == 0)
    {
      ins0(popecx);
-#ifdef NEWDWARF
+#ifdef DWARF2
       if (diag == DIAG_DWARF2 && no_frame)
 	dw2_track_pop();
 #endif
      ins0(popecx);
-#ifdef NEWDWARF
+#ifdef DWARF2
       if (diag == DIAG_DWARF2 && no_frame)
 	dw2_track_pop();
 #endif
@@ -2847,7 +2847,7 @@ void stack_return
    };
   add(slongsh, mw(zeroe,(longs / 8)), sp, sp);
   stack_dec += longs;
-#ifdef NEWDWARF
+#ifdef DWARF2
   if (diag == DIAG_DWARF2 && no_frame)
     dw2_track_sp();
 #endif
@@ -2865,7 +2865,7 @@ void callins
   if (name(fn) == name_tag && !isvar(son(fn)) && isglob(son(fn))) {
     exp ind = getexp(f_proc, NULL, 0, fn, NULL, 0,
 	0, cont_tag);
-#ifdef NEWDWARF
+#ifdef DWARF2
     if (current_dg_info) {
       current_dg_info->data.i_call.brk = set_dw_text_label();
       current_dg_info->data.i_call.p.k = WH_STR;
@@ -2881,7 +2881,7 @@ void callins
       move(slongsh, mw(fn, 0), reg0);
       fn = reg0.where_exp;
     };
-#ifdef NEWDWARF
+#ifdef DWARF2
     if (current_dg_info) {
       int rn;
       if (name(fn) ==name_tag && !isvar(son(fn)))
@@ -2902,7 +2902,7 @@ void callins
     ins1ind(call, 32, mw(fn, 0));
   };
   stack_dec = ret_stack_dec;
-#ifdef NEWDWARF
+#ifdef DWARF2
   START_BB();
 #endif
   if (longs == 32 || (longs == 64 && cpu & CPU_80586) ||
@@ -3152,7 +3152,7 @@ int cmp
 	    !isvar(son(son(me))))) {
 	if (eq_where(from, reg0)) {
           ins0(pusheax);
-#ifdef NEWDWARF
+#ifdef DWARF2
 	  if (diag == DIAG_DWARF2 && no_frame)
 	    dw2_track_push();
 #endif
@@ -3163,7 +3163,7 @@ int cmp
 	  invalidate_dest(ind_sp);
 	  invalidate_dest(reg0);
           ins0(popeax);
-#ifdef NEWDWARF
+#ifdef DWARF2
 	  if (diag == DIAG_DWARF2 && no_frame)
 	    dw2_track_pop();
 #endif
@@ -4115,14 +4115,14 @@ static void mult64
       move(sha, a1, reg0);
     }
     ins0(pushedx);
-#ifdef NEWDWARF
+#ifdef DWARF2
     if (diag == DIAG_DWARF2 && no_frame)
       dw2_track_push();
 #endif
     if (is_signed(sha) && is_signed(sh2) &&
 	 (name(a2.where_exp)!= val_tag || (no(a2.where_exp) + a2.where_off) < 0)) {
       ins0(pusheax);
-#ifdef NEWDWARF
+#ifdef DWARF2
       if (diag == DIAG_DWARF2 && no_frame)
 	dw2_track_push();
 #endif
@@ -4143,7 +4143,7 @@ static void mult64
     ins2(imull, 32, 32, ind_sp, reg2);
     ins2(addl, 32, 32, reg2, reg1);
     ins0(popecx);
-#ifdef NEWDWARF
+#ifdef DWARF2
     if (diag == DIAG_DWARF2 && no_frame)
       dw2_track_pop();
 #endif
@@ -4154,7 +4154,7 @@ static void mult64
   if (eq_where(a1, a2)) {
     move(sha, a1, reg0);
     ins0(pushedx);
-#ifdef NEWDWARF
+#ifdef DWARF2
     if (diag == DIAG_DWARF2 && no_frame)
       dw2_track_push();
 #endif
@@ -4164,7 +4164,7 @@ static void mult64
     ins2(addl, 32, 32, reg2, reg1);
     ins2(addl, 32, 32, reg2, reg1);
     ins0(popecx);
-#ifdef NEWDWARF
+#ifdef DWARF2
     if (diag == DIAG_DWARF2 && no_frame)
       dw2_track_pop();
 #endif
@@ -4182,7 +4182,7 @@ static void mult64
   regsinuse |= 0x6;
   contop(a2.where_exp, 1, a2);
   ins0(pushedx);
-#ifdef NEWDWARF
+#ifdef DWARF2
   if (diag == DIAG_DWARF2 && no_frame)
     dw2_track_push();
 #endif
@@ -4192,7 +4192,7 @@ static void mult64
   ins2(imull, 32, 32, mw(a2.where_exp, a2.where_off+32), reg2);
   ins2(addl, 32, 32, reg2, reg1);
   ins0(popecx);
-#ifdef NEWDWARF
+#ifdef DWARF2
   if (diag == DIAG_DWARF2 && no_frame)
     dw2_track_pop();
 #endif
@@ -4212,7 +4212,7 @@ static void clean_multiply
   if (stored)
    {
       ins0(popedx);
-#ifdef NEWDWARF
+#ifdef DWARF2
       if (diag == DIAG_DWARF2 && no_frame)
 	dw2_track_pop();
 #endif
@@ -4345,7 +4345,7 @@ void multiply
     if ((regsinuse & 0x2) && !eq_where(dest, reg1)) {
       stored = 1;
       ins0(pushedx);
-#ifdef NEWDWARF
+#ifdef DWARF2
       if (diag == DIAG_DWARF2 && no_frame)
 	dw2_track_push();
 #endif
@@ -4521,7 +4521,7 @@ void longc_mult
 	}
 	else  {
 	  ins0(pushedx);
-#ifdef NEWDWARF
+#ifdef DWARF2
 	  if (diag == DIAG_DWARF2 && no_frame)
 	    dw2_track_push();
 #endif
@@ -4529,7 +4529,7 @@ void longc_mult
 	  mult_op(inc, reg1, reg0, 4, dest);
 	  invalidate_dest(dest);
 	  ins0(popedx);
-#ifdef NEWDWARF
+#ifdef DWARF2
 	  if (diag == DIAG_DWARF2 && no_frame)
 	    dw2_track_pop();
 #endif
@@ -4688,7 +4688,7 @@ void shiftl
     else {	/* need count in reg2 */
       if (regsinuse & 0x4) {
         ins0(pushecx);
-#ifdef NEWDWARF
+#ifdef DWARF2
 	if (diag == DIAG_DWARF2 && no_frame)
 	  dw2_track_push();
 #endif
@@ -4702,7 +4702,7 @@ void shiftl
       invalidate_dest(reg2);
       if (regsinuse & 0x4) {
          ins0(popecx);
-#ifdef NEWDWARF
+#ifdef DWARF2
 	if (diag == DIAG_DWARF2 && no_frame)
 	  dw2_track_pop();
 #endif
@@ -4782,7 +4782,7 @@ void shiftl
 
     if (!to_reg2 && (regsinuse & 0x4) && !wshift_reg2) {
       ins0(pushecx);
-#ifdef NEWDWARF
+#ifdef DWARF2
       if (diag == DIAG_DWARF2 && no_frame)
 	dw2_track_push();
 #endif
@@ -4803,7 +4803,7 @@ void shiftl
     if (!to_reg2 && (regsinuse & 0x4) && !wshift_reg2)
      {
        ins0(popecx);
-#ifdef NEWDWARF
+#ifdef DWARF2
       if (diag == DIAG_DWARF2 && no_frame)
 	dw2_track_pop();
 #endif
@@ -4842,7 +4842,7 @@ static void rotshiftr
     else {	/* need count in reg2 */
       if (regsinuse & 0x4) {
         ins0(pushecx);
-#ifdef NEWDWARF
+#ifdef DWARF2
 	if (diag == DIAG_DWARF2 && no_frame)
 	  dw2_track_push();
 #endif
@@ -4856,7 +4856,7 @@ static void rotshiftr
       invalidate_dest(reg2);
       if (regsinuse & 0x4) {
          ins0(popecx);
-#ifdef NEWDWARF
+#ifdef DWARF2
 	if (diag == DIAG_DWARF2 && no_frame)
 	  dw2_track_pop();
 #endif
@@ -4936,7 +4936,7 @@ static void rotshiftr
 
     if (!to_reg2 && (regsinuse & 0x4) && !wshift_reg2) {
       ins0(pushecx);
-#ifdef NEWDWARF
+#ifdef DWARF2
       if (diag == DIAG_DWARF2 && no_frame)
 	dw2_track_push();
 #endif
@@ -4969,7 +4969,7 @@ static void rotshiftr
     if (!to_reg2 && (regsinuse & 0x4) && !wshift_reg2)
      {
        ins0(popecx);
-#ifdef NEWDWARF
+#ifdef DWARF2
       if (diag == DIAG_DWARF2 && no_frame)
 	dw2_track_pop();
 #endif
@@ -5130,7 +5130,7 @@ static void divit
       /* preserve ecx if necessary */
       r2flag = 1;
       ins0(pushecx);
-#ifdef NEWDWARF
+#ifdef DWARF2
       if (diag == DIAG_DWARF2 && no_frame)
 	dw2_track_push();
 #endif
@@ -5172,7 +5172,7 @@ static void divit
   if (!eq_where(dest, reg1) && regsinuse & 0x2 && sz > 8) {
     r1flag = 1;
     ins0(pushedx);
-#ifdef NEWDWARF
+#ifdef DWARF2
     if (diag == DIAG_DWARF2 && no_frame)
       dw2_track_push();
 #endif
@@ -5236,7 +5236,7 @@ static void divit
 	break;
       case 64:
 	ins0(pusheax);
-#ifdef NEWDWARF
+#ifdef DWARF2
 	if (diag == DIAG_DWARF2 && no_frame)
 	  dw2_track_push();
 #endif
@@ -5246,7 +5246,7 @@ static void divit
 	ins2(xchg, 32, 32, ind_sp, reg0);
 	ins1(divl, 32, d);
 	ins0(popedx);
-#ifdef NEWDWARF
+#ifdef DWARF2
 	if (diag == DIAG_DWARF2 && no_frame)
 	  dw2_track_pop();
 #endif
@@ -5263,7 +5263,7 @@ static void divit
   if (r1flag)
    {
      ins0(popedx);
-#ifdef NEWDWARF
+#ifdef DWARF2
       if (diag == DIAG_DWARF2 && no_frame)
 	dw2_track_pop();
 #endif
@@ -5276,7 +5276,7 @@ static void divit
   if (r2flag)
    {
      ins0(popecx);
-#ifdef NEWDWARF
+#ifdef DWARF2
       if (diag == DIAG_DWARF2 && no_frame)
 	dw2_track_pop();
 #endif
@@ -5395,7 +5395,7 @@ static void remit
       /* preserve ecx if necessary */
       r2flag = 1;
       ins0(pushecx);
-#ifdef NEWDWARF
+#ifdef DWARF2
       if (diag == DIAG_DWARF2 && no_frame)
 	dw2_track_push();
 #endif
@@ -5437,7 +5437,7 @@ static void remit
   if (!eq_where(dest, reg1) && regsinuse & 0x2 && sz > 8) {
     r1flag = 1;
     ins0(pushedx);
-#ifdef NEWDWARF
+#ifdef DWARF2
     if (diag == DIAG_DWARF2 && no_frame)
       dw2_track_push();
 #endif
@@ -5504,7 +5504,7 @@ static void remit
 	break;
       case 64:
 	ins0(pusheax);
-#ifdef NEWDWARF
+#ifdef DWARF2
 	if (diag == DIAG_DWARF2 && no_frame)
 	  dw2_track_push();
 #endif
@@ -5512,7 +5512,7 @@ static void remit
 	ins2(xorl, 32, 32, reg1, reg1);
 	ins1(divl, 32, d);
 	ins0(popeax);
-#ifdef NEWDWARF
+#ifdef DWARF2
         if (diag == DIAG_DWARF2 && no_frame)
 	  dw2_track_pop();
 #endif
@@ -5540,7 +5540,7 @@ static void remit
   if (r1flag)
    {
      ins0(popedx);
-#ifdef NEWDWARF
+#ifdef DWARF2
       if (diag == DIAG_DWARF2 && no_frame)
 	dw2_track_pop();
 #endif
@@ -5553,7 +5553,7 @@ static void remit
   if (r2flag)
    {
      ins0(popecx);
-#ifdef NEWDWARF
+#ifdef DWARF2
       if (diag == DIAG_DWARF2 && no_frame)
 	dw2_track_pop();
 #endif
@@ -5613,7 +5613,7 @@ void mova
 	  !eq_where(mw(son(fe), 0), sp))) {
       contop(fe, 0, to);
       ins1lit(pushl,  32, mw(son(fe), from.where_off));
-#ifdef NEWDWARF
+#ifdef DWARF2
       if (diag == DIAG_DWARF2 && no_frame)
 	dw2_track_push();
 #endif
@@ -5625,7 +5625,7 @@ void mova
         isglob(son(fe)) && isvar(son(fe))) {
       contop(fe, 0, to);
       ins1lit(pushl,  32, from);
-#ifdef NEWDWARF
+#ifdef DWARF2
       if (diag == DIAG_DWARF2 && no_frame)
 	dw2_track_push();
 #endif
@@ -5635,7 +5635,7 @@ void mova
     };
     mova(from, reg0);
     ins1(pushl,  32, reg0);
-#ifdef NEWDWARF
+#ifdef DWARF2
     if (diag == DIAG_DWARF2 && no_frame)
       dw2_track_push();
 #endif
@@ -6422,7 +6422,7 @@ void floater
     if (szf < 32) {
       change_var(slongsh, from, reg0);
       ins1(pushl,  32, reg0);
-#ifdef NEWDWARF
+#ifdef DWARF2
       if (diag == DIAG_DWARF2 && no_frame)
 	dw2_track_push();
 #endif
@@ -6431,19 +6431,19 @@ void floater
     else {
       if (szf == 64) {
 	ins0(pushedx);
-#ifdef NEWDWARF
+#ifdef DWARF2
 	if (diag == DIAG_DWARF2 && no_frame)
 	  dw2_track_push();
 #endif
 	ins0(pusheax);
-#ifdef NEWDWARF
+#ifdef DWARF2
 	if (diag == DIAG_DWARF2 && no_frame)
 	  dw2_track_push();
 #endif
       }
       else {
 	ins1(pushl, szf, from);
-#ifdef NEWDWARF
+#ifdef DWARF2
 	if (diag == DIAG_DWARF2 && no_frame)
 	  dw2_track_push();
 #endif
@@ -6727,7 +6727,7 @@ void test_fl_ovfl
   if (isov(e)) {
     if (eq_where(dest, reg0)) {
       ins0(pusheax);
-#ifdef NEWDWARF
+#ifdef DWARF2
       if (diag == DIAG_DWARF2 && no_frame)
 	dw2_track_push();
 #endif
@@ -6737,7 +6737,7 @@ void test_fl_ovfl
 		/* Overflow, Zero divide or Invalid  */
     if (eq_where(dest, reg0)) {
       ins0(popeax);
-#ifdef NEWDWARF
+#ifdef DWARF2
       if (diag == DIAG_DWARF2 && no_frame)
 	dw2_track_pop();
 #endif

@@ -99,7 +99,7 @@ make_code_here ( exp e, space sp, where dest )
   if ( mka.lab != 0 ) {
     clear_all () ;
     set_label ( mka.lab ) ;
-#ifdef NEWDWARF
+#ifdef DWARF2
     START_BB ();
 #endif
   }
