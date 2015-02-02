@@ -49,18 +49,18 @@
 
 #include <utility/prefix.h>
 
-#ifdef NEWDIAGS
-#include <newdiag/diag_fns.h>	/* OLD DIAGS */
-#include <newdiag/dg_fns.h>	/* NEW DIAGS */
+#ifdef TDF_DIAG4
+#include <diag4/diag_fns.h>	/* TDF_DIAG3 */
+#include <diag4/dg_fns.h>	/* TDF_DIAG4 */
 #else
-#include <diag/diag_fns.h>	/* OLD DIAGS */
-#include <diag/dg_fns.h>	/* NEW DIAGS */
+#include <diag3/diag_fns.h>	/* TDF_DIAG3 */
+#include <diag3/dg_fns.h>	/* TDF_DIAG4 */
 #endif
 
 
 /* Some external declarations  */
 
-extern diag_type_unit f_make_diagtype_unit(void);	/* OLD DIAGS */
+extern diag_type_unit f_make_diagtype_unit(void);	/* TDF_DIAG3 */
 extern int f_make_linkinfo_unit(void);
 extern void start_make_linkinfo_unit(int, int, int, int);
 extern int machine_toks(char *);
@@ -75,19 +75,19 @@ extern void tidy_initial_values(void);
 #define AL_UNIT		 3
 #define TAGDEC_UNIT	 4
 #define TAGDEF_UNIT	 5
-#define DIAGDEF_UNIT	 6	/* OLD DIAGS */
-#define DIAGTYPE_UNIT	 7	/* OLD DIAGS */
+#define DIAGDEF_UNIT	 6	/* TDF_DIAG3 */
+#define DIAGTYPE_UNIT	 7	/* TDF_DIAG3 */
 #define LINKINFO_UNIT	 8
 #define VERSIONS_UNIT	 9
-#define DGCOMP_UNIT	10	/* NEW DIAGS */
+#define DGCOMP_UNIT	10	/* TDF_DIAG4 */
 
   /* codes for the kinds of linkable variable which are understood here */
 #define UNKNOWN_TYPE	0
 #define TOK_TYPE	1
 #define TAG_TYPE	2
 #define AL_TYPE		3
-#define DIAGTAG_TYPE	4	/* OLD DIAGS */
-#define DGTAG_TYPE	5	/* NEW DIAGS */
+#define DIAGTAG_TYPE	4	/* TDF_DIAG3 */
+#define DGTAG_TYPE	5	/* TDF_DIAG4 */
 
 /* VARIABLES */
 /* All variables are initialised, jmf */
@@ -146,10 +146,10 @@ group_type(char *s)
   if (!strcmp(s, "tagdef")) {
     return TAGDEF_UNIT;
   }
-  if (!strcmp(s, "diagdef")) {		/* OLD DIAGS */
+  if (!strcmp(s, "diagdef")) {		/* TDF_DIAG3 */
     return DIAGDEF_UNIT;
   }
-  if (!strcmp(s, "diagtype")) {		/* OLD DIAGS */
+  if (!strcmp(s, "diagtype")) {		/* TDF_DIAG3 */
     return DIAGTYPE_UNIT;
   }
   if (!strcmp(s, "linkinfo")) {
@@ -158,7 +158,7 @@ group_type(char *s)
   if (!strcmp(s, "versions")) {
     return VERSIONS_UNIT;
   }
-  if (!strcmp(s, "dgcompunit")) {	/* NEW DIAGS */
+  if (!strcmp(s, "dgcompunit")) {	/* TDF_DIAG4 */
     return DGCOMP_UNIT;
   }
   return UNKNOWN_UNIT;
@@ -177,10 +177,10 @@ links_type(char *s)
   if (!strcmp(s, "alignment")) {
     return AL_TYPE;
   }
-  if (!strcmp(s, "diagtag")) {		/* OLD DIAGS */
+  if (!strcmp(s, "diagtag")) {		/* TDF_DIAG3 */
     return DIAGTAG_TYPE;
   }
-  if (!strcmp(s, "dgtag")) {		/* NEW DIAGS */
+  if (!strcmp(s, "dgtag")) {		/* TDF_DIAG4 */
     return DGTAG_TYPE;
   }
   return UNKNOWN_TYPE;
@@ -537,11 +537,11 @@ start_make_capsule
   i = find_index("alignment");
   capsule_no_of_als = (i == -1) ? 0 : natint((capsule_linking.members[i]).n);
 
-  i = find_index("diagtag");		/* OLD DIAGS */
+  i = find_index("diagtag");		/* TDF_DIAG3 */
   capsule_no_of_diagtags = (i == -1) ? 0 :
       natint((capsule_linking.members[i]).n);
 
-  i = find_index("dgtag");		/* NEW DIAGS */
+  i = find_index("dgtag");		/* TDF_DIAG4 */
   capsule_no_of_dgtags = (i == -1) ? 0 : natint((capsule_linking.members[i]).n);
 
   capsule_toktab = (tok_define *)rf_xcalloc(capsule_no_of_tokens,
@@ -550,9 +550,9 @@ start_make_capsule
   capsule_altab = (aldef *)rf_xcalloc(capsule_no_of_als, sizeof(aldef));
   capsule_diag_tagtab = (diag_tagdef *)rf_xcalloc(capsule_no_of_diagtags,
 					       sizeof(diag_tagdef));	 
-  /* OLD DIAGS */
+  /* TDF_DIAG3 */
   capsule_dgtab = (dgtag_struct *)rf_xcalloc(capsule_no_of_dgtags,
-					 sizeof(dgtag_struct));	/* NEW DIAGS */
+					 sizeof(dgtag_struct));	/* TDF_DIAG4 */
 
   for (i = 0; i < capsule_no_of_tokens; ++i) {
      /* initialise the table of tokens */
@@ -572,7 +572,7 @@ start_make_capsule
     dp->dec_u.dec_val.dec_outermost = 0;
     dp->dec_u.dec_val.dec_id = NULL;
     dp->dec_u.dec_val.extnamed = 0;
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
     dp->dec_u.dec_val.dg_name = NULL;
 #else
     dp->dec_u.dec_val.diag_info = NULL;
@@ -589,8 +589,8 @@ start_make_capsule
     ap->al.al_n = 0;
   }
 
-  init_capsule_diagtags();	/* OLD DIAGS */
-  init_capsule_dgtags();	/* NEW DIAGS */
+  init_capsule_diagtags();	/* TDF_DIAG3 */
+  init_capsule_dgtags();	/* TDF_DIAG4 */
 
   return;
 }
@@ -945,45 +945,45 @@ sortname f_shape;
 sortname f_signed_nat;
 sortname f_tag;
 sortname f_al_tag;
-sortname f_diag_filename;	/* OLD DIAGS */
-sortname f_diag_type;		/* OLD DIAGS */
+sortname f_diag_filename;	/* TDF_DIAG3 */
+sortname f_diag_type;		/* TDF_DIAG3 */
 sortname f_foreign;
 sortname f_access;
 sortname f_transfer_mode;
 sortname f_procprops;
 sortname f_string;
-sortname f_dg;			/* NEW DIAGS */
-sortname f_dg_dim;		/* NEW DIAGS */
-sortname f_dg_filename;		/* NEW DIAGS */
-sortname f_dg_idname;		/* NEW DIAGS */
-sortname f_dg_name;		/* NEW DIAGS */
-sortname f_dg_type;		/* NEW DIAGS */
+sortname f_dg;			/* TDF_DIAG4 */
+sortname f_dg_dim;		/* TDF_DIAG4 */
+sortname f_dg_filename;		/* TDF_DIAG4 */
+sortname f_dg_idname;		/* TDF_DIAG4 */
+sortname f_dg_name;		/* TDF_DIAG4 */
+sortname f_dg_type;		/* TDF_DIAG4 */
 
 sortname
 f_foreign_sort(tdfstring foreign_name)
 {
-  if (!strcmp(foreign_name.ints.chars, "~diag_file")) {	/* OLD DIAGS */
+  if (!strcmp(foreign_name.ints.chars, "~diag_file")) {	/* TDF_DIAG3 */
     return f_diag_filename;
   }
-  if (!strcmp(foreign_name.ints.chars, "~diag_type")) {	/* OLD DIAGS */
+  if (!strcmp(foreign_name.ints.chars, "~diag_type")) {	/* TDF_DIAG3 */
     return f_diag_type;
   }
-  if (!strcmp(foreign_name.ints.chars, "DG")) {		/* NEW DIAGS */
+  if (!strcmp(foreign_name.ints.chars, "DG")) {		/* TDF_DIAG4 */
     return f_dg;
   }
-  if (!strcmp(foreign_name.ints.chars, "DG_DIM")) {	/* NEW DIAGS */
+  if (!strcmp(foreign_name.ints.chars, "DG_DIM")) {	/* TDF_DIAG4 */
     return f_dg_dim;
   }
-  if (!strcmp(foreign_name.ints.chars, "DG_FILENAME")) {/* NEW DIAGS */
+  if (!strcmp(foreign_name.ints.chars, "DG_FILENAME")) {/* TDF_DIAG4 */
     return f_dg_filename;
   }
-  if (!strcmp(foreign_name.ints.chars, "DG_IDNAME")) {	/* NEW DIAGS */
+  if (!strcmp(foreign_name.ints.chars, "DG_IDNAME")) {	/* TDF_DIAG4 */
     return f_dg_idname;
   }
-  if (!strcmp(foreign_name.ints.chars, "DG_NAME")) {	/* NEW DIAGS */
+  if (!strcmp(foreign_name.ints.chars, "DG_NAME")) {	/* TDF_DIAG4 */
     return f_dg_name;
   }
-  if (!strcmp(foreign_name.ints.chars, "DG_TYPE")) {	/* NEW DIAGS */
+  if (!strcmp(foreign_name.ints.chars, "DG_TYPE")) {	/* TDF_DIAG4 */
     return f_dg_type;
   }
   return f_foreign;
@@ -1018,19 +1018,19 @@ init_sortname(void)
    f_tag.code = TAG;
    f_al_tag.code = AL_TAG;
    f_variety.code = VARIETY;
-   f_diag_filename.code = DIAG_FILENAME;	/* OLD DIAGS */
-   f_diag_type.code = DIAG_TYPE_SORT;		/* OLD DIAGS */
+   f_diag_filename.code = DIAG_FILENAME;	/* TDF_DIAG3 */
+   f_diag_type.code = DIAG_TYPE_SORT;		/* TDF_DIAG3 */
    f_foreign.code = FOREIGN;
    f_access.code = ACCESS_SORT;
    f_transfer_mode.code = TRANSFER_MODE_SORT;
    f_procprops.code = PROCPROPS;
    f_string.code = STRING;
-   f_dg.code = DG_SORT;				/* NEW DIAGS */
-   f_dg_dim.code = DG_DIM_SORT;			/* NEW DIAGS */
-   f_dg_filename.code = DG_FILENAME_SORT;	/* NEW DIAGS */
-   f_dg_idname.code = DG_IDNAME_SORT;		/* NEW DIAGS */
-   f_dg_name.code = DG_NAME_SORT;		/* NEW DIAGS */
-   f_dg_type.code = DG_TYPE_SORT;		/* NEW DIAGS */
+   f_dg.code = DG_SORT;				/* TDF_DIAG4 */
+   f_dg_dim.code = DG_DIM_SORT;			/* TDF_DIAG4 */
+   f_dg_filename.code = DG_FILENAME_SORT;	/* TDF_DIAG4 */
+   f_dg_idname.code = DG_IDNAME_SORT;		/* TDF_DIAG4 */
+   f_dg_name.code = DG_NAME_SORT;		/* TDF_DIAG4 */
+   f_dg_type.code = DG_TYPE_SORT;		/* TDF_DIAG4 */
 
    return;
 }
@@ -1334,8 +1334,8 @@ f_make_tokdef(tdfint tokn, string_option sig, bitstream def)
   tok->my_tagtab = unit_ind_tags;
   tok->my_toktab = unit_ind_tokens;
   tok->my_altab = unit_ind_als;
-  tok->my_diagtab = unit_ind_diagtags;	/* OLD DIAGS */
-  tok->my_dgtab = unit_ind_dgtags;	/* NEW DIAGS */
+  tok->my_diagtab = unit_ind_diagtags;	/* TDF_DIAG3 */
+  tok->my_dgtab = unit_ind_dgtags;	/* TDF_DIAG4 */
   if (params.number == 0) {
     tok -> re_evaluate = 0;
   } else {
@@ -1377,8 +1377,8 @@ f_use_tokdef(bitstream def)
   tok->my_tagtab = unit_ind_tags;
   tok->my_toktab = unit_ind_tokens;
   tok->my_altab = unit_ind_als;
-  tok->my_diagtab = unit_ind_diagtags;	/* OLD DIAGS */
-  tok->my_dgtab = unit_ind_dgtags;	/* NEW DIAGS */
+  tok->my_diagtab = unit_ind_diagtags;	/* TDF_DIAG3 */
+  tok->my_dgtab = unit_ind_dgtags;	/* TDF_DIAG4 */
 
   if (params.number == 0) {
     tok->re_evaluate = 0;
@@ -1509,8 +1509,8 @@ f_make_link(tdfint internal, tdfint ext)
      case TOK_TYPE:     IGNORE f_make_toklink(internal, ext);     return 0;
      case TAG_TYPE:     IGNORE f_make_taglink(internal, ext);     return 0;
      case AL_TYPE:      IGNORE f_make_allink(internal, ext);      return 0;
-     case DIAGTAG_TYPE: IGNORE f_make_diagtaglink(internal, ext); return 0; /* OLD DIAGS */
-     case DGTAG_TYPE:   IGNORE f_make_dglink(internal, ext);      return 0; /* NEW DIAGS */
+     case DIAGTAG_TYPE: IGNORE f_make_diagtaglink(internal, ext); return 0; /* TDF_DIAG3 */
+     case DGTAG_TYPE:   IGNORE f_make_dglink(internal, ext);      return 0; /* TDF_DIAG4 */
 
      default:
        error(ERROR_INTERNAL, VARIABLE_TYPE);
@@ -1588,14 +1588,14 @@ start_make_tokdec_unit(int no_of_tokens, int no_of_tags, int no_of_als,
     unit_ind_als[i] = NULL;
   }
 
-  unit_no_of_diagtags = no_of_diagtags;		/* OLD DIAGS */
+  unit_no_of_diagtags = no_of_diagtags;		/* TDF_DIAG3 */
   unit_ind_diagtags = (diag_tagdef **)rf_xcalloc(unit_no_of_diagtags,
 					      sizeof(diag_tagdef *));
   for (i = 0; i < unit_no_of_diagtags; ++i) {
     unit_ind_diagtags[i] = NULL;
   }
 
-  unit_no_of_dgtags = no_of_dgtags;		/* NEW DIAGS */
+  unit_no_of_dgtags = no_of_dgtags;		/* TDF_DIAG4 */
   unit_ind_dgtags = (dgtag_struct **)rf_xcalloc(unit_no_of_dgtags,
 					     sizeof(dgtag_struct *));
   for (i = 0; i < unit_no_of_dgtags; ++i) {
@@ -1646,14 +1646,14 @@ start_make_tokdef_unit(int no_of_tokens, int no_of_tags, int no_of_als,
     unit_ind_als[i] = NULL;
   }
 
-  unit_no_of_diagtags = no_of_diagtags;		/* OLD DIAGS */
+  unit_no_of_diagtags = no_of_diagtags;		/* TDF_DIAG3 */
   unit_ind_diagtags = (diag_tagdef **)rf_xcalloc(unit_no_of_diagtags,
 					      sizeof(diag_tagdef *));
   for (i = 0; i < unit_no_of_diagtags; ++i) {
     unit_ind_diagtags[i] = NULL;
   }
 
-  unit_no_of_dgtags = no_of_dgtags;		/* NEW DIAGS */
+  unit_no_of_dgtags = no_of_dgtags;		/* TDF_DIAG4 */
   unit_ind_dgtags = (dgtag_struct **)rf_xcalloc(unit_no_of_dgtags,
 					     sizeof(dgtag_struct *));
   for (i = 0; i < unit_no_of_dgtags; ++i) {
@@ -1687,7 +1687,7 @@ f_make_tokdef_unit(void)
     }
   }
   j = 0;
-  for (i = 0; i < unit_no_of_dgtags; ++i) {	/* NEW DIAGS */
+  for (i = 0; i < unit_no_of_dgtags; ++i) {	/* TDF_DIAG4 */
     if (unit_ind_dgtags[i] == NULL) {
       unit_ind_dgtags[i] = &unit_dgtagtab[j++];
     }
@@ -1729,14 +1729,14 @@ start_make_tagdec_unit(int no_of_tokens, int no_of_tags, int no_of_als,
     unit_ind_als[i] = NULL;
   }
 
-  unit_no_of_diagtags = no_of_diagtags;		/* OLD DIAGS */
+  unit_no_of_diagtags = no_of_diagtags;		/* TDF_DIAG3 */
   unit_ind_diagtags = (diag_tagdef **)rf_xcalloc(unit_no_of_diagtags,
 					      sizeof(diag_tagdef *));
   for (i = 0; i < unit_no_of_diagtags; ++i) {
     unit_ind_diagtags[i] = NULL;
   }
 
-  unit_no_of_dgtags = no_of_dgtags;		/* NEW DIAGS */
+  unit_no_of_dgtags = no_of_dgtags;		/* TDF_DIAG4 */
   unit_ind_dgtags = (dgtag_struct **)rf_xcalloc(unit_no_of_dgtags,
 					     sizeof(dgtag_struct *));
   for (i = 0; i < unit_no_of_dgtags; ++i) {
@@ -1770,7 +1770,7 @@ f_make_tagdec_unit(void)
     }
   }
   j = 0;
-  for (i = 0; i < unit_no_of_dgtags; ++i) {	/* NEW DIAGS */
+  for (i = 0; i < unit_no_of_dgtags; ++i) {	/* TDF_DIAG4 */
     if (unit_ind_dgtags[i] == NULL) {
       unit_ind_dgtags[i] = &unit_dgtagtab[j++];
     }
@@ -1817,14 +1817,14 @@ start_make_versions_unit(int no_of_tokens, int no_of_tags, int no_of_als,
     unit_ind_als[i] = NULL;
   }
 
-  unit_no_of_diagtags = no_of_diagtags;		/* OLD DIAGS */
+  unit_no_of_diagtags = no_of_diagtags;		/* TDF_DIAG3 */
   unit_ind_diagtags = (diag_tagdef **)rf_xcalloc(unit_no_of_diagtags,
 					      sizeof(diag_tagdef *));
   for (i = 0; i < unit_no_of_diagtags; ++i) {
     unit_ind_diagtags[i] = NULL;
   }
 
-  unit_no_of_dgtags = no_of_dgtags;		/* NEW DIAGS */
+  unit_no_of_dgtags = no_of_dgtags;		/* TDF_DIAG4 */
   unit_ind_dgtags = (dgtag_struct **)rf_xcalloc(unit_no_of_dgtags,
 					     sizeof(dgtag_struct *));
   for (i = 0; i < unit_no_of_dgtags; ++i) {
@@ -1900,14 +1900,14 @@ start_make_tagdef_unit(int no_of_tokens, int no_of_tags, int no_of_als,
     unit_ind_als[i] = NULL;
   }
 
-  unit_no_of_diagtags = no_of_diagtags;		/* OLD DIAGS */
+  unit_no_of_diagtags = no_of_diagtags;		/* TDF_DIAG3 */
   unit_ind_diagtags = (diag_tagdef **)rf_xcalloc(unit_no_of_diagtags,
 					      sizeof(diag_tagdef *));
   for (i = 0; i < unit_no_of_diagtags; ++i) {
     unit_ind_diagtags[i] = NULL;
   }
 
-  unit_no_of_dgtags = no_of_dgtags;		/* NEW DIAGS */
+  unit_no_of_dgtags = no_of_dgtags;		/* TDF_DIAG4 */
   unit_ind_dgtags = (dgtag_struct **)rf_xcalloc(unit_no_of_dgtags,
 					     sizeof(dgtag_struct *));
   for (i = 0; i < unit_no_of_dgtags; ++i) {
@@ -1944,7 +1944,7 @@ f_make_tagdef_unit(void)
     }
   }
   j = 0;
-  for (i = 0; i < unit_no_of_dgtags; ++i) {	/* NEW DIAGS */
+  for (i = 0; i < unit_no_of_dgtags; ++i) {	/* TDF_DIAG4 */
     if (unit_ind_dgtags[i] == NULL) {
       unit_ind_dgtags[i] = &unit_dgtagtab[j++];
     }
@@ -1994,14 +1994,14 @@ start_make_aldef_unit(int no_of_tokens, int no_of_tags, int no_of_als,
     unit_ind_als[i] = NULL;
   }
 
-  unit_no_of_diagtags = no_of_diagtags;		/* OLD DIAGS */
+  unit_no_of_diagtags = no_of_diagtags;		/* TDF_DIAG3 */
   unit_ind_diagtags = (diag_tagdef **)rf_xcalloc(unit_no_of_diagtags,
 					      sizeof(diag_tagdef *));
   for (i = 0; i < unit_no_of_diagtags; ++i) {
     unit_ind_diagtags[i] = NULL;
   }
 
-  unit_no_of_dgtags = no_of_dgtags;		/* NEW DIAGS */
+  unit_no_of_dgtags = no_of_dgtags;		/* TDF_DIAG4 */
   unit_ind_dgtags = (dgtag_struct **)rf_xcalloc(unit_no_of_dgtags,
 					     sizeof(dgtag_struct *));
   for (i = 0; i < unit_no_of_dgtags; ++i) {
@@ -2053,8 +2053,8 @@ start_make_unit(tdfint_list lvl)
   int ntok = 0;
   int ntag = 0;
   int nal = 0;
-  int ndiagtype = 0;	/* OLD DIAGS */
-  int ndgtag = 0;	/* NEW DIAGS */
+  int ndiagtype = 0;	/* TDF_DIAG3 */
+  int ndgtag = 0;	/* TDF_DIAG4 */
 
   ++unit_index;
 
@@ -2065,9 +2065,9 @@ start_make_unit(tdfint_list lvl)
     ntag = (w == -1) ? 0 : natint(lvl.members[w]);
     w = find_index("alignment");
     nal = (w == -1) ? 0 : natint(lvl.members[w]);
-    w = find_index("diagtag");		/* OLD DIAGS */
+    w = find_index("diagtag");		/* TDF_DIAG3 */
     ndiagtype = (w == -1) ? 0 : natint(lvl.members[w]);
-    w = find_index("dgtag");		/* NEW DIAGS */
+    w = find_index("dgtag");		/* TDF_DIAG4 */
     ndgtag = (w == -1) ? 0 : natint(lvl.members[w]);
   }
 
@@ -2093,10 +2093,10 @@ start_make_unit(tdfint_list lvl)
      case TAGDEF_UNIT:
               start_make_tagdef_unit(ntok, ntag, nal, ndiagtype, ndgtag);
               return;
-     case DIAGDEF_UNIT:		/* OLD DIAGS */
+     case DIAGDEF_UNIT:		/* TDF_DIAG3 */
               start_make_diagdef_unit(ntok, ntag, nal, ndiagtype);
               return;
-     case DIAGTYPE_UNIT:	/* OLD DIAGS */
+     case DIAGTYPE_UNIT:	/* TDF_DIAG3 */
 	      if (doing_aldefs) {
                 process_aldefs();
 	        doing_aldefs = 0;
@@ -2109,7 +2109,7 @@ start_make_unit(tdfint_list lvl)
      case VERSIONS_UNIT:
               start_make_versions_unit(ntok, ntag, nal, ndiagtype, ndgtag);
               return;
-     case DGCOMP_UNIT:	/* NEW DIAGS */
+     case DGCOMP_UNIT:	/* TDF_DIAG4 */
 	      if (doing_aldefs) {
                 process_aldefs();
 	        doing_aldefs = 0;
@@ -2129,21 +2129,21 @@ f_make_unit(tdfint_list lvl, links_list lks, bytestream prs)
   UNUSED(prs);
   switch (crt_group_type)
    {
-     case DIAGDEF_UNIT:		/* OLD DIAGS */
+     case DIAGDEF_UNIT:		/* TDF_DIAG3 */
               if (diag != DIAG_NONE) {
                 IGNORE f_make_diagdef_unit();
 	      } else {
                 ignore_bytestream();
 	      }
               break;
-     case DIAGTYPE_UNIT:	/* OLD DIAGS */
+     case DIAGTYPE_UNIT:	/* TDF_DIAG3 */
               if (diag != DIAG_NONE) {
                 IGNORE f_make_diagtype_unit();
 	      } else {
                 ignore_bytestream();
 	      }
               break;
-     case DGCOMP_UNIT:	/* NEW DIAGS */
+     case DGCOMP_UNIT:	/* TDF_DIAG4 */
               if (diag != DIAG_NONE) {
                 IGNORE f_make_dg_comp_unit();
 	      } else {
@@ -2174,8 +2174,8 @@ f_make_linkextern(tdfint internal, external ext)
      case TOK_TYPE:     return f_make_tokextern(internal, ext);
      case TAG_TYPE:     return f_make_tagextern(internal, ext);
      case AL_TYPE:      return f_make_alextern(internal, ext);
-     case DIAGTAG_TYPE: return f_make_diagtagextern(internal, ext); /* OLD DIAGS */
-     case DGTAG_TYPE:   return f_make_dgtagextern(internal, ext);   /* NEW DIAGS */
+     case DIAGTAG_TYPE: return f_make_diagtagextern(internal, ext); /* TDF_DIAG3 */
+     case DGTAG_TYPE:   return f_make_dgtagextern(internal, ext);   /* TDF_DIAG4 */
 
      default:
        error(ERROR_INTERNAL, VARIABLE_TYPE);
@@ -2590,7 +2590,7 @@ new_link_list(int n)
          dp->dec_u.dec_val.dec_outermost = 0;
          dp->dec_u.dec_val.dec_id = NULL;
          dp->dec_u.dec_val.extnamed = 0;
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
          dp->dec_u.dec_val.dg_name = NULL;
 #else
          dp->dec_u.dec_val.diag_info = NULL;
@@ -2609,10 +2609,10 @@ new_link_list(int n)
          ap->al.al_n = 0;
        }
        return 0;
-     case DIAGTAG_TYPE:		/* OLD DIAGS */
+     case DIAGTAG_TYPE:		/* TDF_DIAG3 */
        init_unit_diagtags(n);
        return 0;
-     case DGTAG_TYPE:		/* NEW DIAGS */
+     case DGTAG_TYPE:		/* TDF_DIAG4 */
        init_unit_dgtags(n);
        return 0;
      default:

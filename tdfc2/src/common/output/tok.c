@@ -860,7 +860,7 @@ enc_diag_special(BITSTREAM *bs, int t, int v)
 		special_token[t].diag = n;
 	}
 	n = link_no(bs, n, v);
-#if TDF_NEW_DIAG
+#if TDF_DIAG4
 	if (v == VAR_dgtag) {
 		ENC_dg_named_type(bs);
 		ENC_make_dg_tag(bs, n);

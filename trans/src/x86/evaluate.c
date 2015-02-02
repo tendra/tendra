@@ -27,10 +27,10 @@
 
 #include <main/flags.h>
 
-#ifdef NEWDIAGS
-#include <newdiag/diag_fns.h>
+#ifdef TDF_DIAG4
+#include <diag4/diag_fns.h>
 #else
-#include <diag/diag_fns.h>
+#include <diag3/diag_fns.h>
 #endif
 
 #include "localtypes.h"
@@ -569,7 +569,7 @@ static void evalaux
 /* output a constant of given label number
    cname, or identifier s cname==-1 means
    use s */
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 void evaluate
 (exp c, int cname, char *s, int isconst, int global, struct dg_name_t * diag_props)
 #else

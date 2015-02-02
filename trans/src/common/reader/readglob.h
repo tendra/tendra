@@ -13,15 +13,15 @@
 #include <construct/installtypes.h>
 #include <reader/token.h>
 
-#ifdef NEWDIAGS
-#include <newdiag/dg_first.h>
-#include <newdiag/dg_types.h>  /* new diags */
-#include <newdiag/diagtypes.h> /* old diags */
+#ifdef TDF_DIAG4
+#include <diag4/dg_first.h>
+#include <diag4/dg_types.h>  /* TDF_DIAG4 */
+#include <diag4/diagtypes.h> /* TDF_DIAG3 */
 #else
-#include <diag/dg_first.h>
-#include <diag/diaginfo.h>
-#include <diag/dg_types.h>  /* new diags */
-#include <diag/diagtypes.h> /* old diags */
+#include <diag3/dg_first.h>
+#include <diag3/diaginfo.h>
+#include <diag3/dg_types.h>  /* TDF_DIAG4 */
+#include <diag3/diagtypes.h> /* TDF_DIAG3 */
 #endif
 
 
@@ -35,10 +35,10 @@ extern tok_define *capsule_toktab;
 extern aldef *capsule_altab;
 
 /* the table of diagnostic tags which are available at the capsule level */
-extern diag_tagdef *capsule_diag_tagtab;	/* OLD DIAGS */
+extern diag_tagdef *capsule_diag_tagtab;	/* TDF_DIAG3 */
 
 /* the table of diagnostic name tags which are available at the capsule level */
-extern dgtag_struct *capsule_dgtab;		/* NEW DIAGS */
+extern dgtag_struct *capsule_dgtab;		/* TDF_DIAG4 */
 
 /* the number of tokens at the capsule level */
 extern int capsule_no_of_tokens;
@@ -50,10 +50,10 @@ extern int capsule_no_of_tags;
 extern int capsule_no_of_als;
 
 /* the number of diagnostic tags at the capsule level */
-extern int capsule_no_of_diagtags;	/* OLD DIAGS */
+extern int capsule_no_of_diagtags;	/* TDF_DIAG3 */
 
 /* the number of diagnostic tags at the capsule level */
-extern int capsule_no_of_dgtags;	/* NEW DIAGS */
+extern int capsule_no_of_dgtags;	/* TDF_DIAG4 */
 
 /* the table of tags for the current unit */
 extern dec *unit_tagtab;
@@ -103,7 +103,7 @@ extern capsule_frees *capsule_freelist;
 
 extern int newcode;
 
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 extern int within_diags;
 #endif
 

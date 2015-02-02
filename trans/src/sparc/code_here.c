@@ -258,7 +258,7 @@ code_here ( exp e, space sp, where dest )
     assert ( ashof ( sh ( e ) ).ashsize <= 32 ) ;
     setregalt ( aa, reg ) ;
     ( void ) move ( aa, dest, guardreg ( reg, sp ).fixed, 1 ) ;
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
     if (dgf(e))
       diag_arg (e, sp, dest);
 #endif

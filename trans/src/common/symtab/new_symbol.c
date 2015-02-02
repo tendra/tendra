@@ -25,7 +25,7 @@
 
 #include <main/flags.h>
 
-#include <diag/diagtypes.h>
+#include <diag3/diagtypes.h>
 
 /*
  * Type definitions for translator produced debugging information

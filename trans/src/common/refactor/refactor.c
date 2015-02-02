@@ -55,8 +55,8 @@
 #include <refactor/refactor_id.h>
 #include <refactor/refactor.h>
 
-#ifdef NEWDIAGS
-#include <newdiag/dg_aux.h>
+#ifdef TDF_DIAG4
+#include <diag4/dg_aux.h>
 #endif
 
 #if defined(TRANS_X86) || defined(TRANS_HPPA)
@@ -238,7 +238,7 @@ repbycont(exp e, bool has_label, exp scope)
 		no(son(pt(e)))--;
 		pt(e) = NULL;
 	}
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 	dgf(n) = dgf(e);
 #endif
 	replace(e, n, e);
@@ -258,7 +258,7 @@ repbygo(exp e, exp lab, exp scope)
 	exp n = getexp(f_top, g, 1, NULL, NULL, 0, 0, top_tag);
 	son(g) = n;
 	++no(son(lab));
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 	dgf(g) = dgf(e);
 #endif
 	replace(e, g, e);
@@ -461,13 +461,13 @@ refactor_seq(exp e, exp scope)
 					} else {
 						kk = NULL;
 					}
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 					dg_dead_code(k, son(z));
 #endif
 					kill_exp(k, k);
 				}
 			}
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 			if (diag != DIAG_NONE) {
 				dg_dead_code(bro(z), son(z));
 				dg_whole_comp(e, son(z));
@@ -484,7 +484,7 @@ refactor_seq(exp e, exp scope)
 			return 1;
 		}
 		if (last(son(z))) {
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 			if (diag != DIAG_NONE) {
 				dg_rdnd_code(son(z), bro(z));
 				dg_whole_comp(e, bro(z));
@@ -496,7 +496,7 @@ refactor_seq(exp e, exp scope)
 			retcell(e);
 			return 1;
 		}
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 		if (diag != DIAG_NONE) {
 			dg_rdnd_code(son(z), bro(son(z)));
 		}
@@ -526,7 +526,7 @@ refactor_seq(exp e, exp scope)
 						return 0;
 					}
 					if (t == son(z)) {
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 						if (diag != DIAG_NONE) {
 							dg_whole_comp(e, bnds);
 						}
@@ -587,7 +587,7 @@ refactor_seq(exp e, exp scope)
 					} else {
 						kk = NULL;
 					}
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 					if (diag != DIAG_NONE) {
 						dg_dead_code(k, bro(t));
 					}
@@ -595,7 +595,7 @@ refactor_seq(exp e, exp scope)
 					kill_exp(k, k);
 				}
 			}
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 			if (diag != DIAG_NONE) {
 				dg_dead_code(bro(z), bro(t));
 			}
@@ -612,7 +612,7 @@ refactor_seq(exp e, exp scope)
 		}
 		if (nos(bro(t))) {
 			if (last(bro(t))) {
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 				if (diag != DIAG_NONE) {
 					dg_rdnd_code(bro(t), bro(z));
 				}
@@ -624,7 +624,7 @@ refactor_seq(exp e, exp scope)
 			}
 			k = bro(t);
 			bro(t) = bro(bro(t));
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 			if (diag != DIAG_NONE) {
 				dg_rdnd_code(k, bro(t));
 			}
@@ -727,7 +727,7 @@ comm_ass(exp e, unsigned char op_tag, void (*fn)(exp, exp, int), int one,
 			if (name(t) == val_tag || name(t) == real_tag) {
 				/* accumulate constant value */
 				fn (cst, t, errhandle(e));
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 				if (diag != DIAG_NONE) {
 					dg_detach_const(t, cst);
 				}
@@ -749,7 +749,7 @@ comm_ass(exp e, unsigned char op_tag, void (*fn)(exp, exp, int), int one,
 		if (p == q) {
 			/* no items but constant */
 			retcell(q);
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 			if (diag != DIAG_NONE) {
 				dg_whole_comp(e, cst);
 			}
@@ -774,7 +774,7 @@ comm_ass(exp e, unsigned char op_tag, void (*fn)(exp, exp, int), int one,
 			clearlast(q);
 			bro(q) = cst;
 			r = getexp(sh(e), NULL, 0, q, NULL, 0, 0, seq_tag);
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 			if (diag != DIAG_NONE) {
 				dgf(r) = dgf(e);
 			}
@@ -794,7 +794,7 @@ comm_ass(exp e, unsigned char op_tag, void (*fn)(exp, exp, int), int one,
 			bro(p) = q;
 			setlast(p);
 			sh(q) = sh(e);
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 			if (diag != DIAG_NONE) {
 				dgf(q) = dgf(e);
 			}
@@ -804,7 +804,7 @@ comm_ass(exp e, unsigned char op_tag, void (*fn)(exp, exp, int), int one,
 			return 1;
 		}
 
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 		if (diag != DIAG_NONE) {
 			dgf(e) = combine_diaginfo(dgf(e), dgf(cst));
 		}
@@ -814,7 +814,7 @@ comm_ass(exp e, unsigned char op_tag, void (*fn)(exp, exp, int), int one,
 		if (son(q) == p) {
 			/* form result if single item and no constant */
 			sh(p) = sh(e);
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 			if (diag != DIAG_NONE) {
 				dg_whole_comp(e, p);
 			}
@@ -829,7 +829,7 @@ comm_ass(exp e, unsigned char op_tag, void (*fn)(exp, exp, int), int one,
 
 		setlast(p);
 		sh(q) = sh(e);
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 		if (diag != DIAG_NONE) {
 			dg_whole_comp(e, q);
 		}
@@ -1419,7 +1419,7 @@ absbool(exp id)
 		    son(son(bro(son(bdy)))) == id) {
 			/* one use is result of sequence body */
 			exp c = son(son(bdy));
-#ifndef NEWDIAGS
+#ifndef TDF_DIAG4
 			if (name(c) == diagnose_tag) {
 				c = son(c);
 			}
@@ -1487,7 +1487,7 @@ seq_distr(exp e, exp scope)
 			if (last(x)) {
 				r = me_u3(sh(e), copy(b), name(e));
 			} else {
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 				if (diag != DIAG_NONE) {
 					dg_restruct_code(x, bro(x), +1);
 				}
@@ -1501,7 +1501,7 @@ seq_distr(exp e, exp scope)
 			sh(x) = sh(e);
 			replace(b, r, r);	/* dgf preserved in copy */
 			kill_exp(b, b);
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 			if (diag != DIAG_NONE) {
 				dg_whole_comp(e, x);
 			}
@@ -1518,7 +1518,7 @@ seq_distr(exp e, exp scope)
 			if (name(y) == ident_tag) {
 				clearinlined(y);
 			}
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 			if (diag != DIAG_NONE) {
 				dg_restruct_code(y, x, -1);
 			}
@@ -1531,7 +1531,7 @@ seq_distr(exp e, exp scope)
 			sh(y) = sh(e);
 			replace(b, r, r);		/* dgf preserved in copy */
 			kill_exp(b, b);
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 			if (diag != DIAG_NONE) {
 				dg_whole_comp(e, y);
 			}
@@ -1891,7 +1891,7 @@ refactor(exp e, exp scope)
 			while (1) {
 				if (name(sh(temp)) == bothd) {
 					/* unordered; temp can be first, iwc all siblings unreachable */
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 					if (diag != DIAG_NONE) {
 						exp sib = son(e);
 						for (;;) {
@@ -1935,7 +1935,7 @@ refactor(exp e, exp scope)
 						 * the maximum size in the union.
 						 */
 						sh(v) = sh(e);
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 						if (diag != DIAG_NONE) {
 							dg_whole_comp(e, v);
 						}
@@ -1952,7 +1952,7 @@ refactor(exp e, exp scope)
 						     NULL, 0, no(a),
 						     field_tag);
 					setfather(res, son(res));
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 					dgf(res) = dgf(e);
 #endif
 					replace(e, hold_refactor(res), scope);
@@ -1968,7 +1968,7 @@ refactor(exp e, exp scope)
 					exp ap = hold_refactor(f_add_to_ptr(son(v),
 									 a));
 					ap = hold_refactor(f_contents(sh(e), ap));
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 					if (diag != DIAG_NONE) {
 						dg_whole_comp(v, ap);
 						dg_whole_comp(e, ap);
@@ -1987,7 +1987,7 @@ refactor(exp e, exp scope)
 					ap = hold_refactor(f_add_to_ptr(ob, a));
 					c = hold_refactor(f_contents(sh(e), ap));
 					var = me_complete_id(var, c);
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 					if (diag != DIAG_NONE) {
 						dg_whole_comp(e, var);
 					}
@@ -2016,7 +2016,7 @@ refactor(exp e, exp scope)
 #endif
 					no(son(e)) = rounder(no(son(e)), al);
 				sh(son(e)) = sh(e);
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 				if (diag != DIAG_NONE) {
 					dg_whole_comp(e, son(e));
 				}
@@ -2069,7 +2069,7 @@ refactor(exp e, exp scope)
 					/* argument constant */
 					no(son(e)) = - no(son(e));
 					sh(son(e)) = sh(e);
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 					if (diag != DIAG_NONE) {
 						dg_whole_comp(e, son(e));
 					}
@@ -2240,7 +2240,7 @@ refactor(exp e, exp scope)
 				    name(arg2) == val_tag) {
 					plus_fn(arg1, arg2, errhandle(e));
 					sh(arg1) = sh(e);
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 					if (diag != DIAG_NONE) {
 						if (dgf(arg1)) {
 							dg_detach_const(arg1,
@@ -2260,7 +2260,7 @@ refactor(exp e, exp scope)
 				if (name(arg1) == val_tag) {
 					exp q = hold_refactor(f_plus(f_impossible,
 								  arg2, arg1));
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 					if (diag != DIAG_NONE) {
 						dg_whole_comp(e, q);
 					}
@@ -2276,7 +2276,7 @@ refactor(exp e, exp scope)
 					exp x = hold_refactor(f_plus(f_impossible,
 						hold_refactor(f_plus(f_impossible,
 						arg1, son(arg2))), con));
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 					if (diag != DIAG_NONE) {
 						dg_whole_comp(e, x);
 					}
@@ -2292,7 +2292,7 @@ refactor(exp e, exp scope)
 						son(arg1),
 						hold_refactor(f_plus(f_impossible,
 						arg2, bro(son(arg1))))));
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 					if (diag != DIAG_NONE) {
 						dg_whole_comp(e, x);
 					}
@@ -2307,7 +2307,7 @@ refactor(exp e, exp scope)
 					exp x = hold_refactor(f_plus(f_impossible,
 						hold_refactor(f_plus(f_impossible,
 						arg1, son(arg2))), t));
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 					if (diag != DIAG_NONE) {
 						dg_whole_comp(e, x);
 					}
@@ -2345,7 +2345,7 @@ refactor(exp e, exp scope)
 						/* constant evaluation */
 						sh(bro(son(e))) = sh(e);
 						no(bro(son(e))) /= 8;
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 						if (diag != DIAG_NONE) {
 							dg_whole_comp(e,
 								bro(son(e)));
@@ -2383,7 +2383,7 @@ refactor(exp e, exp scope)
 					exp r;
 					r = getexp(sh(e), NULL, 0, p, NULL,
 						   0, k, reff_tag);
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 					dgf(r) = dgf(e);
 #endif
 					replace(e, hc(r, p), scope);
@@ -2401,7 +2401,7 @@ refactor(exp e, exp scope)
 					exp ap, r;
 					bro(p) = a;
 					clearlast(p);
-#if NEWDIAGS
+#if TDF_DIAG4
 					if (diag != DIAG_NONE) {
 						dg_whole_comp(son(e), p);
 					}
@@ -2410,7 +2410,7 @@ refactor(exp e, exp scope)
 					r = hc(getexp(sh(e), NULL, 0, ap,
 						      NULL, 0, no(son(e)),
 						      reff_tag), ap);
-#if NEWDIAGS
+#if TDF_DIAG4
 					if (diag != DIAG_NONE) {
 						dg_whole_comp(e, r);
 					}
@@ -2432,7 +2432,7 @@ refactor(exp e, exp scope)
 							       ap, NULL, 0,
 							       no(c), reff_tag);
 						setfather(r, ap);
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 						dgf(r) = dgf(e);
 #endif
 						replace(e, hold_refactor(r),
@@ -2444,7 +2444,7 @@ refactor(exp e, exp scope)
 						exp inner, outer;
 						inner = hold_refactor(me_b3(sh(e),
 							p, a, addptr_tag));
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 						if (diag != DIAG_NONE) {
 							dg_whole_comp(bro(p),
 								      inner);
@@ -2452,7 +2452,7 @@ refactor(exp e, exp scope)
 #endif
 						outer = hold_refactor(me_b3(sh(e),
 							inner, c, addptr_tag));
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 						if (diag != DIAG_NONE) {
 							dg_whole_comp(e, outer);
 						}
@@ -2472,7 +2472,7 @@ refactor(exp e, exp scope)
 				no(son(e)) = value_of_null;
 				clearbigval(son(e));
 				sh(son(e)) = sh(e);
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 				if (diag != DIAG_NONE) {
 					dg_whole_comp(e, son(e));
 				}
@@ -2510,7 +2510,7 @@ refactor(exp e, exp scope)
 					clearbigval(son(e));
 				}
 				sh(son(e)) = sha;
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 				if (diag != DIAG_NONE)
 					dg_whole_comp(e, son(e));
 #endif
@@ -2520,7 +2520,7 @@ refactor(exp e, exp scope)
 			}
 			if (eq_shape(sh(e), sh(son(e)))) {
 				/* replace identity chvar by argument */
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 				if (diag != DIAG_NONE) {
 					dg_whole_comp(e, son(e));
 				}
@@ -2883,7 +2883,7 @@ refactor(exp e, exp scope)
 			r = getexp(sh(e), NULL, 0, son(e), pt(e), 0, 0,
 				   plus_tag);
 			seterrhandle(r, errhandle(e));
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 			dgf(r) = dgf(e);
 #endif
 			bro(son(e)) = a2;
@@ -2938,7 +2938,7 @@ refactor(exp e, exp scope)
 			exp r = getexp(sh(e), NULL, 0, son(e), NULL, 0,
 				       0, addptr_tag);
 			bro(son(e)) = a2;
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 			if (diag != DIAG_NONE) {
 				dgf(r) = dgf(e);
 			}
@@ -2956,7 +2956,7 @@ refactor(exp e, exp scope)
 				/* eval for const */
 				neg_fn(son(e));
 				sh(son(e)) = sh(e);
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 				if (diag != DIAG_NONE) {
 					dg_whole_comp(e, son(e));
 				}
@@ -2969,7 +2969,7 @@ refactor(exp e, exp scope)
 			    optop(son(e))) {
 				/* replace --a by a if errtreat is impossible or ignore */
 				sh(son(son(e))) = sh(e);
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 				if (diag != DIAG_NONE) {
 					dg_whole_comp(son(e), son(son(e)));
 					dg_whole_comp(e, son(son(e)));
@@ -3007,7 +3007,7 @@ refactor(exp e, exp scope)
 					t = next;
 				} while (!lst);
 				son(r) = bro(r);
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 				if (diag != DIAG_NONE) {
 					dg_whole_comp(e, r);
 				}
@@ -3684,7 +3684,7 @@ refactor(exp e, exp scope)
 				}
 			}
 
-#ifndef NEWDIAGS
+#ifndef TDF_DIAG4
 			if (name(son(e)) == diagnose_tag) {
 				exp diag = son(e);
 				exp p = son(diag);
@@ -3817,7 +3817,7 @@ refactor(exp e, exp scope)
 				/* replace reff on name of var by name with offset in no */
 				no(son(e)) += no(e);
 				sh(son(e)) = sh(e);
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 				if (diag != DIAG_NONE) {
 					dg_whole_comp(e, son(e));
 				}
@@ -3830,7 +3830,7 @@ refactor(exp e, exp scope)
 			if (name(son(e)) == val_tag) {
 				no(son(e)) += (no(e) / 8);
 				sh(son(e)) = sh(e);
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 				if (diag != DIAG_NONE) {
 					dg_whole_comp(e, son(e));
 				}
@@ -3846,7 +3846,7 @@ refactor(exp e, exp scope)
 				/* combine reff selections */
 				sh(son(e)) = sh(e);
 				no(son(e)) += no(e);
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 				if (diag != DIAG_NONE) {
 					dg_whole_comp(e, son(e));
 				}
@@ -3859,7 +3859,7 @@ refactor(exp e, exp scope)
 
 			if (optim & OPTIM_ZEROOFFSETS && no(e) == 0 && al1(sh(e)) > 1) {
 				sh(son(e)) = sh(e);
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 				if (diag != DIAG_NONE) {
 					dg_whole_comp(e, son(e));
 				}
@@ -3976,7 +3976,7 @@ refactor(exp e, exp scope)
 					neg_fn(son(e));
 				}
 				sh(son(e)) = sh(e);
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 				if (diag != DIAG_NONE) {
 					dg_whole_comp(e, son(e));
 				}
@@ -4086,7 +4086,7 @@ refactor(exp e, exp scope)
 				props(e) = (prop)(props(e) & ~0x08);
 			}
 			sh(bse) = sh(e);
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 			if (diag != DIAG_NONE) {
 				dg_whole_comp(e, bse);
 			}
@@ -4139,7 +4139,7 @@ refactor(exp e, exp scope)
 				t = n;
 			}
 			seq = f_sequence(el, cont);
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 			if (diag != DIAG_NONE) {
 				dg_whole_comp(e, var);
 			}
@@ -4150,7 +4150,7 @@ refactor(exp e, exp scope)
 		}
 
 		return 0;
-#ifndef NEWDIAGS
+#ifndef TDF_DIAG4
 	case diagnose_tag:
 #endif
 	case prof_tag:
@@ -4159,7 +4159,7 @@ refactor(exp e, exp scope)
 		if (name(sh(son(e))) == bothd) {
 			exp s = son(e);
 			exp b = bro(s);
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 			if (diag != DIAG_NONE) {
 				dg_dead_code(b, s);
 				dg_whole_comp(e, s);
@@ -4209,7 +4209,7 @@ refactor(exp e, exp scope)
 			exp s = son(e);
 			sh(bro(s)) = sh(e);	/* unless bottom ? */
 
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 			if (diag != DIAG_NONE) {
 				dg_whole_comp(e, bro(s));
 			}
@@ -4224,7 +4224,7 @@ refactor(exp e, exp scope)
 		if (no(son(bro(son(e)))) == 0) {
 			/* remove inaccessible statements */
 			exp bs = bro(son(e));
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 			if (diag != DIAG_NONE) {
 				dg_dead_code(bro(son(bs)), son(e));
 				dg_whole_comp(e, son(e));
@@ -4247,7 +4247,7 @@ refactor(exp e, exp scope)
 			 * and vice versa, and these changes would otherwise be undone.
 			 */
 			sh(x) = sh(e);
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 			if (diag != DIAG_NONE) {
 				dg_rdnd_code(son(e), x);
 				dg_whole_comp(e, x);
@@ -4271,7 +4271,7 @@ refactor(exp e, exp scope)
 			while (!last(t)) {
 				t = bro(t);
 			}
-#ifndef NEWDIAGS
+#ifndef TDF_DIAG4
 			if (name(t) == diagnose_tag) {
 				t = son(t);
 			}
@@ -4828,7 +4828,7 @@ refactor(exp e, exp scope)
 		int looping;
 
 		if (last(t)) {
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 			if (diag != DIAG_NONE) {
 				dg_whole_comp(e, t);
 			}
@@ -4849,7 +4849,7 @@ refactor(exp e, exp scope)
 			}
 			if (q != e) {
 				exp rep = copy(bro(son(lab)));
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 				/* note copy, in case original is removed ! */
 #endif
 				replace(t, rep, rep);
@@ -4868,7 +4868,7 @@ refactor(exp e, exp scope)
 				} else {
 					clearlast(t);
 				}
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 				if (diag != DIAG_NONE) {
 					dg_dead_code(bro(son(q)), t);
 				}
@@ -4882,7 +4882,7 @@ refactor(exp e, exp scope)
 		} while (looping);
 
 		if (last(son(e))) {
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 			if (diag != DIAG_NONE) {
 				dg_whole_comp(e, son(e));
 			}

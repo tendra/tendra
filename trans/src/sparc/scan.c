@@ -127,7 +127,7 @@ exp
 void 
 cca ( exp ** to, exp * x ){
 
-#ifndef NEWDIAGS
+#ifndef TDF_DIAG4
   if (name((**to))==diagnose_tag){
     *to = &(son((**to)));  
   }
@@ -145,7 +145,7 @@ cca ( exp ** to, exp * x ){
     clearlast ( def ) ;
     /* replace pointer to x by Let */
     *x = id ;
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
     if (diag != DIAG_NONE) {
       dgf(id) = dgf(bro(son(id)));
       dgf(bro(son(id))) = nildiag;
@@ -175,7 +175,7 @@ cca ( exp ** to, exp * x ){
     *x = tg ;
     /* later replacement to same 'to' will be at body of Let */
     *to = &bro ( def ) ;
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
     if (diag != DIAG_NONE) {
       dgf(id) = dgf(bro(son(id)));
       dgf(bro(son(id))) = nildiag;
@@ -771,7 +771,7 @@ need_result_space ( exp e ) {
     case solve_tag:
     case labst_tag:
     case seq_tag:
-#ifndef NEWDIAGS
+#ifndef TDF_DIAG4
     case diagnose_tag:
 #endif
       return need_result_space (dad);
@@ -1032,7 +1032,7 @@ scan ( exp * e, exp ** at ){
 	/* no uses, should have caonly flag and no var flag */
 	setcaonly ( stare ) ;
 	clearvar ( stare ) ;
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 	t = pt (stare);
 	while (t) {
 	  assert (isdiaginfo (t));
@@ -1814,7 +1814,7 @@ scan ( exp * e, exp ** at ){
 #ifdef return_to_label_tag
     case return_to_label_tag :
 #endif
-#ifndef NEWDIAGS
+#ifndef TDF_DIAG4
     case diagnose_tag :
 #endif
     case goto_lv_tag :

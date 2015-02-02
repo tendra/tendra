@@ -13,12 +13,12 @@
 #include <reader/code.h>
 #include <construct/installtypes.h>
 
-#ifdef NEWDIAGS
-#include <newdiag/dg_first.h>
-#include <newdiag/dg_types.h>
+#ifdef TDF_DIAG4
+#include <diag4/dg_first.h>
+#include <diag4/dg_types.h>
 #else
-#include <diag/dg_first.h>
-#include <diag/dg_types.h>
+#include <diag3/dg_first.h>
+#include <diag3/dg_types.h>
 #endif
 
 
@@ -45,17 +45,17 @@ union tokval_u {
 	struct tok_define_t	*tk_token;
 	transfer_mode		tk_transfer_mode;
 	variety			tk_variety;
-	diag_type		tk_diag_type;	/* OLD DIAGS */
-	filename		tk_filename;	/* OLD DIAGS */
+	diag_type		tk_diag_type;	/* TDF_DIAG3 */
+	filename		tk_filename;	/* TDF_DIAG3 */
 	access			tk_access;
 	procprops		tk_procprops;
 	string			tk_string;
-	dg			tk_dg;		/* NEW DIAGS */
-	dg_dim			tk_dg_dim;	/* NEW DIAGS */
-	dg_filename		tk_dg_filename;	/* NEW DIAGS */
-	dg_idname		tk_dg_idname;	/* NEW DIAGS */
-	dg_name			tk_dg_name;	/* NEW DIAGS */
-	dg_type			tk_dg_type;	/* NEW DIAGS */
+	dg			tk_dg;		/* TDF_DIAG4 */
+	dg_dim			tk_dg_dim;	/* TDF_DIAG4 */
+	dg_filename		tk_dg_filename;	/* TDF_DIAG4 */
+	dg_idname		tk_dg_idname;	/* TDF_DIAG4 */
+	dg_name			tk_dg_name;	/* TDF_DIAG4 */
+	dg_type			tk_dg_type;	/* TDF_DIAG4 */
 };
 
 #endif /* SORT_UNION_H */

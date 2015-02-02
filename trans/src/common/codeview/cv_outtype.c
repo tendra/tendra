@@ -12,10 +12,10 @@
 
 #include <shared/xalloc.h>
 
-#ifndef NEWDIAGS
-#include <diag/dg_first.h>
-#include <diag/dg_types.h>  /* new diags */
-#include <diag/diagtypes.h> /* old diags */
+#ifndef TDF_DIAG4
+#include <diag3/dg_first.h>
+#include <diag3/dg_types.h>  /* TDF_DIAG4 */
+#include <diag3/diagtypes.h> /* TDF_DIAG3 */
 #endif
 
 #include <main/driver.h>

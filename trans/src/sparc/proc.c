@@ -66,8 +66,8 @@
 #include "sparctrans.h"
 #include "localexpmacs.h"
 
-#ifdef NEWDIAGS
-#include <newdiag/dg_globs.h>
+#ifdef TDF_DIAG4
+#include <diag4/dg_globs.h>
 #endif
 
 #ifdef NEWDWARF
@@ -609,7 +609,7 @@ makeans make_res_tag_code
     {
       /* not struct or union result */
       if (proc_state.leaf_proc && name(e) == res_tag && !sysV_assembler
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 		&& !diag_visible) {
 #else
 		&& diag == DIAG_NONE) {
@@ -1816,7 +1816,7 @@ makeans make_tail_call_tag
   if (name(cllees)!= same_callees_tag) {
     code_here(cllees,sp,nowhere);
   }
-#ifndef NEWDIAGS
+#ifndef TDF_DIAG4
   for (;name(bdy) == diagnose_tag;bdy=son(bdy));
 #endif
 

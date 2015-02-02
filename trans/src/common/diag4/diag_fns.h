@@ -38,7 +38,7 @@ extern diag_tagdef **unit_ind_diagtags;
 
 extern void f_make_diagtaglink(tdfint i, tdfint ext);
 
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 extern exp diag_locate(exp e);
 #endif
 

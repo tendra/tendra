@@ -30,12 +30,12 @@
 #include <construct/installglob.h>
 #include <construct/install_fns.h>
 
-#ifdef NEWDIAGS
-#include <newdiag/diagglob.h>
-#include <newdiag/dg_fns.h>
+#ifdef TDF_DIAG4
+#include <diag4/diagglob.h>
+#include <diag4/dg_fns.h>
 #else
-#include <diag/diagglob.h>
-#include <diag/dg_fns.h>
+#include <diag3/diagglob.h>
+#include <diag3/dg_fns.h>
 #endif
 
 #include <refactor/refactor.h>
@@ -236,16 +236,16 @@ apply_tok(token td, bitstream pars, int sortcode, tokval * actual_pars)
 		/* to remember the current token table */
 		aldef **old_altab;
 		/* to remember the current alignment tag table */
-		diag_tagdef **old_diagtab;		/* OLD DIAGS */
-		dgtag_struct **old_dgtab;		/* NEW DIAGS */
+		diag_tagdef **old_diagtab;		/* TDF_DIAG3 */
+		dgtag_struct **old_dgtab;		/* TDF_DIAG4 */
 
 		/* now remember them */
 		old_tagtab = unit_ind_tags;
 		old_labtab = unit_labtab;
 		old_toktab = unit_ind_tokens;
 		old_altab = unit_ind_als;
-		old_diagtab = unit_ind_diagtags;	/* OLD DIAGS */
-		old_dgtab = unit_ind_dgtags;		/* NEW DIAGS */
+		old_diagtab = unit_ind_diagtags;	/* TDF_DIAG3 */
+		old_dgtab = unit_ind_dgtags;		/* TDF_DIAG4 */
 
 		new_context.no_toks = (short)npars;
 		nil_params.number = 0;
@@ -354,8 +354,8 @@ apply_tok(token td, bitstream pars, int sortcode, tokval * actual_pars)
 		unit_labtab = td->my_labtab;
 		unit_ind_tokens = td->my_toktab;
 		unit_ind_als = td->my_altab;
-		unit_ind_diagtags = td->my_diagtab;	/* OLD DIAGS */
-		unit_ind_dgtags = td->my_dgtab;		/* NEW DIAGS */
+		unit_ind_diagtags = td->my_diagtab;	/* TDF_DIAG3 */
+		unit_ind_dgtags = td->my_dgtab;		/* TDF_DIAG4 */
 
 		/* read the body of the definition */
 		td->recursive = 1;  /* set up to detect recursion */
@@ -389,8 +389,8 @@ apply_tok(token td, bitstream pars, int sortcode, tokval * actual_pars)
 		unit_labtab = old_labtab;
 		unit_ind_tokens = old_toktab;
 		unit_ind_als = old_altab;
-		unit_ind_diagtags = old_diagtab;	/* OLD DIAGS */
-		unit_ind_dgtags = old_dgtab;		/* NEW DIAGS */
+		unit_ind_diagtags = old_diagtab;	/* TDF_DIAG3 */
+		unit_ind_dgtags = old_dgtab;		/* TDF_DIAG4 */
 
 		if (!doing_aldefs && npars == 0 &&
 				new_context.recursive == 0) {

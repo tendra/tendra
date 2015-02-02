@@ -11,8 +11,8 @@
 #define HPPADDECS_INCLUDED
 
 #include <construct/installtypes.h>
-#include <diag/dg_first.h>
-#include <diag/diaginfo.h>
+#include <diag3/dg_first.h>
+#include <diag3/diaginfo.h>
 #include <reader/exp.h>
 
 extern void init_stab(void);

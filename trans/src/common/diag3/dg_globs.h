@@ -10,13 +10,13 @@
 #ifndef dg_glob_key
 #define dg_glob_key
 
-#include <diag/diag_reform.h>
+#include <diag3/diag_reform.h>
 
 #include <construct/installtypes.h>
 
 #include "dg_first.h"
 #include "diaginfo.h"
-#include "dg_types.h"		/* NEW DIAGS */
+#include "dg_types.h"		/* TDF_DIAG4 */
 
 #include <reader/exp.h>
 

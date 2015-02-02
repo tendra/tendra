@@ -17,9 +17,9 @@ TRANS_DEBUG?= stub
 # TODO: these are not yet selectable at runtime
 .if "${TRANS_DEBUG}" == "stub"
 
-TRANS_CFLAGS+= -D NEWDIAGS
+TRANS_CFLAGS+= -D TDF_DIAG4
 
-PARTS+= src/common/newdiag
+PARTS+= src/common/diag4
 
 .else
 

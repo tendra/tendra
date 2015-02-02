@@ -31,12 +31,12 @@
 
 #include <main/flags.h>
 
-#ifdef NEWDIAGS
-#include <newdiag/dg_aux.h>
-#include <newdiag/dg_types.h>
+#ifdef TDF_DIAG4
+#include <diag4/dg_aux.h>
+#include <diag4/dg_types.h>
 #else
-#include <diag/dg_aux.h>
-#include <diag/dg_types.h>
+#include <diag3/dg_aux.h>
+#include <diag3/dg_types.h>
 #endif
 
 #include <dwarf2/dw2_codes.h>

@@ -25,13 +25,13 @@
 
 #include <construct/tags.h>
 
-#ifdef NEWDIAGS
-#include <newdiag/diag_fns.h>
-#include <newdiag/mark_scope.h>
+#ifdef TDF_DIAG4
+#include <diag4/diag_fns.h>
+#include <diag4/mark_scope.h>
 #else
-#include <diag/diag_fns.h>
-#include <diag/mark_scope.h>
-#include <diag/diagtypes.h>
+#include <diag3/diag_fns.h>
+#include <diag3/mark_scope.h>
+#include <diag3/diagtypes.h>
 #endif
 
 #include <dwarf/dwarf.h>
@@ -42,7 +42,7 @@
 #include <dwarf/dwarf_queue.h>
 #include <dwarf/dwarf_mc.h>
 
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 #include <construct/tags.h>
 #endif
 
@@ -75,7 +75,7 @@ out_dwarf_start_scope(dwarf_label *l)
 }
 
 
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 
 static void
 comment_end_scope(diag_info *d)

@@ -50,7 +50,7 @@ int do_prom = 0;		/* produce PROM code (avoiding .data) */
 int dyn_init = 0;		/* produce calls for dynamic initialisation */
 int do_comment = 0;		/* produce comments in generated assembly */
 
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 int diag_visible = 0;		/* additional visibility if doing diagnostics */
 int extra_diags = 0;		/* option for extended diagnostics */
 #endif

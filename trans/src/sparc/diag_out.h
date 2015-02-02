@@ -10,18 +10,18 @@
 #ifndef SPARCDDECS_INCLUDED
 #define SPARCDDECS_INCLUDED
 
-#ifdef NEWDIAGS
-#include <newdiag/dg_first.h>
+#ifdef TDF_DIAG4
+#include <diag4/dg_first.h>
 #else
-#include <diag/dg_first.h>
-#include <diag/diaginfo.h>
+#include <diag3/dg_first.h>
+#include <diag3/diaginfo.h>
 #endif
 
 #include <reader/exp.h>
 
 #include <construct/installtypes.h>
 
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 
 extern void init_stab(void);
 extern void init_stab_aux(void);

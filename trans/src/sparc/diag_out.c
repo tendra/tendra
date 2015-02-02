@@ -44,10 +44,10 @@
 #include "translate.h"
 #include "diag_out.h"
 
-#include <diag/diagtypes.h>
-#include <diag/diag_fns.h>
-#include <diag/mark_scope.h>
-#include <diag/diagglob.h>
+#include <diag3/diagtypes.h>
+#include <diag3/diag_fns.h>
+#include <diag3/mark_scope.h>
+#include <diag3/diagglob.h>
 
 extern bool last_param(exp);
 

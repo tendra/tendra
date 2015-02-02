@@ -13,13 +13,13 @@
 
 
 /*
-    TDF DIAGNOSTICS (NEW FORMAT) ENCODING ROUTINES
+    TDF DIAGNOSTICS (TDF 4.1 FORMAT) ENCODING ROUTINES
 
     The routines in this module are concerned with the encoding of TDF
     new format diagnostic information.
 */
 
-#if (TDF_OUTPUT && TDF_NEW_DIAG)
+#if (TDF_OUTPUT && TDF_DIAG4)
 extern void enc_dg_id(IDENTIFIER, int);
 extern void enc_dg_token(IDENTIFIER, TYPE);
 extern BITSTREAM *enc_dg_local(BITSTREAM *, IDENTIFIER, BITSTREAM *);

@@ -150,7 +150,7 @@ extern int do_prom;
 extern int dyn_init;
 extern int do_comment;
 
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 extern int diag_visible;
 extern int extra_diags;
 #endif

@@ -33,10 +33,10 @@
 
 #include <main/flags.h>
 
-#ifdef NEWDIAGS
-#include <newdiag/diag_fns.h>
+#ifdef TDF_DIAG4
+#include <diag4/diag_fns.h>
 #else
-#include <diag/diag_fns.h>
+#include <diag3/diag_fns.h>
 #endif
 
 #include <refactor/optimise.h>
@@ -115,7 +115,7 @@ static void eval_if_ready
                   d -> dec_u.dec_val.dec_id,
 		 (!isvar(t)),
                  (int)(d -> dec_u.dec_val.extnamed),
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
                   d -> dec_u.dec_val.dg_name
 #else
                   d -> dec_u.dec_val.diag_info
@@ -192,7 +192,7 @@ void make_code
       }
       my_def -> dec_u.dec_val.index =	/* for use in constant evaluation */
 	cproc(son(tg), id,(-1), (int)(my_def -> dec_u.dec_val.extnamed),
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
                 my_def -> dec_u.dec_val.dg_name
 #else
                 my_def -> dec_u.dec_val.diag_info
@@ -206,7 +206,7 @@ void make_code
       };
     }
     else {			/* global values */
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
      struct dg_name_t * diag_props = my_def -> dec_u.dec_val.dg_name;
 #else
      diag_global * diag_props = my_def -> dec_u.dec_val.diag_info;
@@ -318,7 +318,7 @@ void mark_unaliased
   exp p = pt(e);
   int ca = 1;
   while (p != NULL && ca) {
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
     if ((bro(p) == NULL ||
 #else
     if (bro(p) == NULL ||
@@ -326,7 +326,7 @@ void mark_unaliased
        (!(last(p) && name(bro(p)) == cont_tag) &&
 	 !(!last(p) && last(bro(p)) &&
                  name(bro(bro(p))) == ass_tag)))
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 	&& !isdiaginfo(p))
 #endif
       ca = 0;

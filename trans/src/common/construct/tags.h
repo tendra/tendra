@@ -11,11 +11,11 @@
 
 #include <construct/installtypes.h>
 
-#ifdef NEWDIAGS
-#include <newdiag/dg_first.h>
+#ifdef TDF_DIAG4
+#include <diag4/dg_first.h>
 #else
-#include <diag/dg_first.h>
-#include <diag/diaginfo.h>
+#include <diag3/dg_first.h>
+#include <diag3/diaginfo.h>
 #endif
 
 #define ident_tag 1
@@ -47,7 +47,7 @@
 #define testbit_tag 27
 #define alloca_tag 28
 
-#ifndef NEWDIAGS
+#ifndef TDF_DIAG4
 #define diagnose_tag 29
 #endif
 

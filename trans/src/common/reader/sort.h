@@ -27,19 +27,19 @@
 #define VARIETY			14
 #define TOKEN			15
 #define AL_TAG			16
-#define DIAG_FILENAME		17	/* OLD DIAGS */
-#define DIAG_TYPE_SORT		18	/* OLD DIAGS */
+#define DIAG_FILENAME		17	/* TDF_DIAG3 */
+#define DIAG_TYPE_SORT		18	/* TDF_DIAG3 */
 #define FOREIGN			19
 #define ACCESS_SORT		20
 #define TRANSFER_MODE_SORT	21
 #define PROCPROPS		22
 #define STRING			23
-#define DG_SORT			24	/* NEW DIAGS */
-#define DG_DIM_SORT		25	/* NEW DIAGS */
-#define DG_FILENAME_SORT	26	/* NEW DIAGS */
-#define DG_IDNAME_SORT		27	/* NEW DIAGS */
-#define DG_NAME_SORT		28	/* NEW DIAGS */
-#define DG_TYPE_SORT		29	/* NEW DIAGS */
+#define DG_SORT			24	/* TDF_DIAG4 */
+#define DG_DIM_SORT		25	/* TDF_DIAG4 */
+#define DG_FILENAME_SORT	26	/* TDF_DIAG4 */
+#define DG_IDNAME_SORT		27	/* TDF_DIAG4 */
+#define DG_NAME_SORT		28	/* TDF_DIAG4 */
+#define DG_TYPE_SORT		29	/* TDF_DIAG4 */
 
 #endif
 

@@ -30,12 +30,12 @@
 
 #include <refactor/refactor.h>
 
-#ifdef NEWDIAGS
-#include <newdiag/diag_fns.h>
-#include <newdiag/dg_fns.h>
+#ifdef TDF_DIAG4
+#include <diag4/diag_fns.h>
+#include <diag4/dg_fns.h>
 #else
-#include <diag/diag_fns.h>
-#include <diag/dg_fns.h>
+#include <diag3/diag_fns.h>
+#include <diag3/dg_fns.h>
 #endif
 
 /* intercepts specially defined tokens */
@@ -198,7 +198,7 @@ tokval special_token
         !strcmp(t -> tok_name, "~diag_id_scope") ||
         !strcmp(t -> tok_name, "~diag_type_scope") ||
         !strcmp(t -> tok_name, "~diag_tag_scope")
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
   	|| !strcmp(t -> tok_name, "~dg_exp")
 #endif
       ) {
@@ -217,7 +217,7 @@ tokval special_token
 
        if (!strcmp(t -> tok_name, "~exp_to_source"))
          {
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
   	tkv.tk_exp = read_exp_to_source(tkv.tk_exp);
 #else
           diag_info * di = read_exp_to_source();
@@ -236,7 +236,7 @@ tokval special_token
 
        if (!strcmp(t -> tok_name, "~diag_id_scope"))
          {
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
           tkv.tk_exp = read_diag_id_scope(tkv.tk_exp);
 #else
           diag_info * di = read_diag_id_scope();
@@ -252,7 +252,7 @@ tokval special_token
 
        if (!strcmp(t -> tok_name, "~diag_type_scope"))
          {
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
           tkv.tk_exp = read_diag_type_scope(tkv.tk_exp);
 #else
           diag_info * di = read_diag_type_scope();
@@ -268,7 +268,7 @@ tokval special_token
 
        if (!strcmp(t -> tok_name, "~diag_tag_scope"))
          {
-#ifndef NEWDIAGS
+#ifndef TDF_DIAG4
           diag_info * di = read_diag_tag_scope();
           exp r = getexp(sh(tkv.tk_exp), NULL, 0, tkv.tk_exp, NULL,
                      4, 0, diagnose_tag);
@@ -280,7 +280,7 @@ tokval special_token
           return tkv;
          };
 
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
        if (!strcmp(t -> tok_name, "~dg_exp"))
          {
           tkv.tk_exp = read_dg_exp(tkv.tk_exp);

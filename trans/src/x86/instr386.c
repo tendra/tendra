@@ -56,8 +56,8 @@
 #include "instrmacs.h"
 #include "localexpmacs.h"
 
-#ifdef NEWDIAGS
-#include <newdiag/dg_globs.h>
+#ifdef TDF_DIAG4
+#include <diag4/dg_globs.h>
 #endif
 
 #ifdef NEWDWARF
@@ -786,7 +786,7 @@ int flinmem
     };
   };
 
-#ifndef NEWDIAGS
+#ifndef TDF_DIAG4
   if (n == diagnose_tag)
     return flinmem(mw(son(e), w.where_off));
 #endif

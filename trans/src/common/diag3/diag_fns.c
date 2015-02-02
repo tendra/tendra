@@ -14,7 +14,7 @@
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
-#include <diag/diag_reform.h>
+#include <diag3/diag_reform.h>
 
 #include <reader/exp.h>
 

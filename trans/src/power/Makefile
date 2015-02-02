@@ -18,7 +18,7 @@ TRANS_DEBUG?= stabs
 # TODO: these are not yet selectable at runtime
 .if "${TRANS_DEBUG}" == "stabs"
 
-PARTS+= src/common/diag
+PARTS+= src/common/diag3
 
 SRCS+= diag_out.c
 SRCS+= stabs_reform.c

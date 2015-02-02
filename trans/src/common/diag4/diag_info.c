@@ -35,7 +35,7 @@
 exp
 diag_locate(exp e)
 {
-	/* need contents for var locations, old diags */
+	/* need contents for var locations, TDF_DIAG3 */
 	exp id = son(e);
 	if (isglob(id)) {
 		if (brog(id)->dec_u.dec_val.dec_var) {

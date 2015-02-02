@@ -41,10 +41,10 @@
 #include "messages_8.h"
 #include "operand.h"
 
-#ifdef NEWDIAGS
-#include <newdiag/diag_fns.h>
+#ifdef TDF_DIAG4
+#include <diag4/diag_fns.h>
 #else
-#include <diag/diag_fns.h>
+#include <diag3/diag_fns.h>
 #endif
 
 #ifdef NEWDWARF
@@ -76,10 +76,10 @@ init(void)
 	diag      = DIAG_NONE;
 	abi       = ABI_IBCS;
 
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 	diag_visible = 0;
 	extra_diags  = 0;
-#endif /* NEWDIAGS */
+#endif /* TDF_DIAG4 */
 
 	redo_structfns         = 1; /* replace fns delivering structs */
 	redo_structparams      = 0; /* no change to struct params */
@@ -186,7 +186,7 @@ unhas(void)
 		optim = 0;
 		always_use_frame = 1;
 		all_variables_visible = 1;
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 		diag_visible = 1;
 #endif
 	}

@@ -22,9 +22,9 @@
 #include <local/out.h>
 #include <local/codermacs.h>
 
-#include <newdiag/dg_first.h>
-#include <newdiag/dg_types.h>  /* new diags */
-#include <newdiag/diagtypes.h> /* old diags */
+#include <diag4/dg_first.h>
+#include <diag4/dg_types.h>  /* TDF_DIAG4 */
+#include <diag4/diagtypes.h> /* TDF_DIAG3 */
 
 #include <construct/installtypes.h>
 #include <construct/machine.h>
@@ -40,9 +40,9 @@
 
 #include <linkinfo/li_types.h>
 
-#include <newdiag/dg_types.h>
-#include <newdiag/dg_aux.h>
-#include <newdiag/dg_globs.h>
+#include <diag4/dg_types.h>
+#include <diag4/dg_aux.h>
+#include <diag4/dg_globs.h>
 
 #include "localtypes.h"
 #include "instr.h"

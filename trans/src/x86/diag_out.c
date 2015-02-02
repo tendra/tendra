@@ -21,10 +21,10 @@
 #include <local/out.h>
 #include <local/codermacs.h>
 
-#include <diag/dg_first.h>
-#include <diag/diaginfo.h>
-#include <diag/dg_types.h>  /* new diags */
-#include <diag/diagtypes.h> /* old diags */
+#include <diag3/dg_first.h>
+#include <diag3/diaginfo.h>
+#include <diag3/dg_types.h>  /* TDF_DIAG4 */
+#include <diag3/diagtypes.h> /* TDF_DIAG3 */
 
 #include <construct/installtypes.h>
 #include <construct/machine.h>
@@ -40,9 +40,9 @@
 
 #include <linkinfo/li_types.h>
 
-#include <diag/diagtypes.h>
-#include <diag/mark_scope.h>
-#include <diag/diagglob.h>
+#include <diag3/diagtypes.h>
+#include <diag3/mark_scope.h>
+#include <diag3/diagglob.h>
 
 extern int locals_offset;	/* declared in cproc.c */
 

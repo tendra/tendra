@@ -24,10 +24,10 @@ tok_define *capsule_toktab;
 aldef *capsule_altab;
 /* the table of alignment tags which are available at the capsule level */
 
-diag_tagdef *capsule_diag_tagtab;	/* OLD DIAGS */
+diag_tagdef *capsule_diag_tagtab;	/* TDF_DIAG3 */
 /* the table of diagnostic tags which are available at the capsule level */
 
-dgtag_struct *capsule_dgtab;		/* NEW DIAGS */
+dgtag_struct *capsule_dgtab;		/* TDF_DIAG4 */
 /* the table of diagnostic tags which are available at the capsule level */
 
 int capsule_no_of_tokens;
@@ -39,10 +39,10 @@ int capsule_no_of_tags;
 int capsule_no_of_als;
 /* the number of alignment tags at the capsule level */
 
-int capsule_no_of_diagtags;	/* OLD DIAGS */
+int capsule_no_of_diagtags;	/* TDF_DIAG3 */
 /* the number of diagnostic tags at the capsule level */
 
-int capsule_no_of_dgtags;	/* NEW DIAGS */
+int capsule_no_of_dgtags;	/* TDF_DIAG4 */
 /* the number of diagnostic tags at the capsule level */
 
 
@@ -97,6 +97,6 @@ capsule_frees *capsule_freelist = NULL;
 
 int newcode = 1;
 
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 int within_diags = 0;	/* mark name_tag if it's not used for producing code */
 #endif

@@ -29,9 +29,9 @@
 
 #include <refactor/refactor.h>
 
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 #include <reader/readglob.h>
-#include <newdiag/dg_aux.h>
+#include <diag4/dg_aux.h>
 #endif
 
 /* All variables initialised */
@@ -142,7 +142,7 @@ getexp(shape s, exp b, int l, exp sn, exp px, prop pr, int n, unsigned char tg)
   no(res) = n;
   name(res) = tg;
   parked(res) = 0;
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
   dgf(res) = nildiag;
 #endif
   return res;
@@ -222,7 +222,7 @@ kill_exp(exp e, exp scope)
 
     if (n == name_tag) {
       exp q = son(e);
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
       if (!isdiaginfo(e)) {
 	--no(son(e));		/* decrease usage count */
       }
@@ -264,7 +264,7 @@ kill_exp(exp e, exp scope)
     if (n == ident_tag) {
       ++no(e);
       kill_el(son(e), scope);
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
       if (diag != DIAG_NONE && pt(e)) {	/* allow diags to hold on to id */
 	diag_kill_id(e);
       } else
@@ -848,7 +848,7 @@ copy_res(exp e, exp var, exp lab)
 {
   if (e == NULL) {
     return e;
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
   } else if (dgf(e) != nildiag) {
     return copy_res_diag(e, dgf(e), var, lab);
 #endif
@@ -889,7 +889,7 @@ copy_res(exp e, exp var, exp lab)
 				   list */
       pt(r) = pt(tp);
       pt(tp) = r;
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
       if (!isdiaginfo(r))
 #endif
       {
@@ -999,7 +999,7 @@ copy_res(exp e, exp var, exp lab)
 	no(son(lab)) ++;
 
 	if (name(son(e)) == clear_tag) {
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 	  if (extra_diags) {
 	    diag_inline_result(go);
 	  }
@@ -1013,7 +1013,7 @@ copy_res(exp e, exp var, exp lab)
 	  el.end = c;
 	  el.number = 1;
 	  s = f_sequence(el, go);
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 	  if (extra_diags) {
 	    diag_inline_result(go);
 	  }
@@ -1041,7 +1041,7 @@ copy_res(exp e, exp var, exp lab)
 	  el.start = ass;
 	  el.end = ass;
 	  el.number = 1;
-#if NEWDIAGS
+#if TDF_DIAG4
 	  if (extra_diags) {
 	    diag_inline_result(bro(son(ass)));
 	  }

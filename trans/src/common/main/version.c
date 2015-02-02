@@ -5,11 +5,11 @@
 #include <construct/installglob.h>
 #include <construct/version.h>
 #include <reader/version.h>
-#ifndef NEWDIAGS
-#include <diag/version.h>
+#ifndef TDF_DIAG4
+#include <diag3/version.h>
 #endif
-#ifdef NEWDIAGS
-#include <newdiag/version.h>
+#ifdef TDF_DIAG4
+#include <diag4/version.h>
 #endif
 #include <dwarf/version.h>
 #include <dwarf2/version.h>
@@ -33,11 +33,11 @@ trans_version(void)
 #ifdef NEWDWARF
 		{ "DWARF2",    DWARF2_MAJOR,      DWARF2_MINOR,       NULL         },
 #endif
-#ifndef NEWDIAGS
-		{ "diag",      diag_version,      diag_revision,      DG_VERSION   },
+#ifndef TDF_DIAG4
+		{ "diag3",     diag_version,      diag_revision,      DG_VERSION   },
 #endif
-#ifdef NEWDIAGS
-		{ "newdiag",   diag_version,      diag_revision,      NULL         },
+#ifdef TDF_DIAG4
+		{ "diag4",     diag_version,      diag_revision,      NULL         },
 #endif
 		{ "reader",    reader_version,    reader_revision,    NULL         },
 		{ "construct", construct_version, construct_revision, NULL         },

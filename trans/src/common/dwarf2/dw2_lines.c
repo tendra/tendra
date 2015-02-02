@@ -19,10 +19,10 @@
 #include <main/driver.h>
 #include <main/flags.h>
 
-#ifdef NEWDIAGS
-#include <newdiag/dg_globs.h>
+#ifdef TDF_DIAG4
+#include <diag4/dg_globs.h>
 #else
-#include <diag/dg_globs.h>
+#include <diag3/dg_globs.h>
 #endif
 
 #include <dwarf2/dw2_lines.h>

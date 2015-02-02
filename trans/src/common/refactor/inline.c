@@ -25,9 +25,9 @@
 #include <refactor/refactor.h>
 #include <refactor/optimise.h>
 
-#ifdef NEWDIAGS
-#include <newdiag/dg_globs.h>
-#include <newdiag/dg_aux.h>
+#ifdef TDF_DIAG4
+#include <diag4/dg_globs.h>
+#include <diag4/dg_aux.h>
 #endif
 
 /* PROCEDURES */
@@ -117,7 +117,7 @@ inline_exp(exp e)
 							   - no need for a
 							   delivered result */
 			e = bro(e); /* NOTE e CHANGED to ass_tag */
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 			if (diag != DIAG_NONE) {
 				/* bro(son(e)) is now the call */
 				dg_whole_comp(e, bro(son(e)));
@@ -160,13 +160,13 @@ inline_exp(exp e)
 		return;  /* no inline if more formals than actuals */
 	}
 
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 	doing_inlining = 1;
 #endif
 	bc = copy_res(body, var, lab);
 	/* copy the body, making res_tag into assignment to var and
 	   jump to lab */
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 	doing_inlining = 0;
 #endif
 	bc = hold(bc);
@@ -190,7 +190,7 @@ inline_exp(exp e)
 				f_make_value(sha);
 		} else {
 			change_last_shapes(res, sh(bro(son(lab))));
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 			if (diag != DIAG_NONE) {
 				dg_whole_comp(last_act, bro(son(lab)));
 			}
@@ -213,7 +213,7 @@ inline_exp(exp e)
 			res = me_complete_id(new_dec, res);
 		} else {
 			exp r = f_make_top();
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 			if (diag != DIAG_NONE) {
 				dgf(r) = dgf(bro(son(lab)));
 			}
@@ -223,7 +223,7 @@ inline_exp(exp e)
 	}
 
 
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 	if (diag != DIAG_NONE) {
 		dg_complete_inline(e, res);
 	}

@@ -3,7 +3,7 @@
 .include "Makefile.inc"
 
 
-SUBDIR+=	diagnostic
+SUBDIR+=	diag3
 SUBDIR+=	guide
 SUBDIR+=	register
 SUBDIR+=	specification

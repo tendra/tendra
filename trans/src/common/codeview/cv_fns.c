@@ -12,8 +12,8 @@
 
 #include <shared/check.h>
 
-#include <diag/diag_fns.h>
-#include <diag/diagglob.h>
+#include <diag3/diag_fns.h>
+#include <diag3/diagglob.h>
 
 #include <main/driver.h>
 
@@ -65,7 +65,7 @@ out_diagnose_postlude(void)
 }
 
 
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 
 void
 code_diag_info(diag_info *d, int proc_no, void(*mcode)(void *), void *args)

@@ -10,7 +10,7 @@
 #ifndef EVALUATE_H
 #define EVALUATE_H
 
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 extern  void evaluate(exp c, int cname, char *s, int isconst, int global, struct dg_name_t *d);
 #else
 extern  void evaluate(exp c, int cname, char *s, int isconst, int global, diag_global *d);

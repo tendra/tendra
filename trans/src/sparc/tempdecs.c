@@ -207,7 +207,7 @@ tempdec ( exp e, bool enoughs ){
   if ( isvar ( e ) ) {
     for ( p = pt ( e ) ; p != NULL ; p = pt ( p ) ) {
       /* find no of uses which are not assignments to id ... */
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
       if (isdiaginfo(p))
 	continue ;
 #endif
@@ -232,7 +232,7 @@ tempdec ( exp e, bool enoughs ){
   }
   if ( isvar ( e ) ) {
     for ( p = pt ( e ) ; p != NULL ; p = pt ( p ) ) {
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
       if (isdiaginfo(p))
 	continue ;
 #endif

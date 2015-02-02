@@ -56,9 +56,9 @@ FAIL_COMPILER Unknown TDF version number!
 
 #ifndef LINK_dg_comp_props
 #define LINK_dg_comp_props		"<error>"
-#define TDF_NEW_DIAG			0
+#define TDF_DIAG4			0
 #else
-#define TDF_NEW_DIAG			1
+#define TDF_DIAG4			1
 #endif
 
 #ifndef LINK_dg_tag

@@ -10,20 +10,20 @@
 #ifndef dw2_config_key
 #define dw2_config_key 1
 
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 
-#include <newdiag/dg_first.h>
+#include <diag4/dg_first.h>
 #include <reader/exp.h>
 #include <construct/installtypes.h>
-#include <newdiag/dg_types.h>		/* NEW DIAGS */
+#include <diag4/dg_types.h>		/* TDF_DIAG4 */
 
 #else
 
-#include <diag/dg_first.h>
-#include <diag/diaginfo.h>
+#include <diag3/dg_first.h>
+#include <diag3/diaginfo.h>
 #include <reader/exp.h>
 #include <construct/installtypes.h>
-#include <diag/dg_types.h>		/* NEW DIAGS */
+#include <diag3/dg_types.h>		/* TDF_DIAG4 */
 
 #endif
 

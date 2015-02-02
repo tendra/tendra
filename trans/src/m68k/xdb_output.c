@@ -21,10 +21,10 @@
 #include <main/flags.h>
 #include <main/driver.h>
 
-#include <diag/dg_first.h>
-#include <diag/diaginfo.h>
-#include <diag/dg_types.h>		/* NEW DIAGS */
-#include <diag/diagtypes.h>		/* OLD DIAGS */
+#include <diag3/dg_first.h>
+#include <diag3/diaginfo.h>
+#include <diag3/dg_types.h>		/* TDF_DIAG4 */
+#include <diag3/diagtypes.h>		/* TDF_DIAG3 */
 
 #include "assembler.h"
 #include "codex.h"
@@ -88,7 +88,7 @@ diag_directive dd[] = {
 /*
     There are three sections of diagnostic information in the new
     diagnostics mode (the vt, lntt and gntt sections).  One temporary
-    file is used for each.  In the old diagnosics mode there is
+    file is used for each.  In the TDF_DIAG3 diagnosics mode there is
     only one section (the dntt section), and only one file, diagfp2,
     is used.
 */

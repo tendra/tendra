@@ -13,8 +13,8 @@
 
 #include <stdio.h>
 
-#include <diag/dg_first.h>
-#include <diag/diaginfo.h>
+#include <diag3/dg_first.h>
+#include <diag3/diaginfo.h>
 
 extern void output_symbolic_diagnostic(FILE *,diag_info *);
 

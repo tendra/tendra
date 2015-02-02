@@ -17,7 +17,7 @@ TRANS_DEBUG?= dwarf2
 # TODO: these are not yet selectable at runtime
 .if "${TRANS_DEBUG}" == "stabs"
 
-PARTS+= src/common/diag
+PARTS+= src/common/diag3
 
 SRCS+= diag_out.c
 SRCS+= stabs_reform.c
@@ -27,7 +27,7 @@ SRCS+= stabs_reform.c
 TRANS_CFLAGS+= -D DWARF
 
 PARTS+=	src/common/dwarf
-PARTS+= src/common/diag
+PARTS+= src/common/diag3
 
 SRCS+= dwarf_reform.c
 
@@ -35,10 +35,10 @@ SRCS+= dwarf_reform.c
 
 .elif "${TRANS_DEBUG}" == "dwarf2"
 
-TRANS_CFLAGS+= -D NEWDIAGS
+TRANS_CFLAGS+= -D TDF_DIAG4
 TRANS_CFLAGS+= -D NEWDWARF
 
-PARTS+= src/common/newdiag
+PARTS+= src/common/diag4
 PARTS+= src/common/dwarf2
 
 SRCS+= newdiag_out.c
@@ -56,7 +56,6 @@ PART_CFLAGS+=	${TRANS_CFLAGS}
 
 PARTS+=	src/common/shared
 PARTS+=	src/common/construct
-#PARTS+=	src/common/diag
 PARTS+=	src/common/linkinfo
 PARTS+=	src/common/reader
 PARTS+=	src/common/refactor

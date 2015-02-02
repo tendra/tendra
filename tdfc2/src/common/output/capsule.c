@@ -1003,7 +1003,7 @@ init_capsule(void)
 void
 init_diag(void)
 {
-#if TDF_NEW_DIAG
+#if TDF_DIAG4
 	if (output_capsule && output_diag >= 2) {
 		BITSTREAM *bs = diagcomp_pre;
 		if (bs == NULL) {

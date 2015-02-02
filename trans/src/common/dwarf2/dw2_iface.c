@@ -31,12 +31,12 @@
 #include <dwarf2/dw2_info.h>
 #include <dwarf2/dw2_locdata.h>
 
-#ifdef NEWDIAGS
-#include <newdiag/dg_globs.h>
-#include <newdiag/diagglob.h>
+#ifdef TDF_DIAG4
+#include <diag4/dg_globs.h>
+#include <diag4/diagglob.h>
 #else
-#include <diag/dg_globs.h>
-#include <diag/diagglob.h>
+#include <diag3/dg_globs.h>
+#include <diag3/diagglob.h>
 #endif
 
 

@@ -67,9 +67,9 @@
 #include "new_tags.h"
 #include "localexpmacs.h"
 
-#ifdef NEWDIAGS
-#include <newdiag/dg_aux.h>
-#include <newdiag/dg_globs.h>
+#ifdef TDF_DIAG4
+#include <diag4/dg_aux.h>
+#include <diag4/dg_globs.h>
 #endif
 
 #ifdef NEWDWARF
@@ -579,13 +579,13 @@ last_param ( exp e )
 {
   if ( !isparam ( e ) ) return 0;
   e = bro ( son ( e ) ) ;
-#ifndef NEWDIAGS
+#ifndef TDF_DIAG4
   aa :
 #endif
   {
     if ( (name ( e ) == ident_tag && name(son(e)) != formal_callee_tag) && 
 	 isparam ( e ) ) return 0;
-#ifndef NEWDIAGS
+#ifndef TDF_DIAG4
     if ( name ( e ) == diagnose_tag ) {
       e = son ( e ) ;
       goto aa ;
@@ -845,7 +845,7 @@ check_range_and_do_error_jump ( shape rep_var, int r, int lab, space sp, int rmo
   the label where the code is to continue.
 */
 
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 makeans 
 make_code_1 ( exp e, space sp, where dest, int exitlab )
 {
@@ -1071,7 +1071,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
       /* Find test number (mask out Rev bit) */
       int n = (int)test_number(e);
 	    
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
       if (dgf(l))
 	diag_arg (l, sp, dest);
       if (dgf(r))
@@ -1201,7 +1201,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
       /* NOT REACHED */
     }
 
-#ifndef NEWDIAGS
+#ifndef TDF_DIAG4
     case diagnose_tag : {
       /* Diagnostics */
       diag_info *d = dno ( e ) ;
@@ -3450,7 +3450,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
 	 optimise future access */
       exp nm = pt(e);
       while (nm) {	/* find a name_tag of correct shape */
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 	if (isdiaginfo(nm))
 	  ;
 	else
@@ -4476,7 +4476,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
 }
 
 
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 struct make_code_args {
 	exp e;
 	space sp;

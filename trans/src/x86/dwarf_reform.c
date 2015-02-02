@@ -2,7 +2,7 @@
 
 /* TODO: interface for diag/ to call common/dwarf */
 
-#include <diag/diag_reform.h>
+#include <diag3/diag_reform.h>
 
 #include <dwarf/dwarf_types.h>
 #include <dwarf/dwarf_gbl.h>

@@ -27,8 +27,8 @@
 #include <refactor/const.h>
 #include <refactor/optimise.h>
 
-#ifdef NEWDIAGS
-#include <newdiag/dg_aux.h>
+#ifdef TDF_DIAG4
+#include <diag4/dg_aux.h>
 #endif
 
 int print_inlines = 0;
@@ -44,7 +44,7 @@ apply_only(exp e)
 	int ao = 1;
 	exp f;
 	while (ao && t != NULL) {
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 		if (isdiaginfo(t)) {
 			t = pt(t);
 		} else {
@@ -155,7 +155,7 @@ normalised_inlining(void)
 
       while (t != NULL) {
 	exp k = t;
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 	if (isdiaginfo(t)) {
 	  t = pt(t);
 	  continue;
@@ -237,7 +237,7 @@ normalised_inlining(void)
       crt_exp = my_def->dec_u.dec_val.dec_exp;
       def = son(crt_exp);
       total_uses = no(crt_exp);
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
       if (diag != DIAG_NONE) {
 	start_diag_inlining(def, my_def->dec_u.dec_val.dg_name);
       }
@@ -250,7 +250,7 @@ normalised_inlining(void)
         while (t != NULL) {
       	  exp nextt = pt(t);
 	  exp dad;
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 	  if (isdiaginfo(t)) {
 	    t = pt(t);
 	    continue;
@@ -304,7 +304,7 @@ normalised_inlining(void)
 	  break;
 	}
       }
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
       if (diag != DIAG_NONE) {
 	end_diag_inlining(def, my_def->dec_u.dec_val.dg_name);
       }

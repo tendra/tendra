@@ -1,7 +1,7 @@
 
 /* TODO: possibly expand out inline. these aren't called from common/ */
 
-#ifndef NEWDIAGS
+#ifndef TDF_DIAG4
 
 #define DIAG_VAL_BEGIN(d,g,c,s,e)       \
                                 stab_global (d, e, s, g);

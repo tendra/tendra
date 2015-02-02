@@ -340,7 +340,7 @@ enc_diag_pending(void)
 	int changed = 0;
 	if (output_diag) {
 		LIST(CLASS_TYPE)p;
-#if TDF_NEW_DIAG
+#if TDF_DIAG4
 		if (output_new_diag) {
 			changed = enc_dg_pending();
 			return changed;
@@ -634,7 +634,7 @@ void
 enc_diag_token(IDENTIFIER id, TYPE t)
 {
 	TOKEN tok;
-#if TDF_NEW_DIAG
+#if TDF_DIAG4
 	if (output_new_diag) {
 		enc_dg_token(id, t);
 		return;
@@ -688,7 +688,7 @@ enc_diag_id(IDENTIFIER id, int def)
 	TYPE t;
 	ulong n;
 	BITSTREAM *bs = NULL;
-#if TDF_NEW_DIAG
+#if TDF_DIAG4
 	if (output_new_diag) {
 		enc_dg_id(id, def);
 		return;
@@ -785,7 +785,7 @@ enc_diag_local(BITSTREAM *bs, IDENTIFIER id, BITSTREAM *ts)
 {
 	TYPE t;
 	ulong n, m;
-#if TDF_NEW_DIAG
+#if TDF_DIAG4
 	if (output_new_diag) {
 		bs = enc_dg_local(bs, id, ts);
 		return bs;
@@ -823,7 +823,7 @@ enc_diag_local(BITSTREAM *bs, IDENTIFIER id, BITSTREAM *ts)
 BITSTREAM *
 enc_diag_params(BITSTREAM *bs, LIST(IDENTIFIER)p, BITSTREAM *ts, EXP e)
 {
-#if TDF_NEW_DIAG
+#if TDF_DIAG4
 	if (output_new_diag) {
 		bs = enc_dg_params(bs, p, ts, e);
 		return bs;
@@ -853,7 +853,7 @@ enc_diag_start(BITSTREAM *bs)
 	if (n == LINK_NONE) {
 		/* Assign token number */
 		string tok = ustrlit("~exp_to_source");
-#if TDF_NEW_DIAG
+#if TDF_DIAG4
 		if (output_new_diag) {
 			tok = ustrlit("~dg_exp");
 		}
@@ -953,7 +953,7 @@ BITSTREAM *
 enc_diag_stmt(BITSTREAM *bs, EXP e, int stmt)
 {
 	PTR(LOCATION)loc;
-#if TDF_NEW_DIAG
+#if TDF_DIAG4
 	if (output_new_diag) {
 		bs = enc_dg_stmt(bs, e, stmt);
 		return bs;

@@ -30,10 +30,10 @@
 #include <main/driver.h>
 #include <main/flags.h>
 
-#ifdef NEWDIAGS
-#include <newdiag/dg_aux.h>
+#ifdef TDF_DIAG4
+#include <diag4/dg_aux.h>
 #else
-#include <diag/dg_aux.h>
+#include <diag3/dg_aux.h>
 #endif
 
 #include <dwarf2/dw2_codes.h>

@@ -81,7 +81,7 @@ static void cca
     clearlast(def);
     assexp(sto, to, id);
   };
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
   if (diag != DIAG_NONE) {
     dgf(id) = dgf(bro(son(id)));
     dgf(bro(son(id))) = nildiag;
@@ -653,7 +653,7 @@ int scan
     case nof_tag:
     case concatnof_tag:
     case ncopies_tag:
-#ifndef NEWDIAGS
+#ifndef TDF_DIAG4
     case diagnose_tag:
 #endif
     case caller_tag:

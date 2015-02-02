@@ -136,7 +136,7 @@ scan_for_incr(exp e, exp piece, void(*f)(exp, int))
 	            no(dest) == no(son(la)) && !intnl_to(piece, son(dest))) {
 		     exp p = pt(son(dest)); /*uses of var */
 		     for (; p != NULL; p = pt(p)) {
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 			if (isdiaginfo(p) || p == dest || p == son(la) ||
 #else
 			if (p == dest || p == son(la) ||
@@ -249,7 +249,7 @@ good_val(exp a, exp piece)
 	exp lda = son(a);
 	exp pa = pt(son(lda));
 	for (; pa != NULL; pa = pt(pa)) {
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 	     if (isdiaginfo(pa) || pa == lda || no(pa) != no(lda) ||
 #else
 	     if (pa == lda || no(pa) != no(lda) ||
@@ -306,7 +306,7 @@ find_common_index(exp ldname, exp piece, void(*f)(exp, int))
      /* examine each use of loop variable */
      for(; p != NULL; p = pt(p)) {
 	int usagex;
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 	if (isdiaginfo(p)) {
 		continue;
 	}
@@ -389,7 +389,7 @@ find_pointer_opt(exp ldname, exp piece, void(*f)(exp, int))
      for(; p != NULL; p = pt(p)) {
 	/* examine each use of loop variable */
 	int usagex;
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 	if (isdiaginfo(p)) {
 		continue;
 	}
@@ -1465,7 +1465,7 @@ do_one_rep(exp loop)
 				     (name(son(dc)) == name_tag &&
 				      !isvar(son(son(dc)))));
 				for (p = pt(son(a)); p != NULL; p = pt(p)) {
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 					int inb;
 					if (isdiaginfo(p)) {
 						continue;

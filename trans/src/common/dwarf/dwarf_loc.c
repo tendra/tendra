@@ -175,7 +175,7 @@ out_dwarf_loc_attr(exp t, int proc_no)
 		return rval;
 	}
 
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 	if (isdiscarded(t)) {
 		/* no location */
 		return rval;

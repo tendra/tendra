@@ -10,23 +10,23 @@
 #ifndef READER_TOKEN_H
 #define READER_TOKEN_H
 
-#ifdef NEWDIAGS
-#include <newdiag/dg_first.h>
+#ifdef TDF_DIAG4
+#include <diag4/dg_first.h>
 #else
-#include <diag/dg_first.h>
-#include <diag/diaginfo.h>
+#include <diag3/dg_first.h>
+#include <diag3/diaginfo.h>
 #endif
 
 #include <reader/exp.h>
 
 #include <construct/installtypes.h>
 
-#ifdef NEWDIAGS
-#include <newdiag/dg_types.h>  /* new diags */
-#include <newdiag/diagtypes.h> /* old diags */
+#ifdef TDF_DIAG4
+#include <diag4/dg_types.h>  /* TDF_DIAG4 */
+#include <diag4/diagtypes.h> /* TDF_DIAG3 */
 #else
-#include <diag/dg_types.h>  /* new diags */
-#include <diag/diagtypes.h> /* old diags */
+#include <diag3/dg_types.h>  /* TDF_DIAG4 */
+#include <diag3/diagtypes.h> /* TDF_DIAG3 */
 #endif
 
 
@@ -120,8 +120,8 @@ struct tok_define_t {
 	aldef			**my_altab;		/* the altab current at the definition */
 	exp			*my_labtab;		/* the labtab current at the definition */
 	struct tok_define_t	**my_toktab;		/* the toktab current at the definition */
-	diag_tagdef		**my_diagtab;		/* OLD DIAGS */	/* the diagtab current at the definition */
-	dgtag_struct		**my_dgtab;		/* NEW DIAGS */ /* the dgtab current at the definition */
+	diag_tagdef		**my_diagtab;		/* TDF_DIAG3 */	/* the diagtab current at the definition */
+	dgtag_struct		**my_dgtab;		/* TDF_DIAG4 */ /* the dgtab current at the definition */
 	char			*tok_name;		/* the identifier (if any) for the token */
 
 	struct tokformals_list_t {

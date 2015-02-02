@@ -46,18 +46,18 @@ read_sort(int sn)
       case TAG:                v.tk_tag              = d_tag();              break;
       case VARIETY:            v.tk_variety          = d_variety();          break;
       case TOKEN:              v.tk_token            = d_token();            break;
-      case DIAG_TYPE_SORT:     v.tk_diag_type        = d_diag_type();        break; /* OLD DIAGS */
-      case DIAG_FILENAME:      v.tk_filename         = d_filename();         break; /* OLD DIAGS */
+      case DIAG_TYPE_SORT:     v.tk_diag_type        = d_diag_type();        break; /* TDF_DIAG3 */
+      case DIAG_FILENAME:      v.tk_filename         = d_filename();         break; /* TDF_DIAG3 */
       case ACCESS_SORT:        v.tk_access           = d_access();           break;
       case TRANSFER_MODE_SORT: v.tk_transfer_mode    = d_transfer_mode();    break;
       case PROCPROPS:          v.tk_procprops        = d_procprops();        break;
       case STRING:             v.tk_string           = d_string();           break;
-      case DG_SORT:            v.tk_dg               = d_dg();               break; /* NEW DIAGS */
-      case DG_DIM_SORT:        v.tk_dg_dim           = d_dg_dim();           break; /* NEW DIAGS */
-      case DG_FILENAME_SORT:   v.tk_dg_filename      = d_dg_filename();      break; /* NEW DIAGS */
-      case DG_IDNAME_SORT:     v.tk_dg_idname        = d_dg_idname();        break; /* NEW DIAGS */
-      case DG_NAME_SORT:       v.tk_dg_name          = d_dg_name();          break; /* NEW DIAGS */
-      case DG_TYPE_SORT:       v.tk_dg_type          = d_dg_type();          break; /* NEW DIAGS */
+      case DG_SORT:            v.tk_dg               = d_dg();               break; /* TDF_DIAG4 */
+      case DG_DIM_SORT:        v.tk_dg_dim           = d_dg_dim();           break; /* TDF_DIAG4 */
+      case DG_FILENAME_SORT:   v.tk_dg_filename      = d_dg_filename();      break; /* TDF_DIAG4 */
+      case DG_IDNAME_SORT:     v.tk_dg_idname        = d_dg_idname();        break; /* TDF_DIAG4 */
+      case DG_NAME_SORT:       v.tk_dg_name          = d_dg_name();          break; /* TDF_DIAG4 */
+      case DG_TYPE_SORT:       v.tk_dg_type          = d_dg_type();          break; /* TDF_DIAG4 */
 
      default:
 	SET(v);

@@ -30,10 +30,10 @@
 
 #include <main/flags.h>
 
-#ifdef NEWDIAGS
-#include <newdiag/diag_fns.h>
+#ifdef TDF_DIAG4
+#include <diag4/diag_fns.h>
 #else
-#include <diag/diag_fns.h>
+#include <diag3/diag_fns.h>
 #endif
 
 #include "localtypes.h"

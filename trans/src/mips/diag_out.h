@@ -12,7 +12,7 @@
 
 #include <reader/exp.h>
 
-#include <diag/diagtypes.h>
+#include <diag3/diagtypes.h>
 
 extern int nofds;
 extern int *file_dnos;		/* dense nos for files */

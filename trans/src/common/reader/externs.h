@@ -13,18 +13,18 @@
 #ifndef EXTERNS_INCLUDED
 #define EXTERNS_INCLUDED
 
-#ifdef NEWDIAGS
-#include <newdiag/dg_first.h>
+#ifdef TDF_DIAG4
+#include <diag4/dg_first.h>
 #include <reader/code.h>
 #include <construct/installtypes.h>
-#include <newdiag/dg_types.h>
-#include <newdiag/diagtypes.h>
+#include <diag4/dg_types.h>
+#include <diag4/diagtypes.h>
 #else
-#include <diag/dg_first.h>
+#include <diag3/dg_first.h>
 #include <reader/code.h>
 #include <construct/installtypes.h>
-#include <diag/dg_types.h>
-#include <diag/diagtypes.h>
+#include <diag3/dg_types.h>
+#include <diag3/diagtypes.h>
 #endif
 
 #include <reader/token.h>

@@ -16,11 +16,11 @@
 
 #include <reader/code.h>
 
-#ifdef NEWDIAGS
-#include <newdiag/dg_first.h>
+#ifdef TDF_DIAG4
+#include <diag4/dg_first.h>
 #else
-#include <diag/dg_first.h>
-#include <diag/diaginfo.h>
+#include <diag3/dg_first.h>
+#include <diag3/diaginfo.h>
 #endif
 
 typedef exp otagexp;
@@ -132,7 +132,7 @@ struct dec_t {
 			exp dec_exp;
 			/* definition or NULL */
 			int unit_number;
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 			struct dg_name_t *dg_name;
 #else
 			diag_global *diag_info;

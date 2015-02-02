@@ -43,9 +43,9 @@
 #include "translate.h"
 #include "diag_out.h"
 
-#include <newdiag/dg_types.h>
-#include <newdiag/dg_aux.h>
-#include <newdiag/dg_globs.h>
+#include <diag4/dg_types.h>
+#include <diag4/dg_aux.h>
+#include <diag4/dg_globs.h>
 /* #include "proc.h" */
 /* #include "regmacs.h" */
 

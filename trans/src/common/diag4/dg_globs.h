@@ -13,7 +13,7 @@
 #include <construct/installtypes.h>
 
 #include "dg_first.h"
-#include "dg_types.h"		/* NEW DIAGS */
+#include "dg_types.h"		/* TDF_DIAG4 */
 
 #include <reader/exp.h>
 

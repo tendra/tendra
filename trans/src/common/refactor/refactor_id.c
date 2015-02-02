@@ -52,8 +52,8 @@
 #include <refactor/refactor.h>
 #include <refactor/refactor_id.h>
 
-#ifdef NEWDIAGS
-#include <newdiag/dg_aux.h>
+#ifdef TDF_DIAG4
+#include <diag4/dg_aux.h>
 #endif
 
 #if defined(TRANS_X86) || defined(TRANS_HPPA)
@@ -183,7 +183,7 @@ repbyseq(exp e)
 	exp def = son(e);
 	exp body = hold_refactor(bro(def));
 	exp seq, s;
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 	exp t = pt(e);
 	while (t != NULL) {
 		if (isdiaginfo(t))
@@ -192,7 +192,7 @@ repbyseq(exp e)
 	}
 #endif
 	if (son(def) == NULL) {
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 		if (diag != DIAG_NONE) {
 			dg_whole_comp(e, body);
 		}
@@ -205,7 +205,7 @@ repbyseq(exp e)
 	bro(def) = seq;
 	setlast(def);
 	s = hold_refactor(make_twoarg(seq_tag, sh(body), seq, body));
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 	if (diag != DIAG_NONE) {
 		dg_whole_comp(e, s);
 	}
@@ -390,7 +390,7 @@ change_cont(exp vardec, exp val, int force)
 		go = 0;
 		while (!go && t != NULL) {
 			if (last(t) && name(bro(t)) == cont_tag &&
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 			    !isdiaginfo(t) &&
 #endif
 			    (to_propagate(bro(t)) || force)) {
@@ -456,7 +456,7 @@ refactor_id(exp e, exp scope)
     t1 = pt(e);
     looping = 1;
     do {
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
       if (!isdiaginfo(t1)) {
 #endif
 
@@ -468,7 +468,7 @@ refactor_id(exp e, exp scope)
 	  ch_load = 0;
 	}
 
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
       }
 #endif
       if (pt(t1) == NULL) {
@@ -542,7 +542,7 @@ refactor_id(exp e, exp scope)
     if (optim & OPTIM_SUBSTPARAMS || name(def) != name_tag || !isparam(son(def)) ||
 	isvar(son(def))) {
       exp bh = hold(body);
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
       dg_info dgh = dgf(def);
       /* don't copy line info to all uses */
       dgf(def) = nildiag;
@@ -552,7 +552,7 @@ refactor_id(exp e, exp scope)
 	exp cp;
 	pt(e) = pt(mem);
 	cp = copy(def);
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 	if (isdiaginfo(mem)) {
 	  IGNORE diaginfo_exp(cp);
 	} else {
@@ -571,14 +571,14 @@ refactor_id(exp e, exp scope)
 	    sh(cp) = sh(mem);
 	  }
 	}
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 	if (diag != DIAG_NONE) {
 	  dg_whole_comp(mem, cp);
 	}
 #endif
 	replace(mem, cp, body);
       }
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
       dgf(def) = dgh;
 #endif
       bro(def) = son(bh);
@@ -600,7 +600,7 @@ refactor_id(exp e, exp scope)
     shape shb = sh(son(def));
     exp q, k;
 
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
     if (diag != DIAG_NONE) {
       dg_whole_comp(def, son(def));
     }
@@ -714,7 +714,7 @@ refactor_id(exp e, exp scope)
       /* scan the uses of the variable */
       if (last(tc) && (name(bro(tc)) == hold_tag ||
 		       name(bro(tc)) == hold2_tag)) {
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 	if (diag_visible) {
 #else
 	if (diag != DIAG_NONE) {
@@ -724,7 +724,7 @@ refactor_id(exp e, exp scope)
 	}
       } else {
 	if (last(tc) && name(bro(tc)) == cont_tag && no(tc) == 0 &&
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 	    !isdiaginfo(tc) &&
 #endif
 	    (name(sh(bro(tc))) <shrealhd || name(sh(bro(tc))) >doublehd ||
@@ -755,7 +755,7 @@ refactor_id(exp e, exp scope)
 	  }
 	} else {
 	  if (!last(tc) && last(bro(tc)) && no(tc) == 0 &&
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 	      !isdiaginfo(tc) &&
 #endif
 	      name(bro(bro(tc))) == ass_tag) {
@@ -808,7 +808,7 @@ refactor_id(exp e, exp scope)
 	      }
 	    }
 	  } else
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 		  if (!isdiaginfo(tc))
 #endif
 		  {
@@ -864,7 +864,7 @@ refactor_id(exp e, exp scope)
 	  tc = pt(tc);
 	  if (name(bro(tc)) == cont_tag) {
 	    sh(tc) = sh(bro(tc));
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 	    if (diag != DIAG_NONE) {
 	      dg_whole_comp(bro(tc), tc);
 	    }
@@ -878,7 +878,7 @@ refactor_id(exp e, exp scope)
 	    tc = e;
 	    for (j = 0; tc != NULL && j <= i; ++j) {
 	      tc = pt(tc);
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 	      while (tc != NULL && isdiaginfo(tc))
 		tc = pt(tc);
 #endif
@@ -961,7 +961,7 @@ refactor_id(exp e, exp scope)
 	  tc = pt(e);
 	  while (!chv && tc != NULL) {
 	    if (!last(tc) &&
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 		!isdiaginfo(tc) &&
 #endif
 		sh(bro(tc)) == sh(son(son(tc))) && last(bro(tc)) &&
@@ -1024,7 +1024,7 @@ refactor_id(exp e, exp scope)
 	  }
 	} while (chv);
 
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 	if (no(e) == no_ass && !isparam(e)) {
 	  int diagonly = 1;
 	  tc = pt(e);
@@ -1074,7 +1074,7 @@ refactor_id(exp e, exp scope)
 	}
       }
 
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
       if (all_a && !isparam(e) && !diag_visible) {
 #else
       if (all_a && !isparam(e) && diag == DIAG_NONE) {
@@ -1088,7 +1088,7 @@ refactor_id(exp e, exp scope)
 
 	while (1) {
 	  if (!last(tc) && name(bro(bro(tc))) == ass_tag) {
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 	    if (diag != DIAG_NONE) {
 	      dg_rem_ass(bro(bro(tc)));
 	    }
@@ -1110,7 +1110,7 @@ refactor_id(exp e, exp scope)
       if (!is_var && !is_vis && no(e) == 1 && !isparam(e) &&
 	  name(body) == ident_tag && name(son(body)) == name_tag &&
 	  son(son(body)) == e && shape_size(def) == shape_size(son(body))) {
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 	if (diag != DIAG_NONE) {
 	  exp t = pt(e);
 	  while (t) {
@@ -1122,7 +1122,7 @@ refactor_id(exp e, exp scope)
 	}
 #endif
 	replace(son(body), def, def);
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 	if (diag != DIAG_NONE) {
 	  dg_whole_comp(e, body);
 	}
@@ -1141,7 +1141,7 @@ refactor_id(exp e, exp scope)
 	    exp u = pt(e);
 	    for (; nuses !=0 && u !=NULL;) {
 	      exp nextu = pt(u);
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 	      if (!isdiaginfo(u) && no(u) ==no(c) &&
 		  eq_shape(sh(u), sh(bro(c)))) {
 #else
@@ -1179,7 +1179,7 @@ refactor_id(exp e, exp scope)
 	    exp u = pt(e);
 	    for (; nuses !=0 && u !=NULL;) {
 	      exp nextu = pt(u);
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 	      if (!isdiaginfo(u) && no(u) ==nd && eq_shape(sh(u), sh(c))) {
 #else
 	      if (no(u) ==nd && eq_shape(sh(u), sh(c))) {

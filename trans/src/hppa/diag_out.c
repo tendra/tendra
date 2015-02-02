@@ -36,10 +36,10 @@
 #include <main/driver.h>
 #include <main/flags.h>
 
-#include <diag/diagtypes.h>
-#include <diag/diag_fns.h>
-#include <diag/diagglob.h>
-#include <diag/mark_scope.h>
+#include <diag3/diagtypes.h>
+#include <diag3/diag_fns.h>
+#include <diag3/diagglob.h>
+#include <diag3/mark_scope.h>
 
 #include "addrtypes.h"
 #include "frames.h"

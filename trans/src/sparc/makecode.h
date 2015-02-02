@@ -26,7 +26,7 @@ extern void setvolatile(void);
 extern void load_reg(exp,int,space);
 extern void do_exception(int);
 
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 extern void diag_arg(exp, space, where);
 #endif
 

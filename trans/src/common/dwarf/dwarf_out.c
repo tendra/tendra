@@ -25,12 +25,12 @@
 
 #include <main/driver.h>
 
-#ifdef NEWDIAGS
-#include <newdiag/diagglob.h>
-#include <newdiag/diagtypes.h>
+#ifdef TDF_DIAG4
+#include <diag4/diagglob.h>
+#include <diag4/diagtypes.h>
 #else
-#include <diag/diagglob.h>
-#include <diag/diagtypes.h>
+#include <diag3/diagglob.h>
+#include <diag3/diagtypes.h>
 #endif
 
 #include <dwarf/dwarf.h>
@@ -39,7 +39,7 @@
 #include <dwarf/dwarf_mc.h>
 #include <dwarf/dwarf_out.h>
 
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 #include <construct/tags.h>
 #endif
 
@@ -632,7 +632,7 @@ dwarf_out_descriptor(diag_descriptor *x)
 	case DIAG_ID_KEY: {
 		exp acc = x->data.id.access;
 		exp t = son(acc);
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 		if (name(acc) != hold_tag) {
 			error(ERROR_INTERNAL, "access should be in hold");
 			break;

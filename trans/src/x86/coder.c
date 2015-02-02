@@ -65,12 +65,12 @@
 #include "coder.h"
 #include "localexpmacs.h"
 
-#ifdef NEWDIAGS
-#include <newdiag/diag_fns.h>
-#include <newdiag/dg_aux.h>
-#include <newdiag/dg_globs.h>
+#ifdef TDF_DIAG4
+#include <diag4/diag_fns.h>
+#include <diag4/dg_aux.h>
+#include <diag4/dg_globs.h>
 #else
-#include <diag/diag_fns.h>
+#include <diag3/diag_fns.h>
 #endif
 
 #ifdef NEWDWARF
@@ -532,7 +532,7 @@ static regu alloc_reg
 (int rs, shape sha, int br, int big_reg, exp e)
 {
   if (name(sha) >= shrealhd && name(sha) <= doublehd) {
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
     if (big_reg || diag_visible || round_after_flop ||
 #else
     if (big_reg || diag != DIAG_NONE || round_after_flop ||
@@ -761,7 +761,7 @@ static void solve
 
     if (name(s)!= goto_tag || pt(s)!= bro(s))
       coder (dest, stack, s);	/* code the starting exp */
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
     else
       diag_arg(dest, stack, s);
 #endif
@@ -866,7 +866,7 @@ static ash stack_room
   return stack;
 }
 
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 static void coder1
 #else
 void coder
@@ -991,7 +991,7 @@ void coder
 	  t = bro(t);
 	if (no_bottom)
 	  coder(dest, stack, bro(son(e)));
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 	else
 	if (diag != DIAG_NONE) {
 	  /* Beware lost information !!! */
@@ -1013,7 +1013,7 @@ void coder
 
 	if (no(son(alt)) == 0) {
 	  coder(dest, stack, first);
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 	  if (diag != DIAG_NONE) {
 		/* Beware lost information !!! */
 	    name(bro(son(alt))) = top_tag;
@@ -1337,7 +1337,7 @@ void coder
 	      settest_number(e,(int)int_inverse_ntest[testno]);
 	    else
 	      settest_number(e,(int)real_inverse_ntest[testno]);
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 	    if (current_dg_info)
 	      current_dg_info->data.i_tst.inv = 1 - current_dg_info->data.i_tst.inv;
 #endif
@@ -1440,7 +1440,7 @@ void coder
 	        settest_number(e,(int)int_inverse_ntest[testno]);
 	      else
 	        settest_number(e,(int)real_inverse_ntest[testno]);
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 	      if (current_dg_info)
 		current_dg_info->data.i_tst.inv = 1 - current_dg_info->data.i_tst.inv;
 #endif
@@ -1479,7 +1479,7 @@ void coder
 	    coder(qw, stack, arg1);
 	    arg1 = qw.where_exp;
 	  }
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 	  else
 	    diag_arg(dest, stack, arg1);
 #endif
@@ -1491,7 +1491,7 @@ void coder
 	    coder(qw, stack, arg2);
 	    arg2 = qw.where_exp;
 	  }
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 	  else
 	    diag_arg(dest, stack, arg2);
 #endif
@@ -1524,7 +1524,7 @@ void coder
 	    arg1 = arg2;
 	    arg2 = holde;
 	    test_n = exchange_ntest[test_n];
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 	    if (current_dg_info)
 	      current_dg_info->data.i_tst.inv = 1 - current_dg_info->data.i_tst.inv;
 #endif
@@ -2227,7 +2227,7 @@ void coder
 
 	return;
       };
-#ifndef NEWDIAGS
+#ifndef TDF_DIAG4
     case diagnose_tag:  {
 	diag_info * d = dno(e);
 	if (d->key == DIAG_INFO_SOURCE) {
@@ -2286,7 +2286,7 @@ void coder
   };
 }
 
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 struct coder_args {
 	where dest;
 	ash stack;

@@ -919,7 +919,7 @@ linkextern
 f_make_diagtagextern(tdfint internal, external ext)
 {
 	dg_tag tg = &capsule_diag_tagtab[natint(internal)];
-	tg->outref.k = NO_LAB;	/* old diag names are internal ! */
+	tg->outref.k = NO_LAB;	/* TDF_DIAG3 names are internal ! */
 	tg->outref.u.s = external_to_string(ext);
 	return 0;
 }

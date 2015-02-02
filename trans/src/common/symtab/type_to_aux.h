@@ -14,10 +14,10 @@
 
 #include <reader/code.h>
 
-#include <diag/dg_first.h>
-#include <diag/diaginfo.h>
-#include <diag/dg_types.h>  /* NEW DIAGS */
-#include <diag/diagtypes.h>	/* OLD DIAGS */
+#include <diag3/dg_first.h>
+#include <diag3/diaginfo.h>
+#include <diag3/dg_types.h>  /* TDF_DIAG4 */
+#include <diag3/diagtypes.h>	/* TDF_DIAG3 */
 
 #include <construct/installtypes.h>
 

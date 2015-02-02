@@ -2,7 +2,7 @@
 
 /* TODO: interface for diag/ to call alpha local stabs */
 
-#include <diag/diag_reform.h>
+#include <diag3/diag_reform.h>
 
 diag_descriptor *
 NEW_DIAG_GLOBAL(diag_descriptor *d)

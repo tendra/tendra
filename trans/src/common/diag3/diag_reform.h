@@ -10,13 +10,13 @@
 #define DIAG_REFORM_H
 
 /*
- * This header is an attempt to reform the interfaces for diag/ and newdiag/
+ * This header is an attempt to reform the interfaces for diag3/ and diag4/
  * for the callbacks out to each architecture. The goal here is to be able to
- * (eventually) link both diag/ and newdiag/ simultaneously.
+ * (eventually) link both diag3/ and diag4/ simultaneously.
  */
 
 
-#include <diag/diagtypes1.h>
+#include <diag3/diagtypes1.h>
 
 #if DWARF
 #include <dwarf/dwarf_types.h>

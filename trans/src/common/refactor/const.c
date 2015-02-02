@@ -53,8 +53,8 @@
 #include <refactor/refactor_id.h>
 #include <refactor/const.h>
 
-#ifdef NEWDIAGS
-#include <newdiag/dg_aux.h>
+#ifdef TDF_DIAG4
+#include <diag4/dg_aux.h>
 #endif
 
 #define MAXUSE 16
@@ -383,7 +383,7 @@ max_const(exp whole, exp e, int ass_ok)
       temp1 = me_b3(sh(e), funit, bro(son(e)), fdiv_tag);
       temp2 = me_b3(sh(e), son(e), temp1, fmult_tag);
 
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
       dgf(temp2) = dgf(e);
 #endif
       replace(e, temp2, temp2);
@@ -733,7 +733,7 @@ do_this_k(exp kdec, exp patn, exp list, exp limit)
 			   kdec, pt(kdec), 0,  0, name_tag);
 	pt(kdec) = tagt;
 	++no(kdec);
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 	if (diag != DIAG_NONE) {
 	  dg_extracted(tagt, *(refto(f, e)));
 	}
@@ -1126,7 +1126,7 @@ extract_consts(int issn, exp rf, exp list_head)
 	   */
 	  force = 1;
 	}
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 	e = copy_dg_separate (e);	/* original may remain in use */
 #else
 	e = copy(e);
@@ -1141,7 +1141,7 @@ extract_consts(int issn, exp rf, exp list_head)
 
 	while (scan) {
 	  if (no(t2) == 0 && pt(t2) == op) {
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 	    c_arg = copy_dg_separate(son(t2));
 					/* original may remain in use */
 #else
@@ -1170,7 +1170,7 @@ extract_consts(int issn, exp rf, exp list_head)
 	exp konst;
 	exp newdec;
 	int kill_e = false;
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 	if (diag != DIAG_NONE) {
 	  strip_dg_context(e);
 	}
@@ -1216,7 +1216,7 @@ extract_consts(int issn, exp rf, exp list_head)
 	  bro(rf) = newdec;
 	}
 
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 	if (diag != DIAG_NONE) {
 	  make_optim_dg(DGD_EXTRACT, newdec);
 	}

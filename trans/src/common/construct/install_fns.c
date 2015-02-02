@@ -63,9 +63,9 @@
 #include <refactor/refactor.h>
 #include <refactor/refactor_id.h>
 
-#ifdef NEWDIAGS
-#include <newdiag/dg_fns.h>
-#include <newdiag/mark_scope.h>
+#ifdef TDF_DIAG4
+#include <diag4/dg_fns.h>
+#include <diag4/mark_scope.h>
 #endif
 
 #ifdef TRANS_SPARC
@@ -219,7 +219,7 @@ make_extra_dec(char *nme, int v, int g, exp init, shape s)
 	extra_dec->dec_u.dec_val.dec_shape = s;
 	extra_dec->dec_u.dec_val.dec_exp = e;
 	extra_dec->dec_u.dec_val.unit_number = crt_tagdef_unit_no;
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 	extra_dec->dec_u.dec_val.dg_name = NULL;
 #else
 	extra_dec->dec_u.dec_val.diag_info = NULL;
@@ -470,7 +470,7 @@ static void
 promote_formals(exp bdy)
 {
 	while ((name(bdy) == ident_tag && isparam(bdy))
-#ifndef NEWDIAGS
+#ifndef TDF_DIAG4
 	       || name(bdy) == diagnose_tag
 #endif
 	      ) {
@@ -1726,7 +1726,7 @@ f_case_transform(bool exhaustive, exp control, caselim_list branches)
 	body_of_ident = case_optimisation(body_of_case, id, sh(r), copy_ce);
 	id = me_complete_id(id, body_of_ident);
 
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 	if (extra_diags) {
 		id = f_dg_exp(id, f_branch_dg(f_dg_null_sourcepos));
 	}
@@ -1795,7 +1795,7 @@ f_case_notransform(bool exhaustive, exp control, caselim_list branches)
 	setlast(ht);
 	bro(ht) = r;
 
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 	if (extra_diags) {
 		r = f_dg_exp(r, f_branch_dg(f_dg_null_sourcepos));
 	}
@@ -4176,7 +4176,7 @@ f_obtain_tag(tag t)
 
 	if (isglob(tg)) {
 		s = sh(t->dec_u.dec_val.dec_exp);
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 		if (!within_diags) {
 			proc_externs = 1;
 		}
@@ -5088,9 +5088,9 @@ f_variable(access_option acc, tag name_intro, exp init, exp body)
 	setbro(d, body);
 	clearlast(d);
 	setfather(i, body);
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 	if (doing_mark_scope) {
-		/* must be reading old diags */
+		/* must be reading TDF_DIAG3 */
 		correct_mark_scope(i);
 	}
 #endif

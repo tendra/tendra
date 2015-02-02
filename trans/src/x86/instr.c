@@ -71,7 +71,7 @@ typedef union eu_u {int i; exp e;} punner;
 int  extra_stack = 0;	/* init by init_all */
 int max_extra_stack = 0;	/* init by cproc */
 int no_frame;		/* init by cproc */
-#ifndef NEWDIAGS
+#ifndef TDF_DIAG4
 static long  last_jump_pos;	/* set locally */
 #endif
 int  last_jump_label;	/* cleared to -1 by outnl */
@@ -640,7 +640,7 @@ void simple_set_label
   if (labno == last_jump_label)
     error(ERROR_INTERNAL, "redundant jump");
 #endif
-#ifndef NEWDIAGS
+#ifndef TDF_DIAG4
   /* Eliminate immediately previous jump to this label */
   if (diag == DIAG_NONE && labno == last_jump_label) {
 		out_set_pos(last_jump_pos);
@@ -723,7 +723,7 @@ void jump
   reset_fpucon();
   stack_dec = good_sd;
 
-#ifndef NEWDIAGS
+#ifndef TDF_DIAG4
   last_jump_pos = out_tell_pos();
 #endif
   outs(margin);

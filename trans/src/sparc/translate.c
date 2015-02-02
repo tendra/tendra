@@ -235,7 +235,7 @@ mark_unaliased ( exp e ){
   while ( p != NULL && ca ) {
     exp q = bro ( p ) ;
     if ( q == NULL ) {
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
       if (!isdiaginfo(p))
 #endif
         ca = 0 ;
@@ -244,7 +244,7 @@ mark_unaliased ( exp e ){
       if ( !( last ( p ) && name ( q ) == cont_tag ) &&
 	   !( !last ( p ) && last ( q ) &&
 	      name ( bro ( q ) ) == ass_tag ) ) {
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
         if (!isdiaginfo(p))
 #endif
 	  ca = 0 ;
@@ -363,7 +363,7 @@ translate_capsule (void){
 
 
   /* apply all optimisations */
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
   if ( !diag_visible ) opt_all_exps () ;
 #else
   if ( diag == DIAG_NONE ) opt_all_exps () ;
@@ -374,7 +374,7 @@ translate_capsule (void){
   for ( d = top_def ; d != NULL ; d = d->def_next ) {
     exp c = d->dec_u.dec_val.dec_exp ;
     if ( son ( c ) != NULL ) {
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
       if ( !diag_visible && !separate_units && !d->dec_u.dec_val.extnamed
 #else
       if ( diag == DIAG_NONE && !separate_units && !d->dec_u.dec_val.extnamed
@@ -603,7 +603,7 @@ translate_capsule (void){
 	  /* evaluate all outer level constants */
 	instore is ;
 	long symdef = d->dec_u.dec_val.sym_number + 1 ;
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 	struct dg_name_t *diag_props = d->dec_u.dec_val.dg_name ;
 #else
 	diag_global *diag_props = d->dec_u.dec_val.diag_info ;
@@ -657,7 +657,7 @@ translate_capsule (void){
 	int proc_directive ;
 	exp c = d->dec_u.dec_val.dec_exp ;
 	prop p = procrecs [ no ( son ( c ) ) ].needsproc.prps ;
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 	struct dg_name_t *diag_props = d->dec_u.dec_val.dg_name ;
 #else
 	diag_global *diag_props = d->dec_u.dec_val.diag_info ;

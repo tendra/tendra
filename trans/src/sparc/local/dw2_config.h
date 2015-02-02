@@ -15,13 +15,13 @@
 
 #include <construct/installtypes.h>
 
-#ifdef NEWDIAGS
-#include <newdiag/dg_first.h>
-#include <newdiag/dg_types.h>		/* NEW DIAGS */
+#ifdef TDF_DIAG4
+#include <diag4/dg_first.h>
+#include <diag4/dg_types.h>		/* TDF_DIAG4 */
 #else
-#include <diag/dg_first.h>
-#include <diag/diaginfo.h>
-#include <diag/dg_types.h>		/* NEW DIAGS */
+#include <diag3/dg_first.h>
+#include <diag3/diaginfo.h>
+#include <diag3/dg_types.h>		/* TDF_DIAG4 */
 #endif
 
 #define DWARF_MOD_VERSION	(needs_debug_align ? DWARF_VERSION  * 101 : DWARF_VERSION)

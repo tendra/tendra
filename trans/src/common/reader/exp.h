@@ -13,11 +13,11 @@
 
 #include <reader/code.h>
 
-#ifdef NEWDIAGS
-#include <newdiag/dg_first.h>
+#ifdef TDF_DIAG4
+#include <diag4/dg_first.h>
 #else
-#include <diag/dg_first.h>
-#include <diag/diaginfo.h>
+#include <diag3/dg_first.h>
+#include <diag3/diaginfo.h>
 #endif
 
 struct dec_t;
@@ -55,7 +55,7 @@ typedef union {
 	float f;
 	struct dec_t *glob;
 
-#ifndef NEWDIAGS
+#ifndef TDF_DIAG4
 	diag_info *d;
 #endif
 
@@ -97,7 +97,7 @@ struct exp_t {
 	char *dfile; /* source .c file (for debugging only) */
 #endif
 
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 	diag_info *diagf;
 #endif
 };
@@ -127,7 +127,7 @@ typedef struct exp_t *exp;
 #define no(x)             ((x)->numf.l)
 #define parked(x)         ((x)->park)
 
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 #define dgf(x)            ((x)->diagf)
 #endif
 
@@ -143,7 +143,7 @@ typedef struct exp_t *exp;
 #define fno(x)            ((x)->numf.f)
 #define uno(x)            ((x)->numf.ui)
 
-#ifndef NEWDIAGS
+#ifndef TDF_DIAG4
 #define dno(x)            ((x)->numf.d)
 #endif
 
@@ -407,7 +407,7 @@ typedef struct exp_t *exp;
 #define isreallyass(x)            ptst(x, 0x04)
 #endif
 
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 #define setisdiaginfo(x)          pset(x, 0x08)
 #define isdiaginfo(x)             ptst(x, 0x08)
 

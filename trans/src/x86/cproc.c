@@ -26,10 +26,10 @@
 #include <local/cpu.h>
 #include <local/codermacs.h>
 
-#ifdef NEWDIAGS
-#include <newdiag/diag_fns.h>
+#ifdef TDF_DIAG4
+#include <diag4/diag_fns.h>
 #else
-#include <diag/diag_fns.h>
+#include <diag3/diag_fns.h>
 #endif
 
 #include <reader/basicread.h>
@@ -277,7 +277,7 @@ static void out_untidy_pops
   return;
 }
 
-#ifdef NEWDIAGS
+#ifdef TDF_DIAG4
 int cproc
 (exp p, char *pname, int cname, int global, struct dg_name_t * diag_props)
 #else

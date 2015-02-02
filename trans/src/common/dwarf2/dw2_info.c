@@ -27,12 +27,12 @@
 #include <main/driver.h>
 #include <main/flags.h>
 
-#ifdef NEWDIAGS
-#include <newdiag/dg_aux.h>
-#include <newdiag/dg_globs.h>
+#ifdef TDF_DIAG4
+#include <diag4/dg_aux.h>
+#include <diag4/dg_globs.h>
 #else
-#include <diag/dg_aux.h>
-#include <diag/dg_globs.h>
+#include <diag3/dg_aux.h>
+#include <diag3/dg_globs.h>
 #endif
 
 #include <dwarf2/dw2_entries.h>
@@ -291,7 +291,7 @@ static void output_info
 	  attr1 |= (H_NM | H_XY);
 	attr1 |= H_PC;
 	if (d->data.i_scope.begin_st) {
-	  if (d->data.i_scope.begin_st == (long)(-1))	/* old diags */
+	  if (d->data.i_scope.begin_st == (long)(-1))	/* TDF_DIAG3 */
 	    d->data.i_scope.begin_st = 0;
 	  else
 	    attr1 |= H_BG;

@@ -15,7 +15,7 @@
 
 #include <main/flags.h>
 
-#include <diag/diag_fns.h>
+#include <diag3/diag_fns.h>
 
 #include "memtdf.h"
 #include "codegen.h"
