@@ -37,7 +37,7 @@ trans_version(void)
 		{ "diag",      diag_version,      diag_revision,      DG_VERSION   },
 #endif
 #ifdef NEWDIAGS
-		{ "newdiag",   diag_version,      diag_revision,      DG_VERSION   },
+		{ "newdiag",   diag_version,      diag_revision,      NULL         },
 #endif
 		{ "reader",    reader_version,    reader_revision,    NULL         },
 		{ "construct", construct_version, construct_revision, NULL         },
