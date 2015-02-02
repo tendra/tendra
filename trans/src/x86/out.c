@@ -102,11 +102,7 @@ outnl(void)
 		exit(EXIT_FAILURE);
 	}
 
-	/* XXX: is out.c the right place? */
-#ifdef DWARF2
-	instr_count = -1;
-#endif
-	keep_short = cpu & CPU_80586;
+	out_hook_nl();
 }
 
 void
@@ -131,6 +127,16 @@ outhex(int n)
 		error(ERROR_INTERNAL, BAD_OUTPUT);
 		exit(EXIT_FAILURE);
 	}
+}
+
+void
+out_hook_nl(void)
+{
+	/* XXX: is out.c the right place? */
+#ifdef DWARF2
+	instr_count = -1;
+#endif
+	keep_short = cpu & CPU_80586;
 }
 
 /*

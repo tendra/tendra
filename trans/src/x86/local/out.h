@@ -19,6 +19,7 @@ void outc(char c);
 void outn(long n);
 void outhex(int n);
 void outnl(void);
+void out_hook_nl(void);
 long out_tell_pos(void);
 void out_set_pos(long pos);
 
