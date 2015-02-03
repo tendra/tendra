@@ -391,23 +391,19 @@ translate_capsule (void){
 	init_translator () ;
 
 #ifdef DWARF2
-	if ( dump_abbrev ) {
+  if (diag == DIAG_DWARF2) {
 		/* Dump abbreviations table */
 		do_abbreviations () ;
-		dwarf2_prelude () ;
+	    if ( dump_abbrev ) {
+		  dwarf2_prelude () ;
+	    }
 		make_dwarf_common () ;
 		dwarf2_postlude () ;
 		exit_translator () ;
 		exit(EXIT_FAILURE);
-	}
-#endif
-
-
-#ifdef DWARF2
-  if (diag == DIAG_DWARF2) {
-    dwarf2_prelude ();
   }
 #endif
+
 
   /* output weak symbols */
   while ( weak_list ) {

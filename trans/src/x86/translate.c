@@ -435,9 +435,11 @@ void translate_capsule
             out_diagnose_prelude();
 
 #ifdef DWARF2
-    if (dump_abbrev) {
+    if (diag == DIAG_DWARF2) {
         outs(".text\n");
-        do_abbreviations();
+        if (dump_abbrev) {
+            do_abbreviations();
+        }
         dwarf2_prelude();
         make_dwarf_common();
         dwarf2_postlude();
@@ -445,16 +447,8 @@ void translate_capsule
 #endif
 
 
-
   /* compile procedures, evaluate constants, put in the .comm entries for
      undefined objects */
-
-#ifdef DWARF2
-  if (diag == DIAG_DWARF2) {
-    outs(".text\n");
-    dwarf2_prelude();
-  }
-#endif
 
   for (my_def = top_def; my_def != NULL; my_def = my_def -> def_next) {
     if (!my_def -> dec_u.dec_val.processed)
