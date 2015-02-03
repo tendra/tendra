@@ -181,20 +181,15 @@ main(int argc, char *argv[])
 			case 'W': writable_strings = 1; break;
 			case 'Y': dyn_init         = 1; break;
 			case 'Z': report_versions  = 1; break;
+#ifdef DWARF2
+			case 'T': dump_abbrev      = 1; break;
+			case 'J': extra_diags      = 1; break;
+#endif
 
 			/* TODO: global options as lower case instead */
 			case 'V':
 			case 'v': trans_version();     return 0;
 			case 'h': trans_usage(stdout); return 0;
-
-#ifdef DWARF2
-			case 'T':
-				dump_abbrev = 1;
-			case 'J':
-				extra_diags = 1;
-				diag = DIAG_DWARF2;
-				break;
-#endif
 
 			case 'K':
 				if (driver.cpu == NULL) {
