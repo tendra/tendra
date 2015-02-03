@@ -223,14 +223,14 @@ flags_builtin(enum builtin o, const char *s)
 		case 'v': e = BUILTIN_VARARG;  break;
 		case 'c': e = BUILTIN_ALLOCA;  break;
 		case 'f': e = BUILTIN_FLOAT;   break;
-		case 'd': e = BUILTIN_DIAG;    break;
+		case 'g': e = BUILTIN_DIAG;    break;
 		case 'l': e = BUILTIN_API;     break;
 		case 'm': e = BUILTIN_ASM;     break;
 		case 't': e = BUILTIN_DEBUG;   break;
 
 		default:
 			error(ERROR_WARNING, "Unrecognised builtin flag %c. "
-				"Valid flags are: [sjcdlmt] and [a] for all.",
+				"Valid flags are: [sjcglmt] and [a] for all.",
 				*p);
 			continue;
 		}
