@@ -17,6 +17,8 @@ TRANS_DEBUG?= dwarf1
 # TODO: these are not yet selectable at runtime
 .if "${TRANS_DEBUG}" == "stabs"
 
+TRANS_CFLAGS+= -D STABS
+
 PARTS+= src/common/diag3
 
 SRCS+= diag_out.c
