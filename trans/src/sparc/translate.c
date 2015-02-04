@@ -606,13 +606,13 @@ translate_capsule (void){
 #endif
 	if ( isvar ( tg ) ) symdef = -symdef ;
 	if ( diag_props ) {
-	  DIAG_VAL_BEGIN ( diag_props, extnamed, symdef, id, stg ) ;
+#ifdef DWARF2
+		if (diag != DWARF2)
+#endif
+			stab_global(diag_props, stg, id, extnamed);
 	}
 	is = evaluated ( stg, symdef, 
 		(!isvar (tg) || (d -> dec_u.dec_val.acc & f_constant)) ) ;
-	if ( diag_props ) {
-	  DIAG_VAL_END ( diag_props ) ;
-	}
 	if ( is.adval ) setvar ( tg ) ;
 	if ( sysV_assembler ) {
 	  outs ( "\t.type\t" ) ;
@@ -696,7 +696,13 @@ translate_capsule (void){
 	}
 
 	if ( diag != DIAG_NONE ) {
-	  DIAG_PROC_BEGIN ( diag_props, extnamed, -1, id, stg ) ;
+#if DWARF2
+		if (diag == DIAG_DWARF2) {
+			dw2_proc_start(stg, diag_props);
+		}
+#else
+		stab_proc(diag_props, stg, id, extnamed);
+#endif
 	}
 	if ( optim_level >= 0 ) {
 	  /* .optim must go after .proc */
@@ -737,7 +743,15 @@ translate_capsule (void){
 		}
 	}
 	if ( diag != DIAG_NONE ) {
-	  DIAG_PROC_END ( stg ) ;
+#ifdef DWARF2
+		if (diag == DIAG_DWARF2) {
+			dw2_proc_end(stg);
+		}
+#else
+#ifndef TDF_DIAG4
+		stab_proc_end();
+#endif
+#endif
 	}
       }
     } 

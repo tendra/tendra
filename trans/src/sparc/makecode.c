@@ -984,7 +984,9 @@ make_code ( exp e, space sp, where dest, int exitlab )
 	clear_all () ;
 	set_label ( lb ) ;
 #ifdef DWARF2
-        START_BB ();
+	if (diag == DIAG_DWARF2) {
+		dw2_start_basic_block();
+	}
 #endif
       }
       return make_code ( bro ( son ( e ) ), sp, dest, exitlab ) ;
@@ -1102,7 +1104,9 @@ make_code ( exp e, space sp, where dest, int exitlab )
 #endif
 	condrr_ins ( i_bne, R_O0, R_G0, lab ) ;
 #ifdef DWARF2
-	START_BB ();
+	if (diag == DIAG_DWARF2) {
+		dw2_start_basic_block();
+	}
 	if (current_dg_info)
 	  current_dg_info->data.i_tst.cont = set_dw_text_label ();
 #endif
@@ -1137,7 +1141,9 @@ make_code ( exp e, space sp, where dest, int exitlab )
 #endif
 	fbr_ins ( branch, lab ) ;
 #ifdef DWARF2
-	START_BB ();
+	if (diag == DIAG_DWARF2) {
+		dw2_start_basic_block();
+	}
 	if (current_dg_info)
 	  current_dg_info->data.i_tst.cont = set_dw_text_label ();
 #endif
@@ -1189,7 +1195,9 @@ make_code ( exp e, space sp, where dest, int exitlab )
 	  condrr_ins ( branch, a1, a2, lab ) ;
 	}
 #ifdef DWARF2
-	START_BB ();
+	if (diag == DIAG_DWARF2) {
+		dw2_start_basic_block();
+	}
 	if (current_dg_info) {
 	  current_dg_info->data.i_tst.jlab.u.l = lab;
 	  current_dg_info->data.i_tst.jlab.k = LAB_CODE;
@@ -3995,7 +4003,9 @@ make_code ( exp e, space sp, where dest, int exitlab )
       clear_all () ;
       set_label ( endlab ) ;
 #ifdef DWARF2
-      START_BB ();
+		if (diag == DIAG_DWARF2) {
+			dw2_start_basic_block();
+		}
 #endif
       return mka;
     } else
@@ -4040,7 +4050,9 @@ make_code ( exp e, space sp, where dest, int exitlab )
 	    clear_all () ;
 	    set_label ( over ) ;
 #ifdef DWARF2
-	    START_BB ();
+		if (diag == DIAG_DWARF2) {
+			dw2_start_basic_block();
+		}
 #endif
 	  }
 	  return mka;
@@ -4093,7 +4105,9 @@ make_code ( exp e, space sp, where dest, int exitlab )
 	    clear_all () ;
 	    set_label ( over ) ;
 #ifdef DWARF2
-	    START_BB ();
+		if (diag == DIAG_DWARF2) {
+			dw2_start_basic_block();
+		}
 #endif
 	  }
 	  return mka;
@@ -4614,7 +4628,17 @@ make_code ( exp e, space sp, where dest, int exitlab )
     args.sp = sp;
     args.dest = dest;
     args.exitlab = exitlab;
-    CODE_DIAG_INFO (dgf(e), 0, &make_code_2, (void*)&args);
+#ifndef TDF_DIAG4
+	code_diag_info(dgf(e), 0, &make_code_2, (void*)&args);
+#else
+#if DWARF2
+	if (diag == DIAG_DWARF2) {
+		dw2_code_info(dgf(e), &make_code_2, (void*)&args);
+	}
+#else
+	code_diag_info(dgf(e), &make_code_2, (void*)&args);
+#endif
+#endif
     current_dg_info = was_current;
     return args.res;
   }
@@ -4644,7 +4668,17 @@ diag_arg ( exp e, space sp, where dest )
     args.sp = sp;
     args.dest = dest;
     args.exitlab = 0;
-    CODE_DIAG_INFO (dgf(e), 0, &done_arg, (void*)&args);
+#ifndef TDF_DIAG4
+	code_diag_info(dgf(e), 0, &make_code_2, (void*)&args);
+#else
+#if DWARF2
+	if (diag == DIAG_DWARF2) {
+		dw2_code_info(dgf(e), &make_code_2, (void*)&args);
+	}
+#else
+	code_diag_info(dgf(e), &make_code_2, (void*)&args);
+#endif
+#endif
   }
   return;
 }

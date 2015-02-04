@@ -597,7 +597,9 @@ void evaluate
 
   if (diag_props)
 #ifdef DWARF2
-    DIAG_VAL_BEGIN(diag_props, global, cname, s);
+    if (diag != DIAG_DWARF2) {
+		out_diag_global(diag_props, global, cname, s);
+	}
 #else
     diag_val_begin(diag_props, global, cname, s);
 #endif
@@ -621,9 +623,7 @@ void evaluate
   outnl();
 
   if (diag_props) {
-#ifdef DWARF2
-    DIAG_VAL_END(diag_props);
-#else
+#ifndef DWARF2
     diag_val_end(diag_props);
 #endif
   }

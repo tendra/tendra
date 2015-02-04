@@ -1145,7 +1145,9 @@ void caseins
     outs(":");
     outnl();
 #ifdef DWARF2
-    START_BB();
+    if (diag == DIAG_DWARF2) {
+      dw2_start_basic_block();
+    }
 #endif
   };
   return;

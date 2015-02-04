@@ -268,7 +268,7 @@ makeans make_proc_tag_code
 
 #ifdef DWARF2
   if (diag == DIAG_DWARF2) {
-    START_BB();
+    dw2_start_basic_block();
     dw2_start_fde(current_proc);
   }
 #endif
@@ -926,8 +926,9 @@ makeans make_apply_tag_code
   }
 
 #ifdef DWARF2
-  if (diag == DIAG_DWARF2)
-    START_BB();
+  if (diag == DIAG_DWARF2) {
+    dw2_start_basic_block();
+  }
 #endif
 
   /* grab clobbered %g and %o regs, as safety test for bad code */
@@ -1362,8 +1363,9 @@ makeans make_apply_general_tag_code
   }
 
 #ifdef DWARF2
-  if (diag == DIAG_DWARF2)
-    START_BB();
+  if (diag == DIAG_DWARF2) {
+    dw2_start_basic_block();
+  }
 #endif
 
   /* free the space used to generate the callee parameters and, if in

@@ -2903,7 +2903,9 @@ void callins
   };
   stack_dec = ret_stack_dec;
 #ifdef DWARF2
-  START_BB();
+  if (diag == DIAG_DWARF2) {
+    dw2_start_basic_block();
+  }
 #endif
   if (longs == 32 || (longs == 64 && cpu & CPU_80586) ||
 	!no_frame || !not_in_params || !not_in_postlude)

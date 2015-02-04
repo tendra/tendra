@@ -103,7 +103,7 @@ static void add_odd_bits
 #else
     dw2_start_extra_bit(r->dw2_slave);
 #endif
-    START_BB();
+    dw2_start_basic_block();
   }
 #endif
 
@@ -432,7 +432,9 @@ int cproc
   if (diag != DIAG_NONE)
     {
 #ifdef DWARF2
-    DIAG_PROC_BEGIN(diag_props, global, cname, pname, p);
+    if (diag == DIAG_DWARF2) {
+		dw2_proc_start(p, diag_props);
+	}
 #else
     diag_proc_begin(diag_props, global, cname, pname);
 #endif
@@ -451,7 +453,7 @@ int cproc
   outnl();
 #ifdef DWARF2
   if (diag == DIAG_DWARF2) {
-    START_BB();
+    dw2_start_basic_block();
     dwl0 = set_dw_text_label();
   }
 #endif
@@ -667,10 +669,16 @@ int cproc
   locals_offset = tot_sp;
   if (diag != DIAG_NONE) {
     no (p) = tot_sp;	/* may be used by delayed diagnostics */
-#ifdef DWARF2
-    DIAG_PROC_END(diag_props, p);
+#ifndef TDF_DIAG4
+    diag_proc_end(diag_props);
+#else
+#if DWARF2
+    if (diag == DIAG_DWARF2) {
+      dw2_proc_end(p);
+    }
 #else
     diag_proc_end(diag_props);
+#endif
 #endif
 #ifdef DWARF2
   if (diag == DIAG_DWARF2)

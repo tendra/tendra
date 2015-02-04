@@ -1093,7 +1093,9 @@ void coder
 	      reset_fpucon();
 	      set_label(jr);
 #ifdef DWARF2
-	      START_BB();
+	      if (diag == DIAG_DWARF2) {
+	        dw2_start_basic_block();
+	      }
 #endif
 	      clear_reg_record(crt_reg_record);
 	    };
@@ -1149,7 +1151,9 @@ void coder
 	    align_label(0, record);
 	  set_label(record);
 #ifdef DWARF2
-	  START_BB();
+	  if (diag == DIAG_DWARF2) {
+	    dw2_start_basic_block();
+	  }
 #endif
 	  fstack_pos = old_fstack_pos;
 	  clear_reg_record(crt_reg_record);
@@ -1187,7 +1191,9 @@ void coder
 	    align_label(2, jr);
 	  set_label(jr);
 #ifdef DWARF2
-	  START_BB();
+	  if (diag == DIAG_DWARF2) {
+	    dw2_start_basic_block();
+	  }
 #endif
 	};
       };
@@ -1215,7 +1221,9 @@ void coder
 
         old_scale = scale;
 #ifdef DWARF2
-	START_BB();
+	if (diag == DIAG_DWARF2) {
+	  dw2_start_basic_block();
+	}
 #endif
 	coder(dest, stack, bro(son(e)));
         scale = old_scale;
@@ -1391,7 +1399,9 @@ void coder
 	test(sh(arg1), mw(arg1, 0), mw(arg2, 0));
 	branch((int)test_number(e), jr, 1,(int)name(sh(arg1)));
 #ifdef DWARF2
-	START_BB();
+	if (diag == DIAG_DWARF2) {
+	  dw2_start_basic_block();
+	}
 	if (current_dg_info)
 	  current_dg_info->data.i_tst.cont = set_dw_text_label();
 #endif
@@ -1555,7 +1565,9 @@ void coder
 #endif
 	      branch((int)test_n, jr, sg,(int)name(sh(arg1)));
 #ifdef DWARF2
-	      START_BB();
+	      if (diag == DIAG_DWARF2) {
+	        dw2_start_basic_block();
+	      }
 	      if (current_dg_info)
 	        current_dg_info->data.i_tst.cont = set_dw_text_label();
 #endif
@@ -2192,7 +2204,9 @@ void coder
 	  align_label(0, jr);
 	  set_label(jr);
 #ifdef DWARF2
-	  START_BB();
+	  if (diag == DIAG_DWARF2) {
+	    dw2_start_basic_block();
+	  }
 #endif
 	};
 	fpucon = normal_fpucon;
@@ -2479,10 +2493,16 @@ void coder
       };
       d = d->more;
     };
-#ifdef DWARF2
-    CODE_DIAG_INFO(dgf(e), crt_proc_id, coder2,(void*) &args);
+#ifndef TDF_DIAG4
+    code_diag_info(dgf(e), crt_proc_id, coder2,(void*) &args);
+#else
+#if DWARF2
+    if (diag == DIAG_DWARF2) {
+      dw2_code_info(dgf(e), coder2, (void*) &args);
+    }
 #else
     code_diag_info(dgf(e), crt_proc_id, coder2,(void*) &args);
+#endif
 #endif
     if (dpos) {
       crt_lno = dpos->data.i_src.endpos.line;
@@ -2513,10 +2533,16 @@ void diag_arg
     args.dest = dest;
     args.stack = stack;
     current_dg_exp = args.e = e;
-#ifdef DWARF2
-    CODE_DIAG_INFO(dgf(e), crt_proc_id, done_arg,(void*) &args);
+#ifndef TDF_DIAG4
+    code_diag_info(dgf(e), crt_proc_id, done_arg,(void*) &args);
+#else
+#if DWARF2
+    if (diag == DIAG_DWARF2) {
+      dw2_code_info(dgf(e), done_arg, (void*) &args);
+    }
 #else
     code_diag_info(dgf(e), crt_proc_id, done_arg,(void*) &args);
+#endif
 #endif
   }
   return;

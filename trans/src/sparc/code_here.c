@@ -100,7 +100,9 @@ make_code_here ( exp e, space sp, where dest )
     clear_all () ;
     set_label ( mka.lab ) ;
 #ifdef DWARF2
-    START_BB ();
+	if (diag == DIAG_DWARF2) {
+		dw2_start_basic_block();
+	}
 #endif
   }
   return mka.regmove;

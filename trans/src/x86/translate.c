@@ -264,7 +264,9 @@ void make_code
 	 int is_ext = (my_def -> dec_u.dec_val.extnamed);
          if (diag_props)
 #ifdef DWARF2
-           DIAG_VAL_BEGIN(diag_props, is_ext, -1, id);
+		if (diag != DIAG_DWARF2) {
+           out_diag_global(diag_props, is_ext, -1, id);
+		}
 #else
            diag_val_begin(diag_props, is_ext, -1, id);
 #endif
@@ -287,9 +289,7 @@ void make_code
 	 else
            out_dot_lcomm(id, sh(son(tg)));
          if (diag_props) {
-#ifdef DWARF2
-           DIAG_VAL_END(diag_props);
-#else
+#ifndef DWARF2
            diag_val_end(diag_props);
 #endif
 	 }
