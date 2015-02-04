@@ -233,12 +233,7 @@ unhas(void)
 	}
 
 	if (diag != DIAG_NONE) {
-		optim = 0;
 		optim_level = 0 ;
-		all_variables_visible = 1;	/* set vis flag for all declarations */
-#ifdef TDF_DIAG4
-		diag_visible = 1;
-#endif
 	}
 
 	/* initialise nowhere */

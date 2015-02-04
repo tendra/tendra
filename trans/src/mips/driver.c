@@ -109,11 +109,6 @@ unhas(void)
 		error(ERROR_INTERNAL, "Can't do inline alloca with PIC code at the moment");
 		exit(EXIT_FAILURE);
 	}
-
-	/* line numbering goes to hell with optimisations */
-	if (diag != DIAG_NONE) {
-		optim = 0;
- 	}
 }
 
 static void

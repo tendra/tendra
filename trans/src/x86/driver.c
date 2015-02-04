@@ -183,12 +183,7 @@ unhas(void)
 	optim |= OPTIM_CASE;
 
 	if (diag != DIAG_NONE) {
-		optim = 0;
 		always_use_frame = 1;
-		all_variables_visible = 1;
-#ifdef TDF_DIAG4
-		diag_visible = 1;
-#endif
 	}
 
 	/*

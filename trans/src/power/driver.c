@@ -122,12 +122,6 @@ unhas(void)
 	if (writable_strings) {
 		/* TODO: either always on, or always off. error out accordingly */
 	}
-
-	/* switch off certain optimisations in diagnostics mode */
-	if (diag != DIAG_NONE) {
-		all_variables_visible = 1;	/* set vis flag for all declarations */
-		optim = 0;
-	}
 }
 
 static void

@@ -261,6 +261,14 @@ main(int argc, char *argv[])
 			*a[i].f = trans_fopen(argv[i], a[i].mode);
 		}
 
+		if (diag != DIAG_NONE) {
+			optim = 0;
+			all_variables_visible = 1;
+#ifdef TDF_DIAG4
+			diag_visible = 1;
+#endif
+		}
+
 		/*
 		 * Unset any options which are inappropriate for this particular driver,
 		 * resolve options which conflict, and so on.

@@ -154,15 +154,6 @@ unhas(void)
 		promote_pars = 0;
 	}
 
-	/* Switch off optimizations if required */
-	if (diag != DIAG_NONE
-#ifndef NDEBUG
-	|| 1
-#endif
-	) {
-		optim = 0;
-	}
-
 	/* Check on separate units */
 	if (do_sep_units) {
 		separate_units = 1;

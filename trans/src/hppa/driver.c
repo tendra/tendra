@@ -114,7 +114,6 @@ unhas(void)
 	}
 
 	if (diag != DIAG_NONE) {
-		optim = 0;
 		/* TODO: do gdb diagnostics depend on gcc assembly? */
 	}
 
