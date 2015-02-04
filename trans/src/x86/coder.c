@@ -2424,8 +2424,10 @@ void coder
       }
       case test_tag: {
 	d = dgf(e);
+#if DWARF2
 	if (dw_doing_branch_tests)
 	  break;
+#endif
 	while (d && d->key != DGA_TEST)
 	  d = d->more;
 	if (!d) {
@@ -2439,8 +2441,10 @@ void coder
       case goto_tag: {
 	short_sourcepos p;
 	d = dgf(e);
+#if DWARF2
 	if (dw_doing_branch_tests)
 	  break;
+#endif
 	p = no_short_sourcepos;
 	while (d && d->key != DGA_JUMP) {
 	  if (d->key == DGA_SRC)
@@ -2459,8 +2463,10 @@ void coder
       case long_jump_tag:
       case tail_call_tag: {
 	d = dgf(e);
+#if DWARF2
 	if (dw_doing_branch_tests)
 	  break;
+#endif
 	while (d && d->key != DGA_LJ)
 	  d = d->more;
 	if (!d) {

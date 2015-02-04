@@ -4569,8 +4569,10 @@ make_code ( exp e, space sp, where dest, int exitlab )
       }
       case test_tag: {
 	dg_info d = dgf(e);
+#if DWARF2
 	if (dw_doing_branch_tests)
 	  break;
+#endif
 	while (d && d->key != DGA_TEST)
 	  d = d->more;
 	if (!d) {
@@ -4584,8 +4586,10 @@ make_code ( exp e, space sp, where dest, int exitlab )
       case goto_tag: {
 	short_sourcepos p;
 	dg_info d = dgf(e);
+#if DWARF2
 	if (dw_doing_branch_tests)
 	  break;
+#endif
 	p = no_short_sourcepos;
 	while (d && d->key != DGA_JUMP) {
 	  if (d->key == DGA_SRC)

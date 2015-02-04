@@ -266,7 +266,9 @@ void make_code
            out_diag_global(diag_props, is_ext, -1, id);
 		}
 #else
+#ifndef TDF_DIAG4
            diag_val_begin(diag_props, is_ext, -1, id);
+#endif
 #endif
 	 if (name(son(tg)) == clear_tag && no(son(tg)) == -1) {
 				/* prom global data */
@@ -288,7 +290,9 @@ void make_code
            out_dot_lcomm(id, sh(son(tg)));
          if (diag_props) {
 #ifndef DWARF2
+#ifndef TDF_DIAG4
            diag_val_end(diag_props);
+#endif
 #endif
 	 }
        }

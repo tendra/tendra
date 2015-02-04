@@ -599,7 +599,9 @@ void evaluate
 		out_diag_global(diag_props, global, cname, s);
 	}
 #else
+#ifndef TDF_DIAG4
     diag_val_begin(diag_props, global, cname, s);
+#endif
 #endif
 
   if (cname == -1) {
@@ -622,7 +624,9 @@ void evaluate
 
   if (diag_props) {
 #ifndef DWARF2
+#ifndef TDF_DIAG4
     diag_val_end(diag_props);
+#endif
 #endif
   }
 
