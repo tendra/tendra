@@ -44,7 +44,7 @@
 #include "regmacs.h"
 #include "translate.h"
 #include "muldvrem.h"
-#include "makecode.h"
+#include "make_code.h"
 
 /*
   NUMBER OF BITS IN A WORD

@@ -29,7 +29,7 @@
 #include "evaluate.h"
 #include "utility.h"
 #include "where.h"
-#include "coder.h"
+#include "make_code.h"
 #include "instr.h"
 #include "translate.h"
 #include "output.h"

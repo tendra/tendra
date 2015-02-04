@@ -25,7 +25,7 @@
 #include "instr.h"
 #include "instr386.h"
 #include "operand.h"
-#include "coder.h"
+#include "make_code.h"
 #include "assembler.h"
 
 static int pic_label;

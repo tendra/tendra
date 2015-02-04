@@ -29,7 +29,7 @@ extern int regfrmdest(where *,space);
 extern freg fregfrmdest(bool,where *, space);
 #define cbranch(x)(combranch[x])
 #define obranch(x)(notbranch[x])
-#endif /* makecodedecs.h */
+#endif
 
 
 

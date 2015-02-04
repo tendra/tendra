@@ -48,7 +48,6 @@
 #include "operand.h"
 #include "instr386.h"
 #include "instr.h"
-#include "coder.h"
 #include "dw2_extra.h"
 #include "operand.h"
 #include "reg_record.h"

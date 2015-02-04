@@ -49,7 +49,7 @@
 #include "assembler.h"
 #include "operand.h"
 #include "instr386.h"
-#include "coder.h"
+#include "make_code.h"
 #include "cproc.h"
 #include "reg_record.h"
 #include "messages_8.h"

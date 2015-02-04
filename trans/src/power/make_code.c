@@ -43,7 +43,7 @@
 #include "translate.h"
 #include "eval.h"
 
-#include "makecode.h"
+#include "make_code.h"
 #include "frames.h"
 #include "stack.h"
 #include "instruct.h"

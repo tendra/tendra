@@ -54,7 +54,7 @@
 #include "regexps.h"
 #include "reg_defs.h"
 #include "oddtest.h"
-#include "coder.h"
+#include "make_code.h"
 #include "scan.h"
 #include "localexpmacs.h"
 

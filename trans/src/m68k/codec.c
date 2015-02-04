@@ -28,7 +28,7 @@
 #include "mach.h"
 #include "where.h"
 #include "codec.h"
-#include "coder.h"
+#include "make_code.h"
 #include "operations.h"
 #include "utility.h"
 #include "mach.h"
@@ -76,7 +76,7 @@ uop(void(*op)(shape, where, where), shape sha, exp a, where dest, ash stack)
 		if (whereis(dest) == Dreg) {
 			/* If dest is in a D register, code a into dest */
 			old_rmode = crt_rmode;
-			coder(dest, stack, a);
+			make_code(dest, stack, a);
 			crt_rmode = old_rmode;
 			/* Now apply op to dest */
 			(*op)(sha, dest, dest);
@@ -88,7 +88,7 @@ uop(void(*op)(shape, where, where), shape sha, exp a, where dest, ash stack)
 			w = zw(e);
 			regsinproc |= regmsk(REG_D1);
 			old_rmode = crt_rmode;
-			coder(w, stack, a);
+			make_code(w, stack, a);
 			crt_rmode = old_rmode;
 			/* Apply op to D1 */
 			(*op)(sha, w, dest);
@@ -134,7 +134,7 @@ bop(void(*op)(shape, where, where, where), shape sha, exp a, exp b, where dest,
 			 * If dest is in a D register which is not used in b,
 			 * code a into dest.
 			 */
-			coder(dest, stack, a);
+			make_code(dest, stack, a);
 			/* Apply op to dest and b */
 			(*op)(sha, dest, t, dest);
 			return;
@@ -143,7 +143,7 @@ bop(void(*op)(shape, where, where, where), shape sha, exp a, exp b, where dest,
 			exp e = sim_exp(sha, D1);
 			w = zw(e);
 			regsinproc |= regmsk(REG_D1);
-			coder(w, stack, a);
+			make_code(w, stack, a);
 			/* Apply op to D1 and b */
 			(*op)(sha, w, t, dest);
 			retcell(e);
@@ -164,7 +164,7 @@ bop(void(*op)(shape, where, where, where), shape sha, exp a, exp b, where dest,
 			 * If dest is in a D register which is not used in a,
 			 * code b into dest.
 			 */
-			coder(dest, stack, b);
+			make_code(dest, stack, b);
 			/* Apply op to a and dest */
 			(*op)(sha, t, dest, dest);
 			return;
@@ -173,7 +173,7 @@ bop(void(*op)(shape, where, where, where), shape sha, exp a, exp b, where dest,
 			exp e = sim_exp(sha, D1);
 			w = zw(e);
 			regsinproc |= regmsk(REG_D1);
-			coder(w, stack, b);
+			make_code(w, stack, b);
 			/* Apply op to a and D1 */
 			(*op)(sha, t, w, dest);
 			retcell(e);
@@ -207,7 +207,7 @@ logop(void(*op)(shape, where, where, where), exp e, where dest, ash stack)
 
 	if (last(arg1)) {
 		/* If there is of one argument, code it into dest */
-		coder(dest, stack, arg1);
+		make_code(dest, stack, arg1);
 		return;
 	}
 
@@ -279,7 +279,7 @@ logop(void(*op)(shape, where, where, where), exp e, where dest, ash stack)
 	 * dest = op(argn, D1)
 	 */
 
-	coder(w, stack, t);
+	make_code(w, stack, t);
 	u = arg1;
 	while (1) {
 		if (t != u) {
@@ -386,7 +386,7 @@ codec(where dest, ash stack, exp e)
 
 		if (last(arg1)) {
 			/* One argument */
-			coder(dest, stack, arg1);
+			make_code(dest, stack, arg1);
 			return;
 		}
 
@@ -454,7 +454,7 @@ codec(where dest, ash stack, exp e)
 		}
 
 		/* Deal with the case where one argument is a non-operand */
-		coder(w, stack, t);
+		make_code(w, stack, t);
 		u = arg1;
 		while (1) {
 			v = bro(u);
@@ -499,7 +499,7 @@ codec(where dest, ash stack, exp e)
 				exp s = sim_exp(sh(a), D1);
 				w = zw(s);
 				regsinproc |= regmsk(REG_D1);
-				coder(w, stack, a);
+				make_code(w, stack, a);
 				/* Preform the change variety on D1 */
 				change_var(sh(e), w, dest);
 				retcell(s);
@@ -510,7 +510,7 @@ codec(where dest, ash stack, exp e)
 				return;
 			}
 			/* If dest is a D register, code a into dest */
-			coder(dest, stack, a);
+			make_code(dest, stack, a);
 			/* Preform the change variety on dest */
 			change_var_sh(sh(e), sh(a), dest, dest);
 			clear_overflow(prev_ov);
@@ -909,7 +909,7 @@ TDF libraries.  If this was right sh(e) would be slongsh.
 
 		if (cur_align  >= next_align) {
 			if ((next_align !=1) || (cur_align ==1)) {
-				coder(dest, stack, cur_offset);
+				make_code(dest, stack, cur_offset);
 			} else {
 				/* left shift */
 				shift(sh(e), mnw(3), zw(cur_offset),dest);
@@ -940,11 +940,11 @@ TDF libraries.  If this was right sh(e) would be slongsh.
 	}
 	case bitf_to_int_tag: {
 		if (whereis(dest) == Dreg) {
-			coder(dest, stack, son(e));
+			make_code(dest, stack, son(e));
 			change_var_sh(sh(e), sh(son(e)), dest, dest);
 		} else {
 			regsinproc |= regmsk(REG_D1);
-			coder(D1, stack, son(e));
+			make_code(D1, stack, son(e));
 			change_var_sh(sh(e), sh(son(e)), D1, dest);
 		}
 		return;
@@ -999,7 +999,7 @@ TDF libraries.  If this was right sh(e) would be slongsh.
 			}
 			w = zw(s);
 
-			coder(w, stack, e);
+			make_code(w, stack, e);
 
 			/* Move the value of this register into dest */
 			move(sh(e), w, dest);
@@ -1017,13 +1017,13 @@ TDF libraries.  If this was right sh(e) would be slongsh.
 			d = mw(dest.wh_exp, dest.wh_off + 32);
 			if (shape_size(sh(son(e))) == 32) {
 				make_comment("Pointer to bitfield (32) ...");
-				coder(dest, stack, son(e));
+				make_code(dest, stack, son(e));
 				move(slongsh, mnw(no(e)), d);
 				make_comment("Pointer to bitfield (32) done");
 				return;
 			}
 			make_comment("Pointer to bitfield ...");
-			coder(dest, stack, son(e));
+			make_code(dest, stack, son(e));
 			add(slongsh, mnw(no(e)), d, d);
 			make_comment("Pointer to bitfield done");
 			return;

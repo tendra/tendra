@@ -36,7 +36,7 @@
 #include "regmacs.h"
 #include "frames.h"
 #include "reg_defs.h"
-#include "coder.h"
+#include "make_code.h"
 #include "regalloc.h"
 
 spacereq zerospace = {

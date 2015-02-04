@@ -38,7 +38,7 @@
 #include "mach.h"
 #include "where.h"
 #include "codec.h"
-#include "coder.h"
+#include "make_code.h"
 #include "operations.h"
 #include "mach.h"
 #include "mach_ins.h"
@@ -258,7 +258,7 @@ nouse(exp e)
     declaration, def is the definition (for identity) or initialisation
     (for variable), stack is the ash for the current stack position.
     The place field of the result indicates where the declaration should
-    be put (reg_pl, var_pl etc. - see coder.h).  num gives the offset
+    be put (reg_pl, var_pl etc. - see make_code.h).  num gives the offset
     (for objects put on the stack) or register mask (for objects put into
     registers).  new_stack gives the ash of the stack after this declaration.
     is_new is a flag indicating a new declaration or a reuse of an old
@@ -476,7 +476,7 @@ solve(exp s, exp l, where dest, exp jr, ash stack)
 	if (name(s) != goto_tag || pt(s) != bro(s)) {
 		/* Code the starting expression */
 		have_cond = 0;
-		coder(dest, stack, s);
+		make_code(dest, stack, s);
 	}
 	t = s;
 
@@ -488,7 +488,7 @@ solve(exp s, exp l, where dest, exp jr, ash stack)
 		t = bro(t);
 		if (no(son(t)) > 0) {
 			make_label(ptno(pt(son(t))));
-			coder(dest, stack, t);
+			make_code(dest, stack, t);
 		}
 	} while (!last(t));
 
@@ -776,7 +776,7 @@ stack_room(ash stack, where dest, long off)
 */
 
 void
-coder(where dest, ash stack, exp e)
+make_code(where dest, ash stack, exp e)
 {
 	bool sw;
 
@@ -834,13 +834,13 @@ coder(where dest, ash stack, exp e)
 				/*
 				 * Calculate and discard value if not required
 				 */
-				coder(zero, stack, def);
+				make_code(zero, stack, def);
 			} else {
 				/* Encode the definition */
 				if (ptno(e) == reg_pl) {
 					regsindec |= dc.num;
 				}
-				coder(zw(e), stack, def);
+				make_code(zw(e), stack, def);
 			}
 
 			/* Modify regsinuse if a register is being used */
@@ -862,7 +862,7 @@ coder(where dest, ash stack, exp e)
 		}
 
 		/* Encode the body */
-		coder(dest, dc.new_stack, body);
+		make_code(dest, dc.new_stack, body);
 		extra_weight -= dw;
 
 		/* Look for peephole optimizations */
@@ -888,12 +888,12 @@ coder(where dest, ash stack, exp e)
 		bool no_bottom = 1;
 		exp t = son(son(e));
 		/* Code each sub-expression */
-		while (coder(zero, stack, t),
+		while (make_code(zero, stack, t),
 		       no_bottom = (name(sh(t)) != bothd),
 		       !last(t))t = bro(t);
 		/* Code the result expression if necessary */
 		if (no_bottom) {
-			coder(dest, stack, bro(son(e)));
+			make_code(dest, stack, bro(son(e)));
 		}
 		return;
 	}
@@ -934,14 +934,14 @@ coder(where dest, ash stack, exp e)
 		/* If first is just a jump to alt, just encode alt */
 		if (name(first) == goto_tag && pt(first) == alt &&
 		    son(first) != NULL && name(sh(son(first))) == tophd) {
-			coder(dest, stack, bro(son(alt)));
+			make_code(dest, stack, bro(son(alt)));
 			return;
 		}
 
 		/* Code the first expression */
 		reuseables = 0;
 		r1 = regsinuse;
-		coder(dest, stack, first);
+		make_code(dest, stack, first);
 
 		/* Restore regsinuse */
 		regsinuse = r1;
@@ -973,7 +973,7 @@ coder(where dest, ash stack, exp e)
 		/* Encode the alternative expression */
 		reuseables = 0;
 		make_label(ptno(record));
-		coder(dest, stack, alt);
+		make_code(dest, stack, alt);
 		regsinuse = r1;
 		reuseables = 0;
 
@@ -1007,7 +1007,7 @@ coder(where dest, ash stack, exp e)
 		}
 
 		/* Encode the body */
-		coder(dest, stack, bro(son(e)));
+		make_code(dest, stack, bro(son(e)));
 
 		/* Update max_stack and regsinuse */
 		if (dc.place == var_pl) {
@@ -1036,7 +1036,7 @@ coder(where dest, ash stack, exp e)
 		no(body) = dc.num;
 
 		/* Code the starter of the loop */
-		coder(zw(body), stack, start);
+		make_code(zw(body), stack, start);
 
 		/* Create the repeat label */
 		lb = next_lab();
@@ -1050,7 +1050,7 @@ coder(where dest, ash stack, exp e)
 		reuseables = 0;
 
 		/* Encode the body of the loop */
-		coder(dest, stack, body);
+		make_code(dest, stack, body);
 		retcell(record);
 		return;
 	}
@@ -1137,7 +1137,7 @@ coder(where dest, ash stack, exp e)
 			qwe = sim_exp(sh(arg1), D1);
 			qw = zw(qwe);
 			regsinproc |= regmsk(REG_D1);
-			coder(qw, stack, arg1);
+			make_code(qw, stack, arg1);
 			arg1 = qwe;
 		}
 
@@ -1146,7 +1146,7 @@ coder(where dest, ash stack, exp e)
 			qwe = sim_exp(sh(arg2), D1);
 			qw = zw(qwe);
 			regsinproc |= regmsk(REG_D1);
-			coder(qw, stack, arg2);
+			make_code(qw, stack, arg2);
 			arg2 = qwe;
 		}
 
@@ -1272,7 +1272,7 @@ coder(where dest, ash stack, exp e)
 			qwe = sim_exp(sh(arg1), D1);
 			qw = zw(qwe);
 			regsinproc |= regmsk(REG_D1);
-			coder(qw, stack, arg1);
+			make_code(qw, stack, arg1);
 			arg1 = qwe;
 		}
 
@@ -1281,7 +1281,7 @@ coder(where dest, ash stack, exp e)
 			qwe = sim_exp(sh(arg2), D1);
 			qw = zw(qwe);
 			regsinproc |= regmsk(REG_D1);
-			coder(qw, stack, arg2);
+			make_code(qw, stack, arg2);
 			arg2 = qwe;
 		}
 
@@ -1327,7 +1327,7 @@ coder(where dest, ash stack, exp e)
 			ash stack2;
 			wh = mw(dest.wh_exp, crt);
 			stack2 = stack_room(stack, dest, off + crt);
-			coder(wh, stack2, v);
+			make_code(wh, stack2, v);
 			if (last(v)) {
 				return;
 			}
@@ -1348,11 +1348,11 @@ coder(where dest, ash stack, exp e)
 			return;
 		}
 		if (n == 1) {
-			coder(dest, stack, son(e));
+			make_code(dest, stack, son(e));
 			return;
 		}
 		if (sz == 8 || sz == 16 || sz == 32) {
-			coder(D1, stack, son(e));
+			make_code(D1, stack, son(e));
 			regsinproc |= regmsk(REG_D1);
 			if (n <= 10) {
 				long i;
@@ -1379,7 +1379,7 @@ coder(where dest, ash stack, exp e)
 				return;
 			}
 		}
-		coder(dest, stack, son(e));
+		make_code(dest, stack, son(e));
 		wh = mw(dest.wh_exp, dest.wh_off + sz);
 		move_bytes(sz *(n - 1), dest, wh, 0);
 		return;
@@ -1389,9 +1389,9 @@ coder(where dest, ash stack, exp e)
 		exp a1 = son(e);
 		exp a2 = bro(a1);
 		long off = dest.wh_off + shape_size(sh(a1));
-		coder(dest, stack, a1);
+		make_code(dest, stack, a1);
 		stack2 = stack_room(stack, dest, off);
-		coder(mw(dest.wh_exp, off), stack2, a2);
+		make_code(mw(dest.wh_exp, off), stack2, a2);
 		return;
 	}
 #ifndef tdf3
@@ -1406,7 +1406,7 @@ coder(where dest, ash stack, exp e)
 		return;
 	}
 	case caller_tag:
-		coder(dest, stack, son(e));
+		make_code(dest, stack, son(e));
 		return;
 	case trap_tag:
 		trap_ins(no(e));
@@ -1519,7 +1519,7 @@ coder(where dest, ash stack, exp e)
 					adj = 16;
 				}
 				stp = mw(SP_p.wh_exp, st + adj);
-				coder(stp, stack, t);
+				make_code(stp, stack, t);
 				a = add_shape_to_stack(st, sh(t));
 				st = a.astash;
 				t = (last(t)? NULL : bro(t));
@@ -1700,7 +1700,7 @@ coder(where dest, ash stack, exp e)
 
 		make_comment("local_free ...");
 
-		coder(w_a0,stack,base);
+		make_code(w_a0,stack,base);
 
 		if (name(offset) == val_tag) {
 			long off = no(offset);
@@ -1717,7 +1717,7 @@ coder(where dest, ash stack, exp e)
 			exp s_d0 = sim_exp(sh(offset),D0);
 			where w_d0;
 			w_d0 = zw(s_d0);
-			coder(w_d0,stack,offset);
+			make_code(w_d0,stack,offset);
 			add(sh(offset),mnw(7),D0,D0);
 			and(sh(offset),D0,mnw(~7),D0);
 			add(sh(offset),A0,D0,SP);
@@ -1759,16 +1759,16 @@ coder(where dest, ash stack, exp e)
 			if (reg_result(rsha)) {
 				if (shape_size(rsha) <= 32) {
 					/* Small register results go into D0 */
-					coder(D0, stack, son(e));
+					make_code(D0, stack, son(e));
 				} else {
 #ifdef SYSV_ABI
-					coder(FP0, stack, son(e));
+					make_code(FP0, stack, son(e));
 #else
 					/*
 					 * Larger register results go into D0
 					 * and D1.
 					 */
-					coder(D0_D1, stack, son(e));
+					make_code(D0_D1, stack, son(e));
 					regsinproc |= regmsk(REG_D1);
 #endif
 				}
@@ -1791,7 +1791,7 @@ coder(where dest, ash stack, exp e)
 			 */
 			if (name(son(e)) == apply_tag ||
 			    name(son(e)) == apply_general_tag) {
-				coder(A6_4_p, stack, son(e));
+				make_code(A6_4_p, stack, son(e));
 			} else {
 				codec(A6_4_p, stack, son(e));
 			}
@@ -1813,7 +1813,7 @@ coder(where dest, ash stack, exp e)
 			 * For inlined procedures, the result goes into
 			 * rscope_dest and a jump is made to crt_rscope.
 			 */
-			coder(rscope_dest, stack, son(e));
+			make_code(rscope_dest, stack, son(e));
 #ifndef tdf3
 			if (name(e) == untidy_return_tag) {
 				untidy_return();
@@ -1836,7 +1836,7 @@ coder(where dest, ash stack, exp e)
 		     name(bro(e)) == general_proc_tag)) {
 			/* Non-inlined procedures are simple */
 			crt_rscope = 0;
-			coder(zero, stack, son(e));
+			make_code(zero, stack, son(e));
 		} else {
 			/* This is an inlined procedure */
 			long lb = next_lab();
@@ -1844,7 +1844,7 @@ coder(where dest, ash stack, exp e)
 			ptno(record) = lb;
 			crt_rscope = record;
 			rscope_dest = dest;
-			coder(zero, stack, son(e));
+			make_code(zero, stack, son(e));
 			make_label(lb);
 			retcell(record);
 		}
@@ -1883,7 +1883,7 @@ coder(where dest, ash stack, exp e)
 		w1 = zw(d1);
 		D1_is_special = 1;
 		regsinproc |= regmsk(REG_D1);
-		coder(w1, stack, arg1);
+		make_code(w1, stack, arg1);
 
 		change_var_sh(slongsh, sh(arg1), w1, D1);
 		D1_is_special = old_D1_sp;
@@ -1921,10 +1921,10 @@ coder(where dest, ash stack, exp e)
 	case diagnose_tag:
 		if (diag != DIAG_NONE) {
 			diag_start(dno(e), e);
-			coder(dest, stack, son(e));
+			make_code(dest, stack, son(e));
 			diag_end(dno(e), e);
 		} else {
-			coder(dest, stack, son(e));
+			make_code(dest, stack, son(e));
 		}
 		return;
 	case prof_tag:

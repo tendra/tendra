@@ -34,7 +34,7 @@
 #include <main/flags.h>
 
 #include "dump_distr.h"
-#include "coder.h"
+#include "make_code.h"
 #include "inst_fmt.h"
 
 #define VERSION_STR "2.4.11"

@@ -30,7 +30,7 @@
 #include "instr.h"
 #include "codex.h"
 #include "instrs.h"
-#include "coder.h"
+#include "make_code.h"
 #include "tests.h"
 #include "operations.h"
 #include "evaluate.h"

@@ -28,7 +28,7 @@
 #include "instr.h"
 #include "codex.h"
 #include "instrs.h"
-#include "coder.h"
+#include "make_code.h"
 #include "tests.h"
 #include "operations.h"
 #include "evaluate.h"
@@ -709,7 +709,7 @@ int_to_bitf(exp e, exp d, ash stack)
 			e = s;
 		} else {
 			regsinproc |= regmsk(REG_D1);
-			coder(D1, stack, s);
+			make_code(D1, stack, s);
 			if (shape_size(sh(s)) < 32) {
 				error(ERROR_WARNING, "Think again!");
 			}

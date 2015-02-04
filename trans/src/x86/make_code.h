@@ -14,7 +14,7 @@
 
 #include <reader/exp.h>
 
-void coder(where dest, ash stack, exp e);
+void make_code(where dest, ash stack, exp e);
 void clean_stack(void);
 
 #ifdef TDF_DIAG4

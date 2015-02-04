@@ -37,7 +37,7 @@
 #include "mach.h"
 #include "where.h"
 #include "codec.h"
-#include "coder.h"
+#include "make_code.h"
 #include "operations.h"
 #include "ops_shared.h"
 #include "mach_ins.h"
@@ -78,7 +78,7 @@ static void place_arguments(exp args, ash stack, long start);
  * body of the procedure is p.
  */
 
-/* coder.c & codex.c */
+/* make_code.c & codex.c */
 extern ast add_shape_to_stack(ash stack, shape s);
 extern void prologue(void);
 extern void out_profile(bool save_a1);
@@ -271,10 +271,10 @@ void gcproc
   /* Encode the procedure body */
   if (diag != DIAG_NONE) {
     dnt_begin();
-    coder(zero, stack, t);
+    make_code(zero, stack, t);
     dnt_end();
   } else
-    coder(zero, stack, t);
+    make_code(zero, stack, t);
 
   /* Output the procedure epilogue */
   general_epilogue(uses_callers_pointer, has_checkstack);
@@ -619,8 +619,8 @@ void push_dynamic_callees
 
    make_comment("Push dynamic callees");
 
-   coder(A1, stack, ptr);
-   coder(D1, stack, sze);
+   make_code(A1, stack, ptr);
+   make_code(D1, stack, sze);
 
    /* are callees of compond shape ? */
    if (name(ptr) == name_tag) {
@@ -1120,7 +1120,7 @@ static void place_arguments
       else adj = 0;
 
       stack_pointer = mw(SP_p.wh_exp, st + adj);
-      coder(stack_pointer, stack, formal);
+      make_code(stack_pointer, stack, formal);
       stack_add_res = add_shape_to_stack(st, sh(formal));
       st = stack_add_res.astash;
 
@@ -1145,14 +1145,14 @@ static void push_args
    if (last(args)) {
       /* Code last argument */
       formal = (name(args) == caller_tag)? son(args): args;
-      coder(w, stack, formal);
+      make_code(w, stack, formal);
       stack_dec -= rounder(sz, param_align);
    } else {
       /* Code the following arguments */
       push_args(w, stack, bro(args));
       /* And then this one */
       formal = (name(args) == caller_tag)? son(args): args;
-      coder(w, stack, formal);
+      make_code(w, stack, formal);
       stack_dec -= rounder(sz, param_align );
    }
    return;
@@ -1558,8 +1558,8 @@ void general_epilogue
 /*
  * CODE_POSTLUDE
  *
- * The postlude parameters positions on the stack are setup, and coder
- * is called with the postlude body.
+ * The postlude parameters positions on the stack are setup,
+ * and make_code is called with the postlude body.
  */
 static void code_postlude
 (exp postlude, exp callers, ash stack, long post_offset)
@@ -1584,7 +1584,7 @@ static void code_postlude
    }
 
    /* code the postlude */
-   coder(zero, stack, postlude);
+   make_code(zero, stack, postlude);
 
    make_comment("Postlude done");
 }

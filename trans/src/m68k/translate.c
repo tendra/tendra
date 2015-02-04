@@ -31,7 +31,6 @@
 #include "weights.h"
 #include "mach.h"
 #include "where.h"
-#include "coder.h"
 #include "codex.h"
 #include "output.h"
 #include "tests.h"

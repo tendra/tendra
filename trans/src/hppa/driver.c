@@ -30,7 +30,7 @@
 #include <main/flags.h>
 
 #include "addrtypes.h"		/* for where */
-#include "makecode.h"		/* for nowhere */
+#include "make_code.h"		/* for nowhere */
 #include "diag_out.h"
 #include "frames.h"
 

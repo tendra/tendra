@@ -20,7 +20,7 @@
 #include "memtdf.h"
 #include "codegen.h"
 #include "geninst.h"
-#include "makecode.h"
+#include "make_code.h"
 #include "comment.h"
 #include "tempdecs.h"
 #include "regable.h"

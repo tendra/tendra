@@ -34,7 +34,7 @@
 #include "localtypes.h"
 #include "assembler.h"
 #include "cproc.h"
-#include "coder.h"
+#include "make_code.h"
 #include "weights.h"
 #include "instr.h"
 #include "instr386.h"

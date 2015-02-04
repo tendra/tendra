@@ -43,7 +43,7 @@
 #include "diag_out.h"
 #include "ibinasm.h"
 #include "out_ba.h"
-#include "coder.h"
+#include "make_code.h"
 #include "cross.h"
 
 extern bool last_param(exp e);

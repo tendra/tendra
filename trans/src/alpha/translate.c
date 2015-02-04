@@ -36,7 +36,7 @@
 #include "procrectypes.h"
 #include "regalloc.h"
 #include "procrecs.h"
-#include "coder.h"
+#include "make_code.h"
 #include "code_here.h"
 #include "eval.h"
 #include "bitsmacs.h"

@@ -27,7 +27,7 @@
 
 #include "macro.h"
 #include "addresstypes.h"
-#include "makecode.h"
+#include "make_code.h"
 #include "dynamic_init.h"
 
 #define VERSION_STR "4.26"

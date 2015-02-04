@@ -8,7 +8,7 @@
  */
 
 /*
- * coder produces code for expressions. It calls codec to produce code
+ * make_code produces code for expressions. It calls codec to produce code
  * for expressions which deliver results, and produces code itself for
  * the others.
  */
@@ -62,7 +62,7 @@
 #include "messages_8.h"
 #include "assembler.h"
 #include "cproc.h"
-#include "coder.h"
+#include "make_code.h"
 #include "localexpmacs.h"
 
 #ifdef TDF_DIAG4
@@ -159,9 +159,9 @@ static void code_push
 {
   int n = (int)name(t);
   if (is_o(n))
-    coder(pushdest, stack, t);
+    make_code(pushdest, stack, t);
   else {
-    coder(reg0, stack, t);
+    make_code(reg0, stack, t);
     move(sh(t), reg0, pushdest);
   };
   return;
@@ -256,7 +256,7 @@ static int procargs
     t = arg;
     while (1)
      {
-	coder(mw(ind_sp.where_exp, off), stack,(name(t) ==caller_tag ? son(t): t));
+	make_code(mw(ind_sp.where_exp, off), stack,(name(t) ==caller_tag ? son(t): t));
 	off = rounder(off + shape_size(sh(t)), param_align);
 	if (last(t))
 	  break;
@@ -297,7 +297,7 @@ static int push_cees
       outs(" subl $12,%eax\n");
     }
     else {
-      coder(reg0, stack, siz);
+      make_code(reg0, stack, siz);
       if (al2(sh(siz)) < param_align) {
 	if (al2(sh(siz)) == 1) {
 	  outs(" addl $31,%eax\n");
@@ -318,7 +318,7 @@ static int push_cees
       outs(" leal 12(%ebp),%eax\n");
     }
   else
-    coder(reg0, stack, src);
+    make_code(reg0, stack, src);
   move(slongsh, reg5, reg1);
   move(slongsh, reg0, reg5);
   if (longs < 0) {
@@ -758,7 +758,7 @@ static void solve
     r1 = regsinuse;
 
     if (name(s)!= goto_tag || pt(s)!= bro(s))
-      coder (dest, stack, s);	/* code the starting exp */
+      make_code(dest, stack, s);	/* code the starting exp */
 #ifdef TDF_DIAG4
     else
       diag_arg(dest, stack, s);
@@ -774,7 +774,7 @@ static void solve
       t = bro(t);
       align_label(2, pt(son(t)));
       set_label(pt(son(t)));
-      coder(dest, stack, t);
+      make_code(dest, stack, t);
       reset_fpucon();
     }
     while (!last(t));
@@ -845,7 +845,7 @@ static void caser
 }
 
 /*
- * coder produces code for all constructions. It uses codec to
+ * make_code produces code for all constructions. It uses codec to
  * produce the code for the non side-effecting constructions. e is
  * the construction to be processed, dest is where the result is to go,
  * stack is the ash for the current stack.
@@ -865,9 +865,9 @@ static ash stack_room
 }
 
 #ifdef TDF_DIAG4
-static void coder1
+static void make_code1
 #else
-void coder
+void make_code
 #endif
 (where dest, ash stack, exp e)
 {
@@ -916,10 +916,10 @@ void coder
 	if (dc.dcl_new) {
 	  /* if it is new we must evaluate the def */
 	  if (ptno(e) == nowhere_pl)
-	    coder (zero, stack, def);/* discard the value */
+	    make_code(zero, stack, def);/* discard the value */
 	  else
            {
-	    coder(mw(e, 0), stack, def);
+	    make_code(mw(e, 0), stack, def);
            };
 
 	  if (ptno(e) == reg_pl) {
@@ -933,7 +933,7 @@ void coder
 	  };
 	};
 
-	coder (dest, dc.dcl_place, body);/* code the body */
+	make_code(dest, dc.dcl_place, body);/* code the body */
 
 	if (dc.dcl_new && ptno(e) == reg_pl) {
 	  regsinuse &= ~dc.dcl_n;
@@ -982,13 +982,13 @@ void coder
       {
 	exp t = son(son(e));
 	int no_bottom;
-	while (coder(zero, stack, t),
+	while (make_code(zero, stack, t),
 	/* code and discard the statements */
 	    no_bottom = (name(sh(t))!= bothd),
 	    !last(t))
 	  t = bro(t);
 	if (no_bottom)
-	  coder(dest, stack, bro(son(e)));
+	  make_code(dest, stack, bro(son(e)));
 #ifdef TDF_DIAG4
 	else
 	if (diag != DIAG_NONE) {
@@ -1010,7 +1010,7 @@ void coder
 	exp jr = NULL; /* jump record for end of construction */
 
 	if (no(son(alt)) == 0) {
-	  coder(dest, stack, first);
+	  make_code(dest, stack, first);
 #ifdef TDF_DIAG4
 	  if (diag != DIAG_NONE) {
 		/* Beware lost information !!! */
@@ -1086,7 +1086,7 @@ void coder
 	    s = getexp(sha, NULL, 0, NULL, z, 0, 0, 0);
 	    p = getexp(sha, tst, 0, s, NULL, 0, 0, 0);
 	    pt(tst) = p;
-	    coder(zero, stack, t);
+	    make_code(zero, stack, t);
 	    if (name(sh(first))!= bothd) {
 	      reset_fpucon();
 	      set_label(jr);
@@ -1132,7 +1132,7 @@ void coder
 	 */
 	r1 = regsinuse;
 
-	coder(dest, stack, first);
+	make_code(dest, stack, first);
 	reset_fpucon();
 	clean_stack();
 
@@ -1178,7 +1178,7 @@ void coder
           align_label(2, record);
 	set_label (record);	/* the label for the start of alt */
 	fstack_pos = old_fstack_pos;
-	coder(dest, stack, alt);
+	make_code(dest, stack, alt);
 	reset_fpucon();
 	regsinuse = r1;		/* restore regsinuse for end of
 				   construction */
@@ -1223,7 +1223,7 @@ void coder
 	  dw2_start_basic_block();
 	}
 #endif
-	coder(dest, stack, bro(son(e)));
+	make_code(dest, stack, bro(son(e)));
         scale = old_scale;
 
 	clear_reg_record(crt_reg_record);
@@ -1236,7 +1236,7 @@ void coder
 	exp body = bro(start);
 	exp record;		/* jump record for loop label */
         ++repeat_level;
-	coder(mw(body, 0), stack, start);
+	make_code(mw(body, 0), stack, start);
 	/* code the starter of the loop */
 	reset_fpucon();
 	clean_stack();
@@ -1253,7 +1253,7 @@ void coder
         old_scale = scale;
         if (scale < 1e30)
 		scale = (float)20.0 * scale;
-	coder(dest, stack, body);
+	make_code(dest, stack, body);
         scale = old_scale;
         --repeat_level;
 	return;
@@ -1294,9 +1294,9 @@ void coder
       };
     case long_jump_tag:
       {
-	coder(pushdest, stack, bro(son(e)));
+	make_code(pushdest, stack, bro(son(e)));
 	extra_stack += 32;
-	coder(pushdest, stack, son(e));
+	make_code(pushdest, stack, son(e));
 	extra_stack += 32;
 	check_stack_max;
 	reset_fpucon();
@@ -1374,7 +1374,7 @@ void coder
 	  qw.where_exp = copyexp(reg0.where_exp);
 	  sh(qw.where_exp) = sh(arg1);
 	  qw.where_off = 0;
-	  coder(qw, stack, arg1);
+	  make_code(qw, stack, arg1);
 	  arg1 = qw.where_exp;
 	};
 	if (!is_o(name(arg2)) || is_crc(arg2)) {
@@ -1382,7 +1382,7 @@ void coder
 	  qw.where_exp = copyexp(reg0.where_exp);
 	  sh(qw.where_exp) = sh(arg2);
 	  qw.where_off = 0;
-	  coder(qw, stack, arg2);
+	  make_code(qw, stack, arg2);
 	  arg2 = qw.where_exp;
 	};
 
@@ -1484,7 +1484,7 @@ void coder
 	    qw.where_exp = copyexp(reg0.where_exp);
 	    sh(qw.where_exp) = sh(arg1);
 	    qw.where_off = 0;
-	    coder(qw, stack, arg1);
+	    make_code(qw, stack, arg1);
 	    arg1 = qw.where_exp;
 	  }
 #ifdef TDF_DIAG4
@@ -1496,7 +1496,7 @@ void coder
 	    qw.where_exp = copyexp(reg0.where_exp);
 	    sh(qw.where_exp) = sh(arg2);
 	    qw.where_off = 0;
-	    coder(qw, stack, arg2);
+	    make_code(qw, stack, arg2);
 	    arg2 = qw.where_exp;
 	  }
 #ifdef TDF_DIAG4
@@ -1598,15 +1598,15 @@ void coder
            return;
          };
 
-	coder(mw(e, 0), stack, assval);
+	make_code(mw(e, 0), stack, assval);
 	/* set the destination and code the rest */
 	return;
       };
     case concatnof_tag:
      {
       int off = dest.where_off + shape_size(sh(son(e)));
-      coder(dest, stack, son(e));
-      coder(mw(dest.where_exp, off),
+      make_code(dest, stack, son(e));
+      make_code(mw(dest.where_exp, off),
              stack_room(stack, dest, off), bro(son(e)));
       return;
      };
@@ -1622,7 +1622,7 @@ void coder
        for (i = 0; i < no(e); ++i)
         {
           off = dest.where_off + i*sz;
-          coder(mw(dest.where_exp, off),
+          make_code(mw(dest.where_exp, off),
                 stack_room(stack, dest, off), copyexp(son(e)));
         };
        return;
@@ -1642,7 +1642,7 @@ void coder
 
         while (1)
          {
-           coder(mw(dest.where_exp, dest.where_off + crt),
+           make_code(mw(dest.where_exp, dest.where_off + crt),
                  stack_room(stack, dest, dest.where_off + crt), v);
            if (last(v))
              return;
@@ -1658,7 +1658,7 @@ void coder
 
         while (1)
          {
-           coder(mw(dest.where_exp, dest.where_off + no(v)),
+           make_code(mw(dest.where_exp, dest.where_off + no(v)),
                  stack_room(stack, dest, dest.where_off + no(v)), bro(v));
            if (last(bro(v)))
              return;
@@ -1816,7 +1816,7 @@ void coder
 	    stack_dec -= sz;
 	    check_stack_max;
 	  }
-	  coder(zero, stack, postlude);
+	  make_code(zero, stack, postlude);
 	  if (push_result) {
 	    if (name(dest.where_exp) == apply_tag) {
 	      move(sh(e), ind_sp, dest);
@@ -1875,7 +1875,7 @@ void coder
 	}
 
 	if (longs == 0) {
-	  coder (reg0, stack, proc);	/* proc value to %eax */
+	  make_code(reg0, stack, proc);	/* proc value to %eax */
 	  restore_callregs(0);
 		/* stack reduced to old callees and return address */
 
@@ -1932,7 +1932,7 @@ void coder
 	  rel_ap (0, 1);	/* push return address after callees */
 	  outnl();
 	  stack_dec -= 32;
-	  coder (pushdest, stack, proc);	/* push proc for call by return */
+	  make_code(pushdest, stack, proc);	/* push proc for call by return */
 	  stack_dec -= 32;
 	  check_stack_max;
 	  if (longs < 0) {	/* must be dynamic_callees */
@@ -2030,7 +2030,7 @@ void coder
           }
 	  else {
 	    sz_where = reg0;
-	    coder(sz_where, stack, son(e));
+	    make_code(sz_where, stack, son(e));
 	  }
 	  retcell(temp);
         };
@@ -2073,7 +2073,7 @@ void coder
 	  save_stack();
         return;
     case ignorable_tag:
-	coder(dest, stack, son(e));
+	make_code(dest, stack, son(e));
 	return;
     case res_tag:
     case untidy_return_tag:
@@ -2095,11 +2095,11 @@ void coder
 	    {
 	      if (name(sh(son(e))) >= shrealhd &&
 		  name(sh(son(e))) <= doublehd) {
-	        coder(flstack, stack, son(e));
+	        make_code(flstack, stack, son(e));
 	        with_fl_reg = 1;
 	      }
 	      else {
-	        coder(reg0, stack, son(e));
+	        make_code(reg0, stack, son(e));
 	      };
 	    };
 
@@ -2145,7 +2145,7 @@ void coder
 	      restore_callregs(name(e) ==untidy_return_tag);
 #if 0
 	      if (simple_res) {	/* now done earlier for dw2_returns consistency */
-	        coder(reg0, stack, son(e));
+	        make_code(reg0, stack, son(e));
 	      };
 #endif
 
@@ -2228,7 +2228,7 @@ void coder
 	  qw.where_exp = copyexp(reg0.where_exp);
 	  sh(qw.where_exp) = sh(arg1);
 	  qw.where_off = 0;
-	  coder(qw, stack, arg1);
+	  make_code(qw, stack, arg1);
 	  arg1 = qw.where_exp;
 	  bro(arg1) = b;
 	};
@@ -2248,7 +2248,7 @@ void coder
 	  crt_flnm = d -> data.source.beg.file->file.ints.chars;
 	};
         output_diag(d, crt_proc_id, e);
-        coder(dest, stack, son(e));
+        make_code(dest, stack, son(e));
         output_end_scope(d, e);
         return;
       };
@@ -2262,7 +2262,7 @@ void coder
 	  asm_ins(e);
 	else {
 	  start_asm();
-          coder(dest, stack, son(e));
+          make_code(dest, stack, son(e));
 	  end_asm();
 	}
 	clear_low_reg_record(crt_reg_record);
@@ -2289,7 +2289,7 @@ void coder
       if (name(e)!=name_tag && name(e)!=env_offset_tag && son(e)!=NULL) {
 	exp l = son(e);		/* catch all discards with side-effects */
 	for (;;) {
-	  coder(dest, stack, l);
+	  make_code(dest, stack, l);
 	  if (last(l))break;
 	  l = bro(l);
 	}
@@ -2305,11 +2305,11 @@ struct coder_args {
 	exp e;
 };
 
-static void coder2
+static void make_code2
 (void * args)
 {
   struct coder_args * x = (struct coder_args *)args;
-  coder1(x->dest, x->stack, x->e);
+  make_code1(x->dest, x->stack, x->e);
   return;
 }
 
@@ -2400,7 +2400,7 @@ dg_where find_diag_res
   return w;
 }
 
-void coder
+void make_code
 (where dest, ash stack, exp e)
 {
   dg_info d;
@@ -2498,14 +2498,14 @@ void coder
       d = d->more;
     };
 #ifndef TDF_DIAG4
-    code_diag_info(dgf(e), crt_proc_id, coder2,(void*) &args);
+    code_diag_info(dgf(e), crt_proc_id, make_code2,(void*) &args);
 #else
 #if DWARF2
     if (diag == DIAG_DWARF2) {
-      dw2_code_info(dgf(e), coder2, (void*) &args);
+      dw2_code_info(dgf(e), make_code2, (void*) &args);
     }
 #else
-    code_diag_info(dgf(e), crt_proc_id, coder2,(void*) &args);
+    code_diag_info(dgf(e), crt_proc_id, make_code2,(void*) &args);
 #endif
 #endif
     if (dpos) {
@@ -2515,7 +2515,7 @@ void coder
     };
   }
   else
-    coder1(dest, stack, e);
+    make_code1(dest, stack, e);
   current_dg_info = was_current;
   return;
 }

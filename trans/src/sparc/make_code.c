@@ -63,7 +63,7 @@
 #include "special.h"
 #include "diag_out.h"
 #include "translate.h"
-#include "makecode.h"
+#include "make_code.h"
 #include "new_tags.h"
 #include "localexpmacs.h"
 

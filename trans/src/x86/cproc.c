@@ -54,7 +54,7 @@
 #include "reg_record.h"
 #include "messages_8.h"
 #include "assembler.h"
-#include "coder.h"
+#include "make_code.h"
 #include "scan.h"
 #include "cproc.h"
 #include "localexpmacs.h"
@@ -74,7 +74,7 @@ int useful_double = 0;
 int keep_short = 0;
 int always_use_frame;
 int locals_offset;	/* global, needed for solaris stabs */
-exp hasenvoff_list = NULL;	/* global, used by coder */
+exp hasenvoff_list = NULL;	/* global, used by make_code */
 
 #define GLOBALTABLEMASK 0x8
 
@@ -114,7 +114,7 @@ static void add_odd_bits
   cond2b = r->cond2b;
   repeat_level = r->repeat_level;
   scale = r->scale;
-  coder(r->dest, r->stack, r->body);
+  make_code(r->dest, r->stack, r->body);
   if (name(sh(r->body))!= bothd) {
     clean_stack();
     jump(r->jr, 0);
@@ -324,8 +324,8 @@ int cproc
   fpucon = normal_fpucon;
 
   has_dy_callees = 0;		/* set by scan when stack_dec indeterminable */
-  has_tail_call = 0;		/* set by scan, used in coder */
-  has_same_callees = 0;		/* set by scan, used in coder */
+  has_tail_call = 0;		/* set by scan, used in make_code */
+  has_same_callees = 0;		/* set by scan, used in make_code */
   proc_has_asm = 0;		/* set by scan if any asm operands */
   IGNORE scan(1, p, p, 0);
   useful_double = 0;
@@ -590,7 +590,7 @@ int cproc
   scale = (float)1.0;
   last_odd_bit = 0;
   doing_odd_bits = 0;
-  coder (zero, stack, body); /* code body of procedure */
+  make_code(zero, stack, body); /* code body of procedure */
 
   stack_dec = 0;
   doing_odd_bits = 1;

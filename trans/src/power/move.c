@@ -32,7 +32,7 @@
 #include "comment.h"
 #include "proc.h"			/* for mem_temp() */
 #include "maxminmacs.h"
-#include "makecode.h"
+#include "make_code.h"
 #include "move.h"
 
 

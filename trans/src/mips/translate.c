@@ -36,7 +36,7 @@
 #include "weights.h"
 #include "procrectypes.h"
 #include "regalloc.h"
-#include "new_code.h"
+#include "make_code.h"
 #include "code_here.h"
 #include "eval.h"
 #include "bitsmacs.h"

@@ -43,7 +43,7 @@
 #include "tests.h"
 #include "utility.h"
 #include "where.h"
-#include "coder.h"
+#include "make_code.h"
 #include "operations.h"
 #include "ops_shared.h"
 #include "translate.h"
@@ -153,7 +153,7 @@ bool reserved
     stack_dec and stack_size are both used to keep track of changes
     to the stack pointer due to pushes and pops etc.
 
-    extra_stack is used in coder for working out the position of
+    extra_stack is used in make_code for working out the position of
     procedure arguments which are compound results of procedure calls.
 
     ldisp is the extra value which needs to be added to the stack pointer
@@ -865,10 +865,10 @@ void cproc
     /* Encode the procedure body */
     if (diag != DIAG_NONE) {
 	dnt_begin();
-	coder(zero, stack, t);
+	make_code(zero, stack, t);
 	dnt_end();
     } else
-      coder(zero, stack, t);
+      make_code(zero, stack, t);
 
     /* Output the procedure epilogue */
 #ifndef tdf3

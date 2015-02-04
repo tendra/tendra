@@ -61,7 +61,7 @@
 #include "regmacs.h"
 #include "regable.h"
 #include "translate.h"
-#include "makecode.h"
+#include "make_code.h"
 #include "proc.h"
 #include "sparctrans.h"
 #include "localexpmacs.h"

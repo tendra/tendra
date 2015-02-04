@@ -30,7 +30,7 @@
 
 #include <main/driver.h>
 
-#include "coder.h"
+#include "make_code.h"
 #include "inst_fmt.h"
 #include "main.h"
 #include "reg_defs.h"

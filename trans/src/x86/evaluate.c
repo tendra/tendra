@@ -34,7 +34,6 @@
 #endif
 
 #include "localtypes.h"
-#include "coder.h"
 #include "instr.h"
 #include "instr386.h"
 #include "assembler.h"

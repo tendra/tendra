@@ -42,7 +42,7 @@
 #include <refactor/optimise.h>
 
 #include "localtypes.h"
-#include "coder.h"
+#include "make_code.h"
 #include "instr.h"
 #include "scan.h"
 #include "weights.h"
@@ -158,7 +158,7 @@ static void code_proc
       error(ERROR_INTERNAL, "~asm not in ~asm_sequence");
     check_asm_seq(son(son(tg)), 1);
     outs(".text");
-    coder(zero, stack, son(tg));
+    make_code(zero, stack, son(tg));
     outnl();
   }
 

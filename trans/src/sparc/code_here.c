@@ -22,7 +22,7 @@
 #include "addrtypes.h"
 #include "proctypes.h"
 #include "labels.h"
-#include "makecode.h"
+#include "make_code.h"
 #include "bitsmacs.h"
 #include "locate.h"
 #include "regexps.h"

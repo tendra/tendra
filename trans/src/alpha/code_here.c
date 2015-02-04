@@ -20,7 +20,7 @@
 #include "addresstypes.h"
 #include "procrectypes.h"
 #include "labels.h"
-#include "coder.h"
+#include "make_code.h"
 #include "bitsmacs.h"
 #include "locate.h"
 #include "inst_fmt.h"

@@ -52,7 +52,7 @@
 #include "regable.h"
 #include "special.h"
 #include "translate.h"
-#include "makecode.h"
+#include "make_code.h"
 #include "proc.h"
 #include "misc.h"
 #include "diag_out.h"

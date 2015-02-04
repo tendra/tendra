@@ -44,7 +44,7 @@
 #include "proc.h"
 #include "regexps.h"
 #include "special.h"
-#include "makecode.h"
+#include "make_code.h"
 
 /*
     A value of 0 indicates that the procedure name n is not special.  A

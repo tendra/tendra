@@ -26,7 +26,7 @@
 #include "proc.h"
 #include "oprators.h"
 #include "comment.h"
-#include "makecode.h"
+#include "make_code.h"
 #include "error.h"
 
 void tidyshort(int r, exp e)

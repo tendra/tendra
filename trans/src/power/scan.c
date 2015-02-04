@@ -53,7 +53,7 @@
 #include "regable.h"
 #include "tempdecs.h"
 #include "translate.h"
-#include "makecode.h"
+#include "make_code.h"
 #include "scan.h"
 #include "stack.h"
 #include "error.h"

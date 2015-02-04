@@ -61,7 +61,7 @@
 #include "diag_out.h"
 #include "translate.h"
 #include "frames.h"
-#include "makecode.h"
+#include "make_code.h"
 #include "extratags.h"
 #include "special.h"
 #include "loc_signal.h"

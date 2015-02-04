@@ -34,7 +34,7 @@
 #include "weights.h"
 #include "procrecs.h"
 #include "regalloc.h"
-#include "makecode.h"
+#include "make_code.h"
 #include "eval.h"
 #include "scan.h"
 #include "diag_out.h"

@@ -21,7 +21,7 @@
 #include <main/flags.h>
 
 #include "localtypes.h"
-#include "coder.h"
+#include "make_code.h"
 #include "cproc.h"
 #include "weights.h"
 #include "localexpmacs.h"

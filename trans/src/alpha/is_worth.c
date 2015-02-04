@@ -15,7 +15,7 @@
 #include <construct/shape.h>
 #include <construct/is_worth.h>
 
-#include "coder.h"
+#include "make_code.h"
 
 bool
 is_worth(exp c)

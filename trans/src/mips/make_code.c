@@ -7,7 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/* new_code.c
+/*
 	This is the principal code producing module
 ****************************************************************/
 
@@ -67,7 +67,7 @@
 #include "diag_out.h"
 #include "frames.h"
 #include "regable.h"
-#include "new_code.h"
+#include "make_code.h"
 #include "localexpmacs.h"
 
 extern int current_symno;

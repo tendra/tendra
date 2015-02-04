@@ -39,7 +39,7 @@
 #include <main/flags.h>
 
 #include "localtypes.h"
-#include "coder.h"
+#include "make_code.h"
 #include "instr386.h"
 #include "scan.h"
 #include "localexpmacs.h"

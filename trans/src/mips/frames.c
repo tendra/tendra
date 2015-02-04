@@ -20,7 +20,6 @@
 #include "procrectypes.h"
 #include "bitsmacs.h"
 #include "frames.h"
-#include "new_code.h"
 #include "localexpmacs.h"
 
 extern exp father(exp);

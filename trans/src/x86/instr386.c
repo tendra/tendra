@@ -45,7 +45,7 @@
 #include <utility/bits.h>
 
 #include "localtypes.h"
-#include "coder.h"
+#include "make_code.h"
 #include "cproc.h"
 #include "reg_record.h"
 #include "overlap.h"
@@ -347,7 +347,7 @@ void contop
   if ((n == cont_tag || n == ass_tag || n == reff_tag)
       && name(son(a)) == ident_tag) {
 		/* IF 1 */
-    ash st;				/* dummy stack for use by coder */
+    ash st;				/* dummy stack for use by make_code */
     exp fin = bro (son (son (a)));	/* fin holds body of final identity */
     unsigned char  oldn = name (fin);		/* oldn hold name of final identity */
     exp id1 = son (a);			/* outer identity */
@@ -393,8 +393,8 @@ void contop
 	    no(id1) = no(son(son(id1)));
 	  };
 
-	  coder(mw(id1, 0), st, son(id1));
-	  coder (mw (id2, 0), st, son (id2)); /* work out defs */
+	  make_code(mw(id1, 0), st, son(id1));
+	  make_code(mw (id2, 0), st, son (id2)); /* work out defs */
 	  contop_level--;
 	  son (a) = fin;		/* code body in caller */
 	  return;
@@ -523,7 +523,7 @@ void contop
 
 		/* regs_goo >= 2 so we have enough registers */
       setname (fin, top_tag);	/* nullify fin */
-      coder (reg0, st, son (a));	/* code the declarations */
+      make_code(reg0, st, son (a));	/* code the declarations */
       /* we are coding the identity declaration */
       contop_level--;
       setname (fin, oldn);	/* restore fin */
@@ -574,7 +574,7 @@ void contop
 
 
     setname (fin, top_tag);	/* nullify fin */
-    coder (reg0, st, son (a));	/* we are coding the identity declaration */
+    make_code(reg0, st, son (a));	/* we are coding the identity declaration */
     contop_level--;
     setname (fin, oldn);	/* restore fin */
     son (a) = fin;		/* code the rest in caller */
@@ -5774,7 +5774,7 @@ void mem_to_bits
 
     sh(e) = osh;
     temp = getexp(dsh, NULL, 0, e, NULL, 0, 0, chvar_tag);
-    coder(dest, stack, temp);
+    make_code(dest, stack, temp);
     retcell(temp);
     return;
   };
@@ -5867,7 +5867,7 @@ void bits_to_mem
 	  move(osh, mw(son(e), 0), dest);
 	}
 	else {
-         coder(reg0, stack, son(e));
+         make_code(reg0, stack, son(e));
          move(osh, reg0, dest);
 	};
      }
@@ -5879,7 +5879,7 @@ void bits_to_mem
   /* mask the bits we are putting in out of the dest */
   if (name (e) != val_tag) {	/* this needs improvement */
     if (name(e) == int_to_bitf_tag)
-       coder(reg0, stack, son(e));
+       make_code(reg0, stack, son(e));
     else
        move(sh(e), mw(e, 0), reg0);
     and(slongsh, mw(zeroe, lsmask[nbits]), reg0, reg0);

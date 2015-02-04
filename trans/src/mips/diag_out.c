@@ -47,7 +47,6 @@
 #include "out_ba.h"
 #include "locate.h"
 #include "diag_out.h"
-#include "new_code.h"
 
 extern long currentfile;
  /* our current fileno  */

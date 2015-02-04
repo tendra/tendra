@@ -33,7 +33,7 @@
 
 #include "translate.h"
 #include "addrtypes.h"
-#include "makecode.h"
+#include "make_code.h"
 #include "special.h"
 #include "labels.h"
 

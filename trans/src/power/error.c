@@ -26,7 +26,7 @@
 #include "codegen.h"
 #include "comment.h"
 #include "translate.h"
-#include "makecode.h"
+#include "make_code.h"
 #include "stack.h"
 #include "instruct.h"
 #include "error.h"

@@ -14,7 +14,7 @@
 
 #include <reader/exp.h>
 
-extern void coder(where, ash, exp);
+extern void make_code(where, ash, exp);
 
 
 /*

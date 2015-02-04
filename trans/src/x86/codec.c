@@ -37,7 +37,7 @@
 #include "localtypes.h"
 #include "instr386.h"
 #include "operand.h"
-#include "coder.h"
+#include "make_code.h"
 #include "instr.h"
 #include "messages_8.h"
 #include "reg_record.h"
@@ -97,7 +97,7 @@ void uop
       qw.where_exp = copyexp(reg0.where_exp);
     sh(qw.where_exp) = sha;
     qw.where_off = 0;
-    coder(qw, stack, a);
+    make_code(qw, stack, a);
    (*op)(sha, qw, dest);
     retcell(qw.where_exp);
     cond1_set = 0;
@@ -150,7 +150,7 @@ void bop
       qw.where_exp = copyexp(reg0.where_exp);
     sh(qw.where_exp) = sha;
     qw.where_off = 0;
-    coder(qw, stack, a);
+    make_code(qw, stack, a);
    (*op)(sha, qw, mw(b, 0), dest);
     retcell(qw.where_exp);
     cond1_set = 0;
@@ -163,7 +163,7 @@ void bop
       qw.where_exp = copyexp(reg0.where_exp);
     sh(qw.where_exp) = sha;
     qw.where_off = 0;
-    coder(qw, stack, b);
+    make_code(qw, stack, b);
    (*op)(sha, mw(a, 0), qw, dest);
     retcell(qw.where_exp);
     cond1_set = 0;
@@ -195,7 +195,7 @@ static void logop
   where qw;
 
   if (last(arg1)) {
-    coder(dest, stack, arg1);
+    make_code(dest, stack, arg1);
     return;
   };
 
@@ -236,8 +236,9 @@ static void logop
     return;
   };
 
-  coder (qw, stack, t);		/* encode the single argument which is not
-				   a possible 80386 operend */
+  /* encode the single argument which is not a possible 80386 operend */
+  make_code(qw, stack, t);
+
   u = arg1;
   /* now encode the remaining operations */
   while (1) {
@@ -276,7 +277,7 @@ static void multop
   where qw;
 
   if (last(arg1)) {
-    coder(dest, stack, arg1);
+    make_code(dest, stack, arg1);
     return;
   };
 
@@ -318,7 +319,7 @@ static void multop
   };
 
   /* encode the single argument which is not a possible 80386 operand */
-  coder (qw, stack, t);
+  make_code(qw, stack, t);
 
   u = arg1;
   /* now encode the remaining operations */
@@ -371,7 +372,7 @@ void codec
 	exp old_overflow_e = overflow_e;
 
 	if (last (arg1)) {	/* there is only one argument */
-	  coder(dest, stack, arg1);
+	  make_code(dest, stack, arg1);
 	  return;
 	};
 
@@ -438,7 +439,7 @@ void codec
 	};
 
 	/* encode the argument which is not a possible 80386 operand */
-	coder (qw, stack, t);
+	make_code(qw, stack, t);
 
 	u = arg1;
 	/* now encode the remaining operations */
@@ -477,14 +478,14 @@ void codec
 	    qw.where_exp = copyexp(reg0.where_exp);
 	    sh(qw.where_exp) = sh(a);
 	    qw.where_off = 0;
-	    coder(qw, stack, a);
+	    make_code(qw, stack, a);
 	    change_var_refactor(sh(e), qw, dest);
 	    overflow_e = old_overflow_e;
 	    retcell(qw.where_exp);
             cond1_set = 0;
 	    return;
 	  };
-	  coder(dest, stack, a);
+	  make_code(dest, stack, a);
 	  if (name(sh(e)) > name(sh(a)))
 	    change_var_sh(sh(e), sh(a), dest, dest);
 	  overflow_e = old_overflow_e;
@@ -725,16 +726,16 @@ void codec
       if (al2(sh(son(e))) >= al2(sh(e)))
 	{
 	  if (al2(sh(e))!= 1 || al2(sh(son(e))) == 1)
-            coder(dest, stack, son(e));
+            make_code(dest, stack, son(e));
 	  else {
-	    coder(reg0, stack, son(e));
+	    make_code(reg0, stack, son(e));
 	    shiftl(slongsh, mw(zeroe, 3), reg0, dest);
 	  }
 	}
       else
         {
           int al = al2(sh(e)) /8;
-          coder(reg0, stack, son(e));
+          make_code(reg0, stack, son(e));
 	  if (al2(sh(son(e))) == 1) {
             add(slongsh, mw(zeroe, al*8 -1), reg0, reg0);
 	    shiftr(slongsh, mw(zeroe, 3), reg0, reg0);
@@ -817,11 +818,11 @@ void codec
        return;
      };
     case bitf_to_int_tag:
-      coder(reg0, stack, son(e));
+      make_code(reg0, stack, son(e));
       change_var_sh(sh(e), sh(son(e)), reg0, dest);
       return;
     case alloca_tag:
-      coder(dest, stack, e);
+      make_code(dest, stack, e);
       return;
     case power_tag:
       error(ERROR_INTERNAL, "integer power not implemented");
@@ -844,7 +845,7 @@ void codec
 	  qw.where_exp = copyexp(reg0.where_exp);
 	  sh(qw.where_exp) = sh(e);
 	  qw.where_off = 0;
-	  coder(qw, stack, e);
+	  make_code(qw, stack, e);
 	  move(sh(e), qw, dest);
 	  retcell(qw.where_exp);
           cond1_set = 0;
@@ -870,7 +871,7 @@ void codec
 	  else {
 	    exp temp = copyexp(reg0.where_exp);
 	    exp preserve = *p;
-	    coder(reg0, stack, *p);
+	    make_code(reg0, stack, *p);
 	    *p = temp;
 	    move(sh(e), mw(e, 0), dest);
 	    *p = preserve;	/* may still be needed for diags */

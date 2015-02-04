@@ -38,7 +38,7 @@
 #include "bitsmacs.h"
 #include "regmacs.h"
 #include "maxminmacs.h"
-#include "makecode.h"
+#include "make_code.h"
 #include "move.h"
 
 

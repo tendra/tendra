@@ -26,7 +26,7 @@
 #include "mach.h"
 #include "tests.h"
 #include "where.h"
-#include "coder.h"
+#include "make_code.h"
 #include "utility.h"
 #include "translate.h"
 #include "evaluate.h"

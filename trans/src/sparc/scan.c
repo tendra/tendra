@@ -56,7 +56,7 @@
 #include "comment.h"
 #include "scan.h"
 #include "reg_defs.h"
-#include "makecode.h"
+#include "make_code.h"
 #include "localexpmacs.h"
 
 #define max(X,Y)(X>Y)?(X):(Y)
