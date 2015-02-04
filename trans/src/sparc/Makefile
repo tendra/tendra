@@ -22,6 +22,14 @@ PARTS+= src/common/diag3
 SRCS+= diag_out.c
 SRCS+= stabs_reform.c
 
+.elif "${TRANS_DEBUG}" == "stabs4"
+
+TRANS_CFLAGS+= -D TDF_DIAG4
+
+PARTS+= src/common/diag4
+
+SRCS+= newdiag_out.c
+
 .elif "${TRANS_DEBUG}" == "dwarf1"
 
 TRANS_CFLAGS+= -D DWARF1
