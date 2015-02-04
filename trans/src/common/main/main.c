@@ -182,7 +182,7 @@ main(int argc, char *argv[])
 			case 'Y': dyn_init         = 1; break;
 			case 'Z': report_versions  = 1; break;
 #ifdef DWARF2
-			case 'T': dump_abbrev      = 1; break;
+			case 'T': dump_abbrev      = 0; break;
 			case 'J': extra_diags      = 1; break;
 #endif
 

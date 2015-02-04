@@ -56,7 +56,7 @@ int extra_diags = 0;		/* option for extended diagnostics */
 #endif
 
 #ifdef DWARF2
-int dump_abbrev = 0;
+int dump_abbrev = 1;
 #endif
 
 enum has     has;
