@@ -145,7 +145,7 @@ static void eval_if_ready
 
 /* PROCEDURES */
 
-void make_code
+static void code_proc
 (dec * my_def)
 {
   exp tg = my_def -> dec_u.dec_val.dec_exp;
@@ -454,7 +454,7 @@ void translate_capsule
 
   for (my_def = top_def; my_def != NULL; my_def = my_def -> def_next) {
     if (!my_def -> dec_u.dec_val.processed)
-       make_code(my_def);
+       code_proc(my_def);
   }
 
   while (delayed_const_list != NULL) {
