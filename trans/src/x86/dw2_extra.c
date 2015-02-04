@@ -52,6 +52,7 @@
 #include "operand.h"
 #include "reg_record.h"
 #include "localexpmacs.h"
+#include "make_code.h"
 
 
 extern int locals_offset; /* declared in cproc.c */
