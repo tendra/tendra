@@ -704,7 +704,9 @@ translate_capsule (void){
 			dw2_proc_start(stg, diag_props);
 		}
 #else
+#ifdef STABS
 		stab_proc(diag_props, stg, id, extnamed);
+#endif
 #endif
 	}
 	if ( optim_level >= 0 ) {
@@ -751,7 +753,7 @@ translate_capsule (void){
 			dw2_proc_end(stg);
 		}
 #else
-#ifndef TDF_DIAG4
+#ifdef STABS
 		stab_proc_end();
 #endif
 #endif
