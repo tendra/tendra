@@ -81,11 +81,6 @@ init(void)
 	do_alloca         = 0; /* inline alloca */
 	g_reg_max         = (abi == ABI_SYSV ? 4 : 7); /* number of G registers */
 
-#ifdef TDF_DIAG4
-	diag_visible = 0;
-	extra_diags  = 0;
-#endif
-
 	/*
 	 * On DIV_SETS_CC:
 	 *

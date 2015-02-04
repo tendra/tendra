@@ -76,11 +76,6 @@ init(void)
 	diag      = DIAG_NONE;
 	abi       = ABI_IBCS;
 
-#ifdef TDF_DIAG4
-	diag_visible = 0;
-	extra_diags  = 0;
-#endif /* TDF_DIAG4 */
-
 	redo_structfns         = 1; /* replace fns delivering structs */
 	redo_structparams      = 0; /* no change to struct params */
 	separate_units         = 0; /* combine units */
