@@ -183,7 +183,7 @@ main(int argc, char *argv[])
 			case 'Z': report_versions  = 1; break;
 #ifdef DWARF2
 			case 'T': dump_abbrev      = 0; break;
-			case 'J': extra_diags      = 1; break;
+			case 'J': extra_diags      = 0; break;
 #endif
 
 			/* TODO: global options as lower case instead */

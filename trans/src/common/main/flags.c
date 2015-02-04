@@ -52,7 +52,7 @@ int do_comment = 0;		/* produce comments in generated assembly */
 
 #ifdef TDF_DIAG4
 int diag_visible = 0;		/* additional visibility if doing diagnostics */
-int extra_diags = 0;		/* option for extended diagnostics */
+int extra_diags = 1;		/* option for extended diagnostics */
 #endif
 
 #ifdef DWARF2
