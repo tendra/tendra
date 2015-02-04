@@ -608,9 +608,7 @@ translate_capsule (void){
 #endif
 	if ( isvar ( tg ) ) symdef = -symdef ;
 	if ( diag_props ) {
-#ifdef DWARF2
-		if (diag != DWARF2) {
-#endif
+		if (diag != DIAG_DWARF2) {
 #ifdef STABS
 			stab_global(diag_props, stg, id, extnamed);
 #endif
