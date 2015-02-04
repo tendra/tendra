@@ -52,7 +52,6 @@ TRANS_CFLAGS+= -D DWARF2
 PARTS+= src/common/diag4
 PARTS+= src/common/dwarf2
 
-SRCS+= newdiag_out.c
 SRCS+= dw2_config.c
 SRCS+= dw2_extra.c
 

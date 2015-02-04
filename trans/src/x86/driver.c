@@ -224,8 +224,11 @@ cleanup(void)
 			end_dwarf2();
 		else
 #endif
-			if (diag != DIAG_NONE)
+			if (diag != DIAG_NONE) {
+#ifdef STABS
 				out_diagnose_postlude();
+#endif
+			}
 
 		outend();
 }

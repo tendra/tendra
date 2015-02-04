@@ -261,14 +261,15 @@ static void code_def
        {
 	 int is_ext = (my_def -> dec_u.dec_val.extnamed);
          if (diag_props)
-#ifdef DWARF2
 		if (diag != DIAG_DWARF2) {
+#ifndef DWARF2
+#ifdef TDF_DIAG4
            out_diag_global(diag_props, is_ext, -1, id);
+#endif
+#endif
 		}
-#else
 #ifndef TDF_DIAG4
            diag_val_begin(diag_props, is_ext, -1, id);
-#endif
 #endif
 	 if (name(son(tg)) == clear_tag && no(son(tg)) == -1) {
 				/* prom global data */
@@ -433,8 +434,11 @@ void translate_capsule
         init_dwarf2();
     else
 #endif
-        if (diag != DIAG_NONE)
+        if (diag != DIAG_NONE) {
+#ifdef STABS
             out_diagnose_prelude();
+#endif
+        }
 
 #ifdef DWARF2
     if (diag == DIAG_DWARF2) {

@@ -284,7 +284,9 @@ init_translator (void)
 #if DWARF1
     out_diagnose_prelude () ;
 #else
+#ifdef STABS
     init_stab () ;
+#endif
 #endif
   }
     /* start in text section */
@@ -355,7 +357,9 @@ translate_capsule (void){
 #if DWARF1
     /* do nothing */
 #else
+#ifdef STABS
     init_stab_aux () ;
+#endif
 #endif
   }
 
@@ -605,9 +609,12 @@ translate_capsule (void){
 	if ( isvar ( tg ) ) symdef = -symdef ;
 	if ( diag_props ) {
 #ifdef DWARF2
-		if (diag != DWARF2)
+		if (diag != DWARF2) {
 #endif
+#ifdef STABS
 			stab_global(diag_props, stg, id, extnamed);
+#endif
+		}
 	}
 	is = evaluated ( stg, symdef, 
 		(!isvar (tg) || (d -> dec_u.dec_val.acc & f_constant)) ) ;

@@ -593,14 +593,13 @@ void evaluate
     dot_align(al/8);
 
   if (diag_props)
-#ifdef DWARF2
     if (diag != DIAG_DWARF2) {
+#if defined(STABS) && defined(TDF_DIAG4)
 		out_diag_global(diag_props, global, cname, s);
+#endif
 	}
-#else
 #ifndef TDF_DIAG4
     diag_val_begin(diag_props, global, cname, s);
-#endif
 #endif
 
   if (cname == -1) {
