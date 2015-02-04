@@ -65,8 +65,6 @@
 #include "dw2_extra.h"
 #endif
 
-#include "local_reform.h"
-
 #define PREFETCH_COUNT 1000
 
 /* All variables initialised */

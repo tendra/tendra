@@ -60,8 +60,6 @@
 #include "dw2_extra.h"
 #endif
 
-#include "local_reform.h"
-
 typedef union eu_u {int i; exp e;} punner;
 
 #define fstack_base 8

@@ -65,8 +65,6 @@
 #include "dw2_extra.h"
 #endif
 
-#include "local_reform.h"
-
 static exp returns_list;
 
 unsigned normal_fpucon;

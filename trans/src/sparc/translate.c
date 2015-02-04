@@ -141,8 +141,6 @@
 #include <dwarf2/dw2_iface.h>
 #endif
 
-#include "local_reform.h"
-
 extern bool know_size ;
 
 char * proc_name;

@@ -79,8 +79,6 @@
 #include "dw2_extra.h"
 #endif
 
-#include "local_reform.h"
-
 extern exp hasenvoff_list;
 
 #define crit_noframe 300

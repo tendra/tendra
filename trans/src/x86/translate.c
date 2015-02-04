@@ -57,8 +57,6 @@
 #include <dwarf2/dw2_iface.h>
 #endif
 
-#include "local_reform.h"
-
 
 #define ptg(x) ((x)->ptf.glob)		/* addition to expmacs */
 

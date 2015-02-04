@@ -42,8 +42,6 @@
 #include "evaluate.h"
 #include "localexpmacs.h"
 
-#include "local_reform.h"
-
 /* PROCEDURES */
 
 

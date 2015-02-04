@@ -77,8 +77,6 @@
 #include <dwarf2/dw2_basic.h>
 #endif
 
-#include "local_reform.h"
-
 
 /* 
   Check for parameter access via add_to_ptr ( env, off ) 

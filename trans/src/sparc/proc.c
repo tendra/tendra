@@ -76,8 +76,6 @@
 #include "dw2_extra.h"
 #endif
 
-#include "local_reform.h"
-
 /*
   CODE GENERATION STATE FOR THE CURRENT PROCEDURE
 */
