@@ -48,6 +48,5 @@ extern void area(int);
 #define  plast		3
 
 extern void profile_hack(void);
-extern void cproc(exp, char *, long, int, int, diag_global *);
 
 #endif
