@@ -61,11 +61,16 @@
 #include "muldvrem.h"
 #include "proc.h"
 #include "special.h"
-#include "diag_out.h"
 #include "translate.h"
 #include "make_code.h"
 #include "new_tags.h"
 #include "localexpmacs.h"
+
+#ifdef TDF_DIAG4
+#include "newdiag_out.h"
+#else
+#include "diag_out.h"
+#endif
 
 #ifdef TDF_DIAG4
 #include <diag4/dg_aux.h>

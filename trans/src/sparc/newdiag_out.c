@@ -41,7 +41,7 @@
 #include "locate.h"
 #include "comment.h"
 #include "translate.h"
-#include "diag_out.h"
+#include "newdiag_out.h"
 
 #include <diag4/dg_types.h>
 #include <diag4/dg_aux.h>

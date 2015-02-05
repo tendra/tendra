@@ -10,28 +10,12 @@
 #ifndef SPARCDDECS_INCLUDED
 #define SPARCDDECS_INCLUDED
 
-#ifdef TDF_DIAG4
-#include <diag4/dg_first.h>
-#else
 #include <diag3/dg_first.h>
 #include <diag3/diaginfo.h>
-#endif
 
 #include <reader/exp.h>
 
 #include <construct/installtypes.h>
-
-#ifdef TDF_DIAG4
-
-extern void init_stab(void);
-extern void init_stab_aux(void);
-extern void code_diag_info(dg_info, void(*)(void *), void *);
-extern void stab_global(dg_name, exp, char *, int);
-extern void stab_proc(dg_name, exp, char *, int);
-extern void stab_proc_end(void);
-extern void stab_types(void);
-
-#else
 
 extern void init_stab(void);
 extern void init_stab_aux(void);
@@ -48,7 +32,5 @@ extern void stab_proc_end(void);
 extern void stab_types(void);
 extern void stabd(long, long, int);
 extern long currentfile;
-
-#endif
 
 #endif /* SPARCDDECS_INCLUDED */

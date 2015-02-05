@@ -130,12 +130,17 @@
 #include "regmacs.h"
 #include "labels.h"
 #include "comment.h"
-#include "diag_out.h"
 #include "translate.h"
 #include "proc.h"
 #include "locate.h"
 #include "sparctrans.h"
 #include "localexpmacs.h"
+
+#ifdef TDF_DIAG4
+#include "newdiag_out.h"
+#else
+#include "diag_out.h"
+#endif
 
 #ifdef DWARF2
 #include <dwarf2/dw2_iface.h>
