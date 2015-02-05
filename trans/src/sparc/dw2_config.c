@@ -163,7 +163,7 @@ void out_producer(char *s)
 {
   outs ("\t.asciz \"");
   outs (s);
-  outs ("TenDRA trans.sparc installer");
+  outs (" trans.sparc installer");
   outs ("\"");
   d_outnl ();
   return;
