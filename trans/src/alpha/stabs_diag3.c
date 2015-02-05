@@ -10,7 +10,7 @@
 /*
   This file contains functions to handle code diagnostics for
   alpha/OSF1. (largely based on the mips installer version
-  'diag_out.c').
+  'stabs_diag3.c').
 */
 
 #include <stdio.h>
@@ -40,7 +40,7 @@
 #include "procrecs.h"
 #include "bitsmacs.h"
 #include "locate.h"
-#include "diag_out.h"
+#include "stabs_diag3.h"
 #include "ibinasm.h"
 #include "out_ba.h"
 #include "make_code.h"

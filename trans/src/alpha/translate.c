@@ -44,7 +44,7 @@
 #include "main.h"
 #include "frames.h"
 #include "reg_defs.h"
-#include "diag_out.h"
+#include "stabs_diag3.h"
 #include "out_ba.h"
 #include "ibinasm.h"
 #include "directives.h"

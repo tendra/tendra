@@ -67,9 +67,9 @@
 #include "localexpmacs.h"
 
 #ifdef TDF_DIAG4
-#include "newdiag_out.h"
+#include "stabs_diag4.h"
 #else
-#include "diag_out.h"
+#include "stabs_diag3.h"
 #endif
 
 #ifdef TDF_DIAG4

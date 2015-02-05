@@ -64,7 +64,7 @@
 #include "main.h"
 #include "dump_distr.h"
 #include "extratags.h"
-#include "diag_out.h"
+#include "stabs_diag3.h"
 #include "frames.h"
 #include "regable.h"
 #include "make_code.h"

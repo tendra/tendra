@@ -58,7 +58,7 @@
 #include "regable.h"
 #include "muldvrem.h"
 #include "proc.h"
-#include "diag_out.h"
+#include "stabs_diag3.h"
 #include "translate.h"
 #include "frames.h"
 #include "make_code.h"

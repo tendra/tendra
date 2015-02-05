@@ -46,7 +46,7 @@
 #include "ibinasm.h"
 #include "out_ba.h"
 #include "locate.h"
-#include "diag_out.h"
+#include "stabs_diag3.h"
 
 extern long currentfile;
  /* our current fileno  */

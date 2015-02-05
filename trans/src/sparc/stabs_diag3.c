@@ -42,7 +42,7 @@
 #include "locate.h"
 #include "comment.h"
 #include "translate.h"
-#include "diag_out.h"
+#include "stabs_diag3.h"
 
 #include <diag3/diagtypes.h>
 #include <diag3/diag_fns.h>

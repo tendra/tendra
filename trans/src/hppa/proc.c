@@ -55,7 +55,7 @@
 #include "make_code.h"
 #include "proc.h"
 #include "misc.h"
-#include "diag_out.h"
+#include "stabs_diag3.h"
 #include "loc_signal.h"
 
 #define RES    1

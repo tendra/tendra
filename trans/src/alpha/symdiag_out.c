@@ -39,7 +39,7 @@
 #include "ibinasm.h"
 #include "out_ba.h"
 #include "locate.h"
-#include "diag_out.h"
+#include "stabs_diag3.h"
 #include "symdiag_out.h"
 #include "pseudo.h"
 

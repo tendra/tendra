@@ -31,7 +31,6 @@
 #include "symtab.h"
 #include "syms.h"
 #include "main.h"
-#include "diag_out.h"
 
 extern long currentfile;
 

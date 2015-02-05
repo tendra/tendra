@@ -43,7 +43,7 @@
 #include "scan.h"
 #include "ibinasm.h"
 #include "out_ba.h"
-#include "diag_out.h"
+#include "stabs_diag3.h"
 #include "extern_adds.h"
 #include "mips_ins.h"
 #include "main.h"

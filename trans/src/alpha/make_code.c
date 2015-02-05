@@ -74,7 +74,7 @@
 #include "reg_defs.h"
 #include "cross.h"
 #include "regable.h"
-#include "diag_out.h"
+#include "stabs_diag3.h"
 #include "outofline.h"
 #include "out_ba.h"
 #include "float.h"

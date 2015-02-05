@@ -49,7 +49,7 @@
 #include "locate.h"
 #include "comment.h"
 #include "translate.h"
-#include "diag_out.h"
+#include "stabs_diag3.h"
 
 #ifdef _SYMTAB_INCLUDED
 #undef _SYMTAB_INCLUDED

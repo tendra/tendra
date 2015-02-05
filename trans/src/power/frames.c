@@ -37,7 +37,7 @@
 #include "make_code.h"
 #include "eval.h"
 #include "scan.h"
-#include "diag_out.h"
+#include "stabs_diag3.h"
 #include "comment.h"
 #include "translate.h"
 #include "stack.h"

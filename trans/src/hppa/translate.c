@@ -132,7 +132,7 @@
 #include "regmacs.h"
 #include "labels.h"
 #include "comment.h"
-#include "diag_out.h"
+#include "stabs_diag3.h"
 #include "translate.h"
 #include "inst_fmt.h"
 #include "getregs.h"

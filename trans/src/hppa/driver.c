@@ -31,7 +31,7 @@
 
 #include "addrtypes.h"		/* for where */
 #include "make_code.h"		/* for nowhere */
-#include "diag_out.h"
+#include "stabs_diag3.h"
 #include "frames.h"
 
 #define VERSION_STR "7.8"

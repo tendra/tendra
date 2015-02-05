@@ -41,7 +41,7 @@
 #include "locate.h"
 #include "comment.h"
 #include "translate.h"
-#include "newdiag_out.h"
+#include "stabs_diag4.h"
 
 #include <diag4/dg_types.h>
 #include <diag4/dg_aux.h>
