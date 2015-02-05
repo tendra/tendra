@@ -40,7 +40,7 @@ TRANS_CFLAGS+= -D DWARF1
 PARTS+=	src/common/dwarf1
 PARTS+= src/common/diag3
 
-SRCS+= dwarf_reform.c
+SRCS+= dw1_reform.c
 
 # XXX: stray calls to stab_global and stab_proc
 
