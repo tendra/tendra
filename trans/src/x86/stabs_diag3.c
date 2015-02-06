@@ -21,17 +21,17 @@
 #include <local/out.h>
 #include <local/codermacs.h>
 
-#include <diag3/dg_first.h>
-#include <diag3/diaginfo.h>
-#include <diag3/dg_types.h>  /* TDF_DIAG4 */
-#include <diag3/diagtypes.h> /* TDF_DIAG3 */
-#include <diag3/diaginfo1.h>
-
 #include <construct/installtypes.h>
 #include <construct/machine.h>
 #include <construct/shape.h>
 #include <construct/tags.h>
 #include <construct/exp.h>
+
+#include <diag3/dg_first.h>
+#include <diag3/diaginfo.h>
+#include <diag3/dg_types.h>  /* TDF_DIAG4 */
+#include <diag3/diagtypes.h> /* TDF_DIAG3 */
+#include <diag3/diaginfo1.h>
 
 #include <main/flags.h>
 

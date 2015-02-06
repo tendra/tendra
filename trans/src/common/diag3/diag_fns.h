@@ -10,14 +10,6 @@
 #ifndef diag_fns_key
 #define diag_fns_key 1
 
-#include <reader/exp.h>
-
-#include "dg_first.h"
-#include "diaginfo.h"
-
-#include <reader/token.h>
-
-
 extern void out_diagnose_prelude(void);
 extern void out_diagnose_postlude(void);
 

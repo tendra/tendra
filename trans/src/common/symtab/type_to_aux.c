@@ -20,15 +20,16 @@
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
-#include <symtab/symconst.h>
-#include <symtab/symtab.h>
-#include <symtab/type_to_aux.h>
-
 #include <reader/code.h>
 #include <reader/basicread.h>
 
 #include <construct/shape.h>
 #include <construct/exp.h>
+#include <construct/installtypes.h>
+
+#include <symtab/symconst.h>
+#include <symtab/symtab.h>
+#include <symtab/type_to_aux.h>
 
 #include <diag3/diagtypes.h>
 #include <diag3/diag_fns.h>

@@ -26,14 +26,9 @@
 #include <local/cpu.h>
 #include <local/codermacs.h>
 
-#ifdef TDF_DIAG4
-#include <diag4/diag_fns.h>
-#else
-#include <diag3/diag_fns.h>
-#endif
-
 #include <reader/basicread.h>
 #include <reader/externs.h>
+#include <reader/token.h>
 
 #include <construct/tags.h>
 #include <construct/exp.h>
@@ -43,6 +38,12 @@
 #include <construct/machine.h>
 
 #include <main/flags.h>
+
+#ifdef TDF_DIAG4
+#include <diag4/diag_fns.h>
+#else
+#include <diag3/diag_fns.h>
+#endif
 
 #include "localtypes.h"
 #include "weights.h"

@@ -2,6 +2,11 @@
 
 /* TODO: interface for diag/ to call hppa local stabs */
 
+#include <reader/exp.h>
+
+#include <construct/shape.h>
+#include <construct/installtypes.h>
+
 #include <diag3/diag_reform.h>
 
 diag_descriptor *

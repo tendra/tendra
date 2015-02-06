@@ -14,10 +14,7 @@
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
-#include <diag3/diag_reform.h>
-
 #include <reader/exp.h>
-
 #include <reader/code.h>
 #include <reader/readglob.h>
 #include <reader/table_fns.h>
@@ -28,6 +25,9 @@
 #include <construct/shape.h>
 #include <construct/tags.h>
 #include <construct/install_fns.h>
+
+#include <diag3/diagtypes.h>
+#include <diag3/diag_reform.h>
 
 #include "diag_fns.h"
 

@@ -10,11 +10,6 @@
 #ifndef dg_types_key
 #define dg_types_key 1
 
-#include <construct/installtypes.h>
-
-#include "dg_first.h"
-
-
 typedef dg_info dg;
 #define nildiag	NULL
 

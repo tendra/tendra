@@ -19,8 +19,8 @@
 #include <shared/xalloc.h>
 
 #include <reader/exp.h>
-
 #include <reader/code.h>
+#include <reader/token.h>
 
 #include <construct/shape.h>
 #include <construct/exp.h>
