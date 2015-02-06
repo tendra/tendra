@@ -361,7 +361,7 @@ analyse_diag_type(FILE *file, diag_type dt, int loc)
 		/* Set up structure label */
 		res->is_lab = 1;
 		res->posn = (posn_t)dlab;
-		dt->been_outed = (OUTPUT_REC)res;
+		dt->been_outed = res;
 
 		/* Deal with structure fields */
 		for (i = n - 1; i >= 0; i--) {
@@ -446,7 +446,7 @@ analyse_diag_type(FILE *file, diag_type dt, int loc)
 		/* Set up union label */
 		res->is_lab = 1;
 		res->posn = (posn_t)dlab;
-		dt->been_outed = (OUTPUT_REC)res;
+		dt->been_outed = res;
 
 		/* Deal with union fields */
 		for (i = n - 1; i >= 0; i--) {
@@ -488,7 +488,7 @@ analyse_diag_type(FILE *file, diag_type dt, int loc)
 		break;
 	}
 
-	dt->been_outed = (OUTPUT_REC)res;
+	dt->been_outed = res;
 	return res;
 }
 

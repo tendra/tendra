@@ -141,7 +141,7 @@ new_stab_type(diag_type dt)
 	char *res = alloc_nof(char, 8);
 	sprintf(res, "%ld", next_stab_type++);
 	if (dt) {
-		dt->been_outed = (OUTPUT_REC)res;
+		dt->been_outed = res;
 	}
 	return res;
 }

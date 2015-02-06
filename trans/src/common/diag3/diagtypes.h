@@ -101,7 +101,13 @@ typedef enum {
 
 struct diag_type_t {
 	diag_type_key	key;
-	OUTPUT_REC been_outed;
+#if DWARF1
+	dwarf_type_label *been_outed;
+#elif defined(TRANS_X86) || defined(TRANS_HPPA) || defined(TRANS_SPARC)
+	long been_outed;
+#else
+	void *been_outed;
+#endif
 	union {
 		struct {
 			diag_type		element_type;

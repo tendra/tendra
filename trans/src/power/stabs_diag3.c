@@ -101,8 +101,8 @@
  * stabstring TypeNo if type has already been output.
  */
 
-#define	CLR_OUTED_NO(dt)	((dt) ->been_outed = (OUTPUT_REC)0)
-#define	SET_OUTED_NO(dt,i)	((dt) ->been_outed = (OUTPUT_REC)(i))
+#define	CLR_OUTED_NO(dt)	((dt) ->been_outed = 0)
+#define	SET_OUTED_NO(dt,i)	((dt) ->been_outed = (i))
 #define	OUTED_NO(dt)		((int)(dt) ->been_outed)
 #define	IS_OUTED(dt)		((dt) ->been_outed != 0)
 

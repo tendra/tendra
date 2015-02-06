@@ -297,10 +297,6 @@ f_diag_type_apply_token(token token_value, bitstream token_args)
 	return v.tk_diag_type;
 }
 
-#ifndef NULL
-#define NULL	((OUTPUT_REC)0)
-#endif
-
 diag_type
 f_diag_array(diag_type element_type, exp stride, exp lower_bound,
 	     exp upper_bound, diag_type index_type)
