@@ -31,7 +31,7 @@ TRANS_CFLAGS+= -D STABS
 
 PARTS+= src/common/diag4
 
-SRCS+= newdiag_out.c
+SRCS+= stabs_diag4.c
 
 .elif "${TRANS_DEBUG}" == "dwarf1"
 
