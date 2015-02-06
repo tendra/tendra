@@ -38,13 +38,7 @@ typedef void * OUTPUT_REC;
 #endif
 
 
-#if DWARF1
 diag_descriptor *NEW_DIAG_GLOBAL(diag_descriptor *);
-#else
-diag_descriptor *NEW_DIAG_GLOBAL(diag_descriptor *);
-#endif
-
-
 void OUTPUT_GLOBALS_TAB(void);
 void OUTPUT_DIAG_TAGS(void);
 void INSPECT_FILENAME(filename);
