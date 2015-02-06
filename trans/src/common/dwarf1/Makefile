@@ -6,12 +6,12 @@
 CCOPTS+=	-I ..
 CCOPTS+=	-I .
 
-SRCS+=	dwarf_info.c
-SRCS+=	dwarf_loc.c
-SRCS+=	dwarf_out.c
-SRCS+=	dwarf_proc.c
-SRCS+=	dwarf_queue.c
-SRCS+=	dwarf_type.c
+SRCS+=	dw1_info.c
+SRCS+=	dw1_loc.c
+SRCS+=	dw1_out.c
+SRCS+=	dw1_proc.c
+SRCS+=	dw1_queue.c
+SRCS+=	dw1_type.c
 
 .include <tendra.obj.mk>
 
