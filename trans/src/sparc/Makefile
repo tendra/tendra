@@ -40,8 +40,6 @@ TRANS_CFLAGS+= -D DWARF1
 PARTS+=	src/common/dwarf1
 PARTS+= src/common/diag3
 
-SRCS+= dw1_reform.c
-
 .elif "${TRANS_DEBUG}" == "dwarf2"
 
 TRANS_CFLAGS+= -D TDF_DIAG4

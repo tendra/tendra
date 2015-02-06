@@ -40,8 +40,6 @@ TRANS_CFLAGS+= -D DWARF1
 PARTS+=	src/common/dwarf1
 PARTS+= src/common/diag3
 
-SRCS+= dw1_reform.c
-
 # XXX: stray calls to stab_global and stab_proc
 
 .elif "${TRANS_DEBUG}" == "dwarf2"

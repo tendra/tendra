@@ -12,6 +12,7 @@ SRCS+=	dw1_out.c
 SRCS+=	dw1_proc.c
 SRCS+=	dw1_queue.c
 SRCS+=	dw1_type.c
+SRCS+=	dw1_reform.c
 
 .include <tendra.obj.mk>
 
