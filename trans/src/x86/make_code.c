@@ -71,6 +71,7 @@
 #include <diag4/dg_globs.h>
 #else
 #include <diag3/diag_fns.h>
+#include <diag3/diaginfo1.h>
 #endif
 
 #ifdef DWARF2
