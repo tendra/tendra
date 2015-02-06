@@ -34,7 +34,7 @@
 
 #include <refactor/refactor.h>
 
-#include <diag3/diag_fns.h>
+#include <diag3/special_tok.h>
 
 #include "new_tags.h"
 #include "localexpmacs.h"

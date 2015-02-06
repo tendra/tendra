@@ -2968,14 +2968,3 @@ f_dg_exp(exp body, dg diagnostic)
 }
 
 
-exp
-read_dg_exp(exp body)
-{
-	dg diag;
-	int was_within_diags = within_diags;
-	within_diags = 1;
-	diag = d_dg();
-	within_diags = was_within_diags;
-
-	return f_dg_exp(body, diag);
-}

@@ -31,11 +31,9 @@
 #include <main/flags.h>
 
 #ifdef TDF_DIAG4
-#include <diag4/diag_fns.h>
-#include <diag4/dg_fns.h>
+#include <diag4/special_tok.h>
 #else
-#include <diag3/diag_fns.h>
-#include <diag3/dg_fns.h>
+#include <diag3/special_tok.h>
 #endif
 
 #include <refactor/refactor.h>

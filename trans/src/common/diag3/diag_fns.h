@@ -32,12 +32,6 @@ extern linkextern f_make_diagtagextern(tdfint i, external e);
 extern void init_unit_diagtags(int n);
 
 
-extern diag_info *read_exp_to_source(void);
-extern diag_info *read_diag_id_scope(void);
-extern diag_info *read_diag_type_scope(void);
-extern diag_info *read_diag_tag_scope(void);
-
-
 extern void output_diag(diag_info *d, int proc_no, exp e);
 extern void output_end_scope(diag_info *d, exp e);
 

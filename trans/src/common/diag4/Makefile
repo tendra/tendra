@@ -11,6 +11,7 @@ SRCS+=	dg_fns.c
 SRCS+=	diag_fns.c
 SRCS+=	diag_info.c
 SRCS+=	mark_scope.c
+SRCS+=	special_tok.c
 
 .include <tendra.obj.mk>
 
