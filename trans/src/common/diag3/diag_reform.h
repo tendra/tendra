@@ -19,7 +19,7 @@
 #include <diag3/diagtypes1.h>
 
 #if DWARF1
-#include <dwarf1/dwarf_types.h>
+#include <dwarf1/dw1_types.h>
 #endif
 
 

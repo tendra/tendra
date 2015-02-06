@@ -34,13 +34,13 @@
 #include <diag3/diagtypes.h>
 #endif
 
-#include <dwarf1/dwarf.h>
-#include <dwarf1/dwarf_types.h>
-#include <dwarf1/dwarf_type.h>
-#include <dwarf1/dwarf_out.h>
-#include <dwarf1/dwarf_loc.h>
-#include <dwarf1/dwarf_queue.h>
-#include <dwarf1/dwarf_mc.h>
+#include <dwarf1/dw1_consts.h>
+#include <dwarf1/dw1_types.h>
+#include <dwarf1/dw1_type.h>
+#include <dwarf1/dw1_out.h>
+#include <dwarf1/dw1_loc.h>
+#include <dwarf1/dw1_queue.h>
+#include <dwarf1/dw1_mc.h>
 
 #ifdef TDF_DIAG4
 #include <construct/tags.h>

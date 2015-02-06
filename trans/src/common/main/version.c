@@ -11,8 +11,8 @@
 #ifdef TDF_DIAG4
 #include <diag4/version.h>
 #endif
-#include <dwarf1/version.h>
-#include <dwarf2/version.h>
+#include <dwarf1/dw1_version.h>
+#include <dwarf2/dw2_version.h>
 
 #include <shared/error.h>
 

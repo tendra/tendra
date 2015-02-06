@@ -43,10 +43,6 @@
 #include <dwarf2/dw2_common.h>
 #endif
 
-#if DWARF1
-#include <dwarf1/dwarf_mc.h>
-#endif
-
 extern int use_link_stuff;
 
 #include "debug.h"

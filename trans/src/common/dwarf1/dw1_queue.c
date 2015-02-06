@@ -12,9 +12,9 @@
 
 #include <reader/basicread.h>
 
-#include <dwarf1/dwarf_out.h>
-#include <dwarf1/dwarf_type.h>
-#include <dwarf1/dwarf_queue.h>
+#include <dwarf1/dw1_out.h>
+#include <dwarf1/dw1_type.h>
+#include <dwarf1/dw1_queue.h>
 
 typedef struct t_q_t {
 	diag_type val;
