@@ -718,12 +718,8 @@ out_dwarf_diag_tags(void)
 }
 
 
-dwarf_global *
+diag_descriptor *
 new_dwarf_global(diag_descriptor *d)
 {
-	dwarf_global *new = (dwarf_global *)xcalloc(1, sizeof(dwarf_global));
-
-	new->desc = d;
-
-	return new;
+	return d;
 }

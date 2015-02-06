@@ -23,11 +23,6 @@ typedef struct {
 	H_dwarf_lab	end;
 } dwarf_label;
 
-typedef struct {
-	diag_descriptor	*desc;
-	dwarf_label	lab;
-} dwarf_global;
-
 #define OUT_FLAG(x)	((x)[DWARF_LAB_LEN])
 #define LAB2CHAR(x)	(&((x)[0]))
 #endif

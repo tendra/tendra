@@ -10,5 +10,5 @@
 				/* this is on its own to break cycles */
 extern void out_dwarf_global_list(void);
 extern void out_dwarf_diag_tags(void);
-extern dwarf_global *new_dwarf_global(diag_descriptor *d);
+extern diag_descriptor *new_dwarf_global(diag_descriptor *d);
 extern void dwarf_inspect_filename(filename f);

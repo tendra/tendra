@@ -7,7 +7,7 @@
 #include <dwarf1/dw1_types.h>
 #include <dwarf1/dw1_gbl.h>
 
-dwarf_global *
+diag_descriptor *
 NEW_DIAG_GLOBAL(diag_descriptor *d)
 {
 	return new_dwarf_global(d);

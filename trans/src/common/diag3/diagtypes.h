@@ -12,6 +12,9 @@
 
 #include "diagtypes1.h"
 
+#ifdef DWARF1
+#include <dwarf1/dw1_types.h>
+#endif
 
 struct filename_t {
 	nat		date;
@@ -154,6 +157,9 @@ typedef enum {
 typedef struct diagdef_t {
 	diag_desc_key 	key;
 	char		*ext_name;
+#ifdef DWARF1
+	dwarf_label lab;
+#endif
 	union {
 		struct {
 			tdfstring 	nme;

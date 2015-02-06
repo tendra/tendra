@@ -57,7 +57,7 @@ diag_proc_begin(diag_global *d_props, int global, int cname, char *pname)
 
 	outs(COMMENT_2("\t", "\tHere beginneth a proc"));
 	outnl();
-	if (d_props->desc->key != DIAG_ID_KEY) {
+	if (d_props->key != DIAG_ID_KEY) {
 		error(ERROR_INTERNAL, "proc beg without id");
 	}
 
@@ -70,8 +70,8 @@ diag_proc_begin(diag_global *d_props, int global, int cname, char *pname)
 		cont_sib_chain(TAG_subroutine);
 	}
 
-	out_dwarf_name_attr(TDFSTRING2CHAR(d_props->desc->data.id.nme));
-	out_dwarf_type_attr(d_props->desc->data.id.new_type->data.proc.result_type);
+	out_dwarf_name_attr(TDFSTRING2CHAR(d_props->data.id.nme));
+	out_dwarf_type_attr(d_props->data.id.new_type->data.proc.result_type);
 	OUT_DWARF_ATTR(AT_low_pc);
 	dwarf4(LAB2CHAR(d_props->lab.beg));
 	OUT_DWARF_ATTR(AT_high_pc);
@@ -80,9 +80,9 @@ diag_proc_begin(diag_global *d_props, int global, int cname, char *pname)
 	make_next_new_chain();
 
 	/* must be OUTSIDE blk */
-	out_dwarf_sourcemark(&d_props->desc->data.id.whence);
+	out_dwarf_sourcemark(&d_props->data.id.whence);
 
-	out_dwarf_proc_args(d_props->desc->data.id.new_type);
+	out_dwarf_proc_args(d_props->data.id.new_type);
 	continue_decs = 1;
 }
 

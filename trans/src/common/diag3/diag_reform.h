@@ -27,7 +27,7 @@
  * This is used by common/reader to create common/diag types by the f_* API.
  */
 #if DWARF1
-typedef dwarf_global    diag_global;
+typedef diag_descriptor diag_global;
 #else
 /* XXX: dwarf_diag_config.h has this as int! */
 typedef diag_descriptor diag_global;
@@ -49,13 +49,8 @@ typedef void * OUTPUT_REC;
 #endif
 
 
-/*
- * This is only called in one place and the interface could be normalised
- * somehow. dwarf_global just associates a dwarf_label field with a
- * diag_descriptor.
- */
 #if DWARF1
-dwarf_global *   NEW_DIAG_GLOBAL(diag_descriptor *);
+diag_descriptor *NEW_DIAG_GLOBAL(diag_descriptor *);
 #else
 diag_descriptor *NEW_DIAG_GLOBAL(diag_descriptor *);
 #endif
