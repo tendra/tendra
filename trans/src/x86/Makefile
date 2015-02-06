@@ -21,7 +21,7 @@ TRANS_CFLAGS+= -D STABS
 
 PARTS+= src/common/diag3
 
-SRCS+= diag_out.c
+SRCS+= stabs_diag3.c
 SRCS+= stabs_reform.c
 
 .elif "${TRANS_DEBUG}" == "stabs4"
