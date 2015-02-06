@@ -85,7 +85,7 @@ extern void out_profile(bool save_a1);
 extern int do_pic;
 
 void gcproc
-(exp p, char *pname, long cname, int is_ext, int reg_res, diag_global *di)
+(exp p, char *pname, long cname, int is_ext, int reg_res, diag_descriptor *di)
 {
   exp t;
   ash stack;

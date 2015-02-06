@@ -983,7 +983,7 @@ static int is_comm
 */
 
 void evaluate
-(exp c, long cname, char *s, int isconst, int global, diag_global *di)
+(exp c, long cname, char *s, int isconst, int global, diag_descriptor *di)
 {
     mach_op *op1, *op2;
     long al = (long)shape_align(sh(c));

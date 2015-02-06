@@ -27,11 +27,11 @@ extern void init_unit_diagtags(int n);
 extern void output_diag(diag_info *d, int proc_no, exp e);
 extern void output_end_scope(diag_info *d, exp e);
 
-extern void diag_proc_begin(diag_global *d, int global, int cname, char *pname);
-extern void diag_proc_end(diag_global *d);
+extern void diag_proc_begin(diag_descriptor *d, int global, int cname, char *pname);
+extern void diag_proc_end(diag_descriptor *d);
 
-extern void diag_val_begin(diag_global *d, int global, int cname, char *pname);
-extern void diag_val_end(diag_global *d);
+extern void diag_val_begin(diag_descriptor *d, int global, int cname, char *pname);
+extern void diag_val_end(diag_descriptor *d);
 
 
 extern int unit_no_of_diagtags;

@@ -191,7 +191,7 @@ translate_capsule(void)
 static void code_proc
 (dec *d, char *id, exp c, exp s)
 {
-    diag_global *di = d->dec_u.dec_val.diag_info;
+    diag_descriptor *di = d->dec_u.dec_val.diag_info;
     int reg_res = (has_struct_res(s)? 0 : 1);
     int is_ext = (d->dec_u.dec_val.extnamed ? 1 : 0);
 
@@ -228,7 +228,7 @@ static void code_const
    exp s = son(c);
    char *id = d->dec_u.dec_val.dec_id;
 
-   diag_global *di = d->dec_u.dec_val.diag_info;
+   diag_descriptor *di = d->dec_u.dec_val.diag_info;
    area(isvar(c)? pdata : ptext);
    if (!no_align_directives) {
      make_instr(m_as_align4, NULL, NULL, 0);

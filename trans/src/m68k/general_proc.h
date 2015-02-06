@@ -15,7 +15,7 @@
 
 void apply_general_proc(exp e, where dest, ash stack);
 void tail_call(exp e, where dest, ash stack);
-void gcproc(exp p, char* pname, long cname, int is_ext, int reg_res, diag_global* di);
+void gcproc(exp p, char* pname, long cname, int is_ext, int reg_res, diag_descriptor* di);
 void general_epilogue(bool uses_caller_pointer, bool has_checkstack);
 void untidy_return(void);
 void make_visible(exp e);

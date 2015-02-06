@@ -571,7 +571,7 @@ void evaluate
 (exp c, int cname, char *s, int isconst, int global, struct dg_name_t * diag_props)
 #else
 void evaluate
-(exp c, int cname, char *s, int isconst, int global, diag_global * diag_props)
+(exp c, int cname, char *s, int isconst, int global, diag_descriptor * diag_props)
 #endif
 {
   int al = shape_align(sh(c));

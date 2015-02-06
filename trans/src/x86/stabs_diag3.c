@@ -619,7 +619,7 @@ out_dt_shape(diag_type dt)
  * Output diagnostics for a global variable
  */
 void
-diag_val_begin(diag_global *d, int global, int cname, char *pname)
+diag_val_begin(diag_descriptor *d, int global, int cname, char *pname)
 {
 	stabd(find_file(d->data.id.whence.file->file.ints.chars),
 	(long)d->data.id.whence.line_no.nat_val.small_nat, -N_DSLINE);
@@ -644,7 +644,7 @@ diag_val_begin(diag_global *d, int global, int cname, char *pname)
 }
 
 void
-diag_val_end(diag_global *d)
+diag_val_end(diag_descriptor *d)
 {
 	UNUSED(d);
 	return;
@@ -654,7 +654,7 @@ diag_val_end(diag_global *d)
  * Output diagnostics for a procedure
  */
 void
-diag_proc_begin(diag_global *d, int global, int cname, char *pname)
+diag_proc_begin(diag_descriptor *d, int global, int cname, char *pname)
 {
 	last_proc_pname = pname;
 	last_proc_cname = cname;

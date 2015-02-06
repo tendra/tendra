@@ -152,7 +152,7 @@ diag_end(diag_info *di, exp e)
 */
 
 void
-xdb_diag_proc_begin(diag_global *di, exp p, char *pname, long cname,
+xdb_diag_proc_begin(diag_descriptor *di, exp p, char *pname, long cname,
 		    int is_ext)
 {
 	char *nm = di->data.id.nme.ints.chars;
@@ -183,7 +183,7 @@ xdb_diag_proc_return(void)
 */
 
 void
-xdb_diag_proc_end(diag_global *di)
+xdb_diag_proc_end(diag_descriptor *di)
 {
 	area(ptext);
 	if (diag == DIAG_XDB_NEW) {
@@ -204,7 +204,7 @@ xdb_diag_proc_end(diag_global *di)
 */
 
 void
-xdb_diag_val_begin(diag_global *di, char *pname, long cname, int is_ext)
+xdb_diag_val_begin(diag_descriptor *di, char *pname, long cname, int is_ext)
 {
 	char *nm = di->data.id.nme.ints.chars;
 	diag_type t = di->data.id.new_type;
@@ -267,8 +267,8 @@ cmp_dec(dec *x, dec *y)
 	int c;
 	long lx, ly;
 	sourcemark *sx, *sy;
-	diag_global *dx = x->dec_u.dec_val.diag_info;
-	diag_global *dy = y->dec_u.dec_val.diag_info;
+	diag_descriptor *dx = x->dec_u.dec_val.diag_info;
+	diag_descriptor *dy = y->dec_u.dec_val.diag_info;
 	if (dy == NULL || dy->key != DIAG_ID_KEY) {
 		return 0;
 	}

@@ -135,7 +135,7 @@ struct dec_t {
 #ifdef TDF_DIAG4
 			struct dg_name_t *dg_name;
 #else
-			diag_global *diag_info;
+			diag_descriptor *diag_info;
 #endif
 			access acc;
 			int index;

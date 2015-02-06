@@ -24,17 +24,6 @@
 
 
 /*
- * This is used by common/reader to create common/diag types by the f_* API.
- */
-#if DWARF1
-typedef diag_descriptor diag_global;
-#else
-/* XXX: dwarf_diag_config.h has this as int! */
-typedef diag_descriptor diag_global;
-#endif
-
-
-/*
  * This is used as a pointer for some architecures, and a numerical index
  * for others. Where it is a numerical index, it indexes into an array;
  * I think a pointer would suffice for those cases with a little work, too.

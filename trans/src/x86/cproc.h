@@ -13,7 +13,7 @@
 #ifdef TDF_DIAG4
 int cproc (exp p, char *pname, int cname, int global, struct dg_name_t *diag_props);
 #else
-int cproc (exp p, char *pname, int cname, int global, diag_global *diag_props);
+int cproc (exp p, char *pname, int cname, int global, diag_descriptor *diag_props);
 #endif
 void restore_callregs(int untidy);
 

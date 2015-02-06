@@ -207,7 +207,7 @@ static void code_def
 #ifdef TDF_DIAG4
      struct dg_name_t * diag_props = my_def -> dec_u.dec_val.dg_name;
 #else
-     diag_global * diag_props = my_def -> dec_u.dec_val.diag_info;
+     diag_descriptor * diag_props = my_def -> dec_u.dec_val.diag_info;
 #endif
 
       if (shape_size(sh(son(tg))) == 0) {;

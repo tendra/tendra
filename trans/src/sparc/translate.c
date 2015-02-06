@@ -609,7 +609,7 @@ translate_capsule (void){
 #ifdef TDF_DIAG4
 	struct dg_name_t *diag_props = d->dec_u.dec_val.dg_name ;
 #else
-	diag_global *diag_props = d->dec_u.dec_val.diag_info ;
+	diag_descriptor *diag_props = d->dec_u.dec_val.diag_info ;
 #endif
 	if ( isvar ( tg ) ) symdef = -symdef ;
 	if ( diag_props ) {
@@ -664,7 +664,7 @@ translate_capsule (void){
 #ifdef TDF_DIAG4
 	struct dg_name_t *diag_props = d->dec_u.dec_val.dg_name ;
 #else
-	diag_global *diag_props = d->dec_u.dec_val.diag_info ;
+	diag_descriptor *diag_props = d->dec_u.dec_val.diag_info ;
 #endif
 	insection ( text_section ) ;
 

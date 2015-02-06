@@ -16,7 +16,7 @@ extern int convert_floats;
 
 extern exp const_list;
 extern long * realrep(exp);
-extern void evaluate(exp, long, char *, int, int, diag_global *);
+extern void evaluate(exp, long, char *, int, int, diag_descriptor *);
 extern void eval_op(long sz, mach_op* op);
 
 #define  make_constant(X, Y)\

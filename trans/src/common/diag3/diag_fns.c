@@ -179,7 +179,7 @@ f_make_diagdef_unit(void)
 
 				/* HACK attack */
 				/* since diag_descriptor are not a pointer
-				 type we cant set the diag_global field
+				 type we cant set the diag_descriptor field
 				 easily, so we CHEAT via a global */
 
 static diag_descriptor *last_diag_desc;

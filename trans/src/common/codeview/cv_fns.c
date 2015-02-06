@@ -188,7 +188,7 @@ output_end_scope(diag_info *d, exp e)
 }
 
 void
-diag_val_begin(diag_global *d, int global, int cname, char *pname)
+diag_val_begin(diag_descriptor *d, int global, int cname, char *pname)
 {
   ot typ;
 
@@ -210,14 +210,14 @@ diag_val_begin(diag_global *d, int global, int cname, char *pname)
 }
 
 void
-diag_val_end(diag_global *d)
+diag_val_end(diag_descriptor *d)
 {
   UNUSED(d);
   return;
 }
 
 void
-diag_proc_begin(diag_global *d, int global, int cname, char *pname)
+diag_proc_begin(diag_descriptor *d, int global, int cname, char *pname)
 {
   ot typ;
   UNUSED(cname);
@@ -247,7 +247,7 @@ diag_proc_begin(diag_global *d, int global, int cname, char *pname)
 }
 
 void
-diag_proc_end(diag_global *d)
+diag_proc_end(diag_descriptor *d)
 {
   if (!d) {
     return;
