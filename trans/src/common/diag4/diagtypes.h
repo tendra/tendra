@@ -10,8 +10,6 @@
 #ifndef diagtypes_key
 #define diagtypes_key 1
 
-#include <construct/installtypes.h>
-
 typedef dg_name diag_descriptor;
 typedef dg_name_list diag_descriptor_list;
 typedef dg_name_list diag_unit;

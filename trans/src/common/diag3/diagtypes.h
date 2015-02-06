@@ -15,8 +15,6 @@
 
 #include "diagtypes1.h"
 
-#include <construct/installtypes.h>
-
 
 struct filename_t {
 	nat		date;
