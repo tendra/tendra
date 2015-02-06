@@ -27,6 +27,7 @@
 
 #include <main/flags.h>
 
+#include <diag3/diaginfo1.h>
 #include <diag3/special_tok.h>
 
 #include <refactor/refactor.h>

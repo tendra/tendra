@@ -43,6 +43,7 @@
 #include <diag3/diag_fns.h>
 #include <diag3/diagglob.h>
 #include <diag3/mark_scope.h>
+#include <diag3/diaginfo1.h>
 
 #include "memtdf.h"
 #include "translate.h"

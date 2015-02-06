@@ -33,6 +33,7 @@
 #ifdef TDF_DIAG4
 #include <diag4/special_tok.h>
 #else
+#include <diag3/diaginfo1.h>
 #include <diag3/special_tok.h>
 #endif
 

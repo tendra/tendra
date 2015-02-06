@@ -20,6 +20,7 @@
 
 #include "dg_fns.h"
 #include "diag_fns.h"
+#include "diaginfo1.h"
 #include "special_tok.h"
 
 
