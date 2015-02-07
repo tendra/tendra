@@ -31,7 +31,7 @@
 #include <dwarf1/dw1_loc.h>
 #include <dwarf1/dw1_type.h>
 
-#define BEEN_PUT_OUT(x)	((x)->been_outed != NULL)
+#define BEEN_PUT_OUT(x)	((x)->dw1_been_outed != NULL)
 
 #define gcc_FT_long_long		0x8008
 #define gcc_FT_unsigned_long_long	0x8208
@@ -248,7 +248,7 @@ out_plain_user_attr(diag_type t)
 		error(ERROR_INTERNAL, "out_plain_user_attr without an asm label");
 		exit(EXIT_FAILURE);
 	}
-	dwarf4(&((*t->been_outed)[0]));
+	dwarf4(&((*t->dw1_been_outed)[0]));
 }
 
 
@@ -275,7 +275,7 @@ queue_up_type_out(diag_type t)
 		error(ERROR_INTERNAL, "Whhops, queueing twice");
 		return;
 	}
-	t->been_outed = next_dwarf_type_lab();
+	t->dw1_been_outed = next_dwarf_type_lab();
 	add_type_q(t);
 }
 
@@ -307,7 +307,7 @@ out_dwarf_user_type(diag_type t)
 {
 	if (!BEEN_PUT_OUT(t)) {
 		/* if so then no external refs */
-		t->been_outed = next_dwarf_type_lab();
+		t->dw1_been_outed = next_dwarf_type_lab();
 	}
 	switch (t->key) {
 	case DIAG_TYPE_ARRAY:
@@ -388,9 +388,9 @@ out_dwarf_user_type(diag_type t)
 #endif
 
 #ifdef mips
-		sprintf(expr_buf, SET_F, (char *)t->been_outed,
+		sprintf(expr_buf, SET_F, (char *)t->dw1_been_outed,
 #else
-		sprintf(expr_buf, SET_F, (char *)&((t->been_outed)[0]),
+		sprintf(expr_buf, SET_F, (char *)&((t->dw1_been_outed)[0]),
 #endif
 			current_label_name());
 		outs(expr_buf);
