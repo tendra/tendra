@@ -55,6 +55,8 @@ SRCS+= dw2_extra.c
 
 .elif "${TRANS_DEBUG}" == "cv"
 
+TRANS_CFLAGS+= -D CODEVIEW
+
 PARTS+= src/common/diag3
 PARTS+= src/common/codeview
 

@@ -59,6 +59,11 @@ int extra_diags = 1;		/* option for extended diagnostics */
 int dump_abbrev = 1;
 #endif
 
+/* TODO: merge with diag */
+#ifndef TDF_DIAG4
+const struct diag3_driver *diag3_driver;
+#endif
+
 enum has     has;
 enum optim   optim;
 enum check   check;
@@ -353,6 +358,12 @@ switch_format(const char *s, unsigned permitted)
 	return o;
 }
 
+#ifndef TDF_DIAG4
+extern const struct diag3_driver diag3_driver_stabs;
+extern const struct diag3_driver diag3_driver_dw1;
+extern const struct diag3_driver diag3_driver_cv;
+#endif
+
 enum diag
 switch_diag(const char *s, unsigned permitted)
 {
@@ -361,18 +372,28 @@ switch_diag(const char *s, unsigned permitted)
 
 	struct {
 		const char *name;
+		const struct diag3_driver *driver;
 		enum diag diag;
 	} a[] = {
-		{ "none",    DIAG_NONE    },
-		{ "stabs",   DIAG_STABS   },
-		{ "stabx",   DIAG_STABX   },
-		{ "xdb_old", DIAG_XDB_OLD },
-		{ "xdb_new", DIAG_XDB_NEW },
-		{ "dwarf",   DIAG_DWARF   },
-		{ "dwarf2",  DIAG_DWARF2  },
-		{ "gdb",     DIAG_GDB     }, /* TODO: name per its specific format */
-		{ "xdb",     DIAG_XDB     }, /* TODO: name per its specific format */
-		{ "cv",      DIAG_CV      }
+		{ "none",    NULL,                DIAG_NONE    },
+#ifndef TDF_DIAG4
+#ifdef CODEVIEW
+		{ "cv",      &diag3_driver_cv,    DIAG_CV      },
+#endif
+#ifdef STABS
+		{ "gdb",     &diag3_driver_stabs, DIAG_GDB     }, /* TODO: name per its specific format */
+		{ "xdb",     &diag3_driver_stabs, DIAG_XDB     }, /* TODO: name per its specific format */
+		{ "stabs",   &diag3_driver_stabs, DIAG_STABS   },
+		{ "stabx",   &diag3_driver_stabs, DIAG_STABX   },
+		{ "xdb_old", &diag3_driver_stabs, DIAG_XDB_OLD },
+		{ "xdb_new", &diag3_driver_stabs, DIAG_XDB_NEW },
+#endif
+#ifdef DWARF1
+		{ "dwarf",   &diag3_driver_dw1,   DIAG_DWARF   },
+#endif
+#endif
+		/* TODO: stabs for diag4 */
+		{ "dwarf2",  NULL,                DIAG_DWARF2  }
 	};
 
 	for (i = 0; i < sizeof a / sizeof *a; i++) {
@@ -392,6 +413,14 @@ switch_diag(const char *s, unsigned permitted)
 			"for this architecture.", s);
 		return -1;
 	}
+
+#ifndef TDF_DIAG4
+	diag3_driver = a[i].driver;
+	if (diag3_driver == NULL) {
+		error(ERROR_FATAL, "Diagnostic format %s has no driver", s);
+		return -1;
+	}
+#endif
 
 	return o;
 }

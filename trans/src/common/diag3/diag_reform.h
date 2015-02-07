@@ -15,19 +15,16 @@
  * (eventually) link both diag3/ and diag4/ simultaneously.
  */
 
-
 #include <diag3/diagtypes1.h>
 
-#if DWARF1
-#include <dwarf1/dw1_types.h>
-#endif
+struct diag3_driver {
+	diag_descriptor * (*NEW_DIAG_GLOBAL)(diag_descriptor *);
+	void (*OUTPUT_GLOBALS_TAB)(void);
+	void (*OUTPUT_DIAG_TAGS)(void);
+	void (*INSPECT_FILENAME)(filename);
+};
 
-
-diag_descriptor *NEW_DIAG_GLOBAL(diag_descriptor *);
-void OUTPUT_GLOBALS_TAB(void);
-void OUTPUT_DIAG_TAGS(void);
-void INSPECT_FILENAME(filename);
-
+extern struct diag3_driver *diag3_driver;
 
 #endif
 

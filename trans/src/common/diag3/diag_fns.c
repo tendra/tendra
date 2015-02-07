@@ -170,7 +170,7 @@ f_make_diagdef_unit(void)
 	unit_labtab = (exp *)dg_xcalloc(unit_no_of_labels, sizeof(exp));
 	unit_diagvar_tab = d_diag_descriptor_list();
 	end_bytestream();
-	OUTPUT_GLOBALS_TAB();
+	diag3_driver->OUTPUT_GLOBALS_TAB();
 	return;
 }
 
@@ -200,7 +200,7 @@ f_diag_desc_id(tdfstring n, sourcemark whence, exp acc, diag_type new_type)
 	new.data.id.new_type = new_type;
 
 	brog(son(acc))->dec_u.dec_val.diag_info =
-	    NEW_DIAG_GLOBAL(last_diag_desc);
+	    diag3_driver->NEW_DIAG_GLOBAL(last_diag_desc);
 
 	return new;
 }
@@ -606,7 +606,7 @@ f_make_filename(nat date, tdfstring machine, tdfstring file)
 	new->machine = machine;
 	new->file  = file;
 
-	INSPECT_FILENAME(new);
+	diag3_driver->INSPECT_FILENAME(new);
 	return new;
 }
 
@@ -762,7 +762,7 @@ f_make_diagtype_unit(void)
 	unit_labtab = (exp *)dg_xcalloc(unit_no_of_labels, sizeof(exp));
 	IGNORE d_diag_tagdef_list();
 	end_bytestream();
-	OUTPUT_DIAG_TAGS();
+	diag3_driver->OUTPUT_DIAG_TAGS();
 	return 0;
 }
 

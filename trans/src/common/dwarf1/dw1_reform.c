@@ -7,27 +7,10 @@
 #include <dwarf1/dw1_types.h>
 #include <dwarf1/dw1_gbl.h>
 
-diag_descriptor *
-NEW_DIAG_GLOBAL(diag_descriptor *d)
-{
-	return new_dwarf_global(d);
-}
-
-void
-OUTPUT_GLOBALS_TAB(void)
-{
-	out_dwarf_global_list();
-}
-
-void
-OUTPUT_DIAG_TAGS(void)
-{
-	out_dwarf_diag_tags();
-}
-
-void
-INSPECT_FILENAME(filename f)
-{
-	dwarf_inspect_filename(f);
-}
+const struct diag3_driver diag3_driver_dw1 = {
+	new_dwarf_global,
+	out_dwarf_global_list,
+	out_dwarf_diag_tags,
+	dwarf_inspect_filename
+};
 
