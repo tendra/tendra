@@ -4,6 +4,10 @@
 
 #include <diag3/diag_reform.h>
 
+void cvOUTPUT_GLOBALS_TAB(void);
+void cvOUTPUT_DIAG_TAGS(void);
+void cvINSPECT_FILENAME(filename);
+
 static diag_descriptor *
 NEW_DIAG_GLOBAL(diag_descriptor *d)
 {
