@@ -12,6 +12,10 @@
 
 #include <shared/xalloc.h>
 
+#include <reader/exp.h>
+
+#include <construct/installtypes.h>
+
 #ifndef TDF_DIAG4
 #include <diag3/dg_first.h>
 #include <diag3/dg_types.h>  /* TDF_DIAG4 */

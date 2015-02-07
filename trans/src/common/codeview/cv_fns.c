@@ -12,8 +12,11 @@
 
 #include <shared/check.h>
 
+#include <reader/token.h>
+
 #include <diag3/diag_fns.h>
 #include <diag3/diagglob.h>
+#include <diag3/diaginfo1.h>
 
 #include <main/driver.h>
 
