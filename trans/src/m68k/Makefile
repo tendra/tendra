@@ -20,7 +20,6 @@ TRANS_DEBUG?= stabs
 PARTS+= src/common/diag3
 
 SRCS+= stab_types.c
-SRCS+= stabs_reform.c
 
 SRCS+= xdb_basics.c
 SRCS+= xdb_output.c

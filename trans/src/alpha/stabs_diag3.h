@@ -13,7 +13,6 @@
 
 extern int nofds;
 extern int *file_dnos;		/* dense nos for files */
-extern void collect_files(filename f);
 extern int current_file;		/* dense no of current source file */
 extern void stab_file(int i);	/* symtab entry for file source file i */
 extern void stabd(int findex, int lno);/*.. entry for linenos */

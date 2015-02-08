@@ -17,6 +17,7 @@
 #include <diag3/diag_fns.h>
 #include <diag3/diagglob.h>
 #include <diag3/diaginfo1.h>
+#include <diag3/diag_reform.h>
 
 #include <main/driver.h>
 
@@ -263,8 +264,8 @@ diag_proc_end(diag_descriptor *d)
 }
 
 
-void
-cvOUTPUT_GLOBALS_TAB(void)
+static void
+OUTPUT_GLOBALS_TAB(void)
 {
   diag_descriptor *di = unit_diagvar_tab.array;
   int n = unit_diagvar_tab.lastused;
@@ -281,8 +282,8 @@ cvOUTPUT_GLOBALS_TAB(void)
   return;
 }
 
-void
-cvOUTPUT_DIAG_TAGS(void)
+static void
+OUTPUT_DIAG_TAGS(void)
 {
   diag_tagdef **di = unit_ind_diagtags;
   int n = unit_no_of_diagtags;
@@ -310,8 +311,8 @@ cvOUTPUT_DIAG_TAGS(void)
   return;
 }
 
-void
-cvINSPECT_FILENAME(filename fn)
+static void
+INSPECT_FILENAME(filename fn)
 {
   long here;
   char *nm = fn->file.ints.chars;
@@ -341,3 +342,18 @@ cvINSPECT_FILENAME(filename fn)
   }
   return;
 }
+
+
+static diag_descriptor *
+NEW_DIAG_GLOBAL(diag_descriptor *d)
+{
+	return d;
+}
+
+const struct diag3_driver diag3_driver_cv = {
+	NEW_DIAG_GLOBAL,
+	OUTPUT_GLOBALS_TAB,
+	OUTPUT_DIAG_TAGS,
+	INSPECT_FILENAME
+};
+

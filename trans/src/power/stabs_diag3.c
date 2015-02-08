@@ -44,6 +44,7 @@
 #include <diag3/diagglob.h>
 #include <diag3/mark_scope.h>
 #include <diag3/diaginfo1.h>
+#include <diag3/diag_reform.h>
 
 #include "memtdf.h"
 #include "translate.h"
@@ -139,7 +140,7 @@ static int nofds = 0;		/* how many are known */
 
 /*
  * Struct/union type information.
- * (See function pOUTPUT_DIAG_TAGS)
+ * (See function OUTPUT_DIAG_TAGS)
  */
 
 static diag_tagdef **su_diags = NULL;
@@ -148,7 +149,7 @@ static int leng_sus = 0;
 
 /*
  * Typedef information
- * (See function pOUTPUT_GLOBALS_TAB)
+ * (See function OUTPUT_GLOBALS_TAB)
  */
 
 static diag_descriptor **typedef_diags = NULL;
@@ -202,7 +203,7 @@ static void stab_typedefs(void);
 /*
  * Remember a filename so that find_file() can map onto filename number
  */
-void pINSPECT_FILENAME(filename f)
+static void INSPECT_FILENAME(filename f)
 {
   FULLCOMMENT2("INSPECT_FILENAME %d: '%s'", nofds,(int)CSTRING(f->file));
 
@@ -238,7 +239,7 @@ void pINSPECT_FILENAME(filename f)
 /*
  * outputs structs & unions from global level types
  */
-void pOUTPUT_DIAG_TAGS(void)
+static void OUTPUT_DIAG_TAGS(void)
 {
   diag_tagdef **di = unit_ind_diagtags;
   unsigned int n = unit_no_of_diagtags;
@@ -292,7 +293,7 @@ void pOUTPUT_DIAG_TAGS(void)
 /*
  * Collects information
  */
-void pOUTPUT_GLOBALS_TAB(void)
+static void OUTPUT_GLOBALS_TAB(void)
 {
   diag_descriptor * unit_typedef_array = unit_diagvar_tab.array;
   unsigned int no_of_typedefs_in_unit =unit_diagvar_tab.lastused;
@@ -1939,3 +1940,17 @@ static void stab_types(void)
  (void)stab_structs_and_unions();
  (void)stab_typedefs();
 }
+
+static diag_descriptor *
+NEW_DIAG_GLOBAL(diag_descriptor *d)
+{
+	return d;
+}
+
+const struct diag3_driver diag3_driver_stabs = {
+	NEW_DIAG_GLOBAL,
+	OUTPUT_GLOBALS_TAB,
+	OUTPUT_DIAG_TAGS,
+	INSPECT_FILENAME
+};
+

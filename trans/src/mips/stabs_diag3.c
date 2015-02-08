@@ -39,6 +39,7 @@
 #include <diag3/diagglob.h>
 #include <diag3/mark_scope.h>
 #include <diag3/diaginfo1.h>
+#include <diag3/diag_reform.h>
 
 #include <main/driver.h>
 
@@ -62,7 +63,7 @@ filename * fds;
 int nofds = 0;
 int szfds = 0;
 
-void
+static void
 collect_files(filename f)
 {
 	if (nofds>=szfds) {
@@ -381,8 +382,8 @@ static diag_tagdef ** su_diags = NULL;
 static long no_of_sus = 0;
 static long leng_sus = 0;
 
-void
-mOUTPUT_DIAG_TAGS(void)
+static void
+OUTPUT_DIAG_TAGS(void)
 {
   diag_tagdef ** di = unit_ind_diagtags;
   unsigned long n = unit_no_of_diagtags;
@@ -461,3 +462,22 @@ stab_types(void)
   xfree (ats);
   return;
 }
+
+static diag_descriptor *
+NEW_DIAG_GLOBAL(diag_descriptor *d)
+{
+	return d;
+}
+
+static void
+OUTPUT_GLOBALS_TAB(void)
+{
+}
+
+const struct diag3_driver diag3_driver_stabs = {
+	NEW_DIAG_GLOBAL,
+	OUTPUT_GLOBALS_TAB,
+	OUTPUT_DIAG_TAGS,
+	collect_files
+};
+

@@ -41,6 +41,7 @@
 #include <diag3/diagglob.h>
 #include <diag3/mark_scope.h>
 #include <diag3/diaginfo1.h>
+#include <diag3/diag_reform.h>
 
 #include "addrtypes.h"
 #include "frames.h"
@@ -946,7 +947,7 @@ void output_DEBUG
 /*
  * Add a new file to the array of file descriptors
  */
-void stab_collect_files
+static void stab_collect_files
 (filename f)
 {
     if (fds == NULL) {
@@ -2249,7 +2250,7 @@ void stab_types
 /*
  * Deal with structure and union tags
  */
-void stab_tagdefs
+static void stab_tagdefs
 (void)
 {
     diag_tagdef **di = unit_ind_diagtags;
@@ -2317,7 +2318,7 @@ void stab_tagdefs
 /*
  * Deal with typedefs
  */
-void stab_typedefs
+static void stab_typedefs
 (void)
 {
     diag_descriptor *di = unit_diagvar_tab.array;
@@ -2336,3 +2337,17 @@ void stab_typedefs
     }
     return;
 }
+
+static diag_descriptor *
+NEW_DIAG_GLOBAL(diag_descriptor *d)
+{
+	return d;
+}
+
+const struct diag3_driver diag3_driver_stabs = {
+	NEW_DIAG_GLOBAL,
+	stab_typedefs,
+	stab_tagdefs,
+	stab_collect_files
+};
+

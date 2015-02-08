@@ -20,6 +20,7 @@
 #include <diag3/diagglob.h>
 #include <diag3/mark_scope.h>
 #include <diag3/diaginfo1.h>
+#include <diag3/diag_reform.h>
 
 #include "codex.h"
 #include "instrs.h"
@@ -217,8 +218,8 @@ xdb_diag_val_begin(diag_descriptor *di, char *pname, long cname, int is_ext)
     OUTPUT GLOBAL TABLE
 */
 
-void
-xOUTPUT_GLOBALS_TAB(void)
+static void
+OUTPUT_GLOBALS_TAB(void)
 {
 	diag_descriptor *di = unit_diagvar_tab.array;
 	unsigned long i, n = unit_diagvar_tab.lastused;
@@ -237,8 +238,8 @@ xOUTPUT_GLOBALS_TAB(void)
     OUTPUT ALL DIAGNOSTIC TAGS
 */
 
-void
-xOUTPUT_DIAG_TAGS(void)
+static void
+OUTPUT_DIAG_TAGS(void)
 {
 	return;
 }
@@ -248,8 +249,8 @@ xOUTPUT_DIAG_TAGS(void)
     INSPECT FILENAME
 */
 
-void
-xINSPECT_FILENAME(filename fn)
+static void
+INSPECT_FILENAME(filename fn)
 {
 	char *nm = fn->file.ints.chars;
 	diag_source(nm, 1, 0);
@@ -319,3 +320,17 @@ sort_decs(dec *p)
 	}
 	return res;
 }
+
+static diag_descriptor *
+NEW_DIAG_GLOBAL(diag_descriptor *d)
+{
+	return d;
+}
+
+const struct diag3_driver diag3_driver_stabs = {
+	NEW_DIAG_GLOBAL,
+	OUTPUT_GLOBALS_TAB,
+	OUTPUT_DIAG_TAGS,
+	INSPECT_FILENAME
+};
+

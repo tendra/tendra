@@ -20,7 +20,6 @@ TRANS_DEBUG?= stabs
 PARTS+= src/common/diag3
 
 SRCS+= stabs_diag3.c
-SRCS+= stabs_reform.c
 
 .else
 

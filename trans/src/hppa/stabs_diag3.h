@@ -17,9 +17,6 @@
 
 extern void init_stab(void);
 extern void init_stab_aux(void);
-extern void stab_collect_files(filename);
-extern void stab_tagdefs(void);
-extern void stab_typedefs(void);
 extern void stab_begin(diag_info *, int, exp);
 
 extern void init_stab_aux(void);

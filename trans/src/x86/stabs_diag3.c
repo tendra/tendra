@@ -32,6 +32,7 @@
 #include <diag3/dg_types.h>  /* TDF_DIAG4 */
 #include <diag3/diagtypes.h> /* TDF_DIAG3 */
 #include <diag3/diaginfo1.h>
+#include <diag3/diag_reform.h>
 
 #include <main/flags.h>
 
@@ -155,7 +156,7 @@ static int nofds = 0;
 /*
  * Add a new file to the array of file descriptors
  */
-void
+static void
 stab_collect_files(filename f)
 {
 	if (fds == NULL) {
@@ -793,7 +794,7 @@ stab_types(void)
 /*
  * Deal with structure, union and enum tags
  */
-void
+static void
 stab_tagdefs(void)
 {
 	diag_tagdef **di = unit_ind_diagtags;
@@ -858,7 +859,7 @@ stab_tagdefs(void)
 /*
  * Deal with typedefs
  */
-void
+static void
 stab_typedefs(void)
 {
 	diag_descriptor *di = unit_diagvar_tab.array;
@@ -927,4 +928,17 @@ out_diagnose_postlude(void)
 	IGNORE fprintf(dg_file, ".LL.%ld:\n", i);
 	IGNORE fprintf(dg_file, "\t.stabs\t\"\",0x64,0,0,.LL.%ld\n", i);
 }
+
+static diag_descriptor *
+NEW_DIAG_GLOBAL(diag_descriptor *d)
+{
+	return d;
+}
+
+const struct diag3_driver diag3_driver_stabs = {
+	NEW_DIAG_GLOBAL,
+	stab_typedefs,
+	stab_tagdefs,
+	stab_collect_files
+};
 
