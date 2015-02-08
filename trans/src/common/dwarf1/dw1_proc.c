@@ -46,7 +46,7 @@ out_dwarf_proc_args(diag_type t)
 
 
 void
-diag_proc_begin(diag_descriptor *d_props, int global, int cname, char *pname)
+dw1_diag_proc_begin(diag_descriptor *d_props, int global, int cname, char *pname)
 {
 	UNUSED(cname);
 	UNUSED(pname);
@@ -88,7 +88,7 @@ diag_proc_begin(diag_descriptor *d_props, int global, int cname, char *pname)
 
 
 void
-diag_proc_end(diag_descriptor *d_props)
+dw1_diag_proc_end(diag_descriptor *d_props)
 {
 	if (!d_props) {
 		return;
@@ -102,7 +102,7 @@ diag_proc_end(diag_descriptor *d_props)
 
 
 void
-diag_val_begin(diag_descriptor *d_props, int global, int cname, char *pname)
+dw1_diag_val_begin(diag_descriptor *d_props, int global, int cname, char *pname)
 {
 	UNUSED(d_props);
 	UNUSED(global);
@@ -115,7 +115,7 @@ diag_val_begin(diag_descriptor *d_props, int global, int cname, char *pname)
 
 
 void
-diag_val_end(diag_descriptor *d_props)
+dw1_diag_val_end(diag_descriptor *d_props)
 {
 	UNUSED(d_props);
 

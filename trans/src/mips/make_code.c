@@ -38,6 +38,7 @@
 #include <symtab/syms.h>
 
 #include <diag3/diag_fns.h>
+#include <diag3/diag_reform.h>
 
 #include "addrtypes.h"
 #include "loc_signal.h"
@@ -2311,9 +2312,9 @@ tailrecurse:
       }				/* end result */
 
     case diagnose_tag: {
-    	output_diag(dno(e), 0,e);
+    	diag3_driver->output_diag(dno(e), 0,e);
     	mka = make_code(son(e), sp, dest, exitlab);
-	output_end_scope(dno(e),e);
+	diag3_driver->output_end_scope(dno(e),e);
 	return mka;
     }
 

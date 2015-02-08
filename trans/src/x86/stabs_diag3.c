@@ -239,7 +239,7 @@ stabd(long findex, long lno, int seg)
 /*
  * Output initial diagnostics for a diagnose_tag
  */
-void
+static void
 output_diag(diag_info *d, int proc_no, exp e)
 {
 	if (d->key == DIAG_INFO_SOURCE) {
@@ -270,7 +270,7 @@ output_diag(diag_info *d, int proc_no, exp e)
 /*
  * Output final diagnostics for a diagnose_tag
  */
-void
+static void
 output_end_scope(diag_info *d, exp e)
 {
 	if (d->key == DIAG_INFO_SOURCE) {
@@ -619,7 +619,7 @@ out_dt_shape(diag_type dt)
 /*
  * Output diagnostics for a global variable
  */
-void
+static void
 diag_val_begin(diag_descriptor *d, int global, int cname, char *pname)
 {
 	stabd(find_file(d->data.id.whence.file->file.ints.chars),
@@ -644,7 +644,7 @@ diag_val_begin(diag_descriptor *d, int global, int cname, char *pname)
 	}
 }
 
-void
+static void
 diag_val_end(diag_descriptor *d)
 {
 	UNUSED(d);
@@ -654,7 +654,7 @@ diag_val_end(diag_descriptor *d)
 /*
  * Output diagnostics for a procedure
  */
-void
+static void
 diag_proc_begin(diag_descriptor *d, int global, int cname, char *pname)
 {
 	last_proc_pname = pname;
@@ -680,7 +680,7 @@ diag_proc_begin(diag_descriptor *d, int global, int cname, char *pname)
 	d_outnl();
 }
 
-void
+static void
 diag_proc_end(void)
 {
 	if (del_stab_start != NULL) {
@@ -878,7 +878,7 @@ stab_typedefs(void)
 /*
  * Initialise diagnostics
  */
-void
+static void
 out_diagnose_prelude(void)
 {
 	dg_file = tmpfile();
@@ -920,7 +920,7 @@ init_stab_aux(void)
 	IGNORE fclose(dg_file);
 }
 
-void
+static void
 out_diagnose_postlude(void)
 {
 	long i = next_d_lab();
@@ -936,9 +936,21 @@ NEW_DIAG_GLOBAL(diag_descriptor *d)
 }
 
 const struct diag3_driver diag3_driver_stabs = {
+	out_diagnose_prelude,
+	out_diagnose_postlude,
+
 	NEW_DIAG_GLOBAL,
 	stab_typedefs,
 	stab_tagdefs,
-	stab_collect_files
+	stab_collect_files,
+
+	output_diag,
+	output_end_scope,
+
+	diag_proc_begin,
+	diag_proc_end,
+
+	diag_val_begin,
+	diag_val_end
 };
 

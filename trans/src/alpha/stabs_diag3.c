@@ -248,7 +248,7 @@ again:
   }
 }
 
-void output_diag
+static void output_diag
 (diag_info *d, int proc_no, exp e)
 {
   exp x;
@@ -277,7 +277,7 @@ void output_diag
 }
 
 
-void output_end_scope
+static void output_end_scope
 (diag_info *d, exp e)
 {
   if (d->key == DIAG_INFO_SOURCE) {
@@ -500,9 +500,21 @@ OUTPUT_GLOBALS_TAB(void)
 }
 
 const struct diag3_driver diag3_driver_stabs = {
+	NULL,
+	NULL,
+
 	NEW_DIAG_GLOBAL,
 	OUTPUT_GLOBALS_TAB,
 	OUTPUT_DIAG_TAGS,
-	collect_files
+	collect_files,
+
+	output_diag,
+	output_end_scope,
+
+	NULL,
+	NULL,
+
+	NULL,
+	NULL
 };
 

@@ -136,6 +136,10 @@
 #include "sparctrans.h"
 #include "localexpmacs.h"
 
+#ifndef TDF_DIAG4
+#include <diag3/diag_reform.h>
+#endif
+
 #ifdef TDF_DIAG4
 #include "stabs_diag4.h"
 #else
@@ -287,7 +291,7 @@ init_translator (void)
 #endif
   if (diag != DIAG_NONE) {
 #if DWARF1
-    out_diagnose_prelude () ;
+    diag3_driver->out_diagnose_prelude () ;
 #else
 #ifdef STABS
     init_stab () ;
@@ -332,7 +336,7 @@ exit_translator (void){
 #endif
   if (diag != DIAG_NONE) {
 #if DWARF1
-    out_diagnose_postlude () ;
+    diag3_driver->out_diagnose_postlude () ;
 #else
     /* do nothing */
 #endif

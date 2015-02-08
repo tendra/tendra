@@ -53,7 +53,7 @@ check_filename(sourcemark sm)
   }
 }
 
-void
+static void
 out_diagnose_prelude(void)
 {
   main_filename = (char *)0;
@@ -62,7 +62,7 @@ out_diagnose_prelude(void)
   return;
 }
 
-void
+static void
 out_diagnose_postlude(void)
 {
   return;
@@ -132,7 +132,7 @@ code_diag_info(diag_info *d, int proc_no, void(*mcode)(void *), void *args)
 
 #else
 
-void
+static void
 output_diag(diag_info *d, int proc_no, exp e)
 {
   if (d->key == DIAG_INFO_SOURCE) {
@@ -181,7 +181,7 @@ output_diag(diag_info *d, int proc_no, exp e)
 }
 #endif
 
-void
+static void
 output_end_scope(diag_info *d, exp e)
 {
   if (d -> key == DIAG_INFO_ID && props(e) & 0x80) {
@@ -191,7 +191,7 @@ output_end_scope(diag_info *d, exp e)
   return;
 }
 
-void
+static void
 diag_val_begin(diag_descriptor *d, int global, int cname, char *pname)
 {
   ot typ;
@@ -213,14 +213,14 @@ diag_val_begin(diag_descriptor *d, int global, int cname, char *pname)
   return;
 }
 
-void
+static void
 diag_val_end(diag_descriptor *d)
 {
   UNUSED(d);
   return;
 }
 
-void
+static void
 diag_proc_begin(diag_descriptor *d, int global, int cname, char *pname)
 {
   ot typ;
@@ -250,7 +250,7 @@ diag_proc_begin(diag_descriptor *d, int global, int cname, char *pname)
   return;
 }
 
-void
+static void
 diag_proc_end(diag_descriptor *d)
 {
   if (!d) {
@@ -351,9 +351,21 @@ NEW_DIAG_GLOBAL(diag_descriptor *d)
 }
 
 const struct diag3_driver diag3_driver_cv = {
+	out_diagnose_prelude,
+	out_diagnose_postlude,
+
 	NEW_DIAG_GLOBAL,
 	OUTPUT_GLOBALS_TAB,
 	OUTPUT_DIAG_TAGS,
-	INSPECT_FILENAME
+	INSPECT_FILENAME,
+
+	output_diag,
+	output_end_scope,
+
+	diag_proc_begin,
+	diag_proc_end,
+
+	diag_val_begin,
+	diag_val_end
 };
 

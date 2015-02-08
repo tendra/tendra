@@ -38,7 +38,7 @@
     DIAGNOSTICS INITIALIZATION ROUTINE
 */
 
-void
+static void
 diag_prologue(void)
 {
 	init_diag();
@@ -50,7 +50,7 @@ diag_prologue(void)
     DIAGNOSTICS TERMINATION ROUTINE
 */
 
-void
+static void
 diag_epilogue(void)
 {
 	while (dnt_end()) {
@@ -328,9 +328,22 @@ NEW_DIAG_GLOBAL(diag_descriptor *d)
 }
 
 const struct diag3_driver diag3_driver_stabs = {
+	diag_prologue,
+	diag_epilogue,
+
 	NEW_DIAG_GLOBAL,
 	OUTPUT_GLOBALS_TAB,
 	OUTPUT_DIAG_TAGS,
-	INSPECT_FILENAME
+	INSPECT_FILENAME,
+
+	/* TODO: adjust functions here to diag3_driver API */
+	NULL,
+	NULL,
+
+	NULL,
+	NULL,
+
+	NULL,
+	NULL
 };
 

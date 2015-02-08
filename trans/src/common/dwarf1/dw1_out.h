@@ -26,8 +26,8 @@ extern void new_dwarf_blk2(void);
 extern void new_dwarf_blk4(void);
 extern void leave_dwarf_blk1(int leave);
 
-extern void out_diagnose_prelude(void);
-extern void out_diagnose_postlude(void);
+extern void dw1_out_diagnose_prelude(void);
+extern void dw1_out_diagnose_postlude(void);
 
 extern void enter_dwarf_comp_unit(void);
 extern void leave_dwarf_comp_unit(void);

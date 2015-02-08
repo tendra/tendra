@@ -45,6 +45,7 @@
 #include <diag4/diag_fns.h>
 #else
 #include <diag3/diag_fns.h>
+#include <diag3/diag_reform.h>
 #endif
 
 #ifdef DWARF2
@@ -222,7 +223,7 @@ cleanup(void)
 #endif
 			if (diag != DIAG_NONE) {
 #ifdef STABS
-				out_diagnose_postlude();
+				diag3_driver->out_diagnose_postlude();
 #endif
 			}
 

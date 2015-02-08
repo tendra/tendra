@@ -66,6 +66,10 @@
 #include "new_tags.h"
 #include "localexpmacs.h"
 
+#ifndef TDF_DIAG4
+#include <diag3/diag_reform.h>
+#endif
+
 #ifdef TDF_DIAG4
 #include "stabs_diag4.h"
 #else
@@ -1217,13 +1221,13 @@ make_code ( exp e, space sp, where dest, int exitlab )
       /* Diagnostics */
       diag_info *d = dno ( e ) ;
 #if DWARF1
-      output_diag ( d, 0, e ) ;
+      diag3_driver->output_diag ( d, 0, e ) ;
       mka = make_code ( son ( e ), sp, dest, exitlab ) ;
-      output_end_scope ( d, e ) ;
+      diag3_driver->output_end_scope ( d, e ) ;
 #else
-      stab_begin ( d, 0, e ) ;
+      diag3_driver->output_diag ( d, 0, e ) ;
       mka = make_code ( son ( e ), sp, dest, exitlab ) ;
-      stab_end ( d, e ) ;
+      diag3_driver->output_end_scope ( d, e ) ;
 #endif
       return mka;
     }

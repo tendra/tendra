@@ -301,7 +301,7 @@ static dwarf_label text_range;
 static dwarf_label line_range;
 
 void
-out_diagnose_prelude(void)
+dw1_out_diagnose_prelude(void)
 {
 	char exprbuf[100];
 
@@ -328,7 +328,7 @@ out_diagnose_prelude(void)
 
 
 void
-out_diagnose_postlude(void)
+dw1_out_diagnose_postlude(void)
 {
 	char exprbuf[100];
 

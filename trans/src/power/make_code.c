@@ -29,6 +29,7 @@
 #include <main/flags.h>
 
 #include <diag3/diag_fns.h>
+#include <diag3/diag_reform.h>
 
 #include <refactor/optimise.h>
 
@@ -1817,9 +1818,9 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 
    case diagnose_tag:
     {
-      output_diag(dno(e), 0, e);
+      diag3_driver->output_diag(dno(e), 0, e);
       mka = make_code(son(e), sp, dest, exitlab);
-      output_end_scope(dno(e), e);
+      diag3_driver->output_end_scope(dno(e), e);
       return mka;
     }
 

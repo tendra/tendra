@@ -37,6 +37,7 @@
 #include <diag4/diag_fns.h>
 #else
 #include <diag3/diag_fns.h>
+#include <diag3/diag_reform.h>
 #endif
 
 #include <refactor/optimise.h>
@@ -269,7 +270,7 @@ static void code_def
 #endif
 		}
 #ifndef TDF_DIAG4
-           diag_val_begin(diag_props, is_ext, -1, id);
+           diag3_driver->diag_val_begin(diag_props, is_ext, -1, id);
 #endif
 	 if (name(son(tg)) == clear_tag && no(son(tg)) == -1) {
 				/* prom global data */
@@ -292,7 +293,7 @@ static void code_def
          if (diag_props) {
 #ifndef DWARF2
 #ifndef TDF_DIAG4
-           diag_val_end(diag_props);
+           diag3_driver->diag_val_end(diag_props);
 #endif
 #endif
 	 }
@@ -436,7 +437,7 @@ void translate_capsule
 #endif
         if (diag != DIAG_NONE) {
 #ifdef STABS
-            out_diagnose_prelude();
+            diag3_driver->out_diagnose_prelude();
 #endif
         }
 

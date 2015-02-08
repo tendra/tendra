@@ -223,7 +223,7 @@ stabd(long findex, long lno, int seg)
 /*
  * Output initial diagnostics for a diagnose_tag
  */
-void
+static void
 stab_begin(diag_info * d, int proc_no, exp e)
 {
 	exp x;
@@ -263,7 +263,7 @@ stab_begin(diag_info * d, int proc_no, exp e)
 /*
  * Output final diagnostics for a diagnose_tag
  */
-void
+static void
 stab_end(diag_info * d, exp e)
 {
 	if (d->key == DIAG_INFO_SOURCE) {
@@ -940,9 +940,22 @@ NEW_DIAG_GLOBAL(diag_descriptor *d)
 }
 
 const struct diag3_driver diag3_driver_stabs = {
+	NULL,
+	NULL,
+
 	NEW_DIAG_GLOBAL,
 	stab_typedefs,
 	stab_tagdefs,
-	stab_collect_files
+	stab_collect_files,
+
+	stab_begin,
+	stab_end,
+
+	/* TODO: adjust functions here to diag3_driver API */
+	NULL,
+	NULL,
+
+	NULL,
+	NULL
 };
 

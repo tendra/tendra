@@ -13,8 +13,6 @@
 #include <diag3/dg_first.h>
 #include <diag3/diaginfo.h>
 
-extern void diag_prologue(void);
-extern void diag_epilogue(void);
 extern void diag_start(diag_info *, exp);
 extern void diag_end(diag_info *, exp);
 extern void xdb_diag_proc_begin(diag_descriptor *, exp, char *, long, int);

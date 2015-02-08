@@ -194,7 +194,7 @@ code_diag_info(diag_info *d, int proc_no, void(*mcode)(void *), void *args)
 #else
 
 void
-output_diag(diag_info *d, int proc_no, exp e)
+dw1_output_diag(diag_info *d, int proc_no, exp e)
 {
 	if (d->key == DIAG_INFO_SOURCE) {
 		out_dwarf_sourcemark(&(d->data.source.beg));
@@ -291,7 +291,7 @@ output_diag(diag_info *d, int proc_no, exp e)
 
 
 void
-output_end_scope(diag_info *d, exp e)
+dw1_output_end_scope(diag_info *d, exp e)
 {
 	char expr_buf[100];
 

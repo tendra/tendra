@@ -23,6 +23,8 @@
 
 #include <refactor/optimise.h>
 
+#include <diag3/diag_reform.h>
+
 #include "instrs.h"
 #include "evaluate.h"
 #include "mach.h"
@@ -172,7 +174,7 @@ translate_capsule(void)
     area(ptext);
 
     if (diag != DIAG_NONE) {
-        diag_prologue();
+        diag3_driver->out_diagnose_prelude();
     }
 
 

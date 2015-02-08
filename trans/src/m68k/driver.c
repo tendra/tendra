@@ -24,6 +24,8 @@
 #include <construct/installglob.h>
 #include <construct/exp.h>
 
+#include <diag3/diag_reform.h>
+
 #include <main/flags.h>
 #include <main/driver.h>
 
@@ -178,7 +180,7 @@ static void
 cleanup(void)
 {
 	if (diag != DIAG_NONE) {
-		diag_epilogue();
+		diag3_driver->out_diagnose_postlude();
 	}
 
 #ifdef asm_version

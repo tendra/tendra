@@ -2345,9 +2345,21 @@ NEW_DIAG_GLOBAL(diag_descriptor *d)
 }
 
 const struct diag3_driver diag3_driver_stabs = {
+	NULL,
+	NULL,
+
 	NEW_DIAG_GLOBAL,
 	stab_typedefs,
 	stab_tagdefs,
-	stab_collect_files
+	stab_collect_files,
+
+	NULL,
+	NULL,
+
+	NULL,
+	NULL,
+
+	NULL,
+	NULL
 };
 

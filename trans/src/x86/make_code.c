@@ -72,6 +72,7 @@
 #else
 #include <diag3/diag_fns.h>
 #include <diag3/diaginfo1.h>
+#include <diag3/diag_reform.h>
 #endif
 
 #ifdef DWARF2
@@ -2248,9 +2249,9 @@ void make_code
 	  crt_charno = natint(d -> data.source.beg.char_off);
 	  crt_flnm = d -> data.source.beg.file->file.ints.chars;
 	};
-        output_diag(d, crt_proc_id, e);
+        diag3_driver->output_diag(d, crt_proc_id, e);
         make_code(dest, stack, son(e));
-        output_end_scope(d, e);
+        diag3_driver->output_end_scope(d, e);
         return;
       };
 #endif

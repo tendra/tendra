@@ -31,6 +31,7 @@
 #include <diag4/diag_fns.h>
 #else
 #include <diag3/diag_fns.h>
+#include <diag3/diag_reform.h>
 #endif
 
 #include "localtypes.h"
@@ -599,7 +600,7 @@ void evaluate
 #endif
 	}
 #ifndef TDF_DIAG4
-    diag_val_begin(diag_props, global, cname, s);
+    diag3_driver->diag_val_begin(diag_props, global, cname, s);
 #endif
 
   if (cname == -1) {
@@ -623,7 +624,7 @@ void evaluate
   if (diag_props) {
 #ifndef DWARF2
 #ifndef TDF_DIAG4
-    diag_val_end(diag_props);
+    diag3_driver->diag_val_end(diag_props);
 #endif
 #endif
   }

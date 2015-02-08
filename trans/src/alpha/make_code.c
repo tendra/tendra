@@ -44,6 +44,7 @@
 #include <main/flags.h>
 
 #include <diag3/diag_fns.h>
+#include <diag3/diag_reform.h>
 
 #include <symtab/syms.h>
 
@@ -3439,10 +3440,10 @@ tailrecurse:
     }				/* end result */
 
     case diagnose_tag: {
-      output_diag(dno(e),0,e);
+      diag3_driver->output_diag(dno(e),0,e);
 /*      output_symbolic_diagnostic(as_file,dno(e));*/
       mka = make_code(son(e), sp, dest, exitlab);
-      output_end_scope(dno(e),e);
+      diag3_driver->output_end_scope(dno(e),e);
       return mka;
     }
     case solve_tag: {

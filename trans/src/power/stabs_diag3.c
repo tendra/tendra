@@ -560,7 +560,7 @@ void fixup_name(exp global, dec * top_def, dec * crt_def)
 /*
  * output_diag - used by make_code() to implement "diagnose_tag".
  */
-void output_diag(diag_info * d, int proc_no, exp e)
+static void output_diag(diag_info * d, int proc_no, exp e)
 {
   exp id;
 
@@ -628,7 +628,7 @@ void output_diag(diag_info * d, int proc_no, exp e)
 /*
  * output_end_scope - used by make_code() to make end of diagnose_tag scope.
  */
-void output_end_scope(diag_info * d, exp e)
+static void output_end_scope(diag_info * d, exp e)
 {
   FULLCOMMENT1("output_end_scope key=%d", d->key);
   if (d->key == DIAG_INFO_SOURCE)
@@ -1948,9 +1948,22 @@ NEW_DIAG_GLOBAL(diag_descriptor *d)
 }
 
 const struct diag3_driver diag3_driver_stabs = {
+	NULL,
+	NULL,
+
 	NEW_DIAG_GLOBAL,
 	OUTPUT_GLOBALS_TAB,
 	OUTPUT_DIAG_TAGS,
-	INSPECT_FILENAME
+	INSPECT_FILENAME,
+
+	output_diag,
+	output_end_scope,
+
+	/* TODO: adjust functions here to diag3_driver API */
+	NULL,
+	NULL,
+
+	NULL,
+	NULL
 };
 
