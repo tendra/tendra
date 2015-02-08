@@ -18,6 +18,7 @@
 #else
 #include <diag3/dg_first.h>
 #include <diag3/diaginfo.h>
+#include <diag3/diagtypes1.h>
 #endif
 
 struct dec_t;

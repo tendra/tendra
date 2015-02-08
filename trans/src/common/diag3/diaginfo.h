@@ -10,8 +10,6 @@
 #ifndef diaginfo_key
 #define diaginfo_key 1
 
-#include "diagtypes1.h"	/* gets diag_descriptor */
-
 typedef struct diag_info_t diag_info; /* let's break a type cycle */
 
 #endif
