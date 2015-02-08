@@ -19,12 +19,16 @@ TRANS_CFLAGS+=	-I ${BASE_DIR}/src/common
 TRANS_CFLAGS+=	-I ${BASE_DIR}/src/alpha
 
 
-TRANS_DEBUG?= stabs
+TRANS_DEBUG?= diag3
 
 # TODO: these are not yet selectable at runtime
-.if "${TRANS_DEBUG}" == "stabs"
+.if "${TRANS_DEBUG}" == "diag3"
+
+TRANS_CFLAGS+= -D TDF_DIAG3
 
 PARTS+= src/common/diag3
+
+TRANS_CFLAGS+= -D DIAG3_STABS
 
 SRCS+= stabs_diag3.c
 

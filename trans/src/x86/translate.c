@@ -347,7 +347,7 @@ void translate_capsule
 {
   dec * my_def;
 
-#ifdef STABS
+#ifdef TDF_DIAG3
   if (diag == DIAG_STABS)
     init_stab_aux();
 #endif
@@ -430,16 +430,19 @@ void translate_capsule
     const_list = NULL;
 
 
+    switch (diag) {
+    case DIAG_DWARF2:
 #ifdef DWARF2
-    if (diag == DIAG_DWARF2)
         init_dwarf2();
-    else
 #endif
-        if (diag != DIAG_NONE) {
-#ifdef STABS
-            diag3_driver->out_diagnose_prelude();
+        break;
+
+    case DIAG_STABS:
+#ifdef TDF_DIAG3
+        diag3_driver->out_diagnose_prelude();
 #endif
-        }
+        break;
+    }
 
 #ifdef DWARF2
     if (diag == DIAG_DWARF2) {

@@ -12,14 +12,19 @@ TRANS_CFLAGS+=	-I ${BASE_DIR}/src/sparc
 TRANS_CFLAGS+=	-I ${BASE_DIR}/src/common
 
 
-TRANS_DEBUG?= dwarf1
+TRANS_DEBUG?= diag3
 
 # TODO: these are not yet selectable at runtime
-.if "${TRANS_DEBUG}" == "stabs"
+.if "${TRANS_DEBUG}" == "diag3"
 
-TRANS_CFLAGS+= -D STABS
+TRANS_CFLAGS+= -D TDF_DIAG3
 
 PARTS+= src/common/diag3
+
+TRANS_CFLAGS+= -D DIAG3_STABS
+TRANS_CFLAGS+= -D DIAG3_DWARF1
+
+PARTS+=	src/common/dwarf1
 
 SRCS+= stabs_diag3.c
 
@@ -31,13 +36,6 @@ TRANS_CFLAGS+= -D TDF_DIAG4
 PARTS+= src/common/diag4
 
 SRCS+= stabs_diag4.c
-
-.elif "${TRANS_DEBUG}" == "dwarf1"
-
-TRANS_CFLAGS+= -D DWARF1
-
-PARTS+=	src/common/dwarf1
-PARTS+= src/common/diag3
 
 .elif "${TRANS_DEBUG}" == "dwarf2"
 

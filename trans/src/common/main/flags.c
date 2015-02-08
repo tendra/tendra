@@ -376,11 +376,11 @@ switch_diag(const char *s, unsigned permitted)
 		enum diag diag;
 	} a[] = {
 		{ "none",    NULL,                DIAG_NONE    },
-#ifndef TDF_DIAG4
-#ifdef CODEVIEW
+#ifdef TDF_DIAG3
+#ifdef DIAG3_CODEVIEW
 		{ "cv",      &diag3_driver_cv,    DIAG_CV      },
 #endif
-#ifdef STABS
+#ifdef DIAG3_STABS
 		{ "gdb",     &diag3_driver_stabs, DIAG_GDB     }, /* TODO: name per its specific format */
 		{ "xdb",     &diag3_driver_stabs, DIAG_XDB     }, /* TODO: name per its specific format */
 		{ "stabs",   &diag3_driver_stabs, DIAG_STABS   },
@@ -388,7 +388,7 @@ switch_diag(const char *s, unsigned permitted)
 		{ "xdb_old", &diag3_driver_stabs, DIAG_XDB_OLD },
 		{ "xdb_new", &diag3_driver_stabs, DIAG_XDB_NEW },
 #endif
-#ifdef DWARF1
+#ifdef DIAG3_DWARF1
 		{ "dwarf",   &diag3_driver_dw1,   DIAG_DWARF   },
 #endif
 #endif
@@ -414,7 +414,7 @@ switch_diag(const char *s, unsigned permitted)
 		return -1;
 	}
 
-#ifndef TDF_DIAG4
+#ifdef TDF_DIAG3
 	diag3_driver = a[i].driver;
 	if (diag3_driver == NULL) {
 		error(ERROR_FATAL, "Diagnostic format %s has no driver", s);

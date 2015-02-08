@@ -284,19 +284,24 @@ init_translator (void)
 
 
   /* start diagnostics if necessary */
+  switch (diag) {
+  case DIAG_DWARF2:
 #ifdef DWARF2
-  if (diag == DIAG_DWARF2)
     init_dwarf2 ();
-  else
 #endif
-  if (diag != DIAG_NONE) {
-#if DWARF1
+    break;
+
+  case DIAG_DWARF:
+#if DIAG3_DWARF1
     diag3_driver->out_diagnose_prelude () ;
-#else
-#ifdef STABS
+#endif
+    break;
+
+  case DIAG_STABS:
+#if DIAG3_STABS
     init_stab () ;
 #endif
-#endif
+    break;
   }
     /* start in text section */
   insection ( text_section ) ;
@@ -335,7 +340,7 @@ exit_translator (void){
   else
 #endif
   if (diag != DIAG_NONE) {
-#if DWARF1
+#ifdef TDF_DIAG3
     diag3_driver->out_diagnose_postlude () ;
 #else
     /* do nothing */
@@ -358,20 +363,17 @@ translate_capsule (void){
   space tempregs ;
   
   /* initialize diagnostics */
-#ifdef DWARF2
-  if ( diag != DIAG_NONE && diag != DIAG_DWARF2 ) {
-#else
-  if ( diag != DIAG_NONE ) {
-#endif
-#if DWARF1
-    /* do nothing */
-#else
-#ifdef STABS
-    init_stab_aux () ;
-#endif
-#endif
-  }
+  switch (diag) {
+  case DIAG_DWARF:
+      /* do nothing */
+      break;
 
+  case DIAG_STABS:
+#if DIAG3_STABS
+      init_stab_aux () ;
+#endif
+      break;
+  }
 
   /* apply all optimisations */
 #ifdef TDF_DIAG4
@@ -617,8 +619,8 @@ translate_capsule (void){
 #endif
 	if ( isvar ( tg ) ) symdef = -symdef ;
 	if ( diag_props ) {
-		if (diag != DIAG_DWARF2) {
-#ifdef STABS
+		if (diag == DIAG_STABS) {
+#ifdef DIAG3_STABS
 			stab_global(diag_props, stg, id, extnamed);
 #endif
 		}
@@ -707,16 +709,18 @@ translate_capsule (void){
 		if ( p & long_result_bit ) outs ( "!\tstruct result\n" ) ;
 	}
 
-	if ( diag != DIAG_NONE ) {
+	switch (diag) {
+    case DIAG_DWARF2:
 #if DWARF2
-		if (diag == DIAG_DWARF2) {
-			dw2_proc_start(stg, diag_props);
-		}
-#else
-#ifdef STABS
+		dw2_proc_start(stg, diag_props);
+#endif
+		break;
+
+	case DIAG_STABS:
+#ifdef DIAG3_STABS
 		stab_proc(diag_props, stg, id, extnamed);
 #endif
-#endif
+		break;
 	}
 	if ( optim_level >= 0 ) {
 	  /* .optim must go after .proc */
@@ -756,27 +760,31 @@ translate_capsule (void){
 		  outnl () ;
 		}
 	}
-	if ( diag != DIAG_NONE ) {
+	switch ( diag ) {
+	case DIAG_DWARF2:
 #ifdef DWARF2
-		if (diag == DIAG_DWARF2) {
-			dw2_proc_end(stg);
-		}
-#else
-#ifdef STABS
+		dw2_proc_end(stg);
+#endif
+		break;
+
+	case DIAG_STABS:
+#ifdef DIAG3_STABS
 		stab_proc_end();
 #endif
-#endif
+		break;
 	}
       }
     } 
   }	
 
 
+  switch (diag) {
+  case DIAG_DWARF2:
 #ifdef DWARF2
-  if (diag == DIAG_DWARF2) {
     dwarf2_postlude ();
-  }
 #endif
+    break;
+  }
   return ;
 }
 

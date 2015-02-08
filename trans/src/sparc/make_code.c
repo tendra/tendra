@@ -1220,11 +1220,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
     case diagnose_tag : {
       /* Diagnostics */
       diag_info *d = dno ( e ) ;
-#if DWARF1
-      diag3_driver->output_diag ( d, 0, e ) ;
-      mka = make_code ( son ( e ), sp, dest, exitlab ) ;
-      diag3_driver->output_end_scope ( d, e ) ;
-#else
+#ifdef TDF_DIAG3
       diag3_driver->output_diag ( d, 0, e ) ;
       mka = make_code ( son ( e ), sp, dest, exitlab ) ;
       diag3_driver->output_end_scope ( d, e ) ;

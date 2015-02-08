@@ -11,7 +11,9 @@
 #ifdef TDF_DIAG4
 #include <diag4/version.h>
 #endif
+#ifdef TDF_DIAG3
 #include <dwarf1/dw1_version.h>
+#endif
 #include <dwarf2/dw2_version.h>
 
 #include <shared/error.h>
@@ -27,7 +29,7 @@ trans_version(void)
 		int minor;
 		const char *spec;
 	} a[] = {
-#if (DWARF == 1)
+#ifdef TDF_DIAG3
 		{ "DWARF1",    DWARF1_MAJOR,      DWARF1_MINOR,       NULL         },
 #endif
 #ifdef DWARF2

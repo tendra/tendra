@@ -12,9 +12,7 @@
 
 #include "diagtypes1.h"
 
-#ifdef DWARF1
 #include <dwarf1/dw1_types.h>
-#endif
 
 struct filename_t {
 	nat		date;
@@ -101,9 +99,7 @@ typedef enum {
 
 struct diag_type_t {
 	diag_type_key	key;
-#if DWARF1
-	dwarf_type_label *dw1_been_outed;
-#endif
+	dwarf_type_label *dw1_been_outed; /* only used for DWARF1 */
 #if defined(TRANS_X86) || defined(TRANS_HPPA) || defined(TRANS_SPARC)
 	long been_outed;
 #else
@@ -164,9 +160,7 @@ typedef enum {
 typedef struct diagdef_t {
 	diag_desc_key 	key;
 	char		*ext_name;
-#ifdef DWARF1
-	dwarf_label lab;
-#endif
+	dwarf_label lab; /* only used for DWARF1 */
 	union {
 		struct {
 			tdfstring 	nme;
