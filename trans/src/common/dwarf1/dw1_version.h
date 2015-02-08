@@ -7,5 +7,5 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#define DWARF_MAJOR	1
-#define DWARF_MINOR	10
+#define DWARF1_MAJOR	1
+#define DWARF1_MINOR	10
