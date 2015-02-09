@@ -31,29 +31,38 @@
 
 bool
 special_fn(exp a1, exp a2, shape s, exp *e)
-{				/* look for special functions */
-  dec* dp = brog (son (a1));
-  char *id = dp -> dec_u.dec_val.dec_id;
-  if (id == NULL)
-    return 0;
-  /*
-   * At present the detection of special cases is done on the identifiers,
-   * but it really ought to be on special tokens, as for diagnostics.
-   */
-  if (builtin & BUILTIN_LONGJMP) {
-    if (!strcmp (id, "setjmp"))
-      has_setjmp = 1;
-  }
-  if (builtin & BUILTIN_ALLOCA) {
-    if (a2 != NULL && last(a2) && ( (do_alloca && !strcmp (id, "alloca"))
-    			 || !strcmp (id, "__builtin_alloca"))) {
-      exp r = getexp (s, NULL, 0, a2, NULL, 0, 0, alloca_tag);
-      setfather(r, son(r));
-      has_alloca = 1;
-      *e = r;
-      kill_exp (a1, a1);
-      return 1;
-    };
-  }
-  return 0;
+{
+	dec* dp = brog (son (a1));
+	char *id = dp->dec_u.dec_val.dec_id;
+
+	if (id == NULL) {
+		return 0;
+	}
+
+	/*
+	 * At present the detection of special cases is done on the identifiers,
+	 * but it really ought to be on special tokens, as for diagnostics.
+	 */
+
+	if (builtin & BUILTIN_LONGJMP) {
+		if (!strcmp (id, "setjmp")) {
+			has_setjmp = 1;
+		}
+	}
+
+	if (builtin & BUILTIN_ALLOCA) {
+		if (a2 != NULL && last(a2) && ((do_alloca && !strcmp (id, "alloca"))
+		                                || !strcmp (id, "__builtin_alloca")))
+		{
+			exp r = getexp (s, NULL, 0, a2, NULL, 0, 0, alloca_tag);
+			setfather(r, son(r));
+			has_alloca = 1;
+			*e = r;
+			kill_exp (a1, a1);
+			return 1;
+		}
+	}
+
+	return 0;
 }
+

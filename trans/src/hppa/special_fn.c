@@ -19,7 +19,7 @@
 bool
 special_fn(exp a1, exp a2, shape s, exp *e)
 {
-  /* +++ implement special fns handling */
-  return 0;
+	/* +++ implement special fns handling */
+	return 0;
 }
 

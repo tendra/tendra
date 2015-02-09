@@ -36,201 +36,209 @@
 
 #include <refactor/refactor.h>
 
-
-/* intercepts specially defined tokens */
-
 int
 special_token(tokval *tkv, token t, bitstream pars, int sortcode)
 {
-  UNUSED(sortcode);
+	UNUSED(sortcode);
 
-  if (t -> tok_name == NULL) {
-    return 0;
+	if (t -> tok_name == NULL) {
+		return 0;
 
-  };
+	}
 
-  if (builtin & BUILTIN_VARARG) {
-    if (!strcmp(t -> tok_name,"ansi.stdarg.__va_start")) {
-  	exp arg1;
-  	exp id;
-  	exp env_o;
-  	place old_place;
-  	old_place = keep_place();
-  	set_place(pars);
-  	arg1 = hold_refactor(d_exp());
-  	set_place(old_place);
-  	if (name(arg1) != name_tag) error(ERROR_INTERNAL, "Not a tag in va_start");
-  	id = son(arg1);
-  
-  	env_o = getexp(f_offset(frame_alignment, f_alignment(sh(arg1))),
-  			NULL, 0, id, NULL, 0, 0, env_offset_tag);
-  	setvis(id);
-  	setenvoff(id);
-  	tkv->tk_exp = hold_refactor(f_add_to_ptr(f_add_to_ptr(f_current_env(), env_o),f_shape_offset(sh(arg1))));
-  	kill_exp(arg1,arg1);
-  	return 1;
-    }
-  }
+	if (builtin & BUILTIN_VARARG) {
+		if (!strcmp(t -> tok_name,"ansi.stdarg.__va_start")) {
+			exp arg1;
+			exp id;
+			exp env_o;
+			place old_place;
+			old_place = keep_place();
+			set_place(pars);
+			arg1 = hold_refactor(d_exp());
+			set_place(old_place);
 
-  /* TODO: BUILTIN_? */ {
-    if (!strcmp(t -> tok_name,"__trans_next_caller_offset")) {
-        exp arg1, arg2;
-        shape sha1, sha2, sha3;
-        place old_place;
-        old_place = keep_place();
-        set_place(pars);
-        arg1 = hold_refactor(d_exp());
-        sha1 = d_shape();
-        sha2 = d_shape();
-        set_place(old_place);
-        sha3 = (shape_size(sha2)>64 ? f_pointer(f_alignment(sha2)) :
-  				    (shape_size(sha2)<32 ? swordsh : sha2));
-        arg2 = hold_refactor(f_offset_pad(f_parameter_alignment(sha3),
-  				     f_shape_offset(sha3)));
-        if ((shape_size(sha1)<=32 || shape_size(sha1)>64) &&                              shape_size(sha3)==64)
-        {
-  	 arg1 = hold_refactor(f_offset_pad(f_parameter_alignment(realsh),arg1));
-        }
-        tkv->tk_exp = hold_refactor(me_b3(f_offset(al1_of(sh(arg1)),
-  				             al2_of(sh(arg2))),
-  				    arg1,arg2,offset_subtract_tag));
-  
-        if (shape_size(sha2)>64)
-        { 
-  	 al2_of(sh(tkv->tk_exp))->al.sh_hd = nofhd+1;
-        }
-  
-        return 1;
-    }
-  
-    if (!strcmp(t -> tok_name,"__trans_next_callee_offset")) {
-        exp arg1, arg2, off;
-        shape sha1, sha2;
-        place old_place;
-        old_place = keep_place();
-        set_place(pars);
-        arg1 = hold_refactor(d_exp());
-        sha1 = d_shape();
-        sha2 = d_shape();
-        set_place(old_place);
-        arg2 = hold_refactor(f_offset_pad(f_parameter_alignment(sha1),
-  				     f_shape_offset(sha1)));
-        off = hold_refactor(me_b3(f_offset(al1_of(sh(arg1)),
-  				      al2_of(sh(arg2))),
-  			     arg1,arg2,offset_add_tag));
-        if (shape_align(sha1) < shape_align(sha2))
-        {
-  	 tkv->tk_exp = hold_refactor(f_offset_pad(f_parameter_alignment(sha2),off));
-        }
-        else
-        {
-  	 tkv->tk_exp = off;
-        }
-        return 1;
-    }
-  }
+			if (name(arg1) != name_tag) {
+				error(ERROR_INTERNAL, "Not a tag in va_start");
+			}
 
-  if (builtin & BUILTIN_ALLOCA) {
-    if (!strcmp(t -> tok_name,"~alloc_size")) {
-        exp off,off1,arg1;
-        place old_place;
-        old_place = keep_place();
-        set_place(pars);
-        arg1 = hold_refactor(d_exp());
-        set_place(old_place);
-        off1 = hold_refactor(f_offset_pad(SLONG_ALIGN,arg1));
-        off = hold_refactor(me_b3(f_offset(al1_of(sh(off1)),
-  				      SLONG_ALIGN),
-  			     off1,f_shape_offset(slongsh),offset_add_tag));
-        tkv->tk_exp = hold_refactor(f_offset_pad(const_al512,off));
-        return 1;
-    }
-  
-    if (!strcmp(t -> tok_name, "~alloca"))  {
-        exp arg1;
-        place old_place;
-        old_place = keep_place();
-        set_place(pars);
-        arg1 = hold_refactor(d_exp());
-        set_place(old_place);
-        tkv->tk_exp = hold_refactor(me_u3(f_pointer(long_to_al(8)),
-  			   arg1, alloca_tag));
-        has_alloca = 1;
-        return 1;
-    };
-  }
+			id = son(arg1);
 
-  if (builtin & BUILTIN_DIAG) {
-    if (!strcmp(t -> tok_name, "~exp_to_source") ||
-        !strcmp(t -> tok_name, "~diag_id_scope") ||
-        !strcmp(t -> tok_name, "~diag_type_scope") ||
-        !strcmp(t -> tok_name, "~diag_tag_scope"))  {
-  
-        place old_place;
-        old_place = keep_place();
-        set_place(pars);
-        tkv->tk_exp = hold_refactor(d_exp());
-  
-        if (diag == DIAG_NONE)
-  	{
-  	  set_place(old_place);
-  	  return 1;
-  	};
-  
-       if (!strcmp(t -> tok_name, "~exp_to_source"))
-         {exp r;
-  	diag_info * di = read_exp_to_source();
-  	crt_lno = natint(di -> data.source.end.line_no);
-  	crt_charno = natint(di -> data.source.end.char_off);
-  	crt_flnm = di -> data.source.beg.file->file.ints.chars;
-  	r = getexp(sh(tkv->tk_exp), NULL, 0, tkv->tk_exp, NULL,
-  		   1, 0, diagnose_tag);
-  	setfather(r, tkv->tk_exp);
-  	dno(r) = di;
-  	tkv->tk_exp = r;
-  	set_place(old_place);
-  	return 1;
-         };
-  
-       if (!strcmp(t -> tok_name, "~diag_id_scope"))
-         {exp r;
-  	diag_info * di = read_diag_id_scope();
-  	r = getexp(sh(tkv->tk_exp), NULL, 0, tkv->tk_exp, NULL,
-  		   2, 0, diagnose_tag);
-  	setfather(r, tkv->tk_exp);
-  	dno(r) = di;
-  	tkv->tk_exp = r;
-  	set_place(old_place);
-  	return 1;
-         };
-  
-       if (!strcmp(t -> tok_name, "~diag_type_scope"))
-         {exp r;
-  	diag_info * di = read_diag_type_scope();
-  	r = getexp(sh(tkv->tk_exp), NULL, 0, tkv->tk_exp, NULL,
-  		   3, 0, diagnose_tag);
-  	setfather(r, tkv->tk_exp);
-  	dno(r) = di;
-  	tkv->tk_exp = r;
-  	set_place(old_place);
-  	return 1;
-         };
-  
-       if (!strcmp(t -> tok_name, "~diag_tag_scope"))
-         {exp r;
-  	diag_info * di = read_diag_tag_scope();
-  	r = getexp(sh(tkv->tk_exp), NULL, 0, tkv->tk_exp, NULL,
-  		   4, 0, diagnose_tag);
-  	setfather(r, tkv->tk_exp);
-  	dno(r) = di;
-  	tkv->tk_exp = r;
-  	set_place(old_place);
-  	return 1;
-         };
-    };
-  }
+			env_o = getexp(f_offset(frame_alignment, f_alignment(sh(arg1))),
+			               NULL, 0, id, NULL, 0, 0, env_offset_tag);
+			setvis(id);
+			setenvoff(id);
+			tkv->tk_exp = hold_refactor(f_add_to_ptr(f_add_to_ptr(f_current_env(), env_o),f_shape_offset(sh(arg1))));
+			kill_exp(arg1,arg1);
+			return 1;
+		}
+	}
 
-  return 0;
+	/* TODO: BUILTIN_? */ {
+		if (!strcmp(t -> tok_name,"__trans_next_caller_offset")) {
+			exp arg1, arg2;
+			shape sha1, sha2, sha3;
+			place old_place;
+
+			old_place = keep_place();
+			set_place(pars);
+			arg1 = hold_refactor(d_exp());
+			sha1 = d_shape();
+			sha2 = d_shape();
+			set_place(old_place);
+
+			sha3 = (shape_size(sha2)>64 ? f_pointer(f_alignment(sha2)) :
+			        (shape_size(sha2)<32 ? swordsh : sha2));
+			arg2 = hold_refactor(f_offset_pad(f_parameter_alignment(sha3),
+			                                  f_shape_offset(sha3)));
+
+			if ((shape_size(sha1)<=32 || shape_size(sha1)>64) &&                              shape_size(sha3)==64) {
+				arg1 = hold_refactor(f_offset_pad(f_parameter_alignment(realsh),arg1));
+			}
+			tkv->tk_exp = hold_refactor(me_b3(f_offset(al1_of(sh(arg1)),
+			                                  al2_of(sh(arg2))),
+			                                  arg1,arg2,offset_subtract_tag));
+
+			if (shape_size(sha2)>64) {
+				al2_of(sh(tkv->tk_exp))->al.sh_hd = nofhd+1;
+			}
+
+			return 1;
+		}
+
+		if (!strcmp(t -> tok_name,"__trans_next_callee_offset")) {
+			exp arg1, arg2, off;
+			shape sha1, sha2;
+			place old_place;
+
+			old_place = keep_place();
+			set_place(pars);
+			arg1 = hold_refactor(d_exp());
+			sha1 = d_shape();
+			sha2 = d_shape();
+			set_place(old_place);
+
+			arg2 = hold_refactor(f_offset_pad(f_parameter_alignment(sha1),
+			                                  f_shape_offset(sha1)));
+			off = hold_refactor(me_b3(f_offset(al1_of(sh(arg1)),
+			                                   al2_of(sh(arg2))),
+			                          arg1,arg2,offset_add_tag));
+
+			if (shape_align(sha1) < shape_align(sha2)) {
+				tkv->tk_exp = hold_refactor(f_offset_pad(f_parameter_alignment(sha2),off));
+			} else {
+				tkv->tk_exp = off;
+			}
+			return 1;
+		}
+	}
+
+	if (builtin & BUILTIN_ALLOCA) {
+		if (!strcmp(t -> tok_name,"~alloc_size")) {
+			exp off,off1,arg1;
+			place old_place;
+			old_place = keep_place();
+			set_place(pars);
+			arg1 = hold_refactor(d_exp());
+			set_place(old_place);
+
+			off1 = hold_refactor(f_offset_pad(SLONG_ALIGN,arg1));
+			off = hold_refactor(me_b3(f_offset(al1_of(sh(off1)),
+			                                   SLONG_ALIGN),
+			                          off1,f_shape_offset(slongsh),offset_add_tag));
+
+			tkv->tk_exp = hold_refactor(f_offset_pad(const_al512,off));
+			return 1;
+		}
+
+		if (!strcmp(t -> tok_name, "~alloca"))  {
+			exp arg1;
+			place old_place;
+			old_place = keep_place();
+			set_place(pars);
+			arg1 = hold_refactor(d_exp());
+			set_place(old_place);
+			tkv->tk_exp = hold_refactor(me_u3(f_pointer(long_to_al(8)),
+			                                  arg1, alloca_tag));
+			has_alloca = 1;
+			return 1;
+		}
+	}
+
+	if (builtin & BUILTIN_DIAG) {
+		if (!strcmp(t -> tok_name, "~exp_to_source") ||
+		    !strcmp(t -> tok_name, "~diag_id_scope") ||
+		    !strcmp(t -> tok_name, "~diag_type_scope") ||
+		    !strcmp(t -> tok_name, "~diag_tag_scope"))  {
+
+			place old_place;
+			old_place = keep_place();
+			set_place(pars);
+			tkv->tk_exp = hold_refactor(d_exp());
+
+			if (diag == DIAG_NONE) {
+				set_place(old_place);
+				return 1;
+			}
+
+			if (!strcmp(t -> tok_name, "~exp_to_source")) {
+				exp r;
+				diag_info *di = read_exp_to_source();
+
+				crt_lno = natint(di -> data.source.end.line_no);
+				crt_charno = natint(di -> data.source.end.char_off);
+				crt_flnm = di -> data.source.beg.file->file.ints.chars;
+
+				r = getexp(sh(tkv->tk_exp), NULL, 0, tkv->tk_exp, NULL,
+				           1, 0, diagnose_tag);
+				setfather(r, tkv->tk_exp);
+				dno(r) = di;
+				tkv->tk_exp = r;
+				set_place(old_place);
+				return 1;
+			}
+
+			if (!strcmp(t -> tok_name, "~diag_id_scope")) {
+				exp r;
+				diag_info *di = read_diag_id_scope();
+
+				r = getexp(sh(tkv->tk_exp), NULL, 0, tkv->tk_exp, NULL,
+				           2, 0, diagnose_tag);
+				setfather(r, tkv->tk_exp);
+				dno(r) = di;
+				tkv->tk_exp = r;
+				set_place(old_place);
+				return 1;
+			}
+
+			if (!strcmp(t -> tok_name, "~diag_type_scope")) {
+				exp r;
+				diag_info *di = read_diag_type_scope();
+
+				r = getexp(sh(tkv->tk_exp), NULL, 0, tkv->tk_exp, NULL,
+				           3, 0, diagnose_tag);
+				setfather(r, tkv->tk_exp);
+				dno(r) = di;
+				tkv->tk_exp = r;
+				set_place(old_place);
+				return 1;
+			}
+
+			if (!strcmp(t -> tok_name, "~diag_tag_scope")) {
+				exp r;
+				diag_info *di = read_diag_tag_scope();
+
+				r = getexp(sh(tkv->tk_exp), NULL, 0, tkv->tk_exp, NULL,
+				           4, 0, diagnose_tag);
+				setfather(r, tkv->tk_exp);
+				dno(r) = di;
+				tkv->tk_exp = r;
+				set_place(old_place);
+				return 1;
+			}
+		}
+	}
+
+	return 0;
 }
 
 
