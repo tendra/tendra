@@ -175,9 +175,7 @@ apply_tok(token td, bitstream pars, int sortcode, tokval * actual_pars)
 	if (td->tok_special || td -> defined == 0) {
 		/* handle the special tokens */
 		tokval tkv;
-		int done = 0;
-		tkv = special_token(td, pars, sortcode, &done);
-		if (done) {
+		if (special_token(&tkv, td, pars, sortcode)) {
 			return tkv;
 		}
 	}

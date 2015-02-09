@@ -13,7 +13,7 @@
 /*
  * Intercepts specially defined tokens
  */
-tokval special_token(token td, bitstream pars, int sortcode, int *done);
+int special_token(tokval *tkv, token td, bitstream pars, int sortcode);
 
 #endif
 

@@ -8,13 +8,9 @@
 
 #include <reader/token.h>
 
-tokval
-special_token(token t, bitstream pars, int sortcode, int *done)
+int
+special_token(tokval *tkv, token t, bitstream pars, int sortcode)
 {
-	const static tokval dummy;
-
-	*done = 1;
-
-	return dummy;
+	return 1;
 }
 

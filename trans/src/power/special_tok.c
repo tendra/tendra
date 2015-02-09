@@ -35,14 +35,13 @@
 
 /* intercepts specially defined tokens */
 
-tokval special_token(token t, bitstream pars, int sortcode, int *done)
+int
+special_token(tokval *tkv, token t, bitstream pars, int sortcode)
 {
-  tokval tkv;
   UNUSED(sortcode);
 
   if (t -> tok_name == NULL) {
-    SET(tkv); /* call looks at done to see if result is meaningful */
-    return tkv;
+    return 0;
   };
 
   if (builtin & BUILTIN_ALLOCA) {
@@ -53,11 +52,10 @@ tokval special_token(token t, bitstream pars, int sortcode, int *done)
         set_place(pars);
         arg1 = hold_refactor(d_exp());
         set_place(old_place);
-        tkv.tk_exp = hold_refactor(me_u3(f_pointer(long_to_al(8)),
+        tkv->tk_exp = hold_refactor(me_u3(f_pointer(long_to_al(8)),
   			   arg1, alloca_tag));
-        *done = 1;
         has_alloca = 1;
-        return tkv;
+        return 1;
     };
   }
 
@@ -70,13 +68,12 @@ tokval special_token(token t, bitstream pars, int sortcode, int *done)
         place old_place;
         old_place = keep_place();
         set_place(pars);
-        tkv.tk_exp = hold_refactor(d_exp());
-        *done = 1;
+        tkv->tk_exp = hold_refactor(d_exp());
   
         if (diag == DIAG_NONE)
           {
             set_place(old_place);
-            return tkv;
+            return 1;
           };
   
        if (!strcmp(t -> tok_name, "~exp_to_source"))
@@ -85,53 +82,52 @@ tokval special_token(token t, bitstream pars, int sortcode, int *done)
   	crt_lno = natint(di -> data.source.end.line_no);
   	crt_charno = natint(di -> data.source.end.char_off);
   	crt_flnm = di -> data.source.beg.file->file.ints.chars;
-          r = getexp(sh(tkv.tk_exp), NULL, 0, tkv.tk_exp, NULL,
+          r = getexp(sh(tkv->tk_exp), NULL, 0, tkv->tk_exp, NULL,
                      1, 0, diagnose_tag);
-          setfather(r, tkv.tk_exp);
+          setfather(r, tkv->tk_exp);
           dno(r) = di;
-          tkv.tk_exp = r;
+          tkv->tk_exp = r;
           set_place(old_place);
-          return tkv;
+          return 1;
          };
   
        if (!strcmp(t -> tok_name, "~diag_id_scope"))
          {exp r;
           diag_info * di = read_diag_id_scope();
-          r = getexp(sh(tkv.tk_exp), NULL, 0, tkv.tk_exp, NULL,
+          r = getexp(sh(tkv->tk_exp), NULL, 0, tkv->tk_exp, NULL,
                      2, 0, diagnose_tag);
-          setfather(r, tkv.tk_exp);
+          setfather(r, tkv->tk_exp);
           dno(r) = di;
-          tkv.tk_exp = r;
+          tkv->tk_exp = r;
           set_place(old_place);
-          return tkv;
+          return 1;
          };
   
        if (!strcmp(t -> tok_name, "~diag_type_scope"))
          {exp r;
           diag_info * di = read_diag_type_scope();
-          r = getexp(sh(tkv.tk_exp), NULL, 0, tkv.tk_exp, NULL,
+          r = getexp(sh(tkv->tk_exp), NULL, 0, tkv->tk_exp, NULL,
                      3, 0, diagnose_tag);
-          setfather(r, tkv.tk_exp);
+          setfather(r, tkv->tk_exp);
           dno(r) = di;
-          tkv.tk_exp = r;
+          tkv->tk_exp = r;
           set_place(old_place);
-          return tkv;
+          return 1;
          };
   
        if (!strcmp(t -> tok_name, "~diag_tag_scope"))
          {exp r;
           diag_info * di = read_diag_tag_scope();
-          r = getexp(sh(tkv.tk_exp), NULL, 0, tkv.tk_exp, NULL,
+          r = getexp(sh(tkv->tk_exp), NULL, 0, tkv->tk_exp, NULL,
                      4, 0, diagnose_tag);
-          setfather(r, tkv.tk_exp);
+          setfather(r, tkv->tk_exp);
           dno(r) = di;
-          tkv.tk_exp = r;
+          tkv->tk_exp = r;
           set_place(old_place);
-          return tkv;
+          return 1;
          };
     };
   }
 
-  SET(tkv); /* call looks at done to see if result is meaningful */
-  return tkv;
+  return 0;
 }

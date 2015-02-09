@@ -66,14 +66,12 @@ get_component(exp e, alignment shc, alignment align, int size, int nm, shape off
 }
 
 
-tokval
-special_token(token t, bitstream pars, int sortcode, int *done)
+int
+special_token(tokval *tkv, token t, bitstream pars, int sortcode)
 {
-  tokval tkv;
   UNUSED(sortcode);
   if (t -> tok_name == NULL) {
-    SET(tkv); /* call looks at done to see if result is meaningful */
-    return tkv;
+    return 1;
   }
 
   if (builtin & BUILTIN_ALLOCA) {
@@ -84,11 +82,10 @@ special_token(token t, bitstream pars, int sortcode, int *done)
       set_place(pars);
       arg1 = hold_refactor(d_exp());
       set_place(old_place);
-      tkv.tk_exp = hold_refactor(me_u3(f_pointer(long_to_al(8)),
+      tkv->tk_exp = hold_refactor(me_u3(f_pointer(long_to_al(8)),
   				  arg1, alloca_tag));
-      *done = 1;
       has_alloca = 1;
-      return tkv;
+      return 1;
     }
   }
 
@@ -113,27 +110,24 @@ special_token(token t, bitstream pars, int sortcode, int *done)
       else{
         resval.signed_nat_val.small_s_nat=0;
       }
-      tkv.tk_exp = f_make_int(slongsh,resval);
+      tkv->tk_exp = f_make_int(slongsh,resval);
       set_place(old_place);
-      *done=1;
-      return tkv;
+      return 1;
     }
   }
 
   if (builtin & BUILTIN_VARARG) {
     if(!strcmp(t->tok_name, "__builtin_va_token")){
-      tkv.tk_exp = getexp(f_off32_32,NULL,0,NULL,NULL,0,0,val_tag);
-      set_vararg(tkv.tk_exp);
-      *done = 1;
-      return tkv;
+      tkv->tk_exp = getexp(f_off32_32,NULL,0,NULL,NULL,0,0,val_tag);
+      set_vararg(tkv->tk_exp);
+      return 1;
     }
   }
 
   /* TODO: BUILTIN_? */ {
     if(!strcmp(t->tok_name, "~Sync_handler")){
-      tkv.tk_exp = getexp(f_top,NULL,0,NULL,NULL,0,0,special_tag);
-      *done = 1;
-      return tkv;
+      tkv->tk_exp = getexp(f_top,NULL,0,NULL,NULL,0,0,special_tag);
+      return 1;
     }
   }
   
@@ -149,16 +143,14 @@ special_token(token t, bitstream pars, int sortcode, int *done)
       if(no(arg) == 0){
         /* trapb : used to ensure that all pending execptions have been raised
   	 before continuing */
-        tkv.tk_exp = getexp(f_top,NULL,0,NULL,NULL,0,0,special_tag);
-        *done = 1;
+        tkv->tk_exp = getexp(f_top,NULL,0,NULL,NULL,0,0,special_tag);
       }
       else{
         error(ERROR_INTERNAL, "Unsupported argument to token __alpha_special");
-        tkv.tk_exp = getexp(f_top,NULL,0,NULL,NULL,0,0,null_tag);
-        *done = 1;
+        tkv->tk_exp = getexp(f_top,NULL,0,NULL,NULL,0,0,null_tag);
       }
       set_place(old_place);
-      return tkv;
+      return 1;
     }
   }
  
@@ -202,11 +194,10 @@ special_token(token t, bitstream pars, int sortcode, int *done)
       list.start = assignment1;
       list.end = assignment2;
       list.number = 2;
-      tkv.tk_exp = f_sequence(list,res);
+      tkv->tk_exp = f_sequence(list,res);
       kill_exp(arg3,arg3);
       set_place(old_place);
-      *done=1;
-      return tkv;
+      return 1;
     }
   }
   
@@ -218,12 +209,11 @@ special_token(token t, bitstream pars, int sortcode, int *done)
       place old_place;
       old_place = keep_place();
       set_place(pars);
-      tkv.tk_exp = hold_refactor(d_exp());
-      *done = 1;
+      tkv->tk_exp = hold_refactor(d_exp());
       
       if (diag == DIAG_NONE){
         set_place(old_place);
-        return tkv;
+        return 1;
       }
       if (!strcmp(t -> tok_name, "~exp_to_source")){
         exp r;
@@ -231,51 +221,50 @@ special_token(token t, bitstream pars, int sortcode, int *done)
         crt_lno = natint(di -> data.source.end.line_no);
         crt_charno = natint(di -> data.source.end.char_off);
         crt_flnm = di -> data.source.beg.file->file.ints.chars;
-        r = getexp(sh(tkv.tk_exp), NULL, 0, tkv.tk_exp, NULL,
+        r = getexp(sh(tkv->tk_exp), NULL, 0, tkv->tk_exp, NULL,
   		 1, 0, diagnose_tag);
-        setfather(r, tkv.tk_exp);
+        setfather(r, tkv->tk_exp);
         dno(r) = di;
-        tkv.tk_exp = r;
+        tkv->tk_exp = r;
         set_place(old_place);
-        return tkv;
+        return 1;
       }
       if (!strcmp(t -> tok_name, "~diag_id_scope")){
         exp r;
         diag_info * di = read_diag_id_scope();
-        r = getexp(sh(tkv.tk_exp), NULL, 0, tkv.tk_exp, NULL,
+        r = getexp(sh(tkv->tk_exp), NULL, 0, tkv->tk_exp, NULL,
   		 2, 0, diagnose_tag);
-        setfather(r, tkv.tk_exp);
+        setfather(r, tkv->tk_exp);
         dno(r) = di;
-        tkv.tk_exp = r;
+        tkv->tk_exp = r;
         set_place(old_place);
-        return tkv;
+        return 1;
       }
       if (!strcmp(t -> tok_name, "~diag_type_scope")){
         exp r;
         diag_info * di = read_diag_type_scope();
-        r = getexp(sh(tkv.tk_exp), NULL, 0, tkv.tk_exp, NULL,
+        r = getexp(sh(tkv->tk_exp), NULL, 0, tkv->tk_exp, NULL,
   		 3, 0, diagnose_tag);
-        setfather(r, tkv.tk_exp);
+        setfather(r, tkv->tk_exp);
         dno(r) = di;
-        tkv.tk_exp = r;
+        tkv->tk_exp = r;
         set_place(old_place);
-        return tkv;
+        return 1;
       }
       if (!strcmp(t -> tok_name, "~diag_tag_scope")){
         exp r;
         diag_info * di = read_diag_tag_scope();
-        r = getexp(sh(tkv.tk_exp), NULL, 0, tkv.tk_exp, NULL,
+        r = getexp(sh(tkv->tk_exp), NULL, 0, tkv->tk_exp, NULL,
   		 4, 0, diagnose_tag);
-        setfather(r, tkv.tk_exp);
+        setfather(r, tkv->tk_exp);
         dno(r) = di;
-        tkv.tk_exp = r;
+        tkv->tk_exp = r;
         set_place(old_place);
-        return tkv;
+        return 1;
       }
     }
   }
 
-  SET(tkv); /* call looks at done to see if result is meaningful */
-  return tkv;
+  return 0;
 }
 
