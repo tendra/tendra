@@ -18,6 +18,9 @@
 
 #include <shared/error.h>
 
+#include <main/flags.h>
+#include <main/driver.h>
+
 void
 trans_version(void)
 {
@@ -28,27 +31,32 @@ trans_version(void)
 		int major;
 		int minor;
 		const char *spec;
+		int diag;
 	} a[] = {
 #ifdef TDF_DIAG3
-		{ "DWARF1",    DWARF1_MAJOR,      DWARF1_MINOR,       NULL         },
+		{ "DWARF1",    DWARF1_MAJOR,      DWARF1_MINOR,       NULL,         DIAG_DWARF1 },
 #endif
 #ifdef DWARF2
-		{ "DWARF2",    DWARF2_MAJOR,      DWARF2_MINOR,       NULL         },
+		{ "DWARF2",    DWARF2_MAJOR,      DWARF2_MINOR,       NULL,         DIAG_DWARF2 },
 #endif
 #ifndef TDF_DIAG4
-		{ "diag3",     diag_version,      diag_revision,      DG_VERSION   },
+		{ "diag3",     diag_version,      diag_revision,      DG_VERSION,   0           },
 #endif
 #ifdef TDF_DIAG4
-		{ "diag4",     diag_version,      diag_revision,      NULL         },
+		{ "diag4",     diag_version,      diag_revision,      NULL,         0           },
 #endif
-		{ "reader",    reader_version,    reader_revision,    NULL         },
-		{ "construct", construct_version, construct_revision, NULL         },
-		{ "TDF",       MAJOR_VERSION,     MINOR_VERSION,      "def_4_1.db" }
+		{ "reader",    reader_version,    reader_revision,    NULL,         0           },
+		{ "construct", construct_version, construct_revision, NULL,         0           },
+		{ "TDF",       MAJOR_VERSION,     MINOR_VERSION,      "def_4_1.db", 0           }
 	};
 
 	report_version(stderr);
 
 	for (i = 0; i < sizeof a / sizeof *a; i++) {
+		if (a[i].diag != 0 && (driver.diag & a[i].diag) == 0) {
+			continue;
+		}
+
 		fprintf(stderr, "\t%-10s %d.%d", a[i].name, a[i].major, a[i].minor);
 
 		if (a[i].spec != NULL) {
