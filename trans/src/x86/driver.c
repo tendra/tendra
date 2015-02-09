@@ -247,7 +247,7 @@ struct driver driver = {
 	CCONV_GCC, /* TODO: move remove_struct_ref and possibly also gcc_compatible here */
 	ENDIAN_LITTLE,
 	FORMAT_ELF | FORMAT_AOUT,
-	DIAG_NONE | DIAG_CV | DIAG_STABS | DIAG_DWARF | DIAG_DWARF2,
+	DIAG_NONE | DIAG_CV | DIAG_STABS | DIAG_DWARF1 | DIAG_DWARF2,
 	ASM_GAS
 };
 

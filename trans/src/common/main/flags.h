@@ -90,7 +90,7 @@ enum diag {
 	DIAG_STABX   = 1 << 2,
 	DIAG_XDB_OLD = 1 << 3,
 	DIAG_XDB_NEW = 1 << 4,
-	DIAG_DWARF   = 1 << 5,
+	DIAG_DWARF1  = 1 << 5,
 	DIAG_DWARF2  = 1 << 6,
 	DIAG_GDB     = 1 << 7,
 	DIAG_XDB     = 1 << 8,

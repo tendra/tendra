@@ -389,7 +389,7 @@ switch_diag(const char *s, unsigned permitted)
 		{ "xdb_new", &diag3_driver_stabs, DIAG_XDB_NEW },
 #endif
 #ifdef DIAG3_DWARF1
-		{ "dwarf",   &diag3_driver_dw1,   DIAG_DWARF   },
+		{ "dwarf1",  &diag3_driver_dw1,   DIAG_DWARF1  },
 #endif
 #endif
 		/* TODO: stabs for diag4 */

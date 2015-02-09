@@ -291,7 +291,7 @@ init_translator (void)
 #endif
     break;
 
-  case DIAG_DWARF:
+  case DIAG_DWARF1:
 #if DIAG3_DWARF1
     diag3_driver->out_diagnose_prelude () ;
 #endif
@@ -364,7 +364,7 @@ translate_capsule (void){
   
   /* initialize diagnostics */
   switch (diag) {
-  case DIAG_DWARF:
+  case DIAG_DWARF1:
       /* do nothing */
       break;
 
