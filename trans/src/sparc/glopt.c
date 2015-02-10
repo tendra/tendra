@@ -20,12 +20,8 @@
 
 #include <main/flags.h>
 
-/*
-  GLOBAL OPTIMISATIONS
-*/
-
-void 
-glopt ( dec * dp ){
-  /* +++ add any SPARC-specific optimisations here */
-  return ;
+void
+glopt(dec *dp)
+{
 }
+

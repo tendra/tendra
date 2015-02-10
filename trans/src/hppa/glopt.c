@@ -20,13 +20,8 @@
 
 #include <main/flags.h>
 
-/*
-    GLOBAL OPTIMISATIONS
-*/
-
 void
 glopt(dec *dp)
 {
-    /* +++ add any HPPA-specific optimisations here */
-    return ;
 }
+

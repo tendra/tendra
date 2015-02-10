@@ -12,6 +12,9 @@
 
 #include <construct/installtypes.h>
 
+/*
+ * Global optimisations
+ */
 extern void glopt(dec *);
 
 #endif
