@@ -416,7 +416,7 @@ switch_diag(const char *s, unsigned permitted)
 
 #ifdef TDF_DIAG3
 	diag3_driver = a[i].driver;
-	if (diag3_driver == NULL) {
+	if (diag != DIAG_NONE && diag3_driver == NULL) {
 		error(ERROR_FATAL, "Diagnostic format %s has no driver", s);
 		return -1;
 	}
