@@ -22,7 +22,7 @@
 #include <refactor/const.h>
 #include <refactor/optimise.h>
 #include <refactor/refactor_ext.h>
-#include <refactor/glopt.h>
+#include <refactor/global_opt.h>
 
 /* PROCEDURES */
 
@@ -57,7 +57,7 @@ opt_all_exps(void)
 	for (my_def = top_def; my_def != NULL; my_def = my_def -> def_next) {
 		exp crt_exp = my_def->dec_u.dec_val.dec_exp;
 		refactor_ext(crt_exp);
-		glopt(my_def);
+		global_opt(my_def);
 	}
 
 	normalised_inlining();

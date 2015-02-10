@@ -15,7 +15,7 @@
 /*
  * Global optimisations
  */
-extern void glopt(dec *);
+extern void global_opt(dec *);
 
 #endif
 

@@ -9,7 +9,7 @@
 #include <reader/token.h>
 
 void
-glopt(dec *dp)
+global_opt(dec *dp)
 {
 }
 

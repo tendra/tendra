@@ -16,12 +16,12 @@
 #include <construct/exp.h>
 #include <construct/installglob.h>
 
-#include <refactor/glopt.h>
+#include <refactor/global_opt.h>
 
 #include <main/flags.h>
 
 void
-glopt(dec *dp)
+global_opt(dec *dp)
 {
 }
 

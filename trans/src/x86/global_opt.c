@@ -1,9 +1,8 @@
 /* $Id$ */
 
 /*
- * Copyright 2011, The TenDRA Project.
+ * Copyright 2002-2011, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
- * Copyright 1993, Open Software Foundation, Inc.
  *
  * See doc/copyright/ for the full copyright terms.
  */
@@ -11,26 +10,22 @@
 #include <string.h>
 
 #include <reader/externs.h>
-#include <reader/basicread.h>
 #include <reader/table_fns.h>
+#include <reader/basicread.h>
 
 #include <construct/tags.h>
 #include <construct/shape.h>
 #include <construct/exp.h>
 #include <construct/installglob.h>
 
-#include <refactor/glopt.h>
+#include <refactor/global_opt.h>
 
 #include <main/flags.h>
 
-#define MAX_STRCPY_INLINE_LEN	4
-
 void
-glopt(dec *dp)
+global_opt(dec *dp)
 {
-	char *id = dp->dec_u.dec_val.dec_id;
-
-	if (!writable_strings && (strcmp(id, "__strcpy") == 0 || strcmp(id, "__builtin_strcpy") == 0)) {
+	if (!writable_strings && !strcmp(dp->dec_u.dec_val.dec_id, "strcpy")) {
 		exp i = dp->dec_u.dec_val.dec_exp;
 		exp t;
 
@@ -52,7 +47,7 @@ glopt(dec *dp)
 						exp source_def = son(son(source));
 						shape sha = sh(source_def);
 						if (name(source_def) == string_tag &&
-						    ptno(source_def) == 8)
+						    props(source_def) == 8)
 						{
 							char *s = nostr(source_def);
 							int j;
@@ -61,7 +56,7 @@ glopt(dec *dp)
 							for (j = 0; j < l && s[j] != 0; ++j)
 								;
 
-							if (j < MAX_STRCPY_INLINE_LEN && j < l) {
+							if (j < l) {
 								exp q;
 								exp to_change = bro(source);
 								exp idsc = getexp(sh(bro(source)), NULL, 0, dest, NULL, 0, 2, ident_tag);
@@ -91,15 +86,14 @@ glopt(dec *dp)
 		}
 	}
 
-	if (!writable_strings && (strcmp(id, "__strlen") == 0 || strcmp(id, "__builtin_strlen") == 0)) {
+	if (!writable_strings && !strcmp(dp->dec_u.dec_val.dec_id, "strlen")) {
 		exp i = dp->dec_u.dec_val.dec_exp;
 		exp t;
 
 		for (t = pt(i); t != NULL; t = pt(t)) {
 			if (!last(t) && last(bro(t)) &&
 			    name(bro(bro(t))) == apply_tag &&
-			    son(bro(bro(t))) == t)
-			{
+			    son(bro(bro(t))) == t) {
 				exp st = bro(t);
 
 				if (name(st) == name_tag && isglob(son(st)) &&
@@ -112,10 +106,10 @@ glopt(dec *dp)
 						exp st_def = son(son(st));
 						shape sha = sh(st_def);
 						if (name(st_def) == string_tag &&
-						    ptno(st_def) == 8)
+						    props(st_def) == 8)
 						{
 							char *s = nostr(st_def);
-							long j;
+							int j;
 							int l = shape_size(sha) / 8;
 
 							for (j = 0; j < l && s[j] != 0; ++j)
@@ -123,8 +117,7 @@ glopt(dec *dp)
 
 							if (j < l) {
 								exp to_change = bro(st);
-								exp res = getexp(sh(to_change), NULL, 0,
-								                 NULL, NULL, 0, j, val_tag);
+								exp res = getexp(sh(to_change), NULL, 0, NULL, NULL, 0, j, val_tag);
 								kill_exp(t, t);
 								replace(to_change, res, NULL);
 								t = i;

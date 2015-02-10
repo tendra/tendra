@@ -1,31 +1,32 @@
 /* $Id$ */
 
 /*
- * Copyright 2002-2011, The TenDRA Project.
+ * Copyright 2011, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
  *
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <stddef.h>
 #include <string.h>
 
 #include <reader/externs.h>
-#include <reader/table_fns.h>
 #include <reader/basicread.h>
+#include <reader/table_fns.h>
 
 #include <construct/tags.h>
 #include <construct/shape.h>
 #include <construct/exp.h>
 #include <construct/installglob.h>
 
-#include <refactor/glopt.h>
+#include <refactor/global_opt.h>
 
 #include <main/flags.h>
 
 void
-glopt(dec *dp)
+global_opt(dec *dp)
 {
-	if (!writable_strings && !strcmp(dp->dec_u.dec_val.dec_id, "strcpy")) {
+	if (!strcmp(dp->dec_u.dec_val.dec_id, "strcpy")) {
 		exp i = dp->dec_u.dec_val.dec_exp;
 		exp t;
 
@@ -75,52 +76,8 @@ glopt(dec *dp)
 								clearlast(dest);
 								bro(dest) = q;
 								setfather(idsc, q);
-								kill_exp(t, t);
 								replace(to_change, idsc, idsc);
-								t = i;
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-
-	if (!writable_strings && !strcmp(dp->dec_u.dec_val.dec_id, "strlen")) {
-		exp i = dp->dec_u.dec_val.dec_exp;
-		exp t;
-
-		for (t = pt(i); t != NULL; t = pt(t)) {
-			if (!last(t) && last(bro(t)) &&
-			    name(bro(bro(t))) == apply_tag &&
-			    son(bro(bro(t))) == t) {
-				exp st = bro(t);
-
-				if (name(st) == name_tag && isglob(son(st)) &&
-				    isvar(son(st)) && no(son(st)) == 1)
-				{
-					dec *source_dec = brog(son(st));
-					if (!source_dec->dec_u.dec_val.extnamed &&
-					    son(source_dec->dec_u.dec_val.dec_exp) != NULL)
-					{
-						exp st_def = son(son(st));
-						shape sha = sh(st_def);
-						if (name(st_def) == string_tag &&
-						    props(st_def) == 8)
-						{
-							char *s = nostr(st_def);
-							int j;
-							int l = shape_size(sha) / 8;
-
-							for (j = 0; j < l && s[j] != 0; ++j)
-								;
-
-							if (j < l) {
-								exp to_change = bro(st);
-								exp res = getexp(sh(to_change), NULL, 0, NULL, NULL, 0, j, val_tag);
-								kill_exp(t, t);
-								replace(to_change, res, NULL);
-								t = i;
+								t = pt(i);
 							}
 						}
 					}

@@ -19,12 +19,12 @@
 #include <construct/exp.h>
 #include <construct/installglob.h>
 
-#include <refactor/glopt.h>
+#include <refactor/global_opt.h>
 
 #include <main/flags.h>
 
 void
-glopt(dec *dp)
+global_opt(dec *dp)
 {
 	if (!writable_strings && !strcmp(dp->dec_u.dec_val.dec_id, "_strcpy")) {
 		exp i = dp->dec_u.dec_val.dec_exp;
