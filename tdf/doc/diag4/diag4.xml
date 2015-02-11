@@ -1,0 +1,40 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE book SYSTEM "minidocbook.dtd">
+
+<!-- $Id$ -->
+
+<book xmlns:xi="http://www.w3.org/2001/XInclude">
+
+	<bookinfo>
+		<title>TDF Diagnostic Specification</title>
+		<edition>Issue 4.1</edition>
+
+		<authorgroup>
+			<othercredit class="author">
+				<firstname>Katherine</firstname>
+				<surname>Flavel</surname>
+				<affiliation><orgname>The TenDRA Project</orgname></affiliation>
+			</othercredit>
+		</authorgroup>
+
+		<pubdate>2015</pubdate>
+
+		<copyright>
+			<year>2015</year>
+			<holder>The TenDRA Project</holder>
+		</copyright>
+
+		<revhistory>
+			<revision role="dev">
+				<date>2015-02-02</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Collated tokens from <code>def_4_1.db</code>.</para>
+				</revdescription>
+			</revision>
+		</revhistory>
+	</bookinfo>
+
+	<xi:include href="sorts.xml"/>
+
+</book>
