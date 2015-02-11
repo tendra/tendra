@@ -71,11 +71,7 @@ common_opt(dec *dp)
 						exp source_def = son(son(source));
 						shape sha = sh(source_def);
 						if (name(source_def) == string_tag &&
-#if defined(ARCH_alpha) || defined(ARCH_m68k)
-						    ptno(source_def) == 8)
-#else
 						    props(source_def) == 8)
-#endif
 						{
 							char *s = nostr(source_def);
 							size_t l = shape_size(sha) / 8;
@@ -134,11 +130,7 @@ common_opt(dec *dp)
 						exp st_def = son(son(st));
 						shape sha = sh(st_def);
 						if (name(st_def) == string_tag &&
-#if defined(ARCH_alpha) || defined(ARCH_m68k)
-						    ptno(st_def) == 8)
-#else
 						    props(st_def) == 8)
-#endif
 						{
 							char *s = nostr(st_def);
 							size_t l = shape_size(sha) / 8;
