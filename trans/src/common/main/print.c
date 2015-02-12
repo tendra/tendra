@@ -187,8 +187,6 @@ asm_fcomment(FILE *f, const char *fmt, ...)
 {
 	va_list ap;
 
-	asm_fprintf(f, "\t");
-
 	va_start(ap, fmt);
 	asm_vfcommentln(f, fmt, ap);
 	va_end(ap);
