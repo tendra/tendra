@@ -103,7 +103,6 @@
 #define DIAG_ENV			"tcc_diag"
 #define PREPROC_ENV			"tcc_pp"
 #define PROF_ENV			"tcc_prof"
-#define TIME_ENV			"tcc_time"
 #define TNC_ENV				"tnc"
 
 

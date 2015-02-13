@@ -63,7 +63,6 @@ boolean show_errors = 0;
 boolean suffix_overrides = 0;
 boolean taciturn = 0;
 boolean tidy_up = 0;
-boolean time_commands = 0;
 boolean tool_chain = 0;
 boolean tool_chain_environ = 0;
 boolean verbose = 0;
@@ -249,7 +248,6 @@ update_options(void)
 	static boolean done_diag = 0;
 	static boolean done_preproc = 0;
 	static boolean done_prof = 0;
-	static boolean done_time = 0;
 
 	/* Process archive options */
 	process_archive_opt();
@@ -311,10 +309,6 @@ update_options(void)
 	if (flag_prof && !done_prof) {
 		read_env(PROF_ENV);
 		done_prof = 1;
-	}
-	if (time_commands && !done_time) {
-		read_env(TIME_ENV);
-		done_time = 1;
 	}
 
 	/* Print API information */

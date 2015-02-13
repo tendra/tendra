@@ -75,7 +75,6 @@
 	<!ENTITY dump.opt "<option>-dump</option>">
 	<!ENTITY info.opt "<option>-info</option>">
 	<!ENTITY nepc.opt "<option>-nepc</option>">
-	<!ENTITY time.opt "<option>-time</option>">
 	<!ENTITY temp.opt "<option>-temp</option>&nbsp;&dir.arg;">
 	<!ENTITY work.opt "<option>-work</option>&nbsp;&dir.arg;">
 
@@ -254,7 +253,6 @@
 				<arg choice="plain">&q.opt;</arg>
 				<arg choice="plain">&quiet.opt;</arg>
 			</group>
-			<arg choice="opt">&time.opt;</arg>
 			<group choice="opt">
 				<arg choice="plain">&v.opt;</arg>
 				<arg choice="plain">&verbose.opt;</arg>
@@ -1392,16 +1390,6 @@
 					<para>Causes &tcc; to remove its intermediate files when
 						they are no longer required rather than waiting to the end
 						of the compilation.</para>
-				</listitem>
-			</varlistentry>
-
-			<varlistentry>
-				<term>&time.opt;</term>
-
-				<listitem>
-					<para>Makes &tcc; print information on what system commands
-						it is executing (as with verbose mode) followed by the time
-						taken for each.</para>
 				</listitem>
 			</varlistentry>
 
