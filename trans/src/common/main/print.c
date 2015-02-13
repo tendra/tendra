@@ -202,3 +202,16 @@ asm_comment(const char *fmt, ...)
 	va_end(ap);
 }
 
+void
+asm_ferror(FILE *f)
+{
+	asm_fprintf(f, "\n");
+	asm_fprintf(f, "error\n");
+}
+
+void
+asm_error(void)
+{
+	asm_ferror(file);
+}
+

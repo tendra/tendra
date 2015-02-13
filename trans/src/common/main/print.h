@@ -42,5 +42,11 @@ asm_fcomment(FILE *f, const char *fmt, ...);
 void
 asm_comment(const char *fmt, ...);
 
+void
+asm_ferror(FILE *f);
+
+void
+asm_error(void);
+
 #endif
 
