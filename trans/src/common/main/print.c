@@ -77,18 +77,24 @@ asm_printf(const char *fmt, ...)
 	va_end(ap);
 }
 
+static void
+asm_vfprintop(FILE *f, const char *fmt, va_list ap)
+{
+	asm_printf("\t");
+
+	asm_vfprintf(f, fmt, ap);
+
+	asm_printf("\n");
+}
+
 void
 asm_fprintop(FILE *f, const char *fmt, ...)
 {
 	va_list ap;
 
-	asm_printf("\t");
-
 	va_start(ap, fmt);
-	asm_vfprintf(f, fmt, ap);
+	asm_vfprintop(f, fmt, ap);
 	va_end(ap);
-
-	asm_printf("\n");
 }
 
 void
@@ -97,7 +103,7 @@ asm_printop(const char *fmt, ...)
 	va_list ap;
 
 	va_start(ap, fmt);
-	asm_fprintop(file, fmt, ap);
+	asm_vfprintop(file, fmt, ap);
 	va_end(ap);
 }
 
