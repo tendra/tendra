@@ -22,6 +22,9 @@
 
 static FILE *file;
 
+const char *margin = "\t"; /* left indent before instructions */
+const char *fringe = "\t"; /* after code, before trailing comments */
+
 void
 asm_file(FILE *f)
 {
@@ -80,7 +83,7 @@ asm_printf(const char *fmt, ...)
 static void
 asm_vfprintop(FILE *f, const char *fmt, va_list ap)
 {
-	asm_printf("\t");
+	asm_printf("%s", margin);
 
 	asm_vfprintf(f, fmt, ap);
 
@@ -136,7 +139,7 @@ asm_label(const char *fmt, ...)
 }
 
 static void
-asm_vfcommentln(FILE *f, const char *fmt, va_list ap)
+asm_vfcomment(FILE *f, const char *m, const char *fmt, va_list ap)
 {
 	char c;
 
@@ -153,7 +156,7 @@ asm_vfcommentln(FILE *f, const char *fmt, va_list ap)
 		error(ERROR_SERIOUS, "unsupported assembler dialect");
 	}
 
-	asm_fprintf(f, "%c ", c);
+	asm_fprintf(f, "%s%c ", m, c);
 
 	asm_vfprintf(f, fmt, ap);
 
@@ -166,7 +169,7 @@ asm_fcommentln(FILE *f, const char *fmt, ...)
 	va_list ap;
 
 	va_start(ap, fmt);
-	asm_vfcommentln(f, fmt, ap);
+	asm_vfcomment(f, margin, fmt, ap);
 	va_end(ap);
 }
 
@@ -176,16 +179,8 @@ asm_commentln(const char *fmt, ...)
 	va_list ap;
 
 	va_start(ap, fmt);
-	asm_vfcommentln(file, fmt, ap);
+	asm_vfcomment(file, margin, fmt, ap);
 	va_end(ap);
-}
-
-static void
-asm_vfcomment(FILE *f, const char *fmt, va_list ap)
-{
-	asm_fprintf(f, "\t");
-
-	asm_vfcommentln(f, fmt, ap);
 }
 
 void
@@ -194,7 +189,7 @@ asm_fcomment(FILE *f, const char *fmt, ...)
 	va_list ap;
 
 	va_start(ap, fmt);
-	asm_vfcommentln(f, fmt, ap);
+	asm_vfcomment(f, fringe, fmt, ap);
 	va_end(ap);
 }
 
@@ -204,7 +199,7 @@ asm_comment(const char *fmt, ...)
 	va_list ap;
 
 	va_start(ap, fmt);
-	asm_vfcomment(file, fmt, ap);
+	asm_vfcomment(file, fringe, fmt, ap);
 	va_end(ap);
 }
 
