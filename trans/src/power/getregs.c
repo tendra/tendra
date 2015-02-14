@@ -12,9 +12,10 @@
 
 #include <shared/error.h>
 
+#include <main/print.h>
+
 #include "memtdf.h"
 #include "codegen.h"
-#include "comment.h"
 #include "getregs.h"
 
 
@@ -69,7 +70,7 @@ int getreg(long fixed)
   int reg = -1;
   long start = choosefix;
 
-  FULLCOMMENT3("getreg: from %#x, choosefix=%#x currentfix=%d", fixed, choosefix, currentfix);
+  asm_comment("getreg: from %#x, choosefix=%#x currentfix=%d", fixed, choosefix, currentfix);
 
   /* currentfix and choosefix are in step, one the reg number, one the mask */
   assert(choosefix == RMASK(currentfix));
@@ -98,7 +99,7 @@ int getreg(long fixed)
 
     if (reg != -1)
     {
-      FULLCOMMENT1("getreg: allocating %d", reg);
+      asm_comment("getreg: allocating %d", reg);
       assert(IS_TREG(reg));
       return reg;
     }
@@ -124,7 +125,7 @@ int getfreg(long fl)
   int reg = -1;
   long start = choosefloat;
 
-  FULLCOMMENT3("getfreg: from %#x, choosefloat=%#x currentfloat=%d", fl, choosefloat, currentfloat);
+  asm_comment("getfreg: from %#x, choosefloat=%#x currentfloat=%d", fl, choosefloat, currentfloat);
 
   /*
    * currentfloat and choosefloat are in step, one the reg number, one the
@@ -152,7 +153,7 @@ int getfreg(long fl)
 
     if (reg != -1)
     {
-      FULLCOMMENT1("getfreg: allocating %d", reg);
+      asm_comment("getfreg: allocating %d", reg);
       assert(IS_FLT_TREG(reg));
       return reg;
     }

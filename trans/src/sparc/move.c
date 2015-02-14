@@ -34,7 +34,6 @@
 #include "proc.h"
 #include "getregs.h"
 #include "labels.h"
-#include "comment.h"
 #include "bitsmacs.h"
 #include "regmacs.h"
 #include "maxminmacs.h"

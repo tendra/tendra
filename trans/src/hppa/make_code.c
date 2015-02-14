@@ -33,6 +33,7 @@
 
 #include <main/driver.h>
 #include <main/flags.h>
+#include <main/print.h>
 
 #include <refactor/optimise.h>
 #include <refactor/refactor.h>
@@ -194,7 +195,7 @@ void checknan
   long trap = no(son(pt(e)));
   int t = (ABS_OF(fr) - 32) << 1;
 
-  FULLCOMMENT2("checknan: %%f%d trap=%d", t, trap);
+  asm_comment("checknan: %%f%d trap=%d", t, trap);
   error(ERROR_SERIOUS, "checknan");
 #endif
 }
@@ -650,9 +651,9 @@ makeans make_code
 {
   long constval=0;
   makeans mka;
-  FULLCOMMENT3("make_code: %s,\t%s,\tprops=%#x",
+  asm_comment("make_code: %s,\t%s,\tprops=%#x",
 	      (int)SH_NAME(name(sh(e))), (int)TAG_NAME(name(e)), props(e));
-  FULLCOMMENT3("           space= (%ld,%ld) (%s)", sp.fixed, sp.flt,(int)ANSDISCRIM_NAME(discrim(dest.answhere)));
+  asm_comment("           space= (%ld,%ld) (%s)", sp.fixed, sp.flt,(int)ANSDISCRIM_NAME(discrim(dest.answhere)));
 
  tailrecurse:
   mka.lab = exitlab;
@@ -2071,7 +2072,7 @@ makeans make_code
 
 	/* Assign to volatile location. Disable register-location tracing. */
 	/* Disable peep-hole optimisation  */
-	comment("make_code: Assign to volatile");
+	asm_comment("make_code: Assign to volatile");
 	clear_all();
 	setvolatile();
      }
@@ -2663,7 +2664,7 @@ makeans make_code
 
 
 	use_jump_vector = jump_vector_cnt <= average_test_chain_cnt;
-	FULLCOMMENT2("case_tag small jump vector: jump_vector_cnt=%d average_test_chain_cnt=%d",
+	asm_comment("case_tag small jump vector: jump_vector_cnt=%d average_test_chain_cnt=%d",
 		     jump_vector_cnt, average_test_chain_cnt);
      }
      else
@@ -3326,7 +3327,7 @@ makeans make_code
      bool sgned = is_signed(sh(e));
      if (optop(e))
      {
-	FULLCOMMENT2("mult_tag: name(sh(e)) =%d sgned=%d", name(sh(e)), sgned);
+	asm_comment("mult_tag: name(sh(e)) =%d sgned=%d", name(sh(e)), sgned);
 	mka.regmove = do_mul_comm_op(e, sp, dest, sgned);
 	return mka;
      }
@@ -4132,7 +4133,7 @@ makeans make_code
 	 * Load contents of volatile location. Diasble register-location
 	 * tracing. Disable peep-hole optimisation.
 	 */
-	comment("make_code: Load volatile");
+	asm_comment("make_code: Load volatile");
 	clear_all();
 	setvolatile();
       }
@@ -4361,7 +4362,7 @@ makeans make_code
 
   case val_tag:
     {
-      comment1("make_code val_tag: no(e) = %d", no(e));
+      asm_comment("make_code val_tag: no(e) = %d", no(e));
       if (shape_size(sh(e)) >32)
       {
 	 flt64 t;
@@ -4416,7 +4417,7 @@ makeans make_code
 	  constval = no(e) & 65535;
 	  constval -= (constval & 32768) << 1;
 	}
-	comment1("make_code val_tag: constval = %d", constval);
+	asm_comment("make_code val_tag: constval = %d", constval);
 	goto moveconst;
       }
     }
@@ -4774,7 +4775,7 @@ null_tag_case:
 
       r = reg_operand(son(e), sp);
 
-      comment1("make_code int_to_bitf_tag: size=%d", size_res);
+      asm_comment("make_code int_to_bitf_tag: size=%d", size_res);
 
       /* maybe this not needed if going to memory +++ */
       if (size_res != size_op && size_res != 32)
@@ -4858,14 +4859,14 @@ null_tag_case:
       w.ashwhere = a;
       code_here(son(e), sp, w);
 
-      comment1("make_code bitf_to_int_tag: size=%d", a.ashsize);
+      asm_comment("make_code bitf_to_int_tag: size=%d", a.ashsize);
 
       if (a.ashsize != 32 && src_sgned != target_sgned)
       {
 	/* propogate/correct sign bits */
 	/* +++ make move() handle this by pasting sign down */
 
-	comment4("make_code bitf_to_int_tag: adjusting to sign/size %d/%d -> %d/%d",
+	asm_comment("make_code bitf_to_int_tag: adjusting to sign/size %d/%d -> %d/%d",
 		 src_sgned, a.ashsize,
 		 target_sgned, a.ashsize);
 

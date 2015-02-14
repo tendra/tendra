@@ -20,6 +20,7 @@
 
 #include <main/flags.h>
 #include <main/driver.h>
+#include <main/print.h>
 
 #include <diag3/dg_first.h>
 #include <diag3/diaginfo.h>
@@ -137,10 +138,10 @@ void init_diag
 	    if (diagfp1 == NULL || diagfp2 == NULL || diagfp3 == NULL) {
 		error(ERROR_FATAL, "Can't open temporary diagnostics file");
 	    }
-	    fprintf(diagfp1, "%s\n", instr_names[m_as_data]);
-	    fprintf(diagfp1, "%s\n", instr_names[m_dd_vt]);
-	    fprintf(diagfp2, "%s\n", instr_names[m_dd_lntt]);
-	    fprintf(diagfp3, "%s\n", instr_names[m_dd_gntt]);
+	    asm_fprintf(diagfp1, "%s\n", instr_names[m_as_data]);
+	    asm_fprintf(diagfp1, "%s\n", instr_names[m_dd_vt]);
+	    asm_fprintf(diagfp2, "%s\n", instr_names[m_dd_lntt]);
+	    asm_fprintf(diagfp3, "%s\n", instr_names[m_dd_gntt]);
 	    break;
 	}
 
@@ -149,8 +150,8 @@ void init_diag
 	    if (diagfp2 == NULL) {
 		error(ERROR_FATAL, "Can't open temporary diagnostics file");
 	    }
-	    fprintf(diagfp2, "%s\n", instr_names[m_as_data]);
-	    fprintf(diagfp2, "%s\n", instr_names[m_dd_start]);
+	    asm_fprintf(diagfp2, "%s\n", instr_names[m_as_data]);
+	    asm_fprintf(diagfp2, "%s\n", instr_names[m_dd_start]);
 	    break;
 
 	default:
@@ -192,9 +193,9 @@ void copy_diag
 {
     if (diag == DIAG_XDB_NEW) {
 	if (vt_newline) {
-	    fprintf(diagfp1, "%s0\n", instr_names[m_dd_vtbytes]);
+	    asm_fprintf(diagfp1, "%s0\n", instr_names[m_dd_vtbytes]);
 	} else {
-	    fprintf(diagfp1, ",0\n");
+	    asm_fprintf(diagfp1, ",0\n");
 	}
 	copy_diag_file(diagfp1);
 	copy_diag_file(diagfp2);
@@ -220,31 +221,31 @@ void diag_string
 	static int vtposn = 0;
 	static int vtwidth = 0;
 	if (vt_newline) {
-	    fprintf(diagfp1, "%s0", instr_names[m_dd_vtbytes]);
+	    asm_fprintf(diagfp1, "%s0", instr_names[m_dd_vtbytes]);
 	    vt_newline = 0;
 	} else {
-	    fprintf(diagfp1, ",0");
+	    asm_fprintf(diagfp1, ",0");
 	}
 	vtposn++;
 	vtwidth++;
-	fprintf(file, "%d", vtposn);
+	asm_fprintf(file, "%d", vtposn);
 	for (; *s; s++) {
 	    if (vt_newline) {
-		fprintf(diagfp1, "%s%d", instr_names[m_dd_vtbytes], *s);
+		asm_fprintf(diagfp1, "%s%d", instr_names[m_dd_vtbytes], *s);
 		vt_newline = 0;
 	    } else {
-		fprintf(diagfp1, ",%d", *s);
+		asm_fprintf(diagfp1, ",%d", *s);
 	    }
 	    vtposn++;
 	    vtwidth++;
 	    if (vtwidth > 12) {
-		fprintf(diagfp1, "\n");
+		asm_fprintf(diagfp1, "\n");
 		vt_newline = 1;
 		vtwidth = 0;
 	    }
 	}
     } else {
-	fprintf(file, "\"%s\"", s);
+	asm_fprintf(file, "\"%s\"", s);
     }
     return;
 }
@@ -343,8 +344,8 @@ void dnt_begin
     } else {
 	posn_t p = out_dd(diagfp2, xdb_begin, 1);
 	push_dscope(p, 4);
-	if (diag == DIAG_XDB_NEW)fprintf(diagfp2, "0,");
-	fprintf(diagfp2, "%d\n", slt_num);
+	if (diag == DIAG_XDB_NEW)asm_fprintf(diagfp2, "0,");
+	asm_fprintf(diagfp2, "%d\n", slt_num);
 	slt_special(5, p);
     }
     return;
@@ -369,9 +370,9 @@ int dnt_end
     } else {
 	posn_t p = out_dd(diagfp2, xdb_end, 1);
 	if (diag == DIAG_XDB_NEW) {
-	    fprintf(diagfp2, "%d,0,", d->dscope_type);
+	    asm_fprintf(diagfp2, "%d,0,", d->dscope_type);
 	}
-	fprintf(diagfp2, "%d,0x%x\n", slt_num,
+	asm_fprintf(diagfp2, "%d,0x%x\n", slt_num,
 		 (unsigned int)d->posn);
 	slt_special(6, p);
     }
@@ -409,9 +410,9 @@ void diag_source_file
 	crt_line_num = ln;
     } else {
 	posn_t x = out_dd(diagfp2, xdb_srcfile, 1);
-	fprintf(diagfp2, "1,");
+	asm_fprintf(diagfp2, "1,");
 	diag_string(diagfp2, nm);
-	fprintf(diagfp2, ",%d\n", slt_num);
+	asm_fprintf(diagfp2, ",%d\n", slt_num);
 	crt_fname = nm;
 	crt_line_num = ln;
 	make_instr(m_dd_align, NULL, NULL, 0);
@@ -419,11 +420,11 @@ void diag_source_file
 	if (!have_module) {
 	    x = out_dd(diagfp2, xdb_module, 1);
 	    if (diag == DIAG_XDB_NEW) {
-		fprintf(diagfp2, "0,0");
+		asm_fprintf(diagfp2, "0,0");
 	    } else {
 		diag_string(diagfp2, nm);
 	    }
-	    fprintf(diagfp2, ",%d\n", slt_num);
+	    asm_fprintf(diagfp2, ",%d\n", slt_num);
 	    push_dscope(x, 1);
 	    slt_special(2, x);
 	    have_module = 1;
@@ -489,21 +490,21 @@ void diag_proc_main
 
 	/* Output function diagnostic directive */
 	t = out_dd(diagfp2, xdb_function, 1);
-	fprintf(diagfp2, "%d,1,", is_glob);
-	if (diag == DIAG_XDB_NEW)fprintf(diagfp2, "0,0,0,0,0,");
+	asm_fprintf(diagfp2, "%d,1,", is_glob);
+	if (diag == DIAG_XDB_NEW)asm_fprintf(diagfp2, "0,0,0,0,0,");
 	diag_string(diagfp2, id);
 	if (strcmp(id, "main") == 0) {
-	    fputc(',', diagfp2);
+	    asm_fprintf(diagfp2, ",");
 	    diag_string(diagfp2, "_MAIN_");
-	    fputc(',', diagfp2);
+	    asm_fprintf(diagfp2, ",");
 	} else {
-	    fprintf(diagfp2, ",0,");
+	    asm_fprintf(diagfp2, ",0,");
 	}
 	fp = ftell(diagfp2);
-	fprintf(diagfp2, "%s,%d,%s,", NULL_POSN_STR, slt_num, val);
+	asm_fprintf(diagfp2, "%s,%d,%s,", NULL_POSN_STR, slt_num, val);
 	out_posn(diagfp2, p, 1);
-	if (diag == DIAG_XDB_NEW)fprintf(diagfp2, "%s,", val);
-	fprintf(diagfp2, "L%ld\n", crt_diag_proc_lab);
+	if (diag == DIAG_XDB_NEW)asm_fprintf(diagfp2, "%s,", val);
+	asm_fprintf(diagfp2, "L%ld\n", crt_diag_proc_lab);
 
 	/* Start new diagnostic scope */
 	push_dscope(t, 2);
@@ -534,22 +535,22 @@ void diag_proc_main
 		    t = out_dd(diagfp2, xdb_fparam, 1);
 		    fill_gap(diagfp2, fp, t);
 		    if (diag == DIAG_XDB_NEW) {
-			fprintf(diagfp2, "0,0,0,0,0,");
+			asm_fprintf(diagfp2, "0,0,0,0,0,");
 		    } else {
-			fprintf(diagfp2, "0,0,");
+			asm_fprintf(diagfp2, "0,0,");
 		    }
 		    if (*pnm) {
 			diag_string(diagfp2, pnm);
 		    } else {
 			diag_string(diagfp2, "__unknown");
 		    }
-		    fprintf(diagfp2, ",%ld,", off);
+		    asm_fprintf(diagfp2, ",%ld,", off);
 		    out_posn(diagfp2, p, 1);
 		    fp = ftell(diagfp2);
 		    if (diag == DIAG_XDB_NEW) {
-			fprintf(diagfp2, "%s,0\n", NULL_POSN_STR);
+			asm_fprintf(diagfp2, "%s,0\n", NULL_POSN_STR);
 		    } else {
-			fprintf(diagfp2, "%s\n", NULL_POSN_STR);
+			asm_fprintf(diagfp2, "%s\n", NULL_POSN_STR);
 		    }
 		}
 	    }
@@ -590,18 +591,18 @@ void diag_globl_variable
 	x = analyse_diag_type(file, dt, loc);
 	(void)out_dd(file, xdb_svar, loc);
 	if (diag == DIAG_XDB_NEW) {
-	    fprintf(file, "%d,0,0,0,0,", is_glob);
+	    asm_fprintf(file, "%d,0,0,0,0,", is_glob);
 	} else {
-	    fprintf(file, "%d,0,", is_glob);
+	    asm_fprintf(file, "%d,0,", is_glob);
 	}
 	diag_string(file, id);
 	if (has_def) {
-	    fprintf(file, ",%s,", val);
+	    asm_fprintf(file, ",%s,", val);
 	} else {
-	    fprintf(file, ",-1,");
+	    asm_fprintf(file, ",-1,");
 	}
 	out_posn(file, x, 1);
-	fprintf(file, "0,0\n");
+	asm_fprintf(file, "0,0\n");
     }
     return;
 }
@@ -622,15 +623,15 @@ void diag_local_variable
 	table_posn *x = analyse_diag_type(diagfp2, dt, 1);
 	(void)out_dd(diagfp2, xdb_dvar, 1);
 	if (diag == DIAG_XDB_NEW) {
-	    fprintf(diagfp2, "0,0,0,0,");
+	    asm_fprintf(diagfp2, "0,0,0,0,");
 	} else {
-	    fprintf(diagfp2, "0,0,0,");
+	    asm_fprintf(diagfp2, "0,0,0,");
 	}
 	diag_string(diagfp2, id);
-	fprintf(diagfp2, ",%ld,", -fp);
+	asm_fprintf(diagfp2, ",%ld,", -fp);
 	if (diag == DIAG_XDB_NEW) {
 	    out_posn(diagfp2, x, 1);
-	    fprintf(diagfp2, "0\n");
+	    asm_fprintf(diagfp2, "0\n");
 	} else {
 	    out_posn(diagfp2, x, 0);
 	}
@@ -663,9 +664,9 @@ void diag_type_defn
 		FILE *file = (loc ? diagfp2 : diagfp3);
 		table_posn *p = analyse_diag_type(file, dt, loc);
 		(void)out_dd(file, xdb_typedef, loc);
-		fprintf(file, "0,");
+		asm_fprintf(file, "0,");
 		diag_string(file, nm);
-		fprintf(file, ",");
+		asm_fprintf(file, ",");
 		out_posn(file, p, 0);
 	    }
 	    break;

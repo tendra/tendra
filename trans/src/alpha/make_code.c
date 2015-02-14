@@ -42,6 +42,7 @@
 
 #include <main/driver.h>
 #include <main/flags.h>
+#include <main/print.h>
 
 #include <diag3/diag_fns.h>
 #include <diag3/diag_reform.h>
@@ -2787,7 +2788,7 @@ tailrecurse:
 	  }
 	  integer_jump_external(i_jmp,31,boff(son(fn)));
 	  if (as_file) {
-	    fprintf(as_file," # Tail recursion\n");
+	    asm_printf(" # Tail recursion\n");
 	  }
 
 	}
@@ -3577,7 +3578,7 @@ tailrecurse:
 	n = l;
 	start_new_capsule(false);
 	if (as_file) {
-	  fprintf(as_file, "\t.rdata\n$$%d:\n", veclab);
+	  asm_printop(".rdata\n$$%d:", veclab);
 	}
 	out_common(0, irdata);
 	out_common(tempsnos[veclab - 32], ilabel);
@@ -3586,14 +3587,14 @@ tailrecurse:
 		 n = INT64_increment(n)) {
 	    /* o/p jump vector */
 	    if (as_file) {
-	      fprintf(as_file, "\t.gprel32\t$%d\n", endlab);
+	      asm_printop(".gprel32 $%d", endlab);
 	    }
 	    out_value(-endlab, igprel32, make_INT64(0,0), 1);
 	  }
 	  u = (son(z) == NULL)? n : exp_to_INT64(son(z));
 	  for (; INT64_leq(n,u) /*n <= u*/; n=INT64_increment(n)/*n++*/){
 	    if (as_file) {
-	      fprintf(as_file, "\t.gprel32\t$%d\n", no(son(pt(z))));
+	      asm_printop(".gprel32 $%d", no(son(pt(z))));
 	    }
 	    out_value(-no(son(pt(z))),igprel32,make_INT64(0,0),1);
 	  }

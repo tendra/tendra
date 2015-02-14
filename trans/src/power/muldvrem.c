@@ -15,11 +15,12 @@
 
 #include <reader/exp.h>
 
+#include <main/print.h>
+
 #include "memtdf.h"
 #include "codegen.h"
 #include "geninst.h"
 #include "scan.h"
-#include "comment.h"
 #include "muldvrem.h"
 #include "translate.h"
 #include "error.h"
@@ -70,7 +71,7 @@ static int offset_mul_const_simple(long constval, bool sgned)
 {
   int i;
 
-  FULLCOMMENT1("offset_mul_const_simple: %ld", constval);
+  asm_comment("offset_mul_const_simple: %ld", constval);
 
   if (constval < 0)
   {
@@ -150,7 +151,7 @@ static void mul_const_simple(int src, long constval, int dest, bool sgned)
 
   shift_const = bit_no(c);
 
-  FULLCOMMENT3("mul_const_simple: constval=%#lx shift_const=%d add_sub=%d", constval, shift_const, add_sub);
+  asm_comment("mul_const_simple: constval=%#lx shift_const=%d add_sub=%d", constval, shift_const, add_sub);
   assert(constval == (1 << shift_const) + add_sub);
 
   if (add_sub == 0)

@@ -16,7 +16,6 @@
 
 #include "memtdf.h"
 #include "codegen.h"
-#include "comment.h"
 #include "regable.h"
 #include "localexpmacs.h"
 

@@ -26,6 +26,7 @@
 
 #include <main/driver.h>
 #include <main/flags.h>
+#include <main/print.h>
 
 #ifdef TDF_DIAG4
 #include <diag4/dg_aux.h>
@@ -87,7 +88,7 @@ void dw_out_const
       r2l real_parts;
       real_parts = real2longs_IEEE (&flptnos[no(e)], sw);
       dw_at_form ((sw ? DW_FORM_data8 : DW_FORM_data4));
-      d_outnl ();
+      asm_printf("\n");
       dw_at_data (4, (long)(real_parts.i1));
       if (sw)
 	dw_at_data (4, (long)(real_parts.i2));
@@ -99,23 +100,23 @@ void dw_out_const
 	flt64 x;
 	int ov;
 	x = flt_to_f64(no(e), is_signed(sh(e)), &ov);
-	dw_at_form (DW_FORM_data8); d_outnl ();
+	dw_at_form (DW_FORM_data8); asm_printf("\n");
 	dw_at_data (4, (long)(x.small));
 	dw_at_data (4, (long)(x.big));
       }
       else
       if (is_signed(sh(e))) {
-	dw_at_form (DW_FORM_sdata); outs (", ");
-	sleb128 ((long)no(e)); d_outnl();
+	dw_at_form (DW_FORM_sdata); asm_printf(", ");
+	sleb128 ((long)no(e)); asm_printf("\n");
       }
       else {
-	dw_at_form (DW_FORM_udata); outs (", ");
-	uleb128 ((unsigned long)no(e)); d_outnl();
+	dw_at_form (DW_FORM_udata); asm_printf(", ");
+	uleb128 ((unsigned long)no(e)); asm_printf("\n");
       }
       break;
     }
     default: {
-      dw_at_form (DW_FORM_block1); d_outnl();
+      dw_at_form (DW_FORM_block1); asm_printf("\n");
       dw2_locate_exp (e, 1, 0);
     }
   }
@@ -130,7 +131,7 @@ void dw_out_default
     dw_out_const (son(d->val));
   else
   if (d->span.sp_key != SP_SPAN) {
-    dw_at_form (DW_FORM_flag); d_outnl();
+    dw_at_form (DW_FORM_flag); asm_printf("\n");
     dw_at_flag (1);
   }
   else {
@@ -139,7 +140,7 @@ void dw_out_default
       d->next = default_span_list;
       default_span_list = d;
     }
-    dw_at_form (DW_FORM_ref_addr); d_outnl();
+    dw_at_form (DW_FORM_ref_addr); asm_printf("\n");
     dw_at_address (d->lab);
   }
   return;
@@ -178,11 +179,11 @@ static void out_refblock		/* Not certain this is needed! */
   if (needs_debug_align && count) {
     over_lab = next_dwarf_label();
     out_dwf_label (over_lab, 0);
-    outs (" - . - 2");
+    asm_printf(" - . - 2");
   }
   else
-    outn (count * 4);
-  d_outnl();
+    asm_printf("%d", count * 4);
+  asm_printf("\n");
   if (count) {
     p = objs;
     while (p) {
@@ -991,7 +992,7 @@ static void dw2_out_proc
 	infolab = next_dwarf_label ();
 	exit_section ();
 	enter_section ("debug_pubnames");
-	out32 (); out_dwf_labdiff (dw_info_start, infolab); d_outnl();
+	out32 (); out_dwf_labdiff (dw_info_start, infolab); asm_printf("\n");
 	out_string (nam);
 	exit_section ();
 	enter_section ("debug_info");
@@ -1113,7 +1114,7 @@ static void dw2_out_proc
       attr1 &= ~attr2;
       if (attr1 & ~(H_EL|H_GN|H_RP|H_LN|H_SE))
 	fail_unimplemented ();
-      out16 (); out_dwf_dist_to_label (block_end); d_outnl();
+      out16 (); out_dwf_dist_to_label (block_end); asm_printf("\n");
       if (attr1 & H_EL) {
 	set_attribute (DW_AT_DD_elaboration, DW_FORM_ref_addr);
 	dw_at_ext_address (di->mor->elabn);
@@ -1327,7 +1328,7 @@ void dw2_out_name
 	infolab = next_dwarf_label ();
 	exit_section ();
 	enter_section ("debug_pubnames");
-	out32 (); out_dwf_labdiff (dw_info_start, infolab); d_outnl();
+	out32 (); out_dwf_labdiff (dw_info_start, infolab); asm_printf("\n");
 	dw_at_string (nam);
 	exit_section ();
 	enter_section ("debug_info");
@@ -1495,11 +1496,11 @@ void dw2_out_name
 	  dw2_locate_exp (son(x), 0, 1);
 	}
 #endif
-	out32(); outs("0, 0"); outnl_comment ("loclist end");
+	out32(); asm_printf("0, 0"); outnl_comment ("loclist end");
 	if (loclabext) {
 	  out_dwf_label (loclabext, 1);
 	  out_obj_extloclist (lstart, lend, x);
-	  out32(); outs("0, 0"); outnl_comment ("extension end");
+	  out32(); asm_printf("0, 0"); outnl_comment ("extension end");
 	}
 	out_obj_shared_set (di);
 	exit_section ();
@@ -1614,7 +1615,7 @@ void dw2_out_name
 	attr1 &= ~attr2;
 	if (attr1 & ~(H_EL|H_GN|H_SE))
 	  fail_unimplemented ();
-	out16 (); out_dwf_dist_to_label (block_end); d_outnl();
+	out16 (); out_dwf_dist_to_label (block_end); asm_printf("\n");
 	if (attr1 & H_EL) {
 	  set_attribute (DW_AT_DD_elaboration, DW_FORM_ref_addr);
 	  dw_at_ext_address (di->mor->elabn);

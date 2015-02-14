@@ -39,8 +39,6 @@
 #define	DW_CIE_MOD_VERSION	DW_CIE_VERSION
 
 
-#define d_outnl()outs("\n")
-
 extern void out_string(char *s);
 extern void start_string(char *s);
 extern void end_string(void);

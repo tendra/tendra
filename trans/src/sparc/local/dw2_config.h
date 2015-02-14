@@ -38,8 +38,6 @@ extern long fde_count;
 #define reset_any_output	instr_count = 0
 
 
-#define d_outnl()outnl()
-
 extern void out8(void);
 extern void out16(void);
 extern void out32(void);

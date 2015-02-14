@@ -189,7 +189,7 @@ cleanup(void)
 	} else {
 		asm_version_aux;
 	}
-	fputc('\n', as_file);
+	asm_printf("\n");
 #endif
 }
 

@@ -99,6 +99,7 @@
 
 #include <main/driver.h>
 #include <main/flags.h>
+#include <main/print.h>
 
 #include <refactor/optimise.h>
 
@@ -112,7 +113,6 @@
 #include "eval.h"
 #include "scan.h"
 #include "stabs_diag3.h"
-#include "comment.h"
 #include "translate.h"
 #include "stack.h"
 #include "frames.h"
@@ -158,8 +158,8 @@ void translate_capsule(void)
 		init_macros();
 	}
 
-	fprintf(as_file, "L.TDF.translated:\n"); /* XXX: unneccessary */
-	fprintf(as_file, "#\tpowertrans\n");
+	asm_label( "L.TDF.translated"); /* XXX: unneccessary */
+	asm_comment( "powertrans");
 
 
   /*
@@ -197,11 +197,11 @@ void translate_capsule(void)
 
     id = crt_def->dec_u.dec_val.dec_id;		/* might be changed by fixup_name() */
 
-    FULLCOMMENT4("%s: extnamed=%d no(tg)=%d isvar(tg)=%d", (long)id, extnamed, no(tg), isvar(tg));
-    FULLCOMMENT4("\tname(tg)=%d dec_outermost=%d have_def=%d son(tg)!=NULL=%d",
+    asm_comment("%s: extnamed=%d no(tg)=%d isvar(tg)=%d", (long)id, extnamed, no(tg), isvar(tg));
+    asm_comment("\tname(tg)=%d dec_outermost=%d have_def=%d son(tg)!=NULL=%d",
 		name(tg), crt_def->dec_u.dec_val.dec_outermost, crt_def->dec_u.dec_val.have_def, son(tg) != NULL);
     if (son(tg) != NULL)
-      FULLCOMMENT3("\tdec_shape, sh(tg), sh(son(tg))=%d,%d,%d", name(s), name(sh(tg)), name(sh(son(tg))));
+      asm_comment("\tdec_shape, sh(tg), sh(son(tg))=%d,%d,%d", name(s), name(sh(tg)), name(sh(son(tg))));
 
     crt_def->dec_u.dec_val.have_def = (son(tg)!=NULL);
 
@@ -222,8 +222,8 @@ void translate_capsule(void)
       {
 	if (name(s) == prokhd)
 	{
-	  fprintf(as_file, "\t.extern\t%s\n", id);	/* proc descriptor */
-	  fprintf(as_file, "\t.extern\t.%s\n", id);	/* proc entry point */
+	  asm_printop(".extern %s", id);	/* proc descriptor */
+	  asm_printop(".extern .%s", id);	/* proc entry point */
 	}
 	else
 	{
@@ -235,13 +235,13 @@ void translate_capsule(void)
 	     * /lib/syscalls.exp states that environ & errno are specially handled,
 	     * located on the stack at fixed addresses.
 	     */
-	    fprintf(as_file, "\t.extern\t%s[RW]\n", id);
+	    asm_printop(".extern %s[RW]", id);
 	    environ_externed=1;
 	  }
 	  else
 #endif
 	  {
-	    fprintf(as_file, "\t.extern\t%s\n", id);
+	    asm_printop(".extern %s", id);
 	  }
 	}
       }
@@ -251,7 +251,7 @@ void translate_capsule(void)
 	/* +++ is .lcomm always kept double aligned?  Otherwise how do we do it? */
 
 	assert(extnamed);
-	fprintf(as_file, "\t.lcomm\t%s,%ld\n", id, byte_size);
+	asm_printop(".lcomm %s,%ld", id, byte_size);
       }
     }
     else if (IS_A_PROC(son(tg)))
@@ -260,14 +260,14 @@ void translate_capsule(void)
 
       if (extnamed)
       {
-	fprintf(as_file, "\t.globl\t%s\n", id);		/* id proc descriptor */
-	fprintf(as_file, "\t.globl\t.%s\n", id);	/* .id entry point */
+	asm_printop(".globl %s", id);		/* id proc descriptor */
+	asm_printop(".globl .%s", id);	/* .id entry point */
       }
       else if (diag != DIAG_NONE)
       {
 	/* .lglobl is not documented, but avoids dbx and gdb becoming confused */
 	/* +++ always when .lglobl documented */
-	fprintf(as_file, "\t.lglobl\t.%s\n", id);	/* .id entry point */
+	asm_printop(".lglobl .%s", id);	/* .id entry point */
       }
     }
     else if (is_comm(son(tg)) && (diag != DIAG_NONE || extnamed || no(tg) > 0))
@@ -286,7 +286,7 @@ void translate_capsule(void)
 
       if (extnamed)
       {
-	fprintf(as_file, "\t.comm\t%s,%ld,%d\n", id, byte_size, aligncode);
+	asm_printop(".comm %s,%ld,%d", id, byte_size, aligncode);
 	if (diag != DIAG_NONE)
 	  stab_global(son(tg), id, extnamed);
       }
@@ -300,15 +300,15 @@ void translate_capsule(void)
 	   * assembler is confused if it sees .stabx before any .csect,
 	   * so keep it happy with a useless .csect:
 	   */
-	  fprintf(as_file, "\t.csect\t[PR]\n");
-	  fprintf(as_file, "\t.lcomm\t%s,%ld,%s\n", id, byte_size, csect_name);
+	  asm_printop(".csect [PR]");
+	  asm_printop(".lcomm %s,%ld,%s", id, byte_size, csect_name);
 	  stab_bs(csect_name);
 	  stab_global(son(tg), id, extnamed);
 	  stab_es(csect_name);
 	}
 	else if (no(tg) > 0)			/* used */
 	{
-	  fprintf(as_file, "\t.lcomm\t%s,%ld\n", id, byte_size);
+	  asm_printop(".lcomm %s,%ld", id, byte_size);
 	}
       }
 
@@ -320,9 +320,9 @@ void translate_capsule(void)
     else
     {
       if (extnamed)
-	fprintf(as_file, "\t.globl\t%s\n", id);
+	asm_printop(".globl %s", id);
       else if (diag != DIAG_NONE)
-	fprintf(as_file, "\t.lglobl\t%s\n", id);
+	asm_printop(".lglobl %s", id);
       /* to avoid 'warning: global ignored' message from dbx */
     }
   }
@@ -333,9 +333,9 @@ void translate_capsule(void)
 
   if (do_profile)
 #ifdef TDF_MCOUNT
-    fprintf(as_file, "\t.extern\t.TDF_mcount\n");
+    asm_printop(".extern .TDF_mcount");
 #else
-    fprintf(as_file, "\t.extern\t.mcount\n");
+    asm_printop(".extern .mcount");
 #endif
 
 
@@ -362,7 +362,7 @@ void translate_capsule(void)
    * Generate .toc entries.
    * Also take opportunity to setup main_globals.
    */
-  fprintf(as_file, "\n\t.toc\n");
+  asm_printf( "\n\t.toc\n");
 
   for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next)
   {
@@ -400,7 +400,7 @@ void translate_capsule(void)
 
       }
 #endif
-      fprintf(as_file, "T.%s:\t.tc\t%s[TC],%s%s\n", id, id, id, storage_class);
+      asm_printf( "T.%s:\t.tc\t%s[TC],%s%s\n", id, id, id, storage_class);
     }
   }
 
@@ -456,7 +456,7 @@ void translate_capsule(void)
   }
   maxfix_tregs -= REGISTER_SAFETY_NUMBER;
   
-  COMMENT4("maxfix_tregs=%d(%#x) maxfloat_tregs=%d(%#x)",
+  asm_comment("maxfix_tregs=%d(%#x) maxfloat_tregs=%d(%#x)",
 	maxfix_tregs, tempregs.fixed, MAXFLT_TREGS, tempregs.flt);
 
 
@@ -532,7 +532,7 @@ void translate_capsule(void)
     char *id = crt_def->dec_u.dec_val.dec_id;
     bool extnamed = crt_def->dec_u.dec_val.extnamed;
     diag_def=crt_def;/* just in case find_dd is called */
-    FULLCOMMENT4("no(tg)=%d isvar(tg)=%d extnamed=%d son(tg)==NULL=%d",
+    asm_comment("no(tg)=%d isvar(tg)=%d extnamed=%d son(tg)==NULL=%d",
 		 no(tg), isvar(tg), extnamed, son(tg)==NULL);
     if (son(tg) != NULL)
     {
@@ -560,7 +560,7 @@ void translate_capsule(void)
 	if (!anydone)
 	{
 	  anydone = 1;
-	  fprintf(as_file, "\n\t.csect\tW.[RW]\n");
+	  asm_printf( "\n\t.csect\tW.[RW]\n");
 	  if (diag != DIAG_NONE)
 	  {
 	    stab_bs("W.[RW]");
@@ -573,7 +573,7 @@ void translate_capsule(void)
 	{
 	  stab_global(son(tg), id, extnamed);
 	}
-	fprintf(as_file, "#\t.enddata\t%s\n\n", id);
+	asm_printf( "#\t.enddata\t%s\n\n", id);
 
 	/* mark the defininition as processed */
 	crt_def->dec_u.dec_val.processed = 1;
@@ -619,7 +619,7 @@ void translate_capsule(void)
 	if (!anydone)
 	{
 	  anydone = 1;
-	  fprintf(as_file, "\n\t.csect\tR.[RO]\n");
+	  asm_printf( "\n\t.csect\tR.[RO]\n");
 	  if (diag != DIAG_NONE)
 	  {
 	    stab_bs("R.[RO]");
@@ -632,7 +632,7 @@ void translate_capsule(void)
 	{
 	  stab_global(son(tg), id, extnamed);
 	}
-	fprintf(as_file, "#\t.enddata\t%s\n\n", id);
+	asm_printf( "#\t.enddata\t%s\n\n", id);
 
 	/* mark the defininition as processed */
 	crt_def->dec_u.dec_val.processed = 1;
@@ -668,7 +668,7 @@ void translate_capsule(void)
       if (IS_A_PROC(son(tg)))
       {
 	/* translate code for proc */
-	fprintf(as_file, "\n");		/* make proc more visable to reader */
+	asm_printf( "\n");		/* make proc more visable to reader */
 	diag_def=crt_def;
 	/* switch to correct file */
 	if (diag != DIAG_NONE && diag_def->dec_u.dec_val.diag_info!=NULL )
@@ -678,16 +678,16 @@ void translate_capsule(void)
 	}
 	
 
-	fprintf(as_file, "#\t.proc\n");
+	asm_printf( "#\t.proc\n");
 
 	/* generate descriptor */
-	fprintf(as_file, "\t.csect\t[DS]\n");
-	fprintf(as_file, "%s:\n", id);
-	fprintf(as_file, "\t.long\t.%s,TOC[tc0],0\n", id);
+	asm_printop(".csect [DS]");
+	asm_label( "%s", id);
+	asm_printop(".long .%s,TOC[tc0],0", id);
 
 	/* generate code */
-	fprintf(as_file, "\t.csect\t[PR]\n");
-	fprintf(as_file, ".%s:\n", id);
+	asm_printop(".csect [PR]");
+	asm_label( ".%s", id);
 
 	/* stab proc details */
 	if (diag != DIAG_NONE && diag_def->dec_u.dec_val.diag_info!=NULL)
@@ -705,7 +705,7 @@ void translate_capsule(void)
 	  stab_endproc(son(tg), id, extnamed);
 	}
 	
-	fprintf(as_file, "#\t.end\t%s\n", id);
+	asm_printf( "#\t.end\t%s\n", id);
 
 	/* mark the defininition as processed */
 	crt_def->dec_u.dec_val.processed = 1;

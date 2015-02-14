@@ -54,7 +54,6 @@ CCOPTS+=	${TRANS_CFLAGS}
 
 SRCS+=	ashof.c
 SRCS+=	code_here.c
-SRCS+=	comment.c
 SRCS+=	dynamic_init.c
 SRCS+=	error.c
 SRCS+=	eval.c

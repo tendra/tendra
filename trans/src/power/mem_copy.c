@@ -12,9 +12,10 @@
 
 #include <shared/error.h>
 
+#include <main/print.h>
+
 #include "memtdf.h"
 #include "codegen.h"
-#include "comment.h"
 #include "mem_copy.h"
 
 
@@ -27,7 +28,7 @@ void static_memory_copy(int reg_from, int reg_to, int number_of_bytes)
   int bytes;
   int words;
   int i;
-  COMMENT3("memory copy of %d bytes from R_%d to R_%d",number_of_bytes,reg_from,reg_to);
+  asm_comment("memory copy of %d bytes from R_%d to R_%d",number_of_bytes,reg_from,reg_to);
   assert(number_of_bytes >=0);
   if(reg_from == reg_to || number_of_bytes==0 )
   {
@@ -115,7 +116,7 @@ void reverse_static_memory_copy(int reg_from, int reg_to, int number_of_bytes)
   from.base = reg_from;
   to.base = reg_to;
   
-  COMMENT("reverse static memory copy");
+  asm_comment("reverse static memory copy");
   
   words = number_of_bytes/4;
   bytes = number_of_bytes - (4*words);
@@ -149,7 +150,7 @@ void dynamic_byte_memory_copy(int reg_from, int reg_to, int reg_size)
   int creg = next_creg();
   baseoff from;
   baseoff to;
-  COMMENT3("dynamic copy (byte at a time) from R_%d ro R_%d using no of bytes in R_%d",reg_from,reg_to,reg_size);
+  asm_comment("dynamic copy (byte at a time) from R_%d ro R_%d using no of bytes in R_%d",reg_from,reg_to,reg_size);
   
   cmp_ri_ins(i_cmp,reg_size,0,creg);
   bc_ins(i_beq,creg,zero,UNLIKELY_TO_JUMP);
@@ -184,7 +185,7 @@ void reverse_dynamic_byte_memory_copy(int reg_from, int reg_to, int reg_size)
   int creg = next_creg();
   baseoff from;
   baseoff to;
-  COMMENT3("reverse dynamic copy (byte at a time) from R_%d ro R_%d using no of bytes in R_%d",reg_from,reg_to,reg_size);
+  asm_comment("reverse dynamic copy (byte at a time) from R_%d ro R_%d using no of bytes in R_%d",reg_from,reg_to,reg_size);
   cmp_ri_ins(i_cmp,reg_size,0,creg);
   bc_ins(i_beq,creg,zero,UNLIKELY_TO_JUMP);
   from.base = reg_from;
@@ -213,7 +214,7 @@ void dynamic_word_memory_copy(int reg_from, int reg_to, int reg_size)
   int creg = next_creg();
   baseoff from;
   baseoff to;
-  COMMENT3("dynamic copy (word at a time) from R_%d ro R_%d using no of bytes in R_%d",reg_from,reg_to,reg_size);
+  asm_comment("dynamic copy (word at a time) from R_%d ro R_%d using no of bytes in R_%d",reg_from,reg_to,reg_size);
   cmp_ri_ins(i_cmp,reg_size,0,creg);
   bc_ins(i_beq,creg,zero,UNLIKELY_TO_JUMP);
   from.base = reg_from;
@@ -247,7 +248,7 @@ void reverse_dynamic_word_memory_copy(int reg_from, int reg_to, int reg_size)
   int creg = next_creg();
   baseoff from;
   baseoff to;
-  COMMENT3("reverse dynamic copy (word at a time) from R_%d ro R_%d using no of bytes in R_%d",reg_from,reg_to,reg_size);
+  asm_comment("reverse dynamic copy (word at a time) from R_%d ro R_%d using no of bytes in R_%d",reg_from,reg_to,reg_size);
   cmp_ri_ins(i_cmp,reg_size,0,creg);
   bc_ins(i_beq,creg,zero,UNLIKELY_TO_JUMP);
   from.base = reg_from;

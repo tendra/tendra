@@ -13,8 +13,6 @@
 
 #include <shared/error.h>
 
-#include <local/out.h>
-
 #include <reader/exp.h>
 #include <reader/code.h>
 
@@ -27,6 +25,7 @@
 #include <refactor/const.h>
 
 #include <main/driver.h>
+#include <main/print.h>
 
 #include "translate.h"
 #include "addrtypes.h"
@@ -40,7 +39,6 @@
 #include "labels.h"
 #include "proctypes.h"
 #include "bitsmacs.h"
-#include "comment.h"
 #include "proc.h"
 #include "regexps.h"
 #include "special.h"
@@ -235,9 +233,8 @@ specialmake ( int i, exp par, space sp, where dest, int exitlab ){
       s = nostr ( e ) ;
       /* asm is dangerous : zap register tracking */
       clear_all () ;
-      outs ( "! asm : \n" ) ;
-      outs ( s ) ;
-      outnl () ;
+      asm_comment("asm: ");
+      asm_printf("%s\n", s);
       break ;
     }
     
@@ -383,75 +380,72 @@ output_special_routines (void)
 		char *nm = special_routine [i].proc_name ;
 		if ( library_key && nm [1] == 'L' ) nm += 2 ;
 		insection ( text_section ) ;
-		outs ( "!\tTDF support library routine\n" ) ;
-		outs ( "\t.proc\t4\n" ) ;
-		outs ( "\t.optim\t\"-O" ) ;
-		outn ( optim_level ) ;
-		outs ( "\"\n" ) ;
-		outs ( nm ) ;
-		outs ( ":\n" ) ;
+		asm_comment( "TDF support library routine" ) ;
+		asm_printop(".proc 4") ;
+		asm_printop(".optim \"-O%d\"", optim_level);
+		asm_label("%s", nm);
 		switch ( i ) {
 
 		    case SPECIAL_DIV1 : {
-			outs ( "\tsave\t%sp,-96,%sp\n" ) ;
-			outs ( "\tmov\t%i0,%o0\n" ) ;
-			outs ( "\tmov\t%i1,%o1\n" ) ;
-			outs ( "\tcall\t.div,2\n" ) ;
-			outs ( "\tnop\n" ) ;
-			outs ( "\tmov\t%o0,%i2\n" ) ;
-			outs ( "\tmov\t%i0,%o0\n" ) ;
-			outs ( "\tmov\t%i1,%o1\n" ) ;
-			outs ( "\tcall\t.rem,2\n" ) ;
-			outs ( "\tnop\n" ) ;
-			outs ( "\tcmp\t%o0,0\n" ) ;
-			outs ( "\tbe\tLS.101\n" ) ;
-			outs ( "\tnop\n" ) ;
-			outs ( "LS.102:\n" ) ;
-			outs ( "\tcmp\t%o0,0\n" ) ;
-			outs ( "\tble\tLS.103\n" ) ;
-			outs ( "\tnop\n" ) ;
-			outs ( "\tcmp\t%i1,0\n" ) ;
-			outs ( "\tbge\tLS.101\n" ) ;
-			outs ( "\tnop\n" ) ;
-			outs ( "\tadd\t%i2,-1,%i2\n" ) ;
-			outs ( "\tb\tLS.101\n" ) ;
-			outs ( "\tnop\n" ) ;
-			outs ( "LS.103:\n" ) ;
-			outs ( "\tcmp\t%i1,0\n" ) ;
-			outs ( "\tble\tLS.101\n" ) ;
-			outs ( "\tnop\n" ) ;
-			outs ( "\tadd\t%i2,-1,%i2\n" ) ;
-			outs ( "LS.101:\n" ) ;
-			outs ( "\tmov\t%i2,%i0\n" ) ;
+			asm_printop("save %s,-96,%s", "%sp", "%sp") ;
+			asm_printop("mov %s,%s", "%i0", "%o0") ;
+			asm_printop("mov %s,%s", "%i1", "%o1") ;
+			asm_printop("call .div,2") ;
+			asm_printop("nop") ;
+			asm_printop("mov %s,%s", "%o0", "%i2") ;
+			asm_printop("mov %s,%s", "%i0", "%o0") ;
+			asm_printop("mov %s,%s", "%i1", "%o1") ;
+			asm_printop("call .rem,2") ;
+			asm_printop("nop") ;
+			asm_printop("cmp %s,0", "%o0") ;
+			asm_printop("be LS.101") ;
+			asm_printop("nop") ;
+			asm_label("LS.102") ;
+			asm_printop("cmp %s,0", "%o0") ;
+			asm_printop("ble LS.103") ;
+			asm_printop("nop") ;
+			asm_printop("cmp %s,0", "%i1") ;
+			asm_printop("bge LS.101") ;
+			asm_printop("nop") ;
+			asm_printop("add %s,-1,%s", "%i2", "%i2") ;
+			asm_printop("b LS.101") ;
+			asm_printop("nop") ;
+			asm_label("LS.103" ) ;
+			asm_printop("cmp %s,0", "%i1") ;
+			asm_printop("ble LS.101") ;
+			asm_printop("nop") ;
+			asm_printop("add %s,-1,%s", "%i2", "%i2") ;
+			asm_label("LS.101") ;
+			asm_printop("mov %s,%s", "%i2", "%i0") ;
 			break ;
 		    }
 
 		    case SPECIAL_REM1 : {
-			outs ( "\tsave\t%sp,-96,%sp\n" ) ;
-			outs ( "\tmov\t%i0,%o0\n" ) ;
-			outs ( "\tmov\t%i1,%o1\n" ) ;
-			outs ( "\tcall\t.rem,2\n" ) ;
-			outs ( "\tnop\n" ) ;
-			outs ( "\tcmp\t%o0,0\n" ) ;
-			outs ( "\tbe\tLS.201\n" ) ;
-			outs ( "\tnop\n" ) ;
-			outs ( "LS.202:\n" ) ;
-			outs ( "\tcmp\t%o0,0\n" ) ;
-			outs ( "\tble\tLS.203\n" ) ;
-			outs ( "\tnop\n" ) ;
-			outs ( "\tcmp\t%i1,0\n" ) ;
-			outs ( "\tbge\tLS.201\n" ) ;
-			outs ( "\tnop\n" ) ;
-			outs ( "\tadd\t%o0,%i1,%o0\n" ) ;
-			outs ( "\tb\tLS.201\n" ) ;
-			outs ( "\tnop\n" ) ;
-			outs ( "LS.203:\n" ) ;
-			outs ( "\tcmp\t%i1,0\n" ) ;
-			outs ( "\tble\tLS.201\n" ) ;
-			outs ( "\tnop\n" ) ;
-			outs ( "\tadd\t%o0,%i1,%o0\n" ) ;
-			outs ( "LS.201:\n" ) ;
-			outs ( "\tmov\t%o0,%i0\n" ) ;
+			asm_printop("save %s,-96,%s", "%sp", "%sp") ;
+			asm_printop("mov %s,%s", "%i0", "%o0") ;
+			asm_printop("mov %s,%s", "%i1", "%o1") ;
+			asm_printop("call .rem,2") ;
+			asm_printop("nop") ;
+			asm_printop("cmp %s,0", "%o0") ;
+			asm_printop("be LS.201") ;
+			asm_printop("nop") ;
+			asm_label("LS.202") ;
+			asm_printop("cmp %s,0", "%o0") ;
+			asm_printop("ble LS.203") ;
+			asm_printop("nop") ;
+			asm_printop("cmp %s,0", "%i1") ;
+			asm_printop("bge LS.201") ;
+			asm_printop("nop") ;
+			asm_printop("add %s,%s,%s", "%o0", "%i1", "%o0") ;
+			asm_printop("b LS.201") ;
+			asm_printop("nop") ;
+			asm_label("LS.203") ;
+			asm_printop("cmp %s,0", "%i1") ;
+			asm_printop("ble LS.201") ;
+			asm_printop("nop") ;
+			asm_printop("add %s,%s,%s", "%o0", "%i1", "%o0") ;
+			asm_label("LS.201") ;
+			asm_printop("mov %s,%s", "%o0", "%i0") ;
 			break ;
 		    }
 
@@ -460,8 +454,8 @@ output_special_routines (void)
 			break ;
 		    }
 		}
-		outs ( "\tret\n" ) ;
-		outs ( "\trestore\n" ) ;
+		asm_printop("ret") ;
+		asm_printop("restore") ;
 	    }
 	}
     }

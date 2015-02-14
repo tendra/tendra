@@ -10,9 +10,8 @@
 #include <assert.h>
 #include <stdio.h>
 
-#include <local/out.h>
-
 #include <main/driver.h>
+#include <main/print.h>
 
 #include "addrtypes.h"
 #include "regexps.h"
@@ -66,9 +65,7 @@ new_label (void) {
 */
 void 
 set_label ( int l ){
-  outs ( lab_prefix ) ;
-  outn ( l ) ;
-  outs ( ":\n" ) ;
+  asm_label("%s%d", lab_prefix, l);
   assert (l > 100);
   return ;
 }

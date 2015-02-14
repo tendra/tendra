@@ -44,7 +44,6 @@
 #include "maxminmacs.h"
 #include "regable.h"
 #include "regmacs.h"
-#include "comment.h"
 #include "proc.h"
 #include "translate.h"
 #include "regalloc.h"

@@ -17,6 +17,7 @@
 #include <construct/machine.h>
 
 #include <main/flags.h>
+#include <main/print.h>
 
 #include "localtypes.h"
 
@@ -25,65 +26,49 @@ long dwarf_lab_num = 0;
 void
 out_string(char *s)
 {
-  outs(".string \"");
-  outs(s);
-  outs("\"");
-  d_outnl();
+  asm_printf(".string \"%s\"\n");
   return;
 }
 
 void
 start_string(char *s)
 {
-  outs(".string \"");
-  outs(s);
+  asm_printf(".string \"%s", s);
   return;
 }
 
 void
 end_string(void)
 {
-  outs("\"");
-  d_outnl();
+  asm_printf("\"\n");
   return;
 }
 
 void
 enter_section(char *s)
 {
-  outs(".section .");
-  outs(s);
-  d_outnl();
+  asm_printf(".section .%s\n");
   return;
 }
 
 void
 exit_section(void)
 {
-  outs(".previous");
-  d_outnl();
+  asm_printf(".previous\n");
   return;
 }
 
 void
 outnl_comment(char *s)
 {
-  outs("\t");
-  out_comment();
-  outs(s);
-  d_outnl();
+  asm_comment("%s", s);
   return;
 }
 
 void
 outnl_comment_i(char *s, long i)
 {
-  outs("\t");
-  out_comment();
-  outs(s);
-  outs(" ");
-  outn(i);
-  d_outnl();
+  asm_comment("%s %ld", s, i);
   return;
 }
 
@@ -93,11 +78,10 @@ out_dwf_label(long l, int set)
   if (!l) {
     error(ERROR_INTERNAL, "unknown label");
   }
-  outs(".Ldw");
-  outn(l);
   if (set) {
-    outs(":");
-    d_outnl();
+    asm_label(".Ldw%ld", l);
+  } else {
+    asm_printf(".Ldw%ld", l);
   }
   return;
 }
@@ -105,8 +89,7 @@ out_dwf_label(long l, int set)
 void
 out_code_label(long l)
 {
-  outs(local_prefix);
-  outn(l);
+  asm_printf("%s%ld", local_prefix, l);
   return;
 }
 
@@ -114,7 +97,7 @@ void
 out_dwf_dist_to_label(long l)
 {
   out_dwf_label(l, 0);
-  outs(" - . - 4");
+  asm_printf(" - . - 4");
   return;
 }
 
@@ -122,10 +105,10 @@ void
 out_dwf_labdiff(long lo, long hi)
 {
   if (hi == lo) {
-    outn(0);
+    asm_printf("%d", 0);
   } else {
     out_dwf_label(hi, 0);
-    outs(" - ");
+    asm_printf(" - ");
     out_dwf_label(lo, 0);
   }
   return;
@@ -134,24 +117,13 @@ out_dwf_labdiff(long lo, long hi)
 void
 out_ext_label(char *s)
 {
-  outs(".globl ");
-  outs(s);
-  d_outnl();
-  outs(s);
-  outs(":");
-  d_outnl();
-  return;
+  asm_label(".globl %s", s);
 }
 
 void
 out_producer(char *s)
 {
-  outs(".string \"");
-  outs(s);
-  outs(" trans.x86 installer");
-  outs("\"");
-  d_outnl();
-  return;
+  asm_printop(".string \"%s %s\"", s, "trans.x86 installer");
 }
 
 
@@ -183,34 +155,29 @@ dw2_data_aranges(void)
   if (first_data) {
     lab_data = next_dwarf_label();
     if (do_prom) {
-      outs(".bss ");
+      asm_printf(".bss ");
       out_dwf_label(lab_data, 0);
-      outs(", 0");
-      d_outnl();
+      asm_printf(", 0\n");
     } else {
-      outs(".data");
-      d_outnl();
+      asm_printf(".data\n");
       out_dwf_label(lab_data, 1);
     }
   }
   if (first_ro) {
     lab_ro = next_dwarf_label();
     out_readonly_section();
-    d_outnl();
+    asm_printf("\n");
     out_dwf_label(lab_ro, 1);
   }
-  outs(".text");
-  d_outnl();
+  asm_printf(".text\n");
   enter_section("debug_aranges");
   if (first_data) {
-    out32(); outs(first_data); d_outnl();
-    out32(); out_dwf_label(lab_data, 0); outs(" - ");
-    outs(first_data); d_outnl();
+    out32(); asm_printf("%s\n", first_data);
+    out32(); out_dwf_label(lab_data, 0); asm_printf(" - %s\n", first_data);
   }
   if (first_ro) {
-    out32(); outs(first_ro); d_outnl();
-    out32(); out_dwf_label(lab_ro, 0); outs(" - ");
-    outs(first_ro); d_outnl();
+    out32(); asm_printf("%s\n", first_ro);
+    out32(); out_dwf_label(lab_ro, 0); asm_printf(" - %s\n", first_ro);
   }
   exit_section();
   return;

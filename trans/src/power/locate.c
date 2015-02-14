@@ -23,11 +23,12 @@
 #include <construct/installtypes.h>
 #include <construct/ash.h>
 
+#include <main/print.h>
+
 #include "memtdf.h"
 #include "codegen.h"
 #include "geninst.h"
 #include "proc.h"
-#include "comment.h"
 #include "stack.h"
 #include "locate.h"
 #include "frames.h"
@@ -223,7 +224,7 @@ static where locate1(exp e, space sp, shape s, int dreg)
   ans aa;
   where wans;
 
-  FULLCOMMENT3("locate1: name(e) =%d, name(s) =%d, dreg=%d", name(e), name(s), dreg);
+  asm_comment("locate1: name(e) =%d, name(s) =%d, dreg=%d", name(e), name(s), dreg);
 
   a = ashof(s);
 
@@ -235,7 +236,7 @@ static where locate1(exp e, space sp, shape s, int dreg)
       exp dc = son(e);
       bool var = isvar(dc);
 
-      FULLCOMMENT2("locate1 name_tag: name(dc) =%d, var=%d", name(dc), var);
+      asm_comment("locate1 name_tag: name(dc) =%d, var=%d", name(dc), var);
 
       if (props(dc) & defer_bit)
       {
@@ -333,7 +334,7 @@ static where locate1(exp e, space sp, shape s, int dreg)
 
 	  set_ins(is.b, dreg);
 	  keepreg(e, dreg);
-	  FULLCOMMENT3("locate1 name_tag: keepreg glob adval=%d bo={%d,%d}", is.adval, is.b.base, is.b.offset);
+	  asm_comment("locate1 name_tag: keepreg glob adval=%d bo={%d,%d}", is.adval, is.b.base, is.b.offset);
 	  is.b.base = dreg;
 	  is.b.offset = 0;
 	}
@@ -574,7 +575,7 @@ static where locate1(exp e, space sp, shape s, int dreg)
        case notinreg:
 	{
 	  isa = insalt(ason);
-	  FULLCOMMENT3("locate1 cont_tag: adval=%d bo={%d,%d}", isa.adval, isa.b.base, isa.b.offset);
+	  asm_comment("locate1 cont_tag: adval=%d bo={%d,%d}", isa.adval, isa.b.base, isa.b.offset);
 	  if (isa.adval)
 	  {
 	    /* literal store address, so make it into a direct one */
@@ -658,7 +659,7 @@ static where locate1(exp e, space sp, shape s, int dreg)
 	  isa = insalt(wans.answhere);
 	  isa.b.offset += no(e) / 8;
 	  setinsalt(wans.answhere, isa);
-	  FULLCOMMENT1("locate field_tag: adjusting byte offset to %d", isa.b.offset);
+	  asm_comment("locate field_tag: adjusting byte offset to %d", isa.b.offset);
 	  break;
 	}
        default:
@@ -681,7 +682,7 @@ static where locate1(exp e, space sp, shape s, int dreg)
       if (r == R_RESULT)
       {
 	/* guard possible result from proc - can do better +++ */
-	FULLCOMMENT("guarding possible result");
+	asm_comment("guarding possible result");
 	r = getreg(sp.fixed);
 	if (r != R_RESULT)
 	{
@@ -727,7 +728,7 @@ where locate(exp e, space sp, shape s, int dreg)
   }
   else
   {
-    FULLCOMMENT2("locate: iskept() found value inreg=%d [reg=%d]", ak.discrim == inreg, regalt(ak));
+    asm_comment("locate: iskept() found value inreg=%d [reg=%d]", ak.discrim == inreg, regalt(ak));
     w.answhere = ak;
     w.ashwhere = ashof(s);
   }

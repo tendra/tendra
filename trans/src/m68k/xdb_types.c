@@ -19,6 +19,7 @@
 #include <construct/shape.h>
 
 #include <main/flags.h>
+#include <main/print.h>
 
 #include "instrs.h"
 #include "mach.h"
@@ -69,7 +70,7 @@ out_dd(FILE *file, int n, int loc)
 	diag_directive *d = dd + n;
 	long sz = (diag == DIAG_XDB_NEW ? d->new_size : d->old_size);
 	posn_t p = (loc ? dtposn_local : dtposn_globl);
-	fprintf(file, "%s", instr_names[d->instr]);
+	asm_fprintf(file, "%s", instr_names[d->instr]);
 	if (loc) {
 		dtposn_local = p + sz;
 	} else {
@@ -110,11 +111,11 @@ void
 out_posn(FILE *file, table_posn *p, int comma)
 {
 	if (p->is_lab) {
-		fprintf(file, "LD%d",(int)p->posn);
+		asm_fprintf(file, "LD%d",(int)p->posn);
 	} else {
-		fprintf(file, "0x%x",(unsigned int)p->posn);
+		asm_fprintf(file, "0x%x",(unsigned int)p->posn);
 	}
-	fputc((comma ? ',' : '\n'), file);
+	asm_fprintf(file, "%c", comma ? ',' : '\n');
 	return;
 }
 
@@ -131,7 +132,7 @@ fill_gap(FILE *file, long fp, posn_t t)
 		error(ERROR_SERIOUS, "Internal file seek error");
 		return;
 	}
-	fprintf(file, "0x%x", (unsigned int)t);
+	asm_fprintf(file, "0x%x", (unsigned int)t);
 	if (fseek(file, fp_old, SEEK_SET) == -1) {
 		error(ERROR_SERIOUS, "Internal file seek error");
 	}
@@ -201,18 +202,18 @@ analyse_diag_type(FILE *file, diag_type dt, int loc)
 		posn_t s, t = out_dd(file, xdb_subrange, loc);
 
 		if (diag == DIAG_XDB_NEW) {
-			fprintf(file, "0,0,");
+			asm_fprintf(file, "0,0,");
 		}
-		fprintf(file, "%ld,%ld,0x%x,32\n", lo, hi,
+		asm_fprintf(file, "%ld,%ld,0x%x,32\n", lo, hi,
 			(unsigned int)(SIGNED_POSN + 32));
 		s = out_dd(file, xdb_array, loc);
 		if (diag == DIAG_XDB_NEW) {
-			fprintf(file, "0,0,0,0,0,0,");
+			asm_fprintf(file, "0,0,0,0,0,0,");
 		}
-		fprintf(file, "0,%ld,0x%x,", sz,(unsigned int)t);
+		asm_fprintf(file, "0,%ld,0x%x,", sz,(unsigned int)t);
 		if (diag == DIAG_XDB_NEW) {
 			out_posn(file, p, 1);
-			fprintf(file, "%ld\n", p->size);
+			asm_fprintf(file, "%ld\n", p->size);
 		} else {
 			out_posn(file, p, 0);
 		}
@@ -234,7 +235,7 @@ analyse_diag_type(FILE *file, diag_type dt, int loc)
 		posn_t t;
 		t = out_dd(file, xdb_enum, loc);
 		fp = ftell(file);
-		fprintf(file, "%s,32\n", NULL_POSN_STR);
+		asm_fprintf(file, "%s,32\n", NULL_POSN_STR);
 		res = new_table_posn(t, 32L);
 
 		/* Deal with enumeration members */
@@ -244,27 +245,27 @@ analyse_diag_type(FILE *file, diag_type dt, int loc)
 			posn_t s = out_dd(file, xdb_memenum, loc);
 			fill_gap(file, fp, s);
 			if (diag == DIAG_XDB_NEW) {
-				fprintf(file, "0,");
+				asm_fprintf(file, "0,");
 			}
 			if (*fnm) {
 				diag_string(file, fnm);
 			} else {
 				diag_string(file, "__unknown");
 			}
-			fprintf(file, ",%ld,", v);
+			asm_fprintf(file, ",%ld,", v);
 			fp = ftell(file);
-			fprintf(file, "%s\n", NULL_POSN_STR);
+			asm_fprintf(file, "%s\n", NULL_POSN_STR);
 		}
 
 		/* Round off enumeration definition */
 		if (*nm) {
 			(void)out_dd(file, xdb_tagdef, loc);
-			fprintf(file, "0,");
+			asm_fprintf(file, "0,");
 			if (diag == DIAG_XDB_NEW) {
-				fprintf(file, "1,");
+				asm_fprintf(file, "1,");
 			}
 			diag_string(file, nm);
-			fprintf(file, ",");
+			asm_fprintf(file, ",");
 			out_posn(file, res, 0);
 		}
 		break;
@@ -287,11 +288,11 @@ analyse_diag_type(FILE *file, diag_type dt, int loc)
 		table_posn *p = analyse_diag_type(file, dtl, loc);
 		posn_t t = out_dd(file, xdb_functype, loc);
 		if (diag == DIAG_XDB_NEW) {
-			fprintf(file, "0,0,");
+			asm_fprintf(file, "0,0,");
 		}
-		fprintf(file, "32,");
+		asm_fprintf(file, "32,");
 		out_posn(file, p, 1);
-		fprintf(file, "%s\n", NULL_POSN_STR);
+		asm_fprintf(file, "%s\n", NULL_POSN_STR);
 		res = new_table_posn(t, 32L);
 		break;
 	}
@@ -300,7 +301,7 @@ analyse_diag_type(FILE *file, diag_type dt, int loc)
 		table_posn *p = analyse_diag_type(file, dtl, loc);
 		posn_t t = out_dd(file, xdb_pointer, loc);
 		out_posn(file, p, 1);
-		fprintf(file, "32\n");
+		asm_fprintf(file, "32\n");
 		res = new_table_posn(t, 32L);
 		break;
 	}
@@ -330,12 +331,12 @@ analyse_diag_type(FILE *file, diag_type dt, int loc)
 			taglab = 1;
 		}
 		if (!taglab) {
-			fprintf(file, "LD%ld:", dlab);
+			asm_fprintf(file, "LD%ld:", dlab);
 		}
 		t = out_dd(file, xdb_struct, loc);
-		fprintf(file, "0,");
+		asm_fprintf(file, "0,");
 		fp = ftell(file);
-		fprintf(file, "%s,%s,%s,%ld\n", NULL_POSN_STR, NULL_POSN_STR,
+		asm_fprintf(file, "%s,%s,%s,%ld\n", NULL_POSN_STR, NULL_POSN_STR,
 			NULL_POSN_STR, sz);
 		res = new_table_posn(t, sz);
 
@@ -343,15 +344,15 @@ analyse_diag_type(FILE *file, diag_type dt, int loc)
 		if (*nm) {
 			posn_t tt;
 			if (taglab) {
-				fprintf(file, "LD%ld:", dlab);
+				asm_fprintf(file, "LD%ld:", dlab);
 			}
 			tt = out_dd(file, xdb_tagdef, loc);
-			fprintf(file, "0,");
+			asm_fprintf(file, "0,");
 			if (diag == DIAG_XDB_NEW) {
-				fprintf(file, "1,");
+				asm_fprintf(file, "1,");
 			}
 			diag_string(file, nm);
-			fprintf(file, ",");
+			asm_fprintf(file, ",");
 			out_posn(file, res, 0);
 			if (taglab) {
 				t = tt;
@@ -372,18 +373,18 @@ analyse_diag_type(FILE *file, diag_type dt, int loc)
 			posn_t s = out_dd(file, xdb_field, loc);
 			fill_gap(file, fp, s);
 			if (diag == DIAG_XDB_NEW) {
-				fprintf(file, "0,0,");
+				asm_fprintf(file, "0,0,");
 			}
 			if (*fnm) {
 				diag_string(file, fnm);
 			} else {
 				diag_string(file, "__unknown");
 			}
-			fprintf(file, ",%ld,", off);
+			asm_fprintf(file, ",%ld,", off);
 			out_posn(file, q, 1);
-			fprintf(file, "%ld,", q->size);
+			asm_fprintf(file, "%ld,", q->size);
 			fp = ftell(file);
-			fprintf(file, "%s\n", NULL_POSN_STR);
+			asm_fprintf(file, "%s\n", NULL_POSN_STR);
 		}
 
 		/* Round off structure definition */
@@ -417,26 +418,26 @@ analyse_diag_type(FILE *file, diag_type dt, int loc)
 			taglab = 1;
 		}
 		if (!taglab) {
-			fprintf(file, "LD%ld:", dlab);
+			asm_fprintf(file, "LD%ld:", dlab);
 		}
 		t = out_dd(file, xdb_union, loc);
 		fp = ftell(file);
-		fprintf(file, "%s,%ld\n", NULL_POSN_STR, sz);
+		asm_fprintf(file, "%s,%ld\n", NULL_POSN_STR, sz);
 		res = new_table_posn(t, sz);
 
 		/* Print tag information */
 		if (*nm) {
 			posn_t tt;
 			if (taglab) {
-				fprintf(file, "LD%ld:", dlab);
+				asm_fprintf(file, "LD%ld:", dlab);
 			}
 			tt = out_dd(file, xdb_tagdef, loc);
-			fprintf(file, "0,");
+			asm_fprintf(file, "0,");
 			if (diag == DIAG_XDB_NEW) {
-				fprintf(file, "1,");
+				asm_fprintf(file, "1,");
 			}
 			diag_string(file, nm);
-			fprintf(file, ",");
+			asm_fprintf(file, ",");
 			out_posn(file, res, 0);
 			if (taglab) {
 				t = tt;
@@ -457,18 +458,18 @@ analyse_diag_type(FILE *file, diag_type dt, int loc)
 			posn_t s = out_dd(file, xdb_field, loc);
 			fill_gap(file, fp, s);
 			if (diag == DIAG_XDB_NEW) {
-				fprintf(file, "0,0,");
+				asm_fprintf(file, "0,0,");
 			}
 			if (*fnm) {
 				diag_string(file, fnm);
 			} else {
 				diag_string(file, "__unknown");
 			}
-			fprintf(file, ",%ld,", off);
+			asm_fprintf(file, ",%ld,", off);
 			out_posn(file, q, 1);
-			fprintf(file, "%ld,", q->size);
+			asm_fprintf(file, "%ld,", q->size);
 			fp = ftell(file);
-			fprintf(file, "%s\n", NULL_POSN_STR);
+			asm_fprintf(file, "%s\n", NULL_POSN_STR);
 		}
 
 		/* Round off union definition */

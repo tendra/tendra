@@ -35,6 +35,7 @@
 
 #include <main/driver.h>
 #include <main/flags.h>
+#include <main/print.h>
 
 #include <diag3/diagtypes.h>
 #include <diag3/diag_fns.h>
@@ -411,7 +412,7 @@ void make_sltentry
 	e.sspec.sltdesc = sltdesc;
 	e.sspec.line = va_arg(ap,BITS);
 	e.sspec.backptr = va_arg(ap,DNTTPOINTER);
-	fprintf(SLT_,"\t.WORD\t%lu,%lu\n",e.sgeneric.word[0], e.sgeneric.word[1]);
+	asm_fprintop(SLT_, ".WORD\t%lu,%lu",e.sgeneric.word[0], e.sgeneric.word[1]);
 	break;
      }
    case SLT_EXIT:
@@ -421,7 +422,7 @@ void make_sltentry
 	e.snorm.sltdesc = SLT_NORMAL;
 	e.snorm.line = va_arg(ap,BITS);
 	e.snorm.address = va_arg(ap,ADDRESS);
-	fprintf(SLT_,"\t.WORD\t%lu,%s\n",e.sgeneric.word[0],(char*)e.sgeneric.word[1]);
+	asm_fprintop(SLT_, ".WORD\t%lu,%s",e.sgeneric.word[0],(char*)e.sgeneric.word[1]);
 	break;
      }
    case SLT_ASSIST:
@@ -430,7 +431,7 @@ void make_sltentry
 	e.sasst.sltdesc = SLT_ASSIST;
 	e.sasst.unused = 0;
 	e.sasst.address = va_arg(ap,ADDRESS);
-	fprintf(SLT_,"\t.WORD\t%lu,%lu\n",e.sgeneric.word[0], e.sgeneric.word[1]);
+	asm_fprintop(SLT_, ".WORD\t%lu,%lu",e.sgeneric.word[0], e.sgeneric.word[1]);
 	break;
      }
    }
@@ -924,20 +925,20 @@ void output_DEBUG
 	fclose(GNTT_);
     outnl();
 
-    fprintf(as_file,"\n\t.SPACE\t$DEBUG$\n");
-    fprintf(as_file,"\t.SUBSPA\t$HEADER$\n");
+    asm_printf("\n\t.SPACE\t$DEBUG$\n");
+    asm_printop(".SUBSPA $HEADER$");
 #if USE_XT
-    fprintf(as_file,"\t.WORD\t%ld\n",(gntt_next.word * DNTTBLOCKSIZE) |
+    asm_printop(".WORD %ld",(gntt_next.word * DNTTBLOCKSIZE) |
 	     		       extension_header);	/* MSB indicates XT */
 #else
-    fprintf(as_file,"\t.WORD\t%ld\n",(gntt_next.word * DNTTBLOCKSIZE) | 0);
+    asm_printop(".WORD %ld",(gntt_next.word * DNTTBLOCKSIZE) | 0);
 	     		                        	/* MSB indicates XT */
 #endif
-    fprintf(as_file,"\t.WORD\t%ld\n",lntt_next.word * DNTTBLOCKSIZE);
-    fprintf(as_file,"\t.WORD\t%ld\n",slt_next * SLTBLOCKSIZE);
-    fprintf(as_file,"\t.WORD\t%ld\n",vt_next);
+    asm_printop(".WORD %ld",lntt_next.word * DNTTBLOCKSIZE);
+    asm_printop(".WORD %ld",slt_next * SLTBLOCKSIZE);
+    asm_printop(".WORD %ld",vt_next);
 #if USE_XT
-    fprintf(as_file,"\t.WORD\t%ld\n",xt_next * XTBLOCKSIZE);
+    asm_printop(".WORD %ld",xt_next * XTBLOCKSIZE);
 #endif
     return;
 }
@@ -1008,14 +1009,14 @@ void stabd
 	   break;
 
 	case DIAG_GDB:
-  	   fprintf(dg_file,"\t.stabn\t0x%x,0,%ld,L$M%ld-%s\n",seg,
+  	   asm_fprintf(dg_file,"\t.stabn\t0x%x,0,%ld,L$M%ld-%s\n",seg,
 		   lno,i,last_proc_lab);
 	   break;
 
 	default:
 		error(ERROR_SERIOUS, "unsupported diagnostics format");
 	}
-	fprintf(dg_file,"L$M%ld\n",i);
+	asm_fprintf(dg_file,"L$M%ld\n",i);
       }
    }
    currentlno = lno;
@@ -1128,12 +1129,12 @@ void init_stab
        }
        fprintf(VT_,"\t.SPACE\t$DEBUG$\n");
        fprintf(VT_,"\t.SUBSPA\t$VT$\n");
-       fprintf(SLT_,"\t.SPACE\t$DEBUG$\n");
-       fprintf(SLT_,"\t.SUBSPA\t$SLT$\n");
-       fprintf(LNTT_,"\t.SPACE\t$DEBUG$\n");
-       fprintf(LNTT_,"\t.SUBSPA\t$LNTT$\n");
-       fprintf(GNTT_,"\t.SPACE\t$DEBUG$\n");
-       fprintf(GNTT_,"\t.SUBSPA\t$GNTT$\n");
+       asm_fprintop(SLT_, ".SPACE\t$DEBUG$");
+       asm_fprintop(SLT_, ".SUBSPA\t$SLT$");
+       asm_fprintop(LNTT_, ".SPACE\t$DEBUG$");
+       asm_fprintop(LNTT_, ".SUBSPA\t$LNTT$");
+       asm_fprintop(GNTT_, ".SPACE\t$DEBUG$");
+       asm_fprintop(GNTT_, ".SUBSPA\t$GNTT$");
        make_vtentry("",0,0);
        lntt_next.word = 1<<31;  /* initialise .word field */
        gntt_next.word = 1<<31;  /* initialise .word field */
@@ -1191,7 +1192,7 @@ void stab_file
     }
 
     if (diag == DIAG_GDB)
-       fprintf(dg_file,"\t.file\t\"%s\"\n",fds[findex] ->file.ints.chars);
+       asm_fprintf(dg_file,"\t.file\t\"%s\"\n",fds[findex] ->file.ints.chars);
     if (internal)
     {
        /* included file */
@@ -1207,7 +1208,7 @@ void stab_file
 #endif
        }
        else
-	  fprintf(dg_file,"\t.stabs\t\"%s\",0x84,0,0,L$M%ld\n",
+	  asm_fprintf(dg_file,"\t.stabs\t\"%s\",0x84,0,0,L$M%ld\n",
 		     fds[findex] ->file.ints.chars, i);
     }
     else
@@ -1229,14 +1230,14 @@ void stab_file
 #endif
 	  break;
        case DIAG_GDB:
-	  fprintf(dg_file, "\t.stabs\t\"%s\",0x64,0,0,L$M%ld\n",
+	  asm_fprintf(dg_file, "\t.stabs\t\"%s\",0x64,0,0,L$M%ld\n",
        	     fds[findex] ->file.ints.chars, i);
 	  break;
 
 	default:
 		error(ERROR_SERIOUS, "unsupported diagnostics format");
        }
-       fprintf(dg_file, "L$M%ld\n", i);
+       asm_fprintf(dg_file, "L$M%ld\n", i);
     }
     currentfile = findex;
     return;
@@ -1261,12 +1262,12 @@ static void stab_scope_open
    case DIAG_GDB:
       if (last_LBRAC_stab==BB_id-1)
       {
-	 fprintf(dg_file,"\t.stabn\t0x%x,0,0,L$BB%ld-%s\n",N_LBRAC,BB_id,
+	 asm_fprintf(dg_file,"\t.stabn\t0x%x,0,0,L$BB%ld-%s\n",N_LBRAC,BB_id,
 		 last_proc_lab);
 	 last_LBRAC_stab=BB_id;
       }
       BB_id++;
-      fprintf(dg_file,"L$BB%ld\n",BB_id);
+      asm_fprintf(dg_file,"L$BB%ld\n",BB_id);
       break;
 
 	default:
@@ -1296,14 +1297,14 @@ static void stab_scope_close
    case DIAG_GDB:
       if (last_LBRAC_stab==BB_id-1)
       {
-	 fprintf(dg_file,"\t.stabn\t0x%x,0,0,L$BB%ld-%s\n",N_LBRAC,BB_id,
+	 asm_fprintf(dg_file,"\t.stabn\t0x%x,0,0,L$BB%ld-%s\n",N_LBRAC,BB_id,
 	      last_proc_lab);
 	 last_LBRAC_stab = BB_id;
       }
       BE_id++;
-      fprintf(dg_file,"\t.stabn\t0x%x,0,0,L$BE%ld-%s\n",N_RBRAC,BE_id,
+      asm_fprintf(dg_file,"\t.stabn\t0x%x,0,0,L$BE%ld-%s\n",N_RBRAC,BE_id,
 		    last_proc_lab);
-      fprintf(dg_file,"L$BE%ld\n",BE_id);
+      asm_fprintf(dg_file,"L$BE%ld\n",BE_id);
       break;
 
 	default:
@@ -1579,7 +1580,7 @@ static DNTTPOINTER out_dt_shape
        }
        else
        {
-	  fprintf(dg_file,"%d",(int)dt->been_outed);
+	  asm_fprintf(dg_file,"%d",(int)dt->been_outed);
        }
        return NIL;
     }
@@ -1588,7 +1589,7 @@ static DNTTPOINTER out_dt_shape
     if (depth_now >= max_depth)
     {
        if (diag == DIAG_GDB)
-	  fprintf(dg_file, "%d", STAB_SLONG);
+	  asm_fprintf(dg_file, "%d", STAB_SLONG);
        return NIL;
     }
     depth_now++;
@@ -1617,7 +1618,7 @@ static DNTTPOINTER out_dt_shape
 		 }
 		 else
 		 {
-		    fprintf(dg_file,"%ld=*%ld",non,pn);
+		    asm_fprintf(dg_file,"%ld=*%ld",non,pn);
 		 }
 	      }
 	      else
@@ -1630,7 +1631,7 @@ static DNTTPOINTER out_dt_shape
 		 }
 		 else
 		 {
-		    fprintf(dg_file,"%ld",non);
+		    asm_fprintf(dg_file,"%ld",non);
 		 }
 	      }
 	   }
@@ -1645,7 +1646,7 @@ static DNTTPOINTER out_dt_shape
 	      }
 	      else
 	      {
-		 fprintf(dg_file,"%ld=*",non);
+		 asm_fprintf(dg_file,"%ld=*",non);
 		 out_dt_shape(dt->data.ptr.object);
 	      }
 	   }
@@ -1675,9 +1676,9 @@ static DNTTPOINTER out_dt_shape
 	   dt->been_outed = non;
 	   if (diag == DIAG_GDB)
 	   {
-	      fprintf(dg_file,"%ld=ar",non);
+	      asm_fprintf(dg_file,"%ld=ar",non);
 	      out_dt_shape(index_type);
-  	      fprintf(dg_file,";%ld;%ld;",lwb,upb);
+  	      asm_fprintf(dg_file,";%ld;%ld;",lwb,upb);
 	   }
 	   else
 	   {
@@ -1765,7 +1766,7 @@ static DNTTPOINTER out_dt_shape
 	   }
 	   else
 	   {
- 	      fprintf(dg_file,"%ld=%c%d",non,su,shape_size(s) /8);
+ 	      asm_fprintf(dg_file,"%ld=%c%d",non,su,shape_size(s) /8);
   	      for (i=fields->lastused-1;i>=0;i--)
 	      {
 		 diag_field sf = (fields->array)[i];
@@ -1775,11 +1776,11 @@ static DNTTPOINTER out_dt_shape
 		   return NIL;
 		 depth_now++;
 #endif
-		 fprintf(dg_file,"%s:",sf->field_name.ints.chars);
+		 asm_fprintf(dg_file,"%s:",sf->field_name.ints.chars);
 		 out_dt_shape(sf->field_type);
-		 fprintf(dg_file,",%ld,%ld;",offset,last_type_sz);
+		 asm_fprintf(dg_file,",%ld,%ld;",offset,last_type_sz);
 	      }
-	      fprintf(dg_file,";");
+	      asm_fprintf(dg_file,";");
 	   }
 	   last_type_sz = shape_size(s);
 	   set_stab_size(non);
@@ -1807,7 +1808,7 @@ static DNTTPOINTER out_dt_shape
 	     }
 	     else
 	     {
-		fprintf(dg_file,"%ld",dt->been_outed);
+		asm_fprintf(dg_file,"%ld",dt->been_outed);
 	     }
 	     return NIL;
 	  }
@@ -1828,7 +1829,7 @@ static DNTTPOINTER out_dt_shape
 	     }
 	     else
 	     {
- 	        fprintf(dg_file, "%ld=*%ld=f", non1, non2);
+ 	        asm_fprintf(dg_file, "%ld=*%ld=f", non1, non2);
 	     }
 	     out_dt_shape(result_type);
 	     last_type_sz = 32;
@@ -1846,7 +1847,7 @@ static DNTTPOINTER out_dt_shape
 	case DIAG_TYPE_NULL:
 	  {
 	     if (diag == DIAG_GDB)
-		fprintf(dg_file,"%d",STAB_VOID);
+		asm_fprintf(dg_file,"%d",STAB_VOID);
 	     last_type_sz = 0;
 	     return NIL;
 	  }
@@ -1864,7 +1865,7 @@ static DNTTPOINTER out_dt_shape
 	     }
 	     else
 	     {
-		fprintf(dg_file,"%d",STAB_SLONG);
+		asm_fprintf(dg_file,"%d",STAB_SLONG);
 	     }
 	     return NIL;
 	  }
@@ -1927,12 +1928,12 @@ static DNTTPOINTER out_dt_shape
 	   }
 	   else
 	   {
-	      fprintf(dg_file,"e");
+	      asm_fprintf(dg_file,"e");
 	      for (i=0;i<nvals;i++)
 	      {
-		 fprintf(dg_file,"%s:%d,",CSTRING(enumarr[i] ->nme), EXPINT(enumarr[i] ->val));
+		 asm_fprintf(dg_file,"%s:%d,",CSTRING(enumarr[i] ->nme), EXPINT(enumarr[i] ->val));
 	      }
-	      fprintf(dg_file,";");
+	      asm_fprintf(dg_file,";");
 	   }
 	   non = next_typen();
 	   dt->been_outed = non;
@@ -1951,7 +1952,7 @@ static DNTTPOINTER out_dt_shape
 	default:
 	{
 	   if (diag == DIAG_GDB)
-	      fprintf(dg_file,"%d",STAB_VOID);
+	      asm_fprintf(dg_file,"%d",STAB_VOID);
 	   last_type_sz = 0;
 	   return NIL;
 	}
@@ -1986,9 +1987,9 @@ void stab_global
   }
   else
   {
-     fprintf(dg_file,"\t.stabs\t\"%s:%c", nm,(ext ? 'G' : 'S'));
+     asm_fprintf(dg_file,"\t.stabs\t\"%s:%c", nm,(ext ? 'G' : 'S'));
      OUT_DT_SHAPE(dd->data.id.new_type);
-     fprintf(dg_file,"\",%#x,0,%d,%s\n",(ext ? 0x24 :((no(global)!=0)?0x26:0x28)),
+     asm_fprintf(dg_file,"\",%#x,0,%d,%s\n",(ext ? 0x24 :((no(global)!=0)?0x26:0x28)),
 	   dd->data.id.whence.line_no.nat_val.small_nat /*0*/,
 	   id
 	  );
@@ -2011,11 +2012,11 @@ void stab_proc
 	 ,0);
    nm = id;
    if (diag == DIAG_GDB)
-      fprintf(dg_file, "\t.stabs\t\"%s:%c",nm,(public ? 'F' : 'f'));
+      asm_fprintf(dg_file, "\t.stabs\t\"%s:%c",nm,(public ? 'F' : 'f'));
    OUT_DT_SHAPE(dd->data.id.new_type->data.proc.result_type);
 
    if (diag == DIAG_GDB)
-      fprintf(dg_file,"\",0x24,0,%ld,%s\n",currentlno,id);
+      asm_fprintf(dg_file,"\",0x24,0,%ld,%s\n",currentlno,id);
 
    last_proc_lab = id;		/* id is passed from translate_capsule,
 				 so stays in scope while needed */
@@ -2110,9 +2111,9 @@ void close_function_scope
 	     }
 	     else
 	     {
-		fprintf(dg_file, "\t.stabs\t\"%s:p", nm);
+		asm_fprintf(dg_file, "\t.stabs\t\"%s:p", nm);
 		OUT_DT_SHAPE(dt);
-		fprintf(dg_file, "\",0xa0,0,%d,%ld\n",
+		asm_fprintf(dg_file, "\",0xa0,0,%d,%ld\n",
 #if 0
 			 shape_size(sh(son(id))) / 8,
 #else
@@ -2135,9 +2136,9 @@ void close_function_scope
 	     }
 	     else
 	     {
-		fprintf(dg_file, "\t.stabs\t\"%s:", nm);
+		asm_fprintf(dg_file, "\t.stabs\t\"%s:", nm);
 		OUT_DT_SHAPE(dt);
-		fprintf(dg_file,"\",0x80,0,%ld,%ld\n",currentlno,disp+ (frame_sz>>3));
+		asm_fprintf(dg_file,"\",0x80,0,%ld,%ld\n",currentlno,disp+ (frame_sz>>3));
 	     }
 	     return;
 	  }
@@ -2204,31 +2205,19 @@ void stab_types
     }
     else
     {
-       fputs("\t.stabs\t\"int:t1=r1;-2147483648;2147483647;\",0x80,0,0,0\n",
-	    dg_file);
-       fputs("\t.stabs\t\"short int:t2=r1;-32768;32767;\",0x80,0,0,0\n",
-	    dg_file);
-       fputs("\t.stabs\t\"short unsigned int:t3=r1;0;65535;\",0x80,0,0,0\n",
-	    dg_file);
-       fputs("\t.stabs\t\"char:t4=r4;0;127;\",0x80,0,0,0\n",
-	    dg_file);
-       fputs("\t.stabs\t\"signed char:t5=r1;-128;127;\",0x80,0,0,0\n",
-	    dg_file);
-       fputs("\t.stabs\t\"unsigned char:t6=r1;0;255;\",0x80,0,0,0\n",
-	    dg_file);
-       fputs("\t.stabs\t\"long int:t7=r1;-2147483648;2147483647;\",0x80,0,0,0\n",
-	    dg_file);
-       fputs("\t.stabs\t\"unsigned int:t8=r1;0;-1;\",0x80,0,0,0\n",
-	    dg_file);
-       fputs("\t.stabs\t\"long unsigned int:t9=r1;0;-1;\",0x80,0,0,0\n",
-	    dg_file);
-       fputs("\t.stabs\t\"float:t10=r1;4;0;\",0x80,0,0,0\n",
-	    dg_file);
-       fputs("\t.stabs\t\"double:t11=r1;8;0;\",0x80,0,0,0\n",
-	    dg_file);
-       fprintf(dg_file,"\t.stabs\t\"long double:t12=r1;8;0;\",0x80,0,0,0\n");
-       fputs("\t.stabs\t\"void:t13=13\",0x80,0,0,0\n",
-	    dg_file);
+       asm_fprintop(dg_file, ".stabs\t\"int:t1=r1;-2147483648;2147483647;\",0x80,0,0,0");
+       asm_fprintop(dg_file, ".stabs\t\"short int:t2=r1;-32768;32767;\",0x80,0,0,0");
+       asm_fprintop(dg_file, ".stabs\t\"short unsigned int:t3=r1;0;65535;\",0x80,0,0,0");
+       asm_fprintop(dg_file, ".stabs\t\"char:t4=r4;0;127;\",0x80,0,0,0");
+       asm_fprintop(dg_file, ".stabs\t\"signed char:t5=r1;-128;127;\",0x80,0,0,0");
+       asm_fprintop(dg_file, ".stabs\t\"unsigned char:t6=r1;0;255;\",0x80,0,0,0");
+       asm_fprintop(dg_file, ".stabs\t\"long int:t7=r1;-2147483648;2147483647;\",0x80,0,0,0");
+       asm_fprintop(dg_file, ".stabs\t\"unsigned int:t8=r1;0;-1;\",0x80,0,0,0");
+       asm_fprintop(dg_file, ".stabs\t\"long unsigned int:t9=r1;0;-1;\",0x80,0,0,0");
+       asm_fprintop(dg_file, ".stabs\t\"float:t10=r1;4;0;\",0x80,0,0,0");
+       asm_fprintop(dg_file, ".stabs\t\"double:t11=r1;8;0;\",0x80,0,0,0");
+       asm_fprintop(dg_file, ".stabs\t\"long double:t12=r1;8;0;\",0x80,0,0,0\n");
+       asm_fprintop(dg_file, ".stabs\t\"void:t13=13\",0x80,0,0,0");
     }
     type_info[0].sz = 0;
     type_info[1].sz = 32;
@@ -2275,34 +2264,34 @@ static void stab_tagdefs
 		if (nme && *nme)
 		{
 		    if (diag == DIAG_GDB)
-		       fprintf(dg_file, "\t.stabs\t\"%s:", nme);
+		       asm_fprintf(dg_file, "\t.stabs\t\"%s:", nme);
 		}
 		else
 		if (d->key == DIAG_TYPE_STRUCT)
 		{
 /*		   static int s_count = 0 ; gcc complains */
 		   if (diag == DIAG_GDB)
-		      fprintf(dg_file, "\t.stabs\t\"s:");
+		      asm_fprintf(dg_file, "\t.stabs\t\"s:");
 		}
 		else
 		{
 /*		   static int u_count = 0 ; gcc complains */
 		   if (diag == DIAG_GDB)
-  		      fprintf(dg_file, "\t.stabs\t\"u:");
+  		      asm_fprintf(dg_file, "\t.stabs\t\"u:");
 		}
 		if (d->been_outed && 0)
 		{
 		   if (diag == DIAG_GDB)
-		      fprintf(dg_file, "%d",(int)d->been_outed);
+		      asm_fprintf(dg_file, "%d",(int)d->been_outed);
 		}
 		else
 		{
 		   if (diag == DIAG_GDB)
-		      fprintf(dg_file, "T");
+		      asm_fprintf(dg_file, "T");
 		   OUT_DT_SHAPE(d);
 		}
 		if (diag == DIAG_GDB)
-		   fprintf(dg_file, "\",0x80,0,0,0\n");
+		   asm_fprintf(dg_file, "\",0x80,0,0,0\n");
 		break;
 	    }
 	    case DIAG_TYPE_UNINIT:
@@ -2328,11 +2317,11 @@ static void stab_typedefs
 	{
 	    long non = next_typen();
 	    if (diag == DIAG_GDB)
-	       fprintf(dg_file, "\t.stabs\t\"%s:t%ld=",
+	       asm_fprintf(dg_file, "\t.stabs\t\"%s:t%ld=",
 		      di[i].data.typ.nme.ints.chars, non);
 	    OUT_DT_SHAPE(di[i].data.typ.new_type);
 	    if (diag == DIAG_GDB)
-	       fprintf(dg_file, "\",0x80,0,0,0\n");
+	       asm_fprintf(dg_file, "\",0x80,0,0,0\n");
 	}
     }
     return;

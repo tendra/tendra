@@ -26,6 +26,7 @@
 #include <construct/f64.h>
 
 #include <main/flags.h>
+#include <main/print.h>
 
 #ifdef TDF_DIAG4
 #include <diag4/diag_fns.h>
@@ -212,28 +213,27 @@ static void evalval
     }
     switch (e_size) {
       case 8:
-	outn((long)k & 0xff);
+	asm_printf("%d", k & 0xff);
 	break;
       case 16:
-	outn((long)k & 0xffff);
+	asm_printf("%d", k & 0xffff);
 	break;
       case 32:
-	outn((long)k);
+	asm_printf("%d", k);
 	break;
       case 64:
-	outn((long)k);
-	outs(", ");
+	asm_printf("%d, ", k);
 	if (isbigval(e)) {
 	  SET(x);
-	  outn(x.big);
+	  asm_printf("%d", x.big);
 	} else
 	if (is_signed(sh(e)) && k < 0)
-	  outn(-1);
+	  asm_printf("%d", -1);
 	else
-	  outn(0);
+	  asm_printf("%d", 0);
 	break;
       default:
-	outn(k);
+	asm_printf("%d", k);
 	break;
     };
     return;
@@ -246,9 +246,7 @@ static void evalval
 
   if (n == reff_tag && name(son(e)) == name_tag && isglob(son(son(e)))) {
     outopenbr();
-    outs(brog(son(son(e))) -> dec_u.dec_val.dec_id);
-    outs(" + ");
-    outn((no(e) + no(son(e))) / 8);
+    asm_printf("%s + %d", brog(son(son(e))) -> dec_u.dec_val.dec_id, (no(e) + no(son(e))) / 8);
     outclosebr();
     return;
   };
@@ -256,13 +254,11 @@ static void evalval
   if (n == name_tag) {
     if (no(e)!= 0) {
       outopenbr();
-      outs(brog(son(e)) -> dec_u.dec_val.dec_id);
-      outs(" + ");
-      outn(no(e) / 8);
+      asm_printf("%s + %d", brog(son(e)) -> dec_u.dec_val.dec_id, no(e) / 8);
       outclosebr();
     }
     else
-      outs(brog(son(e)) -> dec_u.dec_val.dec_id);
+      asm_printf("%s", brog(son(e)) -> dec_u.dec_val.dec_id);
     return;
   };
 
@@ -270,16 +266,16 @@ static void evalval
     int k = evalexp(e);
     switch (e_size) {
       case 8:
-	outn((long)k & 0xff);
+	asm_printf("%d", k & 0xff);
 	break;
       case 16:
-	outn((long)k & 0xffff);
+	asm_printf("%d", k & 0xffff);
 	break;
       case 32:
-	outn((long)k);
+	asm_printf("%d", k);
 	break;
       default:
-	outn((long)k);
+	asm_printf("%d", k);
 	break;
     };
   }
@@ -298,21 +294,17 @@ static  void clear_out
   if (isconst) {
     while (al >= 32 && n >= 4) {
       outlong();
-      outs("0");
-      outnl();
+      asm_printf("0\n");
       n -= 4;
     };
     while (n > 0) {
       outbyte();
-      outs("0");
-      outnl();
+      asm_printf("0\n");
       --n;
     };
   }
   else {
-    outs(".set .,.+");
-    outn(n);
-    outnl();
+    asm_printf(".set .,.+%d\n");
   };
 
   return;
@@ -346,8 +338,7 @@ static void evalaux
             off >= (crt_off + 8))
          {
 	    outbyte();
-	    outn((long)work & 0xff);
-            outnl();
+	    asm_printf("%d\n", work & 0xff);
             crt_off += 8;
             work = 0;
             bits_left = 0;
@@ -377,8 +368,7 @@ static void evalaux
               { while ((offn+sz) >= 8)
                  {
 	           outbyte();
-	           outn((long)work & 0xff);
-                   outnl();
+	           asm_printf("%d\n", work & 0xff);
                    crt_off += 8;
                    work >>= 8;
                    offn -= 8;
@@ -391,8 +381,7 @@ static void evalaux
               for (i=0; i<4; ++i)
                  {
 	           outbyte();
-	           outn((long)work & 0xff);
-                   outnl();
+	           asm_printf("%d\n", work & 0xff);
                    crt_off += 8;
                    work >>= 8;
                    offn -= 8;
@@ -407,8 +396,7 @@ static void evalaux
           if (bits_left)
             {
 	       outbyte();
-	       outn((long)work & 0xff);
-               outnl();
+	       asm_printf("%d\n", work & 0xff);
                crt_off += 8;
             };
           clear_out((shape_size(sh(e)) - crt_off) /8, isconst,
@@ -434,22 +422,21 @@ static void evalaux
 		{
 			char *c = s;
 
-			out_comment();
-			outs("string constant: ");
+			asm_printf("\t# string constant: ");
 			do {
 				switch (*c) {
 				case '\n':
-					outs("\\n");
+					asm_printf("\\n");
 					break;
 				case '\0':
-					outs("\\0");
+					asm_printf("\\0");
 					break;
 				default:
-					outc(*c);
+					asm_printf("%c", *c);
 				}
 
 			} while (*c++ != '\0');
-			outs("\n");
+			asm_printf("\n");
 		}
 #endif
 
@@ -465,14 +452,14 @@ static void evalaux
 			for (j = i; goon && j < i + 10; ++j) {
 				switch (props(e)) {
 				case 8:
-					outn((long)s[j]);
+					asm_printf("%d", s[j]);
 					break;
 				case 16:
-					outn((long)((short*)(void*)s)[j]);
+					asm_printf("%d", ((short*)(void*)s)[j]);
 					break;
 					 /* the pun to short* is correct: jmf */
 				case 32:
-					outn((long)((int*)(void*)s)[j]);
+					asm_printf("%d", ((int*)(void*)s)[j]);
 					break;
 					 /* the pun to int* is correct: jmf */
 				case 64: {
@@ -482,17 +469,15 @@ static void evalaux
 						     ((int*)(void*)s)[j],
 						     0,
 						     &ov);
-						 outn((long)x.small);
-						 outs(", ");
-						 outn((long)x.big);
+						 asm_printf("%d, %d", x.small, x.big);
 					 }
 				}
 
 				--goon;
 				if (goon && j < i + 9)
-					outs(", ");
+					asm_printf(", ");
 			}
-			outnl();
+			asm_printf("\n");
 		}
 		return;
 	}
@@ -560,7 +545,7 @@ static void evalaux
 
   outsize(e_size);
   evalval(e);
-  outnl();
+  asm_printf("\n");
   return;
 }
 
@@ -578,9 +563,7 @@ void evaluate
   int al = shape_align(sh(c));
 
   if (global && cname == -1) {
-    outs(".globl ");
-    outs(s);
-    outnl();
+    asm_printf(".globl %s\n", s);
   };
 
   if (name(sh(c)) == realhd ||
@@ -604,22 +587,18 @@ void evaluate
 #endif
 
   if (cname == -1) {
-    outs(s);
+    asm_label("%s", s);
   }
   else {
-    outs(local_prefix);
-    outn((long)cname);
+    asm_label("%s%d", local_prefix, cname);
   };
-
-  outs(":");
-  outnl();
 
   evalaux(c, isconst, al);
 
   if (global)
     eval_postlude(s, c);
 
-  outnl();
+  asm_printf("\n");
 
   if (diag_props) {
 #ifndef DWARF2

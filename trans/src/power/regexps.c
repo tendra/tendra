@@ -16,11 +16,11 @@
 #include <refactor/refactor.h>
 
 #include <main/flags.h>
+#include <main/print.h>
 
 #include "memtdf.h"
 #include "codegen.h"
 #include "maxminmacs.h"		/* for absval() */
-#include "comment.h"
 #include "regexps.h"
 #include "localexpmacs.h"
 
@@ -177,9 +177,9 @@ static ans iskept_regrange(exp e, int low_reg, int hi_reg)
       {
 	aa = (regexps[i].inans);
 
-	FULLCOMMENT4("iskept found 1: reg=%d isc=%d name(e) =%d name(son(e)) =%d",
+	asm_comment("iskept found 1: reg=%d isc=%d name(e) =%d name(son(e)) =%d",
 		     i, isc, name(e), name(son(e)));
-	COMMENT1("iskept found: no = %d",no(e));
+	asm_comment("iskept found: no = %d",no(e));
 
 
 	switch (aa.discrim)
@@ -222,7 +222,7 @@ static ans iskept_regrange(exp e, int low_reg, int hi_reg)
 	    is.adval = 1;
 	    setinsalt(aq, is);
 
-	    FULLCOMMENT4("iskept found 2: reg=%d isc=%d name(e) =%d name(son(e)) =%d",
+	    asm_comment("iskept found 2: reg=%d isc=%d name(e) =%d name(son(e)) =%d",
 			 i, isc, name(e), name(son(e)));
 
 	    return aq;
@@ -251,7 +251,7 @@ static ans iskept_regrange(exp e, int low_reg, int hi_reg)
 	    is.b.offset = 0;
 	    setinsalt(aq, is);
 
-	    FULLCOMMENT4("iskept found 3: reg=%d isc=%d name(e) =%d name(son(e)) =%d",
+	    asm_comment("iskept found 3: reg=%d isc=%d name(e) =%d name(son(e)) =%d",
 			 i, isc, name(e), name(son(e)));
 
 	    return aq;
@@ -356,7 +356,7 @@ void keepexp(exp e, ans loc)
   regexps[pos].keptexp = e;
   regexps[pos].inans = loc;
   regexps[pos].iscont = 0;
-  COMMENT2("keepexp : reg %d kept name is %d",pos,name(e));
+  asm_comment("keepexp : reg %d kept name is %d",pos,name(e));
 }
 
 
@@ -393,7 +393,7 @@ void keepcont(exp e, int reg)
   assert(z >= 0 && z <= LAST_ALL_REGS);
   regexps[z].keptexp = e;
   regexps[z].iscont = 1;
-  COMMENT2("keepcont : reg %d kept name is %d",z,name(e));
+  asm_comment("keepcont : reg %d kept name is %d",z,name(e));
 
 }
 
@@ -434,7 +434,7 @@ void keepreg(exp e, int reg)
   assert(z >= 0 && z <= LAST_ALL_REGS);
   regexps[z].keptexp = e;
   regexps[z].iscont = 0;
-  COMMENT3("keepreg : reg %d kept name is %d no %d",z,name(e),no(e));
+  asm_comment("keepreg : reg %d kept name is %d no %d",z,name(e),no(e));
 }
 
 bool couldeffect(exp , exp);
@@ -592,7 +592,7 @@ void clear_dep_reg(exp lhs)
 	{
           if (dependson(regexps[i].keptexp, regexps[i].iscont, lhs))
           {
-            FULLCOMMENT2("clear_dep_reg: reg=%d iscont=%d", i, regexps[i].iscont);
+            asm_comment("clear_dep_reg: reg=%d iscont=%d", i, regexps[i].iscont);
             regexps[i].keptexp = NULL;
             setregalt(regexps[i].inans, 0);
           }

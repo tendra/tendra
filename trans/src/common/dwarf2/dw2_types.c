@@ -25,6 +25,7 @@
 
 #include <main/driver.h>
 #include <main/flags.h>
+#include <main/print.h>
 
 #ifdef TDF_DIAG4
 #include <diag4/diag_fns.h>
@@ -48,8 +49,6 @@ static void fail_unimplemented
 }
 
 static dg_type needed_types = NULL;
-
-static char * sep =  ", ";
 
 
 ext_lab dw2_find_type_label
@@ -233,8 +232,7 @@ static void out_class_data
       if (cb.location)
 	dw_locate_reloffset (son(cb.location));
       else {
-	out8(); outn ((long)1); outs(sep);
-	outn ((long)DW_OP_nop); d_outnl();
+	out8(); asm_printf("%d, %d\n", 1, DW_OP_nop);
       }
     }
     if (attr2 & H_AC)
@@ -335,30 +333,30 @@ static void out_variant_part
       long block_end = next_dwarf_label ();
       int ss = (name(sh(d_el->lower)) & 1);
       IGNORE dw_entry (dwe_variant_n, 0);
-      out16 (); out_dwf_dist_to_label (block_end); d_outnl();
+      out16 (); out_dwf_dist_to_label (block_end); asm_printf("\n");
       for (j = 0; j < v_el[i].discr.len; j++) {
 	out8 ();
 	if (no(d_el[i].lower) == no(d_el[i].upper)) {
-	  outn ((long)DW_DSC_label); outs (sep);
+	  asm_printf("%d, ", DW_DSC_label);
 	  if (ss)
 	    sleb128 ((long)no(d_el[i].lower));
 	  else
 	    uleb128 ((unsigned long)no(d_el[i].lower));
 	}
 	else {
-	  outn ((long)DW_DSC_range); outs (sep);
+	  asm_printf("%d, ", DW_DSC_range);
 	  if (ss) {
 	    sleb128 ((long)no(d_el[i].lower));
-	    outs (sep);
+	    asm_printf(", ");
 	    sleb128 ((long)no(d_el[i].upper));
 	  }
 	  else {
 	    uleb128 ((unsigned long)no(d_el[i].lower));
-	    outs (sep);
+	    asm_printf(", ");
 	    uleb128 ((unsigned long)no(d_el[i].upper));
 	  }
 	}
-	d_outnl();
+	asm_printf("\n");
       }
       out_dwf_label (block_end, 1);
     }
@@ -375,7 +373,7 @@ static void out_variant_part
 static void out_ref_bound
     ( dg_tag tg )
 {
-  dw_at_form (DW_FORM_ref_addr); d_outnl ();
+  dw_at_form (DW_FORM_ref_addr); asm_printf("\n");
   dw_at_ext_address (tg);
   return;
 }
@@ -598,7 +596,7 @@ void dw_out_type
 	  set_ext_address (el[i].tg);
 	if (el[i].is_chn) {
 	  IGNORE dw_entry (dwe_enum_char, 0);
-	  out8(); uleb128 ((unsigned long)el[i].chn); d_outnl();
+	  out8(); uleb128 ((unsigned long)el[i].chn); asm_printf("\n");
 	}
 	else {
 	  IGNORE dw_entry (dwe_enum_tor, 0);
@@ -711,7 +709,7 @@ void dw_out_type
 
       if (attr2 & H_EXTN) {
 	long block_end = next_dwarf_label ();
-	out16 (); out_dwf_dist_to_label (block_end); d_outnl();
+	out16 (); out_dwf_dist_to_label (block_end); asm_printf("\n");
 	attr1 &= ~attr2;
 	if (attr1 & H_NW) {
 	  set_attribute (DW_AT_DD_newtype, DW_FORM_flag);

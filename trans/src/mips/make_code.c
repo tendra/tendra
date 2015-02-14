@@ -34,6 +34,7 @@
 
 #include <main/driver.h>
 #include <main/flags.h>
+#include <main/print.h>
 
 #include <symtab/syms.h>
 
@@ -2176,7 +2177,7 @@ tailrecurse:
 	  		rri_ins(i_addu, 29, 29,(frame_size+callee_size) >>3);
 	  	}
 	  	extj_ins(i_j, boff(son(fn)));
-	  	if (as_file)fprintf(as_file," # Tail recursion\n");
+	  	if (as_file)asm_printf(" # Tail recursion\n");
 	  }
 
 	}
@@ -2269,7 +2270,7 @@ tailrecurse:
 	  else
 	  if (result_label != 0 && name(e) ==res_tag) {
 	  	uncond_ins(i_b, result_label);
-	  	if (as_file)fprintf(as_file, " # Return\n");
+	  	if (as_file)asm_printf( " # Return\n");
 	  }
 	  else{
 	      	if ((fixdone|fltdone) ==0) {
@@ -2350,9 +2351,9 @@ tailrecurse:
 	  procans = dest.answhere;
 	  rscope_label =  exitlab;
 
-	  if (as_file) fprintf(as_file, " # start inlined proc\n");
+	  if (as_file) asm_printf( " # start inlined proc\n");
 	  mka = make_code (son (e), sp, dest, rscope_label);
-	  if (as_file) fprintf(as_file, " # end inlined proc\n");
+	  if (as_file) asm_printf( " # end inlined proc\n");
 
 
 	  if (mka.lab != 0 && mka.lab != rscope_label) {
@@ -2478,13 +2479,13 @@ tailrecurse:
 	  n = l;
 
 	  if (as_file)
-	    fprintf(as_file, "\t.rdata\n$$%d:\n", veclab);
+	    asm_printop(".rdata\n$$%d:", veclab);
 	  out_common(0, irdata);
 	  out_common(tempsnos[veclab - 32], ilabel);
 	  for (;;) {
 	    for (; no (z) > n; n++) {/* o/p jump vector */
 	      if (as_file)
-		fprintf(as_file,
+		asm_printf(
 			(PIC_code)?"\t.gpword\t$%d\n":"\t.word\t$%d\n", endlab);
 	      out_value(-endlab,(PIC_code)?igpword:iword, 0, 1);
 	    }
@@ -2492,7 +2493,7 @@ tailrecurse:
 	    for (; n <= u; n++) {
 	      props(son(pt(z))) = 1; /* as bug - see labst_tag */
 	      if (as_file)
-		fprintf(as_file,
+		asm_printf(
 			(PIC_code)?"\t.gpword\t$%d\n":"\t.word\t$%d\n", no(son(pt(z))));
 	      out_value(-no(son(pt(z))), (PIC_code)?igpword:iword, 0, 1);
 	    }
@@ -2502,7 +2503,7 @@ tailrecurse:
 	  }
 
 	  if (as_file)
-	    fprintf(as_file, "\t.text\n");
+	    asm_printop(".text");
 	  out_common(0, itext);
 
 	  ls_ins(i_la, r3, zeroveclab);
@@ -3953,7 +3954,7 @@ tailrecurse:
 	    setnoreorder();
 	    out_cpload(current_symno, 25);
 	    if (as_file) {
-	    	fprintf(as_file, "\t.cpload\t$25\n");
+	    	asm_printop(".cpload $25");
 	    }
 	    setreorder();
 	}

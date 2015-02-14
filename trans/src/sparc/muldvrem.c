@@ -30,7 +30,6 @@
 #include "eval.h"
 #include "move.h"
 #include "oprators.h"
-#include "comment.h"
 #include "getregs.h"
 #include "guard.h"
 #include "locate.h"

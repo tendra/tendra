@@ -21,7 +21,6 @@
 
 #include <local/szs_als.h>
 #include <local/ash.h>
-#include <local/out.h>
 
 #include <reader/exp.h>
 
@@ -42,13 +41,13 @@
 
 #include <main/driver.h>
 #include <main/flags.h>
+#include <main/print.h>
 
 #include "addrtypes.h"
 #include "maxminmacs.h"
 #include "proctypes.h"
 #include "eval.h"
 #include "move.h"
-#include "comment.h"
 #include "getregs.h"
 #include "guard.h"
 #include "locate.h"
@@ -121,8 +120,8 @@ int local_stackerr_lab = 0;
 
 void call_tdf_main
 (void) {
-  outs("\tcall\t___TDF_main\n");
-  outs("\tnop\n");
+  asm_printop("call ___TDF_main");
+  asm_printop("nop");
   return;
 }
 
@@ -204,7 +203,7 @@ makeans make_proc_tag_code
 
   if (Has_vcallees) {
     sp = guardreg(callee_end_reg,sp);
-    outs("\t.optim\t\"-O0\"\n"); /* as -O2 optimises out some moves
+    asm_printop(".optim \"-O0\""); /* as -O2 optimises out some moves
 				    from %sp to other registers */
   }
 
@@ -306,12 +305,12 @@ makeans make_proc_tag_code
   if (PIC_code && proc_uses_external(e)) {
     char *g = "__GLOBAL_OFFSET_TABLE_";
     if (sysV_assembler)g++;
-    outs("1:\n");
-    outs("\tcall\t2f\n");
-    outf("\tsethi\t%%hi(%s+ (.-1b)),%%l7\n", g);
-    outs("2:\n");
-    outf("\tor\t%%l7,%%lo(%s+ (.-1b)),%%l7\n", g);
-    outs("\tadd\t%l7,%o7,%l7\n");
+    asm_label("1");
+    asm_printop("call 2f");
+    asm_printop("sethi %%hi(%s+ (.-1b)),%s", g, "%l7");
+    asm_label("2");
+    asm_printop("or %s,%%lo(%s+ (.-1b)),%s", "%17", g, "%l7");
+    asm_printop("add %s,%s,%s", "%17", "%o7", "%17");
 #ifdef DWARF2
     if (diag == DIAG_DWARF2)
       lost_count_ins();
@@ -397,19 +396,13 @@ makeans make_proc_tag_code
     static int p_lab = 0;
     p_lab++;
     if (sysV_assembler) {
-      outs("\t.reserve\tLP.");
-      outn(p_lab);
-      outs(",4,\".bss\",4\n");
+      asm_printop(".reserve LP.%d,4,\".bss\",4", p_lab);
       }
     else {
-      outs("\t.reserve\tLP.");
-      outn(p_lab);
-      outs(",4,\"bss\",4\n");
+      asm_printop(".reserve LP.%d,4,\"bss\",4", p_lab);
     }
     insection(text_section);
-    outs("\tset\tLP.");
-    outn(p_lab);
-    outs(",%o0\n");
+    asm_printop("set LP.%d,%s", p_lab, "%o0");
 #ifdef DWARF2
     if (diag == DIAG_DWARF2)
       lost_count_ins();
@@ -537,7 +530,7 @@ makeans make_proc_tag_code
     clear_all();
     if (stackerr_lab) {
       set_label(stackerr_lab);
-      fprintf(as_file, "\t%s\n", i_restore);
+      asm_printop("%s", i_restore);
       if (local_stackerr_lab) {
 	set_label(local_stackerr_lab);
       }
@@ -645,7 +638,7 @@ makeans make_res_tag_code
 	    ret_restore_ins();
 	  }
 	  else {
-	    fprintf(as_file, "\t%s\n", i_ret);
+	    asm_printop(as_file, "%s", i_ret);
 #ifdef DWARF2
 	    if (diag == DIAG_DWARF2)
 	      count_ins(1);
@@ -682,13 +675,13 @@ makeans make_res_tag_code
 	  ret_restore_ins();
 	}
 	else {
-	  fprintf(as_file, "\t%s\n", i_ret);
+	  asm_printop("%s", i_ret);
 #ifdef DWARF2
 	  if (diag == DIAG_DWARF2)
 	    count_ins(1);
 #endif
 	  rir_ins(i_restore,R_SP,-proc_state.maxargs>>3,R_SP);
-	  /*fprintf ( as_file, "\t%s,\%sp,0,\%sp\n", i_restore ) ;*/
+	  /* asm_printop ( "%s,\%sp,0,\%sp", i_restore ) ;*/
 	}
 	/*      ret_restore_ins () ;*/
       }
@@ -1229,7 +1222,7 @@ makeans make_apply_general_tag_code
   mka.lab = exitlab;
   mka.regmove = NOREG;
   if ((call_has_vcallees(cllees)!= 0)) {
-    outs("\t.optim\t\"-O0\"\n");
+    asm_printop(".optim \"-O0\"");
   }
 
   param_regs_used = param_reg - R_O0;
@@ -1405,7 +1398,7 @@ makeans make_apply_general_tag_code
     if (!call_is_untidy(cllees) && size_reg != R_NO_REG) {
       if (!sysV_assembler) {
 	/* with -O2 SunOS removes [add %sp,X,%sp] statements. */
-	outs("\t.optim\t\"-O0\"\n");
+	asm_printop(".optim \"-O0\"");
       }
       rrr_ins(i_add,R_SP,size_reg,R_SP);
     }
@@ -1905,7 +1898,7 @@ makeans make_tail_call_tag
     }
     if (!sysV_assembler) {
 	/* with -O2 SunOS corrupts unusual jmp/restore combination. */
-      outs("\t.optim\t\"-O0\"\n");
+      asm_printop(".optim \"-O0\"");
     }
 #ifdef DWARF2
     if (current_dg_info) {
@@ -1915,7 +1908,7 @@ makeans make_tail_call_tag
     }
 #endif
     extj_reg_ins_no_delay(i_jmp,r,-1);
-    fprintf ( as_file, "\t%s\n", i_restore ) ;	/* delay slot */
+    asm_printop ( "%s", i_restore ) ;	/* delay slot */
 #ifdef DWARF2
     if (diag == DIAG_DWARF2)
       count_ins(1);

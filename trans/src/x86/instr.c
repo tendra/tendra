@@ -42,6 +42,7 @@
 #include <construct/label_ops.h>
 
 #include <main/flags.h>
+#include <main/print.h>
 
 #include <refactor/refactor.h>
 
@@ -76,10 +77,6 @@ int avoid_intov; /* No software interrupts */
 
 static exp cont_err_handler = NULL;
 
-
-char *margin = " ";		/* instruction left margin */
-char *spx = " ";		/* separates instruction from operands */
-char *sep = ",";		/* separates operands */
 
 char *reg_name_long[8] = {
   "%eax", "%edx", "%ecx", "%ebx", "%edi", "%esi", "%ebp", "%esp"
@@ -123,22 +120,13 @@ void outreal
 
   switch (sw) {
     case 0:
-      outhex(longs.i1);
-      outnl();
+      asm_printf("0x%x\n", longs.i1);
       break;
     case 1:
-      outhex(longs.i1);
-      outs(",");
-      outhex(longs.i2);
-      outnl();
+      asm_printf("0x%x,0x%x\n", longs.i1, longs.i2);
       break;
     case 2:
-      outhex(longs.i1);
-      outs(",");
-      outhex(longs.i2);
-      outs(",");
-      outhex(longs.i3);
-      outnl();
+      asm_printf("0x%x,0x%x,0x%x\n", longs.i1, longs.i2, longs.i3);
       break;
   };
 
@@ -156,29 +144,23 @@ void rel_sp
   if (!must_use_bp) {
 				/* if we might use alloca all displacements must be relative to frame pointer */
     if (n == 0) {
-      outs("(%esp");
+      asm_printf("(%s", "%esp");
       if (b)
-	outs(")");
+	asm_printf(")");
       return;
     };
     if (n <= 127 || no_frame || stack_aligned_8byte) {
 				/* use stack pointer if displacement from it is small */
-      outn((long)n);
-      outs("(%esp");
+      asm_printf("%d(%s", n, "%esp");
       if (b)
-	outs(")");
+	asm_printf(")");
       return;
     };
   };
   /* otherwise use displacement from frame pointer */
-  outn((long)(i + (stack_dec / 8)));
-  outs("-");
-  outs(local_prefix);
-  outs("disp");
-  outn((long)crt_proc_id);
-  outs("(%ebp");
+  asm_printf("%d-%sdisp%d(%s", i + (stack_dec / 8), local_prefix, crt_proc_id, "%ebp");
   if (b)
-    outs(")");
+    asm_printf(")");
   return;
 }
 
@@ -190,15 +172,14 @@ void rel_cp
 {
   int  n = i + (extra_stack / 8);
   if (n == 0) {
-    outs("(%esp");
+    asm_printf("(%s", "%esp");
     if (b)
-      outs(")");
+      asm_printf(")");
     return;
   };
-  outn((long)n);
-  outs("(%esp");
+  asm_printf("%s(%s", n, "%esp");
   if (b)
-    outs(")");
+    asm_printf(")");
   return;
 }
 
@@ -209,21 +190,15 @@ void rel_ap
 (int i, int b)
 {
   if (no_frame) {
-    outn((long)(i + ((extra_stack - stack_dec) / 8)));
-    outs("+");
-    outs(local_prefix);
-    outs("disp");
-    outn((long)crt_proc_id);
-    outs("(%esp");
+    asm_printf("%d+%sdisp%d(%s", i + ((extra_stack - stack_dec) / 8), local_prefix, crt_proc_id, "%esp");
     if (b)
-      outs(")");
+      asm_printf(")");
     return;
   }
   else {
-    outn((long)i + 4);
-    outs("(%ebp");
+    asm_printf("%d(%s", i + 4, "%ebp");
     if (b)
-      outs(")");
+      asm_printf(")");
     return;
   };
 }
@@ -235,25 +210,15 @@ void rel_ap1
 (int i, int b)
 {
   if (no_frame) {
-    outn((long)(i + ((extra_stack - stack_dec) / 8)));
-    outs("+");
-    outs(local_prefix);
-    outs("fcwdisp");
-    outn((long)crt_proc_id);
-    outs("(%esp");
+    asm_printf("%d+%sfcwdisp(%s", i + (extra_stack - stack_dec) / 8, local_prefix, crt_proc_id, "%esp");
     if (b)
-      outs(")");
+      asm_printf(")");
     return;
   }
   else {
-    outn((long)i);
-    outs("-");
-    outs(local_prefix);
-    outs("fcwdisp");
-    outn((long)crt_proc_id);
-    outs("(%ebp");
+    asm_printf("%d-%sfcwdisp%d(%s", i, local_prefix, crt_proc_id, "%ebp");
     if (b)
-      outs(")");
+      asm_printf(")");
     return;
   };
 }
@@ -288,14 +253,14 @@ void regn
 
   if (z >= first_fl_reg) {
     if (z == first_fl_reg) {
-      outs(fl_reg_name[0]);
+      asm_printf("%s", fl_reg_name[0]);
       return;
     };
     if (fstack_pos > 16) {
       error(ERROR_INTERNAL, BAD_FSTACK);
       exit(EXIT_FAILURE);
     };
-    outs(fl_reg_name[fstack_pos - z]);
+    asm_printf("%s", fl_reg_name[fstack_pos - z]);
     /*
 	 * Variables held in the floating point registers have to be addressed
      * relative to the current stack position, because the registers are a
@@ -315,7 +280,7 @@ void regn
       rn = reg_name_long;
       break;
   };
-  outs (rn[z]);			/* this outputs the register name */
+  asm_printf("%s", rn[z]);			/* this outputs the register name */
   return;
 }
 
@@ -327,17 +292,16 @@ void ind_reg
     offset += extra_stack;
 
   if (offset == 0) {
-    outs("(");
+    asm_printf("(");
     regn(regs, rdisp, ldname, 32);
     if (b)
-      outs(")");
+      asm_printf(")");
   }
   else {
-    outn((long)offset / 8);
-    outs("(");
+    asm_printf("%d(", offset / 8);
     regn(regs, rdisp, ldname, 32);
     if (b)
-      outs(")");
+      asm_printf(")");
   };
   return;
 }
@@ -350,15 +314,14 @@ void index_opnd
   if ((name(m) == name_tag && ptno(son(m)) == reg_pl) ||
      (name(m) == cont_tag && name(son(m)) == name_tag &&
 	isvar(son(son(m))) && ptno(son(son(m))) == reg_pl))
-    outs("(");
+    asm_printf("(");
   operand(32, whmain, 0, 0);
-  outs(",");
+  asm_printf(",");
   operand(32, wh, 1, 0);
   if (sc != 1) {
-    outs(",");
-    outn((long)sc);
+    asm_printf(",%d", sc);
   };
-  outs(")");
+  asm_printf(")");
   return;
 }
 
@@ -377,29 +340,24 @@ void extn
         got = "GOT";
      else
         got = "GOTOFF";
-     outs(et -> dec_u.dec_val.dec_id);
-     outs("@");
-     outs(got);
+     asm_printf("%s@%s", et -> dec_u.dec_val.dec_id, got);
      if (off != 0)
       {
-        outs("+");
-        outn((long)off / 8);
+        asm_printf("+%d", off / 8);
       };
-     outs("(%ebx");
+     asm_printf("(%s", "%ebx");
      if (b)
-       outs(")");
+       asm_printf(")");
      return;
    };
 
   if (off == 0)
-    outs(et -> dec_u.dec_val.dec_id);
+    asm_printf("%s", et -> dec_u.dec_val.dec_id);
   else {
-    outs(et -> dec_u.dec_val.dec_id);
-    outs("+");
-    outn((long)off / 8);
+    asm_printf("%s+%d", et -> dec_u.dec_val.dec_id, off / 8);
   };
   if (!b)
-    outs("(");
+    asm_printf("(");
   return;
 }
 
@@ -418,8 +376,7 @@ void int_operand
     default:
       mask = 0xffffffff;
   };
-  outs("$");
-  outn((long)k & mask);
+  asm_printf("$%d", k & mask);
   return;
 }
 
@@ -428,7 +385,7 @@ void const_extn
 (exp ident, int noff)
 {
   if (!PIC_code)
-    outs("$");
+    asm_printf("$");
   extn(ident, noff, 1);
   return;
 }
@@ -442,18 +399,16 @@ void proc_extn
      dec * et;
      et = brog(id);
      if (off == 0)
-       outs(et -> dec_u.dec_val.dec_id);
+       asm_printf("%s", et -> dec_u.dec_val.dec_id);
      else {
-        outn((long)off / 8);
-        outs("+");
-        outs(et -> dec_u.dec_val.dec_id);
+        asm_printf("%d+%s", off / 8, et->dec_u.dec_val.dec_id);
      };
      if (et -> dec_u.dec_val.extnamed)
-        outs("@PLT");
+        asm_printf("@PLT");
    }
   else
    {
-     outs("$");
+     asm_printf("$");
      extn(id, off, 1);
    };
 
@@ -463,9 +418,7 @@ void proc_extn
 void ldisp
 (void)
 {
-   outs(local_prefix);
-   outs("disp");
-   outn((long)crt_proc_id);
+   asm_printf("%sdisp%d", local_prefix, crt_proc_id);
 }
 
 void label_operand
@@ -473,10 +426,7 @@ void label_operand
 {
   punner l;
   l.e = pt(e);
-  outs("$");
-  outs(local_prefix);
-  outs("V");
-  outhex(l.i);
+  asm_printf("$%sV0x%x", local_prefix, l.i);
   return;
 }
 
@@ -487,11 +437,7 @@ void set_lv_label
   l.e = e;
   min_rfree |= 0x78;  /* save all callee registers */
 
-  outs(local_prefix);
-  outs("V");
-  outhex(l.i);
-  outs(":");
-  outnl();
+  asm_label("%sV0x%x", local_prefix, l.i);
   return;
 }
 
@@ -500,22 +446,14 @@ void set_env_off
 {
   punner l;
   l.e = n;
-  outs(".set ");
-  outs(local_prefix);
-  outs("O");
-  outhex(l.i);		/* produce an identifying number */
-  outs(",");
+  asm_printf(".set %sO0x%x,", local_prefix, l.i); /* produce an identifying number */
   if (s<4)
    {
-    outn((long) -s/8);
-    outs("-");
-    outs(local_prefix);
-    outs("disp");
-    outn((long)crt_proc_id);
+    asm_printf("%d-%sdisp%d", -s / 8, local_prefix, crt_proc_id);
    }
   else
-   outn((long)s/8);
-  outnl();
+   asm_printf("%d", s / 8);
+  asm_printf("\n");
 }
 
 void envoff_operand
@@ -525,12 +463,9 @@ void envoff_operand
   l.e = e;
   if (off != 0)
    {
-    outn((long)off);
-    outs("+");
+    asm_printf("%d+", off);
    };
-  outs(local_prefix);
-  outs("O");
-  outhex(l.i);		/* produce an identifying number */
+  asm_printf("%sO0x%x", local_prefix, l.i); /* produce an identifying number */
   return;
 }
 
@@ -538,9 +473,7 @@ void envsize_operand
 (exp e)
 {
   dec * et = brog(e);
-  outs(local_prefix);
-  outs("ESZ");
-  outs(et -> dec_u.dec_val.dec_id);
+  asm_printf("%sESZ%s", local_prefix, et->dec_u.dec_val.dec_id);
   return;
 }
 
@@ -548,9 +481,7 @@ void envsize_operand
 void ins0
 (char *i)
 {
-  outs(margin);
-  outs(i);
-  outnl();
+  asm_printf("\t%s\n", i);
   return;
 }
 
@@ -558,11 +489,9 @@ void ins0
 void ins1
 (char *i, int le1, where a1)
 {
-  outs(margin);
-  outs(i);
-  outs(spx);
+  asm_printf("\t%s ", i);
   operand(le1, a1, 1, 0);
-  outnl();
+  asm_printf("\n");
   return;
 }
 
@@ -570,12 +499,9 @@ void ins1
 void ins1ind
 (char *i, int le1, where a1)
 {
-  outs(margin);
-  outs(i);
-  outs(spx);
-  outs("*");
+  asm_printf("\t%s *", i);
   operand(le1, a1, 1, 0);
-  outnl();
+  asm_printf("\n");
   return;
 }
 
@@ -583,11 +509,9 @@ void ins1ind
 void ins1lit
 (char *i, int le1, where a1)
 {
-  outs(margin);
-  outs(i);
-  outs(spx);
+  asm_printf("\t%s ", i);
   operand(le1, a1, 1, 1);
-  outnl();
+  asm_printf("\n");
   return;
 }
 
@@ -595,13 +519,11 @@ void ins1lit
 void ins2
 (char *i, int le1, int le2, where a1, where a2)
 {
-  outs(margin);
-  outs(i);
-  outs(spx);
+  asm_printf("\t%s ", i);
   operand(le1, a1, 1, 0);
-  outs(sep);
+  asm_printf(",");
   operand(le2, a2, 1, 0);
-  outnl();
+  asm_printf("\n");
   return;
 }
 
@@ -609,25 +531,20 @@ void ins2
 void ins3
 (char *i, int le1, int le2, int le3, where a1, where a2, where a3)
 {
-  outs(margin);
-  outs(i);
-  outs(spx);
+  asm_printf("\t%s ", i);
   operand(le1, a1, 1, 0);
-  outs(sep);
+  asm_printf(",");
   operand(le2, a2, 1, 0);
-  outs(sep);
+  asm_printf(",");
   operand(le3, a3, 1, 0);
-  outnl();
+  asm_printf("\n");
   return;
 }
 
 void simplest_set_lab
 (int labno)
 {
-  outs(local_prefix);
-  outn((long)labno);
-  outs(":");
-  outnl();
+  asm_label("%s%d", local_prefix, labno);
 }
 
 void simple_set_label
@@ -635,10 +552,7 @@ void simple_set_label
 {
   cond1_set = 0;
   cond2_set = 0;
-  outs(local_prefix);
-  outn ((long)labno);		/* the label no is held in the ptr field */
-  outs(":");
-  outnl();
+  asm_label("%s%d", local_prefix, labno); /* the label no is held in the ptr field */
 /* Removed for experiments: improves compress?
   keep_short = 1;
 */
@@ -663,8 +577,7 @@ void set_label
 void discard_fstack
 (void)
 {
-  outs(" fstp %st(0)");
-  outnl();
+  asm_printop("fstp %s(0)", "%st");
   pop_fl;
   return;
 }
@@ -672,8 +585,7 @@ void discard_fstack
 void discard_st1
 (void)
 {
-  outs(" fstp %st(1)");
-  outnl();
+  asm_printop("fstp %s(1)", "%st");
   pop_fl;
 }
 
@@ -712,12 +624,7 @@ void jump
 #ifndef TDF_DIAG4
   last_jump_pos = out_tell_pos();
 #endif
-  outs(margin);
-  outs(jmp);
-  outs(spx);
-  outs(local_prefix);
-  outn((long)ptno(jr));
-  outnl();
+  asm_printf("\t%s %s%ld\n", jmp, local_prefix, (long) ptno(jr));
   return;
 }
 
@@ -833,13 +740,7 @@ static char *out_branch
 void simple_branch
 (char *j, int labno)
 {
-  outs(margin);
-  outs(j);
-  outs(spx);
-  outs(local_prefix);
-  outn((long)labno);
-  outnl();
-
+  asm_printf("\t%s %s%d\n", j, local_prefix, labno);
 }
 
 /*
@@ -943,12 +844,7 @@ void setcc
   b = out_branch(sg, test_no, shnm);
   if (*b != 'j')
     error(ERROR_INTERNAL, NO_SETCC);
-  outs(margin);
-  outs("set");
-  outs(&b[1]);
-  outs(spx);
-  outs(reg_name_byte[0]);
-  outnl();
+  asm_printf("\tset %s%s\n", &b[1], reg_name_byte[0]);
   return;
 }
 
@@ -1069,33 +965,30 @@ void test_trap
 void mult_op
 (int inc, where rmain, where rind, int sc, where dest)
 {
-  outs(margin);
-  outs("leal");
-  outs(spx);
+  asm_printf("\tleal ");
   if (inc != 0)
-    outn((long)inc);
-  outs("(");
+    asm_printf("%s", inc);
+  asm_printf("(");
   if (name(rmain.where_exp)!= val_tag ||
      (no(rmain.where_exp) + rmain.where_off)!= 0)
     operand(32, rmain, 1, 0);
-  outs(",");
+  asm_printf(",");
   operand(32, rind, 1, 0);
   if (sc != 1) {
-    outs(",");
-    outn((long)sc);
+    asm_printf(",%d", sc);
   };
-  outs("),");
+  asm_printf("),");
 
   if (inmem(dest)) {
     operand(32, reg0, 1, 0);
-    outnl();
+    asm_printf("\n");
     invalidate_dest(reg0);
     end_contop();
     move(slongsh, reg0, dest);
   }
   else {
     operand(32, dest, 1, 0);
-    outnl();
+    asm_printf("\n");
     end_contop();
   };
   return;
@@ -1138,10 +1031,7 @@ void caseins
 
   if (!exhaustive && need_label_flag==1) {
     /*  label for default of switch; continue here */
-    outs(local_prefix);
-    outn((long)absent);
-    outs(":");
-    outnl();
+    asm_label("%s%d", local_prefix, absent);
 #ifdef DWARF2
     if (diag == DIAG_DWARF2) {
       dw2_start_basic_block();
@@ -1156,25 +1046,20 @@ void const_intnl
 {
   if (PIC_code)
    {
-    outs(local_prefix);
-    outn((long)lab);
-    outs("@GOTOFF");
+    asm_printf("%s%d@GOTOFF", local_prefix, lab);
     if (off != 0) {
-      outs("+");
-      outn((long)off / 8);
+      asm_printf("+%d", off / 8);
     };
-    outs("(%ebx)");
+    asm_printf("(%s)", "%ebx");
     return;
    }
   else
    {
     if (addr)
-      outs("$");
-    outs(local_prefix);
-    outn((long)lab);
+      asm_printf("$");
+    asm_printf("%s%d", local_prefix, lab);
     if (off != 0) {
-      outs("+");
-      outn((long)off / 8);
+      asm_printf("+%d", off / 8);
     };
     return;
   };
@@ -1183,42 +1068,27 @@ void const_intnl
 void load_stack0
 (void)
 {
-  outs(" fld %st(0)");
-  outnl();
+  asm_printop("fld %s(0)", "%st");
   return;
 }
 
 void outbp
 (void)
 {
-  outs("%ebp");
+  asm_printf("%s", "%ebp");
 }
 
 void set_stack_from_bp
 (void)
 {
-  outs(margin);
-  outs(leal);
-  outs(spx);
-  outn((long)stack_dec/8);
-  outs("-");
-  outs(local_prefix);
-  outs("disp");
-  outn((long)crt_proc_id);
-  outs("(%ebp)");
-  outs(sep);
-  outs("%esp");
-  outnl();
+  asm_printf("\t%s %d-%sdisp%d(%s)%s%s\n", leal, stack_dec / 8, local_prefix, crt_proc_id, "%ebp", "%esp");
   return;
 }
 
 void testah
 (int mask)
 {
-  outs(" testb $");
-  outn((long)mask);
-  outs(",%ah");
-  outnl();
+  asm_printop("testb $%d,%s", mask, "%ah");
   return;
 }
 

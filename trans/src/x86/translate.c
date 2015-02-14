@@ -32,6 +32,7 @@
 #include <construct/flpttypes.h>
 
 #include <main/flags.h>
+#include <main/print.h>
 
 #ifdef TDF_DIAG4
 #include <diag4/diag_fns.h>
@@ -93,7 +94,7 @@ static void eval_if_ready
 	   (!isvar(t) || (d -> dec_u.dec_val.acc & f_constant)) &&
 	    !PIC_code) {
           out_readonly_section();
-	  outnl();
+	  asm_printf("\n");
 #ifdef DWARF2
 	  if (diag == DIAG_DWARF2)
 	    note_ro(d -> dec_u.dec_val.dec_id);
@@ -102,8 +103,7 @@ static void eval_if_ready
 	else {
 	  if (do_prom)
 	    error(ERROR_INTERNAL, "prom data");
-	  outs(".data");
-	  outnl();
+	  asm_printf(".data\n");
 #ifdef DWARF2
 	  if (diag == DIAG_DWARF2)
 	    note_data(d -> dec_u.dec_val.dec_id);
@@ -124,13 +124,12 @@ static void eval_if_ready
     else {
 	if (!writable_strings && name(son(t))!= res_tag) {
              out_readonly_section();
-	     outnl();
+	     asm_printf("\n");
 	   }
 	else {
 	     if (do_prom)
 	       error(ERROR_INTERNAL, "prom data");
-	     outs(".data");
-	     outnl();
+	     asm_printf(".data\n");
 	   };
 	evaluate(son(t), no(t), NULL, (name(son(t))!= res_tag), 0, NULL);
     }
@@ -158,9 +157,9 @@ static void code_def
     if (props(son(tg))!= 0)
       error(ERROR_INTERNAL, "~asm not in ~asm_sequence");
     check_asm_seq(son(son(tg)), 1);
-    outs(".text");
+    asm_printf(".text\n");
     make_code(zero, stack, son(tg));
-    outnl();
+    asm_printf("\n");
   }
 
   if (son(tg)!= NULL && (my_def -> dec_u.dec_val.extnamed || no(tg)!= 0)) {
@@ -169,23 +168,16 @@ static void code_def
 	out_initialiser(id);
 	set_proc_uses_external (son (tg));	/* for PIC_code, should be done in install_fns? */
       }
-      outs(".text");
-      outnl();
+      asm_printf(".text\n");
       if (isvar(tg)) {
         char * newid = make_local_name();
 	if (my_def -> dec_u.dec_val.extnamed) {
 	  my_def -> dec_u.dec_val.extnamed = 0;
-	  outs(".globl ");
-	  outs(id);
-	  outnl();
+	  asm_printf(".globl %s\n", id);
 	}
 	dot_align(4);
-        outs(id);
-	outs(":");
-	outnl();
-	outlong();
-	outs(newid);
-	outnl();
+        asm_label("%s", id);
+	asm_printf(".long %s\n", newid);
 	id = newid;
 	my_def -> dec_u.dec_val.extnamed = 0;
       }
@@ -213,48 +205,27 @@ static void code_def
 
       if (shape_size(sh(son(tg))) == 0) {;
 	if (my_def -> dec_u.dec_val.extnamed) {
-	  outs(".globl ");
-	  outs(id);
-	  outnl();
+	  asm_printf(".globl %s\n", id);
 	}
 	else
 	if (assembler == ASM_SUN) {
-		outs(".local ");
-		outs(id);
-		outnl();
+		asm_printf(".local %s\n");
 	} else if (assembler == ASM_GAS) {
-		outs(".data");
-		outnl();
-		outs(id);
-		outs(":");
-		outnl();
+		asm_printf(".data\n");
+		asm_printf("%s:\n", id);
 	} else {
-		outs(".set ");
-		outs(id);
-		outs(",");
-		outn(0);
-		outnl();
+		asm_printf(".set %s, 0\n", id);
 	}
       }
       else
       if (!PIC_code && !isvar(tg) && name(son(tg)) == null_tag &&
 	  name(sh(son(tg))) == prokhd) {
 	if (my_def -> dec_u.dec_val.extnamed) {
-	  outs(".globl ");
-	  outs(id);
-	  outnl();
+	  asm_printf(".globl %s\n", id);
+	} else if (assembler == ASM_SUN) {
+	  asm_printf(".local %s\n", id);
 	}
-	else
-	if (assembler == ASM_SUN) {
-	  outs(".local ");
-	  outs(id);
-	  outnl();
-	}
-	outs(".set ");
-	outs(id);
-	outs(",");
-	outn((long)no(son(tg)));
-	outnl();
+	asm_printf(".set %s, %ld\n", id, (long) no(son(tg)));
       }
       else {
       if (!my_def -> dec_u.dec_val.isweak &&
@@ -275,9 +246,7 @@ static void code_def
 	 if (name(son(tg)) == clear_tag && no(son(tg)) == -1) {
 				/* prom global data */
 	   if (is_ext) {
-	     outs(".globl ");
-	     outs(id);
-	     outnl();
+	     asm_printf(".globl %s\n", id);
 	   }
            out_bss(id, sh(son(tg)));
 #ifdef DWARF2
@@ -446,7 +415,7 @@ void translate_capsule
 
 #ifdef DWARF2
     if (diag == DIAG_DWARF2) {
-        outs(".text\n");
+        asm_printf(".text\n");
         if (dump_abbrev) {
             do_abbreviations();
         }
@@ -471,7 +440,7 @@ void translate_capsule
     eval_if_ready(t,1);
   }
 
-  outs(".text\n");
+  asm_printf(".text\n");
 #ifdef DWARF2
   if (diag == DIAG_DWARF2) {
     dwarf2_postlude();

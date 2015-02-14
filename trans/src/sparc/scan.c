@@ -53,7 +53,6 @@
 #include "regmacs.h"
 #include "muldvrem.h"
 #include "translate.h"
-#include "comment.h"
 #include "scan.h"
 #include "reg_defs.h"
 #include "make_code.h"

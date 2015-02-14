@@ -21,7 +21,6 @@
 #include "codegen.h"
 #include "geninst.h"
 #include "maxminmacs.h"
-#include "comment.h"
 #include "muldvrem.h"
 #include "proc.h"
 #include "translate.h"

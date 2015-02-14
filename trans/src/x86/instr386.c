@@ -39,6 +39,7 @@
 #include <construct/installglob.h>
 
 #include <main/flags.h>
+#include <main/print.h>
 
 #include <refactor/refactor.h>
 
@@ -6827,20 +6828,16 @@ void restore_stack
 void start_asm
 (void)
 {
-  outnl();
-  out_comment();
-  outs(" ASM sequence start");
-  outnl();
+  asm_printf("\n");
+  asm_comment("ASM sequence start");
   return;
 }
 
 void end_asm
 (void)
 {
-  outc('\t');
-  out_comment();
-  outs(" ASM sequence ends");
-  outnl();
+  asm_printf("\n");
+  asm_comment("ASM sequence ends");
   return;
 }
 
@@ -6848,7 +6845,7 @@ void asm_ins
 (exp e)
 {
   if (name(son(e)) == string_tag)
-    outs(nostr(son(e)));
+    asm_printf("%s", nostr(son(e)));
   else {
     int prev_use_bp = must_use_bp;
     must_use_bp = 1;	/* scan must ensure !no_frame */

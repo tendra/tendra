@@ -25,7 +25,6 @@
 #include "instruct.h"
 #include "proc.h"
 #include "oprators.h"
-#include "comment.h"
 #include "make_code.h"
 #include "error.h"
 

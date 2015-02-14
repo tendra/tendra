@@ -24,6 +24,8 @@
 
 #include <local/ash.h>
 
+#include <main/print.h>
+
 #include "hppains.h"
 #include "inst_fmt.h"
 #include "addrtypes.h"
@@ -74,7 +76,7 @@ i_st_sz(int bits)
 void
 ld_addr(instore is, int reg)
 {
-  comment1("ld_addr: adval=%d", is.adval);
+  asm_comment("ld_addr: adval=%d", is.adval);
 
   if (is.adval)
   {
@@ -93,7 +95,7 @@ addr_reg(instore is, long regs)
 {
   int r;
 
-  comment1("addr_reg: adval=%d", is.adval);
+  asm_comment("addr_reg: adval=%d", is.adval);
 
   if (is.adval && IS_FIXREG(is.b.base) && is.b.offset == 0)
   {
@@ -114,7 +116,7 @@ move(ans a, where dest, long regs, bool sgned)
   if ( dest.ashwhere.ashsize == 0 )
      return NOREG ;
 
-  FULLCOMMENT4("move: %s -> %s, dest ashsize,ashalign = %d,%d",
+  asm_comment("move: %s -> %s, dest ashsize,ashalign = %d,%d",
 	       (int)ANSDISCRIM_NAME(discrim ( a )),
 	       (int)ANSDISCRIM_NAME(discrim ( dest.answhere )),
 	       dest.ashwhere.ashsize, dest.ashwhere.ashalign);
@@ -145,7 +147,7 @@ start:
 
       /* +++ bitad to bitad move, minimise shifts and masks */
 
-      comment("move: source bit address");
+      asm_comment("move: source bit address");
 
       if (discrim ( dest.answhere ) == inreg)
       {
@@ -181,9 +183,9 @@ start:
       bsize = dest.ashwhere.ashsize;
       bshift = 32 - bpos - bsize;
 
-      comment4("	dest ashsize,ashalign = %d,%d, iss.b.offset=%d (%%32=%d)",
+      asm_comment("	dest ashsize,ashalign = %d,%d, iss.b.offset=%d (%%32=%d)",
 	       dest.ashwhere.ashsize, dest.ashwhere.ashalign, iss.b.offset, iss.b.offset % 32);
-      comment3("	bpos=%d, bsize=%d, bshift=%d", bpos, bsize, bshift);
+      asm_comment("	bpos=%d, bsize=%d, bshift=%d", bpos, bsize, bshift);
 
       if (bpos + bsize > 32)
 	error(ERROR_SERIOUS, "bit load > 32 ");
@@ -251,7 +253,7 @@ start:
 
       setregalt(a, reg);
 
-      comment("move: source bit address now inreg");
+      asm_comment("move: source bit address now inreg");
 
       /*
        * Source 'a' adjusted into fixed point reg. Fall through to 'inreg'
@@ -367,7 +369,7 @@ start:
 
 	  /* +++ const to bit address */
 
-	  comment("move: dest bit address");
+	  asm_comment("move: dest bit address");
 
 	  if (!is.adval)
 	  {
@@ -386,9 +388,9 @@ start:
 	  bsize = dest.ashwhere.ashsize;
 	  bshift = 32 - bpos - bsize;
 
-	  comment4("	dest ashsize,ashalign = %d,%d, is.b.offset=%d (%%32=%d)",
+	  asm_comment("	dest ashsize,ashalign = %d,%d, is.b.offset=%d (%%32=%d)",
 		   dest.ashwhere.ashsize, dest.ashwhere.ashalign, is.b.offset, is.b.offset % 32);
-	  comment3("	bpos=%d, bsize=%d, bshift=%d", bpos, bsize, bshift);
+	  asm_comment("	bpos=%d, bsize=%d, bshift=%d", bpos, bsize, bshift);
 
 	  if (bpos + bsize > 32)
 	    error(ERROR_SERIOUS, "store bits over w-boundary");
@@ -413,7 +415,7 @@ start:
 
 	  mask = mask_left | mask_right;
 
-	  comment2("	mask_left=%#x, mask_right=%#x", mask_left, mask_right);
+	  asm_comment("	mask_left=%#x, mask_right=%#x", mask_left, mask_right);
 
 
 	  /* now adjust word_base to be a byte address */
@@ -752,9 +754,9 @@ start:
 
 	  no_steps = (bits + bits_per_step - 1) / bits_per_step;
 
-	  comment2("move: mem to mem dest.ashwhere.ashsize,ashalign=%d,%d",
+	  asm_comment("move: mem to mem dest.ashwhere.ashsize,ashalign=%d,%d",
 		   dest.ashwhere.ashsize, dest.ashwhere.ashalign);
-	  comment4("move: mem to mem bits=%d align=%d, bytes_per_step=%d no_steps=%d",
+	  asm_comment("move: mem to mem bits=%d align=%d, bytes_per_step=%d no_steps=%d",
 		   bits, al, bytes_per_step, no_steps);
 	  if ((al % 8) != 0 || (bits % 8) != 0)
 	  {
@@ -814,7 +816,7 @@ start:
 		{
 		  if (iss.b.offset == 0)
 		  {
-		    comment("move: using adval base reg directly");
+		    asm_comment("move: using adval base reg directly");
 		    r = iss.b.base;
 		  }
 		  else
@@ -832,7 +834,7 @@ start:
 	      if (!isd.adval)
 	      {
 		/* +++ move away from use below, but care for GR1 */
-		comment("move: !adval dest, using GR1");
+		asm_comment("move: !adval dest, using GR1");
 		ld_ins(i_lw,1,isd.b,GR1);
 		isd.b.base = GR1;
 		isd.b.offset = 0;
@@ -853,7 +855,7 @@ start:
 
 	      int r1, r2;	/* regs used to copy object */
 
-	      comment("move: inline move");
+	      asm_comment("move: inline move");
 
 	      assert(ld_steps >= 2);
 
@@ -877,7 +879,7 @@ start:
 		
 regs |= RMASK(pr);
 
-		comment("move: load ptr to source");
+		asm_comment("move: load ptr to source");
 
 		set_ins("",iss.b, pr);
 		iss.b.base = pr;
@@ -890,7 +892,7 @@ regs |= RMASK(pr);
 
 		regs |= RMASK(pr);
 
-		comment("move: dest !adval");
+		asm_comment("move: dest !adval");
 		ld_ins(i_lw,1,isd.b,pr);
 		isd.b.base = pr;
 		isd.b.offset = 0;
@@ -901,7 +903,7 @@ regs |= RMASK(pr);
 
 		regs |= RMASK(pr);
 
-		comment("move: load ptr to dest");
+		asm_comment("move: load ptr to dest");
 
 		set_ins("",isd.b, pr);
 		isd.b.base = pr;
@@ -960,7 +962,7 @@ regs |= RMASK(pr);
 		}
 	      }
 
-	      comment("move: end inline move");
+	      asm_comment("move: end inline move");
 
 	      assert(ld_steps == 0);
 
@@ -991,7 +993,7 @@ regs |= RMASK(pr);
 	    int loop = new_label();
 	    int blocksz;
 
-	    comment("move: loop move");
+	    asm_comment("move: loop move");
 
 	    /* moves of addresses not handled by this long move */
 	    assert(!iss.adval);

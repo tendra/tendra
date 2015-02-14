@@ -19,13 +19,13 @@
 
 #include <main/driver.h>
 #include <main/flags.h>
+#include <main/print.h>
 
 #include "memtdf.h"
 #include "codegen.h"
 #include "geninst.h"
 #include "translate.h"
 #include "make_code.h"
-#include "comment.h"
 #include "proc.h"
 #include "stack.h"
 #include "parameter.h"
@@ -35,14 +35,14 @@ int do_dynamic_init;
 
 void do__main_extern(void)
 {
-  fprintf(as_file,"\t.extern\t__main\n");
-  fprintf(as_file,"\t.extern\t.__main\n");
+  asm_printop(".extern __main");
+  asm_printop(".extern .__main");
 }
 
 void call__main(void)
 {
-  fprintf(as_file,"\tbl\t.__main\n");
-  fprintf(as_file,"\tcror\t15,15,15\n");
+  asm_printop("bl .__main");
+  asm_printop("cror 15,15,15");
 }
 int proc_is_main(exp e)
 {

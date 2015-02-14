@@ -21,6 +21,7 @@
 
 #include <main/driver.h>
 #include <main/flags.h>
+#include <main/print.h>
 
 #include "code_here.h"
 #include "addrtypes.h"
@@ -603,7 +604,7 @@ void import_long_double_lib
    int n;
    for (n=0; n<14; n++)
       if (long_double_lib[n].called)
-	 fprintf(as_file,"\t.IMPORT\t%s,CODE\n",long_double_lib[n].proc_name);
+	 asm_printop(".IMPORT %s,CODE",long_double_lib[n].proc_name);
    if (long_double_0)
    {
       outnl();

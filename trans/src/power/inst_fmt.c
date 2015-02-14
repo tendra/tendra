@@ -24,10 +24,10 @@
 
 #include <main/driver.h>
 #include <main/flags.h>
+#include <main/print.h>
 
 #include "geninst.h"
 #include "proc.h"
-#include "comment.h"
 #include "translate.h"
 #include "maxminmacs.h"		/* for absval() */
 #include "stack.h"
@@ -76,17 +76,17 @@ void ld_ro_ins(Instruction_P ins, baseoff a, int dest)
       error(ERROR_SERIOUS, "ld_ro_ins: non zero offset to R_0");
     /* with XXXx (indexed instructions) RA of R_0 is taken as constant 0 */
 	if (do_macros) {
- 	   fprintf(as_file, "\t%sx\t%s,%s,%s",get_instruction(ins),reg_macro(dest),reg_macro(R_0),reg_macro(R_0));
+ 	   asm_printf( "\t%sx\t%s,%s,%s",get_instruction(ins),reg_macro(dest),reg_macro(R_0),reg_macro(R_0));
 	} else {
-	    fprintf(as_file, "\t%sx\t%d,%d,%d", get_instruction(ins), dest, R_0, R_0);
+	    asm_printf( "\t%sx\t%d,%d,%d", get_instruction(ins), dest, R_0, R_0);
 	}
   }
   else if (IMM_SIZE(a.offset))
   {
 	if (do_macros) {
-	    fprintf(as_file, "\t%s\t%s,%d(%s)", get_instruction(ins), reg_macro(dest), (int)a.offset, reg_macro(a.base));
+	    asm_printf( "\t%s\t%s,%d(%s)", get_instruction(ins), reg_macro(dest), (int)a.offset, reg_macro(a.base));
 	} else {
-	    fprintf(as_file, "\t%s\t%d,%d(%d)", get_instruction(ins), dest,(int)a.offset, a.base);
+	    asm_printf( "\t%s\t%d,%d(%d)", get_instruction(ins), dest,(int)a.offset, a.base);
 	}
   }
   else
@@ -107,9 +107,9 @@ void ld_rr_ins(Instruction_P ins, int reg1, int reg2, int dest)
 
   clear_reg(dest);
 	if (do_macros) {
-  fprintf(as_file, "\t%sx\t%s,%s,%s\n", get_instruction(ins), reg_macro(dest), reg_macro(reg1), reg_macro(reg2));
+  asm_printop("%sx %s,%s,%s", get_instruction(ins), reg_macro(dest), reg_macro(reg1), reg_macro(reg2));
 	} else {
-  fprintf(as_file, "\t%sx\t%d,%d,%d\n", get_instruction(ins), dest, reg1, reg2);
+  asm_printop("%sx %d,%d,%d", get_instruction(ins), dest, reg1, reg2);
 	}
 }
 
@@ -122,9 +122,9 @@ void set_ins(baseoff a, int dest)
 
   clear_reg(dest);
 	if (do_macros) {
-  fprintf(as_file, "\t%s\t%s,T.%s(%s)\n", get_instruction(i_l), reg_macro(dest), extname, reg_macro(R_TOC));
+  asm_printop("%s %s,T.%s(%s)", get_instruction(i_l), reg_macro(dest), extname, reg_macro(R_TOC));
 	} else {
-  fprintf(as_file, "\t%s\t%d,T.%s(%d)\n", get_instruction(i_l), dest, extname, R_TOC);
+  asm_printop("%s %d,T.%s(%d)", get_instruction(i_l), dest, extname, R_TOC);
 	}
   /* +++ offsets in TOC */
   if (a.offset != 0)
@@ -146,7 +146,7 @@ void ld_ins(Instruction_P ins, baseoff a, int dest)
     /* global */
     baseoff tmp_off;
 
-    FULLCOMMENT2("ld_ins ext: off=%#x -> r%d", a.offset, dest);
+    asm_comment("ld_ins ext: off=%#x -> r%d", a.offset, dest);
     assert(a.offset==0 || dest!=R_TMP0);
 
     /* load base into dest reg, then let ld_ro_ins do offset (which may need R_TMP0) */
@@ -182,24 +182,24 @@ void st_ro_ins(Instruction_P ins, int src, baseoff a)
       error(ERROR_SERIOUS, "st_ro_ins: non zero offset to R_0");
     /* with XXXx (indexed instructions) RA of R_0 is taken as constant 0 */
 	if (do_macros) {
-	    fprintf(as_file, "\t%sx\t%s,%s,%s", get_instruction(ins), reg_macro(src), reg_macro(R_0), reg_macro(R_0));
+	    asm_printf( "\t%sx\t%s,%s,%s", get_instruction(ins), reg_macro(src), reg_macro(R_0), reg_macro(R_0));
 	} else {
-	    fprintf(as_file, "\t%sx\t%d,%d,%d", get_instruction(ins), src, R_0, R_0);
+	    asm_printf( "\t%sx\t%d,%d,%d", get_instruction(ins), src, R_0, R_0);
 	}
   }
   else if (IMM_SIZE(a.offset))
   {
 	if (do_macros) {
-	    fprintf(as_file, "\t%s\t%s,%d(%s)", get_instruction(ins), reg_macro(src), (int)a.offset, reg_macro(a.base));
+	    asm_printf( "\t%s\t%s,%d(%s)", get_instruction(ins), reg_macro(src), (int)a.offset, reg_macro(a.base));
 	} else {
-	    fprintf(as_file, "\t%s\t%d,%d(%d)", get_instruction(ins), src,(int)a.offset, a.base);
+	    asm_printf( "\t%s\t%d,%d(%d)", get_instruction(ins), src,(int)a.offset, a.base);
 	}
   }
   else
   {
     /* offset too big, put in temp reg and used st_rr_ins */
     /* +++ arrange stack variable to minimise this */
-    COMMENT("st_ro_ins: big offset, use temp reg and st_rr_ins");
+    asm_comment("st_ro_ins: big offset, use temp reg and st_rr_ins");
     assert(a.base!=R_TMP0);		/* otherwise we corrupt it */
     ld_const_ins(a.offset, R_TMP0);
     st_rr_ins(ins, src, a.base, R_TMP0);
@@ -212,9 +212,9 @@ void st_rr_ins(Instruction_P ins, int src, int reg1, int reg2)
   CHECKREG(src); CHECKREG(reg1); CHECKREG(reg2);
   assert(reg1!=R_0);
 	if (do_macros) {
-	  fprintf(as_file, "\t%sx\t%s,%s,%s\n", get_instruction(ins), reg_macro(src), reg_macro(reg1), reg_macro(reg2));
+	  asm_printop("%sx %s,%s,%s", get_instruction(ins), reg_macro(src), reg_macro(reg1), reg_macro(reg2));
 	} else {
-	  fprintf(as_file, "\t%sx\t%d,%d,%d\n", get_instruction(ins), src, reg1, reg2);
+	  asm_printop("%sx %d,%d,%d", get_instruction(ins), src, reg1, reg2);
 	}
 }
 
@@ -260,17 +260,17 @@ void rrr_ins(Instruction_P ins, int src1, int src2, int dest)
   if (ins == i_s)
   {
 	if (do_macros) {
-	    fprintf(as_file, "\t%s\t%s,%s,%s\n", get_instruction(i_sf), reg_macro(dest), reg_macro(src2), reg_macro(src1));
+	    asm_printop("%s %s,%s,%s", get_instruction(i_sf), reg_macro(dest), reg_macro(src2), reg_macro(src1));
 	} else {
-	    fprintf(as_file, "\t%s\t%d,%d,%d\n", get_instruction(i_sf), dest, src2, src1);
+	    asm_printop("%s %d,%d,%d", get_instruction(i_sf), dest, src2, src1);
 	}
   }
   else
   {
 	if (do_macros) {
-	    fprintf(as_file, "\t%s\t%s,%s,%s\n", get_instruction(ins), reg_macro(dest), reg_macro(src1), reg_macro(src2));
+	    asm_printop("%s %s,%s,%s", get_instruction(ins), reg_macro(dest), reg_macro(src1), reg_macro(src2));
 	} else {
-	    fprintf(as_file, "\t%s\t%d,%d,%d\n", get_instruction(ins), dest, src1, src2);
+	    asm_printop("%s %d,%d,%d", get_instruction(ins), dest, src1, src2);
 	}
   }
 
@@ -315,9 +315,9 @@ void rir_ins(Instruction_P ins, int src, long imm, int dest)
     }
 
 	if (do_macros) {
-	    fprintf(as_file,"\t%s\t%s,%s,%ld\n",get_instruction(imins), reg_macro(dest), reg_macro(src), imm);
+	    asm_printop("%s %s,%s,%ld",get_instruction(imins), reg_macro(dest), reg_macro(src), imm);
 	} else {
-	    fprintf(as_file,"\t%s\t%d,%d,%ld\n",get_instruction(imins), dest, src, imm);
+	    asm_printop("%s %d,%d,%ld",get_instruction(imins), dest, src, imm);
 	}
 
     return;
@@ -327,16 +327,16 @@ void rir_ins(Instruction_P ins, int src, long imm, int dest)
   {
     unsigned long uimm = imm;
 	if (do_macros) {
-	    fprintf(as_file, "\t%s\t%s,%s,%ld\n", get_instruction(i_cau), reg_macro(dest), reg_macro(src), uimm >> 16);
+	    asm_printop("%s %s,%s,%ld", get_instruction(i_cau), reg_macro(dest), reg_macro(src), uimm >> 16);
 	} else {
-	    fprintf(as_file, "\t%s\t%d,%d,%ld\n", get_instruction(i_cau), dest, src, uimm >> 16);
+	    asm_printop("%s %d,%d,%ld", get_instruction(i_cau), dest, src, uimm >> 16);
 	}
     return;
   }
 
   if ((ins == i_a || ins == i_s) && IMM_SIZE((imm/2) +1) && dest != R_SP)
   {
-    COMMENT1("rir_ins: special casing add/sub of constant %ld", imm);
+    asm_comment("rir_ins: special casing add/sub of constant %ld", imm);
     if (ins == i_s && imm == 0x8000)
     {
       /* use -0x8000 as imm, which is immediate */
@@ -365,11 +365,11 @@ void rir_ins(Instruction_P ins, int src, long imm, int dest)
     assert(x != 0);		/* should be handled above */
     if (is_a_mask(x) || is_a_mask(~x))
     {
-      COMMENT1("rir_ins: special casing and of constant %#lx", imm);
+      asm_comment("rir_ins: special casing and of constant %#lx", imm);
 	if (do_macros) {
-      fprintf(as_file, "\t%s\t%s,%s,0,0x%lx\n", get_instruction(i_rlinm), reg_macro(dest), reg_macro(src), imm);
+      asm_printop("%s %s,%s,0,0x%lx", get_instruction(i_rlinm), reg_macro(dest), reg_macro(src), imm);
 	} else {
-      fprintf(as_file, "\t%s\t%d,%d,0,0x%lx\n", get_instruction(i_rlinm), dest, src, imm);
+      asm_printop("%s %d,%d,0,0x%lx", get_instruction(i_rlinm), dest, src, imm);
 	}
       return;
     }
@@ -386,11 +386,11 @@ void rir_ins(Instruction_P ins, int src, long imm, int dest)
     assert(x != 0);		/* should be handled above */
     if (is_a_mask(x) || is_a_mask(~x))
     {
-      COMMENT1("rir_ins: special casing and of constant %#lx", imm);
+      asm_comment("rir_ins: special casing and of constant %#lx", imm);
 	if (do_macros) {
-      fprintf(as_file, "\t%s\t%s,%s,0,0x%lx\n", get_instruction(i_rlinm_cr), reg_macro(dest), reg_macro(src), imm);
+      asm_printop("%s %s,%s,0,0x%lx", get_instruction(i_rlinm_cr), reg_macro(dest), reg_macro(src), imm);
 	} else {
-      fprintf(as_file, "\t%s\t%d,%d,0,0x%lx\n", get_instruction(i_rlinm_cr), dest, src, imm);
+      asm_printop("%s %d,%d,0,0x%lx", get_instruction(i_rlinm_cr), dest, src, imm);
 	}
       return;
     }
@@ -406,9 +406,9 @@ void rir_ins(Instruction_P ins, int src, long imm, int dest)
     else if (ins==i_and_cr)ilins = i_andil_cr;
     else error(ERROR_SERIOUS, "Should never reach here");
 	if (do_macros) {
-	    fprintf(as_file, "\t%s\t%s,%s,%ld\n", get_instruction(ilins), reg_macro(dest), reg_macro(src), imm);
+	    asm_printop("%s %s,%s,%ld", get_instruction(ilins), reg_macro(dest), reg_macro(src), imm);
 	} else {
-	    fprintf(as_file, "\t%s\t%d,%d,%ld\n", get_instruction(ilins), dest, src, imm);
+	    asm_printop("%s %d,%d,%ld", get_instruction(ilins), dest, src, imm);
 	}
     return;
   }
@@ -423,9 +423,9 @@ void rir_ins(Instruction_P ins, int src, long imm, int dest)
     else if (ins==i_and_cr)iuins = i_andiu_cr;
     else error(ERROR_SERIOUS, "Should never reach here");
 	if (do_macros) {
-	    fprintf(as_file, "\t%s\t%s,%s,%ld\n",get_instruction(iuins), reg_macro(dest), reg_macro(src), uimm >> 16);
+	    asm_printop("%s %s,%s,%ld",get_instruction(iuins), reg_macro(dest), reg_macro(src), uimm >> 16);
 	} else {
-	    fprintf(as_file, "\t%s\t%d,%d,%ld\n",get_instruction(iuins), dest, src, uimm >> 16);
+	    asm_printop("%s %d,%d,%ld",get_instruction(iuins), dest, src, uimm >> 16);
 	}
     return;
   }
@@ -435,18 +435,18 @@ void rir_ins(Instruction_P ins, int src, long imm, int dest)
     /* or lower and then upper end */
     unsigned long uimm = imm;
 	if (do_macros) {
-	    fprintf(as_file, "\t%s\t%s,%s,0x%lx\n", get_instruction(i_oril), reg_macro(dest), reg_macro(src), uimm & 0xffff);
-	    fprintf(as_file, "\t%s\t%s,%s,0x%lx\n", get_instruction(i_oriu), reg_macro(dest), reg_macro(dest), uimm >> 16);
+	    asm_printop("%s %s,%s,0x%lx", get_instruction(i_oril), reg_macro(dest), reg_macro(src), uimm & 0xffff);
+	    asm_printop("%s %s,%s,0x%lx", get_instruction(i_oriu), reg_macro(dest), reg_macro(dest), uimm >> 16);
 	} else {
-	    fprintf(as_file, "\t%s\t%d,%d,0x%lx\n", get_instruction(i_oril), dest, src, uimm & 0xffff);
-	    fprintf(as_file, "\t%s\t%d,%d,0x%lx\n", get_instruction(i_oriu), dest, dest, uimm >> 16);
+	    asm_printop("%s %d,%d,0x%lx", get_instruction(i_oril), dest, src, uimm & 0xffff);
+	    asm_printop("%s %d,%d,0x%lx", get_instruction(i_oriu), dest, dest, uimm >> 16);
 	}
 
     return;
   }
 
   /* default: use temp reg for large constant */
-  COMMENT("rir_ins: large constant in R_TMP0");
+  asm_comment("rir_ins: large constant in R_TMP0");
   if (src == R_TMP0)
     error(ERROR_SERIOUS, "rir_ins: temp reg in use when needed for large constant");	/* should not happen */
   ld_const_ins(imm, R_TMP0);
@@ -463,9 +463,9 @@ void rr_ins(Instruction_P ins, int src, int dest)
     rir_ins(i_sf, src, -1, dest);		/* implements monadic not */
   else
 	if (do_macros) {
-	    fprintf(as_file, "\t%s\t%s,%s\n", get_instruction(ins), reg_macro(dest), reg_macro(src));
+	    asm_printop("%s %s,%s", get_instruction(ins), reg_macro(dest), reg_macro(src));
 	} else {
-	    fprintf(as_file, "\t%s\t%d,%d\n", get_instruction(ins), dest, src);
+	    asm_printop("%s %d,%d", get_instruction(ins), dest, src);
 	}
 }
 
@@ -481,9 +481,9 @@ void mov_rr_ins(int src, int dest)
     clear_reg(dest);
     /* move by i_oril of src with 0 to dest */
 	if (do_macros) {
-	    fprintf(as_file, "\t%s\t%s,%s,%d", get_instruction(i_oril), reg_macro(dest), reg_macro(src), 0);
+	    asm_printf( "\t%s\t%s,%s,%d", get_instruction(i_oril), reg_macro(dest), reg_macro(src), 0);
 	} else {
-	    fprintf(as_file, "\t%s\t%d,%d,%d", get_instruction(i_oril), dest, src, 0);
+	    asm_printf( "\t%s\t%d,%d,%d", get_instruction(i_oril), dest, src, 0);
 	}
   }
 }
@@ -499,9 +499,9 @@ void ld_const_ins(long imm, int dest)
   if (IMM_SIZE(imm))
   {
 	if (do_macros) {
-	    fprintf(as_file, "\t%s\t%s,%ld\n", get_instruction(i_lil), reg_macro(dest), imm);
+	    asm_printop("%s %s,%ld", get_instruction(i_lil), reg_macro(dest), imm);
 	} else {
-	    fprintf(as_file, "\t%s\t%d,%ld\n", get_instruction(i_lil), dest, imm);
+	    asm_printop("%s %d,%ld", get_instruction(i_lil), dest, imm);
 	}
   }
   else
@@ -511,17 +511,17 @@ void ld_const_ins(long imm, int dest)
 
     /* load upper 16 bits */
 	if (do_macros) {
-	    fprintf(as_file, "\t%s\t%s,0x%lx\n",get_instruction(i_liu), reg_macro(dest), uimm >> 16);
+	    asm_printop("%s %s,0x%lx",get_instruction(i_liu), reg_macro(dest), uimm >> 16);
 	} else {
-	    fprintf(as_file, "\t%s\t%d,0x%lx\n",get_instruction(i_liu), dest, uimm >> 16);
+	    asm_printop("%s %d,0x%lx",get_instruction(i_liu), dest, uimm >> 16);
 	}
     /* or in lower 16 bits if needed */
     if (uimml != 0)
     {
 		if (do_macros) {
-	      fprintf(as_file, "\t%s\t%s,%s,0x%lx\n", get_instruction(i_oril), reg_macro(dest), reg_macro(dest), uimml);
+	      asm_printop("%s %s,%s,0x%lx", get_instruction(i_oril), reg_macro(dest), reg_macro(dest), uimml);
 		} else {
-	      fprintf(as_file, "\t%s\t%d,%d,0x%lx\n", get_instruction(i_oril), dest, dest, uimml);
+	      asm_printop("%s %d,%d,0x%lx", get_instruction(i_oril), dest, dest, uimml);
 		}
     }
   }
@@ -542,9 +542,9 @@ void mf_ins(Instruction_P ins, int dest)
     clear_freg(dest);
   }
 	if (do_macros) {
-	  fprintf(as_file, "\t%s\t%s\n", get_instruction(ins), reg_macro(dest));
+	  asm_printop("%s %s", get_instruction(ins), reg_macro(dest));
 	} else {
-	  fprintf(as_file, "\t%s\t%d\n", get_instruction(ins), dest);
+	  asm_printop("%s %d", get_instruction(ins), dest);
 	}
 }
 
@@ -553,16 +553,16 @@ void mt_ins(Instruction_P ins, int src)
 {
   CHECKREG(src);
 	if (do_macros) {
-	  fprintf(as_file, "\t%s\t%s\n", get_instruction(ins), reg_macro(src));
+	  asm_printop("%s %s", get_instruction(ins), reg_macro(src));
 	} else {
-	  fprintf(as_file, "\t%s\t%d\n", get_instruction(ins), src);
+	  asm_printop("%s %d", get_instruction(ins), src);
 	}
 }
 
 /* zeroadic pseudo instruction */
 void z_ins(Instruction_P ins)
 {
-  fprintf(as_file, "\t%s\n", get_instruction(ins));
+  asm_printop("%s", get_instruction(ins));
 }
 
 /*
@@ -572,7 +572,7 @@ void z_ins(Instruction_P ins)
 /* unconditional branch */
 void uncond_ins(Instruction_P ins, int lab)
 {
-  fprintf(as_file, "\t%s\tL.%d\n", get_instruction(ins), lab);
+  asm_printop("%s L.%d", get_instruction(ins), lab);
 }
 
 
@@ -585,12 +585,12 @@ void extj_ins(Instruction_P ins, baseoff b)
 {
   char *ext;
 
-  FULLCOMMENT1("extj_ins: global proc no=%d",(-b.base) - 1);
+  asm_comment("extj_ins: global proc no=%d",(-b.base) - 1);
   assert(((-b.base) -1) >=0);
 
   ext = main_globals[(-b.base) - 1] ->dec_u.dec_val.dec_id;
 
-  fprintf(as_file, "\t%s\t.%s\n", get_instruction(ins), ext);
+  asm_printop("%s .%s", get_instruction(ins), ext);
 
   /*
    * By convention a special no-op is generated after a call,
@@ -601,7 +601,7 @@ void extj_ins(Instruction_P ins, baseoff b)
    */
   if (diag != DIAG_NONE || !main_globals[(-b.base) -1] ->dec_u.dec_val.have_def)
   {
-    fprintf(as_file, "\t%s\t%d,%d,%d\n", get_instruction(i_cror), 15, 15, 15);	/* conventional nop */
+    asm_printop("%s %d,%d,%d", get_instruction(i_cror), 15, 15, 15);	/* conventional nop */
   }
 
 }
@@ -609,8 +609,8 @@ void extj_ins(Instruction_P ins, baseoff b)
 /* jump/call to compiler generated external identifier, eg .mul */
 void extj_special_ins(Instruction_P ins, char *nm)
 {
-  fprintf(as_file, "\t%s\t%s\n", get_instruction(ins), nm);
-  fprintf(as_file, "\t%s\t%d,%d,%d\n", get_instruction(i_cror), 15, 15, 15);	/* conventional nop */
+  asm_printop("%s %s", get_instruction(ins), nm);
+  asm_printop("%s %d,%d,%d", get_instruction(i_cror), 15, 15, 15);	/* conventional nop */
 }
 
 
@@ -660,21 +660,21 @@ void bc_ins(Instruction_P ins, int creg, int lab, int prediction)
     }
     else
     {
-      fprintf(as_file,"\t%s\t%d,L.%d\n",get_instruction(ins),creg,lab);
+      asm_printop("%s %d,L.%d",get_instruction(ins),creg,lab);
       return;
     }
     if (prediction)
     {
       BO+=1;
     }
-    fprintf(as_file,"\t%s\t%d,%d,L.%d\n",get_instruction(i_bc),BO,BI,lab);
+    asm_printop("%s %d,%d,L.%d",get_instruction(i_bc),BO,BI,lab);
   }
   else
   {
 	if (do_macros) {
-	    fprintf(as_file,"\t%s\t%s,L.%d\n",get_instruction(ins),cr_macro(creg),lab);
+	    asm_printop("%s %s,L.%d",get_instruction(ins),cr_macro(creg),lab);
 	} else {
-	    fprintf(as_file,"\t%s\t%d,L.%d\n",get_instruction(ins),creg,lab);
+	    asm_printop("%s %d,L.%d",get_instruction(ins),creg,lab);
 	}
   }
 }
@@ -740,7 +740,7 @@ void long_bc_ins(Instruction_P ins, int creg, int lab, int prediction)
     }
     else
     {
-      fprintf(as_file,"\t%s\t%d,L.%d\n",get_instruction(ins),creg,lab);
+      asm_printop("%s %d,L.%d",get_instruction(ins),creg,lab);
       uncond_ins(i_b,new_lab);
       set_label(lab);
       return;
@@ -749,7 +749,7 @@ void long_bc_ins(Instruction_P ins, int creg, int lab, int prediction)
     {
       BO+=1;
     }
-    fprintf(as_file,"\t%s\t%d,%d,L.%d\n",get_instruction(i_bc),BO,BI,lab);
+    asm_printop("%s %d,%d,L.%d",get_instruction(i_bc),BO,BI,lab);
     uncond_ins(i_b,new_lab);
     set_label(lab);
     return;
@@ -757,9 +757,9 @@ void long_bc_ins(Instruction_P ins, int creg, int lab, int prediction)
   else
   {
 	if (do_macros) {
-	    fprintf(as_file,"\t%s\t%s,L.%d\n",get_instruction(ins),cr_macro(creg),lab);
+	    asm_printop("%s %s,L.%d",get_instruction(ins),cr_macro(creg),lab);
 	} else {
-	    fprintf(as_file,"\t%s\t%d,L.%d\n",get_instruction(ins),creg,lab);
+	    asm_printop("%s %d,L.%d",get_instruction(ins),creg,lab);
 	}
 
     uncond_ins(i_b,new_lab);
@@ -774,9 +774,9 @@ void cmp_rr_ins(Instruction_P ins, int reg1, int reg2, int cr_dest)
 {
   CHECKREG(reg1); CHECKREG(reg2);
 	if (do_macros) {
-	  fprintf(as_file, "\t%s\t%s,%s,%s\n", get_instruction(ins), cr_macro(cr_dest), reg_macro(reg1), reg_macro(reg2));
+	  asm_printop("%s %s,%s,%s", get_instruction(ins), cr_macro(cr_dest), reg_macro(reg1), reg_macro(reg2));
 	} else {
-	  fprintf(as_file, "\t%s\t%d,%d,%d\n", get_instruction(ins), cr_dest, reg1, reg2);
+	  asm_printop("%s %d,%d,%d", get_instruction(ins), cr_dest, reg1, reg2);
 	}
 }
 
@@ -790,23 +790,23 @@ void cmp_ri_ins(Instruction_P ins, int reg, long imm, int cr_dest)
   if (ins == i_cmp && IMM_SIZE(imm))
   {
 	if (do_macros) {
-	    fprintf(as_file, "\t%si\t%s,%s,%ld\n", get_instruction(ins), cr_macro(cr_dest), reg_macro(reg), imm);
+	    asm_printop("%si %s,%s,%ld", get_instruction(ins), cr_macro(cr_dest), reg_macro(reg), imm);
 	} else {
-	    fprintf(as_file, "\t%si\t%d,%d,%ld\n", get_instruction(ins), cr_dest, reg, imm);
+	    asm_printop("%si %d,%d,%ld", get_instruction(ins), cr_dest, reg, imm);
 	}
   }
   else if (ins == i_cmpl && IMMLOGL_SIZE(imm))
   {
 	if (do_macros) {
-	    fprintf(as_file, "\t%si\t%s,%s,%ld\n", get_instruction(ins), cr_macro(cr_dest), reg_macro(reg), imm);
+	    asm_printop("%si %s,%s,%ld", get_instruction(ins), cr_macro(cr_dest), reg_macro(reg), imm);
 	} else {
-	    fprintf(as_file, "\t%si\t%d,%d,%ld\n", get_instruction(ins), cr_dest, reg, imm);
+	    asm_printop("%si %d,%d,%ld", get_instruction(ins), cr_dest, reg, imm);
 	}
   }
   else
   {
     /* use temp reg for large constant */
-    COMMENT("condri_ins: large constant in R_TMP0");
+    asm_comment("condri_ins: large constant in R_TMP0");
     if (reg == R_TMP0)
       error(ERROR_SERIOUS, "cmp_ri_ins: temp reg in use when needed for large constant");	/* should not happen */
     ld_const_ins(imm, R_TMP0);
@@ -830,25 +830,25 @@ void ldf_ro_ins(Instruction_P ins, baseoff a, int dest)
       error(ERROR_SERIOUS, "ldf_ro_ins: non zero offset to R_0");
     /* with XXXx (indexed instructions) RA of R_0 is taken as constant 0 */
 	if (do_macros) {
-	    fprintf(as_file, "\t%sx\t%s,%s,%s\n", get_instruction(ins), freg_macro(dest), reg_macro(R_0), reg_macro(R_0));
+	    asm_printop("%sx %s,%s,%s", get_instruction(ins), freg_macro(dest), reg_macro(R_0), reg_macro(R_0));
 	} else {
-	    fprintf(as_file, "\t%sx\t%d,%d,%d\n", get_instruction(ins), dest, R_0, R_0);
+	    asm_printop("%sx %d,%d,%d", get_instruction(ins), dest, R_0, R_0);
 	}
   }
   else
   if (IMM_SIZE(a.offset))
   {
 	if (do_macros) {
-	    fprintf(as_file, "\t%s\t%s,%d(%s)\n", get_instruction(ins), freg_macro(dest), (int)a.offset, reg_macro(a.base));
+	    asm_printop("%s %s,%d(%s)", get_instruction(ins), freg_macro(dest), (int)a.offset, reg_macro(a.base));
 	} else {
-	    fprintf(as_file, "\t%s\t%d,%d(%d)\n", get_instruction(ins), dest,(int)a.offset, a.base);
+	    asm_printop("%s %d,%d(%d)", get_instruction(ins), dest,(int)a.offset, a.base);
 	}
   }
   else
   {
     /* offset too big, put in temp reg and used ld_rr_ins */
     /* +++ arrange stack variable to minimise this */
-    COMMENT("ldf_ro_ins: big offset, use R_TMP0 and ldf_rr_ins");
+    asm_comment("ldf_ro_ins: big offset, use R_TMP0 and ldf_rr_ins");
     assert(a.base!=R_TMP0);		/* otherwise we corrupt it */
     ld_const_ins(a.offset, R_TMP0);
     ldf_rr_ins(ins, a.base, R_TMP0, dest);
@@ -862,9 +862,9 @@ void ldf_rr_ins(Instruction_P ins, int reg1, int reg2, int dest)
 
   clear_freg(dest);
 	if (do_macros) {
-	  fprintf(as_file, "\t%sx\t%s,%s,%s\n", get_instruction(ins), freg_macro(dest), reg_macro(reg1), reg_macro(reg2));
+	  asm_printop("%sx %s,%s,%s", get_instruction(ins), freg_macro(dest), reg_macro(reg1), reg_macro(reg2));
 	} else {
-	  fprintf(as_file, "\t%sx\t%d,%d,%d\n", get_instruction(ins), dest, reg1, reg2);
+	  asm_printop("%sx %d,%d,%d", get_instruction(ins), dest, reg1, reg2);
 	}
 }
 
@@ -910,25 +910,25 @@ void stf_ro_ins(Instruction_P ins, int src, baseoff a)
       error(ERROR_SERIOUS, "stf_ro_ins: non zero offset to R_0");
     /* with XXXx (indexed instructions) RA of R_0 is taken as constant 0 */
 	if (do_macros) {
-	    fprintf(as_file, "\t%sx\t%s,%s,%s\n", get_instruction(ins), freg_macro(src), reg_macro(R_0), reg_macro(R_0));
+	    asm_printop("%sx %s,%s,%s", get_instruction(ins), freg_macro(src), reg_macro(R_0), reg_macro(R_0));
 	} else {
-	    fprintf(as_file, "\t%sx\t%d,%d,%d\n", get_instruction(ins), src, R_0, R_0);
+	    asm_printop("%sx %d,%d,%d", get_instruction(ins), src, R_0, R_0);
 	}
   }
   else
   if (IMM_SIZE(a.offset))
   {
 	if (do_macros) {
-	    fprintf(as_file, "\t%s\t%s,%d(%s)\n", get_instruction(ins), freg_macro(src), (int)a.offset, reg_macro(a.base));
+	    asm_printop("%s %s,%d(%s)", get_instruction(ins), freg_macro(src), (int)a.offset, reg_macro(a.base));
 	} else {
-	    fprintf(as_file, "\t%s\t%d,%d(%d)\n", get_instruction(ins), src,(int)a.offset, a.base);
+	    asm_printop("%s %d,%d(%d)", get_instruction(ins), src,(int)a.offset, a.base);
 	}
   }
   else
   {
     /* offset too big, put in temp reg and used stf_rr_ins */
     /* +++ arrange stack variable to minimise this */
-    COMMENT("stf_ro_ins: big offset, use temp reg and stf_rr_ins");
+    asm_comment("stf_ro_ins: big offset, use temp reg and stf_rr_ins");
     assert(a.base!=R_TMP0);		/* otherwise we corrupt it */
     ld_const_ins(a.offset, R_TMP0);
     stf_rr_ins(ins, src, a.base, R_TMP0);
@@ -940,9 +940,9 @@ void stf_rr_ins(Instruction_P ins, int src, int reg1, int reg2)
 {
   CHECKREG(reg1); CHECKREG(reg2);
 	if (do_macros) {
-	  fprintf(as_file, "\t%sx\t%s,%s,%s\n", get_instruction(ins), freg_macro(src), reg_macro(reg1), reg_macro(reg2));
+	  asm_printop("%sx %s,%s,%s", get_instruction(ins), freg_macro(src), reg_macro(reg1), reg_macro(reg2));
 	} else {
-	  fprintf(as_file, "\t%sx\t%d,%d,%d\n", get_instruction(ins), src, reg1, reg2);
+	  asm_printop("%sx %d,%d,%d", get_instruction(ins), src, reg1, reg2);
 	}
 }
 
@@ -978,9 +978,9 @@ void rrf_cmp_ins(Instruction_P ins, int reg1, int reg2, int cr_dest)
 {
   CHECKFREG(reg1); CHECKFREG(reg2);
 	if (do_macros) {
-	  fprintf(as_file, "\t%s\t%s,%s,%s\n", get_instruction(ins), cr_macro(cr_dest), freg_macro(reg1), freg_macro(reg2));
+	  asm_printop("%s %s,%s,%s", get_instruction(ins), cr_macro(cr_dest), freg_macro(reg1), freg_macro(reg2));
 	} else {
-	  fprintf(as_file, "\t%s\t%d,%d,%d\n", get_instruction(ins), cr_dest, reg1, reg2);
+	  asm_printop("%s %d,%d,%d", get_instruction(ins), cr_dest, reg1, reg2);
 	}
 }
 
@@ -991,9 +991,9 @@ void rrf_ins(Instruction_P ins, int src, int dest)
 
   clear_freg(dest);
 	if (do_macros) {
-  fprintf(as_file, "\t%s\t%s,%s\n", get_instruction(ins), freg_macro(dest), freg_macro(src));
+  asm_printop("%s %s,%s", get_instruction(ins), freg_macro(dest), freg_macro(src));
 	} else {
-  fprintf(as_file, "\t%s\t%d,%d\n", get_instruction(ins), dest, src);
+  asm_printop("%s %d,%d", get_instruction(ins), dest, src);
 	}
 }
 
@@ -1004,9 +1004,9 @@ void rrrf_ins(Instruction_P ins, int src1, int src2, int dest)
 
   clear_freg(dest);
 	if (do_macros) {
-	  fprintf(as_file, "\t%s\t%s,%s,%s\n", get_instruction(ins), freg_macro(dest), freg_macro(src1), freg_macro(src2));
+	  asm_printop("%s %s,%s,%s", get_instruction(ins), freg_macro(dest), freg_macro(src1), freg_macro(src2));
 	} else {
-	  fprintf(as_file, "\t%s\t%d,%d,%d\n", get_instruction(ins), dest, src1, src2);
+	  asm_printop("%s %d,%d,%d", get_instruction(ins), dest, src1, src2);
 	}
 }
 
@@ -1016,9 +1016,9 @@ void rrrrf_ins(Instruction_P ins, int src1, int src2, int src3, int dest)
 
   clear_freg(dest);
 	if (do_macros) {
-	  fprintf(as_file,"\t%s\t%s,%s,%s,%s\n",get_instruction(ins),freg_macro(dest),freg_macro(src1),freg_macro(src2),freg_macro(src3));
+	  asm_printop("%s %s,%s,%s,%s",get_instruction(ins),freg_macro(dest),freg_macro(src1),freg_macro(src2),freg_macro(src3));
 	} else {
-	  fprintf(as_file,"\t%s\t%d,%d,%d,%d\n",get_instruction(ins),dest,src1,src2,src3);
+	  asm_printop("%s %d,%d,%d,%d",get_instruction(ins),dest,src1,src2,src3);
 	}
 }
 void rlinm_ins(Instruction_P ins, int src1, int sl, unsigned int mask, int dest)
@@ -1027,9 +1027,9 @@ void rlinm_ins(Instruction_P ins, int src1, int sl, unsigned int mask, int dest)
   assert(ins==i_rlinm||ins==i_rlinm_cr);
   clear_reg(dest);
 	if (do_macros) {
-	  fprintf(as_file,"\t%s\t%s,%s,%d,0x%x\n",get_instruction(ins),reg_macro(dest),reg_macro(src1),sl,mask);
+	  asm_printop("%s %s,%s,%d,0x%x",get_instruction(ins),reg_macro(dest),reg_macro(src1),sl,mask);
 	} else {
-	  fprintf(as_file,"\t%s\t%d,%d,%d,0x%x\n",get_instruction(ins),dest,src1,sl,mask);
+	  asm_printop("%s %d,%d,%d,0x%x",get_instruction(ins),dest,src1,sl,mask);
 	}
 }
 
@@ -1038,56 +1038,56 @@ void mfspr_ins(int spr, int dest)
   CHECKREG(dest);
   clear_reg(dest);
 	if (do_macros) {
-	  fprintf(as_file,"\t%s\t%s,%s\n",get_instruction(i_mfspr),reg_macro(dest),spr_macro(spr));
+	  asm_printop("%s %s,%s",get_instruction(i_mfspr),reg_macro(dest),spr_macro(spr));
 	} else {
-	  fprintf(as_file,"\t%s\t%d,%d\n",get_instruction(i_mfspr),dest,spr);
+	  asm_printop("%s %d,%d",get_instruction(i_mfspr),dest,spr);
 	}
 }
 void mtfsfi_ins(int fld, int imm)
 {
-  fprintf(as_file,"\t%s\t%d,%d\n",get_instruction(i_mtfsfi),fld,imm);
+  asm_printop("%s %d,%d",get_instruction(i_mtfsfi),fld,imm);
 }
 void mtfsb0_ins(int bit)
 {
   assert(bit>=0 && bit<=31);
-  fprintf(as_file,"\t%s\t%d\n",get_instruction(i_mtfsb0),bit);
+  asm_printop("%s %d",get_instruction(i_mtfsb0),bit);
 }
 void mtfsb1_ins(int bit)
 {
   assert(bit>=0 && bit<=31);
-  fprintf(as_file,"\t%s\t%d\n",get_instruction(i_mtfsb1),bit);
+  asm_printop("%s %d",get_instruction(i_mtfsb1),bit);
 }
 void mcrfs_ins(int a, int b)
 {
   assert(a>=0 && a<=7);
   assert(b>=0 && b<=7);
 	if (do_macros) {
-	  fprintf(as_file,"\t%s\t%s,%d\n",get_instruction(i_mcrfs),cr_macro(a),b);
+	  asm_printop("%s %s,%d",get_instruction(i_mcrfs),cr_macro(a),b);
 	} else {
-	  fprintf(as_file,"\t%s\t%d,%d\n",get_instruction(i_mcrfs),a,b);
+	  asm_printop("%s %d,%d",get_instruction(i_mcrfs),a,b);
 	}
 }
 void lsi_ins(int src, int dest, int nb)
 {
-  fprintf(as_file,"\t%s\t%d,%d,%d\n",get_instruction(i_lsi),dest,src,nb);
+  asm_printop("%s %d,%d,%d",get_instruction(i_lsi),dest,src,nb);
 }
 void stsi_ins(int src, int dest, int nb)
 {
-  fprintf(as_file,"\t%s\t%d,%d,%d\n",get_instruction(i_stsi),src,dest,nb);
+  asm_printop("%s %d,%d,%d",get_instruction(i_stsi),src,dest,nb);
 }
 void comment(char *p)
 {
 #ifndef NDEBUG
   if (p==NULL)
   {
-    fprintf(as_file,"\n");
+    asm_printf("\n");
   }
   else
   {
-    fprintf(as_file,"        # %s\n",p);
+    asm_printf("        # %s\n",p);
   }
 #else
-  fprintf(as_file,"\n");
+  asm_printf("\n");
 #endif
   return;
 }

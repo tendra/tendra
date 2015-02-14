@@ -25,6 +25,7 @@
 #include <construct/flpt.h>
 
 #include <main/flags.h>
+#include <main/print.h>
 
 #include <refactor/optimise.h>
 
@@ -38,7 +39,6 @@
 #include "eval.h"
 #include "scan.h"
 #include "stabs_diag3.h"
-#include "comment.h"
 #include "translate.h"
 #include "stack.h"
 #include "frames.h"
@@ -174,7 +174,7 @@ void set_up_frame_info(procrec * pr, exp e)
   }
   if (pr->leaf_proc)
   {
-    COMMENT("leaf_proc");
+    asm_comment("leaf_proc");
     assert(maxargs==0);
   }
   else
@@ -204,7 +204,7 @@ void set_up_frame_info(procrec * pr, exp e)
   }
   
   
-  COMMENT2("gpr use mask = %#x, lowest = %d", pr->spacereqproc.fixdump, pr->sreg_first_save);
+  asm_comment("gpr use mask = %#x, lowest = %d", pr->spacereqproc.fixdump, pr->sreg_first_save);
   assert(pr->sreg_first_save==R_NO_REG || IS_SREG(pr->sreg_first_save));
   
   
@@ -222,7 +222,7 @@ void set_up_frame_info(procrec * pr, exp e)
   }
   
   
-  COMMENT2("fpr use mask = %#x, lowest = %d", pr->spacereqproc.fltdump, pr->sfreg_first_save);
+  asm_comment("fpr use mask = %#x, lowest = %d", pr->spacereqproc.fltdump, pr->sfreg_first_save);
   assert(pr->sfreg_first_save==FR_NO_REG || IS_FLT_SREG(pr->sfreg_first_save));
   if (pr->leaf_proc)
   {

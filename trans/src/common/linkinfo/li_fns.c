@@ -32,18 +32,7 @@
 
 #include <main/driver.h>
 #include <main/flags.h>
-
-/* TODO: stopgap until outs() is centralised */
-#if TRANS_X86
-#include "localtypes.h"
-#include "assembler.h"
-#include <local/out.h>
-#endif
-
-/* TODO: stopgap until outs() is centralised */
-#if TRANS_SPARC
-#include <local/out.h>
-#endif
+#include <main/print.h>
 
 int use_link_stuff;
 weak_cell *weak_list;
@@ -68,14 +57,10 @@ out_rename(char *oldid, char *newid)
 #endif
 #elif defined(TRANS_SPARC)
 #if 0
-	outs ( "\t" ) ;
-	outs ( oldid ) ;
-	outs ( "=" ) ;
-	outs ( newid ) ;
-	outnl () ;
+	asm_printop("%s=%s", oldid, newid);
 #endif
 #elif defined(TRANS_HPPA)
-	comment2("renamed %s as %s", oldid, newid);
+	asm_comment("renamed %s as %s", oldid, newid);
 #else
 	UNUSED(oldid);
 	UNUSED(newid);
@@ -113,9 +98,7 @@ f_make_weak_symbol(tdfstring id, exp e)
 		char *nid = add_prefix(name_prefix, id.ints.chars);
 		brog(son(e))->dec_u.dec_val.isweak = 1;
 		brog(son(e))->dec_u.dec_val.extnamed = 1;
-		outs(".weak ");
-		outs(nid);
-		outnl();
+		asm_printf(".weak %s\n", nid);
 		out_rename(*lid, nid);
 		*lid = nid;
 #endif
@@ -131,10 +114,7 @@ f_make_comment(tdfstring id)
 {
 	if (use_link_stuff) {
 #if TRANS_X86 || TRANS_SPARC
-		outs(".ident \"");
-		outs(add_prefix(name_prefix, id.ints.chars));
-		outs("\"");
-		outnl();
+		asm_printf(".ident \"%s\"\n", add_prefix(name_prefix, id.ints.chars));
 #endif
 	}
 

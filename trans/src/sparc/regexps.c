@@ -29,7 +29,6 @@
 #include "maxminmacs.h"
 #include "regmacs.h"
 #include "regexps.h"
-#include "comment.h"
 
 #ifdef DWARF2
 #include "dw2_extra.h"

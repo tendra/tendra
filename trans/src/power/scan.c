@@ -40,11 +40,11 @@
 #include <construct/me_fns.h>
 
 #include <main/flags.h>
+#include <main/print.h>
 
 #include <refactor/const.h>
 #include <refactor/refactor.h>
 
-#include "comment.h"
 #include "memtdf.h"
 #include "codegen.h"
 #include "procrectypes.h"
@@ -1304,13 +1304,13 @@ needs scan(exp * e, exp * *at)
 
 	onepar = scan(par, at);
 
-	FULLCOMMENT4("scan: apply_tag: i=%d parn=%d pars=%d mover=%d",
+	asm_comment("scan: apply_tag: i=%d parn=%d pars=%d mover=%d",
 		i, onepar.fixneeds, par_regs_used, move_to_stack_regs);
 
 	if (((i != 1 || regresult) && (onepar.propsneeds & hasproccall)!= 0))
 	{
 	  /* if it isn't the first parameter, and it calls a proc, identify it */
-	  FULLCOMMENT("scan apply_tag: cca bring forward apply");
+	  asm_comment("scan apply_tag: cca bring forward apply");
 	  cca(at, par);
 	  nds.propsneeds |= usesproccall;
 	  nds = maxneeds(shapeneeds(sh(*(par))), nds);
@@ -1321,7 +1321,7 @@ needs scan(exp * e, exp * *at)
 		 onepar.fixneeds + move_to_stack_regs + par_regs_used > maxfix)
 	{
 	  /* requires to many regs to evaluate, identify it */
-	  FULLCOMMENT("scan apply_tag: cca, param has too large fixneeds");
+	  asm_comment("scan apply_tag: cca, param has too large fixneeds");
 	  cca(at, par);
 	  nds.propsneeds |= morefix;
 	  nds = maxneeds(shapeneeds(sh(*(par))), nds);
@@ -1344,7 +1344,7 @@ needs scan(exp * e, exp * *at)
       if (!regresult && name(father(application))!= ass_tag)
       {
 	/* find space for non reg result */
-	FULLCOMMENT("scan apply_tag: cca space for non reg result");
+	asm_comment("scan apply_tag: cca space for non reg result");
 	cca(at, ptr_position(application));
 	nds.propsneeds |= usesproccall;
       }
@@ -2311,7 +2311,7 @@ needs scan(exp * e, exp * *at)
 
    default:
     {
-      FULLCOMMENT1("scan: bad nstare=%d", nstare);
+      asm_comment("scan: bad nstare=%d", nstare);
       error(ERROR_SERIOUS, "case not covered in needs scan");
       return zeroneeds;
     }

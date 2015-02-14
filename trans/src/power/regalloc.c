@@ -34,10 +34,11 @@
 #include <construct/installtypes.h>
 #include <construct/ash.h>
 
+#include <main/print.h>
+
 #include "memtdf.h"
 #include "codegen.h"
 #include "maxminmacs.h"
-#include "comment.h"
 #include "regalloc.h"
 #include "stack.h"
 
@@ -97,7 +98,7 @@ spacereq regalloc(exp e, int freefixed, int freefloat, long stack)
       bool caller_in_postlude = (name(s)==caller_name_tag);
       spacereq body;
       
-      FULLCOMMENT4("regalloc ident_tag:	vis=%d	freefixed,freefloat,stack = %d %d %ld", isvis(e)!=0, freefixed, freefloat, stack);
+      asm_comment("regalloc ident_tag:	vis=%d	freefixed,freefloat,stack = %d %d %ld", isvis(e)!=0, freefixed, freefloat, stack);
       
       assert(freefixed >= 0);
       assert(freefloat >= 0);
@@ -155,7 +156,7 @@ spacereq regalloc(exp e, int freefixed, int freefloat, long stack)
 	  def = regalloc(s, freefixed, freefloat, stack);
 	}
 	
-	FULLCOMMENT4("regalloc ident_tag:	props=%#x fixregable=%d no(e)=%d ffix=%d", props(e), fixregable(e), no(e), ffix);
+	asm_comment("regalloc ident_tag:	props=%#x fixregable=%d no(e)=%d ffix=%d", props(e), fixregable(e), no(e), ffix);
 	
 	if ((props(e) & inreg_bits) == 0 && 
 	    fixregable(e) && no(e) < ffix
@@ -166,7 +167,7 @@ spacereq regalloc(exp e, int freefixed, int freefloat, long stack)
 	  no(e) = SREG_TO_REALREG(ffix);	/* will be in s reg */
 	  def.fixdump |= RMASK(no(e));
 	  ffix--;
-	  FULLCOMMENT1("regalloc suitable for s reg:	no(e)=%ld", no(e));
+	  asm_comment("regalloc suitable for s reg:	no(e)=%ld", no(e));
 	  assert(ffix >= 0);
 	  assert(IS_SREG(no(e)));
 	  assert(a.ashsize <= 32);
@@ -180,7 +181,7 @@ spacereq regalloc(exp e, int freefixed, int freefloat, long stack)
 	  no(e) = SFREG_TO_REALFREG(ffloat);	/* will be in s reg */
 	  def.fltdump |= RMASK(no(e));
 	  ffloat--;
-	  FULLCOMMENT1("regalloc suitable for s freg:	no(e)=%ld", no(e));
+	  asm_comment("regalloc suitable for s freg:	no(e)=%ld", no(e));
 	  assert(ffloat >= 0);
 	  assert(IS_FLT_SREG(no(e)));
 	  assert(a.ashsize <= 64);
@@ -211,14 +212,14 @@ spacereq regalloc(exp e, int freefixed, int freefloat, long stack)
 	    }
 	    pt(e) = NULL;
 	    
-	    FULLCOMMENT("regalloc heavily used const: no spare regs - replace use by value");
+	    asm_comment("regalloc heavily used const: no spare regs - replace use by value");
 	    props(e) |= defer_bit;
 	    def = zerospace;
 	  }
 	  else if (name(son(e)) == name_tag && !isvar(e) && !isenvoff(e))
 	  {
 	    /* must have been forced  - defer it */
-	    FULLCOMMENT("regalloc heavily used address: no spare regs - replace use by value");
+	    asm_comment("regalloc heavily used address: no spare regs - replace use by value");
 	    props(e) |= defer_bit;
 	    def = zerospace;
 	  }
@@ -254,17 +255,17 @@ spacereq regalloc(exp e, int freefixed, int freefloat, long stack)
 	    def.stack = max(def.stack, st);
 	    no(e) = (stack<<3) + R_FP;		/* no() decoded by boff() */
 	    assert((stack&7)==0);			/* must be byte aligned */
-	    FULLCOMMENT3("regalloc allocate on stack:	stack,st=%ld,%ld	no(e)=%ld", stack,st,no(e));
+	    asm_comment("regalloc allocate on stack:	stack,st=%ld,%ld	no(e)=%ld", stack,st,no(e));
 	  }
 	}
 	else 
 	{
-	  FULLCOMMENT1("regalloc no(e)==%d:/* allocation of stack like regs in make_code */", no(e));
+	  asm_comment("regalloc no(e)==%d:/* allocation of stack like regs in make_code */", no(e));
 	}
       }
       body = regalloc(bro(s), ffix, ffloat, st);
 
-      FULLCOMMENT3("regalloc return:	ffix,ffloat,st = %d %d %ld", ffix, ffloat, st);
+      asm_comment("regalloc return:	ffix,ffloat,st = %d %d %ld", ffix, ffloat, st);
       return maxspace2(def, body);
     }
     

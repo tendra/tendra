@@ -111,7 +111,7 @@ stab_file(int i)
     return;
   l = strlen (fds[i]->file.ints.chars);
   if (as_file) {
-    x (fprintf (as_file, "\t.file\t%d \"%s\"\n", file_dnos[i], fds[i]->file.ints.chars));
+    x (asm_printop(".file %d \"%s\"", file_dnos[i], fds[i]->file.ints.chars));
   }
   out_value (file_dnos[i], ifile, l, 0);
   out_data (fds[i]->file.ints.chars, l);
@@ -127,7 +127,7 @@ long  findex,
   if (findex==currentfile && lno==currentlno) return;
   stab_file (findex);
   if (as_file)
-    x (fprintf (as_file, "\t.loc\t%d %ld\n", file_dnos[findex], lno));
+    x (asm_printop(".loc %d %ld", file_dnos[findex], lno));
   out_loc (file_dnos[findex], lno);
   currentlno = lno;
 }
@@ -142,7 +142,7 @@ diagbr_open(long findex)
   symno = new_lsym_d(NULL, 0, stBlock, scText, (diag_type)0, currentfile);
   lexlev[0]++;
   if (as_file)
-    x (fprintf (as_file, "\t.bgnb\t%d\n", symno));
+    x (asm_printop(".bgnb %d", symno));
   out_ent (symno, ibgnb, 0);
 }
 
@@ -154,7 +154,7 @@ diagbr_close(long findex)
   symno = new_lsym_d(NULL, 0, stEnd, scText, (diag_type)0, currentfile);
   lexlev[0]--;
   if (as_file)
-    x (fprintf (as_file, "\t.endb\t%d\n", symno));
+    x (asm_printop(".endb %d", symno));
   out_ent (symno, iendb, 0);
 }
 
@@ -182,20 +182,20 @@ again:
 	sc = scRegister;
 	v = no (id);
 	if (as_file)
-	  x (fprintf (as_file, " # %s is in $%ld\n", nm, v));
+	  x (asm_printf( " # %s is in $%ld\n", nm, v));
       }
       else
 	if ((props (id) & infreg_bits) != 0) {
 	  sc = scRegister;
 	  v = (no (id) << 1) + float_register;
 	  if (as_file)
-	    x (fprintf (as_file, " # %s is in $f%ld\n", nm, v - float_register));
+	    x (asm_printf( " # %s is in $f%ld\n", nm, v - float_register));
 	}
 	else {
 	  v = ((no (id) & ~0x3f) >> 4) + (locals_offset >> 3) + disp / 8 - fs;
 	  sc = scAbs;
 	  if (as_file)
-	    x (fprintf (as_file,
+	    x (asm_printf(
 		  " # %s is in %ld($fp)  == %ld($29)\n", nm,
 		  v, v + fs));
 

@@ -24,6 +24,7 @@
 #include <construct/shape.h>
 
 #include <main/driver.h>
+#include <main/print.h>
 
 #ifdef TDF_DIAG4
 #include <diag4/diagglob.h>
@@ -53,8 +54,10 @@
 #endif
 
 #if TRANS_X86
-static char *nlx86 = "\n";
-#define outnl()	outs(nlx86)	/* avoid side effects of x86 outnl */
+FILE *as_file;
+#define outnl()	fprintf(as_file, "\n")	/* avoid side effects of x86 outnl */
+#else
+#define outnl() asm_printf("\n");
 #endif
 
 void
@@ -65,9 +68,7 @@ out_dwarf_lab(H_dwarf_lab *l)
 		exit(EXIT_FAILURE);
 	}
 	OUT_FLAG(*l) = (char)1;
-	outs(LAB2CHAR(*l));
-	outc(':');
-	outnl();
+	asm_label("%s", LAB2CHAR(*l));
 }
 
 
@@ -107,9 +108,9 @@ next_dwarf_type_lab(void)
 
 
 #if TRANS_X86
-#define GO_DWARF	outs("\t.section\t.debug");outnl()
-#define GO_LINE		outs("\t.section\t.line");outnl()
-#define LEAVE_DWARF	outs("\t.previous");outnl()
+#define GO_DWARF	asm_printop(".section .debug");
+#define GO_LINE		asm_printop(".section .line");
+#define LEAVE_DWARF	asm_printop(".previous");
 #define LEAVE_LINE	LEAVE_DWARF
 #define BYTE4S		".4byte"
 #define BYTE2S		".2byte"
@@ -122,9 +123,9 @@ next_dwarf_type_lab(void)
 #else
 
 #if TRANS_SPARC
-#define GO_DWARF	outs("\t.pushsection\t\".debug\"");outnl()
-#define GO_LINE		outs("\t.pushsection\t\".line\"");outnl()
-#define LEAVE_DWARF	outs("\t.popsection");outnl()
+#define GO_DWARF	asm_printop(".pushsection \".debug\"");
+#define GO_LINE		asm_printop(".pushsection \".line\"");
+#define LEAVE_DWARF	asm_printop(".popsection");
 #define LEAVE_LINE	LEAVE_DWARF
 #define BYTE4S		".uaword"
 #define BYTE2S		".uahalf"
@@ -151,12 +152,7 @@ error need elf section swapping code
 void
 dwarf4(const char *t)
 {
-	char outbuf[100];
-
-	sprintf(outbuf, BYTE4_F, t);
-
-	outs(outbuf);
-	outnl();
+	asm_printf(BYTE4_F "\n", t);
 }
 
 
@@ -173,15 +169,11 @@ dwarf4n(int x)
 void
 out_dwarf_thing(int t, char *cmt)
 {
-	char outbuf[100];
-
 	if (t > 0xffff) {
 		error(ERROR_INTERNAL, "value too big for .2byte constant in out_dwarf_thing");
 	}
 
-	sprintf(outbuf, BYTE2_CMT_F, t, cmt);
-	outs(outbuf);
-	outnl();
+	asm_printf(BYTE2_CMT_F "\n", t, cmt);
 }
 
 
@@ -189,33 +181,21 @@ void
 out_dwarf_string(const char * const s)
 {
 	/* s = NULL term'ed in core and to be in asm file */
-	char outbuf[100];
-
-	sprintf(outbuf, STRING_F, s);
-	outs(outbuf);
-	outnl();
+	asm_printf(STRING_F "\n", s);
 }
 
 
 void
 dwarf2(char *c)
 {
-	char outbuf[100];
-
-	sprintf(outbuf, BYTE2_F, c);
-	outs(outbuf);
-	outnl();
+	asm_printf(BYTE2_F "\n", c);
 }
 
 
 void
 out_dwarfone(int t, char *cmt)
 {
-	char outbuf[100];
-
-	sprintf(outbuf, BYTE_CMT_F, t, cmt);
-	outs(outbuf);
-	outnl();
+	asm_printf(BYTE_CMT_F "\n", t, cmt);
 }
 
 
@@ -308,8 +288,7 @@ dw1_out_diagnose_prelude(void)
 	mk_dwarf_label(&text_range, "text");
 	mk_dwarf_label(&line_range, "line");
 
-	outs(TEXT_SEG);
-	outnl();
+	asm_printf("%s\n", TEXT_SEG);
 	OUT_DWARF_BEG(&text_range);
 	GO_DWARF;
 	LEAVE_DWARF;
@@ -334,8 +313,7 @@ dw1_out_diagnose_postlude(void)
 
 	leave_dwarf_comp_unit();
 
-	outs(TEXT_SEG);
-	outnl();
+	asm_printf("%s\n", TEXT_SEG);
 	OUT_DWARF_END(&text_range);
 	GO_LINE;
 	dwarf4n(WHOLE_SECT);	/* line 0 means whole section */
@@ -407,9 +385,8 @@ start_sib_chain1(int d_tag, char *tag_name)
 	next_dwarf_lab(&SIB_PUSH);
 
 	OUT_DWARF_TAG_NAMED(d_tag, tag_name);
-	outs(COMMENT_2("\t", " new sibling chain level "));
-	outn((long)dwarf_sib_stk_ptr);
-	outnl();
+	asm_printf("%s", COMMENT_2("\t", " new sibling chain level "));
+	asm_printf("%d\n", dwarf_sib_stk_ptr);
 	OUT_DWARF_ATTR(AT_sibling);
 	dwarf4(SIB_TOS.beg);
 }
@@ -432,9 +409,8 @@ cont_sib_chain1(int d_tag, char *tag_name)
 	   gen sib chain */
 	enter_dwarf_entry(&SIB_TOS);
 	next_dwarf_lab(&SIB_TOS);
-	outs(COMMENT_2("\t", " sibling chain level "));
-	outn((long)dwarf_sib_stk_ptr);
-	outnl();
+	asm_printf("%s", COMMENT_2("\t", " sibling chain level "));
+	asm_printf("%d\n", (long)dwarf_sib_stk_ptr);
 
 	OUT_DWARF_TAG_NAMED(d_tag, tag_name);
 	OUT_DWARF_ATTR(AT_sibling);
@@ -450,9 +426,8 @@ end_sib_chain(void)
 	   pop stack
 	   leave blk */
 	enter_dwarf_entry(&SIB_TOS);
-	outs(COMMENT_2("\t", " end sibling chain level "));
-	outn((long)dwarf_sib_stk_ptr);
-	outnl();
+	asm_printf("%s", COMMENT_2("\t", " end sibling chain level "));
+	asm_printf("%d\n", (long)dwarf_sib_stk_ptr);
 	leave_dwarf_blk();
 	SIB_POP;
 }
@@ -464,8 +439,7 @@ end_toplevel_chain(void)
 	/* just put out the label */
 	GO_DWARF;
 	OUT_DWARF_BEG(&SIB_TOS);
-	outs(COMMENT_2("\t", " end toplevel chain"));
-	outnl();
+	asm_printf("%s\n", COMMENT_2("\t", " end toplevel chain"));
 	LEAVE_DWARF;
 	SIB_POP;
 }
@@ -503,7 +477,7 @@ dwarf_inspect_filename(filename f)
 				long old_tell = ftell(as_file);
 
 				fseek(as_file, name_space, SEEK_SET);
-				outc('"'); outs(str); outc('"');
+				asm_printf("\"%s\"", str);
 				fseek(as_file, old_tell, SEEK_SET);
 			}
 		}
@@ -547,7 +521,7 @@ maybe_fix_filename(void)
 		long old_tell = ftell(as_file);
 
 		fseek(as_file, name_space, SEEK_SET);
-		outc('"'); outs(name_buf); outc('"');
+		asm_printf("\"%s\"", name_buf);
 		fseek(as_file, old_tell, SEEK_SET);
 	}
 }
@@ -558,12 +532,12 @@ enter_dwarf_comp_unit(void)
 {
 	start_sib_chain(TAG_compile_unit);
 	OUT_DWARF_ATTR(AT_name);
-	outs(STRING_M);
+	asm_printf("%s", STRING_M);
 	fflush(as_file);
 	name_space = ftell(as_file);
-	outs("                                                                    ");
-	outs("                                                                    ");
-	outnl();
+	asm_printf("                                                                    ");
+	asm_printf("                                                                    ");
+	asm_printf("\n");
 	OUT_DWARF_ATTR(AT_language);
 	dwarf4n((int)LANG_C89);
 	OUT_DWARF_ATTR(AT_low_pc);
@@ -593,8 +567,7 @@ leave_dwarf_comp_unit(void)
 		next_dwarf_lab(&lb);
 
 		enter_dwarf_blk(1, 0, &lb);
-		outs(END_UNIT);
-		outnl();
+		asm_printf("%s\n", END_UNIT);
 		leave_dwarf_blk();
 	}
 
@@ -608,8 +581,7 @@ void
 out_dwarf_name_attr(const char * const s)
 {
 	if (*s == 0) {
-		outs(COMMENT_2("\t", " no source name"));
-		outnl();
+		asm_printf("%s\n", COMMENT_2("\t", " no source name"));
 		return;
 	}
 	OUT_DWARF_ATTR(AT_name);
@@ -701,8 +673,7 @@ out_dwarf_global_list(void)
 
 	/*  fprintf(stderr, "diagvartab len %d used %d\n", unit_diagvar_tab.len,
 	    unit_diagvar_tab.lastused); */
-	outs(COMMENT_2("\t", "\tdumping global list"));
-	outnl();
+	asm_printf("%s\n", COMMENT_2("\t", "\tdumping global list"));
 	for (i = 0; i < unit_diagvar_tab.lastused; i++) {
 		dwarf_out_descriptor(& (unit_diagvar_tab.array[i]));
 	}

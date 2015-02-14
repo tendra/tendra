@@ -18,7 +18,6 @@
 #include <reader/exp.h>
 
 #include <local/szs_als.h>
-#include <local/out.h>
 
 #include <construct/shape.h>
 #include <construct/tags.h>
@@ -28,6 +27,7 @@
 
 #include <main/driver.h>
 #include <main/flags.h>
+#include <main/print.h>
 
 #include <reader/code.h>
 #include <reader/token.h>
@@ -40,7 +40,6 @@
 #include "procrec.h"
 #include "bitsmacs.h"
 #include "locate.h"
-#include "comment.h"
 #include "translate.h"
 #include "stabs_diag3.h"
 
@@ -212,8 +211,8 @@ stabd(long findex, long lno, int seg)
 		if (seg > 0) {
 			/* -ve line nos are put out in the stabs */
 			i = next_d_lab();
-			IGNORE fprintf(dg_file, "\t.stabn\t0x%x,0,%ld,.LL.%ld-%s\n",seg, lno, i, last_proc_lab);
-			IGNORE fprintf(dg_file, ".LL.%ld:\n", i);
+			asm_fprintop(dg_file, ".stabn 0x%x,0,%ld,.LL.%ld-%s",seg, lno, i, last_proc_lab);
+			asm_flabel(dg_file, ".LL.%ld", i);
 		}
 	}
 
@@ -319,12 +318,12 @@ stab_file(long findex, bool internal)
 	if (!internal) {
 		/* source file */
 		i = next_d_lab();
-		IGNORE fprintf(dg_file, "\t.stabs\t\"%s\",0x64,0,0,.LL.%ld\n",
+		asm_fprintop(dg_file, ".stabs \"%s\",0x64,0,0,.LL.%ld",
 							fds[findex] ->file.ints.chars, i);
-		IGNORE fprintf(dg_file, ".LL.%ld:\n", i);
+		asm_fprintf(dg_file, ".LL.%ld:\n", i);
 	} else {
 		/* included file */
-		IGNORE fprintf(dg_file, "\t.stabs\t\"%s\",0x84,0,0,.LL.%ld\n",
+		asm_fprintop(dg_file, ".stabs \"%s\",0x84,0,0,.LL.%ld",
 							fds[findex] ->file.ints.chars, i);
 	}
 	currentfile = findex;
@@ -408,7 +407,7 @@ stab_scope_open(long findex)
 		t->u.b.lab = open_label;
 	}
 	i = next_d_lab();
-	IGNORE fprintf(dg_file, ".LL.%ld:\n", i);
+	asm_fprintf(dg_file, ".LL.%ld:\n", i);
 	open_label = i;
 	bracket_level++;
 }
@@ -435,7 +434,7 @@ stab_scope_close(long findex)
 	x->u.b.br = N_RBRAC;
 	x->u.b.lev = bracket_level;
 	x->u.b.lab = i;
-	IGNORE fprintf(dg_file, ".LL.%ld:\n", i);
+	asm_fprintf(dg_file, ".LL.%ld:\n", i);
 	bracket_level--;
 }
 
@@ -455,7 +454,7 @@ static void
 out_dt_shape(diag_type dt)
 {
 	if (dt->been_outed) {
-		IGNORE fprintf(dg_file, "%d",(int)dt->been_outed);
+		asm_fprintf(dg_file, "%d",(int)dt->been_outed);
 		last_type_sz = get_stab_size(dt->been_outed);
 		return;
 	}
@@ -472,13 +471,13 @@ out_dt_shape(diag_type dt)
 			if (non == 0) {
 				non = next_typen();
 				stab_ptrs[pn] = non;
-				IGNORE fprintf(dg_file, "%ld=*%ld", non, pn);
+				asm_fprintf(dg_file, "%ld=*%ld", non, pn);
 			} else {
-				IGNORE fprintf(dg_file, "%ld", non);
+				asm_fprintf(dg_file, "%ld", non);
 			}
 		} else {
 			non = next_typen();
-			IGNORE fprintf(dg_file, "%ld=*", non);
+			asm_fprintf(dg_file, "%ld=*", non);
 			out_dt_shape(dt->data.ptr.object);
 		}
 		dt->been_outed = non;
@@ -494,10 +493,10 @@ out_dt_shape(diag_type dt)
 		diag_type element_type = dt->data.array.element_type;
 		long non = next_typen();
 		dt->been_outed = non;
-		IGNORE fprintf(dg_file, "%ld=", non);
-		IGNORE fprintf(dg_file, "ar");
+		asm_fprintf(dg_file, "%ld=", non);
+		asm_fprintf(dg_file, "ar");
 		out_dt_shape(index_type);
-		IGNORE fprintf(dg_file, ";%ld;%ld;", lwb, upb);
+		asm_fprintf(dg_file, ";%ld;%ld;", lwb, upb);
 		out_dt_shape(element_type);
 		last_type_sz *= (upb - lwb + 1);
 		set_stab_size(non);
@@ -523,7 +522,7 @@ out_dt_shape(diag_type dt)
 			su = 'u';
 		}
 
-		IGNORE fprintf(dg_file, "%ld=%c%d", non, su, shape_size(s) / 8);
+		asm_fprintf(dg_file, "%ld=%c%d", non, su, shape_size(s) / 8);
 
 		for (i = fields->lastused - 1; i >= 0; i--) {
 			diag_field sf = (fields->array)[i];
@@ -532,16 +531,16 @@ out_dt_shape(diag_type dt)
 /*		if ( depth_now >= max_depth ) return ;*/
 			if (depth_now >= max_depth) {
 				depth_now = 0;
-				IGNORE fprintf(dg_file, "\\\\\",0x80,0,%d,%d\n",0,0);
-				IGNORE fprintf(dg_file, "\t.stabs\t\"");
+				asm_fprintf(dg_file, "\\\\\",0x80,0,%d,%d\n",0,0);
+				asm_fprintf(dg_file, "\t.stabs \"");
 			}
 			depth_now++;
-			IGNORE fprintf(dg_file, "%s:", sf->field_name.ints.chars);
+			asm_fprintf(dg_file, "%s:", sf->field_name.ints.chars);
 			out_dt_shape(sf->field_type);
-			IGNORE fprintf(dg_file, ",%ld,%ld;", offset, last_type_sz);
+			asm_fprintf(dg_file, ",%ld,%ld;", offset, last_type_sz);
 		}
 
-		IGNORE fprintf(dg_file, ";");
+		asm_fprintf(dg_file, ";");
 		last_type_sz = shape_size(s);
 		set_stab_size(non);
 		break;
@@ -549,7 +548,7 @@ out_dt_shape(diag_type dt)
 
 	case DIAG_TYPE_VARIETY:
 		dt->been_outed = out_sh_type(f_integer(dt->data.var));
-		IGNORE fprintf(dg_file, "%ld", dt->been_outed);
+		asm_fprintf(dg_file, "%ld", dt->been_outed);
 		break;
 
 	case DIAG_TYPE_PROC: {
@@ -557,7 +556,7 @@ out_dt_shape(diag_type dt)
 		long non1 = next_typen();
 		long non2 = next_typen();
 		dt->been_outed = non1;
-		IGNORE fprintf(dg_file, "%ld=*%ld=f", non1, non2);
+		asm_fprintf(dg_file, "%ld=*%ld=f", non1, non2);
 		out_dt_shape(result_type);
 		last_type_sz = 32;
 		set_stab_size(non1);
@@ -572,17 +571,17 @@ out_dt_shape(diag_type dt)
 
 	case DIAG_TYPE_FLOAT:
 		dt->been_outed = out_sh_type(f_floating(dt->data.f_var));
-		IGNORE fprintf(dg_file, "%ld", dt->been_outed);
+		asm_fprintf(dg_file, "%ld", dt->been_outed);
 		break;
 
 	case DIAG_TYPE_NULL:
-		IGNORE fprintf(dg_file, "%d", STAB_VOID);
+		asm_fprintf(dg_file, "%d", STAB_VOID);
 		last_type_sz = 0;
 		break;
 
 	case DIAG_TYPE_BITFIELD: {
 		long sz = dt->data.bitfield.no_of_bits.nat_val.small_nat;
-		IGNORE fprintf(dg_file, "%d", STAB_SINT);
+		asm_fprintf(dg_file, "%d", STAB_SINT);
 		last_type_sz = sz;
 		break;
 	}
@@ -592,19 +591,19 @@ out_dt_shape(diag_type dt)
 		enum_values_list enumvals = dt->data.t_enum.values;
 		long non = next_typen();
 		dt->been_outed = non;
-		IGNORE fprintf(dg_file, "%ld=e", non);
+		asm_fprintf(dg_file, "%ld=e", non);
 		for (i = enumvals->lastused - 1; i >= 0; i--) {
 			enum_values ef = (enumvals->array)[i];
-			IGNORE fprintf(dg_file, "%s:%d,", ef->nme.ints.chars, no(ef->val));
+			asm_fprintf(dg_file, "%s:%d,", ef->nme.ints.chars, no(ef->val));
 		}
-		IGNORE fprintf(dg_file, ";");
+		asm_fprintf(dg_file, ";");
 		last_type_sz = 32;
 		set_stab_size(non);
 		break;
 	}
 
 	default:
-		IGNORE fprintf(dg_file, "%d", STAB_VOID);
+		asm_fprintf(dg_file, "%d", STAB_VOID);
 		last_type_sz = 0;
 		break;
 	}
@@ -624,10 +623,10 @@ stab_global(diag_descriptor * dd, exp global, char * id, bool ext)
 		(long)dd->data.id.whence.line_no.nat_val.small_nat
 		 , -N_DSLINE);
 
-	IGNORE fprintf(dg_file, "\t.stabs\t\"%s:%c", dd->data.id.nme.ints.chars,
+	asm_fprintf(dg_file, "\t.stabs \"%s:%c", dd->data.id.nme.ints.chars,
 			(ext ? 'G' : 'S'));
 	OUT_DT_SHAPE(dd->data.id.new_type);
-	IGNORE fprintf(dg_file, "\",%#x,0,%ld,%s\n",
+	asm_fprintf(dg_file, "\",%#x,0,%ld,%s\n",
 		(ext ? 0x24 : ((no(global) != 0)?0x26:0x28)),
 	/* solaris puts line no,0 rather than 0, varname,
 	 * so suppress the stabd above, and do here. */
@@ -650,10 +649,10 @@ stab_proc(diag_descriptor * dd, exp proc, char * id, bool ext)
 	stabd(find_file(dd->data.id.whence.file->file.ints.chars),
 		(long)dd->data.id.whence.line_no.nat_val.small_nat, 0);
 
-	IGNORE fprintf(dg_file, "\t.stabs\t\"%s:%c",
+	asm_fprintf(dg_file, "\t.stabs \"%s:%c",
 			 dd->data.id.nme.ints.chars,(ext ? 'F' : 'f'));
 	OUT_DT_SHAPE(dd->data.id.new_type->data.proc.result_type);
-	IGNORE fprintf(dg_file, "\",0x24,0,%ld,%s\n",
+	asm_fprintf(dg_file, "\",0x24,0,%ld,%s\n",
 			 dd->data.id.whence.line_no.nat_val.small_nat, id);
 }
 
@@ -676,27 +675,27 @@ stab_proc_end(void)
 			switch (t->del_t) {
 			case D_PARAM: {
 				long disp = t->u.l.offset;
-				IGNORE fprintf(dg_file, "\t.stabs\t\"%s:p", t->u.l.nm);
+				asm_fprintf(dg_file, "\t.stabs \"%s:p", t->u.l.nm);
 				OUT_DT_SHAPE(t->u.l.dt);
-				IGNORE fprintf(dg_file, "\",0xa0,0,%d,%ld\n", 0, disp);
+				asm_fprintf(dg_file, "\",0xa0,0,%d,%ld\n", 0, disp);
 				if (disp <= 88) { /* register useage comment */
-					IGNORE fprintf(dg_file, "\t.stabs\t\"%s:r", t->u.l.nm);
+					asm_fprintf(dg_file, "\t.stabs \"%s:r", t->u.l.nm);
 					OUT_DT_SHAPE(t->u.l.dt);
-					IGNORE fprintf(dg_file, "\",0x40,0,%d,%ld\n",0,24+ ((disp-68) /4));
+					asm_fprintf(dg_file, "\",0x40,0,%d,%ld\n",0,24+ ((disp-68) /4));
 				}
 				break;
 			}
 
 			case D_LOCAL: {
 				long disp = t->u.l.offset;
-				IGNORE fprintf(dg_file, "\t.stabs\t\"%s:", t->u.l.nm);
+				asm_fprintf(dg_file, "\t.stabs \"%s:", t->u.l.nm);
 				OUT_DT_SHAPE(t->u.l.dt);
-				IGNORE fprintf(dg_file, "\",0x80,0,%d,%ld\n", 0, disp);
+				asm_fprintf(dg_file, "\",0x80,0,%d,%ld\n", 0, disp);
 				break;
 			}
 
 			default:
-				IGNORE fprintf(dg_file, "\t.stabn\t0x%x,0,%d,.LL.%d-%s\n",
+				asm_fprintop(dg_file, ".stabn 0x%x,0,%d,.LL.%d-%s",
 					t->u.b.br, t->u.b.lev, t->u.b.lab, last_proc_lab);
 			}
 		}
@@ -777,24 +776,24 @@ stab_types(void)
 	typeno = NO_STABS;
 	type_sizes = (long *)xmalloc(NO_STABS * sizeof(long));
 
-	IGNORE fputs("\t.stabs\t\"int:t1=r1;-2147483648;2147483647;\",0x80,0,0,0\n", dg_file);
-	IGNORE fputs("\t.stabs\t\"short int:t2=r1;-32768;32767;\",0x80,0,0,0\n", dg_file);
-	IGNORE fputs("\t.stabs\t\"short unsigned int:t3=r1;0;65535;\",0x80,0,0,0\n", dg_file);
-	IGNORE fputs("\t.stabs\t\"char:t4=r4;0;127;\",0x80,0,0,0\n", dg_file);
-	IGNORE fputs("\t.stabs\t\"signed char:t5=r1;-128;127;\",0x80,0,0,0\n", dg_file);
-	IGNORE fputs("\t.stabs\t\"unsigned char:t6=r1;0;255;\",0x80,0,0,0\n", dg_file);
-	IGNORE fputs("\t.stabs\t\"long int:t7=r1;-2147483648;2147483647;\",0x80,0,0,0\n", dg_file);
-	IGNORE fputs("\t.stabs\t\"unsigned int:t8=r1;0;-1;\",0x80,0,0,0\n", dg_file);
-	IGNORE fputs("\t.stabs\t\"long unsigned int:t9=r1;0;-1;\",0x80,0,0,0\n", dg_file);
-	IGNORE fputs("\t.stabs\t\"float:t10=r1;4;0;\",0x80,0,0,0\n", dg_file);
-	IGNORE fputs("\t.stabs\t\"double:t11=r1;8;0;\",0x80,0,0,0\n", dg_file);
-	IGNORE fprintf(dg_file, "\t.stabs\t\"long double:t12=r1;%ld;0;\",0x80,0,0,0\n", DOUBLE_SZ / 8);
-	IGNORE fputs("\t.stabs\t\"void:t13=13\",0x80,0,0,0\n", dg_file);
-	IGNORE fputs("\t.stabs\t\"long long int:t14=r1;", dg_file);
-	IGNORE fputs("01000000000000000000000;0777777777777777777777;\",0x80,0,0,0\n", dg_file);
-	IGNORE fputs("\t.stabs\t\"unsigned long long int:t15=r1;", dg_file);
-	IGNORE fputs("0000000000000;01777777777777777777777;\",0x80,0,0,0\n", dg_file);
-	IGNORE fputs("\t.stabs\t\"__void_star:t16=*13\",0x80,0,0,0\n", dg_file);
+	asm_fprintop(dg_file, ".stabs \"int:t1=r1;-2147483648;2147483647;\",0x80,0,0,0");
+	asm_fprintop(dg_file, ".stabs \"short int:t2=r1;-32768;32767;\",0x80,0,0,0");
+	asm_fprintop(dg_file, ".stabs \"short unsigned int:t3=r1;0;65535;\",0x80,0,0,0");
+	asm_fprintop(dg_file, ".stabs \"char:t4=r4;0;127;\",0x80,0,0,0");
+	asm_fprintop(dg_file, ".stabs \"signed char:t5=r1;-128;127;\",0x80,0,0,0");
+	asm_fprintop(dg_file, ".stabs \"unsigned char:t6=r1;0;255;\",0x80,0,0,0");
+	asm_fprintop(dg_file, ".stabs \"long int:t7=r1;-2147483648;2147483647;\",0x80,0,0,0");
+	asm_fprintop(dg_file, ".stabs \"unsigned int:t8=r1;0;-1;\",0x80,0,0,0");
+	asm_fprintop(dg_file, ".stabs \"long unsigned int:t9=r1;0;-1;\",0x80,0,0,0");
+	asm_fprintop(dg_file, ".stabs \"float:t10=r1;4;0;\",0x80,0,0,0");
+	asm_fprintop(dg_file, ".stabs \"double:t11=r1;8;0;\",0x80,0,0,0");
+	asm_fprintop(dg_file, ".stabs \"long double:t12=r1;%%ld;0;\",0x80,0,0,0", DOUBLE_SZ / 8);
+	asm_fprintop(dg_file, ".stabs \"void:t13=13\",0x80,0,0,0");
+	asm_fprintop(dg_file, ".stabs \"long long int:t14=r1;");
+	asm_fprintf(dg_file, "01000000000000000000000;0777777777777777777777;\",0x80,0,0,0\n");
+	asm_fprintop(dg_file, ".stabs \"unsigned long long int:t15=r1;");
+	asm_fprintf(dg_file, "0000000000000;01777777777777777777777;\",0x80,0,0,0\n");
+	asm_fprintop(dg_file, ".stabs \"__void_star:t16=*13\",0x80,0,0,0");
 
 	type_sizes[ 0] =  0;
 	type_sizes[ 1] = 32;
@@ -832,10 +831,10 @@ stab_tagdefs(void)
 		case DIAG_TYPE_STRUCT: {
 			char *nme = d->data.t_struct.nme.ints.chars;
 			if (nme && *nme) {
-				IGNORE fprintf(dg_file, "\t.stabs\t\"%s:", nme);
+				asm_fprintop(dg_file, "\t.stabs \"%s:", nme);
 			} else {
 				static int s_count = 0;
-				IGNORE fprintf(dg_file, "\t.stabs\t\"_struct%d:", s_count++);
+				asm_fprintf(dg_file, "\t.stabs \"_struct%d:", s_count++);
 			}
 			break;
 		}
@@ -843,10 +842,10 @@ stab_tagdefs(void)
 		case DIAG_TYPE_UNION: {
 			char *nme = d->data.t_union.nme.ints.chars;
 			if (nme && *nme) {
-				IGNORE fprintf(dg_file, "\t.stabs\t\"%s:", nme);
+				asm_fprintf(dg_file, "\t.stabs \"%s:", nme);
 			} else {
 				static int u_count = 0;
-				IGNORE fprintf(dg_file, "\t.stabs\t\"_union%d:", u_count++);
+				asm_fprintf(dg_file, "\t.stabs \"_union%d:", u_count++);
 			}
 			break;
 		}
@@ -854,10 +853,10 @@ stab_tagdefs(void)
 		case DIAG_TYPE_ENUM: {
 			char *nme = d->data.t_enum.nme.ints.chars;
 			if (nme && *nme) {
-				IGNORE fprintf(dg_file, "\t.stabs\t\"%s:", nme);
+				asm_fprintf(dg_file, "\t.stabs \"%s:", nme);
 			} else {
 				static int e_count = 0;
-				IGNORE fprintf(dg_file, "\t.stabs\t\"_enum%d:", e_count++);
+				asm_fprintf(dg_file, "\t.stabs \"_enum%d:", e_count++);
 			}
 			break;
 		}
@@ -869,12 +868,12 @@ stab_tagdefs(void)
 
 		if (istag) {
 			if (d->been_outed && 0) {
-				IGNORE fprintf(dg_file, "%d",(int)d->been_outed);
+				asm_fprintf(dg_file, "%d",(int)d->been_outed);
 			} else {
-				IGNORE fprintf(dg_file, "T");
+				asm_fprintf(dg_file, "T");
 				OUT_DT_SHAPE(d);
 			}
-			IGNORE fprintf(dg_file, "\",0x80,0,0,0\n");
+			asm_fprintf(dg_file, "\",0x80,0,0,0\n");
 		}
 	}
 }
@@ -890,10 +889,10 @@ stab_typedefs(void)
 	for (i = 0; i < n; i++) {
 		if (di[i].key == DIAG_TYPEDEF_KEY) {
 			long non = next_typen();
-			IGNORE fprintf(dg_file, "\t.stabs\t\"%s:t%ld=",
+			asm_fprintf(dg_file, "\t.stabs \"%s:t%ld=",
 				di[i].data.typ.nme.ints.chars, non);
 			OUT_DT_SHAPE(di[i].data.typ.new_type);
-			IGNORE fprintf(dg_file, "\",0x80,0,0,0\n");
+			asm_fprintf(dg_file, "\",0x80,0,0,0\n");
 		}
 	}
 }
@@ -928,7 +927,7 @@ init_stab_aux(void)
 	stab_file((long)j, 0);
 	rewind(dg_file);
 	while (c = fgetc(dg_file), c != EOF) {
-		outc(c);
+		asm_printf("%c", c);
 	}
 	fclose(dg_file);
 }

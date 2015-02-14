@@ -46,6 +46,7 @@
 #include <construct/misc_c.h>
 
 #include <main/flags.h>
+#include <main/print.h>
 
 #include <refactor/refactor.h>
 
@@ -294,20 +295,20 @@ static int push_cees
     must_use_bp = 1;	/* scan() must ensure !no_frame */
     if (siz == NULL) {
 	/* calculate size from calling proc callees */
-      outs(" movl 8(%ebp),%eax\n");
-      outs(" subl %ebp,%eax\n");
-      outs(" subl $12,%eax\n");
+      asm_printop("movl 8(%s),%s", "%ebp", "%eax");
+      asm_printop("subl %s,%s", "%ebp", "%eax");
+      asm_printop("subl $12,%s", "%eax");
     }
     else {
       make_code(reg0, stack, siz);
       if (al2(sh(siz)) < param_align) {
 	if (al2(sh(siz)) == 1) {
-	  outs(" addl $31,%eax\n");
-	  outs(" shrl $3,%eax\n");
+	  asm_printop("addl $31,%s", "%eax");
+	  asm_printop("shrl $3,%s", "%eax");
 	}
 	else
-	  outs(" addl $3,%eax\n");
-	outs(" andl $-4,%eax\n");
+	  asm_printop("addl $3,%s", "%eax");
+	asm_printop("andl $-4,%s", "%eax");
       }
     }
     ins0(pusheax);
@@ -315,9 +316,9 @@ static int push_cees
   }
   if (src == NULL) {
     if (callee_size >= 0)
-      outs(" leal 8(%ebp),%eax\n");
+      asm_printop("leal 8(%s),%s", "%ebp", "%eax");
     else
-      outs(" leal 12(%ebp),%eax\n");
+      asm_printop("leal 12(%s),%s", "%ebp", "%eax");
     }
   else
     make_code(reg0, stack, src);
@@ -327,11 +328,11 @@ static int push_cees
     ins0(popecx);
     stack_dec += 32;
     if (vc)
-      outs(" movl %esp,%eax\n");
-    outs(" subl %ecx,%esp\n");
-    outs(" shrl $2,%ecx\n");
+      asm_printop("movl %s,%s", "%esp", "%eax");
+    asm_printop("subl %s,%s", "%ecx", "%esp");
+    asm_printop("shrl $2,%s", "%ecx");
     if (vc)
-      outs(" pushl %eax\n");
+      asm_printop("pushl %s", "%eax");
   }
   else {
     sub(slongsh, mw(zeroe, longs/8), sp, sp);
@@ -347,10 +348,11 @@ static int push_cees
   }
   move(slongsh, reg4, reg0);
   if (vc)
-    outs(" leal 4(%esp),%edi\n");
+    asm_printop("leal 4(%s),%s", "%esp", "%edi");
   else
-    outs(" movl %esp,%edi\n");
-  outs(" rep\n movsl\n");
+    asm_printop("movl %s,%s", "%esp", "%edi");
+  asm_printop("rep");
+  asm_printop("movsl");
   move(slongsh, reg0, reg4);
   move(slongsh, reg1, reg5);
   regsinuse = old_regsinuse;
@@ -1883,56 +1885,57 @@ void make_code
 
 	  if (name(cees) == same_callees_tag) {
 	    if (callee_size < 0 && !call_has_vcallees(cees)) {
-	      outs(" popl %ecx\n");
-	      outs(" movl %ecx, (%esp)\n");
+	      asm_printop("popl %s", "%ecx");
+	      asm_printop("movl %s, (%s)", "%ecx", "%esp");
 	    }
 	    if (callee_size >= 0 && call_has_vcallees(cees)) {
-	      outs(" popl %ecx\n");
-	      outs(" leal "); outn((long)callee_size/8); outs("(%esp),%edx\n");
-	      outs(" pushl %edx\n");
-	      outs(" pushl %ecx\n");
+	      asm_printop("popl %s", "%ecx");
+	      asm_printop("leal %d(%s),%s", callee_size / 8, "%esp", "%edx");
+	      asm_printop("pushl %s", "%edx");
+	      asm_printop("pushl %s", "%ecx");
 	    }
 	  }
 	  else {
 	    if (callee_size != 0 || call_has_vcallees(cees)) {
-	      outs(" popl %ecx\n");
+	      asm_printop("popl %s", "%ecx");
 	      if (callee_size < 0) {
-		outs(" popl %edx\n");
-		outs(" movl %edx,%esp\n");
+		asm_printop("popl %s", "%edx");
+		asm_printop("movl %s,%s", "%edx", "%esp");
 	      }
 	      else
 	      if (callee_size == 0)
-		outs(" movl %esp %edx\n");
+		asm_printop("movl %s %s", "%esp", "%edx");
 	      else {
-		outs(" leal "); outn((long)callee_size/8); outs("(%esp),%edx\n");
-		outs(" movl %edx,%esp\n");
+		asm_printop("leal %d(%s),%s", callee_size / 8, "%esp", "%edx");
+		asm_printop("movl %s,%s", "%edx", "%esp");
 	      }
 	      if (call_has_vcallees(cees))
-		outs(" pushl %edx\n");
-	      outs(" pushl %ecx\n");
+		asm_printop("pushl %s", "%edx");
+	      asm_printop("pushl %s", "%ecx");
 	    }
 	  }
-	  outs(" jmp *%eax\n\n");
+	  asm_printop("jmp *%s", "%eax");
+	  asm_printf("\n");
 	}
 	else {
 			/* callees have been pushed */
 	  if (call_has_vcallees(cees)) {
 	    if (callee_size >= 0) {
-	      outs(" leal ");
+	      asm_printf("\tleal ");
 	      rel_ap(4 + callee_size/8, 1);
-	      outs(",%eax\n");
+	      asm_printf(",%s\n", "%eax");
 	      ins0(pusheax);
 	    }
 	    else {
-	      outs(" pushl ");
+	      asm_printf("\tpushl ");
 	      rel_ap(4, 1);
 	    }
-	    outnl();
+	    asm_printf("\n");
 	    stack_dec -= 32;
 	  }
-	  outs(" pushl ");
+	  asm_printf("\tpushl ");
 	  rel_ap (0, 1);	/* push return address after callees */
-	  outnl();
+	  asm_printf("\n");
 	  stack_dec -= 32;
 	  make_code(pushdest, stack, proc);	/* push proc for call by return */
 	  stack_dec -= 32;
@@ -1942,24 +1945,24 @@ void make_code
 	    move(slongsh, mw(sz,0), reg2);
 	    if (al2(sh(sz)) < param_align) {
 	      if (al2(sh(sz)) == 1) {
-		outs(" addl $31,%ecx\n");
-		outs(" shrl $3,%ecx\n");
+		asm_printop("addl $31,%s", "%ecx");
+		asm_printop("shrl $3,%s", "%ecx");
 	      }
 	      else
-		outs(" addl $3,%ecx\n");
-	      outs(" andl $-4,%ecx\n");
+		asm_printop("addl $3,%s", "%ecx");
+	      asm_printop("andl $-4,%s", "%ecx");
 	    }
 	  }
 	  if (!call_has_vcallees(cees)) {
 	    if (callee_size >= 0) {
-	      outs(" leal ");
+	      asm_printf("\tleal ");
 	      rel_ap(4 + callee_size/8, 1);
-	      outs(",%eax\n");
+	      asm_printf(",%s", "%eax");
 	    }
 	    else {
-	      outs(" movl ");
+	      asm_printf("\tmovl ");
 	      rel_ap(4, 1);
-	      outs(",%eax\n");
+	      asm_printf(",%s\n", "%eax");
 	    }
 	  }
 
@@ -1969,34 +1972,31 @@ void make_code
 		 * callees, return and proc to call are stacked
 		 * size in %ecx if longs<0; callers at %eax unless stacked for vcallees
 		 */
-	  outs(" pushl %esi\n");
-	  outs(" pushl %edi\n");
+	  asm_printop("pushl %s", "%esi");
+	  asm_printop("pushl %s", "%edi");
 	  if (call_has_vcallees(cees))
-	    outs(" movl 16(%esp),%edi\n");
+	    asm_printop("movl 16(%s),%s", "%esp", "%edi");
 	  else
-	    outs(" movl %eax,%edi\n");
+	    asm_printop("movl %s,%s", "%eax", "%edi");
 	  if (longs < 0) {
-	    outs(" addl $");
-	    outn((long)(call_has_vcallees(cees)? 20 : 16));
-	    outs(", %ecx\n");
-	    outs(" leal -4(%esp),%esi\n");
-	    outs(" addl %ecx,%esi\n");
-	    outs(" shrl $2,%ecx\n");
+	    asm_printop("addl $%d, %s", call_has_vcallees(cees) ? 20 : 16, "%ecx");
+	    asm_printop("leal -4(%s),%s", "%esp", "%esi");
+	    asm_printop("addl %s,%s", "%ecx", "%esi");
+	    asm_printop("shrl $2,%s", "%ecx");
 	  }
 	  else {
-	    outs(" movl $");
-	    outn((long)(longs/32 + (call_has_vcallees(cees)? 5 : 4)));
-	    outs(",%ecx\n");
-	    outs(" leal ");
-	    outn((long)(longs/8 + (call_has_vcallees(cees)? 16 : 12)));
-	    outs("(%esp),%esi\n");
+	    asm_printop("movl $%d,%s",    longs / 32 + call_has_vcallees(cees) ?  5 :  4, "%ecx");
+	    asm_printop("leal %d(%s),%s", longs /  8 + call_has_vcallees(cees) ? 16 : 12, "%esp", "%esi");
 	  }
-	  outs(" subl $4,%edi\n");
-	  outs(" std\n rep\n movsl\n cld\n");
-	  outs(" leal 4(%edi),%esp\n");
-	  outs(" popl %edi\n");
-	  outs(" popl %esi\n");
-	  outs(" ret\n");
+	  asm_printop("subl $4,%s", "%edi");
+	  asm_printop("std");
+	  asm_printop("rep");
+	  asm_printop("movsl");
+	  asm_printop("cld");
+	  asm_printop("leal 4(%s),%s", "%edi", "%esp");
+	  asm_printop("popl %s", "%edi");
+	  asm_printop("popl %s", "%esi");
+	  asm_printop("ret");
 	}
 
 	cond1_set = 0;
@@ -2130,9 +2130,9 @@ void make_code
 		if (stack_dec != 0)
 		  stack_return(-stack_dec);
 		regsinuse = old_regsinuse;
-		outs(" pushl ");
+		asm_printf("\tpushl ");
 		rel_ap (0, 1);	/* push return address for return after pops */
-		outnl();
+		asm_printf("\n");
 #ifdef DWARF2
 		if (diag == DIAG_DWARF2)
 		  dw2_untidy_return();
@@ -2155,7 +2155,7 @@ void make_code
 		ins0(ret);
 	      else
 		retins();
-	      outnl();
+	      asm_printf("\n");
 #ifdef DWARF2
 	      if (diag == DIAG_DWARF2)
 		dw2_after_fde_exit(over_lab);

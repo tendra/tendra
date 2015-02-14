@@ -26,6 +26,7 @@
 
 #include <main/driver.h>
 #include <main/flags.h>
+#include <main/print.h>
 
 #include "localtypes.h"
 #include "cproc.h"
@@ -46,87 +47,6 @@ FILE *
 out_get_stream(void)
 {
 	return as_file;
-}
-
-void
-outc(char c)
-{
-	int st;
-
-	st = fputc(c, as_file);
-	if (st == EOF) {
-		error(ERROR_INTERNAL, BAD_OUTPUT);
-		exit(EXIT_FAILURE);
-	}
-}
-
-void
-outs(char *s)
-{
-	int st;
-
-	st = fputs(s, as_file);
-	if (st == EOF) {
-		error(ERROR_INTERNAL, BAD_OUTPUT);
-		exit(EXIT_FAILURE);
-	}
-}
-
-void
-out_comment(void)
-{
-	switch (assembler) {
-	case ASM_SUN:
-		outc('/');
-		break;
-
-	case ASM_GAS:
-		/* Add a whitespace in front, otherwise gas might interpret this as
-		 * a special instruction */
-		outs(" #");
-		break;
-
-	default:
-		error(ERROR_SERIOUS, "unsupported assembler dialect");
-	}
-}
-
-void
-outnl(void)
-{
-	int st;
-
-	st = fputs("\n", as_file);
-	if (st == EOF) {
-		error(ERROR_INTERNAL, BAD_OUTPUT);
-		exit(EXIT_FAILURE);
-	}
-
-	out_hook_nl();
-}
-
-void
-outn(long n)
-{
-	int st;
-
-	st = fprintf(as_file, "%ld", n);
-	if (st == EOF) {
-		error(ERROR_INTERNAL, BAD_OUTPUT);
-		exit(EXIT_FAILURE);
-	}
-}
-
-void
-outhex(int n)
-{
-	int st;
-
-	st = fprintf(as_file, "0x%x",(unsigned int)n);
-	if (st == EOF) {
-		error(ERROR_INTERNAL, BAD_OUTPUT);
-		exit(EXIT_FAILURE);
-	}
 }
 
 void

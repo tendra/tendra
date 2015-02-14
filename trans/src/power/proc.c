@@ -25,13 +25,13 @@
 
 #include <main/driver.h>
 #include <main/flags.h>
+#include <main/print.h>
 
 #include "memtdf.h"
 #include "codegen.h"
 #include "geninst.h"
 #include "translate.h"
 #include "make_code.h"
-#include "comment.h"
 #include "proc.h"
 #include "stack.h"
 #include "mem_copy.h"
@@ -95,17 +95,17 @@ static void call_mcount(void)
   p_lab++;
 
   /* generate .toc entry */
-  fprintf(as_file, "\t.toc\n");
-  fprintf(as_file, "T.P.%d:\t.tc\tP.%d[TC],P.%d\n", p_lab, p_lab, p_lab);
+  asm_printop(".toc");
+  asm_printf( "T.P.%d:\t.tc\tP.%d[TC],P.%d\n", p_lab, p_lab, p_lab);
 
   /* mcount counter */
-  fprintf(as_file, "\t.lcomm\tP.%d,%d\n", p_lab, 4);
+  asm_printop(".lcomm P.%d,%d", p_lab, 4);
 
   /* reset to default text segment */
-  fprintf(as_file, "\t.csect\t[PR]\n");
+  asm_printop(".csect [PR]");
 
   /* call mcount */
-  fprintf(as_file, "\t%s\t%d,T.P.%d(%d)\n", get_instruction(i_l), R_FIRST_PARAM, p_lab, R_TOC);
+  asm_printop("%s %d,T.P.%d(%d)", get_instruction(i_l), R_FIRST_PARAM, p_lab, R_TOC);
 #ifdef TDF_MCOUNT
   extj_special_ins(i_bl, ".TDF_mcount");
 #else
@@ -362,7 +362,7 @@ makeans make_ident_tag_code(exp e, space sp, where dest, int exitlab)
     r = code_here(init_exp, sp, placew);
   }
 
-  COMMENT1("make_ident_tag_code end_init: no(e) =%d", no(e));
+  asm_comment("make_ident_tag_code end_init: no(e) =%d", no(e));
 
   if (remember && r != R_NO_REG && pt(e)!= NULL
       && keep_eq_size(sh(init_exp), sh(pt(e))))
@@ -381,7 +381,7 @@ makeans make_ident_tag_code(exp e, space sp, where dest, int exitlab)
   /* and evaluate the body of the declaration */
   mka = make_code(bro(init_exp), guard(placew, sp), dest, exitlab);
 
-  COMMENT1("make_ident_tag_code end_range: no(e) =%d", no(e));
+  asm_comment("make_ident_tag_code end_range: no(e) =%d", no(e));
 
   return mka;
 }
@@ -614,7 +614,7 @@ void make_tail_call_tag_code(exp e, space sp)
 		      && (son(son(fn)) == NULL || IS_A_PROC(son(son(fn)))));
   static int identification = 0;
   identification++;
-  fprintf(as_file,"# Begin tail call no %d\n",identification);
+  asm_printf("# Begin tail call no %d\n",identification);
 
 
   callee_pointer.base = R_SP;
@@ -740,7 +740,7 @@ void make_tail_call_tag_code(exp e, space sp)
     mt_ins(i_mtctr,R_TMP0);
     z_ins(i_bctr);
   }
-  fprintf(as_file,"# End tail call no %d\n",identification);
+  asm_printf("# End tail call no %d\n",identification);
   return;
 }
 
@@ -1038,7 +1038,7 @@ space do_callers(int n, exp list, space sp)
 
 	  is = insalt(w.answhere);
 
-	  COMMENT3("apply: simple aggregate parameter: adval=%d reg=%d off=%d",
+	  asm_comment("apply: simple aggregate parameter: adval=%d reg=%d off=%d",
 		   is.adval, is.b.base, is.b.offset);
 	  assert(!is.adval);
 	  /* it is already lying about */
@@ -1131,7 +1131,7 @@ void do_function_call(exp fn, space sp)
     int desc_base = reg_operand(fn, sp);
     baseoff b;
 
-    COMMENT("proc ptr call");
+    asm_comment("proc ptr call");
 
     b.base = desc_base;
     b.offset = 0;
@@ -1171,7 +1171,7 @@ void do_general_function_call(exp fn, space sp)
     baseoff saved_toc;
     int r;
 
-    COMMENT("proc ptr call");
+    asm_comment("proc ptr call");
     r = getreg(guardreg(desc_base,sp).fixed);
 
     b.base = desc_base;
@@ -1211,7 +1211,7 @@ makeans move_result_to_dest(exp e, space sp, where dest, int exitlab)
     frg.fr = FR_RESULT;
     frg.dble = (hda != shrealhd);
     setfregalt(aa, frg);
-    COMMENT1("apply: is_floating result, dble=%d", frg.dble);
+    asm_comment("apply: is_floating result, dble=%d", frg.dble);
     move(aa, dest, sp.fixed, 1);
   }
   else
@@ -1224,22 +1224,22 @@ makeans move_result_to_dest(exp e, space sp, where dest, int exitlab)
 
       if (r == R_0)
       {
-	COMMENT("apply: void result");
+	asm_comment("apply: void result");
       }
       else if (r != R_RESULT)
       {
-	COMMENT("apply: dest inreg, move from R_RESULT");
+	asm_comment("apply: dest inreg, move from R_RESULT");
 	move(aa, dest, sp.fixed, 1);
       }
       else
       {
-	COMMENT("apply: dest R_RESULT, no move");
+	asm_comment("apply: dest R_RESULT, no move");
       }
     }
     else if (dest.answhere.discrim == insomereg)
     {
       int *dr = someregalt(dest.answhere);
-      COMMENT("apply: dest insomereg set to R_RESULT");
+      asm_comment("apply: dest insomereg set to R_RESULT");
       if (*dr != -1)
       {
 	error(ERROR_SERIOUS, "somereg been set up");
@@ -1248,7 +1248,7 @@ makeans move_result_to_dest(exp e, space sp, where dest, int exitlab)
     }
     else
     {
-      COMMENT("apply: dest not inreg or insomereg");
+      asm_comment("apply: dest not inreg or insomereg");
       move(aa, dest, sp.fixed, 1);
     }
   }
@@ -1260,7 +1260,7 @@ void restore_callers(int n)
   exp bdy = son(p_current);
   int final_param = n + R_FIRST_PARAM - 1;
 
-  COMMENT("restore callers");
+  asm_comment("restore callers");
   while (name(bdy) ==diagnose_tag)
   {
     bdy = son(bdy);
@@ -1379,7 +1379,7 @@ void restore_callees(void)
 	 * must be moved back on to their proper place on the stack.
 	 */
   exp bdy = son(p_current);
-  COMMENT("restore callees");
+  asm_comment("restore callees");
 
   while (name(bdy) ==diagnose_tag)
   {

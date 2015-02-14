@@ -29,6 +29,7 @@
 
 #include <main/driver.h>
 #include <main/flags.h>
+#include <main/print.h>
 
 #include <construct/installtypes.h>
 #include <construct/ash.h>
@@ -325,7 +326,7 @@ evalexp(exp e)
     {
       bool sgned = is_signed(sh(e));
 
-      FULLCOMMENT1("evalexp() shr_tag: sgned=%d", sgned);
+      asm_comment("evalexp() shr_tag: sgned=%d", sgned);
       if (sgned)
 	return ((long) evalexp(son(e))) >> evalexp(bro(son(e)));
       else
@@ -349,7 +350,7 @@ evalexp(exp e)
       assert(ash_rhs.ashalign == 1 && ash_rhs.ashsize <= 32);
       assert(ash_lhs.ashsize + ash_rhs.ashsize <= 32);
 
-      FULLCOMMENT4("evalexp() concatnof_tag: lhs,rhs=%#x,%#x ash(rhs)=%d,%d",
+      asm_comment("evalexp() concatnof_tag: lhs,rhs=%#x,%#x ash(rhs)=%d,%d",
 		   w_lhs, w_rhs, ash_rhs.ashalign, ash_rhs.ashsize);
 
       if (ash_rhs.ashsize == 32)
@@ -408,7 +409,7 @@ evalexp(exp e)
 
       a = ashof(sh(e));
 
-      FULLCOMMENT2("evalexp() clear_tag: ash=%d,%d", a.ashalign, a.ashsize);
+      asm_comment("evalexp() clear_tag: ash=%ld,%ld", a.ashalign, a.ashsize);
 
       return 0;
     }
@@ -487,9 +488,9 @@ outascii(char * str, int strsize)
 			/* output as a hexadecimal  */
 		    {
 		       if (c<16)
-			   fprintf(as_file,"\\x0%x", c) ;
+			   asm_printf("\\x0%x", c) ;
 		       else
-			   fprintf(as_file,"\\x%x", c) ;
+			   asm_printf("\\x%x", c) ;
 		    }
   	            break ;
 		}
@@ -534,7 +535,7 @@ outconcbit(concbittype c)
 
   insection(data_section);
 
-  comment2("outconcbit: bits=%d w=%#lx", c.value_size, w);
+  asm_comment("outconcbit: bits=%d w=%#lx", c.value_size, w);
 
   if (c.value_size == 0)
     return;			/* avoid .BYTE with no data */
@@ -553,7 +554,7 @@ outconcbit(concbittype c)
   {
     if (i != 0)
        outc(',') ;
-    fprintf(as_file,"%#lx", ( w >> 24 ) & 255 ) ;
+    asm_printf("%#lx", ( w >> 24 ) & 255 ) ;
     w = w << 8;
   }
   outnl();
@@ -735,7 +736,7 @@ evalone(exp e, int bitposn)
 
   a = ashof(sh(e));
 
-  comment4("evalone: name(e)=%d, bitposn=%d, ash=%d,%d", name(e), bitposn, a.ashsize, a.ashalign);
+  asm_comment("evalone: name(e)=%d, bitposn=%d, ash=%d,%d", name(e), bitposn, a.ashsize, a.ashalign);
 
   set_align(a.ashalign);
 
@@ -775,13 +776,13 @@ evalone(exp e, int bitposn)
 	    switch ( char_size )
 	    {
 	  case 8:
-	      fprintf(as_file,"0x%x", st[i]);
+	      asm_printf("0x%x", st[i]);
 	      break;
 	  case 16:
-	      fprintf(as_file,"0x%x", ((short *) st)[i]);
+	      asm_printf("0x%x", ((short *) st)[i]);
 	      break;
 	  case 32:
-	      fprintf(as_file,"0x%x", ((int *) st)[i]);
+	      asm_printf("0x%x", ((int *) st)[i]);
 	    break;
 	    }
 	  }/*for i*/
@@ -1040,7 +1041,7 @@ evalone(exp e, int bitposn)
 
   case concatnof_tag:
     {
-      comment2("concatnof_tag: ashalign=%d, ashsize=%d", a.ashalign, a.ashsize);
+      asm_comment("concatnof_tag: ashalign=%d, ashsize=%d", a.ashalign, a.ashsize);
 
       /* allow for bitfields */
       if (a.ashalign == 1)
@@ -1182,7 +1183,7 @@ evaluated(exp e, long l)
   bool extnamed = (l == 0) ? 0 : main_globals[-lab - 1]->dec_u.dec_val.extnamed;
   a = ashof(sh(e));
 
-  FULLCOMMENT2("evaluated: %s %ld", (int)TAG_NAME(name(e)), l);
+  asm_comment("evaluated: %s %d", (int)TAG_NAME(name(e)), l);
 
   isa.adval = 0;
   isa.b.offset = 0;

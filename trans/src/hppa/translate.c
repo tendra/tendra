@@ -114,6 +114,7 @@
 #include <construct/installglob.h>
 
 #include <main/flags.h>
+#include <main/print.h>
 
 #include <refactor/optimise.h>
 
@@ -358,7 +359,7 @@ translate_capsule(void)
 	   strcat(s,crt_def->dec_u.dec_val.dec_id+7);
 	   crt_def->dec_u.dec_val.dec_id = s;
 	   if (assembler == ASM_HP)
-	      fprintf(as_file,"\t.WORD\t%s\n",s);
+	      asm_printop(".WORD %s",s);
 	}
       }
     }
@@ -444,7 +445,7 @@ translate_capsule(void)
     if (IS_TREG(r) && (tempregs.fixed & RMASK(r)) == 0)
       maxfix_tregs++;
   }
-  comment4("maxfix_tregs=%d(%#x) maxfloat_tregs=%d(%#x)",
+  asm_comment("maxfix_tregs=%d(%#x) maxfloat_tregs=%d(%#x)",
 	   maxfix_tregs, tempregs.fixed, MAXFLOAT_TREGS, tempregs.flt);
 
   /* scan all the procs, to put everything in HP_PA form */

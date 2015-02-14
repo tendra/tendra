@@ -17,11 +17,12 @@
 #include <construct/installtypes.h>
 #include <construct/ash.h>
 
+#include <main/print.h>
+
 #include "memtdf.h"
 #include "codegen.h"
 #include "geninst.h"
 #include "make_code.h"
-#include "comment.h"
 #include "tempdecs.h"
 #include "regable.h"
 #include "code_here.h"
@@ -285,7 +286,7 @@ int freg_operand(exp e, space sp, int reg)
   {
     fr.fr = FR_RESULT;
     setfregalt(aa, fr);
-    COMMENT("freg_operand: call of float point result proc");
+    asm_comment("freg_operand: call of float point result proc");
     w.answhere = aa;
     /* w.ashwhere already correctly set up above */
     make_code(e, sp, w, 0);

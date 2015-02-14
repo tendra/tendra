@@ -23,7 +23,6 @@
 
 #include <local/szs_als.h>
 #include <local/ash.h>
-#include <local/out.h>
 #include <local/fbase.h>
 
 #include <reader/exp.h>
@@ -40,11 +39,11 @@
 
 #include <main/driver.h>
 #include <main/flags.h>
+#include <main/print.h>
 
 #include "addrtypes.h"
 #include "maxminmacs.h"
 #include "translate.h"
-#include "comment.h"
 #include "inst_fmt.h"
 #include "locate.h"
 #include "regmacs.h"
@@ -102,7 +101,7 @@ next_data_lab (){
 void 
 outlab ( int ll ){
   /* no preference for section here */
-  outs ( ext_name ( ll ) ) ;
+  asm_printf ( "%s", ext_name ( ll ) ) ;
   return ;
 }
 
@@ -135,7 +134,7 @@ outfloat ( flpt f, bool ro ){
   else {
     exppos [0] = 0 ;
   }
-  outs ( fltrepr ) ;
+  asm_printf ( "%s", fltrepr ) ;
 #else
   error(ERROR_SERIOUS,  "Illegal floating point constant" ) ;
 #endif
@@ -285,18 +284,16 @@ static void
 oneval ( int val, long al, int rep ){
   char *as ;
   if ( al <= 8 ) {
-    as = "\t.byte\t" ;
+    as = ".byte" ;
   } 
   else if ( al <= 16 ) {
-    as = "\t.half\t" ;
+    as = ".half" ;
   } 
   else {
-    as = "\t.word\t" ;
+    as = ".word" ;
   }
   assert ( rep == 1 ) ;
-  outs ( as ) ;
-  outn ( val ) ;
-  outnl () ;
+  asm_printop("%s %d", as, val);
   return ;
 }
 
@@ -307,24 +304,24 @@ static void
 outascii ( char * s, long strsize ){
   while ( strsize > 0 ) {
     int i ;
-    outs ( "\t.ascii\t\"" ) ;
+    asm_printf ( "\t.ascii\t\"" ) ;
     for ( i = 0 ; strsize > 0 && i < 48 ; i++ ) {
       int c = ( int ) *s ;
       switch ( c ) {
-	case '"' : outs("\\\""); break;
-	case '\\': outs("\\\\"); break;
-	case '\t': outs("\\t");  break;
-	case '\n': outs("\\n");  break;
-	case '\r': outs("\\r");  break;
-	case '\f': outs("\\f");  break;
-	case '\b': outs("\\b");  break;
+	case '"' : asm_printf("\\\""); break;
+	case '\\': asm_printf("\\\\"); break;
+	case '\t': asm_printf("\\t");  break;
+	case '\n': asm_printf("\\n");  break;
+	case '\r': asm_printf("\\r");  break;
+	case '\f': asm_printf("\\f");  break;
+	case '\b': asm_printf("\\b");  break;
 	default : {
 	  if ( c >= 0 && isprint ( c ) ) {
-	    outc ( c ) ;
+	    asm_printf ( "%c", c ) ;
 	  } 
 	  else {
 	    /* octal representation */
-	    outf ( "\\%.3o", (unsigned)c & 0xff ) ;
+	    asm_printf ( "\\%.3o", (unsigned)c & 0xff ) ;
 	  }
 	  break ;
 	}
@@ -332,7 +329,7 @@ outascii ( char * s, long strsize ){
       s++ ;
       strsize-- ;
     }
-    outs ( "\"\n" ) ;
+    asm_printf ( "\"\n" ) ;
   }
   return ;
 }
@@ -374,12 +371,12 @@ outconcbit ( concbittype c, bool ro ){
   assert ( sz <= 32 ) ;
   
   /* output as a series of bytes */
-  outs ( "\t.byte\t" ) ;
+  asm_printf ( "\t.byte\t" ) ;
   switch (endian) {
   case ENDIAN_LITTLE:
     for ( i = 0 ; i < bytes ; i++ ) {
-      if ( i != 0 ) outc ( ',' ) ;
-      outf ( "%#lx", w & 0xff ) ;
+      if ( i != 0 ) asm_printf("%c", ',' ) ;
+      asm_printf( "%#lx", w & 0xff ) ;
       w = w >> 8 ;
     }
     break;
@@ -387,12 +384,12 @@ outconcbit ( concbittype c, bool ro ){
     /* shift to left end of word */
     if ( sz != 32 ) w = w << ( 32 - sz ) ;
     for ( i = 0 ; i < bytes ; i++ ) {
-      if ( i != 0 ) outc ( ',' ) ;
-      outf ( "%#lx", ( w >> 24 ) & 0xff ) ;
+      if ( i != 0 ) asm_printf("%c", ',' ) ;
+      asm_printf( "%#lx", ( w >> 24 ) & 0xff ) ;
       w = w << 8 ;
     }
   }
-  outnl () ;
+  asm_printf("\n") ;
   assert ( w == 0 ) ;
   return ;
 }
@@ -554,9 +551,7 @@ set_align ( long al ){
   assert ( al >= 8 && al <= 64 ) ;
 #endif
   if ( al > 8 ) {
-    outs ( "\t.align\t" ) ;
-    outn ( al / 8 ) ;
-    outnl () ;
+    asm_printop(".align %d", al / 8);
   }
   return ;
 }
@@ -588,20 +583,20 @@ evalone ( exp e, int bitposn, bool ro ){
       if ( strsize > 0 ) set_align ( char_size ) ;
       for ( j = 0 ; j < strsize ; /**/ ) {
 	switch ( char_size ) {
-	  case  8: outs("\t.byte\t"); break;
-	  case 16: outs("\t.half\t"); break;
-	  case 32: outs("\t.word\t"); break;
+	  case  8: asm_printf("\t.byte\t"); break;
+	  case 16: asm_printf("\t.half\t"); break;
+	  case 32: asm_printf("\t.word\t"); break;
 	}
 	/* output chars in batches */
 	for ( i = j ; i < strsize && i - j < 8 ; i++ ) {
-	  if ( i != j ) outc ( ',' ) ;
+	  if ( i != j ) asm_printf("%c", ',' ) ;
 	  switch ( char_size ) {
-	    case  8: outf("0x%x",            st[i]);  break;
-	    case 16: outf("0x%x", ((short *) st)[i]); break;
-	    case 32: outf("0x%x", ((int *)   st)[i]); break;
+	    case  8: asm_printf("0x%x",            st [i]); break;
+	    case 16: asm_printf("0x%x", ((short *) st)[i]); break;
+	    case 32: asm_printf("0x%x", ((int   *) st)[i]); break;
 	  }
 	}
-	outnl () ;
+	asm_printf("\n") ;
 	j = i ;
       }
     return ;
@@ -612,28 +607,16 @@ evalone ( exp e, int bitposn, bool ro ){
       r2l v;
       if ( sz == 32 ) {
 	v = real2longs_IEEE(f,0);
-	outs ( "\t.word\t" ) ;
-	outn ( v.i1 ) ;
+	asm_printop(".word %d", v.i1);
       } 
       else if ( sz == 64 ) {
 	v = real2longs_IEEE(f,1);
-	outs ( "\t.word\t" ) ;
-	outn ( v.i2 ) ;
-      outc ( ',' ) ;
-      outn ( v.i1 ) ;
+	asm_printop(".word %d, %d", v.i2, v.i1);
       } 
       else {
 	v = real2longs_IEEE(f,2);
-	outs ( "\t.word\t" ) ;
-	outn ( v.i4 ) ;
-	outc ( ',' ) ;
-	outn ( v.i3 ) ;
-	outc ( ',' ) ;
-	outn ( v.i2 ) ;
-	outc ( ',' ) ;
-	outn ( v.i1 ) ;
+	asm_printop(".word %d, %d, %d, %d", v.i4, v.i3, v.i2, v.i1);
       }
-      outnl () ;
       return ;
     }
     case null_tag : {
@@ -664,13 +647,11 @@ evalone ( exp e, int bitposn, bool ro ){
       /* Global name */
       dec *globdec = brog ( son ( e ) ) ;
       char *nm = globdec->dec_u.dec_val.dec_id ;
-      outs ( "\t.word " ) ;
-      outs ( nm ) ;
+      asm_printf("\t.word %d", nm ) ;
       if ( no ( e ) ) {
-	outc ( '+' ) ;
-	outn ( no ( e ) / 8 ) ;
+	asm_printf("+%d",  no ( e ) / 8 ) ;
       }
-      outnl () ;
+      asm_printf("\n") ;
       return ;
     }
     case compound_tag : {
@@ -740,9 +721,7 @@ evalone ( exp e, int bitposn, bool ro ){
 	  assert ( sz >= databits ) ;
 	  /* pad out trailing uninitialised space, eg union */
 	  if ( sz > databits && trailing_bytes > 0 ) {
-	    outs ( "\t.skip\t" ) ;
-	    outn ( trailing_bytes ) ;
-	    outnl () ;
+	    asm_printop(".skip %d\n", trailing_bytes);
 	  }
 	  return ;
 	}
@@ -785,9 +764,7 @@ evalone ( exp e, int bitposn, bool ro ){
 #endif
       if ( is_zero ( e ) ) {
 	set_align ( al ) ;
-	outs ( "\t.skip\t" ) ;
-	outn ( ( sz + 7 ) >> 3 ) ;
-	outnl () ;
+	asm_printop(".skip %d", (sz + 7) >> 3);
       }
       else
         for ( i = 0 ; i < n ; i++ ) evalone ( e, bitposn, ro ) ;
@@ -819,9 +796,7 @@ evalone ( exp e, int bitposn, bool ro ){
 	evalconcbit ( e, bitposn, ro ) ;
 	return ;
       }
-      outs ( "\t.skip\t" ) ;
-      outn ( ( sz + 7 ) >> 3 ) ;
-      outnl () ;
+      asm_printop(".skip %d\n", (sz + 7) >> 3);
       return ;
     }
     case not_tag :
@@ -837,9 +812,7 @@ evalone ( exp e, int bitposn, bool ro ){
     case offset_pad_tag : case offset_mult_tag : case offset_div_tag :
     case offset_div_by_int_tag : case offset_subtract_tag : 
     case offset_negate_tag : {
-      outs ( "\t.word\t" ) ;
-      outn ( evalexp ( e ) ) ;
-      outnl () ;
+      asm_printop(".word %d", evalexp(e));
       return ;
     }
     
@@ -861,18 +834,14 @@ evalone ( exp e, int bitposn, bool ro ){
 	long n = no ( p1 ) - no ( p2 ) ;
 	char *n1 = brog ( son ( p1 ) )->dec_u.dec_val.dec_id ;
 	char *n2 = brog ( son ( p2 ) )->dec_u.dec_val.dec_id ;
-	outs ( "\t.word\t" ) ;
-	outs ( n1 ) ;
-	outs ( "-" ) ;
-	outs ( n2 ) ;
+	asm_printf("\t.word %d-%d", n1, n2);
 	if ( n < 0 ) {
-	  outn ( n ) ;
+	  asm_printf("%d", n ) ;
 	} 
         else if ( n > 0 ) {
-	  outc ( '+' ) ;
-	  outn ( n ) ;
+	  asm_printf("+%d", n);
 	}
-	outnl () ;
+	asm_printf("\n") ;
 	return ;
       }
       /* FALL THROUGH */
@@ -926,21 +895,13 @@ evaluated ( exp e, long ll, bool ro ){
 	 (!sysV_assembler && dynamic_init_proc != NULL &&
 		!(main_globals [ -lab - 1 ]->dec_u.dec_val.is_common))
 	) {
-      outs ( "\t.reserve\t" ) ;
+      asm_printf("\t.reserve ");
       outlab ( lab ) ;
       if ( sysV_assembler ) {
-	outc ( ',' ) ;
-	outn ( byte_size ) ;
-	outs ( ",\".bss\"," ) ;
-	outn ( align ) ;
-	outnl () ;
+	asm_printf(",%d,\".bss\",%d\n", byte_size, align);
       } 
       else {
-	outc ( ',' ) ;
-	outn ( byte_size ) ;
-	outs ( ",\"bss\"," ) ;
-	outn ( align ) ;
-	outnl () ;
+	asm_printf(",%d,\"bss\",%d\n", byte_size, align);
       }
 #ifdef DWARF2
       if (diag == DIAG_DWARF2 && (name(e) == clear_tag && no(e) == -1))
@@ -954,19 +915,13 @@ evaluated ( exp e, long ll, bool ro ){
       else {
 	set_align ( 32L ) ;
       }
-      outs ( "\t.common\t" ) ;
+      asm_printf("\t.common ");
       outlab ( lab ) ;
       if ( sysV_assembler ) {
-	outc ( ',' ) ;
-	outn ( byte_size ) ;
-	outc ( ',' ) ;
-	outn ( align ) ;
-	outnl () ;
+	asm_printf(",%d,%d\n", byte_size, align);
       } 
       else {
-	outc ( ',' ) ;
-	outn ( byte_size ) ;
-	outnl () ;
+	asm_printf(",%d\n", byte_size);
       }
     }
     know_size = 1 ;
@@ -987,7 +942,7 @@ evaluated ( exp e, long ll, bool ro ){
       set_align ( 32L ) ;
     }
     outlab ( lab ) ;
-    outs ( ":\n" ) ;
+    asm_printf ( ":\n" ) ;
     if(a.ashsize != 0){
       evalone ( z, 0, ro ) ;
     }

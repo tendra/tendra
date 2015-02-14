@@ -25,9 +25,11 @@
  */
 
 #include <assert.h>
+#include <stdio.h>
 
 #include <local/ash.h>
 
+#include <main/print.h>
 
 #include <construct/installtypes.h>
 #include <construct/ash.h>
@@ -254,7 +256,7 @@ freg_operand(exp e, space sp, int reg)
   {
     fr.fr = R_FR4;
     setfregalt(aa, fr);
-    comment("freg_operand: call of float point result proc");
+    asm_comment("freg_operand: call of float point result proc");
     w.answhere = aa;
     /* w.ashwhere already correctly set up above */
     make_code(e, sp, w, 0);

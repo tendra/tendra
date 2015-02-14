@@ -17,20 +17,13 @@
 #include <reader/readglob.h>
 
 #include <main/driver.h>
+#include <main/print.h>
 
 #include <dwarf2/dw2_basic.h>
 #include <dwarf2/dw2_abbrev.h>
 #include <dwarf2/dw2_abbrev_vn.h>
 #include <dwarf2/dw2_codes.h>
 #include <dwarf2/dw2_entries.h>
-
-static void
-sep(void)
-{
-	outs(", ");
-	return;
-}
-
 
 static void
 set_abbrev_tag(abbrev_entry *en, int c, int tag_code, int has_children)
@@ -40,10 +33,10 @@ set_abbrev_tag(abbrev_entry *en, int c, int tag_code, int has_children)
 	}
 	out8();
 	uleb128((unsigned long)(en->index + c));
-	sep();
+	asm_printf(", ");
 	uleb128((unsigned long)tag_code);
-	sep();
-	outn(has_children ? (long)DW_CHILDREN_yes : (long)DW_CHILDREN_no);
+	asm_printf(", ");
+	asm_printf("%d", has_children ? DW_CHILDREN_yes : DW_CHILDREN_no);
 	outnl_comment_i(en->aname, (long)c);
 	return;
 }
@@ -1206,8 +1199,7 @@ do_abbreviations(void)
 	set_attribute(0, 0);
 
 	out8();
-	outn(0);
-	d_outnl();
+	asm_printf("%d\n", 0);
 	exit_section();
 	return;
 }

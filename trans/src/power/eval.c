@@ -30,13 +30,13 @@
 #include <construct/f64.h>
 
 #include <main/driver.h>
+#include <main/print.h>
 
 #include "memtdf.h"
 #include "codegen.h"
 #include "geninst.h"
 #include "maxminmacs.h"
 #include "translate.h"
-#include "comment.h"
 #include "eval.h"
 #include "frames.h"
 
@@ -89,7 +89,7 @@ mm maxmin(shape s)
  */
 void outlab(int l)
 {
-  fprintf(as_file, "%s", ext_name(l));
+  asm_printf( "%s", ext_name(l));
 }
 
 /*
@@ -219,7 +219,7 @@ long evalexp(exp e)
       assert(ash_rhs.ashalign==1 && ash_rhs.ashsize<=32);
       assert(ash_lhs.ashsize+ash_rhs.ashsize<=32);
 
-      FULLCOMMENT4("evalexp() concatnof_tag: lhs,rhs=%#x,%#x ash(rhs) =%d,%d",
+      asm_comment("evalexp() concatnof_tag: lhs,rhs=%#x,%#x ash(rhs) =%d,%d",
 		w_lhs, w_rhs, ash_rhs.ashalign, ash_rhs.ashsize);
 
       if (ash_rhs.ashsize == 32)
@@ -237,7 +237,7 @@ long evalexp(exp e)
 
       a = ashof(sh(e));
 
-      FULLCOMMENT2("evalexp() clearshape_tag: ash=%d,%d", a.ashalign, a.ashsize);
+      asm_comment("evalexp() clearshape_tag: ash=%d,%d", a.ashalign, a.ashsize);
       if (a.ashsize > 32)
 	error(ERROR_SERIOUS, "clear for more than 32 bits");
 
@@ -251,7 +251,7 @@ long evalexp(exp e)
     }
 
   default:
-    COMMENT1("tag not in evalexp: %d", name(e));
+    asm_comment("tag not in evalexp: %d", name(e));
     error(ERROR_SERIOUS, "tag not in evalexp");
     return 0;
   }
@@ -286,7 +286,7 @@ static void outconcbit(concbittype c)
   int bytes = (c.value_size + 7) / 8;
   int i;
 
-  COMMENT2("outconcbit: bits=%d w=%#lx", c.value_size, w);
+  asm_comment("outconcbit: bits=%d w=%#lx", c.value_size, w);
 
   if (c.value_size==0)
     return;			/* avoid .byte with no data */
@@ -300,15 +300,15 @@ static void outconcbit(concbittype c)
   /* POWER assembler only permits .long for 32-bit aligned values */
 
   /* output enough bytes */
-  fprintf(as_file, "\t.byte\t");
+  asm_printf( "\t.byte\t");
   for (i = 0; i < bytes; i++)
   {
     if (i != 0)
-      fprintf(as_file, ",");
-    fprintf(as_file, "%#lx",(w >> 24) & 255);
+      asm_printf( ",");
+    asm_printf( "%#lx",(w >> 24) & 255);
     w = w << 8;
   }
-  fprintf(as_file, "\n");
+  asm_printf( "\n");
   assert(w == 0);
 }
 
@@ -345,9 +345,8 @@ static concbittype addconcbitaux(unsigned long w, int size, concbittype before)
     wordbitposn = (before.bitposn&31);
   }
 
-  FULLCOMMENT2("addconcbitaux() sz=%d w=%d",
-	       size, w);
-  FULLCOMMENT4("\tbefore=%d(%d) %#x:%d",
+  asm_comment("addconcbitaux() sz=%d w=%d", size, w);
+  asm_comment("\tbefore=%d(%d) %#x:%d",
 	       before.bitposn, wordbitposn, before.value, before.value_size);
 #if 0
   assert(size>0);		/* no longer have to handle zero for C */
@@ -398,7 +397,7 @@ static concbittype addconcbitaux(unsigned long w, int size, concbittype before)
   else
     before.value = (before.value << size) | (w & unary(size));
 
-  FULLCOMMENT4("\t after=%d(%d) %#x:%d",
+  asm_comment("\t after=%d(%d) %#x:%d",
 	       before.bitposn, wordbitposn, before.value, before.value_size);
 
   assert(before.value_size<=32);
@@ -451,15 +450,15 @@ static void set_align(int al)
     break;
 
   case 16:
-    fprintf(as_file, "\t.align\t1\n");
+    asm_printop(".align 1");
     break;
 
   case 32:
-    fprintf(as_file, "\t.align\t2\n");
+    asm_printop(".align 2");
     break;
 
   case 64:
-    fprintf(as_file, "\t.align\t3\n");
+    asm_printop(".align 3");
     break;
 
   default:
@@ -475,9 +474,9 @@ static void evalone(exp e, int bitposn)
 
   a = ashof(sh(e));
 
-  COMMENT4("evalone: name(e) =%d, bitposn=%d, ash=%d,%d", name(e),
+  asm_comment("evalone: name(e) =%d, bitposn=%d, ash=%d,%d", name(e),
 	   bitposn, a.ashsize, a.ashalign);
-  COMMENT1("evalone no(e) =%d",no(e));
+  asm_comment("evalone no(e) =%d",no(e));
 
   set_align(a.ashalign);
 
@@ -519,7 +518,7 @@ static void evalone(exp e, int bitposn)
 	   default:
 	    error(ERROR_SERIOUS, "unexpected wide char data width");
 	  }
-	  fprintf(as_file, "\t%s\t%#x\n", directive, c);
+	  asm_printop("%s %#x", directive, c);
 	}
 
 	return;
@@ -532,38 +531,38 @@ static void evalone(exp e, int bitposn)
 
 	if (c >= 32 && c < 127)
 	{
-	  fprintf(as_file, "\t.byte\t\"");
+	  asm_printf( "\t.byte\t\"");
 	  for (i = 0; strsize > 0 && i < 48 && c >= 32 && c < 127; i++)
 	  {
 	    if (c != '"')
 	      putc(c, as_file);
 	    else
-	      fprintf(as_file, "\"\"");		/* " represented as "" */
+	      asm_printf( "\"\"");		/* " represented as "" */
 
 	    st++;
 	    strsize--;
 	    c = *st;
 	  }
 
-	  fprintf(as_file, "\"\n");
+	  asm_printf( "\"\n");
 	}
 	else
 	{
-	  fprintf(as_file, "\t.byte\t");
+	  asm_printf( "\t.byte\t");
 
 	  for (i = 0; strsize > 0 && i < 16 && !(c >= 32 && c < 127); i++)
 	  {
 	    if (i != 0)
-	      fprintf(as_file, ",");
+	      asm_printf( ",");
 
-	    fprintf(as_file, "%d", c);
+	    asm_printf( "%d", c);
 
 	    st++;
 	    strsize--;
 	    c = *st;
 	  }
 
-	  fprintf(as_file, "\n");
+	  asm_printf( "\n");
 	}
       }
       return;
@@ -577,30 +576,30 @@ static void evalone(exp e, int bitposn)
       if (a.ashsize==32)
       {
 	v=real2longs_IEEE(f,0);
-	fprintf(as_file,"\t.long\t");
-	fprintf(as_file,"%ld",(long)v.i1);
+	asm_printf("\t.long\t");
+	asm_printf("%ld",(long)v.i1);
       }
       else if (a.ashsize==64)
       {
 	v=real2longs_IEEE(f,1);
-	fprintf(as_file,"\t.long\t");
-	fprintf(as_file,"%ld",(long)v.i2);
-	fprintf(as_file,",");
-	fprintf(as_file,"%ld",(long)v.i1);
+	asm_printf("\t.long\t");
+	asm_printf("%ld",(long)v.i2);
+	asm_printf(",");
+	asm_printf("%ld",(long)v.i1);
       }
       else
       {
 	v=real2longs_IEEE(f,2);
-	fprintf(as_file,"\t.long\t");
-	fprintf(as_file,"%ld",(long)v.i4);
-	fprintf(as_file,",");
-	fprintf(as_file,"%ld",(long)v.i3);
-	fprintf(as_file,",");
-	fprintf(as_file,"%ld",(long)v.i2);
-	fprintf(as_file,",");
-	fprintf(as_file,"%ld",(long)v.i1);
+	asm_printf("\t.long\t");
+	asm_printf("%ld",(long)v.i4);
+	asm_printf(",");
+	asm_printf("%ld",(long)v.i3);
+	asm_printf(",");
+	asm_printf("%ld",(long)v.i2);
+	asm_printf(",");
+	asm_printf("%ld",(long)v.i1);
       }
-      fprintf(as_file, "\n");
+      asm_printf( "\n");
       return;
     }
    case null_tag:case top_tag:
@@ -610,7 +609,7 @@ static void evalone(exp e, int bitposn)
     {
       char *asdata;
 
-      FULLCOMMENT1("evalone() val_tag: %d", val_tag);
+      asm_comment("evalone() val_tag: %d", val_tag);
 
       /* allow 64 bit integers */
       if (shape_size(sh(e)) >32)
@@ -626,8 +625,8 @@ static void evalone(exp e, int bitposn)
 	  temp.big = (is_signed(sh(e)) && no(e) <0)?-1:0;
 	  temp.small = no(e);
 	}
-	fprintf(as_file,"\t.long\t%ld\n",(long)temp.small);
-	fprintf(as_file,"\t.long\t%ld\n",(long)temp.big);
+	asm_printop(".long %ld",(long)temp.small);
+	asm_printop(".long %ld",(long)temp.big);
 	return;
       }
       /* allow for bitfields */
@@ -649,7 +648,7 @@ static void evalone(exp e, int bitposn)
       {
 	asdata = ".long";
       }
-      fprintf(as_file, "\t%s\t%ld\n", asdata, evalexp(e));
+      asm_printop("%s %ld", asdata, evalexp(e));
       return;
     }
   case name_tag:
@@ -662,11 +661,11 @@ static void evalone(exp e, int bitposn)
       /* no() is offset */
       if (no(e) == 0)
       {
-	fprintf(as_file, "\t.long\t%s\n", nm);
+	asm_printop(".long %s", nm);
       }
       else
       {
-	fprintf(as_file, "\t.long\t%s+%ld\n", nm,(long)(no(e) /8));
+	asm_printop(".long %s+%ld", nm,(long)(no(e) /8));
       }
 
       return;
@@ -693,7 +692,7 @@ static void evalone(exp e, int bitposn)
       {
 	int gap = no(off) - remainderbits.bitposn;
 
-	COMMENT4("evalone compound_tag: gap=%d off=%d ash=%d,%d",
+	asm_comment("evalone compound_tag: gap=%d off=%d ash=%d,%d",
 		gap, no(off), tupa.ashsize, tupa.ashalign);
 
 	/* check that component's alignment matches offset in struct */
@@ -755,7 +754,7 @@ static void evalone(exp e, int bitposn)
 	  /* pad out trailing unitialised space, eg union */
 	  if (a.ashsize > databits && trailing_bytes > 0)
 	  {
-	    fprintf(as_file, "\t.space\t%d\n",(int)trailing_bytes);
+	    asm_printop(".space %d",(int)trailing_bytes);
 	  }
 	  return;
 	}
@@ -790,7 +789,7 @@ static void evalone(exp e, int bitposn)
       int bitsize;
       int i;
 
-      COMMENT1("ncopies_tag: n=%d", n);
+      asm_comment("ncopies_tag: n=%d", n);
 
       while (name(son(e)) == ncopies_tag)
       {
@@ -807,7 +806,7 @@ static void evalone(exp e, int bitposn)
 
       for (i = 0; i < n; i++)
       {
-	COMMENT3("ncopies_tag: i=%d n=%d bitposn=%d", i, n, bitposn);
+	asm_comment("ncopies_tag: i=%d n=%d bitposn=%d", i, n, bitposn);
 	evalone(e, bitposn);
 	bitposn += bitsize;
       }
@@ -816,7 +815,7 @@ static void evalone(exp e, int bitposn)
 
   case concatnof_tag:
     {
-      COMMENT2("concatnof_tag: ashalign=%d, ashsize=%d", a.ashalign, a.ashsize);
+      asm_comment("concatnof_tag: ashalign=%d, ashsize=%d", a.ashalign, a.ashsize);
 
       /* allow for bitfields */
       if (a.ashalign == 1)
@@ -848,7 +847,7 @@ static void evalone(exp e, int bitposn)
 	return;
       }
 
-      fprintf(as_file, "\t.space\t%ld\n",(a.ashsize + 7) >> 3);
+      asm_printop(".space %ld",(a.ashsize + 7) >> 3);
       return;
     }
 
@@ -868,7 +867,7 @@ static void evalone(exp e, int bitposn)
     case offset_negate_tag:
 
     {
-      fprintf(as_file, "\t.long\t%ld\n", evalexp(e));
+      asm_printop(".long %ld", evalexp(e));
       return;
     }
    case minptr_tag:
@@ -880,22 +879,22 @@ static void evalone(exp e, int bitposn)
 	long n = no(p1) -no(p2);
 	char *n1 = brog(son(p1)) ->dec_u.dec_val.dec_id;
 	char *n2 = brog(son(p2)) ->dec_u.dec_val.dec_id;
-	fprintf(as_file,"\t.long\t(%s-%s)",n1,n2);
+	asm_printf("\t.long\t(%s-%s)",n1,n2);
 	if (n<0)
 	{
-	  fprintf(as_file,"%ld",n);
+	  asm_printf("%ld",n);
 	}
 	else if (n>0)
 	{
-	  fprintf(as_file,"+%ld",n);
+	  asm_printf("+%ld",n);
 	}
-	fprintf(as_file,"\n");
+	asm_printf("\n");
       }
       return;
     }
 
    default:
-    COMMENT1("tag not in evaluated: %d", name(e));
+    asm_comment("tag not in evaluated: %d", name(e));
     error(ERROR_SERIOUS, "illegal constant");
   }				/* end switch */
 }
@@ -927,14 +926,14 @@ instore evaluated(exp e, int l)
 
     if (temp)
     {
-      fprintf(as_file, "\t.lcomm\t");
+      asm_printf( "\t.lcomm\t");
     }
     else
     {
-      fprintf(as_file, "\t.comm\t");
+      asm_printf( "\t.comm\t");
     }
     outlab(lab);
-    fprintf(as_file, ",%ld\n", byte_size);
+    asm_printf( ",%ld\n", byte_size);
 
     return isa;
   }
@@ -945,10 +944,10 @@ instore evaluated(exp e, int l)
     /* align at least to word for speed of access */
     /* if size greater than 4 bytes, align on double boundry for speed */
     if (a.ashalign > 32 || a.ashsize > 32)
-      fprintf(as_file, "\t.align\t3\n");
+      asm_printop(".align 3");
     else
-      fprintf(as_file, "\t.align\t2\n");
-    fprintf(as_file, "%s:\n", extname);
+      asm_printop(".align 2");
+    asm_label( "%s", extname);
 
     evalone(e, 0);
 
@@ -969,7 +968,7 @@ instore evaluated_const(exp e)
   /* +++ to share consts */
 
   /* generate read only data */
-  fprintf(as_file, "\t.csect\t[RO]\n");
+  asm_printop(".csect [RO]");
 
   isa = evaluated(e, 0);
 
@@ -978,11 +977,12 @@ instore evaluated_const(exp e)
   id = ext_name(lab);
 
   /* generate .toc entry */
-  fprintf(as_file, "\t.toc\n");
-  fprintf(as_file, "T.%s:\n\t.tc\t%s[TC],%s\n", id, id, id);
+  asm_printop(".toc");
+  asm_label( "T.%s", id);
+  asm_printop( ".tc\t%s[TC],%s", id, id);
 
   /* reset to default text segment */
-  fprintf(as_file, "\t.csect\t[PR]\n");
+  asm_printop(".csect [PR]");
 
   return isa;
 }

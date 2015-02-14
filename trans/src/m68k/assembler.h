@@ -42,7 +42,6 @@ void asm_bf_before(void);
 void asm_bf_middle(void);
 void asm_bf_after(void);
 void asm_rpair_sep(void);
-void asm_comment(void);
 
 #endif
 

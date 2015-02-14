@@ -25,6 +25,8 @@
 #include <construct/exp.h>
 #include <construct/shape.h>
 
+#include <main/print.h>
+
 #include "addrtypes.h"
 #include "inst_fmt.h"
 #include "regmacs.h"
@@ -124,10 +126,10 @@ baseoff boff
 #endif
   else
   {
-    comment3("baseoff: n=%lx, b=%d, n>>4=%ld", n, b, n >> 4);
+    asm_comment("baseoff: n=%lx, b=%d, n>>4=%ld", n, b, n >> 4);
     error(ERROR_SERIOUS, "not a baseoff in boff");
   }
-  FULLCOMMENT2("baseoff: base=%d off=%d", an.base, an.offset);
+  asm_comment("baseoff: base=%d off=%d", an.base, an.offset);
   return an;
 }
 
@@ -150,8 +152,8 @@ where locate1
   ans aa;
   where wans;
 #if 0				/* causes core dump spec/espresso/set.c */
-  FULLCOMMENT3("locate1: %s, %s, dreg=%d",(int)tag_name(name(e)), (int)sh_name(name(s)), dreg);
-  FULLCOMMENT4("        space= (%ld,%ld) no(e) =%d no(son(e)) =%d", sp.fixed, sp.flt, no(e), no(son(e)));
+  asm_comment("locate1: %s, %s, dreg=%d",(int)tag_name(name(e)), (int)sh_name(name(s)), dreg);
+  asm_comment("        space= (%ld,%ld) no(e) =%d no(son(e)) =%d", sp.fixed, sp.flt, no(e), no(son(e)));
 #endif
 
   a = ashof(s);
@@ -179,7 +181,7 @@ where locate1
 	 */
 	where w;
 
-	FULLCOMMENT("locate1: name_tag: defer_bit");
+	asm_comment("locate1: name_tag: defer_bit");
 
 	w = locate(son(dc), sp, sh(son(dc)), dreg);
 
@@ -210,7 +212,7 @@ where locate1
       {
 	/* ... it has been allocated in a fixed point reg */
 
-	FULLCOMMENT1("locate1: name_tag: fixed point reg%s",(int)(var?" var":""));
+	asm_comment("locate1: name_tag: fixed point reg%s",(int)(var?" var":""));
 
 	if (var)
 	{
@@ -232,7 +234,7 @@ where locate1
 
 	freg fr;
 
-	FULLCOMMENT("locate1: name_tag: fixed point reg");
+	asm_comment("locate1: name_tag: fixed point reg");
 
 	fr.fr = no(dc);
 	fr.dble = (a.ashsize==64 ? 1 : 0);
@@ -550,7 +552,7 @@ where locate1
        * answer is going to be the contents of address represented by fc
        */
 
-      FULLCOMMENT1("locate1: cont[vol]_tag: %s",(int)ANSDISCRIM_NAME(discrim(ason)));
+      asm_comment("locate1: cont[vol]_tag: %s",(int)ANSDISCRIM_NAME(discrim(ason)));
 
       switch (discrim(ason))
       {
@@ -560,7 +562,7 @@ where locate1
 	  if (isa.adval)
 	  {
 	    /* literal store address, so make it into a direct one */
-	    FULLCOMMENT("locate1: cont[vol]_tag: literal store address");
+	    asm_comment("locate1: cont[vol]_tag: literal store address");
 	    isa.adval = 0;
 	    setinsalt(aa, isa);
 	  }
@@ -571,7 +573,7 @@ where locate1
 	     * actual pointer in store so load it into reg and deliver direct
 	     * base-offset (reg,0)
 	     */
-	    FULLCOMMENT("locate1: cont[vol]_tag: ptr in store");
+	    asm_comment("locate1: cont[vol]_tag: ptr in store");
 	    reg = getreg(sp.fixed);
 	    ld_ins(i_lw,1,isa.b,reg);
 	    isa.b.base = reg;
@@ -689,7 +691,7 @@ where locate1
       case bitad:
 	{
 	  wans.answhere.val.instoreans.b.offset += no(e);
-	  FULLCOMMENT1("locate field_tag: adjusting bitad offset to %d", wans.answhere.val.instoreans.b.offset);
+	  asm_comment("locate field_tag: adjusting bitad offset to %d", wans.answhere.val.instoreans.b.offset);
 	  break;
 	}
 #endif
@@ -712,7 +714,7 @@ where locate1
       if (r == RET0)		/* guard possible result from proc - can do
 				 * better */
       {
-	FULLCOMMENT("guarding possible result");	/* +++ remove */
+	asm_comment("guarding possible result");	/* +++ remove */
 	r = getreg(sp.fixed);
 	if (r != RET0)
 	  rr_ins(i_copy,RET0,r);
@@ -741,7 +743,7 @@ where locate
   }
   else
   {
-    FULLCOMMENT("locate: iskept() found value");
+    asm_comment("locate: iskept() found value");
     w.answhere = ak;
     w.ashwhere = ashof(s);
   }

@@ -28,6 +28,7 @@
 
 #include <main/driver.h>
 #include <main/flags.h>
+#include <main/print.h>
 
 #include <refactor/optimise.h>
 
@@ -205,7 +206,7 @@ outp(ins_p ins, ins_p cc, int *ops, int lab)
 	       r1=r0;
 	    r0=lst->op[0];
 	    SET_FILE_POSN(as_file,(lst->fpos));
-	    fprintf(as_file,"\t%s\t%s,%s,%s\n",lI,RN(r0),RN(r1),RN(r));
+	    asm_printop("%s %s,%s,%s",lI,RN(r0),RN(r1),RN(r));
 	    lst->op[1]=r1;
 	    line--;
 	    return 0;
@@ -255,7 +256,7 @@ outp(ins_p ins, ins_p cc, int *ops, int lab)
 	 if ( (jIns==i_cj || jIns==i_cij || jIns==i_ub) && j->lab==lab )
 	 {
 	    SET_FILE_POSN(as_file,(j->fpos));
-	    fprintf(as_file,"L$$%d\n",pCode[l]->lab);
+	    asm_printf("L$$%d\n",pCode[l]->lab);
 	    labIntro[pCode[l]->lab-firstlab]=line-2;
 	    pCode[l-1]=pCode[l];
 	    free(j);
@@ -293,7 +294,7 @@ outp(ins_p ins, ins_p cc, int *ops, int lab)
 	     for(;i<63;i++)
 		s[i]=' ';
 	     s[63]=0;
-	     fprintf(as_file,"%s\n",s);
+	     asm_printf("%s\n",s);
 	     j->op[2]=0;
 	     j->lab=NA;
 	     SET_FILE_POSN(as_file,pos);
@@ -403,7 +404,7 @@ rrr_ins(ins_p ins, ins_p cond, int a, int b, int c)
       ops[2]=c;
       p=outp(i_sh1add,cond,ops,NA);
       if (p)
-	 fprintf(as_file,"\tsh1add%s\t%s,0,%s\n",cond,RN(a),RN(c));
+	 asm_printop("sh1add%s %s,0,%s",cond,RN(a),RN(c));
    }
    else
    {
@@ -412,7 +413,7 @@ rrr_ins(ins_p ins, ins_p cond, int a, int b, int c)
       ops[2]=c;
       p=outp(ins,cond,ops,NA);
       if (p)
-	 fprintf(as_file,"\t%s%s\t%s,%s,%s\n",ins,cond,RN(a),RN(b),RN(c));
+	 asm_printop("%s%s %s,%s,%s",ins,cond,RN(a),RN(b),RN(c));
    }
 }
 
@@ -423,7 +424,7 @@ void
 r_ins(ins_p ins, int a)
 {
    outp(ins,NOCOND,zops,NA);
-   fprintf(as_file,"\t%s\t%s\n",ins,RN(a));
+   asm_printop("%s %s",ins,RN(a));
 }
 
 /*
@@ -434,7 +435,7 @@ rir_ins(ins_p ins, ins_p cc, int a, long imm, int d)
 {
    clear_reg(d);
    outp(ins,cc,zops,NA);
-   fprintf(as_file,"\t%s%s\t%s,%ld,%s\n",ins,cc,RN(a),imm,RN(d));
+   asm_printop("%s%s %s,%ld,%s",ins,cc,RN(a),imm,RN(d));
 }
 
 /*
@@ -445,7 +446,7 @@ rr_ins(ins_p ins, int s, int d)
 {
   clear_reg(d);
   outp(ins,NOCOND,zops,NA);
-  fprintf(as_file,"\t%s\t%s,%s\n",ins,RN(s),RN(d));
+  asm_printop("%s %s,%s",ins,RN(s),RN(d));
 }
 
 /*
@@ -456,7 +457,7 @@ irr_ins(ins_p ins, ins_p cc, ins_p fs, long i, int a, int d)
 {
    clear_reg(d);
    outp(ins,cc,zops,NA);
-   fprintf(as_file,"\t%s%s\t%s%ld,%s,%s\n",ins,cc,fs,i,RN(a),RN(d));
+   asm_printop("%s%s %s%ld,%s,%s",ins,cc,fs,i,RN(a),RN(d));
 }
 
 /*
@@ -467,7 +468,7 @@ iir_ins(ins_p ins, ins_p cc, int a, int b, int d)
 {
    clear_reg(d);
    outp(ins,cc,zops,NA);
-   fprintf(as_file,"\t%s%s\t%d,%d,%s\n",ins,cc,a,b,RN(d));
+   asm_printop("%s%s %d,%d,%s",ins,cc,a,b,RN(d));
 }
 
 /*
@@ -478,7 +479,7 @@ iiir_ins(ins_p ins, ins_p cond, int a, int b, int c, int d)
 {
    clear_reg(d);
    outp(ins,cond,zops,NA);
-   fprintf(as_file,"\t%s%s\t%d,%d,%d,%s\n",ins,cond,a,b,c,RN(d));
+   asm_printop("%s%s %d,%d,%d,%s",ins,cond,a,b,c,RN(d));
 }
 
 /*
@@ -504,7 +505,7 @@ ir_ins(ins_p ins, ins_p fs, const char *ltrl, long l, int d)
     clear_reg(d);
 
     outp(ins,NOCOND,zops,NA);
-    fprintf(as_file,"\t%s\t%s,%s\n",ins,I,RN(d));
+    asm_printop("%s %s,%s",ins,I,RN(d));
 
 }
 
@@ -527,7 +528,7 @@ rrir_ins(ins_p ins, ins_p cc, int a, int b, long i, int d)
    ops[2]=i;
    ops[3]=d;
    outp(ins,cc,ops,NA);
-   fprintf(as_file,"\t%s%s\t%s,%s,%ld,%s\n",ins,cc,RN(a),RN(b),i,RN(d));
+   asm_printop("%s%s %s,%s,%ld,%s",ins,cc,RN(a),RN(b),i,RN(d));
 }
 
 /*
@@ -539,7 +540,7 @@ z_ins(ins_p ins)
    int b;
    b=outp(ins,NOCOND,zops,NA);
    if (b)
-      fprintf(as_file, "\t%s\n", ins);
+      asm_printop("%s", ins);
 }
 
 /*
@@ -550,7 +551,7 @@ riir_ins(ins_p ins, ins_p cc, int s, long a, long b, int d)
 {
    clear_reg(d);
    outp(ins,cc,zops,NA);
-   fprintf(as_file,"\t%s%s\t%s,%ld,%ld,%s\n",ins,cc,RN(s),a,b,RN(d));
+   asm_printop("%s%s %s,%ld,%ld,%s",ins,cc,RN(s),a,b,RN(d));
 }
 
 /*
@@ -575,7 +576,7 @@ ld_ir_ins(ins_p ins, ins_p cmplt, ins_p fs, const char *ltrl, long l, int b, int
        sprintf(O,"%s%s",fs,ltrl);
    clear_reg(d);
    outp(ins,NOCOND,zops,NA);
-   fprintf(as_file,"\t%s%s\t%s(%s),%s\n",ins,cmplt,O,RN(b),RN(d));
+   asm_printop("%s%s %s(%s),%s",ins,cmplt,O,RN(b),RN(d));
 }
 
 /*
@@ -689,7 +690,7 @@ ld_rr_ins(ins_p ins, ins_p cmplt, int a, int b, int d)
       return;
    clear_reg(d);
    outp(ins,NOCOND,zops,NA);
-   fprintf(as_file,"\t%s%s\t%s(0,%s),%s\n",ins,cmplt,RN(a),RN(b),RN(d));
+   asm_printop("%s%s %s(0,%s),%s",ins,cmplt,RN(a),RN(b),RN(d));
 }
 
 void
@@ -785,7 +786,7 @@ st_ir_ins(ins_p ins, ins_p cmplt, int s, ins_p fs, const char *ltrl, long l, int
        sprintf(O,"%s%s",fs,ltrl);
 
     outp(ins,NOCOND,zops,NA);
-    fprintf(as_file,"\t%s%s\t%s,%s(%s)\n",ins,cmplt,RN(s),O,RN(b));
+    asm_printop("%s%s %s,%s(%s)",ins,cmplt,RN(s),O,RN(b));
 }
 
 void
@@ -860,14 +861,14 @@ ldsid_in(int s, int b, int t)
 {
    clear_reg(t);
    outp(i_ldsid,NOCOND,zops,NA);
-   fprintf(as_file,"\tldsid\t(%s,%s),%s\n",SN(s),RN(b),RN(t));
+   asm_printop("ldsid (%s,%s),%s",SN(s),RN(b),RN(t));
 }
 
 void
 mtsp_in(int r, int sr)
 {
    outp(i_mtsp,NOCOND,zops,NA);
-   fprintf(as_file,"\tmtsp\t%s,%s\n",RN(r),SN(sr));
+   asm_printop("mtsp %s,%s",RN(r),SN(sr));
 }
 
 /*
@@ -885,11 +886,11 @@ ub_ins(const char *cmplt, int lab)
        int b;
        b=outp(i_ub,NOCOND,zops,lab);
        if (b)
-	  fprintf(as_file,"%s",GAP);
+	  asm_printf("%s",GAP);
     }
     else
     {
-       fprintf(as_file,"\tb%s\tL$$%d\n",cmplt,lab);
+       asm_printop("b%s L$$%d",cmplt,lab);
        z_ins(i_nop);
     }
 }
@@ -901,14 +902,14 @@ void
 bl_in(ins_p n, char *target, int t)
 {
    outp(i_bl,NOCOND,zops,NA);
-   fprintf(as_file,"\tbl%s\t%s,%s\n",n,target,(t==RP ? "%rp" : RN(t)) );
+   asm_printop("bl%s %s,%s",n,target,(t==RP ? "%rp" : RN(t)) );
 }
 
 void
 ble_in(ins_p n, char* wd, int sr, int b)
 {
    outp(i_ble,NOCOND,zops,NA);
-   fprintf(as_file,"\tble%s\t%s(%s,%s)\n",n,wd,SN(sr),RN(b));
+   asm_printop("ble%s %s(%s,%s)",n,wd,SN(sr),RN(b));
 }
 
 void
@@ -982,7 +983,7 @@ void
 extj_reg_ins(ins_p ins, int reg)
 {
    outp(i_bv,NOCOND,zops,NA);
-   fprintf(as_file,"\tbv\t%%r0(%s)\n",RN(reg));
+   asm_printop("bv %%r0(%s)",RN(reg));
 }
 
 /*
@@ -995,7 +996,7 @@ addb_in(char *cond, int l, int d, int lab)
    ops[0]=l;
    ops[1]=d;
    outp(i_addb,cond,ops,lab);
-   fprintf(as_file,"\taddb%s,N\t%s,%s,L$$%d\n",cond,RN(l),RN(d),lab);
+   asm_printop("addb%s,N %s,%s,L$$%d",cond,RN(l),RN(d),lab);
    z_ins(i_nop);
 }
 
@@ -1006,7 +1007,7 @@ addib_in(char *cond, int i, int d, int lab)
    ops[0]=i;
    ops[1]=d;
    outp(i_addib,cond,ops,lab);
-   fprintf(as_file,"\taddib%s,N\t%d,%s,L$$%d\n",cond,i,RN(d),lab);
+   asm_printop("addib%s,N %d,%s,L$$%d",cond,i,RN(d),lab);
    z_ins(i_nop);
 }
 
@@ -1021,9 +1022,9 @@ comb_ins(const char *cond, int l, int r, int lab)
    ops[1]=r;
    outp(i_comb,cond,ops,lab);
    if (lab<0)
-      fprintf(as_file,"\tcomb%s\t%s,%s,.+%d\n",cond,RN(l),RN(r),-lab);
+      asm_printop("comb%s %s,%s,.+%d",cond,RN(l),RN(r),-lab);
    else
-      fprintf(as_file,"\tcomb%s\t%s,%s,L$$%d\n",cond,RN(l),RN(r),lab);
+      asm_printop("comb%s %s,%s,L$$%d",cond,RN(l),RN(r),lab);
 }
 
 /*
@@ -1037,9 +1038,9 @@ comib_ins(ins_p cond, int l, int r, int lab)
    ops[1]=r;
    outp(i_comib,cond,ops,lab);
    if (lab<0)
-      fprintf(as_file,"\tcomib%s\t%d,%s,.+%d\n",cond,l,RN(r),-lab);
+      asm_printop("comib%s %d,%s,.+%d",cond,l,RN(r),-lab);
    else
-      fprintf(as_file,"\tcomib%s\t%d,%s,L$$%d\n",cond,l,RN(r),lab);
+      asm_printop("comib%s %d,%s,L$$%d",cond,l,RN(r),lab);
 }
 
 void
@@ -1051,7 +1052,7 @@ cj_ins(const char *cond, int l, int r, int lab)
    if (optim & OPTIM_PEEPHOLE)
    {
       outp(i_cj,cond,ops,lab);
-      fprintf(as_file,"%s",GAP);
+      asm_printf("%s",GAP);
    }
    else
    {
@@ -1074,7 +1075,7 @@ cij_ins(const char *cond, long l, int r, int lab)
       if (optim & OPTIM_PEEPHOLE)
       {
 	 outp(i_cij,cond,ops,lab);
-	 fprintf(as_file,"%s",GAP);
+	 asm_printf("%s",GAP);
       }
       else
       {
@@ -1114,7 +1115,7 @@ bb_in(ins_p cond, int r, int b, int lab)
    ops[0]=r;
    ops[1]=b;
    outp(i_bb,cond,ops,lab);
-   fprintf(as_file,"%s",GAP);
+   asm_printf("%s",GAP);
 }
 
 /*
@@ -1125,7 +1126,7 @@ ldf_ir_ins(ins_p ins, int o, int b, int d)
 {
    clear_freg(d);
    outp(ins,NOCOND,zops,NA);
-   fprintf(as_file,"\t%s\t%d(%s),%s\n",ins,o,RN(b),FN(d));
+   asm_printop("%s %d(%s),%s",ins,o,RN(b),FN(d));
 }
 
 void
@@ -1133,7 +1134,7 @@ ldf_rr_ins(ins_p ins, ins_p cmplt, int a, int b, int d)
 {
    clear_freg(d);
    outp(ins,NOCOND,zops,NA);
-   fprintf(as_file,"\t%s%s\t%s(%s),%s\n",ins,cmplt,RN(a),RN(b),FN(d));
+   asm_printop("%s%s %s(%s),%s",ins,cmplt,RN(a),RN(b),FN(d));
 }
 
 void
@@ -1172,14 +1173,14 @@ void
 stf_ir_ins(ins_p ins, int s, int o, int b)
 {
    outp(ins,NOCOND,zops,NA);
-   fprintf(as_file,"\t%s\t%s,%d(%s)\n",ins,FN(s),o,RN(b));
+   asm_printop("%s %s,%d(%s)",ins,FN(s),o,RN(b));
 }
 
 void
 stf_rr_ins(ins_p ins, int s, int a, int b)
 {
    outp(ins,NOCOND,zops,NA);
-   fprintf(as_file,"\t%s\t%s,%s(%s)\n",ins,FN(s),RN(a),RN(b));
+   asm_printop("%s %s,%s(%s)",ins,FN(s),RN(a),RN(b));
 }
 
 void
@@ -1220,21 +1221,21 @@ void
 cmp_rrf_ins(ins_p ins, ins_p fmt, ins_p cond, int a, int b)
 {
    outp(ins,NOCOND,zops,NA);
-   fprintf(as_file,"\t%s%s%s\t%s,%s\n",ins,fmt,cond,FN(a),FN(b));
+   asm_printop("%s%s%s %s,%s",ins,fmt,cond,FN(a),FN(b));
 }
 
 void
 rrf_ins(ins_p ins, ins_p from_fmt, ins_p to_fmt, int a, int b)
 {
    outp(ins,NOCOND,zops,NA);
-   fprintf(as_file,"\t%s%s%s\t%s,%s\n",ins,from_fmt,to_fmt,FN(a),FN(b));
+   asm_printop("%s%s%s %s,%s",ins,from_fmt,to_fmt,FN(a),FN(b));
 }
 
 void
 rrrf_ins(ins_p ins, ins_p fmt, int a, int b, int dest)
 {
    clear_freg(dest);
-   fprintf(as_file, "\t%s%s\t%s,%s,%s\n",ins,fmt,FN(a),FN(b),FN(dest));
+   asm_printop("%s%s %s,%s,%s",ins,fmt,FN(a),FN(b),FN(dest));
    outp(ins,NOCOND,zops,NA);
 }
 
@@ -1246,7 +1247,7 @@ out_directive(const char *d, const char *params)
 {
   /* directive, parameters */
    outp(directive,NOCOND,zops,NA);
-   fprintf(as_file,"\t%s\t%s\n",d,params);
+   asm_printop("%s %s",d,params);
 }
 
 /*
@@ -1259,6 +1260,6 @@ outlab(char *prefix, int n)
        outp(i_lab,NOCOND,zops,n);
     else
        outp(i_,NOCOND,zops,NA);
-    fprintf(as_file,"%s%d\n",prefix,n);
+    asm_printf("%s%d\n",prefix,n);
 }
 

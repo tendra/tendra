@@ -25,6 +25,7 @@
 #include <symtab/syms.h>
 
 #include <main/driver.h>
+#include <main/print.h>
 
 #include "addrtypes.h"
 #include "psu_ops.h"
@@ -69,13 +70,13 @@ ls_ins(char *ins, int reg, baseoff a)
 
   if (a.base == 0 && ins[1]!='s') {		/* literal */
     if (as_file)
-      fprintf (as_file, "\t%s\t$%d, %ld\n", ins + 1, reg, a.offset);
+      asm_printop("%s $%d, %ld", ins + 1, reg, a.offset);
     out_iinst (0, ins[0] - 1, reg, xnoreg, formri, a.offset);
   }
   else
     if (a.base >= 0 && a.base <= 31) {/* base - offset */
       if (as_file)
-	fprintf (as_file, "\t%s\t$%d, %ld($%d)\n", ins + 1, reg, a.offset, a.base);
+	asm_printop("%s $%d, %ld($%d)", ins + 1, reg, a.offset, a.base);
       out_iinst (0, ins[0] - 1, reg, a.base, formrob, a.offset);
     }
     else
@@ -84,15 +85,15 @@ ls_ins(char *ins, int reg, baseoff a)
 
 	if (as_file) {
 	  if (a.offset == 0) {
-	    fprintf (as_file, "\t%s\t$%d, %s\n", ins + 1, reg, extname);
+	    asm_printop("%s $%d, %s", ins + 1, reg, extname);
 	  }
 	  else
 	    if (a.offset < 0) {
-	      fprintf (as_file, "\t%s\t$%d, %s-%ld\n",
+	      asm_printop("%s $%d, %s-%ld",
 		  ins + 1, reg, extname, -a.offset);
 	    }
 	    else {
-	      fprintf (as_file, "\t%s\t$%d, %s+%ld\n",
+	      asm_printop("%s $%d, %s+%ld",
 		  ins + 1, reg, extname, a.offset);
 	    }
 	}
@@ -101,15 +102,15 @@ ls_ins(char *ins, int reg, baseoff a)
       else {
 	if (as_file) {		/* global anonymous */
 	  if (a.offset == 0) {
-	    fprintf (as_file, "\t%s\t$%d, $$%d\n", ins + 1, reg, a.base);
+	    asm_printop("%s $%d, $$%d", ins + 1, reg, a.base);
 	  }
 	  else
 	    if (a.offset < 0) {
-	      fprintf (as_file, "\t%s\t$%d, $$%d- %ld\n", ins + 1, reg,
+	      asm_printop("%s $%d, $$%d- %ld", ins + 1, reg,
 		  a.base, -a.offset);
 	    }
 	    else {
-	      fprintf (as_file, "\t%s\t$%d, $$%d+ %ld\n", ins + 1, reg,
+	      asm_printop("%s $%d, $$%d+ %ld", ins + 1, reg,
 		  a.base, a.offset);
 	    }
 	}
@@ -129,7 +130,7 @@ mon_ins(char *ins, int dest, int src)
   andpeep = 0;
   if (ins == i_neg) { setnoreorder();}
   if (as_file)
-    fprintf (as_file, "\t%s\t$%d, $%d\n", ins + 1, dest, src);
+    asm_printop("%s $%d, $%d", ins + 1, dest, src);
   out_rinst (0, ins[0] - 1, dest, src, formrr, xnoreg);
   if (ins == i_neg) { setreorder(); }
   return;
@@ -147,7 +148,7 @@ rrr_ins(char *ins, int dest, int src1, int src2)
   andpeep = 0;
   if (ex) { setnoreorder();}
   if (as_file)
-    fprintf (as_file, "\t%s\t$%d, $%d, $%d\n", ins + 1, dest, src1, src2);
+    asm_printop("%s $%d, $%d, $%d", ins + 1, dest, src1, src2);
   out_rinst (0, ins[0] - 1, dest, src1, formrrr, src2);
   if (ex) { setreorder(); }
   return;
@@ -174,7 +175,7 @@ rri_ins(char *ins, int dest, int src1, long imm)
   }
   if (ex) { setnoreorder();}
   if (as_file)
-    fprintf (as_file, "\t%s\t$%d, $%d, %ld\n", ins + 1,
+    asm_printop("%s $%d, $%d, %ld", ins + 1,
 	dest, src1, imm);
   out_iinst (0, ins[0] - 1, dest, src1, formrri, imm);
   if (ex) { setreorder(); }
@@ -190,7 +191,7 @@ ri_ins(char *ins, int dest, long imm)
   clear_reg (dest);
   andpeep = 0;
   if (as_file)
-    fprintf (as_file, "\t%s\t$%d,%ld\n", ins + 1, dest, imm);
+    asm_printop("%s $%d,%ld", ins + 1, dest, imm);
   out_iinst (0, ins[0] - 1, dest, xnoreg, formri, imm);
 }
 
@@ -206,7 +207,7 @@ uncond_ins(char *ins, int lab)
   clear_all ();
   andpeep = 0;
   if (as_file)
-    fprintf (as_file, "\t%s\t$%d\n", ins + 1, lab);
+    asm_printop("%s $%d", ins + 1, lab);
   if (lab >= 32)
     out_iinst (-lab, ins[0] - 1, xnoreg, xnoreg, forml, 0);
   else
@@ -220,7 +221,7 @@ void
 condrr_ins(char *ins, int src1, int src2, int lab)
 {
   if (as_file)
-    fprintf (as_file, "\t%s\t$%d, $%d, $%d\n", ins + 1, src1, src2, lab);
+    asm_printop("%s $%d, $%d, $%d", ins + 1, src1, src2, lab);
   out_iinst (-lab, ins[0] - 1, src1, src2, formrrl, 0);
 
 }
@@ -231,12 +232,12 @@ condri_ins(char *ins, int src1, long imm, int lab)
 {
   if (imm == 0 && ins[4] == 0) {/* optimise branch on zero test */
     if (as_file)
-      fprintf (as_file, "\t%sz\t$%d, $%d\n", ins + 1, src1, lab);
+      asm_printop("%sz $%d, $%d", ins + 1, src1, lab);
     out_iinst (-lab, ins[0] - 1, src1, 0, formrrl, 0);
   }
   else {
     if (as_file)
-      fprintf (as_file, "\t%s\t$%d, %ld, $%d\n", ins + 1,
+      asm_printop("%s $%d, %ld, $%d", ins + 1,
 	  src1, imm, lab);
     out_iinst (-lab, ins[0] - 1, src1, xnoreg, formril, imm);
   }
@@ -247,7 +248,7 @@ void
 condr_ins(char *ins, int src1, int lab)
 {
   if (as_file)
-    fprintf (as_file, "\t%s\t$%d, $%d\n", ins + 1, src1, lab);
+    asm_printop("%s $%d, $%d", ins + 1, src1, lab);
   out_iinst (-lab, ins[0] - 1, src1, xnoreg, formrl, 0);
 }
 
@@ -259,13 +260,13 @@ cop_ins(char *ins, int gr, int fr)
   andpeep = 0;
   if (ins == i_ctc1 || ins== i_cfc1) {
     if (as_file)
-      fprintf (as_file, "\t%s\t$%d, $%d\n", ins + 1, gr, fr);
+      asm_printop("%s $%d, $%d", ins + 1, gr, fr);
     out_rinst (0, ins[0] - 1, gr, fr, formrr, xnoreg);
   }
   else {
     clear_reg ((fr >> 1) + 32);
     if (as_file)
-      fprintf (as_file, "\t%s\t$%d, $f%d\n", ins + 1, gr, fr);
+      asm_printop("%s $%d, $f%d", ins + 1, gr, fr);
     out_rinst (0, ins[0] - 1, gr, fr + float_register, formrr, xnoreg);
   }
 }
@@ -278,12 +279,12 @@ lsfp_ins(char *ins, int reg, baseoff a)
   if (a.base == 0) {
     error(ERROR_INTERNAL, "ZERO BASE in fp op");/* can't have literal operand */
     if (as_file)
-      fprintf (as_file, "\t%s\t$f%d, %ld\n", ins + 1, reg, a.offset);
+      asm_printop("%s $f%d, %ld", ins + 1, reg, a.offset);
   }
   else
     if (a.base >= 0 && a.base <= 31) {/* base offset */
       if (as_file)
-	fprintf (as_file, "\t%s\t$f%d, %ld($%d)\n",
+	asm_printop("%s $f%d, %ld($%d)",
 	    ins + 1, reg, a.offset, a.base);
       out_iinst (0, ins[0] - 1, reg + float_register, a.base, formrob, a.offset);
 
@@ -293,15 +294,15 @@ lsfp_ins(char *ins, int reg, baseoff a)
 	char *extname = main_globals[-a.base - 1] -> dec_u.dec_val.dec_id;
 	if (as_file) {
 	  if (a.offset == 0) {
-	    fprintf (as_file, "\t%s\t$f%d, %s\n", ins + 1, reg, extname);
+	    asm_printop("%s $f%d, %s", ins + 1, reg, extname);
 	  }
 	  else
 	    if (a.offset < 0) {
-	      fprintf (as_file, "\t%s\t$f%d, %s-%ld\n",
+	      asm_printop("%s $f%d, %s-%ld",
 		  ins + 1, reg, extname, -a.offset);
 	    }
 	    else {
-	      fprintf (as_file, "\t%s\t$f%d, %s+%ld\n",
+	      asm_printop("%s $f%d, %s+%ld",
 		  ins + 1, reg, extname, a.offset);
 	    }
 	}
@@ -312,15 +313,15 @@ lsfp_ins(char *ins, int reg, baseoff a)
       else {			/* global anonymous */
 	if (as_file) {
 	  if (a.offset == 0) {
-	    fprintf (as_file, "\t%s\t$f%d, $$%d\n", ins + 1, reg, a.base);
+	    asm_printop("%s $f%d, $$%d", ins + 1, reg, a.base);
 	  }
 	  else
 	    if (a.offset < 0) {
-	      fprintf (as_file, "\t%s\t$f%d, $$%d- %ld\n", ins + 1, reg,
+	      asm_printop("%s $f%d, $$%d- %ld", ins + 1, reg,
 		  a.base, -a.offset);
 	    }
 	    else {
-	      fprintf (as_file, "\t%s\t$f%d, $$%d+ %ld\n", ins + 1, reg,
+	      asm_printop("%s $f%d, $$%d+ %ld", ins + 1, reg,
 		  a.base, a.offset);
 	    }
 	}
@@ -335,7 +336,7 @@ rrfp_ins(char *ins, int dest, int src)
 {
   clear_reg ((dest >> 1) + 32);
   if (as_file)
-    fprintf (as_file, "\t%s\t$f%d, $f%d\n", ins + 1, dest, src);
+    asm_printop("%s $f%d, $f%d", ins + 1, dest, src);
   out_rinst (0, ins[0] - 1, dest + float_register, src + float_register, formrr,
       xnoreg);
 }
@@ -345,7 +346,7 @@ rrfpcond_ins(char *ins, int dest, int src)
 {
 
   if (as_file)
-    fprintf (as_file, "\t%s\t$f%d, $f%d\n", ins + 1, dest, src);
+    asm_printop("%s $f%d, $f%d", ins + 1, dest, src);
   out_rinst (0, ins[0] - 1, dest + float_register, src + float_register, formrr,
       xnoreg);
 }
@@ -355,7 +356,7 @@ rrrfp_ins(char *ins, int dest, int src1, int src2)
 {
   clear_reg ((dest >> 1) + 32);
   if (as_file)
-    fprintf (as_file, "\t%s\t$f%d, $f%d, $f%d\n", ins + 1, dest, src1, src2);
+    asm_printop("%s $f%d, $f%d, $f%d", ins + 1, dest, src1, src2);
   out_rinst (0, ins[0] - 1, dest + float_register, src1 + float_register, formrrr,
       src2 + float_register);
 }
@@ -368,7 +369,7 @@ br_ins(char *ins, int dest)
    /* clear_all (); shouldnt be necessary*/
   andpeep = 0;
   if (as_file)
-    fprintf (as_file, "\t%s\t$%d\n", ins + 1, dest);
+    asm_printop("%s $%d", ins + 1, dest);
   if (dest >= 32)
     out_iinst (-dest, ins[0] - 1, xnoreg, xnoreg, forml, 0);
   else
@@ -383,7 +384,7 @@ extj_ins(char *ins, baseoff b)
   clear_all ();
   andpeep = 0;
   if (as_file)
-    fprintf (as_file, "\t%s\t%s\n", ins + 1, extname);
+    asm_printop("%s %s", ins + 1, extname);
   out_iinst (symnos[-b.base - 1], ins[0] - 1, xnoreg, xnoreg, forma, 0);
 }
 
@@ -395,7 +396,7 @@ tround_ins(char *ins, int dfr, int sfr, int gpr)
   clear_reg ((dfr >> 1) + 32);
   andpeep = 0;
   if (as_file)
-    fprintf (as_file, "\t%s\t$f%d,$f%d,$%d\n", ins + 1, dfr, sfr, gpr);
+    asm_printop("%s $f%d,$f%d,$%d", ins + 1, dfr, sfr, gpr);
   out_rinst (0, ins[0] - 1, dfr + float_register, sfr + float_register,
       formrrr, gpr);
 }
@@ -407,7 +408,7 @@ hilo_ins(char * ins, int dest)
   clear_reg(dest);
   andpeep = 0;
   if (as_file)
-    fprintf (as_file, "\t%s\t$%d\n", ins + 1,dest);
+    asm_printop("%s $%d", ins + 1,dest);
 
   out_rinst(0, ins[0]-1, dest, 0, formr, 0);
 }
@@ -418,7 +419,7 @@ multdiv_ins(char *ins, int r1, int r2)
 {
 	andpeep=0;
 	if (as_file)
-		fprintf(as_file, "\t%s\t$%d,$%d\n", ins+1, r1, r2);
+		asm_printop("%s $%d,$%d", ins+1, r1, r2);
 
 	out_rinst (0, ins[0] - 1, r1, r2, formrr, xnoreg);
 }

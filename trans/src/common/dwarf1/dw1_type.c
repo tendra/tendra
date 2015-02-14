@@ -393,8 +393,7 @@ out_dwarf_user_type(diag_type t)
 		sprintf(expr_buf, SET_F, (char *)&((t->dw1_been_outed)[0]),
 #endif
 			current_label_name());
-		outs(expr_buf);
-		outnl();
+		asm_printf("%s\n", expr_buf);
 		}
 		leave_dwarf_blk();
 

@@ -17,6 +17,7 @@
 #include <local/fbase.h>
 
 #include <main/driver.h>
+#include <main/print.h>
 
 #include "assembler.h"
 #include "instrs.h"
@@ -78,7 +79,7 @@ char *reg_names[NO_OF_REGS];
     register number.
 */
 
-#define  out_reg_name(X)	fputs(reg_names[(X)], as_file)
+#define  out_reg_name(X)	asm_printf(reg_names[(X)])
 
 
 /*
@@ -97,18 +98,18 @@ out_data(mach_op *ptr)
 		case MACH_EXT:
 		case MACH_EXTQ:
 			if (need_plus || neg_next) {
-				fputc(neg_next ? '-' : '+', as_file);
+				asm_printf("%c", neg_next ? '-' : '+');
 			}
-			fputs(p->def.str, as_file);
+			asm_printf("%s", p->def.str);
 			need_plus = 1;
 			neg_next = 0;
 			break;
 		case MACH_LAB:
 		case MACH_LABQ:
 			if (need_plus || neg_next) {
-				fputc(neg_next ? '-' : '+', as_file);
+				asm_printf("%c", neg_next ? '-' : '+');
 			}
-			fprintf(as_file, "%c%ld", LPREFIX, p->def.num);
+			asm_printf( "%c%ld", LPREFIX, p->def.num);
 			need_plus = 1;
 			neg_next = 0;
 			break;
@@ -124,16 +125,16 @@ out_data(mach_op *ptr)
 					p->plus->def.num += n;
 				} else {
 					if (need_plus && n >= 0) {
-						fputc('+', as_file);
+						asm_printf("+");
 					}
-					fprintf(as_file, "%ld", n);
+					asm_printf( "%ld", n);
 					need_plus = 1;
 				}
 			} else {
 				if (need_plus || neg_next) {
-					fputc(neg_next ? '-' : '+', as_file);
+					asm_printf("%c", neg_next ? '-' : '+');
 				}
-				fprintf(as_file, "%c%s%ld", LPREFIX, p->def.str, (long) special_no);
+				asm_printf( "%c%s%ld", LPREFIX, p->def.str, (long) special_no);
 				need_plus = 1;
 			}
 			neg_next = 0;
@@ -145,9 +146,9 @@ out_data(mach_op *ptr)
 				n = (-n);
 			}
 			if (need_plus && n >= 0) {
-				fputc('+', as_file);
+				asm_printf("+");
 			}
-			fprintf(as_file, "%ld", n);
+			asm_printf( "%ld", n);
 			need_plus = 1;
 			neg_next = 0;
 			break;
@@ -159,9 +160,9 @@ out_data(mach_op *ptr)
 				n = (-n);
 			}
 			if (need_plus && n >= 0) {
-				fputc('+', as_file);
+				asm_printf("+");
 			}
-			outh(n);
+			asm_printf("0x%lx", (unsigned long) n);
 			need_plus = 1;
 			neg_next = 0;
 			break;
@@ -191,7 +192,7 @@ out_scaled(mach_op *ptr)
 		asm_scale_1();
 	} else {
 		asm_scale();
-		fprintf(as_file, "%ld", sf);
+		asm_printf( "%ld", sf);
 	}
 	return;
 }
@@ -208,17 +209,17 @@ out_float(flt *f)
 	int i;
 	asm_fprefix();
 	if (f->sign < 0) {
-		fputc('-', as_file);
+		asm_printf("-");
 	}
-	fprintf(as_file, "%c.", f->mant[0]);
+	asm_printf( "%c.", f->mant[0]);
 	for (i = 1; i < MANT_SIZE; i++) {
-		fputc('0' + f->mant[i], as_file);
+		asm_printf("%c", '0' + f->mant[i]);
 	}
-	fputc('e', as_file);
+	asm_printf("e");
 	if (f->exp >= 0) {
-		fputc('+', as_file);
+		asm_printf("+");
 	}
-	fprintf(as_file, "%ld", f->exp);
+	asm_printf( "%ld", f->exp);
 #else
 	error(ERROR_SERIOUS, "Illegal floating point constant");
 #endif
@@ -233,25 +234,25 @@ out_float(flt *f)
 */
 
 #define  out_data_1(X)		if (asm_data_first && X) out_data(X)
-#define  out_data_1a(X)		if (asm_data_first && X) { out_data(X); fputc(',', as_file); }
-#define  out_data_1b(X)		if (asm_data_first && X) { fputc(',', as_file); out_data(X); }
+#define  out_data_1a(X)		if (asm_data_first && X) { out_data(X); asm_printf(","); }
+#define  out_data_1b(X)		if (asm_data_first && X) { asm_printf(","); out_data(X); }
 #define  out_sf_data(X, Y)          \
     if (asm_data_first) {           \
         if (Y) out_scaled(Y);       \
     } else {                        \
         if (X) {                    \
-            fputc('(', as_file);      \
+            asm_printf("(");      \
             out_data(X);            \
             if (Y) {                \
-                fputc(',', as_file);  \
+                asm_printf(",");  \
                 out_scaled(Y);      \
             }                       \
-            fputc(')', as_file);      \
+            asm_printf(")");      \
         } else {                    \
             if (Y) {                \
-                fputc('(', as_file);  \
+                asm_printf("(");  \
                 out_scaled(Y);      \
-                fputc(')', as_file);  \
+                asm_printf(")");  \
             }                       \
         }                           \
     }
@@ -275,10 +276,10 @@ out_mach_op(mach_op *ptr)
 		out_mach_op(p->of);
 		asm_bf_before();
 		asm_nprefix();
-		fprintf(as_file, "%ld", bf_off);
+		asm_printf( "%ld", bf_off);
 		asm_bf_middle();
 		asm_nprefix();
-		fprintf(as_file, "%ld", bf_bits);
+		asm_printf( "%ld", bf_bits);
 		asm_bf_after();
 		return;
 	}
@@ -299,7 +300,7 @@ out_mach_op(mach_op *ptr)
 			if (q1 && q1->type == MACH_SCALE) {
 				if (p2) {
 					error(ERROR_SERIOUS, "Illegal addressing mode");
-					fputs("error", as_file);
+					asm_error();
 					return;
 				}
 				q2 = q1;
@@ -349,7 +350,7 @@ out_mach_op(mach_op *ptr)
 				out_data_1(p1);
 			}
 			asm_ind_before();
-			fputs(p->def.str, as_file);
+			asm_printf("%s", p->def.str);
 			asm_ind_middle();
 			out_sf_data(p1, p2);
 			asm_ind_after();
@@ -366,7 +367,7 @@ out_mach_op(mach_op *ptr)
 			return;
 		}
 		error(ERROR_SERIOUS, "Illegal addressing mode");
-		fputs("error", as_file);
+		asm_error();
 		return;
 	case MACH_DEC:
 		/* Register indirect with predecrement */
@@ -411,15 +412,15 @@ out_mach_op(mach_op *ptr)
 		return;
 	case MACH_VALQ:
 		/* Integer data */
-		fprintf(as_file, "%ld", p->def.num);
+		asm_printf( "%ld", p->def.num);
 		return;
 	case MACH_HEXQ:
 		/* Integer data */
-		outh(p->def.num);
+		asm_printf("0x%lx", (unsigned long) p->def.num);
 		return;
 	}
 	error(ERROR_SERIOUS, "Illegal addressing mode");
-	fputs("error", as_file);
+	asm_error();
 	return;
 }
 
@@ -444,7 +445,7 @@ output_all(void)
 		 * and then step forwards.
 		 */
 		if (n != m_comment) {
-			fprintf(as_file, "#inst%ld\n", p->id);
+			asm_printf( "#inst%ld\n", p->id);
 		}
 		if (p->id == 4921) {
 			int found = 1;
@@ -454,7 +455,7 @@ output_all(void)
 		switch (n) {
 		case m_comment:
 #ifndef NDEBUG
-			fprintf(as_file, "#%s\n", p->op1->def.str);
+			asm_printf( "#%s\n", p->op1->def.str);
 #endif
 			break;
 
@@ -466,13 +467,13 @@ output_all(void)
 
 		case m_label_ins:
 			/* Labels */
-			fprintf(as_file, "%c%ld:\n", LPREFIX, p->op1->def.num);
+			asm_label( "%c%ld", LPREFIX, p->op1->def.num);
 			break;
 
 		case m_extern_ins:
 			/* Externals */
 			out_data(p->op1);
-			fprintf(as_file, ":\n");
+			asm_printf( ":\n");
 			break;
 
 		case m_as_byte:
@@ -489,11 +490,11 @@ output_all(void)
 			for (q = p->op1; q; q = q->of) {
 				if (c == 0) {
 					if (started) {
-						fputc('\n', as_file);
+						asm_printf("\n");
 					}
-					fputs(instr_names[n], as_file);
+					asm_printf("%s", instr_names[n]);
 				} else {
-					fputc(',', as_file);
+					asm_printf(",");
 				}
 				out_data(q);
 				started = 1;
@@ -501,15 +502,15 @@ output_all(void)
 					c = 0;
 				}
 			}
-			fputc('\n', as_file);
+			asm_printf("\n");
 			break;
 		}
 		case m_as_assign:
 			if (asm_uses_equals) {
 			    out_mach_op(p->op1);
-			    fputc('=', as_file);
+			    asm_printf("=");
 			    out_mach_op(p->op2);
-			    fputc('\n', as_file);
+			    asm_printf("\n");
 			    break;
 			}
 			/* FALLTHROUGH */
@@ -519,30 +520,30 @@ output_all(void)
 				if (!asm_does_jump_lens && is_unsized(n)) {
 					n += long_jump;
 				}
-				fprintf(as_file, "%s%c%ld", instr_names[n], LPREFIX, p->op1->def.num);
+				asm_printf( "%s%c%ld", instr_names[n], LPREFIX, p->op1->def.num);
 				if (n == m_bra || n == m_brab ||
 				    n == m_braw || n == m_bral) {
 					/* Align after unconditional jumps */
-					fputc('\n', as_file);
+					asm_printf("\n");
 					if (!no_align_directives) {
-						fputs(instr_names[m_as_align4], as_file);
+						asm_printf("%s", instr_names[m_as_align4]);
 					}
 				}
 			} else {
 				/* Simple instructions */
-				fputs(instr_names[n], as_file);
+				asm_printf("%s", instr_names[n]);
 				if (p->op1) {
 					out_mach_op(p->op1);
 				}
 				if (p->op2) {
-					fputc(',', as_file);
+					asm_printf(",");
 #ifndef NDEBUG
-					fputc(' ', as_file);
+					asm_printf(" ");
 #endif
 					out_mach_op(p->op2);
 				}
 			}
-			fputc('\n', as_file);
+			asm_printf("\n");
 			break;
 		}
 	}

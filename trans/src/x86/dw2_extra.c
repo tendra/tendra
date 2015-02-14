@@ -30,6 +30,7 @@
 #include <construct/f64.h>
 
 #include <main/flags.h>
+#include <main/print.h>
 
 #ifdef TDF_DIAG4
 #include <diag4/dg_aux.h>
@@ -67,8 +68,6 @@ static long cie_pointer;
 static long fde_end;
 static long proc_end;
 
-static char * sp50 = "                                                  ";
-
 enum loctype { L_INREG = 1, L_REGOFF, L_GLOB, L_INDIRECT };
 
 typedef struct {
@@ -84,13 +83,6 @@ static int has_fp;
 static int no_location;
 
 
-
-
-static void outsep
-(void)
-{
-  outs(", ");
-}
 
 
 int dw_is_const
@@ -313,18 +305,18 @@ static void out_inreg
 {
   if (!more) {
     if (r < 32)
-      outn((long)(DW_OP_reg0 + r));
+      asm_printf("%d", DW_OP_reg0 + r);
     else {
-      outn((long)DW_OP_regx); outsep(); uleb128((unsigned long)r);
+      asm_printf("%d, ", DW_OP_regx); uleb128((unsigned long)r);
     }
   }
   else {
     if (r < 32)
-      outn((long)(DW_OP_breg0 + r));
+      asm_printf("%d", DW_OP_breg0 + r);
     else {
-      outn((long)DW_OP_bregx); outsep(); uleb128((unsigned long)r);
+      asm_printf("%d, ", DW_OP_bregx); uleb128((unsigned long)r);
     }
-    outsep(); outn(0);
+    asm_printf(", %d", 0);
   }
   return;
 }
@@ -338,7 +330,7 @@ static int regoff_length
 static void out_regoff
 (loc_s l)
 {
-  outn((long)(l.reg < 0 ? DW_OP_fbreg : DW_OP_breg0 + l.reg)); outsep();
+  asm_printf("%d, ", l.reg < 0 ? DW_OP_fbreg : DW_OP_breg0 + l.reg);
   sleb128(l.off);
   return;
 }
@@ -353,11 +345,10 @@ static int glob_length
 static void out_glob
 (loc_s l)
 {
-  outn((long)DW_OP_addr); d_outnl();
-  out32(); outs(l.s);
+  asm_printf("%d\n", DW_OP_addr);
+  out32(); asm_printf("%s", l.s);
   if (l.off) {
-    outs(" + ");
-    outn((long)l.off);
+    asm_printf(" + %d", l.off);
   }
   return;
 }
@@ -414,39 +405,39 @@ static void out_indirect
   switch (l.key) {
     case L_INREG: {
       out_inreg(l.reg, 1);
-      outsep();
+      asm_printf(", ");
       break;
     }
     case L_REGOFF: {
       out_regoff(l);
-      outsep();
+      asm_printf(", ");
       break;
     }
     case L_GLOB: {
       out_glob(l);
-      d_outnl(); out8();
+      asm_printf("\n"); out8();
       break;
     }
     case L_INDIRECT: {
       out_indirect(son(e));
-      outsep();
+      asm_printf(", ");
       break;
     }
   }
   switch (name(e)) {
     case cont_tag: {
-      outn((long)DW_OP_deref);
+      asm_printf("%d", DW_OP_deref);
       break;
     }
     case reff_tag: {
       if (no(e) >= 0) {
-	outn((long)DW_OP_plus_uconst); outsep();
+	asm_printf("%d, ", DW_OP_plus_uconst);
 	uleb128((unsigned long)(no(e) /8));
       }
       else {
-	outn((long)DW_OP_constu); outsep();
-	uleb128((unsigned long)(-no(e) /8)); outsep();
-	outn((long)DW_OP_minus);
+	asm_printf("%d, ", DW_OP_constu);
+	uleb128((unsigned long)(-no(e) / 8));
+	asm_printf(", %d", DW_OP_minus);
       }
       break;
     }
@@ -489,19 +480,19 @@ void dw2_locate_exp
 
   if (within_loclist) {
     out16();
-    outn((long)length); outnl();
+    asm_printf("%d\n", length);
     if (no_location)
       return;
     out8();
   }
   else {
     out8();
-    outn((long)length);
+    asm_printf("%d", length);
     if (no_location) {
-      outnl();
+      asm_printf("\n");
       return;
     }
-    outsep();
+    asm_printf(", ");
   }
   switch (l.key) {
     case L_INREG: {
@@ -530,11 +521,10 @@ void dw2_locate_exp
     if (locate_const)
       error(ERROR_INTERNAL, "constant location???");
 #endif
-    outsep();
-    outn((long)DW_OP_deref);
+    asm_printf(", %d", DW_OP_deref);
     extra_deref--;
   }
-  d_outnl();
+  asm_printf("\n");
   return;
 }
 
@@ -553,15 +543,15 @@ void dw_at_procdetails
 (void)
 {
 			/* return address and frame base */
-  out8(); outn((long)2); outsep(); outn((long)DW_OP_fbreg); outsep();
+  out8(); asm_printf("%d, %d, ", 2, DW_OP_fbreg);
   if (has_fp) {
-    outn((long)4); d_outnl();
-    out8(); outn((long)1); outsep();
-    outn((long)DW_OP_reg0+dw_fp); d_outnl();
+    asm_printf("%d\n", 4);
+    out8(); asm_printf("%d, ", 1);
+    asm_printf("%d\n", DW_OP_reg0+dw_fp);
   }
   else {
-    outn(0); d_outnl();
-    out8(); outn(0); d_outnl();
+    asm_printf("%d\n", 0);
+    out8(); asm_printf("%d\n", 0);
   }
   return;
 }
@@ -588,22 +578,21 @@ void dw2_locate_result
     multi = 1;
     length = 6;
   }
-  out8(); outn(length); outsep();
+  out8(); asm_printf("%d, ", length);
   if (multi) {
-    outn((long)DW_OP_reg0); outsep();
-    outn((long)DW_OP_piece); outsep(); outn(4);
-    outsep();
-    outn((long)DW_OP_reg0+2); outsep();
-    outn((long)DW_OP_piece); outsep(); outn(4);
+    asm_printf("%d, ", DW_OP_reg0);
+    asm_printf("%d, %d, ", DW_OP_piece, 4);
+    asm_printf("%d, ", DW_OP_reg0+2);
+    asm_printf("%d, %d", DW_OP_piece, 4);
   }
   else
   if (indirect) {
-    outn((long)DW_OP_breg0); outsep(); outn(0);
+    asm_printf("%d, %d", DW_OP_breg0, 0);
   }
   else {
     out_inreg(reg, 0);
   }
-  d_outnl();
+  asm_printf("\n");
   return;
 }
 
@@ -614,7 +603,7 @@ void dw2_locate_val
   out8();
   switch (v.k) {
     case NO_WH: {
-      outn(0);
+      asm_printf("%d", 0);
       break;
     }
     case WH_STR: {
@@ -622,13 +611,13 @@ void dw2_locate_val
       l.key = L_GLOB;
       l.s = v.u.s;
       l.off = v.o;
-      outn((long)glob_length(l)); outsep();
+      asm_printf("%d, ", glob_length(l));
       out_glob(l);
       break;
     }
     case WH_REG: {
       int r = (int)dwarfreg[v.u.l];
-      outn((long)inreg_length(r, 0)); outsep();
+      asm_printf("%d, ", inreg_length(r, 0));
       out_inreg(r, 0);
       break;
     }
@@ -641,14 +630,14 @@ void dw2_locate_val
 	l.reg = -1;
 	l.off -= locals_offset;
       }
-      outn((long)regoff_length(l)); outsep();
+      asm_printf("%d, ", regoff_length(l));
       out_regoff(l);
       break;
     }
     default:
       error(ERROR_INTERNAL, "unexpected locate val");
   }
-  d_outnl();
+  asm_printf("\n");
   return;
 }
 
@@ -657,7 +646,7 @@ static int dw_eval_exp
 (exp e, int line_started)
 {
   if (line_started)
-    outsep();
+    asm_printf(", ");
   else {
     out8();
     line_started = 1;
@@ -683,7 +672,7 @@ static int dw_eval_exp
 	}
 	case L_GLOB: {
 	  out_glob(l);
-	  d_outnl();
+	  asm_printf("\n");
 	  line_started = 0;
 	  break;
 	}
@@ -700,20 +689,20 @@ static int dw_eval_exp
 	flt64 x;
 	int ov;
 	x = flt_to_f64(no(e), is_signed(sh(e)), &ov);
-	outn((long)(is_signed(sh(e))? DW_OP_const8s : DW_OP_const8u)); d_outnl();
-	out32(); outn((long)(x.small)); outsep(); outn((long)(x.big)); d_outnl();
+	asm_printf("%d\n", is_signed(sh(e))? DW_OP_const8s : DW_OP_const8u);
+	out32(); asm_printf("%d, %d\n", x.small, x.big);
 	line_started = 0;
       }
       else
       if (no(e) >= 0 && no(e) < 32)
-	outn((long)(DW_OP_lit0 + no(e)));
+	asm_printf("%d", DW_OP_lit0 + no(e));
       else
       if (is_signed(sh(e))) {
-	outn((long)DW_OP_consts); outsep();
+	asm_printf("%d, ", DW_OP_consts);
 	sleb128((long)no(e));
       }
       else {
-	outn((long)DW_OP_constu); outsep();
+	asm_printf("%d, ", DW_OP_constu);
 	uleb128((unsigned long)no(e));
       }
       break;
@@ -723,23 +712,23 @@ static int dw_eval_exp
       line_started = dw_eval_exp(son(e), line_started);
       if (name(bro(son(e))) == val_tag && !is_signed(sh(e)) && !isbigval(bro(son(e)))) {
 	if (line_started)
-	  outsep();
+	  asm_printf(", ");
 	else {
 	  out8();
 	  line_started = 1;
 	}
-	outn((long)DW_OP_plus_uconst); outsep();
+	asm_printf("%d, ", DW_OP_plus_uconst);
 	uleb128((unsigned long)no(e));
       }
       else {
 	line_started = dw_eval_exp(bro(son(e)), line_started);
 	if (line_started)
-	  outsep();
+	  asm_printf(", ");
 	else {
 	  out8();
 	  line_started = 1;
 	}
-	outn((long)DW_OP_plus);
+	asm_printf("%d", DW_OP_plus);
       }
       break;
     }
@@ -748,24 +737,24 @@ static int dw_eval_exp
       line_started = dw_eval_exp(son(e), line_started);
       line_started = dw_eval_exp(bro(son(e)), line_started);
       if (line_started)
-	outsep();
+	asm_printf(", ");
       else {
 	out8();
 	line_started = 1;
       }
-      outn((long)DW_OP_minus);
+      asm_printf("%d", DW_OP_minus);
       break;
     }
     case neg_tag:
     case offset_negate_tag: {
       line_started = dw_eval_exp(son(e), line_started);
       if (line_started)
-	outsep();
+	asm_printf(", ");
       else {
 	out8();
 	line_started = 1;
       }
-      outn((long)DW_OP_neg);
+      asm_printf("%d", DW_OP_neg);
       break;
     }
     case mult_tag:
@@ -773,12 +762,12 @@ static int dw_eval_exp
       line_started = dw_eval_exp(son(e), line_started);
       line_started = dw_eval_exp(bro(son(e)), line_started);
       if (line_started)
-	outsep();
+	asm_printf(", ");
       else {
 	out8();
 	line_started = 1;
       }
-      outn((long)DW_OP_mul);
+      asm_printf("%d", DW_OP_mul);
       break;
     }
     case div0_tag:
@@ -789,12 +778,12 @@ static int dw_eval_exp
       line_started = dw_eval_exp(son(e), line_started);
       line_started = dw_eval_exp(bro(son(e)), line_started);
       if (line_started)
-	outsep();
+	asm_printf(", ");
       else {
 	out8();
 	line_started = 1;
       }
-      outn((long)DW_OP_div);
+      asm_printf("%d", DW_OP_div);
       break;
     }
     default:
@@ -810,13 +799,12 @@ void dw2_offset_exp
   long block_end = next_dwarf_label();
   if (name(sh(e))!= offsethd)
     error(ERROR_INTERNAL, "wrong shape for offset expression");
-  dw_at_form(DW_FORM_block2); d_outnl();
-  out16(); out_dwf_dist_to_label(block_end); d_outnl();
+  dw_at_form(DW_FORM_block2); asm_printf("\n");
+  out16(); out_dwf_dist_to_label(block_end); asm_printf("\n");
   if (dw_eval_exp(e, 0))
-    d_outnl();
+    asm_printf("\n");
   if (name(sh(e)) == offsethd && al2(sh(e)) < 8) {
-    out8(); outn((long)(DW_OP_lit0 + 8)); outsep();
-    outn((long)DW_OP_mul); d_outnl();
+    out8(); asm_printf("%d, %d\n", DW_OP_lit0 + 8, DW_OP_mul);
   }
   out_dwf_label(block_end, 1);
   return;
@@ -832,47 +820,47 @@ void dw2_cie
   enter_section("debug_frame");
   outnl_comment("Common Information Entry");
   out_dwf_label(cie_pointer, 1);
-  out32(); out_dwf_dist_to_label(cie_end); d_outnl();
-  out32(); outn((long)DW_CIE_id); d_outnl();
-  out8(); outn((long)DW_CIE_MOD_VERSION); d_outnl();
+  out32(); out_dwf_dist_to_label(cie_end); asm_printf("\n");
+  out32(); asm_printf("%d\n", DW_CIE_id);
+  out8(); asm_printf("%d\n", DW_CIE_MOD_VERSION);
   out_string("DERA/DDC-I");
-  out8(); uleb128((unsigned long)framecode_factor); d_outnl();
-  out8(); sleb128((long)framedata_factor); d_outnl();
-  out8 (); outn ((long)retaddr); d_outnl ();	/* return address column */
-  out8(); outn((long)DW_CFA_def_cfa);
-	outsep(); uleb128((unsigned long)dw_sp);
-	outsep (); uleb128 ((unsigned long)0);	/* CFA is sp at entry point */
-	d_outnl();
-  out8(); outn((long)DW_CFA_undefined);
-	outsep (); uleb128 ((unsigned long)dwarfreg [0]);	/* eax */
-	d_outnl();
-  out8(); outn((long)DW_CFA_undefined);
-	outsep (); uleb128 ((unsigned long)dwarfreg [1]);	/* edx */
-	d_outnl();
-  out8(); outn((long)DW_CFA_undefined);
-	outsep (); uleb128 ((unsigned long)dwarfreg [2]);	/* ecx */
-	d_outnl();
-  out8(); outn((long)DW_CFA_same_value);
-	outsep (); uleb128 ((unsigned long)dwarfreg [3]);	/* ebx */
-	d_outnl();
-  out8(); outn((long)DW_CFA_same_value);
-	outsep (); uleb128 ((unsigned long)dwarfreg [4]);	/* edi */
-	d_outnl();
-  out8(); outn((long)DW_CFA_same_value);
-	outsep (); uleb128 ((unsigned long)dwarfreg [5]);	/* esi */
-	d_outnl();
-  out8(); outn((long)DW_CFA_same_value);
-	outsep (); uleb128 ((unsigned long)dwarfreg [6]);	/* ebp */
-	d_outnl();
-  out8(); outn((long)DW_CFA_DD_location);
-	outsep (); uleb128 ((unsigned long)dw_sp);		/* esp */
-	outsep (); outn ((long)2);	/* location block */
-	outsep(); outn((long)DW_OP_plus_uconst);
-	outsep (); uleb128 ((unsigned long)4);	/* virtual pop return address */
-	d_outnl();
-  out8(); outn((long)DW_CFA_offset + retaddr);
-	outsep (); uleb128 ((unsigned long)0);	/* return address */
-	d_outnl();
+  out8(); uleb128((unsigned long)framecode_factor); asm_printf("\n");
+  out8(); sleb128((long)framedata_factor); asm_printf("\n");
+  out8 (); asm_printf("%d\n", retaddr); /* return address column */
+  out8(); asm_printf("%d", DW_CFA_def_cfa);
+	asm_printf(", "); uleb128((unsigned long)dw_sp);
+	asm_printf(", "); uleb128 ((unsigned long)0);	/* CFA is sp at entry point */
+	asm_printf("\n");
+  out8(); asm_printf("%d", DW_CFA_undefined);
+	asm_printf(", "); uleb128 ((unsigned long)dwarfreg [0]);	/* eax */
+	asm_printf("\n");
+  out8(); asm_printf("%d", DW_CFA_undefined);
+	asm_printf(", "); uleb128 ((unsigned long)dwarfreg [1]);	/* edx */
+	asm_printf("\n");
+  out8(); asm_printf("%d", DW_CFA_undefined);
+	asm_printf(", "); uleb128 ((unsigned long)dwarfreg [2]);	/* ecx */
+	asm_printf("\n");
+  out8(); asm_printf("%d", DW_CFA_same_value);
+	asm_printf(", "); uleb128 ((unsigned long)dwarfreg [3]);	/* ebx */
+	asm_printf("\n");
+  out8(); asm_printf("%d", DW_CFA_same_value);
+	asm_printf(", "); uleb128 ((unsigned long)dwarfreg [4]);	/* edi */
+	asm_printf("\n");
+  out8(); asm_printf("%d", DW_CFA_same_value);
+	asm_printf(", "); uleb128 ((unsigned long)dwarfreg [5]);	/* esi */
+	asm_printf("\n");
+  out8(); asm_printf("%d", DW_CFA_same_value);
+	asm_printf(", "); uleb128 ((unsigned long)dwarfreg [6]);	/* ebp */
+	asm_printf("\n");
+  out8(); asm_printf("%d", DW_CFA_DD_location);
+	asm_printf(", "); uleb128 ((unsigned long)dw_sp);		/* esp */
+	asm_printf(", %d", 2);	/* location block */
+	asm_printf(", %d", DW_OP_plus_uconst);
+	asm_printf(", "); uleb128 ((unsigned long)4);	/* virtual pop return address */
+	asm_printf("\n");
+  out8(); asm_printf("%d", DW_CFA_offset + retaddr);
+	asm_printf(", "); uleb128 ((unsigned long)0);	/* return address */
+	asm_printf("\n");
   dot_align(PTR_SZ/8);
   out_dwf_label(cie_end, 1);
   exit_section();
@@ -883,12 +871,12 @@ static void short_advance
 (long lo, long hi)
 {
   if (lo) {
-    out8(); out_dwf_label(hi, 0);  outs(" - "); out_dwf_label(lo, 0);
-    outs(" + "); outn((long)DW_CFA_advance_loc); d_outnl();
+    out8(); out_dwf_label(hi, 0);  asm_printf(" - "); out_dwf_label(lo, 0);
+    asm_printf(" + %d\n", DW_CFA_advance_loc);
   }
   else {
-    out8(); outn((long)DW_CFA_set_loc); d_outnl();
-    out32(); out_dwf_label(hi, 0); d_outnl();
+    out8(); asm_printf("%d\n", DW_CFA_set_loc);
+    out32(); out_dwf_label(hi, 0); asm_printf("\n");
   }
   return;
 }
@@ -901,52 +889,51 @@ long dw2_start_fde
   proc_end = next_dwarf_label();
   enter_section("debug_frame");
   outnl_comment("Frame Descriptor Entry");
-  out32(); out_dwf_dist_to_label(fde_end); d_outnl();
-  out32(); out_dwf_label(cie_pointer, 0); d_outnl();
-  out32(); out_dwf_label(proc_start, 0); d_outnl();
-  out32(); out_dwf_labdiff(proc_start, proc_end); d_outnl();
+  out32(); out_dwf_dist_to_label(fde_end); asm_printf("\n");
+  out32(); out_dwf_label(cie_pointer, 0); asm_printf("\n");
+  out32(); out_dwf_label(proc_start, 0); asm_printf("\n");
+  out32(); out_dwf_labdiff(proc_start, proc_end); asm_printf("\n");
 
   if (callee_size >= 0) {
     unsigned long pop_bytes = 4;
     int n = (remove_struct_ref && has_struct_res(crt_proc_exp))? 32 : 0;
     if ((n += callee_size)!= 0) {
       pop_bytes += (unsigned long)(n/8);
-      out8(); outn((long)DW_CFA_DD_location);
-	outsep(); uleb128((unsigned long)dw_sp);
-	outsep(); outn((long)1 + (long)uleb128_length(pop_bytes));
-	outsep(); outn((long)DW_OP_plus_uconst);
-	outsep (); uleb128 (pop_bytes);	/* adjust virtual pops */
-	d_outnl();
+      out8(); asm_printf("%d", DW_CFA_DD_location);
+	asm_printf(", "); uleb128((unsigned long)dw_sp);
+	asm_printf(", %d", 1 + uleb128_length(pop_bytes));
+	asm_printf(", %d", DW_OP_plus_uconst);
+	asm_printf(", "); uleb128 (pop_bytes);	/* adjust virtual pops */
+	asm_printf("\n");
     }
   }
   else {	/* var_callees */
     int extra = (remove_struct_ref && has_struct_res(crt_proc_exp))? 2 : 0;
-    out8(); outn((long)DW_CFA_DD_location);
-	outsep(); uleb128((unsigned long)dw_sp);
-	outsep (); outn ((long)(3 + extra));	/* location block length */
-	outsep(); outn((long)DW_OP_plus_uconst);
-	outsep (); uleb128 ((unsigned long)4);	/* virtual pop return address */
-	outsep (); outn ((long)DW_OP_deref);	/* over callees */
+    out8(); asm_printf("%d", DW_CFA_DD_location);
+	asm_printf(", "); uleb128((unsigned long)dw_sp);
+	asm_printf(", %d", 3 + extra);	/* location block length */
+	asm_printf(", %d", DW_OP_plus_uconst);
+	asm_printf(", "); uleb128 ((unsigned long)4);	/* virtual pop return address */
+	asm_printf(", %d", DW_OP_deref);	/* over callees */
 	if (extra) {
-	  outsep(); outn((long)DW_OP_plus_uconst);
-	  outsep (); uleb128 ((unsigned long)4);	/* pop struct_res */
+	  asm_printf(", %d", DW_OP_plus_uconst);
+	  asm_printf(", "); uleb128 ((unsigned long)4);	/* pop struct_res */
 	}
-	d_outnl();
+	asm_printf("\n");
   }
 
   if (!no_frame) {
     short_advance(proc_start, fblab);
-    out8(); outn((long)DW_CFA_def_cfa);
-	outsep(); uleb128((unsigned long)dwarfreg[6]);
-	outsep (); uleb128 ((unsigned long)4);	/* CFA now relative to %ebp */
-	d_outnl();
-    out8 (); outn ((long)DW_CFA_offset + dwarfreg[6]); /* %ebp */
-	outsep(); uleb128((unsigned long)1); d_outnl();
+    out8(); asm_printf("%d", DW_CFA_def_cfa);
+	asm_printf(", "); uleb128((unsigned long)dwarfreg[6]);
+	asm_printf(", "); uleb128 ((unsigned long)4);	/* CFA now relative to %ebp */
+	asm_printf("\n");
+    out8 (); asm_printf("%d, ", DW_CFA_offset + dwarfreg[6]); /* %ebp */
+	uleb128((unsigned long)1); asm_printf("\n");
   }
 
   hold_pos = out_tell_pos();
-  outs(sp50); outs(sp50); outs(sp50); outs(sp50); outs(sp50); outs(sp50); outs(sp50);
-  d_outnl();
+  asm_printf("%350s\n", "");
 
   exit_section();
   return hold_pos;
@@ -966,42 +953,42 @@ void dw2_fde_entry
     here = dwl2;
     out8();
     if (no_frame) {
-	outn((long)DW_CFA_DD_def_cfa_inc_offset); outsep();
+	asm_printf("%d, ", DW_CFA_DD_def_cfa_inc_offset);
     }
-	outn ((long)DW_CFA_offset + dwarfreg[3]); /* %ebx */
-	outsep(); uleb128(++up); d_outnl();
+	asm_printf("%d, ", DW_CFA_offset + dwarfreg[3]); /* %ebx */
+	uleb128(++up); asm_printf("\n");
   }
   if (min_rfree & 0x10) {
     short_advance(here, dwl3);
     here = dwl3;
     out8();
     if (no_frame) {
-	outn((long)DW_CFA_DD_def_cfa_inc_offset); outsep();
+	asm_printf("%d, ", DW_CFA_DD_def_cfa_inc_offset);
     }
-	outn ((long)DW_CFA_offset + dwarfreg[4]); /* %edi */
-	outsep(); uleb128(++up); d_outnl();
+	asm_printf("%d", DW_CFA_offset + dwarfreg[4]); /* %edi */
+	asm_printf(", "); uleb128(++up); asm_printf("\n");
   }
   if (min_rfree & 0x20) {
     short_advance(here, dwl4);
     here = dwl4;
     out8();
     if (no_frame) {
-	outn((long)DW_CFA_DD_def_cfa_inc_offset); outsep();
+	asm_printf("%d, ", DW_CFA_DD_def_cfa_inc_offset);
     }
-	outn ((long)DW_CFA_offset + dwarfreg[5]); /* %esi */
-	outsep(); uleb128(++up); d_outnl();
+	asm_printf("%d, ", DW_CFA_offset + dwarfreg[5]); /* %esi */
+	uleb128(++up); asm_printf("\n");
   }
   if (no_frame && (min_rfree & 0x40)) {
     short_advance(here, dwl1);
     here = dwl1;
-    out8(); outn((long)DW_CFA_DD_def_cfa_inc_offset); outsep();
-	outn ((long)DW_CFA_offset + dwarfreg[6]); /* %ebp */
-	outsep(); uleb128(++up); d_outnl();
+    out8(); asm_printf("%d, ", DW_CFA_DD_def_cfa_inc_offset);
+	asm_printf("%d, ", DW_CFA_offset + dwarfreg[6]); /* %ebp */
+	uleb128(++up); asm_printf("\n");
   }
   if (space && no_frame) {
     short_advance(here, dwl8);
-    out8(); outn((long)DW_CFA_def_cfa_offset); outsep();
-	uleb128((unsigned long)space); d_outnl();
+    out8(); asm_printf("%d, ", DW_CFA_def_cfa_offset);
+	uleb128((unsigned long)space); asm_printf("\n");
   }
   return;
 }
@@ -1012,11 +999,11 @@ void dw2_untidy_return
 	/* we have pushed the return address */
   long here = set_dw_text_label();
   enter_section("debug_frame");
-  out8(); outn((long)DW_CFA_set_loc); d_outnl();
-  out32(); out_dwf_label(here, 0); d_outnl();
-  out8(); outn((long)DW_CFA_remember_state); outsep();
+  out8(); asm_printf("%d\n", DW_CFA_set_loc);
+  out32(); out_dwf_label(here, 0); asm_printf("\n");
+  out8(); asm_printf("%d, ", DW_CFA_remember_state);
   if (no_frame) {
-    outn((long)DW_CFA_DD_def_cfa_inc_offset); d_outnl();
+    asm_printf("%d\n", DW_CFA_DD_def_cfa_inc_offset);
   }
   exit_section();
   return;
@@ -1029,11 +1016,10 @@ long dw2_prep_fde_restore_args
   if (!untidy) {
     long pos;
     enter_section("debug_frame");
-    out8(); outn((long)DW_CFA_remember_state); d_outnl();
+    out8(); asm_printf("%d\n", DW_CFA_remember_state);
     pos = out_tell_pos();
-    outs(sp50); outs(sp50); outs(sp50); outs(sp50); outs(sp50); outs(sp50);
-    d_outnl();
-    d_outnl();
+    asm_printf("%300s\n", "");
+    asm_printf("\n");
     exit_section();
     return pos;
   }
@@ -1041,19 +1027,19 @@ long dw2_prep_fde_restore_args
   here = set_dw_text_label();
   enter_section("debug_frame");
   short_advance(0, here);
-  out8(); outn((long)DW_CFA_restore + dwarfreg[3]); d_outnl();
-  out8(); outn((long)DW_CFA_restore + dwarfreg[4]); d_outnl();
-  out8(); outn((long)DW_CFA_restore + dwarfreg[5]); d_outnl();
-  out8(); outn((long)DW_CFA_restore + dwarfreg[6]); d_outnl();
+  out8(); asm_printf("%d\n", DW_CFA_restore + dwarfreg[3]);
+  out8(); asm_printf("%d\n", DW_CFA_restore + dwarfreg[4]);
+  out8(); asm_printf("%d\n", DW_CFA_restore + dwarfreg[5]);
+  out8(); asm_printf("%d\n", DW_CFA_restore + dwarfreg[6]);
 
   if (!no_frame) {	/* %ebp restored, return address pushed */
-    out8(); outn((long)DW_CFA_def_cfa);
-	outsep(); uleb128((unsigned long)dw_sp);
-	outsep (); uleb128 ((unsigned long)0);	/* temp CFA */
-	d_outnl();
-    out8(); outn((long)DW_CFA_undefined);
-	outsep(); uleb128((unsigned long)dw_sp);
-	d_outnl();
+    out8(); asm_printf("%d", DW_CFA_def_cfa);
+	asm_printf(", "); uleb128((unsigned long)dw_sp);
+	asm_printf(", "); uleb128 ((unsigned long)0);	/* temp CFA */
+	asm_printf("\n");
+    out8(); asm_printf("%d", DW_CFA_undefined);
+	asm_printf(", "); uleb128((unsigned long)dw_sp);
+	asm_printf("\n");
   }
   exit_section();
   return 0;
@@ -1066,54 +1052,50 @@ void dw2_fde_restore_args
   if (no_frame && dwl0) {
     short_advance(here, dwl0);
     here = dwl0;
-    out8(); outn((long)DW_CFA_def_cfa_offset); outsep();
-	uleb128((unsigned long)space); d_outnl();
+    out8(); asm_printf("%d, ", DW_CFA_def_cfa_offset);
+	uleb128((unsigned long)space); asm_printf("\n");
   }
   if (no_frame && (min_rfree & 0x40)) {
     short_advance(here, dwl1);
     here = dwl1;
-    out8(); outn((long)DW_CFA_DD_def_cfa_dec_offset); outsep();
-	outn ((long)DW_CFA_restore + dwarfreg[6]); /* %ebp */
-	d_outnl();
+    out8(); asm_printf("%d, ", DW_CFA_DD_def_cfa_dec_offset);
+	asm_printf("%d\n", DW_CFA_restore + dwarfreg[6]); /* %ebp */
   }
   if (min_rfree & 0x20) {
     short_advance(here, dwl2);
     here = dwl2;
     out8();
     if (no_frame) {
-	outn((long)DW_CFA_DD_def_cfa_dec_offset); outsep();
+	asm_printf("%d, ", DW_CFA_DD_def_cfa_dec_offset);
     }
-	outn ((long)DW_CFA_restore + dwarfreg[5]); /* %esi */
-	d_outnl();
+	asm_printf("%d\n", DW_CFA_restore + dwarfreg[5]); /* %esi */
   }
   if (min_rfree & 0x10) {
     short_advance(here, dwl3);
     here = dwl3;
     out8();
     if (no_frame) {
-	outn((long)DW_CFA_DD_def_cfa_dec_offset); outsep();
+	asm_printf("%d, ", DW_CFA_DD_def_cfa_dec_offset);
     }
-	outn ((long)DW_CFA_restore + dwarfreg[4]); /* %edi */
-	d_outnl();
+	asm_printf("%d\n", DW_CFA_restore + dwarfreg[4]); /* %edi */
   }
   if (min_rfree & 0x8) {
     short_advance(here, dwl4);
     here = dwl4;
     out8();
     if (no_frame) {
-	outn((long)DW_CFA_DD_def_cfa_dec_offset); outsep();
+	asm_printf("%d, ", DW_CFA_DD_def_cfa_dec_offset);
     }
-	outn ((long)DW_CFA_restore + dwarfreg[3]); /* %ebx */
-	d_outnl();
+	asm_printf("%d\n", DW_CFA_restore + dwarfreg[3]); /* %ebx */
   }
   if (!no_frame) {
     short_advance(here, dwl1);
     here = dwl1;
-    out8 (); outn ((long)DW_CFA_restore + dwarfreg[6]); /* %ebp */
-	outsep(); outn((long)DW_CFA_def_cfa);
-	outsep(); uleb128((unsigned long)dw_sp);
-	outsep (); uleb128 ((unsigned long)0);	/* CFA is sp at entry point */
-	d_outnl();
+    out8 (); asm_printf("%d", DW_CFA_restore + dwarfreg[6]); /* %ebp */
+	asm_printf(", %d", DW_CFA_def_cfa);
+	asm_printf(", "); uleb128((unsigned long)dw_sp);
+	asm_printf(", "); uleb128 ((unsigned long)0);	/* CFA is sp at entry point */
+	asm_printf("\n");
   }
   UNUSED(here);
 }
@@ -1124,7 +1106,7 @@ void dw2_after_fde_exit
   out_dwf_label(here, 1);
   enter_section("debug_frame");
   short_advance(0, here);
-  out8(); outn((long)DW_CFA_restore_state); d_outnl();
+  out8(); asm_printf("%d\n", DW_CFA_restore_state);
   exit_section();
   return;
 }
@@ -1135,7 +1117,7 @@ void dw2_track_push
   long here = set_dw_text_label();
   enter_section("debug_frame");
   short_advance(0, here);
-  out8(); outn((long)DW_CFA_DD_def_cfa_inc_offset); d_outnl();
+  out8(); asm_printf("%d\n", DW_CFA_DD_def_cfa_inc_offset);
   exit_section();
   return;
 }
@@ -1146,7 +1128,7 @@ void dw2_track_pop
   long here = set_dw_text_label();
   enter_section("debug_frame");
   short_advance(0, here);
-  out8(); outn((long)DW_CFA_DD_def_cfa_dec_offset); d_outnl();
+  out8(); asm_printf("%d\n", DW_CFA_DD_def_cfa_dec_offset);
   exit_section();
   return;
 }
@@ -1157,13 +1139,8 @@ void dw2_track_sp
   long here = set_dw_text_label();
   enter_section("debug_frame");
   short_advance(0, here);
-  out8(); outn((long)DW_CFA_DD_def_cfa_fixed_offset); d_outnl();
-  out32(); outn((long)((extra_stack - stack_dec) / 8));
-    outs("+");
-    outs(local_prefix);
-    outs("disp");
-    outn((long)crt_proc_id);
-  d_outnl();
+  out8(); asm_printf("%d\n", DW_CFA_DD_def_cfa_fixed_offset);
+  out32(); asm_printf("%d+%sdisp%d\n", (extra_stack - stack_dec) / 8, local_prefix, crt_proc_id);
   exit_section();
   return;
 }
@@ -1270,7 +1247,7 @@ void trace_dw_branch_exits
     lab_mark_list = son(son(labst));
     son(son(labst)) = NULL;
     IGNORE dw_entry(dwe_break, 0);
-    out32(); out_code_label((long)ptno(pt(son(dest)))); d_outnl();
+    out32(); out_code_label((long)ptno(pt(son(dest)))); asm_printf("\n");
   }
   return;
 }

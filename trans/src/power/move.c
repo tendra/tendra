@@ -26,10 +26,11 @@
 
 #include <local/ash.h>
 
+#include <main/print.h>
+
 #include "memtdf.h"
 #include "codegen.h"
 #include "geninst.h"
-#include "comment.h"
 #include "proc.h"			/* for mem_temp() */
 #include "maxminmacs.h"
 #include "make_code.h"
@@ -99,7 +100,7 @@ Instruction_P i_st_sz(int bits)
 /* load address represented by is into reg */
 void ld_addr(instore is, int reg)
 {
-  COMMENT1("ld_addr: adval=%d", is.adval);
+  asm_comment("ld_addr: adval=%d", is.adval);
 
   if (is.adval)
   {
@@ -124,7 +125,7 @@ int addr_reg(instore is, long regs)
 {
   int r;
 
-  COMMENT1("addr_reg: adval=%d", is.adval);
+  asm_comment("addr_reg: adval=%d", is.adval);
 
   if (is.adval && IS_FIXREG(is.b.base) && is.b.offset == 0)
   {
@@ -234,7 +235,7 @@ static void loopmove1
   int copy_reg;
   int loop = new_label();
 
-  COMMENT("loopmove1: loop move");
+  asm_comment("loopmove1: loop move");
 
   /* moves of addresses not handled by this long move */
   assert(!iss.adval);
@@ -298,7 +299,7 @@ static void loopmove2
   int copy_reg;
   int loop = new_label();
 
-  COMMENT("loopmove2: loop move");
+  asm_comment("loopmove2: loop move");
 
   assert(bytes_per_step <= 4);	/* only using 1 word regs */
 
@@ -389,7 +390,7 @@ static void loopmove3
   bool decr_destptr_reg;
   int loop = new_label();
 
-  COMMENT("loopmove3: loop move");
+  asm_comment("loopmove3: loop move");
 
   assert(bytes_per_step <= 4);	/* only using 1 word regs */
   assert(half_no_steps>=1);
@@ -519,9 +520,9 @@ static int moveinstore(instore iss, instore isd, int size, int al, long regs, bo
 
   no_steps = (bits + bits_per_step - 1) / bits_per_step;
 
-  COMMENT2("moveinstore: mem to mem size,align=%d,%d",
+  asm_comment("moveinstore: mem to mem size,align=%d,%d",
 	   size, al);
-  COMMENT4("moveinstore: mem to mem bits=%d align=%d, bytes_per_step=%d no_steps=%d",
+  asm_comment("moveinstore: mem to mem bits=%d align=%d, bytes_per_step=%d no_steps=%d",
 	   bits, al, bytes_per_step, no_steps);
 
   if ((al % 8) != 0 || (bits % 8) != 0)
@@ -563,7 +564,7 @@ static int moveinstore(instore iss, instore isd, int size, int al, long regs, bo
 	{
 	  if (iss.b.offset == 0)
 	  {
-	    COMMENT("moveinstore: using adval base reg directly");
+	    asm_comment("moveinstore: using adval base reg directly");
 	    r = iss.b.base;
 	  }
 	  else
@@ -599,7 +600,7 @@ static int moveinstore(instore iss, instore isd, int size, int al, long regs, bo
 
       int r1, r2;	/* regs used to copy object */
 
-      COMMENT("moveinstore: inline move");
+      asm_comment("moveinstore: inline move");
 
       assert(ld_steps >= 2);
 
@@ -622,7 +623,7 @@ static int moveinstore(instore iss, instore isd, int size, int al, long regs, bo
 
 	regs |= RMASK(pr);
 
-	COMMENT("moveinstore: load ptr to source");
+	asm_comment("moveinstore: load ptr to source");
 
 	set_ins(iss.b, pr);
 	iss.b.base = pr;
@@ -635,7 +636,7 @@ static int moveinstore(instore iss, instore isd, int size, int al, long regs, bo
 
 	regs |= RMASK(pr);
 
-	COMMENT("moveinstore: dest !adval");
+	asm_comment("moveinstore: dest !adval");
 	ld_ins(i_l, isd.b, pr);
 	isd.b.base = pr;
 	isd.b.offset = 0;
@@ -646,7 +647,7 @@ static int moveinstore(instore iss, instore isd, int size, int al, long regs, bo
 
 	regs |= RMASK(pr);
 
-	COMMENT("moveinstore: load ptr to dest");
+	asm_comment("moveinstore: load ptr to dest");
 
 	set_ins(isd.b, pr);
 	isd.b.base = pr;
@@ -705,7 +706,7 @@ static int moveinstore(instore iss, instore isd, int size, int al, long regs, bo
 	}
       }
 
-      COMMENT("moveinstore: end inline move");
+      asm_comment("moveinstore: end inline move");
 
       assert(ld_steps == 0);
 
@@ -762,7 +763,7 @@ int move(ans a, where dest, long regs, bool sgned)
   if(size==0)
     return NOREG;
   
-  FULLCOMMENT4("move: %d -> %d, dest ashsize,ashalign = %d,%d",
+  asm_comment("move: %d -> %d, dest ashsize,ashalign = %d,%d",
 	       a.discrim, dest.answhere.discrim, dest.ashwhere.ashsize, dest.ashwhere.ashalign);
 #if 0
   assert((dest.answhere.discrim == inreg && dest.answhere.val.regans == R_0)	/* nowhere */
@@ -967,7 +968,7 @@ start:
       iss = insalt(a);
 
       if (iss.adval)
-	COMMENT("move: source adval");
+	asm_comment("move: source adval");
 
       if (iss.adval && iss.b.offset == 0 && IS_FIXREG(iss.b.base))
       {

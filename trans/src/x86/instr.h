@@ -35,10 +35,6 @@ void envoff_operand(exp id, int off);
 void envsize_operand(exp id);
 void ldisp(void);
 
-extern char *margin;
-extern char *spx;
-extern char *sep;
-
 void outreal(exp e);
 void rel_sp(int i, int b);
 void rel_cp(int i, int b);

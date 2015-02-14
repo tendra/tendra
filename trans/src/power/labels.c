@@ -48,5 +48,5 @@ int new_label(void)
 
 void set_label(int l)
 {
-  fprintf(as_file, "L.%d:\n", l);
+  asm_label( "L.%d", l);
 }

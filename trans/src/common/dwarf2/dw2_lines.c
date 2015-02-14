@@ -18,6 +18,7 @@
 
 #include <main/driver.h>
 #include <main/flags.h>
+#include <main/print.h>
 
 #ifdef TDF_DIAG4
 #include <diag4/dg_globs.h>
@@ -56,8 +57,6 @@ static long prev_line = 1;
 static long prev_col = 0;
 static long prev_is_stmt = default_is_stmt;
 
-static char *sep = ", ";
-
 
 void
 do_statprog_prologue(long l_start, long l_end)
@@ -71,37 +70,31 @@ do_statprog_prologue(long l_start, long l_end)
 	out_dwf_label(l_start, 1);
 	out32();
 	out_dwf_dist_to_label(l_end);
-	d_outnl();
+	asm_printf("\n");
 	out16();
-	outn((long)DWARF_MOD_VERSION);
-	d_outnl();
+	asm_printf("%d\n", DWARF_MOD_VERSION);
 	out32();
 	out_dwf_dist_to_label(prologue_end);
-	d_outnl();
+	asm_printf("\n");
 	out8();
-	outn((long)min_instr_size);
-	d_outnl();
+	asm_printf("%d\n", min_instr_size);
 	out8();
-	outn((long)default_is_stmt);
-	d_outnl();
+	asm_printf("%d\n", default_is_stmt);
 	out8();
-	outn((long)dw_line_base);
-	d_outnl();
+	asm_printf("%d\n", dw_line_base);
 	out8();
-	outn((long)dw_line_range);
-	d_outnl();
+	asm_printf("%d\n", dw_line_range);
 	out8();
-	outn((long)opcode_base);
-	d_outnl();
+	asm_printf("%d\n", opcode_base);
 	out8();
 	for (i = 1 ;; i++) {
-		outn((long)statprog_op_args[i-1]);
+		asm_printf("%d", statprog_op_args[i-1]);
 		if (i == n_statprog_ops) {
 			break;
 		}
-		outs(sep);
+		asm_printf(", ");
 	}
-	d_outnl();
+	asm_printf("\n");
 	f_list = all_files;
 	i = 0;
 	while (f_list) {
@@ -137,13 +130,13 @@ do_statprog_prologue(long l_start, long l_end)
 			out_string(f_list->file_name);
 			out8();
 			uleb128((unsigned long)f_list->index);	/* directory */
-			d_outnl();
+			asm_printf("\n");
 			out8();
 			uleb128((unsigned long)(f_list->file_dat));
 			outnl_comment(ctime(&t));
 			out8();
 			uleb128((unsigned long)0);	/* unknown length */
-			d_outnl();
+			asm_printf("\n");
 			f_list->index = ++i;
 		} else {
 			f_list->index = 0;
@@ -163,16 +156,13 @@ static void
 ext_opcode(int op, long arg_length, long align_lab)
 {
 	out8();
-	outn(0);
-	outs(sep);
+	asm_printf("%d, ", 0);
 	if (needs_debug_align && align_lab) {
 		out_dwf_label(align_lab, 0);
-		outs (" - . - 1");		/* OK for arg_length < 127 */
+		asm_printf(" - . - 1");		/* OK for arg_length < 127 */
 	} else
 		uleb128((unsigned long)arg_length + 1);
-	outs(sep);
-	outn((long)op);
-	d_outnl();
+	asm_printf(", %d\n", op);
 	UNUSED(align_lab);
 }
 
@@ -195,27 +185,24 @@ update_statprog(void)
 		out32();
 		out_dwf_label(current_ad_label, 0);
 		if (current_ad_count) {
-			outs(" + ");
-			outn(current_ad_count * min_instr_size);
+			asm_printf(" + %d", current_ad_count * min_instr_size);
 		}
-		d_outnl();
+		asm_printf("\n");
 		if (needs_debug_align) {
 			out_dwf_label(align_lab, 1);
 		}
 	} else if (prev_ad_label != current_ad_label) {
 		out8();
-		outn((long)DW_LNS_fixed_advance_pc);
-		d_outnl();
+		asm_printf("%d\n", DW_LNS_fixed_advance_pc);
 		out16();
 		out_dwf_label(current_ad_label, 0);
-		outs(" - ");
+		asm_printf(" - ");
 		out_dwf_label(prev_ad_label, 0);
 		if (current_ad_count != prev_ad_count) {
-			outs(" + ");
-			outn((current_ad_count - prev_ad_count) *
+			asm_printf(" + %d", (current_ad_count - prev_ad_count) *
 			     min_instr_size);
 		}
-		d_outnl();
+		asm_printf("\n");
 	} else {
 		ad_inc = current_ad_count - prev_ad_count;
 	}
@@ -223,50 +210,45 @@ update_statprog(void)
 	prev_ad_count = current_ad_count;
 	if (current_file != prev_file) {
 		out8();
-		outn((long)DW_LNS_set_file);
-		outs(sep);
+		asm_printf("%d, ", DW_LNS_set_file);
 		uleb128((unsigned long)current_file);
-		d_outnl();
+		asm_printf("\n");
 		prev_file = current_file;
 	}
 	if (current_is_stmt != prev_is_stmt) {
 		out8();
-		outn((long)DW_LNS_negate_stmt);
-		d_outnl();
+		asm_printf("%d\n", DW_LNS_negate_stmt);
 		prev_is_stmt = current_is_stmt;
 	}
 	if (current_col != prev_col) {
 		out8();
-		outn((long)DW_LNS_set_column);
-		outs(sep);
+		asm_printf("%d, ", DW_LNS_set_column);
 		uleb128((unsigned long)current_col);
-		d_outnl();
+		asm_printf("\n");
 		prev_col = current_col;
 	}
 	if (lineinc < dw_line_base ||
 	    lineinc >= (dw_line_base + dw_line_range)) {
 		out8();
-		outn((long)DW_LNS_advance_line);
-		outs(sep);
+		asm_printf("%d, ", DW_LNS_advance_line);
 		sleb128(lineinc);
-		d_outnl();
+		asm_printf("\n");
 		lineinc = 0;
 	}
 	special = (lineinc - dw_line_base) + (dw_line_range * ad_inc) +
 	    opcode_base;
 	if (special > 255) {
 		out8();
-		outn((long)DW_LNS_advance_pc);
-		outs(sep);
+		asm_printf("%d, ", DW_LNS_advance_pc);
 		uleb128((unsigned long)ad_inc);
-		d_outnl();
+		asm_printf("\n");
 		special = (lineinc - dw_line_base) + opcode_base;
 	}
 	out8();
 	if (special == (opcode_base - dw_line_base)) {
-		outn((long)DW_LNS_copy);
+		asm_printf("%d", DW_LNS_copy);
 	} else {
-		outn(special);
+		asm_printf("%d", special);
 	}
 	outnl_comment_i("Line", current_line);
 	prev_line = current_line;
@@ -318,8 +300,7 @@ dw2_start_basic_block(void)
 	current_ad_count = instr_count;
 	enter_section("debug_line");
 	out8();
-	outn((long)DW_LNS_set_basic_block);
-	d_outnl();
+	asm_printf("%d\n", DW_LNS_set_basic_block);
 	exit_section();
 	return;
 }

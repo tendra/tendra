@@ -38,6 +38,7 @@
 #include <construct/machine.h>
 
 #include <main/flags.h>
+#include <main/print.h>
 
 #ifdef TDF_DIAG4
 #include <diag4/diag_fns.h>
@@ -143,10 +144,7 @@ static void out_pops
   tot_sp -= extra;
   if (no_frame && !stack_aligned_8byte) {
     if (tot_sp != push_space) {
-      outs(" addl $");
-      outn((long)(tot_sp - push_space));
-      outs(",%esp");
-      outnl();
+      asm_printop("addl $%d, %s", tot_sp - push_space, "%esp");
 #ifdef DWARF2
       if (diag == DIAG_DWARF2)
 	dwl0 = set_dw_text_label();
@@ -155,41 +153,34 @@ static void out_pops
   }
   else {
     if (tot_sp != push_space || has_alloca || stack_aligned_8byte) {
-      outs(" leal -");
-      outn((long)push_space);
-      outs("(%ebp),%esp");
-      outnl();
+      asm_printop("leal -%d(%s),%s", push_space, "%ebp", "%esp");
     };
   };
 
   /* pop the registers at the end */
   if (no_frame && (min_rfree & 0x40)) {
-    outs(" pop %ebp");
-    outnl();
+    asm_printop("pop %s", "%ebp");
 #ifdef DWARF2
     if (diag == DIAG_DWARF2)
       dwl1 = set_dw_text_label();
 #endif
   };
   if (min_rfree & 0x20) {
-    outs(" pop %esi");
-    outnl();
+    asm_printop("pop %s", "%esi");
 #ifdef DWARF2
     if (diag == DIAG_DWARF2)
       dwl2 = set_dw_text_label();
 #endif
   };
   if (min_rfree & 0x10) {
-    outs(" pop %edi");
-    outnl();
+    asm_printop("pop %s", "%edi");
 #ifdef DWARF2
     if (diag == DIAG_DWARF2)
       dwl3 = set_dw_text_label();
 #endif
   };
   if (min_rfree & 0x8) {
-    outs(" pop %ebx");
-    outnl();
+    asm_printop("pop %s", "%ebx");
 #ifdef DWARF2
     if (diag == DIAG_DWARF2)
       dwl4 = set_dw_text_label();
@@ -197,14 +188,13 @@ static void out_pops
   };
 
   if (!no_frame) {
-    outs(" pop %ebp");
-    outnl();
+    asm_printop("pop %s", "%ebp");
 #ifdef DWARF2
     if (diag == DIAG_DWARF2)
       dwl1 = set_dw_text_label();
 #endif
   };
-  outnl();
+  asm_printf("\n");
 #ifdef DWARF2
   if (diag == DIAG_DWARF2) {
     out_set_pos(dpos);
@@ -220,59 +210,37 @@ static void out_untidy_pops
   if (no_frame) {
     int s_offset = tot_sp - push_space;
     if (min_rfree & 0x40) {
-      outs(" movl ");
-      outn((long)s_offset);
-      outs("(%esp),%ebp");
-      outnl();
+      asm_printop("movl %d(%s),%s", s_offset, "%esp", "%ebp");
       s_offset += 4;
     };
     if (min_rfree & 0x20) {
-      outs(" movl ");
-      outn((long)s_offset);
-      outs("(%esp),%esi");
-      outnl();
+      asm_printop("movl %d(%s),%s", s_offset, "%esp", "%esi");
       s_offset += 4;
     };
     if (min_rfree & 0x10) {
-      outs(" movl ");
-      outn((long)s_offset);
-      outs("(%esp),%edi");
-      outnl();
+      asm_printop("movl %d(%s),%s", s_offset, "%esp", "%edi");
       s_offset += 4;
     };
     if (min_rfree & 0x8) {
-      outs(" movl ");
-      outn((long)s_offset);
-      outs("(%esp),%ebx");
-      outnl();
+      asm_printop("movl %d(%s),%s", s_offset, "%esp", "%ebx");
       /* s_offset += 4; */
     };
   }
   else {
     int fm_offset = - push_space;
     if (min_rfree & 0x20) {
-      outs(" movl ");
-      outn((long)fm_offset);
-      outs("(%ebp),%esi");
-      outnl();
+      asm_printop("movl %d(%s),%s", fm_offset, "%ebp", "%esi");
       fm_offset += 4;
     };
     if (min_rfree & 0x10) {
-      outs(" movl ");
-      outn((long)fm_offset);
-      outs("(%ebp),%edi");
-      outnl();
+      asm_printop("movl %d(%s),%s", fm_offset, "%ebp", "%edi");
       fm_offset += 4;
     };
     if (min_rfree & 0x8) {
-      outs(" movl ");
-      outn((long)fm_offset);
-      outs("(%ebp),%ebx");
-      outnl();
+      asm_printop("movl %d(%s),%s", fm_offset, "%ebp", "%ebx");
       /* fm_offset += 4; */
     };
-    outs(" movl 0(%ebp),%ebp");
-    outnl();
+    asm_printop("movl 0(%s),%s", "%ebp", "%ebp");
   };
   return;
 }
@@ -419,9 +387,7 @@ int cproc
 
 
   if (global) {
-    outs(".globl ");
-    outs(pname);
-    outnl();
+    asm_printf(".globl %s\n", pname);
   };
 
   if (cpu & CPU_80486)
@@ -442,15 +408,12 @@ int cproc
 
   if (cname == -1)
     {
-      outs(pname);
+      asm_label("%s", pname);
     }
   else
     {
-      outs(local_prefix);
-      outn((long)cname);
+      asm_label("%s%d", local_prefix, cname);
     };
-  outs(":");
-  outnl();
 #ifdef DWARF2
   if (diag == DIAG_DWARF2) {
     dw2_start_basic_block();
@@ -460,19 +423,15 @@ int cproc
 
 /* space for setting local displacement label */
   old_pos1 = out_tell_pos();
-  outs("                          ");
-     /* ".set .LdispNNNN, SSSSS\n" */
-  outnl();
+  asm_printf("                          \n");
+           /* ".set .LdispNNNN, SSSSS\n" */
   old_pos1a = out_tell_pos();
-  outs("                             ");
-     /* ".set .LfcwdispNNNN, SSSSS\n" */
-  outnl();
+  asm_printf("                             \n");
+           /* ".set .LfcwdispNNNN, SSSSS\n" */
 
   if (!no_frame) {
-    outs(" pushl %ebp");
-    outnl();
-    outs(" movl %esp,%ebp");
-    outnl();
+    asm_printop("pushl %s", "%ebp");
+    asm_printop("movl %s,%s", "%esp", "%ebp");
 #ifdef DWARF2
     if (diag == DIAG_DWARF2)
       dwl1 = set_dw_text_label();
@@ -481,46 +440,46 @@ int cproc
 
 /* space for pushing fixed point registers */
   old_pos2 = out_tell_pos();
-  outs("               ");
-     /* " pushl %ebx\n" */
+  asm_printf("               \n");
+           /* " pushl %ebx\n" */
 #ifdef DWARF2
   if (diag == DIAG_DWARF2)
-    outs(dw_labroom);
+    asm_printf("%s", dw_labroom);
 #endif
-  outnl();
+  asm_printf("\n");
   old_pos3 = out_tell_pos();
-  outs("               ");
-     /* " pushl %edi\n" */
+  asm_printf("               ");
+           /* " pushl %edi\n" */
 #ifdef DWARF2
   if (diag == DIAG_DWARF2)
-    outs(dw_labroom);
+    asm_printf("%s", dw_labroom);
 #endif
-  outnl();
+  asm_printf("\n");
   old_pos4 = out_tell_pos();
-  outs("               ");
-     /* " pushl %esi\n" */
+  asm_printf("               ");
+           /* " pushl %esi\n" */
 #ifdef DWARF2
   if (diag == DIAG_DWARF2)
-    outs(dw_labroom);
+    asm_printf("%s", dw_labroom);
 #endif
-  outnl();
+  asm_printf("\n");
   if (no_frame) {
     old_pos5 = out_tell_pos();
-    outs("               ");
-       /* " pushl %ebp\n" */
+    asm_printf("               ");
+             /* " pushl %ebp\n" */
 #ifdef DWARF2
     if (diag == DIAG_DWARF2)
-      outs(dw_labroom);
+      asm_printf("%s", dw_labroom);
 #endif
-    outnl();
+    asm_printf("\n");
   }
 
 /* space for subtract from stack pointer */
   old_pos8 = out_tell_pos();
-  outs("                     ");
-     /* " subl $SSSSS,%esp\n" */
-     /* " movl $SSSSS,%eax\n" */
-  outnl();
+  asm_printf("                     ");
+           /* " subl $SSSSS,%esp\n" */
+           /* " movl $SSSSS,%eax\n" */
+  asm_printf("\n");
   if (proc_has_checkstack(p)) {
     checkalloc_stack(reg0, 1);
   };
@@ -532,14 +491,12 @@ int cproc
 #endif
 
   if (stack_aligned_8byte) {
-    outs(" andl $-8,%esp");
-    outnl();
+    asm_printop("andl $-8,%s", "%esp");
   };
 
   old_pos9 = out_tell_pos();
-  outs("                                    ");
-     /* "movw $DDDD,0-.LfcwdispNNNN(%ebp)\n" */
-  outnl();
+  asm_printf("                                    \n");
+           /* "movw $DDDD,0-.LfcwdispNNNN(%ebp)\n" */
 
   if (assembler != ASM_SUN && format == FORMAT_AOUT) {
 	if (pname[0]!= local_prefix[0] &&
@@ -550,26 +507,13 @@ int cproc
 
   if (do_profile) {
     int  labl = next_lab ();	/* output profile procedure header */
-    outs(".data");
-    outnl();
+    asm_printf(".data\n");
     dot_align(4);
-    outs(local_prefix);
-    outs("P");
-    outn((long)labl);
-    outs(":");
-    outnl();
-    outs(" .long 0");
-    outnl();
-    outs(".text");
-    outnl();
-    outs(" leal ");
-    outs(local_prefix);
-    outs("P");
-    outn((long)labl);
-    outs(",%edx");
-    outnl();
-    outs(" call _mcount");
-    outnl();
+    asm_label("%sP%d", local_prefix, labl);
+    asm_printop(".long 0");
+    asm_printf(".text\n");
+    asm_printop("leal %sP%d,%s", local_prefix, labl, "%edx");
+    asm_printop("call _mcount");
   };
 
 
@@ -647,13 +591,13 @@ int cproc
 #endif
     restore_callregs(0);
     retins();
-    outnl();
+    asm_printf("\n");
 #ifdef DWARF2
     if (diag == DIAG_DWARF2)
       dw2_after_fde_exit(over_lab);
 #endif
   };
-  outnl();
+  asm_printf("\n");
 
   this_pos = out_tell_pos();
   while (returns_list != NULL) {
@@ -698,22 +642,13 @@ int cproc
 	 * Set the label which says how much the stack was decreased, in case
      * frame pointer addressing is used
 	 */
-    outs(".set ");
-    outs(local_prefix);
-    outs("disp");
-    outn((long)crt_proc_id);
-    outs(", ");
-    outn((long)tot_sp);
+    asm_printf(".set %sdisp%d, %d", local_prefix, crt_proc_id, tot_sp);
 
     if (ferrsize != 0) {
 	/* set label for displacement to fpu control local store */
 	    out_set_pos(old_pos1a);
-      outs(".set ");
-      outs(local_prefix);
-      outs("fcwdisp");
-      outn((long)crt_proc_id);
-      outs(", ");
-      outn((long)((no_frame)?(tot_sp - push_space - ferrsize):(push_space + ferrsize)));
+      asm_printf(".set %sfcwdisp%d, %d", local_prefix, crt_proc_id,
+			no_frame ? tot_sp - push_space - ferrsize : push_space + ferrsize);
     }
 
     out_set_pos(this_pos);
@@ -725,16 +660,11 @@ int cproc
 
     /* decrease the stack if necessary */
     if (proc_has_checkstack(p)) {
-      outs(" movl $");
-      outn((long)(tot_sp - push_space));
-      outs(",%eax");
+      asm_printop("movl $%d,%s", tot_sp - push_space, "%eax");
     }
     else {
-      outs(" subl $");
-      outn((long)(tot_sp - push_space));
-      outs(",%esp");
+      asm_printop("subl $%d,%s", tot_sp - push_space, "%esp");
     };
-    outnl();
 
     if (ferrsize != 0) {	/* record FPU control word */
 	    out_set_pos(old_pos9);
@@ -747,8 +677,7 @@ int cproc
   /* push registers as necessary */
   if (min_rfree & 0x8) {
 	  out_set_pos(old_pos2);
-    outs(" pushl %ebx");
-    outnl();
+    asm_printop("pushl %s", "%ebx");
 #ifdef DWARF2
     if (diag == DIAG_DWARF2)
       dwl2 = set_dw_text_label();
@@ -757,8 +686,7 @@ int cproc
 
   if (min_rfree & 0x10) {
 	  out_set_pos(old_pos3);
-    outs(" pushl %edi");
-    outnl();
+    asm_printop("pushl %s", "%edi");
 #ifdef DWARF2
     if (diag == DIAG_DWARF2)
       dwl3 = set_dw_text_label();
@@ -768,8 +696,7 @@ int cproc
 
   if (min_rfree & 0x20) {
 	  out_set_pos(old_pos4);
-    outs(" pushl %esi");
-    outnl();
+    asm_printop("pushl %s", "%esi");
 #ifdef DWARF2
     if (diag == DIAG_DWARF2)
       dwl4 = set_dw_text_label();
@@ -778,8 +705,7 @@ int cproc
 
   if (no_frame && (min_rfree & 0x40)) {
 	  out_set_pos(old_pos5);
-    outs(" pushl %ebp");
-    outnl();
+    asm_printop("pushl %s", "%ebp");
 #ifdef DWARF2
     if (diag == DIAG_DWARF2)
       dwl1 = set_dw_text_label();
@@ -799,13 +725,7 @@ int cproc
     proc_size(pname);
 
   if (proc_needs_envsize(p)) {
-    outs(".set ");
-    outs(local_prefix);
-    outs("ESZ");
-    outs(pname);
-    outs(", ");
-    outn((long)(tot_sp + 4 + max_extra_stack/8));
-    outnl();
+    asm_printf(".set %sESZ%s, %d\n", local_prefix, pname, tot_sp + 4 + max_extra_stack / 8);
   }
 
   if (assembler != ASM_SUN && format == FORMAT_AOUT) {
@@ -852,11 +772,9 @@ int cproc
 void restore_callregs
 (int untidy)
 {
-  char *sp50 = "                                                  ";
   long retpos = out_tell_pos();
-  outs("?");	/* will be overwritten, to cause assembler fail if sco bug */
-  outs(sp50); outs(sp50); outs(sp50);
-  outnl();
+  asm_printf("?");	/* will be overwritten, to cause assembler fail if sco bug */
+  asm_printf("%150s\n", "");
   returns_list = getexp(f_top, returns_list, 0, NULL,
 				NULL, 0, 0,(unsigned char)untidy);
   no(returns_list) = (int)retpos;

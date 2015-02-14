@@ -23,6 +23,7 @@
 
 #include <main/flags.h>
 #include <main/driver.h>
+#include <main/print.h>
 
 #include <refactor/const.h>
 
@@ -38,7 +39,6 @@
 #include "labels.h"
 #include "proctypes.h"
 #include "bitsmacs.h"
-#include "comment.h"
 #include "proc.h"
 #include "frames.h"
 #include "regexps.h"
@@ -54,7 +54,7 @@ specno(char * n)
    * special, rewrite TDF in specialneeds, no call to specialmake
    */
 
-  FULLCOMMENT1("specno(%s)", (long) n);
+  asm_comment("specno(%s)", (long) n);
 
   if (strcmp(n, "___builtin_strcpy") == 0 || strcmp(n, "___TDF_builtin_strcpy") == 0)
     return -1;
@@ -109,7 +109,7 @@ static const needs twofixneeds = {2, 0, 0, 0};	/* two fix reg needs */
 needs
 specialneeds(int i, exp application, exp pars)
 {
-  FULLCOMMENT1("specialneeds(%d,...)", i);
+  asm_comment("specialneeds(%d,...)", i);
 
   switch (i)
   {
@@ -122,7 +122,7 @@ specialneeds(int i, exp application, exp pars)
     return zeroneeds;		/* alloca(n) */
 
   default:
-    comment1("specialneeds: unimplemented builtin %d", i);
+    asm_comment("specialneeds: unimplemented builtin %d", i);
     error(ERROR_SERIOUS, "unimplemented builtin");
     return zeroneeds;
   }
@@ -158,7 +158,7 @@ specialopt(exp fn)
 
     extname += strlen(name_prefix); /* Normalise "_foo" -> "foo" */
     
-    FULLCOMMENT1("specialopt: %s", (int)extname);
+    asm_comment("specialopt: %s", (int)extname);
 
     if ((strcmp(extname, "vfork") == 0) ||
 	(strcmp(extname, "setjmp") == 0) ||
@@ -166,7 +166,7 @@ specialopt(exp fn)
 	(strcmp(extname, "sigsetjmp") == 0)
 	)
     {
-      FULLCOMMENT("specialopt: return 1");
+      asm_comment("specialopt: return 1");
       return 1;
     }
   }
@@ -196,8 +196,8 @@ specialmake(int i, exp par, space sp, where dest, int exitlab)
 
       /* asm is dangerous; as the least precaution, zap register tracking. */
       clear_all();
-      fprintf(as_file,"!  asm:\n" ) ;
-      fprintf(as_file, "%s\n", s) ;
+      asm_printf("!  asm:\n" ) ;
+      asm_printf( "%s\n", s) ;
       break;
     }
 
@@ -268,7 +268,7 @@ specialmake(int i, exp par, space sp, where dest, int exitlab)
     }
 
   default:
-    comment1("specialmake: unimplemented builtin %d", i);
+    asm_comment("specialmake: unimplemented builtin %d", i);
     error(ERROR_SERIOUS, "unimplemented builtin");
     return 0;
   }
@@ -329,6 +329,6 @@ import_millicode(void)
    int n;
    for(n=0; n<sz_millicode_lib; n++)
       if ( millicode_lib[n].called )
-	 fprintf(as_file,"\t.IMPORT\t%s,MILLICODE\n",millicode_lib[n].proc_name);
+	 asm_printop(".IMPORT %s,MILLICODE",millicode_lib[n].proc_name);
 }
 

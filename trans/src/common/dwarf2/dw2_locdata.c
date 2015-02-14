@@ -21,6 +21,7 @@
 #include <construct/tags.h>
 
 #include <main/driver.h>
+#include <main/print.h>
 
 #ifdef TDF_DIAG4
 #include <diag4/dg_types.h>
@@ -615,19 +616,16 @@ loclist_portion(ll_item l)
 				out_loc_range(rs->start, rs->end, 1);
 				out16();
 				if (rs->reg < 32) {
-					outn((long)1);
-					outnl();
+					asm_printf("%d\n", 1);
 					out8();
-					outn((long)(DW_OP_reg0 + rs->reg));
+					asm_printf("%d", DW_OP_reg0 + rs->reg);
 				} else {
-					outn((long)(1 + uleb128_length((unsigned long)rs->reg)));
-					outnl();
+					asm_printf("%d\n", 1 + uleb128_length((unsigned long)rs->reg));
 					out8();
-					outn((long)DW_OP_regx);
-					outs(", ");
+					asm_printf("%d, ", DW_OP_regx);
 					uleb128((unsigned long)rs->reg);
 				}
-				outnl();
+				asm_printf("\n");
 				rs = rs->next_loc;
 			}
 		}
@@ -746,7 +744,7 @@ out_obj_shared_set(dg_name dn)
 			out_regshare_set(l->u.l);
 		}
 		out32();
-		outs("0");
+		asm_printf("0");
 		outnl_comment("share list end");
 	}
 	return;

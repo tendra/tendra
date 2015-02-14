@@ -29,6 +29,7 @@
 #include <construct/install_fns.h>
 
 #include <main/flags.h>
+#include <main/print.h>
 
 #ifdef TDF_DIAG4
 #include <diag4/diag_fns.h>
@@ -631,13 +632,13 @@ void operand
       int_operand(no(son(w)) /8, le);
       return;
     }
-    outs("$");
+    asm_printf("$");
     envoff_operand(son(w), no(w));
     return;
   };
 
   if (n == env_size_tag) {
-    outs("$");
+    asm_printf("$");
     envsize_operand(son(son(w)));
     return;
   };
@@ -650,19 +651,13 @@ void operand
   if (n == clear_tag) {
 	/* any legal operand will do! */
     if (name(sh(w)) >= shrealhd && name(sh(w)) <= doublehd) {
-      outs("%st");
+      asm_printf("%st");
       return;
     }
     switch (shape_size(sh(w))) {
-      case 8:
-	outs("%al");
-	return;
-      case 16:
-	outs("%ax");
-	return;
-      default:
-	outs("%eax");
-	return;
+    case  8: asm_printf("%s", "%al");  return;
+    case 16: asm_printf("%s", "%ax");  return;
+    default: asm_printf("%s", "%eax"); return;
     };
   };
 

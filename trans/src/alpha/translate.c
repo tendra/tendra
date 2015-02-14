@@ -30,6 +30,7 @@
 
 #include <main/driver.h>
 #include <main/flags.h>
+#include <main/print.h>
 
 #include "tempdecs.h"
 #include "weights.h"
@@ -190,7 +191,7 @@ code_it(dec *my_def)
 	}
 	
 	if (as_file){
-	  fprintf(as_file, "\t.ent\t%s\n%s:\n", id, id);
+	  asm_printop(".ent %s\n%s:", id, id);
 	}	
 	out_ent(current_symno = symnos[symdef],ient,2);
 	out_common(symnos[symdef],ilabel);
@@ -202,7 +203,7 @@ code_it(dec *my_def)
 	  stabd(fscopefile,currentlno+1);
 	}
 	if (as_file){
-	  fprintf (as_file, "\t.end\t%s\n", id);
+	  asm_printop(".end %s", id);
 	}
 	out_common(symnoforend(my_def,currentfile),iend);
       }
@@ -219,20 +220,20 @@ code_it(dec *my_def)
       if ((isvar(tg) || name(s) != prokhd) && not_reserved (id)) {
 	if (vs /*&& size != 0*/) {
 	  if (as_file){
-	    fprintf (as_file, "\t.comm\t%s %ld\n", id, size==0?4:size);
+	    asm_printop(".comm %s %ld", id, size==0?4:size);
 	  }
 	  out_value(symnos[symdef],icomm,(size==0)?4:size, 0);
 	}	
 	else {
 	  if (as_file){
-	    fprintf (as_file, "\t.extern\t%s %ld\n", id, size);
+	    asm_printop(".extern %s %ld", id, size);
 	  }
 	  out_value(symnos[symdef],iextern,size,1);
 	}
       }
       else if (son (tg) == NULL && !extnamed) {
 	if (as_file){
-	  fprintf (as_file, "\n\t.lcomm\t%s %ld\n", id, size);
+	  asm_printf( "\n\t.lcomm\t%s %ld\n", id, size);
 	}
 	out_value(symnos[symdef],ilcomm,size,1);
       }			
@@ -473,15 +474,15 @@ translate_capsule(void)
   }
 
   if(as_file){
-    fprintf(as_file," # produced by TDF->Alpha/OSF1 installer\n");
+    asm_printf(" # produced by TDF->Alpha/OSF1 installer\n");
     /*comment(" # produced by TDF->Alpha/OSF1 installer\n");*/
-    fprintf(as_file,"\t.ugen\n");
+    asm_printop(".ugen");
   }
   out_common(0,iugen);
   
   if (assembler & ASM_OSF1) {
     if(as_file){
-      fprintf(as_file,"\t.verstamp %d %d\n",majorno,minorno);
+      asm_printop(".verstamp %d %d",majorno,minorno);
     }
   }
 
@@ -520,7 +521,7 @@ translate_capsule(void)
 	}
 	
 	if (as_file){
-	  fprintf (as_file, "\t.globl\t%s\n", id);
+	  asm_printop(".globl %s", id);
 	}
 	out_common(symnos[my_def->dec_u.dec_val.sym_number] ,iglobal);
       }

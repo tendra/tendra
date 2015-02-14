@@ -27,6 +27,7 @@
 
 #include <main/driver.h>
 #include <main/flags.h>
+#include <main/print.h>
 
 #include <diag3/diag_fns.h>
 #include <diag3/diag_reform.h>
@@ -38,7 +39,6 @@
 #include "geninst.h"
 
 #include "maxminmacs.h"
-#include "comment.h"
 #include "muldvrem.h"
 #include "proc.h"
 #include "translate.h"
@@ -211,7 +211,7 @@ static int has_bitfield(exp e)
       {
 	shape s = sh(e);
 
-	FULLCOMMENT4("has_bitfield: compound field sz=%d als=%d,%d,%d",
+	asm_comment("has_bitfield: compound field sz=%d als=%d,%d,%d",
 		shape_size(s), shape_align(s), al1(s), al2(s));
 	return shape_size(s)!= 0 && (shape_align(s) == 1 || al1(s) == 1 || al2(s) == 1);
       }
@@ -301,7 +301,7 @@ static void queue_bc_ins(Instruction_P ins, int creg, int lab)
 {
   int i;
 
-  COMMENT2("queue_bc_ins(%s,%d,lab)",(int)ins, creg);
+  asm_comment("queue_bc_ins(%s,%d,lab)",(int)ins, creg);
 
 #ifndef NDEBUG
   /* check there is not a queued instruction using same creg (now corrupted) */
@@ -392,23 +392,23 @@ static void case_tag_code_transform(int caseint_reg, exp e, space sp)
   z_ins(i_bctr);
 
   /* .toc entry for veclab */
-  fprintf(as_file, "\t.toc\n");
+  asm_printop(".toc");
   veclabname = ext_name(veclab);
-  fprintf(as_file, "T.%s:\t.tc\t%s[TC],%s\n", veclabname, veclabname, veclabname);
-  fprintf(as_file, "\t.csect\t[PR]\n");
+  asm_printf( "T.%s:\t.tc\t%s[TC],%s\n", veclabname, veclabname, veclabname);
+  asm_printop(".csect [PR]");
 
   /* build the jump vector, can be to .text or .data */
-  fprintf(as_file, "%s:\n", veclabname);
+  asm_label( "%s", veclabname);
   for (;;)
   {
     for (; no(z)!= n; n++)
     {
-      fprintf(as_file, "\t.long\tL.%d-%s\n", endlab, veclabname);
+      asm_printop(".long L.%d-%s", endlab, veclabname);
     }
     u = (son(z) == NULL)? n : no(son(z));
     for (; u+1 != n; n++)	/* comparison independent of sign */
     {
-	fprintf(as_file, "\t.long\tL.%d-%s\n", no(son(pt(z))), veclabname);
+	asm_printop(".long L.%d-%s", no(son(pt(z))), veclabname);
       }
     if (last(z))
     {
@@ -487,7 +487,7 @@ static void case_tag_code_notransform(int caseint_reg, exp e, space sp)
 	(total_case_test_chain_cnt + (default_test_chain_cnt * default_weight)) / (n + default_weight);
 
     use_jump_vector = jump_vector_cnt <= average_test_chain_cnt;
-    FULLCOMMENT2("case_tag small jump vector: jump_vector_cnt=%d average_test_chain_cnt=%d",
+    asm_comment("case_tag small jump vector: jump_vector_cnt=%d average_test_chain_cnt=%d",
 		 jump_vector_cnt, average_test_chain_cnt);
   }
   else
@@ -503,7 +503,7 @@ static void case_tag_code_notransform(int caseint_reg, exp e, space sp)
     use_jump_vector = range_factor <= n_factor;
   }
 
-  COMMENT4("case_tag: n=%d l,u=%d,%d approx_range=%d", n, l, u, approx_range);
+  asm_comment("case_tag: n=%d l,u=%d,%d approx_range=%d", n, l, u, approx_range);
   if (is_signed(sh(son(e)))) {
     assert(l <= u);
   } else {
@@ -555,23 +555,23 @@ static void case_tag_code_notransform(int caseint_reg, exp e, space sp)
     z_ins(i_bctr);
 
     /* .toc entry for veclab */
-    fprintf(as_file, "\t.toc\n");
+    asm_printop(".toc");
     veclabname = ext_name(veclab);
-    fprintf(as_file, "T.%s:\t.tc\t%s[TC],%s\n", veclabname, veclabname, veclabname);
-    fprintf(as_file, "\t.csect\t[PR]\n");
+    asm_printf( "T.%s:\t.tc\t%s[TC],%s\n", veclabname, veclabname, veclabname);
+    asm_printop(".csect [PR]");
 
     /* build the jump vector, can be to .text or .data */
-    fprintf(as_file, "%s:\n", veclabname);
+    asm_label( "%s", veclabname);
     for (;;)
     {
       for (; no(z)!= n; n++)
       {
-	fprintf(as_file, "\t.long\tL.%d-%s\n", endlab, veclabname);
+	asm_printop(".long L.%d-%s", endlab, veclabname);
       }
       u = (son(z) == NULL)? n : no(son(z));
       for (; u+1 != n; n++)
       {
-	fprintf(as_file, "\t.long\tL.%d-%s\n", no(son(pt(z))), veclabname);
+	asm_printop(".long L.%d-%s", no(son(pt(z))), veclabname);
       }
       if (last(z))
 	break;
@@ -943,7 +943,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 	     * res_tag that cannot be reached.  Eg an extra one inserted at
 	     * end of proc.  Skip it.
 	     */
-	     COMMENT("make_code seq_tag: unreachable res_tag");
+	     asm_comment("make_code seq_tag: unreachable res_tag");
 	     return mka;
 	  }
 	  else
@@ -1143,7 +1143,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 	    int end_rep_lab = (exitlab == 0)? new_label(): exitlab;
 	    bc_info bcinfo;
 
-	    COMMENT("make_code rep_tag: last exp is rep_tag test_tag - evaluate out of order");
+	    asm_comment("make_code rep_tag: last exp is rep_tag test_tag - evaluate out of order");
 
 	    /* labst_tag label should be in use */
 	    assert(start_of_rep_lab!=0);
@@ -1156,8 +1156,8 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 	    set_label(end_rep_test_lab);
 
 	    /* use .org to leave gap for brought forward bc ins */
-	    fprintf(as_file, "L.R%d:\n", rep_org_lab);
-	    fprintf(as_file, "\t.org\t$+4\t# loop bc ins\n");
+	    asm_label( "L.R%d", rep_org_lab);
+	    asm_printop(".org\t$+4 # loop bc ins");
 
 	    /* we will do test_tag ourselves, nuke it out of loop */
 	    name(last_test) = top_tag;
@@ -1178,12 +1178,13 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 	      set_label(end_rep_lab);
 
 	    /* fill in gap above with bc_ins */
-	    fprintf(as_file, "L.S%d:\n", rep_org_lab);
-	    fprintf(as_file, ".org\tL.R%d\t# loop bc ins\n", rep_org_lab);
+	    asm_label( "L.S%d", rep_org_lab);
+	    asm_printf( ".org\tL.R%d\t# loop bc ins\n", rep_org_lab);
 	    bc_ins(bcinfo.branch, bcinfo.creg, bcinfo.lab,UNLIKELY_TO_JUMP);
 
 	    /* .org back */
-	    fprintf(as_file, ".org\tL.S%d\n", rep_org_lab);
+	    asm_printop( ".org\tL.S%d", rep_org_lab);
+	    asm_printf( "\n");
 
 	    return mka;
 	  }
@@ -1282,7 +1283,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 	 * Disable register-location tracing. +++ is this really needed ???
 	 * Disable peep-hole optimisation (when implemented)
 	 */
-	COMMENT("make_code: Assign to volatile");
+	asm_comment("make_code: Assign to volatile");
 	clear_all();
       }
 
@@ -1298,14 +1299,14 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 	if (is_float)
 	{
 	  freg frg;
-	  COMMENT("make_code: ass_tag: apply result special handling:float");
+	  asm_comment("make_code: ass_tag: apply result special handling:float");
 	  frg.fr = FR_RESULT;
 	  frg.dble = (hdrhs != shrealhd);
 	  setfregalt(apply_res.answhere, frg);
 	}
 	else
 	{
-	  COMMENT("make_code: ass_tag: apply result special handling:fixed");
+	  asm_comment("make_code: ass_tag: apply result special handling:fixed");
 	  setregalt(apply_res.answhere, R_RESULT);
 	}
 	apply_res.ashwhere = ashof(sh(rhs));
@@ -1351,7 +1352,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 	  int rhs_addptr_reg;
 	  ans aa;
 
-	  COMMENT("make_code ass_tag: store suitable for [reg+reg] addressing");
+	  asm_comment("make_code ass_tag: store suitable for [reg+reg] addressing");
 
 	  lhs_addptr_reg = reg_operand(addptr_sons, sp);
 	  nsp = guardreg(lhs_addptr_reg, sp);
@@ -1396,7 +1397,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 
       assdest = locate(lhs, sp, sh(rhs), 0);
       nsp = guard(assdest, sp);
-      FULLCOMMENT("make_code: ass_tag: located lhs");
+      asm_comment("make_code: ass_tag: located lhs");
       if (name(e) == ass_tag
 	  && assdest.answhere.discrim == notinreg
 	  && assdest.ashwhere.ashsize == assdest.ashwhere.ashalign)
@@ -1565,7 +1566,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 	 */
 	ans aa;
 
-	COMMENT("make_code: compound containing bitfield");
+	asm_comment("make_code: compound containing bitfield");
 
 	/* assume struct is small, set up data constant and move */
 
@@ -1603,7 +1604,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 	    newis = str;
 	    newis.b.offset += no(t);
 
-	    FULLCOMMENT4("make_code compound_tag: name(t) =%d no(t) =%d al2=%d offset=%d",
+	    asm_comment("make_code compound_tag: name(t) =%d no(t) =%d al2=%d offset=%d",
 		name(t), no(t), al2(sh(t)), newis.b.offset);
 	    assert(name(t) == val_tag && al2(sh(t)) >= 8);
 
@@ -1940,7 +1941,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
       while (name(arg) == chvar_tag &&
 	     ashof(sh(arg)).ashsize >= size_e && NO_ERROR_TREATMENT(arg))
       {
-	COMMENT1("make_code chvar_tag: skipping intermediate shape %d",name(sh(arg)));
+	asm_comment("make_code chvar_tag: skipping intermediate shape %d",name(sh(arg)));
 	arg = son(arg);
       }
 
@@ -1965,7 +1966,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 	 */
 	ans aa;
 
-	COMMENT("make_code chvar_tag: no change");
+	asm_comment("make_code chvar_tag: no change");
 	switch (dest.answhere.discrim)
 	{
 	 case inreg:
@@ -2009,7 +2010,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 	{
 	  int *dr = someregalt(dest.answhere);
 
-	  COMMENT("make_code chvar_tag: dest insomereg");
+	  asm_comment("make_code chvar_tag: dest insomereg");
 	  sreg = reg_operand(arg, sp);
 	  dreg = getreg(sp.fixed);
 	  *dr = dreg;
@@ -2025,7 +2026,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 	}
       }
 
-      COMMENT2("make_code chvar_tag: shape %d to %d", from, to);
+      asm_comment("make_code chvar_tag: shape %d to %d", from, to);
 
       if (inmem_dest && size_e <= shape_size(sh(arg)))
       {
@@ -2561,7 +2562,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 	 * tracing. Disable peep-hole optimisation (not possible with POWER
 	 * assembler).
 	 */
-	COMMENT("make_code: Load volatile");
+	asm_comment("make_code: Load volatile");
 	clear_all();
       }
       /*
@@ -2584,7 +2585,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 	  bool sgned = (cont_size >= 32) || is_signed(cont_shape);
 	  ans aa;
 
-	  COMMENT("make_code: load suitable for [reg+reg] addressing");
+	  asm_comment("make_code: load suitable for [reg+reg] addressing");
 
 	  lhsreg = reg_operand(addptr_sons, sp);
 	  rhsreg = reg_operand(bro(addptr_sons), guardreg(lhsreg, sp));
@@ -2787,7 +2788,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 
       r = reg_operand(son(e), sp);
 
-      COMMENT2("make_code int_to_bitf_tag: size %d -> %d", size_op, size_res);
+      asm_comment("make_code int_to_bitf_tag: size %d -> %d", size_op, size_res);
 
       /* maybe this not needed if going to memory +++ */
       if (size_res != size_op && size_res != 32)
@@ -2845,7 +2846,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
       w.ashwhere = a;
       code_here(son(e), sp, w);
 
-      COMMENT1("make_code bitsint_tag: size=%d", a.ashsize);
+      asm_comment("make_code bitsint_tag: size=%d", a.ashsize);
 
       if (a.ashsize != 32 && src_sgned != target_sgned)
       {
@@ -2854,7 +2855,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 	ash atarget;
 	atarget = ashof(sh(e));
 
-	COMMENT4("make_code bitsint_tag: adjusting to sign/size %d/%d -> %d/%d",
+	asm_comment("make_code bitsint_tag: adjusting to sign/size %d/%d -> %d/%d",
 		src_sgned, a.ashsize,
 		target_sgned, atarget.ashsize);
 
@@ -3130,11 +3131,11 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
       ans aa;
       long marked_label= no(son(pt(e)));
 
-      fprintf(as_file,"\t.toc\n");
-      fprintf(as_file,"T.make_lv%d:\t.tc\tL.%d[TC],L.%d\n",
+      asm_printop(".toc");
+      asm_printf("T.make_lv%d:\t.tc\tL.%d[TC],L.%d\n",
 	      next_mlv_number,(int)marked_label,(int)marked_label);
-      fprintf(as_file, "\t.csect\t[PR]\n");
-      fprintf(as_file, "\t%s\t%d,T.make_lv%d(2)\n",
+      asm_printop(".csect [PR]");
+      asm_printop("%s %d,T.make_lv%d(2)",
 	      get_instruction(i_l),r,next_mlv_number);
       clear_reg(r);
       setregalt(aa,r);
@@ -3155,7 +3156,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
       * make_local_lv and current_env is forced to have a
       * frame pointer.
       */
-     FULLCOMMENT("long_jump");
+     asm_comment("long_jump");
      mov_rr_ins(fp,R_FP);comment("move register to FP");
      mt_ins(i_mtctr, labval);
      z_ins(i_bctr);
@@ -3429,7 +3430,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
   {
     int r = regfrmdest(&dest,sp);
     ans aa;
-    FULLCOMMENT1("load constval = %d",constval);
+    asm_comment("load constval = %d",constval);
     ld_const_ins(constval, r);
     setregalt(aa, r);
     move(aa, dest, guardreg(r, sp).fixed, 1);

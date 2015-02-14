@@ -16,6 +16,7 @@
 #include <main/driver.h>
 #include <main/flags.h>
 #include <main/version.h>
+#include <main/print.h>
 
 #include <reader/main_reads.h>
 #include <reader/basicread.h>
@@ -260,6 +261,8 @@ main(int argc, char *argv[])
 		for (i = 0; i < argc; i++) {
 			*a[i].f = trans_fopen(argv[i], a[i].mode);
 		}
+
+		asm_file(as_file);
 
 		if (diag != DIAG_NONE) {
 			optim = 0;

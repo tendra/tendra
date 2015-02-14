@@ -29,6 +29,7 @@
 
 #include <main/driver.h>
 #include <main/flags.h>
+#include <main/print.h>
 
 #include <refactor/optimise.h>
 
@@ -582,7 +583,7 @@ makeans make_proc_tag_code
 	      for (;j<63;j++)
 		 s[j] =' ';
 	      s[63] =0;
-	      fprintf(as_file,"%s\n",s);
+	      asm_printf("%s\n",s);
 	   }
 	   else
 	   {
@@ -600,7 +601,7 @@ makeans make_proc_tag_code
 	      for (;j<63;j++)
 		 s[j] =' ';
 	      s[63] =0;
-	      fprintf(as_file,"%s\n",s);
+	      asm_printf("%s\n",s);
 	   }
 	}
 	else
@@ -618,7 +619,7 @@ makeans make_proc_tag_code
 		 s[j] =' ';
 	      s[63] ='\n';
 	      s[64] =0;
-	      fprintf(as_file,"%s",s);
+	      asm_printf("%s",s);
 #if 0
 	   }
 	   else
@@ -656,7 +657,7 @@ makeans make_proc_tag_code
 	      for (;j<63;j++)
 		 s[j] =' ';
 	      s[63] =0;
-	      fprintf(as_file,"%s\n",s);
+	      asm_printf("%s\n",s);
 	   }
 	   else
 #if 0
@@ -677,7 +678,7 @@ makeans make_proc_tag_code
 	      for (;j<63;j++)
 		 s[j] =' ';
 	      s[63] =0;
-	      fprintf(as_file,"%s\n",s);
+	      asm_printf("%s\n",s);
 	   }
 #if 0
 	   else
@@ -696,7 +697,7 @@ makeans make_proc_tag_code
 	      for (;j<63;j++)
 		 s[j] =' ';
 	      s[63] =0;
-	      fprintf(as_file,"%s\n",s);
+	      asm_printf("%s\n",s);
 	   }
 #endif
 	}

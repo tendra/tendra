@@ -24,7 +24,6 @@
 #include "geninst.h"
 #include "translate.h"
 #include "make_code.h"
-#include "comment.h"
 #include "proc.h"
 #include "stack.h"
 #include "mem_copy.h"

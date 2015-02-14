@@ -37,6 +37,7 @@
 #include <construct/install_fns.h>
 
 #include <main/flags.h>
+#include <main/print.h>
 
 #include <refactor/const.h>
 #include <reader/externs.h>
@@ -632,7 +633,7 @@ needs likeplus
 	 * Evaluation would disturb accumulated result, so replace it by a
 	 * newly declared tag.
 	 */
-	FULLCOMMENT("likeplus: insert ident");
+	asm_comment("likeplus: insert ident");
 	cca(at, br);
 	a1.fixneeds = MAX_OF(a1.fixneeds, 2);
 	a1.propsneeds = a1.propsneeds | morefix | (pc << 1);
@@ -641,7 +642,7 @@ needs likeplus
     }
     else
     {
-      FULLCOMMENT("likeplus: val_tag");
+      asm_comment("likeplus: val_tag");
     }
   } while (!last(*(br)));
 #if 1           			/* exception handling regs */
@@ -677,7 +678,7 @@ needs likediv
     /* fits into registers */
     l.fixneeds = MAX_OF(l.fixneeds, r.fixneeds + 1);
     l.propsneeds = l.propsneeds | r.propsneeds;
-    FULLCOMMENT2("likediv: r.fixneeds(%d) < maxfix(%d) && pc == 0", r.fixneeds, maxfix);
+    asm_comment("likediv: r.fixneeds(%d) < maxfix(%d) && pc == 0", r.fixneeds, maxfix);
   }
   else
   {
@@ -686,7 +687,7 @@ needs likediv
     l.fixneeds = MAX_OF(l.fixneeds, 1);
     l.propsneeds = l.propsneeds | morefix | (pc << 1);
     l.maxargs = MAX_OF(l.maxargs, r.maxargs);
-    FULLCOMMENT2("likediv: insert decl r.fixneeds=%d maxfix=%d", r.fixneeds, maxfix);
+    asm_comment("likediv: insert decl r.fixneeds=%d maxfix=%d", r.fixneeds, maxfix);
   }
 #if 1				/* exception handling regs (from mips) */
   if (!optop(*(e)))
@@ -952,7 +953,7 @@ needs scan
   }
 #endif
 
-  FULLCOMMENT1("scan: %s",(int)TAG_NAME(nstare));
+  asm_comment("scan: %s",(int)TAG_NAME(nstare));
 
   switch (nstare)
   {
@@ -1117,11 +1118,11 @@ needs scan
 	  /* update usage of ident */
 	  son(test2) = tg;
 	  /* and then drop into next case */
-	  FULLCOMMENT("scan() cond_tag: case 3");
+	  asm_comment("scan() cond_tag: case 3");
 	}
 
       }				/* else goto next case */
-      FULLCOMMENT("scan() cond_tag: case 4");
+      asm_comment("scan() cond_tag: case 4");
 #endif
     }
     /* FALLTHOUGH */
@@ -1341,7 +1342,7 @@ needs scan
 	   * Put tag in result reg if definition is call of proc,
 	   * or body ends with return tag, provided result is not used other wise.
 	   */
-	  FULLCOMMENT1("scan: ident_tag(%d): use result reg", EXP_NUM(stare));
+	  asm_comment("scan: ident_tag(%d): use result reg", EXP_NUM(stare));
 	  props(stare) |= (fxregble)? inreg_bits : infreg_bits;
 	  if (fxregble)
 	  {
@@ -1380,14 +1381,14 @@ needs scan
 		 )
 	 )
 	{
-	  FULLCOMMENT1("scan: ident_tag(%d): dont take space for this dec", EXP_NUM(stare));
+	  asm_comment("scan: ident_tag(%d): dont take space for this dec", EXP_NUM(stare));
 	  props(stare) |= defer_bit;
 	  /* dont take space for this dec */	}
 	else if (!isvar(stare) &&
 		 ((props(stare) & 0x10 /* forced in const */ ) == 0)
 		 && (name(t) == name_tag || name(t) == val_tag))
 	{
-	  FULLCOMMENT1("scan: ident_tag(%d): dont take space for this dec (#2)", EXP_NUM(stare));
+	  asm_comment("scan: ident_tag(%d): dont take space for this dec (#2)", EXP_NUM(stare));
 	  props(stare) |= defer_bit;
 	  /* dont take space for this dec */
 	}
@@ -1401,8 +1402,8 @@ needs scan
 	   * put this tag in some  fixpt t-reg - which will be decided in
 	   * make_code
 	   */
-	  FULLCOMMENT1("scan: ident_tag(%d): use fixpt t-reg", EXP_NUM(stare));
-	  FULLCOMMENT2("	bdy.fixneeds=%d def.fixneeds=%d",
+	  asm_comment("scan: ident_tag(%d): use fixpt t-reg", EXP_NUM(stare));
+	  asm_comment("	bdy.fixneeds=%d def.fixneeds=%d",
 		       bdy.fixneeds, def.fixneeds);
 	  props(stare) |= inreg_bits;
 	  no(stare) = 0;
@@ -1419,14 +1420,14 @@ needs scan
 	   * put this tag in some  float t-reg - which will be decided in
 	   * make_code
 	   */
-	  FULLCOMMENT1("scan: ident_tag(%d): use float t-reg", EXP_NUM(stare));
+	  asm_comment("scan: ident_tag(%d): use float t-reg", EXP_NUM(stare));
 	  props(stare) |= infreg_bits;
 	  no(stare) = 0;
 	  bdy.floatneeds += 1;
 	}
 	else
 	{
-	  FULLCOMMENT1("scan: ident_tag(%d): use stack or saved reg", EXP_NUM(stare));
+	  asm_comment("scan: ident_tag(%d): use stack or saved reg", EXP_NUM(stare));
 	  no(stare) = R_NO_REG;
 
 	  /*
@@ -1564,18 +1565,18 @@ needs scan
 	{
 	  x.propsneeds |= longrealresult_bit;
 	}
-	FULLCOMMENT("scan res_tag: long real/real result");
+	asm_comment("scan res_tag: long real/real result");
       }
       else
       {
 	if (!valregable(s) && !(name(son(*e)) == top_tag)) /* .... result does not fit into reg */
 	{
 	  x.propsneeds |= long_result_bit;
-	FULLCOMMENT("scan res_tag: struct/union result");
+	asm_comment("scan res_tag: struct/union result");
 	}
       }
 
-      FULLCOMMENT1("scan res_tag: result size %d", a.ashsize);
+      asm_comment("scan res_tag: result size %d", a.ashsize);
       if (a.ashsize != 0 && name(*arg) != clear_tag)  /* not a void result */
       {
 	x.propsneeds|= has_result_bit;
@@ -1804,7 +1805,7 @@ needs scan
 	  /*
 	   * if it isn't the first parameter, and it calls a proc, identify it
 	   */
-	  FULLCOMMENT1("apply_tag: identifying parameter %d (1..) containing proc call",i);
+	  asm_comment("apply_tag: identifying parameter %d (1..) containing proc call",i);
 	  cca(at, par);
 	  nds.propsneeds |= usesproccall;
 	  nds = maxneeds(shapeneeds(sh(*(par))), nds);
@@ -1873,7 +1874,7 @@ needs scan
       if (long_result_space_needed)
       {
 	/* find space for tuple result */
-	FULLCOMMENT("apply_tag: identifying notinreg result");
+	asm_comment("apply_tag: identifying notinreg result");
 	assert(name(*(ptr_position(application))) ==apply_tag);
 	cca(at,ptr_position(application));
 	nds.propsneeds |= usesproccall;
@@ -1896,7 +1897,7 @@ needs scan
 	/* express disps in bytes */
 	no(*e) = no(*e) >> 3;
       }
-      FULLCOMMENT2("val_tag %s no=%d", SH_NAME(name(s)), no(*e));
+      asm_comment("val_tag %s no=%d", SH_NAME(name(s)), no(*e));
       /* ... and continue */
     }
 
@@ -2234,7 +2235,7 @@ needs scan
 	list = bro(list);
       }
 
-      FULLCOMMENT2("scan case plus_tag,addptr_tag: allneg=%d someneg=%d", allneg, someneg);
+      asm_comment("scan case plus_tag,addptr_tag: allneg=%d someneg=%d", allneg, someneg);
 
       if (someneg)
       {
@@ -2783,7 +2784,7 @@ needs scan
 	 offset_pad_tag
 	 testbit_tag
 	 */
-       FULLCOMMENT1("scan: bad nstare=%d", nstare);
+       asm_comment("scan: bad nstare=%d", nstare);
        sprintf(s,"case %d not covered in needs scan",nstare);
        error(ERROR_SERIOUS, s);
        return zeroneeds;

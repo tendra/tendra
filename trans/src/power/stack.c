@@ -13,13 +13,13 @@
 #include <shared/error.h>
 
 #include <main/flags.h>
+#include <main/print.h>
 
 #include "memtdf.h"
 #include "codegen.h"
 #include "geninst.h"
 #include "translate.h"
 #include "make_code.h"
-#include "comment.h"
 #include "proc.h"
 #include "stack.h"
 
@@ -404,7 +404,7 @@ void restore_sregs(int start_base, int start_offset)
   assert(start_base!=R_TMP0);
   stackpos.base = start_base;
   stackpos.offset = start_offset;
-  COMMENT2("restore s-regs using %d offset %d bytes",start_base,start_offset);
+  asm_comment("restore s-regs using %d offset %d bytes",start_base,start_offset);
   
   
   if (p_sfreg_first_save != FR_NO_REG)
@@ -446,7 +446,7 @@ void restore_link_register(void)
 {
   /* this function is only used by tail_call */
   baseoff saved_lr;
-  COMMENT("restore link register");
+  asm_comment("restore link register");
   if (!p_leaf)
   {
     if (p_has_tp)

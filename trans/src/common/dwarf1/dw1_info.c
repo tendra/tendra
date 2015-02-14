@@ -13,6 +13,7 @@
 #include <shared/error.h>
 
 #include <main/driver.h>
+#include <main/print.h>
 
 #include <local/out.h>
 
@@ -60,6 +61,8 @@ static dwarf_label lex_blk_stk[100];
 				error(ERROR_INTERNAL, "lex stk underflow");	\
 			}
 
+FILE *as_file;
+
 static void
 out_dwarf_start_scope(dwarf_label *l)
 {
@@ -83,8 +86,7 @@ comment_end_scope(diag_info *d)
 {
 	char expr_buf[100];
 	sprintf(expr_buf, COMMENT_2("\t", "\tEND diag_info key %d"), d->key);
-	outs(expr_buf);
-	outs("\n");	/* avoid x86 outnl which has side effect */
+	fprintf(as_file, "%s\n", expr_buf); /* avoid x86 outnl which has side effect */
 }
 
 
@@ -296,8 +298,7 @@ dw1_output_end_scope(diag_info *d, exp e)
 	char expr_buf[100];
 
 	sprintf(expr_buf, COMMENT_2("\t", "\tEND diag_info key %d"), d->key);
-	outs(expr_buf);
-	outnl();
+	asm_printf("%s\n", expr_buf);
 
 	if (d->key != DIAG_INFO_SOURCE && props(e) & 0x80) {
 		OUT_DWARF_END(POP_LEX_BLK);

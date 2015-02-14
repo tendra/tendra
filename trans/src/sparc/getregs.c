@@ -28,7 +28,6 @@
 #include "addrtypes.h"
 #include "bitsmacs.h"
 #include "getregs.h"
-#include "comment.h"
 
 
 /*

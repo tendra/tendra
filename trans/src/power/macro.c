@@ -13,6 +13,7 @@
 #include <shared/error.h>
 
 #include <main/driver.h>
+#include <main/print.h>
 
 #include "memtdf.h"
 #include "codegen.h"
@@ -21,7 +22,6 @@
 #include "stdio.h"
 #include "translate.h"
 #include "instruct.h"
-#include "comment.h"
 
 #ifdef SHOW_FRAME_POINTER
 static char *frame_pointer = "FP";
@@ -66,63 +66,63 @@ void init_macros(void)
 {
   int r;
   int number_per_line =0;
-  fprintf(as_file,"#\tRegister macros for easier reading and debugging\n");
+  asm_printf("#\tRegister macros for easier reading and debugging\n");
 
 #define NUMBER_OF_MACROS_PER_LINE 5
   for (r = 0;r<=31;r++)
   {
-    fprintf(as_file,".set %s,%d",reg_array[r],r);
+    asm_printf(".set %s,%d",reg_array[r],r);
     number_per_line ++;
     if (number_per_line ==NUMBER_OF_MACROS_PER_LINE)
     {
-      fprintf(as_file,"\n");
+      asm_printf("\n");
       number_per_line = 0;
     }
     else
     {
-      fprintf(as_file,";");
+      asm_printf(";");
     }
   }
-  fprintf(as_file,"\n");
+  asm_printf("\n");
 
   number_per_line=0;
 
   for (r = 0;r<=31;r++)
   {
-    fprintf(as_file,".set %s,%d",freg_array[r],r);
+    asm_printf(".set %s,%d",freg_array[r],r);
     number_per_line ++;
     if (number_per_line ==NUMBER_OF_MACROS_PER_LINE)
     {
-      fprintf(as_file,"\n");
+      asm_printf("\n");
       number_per_line = 0;
     }
     else
     {
-      fprintf(as_file,";");
+      asm_printf(";");
     }
   }
-  fprintf(as_file,"\n");
+  asm_printf("\n");
   number_per_line=0;
 
   for (r = 0;r<=7;r++)
   {
-    fprintf(as_file,".set %s,%d",cr_array[r],r);
+    asm_printf(".set %s,%d",cr_array[r],r);
     number_per_line ++;
     if (number_per_line ==NUMBER_OF_MACROS_PER_LINE)
     {
-      fprintf(as_file,"\n");
+      asm_printf("\n");
       number_per_line = 0;
     }
     else
     {
-      fprintf(as_file,";");
+      asm_printf(";");
     }
   }
-  fprintf(as_file,"\n");
+  asm_printf("\n");
   init_spr_macros();
 #ifdef SHOW_FRAME_POINTER
-  fprintf(as_file,".set %s,31\n",frame_pointer);
-  fprintf(as_file,".set %s,30\n",top_pointer);
+  asm_printf(".set %s,31\n",frame_pointer);
+  asm_printf(".set %s,30\n",top_pointer);
 #endif
   return;
 }
@@ -181,12 +181,12 @@ char * spr_macro(int spr)
 
 static void init_spr_macros(void)
 {
-  fprintf(as_file,".set %s,%d;",spr_mq,SPR_MQ);
-  fprintf(as_file,".set %s,%d;",spr_xer,SPR_XER);
-  fprintf(as_file,".set %s,%d;",spr_rtcu,SPR_RTCU);
-  fprintf(as_file,".set %s,%d\n",spr_rtcl,SPR_RTCL);
-  fprintf(as_file,".set %s,%d;",spr_dec,SPR_DEC);
-  fprintf(as_file,".set %s,%d;",spr_lr,SPR_LR);
-  fprintf(as_file,".set %s,%d\n",spr_ctr,SPR_CTR);
+  asm_printf(".set %s,%d;",spr_mq,SPR_MQ);
+  asm_printf(".set %s,%d;",spr_xer,SPR_XER);
+  asm_printf(".set %s,%d;",spr_rtcu,SPR_RTCU);
+  asm_printf(".set %s,%d\n",spr_rtcl,SPR_RTCL);
+  asm_printf(".set %s,%d;",spr_dec,SPR_DEC);
+  asm_printf(".set %s,%d;",spr_lr,SPR_LR);
+  asm_printf(".set %s,%d\n",spr_ctr,SPR_CTR);
   return;
 }

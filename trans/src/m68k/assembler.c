@@ -13,6 +13,7 @@
 
 #include <main/flags.h>
 #include <main/driver.h>
+#include <main/print.h>
 
 #include "output.h"
 
@@ -48,11 +49,11 @@ int asm_cmp_reversed;
 void asm_nprefix(void) {
 	switch (assembler) {
 	case ASM_HP:
-		fputc('&', as_file);
+		asm_printf("&");
 		break;
 
 	case ASM_GAS:
-		fputc('#', as_file);
+		asm_printf("#");
 		break;
 
 	default:
@@ -63,11 +64,11 @@ void asm_nprefix(void) {
 void asm_fprefix(void) {
 	switch (assembler) {
 	case ASM_HP:
-		fputs("0f", as_file);
+		asm_printf("0f");
 		break;
 
 	case ASM_GAS:
-		fputs("0r", as_file);
+		asm_printf("0r");
 		break;
 
 	default:
@@ -78,7 +79,7 @@ void asm_fprefix(void) {
 void asm_ind_before(void) {
 	switch (assembler) {
 	case ASM_HP:
-		fputc('(', as_file);
+		asm_printf("(");
 		break;
 
 	case ASM_GAS:
@@ -95,7 +96,7 @@ void asm_ind_middle(void) {
 		break;
 
 	case ASM_GAS:
-		fputc('@', as_file);
+		asm_printf("@");
 		break;
 
 	default:
@@ -106,7 +107,7 @@ void asm_ind_middle(void) {
 void asm_ind_after(void) {
 	switch (assembler) {
 	case ASM_HP:
-		fputc(')', as_file);
+		asm_printf(")");
 		break;
 
 	case ASM_GAS:
@@ -120,7 +121,7 @@ void asm_ind_after(void) {
 void asm_predec_before(void) {
 	switch (assembler) {
 	case ASM_HP:
-		fputs(" - (", as_file);
+		asm_printf(" - (");
 		break;
 
 	default:
@@ -131,11 +132,11 @@ void asm_predec_before(void) {
 void asm_predec_after(void) {
 	switch (assembler) {
 	case ASM_HP:
-		fputc(')', as_file);
+		asm_printf(")");
 		break;
 
 	case ASM_GAS:
-		fputs("@ - ", as_file);
+		asm_printf("@ - ");
 		break;
 
 	default:
@@ -146,7 +147,7 @@ void asm_predec_after(void) {
 void asm_postinc_before(void) {
 	switch (assembler) {
 	case ASM_HP:
-		fputc('(', as_file);
+		asm_printf("(");
 		break;
 
 	case ASM_GAS:
@@ -160,11 +161,11 @@ void asm_postinc_before(void) {
 void asm_postinc_after(void) {
 	switch (assembler) {
 	case ASM_HP:
-		fputs(") + ", as_file);
+		asm_printf(") + ");
 		break;
 
 	case ASM_GAS:
-		fputs("@ + ", as_file);
+		asm_printf("@ + ");
 		break;
 
 	default:
@@ -175,7 +176,7 @@ void asm_postinc_after(void) {
 void asm_scale_before(void) {
 	switch (assembler) {
 	case ASM_HP:
-		fputc(',', as_file);
+		asm_printf(",");
 		break;
 
 	case ASM_GAS:
@@ -189,11 +190,11 @@ void asm_scale_before(void) {
 void asm_scale(void) {
 	switch (assembler) {
 	case ASM_HP:
-		fputs(".l*", as_file);
+		asm_printf(".l*");
 		break;
 
 	case ASM_GAS:
-		fputs(":l:", as_file);
+		asm_printf(":l:");
 		break;
 
 	default:
@@ -204,11 +205,11 @@ void asm_scale(void) {
 void asm_scale_1(void) {
 	switch (assembler) {
 	case ASM_HP:
-		fputs(".l", as_file);
+		asm_printf(".l");
 		break;
 
 	case ASM_GAS:
-		fputs(":l", as_file);
+		asm_printf(":l");
 		break;
 
 	default:
@@ -219,7 +220,7 @@ void asm_scale_1(void) {
 void asm_mem_before(void) {
 	switch (assembler) {
 	case ASM_HP:
-		fputs("([", as_file);
+		asm_printf("([");
 		break;
 
 	case ASM_GAS:
@@ -236,7 +237,7 @@ void asm_mem_second(void) {
 		break;
 
 	case ASM_GAS:
-		fputc('@', as_file);
+		asm_printf("@");
 		break;
 
 	default:
@@ -247,11 +248,11 @@ void asm_mem_second(void) {
 void asm_mem_third(void) {
 	switch (assembler) {
 	case ASM_HP:
-		fputc(']', as_file);
+		asm_printf("]");
 		break;
 
 	case ASM_GAS:
-		fputc('@', as_file);
+		asm_printf("@");
 		break;
 
 	default:
@@ -262,7 +263,7 @@ void asm_mem_third(void) {
 void asm_mem_after(void) {
 	switch (assembler) {
 	case ASM_HP:
-		fputc(')', as_file);
+		asm_printf(")");
 		break;
 
 	case ASM_GAS:
@@ -274,22 +275,18 @@ void asm_mem_after(void) {
 }
 
 void asm_bf_before(void) {
-	fputc('{', as_file);
+	asm_printf("{");
 }
 
 void asm_bf_middle(void) {
-	fputc(':', as_file);
+	asm_printf(":");
 }
 
 void asm_bf_after(void) {
-	fputc('}', as_file);
+	asm_printf("}");
 }
 
 void asm_rpair_sep(void) {
-	fputc(':', as_file);
-}
-
-void asm_comment(void) {
-	fputc('#', as_file);
+	asm_printf(":");
 }
 

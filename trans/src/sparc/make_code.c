@@ -15,7 +15,6 @@
 
 #include <local/szs_als.h>
 #include <local/ash.h>
-#include <local/out.h>
 
 #ifdef DWARF2
 #include <local/dw2_config.h>
@@ -38,6 +37,7 @@
 
 #include <main/driver.h>
 #include <main/flags.h>
+#include <main/print.h>
 
 #include "addrtypes.h"
 #include "extra_tags.h"
@@ -46,7 +46,6 @@
 #include "eval.h"
 #include "move.h"
 #include "oprators.h"
-#include "comment.h"
 #include "getregs.h"
 #include "guard.h"
 #include "locate.h"
@@ -122,7 +121,7 @@ checknan ( exp e, int fr )
 void 
 setvolatile (void)
 {
-  outs ( "!\t.volatile\n" ) ;
+  asm_printf("!\t.volatile\n" ) ;
   return ;
 }
 
@@ -135,7 +134,7 @@ setvolatile (void)
 void 
 setnovolatile (void)
 {
-  outs ( "!\t.nonvolatile\n" ) ;
+  asm_printf("!\t.nonvolatile\n" ) ;
   return ;
 }
 
@@ -282,7 +281,7 @@ check_integer_multiply_exception ( exp e, space sp, int result )
   yreg = getreg(nsp.fixed);
   if(optim_level != 0){
     optim_level = 0;
-    fprintf(as_file,"\t.optim\t\"-O0\"\n");
+    asm_printop(".optim \"-O0\"");
   }
   rr_ins(i_rd,YREG,yreg);
   if(is_signed(sh(son(e)))){
@@ -503,14 +502,16 @@ fconst ( int f, long hi, long lo )
   baseoff b ;
   int dlab = next_data_lab () ;
   insection ( rodata_section ) ;
-  outs ( "\t.align\t8\n" ) ;
+  asm_printop(".align 8") ;
   outlab ( dlab ) ;
-  outs ( ":\n\t.word\t" ) ;
+  asm_printf(":\n" ) ;
+  asm_printf("\t.word\t" ) ;
   switch (endian) {
-  case ENDIAN_LITTLE: outn(lo); outc(','); outn(hi); break;
-  case ENDIAN_BIG:    outn(hi); outc(','); outn(lo); break;
+  case ENDIAN_LITTLE: asm_printf("%d, %d", lo, hi); break;
+  case ENDIAN_BIG:    asm_printf("%d, %d", hi, lo); break;
   }
-  outs ( "\n\t.align\t8\n" ) ;
+  asm_printf("\n" ) ;
+  asm_printop(".align 8" ) ;
   insection ( text_section ) ;
   b.base = dlab ;
   b.offset = 0 ;
@@ -528,14 +529,16 @@ ldconst ( int r, long hi, long word2, long word3, long lo )
   baseoff b ;
   int dlab = next_data_lab () ;
   insection ( rodata_section ) ;
-  outs ( "\t.align\t8\n" ) ;
+  asm_printop(".align 8") ;
   outlab ( dlab ) ;
-  outs ( ":\n\t.word\t" ) ;
+  asm_printf(":\n" ) ;
+  asm_printf("\t.word\t" ) ;
   switch (endian) {
-  case ENDIAN_LITTLE: outn(lo); outc(','); outn(word3); outc(','); outn(word2); outc(','); outn(hi); break;
-  case ENDIAN_BIG:    outn(hi); outc(','); outn(word2); outc(','); outn(word3); outc(','); outn(lo); break;
+  case ENDIAN_LITTLE: asm_printf("%d, %d, %d, %d", lo, word3, word2, hi); break;
+  case ENDIAN_BIG:    asm_printf("%d, %d, %d, %d", hi, word2, word3, lo); break;
   }
-  outs ( "\n\t.align\t8\n" ) ;
+  asm_printf("\n" ) ;
+  asm_printop(".align 8") ;
   insection ( text_section ) ;
   b.base = dlab ;
   b.offset = 0 ;
@@ -2502,7 +2505,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
       ( void ) code_here ( son ( e ), sp, w ) ;
       if (!dto || !dfrom){
 	if(!sysV_assembler && !optop(e)) {
-	  outs("\t.optim\t\"-O0\"\n");/*as -O2 removes fsto[ds] ??*/
+	  asm_printop(".optim \"-O0\"");/*as -O2 removes fsto[ds] ??*/
 	}
 	rrf_ins ( ( dfrom ? i_fdtos : i_fstod ), frg.fr << 1,
 		  frg.fr << 1 ) ;
@@ -2953,7 +2956,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
     exp s = son(e);
     int r = reg_operand(s,sp);
     exp off = bro(s);
-    fprintf(as_file,"!local free tag \n");
+    asm_comment("local free tag");
     if(name(off) == val_tag){
       assert(name(sh(off)) == offsethd);
       rir_ins(i_add,r,((no(off)>>3)+7)&~7,r);
@@ -3951,16 +3954,19 @@ make_code ( exp e, space sp, where dest, int exitlab )
       if ( PIC_code ) {
 	char *rn = "%g1" ;
 	assert ( (nsp.fixed & RMASK (R_O7)) == 0 ) ;
-	fprintf ( as_file, "1:\n\tcall\t2f\n" ) ;
-	fprintf ( as_file, "\tsethi\t%%hi(%sD%d-1b),%s\n",
+	asm_label( "1:" ) ;
+	asm_printop( "call 2f" ) ;
+	asm_printop( "sethi %%hi(%sD%d-1b),%s",
 		  lab_prefix, veclab, rn ) ;
-	fprintf ( as_file, "2:\n\tor\t%s,%%lo(%sD%d-1b),%s\n",
+	asm_label( "2" );
+	asm_printop( "or %s,%%lo(%sD%d-1b),%s",
 		  rn, lab_prefix, veclab, rn ) ;
 	rrr_ins ( i_add, R_TMP, mr, R_TMP ) ;
 	ld_rr_ins ( i_ld, R_O7, R_TMP, R_TMP ) ;
 	clear_reg(R_O7);
 	clear_reg(R_TMP);
-	fprintf ( as_file, "\tjmp\t%%o7+%s\n\tnop\n", rn ) ;
+	asm_printop ( "jmp %%o7+%s", rn ) ;
+	asm_printop ( "nop" ) ;
       } else {
 	set_ins ( zeroveclab, R_TMP ) ;
 	ld_rr_ins ( i_ld, mr, R_TMP, R_TMP ) ;
@@ -3973,24 +3979,20 @@ make_code ( exp e, space sp, where dest, int exitlab )
       if ( sysV_assembler && !PIC_code )
 	 insection ( rodata_section ) ;
 
-      outs ( "\t.align\t4\n" ) ;
+      asm_printop(".align 4");
       outlab ( veclab ) ;
-      outs ( ":\n" ) ;
+      asm_printf(":\n" ) ;
       for ( ; ; ) {
 	for ( ; no ( z ) != n ; n++ ) {
-	  outs ( "\t.word\t" ) ;
-	  outs ( lab_prefix ) ;
-	  outn ( endlab ) ;
-	  if ( PIC_code ) outs ( "-1b" ) ;
-	  outnl () ;
+	  asm_printf( "\t.word %s%d", lab_prefix, endlab ) ;
+	  if ( PIC_code ) asm_printf("-1b" ) ;
+	  asm_printf("\n") ;
 	}
 	u = ( son ( z ) == NULL ) ? n : no ( son ( z ) ) ;
 	for ( ; n != u+1 ; n++ ) {	/* comparison independent of sign */
-	  outs ( "\t.word\t" ) ;
-	  outs ( lab_prefix ) ;
-	  outn ( no ( son ( pt ( z ) ) ) ) ;
-	  if ( PIC_code ) outs ( "-1b" ) ;
-	  outnl () ;
+	  asm_printf("\t.word %s%d", lab_prefix, no ( son ( pt ( z ) ) ) ) ;
+	  if ( PIC_code ) asm_printf("-1b" ) ;
+	  asm_printf("\n") ;
 	}
 	if ( last ( z ) ) break ;
 	z = bro ( z ) ;
@@ -4303,7 +4305,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
     int dreg ;
     ans aa ;
 	  
-    outs("\t.optim\t\"-O0\"\n");/*as -O2 replaces add to R_FP!*/
+    asm_printop(".optim \"-O0\"");/*as -O2 replaces add to R_FP!*/
     dreg = ( ( discrim ( dest.answhere ) == inreg ) ?
 	     regalt ( dest.answhere ) : getreg ( sp.fixed ) ) ;
     if(callee_offset(e)) {
@@ -4372,7 +4374,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
 	current_dg_info->data.i_lj.j.u.l = a2;
     }
 #endif
-    outs("\t.optim\t\"-O0\"\n");
+    asm_printop(".optim \"-O0\"");
     lngjmp(a1,a2, r_spare);
     return mka;
   }
@@ -4425,10 +4427,10 @@ make_code ( exp e, space sp, where dest, int exitlab )
     case asm_tag : {
       if (props(e)) {
 	if (name(son(e)) == string_tag)
-	  outs (nostr(son(e)));
+	  asm_printf("%s", nostr(son(e)));
 	else
 	if (name(son(e)) == val_tag)
-	  outn (no(son(e)));
+	  asm_printf("%d", no(son(e)));
 	else
 	if (asm_in(e)) {
 	  exp s = son(e);
@@ -4476,9 +4478,11 @@ make_code ( exp e, space sp, where dest, int exitlab )
 	  error(ERROR_INTERNAL, "illegal asm");
       }
       else {
-	outs ("\n\t! ASM sequence start\n");
+	asm_printf("\n");
+	asm_comment("ASM sequence start");
         code_here ( son(e), sp, nowhere ) ;
-	outs ("\t! ASM sequence ends\n\n");
+	asm_comment("ASM sequence ends");
+	asm_printf("\n");
       }
       clear_all ();
 #ifdef DWARF2

@@ -10,8 +10,6 @@
 #ifndef OUTPUT_INCLUDED
 #define OUTPUT_INCLUDED
 
-#define  outh(X)	fprintf(as_file, "0x%lx",(unsigned long)(X))
-
 extern char *reg_names[];
 extern char *instr_names_dotty[];
 extern char *instr_names_simple[];

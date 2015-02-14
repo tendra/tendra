@@ -13,7 +13,6 @@
 #include <shared/error.h>
 
 #include <local/ash.h>
-#include <local/out.h>
 
 #include <reader/exp.h>
 #include <reader/externs.h>
@@ -27,6 +26,7 @@
 
 #include <main/driver.h>
 #include <main/flags.h>
+#include <main/print.h>
 
 #include "code_here.h"
 #include "addrtypes.h"
@@ -44,7 +44,6 @@
 #include "proc.h"
 #include "labels.h"
 #include "oprators.h"
-#include "comment.h"
 
 /*
     CORRECT POSSIBLE OVERFLOWS IN REGISTER r
@@ -470,10 +469,9 @@ quad_op ( exp a1, exp a2, space sp, where dest, int op ){
     }
   }
   /* output the actual call */
-  outs ( "\tcall\t" ) ;
-  outs ( s ) ;
-  outs ( "\n\tnop\n" ) ;
-  if ( quad_ret ) outs ( "\tunimp\t16\n" ) ;
+  asm_printop("call %s", s);
+  asm_printop("nop");
+  if ( quad_ret ) asm_printop("unimp 16");
   clear_all () ;
   return ;
 }

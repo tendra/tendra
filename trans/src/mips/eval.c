@@ -34,6 +34,7 @@
 
 #include <main/driver.h>
 #include <main/flags.h>
+#include <main/print.h>
 
 #include <symtab/syms.h>
 
@@ -124,11 +125,11 @@ void outlab
 (int l)
 {
   if (l >= 0) {
-    fprintf(as_file, "$$%d", l);
+    asm_printf( "$$%d", l);
   }
   else {
     char *extname = main_globals[-l - 1] -> dec_u.dec_val.dec_id;
-    fprintf(as_file, "%s", extname);
+    asm_printf( "%s", extname);
   }
 }
 
@@ -250,7 +251,7 @@ void set_align
 {
 	if (al<16) return;
 	if (as_file)
-	  fprintf(as_file, "\t.align%s\n",
+	  asm_printop(".align%s",
 	     (al == 16)? " 1" :
 	     ((al == 32)? " 2" :
 		((al == 64)? " 3" : " 0")));
@@ -277,7 +278,7 @@ void oneval
 	  :     "\t.word %ld :%ld\n");
 	set_align(al);
 	if (as_file)
-	  fprintf(as_file, as, val, rep);
+	  asm_printf( as, val, rep);
 	out_value(0,(al <= 8)? ibyte :((al <= 16)? ihalf : iword), val, rep);
 }
 
@@ -298,35 +299,35 @@ void evalone
 	long  strs = shape_size(sh(e)) >>3;
 	int   i,j;
 	if (rep != 1 && as_file)
-	  fprintf(as_file, "\t.repeat %ld\n", rep);
+	  asm_printop(".repeat %ld", rep);
 	set_align(char_size);
 	if (as_file) {
 	  for (j = 0; j < strsize; ) {
 	    switch (char_size) {
-	      case  8: fprintf(as_file, "\t.byte "); break;
-	      case 16: fprintf(as_file, "\t.half "); break;
-	      case 32: fprintf(as_file, "\t.word "); break;
+	      case  8: asm_printf( "\t.byte "); break;
+	      case 16: asm_printf( "\t.half "); break;
+	      case 32: asm_printf( "\t.word "); break;
 	    }
 	    for (i = j; i < strsize && i - j < 8; i++) {
 	      switch (char_size) {
-	        case  8: fprintf(as_file, "0x%x",             st [i]); break;
-	        case 16: fprintf(as_file, "0x%x",  ((short *) st)[i]); break;
-	        case 32: fprintf(as_file, "0x%lx", ((long *)  st)[i]); break;
+	        case  8: asm_printf( "0x%x",             st [i]); break;
+	        case 16: asm_printf( "0x%x",  ((short *) st)[i]); break;
+	        case 32: asm_printf( "0x%lx", ((long *)  st)[i]); break;
 	      }
 	      if (i + 1 < strsize && i + 1 - j < 8) {
 	        if (assembler == ASM_GAS) {
-	          fprintf(as_file, ", ");
+	          asm_printf( ", ");
 	        } else {
-	          fprintf(as_file, " ");
+	          asm_printf( " ");
 	        }
 	      }
 	    }
 	    j = i;
-	    fprintf(as_file, "\n");
+	    asm_printf( "\n");
 	  }
 	}
 	if (rep != 1 && as_file)
-	  fprintf(as_file, "\t.endr\n");
+	  asm_printop(".endr");
 	out_chars(0, iascii, strs, rep);
 	out_data(st, strs);
 	return;
@@ -393,10 +394,10 @@ void evalone
   	set_align(32);
 	if (as_file) {
 	  if (no(e) == 0) {
-	    fprintf(as_file, "\t.word %s : %ld\n", nm, rep);
+	    asm_printop(".word %s : %ld", nm, rep);
 	  }
 	  else {
-	    fprintf(as_file, "\t.word %s + %d :%ld\n", nm, no(e) / 8, rep);
+	    asm_printop(".word %s + %d :%ld", nm, no(e) / 8, rep);
 	  }
 	}
 	out_value(symnos[symdef], iword, no(e) / 8, rep);
@@ -573,7 +574,7 @@ void evalone
       {
 	int s = eval_al(sh(e));
 	if (as_file)
-	  fprintf(as_file, "\t.space %ld\n",(s>>3)* rep);
+	  asm_printop(".space %ld",(s>>3)* rep);
 	out_value(0, ispace,(s>>3)* rep, 1);
 	return;
       }
@@ -639,9 +640,9 @@ instore evaluated
 	(main_globals[-lab - 1] -> dec_u.dec_val.dec_id)[0] == '$');
     if (dc != NULL)globalise_name(dc);
     if (as_file) {
-      fprintf(as_file,(temp)? "\t.lcomm\t" : "\t.comm\t");
+      asm_printf((temp)? "\t.lcomm\t" : "\t.comm\t");
       outlab(lab);
-      fprintf(as_file, " %d\n", size);
+      asm_printf( " %d\n", size);
     }
     out_value((lab >= 0)? tempsnos[lab - 32]: symnos[-lab - 1],
 	(temp)? ilcomm : icomm, size, 1);
@@ -653,19 +654,19 @@ instore evaluated
     a = ashof(sh(z));
     if (a.ashsize <= G_number) {
       if (as_file)
-	fprintf(as_file, "\t.sdata\n");
+	asm_printop(".sdata");
       out_common(0, isdata);
     }
     else {
       if (as_file)
-	fprintf(as_file, "\t.data\n");
+	asm_printop(".data");
       out_common(0, idata);
     }
     set_align(a.ashalign);   /* I think this is unnecessary ? bug in as */
     if (dc != NULL)globalise_name(dc);
     if (as_file) {
       outlab(lab);
-      fprintf(as_file, ":\n");
+      asm_printf( ":\n");
     }
     out_common((lab > 0)? tempsnos[lab - 32]: symnos[-lab - 1], ilabel);
     evalone(z, 1);

@@ -21,6 +21,7 @@
 
 #include <main/driver.h>
 #include <main/flags.h>
+#include <main/print.h>
 
 #include <dwarf2/dw2_basic.h>
 #include <dwarf2/dw2_codes.h>
@@ -32,9 +33,6 @@
 #undef entry_names_wanted
 
 
-static char *sep = ", ";
-
-
 void
 uleb128(unsigned long value)
 {
@@ -43,11 +41,10 @@ uleb128(unsigned long value)
 		byt = value & 127;
 		value >>= 7;
 		if (value == 0) {
-			outn((long)byt);
+			asm_printf("%d", byt);
 			return;
 		}
-		outn((long)byt | 128);
-		outs(sep);
+		asm_printf("%d, ", byt | 128);
 	}
 }
 
@@ -81,11 +78,10 @@ sleb128(long value)
 		}
 		/* sign bit of byte is 2nd high order bit (0x40) */
 		if (value == - (long)((byt & 0x40) != 0)) {
-			outn((long)byt);
+			asm_printf("%d", byt);
 			return;
 		}
-		outn((long)byt | 128);
-		outs(sep);
+		asm_printf("%d, ", byt | 128);
 	}
 }
 
@@ -118,10 +114,10 @@ set_attribute(int nm, int form)
 	out8();
 	uleb128((unsigned long)nm);
 	if (form || !nm) {
-		outs(sep);
+		asm_printf(", ");
 		uleb128((unsigned long) form);
 	}
-	d_outnl();
+	asm_printf("\n");
 	return;
 }
 
@@ -141,47 +137,40 @@ do_compunit_header(void)
 	outnl_comment("Compilation Unit Header");
 	out32();
 	out_dwf_dist_to_label(info_end);
-	d_outnl();
+	asm_printf("\n");
 	out16();
-	outn((long)DWARF_MOD_VERSION);
-	d_outnl();
+	asm_printf("%d\n", DWARF_MOD_VERSION);
 	out32();
-	outs(abbrev_name);
-	d_outnl();
+	asm_printf("%s\n", abbrev_name);
 	out8();
-	outn((long)PTR_SZ/8);
-	d_outnl();
+	asm_printf("%d\n", PTR_SZ/8);
 	exit_section();
 	enter_section("debug_pubnames");
 	out32();
 	out_dwf_dist_to_label(pubnames_end);
-	d_outnl();
+	asm_printf("\n");
 	out16();
-	outn((long)DWARF_MOD_VERSION);
-	d_outnl();
+	asm_printf("%d\n", DWARF_MOD_VERSION);
 	out32();
 	out_dwf_label(dw_info_start, 0);
-	d_outnl();
+	asm_printf("\n");
 	out32();
 	out_dwf_labdiff(dw_info_start, info_end);
-	d_outnl();
+	asm_printf("\n");
 	exit_section();
 	enter_section("debug_aranges");
 	out32();
 	out_dwf_dist_to_label(aranges_end);
-	d_outnl();
+	asm_printf("\n");
 	out16();
-	outn((long)DWARF_MOD_VERSION);
-	d_outnl();
+	asm_printf("%d\n", DWARF_MOD_VERSION);
 	out32();
 	out_dwf_label(dw_info_start, 0);
-	d_outnl();
+	asm_printf("\n");
 	out8();
-	outn((long)PTR_SZ/8);
-	d_outnl();
+	asm_printf("%d\n", PTR_SZ/8);
 	out8();
-	outn(0);
-	d_outnl();
+	asm_printf("0\n");
 	dot_align(PTR_SZ/4);
 	exit_section();
 	return;
@@ -199,8 +188,7 @@ close_compunit_info(void)
 	exit_section();
 	enter_section("debug_pubnames");
 	out32();
-	outn(0);
-	d_outnl();
+	asm_printf("0\n");
 	out_dwf_label(pubnames_end, 1);
 	if (needs_debug_align) {
 		dot_align(4);
@@ -208,11 +196,9 @@ close_compunit_info(void)
 	exit_section();
 	enter_section("debug_aranges");
 	out32();
-	outn(0);
-	d_outnl();
+	asm_printf("0\n");
 	out32();
-	outn(0);
-	d_outnl();
+	asm_printf("0\n");
 	out_dwf_label(aranges_end, 1);
 	exit_section();
 }
@@ -233,7 +219,7 @@ dw_at_address(long lab)
 {
 	out32();
 	out_dwf_label(lab, 0);
-	d_outnl();
+	asm_printf("\n");
 	return;
 }
 
@@ -244,7 +230,7 @@ dw_at_ext_lab(ext_lab lab)
 	out32();
 	switch (lab.k) {
 	case LAB_STR:
-		outs(lab.u.s);
+		asm_printf("%s", lab.u.s);
 		break;
 	case LAB_CODE:
 		out_code_label(lab.u.l);
@@ -255,7 +241,7 @@ dw_at_ext_lab(ext_lab lab)
 	default:
 		error(ERROR_INTERNAL, "unset label");
 	}
-	d_outnl();
+	asm_printf("\n");
 	return;
 }
 
@@ -309,7 +295,7 @@ dw_at_abstract_lab(dg_tag dt)
 	}
 	out32();
 	out_dwf_label(dt->abstract_lab, 0);
-	d_outnl();
+	asm_printf("\n");
 	return;
 }
 
@@ -364,8 +350,7 @@ dw_at_data(int n, long d)
 	default:
 		error(ERROR_INTERNAL, "dwarf data size not supported");
 	}
-	outn(d);
-	d_outnl();
+	asm_printf("%d\n", d);
 	return;
 }
 
@@ -375,7 +360,7 @@ dw_at_udata(unsigned long n)
 {
 	out8();
 	uleb128(n);
-	d_outnl();
+	asm_printf("\n");
 	return;
 }
 
@@ -385,7 +370,7 @@ dw_at_sdata(long n)
 {
 	out8();
 	sleb128(n);
-	d_outnl();
+	asm_printf("\n");
 	return;
 }
 
@@ -394,8 +379,7 @@ void
 dw_at_flag(int x)
 {
 	out8();
-	outn((long)x);
-	d_outnl();
+	asm_printf("%d\n", x);
 	return;
 }
 
@@ -405,11 +389,11 @@ dw_at_decl(short_sourcepos p)
 {
 	out8();
 	uleb128((unsigned long)(p.file ? p.file->index : 0));
-	outs(sep);
+	asm_printf(", ");
 	uleb128((unsigned long)p.line);
-	outs(sep);
+	asm_printf(", ");
 	uleb128((unsigned long)p.column);
-	d_outnl();
+	asm_printf("\n");
 	return;
 }
 
@@ -418,7 +402,7 @@ void
 dw_no_locate(void)
 {
 	out8();
-	outn(0);
+	asm_printf("%d", 0);
 	outnl_comment("discarded variable");
 	return;
 }
@@ -428,12 +412,9 @@ void
 dw_locate_offset(int n)
 {
 	out8();
-	outn((long)(1 + uleb128_length((unsigned long)n)));
-	outs(sep);
-	outn((long)DW_OP_plus_uconst);
-	outs(sep);
+	asm_printf("%d, %d, ", 1 + uleb128_length((unsigned long)n), DW_OP_plus_uconst);
 	uleb128((unsigned long)n);
-	d_outnl();
+	asm_printf("\n");
 	return;
 }
 
@@ -475,24 +456,19 @@ out_refloc(exp e, exp id)
 		if (son(e) != id) {
 			error(ERROR_INTERNAL, bad_refloc);
 		}
-		outs(sep);
-		outn((long)DW_OP_plus_uconst);
-		outs(sep);
+		asm_printf(", %d, ", DW_OP_plus_uconst);
 		uleb128((unsigned long)no(e) /8);
 		return;
 	case cont_tag:
 		out_refloc(son(e), id);
-		outs(sep);
-		outn((long)DW_OP_deref);
+		asm_printf(", %d", DW_OP_deref);
 		return;
 	case reff_tag:
 		if (no(e) <0) {
 			error(ERROR_INTERNAL, bad_refloc);
 		}
 		out_refloc(son(e), id);
-		outs(sep);
-		outn((long)DW_OP_plus_uconst);
-		outs(sep);
+		asm_printf(", %d, ", DW_OP_plus_uconst);
 		uleb128((unsigned long)no(e) /8);
 		return;
 	default:
@@ -512,14 +488,12 @@ dw_locate_reloffset(exp e)
 	length = refloc_length(bro(son(e)), e);
 	out8();
 	if (length == 0) {
-		outn((long)1);
-		outs(sep);
-		outn((long)DW_OP_nop);
+		asm_printf("%d, %d", 1, DW_OP_nop);
 	} else {
-		outn((long)length);
+		asm_printf("%d", length);
 		out_refloc(bro(son(e)), e);
 	}
-	d_outnl();
+	asm_printf("\n");
 	return;
 }
 
@@ -529,7 +503,7 @@ dw_at_distance(long lo, long hi)
 {
 	out16();
 	out_dwf_labdiff(lo, hi);
-	d_outnl();
+	asm_printf("\n");
 	return;
 }
 
@@ -563,13 +537,12 @@ out_loc_range(long start, long end, int inclusive)
 	/* for location list */
 	out32();
 	out_dwf_labdiff(dw_text_start, start);
-	d_outnl();
+	asm_printf("\n");
 	out32();
 	out_dwf_labdiff(dw_text_start, end);
 	if (inclusive) {
-		outs(" + ");
-		outn((long)min_instr_size);
+		asm_printf(" + %d", min_instr_size);
 	}
-	d_outnl();
+	asm_printf("\n");
 	return;
 }

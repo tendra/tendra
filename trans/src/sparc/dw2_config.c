@@ -17,17 +17,17 @@
 
 #include <main/driver.h>
 #include <main/flags.h>
+#include <main/print.h>
 
 #include "translate.h"
 #include "eval.h"
 #include "labels.h"
-#include "comment.h"
 
 long dwarf_lab_num = 0;
 
 void out8(void)
 {
-  outs ( "\t.byte " ) ;
+  asm_printf("\t.byte ");
   return;
 }
 
@@ -36,7 +36,7 @@ void out16(void)
   if (needs_debug_align) {
     dot_align(2);
   }
-  outs ( "\t.half " ) ;
+  asm_printf("\t.half ");
   return;
 }
 
@@ -45,47 +45,37 @@ void out32(void)
   if (needs_debug_align) {
     dot_align(4);
   }
-  outs ( "\t.word " ) ;
+  asm_printf("\t.word ");
   return;
 }
 
 void dot_align(long n)
 {
-  outs ( "\t.align " ) ;
-  outn (n);
-  outnl();
+  asm_printop(".align %ld", n);
   return;
 }
 
 void out_string(char *s)
 {
-  outs ("\t.asciz \"");
-  outs (s);
-  outs ("\"");
-  d_outnl ();
+  asm_printop(".asciz \"%s\"", s);
   return;
 }
 
 void start_string(char *s)
 {
-  outs ("\t.asciz \"");
-  outs (s);
+  asm_printf("\t.asciz \"%s", s);
   return;
 }
 
 void end_string(void)
 {
-  outs ("\"");
-  d_outnl ();
+  asm_printf("\"\n");
   return;
 }
 
 void enter_section(char *s)
 {
-  outs ("\t.section \".");
-  outs (s);
-  outs ("\"");
-  d_outnl ();
+  asm_printop(".section \".%s\"", s);
   return;
 }
 
@@ -99,13 +89,13 @@ void exit_section(void)
 
 void outnl_comment(char *s)
 {
-  comment (s);
+  asm_comment("%s", s);
   return;
 }
 
 void outnl_comment_i(char *s, long i)
 {
-  commenti (s);
+  asm_comment("%s %ld", s, i);
   return;
 }
 
@@ -113,36 +103,33 @@ void out_dwf_label(long l, int set)
 {
   if (!l)
     error(ERROR_INTERNAL, "unknown label");
-  outs (".Ldw");
-  outn (l);
+  asm_printf(".Ldw%ld", l);
   if (set) {
-    outs (":");
-    d_outnl ();
+    asm_printf(":\n");
   }
   return;
 }
 
 void out_code_label(long l)
 {
-  outs (lab_prefix);
-  outn (l);
+  asm_printf("%s%d", lab_prefix, l);
   return;
 }
 
 void out_dwf_dist_to_label(long l)
 {
   out_dwf_label (l, 0);
-  outs (" - . - 4");
+  asm_printf(" - . - 4");
   return;
 }
 
 void out_dwf_labdiff(long lo, long hi)
 {
   if (hi == lo)
-    outn (0);
+    asm_printf("%d", 0);
   else {
     out_dwf_label (hi, 0); 
-    outs (" - ");
+    asm_printf(" - ");
     out_dwf_label (lo, 0);
   }
   return;
@@ -150,22 +137,14 @@ void out_dwf_labdiff(long lo, long hi)
 
 void out_ext_label(char *s)
 {
-  outs ("\t.global\t");
-  outs (s);
-  d_outnl ();
-  outs (s);
-  outs(":");
-  d_outnl ();
+  asm_printop(".global %s\n", s);
+  asm_label("%s", s);
   return;
 }
 
 void out_producer(char *s)
 {
-  outs ("\t.asciz \"");
-  outs (s);
-  outs (" trans.sparc installer");
-  outs ("\"");
-  d_outnl ();
+  asm_printop(".asciz \"%s %s\"", s, "trans.sparc installer");
   return;
 }
 
@@ -192,10 +171,9 @@ void dw2_data_aranges(void)
   if (first_data) {
     lab_data = next_dwarf_label ();
     if (do_prom) {
-      outs ("\t.reserve\t");
+      asm_printf("\t.reserve ");
       out_dwf_label (lab_data, 0);
-      outs (", 0,\".bss\",4");
-      d_outnl();
+      asm_printf(", 0,\".bss\",4\n");
     }
     else {
       insection (data_section);
@@ -210,14 +188,14 @@ void dw2_data_aranges(void)
   insection (text_section);
   enter_section ("debug_aranges");
   if (first_data) {
-    out32 (); outlab (first_data); d_outnl ();
-    out32 (); out_dwf_label (lab_data, 0); outs (" - ");
-	outlab (first_data); d_outnl ();
+    out32 (); outlab (first_data); asm_printf("\n");
+    out32 (); out_dwf_label (lab_data, 0); asm_printf(" - ");
+	outlab (first_data); asm_printf("\n");
   }
   if (first_ro) {
-    out32 (); outlab (first_ro); d_outnl ();
-    out32 (); out_dwf_label (lab_ro, 0); outs (" - ");
-	outlab (first_ro); d_outnl ();
+    out32 (); outlab (first_ro); asm_printf("\n");
+    out32 (); out_dwf_label (lab_ro, 0); asm_printf(" - ");
+	outlab (first_ro); asm_printf("\n");
   }
   exit_section ();
   return;

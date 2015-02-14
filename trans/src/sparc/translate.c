@@ -93,7 +93,6 @@
 #include <shared/xalloc.h>
 
 #include <local/ash.h>
-#include <local/out.h>
 
 #ifdef DWARF2
 #include <local/dw2_config.h>
@@ -115,6 +114,7 @@
 
 #include <main/driver.h>
 #include <main/flags.h>
+#include <main/print.h>
 
 #include "tempdecs.h"
 #include "weights.h"
@@ -129,7 +129,6 @@
 #include "getregs.h"
 #include "regmacs.h"
 #include "labels.h"
-#include "comment.h"
 #include "translate.h"
 #include "proc.h"
 #include "locate.h"
@@ -197,16 +196,16 @@ insection ( enum section s ){
       case data_section :
 	if (do_prom)
 	  error(ERROR_INTERNAL, "prom .data");
-	outs ( "\t.section\t\".data\"\n" ) ;
+	asm_printop(".section \".data\"" ) ;
 	return ;
       case text_section :
-	outs ( "\t.section\t\".text\"\n" ) ;
+	asm_printop(".section \".text\"" ) ;
 	return ;
       case rodata_section :
-	outs ( "\t.section\t\".rodata\"\n" ) ;
+	asm_printop(".section \".rodata\"" ) ;
 	return ;
       case init_section :
-	outs ("\t.section\t\".init\"\n");
+	asm_printop(".section \".init\"" ) ;
 	return;
       default :
 	break ;
@@ -215,10 +214,10 @@ insection ( enum section s ){
   else {
     switch ( s ) {
       case data_section :
-	outs ( "\t.seg\t\"data\"\n" ) ;
+	asm_printop(".seg \"data\"") ;
 	return ;
       case text_section :
-	outs ( "\t.seg\t\"text\"\n" ) ;
+	asm_printop(".seg \"text\"") ;
 	return ;
       default :
 	break ;
@@ -276,11 +275,12 @@ init_translator (void)
   nowhere.ashwhere.ashsize = 0 ;
   
   /* mark the as output as TDF compiled */
-  outs ( lab_prefix ) ;
-  outs ( "TDF.translated:\n" ) ;
-  outs ( "!\tTDF->SPARC " ) ;
-  if ( sysV_assembler ) outs ( " (SysV)" ) ;
-  outnl () ;
+  asm_label("%s%s", lab_prefix, "TDF.translated") ;
+  if ( sysV_assembler ) {
+    asm_comment("TDF->SPARC (SysV)" ) ;
+  } else {
+    asm_comment("TDF->SPARC" ) ;
+  }
 
 
   /* start diagnostics if necessary */
@@ -420,11 +420,7 @@ translate_capsule (void){
 
   /* output weak symbols */
   while ( weak_list ) {
-    outs ( "\t" ) ;
-    outs ( weak_list->weak_id ) ;
-    outs ( "=" ) ;
-    outs ( weak_list->val_id ) ;
-    outnl () ;
+    asm_printop("%s=%s", weak_list->weak_id, weak_list->val_id) ;
     weak_list = weak_list->next ;
   }
   
@@ -597,16 +593,14 @@ translate_capsule (void){
 	  /* On solaris, this is easy.  Insert a call to the procedure
 	     into the init segment */
 	  insection (init_section);
-	  fprintf(as_file,"\tcall %s\n",id);
-	  outs("\tnop\n");
+	  asm_printop("call %s",id);
+	  asm_printop("nop");
 	  insection (text_section);
 	}
 	else{
 	  insection ( text_section ) ;
 	}
-	outs ( "\t.global\t" ) ;
-	outs ( id ) ;
-	outnl () ;
+	asm_printop( ".global %s", id ) ;
       }
       if ( name ( stg ) != proc_tag && name(stg)!=general_proc_tag) {
 	  /* evaluate all outer level constants */
@@ -629,15 +623,9 @@ translate_capsule (void){
 		(!isvar (tg) || (d -> dec_u.dec_val.acc & f_constant)) ) ;
 	if ( is.adval ) setvar ( tg ) ;
 	if ( sysV_assembler ) {
-	  outs ( "\t.type\t" ) ;
-	  outs ( id ) ;
-	  outs ( ",#object\n" ) ;
+	  asm_printop ( ".type %s,#object", id ) ;
 	  if ( !know_size ) {
-	    outs ( "\t.size\t" ) ;
-	    outs ( id ) ;
-	    outs ( "," ) ;
-	    outn ( shape_size ( sh ( stg ) ) / 8 ) ;
-	    outnl () ;
+	    asm_printop ( ".size %s,%d", id, shape_size ( sh ( stg ) ) / 8 ) ;
 	  }
 	}
       }
@@ -657,7 +645,7 @@ translate_capsule (void){
       check_asm_seq (son(stg), 1);
       insection ( text_section ) ;
       (void)code_here ( stg, tempregs, nowhere ) ;
-      outnl ();
+      asm_printf("\n");
     }
 
     if ( no ( tg ) == 0 && !extnamed ) continue ;
@@ -702,11 +690,9 @@ translate_capsule (void){
 	else {
 	  proc_directive = 0 ;
 	}
-	outs ( "\t.proc\t" ) ;
-	outn ( proc_directive ) ;
-	outnl () ;
+	asm_printop( ".proc %d", proc_directive ) ;
 	if (do_comment) {
-		if ( p & long_result_bit ) outs ( "!\tstruct result\n" ) ;
+		if ( p & long_result_bit ) asm_comment ( "struct result" ) ;
 	}
 
 	switch (diag) {
@@ -725,18 +711,15 @@ translate_capsule (void){
 	if ( optim_level >= 0 ) {
 	  /* .optim must go after .proc */
 	  if ( ( p & long_result_bit ) || ( p & dont_optimise ) ) {
-	    outs ( "\t.optim\t\"-O0\"\n" ) ;
+	    asm_printop(".optim \"-O0\"") ;
 	  } 
 	  else {
-	    outs ( "\t.optim\t\"-O" ) ;
-	    outn ( optim_level ) ;
-	    outs ( "\"\n" ) ;
+	    asm_printop(".optim \"-O%d\"", optim_level) ;
 	  }
 	}
 	
 	
-	outs ( id ) ;
-	outs ( ":\n" ) ;
+	asm_label( "%s", id ) ;
 	seed_label () ;		/* reset label sequence */
 	settempregs ( stg ) ;	/* reset getreg sequence */
 	/* generate code for this proc */
@@ -744,20 +727,12 @@ translate_capsule (void){
 	proc_name = id;
 	(void)code_here ( stg, tempregs, nowhere ) ;
 	if ( sysV_assembler ) {
-	  outs ( "\t.type\t" ) ;
-	  outs ( id ) ;
-	  outs ( ",#function\n" ) ;
-	  outs ( "\t.size\t" ) ;
-	  outs ( id ) ;
-	  outs ( ",.-" ) ;
-	  outs ( id ) ;
-	  outnl () ;
+	  asm_printop( ".type %s,#function", id ) ;
+	  asm_printop( ".size %s,.-%s", id, id ) ;
 	} 
 	else {
 		if (do_comment) {
-		  outs ( "!\t.end\t" ) ;
-		  outs ( id ) ;
-		  outnl () ;
+		  asm_printf("!\t.end %s\n", id) ;
 		}
 	}
 	switch ( diag ) {

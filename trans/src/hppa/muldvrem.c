@@ -8,6 +8,7 @@
  */
 
 #include <assert.h>
+#include <stdio.h>
 
 #include <shared/check.h>
 
@@ -17,6 +18,7 @@
 #include <construct/shape.h>
 
 #include <main/flags.h>
+#include <main/print.h>
 
 #include <reader/exp.h>
 #include <reader/exp.h>
@@ -29,7 +31,6 @@
 #include "eval.h"
 #include "move.h"
 #include "oprators.h"
-#include "comment.h"
 #include "getregs.h"
 #include "guard.h"
 #include "locate.h"
@@ -130,7 +131,7 @@ static void mul_const_complex
   int bsl_1_tab = -1;
   int max_bsl = 0;
 
-  comment1("multiply by %ld", constval);
+  asm_comment("multiply by %ld", constval);
 
 
   /* special case ~0 (all 1) which cannot be handled by the general algorithm */
@@ -179,14 +180,14 @@ static void mul_const_complex
 	  bsl_1_tab = bs_tab_len;
 	if (bsl > max_bsl)
 	  max_bsl = bsl;
-	comment4("mul_const_complex: bs_tab[%d] =%d,%d c=%d", bs_tab_len, bs_tab[bs_tab_len].bsl, bs_tab[bs_tab_len].shift, c);
+	asm_comment("mul_const_complex: bs_tab[%d] =%d,%d c=%d", bs_tab_len, bs_tab[bs_tab_len].bsl, bs_tab[bs_tab_len].shift, c);
 	bs_tab_len++;
 	bsl = 0;
       }
     }
   }
 
-  comment2("mul_const_complex: max_bsl=%d bsl_1_tab=%d", max_bsl, bsl_1_tab);
+  asm_comment("mul_const_complex: max_bsl=%d bsl_1_tab=%d", max_bsl, bsl_1_tab);
 
   assert(bs_tab_len > 0);	/* shouldn't be here otherwise */
   assert(max_bsl >= 1);
@@ -360,7 +361,7 @@ static void mul_const_complex
     /* result in dest, due to step_accum_dest above */
   }
 
-  comment1("end multiply by %ld", constval);
+  asm_comment("end multiply by %ld", constval);
 }
 
 /* is constval +ve const 2**n or 2**(n +- X) where abs(X) <= MAX_MUL_POW2_OFFSET */
@@ -369,7 +370,7 @@ static int offset_mul_const_simple
 {
   int i;
 
-  FULLCOMMENT1("offset_mul_const_simple: %ld", constval);
+  asm_comment("offset_mul_const_simple: %ld", constval);
 
   if (constval < 0)
   {
@@ -443,7 +444,7 @@ static void mul_const_simple
 
   shift_const = bit_no(c);
 
-  FULLCOMMENT3("mul_const_simple: constval=%#lx shift_const=%d add_sub=%d", constval, shift_const, add_sub);
+  asm_comment("mul_const_simple: constval=%#lx shift_const=%d add_sub=%d", constval, shift_const, add_sub);
   assert(constval == (1 << shift_const) + add_sub);
 
   if (add_sub == 0)
@@ -578,7 +579,7 @@ static int do_mul_comm
     seq = bro(seq);
     arg++;
 
-    FULLCOMMENT1("do_mul_comm: name(seq) = %d", name(seq));
+    asm_comment("do_mul_comm: name(seq) = %d", name(seq));
 
     if (name(seq) == val_tag && offset_mul_const_simple(no(seq), sgned)!= NOT_MUL_CONST_SIMPLE)
     {

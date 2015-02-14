@@ -20,6 +20,7 @@
 #include <reader/exp.h>
 
 #include <main/driver.h>
+#include <main/print.h>
 
 #if defined(CROSS_INCLUDE)
 #include CROSS_INCLUDE/dbxstclass.h>
@@ -50,7 +51,6 @@
 #include "translate.h"
 #include "maxminmacs.h"
 #include "proc.h"
-#include "comment.h"
 #include "stack.h"
 #include "stabs_diag3.h"
 #include "localexpmacs.h"
@@ -205,7 +205,7 @@ static void stab_typedefs(void);
  */
 static void INSPECT_FILENAME(filename f)
 {
-  FULLCOMMENT2("INSPECT_FILENAME %d: '%s'", nofds,(int)CSTRING(f->file));
+  asm_comment("INSPECT_FILENAME %d: '%s'", nofds,(int)CSTRING(f->file));
 
   if (fds == NULL)
   {
@@ -378,8 +378,8 @@ static void number_and_stab_basicshapes(void)
      * TypeId:	    INTEGER = TypeDef	"New type number described by TypeDef"
      * TypeDef:	    o NAME ;		"Opaque type"
      */
-    fprintf(as_file, "\t.stabx\t\":t%d=oTOKENISED_TYPE;", TYPEID_TOKEN);
-    fprintf(as_file, "\",%d,%d,%d\n", 0, C_DECL, 0);
+    asm_printf( "\t.stabx\t\":t%d=oTOKENISED_TYPE;", TYPEID_TOKEN);
+    asm_printf( "\",%d,%d,%d\n", 0, C_DECL, 0);
   }
 #endif
 #endif
@@ -420,7 +420,7 @@ static void stab_structs_and_unions(void)
 			? CSTRING(dt->data.t_struct.nme)
 			: CSTRING(dt->data.t_union.nme);
 
-    COMMENT2("su_diags: is_struct=%d nme='%s'", dt->key == DIAG_TYPE_STRUCT,(int)nme);
+    asm_comment("su_diags: is_struct=%d nme='%s'", dt->key == DIAG_TYPE_STRUCT,(int)nme);
 
     stab_internal_types(dt, 0);
 
@@ -434,18 +434,18 @@ static void stab_structs_and_unions(void)
        *	2) It avoids very long stabstrings from unnamed object
        *	   being expanded on the fly.
        */
-      fprintf(as_file, "\t.stabx\t\":T");	/* Unnamed object */
+      asm_printf( "\t.stabx\t\":T");	/* Unnamed object */
     }
     else
     {
-      fprintf(as_file, "\t.stabx\t\"%s:T", nme);
+      asm_printf( "\t.stabx\t\"%s:T", nme);
     }
 
     non = OUTED_NO(dt);
     CLR_OUTED_NO(dt);			/* avoid identity */
     out_dt_NewTypeId(dt, non);
 
-    fprintf(as_file, "\",%d,%d,%d\n", 0, C_DECL, 0);
+    asm_printf( "\",%d,%d,%d\n", 0, C_DECL, 0);
   }
 #endif
 }
@@ -461,13 +461,13 @@ static void stab_typedefs(void)
     stab_internal_types(dt,0);
     assert(CSTRING(dd->data.typ.nme)[0]!=0);/* Not an empty string */
 
-    fprintf(as_file, "\t.stabx\t\"%s:t", CSTRING(dd->data.typ.nme));
+    asm_printf( "\t.stabx\t\"%s:t", CSTRING(dd->data.typ.nme));
 
     non = OUTED_NO(dt);
     CLR_OUTED_NO(dt);			/* avoid identity */
     out_dt_NewTypeId(dt, non);
 
-    fprintf(as_file, "\",%d,%d,%d\n", 0, C_DECL, 0);
+    asm_printf( "\",%d,%d,%d\n", 0, C_DECL, 0);
   }
 #endif
 }
@@ -523,7 +523,7 @@ void fixup_name(exp global, dec * top_def, dec * crt_def)
   if (dd == NULL)
   {
     /* eg string constant or currently static within proc */
-    FULLCOMMENT("correct_name: no descriptor");
+    asm_comment("correct_name: no descriptor");
     return;
   }
 
@@ -564,7 +564,7 @@ static void output_diag(diag_info * d, int proc_no, exp e)
 {
   exp id;
 
-  FULLCOMMENT1("output_diag: key=%d", d->key);
+  asm_comment("output_diag: key=%d", d->key);
 
   if (d->key == DIAG_INFO_SOURCE)
   {
@@ -577,13 +577,13 @@ static void output_diag(diag_info * d, int proc_no, exp e)
 
   if (d->key != DIAG_INFO_ID)
   {
-    FULLCOMMENT1("output_diag: unsupported key=%d", d->key);
+    asm_comment("output_diag: unsupported key=%d", d->key);
     return;
   }
 
   id = son(d->data.id_scope.access);
 
-  FULLCOMMENT3("output_diag: DIAG_INFO_ID %s isglob(id) =%d no(id) =%d",
+  asm_comment("output_diag: DIAG_INFO_ID %s isglob(id) =%d no(id) =%d",
 	      (int)CSTRING(d->data.id_scope.nme), isglob(id), no(id));
 
   /* can't output global values as local names */
@@ -595,7 +595,7 @@ static void output_diag(diag_info * d, int proc_no, exp e)
   assert(name(id) == ident_tag);
 
   mark_scope(e);
-  FULLCOMMENT1("output_diag: DIAG_INFO_ID mark_scope props(e) =%#x", props(e));
+  asm_comment("output_diag: DIAG_INFO_ID mark_scope props(e) =%#x", props(e));
 
   if (props(e) & 0x80)
   {
@@ -630,7 +630,7 @@ static void output_diag(diag_info * d, int proc_no, exp e)
  */
 static void output_end_scope(diag_info * d, exp e)
 {
-  FULLCOMMENT1("output_end_scope key=%d", d->key);
+  asm_comment("output_end_scope key=%d", d->key);
   if (d->key == DIAG_INFO_SOURCE)
   {
     sourcemark *s = &d->data.source.end;
@@ -696,11 +696,11 @@ static void stab_relativeline(const char *directive)
   /* avoid nonsense line nos from unusual header or #line usage */
   if (lineinproc >= 0)
   {
-    fprintf(as_file, "\t%s\t%d\n", directive, lineinproc + 1);
+    asm_printop("%s %d", directive, lineinproc + 1);
   }
   else if (directive != line_stab)
   {
-    fprintf(as_file, "\t%s\t%d\n", directive, 1);	/* must put out
+    asm_printop("%s %d", directive, 1);	/* must put out
 							 * something to match
 							 * begin/end */
   }
@@ -772,9 +772,9 @@ void stab_end_file(void)
 {
   if (current_fileno != first_fileno)
   {
-    COMMENT("stab_end_file: close the last include file with  a .ei");
+    asm_comment("stab_end_file: close the last include file with  a .ei");
     /* close the last include file */
-    fprintf(as_file, "\t.ei\t\"%s\"\n", CSTRING(fds[current_fileno] ->file));
+    asm_printop(".ei \"%s\"", CSTRING(fds[current_fileno] ->file));
   }
   return;
 }
@@ -794,7 +794,7 @@ static void stab_file(int findex)
   if (files_stabbed == 0)
   {
     /* .file */
-    fprintf(as_file, "\n\t.file\t\"%s\"\n", CSTRING(fds[findex] ->file));
+    asm_printf( "\n\t.file\t\"%s\"\n", CSTRING(fds[findex] ->file));
     stabbed = 1;
     first_fileno = findex;
   }
@@ -811,19 +811,19 @@ static void stab_file(int findex)
     /* first end previous .bi if needed */
     if (current_fileno != first_fileno)
     {
-      fprintf(as_file, "\t.ei\t\"%s\"\n", CSTRING(fds[current_fileno] ->file));
+      asm_printop(".ei \"%s\"", CSTRING(fds[current_fileno] ->file));
     }
 
     /* .bi if not same as original .file */
     if (findex != first_fileno)
     {
-      fprintf(as_file, "\n\t.bi\t\"%s\"\n", CSTRING(fds[findex] ->file));
+      asm_printf( "\n\t.bi\t\"%s\"\n", CSTRING(fds[findex] ->file));
       stabbed = 1;
     }
     else
     {
       /* output a comment to indicate back to .file level */
-      fprintf(as_file, "\n#\t.file\t\"%s\"\n", CSTRING(fds[findex] ->file));
+      asm_printf( "\n#\t.file\t\"%s\"\n", CSTRING(fds[findex] ->file));
     }
   }
 
@@ -838,13 +838,13 @@ static void stab_file(int findex)
     /* output machine name if given */
     if (mach != 0 && *mach != '\0')
     {
-      fprintf(as_file, "#\tMachine: \"%s\"\n", mach);
+      asm_printf( "#\tMachine: \"%s\"\n", mach);
     }
 
     /* output TDF file time (ctime appends extra '\n') */
     if (t != 0)
     {
-      fprintf(as_file, "#\tSource file date: %s\n", ctime(&t));
+      asm_printf( "#\tSource file date: %s\n", ctime(&t));
     }
   }
   current_fileno = findex;
@@ -1083,7 +1083,7 @@ static void out_dt_TypeDef_no_recurse(diag_type dt)
    case DIAG_TYPE_PTR:
     {
       /* TypeDef:		* TypeId	"Pointer of type TypeId" */
-      fprintf(as_file, "*");
+      asm_printf( "*");
       out_dt_TypeId(dt->data.ptr.object);
       break;
     }
@@ -1102,7 +1102,7 @@ static void out_dt_TypeDef_no_recurse(diag_type dt)
       if (stride == 1 && lwb == 0 && upb < 32)
       {
 	/* represent as bitfield */
-	fprintf(as_file, "r%d;0;4294967295;", TYPEID_SLONG);
+	asm_printf( "r%d;0;4294967295;", TYPEID_SLONG);
 	break;
       }
 #endif
@@ -1118,14 +1118,14 @@ static void out_dt_TypeDef_no_recurse(diag_type dt)
        */
       if (stride == 1)
       {
-	fprintf(as_file, "Pr");		/* Packed Array - should never happen for C */
+	asm_printf( "Pr");		/* Packed Array - should never happen for C */
       }
       else
       {
-	fprintf(as_file, "ar");
+	asm_printf( "ar");
       }
       out_dt_TypeId(index_type);
-      fprintf(as_file, ";%d;%d;", lwb, upb);
+      asm_printf( ";%d;%d;", lwb, upb);
       out_dt_TypeId(element_type);
       break;
     }
@@ -1156,7 +1156,7 @@ static void out_dt_TypeDef_no_recurse(diag_type dt)
       }
 
       /* NumBytes:	INTEGER */
-      fprintf(as_file, "%c%d", su, shape_size(s) / 8);
+      asm_printf( "%c%d", su, shape_size(s) / 8);
 
       /* FieldList:	Field | FieldList Field */
       for (i = fields->lastused - 1; i >= 0; i--)
@@ -1167,7 +1167,7 @@ static void out_dt_TypeDef_no_recurse(diag_type dt)
 
 	/* Field:	NAME : TypeId , BitOffset , NumBits ; */
 	assert(CSTRING(sf->field_name)[0]!=0);
-	fprintf(as_file, "%s:", CSTRING(sf->field_name));
+	asm_printf( "%s:", CSTRING(sf->field_name));
 	out_dt_TypeId(sf->field_type);
 
 	size = size_dt(sf->field_type);
@@ -1214,9 +1214,9 @@ static void out_dt_TypeDef_no_recurse(diag_type dt)
 	 * BitOffset:	INTEGER		"Offset in bits from beginning of structure"
 	 * NumBits:	INTEGER		"Number of bits in item"
 	 */
-	fprintf(as_file, ",%d,%d;", offset, size);	/* bitoff,bitsz */
+	asm_printf( ",%d,%d;", offset, size);	/* bitoff,bitsz */
       }
-      fprintf(as_file, ";");
+      asm_printf( ";");
       break;
     }
 
@@ -1245,12 +1245,12 @@ static void out_dt_TypeDef_no_recurse(diag_type dt)
 
       assert(size_dt(dt->data.t_enum.base_type) == 32);
 
-      fprintf(as_file, "e");
+      asm_printf( "e");
       for (i = 0; i < nvals; i++)
       {
-	fprintf(as_file, "%s:%d,", CSTRING(enumarr[i].nme), EXPINT(enumarr[i].val));
+	asm_printf( "%s:%d,", CSTRING(enumarr[i].nme), EXPINT(enumarr[i].val));
       }
-      fprintf(as_file, ";");
+      asm_printf( ";");
 #endif
       break;
     }
@@ -1262,7 +1262,7 @@ static void out_dt_TypeDef_no_recurse(diag_type dt)
       /*
        * TypeDef:	INTEGER		"Type number of a previously defined type"
        */
-      fprintf(as_file, "%d", i);
+      asm_printf( "%d", i);
       SET_OUTED_NO(dt, i);
       break;
     }
@@ -1277,12 +1277,12 @@ static void out_dt_TypeDef_no_recurse(diag_type dt)
        * TypeDef:		* TypeId	"Pointer of type TypeId"
        */
 
-      fprintf(as_file, "*");
+      asm_printf( "*");
 
       /* TypeId:		INTEGER = TypeDef */
       /* we need a new typeno to match the TypeId syntax */
       non = next_typen();
-      fprintf(as_file, "%d=", non);
+      asm_printf( "%d=", non);
 
       /*
        * TypeDef:	ProcedureType	"For function types rather than declarations"
@@ -1291,7 +1291,7 @@ static void out_dt_TypeDef_no_recurse(diag_type dt)
        * +++ ProcedureType:	f TypeId , NumParams ; TParamList ;
        *				"Function of N parameters returning type TypeId"
        */
-      fprintf(as_file, "f");
+      asm_printf( "f");
       out_dt_TypeId(result_type);
       break;
     }
@@ -1313,7 +1313,7 @@ static void out_dt_TypeDef_no_recurse(diag_type dt)
       /*
        * TypeDef:		INTEGER		"Type number of a previously defined type"
        */
-      fprintf(as_file, "%d", i);
+      asm_printf( "%d", i);
       SET_OUTED_NO(dt, i);
       break;
     }
@@ -1324,7 +1324,7 @@ static void out_dt_TypeDef_no_recurse(diag_type dt)
       /*
        * TypeDef:		INTEGER		"Type number of a previously defined type"
        */
-      fprintf(as_file, "%d", TYPEID_VOID);	/* use "void" for the null
+      asm_printf( "%d", TYPEID_VOID);	/* use "void" for the null
 						 * type */
       SET_OUTED_NO(dt, TYPEID_VOID);
       break;
@@ -1350,7 +1350,7 @@ static void out_dt_TypeDef_no_recurse(diag_type dt)
        * TypeAttrList:	TypeAttrList ; @ TypeAttr | TypeAttr
        * TypeAttr:	s INTEGER		"Size in bits"
        */
-      fprintf(as_file, "@s%d;", NATINT(dt->data.bitfield.no_of_bits));
+      asm_printf( "@s%d;", NATINT(dt->data.bitfield.no_of_bits));
       out_dt_TypeDef(dt->data.bitfield.result_type);
 #endif
       break;
@@ -1363,7 +1363,7 @@ static void out_dt_TypeDef_no_recurse(diag_type dt)
       /*
        * TypeDef:		INTEGER		"Type number of a previously defined type"
        */
-      fprintf(as_file, "%d", TYPEID_TOKEN);
+      asm_printf( "%d", TYPEID_TOKEN);
       break;
     }
   default:
@@ -1375,7 +1375,7 @@ static void out_dt_TypeDef_no_recurse(diag_type dt)
       /*
        * TypeDef:		INTEGER		"Type number of a previously defined type"
        */
-      fprintf(as_file, "%d", TYPEID_VOID);
+      asm_printf( "%d", TYPEID_VOID);
       break;
     }
   }
@@ -1393,7 +1393,7 @@ static void out_dt_TypeDef(diag_type dt)
     /*
      * TypeDef:		INTEGER		"Type number of a previously defined type"
      */
-    fprintf(as_file, "%d", OUTED_NO(dt));
+    asm_printf( "%d", OUTED_NO(dt));
   }
   else
   {
@@ -1409,7 +1409,7 @@ static void out_dt_TypeDef(diag_type dt)
  */
 static void out_dt_NewTypeId(diag_type dt, int non)
 {
-  fprintf(as_file, "%d=", non);
+  asm_printf( "%d=", non);
 
   if (IS_OUTED(dt))
   {
@@ -1440,7 +1440,7 @@ static void out_dt_TypeId(diag_type dt)
     /*
      * TypeId:		INTEGER		"Type number of previously defined type"
      */
-    fprintf(as_file, "%d", OUTED_NO(dt));
+    asm_printf( "%d", OUTED_NO(dt));
     return;
   }
 
@@ -1494,7 +1494,7 @@ static void out_dt_TypeId(diag_type dt)
  */
 void stab_bs(char *sectname)
 {
-  fprintf(as_file, "\t.bs\t%s\n", sectname);
+  asm_printop(".bs %s", sectname);
 }
 
 /*
@@ -1502,7 +1502,7 @@ void stab_bs(char *sectname)
  */
 void stab_es(char *sectname)
 {
-  fprintf(as_file, "\t.es\n");
+  asm_printop(".es");
 }
 
 
@@ -1528,11 +1528,11 @@ void stab_global(exp global, char *id, bool ext)
    *		|	S TypeId	"Module variable of type TypeId (C static global)"
    */
   assert(CSTRING(dd->data.id.nme)[0]!=0);
-  fprintf(as_file, "\t.stabx\t\"%s:%c",
+  asm_printf( "\t.stabx\t\"%s:%c",
 	  CSTRING(dd->data.id.nme),
 	 (ext ? 'G' : 'S'));
   out_dt_TypeId(dd->data.id.new_type);
-  fprintf(as_file, "\",%s,%d,%d\n",
+  asm_printf( "\",%s,%d,%d\n",
 	  id,
 	 (ext ? C_GSYM : C_STSYM),
 	  0);
@@ -1551,7 +1551,7 @@ void stab_proc1(exp proc, char *id, bool ext)
 
   if (dd == NULL)
   {
-    COMMENT("stab_proc1: no descriptor");	/* should never happen */
+    asm_comment("stab_proc1: no descriptor");	/* should never happen */
     current_procstart_lineno = NOT_IN_PROC;
     current_lineno = NOT_IN_PROC;
     return;
@@ -1576,7 +1576,7 @@ void stab_proc2(exp proc, char *id, bool ext)
 
   if (dd == NULL)
   {
-    COMMENT("stab_proc2: no descriptor");	/* should never happen */
+    asm_comment("stab_proc2: no descriptor");	/* should never happen */
     return;
   }
 
@@ -1599,7 +1599,7 @@ void stab_proc2(exp proc, char *id, bool ext)
 
   /* +++ when gdb understands, maybe use "P" or "Q" for proc returning void */
 
-  fprintf(as_file, "\t.stabx\t\"%s:%c", nm,(ext ? 'F' : 'f'));
+  asm_printf( "\t.stabx\t\"%s:%c", nm,(ext ? 'F' : 'f'));
 
   /*
    * The meaning of TypeId is not clear from the stabstring syntax document,
@@ -1622,7 +1622,7 @@ void stab_proc2(exp proc, char *id, bool ext)
   }
 
 #if defined(__AIX) || defined(CROSS_INCLUDE)
-  fprintf(as_file, "\",.%s,%d,%d\n", id, C_FUN, 0);
+  asm_printf( "\",.%s,%d,%d\n", id, C_FUN, 0);
 #endif
 
 #if 1
@@ -1632,13 +1632,13 @@ void stab_proc2(exp proc, char *id, bool ext)
    * documented in assembler manual, but gcc generates it and it enable gdb to
    * trace down stack properly.
    */
-  fprintf(as_file, "\t.function\t.%s,.%s,16,044,E.%s-.%s\n", id, id, id, id);
+  asm_printop(".function .%s,.%s,16,044,E.%s-.%s", id, id, id, id);
 #else
-  fprintf(as_file, "\t.function\t.%s,.%s,16,044\n", id, id);
+  asm_printop(".function .%s,.%s,16,044", id, id);
 #endif
 
   /* the proc start line number  */
-  fprintf(as_file, "\t%s\t%d\n", bf_stab ,current_procstart_lineno);
+  asm_printop("%s %d", bf_stab ,current_procstart_lineno);
 
   /* now mork line 1 */
   /*stab_relativeline(line_stab);*/
@@ -1655,7 +1655,7 @@ void stab_endproc(exp proc, char *id, bool ext)
     stab_end_block();
 
   stab_relativeline(ef_stab);
-  fprintf(as_file, "E.%s:\n", id);	/* proc end label */
+  asm_label( "E.%s", id);	/* proc end label */
 
   current_procstart_lineno = NOT_IN_PROC;
 
@@ -1670,7 +1670,7 @@ void stab_endproc(exp proc, char *id, bool ext)
 
     if (dd == NULL)
     {
-      COMMENT("stab_endproc: no descriptor");	/* should never happen */
+      asm_comment("stab_endproc: no descriptor");	/* should never happen */
       return;
 
     }
@@ -1705,38 +1705,38 @@ void stab_endproc(exp proc, char *id, bool ext)
     tbtable_sht.parmsonstk = 1;	/* -g always stores parameters on stack */
 
     /* 0 signifies start of traceback table */
-    fprintf(as_file, "#\ttraceback table\n");
-    fprintf(as_file, "\t.long\t0\n");
+    asm_printf( "#\ttraceback table\n");
+    asm_printop(".long 0");
 
     /* tbtable_sht as bytes */
-    fprintf(as_file, "\t.byte\t");
+    asm_printf( "\t.byte\t");
     for (i = 0; i < sizeof(tbtable_sht) - 1; i++)
-      fprintf(as_file, "%#x,",((unsigned char *)(&tbtable_sht))[i]);
-    fprintf(as_file, "%#x\n",((unsigned char *)(&tbtable_sht))[i]);
+      asm_printf( "%#x,",((unsigned char *)(&tbtable_sht))[i]);
+    asm_printf( "%#x\n",((unsigned char *)(&tbtable_sht))[i]);
 
     /* optional portions of traceback table */
 
     /* parminfo */
     if (tbtable_sht.fixedparms || tbtable_sht.floatparms)
-      fprintf(as_file, "\t.long\t0\n");	/* +++ */
+      asm_printop(".long 0");	/* +++ */
 
     /* tb_offset */
-    fprintf(as_file, "\t.long\tE.%s-.%s\n", id, id);
+    asm_printop(".long E.%s-.%s", id, id);
 
     /* we never use hand_mask, ctl_info and ctl_info_disp optional components */
     assert(!tbtable_sht.int_hndl);
     assert(!tbtable_sht.has_ctl);
 
     /* proc name */
-    fprintf(as_file, "\t.short\t%d\n",(int)strlen(nm));
-    fprintf(as_file, "\t.byte\t\"%s\"\n", nm);
+    asm_printop(".short %d",(int)strlen(nm));
+    asm_printop(".byte \"%s\"", nm);
 
     /* alloca_reg */
     if (tbtable_sht.uses_alloca)
-      fprintf(as_file, "\t.byte\t0\n");	/* +++ */
+      asm_printop(".byte 0");	/* +++ */
 
     /* keep program area [PR] word aligned */
-    fprintf(as_file, "\t.align\t2\n");
+    asm_printop(".align 2");
   }
 #endif
 }
@@ -1753,26 +1753,26 @@ void stab_endproc(exp proc, char *id, bool ext)
 void stab_local(char *nm, diag_type dt, exp id, int disp, int findex)
 {
 #if defined(__AIX) || defined(CROSS_INCLUDE)
-  FULLCOMMENT3("stab_local: %s disp=%d boff(id).offset=%d",(long)nm, disp, boff(id).offset);
+  asm_comment("stab_local: %s disp=%d boff(id).offset=%d",(long)nm, disp, boff(id).offset);
   disp += boff(id).offset;
 again:
   if (name(id) == ident_tag)
   {
-    FULLCOMMENT2("stab_local ident_tag: %s disp=%d",(long)nm, disp);
+    asm_comment("stab_local ident_tag: %s disp=%d",(long)nm, disp);
     if ((props(id) & defer_bit) == 0)
     {
       if (isparam(id))
       {
-	fprintf(as_file, "\t.stabx\t\"%s:p", nm);
+	asm_printf( "\t.stabx\t\"%s:p", nm);
 	out_dt_TypeId(dt);
-	fprintf(as_file, "\",%d,%d,%d\n", disp, C_PSYM, 0);
+	asm_printf( "\",%d,%d,%d\n", disp, C_PSYM, 0);
 	return;
       }
       else
       {
-	fprintf(as_file, "\t.stabx\t\"%s:", nm);
+	asm_printf( "\t.stabx\t\"%s:", nm);
 	out_dt_TypeId(dt);
-	fprintf(as_file, "\",%d,%d,%d\n", disp, C_LSYM, 0);
+	asm_printf( "\",%d,%d,%d\n", disp, C_LSYM, 0);
 	return;
       }
     }
@@ -1865,13 +1865,13 @@ static void stab_internal_types(diag_type dt, bool stabthislevel)
 	 * NamedType:	T TypeId		"Struct, union, or enumeration tag"
 	 * TypeId:	INTEGER = TypeDef	"New type number described by TypeDef"
 	 */
-	fprintf(as_file, "\t.stabx\t\":");	/* Unnamed object
+	asm_printf( "\t.stabx\t\":");	/* Unnamed object
 						 * classification */
-	fprintf(as_file, "T%d=", non);
+	asm_printf( "T%d=", non);
 	out_dt_TypeDef_no_recurse(dt);
 
 #if defined(__AIX) || defined(CROSS_INCLUDE)
-	fprintf(as_file, "\",%d,%d,%d\n", 0, C_DECL, 0);
+	asm_printf( "\",%d,%d,%d\n", 0, C_DECL, 0);
 #endif
       }
 
@@ -1918,8 +1918,8 @@ static void stab_basicshape
 
   assert(tdf_typeidnum == n);
 
-  fprintf(as_file, "\t.stabx\t\"%s:t%d=%d", typename, tdf_typeidnum, ibm_typeidnum);
-  fprintf(as_file, "\",%d,%d,%d\n", 0, C_DECL, 0);
+  asm_printf( "\t.stabx\t\"%s:t%d=%d", typename, tdf_typeidnum, ibm_typeidnum);
+  asm_printf( "\",%d,%d,%d\n", 0, C_DECL, 0);
 }
 #endif
 

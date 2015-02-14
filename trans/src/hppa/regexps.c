@@ -23,12 +23,13 @@ For trivial 'peephole' optimisations
 #include <construct/tags.h>
 #include <construct/shape.h>
 
+#include <main/print.h>
+
 #include "addrtypes.h"
 #include "move.h"
 #include "bitsmacs.h"
 #include "maxminmacs.h"
 #include "regmacs.h"
-#include "comment.h"
 #include "regexps.h"
 #include "localexpmacs.h"
 
@@ -164,9 +165,9 @@ ans iskept
 	aa = (regexps[i].inans);
 
 #if 0
-	FULLCOMMENT4("iskept found: reg=%d isc=%d name(e) =%d name(son(e)) =%d", i, isc, name(e), name(son(e)));
-	FULLCOMMENT3("	hd(e) =%d hd(son(e)) =%d hd(ke) =%d", name(sh(e)), name(sh(son(e))), name(sh(ke)));
-	FULLCOMMENT3("	sim_exp(ke, e) =%d sim_exp(ke, son(e)) =%d eq_size(sh(ke), sh(e)) =%d",
+	asm_comment("iskept found: reg=%d isc=%d name(e) =%d name(son(e)) =%d", i, isc, name(e), name(son(e)));
+	asm_comment("	hd(e) =%d hd(son(e)) =%d hd(ke) =%d", name(sh(e)), name(sh(son(e))), name(sh(ke)));
+	asm_comment("	sim_exp(ke, e) =%d sim_exp(ke, son(e)) =%d eq_size(sh(ke), sh(e)) =%d",
 		sim_exp(ke, e), sim_exp(ke, son(e)), eq_size(sh(ke), sh(e)));
 #endif
 

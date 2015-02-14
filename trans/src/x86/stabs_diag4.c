@@ -192,10 +192,9 @@ static void
 out_procname(void)
 {
   if (last_proc_cname == -1) {
-    outs(last_proc_pname);
+    asm_printf("%s", last_proc_pname);
   } else {
-    outs(local_prefix);
-    outn((long)last_proc_cname);
+    asm_printf("%s%d", local_prefix, last_proc_cname);
   }
 }
 
@@ -222,8 +221,8 @@ stabd(dg_filename f, long lno, int seg)
     if (seg != 0) {		/* 0 suppresses always */
       if (seg > 0) {		/* -ve line nos are put out in the stabs */
 	i = next_d_lab();
-	IGNORE fprintf(dg_file, ".LL.%ld:\n", i);
-	IGNORE fprintf(dg_file, "\t.stabn\t0x%x,0,%ld,.LL.%ld-", seg, lno, i);
+	asm_printf(dg_file, ".LL.%ld:\n", i);
+	asm_printf(dg_file, "\t.stabn\t0x%x,0,%ld,.LL.%ld-", seg, lno, i);
 	out_procname();
 	d_outnl();
       }
@@ -367,14 +366,14 @@ stab_file(dg_filename f)
     }
 
     stb = (f == prim_file ? 0x64 : 0x84);
-    IGNORE fprintf(dg_file, ".LL.%ld:\n", i);
+    asm_printf(dg_file, ".LL.%ld:\n", i);
 
     if (f->file_name[0]!= '/' && f->file_path[0]) {
-      IGNORE fprintf(dg_file, "\t.stabs\t\"%s/\",0x%x,0,0,.LL.%ld\n",
+      asm_printf(dg_file, "\t.stabs\t\"%s/\",0x%x,0,0,.LL.%ld\n",
 		     f->file_path, stb, i);
     }
 
-    IGNORE fprintf(dg_file, "\t.stabs\t\"%s\",0x%x,0,0,.LL.%ld\n",
+    asm_printf(dg_file, "\t.stabs\t\"%s\",0x%x,0,0,.LL.%ld\n",
 		   f->file_name, stb, i);
 
     currentfile = f;
@@ -459,7 +458,7 @@ stab_scope_open(dg_filename f)
 	t->u.b.lab = open_label;
     }
     i = next_d_lab();
-    IGNORE fprintf(dg_file, ".LL.%ld:\n", i);
+    asm_printf(dg_file, ".LL.%ld:\n", i);
     bracket_level++;
     open_label = i;
     return;
@@ -489,7 +488,7 @@ stab_scope_close(void)
     x->u.b.br = N_RBRAC;
     x->u.b.lev = bracket_level;
     x->u.b.lab = i;
-    IGNORE fprintf(dg_file, ".LL.%ld:\n", i);
+    asm_printf(dg_file, ".LL.%ld:\n", i);
     bracket_level--;
     return;
 }
@@ -587,13 +586,13 @@ static void
 out_dt_shape(dg_type dt)
 {
   if (!dt) {
-    IGNORE fprintf(dg_file, "%d", STAB_VOID);
+    asm_printf(dg_file, "%d", STAB_VOID);
     last_type_sz = 0;
     return;
   }
 
   if (dt->outref.k == LAB_D || (dt->outref.k < 0 && depth_now != 0)) {
-    IGNORE fprintf(dg_file, "%ld", dt->outref.u.l);
+    asm_printf(dg_file, "%ld", dt->outref.u.l);
     last_type_sz = get_stab_size(dt->outref.u.l);
     return;
   }
@@ -665,13 +664,13 @@ out_dt_shape(dg_type dt)
 	  if (non == 0) {
 	    non = (dt->outref.k < 0 ? dt->outref.u.l : next_typen());
 	    stab_ptrs[pn] = non;
-	    IGNORE fprintf(dg_file, "%ld=*%ld", non, pn);
+	    asm_printf(dg_file, "%ld=*%ld", non, pn);
 	  } else {
-	    IGNORE fprintf(dg_file, "%ld", non);
+	    asm_printf(dg_file, "%ld", non);
 	  }
         } else {
 	  non = (dt->outref.k < 0 ? dt->outref.u.l : next_typen());
-	  IGNORE fprintf(dg_file, "%ld=*", non);
+	  asm_printf(dg_file, "%ld=*", non);
 	  out_dt_shape(pdt);
 	}
 	dt->outref.u.l = non;
@@ -702,10 +701,10 @@ out_dt_shape(dg_type dt)
 	  long stride = no(son(dt->data.t_arr.stride));
 	  dg_type index_type = x.d_typ;
 	  dg_type element_type = dt->data.t_arr.elem_type;
-	  IGNORE fprintf(dg_file, "%ld=", non);
-	  IGNORE fprintf(dg_file, "ar");
+	  asm_printf(dg_file, "%ld=", non);
+	  asm_printf(dg_file, "ar");
 	  out_dt_shape(index_type);
-	  IGNORE fprintf(dg_file, ";%ld;%ld;", lwb, upb);
+	  asm_printf(dg_file, ";%ld;%ld;", lwb, upb);
 	  out_dt_shape(element_type);
 	  last_type_sz = stride *(upb - lwb + 2);
 	  set_stab_size(non);
@@ -714,10 +713,10 @@ out_dt_shape(dg_type dt)
 	if (x.d_key == DG_DIM_NONE) {
 	  dg_type index_type = x.d_typ;
 	  dg_type element_type = dt->data.t_arr.elem_type;
-	  IGNORE fprintf(dg_file, "%ld=", non);
-	  IGNORE fprintf(dg_file, "ar");
+	  asm_printf(dg_file, "%ld=", non);
+	  asm_printf(dg_file, "ar");
 	  out_dt_shape(index_type);
-	  IGNORE fprintf(dg_file, ";0;0;");
+	  asm_printf(dg_file, ";0;0;");
 	  out_dt_shape(element_type);
 	  last_type_sz = 0;
 	  set_stab_size(non);
@@ -735,11 +734,11 @@ out_dt_shape(dg_type dt)
 	dt->outref.u.l = next_typen();
       }
       dt->outref.k = LAB_D;
-      IGNORE fprintf(dg_file, "%ld=e", dt->outref.u.l);
+      asm_printf(dg_file, "%ld=e", dt->outref.u.l);
       for (i = 0; i < dt->data.t_enum.values.len; i++) {
-	  IGNORE fprintf(dg_file, "%s:%d,", el[i].enam, no(son(el[i].value)));
+	  asm_printf(dg_file, "%s:%d,", el[i].enam, no(son(el[i].value)));
       }
-      IGNORE fprintf(dg_file, ";");
+      asm_printf(dg_file, ";");
       last_type_sz = shape_size(dt->data.t_enum.sha);
       set_stab_size(dt->outref.u.l);
       break;
@@ -754,22 +753,22 @@ out_dt_shape(dg_type dt)
 	dt->outref.u.l = next_typen();
       }
       dt->outref.k = LAB_D;
-      IGNORE fprintf(dg_file, "%ld=%c%d", dt->outref.u.l, su,
+      asm_printf(dg_file, "%ld=%c%d", dt->outref.u.l, su,
 		     shape_size(s) / 8);
       for (i = 0; i < dt->data.t_struct.u.fields.len; i++) {
 	long offset = no(son(el[i].d.cm_f.f_offset));
 	if (depth_now >= max_depth) {
 	  depth_now = 0;
-	  IGNORE fprintf(dg_file, "\\\\\",0x80,0,%d,%d\n", 0, 0);
-	  IGNORE fprintf(dg_file, "\t.stabs\t\"");
+	  asm_printf(dg_file, "\\\\\",0x80,0,%d,%d\n", 0, 0);
+	  asm_printf(dg_file, "\t.stabs\t\"");
 	}
 	depth_now++;
-	IGNORE fprintf(dg_file, "%s:", el[i].d.cm_f.fnam);
+	asm_printf(dg_file, "%s:", el[i].d.cm_f.fnam);
 	out_dt_shape(el[i].d.cm_f.f_typ);
-	IGNORE fprintf(dg_file, ",%ld,%ld;", offset,
+	asm_printf(dg_file, ",%ld,%ld;", offset,
 		       type_size(el[i].d.cm_f.f_typ));
       }
-      IGNORE fprintf(dg_file, ";");
+      asm_printf(dg_file, ";");
       last_type_sz = shape_size(s);
       set_stab_size(dt->outref.u.l);
       break;
@@ -778,7 +777,7 @@ out_dt_shape(dg_type dt)
     case DGT_BITF: {
       bitfield_variety bv;
       bv = dt->data.t_bitf.bv;
-      IGNORE fprintf(dg_file, "%d",(bv.has_sign ? STAB_SINT : STAB_UINT));
+      asm_printf(dg_file, "%d",(bv.has_sign ? STAB_SINT : STAB_UINT));
       last_type_sz = bv.bits;
       break;
     }
@@ -789,7 +788,7 @@ out_dt_shape(dg_type dt)
       long non2 = next_typen();
       dt->outref.u.l = non1;
       dt->outref.k = LAB_D;
-      IGNORE fprintf(dg_file, "%ld=*%ld=f", non1, non2);
+      asm_printf(dg_file, "%ld=*%ld=f", non1, non2);
       out_dt_shape(result_type);
       last_type_sz = 32;
       set_stab_size(non1);
@@ -798,7 +797,7 @@ out_dt_shape(dg_type dt)
     }
 
     default : {
-      IGNORE fprintf(dg_file, "%d", STAB_VOID);
+      asm_printf(dg_file, "%d", STAB_VOID);
       dt->outref.u.l = STAB_VOID;
       dt->outref.k = LAB_D;
       last_type_sz = 0;
@@ -827,19 +826,17 @@ out_diag_global(dg_name di, int global, int cname, char * pname)
   if (di->whence.line) {
     stabd(di->whence.file, di->whence.line, -N_DSLINE);
   }
-  IGNORE fprintf(dg_file, "\t.stabs\t\"%s:%c", nm, (global ? 'G' : 'S'));
+  asm_printf(dg_file, "\t.stabs\t\"%s:%c", nm, (global ? 'G' : 'S'));
   OUT_DT_SHAPE(dt);
   if (global) {
-    IGNORE fprintf(dg_file, "\",0x20,0,%ld,0\n", di->whence.line);
+    asm_printf(dg_file, "\",0x20,0,%ld,0\n", di->whence.line);
   } else {
-    IGNORE fprintf(dg_file, "\",0x28,0,%ld,", di->whence.line);
+    asm_printf(dg_file, "\",0x28,0,%ld,", di->whence.line);
     if (cname == -1) {
-      outs(pname);
+      asm_printf("%s\n", pname);
     } else {
-      outs(local_prefix);
-      outn((long)cname);
+      asm_printf("%s%d\n", local_prefix, cname);
     }
-    d_outnl();
   }
   return;
 }
@@ -868,15 +865,14 @@ diag_proc_begin(dg_name di, int global, int cname, char *pname)
   if (di->whence.line) {
     stabd(di->whence.file, di->whence.line, 0);
   }
-  outs("\t.stabs\t\"");
-  outs(nm);
+  asm_printf("\t.stabs\t\"%s", nm);
   if (global) {
-    outs(":F");
+    asm_printf(":F");
   } else {
-    outs(":f");
+    asm_printf(":f");
   }
   OUT_DT_SHAPE(dt);
-  outs("\",0x24,0,0,");
+  asm_printf("\",0x24,0,0,");
   out_procname();
   d_outnl();
   return;
@@ -898,23 +894,23 @@ diag_proc_end(void)
 	t = (this_a->a) + (this_i ++);
 	switch (t->del_t) {
 	    case D_PARAM:
-		IGNORE fprintf(dg_file, "\t.stabs\t\"%s:p", t->u.l.nm);
+		asm_printf(dg_file, "\t.stabs\t\"%s:p", t->u.l.nm);
 		OUT_DT_SHAPE(t->u.l.dt);
-		IGNORE fprintf(dg_file, "\",0xa0,0,0,%d\n", t->u.l.offset + 8);
+		asm_printf(dg_file, "\",0xa0,0,0,%d\n", t->u.l.offset + 8);
 		break;
 	    case D_LOCAL:
-		IGNORE fprintf(dg_file, "\t.stabs\t\"%s:", t->u.l.nm);
+		asm_printf(dg_file, "\t.stabs\t\"%s:", t->u.l.nm);
 		OUT_DT_SHAPE(t->u.l.dt);
-		IGNORE fprintf(dg_file, "\",0x80,0,0,%d\n", t->u.l.offset -
+		asm_printf(dg_file, "\",0x80,0,0,%d\n", t->u.l.offset -
 			       locals_offset);
 		break;
 	    case D_REG:
-		IGNORE fprintf(dg_file, "\t.stabs\t\"%s:r", t->u.l.nm);
+		asm_printf(dg_file, "\t.stabs\t\"%s:r", t->u.l.nm);
 		OUT_DT_SHAPE(t->u.l.dt);
-		IGNORE fprintf(dg_file, "\",0x40,0,0,%d\n", t->u.l.offset);
+		asm_printf(dg_file, "\",0x40,0,0,%d\n", t->u.l.offset);
 		break;
 	    default:
-		IGNORE fprintf(dg_file, "\t.stabn\t0x%x,0,%d,.LL.%d-",
+		asm_printf(dg_file, "\t.stabn\t0x%x,0,%d,.LL.%d-",
 			       t->u.b.br, t->u.b.lev, t->u.b.lab);
 		out_procname();
 		d_outnl();
@@ -999,7 +995,7 @@ stab_types(void)
 		 dg_file);
     IGNORE fputs("\t.stabs\t\"float:t10=r1;4;0;\",0x80,0,0,0\n", dg_file);
     IGNORE fputs("\t.stabs\t\"double:t11=r1;8;0;\",0x80,0,0,0\n", dg_file);
-    IGNORE fprintf(dg_file, "\t.stabs\t\"long double:t12=r1;%d;0;\",0x80,0,0,0\n",
+    asm_printf(dg_file, "\t.stabs\t\"long double:t12=r1;%d;0;\",0x80,0,0,0\n",
 		   DOUBLE_SZ / 8);
     IGNORE fputs("\t.stabs\t\"void:t13=13\",0x80,0,0,0\n", dg_file);
     IGNORE fputs("\t.stabs\t\"long long int:t14=r1;", dg_file);
@@ -1057,14 +1053,14 @@ init_stab_aux(void)
     this_comp = this_comp->another;
   }
   if (prim_file) {
-    IGNORE fprintf(dg_file, "\t.file\t\"");
+    asm_printf(dg_file, "\t.file\t\"");
     if (prim_file->file_name[0]!= '/' && prim_file->file_path[0]) {
-      IGNORE fprintf(dg_file, "%s/", prim_file->file_path);
+      asm_printf(dg_file, "%s/", prim_file->file_path);
     }
-    IGNORE fprintf(dg_file, "%s\"\n",prim_file ->file_name);
+    asm_printf(dg_file, "%s\"\n",prim_file ->file_name);
     stab_file(prim_file);
   } else {
-    IGNORE fprintf(dg_file, "\t.file\t\"no_source_file\"\n");
+    asm_printf(dg_file, "\t.file\t\"no_source_file\"\n");
   }
   stab_types();
   this_comp = all_comp_units;
@@ -1075,31 +1071,31 @@ init_stab_aux(void)
 	dg_type dt = item->data.n_typ.raw;
 	char *s = idname_chars(item->idnam);
 	if (s[0]) {
-	  IGNORE fprintf(dg_file, "\t.stabs\t\"%s:", s);
+	  asm_printf(dg_file, "\t.stabs\t\"%s:", s);
 	  if (dt->outref.k == LAB_STR) {
 	    dt->outref.k = LAB_D;
 	    dt->outref.u.l = find_basic_type(dt->outref.u.s);
 	  }
 	  if (dt->outref.k == LAB_D) {
-		IGNORE fprintf(dg_file, "%d", (int)dt->outref.u.l);
+		asm_printf(dg_file, "%d", (int)dt->outref.u.l);
 	  } else {
-		IGNORE fprintf(dg_file, "t");
+		asm_printf(dg_file, "t");
 		OUT_DT_SHAPE(dt);
 	  }
-	  IGNORE fprintf(dg_file, "\",0x80,0,0,0\n");
+	  asm_printf(dg_file, "\",0x80,0,0,0\n");
 	} else if ((dt->key == DGT_STRUCT &&
 		    (dt->data.t_struct.idnam.id_key == DG_ID_SRC ||
 		     dt->data.t_struct.idnam.id_key == DG_ID_EXT) &&
 		    (s = dt->data.t_struct.idnam.idd.nam, s[0])) ||
 		   (dt->key == DGT_ENUM && (s = dt->data.t_enum.tnam, s[0]))) {
-	  IGNORE fprintf(dg_file, "\t.stabs\t\"%s:", s);
+	  asm_printf(dg_file, "\t.stabs\t\"%s:", s);
 	  if (dt->outref.k == LAB_D) {
-	    IGNORE fprintf(dg_file, "%d",(int)dt->outref.u.l);
+	    asm_printf(dg_file, "%d",(int)dt->outref.u.l);
 	  } else {
-	    IGNORE fprintf(dg_file, "T");
+	    asm_printf(dg_file, "T");
 	    OUT_DT_SHAPE(dt);
 	  }
-	  IGNORE fprintf(dg_file, "\",0x80,0,0,0\n");
+	  asm_printf(dg_file, "\",0x80,0,0,0\n");
 	}
       }
       item = item->next;
@@ -1114,7 +1110,7 @@ void
 out_diagnose_postlude(void)
 {
     long i = next_d_lab();
-    IGNORE fprintf(dg_file, ".LL.%ld:\n", i);
-    IGNORE fprintf(dg_file, "\t.stabs\t\"\",0x64,0,0,.LL.%ld\n", i);
+    asm_printf(dg_file, ".LL.%ld:\n", i);
+    asm_printf(dg_file, "\t.stabs\t\"\",0x64,0,0,.LL.%ld\n", i);
     return;
 }

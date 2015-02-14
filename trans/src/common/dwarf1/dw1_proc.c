@@ -13,6 +13,7 @@
 #include <shared/error.h>
 
 #include <main/driver.h>
+#include <main/print.h>
 
 #include <local/codermacs.h>
 #include <local/out.h>
@@ -55,8 +56,7 @@ dw1_diag_proc_begin(diag_descriptor *d_props, int global, int cname, char *pname
 		return;
 	}
 
-	outs(COMMENT_2("\t", "\tHere beginneth a proc"));
-	outnl();
+	asm_printf("%s\n", COMMENT_2("\t", "\tHere beginneth a proc"));
 	if (d_props->key != DIAG_ID_KEY) {
 		error(ERROR_INTERNAL, "proc beg without id");
 	}
@@ -94,8 +94,7 @@ dw1_diag_proc_end(diag_descriptor *d_props)
 		return;
 	}
 
-	outs(COMMENT_2("\t", "\tHere endeth a proc"));
-	outnl();
+	asm_printf("%s\n", COMMENT_2("\t", "\tHere endeth a proc"));
 	OUT_DWARF_END(& (d_props->lab));
 	end_sib_chain();
 }
@@ -109,8 +108,7 @@ dw1_diag_val_begin(diag_descriptor *d_props, int global, int cname, char *pname)
 	UNUSED(cname);
 	UNUSED(pname);
 
-	outs(COMMENT_2("\t", "\tHere beginneth a val"));
-	outnl();
+	asm_printf("%s\n", COMMENT_2("\t", "\tHere beginneth a val"));
 }
 
 
@@ -119,6 +117,5 @@ dw1_diag_val_end(diag_descriptor *d_props)
 {
 	UNUSED(d_props);
 
-	outs(COMMENT_2("\t", "\tHere endeth a val"));
-	outnl();
+	asm_printf("%s\n", COMMENT_2("\t", "\tHere endeth a val"));
 }

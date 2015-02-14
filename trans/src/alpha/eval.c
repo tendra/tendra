@@ -37,6 +37,7 @@
 
 #include <main/driver.h>
 #include <main/flags.h>
+#include <main/print.h>
 
 #include <symtab/syms.h>
 
@@ -154,11 +155,11 @@ char *
 outlab(int l)
 {
   if (l >= 0) {
-    (void)fprintf (as_file, "$$%d", l);
+    asm_printf( "$$%d", l);
   }
   else {
     char *extname = main_globals[-l - 1] -> dec_u.dec_val.dec_id;
-    (void)fprintf (as_file, "%s", extname);
+    asm_printf( "%s", extname);
   }
   return NULL;
 }
@@ -195,7 +196,7 @@ outfloat(exp e, int rep, ash a)
   switch(fv){
     case 0:
     if(as_file){
-      fprintf(as_file, "\t.long 0x%08x : %d\t# .s floating\n",
+      asm_printop(".long 0x%08x : %d # .s floating",
 		ieeeflt.i1, rep);
     }
     out_value(0,ilong,make_INT64(0,ieeeflt.i1),rep);
@@ -203,7 +204,7 @@ outfloat(exp e, int rep, ash a)
     break;
     case 1:
     if(as_file){
-      fprintf(as_file, "\t.quad 0x%08x%08x : %d\t# .t floating\n",
+      asm_printop(".quad 0x%08x%08x : %d # .t floating",
 		ieeeflt.i2, ieeeflt.i1, rep);
     }
 /*    val = ((long)ieeeflt.i2<<32) + (unsigned)ieeeflt.i1;*/
@@ -320,9 +321,9 @@ oneval(INT64 val, int al, int rep)
   default: store_type=s_long; bval = ilong; break;
   }
   if(as_file){
-    (void)fprintf(as_file,"\t.%s ",store_type);
+    asm_printf("\t.%s ",store_type);
     out_INT64(val);
-    (void)fprintf(as_file," :%d\n",rep);
+    asm_printf(" :%d\n",rep);
   }
   out_value(0,bval,val,rep);
   return;
@@ -368,60 +369,60 @@ evalone(exp e, int rep)
     int   i,j;
     int hex_output=0;
     if (rep != 1 && as_file){
-      (void)fprintf (as_file, "\t.repeat %d\n", rep);
+      asm_printop(".repeat %d", rep);
     }
     set_align(a.ashalign);
     if(as_file){
       if(strsize<256 && (char_size ==8)){
-	(void)fprintf(as_file,"\t.ascii\t\"");
+	asm_printf("\t.ascii\t\"");
 	for(j=0;j<strsize;++j){
 	  if(st[j]>=32 && st[j]<0x7f && (!hex_output)){
 	    if(st[j]=='\"'){
-	      (void)fprintf(as_file,"\\\"");
+	      asm_printf("\\\"");
 	    }
 	    else if(st[j]=='\\'){
-	      (void)fprintf(as_file,"\\\\");
+	      asm_printf("\\\\");
 	    }
 	    else{
-	      (void)fprintf(as_file,"%c",st[j]);
+	      asm_printf("%c",st[j]);
 	    }
 	  }	
 	  else{
-	    (void)fprintf(as_file,"\\X%x",st[j]&0xff);
+	    asm_printf("\\X%x",st[j]&0xff);
 	    hex_output=1;
 	  }
 	 }
-	(void)fprintf(as_file,"\"\n");
+	asm_printf("\"\n");
       }
       else{
 	for (j=0; j< strsize; ) {
 	  switch(char_size) {
-	  case  8: (void) fprintf(as_file, "\t.byte "); break;
-	  case 16: (void) fprintf(as_file, "\t.word "); break;
-	  case 32: (void) fprintf(as_file, "\t.long "); break;
-	  case 64: (void) fprintf(as_file, "\t.quad "); break;
+	  case  8: (void) asm_printf( "\t.byte "); break;
+	  case 16: (void) asm_printf( "\t.word "); break;
+	  case 32: (void) asm_printf( "\t.long "); break;
+	  case 64: (void) asm_printf( "\t.quad "); break;
 	  }
 	  for (i = j; i < strsize && i-j < 8; i++) {
 	    switch (char_size) { 
 	    case 8:
-	      (void)fprintf (as_file, "0x%x ", st[i]&0xff); 
+	      asm_printf( "0x%x ", st[i]&0xff); 
 	      break;
 	    case 16:
-	      (void)fprintf (as_file, "0x%x ", ((unsigned short *)st)[i]); 
+	      asm_printf( "0x%x ", ((unsigned short *)st)[i]); 
 	      break;
 	    case 32:
-	      (void)fprintf (as_file, "0x%x ", ((int *)st)[i]); 
+	      asm_printf( "0x%x ", ((int *)st)[i]); 
 	      break;
 	    case 64:{
 	      flt64 bigint;
 	      bigint = flt_to_f64(((flpt*)st)[i],is_signed(sh(e)),&overflow);
-	      out_INT64(flt64_to_INT64(bigint));fprintf(as_file, " ");
+	      out_INT64(flt64_to_INT64(bigint));asm_printf( " ");
 	      break;
 	    }		        	        
 	    }
 	  }
 	  j =i;
-	  (void)fprintf (as_file, "\n");
+	  asm_printf( "\n");
 	}
       }
     }
@@ -481,7 +482,7 @@ evalone(exp e, int rep)
     set_align(a.ashalign);	
     if (as_file) {
       if (no (e) == 0) {
-	(void)fprintf (as_file, "\t.%s %s : %d\n", storage_type,nm, rep);
+	asm_printop(".%s %s : %d", storage_type,nm, rep);
       }		
     }
     out_value(symnos[symdef],storage_id,make_INT64(0,no(e)/8),rep);
@@ -644,7 +645,7 @@ evalone(exp e, int rep)
   }
   case clear_tag: {
     if (as_file){
-      (void)fprintf (as_file, "\t.space %d\n",((a.ashsize+7)>>3) * rep);
+      asm_printop(".space %d",((a.ashsize+7)>>3) * rep);
     }
     out_value (0, ispace, make_INT64(0,((a.ashsize + 7) >> 3) * rep), 1);
     return;
@@ -715,9 +716,9 @@ evaluated(exp e, int l)
     bool temp = (l == 0 ||
 		 (main_globals[-lab - 1] -> dec_u.dec_val.dec_id)[0] == '$');
     if (as_file) {
-      (void)fprintf (as_file, (temp) ? "\t.lcomm\t" : "\t.comm\t");
+      asm_printf( (temp) ? "\t.lcomm\t" : "\t.comm\t");
       outlab(lab);
-      (void)fprintf (as_file, " %d\n", size);
+      asm_printf( " %d\n", size);
     }
     out_value((lab>=0)?tempsnos[lab-32]:symnos[-lab-1],(temp)?ilcomm:icomm,
 	      make_INT64(0,size),1);
@@ -726,24 +727,24 @@ evaluated(exp e, int l)
   a = ashof (sh (z));
   if (a.ashsize <= G_number) {
     if (as_file){
-      (void)fprintf (as_file, "\t.sdata\n");
+      asm_printop(".sdata");
     }
     out_common(0,isdata);
   }
   else {
     if (as_file){
-      (void)fprintf (as_file, "\t.data\n");
+      asm_printop(".data");
     }
     out_common(0,idata);
   }
   if (as_file) {
     (void)outlab (lab);
-    (void)fprintf (as_file, ":\n");
+    asm_printf( ":\n");
   }
   out_common((lab>0)?tempsnos[lab-32]:symnos[-lab-1],ilabel);
   if(as_file){
-    fprintf(as_file,"\t.align 3\n");
-    fprintf(as_file,"\t.align 0\n");
+    asm_printop(".align 3");
+    asm_printop(".align 0");
   }
   out_value(0,ialign,make_INT64(0,3),0);
   out_value(0,ialign,make_INT64(0,0),0);

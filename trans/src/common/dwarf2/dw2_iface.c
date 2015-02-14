@@ -21,6 +21,7 @@
 #include <construct/tags.h>
 
 #include <main/driver.h>
+#include <main/print.h>
 
 #include <dwarf2/dw2_iface.h>
 #include <dwarf2/dw2_types.h>
@@ -136,8 +137,6 @@ item_present(dg_name item)
 }
 
 
-static char *sep = ", ";
-
 static void
 out_macros(dg_macro_list macs)
 {
@@ -149,50 +148,44 @@ out_macros(dg_macro_list macs)
 		case DGM_FN: {
 			int j;
 			out8();
-			outn((long)DW_MACINFO_define);
-			outs(sep);
+			asm_printf("%d, ", DW_MACINFO_define);
 			uleb128((unsigned long)m.pos.line);
-			d_outnl();
+			asm_printf("\n");
 			start_string(m.u.d.nam);
-			outs("(");
+			asm_printf("(");
 			for (j = 0; j < m.u.d.pms.len; j++) {
 				if (j) {
-					outs("'");
+					asm_printf("'");
 				}
-				outs(m.u.d.pms.array[j]);
+				asm_printf("%s", m.u.d.pms.array[j]);
 			}
-			outs(") ");
-			outs(m.u.d.defn);
+			asm_printf(") %s", m.u.d.defn);
 			end_string();
 			break;
 		}
 		case DGM_OBJ:
 			out8();
-			outn((long)DW_MACINFO_define);
-			outs(sep);
+			asm_printf("%d, ", DW_MACINFO_define);
 			uleb128((unsigned long)m.pos.line);
-			d_outnl();
+			asm_printf("\n");
 			start_string(m.u.d.nam);
-			outs(" ");
-			outs(m.u.d.defn);
+			asm_printf(" %s", m.u.d.defn);
 			end_string();
 			break;
 		case DGM_UNDEF:
 			out8();
-			outn((long)DW_MACINFO_undef);
-			outs(sep);
+			asm_printf("%d, ", DW_MACINFO_undef);
 			uleb128((unsigned long)m.pos.line);
-			d_outnl();
+			asm_printf("\n");
 			out_string(m.u.d.nam);
 			break;
 		case DGM_INC:
 			out8();
-			outn((long)DW_MACINFO_start_file);
-			outs(sep);
+			asm_printf("%d, ", DW_MACINFO_start_file);
 			uleb128((unsigned long)m.pos.line);
-			outs(sep);
+			asm_printf(", ");
 			uleb128((unsigned long)(m.u.i.file->index));
-			d_outnl();
+			asm_printf("\n");
 			out_macros(m.u.i.macs);
 			dw_at_data(1, (long)DW_MACINFO_end_file);
 			break;
@@ -284,10 +277,10 @@ end_dwarf2(void)
 	enter_section("debug_aranges");
 	out32();
 	out_dwf_label(dw_text_start, 0);
-	d_outnl();
+	asm_printf("\n");
 	out32();
 	out_dwf_labdiff(dw_text_start, text_end);
-	d_outnl();
+	asm_printf("\n");
 	exit_section();
 	dw2_data_aranges();
 	close_compunit_info();

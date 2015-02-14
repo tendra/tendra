@@ -29,6 +29,7 @@
 #include <reader/exp.h>
 
 #include <main/driver.h>
+#include <main/print.h>
 
 #include "make_code.h"
 #include "inst_fmt.h"
@@ -118,16 +119,16 @@ load_store(instruction ins, int reg, baseoff a)
     char *extname=main_globals[-a.base-1]->dec_u.dec_val.dec_id;
     if(as_file){
       if(a.offset==0){
-	(void)fprintf(as_file,"\t%s\t%s, %s\n",ins_name,reg_str,extname);
+	asm_printop("%s %s, %s",ins_name,reg_str,extname);
       }
       else
 	if(a.offset>0){
-	  (void)fprintf(as_file,"\t%s\t%s,%s+%ld\n",ins_name,reg_str,
+	  asm_printop("%s %s,%s+%ld",ins_name,reg_str,
 			extname,a.offset);
 	}
 	else{
 	  if(a.offset<0){
-	    (void)fprintf(as_file,"\t%s\t%s,%s%ld\n",ins_name,reg_str,
+	    asm_printop("%s %s,%s%ld",ins_name,reg_str,
 			  extname, a.offset);
 	  }
 	}
@@ -138,15 +139,15 @@ load_store(instruction ins, int reg, baseoff a)
     if(a.base > 31)	/* label */{
       if(as_file){
 	if(a.offset==0){
-	  (void)fprintf(as_file,"\t%s\t%s, $$%d\n",ins_name,reg_str,
+	  asm_printop("%s %s, $$%d",ins_name,reg_str,
 			a.base);
 	}
 	else if(a.offset>0){
-	  (void)fprintf(as_file,"\t%s\t%s, $$%d+%ld\n",ins_name,
+	  asm_printop("%s %s, $$%d+%ld",ins_name,
 			reg_str,a.base,a.offset);
 	}
 	else if(a.offset<0){
-	  (void)fprintf(as_file,"\t%s\t%s, $$%d-%ld\n",ins_name,
+	  asm_printop("%s %s, $$%d-%ld",ins_name,
 			reg_str,a.base,a.offset);
 	}
       }
@@ -156,7 +157,7 @@ load_store(instruction ins, int reg, baseoff a)
     else{
       base_reg_str=reg_name[a.base];
       if(as_file){
-	(void)fprintf(as_file,"\t%s\t%s, %ld(%s)\n",ins_name,
+	asm_printop("%s %s, %ld(%s)",ins_name,
 		      reg_str,a.offset,base_reg_str);
       }
       if(ins_equal(ins,i_lda) || ins_equal(ins,i_ldq)){
@@ -185,9 +186,9 @@ load_store_immediate(instruction ins, int reg, INT64 val)
 {
   char * binasm_data;
   if(as_file){
-    (void)fprintf(as_file,"\t%s\t%s,",ins_symbolic_name(ins),reg_name[reg]);
+    asm_printf("\t%s\t%s,",ins_symbolic_name(ins),reg_name[reg]);
     out_INT64(val);
-    (void)fprintf(as_file, "\n");
+    asm_printf( "\n");
   }
   binasm_data = out_biinst(0,ins_binid(ins),reg,xnoreg,FRI,0,val);
   clear_reg(reg);
@@ -199,7 +200,7 @@ load_store_label(instruction ins, int reg, int lab)
 {
   char *binasm_data;
   if(as_file){
-    (void)fprintf(as_file,"\t%s\t%s, $%d\n",ins_symbolic_name(ins),
+    asm_printop("%s %s, $%d",ins_symbolic_name(ins),
 		  reg_name[reg],lab);
   }	
   binasm_data = out_linst(-lab,ins_binid(ins),reg,xnoreg,FRL,0);
@@ -215,7 +216,7 @@ integer_branch(instruction ins, int reg, int dest)
 {
   char *binasm_data = (char*)xcalloc(binasm_record_length+1,sizeof(char));
   if(as_file){
-    (void)fprintf(as_file,"\t%s\t%s,$%d\n",ins_symbolic_name(ins),
+    asm_printop("%s %s,$%d",ins_symbolic_name(ins),
 		  reg_name[reg],dest);
   }
   binasm_data = out_linst(-dest,ins_binid(ins),reg,xnoreg,FRL,0);
@@ -229,12 +230,12 @@ integer_jump(instruction ins, int dest_reg, int source_reg, int hint)
   char *binasm_data;
   if(as_file){
     if(hint<0){
-      (void)fprintf(as_file,"\t%s\t%s,(%s),$%d\n",
+      asm_printop("%s %s,(%s),$%d",
 		    ins_symbolic_name(ins),reg_name[dest_reg],
 		    reg_name[source_reg],-hint);
     }
     else{
-      (void)fprintf(as_file,"\t%s\t%s,(%s),%d\n",ins_symbolic_name(ins),
+      asm_printop("%s %s,(%s),%d",ins_symbolic_name(ins),
 		    reg_name[dest_reg],reg_name[source_reg],hint);
     }
   }
@@ -275,7 +276,7 @@ integer_jump_external(instruction ins, int ra, baseoff b)
   clear_all();
   andpeep=0;
   if(as_file){
-    (void)fprintf(as_file,"\t%s\t%s,%s\n",ins_symbolic_name(ins),
+    asm_printop("%s %s,%s",ins_symbolic_name(ins),
 		  reg_name[ra],extname);
   }
   binasm_data = out_iinst(symnos[-b.base-1],ins_binid(ins),ra,xnoreg,FRR,0,0);
@@ -294,7 +295,7 @@ operate_fmt(instruction ins, int src1, int src2, int dest)
   char *binasm_data;
   if(dest!=NO_REG){
     if(as_file){
-      (void)fprintf(as_file,"\t%s\t%s,%s,%s\n",ins_symbolic_name(ins),
+      asm_printop("%s %s,%s,%s",ins_symbolic_name(ins),
 		    reg_name[src1],reg_name[src2],reg_name[dest]);
     }
     clear_reg(dest);
@@ -329,7 +330,7 @@ operate_fmt_immediate(instruction ins, int src1, int src2, int dest)
   
   if(dest!=NO_REG){
     if(as_file){
-      (void)fprintf(as_file,"\t%s\t%s,%d,%s\n",ins_symbolic_name(ins),
+      asm_printop("%s %s,%d,%s",ins_symbolic_name(ins),
 		    reg_name[src1],src2,reg_name[dest]);
     }
     clear_reg(dest);
@@ -343,9 +344,9 @@ operate_fmt_big_immediate(instruction ins, int src1, INT64 src2, int dest)
 {
   char * binasm_data;
   if(as_file){
-    (void)fprintf(as_file,"\t%s\t%s,",ins_symbolic_name(ins),reg_name[src1]);
+    asm_printf("\t%s\t%s,",ins_symbolic_name(ins),reg_name[src1]);
     out_INT64(src2);
-    (void)fprintf(as_file,",%s\n",reg_name[dest]);
+    asm_printf(",%s\n",reg_name[dest]);
   }
   clear_reg(dest);
   binasm_data = out_biinst(0,ins_binid(ins),src1,dest,FRIR,0,src2);
@@ -367,7 +368,7 @@ float_load_store(instruction ins, int reg, baseoff a)
   if(a.base>=0 && a.base <=31){
     char *basereg=reg_name[a.base];
     if(as_file){
-      (void)fprintf(as_file,"\t%s\t$f%d,%ld(%s)\n",ins_name,reg,a.offset,
+      asm_printop("%s $f%d,%ld(%s)",ins_name,reg,a.offset,
 		    basereg);
     }
     binasm_data=out_iinst(0,ins_id,reg+float_register,a.base,FROB,0,a.offset);
@@ -377,15 +378,15 @@ float_load_store(instruction ins, int reg, baseoff a)
       char *extname = main_globals[-a.base-1]->dec_u.dec_val.dec_id;
       if(as_file){
 	if(a.offset==0){
-	  (void)fprintf(as_file,"\t%s\t$f%d, %s\n",ins_name,reg,extname);
+	  asm_printop("%s $f%d, %s",ins_name,reg,extname);
 	}
 	else{
 	  if(a.offset<0){
-	      (void)fprintf(as_file,"\t%s\t$f%d, %s%ld\n",ins_name,reg,
+	      asm_printop("%s $f%d, %s%ld",ins_name,reg,
 			    extname,a.offset);
 	    }
 	  else{
-	    (void)fprintf(as_file,"\t%s\t$f%d, %s+%ld\n",ins_name,reg,
+	    asm_printop("%s $f%d, %s+%ld",ins_name,reg,
 			  extname,a.offset);
 	  }
 	}
@@ -396,7 +397,7 @@ float_load_store(instruction ins, int reg, baseoff a)
     }
     else{
       if(as_file){
-	(void)fprintf(as_file,"\t%s\t$f%d, $$%d\n",ins_name,reg,a.base);
+	asm_printop("%s $f%d, $$%d",ins_name,reg,a.base);
       }
       binasm_data = 
 	  out_iinst(tempsnos[a.base-32],ins_id,reg+float_register,xnoreg,FROB,
@@ -417,7 +418,7 @@ void
 float_load_store_immediate(instruction ins, int reg, char* val)
 {
   if(as_file){
-    (void)fprintf(as_file,"\t%s\t$f%d,%s\n",ins_symbolic_name(ins),reg,val);
+    asm_printop("%s $f%d,%s",ins_symbolic_name(ins),reg,val);
   }
   return;
 }
@@ -431,7 +432,7 @@ float_branch(instruction ins, int reg, int dest)
 {
   char * binasm_data;
   if(as_file){
-    (void)fprintf(as_file,"\t%s\t$f%d,$%d\n",ins_symbolic_name(ins),reg,
+    asm_printop("%s $f%d,$%d",ins_symbolic_name(ins),reg,
 		  dest);
   }
   binasm_data=out_linst(-dest,ins_binid(ins),reg+float_register,xnoreg,FRL,0);
@@ -451,7 +452,7 @@ float_op(instruction ins, int src1, int src2, int dest)
   instruction real_ins = trap_all_fops?trap_ins(ins,&special_trap_ins):ins;
   if(special_trap_ins) no_parameter_instructions(i_trapb);
   if(as_file){
-    (void)fprintf(as_file,"\t%s\t$f%d,$f%d,$f%d\n",
+    asm_printop("%s $f%d,$f%d,$f%d",
 		  ins_symbolic_name(real_ins),src1,src2,dest);
   }
   binasm_data = out_rinst(0,ins_binid(real_ins),src1+float_register,
@@ -467,7 +468,7 @@ void
 float_op_immediate(instruction ins, int src1, double imm, int dest)
 {
   if(as_file){
-    (void)fprintf(as_file,"\t%s\t$f%d,%lf,$f%d\n",ins_symbolic_name(ins),
+    asm_printop("%s $f%d,%lf,$f%d",ins_symbolic_name(ins),
 		  src1,imm,dest);
   }
   clear_freg(dest);
@@ -484,7 +485,7 @@ float_convert(instruction ins, int src, int dest)
 {
   char * binasm_data;
   if(as_file){
-    (void)fprintf(as_file,"\t%s\t$f%d,$f%d\n",ins_symbolic_name(ins),src,
+    asm_printop("%s $f%d,$f%d",ins_symbolic_name(ins),src,
 		  dest);
   }
   binasm_data = out_rinst(0,ins_binid(ins),src+float_register,
@@ -501,7 +502,7 @@ void
 call_pal(instruction ins, instruction pal_ins)
 {
   if(as_file){
-    (void)fprintf(as_file,"\t%s\t%s\n",ins_symbolic_name(ins),
+    asm_printop("%s %s",ins_symbolic_name(ins),
 		  ins_symbolic_name(pal_ins));
   }
   return;
@@ -515,7 +516,7 @@ fetch(instruction ins, baseoff a)
   if(a.offset!=0)
     error(ERROR_INTERNAL, "fetch offset must be zero");
   if(as_file){
-    (void)fprintf(as_file,"\t%s\t%ld($%d)\n",ins_symbolic_name(ins),
+    asm_printop("%s %ld($%d)",ins_symbolic_name(ins),
 		  a.offset,a.base);
   }
   return;
@@ -525,7 +526,7 @@ void
 no_parameter_instructions(instruction ins)
 {
   if(as_file){
-    (void)fprintf(as_file,"\t%s\n",ins_symbolic_name(ins));
+    asm_printop("%s",ins_symbolic_name(ins));
   }
   (void)out_rinst(0,ins_binid(ins),xnoreg,xnoreg,xnoreg,xnoreg);
   return;

@@ -18,6 +18,7 @@
 #include <shared/xalloc.h>
 
 #include <main/driver.h>
+#include <main/print.h>
 
 #include "cross.h"
 #include "frames.h"
@@ -33,7 +34,7 @@ void
 setprologue(int lvl)
 {
   if(as_file){
-    fprintf(as_file,"\t.prologue %d\n",lvl);
+    asm_printop(".prologue %d",lvl);
   }
   out_value(0,iprologue, make_INT64(0,lvl),0);
   /*out_value(0,iprologue,lvl,0);*/
@@ -45,7 +46,7 @@ void
 setnoreorder(void)
 {
   if(as_file){
-    fprintf (as_file, "\t.set\tnoreorder\n");
+    asm_printop(".set noreorder");
   }
   out_value(0,iset, make_INT64(0,set_noreorder) ,0);
   return;
@@ -55,7 +56,7 @@ void
 setreorder(void)
 {
   if(as_file){
-    fprintf (as_file, "\t.set\treorder\n");
+    asm_printop(".set reorder");
   }
   out_value(0,iset, make_INT64(0,set_reorder) ,0);
   return;
@@ -65,7 +66,7 @@ void
 setnomove(void)
 {
   if(as_file){
-    fprintf (as_file, "\t.set\tnomove\n");
+    asm_printop(".set nomove");
   }
   out_value(0,iset, make_INT64(0,set_nomove),0);
   return;
@@ -75,7 +76,7 @@ void
 setmove(void)
 {
   if(as_file){
-    fprintf (as_file, "\t.set\tmove\n");
+    asm_printop(".set move");
   }
   out_value(0,iset, make_INT64(0,set_move),0);
   return;
@@ -85,14 +86,14 @@ setmove(void)
 void
 setvolatile(void)
 {
-/*    fprintf (as_file, "\t.set\tvolatile\n");*/
+/*    asm_printop(".set volatile");*/
   return;
 }
 
 void
 setnovolatile(void)
 {
-  fprintf (as_file, "\t.set\tnovolatile\n");
+  asm_printop(".set novolatile");
   return;
 }
 #endif
@@ -107,7 +108,7 @@ setnoat(void)
     in_noat_block = true;
   }
   if(as_file){
-    fprintf (as_file, "\t.set\tnoat\n");
+    asm_printop(".set noat");
   }
   out_value(0,iset, make_INT64(0,set_noat),0);
   return;
@@ -123,7 +124,7 @@ setat(void)
     in_noat_block = false;
   }
   if(as_file){
-    fprintf (as_file, "\t.set\tat\n");
+    asm_printop(".set at");
   }
   out_value(0,iset, make_INT64(0,set_at),0);
   return;
@@ -133,7 +134,7 @@ void
 comment(char *mess)
 {
   if(as_file){
-    fprintf (as_file, " # %s\n", mess);
+    asm_printf( " # %s\n", mess);
   }
   return;
 }
@@ -143,13 +144,13 @@ setframe(int32 st, int32 loc)
 {
   if(Has_fp){
     if(as_file){
-      fprintf(as_file,"\t.frame\t$fp, %d, $26, %d\n",st,loc);
+      asm_printop(".frame $fp, %d, $26, %d",st,loc);
     }
     out_frame(0,iframe,st,FP,26);
   }
   else{
     if(as_file){
-      fprintf (as_file, "\t.frame\t$sp, %d, $26, %d\n", st,loc);
+      asm_printop(".frame $sp, %d, $26, %d", st,loc);
     }
     out_frame(0,iframe,st,SP,26);
   }
@@ -160,7 +161,7 @@ void
 set_text_section(void)
 {
   if(as_file){
-    fprintf(as_file, "\t.text\n");
+    asm_printop(".text");
   }
   out_common(0,itext);
   set_align(128);
@@ -171,7 +172,7 @@ void
 setmask(int32 mask, int32 disp)
 {
   if(as_file){
-    fprintf (as_file, "\t.mask\t0x%x,%d\n", mask, disp);
+    asm_printop(".mask 0x%x,%d", mask, disp);
   }
   out_mask(0,imask,mask,disp);
   return;
@@ -182,7 +183,7 @@ void
 setfmask(int32 mask, int32 disp)
 {
   if(as_file){
-    fprintf (as_file, "\t.fmask\t0x%x,%d\n", mask, disp);
+    asm_printop(".fmask 0x%x,%d", mask, disp);
   }
   out_mask(0,ifmask,mask,disp);
   return;
@@ -194,7 +195,7 @@ void
 set_file(char *fname, int fno)
 {
   if(as_file){
-    fprintf(as_file,"\t.file\t%d \"%s\"\n",fno,fname+1);
+    asm_printop(".file %d \"%s\"",fno,fname+1);
   }
   return;
 }
@@ -204,7 +205,7 @@ void
 set_lineno(int lineno, int fileno)
 {
   if(as_file){
-    fprintf(as_file,"\t.loc\t%d %d\n",fileno,lineno);
+    asm_printop(".loc %d %d",fileno,lineno);
   }
   return;
 }
@@ -225,31 +226,31 @@ set_align(int al)
     switch(al){
      case 8:
        if(as_file){
-	 fprintf(as_file,"\t.align 0\n");
+	 asm_printop(".align 0");
        }
        binasm_data = out_value(0,ialign,make_INT64(0,0),0);
        break;
      case 16:
        if(as_file){
-	 fprintf(as_file,"\t.align 1\n");
+	 asm_printop(".align 1");
        }
        binasm_data = out_value(0,ialign,make_INT64(0,1),0);
        break;
      case 32:
        if(as_file){
-	 fprintf(as_file,"\t.align 2\n");
+	 asm_printop(".align 2");
        }
        binasm_data = out_value(0,ialign,make_INT64(0,2),0);
        break;
      case 64:
        if(as_file){
-	 fprintf(as_file,"\t.align 3\n");
+	 asm_printop(".align 3");
        }
        binasm_data = out_value(0,ialign,make_INT64(0,3),0);
        break;
      case 128:
        if(as_file){
-	 fprintf(as_file,"\t.align 4\n");
+	 asm_printop(".align 4");
        }
        binasm_data = out_value(0,ialign,make_INT64(0,4),0);
        break;

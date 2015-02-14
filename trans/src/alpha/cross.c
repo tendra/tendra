@@ -11,10 +11,13 @@
  * This file contains code to allow 64 bit arithmetic to be handled portably.
  */
 
+#include <stdio.h>
 
 #include <construct/flpttypes.h>
 #include <construct/flpt.h>
 #include <construct/f64.h>
+
+#include <main/print.h>
 
 #include "cross.h"
 #include "main.h"
@@ -53,9 +56,9 @@ void
 out_INT64(INT64 val)
 {
   if(isquad(val)){
-	fprintf(as_file, "0x%08x%08x", high_INT64(val), low_INT64(val));
+	asm_printf( "0x%08x%08x", high_INT64(val), low_INT64(val));
   } else{
-	fprintf(as_file, "%d", low_INT64(val));
+	asm_printf( "%d", low_INT64(val));
   }
 }
 

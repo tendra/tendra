@@ -29,6 +29,7 @@
 
 #include <main/driver.h>
 #include <main/flags.h>
+#include <main/print.h>
 
 #include <refactor/optimise.h>
 
@@ -109,7 +110,7 @@ void globalise_name
 	char *id = my_def -> dec_u.dec_val.dec_id;
         if (!my_def -> dec_u.dec_val.extnamed) return;
 	if (as_file)
-	  fprintf(as_file, "\t.globl\t%s\n", id);
+	  asm_printop(".globl %s", id);
 	out_common(symnos[my_def->dec_u.dec_val.sym_number], iglobal);
 
 }
@@ -133,7 +134,7 @@ void code_it
         diag_descriptor * dd =  my_def -> dec_u.dec_val.diag_info;
 	/* compile code for proc */
 	if (as_file) {
-	  fprintf(as_file,"\t.text\n\t.align 3\n");
+	  asm_printop(".text\n .align 3");
 	}
 
 
@@ -150,12 +151,12 @@ void code_it
 
 	globalise_name(my_def);
 
-	if (as_file)fprintf(as_file, "\t.ent\t%s\n%s:\n", id, id);
+	if (as_file)asm_printop(".ent %s\n%s:", id, id);
 
 	out_ent (current_symno = symnos[symdef], ient, 2);/* why 2? */
 	out_common(symnos[symdef], ilabel);
 	if (as_file) {
-		fprintf(as_file,
+		asm_printf(
 			(diag != DIAG_NONE)? "\t.option O1\n" : "\t.option O2\n");
 	}
 
@@ -168,7 +169,7 @@ void code_it
 		stabd(fscopefile, currentlno+1);
 	}
 	if (as_file)
-	  fprintf(as_file, "\t.end\t%s\n", id);
+	  asm_printop(".end %s", id);
 	out_common(symnoforend(my_def, currentfile), iend);
     }
     else {			/* global values */
@@ -191,13 +192,13 @@ void code_it
 	  if (size !=0) { /* ? ? ! ? */
 	     globalise_name(my_def);
 	     if (as_file)
-	        fprintf(as_file, "\t.comm\t%s %ld\n", id, size);
+	        asm_printop(".comm %s %ld", id, size);
 	      out_value(symnos[symdef], icomm, size, 1);
 	  }
 	}
 	else {
 	  if (as_file)
-	    fprintf(as_file, "\t.extern\t%s %ld\n", id,
+	    asm_printop(".extern %s %ld", id,
 		size);
 	  out_value(symnos[symdef], iextern, size, 1);
 	}
@@ -206,7 +207,7 @@ void code_it
 	if (son(tg) == NULL && !extnamed) {
 	  if (size !=0) { /* ? ? ! ? */
 	      if (as_file)
-	        fprintf(as_file, "\t.lcomm\t%s %ld\n", id, size);
+	        asm_printop(".lcomm %s %ld", id, size);
 	      out_value(symnos[symdef], ilcomm, size, 1);
 	  }
 	}
@@ -439,13 +440,13 @@ void translate_capsule
   nowhere.ashwhere.ashsize = 0;
 
   if (as_file) {
-    fprintf(as_file, "\t.verstamp %d %d\n", majorno, minorno);
+    asm_printop(".verstamp %d %d", majorno, minorno);
 
     if (PIC_code) {
-	fprintf(as_file, "\t.option pic2\n");
+	asm_printop(".option pic2");
     }
     else {
-        fprintf(as_file,(diag != DIAG_NONE)? "\t.option O1\n" : "\t.option O2\n");
+        asm_printf((diag != DIAG_NONE)? "\t.option O1\n" : "\t.option O2\n");
     }
   }
 
@@ -478,7 +479,7 @@ void translate_capsule
     if (son (tg) != NULL && (extnamed || no (tg) != 0 || !strcmp (id, "main"))) {
       if (extnamed) {
 	if (as_file)
-	  fprintf (as_file, "\t.globl\t%s\n", id);
+	  asm_printop(".globl %s", id);
 	out_common (symnos[my_def->dec_u.dec_val.sym_number], iglobal);
       }
     }

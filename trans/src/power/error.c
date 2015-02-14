@@ -24,7 +24,6 @@
 
 #include "memtdf.h"
 #include "codegen.h"
-#include "comment.h"
 #include "translate.h"
 #include "make_code.h"
 #include "stack.h"

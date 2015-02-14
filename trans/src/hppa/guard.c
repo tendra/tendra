@@ -26,6 +26,8 @@
 
 #include <refactor/optimise.h>
 
+#include <main/print.h>
+
 #include "regmacs.h"
 #include "procrec.h"
 #include "addrtypes.h"
@@ -71,7 +73,7 @@ needreg(int r, space sp)
 #if 0 /* !!!! */
   if (!(optim & OPTIM_TEMPDEC && IS_TREG(r)) && (sp.fixed & RMASK(r)) != 0)
   {
-    comment1("needreg: %d", r);
+    asm_comment("needreg: %d", r);
     error(ERROR_SERIOUS, "needreg: fixed reg already in use");
   }
 #endif
@@ -85,7 +87,7 @@ needfreg(int r, space sp)
   /* tempdec() can allocate t regs if dead over calls, so dont fail */
   if (!(optim & OPTIM_TEMPDEC && IS_FLT_TREG(r)) && (sp.flt & RMASK(r)) != 0)
   {
-    comment1("needfreg: %d", r);
+    asm_comment("needfreg: %d", r);
     error(ERROR_SERIOUS, "needfreg: float reg already in use");
   }
 #endif
@@ -141,13 +143,13 @@ guard(where w, space sp)
   case insomereg:
   case insomefreg:
     {
-      comment1("guard: BAD discrim %d", discrim ( w.answhere ) );
+      asm_comment("guard: BAD discrim %d", discrim ( w.answhere ) );
       error(ERROR_SERIOUS, "guard: Guard ? reg");
       return sp;
     }
   default:
     {
-      comment1("guard: BAD discrim %d", discrim ( w.answhere ) );
+      asm_comment("guard: BAD discrim %d", discrim ( w.answhere ) );
       error(ERROR_SERIOUS, "guard: not in switch");
       return sp;
     }

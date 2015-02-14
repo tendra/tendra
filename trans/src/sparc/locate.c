@@ -32,7 +32,6 @@
 #include "guard.h"
 #include "eval.h"
 #include "regexps.h"
-#include "comment.h"
 #include "getregs.h"
 #include "move.h"
 #include "regable.h"

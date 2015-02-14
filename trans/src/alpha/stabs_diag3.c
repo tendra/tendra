@@ -38,6 +38,7 @@
 #include <symtab/symconst.h>
 
 #include <main/driver.h>
+#include <main/print.h>
 
 #include "procrectypes.h"
 #include "procrecs.h"
@@ -97,17 +98,6 @@ void symnosforfiles
   return;
 }
 
-/* used for testing whether o/p worked */
-static  void x
-(int i)
-{
-  if (i == EOF) {
-    error(ERROR_FATAL, "can't output");
-  }
-  return;
-}
-
-
 /* output .file directive for file i */
 void stab_file
 (int i)
@@ -119,8 +109,8 @@ void stab_file
   l = (int)strlen(fds[i] ->file.ints.chars);
 
   if (as_file) {
-    x(fprintf(as_file, "\t.file\t%d \"%s\"\n", file_dnos[i],
-		fds[i] ->file.ints.chars+1));
+    asm_printop(".file %d \"%s\"", file_dnos[i],
+		fds[i] ->file.ints.chars+1);
   }
 
   out_value(file_dnos[i], ifile, make_INT64(0,l), 0);
@@ -138,7 +128,7 @@ void stabd
   if (findex==currentfile && lno==currentlno) return;
   stab_file(findex);
   if (as_file)
-    x(fprintf(as_file, "\t.loc\t%d %d\n", file_dnos[findex], lno));
+    asm_printop(".loc %d %d", file_dnos[findex], lno);
   out_loc(file_dnos[findex],(unsigned)lno);
   currentlno = lno;
 }
@@ -155,7 +145,7 @@ void diagbr_open
       currentfile);
   lexlev[0] ++;
   if (as_file) {
-    x(fprintf(as_file, "\t.bgnb\t%d\n", symno));
+    asm_printop(".bgnb %d", symno);
   }
   out_ent(symno, ibgnb, 0);
 }
@@ -169,7 +159,7 @@ void diagbr_close
       currentfile);
   lexlev[0] --;
   if (as_file) {
-    x(fprintf(as_file, "\t.endb\t%d\n", symno));
+    asm_printop(".endb %d", symno);
   }
   out_ent(symno, iendb, 0);
 }
@@ -200,20 +190,20 @@ again:
 	sc = scRegister;
 	v = no(id);
 	/*if (as_file){
-	  x (fprintf (as_file, " # %s is in $%d\n", nm, v));
+	  x (asm_printf( " # %s is in $%d\n", nm, v));
 	  }*/
       }
       else if ((props(id) & infreg_bits)!= 0) {
 	sc = scRegister;
 	v = (no(id) << 1) + float_register;
 /*	  if (as_file)
-	  x (fprintf (as_file, " # %s is in $f%d\n", nm, v - float_register));*/
+	  x (asm_printf( " # %s is in $f%d\n", nm, v - float_register));*/
       }
       else {
 	v = ((no(id) & ~0x3f) >> 4) + (locals_offset >> 3) + disp / 8 - fs;
 	sc = scAbs;
 /*	  if (as_file)
-	  x (fprintf (as_file,
+	  x (asm_printf(
 	  " # %s is in %ld($fp)  == %ld($29)\n", nm,
 	  v, v + fs));*/
 

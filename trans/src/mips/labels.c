@@ -16,6 +16,7 @@
 #include <stdio.h>
 
 #include <main/driver.h>
+#include <main/print.h>
 
 #include "regexps.h"
 #include "ibinasm.h"
@@ -36,7 +37,7 @@ set_label(int l)
 {
   clear_all ();
   if (as_file)
-    fprintf (as_file, "$%d:\n", l);
+    asm_label( "$%d", l);
   out_common (-l, ilabel);
 
 }
@@ -45,7 +46,7 @@ void
 set_label_no_clear(int l)
 {
   if (as_file)
-    fprintf (as_file, "$%d:\n", l);
+    asm_label( "$%d", l);
   out_common (-l, ilabel);
 
 }

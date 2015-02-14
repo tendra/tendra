@@ -25,6 +25,8 @@
 #include <construct/exp.h>
 #include <construct/tags.h>
 
+#include <main/print.h>
+
 #include "regmacs.h"
 #include "proctypes.h"
 #include "procrec.h"
@@ -32,7 +34,6 @@
 #include "regexps.h"
 #include "bitsmacs.h"
 #include "getregs.h"
-#include "comment.h"
 
 
 /* next fixed reg to be allocated */
@@ -72,7 +73,7 @@ getreg(long fixed)
   long start = choosefix;
 
 
-  FULLCOMMENT3("getreg: from %#x, choosefix=%#x currentfix=%d", fixed, choosefix, currentfix);
+  asm_comment("getreg: from %#x, choosefix=%#x currentfix=%d", fixed, choosefix, currentfix);
 
   /* currentfix and choosefix are in step, one the reg number, one the mask */
   assert(choosefix == RMASK(currentfix));
@@ -102,7 +103,7 @@ getreg(long fixed)
 
     if (reg != -1)
     {
-       FULLCOMMENT1("getreg: allocating %d", reg);
+       asm_comment("getreg: allocating %d", reg);
        assert(IS_TREG(reg));
        return reg;
     }
@@ -128,7 +129,7 @@ getfreg(long fl) /* get a free temporary floating reg */
   int reg = -1;
   long start = choosefloat;
 
-  FULLCOMMENT3("getfreg: from %#x, choosefloat=%#x currentfloat=%d", fl, choosefloat, currentfloat);
+  asm_comment("getfreg: from %#x, choosefloat=%#x currentfloat=%d", fl, choosefloat, currentfloat);
 
   /*
    * currentfloat and choosefloat are in step, one the reg number, one the
@@ -156,7 +157,7 @@ getfreg(long fl) /* get a free temporary floating reg */
 
     if (reg != -1)
     {
-      FULLCOMMENT1("getfreg: allocating %d", reg);
+      asm_comment("getfreg: allocating %d", reg);
       assert(IS_FLT_TREG(reg));
       return reg;
     }

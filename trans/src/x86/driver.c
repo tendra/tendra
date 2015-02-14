@@ -30,6 +30,7 @@
 
 #include <main/driver.h>
 #include <main/flags.h>
+#include <main/print.h>
 
 #include "localtypes.h"
 #include "assembler.h"
@@ -208,11 +209,7 @@ static void
 cleanup(void)
 {
 		while (weak_list) {
-			outs(".set ");
-			outs(weak_list->weak_id);
-			outs(",");
-			outs(weak_list->val_id);
-			outnl();
+			asm_printf(".set %s,%s\n", weak_list->weak_id, weak_list->val_id);
 			weak_list = weak_list->next;
 		}
 
