@@ -445,8 +445,8 @@ translate_capsule(void)
     if (IS_TREG(r) && (tempregs.fixed & RMASK(r)) == 0)
       maxfix_tregs++;
   }
-  asm_comment("maxfix_tregs=%d(%#x) maxfloat_tregs=%d(%#x)",
-	   maxfix_tregs, tempregs.fixed, MAXFLOAT_TREGS, tempregs.flt);
+  asm_comment("maxfix_tregs=%d(%#x) maxfloat_tregs=%ld(%#lx)",
+	   maxfix_tregs, tempregs.fixed, MAXFLOAT_TREGS, (unsigned long) tempregs.flt);
 
   /* scan all the procs, to put everything in HP_PA form */
   nexps = 0;

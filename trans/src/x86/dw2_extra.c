@@ -348,7 +348,7 @@ static void out_glob
   asm_printf("%d\n", DW_OP_addr);
   out32(); asm_printf("%s", l.s);
   if (l.off) {
-    asm_printf(" + %d", l.off);
+    asm_printf(" + %ld", l.off);
   }
   return;
 }
@@ -578,7 +578,7 @@ void dw2_locate_result
     multi = 1;
     length = 6;
   }
-  out8(); asm_printf("%d, ", length);
+  out8(); asm_printf("%ld, ", length);
   if (multi) {
     asm_printf("%d, ", DW_OP_reg0);
     asm_printf("%d, %d, ", DW_OP_piece, 4);
@@ -928,7 +928,7 @@ long dw2_start_fde
 	asm_printf(", "); uleb128((unsigned long)dwarfreg[6]);
 	asm_printf(", "); uleb128 ((unsigned long)4);	/* CFA now relative to %ebp */
 	asm_printf("\n");
-    out8 (); asm_printf("%d, ", DW_CFA_offset + dwarfreg[6]); /* %ebp */
+    out8 (); asm_printf("%ld, ", DW_CFA_offset + dwarfreg[6]); /* %ebp */
 	uleb128((unsigned long)1); asm_printf("\n");
   }
 
@@ -955,7 +955,7 @@ void dw2_fde_entry
     if (no_frame) {
 	asm_printf("%d, ", DW_CFA_DD_def_cfa_inc_offset);
     }
-	asm_printf("%d, ", DW_CFA_offset + dwarfreg[3]); /* %ebx */
+	asm_printf("%ld, ", DW_CFA_offset + dwarfreg[3]); /* %ebx */
 	uleb128(++up); asm_printf("\n");
   }
   if (min_rfree & 0x10) {
@@ -965,7 +965,7 @@ void dw2_fde_entry
     if (no_frame) {
 	asm_printf("%d, ", DW_CFA_DD_def_cfa_inc_offset);
     }
-	asm_printf("%d", DW_CFA_offset + dwarfreg[4]); /* %edi */
+	asm_printf("%ld", DW_CFA_offset + dwarfreg[4]); /* %edi */
 	asm_printf(", "); uleb128(++up); asm_printf("\n");
   }
   if (min_rfree & 0x20) {
@@ -975,14 +975,14 @@ void dw2_fde_entry
     if (no_frame) {
 	asm_printf("%d, ", DW_CFA_DD_def_cfa_inc_offset);
     }
-	asm_printf("%d, ", DW_CFA_offset + dwarfreg[5]); /* %esi */
+	asm_printf("%ld, ", DW_CFA_offset + dwarfreg[5]); /* %esi */
 	uleb128(++up); asm_printf("\n");
   }
   if (no_frame && (min_rfree & 0x40)) {
     short_advance(here, dwl1);
     here = dwl1;
     out8(); asm_printf("%d, ", DW_CFA_DD_def_cfa_inc_offset);
-	asm_printf("%d, ", DW_CFA_offset + dwarfreg[6]); /* %ebp */
+	asm_printf("%ld, ", DW_CFA_offset + dwarfreg[6]); /* %ebp */
 	uleb128(++up); asm_printf("\n");
   }
   if (space && no_frame) {
@@ -1027,10 +1027,10 @@ long dw2_prep_fde_restore_args
   here = set_dw_text_label();
   enter_section("debug_frame");
   short_advance(0, here);
-  out8(); asm_printf("%d\n", DW_CFA_restore + dwarfreg[3]);
-  out8(); asm_printf("%d\n", DW_CFA_restore + dwarfreg[4]);
-  out8(); asm_printf("%d\n", DW_CFA_restore + dwarfreg[5]);
-  out8(); asm_printf("%d\n", DW_CFA_restore + dwarfreg[6]);
+  out8(); asm_printf("%ld\n", DW_CFA_restore + dwarfreg[3]);
+  out8(); asm_printf("%ld\n", DW_CFA_restore + dwarfreg[4]);
+  out8(); asm_printf("%ld\n", DW_CFA_restore + dwarfreg[5]);
+  out8(); asm_printf("%ld\n", DW_CFA_restore + dwarfreg[6]);
 
   if (!no_frame) {	/* %ebp restored, return address pushed */
     out8(); asm_printf("%d", DW_CFA_def_cfa);
@@ -1059,7 +1059,7 @@ void dw2_fde_restore_args
     short_advance(here, dwl1);
     here = dwl1;
     out8(); asm_printf("%d, ", DW_CFA_DD_def_cfa_dec_offset);
-	asm_printf("%d\n", DW_CFA_restore + dwarfreg[6]); /* %ebp */
+	asm_printf("%ld\n", DW_CFA_restore + dwarfreg[6]); /* %ebp */
   }
   if (min_rfree & 0x20) {
     short_advance(here, dwl2);
@@ -1068,7 +1068,7 @@ void dw2_fde_restore_args
     if (no_frame) {
 	asm_printf("%d, ", DW_CFA_DD_def_cfa_dec_offset);
     }
-	asm_printf("%d\n", DW_CFA_restore + dwarfreg[5]); /* %esi */
+	asm_printf("%ld\n", DW_CFA_restore + dwarfreg[5]); /* %esi */
   }
   if (min_rfree & 0x10) {
     short_advance(here, dwl3);
@@ -1077,7 +1077,7 @@ void dw2_fde_restore_args
     if (no_frame) {
 	asm_printf("%d, ", DW_CFA_DD_def_cfa_dec_offset);
     }
-	asm_printf("%d\n", DW_CFA_restore + dwarfreg[4]); /* %edi */
+	asm_printf("%ld\n", DW_CFA_restore + dwarfreg[4]); /* %edi */
   }
   if (min_rfree & 0x8) {
     short_advance(here, dwl4);
@@ -1086,12 +1086,12 @@ void dw2_fde_restore_args
     if (no_frame) {
 	asm_printf("%d, ", DW_CFA_DD_def_cfa_dec_offset);
     }
-	asm_printf("%d\n", DW_CFA_restore + dwarfreg[3]); /* %ebx */
+	asm_printf("%ld\n", DW_CFA_restore + dwarfreg[3]); /* %ebx */
   }
   if (!no_frame) {
     short_advance(here, dwl1);
     here = dwl1;
-    out8 (); asm_printf("%d", DW_CFA_restore + dwarfreg[6]); /* %ebp */
+    out8 (); asm_printf("%ld", DW_CFA_restore + dwarfreg[6]); /* %ebp */
 	asm_printf(", %d", DW_CFA_def_cfa);
 	asm_printf(", "); uleb128((unsigned long)dw_sp);
 	asm_printf(", "); uleb128 ((unsigned long)0);	/* CFA is sp at entry point */

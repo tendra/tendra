@@ -651,7 +651,7 @@ void operand
   if (n == clear_tag) {
 	/* any legal operand will do! */
     if (name(sh(w)) >= shrealhd && name(sh(w)) <= doublehd) {
-      asm_printf("%st");
+      asm_printf("%s", "%st");
       return;
     }
     switch (shape_size(sh(w))) {

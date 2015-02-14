@@ -204,7 +204,7 @@ void set_up_frame_info(procrec * pr, exp e)
   }
   
   
-  asm_comment("gpr use mask = %#x, lowest = %d", pr->spacereqproc.fixdump, pr->sreg_first_save);
+  asm_comment("gpr use mask = %#lx, lowest = %d", (unsigned long) pr->spacereqproc.fixdump, pr->sreg_first_save);
   assert(pr->sreg_first_save==R_NO_REG || IS_SREG(pr->sreg_first_save));
   
   
@@ -222,7 +222,7 @@ void set_up_frame_info(procrec * pr, exp e)
   }
   
   
-  asm_comment("fpr use mask = %#x, lowest = %d", pr->spacereqproc.fltdump, pr->sfreg_first_save);
+  asm_comment("fpr use mask = %#lx, lowest = %d", (unsigned long) pr->spacereqproc.fltdump, pr->sfreg_first_save);
   assert(pr->sfreg_first_save==FR_NO_REG || IS_FLT_SREG(pr->sfreg_first_save));
   if (pr->leaf_proc)
   {

@@ -763,7 +763,7 @@ int move(ans a, where dest, long regs, bool sgned)
   if(size==0)
     return NOREG;
   
-  asm_comment("move: %d -> %d, dest ashsize,ashalign = %d,%d",
+  asm_comment("move: %d -> %d, dest ashsize,ashalign = %ld,%ld",
 	       a.discrim, dest.answhere.discrim, dest.ashwhere.ashsize, dest.ashwhere.ashalign);
 #if 0
   assert((dest.answhere.discrim == inreg && dest.answhere.val.regans == R_0)	/* nowhere */

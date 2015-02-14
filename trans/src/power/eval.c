@@ -219,7 +219,7 @@ long evalexp(exp e)
       assert(ash_rhs.ashalign==1 && ash_rhs.ashsize<=32);
       assert(ash_lhs.ashsize+ash_rhs.ashsize<=32);
 
-      asm_comment("evalexp() concatnof_tag: lhs,rhs=%#x,%#x ash(rhs) =%d,%d",
+      asm_comment("evalexp() concatnof_tag: lhs,rhs=%#lx,%#lx ash(rhs) =%ld,%ld",
 		w_lhs, w_rhs, ash_rhs.ashalign, ash_rhs.ashsize);
 
       if (ash_rhs.ashsize == 32)
@@ -237,7 +237,7 @@ long evalexp(exp e)
 
       a = ashof(sh(e));
 
-      asm_comment("evalexp() clearshape_tag: ash=%d,%d", a.ashalign, a.ashsize);
+      asm_comment("evalexp() clearshape_tag: ash=%ld,%ld", a.ashalign, a.ashsize);
       if (a.ashsize > 32)
 	error(ERROR_SERIOUS, "clear for more than 32 bits");
 
@@ -345,9 +345,9 @@ static concbittype addconcbitaux(unsigned long w, int size, concbittype before)
     wordbitposn = (before.bitposn&31);
   }
 
-  asm_comment("addconcbitaux() sz=%d w=%d", size, w);
-  asm_comment("\tbefore=%d(%d) %#x:%d",
-	       before.bitposn, wordbitposn, before.value, before.value_size);
+  asm_comment("addconcbitaux() sz=%d w=%lu", size, w);
+  asm_comment("\tbefore=%d(%d) %#lx:%d",
+	       before.bitposn, wordbitposn, (unsigned long) before.value, before.value_size);
 #if 0
   assert(size>0);		/* no longer have to handle zero for C */
 #endif
@@ -397,8 +397,8 @@ static concbittype addconcbitaux(unsigned long w, int size, concbittype before)
   else
     before.value = (before.value << size) | (w & unary(size));
 
-  asm_comment("\t after=%d(%d) %#x:%d",
-	       before.bitposn, wordbitposn, before.value, before.value_size);
+  asm_comment("\t after=%d(%d) %#lx:%d",
+	       before.bitposn, wordbitposn, (unsigned long) before.value, before.value_size);
 
   assert(before.value_size<=32);
 
@@ -474,7 +474,7 @@ static void evalone(exp e, int bitposn)
 
   a = ashof(sh(e));
 
-  asm_comment("evalone: name(e) =%d, bitposn=%d, ash=%d,%d", name(e),
+  asm_comment("evalone: name(e) =%d, bitposn=%d, ash=%ld,%ld", name(e),
 	   bitposn, a.ashsize, a.ashalign);
   asm_comment("evalone no(e) =%d",no(e));
 
@@ -692,7 +692,7 @@ static void evalone(exp e, int bitposn)
       {
 	int gap = no(off) - remainderbits.bitposn;
 
-	asm_comment("evalone compound_tag: gap=%d off=%d ash=%d,%d",
+	asm_comment("evalone compound_tag: gap=%d off=%d ash=%ld,%ld",
 		gap, no(off), tupa.ashsize, tupa.ashalign);
 
 	/* check that component's alignment matches offset in struct */
@@ -815,7 +815,7 @@ static void evalone(exp e, int bitposn)
 
   case concatnof_tag:
     {
-      asm_comment("concatnof_tag: ashalign=%d, ashsize=%d", a.ashalign, a.ashsize);
+      asm_comment("concatnof_tag: ashalign=%ld, ashsize=%ld", a.ashalign, a.ashsize);
 
       /* allow for bitfields */
       if (a.ashalign == 1)

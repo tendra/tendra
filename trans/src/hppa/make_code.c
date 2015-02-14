@@ -652,8 +652,8 @@ makeans make_code
   long constval=0;
   makeans mka;
   asm_comment("make_code: %s,\t%s,\tprops=%#x",
-	      (int)SH_NAME(name(sh(e))), (int)TAG_NAME(name(e)), props(e));
-  asm_comment("           space= (%ld,%ld) (%s)", sp.fixed, sp.flt,(int)ANSDISCRIM_NAME(discrim(dest.answhere)));
+	      SH_NAME(name(sh(e))), TAG_NAME(name(e)), props(e));
+  asm_comment("           space= (%ld,%ld) (%s)", sp.fixed, sp.flt, ANSDISCRIM_NAME(discrim(dest.answhere)));
 
  tailrecurse:
   mka.lab = exitlab;
@@ -4417,7 +4417,7 @@ makeans make_code
 	  constval = no(e) & 65535;
 	  constval -= (constval & 32768) << 1;
 	}
-	asm_comment("make_code val_tag: constval = %d", constval);
+	asm_comment("make_code val_tag: constval = %ld", constval);
 	goto moveconst;
       }
     }
@@ -4859,14 +4859,14 @@ null_tag_case:
       w.ashwhere = a;
       code_here(son(e), sp, w);
 
-      asm_comment("make_code bitf_to_int_tag: size=%d", a.ashsize);
+      asm_comment("make_code bitf_to_int_tag: size=%ld", a.ashsize);
 
       if (a.ashsize != 32 && src_sgned != target_sgned)
       {
 	/* propogate/correct sign bits */
 	/* +++ make move() handle this by pasting sign down */
 
-	asm_comment("make_code bitf_to_int_tag: adjusting to sign/size %d/%d -> %d/%d",
+	asm_comment("make_code bitf_to_int_tag: adjusting to sign/size %d/%ld -> %d/%ld",
 		 src_sgned, a.ashsize,
 		 target_sgned, a.ashsize);
 

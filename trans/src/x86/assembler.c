@@ -201,7 +201,7 @@ out_switch_jump(int tab, where a, int min)
 
 		asm_printop("movl -%d(%s),%s", 4 * min, "%eax", "%eax");
 		asm_printop("addl %s,%s", "%ebx", "%eax");
-		asm_printop("subl $_GLOBAL_OFFSET_TABLE_+ [.-.L%d],%eax", pic_label);
+		asm_printop("subl $_GLOBAL_OFFSET_TABLE_+ [.-.L%d],%s", pic_label, "%eax");
 		asm_printop("jmp *%s", "%eax");
 		/* MODIFY FOR NEW CASE !!!!! */
 		return;
@@ -336,7 +336,7 @@ out_initialiser(char *id)
 
 		asm_printf("\n");
 	} else {
-		asm_printf(".stabs \"___TDFI_LIST__\",22,0,0,%s\n, id");
+		asm_printf(".stabs \"___TDFI_LIST__\",22,0,0,%s\n", id);
 	}
 
 	asm_printf("\n");

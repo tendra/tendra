@@ -350,7 +350,7 @@ evalexp(exp e)
       assert(ash_rhs.ashalign == 1 && ash_rhs.ashsize <= 32);
       assert(ash_lhs.ashsize + ash_rhs.ashsize <= 32);
 
-      asm_comment("evalexp() concatnof_tag: lhs,rhs=%#x,%#x ash(rhs)=%d,%d",
+      asm_comment("evalexp() concatnof_tag: lhs,rhs=%#lx,%#lx ash(rhs)=%ld,%ld",
 		   w_lhs, w_rhs, ash_rhs.ashalign, ash_rhs.ashsize);
 
       if (ash_rhs.ashsize == 32)
@@ -736,7 +736,7 @@ evalone(exp e, int bitposn)
 
   a = ashof(sh(e));
 
-  asm_comment("evalone: name(e)=%d, bitposn=%d, ash=%d,%d", name(e), bitposn, a.ashsize, a.ashalign);
+  asm_comment("evalone: name(e)=%d, bitposn=%d, ash=%ld,%ld", name(e), bitposn, a.ashsize, a.ashalign);
 
   set_align(a.ashalign);
 
@@ -1041,7 +1041,7 @@ evalone(exp e, int bitposn)
 
   case concatnof_tag:
     {
-      asm_comment("concatnof_tag: ashalign=%d, ashsize=%d", a.ashalign, a.ashsize);
+      asm_comment("concatnof_tag: ashalign=%ld, ashsize=%ld", a.ashalign, a.ashsize);
 
       /* allow for bitfields */
       if (a.ashalign == 1)

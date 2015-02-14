@@ -197,7 +197,7 @@ void translate_capsule(void)
 
     id = crt_def->dec_u.dec_val.dec_id;		/* might be changed by fixup_name() */
 
-    asm_comment("%s: extnamed=%d no(tg)=%d isvar(tg)=%d", (long)id, extnamed, no(tg), isvar(tg));
+    asm_comment("%s: extnamed=%d no(tg)=%d isvar(tg)=%d", id, extnamed, no(tg), isvar(tg));
     asm_comment("\tname(tg)=%d dec_outermost=%d have_def=%d son(tg)!=NULL=%d",
 		name(tg), crt_def->dec_u.dec_val.dec_outermost, crt_def->dec_u.dec_val.have_def, son(tg) != NULL);
     if (son(tg) != NULL)
@@ -456,8 +456,8 @@ void translate_capsule(void)
   }
   maxfix_tregs -= REGISTER_SAFETY_NUMBER;
   
-  asm_comment("maxfix_tregs=%d(%#x) maxfloat_tregs=%d(%#x)",
-	maxfix_tregs, tempregs.fixed, MAXFLT_TREGS, tempregs.flt);
+  asm_comment("maxfix_tregs=%d(%#lx) maxfloat_tregs=%d(%#lx)",
+	maxfix_tregs, (unsigned long) tempregs.fixed, MAXFLT_TREGS, (unsigned long) tempregs.flt);
 
 
   /*

@@ -54,7 +54,7 @@ specno(char * n)
    * special, rewrite TDF in specialneeds, no call to specialmake
    */
 
-  asm_comment("specno(%s)", (long) n);
+  asm_comment("specno(%s)", n);
 
   if (strcmp(n, "___builtin_strcpy") == 0 || strcmp(n, "___TDF_builtin_strcpy") == 0)
     return -1;
@@ -158,7 +158,7 @@ specialopt(exp fn)
 
     extname += strlen(name_prefix); /* Normalise "_foo" -> "foo" */
     
-    asm_comment("specialopt: %s", (int)extname);
+    asm_comment("specialopt: %s", extname);
 
     if ((strcmp(extname, "vfork") == 0) ||
 	(strcmp(extname, "setjmp") == 0) ||

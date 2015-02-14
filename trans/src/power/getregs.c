@@ -70,7 +70,7 @@ int getreg(long fixed)
   int reg = -1;
   long start = choosefix;
 
-  asm_comment("getreg: from %#x, choosefix=%#x currentfix=%d", fixed, choosefix, currentfix);
+  asm_comment("getreg: from %#lx, choosefix=%#lx currentfix=%d", (unsigned long) fixed, (unsigned long) choosefix, currentfix);
 
   /* currentfix and choosefix are in step, one the reg number, one the mask */
   assert(choosefix == RMASK(currentfix));
@@ -125,7 +125,7 @@ int getfreg(long fl)
   int reg = -1;
   long start = choosefloat;
 
-  asm_comment("getfreg: from %#x, choosefloat=%#x currentfloat=%d", fl, choosefloat, currentfloat);
+  asm_comment("getfreg: from %#lx, choosefloat=%#lx currentfloat=%d", fl, (unsigned long) choosefloat, (unsigned long) currentfloat);
 
   /*
    * currentfloat and choosefloat are in step, one the reg number, one the

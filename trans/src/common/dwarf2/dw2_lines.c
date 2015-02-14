@@ -185,7 +185,7 @@ update_statprog(void)
 		out32();
 		out_dwf_label(current_ad_label, 0);
 		if (current_ad_count) {
-			asm_printf(" + %d", current_ad_count * min_instr_size);
+			asm_printf(" + %ld", current_ad_count * min_instr_size);
 		}
 		asm_printf("\n");
 		if (needs_debug_align) {
@@ -199,7 +199,7 @@ update_statprog(void)
 		asm_printf(" - ");
 		out_dwf_label(prev_ad_label, 0);
 		if (current_ad_count != prev_ad_count) {
-			asm_printf(" + %d", (current_ad_count - prev_ad_count) *
+			asm_printf(" + %ld", (current_ad_count - prev_ad_count) *
 			     min_instr_size);
 		}
 		asm_printf("\n");
@@ -248,7 +248,7 @@ update_statprog(void)
 	if (special == (opcode_base - dw_line_base)) {
 		asm_printf("%d", DW_LNS_copy);
 	} else {
-		asm_printf("%d", special);
+		asm_printf("%ld", special);
 	}
 	outnl_comment_i("Line", current_line);
 	prev_line = current_line;

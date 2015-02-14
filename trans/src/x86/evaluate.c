@@ -304,7 +304,7 @@ static  void clear_out
     };
   }
   else {
-    asm_printf(".set .,.+%d\n");
+    asm_printf(".set .,.+%d\n", n);
   };
 
   return;

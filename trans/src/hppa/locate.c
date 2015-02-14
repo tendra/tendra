@@ -126,10 +126,10 @@ baseoff boff
 #endif
   else
   {
-    asm_comment("baseoff: n=%lx, b=%d, n>>4=%ld", n, b, n >> 4);
+    asm_comment("baseoff: n=%x, b=%d, n>>4=%d", n, b, n >> 4);
     error(ERROR_SERIOUS, "not a baseoff in boff");
   }
-  asm_comment("baseoff: base=%d off=%d", an.base, an.offset);
+  asm_comment("baseoff: base=%d off=%ld", an.base, an.offset);
   return an;
 }
 
@@ -212,7 +212,7 @@ where locate1
       {
 	/* ... it has been allocated in a fixed point reg */
 
-	asm_comment("locate1: name_tag: fixed point reg%s",(int)(var?" var":""));
+	asm_comment("locate1: name_tag: fixed point reg%s", var ? " var" : "");
 
 	if (var)
 	{
@@ -552,7 +552,7 @@ where locate1
        * answer is going to be the contents of address represented by fc
        */
 
-      asm_comment("locate1: cont[vol]_tag: %s",(int)ANSDISCRIM_NAME(discrim(ason)));
+      asm_comment("locate1: cont[vol]_tag: %s", ANSDISCRIM_NAME(discrim(ason)));
 
       switch (discrim(ason))
       {

@@ -180,7 +180,7 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
 	no(e) = SREG_TO_REALREG(ffix);	/* will be an s reg */
 	ffix -= 1;
 	def.fixdump |= RMASK(no(e));
-	asm_comment("regalloc suitable for reg no %ld", no(e));
+	asm_comment("regalloc suitable for reg no %d", no(e));
 	assert(ffix >= 0);
 	assert(IS_SREG(no(e)));
 	assert(a.ashsize <= 32);
@@ -253,7 +253,7 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
 
 	  def.stack = MAX_OF(def.stack, st);
 	  no(e) = stack * 2 + GR17;
-	  asm_comment("regalloc allocate on stack:	stack,st=%ld,%ld	no(e)=%ld", stack, st, no(e));
+	  asm_comment("regalloc allocate on stack:	stack,st=%ld,%ld	no(e)=%d", stack, st, no(e));
 	}
       }
       else if (no(e) == R_USE_RES_REG)
@@ -263,7 +263,7 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
 	 * Optimisation: use result reg for ident_tag to avoid reg move
 	 */
 	assert (!isenvoff(e));
-	asm_comment("regalloc no(e)==R_USE_RES_REG:	no(e)=%ld, inreg_bits=%d", no(e), (props(e) & inreg_bits) != 0);
+	asm_comment("regalloc no(e)==R_USE_RES_REG:	no(e)=%d, inreg_bits=%d", no(e), (props(e) & inreg_bits) != 0);
 	no(e) = ((props(e) & inreg_bits) != 0) ? RET0 : R_DEFER_FR4;
 	/* set up result of proc as declared id ( R_DEFER_FR4 = %fr4 later) */
       }

@@ -209,7 +209,7 @@ static void code_def
 	}
 	else
 	if (assembler == ASM_SUN) {
-		asm_printf(".local %s\n");
+		asm_printf(".local %s\n", id);
 	} else if (assembler == ASM_GAS) {
 		asm_printf(".data\n");
 		asm_printf("%s:\n", id);

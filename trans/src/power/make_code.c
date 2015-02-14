@@ -211,7 +211,7 @@ static int has_bitfield(exp e)
       {
 	shape s = sh(e);
 
-	asm_comment("has_bitfield: compound field sz=%d als=%d,%d,%d",
+	asm_comment("has_bitfield: compound field sz=%d als=%lu,%lu,%lu",
 		shape_size(s), shape_align(s), al1(s), al2(s));
 	return shape_size(s)!= 0 && (shape_align(s) == 1 || al1(s) == 1 || al2(s) == 1);
       }
@@ -301,7 +301,7 @@ static void queue_bc_ins(Instruction_P ins, int creg, int lab)
 {
   int i;
 
-  asm_comment("queue_bc_ins(%s,%d,lab)",(int)ins, creg);
+  asm_comment("queue_bc_ins(%s,%d,lab)", ins, creg);
 
 #ifndef NDEBUG
   /* check there is not a queued instruction using same creg (now corrupted) */
@@ -503,7 +503,7 @@ static void case_tag_code_notransform(int caseint_reg, exp e, space sp)
     use_jump_vector = range_factor <= n_factor;
   }
 
-  asm_comment("case_tag: n=%d l,u=%d,%d approx_range=%d", n, l, u, approx_range);
+  asm_comment("case_tag: n=%ld l,u=%ld,%ld approx_range=%lu", n, l, u, approx_range);
   if (is_signed(sh(son(e)))) {
     assert(l <= u);
   } else {
@@ -1604,7 +1604,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 	    newis = str;
 	    newis.b.offset += no(t);
 
-	    asm_comment("make_code compound_tag: name(t) =%d no(t) =%d al2=%d offset=%d",
+	    asm_comment("make_code compound_tag: name(t) =%d no(t) =%d al2=%lu offset=%ld",
 		name(t), no(t), al2(sh(t)), newis.b.offset);
 	    assert(name(t) == val_tag && al2(sh(t)) >= 8);
 
@@ -2846,7 +2846,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
       w.ashwhere = a;
       code_here(son(e), sp, w);
 
-      asm_comment("make_code bitsint_tag: size=%d", a.ashsize);
+      asm_comment("make_code bitsint_tag: size=%ld", a.ashsize);
 
       if (a.ashsize != 32 && src_sgned != target_sgned)
       {
@@ -2855,7 +2855,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 	ash atarget;
 	atarget = ashof(sh(e));
 
-	asm_comment("make_code bitsint_tag: adjusting to sign/size %d/%d -> %d/%d",
+	asm_comment("make_code bitsint_tag: adjusting to sign/size %d/%ld -> %d/%ld",
 		src_sgned, a.ashsize,
 		target_sgned, atarget.ashsize);
 
@@ -3430,7 +3430,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
   {
     int r = regfrmdest(&dest,sp);
     ans aa;
-    asm_comment("load constval = %d",constval);
+    asm_comment("load constval = %ld", constval);
     ld_const_ins(constval, r);
     setregalt(aa, r);
     move(aa, dest, guardreg(r, sp).fixed, 1);

@@ -334,7 +334,7 @@ static where locate1(exp e, space sp, shape s, int dreg)
 
 	  set_ins(is.b, dreg);
 	  keepreg(e, dreg);
-	  asm_comment("locate1 name_tag: keepreg glob adval=%d bo={%d,%d}", is.adval, is.b.base, is.b.offset);
+	  asm_comment("locate1 name_tag: keepreg glob adval=%d bo={%d,%ld}", is.adval, is.b.base, is.b.offset);
 	  is.b.base = dreg;
 	  is.b.offset = 0;
 	}
@@ -575,7 +575,7 @@ static where locate1(exp e, space sp, shape s, int dreg)
        case notinreg:
 	{
 	  isa = insalt(ason);
-	  asm_comment("locate1 cont_tag: adval=%d bo={%d,%d}", isa.adval, isa.b.base, isa.b.offset);
+	  asm_comment("locate1 cont_tag: adval=%d bo={%d,%ld}", isa.adval, isa.b.base, isa.b.offset);
 	  if (isa.adval)
 	  {
 	    /* literal store address, so make it into a direct one */
@@ -659,7 +659,7 @@ static where locate1(exp e, space sp, shape s, int dreg)
 	  isa = insalt(wans.answhere);
 	  isa.b.offset += no(e) / 8;
 	  setinsalt(wans.answhere, isa);
-	  asm_comment("locate field_tag: adjusting byte offset to %d", isa.b.offset);
+	  asm_comment("locate field_tag: adjusting byte offset to %ld", isa.b.offset);
 	  break;
 	}
        default:

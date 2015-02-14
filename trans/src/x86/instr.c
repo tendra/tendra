@@ -177,7 +177,7 @@ void rel_cp
       asm_printf(")");
     return;
   };
-  asm_printf("%s(%s", n, "%esp");
+  asm_printf("%d(%s", n, "%esp");
   if (b)
     asm_printf(")");
   return;
@@ -210,7 +210,7 @@ void rel_ap1
 (int i, int b)
 {
   if (no_frame) {
-    asm_printf("%d+%sfcwdisp(%s", i + (extra_stack - stack_dec) / 8, local_prefix, crt_proc_id, "%esp");
+    asm_printf("%d+%sfcwdisp%d(%s", i + (extra_stack - stack_dec) / 8, local_prefix, crt_proc_id, "%esp");
     if (b)
       asm_printf(")");
     return;
@@ -967,7 +967,7 @@ void mult_op
 {
   asm_printf("\tleal ");
   if (inc != 0)
-    asm_printf("%s", inc);
+    asm_printf("%d", inc);
   asm_printf("(");
   if (name(rmain.where_exp)!= val_tag ||
      (no(rmain.where_exp) + rmain.where_off)!= 0)

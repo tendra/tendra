@@ -116,9 +116,9 @@ move(ans a, where dest, long regs, bool sgned)
   if ( dest.ashwhere.ashsize == 0 )
      return NOREG ;
 
-  asm_comment("move: %s -> %s, dest ashsize,ashalign = %d,%d",
-	       (int)ANSDISCRIM_NAME(discrim ( a )),
-	       (int)ANSDISCRIM_NAME(discrim ( dest.answhere )),
+  asm_comment("move: %s -> %s, dest ashsize,ashalign = %ld,%ld",
+	       ANSDISCRIM_NAME(discrim ( a )),
+	       ANSDISCRIM_NAME(discrim ( dest.answhere )),
 	       dest.ashwhere.ashsize, dest.ashwhere.ashalign);
   assert((discrim ( dest.answhere ) == inreg && dest.answhere.val.regans == GR0)	/* nowhere */
 	 || dest.ashwhere.ashsize > 0);	/* unitialised dest.ashwhere */
@@ -754,7 +754,7 @@ start:
 
 	  no_steps = (bits + bits_per_step - 1) / bits_per_step;
 
-	  asm_comment("move: mem to mem dest.ashwhere.ashsize,ashalign=%d,%d",
+	  asm_comment("move: mem to mem dest.ashwhere.ashsize,ashalign=%ld,%ld",
 		   dest.ashwhere.ashsize, dest.ashwhere.ashalign);
 	  asm_comment("move: mem to mem bits=%d align=%d, bytes_per_step=%d no_steps=%d",
 		   bits, al, bytes_per_step, no_steps);

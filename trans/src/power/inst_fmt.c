@@ -146,7 +146,7 @@ void ld_ins(Instruction_P ins, baseoff a, int dest)
     /* global */
     baseoff tmp_off;
 
-    asm_comment("ld_ins ext: off=%#x -> r%d", a.offset, dest);
+    asm_comment("ld_ins ext: off=%#lx -> r%d", (unsigned long) a.offset, dest);
     assert(a.offset==0 || dest!=R_TMP0);
 
     /* load base into dest reg, then let ld_ro_ins do offset (which may need R_TMP0) */

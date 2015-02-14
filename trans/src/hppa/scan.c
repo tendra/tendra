@@ -953,7 +953,7 @@ needs scan
   }
 #endif
 
-  asm_comment("scan: %s",(int)TAG_NAME(nstare));
+  asm_comment("scan: %s", TAG_NAME(nstare));
 
   switch (nstare)
   {
@@ -1576,7 +1576,7 @@ needs scan
 	}
       }
 
-      asm_comment("scan res_tag: result size %d", a.ashsize);
+      asm_comment("scan res_tag: result size %ld", a.ashsize);
       if (a.ashsize != 0 && name(*arg) != clear_tag)  /* not a void result */
       {
 	x.propsneeds|= has_result_bit;

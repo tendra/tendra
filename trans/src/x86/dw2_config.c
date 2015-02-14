@@ -26,7 +26,7 @@ long dwarf_lab_num = 0;
 void
 out_string(char *s)
 {
-  asm_printf(".string \"%s\"\n");
+  asm_printf(".string \"%s\"\n", s);
   return;
 }
 
@@ -47,7 +47,7 @@ end_string(void)
 void
 enter_section(char *s)
 {
-  asm_printf(".section .%s\n");
+  asm_printf(".section .%s\n", s);
   return;
 }
 

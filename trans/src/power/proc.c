@@ -1038,7 +1038,7 @@ space do_callers(int n, exp list, space sp)
 
 	  is = insalt(w.answhere);
 
-	  asm_comment("apply: simple aggregate parameter: adval=%d reg=%d off=%d",
+	  asm_comment("apply: simple aggregate parameter: adval=%d reg=%d off=%ld",
 		   is.adval, is.b.base, is.b.offset);
 	  assert(!is.adval);
 	  /* it is already lying about */

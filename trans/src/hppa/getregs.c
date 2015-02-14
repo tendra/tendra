@@ -129,7 +129,7 @@ getfreg(long fl) /* get a free temporary floating reg */
   int reg = -1;
   long start = choosefloat;
 
-  asm_comment("getfreg: from %#x, choosefloat=%#x currentfloat=%d", fl, choosefloat, currentfloat);
+  asm_comment("getfreg: from %#lx, choosefloat=%#lx currentfloat=%d", fl, choosefloat, currentfloat);
 
   /*
    * currentfloat and choosefloat are in step, one the reg number, one the

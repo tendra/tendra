@@ -205,7 +205,7 @@ static void stab_typedefs(void);
  */
 static void INSPECT_FILENAME(filename f)
 {
-  asm_comment("INSPECT_FILENAME %d: '%s'", nofds,(int)CSTRING(f->file));
+  asm_comment("INSPECT_FILENAME %d: '%s'", nofds, CSTRING(f->file));
 
   if (fds == NULL)
   {
@@ -584,7 +584,7 @@ static void output_diag(diag_info * d, int proc_no, exp e)
   id = son(d->data.id_scope.access);
 
   asm_comment("output_diag: DIAG_INFO_ID %s isglob(id) =%d no(id) =%d",
-	      (int)CSTRING(d->data.id_scope.nme), isglob(id), no(id));
+	      CSTRING(d->data.id_scope.nme), isglob(id), no(id));
 
   /* can't output global values as local names */
   if (isglob(id))

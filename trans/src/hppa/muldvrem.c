@@ -180,7 +180,7 @@ static void mul_const_complex
 	  bsl_1_tab = bs_tab_len;
 	if (bsl > max_bsl)
 	  max_bsl = bsl;
-	asm_comment("mul_const_complex: bs_tab[%d] =%d,%d c=%d", bs_tab_len, bs_tab[bs_tab_len].bsl, bs_tab[bs_tab_len].shift, c);
+	asm_comment("mul_const_complex: bs_tab[%d] =%d,%d c=%ld", bs_tab_len, bs_tab[bs_tab_len].bsl, bs_tab[bs_tab_len].shift, c);
 	bs_tab_len++;
 	bsl = 0;
       }

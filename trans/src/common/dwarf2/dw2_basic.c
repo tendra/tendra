@@ -350,7 +350,7 @@ dw_at_data(int n, long d)
 	default:
 		error(ERROR_INTERNAL, "dwarf data size not supported");
 	}
-	asm_printf("%d\n", d);
+	asm_printf("%ld\n", d);
 	return;
 }
 
