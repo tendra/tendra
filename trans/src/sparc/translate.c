@@ -691,9 +691,7 @@ translate_capsule (void){
 	  proc_directive = 0 ;
 	}
 	asm_printop( ".proc %d", proc_directive ) ;
-	if (do_comment) {
-		if ( p & long_result_bit ) asm_comment ( "struct result" ) ;
-	}
+	if ( p & long_result_bit ) asm_comment ( "struct result" ) ;
 
 	switch (diag) {
     case DIAG_DWARF2:
@@ -731,9 +729,7 @@ translate_capsule (void){
 	  asm_printop( ".size %s,.-%s", id, id ) ;
 	} 
 	else {
-		if (do_comment) {
-		  asm_printf("!\t.end %s\n", id) ;
-		}
+		asm_comment(".end %s", id) ;
 	}
 	switch ( diag ) {
 	case DIAG_DWARF2:
