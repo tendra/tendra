@@ -201,7 +201,6 @@ static void out_classmem
       break;
     }
   }
-  return;
 }
 
 
@@ -271,7 +270,6 @@ static void out_class_data
   for (i = 0; i < cd->members.len; i++) {
     out_classmem (cd->members.array[i]);
   }
-  return;
 }
 
 
@@ -288,7 +286,6 @@ static void out_task_sync_data
   for (i = 0; i < td->members.len; i++) {
     out_classmem (td->members.array[i]);
   }
-  return;
 }
 
 
@@ -366,7 +363,6 @@ static void out_variant_part
     dw_sibling_end ();
   }
   dw_sibling_end ();
-  return;
 }
 
 
@@ -375,7 +371,6 @@ static void out_ref_bound
 {
   dw_at_form (DW_FORM_ref_addr); asm_printf("\n");
   dw_at_ext_address (tg);
-  return;
 }
 
 
@@ -425,7 +420,6 @@ void dw_out_dim
     else
       dw_out_const (son(d.upper.x));
   }
-  return;
 }
 
 
@@ -920,7 +914,6 @@ void dw_out_type
     default:
       error(ERROR_INTERNAL, "illegal type");
   }
-  return;
 }
 
 
@@ -933,5 +926,4 @@ void dw2_out_all_types
     if (dt->key != DGT_TAGGED || !dt->data.t_tag->done)
       dw_out_type (dt);
   }
-  return;
 }

@@ -45,7 +45,6 @@ seed_label (void){
   int old_last_label = last_label ;
   last_label = ( ( last_label + 100 ) / 100 ) * 100 ;
   assert ( last_label >= old_last_label ) ;
-  return ;
 }
 
 
@@ -67,5 +66,4 @@ void
 set_label ( int l ){
   asm_label("%s%d", lab_prefix, l);
   assert (l > 100);
-  return ;
 }

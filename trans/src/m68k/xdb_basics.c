@@ -42,7 +42,6 @@ static void
 diag_prologue(void)
 {
 	init_diag();
-	return;
 }
 
 
@@ -64,7 +63,6 @@ diag_epilogue(void)
 	}
 	output_all();
 	copy_diag();
-	return;
 }
 
 
@@ -78,7 +76,6 @@ diag_mark(sourcemark *sm)
 	char *nm = sm->file->file.ints.chars;
 	long ln = sm->line_no.nat_val.small_nat;
 	diag_source(nm, ln, 1);
-	return;
 }
 
 
@@ -96,7 +93,6 @@ diag_variable(diag_info *di, exp e)
 	if (!isparam(son(s))) {
 		diag_local_variable(t, nm, p);
 	}
-	return;
 }
 
 
@@ -125,7 +121,6 @@ diag_start(diag_info *di, exp e)
 	default:
 		break;
 	}
-	return;
 }
 
 
@@ -144,7 +139,6 @@ diag_end(diag_info *di, exp e)
 			dnt_end();
 		}
 	}
-	return;
 }
 
 
@@ -161,7 +155,6 @@ xdb_diag_proc_begin(diag_descriptor *di, exp p, char *pname, long cname,
 	sourcemark *sm = & (di->data.id.whence);
 	diag_proc_main(t, p, nm, !is_local(pname), pname);
 	diag_mark(sm);
-	return;
 }
 
 
@@ -175,7 +168,6 @@ xdb_diag_proc_return(void)
 	if (diag == DIAG_XDB_NEW) {
 		slt_exit();
 	}
-	return;
 }
 
 
@@ -196,7 +188,6 @@ xdb_diag_proc_end(diag_descriptor *di)
 	}
 	dnt_end();
 	area(plast);
-	return;
 }
 
 
@@ -210,7 +201,6 @@ xdb_diag_val_begin(diag_descriptor *di, char *pname, long cname, int is_ext)
 	char *nm = di->data.id.nme.ints.chars;
 	diag_type t = di->data.id.new_type;
 	diag_globl_variable(t, nm, !is_local(pname), pname, 1);
-	return;
 }
 
 
@@ -230,7 +220,6 @@ OUTPUT_GLOBALS_TAB(void)
 			diag_type_defn(nm, d);
 		}
 	}
-	return;
 }
 
 
@@ -241,7 +230,6 @@ OUTPUT_GLOBALS_TAB(void)
 static void
 OUTPUT_DIAG_TAGS(void)
 {
-	return;
 }
 
 
@@ -254,7 +242,6 @@ INSPECT_FILENAME(filename fn)
 {
 	char *nm = fn->file.ints.chars;
 	diag_source(nm, 1, 0);
-	return;
 }
 
 

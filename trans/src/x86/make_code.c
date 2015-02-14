@@ -167,7 +167,6 @@ static void code_push
     make_code(reg0, stack, t);
     move(sh(t), reg0, pushdest);
   };
-  return;
 }
 
 /*
@@ -845,7 +844,6 @@ static void caser
 
   caseins(sz, arg, min, max,v, exhaustive, 0 , case_exp);
   /* put in jump table */
-  return;
 }
 
 /*
@@ -2551,7 +2549,6 @@ void diag_arg
 #endif
 #endif
   }
-  return;
 }
 
 #endif

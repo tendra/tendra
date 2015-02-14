@@ -80,7 +80,6 @@ mark_scope(exp e)
 		dgf(id) = d;
 	}
 #endif
-	return;
 }
 
 
@@ -109,7 +108,6 @@ mark_scope2(exp e)
 	}
 	d->more = dgf(e);
 	dgf(e) = d;
-	return;
 }
 
 
@@ -129,7 +127,6 @@ correct_mark_scope(exp e)
 		d->more = dgf(e);
 		dgf(e) = d;
 	}
-	return;
 }
 
 

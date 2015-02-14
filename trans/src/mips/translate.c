@@ -217,7 +217,6 @@ void code_it
 
 end:
   my_def -> dec_u.dec_val.processed = 1;
-  return;
 }
 
 void mark_unaliased
@@ -234,7 +233,6 @@ void mark_unaliased
   };
   if (ca)
     setcaonly(e);
-  return;
 }
 
 void remove_unused
@@ -492,8 +490,6 @@ void translate_capsule
   }
 
 
-  return;		/* return 1 for error, 0 for good */
-
-
+  /* return 1 for error, 0 for good */
 }
 

@@ -316,6 +316,4 @@ normalised_inlining(void)
   xfree((void *)uses);
   xfree((void *)consider);
   xfree((void *)order);
-
-  return;
 }

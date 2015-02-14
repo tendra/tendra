@@ -102,7 +102,6 @@ uop(void(*op)(shape, where, where), shape sha, exp a, where dest, ash stack)
 	}
 	/* If a is an operand, apply op directly to a */
 	(*op)(sha, zw(a), dest);
-	return;
 }
 
 
@@ -186,7 +185,6 @@ bop(void(*op)(shape, where, where, where), shape sha, exp a, exp b, where dest,
 	}
 	/* If a and b are both operands, apply op directly */
 	(*op)(sha, zw(a), zw(b), dest);
-	return;
 }
 
 
@@ -299,7 +297,6 @@ logop(void(*op)(shape, where, where, where), exp e, where dest, ash stack)
 	if (have_cond == 3) {
 		have_cond = 1;
 	}
-	return;
 }
 
 
@@ -321,7 +318,6 @@ addsub(shape sha, where a, where b, where dest, ash stack)
 	else {
 		bop(add, sha, e, b.wh_exp, dest, stack);
 	}
-	return;
 }
 
 
@@ -352,7 +348,6 @@ check_unset_overflow(where dest, shape shp)
 
 	kill_exp(max_val, max_val);
 	kill_exp(min_val, min_val);
-	return;
 }
 
 

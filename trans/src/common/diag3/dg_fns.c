@@ -87,7 +87,6 @@ void
 init_bool_option(void)
 {
 	no_bool_option.present = 0;
-	return;
 }
 
 
@@ -107,7 +106,6 @@ void
 init_shape_option(void)
 {
 	no_shape_option.present = 0;
-	return;
 }
 
 
@@ -127,7 +125,6 @@ void
 init_token_option(void)
 {
 	no_token_option.present = 0;
-	return;
 }
 
 
@@ -553,7 +550,6 @@ f_triggering_alternative_dg(dg_sourcepos src_pos, nat alt_kind, bool no_code)
 void
 init_dg(void)
 {
-	return;
 }
 
 
@@ -572,7 +568,6 @@ f_make_dg_compunit(tdfint no_labels, dg_compilation comp_unit, dg_append_list l)
 void
 init_dg_comp_props(void)
 {
-	return;
 }
 
 
@@ -592,7 +587,6 @@ f_make_dg_tag(tdfint num)
 void
 init_dg_tag(void)
 {
-	return;
 }
 
 
@@ -874,7 +868,6 @@ f_dg_visibility_name(dg_tag dname, nat import_kind, dg_idname_option idname,
 void
 init_dg_name(void)
 {
-	return;
 }
 
 
@@ -1378,7 +1371,6 @@ f_dg_unknown_type(shape sha)
 void
 init_dg_type(void)
 {
-	return;
 }
 
 
@@ -1408,7 +1400,6 @@ f_make_dg_class_base(dg_tag base, dg_sourcepos_option whence,
 void
 init_dg_class_base(void)
 {
-	return;
 }
 
 
@@ -1495,7 +1486,6 @@ f_dg_name_classmem(dg_name nam)
 void
 init_dg_classmem(void)
 {
-	return;
 }
 
 
@@ -1514,7 +1504,6 @@ dg_qualifier f_dg_limited_qualifier = DG_LIM_T;
 void
 init_dg_qualifier(void)
 {
-	return;
 }
 
 
@@ -1559,7 +1548,6 @@ f_dg_unknown_bound(shape sha)
 void
 init_dg_bound(void)
 {
-	return;
 }
 
 
@@ -1660,7 +1648,6 @@ init_dg_dim(void)
 	f_dg_unspecified_dim.lower.tg = f_dg_unspecified_dim.upper.tg =
 	    NULL;
 	f_dg_unspecified_dim.tg = NULL;
-	return;
 }
 
 
@@ -1713,7 +1700,6 @@ f_dg_tag_enum(dg_tag tg, dg_enum e)
 void
 init_dg_enum(void)
 {
-	return;
 }
 
 dg_param f_dummy_dg_param;
@@ -1748,7 +1734,6 @@ f_dg_type_param(dg_idname_option idname, dg_sourcepos_option src_pos,
 void
 init_dg_param(void)
 {
-	return;
 }
 
 dg_param_mode f_dummy_dg_param_mode;
@@ -1763,7 +1748,6 @@ dg_param_mode f_dg_inout_mode = DG_INOUT_MODE;
 void
 init_dg_param_mode(void)
 {
-	return;
 }
 
 dg_accessibility f_dummy_dg_accessibility;
@@ -1780,7 +1764,6 @@ dg_accessibility f_dg_local_accessibility = DG_ACC_LOC;
 void
 init_dg_accessibility(void)
 {
-	return;
 }
 
 dg_virtuality f_dummy_dg_virtuality;
@@ -1793,7 +1776,6 @@ dg_virtuality f_dg_abstract_virtuality = DG_VIRT_PURE;
 void
 init_dg_virtuality(void)
 {
-	return;
 }
 
 
@@ -1819,7 +1801,6 @@ f_make_dg_filename(nat date, string machine, string path, string file)
 void
 init_dg_filename(void)
 {
-	return;
 }
 
 
@@ -1874,7 +1855,6 @@ init_dg_sourcepos(void)
 {
 	f_dg_global_sourcepos.sp_key = SP_GLOB;
 	f_dg_null_sourcepos.sp_key = SP_NULL;
-	return;
 }
 
 
@@ -1920,7 +1900,6 @@ f_make_dg_compilation(dg_filename primary_file, string_list comp_unit_deps,
 void
 init_dg_compilation(void)
 {
-	return;
 }
 
 
@@ -1953,7 +1932,6 @@ f_dg_value_constraint(dg_tag_option ref_member, exp value)
 void
 init_dg_constraint(void)
 {
-	return;
 }
 
 
@@ -1977,7 +1955,6 @@ f_make_dg_default(exp_option value, dg_sourcepos_option src_span)
 void
 init_dg_default(void)
 {
-	return;
 }
 
 
@@ -2059,7 +2036,6 @@ f_dg_external_idname(string src_name)
 void
 init_dg_idname(void)
 {
-	return;
 }
 
 
@@ -2101,7 +2077,6 @@ f_dg_undiscrim_varpart(dg_type tag_type, dg_variant_list variants)
 void
 init_dg_varpart(void)
 {
-	return;
 }
 
 
@@ -2120,7 +2095,6 @@ f_make_dg_variant(dg_discrim_list discr, dg_classmem_list fields)
 void
 init_dg_variant(void)
 {
-	return;
 }
 
 
@@ -2143,7 +2117,6 @@ f_make_dg_discrim(exp lower, exp upper)
 void
 init_dg_discrim(void)
 {
-	return;
 }
 
 
@@ -2201,7 +2174,6 @@ f_dg_undef_macro(dg_sourcepos src_pos, dg_idname idname)
 void
 init_dg_macro(void)
 {
-	return;
 }
 
 
@@ -2465,7 +2437,6 @@ f_dg_tag_namelist(dg_tag tg, dg_namelist nl)
 void
 init_dg_namelist(void)
 {
-	return;
 }
 
 
@@ -2485,7 +2456,6 @@ f_dg_name_append(dg_tag tg, dg_name nam)
 void
 init_dg_append(void)
 {
-	return;
 }
 
 
@@ -2550,7 +2520,6 @@ init_dg_idname_option(void)
 {
 	no_dg_idname_option.id_key = DG_ID_NONE;
 	no_dg_idname_option.idd.nam = "";
-	return;
 }
 
 
@@ -2566,7 +2535,6 @@ yes_dg_name_option(dg_name elem)
 void
 init_dg_name_option(void)
 {
-	return;
 }
 
 
@@ -2582,7 +2550,6 @@ yes_dg_accessibility_option(dg_accessibility elem)
 void
 init_dg_accessibility_option(void)
 {
-	return;
 }
 
 
@@ -2598,7 +2565,6 @@ yes_dg_tag_option(dg_tag elem)
 void
 init_dg_tag_option(void)
 {
-	return;
 }
 
 
@@ -2614,7 +2580,6 @@ yes_dg_virtuality_option(dg_virtuality elem)
 void
 init_dg_virtuality_option(void)
 {
-	return;
 }
 
 
@@ -2632,7 +2597,6 @@ init_dg_sourcepos_option(void)
 {
 	no_dg_sourcepos_option.sp_key = SP_NULL;
 	no_short_sourcepos = shorten_sourcepos(no_dg_sourcepos_option);
-	return;
 }
 
 
@@ -2648,7 +2612,6 @@ yes_dg_type_option(dg_type elem)
 void
 init_dg_type_option(void)
 {
-	return;
 }
 
 
@@ -2666,7 +2629,6 @@ init_dg_type_list_option(void)
 {
 	no_dg_type_list_option.len = -1;
 	no_dg_type_list_option.array = NULL;
-	return;
 }
 
 
@@ -2682,7 +2644,6 @@ yes_dg_constraint_list_option(dg_constraint_list elem)
 void
 init_dg_constraint_list_option(void)
 {
-	return;
 }
 
 
@@ -2701,7 +2662,6 @@ yes_dg_varpart_option(dg_varpart elem)
 void
 init_dg_varpart_option(void)
 {
-	return;
 }
 
 
@@ -2717,7 +2677,6 @@ yes_dg_param_mode_option(dg_param_mode elem)
 void
 init_dg_param_mode_option(void)
 {
-	return;
 }
 
 
@@ -2734,7 +2693,6 @@ yes_dg_dim_option(dg_dim elem)
 void
 init_dg_dim_option(void)
 {
-	return;
 }
 
 
@@ -2750,7 +2708,6 @@ yes_dg_filename_option(dg_filename elem)
 void
 init_dg_filename_option(void)
 {
-	return;
 }
 
 
@@ -2769,7 +2726,6 @@ yes_dg_default_option(dg_default elem)
 void
 init_dg_default_option(void)
 {
-	return;
 }
 
 
@@ -2782,7 +2738,6 @@ init_capsule_dgtags(void)
 	for (i = 0; i < capsule_no_of_dgtags; ++i) {
 		init_dgtag(&capsule_dgtab[i]);
 	}
-	return;
 }
 
 
@@ -2798,7 +2753,6 @@ init_unit_dgtags(int n)
 	for (i = 0; i < unit_no_of_dgtags - n; ++i) {
 		init_dgtag(&unit_dgtagtab[i]);
 	}
-	return;
 }
 
 
@@ -2832,8 +2786,6 @@ start_make_dg_comp_unit(int toks, int tags, int als, int dgnames)
 	for (i = 0; i < unit_no_of_dgtags; ++i) {
 		unit_ind_dgtags[i] = NULL;
 	}
-
-	return;
 }
 
 
@@ -2883,8 +2835,6 @@ f_make_dg_comp_unit(void)
 		IGNORE d_dg_append_list();
 		end_bytestream();
 	}
-
-	return;
 }
 
 
@@ -2892,7 +2842,6 @@ void
 f_make_dglink(tdfint i, tdfint ext)
 {
 	unit_ind_dgtags[natint(i)] = &capsule_dgtab[natint(ext)];
-	return;
 }
 
 

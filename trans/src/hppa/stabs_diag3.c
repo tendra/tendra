@@ -940,7 +940,6 @@ void output_DEBUG
 #if USE_XT
     asm_printop(".WORD %ld",xt_next * XTBLOCKSIZE);
 #endif
-    return;
 }
 
 #endif
@@ -959,7 +958,6 @@ static void stab_collect_files
 	fds = (filename *)xrealloc(fds, szfds * sizeof(filename));
     }
     fds[nofds++] = f;
-    return;
 }
 
 /*
@@ -1020,7 +1018,6 @@ void stabd
       }
    }
    currentlno = lno;
-   return;
 }
 
 /*
@@ -1060,7 +1057,6 @@ void stabd
     if (last_param(son(x))) {
 	stabd(currentfile,(long)(currentlno + 1),N_SLINE);
     }
-    return;
 }
 
 /*
@@ -1080,7 +1076,6 @@ void stab_end
 	stab_scope_close(currentfile);
 	return;
     }
-    return;
 }
 
 /*
@@ -1141,7 +1136,6 @@ void init_stab
        NIL.word = -1;
 #endif
     }
-    return;
 }
 
 /*
@@ -1167,7 +1161,6 @@ void init_stab_aux
     }
     while (c = fgetc(tmp), c != EOF)outc(c);
     fclose(tmp);
-    return;
 }
 
 /*
@@ -1240,7 +1233,6 @@ void stab_file
        asm_fprintf(dg_file, "L$M%ld\n", i);
     }
     currentfile = findex;
-    return;
 }
 
 /*
@@ -1310,7 +1302,6 @@ static void stab_scope_close
 	default:
 		error(ERROR_SERIOUS, "unsupported diagnostics format");
    }
-   return;
 }
 
 /*
@@ -1994,7 +1985,6 @@ void stab_global
 	   id
 	  );
   }
-  return;
 }
 
 /*
@@ -2062,8 +2052,6 @@ void stab_proc
       make_dnttentry(K_BEGIN, slt_prev);
 #endif
    }
-
-   return;
 }
 
 #ifdef _SYMTAB_INCLUDED
@@ -2178,7 +2166,6 @@ void close_function_scope
 	  }
        }
     }
-    return;
 }
 
 /*
@@ -2233,7 +2220,6 @@ void stab_types
     type_info[11].sz = 64;
     type_info[12].sz = DOUBLE_SZ;
     type_info[13].sz = 0;
-    return;
 }
 
 /*
@@ -2301,7 +2287,6 @@ static void stab_tagdefs
 		break;
 	}
     }
-    return;
 }
 
 /*
@@ -2324,7 +2309,6 @@ static void stab_typedefs
 	       asm_fprintf(dg_file, "\",0x80,0,0,0\n");
 	}
     }
-    return;
 }
 
 static diag_descriptor *

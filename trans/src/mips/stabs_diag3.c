@@ -300,7 +300,6 @@ addtsym(char *n, long v, int st, int sc, diag_type s)
   a -> st = st;
   a -> sc = sc;
   a -> s = s;
-  return;
 }
 
 typedef struct {
@@ -402,7 +401,6 @@ OUTPUT_DIAG_TAGS(void)
         default: break;
       };
    };
-  return;
 }
 
 /*
@@ -450,7 +448,6 @@ stab_types(void)
 	}
   }
   xfree (ats);
-  return;
 }
 
 static diag_descriptor *

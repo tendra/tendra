@@ -189,7 +189,6 @@ reg_operand_here ( exp e, space sp, int this_reg )
     if ( reg != this_reg ) rr_ins ( i_mov, reg, this_reg ) ;
   }
   if(name(e) != make_lv_tag) keepreg ( e, this_reg ) ;
-  return ;
 }
 
 

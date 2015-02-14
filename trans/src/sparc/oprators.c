@@ -56,7 +56,6 @@ tidyshort ( int r, shape s ){
   } else if ( name ( s ) == uwordhd ) {
     rir_ins ( i_and, r, 0xffff, r ) ;
   }
-  return ;
 }
 
 
@@ -349,7 +348,6 @@ quad_addr ( exp e, int r, space sp ){
   else {
     set_ins ( is.b, r ) ;
   }
-  return ;
 }
 
 
@@ -473,7 +471,6 @@ quad_op ( exp a1, exp a2, space sp, where dest, int op ){
   asm_printop("nop");
   if ( quad_ret ) asm_printop("unimp 16");
   clear_all () ;
-  return ;
 }
 
 

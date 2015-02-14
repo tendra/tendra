@@ -207,7 +207,6 @@ void setvolatile
 (void)
 {
 /*    outs(";\t.volatile\n" ) ;  */
-    return;
 }
 
 /* end of volatile use */
@@ -215,7 +214,6 @@ void setnovolatile
 (void)
 {
 /*    outs(";\t.nonvolatile\n" ) ;  */
-    return;
 }
 
 /*
@@ -391,7 +389,6 @@ static void fix_nonbitfield
       e = bro(bro(e));	/* next pair */
     }
   }
-  return;
 }
 
 

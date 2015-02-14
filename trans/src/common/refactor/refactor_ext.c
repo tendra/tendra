@@ -56,7 +56,5 @@ refactor_ext(exp e)
 		}
 		return;
 	}
-
-	return;
 }
 

@@ -38,7 +38,6 @@ set_abbrev_tag(abbrev_entry *en, int c, int tag_code, int has_children)
 	asm_printf(", ");
 	asm_printf("%d", has_children ? DW_CHILDREN_yes : DW_CHILDREN_no);
 	asm_comment("%s %d", en->aname, c);
-	return;
 }
 
 
@@ -117,7 +116,6 @@ obj_abbrev(abbrev_entry *en, int tag_code)
 		set_attribute(0, 0);
 		c++;
 	} while ((en->attr)[c]);
-	return;
 }
 
 
@@ -160,7 +158,6 @@ module_abbrev(abbrev_entry *en, int tag_code)
 		set_attribute(0, 0);
 		c++;
 	} while ((en->attr)[c]);
-	return;
 }
 
 
@@ -196,7 +193,6 @@ struct_abbrev(abbrev_entry *en, int tag_code)
 		set_attribute(0, 0);
 		c++;
 	} while ((en->attr)[c]);
-	return;
 }
 
 
@@ -1201,5 +1197,4 @@ do_abbreviations(void)
 	out8();
 	asm_printf("%d\n", 0);
 	exit_section();
-	return;
 }

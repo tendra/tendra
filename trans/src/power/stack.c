@@ -126,7 +126,6 @@ void initialise_procedure(procrec *pr)
   p_args_and_link_size = p_leaf ? 0 : STACK_LINK_AREA_SIZE + p_maxargbytes;
   assert(pr->frame_size>=0 && (pr->frame_size&63) == 0);
   assert(pr->frame_size>=pr->maxargs);
-  return;
 }
 
 
@@ -253,8 +252,6 @@ void generate_procedure_prologue(void)
   {
     save_sp_on_stack();
   }
-
-  return;
 }
 
 
@@ -304,7 +301,6 @@ void generate_procedure_epilogue(void)
     mt_ins(i_mtlr, R_TMP0);
   }	
   z_ins(i_br);
-  return;
 }
 void generate_untidy_procedure_epilogue(void)
 {
@@ -355,7 +351,6 @@ void generate_untidy_procedure_epilogue(void)
     mt_ins(i_mtlr,R_TMP0);
   }
   z_ins(i_br);
-  return;
 }
 
 	      
@@ -370,7 +365,6 @@ void save_sp_on_stack(void)
   saved_sp.base = R_FP;
   saved_sp.offset = p_saved_sp_offset;
   st_ro_ins(i_st,R_SP,saved_sp);asm_comment("save sp on stack");
-  return;
 }
 void get_sp_from_stack(void)
 {
@@ -382,7 +376,6 @@ void get_sp_from_stack(void)
   saved_sp.base = R_FP;
   saved_sp.offset = p_saved_sp_offset;
   ld_ro_ins(i_l,saved_sp,R_SP);asm_comment("get SP of stack");
-  return;
 }
 void save_back_chain_using_frame_pointer(void)
 {
@@ -392,7 +385,6 @@ void save_back_chain_using_frame_pointer(void)
   back_chain.offset = 0;
   assert(p_has_fp);
   st_ro_ins(i_st,R_FP,back_chain);asm_comment("save back chain");
-  return;
 }
 
 void restore_sregs(int start_base, int start_offset)
@@ -440,7 +432,6 @@ void restore_sregs(int start_base, int start_offset)
       }
     }
   }
-  return;
 }
 void restore_link_register(void)
 {

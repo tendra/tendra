@@ -46,7 +46,6 @@ out_one(char *d)
     putc (d[i], ba_file);
     d[i] = 0;
   }
-  return;
 }
 
 void

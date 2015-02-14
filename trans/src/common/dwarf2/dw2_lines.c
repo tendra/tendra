@@ -148,7 +148,6 @@ do_statprog_prologue(long l_start, long l_end)
 	out_dwf_label(prologue_end, 1);
 	exit_section();
 	dw2_cie();
-	return;
 }
 
 
@@ -253,7 +252,6 @@ update_statprog(void)
 	asm_comment("Line %ld", current_line);
 	prev_line = current_line;
 	exit_section();
-	return;
 }
 
 
@@ -278,7 +276,6 @@ dw2_source_mark(short_sourcepos pos, int is_stmt)
 	current_line = pos.line;
 	current_col = (long)pos.column;
 	current_is_stmt = (long)is_stmt;
-	return;
 }
 
 
@@ -302,7 +299,6 @@ dw2_start_basic_block(void)
 	out8();
 	asm_printf("%d\n", DW_LNS_set_basic_block);
 	exit_section();
-	return;
 }
 
 
@@ -319,5 +315,4 @@ close_statprog(long l_end)
 	ext_opcode(DW_LNE_end_sequence, 0, 0);
 	out_dwf_label(l_end, 1);
 	exit_section();
-	return;
 }

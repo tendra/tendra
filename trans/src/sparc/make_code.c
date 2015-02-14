@@ -109,7 +109,6 @@ checknan ( exp e, int fr )
   int t = ( ABS_OF ( fr ) - 32 ) << 1 ;
 #endif
   error(ERROR_SERIOUS,  "checknan not implemented" ) ;
-  return ;
 }
 
 
@@ -122,7 +121,6 @@ void
 setvolatile (void)
 {
   asm_printf("!\t.volatile\n" ) ;
-  return ;
 }
 
 
@@ -135,7 +133,6 @@ void
 setnovolatile (void)
 {
   asm_printf("!\t.nonvolatile\n" ) ;
-  return ;
 }
 
 
@@ -176,7 +173,6 @@ void check_integer_exception ( exp e )
     set_label(lab);
 #endif
   }
-  return;
 }
 
 
@@ -234,7 +230,6 @@ void check_floating_exception ( exp e, space sp, int except )
   /*
   rir_ins(i_sll,rt,17,rt);
   condrr_ins(i_blt,rt,0,trap);*/
-  return;
 }
 
 
@@ -261,7 +256,6 @@ turn_off_trap_on_exceptions ( space sp )
   assdest.answhere = aa;
   setregalt(aa,rt);
   move(aa,assdest,guardreg(rt,sp).fixed,1);
-  return;
 }
 
   
@@ -308,7 +302,6 @@ check_integer_multiply_exception ( exp e, space sp, int result )
       set_label(new_lab);
     }
   }
-  return;
 }
 
 /*
@@ -319,7 +312,6 @@ void
 test_unsigned ( int reg, int upper, int trap )
 {
   condri_ins(i_bgu,reg,upper,trap);
-  return;
 }
 
 void 
@@ -327,7 +319,6 @@ test_signed( int reg, int lower, int upper, int trap )
 {
   condri_ins(i_blt,reg,lower,trap);
   condri_ins(i_bgt,reg,upper,trap);
-  return;
 }
 
 void 
@@ -342,7 +333,6 @@ test_signed_and_trap ( int reg, int lower, int upper, int except )
   set_label(jump_label);
   do_exception(except);
   set_label(ok_lab);
-  return;
 }
 
 void 
@@ -352,7 +342,6 @@ test_unsigned_and_trap ( int reg, long upper, int except )
   condri_ins(i_bleu,reg,upper,ok_lab);
   do_exception(except);
   set_label(ok_lab);
-  return;
 }
 
 int 
@@ -374,7 +363,6 @@ load_reg ( exp e, int reg, space sp )
   w.ashwhere = ashof(sh(e));
   setregalt(w.answhere,reg);
   code_here(e,sp,w);
-  return;
 }
 
 
@@ -516,7 +504,6 @@ fconst ( int f, long hi, long lo )
   b.base = dlab ;
   b.offset = 0 ;
   ldf_ins ( i_ldd, b, f << 1 ) ;
-  return ;
 }
 
 #if 0
@@ -547,7 +534,6 @@ ldconst ( int r, long hi, long word2, long word3, long lo )
   lost_count_ins();
 #endif
   /*ldf_ins ( i_ldd, b, f << 1 ) ;*/
-  return ;
 }
 #endif
 
@@ -656,7 +642,6 @@ fix_nonbitfield ( exp e )
     }
     /* NOT REACHED */
   }
-  return ;
 }
 
 
@@ -843,7 +828,6 @@ check_range_and_do_error_jump ( shape rep_var, int r, int lab, space sp, int rmo
       error(ERROR_SERIOUS, "shape not covered in range check");
     }
   }
-  return;
 }
 
 
@@ -4511,7 +4495,6 @@ void make_code_2 ( void * args )
 {
   struct make_code_args * x = (struct make_code_args *) args;
   x->res = make_code_1 (x->e, x->sp, x->dest, x->exitlab);
-  return;
 }
 
 dg_where 
@@ -4667,7 +4650,6 @@ static void
 done_arg ( void * args )
 {
   UNUSED (args);
-  return;
 }
 
 void 
@@ -4691,6 +4673,5 @@ diag_arg ( exp e, space sp, where dest )
 #endif
 #endif
   }
-  return;
 }
 #endif

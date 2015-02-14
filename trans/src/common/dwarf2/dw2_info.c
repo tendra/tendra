@@ -63,7 +63,6 @@ static void fail_unimplemented
 (void)
 {
   error(ERROR_INTERNAL, "unimplemented attribute");
-  return;
 }
 
 static exp find_id
@@ -120,7 +119,6 @@ void dw_out_const
       dw2_locate_exp (e, 1, 0);
     }
   }
-  return;
 }
 
 
@@ -143,7 +141,6 @@ void dw_out_default
     dw_at_form (DW_FORM_ref_addr); asm_printf("\n");
     dw_at_address (d->lab);
   }
-  return;
 }
 
 
@@ -160,7 +157,6 @@ void complete_defaults
     dw_sibling_end ();
     default_span_list = default_span_list->next;
   }
-  return;
 }
 
 
@@ -195,7 +191,6 @@ static void out_refblock		/* Not certain this is needed! */
       out_dwf_label (over_lab, 1);
     }
   }
-  return;
 }
 
 
@@ -214,7 +209,6 @@ static void check_trivial
       error(ERROR_INTERNAL, "lost information?");
   }
 #endif
-  return;
 }
 
 static void output_detch (detch_info *	dl);
@@ -805,7 +799,6 @@ static void output_info
       error(ERROR_INTERNAL, "unexpected dg_info");
 
   };
-  return;
 }
 
 static void output_detch
@@ -881,7 +874,6 @@ static void output_detch
       dw_sibling_end ();
     dl = dl->next;
   }
-  return;
 }
 
 
@@ -932,7 +924,6 @@ static void out_param
 #endif
   if (attr2 & H_DF)
     dw_out_default (p.p_dflt);
-  return;
 }
 
 
@@ -1247,7 +1238,6 @@ static void dw2_out_proc
   doing_inline = old_il;
   proc_dg_info = old_di;
   return_type = old_res;
-  return;
 }
 
 
@@ -1290,7 +1280,6 @@ void dw2_out_generic
     }
     p = p->next;
   }
-  return;
 }
 
 
@@ -1842,7 +1831,6 @@ void dw2_out_name
   }
   if (di->mor && di->mor->this_tag)
     di->mor->this_tag->done = 1;
-  return;
 }
 
 
@@ -1862,7 +1850,6 @@ void dw2_proc_start
   proc_dg_info->data.i_prc.p = proc_dg_info->data.i_prc.barrier = NULL;
   if (d)
     dw2_source_mark (d->whence, 0);
-  return;
 }
 
 
@@ -1877,7 +1864,6 @@ void dw2_return_pos
   returns_list = &(rec->next);
   if (over)
     set_obj_rets (rec);
-  return;
 }
 
 
@@ -1886,7 +1872,6 @@ void dw2_proc_end
 {
   dgf(p)->data.i_prc.prc_end = set_dw_text_label ();
   proc_dg_info = NULL;
-  return;
 }
 
 
@@ -1929,7 +1914,6 @@ static void prepare_detch
       prepare_detch (dl->sub);
     dl = dl->next;
   }
-  return;
 }
 
 
@@ -2191,5 +2175,4 @@ void dw2_code_info
       error(ERROR_INTERNAL, "unexpected dg_info");
 
   };
-  return;
 }

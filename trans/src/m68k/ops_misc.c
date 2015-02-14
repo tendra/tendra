@@ -247,7 +247,6 @@ callins(long longs, exp fn)
 	retcell(call_exp);
 	dec_stack(-longs);
 	have_cond = 0;
-	return;
 }
 
 /*
@@ -281,7 +280,6 @@ jmpins(exp fn)
 	make_instr(m_jmp, op, NULL, ~save_msk);
 	retcell(jmp_exp);
 	have_cond = 0;
-	return;
 }
 
 /*
@@ -352,7 +350,6 @@ cmp_zero(shape sha, long sz, where a)
 
 	/* Set new condition codes */
 	set_cond(a, sz);
-	return;
 }
 
 /*
@@ -620,7 +617,6 @@ push(shape sha, long sz, where wh)
 	} else {
 		stack_change = s;
 	}
-	return;
 }
 
 /*
@@ -637,7 +633,6 @@ push_float(long sz, where wh)
 	make_instr(instr, op1, op2, 0);
 	stack_size -= sz;
 	have_cond = 0;
-	return;
 }
 
 /*
@@ -665,7 +660,6 @@ pop(shape sha, long sz, where wh)
 	make_instr(m_movl, op1, op2, 0);
 	have_cond = 0;
 	stack_size += sz;
-	return;
 }
 
 /*
@@ -683,7 +677,6 @@ pop_float(long sz, where wh)
 	make_instr(instr, op1, op2, 0);
 	have_cond = 0;
 	stack_size += sz;
-	return;
 }
 
 /*
@@ -808,7 +801,6 @@ move_const(shape sha, long sz, long c, where to)
 	} else {
 		set_cond(to, sz);
 	}
-	return;
 }
 
 /*
@@ -1040,7 +1032,6 @@ move_bytes(long sz, where from, where to, int down)
 		off += b;
 	}
 	have_cond = 0;
-	return;
 }
 
 /*
@@ -1315,7 +1306,6 @@ move(shape sha, where from, where to)
 
 	/* Other cases are dealt with by move_bytes */
 	move_bytes(sz, from, to, 2);
-	return;
 }
 
 /*
@@ -1393,7 +1383,6 @@ mova(where from, where to)
 	have_cond = 0;
 	tmp_reg_status = 1;
 	move(slongsh, register(r), to);
-	return;
 }
 
 long
@@ -1670,7 +1659,6 @@ change_var_sh(shape sht, shape shf, where from, where to)
 		move(sht, D0, to);
 		return;
 	}
-	return;
 }
 
 /*
@@ -1683,7 +1671,6 @@ change_var(shape sha, where from, where to)
 {
 	shape shf = sh(from.wh_exp);
 	change_var_sh(sha, shf, from, to);
-	return;
 }
 
 /*
@@ -1796,6 +1783,5 @@ void
 branch(long test_no, exp jr, int sg, int sw, int sf)
 {
 	make_jump(branch_ins(test_no, sw, sg, sf), ptno(jr));
-	return;
 }
 

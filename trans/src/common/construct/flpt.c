@@ -400,7 +400,6 @@ flt_copy(flt f, flt *res)
   for (i = 0; i < MANT_SIZE; i++) {
     (res->mant)[i] = f.mant[i];
   }
-  return;
 }
 
 /*
@@ -1064,8 +1063,6 @@ init_flpt(void)
     (forf->mant)[i] = 0;
   }
   (forf->mant)[0] = 1;
-
-  return;
 }
 
 void
@@ -1080,7 +1077,6 @@ more_flpts(void)
   }
   flptfree = tot_flpts - 1;
   flpt_left = extra_flpts;
-  return;
 }
 
 flpt
@@ -1102,7 +1098,6 @@ flpt_ret(flpt f)
   flptnos[f].exp = flptfree;
   flptfree = f;
   ++flpt_left;
-  return;
 }
 
 /*
@@ -1153,7 +1148,6 @@ flpt_bits(floating_variety fv)
 void
 flpt_round(int round_t, int posn, flt *res)
 {
-  return;
 }
 
 #else
@@ -1331,7 +1325,6 @@ flpt_scale(int expt, flt *res, int base)
       }
     }
   }
-  return;
 }
 
 /*
@@ -1431,7 +1424,6 @@ flpt_round(int round_t, int posn, flt * res)
   }
   res->mant[digpos+ (int)c] = (unsigned short)((int)res->mant[digpos + (int)c] &
 					       (int)bitmask[bitpos + 1]);
-  return;
 }
 
 int

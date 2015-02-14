@@ -79,7 +79,6 @@ static void mark_unaliased
 	p = pt(p);
     }
     if (ca)setcaonly(e);
-    return;
 }
 
 
@@ -180,8 +179,6 @@ translate_capsule(void)
 
     /* Output all code */
     output_all_exps();
-
-    return;
 }
 
 
@@ -263,7 +260,6 @@ static void code_const_list
 	    evaluate(s, no(t), NULL, b, 0, NULL);
 	}
     }
-    return;
 }
 
 /*
@@ -415,5 +411,4 @@ static void output_all_exps
     area(pdata);
     output_all();
     free_all_ins();
-    return;
 }

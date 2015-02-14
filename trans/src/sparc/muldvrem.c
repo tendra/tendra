@@ -118,7 +118,6 @@ static void clear_abi_call_muldivrem_regs
     /* clear regs modified by .mul/.umul */
     clear_reg(r);
   }
-  return;
 }
 #endif
 
@@ -143,7 +142,6 @@ void clear_sun_call_divrem_regs
     /* clear regs modified by .mul/.umul */
     clear_reg(r);
   }
-  return;
 }
 
 
@@ -347,7 +345,6 @@ static void mul_const_complex
     assert(accum == R_NO_REG);
     /* result in dest, due to step_accum_dest above */
   }
-  return;
 }
 
 
@@ -460,7 +457,6 @@ static void mul_const_simple
     /* final add_sub to dest reg */
     rrr_ins(i_add_sub, inter_reg, src, dest);
   }
-  return;
 }
 
 
@@ -481,7 +477,6 @@ static void mul_const
   else {
     mul_const_simple(src, constval, dest, sgned);
   }
-  return;
 }
 
 

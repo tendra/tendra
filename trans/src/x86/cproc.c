@@ -132,7 +132,6 @@ static void add_odd_bits
     dw2_end_extra_bit(r->dw2_hi);
 #endif
 #endif
-  return;
 }
 
 static void out_pops
@@ -201,7 +200,6 @@ static void out_pops
     dw2_fde_restore_args(dwl0, dwl1, dwl2, dwl3, dwl4, push_space);
   }
 #endif
-  return;
 }
 
 static void out_untidy_pops
@@ -242,7 +240,6 @@ static void out_untidy_pops
     };
     asm_printop("movl 0(%s),%s", "%ebp", "%ebp");
   };
-  return;
 }
 
 #ifdef TDF_DIAG4
@@ -783,5 +780,4 @@ void restore_callregs
   if (diag == DIAG_DWARF2)
     sonno(returns_list) = (int)dw2_prep_fde_restore_args(untidy);
 #endif
-  return;
 }

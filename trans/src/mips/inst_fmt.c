@@ -133,7 +133,6 @@ mon_ins(char *ins, int dest, int src)
     asm_printop("%s $%d, $%d", ins + 1, dest, src);
   out_rinst (0, ins[0] - 1, dest, src, formrr, xnoreg);
   if (ins == i_neg) { setreorder(); }
-  return;
 }
 
 /*
@@ -151,7 +150,6 @@ rrr_ins(char *ins, int dest, int src1, int src2)
     asm_printop("%s $%d, $%d, $%d", ins + 1, dest, src1, src2);
   out_rinst (0, ins[0] - 1, dest, src1, formrrr, src2);
   if (ex) { setreorder(); }
-  return;
 }
 
 /*
@@ -179,7 +177,6 @@ rri_ins(char *ins, int dest, int src1, long imm)
 	dest, src1, imm);
   out_iinst (0, ins[0] - 1, dest, src1, formrri, imm);
   if (ex) { setreorder(); }
-  return;
 }
 
 /*

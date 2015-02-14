@@ -88,5 +88,4 @@ process_aldefs(void)
 	if (!complete) {
 		error(ERROR_INTERNAL, INCOMPLETE_ALIGNMENT_EQS);
 	}
-	return;
 }

@@ -138,7 +138,6 @@ add_odd_bits(outofline *r)
   if (name(sh(r->body)) != bothd)  {
     integer_branch(i_br,31,ptno(r->jr));
   }
-  return;
 }
 
 void
@@ -246,7 +245,6 @@ code_it(dec *my_def)
 /*end:*/
   /*son(tg) = NULL;*/
   my_def -> dec_u.dec_val.processed = 1;
-  return;
 }
 
 static void
@@ -262,7 +260,6 @@ mark_unaliased(exp e)
   }
   if (ca)
     setcaonly (e);
-  return;
 }
 
 /*
@@ -532,6 +529,5 @@ translate_capsule(void)
       code_it (my_def);
     }
   }
-  return;
 }
 

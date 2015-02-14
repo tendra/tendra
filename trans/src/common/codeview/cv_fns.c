@@ -59,13 +59,11 @@ out_diagnose_prelude(void)
   main_filename = (char *)0;
   filename_space = 0;
   filename_gate = 0;
-  return;
 }
 
 static void
 out_diagnose_postlude(void)
 {
-  return;
 }
 
 
@@ -127,7 +125,6 @@ code_diag_info(diag_info *d, int proc_no, void(*mcode)(void *), void *args)
 	code_diag_info(d->more, proc_no, mcode, args);
     }
   }
-  return;
 }
 
 #else
@@ -176,8 +173,6 @@ output_diag(diag_info *d, int proc_no, exp e)
 
      return;
    }
-
-  return;
 }
 #endif
 
@@ -188,7 +183,6 @@ output_end_scope(diag_info *d, exp e)
     fprintf(as_file, " .def .eb; .val .; .scl 100; .line %d; .endef\n",
 	    last_line_no);
   }
-  return;
 }
 
 static void
@@ -210,14 +204,12 @@ diag_val_begin(diag_descriptor *d, int global, int cname, char *pname)
   outs("; ");
   typ = out_type(d->data.id.new_type, 0);
   fprintf(as_file, ".type 0%o; .endef\n", typ.type + (typ.modifier << 4));
-  return;
 }
 
 static void
 diag_val_end(diag_descriptor *d)
 {
   UNUSED(d);
-  return;
 }
 
 static void
@@ -247,7 +239,6 @@ diag_proc_begin(diag_descriptor *d, int global, int cname, char *pname)
   fprintf(as_file, " .def .bf; .val .; .scl 101; .line %d; .endef\n",
 	  crt_proc_start);
   fprintf(as_file, " .ln 1\n");
-  return;
 }
 
 static void
@@ -260,7 +251,6 @@ diag_proc_end(diag_descriptor *d)
 	  last_line_no + 1);
   fprintf(as_file, " .def %s; .val .; .scl -1; .endef\n",
 	  d->data.id.nme.ints.chars);
-  return;
 }
 
 
@@ -279,7 +269,6 @@ OUTPUT_GLOBALS_TAB(void)
 	fprintf(as_file, ".type 0%o; .endef\n", typ.type + (typ.modifier << 4));
      }
   }
-  return;
 }
 
 static void
@@ -308,7 +297,6 @@ OUTPUT_DIAG_TAGS(void)
         default: break;
       }
    }
-  return;
 }
 
 static void
@@ -340,7 +328,6 @@ INSPECT_FILENAME(filename fn)
     fprintf(as_file, " .file \"%s\"\n", f);
     fseek(as_file, here, 0);
   }
-  return;
 }
 
 

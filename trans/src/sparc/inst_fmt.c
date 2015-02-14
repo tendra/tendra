@@ -130,7 +130,6 @@ ld_ro_ins ( ins_p ins, baseoff a, int dest )
 	lost_count_ins();
 #endif
     }
-    return ;
 }
 
 
@@ -147,7 +146,6 @@ ld_rr_ins ( ins_p ins, int reg1, int reg2, int dest )
 #ifdef DWARF2
     count_ins(1);
 #endif
-    return ;
 }
 
 
@@ -177,7 +175,6 @@ set_ins ( baseoff a, int dest )
 	ld_rr_ins ( i_ld, R_L7, dest, dest ) ;
 	if ( d ) rir_ins ( i_add, dest, d, dest ) ;
     }
-    return ;
 }
 
 
@@ -200,7 +197,6 @@ ld_ins ( ins_p ins, baseoff a, int dest )
     } else {
 	ld_ro_ins ( ins, a, dest ) ;
     }
-    return ;
 }
 
 
@@ -243,7 +239,6 @@ st_ro_ins ( ins_p ins, int src, baseoff a )
 #endif
 	st_rr_ins ( ins, src, a.base, R_TMP ) ;
     }
-    return ;
 }
 
 
@@ -259,7 +254,6 @@ st_rr_ins ( ins_p ins, int src, int reg1, int reg2 )
 #ifdef DWARF2
     count_ins(1);
 #endif
-    return ;
 }
 
 
@@ -284,7 +278,6 @@ st_ins ( ins_p ins, int src, baseoff a )
     } else {
 	st_ro_ins ( ins, src, a ) ;
     }
-    return ;
 }
 
 
@@ -301,7 +294,6 @@ rrr_ins ( ins_p ins, int src1, int src2, int dest )
 #ifdef DWARF2
     count_ins(1);
 #endif
-    return ;
 }
 
 
@@ -371,7 +363,6 @@ rir_ins ( ins_p ins, int src1, long imm, int dest )
 	    rrr_ins ( ins, src1, R_TMP, dest ) ;
 	}
     }
-    return ;
 }
 
 
@@ -387,7 +378,6 @@ rr_ins ( ins_p ins, int src, int dest )
 #ifdef DWARF2
     count_ins(1);
 #endif
-    return ;
 }
 
 
@@ -419,7 +409,6 @@ ir_ins ( ins_p ins, long imm, int dest )
 #endif
 	rr_ins ( ins, R_TMP, dest ) ;
     }
-    return ;
 }
 
 /*
@@ -440,7 +429,6 @@ lr_ins ( int imm, int dest )
     if ( PIC_code ) {
 	ld_rr_ins ( i_ld, R_L7, dest, dest ) ;
     }
-    return ;
 }
 
 
@@ -454,7 +442,6 @@ void z_ins ( ins_p ins )
 #ifdef DWARF2
     count_ins(1);
 #endif
-    return ;
 }
 
 
@@ -471,7 +458,6 @@ uncond_ins ( ins_p ins, int lab )
 #ifdef DWARF2
     count_ins(2);
 #endif
-    return ;
 }
 
 
@@ -487,7 +473,6 @@ ret_ins ( ins_p ins )
 #ifdef DWARF2
     count_ins(2);
 #endif
-    return ;
 }
 
 
@@ -503,7 +488,6 @@ ret_restore_ins ()
 #ifdef DWARF2
     count_ins(2);
 #endif
-    return ;
 }
 
 /*
@@ -566,7 +550,6 @@ stret_restore_ins (void)
 #ifdef DWARF2
     count_ins(2);
 #endif
-    return ;
 }
 
 
@@ -602,7 +585,6 @@ extj_ins ( ins_p ins, baseoff b, int param_regs_used )
 #ifdef DWARF2
   count_ins(2);
 #endif
-  return ;
 }	
 
 /* 
@@ -624,7 +606,6 @@ void extj_ins_without_delay
 #ifdef DWARF2
   count_ins(1);
 #endif
-  return ;
 }
 
 
@@ -651,7 +632,6 @@ extj_special_ins ( ins_p ins, const char * const ext, int param_regs_used ){
 #ifdef DWARF2
   count_ins(2);
 #endif
-  return ;
 }
 
 
@@ -672,7 +652,6 @@ extj_special_ins_no_delay ( ins_p ins, const char * const ext, int param_regs_us
   count_ins(1);
 #endif
   	/* delay slot */
-  return ;
 }
 
 
@@ -693,7 +672,6 @@ extj_reg_ins ( ins_p ins, int reg, int param_regs_used ){
     }
   }	
   extj_special_ins ( ins, RN ( reg ), param_regs_used ) ;
-  return ;
 }	
 
 
@@ -708,7 +686,6 @@ extj_reg_ins_no_delay ( ins_p ins, int reg, int param_regs_used ){
     }
   }	
   extj_special_ins_no_delay ( ins, RN ( reg ), param_regs_used ) ;
-  return ;
 }	
 
 
@@ -723,7 +700,6 @@ unimp_ins ( long imm ){
 #ifdef DWARF2
     count_ins(1);
 #endif
-    return ;
 }
 
 
@@ -739,7 +715,6 @@ br_ins ( ins_p ins, int dest ){
 #ifdef DWARF2
   count_ins(2);
 #endif
-  return ;
 }
 
 /*
@@ -761,7 +736,6 @@ br_abs ( int lab ){
   count_ins(2);
 #endif
 #endif
-  return ;
 }
 
 
@@ -781,7 +755,6 @@ fbr_ins ( ins_p ins, int dest ){
 #ifdef DWARF2
   count_ins(2);
 #endif
-  return ;
 }
 
 
@@ -801,7 +774,6 @@ condrr_ins ( ins_p ins, int src1, int src2, int lab ){
   count_ins(1);
 #endif
   br_ins ( ins, lab ) ;
-  return ;
 }
 
 
@@ -830,7 +802,6 @@ condri_ins ( ins_p ins, int src1, long imm, int lab ){
 #endif
     condrr_ins ( ins, src1, R_TMP, lab ) ;
   }
-  return ;
 }
 
 /*
@@ -852,7 +823,6 @@ fmaxminrr_ins ( ins_p ins, int src1, int src2, int dest, int ftype ) {
 #endif
   
   set_label(lab);
-  return ;
 }
 
   
@@ -872,7 +842,6 @@ maxminrr_ins ( ins_p ins, int src1, int src2, int dest ){
 #endif
   
   set_label(lab);
-  return ;
 }
 
 /*
@@ -908,7 +877,6 @@ maxminri_ins ( ins_p ins, int src1, long val, int dest ){
   
   }
   set_label(lab);
-  return ;
 }
 
 
@@ -946,7 +914,6 @@ ldf_ro_ins ( ins_p ins, baseoff a, int dest ){
 #endif
     ldf_rr_ins ( ins, a.base, R_TMP, dest ) ;
   }
-  return ;
 }
 
 
@@ -962,7 +929,6 @@ ldf_rr_ins ( ins_p ins, int reg1, int reg2, int dest ){
 #ifdef DWARF2
   count_ins(1);
 #endif
-  return ;
 }
 
 
@@ -986,7 +952,6 @@ ldf_ins ( ins_p ins, baseoff a, int dest ){
   else {
     ldf_ro_ins ( ins, a, dest ) ;
   }
-  return ;
 }
 
 
@@ -1026,7 +991,6 @@ stf_ro_ins ( ins_p ins, int src, baseoff a ){
 #endif
     stf_rr_ins ( ins, src, a.base, R_TMP ) ;
   }
-  return ;
 }
 
 
@@ -1041,7 +1005,6 @@ stf_rr_ins ( ins_p ins, int src, int reg1, int reg2 ){
 #ifdef DWARF2
   count_ins(1);
 #endif
-  return ;
 }
 
 
@@ -1065,7 +1028,6 @@ stf_ins ( ins_p ins, int src, baseoff a ){
   else {
     stf_ro_ins ( ins, src, a ) ;
   }
-  return ;
 }
 
 
@@ -1079,7 +1041,6 @@ rrf_cmp_ins ( ins_p ins, int src1, int src2 ){
 #ifdef DWARF2
   count_ins(1);
 #endif
-  return ;
 }
 
 
@@ -1094,7 +1055,6 @@ rrf_ins ( ins_p ins, int src, int dest ){
 #ifdef DWARF2
   count_ins(1);
 #endif
-  return ;
 }
 
 
@@ -1110,7 +1070,6 @@ rrrf_ins ( ins_p ins, int src1, int src2, int dest ){
 #ifdef DWARF2
   count_ins(1);
 #endif
-  return ;
 }
 
 
@@ -1122,7 +1081,6 @@ rrrf_ins ( ins_p ins, int src1, int src2, int dest ){
 void 
 out_asm_reg ( int r, int fp ){
   asm_printf("%s", fp ? FRN(r) : RN(r));
-  return ;
 }
 
 void 
@@ -1134,5 +1092,4 @@ out_asm_boff ( baseoff b, long o2 ){
     asm_printf("[%s+%ld]", RN(b.base), off);
   else /* if ( off < 0 ) */
     asm_printf("[%s-%ld]", RN(b.base), -off);
-  return ;
 }

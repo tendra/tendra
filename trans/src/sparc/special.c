@@ -361,7 +361,6 @@ call_special_routine ( int n )
     special_routine [n].proc_used = 1 ;
     if ( library_key && nm [1] == 'L' ) nm += 2 ;
     extj_special_ins ( i_call, nm, r ) ;
-    return ;
 }
 
 
@@ -459,5 +458,4 @@ output_special_routines (void)
 	    }
 	}
     }
-    return ;
 }

@@ -200,15 +200,12 @@ start_make_diagdef_unit(int toks, int tags, int als, int diagtags)
 						    sizeof(diag_tagdef *));
 	for (i = 0; i < unit_no_of_diagtags; ++i)
 		unit_ind_diagtags[i] = NULL;
-
-	return;
 }
 
 
 void
 init_diag_unit(void)
 {
-	return;
 }
 
 
@@ -301,7 +298,6 @@ f_make_diagdef_unit(void)
 		ans->another = NULL;
 	}
 	within_diags = was_within_diags;
-	return;
 }
 
 
@@ -359,7 +355,6 @@ f_diag_desc_typedef(tdfstring n, sourcemark whence, diag_type new_type)
 void
 init_diag_descriptor(void)
 {
-	return;
 }
 
 
@@ -577,7 +572,6 @@ init_diag_type(void)
 {
 	zero_nat.nat_val.small_nat = 0;
 	zero_nat.issmall = 1;
-	return;
 }
 
 
@@ -595,7 +589,6 @@ f_make_enum_values(exp value, tdfstring n)
 void
 init_enum_values(void)
 {
-	return;
 }
 
 
@@ -628,7 +621,6 @@ f_make_diag_field(tdfstring field_name, exp wh, diag_type field_type)
 void
 init_diag_field(void)
 {
-	return;
 }
 
 
@@ -676,7 +668,6 @@ f_make_sourcemark(filename file, nat line_no, nat char_offset)
 void
 init_sourcemark(void)
 {
-	return;
 }
 
 
@@ -714,7 +705,6 @@ f_filename_apply_token(token token_value, bitstream token_args)
 void
 init_diag_tag(void)
 {
-	return;
 }
 
 
@@ -736,7 +726,6 @@ static dg_name_list s_tags;
 void
 init_diag_tagdef(void)
 {
-	return;
 }
 
 
@@ -772,7 +761,6 @@ init_capsule_diagtags(void)
 	for (i = 0; i < capsule_no_of_diagtags; ++i) {
 		init_dgtag(&capsule_diag_tagtab[i]);
 	}
-	return;
 }
 
 
@@ -811,7 +799,6 @@ start_make_diagtype_unit(int toks, int tags, int als, int diags)
 		unit_ind_diagtags[i] = NULL;
 	}
 	s_tags = NULL;
-	return;
 }
 
 
@@ -827,7 +814,6 @@ init_unit_diagtags(int n)
 	for (i = 0; i < unit_no_of_diagtags - n; ++i) {
 		init_dgtag(&unit_diag_tagdeftab[i]);
 	}
-	return;
 }
  
 diag_type_unit
@@ -936,34 +922,29 @@ void
 f_make_diagtaglink(tdfint i, tdfint ext)
 {
 	unit_ind_diagtags[natint(i)] = &capsule_diag_tagtab[natint(ext)];
-	return;
 }
 
 
 void
 init_diag_tq(void)
 {
-	return;
 }
 
 
 void
 init_filename(void)
 {
-	return;
 }
 
 
 void
 init_diag_type_unit(void)
 {
-	return;
 }
 
 void
 init_linkinfo_props(void)
 {
-	return;
 }
 
 

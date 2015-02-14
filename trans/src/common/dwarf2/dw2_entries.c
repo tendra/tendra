@@ -773,7 +773,6 @@ init_dw_entries(void)
 	CT(dwe_optim);
 	CT(dwe_proc);
 	UNUSED(c);
-	return;
 }
 
 

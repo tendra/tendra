@@ -99,15 +99,12 @@ start_make_diagdef_unit(int toks, int tags, int als, int diagtags)
 	for (i = 0; i < unit_no_of_diagtags; ++i) {
 		unit_ind_diagtags[i] = NULL;
 	}
-
-	return;
 }
 
 
 void
 init_diag_unit(void)
 {
-	return;
 }
 
 
@@ -171,7 +168,6 @@ f_make_diagdef_unit(void)
 	unit_diagvar_tab = d_diag_descriptor_list();
 	end_bytestream();
 	diag3_driver->OUTPUT_GLOBALS_TAB();
-	return;
 }
 
 
@@ -237,7 +233,6 @@ f_diag_desc_typedef(tdfstring n, sourcemark whence, diag_type new_type)
 void
 init_diag_descriptor(void)
 {
-	return;
 }
 
 
@@ -456,7 +451,6 @@ f_diag_variety(variety var)
 void
 init_diag_type(void)
 {
-	return;
 }
 
 
@@ -478,7 +472,6 @@ f_make_enum_values(exp value, tdfstring n)
 void
 init_enum_values(void)
 {
-	return;
 }
 
 
@@ -522,7 +515,6 @@ f_make_diag_field(tdfstring field_name, exp wh, diag_type field_type)
 void
 init_diag_field(void)
 {
-	return;
 }
 
 
@@ -591,7 +583,6 @@ f_make_sourcemark(filename file, nat line_no, nat char_offset)
 void
 init_sourcemark(void)
 {
-	return;
 }
 
 
@@ -625,7 +616,6 @@ f_filename_apply_token(token token_value, bitstream token_args)
 void
 init_diag_tag(void)
 {
-	return;
 }
 
 
@@ -641,7 +631,6 @@ f_make_diag_tag(tdfint num)
 void
 init_diag_tagdef(void)
 {
-	return;
 }
 
 diag_tagdef
@@ -667,7 +656,6 @@ init_capsule_diagtags(void)
 		tp->d_type = (diag_type)xcalloc(1, sizeof(struct diag_type_t));
 		tp->d_type->key = DIAG_TYPE_INITED;
 	}
-	return;
 }
 
 
@@ -701,7 +689,6 @@ start_make_diagtype_unit(int toks, int tags, int als, int diags)
 	for (i = 0; i < unit_no_of_diagtags; ++i) {
 		unit_ind_diagtags[i] = NULL;
 	}
-	return;
 }
 
 
@@ -718,7 +705,6 @@ init_unit_diagtags(int n)
 		tp->d_type = (diag_type)xcalloc(1, sizeof(struct diag_type_t));
 		tp->d_type->key = DIAG_TYPE_INITED;
 	}
-	return;
 }
 
 
@@ -825,7 +811,6 @@ void
 f_make_diagtaglink(tdfint i, tdfint ext)
 {
 	unit_ind_diagtags[natint(i)] = &capsule_diag_tagtab[natint(ext)];
-	return;
 }
 
 
@@ -840,27 +825,23 @@ sourcemark f_dummy_sourcemark;
 void
 init_diag_tq(void)
 {
-	return;
 }
 
 
 void
 init_filename(void)
 {
-	return;
 }
 
 
 void
 init_diag_type_unit(void)
 {
-	return;
 }
 
 
 void
 init_linkinfo_props(void)
 {
-	return;
 }
 

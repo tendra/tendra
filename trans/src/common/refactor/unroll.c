@@ -290,7 +290,6 @@ simple_unroll(exp candidate, exp body, exp inc, exp te)
 	 */
 
 	setunrolled(candidate);
-	return;
 }
 
 
@@ -526,7 +525,6 @@ unroll_trans(exp candidate, exp body, exp inc, exp te, exp limit, int nt,
 		simple_unroll(candidate, body, inc, te);
 	}
 #endif
-	return;
 }
 
 
@@ -663,5 +661,4 @@ unroller(void)
     }
     reps = pt(reps);
   }
-  return;
 }

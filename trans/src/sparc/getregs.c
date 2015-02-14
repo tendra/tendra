@@ -56,7 +56,6 @@ settempregs ( exp tg ){
   choosefix = RMASK ( currentfix ) ;
   currentfloat = 1 ;
   choosefloat = RMASK ( currentfloat ) ;
-  return ;
 }
 
 

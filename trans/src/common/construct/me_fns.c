@@ -276,7 +276,6 @@ note_repeat(exp r)
 
 	son(crt_repeat) = r;
 	crt_repeat = bro(crt_repeat);
-	return;
 }
 
 

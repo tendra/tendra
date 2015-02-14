@@ -149,7 +149,6 @@ andetc_const(int instr, shape sha, long sz, long c, where a, where dest,
 	ins2h(instr, c, sz, D0, 1);
 	move(sha, D0, dest);
 	set_cond(dest, sz);
-	return;
 }
 
 
@@ -288,7 +287,6 @@ andetc(int opb, int opw, int opl, shape sha, where a1, where a2, where dest,
 	move(sha, a1, D0);
 	andetc(opb, opw, opl, sha, a2, D0, D0, logop);
 	move(sha, D0, dest);
-	return;
 }
 
 
@@ -301,7 +299,6 @@ void
 and(shape sha, where a1, where a2, where dest)
 {
 	andetc(ml_and, sha, a1, a2, dest, AND);
-	return;
 }
 
 
@@ -314,7 +311,6 @@ void
 or(shape sha, where a1, where a2, where dest)
 {
 	andetc(ml_or, sha, a1, a2, dest, OR);
-	return;
 }
 
 
@@ -327,7 +323,6 @@ void
 xor(shape sha, where a1, where a2, where dest)
 {
 	andetc(ml_eor, sha, a1, a2, dest, XOR);
-	return;
 }
 
 
@@ -372,7 +367,6 @@ not(shape sha, where a, where dest)
 	move(sha, a, D0);
 	not(sha, D0, D0);
 	move(sha, D0, dest);
-	return;
 }
 
 
@@ -388,7 +382,6 @@ shift_it(shape sha, shape shb, int instr, where by, where to)
 	ins2(instr, 8L, sz, by, to, 1);
 	have_cond = 0;
 	test_overflow(ON_OVERFLOW);
-	return;
 }
 
 
@@ -499,7 +492,6 @@ shift_aux(shape sha, where by, where from, where to, int sw, int dont_use_D1)
 	move(sha, from, D1);
 	shift_it(sha, shb, shift_plus, D0, D1);
 	move(sha, D1, to);
-	return;
 }
 
 
@@ -512,7 +504,6 @@ void
 shift(shape sha, where by, where from, where to)
 {
 	shift_aux(sha, by, from, to, 0, 0);
-	return;
 }
 
 
@@ -525,7 +516,6 @@ void
 rshift(shape sha, where by, where from, where to)
 {
 	shift_aux(sha, by, from, to, 1, 0);
-	return;
 }
 
 
@@ -758,7 +748,6 @@ int_to_bitf(exp e, exp d, ash stack)
 	f = ((whereis(dest) == Dreg)? dest : D0);
 	and(sha, mnw(nmask), dest, f);
 	or(sha, mnw(v), f, dest);
-	return;
 }
 
 
@@ -812,5 +801,4 @@ bit_test(shape sha, where a1, where a2)
 	}
 	move(sha, a1, D0);
 	and(sha, a2, D0, D0);
-	return;
 }

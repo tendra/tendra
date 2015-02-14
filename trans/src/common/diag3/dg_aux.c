@@ -62,7 +62,6 @@ make_dg_clump(void)
 {
 	next_dg = (dg_union *)xcalloc(DG_CLUMP_SIZE, sizeof(dg_union));
 	dg_clump_left = DG_CLUMP_SIZE;
-	return;
 }
 
 
@@ -141,7 +140,6 @@ extend_dg_name(dg_name nm)
 	mor->issep = 0;
 	mor->isnew = 0;
 	mor->aderiv = 0;
-	return;
 }
 
 
@@ -166,7 +164,6 @@ extend_dg_type(dg_type tp)
 	mor->isspec = 0;
 	mor->isnew = 0;
 	mor->aderiv = 0;
-	return;
 }
 
 
@@ -180,7 +177,6 @@ init_dgtag(dg_tag tg)
 	tg->outref.k = NO_LAB;
 	tg->abstract_lab = 0;
 	tg->copy = NULL;
-	return;
 }
 
 
@@ -376,7 +372,6 @@ scan_diag_names(exp e, exp whole)
 			t = bro(t);
 		}
 	}
-	return;
 }
 
 

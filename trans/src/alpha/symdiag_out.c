@@ -69,7 +69,6 @@ output_symbolic_diagnostic(FILE *outfile, diag_info *inf)
     return;
   }
   if(inf->key != DIAG_INFO_ID) return;
-  return;	
 }
 
 

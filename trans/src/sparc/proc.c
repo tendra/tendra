@@ -122,7 +122,6 @@ void call_tdf_main
 (void) {
   asm_printop("call ___TDF_main");
   asm_printop("nop");
-  return;
 }
 
 
@@ -165,7 +164,6 @@ void update_plc
     }
     chain = chain->outer;
   }
-  return;
 }
 
 
@@ -1191,7 +1189,6 @@ static void move_parameters
     else
       b.offset -= (shape_size(sh(par)) > 32 ? 8 : 4);
   }
-  return;
 }
 
 
@@ -1525,7 +1522,6 @@ static void alloc_reg_space
   rir_ins(i_and,R_TMP,~7,R_TMP);      /* make the size a multiple of 8 */
   rrr_ins(i_sub,R_SP,R_TMP,R_SP);
   rir_ins(i_add,R_SP,maxargbytes,ptr_reg);
-  return;
 }
 
 
@@ -1538,7 +1534,6 @@ static void alloc_space
   size = (size+7) &~7;
   rir_ins(i_sub,R_SP,size,R_SP);
   rir_ins(i_add,R_SP,maxargbytes,ptr_reg);
-  return;
 }
 
 

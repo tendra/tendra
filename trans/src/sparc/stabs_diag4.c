@@ -202,7 +202,6 @@ void stabd
       }
   }
   currentlno = lno;
-  return;
 }
 
 
@@ -265,7 +264,6 @@ void code_diag_info
       break;
     }
   };
-  return;
 }
 
 
@@ -342,7 +340,6 @@ static void stab_file
 
   asm_fprintf(dg_file, ".LL.%ld:\n", i);
   currentfile = f;
-  return;
 }
 
 
@@ -426,7 +423,6 @@ static void stab_scope_open
   asm_fprintf(dg_file, ".LL.%ld:\n", i);
   open_label = i;
   bracket_level++;
-  return;
 }
 
 
@@ -455,7 +451,6 @@ static void stab_scope_close
   x->u.b.lab = i;
   asm_fprintf(dg_file, ".LL.%ld:\n", i);
   bracket_level--;
-  return;
 }
 
 
@@ -757,7 +752,6 @@ static void out_dt_shape
       break;
     }
   }
-  return;
 }
 
 
@@ -786,7 +780,6 @@ void stab_global
 	   di->whence.line,
 	   id
 	  );
-  return;
 }
 
 
@@ -812,7 +805,6 @@ void stab_proc
   asm_fprintf(dg_file, "\t.stabs\t\"%s:%c", nm,(ext ? 'F' : 'f'));
   OUT_DT_SHAPE(dt);
   asm_fprintf(dg_file, "\",0x24,0,%ld,%s\n", di->whence.line, id);
-  return;
 }
 
 
@@ -858,7 +850,6 @@ void stab_proc_end
     c_del_array = del_stab_start;
     c_del_index = 0;
   }
-  return;
 }
 
 
@@ -928,7 +919,6 @@ static void stab_local
 	}
       }
     }
-  return;
 }
 
 
@@ -977,7 +967,6 @@ void stab_types
     type_sizes[14] = 64;
     type_sizes[15] = 64;
     type_sizes[16] = 32;
-    return;
 }
 
 
@@ -988,7 +977,6 @@ void stab_types
 void init_stab
 (void)
 {
-  return;
 }
 
 void init_stab_aux
@@ -1050,6 +1038,5 @@ void init_stab_aux
     }
     this_comp = this_comp->another;
   }
-  return;
 }
 

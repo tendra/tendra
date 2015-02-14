@@ -94,7 +94,6 @@ free_mach_op(mach_op *ptr)
 	}
 	p->plus = mach_op_list;
 	mach_op_list = ptr;
-	return;
 }
 
 
@@ -185,7 +184,6 @@ avoid_tmp_reg(int r)
 {
 	last_reg = r;
 	tmp_reg_status++;
-	return;
 }
 
 

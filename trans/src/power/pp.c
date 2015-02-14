@@ -124,7 +124,6 @@ void scan_for_labsts(exp e)
   }
   scan_for_labsts(son(e));
   if (!last(e))scan_for_labsts(bro(e));
-  return;
 }
 
 
@@ -139,7 +138,6 @@ void showme(exp e, int depth_of_recursion, int flag)
     store_ident(e);
   scan_for_labsts(son(e));
   exp_show(e,0,depth_of_recursion,flag);
-  return;
 }
 
 exp show_current(int i)
@@ -1160,7 +1158,6 @@ static void myprint(char *word)
     }
     k++;
   }
-  return;
 }
 char *shape_name(int n)
 {
@@ -1280,7 +1277,6 @@ void properties(int i)
    case apply_tag:apply_props(l);break;
    default:printf("Don't know about the properties of a %s\n",getname(name(l)));break;
   }
-  return;
 }
 void ident_props(exp e)
 {

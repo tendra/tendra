@@ -31,7 +31,6 @@ seed_label(void)
 {
     firstlab = ( ( firstlab + labno + 100 ) / 100 ) * 100 ;
     labno=0;
-    return ;
 }
 
 

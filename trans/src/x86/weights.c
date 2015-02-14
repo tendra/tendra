@@ -165,8 +165,6 @@ void init_weights
   cmpregs.flbooked = -1;
   divregs.flbooked = -1;
   applyregs.flbooked = 2;
-
-  return;
 }
 
 void markcall
@@ -551,5 +549,4 @@ void comp_weights
 {
   scale = 1.0;
   IGNORE weightsv(e, NULL);
-  return;
 }

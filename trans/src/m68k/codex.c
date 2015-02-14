@@ -119,7 +119,6 @@ void add_to_reg
 	make_instr(instr, op1, op2, regmsk(r));
 	have_cond = 0;
     }
-    return;
 }
 
 
@@ -197,7 +196,6 @@ void dec_stack
         update_stack();
 #endif
     }
-    return;
 }
 
 
@@ -214,7 +212,6 @@ void update_stack
 	stack_change = 0;
 	add_to_reg(REG_SP, d);
     }
-    return;
 }
 
 
@@ -243,7 +240,6 @@ void area
     } else {
 	previous_area = current_area;
     }
-    return;
 }
 
 
@@ -283,7 +279,6 @@ void libcall
     }
 #endif
     have_cond = 0;
-    return;
 }
 
 
@@ -351,7 +346,6 @@ void prologue
     op2 = make_indirect(REG_AP, 0);
     op2->of->plus = make_special("PD");
     make_instr(m_fmovemx, op1, op2, 0);
-    return;
 }
 
 
@@ -627,7 +621,6 @@ void epilogue
     }
     callmsk = cmsk;
     have_cond = 0;
-    return;
 }
 
 
@@ -711,7 +704,6 @@ void out_profile
     z = simple_exp(val_tag);
     sh(z) = slongsh;
     make_constant(lb, z);
-    return;
 }
 
 
@@ -743,6 +735,5 @@ void profile_hack
     make_external_label("Lmstore");
     op1 = make_int_data(0);
     make_instr(m_as_long, op1, NULL, 0);
-    return;
 }
 

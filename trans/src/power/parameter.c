@@ -284,7 +284,6 @@ void output_parameters(exp e)
   }
   do_fixed_params();
   do_float_params();
-  return;
 }
 
 
@@ -307,7 +306,6 @@ static void do_fixed_params(void)
       track_fixed(spare_fixed , fixed_array[copying_fixed].par);
     }
   }
-  return;
 }
 static void do_float_params(void)
 {
@@ -328,7 +326,6 @@ static void do_float_params(void)
       track_float(spare_float,float_array[copying_float].par);
     }
   }
-  return;
 }
 static void copy_fixed(int reg)
 {
@@ -353,7 +350,6 @@ static void copy_fixed(int reg)
   mov_rr_ins(reg,fixed_array[reg].dest);asm_comment("copy param reg to new reg");
   track_fixed(reg,fixed_array[reg].par);
   fixed_array[reg].copied=1;
-  return;
 }
 static void copy_float(int reg)
 {
@@ -378,7 +374,6 @@ static void copy_float(int reg)
   rrf_ins(i_fmr,reg,float_array[reg].dest);
   track_float(reg,float_array[reg].par);
   float_array[reg].copied=1;
-  return;
 }
 
 
@@ -392,7 +387,6 @@ static void clear_fixed(void)
     fixed_array[r].dest = 0;
     fixed_array[r].copied = 1;
   }
-  return;
 }
 static void clear_float(void)
 {
@@ -403,7 +397,6 @@ static void clear_float(void)
     float_array[r].dest = 0;
     float_array[r].copied = 1;
   }
-  return;
 }
 
 static void set_fixed(exp p, int from, int to)
@@ -454,10 +447,8 @@ void track_fixed(int reg, exp id)
       keepreg(pt(id),reg);
     }
   }
-  return;
 }
 
 void track_float(int reg, exp id)
 {
-  return;
 }

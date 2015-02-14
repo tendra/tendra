@@ -35,7 +35,6 @@ make_stabs(char *s, int a, long b, mach_op *op)
 	p->of->of->of = make_int_data(b);
 	p->of->of->of->of = (op ? op : make_int_data(0));
 	make_instr(m_stabs, p, NULL, 0);
-	return;
 }
 
 
@@ -51,7 +50,6 @@ make_stabn(int a, long lab)
 	p->of->of = make_int_data(0);
 	p->of->of->of = make_lab_data(lab, 0);
 	make_instr(m_stabn, p, NULL, 0);
-	return;
 }
 
 
@@ -487,5 +485,4 @@ init_stab_types(void)
 	for (i = 0; i < 15; i++) {
 		make_stabs(stab_types[i], 128, 0L, NULL);
 	}
-	return;
 }

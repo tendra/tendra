@@ -128,7 +128,6 @@ void cca
     bro (def) = tg;		/* bro(def) is body of Let = tg */
     clearlast(def);
     * (x) = id;		/* replace pointer to x by Let */
-    return;
   }
   else {		/* replace by Let tg = def In ato/def = tg
 			   Ni */
@@ -147,7 +146,6 @@ void cca
     * (x) = tg;		/* replace use of x by tg */
     *to = & bro(def);		/* later replacement to same 'to' will be
 				   at body of Let */
-    return;
   }
 }
 
@@ -228,7 +226,6 @@ static void make_bitfield_offset
   else{
     bro(pe) = omul;
   }
-  return;
 }
 
 bool complex

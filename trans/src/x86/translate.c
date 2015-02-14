@@ -139,7 +139,6 @@ static void eval_if_ready
     bro(t) = delayed_const_list;
     delayed_const_list = t;
   }
-  return;
 }
 
 
@@ -282,7 +281,6 @@ static void code_def
   if (son(tg)!= NULL) {
      my_def -> dec_u.dec_val.processed = 1;
   };
-  return;
 }
 
 void mark_unaliased
@@ -307,7 +305,6 @@ void mark_unaliased
   };
   if (ca)
     setcaonly(e);
-  return;
 }
 
 
@@ -446,7 +443,5 @@ void translate_capsule
     dwarf2_postlude();
   }
 #endif
-  return;
-
 }
 

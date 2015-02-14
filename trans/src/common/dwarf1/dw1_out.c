@@ -685,7 +685,6 @@ void
 out_dwarf_diag_tags(void)
 {
 	/* maybe put out unused ones later */
-	return;
 }
 
 

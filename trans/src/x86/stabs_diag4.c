@@ -228,7 +228,6 @@ stabd(dg_filename f, long lno, int seg)
       }
     }
     currentlno = lno;
-    return;
 }
 
 
@@ -291,7 +290,6 @@ code_diag_info(dg_info d, void(*mcode)(void *), void *args)
       break;
     }
   }
-  return;
 }
 
 
@@ -377,7 +375,6 @@ stab_file(dg_filename f)
 		   f->file_name, stb, i);
 
     currentfile = f;
-    return;
 }
 
 
@@ -461,7 +458,6 @@ stab_scope_open(dg_filename f)
     asm_printf(dg_file, ".LL.%ld:\n", i);
     bracket_level++;
     open_label = i;
-    return;
 }
 
 
@@ -490,7 +486,6 @@ stab_scope_close(void)
     x->u.b.lab = i;
     asm_printf(dg_file, ".LL.%ld:\n", i);
     bracket_level--;
-    return;
 }
 
 
@@ -804,7 +799,6 @@ out_dt_shape(dg_type dt)
       break;
     }
   }
-  return;
 }
 
 
@@ -838,7 +832,6 @@ out_diag_global(dg_name di, int global, int cname, char * pname)
       asm_printf("%s%d\n", local_prefix, cname);
     }
   }
-  return;
 }
 
 
@@ -875,7 +868,6 @@ diag_proc_begin(dg_name di, int global, int cname, char *pname)
   asm_printf("\",0x24,0,0,");
   out_procname();
   d_outnl();
-  return;
 }
 
 
@@ -919,7 +911,6 @@ diag_proc_end(void)
     c_del_array = del_stab_start;
     c_del_index = 0;
   }
-  return;
 }
 
 
@@ -962,7 +953,6 @@ stab_local(dg_name di, int param)
       t->del_t = (param ? D_PARAM : D_LOCAL);
       t->u.l.offset = (disp + no(id)) / 8;
     }
-    return;
 }
 
 
@@ -1022,7 +1012,6 @@ stab_types(void)
     type_sizes[14] = 64;
     type_sizes[15] = 64;
     type_sizes[16] = 32;
-    return;
 }
 
 
@@ -1033,7 +1022,6 @@ stab_types(void)
 void
 out_diagnose_prelude(void)
 {
-  return;
 }
 
 void
@@ -1102,7 +1090,6 @@ init_stab_aux(void)
     }
     this_comp = this_comp->another;
   }
-  return;
 }
 
 
@@ -1112,5 +1099,4 @@ out_diagnose_postlude(void)
     long i = next_d_lab();
     asm_printf(dg_file, ".LL.%ld:\n", i);
     asm_printf(dg_file, "\t.stabs\t\"\",0x64,0,0,.LL.%ld\n", i);
-    return;
 }

@@ -170,8 +170,6 @@ find_jump_sizes(long lmin, long lmax)
 	}
 
 	free(tb);
-
-	return;
 }
 
 
@@ -503,8 +501,6 @@ peephole(void)
     if (!asm_does_jump_lens) {
         find_jump_sizes(lmin, lmax);
     }
-
-    return;
 }
 
 

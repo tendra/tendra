@@ -119,7 +119,6 @@ void setframe_info
 							 !optop(e)))) <<3;
 
   pr->paramsdumpstart = pr->locals_offset+st + ((Has_fp)?64:0);
-  return;
 }
 
 int frame_offset

@@ -226,7 +226,6 @@ set_place(place pl)
 
     crt_ptr += 4;
   }
-  return;
 }
 
 /*
@@ -254,7 +253,6 @@ add_capsule_frees(void *vp)
   cf->next = capsule_freelist;
   cf->ptr = vp;
   capsule_freelist = cf;
-  return;
 }
 
 place
@@ -320,7 +318,6 @@ void
 to_boundary(void)
 {
   getcode_bitposn = getcode_bitposn - getcode_bitposn % 8;
-  return;
 }
 
 /*
@@ -355,7 +352,6 @@ ignore_bytestream(void)
   to_boundary();
   here = keep_place();
   set_place(add_place(here,(length * 8)));
-  return;
 }
 
 /*
@@ -370,7 +366,6 @@ start_bytestream(void)
   to_boundary();
   here = keep_place();
   bytestream_pickup = add_place(here,(length * 8));
-  return;
 }
 
 /*
@@ -380,7 +375,6 @@ void
 end_bytestream(void)
 {
   set_place(bytestream_pickup);
-  return;
 }
 
 tdfstring

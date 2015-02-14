@@ -64,7 +64,6 @@ make_bitfield_offset(exp e, exp pe, int spe, shape sha)
 	} else{
 		bro(pe) = omul;
 	}
-	return;
 }
 
 
@@ -103,7 +102,6 @@ cca(bool sto, exp to, bool sx, exp x)
 		clearlast(d);
 		assexp(sto, to, id);
 	}
-	return;
 }
 
 
@@ -140,7 +138,6 @@ cc(bool sto, exp to, bool se, exp e, bool(*doit)(exp, int), int count)
 			scan(sto, to, ec);
 		}
 	}
-	return;
 }
 
 
@@ -160,7 +157,6 @@ ccp(bool sto, exp to, bool sx, exp x)
 		setusereg(toc);
 		scan(1, toc, son(toc));
 	}
-	return;
 }
 
 
@@ -212,7 +208,6 @@ ap_arg1(bool sto, exp to, bool sa, exp a, bool b)
 
 	/* The pointer has to go into a register */
 	ccp(sto, to, sa, a);
-	return;
 }
 
 
@@ -253,7 +248,6 @@ ap_argsc(bool sto, exp to, bool se, exp e, int sz, bool b)
 	cca(sto, to, se, e);
 	temp = contexp(sto, to);
 	scan(1, temp, son(temp));
-	return;
 }
 
 
@@ -307,7 +301,6 @@ cont_arg(bool sto, exp to, exp e, shape sa)
 	}
 
 	ccp(sto, to, 1, e);
-	return;
 }
 
 
@@ -405,7 +398,6 @@ all_opnd(bool sto, exp to, exp e)
 	}
 #endif
 	cc(sto, to, 1, e, notopnd, 1);
-	return;
 }
 
 
@@ -449,7 +441,6 @@ static void
 all_assable(bool sto, exp to, exp e)
 {
 	cc(sto, to, 1, e, notass, 1);
-	return;
 }
 
 
@@ -505,7 +496,6 @@ indable_son(bool sto, exp to, exp e)
 	} else {
 		scan(sto, to, son(e));
 	}
-	return;
 }
 
 #endif
@@ -525,7 +515,6 @@ scanargs(bool st, exp e)
 		t = contexp(st, t);
 		st = 0;
 	}
-	return;
 }
 
 

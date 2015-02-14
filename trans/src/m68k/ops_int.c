@@ -69,7 +69,6 @@ void load_ea
 	retcell(ra);
 	have_cond = 0;
     }
-    return;
 }
 
 
@@ -227,7 +226,6 @@ static void add_aux
     }
     move(sha, inc, D0);
     add_aux(sha, sz, D0, dest);
-    return;
 }
 
 
@@ -368,7 +366,6 @@ void add
     }
     move(sha, D0, dest);
     set_cond(dest, sz);
-    return;
 }
 
 
@@ -413,7 +410,6 @@ static void sub_aux
     move(sha, a, D0);
     sub_aux(sha, sz, D0, dest);
     set_cond(dest, sz);
-    return;
 }
 
 
@@ -486,7 +482,6 @@ void sub
     sub_aux(sha, sz, a1, D0);
     move(sha, D0, dest);
     set_cond(dest, sz);
-    return;
 }
 
 
@@ -561,7 +556,6 @@ void negate
     move(sha, a, D0);
     negate(sha, D0, D0);
     move(sha, D0, dest);
-    return;
 }
 
 
@@ -624,7 +618,6 @@ static void mult_aux
     test_overflow(ON_OVERFLOW);
     move(sha, D0, dest);
     set_cond(dest, sz);
-    return;
 }
 
 
@@ -661,7 +654,6 @@ static void mult_clever
     }
     tmp_reg_status = 1;
     move(slongsh, ar, dest);
-    return;
 }
 
 
@@ -915,7 +907,6 @@ static void mult_const
 	move(slongsh, reg1, dest);
     }
     set_cond(dest, 32L);
-    return;
 }
 
 
@@ -1005,7 +996,6 @@ void mult
 	mult_aux(sha, a2, w);
 	move(sha, w, dest);
     }
-    return;
 }
 
 
@@ -1050,7 +1040,6 @@ static void div_power2
     } else {
 	shift_aux(sha, mnw(n), top, dest, 1, 0);
     }
-    return;
 }
 
 
@@ -1094,7 +1083,6 @@ static void rem_power2
     } else {
 	and(sha, mnw(v - 1), top, dest);
     }
-    return;
 }
 
 
@@ -1478,7 +1466,6 @@ static void euclid
 	debug_warning("D1 saved on stack during division");
     }
     have_cond = 0;
-    return;
 }
 
 
@@ -1491,7 +1478,6 @@ void div1
 (shape sha, where bottom, where top, where dest)
 {
     euclid(sha, bottom, top, dest, zero, DIV, 1);
-    return;
 }
 
 
@@ -1504,7 +1490,6 @@ void div2
 (shape sha, where bottom, where top, where dest)
 {
     euclid(sha, bottom, top, dest, zero, DIV, 2);
-    return;
 }
 
 
@@ -1517,7 +1502,6 @@ void rem1
 (shape sha, where bottom, where top, where dest)
 {
     euclid(sha, bottom, top, zero, dest, REM, 1);
-    return;
 }
 
 
@@ -1530,7 +1514,6 @@ void rem2
 (shape sha, where bottom, where top, where dest)
 {
     euclid(sha, bottom, top, zero, dest, REM, 2);
-    return;
 }
 
 
@@ -1542,7 +1525,6 @@ void exactdiv
 (shape sha, where bottom, where top, where dest)
 {
     euclid(slongsh, bottom, top, dest, zero, DIV, 2);
-    return;
 }
 
 
@@ -1572,7 +1554,6 @@ static void maxmin
     make_label(lab);
     move(sha, d, dest);
     asm_comment("maxmin done");
-    return;
 }
 
 
@@ -1584,7 +1565,6 @@ void maxop
 (shape sha, where a1, where a2, where dest)
 {
     maxmin(sha, a1, a2, dest, tst_ge);
-    return;
 }
 
 
@@ -1596,7 +1576,6 @@ void minop
 (shape sha, where a1, where a2, where dest)
 {
     maxmin(sha, a1, a2, dest, tst_le);
-    return;
 }
 
 
@@ -1627,5 +1606,4 @@ void absop
     } else {
 	move(sha, a, dest);
     }
-    return;
 }

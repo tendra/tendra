@@ -85,7 +85,6 @@ set_lab(label l, exp e)
 		lc->namel = l; lc->e = e; lc->rest = crt_context->labs;
 		crt_context->labs = lc;
 	}
-	return;
 }
 
 
@@ -164,7 +163,6 @@ set_tag(tag tg, exp e)
 		tc->namet = tg; tc->e = e; tc->rest = crt_context->tags;
 		crt_context->tags = tc;
 	}
-	return;
 }
 
 

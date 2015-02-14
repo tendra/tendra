@@ -144,7 +144,6 @@ do_comm(exp seq, space sp, int final, instruction rins)
     }
     a1 = r;
   }
-  return;
 }
 
 /* 

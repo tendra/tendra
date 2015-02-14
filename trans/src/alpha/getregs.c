@@ -86,7 +86,6 @@ settempregs(exp tg)
       }
     stg = bro(son(stg));
   }
-  return;
 }
 
 /*

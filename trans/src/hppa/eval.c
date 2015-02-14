@@ -429,7 +429,6 @@ oneval(int val, int al, int rep)
     outs( (al<9 ? "\t.BYTE\t" : ( al<17 ? "\t.HALF\t" : "\t.WORD\t")) );
     outn( val);
     outnl();
-    return ;
 }
 
 /*
@@ -500,7 +499,6 @@ outascii(char * str, int strsize)
 	}
 	outs("\"\n");
     }
-    return ;
   }
 
 
@@ -719,7 +717,6 @@ set_align(int al)
        outn(al/8);
        outnl();
     }
-    return ;
 }
 
 /*

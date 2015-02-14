@@ -38,7 +38,6 @@ setprologue(int lvl)
   }
   out_value(0,iprologue, make_INT64(0,lvl),0);
   /*out_value(0,iprologue,lvl,0);*/
-  return;
 }
 
 
@@ -49,7 +48,6 @@ setnoreorder(void)
     asm_printop(".set noreorder");
   }
   out_value(0,iset, make_INT64(0,set_noreorder) ,0);
-  return;
 }
 
 void
@@ -59,7 +57,6 @@ setreorder(void)
     asm_printop(".set reorder");
   }
   out_value(0,iset, make_INT64(0,set_reorder) ,0);
-  return;
 }
 
 void
@@ -69,7 +66,6 @@ setnomove(void)
     asm_printop(".set nomove");
   }
   out_value(0,iset, make_INT64(0,set_nomove),0);
-  return;
 }
 
 void
@@ -79,7 +75,6 @@ setmove(void)
     asm_printop(".set move");
   }
   out_value(0,iset, make_INT64(0,set_move),0);
-  return;
 }
 
 #if 0
@@ -87,14 +82,12 @@ void
 setvolatile(void)
 {
 /*    asm_printop(".set volatile");*/
-  return;
 }
 
 void
 setnovolatile(void)
 {
   asm_printop(".set novolatile");
-  return;
 }
 #endif
 
@@ -111,7 +104,6 @@ setnoat(void)
     asm_printop(".set noat");
   }
   out_value(0,iset, make_INT64(0,set_noat),0);
-  return;
 }
 
 void
@@ -127,7 +119,6 @@ setat(void)
     asm_printop(".set at");
   }
   out_value(0,iset, make_INT64(0,set_at),0);
-  return;
 }
 
 void
@@ -145,7 +136,6 @@ setframe(int32 st, int32 loc)
     }
     out_frame(0,iframe,st,SP,26);
   }
-  return;
 }
 
 void
@@ -156,7 +146,6 @@ set_text_section(void)
   }
   out_common(0,itext);
   set_align(128);
-  return;
 }
 
 void
@@ -166,7 +155,6 @@ setmask(int32 mask, int32 disp)
     asm_printop(".mask 0x%x,%d", mask, disp);
   }
   out_mask(0,imask,mask,disp);
-  return;
 }
 
 
@@ -177,7 +165,6 @@ setfmask(int32 mask, int32 disp)
     asm_printop(".fmask 0x%x,%d", mask, disp);
   }
   out_mask(0,ifmask,mask,disp);
-  return;
 }
 
 
@@ -188,7 +175,6 @@ set_file(char *fname, int fno)
   if(as_file){
     asm_printop(".file %d \"%s\"",fno,fname+1);
   }
-  return;
 }
 
 
@@ -198,7 +184,6 @@ set_lineno(int lineno, int fileno)
   if(as_file){
     asm_printop(".loc %d %d",fileno,lineno);
   }
-  return;
 }
 
 
@@ -249,5 +234,4 @@ set_align(int al)
     }
     current_alignment = al;
   }
-  return;
 }  

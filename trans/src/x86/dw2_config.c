@@ -27,35 +27,30 @@ void
 out_string(char *s)
 {
   asm_printf(".string \"%s\"\n", s);
-  return;
 }
 
 void
 start_string(char *s)
 {
   asm_printf(".string \"%s", s);
-  return;
 }
 
 void
 end_string(void)
 {
   asm_printf("\"\n");
-  return;
 }
 
 void
 enter_section(char *s)
 {
   asm_printf(".section .%s\n", s);
-  return;
 }
 
 void
 exit_section(void)
 {
   asm_printf(".previous\n");
-  return;
 }
 
 void
@@ -69,14 +64,12 @@ out_dwf_label(long l, int set)
   } else {
     asm_printf(".Ldw%ld", l);
   }
-  return;
 }
 
 void
 out_code_label(long l)
 {
   asm_printf("%s%ld", local_prefix, l);
-  return;
 }
 
 void
@@ -84,7 +77,6 @@ out_dwf_dist_to_label(long l)
 {
   out_dwf_label(l, 0);
   asm_printf(" - . - 4");
-  return;
 }
 
 void
@@ -97,7 +89,6 @@ out_dwf_labdiff(long lo, long hi)
     asm_printf(" - ");
     out_dwf_label(lo, 0);
   }
-  return;
 }
 
 void
@@ -122,7 +113,6 @@ note_data(char *s)
   if (!first_data) {
     first_data = s;
   }
-  return;
 }
 
 void
@@ -131,7 +121,6 @@ note_ro(char *s)
   if (!first_ro) {
     first_ro = s;
   }
-  return;
 }
 
 void
@@ -166,5 +155,4 @@ dw2_data_aranges(void)
     out32(); out_dwf_label(lab_ro, 0); asm_printf(" - %s\n", first_ro);
   }
   exit_section();
-  return;
 }

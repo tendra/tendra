@@ -174,7 +174,6 @@ out_data(mach_op *ptr)
 			return;
 		}
 	}
-	return;
 }
 
 
@@ -194,7 +193,6 @@ out_scaled(mach_op *ptr)
 		asm_scale();
 		asm_printf( "%ld", sf);
 	}
-	return;
 }
 
 
@@ -223,7 +221,6 @@ out_float(flt *f)
 #else
 	error(ERROR_SERIOUS, "Illegal floating point constant");
 #endif
-	return;
 }
 
 
@@ -421,7 +418,6 @@ out_mach_op(mach_op *ptr)
 	}
 	error(ERROR_SERIOUS, "Illegal addressing mode");
 	asm_error();
-	return;
 }
 
 
@@ -547,7 +543,6 @@ output_all(void)
 			break;
 		}
 	}
-	return;
 }
 
 
@@ -562,8 +557,6 @@ init_instructions(void)
 		instr_names[m_btstb] = instr_names[m_btst];
 		instr_names[m_btstl] = instr_names[m_btst];
 	}
-
-	return;
 }
 
 
@@ -587,6 +580,5 @@ init_output(void)
 #endif /* SYS_ABI */
 	all_mach_ins = NULL;
 	current_ins = NULL;
-	return;
 }
 

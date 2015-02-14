@@ -691,7 +691,6 @@ void
 ins0(int instr)
 {
 	make_instr(instr, NULL, NULL, 0);
-	return;
 }
 
 
@@ -706,7 +705,6 @@ ins1(int instr, long asz, where a, int a_changed)
 	mach_op *op = operand(asz, a);
 	bitpattern ch = regs_changed(op, a_changed);
 	make_instr(instr, op, NULL, ch);
-	return;
 }
 
 
@@ -723,7 +721,6 @@ ins2(int instr, long asz, long bsz, where a, where b, int b_changed)
 	mach_op *opb = operand(bsz, b);
 	ch = (regs_changed(opa, 0) | regs_changed(opb, b_changed));
 	make_instr(instr, opa, opb, ch);
-	return;
 }
 
 
@@ -739,7 +736,6 @@ ins2n(int instr, long c, long asz, where a, int a_changed)
 	mach_op *opa = operand(asz, a);
 	bitpattern ch = regs_changed(opa, a_changed);
 	make_instr(instr, opc, opa, ch);
-	return;
 }
 
 
@@ -757,7 +753,6 @@ ins2h(int instr, long c, long asz, where a, int a_changed)
 	mach_op *opa = operand(asz, a);
 	bitpattern ch = regs_changed(opa, a_changed);
 	make_instr(instr, opc, opa, ch);
-	return;
 }
 
 void

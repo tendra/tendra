@@ -211,7 +211,6 @@ repbyseq(exp e)
 	}
 #endif
 	replace(e, s, e);
-	return;
 }
 
 /*

@@ -1696,8 +1696,6 @@ init_floating_variety(void)
     complexdoublesh = getshape(0, const_al1, const_al1, DOUBLE_ALIGN,
 			     2 * DOUBLE_SZ, complexdoublehd);
   }
-
-  return;
 }
 
 floating_variety f_dummy_floating_variety;
@@ -1785,8 +1783,6 @@ void square_x_iy(error_treatment ov_err, exp *arg1, exp *arg2, exp arg3)
 
     *arg1 = x;
     *arg2 = y;
-
-    return;
 }
 
 static
@@ -1824,8 +1820,6 @@ void mult_w_by_z(error_treatment ov_err, exp *arg1, exp *arg2, exp arg3,
 
     *arg1 = u;
     *arg2 = v;
-
-    return;
 }
 
 static exp

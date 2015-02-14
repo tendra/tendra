@@ -318,7 +318,6 @@ static void out_inreg
     }
     asm_printf(", %d", 0);
   }
-  return;
 }
 
 static int regoff_length
@@ -332,7 +331,6 @@ static void out_regoff
 {
   asm_printf("%d, ", l.reg < 0 ? DW_OP_fbreg : DW_OP_breg0 + l.reg);
   sleb128(l.off);
-  return;
 }
 
 static int glob_length
@@ -350,7 +348,6 @@ static void out_glob
   if (l.off) {
     asm_printf(" + %ld", l.off);
   }
-  return;
 }
 
 static int indirect_length
@@ -442,7 +439,6 @@ static void out_indirect
       break;
     }
   }
-  return;
 }
 
 
@@ -525,7 +521,6 @@ void dw2_locate_exp
     extra_deref--;
   }
   asm_printf("\n");
-  return;
 }
 
 
@@ -536,7 +531,6 @@ void dw2_prepare_locate
   exp p = son(id);	/* proc or general proc */
   locals_offset = no(p);
   has_fp = proc_has_fp(p);
-  return;
 }
 
 void dw_at_procdetails
@@ -553,7 +547,6 @@ void dw_at_procdetails
     asm_printf("%d\n", 0);
     out8(); asm_printf("%d\n", 0);
   }
-  return;
 }
 
 
@@ -593,7 +586,6 @@ void dw2_locate_result
     out_inreg(reg, 0);
   }
   asm_printf("\n");
-  return;
 }
 
 
@@ -638,7 +630,6 @@ void dw2_locate_val
       error(ERROR_INTERNAL, "unexpected locate val");
   }
   asm_printf("\n");
-  return;
 }
 
 
@@ -807,7 +798,6 @@ void dw2_offset_exp
     out8(); asm_printf("%d, %d\n", DW_OP_lit0 + 8, DW_OP_mul);
   }
   out_dwf_label(block_end, 1);
-  return;
 }
 
 
@@ -864,7 +854,6 @@ void dw2_cie
   dot_align(PTR_SZ/8);
   out_dwf_label(cie_end, 1);
   exit_section();
-  return;
 }
 
 static void short_advance
@@ -878,7 +867,6 @@ static void short_advance
     out8(); asm_printf("%d\n", DW_CFA_set_loc);
     out32(); out_dwf_label(hi, 0); asm_printf("\n");
   }
-  return;
 }
 
 long dw2_start_fde
@@ -990,7 +978,6 @@ void dw2_fde_entry
     out8(); asm_printf("%d, ", DW_CFA_def_cfa_offset);
 	uleb128((unsigned long)space); asm_printf("\n");
   }
-  return;
 }
 
 void dw2_untidy_return
@@ -1006,7 +993,6 @@ void dw2_untidy_return
     asm_printf("%d\n", DW_CFA_DD_def_cfa_inc_offset);
   }
   exit_section();
-  return;
 }
 
 long dw2_prep_fde_restore_args
@@ -1108,7 +1094,6 @@ void dw2_after_fde_exit
   short_advance(0, here);
   out8(); asm_printf("%d\n", DW_CFA_restore_state);
   exit_section();
-  return;
 }
 
 void dw2_track_push
@@ -1119,7 +1104,6 @@ void dw2_track_push
   short_advance(0, here);
   out8(); asm_printf("%d\n", DW_CFA_DD_def_cfa_inc_offset);
   exit_section();
-  return;
 }
 
 void dw2_track_pop
@@ -1130,7 +1114,6 @@ void dw2_track_pop
   short_advance(0, here);
   out8(); asm_printf("%d\n", DW_CFA_DD_def_cfa_dec_offset);
   exit_section();
-  return;
 }
 
 void dw2_track_sp
@@ -1142,7 +1125,6 @@ void dw2_track_sp
   out8(); asm_printf("%d\n", DW_CFA_DD_def_cfa_fixed_offset);
   out32(); asm_printf("%d+%sdisp%d\n", (extra_stack - stack_dec) / 8, local_prefix, crt_proc_id);
   exit_section();
-  return;
 }
 
 
@@ -1154,7 +1136,6 @@ void dw2_complete_fde
   dot_align(PTR_SZ/8);
   out_dwf_label(fde_end, 1);
   exit_section();
-  return;
 }
 
 
@@ -1166,14 +1147,12 @@ void dw2_start_extra_bit
   di->data.i_scope.end = next_dwarf_label();
   di->more = dgf(body);
   dgf(body) = di;
-  return;
 }
 
 void dw2_end_extra_bit
 (exp body)
 {
   UNUSED(body);
-  return;
 }
 
 
@@ -1189,7 +1168,6 @@ static void mark_lab
     son(son(labst)) = lab_mark_list;
     lab_mark_list = labst;
   }
-  return;
 }
 
 static void trace_branch_aux
@@ -1232,7 +1210,6 @@ static void trace_branch_aux
       t = bro(t);
     }
   }
-  return;
 }
 
 void trace_dw_branch_exits
@@ -1249,7 +1226,6 @@ void trace_dw_branch_exits
     IGNORE dw_entry(dwe_break, 0);
     out32(); out_code_label((long)ptno(pt(son(dest)))); asm_printf("\n");
   }
-  return;
 }
 
 
@@ -1289,7 +1265,6 @@ void dw_allocated
     regassns[reg].alloc = nm;
     regassns[reg].share_set = NULL;
   }
-  return;
 }
 
 void dw_deallocated
@@ -1304,7 +1279,6 @@ void dw_deallocated
       regassns[i].share_set = NULL;
     }
   }
-  return;
 }
 
 void dw_all_deallocated		/* initialisation */
@@ -1318,7 +1292,6 @@ void dw_all_deallocated		/* initialisation */
     regassns[i].share_set = NULL;
     a->start = a->end = b->start = b->end = 0;
   }
-  return;
 }
 
 
@@ -1337,7 +1310,6 @@ void dw_init_regassn
       a->end = 0;
     }
   }
-  return;
 }
 
 void dw_used_regassn
@@ -1345,7 +1317,6 @@ void dw_used_regassn
 {
   if (reg < TRACKREGS && regassns[reg].assn[x].start)
     regassns[reg].assn[x].end = set_dw_text_label();
-  return;
 }
 
 void dw_close_regassn
@@ -1367,7 +1338,6 @@ void dw_close_regassn
       regassns[reg].share_set = NULL;
   }
   a->start = 0;
-  return;
 }
 
 #else

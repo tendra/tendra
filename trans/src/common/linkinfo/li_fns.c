@@ -149,7 +149,6 @@ f_static_name_def(exp e, tdfstring id)
 void
 init_linkinfo(void)
 {
-	return;
 }
 
 
@@ -210,8 +209,6 @@ start_make_linkinfo_unit(int no_of_tokens, int no_of_tags, int no_of_als,
 	for (i = 0; i < unit_no_of_als; ++i) {
 		unit_ind_als[i] = NULL;
 	}
-
-	return;
 }
 
 

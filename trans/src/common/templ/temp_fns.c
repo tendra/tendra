@@ -74,7 +74,6 @@ add_%SN(%SN list, %SSN elem, int index)
 void
 init_%SN(void)
 {
-    return;
 }
 @endif
 @end

@@ -104,7 +104,6 @@ void uop
     return;
   };
  (*op)(sha, mw(a, 0), dest);
-  return;
 }
 
 static int no_reg_needed
@@ -171,7 +170,6 @@ void bop
   };
 
  (*op)(sha, mw(a, 0), mw(b, 0), dest);
-  return;
 }
 
 /*
@@ -254,7 +252,6 @@ static void logop
   };
   retcell(qw.where_exp);
   cond1_set = 0;
-  return;
 }
 
 /*
@@ -336,7 +333,6 @@ static void multop
   };
   retcell(qw.where_exp);
   cond1_set = 0;
-  return;
 }
 
 /*
@@ -350,7 +346,6 @@ static void addsub
     sub(sha, mw(son(a.where_exp), 0), b, dest);
   else
     add(sha, a, b, dest);
-  return;
 }
 
 /*

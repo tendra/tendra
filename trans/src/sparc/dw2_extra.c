@@ -320,7 +320,6 @@ static void out_inreg(int r, int more)
     }
     asm_printf(", %d", 0);
   }
-  return;
 }
 
 static int regoff_length(loc_s l)
@@ -333,7 +332,6 @@ static void out_regoff(loc_s l)
 {
   asm_printf("%d, ", l.reg == R_FP ? DW_OP_fbreg : DW_OP_breg0 + l.reg);
   sleb128 (l.off);
-  return;
 }
 
 static int split_length(loc_s l)
@@ -365,7 +363,6 @@ static void out_split(loc_s l)
     out_inreg (l.reg + R_O1, 0);
   asm_printf(", %d", DW_OP_piece);
   asm_printf(", %d", 4);
-  return;
 }
 
 static int glob_length(loc_s l)
@@ -383,7 +380,6 @@ static void out_glob(loc_s l)
   if (l.off) {
     asm_printf(" + %d", l.off);
   }
-  return;
 }
 
 static int indirect_length(exp e)
@@ -476,7 +472,6 @@ static void out_indirect(exp e)
       break;
     }
   }
-  return;
 }
 
 
@@ -548,8 +543,6 @@ void dw2_locate_exp(exp e, int locate_const, int cx)
 
   if (needs_debug_align && !calc_length)
     out_dwf_label (over_lab, 1);
-
-  return;
 }
 
 static long current_pprops;
@@ -581,7 +574,6 @@ void dw2_prepare_locate(exp id)
     last_param_reg = (Has_vcallees ? 3 : 4);
   this_proc = e;
   current_pprops = pprops;
-  return;
 }
 
 
@@ -616,7 +608,6 @@ void dw2_locate_result(shape sha)
     out_inreg (r, 0);
   }
   asm_printf("\n");
-  return;
 }
 
 void dw_at_procdetails(void)
@@ -626,7 +617,6 @@ void dw_at_procdetails(void)
   asm_printf("%d\n", has_struct_res (this_proc) ? 12 : 8);
   out8(); asm_printf("%d, ", 1);
   asm_printf("%d\n", DW_OP_reg0 + R_SP);
-  return;
 }
 
 
@@ -681,8 +671,6 @@ void dw2_locate_val(dg_where v)
 
   if (needs_debug_align && !calc_length)
     out_dwf_label (over_lab, 1);
-
-  return;
 }
 
 
@@ -835,7 +823,6 @@ void dw2_offset_exp(exp e)
     out8 (); asm_printf("%d, %d\n", DW_OP_lit0 + 8, DW_OP_mul);
   }
   out_dwf_label (block_end, 1);
-  return;
 }
 
 
@@ -869,7 +856,6 @@ void dw2_cie(void)
   dot_align (PTR_SZ/8);
   out_dwf_label (cie_end, 1);
   exit_section ();
-  return;
 }
 
 
@@ -897,7 +883,6 @@ void dw2_start_fde(exp e)
   exit_section ();
   instr_count = -1;
   fde_count = 0;
-  return;
 }
 
 static void fde_advance(long here)
@@ -926,7 +911,6 @@ static void fde_advance(long here)
   }
   asm_printf("\n");
   fde_count = 0;
-  return;
 }
 
 void dw2_fde_save(void)
@@ -940,7 +924,6 @@ void dw2_fde_save(void)
 	sleb128 ((long) (has_struct_res (this_proc) ? 12 : 8));
 	asm_printf("\n");
   exit_section ();
-  return;
 }
 
 void dw2_fde_restore(void)
@@ -954,7 +937,6 @@ void dw2_fde_restore(void)
 	sleb128 ((long) (has_struct_res (this_proc) ? 12 : 8));
 	asm_printf("\n");
   exit_section ();
-  return;
 }
 
 void dw2_complete_fde(void)
@@ -964,7 +946,6 @@ void dw2_complete_fde(void)
   dot_align (PTR_SZ/8);
   out_dwf_label (fde_end, 1);
   exit_section ();
-  return;
 }
 
 
@@ -979,7 +960,6 @@ static void mark_lab(exp labst)
     son(son(labst)) = lab_mark_list;
     lab_mark_list = labst;
   }
-  return;
 }
 
 static void trace_branch_aux(exp whole, exp e)
@@ -1015,7 +995,6 @@ static void trace_branch_aux(exp whole, exp e)
       t = bro(t);
     }
   }
-  return;
 }
 
 void trace_dw_branch_exits(exp e)
@@ -1030,7 +1009,6 @@ void trace_dw_branch_exits(exp e)
     dw_entry (dwe_break, 0);
     out32 (); out_code_label (no(holder)); asm_printf("\n");
   }
-  return;
 }
 
 
@@ -1073,7 +1051,6 @@ void dw_allocated(dg_name nm, exp id)
       break;
     }
   }
-  return;
 }
 
 void dw_deallocated(dg_name nm)
@@ -1086,7 +1063,6 @@ void dw_deallocated(dg_name nm)
       regassns[i].share_set = NULL;
     }
   }
-  return;
 }
 
 void dw_all_deallocated(void)		/* initialisation */
@@ -1097,7 +1073,6 @@ void dw_all_deallocated(void)		/* initialisation */
     regassns[i].share_set = NULL;
     regassns[i].start = regassns[i].end = 0;
   }
-  return;
 }
 
 
@@ -1112,14 +1087,12 @@ void dw_init_regassn(int reg)
       regassns[reg].end = 0;
     }
   }
-  return;
 }
 
 void dw_used_regassn(int reg)
 {
   if (reg < TRACKREGS && regassns[reg].start)
     regassns[reg].end = set_dw_text_label ();
-  return;
 }
 
 void dw_close_regassn(int reg)
@@ -1138,7 +1111,6 @@ void dw_close_regassn(int reg)
       regassns[reg].share_set = NULL;
   }
   regassns[reg].start = 0;
-  return;
 }
 
 

@@ -132,7 +132,6 @@ ld_addr ( instore is, int reg ){
   } else {
     ld_ins ( i_ld, is.b, reg ) ;
   }
-  return ;
 }
 
 

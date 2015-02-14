@@ -662,6 +662,4 @@ void operand
   };
 
   error(ERROR_INTERNAL, BAD_OPND);
-
-  return;
 }

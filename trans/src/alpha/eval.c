@@ -177,7 +177,6 @@ output_data_records(char *strng, char *str, int size)
     pos += binasm_record_length;
     size -= binasm_record_length;
   }
-  return;
 }
 
       
@@ -214,7 +213,6 @@ outfloat(exp e, int rep, ash a)
     default:
     error(ERROR_INTERNAL, "invalid floating variety");
   }
-  return;
 }
 
 /*
@@ -326,7 +324,6 @@ oneval(INT64 val, int al, int rep)
     asm_printf(" :%d\n",rep);
   }
   out_value(0,bval,val,rep);
-  return;
 }
 
 

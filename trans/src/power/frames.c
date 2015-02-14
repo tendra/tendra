@@ -155,7 +155,6 @@ void set_up_frame_pointer(procrec * pr, exp e)
     pr->max_callee_bytes = 0;
   else
     pr->max_callee_bytes = ALIGNNEXT ((max_callees >> 3) + EXTRA_CALLEE_BYTES, 8);
-  return;
 }
 
 void set_up_frame_info(procrec * pr, exp e)
@@ -253,7 +252,4 @@ void set_up_frame_info(procrec * pr, exp e)
   }
   pr->params_offset = pr->frame_size + STACK_ARG_AREA*8;
   pr->maxargs=maxargs;
-
-  
-  return;
 }

@@ -102,7 +102,6 @@ void static_memory_copy(int reg_from, int reg_to, int number_of_bytes)
       rir_ins(i_a,reg_to,-4 * words,reg_to);
     }
   }
-  return;
 }
 void reverse_static_memory_copy(int reg_from, int reg_to, int number_of_bytes)
 {
@@ -139,7 +138,6 @@ void reverse_static_memory_copy(int reg_from, int reg_to, int number_of_bytes)
     st_ro_ins(i_st,R_TMP0,to);
   }
   assert(offset ==0);
-  return;
 }
 
 void dynamic_byte_memory_copy(int reg_from, int reg_to, int reg_size)
@@ -175,7 +173,6 @@ void dynamic_byte_memory_copy(int reg_from, int reg_to, int reg_size)
 
   /* reg_from goes to reg_from + reg_size */
   /* reg_to goes to reg_to + reg_size */
-  return;
 }
 void reverse_dynamic_byte_memory_copy(int reg_from, int reg_to, int reg_size)
 {
@@ -201,8 +198,6 @@ void reverse_dynamic_byte_memory_copy(int reg_from, int reg_to, int reg_size)
   uncond_ins(i_bdn,loop);
   
   set_label(zero);
-
-  return;
 }
 
 void dynamic_word_memory_copy(int reg_from, int reg_to, int reg_size)
@@ -239,7 +234,6 @@ void dynamic_word_memory_copy(int reg_from, int reg_to, int reg_size)
 
   /* reg_from goes to reg_from + reg_size */
   /* reg_to goes to reg_to + reg_size */
-  return;
 }
 void reverse_dynamic_word_memory_copy(int reg_from, int reg_to, int reg_size)
 {
@@ -268,5 +262,4 @@ void reverse_dynamic_word_memory_copy(int reg_from, int reg_to, int reg_size)
   set_label(zero);
 
   /* reg_from and reg_to are unchanged */
-  return;
 }

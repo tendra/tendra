@@ -90,7 +90,6 @@ void init_proc_errors(exp e)
     cmp_rr_ins(i_cmp,R_SP,R_TMP0,cr);
     long_bc_ins(i_blt,cr,err_lab,UNLIKELY_TO_JUMP);
   }
-  return;
 }
 
 /*
@@ -115,7 +114,6 @@ void output_error_labels(void)
     rir_ins(i_a,R_SP,p_frame_size,R_SP); /* collapse stack frame */
     do_exception(f_stack_overflow);
   }
-  return;
 }
 
 /*
@@ -184,7 +182,6 @@ void do_trap(exp e)
   }
   uncond_ins(i_b,err_lab);
   clear_all();
-  return;
 }
 
 /*
@@ -199,7 +196,6 @@ void test_signed(int r, long lower, long upper, long lab)
   long_bc_ins(i_blt,creg1,lab,UNLIKELY_TO_JUMP);
   cmp_ri_ins(i_cmp,r,upper,creg2);
   long_bc_ins(i_bgt,creg2,lab,UNLIKELY_TO_JUMP);
-  return;
 }
 
 /*
@@ -210,7 +206,6 @@ void test_unsigned(int r, long maxval, long lab)
   int creg=next_creg();
   cmp_ri_ins(i_cmpl,r,maxval,creg);
   long_bc_ins(i_bgt,creg,lab,UNLIKELY_TO_JUMP);
-  return;
 }
 
 /*
@@ -241,7 +236,6 @@ static void do_exception(int ex)
 {
   ld_const_ins(ex,R_FIRST_PARAM);/* __TDFhandler takes as its first parameter, the error code */
   call_TDFhandler();
-  return;
 }
 
 static void call_TDFhandler(void)
@@ -256,7 +250,6 @@ static void call_TDFhandler(void)
   /* We don't come back from calling error handler */
   mt_ins(i_mtctr,R_TMP0);
   z_ins(i_bctr);
-  return;
 }
 
 /*
@@ -405,7 +398,6 @@ void div_error_treatment(int l, int r, exp e)
     long_bc_ins(i_beq,creg3,trap,UNLIKELY_TO_JUMP);
     set_label(lab);
   }
-  return;
 }
 
 /*
@@ -825,7 +817,6 @@ void rem_error_treatment(int l, int r, exp e)
 
   cmp_ri_ins(i_cmp,r,0,creg);
   long_bc_ins(i_beq,creg,trap,UNLIKELY_TO_JUMP);
-  return;
 }
 
 /*
@@ -839,7 +830,6 @@ void chfl_error_treatment(exp e, int f)
   rrf_ins(i_frsp_cr,f,f);
   mcrfs_ins(CRF0,0);
   long_bc_ins(i_bso,CRF0,trap,UNLIKELY_TO_JUMP);
-  return;
 }
 
 void do_fmop_error_jump(exp e, int fs, int fd)
@@ -862,7 +852,6 @@ void do_fmop_error_jump(exp e, int fs, int fd)
     mcrfs_ins(CRF0,0);
     long_bc_ins(i_bso,CRF0,trap,UNLIKELY_TO_JUMP);
   }
-  return;
 }
 
 void do_fop_error_jump(exp e, int fs1, int fs2, int fd)
@@ -896,6 +885,5 @@ void do_fop_error_jump(exp e, int fs1, int fs2, int fd)
     mcrfs_ins(CRF0,0);
     long_bc_ins(i_bso,CRF0,trap,UNLIKELY_TO_JUMP);
   }
-  return;
 }
 

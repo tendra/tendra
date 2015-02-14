@@ -72,7 +72,6 @@ dw_out_path(dg_filename f, int w)
 		dw_at_string(com);
 		xfree((void *)com);
 	}
-	return;
 }
 
 
@@ -81,7 +80,6 @@ void
 init_dwarf2(void)
 {
 	init_dw_entries();
-	return;
 }
 
 
@@ -108,7 +106,6 @@ dwarf2_prelude(void)
 	text_end = next_dwarf_label();
 
 	init_dw_locdata();
-	return;
 }
 
 
@@ -191,7 +188,6 @@ out_macros(dg_macro_list macs)
 			break;
 		}
 	}
-	return;
 }
 
 
@@ -259,7 +255,6 @@ dwarf2_postlude(void)
 		/* back to text section */
 		exit_section();
 	}
-	return;
 }
 
 
@@ -284,5 +279,4 @@ end_dwarf2(void)
 	exit_section();
 	dw2_data_aranges();
 	close_compunit_info();
-	return;
 }

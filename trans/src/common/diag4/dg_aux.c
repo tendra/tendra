@@ -64,7 +64,6 @@ make_dg_clump(void)
 {
 	next_dg = (dg_union *)xcalloc(DG_CLUMP_SIZE, sizeof(dg_union));
 	dg_clump_left = DG_CLUMP_SIZE;
-	return;
 }
 
 
@@ -143,7 +142,6 @@ extend_dg_name(dg_name nm)
 	mor->issep = 0;
 	mor->isnew = 0;
 	mor->aderiv = 0;
-	return;
 }
 
 
@@ -168,7 +166,6 @@ extend_dg_type(dg_type tp)
 	mor->isspec = 0;
 	mor->isnew = 0;
 	mor->aderiv = 0;
-	return;
 }
 
 
@@ -182,7 +179,6 @@ init_dgtag(dg_tag tg)
 	tg->outref.k = NO_LAB;
 	tg->abstract_lab = 0;
 	tg->copy = NULL;
-	return;
 }
 
 
@@ -387,7 +383,6 @@ scan_diag_names(exp e, exp whole)
 			t = bro(t);
 		}
 	}
-	return;
 }
 
 
@@ -422,7 +417,6 @@ diag_kill_id(exp id)
 		t = pt(t);
 	}
 	son(id) = NULL;
-	return;
 }
 
 
@@ -439,7 +433,6 @@ set_obj_ref(dg_name nm)
 	    !(brog(son(e))->dec_u.dec_val.dg_name)) {
 		brog(son(e))->dec_u.dec_val.dg_name = nm;
 	}
-	return;
 }
 
 
@@ -534,7 +527,6 @@ check_const_exp(exp e)
 		error(ERROR_INTERNAL, "diag_type may need copying");
 	}
 	/* copy within type, unless all name_tags are uncopied */
-	return;
 }
 
 
@@ -600,7 +592,6 @@ check_const_type(dg_type t)
 	default:
 		break;
 	}
-	return;
 }
 
 
@@ -823,7 +814,6 @@ update_diag_copy(exp e, dg_info d, int update)
 		}
 		}
 	}
-	return;
 }
 
 
@@ -842,7 +832,6 @@ update_detch_copy(detch_info *dl, int update)
 		}
 		dl = dl->next;
 	}
-	return;
 }
 
 
@@ -1111,7 +1100,6 @@ start_diag_inlining(exp e, dg_name dn)
 	di = f_make_tag_dg(current_inliner, di);
 	di->more = dgf(body);
 	dgf(body) = di;
-	return;
 }
 
 
@@ -1129,7 +1117,6 @@ end_diag_inlining(exp e, dg_name dn)
 	}
 	dgf(body) = dgf(body)->more;
 	current_inliner = 0;
-	return;
 }
 
 
@@ -1155,7 +1142,6 @@ diag_inline_result(exp e)
 	if (current_inliner) {
 		dgf(e) = f_inline_result_dg(current_inliner);
 	}
-	return;
 }
 
 
@@ -1172,7 +1158,6 @@ dg_whole_comp(exp whole, exp comp)
 		*next = dgf(comp);
 		dgf(comp) = dgf(whole);
 	}
-	return;
 }
 
 
@@ -1209,7 +1194,6 @@ dg_complete_inline(exp whole, exp comp)
 		*next = dgf(comp);
 		dgf(comp) = dgf(whole);
 	}
-	return;
 }
 
 
@@ -1354,7 +1338,6 @@ dg_detach(exp old, exp keep, int position, int reason, int descend, int reuse,
 		newd->more = dgf(keep);
 		dgf(keep) = newd;
 	}
-	return;
 }
 
 
@@ -1363,7 +1346,6 @@ dg_dead_code(exp dead, exp prev)
 {
 	/* mark removal of dead code following prev */
 	dg_detach(dead, prev, +1, DGD_DEAD, 1, 0, NULL);
-	return;
 }
 
 
@@ -1372,7 +1354,6 @@ dg_rdnd_code(exp rdnd, exp next)
 {
 	/* mark removal of redundant code before next */
 	dg_detach(rdnd, next, -1, DGD_RDND, 1, 0, NULL);
-	return;
 }
 
 
@@ -1381,7 +1362,6 @@ dg_detach_const(exp part, exp whole)
 {
 	/* incorporated part in whole evaluated constant*/
 	dg_detach(part, whole, 0, DGD_CNST, 0, 0, NULL);
-	return;
 }
 
 
@@ -1390,7 +1370,6 @@ dg_restruct_code(exp outer, exp inner, int posn)
 {
 	/* mark movement of inner into outer */
 	dg_detach(inner, outer, posn, DGD_MOVD, 1, 1, NULL);
-	return;
 }
 
 
@@ -1419,7 +1398,6 @@ dg_rem_ass(exp ass)
 		*dx = rem;
 	}
 	dg_detach(ass, bro(son(ass)), -1, DGD_REM, 0, 0, NULL);
-	return;
 }
 
 
@@ -1431,7 +1409,6 @@ strip_dg_context(exp e)
 		d = d->more;
 	}
 	dgf(e) = d;
-	return;
 }
 
 
@@ -1467,7 +1444,6 @@ dg_extracted(exp nm, exp old)
 		d->more = dgf(nm);
 		dgf(nm) = con_start;
 	}
-	return;
 }
 
 
@@ -1551,7 +1527,6 @@ gather_objects(exp e, exp whole, objset **obs, int ass)
 		}
 		t = bro(t);
 	}
-	return;
 }
 
 
@@ -1582,7 +1557,6 @@ make_optim_dg(int reason, exp e)
 	sub->more = dgf(konst);
 	dgf(konst) = sub;
 	gather_objects(konst, konst, &((*dx)->data.i_optim.objs), 0);
-	return;
 }
 
 

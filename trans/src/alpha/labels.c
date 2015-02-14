@@ -46,7 +46,6 @@ set_label(int l)
   }
   
   binasm_data = out_common(-l,ilabel);
-  return;
 }
 
 void

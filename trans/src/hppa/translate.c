@@ -241,7 +241,6 @@ void mark_unaliased
   };
   if (ca)
     setcaonly(e);
-  return;
 }
 
 baseoff find_tg
@@ -809,8 +808,6 @@ translate_capsule(void)
 	   free(first);
      }
   }
-
-  return;
 }
 
 
@@ -838,7 +835,6 @@ void exit_translator
 #endif
     }
     outs("\t.END\n");
-    return;
 }
 
 

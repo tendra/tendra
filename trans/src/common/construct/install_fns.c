@@ -155,7 +155,6 @@ yes_procprops_option(procprops p)
 void
 init_procprops_option(void)
 {
-	return;
 }
 
 
@@ -794,7 +793,6 @@ f_unite_alignments(alignment a1, alignment a2)
 void
 init_access(void)
 {
-	return;
 }
 
 
@@ -864,7 +862,6 @@ init_alignment(void)
 	f_var_param_alignment = VAR_PARAM_ALIGN;
 	f_code_alignment = CODE_ALIGN;
 	stack_align = max(param_align, double_align);
-	return;
 }
 
 
@@ -942,7 +939,6 @@ f_bfvar_bits(bool issigned, nat bits)
 void
 init_bitfield_variety(void)
 {
-	return;
 }
 
 
@@ -954,7 +950,6 @@ bool f_true = 1;
 void
 init_bool(void)
 {
-	return;
 }
 
 
@@ -980,14 +975,12 @@ init_callees(void)
 {
 	f_same_callees = getexp(f_top, NULL, 0, NULL, NULL, 0, 0,
 				same_callees_tag);
-	return;
 }
 
 
 void
 init_caselim(void)
 {
-	return;
 }
 
 
@@ -1006,7 +999,6 @@ error_code f_dummy_error_code;
 void
 init_error_code(void)
 {
-	return;
 }
 
 
@@ -1016,7 +1008,6 @@ init_error_treatment(void)
 	f_wrap.err_code = 1;
 	f_impossible.err_code = 0;
 	f_continue.err_code = 2;
-	return;
 }
 
 
@@ -1989,7 +1980,6 @@ start_conditional(label alt_label_intro)
 	fno(labst) = default_freq;
 	++proc_label_count;
 	set_lab(alt_label_intro, labst);
-	return;
 }
 
 
@@ -2320,8 +2310,6 @@ start_identify(access_option acc, tag name_intro, exp definition)
 		setvis(i);
 	}
 	set_tag(name_intro, i);
-
-	return;
 }
 
 
@@ -2410,8 +2398,6 @@ start_labelled(label_list placelabs_intro)
 	repeat_list = getexp(f_top, crt_repeat, 0, NULL, repeat_list, 0, 0,
 			     0);
 	crt_repeat = repeat_list;
-
-	return;
 }
 
 
@@ -2991,7 +2977,6 @@ push_proc_props(void)
 	temp->frame_alignment = frame_alignment;
 	temp->in_initial_value = in_initial_value;
 	old_proc_props = temp;
-	return;
 }
 
 
@@ -3017,7 +3002,6 @@ pop_proc_props(void)
 	if (temp != &initial_value_pp) {
 		xfree((void *)temp);
 	}
-	return;
 }
 
 
@@ -3058,8 +3042,6 @@ start_make_proc(shape result_shape, tagshacc_list params_intro,
 	/* set this flag to distinguish values created during procedure
 	   reading. */
 	in_proc_def = 1;
-
-	return;
 }
 
 
@@ -3366,7 +3348,6 @@ start_make_general_proc(shape result_shape, procprops prcprops,
 	   reading. */
 	in_proc_def = 1;
 	crt_procprops = prcprops;
-	return;
 }
 
 
@@ -3604,7 +3585,6 @@ start_apply_general_proc(shape result_shape, procprops_option prcprops, exp p,
 			 otagexp_list caller_params_intro,
 			 callees callee_params)
 {
-	return;
 }
 
 
@@ -4767,7 +4747,6 @@ start_repeat(label repeat_label_intro)
 	fno(labst) = default_freq;
 	++proc_label_count;
 	set_lab(repeat_label_intro, labst);
-	return;
 }
 
 
@@ -5117,8 +5096,6 @@ start_variable(access_option acc, tag name_intro, exp init)
 		setcaonly(i);
 	}
 	set_tag(name_intro, i);
-
-	return;
 }
 
 
@@ -5170,7 +5147,6 @@ init_exp(void)
 	initial_value_pp.in_proc_def = 0;
 	initial_value_pp.pushed = NULL;
 	initial_value_pp.rep_make_proc = 0;
-	return;
 }
 
 
@@ -5229,7 +5205,6 @@ f_make_nat(tdfint n)
 void
 init_nat(void)
 {
-	return;
 }
 
 
@@ -5238,21 +5213,18 @@ nat f_dummy_nat;
 void
 init_ntest(void)
 {
-	return;
 }
 
 
 void
 init_otagexp(void)
 {
-	return;
 }
 
 
 void
 init_procprops(void)
 {
-	return;
 }
 
 
@@ -5261,7 +5233,6 @@ ntest f_dummy_ntest;
 void
 init_rounding_mode(void)
 {
-	return;
 }
 
 
@@ -5592,8 +5563,6 @@ init_shape(void)
 
 	f_off512_1 = getshape(1, const_al512, const_al1, OFFSET_ALIGN,
 			      OFFSET_SZ, offsethd);
-
-	return;
 }
 
 
@@ -5677,7 +5646,6 @@ f_make_signed_nat(tdfbool neg, tdfint n)
 void
 init_signed_nat(void)
 {
-	return;
 }
 
 
@@ -5688,7 +5656,6 @@ string f_dummy_string;
 void
 init_string(void)
 {
-	return;
 }
 
 
@@ -5756,7 +5723,6 @@ f_make_tagshacc(shape sha, access_option visible, tag tg_intro)
 void
 init_tagshacc(void)
 {
-	return;
 }
 
 
@@ -5875,7 +5841,6 @@ void init_variety
 			   slonghd);
 	u64sh = getshape(0, const_al1, const_al1, U64_ALIGN, U64_SZ, u64hd);
 	s64sh = getshape(1, const_al1, const_al1, S64_ALIGN, S64_SZ, s64hd);
-	return;
 }
 
 
@@ -6180,7 +6145,6 @@ void
 init_tagacc_option(void)
 {
 	no_tagacc_option.present = 0;
-	return;
 }
 
 
@@ -6199,14 +6163,12 @@ void
 init_nat_option(void)
 {
 	no_nat_option.present = 0;
-	return;
 }
 
 
 void
 init_tagacc(void)
 {
-	return;
 }
 
 
@@ -6223,7 +6185,6 @@ f_make_tagacc(tag tg, access_option acc)
 void
 init_transfer_mode(void)
 {
-	return;
 }
 
 
@@ -6232,21 +6193,18 @@ init_version_props(void)
 {
 	global_version.major_version = 0;
 	global_version.minor_version = 0;
-	return;
 }
 
 
 void
 init_version(void)
 {
-	return;
 }
 
 
 void
 init_access_option(void)
 {
-	return;
 }
 
 

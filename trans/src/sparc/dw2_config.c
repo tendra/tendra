@@ -28,7 +28,6 @@ long dwarf_lab_num = 0;
 void out8(void)
 {
   asm_printf("\t.byte ");
-  return;
 }
 
 void out16(void)
@@ -37,7 +36,6 @@ void out16(void)
     dot_align(2);
   }
   asm_printf("\t.half ");
-  return;
 }
 
 void out32(void)
@@ -46,37 +44,31 @@ void out32(void)
     dot_align(4);
   }
   asm_printf("\t.word ");
-  return;
 }
 
 void dot_align(long n)
 {
   asm_printop(".align %ld", n);
-  return;
 }
 
 void out_string(char *s)
 {
   asm_printop(".asciz \"%s\"", s);
-  return;
 }
 
 void start_string(char *s)
 {
   asm_printf("\t.asciz \"%s", s);
-  return;
 }
 
 void end_string(void)
 {
   asm_printf("\"\n");
-  return;
 }
 
 void enter_section(char *s)
 {
   asm_printop(".section \".%s\"", s);
-  return;
 }
 
 void exit_section(void)
@@ -84,7 +76,6 @@ void exit_section(void)
   enum section old = current_section;
   current_section = no_section;
   insection (old);
-  return;
 }
 
 void out_dwf_label(long l, int set)
@@ -95,20 +86,17 @@ void out_dwf_label(long l, int set)
   if (set) {
     asm_printf(":\n");
   }
-  return;
 }
 
 void out_code_label(long l)
 {
   asm_printf("%s%d", lab_prefix, l);
-  return;
 }
 
 void out_dwf_dist_to_label(long l)
 {
   out_dwf_label (l, 0);
   asm_printf(" - . - 4");
-  return;
 }
 
 void out_dwf_labdiff(long lo, long hi)
@@ -120,20 +108,17 @@ void out_dwf_labdiff(long lo, long hi)
     asm_printf(" - ");
     out_dwf_label (lo, 0);
   }
-  return;
 }
 
 void out_ext_label(char *s)
 {
   asm_printop(".global %s\n", s);
   asm_label("%s", s);
-  return;
 }
 
 void out_producer(char *s)
 {
   asm_printop(".asciz \"%s %s\"", s, "trans.sparc installer");
-  return;
 }
 
 
@@ -150,7 +135,6 @@ void note_data(int ll, bool ro)
     if (!first_data)
       first_data = ll;
   }
-  return;
 }
 
 void dw2_data_aranges(void)
@@ -186,5 +170,4 @@ void dw2_data_aranges(void)
 	outlab (first_ro); asm_printf("\n");
   }
   exit_section ();
-  return;
 }

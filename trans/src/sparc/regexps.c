@@ -119,7 +119,6 @@ clear_all (void) {
 	  dw_close_regassn (i);
 #endif
     }
-    return ;
 }
 
 
@@ -139,7 +138,6 @@ clear_reg ( int i )
 	  dw_close_regassn (i);
 #endif
     }
-    return ;
 }
 
 
@@ -282,7 +280,6 @@ keepexp ( exp e, ans loc )
     if (diag == DIAG_DWARF2)
 	dw_init_regassn (reg);
 #endif
-    return ;
 }
 
 
@@ -316,7 +313,6 @@ keepcont ( exp e, int regcode )
     if (diag == DIAG_DWARF2)
 	dw_init_regassn (reg);
 #endif
-    return ;
 }
 
 
@@ -350,7 +346,6 @@ keepreg ( exp e, int regcode )
     if (diag == DIAG_DWARF2)
 	dw_init_regassn (reg);
 #endif
-    return ;
 }
 
 
@@ -496,5 +491,4 @@ clear_dep_reg ( exp lhs )
 	}
       }
   }
-  return ;
 }

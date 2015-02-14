@@ -104,5 +104,4 @@ void transform_var_callees
       }
     }
   }
-  return;
 }

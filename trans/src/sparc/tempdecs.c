@@ -166,7 +166,6 @@ after_a ( exp a, exp id ){
     a = dad ;
   }
   if ( dad != id ) goto tailrec ;
-  return ;
 }	
 
 

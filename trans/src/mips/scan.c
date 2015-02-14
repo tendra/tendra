@@ -103,7 +103,6 @@ cca(exp ** to, exp * x)
     bro (def) = tg;		/* bro(def) is body of Let = tg */
     clearlast (def);
     * (x) = id;		/* replace pointer to x by Let */
-    return;
   }
   else {			/* replace by Let tg = def In ato/def = tg
 				   Ni */
@@ -127,7 +126,6 @@ cca(exp ** to, exp * x)
     }
     else  *to = & bro(son(id));		/* later replacement to same 'to' will be
 				   at body of Let */
-    return;
   }
 }
 

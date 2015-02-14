@@ -119,7 +119,6 @@ set_large_alloc(void)
   alloc_freelist = alloc_list;
   freelist = NULL;
   exps_left = 0;
-  return;
 }
 
 /*
@@ -186,7 +185,6 @@ retcell(exp e)
 {
   son(e) = freelist;
   freelist = (e);
-  return;
 }
 
 /*
@@ -542,7 +540,6 @@ case_item(exp i)
 
   bro(i) = bro(t);
   bro(t) = i;
-  return;
 }
 
 /*

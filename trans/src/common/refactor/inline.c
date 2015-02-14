@@ -58,8 +58,6 @@ change_last_shapes(exp e, shape sha)
 		sh(e) = sha;
 		change_last_shapes(bro(son(e)), sha);
 	}
-
-	return;
 }
 
 
@@ -80,7 +78,6 @@ replace_pars(exp actual, exp formal_par)
 	replace(def, actual, formal_par);
 
 	retcell(def);
-	return;
 }
 
 
@@ -230,6 +227,4 @@ inline_exp(exp e)
 #endif
 	replace(e, res, NULL); /* replace the call by the inlined stuff */
 	kill_exp(fn, fn);	 /* kill off the function name_tag */
-
-	return;
 }

@@ -139,7 +139,6 @@ dw_add_regshare(void * w, dg_name nm, long start, long end)
 	item->next_share = holder->items;
 	item->next_loc = (regshare_item)0;
 	holder->items = item;
-	return;
 }
 
 
@@ -151,7 +150,6 @@ check_taggable(dg_name nm)
 	if (!nm->mor || !nm->mor->this_tag) {
 		IGNORE f_dg_tag_name(gen_tg_tag(), nm);
 	}
-	return;
 }
 
 
@@ -341,7 +339,6 @@ set_optim_objects(dg_info optim, int start)
 		}
 		obj = obj->next;
 	}
-	return;
 }
 
 
@@ -361,7 +358,6 @@ set_remval_object(dg_info rmv)
 		*l = new_ll_item(LL_CONST, 0);
 		(*l)->u.d = rmv;
 	}
-	return;
 }
 
 
@@ -401,7 +397,6 @@ set_obj_rets(retrec * rec)
 		}
 		obl = obl->next;
 	}
-	return;
 }
 
 
@@ -441,7 +436,6 @@ out_regshare_set(regshare_item it)
 		}
 		this = this->next_share;
 	}
-	return;
 }
 
 
@@ -451,7 +445,6 @@ init_dw_locdata(void)
 	all_regshares = NULL;
 	local_objects = NULL;
 	dw_all_deallocated();
-	return;
 }
 
 
@@ -534,7 +527,6 @@ complete_dw_locdata(void)
 		}
 		top_l = top_l->next;
 	}
-	return;
 }
 
 
@@ -637,7 +629,6 @@ loclist_portion(ll_item l)
 		}
 		l = l->next;
 	}
-	return;
 }
 
 
@@ -653,7 +644,6 @@ out_obj_loclist(long l1, long l2, exp x)
 		out_loc_range(startlab, l2, 0);
 		dw2_locate_exp(obval, 0, 1);
 	}
-	return;
 }
 
 
@@ -699,7 +689,6 @@ extlist_portion(ll_item l)
 		}
 		l = l->next;
 	}
-	return;
 }
 
 
@@ -723,7 +712,6 @@ out_obj_extloclist(long l1, long l2, exp x)
 		dw_at_data(1, LOp_Const);
 		dw_out_const(obval);
 	}
-	return;
 }
 
 
@@ -747,5 +735,4 @@ out_obj_shared_set(dg_name dn)
 		asm_printf("0");
 		asm_comment("share list end");
 	}
-	return;
 }

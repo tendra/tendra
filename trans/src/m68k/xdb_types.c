@@ -116,7 +116,6 @@ out_posn(FILE *file, table_posn *p, int comma)
 		asm_fprintf(file, "0x%x",(unsigned int)p->posn);
 	}
 	asm_fprintf(file, "%c", comma ? ',' : '\n');
-	return;
 }
 
 
@@ -136,7 +135,6 @@ fill_gap(FILE *file, long fp, posn_t t)
 	if (fseek(file, fp_old, SEEK_SET) == -1) {
 		error(ERROR_SERIOUS, "Internal file seek error");
 	}
-	return;
 }
 
 
@@ -518,7 +516,6 @@ push_dscope(posn_t p, int t)
 	}
 	dscope_stack[n].posn = p;
 	dscope_stack[n].dscope_type = t;
-	return;
 }
 
 

@@ -646,7 +646,6 @@ static void
 diag_val_end(diag_descriptor *d)
 {
 	UNUSED(d);
-	return;
 }
 
 /*

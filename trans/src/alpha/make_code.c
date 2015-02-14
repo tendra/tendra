@@ -177,7 +177,6 @@ static void do_exception
   b.offset = 0;
   integer_jump(i_jmp,31,AT,0);
   setat();
-  return;
 }
 
 /*
@@ -219,7 +218,6 @@ static void fix_unsigned
   float_op((fr.type == IEEE_single)?i_adds:i_addt,fr.fr,ftmp,ftmp);
   float_op(i_fcmovlt,fr.fr,ftmp,fr.fr);
   asm_comment("END fix_unsigned");
-  return;
 }
 
 
@@ -245,7 +243,6 @@ static void set_global_pointer
   a.offset = 0;
   a.base = PV;
   load_store(i_ldgp,GP,a);
-  return;
 }
 
 #if !DO_NEW_DIVISION
@@ -277,7 +274,6 @@ static void divide_by_constant
   operate_fmt(i_umulh,rtmp,ruse,target);
   operate_fmt(i_subq,31,target,ruse);
   operate_fmt(i_cmovlt,src,ruse,target);
-  return;
 }
 #endif
 
@@ -493,7 +489,6 @@ static void divide_by_constant
     operate_fmt_immediate(i_srl,r_dest,log2(m),r_dest);
   }
   if (ruse == AT)setat();
-  return;
 }
 
 #endif
@@ -603,7 +598,6 @@ static void check_exception
 void set_up_rounding_mode
 (int val)
 {
-  return;
 }
 
 /*
@@ -632,7 +626,6 @@ void testunsigned
   int rtmp = getreg(sp.fixed);
   operate_fmt_immediate(i_cmpule,r,max,rtmp);
   integer_branch(i_bne,rtmp,lab);
-  return;
 }
 
 static bool fdouble_comparisons
@@ -888,7 +881,6 @@ void move_dlts
     }
   }
   set_label(endlab);
-  return;
 }
 
 /*
@@ -969,7 +961,6 @@ void move_dgts
     }
   }
   set_label(endlab);
-  return;
 }
 
 static void reset_tos
@@ -981,7 +972,6 @@ static void reset_tos
     b.offset = - ((PTR_SZ>>3)*2) - arg_stack_space;
     load_store(i_stq,SP,b);
   }
-  return;
 }
 
 /*
@@ -1040,7 +1030,6 @@ void test_unsigned
   operate_fmt_big_immediate(i_cmpule,reg,upper,AT);
   integer_branch(i_beq,AT,trap);
   setat();
-  return;
 }
 
 void test_signed
@@ -1052,7 +1041,6 @@ void test_signed
   operate_fmt_big_immediate(i_cmple,reg,upper,AT);
   integer_branch(i_beq,AT,trap);
   setat();
-  return;
 }
 
 void test_signed_and_trap
@@ -1071,7 +1059,6 @@ void test_signed_and_trap
   set_label(jump_label);
   do_exception(except);
   set_label(ok_lab);
-  return;
 }
 
 void test_unsigned_and_trap
@@ -1084,7 +1071,6 @@ void test_unsigned_and_trap
   setat();
   do_exception(except);
   set_label(ok_lab);
-  return;
 }
 
 /*
@@ -1401,7 +1387,6 @@ void load_reg
   w.ashwhere = ashof(sh(e));
   setregalt(w.answhere,r);
   code_here(e,sp,w);
-  return;
 }
 
 static postlude_chain * old_postludes;
@@ -1417,7 +1402,6 @@ void update_plc
     }
     chain = chain->outer;
   }
-  return;
 }
 
 /*

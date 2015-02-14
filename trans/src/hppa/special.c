@@ -319,8 +319,6 @@ call_millicode(int n, int r, char *stub, bool restore_linkage_ptr_reg)
     extj_special_ins ( nm, r, stub, 0 ) ;
     if (PIC_code && restore_linkage_ptr_reg)
        rr_ins(i_copy,GR5,GR19);
-    return ;
-
 }
 
 void

@@ -903,7 +903,6 @@ dochvar_f(flt64 *xa, shape sha)
 		return;
 	}
 	*xa = int_to_f64(dochvar((int)xa->small, sha), is_signed(sha));
-	return;
 }
 
 
@@ -918,7 +917,6 @@ bigres(exp a, flt64 *xp)
 	} else {
 		clearbigval(a);
 	}
-	return;
 }
 
 
@@ -964,7 +962,6 @@ fplus_fn(exp ap, exp b, int et)
 	} else {
 		error(ERROR_INTERNAL, ILLEGAL_FLADD);
 	}
-	return;
 }
 
 /*
@@ -989,7 +986,6 @@ fmult_fn(exp ap, exp b, int et)
 	} else {
 		error(ERROR_INTERNAL, ILLEGAL_FLMULT);
 	}
-	return;
 }
 
 /* Auxiliary function used for comm_ass by plus. */
@@ -1026,7 +1022,6 @@ plus_fn(exp ap, exp b, int et)
 	flpt_ret(fb);
 
 	bigres(ap, &x);
-	return;
 }
 
 /*
@@ -1066,7 +1061,6 @@ minus_fn(exp ap, exp b, int et)
 	flpt_ret(fb);
 
 	bigres(ap, &x);
-	return;
 }
 
 /*
@@ -1084,7 +1078,6 @@ neg_fn(exp b)
 	}
 	++x.small;
 	bigres(b, &x);
-	return;
 }
 
 /*
@@ -1098,7 +1091,6 @@ not_fn(exp b)
 	x.big = ~x.big;
 	x.small = ~x.small;
 	bigres(b, &x);
-	return;
 }
 
 /* Auxiliary function used for comm_ass by mult. */
@@ -1135,7 +1127,6 @@ mult_fn(exp ap, exp b, int et)
 	flpt_ret(fb);
 
 	bigres(ap, &x);
-	return;
 }
 
 /* Auxiliary function used for comm_ass by and */
@@ -1149,7 +1140,6 @@ and_fn(exp ap, exp b, int et)
 	xa.small &= xb.small;
 	xa.big &= xb.big;
 	bigres(ap, &xa);
-	return;
 }
 
 /* Auxiliary function used for comm_ass by or */
@@ -1163,7 +1153,6 @@ or_fn(exp ap, exp b, int et)
 	xa.small |= xb.small;
 	xa.big |= xb.big;
 	bigres(ap, &xa);
-	return;
 }
 
 /* Auxiliary function used for comm_ass by xor */
@@ -1177,7 +1166,6 @@ xor_fn(exp ap, exp b, int et)
 	xa.small ^= xb.small;
 	xa.big ^= xb.big;
 	bigres(ap, &xa);
-	return;
 }
 
 /*
@@ -1225,7 +1213,6 @@ domaxmin(exp ap, exp b, int mx)
 	} else {
 		bigres(ap, &xb);
 	}
-	return;
 }
 
 /*
@@ -1265,7 +1252,6 @@ dodiv1(exp ap, exp b)
 	flpt_ret(fb);
 
 	bigres(ap, &x);
-	return;
 }
 
 /*
@@ -1294,7 +1280,6 @@ dodiv2(exp ap, exp b)
 	flpt_ret(fb);
 
 	bigres(ap, &x);
-	return;
 }
 
 /*
@@ -1309,7 +1294,6 @@ domod(exp ap, exp b)
 	mult_fn(b, top, f_wrap.err_code);
 	neg_fn(b);
 	plus_fn(ap, b, f_wrap.err_code);
-	return;
 }
 
 /*
@@ -1324,7 +1308,6 @@ dorem2(exp ap, exp b)
 	mult_fn(b, top, f_wrap.err_code);
 	neg_fn(b);
 	plus_fn(ap, b, f_wrap.err_code);
-	return;
 }
 
 /*
@@ -1396,7 +1379,6 @@ doshl(exp e)
 		}
 	}
 	bigres(arg1, &x);
-	return;
 }
 
 /*

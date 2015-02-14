@@ -124,7 +124,6 @@ void init_macros(void)
   asm_printf(".set %s,31\n",frame_pointer);
   asm_printf(".set %s,30\n",top_pointer);
 #endif
-  return;
 }
 
 char * reg_macro(int reg)
@@ -188,5 +187,4 @@ static void init_spr_macros(void)
   asm_printf(".set %s,%d;",spr_dec,SPR_DEC);
   asm_printf(".set %s,%d;",spr_lr,SPR_LR);
   asm_printf(".set %s,%d\n",spr_ctr,SPR_CTR);
-  return;
 }

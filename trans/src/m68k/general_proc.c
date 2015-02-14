@@ -285,8 +285,6 @@ void gcproc
 
   /* Diagnostics for end of procedure */
   if (diag != DIAG_NONE && di)xdb_diag_proc_end(di);
-
-  return ;
 }
 
 
@@ -1156,7 +1154,6 @@ static void push_args
       make_code(w, stack, formal);
       stack_dec -= rounder(sz, param_align );
    }
-   return;
 }
 
 /*
@@ -1553,7 +1550,6 @@ void general_epilogue
 
    callmsk = cmsk;
    have_cond = 0;
-   return;
 }
 
 /*

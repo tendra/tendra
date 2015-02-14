@@ -127,14 +127,12 @@ static void testsigned(int r, long lower, long upper, long lab)
   bc_ins(i_blt,creg1,lab,UNLIKELY_TO_JUMP);
   cmp_ri_ins(i_cmp,r,upper,creg2);
   bc_ins(i_bgt,creg2,lab,UNLIKELY_TO_JUMP);
-  return;
 }
 static void testusigned(int r, long maxval, long lab)
 {
   int creg=next_creg();
   cmp_ri_ins(i_cmpl,r,maxval,creg);
   bc_ins(i_bgt,creg,lab,UNLIKELY_TO_JUMP);
-  return;
 }
 
 /* find the last test in sequence e which is a branch to second, if any, otherwise nil */
@@ -417,7 +415,6 @@ static void case_tag_code_transform(int caseint_reg, exp e, space sp)
     z = bro(z);
   }
   set_label(endlab);
-  return;
 }
 
 static void case_tag_code_notransform(int caseint_reg, exp e, space sp)
@@ -3462,7 +3459,6 @@ void move_dlts(int dr, int sr, int szr, int bytemove)
   rir_ins( i_a , sr , 1, sr);          /* ai     sr,sr,1  */
   rrr_ins( i_sf, szr , dr ,dr );       /* sf     dr,szr,dr*/
   rir_ins( i_a ,dr , 1, dr );          /* ai     dr,dr,1  */
-  return;
 }
 
 void move_dgts(int dr, int sr, int szr, int bytemove)
@@ -3484,7 +3480,6 @@ void move_dgts(int dr, int sr, int szr, int bytemove)
   ld_ro_ins(i_lbzu,sr_baseoff,R_TMP0); /* lbzu   0,-1(sr)  */
   st_ro_ins(i_stbu,R_TMP0,dr_baseoff); /* stbu   0,-1(dr)  */
   uncond_ins(i_bdn, lin);              /* bdn    L.???     */
-  return;
 }
 
 int regfrmdest(where * dest, space sp)
@@ -3631,5 +3626,4 @@ void adjust_to_size(int src_shpe, int sreg, int dest_shpe, int dreg, int trap)
       break;
     }
   }
-  return;
 }

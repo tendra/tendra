@@ -145,7 +145,6 @@ static void cca(exp * *to, exp * x)
     bro(def) = tg;		/* bro(def) is body of Let = tg */
     clearlast(def);
     *(x) = id;			/* replace pointer to x by Let */
-    return;
   }
   else
   {				/* replace by Let tg = def In ato/def = tg Ni */
@@ -165,7 +164,6 @@ static void cca(exp * *to, exp * x)
     *(x) = tg;			/* replace use of x by tg */
     *to = &bro(def);		/* later replacement to same 'to' will be at
 				 * body of Let */
-    return;
   }
 }
 
@@ -2484,7 +2482,6 @@ static void number_caller_parameter(exp param_id)
   no(init_exp) = par_stack_location;
   stparam = ALIGNNEXT(par_stack_location + par_size, 32);
   fixparam = R_FIRST_PARAM + (stparam / 32);
-  return;
 }
 
 
@@ -2498,5 +2495,4 @@ static void number_callee_parameter(exp callee_id)
 
   no(def) = n;
   callee_size = ALIGNNEXT(n + size_of_callee , 32);
-  return;
 }

@@ -102,7 +102,6 @@ void
 outlab ( int ll ){
   /* no preference for section here */
   asm_printf ( "%s", ext_name ( ll ) ) ;
-  return ;
 }
 
 #if 0
@@ -138,7 +137,6 @@ outfloat ( flpt f, bool ro ){
 #else
   error(ERROR_SERIOUS,  "Illegal floating point constant" ) ;
 #endif
-  return ;
 }
 #endif
 
@@ -294,7 +292,6 @@ oneval ( int val, long al, int rep ){
   }
   assert ( rep == 1 ) ;
   asm_printop("%s %d", as, val);
-  return ;
 }
 
 /*
@@ -331,7 +328,6 @@ outascii ( char * s, long strsize ){
     }
     asm_printf ( "\"\n" ) ;
   }
-  return ;
 }
 
 /*
@@ -391,7 +387,6 @@ outconcbit ( concbittype c, bool ro ){
   }
   asm_printf("\n") ;
   assert ( w == 0 ) ;
-  return ;
 }
 
 /*
@@ -493,7 +488,6 @@ evalconcbit ( exp e, int bitposn, bool ro ){
   concbittype start ;
   start = emptyconcbit ( bitposn ) ;
   outconcbit ( evalconcbitaux ( e, start, ro ), ro ) ;
-  return ;
 }
 
 #if 1
@@ -553,7 +547,6 @@ set_align ( long al ){
   if ( al > 8 ) {
     asm_printop(".align %d", al / 8);
   }
-  return ;
 }
 
 /*

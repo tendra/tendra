@@ -233,7 +233,6 @@ static void INSPECT_FILENAME(filename f)
   }
 
   nofds++;
-  return;
 }
 
 /*
@@ -288,7 +287,6 @@ static void OUTPUT_DIAG_TAGS(void)
       break;
     }
   }
-  return;
 }
 /*
  * Collects information
@@ -489,7 +487,6 @@ void init_diag(void)
   voidsh = getshape(0, 0, 0, TOP_ALIGN, TOP_SZ, tophd);/* very dubious */
   tokensh = getshape(0, 0, 0, TOP_ALIGN, TOP_SZ, bothd);/* very dubious */
   stab_types();
-  return;
 }
 
 
@@ -621,7 +618,6 @@ static void output_diag(diag_info * d, int proc_no, exp e)
     stabn(current_fileno, current_lineno + 1);	/* don't have proper lineno */
 #endif
   }
-  return;
 }
 
 
@@ -704,7 +700,6 @@ static void stab_relativeline(const char *directive)
 							 * something to match
 							 * begin/end */
   }
-  return;
 }
 
 
@@ -720,7 +715,6 @@ static void stab_begin_block(void)
     stab_relativeline(bb_stab);
   }
   block_depth++;
-  return;
 }
 
 /*
@@ -738,7 +732,6 @@ static void stab_end_block(void)
     }
     block_depth--;
   }
-  return;
 }
 
 
@@ -763,7 +756,6 @@ static void stabn(int findex, int lno)
 
   current_lineno = lno;
   stab_relativeline(line_stab);
-  return;
 }
 /*
  * stab_end_file ties up lose ends
@@ -776,7 +768,6 @@ void stab_end_file(void)
     /* close the last include file */
     asm_printop(".ei \"%s\"", CSTRING(fds[current_fileno] ->file));
   }
-  return;
 }
 
 /*
@@ -848,7 +839,6 @@ static void stab_file(int findex)
     }
   }
   current_fileno = findex;
-  return;
 }
 
 
@@ -859,7 +849,6 @@ static void diagbr_open(int findex)
 {
   stab_file(findex);
   stab_begin_block();
-  return;
 }
 
 /*
@@ -869,7 +858,6 @@ static void diagbr_close(int findex)
 {
   stab_file(findex);
   stab_end_block();
-  return;
 }
 
 

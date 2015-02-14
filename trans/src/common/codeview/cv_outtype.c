@@ -182,7 +182,6 @@ fixup(char **n)
       strcpy(k + strlen(k), "fake");
       *n = k;
   }
-  return;
 }
 
 void

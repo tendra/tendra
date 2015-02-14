@@ -225,7 +225,6 @@ insection ( enum section s ){
   }
   current_section = no_section ;
   error(ERROR_SERIOUS,  "bad \".section\" name" ) ;
-  return ;
 }	
 
 
@@ -259,7 +258,6 @@ mark_unaliased ( exp e ){
     p = pt ( p ) ;
   }
   if ( ca ) setcaonly ( e ) ;
-  return ;
 }	
 
 
@@ -305,7 +303,6 @@ init_translator (void)
   }
     /* start in text section */
   insection ( text_section ) ;
-  return ;
 }
 
 
@@ -346,7 +343,6 @@ exit_translator (void){
     /* do nothing */
 #endif
   }
-  return ;
 }
 
 
@@ -756,6 +752,5 @@ translate_capsule (void){
 #endif
     break;
   }
-  return ;
 }
 

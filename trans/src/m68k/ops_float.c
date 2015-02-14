@@ -165,7 +165,6 @@ void fl_binop
        test_float_overflow(FP0, dest, sz);
     }
     have_cond = 0;
-    return;
 }
 
 /*
@@ -715,7 +714,6 @@ void round_float
     /* Move result into place */
     have_cond = 0;
     move(sha, dest, to);
-    return;
 }
 
 /*
@@ -794,5 +792,4 @@ void int_to_float
     }
     move(sha, fpr, to);
     have_cond = 0;
-    return;
 }

@@ -97,13 +97,11 @@ void temp_push_fl
 (void)
 {
   ++fstack_pos;
-  return;
 }
 void temp_pop_fl
 (void)
 {
   --fstack_pos;
-  return;
 }
 
 /*
@@ -129,8 +127,6 @@ void outreal
       asm_printf("0x%x,0x%x,0x%x\n", longs.i1, longs.i2, longs.i3);
       break;
   };
-
-  return;
 }
 
 /*
@@ -161,7 +157,6 @@ void rel_sp
   asm_printf("%d-%sdisp%d(%s", i + (stack_dec / 8), local_prefix, crt_proc_id, "%ebp");
   if (b)
     asm_printf(")");
-  return;
 }
 
 /*
@@ -180,7 +175,6 @@ void rel_cp
   asm_printf("%d(%s", n, "%esp");
   if (b)
     asm_printf(")");
-  return;
 }
 
 /*
@@ -281,7 +275,6 @@ void regn
       break;
   };
   asm_printf("%s", rn[z]);			/* this outputs the register name */
-  return;
 }
 
 /* Output a displacement from register operand */
@@ -303,7 +296,6 @@ void ind_reg
     if (b)
       asm_printf(")");
   };
-  return;
 }
 
 /* Use indexed addressing */
@@ -322,7 +314,6 @@ void index_opnd
     asm_printf(",%d", sc);
   };
   asm_printf(")");
-  return;
 }
 
 /* Output an external operand */
@@ -358,7 +349,6 @@ void extn
   };
   if (!b)
     asm_printf("(");
-  return;
 }
 
 /* An integer constant */
@@ -377,7 +367,6 @@ void int_operand
       mask = 0xffffffff;
   };
   asm_printf("$%d", k & mask);
-  return;
 }
 
 /* An external literal */
@@ -387,7 +376,6 @@ void const_extn
   if (!PIC_code)
     asm_printf("$");
   extn(ident, noff, 1);
-  return;
 }
 
 /* An external literal */
@@ -411,8 +399,6 @@ void proc_extn
      asm_printf("$");
      extn(id, off, 1);
    };
-
-  return;
 }
 
 void ldisp
@@ -427,7 +413,6 @@ void label_operand
   punner l;
   l.e = pt(e);
   asm_printf("$%sV0x%x", local_prefix, l.i);
-  return;
 }
 
 void set_lv_label
@@ -438,7 +423,6 @@ void set_lv_label
   min_rfree |= 0x78;  /* save all callee registers */
 
   asm_label("%sV0x%x", local_prefix, l.i);
-  return;
 }
 
 void set_env_off
@@ -466,7 +450,6 @@ void envoff_operand
     asm_printf("%d+", off);
    };
   asm_printf("%sO0x%x", local_prefix, l.i); /* produce an identifying number */
-  return;
 }
 
 void envsize_operand
@@ -474,7 +457,6 @@ void envsize_operand
 {
   dec * et = brog(e);
   asm_printf("%sESZ%s", local_prefix, et->dec_u.dec_val.dec_id);
-  return;
 }
 
 /* 80386 instruction with no operands */
@@ -482,7 +464,6 @@ void ins0
 (char *i)
 {
   asm_printf("\t%s\n", i);
-  return;
 }
 
 /* One operand */
@@ -492,7 +473,6 @@ void ins1
   asm_printf("\t%s ", i);
   operand(le1, a1, 1, 0);
   asm_printf("\n");
-  return;
 }
 
 /* One operand, which is indirect */
@@ -502,7 +482,6 @@ void ins1ind
   asm_printf("\t%s *", i);
   operand(le1, a1, 1, 0);
   asm_printf("\n");
-  return;
 }
 
 /* One operand, which is immediate */
@@ -512,7 +491,6 @@ void ins1lit
   asm_printf("\t%s ", i);
   operand(le1, a1, 1, 1);
   asm_printf("\n");
-  return;
 }
 
 /* Two operands */
@@ -524,7 +502,6 @@ void ins2
   asm_printf(",");
   operand(le2, a2, 1, 0);
   asm_printf("\n");
-  return;
 }
 
 /* Three operands */
@@ -538,7 +515,6 @@ void ins3
   asm_printf(",");
   operand(le3, a3, 1, 0);
   asm_printf("\n");
-  return;
 }
 
 void simplest_set_lab
@@ -556,7 +532,6 @@ void simple_set_label
 /* Removed for experiments: improves compress?
   keep_short = 1;
 */
-  return;
 }
 
 /* Set label described by the jump record jr */
@@ -579,7 +554,6 @@ void discard_fstack
 {
   asm_printop("fstp %s(0)", "%st");
   pop_fl;
-  return;
 }
 
 void discard_st1
@@ -625,7 +599,6 @@ void jump
   last_jump_pos = out_tell_pos();
 #endif
   asm_printf("\t%s %s%ld\n", jmp, local_prefix, (long) ptno(jr));
-  return;
 }
 
 static char* xse = "<=0";	/* no corresponding jump instruction */
@@ -821,7 +794,6 @@ void branch
       simple_branch(je, ptno(jr));
     }
   }
-  return;
 }
 
 void setcc
@@ -845,7 +817,6 @@ void setcc
   if (*b != 'j')
     error(ERROR_INTERNAL, NO_SETCC);
   asm_printf("\tset%s %s\n", &b[1], reg_name_byte[0]);
-  return;
 }
 
 /*
@@ -877,7 +848,6 @@ void jmp_overflow
     simple_branch(jo, ptno(jr));
   else
     simple_branch((inv ? jae : jb), ptno(jr));
-  return;
 }
 
 /* Software interrupt */
@@ -911,7 +881,6 @@ void trap_ins
     ins1ind(call, 32, ind_reg0);
   else
     ins1ind(call, 32, reg0);
-  return;
 }
 
 /*
@@ -956,7 +925,6 @@ void test_trap
   simple_branch(out_branch(sg, inv_test_no, shnm), nl);
   trap_ins(f_overflow);
   simplest_set_lab(nl);
-  return;
 }
 
 /*
@@ -991,7 +959,6 @@ void mult_op
     asm_printf("\n");
     end_contop();
   };
-  return;
 }
 
 /* Output the case switch jump and the jump table */
@@ -1038,7 +1005,6 @@ void caseins
     }
 #endif
   };
-  return;
 }
 
 void const_intnl
@@ -1069,7 +1035,6 @@ void load_stack0
 (void)
 {
   asm_printop("fld %s(0)", "%st");
-  return;
 }
 
 void outbp
@@ -1082,14 +1047,12 @@ void set_stack_from_bp
 (void)
 {
   asm_printf("\t%s %d-%sdisp%d(%s)%s%s\n", leal, stack_dec / 8, local_prefix, crt_proc_id, "%ebp", "%esp");
-  return;
 }
 
 void testah
 (int mask)
 {
   asm_printop("testb $%d,%s", mask, "%ah");
-  return;
 }
 
 exp make_extn
@@ -1307,5 +1270,4 @@ void rotshift64
     }
     simplest_set_lab(labend);
   };
-  return;
 }

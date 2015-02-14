@@ -221,7 +221,6 @@ void make_proc_tag_code(exp e, space sp)
   output_error_labels();
 
   /* epilogue created at make_res_tag_code */
-  return;
 }
 
 
@@ -442,7 +441,6 @@ void make_res_tag_code(exp e, space sp)
   }
 
   clear_all();
-  return;
 }
 
 
@@ -601,7 +599,6 @@ void make_return_to_label_tag_code(exp e, space sp)
   /* Now we move r to the link register */
 
   z_ins(i_br);
-  return;
 }
 
 void make_tail_call_tag_code(exp e, space sp)
@@ -741,7 +738,6 @@ void make_tail_call_tag_code(exp e, space sp)
     z_ins(i_bctr);
   }
   asm_printf("# End tail call no %d\n",identification);
-  return;
 }
 
 void make_same_callees_tag_code(exp e, space sp)
@@ -795,7 +791,6 @@ void make_same_callees_tag_code(exp e, space sp)
     static_memory_copy(rfrom,rto,csize);
   }
   st_ro_ins(i_st,roldsp,callee_pointer);
-  return;
 }
 
 
@@ -847,7 +842,6 @@ void make_callee_list_tag_code(exp e, space sp)
     }
   }
   update_plc(old_pls,-x);
-  return;
 }
 
 void make_dynamic_callee_tag_code(exp e, space sp)
@@ -887,7 +881,6 @@ void make_dynamic_callee_tag_code(exp e, space sp)
   /* the memory copy preserves rfrom,rto and rsize */
   rrr_ins(i_a,rsize_adjusted,R_SP,R_TMP0);
   st_ro_ins(i_st,R_TMP0,callee_pointer);
-  return;
 }
 
 space do_callers(int n, exp list, space sp)
@@ -1370,7 +1363,6 @@ void restore_callers(int n)
       v.offset += 4;
     }
   }
-  return;
 }
 void restore_callees(void)
 {
@@ -1409,7 +1401,6 @@ void restore_callees(void)
     }
     bdy = bro(sbdy);
   }
-  return;
 }
 static exp find_ote(exp e, int n)
 {

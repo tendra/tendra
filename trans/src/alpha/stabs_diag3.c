@@ -95,7 +95,6 @@ void symnosforfiles
     file_dnos[i] = new_lsym_d(fds[i] ->file.ints.chars, 0, stFile, scText,
 			      (diag_type)0, i);
   }
-  return;
 }
 
 /* output .file directive for file i */
@@ -117,7 +116,6 @@ void stab_file
   out_data(fds[i] ->file.ints.chars, l);
 
   currentfile = i;
-  return;
 }
 
 int currentlno = -1;		/* the last line number output */
@@ -263,7 +261,6 @@ static void output_diag
   if (last_param(son(x))) {
     stabd(currentfile, currentlno+1); /* don't have proper lineno */
   }
-  return;
 }
 
 
@@ -319,7 +316,6 @@ void addtsym
   a -> st = st;
   a -> sc = sc;
   a -> s = s;
-  return;
 }
 
 typedef struct {
@@ -425,7 +421,6 @@ OUTPUT_DIAG_TAGS(void)
       default: break;
     }
   }
-  return;
 }
 
 
@@ -475,7 +470,6 @@ void stab_types
     }
   }
   free(ats);
-  return;
 }
 
 static diag_descriptor *

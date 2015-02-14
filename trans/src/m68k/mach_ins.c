@@ -68,7 +68,6 @@ reclaim_ins(mach_ins *p)
 	}
 	p->next = mach_ins_list;
 	mach_ins_list = p;
-	return;
 }
 
 
@@ -100,7 +99,6 @@ free_all_ins(void)
 	current_ins = NULL;
 	last_jump = -1;
 	last_jump_regs = 0;
-	return;
 }
 
 
@@ -175,7 +173,6 @@ make_instr_aux(int insno, mach_op *op1, mach_op *op2, bitpattern ch, int susp)
 		output_all();
 		free_all_ins();
 	}
-	return;
 }
 
 
@@ -226,7 +223,6 @@ make_jump(int insno, long n)
 		last_jump = n;
 		last_jump_regs = 0;
 	}
-	return;
 }
 
 
@@ -239,6 +235,5 @@ set_special(char *nm, mach_op *op)
 {
 	mach_op *op1 = make_special_data(nm);
 	make_instr_aux(m_as_assign, op1, op,(bitpattern)0, 0);
-	return;
 }
 

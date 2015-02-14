@@ -186,7 +186,6 @@ static void try_overflow
     }
     overflow_e = oe;
   }
-  return;
 }
 
 static void test_exception
@@ -206,7 +205,6 @@ static void test_exception
     }
     overflow_e = oe;
   }
-  return;
 }
 
 static void do_exception
@@ -226,7 +224,6 @@ static void do_exception
     }
     overflow_e = oe;
   }
-  return;
 }
 
 static int use_pop_ass
@@ -294,7 +291,6 @@ static void cmp64_contop
   }
   else
     simple_branch(jne, cmp_64hilab);
-  return;
 }
 
 void end_contop
@@ -322,7 +318,6 @@ void end_contop
     extra_stack -= 32;
     min_rfree |= SPILLMASK;
   };
-  return;
 }
 
 /*
@@ -583,7 +578,6 @@ void contop
   };
   contop_level--;
   top_regsinuse = regsinuse;
-  return;
 }
 
 void initzeros
@@ -890,7 +884,6 @@ void absop
   invalidate_dest(q);
   simple_set_label(labno);
   move(sha, q, dest);
-  return;
 }
 
 static void maxmin
@@ -1082,7 +1075,6 @@ static void maxmin
 
   move(sha, a1, reg0);
   maxmin(sha, reg0, a2, dest, ismax);
-  return;
 }
 
 
@@ -1091,7 +1083,6 @@ void maxop
 (shape sha, where a1, where a2, where dest)
 {
   maxmin(sha, a1, a2, dest, 1);
-  return;
 }
 
 /* min values a1, a2 of shape sha and put them in dest */
@@ -1099,7 +1090,6 @@ void minop
 (shape sha, where a1, where a2, where dest)
 {
   maxmin(sha, a1, a2, dest, 0);
-  return;
 }
 
 /* add values a1, a2 of shape sha and put them in dest  */
@@ -1464,7 +1454,6 @@ void add
 (shape sha, where a1, where a2, where dest)
 {
   add_plus(sha, a1, a2, dest, 0);
-  return;
 }
 
 /* negate a1 in sup_dest then add a2 and put in dest */
@@ -1482,7 +1471,6 @@ void inverted_sub
     overflow_e = old_overflow_e;
     add_plus(sha, a2, sup_dest, dest, 1);
   }
-  return;
 }
 
 /*
@@ -1731,7 +1719,6 @@ void negate
   move(sha, a, reg0);
   negate(sha, reg0, reg0);
   move(sha, reg0, dest);
-  return;
 }
 
 /* put not(a) into dest, shape sha */
@@ -1790,7 +1777,6 @@ void not
   move(sha, a, reg0);
   not(sha, reg0, reg0);
   move(sha, reg0, dest);
-  return;
 }
 
 /*
@@ -2759,8 +2745,6 @@ void movecont
     invalidate_dest(reg1);
     invalidate_dest(reg2);
   };
-
-  return;
 }
 
 void retins
@@ -2784,7 +2768,6 @@ void retins
       add(slongsh, mw(zeroe, n/8), sp, sp);
     ins0("jmp *%ecx");
   }
-  return;
 }
 
 void stack_return
@@ -2850,7 +2833,6 @@ void stack_return
   if (diag == DIAG_DWARF2 && no_frame)
     dw2_track_sp();
 #endif
-  return;
 }
 
 /*
@@ -2911,7 +2893,6 @@ void callins
     stack_return(longs);
   else
     keep_short = 1;
-  return;
 }
 
 void jumpins
@@ -2922,7 +2903,6 @@ void jumpins
       lab = reg0.where_exp;
     };
     ins1ind(jmp, 32, mw(lab, 0));
-    return;
 }
 
 /*
@@ -3697,7 +3677,6 @@ void change_var_sh
 
   move(sha, from, to);
   son(fe) = holdfe;
-  return;
 }
 
 /* change variety from to sha, and put in to */
@@ -3710,7 +3689,6 @@ void change_var
   overflow_e = NULL;
   change_var_sh(sha, fsh, from, to);
   overflow_e = old_overflow_e;
-  return;
 }
 
 /* change variety from to sha, and put in to */
@@ -3720,7 +3698,6 @@ void change_var_refactor
   exp fe = from.where_exp;
   shape fsh = sh(fe);
   change_var_sh(sha, fsh, from, to);
-  return;
 }
 
 /*
@@ -3945,21 +3922,18 @@ void and
 (shape sha, where a1, where a2, where dest)
 {
   andetc(andb, andw, andl, -1, sha, a1, a2, dest);
-  return;
 }
 
 void or
 (shape sha, where a1, where a2, where dest)
 {
   andetc(orb, orw, orl, 0, sha, a1, a2, dest);
-  return;
 }
 
 void xor
 (shape sha, where a1, where a2, where dest)
 {
   andetc(xorb, xorw, xorl, 0, sha, a1, a2, dest);
-  return;
 }
 
 
@@ -3982,7 +3956,6 @@ static void needs_lib64
       lib64_error = getexp(slongsh, NULL, 1, lib64_error, NULL, 0, 0, cont_tag);
     lib64_set = 1;
   };
-  return;
 }
 
 /*
@@ -4203,7 +4176,6 @@ static void mult64
   end_contop();
   regsinuse = riu;
   son(a2.where_exp) = holda2;
-  return;
 }
 
 
@@ -4220,7 +4192,6 @@ static void clean_multiply
       extra_stack -= 32;
       invalidate_dest(reg1);
    };
-  return;
 }
 
 /*
@@ -4661,7 +4632,6 @@ void mult
   };
 
   multiply(sha, a1, a2, dest);
-  return;
 }
 
 /*
@@ -4814,7 +4784,6 @@ void shiftl
     /* reg2 might be used in the address of to */
     move(sha, reg0, to);
   };
-  return;
 
 }
 
@@ -4981,8 +4950,6 @@ static void rotshiftr
     if (!selfed)
       move(sha, reg0, to);
   };
-  return;
-
 }
 
 /* shift from wshift places to to. */
@@ -4990,7 +4957,6 @@ void shiftr
 (shape sha, where wshift, where from, where to)
 {
   rotshiftr(0, sha, wshift, from, to);
-  return;
 }
 
 /* shift from wshift places to to. */
@@ -4998,7 +4964,6 @@ void rotater
 (shape sha, where wshift, where from, where to)
 {
   rotshiftr(1, sha, wshift, from, to);
-  return;
 }
 
 /* shift from wshift places to to. */
@@ -5006,7 +4971,6 @@ void rotatel
 (shape sha, where wshift, where from, where to)
 {
   rotshiftr(2, sha, wshift, from, to);
-  return;
 }
 
 /* divide top by bottom and put in dest */
@@ -5285,7 +5249,6 @@ static void divit
    };
 
   move(sha, reg0, dest);
-  return;
 }
 
 
@@ -5293,21 +5256,18 @@ void div2
 (shape sha, where bottom, where top, where dest)
 {
   divit(sha, bottom, top, dest, 2, 0);
-  return;
 }
 
 void div1
 (shape sha, where bottom, where top, where dest)
 {
   divit(sha, bottom, top, dest, 1, 1);
-  return;
 }
 
 void div0
 (shape sha, where bottom, where top, where dest)
 {
   divit(sha, bottom, top, dest, 0, 1);
-  return;
 }
 
 /*
@@ -5562,8 +5522,6 @@ static void remit
    };
 
   move(sha, reg0, dest);
-
-  return;
 }
 
 /* remainder after dividing top by bottom to dest */
@@ -5571,7 +5529,6 @@ void rem2
 (shape sha, where bottom, where top, where dest)
 {
   remit(sha, bottom, top, dest, 2, 0);
-  return;
 }
 
 /* remainder after dividing top by bottom to dest */
@@ -5579,7 +5536,6 @@ void rem0
 (shape sha, where bottom, where top, where dest)
 {
   remit(sha, bottom, top, dest, 0, 1);
-  return;
 }
 
 /* remainder after dividing top by bottom to dest */
@@ -5587,7 +5543,6 @@ void mod
 (shape sha, where bottom, where top, where dest)
 {
   remit(sha, bottom, top, dest, 1, 1);
-  return;
 }
 
 /* move address of from to to */
@@ -5666,7 +5621,6 @@ void mova
   invalidate_dest(to);
   end_contop();
   son(fe) = holdfe;
-  return;
 }
 
 int   adjust_pos
@@ -5807,7 +5761,6 @@ void mem_to_bits
     ins2(rs,  32,  32, mw(zeroe, 32 - nbits), reg0);
   /* shift it right to remove unwanted bits and propagate sign if necessary */
   move (dsh, reg0, dest);/* move to dest */
-  return;
 }
 
 void bits_to_mem
@@ -6052,8 +6005,6 @@ void fopr
       error(ERROR_INTERNAL, BAD_FLOP);
       break;
   };
-
-  return;
 }
 
 /*
@@ -6262,7 +6213,6 @@ void fl_multop
     arg2 = bro(arg2);
   }
   move(sha, flstack, dest);
-  return;
 }
 
 /*
@@ -6330,7 +6280,6 @@ static  void round_code
     extra_stack -= 32;
   };
   invalidate_dest(ind_sp);
-  return;
 }
 
 static  void roundit
@@ -6364,7 +6313,6 @@ static  void roundit
     add(slongsh, mw(zeroe, sz/8), sp, sp);
     extra_stack -= sz;
    };
-  return;
 }
 
 /* Floating point round */
@@ -6372,7 +6320,6 @@ void frnd0
 (shape sha, where from, where to)
 {
   roundit(sha, from, to, 0);
-  return;
 }
 
 /* Floating point round */
@@ -6380,7 +6327,6 @@ void frnd1
 (shape sha, where from, where to)
 {
   roundit(sha, from, to, 1);
-  return;
 }
 
 /* Floating point round */
@@ -6388,7 +6334,6 @@ void frnd2
 (shape sha, where from, where to)
 {
   roundit(sha, from, to, 2);
-  return;
 }
 
 /* Floating point round */
@@ -6396,7 +6341,6 @@ void frnd3
 (shape sha, where from, where to)
 {
   roundit(sha, from, to, 3);
-  return;
 }
 
 /* Floating point round */
@@ -6404,7 +6348,6 @@ void frnd4
 (shape sha, where from, where to)
 {
   roundit(sha, from, to, 4);
-  return;
 }
 
 /* Float the integer from, result to */
@@ -6476,7 +6419,6 @@ void floater
   push_fl;
   move(sha, flstack, to);
   son(from.where_exp) = holdfe;
-  return;
 }
 
 /*
@@ -6496,7 +6438,6 @@ void changefl
   /* from is not in fl reg */
   move(shfrom, from, flstack);
   move(sha, flstack, to);
-  return;
 }
 
 /* Floating point negate */
@@ -6516,7 +6457,6 @@ void fl_neg
   move(sha, from, flstack);
   ins0(fchs);
   move(sha, flstack, to);
-  return;
 }
 
 /* Floating point abs */
@@ -6536,7 +6476,6 @@ void fl_abs
   move(sha, from, flstack);
   ins0(fabs);
   move(sha, flstack, to);
-  return;
 }
 
 /*
@@ -6570,7 +6509,6 @@ void fl_comp
   invalidate_dest(reg0);
   pop_fl;
   pop_fl;
-  return;
 }
 
 /* Use test instruction */
@@ -6621,7 +6559,6 @@ void test
   ins2(t, sz, sz, a, b);
   end_contop();
   son(b.where_exp) = hold;
-  return;
 }
 
 /* Decrease the stack */
@@ -6630,7 +6567,6 @@ void decstack
 {
 
   ins2(subl,  32,  32, mw(zeroe,(longs / 8)), sp);
-  return;
 }
 
 void long_jump
@@ -6638,7 +6574,6 @@ void long_jump
 {
   ins0(popebp);
   ins0(ret);
-  return;
 }
 
 static int fp_clear = 0;
@@ -6691,7 +6626,6 @@ void setup_fl_ovfl
     set_fpucon((eprmask | traps), (eprmask | ival));
   else
     set_fpucon(traps, ival);
-  return;
 }
 
 void test_fl_ovfl
@@ -6746,7 +6680,6 @@ void test_fl_ovfl
     branch(f_equal, pt(son(pt(e))), 0, scharhd);
     invalidate_dest(reg0);
   };
-  return;
 }
 
 exp find_stlim_var
@@ -6830,7 +6763,6 @@ void start_asm
 {
   asm_printf("\n");
   asm_comment("ASM sequence start");
-  return;
 }
 
 void end_asm
@@ -6838,7 +6770,6 @@ void end_asm
 {
   asm_printf("\n");
   asm_comment("ASM sequence ends");
-  return;
 }
 
 void asm_ins
@@ -6852,5 +6783,4 @@ void asm_ins
     operand(shape_size(son(e)), mw(son(e), 0), 1, 0);
     must_use_bp = prev_use_bp;
   }
-  return;
 }

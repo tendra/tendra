@@ -60,7 +60,6 @@ void try_record_bit(exp e)
       setrecordbit(l);
     }
   }
-  return;
 }
 
 bool record_bit_set(exp e)

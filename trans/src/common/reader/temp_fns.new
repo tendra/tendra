@@ -21,7 +21,6 @@ bool_option yes_bool_option
 void init_bool_option
 (void)
 {
-    return;
 }
 
 dg_accessibility f_dg_local_accessibility;
@@ -37,7 +36,6 @@ dg_accessibility f_dummy_dg_accessibility;
 void init_dg_accessibility
 (void)
 {
-    return;
 }
 
 dg_accessibility_option no_dg_accessibility_option;
@@ -52,7 +50,6 @@ dg_accessibility_option yes_dg_accessibility_option
 void init_dg_accessibility_option
 (void)
 {
-    return;
 }
 
 dg_append f_dg_name_append
@@ -68,7 +65,6 @@ dg_append f_dummy_dg_append;
 void init_dg_append
 (void)
 {
-    return;
 }
 
 dg_append_list new_dg_append_list
@@ -90,7 +86,6 @@ dg_append_list add_dg_append_list
 void init_dg_append_list
 (void)
 {
-    return;
 }
 
 dg_bound f_dg_dynamic_bound
@@ -120,7 +115,6 @@ dg_bound f_dummy_dg_bound;
 void init_dg_bound
 (void)
 {
-    return;
 }
 
 dg_class_base f_make_dg_class_base
@@ -139,7 +133,6 @@ dg_class_base f_dummy_dg_class_base;
 void init_dg_class_base
 (void)
 {
-    return;
 }
 
 dg_class_base_list new_dg_class_base_list
@@ -161,7 +154,6 @@ dg_class_base_list add_dg_class_base_list
 void init_dg_class_base_list
 (void)
 {
-    return;
 }
 
 dg_classmem f_dg_tag_classmem
@@ -215,7 +207,6 @@ dg_classmem f_dummy_dg_classmem;
 void init_dg_classmem
 (void)
 {
-    return;
 }
 
 dg_classmem_list new_dg_classmem_list
@@ -237,7 +228,6 @@ dg_classmem_list add_dg_classmem_list
 void init_dg_classmem_list
 (void)
 {
-    return;
 }
 
 dg_comp_props f_make_dg_compunit
@@ -254,7 +244,6 @@ dg_comp_props f_dummy_dg_comp_props;
 void init_dg_comp_props
 (void)
 {
-    return;
 }
 
 dg_compilation f_dg_tag_compilation
@@ -286,7 +275,6 @@ dg_compilation f_dummy_dg_compilation;
 void init_dg_compilation
 (void)
 {
-    return;
 }
 
 dg_constraint f_dg_type_constraint
@@ -310,7 +298,6 @@ dg_constraint f_dummy_dg_constraint;
 void init_dg_constraint
 (void)
 {
-    return;
 }
 
 dg_constraint_list new_dg_constraint_list
@@ -332,7 +319,6 @@ dg_constraint_list add_dg_constraint_list
 void init_dg_constraint_list
 (void)
 {
-    return;
 }
 
 dg_constraint_list_option no_dg_constraint_list_option;
@@ -347,7 +333,6 @@ dg_constraint_list_option yes_dg_constraint_list_option
 void init_dg_constraint_list_option
 (void)
 {
-    return;
 }
 
 dg_default f_make_dg_default
@@ -363,7 +348,6 @@ dg_default f_dummy_dg_default;
 void init_dg_default
 (void)
 {
-    return;
 }
 
 dg_default_option no_dg_default_option;
@@ -378,7 +362,6 @@ dg_default_option yes_dg_default_option
 void init_dg_default_option
 (void)
 {
-    return;
 }
 
 dg_dim f_dg_dim_apply_token
@@ -430,7 +413,6 @@ dg_dim f_dummy_dg_dim;
 void init_dg_dim
 (void)
 {
-    return;
 }
 
 dg_dim_list new_dg_dim_list
@@ -452,7 +434,6 @@ dg_dim_list add_dg_dim_list
 void init_dg_dim_list
 (void)
 {
-    return;
 }
 
 dg_dim_option no_dg_dim_option;
@@ -467,7 +448,6 @@ dg_dim_option yes_dg_dim_option
 void init_dg_dim_option
 (void)
 {
-    return;
 }
 
 dg_discrim f_make_dg_discrim
@@ -483,7 +463,6 @@ dg_discrim f_dummy_dg_discrim;
 void init_dg_discrim
 (void)
 {
-    return;
 }
 
 dg_discrim_list new_dg_discrim_list
@@ -505,7 +484,6 @@ dg_discrim_list add_dg_discrim_list
 void init_dg_discrim_list
 (void)
 {
-    return;
 }
 
 dg_enum f_dg_tag_enum
@@ -539,7 +517,6 @@ dg_enum f_dummy_dg_enum;
 void init_dg_enum
 (void)
 {
-    return;
 }
 
 dg_enum_list new_dg_enum_list
@@ -561,7 +538,6 @@ dg_enum_list add_dg_enum_list
 void init_dg_enum_list
 (void)
 {
-    return;
 }
 
 dg_filename f_dg_filename_apply_token
@@ -587,7 +563,6 @@ dg_filename f_dummy_dg_filename;
 void init_dg_filename
 (void)
 {
-    return;
 }
 
 dg_filename_option no_dg_filename_option;
@@ -602,7 +577,6 @@ dg_filename_option yes_dg_filename_option
 void init_dg_filename_option
 (void)
 {
-    return;
 }
 
 dg_idname f_dg_idname_apply_token
@@ -656,7 +630,6 @@ dg_idname f_dummy_dg_idname;
 void init_dg_idname
 (void)
 {
-    return;
 }
 
 dg_idname_list new_dg_idname_list
@@ -678,7 +651,6 @@ dg_idname_list add_dg_idname_list
 void init_dg_idname_list
 (void)
 {
-    return;
 }
 
 dg_idname_option no_dg_idname_option;
@@ -693,7 +665,6 @@ dg_idname_option yes_dg_idname_option
 void init_dg_idname_option
 (void)
 {
-    return;
 }
 
 dg_macro f_dg_function_macro
@@ -737,7 +708,6 @@ dg_macro f_dummy_dg_macro;
 void init_dg_macro
 (void)
 {
-    return;
 }
 
 dg_macro_list new_dg_macro_list
@@ -759,7 +729,6 @@ dg_macro_list add_dg_macro_list
 void init_dg_macro_list
 (void)
 {
-    return;
 }
 
 dg_name f_dg_name_apply_token
@@ -931,7 +900,6 @@ dg_name f_dummy_dg_name;
 void init_dg_name
 (void)
 {
-    return;
 }
 
 dg_name_list new_dg_name_list
@@ -953,7 +921,6 @@ dg_name_list add_dg_name_list
 void init_dg_name_list
 (void)
 {
-    return;
 }
 
 dg_namelist f_dg_tag_namelist
@@ -976,7 +943,6 @@ dg_namelist f_dummy_dg_namelist;
 void init_dg_namelist
 (void)
 {
-    return;
 }
 
 dg_param f_dg_object_param
@@ -1004,7 +970,6 @@ dg_param f_dummy_dg_param;
 void init_dg_param
 (void)
 {
-    return;
 }
 
 dg_param_list new_dg_param_list
@@ -1026,7 +991,6 @@ dg_param_list add_dg_param_list
 void init_dg_param_list
 (void)
 {
-    return;
 }
 
 dg_param_mode f_dg_in_mode;
@@ -1040,7 +1004,6 @@ dg_param_mode f_dummy_dg_param_mode;
 void init_dg_param_mode
 (void)
 {
-    return;
 }
 
 dg_param_mode_option no_dg_param_mode_option;
@@ -1055,7 +1018,6 @@ dg_param_mode_option yes_dg_param_mode_option
 void init_dg_param_mode_option
 (void)
 {
-    return;
 }
 
 dg_qualifier f_dg_aliased_qualifier;
@@ -1073,7 +1035,6 @@ dg_qualifier f_dummy_dg_qualifier;
 void init_dg_qualifier
 (void)
 {
-    return;
 }
 
 dg_sourcepos f_dg_file_sourcepos
@@ -1113,7 +1074,6 @@ dg_sourcepos f_dummy_dg_sourcepos;
 void init_dg_sourcepos
 (void)
 {
-    return;
 }
 
 dg_sourcepos_option no_dg_sourcepos_option;
@@ -1128,7 +1088,6 @@ dg_sourcepos_option yes_dg_sourcepos_option
 void init_dg_sourcepos_option
 (void)
 {
-    return;
 }
 
 dg_tag f_make_dg_tag
@@ -1143,7 +1102,6 @@ dg_tag f_dummy_dg_tag;
 void init_dg_tag
 (void)
 {
-    return;
 }
 
 dg_tag_list new_dg_tag_list
@@ -1165,7 +1123,6 @@ dg_tag_list add_dg_tag_list
 void init_dg_tag_list
 (void)
 {
-    return;
 }
 
 dg_tag_option no_dg_tag_option;
@@ -1180,7 +1137,6 @@ dg_tag_option yes_dg_tag_option
 void init_dg_tag_option
 (void)
 {
-    return;
 }
 
 dg_type f_dg_type_apply_token
@@ -1508,7 +1464,6 @@ dg_type f_dummy_dg_type;
 void init_dg_type
 (void)
 {
-    return;
 }
 
 dg_type_list new_dg_type_list
@@ -1530,7 +1485,6 @@ dg_type_list add_dg_type_list
 void init_dg_type_list
 (void)
 {
-    return;
 }
 
 dg_type_list_option no_dg_type_list_option;
@@ -1545,7 +1499,6 @@ dg_type_list_option yes_dg_type_list_option
 void init_dg_type_list_option
 (void)
 {
-    return;
 }
 
 dg_type_option no_dg_type_option;
@@ -1560,7 +1513,6 @@ dg_type_option yes_dg_type_option
 void init_dg_type_option
 (void)
 {
-    return;
 }
 
 dg_variant f_make_dg_variant
@@ -1576,7 +1528,6 @@ dg_variant f_dummy_dg_variant;
 void init_dg_variant
 (void)
 {
-    return;
 }
 
 dg_variant_list new_dg_variant_list
@@ -1598,7 +1549,6 @@ dg_variant_list add_dg_variant_list
 void init_dg_variant_list
 (void)
 {
-    return;
 }
 
 dg_varpart f_dg_discrim_varpart
@@ -1630,7 +1580,6 @@ dg_varpart f_dummy_dg_varpart;
 void init_dg_varpart
 (void)
 {
-    return;
 }
 
 dg_varpart_option no_dg_varpart_option;
@@ -1645,7 +1594,6 @@ dg_varpart_option yes_dg_varpart_option
 void init_dg_varpart_option
 (void)
 {
-    return;
 }
 
 dg_virtuality f_dg_abstract_virtuality;
@@ -1657,7 +1605,6 @@ dg_virtuality f_dummy_dg_virtuality;
 void init_dg_virtuality
 (void)
 {
-    return;
 }
 
 dg_virtuality_option no_dg_virtuality_option;
@@ -1672,7 +1619,6 @@ dg_virtuality_option yes_dg_virtuality_option
 void init_dg_virtuality_option
 (void)
 {
-    return;
 }
 
 shape_option no_shape_option;
@@ -1687,7 +1633,6 @@ shape_option yes_shape_option
 void init_shape_option
 (void)
 {
-    return;
 }
 
 string_list new_string_list
@@ -1709,7 +1654,6 @@ string_list add_string_list
 void init_string_list
 (void)
 {
-    return;
 }
 
 string_option no_string_option;
@@ -1724,7 +1668,6 @@ string_option yes_string_option
 void init_string_option
 (void)
 {
-    return;
 }
 
 token_option no_token_option;
@@ -1739,5 +1682,4 @@ token_option yes_token_option
 void init_token_option
 (void)
 {
-    return;
 }

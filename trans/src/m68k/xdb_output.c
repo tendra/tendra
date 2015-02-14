@@ -158,7 +158,6 @@ void init_diag
 		error(ERROR_SERIOUS, "unsupported assembler dialect");
 	}
     }
-    return;
 }
 
 
@@ -173,7 +172,6 @@ static void copy_diag_file
     rewind(file);
     while (c = getc(file), c != EOF)putc(c, as_file);
     fclose(file);
-    return;
 }
 
 
@@ -203,7 +201,6 @@ void copy_diag
     } else if (diag == DIAG_XDB_OLD) {
 	copy_diag_file(diagfp2);
     }
-    return;
 }
 
 
@@ -247,7 +244,6 @@ void diag_string
     } else {
 	asm_fprintf(file, "\"%s\"", s);
     }
-    return;
 }
 
 
@@ -284,7 +280,6 @@ static void slt_special
     make_instr(m_dd_special, op1, NULL, 0);
     area(plast);
     slt_num++;
-    return;
 }
 
 
@@ -309,7 +304,6 @@ static void slt_normal
     }
     area(plast);
     slt_num++;
-    return;
 }
 
 
@@ -326,7 +320,6 @@ void slt_exit
     make_instr(m_dd_exit, op, NULL, 0);
     area(plast);
     slt_num++;
-    return;
 }
 
 
@@ -348,7 +341,6 @@ void dnt_begin
 	asm_fprintf(diagfp2, "%d\n", slt_num);
 	slt_special(5, p);
     }
-    return;
 }
 
 
@@ -430,7 +422,6 @@ void diag_source_file
 	    have_module = 1;
 	}
     }
-    return;
 }
 
 
@@ -446,7 +437,6 @@ void diag_source
     if (!eq(nm, crt_fname))diag_source_file(nm, ln);
     crt_line_num = ln;
     if (d)slt_normal();
-    return;
 }
 
 
@@ -557,7 +547,6 @@ void diag_proc_main
 	}
 	a = son(a);
     }
-    return;
 }
 
 
@@ -604,7 +593,6 @@ void diag_globl_variable
 	out_posn(file, x, 1);
 	asm_fprintf(file, "0,0\n");
     }
-    return;
 }
 
 
@@ -636,7 +624,6 @@ void diag_local_variable
 	    out_posn(diagfp2, x, 0);
 	}
     }
-    return;
 }
 
 
@@ -672,5 +659,4 @@ void diag_type_defn
 	    break;
 	}
     }
-    return;
 }

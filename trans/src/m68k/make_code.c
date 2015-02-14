@@ -495,7 +495,6 @@ solve(exp s, exp l, where dest, exp jr, ash stack)
 
 	regsinuse = r1;
 	have_cond = 0;
-	return;
 }
 
 

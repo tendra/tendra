@@ -87,7 +87,6 @@ static void cca
     dgf(bro(son(id))) = nildiag;
   }
 #endif
-  return;
 }
 
 /*
@@ -207,7 +206,6 @@ static void ccp
   toc = contexp(sto, to);
   setusereg(toc);
   IGNORE scan(1, toc, son(toc), 0);
-  return;
 }
 
 /*
@@ -288,9 +286,6 @@ static void ap_argsc
   }
   else
     cca(sto, to, 1, son(e));
-
-  return;
-
 }
 
 /*
@@ -430,7 +425,6 @@ static void all_opnd
 (int sto, exp to, exp e, int usereg0)
 {
   IGNORE cc(sto, to, 1, e, notopnd, 1, usereg0);
-  return;
 }
 
 /* doit routine, not assignable */
@@ -446,7 +440,6 @@ static void all_assable
 (int sto, exp to, exp e)
 {
   IGNORE cc(sto, to, 1, e, notass, 1, 1);
-  return;
 }
 
 /* Just used in the next routine */
@@ -491,7 +484,6 @@ static void indable_son
   }
   else
     IGNORE scan(sto, to, son(e), 0);
-  return;
 }
 
 /* Apply scan to this bro list, moving "to" along it */
@@ -506,7 +498,6 @@ static void scanargs
     t = contexp(st, t);
     st = 0;
   };
-  return;
 }
 
 /* doit routine for plus first arg cant be negate, others can */
@@ -636,7 +627,6 @@ void check_asm_seq
   else
   if (name(e)!= top_tag)
     error(ERROR_INTERNAL, "illegal ~asm");
-  return;
 }
 
 /* Main scan routine */

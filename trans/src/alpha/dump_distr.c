@@ -486,5 +486,4 @@ dump_opt(exp rscope, space *tobd, space *pars)
   else {
     (void)pushdumps ( arg, &dmpd, tobd, pars);
   }
-  return;
 }

@@ -118,7 +118,6 @@ set_attribute(int nm, int form)
 		uleb128((unsigned long) form);
 	}
 	asm_printf("\n");
-	return;
 }
 
 static long info_end;
@@ -173,7 +172,6 @@ do_compunit_header(void)
 	asm_printf("0\n");
 	dot_align(PTR_SZ/4);
 	exit_section();
-	return;
 }
 
 
@@ -210,7 +208,6 @@ dw_sibling_end(void)
 	out8();
 	uleb128((unsigned long)0);
 	asm_comment("sibling end");
-	return;
 }
 
 
@@ -220,7 +217,6 @@ dw_at_address(long lab)
 	out32();
 	out_dwf_label(lab, 0);
 	asm_printf("\n");
-	return;
 }
 
 
@@ -242,7 +238,6 @@ dw_at_ext_lab(ext_lab lab)
 		error(ERROR_INTERNAL, "unset label");
 	}
 	asm_printf("\n");
-	return;
 }
 
 
@@ -259,7 +254,6 @@ dw_set_ext_lab(ext_lab lab)
 	default:
 		error(ERROR_INTERNAL, "unexpected set label");
 	}
-	return;
 }
 
 
@@ -271,7 +265,6 @@ dw_at_ext_address(dg_tag dt)
 		dt->outref.u.l = next_dwarf_label();
 	}
 	dw_at_ext_lab(dt->outref);
-	return;
 }
 
 
@@ -283,7 +276,6 @@ set_ext_address(dg_tag dt)
 		dt->outref.u.l = next_dwarf_label();
 	}
 	dw_set_ext_lab(dt->outref);
-	return;
 }
 
 
@@ -296,7 +288,6 @@ dw_at_abstract_lab(dg_tag dt)
 	out32();
 	out_dwf_label(dt->abstract_lab, 0);
 	asm_printf("\n");
-	return;
 }
 
 
@@ -307,7 +298,6 @@ set_abstract_lab(dg_tag dt)
 		dt->abstract_lab = next_dwarf_label();
 	}
 	out_dwf_label(dt->abstract_lab, 1);
-	return;
 }
 
 
@@ -318,7 +308,6 @@ dw_at_string(char* s)
 		s = "";
 	}
 	out_string(s);
-	return;
 }
 
 
@@ -327,7 +316,6 @@ dw_at_form(int f)
 {
 	out8();
 	uleb128((unsigned long)f);
-	return;
 }
 
 
@@ -351,7 +339,6 @@ dw_at_data(int n, long d)
 		error(ERROR_INTERNAL, "dwarf data size not supported");
 	}
 	asm_printf("%ld\n", d);
-	return;
 }
 
 
@@ -361,7 +348,6 @@ dw_at_udata(unsigned long n)
 	out8();
 	uleb128(n);
 	asm_printf("\n");
-	return;
 }
 
 
@@ -371,7 +357,6 @@ dw_at_sdata(long n)
 	out8();
 	sleb128(n);
 	asm_printf("\n");
-	return;
 }
 
 
@@ -380,7 +365,6 @@ dw_at_flag(int x)
 {
 	out8();
 	asm_printf("%d\n", x);
-	return;
 }
 
 
@@ -394,7 +378,6 @@ dw_at_decl(short_sourcepos p)
 	asm_printf(", ");
 	uleb128((unsigned long)p.column);
 	asm_printf("\n");
-	return;
 }
 
 
@@ -404,7 +387,6 @@ dw_no_locate(void)
 	out8();
 	asm_printf("%d", 0);
 	asm_comment("discarded variable");
-	return;
 }
 
 
@@ -415,7 +397,6 @@ dw_locate_offset(int n)
 	asm_printf("%d, %d, ", 1 + uleb128_length((unsigned long)n), DW_OP_plus_uconst);
 	uleb128((unsigned long)n);
 	asm_printf("\n");
-	return;
 }
 
 
@@ -494,7 +475,6 @@ dw_locate_reloffset(exp e)
 		out_refloc(bro(son(e)), e);
 	}
 	asm_printf("\n");
-	return;
 }
 
 
@@ -504,7 +484,6 @@ dw_at_distance(long lo, long hi)
 	out16();
 	out_dwf_labdiff(lo, hi);
 	asm_printf("\n");
-	return;
 }
 
 
@@ -527,7 +506,6 @@ out_text_label(long n)
 {
 	out_dwf_label(n, 1);
 	last_text_label = n;
-	return;
 }
 
 
@@ -544,5 +522,4 @@ out_loc_range(long start, long end, int inclusive)
 		asm_printf(" + %d", min_instr_size);
 	}
 	asm_printf("\n");
-	return;
 }

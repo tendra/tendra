@@ -150,7 +150,6 @@ cca ( exp ** to, exp * x ){
       dgf(bro(son(id))) = nildiag;
     }
 #endif
-    return ;
   } 
   else {
     /* replace by Let tg = def In ato/def = tg Ni */
@@ -181,7 +180,6 @@ cca ( exp ** to, exp * x ){
     }
 #endif
   }
-  return ;
 }
 
 
@@ -272,7 +270,6 @@ make_bitfield_offset ( exp e, exp pe, int spe, shape sha ){
   else{
     bro(pe) = omul;
   }
-  return;
 }
 
 
@@ -810,7 +807,6 @@ id_in_asm ( exp id )
 {
   if (!isparam(id) || !props(son(id)))
     setvis (id);
-  return;
 }
 		       
 static int 
@@ -862,7 +858,6 @@ check_asm_seq ( exp e, int ext )
   else
   if (name(e) != top_tag)
     error(ERROR_SERIOUS, "illegal ~asm");
-  return;
 }
 
 

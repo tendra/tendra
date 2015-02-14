@@ -124,7 +124,6 @@ void init_weights
     zeros.d_used = -1;
     zeros.a_used = -1;
     zeros.f_used = -1;
-    return;
 }
 
 
@@ -137,7 +136,6 @@ static void markcall
 {
     explist *t;
     for (t = el; t != NULL; t = t->next)props(t->member) |= b;
-    return;
 }
 
 
@@ -468,5 +466,4 @@ void comp_weights
 {
     scale = (float)1.0;
     weightsv(e, NULL);
-    return;
 }

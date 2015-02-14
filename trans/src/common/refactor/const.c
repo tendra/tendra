@@ -122,7 +122,6 @@ ret_constlist(exp head)
     }
     retcell(t);
   }
-  return;
 }
 
 static maxconst max_const(exp, exp, int);
@@ -1073,7 +1072,6 @@ look_for_caonly(exp e)
   if (name(e) == seq_tag || name(e) == ident_tag) {
     look_for_caonly(bro(son(e)));
   }
-  return;
 }
 
 /*

@@ -591,8 +591,6 @@ start_make_capsule
 
   init_capsule_diagtags();	/* TDF_DIAG3 */
   init_capsule_dgtags();	/* TDF_DIAG4 */
-
-  return;
 }
 
 capsule
@@ -611,7 +609,6 @@ f_make_capsule(tdfstring_list prop_names, capsule_link_list capsule_linking,
 void
 init_capsule(void)
 {
-  return;
 }
 
 capsule_link
@@ -716,7 +713,6 @@ f_chain_extern(tdfstring s, tdfint i)
 void
 init_external(void)
 {
-  return;
 }
 
 external f_dummy_external;
@@ -770,7 +766,6 @@ f_make_label(tdfint labelno)
 void
 init_label(void)
 {
-  return;
 }
 
 label f_dummy_label;
@@ -1031,8 +1026,6 @@ init_sortname(void)
    f_dg_idname.code = DG_IDNAME_SORT;		/* TDF_DIAG4 */
    f_dg_name.code = DG_NAME_SORT;		/* TDF_DIAG4 */
    f_dg_type.code = DG_TYPE_SORT;		/* TDF_DIAG4 */
-
-   return;
 }
 
 sortname f_dummy_sortname;
@@ -1062,7 +1055,6 @@ f_make_tag(tdfint tagno)
 void
 init_tag(void)
 {
-  return;
 }
 
 al_tag
@@ -1074,7 +1066,6 @@ f_make_al_tag(tdfint tagno)
 void
 init_al_tag(void)
 {
-  return;
 }
 
 tag f_dummy_tag;
@@ -1157,7 +1148,6 @@ f_common_tagdec(tdfint t_intro, access_option acc, string_option sig, shape x)
 void
 init_tagdec(void)
 {
-  return;
 }
 
 tagdec f_dummy_tagdec;
@@ -1168,7 +1158,6 @@ start_make_id_tagdef(tdfint t)
 {
   UNUSED(t);
   rep_make_proc = 0;
-  return;
 }
 
 tagdef
@@ -1196,8 +1185,6 @@ void
 start_make_var_tagdef(tdfint t)
 {
   UNUSED(t);
-
-  return;
 }
 
 tagdef
@@ -1225,7 +1212,6 @@ void
 start_common_tagdef(tdfint t)
 {
   UNUSED(t);
-  return;
 }
 
 tagdef
@@ -1247,13 +1233,11 @@ f_common_tagdef(tdfint t, access_option opt_access, string_option sig, exp e)
 void
 init_tagdef(void)
 {
-  return;
 }
 
 void
 init_al_tagdef(void)
 {
-  return;
 }
 
 tagdef f_dummy_tagdef;
@@ -1302,7 +1286,6 @@ f_make_tokdec(tdfint tok, string_option sig, sortname s)
 void
 init_tokdec(void)
 {
-  return;
 }
 
 tokdec f_dummy_tokdec;
@@ -1394,7 +1377,6 @@ f_use_tokdef(bitstream def)
 void
 init_tokdef(void)
 {
-  return;
 }
 
 tokdef f_dummy_tokdef;
@@ -1416,7 +1398,6 @@ f_make_tok(tdfint tokno)
 void
 init_token(void)
 {
-  return;
 }
 
 token f_dummy_token;
@@ -1433,7 +1414,6 @@ f_token_definition(sortname result_sort, tokformals_list tok_params)
 void
 init_token_defn(void)
 {
-  return;
 }
 
 token_defn f_dummy_token_defn;
@@ -1491,7 +1471,6 @@ f_make_tokformals(sortname sn, tdfint tk)
 void
 init_tokformals(void)
 {
-  return;
 }
 
 toklink
@@ -1527,7 +1506,6 @@ f_make_unique(tdfstring_list text)
 void
 init_unique(void)
 {
-   return;
 }
 
 
@@ -1601,8 +1579,6 @@ start_make_tokdec_unit(int no_of_tokens, int no_of_tags, int no_of_als,
   for (i = 0; i < unit_no_of_dgtags; ++i) {
     unit_ind_dgtags[i] = NULL;
   }
-
-  return;
 }
 
 tokdec_unit
@@ -1659,8 +1635,6 @@ start_make_tokdef_unit(int no_of_tokens, int no_of_tags, int no_of_als,
   for (i = 0; i < unit_no_of_dgtags; ++i) {
     unit_ind_dgtags[i] = NULL;
   }
-
-  return;
 }
 
 tokdef_unit
@@ -1742,8 +1716,6 @@ start_make_tagdec_unit(int no_of_tokens, int no_of_tags, int no_of_als,
   for (i = 0; i < unit_no_of_dgtags; ++i) {
     unit_ind_dgtags[i] = NULL;
   }
-
-  return;
 }
 
 tagdec_unit
@@ -1830,8 +1802,6 @@ start_make_versions_unit(int no_of_tokens, int no_of_tags, int no_of_als,
   for (i = 0; i < unit_no_of_dgtags; ++i) {
     unit_ind_dgtags[i] = NULL;
   }
-
-  return;
 }
 
 version_props
@@ -1913,8 +1883,6 @@ start_make_tagdef_unit(int no_of_tokens, int no_of_tags, int no_of_als,
   for (i = 0; i < unit_no_of_dgtags; ++i) {
     unit_ind_dgtags[i] = NULL;
   }
-
-  return;
 }
 
 
@@ -2007,8 +1975,6 @@ start_make_aldef_unit(int no_of_tokens, int no_of_tags, int no_of_als,
   for (i = 0; i < unit_no_of_dgtags; ++i) {
     unit_ind_dgtags[i] = NULL;
   }
-
-  return;
 }
 
 aldef_unit
@@ -2661,7 +2627,6 @@ void
 init_exp_option(void)
 {
    no_exp_option.present = 0;
-   return;
 }
 
 tag_option no_tag_option;
@@ -2679,78 +2644,65 @@ void
 init_tag_option(void)
 {
    no_tag_option.present = 0;
-   return;
 }
 
 void
 init_capsule_link(void)
 {
-  return;
 }
 
 
 void
 init_extern_link(void)
 {
-  return;
 }
 
 void
 init_group(void)
 {
-  return;
 }
 
 void
 init_unit(void)
 {
-  return;
 }
 
 void
 init_link(void)
 {
-  return;
 }
 
 void
 init_linkextern(void)
 {
-  return;
 }
 
 void
 init_links(void)
 {
-  return;
 }
 
 void
 init_tagdec_props(void)
 {
-  return;
 }
 
 void
 init_tagdef_props(void)
 {
-  return;
 }
 
 void
 init_al_tagdef_props(void)
 {
-  return;
 }
 
 void
 init_tokdec_props(void)
 {
-  return;
 }
 
 void
 init_tokdef_props(void)
 {
-  return;
 }

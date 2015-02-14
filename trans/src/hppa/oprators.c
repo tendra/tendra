@@ -568,7 +568,6 @@ static void quad_addr
     }
     else
        set_ins("",is.b,r);
-    return;
 }
 
 
@@ -941,7 +940,6 @@ void quad_op
    }
 #endif
    clear_t_regs();
-   return;
 }
 
 

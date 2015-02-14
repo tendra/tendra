@@ -54,7 +54,6 @@ void clear_reg_record
     }
 #endif
   }
-  return;
 }
 
 /* clear out the registers not preserved
@@ -72,7 +71,6 @@ void clear_low_reg_record
     }
 #endif
   }
-  return;
 }
 
 
@@ -329,7 +327,6 @@ void invalidate_dest
 #ifdef DWARF2
   dw_ignore_used_regassn = 0;
 #endif
-  return;
 }
 
 /* from is being moved to to. Make changes

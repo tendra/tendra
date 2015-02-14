@@ -499,5 +499,4 @@ dump_opt(exp rscope, space * tobd, space * pars)
   else {
     pushdumps ( arg, &dmpd, tobd, pars);
   }
-  return;
 }

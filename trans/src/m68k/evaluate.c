@@ -97,7 +97,6 @@ static void eval_instr
 	current_op = NULL;
     }
     current_sz = 0;
-    return;
 }
 
 
@@ -117,7 +116,6 @@ void eval_op
 	last_op->of = op;
     }
     last_op = op;
-    return;
 }
 
 /*
@@ -338,7 +336,6 @@ static void evalno
       }
     }
     error(ERROR_SERIOUS, "Illegal integer value in %s", ext_eval_name);
-    return;
 }
 
 
@@ -549,7 +546,6 @@ static void evalreal
 	make_instr(instr, op, NULL, 0);
 	current_sz = 0;
     }
-    return;
 }
 
 
@@ -577,7 +573,6 @@ static void clear_out
 	}
 	current_sz = 0;
     }
-    return;
 }
 
 
@@ -1052,6 +1047,5 @@ void evaluate
     }
     evalaux(c,(bool)isconst, al);
     eval_instr();
-    return;
 }
 

@@ -60,7 +60,6 @@ static void outsize
 	outlong();
 	break;
   };
-  return;
 }
 
 
@@ -279,7 +278,6 @@ static void evalval
 	break;
     };
   }
-  return;
 }
 
 
@@ -306,8 +304,6 @@ static  void clear_out
   else {
     asm_printf(".set .,.+%d\n", n);
   };
-
-  return;
 }
 
 /* does the work of outputting of constants recursively */
@@ -546,7 +542,6 @@ static void evalaux
   outsize(e_size);
   evalval(e);
   asm_printf("\n");
-  return;
 }
 
 /* output a constant of given label number
@@ -607,6 +602,4 @@ void evaluate
 #endif
 #endif
   }
-
-  return;
 }
