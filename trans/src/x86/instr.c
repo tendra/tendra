@@ -844,7 +844,7 @@ void setcc
   b = out_branch(sg, test_no, shnm);
   if (*b != 'j')
     error(ERROR_INTERNAL, NO_SETCC);
-  asm_printf("\tset %s%s\n", &b[1], reg_name_byte[0]);
+  asm_printf("\tset%s %s\n", &b[1], reg_name_byte[0]);
   return;
 }
 
