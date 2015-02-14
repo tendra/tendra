@@ -115,5 +115,20 @@
 #  define SET(v)
 # endif
 
+/*
+ * Format string argument checking by GCC style attributes. This marks
+ * a particular argument to be checked against variadic arguments for the
+ * correctness of types corresponding to each format specifier.
+ *
+ *  void
+ *  f(FILE *f, const char *fmt, ...)
+ *      ATTR_FMT(printf, 2, 3);
+ */
+# ifdef __GNUC__
+#  define ATTR_FMT(f, a, b) __attribute__ ((format (f, (a), (b))))
+# else
+#  define ATTR_FMT(f, a, b)
+# endif
+
 #endif
 
