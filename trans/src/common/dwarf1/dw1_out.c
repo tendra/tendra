@@ -37,7 +37,6 @@
 #include <dwarf1/dw1_consts.h>
 #include <dwarf1/dw1_types.h>
 #include <dwarf1/dw1_loc.h>
-#include <dwarf1/dw1_mc.h>
 #include <dwarf1/dw1_out.h>
 
 #ifdef TDF_DIAG4
@@ -141,9 +140,8 @@ error need elf section swapping code
 #endif
 
 #define BYTE4_F		"\t"BYTE4S"\t%s"
-#define BYTE2_CMT_F	"\t"BYTE2S COMMENT_2("\t%#x\t", "%s")
-#define BYTE2_F		"\t"BYTE2S"\t%s"
-#define BYTE_CMT_F	"\t"BYTE COMMENT_2("\t%#x\t", "%s")
+#define BYTE2_F	"\t"BYTE2S "\t%#x"
+#define BYTE_F	"\t"BYTE "\t%#x"
 #define STRING_M	"\t"STRING"\t"
 #define STRING_F	STRING_M"\"%s\""
 #define END_UNIT	"\t"END_UNIT_ALIGN
@@ -173,7 +171,8 @@ out_dwarf_thing(int t, char *cmt)
 		error(ERROR_INTERNAL, "value too big for .2byte constant in out_dwarf_thing");
 	}
 
-	asm_printf(BYTE2_CMT_F "\n", t, cmt);
+	asm_printf(BYTE2_F, t);
+	asm_comment("%s", cmt);
 }
 
 
@@ -195,7 +194,8 @@ dwarf2(char *c)
 void
 out_dwarfone(int t, char *cmt)
 {
-	asm_printf(BYTE_CMT_F "\n", t, cmt);
+	asm_printf(BYTE_F, t);
+	asm_comment("%s", cmt);
 }
 
 
@@ -219,11 +219,11 @@ enter_dwarf_blk(int four, int exclusive, dwarf_label *lb)
 
 	OUT_DWARF_BEG(lb);
 	if (exclusive) {
-		sprintf(exprbuf, COMMENT_2(SUB3_F, " excl. entry len"),
-			lb->end, lb->beg, four ? "4" : "2");
+		sprintf(exprbuf, SUB3_F, lb->end, lb->beg, four ? "4" : "2");
+		asm_comment("excl. entry len");
 	} else {
-		sprintf(exprbuf, COMMENT_2("%s-%s\t", " entry len"), lb->end,
-			lb->beg);
+		sprintf(exprbuf, "%s-%s", lb->end, lb->beg);
+		asm_comment("entry len");
 	}
 	if (four) {
 		dwarf4(exprbuf);
@@ -385,7 +385,7 @@ start_sib_chain1(int d_tag, char *tag_name)
 	next_dwarf_lab(&SIB_PUSH);
 
 	OUT_DWARF_TAG_NAMED(d_tag, tag_name);
-	asm_printf("%s", COMMENT_2("\t", " new sibling chain level "));
+	asm_comment("new sibling chain level");
 	asm_printf("%d\n", dwarf_sib_stk_ptr);
 	OUT_DWARF_ATTR(AT_sibling);
 	dwarf4(SIB_TOS.beg);
@@ -409,7 +409,7 @@ cont_sib_chain1(int d_tag, char *tag_name)
 	   gen sib chain */
 	enter_dwarf_entry(&SIB_TOS);
 	next_dwarf_lab(&SIB_TOS);
-	asm_printf("%s", COMMENT_2("\t", " sibling chain level "));
+	asm_comment("sibling chain level");
 	asm_printf("%d\n", (long)dwarf_sib_stk_ptr);
 
 	OUT_DWARF_TAG_NAMED(d_tag, tag_name);
@@ -426,7 +426,7 @@ end_sib_chain(void)
 	   pop stack
 	   leave blk */
 	enter_dwarf_entry(&SIB_TOS);
-	asm_printf("%s", COMMENT_2("\t", " end sibling chain level "));
+	asm_comment("end sibling chain level");
 	asm_printf("%d\n", (long)dwarf_sib_stk_ptr);
 	leave_dwarf_blk();
 	SIB_POP;
@@ -439,7 +439,7 @@ end_toplevel_chain(void)
 	/* just put out the label */
 	GO_DWARF;
 	OUT_DWARF_BEG(&SIB_TOS);
-	asm_printf("%s\n", COMMENT_2("\t", " end toplevel chain"));
+	asm_comment("end toplevel chain");
 	LEAVE_DWARF;
 	SIB_POP;
 }
@@ -581,7 +581,7 @@ void
 out_dwarf_name_attr(const char * const s)
 {
 	if (*s == 0) {
-		asm_printf("%s\n", COMMENT_2("\t", " no source name"));
+		asm_comment("no source name");
 		return;
 	}
 	OUT_DWARF_ATTR(AT_name);
@@ -673,7 +673,7 @@ out_dwarf_global_list(void)
 
 	/*  fprintf(stderr, "diagvartab len %d used %d\n", unit_diagvar_tab.len,
 	    unit_diagvar_tab.lastused); */
-	asm_printf("%s\n", COMMENT_2("\t", "\tdumping global list"));
+	asm_comment("dumping global list");
 	for (i = 0; i < unit_diagvar_tab.lastused; i++) {
 		dwarf_out_descriptor(& (unit_diagvar_tab.array[i]));
 	}

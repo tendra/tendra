@@ -42,7 +42,6 @@
 #include <dwarf1/dw1_out.h>
 #include <dwarf1/dw1_loc.h>
 #include <dwarf1/dw1_queue.h>
-#include <dwarf1/dw1_mc.h>
 
 #ifdef TDF_DIAG4
 #include <construct/tags.h>
@@ -84,9 +83,7 @@ out_dwarf_start_scope(dwarf_label *l)
 static void
 comment_end_scope(diag_info *d)
 {
-	char expr_buf[100];
-	sprintf(expr_buf, COMMENT_2("\t", "\tEND diag_info key %d"), d->key);
-	fprintf(as_file, "%s\n", expr_buf); /* avoid x86 outnl which has side effect */
+	/* TODO: asm_fcomment(as_file, "END diag_info key %d", d->key); avoid x86 outnl which has side effect */
 }
 
 
@@ -297,8 +294,7 @@ dw1_output_end_scope(diag_info *d, exp e)
 {
 	char expr_buf[100];
 
-	sprintf(expr_buf, COMMENT_2("\t", "\tEND diag_info key %d"), d->key);
-	asm_printf("%s\n", expr_buf);
+	/* TODO: asm_comment("END diag_info key %d", d->key); avoid x86 outnl side effect */
 
 	if (d->key != DIAG_INFO_SOURCE && props(e) & 0x80) {
 		OUT_DWARF_END(POP_LEX_BLK);

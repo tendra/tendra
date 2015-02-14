@@ -28,7 +28,6 @@
 #include <dwarf1/dw1_types.h>
 #include <dwarf1/dw1_type.h>
 #include <dwarf1/dw1_out.h>
-#include <dwarf1/dw1_mc.h>
 
 extern int continue_decs;
 
@@ -56,7 +55,7 @@ dw1_diag_proc_begin(diag_descriptor *d_props, int global, int cname, char *pname
 		return;
 	}
 
-	asm_printf("%s\n", COMMENT_2("\t", "\tHere beginneth a proc"));
+	asm_comment("Here beginneth a proc");
 	if (d_props->key != DIAG_ID_KEY) {
 		error(ERROR_INTERNAL, "proc beg without id");
 	}
@@ -94,7 +93,7 @@ dw1_diag_proc_end(diag_descriptor *d_props)
 		return;
 	}
 
-	asm_printf("%s\n", COMMENT_2("\t", "\tHere endeth a proc"));
+	asm_comment("Here endeth a proc");
 	OUT_DWARF_END(& (d_props->lab));
 	end_sib_chain();
 }
@@ -108,7 +107,7 @@ dw1_diag_val_begin(diag_descriptor *d_props, int global, int cname, char *pname)
 	UNUSED(cname);
 	UNUSED(pname);
 
-	asm_printf("%s\n", COMMENT_2("\t", "\tHere beginneth a val"));
+	asm_comment("Here beginneth a val");
 }
 
 
@@ -117,5 +116,5 @@ dw1_diag_val_end(diag_descriptor *d_props)
 {
 	UNUSED(d_props);
 
-	asm_printf("%s\n", COMMENT_2("\t", "\tHere endeth a val"));
+	asm_comment("Here endeth a val");
 }
