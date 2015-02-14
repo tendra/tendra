@@ -72,7 +72,6 @@ extern void mcrfs_ins(int,int);
 extern char *get_instruction(Instruction_P);
 extern void lsi_ins(int,int,int);
 extern void stsi_ins(int,int,int);
-extern void comment(char *);
 /* for mtfsfi_ins */
 
 #define BITS_0_to_3     0

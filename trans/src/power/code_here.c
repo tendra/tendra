@@ -252,7 +252,7 @@ void reg_operand_here(exp e, space sp, int this_reg)
 
     if (reg != this_reg)
     {
-      mov_rr_ins(reg, this_reg);comment(NULL);
+      mov_rr_ins(reg, this_reg);
     }
   }
   keepreg(e, this_reg);

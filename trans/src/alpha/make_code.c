@@ -205,7 +205,7 @@ static void fix_unsigned
     case u64hd:   constval = alpha_quad_max; break;
   }
   flptnos[fltval] = constval;
-  comment("BEGIN fix_unsigned");
+  asm_comment("BEGIN fix_unsigned");
   float_exp = getexp(realsh,NULL,1,NULL,NULL,0,fltval,real_tag);
   isa = evaluated(float_exp,0);
   set_text_section();
@@ -218,7 +218,7 @@ static void fix_unsigned
  (void)move(aa,dest,nsp,0);
   float_op((fr.type == IEEE_single)?i_adds:i_addt,fr.fr,ftmp,ftmp);
   float_op(i_fcmovlt,fr.fr,ftmp,fr.fr);
-  comment("END fix_unsigned");
+  asm_comment("END fix_unsigned");
   return;
 }
 
@@ -1155,7 +1155,7 @@ static int divide_using_div
     integer_branch(i_beq,r_divisor,trap);
     if (!(is_signed(sh(div)))) {
       int rt=getreg(newsp.fixed);
-      comment(" check unsigned overflow ");
+      asm_comment("check unsigned overflow");
       operate_fmt_immediate(i_cmpeq,r_divisor,-1,rt);
       integer_branch(i_bne,rt,trap);
       set_label(over);
@@ -1886,7 +1886,7 @@ tailrecurse:
 	  load_store(i_ldq,SP,b);
 	}
 	else {
-	  comment("labst_tag:");
+	  asm_comment("labst_tag:");
 	  operate_fmt_immediate(i_subq,FP,(frame_size+callee_size) >>3,SP);
 	}
       }
@@ -1922,7 +1922,7 @@ tailrecurse:
     case long_jump_tag: {
       int fp = reg_operand(son(e), sp);
       int labval = reg_operand(bro(son(e)), sp);
-      comment("long jump");
+      asm_comment("long jump");
       operate_fmt(i_bis,fp,fp,FP);	/* move fp into FP */
       /* load labval into register*/
       integer_jump(i_jmp,31,labval,0);
@@ -2925,7 +2925,7 @@ tailrecurse:
 	  if (last(x))break;
 	  x = bro(x);
 	}
-	comment("In postlude, with call");
+	asm_comment("In postlude, with call");
 	/* operate_fmt_immediate(i_subq,SP,max_args>>3,SP);*/
 
 	mka.regmove = NOREG;
@@ -3375,7 +3375,7 @@ tailrecurse:
       w.ashwhere = ashof(sh(son(e)));
       code_here(son(e), sp, w);
       /* evaluate result value */
-      if (name(e) == untidy_return_tag)comment("untidy return");
+      if (name(e) == untidy_return_tag)asm_comment("untidy return");
 
       clear_all ();		/* clear all register memories */
       if (rscope_level == 0) {/* normal proc body */
@@ -3386,7 +3386,7 @@ tailrecurse:
 	}
 	if (result_label != 0) {
 	  integer_branch(i_br,31,result_label);
-	  comment(" Return ");
+	  asm_comment("Return");
 	}
 	else{
 	  if ((fixdone|fltdone) ==0) {
@@ -3513,7 +3513,7 @@ tailrecurse:
       int control_sgned = is_signed(sh(son(e)));
       u = make_INT64(0x80000000,0x00000000);
       /*INT64_assign(u,smin);*/
-      comment(" begin case ");
+      asm_comment("begin case");
       INT64_assign(l,exp_to_INT64(zt));
       for (n=make_INT64(0,1);;n=INT64_increment(n)) {
 	/* Calculate crude criterion for using jump vector or branches */
@@ -3639,7 +3639,7 @@ tailrecurse:
 	integer_jump(i_jmp,31,rtmp,endlab); /* endlab is hint */
 	set_label(endlab);
 	close_capsule();
-	comment(" end case ");
+	asm_comment("end case");
 	return mka;
       }
       else {
@@ -3696,7 +3696,7 @@ tailrecurse:
 	    if (over != 0) {
 	      set_label(over);
 	    }
-	    comment(" end case ");
+	    asm_comment("end case");
 	    return mka;
 	  }
 	  z = bro(z);
@@ -5390,8 +5390,8 @@ tailrecurse:
 	      error(ERROR_INTERNAL, "Denormalised constant encountered");
 	      exit(EXIT_FAILURE);
 	    }
-	    error(ERROR_WARNING, "Replaced IEEE denormal with 0.0!");
-	    comment("Replaced IEEE denormal with 0.0");
+	    error(ERROR_WARNING, "Replaced IEEE denormal with 0.0");
+	    asm_comment("Replaced IEEE denormal with 0.0");
 	  }
 	  return mka;
 	}
@@ -5838,7 +5838,7 @@ tailrecurse:
       int r = regfrmdest(&dest, sp);
       int rd;
       ans aa;
-      comment("alloca");
+      asm_comment("alloca");
       if (checkalloc(e)) {
 	rd = getreg(sp.fixed);
 	operate_fmt(i_bis,SP,SP,rd);
@@ -5891,7 +5891,7 @@ tailrecurse:
       exp s = son(e);
       int r = reg_operand(s, sp);
       exp off = bro(s);
-      comment("local_free_tag");
+      asm_comment("local_free_tag");
       if (name(off) == val_tag) {
 	operate_fmt_immediate(i_addq, r,((no(off) >>3) +7) &~7,r);
       }

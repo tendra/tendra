@@ -474,8 +474,7 @@ translate_capsule(void)
   }
 
   if(as_file){
-    asm_printf(" # produced by TDF->Alpha/OSF1 installer\n");
-    /*comment(" # produced by TDF->Alpha/OSF1 installer\n");*/
+    asm_comment("produced by TDF->Alpha/OSF1 installer");
     asm_printop(".ugen");
   }
   out_common(0,iugen);

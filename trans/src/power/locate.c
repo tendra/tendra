@@ -686,7 +686,7 @@ static where locate1(exp e, space sp, shape s, int dreg)
 	r = getreg(sp.fixed);
 	if (r != R_RESULT)
 	{
-	  mov_rr_ins(R_RESULT, r);comment("move R_RESULT to reg");
+	  mov_rr_ins(R_RESULT, r);asm_comment("move R_RESULT to reg");
 	}
       }
       is.b.base = r;

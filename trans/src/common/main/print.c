@@ -156,6 +156,13 @@ asm_vfcomment(FILE *f, const char *m, const char *fmt, va_list ap)
 		error(ERROR_SERIOUS, "unsupported assembler dialect");
 	}
 
+#if defined(TRANS_alpha) || defined(TRANS_mips)
+	if (f == NULL) {
+		/* we're doing binasm output only */
+		return;
+	}
+#endif
+
 	if (!do_comment) {
 		return;
 	}

@@ -131,15 +131,6 @@ setat(void)
 }
 
 void
-comment(char *mess)
-{
-  if(as_file){
-    asm_printf( " # %s\n", mess);
-  }
-  return;
-}
-
-void
 setframe(int32 st, int32 loc)
 {
   if(Has_fp){

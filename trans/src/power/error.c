@@ -252,7 +252,7 @@ static void call_TDFhandler(void)
 
   b.base = R_TMP0;
   b.offset = 0;
-  ld_ro_ins(i_l,b,R_TMP0);comment("Jump to error handler");
+  ld_ro_ins(i_l,b,R_TMP0);asm_comment("Jump to error handler");
   /* We don't come back from calling error handler */
   mt_ins(i_mtctr,R_TMP0);
   z_ins(i_bctr);
@@ -521,7 +521,7 @@ int mult_error_treatment(exp e, space sp, where dest)
 	ld_const_ins(0,tmp_reg);
 	cmp_ri_ins(i_cmp,lhs_reg,0,creg);
 	bc_ins(i_bgt,creg,lab,LIKELY_TO_JUMP);
-	mov_rr_ins(lhs_reg,tmp_reg);comment(NULL);
+	mov_rr_ins(lhs_reg,tmp_reg);
 	set_label(lab);
 	cmp_ri_ins(i_cmp,rhs_reg,0,creg2);
 	bc_ins(i_bgt,creg2,lab2,LIKELY_TO_JUMP);

@@ -167,7 +167,7 @@ void generate_procedure_prologue(void)
     {
       /* Use the stm instruction */
       stackpos.offset -= 4*(R_31+1-p_sreg_first_save);
-      st_ro_ins(i_stm, p_sreg_first_save, stackpos);comment("save fixed point s-regs");
+      st_ro_ins(i_stm, p_sreg_first_save, stackpos);asm_comment("save fixed point s-regs");
     }
     else
     { 
@@ -175,7 +175,7 @@ void generate_procedure_prologue(void)
       for (r=R_31;r>=p_sreg_first_save;r--)
       { 
 	stackpos.offset -= 4;
-	st_ro_ins(i_st,r,stackpos);comment("save fixed point s-reg");
+	st_ro_ins(i_st,r,stackpos);asm_comment("save fixed point s-reg");
       }
     }
     assert(stackpos.offset >= -STACK_REG_DUMP_AREA_SIZE);
@@ -200,7 +200,7 @@ void generate_procedure_prologue(void)
     /* This is where the backward pointing chain is held */
     a.base = R_SP;
     a.offset = 0;
-    ld_ro_ins(i_l,a,R_TP);comment("set up TP");
+    ld_ro_ins(i_l,a,R_TP);asm_comment("set up TP");
   }
   
   /* 
@@ -208,7 +208,7 @@ void generate_procedure_prologue(void)
    */
   if ( p_has_fp )
   {
-    mov_rr_ins( R_SP, R_FP );comment("set up FP");
+    mov_rr_ins( R_SP, R_FP );asm_comment("set up FP");
   }
 
   
@@ -227,7 +227,7 @@ void generate_procedure_prologue(void)
     }
     
     stackpos.offset = STACK_SAVED_LR;
-    st_ro_ins(i_st, R_0, stackpos);comment("save LR");
+    st_ro_ins(i_st, R_0, stackpos);asm_comment("save LR");
   }
   
   /* 
@@ -239,7 +239,7 @@ void generate_procedure_prologue(void)
   if( p_has_back_chain )
   {
     stackpos.offset = - p_frame_size;
-    st_ro_ins( i_stu , R_SP , stackpos );comment("pull stack down with back chain");
+    st_ro_ins( i_stu , R_SP , stackpos );asm_comment("pull stack down with back chain");
   }
   else
   {
@@ -267,7 +267,7 @@ void generate_procedure_epilogue(void)
     if ( p_has_fp )
     {
       /* Use frame pointer to collapse stack frame */
-      mov_rr_ins( R_FP, R_SP );comment("collapse frame using FP");
+      mov_rr_ins( R_FP, R_SP );asm_comment("collapse frame using FP");
     }
     else if ( p_has_back_chain )
     {
@@ -275,7 +275,7 @@ void generate_procedure_epilogue(void)
       baseoff back_chain;
       back_chain.base=R_SP;
       back_chain.offset=0;
-      ld_ro_ins(i_l, back_chain, R_SP);comment("collapse stack frame");
+      ld_ro_ins(i_l, back_chain, R_SP);asm_comment("collapse stack frame");
     }
     else
     {
@@ -287,9 +287,9 @@ void generate_procedure_epilogue(void)
      are stored */
   if(p_has_tp)
   {
-    mov_rr_ins(R_TP,R_TEMP_TP);comment("copy TP to TEMP_TP");
+    mov_rr_ins(R_TP,R_TEMP_TP);asm_comment("copy TP to TEMP_TP");
     restore_sregs(R_SP,0);
-    mov_rr_ins(R_TEMP_TP,R_SP);comment("collapse frame using TEMP_TP");
+    mov_rr_ins(R_TEMP_TP,R_SP);asm_comment("collapse frame using TEMP_TP");
   }
   else
   {
@@ -300,7 +300,7 @@ void generate_procedure_epilogue(void)
   {
     saved_lr.base = R_SP;
     saved_lr.offset = STACK_SAVED_LR;
-    ld_ro_ins(i_l, saved_lr , R_TMP0);comment("restore LR");
+    ld_ro_ins(i_l, saved_lr , R_TMP0);asm_comment("restore LR");
     mt_ins(i_mtlr, R_TMP0);
   }	
   z_ins(i_br);
@@ -313,12 +313,12 @@ void generate_untidy_procedure_epilogue(void)
   /* The stack pointer is not collapsed at all */
   if (p_has_tp && !p_leaf)/*We need R_TP later for the link */
   {
-    mov_rr_ins(R_TP,R_TEMP_TP);comment("copy TP to TEMP_TP");
+    mov_rr_ins(R_TP,R_TEMP_TP);asm_comment("copy TP to TEMP_TP");
   }
   /* load up R_TEMP_FP with the value of where the s-regs are stored */
   if(p_has_fp)
   {
-    mov_rr_ins(R_FP,R_TEMP_FP);comment("copy FP ro TEMP_FP");
+    mov_rr_ins(R_FP,R_TEMP_FP);asm_comment("copy FP ro TEMP_FP");
     restore_sregs(R_TEMP_FP,0);
   }
   else if (p_has_back_chain)
@@ -326,7 +326,7 @@ void generate_untidy_procedure_epilogue(void)
     baseoff back_chain;
     back_chain.base = R_SP;
     back_chain.offset = 0;
-    ld_ro_ins(i_l,back_chain,R_TEMP_FP);comment(NULL);
+    ld_ro_ins(i_l,back_chain,R_TEMP_FP);
     restore_sregs(R_TEMP_FP,0);
   }
   else
@@ -351,7 +351,7 @@ void generate_untidy_procedure_epilogue(void)
       saved_lr.base = R_SP;
       saved_lr.offset = STACK_SAVED_LR + p_frame_size;
     }
-    ld_ro_ins(i_l,saved_lr,R_TMP0);comment("restore LR");
+    ld_ro_ins(i_l,saved_lr,R_TMP0);asm_comment("restore LR");
     mt_ins(i_mtlr,R_TMP0);
   }
   z_ins(i_br);
@@ -369,7 +369,7 @@ void save_sp_on_stack(void)
   assert(p_has_fp);
   saved_sp.base = R_FP;
   saved_sp.offset = p_saved_sp_offset;
-  st_ro_ins(i_st,R_SP,saved_sp);comment("save sp on stack");
+  st_ro_ins(i_st,R_SP,saved_sp);asm_comment("save sp on stack");
   return;
 }
 void get_sp_from_stack(void)
@@ -381,7 +381,7 @@ void get_sp_from_stack(void)
   assert(p_has_fp);
   saved_sp.base = R_FP;
   saved_sp.offset = p_saved_sp_offset;
-  ld_ro_ins(i_l,saved_sp,R_SP);comment("get SP of stack");
+  ld_ro_ins(i_l,saved_sp,R_SP);asm_comment("get SP of stack");
   return;
 }
 void save_back_chain_using_frame_pointer(void)
@@ -391,7 +391,7 @@ void save_back_chain_using_frame_pointer(void)
   back_chain.base = R_SP;
   back_chain.offset = 0;
   assert(p_has_fp);
-  st_ro_ins(i_st,R_FP,back_chain);comment("save back chain");
+  st_ro_ins(i_st,R_FP,back_chain);asm_comment("save back chain");
   return;
 }
 
@@ -428,7 +428,7 @@ void restore_sregs(int start_base, int start_offset)
     {
       /* Use lm instruction */
       stackpos.offset -= 4*(R_31+1-p_sreg_first_save);
-      ld_ro_ins(i_lm, stackpos, p_sreg_first_save);comment("restore fixed s-regs");
+      ld_ro_ins(i_lm, stackpos, p_sreg_first_save);asm_comment("restore fixed s-regs");
     }
     else
     {
@@ -436,7 +436,7 @@ void restore_sregs(int start_base, int start_offset)
       for (r=R_31;r>=p_sreg_first_save;r--)
       {
 	stackpos.offset -=4;
-	ld_ro_ins(i_l,stackpos,r);comment("restore fixed s-reg");
+	ld_ro_ins(i_l,stackpos,r);asm_comment("restore fixed s-reg");
       }
     }
   }
@@ -464,7 +464,7 @@ void restore_link_register(void)
       /* XXX: assert instead? */
       error(ERROR_SERIOUS, "Shouldn't be calling this function without R_TP or R_FP");
     }
-    ld_ro_ins(i_l,saved_lr,R_TMP0);comment("restore LR");
+    ld_ro_ins(i_l,saved_lr,R_TMP0);asm_comment("restore LR");
     mt_ins(i_mtlr,R_TMP0);
   }
 }

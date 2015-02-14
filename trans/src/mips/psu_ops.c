@@ -85,13 +85,6 @@ setat(void)
 }
 
 void
-comment(char *mess)
-{
-  if (as_file)
-    asm_printf( " ## %s\n", mess);
-}
-
-void
 setframe(long st)
 {
   if (as_file)

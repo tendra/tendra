@@ -15,7 +15,6 @@ extern void setvolatile(void);
 extern void setnovolatile(void);
 extern void setnoat(void);
 extern void setat(void);
-extern void comment(char *mess);
 extern void setframe(long st);
 extern void settext(void);
 extern void setmask(long mask, long disp);

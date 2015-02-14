@@ -158,11 +158,11 @@ void ld_ins(Instruction_P ins, baseoff a, int dest)
     tmp_off.base = dest;
     tmp_off.offset = a.offset;
 
-    ld_ro_ins(ins, tmp_off, dest);comment(NULL);
+    ld_ro_ins(ins, tmp_off, dest);
   }
   else
   {
-    ld_ro_ins(ins, a, dest);comment(NULL);
+    ld_ro_ins(ins, a, dest);
   }
 }
 
@@ -240,11 +240,11 @@ void st_ins(Instruction_P ins, int src, baseoff a)
     tmp_off.offset = 0;
 
     set_ins(a, R_TMP0);
-    st_ro_ins(ins, src, tmp_off);comment(NULL);
+    st_ro_ins(ins, src, tmp_off);
   }
   else
   {
-    st_ro_ins(ins, src, a);comment(NULL);
+    st_ro_ins(ins, src, a);
   }
 }
 
@@ -1074,22 +1074,6 @@ void lsi_ins(int src, int dest, int nb)
 void stsi_ins(int src, int dest, int nb)
 {
   asm_printop("%s %d,%d,%d",get_instruction(i_stsi),src,dest,nb);
-}
-void comment(char *p)
-{
-#ifndef NDEBUG
-  if (p==NULL)
-  {
-    asm_printf("\n");
-  }
-  else
-  {
-    asm_printf("        # %s\n",p);
-  }
-#else
-  asm_printf("\n");
-#endif
-  return;
 }
 
 char * get_instruction(Instruction_P ins)

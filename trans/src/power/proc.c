@@ -569,7 +569,7 @@ void make_return_to_label_tag_code(exp e, space sp)
     if (p_has_fp)
     {
       /* Use the frame pointer to collapse the frame */
-      mov_rr_ins(R_FP,R_SP);comment("collapse frame using FP");
+      mov_rr_ins(R_FP,R_SP);asm_comment("collapse frame using FP");
     }
     else if (p_has_back_chain)
     {
@@ -577,7 +577,7 @@ void make_return_to_label_tag_code(exp e, space sp)
       baseoff back_chain;
       back_chain.base = R_SP;
       back_chain.offset = 0;
-      ld_ro_ins(i_l, back_chain, R_SP);comment("collapse frame using back chain");
+      ld_ro_ins(i_l, back_chain, R_SP);asm_comment("collapse frame using back chain");
     }
     else
     {
@@ -589,9 +589,9 @@ void make_return_to_label_tag_code(exp e, space sp)
      stored */
   if (p_has_tp)
   {
-    mov_rr_ins(R_TP,R_TEMP_TP);comment("copy TP to TEMP_TP");
+    mov_rr_ins(R_TP,R_TEMP_TP);asm_comment("copy TP to TEMP_TP");
     restore_sregs(R_SP,0);
-    mov_rr_ins(R_TEMP_TP,R_SP);comment("collapse frame using TEMP_TP");
+    mov_rr_ins(R_TEMP_TP,R_SP);asm_comment("collapse frame using TEMP_TP");
   }
   else
   {
@@ -635,24 +635,24 @@ void make_tail_call_tag_code(exp e, space sp)
 
       b.base = desc_base;
       b.offset = 0;
-      ld_ro_ins(i_l,b,R_TMP0);comment(NULL);
+      ld_ro_ins(i_l,b,R_TMP0);
       b.base = R_SP;
       b.offset = 4;
-      st_ro_ins(i_st,R_TMP0,b);comment(NULL);
+      st_ro_ins(i_st,R_TMP0,b);
     }
     restore_link_register();
     restore_callers(GENERAL_PROC_PARAM_REGS);
     /* Set up R_TEMP_TP and R_TEMP_FP */
     if (p_has_tp)
     {
-      mov_rr_ins(R_TP,R_TEMP_TP);comment("copy TP to TEMP_TP");
+      mov_rr_ins(R_TP,R_TEMP_TP);asm_comment("copy TP to TEMP_TP");
     }
     else
     {
       /* This only happens with a tail call in a normal proc */
-      mov_rr_ins(R_FP,R_TEMP_TP);comment("copy FP to TEMP_TP");
+      mov_rr_ins(R_FP,R_TEMP_TP);asm_comment("copy FP to TEMP_TP");
     }
-    mov_rr_ins(R_FP,R_TEMP_FP);comment("copy FP to TEMP_FP");
+    mov_rr_ins(R_FP,R_TEMP_FP);asm_comment("copy FP to TEMP_FP");
     restore_sregs(R_TEMP_FP,0);
 
     /* At this point R_TP is R_TEMP_TP and R_FP is R_TEMP_FP */
@@ -661,24 +661,24 @@ void make_tail_call_tag_code(exp e, space sp)
     if (name(cees) ==make_callee_list_tag)
     {
       int size_of_callee_list=ALIGNNEXT((no(cees) >>3) +EXTRA_CALLEE_BYTES , 8);
-      st_ro_ins(i_st,R_TEMP_TP,callee_pointer);comment(NULL);
+      st_ro_ins(i_st,R_TEMP_TP,callee_pointer);
 
-      mov_rr_ins(R_SP,R_TEMP_FP);comment(NULL);
+      mov_rr_ins(R_SP,R_TEMP_FP);
       rir_ins(i_a,R_TEMP_TP,- (long)(size_of_callee_list),R_TEMP_TP);
       reverse_static_memory_copy(R_TEMP_FP,R_TEMP_TP,size_of_callee_list);
-      mov_rr_ins(R_TEMP_TP,R_SP);comment(NULL);
+      mov_rr_ins(R_TEMP_TP,R_SP);
     }
     else
     {
 
-      ld_ro_ins(i_l,callee_pointer,R_TMP0);comment(NULL);
+      ld_ro_ins(i_l,callee_pointer,R_TMP0);
       rrr_ins(i_s,R_TMP0,R_SP,R_TMP0);
       /* R_TMP0 should now contain the callee size */
-      st_ro_ins(i_st,R_TEMP_TP,callee_pointer);comment(NULL);
+      st_ro_ins(i_st,R_TEMP_TP,callee_pointer);
       rrr_ins(i_s,R_TEMP_TP,R_TMP0,R_TEMP_TP);
-      mov_rr_ins(R_SP,R_TEMP_FP);comment(NULL);
+      mov_rr_ins(R_SP,R_TEMP_FP);
       reverse_dynamic_word_memory_copy(R_TEMP_FP,R_TEMP_TP,R_TMP0);
-      mov_rr_ins(R_TEMP_TP,R_SP);comment(NULL);
+      mov_rr_ins(R_TEMP_TP,R_SP);
     }
     /* The memory copy does not corrupt R_TEMP_TP or R_TEMP_FP */
     /* Finally put the stack pointer at the bottom of the callees */
@@ -696,17 +696,17 @@ void make_tail_call_tag_code(exp e, space sp)
 
 	b.base = desc_base;
 	b.offset = 0;
-	ld_ro_ins(i_l,b,R_TMP0);comment(NULL);
+	ld_ro_ins(i_l,b,R_TMP0);
 	b.base = R_FP;
 	b.offset = 4;
-	st_ro_ins(i_st,R_TMP0,b);comment(NULL);
+	st_ro_ins(i_st,R_TMP0,b);
       }
       restore_link_register();
       restore_callees();
       restore_callers(GENERAL_PROC_PARAM_REGS);
-      mov_rr_ins(R_FP,R_TEMP_FP);comment("copy FP to TEMP_FP");
+      mov_rr_ins(R_FP,R_TEMP_FP);asm_comment("copy FP to TEMP_FP");
       restore_sregs(R_TEMP_FP,0);
-      mov_rr_ins(R_TEMP_FP,R_SP);comment("collapse frame using TEMP_FP");
+      mov_rr_ins(R_TEMP_FP,R_SP);asm_comment("collapse frame using TEMP_FP");
     }
     else
     {
@@ -715,9 +715,9 @@ void make_tail_call_tag_code(exp e, space sp)
       assert(p_has_fp);
       restore_link_register();
       restore_callers(PROC_PARAM_REGS);
-      mov_rr_ins(R_FP,R_TEMP_FP);comment("copy FP to TEMP_FP");
+      mov_rr_ins(R_FP,R_TEMP_FP);asm_comment("copy FP to TEMP_FP");
       restore_sregs(R_TEMP_FP,0);
-      mov_rr_ins(R_TEMP_FP,R_SP);comment("collapse frame using TEMP_FP");
+      mov_rr_ins(R_TEMP_FP,R_SP);asm_comment("collapse frame using TEMP_FP");
     }
   }
 
@@ -736,7 +736,7 @@ void make_tail_call_tag_code(exp e, space sp)
     baseoff b;
     b.base = R_SP;
     b.offset = 4;
-    ld_ro_ins(i_l,b,R_TMP0);comment(NULL);
+    ld_ro_ins(i_l,b,R_TMP0);
     mt_ins(i_mtctr,R_TMP0);
     z_ins(i_bctr);
   }
@@ -762,8 +762,8 @@ void make_same_callees_tag_code(exp e, space sp)
   roldsp = getreg(nsp.fixed);nsp = guardreg(roldsp,nsp);
 
   restore_callees();
-  mov_rr_ins(R_FP,rfrom);comment(NULL);
-  mov_rr_ins(R_SP,roldsp);comment(NULL);
+  mov_rr_ins(R_FP,rfrom);
+  mov_rr_ins(R_SP,roldsp);
 
   if (p_has_vcallees)
   {
@@ -781,7 +781,7 @@ void make_same_callees_tag_code(exp e, space sp)
 
     rrr_ins(i_s,R_TP,R_FP,rsize);
     rrr_ins(i_s,R_SP,rsize,R_SP);
-    mov_rr_ins(R_SP,rto);comment(NULL);
+    mov_rr_ins(R_SP,rto);
 
     dynamic_word_memory_copy(rfrom,rto,rsize); /* copy the callees */
   }
@@ -791,10 +791,10 @@ void make_same_callees_tag_code(exp e, space sp)
     long csize = ALIGNNEXT(p_callee_size + EXTRA_CALLEE_BYTES,8);
 
     rir_ins(i_a,R_SP,-csize,R_SP);
-    mov_rr_ins(R_SP,rto);comment(NULL);
+    mov_rr_ins(R_SP,rto);
     static_memory_copy(rfrom,rto,csize);
   }
-  st_ro_ins(i_st,roldsp,callee_pointer);comment(NULL);
+  st_ro_ins(i_st,roldsp,callee_pointer);
   return;
 }
 
@@ -822,7 +822,7 @@ void make_callee_list_tag_code(exp e, space sp)
   x = ALIGNNEXT((no(e) >>3) + EXTRA_CALLEE_BYTES  , 8);
   new_stackpos.base = R_SP;
   new_stackpos.offset = -x;
-  st_ro_ins(i_stu , R_SP , new_stackpos);comment(NULL);
+  st_ro_ins(i_stu , R_SP , new_stackpos);
 
   disp = EXTRA_CALLEE_BYTES * 8;/* start coding them here */
   update_plc(old_pls,x);
@@ -886,7 +886,7 @@ void make_dynamic_callee_tag_code(exp e, space sp)
   reverse_dynamic_word_memory_copy(rfrom,rto,rsize);
   /* the memory copy preserves rfrom,rto and rsize */
   rrr_ins(i_a,rsize_adjusted,R_SP,R_TMP0);
-  st_ro_ins(i_st,R_TMP0,callee_pointer);comment(NULL);
+  st_ro_ins(i_st,R_TMP0,callee_pointer);
   return;
 }
 
@@ -943,7 +943,7 @@ space do_callers(int n, exp list, space sp)
       stf_ro_ins((dble ? i_stfd : i_stfs), frg.fr, is.b);
 
       /* load it into the fixed parameter t-reg */
-      ld_ro_ins(i_l, is.b, param_reg);comment("load float-param from stack into param reg");
+      ld_ro_ins(i_l, is.b, param_reg);asm_comment("load float-param from stack into param reg");
       nsp = guardreg(param_reg, nsp);
 
       param_reg++;
@@ -953,7 +953,7 @@ space do_callers(int n, exp list, space sp)
       {
 	/* Double whose second half can be loaded into fixed param t-reg */
 	is.b.offset += 4;
-	ld_ro_ins(i_l, is.b, param_reg);comment("it was a double so we load other half");
+	ld_ro_ins(i_l, is.b, param_reg);asm_comment("it was a double so we load other half");
 	nsp = guardreg(param_reg, nsp);
 	param_reg++;
 	last_param_reg = param_reg;
@@ -1073,7 +1073,7 @@ space do_callers(int n, exp list, space sp)
 	  }
 	  else
 	  {
-	    ld_ro_ins(i_l, is.b, r);comment("copy struct param from stack into param regs");
+	    ld_ro_ins(i_l, is.b, r);asm_comment("copy struct param from stack into param regs");
 	  }
 
 	  nsp = guardreg(r, nsp);
@@ -1084,7 +1084,7 @@ space do_callers(int n, exp list, space sp)
 	{
 	  /* do ld that clashed with base reg */
 	  is.b.offset = dolastoffset;
-	  ld_ro_ins(i_l, is.b, is.b.base);comment("copy the last part of the structure due to clash of regs");
+	  ld_ro_ins(i_l, is.b, is.b.base);asm_comment("copy the last part of the structure due to clash of regs");
 	}
       }
       else
@@ -1135,20 +1135,20 @@ void do_function_call(exp fn, space sp)
 
     b.base = desc_base;
     b.offset = 0;
-    ld_ro_ins(i_l, b, R_TMP0);comment("load function address to R_TMP0");
+    ld_ro_ins(i_l, b, R_TMP0);asm_comment("load function address to R_TMP0");
     mt_ins(i_mtlr, R_TMP0);
     /* +++ use scan() so we can do this in proc prelude */
     b.base = R_SP;
     b.offset = STACK_SAVED_TOC;
-    st_ro_ins(i_st, R_TOC, b);comment("save toc pointer for this function");
+    st_ro_ins(i_st, R_TOC, b);asm_comment("save toc pointer for this function");
     b.base = desc_base;
     b.offset = 4;
-    ld_ro_ins(i_l, b, R_TOC);comment("load up toc pointer for function");
+    ld_ro_ins(i_l, b, R_TOC);asm_comment("load up toc pointer for function");
     /* +++ load env ptr from descriptor */
     z_ins(i_brl);
     b.base = R_SP;
     b.offset = STACK_SAVED_TOC;
-    ld_ro_ins(i_l, b, R_TOC);comment("restore toc pointer");
+    ld_ro_ins(i_l, b, R_TOC);asm_comment("restore toc pointer");
   }
 }
 void do_general_function_call(exp fn, space sp)
@@ -1176,23 +1176,23 @@ void do_general_function_call(exp fn, space sp)
 
     b.base = desc_base;
     b.offset = 0;
-    ld_ro_ins(i_l, b, R_TMP0);comment("load function address to R_TMP0");
+    ld_ro_ins(i_l, b, R_TMP0);asm_comment("load function address to R_TMP0");
     mt_ins(i_mtlr, R_TMP0);
     saved_toc.base = R_SP;
     saved_toc.offset = 0;
-    ld_ro_ins(i_l , saved_toc ,r);comment("load up top of callees");
+    ld_ro_ins(i_l , saved_toc ,r);asm_comment("load up top of callees");
     saved_toc.base = r;
     saved_toc.offset = STACK_SAVED_TOC;
-    st_ro_ins(i_st, R_TOC, saved_toc);comment("save toc pointer");
+    st_ro_ins(i_st, R_TOC, saved_toc);asm_comment("save toc pointer");
     b.base = desc_base;
     b.offset = 4;
-    ld_ro_ins(i_l, b, R_TOC);comment("load up toc pointer for function");
+    ld_ro_ins(i_l, b, R_TOC);asm_comment("load up toc pointer for function");
     /* +++ load env ptr from descriptor */
     z_ins(i_brl);
     /* on return from a general proc, R_SP is returned to top of callees */
     b.base = R_SP;
     b.offset = STACK_SAVED_TOC;
-    ld_ro_ins(i_l, b, R_TOC);comment("restore toc pointer");
+    ld_ro_ins(i_l, b, R_TOC);asm_comment("restore toc pointer");
   }
 }
 makeans move_result_to_dest(exp e, space sp, where dest, int exitlab)
@@ -1303,7 +1303,7 @@ void restore_callers(int n)
 	}
 	else
 	{
-	  st_ro_ins(i_st,no(bdy),parampos);comment(NULL);
+	  st_ro_ins(i_st,no(bdy),parampos);
 	}
       }
     }
@@ -1323,7 +1323,7 @@ void restore_callers(int n)
 
 	for (r = param_reg;r<=last_st_reg;r++)
 	{
-	  ld_ro_ins(i_l,bo,r);comment("restore struct into caller param regs");
+	  ld_ro_ins(i_l,bo,r);asm_comment("restore struct into caller param regs");
 	  bo.offset +=4;
 	}
       }
@@ -1334,7 +1334,7 @@ void restore_callers(int n)
       }
       else
       {
-	ld_ro_ins(i_l,parampos,param_reg);comment("restore param reg from stack");
+	ld_ro_ins(i_l,parampos,param_reg);asm_comment("restore param reg from stack");
       }
     }
     else if (props(sbdy)!=0 && props(sbdy)!=no(bdy))
@@ -1346,7 +1346,7 @@ void restore_callers(int n)
       }
       else
       {
-	mov_rr_ins(no(bdy),param_reg);comment("restore param reg from reg");
+	mov_rr_ins(no(bdy),param_reg);asm_comment("restore param reg from reg");
       }
     }
     bdy = bro(sbdy);
@@ -1366,7 +1366,7 @@ void restore_callers(int n)
     v.offset = saved_varargs_offset;
     for (r = saved_varargs_register; r<= final_param ;r++)
     {
-      ld_ro_ins(i_l,v,r);comment("restore all params since varargs");
+      ld_ro_ins(i_l,v,r);asm_comment("restore all params since varargs");
       v.offset += 4;
     }
   }
@@ -1405,7 +1405,7 @@ void restore_callees(void)
     else if (props(bdy) & inreg_bits)
     {
       assert(IS_SREG(no(bdy)));
-      st_ro_ins(i_st,no(bdy),stackpos);comment(NULL);
+      st_ro_ins(i_st,no(bdy),stackpos);
     }
     bdy = bro(sbdy);
   }

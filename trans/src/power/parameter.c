@@ -168,7 +168,7 @@ void output_parameters(exp e)
       saved_varargs_register = pr;
       while (pr <= end_param)
       {
-	st_ro_ins(i_st, pr, v);comment("varargs save all param regs");
+	st_ro_ins(i_st, pr, v);asm_comment("varargs save all param regs");
 	pr++;
 	v.offset += 4;
       }
@@ -218,7 +218,7 @@ void output_parameters(exp e)
 	}
 	for (r = param_reg; r <= last_st_reg; r++)
 	{
-	  st_ro_ins(i_st, r, stackpos);comment("copy param struct onto stack");
+	  st_ro_ins(i_st, r, stackpos);asm_comment("copy param struct onto stack");
 	  stackpos.offset += 4;
 	}
 	p_fixed_params += (last_st_reg - param_reg);
@@ -251,7 +251,7 @@ void output_parameters(exp e)
 	if (IS_SREG(dest_reg))
 	{
 	  /* FIXED REGISTER --> FIXED S-REG */
-	  mov_rr_ins(param_reg , dest_reg);comment("copy param into an s-reg");
+	  mov_rr_ins(param_reg , dest_reg);asm_comment("copy param into an s-reg");
 	  track_fixed(param_reg,par);
 	}
 	else
@@ -303,7 +303,7 @@ static void do_fixed_params(void)
     copy_fixed(r);
     if (remember==1)
     {
-      mov_rr_ins(spare_fixed , copying_fixed);comment("move param to its new reg");
+      mov_rr_ins(spare_fixed , copying_fixed);asm_comment("move param to its new reg");
       track_fixed(spare_fixed , fixed_array[copying_fixed].par);
     }
   }
@@ -345,12 +345,12 @@ static void copy_fixed(int reg)
   {
     /* We have gone round in a loop */
     remember = 1;
-    mov_rr_ins(reg,spare_fixed);comment("copy param reg to new location");
+    mov_rr_ins(reg,spare_fixed);asm_comment("copy param reg to new location");
     fixed_array[reg].copied=1;
     return;
   }
   copy_fixed(fixed_array[reg].dest);
-  mov_rr_ins(reg,fixed_array[reg].dest);comment("copy param reg to new reg");
+  mov_rr_ins(reg,fixed_array[reg].dest);asm_comment("copy param reg to new reg");
   track_fixed(reg,fixed_array[reg].par);
   fixed_array[reg].copied=1;
   return;
