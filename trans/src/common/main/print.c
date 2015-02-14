@@ -156,6 +156,10 @@ asm_vfcomment(FILE *f, const char *m, const char *fmt, va_list ap)
 		error(ERROR_SERIOUS, "unsupported assembler dialect");
 	}
 
+	if (!do_comment) {
+		return;
+	}
+
 	asm_fprintf(f, "%s%c ", m, c);
 
 	asm_vfprintf(f, fmt, ap);
