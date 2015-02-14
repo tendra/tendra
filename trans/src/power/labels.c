@@ -14,6 +14,7 @@
 #include <shared/error.h>
 
 #include <main/driver.h>
+#include <main/print.h>
 
 #include "translate.h"
 #include "labels.h"

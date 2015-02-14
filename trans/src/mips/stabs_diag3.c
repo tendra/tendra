@@ -42,6 +42,7 @@
 #include <diag3/diag_reform.h>
 
 #include <main/driver.h>
+#include <main/print.h>
 
 #include "procrectypes.h"
 #include "bitsmacs.h"
