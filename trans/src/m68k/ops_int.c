@@ -21,6 +21,7 @@
 
 #include <main/flags.h>
 #include <main/driver.h>
+#include <main/print.h>
 
 #include "assembler.h"
 #include "mach.h"
@@ -519,7 +520,7 @@ void negate
         }
         else {
            if (c != 0) {
-              make_comment("negation of unsigned shape");
+              asm_comment("negation of unsigned shape");
               overflow = 1;
            }
         }
@@ -1324,7 +1325,7 @@ static void euclid
     if (sz != 32) {
        bool d0_pushed = 0;
 
-       make_comment("change variety top -> qreg");
+       asm_comment("change variety top -> qreg");
        change_var_sh(lsha, sha, top, qreg);
 
        if (eq_where(qreg, D0)) {
@@ -1332,7 +1333,7 @@ static void euclid
           d0_pushed = 1;
        }
 
-       make_comment("change variety bottom -> rreg");
+       asm_comment("change variety bottom -> rreg");
        change_var_sh(lsha, sha, bottom, rreg);
 
        if (d0_pushed)
@@ -1563,14 +1564,14 @@ static void maxmin
     } else {
 	d = D0;
     }
-    make_comment("maxmin ...");
+    asm_comment("maxmin ...");
     move(sha, a1, d);
     sw = cmp(sha, d, a2, tst);
     branch(tst, jt, is_signed(sha), sw, 0);
     move(sha, a2, d);
     make_label(lab);
     move(sha, d, dest);
-    make_comment("maxmin done");
+    asm_comment("maxmin done");
     return;
 }
 

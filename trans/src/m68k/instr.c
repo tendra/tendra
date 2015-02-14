@@ -20,6 +20,7 @@
 
 #include <main/flags.h>
 #include <main/driver.h>
+#include <main/print.h>
 
 #include "instrs.h"
 #include "mach.h"
@@ -765,7 +766,7 @@ save_stack(void)
 	if (extra_stack || stack_dec) {
 		error(ERROR_SERIOUS, "unclean stack");
 	}
-	make_comment("Save stack pointer");
+	asm_comment("Save stack pointer");
 	ins2(m_movl, 32, 32, SP, firstlocal, 1);
 }
 
@@ -775,6 +776,6 @@ restore_stack(void)
 	if (extra_stack || stack_dec) {
 		error(ERROR_SERIOUS, "unclean stack");
 	}
-	make_comment("Restore stack pointer");
+	asm_comment("Restore stack pointer");
 	ins2(m_movl, 32, 32, firstlocal, SP, 1);
 }

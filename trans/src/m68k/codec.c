@@ -24,6 +24,7 @@
 
 #include <main/driver.h>
 #include <main/flags.h>
+#include <main/print.h>
 
 #include "mach.h"
 #include "where.h"
@@ -479,9 +480,9 @@ codec(where dest, ash stack, exp e)
 	}
 #ifndef tdf3
 	case addptr_tag: {
-		make_comment("addptr_tag ...");
+		asm_comment("addptr_tag ...");
 		mova(zw(e), dest);
-		make_comment("addptr_tag done");
+		asm_comment("addptr_tag done");
 		return;
 	}
 #endif
@@ -869,20 +870,20 @@ TDF libraries.  If this was right sh(e) would be slongsh.
 		 */
 
 	case offset_add_tag:
-		make_comment("offset_add_tag...");
+		asm_comment("offset_add_tag...");
 		/* Offset addition is a binary operation */
 		bop(add, slongsh, son(e), bro(son(e)), dest, stack);
-		make_comment("offset_add_tag done");
+		asm_comment("offset_add_tag done");
 		return;
 	case offset_subtract_tag:
 		/* Offset subtraction is a binary operation */
 		bop(sub, slongsh, bro(son(e)), son(e), dest, stack);
 		return;
 	case offset_mult_tag:
-		make_comment("offset_mult_tag...");
+		asm_comment("offset_mult_tag...");
 		/* Offset multiplication is a binary operation */
 		bop(mult, slongsh, son(e), bro(son(e)), dest, stack);
-		make_comment("offset_mult_tag done");
+		asm_comment("offset_mult_tag done");
 		return;
 	case offset_negate_tag:
 		/* Offset negation is a unary operation */
@@ -903,7 +904,7 @@ TDF libraries.  If this was right sh(e) would be slongsh.
 		long cur_align  = al2(sh(cur_offset));
 		long next_align = al2(sh(e));
 
-		make_comment("offset_pad ...");
+		asm_comment("offset_pad ...");
 
 		/* does current alignment include next alignment? */
 
@@ -935,7 +936,7 @@ TDF libraries.  If this was right sh(e) would be slongsh.
 				and(slongsh, mnw(-al), r, dest);
 			}
 		}
-		make_comment("offset_pad done");
+		asm_comment("offset_pad done");
 		return;
 	}
 	case bitf_to_int_tag: {
@@ -968,7 +969,7 @@ TDF libraries.  If this was right sh(e) would be slongsh.
 		bop(minop, sh(e), son(e), bro(son(e)), dest, stack);
 		return;
 	case cont_tag:
-		make_comment("cont_tag ...");
+		asm_comment("cont_tag ...");
 
 		if (name(sh(e)) == bitfhd) {
 			bitf_to_int(e, sh(e), dest, stack);
@@ -977,7 +978,7 @@ TDF libraries.  If this was right sh(e) would be slongsh.
 
 		move(sh(e), zw(e), dest);
 
-		make_comment("cont_tag done");
+		asm_comment("cont_tag done");
 		return;
 	default:
 		if (!is_o(name(e))) {
@@ -1016,16 +1017,16 @@ TDF libraries.  If this was right sh(e) would be slongsh.
 			/* s = sim_exp(sh(e), D0); */
 			d = mw(dest.wh_exp, dest.wh_off + 32);
 			if (shape_size(sh(son(e))) == 32) {
-				make_comment("Pointer to bitfield (32) ...");
+				asm_comment("Pointer to bitfield (32) ...");
 				make_code(dest, stack, son(e));
 				move(slongsh, mnw(no(e)), d);
-				make_comment("Pointer to bitfield (32) done");
+				asm_comment("Pointer to bitfield (32) done");
 				return;
 			}
-			make_comment("Pointer to bitfield ...");
+			asm_comment("Pointer to bitfield ...");
 			make_code(dest, stack, son(e));
 			add(slongsh, mnw(no(e)), d, d);
-			make_comment("Pointer to bitfield done");
+			asm_comment("Pointer to bitfield done");
 			return;
 		}
 
@@ -1035,9 +1036,9 @@ TDF libraries.  If this was right sh(e) would be slongsh.
 		      name(son(son(e))) == name_tag))) {
 			/* Deal with pointers with offsets */
 			long off = no(e) / 8;
-			make_comment("reff_tag ...");
+			asm_comment("reff_tag ...");
 			add(slongsh, zw(son(e)), mnw(off), dest);
-			make_comment("reff_tag done");
+			asm_comment("reff_tag done");
 			return;
 		}
 

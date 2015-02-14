@@ -15,6 +15,7 @@
 #include <local/fbase.h>
 
 #include <main/driver.h>
+#include <main/print.h>
 
 #include <reader/basicread.h>
 #include <reader/externs.h>
@@ -413,40 +414,40 @@ static void check_float_round_overflow
 (shape sha, where from, int mode)
 {
   if (overflow_jump == -1) {
-     make_comment("error_teatment is trap");
+     asm_comment("error_teatment is trap");
      return;
   }
 
-  make_comment("check_float_round_overflow ...");
+  asm_comment("check_float_round_overflow ...");
 
   /* Setup min and max limits & decide tests */
   switch (mode) {
   case R2PINF:
-     make_comment(" (toward larger) min-1 < x <= max");
+     asm_comment("(toward larger) min-1 < x <= max");
      /* error if x <= min-1 or x > max */
      check_limit(from, get_min_limit(sha,1),tst_le);
      check_limit(from, get_max_limit(sha,0),tst_gr);
      break;
   case R2NINF:
-     make_comment(" (toward smaller) min <= x < max+1");
+     asm_comment("(toward smaller) min <= x < max+1");
      /* error if x < min or x >= max+1 */
      check_limit(from, get_min_limit(sha,0),tst_ls);
      check_limit(from, get_max_limit(sha,1),tst_ge);
      break;
   case R2ZERO:
-     make_comment(" (toward zero) min-1 < x < max+1");
+     asm_comment("(toward zero) min-1 < x < max+1");
      /* error if x <= min-1 or x >= max+1 */
      check_limit(from, get_min_limit(sha,1),tst_le);
      check_limit(from, get_max_limit(sha,1),tst_ge);
      break;
   case R2NEAR:
-     make_comment(" (to nearest) min-0.5 <= x < max+0.5");
+     asm_comment("(to nearest) min-0.5 <= x < max+0.5");
      /* error if x < min-0.5 or x >= max+0.5 */
      check_limit(from, get_min_limit(sha,2),tst_le);
      check_limit(from, get_max_limit(sha,2),tst_gr);
      break;
   case 4:
-     make_comment(" (internal mode) min <= x <= max");
+     asm_comment("(internal mode) min <= x <= max");
      /* error if x < min or x > max */
      check_limit(from, get_min_limit(sha,0),tst_ls);
      check_limit(from, get_max_limit(sha,0),tst_gr);
@@ -455,7 +456,7 @@ static void check_float_round_overflow
      error(ERROR_SERIOUS, "check_float_round_overflow: wrong rounding mode");
   }
 
-  make_comment("check_float_round_overflow done");
+  asm_comment("check_float_round_overflow done");
 }
 
 bool changed_round_mode = 0;
@@ -481,25 +482,25 @@ void set_round_mode
 
    switch (mode) {
    case R2NEAR:
-      make_comment("round mode to nearest");
+      asm_comment("round mode to nearest");
       /* to nearest => bit 4 = 0, bit 5 = 0 */
       ins2n(m_bclr,4,32,D0,1);
       ins2n(m_bclr,5,32,D0,1);
       break;
    case R2PINF:
-      make_comment("round mode to larger");
+      asm_comment("round mode to larger");
       /* to + INF  => bit 4 =1, bit5 = 1 */
       ins2n(m_bset,4,32,D0,1);
       ins2n(m_bset,5,32,D0,1);
       break;
    case R2NINF:
-      make_comment("round mode to smaller");
+      asm_comment("round mode to smaller");
       /* to - INF => bit 4 = 0, bit 5 = 1 */
       ins2n(m_bclr,4,32,D0,1);
       ins2n(m_bset,5,32,D0,1);
       break;
    case R2ZERO:
-      make_comment("round mode to zero");
+      asm_comment("round mode to zero");
       /* to zero => bit 4 = 1, bit 5 = 0
          This should never occur, as fintrz is always used
          for round to zero */

@@ -31,6 +31,7 @@
 
 #include <main/driver.h>
 #include <main/flags.h>
+#include <main/print.h>
 
 #include <refactor/optimise.h>
 
@@ -707,7 +708,7 @@ static void
 reset_stack_pointer(void)
 {
 	mach_op *op1, *op2;
-	make_comment("reset stack pointer ...");
+	asm_comment("reset stack pointer ...");
 	update_stack();
 
 	op1 = make_indirect(REG_AP, 0);
@@ -730,7 +731,7 @@ reset_stack_pointer(void)
 	op2 = make_register(REG_SP);
 	make_instr(m_lea, op1, op2, regmsk(REG_SP));
 #endif
-	make_comment("reset stack pointer done");
+	asm_comment("reset stack pointer done");
 }
 
 /*
@@ -1089,20 +1090,20 @@ make_code(where dest, ash stack, exp e)
 	case return_to_label_tag: {
 		exp dest_lab = son(e);
 
-		make_comment("return_to_label ...");
+		asm_comment("return_to_label ...");
 
 		move(slongsh, zw(dest_lab), A0);
 		restore_regs(ALL);
 		make_instr(m_jmp,operand(32,A0_p),NULL,~save_msk);
 
-		make_comment("return_to_label done");
+		asm_comment("return_to_label done");
 		return;
 	}
 #endif
 	case long_jump_tag: {
 		exp new_env = son(e);
 		exp dest_lab = bro(new_env);
-		make_comment("long_jump");
+		asm_comment("long_jump");
 
 		move(sh(dest_lab),zw(dest_lab),A0);
 		move(sh(new_env),zw(new_env),A1);
@@ -1297,13 +1298,13 @@ make_code(where dest, ash stack, exp e)
 		/* Variable assignments */
 		exp assdest = son(e);
 		exp assval = bro(assdest);
-		make_comment("assign ...");
+		asm_comment("assign ...");
 		if (name(sh(assval)) == bitfhd) {
 			int_to_bitf(assval, e, stack);
 			return;
 		}
 		codec(zw(e), stack, assval);
-		make_comment("assign done");
+		asm_comment("assign done");
 		return;
 	}
 	case nof_tag: {
@@ -1445,7 +1446,7 @@ make_code(where dest, ash stack, exp e)
 		}
 #endif
 
-		make_comment("Call Normal Proc");
+		asm_comment("Call Normal Proc");
 		/* See if we can push all the arguments */
 		st = 0;
 		if (arg != NULL) {
@@ -1485,7 +1486,7 @@ make_code(where dest, ash stack, exp e)
 
 		/* Put arguments onto stack */
 		if (use_push) {
-			make_comment("Push callers");
+			asm_comment("Push callers");
 			if (comp_room) {
 				/* Make room for unwanted compound result */
 				dec_stack(comp_room);
@@ -1496,7 +1497,7 @@ make_code(where dest, ash stack, exp e)
 				code_pars(zw(e), stack, arg);
 			}
 		} else {
-			make_comment("Place callers");
+			asm_comment("Place callers");
 			/* Decrease stack */
 			if (stkdec) {
 				dec_stack(stkdec);
@@ -1639,7 +1640,7 @@ make_code(where dest, ash stack, exp e)
 		bool allocation_done = 0;
 		used_stack = 1;
 
-		make_comment("Allocate ...");
+		asm_comment("Allocate ...");
 
 		/* Create a where representing the value to be allocated */
 
@@ -1683,13 +1684,13 @@ make_code(where dest, ash stack, exp e)
 			save_stack();
 		}
 
-		make_comment("Allocate done");
+		asm_comment("Allocate done");
 		return;
 	}
 	case last_local_tag:
-		make_comment("last_local ...");
+		asm_comment("last_local ...");
 		move(sh(e), SP, dest);
-		make_comment("last_local done");
+		asm_comment("last_local done");
 		return;
 	case local_free_tag: {
 		exp base = son(e);
@@ -1698,7 +1699,7 @@ make_code(where dest, ash stack, exp e)
 		where w_a0;
 		w_a0 = zw(s_a0);
 
-		make_comment("local_free ...");
+		asm_comment("local_free ...");
 
 		make_code(w_a0,stack,base);
 
@@ -1727,18 +1728,18 @@ make_code(where dest, ash stack, exp e)
 			save_stack();
 		}
 
-		make_comment("local_free done");
+		asm_comment("local_free done");
 
 		return;
 	}
 	case local_free_all_tag: {
 		must_use_bp = 1;
-		make_comment("local_free_all ...");
+		asm_comment("local_free_all ...");
 		reset_stack_pointer();
 		if (need_preserve_stack) {
 			save_stack();
 		}
-		make_comment("local_free_all done");
+		asm_comment("local_free_all done");
 		return;
 	}
 
@@ -1900,7 +1901,7 @@ make_code(where dest, ash stack, exp e)
 		exp to_exp = bro(from_exp);
 		exp num_bytes = bro(to_exp);
 		mach_op *op = make_extern_ind(abi == ABI_SUNOS ? "_bcopy" : "_memmove", 0);
-		make_comment("move_some ...");
+		asm_comment("move_some ...");
 		push(slongsh,32L,D0);
 		push(slongsh,32L,D1);
 		push(slongsh,32L,zw(num_bytes));
@@ -1915,7 +1916,7 @@ make_code(where dest, ash stack, exp e)
 		dec_stack(-96);
 		pop(slongsh,32L,D1);
 		pop(slongsh,32L,D0);
-		make_comment("move_some done");
+		asm_comment("move_some done");
 		return;
 	}
 	case diagnose_tag:

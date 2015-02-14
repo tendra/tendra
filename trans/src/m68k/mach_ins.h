@@ -33,8 +33,6 @@ extern void make_jump(int, long);
 extern void make_label(long);
 extern void set_special(char *, mach_op *);
 
-#define make_comment(X) if (do_comment) { fprintf(as_file, "# %s\n", (X)); }
-
 #endif
 
 

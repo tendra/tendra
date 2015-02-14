@@ -30,6 +30,7 @@
 
 #include <main/driver.h>
 #include <main/flags.h>
+#include <main/print.h>
 
 #include <refactor/optimise.h>
 
@@ -215,7 +216,7 @@ void gcproc
   }
 
   if (! strcmp(pname, "_main")) {
-     make_comment("Do Dynamic Initialization");
+     asm_comment("Do Dynamic Initialization");
      op1 = make_extern_ind("___TDF_main",0);
      make_instr(m_call,op1,NULL,0);
   }
@@ -355,7 +356,7 @@ void restore_regs_output
       mach_op *op1, *op2;
       current_ins = p->ins;
 
-      make_comment("Restore Registers");
+      asm_comment("Restore Registers");
 
       /* Restore floating-point registers from the stack */
       if (fmsk) {
@@ -387,13 +388,13 @@ void restore_regs_output
             make_instr(m_unlk, op1, NULL, regmsk(REG_AP));
             break;
          case NOT_SP:
-            make_comment("untidy return => Restore A6, but not SP");
+            asm_comment("untidy return => Restore A6, but not SP");
             op1 = make_indirect(REG_AP, 0);
             op2 = make_register(REG_AP);
             make_instr(m_movl, op1, op2, regmsk(REG_AP));
             break;
          case NOT_A6_OR_SP:
-            make_comment("exit with long jump => Don't restore A6 or SP");
+            asm_comment("exit with long jump => Don't restore A6 or SP");
             break;
          default:
             error(ERROR_SERIOUS, "wrong restore type");
@@ -413,11 +414,11 @@ void cleanup_bt
 {
    mach_op *op1, *op2;
 
-   make_comment("Cleanup before tail call ...");
+   asm_comment("Cleanup before tail call ...");
 
    /* save callees size in scratch register if needed */
    if (cur_proc_has_vcallees) {
-      make_comment("save old callees size");
+      asm_comment("save old callees size");
       op1 = make_indirect(REG_AP, 8);
       op2 = make_register(REG_D0);
       make_instr(m_movl, op1, op2, regmsk(REG_D0));
@@ -427,14 +428,14 @@ void cleanup_bt
    restore_regs(ALL);
 
    if (save_ret) {
-      make_comment("save return address in register");
+      asm_comment("save return address in register");
       op1 = make_indirect(REG_SP, 0);
       op2 = make_register(rg);
       make_instr(m_movl, op1, op2, regmsk(rg));
    }
 
    if (cur_proc_has_vcallees) {
-      make_comment("cleanup variable callees and return address");
+      asm_comment("cleanup variable callees and return address");
       op1 = make_register(REG_D0);
       op2 = make_register(REG_SP);
       make_instr(m_addl, op1, op2, regmsk(REG_SP));
@@ -444,12 +445,12 @@ void cleanup_bt
       make_instr(m_addl, op1, op2, regmsk(REG_SP));
    }
    else {
-      make_comment("cleanup static callees and return address");
+      asm_comment("cleanup static callees and return address");
       op1 = make_value(cur_proc_callees_size / 8 + 4);
       op2 = make_register(REG_SP);
       make_instr(m_addl, op1, op2, regmsk(REG_SP));
    }
-   make_comment("Cleanup before tail call done");
+   asm_comment("Cleanup before tail call done");
 }
 
 /*
@@ -465,11 +466,11 @@ void cleanup
    mach_op *op1, *op2;
    bool callees_to_clean = cur_proc_has_vcallees || cur_proc_callees_size;
 
-   make_comment("Cleanup before return ...");
+   asm_comment("Cleanup before return ...");
 
    /* save callees size in scratch register if needed */
    if (cur_proc_has_vcallees) {
-      make_comment("save callees size");
+      asm_comment("save callees size");
       op1 = make_indirect(REG_AP, 8);
       op2 = make_register(REG_A0);
       make_instr(m_movl, op1, op2, regmsk(REG_A0));
@@ -479,13 +480,13 @@ void cleanup
    restore_regs(ALL);
 
    if (callees_to_clean) {
-      make_comment("save return address in register");
+      asm_comment("save return address in register");
       op1 = make_indirect(REG_SP, 0);
       op2 = make_register(REG_A1);
       make_instr(m_movl, op1, op2, regmsk(REG_A1));
 
       if (cur_proc_has_vcallees) {
-         make_comment("cleanup variable callees and return address");
+         asm_comment("cleanup variable callees and return address");
          op1 = make_register(REG_A0);
          op2 = make_register(REG_SP);
          make_instr(m_addl, op1, op2, regmsk(REG_SP));
@@ -495,18 +496,18 @@ void cleanup
          make_instr(m_addl, op1, op2, regmsk(REG_SP));
       }
       else {
-         make_comment("cleanup static callees");
+         asm_comment("cleanup static callees");
          op1 = make_value(cur_proc_callees_size / 8);
          op2 = make_register(REG_SP);
          make_instr(m_addl, op1, op2, regmsk(REG_SP));
       }
 
-      make_comment("put return address back on the stack");
+      asm_comment("put return address back on the stack");
       op1 = make_register(REG_A1);
       op2 = make_indirect(REG_SP, 0);
       make_instr(m_movl, op1, op2, 0);
    }
-   make_comment("Cleanup before return done");
+   asm_comment("Cleanup before return done");
 }
 
 /*
@@ -521,7 +522,7 @@ void push_range
    mach_op *op1, *op2;
    long lb;
 
-   make_comment("Push range");
+   asm_comment("Push range");
 
    lb = next_lab();
    make_label(lb);
@@ -567,8 +568,8 @@ void push_same_callees
 
    /* do we have any callees to push? */
    if (cur_proc_has_vcallees || cur_proc_callees_size) {
-      make_comment("Push same callees");
-      make_comment("end of callees");
+      asm_comment("Push same callees");
+      asm_comment("end of callees");
       op1 = make_register(REG_AP);
       op2 = make_register(REG_D1);
       make_instr(m_movl, op1, op2, regmsk(REG_D1));
@@ -578,7 +579,7 @@ void push_same_callees
       op2 = make_register(REG_D1);
       make_instr(m_addl, op1, op2, regmsk(REG_D1));
 
-      make_comment("start of callees");
+      asm_comment("start of callees");
       op1 = make_register(REG_D1);
       op2 = make_register(REG_A0);
       make_instr(m_movl, op1, op2, regmsk(REG_A0));
@@ -591,7 +592,7 @@ void push_same_callees
    }
 
    if (var_callees) {
-      make_comment("push size of callees on the stack");
+      asm_comment("push size of callees on the stack");
       op1 = make_callees_size();
       op2 = make_dec_sp();
       make_instr(m_movl, op1, op2, regmsk(REG_SP));
@@ -617,7 +618,7 @@ void push_dynamic_callees
    bool const_compound_shape = 0;
    long total_size = 0;
 
-   make_comment("Push dynamic callees");
+   asm_comment("Push dynamic callees");
 
    make_code(A1, stack, ptr);
    make_code(D1, stack, sze);
@@ -661,7 +662,7 @@ void push_dynamic_callees
    }
 
    if (call_has_vcallees(pcallees)) {
-      make_comment("push size of dynamic callees on the stack");
+      asm_comment("push size of dynamic callees on the stack");
       if (const_compound_shape) {
          op1 = make_value(total_size);
       }
@@ -691,17 +692,17 @@ void push_dynamic_callees_bt
 
    push_dynamic_callees(pcallees, stack);
 
-   make_comment("push return address");
+   asm_comment("push return address");
    op1 = make_indirect(REG_AP, 4);
    op2 = make_dec_sp();
    make_instr(m_movl, op1, op2, regmsk(REG_SP));
 
-   make_comment("put end of callees, size & return address in A1");
+   asm_comment("put end of callees, size & return address in A1");
    op1 = make_register(REG_SP);
    op2 = make_register(REG_A1);
    make_instr(m_movl, op1, op2, regmsk(REG_A1));
 
-   make_comment("put start of callees in A0");
+   asm_comment("put start of callees in A0");
    op1 = make_register(REG_A1);
    op2 = make_register(REG_A0);
    make_instr(m_movl, op1, op2, regmsk(REG_A0));
@@ -734,7 +735,7 @@ void A1_result_pointer
       /* Find the space allocated for unwanted results */
       where w;
       w = mnw(longs / 8);
-      make_comment("let A1 point to unwanted compund result");
+      asm_comment("let A1 point to unwanted compund result");
       add(slongsh, SP, w, A1);
    } else {
       long doff;
@@ -757,7 +758,7 @@ void A1_result_pointer
 
             dest.wh_off = doff + extra_stack;
 
-            make_comment("let A1 point to compund result used as procedure argument");
+            asm_comment("let A1 point to compund result used as procedure argument");
             mova(dest, A1);
 
             /* pop where offset */
@@ -765,7 +766,7 @@ void A1_result_pointer
 
          } else {
             /* Easy */
-            make_comment("let A1 point to compund result from eval. of call par.");
+            asm_comment("let A1 point to compund result from eval. of call par.");
             mova(dest, A1);
          }
 
@@ -774,7 +775,7 @@ void A1_result_pointer
       }
       else {
          /* Otherwise (easy) ... */
-         make_comment("let A1 point to compund result");
+         asm_comment("let A1 point to compund result");
          mova(dest, A1);
       }
    }
@@ -822,7 +823,7 @@ void apply_general_proc
 
    exp proc, caller_args, pcallees = 0, postlude = 0, callee_args = 0;
 
-   make_comment("Apply Proc");
+   asm_comment("Apply Proc");
 
    /* Find the procedure and the arguments */
 
@@ -883,7 +884,7 @@ void apply_general_proc
       }
 
       if (caller_args) {
-         make_comment("Push callers");
+         asm_comment("Push callers");
          push_args(zw(e), stack, caller_args);
       }
 
@@ -898,11 +899,11 @@ void apply_general_proc
          }
          else {
             if (callee_args) {
-               make_comment("Push static callees");
+               asm_comment("Push static callees");
                push_args(zw(e), stack, callee_args);
             }
             if (call_has_vcallees(pcallees)) {
-               make_comment("push size of callees on the stack");
+               asm_comment("push size of callees on the stack");
                stack_dec -= 32;
                stack_size -= 32;
 
@@ -919,7 +920,7 @@ void apply_general_proc
       stack_dec -= stkdec;
 
       if (caller_args) {
-         make_comment("Place callers on the stack");
+         asm_comment("Place callers on the stack");
          place_arguments(caller_args, stack, callees_size_total);
       }
       if (pcallees) {
@@ -931,11 +932,11 @@ void apply_general_proc
          }
          else {
             if (callee_args) {
-               make_comment("Place static callees on the stack");
+               asm_comment("Place static callees on the stack");
                place_arguments(callee_args, stack, size_size);
             }
             if (call_has_vcallees(pcallees)) {
-               make_comment("push size of callees on the stack");
+               asm_comment("push size of callees on the stack");
                op1 = make_value(callees_size / 8);
                op2 = make_indirect(REG_SP, 0);
                make_instr(m_movl, op1, op2, regmsk(REG_SP));
@@ -972,11 +973,11 @@ void apply_general_proc
 
    /* Move the result into place */
    if (comp_size) {
-      make_comment("(unwanted compound result)");
+      asm_comment("(unwanted compound result)");
    }
    else
    if (eq_where(dest, zero)) {
-      make_comment("(unwanted simple result)");
+      asm_comment("(unwanted simple result)");
    }
    else {
       /* ok the result is needed */
@@ -1002,11 +1003,11 @@ void apply_general_proc
 #endif
          }
       } else {
-         make_comment("(compound result)");
+         asm_comment("(compound result)");
          if (has_postlude) {
-            make_comment("save compound result before postlude...");
+            asm_comment("save compound result before postlude...");
             move(sh(e), dest, tmp_dest);
-            make_comment("save compound result before postlude done");
+            asm_comment("save compound result before postlude done");
          }
 
          /*
@@ -1031,9 +1032,9 @@ void apply_general_proc
 
       /* put return value back in register */
       if (push_result) {
-         make_comment("restore result after postlude...");
+         asm_comment("restore result after postlude...");
          move(sh(e), SP_p, dest);
-         make_comment("restore result after postlude done");
+         asm_comment("restore result after postlude done");
          dec_stack(-result_size);
          stack_dec += result_size;
       }
@@ -1173,7 +1174,7 @@ void tail_call
    long new_callees_size;
    bool use_push = 1;
 
-   make_comment("Tail Call");
+   asm_comment("Tail Call");
 
    update_stack();
 
@@ -1194,7 +1195,7 @@ void tail_call
       restore_regs(ALL);
 
       if (! cur_proc_has_vcallees  && call_has_vcallees(pcallees)) {
-         make_comment("push size of same static callees and ret.addr. on the stack");
+         asm_comment("push size of same static callees and ret.addr. on the stack");
          op1 = make_indirect(REG_SP, 0);
          op2 = make_register(REG_D0);
          make_instr(m_movl, op1, op2, regmsk(REG_SP));
@@ -1208,7 +1209,7 @@ void tail_call
          make_instr(m_movl, op1, op2, regmsk(REG_SP));
       }
       else if (cur_proc_has_vcallees  && ! call_has_vcallees(pcallees)) {
-         make_comment("remove size of same static callees from the stack");
+         asm_comment("remove size of same static callees from the stack");
          op1 = make_inc_sp();
          op2 = make_indirect(REG_SP, 0);
          make_instr(m_movl, op1, op2, regmsk(REG_SP));
@@ -1230,7 +1231,7 @@ void tail_call
     * No callees?
     */
    if (! callee_args) {
-      make_comment("save return address");
+      asm_comment("save return address");
       op1 = make_indirect(REG_AP, 4);
       op2 = make_register(REG_A1);
       make_instr(m_movl, op1, op2, regmsk(REG_D0));
@@ -1238,13 +1239,13 @@ void tail_call
       cleanup_bt(0,0);
 
       if (call_has_vcallees(pcallees)) {
-         make_comment("push zero size of callees on the stack");
+         asm_comment("push zero size of callees on the stack");
          op1 = make_value(0);
          op2 = make_dec_sp();
          make_instr(m_movl, op1, op2, regmsk(REG_SP));
       }
 
-      make_comment("push return address back");
+      asm_comment("push return address back");
       op1 = make_register(REG_A1);
       op2 = make_dec_sp();
       make_instr(m_movl, op1, op2, regmsk(REG_SP));
@@ -1260,7 +1261,7 @@ void tail_call
    if (! test_push_args(callee_args, &new_callees_size))use_push = 0;
 
    if (use_push) {
-      make_comment("Push callees");
+      asm_comment("Push callees");
       push_args(zw(e), stack, callee_args);
    }
    else {
@@ -1271,13 +1272,13 @@ void tail_call
    }
 
    if (call_has_vcallees(pcallees)) {
-      make_comment("push size of new callees on the stack");
+      asm_comment("push size of new callees on the stack");
       op1 = make_value(new_callees_size / 8);
       op2 = make_dec_sp();
       make_instr(m_movl, op1, op2, regmsk(REG_SP));
    }
 
-   make_comment("push return address");
+   asm_comment("push return address");
    op1 = make_indirect(REG_AP, 4);
    op2 = make_dec_sp();
    make_instr(m_movl, op1, op2, regmsk(REG_SP));
@@ -1287,12 +1288,12 @@ void tail_call
       We will use D1 & A0.
       */
 
-   make_comment("save end of new callees and return address");
+   asm_comment("save end of new callees and return address");
    op1 = make_register(REG_SP);
    op2 = make_register(REG_D1);
    make_instr(m_movl, op1, op2, regmsk(REG_D1));
 
-   make_comment("save start of new callees and return address");
+   asm_comment("save start of new callees and return address");
    op1 = make_register(REG_SP);
    op2 = make_register(REG_A0);
    make_instr(m_movl, op1, op2, regmsk(REG_A0));
@@ -1304,7 +1305,7 @@ void tail_call
 
    cleanup_bt(0,0);
 
-   make_comment("push the new callees");
+   asm_comment("push the new callees");
    push_range(REG_A0, REG_D1);
 
    /* make the jump instruction */
@@ -1338,7 +1339,7 @@ void general_epilogue
    bool d1_free;
    bool uses_link = 0;
 
-   make_comment("Epilogue");
+   asm_comment("Epilogue");
 
    /* restore the default floating point rounding mode */
    reset_round_mode();
@@ -1527,7 +1528,7 @@ void general_epilogue
    }
 
    if (uses_callers_pointer) {
-      make_comment("Variable callees => Get address of first caller");
+      asm_comment("Variable callees => Get address of first caller");
 
       regsinproc |= regmsk(REG_A5);
 
@@ -1564,7 +1565,7 @@ void general_epilogue
 static void code_postlude
 (exp postlude, exp callers, ash stack, long post_offset)
 {
-   make_comment("Postlude ...");
+   asm_comment("Postlude ...");
 
    /* mark parameters by use of the values calculated by gcproc */
    while (name(postlude) == ident_tag && name(son(postlude)) == caller_name_tag) {
@@ -1586,7 +1587,7 @@ static void code_postlude
    /* code the postlude */
    make_code(zero, stack, postlude);
 
-   make_comment("Postlude done");
+   asm_comment("Postlude done");
 }
 
 /*
@@ -1597,9 +1598,9 @@ void untidy_return
 {
    mach_op *op1, *op2;
 
-   make_comment("untidy return");
+   asm_comment("untidy return");
 
-   make_comment("push return address");
+   asm_comment("push return address");
    op1 = make_indirect(REG_AP, 4);
    op2 = make_dec_sp();
    make_instr(m_movl, op1, op2, regmsk(REG_SP));
@@ -1759,7 +1760,7 @@ void output_env_size
 {
    mach_op *op1, *op2;
 
-   make_comment("env_size comes here:");
+   asm_comment("env_size comes here:");
    op1 = make_lab_data((long)proc, 0);
    op2 = make_int_data(envsize);
    make_instr_aux(m_as_assign, op1, op2, 0, 0);

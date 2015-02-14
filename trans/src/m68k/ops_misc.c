@@ -23,6 +23,7 @@
 
 #include <main/flags.h>
 #include <main/driver.h>
+#include <main/print.h>
 
 #include <refactor/refactor.h>
 
@@ -180,7 +181,7 @@ checkalloc_stack(where sz, int do_alloc)
 {
 	int erlab = next_lab();
 	int cnlab = next_lab();
-	make_comment("check for stack overflow ...");
+	asm_comment("check for stack overflow ...");
 	ins2(m_movl, 32, 32, SP, D0, 1);
 	ins2(m_subl, 32, 32, sz, D0, 1);
 	make_jump(m_bcs, erlab);
@@ -192,7 +193,7 @@ checkalloc_stack(where sz, int do_alloc)
 	if (do_alloc) {
 		ins2(m_movl, 32, 32, D0, SP, 1);
 	}
-	make_comment("check for stack overflow done");
+	asm_comment("check for stack overflow done");
 }
 
 /*
@@ -469,7 +470,7 @@ cmp(shape sha, where var, where limit, long ntst)
 
 #if 0
 	if (name(sha) == ptrhd) {
-		make_comment("HACK shape size");
+		asm_comment("HACK shape size");
 		shape_size(sha) = 32;
 		sz = 32;
 	}
