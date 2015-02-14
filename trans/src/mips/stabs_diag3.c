@@ -94,16 +94,6 @@ symnosforfiles(void)
 
 }
 
-static void
-x(int i)
-{
-  if (i == EOF) {
-    error(ERROR_INTERNAL, "can't output");
-    exit (EXIT_FAILURE);
-  };
-  return;
-}
-
 void
 stab_file(int i)
 {	/* output .file directive for file i */
@@ -112,7 +102,7 @@ stab_file(int i)
     return;
   l = strlen (fds[i]->file.ints.chars);
   if (as_file) {
-    x (asm_printop(".file %d \"%s\"", file_dnos[i], fds[i]->file.ints.chars));
+    asm_printop(".file %d \"%s\"", file_dnos[i], fds[i]->file.ints.chars);
   }
   out_value (file_dnos[i], ifile, l, 0);
   out_data (fds[i]->file.ints.chars, l);
@@ -128,7 +118,7 @@ long  findex,
   if (findex==currentfile && lno==currentlno) return;
   stab_file (findex);
   if (as_file)
-    x (asm_printop(".loc %d %ld", file_dnos[findex], lno));
+    asm_printop(".loc %d %ld", file_dnos[findex], lno);
   out_loc (file_dnos[findex], lno);
   currentlno = lno;
 }
@@ -143,7 +133,7 @@ diagbr_open(long findex)
   symno = new_lsym_d(NULL, 0, stBlock, scText, (diag_type)0, currentfile);
   lexlev[0]++;
   if (as_file)
-    x (asm_printop(".bgnb %d", symno));
+    asm_printop(".bgnb %d", symno);
   out_ent (symno, ibgnb, 0);
 }
 
@@ -155,7 +145,7 @@ diagbr_close(long findex)
   symno = new_lsym_d(NULL, 0, stEnd, scText, (diag_type)0, currentfile);
   lexlev[0]--;
   if (as_file)
-    x (asm_printop(".endb %d", symno));
+    asm_printop(".endb %d", symno);
   out_ent (symno, iendb, 0);
 }
 
@@ -183,22 +173,21 @@ again:
 	sc = scRegister;
 	v = no (id);
 	if (as_file)
-	  x (asm_printf( " # %s is in $%ld\n", nm, v));
+	  asm_printf( " # %s is in $%ld\n", nm, v);
       }
       else
 	if ((props (id) & infreg_bits) != 0) {
 	  sc = scRegister;
 	  v = (no (id) << 1) + float_register;
 	  if (as_file)
-	    x (asm_printf( " # %s is in $f%ld\n", nm, v - float_register));
+	    asm_printf( " # %s is in $f%ld\n", nm, v - float_register);
 	}
 	else {
 	  v = ((no (id) & ~0x3f) >> 4) + (locals_offset >> 3) + disp / 8 - fs;
 	  sc = scAbs;
 	  if (as_file)
-	    x (asm_printf(
-		  " # %s is in %ld($fp)  == %ld($29)\n", nm,
-		  v, v + fs));
+	    asm_printf(" # %s is in %ld($fp)  == %ld($29)\n", nm,
+		  v, v + fs);
 
 	}
       IGNORE new_lsym_d (nm, v, (isparam(id))?stParam :stLocal, sc, dt, findex);
