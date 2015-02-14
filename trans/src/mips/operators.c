@@ -29,7 +29,7 @@
 #include "bitsmacs.h"
 #include "mips_ins.h"
 #include "operators.h"
-#include "psu_ops.h"
+#include "pseudo.h"
 
 bool testover = 0;		/* always 0 for C */
 

@@ -7,7 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/* psu_ops.c
+/*
 	Output various psuedo operations to assembler
 */
 
@@ -18,7 +18,7 @@
 
 #include "ibinasm.h"
 #include "out_ba.h"
-#include "psu_ops.h"
+#include "pseudo.h"
 
 void
 setnoreorder(void)

@@ -28,7 +28,7 @@
 #include <main/print.h>
 
 #include "addrtypes.h"
-#include "psu_ops.h"
+#include "pseudo.h"
 #include "regexps.h"
 #include "mips_ins.h"
 #include "ibinasm.h"

@@ -35,7 +35,7 @@
 #include "guard.h"
 #include "eval.h"
 #include "regexps.h"
-#include "psu_ops.h"
+#include "pseudo.h"
 #include "getregs.h"
 #include "move.h"
 #include "handle_sregs.h"

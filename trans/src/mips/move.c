@@ -34,7 +34,7 @@
 #include "procrectypes.h"
 #include "getregs.h"
 #include "labels.h"
-#include "psu_ops.h"
+#include "pseudo.h"
 #include "bitsmacs.h"
 #include "main.h"
 #include "guard.h"

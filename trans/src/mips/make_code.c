@@ -48,7 +48,7 @@
 #include "eval.h"
 #include "move.h"
 #include "operators.h"
-#include "psu_ops.h"
+#include "pseudo.h"
 #include "getregs.h"
 #include "guard.h"
 #include "locate.h"

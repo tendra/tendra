@@ -27,7 +27,7 @@
 
 #include "addrtypes.h"
 #include "move.h"
-#include "psu_ops.h"
+#include "pseudo.h"
 #include "getregs.h"
 #include "guard.h"
 #include "code_here.h"
