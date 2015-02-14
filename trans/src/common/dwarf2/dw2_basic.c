@@ -134,7 +134,7 @@ do_compunit_header(void)
 	aranges_end = next_dwarf_label();
 	enter_section("debug_info");
 	out_dwf_label(dw_info_start, 1);
-	outnl_comment("Compilation Unit Header");
+	asm_comment("Compilation Unit Header");
 	out32();
 	out_dwf_dist_to_label(info_end);
 	asm_printf("\n");
@@ -209,7 +209,7 @@ dw_sibling_end(void)
 {
 	out8();
 	uleb128((unsigned long)0);
-	outnl_comment("sibling end");
+	asm_comment("sibling end");
 	return;
 }
 
@@ -403,7 +403,7 @@ dw_no_locate(void)
 {
 	out8();
 	asm_printf("%d", 0);
-	outnl_comment("discarded variable");
+	asm_comment("discarded variable");
 	return;
 }
 

@@ -1496,11 +1496,11 @@ void dw2_out_name
 	  dw2_locate_exp (son(x), 0, 1);
 	}
 #endif
-	out32(); asm_printf("0, 0"); outnl_comment ("loclist end");
+	out32(); asm_printf("0, 0"); asm_comment("loclist end");
 	if (loclabext) {
 	  out_dwf_label (loclabext, 1);
 	  out_obj_extloclist (lstart, lend, x);
-	  out32(); asm_printf("0, 0"); outnl_comment ("extension end");
+	  out32(); asm_printf("0, 0"); asm_comment("extension end");
 	}
 	out_obj_shared_set (di);
 	exit_section ();

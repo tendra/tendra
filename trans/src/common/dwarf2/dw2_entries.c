@@ -17,6 +17,8 @@
 
 #include <reader/basicread.h>
 
+#include <main/print.h>
+
 static long empty[] = { -1 };
 
 static long x_variable[] = {
@@ -796,7 +798,7 @@ dw_entry(abbrev_entry en, long attr)
 	out8();
 	uleb128((unsigned long)d_tag);
 #if 1
-	outnl_comment_i(en.aname, (long)(d_tag - en.index));
+	asm_comment("%s %d", en.aname, d_tag - en.index);
 #else
 	d_outnl();
 #endif

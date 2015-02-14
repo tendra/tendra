@@ -48,8 +48,6 @@ extern void start_string(char * s);
 extern void end_string(void);
 extern void enter_section(char * s);
 extern void exit_section(void);
-extern void outnl_comment(char * s);
-extern void outnl_comment_i(char * s, long i);
 extern void out_dwf_label(long l, int set);
 extern void out_code_label(long l);
 extern void out_dwf_dist_to_label(long l);

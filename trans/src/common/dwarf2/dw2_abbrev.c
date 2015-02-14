@@ -37,7 +37,7 @@ set_abbrev_tag(abbrev_entry *en, int c, int tag_code, int has_children)
 	uleb128((unsigned long)tag_code);
 	asm_printf(", ");
 	asm_printf("%d", has_children ? DW_CHILDREN_yes : DW_CHILDREN_no);
-	outnl_comment_i(en->aname, (long)c);
+	asm_comment("%s %d", en->aname, c);
 	return;
 }
 

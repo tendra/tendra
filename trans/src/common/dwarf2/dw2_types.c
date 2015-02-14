@@ -440,7 +440,7 @@ void dw_out_type
       dg_tag tg = t->data.t_tag;
       if (tg->done || tg->key != DGK_NAME || tg->p.nam->key != DGN_TYPE) {
 	error(ERROR_INTERNAL, "unexpected out_type");
-	outnl_comment ("		ERROR");
+	asm_error();
 	break;
       }
       tg->done = 1;

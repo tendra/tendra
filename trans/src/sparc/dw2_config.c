@@ -87,18 +87,6 @@ void exit_section(void)
   return;
 }
 
-void outnl_comment(char *s)
-{
-  asm_comment("%s", s);
-  return;
-}
-
-void outnl_comment_i(char *s, long i)
-{
-  asm_comment("%s %ld", s, i);
-  return;
-}
-
 void out_dwf_label(long l, int set)
 {
   if (!l)

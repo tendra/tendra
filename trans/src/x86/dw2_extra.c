@@ -818,7 +818,7 @@ void dw2_cie
   cie_pointer = next_dwarf_label();
   cie_end = next_dwarf_label();
   enter_section("debug_frame");
-  outnl_comment("Common Information Entry");
+  asm_comment("Common Information Entry");
   out_dwf_label(cie_pointer, 1);
   out32(); out_dwf_dist_to_label(cie_end); asm_printf("\n");
   out32(); asm_printf("%d\n", DW_CIE_id);
@@ -888,7 +888,7 @@ long dw2_start_fde
   fde_end = next_dwarf_label();
   proc_end = next_dwarf_label();
   enter_section("debug_frame");
-  outnl_comment("Frame Descriptor Entry");
+  asm_comment("Frame Descriptor Entry");
   out32(); out_dwf_dist_to_label(fde_end); asm_printf("\n");
   out32(); out_dwf_label(cie_pointer, 0); asm_printf("\n");
   out32(); out_dwf_label(proc_start, 0); asm_printf("\n");

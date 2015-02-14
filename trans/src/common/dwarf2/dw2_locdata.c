@@ -745,7 +745,7 @@ out_obj_shared_set(dg_name dn)
 		}
 		out32();
 		asm_printf("0");
-		outnl_comment("share list end");
+		asm_comment("share list end");
 	}
 	return;
 }

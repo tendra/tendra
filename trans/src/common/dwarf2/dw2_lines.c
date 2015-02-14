@@ -66,7 +66,7 @@ do_statprog_prologue(long l_start, long l_end)
 	int i;
 	long prologue_end = next_dwarf_label();
 	enter_section("debug_line");
-	outnl_comment("Statement Program Prologue");
+	asm_comment("Statement Program Prologue");
 	out_dwf_label(l_start, 1);
 	out32();
 	out_dwf_dist_to_label(l_end);
@@ -133,7 +133,7 @@ do_statprog_prologue(long l_start, long l_end)
 			asm_printf("\n");
 			out8();
 			uleb128((unsigned long)(f_list->file_dat));
-			outnl_comment(ctime(&t));
+			asm_comment("%s", ctime(&t));
 			out8();
 			uleb128((unsigned long)0);	/* unknown length */
 			asm_printf("\n");
@@ -250,7 +250,7 @@ update_statprog(void)
 	} else {
 		asm_printf("%ld", special);
 	}
-	outnl_comment_i("Line", current_line);
+	asm_comment("Line %ld", current_line);
 	prev_line = current_line;
 	exit_section();
 	return;
