@@ -12,23 +12,6 @@
 #define CONFIG_H
 
 
-#if __TenDRA__
-#pragma TenDRA keyword SET for set
-#pragma TenDRA keyword UNUSED for discard variable
-#pragma TenDRA keyword IGNORE for discard value
-#pragma TenDRA keyword EXHAUSTIVE for exhaustive
-#pragma TenDRA keyword REACHED for set reachable
-#pragma TenDRA keyword UNREACHED for set unreachable
-#else
-#define SET(name)
-#define UNUSED(name)
-#define IGNORE			(void)
-#define EXHAUSTIVE
-#define REACHED
-#define UNREACHED
-#endif /* __TenDRA__ */
-
-
 /* Stuff that is currently required but really wants to die */
 typedef int boolean;
 

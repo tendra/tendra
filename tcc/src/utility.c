@@ -13,6 +13,7 @@
 #include <string.h>
 #include <stdarg.h>
 
+#include <shared/check.h>
 #include <shared/xalloc.h>
 
 #include "config.h"
