@@ -9,8 +9,10 @@
 
 #include <stdlib.h>
 
+#include <shared/check.h>
 #include <shared/error.h>
 #include <shared/xalloc.h>
+
 #include "errors.h"
 
 
@@ -84,8 +86,8 @@ destroy_errors(errors *p, unsigned sz)
 void
 dummy_destroy_errors(errors *p, unsigned sz)
 {
-	(void) p;
-	(void) sz;
+	UNUSED(p);
+	UNSUED(sz);
 
     return;
 }
