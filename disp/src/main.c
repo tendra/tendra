@@ -75,7 +75,7 @@ main(int argc, char **argv)
 			    IGNORE fprintf(stderr, ", TDF %d.%d",
 					     version_major, version_minor);
 			    IGNORE fprintf(stderr, " (tendra.org)\n");
-			    return;
+			    return 0;
 			}
 		    }
 		}
