@@ -221,7 +221,7 @@ diag_proc_begin(diag_descriptor *d, int global, int cname, char *pname)
 
   check_filename(d->data.id.whence);
 
-  asm_printf(" .def %d; .val %s; .scl %d; ",
+  asm_printf(" .def %s; .val %s; .scl %d; ",
 		d->data.id.nme.ints.chars, pname, global ? 2 : 3);
   typ = out_type(d->data.id.new_type->data.proc.result_type, 0);
   asm_printf(".type 0%o; .endef\n", typ.type + (typ.modifier << 6) + 32);
