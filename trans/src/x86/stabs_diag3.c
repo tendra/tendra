@@ -911,7 +911,7 @@ init_stab_aux(void)
 	stab_file((long)j, 0);
 	rewind(dg_file);
 	while (c = fgetc(dg_file), c != EOF) {
-		outc(c);
+		asm_printf("%c", c);
 	}
 	IGNORE fclose(dg_file);
 }
