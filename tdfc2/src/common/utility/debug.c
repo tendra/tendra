@@ -1542,10 +1542,6 @@ debug(c_class *p)
 	return;
 }
 
-#ifdef DEBUG
-#undef DEBUG
-#endif
-
 void
 DEBUG(c_class *p)
 {

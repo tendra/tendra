@@ -371,7 +371,7 @@ PRINT_list_cmd(FILE *f_, LIST(COMMAND) x_, char *nm_, int d_)
     return;
 }
 
-#ifdef DEBUG
+#ifndef NDEBUG
 
 void
 DEBUG_list_cmd(LIST(COMMAND) x_)
@@ -493,7 +493,7 @@ PRINT_cmd(FILE *f_, COMMAND x_, char *nm_, int d_)
     return;
 }
 
-#ifdef DEBUG
+#ifndef NDEBUG
 
 void
 DEBUG_cmd(COMMAND x_)
@@ -531,7 +531,7 @@ PRINT_list_ptr_map(FILE *f_, LIST(PTR(MAP)) x_, char *nm_, int d_)
     return;
 }
 
-#ifdef DEBUG
+#ifndef NDEBUG
 
 void
 DEBUG_list_ptr_map(LIST(PTR(MAP)) x_)
@@ -569,7 +569,7 @@ PRINT_list_ptr_fld(FILE *f_, LIST(PTR(FIELD)) x_, char *nm_, int d_)
     return;
 }
 
-#ifdef DEBUG
+#ifndef NDEBUG
 
 void
 DEBUG_list_ptr_fld(LIST(PTR(FIELD)) x_)
@@ -607,7 +607,7 @@ PRINT_list_ptr_arg(FILE *f_, LIST(PTR(ARGUMENT)) x_, char *nm_, int d_)
     return;
 }
 
-#ifdef DEBUG
+#ifndef NDEBUG
 
 void
 DEBUG_list_ptr_arg(LIST(PTR(ARGUMENT)) x_)
@@ -645,7 +645,7 @@ PRINT_list_ptr_cmp(FILE *f_, LIST(PTR(COMPONENT)) x_, char *nm_, int d_)
     return;
 }
 
-#ifdef DEBUG
+#ifndef NDEBUG
 
 void
 DEBUG_list_ptr_cmp(LIST(PTR(COMPONENT)) x_)
@@ -683,7 +683,7 @@ PRINT_list_ptr_ec(FILE *f_, LIST(PTR(ECONST)) x_, char *nm_, int d_)
     return;
 }
 
-#ifdef DEBUG
+#ifndef NDEBUG
 
 void
 DEBUG_list_ptr_ec(LIST(PTR(ECONST)) x_)
@@ -720,7 +720,7 @@ PRINT_alg(FILE *f_, ALGEBRA_DEFN x_, char *nm_, int d_)
     return;
 }
 
-#ifdef DEBUG
+#ifndef NDEBUG
 
 void
 DEBUG_alg(ALGEBRA_DEFN *x_)
@@ -758,7 +758,7 @@ PRINT_list_ptr_type(FILE *f_, LIST(PTR(TYPE)) x_, char *nm_, int d_)
     return;
 }
 
-#ifdef DEBUG
+#ifndef NDEBUG
 
 void
 DEBUG_list_ptr_type(LIST(PTR(TYPE)) x_)
@@ -796,7 +796,7 @@ PRINT_list_ptr_un(FILE *f_, LIST(PTR(UNION)) x_, char *nm_, int d_)
     return;
 }
 
-#ifdef DEBUG
+#ifndef NDEBUG
 
 void
 DEBUG_list_ptr_un(LIST(PTR(UNION)) x_)
@@ -834,7 +834,7 @@ PRINT_list_ptr_str(FILE *f_, LIST(PTR(STRUCTURE)) x_, char *nm_, int d_)
     return;
 }
 
-#ifdef DEBUG
+#ifndef NDEBUG
 
 void
 DEBUG_list_ptr_str(LIST(PTR(STRUCTURE)) x_)
@@ -872,7 +872,7 @@ PRINT_list_ptr_en(FILE *f_, LIST(PTR(ENUM)) x_, char *nm_, int d_)
     return;
 }
 
-#ifdef DEBUG
+#ifndef NDEBUG
 
 void
 DEBUG_list_ptr_en(LIST(PTR(ENUM)) x_)
@@ -910,7 +910,7 @@ PRINT_list_ptr_ident(FILE *f_, LIST(PTR(IDENTITY)) x_, char *nm_, int d_)
     return;
 }
 
-#ifdef DEBUG
+#ifndef NDEBUG
 
 void
 DEBUG_list_ptr_ident(LIST(PTR(IDENTITY)) x_)
@@ -948,7 +948,7 @@ PRINT_list_ptr_prim(FILE *f_, LIST(PTR(PRIMITIVE)) x_, char *nm_, int d_)
     return;
 }
 
-#ifdef DEBUG
+#ifndef NDEBUG
 
 void
 DEBUG_list_ptr_prim(LIST(PTR(PRIMITIVE)) x_)
@@ -985,7 +985,7 @@ PRINT_ptr_un(FILE *f_, PTR(UNION) x_, char *nm_, int d_)
     return;
 }
 
-#ifdef DEBUG
+#ifndef NDEBUG
 
 void
 DEBUG_ptr_un(PTR(UNION) x_)
@@ -1019,7 +1019,7 @@ PRINT_un(FILE *f_, UNION x_, char *nm_, int d_)
     return;
 }
 
-#ifdef DEBUG
+#ifndef NDEBUG
 
 void
 DEBUG_un(UNION *x_)
@@ -1056,7 +1056,7 @@ PRINT_ptr_ptr_type(FILE *f_, PTR(PTR(TYPE)) x_, char *nm_, int d_)
     return;
 }
 
-#ifdef DEBUG
+#ifndef NDEBUG
 
 void
 DEBUG_ptr_ptr_type(PTR(PTR(TYPE)) x_)
@@ -1093,7 +1093,7 @@ PRINT_ptr_type(FILE *f_, PTR(TYPE) x_, char *nm_, int d_)
     return;
 }
 
-#ifdef DEBUG
+#ifndef NDEBUG
 
 void
 DEBUG_ptr_type(PTR(TYPE) x_)
@@ -1414,7 +1414,7 @@ PRINT_type(FILE *f_, TYPE x_, char *nm_, int d_)
     return;
 }
 
-#ifdef DEBUG
+#ifndef NDEBUG
 
 void
 DEBUG_type(TYPE x_)
@@ -1451,7 +1451,7 @@ PRINT_ptr_str(FILE *f_, PTR(STRUCTURE) x_, char *nm_, int d_)
     return;
 }
 
-#ifdef DEBUG
+#ifndef NDEBUG
 
 void
 DEBUG_ptr_str(PTR(STRUCTURE) x_)
@@ -1483,7 +1483,7 @@ PRINT_str(FILE *f_, STRUCTURE x_, char *nm_, int d_)
     return;
 }
 
-#ifdef DEBUG
+#ifndef NDEBUG
 
 void
 DEBUG_str(STRUCTURE *x_)
@@ -1520,7 +1520,7 @@ PRINT_ptr_prim(FILE *f_, PTR(PRIMITIVE) x_, char *nm_, int d_)
     return;
 }
 
-#ifdef DEBUG
+#ifndef NDEBUG
 
 void
 DEBUG_ptr_prim(PTR(PRIMITIVE) x_)
@@ -1550,7 +1550,7 @@ PRINT_prim(FILE *f_, PRIMITIVE x_, char *nm_, int d_)
     return;
 }
 
-#ifdef DEBUG
+#ifndef NDEBUG
 
 void
 DEBUG_prim(PRIMITIVE *x_)
@@ -1587,7 +1587,7 @@ PRINT_ptr_map(FILE *f_, PTR(MAP) x_, char *nm_, int d_)
     return;
 }
 
-#ifdef DEBUG
+#ifndef NDEBUG
 
 void
 DEBUG_ptr_map(PTR(MAP) x_)
@@ -1619,7 +1619,7 @@ PRINT_map(FILE *f_, MAP x_, char *nm_, int d_)
     return;
 }
 
-#ifdef DEBUG
+#ifndef NDEBUG
 
 void
 DEBUG_map(MAP *x_)
@@ -1656,7 +1656,7 @@ PRINT_ptr_ident(FILE *f_, PTR(IDENTITY) x_, char *nm_, int d_)
     return;
 }
 
-#ifdef DEBUG
+#ifndef NDEBUG
 
 void
 DEBUG_ptr_ident(PTR(IDENTITY) x_)
@@ -1686,7 +1686,7 @@ PRINT_ident(FILE *f_, IDENTITY x_, char *nm_, int d_)
     return;
 }
 
-#ifdef DEBUG
+#ifndef NDEBUG
 
 void
 DEBUG_ident(IDENTITY *x_)
@@ -1723,7 +1723,7 @@ PRINT_ptr_fld(FILE *f_, PTR(FIELD) x_, char *nm_, int d_)
     return;
 }
 
-#ifdef DEBUG
+#ifndef NDEBUG
 
 void
 DEBUG_ptr_fld(PTR(FIELD) x_)
@@ -1757,7 +1757,7 @@ PRINT_fld(FILE *f_, FIELD x_, char *nm_, int d_)
     return;
 }
 
-#ifdef DEBUG
+#ifndef NDEBUG
 
 void
 DEBUG_fld(FIELD *x_)
@@ -1794,7 +1794,7 @@ PRINT_ptr_en(FILE *f_, PTR(ENUM) x_, char *nm_, int d_)
     return;
 }
 
-#ifdef DEBUG
+#ifndef NDEBUG
 
 void
 DEBUG_ptr_en(PTR(ENUM) x_)
@@ -1826,7 +1826,7 @@ PRINT_en(FILE *f_, ENUM x_, char *nm_, int d_)
     return;
 }
 
-#ifdef DEBUG
+#ifndef NDEBUG
 
 void
 DEBUG_en(ENUM *x_)
@@ -1863,7 +1863,7 @@ PRINT_ptr_ec(FILE *f_, PTR(ECONST) x_, char *nm_, int d_)
     return;
 }
 
-#ifdef DEBUG
+#ifndef NDEBUG
 
 void
 DEBUG_ptr_ec(PTR(ECONST) x_)
@@ -1893,7 +1893,7 @@ PRINT_ec(FILE *f_, ECONST x_, char *nm_, int d_)
     return;
 }
 
-#ifdef DEBUG
+#ifndef NDEBUG
 
 void
 DEBUG_ec(ECONST *x_)
@@ -1930,7 +1930,7 @@ PRINT_ptr_cmp(FILE *f_, PTR(COMPONENT) x_, char *nm_, int d_)
     return;
 }
 
-#ifdef DEBUG
+#ifndef NDEBUG
 
 void
 DEBUG_ptr_cmp(PTR(COMPONENT) x_)
@@ -1961,7 +1961,7 @@ PRINT_cmp(FILE *f_, COMPONENT x_, char *nm_, int d_)
     return;
 }
 
-#ifdef DEBUG
+#ifndef NDEBUG
 
 void
 DEBUG_cmp(COMPONENT *x_)
@@ -1998,7 +1998,7 @@ PRINT_ptr_ptr_cid(FILE *f_, PTR(PTR(CLASS_ID)) x_, char *nm_, int d_)
     return;
 }
 
-#ifdef DEBUG
+#ifndef NDEBUG
 
 void
 DEBUG_ptr_ptr_cid(PTR(PTR(CLASS_ID)) x_)
@@ -2035,7 +2035,7 @@ PRINT_ptr_cid(FILE *f_, PTR(CLASS_ID) x_, char *nm_, int d_)
     return;
 }
 
-#ifdef DEBUG
+#ifndef NDEBUG
 
 void
 DEBUG_ptr_cid(PTR(CLASS_ID) x_)
@@ -2068,7 +2068,7 @@ PRINT_cid(FILE *f_, CLASS_ID x_, char *nm_, int d_)
     return;
 }
 
-#ifdef DEBUG
+#ifndef NDEBUG
 
 void
 DEBUG_cid(CLASS_ID *x_)
@@ -2105,7 +2105,7 @@ PRINT_ptr_arg(FILE *f_, PTR(ARGUMENT) x_, char *nm_, int d_)
     return;
 }
 
-#ifdef DEBUG
+#ifndef NDEBUG
 
 void
 DEBUG_ptr_arg(PTR(ARGUMENT) x_)
@@ -2135,7 +2135,7 @@ PRINT_arg(FILE *f_, ARGUMENT x_, char *nm_, int d_)
     return;
 }
 
-#ifdef DEBUG
+#ifndef NDEBUG
 
 void
 DEBUG_arg(ARGUMENT *x_)
@@ -2172,7 +2172,7 @@ PRINT_ptr_string(FILE *f_, PTR(string) x_, char *nm_, int d_)
     return;
 }
 
-#ifdef DEBUG
+#ifndef NDEBUG
 
 void
 DEBUG_ptr_string(PTR(string) x_)
@@ -2209,7 +2209,7 @@ PRINT_ptr_number(FILE *f_, PTR(number) x_, char *nm_, int d_)
     return;
 }
 
-#ifdef DEBUG
+#ifndef NDEBUG
 
 void
 DEBUG_ptr_number(PTR(number) x_)
@@ -2246,7 +2246,7 @@ PRINT_ptr_int(FILE *f_, PTR(int) x_, char *nm_, int d_)
     return;
 }
 
-#ifdef DEBUG
+#ifndef NDEBUG
 
 void
 DEBUG_ptr_int(PTR(int) x_)
@@ -2274,7 +2274,7 @@ PRINT_string(FILE *f_, string x_, char *nm_, int d_)
     return;
 }
 
-#ifdef DEBUG
+#ifndef NDEBUG
 
 void
 DEBUG_string(string x_)
@@ -2302,7 +2302,7 @@ PRINT_number(FILE *f_, number x_, char *nm_, int d_)
     return;
 }
 
-#ifdef DEBUG
+#ifndef NDEBUG
 
 void
 DEBUG_number(number x_)
@@ -2330,7 +2330,7 @@ PRINT_int(FILE *f_, int x_, char *nm_, int d_)
     return;
 }
 
-#ifdef DEBUG
+#ifndef NDEBUG
 
 void
 DEBUG_int(int x_)

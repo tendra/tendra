@@ -41,7 +41,7 @@
 
 	<para>The program itself is well commented, so no lower level program documentation
 		has been provided.	When performing development work the producer
-		should be compiled with the <code>DEBUG</code> macro defined. This
+		should be compiled without the <code>NDEBUG</code> macro defined. This
 		enables the &calculus; run-time checks, along with other
 		assertions, and makes available the debugging routines,
 		<code>DEBUG_</code><emphasis>type</emphasis>,

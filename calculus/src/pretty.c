@@ -30,7 +30,7 @@
 #define OUTPUT_number(A, B)	fprintf((A), "%lu",(B))
 #define OUTPUT_string(A, B)	fprintf((A), "\"%s\"",(B))
 
-#ifndef DEBUG
+#ifdef NDEBUG
 #define BAD_PRINT_OP				0
 #define PRINT_alg(A, B, C, D)			assert(BAD_PRINT_OP)
 #define PRINT_list_ptr_en(A, B, C, D)		assert(BAD_PRINT_OP)

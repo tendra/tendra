@@ -45,7 +45,7 @@
     done in development mode.
 */
 
-#ifdef DEBUG
+#ifndef NDEBUG
 #include "syntax.h"
 #endif
 

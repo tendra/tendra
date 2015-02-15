@@ -18,11 +18,11 @@
  *  file 'INT64_types.h'.
  */
 
-#if DEBUG
+#ifndef NDEBUG
 #include <stdio.h>
 #endif
 
-#if DEBUG
+#ifndef NDEBUG
 #include <shared/check.h>
 #endif
 
@@ -33,7 +33,7 @@
 #endif
 
 #undef STATIC
-#ifndef DEBUG
+#ifdef NDEBUG
 #define STATIC static
 #else
 #define STATIC
@@ -61,7 +61,7 @@ static TDF_INT64 TDFUmult(TDF_INT64, TDF_INT64);
 static TDF_INT64 TDFUdiv_rem(TDF_INT64, TDF_INT64, UINT32);
 static TDF_INT64 TDFUshr(TDF_INT64, UINT32);
 
-#if DEBUG
+#ifndef NDEBUG
 INT64	make_INT64(INT32, UINT32);
 UINT64	make_UINT64(UINT32, UINT32);
 void 	INT64_print(char *,  INT64, char *);
@@ -1420,7 +1420,7 @@ __TDFUnot(UINT64 param_a)
 }
 
 
-#if DEBUG
+#ifndef NDEBUG
 
 INT64
 make_INT64(INT32 new_hi, UINT32 new_lo)
@@ -1444,6 +1444,12 @@ make_UINT64(UINT32 new_hi, UINT32 new_lo)
 	return UPARAM(new_int);
 }
 
+#if !defined(__TenDRA__)
+
+/*
+ * We can't print these when using the abstract interface.
+ */
+
 void
 INT64_print(char * t1, INT64 a, char *t2)
 {
@@ -1456,5 +1462,7 @@ UINT64_print(char * t1, UINT64 a, char * t2)
 	IGNORE printf("%s(%u,%u)%s", t1, (unsigned) a.hi32, (unsigned) a.lo32, t2);
 }
 
-#endif  /* DEBUG */
+#endif
+
+#endif  /* !NDEBUG */
 

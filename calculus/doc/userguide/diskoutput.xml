@@ -176,8 +176,8 @@ static int print_list_expand = 0;</programlisting>
 
 		<programlisting language="c">void DEBUG_type(t *);</programlisting>
 
-		<para>These debugging routines are only defined conditionally, if the macro
-			<code>DEBUG</code> is defined.</para>
+		<para>These debugging routines are only defined conditionally, if the
+			standard macro <code>NDEBUG</code> is not defined.</para>
 	</section>
 
 	<section id="diskalias">

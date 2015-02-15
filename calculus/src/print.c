@@ -398,7 +398,7 @@ print_action(char *dir)
 	    /* Debugging routine */
 	    if (extra_asserts) {
 		char *star = (is_struct ? "*" : "");
-		output("#ifdef DEBUG\n\n");
+		output("#ifndef NDEBUG\n\n");
 		output("void\n");
 		output("DEBUG_%TI(%TT %sx_)\n", t, t, star);
 		output("{\n    ");

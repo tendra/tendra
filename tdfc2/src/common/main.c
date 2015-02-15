@@ -148,7 +148,7 @@ static PROGRAM_ARG prog_args[] = {
     { 'u', 0, NULL, "unmangle identifier names" },
     { 'v', 0, NULL, "print version number" },
     { 'w', 0, NULL, "disable all warnings" },
-#ifdef DEBUG
+#ifndef NDEBUG
     { 'x', 1, "<debug>", "debugging options" },
 #endif
     { 'z', 0, NULL, "ignore compilation errors" },
@@ -269,7 +269,7 @@ process_args(int argc, char **argv)
     LIST(string)files = NULL_list(string);
 
     /* Set development default options */
-#ifdef DEBUG
+#ifndef NDEBUG
     output_tokdec = 1;
 #endif
 
@@ -685,7 +685,7 @@ process_args(int argc, char **argv)
 			break;
 		    }
 
-#ifdef DEBUG
+#ifndef NDEBUG
 		    case 'x': {
 			/* Debug options */
 			debug_option(arg);
