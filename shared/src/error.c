@@ -49,18 +49,21 @@ set_progname(const char *nm, const char *vers)
 void
 report_version(FILE *f)
 {
-	const char *nm = progname;
+	const char *nm   = progname;
 	const char *vers = progvers;
 	const char *tver = "";
 
-	if (nm == NULL)
+	if (nm == NULL) {
 		nm = "unknown";
+	}
 
-	if (vers == NULL)
+	if (vers == NULL) {
 		vers = "unknown";
+	}
 
-	if (RELEASE[0] != '\0')
+	if (RELEASE[0] != '\0') {
 		tver = " " RELEASE;
+	}
 
 	(void) fprintf(f, "%s: Version %s%s (tendra.org)\n", nm, vers, tver);
 }
@@ -84,51 +87,59 @@ error_msg(enum error_severity e, const char *fn, int ln, const char *s, va_list 
 		abort();
 	}
 
-	if (progname)
+	if (progname != NULL) {
 		(void) fprintf(stderr, "%s: ", progname);
+	}
 
 	switch (e) {
 	case ERR_WARN:
 		(void) fprintf(stderr, "Warning: ");
 		break;
+
 	case ERR_FATAL:
 		(void) fprintf(stderr, "Fatal: ");
 		exit_status = EXIT_FAILURE;
 		break;
+
 	case ERR_USAGE:
 		(void) fprintf(stderr, "Usage: ");
 		exit_status = EXIT_FAILURE;
 		break;
+
 	case ERR_INTERNAL:
 		(void) fprintf(stderr, "Internal Error: ");
 		exit_status = EXIT_FAILURE;
 		number_errors++;
 		break;
+
 	case ERR_SERIOUS:
 		(void) fprintf(stderr, "Error: ");
 		exit_status = EXIT_FAILURE;
 		number_errors++;
 		break;
+
 	default:
 		(void) fprintf(stderr, "Unknown error level");
 		abort();
 	}
 
-	if (fn) {
+	if (fn != NULL) {
 		(void) fprintf(stderr, "%s: ", fn);
-		if (ln != -1)
+		if (ln != -1) {
 			(void) fprintf(stderr, "line %d: ", ln);
+		}
 	}
 
 	(void) vefprintf(stderr, s, args);
 	(void) fprintf(stderr, "\n");
 
-	if (e == ERR_FATAL || e == ERR_USAGE)
+	if (e == ERR_FATAL || e == ERR_USAGE) {
 		exit(exit_status);
+	}
 
-	if (number_errors >= maximum_errors && maximum_errors)
-		error(ERR_FATAL, "Too many errors (%d) - aborting",
-		    number_errors);
+	if (number_errors >= maximum_errors && maximum_errors) {
+		error(ERR_FATAL, "Too many errors (%d) - aborting", number_errors);
+	}
 }
 
 /*
@@ -173,7 +184,10 @@ error_posn(enum error_severity e, const char *fn, int ln, const char *s, ...)
 void
 assertion(const char *s, const char *file, int line)
 {
-    if (progname) fprintf(stderr, "%s: ", progname);
+    if (progname != NULL) {
+		fprintf(stderr, "%s: ", progname);
+	}
+
     fprintf(stderr, "Assertion: %s: line %d: '%s'.\n", file, line, s);
     abort();
 }
