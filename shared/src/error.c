@@ -77,16 +77,6 @@ report_version(FILE *f)
 static void
 error_msg(enum error_severity e, const char *fn, int ln, const char *s, va_list args)
 {
-	if (e == ERROR_NONE) {
-		/*
-		 * XXX: This used to just switch all error reporting off,
-		 * but it doesn't seem to be used anywhere except in the
-		 * producer. Will see if it errors out
-		 */
-		(void) fprintf(stderr, "error_msg called with ERROR_NONE");
-		abort();
-	}
-
 	if (progname != NULL) {
 		(void) fprintf(stderr, "%s: ", progname);
 	}
