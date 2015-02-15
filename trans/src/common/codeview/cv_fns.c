@@ -18,6 +18,7 @@
 #include <diag3/diagglob.h>
 #include <diag3/diaginfo1.h>
 #include <diag3/diag_reform.h>
+#include <diag3/mark_scope.h>
 
 #include <main/driver.h>
 #include <main/print.h>
