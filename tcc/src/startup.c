@@ -66,7 +66,7 @@ add_to_startup(const char *fmt, ...)
 	if (startup_file == NULL) {
 		assert(startup_name == NULL);
 
-		startup_file = temp_fopen(a, sizeof a, tempdir, STARTUP_NAME, "a");
+		startup_file = temp_fopen(a, sizeof a, STARTUP_NAME, "a");
 		if (startup_file == NULL) {
 			return;
 		}
@@ -103,7 +103,7 @@ add_to_endup(const char *fmt, ...)
 	if (endup_file == NULL) {
 		assert(endup_name == NULL);
 
-		endup_file = temp_fopen(a, sizeof a, tempdir, ENDUP_NAME, "a");
+		endup_file = temp_fopen(a, sizeof a, ENDUP_NAME, "a");
 		if (endup_file == NULL) {
 			return;
 		}
@@ -140,7 +140,7 @@ add_to_tokdef(const char *fmt, ...)
 	if (tokdef_file == NULL) {
 		assert(tokdef_name == NULL);
 
-		tokdef_file = temp_fopen(a, sizeof a, tempdir, TOKDEF_NAME, "a");
+		tokdef_file = temp_fopen(a, sizeof a, TOKDEF_NAME, "a");
 		if (tokdef_file == NULL) {
 			return;
 		}

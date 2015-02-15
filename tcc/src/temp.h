@@ -14,7 +14,7 @@
 
 extern const char *temp_mkdir(const char *, const char *);
 extern FILE *temp_fopen(char *buf, size_t bufsz,
-	const char *tempdir, const char *name, const char *mode);
+	const char *name, const char *mode);
 
 #endif
 

@@ -109,11 +109,10 @@ temp_mkdir(const char *dir, const char *prefix)
  */
 
 FILE *
-temp_fopen(char *buf, size_t bufsz, const char *dir, const char *name, const char *mode)
+temp_fopen(char *buf, size_t bufsz, const char *name, const char *mode)
 {
 	FILE *f;
 
-	assert(dir != NULL);
 	assert(name != NULL);
 	assert(*name != '\0');
 
