@@ -410,7 +410,7 @@ cont_sib_chain1(int d_tag, char *tag_name)
 	enter_dwarf_entry(&SIB_TOS);
 	next_dwarf_lab(&SIB_TOS);
 	asm_comment("sibling chain level");
-	asm_printf("%d\n", (long)dwarf_sib_stk_ptr);
+	asm_printf("%d\n", dwarf_sib_stk_ptr);
 
 	OUT_DWARF_TAG_NAMED(d_tag, tag_name);
 	OUT_DWARF_ATTR(AT_sibling);
@@ -427,7 +427,7 @@ end_sib_chain(void)
 	   leave blk */
 	enter_dwarf_entry(&SIB_TOS);
 	asm_comment("end sibling chain level");
-	asm_printf("%d\n", (long)dwarf_sib_stk_ptr);
+	asm_printf("%d\n", dwarf_sib_stk_ptr);
 	leave_dwarf_blk();
 	SIB_POP;
 }
