@@ -12,8 +12,8 @@
 #define ERROR_INCLUDED
 
 
-#define ERROR_WHATEVER		0
-#define ERROR_NONE		1
+#define ERR_WHATEVER		0
+#define ERR_NONE		1
 #define ERR_WARN		2
 #define ERROR_OPTION		3
 #define ERR_SERIOUS		4

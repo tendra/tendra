@@ -465,7 +465,7 @@ is_tagged_type(IDENTIFIER id)
 static int
 overload_error(IDENTIFIER id, ERROR err, int reason)
 {
-	int sev = ERROR_NONE;
+	int sev = ERR_NONE;
 	switch (reason) {
 	case 1:
 		/* Two functions with C linkage */

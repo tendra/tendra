@@ -118,7 +118,7 @@ int exit_status = EXIT_SUCCESS;
 unsigned long number_errors = 0;
 unsigned long number_warnings = 0;
 unsigned long max_errors = 32;
-int error_threshold = ERROR_NONE;
+int error_threshold = ERR_NONE;
 int no_error_args = 0;
 int verbose = 0;
 static int print_short = 0;
@@ -509,17 +509,17 @@ print_error_end(FILE *f, int sev)
 */
 
 int error_severity[] = {
-	ERROR_NONE,			/* OPTION_OFF */
+	ERR_NONE,			/* OPTION_OFF */
 	ERR_WARN,			/* OPTION_WARN */
 	ERR_SERIOUS,			/* OPTION_ON */
-	ERROR_WHATEVER			/* OPTION_WHATEVER */
+	ERR_WHATEVER			/* OPTION_WHATEVER */
 };
 
 int default_severity[] = {
-	ERROR_NONE,			/* OPTION_OFF */
+	ERR_NONE,			/* OPTION_OFF */
 	ERR_WARN,			/* OPTION_WARN */
 	ERR_SERIOUS,			/* OPTION_ON */
-	ERROR_WHATEVER			/* OPTION_WHATEVER */
+	ERR_WHATEVER			/* OPTION_WHATEVER */
 };
 
 
@@ -551,7 +551,7 @@ make_error(int n, ...) /* VARARGS */
 		opt = OPT_CATALOG[msg->usage].def[0];
 	}
 	sev = error_severity[opt];
-	if (sev == ERROR_NONE) {
+	if (sev == ERR_NONE) {
 		va_end(args);
 		return NULL_err;
 	}
@@ -906,7 +906,7 @@ print_error_msg(ERROR e, LOCATION *loc, FILE *f)
 		ERR_DATA *msg = ERR_CATALOG + n;
 		ERR_PROPS props = msg->props;
 		int sev = DEREF_int(err_severity(e));
-		if (sev == ERROR_WHATEVER && print_short) return;
+		if (sev == ERR_WHATEVER && print_short) return;
 		bf = clear_buffer(&print_buff, f);
 		if (loc)bfprintf(bf, MESSAGE_START);
 		if (print_error_name) {

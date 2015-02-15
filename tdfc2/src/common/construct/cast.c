@@ -1955,7 +1955,7 @@ EXP
 cast_token(TYPE t, EXP a, ERROR *err, ERROR err2, unsigned cast)
 {
 	EXP e = NULL_exp;
-	int sev = ERROR_NONE;
+	int sev = ERR_NONE;
 	if (!IS_NULL_err(err2)) {
 		sev = DEREF_int(err_severity(err2));
 	}

@@ -370,7 +370,7 @@ set_severity(ERROR err, int n, int set)
 				}
 			}
 		}
-		if (e == ERROR_NONE) {
+		if (e == ERR_NONE) {
 			/* Option off - return null error */
 			destroy_error(err, 1);
 			err = NULL_err;
@@ -610,7 +610,7 @@ default_lab: {
 				     p->opt[n] = new_opt;
 				     action_option(n, opt, 0);
 			     }
-			     if (sev != ERROR_WHATEVER) {
+			     if (sev != ERR_WHATEVER) {
 				     /* Option already set in this scope */
 				     string s = ustrlit(OPT_CATALOG[n].name);
 				     ERROR err = ERR_pragma_scope_set(s);
@@ -888,7 +888,7 @@ new_option(HASHID nm, OPTIONS *q, int n)
 		OPTION *qo = q->opt;
 		for (i = 0; i < CATALOG_SIZE; i++) {
 			*(po++) = *(qo++);
-			*(ps++) = ERROR_WHATEVER;
+			*(ps++) = ERR_WHATEVER;
 		}
 	} else {
 		/* Use standard scope */
@@ -949,7 +949,7 @@ end_option(int expl)
 			real_opts = q;
 			crt_opt = q->opt;
 			for (i = 0; i < CATALOG_SIZE; i++) {
-				if (p->set[i]!= ERROR_WHATEVER) {
+				if (p->set[i]!= ERR_WHATEVER) {
 					/* Restore old option value */
 					OPTION opt_old = p->opt[i];
 					OPTION opt_new = q->opt[i];
@@ -1000,7 +1000,7 @@ use_mode(OPTIONS *p, int e)
 		new_linkage = ds;
 	}
 	for (i = 0; i < CATALOG_SIZE; i++) {
-		if (p->set[i]!= ERROR_WHATEVER && OPT_CATALOG[i].scoped) {
+		if (p->set[i]!= ERR_WHATEVER && OPT_CATALOG[i].scoped) {
 			OPTION new_opt = p->opt[i];
 			OPTION old_opt = q->opt[i];
 			if (new_opt != old_opt) {
@@ -1008,7 +1008,7 @@ use_mode(OPTIONS *p, int e)
 				q->opt[i] = new_opt;
 				action_option(i,(unsigned)new_opt, 0);
 			}
-			if (q->set[i]!= ERROR_WHATEVER && e != ERROR_NONE) {
+			if (q->set[i]!= ERR_WHATEVER && e != ERR_NONE) {
 				/* Option already set in this scope */
 				string s = ustrlit(OPT_CATALOG[i].name);
 				ERROR err = ERR_pragma_scope_set(s);
