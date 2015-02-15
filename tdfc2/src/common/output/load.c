@@ -10,6 +10,7 @@
 #define _POSIX_SOURCE
 
 #include <assert.h>
+#include <stdio.h>
 
 #include <sys/types.h>
 #include <sys/stat.h>

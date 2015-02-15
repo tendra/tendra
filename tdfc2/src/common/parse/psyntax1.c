@@ -20,6 +20,8 @@
 #define __SID_SPLIT
 #line 193 "psyntax.act"
 
+#include <stdio.h>
+
 #include <shared/check.h>
 
 #include "config.h"

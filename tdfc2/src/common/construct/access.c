@@ -7,6 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <stdio.h>
+
 #include <shared/check.h>
 
 #include "config.h"

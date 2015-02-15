@@ -10,6 +10,7 @@
 #include <assert.h>
 #include <limits.h>
 #include <stdarg.h>
+#include <stdio.h>
 
 #include "config.h"
 #include "c_types.h"
