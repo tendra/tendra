@@ -16,6 +16,10 @@ TPLOPTS=	-I${.CURDIR}
 .include <tendra.tpl.mk>
 
 
+.if exists(${BASE_DIR}/include)
+TCCOPTS+=	-I ${BASE_DIR}/include
+.endif
+
 ${OBJ_SDIR}/int64a.j: int64a.c
 	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Compiling ${.ALLSRC}"
