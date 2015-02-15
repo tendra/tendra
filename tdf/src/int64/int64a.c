@@ -22,6 +22,10 @@
 #include <stdio.h>
 #endif
 
+#if DEBUG
+#include <shared/check.h>
+#endif
+
 #if defined(__TenDRA__)
 #include "abstract.h"
 #else
