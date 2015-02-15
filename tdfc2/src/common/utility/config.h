@@ -66,12 +66,6 @@ typedef unsigned long gen_size ;
 
 
 /*
-    ASSERTION MACROS
-
-    These macros are used in connection with the assertion routines.  If
-    the macro DEBUG is defined then assertions will be included in the
-    program
-
     The standard __FILE__ and __LINE__ macros are defined to dummy values
     for the benefit of compilers which do not define them.
 */
