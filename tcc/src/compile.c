@@ -10,6 +10,7 @@
 
 #include <stdio.h>
 
+#include <shared/bool.h>
 #include <shared/error.h>
 
 #include "config.h"
@@ -178,7 +179,7 @@ as_source_lab:
 			break;
 		}
 		if (p && p->storage != INPUT_FILE && p->aux == NULL) {
-			boolean have_spec = 0;
+			bool have_spec = 0;
 			filename *p_archive = p;
 			enum filetype t = p->type;
 			if (t == BINARY_OBJ && table_keep(t) &&
@@ -214,7 +215,7 @@ as_source_lab:
 static filename *
 apply_tdf_link(filename *p)
 {
-	static boolean tried = 0;
+	static bool tried = 0;
 	if (p == NULL || table_stop(INDEP_TDF)) {
 		return p;
 	}
@@ -411,7 +412,7 @@ apply_compile(filename *input, int produce)
 			break;
 		}
 		if (p && p->storage != INPUT_FILE && p->aux == NULL) {
-			boolean have_spec = 0;
+			bool have_spec = 0;
 			filename *p_archive = p;
 			if (spec_of(p_archive, p_archive->next)) {
 				p_archive = p_archive->next;
@@ -521,7 +522,7 @@ apply_link(filename *input)
 	if (last_return) {
 		/* If the linking failed, keep the .o files */
 		filename *q = input;
-		boolean b = table_keep(BINARY_OBJ);
+		bool b = table_keep(BINARY_OBJ);
 		filetype_table[BINARY_OBJ].keep = FTK_TC;
 		p = NULL;
 		while (q != NULL) {

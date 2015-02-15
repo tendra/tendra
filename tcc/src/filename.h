@@ -98,7 +98,7 @@ typedef struct filename_t {
 	int uniq;
 	enum filetype type;
 	enum file_storage storage;
-	boolean final;
+	bool final;
 	struct filename_t *aux;
 	struct filename_t *next;
 } filename;
@@ -123,8 +123,8 @@ extern const char *workdir;
  * These variables are used to pass information to and from find_filename.
  */
 
-extern boolean case_insensitive;
-extern boolean option_next;
+extern bool case_insensitive;
+extern bool option_next;
 extern int no_input_files;
 
 

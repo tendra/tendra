@@ -16,6 +16,7 @@
 #include <string.h>
 #include <ctype.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
 #include <shared/string.h>
@@ -37,7 +38,7 @@
  * This flag may be set to true to make tcc ignore case in filename suffixes.
  */
 
-boolean case_insensitive = 0;
+bool case_insensitive = 0;
 
 
 /*
@@ -340,7 +341,7 @@ file_suffix(int t)
  * actually an input option.
  */
 
-boolean option_next = 0;
+bool option_next = 0;
 
 
 /*
@@ -495,7 +496,7 @@ where(enum filetype t)
 filename *
 make_filename(filename *p, enum filetype t, enum file_storage s)
 {
-	boolean f = 0;
+	bool f = 0;
 	char *e;
 	const char *d = NULL;
 	const char *b = NULL;
@@ -512,7 +513,7 @@ make_filename(filename *p, enum filetype t, enum file_storage s)
 	case OUTPUT_FILE:
 		/* Check output file name */
 		if (final_name) {
-			static boolean used_final_name = 0;
+			static bool used_final_name = 0;
 			if (used_final_name) {
 				error(ERR_WARN,
 				      "Can only name one file with '-o'");

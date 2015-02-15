@@ -55,21 +55,21 @@ extern const char **env_paths;
  * These variables control the behaviour of tcc.
  */
 
-extern boolean api_checks;
-extern boolean checker;
-extern boolean dry_run;
-extern boolean env_dump;
-extern boolean link_specs;
-extern boolean make_up_names;
-extern boolean show_api;
-extern boolean show_errors;
-extern boolean suffix_overrides;
-extern boolean taciturn;
-extern boolean tidy_up;
-extern boolean tool_chain;
-extern boolean tool_chain_environ;
-extern boolean verbose;
-extern boolean warnings;
+extern bool api_checks;
+extern bool checker;
+extern bool dry_run;
+extern bool env_dump;
+extern bool link_specs;
+extern bool make_up_names;
+extern bool show_api;
+extern bool show_errors;
+extern bool suffix_overrides;
+extern bool taciturn;
+extern bool tidy_up;
+extern bool tool_chain;
+extern bool tool_chain_environ;
+extern bool verbose;
+extern bool warnings;
 
 
 /*
@@ -78,21 +78,21 @@ extern boolean warnings;
  * These variables control the overall flow of the compilation.
  */
 
-extern boolean make_archive;
-extern boolean make_complex;
-extern boolean make_preproc;
-extern boolean make_pretty;
-extern boolean make_tspec;
-extern boolean use_assembler;
-extern boolean use_binasm;
-extern boolean use_hp_linker;
-extern boolean use_sparc_cc;
-extern boolean use_system_cc;
-extern boolean use_dynlink;
-extern boolean allow_cpp;
-extern boolean allow_notation;
-extern boolean allow_pl_tdf;
-extern boolean allow_specs;
+extern bool make_archive;
+extern bool make_complex;
+extern bool make_preproc;
+extern bool make_pretty;
+extern bool make_tspec;
+extern bool use_assembler;
+extern bool use_binasm;
+extern bool use_hp_linker;
+extern bool use_sparc_cc;
+extern bool use_system_cc;
+extern bool use_dynlink;
+extern bool allow_cpp;
+extern bool allow_notation;
+extern bool allow_pl_tdf;
+extern bool allow_specs;
 
 
 
@@ -119,16 +119,16 @@ extern boolean allow_specs;
  * integrated into the main scheme of things.
  */
 
-extern boolean flag_diag;
-extern boolean flag_incl;
-extern boolean flag_keep_err;
-extern boolean flag_merge_all;
-extern boolean flag_nepc;
-extern boolean flag_no_files;
-extern boolean flag_optim;
-extern boolean flag_prof;
-extern boolean flag_startup;
-extern boolean flag_strip;
+extern bool flag_diag;
+extern bool flag_incl;
+extern bool flag_keep_err;
+extern bool flag_merge_all;
+extern bool flag_nepc;
+extern bool flag_no_files;
+extern bool flag_optim;
+extern bool flag_prof;
+extern bool flag_startup;
+extern bool flag_strip;
 
 
 #endif /* FLAGS_H */

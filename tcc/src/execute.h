@@ -39,7 +39,7 @@ extern filename *execute(filename *, filename *);
 
 extern const char	*last_command;
 extern int	 last_return;
-extern boolean	 exec_error;
+extern bool	 exec_error;
 
 
 #endif /* EXECUTE_H */

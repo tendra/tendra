@@ -12,9 +12,6 @@
 #define CONFIG_H
 
 
-/* Stuff that is currently required but really wants to die */
-typedef int boolean;
-
 #define streq(X, Y)	(strcmp((X), (Y)) == 0)
 #define strneq(X, Y, Z)	(strncmp((X), (Y), (size_t)(Z)) == 0)
 #define MAX_LINE	1024

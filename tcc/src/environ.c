@@ -13,6 +13,7 @@
 #include <string.h>
 #include <errno.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
 #include <shared/string.h>

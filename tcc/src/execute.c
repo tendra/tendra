@@ -18,6 +18,7 @@
 #include <signal.h>
 #include <unistd.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
 #include <shared/string.h>
@@ -191,7 +192,7 @@ cmd_env(const char *name)
  * This flag is true is an execution error occurs.
  */
 
-boolean exec_error = 0;
+bool exec_error = 0;
 
 void
 reset_exec_error(void)
@@ -310,7 +311,7 @@ execute(filename *input, filename *output)
 {
 	const char *cmd;
 	int err = 0;
-	boolean filled_buff = 0;
+	bool filled_buff = 0;
 	char buff[buffer_size];
 
 	cmd_string(NULL);

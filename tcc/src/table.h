@@ -85,13 +85,13 @@ struct filetype_table {
 	 * run as the checker, tcc will consider this filetype unrecognised if this
 	 * is false.
 	 */
-	boolean checker;
+	bool checker;
 
 	/*
 	 * True if this filetype's key is a stage identifier as well as being a
 	 * suffix; false indicates a suffix. Stage identifiers are a superset.
 	 */
-	boolean stage;
+	bool stage;
 
 	/* TODO more fields to come here. move in content from various lookup functions */
 };
@@ -128,10 +128,10 @@ char table_key(enum filetype type);
 enum filetype
 table_findbykey(char key);
 
-boolean
+bool
 table_checker(enum filetype type);
 
-boolean
+bool
 table_stage(enum filetype type);
 
 #endif

@@ -17,6 +17,7 @@
 #include <errno.h>
 #include <limits.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
 #include <shared/string.h>
@@ -49,10 +50,10 @@
  * TDF archive.
  */
 enum filetype archive_type = TDF_ARCHIVE; /* XXX: global */
-static boolean archive_full = 1;
-static boolean archive_links = 0;
-static boolean archive_names = 1;
-static boolean archive_options = 1;
+static bool archive_full = 1;
+static bool archive_links = 0;
+static bool archive_names = 1;
+static bool archive_options = 1;
 
 
 /*
@@ -344,7 +345,7 @@ build_archive(const char *arch, const char **input)
 {
     FILE *f;
     const char **s;
-    boolean end = 0;
+    bool end = 0;
     if (dry_run) {
 	    return 0;
     }
@@ -439,11 +440,11 @@ build_archive(const char *arch, const char **input)
 int
 split_archive(const char *arch, filename **ret)
 {
-    boolean go = 1;
+    bool go = 1;
     char *emsg = NULL;
     filename *q = NULL;
     filename *output = NULL;
-    boolean need_moves = 0;
+    bool need_moves = 0;
 
     /* Open archive file */
     FILE *f = fopen(arch, "rb");

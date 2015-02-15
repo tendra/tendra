@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
 #include <shared/string.h>
@@ -193,7 +194,7 @@ struct optmap main_optmap[] = {
  * This flag indicates whether option interpreter debugging information should
  * be printed.
  */
-static boolean debug_options = 0;
+static bool debug_options = 0;
 
 
 /*
@@ -201,7 +202,7 @@ static boolean debug_options = 0;
  *
  * These values may be used for temporary storage by the option interpreter.
  */
-static boolean xx_bool = 0;
+static bool xx_bool = 0;
 static const char *xx_string = NULL;
 
 
@@ -215,14 +216,14 @@ static void
 special_option(void)
 {
 	size_t i;
-	boolean b = 1;
+	bool b = 1;
 	const char *s = xx_string;
 
 	struct {
-		boolean notchecker;
-		boolean dump;
+		bool notchecker;
+		bool dump;
 		const char *s;
-		boolean *b;
+		bool *b;
 	} t[] = {
 		{ 0, 0, "cpp",      &allow_cpp      },
 		{ 1, 0, "tnc",      &allow_notation },
@@ -266,16 +267,16 @@ special_option(void)
  * CONVERT A TWO LETTER CODE INTO A BOOLEAN
  *
  * This routine takes a two letter code, s, and returns a pointer to the
- * corresponding boolean variable.
+ * corresponding bool variable.
  */
-static boolean *
+static bool *
 lookup_bool(const char *s)
 {
 	size_t i;
 
 	struct {
 		char *s;
-		boolean *b;
+		bool *b;
 	} t[] = {
 		{ "AC", &api_checks          },
 		{ "AR", &make_archive        },
@@ -329,7 +330,7 @@ lookup_bool(const char *s)
 		}
 	}
 
-	error(ERR_USAGE, "Unknown boolean identifier, '%.2s'", s);
+	error(ERR_USAGE, "Unknown bool identifier, '%.2s'", s);
 	return NULL;
 }
 
@@ -347,7 +348,7 @@ lookup_env(const char *s)
 	size_t i;
 
 	struct {
-		boolean checkeronly;
+		bool checkeronly;
 		char s[3];
 		const char *envvar;
 	} t[] = {
@@ -862,7 +863,7 @@ match_option(char *in, char *out, const char *opt, args_out *res)
 				break;
 
 			case 'B': {
-				const boolean *b = lookup_bool(p + 1);
+				const bool *b = lookup_bool(p + 1);
 				if (b == NULL) return MATCH_OUT_ERR;
 				IGNORE sprintf(q, "%d", (int) *b);
 				while (*q) q++;
@@ -954,11 +955,11 @@ interpret_cmd(const char *cmd, enum hash_precedence precedence)
 
 	/* Digits set values */
 	if (c >= '0' && c <= '9') {
-		boolean *b = lookup_bool(cmd + 1);
+		bool *b = lookup_bool(cmd + 1);
 		if (b == NULL) {
 			return;
 		}
-		*b = (boolean)(c - '0');
+		*b = (bool)(c - '0');
 		return;
 	}
 
@@ -976,7 +977,7 @@ interpret_cmd(const char *cmd, enum hash_precedence precedence)
 			}
 			comment(1, "%s=\"%s\"\n", cmd + 4, *sp);
 		} else if (cmd[1] == '!') {
-			const boolean *bp = lookup_bool(cmd + 2);
+			const bool *bp = lookup_bool(cmd + 2);
 			if (bp == NULL) {
 				return;
 			}
@@ -1191,7 +1192,7 @@ interpret_cmd(const char *cmd, enum hash_precedence precedence)
 	case 'V':
 		switch (cmd[1]) {
 		case 'B': {
-			boolean *b = lookup_bool(cmd + 2);
+			bool *b = lookup_bool(cmd + 2);
 			if (b == NULL) {
 				return;
 			}

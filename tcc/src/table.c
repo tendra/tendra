@@ -30,6 +30,8 @@
  *
  */
 
+#include <shared/bool.h>
+
 #include <assert.h>
 #include <stddef.h>
 
@@ -67,7 +69,7 @@ struct filetype_table filetype_table[TYPE_ARRAY_SIZE] = {
 	{ 'b', BINARY_OBJ_AUX,    FTK_FC, FTK_FC, FTK_FC, NULL,  0, 0 }
 };
 
-boolean
+bool
 table_isdummy(enum filetype type) {
 	return type > UNKNOWN_TYPE;
 }
@@ -110,7 +112,7 @@ table_findbykey(char key) {
 	return UNKNOWN_TYPE;
 }
 
-boolean
+bool
 table_checker(enum filetype type) {
 	assert(type != UNKNOWN_TYPE);
 	assert(type != EXECUTABLE);
@@ -119,7 +121,7 @@ table_checker(enum filetype type) {
 	return filetype_table[type].checker;
 }
 
-boolean
+bool
 table_stage(enum filetype type) {
 	assert(type != UNKNOWN_TYPE);
 	assert(type != EXECUTABLE);

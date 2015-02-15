@@ -7,6 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <shared/bool.h>
 #include <shared/error.h>
 
 #include "config.h"
@@ -52,21 +53,21 @@ const char *dev_null = NULL;
  * we be running in verbose mode?
  */
 
-boolean api_checks = 0;
-boolean checker = 0;
-boolean dry_run = 0;
-boolean env_dump = 0;
-boolean link_specs = 1;
-boolean make_up_names = 0;
-boolean show_api = 0;
-boolean show_errors = 0;
-boolean suffix_overrides = 0;
-boolean taciturn = 0;
-boolean tidy_up = 0;
-boolean tool_chain = 0;
-boolean tool_chain_environ = 0;
-boolean verbose = 0;
-boolean warnings = 1;
+bool api_checks = 0;
+bool checker = 0;
+bool dry_run = 0;
+bool env_dump = 0;
+bool link_specs = 1;
+bool make_up_names = 0;
+bool show_api = 0;
+bool show_errors = 0;
+bool suffix_overrides = 0;
+bool taciturn = 0;
+bool tidy_up = 0;
+bool tool_chain = 0;
+bool tool_chain_environ = 0;
+bool verbose = 0;
+bool warnings = 1;
 
 
 /*
@@ -77,21 +78,21 @@ boolean warnings = 1;
  */
 
 
-boolean make_archive = 0;
-boolean make_complex = 0;
-boolean make_preproc = 0;
-boolean make_pretty = 0;
-boolean make_tspec = 0;
-boolean use_assembler = 1;
-boolean use_binasm = 0;
-boolean use_hp_linker = 0;
-boolean use_dynlink = 0;
-boolean use_sparc_cc = 0;
-boolean use_system_cc = 0;
-boolean allow_cpp = 0;
-boolean allow_notation = 0;
-boolean allow_pl_tdf = 0;
-boolean allow_specs = 0;
+bool make_archive = 0;
+bool make_complex = 0;
+bool make_preproc = 0;
+bool make_pretty = 0;
+bool make_tspec = 0;
+bool use_assembler = 1;
+bool use_binasm = 0;
+bool use_hp_linker = 0;
+bool use_dynlink = 0;
+bool use_sparc_cc = 0;
+bool use_system_cc = 0;
+bool allow_cpp = 0;
+bool allow_notation = 0;
+bool allow_pl_tdf = 0;
+bool allow_specs = 0;
 
 
 static enum filetype_keep keep_all = FTK_FC;
@@ -101,7 +102,7 @@ static enum filetype_keep keep_all = FTK_FC;
  * binary object files should be kept when more than one input file is given
  * (this is for cc compatibility).
  */
-static boolean keep_ofiles = 1;
+static bool keep_ofiles = 1;
 
 
 /*
@@ -111,16 +112,16 @@ static boolean keep_ofiles = 1;
  * integrated into the main scheme of things.
  */
 
-boolean flag_diag = 0;
-boolean flag_keep_err = 0;
-boolean flag_incl = 0;
-boolean flag_merge_all = 0;
-boolean flag_nepc = 0;
-boolean flag_no_files = 0;
-boolean flag_optim = 0;
-boolean flag_prof = 0;
-boolean flag_startup = 1;
-boolean flag_strip = 0;
+bool flag_diag = 0;
+bool flag_keep_err = 0;
+bool flag_incl = 0;
+bool flag_merge_all = 0;
+bool flag_nepc = 0;
+bool flag_no_files = 0;
+bool flag_optim = 0;
+bool flag_prof = 0;
+bool flag_startup = 1;
+bool flag_strip = 0;
 
 
 /*
@@ -135,7 +136,7 @@ void
 set_stage(enum filetype t, int k)
 {
 	if (t == ALL_TYPES) {
-		boolean ks = table_keep(STARTUP_FILE);
+		bool ks = table_keep(STARTUP_FILE);
 		if (k == STOP_STAGE || k == STOP_ONLY_STAGE) {
 			error(ERR_WARN, "Illegal stop option");
 		} else if (k == KEEP_STAGE) {
@@ -245,9 +246,9 @@ void
 update_options(void)
 {
 	char *mode = NULL;
-	static boolean done_diag = 0;
-	static boolean done_preproc = 0;
-	static boolean done_prof = 0;
+	static bool done_diag = 0;
+	static bool done_preproc = 0;
+	static bool done_prof = 0;
 
 	/* Process archive options */
 	process_archive_opt();
