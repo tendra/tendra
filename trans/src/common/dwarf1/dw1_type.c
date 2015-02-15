@@ -23,6 +23,7 @@
 
 #include <main/driver.h>
 #include <main/flags.h>
+#include <main/print.h>
 
 #include <dwarf1/dw1_consts.h>
 #include <dwarf1/dw1_types.h>
