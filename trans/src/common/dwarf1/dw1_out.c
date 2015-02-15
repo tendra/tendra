@@ -141,6 +141,7 @@ error need elf section swapping code
 
 #define BYTE4_F		"\t"BYTE4S"\t%s"
 #define BYTE2_F	"\t"BYTE2S "\t%#x"
+#define BYTE2_S	"\t"BYTE2S "\t%s"
 #define BYTE_F	"\t"BYTE "\t%#x"
 #define STRING_M	"\t"STRING"\t"
 #define STRING_F	STRING_M"\"%s\""
@@ -187,7 +188,7 @@ out_dwarf_string(const char * const s)
 void
 dwarf2(char *c)
 {
-	asm_printf(BYTE2_F "\n", c);
+	asm_printf(BYTE2_S "\n", c);
 }
 
 
