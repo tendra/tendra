@@ -1222,8 +1222,7 @@ commentary(IDENTIFIER id)
 
 /*
     The routine assertion prints the assertion s which occurred at the
-    location given by file and line.  The routine is_true is used to
-    check whether the condition of an assertion is false.
+    location given by file and line.
 */
 
 #ifdef ASSERTS
@@ -1236,12 +1235,6 @@ assertion(const char *s, const char *file, int line)
 	fprintf_v(f, "  %s, %s: line %d.\n\n", s, file, line);
 	error_break();
 	abort();
-}
-
-int
-is_true(int c)
-{
-	return c;
 }
 
 #endif

@@ -59,9 +59,8 @@ extern FILE *error_file;
 
 
 #ifdef ASSERTS
-extern int is_true(int);
 extern void assertion(const char *, const char *, int);
-#define ASSERT(A)	if (is_true(!(A)))\
+#define ASSERT(A)	if (!(A))\
 			    assertion(#A, __FILE__, __LINE__)
 #define FAIL(A)		assertion(#A, __FILE__, __LINE__)
 #else
