@@ -7,6 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <assert.h>
 #include <limits.h>
 
 #include "config.h"
@@ -612,7 +613,7 @@ dump_nat(NAT n, int neg)
 {
 	if (!IS_NULL_nat(n)) {
 		FILE *f = dump_file;
-		ASSERT(ORDER_nat == 5);
+		assert(ORDER_nat == 5);
 		switch (TAG_nat(n)) {
 		case nat_small_tag: {
 			/* Small literals */
@@ -690,7 +691,7 @@ static void
 dump_sort(TOKEN tok)
 {
 	FILE *f = dump_file;
-	ASSERT(ORDER_tok == 10);
+	assert(ORDER_tok == 10);
 	switch (TAG_tok(tok)) {
 	case tok_exp_tag: {
 		/* Expression tokens */
@@ -817,7 +818,7 @@ static void
 dump_itype(INT_TYPE it)
 {
 	FILE *f = dump_file;
-	ASSERT(ORDER_itype == 6);
+	assert(ORDER_itype == 6);
 	switch (TAG_itype(it)) {
 	case itype_basic_tag: {
 		/* Basic integral types */
@@ -888,7 +889,7 @@ static void
 dump_ftype(FLOAT_TYPE ft)
 {
 	FILE *f = dump_file;
-	ASSERT(ORDER_ftype == 4);
+	assert(ORDER_ftype == 4);
 	switch (TAG_ftype(ft)) {
 	case ftype_basic_tag: {
 		/* Basic floating types */
@@ -1013,7 +1014,7 @@ dump_type(TYPE t)
 		}
 		}
 	}
-	ASSERT(ORDER_type == 18);
+	assert(ORDER_type == 18);
 	switch (TAG_type(t)) {
 
 	case type_pre_tag: {
@@ -1267,7 +1268,7 @@ dump_tok_appl(IDENTIFIER id, LIST(TOKEN)args)
 			TOKEN arg = DEREF_tok(HEAD_list(args));
 			fputc_v(MANGLE_comma, f);
 			if (!IS_NULL_tok(arg)) {
-				ASSERT(ORDER_tok == 10);
+				assert(ORDER_tok == 10);
 				switch (TAG_tok(arg)) {
 				case tok_exp_tag: {
 					EXP e = DEREF_exp(tok_exp_value(arg));

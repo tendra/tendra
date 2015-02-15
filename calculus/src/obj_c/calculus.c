@@ -7,6 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <assert.h>
 #include <stdlib.h>
 
 #include <shared/error.h>
@@ -58,8 +59,8 @@ gen_calculus(unsigned sz)
 {
     calculus *p;
     unsigned n = sz;
-    ASSERT(array_size(free_calculus_array) == calculus_GEN_MAX);
-    ASSERT(n != 0);
+    assert(array_size(free_calculus_array) == calculus_GEN_MAX);
+    assert(n != 0);
 
     if (n < calculus_GEN_MAX) {
 	/* Allocate from small block array */
@@ -93,7 +94,7 @@ void
 destroy_calculus(calculus *p, unsigned sz)
 {
     unsigned n = sz;
-    ASSERT(n != 0);
+    assert(n != 0);
     if (p && n < calculus_GEN_MAX) {
 	TAIL_list(p) = free_calculus_array[n];
 	free_calculus_array[n] = p;
@@ -255,7 +256,7 @@ void
 set_calculus_alias(calculus *p, unsigned n)
 {
     calculus *q;
-    ASSERT(p != NULL);
+    assert(p != NULL);
     q = gen_calculus((unsigned)2);
     TAIL_list(q) = crt_alias_list;
     HEAD_list(q)->ag_ptr = p;

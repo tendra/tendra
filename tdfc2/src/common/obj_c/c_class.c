@@ -7,6 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <assert.h>
 
 #include "config.h"
 #include "c_types.h"
@@ -95,7 +96,7 @@ gen_c_class(unsigned sz)
 #ifdef RUNTIME
 #define clean_c_class(P, Z)\
     {\
-	ASSERT(TYPEID(P) != TYPEID_free);\
+	assert(TYPEID(P) != TYPEID_free);\
 	TYPEID(P) = TYPEID_free ;\
 	total_c_classes -= (Z);\
     }
@@ -125,7 +126,7 @@ debug_c_class(unsigned sz, unsigned t)
 		p = free_c_class_array[n];
 		if (p) {
 			free_c_class_array[n] = TAIL_list(p);
-			ASSERT(TYPEID(p) == TYPEID_free);
+			assert(TYPEID(p) == TYPEID_free);
 			TYPEID(p) = t;
 			return p;
 		}
@@ -323,7 +324,7 @@ set_c_class_alias(c_class *p, unsigned n)
 	c_class *q = GEN_c_class(2, TYPEID_list);
 	TAIL_list(q) = crt_alias_list;
 	HEAD_list(q) ->ag_ptr = p;
-	ASSERT(p != NULL);
+	assert(p != NULL);
 	p->ag_tag = n;
 	crt_alias_list = q;
 	return;

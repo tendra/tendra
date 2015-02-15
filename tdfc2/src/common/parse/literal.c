@@ -7,6 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <assert.h>
 #include <limits.h>
 
 #include "config.h"
@@ -385,7 +386,7 @@ init_literal(void)
 	int b, s;
 	BUILTIN_TYPE n;
 	OPTION opt = option(OPT_int_overflow);
-	ASSERT(!IS_NULL_type(type_char));
+	assert(!IS_NULL_type(type_char));
 
 	/* String and character literal types */
 	type_mchar_lit = type_sint;

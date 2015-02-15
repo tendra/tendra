@@ -7,6 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <assert.h>
 
 #include "config.h"
 #include "system.h"
@@ -191,7 +192,7 @@ token_parts(int t, PPTOKEN *p)
 		int i;
 		string s1 = token_buff.start;
 		string s2 = p->pp_data.buff;
-		ASSERT(MULTI_WIDTH <= sizeof(p->pp_data.buff));
+		assert(MULTI_WIDTH <= sizeof(p->pp_data.buff));
 		for (i = 0; i < MULTI_WIDTH; i++)s2[i] = s1[i];
 		break;
 	}

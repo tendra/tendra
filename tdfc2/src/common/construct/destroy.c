@@ -7,6 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <assert.h>
 
 #include "config.h"
 #include "c_types.h"
@@ -93,7 +94,7 @@ free_offset(OFFSET off, int force)
 	if (IS_NULL_off(off)) {
 		return;
 	}
-	ASSERT(ORDER_off == 13);
+	assert(ORDER_off == 13);
 	switch (TAG_off(off)) {
 	case off_zero_tag: {
 		TYPE t;
@@ -207,7 +208,7 @@ free_exp(EXP e, int force)
 	COPY_type(exp_type(e), NULL_type);
 
 	/* Deal with the various cases */
-	ASSERT(ORDER_exp == 88);
+	assert(ORDER_exp == 88);
 	switch (TAG_exp(e)) {
 	case exp_identifier_tag:
 	case exp_member_tag:

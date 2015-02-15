@@ -7,6 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <assert.h>
+
 #include "config.h"
 
 #include "c_types.h"
@@ -149,7 +151,7 @@ int
 print_exp_aux(EXP e, int paren, BUFFER *bf, int sp)
 {
 	if (!IS_NULL_exp(e)) {
-		ASSERT(ORDER_exp == 88);
+		assert(ORDER_exp == 88);
 		if (paren) {
 			sp = print_lex(lex_open_Hround, bf, sp);
 		}
@@ -583,7 +585,7 @@ print_stmt(EXP e, int indent, int block, FILE *f)
 		print_indent(indent, ";\n", f);
 		return;
 	}
-	ASSERT(ORDER_exp == 88);
+	assert(ORDER_exp == 88);
 	switch (TAG_exp(e)) {
 	case exp_sequence_tag: {
 		/* Compound statements */

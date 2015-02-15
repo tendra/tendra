@@ -7,6 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <assert.h>
+
 #include "config.h"
 #include "version.h"
 #include "c_types.h"
@@ -235,7 +237,7 @@ enc_nat(BITSTREAM *bs, NAT n, int intro)
 		ENC_make_nat(bs);
 		ENC_INT_SMALL(bs, 0);
 	} else {
-		ASSERT(ORDER_nat == 5);
+		assert(ORDER_nat == 5);
 		switch (TAG_nat(n)) {
 		case nat_small_tag: {
 			unsigned v = DEREF_unsigned(nat_small_value(n));
@@ -295,7 +297,7 @@ enc_snat(BITSTREAM *bs, NAT n, int sgn, int intro)
 		ENC_OFF(bs);
 		ENC_INT_SMALL(bs, 0);
 	} else {
-		ASSERT(ORDER_nat == 5);
+		assert(ORDER_nat == 5);
 		switch (TAG_nat(n)) {
 		case nat_small_tag: {
 			unsigned v = DEREF_unsigned(nat_small_value(n));
@@ -724,7 +726,7 @@ enc_var_no(BITSTREAM *bs, INT_TYPE it, int alt)
 {
 	ulong tok;
 	unsigned tag = TAG_itype(it);
-	ASSERT(ORDER_itype == 6);
+	assert(ORDER_itype == 6);
 	switch (tag) {
 	case itype_basic_tag: {
 		/* Built-in integral types */
@@ -841,7 +843,7 @@ enc_variety(BITSTREAM *bs, TYPE t)
 	unsigned tag = TAG_itype(it);
 	ulong tok = DEREF_ulong(itype_itok(it));
 	if (tok == LINK_NONE) {
-		ASSERT(ORDER_itype == 6);
+		assert(ORDER_itype == 6);
 		switch (tag) {
 		case itype_basic_tag: {
 			/* Built-in integral types */
@@ -938,7 +940,7 @@ enc_flvar_no(BITSTREAM *bs, FLOAT_TYPE ft)
 {
 	ulong tok;
 	unsigned tag = TAG_ftype(ft);
-	ASSERT(ORDER_ftype == 4);
+	assert(ORDER_ftype == 4);
 	switch (tag) {
 	case ftype_basic_tag: {
 		/* Built-in floating types */
@@ -1364,7 +1366,7 @@ enc_offset(BITSTREAM *bs, OFFSET off)
 		bs = enc_alignment(bs, type_sint);
 		return bs;
 	}
-	ASSERT(ORDER_off == 13);
+	assert(ORDER_off == 13);
 	switch (TAG_off(off)) {
 	case off_zero_tag: {
 		/* Zero offsets */
@@ -1543,7 +1545,7 @@ enc_add_ptr(BITSTREAM *bs, EXP a, ulong n, OFFSET off, int virt)
 		}
 		return bs;
 	}
-	ASSERT(ORDER_off == 13);
+	assert(ORDER_off == 13);
 	switch (TAG_off(off)) {
 	case off_base_tag: {
 		/* Base class offsets */
@@ -1629,7 +1631,7 @@ enc_shape(BITSTREAM *bs, TYPE t)
 		/* This shouldn't happen */
 		t = type_sint;
 	}
-	ASSERT(ORDER_type == 18);
+	assert(ORDER_type == 18);
 	switch (TAG_type(t)) {
 	case type_integer_tag:
 	case type_enumerate_tag: {

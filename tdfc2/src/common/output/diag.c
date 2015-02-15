@@ -7,6 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <assert.h>
 
 #include "config.h"
 #include "version.h"
@@ -502,7 +503,7 @@ enc_diag_type(BITSTREAM *bs, TYPE t, int qual)
 			return bs;
 		}
 	}
-	ASSERT(ORDER_type == 18);
+	assert(ORDER_type == 18);
 	switch (TAG_type(t)) {
 	case type_integer_tag: {
 		/* Integral types */

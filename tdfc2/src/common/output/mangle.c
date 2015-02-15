@@ -7,6 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <assert.h>
 
 #include "config.h"
 #include <limits.h>
@@ -301,7 +302,7 @@ static void
 mangle_exp(BUFFER *bf, EXP e, int rec)
 {
 	if (!IS_NULL_exp(e)) {
-		ASSERT(ORDER_exp == 88);
+		assert(ORDER_exp == 88);
 		switch (TAG_exp(e)) {
 		case exp_identifier_tag:
 		case exp_member_tag:

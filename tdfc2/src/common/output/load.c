@@ -7,8 +7,9 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
 #define _POSIX_SOURCE
+
+#include <assert.h>
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -230,7 +231,7 @@ load_hashid(BITSTREAM *bs, NAMESPACE ns)
 	if (n) {
 		if (n <= ORDER_hashid) {
 			unsigned tag = n - 1;
-			ASSERT(ORDER_hashid == 7);
+			assert(ORDER_hashid == 7);
 			switch (tag) {
 			case hashid_name_tag:
 			case hashid_ename_tag: {
@@ -447,7 +448,7 @@ load_nat(BITSTREAM *bs)
 		SPEC_ERROR();
 		return m;
 	}
-	ASSERT(ORDER_nat == 5);
+	assert(ORDER_nat == 5);
 	switch (n - 1) {
 	case nat_small_tag: {
 		unsigned long v = DE_INT(bs);
@@ -706,7 +707,7 @@ load_ftype(BITSTREAM *bs, CV_SPEC cv)
 		SPEC_ERROR();
 		return t;
 	}
-	ASSERT(ORDER_ftype == 4);
+	assert(ORDER_ftype == 4);
 	switch (n - 1) {
 	case ftype_basic_tag: {
 		BUILTIN_TYPE nt = load_ntype(bs);
@@ -994,7 +995,7 @@ load_type(BITSTREAM *bs, IDENTIFIER def)
 	cv = load_cv(bs);
 
 	/* Read type dependent fields */
-	ASSERT(ORDER_type == 18);
+	assert(ORDER_type == 18);
 	switch (tag) {
 
 	case type_pre_tag: {
@@ -1234,7 +1235,7 @@ load_tok(BITSTREAM *bs, int def)
 		SPEC_ERROR();
 		return tok;
 	}
-	ASSERT(ORDER_tok == 10);
+	assert(ORDER_tok == 10);
 	tag = n - 1;
 	switch (tag) {
 	case tok_exp_tag: {
@@ -1436,7 +1437,7 @@ load_id(BITSTREAM *bs, NAMESPACE ns)
 	}
 
 	/* Read identifier dependent information */
-	ASSERT(ORDER_id == 28);
+	assert(ORDER_id == 28);
 	switch (tag) {
 
 	case id_dummy_tag: {

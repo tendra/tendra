@@ -7,6 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <assert.h>
 #include <string.h>
 #include <stdio.h>
 
@@ -1789,7 +1790,7 @@ print_union_ops_c(char *dir, char *un)
 	    output("1\n\n");
 	    print_field_c(sz, -1, 0, al);
 	}
-	ASSERT(DEREF_int(fld_tag(CRT_FIELD)) == tag);
+	assert(DEREF_int(fld_tag(CRT_FIELD)) == tag);
 	tag++;
     }
 

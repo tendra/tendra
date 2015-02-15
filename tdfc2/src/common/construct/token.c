@@ -7,6 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <assert.h>
 
 #include "config.h"
 #include <limits.h>
@@ -1229,7 +1230,7 @@ expand_type(TYPE t, int rec)
 		return NULL_type;
 	}
 	cv = DEREF_cv(type_qual(t));
-	ASSERT(ORDER_type == 18);
+	assert(ORDER_type == 18);
 	switch (TAG_type(t)) {
 	case type_integer_tag: {
 		/* Integral types */
@@ -1918,7 +1919,7 @@ eq_tok(TOKEN a, TOKEN b)
 	}
 
 	/* Compare token components */
-	ASSERT(ORDER_tok == 10);
+	assert(ORDER_tok == 10);
 	switch (na) {
 	case tok_exp_tag: {
 		/* Expression tokens */

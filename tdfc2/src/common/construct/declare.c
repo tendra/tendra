@@ -7,6 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <assert.h>
+
 #include "config.h"
 #include "c_types.h"
 #include "ctype_ops.h"
@@ -354,7 +356,7 @@ bad_auto_lab:
 		/* More than one storage class - select one */
 		DECL_SPEC nst = dspec_static;
 		while (!(st & nst)) {
-			ASSERT(nst != dspec_none);
+			assert(nst != dspec_none);
 			nst <<= 1;
 		}
 		report(crt_loc, ERR_dcl_stc_dup(st, nst));

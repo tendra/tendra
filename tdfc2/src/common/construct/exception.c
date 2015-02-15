@@ -7,6 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <assert.h>
 
 #include "config.h"
 #include "c_types.h"
@@ -303,7 +304,7 @@ eq_except(TYPE s, TYPE t)
 	if (ns != nt) {
 		return 2;
 	}
-	ASSERT(ORDER_type == 18);
+	assert(ORDER_type == 18);
 	switch (ns) {
 	case type_func_tag: {
 		/* Function types */

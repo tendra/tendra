@@ -7,6 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <assert.h>
 
 #include "config.h"
 #include "c_types.h"
@@ -181,7 +182,7 @@ lookup_name(string s, unsigned long h, int ext, int tok)
 	unsigned long len;
 	HASHID prev = NULL_hashid;
 	HASHID nm = hash_table[h];
-	ASSERT(h == hash(s));
+	assert(h == hash(s));
 
 	/* Search through existing entries */
 	while (!IS_NULL_hashid(nm)) {
@@ -260,7 +261,7 @@ lookup_special(TYPE t, IDENTIFIER id, unsigned tag)
 	}
 
 	/* Create new hash table entry */
-	ASSERT(h < HASH_SIZE);
+	assert(h < HASH_SIZE);
 	MAKE_hashid_constr_etc(tag, prev, h, t, id, nm);
 	init_hashid(nm, lex_identifier);
 	hash_type_table[h] = nm;
@@ -622,6 +623,6 @@ init_hash(void)
 	}
 
 	/* This is necessary for the definition of KEYWORD */
-	ASSERT(FIRST_KEYWORD == lex_auto);
+	assert(FIRST_KEYWORD == lex_auto);
 	return;
 }

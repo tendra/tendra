@@ -238,18 +238,4 @@ extern "C" {
 }
 
 
-/*
-    ASSERTIONS
-
-    These macros may be used in debugging mode to catch internal run-time
-    errors.
-*/
-
-#ifdef DEBUG
-#define ASSERT( X )	if ( !( X ) ) __TCPPLUS_assert ( __FILE__, __LINE__ )
-#else
-#define ASSERT( X )
-#endif
-
-
 #endif

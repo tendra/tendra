@@ -7,6 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <assert.h>
+
 #include "config.h"
 
 #include "version.h"
@@ -492,7 +494,7 @@ enc_addr_exp(BITSTREAM *bs, TYPE t, EXP e)
 		int bf = 0;
 		bs = enc_cont_op(bs, s, &bf);
 		bs = enc_shape(bs, s);
-		ASSERT(bf == 0);
+		assert(bf == 0);
 	}
 	ENC_obtain_tag(bs);
 	ENC_make_tag(bs, n);
@@ -1169,7 +1171,7 @@ enc_ptr_mem(BITSTREAM *bs, TYPE t, IDENTIFIER id, GRAPH gr)
 	if (IS_id_mem_func(id)) {
 		DECL_SPEC ds = DEREF_dspec(id_storage(id));
 		CLASS_TYPE ct = DEREF_ctype(type_ptr_mem_of(t));
-		ASSERT(!(ds & dspec_inherit));
+		assert(!(ds & dspec_inherit));
 		if (ds & dspec_virtual) {
 			/* Virtual member function */
 			ulong m;
@@ -2189,7 +2191,7 @@ enc_exp(BITSTREAM *bs, EXP e)
 
 	/* Examine expression cases */
 	t = DEREF_type(exp_type(e));
-	ASSERT(ORDER_exp == 88);
+	assert(ORDER_exp == 88);
 	switch (TAG_exp(e)) {
 
 	case exp_identifier_tag: {

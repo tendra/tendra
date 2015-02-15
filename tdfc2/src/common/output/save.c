@@ -7,6 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <assert.h>
 
 #include "config.h"
 #include "version.h"
@@ -166,7 +167,7 @@ save_hashid(BITSTREAM *bs, HASHID nm, NAMESPACE ns)
 	} else {
 		unsigned tag = TAG_hashid(nm);
 		ENC_BITS(bs, BITS_hashid, tag + 1);
-		ASSERT(ORDER_hashid == 7);
+		assert(ORDER_hashid == 7);
 		switch (tag) {
 		case hashid_name_tag:
 		case hashid_ename_tag: {
@@ -312,7 +313,7 @@ save_nat(BITSTREAM *bs, NAT n)
 	}
 	tag = TAG_nat(n);
 	ENC_BITS(bs, BITS_nat, tag + 1);
-	ASSERT(ORDER_nat == 5);
+	assert(ORDER_nat == 5);
 	switch (tag) {
 	case nat_small_tag: {
 		unsigned v = DEREF_unsigned(nat_small_value(n));
@@ -418,7 +419,7 @@ save_itype(BITSTREAM *bs, INT_TYPE it)
 	}
 	tag = TAG_itype(it);
 	ENC_BITS(bs, BITS_itype, tag + 1);
-	ASSERT(ORDER_itype == 6);
+	assert(ORDER_itype == 6);
 	switch (tag) {
 	case itype_basic_tag: {
 		BUILTIN_TYPE nt = DEREF_ntype(itype_basic_no(it));
@@ -630,7 +631,7 @@ save_type(BITSTREAM *bs, TYPE t, IDENTIFIER def)
 	save_cv(bs, cv);
 
 	/* Save type dependent fields */
-	ASSERT(ORDER_type == 18);
+	assert(ORDER_type == 18);
 	switch (TAG_type(t)) {
 	case type_pre_tag: {
 		IDENTIFIER tid = DEREF_id(type_name(t));
@@ -806,7 +807,7 @@ save_tok(BITSTREAM *bs, TOKEN tok, int def)
 	}
 	tag = TAG_tok(tok);
 	ENC_BITS(bs, BITS_tok, tag + 1);
-	ASSERT(ORDER_tok == 10);
+	assert(ORDER_tok == 10);
 	switch (tag) {
 	case tok_exp_tag: {
 		TYPE t = DEREF_type(tok_exp_type(tok));
@@ -960,7 +961,7 @@ save_id(BITSTREAM *bs, IDENTIFIER id, NAMESPACE ns)
 			}
 
 			/* Save identifier dependent fields */
-			ASSERT(ORDER_id == 29);
+			assert(ORDER_id == 29);
 			switch (tag) {
 			case id_dummy_tag: {
 				break;

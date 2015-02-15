@@ -7,7 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
+#include <assert.h>
 #include <limits.h>
 
 #include "config.h"
@@ -257,7 +257,7 @@ capsule_name(ulong n, string *ps, int v)
 	} else {
 		VAR_INFO *var = vars + v;
 		ulong m = (n & ~LINK_EXTERN);
-		ASSERT(n & LINK_EXTERN);
+		assert(n & LINK_EXTERN);
 		*ps = var->names[m];
 		var->names[m] = s;
 	}
@@ -286,7 +286,7 @@ capsule_id(IDENTIFIER id, int v)
 		COPY_ulong(id_no(id), n);
 		r = 1;
 	} else {
-		ASSERT(n & LINK_EXTERN);
+		assert(n & LINK_EXTERN);
 		r = 0;
 	}
 	return r;
@@ -405,7 +405,7 @@ set_diag_tag(IDENTIFIER id, int v, ulong m)
 		n = DEREF_ulong(id_no(id));
 	}
 	n &= ~LINK_EXTERN;
-	ASSERT(vars[v].diags);
+	assert(vars[v].diags);
 	vars[v].diags[n] = m;
 	return;
 }
@@ -424,7 +424,7 @@ get_diag_tag(IDENTIFIER id, int v)
 		return LINK_NONE;
 	}
 	n &= ~LINK_EXTERN;
-	ASSERT(vars[v].diags);
+	assert(vars[v].diags);
 	return vars[v].diags[n];
 }
 
@@ -1233,7 +1233,7 @@ write_capsule(void)
 		bs = start_bitstream(f, NULL_gen_ptr);
 
 		/* Encode the magic number (4.0 and later) */
-		ASSERT(TDF_VERSION == 100 * TDF_major + TDF_minor);
+		assert(TDF_VERSION == 100 * TDF_major + TDF_minor);
 #if (TDF_major >= 4)
 		ENC_BITS(bs, 8, ascii_T);
 		ENC_BITS(bs, 8, ascii_D);

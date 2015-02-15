@@ -7,6 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <assert.h>
 
 #include "config.h"
 #include "c_types.h"
@@ -217,7 +218,7 @@ static IDENTIFIER
 koenig_token(CANDIDATE_LIST *p, IDENTIFIER id, TOKEN tok, int kind)
 {
 	if (!IS_NULL_tok(tok)) {
-		ASSERT(ORDER_tok == 10);
+		assert(ORDER_tok == 10);
 		switch (TAG_tok(tok)) {
 		case tok_type_tag: {
 			TYPE t = DEREF_type(tok_type_value(tok));
@@ -244,7 +245,7 @@ IDENTIFIER
 koenig_candidates(CANDIDATE_LIST *p, IDENTIFIER id, TYPE t, int kind)
 {
 	if (!IS_NULL_type(t)) {
-		ASSERT(ORDER_type == 18);
+		assert(ORDER_type == 18);
 		switch (TAG_type(t)) {
 		case type_ptr_tag:
 		case type_ref_tag: {

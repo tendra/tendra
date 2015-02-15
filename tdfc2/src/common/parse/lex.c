@@ -7,6 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <assert.h>
 
 #include "config.h"
 #include <limits.h>
@@ -596,7 +597,7 @@ int
 peek_char(int a, int *legal)
 {
 	int c = read_char();
-	ASSERT(a != char_newline);
+	assert(a != char_newline);
 	if (c == a) {
 		return 1;
 	}

@@ -7,6 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <assert.h>
 
 #include "config.h"
 #include "c_types.h"
@@ -60,7 +61,7 @@ qualify_type(TYPE t, CV_SPEC cv, int force)
 
 	/* Copy the type otherwise */
 	tag = TAG_type(t);
-	ASSERT(ORDER_type == 18);
+	assert(ORDER_type == 18);
 	switch (tag) {
 	case type_pre_tag: {
 		BASE_TYPE rep;

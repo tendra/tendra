@@ -7,6 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <assert.h>
+
 #include "config.h"
 #include "version.h"
 #include "c_types.h"
@@ -460,7 +462,7 @@ enc_func_defn(BITSTREAM *bs, IDENTIFIER id, EXP e)
 	if (IS_id_mem_func(id)) {
 		CLASS_TYPE ct = parent_class(id);
 		IDENTIFIER pid = this_param(id, 0);
-		ASSERT(!IS_NULL_id(pid));
+		assert(!IS_NULL_id(pid));
 		CONS_id(pid, pids, pids);
 		epids = extra_constr_args(id, ct);
 		last_class = ct;
@@ -557,7 +559,7 @@ enc_func_defn(BITSTREAM *bs, IDENTIFIER id, EXP e)
 	if (ell & FUNC_ELLIPSIS) {
 		ulong pn;
 		eid = ellipsis_param(id);
-		ASSERT(!IS_NULL_id(eid));
+		assert(!IS_NULL_id(eid));
 		pn = unit_no(bs, eid, VAR_tag, 1);
 		ENC_ON(bs);
 		ENC_make_tag(bs, pn);

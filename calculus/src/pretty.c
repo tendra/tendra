@@ -7,6 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <assert.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -31,17 +32,17 @@
 
 #ifndef DEBUG
 #define BAD_PRINT_OP				0
-#define PRINT_alg(A, B, C, D)			ASSERT(BAD_PRINT_OP)
-#define PRINT_list_ptr_en(A, B, C, D)		ASSERT(BAD_PRINT_OP)
-#define PRINT_list_ptr_ident(A, B, C, D)	ASSERT(BAD_PRINT_OP)
-#define PRINT_list_ptr_prim(A, B, C, D)		ASSERT(BAD_PRINT_OP)
-#define PRINT_list_ptr_str(A, B, C, D)		ASSERT(BAD_PRINT_OP)
-#define PRINT_list_ptr_un(A, B, C, D)		ASSERT(BAD_PRINT_OP)
-#define PRINT_ptr_int(A, B, C, D)		ASSERT(BAD_PRINT_OP)
-#define PRINT_ptr_number(A, B, C, D)		ASSERT(BAD_PRINT_OP)
-#define PRINT_ptr_ptr_cid(A, B, C, D)		ASSERT(BAD_PRINT_OP)
-#define PRINT_ptr_ptr_type(A, B, C, D)		ASSERT(BAD_PRINT_OP)
-#define PRINT_ptr_string(A, B, C, D)		ASSERT(BAD_PRINT_OP)
+#define PRINT_alg(A, B, C, D)			assert(BAD_PRINT_OP)
+#define PRINT_list_ptr_en(A, B, C, D)		assert(BAD_PRINT_OP)
+#define PRINT_list_ptr_ident(A, B, C, D)	assert(BAD_PRINT_OP)
+#define PRINT_list_ptr_prim(A, B, C, D)		assert(BAD_PRINT_OP)
+#define PRINT_list_ptr_str(A, B, C, D)		assert(BAD_PRINT_OP)
+#define PRINT_list_ptr_un(A, B, C, D)		assert(BAD_PRINT_OP)
+#define PRINT_ptr_int(A, B, C, D)		assert(BAD_PRINT_OP)
+#define PRINT_ptr_number(A, B, C, D)		assert(BAD_PRINT_OP)
+#define PRINT_ptr_ptr_cid(A, B, C, D)		assert(BAD_PRINT_OP)
+#define PRINT_ptr_ptr_type(A, B, C, D)		assert(BAD_PRINT_OP)
+#define PRINT_ptr_string(A, B, C, D)		assert(BAD_PRINT_OP)
 #endif
 
 #include "print_def.h"

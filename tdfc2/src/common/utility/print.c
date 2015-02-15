@@ -7,6 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <assert.h>
 
 #include "config.h"
 #include <ctype.h>
@@ -406,7 +407,7 @@ print_hashid(HASHID p, int sep, int anon, BUFFER *bf, int sp)
 		return sp;
 	}
 	tag = TAG_hashid(p);
-	ASSERT(ORDER_hashid == 7);
+	assert(ORDER_hashid == 7);
 	switch (tag) {
 	case hashid_name_tag:
 	case hashid_ename_tag: {
@@ -1108,7 +1109,7 @@ int
 print_nat(NAT n, int paren, BUFFER *bf, int sp)
 {
 	if (!IS_NULL_nat(n)) {
-		ASSERT(ORDER_nat == 5);
+		assert(ORDER_nat == 5);
 		switch (TAG_nat(n)) {
 		case nat_small_tag: {
 			/* Small values */
@@ -1436,7 +1437,7 @@ int
 print_tok_value(TOKEN tok, BUFFER *bf, int sp)
 {
 	if (!IS_NULL_tok(tok)) {
-		ASSERT(ORDER_tok == 10);
+		assert(ORDER_tok == 10);
 		switch (TAG_tok(tok)) {
 		case tok_exp_tag: {
 			EXP e = DEREF_exp(tok_exp_value(tok));
@@ -1549,7 +1550,7 @@ print_sort(TOKEN tok, int arg, BUFFER *bf, int sp)
 		return sp;
 	}
 	tag = TAG_tok(tok);
-	ASSERT(ORDER_tok == 10);
+	assert(ORDER_tok == 10);
 	switch (tag) {
 	case tok_exp_tag: {
 		/* Expression tokens */
@@ -1808,7 +1809,7 @@ int
 print_itype(INT_TYPE t, BUFFER *bf, int sp)
 {
 	if (!IS_NULL_itype(t)) {
-		ASSERT(ORDER_itype == 6);
+		assert(ORDER_itype == 6);
 		switch (TAG_itype(t)) {
 		case itype_basic_tag: {
 			BUILTIN_TYPE n = DEREF_ntype(itype_basic_no(t));
@@ -1894,7 +1895,7 @@ int
 print_ftype(FLOAT_TYPE t, BUFFER *bf, int sp)
 {
 	if (!IS_NULL_ftype(t)) {
-		ASSERT(ORDER_ftype == 4);
+		assert(ORDER_ftype == 4);
 		switch (TAG_ftype(t)) {
 		case ftype_basic_tag: {
 			BUILTIN_TYPE n = DEREF_ntype(ftype_basic_no(t));
@@ -2045,7 +2046,7 @@ print_head(TYPE t, int key, BUFFER *bf, int sp)
 			}
 			}
 		}
-		ASSERT(ORDER_type == 18);
+		assert(ORDER_type == 18);
 		switch (TAG_type(t)) {
 		case type_pre_tag: {
 			/* Pre-types */

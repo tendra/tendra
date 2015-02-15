@@ -7,6 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <assert.h>
+
 #include "config.h"
 #include "c_types.h"
 #include "ctype_ops.h"
@@ -123,7 +125,7 @@ restore_parser(void)
 	POP_int(saved_lex_token, token_stack);
 	POP_int(crt_lex_token, token_stack);
 	crt_lookup_depth = 0;
-	ASSERT(first_token != NULL);
+	assert(first_token != NULL);
 	return p;
 }
 

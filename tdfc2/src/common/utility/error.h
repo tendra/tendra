@@ -58,18 +58,6 @@ extern LOCATION builtin_loc;
 extern FILE *error_file;
 
 
-#ifdef ASSERTS
-extern void assertion(const char *, const char *, int);
-#define ASSERT(A)	if (!(A))\
-			    assertion(#A, __FILE__, __LINE__)
-#else
-#if FS_LINT
-#define ASSERT(A)	/* empty */
-#else
-#define ASSERT(A)	(IGNORE 0)
-#endif
-#endif
-
 #define FAIL_COMPILER	ERROR[!]
 
 

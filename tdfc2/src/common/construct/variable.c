@@ -7,6 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <assert.h>
 
 #include "config.h"
 #include "c_types.h"
@@ -1488,7 +1489,7 @@ flow_offset(OFFSET off, VAR_INFO use, int mem)
 	if (IS_NULL_off(off)) {
 		return ua;
 	}
-	ASSERT(ORDER_off == 13);
+	assert(ORDER_off == 13);
 	switch (TAG_off(off)) {
 	case off_member_tag:
 		/* Member offsets */
@@ -1619,7 +1620,7 @@ flow_exp(EXP e, VAR_INFO use)
 	if (IS_NULL_exp(e)) {
 		return ua;
 	}
-	ASSERT(ORDER_exp == 88);
+	assert(ORDER_exp == 88);
 	switch (TAG_exp(e)) {
 	case exp_identifier_tag: {
 		/* Identifier expressions */
@@ -2357,7 +2358,7 @@ flow_stmt(EXP e, VAR_INFO use, int flow)
 	if (IS_NULL_exp(e)) {
 		return ua;
 	}
-	ASSERT(ORDER_exp == 88);
+	assert(ORDER_exp == 88);
 	switch (TAG_exp(e)) {
 	case exp_sequence_tag: {
 		/* Compound statements */

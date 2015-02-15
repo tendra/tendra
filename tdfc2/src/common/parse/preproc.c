@@ -7,6 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <assert.h>
 
 #include "config.h"
 #include "system.h"
@@ -486,7 +487,7 @@ read_if_exp(int act, int dir)
 		ADVANCE_LEXER;
 		if (cond == PP_UNRESOLVED) {
 			/* Unresolved tokens when preprocessing */
-			ASSERT(preproc_only);
+			assert(preproc_only);
 			/* EMPTY */
 		} else {
 			/* Parse condition */
@@ -740,7 +741,7 @@ read_if(int dir, unsigned c, int prev)
 			cond = c;
 		}
 	}
-	ASSERT(!in_preproc_dir);
+	assert(!in_preproc_dir);
 
 	/* Step over any unused code */
 	cond &= PP_COND_MASK;

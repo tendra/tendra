@@ -7,6 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <assert.h>
 #include <limits.h>
 #include <stdarg.h>
 
@@ -776,7 +777,7 @@ incr_value(int n)
 {
 	OPT_VALUE_DATA *p = OPT_VALUE_CATALOG + n;
 	unsigned long v = ++(p->crt_value);
-	ASSERT(p->incr);
+	assert(p->incr);
 	return check_value(n, v);
 }
 

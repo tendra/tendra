@@ -7,6 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <assert.h>
+
 #include "config.h"
 #include "c_types.h"
 #include "ctype_ops.h"
@@ -1732,7 +1734,7 @@ object_type(TYPE t, unsigned tag)
 		depth = 2;
 	}
 	while (!IS_NULL_type(t)) {
-		ASSERT(ORDER_type == 18);
+		assert(ORDER_type == 18);
 		switch (TAG_type(t)) {
 		case type_func_tag: {
 			/* Function types */

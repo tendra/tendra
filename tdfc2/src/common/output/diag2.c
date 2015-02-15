@@ -7,6 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <assert.h>
+
 #include "config.h"
 #include "version.h"
 #include "system.h"
@@ -1664,7 +1666,7 @@ enc_dg_type(BITSTREAM *bs, TYPE t, int force)
 
 	/* Encode type definition */
 type_label: {
-		    ASSERT(ORDER_type == 18);
+		    assert(ORDER_type == 18);
 		    switch (TAG_type(t)) {
 		    case type_integer_tag: {
 			    /* Integral types */

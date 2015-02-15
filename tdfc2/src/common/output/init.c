@@ -7,6 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <assert.h>
 
 #include "config.h"
 #include "version.h"
@@ -575,7 +576,7 @@ destr_lab: {
 		   /* Destroy local variable */
 		   BITSTREAM *ts, *us;
 		   EXP c = DEREF_exp(exp_destr_count(d));
-		   ASSERT(!IS_NULL_exp(c));
+		   assert(!IS_NULL_exp(c));
 		   bs = enc_special(bs, tok);
 		   ts = start_bitstream(NIL(FILE), bs->link);
 		   ts = enc_exp(ts, c);
@@ -1559,7 +1560,7 @@ enc_alloc(BITSTREAM *bs, EXP e)
 			/* Restore size value */
 			COPY_exp(exp_dummy_value(c), c1);
 		}
-		ASSERT(bf == 0);
+		assert(bf == 0);
 	}
 	return bs;
 }
@@ -1655,7 +1656,7 @@ enc_dealloc(BITSTREAM *bs, EXP e, ulong n)
 				ENC_make_tag(ts, n);
 				ts = enc_extra_offset(ts, s, off_size_t, -1);
 				bs = enc_bitstream(bs, ts);
-				ASSERT(bf == 0);
+				assert(bf == 0);
 			}
 
 			/* Construct dummy array type */

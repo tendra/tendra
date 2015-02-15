@@ -7,6 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <assert.h>
+
 #include "config.h"
 
 #include "c_types.h"
@@ -172,7 +174,7 @@ find_vocab(int t)
 void
 init_catalog(void)
 {
-	ASSERT(OPT_error == 0);
+	assert(OPT_error == 0);
 	return;
 }
 

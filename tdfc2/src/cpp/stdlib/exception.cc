@@ -7,6 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <assert.h>
 
 #include "implement.h"
 #include <cstdio>
@@ -72,7 +73,7 @@ void __TCPPLUS_throw ( void *v, TYPE_INFO *p, DESTRUCTOR d )
 	p = q ;
     }
     JUMP_BUFFER *jmp = ex.buf [0] ;
-    ASSERT ( jmp != NULL ) ;
+    assert( jmp != NULL ) ;
     ex.unwinding = true ;
     ex.allocated = false ;
     ex.buf [0] = jmp->next ;
@@ -81,7 +82,7 @@ void __TCPPLUS_throw ( void *v, TYPE_INFO *p, DESTRUCTOR d )
     jmp->dtors = NULL ;
     while ( dtors ) {
 	// Perform stack unwinding
-	ASSERT ( dtors->func != NULL && dtors->arg != NULL ) ;
+	assert( dtors->func != NULL && dtors->arg != NULL ) ;
 	dtors->func ( dtors->arg, 2 ) ;
 	dtors = dtors->next ;
     }
