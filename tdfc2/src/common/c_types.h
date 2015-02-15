@@ -73,7 +73,7 @@ typedef unsigned char character;
  * type information is implemented.
  */
 
-#ifdef RUNTIME
+#ifndef NDEBUG
 #if c_class_IMPLEMENTATION
 extern c_class *debug_c_class(unsigned, unsigned);
 #undef GEN_c_class

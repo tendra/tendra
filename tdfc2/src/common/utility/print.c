@@ -1409,7 +1409,7 @@ print_exp(EXP e, int paren, BUFFER *bf, int sp)
 		}
 		default: {
 			static unsigned long exp_no = 0;
-#ifdef RUNTIME
+#ifndef NDEBUG
 			if (debugging) {
 				/* Debug expression printing routine */
 				sp = print_exp_aux(e, paren, bf, sp);
@@ -2441,7 +2441,7 @@ print_offset(OFFSET off, BUFFER *bf, int sp)
 		}
 		default: {
 			static unsigned long off_no = 0;
-#ifdef RUNTIME
+#ifndef NDEBUG
 			if (debugging) {
 				/* Debug offset printing routine */
 				sp = print_offset_aux(off, bf, sp);

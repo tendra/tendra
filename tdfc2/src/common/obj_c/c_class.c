@@ -93,7 +93,7 @@ gen_c_class(unsigned sz)
     with the debugging routine below.
 */
 
-#ifdef RUNTIME
+#ifndef NDEBUG
 #define clean_c_class(P, Z)\
     {\
 	assert(TYPEID(P) != TYPEID_free);\
@@ -110,7 +110,7 @@ gen_c_class(unsigned sz)
     run-time type information t in the allocated block.
 */
 
-#ifdef RUNTIME
+#ifndef NDEBUG
 
 c_class *
 debug_c_class(unsigned sz, unsigned t)
@@ -148,7 +148,7 @@ debug_c_class(unsigned sz, unsigned t)
 	return p;
 }
 
-#endif /* RUNTIME */
+#endif /* !NDEBUG */
 
 
 /*

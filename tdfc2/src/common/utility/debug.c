@@ -39,7 +39,7 @@
 #include "syntax.h"
 #include "unmangle.h"
 #include "ustring.h"
-#ifdef RUNTIME
+#ifndef NDEBUG
 
 
 /*
@@ -1735,7 +1735,7 @@ debug_option(char *arg)
 }
 
 
-#else /* RUNTIME */
+#else /* !NDEBUG */
 
 
 /*
@@ -1756,4 +1756,4 @@ debug(c_class *p)
 #endif /* c_class_IMPLEMENTATION */
 
 
-#endif /* RUNTIME */
+#endif /* !NDEBUG */

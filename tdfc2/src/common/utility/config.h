@@ -70,14 +70,14 @@ typedef unsigned long gen_size ;
 
     These macros are used in connection with the assertion routines.  If
     the macro DEBUG is defined then assertions will be included in the
-    program along with other aids to program development.  The standard
-    __FILE__ and __LINE__ macros are defined to dummy values for the
-    benefit of compilers which do not define them.
+    program
+
+    The standard __FILE__ and __LINE__ macros are defined to dummy values
+    for the benefit of compilers which do not define them.
 */
 
 #ifdef DEBUG
 #define ASSERTS		1
-#define RUNTIME		1
 #endif
 
 #ifndef __FILE__

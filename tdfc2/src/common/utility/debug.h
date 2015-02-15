@@ -8,7 +8,7 @@
  */
 
 
-#ifdef RUNTIME
+#ifndef NDEBUG
 #ifndef DEBUG_INCLUDED
 #define DEBUG_INCLUDED
 
@@ -18,7 +18,7 @@
 
     The routines in this module are designed to aid in program development;
     they do not form part of the program proper.  They are only defined if
-    the macro RUNTIME is defined.
+    the standard macro NDEBUG is not defined.
 */
 
 extern void DEBUG_access(DECL_SPEC);
