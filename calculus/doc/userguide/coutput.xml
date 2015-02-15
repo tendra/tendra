@@ -172,15 +172,15 @@ name *end_name_list(name *);</programlisting>
 			check for such errors into its output. This is done by specifying the
 			<code>-a</code> command-line option.</para>
 
-		<para>These assertions are implemented by means of macros. If the macro
-			<code>ASSERTS</code> is defined then these macros expand to give the
-			run-time checks. If not the output is exactly equivalent to that which
-			would have been output if the <code>-a</code> option had not been
-			given.</para>
+		<para>These assertions are implemented by means of macros. If the standard
+			macro <code>NDEBUG</code> is not defined then these macros expand
+			to give the run-time checks.
+			If not the output is exactly equivalent to that which would have been
+			output if the <code>-a</code> option had not been given.</para>
 
 		<para>The assertions require certain support functions which are output
 			into a separate file, <code>assert_def.h</code>. These functions need
-			to be compiled into the program when <code>ASSERTS</code> is defined.
+			to be compiled into the program when <code>NDEBUG</code> is not defined.
 			Note that the functions are implementation specific.</para>
 	</section>
 </chapter>

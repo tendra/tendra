@@ -340,6 +340,6 @@ add_calculus_list(calculus *p, calculus *q, int sz)
 }
 
 
-#ifdef ASSERTS
+#ifndef NDEBUG
 #include "assert_def.h"
 #endif

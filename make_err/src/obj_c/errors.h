@@ -51,7 +51,7 @@ typedef void (*DESTROYER)(errors *, unsigned);
 
 /* Assertion macros */
 
-#ifdef ASSERTS
+#ifndef NDEBUG
 extern errors *check_null_errors(errors *, char *, int);
 extern errors *check_tag_errors(errors *, unsigned, char *, int);
 extern errors *check_tag_etc_errors(errors *, unsigned, unsigned, char *, int);

@@ -186,6 +186,6 @@ end_tdf_list(tdf *p)
     These routine implement the assertion checks.
 */
 
-#ifdef ASSERTS
+#ifndef NDEBUG
 #include "assert_def.h"
 #endif

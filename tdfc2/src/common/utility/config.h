@@ -76,10 +76,6 @@ typedef unsigned long gen_size ;
     for the benefit of compilers which do not define them.
 */
 
-#ifdef DEBUG
-#define ASSERTS		1
-#endif
-
 #ifndef __FILE__
 #define __FILE__	"unknown"
 #endif

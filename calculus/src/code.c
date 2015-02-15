@@ -207,13 +207,13 @@ print_include(void)
  *
  * These macros are used, if the extra_asserts variable is set, to make the
  * output code a little more readable.  Moreover, if the checks need to
- * be turned off, then ASSERTS may be undefined.
+ * be turned off, then NDEBUG may be defined.
  */
 
 static void
 print_assert_decs(void)
 {
-    output("#ifdef ASSERTS\n");
+    output("#ifndef NDEBUG\n");
     output("extern %X *check_null_%X(%X *, char *, int);\n");
     output("extern %X *check_tag_%X(%X *, unsigned, char *, int);\n");
     output("extern %X *check_tag_etc_%X(%X *, unsigned, unsigned, char *, int);\n");

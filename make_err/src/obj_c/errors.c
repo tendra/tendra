@@ -188,6 +188,6 @@ end_errors_list(errors *p)
     These routine implement the assertion checks.
 */
 
-#ifdef ASSERTS
+#ifndef NDEBUG
 #include "assert_def.h"
 #endif

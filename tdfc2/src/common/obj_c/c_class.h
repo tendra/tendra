@@ -64,7 +64,7 @@ typedef void (*DESTROYER)(c_class *, unsigned);
 
 /* Assertion macros */
 
-#ifdef ASSERTS
+#ifndef NDEBUG
 extern c_class *check_null_c_class(c_class *, char *, int);
 extern c_class *check_tag_c_class(c_class *, unsigned, char *, int);
 extern c_class *check_tag_etc_c_class(c_class *, unsigned, unsigned, char *, int);

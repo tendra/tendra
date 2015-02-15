@@ -52,7 +52,7 @@ typedef void (*DESTROYER)(tdf *, unsigned);
 
 /* Assertion macros */
 
-#ifdef ASSERTS
+#ifndef NDEBUG
 extern tdf *check_null_tdf(tdf *, char *, int);
 extern tdf *check_tag_tdf(tdf *, unsigned, char *, int);
 extern tdf *check_tag_etc_tdf(tdf *, unsigned, unsigned, char *, int);

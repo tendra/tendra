@@ -53,7 +53,7 @@ typedef void (*DESTROYER)(calculus *, unsigned);
 
 /* Assertion macros */
 
-#ifdef ASSERTS
+#ifndef NDEBUG
 extern calculus *check_null_calculus(calculus *, char *, int);
 extern calculus *check_tag_calculus(calculus *, unsigned, char *, int);
 extern calculus *check_tag_etc_calculus(calculus *, unsigned, unsigned, char *, int);
