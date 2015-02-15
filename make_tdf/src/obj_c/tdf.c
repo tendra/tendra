@@ -187,6 +187,5 @@ end_tdf_list(tdf *p)
 */
 
 #ifdef ASSERTS
-#define assert_calculus assertion
 #include "assert_def.h"
 #endif

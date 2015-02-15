@@ -383,6 +383,5 @@ clear_c_class_alias(void)
 */
 
 #ifdef ASSERTS
-#define assert_c_class	assertion
 #include "assert_def.h"
 #endif
