@@ -23,6 +23,7 @@
 #endif
 
 #include <main/driver.h>
+#include <main/print.h>
 
 #include "cv_types.h"
 #include "cv_outtype.h"
@@ -75,11 +76,7 @@ out_type(diag_type t, int in_struct)
          res.modifier = (arg.modifier << 2) + 3;
          res.type = arg.type;
          res.size = arg.size * n;
-         outs(".dim ");
-         outn((long)n);
-         outs("; .size ");
-         outn((long)res.size);
-         outs("; ");
+         asm_printf(".dim %d; .size %d; ", n, res.size);
          break;
        }
      case DIAG_TYPE_PTR:
@@ -106,12 +103,7 @@ out_type(diag_type t, int in_struct)
          res.type = 010;
          res.size = shape_size(t->data.t_struct.tdf_shape) / 8;
          if (t->been_outed == 1) {
-           outs(".tag ");
-           outs(t->data.t_struct.nme.ints.chars);
-           outs("; ");
-           outs(".size ");
-           outn((long)res.size);
-           outs("; ");
+           asm_printf(".tag %s; .size %d; ", t->data.t_struct.nme.ints.chars, res.size);
          }
          break;
        }
@@ -121,12 +113,7 @@ out_type(diag_type t, int in_struct)
          res.type = 011;
          res.size = shape_size(t->data.t_union.tdf_shape) / 8;
          if (t->been_outed == 1) {
-           outs(".tag ");
-           outs(t->data.t_union.nme.ints.chars);
-           outs("; ");
-           outs(".size ");
-           outn((long)res.size);
-           outs("; ");
+           asm_printf(".tag %s; .size %d; ", t->data.t_union.nme.ints.chars);
          }
          break;
        }
@@ -138,13 +125,9 @@ out_type(diag_type t, int in_struct)
          res.type = 012;
          res.size = arg.size;
          if (!in_struct) {
-           outs(".tag ");
-           outs(t->data.t_struct.nme.ints.chars);
-           outs("; ");
+           asm_printf(".tag %s; ", t->data.t_struct.nme.ints.chars);
          }
-         outs(".size ");
-         outn((long)res.size);
-         outs("; ");
+         asm_printf(".size %d; ", res.size);
          break;
        }
      case DIAG_TYPE_NULL:
@@ -208,7 +191,7 @@ out_tagged(diag_type d)
 	   out_tagged(f.field_type);
 	}
 
-        fprintf(as_file, " .def %s; .scl 10; .type 010; .size %d; .endef\n",
+        asm_printf( " .def %s; .scl 10; .type 010; .size %d; .endef\n",
 		d->data.t_struct.nme.ints.chars, sz);
 	d->been_outed = 1;
         for (i=fs.len-1; i>=0; --i) {
@@ -217,19 +200,19 @@ out_tagged(diag_type d)
            f = *fs.array[i];
 
            if (f.field_type->key == DIAG_TYPE_BITFIELD) {
-             fprintf(as_file,
+             asm_printf(
 		     " .def %s; .val %d; .scl 18; .type 04; .size %d; .endef\n",
 		     f.field_name.ints.chars, no(f.where),
 		     f.field_type->data.bitfield.no_of_bits.nat_val.small_nat);
            } else {
-             fprintf(as_file, " .def %s; .val %d; .scl 8; ",
+             asm_printf( " .def %s; .val %d; .scl 8; ",
 		     f.field_name.ints.chars, no(f.where) / 8);
              ty = out_type(f.field_type, 1);
-             fprintf(as_file, ".type 0%o; .endef\n", ty.type +
+             asm_printf( ".type 0%o; .endef\n", ty.type +
 		     (ty.modifier << 4));
 	   }
 	}
-        fprintf(as_file,
+        asm_printf(
 		" .def .eos; .val %d; .scl 102; .tag %s; .size %d; .endef\n",
 		sz, d->data.t_struct.nme.ints.chars, sz);
         return;
@@ -249,7 +232,7 @@ out_tagged(diag_type d)
 	   out_tagged(f.field_type);
 	}
 
-        fprintf(as_file, " .def %s; .scl 12; .type 011; .size %d; .endef\n",
+        asm_printf( " .def %s; .scl 12; .type 011; .size %d; .endef\n",
 		d->data.t_union.nme.ints.chars, sz);
 	d->been_outed = 1;
         for (i = fs.len - 1; i >= 0; --i) {
@@ -257,12 +240,12 @@ out_tagged(diag_type d)
            ot ty;
            f = *fs.array[i];
 
-           fprintf(as_file, " .def %s; .val 0; .scl 11; ",
+           asm_printf( " .def %s; .val 0; .scl 11; ",
 		   f.field_name.ints.chars);
            ty = out_type(f.field_type, 1);
-           fprintf(as_file, ".type 0%o; .endef\n", ty.type + (ty.modifier << 4));
+           asm_printf( ".type 0%o; .endef\n", ty.type + (ty.modifier << 4));
 	}
-        fprintf(as_file,
+        asm_printf(
 		" .def .eos; .val %d; .scl 102; .tag %s; .size %d; .endef\n",
 		sz, d->data.t_union.nme.ints.chars, sz);
         return;
@@ -274,15 +257,15 @@ out_tagged(diag_type d)
         es = *d->data.t_enum.values;
         fixup(&d->data.t_enum.nme.ints.chars);
 
-        fprintf(as_file, " .def %s; .scl 15; .type 012; .size %d; .endef\n",
+        asm_printf( " .def %s; .scl 15; .type 012; .size %d; .endef\n",
 		d->data.t_enum.nme.ints.chars, sz);
         for (i = es.len - 1; i >= 0; --i) {
 	   struct enum_values_t e;
            e = *es.array[i];
-           fprintf(as_file, " .def %s; .val %d; .scl 16; .type 013; .endef\n",
+           asm_printf( " .def %s; .val %d; .scl 16; .type 013; .endef\n",
 		   e.nme.ints.chars, no(e.val));
 	}
-        fprintf(as_file,
+        asm_printf(
 		" .def .eos; .val %d; .scl 102; .tag %s; .size %d; .endef\n",
 		sz, d->data.t_enum.nme.ints.chars, sz);
         return;

@@ -20,6 +20,7 @@
 #include <diag3/diag_reform.h>
 
 #include <main/driver.h>
+#include <main/print.h>
 
 #include <construct/machine.h>
 
@@ -78,10 +79,10 @@ code_diag_info(diag_info *d, int proc_no, void(*mcode)(void *), void *args)
   }
   switch (d->key) {
     case DIAG_INFO_SCOPE: {
-	fprintf(as_file, " .def .bb; .val .; .scl 100;  .line %d; .endef\n",
+	asm_printf( " .def .bb; .val .; .scl 100;  .line %d; .endef\n",
 		last_line_no);
 	code_diag_info(d->more, proc_no, mcode, args);
-	fprintf(as_file, " .def .eb; .val .; .scl 100; .line %d; .endef\n",
+	asm_printf( " .def .eb; .val .; .scl 100; .line %d; .endef\n",
 		last_line_no);
 	return;
     }
@@ -91,7 +92,7 @@ code_diag_info(diag_info *d, int proc_no, void(*mcode)(void *), void *args)
 	if (check_filename(d -> data.source.beg) && l != last_line_no) {
 	  last_line_no = l;
 	  if (l > 0) {
-	    fprintf(as_file, " .ln %d\n", l);
+	    asm_printf( " .ln %d\n", l);
 	  }
 	}
 	code_diag_info(d->more, proc_no, mcode, args);
@@ -112,15 +113,15 @@ code_diag_info(diag_info *d, int proc_no, void(*mcode)(void *), void *args)
 	if (name(acc) == name_tag && !isdiscarded(acc) && !isglob(son(acc))) {
 	  p = (no(acc) + no(son(acc))) / 8;
 	  param_dec = isparam(son(acc));
-	  fprintf(as_file, " .def %s; .val ", d->data.id_scope.nme.ints.chars);
+	  asm_printf( " .def %s; .val ", d->data.id_scope.nme.ints.chars);
 	  if (param_dec) {
-	    fprintf(as_file, "%d", p + 8);
+	    asm_printf( "%d", p + 8);
 	  } else {
-	    fprintf(as_file, "%d-.Ldisp%d", p, proc_no);
+	    asm_printf( "%d-.Ldisp%d", p, proc_no);
 	  }
-	  fprintf(as_file, "; .scl %d; ",(param_dec) ? 9 : 1);
+	  asm_printf( "; .scl %d; ",(param_dec) ? 9 : 1);
 	  ty = out_type(d->data.id_scope.typ, 0);
-	  fprintf(as_file, ".type 0%o; .endef\n", ty.type + (ty.modifier << 4));
+	  asm_printf( ".type 0%o; .endef\n", ty.type + (ty.modifier << 4));
 	}
 	code_diag_info(d->more, proc_no, mcode, args);
     }
@@ -144,7 +145,7 @@ output_diag(diag_info *d, int proc_no, exp e)
      }
      last_line_no = l;
      if (l > 0) {
-       fprintf(as_file, " .ln %d\n", l);
+       asm_printf( " .ln %d\n", l);
      }
      return;
   }
@@ -157,19 +158,19 @@ output_diag(diag_info *d, int proc_no, exp e)
      mark_scope(e);
 
      if (props(e) & 0x80) {
-       fprintf(as_file, " .def .bb; .val .; .scl 100;  .line %d; .endef\n",
+       asm_printf( " .def .bb; .val .; .scl 100;  .line %d; .endef\n",
 	       last_line_no);
      }
 
-     fprintf(as_file, " .def %s; .val ", d->data.id_scope.nme.ints.chars);
+     asm_printf( " .def %s; .val ", d->data.id_scope.nme.ints.chars);
      if (param_dec) {
-       fprintf(as_file, "%d", p + 8);
+       asm_printf( "%d", p + 8);
      } else {
-       fprintf(as_file, "%d-.Ldisp%d", p, proc_no);
+       asm_printf( "%d-.Ldisp%d", p, proc_no);
      }
-     fprintf(as_file, "; .scl %d; ",(param_dec) ? 9 : 1);
+     asm_printf( "; .scl %d; ",(param_dec) ? 9 : 1);
      ty = out_type(d -> data.id_scope.typ, 0);
-     fprintf(as_file, ".type 0%o; .endef\n", ty.type + (ty.modifier<<4));
+     asm_printf( ".type 0%o; .endef\n", ty.type + (ty.modifier<<4));
 
      return;
    }
@@ -180,7 +181,7 @@ static void
 output_end_scope(diag_info *d, exp e)
 {
   if (d -> key == DIAG_INFO_ID && props(e) & 0x80) {
-    fprintf(as_file, " .def .eb; .val .; .scl 100; .line %d; .endef\n",
+    asm_printf( " .def .eb; .val .; .scl 100; .line %d; .endef\n",
 	    last_line_no);
   }
 }
@@ -190,20 +191,15 @@ diag_val_begin(diag_descriptor *d, int global, int cname, char *pname)
 {
   ot typ;
 
-  outs(" .def ");
-  outs(d->data.id.nme.ints.chars);
-  outs("; .val ");
+  asm_printf(" .def %s; .val ", d->data.id.nme.ints.chars);
   if (cname == -1) {
-    outs(pname);
+    asm_printf("%s", pname);
   } else {
-    outs(local_prefix);
-    outn((long)cname);
+    asm_printf("%s%d", local_prefix, cname);
   }
-  outs("; .scl ");
-  outn((long)(global ? 2 : 3));
-  outs("; ");
+  asm_printf("; .scl %d; ", global ? 2 : 3);
   typ = out_type(d->data.id.new_type, 0);
-  fprintf(as_file, ".type 0%o; .endef\n", typ.type + (typ.modifier << 4));
+  asm_printf(".type 0%o; .endef\n", typ.type + (typ.modifier << 4));
 }
 
 static void
@@ -224,21 +220,16 @@ diag_proc_begin(diag_descriptor *d, int global, int cname, char *pname)
 
   check_filename(d->data.id.whence);
 
-  outs(" .def ");
-  outs(d->data.id.nme.ints.chars);
-  outs("; .val ");
-  outs(pname);
-  outs("; .scl ");
-  outn((long)(global ? 2 : 3));
-  outs("; ");
+  asm_printf(" .def %d; .val %s; .scl %d; ",
+		d->data.id.nme.ints.chars, pname, global ? 2 : 3);
   typ = out_type(d->data.id.new_type->data.proc.result_type, 0);
-  fprintf(as_file, ".type 0%o; .endef\n", typ.type + (typ.modifier << 6) + 32);
+  asm_printf(".type 0%o; .endef\n", typ.type + (typ.modifier << 6) + 32);
 
   crt_proc_start = d->data.id.whence.line_no.nat_val.small_nat;
   last_line_no = 1;
-  fprintf(as_file, " .def .bf; .val .; .scl 101; .line %d; .endef\n",
+  asm_printf( " .def .bf; .val .; .scl 101; .line %d; .endef\n",
 	  crt_proc_start);
-  fprintf(as_file, " .ln 1\n");
+  asm_printf( " .ln 1\n");
 }
 
 static void
@@ -247,9 +238,9 @@ diag_proc_end(diag_descriptor *d)
   if (!d) {
     return;
   }
-  fprintf(as_file, " .def .ef; .val .; .scl 101; .line %d; .endef\n",
+  asm_printf( " .def .ef; .val .; .scl 101; .line %d; .endef\n",
 	  last_line_no + 1);
-  fprintf(as_file, " .def %s; .val .; .scl -1; .endef\n",
+  asm_printf( " .def %s; .val .; .scl -1; .endef\n",
 	  d->data.id.nme.ints.chars);
 }
 
@@ -264,9 +255,9 @@ OUTPUT_GLOBALS_TAB(void)
 
   for (i=0; i<n; i++) {
      if (di[i].key == DIAG_TYPEDEF_KEY) {
-	fprintf(as_file, " .def %s; .scl 13; ", di[i].data.typ.nme.ints.chars);
+	asm_printf( " .def %s; .scl 13; ", di[i].data.typ.nme.ints.chars);
 	typ = out_type(di[i].data.typ.new_type, 0);
-	fprintf(as_file, ".type 0%o; .endef\n", typ.type + (typ.modifier << 4));
+	asm_printf( ".type 0%o; .endef\n", typ.type + (typ.modifier << 4));
      }
   }
 }
@@ -280,8 +271,7 @@ OUTPUT_DIAG_TAGS(void)
 
   if (!filename_space) {
      filename_pos = ftell(as_file);
-     outs("                                                                                                                      ");
-     outnl();
+     asm_printf("                                                                                                                      \n");
      filename_space = 1;
    }
 
@@ -321,11 +311,11 @@ INSPECT_FILENAME(filename fn)
   filename_gate = 1;
 
   if (!filename_space) {
-    fprintf(as_file, " .file \"%s\"\n", f);
+    asm_printf( " .file \"%s\"\n", f);
   } else {
     here = ftell(as_file);
     fseek(as_file, filename_pos, 0);
-    fprintf(as_file, " .file \"%s\"\n", f);
+    asm_printf( " .file \"%s\"\n", f);
     fseek(as_file, here, 0);
   }
 }
