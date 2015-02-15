@@ -10,6 +10,7 @@
 #include <string.h>
 #include <assert.h>
 
+#include <shared/check.h>
 #include <shared/error.h>
 
 #include <adt/cmd.h>
@@ -63,6 +64,8 @@ quote_char(int c)
  */
 static void
 out_node(struct ast *ast, struct trie *p, struct options *opt) {
+	UNUSED(ast);
+
 	/* node value */
 	{
 		printf("\t\tc%p [ ", (void *) p);

@@ -7,6 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <shared/check.h>
 #include <shared/error.h>
 
 #include <local/ash.h>
@@ -378,7 +379,11 @@ not(shape sha, where a, where dest)
 static void
 shift_it(shape sha, shape shb, int instr, where by, where to)
 {
-	long sz = shape_size(sha);
+	long sz;
+
+	UNUSED(shb);
+
+	sz = shape_size(sha);
 	ins2(instr, 8L, sz, by, to, 1);
 	have_cond = 0;
 	test_overflow(ON_OVERFLOW);
@@ -564,15 +569,26 @@ void
 bitf_to_int(exp e, shape sha, where dest, ash stack)
 {
 	where bf, d;
-	exp t = dest.wh_exp;
-	shape dsha = sh(t);
+	exp t;
+	shape dsha;
 
-	int extend = (is_signed(sha)? 1 : 0);
-	int instr = (extend ? m_bfexts : m_bfextu);
+	int extend;
+	int instr;
 
 	long off, sz, bstart;
-	long nbits = shape_size(sha);
-	long boff = bitf_posn(e);
+	long nbits;
+	long boff;
+
+	UNUSED(stack);
+
+	t = dest.wh_exp;
+	dsha = sh(t);
+
+	extend = (is_signed(sha)? 1 : 0);
+	instr = (extend ? m_bfexts : m_bfextu);
+
+	nbits = shape_size(sha);
+	boff = bitf_posn(e);
 
 	off = 8 *(boff / 8);
 	sz = 8 *((boff + nbits - 1) / 8) + 8 - off;

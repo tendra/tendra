@@ -11,6 +11,7 @@
 #include <assert.h>
 #include <limits.h>
 
+#include <shared/check.h>
 #include <shared/error.h>
 
 #include <local/cpu.h>
@@ -814,6 +815,8 @@ void rem_error_treatment(int l, int r, exp e)
 {
   int creg  = next_creg();
   long trap = trap_label(e);
+
+  UNUSED(l);
 
   cmp_ri_ins(i_cmp,r,0,creg);
   long_bc_ins(i_beq,creg,trap,UNLIKELY_TO_JUMP);

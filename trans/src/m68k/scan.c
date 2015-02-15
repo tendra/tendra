@@ -572,6 +572,8 @@ multdo(exp t, int i)
 static bool
 anddo(exp t, int i)
 {
+	UNUSED(i);
+
 #if 0
 	/* Can't negate first argument */
 	if (i == 1) {

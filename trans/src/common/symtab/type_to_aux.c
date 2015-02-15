@@ -129,8 +129,8 @@ add_type_to_aux(diag_type dt, long ind)
 	int elemsize = 0;
 	int scale = 1;
 	diag_type xdt = dt;
-	AUXU maxaux, retaux;
-	maxaux.isym = 0xffffffff;
+	AUXU retaux;
+
 	field = 0;
 
 	if (dt == (diag_type) 0) {

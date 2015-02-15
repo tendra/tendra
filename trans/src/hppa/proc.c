@@ -212,13 +212,21 @@ static void add_odd_bits
 makeans make_proc_tag_code
 (exp e, space sp, where dest, int exitlab)
 {
-   static int p_lab = 0;
-   procrec *pr=&procrecs[no(e)];
-   needs *ndpr=&pr->needsproc;
-   long pprops= (long)(ndpr->propsneeds);
+   static int p_lab;
+   procrec *pr;
+   needs *ndpr;
+   long pprops;
    makeans mka;
-   bool is_main=STRCMP(proc_name,"main");
+   bool is_main;
    bool save_sp;
+
+   UNUSED(dest);
+
+   p_lab = 0;
+   pr=&procrecs[no(e)];
+   ndpr=&pr->needsproc;
+   pprops= (long)(ndpr->propsneeds);
+   is_main=STRCMP(proc_name,"main");
 
    set_up_frame(e);
 
@@ -735,8 +743,12 @@ makeans make_res_tag_code
 {
    makeans mka;
    int nm,*ret_label;
+
+   UNUSED(dest);
+
    mka.lab = exitlab;
    mka.regmove = NOREG;
+
    if (name(e) ==res_tag)
    {
       nm=RES;

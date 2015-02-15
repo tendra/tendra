@@ -429,6 +429,9 @@ stab_scope_close(long findex)
 {
 	long i;
 	struct delay_stab *x;
+
+	UNUSED(findex);
+
 	if (open_label != 0) {
 		struct delay_stab *t = next_del_stab();
 		t->del_t = D_BRACKET;
@@ -731,8 +734,11 @@ diag_proc_end(void)
 static void
 stab_local(diag_info *d, int proc_no, exp acc)
 {
-	struct delay_stab *t = next_del_stab();
+	struct delay_stab *t;
 
+	UNUSED(proc_no);
+
+	t = next_del_stab();
 	t->del_t = (isparam(son(acc)) ? D_PARAM : D_LOCAL);
 	t->u.l.nm = d->data.id_scope.nme.ints.chars;
 	t->u.l.dt = d->data.id_scope.typ;
@@ -889,7 +895,6 @@ void
 init_stab_aux(void)
 {
 	int c;
-	FILE *f;
 	int i, j = -1;
 
 	for (i = 0; i < nofds; i++) {

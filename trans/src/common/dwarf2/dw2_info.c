@@ -197,6 +197,8 @@ static void out_refblock		/* Not certain this is needed! */
 static void check_trivial
     ( exp e )
 {
+	UNUSED(e);
+
 #if 0
 	/* This is still far too strong; e may be anything with equivalent
 		already in a register! */
@@ -1633,11 +1635,6 @@ void dw2_out_name
     }
 
     case DGN_SUBUNIT: {
-      abbrev_entry dwe;
-      if (di->data.n_sub.child)
-        dwe = (di->data.n_sub.acc ? dwe_child_acc : dwe_childunit);
-      else
-	dwe = dwe_subunit;
       dw_at_ext_address (di->data.n_sub.parent);
       if (di->data.n_sub.child) {
 	if (di->data.n_sub.acc)

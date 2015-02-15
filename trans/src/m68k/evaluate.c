@@ -558,6 +558,9 @@ static void clear_out
 (long n, bool isconst, long al)
 {
     mach_op *op;
+
+	UNUSED(al);
+
     if (isconst) {
 	while (n > 0) {
 	    op = make_value(0);

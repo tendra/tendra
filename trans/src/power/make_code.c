@@ -11,6 +11,7 @@
 #include <assert.h>
 #include <stdio.h>
 
+#include <shared/check.h>
 #include <shared/error.h>
 
 #include <local/cpu.h>
@@ -3443,6 +3444,8 @@ void move_dlts(int dr, int sr, int szr, int bytemove)
   baseoff dr_baseoff;
   int lin = new_label();
 
+  UNUSED(bytemove);
+
   sr_baseoff.base = sr;
   sr_baseoff.offset = 1;
   dr_baseoff.base = dr;
@@ -3467,6 +3470,8 @@ void move_dgts(int dr, int sr, int szr, int bytemove)
   baseoff sr_baseoff;
   baseoff dr_baseoff;
   int lin = new_label();
+
+  UNUSED(bytemove);
 
   sr_baseoff.base = sr;
   sr_baseoff.offset = -1;

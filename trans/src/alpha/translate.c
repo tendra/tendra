@@ -119,27 +119,6 @@ varsize(shape sha)
 
 static int current_symno;
 
-static void
-add_odd_bits(outofline *r)
-{
-  space sp;
-  if (r != (outofline*)NULL) {
-    if (r -> next == (outofline*)NULL){
-    }
-    add_odd_bits(r -> next);
-  }
-  else {
-    return;
-  }	
-  set_label(r->labno);
-  sp = r->sp;
-  clear_all();
-  make_code(r->body,sp,r->dest,ptno(r->jr));
-  if (name(sh(r->body)) != bothd)  {
-    integer_branch(i_br,31,ptno(r->jr));
-  }
-}
-
 void
 code_it(dec *my_def)
 {

@@ -89,6 +89,7 @@
 #include <string.h>
 #include <stdio.h>
 
+#include <shared/check.h>
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
@@ -529,7 +530,6 @@ translate_capsule (void){
     exp s = son ( c ) ;
     if ( s != NULL && (name ( s ) == proc_tag || 
 			 name(s) == general_proc_tag)) {
-      weights w ;	
       spacereq forrest ;
       int freefixed, freefloat ;
       procrec *pr = &procrecs [ no ( s ) ] ;
@@ -552,7 +552,6 @@ translate_capsule (void){
       }
       if(Has_vcallees) freefixed --;
       /* estimate tag usage */
-      w = weightsv ( 1.0, bro ( son ( s ) ) ) ;
       /* calculate register and stack allocation for tags */
       forrest = regalloc ( bro ( son ( s ) ), freefixed, freefloat, 0 ) ;
       pr->spacereqproc = forrest ;

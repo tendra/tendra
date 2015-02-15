@@ -367,6 +367,8 @@ static void out_split(loc_s l)
 
 static int glob_length(loc_s l)
 {
+  UNUSED(l);
+
   if (needs_debug_align) {
     calc_length = 0;
   }

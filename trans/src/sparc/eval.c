@@ -15,6 +15,7 @@
 #include <stdio.h>
 #include <ctype.h>
 
+#include <shared/check.h>
 #include <shared/error.h>
 
 #ifdef DWARF2
@@ -747,6 +748,7 @@ evalone ( exp e, int bitposn, bool ro ){
       }
       e = son ( e ) ;
       c = ashof ( sh ( e ) ) ;
+      UNUSED(c);
 #if 0
       if ( c.ashalign != 0 ) {
 	bitsize = ( c.ashsize / c.ashalign ) * c.ashalign ;

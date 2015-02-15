@@ -9,6 +9,7 @@
 
 #include <stdio.h>
 
+#include <shared/check.h>
 #include <shared/error.h>
 
 #include <reader/basicread.h>
@@ -1524,6 +1525,8 @@ void rem2
 void exactdiv
 (shape sha, where bottom, where top, where dest)
 {
+	UNUSED(sha);
+
     euclid(slongsh, bottom, top, dest, zero, DIV, 2);
 }
 

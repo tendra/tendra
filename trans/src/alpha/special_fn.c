@@ -13,6 +13,8 @@
 
 #include <string.h>
 
+#include <shared/check.h>
+
 #include <reader/exp.h>
 
 #include <reader/externs.h>
@@ -31,9 +33,17 @@
 bool
 special_fn(exp a1, exp a2, shape s, exp *e)
 {
+	UNUSED(a1);
+	UNUSED(a2);
+	UNUSED(s);
+	UNUSED(e);
+
 #if 0
-	dec *dp = brog(son (a1));
-	char *id = dp->dec_u.dec_val.dec_id;
+	dec *dp;
+	char *id;
+
+	dp = brog(son (a1));
+	id = dp->dec_u.dec_val.dec_id;
 
 	if (id == NULL) {
 		return 0;

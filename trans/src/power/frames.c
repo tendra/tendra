@@ -10,6 +10,7 @@
 
 #include <assert.h>
 
+#include <shared/check.h>
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
@@ -162,6 +163,8 @@ void set_up_frame_info(procrec * pr, exp e)
   int r;
   long maxargs;
   
+  UNUSED(e);
+
   /*
    * Initialize more fields
    */

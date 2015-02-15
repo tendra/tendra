@@ -373,14 +373,8 @@ where locate1
 
     case reff_tag: {
 	instore isa;
-	bool bitfield = 0;
 	wans = locate(son(e), sp, sh(son(e)), NO_REG);
 	/* answer is going to be wans displaced by no(e) */
-
-	if (name(sh(e)) == ptrhd) {
-	  if (al1(sh(e)) == 1)
-	    bitfield = 1;
-	}
 
 	switch (wans.answhere.discrim) {
 	  case notinreg: {

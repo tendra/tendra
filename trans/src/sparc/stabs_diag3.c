@@ -227,6 +227,8 @@ stab_begin(diag_info * d, int proc_no, exp e)
 {
 	exp x;
 
+	UNUSED(proc_no);
+
 	if (d->key == DIAG_INFO_SOURCE) {
 		sourcemark *s = &d->data.source.beg;
 		long f = find_file(s->file->file.ints.chars);
@@ -420,6 +422,9 @@ stab_scope_close(long findex)
 {
 	long i;
 	struct delay_stab *x;
+
+	UNUSED(findex);
+
 	if (open_label != 0) {
 		struct delay_stab *t = next_del_stab();
 		t->del_t = D_BRACKET;
@@ -642,6 +647,8 @@ stab_proc(diag_descriptor * dd, exp proc, char * id, bool ext)
 	/* id is passed from translate_capsule, so stays in scope while needed */
 	last_proc_lab = id;
 
+	UNUSED(proc);
+
 	if (dd == NULL) {
 		return;
 	}
@@ -713,6 +720,8 @@ stab_local(char *nm, diag_type dt, exp ldid, long disp, long findex)
 {
 	exp id = son(ldid);
 	struct delay_stab *t = next_del_stab();
+
+	UNUSED(findex);
 
 	if (name(id) == ident_tag && ((props(id) & defer_bit) == 0)) {
 		disp += boff(id).offset;	 /* is this condition right ? */
@@ -915,7 +924,6 @@ void
 init_stab_aux(void)
 {
 	int c;
-	FILE *f;
 	int i, j = 0;
 	for (i = 0; i < nofds; i++) {
 		char *s = fds[i] ->file.ints.chars;

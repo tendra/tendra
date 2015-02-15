@@ -49,6 +49,9 @@ weak_cell *weak_list;
 static void
 out_rename(char *oldid, char *newid)
 {
+	UNUSED(oldid);
+	UNUSED(newid);
+
 #if defined(TRANS_M68K)
 #if 0
 	mach_op *op1 = make_extern_data(old_nm, 0);
@@ -61,9 +64,6 @@ out_rename(char *oldid, char *newid)
 #endif
 #elif defined(TRANS_HPPA)
 	asm_comment("renamed %s as %s", oldid, newid);
-#else
-	UNUSED(oldid);
-	UNUSED(newid);
 #endif
 }
 
@@ -92,6 +92,8 @@ f_make_weak_defn(exp e1, exp e2)
 linkinfo
 f_make_weak_symbol(tdfstring id, exp e)
 {
+	UNUSED(id);
+
 	if (use_link_stuff) {
 #if TRANS_X86 || TRANS_SPARC
 		char **lid = &brog(son(e))->dec_u.dec_val.dec_id;
@@ -112,6 +114,8 @@ f_make_weak_symbol(tdfstring id, exp e)
 linkinfo
 f_make_comment(tdfstring id)
 {
+	UNUSED(id);
+
 	if (use_link_stuff) {
 #if TRANS_X86 || TRANS_SPARC
 		asm_printf(".ident \"%s\"\n", add_prefix(name_prefix, id.ints.chars));

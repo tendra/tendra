@@ -261,12 +261,9 @@ static void divide_by_constant
   int rtmp;
   int ruse;
   INT64 divres;
-  int use_div_lab,exit_lab;
   newsp = guardreg(src,sp);
   rtmp=getreg(newsp.fixed);
   ruse = getreg(guardreg(rtmp,newsp).fixed);
-  exit_lab = new_label();
-  use_div_lab = new_label();
   operate_fmt(i_subq,31,src,ruse);
   operate_fmt(i_cmovgt,src,src,ruse);
   INT64_assign(divres, INT64_increment(INT64_divide(umax,m,0)));
@@ -598,6 +595,7 @@ static void check_exception
 void set_up_rounding_mode
 (int val)
 {
+	UNUSED(val);
 }
 
 /*
@@ -814,13 +812,12 @@ void move_dlts
 (int dest, int src, int sizereg, int movereg, int bytemove, space sp)
 {
 
-  int qword_lab,lword_lab,word_lab,byte_lab,endlab;
+  int qword_lab,lword_lab,byte_lab,endlab;
   int rtest = getreg(sp.fixed);
   baseoff b;
   b.offset = 0;
   qword_lab = (bytemove==8)?new_label():-1;
   lword_lab = (bytemove>=4)?new_label():-1;
-  word_lab = (bytemove>=2)?new_label():-1;
   byte_lab = new_label();
   endlab = new_label();
   switch (bytemove) {
@@ -889,13 +886,12 @@ void move_dlts
 void move_dgts
 (int dest, int src, int sizereg, int movereg, int bytemove, space sp)
 {
-  int qword_lab,lword_lab,word_lab,byte_lab,endlab;
+  int qword_lab,lword_lab,byte_lab,endlab;
   int rtest = getreg(sp.fixed);
   baseoff b;
   b.offset = 0;
   qword_lab = (bytemove==8)?new_label():-1;
   lword_lab = (bytemove>=4)?new_label():-1;
-  word_lab = (bytemove>=2)?new_label():-1;
   byte_lab = new_label();
   endlab = new_label();
   operate_fmt(i_addq,dest,sizereg,dest);
@@ -1290,8 +1286,6 @@ space do_callers
   int disp;
   int spar;
   int fpar = 16;
-  ash ansash;
-  bool hadfixed;
   instore is;
   is.b.base = SP;
   is.b.offset = 0;
@@ -1303,10 +1297,8 @@ space do_callers
     return mka;
   }
 #endif
-  ansash = ashof(sh(list));
   disp = 0;
   spar = FIRST_INT_ARG;/* register holding 1st integer parameter */
-  hadfixed = 0;
   for (;;) {		/* evaluate parameters in turn */
     int   hd = name(sh(list));
     where w;
@@ -1347,7 +1339,6 @@ space do_callers
       int par_reg;
       int numleft = parsize- ((LAST_INT_ARG-spar+1) <<6);
       int pregs_used = min((numleft>>6) +6,6);
-      hadfixed=1;
       setregalt(ansr,spar);
       w.answhere=ansr;
       for (par_reg=spar;par_reg<spar+pregs_used;++par_reg) {
@@ -1365,7 +1356,6 @@ space do_callers
       is.b.offset+= (max(ap.ashsize,REG_SIZE) >>3);
       /* 'size' was used here */
       code_here(list, sp, w);
-      hadfixed = 1;
       /* eval parameter into argument space on stack */
     }
     if (name(list) == caller_tag) {
@@ -1776,8 +1766,6 @@ tailrecurse:
       exp first = son(e);
       exp second = bro(son(e));
       exp test;
-      exp record;
-      record = getexp(f_bottom,NULL,0,NULL,NULL,0,0,0);
       if (dest.answhere.discrim == insomereg) {
 	/* must make choice of register to contain answer to cond */
 	int  *sr = someregalt(dest.answhere);
@@ -1968,12 +1956,10 @@ tailrecurse:
 	 * always false and true respectively
 	 */
       exp l = son(son(e));
-      shape shl = sh(l);
       instruction cmove_ins;
       space nsp;
       int test_num;
       int dest_reg;
-      int uns;
       ans aa;
       int a1,rtmp;
       nsp = sp;
@@ -1981,7 +1967,6 @@ tailrecurse:
       dest_reg = regfrmdest(&dest,nsp);
       mka.regmove = dest_reg;
       setregalt(aa,dest_reg);
-      uns = !is_signed(shl);
       nsp = guardreg(dest_reg,nsp);
       a1 = reg_operand(l,nsp);
       nsp = guardreg(dest_reg,nsp);
@@ -2643,8 +2628,6 @@ tailrecurse:
       int   disp;
       int   spar;
       int   fpar = 16;
-      ash ansash;
-      bool hadfixed;
       instore is;
       is.b.base = SP;
       is.b.offset = 0;
@@ -2657,10 +2640,8 @@ tailrecurse:
 
       }
 #endif
-      ansash = ashof(sh(e));
       disp = 0;
       spar = FIRST_INT_ARG;/* register holding 1st integer parameter */
-      hadfixed = 0;
 
 
       if (!last(fn)) {
@@ -2705,7 +2686,6 @@ tailrecurse:
 	    int par_reg;
 	    int numleft = parsize- ((LAST_INT_ARG-spar+1) <<6);
 	    int pregs_used = min((numleft>>6) +6,6);
-	    hadfixed=1;
 	    setregalt(ansr,spar);
 	    w.answhere=ansr;
 	    for (par_reg=spar;par_reg<spar+pregs_used;++par_reg) {
@@ -2728,7 +2708,6 @@ tailrecurse:
 	    is.b.offset+= (max(ap.ashsize,REG_SIZE) >>3);
 	    /* 'size' was used here */
 	    code_here(list, sp, w);
-	    hadfixed = 1;
 	    /* eval parameter into argument space on stack */
 	  }
 	  if (name(list) == caller_tag) {
@@ -2851,16 +2830,6 @@ tailrecurse:
 	load_store(i_ldgp,GP,a);
       }
       else{
-	if (Has_fp) {
-	  baseoff b;
-	  b.base = FP;
-	  b.offset = (frame_size+callee_size) >>3;
-	  b.offset = -8;
-	}
-	else {
-	  baseoff b;
-	  b.base=SP;
-	}
 	integer_jump_fn(i_jmp,31,fn,sp);
       }
       clear_all();
@@ -3118,8 +3087,6 @@ tailrecurse:
       exp bdy = son(crt_proc);
       int stack_space;
       int rsize = -1;
-      space nsp;
-      nsp = sp;
       stack_space = max(arg_stack_space,6*(PTR_SZ>>3));
 
       if (name(cllees) == make_callee_list_tag) {
@@ -5330,9 +5297,7 @@ tailrecurse:
     case contvol_tag: {
       where w;
       bool sgned;
-      ash desper;
       int dr= (dest.answhere.discrim == inreg)?dest.answhere.val.regans:NO_REG;
-      desper = ashof(sh(e));
 
       if (name(e) == contvol_tag) {
 	clear_all();
@@ -5652,6 +5617,7 @@ tailrecurse:
 	 * arguments passed to this proc, and for which space must be reserved
 	 * within the current frame.
 	 */
+	UNUSED(param_stack_space);
       for (i=0;i<min(pr->needsproc.numparams>>6,NUM_PARAM_REGS);++i) {
 	sp = guardreg(FIRST_INT_ARG+i,sp);
       }

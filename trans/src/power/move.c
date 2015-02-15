@@ -22,6 +22,7 @@
 
 #include <assert.h>
 
+#include <shared/check.h>
 #include <shared/error.h>
 
 #include <local/ash.h>
@@ -297,7 +298,12 @@ static void loopmove2
   baseoff src_bo;
   baseoff dest_bo;
   int copy_reg;
-  int loop = new_label();
+  int loop;
+
+  UNUSED(ld);
+  UNUSED(st);
+
+  loop = new_label();
 
   asm_comment("loopmove2: loop move");
 
@@ -388,7 +394,11 @@ static void loopmove3
   int copy1_reg;
   int copy2_reg;
   bool decr_destptr_reg;
-  int loop = new_label();
+  int loop;
+
+  UNUSED(ld);
+
+  loop = new_label();
 
   asm_comment("loopmove3: loop move");
 

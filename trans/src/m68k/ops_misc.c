@@ -733,7 +733,11 @@ void
 move_const(shape sha, long sz, long c, where to)
 {
 	int instr;
-	int whto = whereis(to);
+	int whto;
+
+	UNUSED(sha);
+
+	whto = whereis(to);
 
 	if (c == 0) {
 		/* Clearing is a special case */

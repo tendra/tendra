@@ -11,6 +11,7 @@
 #include <string.h>
 #include <stdio.h>
 
+#include <shared/check.h>
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
@@ -191,6 +192,9 @@ void update_plc
 void checknan
 (exp e, int fr)
 {
+	UNUSED(e);
+	UNUSED(fr);
+
 #if 0
   long trap = no(son(pt(e)));
   int t = (ABS_OF(fr) - 32) << 1;
@@ -3890,11 +3894,9 @@ makeans make_code
       freg frg;
       ans aa;
       ash ain;
-      int from;
       bool from_sgned ;
 
       ain = ashof(sh(in));
-      from = name(sh(in));
       from_sgned = is_signed(sh(in));
 
       /*
@@ -4554,7 +4556,6 @@ null_tag_case:
        */
      int r = GETREG(dest,sp);
      freg f1,f2;
-     ash a;
      ans aa;
      int s;
      baseoff b;
@@ -4576,7 +4577,6 @@ null_tag_case:
 	r = getreg(sp.fixed);
 	nsp = guardreg(r, sp);
      }
-     a = ashof(sh(son(e)));
      s = shape_size(sh(son(e)));
      if (name(sh(son(e))) ==doublehd && use_long_double)
      {

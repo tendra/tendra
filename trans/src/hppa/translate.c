@@ -92,6 +92,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <shared/check.h>
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
@@ -479,10 +480,8 @@ translate_capsule(void)
       needs * ndpr = & pr->needsproc;
       long pprops = (ndpr->propsneeds);
       bool leaf = (pprops & anyproccall) == 0;
-      weights w;
       spacereq forrest;
       int freefixed, freefloat;
-      int No_S = (!leaf && proc_uses_crt_env(son(crt_exp)) && proc_has_lv(son(crt_exp)));
       proc_name = crt_def->dec_u.dec_val.dec_id;
 
       setframe_flags(son(crt_exp),leaf);
@@ -536,10 +535,6 @@ translate_capsule(void)
 
       /* +++ create float s regs for leaf? */
       freefloat = 0;		/* none, always the same */
-
-      /* estimate usage of tags in body of proc */
-      if (!No_S)
-	 w = weightsv(UNITWEIGHT, bro(son(son(crt_exp))));
 
       /* reg and stack allocation for tags */
       forrest = regalloc(bro(son(son(crt_exp))), freefixed, freefloat, 0);
@@ -692,10 +687,9 @@ translate_capsule(void)
 
   for (next_proc_def=0; next_proc_def < procno; next_proc_def++)
   {
-     exp tg, crt_exp;
+     exp tg;
      char *id;
      bool extnamed;
-     procrec *pr;
      crt_def = proc_def_trans_order[next_proc_def];
      tg = crt_def->dec_u.dec_val.dec_exp;
      id = crt_def->dec_u.dec_val.dec_id;
@@ -703,8 +697,6 @@ translate_capsule(void)
 
      if (no(tg)!=0 || extnamed)
      {
-	crt_exp = crt_def->dec_u.dec_val.dec_exp;
-	pr = & procrecs[no(son(crt_exp))];
 	insection(text_section);
 	outnl();
 	outnl();

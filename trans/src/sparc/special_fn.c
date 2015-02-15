@@ -10,6 +10,8 @@
 #include <assert.h>
 #include <string.h>
 
+#include <shared/check.h>
+
 #include <reader/exp.h>
 #include <reader/code.h>
 
@@ -25,6 +27,11 @@
 bool
 special_fn(exp a1, exp a2, shape s, exp *e)
 {
+	UNUSED(a1);
+	UNUSED(a2);
+	UNUSED(s);
+	UNUSED(e);
+
 	return 0;
 }
 

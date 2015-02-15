@@ -188,6 +188,9 @@ makeans make_proc_tag_code
   Has_vcallees = (name(e) == general_proc_tag) && (proc_has_vcallees(e));
   Has_no_vcallers = (name(e) == proc_tag) || (!proc_has_vcallers(e));
   in_general_proc = (name(e) == general_proc_tag);
+
+  UNUSED(dest);
+
   if (gencompat) {
     May_have_callees = proc_may_have_callees(e);
   }
@@ -571,7 +574,10 @@ makeans make_res_tag_code
   makeans mka;
   mka.lab = exitlab;
   mka.regmove = NOREG;
+
+  UNUSED(dest);
   assert(name(e) == res_tag || name(e) == untidy_return_tag);
+
   w.answhere = proc_state.procans;
   w.ashwhere = ashof(sh(son(e)));
  (void)code_here(son(e), sp, w);
@@ -656,6 +662,7 @@ makeans make_res_tag_code
       else {
 	baseoff b;
 	b.base = R_FP;
+	UNUSED(b);
 #if 0
 	if (Has_vcallees) {
 	  baseoff b;
@@ -1223,6 +1230,7 @@ makeans make_apply_general_tag_code
   }
 
   param_regs_used = param_reg - R_O0;
+  UNUSED(param_regs_used);
 
   if (gencompat && (call_has_vcallees(cllees) == 0)) {
     if (name(cllees) == make_callee_list_tag) {
@@ -1551,6 +1559,9 @@ makeans make_make_callee_list_tag
   space nsp;
   int rdest;
 
+  UNUSED(dest);
+  UNUSED(exitlab);
+
   nsp = guardreg(R_O5,sp);
   nsp = guardreg(R_O4,nsp);
   mka.regmove = R_G0;
@@ -1605,6 +1616,10 @@ makeans make_same_callees_tag
   bool vc = call_has_vcallees(e);
   makeans mka;
   space nsp;
+
+  UNUSED(dest);
+  UNUSED(exitlab);
+
   mka.regmove = R_G0;
   if (Has_vcallees) {
     /* copy from [callee_start_reg ... callee_end_reg] into newly allocated
@@ -1710,6 +1725,10 @@ makeans make_make_dynamic_callee_tag
   int rptr,rsize,rdest,r_true_size;
   int copy_start_lab = new_label();
   int copy_end_lab = new_label();
+
+  UNUSED(dest);
+  UNUSED(exitlab);
+
   space nsp;
   baseoff b;
   makeans mka;
@@ -1778,6 +1797,9 @@ makeans make_tail_call_tag
   int callee_size = proc_state.callee_size;
   makeans mka;
   baseoff bproc;
+
+  UNUSED(dest);
+
   bool glob = ((name(fn) == name_tag) && (name(son(fn)) == ident_tag) &&
 	      ((son(son(fn)) == NULL) || (name(son(son(fn))) == proc_tag)
 		|| (name(son(son(fn))) == general_proc_tag)));

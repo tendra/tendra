@@ -106,15 +106,6 @@ enc_external(bitstream *b, construct *p)
 }
 
 
-static long
-octval(node *p)
-{
-    long n = (long)octal_to_ulong(p->bro->cons->name);
-    if (p->cons->encoding)n = -n;
-    return n;
-}
-
-
 void
 enc_node(bitstream *b, node *p)
 {

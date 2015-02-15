@@ -9,6 +9,8 @@
 
 #include <stdio.h>
 
+#include <shared/check.h>
+
 #include <local/szs_als.h>
 
 #include <reader/exp.h>
@@ -190,9 +192,15 @@ translate_capsule(void)
 static void code_proc
 (dec *d, char *id, exp c, exp s)
 {
-    diag_descriptor *di = d->dec_u.dec_val.diag_info;
-    int reg_res = (has_struct_res(s)? 0 : 1);
-    int is_ext = (d->dec_u.dec_val.extnamed ? 1 : 0);
+    diag_descriptor *di;
+    int reg_res;
+    int is_ext;
+
+	UNUSED(c);
+
+    di = d->dec_u.dec_val.diag_info;
+    reg_res = (has_struct_res(s)? 0 : 1);
+    is_ext = (d->dec_u.dec_val.extnamed ? 1 : 0);
 
     area(ptext);
 

@@ -20,6 +20,8 @@
 #include <assert.h>
 #include <string.h>
 
+#include <shared/check.h>
+
 #include <local/ash.h>
 
 #include <reader/exp.h>
@@ -1412,12 +1414,9 @@ ptr is labelled exp
 	exp * lhs = &son(*e);
 	exp * rhs = &bro(*lhs);
 	needs nr;
-	ash a;
 
 	nr = scan (rhs, at);
 	/* scan source */
-
-	a = ashof (sh (* (rhs)));
 
 	if (name (* (lhs)) == name_tag && (no(*lhs) < 8*32768 && no(*lhs) >= -8*32768) &&
 	    (isvar (son (* (lhs))) &&  /* can do better for regable rhs*/

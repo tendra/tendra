@@ -16,6 +16,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include <shared/check.h>
 #include <shared/xalloc.h>
 
 #include <reader/exp.h>
@@ -57,6 +58,9 @@ output_symbolic_diagnostic(FILE *outfile, diag_info *inf)
 {
   sourcemark *source;
   char * fname;
+
+  UNUSED(outfile);
+
   if(inf->key == DIAG_INFO_SOURCE){
     source = &inf->data.source.beg;
     fname = source->file->file.ints.chars;

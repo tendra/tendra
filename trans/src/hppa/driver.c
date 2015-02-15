@@ -76,6 +76,8 @@ init(void)
 static int
 option(char c, const char *optarg)
 {
+	UNUSED(optarg);
+
 	switch (c) {
 	case 'd': plusZ            = 1; break; /* -d emulates cc's +Z flag */
 	case 'i': do_indexed_loads = 0; break;

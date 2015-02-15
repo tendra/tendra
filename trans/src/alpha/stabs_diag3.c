@@ -17,6 +17,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <shared/check.h>
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
@@ -240,6 +241,9 @@ static void output_diag
 (diag_info *d, int proc_no, exp e)
 {
   exp x;
+
+  UNUSED(proc_no);
+
   if (d->key == DIAG_INFO_SOURCE) {
     sourcemark * s = & d->data.source.beg;
     int f = find_file(s->file->file.ints.chars);

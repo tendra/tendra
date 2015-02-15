@@ -12,6 +12,8 @@
 #include <stdio.h>
 #include <ctype.h>
 
+#include <shared/check.h>
+
 #include "config.h"
 #include "types.h"
 #include "file.h"
@@ -376,7 +378,7 @@ print_node(const char *prefix, void *root, const char *port, node *p)
 		case SORT_tdfstring:
 			/* Print a string */
 			{
-				int i, n = (int) m;
+				int n = (int) m;
 				if (n == -1) {
 					node_label(p, "%s", MAKE_STRING);
 					print_node("", p, NULL, p->son);
@@ -531,6 +533,8 @@ default_label:
 static void
 print_title(char *title, construct *p, int dec)
 {
+	UNUSED(dec);
+
 	if (p->ename == NULL) {
 		(void) fprintf(output, "%s ", LOCAL_DECL);
 	}
@@ -541,6 +545,8 @@ print_title(char *title, construct *p, int dec)
 static void
 print_name(char *title, construct *p, int dec)
 {
+	UNUSED(title);
+
 	if (p->ename && p->ename->cons->encoding && dec) {
 		char *f = "\n  %s (\n";
 		if (p->ename->son->cons->sortnum == SORT_tdfstring) {
@@ -1009,6 +1015,7 @@ dot_capsule(void)
 		(void) fputs("\t\tlabel = \"High-level SORTs\";\n", output);
 
 		for (i = 0; i < crt_high_sort; i++)
+			UNUSED(print_high_sort);
 /* TODO:
 			print_high_sort(high_sorts + i);
 */

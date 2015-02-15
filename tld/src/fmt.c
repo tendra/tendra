@@ -10,6 +10,7 @@
 
 #include <exds/dstring.h>
 
+#include <shared/check.h>
 #include <shared/error.h>
 
 #include "adt/name-key.h"
@@ -19,17 +20,23 @@
 static void fmt_nstring(FILE *fp, void *p) {
 	NStringT *nstring = p;
 
+	UNUSED(fp);
+
 	write_nstring(ostream_error, nstring);
 }
 
 static void fmt_namekey(FILE *fp, void *p) {
 	NameKeyT *namekeyt = p;
 
+	UNUSED(fp);
+
 	write_name_key(ostream_error, namekeyt);
 }
 
 static void fmt_libcap(FILE *fp, void *p) {
 	LibCapsuleT *libcap = p;
+
+	UNUSED(fp);
 
 	write_lib_capsule_full_name(ostream_error, libcap);
 }

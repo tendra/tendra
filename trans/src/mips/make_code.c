@@ -156,6 +156,8 @@ bool unsafe
 (exp e)
 {		/*  usages of parameters which might be
 				   vararg */
+	UNUSED(e);
+
 /*
   if (last (e))
     return name (bro (e)) != cont_tag && name (bro (e)) != par_tag;
@@ -2140,16 +2142,12 @@ tailrecurse:
 	int   hda = name(sh(e));
 	int disp;
 
-	ash ansash;
-
 
 
 	if ((disp = specialfn (fn)) > 0) {/* eg function is strlen */
 	  mka.lab = specialmake(disp, list, sp, dest, exitlab);
 	  return mka;
 	}
-
-	ansash = ashof(sh(e));
 
 	if (!last(fn)) {
 		sp = do_callers(list, sp);
@@ -3707,10 +3705,8 @@ tailrecurse:
       {
 	where w;
 	bool sgned;
-	ash desper;
 
 	int   dr = (dest.answhere.discrim == inreg)? dest.answhere.val.regans : 0;
-	desper = ashof(sh(e));
 
 	if (name(e) == contvol_tag) {
 	  clear_all();

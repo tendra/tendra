@@ -888,6 +888,8 @@ out_lookup_table(struct ast *ast,
 static void
 out_buffer(struct options *opt, struct ast *ast)
 {
+	UNUSED(opt);
+
 	/*
 	 * Strictly the state argument is not required in the case of a
 	 * lookahead of one character, since the token buffer does not exist.

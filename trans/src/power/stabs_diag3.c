@@ -561,6 +561,8 @@ static void output_diag(diag_info * d, int proc_no, exp e)
 {
   exp id;
 
+  UNUSED(proc_no);
+
   asm_comment("output_diag: key=%d", d->key);
 
   if (d->key == DIAG_INFO_SOURCE)
@@ -647,6 +649,8 @@ static void output_end_scope(diag_info * d, exp e)
  */
 static diag_descriptor *find_dd(exp e)
 {
+  UNUSED(e);
+
   if (diag_def==NULL)
   {
     return NULL;
@@ -1490,6 +1494,8 @@ void stab_bs(char *sectname)
  */
 void stab_es(char *sectname)
 {
+  UNUSED(sectname);
+
   asm_printop(".es");
 }
 
@@ -1500,6 +1506,10 @@ void stab_es(char *sectname)
  */
 void stab_global(exp global, char *id, bool ext)
 {
+  UNUSED(global);
+  UNUSED(id);
+  UNUSED(ext);
+
 #if defined(__AIX) || defined(CROSS_INCLUDE)
   diag_descriptor *dd = find_dd(global);
 
@@ -1534,6 +1544,9 @@ void stab_global(exp global, char *id, bool ext)
 void stab_proc1(exp proc, char *id, bool ext)
 {
   diag_descriptor *dd = find_dd(proc);
+
+  UNUSED(id);
+  UNUSED(ext);
 
   block_depth = 0;
 
@@ -1638,6 +1651,9 @@ void stab_proc2(exp proc, char *id, bool ext)
  */
 void stab_endproc(exp proc, char *id, bool ext)
 {
+  UNUSED(proc);
+  UNUSED(ext);
+
   /* end all open blocks */
   while (block_depth > 0)
     stab_end_block();
@@ -1740,6 +1756,12 @@ void stab_endproc(exp proc, char *id, bool ext)
  */
 void stab_local(char *nm, diag_type dt, exp id, int disp, int findex)
 {
+  UNUSED(nm);
+  UNUSED(dt);
+  UNUSED(id);
+  UNUSED(disp);
+  UNUSED(findex);
+
 #if defined(__AIX) || defined(CROSS_INCLUDE)
   asm_comment("stab_local: %s disp=%d boff(id).offset=%d",(long)nm, disp, boff(id).offset);
   disp += boff(id).offset;

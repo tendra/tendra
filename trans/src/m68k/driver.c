@@ -98,6 +98,8 @@ init(void)
 static int
 option(char c, const char *optarg)
 {
+	UNUSED(optarg);
+
 	switch (c) {
 	case 'a': no_align_directives = 1; break;
 	case 'f': convert_floats      = 0; break;

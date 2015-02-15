@@ -14,6 +14,7 @@
 
 #include <string.h>
 
+#include <shared/check.h>
 #include <shared/error.h>
 
 #include <local/ash.h>
@@ -115,6 +116,7 @@ specialmake(int n, exp par, space sp, where dest, int exitlab)
 	      /*rri_ins (i_addq, r, 3, 1);*/
 	set_label (lstart);
 
+	UNUSED(r1);
 /*	ls_ins (i_lb, r1, ind3);
 	rri_ins (i_add, 3, 3, 1);*/
 /*	condr_ins (i_bnez, r1, lstart);

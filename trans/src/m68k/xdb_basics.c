@@ -10,6 +10,8 @@
 #include <stdio.h>
 #include <string.h>
 
+#include <shared/check.h>
+
 #include <reader/exp.h>
 #include <reader/code.h>
 #include <reader/token.h>
@@ -86,10 +88,18 @@ diag_mark(sourcemark *sm)
 static void
 diag_variable(diag_info *di, exp e)
 {
-	exp s = di->data.id_scope.access;
-	diag_type t = di->data.id_scope.typ;
-	char *nm = di->data.id_scope.nme.ints.chars;
-	long p = (no(s) + no(son(s))) / 8;
+	exp s;
+	diag_type t;
+	char *nm;
+	long p;
+
+	UNUSED(e);
+
+	s = di->data.id_scope.access;
+	t = di->data.id_scope.typ;
+	nm = di->data.id_scope.nme.ints.chars;
+	p = (no(s) + no(son(s))) / 8;
+
 	if (!isparam(son(s))) {
 		diag_local_variable(t, nm, p);
 	}
@@ -150,9 +160,17 @@ void
 xdb_diag_proc_begin(diag_descriptor *di, exp p, char *pname, long cname,
 		    int is_ext)
 {
-	char *nm = di->data.id.nme.ints.chars;
-	diag_type t = di->data.id.new_type;
-	sourcemark *sm = & (di->data.id.whence);
+	char *nm;
+	diag_type t;
+	sourcemark *sm;
+
+	UNUSED(cname);
+	UNUSED(is_ext);
+
+	nm = di->data.id.nme.ints.chars;
+	t = di->data.id.new_type;
+	sm = & (di->data.id.whence);
+
 	diag_proc_main(t, p, nm, !is_local(pname), pname);
 	diag_mark(sm);
 }
@@ -178,6 +196,8 @@ xdb_diag_proc_return(void)
 void
 xdb_diag_proc_end(diag_descriptor *di)
 {
+	UNUSED(di);
+
 	area(ptext);
 	if (diag == DIAG_XDB_NEW) {
 		mach_op *op1 = make_lab_data(crt_diag_proc_lab, 0);
@@ -198,8 +218,14 @@ xdb_diag_proc_end(diag_descriptor *di)
 void
 xdb_diag_val_begin(diag_descriptor *di, char *pname, long cname, int is_ext)
 {
-	char *nm = di->data.id.nme.ints.chars;
-	diag_type t = di->data.id.new_type;
+	char *nm;
+	diag_type t;
+
+	UNUSED(cname);
+	UNUSED(is_ext);
+
+	nm = di->data.id.nme.ints.chars;
+	t = di->data.id.new_type;
 	diag_globl_variable(t, nm, !is_local(pname), pname, 1);
 }
 

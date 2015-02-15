@@ -27,6 +27,8 @@
 #include <assert.h>
 #include <stdio.h>
 
+#include <shared/check.h>
+
 #include <local/ash.h>
 
 #include <main/print.h>
@@ -127,9 +129,12 @@ make_code_here(exp e, space sp, where dest)
 static int
 is_reg_operand(exp e, space sp)
 {
-  int x = regofval(e);
+  int x;
   ans aa;
 
+  UNUSED(sp);
+
+  x = regofval(e);
   if (x >= 0 && x < R_NO_REG)
     return x;			/* x is a register for e */
 

@@ -10,6 +10,7 @@
 
 #include <assert.h>
 
+#include <shared/check.h>
 #include <shared/error.h>
 
 #include <local/cpu.h>
@@ -301,6 +302,9 @@ tailrecurse:
 }
 bool simple_seq(exp e, exp id)
 {
+	UNUSED(e);
+	UNUSED(id);
+
 #if 0
   exp dad = father(e);
 

@@ -128,6 +128,8 @@ unary(int val)
 static void outfloat(f)
 flpt f;
 {
+	UNUSED(f);
+
 #if ( FBASE == 10 )
   int i;
   int n;
@@ -175,7 +177,7 @@ realrep(exp e)
     int i, ex ;
     char bits [128] ;
     static long longs [4] ;
-    int exp_bits, mant_bits ;
+    int exp_bits ;
     long sz = shape_size ( sh ( e ) ) ;
 
 #if ( FBASE == 10 )
@@ -185,13 +187,10 @@ realrep(exp e)
     /* Find size of exponent and mantissa */
     if ( sz == 32 ) {
 	exp_bits = 8 ;
-	mant_bits = 23 ;
     } else if ( sz == 64 ) {
 	exp_bits = 11 ;
-	mant_bits = 52 ;
     } else {
 	exp_bits = 15 ;
-	mant_bits = 96 /* or 112? */ ;
     }
 
     if ( name ( e ) == real_tag ) {
@@ -1011,8 +1010,6 @@ evalone(exp e, int bitposn)
   case ncopies_tag:
    {
       int n = no(e);
-      ash copya;
-      int bitsize;
       int i;
 
       while (name(son(e)) == ncopies_tag)
@@ -1022,12 +1019,6 @@ evalone(exp e, int bitposn)
       }
 
       e = son(e);
-
-      copya = ashof(sh(e));
-      if (copya.ashalign != 0)
-	bitsize = (copya.ashsize / copya.ashalign) * copya.ashalign;
-      else
-	bitsize = 0;		/* probably never happen! */
 
       for (i = 0; i < n; i++)
       {

@@ -203,6 +203,8 @@ out_scaled(mach_op *ptr)
 static void
 out_float(flt *f)
 {
+	UNUSED(f);
+
 #if (FBASE == 10)
 	int i;
 	asm_fprefix();

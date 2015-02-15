@@ -292,10 +292,7 @@ dw1_output_diag(diag_info *d, int proc_no, exp e)
 void
 dw1_output_end_scope(diag_info *d, exp e)
 {
-	char expr_buf[100];
-
 	/* TODO: asm_comment("END diag_info key %d", d->key); avoid x86 outnl side effect */
-
 	if (d->key != DIAG_INFO_SOURCE && props(e) & 0x80) {
 		OUT_DWARF_END(POP_LEX_BLK);
 		CHK_LEX_STK;

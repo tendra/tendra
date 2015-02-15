@@ -10,6 +10,7 @@
 
 #include <assert.h>
 
+#include <shared/check.h>
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
@@ -451,4 +452,6 @@ void track_fixed(int reg, exp id)
 
 void track_float(int reg, exp id)
 {
+	UNUSED(reg);
+	UNUSED(id);
 }

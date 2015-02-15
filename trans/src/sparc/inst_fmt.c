@@ -813,6 +813,9 @@ fmaxminrr_ins ( ins_p ins, int src1, int src2, int dest, int ftype ) {
   ins_p fcmp_ins;
   int lab = new_label() ;
   fcmp_ins = i_fcmps;
+
+  UNUSED(ftype);
+
   asm_printop("%s %s,%s", fcmp_ins,RN ( src1 ), RN ( src2 ) ) ;
   asm_printop("%s %s%d", ins, lab_prefix, lab ) ;
   /* USE the delay slot */

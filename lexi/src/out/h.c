@@ -133,7 +133,6 @@ group_number(struct ast *ast, struct group *g)
 static int
 more_groups(struct zone *z)
 {
-	struct group_name *gn;
 	struct zone *p;
 
 	/* Group interface */
@@ -214,6 +213,8 @@ out_macros(struct options *opt, struct ast *ast)
 static void
 out_buffer(struct options *opt, struct ast *ast)
 {
+	UNUSED(opt);
+
 	/*
 	 * Strictly the state argument is not required in the case of a
 	 * lookahead of one character, since the token buffer does not exist.

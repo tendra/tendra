@@ -1028,6 +1028,8 @@ void stabd
 {
     exp x;
 
+	UNUSED(proc_no);
+
     if (d->key == DIAG_INFO_SOURCE) {
 	sourcemark *s = &d->data.source.beg;
 	long f = find_file(s->file->file.ints.chars);
@@ -1169,6 +1171,8 @@ void init_stab_aux
 /* ARGSUSED */ static diag_descriptor *find_dd
 (exp e)
 {
+	UNUSED(e);
+
     if (diag_def == NULL) return NULL;
     return diag_def->dec_u.dec_val.diag_info;
 }
@@ -1274,6 +1278,8 @@ static void stab_scope_open
 static void stab_scope_close
 (long findex)
 {
+	UNUSED(findex);
+
    bracket_level--;
    if (bracket_level>MAX_LEX_LEVEL)
       return;
@@ -1679,6 +1685,7 @@ static DNTTPOINTER out_dt_shape
 #endif
 	   }
 	   elemtype = out_dt_shape(element_type);
+	   UNUSED(elemtype);
 	   if (diag == DIAG_XDB)
 	   {
 #ifdef _SYMTAB_INCLUDED
@@ -2076,7 +2083,11 @@ void close_function_scope
 /* ARGSUSED */ void stab_local
 (char *nm, diag_type dt, exp ldid, long disp, long findex)
 {
-    exp id = son(ldid);
+    exp id;
+
+	UNUSED(findex);
+
+	id = son(ldid);
     disp += boff(id).offset;
     again:
     if (name(id) == ident_tag)

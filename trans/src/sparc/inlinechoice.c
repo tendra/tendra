@@ -10,6 +10,8 @@
 #include <assert.h>
 #include <stdio.h>
 
+#include <shared/check.h>
+
 #include <reader/exp.h>
 
 #include <construct/installglob.h>
@@ -51,7 +53,6 @@ int inlinechoice
   exp pr_ident;
 
   int newdecs = 0;
-  int no_actuals;
   int max_complexity;
 
   int nparam;
@@ -108,7 +109,6 @@ int inlinechoice
   }
 
   apars = bro(t);		/* t is name_tag */
-  no_actuals = last(t);		/* if so then apars is apply_tag... */
   fpars = son(def);
 
   for (;;) {

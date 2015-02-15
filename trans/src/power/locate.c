@@ -16,6 +16,7 @@
 
 #include <assert.h>
 
+#include <shared/check.h>
 #include <shared/error.h>
 
 #include <local/ash.h>
@@ -498,13 +499,10 @@ static where locate1(exp e, space sp, shape s, int dreg)
   case reff_tag:
     {
       instore isa;
-      bool bitfield;
 
       /* answer is going to be wans displaced by no(e) */
 
       wans = locate(son(e), sp, sh(son(e)), 0);
-
-      bitfield = ((name(sh(e)) == ptrhd) && (al1(sh(e)) == 1));
 
       switch (wans.answhere.discrim)
       {

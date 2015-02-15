@@ -8,6 +8,8 @@
 
 #include <stdio.h>
 
+#include <shared/check.h>
+
 #include <main/driver.h>
 #include <main/flags.h>
 
@@ -21,6 +23,8 @@ init(void)
 static int
 option(char c, const char *optarg)
 {
+	UNUSED(optarg);
+
 	switch (c) {
 	default:
 		return -1;

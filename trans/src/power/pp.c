@@ -12,6 +12,8 @@
 
 #include <stdio.h>
 
+#include <shared/check.h>
+
 #include <local/ash.h>
 
 #include <reader/exp.h>
@@ -1328,6 +1330,8 @@ void general_proc_tag_props(exp e)
 
 void solve_props(exp e)
 {
+	UNUSED(e);
+
 #ifdef POWER
   printf("is_copying_solve = %d\n",is_copying_solve(e));
 #endif

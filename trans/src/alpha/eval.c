@@ -189,8 +189,12 @@ void
 outfloat(exp e, int rep, ash a)
 {
   INT64 val;
-  int fv = name(sh(e)) - shrealhd;
+  int fv;
   r2l ieeeflt;
+
+  UNUSED(a);
+
+  fv = name(sh(e)) - shrealhd;
   ieeeflt = real2longs_IEEE(&flptnos[no(e)],fv);
   switch(fv){
     case 0:

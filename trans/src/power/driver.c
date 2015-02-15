@@ -79,6 +79,8 @@ init(void)
 static int
 option(char c, const char *optarg)
 {
+	UNUSED(optarg);
+
 	switch (c) {
 	case 'e': no_error_jump   = 1; break;
 	case 'm': do_macros       = 1; break;

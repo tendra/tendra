@@ -77,6 +77,8 @@ init(void)
 static int
 option(char c, const char *optarg)
 {
+	UNUSED(optarg);
+
 	switch (c) {
 	case 'e': do_extern_adds = 1; break;
 

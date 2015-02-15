@@ -10,6 +10,7 @@
 #include <assert.h>
 #include <stdlib.h>
 
+#include <shared/check.h>
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
@@ -112,8 +113,8 @@ destroy_calculus(calculus *p, unsigned sz)
 void
 dummy_destroy_calculus(calculus *p, unsigned sz)
 {
-    /* UNUSED(p); */
-    /* UNUSED(sz); */
+    UNUSED(p);
+    UNUSED(sz);
     return;
 }
 

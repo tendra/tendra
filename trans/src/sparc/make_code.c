@@ -104,6 +104,9 @@ where nowhere ;
 void 
 checknan ( exp e, int fr )
 {
+	UNUSED(e);
+	UNUSED(fr);
+
 #if 0
   long trap = no ( son ( pt ( e ) ) ) ;
   int t = ( ABS_OF ( fr ) - 32 ) << 1 ;
@@ -1586,12 +1589,9 @@ make_code ( exp e, space sp, where dest, int exitlab )
        mka.regmove = comm_op ( e, sp, newdest,(optop(e))?i_add:i_addcc) ;
        switch(name(sh(e))){
 	 case ulonghd: {
-	   int l,r;
+	   int l;
 	   /*int newlab = new_label();*/
-	   int rt;
-	   rt = getreg(nsp.fixed);
 	   l = reg_operand(son(e),nsp);
-	   r = reg_operand(bro(son(e)),nsp);		
 
 	   if(error_treatment_is_trap(e)){
 	     int new_lab = new_label();
@@ -1775,13 +1775,11 @@ make_code ( exp e, space sp, where dest, int exitlab )
      where newdest;
        ans aa;
        int res_reg = getreg(sp.fixed);
-       space nsp;
        newdest.ashwhere = dest.ashwhere;
        newdest.answhere.d = inreg;
        newdest.ashwhere.ashsize = 32;
        newdest.ashwhere.ashalign = 32;
        newdest.answhere.val.regans = res_reg;
-       nsp = guardreg(res_reg,sp);
        mka.regmove = do_mul_comm_op ( e, sp, newdest, sgned );
        
       switch(name(sh(e))){
@@ -1839,20 +1837,16 @@ make_code ( exp e, space sp, where dest, int exitlab )
       ins_p branch ;
       exp l = son ( e ) ;
       exp r = bro ( l ) ;
-      shape shl = sh ( l ) ;
       freg a1, a2, d;
       space nsp;
       ans aa;
 	  
       int n = (name(e) == min_tag) ? 2 : 3; /* min -> lt, max -> ge */
 	 
-    bool unsgn ;
-	  
     /*assert(name(l) != val_tag);*/ /* now in common section */
 	  
 	  
     /* Choose branch instruction */
-    unsgn = ( bool ) ( name ( shl ) >= ptrhd || !issgn ( shl ) ) ;
     branch = fbranches (n);
     	  
     d.fr = GETFREG(dest, sp);
@@ -1928,14 +1922,12 @@ make_code ( exp e, space sp, where dest, int exitlab )
       condrr_ins(i_be,reg_test,0,no(son(pt(e))));
     }
     if(!optop(e) /*&& !error_treatment_is_trap(e)*/) {
-      space nsp;
       res_reg = getreg(sp.fixed);
       newdest.ashwhere = dest.ashwhere;
       newdest.answhere.d = inreg;
       newdest.answhere.val.regans = res_reg;
       newdest.ashwhere.ashsize = 32;
       newdest.ashwhere.ashalign = 32;
-      nsp = guardreg(res_reg,sp);
     }
     else newdest = dest;
 
@@ -3666,6 +3658,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
 	  isb.b.base = regalt ( assdest.answhere ) ;
 	  isb.b.offset_bits = 0 ;
 	  isb.adval = 1 ;
+	  UNUSED(isb);
 	  break ;
 	}
 
@@ -3773,6 +3766,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
       }
 
       case notinreg :
+	UNUSED(contreg);
 #if 0
       case bitad : {
 	if ( contreg != NOREG && name ( e ) == ass_tag ) {
@@ -4645,12 +4639,6 @@ make_code ( exp e, space sp, where dest, int exitlab )
 }
 
 
-
-static void 
-done_arg ( void * args )
-{
-  UNUSED (args);
-}
 
 void 
 diag_arg ( exp e, space sp, where dest )

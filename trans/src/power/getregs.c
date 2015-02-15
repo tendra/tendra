@@ -10,6 +10,7 @@
 
 #include <assert.h>
 
+#include <shared/check.h>
 #include <shared/error.h>
 
 #include <main/print.h>
@@ -31,8 +32,9 @@ static long choosefloat;
 
 /* reset getreg() and getfreg() back to start of sequence for proc 'tg' */
 void settempregs(exp tg)
-
 {
+  UNUSED(tg);
+
   currentfix = R_LAST_PARAM+1;/* R_11 it must be for parameters*/
   choosefix = RMASK(currentfix);
 

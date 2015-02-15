@@ -813,6 +813,9 @@ static int
 is_asm_opnd ( exp e, int ext )
 {
   unsigned char n = name (e);
+
+  UNUSED(ext);
+
   if (n == name_tag) {
     id_in_asm (son(e));
     return 1;
@@ -829,6 +832,9 @@ static int
 is_asm_var ( exp e, int ext )
 {
   unsigned char n = name (e);
+
+  UNUSED(ext);
+
   if (n == name_tag && isvar(son(e))) {
     id_in_asm (son(e));
     return 1;

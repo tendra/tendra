@@ -15,6 +15,7 @@
 #include <stdio.h>
 
 #include <shared/bool.h>
+#include <shared/check.h>
 #include <shared/xalloc.h>
 
 #include <main/driver.h>
@@ -234,4 +235,5 @@ set_align(int al)
     }
     current_alignment = al;
   }
+  UNUSED(binasm_data); /* XXX */
 }  

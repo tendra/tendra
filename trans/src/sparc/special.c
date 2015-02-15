@@ -117,6 +117,9 @@ static const needs twofixneeds = { 2, 0, 0, 0 } ;
 needs 
 specialneeds ( int i, exp application, exp pars )
 {
+	UNUSED(application);
+	UNUSED(pars);
+
     switch ( i ) {
 
 #if 0

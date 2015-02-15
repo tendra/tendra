@@ -7,6 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <shared/check.h>
+
 #include <reader/externs.h>
 #include <reader/basicread.h>
 #include <reader/table_fns.h>
@@ -23,5 +25,6 @@
 void
 global_opt(dec *dp)
 {
+	UNUSED(dp);
 }
 

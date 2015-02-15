@@ -982,6 +982,8 @@ extj_special_ins(const char *nm, int r, char stub[128], int import)
 void
 extj_reg_ins(ins_p ins, int reg)
 {
+   UNUSED(ins);
+
    outp(i_bv,NOCOND,zops,NA);
    asm_printop("bv %%r0(%s)",RN(reg));
 }

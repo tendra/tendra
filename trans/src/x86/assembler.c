@@ -9,6 +9,7 @@
 
 #include <string.h>
 
+#include <shared/check.h>
 #include <shared/xalloc.h>
 
 #include <local/out.h>
@@ -75,6 +76,8 @@ outlong(void)
 void
 align_label(int f, exp jr)
 {
+	UNUSED(jr);
+
 	if (format == FORMAT_ELF) {
 		if (cpu & CPU_80486 && ~cpu & CPU_80586) {
 #if 0

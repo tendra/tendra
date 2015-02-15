@@ -140,6 +140,9 @@ static void out_pops
 #ifdef DWARF2
   long dwl0 = 0, dwl1 = 0, dwl2 = 0, dwl3 = 0, dwl4 = 0;
 #endif
+
+  UNUSED(dpos);
+
   tot_sp -= extra;
   if (no_frame && !stack_aligned_8byte) {
     if (tot_sp != push_space) {

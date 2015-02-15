@@ -152,8 +152,13 @@ static long diag_lab = 0;
 static table_posn *
 analyse_diag_shape(FILE *file, shape sha)
 {
-	posn_t t = NULL_POSN;
-	long sz = shape_size(sha);
+	posn_t t;
+	long sz;
+
+	UNUSED(file);
+
+	t = NULL_POSN;
+	sz = shape_size(sha);
 	switch (name(sha)) {
 	case scharhd:
 		t = CHAR_POSN + sz;

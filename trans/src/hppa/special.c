@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include <shared/check.h>
 #include <shared/error.h>
 
 #include <reader/exp.h>
@@ -109,6 +110,9 @@ static const needs twofixneeds = {2, 0, 0, 0};	/* two fix reg needs */
 needs
 specialneeds(int i, exp application, exp pars)
 {
+  UNUSED(application);
+  UNUSED(pars);
+
   asm_comment("specialneeds(%d,...)", i);
 
   switch (i)

@@ -541,7 +541,6 @@ static int do_mul_comm
 {
   exp seq = son(e);
   exp arg2 = bro(seq);
-  char *mul_proc;
   int arg = 1;
   baseoff b;
   int v;
@@ -563,8 +562,6 @@ static int do_mul_comm
 
 
   /* need to call .mul/.umul */
-
-  mul_proc = (sgned ? "$$mulI" : "$$mulU");
 
   b=mem_temp(4);
   reg_operand_here(seq,sp,ARG0);

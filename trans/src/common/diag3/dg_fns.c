@@ -621,7 +621,11 @@ dg_name
 f_dg_object_name(dg_idname idname, dg_sourcepos whence, dg_type type,
 		 exp_option obtain_value, dg_accessibility_option accessibility)
 {
-	dg_name ans = new_dg_name(DGN_OBJECT);
+	dg_name ans;
+
+	UNUSED(obtain_value);
+
+	ans = new_dg_name(DGN_OBJECT);
 	ans->idnam = idname;
 	ans->whence = shorten_sourcepos(whence);
 	ans->data.n_obj.typ = type;
@@ -640,7 +644,16 @@ f_dg_proc_name(dg_idname idname, dg_sourcepos whence, dg_type type,
 	       dg_virtuality_option virtuality, bool isinline,
 	       dg_type_list_option exceptions, dg_tag_option elaboration)
 {
-	dg_name ans = new_dg_name(DGN_PROC);
+	dg_name ans;
+
+	UNUSED(obtain_value);
+	UNUSED(accessibility);
+	UNUSED(virtuality);
+	UNUSED(isinline);
+	UNUSED(exceptions);
+	UNUSED(elaboration);
+
+	ans = new_dg_name(DGN_PROC);
 	ans->idnam = idname;
 	ans->whence = shorten_sourcepos(whence);
 	ans->data.n_proc.typ = type;
@@ -796,7 +809,11 @@ dg_name
 f_dg_module_name(dg_idname idname, dg_sourcepos whence, dg_namelist memlist,
 		 exp_option init, dg_tag_option elaboration)
 {
-	dg_name ans = new_dg_name(DGN_MODULE);
+	dg_name ans;
+
+	UNUSED(init);
+
+	ans = new_dg_name(DGN_MODULE);
 	ans->idnam = idname;
 	ans->whence = shorten_sourcepos(whence);
 	ans->data.n_mod.members = memlist.list;
@@ -2188,6 +2205,8 @@ new_dg_list(int n)
 dg_list
 add_dg_list(dg_list list, dg elem, int index)
 {
+	UNUSED(index);
+
 	if (elem && elem->more == elem) {	/* self ref => copy */
 		dg ans = new_dg_info(elem->key);
 		elem = ans;
@@ -2207,6 +2226,8 @@ add_dg_list(dg_list list, dg elem, int index)
 dg_name_list
 new_dg_name_list(int n)
 {
+	UNUSED(n);
+
 	return (dg_name) 0;
 }
 
@@ -2214,6 +2235,8 @@ new_dg_name_list(int n)
 dg_name_list
 add_dg_name_list(dg_name_list list, dg_name elem, int index)
 {
+	UNUSED(index);
+
 	if (list) {
 		dg_name x = list;
 		while (x->next) {
@@ -2391,6 +2414,8 @@ add_dg_discrim_list(dg_discrim_list list, dg_discrim elem, int index)
 dg_constraint_list
 new_dg_constraint_list(int n)
 {
+	UNUSED(n);
+
 	return (dg_constraint) 0;
 }
 
@@ -2398,6 +2423,8 @@ new_dg_constraint_list(int n)
 dg_constraint_list
 add_dg_constraint_list(dg_constraint_list list, dg_constraint elem, int index)
 {
+	UNUSED(index);
+
 	if (list) {
 		dg_constraint x = list;
 		while (x->next) {
@@ -2462,6 +2489,8 @@ init_dg_append(void)
 dg_append_list
 new_dg_append_list(int n)
 {
+	UNUSED(n);
+
 	return (dg_append_list) 0;
 }
 
@@ -2469,6 +2498,9 @@ new_dg_append_list(int n)
 dg_append_list
 add_dg_append_list(dg_append_list list, dg_append elem, int index)
 {
+	UNUSED(elem);
+	UNUSED(index);
+
 	return list;
 }
 
@@ -2685,6 +2717,8 @@ dg_dim_option no_dg_dim_option;
 dg_dim_option
 yes_dg_dim_option(dg_dim elem)
 {
+	UNUSED(elem);
+
 	error(ERR_INTERNAL, "dg_dim_option not done yet");
 	return no_dg_dim_option;
 }

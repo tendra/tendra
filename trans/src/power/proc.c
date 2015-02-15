@@ -12,6 +12,7 @@
 #include <signal.h>
 #include <stdio.h>
 
+#include <shared/check.h>
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
@@ -750,6 +751,8 @@ void make_same_callees_tag_code(exp e, space sp)
   nsp = sp;
   callee_pointer.base = R_SP;
   callee_pointer.offset = 0;
+
+  UNUSED(e);
 
   assert(name(p_current) ==general_proc_tag);
 

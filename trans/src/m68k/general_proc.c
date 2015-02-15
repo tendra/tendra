@@ -1164,12 +1164,19 @@ static void push_args
 void tail_call
 (exp e, where dest, ash stack)
 {
-   exp proc        = son(e);
-   exp pcallees     = bro(proc);
-   exp callee_args = son(pcallees);
+   exp proc;
+   exp pcallees;
+   exp callee_args;
    mach_op *op1, *op2;
    long new_callees_size;
-   bool use_push = 1;
+   bool use_push;
+
+   UNUSED(dest);
+
+   proc        = son(e);
+   pcallees    = bro(proc);
+   callee_args = son(pcallees);
+   use_push = 1;
 
    asm_comment("Tail Call");
 
@@ -1327,6 +1334,8 @@ void general_epilogue
    mach_ins * save_ins_pointer;
 
    int tmp_d1 = -1, tmp_a0 = -1, tmp_a1 = -1;
+
+   UNUSED(has_checkstack);
 
    bitpattern rmsk = regs(regsinproc & save_msk);
    bitpattern smsk = rmsk;

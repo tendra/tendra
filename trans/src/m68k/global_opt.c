@@ -10,6 +10,8 @@
 #include <stddef.h>
 #include <string.h>
 
+#include <shared/check.h>
+
 #include <reader/externs.h>
 #include <reader/basicread.h>
 #include <reader/table_fns.h>
@@ -26,5 +28,6 @@
 void
 global_opt(dec *dp)
 {
+	UNUSED(dp);
 }
 

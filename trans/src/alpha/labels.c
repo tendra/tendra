@@ -16,6 +16,7 @@
 
 #include <stdio.h>
 
+#include <shared/check.h>
 #include <shared/xalloc.h>
 
 #include <main/driver.h>
@@ -46,6 +47,7 @@ set_label(int l)
   }
   
   binasm_data = out_common(-l,ilabel);
+  UNUSED(binasm_data); /* XXX */
 }
 
 void

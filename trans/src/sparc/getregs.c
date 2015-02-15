@@ -14,6 +14,7 @@
 
 #include <assert.h>
 
+#include <shared/check.h>
 #include <shared/error.h>
 
 #include <reader/exp.h>
@@ -52,6 +53,7 @@ static long choosefloat = RMASK ( R_FLT_FIRST ) ;
 
 void 
 settempregs ( exp tg ){
+  UNUSED(tg);
   currentfix = R_O0 ;
   choosefix = RMASK ( currentfix ) ;
   currentfloat = 1 ;

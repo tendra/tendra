@@ -7,12 +7,15 @@
  */
 
 #include <shared/bool.h>
+#include <shared/check.h>
 
 #include <construct/exp.h>
 
 bool
 is_worth(exp c)
 {
+	UNUSED(c);
+
 	return false;
 }
 

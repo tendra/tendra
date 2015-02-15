@@ -9,6 +9,7 @@
 
 #include <stdlib.h>
 
+#include <shared/check.h>
 #include <shared/error.h>
 
 #include <local/codermacs.h>
@@ -168,6 +169,8 @@ int
 out_dwarf_loc_attr(exp t, int proc_no)
 {
 	int rval = 1;
+
+	UNUSED(proc_no);
 
 	if (name(t) != name_tag) {
 		OUT_DWARF_ATTR(AT_const_value);

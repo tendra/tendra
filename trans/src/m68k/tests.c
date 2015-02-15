@@ -7,6 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <shared/check.h>
 
 #include <construct/exp.h>
 #include <construct/shape.h>
@@ -210,6 +211,7 @@ int
 check_anyway(exp e)
 {
 #ifndef tdf3
+	UNUSED(e);
 	return 0;
 #else
 	if (optim & OPTIM_INLINE_EXPS) {

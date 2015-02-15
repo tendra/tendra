@@ -13,6 +13,7 @@
 #include <string.h>
 #include <limits.h>
 
+#include <shared/check.h>
 #include <shared/error.h>
 #include <shared/string.h>
 
@@ -112,6 +113,7 @@ temp_fopen(char *buf, size_t bufsz, const char *dir, const char *name, const cha
 {
 	FILE *f;
 
+	assert(dir != NULL);
 	assert(name != NULL);
 	assert(*name != '\0');
 

@@ -176,6 +176,7 @@ load_store(instruction ins, int reg, baseoff a)
     }
   }
   clear_reg(reg);
+  UNUSED(binasm_data); /* XXX */
 }
 
 
@@ -191,6 +192,7 @@ load_store_immediate(instruction ins, int reg, INT64 val)
   }
   binasm_data = out_biinst(0,ins_binid(ins),reg,xnoreg,FRI,0,val);
   clear_reg(reg);
+  UNUSED(binasm_data); /* XXX */
 }
 
 
@@ -203,6 +205,7 @@ load_store_label(instruction ins, int reg, int lab)
 		  reg_name[reg],lab);
   }	
   binasm_data = out_linst(-lab,ins_binid(ins),reg,xnoreg,FRL,0);
+  UNUSED(binasm_data); /* XXX */
 }
 
 
@@ -218,6 +221,7 @@ integer_branch(instruction ins, int reg, int dest)
 		  reg_name[reg],dest);
   }
   binasm_data = out_linst(-dest,ins_binid(ins),reg,xnoreg,FRL,0);
+  UNUSED(binasm_data); /* XXX */
 }
 
 
@@ -237,6 +241,7 @@ integer_jump(instruction ins, int dest_reg, int source_reg, int hint)
     }
   }
   binasm_data = out_iinst(0,ins_binid(ins),dest_reg,source_reg,FRR,0,hint);
+  UNUSED(binasm_data); /* XXX */
 }
 
 
@@ -275,6 +280,7 @@ integer_jump_external(instruction ins, int ra, baseoff b)
 		  reg_name[ra],extname);
   }
   binasm_data = out_iinst(symnos[-b.base-1],ins_binid(ins),ra,xnoreg,FRR,0,0);
+  UNUSED(binasm_data); /* XXX */
 }
 
 
@@ -295,6 +301,7 @@ operate_fmt(instruction ins, int src1, int src2, int dest)
     clear_reg(dest);
     binasm_data = out_rinst(0,ins_binid(ins),src1,src2,FRRR,dest);
   }
+  UNUSED(binasm_data); /* XXX */
 }
 
 
@@ -329,6 +336,7 @@ operate_fmt_immediate(instruction ins, int src1, int src2, int dest)
     clear_reg(dest);
     binasm_data = out_iinst(0,ins_binid(ins),src1,dest,FRIR,0,src2);
   }	
+  UNUSED(binasm_data); /* XXX */
 }
 
 void
@@ -342,6 +350,7 @@ operate_fmt_big_immediate(instruction ins, int src1, INT64 src2, int dest)
   }
   clear_reg(dest);
   binasm_data = out_biinst(0,ins_binid(ins),src1,dest,FRIR,0,src2);
+  UNUSED(binasm_data); /* XXX */
 }
 
 
@@ -395,6 +404,7 @@ float_load_store(instruction ins, int reg, baseoff a)
 		    0,0);
     }
   clear_reg(reg);
+  UNUSED(binasm_data); /* XXX */
 }
 
 
@@ -425,6 +435,7 @@ float_branch(instruction ins, int reg, int dest)
 		  dest);
   }
   binasm_data=out_linst(-dest,ins_binid(ins),reg+float_register,xnoreg,FRL,0);
+  UNUSED(binasm_data); /* XXX */
 }
 
 
@@ -447,6 +458,7 @@ float_op(instruction ins, int src1, int src2, int dest)
 			  src2+float_register,FRRR,dest+float_register);
   if(special_trap_ins) no_parameter_instructions(i_trapb);
   clear_freg(dest);
+  UNUSED(binasm_data); /* XXX */
 }
 
 
@@ -476,6 +488,7 @@ float_convert(instruction ins, int src, int dest)
   }
   binasm_data = out_rinst(0,ins_binid(ins),src+float_register,
 			  dest+float_register,FRR,xnoreg);
+  UNUSED(binasm_data); /* XXX */
 }
 
 

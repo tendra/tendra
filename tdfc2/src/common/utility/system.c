@@ -182,6 +182,7 @@ stat_func(char *nm, STAT_TYPE *fs)
 	}
 #endif
 	UNUSED(nm);
+	UNUSED(fs);
 	return NULL;
 }
 
