@@ -339,28 +339,28 @@ charset_dump(char map[], size_t n, FILE *f)
 		c = map[i];
 
 		if (!isspace(c) && isprint(c)) {
-			printf(" %c", c);
+			fprintf(f, " %c", c);
 		} else if (c == '\t') {
-			printf("\\t");
+			fprintf(f, "\\t");
 		} else if (c == '\v') {
-			printf("\\v");
+			fprintf(f, "\\v");
 		} else if (c == '\f') {
-			printf("\\f");
+			fprintf(f, "\\f");
 		} else if (c == '\a') {
-			printf("\\a");
+			fprintf(f, "\\a");
 		} else if (c == '\b') {
-			printf("\\b");
+			fprintf(f, "\\b");
 		} else if (c == '\r') {
-			printf("\\r");
+			fprintf(f, "\\r");
 		} else if (c == '\n') {
-			printf("\\n");
+			fprintf(f, "\\n");
 		} else if (c <= 0x9) {
-			printf("%02X", (unsigned char) c);
+			fprintf(f, "%02X", (unsigned char) c);
 		} else {
-			printf("%02X", (unsigned char) c);
+			fprintf(f, "%02X", (unsigned char) c);
 		}
 
-		printf("%s", (i + 1) % 16 ? " " : "\n");
+		fprintf(f, "%s", (i + 1) % 16 ? " " : "\n");
 	}
 }
 
