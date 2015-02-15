@@ -7,6 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <shared/check.h>
+
 #include "config.h"
 #include "c_types.h"
 #include "etype_ops.h"

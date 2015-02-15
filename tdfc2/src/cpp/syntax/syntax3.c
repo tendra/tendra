@@ -20,7 +20,7 @@
 #define __SID_SPLIT
 #line 206 "syntax.act"
 
-
+#include <shared/check.h>
 
 #include "config.h"
 #include "c_types.h"

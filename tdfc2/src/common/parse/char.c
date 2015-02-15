@@ -7,9 +7,10 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
 #include <assert.h>
 #include <limits.h>
+
+#include <shared/check.h>
 
 #include "config.h"
 

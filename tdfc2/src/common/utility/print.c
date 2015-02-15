@@ -9,6 +9,8 @@
 
 #include <assert.h>
 
+#include <shared/check.h>
+
 #include "config.h"
 #include <ctype.h>
 #include "system.h"

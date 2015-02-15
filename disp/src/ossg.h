@@ -52,40 +52,4 @@
 #endif
 
 
-/* Definitions of TenDRA keywords */
-#if FS_TENDRA
-#pragma TenDRA keyword SET for set
-#pragma TenDRA keyword UNUSED for discard variable
-#pragma TenDRA keyword IGNORE for discard value
-#pragma TenDRA keyword EXHAUSTIVE for exhaustive
-#pragma TenDRA keyword REACHED for set reachable
-#pragma TenDRA keyword UNREACHED for set unreachable
-#define FALL_THROUGH
-#endif
-
-
-/* Definitions of TenDRA keywords for lint */
-#if FS_LINT
-#define SET( name )
-#define UNUSED( name )		( name ) = ( name )
-#define IGNORE			( void )
-#define EXHAUSTIVE
-#define REACHED
-#define UNREACHED
-#define FALL_THROUGH
-#endif
-
-
-/* Dummy definitions for TenDRA keywords */
-#if !FS_TENDRA && !FS_LINT
-#define SET( name )
-#define UNUSED( name )
-#define IGNORE			( void )
-#define EXHAUSTIVE
-#define REACHED
-#define UNREACHED
-#define FALL_THROUGH
-#endif
-
-
 #endif

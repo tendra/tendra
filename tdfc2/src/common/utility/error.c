@@ -10,6 +10,8 @@
 #include <stdarg.h>
 #include <limits.h>
 
+#include <shared/check.h>
+
 #include "config.h"
 
 #include "system.h"

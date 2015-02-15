@@ -9,6 +9,8 @@
 
 #include <assert.h>
 
+#include <shared/check.h>
+
 #include "config.h"
 #include "c_types.h"
 #include "exp_ops.h"

@@ -13,6 +13,8 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
+#include <shared/check.h>
+
 #include "config.h"
 #include "system.h"
 #include "c_types.h"

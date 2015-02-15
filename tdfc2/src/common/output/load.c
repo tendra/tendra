@@ -14,6 +14,8 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
+#include <shared/check.h>
+
 #include "config.h"
 #include "version.h"
 #include "system.h"

@@ -10,6 +10,8 @@
 #include <assert.h>
 #include <limits.h>
 
+#include <shared/check.h>
+
 #include "config.h"
 #include "c_types.h"
 #include "charset.h"

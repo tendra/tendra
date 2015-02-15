@@ -9,6 +9,8 @@
 
 #include <stdarg.h>
 
+#include <shared/check.h>
+
 #include "config.h"
 
 #include "util.h"

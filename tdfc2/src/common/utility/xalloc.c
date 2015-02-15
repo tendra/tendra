@@ -10,6 +10,8 @@
 
 #include <limits.h>
 
+#include <shared/check.h>
+
 #include "config.h"
 
 #include "c_types.h"
