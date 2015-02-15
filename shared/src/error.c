@@ -163,24 +163,3 @@ error_posn(enum error_severity e, const char *fn, int ln, const char *s, ...)
 	va_end(args);
 }
 
-#ifdef DEBUG
-
-/*
- * PRINT AN ASSERTION
- *
- * This routine prints the assertion s which occurred at the location
- * given by file and line.
- */
-void
-assertion(const char *s, const char *file, int line)
-{
-    if (progname != NULL) {
-		fprintf(stderr, "%s: ", progname);
-	}
-
-    fprintf(stderr, "Assertion: %s: line %d: '%s'.\n", file, line, s);
-    abort();
-}
-
-#endif
-

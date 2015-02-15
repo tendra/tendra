@@ -34,12 +34,5 @@ extern int number_errors;
 extern int crt_line_no;
 extern const char *crt_file_name;
 
-#ifdef ASSERTS
-extern void assertion(const char *, const char *, int);
-#define FAIL(A)	assertion(#A, __FILE__, __LINE__)
-#else
-#define FAIL(A)	((void)0)
-#endif
-
 #endif
 
