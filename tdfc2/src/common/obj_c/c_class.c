@@ -345,7 +345,7 @@ find_c_class_alias(unsigned n)
 		}
 		p = TAIL_list(p);
 	}
-	error(ERROR_INTERNAL, "Can't find alias %u", n);
+	error(ERR_INTERNAL, "Can't find alias %u", n);
 	return NULL;
 }
 

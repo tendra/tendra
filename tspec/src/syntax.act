@@ -193,7 +193,7 @@
 			if (@a == BTYPE_LONG && allow_long_long) {
 				@a = BTYPE_LLONG;
 			} else {
-				error(ERROR_SERIOUS, "Duplicate type specifier");
+				error(ERR_SERIOUS, "Duplicate type specifier");
 				break;
 			}
 		}
@@ -226,7 +226,7 @@
 	<key_exp>: (c, a) -> (t) = @{
 		if (@c == OBJ_CONST) {
 			if (@a == TYPE_LVALUE) {
-				error(ERROR_SERIOUS, "Constant can't be an lvalue");
+				error(ERR_SERIOUS, "Constant can't be an lvalue");
 			}
 			@t = TYPE_RVALUE;
 		} else if (@c == OBJ_EXTERN) {
@@ -249,7 +249,7 @@
 
 	<cv_const>: (a) -> (c) = @{
 		if (@a & 1) {
-			error(ERROR_SERIOUS, "Duplicate type qualifier");
+			error(ERR_SERIOUS, "Duplicate type qualifier");
 		}
 
 		@c = (@a | 1);
@@ -257,7 +257,7 @@
 
 	<cv_volatile>: (a) -> (c) = @{
 		if (@a & 2) {
-			error(ERROR_SERIOUS, "Duplicate type qualifier");
+			error(ERR_SERIOUS, "Duplicate type qualifier");
 		}
 
 		@c = (@a | 2);
@@ -334,7 +334,7 @@
 	@};
 
 	<type_list_empty>: () -> (p) = @{
-		error(ERROR_WARNING, "Empty parameter list");
+		error(ERR_WARN, "Empty parameter list");
 		@p = NULL;
 	@};
 
@@ -375,9 +375,9 @@
 
 		p = search_hash(exps, @a, any_version);
 		if (p == NULL) {
-			error(ERROR_SERIOUS, "Undefined NAT, '%s'", @a);
+			error(ERR_SERIOUS, "Undefined NAT, '%s'", @a);
 		} else if (p->objtype != OBJ_NAT) {
-			error(ERROR_SERIOUS, "'%s' is not a NAT", @a);
+			error(ERR_SERIOUS, "'%s' is not a NAT", @a);
 		}
 
 		@s = @a;
@@ -695,7 +695,7 @@
 			break;
 
 		default:
-			error(ERROR_SERIOUS, "Non-integral promotion type");
+			error(ERR_SERIOUS, "Non-integral promotion type");
 			break;
 		}
 
@@ -751,7 +751,7 @@
 			break;
 
 		default:
-			error(ERROR_SERIOUS, "Illegal field type, '%s'", @id.iname);
+			error(ERR_SERIOUS, "Illegal field type, '%s'", @id.iname);
 			break;
 		}
 		crt_field_name = @t->u.obj->name;
@@ -761,11 +761,11 @@
 		if (@e) {
 			if (@t->v.obj2) {
 				char *nm = crt_field_name;
-				error(ERROR_SERIOUS, "Redefinition of type '%s'", nm);
+				error(ERR_SERIOUS, "Redefinition of type '%s'", nm);
 			}
 
 			if (@b == NULL) {
-				error ( ERROR_SERIOUS, "Empty struct/union definition" );
+				error ( ERR_SERIOUS, "Empty struct/union definition" );
 			} else {
 				@t->v.obj2 = @b;
 			}
@@ -835,7 +835,7 @@
 	 */
 
 	<syntax_error>: () -> () = @{
-		error(ERROR_SERIOUS, "Syntax error");
+		error(ERR_SERIOUS, "Syntax error");
 	@};
 
 %trailer% @{

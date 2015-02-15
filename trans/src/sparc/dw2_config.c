@@ -81,7 +81,7 @@ void exit_section(void)
 void out_dwf_label(long l, int set)
 {
   if (!l)
-    error(ERROR_INTERNAL, "unknown label");
+    error(ERR_INTERNAL, "unknown label");
   asm_printf(".Ldw%ld", l);
   if (set) {
     asm_printf(":\n");

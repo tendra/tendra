@@ -34,7 +34,7 @@ add_keyword(struct zone *z, const char *name, struct cmd *cmd)
 		c = strcmp(name, p->name);
 
 		if (c == 0) {
-			error(ERROR_SERIOUS, "Keyword '%s' already defined", name);
+			error(ERR_SERIOUS, "Keyword '%s' already defined", name);
 			return;
 		}
 

@@ -58,7 +58,7 @@ list_action(char *nm)
     } else {
 	output_file = fopen(nm, "w");
 	if (output_file == NULL) {
-	    error(ERROR_SERIOUS, "Can't open output file, '%s'", nm);
+	    error(ERR_SERIOUS, "Can't open output file, '%s'", nm);
 	    return;
 	}
     }
@@ -164,7 +164,7 @@ main(int argc, char **argv)
 		}
 	    }
 	    if (!known) {
-		error(ERROR_WARNING, "Unknown option, '%s'", arg);
+		error(ERR_WARN, "Unknown option, '%s'", arg);
 	    }
 	} else if (a != last_arg) {
 	    if (need_alg) {
@@ -181,17 +181,17 @@ main(int argc, char **argv)
 	}
     }
     if (no_args == 0) {
-	    error(ERROR_FATAL, "Not enough arguments");
+	    error(ERR_FATAL, "Not enough arguments");
     }
     if (!need_alg) {
-	    error(ERROR_SERIOUS, "Badly placed -E option");
+	    error(ERR_SERIOUS, "Badly placed -E option");
     }
 
     /* Look up output algebra */
     if (alg) {
 	ALGEBRA_DEFN *al = find_algebra(alg);
 	if (al == NULL) {
-	    error(ERROR_SERIOUS, "Algebra %s not defined", alg);
+	    error(ERR_SERIOUS, "Algebra %s not defined", alg);
 	} else {
 	    algebra = al;
 	}
@@ -211,7 +211,7 @@ main(int argc, char **argv)
 	    case ACTION_TEMPL: template_file(in, out); break;
 	}
     } else {
-	error(ERROR_FATAL, "No output generated due to previous errors");
+	error(ERR_FATAL, "No output generated due to previous errors");
     }
     return exit_status;
 }

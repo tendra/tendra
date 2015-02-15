@@ -154,7 +154,7 @@ read_identifier(int c)
 
 		c = lexi_readchar(&lexi_current_state);
 		if (c == LEXI_EOF) {
-			error_posn(ERROR_SERIOUS, istream_name(istream), (int) istream_line(istream),
+			error_posn(ERR_SERIOUS, istream_name(istream), (int) istream_line(istream),
 				"end of file in identifier");
 			return LEXER_TOK_EOF;
 		}
@@ -184,7 +184,7 @@ read_basic(void)
 	for (;;) {
 		c = lexi_readchar(&lexi_current_state);
 		if (c == LEXI_EOF) {
-			error_posn(ERROR_SERIOUS, istream_name(istream), (int) istream_line(istream),
+			error_posn(ERR_SERIOUS, istream_name(istream), (int) istream_line(istream),
 				"end of file in basic");
 			return LEXER_TOK_EOF;
 		}
@@ -217,7 +217,7 @@ read_builtin(void)
 	do {
 		c = lexi_readchar(&lexi_current_state);
 		if (c == LEXI_EOF) {
-			error_posn(ERROR_SERIOUS, istream_name(istream), (int) istream_line(istream),
+			error_posn(ERR_SERIOUS, istream_name(istream), (int) istream_line(istream),
 				"end of file in builtin");
 			return LEXER_TOK_EOF;
 		}
@@ -230,7 +230,7 @@ read_builtin(void)
 	} while (lexi_group(lexi_group_builtin, c));
 
 	if (c != '%') {
-		error_posn(ERROR_SERIOUS, istream_name(istream), (int) istream_line(istream),
+		error_posn(ERR_SERIOUS, istream_name(istream), (int) istream_line(istream),
 			"illegal character '%C' in builtin, expecting '%%'", (void *) &c);
 
 		/* abandon this token and move on */
@@ -247,7 +247,7 @@ read_builtin(void)
 	} else if (cstring_ci_equal(cstring, "entry")) {
 		lexer_token->t = LEXER_TOK_BLT_HENTRY;
 	} else {
-		error_posn(ERROR_FATAL, istream_name(istream), (int) istream_line(istream),
+		error_posn(ERR_FATAL, istream_name(istream), (int) istream_line(istream),
 			"unknown builtin '%%%s%%'", cstring);
 		UNREACHED;
 	}
@@ -267,7 +267,7 @@ lexi_unknown_token(int c)
 		return LEXER_TOK_EOF;
 	}
 
-	error_posn(ERROR_SERIOUS, istream_name(istream), (int) istream_line(istream),
+	error_posn(ERR_SERIOUS, istream_name(istream), (int) istream_line(istream),
 		"illegal character '%C'", (void *) &c);
 
 	/*

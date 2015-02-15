@@ -61,7 +61,7 @@ read_sort(int sn)
 
      default:
 	SET(v);
-	error(ERROR_INTERNAL, SORT_NAME);
+	error(ERR_INTERNAL, SORT_NAME);
     }
   return v;
 }

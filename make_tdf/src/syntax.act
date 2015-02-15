@@ -197,7 +197,7 @@ number : () -> ( n : NUMBER ) = @{
 
 <make_cons> : ( n : NAME, e : NUMBER, r : SORT, p : PARAM-LIST, s : SORT ) -> ( c : CONS ) = @{
     if ( !EQ_sort ( @r, @s ) ) {
-	error ( ERROR_SERIOUS, "Wrong result sort for '%s'", @n ) ;
+	error ( ERR_SERIOUS, "Wrong result sort for '%s'", @n ) ;
     }
     @c = make_construct ( @n, @e, @s, @p ) ;
 @} ;
@@ -296,7 +296,7 @@ number : () -> ( n : NUMBER ) = @{
 */
 
 <syntax_error> : () -> () = @{
-    error ( ERROR_SERIOUS, "Syntax error" ) ;
+    error ( ERR_SERIOUS, "Syntax error" ) ;
 @} ;
 
 

@@ -14,11 +14,11 @@
 
 #define ERROR_WHATEVER		0
 #define ERROR_NONE		1
-#define ERROR_WARNING		2
+#define ERR_WARN		2
 #define ERROR_OPTION		3
-#define ERROR_SERIOUS		4
-#define ERROR_INTERNAL		5
-#define ERROR_FATAL		6
+#define ERR_SERIOUS		4
+#define ERR_INTERNAL		5
+#define ERR_FATAL		6
 
 
 extern ERROR make_error(int, ...);

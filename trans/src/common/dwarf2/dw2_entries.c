@@ -789,7 +789,7 @@ dw_entry(abbrev_entry en, long attr)
 				break;
 			}
 			if (!*(++comb)) {
-				error(ERROR_INTERNAL, "unsupported attribute combination");
+				error(ERR_INTERNAL, "unsupported attribute combination");
 			}
 			d_tag++;
 		}

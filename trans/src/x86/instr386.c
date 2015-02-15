@@ -850,7 +850,7 @@ void absop
       ng = negl;
       break;
     default:
-      error(ERROR_INTERNAL, "unexpected size");
+      error(ERR_INTERNAL, "unexpected size");
   };
 
   cond1_set = 0;
@@ -926,7 +926,7 @@ static void maxmin
       lab64 = next_lab();
       break;	/* use cmpl instead of in */
     default:
-      error(ERROR_INTERNAL, "unexpected size");
+      error(ERR_INTERNAL, "unexpected size");
   };
 
   if (eq_where(a2, dest)) {
@@ -2872,7 +2872,7 @@ void callins
 		isvar(son(son(fn))))
 	rn = no(son(son(fn)));
       else {
-	error(ERROR_INTERNAL, "where?");
+	error(ERR_INTERNAL, "where?");
 	rn = 1;
       }
       current_dg_info->data.i_call.brk = set_dw_text_label();
@@ -3073,7 +3073,7 @@ int cmp
 	  in = cmpl;
 	  break;
 	default:
-	  error(ERROR_INTERNAL, "unexpected size");
+	  error(ERR_INTERNAL, "unexpected size");
       };
 
       if ((inmem(from) && inmem(min)) ||
@@ -5157,7 +5157,7 @@ static void divit
 	ins1(idivw, 16, d);
 	break;
       case 64:
-	error(ERROR_INTERNAL, BADOP);
+	error(ERR_INTERNAL, BADOP);
       default:
 	move(slongsh, reg0, reg1);
 	ins2(sarl, 32, 32, mw(zeroe, 31), reg1);
@@ -5418,7 +5418,7 @@ static void remit
 	ins1(idivw, 16, d);
 	break;
       case 64:
-	error(ERROR_INTERNAL, BADOP);
+	error(ERR_INTERNAL, BADOP);
       default:
 	move(slongsh, reg0, reg1);
 	ins2(sarl, 32, 32, mw(zeroe, 31), reg1);
@@ -5662,7 +5662,7 @@ int   bit_pos_cont
     return 0;
   };
 
-  error(ERROR_INTERNAL, BAD_BIT_OPND);
+  error(ERR_INTERNAL, BAD_BIT_OPND);
   return 0;
 
 }
@@ -5684,7 +5684,7 @@ int   bit_pos
   if (name(e) == ident_tag)
     return 0;
 
-  error(ERROR_INTERNAL, BAD_BIT_OPND);
+  error(ERR_INTERNAL, BAD_BIT_OPND);
   return 0;
 }
 
@@ -5899,7 +5899,7 @@ void fopm
 	son(wh.where_exp) = hold;
 	return;
       default:
-	error(ERROR_INTERNAL, BAD_FLOP);
+	error(ERR_INTERNAL, BAD_FLOP);
 	end_contop();
 	son(wh.where_exp) = hold;
 	return;
@@ -5934,7 +5934,7 @@ void fopm
       son(wh.where_exp) = hold;
       return;
     default:
-      error(ERROR_INTERNAL, BAD_FLOP);
+      error(ERR_INTERNAL, BAD_FLOP);
       end_contop();
       son(wh.where_exp) = hold;
       return;
@@ -6002,7 +6002,7 @@ void fopr
       };
       break;
     default:
-      error(ERROR_INTERNAL, BAD_FLOP);
+      error(ERR_INTERNAL, BAD_FLOP);
       break;
   };
 }
@@ -6206,7 +6206,7 @@ void fl_multop
 	case fmult_tag:
 	   ins0("fmulp %st,%st(1)"); break;
 	default:
-	   error(ERROR_INTERNAL, BAD_FLOP); break;
+	   error(ERR_INTERNAL, BAD_FLOP); break;
       };
     pop_fl;
     if (last(arg2))break;
@@ -6739,14 +6739,14 @@ void special_ins
 	return;
     };
   }
-  error(ERROR_INTERNAL, BADOP);
+  error(ERR_INTERNAL, BADOP);
 }
 
 void save_stack
 (void)
 {
   if (extra_stack || stack_dec)
-    error(ERROR_INTERNAL, "unclean stack");
+    error(ERR_INTERNAL, "unclean stack");
   ins2(movl, 32, 32, sp, firstlocal);
 }
 
@@ -6754,7 +6754,7 @@ void restore_stack
 (void)
 {
   if (extra_stack || stack_dec)
-    error(ERROR_INTERNAL, "unclean stack");
+    error(ERR_INTERNAL, "unclean stack");
   ins2(movl, 32, 32, firstlocal, sp);
 }
 

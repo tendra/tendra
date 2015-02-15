@@ -1808,7 +1808,7 @@ needs scan(exp * e, exp * *at)
 	int oal = frame_al1_of_offset(sh(d));
 /*	if( ((oal-1)&oal) != 0)
 	{
-	  error(ERROR_SERIOUS, "can't cope with mixed frame offsets yet");
+	  error(ERR_SERIOUS, "can't cope with mixed frame offsets yet");
 	}*/
 	if (!l_or_cees(oal))
 	{
@@ -2303,14 +2303,14 @@ needs scan(exp * e, exp * *at)
 
    case caller_tag:
     {
-      error(ERROR_SERIOUS, "Shouldn't be scanning a caller_tag");
+      error(ERR_SERIOUS, "Shouldn't be scanning a caller_tag");
       return zeroneeds;
     }
 
    default:
     {
       asm_comment("scan: bad nstare=%d", nstare);
-      error(ERROR_SERIOUS, "case not covered in needs scan");
+      error(ERR_SERIOUS, "case not covered in needs scan");
       return zeroneeds;
     }
   }

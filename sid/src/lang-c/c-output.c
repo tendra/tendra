@@ -1073,7 +1073,7 @@ c_output_definition_1(COutputInfoT *info, RuleT *rule, EntryT *predicate_id,
 	ostream_close(ostream);
 
 	if (!ostream_open(ostream, name)) {
-		error(ERROR_FATAL, "cannot open output file '%s': %s", name, strerror(errno));
+		error(ERR_FATAL, "cannot open output file '%s': %s", name, strerror(errno));
 		UNREACHED;
 	}
 

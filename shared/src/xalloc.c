@@ -30,7 +30,7 @@ xmalloc(size_t sz)
 
 	p = malloc(sz);
 	if (p == NULL) {
-		error(ERROR_FATAL, "malloc");
+		error(ERR_FATAL, "malloc");
 	}
 
 	return p;
@@ -46,12 +46,12 @@ xcalloc(size_t n, size_t sz)
 	assert(sz != 0);
 
 	if (SIZE_MAX / n < sz) {
-		error(ERROR_FATAL, "xcalloc: size_t overflow");
+		error(ERR_FATAL, "xcalloc: size_t overflow");
 	}
 
 	p = calloc(sz, n);
 	if (p == NULL) {
-		error(ERROR_FATAL, "calloc");
+		error(ERR_FATAL, "calloc");
 	}
 
 	return p;
@@ -70,7 +70,7 @@ xrealloc(void *p, size_t sz)
 
 	q = realloc(p, sz);
 	if (q == NULL) {
-		error(ERROR_FATAL, "realloc");
+		error(ERR_FATAL, "realloc");
 	}
 
 	return q;

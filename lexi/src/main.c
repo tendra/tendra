@@ -44,7 +44,7 @@ process_lxi_file(char *path, struct ast *ast)
 		crt_file_name = path;
 		input = fopen(path, "r");
 		if (input == NULL) {
-			error(ERROR_SERIOUS, "Can't open input file, '%s'", path);
+			error(ERR_SERIOUS, "Can't open input file, '%s'", path);
 			return;
 		}
 	}
@@ -70,7 +70,7 @@ process_lct_file(struct ast *ast, char *path)
 
 	lct_file = fopen(path, "r");
 	if (lct_file == NULL) {
-		error(ERROR_SERIOUS, "Can't open input file, '%s'", path);
+		error(ERR_SERIOUS, "Can't open input file, '%s'", path);
 		return;
 	}
 
@@ -139,7 +139,7 @@ main(int argc, char **argv)
 
 				if (i < 0) {
 					/* TODO: I suppose we could automate writing this list of languages, too */
-					error(ERROR_FATAL, "Unrecognised language '%s'. The supported languages are: C (default), Dot and test",
+					error(ERR_FATAL, "Unrecognised language '%s'. The supported languages are: C (default), Dot and test",
 						optarg);
 				}
 
@@ -169,14 +169,14 @@ main(int argc, char **argv)
 	/* Check arguments (+1 for input file) */
 	if (argc < out->outfiles + out->infiles) {
 		report_usage();
-		error(ERROR_FATAL, "Not enough arguments");
+		error(ERR_FATAL, "Not enough arguments");
 		/* TODO: resolve - here, and pass FILE * to process_lxi_file();
 		 * we can permit argc < 1 for stdin */
 	}
 
 	if (argc > out->outfiles + out->infiles) {
 		report_usage();
-		error(ERROR_FATAL, "Too many arguments");
+		error(ERR_FATAL, "Too many arguments");
 	}
 
 	/* Process input file */
@@ -190,7 +190,7 @@ main(int argc, char **argv)
 	process_lxi_file(argv[0], ast);
 
 	if (exit_status != EXIT_SUCCESS) {
-		error(ERROR_FATAL, "Terminating due to previous errors");
+		error(ERR_FATAL, "Terminating due to previous errors");
 		return exit_status;
 	}
 
@@ -199,7 +199,7 @@ main(int argc, char **argv)
 	}
 
 	if (exit_status != EXIT_SUCCESS) {
-		error(ERROR_FATAL, "Terminating due to previous errors in lct file");
+		error(ERR_FATAL, "Terminating due to previous errors in lct file");
 		return exit_status;
 	}
 

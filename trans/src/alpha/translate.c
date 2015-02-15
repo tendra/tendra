@@ -82,7 +82,7 @@ storage_class(int size)
     case 4: return s_long;
     case 8: return s_quad;
     default:
-    error(ERROR_FATAL, "illegal size for global");
+    error(ERR_FATAL, "illegal size for global");
   }
 }
 
@@ -275,7 +275,7 @@ find_tag(char *name)
     if(!strcmp(id,name)) return boff(tag);
   }
   printf("%s\n: ",name);
-  error(ERROR_FATAL, "tag not declared");
+  error(ERR_FATAL, "tag not declared");
 }
 
 

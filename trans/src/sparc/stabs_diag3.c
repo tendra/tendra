@@ -905,7 +905,7 @@ init_stab(void)
 {
 	dg_file = tmpfile();
 	if (dg_file == NULL) {
-		error(ERROR_SERIOUS, "Can't open temporary diagnostics file");
+		error(ERR_SERIOUS, "Can't open temporary diagnostics file");
 		exit(EXIT_FAILURE);
 	}
 	stab_types();

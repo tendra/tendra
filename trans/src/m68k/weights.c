@@ -179,7 +179,7 @@ static wp max_weights
 	}
 
 	default : {
-	    error(ERROR_FATAL, "Illegal register type");
+	    error(ERR_FATAL, "Illegal register type");
 	}
     }
     w = & (ws.wts)[offset];
@@ -358,7 +358,7 @@ static weights weightsv
 		    /* Work out breakpoint */
 		    p = max_weights(sz, cant_use, wbody, sht);
 		    no(e) = p.bkpt;
-		    if (no(e) == 13)error(ERROR_SERIOUS, "Bad breakpoint");
+		    if (no(e) == 13)error(ERR_SERIOUS, "Bad breakpoint");
 		    return add_weights(wdef, p.wt);
 		}
 

@@ -462,14 +462,14 @@ output(string s)
 		}
 
 		misplaced_arg : {
-		    error(ERROR_SERIOUS, "Misplaced format, '%%%.2s'", s0);
+		    error(ERR_SERIOUS, "Misplaced format, '%%%.2s'", s0);
 		    output_string("<error>");
 		    break;
 		}
 
 		default :
 		bad_format : {
-		    error(ERROR_SERIOUS, "Unknown format, '%%%.2s'", s0);
+		    error(ERR_SERIOUS, "Unknown format, '%%%.2s'", s0);
 		    output_string("<error>");
 		    break;
 		}
@@ -681,7 +681,7 @@ eval_cond(string s)
 	if (!strcmp(s, "true")) return 1;
 	if (!strcmp(s, "false")) return 0;
     }
-    error(ERROR_SERIOUS, "Unknown condition, '%s'", s0);
+    error(ERR_SERIOUS, "Unknown condition, '%s'", s0);
     return 0;
 }
 
@@ -801,7 +801,7 @@ output_template(SPECIFICATION spec, COMMAND cmd)
 		    crt_param = lp;
 
 		} else {
-		    error(ERROR_SERIOUS, "Unknown control, '%s'", s);
+		    error(ERR_SERIOUS, "Unknown control, '%s'", s);
 		}
 		break;
 	    }
@@ -883,7 +883,7 @@ output_spec(char *nm, SPECIFICATION spec, COMMAND cmd)
 	crt_file_name = nm;
 	output_file = fopen(nm, "w");
 	if (output_file == NULL) {
-	    error(ERROR_SERIOUS, "Can't open output file, '%s'", nm);
+	    error(ERR_SERIOUS, "Can't open output file, '%s'", nm);
 	    return;
 	}
     }

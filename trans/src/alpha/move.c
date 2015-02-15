@@ -144,7 +144,7 @@ move(ans src, where dest, space freeregs, bool sgned)
   switch(src.discrim){
     case insomereg :
     case insomefreg :{
-      error(ERROR_INTERNAL, "Source reg not specified");
+      error(ERR_INTERNAL, "Source reg not specified");
       break;
     }	
     case inreg :{
@@ -162,7 +162,7 @@ move(ans src, where dest, space freeregs, bool sgned)
 	case insomereg:{
 	  /* can choose dest register to be source register */
 	  int *somereg = someregalt(dest.answhere);
-	  if(*somereg!=-1) error(ERROR_INTERNAL, "somereg!=-1");
+	  if(*somereg!=-1) error(ERR_INTERNAL, "somereg!=-1");
 	  *somereg=rsrc;
 	  return NOREG;
 	}
@@ -184,7 +184,7 @@ move(ans src, where dest, space freeregs, bool sgned)
 	  somefreg sfr;
 	  freg fr;
 	  sfr = somefregalt(dest.answhere);
-	  if(*sfr.fr != -1) error(ERROR_INTERNAL, "Somfreg *2");
+	  if(*sfr.fr != -1) error(ERR_INTERNAL, "Somfreg *2");
 	  *sfr.fr = getfreg(freeregs.flt);
 	  fr.fr = *sfr.fr;
 	  fr.type = sfr.type;
@@ -309,7 +309,7 @@ move(ans src, where dest, space freeregs, bool sgned)
 	  load_store(st,rsrc,is.b);
 	  break;
 	  default:
-	  error(ERROR_INTERNAL, "unsupported data size");
+	  error(ERR_INTERNAL, "unsupported data size");
 	}
       }
       else{
@@ -455,7 +455,7 @@ move(ans src, where dest, space freeregs, bool sgned)
 	  somefreg sfr;
 	  freg fr;
 	  sfr=somefregalt(dest.answhere);
-	  if(*sfr.fr!=-1) error(ERROR_INTERNAL, "instore->some freg");
+	  if(*sfr.fr!=-1) error(ERR_INTERNAL, "instore->some freg");
 	  *sfr.fr=getfreg(freeregs.flt);
 	  fr.fr=*sfr.fr;
 	  fr.type=sfr.type;
@@ -465,7 +465,7 @@ move(ans src, where dest, space freeregs, bool sgned)
 	case insomereg:{
 	  /* source instore, can choose destination register */
 	  int *sr=someregalt(dest.answhere);
-	  if(*sr!=-1) error(ERROR_INTERNAL, "somereg **");
+	  if(*sr!=-1) error(ERR_INTERNAL, "somereg **");
 	  *sr=getreg(freeregs.fixed);
 	  setregalt(dest.answhere,*sr);
 	  /* continue to next case */
@@ -630,7 +630,7 @@ move(ans src, where dest, space freeregs, bool sgned)
 	    else{
 	      int rt=getreg(guardreg(iss.b.base,freeregs).fixed);
 	      if((size>64)&&((rdest<FIRST_INT_ARG)||(rdest>LAST_INT_ARG))){
-		error(ERROR_INTERNAL, "Register allocation: Illegal block copy.");
+		error(ERR_INTERNAL, "Register allocation: Illegal block copy.");
 	      }
 	      if(size>64){/* this should only occur with parameter regs */
 		ans newsrc;
@@ -706,7 +706,7 @@ move(ans src, where dest, space freeregs, bool sgned)
 	      float_load_store(i_ldt,frdest.fr,iss.b);
 	    break;
 	    default:
-	    error(ERROR_INTERNAL, "VAX floating point formats not supported");
+	    error(ERR_INTERNAL, "VAX floating point formats not supported");
 	  }
 	  return NOREG;
 	}

@@ -149,7 +149,7 @@ unhas(void)
 		break;
 
 	default:
-		error(ERROR_SERIOUS, "unsupported assembler dialect");
+		error(ERR_SERIOUS, "unsupported assembler dialect");
 	}
 
 	if (abi == ABI_SUNOS) {

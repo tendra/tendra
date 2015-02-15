@@ -126,7 +126,7 @@ bop(void(*op)(shape, where, where, where), shape sha, exp a, exp b, where dest,
 		 */
 		if (nob) {
 			/* a and b cannot both not be operands */
-			error(ERROR_SERIOUS, "Illegal binary operation");
+			error(ERR_SERIOUS, "Illegal binary operation");
 		}
 		t = zw(b);
 		if (whereis(dest) == Dreg && !interfere(dest, t)) {
@@ -362,7 +362,7 @@ void
 codec(where dest, ash stack, exp e)
 {
 	if (e == NULL) {
-		error(ERROR_SERIOUS, "Internal coding error");
+		error(ERR_SERIOUS, "Internal coding error");
 		return;
 	}
 
@@ -710,7 +710,7 @@ codec(where dest, ash stack, exp e)
 		return;
 	case absbool_tag:
 		/* The setcc instruction is not used */
-		error(ERROR_SERIOUS, "Not implemented");
+		error(ERR_SERIOUS, "Not implemented");
 		return;
 	case fplus_tag: {
 		/* Floating addition is similar to integer addition */
@@ -986,7 +986,7 @@ TDF libraries.  If this was right sh(e) would be slongsh.
 				s = sim_exp(sh(e), D0);
 			} else {
 				if (whereis(dest) == Dreg) {
-					/* error(ERROR_SERIOUS, "Untested optimization"); */
+					/* error(ERR_SERIOUS, "Untested optimization"); */
 					s = sim_exp(sh(e), dest);
 				} else {
 					regsinproc |= regmsk(REG_D1);

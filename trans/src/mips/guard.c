@@ -93,7 +93,7 @@ guard(where w, space sp)
 	return sp;
       }
     default: {
-	error(ERROR_INTERNAL, "Guard ? reg ");
+	error(ERR_INTERNAL, "Guard ? reg ");
       }
   }
   return sp;

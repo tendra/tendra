@@ -395,7 +395,7 @@ void restore_regs_output
             asm_comment("exit with long jump => Don't restore A6 or SP");
             break;
          default:
-            error(ERROR_SERIOUS, "wrong restore type");
+            error(ERR_SERIOUS, "wrong restore type");
          }
       }
    }
@@ -1572,7 +1572,7 @@ static void code_postlude
          n--;
       }
       if (name(a)!= caller_tag)
-      error(ERROR_SERIOUS, "Bad postlude");
+      error(ERR_SERIOUS, "Bad postlude");
 
       ptno(postlude) = par3_pl;
       no(postlude) = no(a) + stack_dec + post_offset;

@@ -76,9 +76,9 @@ read_template(FILE *f, COMMAND p)
 	if (s == NULL) {
 	    /* End of file */
 	    if (IS_cmd_cond(p)) {
-		error(ERROR_SERIOUS, "End of '@if' expected");
+		error(ERR_SERIOUS, "End of '@if' expected");
 	    } else if (IS_cmd_loop(p)) {
-		error(ERROR_SERIOUS, "End of '@loop' expected");
+		error(ERR_SERIOUS, "End of '@loop' expected");
 	    }
 	    break;
 	}
@@ -95,7 +95,7 @@ read_template(FILE *f, COMMAND p)
 	    s3 = get_command(&s);
 	    if (!strcmp(s1, "if")) {
 		if (s2 == NULL) {
-		    error(ERROR_SERIOUS, "Incomplete '@%s' command", s1);
+		    error(ERR_SERIOUS, "Incomplete '@%s' command", s1);
 		    s2 = "true";
 		}
 		MAKE_cmd_cond(ln2, s2, NULL_cmd, NULL_cmd, r);
@@ -103,7 +103,7 @@ read_template(FILE *f, COMMAND p)
 		if (IS_cmd_cond(p)) {
 		    COMMAND v = DEREF_cmd(cmd_cond_true_code(p));
 		    if (!IS_NULL_cmd(v)) {
-			error(ERROR_SERIOUS, "Duplicate '@%s' command", s1);
+			error(ERR_SERIOUS, "Duplicate '@%s' command", s1);
 		    }
 		    q = REVERSE_list(q);
 		    MAKE_cmd_compound(ln1, q, v);
@@ -111,19 +111,19 @@ read_template(FILE *f, COMMAND p)
 		    q = NULL_list(COMMAND);
 		    ln1 = ln2;
 		} else {
-		    error(ERROR_SERIOUS, "Misplaced '@%s' command", s1);
+		    error(ERR_SERIOUS, "Misplaced '@%s' command", s1);
 		}
 		s3 = s2;
 	    } else if (!strcmp(s1, "endif")) {
 		if (IS_cmd_cond(p)) {
 		    go = 0;
 		} else {
-		    error(ERROR_SERIOUS, "Misplaced '@%s' command", s1);
+		    error(ERR_SERIOUS, "Misplaced '@%s' command", s1);
 		}
 		s3 = s2;
 	    } else if (!strcmp(s1, "loop")) {
 		if (s2 == NULL) {
-		    error(ERROR_SERIOUS, "Incomplete '@%s' command", s1);
+		    error(ERR_SERIOUS, "Incomplete '@%s' command", s1);
 		    s2 = "false";
 		}
 		MAKE_cmd_loop(ln2, s2, NULL_cmd, r);
@@ -131,17 +131,17 @@ read_template(FILE *f, COMMAND p)
 		if (IS_cmd_loop(p)) {
 		    go = 0;
 		} else {
-		    error(ERROR_SERIOUS, "Misplaced '@%s' command", s1);
+		    error(ERR_SERIOUS, "Misplaced '@%s' command", s1);
 		}
 		s3 = s2;
 	    } else if (!strcmp(s1, "comment")) {
 		s3 = NULL;
 	    } else {
-		error(ERROR_SERIOUS, "Unknown command, '@%s'", s1);
+		error(ERR_SERIOUS, "Unknown command, '@%s'", s1);
 		s3 = NULL;
 	    }
 	    if (s3) {
-		error(ERROR_SERIOUS, "End of '@%s' expected", s1);
+		error(ERR_SERIOUS, "End of '@%s' expected", s1);
 	    }
 	    crt_line_no = ln2 + 1;
 	    if (!IS_NULL_cmd(r)) {
@@ -221,7 +221,7 @@ eval_cond(char *s)
     if (!strcmp(s, "false")) {
 	    return 0;
     }
-    error(ERROR_SERIOUS, "Unknown condition, '%s'", s);
+    error(ERR_SERIOUS, "Unknown condition, '%s'", s);
     return 0;
 }
 
@@ -295,7 +295,7 @@ write_template(COMMAND cmd)
 			LOOP_MAP_ARGUMENT write_template(a);
 		    }
 		} else {
-		    error(ERROR_SERIOUS, "Unknown control, '%s'", s);
+		    error(ERR_SERIOUS, "Unknown control, '%s'", s);
 		}
 		break;
 	    }
@@ -331,7 +331,7 @@ template_file(char *in, char *out)
     crt_file_name = in;
     input_file = fopen(in, "r");
     if (input_file == NULL) {
-	error(ERROR_SERIOUS, "Can't open template file, '%s'", in);
+	error(ERR_SERIOUS, "Can't open template file, '%s'", in);
 	return;
     }
     MAKE_cmd_simple(1, "<dummy>", cmd);
@@ -342,7 +342,7 @@ template_file(char *in, char *out)
     } else {
 	output_file = fopen(out, "w");
 	if (output_file == NULL) {
-	    error(ERROR_SERIOUS, "Can't open output file, '%s'", out);
+	    error(ERR_SERIOUS, "Can't open output file, '%s'", out);
 	    return;
 	}
     }

@@ -1466,13 +1466,13 @@ dump_error(ERROR e, LOCATION *loc, int sev, int cnt)
 			/* First error component */
 			const char *err;
 			switch (sev) {
-			case ERROR_FATAL:
+			case ERR_FATAL:
 				err = "EF";
 				break;
-			case ERROR_INTERNAL:
+			case ERR_INTERNAL:
 				err = "EI";
 				break;
-			case ERROR_WARNING:
+			case ERR_WARN:
 				err = "EW";
 				break;
 			default:
@@ -2316,7 +2316,7 @@ init_dump(string nm, string opt)
 			default: {
 				/* Unknown dump options */
 				const char *err = "Unknown dump option, '%c'";
-				error(ERROR_WARNING, err,(int)c);
+				error(ERR_WARN, err,(int)c);
 				break;
 			}
 			}

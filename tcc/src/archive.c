@@ -73,7 +73,7 @@ read_file(const char *nm, const char *w, size_t n, FILE *f)
 
 	if (dry_run) {
 		if (fseek(f, n, SEEK_CUR)) {
-			error(ERROR_SERIOUS, "Error when stepping over '%s'", nm);
+			error(ERR_SERIOUS, "Error when stepping over '%s'", nm);
 			ret = 1;
 		}
 
@@ -81,7 +81,7 @@ read_file(const char *nm, const char *w, size_t n, FILE *f)
 	}
 
 	if ((g = fopen(nm, w)) == NULL) {
-		error(ERROR_SERIOUS, "Can't open copy destination file, '%s'", nm);
+		error(ERR_SERIOUS, "Can't open copy destination file, '%s'", nm);
 		ret = 1;
 		goto out;
 	}
@@ -99,14 +99,14 @@ read_file(const char *nm, const char *w, size_t n, FILE *f)
 
 		s = fread(p, sizeof(char), r, f);
 		if (s != r) {
-			error(ERROR_SERIOUS, "Reading error when creating '%s'", nm);
+			error(ERR_SERIOUS, "Reading error when creating '%s'", nm);
 			ret = 1;
 			goto out;
 		}
 
 		s = fwrite(p, sizeof(char), r, g);
 		if (s != r) {
-			error(ERROR_SERIOUS, "Writing error when creating '%s'", nm);
+			error(ERR_SERIOUS, "Writing error when creating '%s'", nm);
 			ret = 1;
 			goto out;
 		}
@@ -139,13 +139,13 @@ write_file(const char *nm, const char *rd, FILE *f)
 		return 0;
 
 	if ((g = fopen(nm, rd)) == NULL) {
-		error(ERROR_SERIOUS, "Can't open copy source file, '%s'", nm);
+		error(ERR_SERIOUS, "Can't open copy source file, '%s'", nm);
 		return 1;
 	}
 
 	while ((n = fread(p, sizeof(char), buffer_size, g)) != 0) {
 		if (fwrite(p, sizeof(char), n, f) != n) {
-			error(ERROR_SERIOUS, "Writing error when copying '%s'", nm);
+			error(ERR_SERIOUS, "Writing error when copying '%s'", nm);
 			(void) fclose(g);
 			return 1;
 		}
@@ -193,12 +193,12 @@ move_file(const char *from, const char *to)
 		return 0;
 
 	if (errno != EXDEV) {
-		error(ERROR_SERIOUS, "Can't rename '%s' to '%s'", from, to);
+		error(ERR_SERIOUS, "Can't rename '%s' to '%s'", from, to);
 		return 1;
 	}
 
 	if ((f = fopen(to, "w")) == NULL) {
-		error(ERROR_SERIOUS, "Can't open copy destination file, '%s'", to);
+		error(ERR_SERIOUS, "Can't open copy destination file, '%s'", to);
 		return 1;
 	}
 
@@ -209,7 +209,7 @@ move_file(const char *from, const char *to)
 		return e;
 
 	if (remove_file(from) != 0) {
-		error(ERROR_SERIOUS, "Can't remove source file, '%s'", from);
+		error(ERR_SERIOUS, "Can't remove source file, '%s'", from);
 		return 1;
 	}
 
@@ -250,7 +250,7 @@ file_time(const char *nm)
 		return 0;
 
 	if (stat(nm, &st) == -1) {
-		error(ERROR_SERIOUS, "Can't access file '%s'", nm);
+		error(ERR_SERIOUS, "Can't access file '%s'", nm);
 		return 0;
 	}
 
@@ -323,7 +323,7 @@ process_archive_opt(void)
 		} else if (strcmp(opt, "-short") == 0 || strcmp(opt, "-s") == 0) {
 			archive_full = 0;
 		} else {
-			error(ERROR_WARNING, "Unknown archiver option, '%s'", opt);
+			error(ERR_WARN, "Unknown archiver option, '%s'", opt);
 		}
 	}
 }
@@ -349,7 +349,7 @@ build_archive(const char *arch, const char **input)
     }
     f = fopen(arch, "wb");
     if (f == NULL) {
-	error(ERROR_SERIOUS, "Can't open output archive, '%s'", arch);
+	error(ERR_SERIOUS, "Can't open output archive, '%s'", arch);
 	return 1;
     }
     IGNORE fputs(ARCHIVE_HEADER, f);
@@ -397,7 +397,7 @@ build_archive(const char *arch, const char **input)
 	    }
 	    g = fopen(*s, "rb");
 	    if (g == NULL) {
-		error(ERROR_SERIOUS, "Can't open '%s' for archiving", *s);
+		error(ERR_SERIOUS, "Can't open '%s' for archiving", *s);
 		IGNORE fclose(f);
 		return 1;
 	    } else {
@@ -406,7 +406,7 @@ build_archive(const char *arch, const char **input)
 		IGNORE fprintf(f, "+ %ld %s\n",(long)m, n);
 		while (m) {
 		    if (fwrite(p, sizeof(char), m, f)!= m) {
-			error(ERROR_SERIOUS, "Write error in archive '%s'", arch);
+			error(ERR_SERIOUS, "Write error in archive '%s'", arch);
 			IGNORE fclose(f);
 			return 1;
 		    }
@@ -552,7 +552,7 @@ split_archive(const char *arch, filename **ret)
 	    }
 	    fd = file_time(q->name);
 	    if (ad && fd && ad != fd) {
-		error(ERROR_WARNING, "Date stamp on file '%s' has changed",
+		error(ERR_WARN, "Date stamp on file '%s' has changed",
 			q->name);
 	    }
 	} else if (streq(buffer, ARCHIVE_TRAILER)) {
@@ -585,7 +585,7 @@ split_archive(const char *arch, filename **ret)
     /* Return */
 archive_error:
     if (emsg) {
-	    error(ERROR_SERIOUS, emsg, arch);
+	    error(ERR_SERIOUS, emsg, arch);
     }
     IGNORE fclose(f);
     if (need_moves) {

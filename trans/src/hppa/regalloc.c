@@ -188,7 +188,7 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
       else if ((props(e) & infreg_bits) == 0 && floatregable(e) && no(e) < ffloat)
       {
 	/* suitable for float s reg , no(e) has been set up by weights */
-	error(ERROR_SERIOUS, "regalloc: no float point s regs acknowledged");
+	error(ERR_SERIOUS, "regalloc: no float point s regs acknowledged");
       }
       else if ((props(e) & inanyreg) == 0)
       {

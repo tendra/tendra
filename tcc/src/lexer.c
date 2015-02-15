@@ -42,7 +42,7 @@
 		assert(state != NULL);
 
 		if (state->bufp == state->buf + sizeof state->buf - 1) {
-			error(ERROR_FATAL, "buffer overflow");
+			error(ERR_FATAL, "buffer overflow");
 		}
 
 		*state->bufp++ = c;
@@ -52,7 +52,7 @@
 		assert(state != NULL);
 
 		if (state->refp == state->buf + sizeof state->buf - 1) {
-			error(ERROR_FATAL, "buffer overflow");
+			error(ERR_FATAL, "buffer overflow");
 		}
 
 		*state->refp++ = c;
@@ -190,7 +190,7 @@ lexi_next_reference(struct lexi_state *state)
 	var = envvar_get(envvars, state->lex_state.ref);
 	if (var == NULL) {
 		/* TODO: file and line */
-		error(ERROR_FATAL, "Undefined variable <%s>", state->lex_state.ref);
+		error(ERR_FATAL, "Undefined variable <%s>", state->lex_state.ref);
 	}
 
 	for (p = var; *p != '\0'; p++) {
@@ -242,7 +242,7 @@ lexi_next_string(struct lexi_state *state)
 	case 't': buf_push(&state->lex_state, '\t'); break;
 
 	default:
-		error(ERROR_FATAL, "unrecognised escape");
+		error(ERR_FATAL, "unrecognised escape");
 	}
 						}
 						/* END ACTION <buf_esc> */
@@ -258,7 +258,7 @@ lexi_next_string(struct lexi_state *state)
 	case 't': buf_push(&state->lex_state, '\t'); break;
 
 	default:
-		error(ERROR_FATAL, "unrecognised escape");
+		error(ERR_FATAL, "unrecognised escape");
 	}
 						}
 						/* END ACTION <buf_esc> */

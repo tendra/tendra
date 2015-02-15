@@ -106,7 +106,7 @@ name_entry_resolve_renames(NameEntryT *entry,				    NStringT *  shape,
 	return name_entry_get_indirect(entry);
       case NT_INDIRECT_CYCLING:
 	if (report) {
-		error(ERROR_SERIOUS,"cycle in %S renaming including name '%K'",
+		error(ERR_SERIOUS,"cycle in %S renaming including name '%K'",
 			(void *) shape, (void *) name_entry_key(entry));
 	}
 	return NULL;
@@ -315,7 +315,7 @@ name_entry_check_multi_defs(NameEntryT *entry,				     void *   gclosure)
 
     if ((name_entry_get_use(entry) & U_MULT) &&
 	(name_entry_get_definition(entry) == NULL)) {
-	error(ERROR_SERIOUS,"no single definition for %S '%K'",
+	error(ERR_SERIOUS,"no single definition for %S '%K'",
 		(void *) shape_name, (void *) name_entry_key(entry));
     }
 }
@@ -403,7 +403,7 @@ name_entry_resolve_undefined(NameEntryT * entry,				      NameTableT * table,
 	}
     }
     if (missing_definitions) {
-	error(ERROR_WARNING,"no definition found for %S '%K'",
+	error(ERR_WARN,"no definition found for %S '%K'",
 		(void *) shape_key,(void *) key);
     }
     debug_info_l_not_found(key, shape_key, use);

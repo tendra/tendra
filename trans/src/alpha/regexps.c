@@ -219,7 +219,7 @@ void keepexp
   switch (loc.discrim) {
    case insomereg:
    case insomefreg:
-     error(ERROR_INTERNAL, "Keep ? reg");
+     error(ERR_INTERNAL, "Keep ? reg");
      return;
    case inreg:
       pos = regalt(loc);

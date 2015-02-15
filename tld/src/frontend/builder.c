@@ -56,7 +56,7 @@ builder_read_libraries(ArgDataT * arg_data,				unsigned *num_libs_ref ,
 	    shape_table_deallocate(lib_shapes);
 	} else {
 	    libraries[i] = NULL;
-		error(ERROR_SERIOUS, "cannot open input file '%s': %s", 
+		error(ERR_SERIOUS, "cannot open input file '%s': %s", 
 			lib_files[i], strerror(errno));
 	}
     }
@@ -75,7 +75,7 @@ builder_read_capsule(CapsuleT *capsule, CapsuleT **capsules,
 
     for (i = 0; i < capsule_index; i++) {
 	if (!strcmp(name, capsule_name(capsules[i]))) {
-	    error(ERROR_SERIOUS, "capsule name '%s' occurs more than "
+	    error(ERR_SERIOUS, "capsule name '%s' occurs more than "
 		"once in input capsule list", 
 		name);
 	}
@@ -135,7 +135,7 @@ builder_read_capsules(ArgDataT *   arg_data,			       UnitTableT * units ,
 				  shapes);
 	    capsule_index++;
 	} else {
-		error(ERROR_SERIOUS, "cannot open input file '%s': %s", 
+		error(ERR_SERIOUS, "cannot open input file '%s': %s", 
 			input_files[i], strerror(errno));
 	}
     }
@@ -213,7 +213,7 @@ builder_write_library(ArgDataT *   arg_data,			       ShapeTableT *shapes ,
 	library_write(library, shapes, num_capsules, capsules);
 	library_close(library);
     } else {
-	error(ERROR_FATAL, "cannot open output file '%s': %s", 
+	error(ERR_FATAL, "cannot open output file '%s': %s", 
 		output_file, strerror(errno));
 	UNREACHED;
     }

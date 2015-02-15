@@ -57,7 +57,7 @@ void
 out_dwf_label(long l, int set)
 {
   if (!l) {
-    error(ERROR_INTERNAL, "unknown label");
+    error(ERR_INTERNAL, "unknown label");
   }
   if (set) {
     asm_label(".Ldw%ld", l);

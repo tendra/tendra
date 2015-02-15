@@ -316,7 +316,7 @@ inc_offset(exp var, shape sha, exp konst, exp body, int i)
 			t = q;
 		}
 		if (t != rest) {
-			error(ERROR_INTERNAL, "unroll failure");
+			error(ERR_INTERNAL, "unroll failure");
 		}
 
 		kill_exp(sum, sum);

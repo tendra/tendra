@@ -77,7 +77,7 @@ read_bits(int n)
 	    /* Read next byte */
 	    int c = getc(input_file);
 	    if (c == EOF) {
-		error(ERROR_FATAL, "Premature end of file");
+		error(ERR_FATAL, "Premature end of file");
 	    } else {
 		m = (((unsigned long)c) & MASK(CHAR_BIT));
 	    }
@@ -199,7 +199,7 @@ read_file(char *nm)
     crt_file_name = nm;
     input_file = fopen(nm, "rb");
     if (input_file == NULL) {
-	error(ERROR_SERIOUS, "Can't open input file, '%s'", nm);
+	error(ERR_SERIOUS, "Can't open input file, '%s'", nm);
 	return;
     }
     init_bitmask();
@@ -209,11 +209,11 @@ read_file(char *nm)
     /* Confirm file header */
     s = READ_string();
     if (!!strcmp(s, calculus_NAME)) {
-	error(ERROR_FATAL, "Invalid file header identifier");
+	error(ERR_FATAL, "Invalid file header identifier");
     }
     s = READ_string();
     if (!!strcmp(s, calculus_VERSION)) {
-	error(ERROR_FATAL, "Invalid file header version, '%s'", s);
+	error(ERR_FATAL, "Invalid file header version, '%s'", s);
     }
 
     /* Read the algebra */

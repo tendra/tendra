@@ -43,7 +43,7 @@ trans_fopen(const char *path, const char *mode)
 	} else {
 		f = fopen(path, mode);
 		if (f == NULL) {
-			error(ERROR_FATAL, "Cannot open %s", path);
+			error(ERR_FATAL, "Cannot open %s", path);
 		}
 	}
 
@@ -225,17 +225,17 @@ main(int argc, char *argv[])
 	}
 
 	if (argc > 4) {
-		error(ERROR_FATAL, "Too many files");
-		trans_usage(stderr); /* XXX: ERROR_USAGE */
+		error(ERR_FATAL, "Too many files");
+		trans_usage(stderr); /* XXX: ERR_USAGE */
 		return 1; /* XXX: unreached */
 	}
 
 	if (driver.binasm == NULL && argc >= 4) {
-		error(ERROR_FATAL, "binasm not provided for this trans");
+		error(ERR_FATAL, "binasm not provided for this trans");
 	}
 
 	if (driver.symtab == NULL && argc >= 3) {
-		error(ERROR_FATAL, "binary symbol table not provided for this trans");
+		error(ERR_FATAL, "binary symbol table not provided for this trans");
 	}
 
 	if (quit) {

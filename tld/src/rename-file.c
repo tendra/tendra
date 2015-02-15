@@ -113,7 +113,7 @@ rename_file_read_unique(IStreamT *    istream,				 RenameTokenT *token)
 	    break;
 	  case '\n':
 	    istream_inc_line(istream);
-		error_posn(ERROR_SERIOUS, 
+		error_posn(ERR_SERIOUS, 
 		istream_name(istream), (int) istream_line(istream), 
 		"Unexpected newline");
 	    break;
@@ -132,7 +132,7 @@ rename_file_read_unique(IStreamT *    istream,				 RenameTokenT *token)
 	    return;
 	  case '[':
 	    break;
-		error_posn(ERROR_SERIOUS, istream_name(istream), 
+		error_posn(ERR_SERIOUS, istream_name(istream), 
 			(int) istream_line(istream), 
 			"illegal character '%c'", c);
 	  case '.':
@@ -148,7 +148,7 @@ rename_file_read_unique(IStreamT *    istream,				 RenameTokenT *token)
 		dstring_append_char(&dstring, c);
 		break;
 	      case ISTREAM_STAT_SYNTAX_ERROR:
-		error_posn(ERROR_SERIOUS, istream_name(istream), 
+		error_posn(ERR_SERIOUS, istream_name(istream), 
 			(int) istream_line(istream), "illegal escape sequence");
 		break;
 	      case ISTREAM_STAT_NO_CHAR:
@@ -162,7 +162,7 @@ rename_file_read_unique(IStreamT *    istream,				 RenameTokenT *token)
 	}
     }
   eof:
-	error_posn(ERROR_SERIOUS, istream_name(istream), 
+	error_posn(ERR_SERIOUS, istream_name(istream), 
 		(int) istream_line(istream), "unexpected end of file");
     dstring_destroy(&dstring);
     for (entry = nstring_list_head(&list); entry;
@@ -189,7 +189,7 @@ rename_file_read_shape(IStreamT *    istream,				RenameTokenT *token)
 	    break;
 	  case '\n':
 	    istream_inc_line(istream);
-		error_posn(ERROR_SERIOUS, istream_name(istream), 
+		error_posn(ERR_SERIOUS, istream_name(istream), 
 			(int) istream_line(istream), "Unexpected newline");
 	    break;
 	  case '\'':
@@ -203,7 +203,7 @@ rename_file_read_shape(IStreamT *    istream,				RenameTokenT *token)
 		dstring_append_char(&dstring, c);
 		break;
 	      case ISTREAM_STAT_SYNTAX_ERROR:
-		error_posn(ERROR_SERIOUS, istream_name(istream), 
+		error_posn(ERR_SERIOUS, istream_name(istream), 
 			(int) istream_line(istream), "illegal escape sequence");
 		break;
 	      case ISTREAM_STAT_NO_CHAR:
@@ -217,7 +217,7 @@ rename_file_read_shape(IStreamT *    istream,				RenameTokenT *token)
 	}
     }
   eof:
-	error_posn(ERROR_SERIOUS, istream_name(istream), 
+	error_posn(ERR_SERIOUS, istream_name(istream), 
 		(int) istream_line(istream), "unexpected end of file");
     dstring_destroy(&dstring);
     token->tag = RTOK_EOF;
@@ -241,7 +241,7 @@ rename_file_read_string(IStreamT *    istream,				 RenameTokenT *token)
 	    break;
 	  case '\n':
 	    istream_inc_line(istream);
-		error_posn(ERROR_SERIOUS, istream_name(istream), 
+		error_posn(ERR_SERIOUS, istream_name(istream), 
 			(int) istream_line(istream), "Unexpected newline");
 	    break;
 	  case '"':
@@ -251,7 +251,7 @@ rename_file_read_string(IStreamT *    istream,				 RenameTokenT *token)
 	    token->tag = RTOK_NAME;
 	    return;
 	  case '[': case ']': case '.':
-		error_posn(ERROR_SERIOUS, istream_name(istream), 
+		error_posn(ERR_SERIOUS, istream_name(istream), 
 			(int) istream_line(istream), 
 			"illegal character '%c'", c);
 	    break;
@@ -261,7 +261,7 @@ rename_file_read_string(IStreamT *    istream,				 RenameTokenT *token)
 		dstring_append_char(&dstring, c);
 		break;
 	      case ISTREAM_STAT_SYNTAX_ERROR:
-		error_posn(ERROR_SERIOUS, istream_name(istream), 
+		error_posn(ERR_SERIOUS, istream_name(istream), 
 			(int) istream_line(istream), "illegal escape sequence");
 		break;
 	      case ISTREAM_STAT_NO_CHAR:
@@ -275,7 +275,7 @@ rename_file_read_string(IStreamT *    istream,				 RenameTokenT *token)
 	}
     }
   eof:
-	error_posn(ERROR_SERIOUS, istream_name(istream), 
+	error_posn(ERR_SERIOUS, istream_name(istream), 
 		(int) istream_line(istream), "unexpected end of file");
     dstring_destroy(&dstring);
     token->tag = RTOK_EOF;
@@ -302,7 +302,7 @@ rename_file_next_token(IStreamT *    istream,				RenameTokenT *token)
 	    token->tag = RTOK_SEMI;
 	    break;
 	  default:
-		error_posn(ERROR_SERIOUS, istream_name(istream), 
+		error_posn(ERR_SERIOUS, istream_name(istream), 
 			(int) istream_line(istream), 
 			"illegal character '%c'", c);
 	    goto again;
@@ -324,7 +324,7 @@ rename_file_parse_names(IStreamT *    istream,				 NStringT *    shape ,
 	name_key_assign(&name, & (token->u.name));
 	rename_file_next_token(istream, token);
 	if (token->tag != RTOK_NAME) {
-		error_posn(ERROR_SERIOUS, istream_name(istream), 
+		error_posn(ERR_SERIOUS, istream_name(istream), 
 			(int) istream_line(istream), "expected external name");
 	    name_key_destroy(&name);
 	    if (token->tag != RTOK_SEMI) {
@@ -338,7 +338,7 @@ rename_file_parse_names(IStreamT *    istream,				 NStringT *    shape ,
 	    arg_data_add_rename(arg_data, shape, &name, &to_name);
 	    rename_file_next_token(istream, token);
 	    if (token->tag != RTOK_SEMI) {
-		error_posn(ERROR_SERIOUS, istream_name(istream), 
+		error_posn(ERR_SERIOUS, istream_name(istream), 
 			(int) istream_line(istream), "expected semi colon");
 	    } else {
 		rename_file_next_token(istream, token);
@@ -368,7 +368,7 @@ rename_file_parse_1(IStreamT *istream,			     ArgDataT *arg_data)
 	    FALL_THROUGH;
 	  default:
 	    if (need_error) {
-		error_posn(ERROR_SERIOUS, istream_name(istream), 
+		error_posn(ERR_SERIOUS, istream_name(istream), 
 			(int) istream_line(istream), "expected shape name");
 		need_error = FALSE;
 	    }
@@ -387,7 +387,7 @@ rename_file_parse(char * name,			   ArgDataT *arg_data)
 	rename_file_parse_1(&istream, arg_data);
 	istream_close(&istream);
     } else {
-	error(ERROR_FATAL, "cannot open rename file '%s': %s", 
+	error(ERR_FATAL, "cannot open rename file '%s': %s", 
 		name, strerror(errno));
     }
     if (error_max_reported_severity() >= ERROR_SEVERITY_ERROR) {

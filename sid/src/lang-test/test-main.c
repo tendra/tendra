@@ -33,7 +33,7 @@ main_init_test(OutputInfoT *info, CStringListT *options)
 		const char *option;
 
 		option = cstring_list_entry_string(entry);
-		error(ERROR_FATAL, "language '%s' doesn't understand option '%s'",
+		error(ERR_FATAL, "language '%s' doesn't understand option '%s'",
 			"test", option);
 	}
 

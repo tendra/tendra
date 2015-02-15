@@ -29,7 +29,7 @@ static void
 set_abbrev_tag(abbrev_entry *en, int c, int tag_code, int has_children)
 {
 	if (!en->index && !c) {
-		error(ERROR_SERIOUS, "abbreviation index unset: %s\n", en->aname);
+		error(ERR_SERIOUS, "abbreviation index unset: %s\n", en->aname);
 	}
 	out8();
 	uleb128((unsigned long)(en->index + c));

@@ -56,7 +56,7 @@ asm_vfprintf(FILE *f, const char *fmt, va_list ap)
 
 	r = vfprintf(f, fmt, ap);
 	if (r == -1) {
-		error(ERROR_FATAL, "vfprintf: %s", strerror(errno));
+		error(ERR_FATAL, "vfprintf: %s", strerror(errno));
 	}
 }
 
@@ -153,7 +153,7 @@ asm_vfcomment(FILE *f, const char *m, const char *fmt, va_list ap)
 	case ASM_IBM:    c = '#'; break;
 
 	default:
-		error(ERROR_SERIOUS, "unsupported assembler dialect");
+		error(ERR_SERIOUS, "unsupported assembler dialect");
 	}
 
 #if defined(TRANS_alpha) || defined(TRANS_mips)

@@ -144,7 +144,7 @@ as_source_lab:
 		case C_SPEC:
 			/* C spec file */
 			if (!allow_specs) {
-				error(ERROR_WARNING, "'%s' is a C spec file",
+				error(ERR_WARN, "'%s' is a C spec file",
 				      p->name);
 				p->type = DEFAULT_TYPE;
 			} else {
@@ -158,7 +158,7 @@ as_source_lab:
 		case CPP_SPEC:
 			/* C++ spec file */
 			if (!allow_specs || !allow_cpp) {
-				error(ERROR_WARNING, "'%s' is a C++ spec file",
+				error(ERR_WARN, "'%s' is a C++ spec file",
 				      p->name);
 				p->type = DEFAULT_TYPE;
 			} else {
@@ -171,7 +171,7 @@ as_source_lab:
 			break;
 		default:
 			/* Other file types give an error */
-			error(ERROR_WARNING,
+			error(ERR_WARN,
 			      "TDF file '%s' not recognised in cc mode",
 			      p->name);
 			p->type = DEFAULT_TYPE;
@@ -299,7 +299,7 @@ apply_compile(filename *input, int produce)
 					p = apply_compile(p, produce);
 				}
 			} else {
-				error(ERROR_WARNING, "'%s' is a C++ source file",
+				error(ERR_WARN, "'%s' is a C++ source file",
 				      p->name);
 				p->type = DEFAULT_TYPE;
 			}
@@ -318,7 +318,7 @@ apply_compile(filename *input, int produce)
 					p = apply_compile(p, produce);
 				}
 			} else {
-				error(ERROR_WARNING,
+				error(ERR_WARN,
 				      "'%s' is a preprocessed C++ source file",
 				      p->name);
 				p->type = DEFAULT_TYPE;
@@ -359,7 +359,7 @@ apply_compile(filename *input, int produce)
 					p = apply_compile(p, produce);
 				}
 			} else {
-				error(ERROR_WARNING,
+				error(ERR_WARN,
 				      "'%s' is a TDF notation source file",
 				      p->name);
 				p->type = DEFAULT_TYPE;
@@ -373,7 +373,7 @@ apply_compile(filename *input, int produce)
 					p = apply_compile(p, produce);
 				}
 			} else {
-				error(ERROR_WARNING,
+				error(ERR_WARN,
 				      "'%s' is a PL_TDF source file", p->name);
 				p->type = DEFAULT_TYPE;
 			}
@@ -381,7 +381,7 @@ apply_compile(filename *input, int produce)
 		case C_SPEC:
 			/* C spec file */
 			if (!allow_specs) {
-				error(ERROR_WARNING, "'%s' is a C spec file",
+				error(ERR_WARN, "'%s' is a C spec file",
 				      p->name);
 				p->type = DEFAULT_TYPE;
 			} else {
@@ -395,7 +395,7 @@ apply_compile(filename *input, int produce)
 		case CPP_SPEC:
 			/* C++ spec file */
 			if (!allow_specs || !allow_cpp) {
-				error(ERROR_WARNING, "'%s' is a C++ spec file",
+				error(ERR_WARN, "'%s' is a C++ spec file",
 				      p->name);
 				p->type = DEFAULT_TYPE;
 			} else {
@@ -576,7 +576,7 @@ apply_split_arch(filename *input)
 		p->next = NULL;
 		if (p->type == TDF_ARCHIVE) {
 			if (use_system_cc) {
-				error(ERROR_WARNING, "'%s' is a TDF archive",
+				error(ERR_WARN, "'%s' is a TDF archive",
 				      p->name);
 				p->type = DEFAULT_TYPE;
 			} else {

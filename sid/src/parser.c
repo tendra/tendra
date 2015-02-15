@@ -83,54 +83,54 @@
 
 
 	static void err_redeclared(const char *type, NStringT *name) {
-		error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+		error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 			"identifier '%S' redeclared as %s",
 			(void *) name, type);
 	}
 
 	static void err_unknown(const char *type, NStringT *name) {
-		error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+		error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 			"%s '%S' hasn't been declared",
 			type, (void *) name);
 	}
 
 	static void err_basic_mismatch(const char *type, KeyT *key, TypeTupleT *a) {
-		error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+		error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 			"parameter type mismatch for %s of terminal '%K' [%Y should be ()])",
 			type, (void *) key, (void *) a);
 	}
 
 	static void err_type_mismatch(const char *item, const char *verb, KeyT *key, TypeTupleT *a, TypeTupleT *b) {
-		error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+		error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 			"%s type mismatch for %s '%K' [%Y should be %Y]",
 			item, verb, (void *) key, (void *) a, (void *) b);
 	}
 
 	static void err_type_mismatch_of(const char *item, const char *verb, const char *entity,
 		KeyT *key, TypeTupleT *a, TypeTupleT *b) {
-		error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+		error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 			"%s type mismatch for %s of %s '%K' [%Y should be %Y]",
 			item, verb, entity, (void *) key, (void *) a, (void *) b);
 	}
 
 	static void err_expected(const char *item) {
-		error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+		error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 			"expected %s", item);
 	}
 
 	static void err_ignored(const char *item, NStringT *name) {
-		error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+		error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 			"invocation of ignored %s '%S'", item, (void *) name);
 	}
 
 	static void err_undefined_name(KeyT *name, KeyT *rule, unsigned alt) {
-		error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+		error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 			"undefined parameter name '%K' in alternative %u of production '%K'",
 			(void *) name, alt, (void *) rule);
 	}
 
 	static void err_redefined_name(KeyT *name, KeyT *rule, unsigned alt) {
-		error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+		error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 			"redefined name '%K' in alternative %u of production '%K'",
 			(void *) name, alt, (void *) rule);
 	}
@@ -273,7 +273,7 @@ ZR250(GrammarP sid_current_grammar)
 				rule_set_handler(sid_current_rule, sid_current_alt);
 			} else {
 				(void) alt_deallocate(sid_current_alt);
-				error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+				error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 					"result formals are not defined in exception handler alternative of production '%K'",
 					(void *) entry_key(sid_external_rule));
 			}
@@ -389,7 +389,7 @@ ZR166(GrammarP sid_current_grammar, NStringT *ZO165)
 
 		if (entry) {
 			if (!entry_is_basic(entry)) {
-				error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+				error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 					"quoted identifier '%S' is not a terminal",
 					(void *) (&ZI165));
 			}
@@ -451,7 +451,7 @@ ZR269(GrammarP sid_current_grammar, TypeTupleT *ZI134, TypeTupleT *ZI135)
 			key = entry_key(sid_current_entry);
 
 			if (rule_is_defined(sid_current_rule)) {
-				error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+				error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 					"production '%K' is already defined", (void *) key);
 				sid_current_entry = NULL;
 				types_destroy((ZI134));
@@ -463,7 +463,7 @@ ZR269(GrammarP sid_current_grammar, TypeTupleT *ZI134, TypeTupleT *ZI135)
 
 				rule_defined(sid_current_rule);
 				if (!types_disjoint_names((ZI134))) {
-					error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+					error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 						"parameter names are not disjoint (or are missing) for production '%K' [parameter = %Y]",
 						(void *) key, (void *) (ZI134));
 					errored = TRUE;
@@ -485,7 +485,7 @@ ZR269(GrammarP sid_current_grammar, TypeTupleT *ZI134, TypeTupleT *ZI135)
 				}
 
 				if (!types_disjoint_names((ZI135))) {
-					error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+					error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 						"result names are not disjoint (or are missing) for production '%K' [result = %Y]",
 						(void *) key, (void *) (ZI135));
 					errored = TRUE;
@@ -497,7 +497,7 @@ ZR269(GrammarP sid_current_grammar, TypeTupleT *ZI134, TypeTupleT *ZI135)
 				}
 
 				if (types_contains_references((ZI135))) {
-					error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+					error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 						"result of declaration or definition of rule '%K' has references [result = %Y]",
 						(void *) key, (void *) (ZI135));
 					errored = TRUE;
@@ -533,7 +533,7 @@ ZR269(GrammarP sid_current_grammar, TypeTupleT *ZI134, TypeTupleT *ZI135)
 					sid_current_entry = NULL;
 				} else {
 					if (types_intersect(param, result)) {
-						error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+						error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 							"parameter and result names are not disjoint for production '%K' [parameter = %Y, result = %Y]",
 							(void *) key, (void *) param, (void *) result);
 						sid_current_entry = NULL;
@@ -653,7 +653,7 @@ ZR269(GrammarP sid_current_grammar, TypeTupleT *ZI134, TypeTupleT *ZI135)
 			BoolT       errored = FALSE;
 
 			if (types_contains_names((ZI134))) {
-				error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+				error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 					"parameter of declaration of rule '%K' has names [parameter = %Y]",
 					(void *) key, (void *) (ZI134));
 				errored = TRUE;
@@ -667,14 +667,14 @@ ZR269(GrammarP sid_current_grammar, TypeTupleT *ZI134, TypeTupleT *ZI135)
 			}
 
 			if (types_contains_names((ZI135))) {
-				error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+				error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 					"result of declaration of rule '%K' has names [result = %Y]",
 					(void *) key, (void *) (ZI135));
 				errored = TRUE;
 			}
 
 			if (types_contains_references((ZI135))) {
-				error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+				error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 					"result of declaration or definition of rule '%K' has references [result = %Y]",
 					(void *) key, (void *) (ZI135));
 				errored = TRUE;
@@ -744,7 +744,7 @@ ZR252(GrammarP sid_current_grammar)
 
 		sid_num_alternatives++;
 		if (sid_num_alternatives == ALT_LIMIT) {
-			error_posn(ERROR_FATAL, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+			error_posn(ERR_FATAL, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 				"too many alternatives in grammar");
 			UNREACHED;
 		}
@@ -755,11 +755,11 @@ ZR252(GrammarP sid_current_grammar)
 
 		if (sid_current_entry) {
 			if (rule_has_empty_alt(sid_current_rule)) {
-				error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+				error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 					"production '%K' has multiple empty alternatives",
 					(void *) entry_key(sid_external_rule));
 			} else if (!types_equal_zero_tuple(rule_result(sid_current_rule))) {
-				error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+				error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 					"result formals are not defined in alternative %u of production '%K'",
 					sid_alternative, (void *) entry_key(sid_external_rule));
 			} else {
@@ -787,7 +787,7 @@ ZR252(GrammarP sid_current_grammar)
 
 		sid_num_alternatives++;
 		if (sid_num_alternatives == ALT_LIMIT) {
-			error_posn(ERROR_FATAL, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+			error_posn(ERR_FATAL, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 				"too many alternatives in grammar");
 			UNREACHED;
 		}
@@ -824,7 +824,7 @@ ZR252(GrammarP sid_current_grammar)
 				rule_add_alt(sid_current_rule, sid_current_alt);
 			} else {
 				(void) alt_deallocate(sid_current_alt);
-				error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+				error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 					"result formals are not defined in alternative %u of production '%K'",
 					sid_alternative, (void *) entry_key(sid_external_rule));
 			}
@@ -1688,7 +1688,7 @@ ZR181(GrammarP sid_current_grammar, TypeTupleT *ZI138)
 #line 538 "parser.act"
 
 		if (sid_current_pred_id) {
-			error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+			error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 				"result contains more than one predicate result symbol");
 		}
 		sid_current_pred_id = TRUE;
@@ -1762,7 +1762,7 @@ ZR181(GrammarP sid_current_grammar, TypeTupleT *ZI138)
 			}
 			nstring_destroy(&(ZI163));
 		} else {
-			error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+			error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 				"assignment to undefined name '%S'", (void *) (&ZI163));
 			types_add_name((ZI138), grammar_table(sid_current_grammar), &(ZI163), FALSE);
 		}
@@ -2589,7 +2589,7 @@ ZR306(GrammarP sid_current_grammar, NStringT *ZI163)
 
 		(ZI263) = NULL;
 		if (sid_enclosing_rule == NULL || sid_current_scope == &sid_global_scope) {
-			error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+			error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 				"definition of non local name '%S' at global scope",
 				(void *) (ZI163));
 			nstring_destroy(&(*ZI163));
@@ -2709,7 +2709,7 @@ ZR306(GrammarP sid_current_grammar, NStringT *ZI163)
 
 			if (!types_equal(param, &tuple) && !types_equal(param, &ref_tuple)
 				&& !types_equal_zero_tuple(param)) {
-				error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+				error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 					"parameter type mismatch for initialiser of non local name '%K' [%Y should be %Y, %Y or ()]",
 					(void *) name, (void *) param, (void *) &tuple, (void *) &ref_tuple);
 			}
@@ -2916,7 +2916,7 @@ ZR308(GrammarP sid_current_grammar)
 #line 538 "parser.act"
 
 		if (sid_current_pred_id) {
-			error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+			error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 				"result contains more than one predicate result symbol");
 		}
 		sid_current_pred_id = TRUE;
@@ -3089,7 +3089,7 @@ ZR219(GrammarP sid_current_grammar, TypeTupleT *ZI214)
 						types_add_new_names(alt_names(sid_current_alt),
 							(ZI214), grammar_get_predicate_id(sid_current_grammar));
 						if (sid_saved_pred_id) {
-							error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+							error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 								"predicate result symbol used in result of something other than an action");
 						}
 						item_add_result(sid_current_item, (ZI214));
@@ -3110,11 +3110,11 @@ ZR219(GrammarP sid_current_grammar, TypeTupleT *ZI214)
 				}
 			} else {
 				if (param) {
-					error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+					error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 						"result names are not disjoint for invocation of rule '%K' [result = %Y]",
 						(void *) key, (void *) (ZI214));
 				} else {
-					error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+					error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 						"result names are not disjoint for invocation of terminal '%K' [result = %Y]",
 						(void *) key, (void *) (ZI214));
 				}
@@ -3218,7 +3218,7 @@ ZR219(GrammarP sid_current_grammar, TypeTupleT *ZI214)
 					err_unknown("identifier", (&ZI163));
 				}
 			} else if (entry != NULL && name_entry != NULL) {
-				error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+				error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 					"identifier '%S' used in ambiguous context [may be name, rule or terminal]",
 						(void *) (&ZI163));
 				entry      = NULL;
@@ -3265,7 +3265,7 @@ ZR219(GrammarP sid_current_grammar, TypeTupleT *ZI214)
 						types_add_new_names(alt_names(sid_current_alt),
 							(ZI214), grammar_get_predicate_id(sid_current_grammar));
 						if (sid_saved_pred_id) {
-							error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+							error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 								"predicate result symbol used in result of something other than an action");
 						}
 						item_add_result(sid_current_item, (ZI214));
@@ -3286,11 +3286,11 @@ ZR219(GrammarP sid_current_grammar, TypeTupleT *ZI214)
 				}
 			} else {
 				if (param) {
-					error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+					error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 						"result names are not disjoint for invocation of rule '%K' [result = %Y]",
 						(void *) key, (void *) (ZI214));
 				} else {
-					error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+					error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 						"result names are not disjoint for invocation of terminal '%K' [result = %Y]",
 						(void *) key, (void *) (ZI214));
 				}
@@ -3314,7 +3314,7 @@ ZR219(GrammarP sid_current_grammar, TypeTupleT *ZI214)
 				alt_names(sid_current_alt), err_undefined_name,
 				entry_key(sid_external_rule), sid_alternative)) {
 				if (types_contains_references(&rhs)) {
-					error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+					error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 						"cannot take address of identity parameters in alternative %u of production '%K' [parameter = %Y]",
 						sid_alternative, (void *) entry_key(sid_external_rule), (void *) &rhs);
 					types_destroy(&rhs);
@@ -3337,13 +3337,13 @@ ZR219(GrammarP sid_current_grammar, TypeTupleT *ZI214)
 							types_add_new_names(alt_names(sid_current_alt),
 								(ZI214), grammar_get_predicate_id(sid_current_grammar));
 							if (sid_saved_pred_id) {
-								error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+								error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 									"predicate result symbol used in result of something other than an action");
 							}
 							item_add_result(sid_current_item, (ZI214));
 							alt_add_item(sid_current_alt, sid_current_item);
 						} else {
-							error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+							error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 								"type mismatch for identity [%Y should be %Y]",
 								(void *) (ZI214), (void *) item_param(sid_current_item));
 							types_destroy((ZI214));
@@ -3359,7 +3359,7 @@ ZR219(GrammarP sid_current_grammar, TypeTupleT *ZI214)
 					}
 				}
 			} else {
-				error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+				error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 					"result names are not disjoint for identity [result = %Y]",
 					(void *) (ZI214));
 				types_destroy((ZI214));
@@ -3475,7 +3475,7 @@ ZR219(GrammarP sid_current_grammar, TypeTupleT *ZI214)
 				alt_names(sid_current_alt), err_undefined_name,
 				entry_key(sid_external_rule), sid_alternative)) {
 				if (types_contains_references((&ZI217))) {
-					error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+					error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 						"cannot take address of identity parameters in alternative %u of production '%K' [parameter = %Y]",
 						sid_alternative, (void *) entry_key(sid_external_rule), (void *) (&ZI217));
 					types_destroy((&ZI217));
@@ -3498,13 +3498,13 @@ ZR219(GrammarP sid_current_grammar, TypeTupleT *ZI214)
 							types_add_new_names(alt_names(sid_current_alt),
 							(ZI214), grammar_get_predicate_id(sid_current_grammar));
 							if (sid_saved_pred_id) {
-								error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+								error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 									"predicate result symbol used in result of something other than an action");
 							}
 							item_add_result(sid_current_item, (ZI214));
 							alt_add_item(sid_current_alt, sid_current_item);
 						} else {
-							error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+							error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 								"type mismatch for identity [%Y should be %Y]",
 								(void *) (ZI214), (void *) item_param(sid_current_item));
 							types_destroy((ZI214));
@@ -3520,7 +3520,7 @@ ZR219(GrammarP sid_current_grammar, TypeTupleT *ZI214)
 					}
 				}
 			} else {
-				error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+				error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 					"result names are not disjoint for identity [result = %Y]",
 					(void *) (ZI214));
 				types_destroy((ZI214));
@@ -3638,7 +3638,7 @@ ZR219(GrammarP sid_current_grammar, TypeTupleT *ZI214)
 				alt_names(sid_current_alt), err_undefined_name,
 				entry_key(sid_external_rule), sid_alternative)) {
 				if (types_contains_references((&ZI217))) {
-					error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+					error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 						"cannot take address of identity parameters in alternative %u of production '%K' [parameter = %Y]",
 						sid_alternative, (void *) entry_key(sid_external_rule), (void *) (&ZI217));
 					types_destroy((&ZI217));
@@ -3661,13 +3661,13 @@ ZR219(GrammarP sid_current_grammar, TypeTupleT *ZI214)
 							types_add_new_names(alt_names(sid_current_alt),
 							(ZI214), grammar_get_predicate_id(sid_current_grammar));
 							if (sid_saved_pred_id) {
-								error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+								error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 									"predicate result symbol used in result of something other than an action");
 							}
 							item_add_result(sid_current_item, (ZI214));
 							alt_add_item(sid_current_alt, sid_current_item);
 						} else {
-							error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+							error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 								"type mismatch for identity [%Y should be %Y]",
 								(void *) (ZI214), (void *) item_param(sid_current_item));
 							types_destroy((ZI214));
@@ -3683,7 +3683,7 @@ ZR219(GrammarP sid_current_grammar, TypeTupleT *ZI214)
 					}
 				}
 			} else {
-				error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+				error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 					"result names are not disjoint for identity [result = %Y]",
 					(void *) (ZI214));
 				types_destroy((ZI214));
@@ -4072,7 +4072,7 @@ ZR310(GrammarP sid_current_grammar, NStringT *ZI163)
 						types_add_new_names(alt_names(sid_current_alt),
 							(&ZI214), grammar_get_predicate_id(sid_current_grammar));
 						if (sid_saved_pred_id) {
-							error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+							error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 								"predicate result symbol used in result of something other than an action");
 						}
 						item_add_result(sid_current_item, (&ZI214));
@@ -4093,11 +4093,11 @@ ZR310(GrammarP sid_current_grammar, NStringT *ZI163)
 				}
 			} else {
 				if (param) {
-					error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+					error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 						"result names are not disjoint for invocation of rule '%K' [result = %Y]",
 						(void *) key, (void *) (&ZI214));
 				} else {
-					error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+					error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 						"result names are not disjoint for invocation of terminal '%K' [result = %Y]",
 						(void *) key, (void *) (&ZI214));
 				}
@@ -4223,7 +4223,7 @@ ZR310(GrammarP sid_current_grammar, NStringT *ZI163)
 						types_add_new_names(alt_names(sid_current_alt),
 							(&ZI214), grammar_get_predicate_id(sid_current_grammar));
 						if (sid_saved_pred_id) {
-							error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+							error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 								"predicate result symbol used in result of something other than an action");
 						}
 						item_add_result(sid_current_item, (&ZI214));
@@ -4244,11 +4244,11 @@ ZR310(GrammarP sid_current_grammar, NStringT *ZI163)
 				}
 			} else {
 				if (param) {
-					error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+					error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 						"result names are not disjoint for invocation of rule '%K' [result = %Y]",
 						(void *) key, (void *) (&ZI214));
 				} else {
-					error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+					error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 						"result names are not disjoint for invocation of terminal '%K' [result = %Y]",
 						(void *) key, (void *) (&ZI214));
 				}
@@ -4397,7 +4397,7 @@ ZR215(GrammarP sid_current_grammar, TypeTupleT *ZI214)
 							assert(type != NULL && !reference);
 							if (grammar_get_predicate_type(sid_current_grammar)) {
 								if (type != grammar_get_predicate_type(sid_current_grammar)) {
-									error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+									error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 										"predicate type mismatch [%Y should be %Y]",
 										(void *) type, (void *) grammar_get_predicate_type(sid_current_grammar));
 								}
@@ -4418,7 +4418,7 @@ ZR215(GrammarP sid_current_grammar, TypeTupleT *ZI214)
 					errored = TRUE;
 				}
 			} else {
-				error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+				error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 					"result names are not disjoint for invocation of action '%K' [result = %Y]",
 					(void *) entry_key(entry), (void *) (ZI214));
 				types_destroy((ZI214));
@@ -4515,7 +4515,7 @@ ZR215(GrammarP sid_current_grammar, TypeTupleT *ZI214)
 							assert(type != NULL && !reference);
 							if (grammar_get_predicate_type(sid_current_grammar)) {
 								if (type != grammar_get_predicate_type(sid_current_grammar)) {
-									error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+									error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 										"predicate type mismatch [%Y should be %Y]",
 										(void *) type, (void *) grammar_get_predicate_type(sid_current_grammar));
 								}
@@ -4536,7 +4536,7 @@ ZR215(GrammarP sid_current_grammar, TypeTupleT *ZI214)
 					errored = TRUE;
 				}
 			} else {
-				error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+				error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 					"result names are not disjoint for invocation of action '%K' [result = %Y]",
 					(void *) entry_key(entry), (void *) (ZI214));
 				types_destroy((ZI214));
@@ -5465,7 +5465,7 @@ ZR228(GrammarP sid_current_grammar)
 			}
 			nstring_destroy(&(ZI163));
 		} else {
-			error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+			error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 				"assignment to undefined name '%S'", (void *) (&ZI163));
 			types_add_name((&ZI214), grammar_table(sid_current_grammar), &(ZI163), FALSE);
 		}
@@ -5699,17 +5699,17 @@ ZR170(GrammarP sid_current_grammar)
 			KeyT *key = entry_key((ZI172));
 			BasicT *basic = entry_get_basic((ZI172));
 			if (types_contains_names((&ZI134))) {
-				error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+				error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 					"parameter of declaration of terminal '%K' has names [parameter = %Y]",
 					(void *) key, (void *) (&ZI134));
 			}
 			if (types_contains_names((&ZI135))) {
-				error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+				error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 					"result of declaration of terminal '%K' has names [result = %Y]",
 					(void *) key, (void *) (&ZI135));
 			}
 			if (types_contains_references((&ZI135))) {
-				error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+				error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 					"result of declaration of terminal '%K' has references [result = %Y]",
 					(void *) key, (void *) (&ZI135));
 			}
@@ -5830,17 +5830,17 @@ ZR170(GrammarP sid_current_grammar)
 			KeyT *key = entry_key((ZI172));
 			BasicT *basic = entry_get_basic((ZI172));
 			if (types_contains_names((&ZI134))) {
-				error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+				error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 					"parameter of declaration of terminal '%K' has names [parameter = %Y]",
 					(void *) key, (void *) (&ZI134));
 			}
 			if (types_contains_names((&ZI135))) {
-				error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+				error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 					"result of declaration of terminal '%K' has names [result = %Y]",
 					(void *) key, (void *) (&ZI135));
 			}
 			if (types_contains_references((&ZI135))) {
-				error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+				error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 					"result of declaration of terminal '%K' has references [result = %Y]",
 					(void *) key, (void *) (&ZI135));
 			}
@@ -5993,7 +5993,7 @@ ZR203(GrammarP sid_current_grammar)
 			BoolT       errored = FALSE;
 
 			if (types_contains_names((&ZI134))) {
-				error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+				error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 					"parameter of declaration of action '%K' has names [parameter = %Y]",
 					(void *) key, (void *) (&ZI134));
 				errored = TRUE;
@@ -6007,14 +6007,14 @@ ZR203(GrammarP sid_current_grammar)
 			}
 
 			if (types_contains_names((&ZI135))) {
-				error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+				error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 					"result of declaration of action '%K' has names [result = %Y]",
 					(void *) key, (void *) (&ZI135));
 				errored = TRUE;
 			}
 
 			if (types_contains_references((&ZI135))) {
-				error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+				error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 					"result of declaration of action '%K' has references [result = %Y]",
 					(void *) key, (void *) (&ZI135));
 				errored = TRUE;
@@ -6133,7 +6133,7 @@ ZR203(GrammarP sid_current_grammar)
 			BoolT       errored = FALSE;
 
 			if (types_contains_names((&ZI134))) {
-				error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+				error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 					"parameter of declaration of action '%K' has names [parameter = %Y]",
 					(void *) key, (void *) (&ZI134));
 				errored = TRUE;
@@ -6147,14 +6147,14 @@ ZR203(GrammarP sid_current_grammar)
 			}
 
 			if (types_contains_names((&ZI135))) {
-				error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+				error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 					"result of declaration of action '%K' has names [result = %Y]",
 					(void *) key, (void *) (&ZI135));
 				errored = TRUE;
 			}
 
 			if (types_contains_references((&ZI135))) {
-				error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+				error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 					"result of declaration of action '%K' has references [result = %Y]",
 					(void *) key, (void *) (&ZI135));
 				errored = TRUE;
@@ -6457,7 +6457,7 @@ ZR282(GrammarP sid_current_grammar)
 		entry = table_get_rule(grammar_table(sid_current_grammar), (&ZI163));
 		if (entry) {
 			if (entry_list_contains(grammar_entry_list(sid_current_grammar), entry)) {
-				error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+				error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 					"rule '%K' occurs in the entry list more than once",
 					(void *) entry_key(entry));
 			} else {

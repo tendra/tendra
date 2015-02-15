@@ -257,7 +257,7 @@ keepexp ( exp e, ans loc )
     switch ( discrim ( loc ) ) {
 	case insomereg:
 	case insomefreg:
-	    error(ERROR_SERIOUS,  "Illegal location in keepexp" ) ;
+	    error(ERR_SERIOUS,  "Illegal location in keepexp" ) ;
 	    return ;
 	case inreg:
 	    reg = regalt ( loc ) ;

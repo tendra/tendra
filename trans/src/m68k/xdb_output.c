@@ -119,7 +119,7 @@ void init_diag
     if (strcmp(os, "HP-UX") == 0) {
 	diag = (vs >= 7.40 ? DIAG_XDB_NEW : DIAG_XDB_OLD);
     } else {
-	error(ERROR_INTERNAL, "diagnostic format not recognised");
+	error(ERR_INTERNAL, "diagnostic format not recognised");
 	exit(1);
    }
 #endif
@@ -136,7 +136,7 @@ void init_diag
 	    diagfp2 = tmpfile();
 	    diagfp3 = tmpfile();
 	    if (diagfp1 == NULL || diagfp2 == NULL || diagfp3 == NULL) {
-		error(ERROR_FATAL, "Can't open temporary diagnostics file");
+		error(ERR_FATAL, "Can't open temporary diagnostics file");
 	    }
 	    asm_fprintf(diagfp1, "%s\n", instr_names[m_as_data]);
 	    asm_fprintf(diagfp1, "%s\n", instr_names[m_dd_vt]);
@@ -148,14 +148,14 @@ void init_diag
 	case DIAG_XDB_OLD: {
 	    diagfp2 = tmpfile();
 	    if (diagfp2 == NULL) {
-		error(ERROR_FATAL, "Can't open temporary diagnostics file");
+		error(ERR_FATAL, "Can't open temporary diagnostics file");
 	    }
 	    asm_fprintf(diagfp2, "%s\n", instr_names[m_as_data]);
 	    asm_fprintf(diagfp2, "%s\n", instr_names[m_dd_start]);
 	    break;
 
 	default:
-		error(ERROR_SERIOUS, "unsupported assembler dialect");
+		error(ERR_SERIOUS, "unsupported assembler dialect");
 	}
     }
 }
@@ -462,7 +462,7 @@ void diag_proc_main
 
     /* Analyse result sort */
     if (dt->key != DIAG_TYPE_PROC) {
-	error(ERROR_SERIOUS, "Illegal procedure type");
+	error(ERR_SERIOUS, "Illegal procedure type");
 	return;
     }
     dtl = dt->data.proc.result_type;

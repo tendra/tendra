@@ -129,13 +129,13 @@ f_static_name_def(exp e, tdfstring id)
 	char *newid = add_prefix(name_prefix, id.ints.chars);
 
 	if (name(e) != name_tag || !isglob(son(e))) {
-		error(ERROR_INTERNAL, ILLEGAL_STATIC);
+		error(ERR_INTERNAL, ILLEGAL_STATIC);
 		kill_exp(e, e);
 		return 0;
 	}
 
 	if (separate_units) {
-		error(ERROR_INTERNAL, INCOMPATIBLE_U);
+		error(ERR_INTERNAL, INCOMPATIBLE_U);
 	} else {
 		out_rename(*oldid, newid);
 	}

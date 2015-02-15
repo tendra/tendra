@@ -107,7 +107,7 @@ get_crt_time(void)
 			st->tm_hour = 23;
 			st->tm_min = 30;
 			st->tm_sec = 0;
-			error(ERROR_INTERNAL, "Can't find current date");
+			error(ERR_INTERNAL, "Can't find current date");
 		} else {
 			struct tm *st = localtime(&t);
 			crt_time_str = *st;

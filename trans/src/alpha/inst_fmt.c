@@ -498,7 +498,7 @@ fetch(instruction ins, baseoff a)
 /*  setmemory_base(new_ins,a.base);
   setmemory_offset(new_ins,a.offset);*/
   if(a.offset!=0)
-    error(ERROR_INTERNAL, "fetch offset must be zero");
+    error(ERR_INTERNAL, "fetch offset must be zero");
   if(as_file){
     asm_printop("%s %ld($%d)",ins_symbolic_name(ins),
 		  a.offset,a.base);

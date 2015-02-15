@@ -63,7 +63,7 @@ main(int argc, char **argv)
 	}
 
 	if (argc > 2) {
-		error(ERROR_FATAL, "Too many arguments");
+		error(ERR_FATAL, "Too many arguments");
 	}
 
 	/* Process the input */

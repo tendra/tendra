@@ -129,7 +129,7 @@ void fl_binop
 	    break;
 	}
 	default : {
-	    error(ERROR_SERIOUS, "Illegal floating operation");
+	    error(ERR_SERIOUS, "Illegal floating operation");
 	    return;
 	}
     }
@@ -452,7 +452,7 @@ static void check_float_round_overflow
      check_limit(from, get_max_limit(sha,0),tst_gr);
      break;
   default:
-     error(ERROR_SERIOUS, "check_float_round_overflow: wrong rounding mode");
+     error(ERR_SERIOUS, "check_float_round_overflow: wrong rounding mode");
   }
 
   asm_comment("check_float_round_overflow done");
@@ -507,7 +507,7 @@ void set_round_mode
       ins2n(m_bclr,5,32,D0,1);
       break;
    default:
-      error(ERROR_SERIOUS, "wrong rounding mode");
+      error(ERR_SERIOUS, "wrong rounding mode");
    }
    ins2(m_fmovel,32,32,D0,RW[REG_FPCR],1);
 }
@@ -624,7 +624,7 @@ void round_float
 			break;
 
 		default:
-			error(ERROR_SERIOUS, "unsupported ABI");
+			error(ERR_SERIOUS, "unsupported ABI");
 		}
 	    return;
 	}
@@ -780,7 +780,7 @@ void int_to_float
 		return;
 
 	default:
-		error(ERROR_SERIOUS, "unsupported ABI");
+		error(ERR_SERIOUS, "unsupported ABI");
 	}
     }
 

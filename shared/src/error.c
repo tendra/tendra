@@ -88,23 +88,23 @@ error_msg(enum error_severity e, const char *fn, int ln, const char *s, va_list 
 		(void) fprintf(stderr, "%s: ", progname);
 
 	switch (e) {
-	case ERROR_WARNING:
+	case ERR_WARN:
 		(void) fprintf(stderr, "Warning: ");
 		break;
-	case ERROR_FATAL:
+	case ERR_FATAL:
 		(void) fprintf(stderr, "Fatal: ");
 		exit_status = EXIT_FAILURE;
 		break;
-	case ERROR_USAGE:
+	case ERR_USAGE:
 		(void) fprintf(stderr, "Usage: ");
 		exit_status = EXIT_FAILURE;
 		break;
-	case ERROR_INTERNAL:
+	case ERR_INTERNAL:
 		(void) fprintf(stderr, "Internal Error: ");
 		exit_status = EXIT_FAILURE;
 		number_errors++;
 		break;
-	case ERROR_SERIOUS:
+	case ERR_SERIOUS:
 		(void) fprintf(stderr, "Error: ");
 		exit_status = EXIT_FAILURE;
 		number_errors++;
@@ -123,11 +123,11 @@ error_msg(enum error_severity e, const char *fn, int ln, const char *s, va_list 
 	(void) vefprintf(stderr, s, args);
 	(void) fprintf(stderr, "\n");
 
-	if (e == ERROR_FATAL || e == ERROR_USAGE)
+	if (e == ERR_FATAL || e == ERR_USAGE)
 		exit(exit_status);
 
 	if (number_errors >= maximum_errors && maximum_errors)
-		error(ERROR_FATAL, "Too many errors (%d) - aborting",
+		error(ERR_FATAL, "Too many errors (%d) - aborting",
 		    number_errors);
 }
 

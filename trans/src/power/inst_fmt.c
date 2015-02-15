@@ -73,7 +73,7 @@ void ld_ro_ins(Instruction_P ins, baseoff a, int dest)
   {
     /* base reg of R_0 is not normally allowed, special case 0 offset */
     if (a.offset != 0)
-      error(ERROR_SERIOUS, "ld_ro_ins: non zero offset to R_0");
+      error(ERR_SERIOUS, "ld_ro_ins: non zero offset to R_0");
     /* with XXXx (indexed instructions) RA of R_0 is taken as constant 0 */
 	if (do_macros) {
  	   asm_printf( "\t%sx\t%s,%s,%s",get_instruction(ins),reg_macro(dest),reg_macro(R_0),reg_macro(R_0));
@@ -174,12 +174,12 @@ void st_ro_ins(Instruction_P ins, int src, baseoff a)
 
   /* in general we cannot cope with store using temp reg, catch it always */
   if ((src == R_TMP0 || a.base == R_TMP0) && absval(a.offset) > (16 + 1 + 6) * 4)	/* leeway for mem_temp() */
-    error(ERROR_SERIOUS, "st_ro_ins: store of temp reg to offset not allowed");	/* should not happen */
+    error(ERR_SERIOUS, "st_ro_ins: store of temp reg to offset not allowed");	/* should not happen */
 
   if (a.base == R_0)
   {
     if (a.offset != 0)
-      error(ERROR_SERIOUS, "st_ro_ins: non zero offset to R_0");
+      error(ERR_SERIOUS, "st_ro_ins: non zero offset to R_0");
     /* with XXXx (indexed instructions) RA of R_0 is taken as constant 0 */
 	if (do_macros) {
 	    asm_printf( "\t%sx\t%s,%s,%s", get_instruction(ins), reg_macro(src), reg_macro(R_0), reg_macro(R_0));
@@ -234,7 +234,7 @@ void st_ins(Instruction_P ins, int src, baseoff a)
     baseoff tmp_off;
 
     if (src == R_TMP0)
-      error(ERROR_SERIOUS, "st_ins: store of temp reg to global not allowed");	/* should not happen */
+      error(ERR_SERIOUS, "st_ins: store of temp reg to global not allowed");	/* should not happen */
 
     tmp_off.base = R_TMP0;
     tmp_off.offset = 0;
@@ -404,7 +404,7 @@ void rir_ins(Instruction_P ins, int src, long imm, int dest)
     else if (ins==i_or)  ilins = i_oril;
     else if (ins==i_xor) ilins = i_xoril;
     else if (ins==i_and_cr)ilins = i_andil_cr;
-    else error(ERROR_SERIOUS, "Should never reach here");
+    else error(ERR_SERIOUS, "Should never reach here");
 	if (do_macros) {
 	    asm_printop("%s %s,%s,%ld", get_instruction(ilins), reg_macro(dest), reg_macro(src), imm);
 	} else {
@@ -421,7 +421,7 @@ void rir_ins(Instruction_P ins, int src, long imm, int dest)
     else if (ins==i_or)  iuins = i_oriu;
     else if (ins==i_xor) iuins = i_xoriu;
     else if (ins==i_and_cr)iuins = i_andiu_cr;
-    else error(ERROR_SERIOUS, "Should never reach here");
+    else error(ERR_SERIOUS, "Should never reach here");
 	if (do_macros) {
 	    asm_printop("%s %s,%s,%ld",get_instruction(iuins), reg_macro(dest), reg_macro(src), uimm >> 16);
 	} else {
@@ -448,7 +448,7 @@ void rir_ins(Instruction_P ins, int src, long imm, int dest)
   /* default: use temp reg for large constant */
   asm_comment("rir_ins: large constant in R_TMP0");
   if (src == R_TMP0)
-    error(ERROR_SERIOUS, "rir_ins: temp reg in use when needed for large constant");	/* should not happen */
+    error(ERR_SERIOUS, "rir_ins: temp reg in use when needed for large constant");	/* should not happen */
   ld_const_ins(imm, R_TMP0);
   rrr_ins(ins, src, R_TMP0, dest);
 }
@@ -698,7 +698,7 @@ void long_bc_ins(Instruction_P ins, int creg, int lab, int prediction)
   else if (ins==i_bns) {ins = i_bso;}
   else
   {
-    error(ERROR_SERIOUS, "Don't know how to reverse this test");
+    error(ERR_SERIOUS, "Don't know how to reverse this test");
   }
 
   if (cpu == CPU_POWERPC)
@@ -808,7 +808,7 @@ void cmp_ri_ins(Instruction_P ins, int reg, long imm, int cr_dest)
     /* use temp reg for large constant */
     asm_comment("condri_ins: large constant in R_TMP0");
     if (reg == R_TMP0)
-      error(ERROR_SERIOUS, "cmp_ri_ins: temp reg in use when needed for large constant");	/* should not happen */
+      error(ERR_SERIOUS, "cmp_ri_ins: temp reg in use when needed for large constant");	/* should not happen */
     ld_const_ins(imm, R_TMP0);
     cmp_rr_ins(ins, reg, R_TMP0, cr_dest);
   }
@@ -827,7 +827,7 @@ void ldf_ro_ins(Instruction_P ins, baseoff a, int dest)
   if (a.base == R_0)
   {
     if (a.offset != 0)
-      error(ERROR_SERIOUS, "ldf_ro_ins: non zero offset to R_0");
+      error(ERR_SERIOUS, "ldf_ro_ins: non zero offset to R_0");
     /* with XXXx (indexed instructions) RA of R_0 is taken as constant 0 */
 	if (do_macros) {
 	    asm_printop("%sx %s,%s,%s", get_instruction(ins), freg_macro(dest), reg_macro(R_0), reg_macro(R_0));
@@ -902,12 +902,12 @@ void stf_ro_ins(Instruction_P ins, int src, baseoff a)
 
   /* in general we cannot cope with store using temp reg, catch it always */
   if (a.base == R_TMP0 && absval(a.offset) > (16 + 1 + 6) * 4)	/* leeway for mem_temp() */
-    error(ERROR_SERIOUS, "stf_ro_ins: store of temp reg to offset not allowed");	/* should not happen */
+    error(ERR_SERIOUS, "stf_ro_ins: store of temp reg to offset not allowed");	/* should not happen */
 
   if (a.base == R_0)
   {
     if (a.offset != 0)
-      error(ERROR_SERIOUS, "stf_ro_ins: non zero offset to R_0");
+      error(ERR_SERIOUS, "stf_ro_ins: non zero offset to R_0");
     /* with XXXx (indexed instructions) RA of R_0 is taken as constant 0 */
 	if (do_macros) {
 	    asm_printop("%sx %s,%s,%s", get_instruction(ins), freg_macro(src), reg_macro(R_0), reg_macro(R_0));

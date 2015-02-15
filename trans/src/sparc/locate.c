@@ -133,7 +133,7 @@ boff ( exp e ){
   }
 #endif
   else {
-    error(ERROR_SERIOUS,  "not a baseoff in boff" ) ;
+    error(ERR_SERIOUS,  "not a baseoff in boff" ) ;
   }
   return an;
 }
@@ -220,7 +220,7 @@ locate1 ( exp e, space sp, shape s, int dreg ){
 	      break ;
 	    }
 	    default : {
-	      error(ERROR_SERIOUS,  "name not deferable" ) ;
+	      error(ERR_SERIOUS,  "name not deferable" ) ;
 	    }
 	  }
 	  setinsalt ( aa, is ) ;
@@ -329,7 +329,7 @@ locate1 ( exp e, space sp, shape s, int dreg ){
 	  break ;
 	}
 	default : {
-	  error(ERROR_SERIOUS,  "locate ? reg" ) ;
+	  error(ERR_SERIOUS,  "locate ? reg" ) ;
 	}
       }
     /*register ind contains the evaluation of 1st operand of addptr*/
@@ -412,7 +412,7 @@ locate1 ( exp e, space sp, shape s, int dreg ){
 	  break ;
 	}
 	default : {
-	  error(ERROR_SERIOUS,  "locate ? reg " ) ;
+	  error(ERR_SERIOUS,  "locate ? reg " ) ;
 	}
       }
       wans.ashwhere = a ;
@@ -467,7 +467,7 @@ locate1 ( exp e, space sp, shape s, int dreg ){
 	  goto breakson ;
 	}
 	default : {
-	  error(ERROR_SERIOUS,  "locate ? reg" ) ;
+	  error(ERR_SERIOUS,  "locate ? reg" ) ;
 	}
       }
       breakson :
@@ -495,7 +495,7 @@ locate1 ( exp e, space sp, shape s, int dreg ){
 	  break ;
 	}
 	default : {
-	  error(ERROR_SERIOUS,  "field should be transformed" ) ;
+	  error(ERR_SERIOUS,  "field should be transformed" ) ;
 	}
       }
       wans.ashwhere = a ;

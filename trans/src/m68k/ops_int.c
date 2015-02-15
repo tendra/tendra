@@ -1209,7 +1209,7 @@ static void euclid
 	switch (v) {
 
 	    case 0: {
-		error(ERROR_WARNING, "Division by zero");
+		error(ERR_WARN, "Division by zero");
                 if (have_overflow()) {
                    test_overflow(UNCONDITIONAL);
                 }

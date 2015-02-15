@@ -201,7 +201,7 @@ unhas(void)
 		break;
 
 	default:
-		error(ERROR_INTERNAL, "unknown format-specific local flags");
+		error(ERR_INTERNAL, "unknown format-specific local flags");
 	}
 }
 

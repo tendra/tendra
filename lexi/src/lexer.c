@@ -183,7 +183,7 @@ lxi_next_sidident(struct lxi_state *state)
 			{
 
 	if (token_current == token_end) {
-		error(ERROR_FATAL, "Buffer overflow: trailing 0");
+		error(ERR_FATAL, "Buffer overflow: trailing 0");
 		*(token_end-1) = 0;
 	} else {
 		*token_current++ = 0;
@@ -198,7 +198,7 @@ lxi_next_sidident(struct lxi_state *state)
 		{
 
 	if (token_current == token_end - 1) {
-		error(ERROR_FATAL, "Buffer overflow");
+		error(ERR_FATAL, "Buffer overflow");
 	} else {
 		*token_current++ = c0;
 	}
@@ -220,7 +220,7 @@ lxi_next_ident(struct lxi_state *state)
 			{
 
 	if (token_current == token_end) {
-		error(ERROR_FATAL, "Buffer overflow: trailing 0");
+		error(ERR_FATAL, "Buffer overflow: trailing 0");
 		*(token_end-1) = 0;
 	} else {
 		*token_current++ = 0;
@@ -242,7 +242,7 @@ lxi_next_ident(struct lxi_state *state)
 		{
 
 	if (token_current == token_end - 1) {
-		error(ERROR_FATAL, "Buffer overflow");
+		error(ERR_FATAL, "Buffer overflow");
 	} else {
 		*token_current++ = c0;
 	}
@@ -263,7 +263,7 @@ lxi_next_string(struct lxi_state *state)
 				/* ACTION <E_newline_in_string> */
 				{
 
-	error(ERROR_SERIOUS, "Unexpected newline in string");
+	error(ERR_SERIOUS, "Unexpected newline in string");
 				}
 				/* END ACTION <E_newline_in_string> */
 				goto start; /* leaf */
@@ -273,7 +273,7 @@ lxi_next_string(struct lxi_state *state)
 				/* ACTION <E_eof_in_string> */
 				{
 
-	error(ERROR_SERIOUS, "Unexpected eof in string");
+	error(ERR_SERIOUS, "Unexpected eof in string");
 				}
 				/* END ACTION <E_eof_in_string> */
 				goto start; /* leaf */
@@ -287,7 +287,7 @@ lxi_next_string(struct lxi_state *state)
 						{
 
 	if (token_current == token_end - 1) {
-		error(ERROR_FATAL, "Buffer overflow");
+		error(ERR_FATAL, "Buffer overflow");
 	} else {
 		*token_current++ = c0;
 	}
@@ -297,7 +297,7 @@ lxi_next_string(struct lxi_state *state)
 						{
 
 	if (token_current == token_end - 1) {
-		error(ERROR_FATAL, "Buffer overflow");
+		error(ERR_FATAL, "Buffer overflow");
 	} else {
 		*token_current++ = c0;
 	}
@@ -311,7 +311,7 @@ lxi_next_string(struct lxi_state *state)
 						{
 
 	if (token_current == token_end - 1) {
-		error(ERROR_FATAL, "Buffer overflow");
+		error(ERR_FATAL, "Buffer overflow");
 	} else {
 		*token_current++ = c1;
 	}
@@ -330,7 +330,7 @@ lxi_next_string(struct lxi_state *state)
 				{
 
 	if (token_current == token_end) {
-		error(ERROR_FATAL, "Buffer overflow: trailing 0");
+		error(ERR_FATAL, "Buffer overflow: trailing 0");
 		*(token_end-1) = 0;
 	} else {
 		*token_current++ = 0;
@@ -347,7 +347,7 @@ lxi_next_string(struct lxi_state *state)
 		{
 
 	if (token_current == token_end - 1) {
-		error(ERROR_FATAL, "Buffer overflow");
+		error(ERR_FATAL, "Buffer overflow");
 	} else {
 		*token_current++ = c0;
 	}
@@ -554,7 +554,7 @@ lxi_next(struct lxi_state *state)
 					{
 
 	if (token_current == token_end - 1) {
-		error(ERROR_FATAL, "Buffer overflow");
+		error(ERR_FATAL, "Buffer overflow");
 	} else {
 		*token_current++ = c1;
 	}
@@ -686,7 +686,7 @@ lxi_next(struct lxi_state *state)
 			{
 
 	if (token_current == token_end - 1) {
-		error(ERROR_FATAL, "Buffer overflow");
+		error(ERR_FATAL, "Buffer overflow");
 	} else {
 		*token_current++ = c0;
 	}

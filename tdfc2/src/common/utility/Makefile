@@ -30,7 +30,7 @@ ERRORS+= 	catalog.err
 # TODO: these are silly filenames
 ERROR_DECL= 	errors1.h
 ERROR_DEFN= 	errors3.h
-ERROR_USAGE=	opts.h
+ERR_USAGE=	opts.h
 
 .include <tendra.errors.mk>
 

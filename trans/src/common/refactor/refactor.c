@@ -960,7 +960,7 @@ fplus_fn(exp ap, exp b, int et)
 		flptnos[nob] = resval;
 		no(ap) = nob;
 	} else {
-		error(ERROR_INTERNAL, ILLEGAL_FLADD);
+		error(ERR_INTERNAL, ILLEGAL_FLADD);
 	}
 }
 
@@ -984,7 +984,7 @@ fmult_fn(exp ap, exp b, int et)
 		flptnos[nob] = resval;
 		no(ap) = nob;
 	} else {
-		error(ERROR_INTERNAL, ILLEGAL_FLMULT);
+		error(ERR_INTERNAL, ILLEGAL_FLMULT);
 	}
 }
 
@@ -1014,7 +1014,7 @@ plus_fn(exp ap, exp b, int et)
 	if (check & CHECK_EXTRA) {
 		 if (sg && !in_proc_def &&
 		    (ov || (shape_size(sh(ap)) <= 32 && check_size(x, sg, 32)))) {
-		    error(ERROR_INTERNAL, ADD_OUT_OF_BOUNDS);
+		    error(ERR_INTERNAL, ADD_OUT_OF_BOUNDS);
 		    exit(EXIT_FAILURE);
 	    };
 	 */
@@ -1052,7 +1052,7 @@ minus_fn(exp ap, exp b, int et)
 	if (check & CHECK_EXTRA) {
 		if (sg && !in_proc_def &&
 		    (ov || (shape_size(sh(ap)) <= 32 && check_size(x, sg, 32)))) {
-		    error(ERROR_INTERNAL, ADD_OUT_OF_BOUNDS);
+		    error(ERR_INTERNAL, ADD_OUT_OF_BOUNDS);
 		    exit(EXIT_FAILURE);
 	    };
 	}
@@ -1118,7 +1118,7 @@ mult_fn(exp ap, exp b, int et)
 	if (check & CHECK_EXTRA) {
 		if (sg &&
 		    (ov || (shape_size(sh(ap)) <= 32 && check_size(x, sg, 32)))) {
-			error(ERROR_INTERNAL, MULT_OUT_OF_BOUNDS);
+			error(ERR_INTERNAL, MULT_OUT_OF_BOUNDS);
 			exit(EXIT_FAILURE);
 		}
 	}
@@ -2477,7 +2477,7 @@ refactor(exp e, exp scope)
 						if (sg && !in_proc_def &&
 						    shape_size(sha) <= 32 &&
 						    check_size(x, sg, 32)) {
-							error(ERROR_INTERNAL, "Change_variety out of range");
+							error(ERR_INTERNAL, "Change_variety out of range");
 							exit(EXIT_FAILURE);
 						}
 					}

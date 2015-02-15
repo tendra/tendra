@@ -183,7 +183,7 @@ int move
   case insomereg :
   case insomefreg : {
     /* Source is in some register */
-    error(ERROR_SERIOUS,  "move : source register not specified" ) ;
+    error(ERR_SERIOUS,  "move : source register not specified" ) ;
     return NOREG;
   }
   case inreg : {
@@ -204,7 +204,7 @@ int move
     case insomereg : {
       /* Register to some register move */
       int *sr = someregalt ( dest.answhere ) ;
-      if ( *sr != -1 ) error(ERROR_SERIOUS,  "Illegal register" ) ;
+      if ( *sr != -1 ) error(ERR_SERIOUS,  "Illegal register" ) ;
       *sr = r ;
       return NOREG;
     }
@@ -248,7 +248,7 @@ int move
       return r;
     }
     default:
-      error(ERROR_SERIOUS, "fixed -> wrong dest");
+      error(ERR_SERIOUS, "fixed -> wrong dest");
     }
     /* NOT REACHED */
   }
@@ -277,7 +277,7 @@ int move
     case insomereg : {
       /* Floating register to some register move */
       int *sr = someregalt ( dest.answhere ) ;
-      if ( *sr != -1 ) error(ERROR_SERIOUS,  "Illegal register" ) ;
+      if ( *sr != -1 ) error(ERR_SERIOUS,  "Illegal register" ) ;
       *sr = getreg ( regs ) ;
       regs |= RMASK ( *sr ) ;
       setregalt ( dest.answhere, *sr ) ;
@@ -304,7 +304,7 @@ int move
 
       if ( ( dest.ashwhere.ashsize == 64 && !fr.dble ) ||
 	   ( dest.ashwhere.ashsize == 32 && fr.dble ) ) {
-	error(ERROR_SERIOUS,  "Inconsistent sizes in move" ) ;
+	error(ERR_SERIOUS,  "Inconsistent sizes in move" ) ;
       }
 
       is = insalt ( dest.answhere ) ;
@@ -334,7 +334,7 @@ int move
       return fr.dble ? -( fr.fr + 32 ) : ( fr.fr + 32 ) ;
     }
     default:
-      error(ERROR_SERIOUS, "Float to wrong dest");
+      error(ERR_SERIOUS, "Float to wrong dest");
     }
     /* NOT REACHED */
   }
@@ -370,7 +370,7 @@ int move
     case insomereg : {
       /* Move store to some register */
       int *sr = someregalt ( dest.answhere ) ;
-      if ( *sr != -1 ) error(ERROR_SERIOUS,  "Illegal register" ) ;
+      if ( *sr != -1 ) error(ERR_SERIOUS,  "Illegal register" ) ;
       *sr = getreg ( regs ) ;
       regs |= RMASK ( *sr ) ;
       setregalt ( dest.answhere, *sr ) ;
@@ -440,7 +440,7 @@ int move
       no_steps = ( bits + bits_per_step - 1 ) / bits_per_step ;
 
       if ( ( al % 8 ) != 0 || ( bits % 8 ) != 0 ) {
-	error(ERROR_SERIOUS,  "move : misaligned store" ) ;
+	error(ERR_SERIOUS,  "move : misaligned store" ) ;
 	return NOREG;
       }
       assert ( ( bits % al ) == 0 ) ;
@@ -616,7 +616,7 @@ int move
     }
   }
   }
-  error(ERROR_SERIOUS,  "Illegal move" ) ;
+  error(ERR_SERIOUS,  "Illegal move" ) ;
   return NOREG;
 }
 

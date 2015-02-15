@@ -98,7 +98,7 @@ linker_read_capsules(ArgDataT *   arg_data,			      UnitTableT * units,
 	    capsule_read(capsule, units, shapes);
 	    capsule_close(capsule);
 	} else {
-		error(ERROR_SERIOUS, "cannot open input file '%s': %s", 
+		error(ERR_SERIOUS, "cannot open input file '%s': %s", 
 			input_files[i], strerror(errno));
 	}
     }
@@ -133,12 +133,12 @@ linker_load_libraries(ArgDataT *   arg_data,			       ShapeTableT *lib_shapes)
 		    DEALLOCATE(name);
 		}
 	    }
-		error(ERROR_SERIOUS, "cannot open library file '%s': %s", 
+		error(ERR_SERIOUS, "cannot open library file '%s': %s", 
 			files[i], strerror(errno));
 	} else {
 	    if ((library = library_create_stream_input(files[i])) ==
 		NULL) {
-		error(ERROR_SERIOUS, "cannot open library file '%s': %s", 
+		error(ERR_SERIOUS, "cannot open library file '%s': %s", 
 			files[i], strerror(errno));
 	    }
 	}
@@ -227,7 +227,7 @@ linker_hide(NStringT *    shape,		     BoolT        all,
     ShapeEntryT *entry  = shape_table_get(shapes, shape);
 
     if (entry == NULL) {
-	error(ERROR_SERIOUS,"there are no external %S names to hide", (void *) shape);
+	error(ERR_SERIOUS,"there are no external %S names to hide", (void *) shape);
     } else {
 	NameTableT *       table = shape_entry_name_table(entry);
 	NameKeyListEntryT *name  = name_key_list_head(names);
@@ -240,13 +240,13 @@ linker_hide(NStringT *    shape,		     BoolT        all,
 	    NameEntryT *name_entry = name_table_get(table, key);
 
 	    if (name_entry == NULL) {
-		error(ERROR_SERIOUS,"there is no external %S named "
+		error(ERR_SERIOUS,"there is no external %S named "
 		"'%K' to hide", (void *) shape, (void *) key);
 	    } else if (name_entry_get_use(name_entry) & U_DEFD) {
 		debug_info_l_hide(shape, key);
 		name_entry_hide(name_entry);
 	    } else {
-		error(ERROR_SERIOUS,"cannot hide undefined external %S named "
+		error(ERR_SERIOUS,"cannot hide undefined external %S named "
 			"'%K'", (void *) shape, (void *) key);
 	    }
 	}
@@ -262,7 +262,7 @@ linker_keep(NStringT *    shape,		     BoolT        all,
     ShapeEntryT *entry  = shape_table_get(shapes, shape);
 
     if (entry == NULL) {
-	error(ERROR_SERIOUS,"there are no external %S names to keep",
+	error(ERR_SERIOUS,"there are no external %S names to keep",
 		(void *) shape);
     } else {
 	NameTableT *       table = shape_entry_name_table(entry);
@@ -276,7 +276,7 @@ linker_keep(NStringT *    shape,		     BoolT        all,
 	    NameEntryT *name_entry = name_table_get(table, key);
 
 	    if (name_entry == NULL) {
-		error(ERROR_SERIOUS,"there is no external %S named "
+		error(ERR_SERIOUS,"there is no external %S named "
 			"'%K' to keep",
 			(void *) shape, (void *) key);
 	    } else {
@@ -315,7 +315,7 @@ linker_write_capsule(ArgDataT *   arg_data,			      UnitTableT * units,
 	capsule_write(capsule, units, shapes);
 	capsule_close(capsule);
     } else {
-	error(ERROR_FATAL, "cannot open output file '%s': %s", 
+	error(ERR_FATAL, "cannot open output file '%s': %s", 
 		output_file, strerror(errno));
 	UNREACHED;
     }

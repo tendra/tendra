@@ -68,7 +68,7 @@ pretty_file(char *nm)
     } else {
 	f = fopen(nm, "w");
 	if (f == NULL) {
-	    error(ERROR_SERIOUS, "Can't open output file, '%s'", nm);
+	    error(ERR_SERIOUS, "Can't open output file, '%s'", nm);
 	    return;
 	}
     }

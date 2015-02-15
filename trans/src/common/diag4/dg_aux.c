@@ -248,7 +248,7 @@ idname_chars(dg_idname nam)
 	static char *empty = "";
 	switch (nam.id_key) {
 	case DG_ID_INST:
-		error(ERROR_INTERNAL, "inappropriate dg_instance_idname");
+		error(ERR_INTERNAL, "inappropriate dg_instance_idname");
 		return empty;
 	case DG_ID_NONE:
 		return empty;
@@ -355,7 +355,7 @@ find_proc_type(dg_type t)
 			}
 		}
 	}
-	error(ERROR_INTERNAL, "proc type details unavailable");
+	error(ERR_INTERNAL, "proc type details unavailable");
 	return f_dg_proc_type(new_dg_param_list(0), f_dg_void_type,
 			      no_bool_option, no_nat_option, no_nat_option,
 			      no_procprops_option);
@@ -412,7 +412,7 @@ diag_kill_id(exp id)
 	exp t = pt(id);
 	while (t) {
 		if (!isdiaginfo(t))
-			error(ERROR_INTERNAL, "bad kill ident");
+			error(ERR_INTERNAL, "bad kill ident");
 		setdiscarded(t);
 		t = pt(t);
 	}
@@ -524,7 +524,7 @@ check_const_exp(exp e)
 		return;
 	}
 	if (name(e) != hold_tag || name(son(e)) != val_tag) {
-		error(ERROR_INTERNAL, "diag_type may need copying");
+		error(ERR_INTERNAL, "diag_type may need copying");
 	}
 	/* copy within type, unless all name_tags are uncopied */
 }
@@ -587,7 +587,7 @@ check_const_type(dg_type t)
 		break;
 	case DGT_CLASS:
 	case DGT_PMEM:
-		error(ERROR_INTERNAL, "uncopyable type");
+		error(ERR_INTERNAL, "uncopyable type");
 		break;
 	default:
 		break;
@@ -605,7 +605,7 @@ new_copy_name(dg_name d)
 	if (d->mor && d->mor->this_tag) {
 		IGNORE f_dg_tag_name(gen_tg_tag(), new);
 		if (d->mor->this_tag->copy) {
-			error(ERROR_INTERNAL, "bad copy_diagname");
+			error(ERR_INTERNAL, "bad copy_diagname");
 		}
 		if (inner_copy) {
 			d->mor->this_tag->copy = new->mor->this_tag;
@@ -655,7 +655,7 @@ is_copied(exp e)
 	case string_tag:
 		return 0;
 	default:
-		error(ERROR_INTERNAL, "unexpected copy_diagname obtain_val");
+		error(ERR_INTERNAL, "unexpected copy_diagname obtain_val");
 	}
 	return 0;
 }
@@ -691,7 +691,7 @@ copy_diagname(dg_name d, exp var, exp lab, int need)
 		}
 		break;
 	default:
-		error(ERROR_INTERNAL, "unexpected copy_diagname");
+		error(ERR_INTERNAL, "unexpected copy_diagname");
 	}
 	return new;
 }
@@ -738,7 +738,7 @@ update_diag_copy(exp e, dg_info d, int update)
 				}
 #if 1
 				if (d->key == DGA_MOVD && !d->more) {
-					error(ERROR_INTERNAL, "lost movd?");
+					error(ERR_INTERNAL, "lost movd?");
 				}
 #endif
 				break;
@@ -787,7 +787,7 @@ update_diag_copy(exp e, dg_info d, int update)
 #if 1
 			case DGA_MOVD:
 				if (!d->more) {
-					error(ERROR_INTERNAL, "lost movd?");
+					error(ERR_INTERNAL, "lost movd?");
 				}
 				break;
 #endif
@@ -844,7 +844,7 @@ copy_dg_info(dg_info d, exp var, exp lab, int doing_exp_copy)
 	if (d->this_tag) {
 		IGNORE f_make_tag_dg(gen_tg_tag(), new);
 		if (d->this_tag->copy) {
-			error(ERROR_INTERNAL, "bad copy_dg_info");
+			error(ERR_INTERNAL, "bad copy_dg_info");
 		}
 		if (inner_copy) {
 			d->this_tag->copy = new->this_tag;
@@ -958,7 +958,7 @@ copy_dg_info(dg_info d, exp var, exp lab, int doing_exp_copy)
 		new->data.i_movd = d->data.i_movd;
 #if 1
 		if (d->key == DGA_MOVD && !d->more) {
-			error(ERROR_INTERNAL, "lost movd?");
+			error(ERR_INTERNAL, "lost movd?");
 		}
 #endif
 		break;
@@ -973,7 +973,7 @@ copy_dg_info(dg_info d, exp var, exp lab, int doing_exp_copy)
 		break;
 	}
 	default:
-		error(ERROR_INTERNAL, "copy_diaginfo incomplete");
+		error(ERR_INTERNAL, "copy_diaginfo incomplete");
 	}
 	return new;
 }
@@ -1188,7 +1188,7 @@ dg_complete_inline(exp whole, exp comp)
 				}
 			}
 			if (!dgf(comp) || dgf(comp)->key != DGA_INL_CALL) {
-				error(ERROR_INTERNAL, "lost inline call movement");
+				error(ERR_INTERNAL, "lost inline call movement");
 			}
 		}
 		*next = dgf(comp);
@@ -1235,7 +1235,7 @@ gather_detch(exp e, dg_info *dx, int reason, int descend, int reuse,
 		if (d->key == DGA_MOVD) {
 			/* previous simple movement */
 			if (!d->more) {
-				error(ERROR_INTERNAL, "lost movd?");
+				error(ERR_INTERNAL, "lost movd?");
 			}
 			if (reason < d->data.i_movd.reason) {
 				d->data.i_movd.reason = reason;
@@ -1272,7 +1272,7 @@ gather_detch(exp e, dg_info *dx, int reason, int descend, int reuse,
 			d->more = *dx;
 			*dx = d;
 			if (!d->more) {
-				error(ERROR_INTERNAL, "lost movd?");
+				error(ERR_INTERNAL, "lost movd?");
 			}
 			IGNORE f_make_tag_dg(gen_tg_tag(), d);
 			ans->info = NULL;
@@ -1432,7 +1432,7 @@ dg_extracted(exp nm, exp old)
 	dg_info *dx;
 	if (name(nm) != name_tag ||
 	    (dx = after_dg_context(son(nm)), !(*dx)->this_tag)) {
-		error(ERROR_INTERNAL, "make_optim error");
+		error(ERR_INTERNAL, "make_optim error");
 		return;
 	}
 	dg_detach(old, nm, -1, DGD_EXTRACT, 1, 0, (*dx)->this_tag);

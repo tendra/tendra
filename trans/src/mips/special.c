@@ -74,7 +74,7 @@ specialneeds(int i)
     case 3:
       return strcmpneeds;
     default:
-      error(ERROR_INTERNAL, "not special fn");
+      error(ERR_INTERNAL, "not special fn");
   }
   return strcpyneeds;
 }
@@ -134,7 +134,7 @@ specialmake(int n, exp par, space sp, where dest, int exitlab)
 	return exitlab;
       }
     default:
-      error(ERROR_INTERNAL, "not special");
+      error(ERR_INTERNAL, "not special");
   }
   return exitlab;
 }

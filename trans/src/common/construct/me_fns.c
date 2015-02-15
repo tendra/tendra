@@ -294,7 +294,7 @@ long_to_al(int n)
 	case 512: return const_al512;
 
 	default:
-		error(ERROR_INTERNAL, BAD_LONG_AL);
+		error(ERR_INTERNAL, BAD_LONG_AL);
 		return const_al32;
 	}
 }

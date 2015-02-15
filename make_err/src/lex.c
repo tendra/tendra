@@ -112,7 +112,7 @@ read_identifier(int a)
 	do {
 		*(t++) = (char) c;
 		if (t == token_end) {
-			error(ERROR_FATAL, "Buffer overflow");
+			error(ERR_FATAL, "Buffer overflow");
 		}
 		c = read_char();
 		cl = lookup_char(c);
@@ -142,12 +142,12 @@ read_string(void)
 	char *t = token_buff;
 	while (c = read_char(),(c != '"' || escaped)) {
 		if (c == LEX_EOF) {
-			error(ERROR_SERIOUS, "Unexpected end of string");
+			error(ERR_SERIOUS, "Unexpected end of string");
 			break;
 		}
 		*(t++) = (char) c;
 		if (t == token_end) {
-			error(ERROR_FATAL, "Buffer overflow");
+			error(ERR_FATAL, "Buffer overflow");
 		}
 		if (escaped) {
 			escaped = 0;
@@ -178,7 +178,7 @@ read_comment(void)
 	while (state != 2) {
 		int c = read_char();
 		if (c == LEX_EOF) {
-			error(ERROR_SERIOUS, "End of file in comment");
+			error(ERR_SERIOUS, "End of file in comment");
 			return lex_eof;
 		}
 		if (c == '*') {
@@ -226,7 +226,7 @@ process_file(char *nm)
 		crt_file_name = nm;
 		lex_input = fopen(nm, "r");
 		if (lex_input == NULL) {
-			error(ERROR_SERIOUS, "Can't open input file, '%s'", nm);
+			error(ERR_SERIOUS, "Can't open input file, '%s'", nm);
 			return;
 		}
 	}

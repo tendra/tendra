@@ -181,7 +181,7 @@ static loc_s find_loc(exp e)
 	  if (name(son(son(e))) == chvar_tag ||
 		name(son(son(e))) == chfl_tag)
 	    return find_loc (son(son(son(e))));
-	  error(ERROR_INTERNAL, "param inconsistency");
+	  error(ERR_INTERNAL, "param inconsistency");
 	}
 	if (r > last_param_reg) {
 	  l.key = L_REGOFF;
@@ -243,7 +243,7 @@ static loc_s find_loc(exp e)
 	  if (name(son(son(son(e)))) == chvar_tag ||
 		name(son(son(son(e)))) == chfl_tag)
 	    return find_loc (son(son(son(son(e)))));
-	  error(ERROR_INTERNAL, "param inconsistency");
+	  error(ERR_INTERNAL, "param inconsistency");
 	}
 	if (r > last_param_reg) {
 	  l.key = L_REGOFF;
@@ -290,7 +290,7 @@ static loc_s find_loc(exp e)
     }
 
     default:
-      error(ERROR_INTERNAL, "unimplemented location condition");
+      error(ERR_INTERNAL, "unimplemented location condition");
   }
   return l;
 }
@@ -408,7 +408,7 @@ static int indirect_length(exp e)
       }	/* else drop through to failure */
     }
     default: {
-      error(ERROR_INTERNAL, "unimplemented dwarf locate");
+      error(ERR_INTERNAL, "unimplemented dwarf locate");
       return 0;
     }
   }
@@ -529,12 +529,12 @@ void dw2_locate_exp(exp e, int locate_const, int cx)
   }
   while (extra_deref) {
     if (extra_deref < 0) {
-      error(ERROR_INTERNAL, "miscalculated location");
+      error(ERR_INTERNAL, "miscalculated location");
       break;
     }
 #if 0
     if (locate_const)
-      error(ERROR_INTERNAL, "constant location???");
+      error(ERR_INTERNAL, "constant location???");
 #endif
     asm_printf(", %s", DW_OP_deref);
     extra_deref--;
@@ -601,7 +601,7 @@ void dw2_locate_result(shape sha)
     }
     else {
 	/* no result */
-      error(ERROR_INTERNAL, "inconsistent result");
+      error(ERR_INTERNAL, "inconsistent result");
       r = R_G0;
     }
     asm_printf("%d, ", inreg_length (r, 0));
@@ -665,7 +665,7 @@ void dw2_locate_val(dg_where v)
       break;
     }
     default:
-      error(ERROR_INTERNAL, "unexpected locate val");
+      error(ERR_INTERNAL, "unexpected locate val");
   }
   asm_printf("\n");
 
@@ -691,7 +691,7 @@ static int dw_eval_exp(exp e, int line_started)
       locate_param = extra_deref = no_location = 0;
       l = find_loc (e);
       if (no_location || extra_deref)
-	error(ERROR_INTERNAL, "value unobtainable by DWARF expression");
+	error(ERR_INTERNAL, "value unobtainable by DWARF expression");
       switch (l.key) {
 	case L_INREG:    out_inreg(l.reg, extra_deref);            break;
 	case L_REGOFF:   out_regoff(l);                            break;
@@ -804,7 +804,7 @@ static int dw_eval_exp(exp e, int line_started)
       break;
     }
     default:
-      error(ERROR_INTERNAL, "unsupported operation for DWARF expression");
+      error(ERR_INTERNAL, "unsupported operation for DWARF expression");
   }
   return line_started;
 }
@@ -814,7 +814,7 @@ void dw2_offset_exp(exp e)
 {
   long block_end = next_dwarf_label ();
   if (name(sh(e)) != offsethd)
-    error(ERROR_INTERNAL, "wrong shape for offset expression");
+    error(ERR_INTERNAL, "wrong shape for offset expression");
   dw_at_form (DW_FORM_block2); asm_printf("\n");
   out16 (); out_dwf_dist_to_label (block_end); asm_printf("\n");
   if (dw_eval_exp (e, 0))
@@ -956,7 +956,7 @@ static void mark_lab(exp labst)
   if (!dg_labmark (labst)) {
     set_dg_labmark (labst);
     if (son(son(labst)) != NULL)
-      error(ERROR_INTERNAL, "strange labst");
+      error(ERR_INTERNAL, "strange labst");
     son(son(labst)) = lab_mark_list;
     lab_mark_list = labst;
   }

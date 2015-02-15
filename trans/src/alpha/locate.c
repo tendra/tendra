@@ -92,7 +92,7 @@ baseoff boff
       /* global anonymous */
     }
     else {
-      error(ERROR_INTERNAL, "not a baseoff in boff");
+      error(ERR_INTERNAL, "not a baseoff in boff");
     }
   }
   return an;
@@ -142,7 +142,7 @@ where locate1
 	      break;
 	    }
 	    default:
-	    error(ERROR_INTERNAL, "NOT deferable");
+	    error(ERR_INTERNAL, "NOT deferable");
 	  }
 
 	  setinsalt(aa, is);
@@ -288,7 +288,7 @@ where locate1
       }
 
       default: {
-	error(ERROR_INTERNAL, "Locate ? reg");
+	error(ERR_INTERNAL, "Locate ? reg");
       }
       }			/* end case */
 
@@ -414,7 +414,7 @@ where locate1
 	    break;
 	  }
 	  default: {
-	    error(ERROR_INTERNAL, "Locate ? reg ");
+	    error(ERR_INTERNAL, "Locate ? reg ");
 	  }
 	}
 	wans.ashwhere = a;
@@ -480,7 +480,7 @@ where locate1
 	}
 
        default: {
-	 error(ERROR_INTERNAL, "Locate ? reg");
+	 error(ERR_INTERNAL, "Locate ? reg");
        }
       }
      breakson:
@@ -515,7 +515,7 @@ where locate1
 	break;
       }
       default:
-       error(ERROR_INTERNAL, "field should be transformed");
+       error(ERR_INTERNAL, "field should be transformed");
      }
      wans.ashwhere = a;
      return wans;

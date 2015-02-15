@@ -410,7 +410,7 @@ static regu alloc_reg_big
     default: {
       SET(mask);
       SET(i);
-      error(ERROR_INTERNAL, WRONG_REGSIZE);
+      error(ERR_INTERNAL, WRONG_REGSIZE);
     };
   };
 
@@ -469,7 +469,7 @@ static regu alloc_reg_small
     default: {
       SET(mask);
       SET(i);
-      error(ERROR_INTERNAL, WRONG_REGSIZE);
+      error(ERR_INTERNAL, WRONG_REGSIZE);
      };
   };
 
@@ -1541,7 +1541,7 @@ void make_code
 	  };
 
 	  if (name(arg1) == null_tag) {
-	    error(ERROR_INTERNAL, "test_tag of wrong form");
+	    error(ERR_INTERNAL, "test_tag of wrong form");
 	  }
 	  else {
 	    clean_stack();
@@ -1794,7 +1794,7 @@ void make_code
 	      move(sh(e), reg0, temp_dest);
 	  }
 	  else
-	    error(ERROR_INTERNAL, STRUCT_RES);  /* compound result */
+	    error(ERR_INTERNAL, STRUCT_RES);  /* compound result */
 	}
 
 	if (postlude != NULL) {
@@ -1809,7 +1809,7 @@ void make_code
 	      n--;
 	    }
 	    if (name(a)!= caller_tag)
-	      error(ERROR_INTERNAL, BAD_POSTLUDE);
+	      error(ERR_INTERNAL, BAD_POSTLUDE);
 	    no(postlude) = no(a) + stack_dec - post_offset;
 	    ptno(postlude) = callstack_pl;
 	    postlude = bro(son(postlude));
@@ -2162,7 +2162,7 @@ void make_code
 	    stack_dec = old_stack_dec;
 	    return;
 	  };
-	  error(ERROR_INTERNAL, STRUCT_RETURN);
+	  error(ERR_INTERNAL, STRUCT_RETURN);
 	  return;
 	};
       };
@@ -2270,7 +2270,7 @@ void make_code
       }
     default:
       if (!is_a(name(e))) {
-	error(ERROR_INTERNAL, BADOP);
+	error(ERR_INTERNAL, BADOP);
 	return;
       };
 
@@ -2323,7 +2323,7 @@ static dg_where dg_where_dest
     return w;
   }
   if (name(e)!= ident_tag)
-    error(ERROR_INTERNAL, "bad dg_where");
+    error(ERR_INTERNAL, "bad dg_where");
   if (isglob(e)) {
     w.k = WH_STR;
     w.u.s = (brog(e)) ->dec_u.dec_val.dec_id;
@@ -2351,7 +2351,7 @@ static dg_where dg_where_dest
       break;
     }
     default:
-      error(ERROR_INTERNAL, "bad dg_where");
+      error(ERR_INTERNAL, "bad dg_where");
       SET(w);
   }
   return w;
@@ -2394,7 +2394,7 @@ dg_where find_diag_res
       break;
     }
     default:
-      error(ERROR_INTERNAL, "unexpected diag_res dest");
+      error(ERR_INTERNAL, "unexpected diag_res dest");
       SET(w);
   }
   return w;

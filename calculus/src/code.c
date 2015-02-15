@@ -50,7 +50,7 @@ assign_component(TYPE_P t, int p, char *nm, int depth)
 {
     TYPE t0 = DEREF_type(t);
     if (depth > MAX_TYPE_DEPTH) {
-	error(ERROR_SERIOUS, "Cyclic type definition involving %s",
+	error(ERR_SERIOUS, "Cyclic type definition involving %s",
 		name_type(t));
 	return p;
     }
@@ -74,7 +74,7 @@ assign_component(TYPE_P t, int p, char *nm, int depth)
 	    TYPE_P c_type = DEREF_ptr(cmp_type(cmp));
 	    int n = (int)strlen(nm) + (int)strlen(c_nm) + 8;
 	    if (n > (int)sizeof(buff)) {
-		error(ERROR_SERIOUS, "Too many field selectors in type %s",
+		error(ERR_SERIOUS, "Too many field selectors in type %s",
 			name_type(t));
 		break;
 	    }
@@ -105,7 +105,7 @@ deref_component(TYPE_P t, int p, char *nm, int depth)
 {
     TYPE t0 = DEREF_type(t);
     if (depth > MAX_TYPE_DEPTH) {
-	error(ERROR_SERIOUS, "Cyclic type definition involving %s",
+	error(ERR_SERIOUS, "Cyclic type definition involving %s",
 		name_type(t));
 	return p;
     }
@@ -129,7 +129,7 @@ deref_component(TYPE_P t, int p, char *nm, int depth)
 	    TYPE_P c_type = DEREF_ptr(cmp_type(cmp));
 	    int n = (int)strlen(nm) + (int)strlen(c_nm) + 8;
 	    if (n > (int)sizeof(buff)) {
-		error(ERROR_SERIOUS, "Too many field selectors in type %s",
+		error(ERR_SERIOUS, "Too many field selectors in type %s",
 			name_type(t));
 		break;
 	    }

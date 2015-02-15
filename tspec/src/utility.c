@@ -94,7 +94,7 @@ create_dir(char *nm)
 
 #ifdef ENOENT
 	if (errno != ENOENT) {
-		error(ERROR_SERIOUS, "Illegal directory, %s", dir);
+		error(ERR_SERIOUS, "Illegal directory, %s", dir);
 		return;
 	}
 #endif
@@ -106,7 +106,7 @@ create_dir(char *nm)
 	}
 
 	if (mkdir(dir, (mode_t) DIRMODE)) {
-		error(ERROR_SERIOUS, "Can't create directory, %s", dir);
+		error(ERR_SERIOUS, "Can't create directory, %s", dir);
 		return;
 	}
 }

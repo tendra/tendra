@@ -53,14 +53,14 @@ read_env(const char *nm)
 
 	/* Find the environment */
 	if (*nm == 0) {
-		error(ERROR_WARNING, "Empty environment name");
+		error(ERR_WARN, "Empty environment name");
 		return;
 	}
 
 	if (*nm == '/') {
 		f = fopen(nm, "r");
 		if (f == NULL) {
-			error(ERROR_WARNING, "Can't open environment, '%s': %s",
+			error(ERR_WARN, "Can't open environment, '%s': %s",
 				nm, strerror(errno));
 		}
 	} else {
@@ -80,7 +80,7 @@ read_env(const char *nm)
 
 			f = fopen(buffer, "r");
 			if (f == NULL && errno != ENOENT) {
-				error(ERROR_WARNING, "Can't open environment, '%s': %s",
+				error(ERR_WARN, "Can't open environment, '%s': %s",
 					nm, strerror(errno));
 			}
 
@@ -90,7 +90,7 @@ read_env(const char *nm)
 		}
 
 		if (f == NULL) {
-			error(ERROR_WARNING, "Can't find environment, '%s'", nm);
+			error(ERR_WARN, "Can't find environment, '%s'", nm);
 			return;
 		}
 	}
@@ -119,7 +119,7 @@ read_env(const char *nm)
 			case lex_replace: order = HASH_ASSIGN;  break;
 
 			default:
-				error(ERROR_SERIOUS, "%s: Syntax error: expected operator", nm);
+				error(ERR_SERIOUS, "%s: Syntax error: expected operator", nm);
 				return;
 			}
 		}
@@ -127,12 +127,12 @@ read_env(const char *nm)
 		{
 			t = lexi_next(&state);
 			if (t == LEXI_EOF) {
-				error(ERROR_SERIOUS, "%s: Unexpected EOF", nm);
+				error(ERR_SERIOUS, "%s: Unexpected EOF", nm);
 				return;
 			}
 
 			if (t != lex_name) {
-				error(ERROR_SERIOUS, "%s: Syntax error: expected name", nm);
+				error(ERR_SERIOUS, "%s: Syntax error: expected name", nm);
 				return;
 			}
 
@@ -142,12 +142,12 @@ read_env(const char *nm)
 		{
 			t = lexi_next(&state);
 			if (t == LEXI_EOF) {
-				error(ERROR_SERIOUS, "%s: Unexpected EOF", nm);
+				error(ERR_SERIOUS, "%s: Unexpected EOF", nm);
 				return;
 			}
 
 			if (t != lex_string) {
-				error(ERROR_SERIOUS, "%s: Syntax error: expected string", nm);
+				error(ERR_SERIOUS, "%s: Syntax error: expected string", nm);
 				return;
 			}
 

@@ -56,7 +56,7 @@ start:
   switch (a.discrim) {
     case insomereg:
     case insomefreg: {
-	error(ERROR_INTERNAL, "Source reg not specified");
+	error(ERR_INTERNAL, "Source reg not specified");
       }
 
     case inreg:
@@ -80,7 +80,7 @@ start:
 	    {
 	      int  *sr = someregalt (dest.answhere);
 	      if (*sr != -1) {
-		error(ERROR_INTERNAL, "Somereg *2");
+		error(ERR_INTERNAL, "Somereg *2");
 	      }
 	      *sr = r;
 	      return NOREG;
@@ -103,7 +103,7 @@ start:
 	       somefreg sfr;
 	       freg fr;
    	       sfr = somefregalt(dest.answhere);
-	       if (*sfr.fr != -1) { error(ERROR_INTERNAL, "Somefreg *2"); }
+	       if (*sfr.fr != -1) { error(ERR_INTERNAL, "Somefreg *2"); }
 	       *sfr.fr = getfreg(fregs);
 	       fr.fr = *sfr.fr;
 	       fr.dble = sfr.dble;
@@ -168,7 +168,7 @@ start:
 	    {
 	      int  *sr = someregalt (dest.answhere);
 	      if (*sr != -1) {
-		error(ERROR_INTERNAL, "Somereg *2");
+		error(ERR_INTERNAL, "Somereg *2");
 	      }
 	      *sr = getreg (regs);
 	      setregalt (dest.answhere, *sr);
@@ -178,7 +178,7 @@ start:
 		/* can choose dest reg to be source reg */
 	       somefreg sfr;
 	       sfr = somefregalt(dest.answhere);
-	       if (*(sfr.fr) !=-1) error(ERROR_INTERNAL, "some freg * 2");
+	       if (*(sfr.fr) !=-1) error(ERR_INTERNAL, "some freg * 2");
 	       *(sfr.fr) = fr.fr;
 	        return NOREG;
 	   }
@@ -201,7 +201,7 @@ start:
 	      if ((dest.ashwhere.ashsize == 64 && !fr.dble) ||
 		  (dest.ashwhere.ashsize == 32 && fr.dble)) {
 		st = (dest.ashwhere.ashsize==64) ? i_s_d:i_s_s;
-		/* error(ERROR_INTERNAL, "INCONSISTENT SIZES"); */
+		/* error(ERR_INTERNAL, "INCONSISTENT SIZES"); */
 	      }
 
 	      is = insalt (dest.answhere);
@@ -247,7 +247,7 @@ start:
 	       somefreg sfr;
 	       freg fr;
    	       sfr = somefregalt(dest.answhere);
-	       if (*sfr.fr != -1) { error(ERROR_INTERNAL, "Somefreg *2"); }
+	       if (*sfr.fr != -1) { error(ERR_INTERNAL, "Somefreg *2"); }
 	       *sfr.fr = getfreg(fregs);
 	       fr.fr = *sfr.fr;
 	       fr.dble = sfr.dble;
@@ -259,7 +259,7 @@ start:
 	    {
 	      int  *sr = someregalt (dest.answhere);
 	      if (*sr != -1) {
-		error(ERROR_INTERNAL, "Somereg *2");
+		error(ERR_INTERNAL, "Somereg *2");
 	      }
 	      *sr = getreg (regs);
 	      setregalt (dest.answhere, *sr);

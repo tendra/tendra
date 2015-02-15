@@ -62,7 +62,7 @@ static dg_default * default_span_list = NULL;
 static void fail_unimplemented
 (void)
 {
-  error(ERROR_INTERNAL, "unimplemented attribute");
+  error(ERR_INTERNAL, "unimplemented attribute");
 }
 
 static exp find_id
@@ -206,7 +206,7 @@ static void check_trivial
     if (name(e) == chvar_tag || name(e) == chfl_tag)
       check_trivial (son(e));
     else
-      error(ERROR_INTERNAL, "lost information?");
+      error(ERR_INTERNAL, "lost information?");
   }
 #endif
 }
@@ -707,7 +707,7 @@ static void output_info
 	  dg_info inner = d->data.i_rvs.u.iv;
 	  while (inner) {
 	    if (!inner->data.i_rvs.has_iv)
-	      error(ERROR_INTERNAL, "bad RVS invert");
+	      error(ERR_INTERNAL, "bad RVS invert");
 	    inner->data.i_rvs.has_iv = 0;
 	    output_info (inner->data.i_rvs.info_e, inner);
 	    inner->data.i_rvs.has_iv = 1;
@@ -796,7 +796,7 @@ static void output_info
     }
 
     default:
-      error(ERROR_INTERNAL, "unexpected dg_info");
+      error(ERR_INTERNAL, "unexpected dg_info");
 
   };
 }
@@ -962,7 +962,7 @@ static void dw2_out_proc
   if (id) {
     exp p;
     if (name(id) != hold_tag || name(son(id)) != name_tag) {
-      error(ERROR_INTERNAL, "wrong proc obtain_tag");
+      error(ERR_INTERNAL, "wrong proc obtain_tag");
       return;
     }
     id = son(son(id));
@@ -972,7 +972,7 @@ static void dw2_out_proc
       dw2_prepare_locate (id);
       proc_dg_info = dgf(p);
       if (proc_dg_info && proc_dg_info->key != DGA_PRC)
-	error(ERROR_INTERNAL, "inconsistent proc info");
+	error(ERR_INTERNAL, "inconsistent proc info");
       if (proc_has_vcallees(p))
 	is_callable = DW_CC_nocall;
       while (name(t) == ident_tag && isparam(t) && name(son(t)) != formal_callee_tag)
@@ -1165,7 +1165,7 @@ static void dw2_out_proc
 	}
 	if (doing_abstract) {
 	  if (!(param->mor) || !(param->mor->this_tag))
-	    error(ERROR_INTERNAL, "param inlining error");
+	    error(ERR_INTERNAL, "param inlining error");
 	  param->mor->inline_ref = param->mor->this_tag;
 	}
 	dw2_out_name (param, PARAM_NAME);
@@ -1296,7 +1296,7 @@ void dw2_out_name
 				/* EXCEPT_NAME, INSTANTN_NAME not done yet */
   if ((contex == LOCAL_NAME || contex == DEAD_NAME) && !doing_abstract) {
     if (!dw2_scope_start)
-      error(ERROR_INTERNAL, "missing scope");
+      error(ERR_INTERNAL, "missing scope");
   }
 
   switch (di->key) {
@@ -1310,7 +1310,7 @@ void dw2_out_name
       long loclab = 0, loclabext = 0, infolab = 0;
       abbrev_entry dwe;
       if ((inl_tag && !doing_inline && !doing_abstract) || (!inl_tag && doing_inline))
-	error(ERROR_INTERNAL, "inline inconsistency");
+	error(ERR_INTERNAL, "inline inconsistency");
 
       if (contex == GLOBAL_NAME && di->idnam.id_key == DG_ID_EXT &&
 		x && find_id (son(x))) {
@@ -1367,7 +1367,7 @@ void dw2_out_name
       }
       if (!doing_abstract && !(attr1 & H_DC)) {
 	if (!x)
-	  error(ERROR_INTERNAL, "obtain_value missing");
+	  error(ERR_INTERNAL, "obtain_value missing");
 	if (contex == LOCAL_NAME || contex == DEAD_NAME)
 	  attr1 |= H_SS;
 	if (contex != DEAD_NAME && dw_is_const (son(x)))
@@ -1595,7 +1595,7 @@ void dw2_out_name
       if (attr2 & H_PC) {
 	dg_info pd = dgf(son(id));
 	if (pd->key != DGA_PRC)
-	  error(ERROR_INTERNAL, "inconsistent proc info");
+	  error(ERR_INTERNAL, "inconsistent proc info");
 	dw_at_address (pd->data.i_prc.prc_start);
 	dw_at_address (pd->data.i_prc.prc_end);
       }
@@ -1827,7 +1827,7 @@ void dw2_out_name
     }
 
     default:
-      error(ERROR_INTERNAL, "unexpected dg_name");
+      error(ERR_INTERNAL, "unexpected dg_name");
   }
   if (di->mor && di->mor->this_tag)
     di->mor->this_tag->done = 1;
@@ -1841,7 +1841,7 @@ void dw2_proc_start
     ( exp p , dg_name d )
 {
   if (dgf(p))
-    error(ERROR_INTERNAL, "unexpected diag info for proc");
+    error(ERR_INTERNAL, "unexpected diag info for proc");
   proc_dg_info = dgf(p) = new_dg_info (DGA_PRC);
   proc_dg_info->data.i_prc.prc_start = set_dw_text_label ();
   proc_dg_info->data.i_prc.prc_end = 0;
@@ -2022,11 +2022,11 @@ void dw2_code_info
 	dg_tag cr = d->data.i_res.call;
 	dg_info * dl;
 	if (cr->key != DGK_INFO || cr->p.info->key != DGA_INL_CALL)
-	  error(ERROR_INTERNAL, "inline result ref?");
+	  error(ERR_INTERNAL, "inline result ref?");
 	dl = &(cr->p.info->data.i_inl.resref);
 	while (*dl) {
 	  if ((*dl)==d) {
-	    error(ERROR_INTERNAL, "impossible cycle");
+	    error(ERR_INTERNAL, "impossible cycle");
 	    return;
 	  }
 	  dl = &((*dl)->data.i_res.next);
@@ -2086,7 +2086,7 @@ void dw2_code_info
     case DGA_BEG: {
       dg_tag tg = d->data.i_tg;
       if (tg->key != DGK_INFO || tg->p.info->key != DGA_SCOPE)
-	error(ERROR_INTERNAL, "statement_part_dg?");
+	error(ERR_INTERNAL, "statement_part_dg?");
       tg->p.info->data.i_scope.begin_st = set_dw_text_label ();
       dw2_code_info (d->more, mcode, args);
       break;
@@ -2113,7 +2113,7 @@ void dw2_code_info
 	dg_info h;
 	if (d->data.i_rvs.u.tg->key != DGK_INFO || (
 		h = d->data.i_rvs.u.tg->p.info, h->key != DGA_RVS)) {
-	    error(ERROR_INTERNAL, "incompatible rendezvous sequence");
+	    error(ERR_INTERNAL, "incompatible rendezvous sequence");
 	    break;
 	  }
 	d->data.i_rvs.u.iv = h->data.i_rvs.u.iv;
@@ -2172,7 +2172,7 @@ void dw2_code_info
 
 
     default:
-      error(ERROR_INTERNAL, "unexpected dg_info");
+      error(ERR_INTERNAL, "unexpected dg_info");
 
   };
 }

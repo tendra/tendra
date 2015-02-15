@@ -211,7 +211,7 @@ outfloat(exp e, int rep, ash a)
     out_value(0,iquad,val,rep);
     break;
     default:
-    error(ERROR_INTERNAL, "invalid floating variety");
+    error(ERR_INTERNAL, "invalid floating variety");
   }
 }
 
@@ -237,7 +237,7 @@ evalexp(exp e)
       INT64  w = evalexp (son (e));
       a = ashof (sh (e));
       if (a.ashalign != 1) {
-	error(ERROR_INTERNAL, "should be align 1");
+	error(ERR_INTERNAL, "should be align 1");
       }	
       if(a.ashsize!=64){
 	w = INT64_and(w,INT64_subtract(INT64_shift_left(make_INT64(0,1),
@@ -267,7 +267,7 @@ evalexp(exp e)
       ash a;
       a = ashof (sh (e));
       if (a.ashsize > REG_SIZE)
-	error(ERROR_INTERNAL, "clearshape");
+	error(ERR_INTERNAL, "clearshape");
       return zero_int64;
     }	
     case general_env_offset_tag :
@@ -290,7 +290,7 @@ evalexp(exp e)
     case offset_negate_tag:     return -evalexp(son(e));
     
     default: 
-      error(ERROR_INTERNAL, "tag not in evalexp");
+      error(ERR_INTERNAL, "tag not in evalexp");
   }
   return zero_int64;
 }
@@ -492,7 +492,7 @@ evalone(exp e, int rep)
     long bits_start =0;
     long offs =0;
     if (rep != 1)
-      error(ERROR_INTERNAL, "CAN'T REP TUPLES");
+      error(ERR_INTERNAL, "CAN'T REP TUPLES");
     set_align(a.ashalign);
     for(;;) {
       ash ae;
@@ -603,7 +603,7 @@ evalone(exp e, int rep)
   case nof_tag: {
     exp s = son(e);
     if (rep != 1)
-      error(ERROR_INTERNAL, "CAN'T REP TUPLES");   	
+      error(ERR_INTERNAL, "CAN'T REP TUPLES");   	
     set_align(a.ashalign);
     if (s == NULL) return;
     for(;;) {
@@ -634,7 +634,7 @@ evalone(exp e, int rep)
     }
     else {
       if (rep != 1)
-	error(ERROR_INTERNAL, "CAN'T REP concat");
+	error(ERR_INTERNAL, "CAN'T REP concat");
       evalone (son (e), 1);
       evalone (bro (son (e)), 1);
     }
@@ -675,12 +675,12 @@ evalone(exp e, int rep)
   case chvar_tag: {
     sh(son(e)) = sh(e);
     evalone(son(e),1);
-    error(ERROR_WARNING, "Dubious change variety");
+    error(ERR_WARN, "Dubious change variety");
     return;
   }
 #endif
   default: 
-    error(ERROR_INTERNAL, "tag not in evaluated");
+    error(ERR_INTERNAL, "tag not in evaluated");
   }				/* end switch */
 }	
 

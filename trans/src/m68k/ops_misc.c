@@ -164,7 +164,7 @@ test_overflow(overflow_type typ)
 		instr = m_bne;
 		break;
 	default:
-		error(ERROR_SERIOUS, "invalid overflow test");
+		error(ERR_SERIOUS, "invalid overflow test");
 		return;
 	}
 
@@ -825,7 +825,7 @@ move_from_freg(long sz, where from, where to)
 	case RegPair: {
 		exp te = to.wh_exp;
 		if (sz != 64) {
-			error(ERROR_SERIOUS, "Wrong floating variety");
+			error(ERR_SERIOUS, "Wrong floating variety");
 		}
 		push_float(sz, from);
 		pop(slongsh, 32L, zw(son(te)));
@@ -867,7 +867,7 @@ move_to_freg(long sz, where from, where to)
 	case RegPair: {
 		exp fe = from.wh_exp;
 		if (sz != 64) {
-			error(ERROR_SERIOUS, "Wrong floating variety");
+			error(ERR_SERIOUS, "Wrong floating variety");
 		}
 		push(slongsh, 32L, zw(bro(fe)));
 		push(slongsh, 32L, zw(son(fe)));
@@ -1181,7 +1181,7 @@ move(shape sha, where from, where to)
 		}
 		if (whfrom == RegPair) {
 			if (sz != 64) {
-				error(ERROR_SERIOUS, "Wrong floating variety");
+				error(ERR_SERIOUS, "Wrong floating variety");
 			}
 			ins2(m_movl, 32L, 32L, zw(bro(fe)),
 			     mw(te, tof + 32), 1);
@@ -1191,7 +1191,7 @@ move(shape sha, where from, where to)
 		}
 		if (whto == RegPair) {
 			if (sz != 64) {
-				error(ERROR_SERIOUS, "Wrong floating variety");
+				error(ERR_SERIOUS, "Wrong floating variety");
 			}
 			ins2(m_movl, 32L, 32L, from, zw(son(te)), 1);
 			ins2(m_movl, 32L, 32L, mw(fe, fof + 32),
@@ -1402,7 +1402,7 @@ range_max(shape shp)
 	case ulonghd:
 		return 0xffffffff;
 	default:
-		error(ERROR_INTERNAL, "Illegal shape in comparison");
+		error(ERR_INTERNAL, "Illegal shape in comparison");
 	}
 	return 0;
 }
@@ -1422,7 +1422,7 @@ range_min(shape shp)
 	case ulonghd:
 		return 0;
 	default:
-		error(ERROR_INTERNAL, "Illegal shape in comparison");
+		error(ERR_INTERNAL, "Illegal shape in comparison");
 	}
 	return 0;
 }
@@ -1769,7 +1769,7 @@ branch_ins(long test_no, int sw, int sg, int sf)
 		}
 		return sg ? m_bgt : m_bhi;
 	}
-	error(ERROR_SERIOUS, "Illegal test");
+	error(ERR_SERIOUS, "Illegal test");
 	return m_dont_know;
 }
 

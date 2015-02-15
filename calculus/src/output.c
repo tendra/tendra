@@ -841,14 +841,14 @@ output(char *s, ...)
 		}
 
 		misplaced_arg : {
-		    error(ERROR_SERIOUS,
+		    error(ERR_SERIOUS,
 			    "Misplaced formatting string '%%%.2s'", s0);
 		    break;
 		}
 
 		default :
 		bad_format : {
-		    error(ERROR_SERIOUS,
+		    error(ERR_SERIOUS,
 			    "Unknown formatting string '%%%.2s'", s0);
 		    s = s0;
 		    break;
@@ -911,7 +911,7 @@ open_file(char *dir, char *nm, char *suff)
     output_file_old = output_file;
     output_file = fopen(buff, "w");
     if (output_file == NULL) {
-	error(ERROR_FATAL, "Can't open output file, %s", buff);
+	error(ERR_FATAL, "Can't open output file, %s", buff);
     }
     if (verbose_output) {
 		printf("Creating %s ...\n", buff);

@@ -154,7 +154,7 @@ basic_type(unsigned n)
 		return type_void;
 
 	default:
-		error(ERROR_SERIOUS, "Invalid type specifier");
+		error(ERR_SERIOUS, "Invalid type specifier");
 		return type_int;
 	}
 }
@@ -179,7 +179,7 @@ special_type(char *s)
 		return type_scanf;
 	}
 
-	error(ERROR_SERIOUS, "Unknown special type '%s'", s);
+	error(ERR_SERIOUS, "Unknown special type '%s'", s);
 	return type_int;
 }
 
@@ -223,14 +223,14 @@ find_type(char *nm, int vers, int id, int force)
 			return NULL;
 		}
 
-		error(ERROR_SERIOUS, "%s '%s' not defined", h->name, nm);
+		error(ERR_SERIOUS, "%s '%s' not defined", h->name, nm);
 		return make_type(nm, vers, id);
 	}
 
 	t = p->u.u_type;
 	if (id != TYPE_GENERIC && id != t->id) {
 		char *err = "%s '%s' used inconsistently (see %s, line %d)";
-		error(ERROR_SERIOUS, err, h->name, nm, p->filename, p->line_no);
+		error(ERR_SERIOUS, err, h->name, nm, p->filename, p->line_no);
 	}
 
 	return t;
@@ -336,17 +336,17 @@ check_type_aux(type *t, int obj, int c, int ret)
 	switch (t->id) {
 	case TYPE_VOID:
 		if ((obj || c) && !ret) {
-			error(ERROR_SERIOUS, "The type 'void' is incomplete");
+			error(ERR_SERIOUS, "The type 'void' is incomplete");
 		}
 		break;
 
 	case TYPE_ARRAY:
 		if (c && t->v.str [0] == 0) {
-			error(ERROR_SERIOUS, "Incomplete array type");
+			error(ERR_SERIOUS, "Incomplete array type");
 		}
 
 		if (ret) {
-			error(ERROR_SERIOUS, "A function can't return an array");
+			error(ERR_SERIOUS, "A function can't return an array");
 		}
 
 		t->u.subtype = check_type_aux(t->u.subtype, 1, 1, 0);
@@ -366,7 +366,7 @@ check_type_aux(type *t, int obj, int c, int ret)
 			break;
 
 		default:
-			error(ERROR_SERIOUS, "Non-integral bitfield type");
+			error(ERR_SERIOUS, "Non-integral bitfield type");
 			break;
 		}
 	}
@@ -390,7 +390,7 @@ check_type_aux(type *t, int obj, int c, int ret)
 
 	case TYPE_PROC:
 		if (obj) {
-			error(ERROR_SERIOUS, "Object type expected");
+			error(ERR_SERIOUS, "Object type expected");
 		}
 
 		t->u.subtype = check_type_aux(t->u.subtype, 1, 1, 1);
@@ -443,7 +443,7 @@ check_type(type *t, int id)
 
 	case OBJ_FUNC:
 		if (t->id != TYPE_PROC) {
-			error(ERROR_SERIOUS, "Function type expected");
+			error(ERR_SERIOUS, "Function type expected");
 		}
 
 		t = check_type_aux(t, 0, 0, 0);

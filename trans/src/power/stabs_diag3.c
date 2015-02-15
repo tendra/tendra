@@ -1603,7 +1603,7 @@ void stab_proc2(exp proc, char *id, bool ext)
   default:
     {
       /* should never happen, but if it does ... */
-      error(ERROR_SERIOUS, "stab_proc2: Should never happen");
+      error(ERR_SERIOUS, "stab_proc2: Should never happen");
       out_dt_TypeId(dt);
       break;
     }

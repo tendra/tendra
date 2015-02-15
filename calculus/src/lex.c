@@ -41,7 +41,7 @@ static int
 check_stack(int t)
 {
     if (!allow_stack) {
-	error(ERROR_SERIOUS, "Stack operations have been suppressed");
+	error(ERR_SERIOUS, "Stack operations have been suppressed");
 	allow_stack = 1;
     }
     return t;
@@ -59,7 +59,7 @@ static int
 check_vec(int t)
 {
     if (!allow_vec) {
-	error(ERROR_SERIOUS, "Vector operations have been suppressed");
+	error(ERR_SERIOUS, "Vector operations have been suppressed");
 	allow_vec = 1;
     }
     return t;
@@ -177,7 +177,7 @@ read_identifier(int a)
     do {
 	*(t++) = (char)c;
 	if (t == token_end) {
-		error(ERROR_FATAL, "Buffer overflow");
+		error(ERR_FATAL, "Buffer overflow");
 	}
 	c = read_char();
 	cl = lookup_char(c);
@@ -264,12 +264,12 @@ read_string(void)
     char *t = token_buff;
     while (c = read_char(), c != '"') {
 	if (c == '\n' || c == LEX_EOF) {
-	    error(ERROR_SERIOUS, "Unexpected end of string");
+	    error(ERR_SERIOUS, "Unexpected end of string");
 	    break;
 	}
 	*(t++) = (char)c;
 	if (t == token_end) {
-		error(ERROR_FATAL, "Buffer overflow");
+		error(ERR_FATAL, "Buffer overflow");
 	}
     }
     *t = 0;
@@ -295,7 +295,7 @@ read_comment(void)
     while (state != 2) {
 	int c = read_char();
 	if (c == LEX_EOF) {
-	    error(ERROR_SERIOUS, "End of file in comment");
+	    error(ERR_SERIOUS, "End of file in comment");
 	    return lex_eof;
 	}
 	if (c == '*') {
@@ -343,7 +343,7 @@ process_file(char *nm, int r)
     crt_file_name = nm;
     lex_input = fopen(nm, "r");
     if (lex_input == NULL) {
-	error(ERROR_SERIOUS, "Can't open input file, '%s'", nm);
+	error(ERR_SERIOUS, "Can't open input file, '%s'", nm);
 	return;
     }
     ADVANCE_LEXER;
@@ -353,7 +353,7 @@ process_file(char *nm, int r)
 	extra_calculus();
     }
     if (crt_lex_token != lex_eof) {
-	error(ERROR_SERIOUS, "Terminating due to syntax error");
+	error(ERR_SERIOUS, "Terminating due to syntax error");
     }
     fclose(lex_input);
     return;

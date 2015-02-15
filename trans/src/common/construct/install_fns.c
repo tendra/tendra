@@ -72,7 +72,7 @@
 #include "scan.h"
 #endif
 
-#define NOTYETDONE(x)	error(ERROR_INTERNAL, x)
+#define NOTYETDONE(x)	error(ERR_INTERNAL, x)
 
 
 #define MAX_ST_LENGTH 25
@@ -195,7 +195,7 @@ containedshape(int a, int s)
 	case 64: return s ? s64sh : u64sh;
 
 	default:
-		error(ERROR_INTERNAL, "Illegal pointer for bitfield operations");
+		error(ERR_INTERNAL, "Illegal pointer for bitfield operations");
 		return scharsh;
 	}
 }
@@ -298,7 +298,7 @@ fn_of_op(int nm, int sngd)
 	case not_tag:   return "__TDFUnot";
 
 	default:
-		error(ERROR_INTERNAL, "No fn for long op");
+		error(ERR_INTERNAL, "No fn for long op");
 	}
 
 	return "__TDFerror";
@@ -921,14 +921,14 @@ f_bfvar_bits(bool issigned, nat bits)
 {
 	bitfield_variety res;
 	if (!nat_issmall(bits)) {
-		error(ERROR_INTERNAL, TOO_MANY_BITS);
+		error(ERR_INTERNAL, TOO_MANY_BITS);
 	}
 	res.has_sign = issigned;
 	res.bits = natint(bits);
 
 	if (check & CHECK_EXTRA) {
 		if (res.bits > SLONG_SZ) {
-			error(ERROR_INTERNAL, TOO_MANY_BITS);
+			error(ERR_INTERNAL, TOO_MANY_BITS);
 		}
 	}
 
@@ -1022,7 +1022,7 @@ f_abs(error_treatment ov_err, exp arg1)
 
 	if (check & CHECK_SHAPE) {
 		if (!is_integer(sh(arg1))) {
-			error(ERROR_INTERNAL, CHSH_ABS);
+			error(ERR_INTERNAL, CHSH_ABS);
 		}
 	}
 
@@ -1055,7 +1055,7 @@ f_add_to_ptr(exp arg1, exp arg2)
 			     	  && al1_of(sh(arg2)) != REAL_ALIGN
 #endif
 				       ))) {
-			error(ERROR_INTERNAL, CHSH_ADDPTR);
+			error(ERR_INTERNAL, CHSH_ADDPTR);
 		}
 	}
 
@@ -1089,7 +1089,7 @@ f_and(exp arg1, exp arg2)
 
 	if (check & CHECK_SHAPE) {
 		if (!eq_shape(sh(arg1), sh(arg2)) || !is_integer(sh(arg1))) {
-			error(ERROR_INTERNAL, CHSH_AND);
+			error(ERR_INTERNAL, CHSH_AND);
 		}
 	}
 
@@ -1114,7 +1114,7 @@ f_apply_proc(shape result_shape, exp arg1, exp_list arg2, exp_option varparam)
 
 	if (check & CHECK_SHAPE) {
 		if (name(sh(arg1)) != prokhd) {
-			error(ERROR_INTERNAL, CHSH_APPLY);
+			error(ERR_INTERNAL, CHSH_APPLY);
 		}
 	}
 
@@ -1373,7 +1373,7 @@ f_bitfield_assign(exp p, exp off, exp val)
 
 	if (check & CHECK_SHAPE) {
 		if (name(sh(p)) != ptrhd || name(sh(off)) != offsethd) {
-			error(ERROR_INTERNAL, CHSH_BFASS);
+			error(ERR_INTERNAL, CHSH_BFASS);
 		}
 	}
 
@@ -1487,7 +1487,7 @@ f_bitfield_assign_with_mode(transfer_mode md, exp p, exp off, exp val)
 	if (check & CHECK_SHAPE) {
 		if (name(sh(p)) != ptrhd || name(sh(off)) != offsethd ||
 		    name(off) != val_tag) {
-			error(ERROR_INTERNAL, CHSH_BFASS);
+			error(ERR_INTERNAL, CHSH_BFASS);
 		}
 	}
 
@@ -1531,7 +1531,7 @@ f_bitfield_contents(bitfield_variety bf, exp p, exp off)
 
 	if (check & CHECK_SHAPE) {
 		if (name(sh(p)) != ptrhd || name(sh(off)) != offsethd)
-			error(ERROR_INTERNAL, CHSH_BFCONT);
+			error(ERR_INTERNAL, CHSH_BFCONT);
 	}
 
 	if (name(off) == val_tag) {
@@ -1606,7 +1606,7 @@ f_bitfield_contents_with_mode(transfer_mode md, bitfield_variety bf, exp p,
 	if (check & CHECK_SHAPE) {
 		if (name(sh(p)) != ptrhd || name(sh(off)) != offsethd ||
 		    name(off) != val_tag) {
-			error(ERROR_INTERNAL, CHSH_BFCONT);
+			error(ERR_INTERNAL, CHSH_BFCONT);
 		}
 	}
 
@@ -1688,7 +1688,7 @@ f_case_transform(bool exhaustive, exp control, caselim_list branches)
 
 	if (check & CHECK_SHAPE) {
 		if (!is_integer(sh(control))) {
-			error(ERROR_INTERNAL, CHSH_CASE);
+			error(ERR_INTERNAL, CHSH_CASE);
 		}
 	}
 
@@ -1768,7 +1768,7 @@ f_case_notransform(bool exhaustive, exp control, caselim_list branches)
 
 	if (check & CHECK_SHAPE) {
 		if (!is_integer(sh(control))) {
-			error(ERROR_INTERNAL, CHSH_CASE);
+			error(ERR_INTERNAL, CHSH_CASE);
 		}
 	}
 
@@ -1815,7 +1815,7 @@ f_change_bitfield_to_int(variety x, exp arg1)
 
 	if (check & CHECK_SHAPE) {
 		if (name(sh(arg1)) != bitfhd) {
-			error(ERROR_INTERNAL, CHSH_CHBITFIELD);
+			error(ERR_INTERNAL, CHSH_CHBITFIELD);
 		}
 	}
 
@@ -1838,7 +1838,7 @@ f_change_int_to_bitfield(bitfield_variety x, exp arg1)
 
 	if (check & CHECK_SHAPE) {
 		if (!is_integer(sh(arg1))) {
-			error(ERROR_INTERNAL, CHSH_CHINTBF);
+			error(ERR_INTERNAL, CHSH_CHINTBF);
 		}
 	}
 
@@ -1861,7 +1861,7 @@ f_change_variety(error_treatment ov_err, variety r, exp arg1)
 
 	if (check & CHECK_SHAPE) {
 		if (!is_integer(sh(arg1))) {
-			error(ERROR_INTERNAL, CHSH_CHVAR);
+			error(ERR_INTERNAL, CHSH_CHVAR);
 		}
 	}
 
@@ -1912,7 +1912,7 @@ f_component(shape sha, exp arg1, exp arg2)
 		    (name(sh(arg2)) != offsethd || name(sh(arg1)) != cpdhd ||
 		     shape_align(sh(arg1)) < al1(sh(arg2)) ||
 		     shape_align(sha) > al2(sh(arg2)))) {
-			error(ERROR_INTERNAL, CHSH_COMPONENT);
+			error(ERR_INTERNAL, CHSH_COMPONENT);
 		}
 	}
 
@@ -1938,7 +1938,7 @@ f_concat_nof(exp arg1, exp arg2)
 	/* al2_of(sh(arg1)) is the shapemacs.h hd of the nof shape */
 	if (check & CHECK_SHAPE) {
 		if (!doing_aldefs && (shape_align(sh(arg1)) != shape_align(sh(arg2)))) {
-			error(ERROR_INTERNAL, CHSH_CONCATNOF);
+			error(ERR_INTERNAL, CHSH_CONCATNOF);
 		}
 	}
 
@@ -1998,7 +1998,7 @@ f_contents(shape s, exp arg1)
 		      && align_of(s) != REAL_ALIGN
 #endif
 		      ))) {
-			error(ERROR_INTERNAL, CHSH_CONTENTS);
+			error(ERR_INTERNAL, CHSH_CONTENTS);
 		}
 	}
 
@@ -2018,7 +2018,7 @@ f_contents_with_mode(transfer_mode md, shape s, exp arg1)
 		    (name(sh(arg1)) != ptrhd ||
 		     (al1(sh(arg1)) < shape_align(s) &&
 		      al1_of(sh(arg1))->al.sh_hd != doublehd))) {
-			error(ERROR_INTERNAL, CHSH_CONTENTS_VOL);
+			error(ERR_INTERNAL, CHSH_CONTENTS_VOL);
 		}
 	}
 
@@ -2051,7 +2051,7 @@ exp
 f_current_env(void)
 {
 	if (!in_proc_def) {
-		error(ERROR_INTERNAL, "current_env must be in proc definition");
+		error(ERR_INTERNAL, "current_env must be in proc definition");
 	}
 	uses_crt_env = 1;
 	uses_loc_address = 1;
@@ -2138,7 +2138,7 @@ f_div0(error_treatment div0_err, error_treatment ov_err, exp arg1, exp arg2)
 
 	if (check & CHECK_SHAPE) {
 		if (!eq_shape(sh(arg1), sh(arg2)) || !is_integer(sh(arg1))) {
-			error(ERROR_INTERNAL, CHSH_DIV0);
+			error(ERR_INTERNAL, CHSH_DIV0);
 		}
 	}
 
@@ -2173,7 +2173,7 @@ f_div1(error_treatment div0_err, error_treatment ov_err, exp arg1, exp arg2)
 
 	if (check & CHECK_SHAPE) {
 		if (!eq_shape(sh(arg1), sh(arg2)) || !is_integer(sh(arg1))) {
-			error(ERROR_INTERNAL, CHSH_DIV1);
+			error(ERR_INTERNAL, CHSH_DIV1);
 		}
 	}
 
@@ -2207,7 +2207,7 @@ f_div2(error_treatment div0_err, error_treatment ov_err, exp arg1, exp arg2)
 
 	if (check & CHECK_SHAPE) {
 		if (!eq_shape(sh(arg1), sh(arg2)) || !is_integer(sh(arg1))) {
-			error(ERROR_INTERNAL, CHSH_DIV2);
+			error(ERR_INTERNAL, CHSH_DIV2);
 		}
 	}
 
@@ -2243,7 +2243,7 @@ f_fail_installer(string message)
 		m[i] = message.ints.chars[i];
 	}
 	m[message.number] = 0;
-	error(ERROR_INTERNAL, m);
+	error(ERR_INTERNAL, m);
 	exit(EXIT_FAILURE);
 	return NULL;
 }
@@ -2268,7 +2268,7 @@ f_goto_local_lv(exp arg1)
 
 	if (check & CHECK_SHAPE) {
 		if (name(sh(arg1)) != ptrhd) {
-			error(ERROR_INTERNAL, CHSH_GOLOCALLV);
+			error(ERR_INTERNAL, CHSH_GOLOCALLV);
 		}
 	}
 
@@ -2337,7 +2337,7 @@ f_integer_test(nat_option prob, ntest nt, label dest, exp arg1, exp arg2)
 
 	if (check & CHECK_SHAPE) {
 		if (!is_integer(sh(arg1)) || !eq_shape(sh(arg1), sh(arg2))) {
-			error(ERROR_INTERNAL, CHSH_INTTEST);
+			error(ERR_INTERNAL, CHSH_INTTEST);
 		}
 	}
 
@@ -2420,7 +2420,7 @@ f_local_alloc(exp arg1)
 
 	if (check & CHECK_SHAPE) {
 		if (name(sh(arg1)) != offsethd) {
-			error(ERROR_INTERNAL, CHSH_LOCALLOC);
+			error(ERR_INTERNAL, CHSH_LOCALLOC);
 		}
 	}
 
@@ -2458,7 +2458,7 @@ f_local_free(exp a, exp p)
 
 	if (check & CHECK_SHAPE) {
 		if (name(sh(a)) != offsethd || name(sh(p)) != ptrhd) {
-			error(ERROR_INTERNAL, CHSH_LOCFREE);
+			error(ERR_INTERNAL, CHSH_LOCFREE);
 		}
 	}
 
@@ -2494,7 +2494,7 @@ f_long_jump(exp arg1, exp arg2)
 
 	if (check & CHECK_SHAPE) {
 		if (name(sh(arg1)) != ptrhd || name(sh(arg2)) != ptrhd) {
-			error(ERROR_INTERNAL, CHSH_LONGJUMP);
+			error(ERR_INTERNAL, CHSH_LONGJUMP);
 		}
 	}
 
@@ -2533,7 +2533,7 @@ f_make_compound(exp arg1, exp_list arg2)
 			if (t == arg2.end || name(sh(t)) != offsethd ||
 			    (!doing_aldefs &&
 			     al2(sh(t)) < shape_align(sh(bro(t))))) {
-				error(ERROR_INTERNAL, CHSH_MAKECPD);
+				error(ERR_INTERNAL, CHSH_MAKECPD);
 			}
 			if (bro(t) == arg2.end) {
 				break;
@@ -2552,7 +2552,7 @@ f_make_compound(exp arg1, exp_list arg2)
 		for (i = 0; i < arg2.number; ++i) {
 			if (!(i & 1) && (no(t) + shape_size(sh(bro(t))) >
 					 shape_size(sh(r)))) {
-				error(ERROR_INTERNAL, "make_compound size exceeded");
+				error(ERR_INTERNAL, "make_compound size exceeded");
 			}
 			arr[i] = t;
 			t = bro(t);
@@ -2608,7 +2608,7 @@ f_make_int(variety v, signed_nat value)
 			int ov;
 
 			if (check & CHECK_EXTRA) {
-				error(ERROR_INTERNAL, BIG_32);
+				error(ERR_INTERNAL, BIG_32);
 				exit(EXIT_FAILURE);
 			}
 
@@ -2636,7 +2636,7 @@ f_make_int(variety v, signed_nat value)
 		}
 
 		if (flptnos[b].exp > 3) {
-			error(ERROR_INTERNAL, BIG_32);
+			error(ERR_INTERNAL, BIG_32);
 			exit(EXIT_FAILURE);
 		}
 		res = getexp(f_integer(v), NULL, 0, NULL, NULL, 0, b,
@@ -2687,7 +2687,7 @@ f_make_nof(exp_list arg1)
 		exp temp = first;
 		while (1) {
 			if (!eq_shape(sh(temp), sh(first))) {
-				error(ERROR_INTERNAL, CHSH_MAKENOF);
+				error(ERR_INTERNAL, CHSH_MAKENOF);
 			}
 			if (temp == arg1.end) {
 				break;
@@ -2914,7 +2914,7 @@ f_maximum(exp arg1, exp arg2)
 
 	if (check & CHECK_SHAPE) {
 		if (!eq_shape(sh(arg1), sh(arg2)) || !is_integer(sh(arg1))) {
-			error(ERROR_INTERNAL, CHSH_MAX);
+			error(ERR_INTERNAL, CHSH_MAX);
 		}
 	}
 
@@ -2940,7 +2940,7 @@ f_minimum(exp arg1, exp arg2)
 
 	if (check & CHECK_SHAPE) {
 		if (!eq_shape(sh(arg1), sh(arg2)) || !is_integer(sh(arg1))) {
-			error(ERROR_INTERNAL, CHSH_MIN);
+			error(ERR_INTERNAL, CHSH_MIN);
 		}
 	}
 
@@ -3057,7 +3057,7 @@ f_make_proc(shape result_shape, tagshacc_list params_intro,
 
 	if (check & CHECK_SHAPE) {
 		if (name(sh(body)) != bothd) {
-			error(ERROR_INTERNAL, CHSH_MAKE_PROC);
+			error(ERR_INTERNAL, CHSH_MAKE_PROC);
 		}
 	}
 
@@ -3360,7 +3360,7 @@ f_make_general_proc(shape result_shape, procprops prcprops,
 
 	if (check & CHECK_SHAPE) {
 		if (name(sh(body)) != bothd) {
-			error(ERROR_INTERNAL, CHSH_MAKE_PROC);
+			error(ERR_INTERNAL, CHSH_MAKE_PROC);
 		}
 	}
 
@@ -3922,7 +3922,7 @@ f_minus(error_treatment ov_err, exp arg1, exp arg2)
 
 	if (check & CHECK_SHAPE) {
 		if (!eq_shape(sh(arg1), sh(arg2)) || !is_integer(sh(arg1))) {
-			error(ERROR_INTERNAL, CHSH_MINUS);
+			error(ERR_INTERNAL, CHSH_MINUS);
 		}
 	}
 
@@ -3959,7 +3959,7 @@ f_move_some(transfer_mode md, exp arg1, exp arg2, exp arg3)
 		if (name(sh(arg1)) != ptrhd || name(sh(arg2)) != ptrhd ||
 		    name(sh(arg3)) != offsethd || al1(sh(arg1)) < al1(sh(arg3)) ||
 		    al1(sh(arg2)) < al1(sh(arg3))) {
-			error(ERROR_INTERNAL, CHSH_MOVESOME);
+			error(ERR_INTERNAL, CHSH_MOVESOME);
 		}
 	}
 
@@ -4023,7 +4023,7 @@ f_mult(error_treatment ov_err, exp arg1, exp arg2)
 
 	if (check & CHECK_SHAPE) {
 		if (!eq_shape(sh(arg1), sh(arg2)) || !is_integer(sh(arg1))) {
-			error(ERROR_INTERNAL, CHSH_MULT);
+			error(ERR_INTERNAL, CHSH_MULT);
 		}
 	}
 
@@ -4046,7 +4046,7 @@ f_n_copies(nat n, exp arg1)
 	}
 
 	if (~has & HAS_64_BIT && !nat_issmall(n)) {
-		error(ERROR_INTERNAL, TOO_BIG_A_VECTOR);
+		error(ERR_INTERNAL, TOO_BIG_A_VECTOR);
 	}
 
 	r = getexp(f_nof(n, sh(arg1)), NULL, 0, arg1, NULL, 0, natint(n),
@@ -4104,7 +4104,7 @@ f_negate(error_treatment ov_err, exp arg1)
 
 	if (check & CHECK_SHAPE) {
 		if (!is_integer(sh(arg1))) {
-			error(ERROR_INTERNAL, CHSH_NEGATE);
+			error(ERR_INTERNAL, CHSH_NEGATE);
 		}
 	}
 
@@ -4130,7 +4130,7 @@ f_not(exp arg1)
 
 	if (check & CHECK_SHAPE) {
 		if (!is_integer(sh(arg1))) {
-			error(ERROR_INTERNAL, CHSH_NOT);
+			error(ERR_INTERNAL, CHSH_NOT);
 		}
 	}
 
@@ -4151,7 +4151,7 @@ f_obtain_tag(tag t)
 	exp tg = get_tag(t);
 
 	if (tg == NULL) {
-		error(ERROR_INTERNAL, UNDEF_TAG);
+		error(ERR_INTERNAL, UNDEF_TAG);
 	}
 
 	if (isglob(tg)) {
@@ -4203,7 +4203,7 @@ f_offset_add(exp arg1, exp arg2)
 		       && al1_of(sh(arg2)) != REAL_ALIGN
 #endif
 		       )))) {
-			error(ERROR_INTERNAL, CHSH_OFFSETADD);
+			error(ERR_INTERNAL, CHSH_OFFSETADD);
 		}
 	}
 
@@ -4240,7 +4240,7 @@ f_offset_div(variety v, exp arg1, exp arg2)
 
 	if (check & CHECK_SHAPE) {
 		if (name(sh(arg1)) != offsethd || name(sh(arg2)) != offsethd) {
-			error(ERROR_INTERNAL, CHSH_OFFSETDIV);
+			error(ERR_INTERNAL, CHSH_OFFSETDIV);
 		}
 	}
 
@@ -4264,7 +4264,7 @@ f_offset_div_by_int(exp arg1, exp arg2)
 		if (!doing_aldefs &&
 		    (name(sh(arg1)) != offsethd || !is_integer(sh(arg2)) ||
 		     (al1(sh(arg1)) != al2(sh(arg1)) && al2(sh(arg1)) != 1))) {
-			error(ERROR_INTERNAL, CHSH_OFFSETDIVINT);
+			error(ERR_INTERNAL, CHSH_OFFSETDIVINT);
 		}
 	}
 
@@ -4291,14 +4291,14 @@ f_offset_max(exp arg1, exp arg2)
 	if (check & CHECK_SHAPE) {
 		if (!doing_aldefs &&
 		    (name(sh(arg1)) != offsethd || name(sh(arg2)) != offsethd)) {
-			error(ERROR_INTERNAL, CHSH_OFFSETMAX);
+			error(ERR_INTERNAL, CHSH_OFFSETMAX);
 		}
 	}
 
 	if (a1->al.al_n != 1 || a2->al.al_n != 1) {
 		alignment ares = (alignment)calloc(1, sizeof(aldef));
 		if (!doing_aldefs) {
-			error(ERROR_INTERNAL, CHSH_OFFSETMAX);
+			error(ERR_INTERNAL, CHSH_OFFSETMAX);
 		}
 		ares->al.al_n = 2;
 		ares->al.al_val.al_join.a = a1;
@@ -4330,7 +4330,7 @@ f_offset_mult(exp arg1, exp arg2)
 	if (check & CHECK_SHAPE) {
 		if (!doing_aldefs &&
 		    (name(sh(arg1)) != offsethd || !is_integer(sh(arg2)))) {
-			error(ERROR_INTERNAL, CHSH_OFFSETMULT);
+			error(ERR_INTERNAL, CHSH_OFFSETMULT);
 		}
 	}
 
@@ -4364,7 +4364,7 @@ f_offset_negate(exp arg1)
 		      && al1_of(sh(arg1)) != REAL_ALIGN
 #endif
 		      ))) {
-			error(ERROR_INTERNAL, CHSH_OFFSETNEG);
+			error(ERR_INTERNAL, CHSH_OFFSETNEG);
 		}
 	}
 
@@ -4382,14 +4382,14 @@ f_offset_pad(alignment a, exp arg1)
 
 	if (check & CHECK_SHAPE) {
 		if (name(sh(arg1)) != offsethd) {
-			error(ERROR_INTERNAL, CHSH_OFFSETPAD);
+			error(ERR_INTERNAL, CHSH_OFFSETPAD);
 		}
 	}
 
 	if (a->al.al_n != 1 || al1_of(sh(arg1))->al.al_n != 1) {
 		alignment ares = (alignment)calloc(1, sizeof(aldef));
 		if (!doing_aldefs) {
-			error(ERROR_INTERNAL, ILL_OFFSETPAD);
+			error(ERR_INTERNAL, ILL_OFFSETPAD);
 		}
 		ares->al.al_n = 2;
 		ares->al.al_val.al_join.a = a;
@@ -4442,7 +4442,7 @@ f_offset_test(nat_option prob, ntest nt, label dest, exp arg1, exp arg2)
 		    (name(sh(arg1)) != offsethd || name(sh(arg2)) != offsethd ||
 		     /* al1(sh(arg1)) != al1(sh(arg2)) || */
 		     al2(sh(arg1)) != al2(sh(arg2)))) {
-			error(ERROR_INTERNAL, CHSH_OFFSETTEST);
+			error(ERR_INTERNAL, CHSH_OFFSETTEST);
 		}
 	}
 
@@ -4476,7 +4476,7 @@ f_or(exp arg1, exp arg2)
 
 	if (check & CHECK_SHAPE) {
 		if (!eq_shape(sh(arg1), sh(arg2)) || !is_integer(sh(arg1))) {
-			error(ERROR_INTERNAL, CHSH_OR);
+			error(ERR_INTERNAL, CHSH_OR);
 		}
 	}
 
@@ -4503,7 +4503,7 @@ f_plus(error_treatment ov_err, exp arg1, exp arg2)
 
 	if (check & CHECK_SHAPE) {
 		if (!eq_shape(sh(arg1), sh(arg2)) || !is_integer(sh(arg1))) {
-			error(ERROR_INTERNAL, CHSH_PLUS);
+			error(ERR_INTERNAL, CHSH_PLUS);
 		}
 	}
 
@@ -4532,7 +4532,7 @@ f_pointer_test(nat_option prob, ntest nt, label dest, exp arg1, exp arg2)
 	if (check & CHECK_SHAPE) {
 		if (!doing_aldefs &&
 		    (name(sh(arg1)) != ptrhd || al1(sh(arg1)) != al1(sh(arg2)))) {
-			error(ERROR_INTERNAL, CHSH_PTRTEST);
+			error(ERR_INTERNAL, CHSH_PTRTEST);
 		}
 	}
 
@@ -4561,7 +4561,7 @@ f_proc_test(nat_option prob, ntest nt, label dest, exp arg1, exp arg2)
 		/*
 		   ONLY REMOVED TEMPORARILY!
 		   if (name(sh(arg1)) != prokhd || name(sh(arg2)) != prokhd)
-		   error(ERROR_INTERNAL, CHSH_PROCTEST);
+		   error(ERR_INTERNAL, CHSH_PROCTEST);
 		 */
 	}
 
@@ -4608,7 +4608,7 @@ f_rem1(error_treatment div0_err, error_treatment ov_err, exp arg1, exp arg2)
 
 	if (check & CHECK_SHAPE) {
 		if (!eq_shape(sh(arg1), sh(arg2)) || !is_integer(sh(arg1))) {
-			error(ERROR_INTERNAL, CHSH_REM1);
+			error(ERR_INTERNAL, CHSH_REM1);
 		}
 	}
 
@@ -4653,7 +4653,7 @@ f_rem0(error_treatment div0_err, error_treatment ov_err, exp arg1, exp arg2)
 
 	if (check & CHECK_SHAPE) {
 		if (!eq_shape(sh(arg1), sh(arg2)) || !is_integer(sh(arg1))) {
-			error(ERROR_INTERNAL, CHSH_REM0);
+			error(ERR_INTERNAL, CHSH_REM0);
 		}
 	}
 
@@ -4688,7 +4688,7 @@ f_rem2(error_treatment div0_err, error_treatment ov_err, exp arg1, exp arg2)
 
 	if (check & CHECK_SHAPE) {
 		if (!eq_shape(sh(arg1), sh(arg2)) || !is_integer(sh(arg1))) {
-			error(ERROR_INTERNAL, CHSH_REM2);
+			error(ERR_INTERNAL, CHSH_REM2);
 		}
 	}
 
@@ -4813,7 +4813,7 @@ f_rotate_left(exp arg1, exp arg2)
 
 	if (check & CHECK_SHAPE) {
 		if (!is_integer(sh(arg1)) || !is_integer(sh(arg2))) {
-			error(ERROR_INTERNAL, CHSH_ROTL);
+			error(ERR_INTERNAL, CHSH_ROTL);
 		}
 	}
 
@@ -4863,7 +4863,7 @@ f_rotate_right(exp arg1, exp arg2)
 
 	if (check & CHECK_SHAPE) {
 		if (!is_integer(sh(arg1)) || !is_integer(sh(arg2))) {
-			error(ERROR_INTERNAL, CHSH_ROTR);
+			error(ERR_INTERNAL, CHSH_ROTR);
 		}
 	}
 
@@ -4956,7 +4956,7 @@ f_shift_left(error_treatment ov_err, exp arg1, exp arg2)
 
 	if (check & CHECK_SHAPE) {
 		if (!is_integer(sh(arg1)) || !is_integer(sh(arg2))) {
-			error(ERROR_INTERNAL, CHSH_SHL);
+			error(ERR_INTERNAL, CHSH_SHL);
 		}
 	}
 
@@ -5024,7 +5024,7 @@ f_shift_right(exp arg1, exp arg2)
 
 	if (check & CHECK_SHAPE) {
 		if (!is_integer(sh(arg1)) || !is_integer(sh(arg2))) {
-			error(ERROR_INTERNAL, CHSH_SHR);
+			error(ERR_INTERNAL, CHSH_SHR);
 		}
 	}
 
@@ -5113,7 +5113,7 @@ f_xor(exp arg1, exp arg2)
 
 	if (check & CHECK_SHAPE) {
 		if (!eq_shape(sh(arg1), sh(arg2)) || !is_integer(sh(arg1))) {
-			error(ERROR_INTERNAL, CHSH_XOR);
+			error(ERR_INTERNAL, CHSH_XOR);
 		}
 	}
 
@@ -5167,7 +5167,7 @@ f_computed_nat(exp arg)
 	if (name(arg) == val_tag) {
 		if (check & CHECK_EXTRA) {
 			if (constovf(arg)) {
-				error(ERROR_INTERNAL, ILLNAT);
+				error(ERR_INTERNAL, ILLNAT);
 			}
 		}
 
@@ -5188,7 +5188,7 @@ f_computed_nat(exp arg)
 		return res;
 	}
 
-	error(ERROR_INTERNAL, ILLCOMPNAT);
+	error(ERR_INTERNAL, ILLCOMPNAT);
 	nat_issmall(res) = 1;
 	natint(res) = 1;
 	return res;
@@ -5253,7 +5253,7 @@ f_compound(exp off)
 	if (name(off) ==val_tag) {
 		sz = no(off);
 	} else {
-		error(ERROR_INTERNAL, ILLCPDOFFSET);
+		error(ERR_INTERNAL, ILLCPDOFFSET);
 		sz = 0;
 	}
 	return getshape(0, const_al1, const_al1, al1_of(sh(off)), sz, cpdhd);
@@ -5299,7 +5299,7 @@ f_nof(nat n, shape s)
 		}
 
 		if (~has & HAS_64_BIT && !nat_issmall(n)) {
-			error(ERROR_INTERNAL, TOO_BIG_A_VECTOR);
+			error(ERR_INTERNAL, TOO_BIG_A_VECTOR);
 		}
 
 		if (name(s) == tophd) {
@@ -5308,7 +5308,7 @@ f_nof(nat n, shape s)
 				       align_of(ucharsh), 0, nofhd);
 		} else if (al == 1) {
 			if ((sz & (sz - 1)) != 0 && nofsz > BF_STORE_UNIT) {
-				IGNORE error(ERROR_WARNING, "Bitfields of nof cannot all be variety enclosed");
+				IGNORE error(ERR_WARN, "Bitfields of nof cannot all be variety enclosed");
 			}
 			if ((sz & (sz - 1)) == 0 || nofsz > BF_STORE_UNIT) {
 				shape news = containedshape(sz, 1);
@@ -5357,7 +5357,7 @@ f_offset(alignment arg1, alignment arg2)
 		case   1: return f_off512_1;
 
 		default:
-			error(ERROR_INTERNAL, ILLOFF2);
+			error(ERR_INTERNAL, ILLOFF2);
 			return f_off64_8;
 		}
 	case 64:
@@ -5369,7 +5369,7 @@ f_offset(alignment arg1, alignment arg2)
 		case  1: return f_off64_1;
 
 		default:
-			error(ERROR_INTERNAL, ILLOFF2);
+			error(ERR_INTERNAL, ILLOFF2);
 			return f_off64_8;
 		}
 	case 32:
@@ -5380,7 +5380,7 @@ f_offset(alignment arg1, alignment arg2)
 		case  1: return f_off32_1;
 
 		default:
-			error(ERROR_INTERNAL, ILLOFF2);
+			error(ERR_INTERNAL, ILLOFF2);
 			return f_off32_8;
 		}
 	case 16:
@@ -5390,7 +5390,7 @@ f_offset(alignment arg1, alignment arg2)
 		case  1: return f_off16_1;
 
 		default:
-			error(ERROR_INTERNAL, ILLOFF2);
+			error(ERR_INTERNAL, ILLOFF2);
 			return f_off16_8;
 		}
 	case 8:
@@ -5399,7 +5399,7 @@ f_offset(alignment arg1, alignment arg2)
 		case 1: return f_off8_1;
 
 		default:
-			error(ERROR_INTERNAL, ILLOFF2);
+			error(ERR_INTERNAL, ILLOFF2);
 			return f_off8_8;
 		}
 	case 1:
@@ -5407,11 +5407,11 @@ f_offset(alignment arg1, alignment arg2)
 		case 1: return f_off1_1;
 
 		default:
-			error(ERROR_INTERNAL, ILLOFF2);
+			error(ERR_INTERNAL, ILLOFF2);
 			return f_off1_1;
 		}
 	default:
-		error(ERROR_INTERNAL, ILLOFF1);
+		error(ERR_INTERNAL, ILLOFF1);
 		return f_off8_8;
 	}
 }
@@ -5462,7 +5462,7 @@ f_pointer(alignment arg)
 	case 64: return f_ptr64;
 
 	default:
-		error(ERROR_INTERNAL, ILLALIGN);
+		error(ERR_INTERNAL, ILLALIGN);
 		return f_ptr8;
 	};
 }
@@ -5575,7 +5575,7 @@ f_computed_signed_nat(exp arg)
 	if (name(arg) == val_tag) {
 		if (check & CHECK_EXTRA) {
 			if (constovf(arg)) {
-				error(ERROR_INTERNAL, ILLNAT);
+				error(ERR_INTERNAL, ILLNAT);
 			}
 		}
 
@@ -5609,7 +5609,7 @@ f_computed_signed_nat(exp arg)
 		return res;
 	}
 
-	error(ERROR_INTERNAL, ILLCOMPSNAT);
+	error(ERR_INTERNAL, ILLCOMPSNAT);
 	snat_issmall(res) = 1;
 	snatneg(res) = 0;
 	snatint(res) = 1;
@@ -5665,7 +5665,7 @@ f_concat_string(string a1, string a2)
 	int i;
 	string res;
 	if (a1.size != a2.size) {
-		error(ERROR_INTERNAL, "Concatenated strings have different unit size");
+		error(ERR_INTERNAL, "Concatenated strings have different unit size");
 	}
 	res.number = a1.number + a2.number;
 	res.size = a1.size;
@@ -5803,7 +5803,7 @@ f_var_width(bool sig, nat bits)
 		if (w <= 64) {
 			return s64sh;
 		}
-		error(ERROR_INTERNAL, WIDTH_ERROR);
+		error(ERR_INTERNAL, WIDTH_ERROR);
 		return slongsh;
 	}
 
@@ -5819,7 +5819,7 @@ f_var_width(bool sig, nat bits)
 	if (w <= 64) {
 		return u64sh;
 	}
-	error(ERROR_INTERNAL, WIDTH_ERROR);
+	error(ERR_INTERNAL, WIDTH_ERROR);
 	return ulongsh;
 }
 
@@ -5934,7 +5934,7 @@ add_caselim_list(caselim_list list, caselim elem, int index)
 		}
 	} else if (~has & HAS_64_BIT) {
 		SET(low);
-		error(ERROR_INTERNAL, TOO_BIG_A_CASE_ELEMENT);
+		error(ERR_INTERNAL, TOO_BIG_A_CASE_ELEMENT);
 	} else {
 		low = snatbig(elem.low);
 		if (snatneg(elem.low)) {
@@ -5960,7 +5960,7 @@ add_caselim_list(caselim_list list, caselim elem, int index)
 		}
 	} else if (~has & HAS_64_BIT) {
 		SET(ht);
-		error(ERROR_INTERNAL, TOO_BIG_A_CASE_ELEMENT);
+		error(ERR_INTERNAL, TOO_BIG_A_CASE_ELEMENT);
 	} else {
 		int lh_eq;
 		high = snatbig(elem.high);
@@ -6084,7 +6084,7 @@ add_version_list(version_list list, version elem, int index)
 	}
 
 	if (elem.major_version != global_version.major_version) {
-		error(ERROR_INTERNAL, WRONG_VERSION);
+		error(ERR_INTERNAL, WRONG_VERSION);
 		IGNORE fprintf(stderr, "This TDF has mixed versions\n");
 	}
 

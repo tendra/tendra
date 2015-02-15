@@ -249,7 +249,7 @@ frr first_reg
   t.regno = 1;
   t.fr_no = 0;
   if (r == 0)
-    error(ERROR_INTERNAL, BAD_REGISTER);
+    error(ERR_INTERNAL, BAD_REGISTER);
   else {
     while (!(t.regno & r)) {
       t.regno = t.regno << 1;
@@ -298,7 +298,7 @@ void operand
 	  return;
 	};
       default: {
-	  error(ERROR_INTERNAL, BAD_OPND);
+	  error(ERR_INTERNAL, BAD_OPND);
 	  return;
 	};
     };
@@ -345,7 +345,7 @@ void operand
 	  return;
 	};
       default: {		/* doesnt happen */
-	  error(ERROR_INTERNAL, BAD_OPND);
+	  error(ERR_INTERNAL, BAD_OPND);
 	  return;
 	};
     };
@@ -362,11 +362,11 @@ void operand
       if (!isvar(son(ref))) {
 	exp ident = son(ref);
 	if (ptno(ident)!= reg_pl && off != 0) {
-	  error(ERROR_INTERNAL, BAD_OPND);
+	  error(ERR_INTERNAL, BAD_OPND);
 	};
 	if (isglob(ident)) {
 	  if (name(sh(w))!= prokhd)
-	    error(ERROR_INTERNAL, BAD_OPND);
+	    error(ERR_INTERNAL, BAD_OPND);
 	  else
            {
 	     if (PIC_code)
@@ -382,7 +382,7 @@ void operand
 	      return;
 	    };
 	  default: {
-	      error(ERROR_INTERNAL, BAD_OPND);
+	      error(ERR_INTERNAL, BAD_OPND);
 	      return;
 	    };
 	};
@@ -417,7 +417,7 @@ void operand
 	      return;
 	    };
 	  default: {		/* doesnt happen */
-	      error(ERROR_INTERNAL, BAD_OPND);
+	      error(ERR_INTERNAL, BAD_OPND);
 	      return;
 	    };
 	};
@@ -428,11 +428,11 @@ void operand
 	isvar(son(son(ref)))) {
       exp ident = son(son(ref));
       if (ptno(ident)!= reg_pl && off != 0) {
-	error(ERROR_INTERNAL, BAD_OPND);
+	error(ERR_INTERNAL, BAD_OPND);
       };
       if (isglob(ident)) {
 	if (name(sh(w))!= prokhd)
-	  error(ERROR_INTERNAL, BAD_OPND);
+	  error(ERR_INTERNAL, BAD_OPND);
 	else
 	  extn(ident, no(son(ref)), b);
 	return;
@@ -443,7 +443,7 @@ void operand
 	    return;
 	  };
 	default: {
-	    error(ERROR_INTERNAL, BAD_OPND);
+	    error(ERR_INTERNAL, BAD_OPND);
 	    return;
 	  };
       };
@@ -464,7 +464,7 @@ void operand
 	      return;
 	    };
 	  default: {
-	      error(ERROR_INTERNAL, BAD_OPND);
+	      error(ERR_INTERNAL, BAD_OPND);
 	      return;
 	    };
 	};
@@ -478,7 +478,7 @@ void operand
 	      return;
 	    };
 	  default: {
-	      error(ERROR_INTERNAL, BAD_OPND);
+	      error(ERR_INTERNAL, BAD_OPND);
 	      return;
 	    };
 	};
@@ -491,7 +491,7 @@ void operand
 	operand(le, new_w, b, 0);
 	return;
       };			/* end of cont(reff(addptr())) */
-      error(ERROR_INTERNAL, BAD_OPND);
+      error(ERR_INTERNAL, BAD_OPND);
     };				/* end of cont(reff()) */
 
     if (s == addptr_tag) {
@@ -534,7 +534,7 @@ void operand
 	    return;
 	  };
 	default: {
-	    error(ERROR_INTERNAL, BAD_OPND);
+	    error(ERR_INTERNAL, BAD_OPND);
 	    return;
 	  };
       };
@@ -552,7 +552,7 @@ void operand
 	    return;
 	  };
 	default: {
-	    error(ERROR_INTERNAL, BAD_OPND);
+	    error(ERR_INTERNAL, BAD_OPND);
 	    return;
 	  };
       };
@@ -661,5 +661,5 @@ void operand
     };
   };
 
-  error(ERROR_INTERNAL, BAD_OPND);
+  error(ERR_INTERNAL, BAD_OPND);
 }

@@ -58,14 +58,14 @@ library_check_index_entry(LibraryT *library, ShapeEntryT *entry, BoolT need_dec,
     unsigned    name_use    = name_entry_get_use(name_entry);
 
     if (use & ~(U_USED | U_DECD | U_DEFD | U_MULT)) {
-	error(ERROR_SERIOUS, "%s: #%u: external %S '%K' has usage %u "
+	error(ERR_SERIOUS, "%s: #%u: external %S '%K' has usage %u "
 		"which has no meaning in this implementation",
 		library_name(library), library_byte(library),
 		(void *) shape_key, (void *) key, use);
 	THROW(XX_library_error);
 	UNREACHED;
     } else if (no_mult && (use & U_MULT)) {
-	error(ERROR_SERIOUS, "%s: #%u: external %S '%K' has the "
+	error(ERR_SERIOUS, "%s: #%u: external %S '%K' has the "
 		"multiply defined bit set illegally", 
 		library_name(library), library_byte(library), 
 		(void *) shape_key, (void *) key);
@@ -74,7 +74,7 @@ library_check_index_entry(LibraryT *library, ShapeEntryT *entry, BoolT need_dec,
     } else if (need_dec &&
 	      (((use & (U_DEFD | U_DECD)) == U_DEFD) ||
 		((use & (U_MULT | U_DECD)) == U_MULT))) {
-	error(ERROR_SERIOUS, "%s: #%u: external %S '%K' is "
+	error(ERR_SERIOUS, "%s: #%u: external %S '%K' is "
 		"defined but not declared", 
 		library_name(library), library_byte(library),
 		(void *) shape_key, (void *) key);
@@ -84,7 +84,7 @@ library_check_index_entry(LibraryT *library, ShapeEntryT *entry, BoolT need_dec,
     if ((use & U_DEFD) && (name_use & U_DEFD)) {
 	LibCapsuleT *definition = name_entry_get_lib_definition(name_entry);
 
-	error(ERROR_SERIOUS, "%s: #%u: external %S '%K' is defined "
+	error(ERR_SERIOUS, "%s: #%u: external %S '%K' is defined "
 		"more than once in libraries (previous definition in '%N')", 
 		library_name(library), library_byte(library),
 		(void *) shape_key, (void *) key, (void *) definition);
@@ -117,7 +117,7 @@ library_read_version_0_capsules(LibraryT *library)
 
 	tdf_read_string(reader, &nstring);
 	if (nstring_contains(&nstring, '\0')) {
-		error(ERROR_SERIOUS, "%s: #%u:  capsule name '%S' "
+		error(ERR_SERIOUS, "%s: #%u:  capsule name '%S' "
 			"contains null character", 
 			library_name(library), library_byte(library),
 			(void *) &nstring);
@@ -173,7 +173,7 @@ library_read_version_0(LibraryT *   library,				ShapeTableT *shapes)
 	    use           = tdf_read_int(reader);
 	    capsule_index = tdf_read_int(reader);
 	    if (capsule_index >= num_capsules) {
-		error(ERROR_SERIOUS, "%s: #%u: external %S '%K' "
+		error(ERR_SERIOUS, "%s: #%u: external %S '%K' "
 			"has capsule index %u (should be less than %u)", 
 			library_name(library), library_byte(library),
 			(void *) &name, (void *) &external_name, 
@@ -211,7 +211,7 @@ library_extract_1(LibCapsuleT *capsule,			   BoolT       use_basename)
 	tdf_write_bytes(&writer, contents);
 	tdf_writer_close(&writer);
     } else {
-	error(ERROR_FATAL, "cannot open output file '%s': %s", 
+	error(ERR_FATAL, "cannot open output file '%s': %s", 
 		name, strerror(errno));
     }
     if (use_basename) {
@@ -255,7 +255,7 @@ library_read_header(LibraryT *library)
     nstring_init_length(&magic,(unsigned)4);
     tdf_read_bytes(reader, &magic);
     if (!nstring_equal(&magic, const_magic)) {
-	error(ERROR_SERIOUS, "bad magic number '%S' should be '%S'",
+	error(ERR_SERIOUS, "bad magic number '%S' should be '%S'",
 		(void *) &magic, (void *) const_magic);
 	THROW(XX_library_error);
 	UNREACHED;
@@ -265,13 +265,13 @@ library_read_header(LibraryT *library)
     minor = tdf_read_int(reader);
     debug_info_r_lib_versions(major, minor);
     if (major < 4) {
-	error(ERROR_SERIOUS, "illegal major version number %u", major);
+	error(ERR_SERIOUS, "illegal major version number %u", major);
 	THROW(XX_library_error);
 	UNREACHED;
     } else if (capsule_major == 0) {
 	capsule_set_major_version(major);
     } else if (capsule_major != major) {
-	error(ERROR_SERIOUS, "major version number mismatch (%u should be %u)", 
+	error(ERR_SERIOUS, "major version number mismatch (%u should be %u)", 
 		capsule_major, major);
 	THROW(XX_library_error);
 	UNREACHED;
@@ -496,7 +496,7 @@ library_extract(LibraryT *library, BoolT use_basename, BoolT match_basename,
 		}
 	    }
 	    if (!matched) {
-		error(ERROR_SERIOUS, "capsule '%s' is not contained "
+		error(ERR_SERIOUS, "capsule '%s' is not contained "
 			"in library '%s'", 
 			files[i], library_name(library));
 	    }
@@ -515,7 +515,7 @@ library_read(LibraryT *   library,		      ShapeTableT *shapes)
 	library_read_header(library);
 	library_type = tdf_read_int(reader);
 	if (library_type >= LIBRARY_TYPE_JUMP_TABLE_SIZE) {
-		error(ERROR_SERIOUS, "library version number %u "
+		error(ERR_SERIOUS, "library version number %u "
 			"is not supported in this implementation", 
 			library_type);	
 	    THROW(XX_library_error);

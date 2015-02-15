@@ -122,10 +122,10 @@ main_handle_dump_file(char *option, ArgUsageT *usage, void *gclosure,
 
 	main_did_other = TRUE;
 	if (ostream_is_open(&dump_stream)) {
-		error(ERROR_FATAL, "more than one dump file specified");
+		error(ERR_FATAL, "more than one dump file specified");
 		UNREACHED;
 	} else if (!ostream_open(&dump_stream, dump_file)) {
-		error(ERROR_FATAL, "cannot open dump file '%s': %s", dump_file, strerror(errno));
+		error(ERR_FATAL, "cannot open dump file '%s': %s", dump_file, strerror(errno));
 		UNREACHED;
 	}
 }
@@ -153,7 +153,7 @@ main_handle_factor_limit(char *option, ArgUsageT *usage, void *gclosure,
 	UNUSED(gclosure);
 	main_did_other = TRUE;
 	if (!cstring_to_unsigned(limit_str, &limit) || limit == 0) {
-		error(ERROR_FATAL, "bad factor limit '%s'", limit_str);
+		error(ERR_FATAL, "bad factor limit '%s'", limit_str);
 		UNREACHED;
 	}
 	rule_set_factor_limit(limit);
@@ -197,7 +197,7 @@ main_handle_inlining(char *option, ArgUsageT *usage, void *gclosure,
 			}
 		}
 
-		error(ERROR_FATAL, "bad inlining phase '%s'", phase);
+		error(ERR_FATAL, "bad inlining phase '%s'", phase);
 		UNREACHED;
 next:
 		;
@@ -222,7 +222,7 @@ main_handle_language(char *option, ArgUsageT *usage, void *gclosure,
 		}
 	}
 
-	error(ERROR_FATAL, "unknown language '%s' (should be one of %s)", language_str, LANGUAGES);
+	error(ERR_FATAL, "unknown language '%s' (should be one of %s)", language_str, LANGUAGES);
 	UNREACHED;
 }
 
@@ -347,7 +347,7 @@ main_init(int argc, char **argv, OutputInfoT *out_info)
 	num_infiles  = main_language->num_input_files;
 	num_outfiles = main_language->num_output_files;
 	if ((unsigned) argc != (num_infiles + num_outfiles)) {
-		error(ERROR_FATAL, "language '%s' requires %u input files and %u output files",
+		error(ERR_FATAL, "language '%s' requires %u input files and %u output files",
 			main_language->language, num_infiles, num_outfiles);
 		UNREACHED;
 	}
@@ -358,7 +358,7 @@ main_init(int argc, char **argv, OutputInfoT *out_info)
 		char *name = argv[i];
 
 		if (!istream_open(out_info_get_istream(out_info, i), name)) {
-			error(ERROR_FATAL, "cannot open input file '%s': %s", name, strerror(errno));
+			error(ERR_FATAL, "cannot open input file '%s': %s", name, strerror(errno));
 			UNREACHED;
 		}
 		out_info_set_infile_name(out_info, i, name);
@@ -368,7 +368,7 @@ main_init(int argc, char **argv, OutputInfoT *out_info)
 		char *name = argv[num_infiles + i];
 
 		if (!ostream_open(out_info_get_ostream(out_info, i), name)) {
-			error(ERROR_FATAL, "cannot open output file '%s': %s", name, strerror(errno));
+			error(ERR_FATAL, "cannot open output file '%s': %s", name, strerror(errno));
 			UNREACHED;
 		}
 		out_info_set_outfile_name(out_info, i, name);
@@ -490,17 +490,17 @@ main(int argc, char **argv)
 		ExceptionT *exception = EXCEPTION_EXCEPTION();
 
 		if (exception == XX_dalloc_no_memory) {
-			error(ERROR_FATAL, "cannot allocate memory");
+			error(ERR_FATAL, "cannot allocate memory");
 			UNREACHED;
 		} else if (exception == XX_istream_read_error) {
 			char *file = (char *) EXCEPTION_VALUE();	/* XXX cast */
 
-			error(ERROR_FATAL, "error reading from file '%s': %s", file, strerror(errno));
+			error(ERR_FATAL, "error reading from file '%s': %s", file, strerror(errno));
 			UNREACHED;
 		} else if (exception == XX_ostream_write_error) {
 			char *file = (char *) EXCEPTION_VALUE();
 
-			error(ERROR_FATAL, "error writing to file '%s': %s", file, strerror(errno));
+			error(ERR_FATAL, "error writing to file '%s': %s", file, strerror(errno));
 			UNREACHED;
 		} else {
 			RETHROW();

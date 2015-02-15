@@ -63,7 +63,7 @@ void
 out_dwarf_lab(H_dwarf_lab *l)
 {
 	if (OUT_FLAG(*l) != 0) {
-		error(ERROR_INTERNAL, "attempt to re_output dwarf label");
+		error(ERR_INTERNAL, "attempt to re_output dwarf label");
 		exit(EXIT_FAILURE);
 	}
 	OUT_FLAG(*l) = (char)1;
@@ -168,7 +168,7 @@ void
 out_dwarf_thing(int t, char *cmt)
 {
 	if (t > 0xffff) {
-		error(ERROR_INTERNAL, "value too big for .2byte constant in out_dwarf_thing");
+		error(ERR_INTERNAL, "value too big for .2byte constant in out_dwarf_thing");
 	}
 
 	asm_printf(BYTE2_F, t);
@@ -237,7 +237,7 @@ void
 leave_dwarf_blk1(int leave)
 {
 	if (dwarf_blk_stk_ptr == 0) {
-		error(ERROR_INTERNAL, "dwarf stack underflow");
+		error(ERR_INTERNAL, "dwarf stack underflow");
 	}
 	{
 		dwarf_label *lb = &dwarf_blk_stk[--dwarf_blk_stk_ptr];
@@ -333,7 +333,7 @@ out_dwarf_sourcemark(const sourcemark * const x)
 	dwarf_label lb;
 
 	if (x->file != main_filename) {
-		/* error(ERROR_SERIOUS, "Sourcemark for file %s cannot be used",
+		/* error(ERR_SERIOUS, "Sourcemark for file %s cannot be used",
 		      TDFSTRING2CHAR(x->file->file)); */
 		return;
 	}
@@ -368,7 +368,7 @@ static int	 	dwarf_sib_stk_ptr= -1;
 #define SIB_PUSH	(dwarf_sib_stk[++dwarf_sib_stk_ptr])
 #define SIB_POP		(--dwarf_sib_stk_ptr)
 
-/* ((dwarf_sib_stk_ptr) == 0 ? error(ERROR_INTERNAL, "sib stack underflow"), underflow_lab */
+/* ((dwarf_sib_stk_ptr) == 0 ? error(ERR_INTERNAL, "sib stack underflow"), underflow_lab */
 
 void
 start_sib_chain1(int d_tag, char *tag_name)
@@ -606,7 +606,7 @@ dwarf_out_descriptor(diag_descriptor *x)
 		exp t = son(acc);
 #ifdef TDF_DIAG4
 		if (name(acc) != hold_tag) {
-			error(ERROR_INTERNAL, "access should be in hold");
+			error(ERR_INTERNAL, "access should be in hold");
 			break;
 		}
 		acc = son(acc);
@@ -615,7 +615,7 @@ dwarf_out_descriptor(diag_descriptor *x)
 			acc = son(acc);
 		}
 		if (name(acc) != name_tag) {
-			error(ERROR_INTERNAL, "not name_tag");
+			error(ERR_INTERNAL, "not name_tag");
 			break;
 		}
 		t = son(acc);
@@ -628,7 +628,7 @@ dwarf_out_descriptor(diag_descriptor *x)
 			break;
 		} else {
 			if (isparam(t)) {
-				error(ERROR_INTERNAL, "out descriptor for parameter variable");
+				error(ERR_INTERNAL, "out descriptor for parameter variable");
 			}
 			if (!brog(t) ->dec_u.dec_val.extnamed) {
 				cont_sib_chain(TAG_local_variable);
@@ -651,7 +651,7 @@ dwarf_out_descriptor(diag_descriptor *x)
 	case DIAG_TYPEDEF_KEY:
 		if ((base_type(x->data.typ.new_type))->key ==
 		    DIAG_TYPE_INITED) {
-			/*      error(ERROR_WARNING, "No diagtype defn provided for %s... omitting typedef",
+			/*      error(ERR_WARN, "No diagtype defn provided for %s... omitting typedef",
 				TDFSTRING2CHAR(x->data.typ.nme)); */
 			break;
 		}
@@ -661,7 +661,7 @@ dwarf_out_descriptor(diag_descriptor *x)
 		leave_dwarf_blk();
 		break;
 	default:
-		error(ERROR_INTERNAL, "Unknown descriptor");
+		error(ERR_INTERNAL, "Unknown descriptor");
 	}
 }
 

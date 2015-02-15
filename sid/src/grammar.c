@@ -68,12 +68,12 @@ grammar_check_1(EntryT *entry, void *gclosure)
 	switch (entry_type(entry)) EXHAUSTIVE {
 	case ET_RULE:
 		if (!rule_is_defined(entry_get_rule(entry))) {
-			error(ERROR_SERIOUS, "rule '%K' is never defined",
+			error(ERR_SERIOUS, "rule '%K' is never defined",
 				(void *) entry_key(entry));
 		}
 
 		if (!entry_is_traced(entry)) {
-			error(ERROR_SERIOUS, "rule '%K' is never used",
+			error(ERR_SERIOUS, "rule '%K' is never used",
 				(void *) entry_key(entry));
 		}
 		break;
@@ -86,28 +86,28 @@ grammar_check_1(EntryT *entry, void *gclosure)
 		 * true even with no action file.
 		 */
 		if (!entry_is_traced(entry)) {
-			error(ERROR_SERIOUS, "basic '%K' is never used",
+			error(ERR_SERIOUS, "basic '%K' is never used",
 				(void *) entry_key(entry));
 		}
 		break;
 
 	case ET_ACTION:
 		if (!entry_is_traced(entry)) {
-			error(ERROR_SERIOUS, "action '%K' is never used",
+			error(ERR_SERIOUS, "action '%K' is never used",
 				(void *) entry_key(entry));
 		}
 		break;
 
 	case ET_TYPE:
 		if (!entry_is_traced(entry) && !type_get_ignored(entry_get_type(entry))) {
-			error(ERROR_SERIOUS, "type '%K' is never used",
+			error(ERR_SERIOUS, "type '%K' is never used",
 				(void *) entry_key(entry));
 		}
 		break;
 
 	case ET_NON_LOCAL:
 		if (!entry_is_traced(entry)) {
-			error(ERROR_SERIOUS, "non-local name '%K' is never used",
+			error(ERR_SERIOUS, "non-local name '%K' is never used",
 				(void *) entry_key(entry));
 		}
 		break;
@@ -233,7 +233,7 @@ unsigned
 grammar_next_terminal(GrammarT *grammar)
 {
 	if (grammar->terminal == UINT_MAX) {
-		error(ERROR_FATAL, "too many terminals in grammar");
+		error(ERR_FATAL, "too many terminals in grammar");
 		UNREACHED;
 	}
 

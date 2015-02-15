@@ -80,11 +80,11 @@ guard(where w, space sp)
     }
     case insomereg : 
     case insomefreg : {
-      error(ERROR_INTERNAL, "Guard ? reg ");
+      error(ERR_INTERNAL, "Guard ? reg ");
       break;
     }
     default:{
-      error(ERROR_INTERNAL, "error in guard");
+      error(ERR_INTERNAL, "error in guard");
       break;
     }
   }	

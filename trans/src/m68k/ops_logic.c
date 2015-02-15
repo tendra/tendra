@@ -550,7 +550,7 @@ bitf_posn(exp e)
 	if (n == ident_tag) {
 		return 0;
 	}
-	error(ERROR_SERIOUS, "Illegal bitfield operation");
+	error(ERR_SERIOUS, "Illegal bitfield operation");
 	return 0;
 }
 
@@ -594,7 +594,7 @@ bitf_to_int(exp e, shape sha, where dest, ash stack)
 		dsha = (extend ? slongsh : ulongsh);
 	}
 	if (name(dsha) == tophd) {
-		error(ERROR_WARNING, "Top in bitfield assignment");
+		error(ERR_WARN, "Top in bitfield assignment");
 	}
 
 	bf = mw(e, off);
@@ -701,7 +701,7 @@ int_to_bitf(exp e, exp d, ash stack)
 			regsinproc |= regmsk(REG_D1);
 			make_code(D1, stack, s);
 			if (shape_size(sh(s)) < 32) {
-				error(ERROR_WARNING, "Think again!");
+				error(ERR_WARN, "Think again!");
 			}
 			e = D1.wh_exp;
 		}

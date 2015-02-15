@@ -35,7 +35,7 @@ void
 out_dwarf_proc_args(diag_type t)
 {
 	if (t->key != DIAG_TYPE_PROC) {
-		error(ERROR_INTERNAL, "Can't output args of non proc type");
+		error(ERR_INTERNAL, "Can't output args of non proc type");
 	}
 
 	if (t->data.proc.opt_args) {
@@ -57,7 +57,7 @@ dw1_diag_proc_begin(diag_descriptor *d_props, int global, int cname, char *pname
 
 	asm_comment("Here beginneth a proc");
 	if (d_props->key != DIAG_ID_KEY) {
-		error(ERROR_INTERNAL, "proc beg without id");
+		error(ERR_INTERNAL, "proc beg without id");
 	}
 
 	next_dwarf_lab(&(d_props->lab));

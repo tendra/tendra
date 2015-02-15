@@ -421,7 +421,7 @@ rule_check_non_locals(RuleT *this_rule, RuleT *rule_list, unsigned real_size)
 			if (!nstring_is_prefix(scope, string)
 				|| !nstring_length(string) + 2 == length) {
 
-				error(ERROR_SERIOUS, "a non local name in the rule '%N' is not "
+				error(ERR_SERIOUS, "a non local name in the rule '%N' is not "
 					"in scope in the rule '%N' in the left recursive cycle "
 					"involving the following productions:\n%P",
 					(void *) this_rule, (void *) rule, (void *) rule_list);
@@ -435,7 +435,7 @@ rule_check_non_locals(RuleT *this_rule, RuleT *rule_list, unsigned real_size)
 		return TRUE;
 	}
 
-	error(ERROR_SERIOUS, "the rule '%N' declares non local names in the left "
+	error(ERR_SERIOUS, "the rule '%N' declares non local names in the left "
 		"recursive cycle with more than one entry point involving the "
 		"following productions:\n%P", (void *) this_rule, (void *) rule_list);
 
@@ -465,7 +465,7 @@ rule_check_alt_cycle_types(RuleT *rule, RuleT *rule_list, AltT *alt,
 		btrans_destroy(translator1);
 		btrans_destroy(translator2);
 
-		error(ERROR_SERIOUS, "the argument names of the left recursive calls "
+		error(ERR_SERIOUS, "the argument names of the left recursive calls "
 			"in the following productions do not match:\n%P",
 			(void *) rule_list);
 
@@ -535,7 +535,7 @@ rule_check_cycle_types(RuleT *rule_list, EntryT *predicate_id,
 		rule = rule_get_next_in_reverse_dfs(rule)) {
 		if (!types_equal(param, rule_param(rule))
 			|| !types_equal(result, rule_result(rule))) {
-			error(ERROR_SERIOUS, "the parameter or result types of the left "
+			error(ERR_SERIOUS, "the parameter or result types of the left "
 				"recursive calls in the following productions do not match:\n%P",
 				(void *) rule_list);
 			return FALSE;
@@ -543,7 +543,7 @@ rule_check_cycle_types(RuleT *rule_list, EntryT *predicate_id,
 
 		rule_renumber(rule, TRUE, predicate_id);
 		if (!alt_equal(handler, rule_get_handler(rule))) {
-			error(ERROR_SERIOUS, "the exception handlers in the left recursion "
+			error(ERR_SERIOUS, "the exception handlers in the left recursion "
 				"involving the following productions do not match:\n%P",
 				(void *) rule_list);
 			return FALSE;
@@ -742,7 +742,7 @@ rule_left_cycle_general_case_2(RuleT *rule_list, unsigned size,
 	}
 
 	if (not_found) {
-		error(ERROR_SERIOUS, "no cycle termination for the left recursive set "
+		error(ERR_SERIOUS, "no cycle termination for the left recursive set "
 			"involving the following rules: %W", (void *) rule_list);
 
 		return FALSE;

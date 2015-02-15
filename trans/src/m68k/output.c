@@ -219,7 +219,7 @@ out_float(flt *f)
 	}
 	asm_printf( "%ld", f->exp);
 #else
-	error(ERROR_SERIOUS, "Illegal floating point constant");
+	error(ERR_SERIOUS, "Illegal floating point constant");
 #endif
 }
 
@@ -296,7 +296,7 @@ out_mach_op(mach_op *ptr)
 			}
 			if (q1 && q1->type == MACH_SCALE) {
 				if (p2) {
-					error(ERROR_SERIOUS, "Illegal addressing mode");
+					error(ERR_SERIOUS, "Illegal addressing mode");
 					asm_error();
 					return;
 				}
@@ -363,7 +363,7 @@ out_mach_op(mach_op *ptr)
 			out_data(p);
 			return;
 		}
-		error(ERROR_SERIOUS, "Illegal addressing mode");
+		error(ERR_SERIOUS, "Illegal addressing mode");
 		asm_error();
 		return;
 	case MACH_DEC:
@@ -416,7 +416,7 @@ out_mach_op(mach_op *ptr)
 		asm_printf("0x%lx", (unsigned long) p->def.num);
 		return;
 	}
-	error(ERROR_SERIOUS, "Illegal addressing mode");
+	error(ERR_SERIOUS, "Illegal addressing mode");
 	asm_error();
 }
 

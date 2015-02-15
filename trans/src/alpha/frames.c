@@ -151,7 +151,7 @@ int frame_offset
       return (Has_vcallees)?n:((pr->callee_size>>3) - n);
     }
     else{
-      error(ERROR_INTERNAL, "Illegal frame offset");
+      error(ERR_INTERNAL, "Illegal frame offset");
       return 0;
     }
   }

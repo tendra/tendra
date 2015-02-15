@@ -885,7 +885,7 @@ make_index_op(mach_op *op1, mach_op *op2, int sf)
 	mach_op *p1, *p2 = new_mach_op();
 
 	if (op1->type != MACH_CONT) {
-		error(ERROR_SERIOUS, "Illegal indexing operand");
+		error(ERR_SERIOUS, "Illegal indexing operand");
 		return NULL;
 	}
 

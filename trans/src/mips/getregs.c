@@ -139,7 +139,7 @@ getreg(long fixed)
     	else continue;
     }
     if (choosefix == start) {
-    	error(ERROR_INTERNAL, "Too many fixed regs required");
+    	error(ERR_INTERNAL, "Too many fixed regs required");
     		break;
     }
     goto cycle;
@@ -173,7 +173,7 @@ getfreg(long fl)
     	else continue;
     }
     if (choosefloat == start) {
-    	error(ERROR_INTERNAL, "Too many float regs required");
+    	error(ERR_INTERNAL, "Too many float regs required");
     		break;
     }
     goto cycle;

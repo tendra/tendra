@@ -72,7 +72,7 @@ make_dim_exp(int op, EXP a, EXP b)
 		return a;
 	}
 	et = error_threshold;
-	error_threshold = ERROR_SERIOUS;
+	error_threshold = ERR_SERIOUS;
 	if (op == lex_plus) {
 		e = make_plus_exp(a, b);
 	} else {

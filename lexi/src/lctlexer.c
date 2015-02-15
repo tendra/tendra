@@ -156,7 +156,7 @@ lct_next_code_ref(struct lct_state *state)
 			{
 
 	if (lct_token_current == lct_token_end) {
-		error(ERROR_FATAL, "Buffer overflow: trailing 0");
+		error(ERR_FATAL, "Buffer overflow: trailing 0");
 		*(lct_token_end - 1) = 0;
 	} else {
 		*lct_token_current++ = 0;
@@ -171,7 +171,7 @@ lct_next_code_ref(struct lct_state *state)
 		{
 
 	if (lct_token_current == lct_token_end - 1) {
-		error(ERROR_FATAL, "Buffer overflow");
+		error(ERR_FATAL, "Buffer overflow");
 	} else {
 		*lct_token_current++ = c0;
 	}
@@ -193,7 +193,7 @@ lct_next_code_ident(struct lct_state *state)
 			{
 
 	if (lct_token_current == lct_token_end) {
-		error(ERROR_FATAL, "Buffer overflow: trailing 0");
+		error(ERR_FATAL, "Buffer overflow: trailing 0");
 		*(lct_token_end - 1) = 0;
 	} else {
 		*lct_token_current++ = 0;
@@ -208,7 +208,7 @@ lct_next_code_ident(struct lct_state *state)
 		{
 
 	if (lct_token_current == lct_token_end - 1) {
-		error(ERROR_FATAL, "Buffer overflow");
+		error(ERR_FATAL, "Buffer overflow");
 	} else {
 		*lct_token_current++ = c0;
 	}
@@ -249,7 +249,7 @@ lct_next_code(struct lct_state *state)
 							{
 
 	if (lct_token_current == lct_token_end - 1) {
-		error(ERROR_FATAL, "Buffer overflow");
+		error(ERR_FATAL, "Buffer overflow");
 	} else {
 		*lct_token_current++ = c2;
 	}
@@ -278,7 +278,7 @@ lct_next_code(struct lct_state *state)
 					{
 
 	if (lct_token_current == lct_token_end - 1) {
-		error(ERROR_FATAL, "Buffer overflow");
+		error(ERR_FATAL, "Buffer overflow");
 	} else {
 		*lct_token_current++ = c1;
 	}
@@ -377,7 +377,7 @@ lct_next_ident(struct lct_state *state)
 			{
 
 	if (lct_token_current == lct_token_end) {
-		error(ERROR_FATAL, "Buffer overflow: trailing 0");
+		error(ERR_FATAL, "Buffer overflow: trailing 0");
 		*(lct_token_end - 1) = 0;
 	} else {
 		*lct_token_current++ = 0;
@@ -399,7 +399,7 @@ lct_next_ident(struct lct_state *state)
 		{
 
 	if (lct_token_current == lct_token_end - 1) {
-		error(ERROR_FATAL, "Buffer overflow");
+		error(ERR_FATAL, "Buffer overflow");
 	} else {
 		*lct_token_current++ = c0;
 	}
@@ -500,7 +500,7 @@ lct_next(struct lct_state *state)
 			{
 
 	if (lct_token_current == lct_token_end - 1) {
-		error(ERROR_FATAL, "Buffer overflow");
+		error(ERR_FATAL, "Buffer overflow");
 	} else {
 		*lct_token_current++ = c0;
 	}

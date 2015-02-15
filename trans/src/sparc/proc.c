@@ -475,7 +475,7 @@ makeans make_proc_tag_code
 	      break;
 	    }
 	    default : {
-	      error(ERROR_SERIOUS, "bad size in make_proc_tag_code");
+	      error(ERR_SERIOUS, "bad size in make_proc_tag_code");
 	      break;
 	    }
 	  }
@@ -791,7 +791,7 @@ makeans make_apply_tag_code
 
       if ( 0 /*struct_par*/ ) {
 	/* non-ABI construct being used - give stronger warning */
-	if (abi == ABI_SYSV) error(ERROR_SERIOUS, "Structure parameter passed by value");
+	if (abi == ABI_SYSV) error(ERR_SERIOUS, "Structure parameter passed by value");
       }
 
       if (is_floating(hd) && param_reg <= R_O5) {

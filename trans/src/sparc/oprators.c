@@ -330,12 +330,12 @@ quad_addr ( exp e, int r, space sp ){
     where w ;
     w = locate1 ( e, sp, sh ( e ), 0 ) ;
     if ( discrim ( w.answhere ) != notinreg ) {
-      error(ERROR_SERIOUS,  "Illegal expression in quad_addr" ) ;
+      error(ERR_SERIOUS,  "Illegal expression in quad_addr" ) ;
     }
     is = insalt ( w.answhere ) ;
   }
   if ( is.adval ) {
-    error(ERROR_SERIOUS,  "Illegal expression in quad_addr" ) ;
+    error(ERR_SERIOUS,  "Illegal expression in quad_addr" ) ;
   }
   if ( IS_FIXREG ( is.b.base ) ) {
     if ( is.b.offset == 0 ) {
@@ -368,7 +368,7 @@ quad_op ( exp a1, exp a2, space sp, where dest, int op ){
       case 4 : s = "_Q_fgt,2"; break;
       case 5 : s = "_Q_fne,2"; break;
       case 6 : s = "_Q_feq,2"; break;
-      default : error(ERROR_SERIOUS,  "Illegal floating-point test" ) ;
+      default : error(ERR_SERIOUS,  "Illegal floating-point test" ) ;
     }
   } 
   else {
@@ -386,10 +386,10 @@ quad_op ( exp a1, exp a2, space sp, where dest, int op ){
       case fabs_tag : 
       /* special case: there is no special operation for 
 	 this, so it has to be performed by a code sequence*/
-        error(ERROR_SERIOUS, "No operation for fabs( long double )");
+        error(ERR_SERIOUS, "No operation for fabs( long double )");
         s = "_Q_abs,1"; 
         break;
-      default : error(ERROR_SERIOUS,  "Illegal floating-point operation" ) ;
+      default : error(ERR_SERIOUS,  "Illegal floating-point operation" ) ;
     }
   }
   if ( quad_ret ) {
@@ -401,7 +401,7 @@ quad_op ( exp a1, exp a2, space sp, where dest, int op ){
     if ( discrim ( dest.answhere ) != notinreg ) {
       is.b = mem_temp(0);
       is.adval = 1;
-      /*error(ERROR_SERIOUS,  "Illegal expression in quad_op" ) ;*/
+      /*error(ERR_SERIOUS,  "Illegal expression in quad_op" ) ;*/
     }
     if ( is.adval ) {
       if ( IS_FIXREG ( is.b.base ) ) {

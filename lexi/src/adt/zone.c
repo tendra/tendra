@@ -133,7 +133,7 @@ add_zone(struct zone *z, char *name, const char *e, int endmarkerclosed)
 	assert(e != NULL);
 
 	if (find_zone(z, name)) {
-		error(ERROR_SERIOUS, "Zone %s already exists in this scope", name);
+		error(ERR_SERIOUS, "Zone %s already exists in this scope", name);
 		return NULL;
 	}
 
@@ -166,7 +166,7 @@ add_mainpass(struct zone *z, const char *s, struct frame *frame)
 	}
 
 	if (new->u.frame != NULL) {
-		error(ERROR_SERIOUS, "Token \"%s\" already exists in zone %s", s, zone_name(z));
+		error(ERR_SERIOUS, "Token \"%s\" already exists in zone %s", s, zone_name(z));
 		return NULL;
 	}
 
@@ -188,7 +188,7 @@ add_prepass(struct zone *z, const char *s, char *m)
 	assert(new != NULL);
 
 	if (new->u.map != NULL) {
-		error(ERROR_SERIOUS, "Mapping \"%s\" already exists in zone %s", s, zone_name(z));
+		error(ERR_SERIOUS, "Mapping \"%s\" already exists in zone %s", s, zone_name(z));
 		return NULL;
 	}
 

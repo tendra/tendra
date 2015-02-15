@@ -153,7 +153,7 @@ ZRaction_Hdefinition_C_Cfunction_Htype_Hdefn(paramP *ZOin, paramP *ZOout)
 					{
 #line 316 "lctsyntax.act"
 
-		error(ERROR_SERIOUS, "Syntax error: expected '->'");
+		error(ERR_SERIOUS, "Syntax error: expected '->'");
 	
 #line 159 "lctsyntax.c"
 					}
@@ -249,7 +249,7 @@ ZRcode_Hblock_C_Ccode_Helement(codeP *ZIc, entryP ZIe)
 #line 154 "lctsyntax.act"
 
 		if ((ZIe) == NULL) {
-			error(ERROR_SERIOUS, "The @ code identifiers are not allowed in headers or trailers");
+			error(ERR_SERIOUS, "The @ code identifiers are not allowed in headers or trailers");
 		} else {
 			struct param *p, *q;
 
@@ -261,11 +261,11 @@ ZRcode_Hblock_C_Ccode_Helement(codeP *ZIc, entryP ZIe)
 					if (p && p->is_ref) {
 						code_append_ref((ZIc), (ZIi));
 					} else {
-						error(ERROR_SERIOUS, "In code block the \'@&\' can only be used for input parameters that are references");
+						error(ERR_SERIOUS, "In code block the \'@&\' can only be used for input parameters that are references");
 					}
 				}
 			} else {
-				error(ERROR_SERIOUS, "Identifier @%s is neither an input nor an output "
+				error(ERR_SERIOUS, "Identifier @%s is neither an input nor an output "
 					"parameter of action %s", (ZIi), (ZIe)->key);
 			}
 		}
@@ -302,7 +302,7 @@ ZRcode_Hblock_C_Ccode_Helement(codeP *ZIc, entryP ZIe)
 #line 154 "lctsyntax.act"
 
 		if ((ZIe) == NULL) {
-			error(ERROR_SERIOUS, "The @ code identifiers are not allowed in headers or trailers");
+			error(ERR_SERIOUS, "The @ code identifiers are not allowed in headers or trailers");
 		} else {
 			struct param *p, *q;
 
@@ -314,11 +314,11 @@ ZRcode_Hblock_C_Ccode_Helement(codeP *ZIc, entryP ZIe)
 					if (p && p->is_ref) {
 						code_append_ref((ZIc), (ZIi));
 					} else {
-						error(ERROR_SERIOUS, "In code block the \'@&\' can only be used for input parameters that are references");
+						error(ERR_SERIOUS, "In code block the \'@&\' can only be used for input parameters that are references");
 					}
 				}
 			} else {
-				error(ERROR_SERIOUS, "Identifier @%s is neither an input nor an output "
+				error(ERR_SERIOUS, "Identifier @%s is neither an input nor an output "
 					"parameter of action %s", (ZIi), (ZIe)->key);
 			}
 		}
@@ -360,7 +360,7 @@ ZRcode_Hblock_C_Ccode_Helement(codeP *ZIc, entryP ZIe)
 			{
 #line 331 "lctsyntax.act"
 
-		error(ERROR_SERIOUS, "Lone @ inside @{ @} block");
+		error(ERR_SERIOUS, "Lone @ inside @{ @} block");
 	
 #line 366 "lctsyntax.c"
 			}
@@ -404,7 +404,7 @@ ZL1:;
 		{
 #line 292 "lctsyntax.act"
 
-		error(ERROR_SERIOUS, "Syntax error");
+		error(ERR_SERIOUS, "Syntax error");
 	
 #line 410 "lctsyntax.c"
 		}
@@ -493,7 +493,7 @@ ZL1:;
 		{
 #line 308 "lctsyntax.act"
 
-		error(ERROR_SERIOUS, "Syntax error: expected ','");
+		error(ERR_SERIOUS, "Syntax error: expected ','");
 	
 #line 499 "lctsyntax.c"
 		}
@@ -541,7 +541,7 @@ ZRargument_Hstmnt(void)
 				{
 #line 324 "lctsyntax.act"
 
-		error(ERROR_SERIOUS, "Syntax error: expected ':'");
+		error(ERR_SERIOUS, "Syntax error: expected ':'");
 	
 #line 547 "lctsyntax.c"
 				}
@@ -634,7 +634,7 @@ ZRheader_Hstmnt(void)
 			lct_ast.hfileheader = (ZIsh);
 			lct_ast.cfileheader = (ZIsc);
 		} else {
-			error(ERROR_SERIOUS, "Headers may not be redefined");
+			error(ERR_SERIOUS, "Headers may not be redefined");
 			code_destroy((ZIsc));
 			code_destroy((ZIsh));
 		}
@@ -720,7 +720,7 @@ ZRcode_Hblock(entryP ZIe, codeP *ZOc)
 				{
 #line 303 "lctsyntax.act"
 
-		error(ERROR_SERIOUS, "Syntax error: expected  '@{'");
+		error(ERR_SERIOUS, "Syntax error: expected  '@{'");
 	
 #line 726 "lctsyntax.c"
 				}
@@ -749,7 +749,7 @@ ZRcode_Hblock(entryP ZIe, codeP *ZOc)
 					{
 #line 327 "lctsyntax.act"
 
-		error(ERROR_SERIOUS, "Unexpected End of File inside @{ @} block");
+		error(ERR_SERIOUS, "Unexpected End of File inside @{ @} block");
 	
 #line 755 "lctsyntax.c"
 					}
@@ -782,7 +782,7 @@ ZRcode_Hblock(entryP ZIe, codeP *ZOc)
 				{
 #line 295 "lctsyntax.act"
 
-		error(ERROR_SERIOUS, "Syntax error: expected  '@}'");
+		error(ERR_SERIOUS, "Syntax error: expected  '@}'");
 	
 #line 788 "lctsyntax.c"
 				}
@@ -899,7 +899,7 @@ ZRtrailer_Hstmnt(void)
 			lct_ast.hfiletrailer = (ZIsh);
 			lct_ast.cfiletrailer = (ZIsc);
 		} else {
-			error(ERROR_SERIOUS, "Trailers may not be redefined");
+			error(ERR_SERIOUS, "Trailers may not be redefined");
 			code_destroy((ZIsc));
 			code_destroy((ZIsh));
 		}
@@ -952,10 +952,10 @@ ZRaction_Hdefinition(void)
 
 		(ZIea) = table_get_entry(&lxi_ast->table, (ZIn));
 		if ((ZIea) == NULL) {
-			error(ERROR_SERIOUS, "Defining an undeclared action: %s", (ZIn));
+			error(ERR_SERIOUS, "Defining an undeclared action: %s", (ZIn));
 		} else if ((ZIea)->kind != ENTRY_ACTION) {
 			(ZIea) = NULL; /* TODO: skip to end of action */
-			error(ERROR_SERIOUS, "%s is not an action", (ZIn));
+			error(ERR_SERIOUS, "%s is not an action", (ZIn));
 		}
 	
 #line 962 "lctsyntax.c"
@@ -970,24 +970,24 @@ ZRaction_Hdefinition(void)
 			/* TODO: check that the same name does not appear twice in the input and output tuple */
 
 			if (param_length((ZIea)->u.act->in) != param_length((ZIin))) {
-				error(ERROR_SERIOUS, "Action %s declared with an incompatible number of inputs", (ZIea)->key);
+				error(ERR_SERIOUS, "Action %s declared with an incompatible number of inputs", (ZIea)->key);
 			} else if (!param_match((ZIea)->u.act->in, (ZIin))) {
-				error(ERROR_SERIOUS, "params do not match for action %s", (ZIea)->key);
+				error(ERR_SERIOUS, "params do not match for action %s", (ZIea)->key);
 			} else {
 				int allhavenames = param_assign_names((ZIea)->u.act->in, (ZIin));
 				if (!allhavenames) {
-					error(ERROR_SERIOUS, "outputs tuples in action definition should have names");
+					error(ERR_SERIOUS, "outputs tuples in action definition should have names");
 				}
 			}
 
 			if (param_length((ZIea)->u.act->out) != param_length((ZIout))) {
-				error(ERROR_SERIOUS, "Action %s declared with an incompatible number of outputs", (ZIea)->key);
+				error(ERR_SERIOUS, "Action %s declared with an incompatible number of outputs", (ZIea)->key);
 			} else if (!param_match((ZIea)->u.act->out, (ZIout))) {
-				error(ERROR_SERIOUS, "results do not match for action %s", (ZIea)->key);
+				error(ERR_SERIOUS, "results do not match for action %s", (ZIea)->key);
 			} else {
 				int allhavenames = param_assign_names((ZIea)->u.act->out, (ZIout));
 				if (!allhavenames) {
-					error(ERROR_SERIOUS, "outputs tuples in the definition of action %s should have names", (ZIea)->key);
+					error(ERR_SERIOUS, "outputs tuples in the definition of action %s should have names", (ZIea)->key);
 				}
 			}
 		}
@@ -1015,7 +1015,7 @@ ZRaction_Hdefinition(void)
 				(ZIea)->u.act->defined = 1;
 				(ZIea)->u.act->code    = (ZIc);
 			} else {
-				error(ERROR_SERIOUS, "Action %s has already been defined", (ZIea)->key);
+				error(ERR_SERIOUS, "Action %s has already been defined", (ZIea)->key);
 			}
 		}
 	
@@ -1136,9 +1136,9 @@ ZRaction_Hdefinition_C_Cparam_Hlist_C_Cparam(paramP *ZIa)
 
 		struct entry *et = table_get_entry(&lxi_ast->table, (ZIt));
 		if (et == NULL) {
-			error(ERROR_SERIOUS, "Unknown type %s", (ZIt));
+			error(ERR_SERIOUS, "Unknown type %s", (ZIt));
 		} else if (et->kind != ENTRY_TYPE) {
-			error(ERROR_SERIOUS, "%s is not a type", (ZIt));
+			error(ERR_SERIOUS, "%s is not a type", (ZIt));
 		} else {
 			param_append((ZIa), (ZIn), et, (ZIisref));
 		}
@@ -1175,7 +1175,7 @@ ZL1:;
 		{
 #line 312 "lctsyntax.act"
 
-		error(ERROR_SERIOUS, "Syntax error: expected '='");
+		error(ERR_SERIOUS, "Syntax error: expected '='");
 	
 #line 1181 "lctsyntax.c"
 		}
@@ -1225,7 +1225,7 @@ ZL1:;
 		{
 #line 300 "lctsyntax.act"
 
-		error(ERROR_SERIOUS, "Syntax error: expected  identifier");
+		error(ERR_SERIOUS, "Syntax error: expected  identifier");
 	
 #line 1231 "lctsyntax.c"
 		}
@@ -1257,7 +1257,7 @@ ZL1:;
 		{
 #line 320 "lctsyntax.act"
 
-		error(ERROR_SERIOUS, "Syntax error: expected ';'");
+		error(ERR_SERIOUS, "Syntax error: expected ';'");
 	
 #line 1263 "lctsyntax.c"
 		}

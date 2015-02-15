@@ -160,7 +160,7 @@ shape basic_tag_shape(dg_tag t)
 	if (t == dg_tag_long_double_complex) {
 		return complexdoublesh;
 	}
-	error(ERROR_INTERNAL, "unexpected bitfield type");
+	error(ERR_INTERNAL, "unexpected bitfield type");
 	return slongsh;
 }
 
@@ -214,7 +214,7 @@ f_build_diag_unit(tdfint labels, diag_descriptor_list descriptors)
 {
 	UNUSED(labels);
 	UNUSED(descriptors);
-	error(ERROR_INTERNAL, "f_build_diag_unit isn't really here");
+	error(ERR_INTERNAL, "f_build_diag_unit isn't really here");
 	exit(EXIT_FAILURE);
 }
 
@@ -224,7 +224,7 @@ f_build_diagtype_unit(tdfint labels, diag_tagdef_list descriptors)
 {
 	UNUSED(labels);
 	UNUSED(descriptors);
-	error(ERROR_INTERNAL, "f_build_diagtype_unit isn't really here");
+	error(ERR_INTERNAL, "f_build_diagtype_unit isn't really here");
 	exit(EXIT_FAILURE);
 }
 
@@ -331,7 +331,7 @@ f_diag_desc_struct(tdfstring n, sourcemark whence, diag_type new_type)
 	UNUSED(n);
 	UNUSED(whence);
 	UNUSED(new_type);
-	error(ERROR_INTERNAL, "diag_desc_struct is obsolete");
+	error(ERR_INTERNAL, "diag_desc_struct is obsolete");
 	return f_dummy_diag_descriptor;
 }
 
@@ -429,7 +429,7 @@ f_diag_bitfield(diag_type typ, nat number_of_bits)
 		   typ->data.t_tag->outref.k == LAB_STR) {
 		sha = basic_tag_shape(typ->data.t_tag);
 	} else {
-		error(ERROR_INTERNAL, "unexpected bitfield type");
+		error(ERR_INTERNAL, "unexpected bitfield type");
 		sha = slongsh;
 	}
 	return f_dg_bitfield_type(typ, f_bfvar_bits(((name(sha) & 1) ? 1 : 0),
@@ -464,7 +464,7 @@ f_diag_floating_variety(floating_variety var)
 	case complexdoublefv:
 		return f_dg_named_type(dg_tag_long_double_complex);
 	}
-	error(ERROR_INTERNAL, "bad variety");
+	error(ERR_INTERNAL, "bad variety");
 	return f_dummy_diag_type;
 }
 
@@ -495,7 +495,7 @@ f_diag_proc(diag_type_list params, bool optional_args, diag_type result_type)
 	plist = new_dg_param_list(params.len);
 	for (i=0; i<params.len; i++) {
 		if (!params.array[i]) {
-			error(ERROR_INTERNAL, "dummy parameter?");
+			error(ERR_INTERNAL, "dummy parameter?");
 		}
 		thispar = f_dg_object_param(no_dg_idname_option,
 					    no_dg_sourcepos_option,
@@ -562,7 +562,7 @@ f_diag_variety(variety var)
 	case u64hd:
 		return f_dg_named_type(dg_tag_unsigned_long_long);
 	}
-	error(ERROR_INTERNAL, "bad variety");
+	error(ERR_INTERNAL, "bad variety");
 	return f_dummy_diag_type;
 }
 
@@ -713,7 +713,7 @@ f_make_diag_tag(tdfint num)
 {
 	int index = natint(num);
 	if (index >= unit_no_of_diagtags) {
-		error(ERROR_INTERNAL, "make_dg_tag out of range");
+		error(ERR_INTERNAL, "make_dg_tag out of range");
 	}
 	return unit_ind_diagtags[index];
 }

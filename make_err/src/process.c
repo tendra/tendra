@@ -513,7 +513,7 @@ output_all(char *nm, int act)
 	} else {
 		f = fopen(nm, "w");
 		if (f == NULL) {
-			error(ERROR_SERIOUS, "Can't open output file, '%s'",
+			error(ERR_SERIOUS, "Can't open output file, '%s'",
 			      nm);
 			return;
 		}

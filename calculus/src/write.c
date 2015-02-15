@@ -167,12 +167,12 @@ write_file(char *nm)
 {
     /* Open file */
     if (!strcmp(nm, ".")) {
-	error(ERROR_SERIOUS, "Output file not specified");
+	error(ERR_SERIOUS, "Output file not specified");
 	return;
     }
     output_file = fopen(nm, "wb");
     if (output_file == NULL) {
-	error(ERROR_SERIOUS, "Can't open output file, '%s'", nm);
+	error(ERR_SERIOUS, "Can't open output file, '%s'", nm);
 	return;
     }
     init_bitmask();

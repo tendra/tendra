@@ -32,7 +32,7 @@ void
 out_dwarf_const4(exp x)
 {
 	if (name(x) != val_tag && name(x) != null_tag) {
-		error(ERROR_INTERNAL, "non const exp in out_dwarf_const4");
+		error(ERR_INTERNAL, "non const exp in out_dwarf_const4");
 		return;
 	}
 	dwarf4n(no(x));
@@ -43,7 +43,7 @@ void
 out_dwarf_const_by8(exp x)
 {
 	if (name(x) != val_tag) {
-		error(ERROR_INTERNAL, "non const exp in out_dwarf_const_by8");
+		error(ERR_INTERNAL, "non const exp in out_dwarf_const_by8");
 		return;
 	}
 	dwarf4n((no(x) / 8));
@@ -57,7 +57,7 @@ out_dwarf_member_loc_attr(exp e)
 
 	OUT_DWARF_ATTR(AT_location);
 	if (name(e) != val_tag) {
-		error(ERROR_INTERNAL, "out_mem_loc_attr");
+		error(ERR_INTERNAL, "out_mem_loc_attr");
 	}
 
 #ifdef LOCS_IN_BLKS
@@ -135,7 +135,7 @@ dwarf_reg_str(int x)
 		/* 8 eip 9 eflags 10 fpsw 11 fpcw
 		   12 fpip 13 fpdp 14 st0....*/
 	default:
-		error(ERROR_INTERNAL, "Illegal reg no in dwarf_reg_str");
+		error(ERR_INTERNAL, "Illegal reg no in dwarf_reg_str");
 		exit(EXIT_FAILURE);
 	}
 }
@@ -155,7 +155,7 @@ dwarf_reg_str(long x)
 		}
 		x >>= 1;
 	}
-	error(ERROR_INTERNAL, "Illegal register number in dwarf_reg_str");
+	error(ERR_INTERNAL, "Illegal register number in dwarf_reg_str");
 	return "???";
 }
 
@@ -240,13 +240,13 @@ out_dwarf_loc_attr(exp t, int proc_no)
 				}
 				break;
 			default:
-				error(ERROR_INTERNAL, "illegal ptno in out_loc_attr");
+				error(ERR_INTERNAL, "illegal ptno in out_loc_attr");
 				exit(EXIT_FAILURE);
 			}
 #else
 #if TRANS_SPARC
 			if (props(s) & defer_bit) {
-				error(ERROR_INTERNAL, "Deferred expression in out_loc_attr");
+				error(ERR_INTERNAL, "Deferred expression in out_loc_attr");
 				rval = 0;
 			} else if (props(s) & inreg_bits) {
 #ifndef LOCS_IN_BLKS
@@ -255,7 +255,7 @@ out_dwarf_loc_attr(exp t, int proc_no)
 				dwarf1(OP_REG);
 				dwarf4n(no(s));
 			} else if (props(s) & infreg_bits) {
-				error(ERROR_INTERNAL, "Floating register expression in out_loc_attr");
+				error(ERR_INTERNAL, "Floating register expression in out_loc_attr");
 				rval = 0;
 			} else {
 				baseoff b;

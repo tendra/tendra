@@ -93,7 +93,7 @@ INT64_mult(INT64 arg1, INT64 arg2, bool sgned)
   farg2 = f64_to_flt(arg2,sgned);
   fres= &flptnos[fresno];
   if(flt_mul(flptnos[farg1],flptnos[farg2],fres)==EXP2BIG){
-    error(ERROR_SERIOUS, "Overflow: 64 bit multiplication failed");
+    error(ERR_SERIOUS, "Overflow: 64 bit multiplication failed");
   }
   res = flt_to_f64(fresno,sgned,&ov);
   flpt_ret(fresno);
@@ -118,7 +118,7 @@ INT64_divide(INT64 arg1, INT64 arg2, bool sgned)
   fres = &flptnos[fresno];
   divexit = flt_div(flptnos[farg1],flptnos[farg2],fres);
   if((divexit == EXP2BIG)||(divexit == DIVBY0)){
-    error(ERROR_SERIOUS, "Overflow: 64 bit division failed");
+    error(ERR_SERIOUS, "Overflow: 64 bit division failed");
   }
   res = flt_to_f64(fresno,sgned,&ov);
   flpt_ret(fresno);
@@ -141,7 +141,7 @@ INT64_add(INT64 arg1, INT64 arg2, bool sgned)
   farg2 = f64_to_flt(arg2,sgned);
   fres  = &flptnos[fresno];
   if(flt_add(flptnos[farg1],flptnos[farg2],fres) == EXP2BIG){
-    error(ERROR_SERIOUS, "Overflow: 64 bit addition failed");
+    error(ERR_SERIOUS, "Overflow: 64 bit addition failed");
   }
   res = flt_to_f64(fresno,sgned,&ov);
   flpt_ret(fresno);
@@ -164,7 +164,7 @@ INT64_subtract(INT64 arg1, INT64 arg2, bool sgned)
   farg2 = f64_to_flt(arg2,sgned); 
   fres = &flptnos[fresno];
   if(flt_sub(flptnos[farg1],flptnos[farg2],fres) == EXP2BIG){
-    error(ERROR_SERIOUS, "Overflow: 64 bit subtraction failed");
+    error(ERR_SERIOUS, "Overflow: 64 bit subtraction failed");
   }
   res = flt_to_f64(fresno,sgned,&ov);
   flpt_ret(fresno);

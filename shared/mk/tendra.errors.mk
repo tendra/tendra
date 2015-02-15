@@ -28,8 +28,8 @@ ${ERROR_DEFN}: ${ERRORS}
 	${CAT} ${.ALLSRC} | ${MAKE_ERR} -d > ${.TARGET} \
 		|| ( ${RMFILE} ${.TARGET}; ${EXIT} 1 )
 
-${ERROR_USAGE}: ${ERRORS}
-	@${ECHO} "==> Translating ${WRKDIR}/${ERROR_USAGE}"
+${ERR_USAGE}: ${ERRORS}
+	@${ECHO} "==> Translating ${WRKDIR}/${ERR_USAGE}"
 	${CAT} ${.ALLSRC} | ${MAKE_ERR} -u > ${.TARGET} \
 		|| ( ${RMFILE} ${.TARGET}; ${EXIT} 1 )
 
@@ -39,11 +39,11 @@ ${ERROR_USAGE}: ${ERRORS}
 # User-facing targets
 #
 
-regen:: ${ERROR_DECL} ${ERROR_DEFN} ${ERROR_USAGE}
+regen:: ${ERROR_DECL} ${ERROR_DEFN} ${ERR_USAGE}
 
 
 regen-clean::
-	${RMFILE} ${ERROR_DECL} ${ERROR_DEFN} ${ERROR_USAGE}
+	${RMFILE} ${ERROR_DECL} ${ERROR_DEFN} ${ERR_USAGE}
 
 
 install::

@@ -174,7 +174,7 @@ bool unsafe
     return 0;
   }
   return 1;
-*/ error(ERROR_INTERNAL, "unsafe");
+*/ error(ERR_INTERNAL, "unsafe");
    return 1;
 }
 
@@ -978,7 +978,7 @@ tailrecurse:
 	  /* must make choice of register to contain answer to cond */
 	  int  *sr = someregalt(dest.answhere);
 	  if (*sr != -1) {
-	    error(ERROR_INTERNAL, "Somereg *2");
+	    error(ERR_INTERNAL, "Somereg *2");
 	  }
 	  *sr = getreg(sp.fixed);
 	  setregalt(dest.answhere, *sr);
@@ -988,7 +988,7 @@ tailrecurse:
 	       somefreg sfr;
 	       freg fr;
    	       sfr = somefregalt(dest.answhere);
-	       if (*sfr.fr != -1) { error(ERROR_INTERNAL, "Somefreg *2"); }
+	       if (*sfr.fr != -1) { error(ERR_INTERNAL, "Somefreg *2"); }
 	       *sfr.fr = getfreg(sp.flt);
 	       fr.fr = *sfr.fr;
 	       fr.dble = sfr.dble;
@@ -1501,7 +1501,7 @@ tailrecurse:
           case insomereg: {
             int * sr = someregalt(dest.answhere);
             if (*sr != -1) {
-              error(ERROR_INTERNAL, "Somereg *2");
+              error(ERR_INTERNAL, "Somereg *2");
             }
             *sr = getreg(sp.fixed);
             setregalt(dest.answhere, *sr);
@@ -1531,7 +1531,7 @@ tailrecurse:
 	       somefreg sfr;
 	       freg fr;
    	       sfr = somefregalt(dest.answhere);
-	       if (*sfr.fr != -1) { error(ERROR_INTERNAL, "Somefreg *2"); }
+	       if (*sfr.fr != -1) { error(ERR_INTERNAL, "Somefreg *2"); }
 	       *sfr.fr = getfreg(sp.flt);
 	       fr.fr = *sfr.fr;
 	       fr.dble = sfr.dble;
@@ -1540,7 +1540,7 @@ tailrecurse:
 	  case infreg:{
 	    code_here(bro(t), sp, dest);
 	    if (!last(bro(t)) || name(t)!=val_tag || no(t)!=0) {
-	       error(ERROR_INTERNAL, "No Tuples in freg");
+	       error(ERR_INTERNAL, "No Tuples in freg");
 	    }
 	    return mka;
 	  }
@@ -1587,7 +1587,7 @@ tailrecurse:
           case insomereg: {
             int * sr = someregalt(dest.answhere);
             if (*sr != -1) {
-              error(ERROR_INTERNAL, "Somereg *2");
+              error(ERR_INTERNAL, "Somereg *2");
             }
             *sr = getreg(sp.fixed);
             setregalt(dest.answhere, *sr);
@@ -1607,7 +1607,7 @@ tailrecurse:
             }
             return mka;
           }
-	  default: error(ERROR_INTERNAL, "No Tuples in freg");
+	  default: error(ERR_INTERNAL, "No Tuples in freg");
         }
 
       }
@@ -1646,7 +1646,7 @@ tailrecurse:
           case insomereg: {
             int * sr = someregalt(dest.answhere);
             if (*sr != -1) {
-              error(ERROR_INTERNAL, "Somereg *2");
+              error(ERR_INTERNAL, "Somereg *2");
             }
             *sr = getreg(sp.fixed);
             setregalt(dest.answhere, *sr);
@@ -1665,7 +1665,7 @@ tailrecurse:
             }
             return mka;
           }
-	  default: error(ERROR_INTERNAL, "No Tuples in freg");
+	  default: error(ERR_INTERNAL, "No Tuples in freg");
         }
 
       }
@@ -2330,7 +2330,7 @@ tailrecurse:
 
 	    int  *sr = someregalt (dest.answhere);
 	    if (*sr != -1) {
-	      error(ERROR_INTERNAL, "Somereg *2");
+	      error(ERR_INTERNAL, "Somereg *2");
 	    }
 	    *sr = getreg (sp.fixed);
 	    setregalt (dest.answhere, *sr);
@@ -2340,7 +2340,7 @@ tailrecurse:
 	       somefreg sfr;
 	       freg fr;
    	       sfr = somefregalt(dest.answhere);
-	       if (*sfr.fr != -1) { error(ERROR_INTERNAL, "Somefreg *2"); }
+	       if (*sfr.fr != -1) { error(ERR_INTERNAL, "Somefreg *2"); }
 	       *sfr.fr = getfreg(sp.flt);
 	       fr.fr = *sfr.fr;
 	       fr.dble = sfr.dble;
@@ -2376,7 +2376,7 @@ tailrecurse:
 	  /* choose register for result */
 	  int  *sr = someregalt(dest.answhere);
 	  if (*sr != -1) {
-	    error(ERROR_INTERNAL, "Somereg *2");
+	    error(ERR_INTERNAL, "Somereg *2");
 	  }
 	  *sr = getreg(sp.fixed);
 	  setregalt(dest.answhere, *sr);
@@ -2386,7 +2386,7 @@ tailrecurse:
 	       somefreg sfr;
 	       freg fr;
    	       sfr = somefregalt(dest.answhere);
-	       if (*sfr.fr != -1) { error(ERROR_INTERNAL, "Somefreg *2"); }
+	       if (*sfr.fr != -1) { error(ERR_INTERNAL, "Somefreg *2"); }
 	       *sfr.fr = getfreg(sp.flt);
 	       fr.fr = *sfr.fr;
 	       fr.dble = sfr.dble;
@@ -2731,7 +2731,7 @@ tailrecurse:
                 testusigned(r0, 0xffff, trap);
                 break;
              }
-             default: error(ERROR_INTERNAL, "NOT integer in plus with o/f");
+             default: error(ERR_INTERNAL, "NOT integer in plus with o/f");
           }
           setregalt(aa, r0);
           mka.regmove = move(aa, dest, nsp, 0);
@@ -2902,7 +2902,7 @@ tailrecurse:
                 testusigned(r0, 0xffff, trap);
                 break;
              }
-             default: error(ERROR_INTERNAL, "NOT integer in minus with o/f");
+             default: error(ERR_INTERNAL, "NOT integer in minus with o/f");
           }
           setregalt(aa, r0);
           mka.regmove = move(aa, dest, nsp, 0);
@@ -2964,7 +2964,7 @@ tailrecurse:
                 testusigned(r0, 0xffff, trap);
                 break;
              }
-             default: error(ERROR_INTERNAL, "NOT integer in mult with o/f");
+             default: error(ERR_INTERNAL, "NOT integer in mult with o/f");
           }
           setregalt(aa, r0);
           mka.regmove = move(aa, dest, nsp, 0);
@@ -4374,7 +4374,7 @@ tailrecurse:
 
 
     default:
-      error(ERROR_INTERNAL, "not done yet");
+      error(ERR_INTERNAL, "not done yet");
   }				/* end outer switch */
 
 

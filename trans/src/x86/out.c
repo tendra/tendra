@@ -68,7 +68,7 @@ out_tell_pos(void)
 	long p;
 
 	if ((p = ftell(as_file)) == -1L) {
-		error(ERROR_INTERNAL, "out_tell_pos: ftell error");
+		error(ERR_INTERNAL, "out_tell_pos: ftell error");
 		exit(EXIT_FAILURE);
 	}
 
@@ -82,7 +82,7 @@ void
 out_set_pos(long pos)
 {
 	if (fseek(as_file, pos, SEEK_SET) == -1) {
-		error(ERROR_INTERNAL, "out_set_pos: fseek error");
+		error(ERR_INTERNAL, "out_set_pos: fseek error");
 		exit(EXIT_FAILURE);
 	}
 }

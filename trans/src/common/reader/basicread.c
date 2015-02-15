@@ -77,7 +77,7 @@ read_line(int complain)
   size_t test = fread((char *)buff, sizeof(char), cppkt, fpin);
 
   if (test == (size_t)0 && complain) {
-    error(ERROR_INTERNAL, READ_PAST_END);
+    error(ERR_INTERNAL, READ_PAST_END);
     exit(EXIT_FAILURE);
   }
   pkt_index++;
@@ -427,7 +427,7 @@ d_tdfstring(void)
     tdb.size = 64;
     return tdb;
   }
-  error(ERROR_INTERNAL, NO_BIG_STRINGS);
+  error(ERR_INTERNAL, NO_BIG_STRINGS);
   return tdb;
 }
 
@@ -528,19 +528,19 @@ check_magic_no(void)
 
 	if (getcode(8) != 'T' || getcode(8) != 'D' || getcode(8) != 'F' ||
 	    getcode(8) != 'C') {
-		error(ERROR_FATAL, "This is not a TDF Version >= 4 capsule");
+		error(ERR_FATAL, "This is not a TDF Version >= 4 capsule");
 	}
 	maj = d_tdfint();
 	if (natint(maj) > MAJOR_VERSION) {
-		error(ERROR_FATAL, "TDF version of capsule is later than version dealt with by translator - update the translator");
+		error(ERR_FATAL, "TDF version of capsule is later than version dealt with by translator - update the translator");
 	}
 	else
 	if (natint(maj) < MAJOR_VERSION) {
-		error(ERROR_FATAL, "TDF version dealt with by translator is later than version of capsule - recompile capsule with later compiler");
+		error(ERR_FATAL, "TDF version dealt with by translator is later than version of capsule - recompile capsule with later compiler");
 	}
 	min = d_tdfint();
 	if (natint(min) > MINOR_VERSION) {
-	    error(ERROR_WARNING, "capsule may contain constructions not dealt with in this minor version of the translator");
+	    error(ERR_WARN, "capsule may contain constructions not dealt with in this minor version of the translator");
 	}
 	to_boundary();
 }

@@ -69,7 +69,7 @@ handler(int sig)
 	default :     s = "unknown signal";         break;
     }
 
-    error(ERROR_SERIOUS, "Caught %s", s);
+    error(ERR_SERIOUS, "Caught %s", s);
     for (e = sort_hash(files); e != NULL; e = e->next) {
 		object *p = e->obj;
 		FILE *f = p->u.u_file;
@@ -111,7 +111,7 @@ separate(object *p)
 	}
 
 	if (system(buffer)) {
-		error(ERROR_SERIOUS, "Separate compilation of %s failed", p->name);
+		error(ERR_SERIOUS, "Separate compilation of %s failed", p->name);
 	}
 }
 
@@ -224,7 +224,7 @@ main(int argc, char **argv)
 						break;
 
 					default:
-						error(ERROR_WARNING, "Unknown option, -%c", *s);
+						error(ERR_WARN, "Unknown option, -%c", *s);
 						break;
 					}
 				}
@@ -237,38 +237,38 @@ main(int argc, char **argv)
 			} else if (subset == NULL) {
 			subset = arg;
 			} else {
-			error(ERROR_WARNING, "Too many arguments");
+			error(ERR_WARN, "Too many arguments");
 			}
 		}
 	}
 
 	if (show_index && output_env) {
-		error(ERROR_FATAL, "Can't output both an index and an environment");
+		error(ERR_FATAL, "Can't output both an index and an environment");
 	}
 
 	if (local_input) {
-		if (subset)error(ERROR_WARNING, "Too many arguments");
+		if (subset)error(ERR_WARN, "Too many arguments");
 		subset = file;
 		file = api;
 		api = LOCAL_API;
 	}
 
 	if (api == NULL) {
-		error(ERROR_FATAL, "Not enough arguments");
+		error(ERR_FATAL, "Not enough arguments");
 	}
 	input_dir = string_printf("%s:%s", dir, input_dir);
 
 	if (preproc_input) {
 		/* Open preprocessed input */
 		if (file != NULL) {
-			error(ERROR_WARNING, "Too many arguments");
+			error(ERR_WARN, "Too many arguments");
 		}
 
 		preproc_file = fopen(api, "r");
 		set_filename(api);
 		crt_line_no = 1;
 		if (preproc_file == NULL) {
-			error(ERROR_FATAL, "Can't open input file");
+			error(ERR_FATAL, "Can't open input file");
 		}
 	} else {
 		int n;
@@ -277,7 +277,7 @@ main(int argc, char **argv)
 		if (preproc_file == NULL) {
 			preproc_file = tmpfile();
 			if (preproc_file == NULL) {
-				error(ERROR_FATAL, "Can't open temporary file");
+				error(ERR_FATAL, "Can't open temporary file");
 			}
 		}
 
@@ -286,7 +286,7 @@ main(int argc, char **argv)
 		n = number_errors;
 		if (n) {
 			set_filename(NULL);
-			error(ERROR_FATAL, "%d error(s) in preprocessor phase", n);
+			error(ERR_FATAL, "%d error(s) in preprocessor phase", n);
 		}
 
 		if (preproc_file == stdout) {
@@ -322,7 +322,7 @@ main(int argc, char **argv)
 
 		n = number_errors;
 		if (n) {
-			error(ERROR_FATAL, "%d error(s) in separate compilation", n);
+			error(ERR_FATAL, "%d error(s) in separate compilation", n);
 		}
 
 		exit(exit_status);
@@ -336,7 +336,7 @@ main(int argc, char **argv)
 	read_spec(&commands);
 	if (number_errors) {
 		set_filename(NULL);
-		error(ERROR_FATAL, "%d error(s) in analyser phase", number_errors);
+		error(ERR_FATAL, "%d error(s) in analyser phase", number_errors);
 	}
 
 	if (check_only) {

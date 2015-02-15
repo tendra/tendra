@@ -135,7 +135,7 @@ outfloat ( flpt f, bool ro ){
   }
   asm_printf ( "%s", fltrepr ) ;
 #else
-  error(ERROR_SERIOUS,  "Illegal floating point constant" ) ;
+  error(ERR_SERIOUS,  "Illegal floating point constant" ) ;
 #endif
 }
 #endif
@@ -197,7 +197,7 @@ evalexp ( exp e ){
       a = ashof ( sh ( e ) ) ;
       if ( a.ashalign != 1 && !( name ( sh ( e ) ) == cpdhd &&
 				 a.ashalign == 32 ) ) {
-	error(ERROR_SERIOUS,  "Illegal bitfield constant" ) ;
+	error(ERR_SERIOUS,  "Illegal bitfield constant" ) ;
       }
 				 if ( a.ashsize != 32 ) {
 				   w &= ( ( 1 << a.ashsize ) - 1 ) ;
@@ -271,7 +271,7 @@ evalexp ( exp e ){
       return 0;
     }
   }
-  error(ERROR_SERIOUS,  "Illegal integer constant" ) ;
+  error(ERR_SERIOUS,  "Illegal integer constant" ) ;
   return 0;
 }
 
@@ -677,7 +677,7 @@ evalone ( exp e, int bitposn, bool ro ){
 	}
 	/* and is no greater that struct's alignment */
 	if ( noff < last_offset ) {
-	  error(ERROR_SERIOUS,  "Compound components badly ordered" ) ;
+	  error(ERR_SERIOUS,  "Compound components badly ordered" ) ;
 	}
 	if ( last_align <= 1 || ta <= 1 || gap >= ta ) {
 	  /* get gap down */
@@ -815,7 +815,7 @@ evalone ( exp e, int bitposn, bool ro ){
 	evalone ( son ( e ), bitposn, ro ) ;
       } 
       else {
-	error(ERROR_SERIOUS,  "Illegal chvar constant" ) ;
+	error(ERR_SERIOUS,  "Illegal chvar constant" ) ;
       }
       return ;
     }
@@ -841,7 +841,7 @@ evalone ( exp e, int bitposn, bool ro ){
     }
 
     default : {
-      error(ERROR_SERIOUS,  "Illegal constant" ) ;
+      error(ERR_SERIOUS,  "Illegal constant" ) ;
       return ;
     }
   }

@@ -479,11 +479,11 @@ case_item(exp i)
   }
 
   if (t != l && docmp_f((int)f_less_than_or_equal, i, thigh)) {
-    error(ERROR_INTERNAL, CASE_OVERLAP);
+    error(ERR_INTERNAL, CASE_OVERLAP);
   }
   if (bro(t) != NULL &&
       docmp_f((int)f_greater_than_or_equal, newhigh, nlow)) {
-    error(ERROR_INTERNAL, CASE_OVERLAP);
+    error(ERR_INTERNAL, CASE_OVERLAP);
   }
 
   if (isbigval(i) || isbigval(newhigh)) {

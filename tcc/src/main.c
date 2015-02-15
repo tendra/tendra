@@ -184,7 +184,7 @@ main(int argc, char **argv)
 			main_end();
 			return exit_status;
 		} else {
-			error(ERROR_FATAL, "No input files specified");
+			error(ERR_FATAL, "No input files specified");
 		}
 	}
 
@@ -198,7 +198,7 @@ main(int argc, char **argv)
 	/* Check for unprocessed files */
 	while (output != NULL) {
 		if (output->storage == INPUT_FILE) {
-			error(ERROR_WARNING, "Input file '%s' not processed", output->name);
+			error(ERR_WARN, "Input file '%s' not processed", output->name);
 		}
 		output = output->next;
 	}

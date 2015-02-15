@@ -127,7 +127,7 @@ baseoff boff
   else
   {
     asm_comment("baseoff: n=%x, b=%d, n>>4=%d", n, b, n >> 4);
-    error(ERROR_SERIOUS, "not a baseoff in boff");
+    error(ERR_SERIOUS, "not a baseoff in boff");
   }
   asm_comment("baseoff: base=%d off=%ld", an.base, an.offset);
   return an;
@@ -202,7 +202,7 @@ where locate1
 	      break;
 	    }
 	  default:
-	    error(ERROR_SERIOUS, "name not deferable");
+	    error(ERR_SERIOUS, "name not deferable");
 	  }
 
 	  setinsalt(aa, is);
@@ -368,7 +368,7 @@ where locate1
 
       default:
 	{
-	  error(ERROR_SERIOUS, "locate ? reg");
+	  error(ERR_SERIOUS, "locate ? reg");
 	}
       }				/* end case */
 
@@ -500,7 +500,7 @@ where locate1
 	  isa = bitadalt(wans.answhere);
 	  if (!isa.adval)
 	  {
-	    error(ERROR_SERIOUS, "no var bit selection");
+	    error(ERR_SERIOUS, "no var bit selection");
 	  }
 	  /* wans is a literal bit address */
 	  isa.b.offset += no(e);
@@ -529,7 +529,7 @@ where locate1
 	}
       default:
 	{
-	  error(ERROR_SERIOUS, "locate ? reg ");
+	  error(ERR_SERIOUS, "locate ? reg ");
 	}
       }
       wans.ashwhere = a;
@@ -629,7 +629,7 @@ where locate1
 	  isa = bitadalt(ason);
 	  if (!isa.adval)
 	  {
-	    error(ERROR_SERIOUS, "no ptr bits");
+	    error(ERR_SERIOUS, "no ptr bits");
 	  }
 	  /* fc is a literal address of bits, so make it direct */
 	  isa.adval = 0;
@@ -639,7 +639,7 @@ where locate1
 #endif
       default:
 	{
-	  error(ERROR_SERIOUS, "locate ? reg");
+	  error(ERR_SERIOUS, "locate ? reg");
 	}
       }
   breakson:
@@ -696,7 +696,7 @@ where locate1
 	}
 #endif
       default:
-	error(ERROR_SERIOUS, "field should be transformed");
+	error(ERR_SERIOUS, "field should be transformed");
       }
       wans.ashwhere = a;
       return wans;

@@ -205,7 +205,7 @@ ZRprimary_Hexp(number *ZOn)
 	p = TAIL_list ( p ) ;
     }
     if ( IS_NULL_list ( p ) ) {
-	error ( ERROR_SERIOUS, "Unknown enumerator '%s'", (ZIe) ) ;
+	error ( ERR_SERIOUS, "Unknown enumerator '%s'", (ZIe) ) ;
     }
     (ZIn) = n ;
 #line 218 "syntax.c"
@@ -596,7 +596,7 @@ ZL1:;
 		{
 #line 230 "syntax.act"
 
-    error ( ERROR_SERIOUS, "Syntax error" ) ;
+    error ( ERR_SERIOUS, "Syntax error" ) ;
 #line 607 "syntax.c"
 		}
 		/* END OF ACTION: syntax-error */
@@ -1460,7 +1460,7 @@ ZRnew_Hunit(void)
 
     string nm = (ZIm) ;
     if ( find_algebra ( nm ) ) {
-	error ( ERROR_SERIOUS, "Algebra %s already defined", nm ) ;
+	error ( ERR_SERIOUS, "Algebra %s already defined", nm ) ;
     }
     algebra->name = nm ;
 #line 1473 "syntax.c"
@@ -1652,7 +1652,7 @@ ZL1:;
 		{
 #line 230 "syntax.act"
 
-    error ( ERROR_SERIOUS, "Syntax error" ) ;
+    error ( ERR_SERIOUS, "Syntax error" ) ;
 #line 1663 "syntax.c"
 		}
 		/* END OF ACTION: syntax-error */
@@ -1800,7 +1800,7 @@ ZL1:;
 		{
 #line 358 "syntax.act"
 
-    error ( ERROR_SERIOUS, "Type expected" ) ;
+    error ( ERR_SERIOUS, "Type expected" ) ;
     (ZIt) = find_type ( algebra, "ERROR!" ) ;
 #line 1812 "syntax.c"
 		}
@@ -1896,7 +1896,7 @@ ZRstructure_Hdefn(CLASS_ID_P ZIi, string ZIj, STRUCTURE_P *ZOp)
 	    (ZIc) = ADD_list ( DEREF_list ( str_defn ( str ) ), (ZIc),
 			    SIZE_ptr ( COMPONENT ) ) ;
 	} else {
-	    error ( ERROR_SERIOUS, "Can't inherit from %s", nm ) ;
+	    error ( ERR_SERIOUS, "Can't inherit from %s", nm ) ;
 	}
     }
     (ZIp) = MAKE_ptr ( SIZE_str ) ;
@@ -2034,7 +2034,7 @@ ZL1:;
 		{
 #line 358 "syntax.act"
 
-    error ( ERROR_SERIOUS, "Type expected" ) ;
+    error ( ERR_SERIOUS, "Type expected" ) ;
     (ZIt) = find_type ( algebra, "ERROR!" ) ;
 #line 2046 "syntax.c"
 		}
@@ -2468,7 +2468,7 @@ ZRenum_Hsingle(ENUM_P_LIST *ZOp)
 	enum_value = DEREF_number ( en_order ( en ) ) ;
 	enum_max = enum_value ;
     } else {
-	error ( ERROR_SERIOUS, "Can't inherit from %s", nm ) ;
+	error ( ERR_SERIOUS, "Can't inherit from %s", nm ) ;
 	(ZIf) = NULL_list ( ECONST_P ) ;
     }
 #line 2481 "syntax.c"
@@ -3101,7 +3101,7 @@ ZRunion_Hdefn_Hnew(CLASS_ID_P ZIi, UNION_P *ZOp)
 	    tag = DEREF_int ( un_no_fields ( un ) ) ;
 	    no_fields += tag ;
 	} else {
-	    error ( ERROR_SERIOUS, "Can't inherit from %s", nm ) ;
+	    error ( ERR_SERIOUS, "Can't inherit from %s", nm ) ;
 	}
     }
 
@@ -3127,7 +3127,7 @@ ZRunion_Hdefn_Hnew(CLASS_ID_P ZIi, UNION_P *ZOp)
 		}
 		pp = TAIL_list ( pp ) ;
 	    }
-	    if ( !ok ) error ( ERROR_SERIOUS, "Can't find field %s", n ) ;
+	    if ( !ok ) error ( ERR_SERIOUS, "Can't find field %s", n ) ;
 	}
 	COPY_int ( fld_tag ( q ), tag++ ) ;
 	p = TAIL_list ( p ) ;
@@ -3176,7 +3176,7 @@ ZL2_244:;
 #line 403 "syntax.act"
 
     if ( (ZIp) == 0 ) {
-	error ( ERROR_SERIOUS, "Division by zero" ) ;
+	error ( ERR_SERIOUS, "Division by zero" ) ;
 	(ZIn) = 0 ;
     } else {
 	(ZIn) = (ZI242) / (ZIp) ;
@@ -3206,7 +3206,7 @@ ZL2_244:;
 #line 412 "syntax.act"
 
     if ( (ZIp) == 0 ) {
-	error ( ERROR_SERIOUS, "Division by zero" ) ;
+	error ( ERR_SERIOUS, "Division by zero" ) ;
 	(ZIn) = 0 ;
     } else {
 	(ZIn) = (ZI242) % (ZIp) ;

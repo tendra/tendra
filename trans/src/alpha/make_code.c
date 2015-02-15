@@ -335,7 +335,7 @@ bool calculate_shift_for_division
     shift++;
   }
   if (INT64_eq(val,make_INT64(0,1))) {
-    error(ERROR_INTERNAL, "Unexpected power of 2 in shift calculation");
+    error(ERR_INTERNAL, "Unexpected power of 2 in shift calculation");
     exit(EXIT_FAILURE);
   }
   while ((INT64_lt(make_INT64(0,power),val) &&
@@ -562,7 +562,7 @@ static void check_exception
   long trap;
   int r1,r2;
   if (!pt(e)) {
-    error(ERROR_INTERNAL, "Error handler not present");
+    error(ERR_INTERNAL, "Error handler not present");
   }
   trap = trap_label(e);  	/* label of handler */
   r1 = getfreg(sp.flt);
@@ -615,7 +615,7 @@ static instruction sbranches
     case 5: return i_bne;
     case 6: return i_beq;
     default:
-    error(ERROR_INTERNAL, "Illegal value for ntest");
+    error(ERR_INTERNAL, "Illegal value for ntest");
   }
   return i_ble;
 }
@@ -641,7 +641,7 @@ static bool fdouble_comparisons
     case 6: *ins = i_cmpteq;             break;
 
     default:
-      error(ERROR_INTERNAL, "illegal branch");
+      error(ERR_INTERNAL, "illegal branch");
       break;
   }
   return rev;
@@ -670,7 +670,7 @@ static bool comparisons
       case 6: *ins = i_cmpeq;             break;
 
       default:
-        error(ERROR_INTERNAL, "illegal branch");
+        error(ERR_INTERNAL, "illegal branch");
         break;
     }
   }
@@ -684,7 +684,7 @@ static bool comparisons
       case 6: *ins = i_cmpeq;              break;
 
       default:
-        error(ERROR_INTERNAL, "illegal branch");
+        error(ERR_INTERNAL, "illegal branch");
     }
   }
   return rev;
@@ -705,7 +705,7 @@ static instruction condmove
     case 6: return i_cmoveq;
 
     default:
-      error(ERROR_INTERNAL, "Illegal value for ntest");
+      error(ERR_INTERNAL, "Illegal value for ntest");
   }
   return i_cmovle;
 }
@@ -723,7 +723,7 @@ fcondmove(int i)
    case 6: return i_fcmoveq;
 
    default:
-     error(ERROR_INTERNAL, "Illegal value for ntest");
+     error(ERR_INTERNAL, "Illegal value for ntest");
  }
 }
 */
@@ -769,7 +769,7 @@ fbranches(int i)
     case 6: return i_fbeq;
 
     default:
-      error(ERROR_INTERNAL, "Illegal value for ntest");
+      error(ERR_INTERNAL, "Illegal value for ntest");
   }
 }
 
@@ -785,7 +785,7 @@ fdbranches(int i)
    case 6: return i_fbeq;
 
    default:
-    error(ERROR_INTERNAL, "Illegal value for ntest");
+    error(ERR_INTERNAL, "Illegal value for ntest");
   }
 }
 */
@@ -1273,7 +1273,7 @@ static int divide_using_div
 	}
 	break;
       }
-      default:error(ERROR_INTERNAL, "Illegal shape in div");
+      default:error(ERR_INTERNAL, "Illegal shape in div");
     }
   }
   return r_result;
@@ -1450,7 +1450,7 @@ tailrecurse:
 	/* We should never be identifing a pointer to bits */
 	if (al1(sh(son(e))) == 1) {
 #if 0
-	  error(ERROR_INTERNAL, "Identify REF BITS");
+	  error(ERR_INTERNAL, "Identify REF BITS");
 #endif
 	}
       }
@@ -1782,7 +1782,7 @@ tailrecurse:
 	/* must make choice of register to contain answer to cond */
 	int  *sr = someregalt(dest.answhere);
 	if (*sr != -1) {
-	  error(ERROR_INTERNAL, "Somereg *2");
+	  error(ERR_INTERNAL, "Somereg *2");
 	}
 	*sr = getreg(sp.fixed);
 	setregalt(dest.answhere, *sr);
@@ -1791,7 +1791,7 @@ tailrecurse:
 	somefreg sfr;
 	freg fr;
 	sfr = somefregalt(dest.answhere);
-	if (*sfr.fr != -1) { error(ERROR_INTERNAL, "Somefreg *2"); }
+	if (*sfr.fr != -1) { error(ERR_INTERNAL, "Somefreg *2"); }
 	*sfr.fr = getfreg(sp.flt);
 	fr.fr = *sfr.fr;
 	fr.type = sfr.type;
@@ -2345,7 +2345,7 @@ tailrecurse:
 	  }
 #endif
 	  default:
-	  error(ERROR_INTERNAL, "Wrong assbits");
+	  error(ERR_INTERNAL, "Wrong assbits");
 	}
 /*	  setbitadalt (assdest.answhere, is);*/
       }
@@ -2482,7 +2482,7 @@ tailrecurse:
 	case insomereg: {
 	  int * sr = someregalt(dest.answhere);
 	  if (*sr != -1) {
-	    error(ERROR_INTERNAL, "Somereg *2");
+	    error(ERR_INTERNAL, "Somereg *2");
 	  }
 	  *sr = getreg(sp.fixed);
 	  setregalt(dest.answhere, *sr);
@@ -2510,7 +2510,7 @@ tailrecurse:
 	  }
 	  return mka;
 	}
-	default: error(ERROR_INTERNAL, "No Tuples in freg");
+	default: error(ERR_INTERNAL, "No Tuples in freg");
       }
       break;
     }				/* end tup */
@@ -2553,7 +2553,7 @@ tailrecurse:
 	case insomereg: {
 	  int * sr = someregalt(dest.answhere);
 	  if (*sr != -1) {
-	    error(ERROR_INTERNAL, "Somereg *2");
+	    error(ERR_INTERNAL, "Somereg *2");
 	  }
 	  *sr = getreg(sp.fixed);
 	  setregalt(dest.answhere, *sr);
@@ -2575,7 +2575,7 @@ tailrecurse:
 	  }
 	  return mka;
 	}
-	default: error(ERROR_INTERNAL, "No Tuples in freg");
+	default: error(ERR_INTERNAL, "No Tuples in freg");
       }
       break;
     }
@@ -2612,7 +2612,7 @@ tailrecurse:
 	case insomereg: {
 	  int * sr = someregalt(dest.answhere);
 	  if (*sr != -1) {
-	    error(ERROR_INTERNAL, "Somereg *2");
+	    error(ERR_INTERNAL, "Somereg *2");
 	  }
 	  *sr = getreg(sp.fixed);
 	  setregalt(dest.answhere, *sr);
@@ -2631,7 +2631,7 @@ tailrecurse:
 	  }
 	  return mka;
 	}
-	default: error(ERROR_INTERNAL, "No Tuples in freg");
+	default: error(ERR_INTERNAL, "No Tuples in freg");
       }
       break;
     }
@@ -3438,7 +3438,7 @@ tailrecurse:
 	/* choose register for result */
 	int  *sr = someregalt(dest.answhere);
 	if (*sr != -1) {
-	  error(ERROR_INTERNAL, "Somereg *2");
+	  error(ERR_INTERNAL, "Somereg *2");
 	}
 	*sr = getreg(sp.fixed);
 	setregalt(dest.answhere, *sr);
@@ -3447,7 +3447,7 @@ tailrecurse:
 	somefreg sfr;
 	freg fr;
 	sfr = somefregalt(dest.answhere);
-	if (*sfr.fr != -1) { error(ERROR_INTERNAL, "Somefreg *2"); }
+	if (*sfr.fr != -1) { error(ERR_INTERNAL, "Somefreg *2"); }
 	*sfr.fr = getfreg(sp.flt);
 	fr.fr = *sfr.fr;
 	fr.type = sfr.type;
@@ -3636,7 +3636,7 @@ tailrecurse:
 	  int lab = no(son(pt(z))); /* can this be big */
 	  l = exp_to_INT64(z);
 	  if (isbigval(son(pt(z))))
-	    error(ERROR_SERIOUS, "64 bit labels not implemented");
+	    error(ERR_SERIOUS, "64 bit labels not implemented");
 	  if (son (z) == NULL) { /* only single test required */
 	    operate_fmt_big_immediate(i_cmpeq,r,l,rtmp);
 	    integer_branch(i_bne,rtmp,lab);
@@ -3783,7 +3783,7 @@ tailrecurse:
 	    }
 	    break;
 	  }
-	  default:error(ERROR_INTERNAL, "illegal shape");
+	  default:error(ERR_INTERNAL, "illegal shape");
 	}
 	setregalt(aa,r0);
 	mka.regmove = move(aa,dest,nsp,0);
@@ -4069,7 +4069,7 @@ tailrecurse:
 	  operate_fmt(i_bis,a,a,d);
 	  break;
 	}
-	default:error(ERROR_INTERNAL, "Illegal shape in chvar");
+	default:error(ERR_INTERNAL, "Illegal shape in chvar");
       }
 #if 0
       if (nsh == ucharhd) {
@@ -4186,7 +4186,7 @@ tailrecurse:
 	    }
 	    break;
 	  }
-	  default: error(ERROR_INTERNAL, "NOT integer in minus with o/f");
+	  default: error(ERR_INTERNAL, "NOT integer in minus with o/f");
 	}
 	setregalt(aa, r0);
 	mka.regmove = move(aa, dest, nsp, 0);
@@ -4399,7 +4399,7 @@ tailrecurse:
 	    }
 	    break;
 	  }
-	  default:error(ERROR_INTERNAL, "illegal shape");
+	  default:error(ERR_INTERNAL, "illegal shape");
 	}
 	set_label(mult_end_lab);
 	setregalt(aa,r0);
@@ -4643,7 +4643,7 @@ tailrecurse:
 	    break;
 	  }
 
-	  default:error(ERROR_INTERNAL, "Illegal shape in neg");
+	  default:error(ERR_INTERNAL, "Illegal shape in neg");
 	}
 
 
@@ -4835,7 +4835,7 @@ tailrecurse:
       int lab, treg;
       ans aa;
 
-      error(ERROR_INTERNAL, "mod_tag not implemented correctly");
+      error(ERR_INTERNAL, "mod_tag not implemented correctly");
       r1 = reg_operand(lop, sp);
       nsp = guardreg(r1, sp);
       r2 = reg_operand(rop, nsp);
@@ -4853,7 +4853,7 @@ tailrecurse:
 	set_label(over);
       }
       r0 = regfrmdest(&dest, nsp);
-      error(ERROR_INTERNAL, "mod tag not implemented correctly");
+      error(ERR_INTERNAL, "mod tag not implemented correctly");
       /*	operate_fmt(i_rem, r0, r1, r2);*/
       treg= getreg(guardreg(r0, nsp).fixed);
       lab = new_label();
@@ -5371,10 +5371,10 @@ tailrecurse:
 	  mka.regmove = move(aa,dest,sp,sgned);
 	  if (is_denorm) {
 	    if (fail_with_denormal_constant) {
-	      error(ERROR_INTERNAL, "Denormalised constant encountered");
+	      error(ERR_INTERNAL, "Denormalised constant encountered");
 	      exit(EXIT_FAILURE);
 	    }
-	    error(ERROR_WARNING, "Replaced IEEE denormal with 0.0");
+	    error(ERR_WARN, "Replaced IEEE denormal with 0.0");
 	    asm_comment("Replaced IEEE denormal with 0.0");
 	  }
 	  return mka;
@@ -5414,7 +5414,7 @@ tailrecurse:
 	fr.type= (dest.ashwhere.ashsize==32)?IEEE_single:IEEE_double;
 	break;
 	default:
-	  error(ERROR_INTERNAL, "dubious target for real_tag ");
+	  error(ERR_INTERNAL, "dubious target for real_tag ");
 	}
       ld_ins = (fr.type==IEEE_single)?i_ldis:i_ldit;
       if (use_fzero) {
@@ -6137,7 +6137,7 @@ null_tag_case : {
        int rev = 0;		/* set if test is reversed */
        ans aa;
        exp rhs = bro(son(cass));
-       error(ERROR_INTERNAL, "condassign_tag should not be encountered");
+       error(ERR_INTERNAL, "condassign_tag should not be encountered");
        assdest = locate(son(cass),sp,sh(rhs),NO_REG);
        if (((is_floating(name(sh(ltest)))) &&
 	  (!is_floating(name(sh(son(cass))))))
@@ -6265,7 +6265,7 @@ null_tag_case : {
      }
 #endif
     default:
-      error(ERROR_SERIOUS, "Tag %d not implemented", name(e));
+      error(ERR_SERIOUS, "Tag %d not implemented", name(e));
     }				/* end outer switch */
 
 moveconst:{

@@ -1306,7 +1306,7 @@ ntrans_add_translation(TypeNTransT *translator, EntryT *from)
 	NTransT *link = ALLOCATE(NTransT);
 
 	if (translator->count == UINT_MAX) {
-		error(ERROR_FATAL, "too many automatically generated names required");
+		error(ERR_FATAL, "too many automatically generated names required");
 		UNREACHED;
 	}
 

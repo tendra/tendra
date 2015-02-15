@@ -619,12 +619,12 @@ default_lab: {
 					     report(preproc_loc, err);
 				     }
 			     }
-			     p->set[n] = ERROR_SERIOUS;
+			     p->set[n] = ERR_SERIOUS;
 		     } else {
 			     /* Unscoped options */
 			     p->opt[n] = (OPTION)opt;
 			     action_option(n, opt, 0);
-			     p->set[n] = ERROR_SERIOUS;
+			     p->set[n] = ERR_SERIOUS;
 		     }
 		     break;
 	     }
@@ -896,7 +896,7 @@ new_option(HASHID nm, OPTIONS *q, int n)
 		for (i = 0; i < CATALOG_SIZE; i++) {
 			/* Use the nth entry from the catalogue */
 			*(po++) = cat->def[n];
-			*(ps++) = ERROR_SERIOUS;
+			*(ps++) = ERR_SERIOUS;
 			cat++;
 		}
 	}
@@ -1017,7 +1017,7 @@ use_mode(OPTIONS *p, int e)
 					report(preproc_loc, err);
 				}
 			}
-			q->set[i] = ERROR_SERIOUS;
+			q->set[i] = ERR_SERIOUS;
 		}
 	}
 	return;

@@ -274,7 +274,7 @@ lsfp_ins(char *ins, int reg, baseoff a)
 {
   clear_reg ((reg >> 1) + 32);
   if (a.base == 0) {
-    error(ERROR_INTERNAL, "ZERO BASE in fp op");/* can't have literal operand */
+    error(ERR_INTERNAL, "ZERO BASE in fp op");/* can't have literal operand */
     if (as_file)
       asm_printop("%s $f%d, %ld", ins + 1, reg, a.offset);
   }

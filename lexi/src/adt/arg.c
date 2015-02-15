@@ -83,7 +83,7 @@ arg_out(struct arg *p, bool is_ref, int d, FILE *file)
 {
 	switch (p->kind) {
 	case ARG_CHARP:
-		error(ERROR_SERIOUS, "#* is not implemented yet at output level");
+		error(ERR_SERIOUS, "#* is not implemented yet at output level");
 		break;
 
 	case ARG_CHAR_NUM:
@@ -113,7 +113,7 @@ arg_out(struct arg *p, bool is_ref, int d, FILE *file)
 		break;
 
 	case ARG_IGNORE:
-		error(ERROR_SERIOUS, "Ignore symbol ! is not implemented yet at output level");
+		error(ERR_SERIOUS, "Ignore symbol ! is not implemented yet at output level");
 		/* TODO: implement */
 		break;
 

@@ -96,7 +96,7 @@ getreg ( long fixed ){
       if ( (fixed & RMASK (R_O7)) == 0 ) {
 	return R_O7;
       }
-      error(ERROR_SERIOUS,  "Can't allocate temporary register" ) ;
+      error(ERR_SERIOUS,  "Can't allocate temporary register" ) ;
       return R_G1;
     }
   }
@@ -134,7 +134,7 @@ getfreg ( long fl ){
       return reg;
     }
     if ( choosefloat == start ) {
-      error(ERROR_SERIOUS,  "Can't allocate temporary floating register" ) ;
+      error(ERR_SERIOUS,  "Can't allocate temporary floating register" ) ;
       return 0;
     }
   }

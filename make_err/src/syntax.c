@@ -165,7 +165,7 @@ ZRparam_Hlist(LIST_PARAM *ZOp)
 
     NAME n = find_name ( all_types, (ZIa) ) ;
     if ( IS_NULL_name ( n ) ) {
-	error ( ERROR_SERIOUS, "Type '%s' not defined", (ZIa) ) ;
+	error ( ERR_SERIOUS, "Type '%s' not defined", (ZIa) ) ;
 	MAKE_name_basic ( (ZIa), 0, n ) ;
     }
     (ZIt) = n ;
@@ -238,7 +238,7 @@ ZRparam_Hlist(LIST_PARAM *ZOp)
     string id = DEREF_string ( param_name ( (ZIc) ) ) ;
     PARAM b = find_param ( (ZIq), id ) ;
     if ( !IS_NULL_param ( b ) ) {
-	error ( ERROR_SERIOUS, "Parameter '%s' defined twice", id ) ;
+	error ( ERR_SERIOUS, "Parameter '%s' defined twice", id ) ;
     }
     CONS_param ( (ZIc), (ZIq), (ZIp) ) ;
 #line 255 "syntax.c"
@@ -490,7 +490,7 @@ ZRname_Hseq(LIST_NAME *ZOp, LIST_NAME *ZOq, LIST_NAME *ZOr)
     string id = DEREF_string ( name_id ( (ZIn) ) ) ;
     NAME b = find_name ( (ZIp1), id ) ;
     if ( !IS_NULL_name ( b ) ) {
-	error ( ERROR_SERIOUS, "Name '%s' given twice in list", id ) ;
+	error ( ERR_SERIOUS, "Name '%s' given twice in list", id ) ;
     }
     CONS_name ( (ZIn), (ZIp1), (ZIp) ) ;
 #line 507 "syntax.c"
@@ -557,7 +557,7 @@ ZRprops_Hlist(LIST_PROPERTY *ZOp)
 
     NAME n = find_name ( all_props, (ZIa) ) ;
     if ( IS_NULL_name ( n ) ) {
-	error ( ERROR_SERIOUS, "Property '%s' not defined", (ZIa) ) ;
+	error ( ERR_SERIOUS, "Property '%s' not defined", (ZIa) ) ;
 	MAKE_name_basic ( (ZIa), 0, n ) ;
     }
     (ZIb) = n ;
@@ -660,7 +660,7 @@ ZRmap_Hlist(LIST_PARAM ZIs, LIST_MAP *ZOp)
 
     NAME n = find_name ( all_keys, (ZIa) ) ;
     if ( IS_NULL_name ( n ) ) {
-	error ( ERROR_SERIOUS, "Key '%s' not defined", (ZIa) ) ;
+	error ( ERR_SERIOUS, "Key '%s' not defined", (ZIa) ) ;
     }
     (ZIk) = n ;
 #line 677 "syntax.c"
@@ -876,7 +876,7 @@ ZRentry(ENTRY *ZOe)
 
     NAME n = find_name ( all_usages, (ZIc) ) ;
     if ( IS_NULL_name ( n ) ) {
-	error ( ERROR_SERIOUS, "Usage '%s' not defined", (ZIc) ) ;
+	error ( ERR_SERIOUS, "Usage '%s' not defined", (ZIc) ) ;
 	MAKE_name_basic ( (ZIc), 0, n ) ;
     }
     (ZIu) = n ;
@@ -912,7 +912,7 @@ ZRentry(ENTRY *ZOe)
 
     NAME n = find_name ( all_usages, (ZId) ) ;
     if ( IS_NULL_name ( n ) ) {
-	error ( ERROR_SERIOUS, "Usage '%s' not defined", (ZId) ) ;
+	error ( ERR_SERIOUS, "Usage '%s' not defined", (ZId) ) ;
 	MAKE_name_basic ( (ZId), 0, n ) ;
     }
     (ZIw) = n ;
@@ -1704,7 +1704,7 @@ ZL1:;
 		{
 #line 455 "syntax.act"
 
-    error ( ERROR_SERIOUS, "Syntax error" ) ;
+    error ( ERR_SERIOUS, "Syntax error" ) ;
 #line 1719 "syntax.c"
 		}
 		/* END OF ACTION: syntax_error */
@@ -1739,7 +1739,7 @@ ZRmessage_Hlist(LIST_PARAM ZIs, LIST_MESSAGE *ZOp)
 
     PARAM a = find_param ( (ZIs), (ZIa) ) ;
     if ( IS_NULL_param ( a ) ) {
-	error ( ERROR_SERIOUS, "Parameter '%s' not defined", (ZIa) ) ;
+	error ( ERR_SERIOUS, "Parameter '%s' not defined", (ZIa) ) ;
     }
     (ZIn) = a ;
 #line 1756 "syntax.c"

@@ -89,7 +89,7 @@ dwarf2_prelude(void)
 {
 	static int dw_started = 0;
 	if (dw_started) {
-		error(ERROR_INTERNAL, "DWARF output not compatible with separate units");
+		error(ERR_INTERNAL, "DWARF output not compatible with separate units");
 	}
 	dw_started = 1;
 

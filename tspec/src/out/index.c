@@ -558,14 +558,14 @@ print_item_m(object *p, char *u, char *a, type *e)
 		}
 
 		default :
-			error(ERROR_INTERNAL, "Unknown type identifier, '%d'", i);
+			error(ERR_INTERNAL, "Unknown type identifier, '%d'", i);
 			break;
 		}
 		break;
 	}
 
 	default :
-		error(ERROR_INTERNAL, "Unknown object type, '%d'", q->objtype);
+		error(ERR_INTERNAL, "Unknown object type, '%d'", q->objtype);
 		break;
 	}
 }
@@ -820,14 +820,14 @@ print_item_h(object *p, char *u, char *a, type *e)
 
 		default:
 			IGNORE printf(" is a type\n\n");
-			error(ERROR_INTERNAL, "Unknown type identifier, '%d'", i);
+			error(ERR_INTERNAL, "Unknown type identifier, '%d'", i);
 			break;
 		}
 		break;
 	}
 
 	default :
-		error(ERROR_INTERNAL, "Unknown object type, '%d'", q->objtype);
+		error(ERR_INTERNAL, "Unknown object type, '%d'", q->objtype);
 		break;
 	}
 }

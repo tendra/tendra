@@ -152,7 +152,7 @@
 
 	<append-code-ident>: (c :CODE &, i :IDENT, e :ENTRYP, b :BOOL) -> () = @{
 		if (@e == NULL) {
-			error(ERROR_SERIOUS, "The @@ code identifiers are not allowed in headers or trailers");
+			error(ERR_SERIOUS, "The @@ code identifiers are not allowed in headers or trailers");
 		} else {
 			struct param *p, *q;
 
@@ -164,11 +164,11 @@
 					if (p && p->is_ref) {
 						code_append_ref(@&c, @i);
 					} else {
-						error(ERROR_SERIOUS, "In code block the \'@@&\' can only be used for input parameters that are references");
+						error(ERR_SERIOUS, "In code block the \'@@&\' can only be used for input parameters that are references");
 					}
 				}
 			} else {
-				error(ERROR_SERIOUS, "Identifier @@%s is neither an input nor an output "
+				error(ERR_SERIOUS, "Identifier @@%s is neither an input nor an output "
 					"parameter of action %s", @i, @e->key);
 			}
 		}
@@ -194,7 +194,7 @@
 			lct_ast.hfileheader = @sh;
 			lct_ast.cfileheader = @sc;
 		} else {
-			error(ERROR_SERIOUS, "Headers may not be redefined");
+			error(ERR_SERIOUS, "Headers may not be redefined");
 			code_destroy(@sc);
 			code_destroy(@sh);
 		}
@@ -206,7 +206,7 @@
 			lct_ast.hfiletrailer = @sh;
 			lct_ast.cfiletrailer = @sc;
 		} else {
-			error(ERROR_SERIOUS, "Trailers may not be redefined");
+			error(ERR_SERIOUS, "Trailers may not be redefined");
 			code_destroy(@sc);
 			code_destroy(@sh);
 		}
@@ -219,9 +219,9 @@
 	<append-param>: (a :PARAM_LIST &, id :IDENT, type :IDENT, isref :BOOL) -> () =@{
 		struct entry *et = table_get_entry(&lxi_ast->table, @type);
 		if (et == NULL) {
-			error(ERROR_SERIOUS, "Unknown type %s", @type);
+			error(ERR_SERIOUS, "Unknown type %s", @type);
 		} else if (et->kind != ENTRY_TYPE) {
-			error(ERROR_SERIOUS, "%s is not a type", @type);
+			error(ERR_SERIOUS, "%s is not a type", @type);
 		} else {
 			param_append(@&a, @id, et, @isref);
 		}
@@ -230,10 +230,10 @@
 	<get-entry-action>: (i :IDENT) -> (ea :ENTRYP) = @{
 		@ea = table_get_entry(&lxi_ast->table, @i);
 		if (@ea == NULL) {
-			error(ERROR_SERIOUS, "Defining an undeclared action: %s", @i);
+			error(ERR_SERIOUS, "Defining an undeclared action: %s", @i);
 		} else if (@ea->kind != ENTRY_ACTION) {
 			@ea = NULL; /* TODO: skip to end of action */
-			error(ERROR_SERIOUS, "%s is not an action", @i);
+			error(ERR_SERIOUS, "%s is not an action", @i);
 		}
 	@};
 
@@ -247,24 +247,24 @@
 			/* TODO: check that the same name does not appear twice in the input and output tuple */
 
 			if (param_length(@ea->u.act->in) != param_length(@in)) {
-				error(ERROR_SERIOUS, "Action %s declared with an incompatible number of inputs", @ea->key);
+				error(ERR_SERIOUS, "Action %s declared with an incompatible number of inputs", @ea->key);
 			} else if (!param_match(@ea->u.act->in, @in)) {
-				error(ERROR_SERIOUS, "params do not match for action %s", @ea->key);
+				error(ERR_SERIOUS, "params do not match for action %s", @ea->key);
 			} else {
 				int allhavenames = param_assign_names(@ea->u.act->in, @in);
 				if (!allhavenames) {
-					error(ERROR_SERIOUS, "outputs tuples in action definition should have names");
+					error(ERR_SERIOUS, "outputs tuples in action definition should have names");
 				}
 			}
 
 			if (param_length(@ea->u.act->out) != param_length(@out)) {
-				error(ERROR_SERIOUS, "Action %s declared with an incompatible number of outputs", @ea->key);
+				error(ERR_SERIOUS, "Action %s declared with an incompatible number of outputs", @ea->key);
 			} else if (!param_match(@ea->u.act->out, @out)) {
-				error(ERROR_SERIOUS, "results do not match for action %s", @ea->key);
+				error(ERR_SERIOUS, "results do not match for action %s", @ea->key);
 			} else {
 				int allhavenames = param_assign_names(@ea->u.act->out, @out);
 				if (!allhavenames) {
-					error(ERROR_SERIOUS, "outputs tuples in the definition of action %s should have names", @ea->key);
+					error(ERR_SERIOUS, "outputs tuples in the definition of action %s should have names", @ea->key);
 				}
 			}
 		}
@@ -282,53 +282,53 @@
 				@ea->u.act->defined = 1;
 				@ea->u.act->code    = @c;
 			} else {
-				error(ERROR_SERIOUS, "Action %s has already been defined", @ea->key);
+				error(ERR_SERIOUS, "Action %s has already been defined", @ea->key);
 			}
 		}
 	@};
 
 	<E-syntax-error> = @{
-		error(ERROR_SERIOUS, "Syntax error");
+		error(ERR_SERIOUS, "Syntax error");
 	@};
 
 	<E_expected_code_end> = @{
-		error(ERROR_SERIOUS, "Syntax error: expected  '@@}'");
+		error(ERR_SERIOUS, "Syntax error: expected  '@@}'");
 	@};
 
 	<E_expected_ident> = @{
-		error(ERROR_SERIOUS, "Syntax error: expected  identifier");
+		error(ERR_SERIOUS, "Syntax error: expected  identifier");
 	@};
 
 	<E_expected_code_start> = @{
-		error(ERROR_SERIOUS, "Syntax error: expected  '@@{'");
+		error(ERR_SERIOUS, "Syntax error: expected  '@@{'");
 	@};
 
 	<E_expected_comma> = @{
-		error(ERROR_SERIOUS, "Syntax error: expected ','");
+		error(ERR_SERIOUS, "Syntax error: expected ','");
 	@};
 
 	<E_expected_define> = @{
-		error(ERROR_SERIOUS, "Syntax error: expected '='");
+		error(ERR_SERIOUS, "Syntax error: expected '='");
 	@};
 
 	<E_expected_arrow> = @{
-		error(ERROR_SERIOUS, "Syntax error: expected '->'");
+		error(ERR_SERIOUS, "Syntax error: expected '->'");
 	@};
 
 	<E_expected_semicolon> = @{
-		error(ERROR_SERIOUS, "Syntax error: expected ';'");
+		error(ERR_SERIOUS, "Syntax error: expected ';'");
 	@};
 
 	<E_expected_colon> = @{
-		error(ERROR_SERIOUS, "Syntax error: expected ':'");
+		error(ERR_SERIOUS, "Syntax error: expected ':'");
 	@};
 
 	<E_unexpected_eof> = @{
-		error(ERROR_SERIOUS, "Unexpected End of File inside @@{ @@} block");
+		error(ERR_SERIOUS, "Unexpected End of File inside @@{ @@} block");
 	@};
 
 	<E_lone_at_in_code_block> = @{
-		error(ERROR_SERIOUS, "Lone @@ inside @@{ @@} block");
+		error(ERR_SERIOUS, "Lone @@ inside @@{ @@} block");
 	@};
 
 %trailer% @{

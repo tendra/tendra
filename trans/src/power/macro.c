@@ -172,7 +172,7 @@ char * spr_macro(int spr)
      case SPR_LR:return spr_lr;
      case SPR_CTR:return spr_ctr;
      default:
-      error(ERROR_SERIOUS, "Unknown spr code");
+      error(ERR_SERIOUS, "Unknown spr code");
     }
   }
   return 0;

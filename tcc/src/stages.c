@@ -143,7 +143,7 @@ uniq_filename(const char *nm, enum filetype t, int s, filename *input)
 				default:
 					break;
 				}
-				error(ERROR_WARNING,
+				error(ERR_WARN,
 				      "Renaming %s '%s' to '%s' to avoid clash with input",
 				      m, p->name, q->name);
 			}
@@ -518,7 +518,7 @@ do_translate(filename *input)
 	if (use_binasm) {
 		/* Deal with binasm */
 		if (table_keep(AS_SOURCE)) {
-			error(ERROR_WARNING,
+			error(ERR_WARN,
 			      "Disregading binasm to keep source");
 			use_binasm = 0;
 		}

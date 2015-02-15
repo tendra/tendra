@@ -160,7 +160,7 @@ long  evalexp
 	long  w = evalexp(son(e));
 	a = ashof(sh(e));
 	if (a.ashalign != 1) {
-	  error(ERROR_INTERNAL, "should be align 1");
+	  error(ERR_INTERNAL, "should be align 1");
 	}
 	if (a.ashsize != 32) {
 	  w &= ((1 << a.ashsize) - 1);
@@ -207,7 +207,7 @@ long  evalexp
 	ash a;
 	a = ashof(sh(e));
 	if (a.ashsize > 32)
-	  error(ERROR_INTERNAL, "clearshape");
+	  error(ERR_INTERNAL, "clearshape");
 	return 0;
       }
    case env_offset_tag:
@@ -241,7 +241,7 @@ long  evalexp
 	return - evalexp(son(e));
    }
     default:
-      error(ERROR_INTERNAL, "tag not in evalexp");
+      error(ERR_INTERNAL, "tag not in evalexp");
   }
   return 0;
 }
@@ -411,7 +411,7 @@ void evalone
 	long offs =0;
 
 	if (rep != 1)
-	  error(ERROR_INTERNAL, "CAN'T REP TUPLES");
+	  error(ERR_INTERNAL, "CAN'T REP TUPLES");
 	set_align(a.ashalign);
 
 
@@ -461,7 +461,7 @@ void evalone
 		     }
                 }
                 else {
-                   error(ERROR_INTERNAL, "Constant bitfield does not fit into 32 bits");
+                   error(ERR_INTERNAL, "Constant bitfield does not fit into 32 bits");
                 }
 	     }
 	     else {
@@ -529,7 +529,7 @@ void evalone
    	exp s = son(e);
 	if (s==NULL) return;
 	if (rep != 1)
-	  error(ERROR_INTERNAL, "CAN'T REP TUPLES");
+	  error(ERR_INTERNAL, "CAN'T REP TUPLES");
    	set_align(a.ashalign);
    	for (;;) {
    		evalone(s,1);
@@ -563,7 +563,7 @@ void evalone
 	}
 	else {
 	  if (rep != 1)
-	    error(ERROR_INTERNAL, "CAN'T REP concat");
+	    error(ERR_INTERNAL, "CAN'T REP concat");
 	  evalone(son(e), 1);
 	  evalone(bro(son(e)), 1);
 	}
@@ -606,7 +606,7 @@ void evalone
 
 
     default:
-      error(ERROR_INTERNAL, "tag not in evaluated");
+      error(ERR_INTERNAL, "tag not in evaluated");
 
   }				/* end switch */
 }

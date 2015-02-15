@@ -801,7 +801,7 @@ void codec
       };
     case absbool_tag:
       {
-	error(ERROR_INTERNAL, NO_SETCC);
+	error(ERR_INTERNAL, NO_SETCC);
         return;
       };
 
@@ -820,7 +820,7 @@ void codec
       make_code(dest, stack, e);
       return;
     case power_tag:
-      error(ERROR_INTERNAL, "integer power not implemented");
+      error(ERR_INTERNAL, "integer power not implemented");
       return;
     case cont_tag:
       if (!newcode && name(sh(e)) == bitfhd)

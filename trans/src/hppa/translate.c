@@ -216,7 +216,7 @@ void insection
        case rodata_section:
        default: {}
     }
-    error(ERROR_INTERNAL, "bad \".section\" name");
+    error(ERR_INTERNAL, "bad \".section\" name");
 }
 
 void mark_unaliased
@@ -256,7 +256,7 @@ baseoff find_tg
 	 return boff(tg);
       }
    }
-   error(ERROR_INTERNAL, "Extension name not declared ");
+   error(ERR_INTERNAL, "Extension name not declared ");
    exit(EXIT_FAILURE);
 }
 

@@ -90,7 +90,7 @@ special_call_name(int i)
     return "_alloca";
 
   default:
-    error(ERROR_SERIOUS, "attempting external call to builtin");
+    error(ERR_SERIOUS, "attempting external call to builtin");
     return "";
   }
   /* NOTREACHED */
@@ -123,7 +123,7 @@ specialneeds(int i, exp application, exp pars)
 
   default:
     asm_comment("specialneeds: unimplemented builtin %d", i);
-    error(ERROR_SERIOUS, "unimplemented builtin");
+    error(ERR_SERIOUS, "unimplemented builtin");
     return zeroneeds;
   }
   /* NOTREACHED */
@@ -189,7 +189,7 @@ specialmake(int i, exp par, space sp, where dest, int exitlab)
       e = son(son(par));
       if (name(e) != string_tag)
       {
-	error(ERROR_SERIOUS, "asm argument not string");
+	error(ERR_SERIOUS, "asm argument not string");
 	return 0;
       }
       s = nostr(e);
@@ -269,7 +269,7 @@ specialmake(int i, exp par, space sp, where dest, int exitlab)
 
   default:
     asm_comment("specialmake: unimplemented builtin %d", i);
-    error(ERROR_SERIOUS, "unimplemented builtin");
+    error(ERR_SERIOUS, "unimplemented builtin");
     return 0;
   }
 

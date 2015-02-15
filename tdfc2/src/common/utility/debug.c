@@ -1585,7 +1585,7 @@ print_terminal(int t, char *term, int m)
 	unsigned long tab = tab_width;
 	while (*term == ' ')term++;
 	if (t != terminal_no) {
-		error(ERROR_WARNING, "Value of '%s' wrong", term);
+		error(ERR_WARN, "Value of '%s' wrong", term);
 	}
 	if (m) {
 		term += strlen("lex_");
@@ -1727,7 +1727,7 @@ debug_option(char *arg)
 	} else if (streq(arg, "sid")) {
 		sid_terminals(1);
 	} else {
-		error(ERROR_WARNING, "Unknown option, '-d%s'", arg);
+		error(ERR_WARN, "Unknown option, '-d%s'", arg);
 	}
 	return;
 }
@@ -1746,7 +1746,7 @@ debug_option(char *arg)
 void
 debug(c_class *p)
 {
-	error(ERROR_INTERNAL, "Not compiled with debugging enabled");
+	error(ERR_INTERNAL, "Not compiled with debugging enabled");
 	UNUSED(p);
 	return;
 }

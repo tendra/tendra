@@ -78,7 +78,7 @@ dump_sregs(unsigned int fdi, unsigned int fldi)
     }
     mask>>=1;
   }
-  if(fd!=0) error(ERROR_INTERNAL, "fd != 0");
+  if(fd!=0) error(ERR_INTERNAL, "fd != 0");
   mask=1<<31;
   b = dump_baseoff(fds);
   for (i = 31; (fld != 0)&&(mask!=0); i--){
@@ -92,7 +92,7 @@ dump_sregs(unsigned int fdi, unsigned int fldi)
     }	
     mask>>=1;
   }
-  if(fld!=0)error(ERROR_SERIOUS, "float dump failed");
+  if(fld!=0)error(ERR_SERIOUS, "float dump failed");
   fixdone |= fdi;
   fltdone |= fldi;
 }
@@ -120,7 +120,7 @@ restore_sregs(unsigned int fd, unsigned int fld)
     }
     mask >>= 1;
   }
-  if(fd != 0) error(ERROR_INTERNAL, "fd != 0");
+  if(fd != 0) error(ERR_INTERNAL, "fd != 0");
   b = dump_baseoff(fds);
   mask = 1<<31;
   for (i = 31; (fld != 0)&(mask!=0); i--) {

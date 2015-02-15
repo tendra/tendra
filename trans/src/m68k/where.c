@@ -448,7 +448,7 @@ where regpair
     w.wh_is = RegPair;
     where_regmsk = 0;
     if (find_where(ea)!= Dreg || find_where(eb)!= Dreg) {
-	error(ERROR_SERIOUS, "Illegal register pair");
+	error(ERR_SERIOUS, "Illegal register pair");
     }
     w.wh_regs = where_regmsk;
     return w;

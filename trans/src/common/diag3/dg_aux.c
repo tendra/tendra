@@ -237,7 +237,7 @@ idname_chars(dg_idname nam)
 	static char *empty = "";
 	switch (nam.id_key) {
 	case DG_ID_INST:
-		error(ERROR_INTERNAL, "inappropriate dg_instance_idname");
+		error(ERR_INTERNAL, "inappropriate dg_instance_idname");
 		return empty;
 	case DG_ID_NONE:
 		return empty;
@@ -344,7 +344,7 @@ find_proc_type(dg_type t)
 			}
 		}
 	}
-	error(ERROR_INTERNAL, "proc type details unavailable");
+	error(ERR_INTERNAL, "proc type details unavailable");
 	return f_dg_proc_type(new_dg_param_list(0), f_dg_void_type,
 			      no_bool_option, no_nat_option, no_nat_option,
 			      no_procprops_option);

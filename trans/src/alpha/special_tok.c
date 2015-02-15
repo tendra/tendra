@@ -155,7 +155,7 @@ special_token(tokval *tkv, token t, bitstream pars, int sortcode)
 				before continuing */
 				tkv->tk_exp = getexp(f_top, NULL, 0, NULL, NULL, 0, 0, special_tag);
 			} else {
-				error(ERROR_INTERNAL,  "Unsupported argument to token __alpha_special");
+				error(ERR_INTERNAL,  "Unsupported argument to token __alpha_special");
 				tkv->tk_exp = getexp(f_top, NULL, 0, NULL, NULL, 0, 0, null_tag);
 			}
 

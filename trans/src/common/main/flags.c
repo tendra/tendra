@@ -104,7 +104,7 @@ flags_has(enum has o, const char *s)
 		case 'q': e = HAS_64_BIT;         break;
 
 		default:
-			error(ERROR_WARNING, "Unrecognised has flag %c. "
+			error(ERR_WARN, "Unrecognised has flag %c. "
 				"Valid flags are: [orntmcdsiq] and [a] for all.",
 				*p);
 			continue;
@@ -154,7 +154,7 @@ flags_optim(enum optim o, const char *s)
 		case 'y': e = OPTIM_UNPAD_APPLY;  break;
 
 		default:
-			error(ERROR_WARNING, "Unrecognised optimisation flag %c. "
+			error(ERR_WARN, "Unrecognised optimisation flag %c. "
 				"Valid flags are: [cdefghijurstopqy] and [a] for all.",
 				*p);
 			continue;
@@ -191,7 +191,7 @@ flags_check(enum check o, const char *s)
 		case 'f': e = CHECK_FLPT_OVERFLOW; break;
 
 		default:
-			error(ERROR_WARNING, "Unrecognised check flag %c. "
+			error(ERR_WARN, "Unrecognised check flag %c. "
 				"Valid flags are: [sef] and [a] for all.",
 				*p);
 			continue;
@@ -234,7 +234,7 @@ flags_builtin(enum builtin o, const char *s)
 		case 't': e = BUILTIN_DEBUG;   break;
 
 		default:
-			error(ERROR_WARNING, "Unrecognised builtin flag %c. "
+			error(ERR_WARN, "Unrecognised builtin flag %c. "
 				"Valid flags are: [sjcglmt] and [a] for all.",
 				*p);
 			continue;
@@ -256,7 +256,7 @@ switch_endian(const char *s, unsigned permitted)
 	enum endian o;
 
 	if (strlen(s) > 1) {
-		error(ERROR_FATAL, "Unrecognised endian switch %s. "
+		error(ERR_FATAL, "Unrecognised endian switch %s. "
 			"Valid switches are: [bl].", s);
 		return -1;
 	}
@@ -266,13 +266,13 @@ switch_endian(const char *s, unsigned permitted)
 	case 'l': o = ENDIAN_LITTLE; break;
 
 	default:
-		error(ERROR_FATAL, "Unrecognised endian switch %s. "
+		error(ERR_FATAL, "Unrecognised endian switch %s. "
 			"Valid switches are: [bl].", s);
 		return -1;
 	}
 
 	if (~permitted & o) {
-		error(ERROR_FATAL, "Endian switch %s not permitted "
+		error(ERR_FATAL, "Endian switch %s not permitted "
 			"for this architecture.", s);
 		return -1;
 	}
@@ -307,12 +307,12 @@ switch_assembler(const char *s, unsigned permitted)
 	}
 
 	if (i >= sizeof a / sizeof *a) {
-		error(ERROR_FATAL, "Unrecognised assembler dialect %s.", s);
+		error(ERR_FATAL, "Unrecognised assembler dialect %s.", s);
 		return -1;
 	}
 
 	if (~permitted & o) {
-		error(ERROR_FATAL, "Assembler dialect %s not permitted "
+		error(ERR_FATAL, "Assembler dialect %s not permitted "
 			"for this architecture.", s);
 		return -1;
 	}
@@ -345,12 +345,12 @@ switch_format(const char *s, unsigned permitted)
 	}
 
 	if (i >= sizeof a / sizeof *a) {
-		error(ERROR_FATAL, "Unrecognised executable format %s.", s);
+		error(ERR_FATAL, "Unrecognised executable format %s.", s);
 		return -1;
 	}
 
 	if (~permitted & o) {
-		error(ERROR_FATAL, "Executable format %s not permitted "
+		error(ERR_FATAL, "Executable format %s not permitted "
 			"for this architecture.", s);
 		return -1;
 	}
@@ -404,12 +404,12 @@ switch_diag(const char *s, unsigned permitted)
 	}
 
 	if (i >= sizeof a / sizeof *a) {
-		error(ERROR_FATAL, "Unrecognised diagnostic format %s.", s);
+		error(ERR_FATAL, "Unrecognised diagnostic format %s.", s);
 		return -1;
 	}
 
 	if (~permitted & o) {
-		error(ERROR_FATAL, "Diagnostic format %s not permitted "
+		error(ERR_FATAL, "Diagnostic format %s not permitted "
 			"for this architecture.", s);
 		return -1;
 	}
@@ -417,7 +417,7 @@ switch_diag(const char *s, unsigned permitted)
 #ifdef TDF_DIAG3
 	diag3_driver = a[i].driver;
 	if (diag != DIAG_NONE && diag3_driver == NULL) {
-		error(ERROR_FATAL, "Diagnostic format %s has no driver", s);
+		error(ERR_FATAL, "Diagnostic format %s has no driver", s);
 		return -1;
 	}
 #endif
@@ -454,12 +454,12 @@ switch_cconv(const char *s, unsigned permitted)
 	}
 
 	if (i >= sizeof a / sizeof *a) {
-		error(ERROR_FATAL, "Unrecognised calling convention %s.", s);
+		error(ERR_FATAL, "Unrecognised calling convention %s.", s);
 		return -1;
 	}
 
 	if (~permitted & o) {
-		error(ERROR_FATAL, "Calling convention %s not permitted "
+		error(ERR_FATAL, "Calling convention %s not permitted "
 			"for this architecture.", s);
 		return -1;
 	}
@@ -500,12 +500,12 @@ switch_abi(const char *s, unsigned permitted)
 	}
 
 	if (i >= sizeof a / sizeof *a) {
-		error(ERROR_FATAL, "Unrecognised ABI %s.", s);
+		error(ERR_FATAL, "Unrecognised ABI %s.", s);
 		return -1;
 	}
 
 	if (~permitted & o) {
-		error(ERROR_FATAL, "Calling convention %s not permitted "
+		error(ERR_FATAL, "Calling convention %s not permitted "
 			"for this architecture.", s);
 		return -1;
 	}

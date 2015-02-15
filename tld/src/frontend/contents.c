@@ -41,7 +41,7 @@ contents_main(ArgDataT *arg_data)
     LibraryT * library;
 
     if (num_files != 1) {
-	 error(ERROR_FATAL, "too many library files specified (should be one)");
+	 error(ERR_FATAL, "too many library files specified (should be one)");
 	UNREACHED;
     }
     if ((library = library_create_stream_input(files[0])) !=
@@ -50,7 +50,7 @@ contents_main(ArgDataT *arg_data)
 			 content_version);
 	library_close(library);
     } else {
-	error(ERROR_SERIOUS, "cannot open input file '%s': %s", 
+	error(ERR_SERIOUS, "cannot open input file '%s': %s", 
 		files[0], strerror(errno));
     }
     if (error_max_reported_severity() >= ERROR_SEVERITY_ERROR) {

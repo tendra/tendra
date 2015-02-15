@@ -1517,7 +1517,7 @@ ZRtype_Hqualifier(unsigned *ZOcv)
 #line 251 "syntax.act"
 
 		if ((ZIa) & 1) {
-			error(ERROR_SERIOUS, "Duplicate type qualifier");
+			error(ERR_SERIOUS, "Duplicate type qualifier");
 		}
 
 		(ZIcv) = ((ZIa) | 1);
@@ -1542,7 +1542,7 @@ ZRtype_Hqualifier(unsigned *ZOcv)
 #line 259 "syntax.act"
 
 		if ((ZIa) & 2) {
-			error(ERROR_SERIOUS, "Duplicate type qualifier");
+			error(ERR_SERIOUS, "Duplicate type qualifier");
 		}
 
 		(ZIcv) = ((ZIa) | 2);
@@ -1743,9 +1743,9 @@ ZRconstant_Hvalue(SID_STRING *ZOs)
 
 		p = search_hash(exps, (ZIa), any_version);
 		if (p == NULL) {
-			error(ERROR_SERIOUS, "Undefined NAT, '%s'", (ZIa));
+			error(ERR_SERIOUS, "Undefined NAT, '%s'", (ZIa));
 		} else if (p->objtype != OBJ_NAT) {
-			error(ERROR_SERIOUS, "'%s' is not a NAT", (ZIa));
+			error(ERR_SERIOUS, "'%s' is not a NAT", (ZIa));
 		}
 
 		(ZIs) = (ZIa);
@@ -2061,7 +2061,7 @@ ZRspec_Hcommand(SID_COMMAND *ZOc)
 			break;
 
 		default:
-			error(ERROR_SERIOUS, "Illegal field type, '%s'", (ZIid).iname);
+			error(ERR_SERIOUS, "Illegal field type, '%s'", (ZIid).iname);
 			break;
 		}
 		crt_field_name = (ZIt)->u.obj->name;
@@ -2094,11 +2094,11 @@ ZRspec_Hcommand(SID_COMMAND *ZOc)
 		if ((ZIe)) {
 			if ((ZIt)->v.obj2) {
 				char *nm = crt_field_name;
-				error(ERROR_SERIOUS, "Redefinition of type '%s'", nm);
+				error(ERR_SERIOUS, "Redefinition of type '%s'", nm);
 			}
 
 			if ((ZIb) == NULL) {
-				error ( ERROR_SERIOUS, "Empty struct/union definition" );
+				error ( ERR_SERIOUS, "Empty struct/union definition" );
 			} else {
 				(ZIt)->v.obj2 = (ZIb);
 			}
@@ -2360,7 +2360,7 @@ ZRspec_Hcommand(SID_COMMAND *ZOc)
 
 		if ((ZIcmd) == OBJ_CONST) {
 			if ((ZIlv1) == TYPE_LVALUE) {
-				error(ERROR_SERIOUS, "Constant can't be an lvalue");
+				error(ERR_SERIOUS, "Constant can't be an lvalue");
 			}
 			(ZIlv) = TYPE_RVALUE;
 		} else if ((ZIcmd) == OBJ_EXTERN) {
@@ -2711,7 +2711,7 @@ ZR322(SID_COMMAND *ZOc)
 			break;
 
 		default:
-			error(ERROR_SERIOUS, "Non-integral promotion type");
+			error(ERR_SERIOUS, "Non-integral promotion type");
 			break;
 		}
 
@@ -3510,7 +3510,7 @@ ZR335(SID_TYPE *ZOt)
 			{
 #line 338 "syntax.act"
 
-		error(ERROR_WARNING, "Empty parameter list");
+		error(ERR_WARN, "Empty parameter list");
 		(ZIp) = NULL;
 	
 #line 3517 "syntax.c"
@@ -5352,7 +5352,7 @@ ZL1:;
 		{
 #line 839 "syntax.act"
 
-		error(ERROR_SERIOUS, "Syntax error");
+		error(ERR_SERIOUS, "Syntax error");
 	
 #line 5358 "syntax.c"
 		}
@@ -5506,7 +5506,7 @@ ZRbuiltin_Htype(unsigned *ZOb)
 			if ((ZIa) == BTYPE_LONG && allow_long_long) {
 				(ZIa) = BTYPE_LLONG;
 			} else {
-				error(ERROR_SERIOUS, "Duplicate type specifier");
+				error(ERR_SERIOUS, "Duplicate type specifier");
 				break;
 			}
 		}

@@ -110,7 +110,7 @@ read_identifier(int a)
     char *t = token_buff;
     do {
 	*(t++) = (char)c;
-	if (t == token_end) error(ERROR_FATAL, "Buffer overflow");
+	if (t == token_end) error(ERR_FATAL, "Buffer overflow");
 	c = read_char();
 	cl = lookup_char(c);
     } while (is_alphanum(cl));
@@ -138,7 +138,7 @@ read_number(int a)
     unsigned n = 0;
     do {
 	unsigned m = 10 * n + (unsigned)(c - '0');
-	if (m < n) error(ERROR_SERIOUS, "Number overflow");
+	if (m < n) error(ERR_SERIOUS, "Number overflow");
 	n = m;
 	c = read_char();
 	cl = lookup_char(c);
@@ -167,7 +167,7 @@ read_comment(void)
 	do {
 	    c = read_char();
 	    if (c == LEX_EOF) {
-		error(ERROR_SERIOUS, "End of file in comment");
+		error(ERR_SERIOUS, "End of file in comment");
 		return lex_eof;
 	    }
 	    *(t++) = (char)c;
@@ -234,9 +234,9 @@ read_template(COMMAND p)
 	if (s == NULL) {
 	    /* End of file */
 	    if (IS_cmd_cond(p)) {
-		error(ERROR_SERIOUS, "End of '@if' expected");
+		error(ERR_SERIOUS, "End of '@if' expected");
 	    } else if (IS_cmd_loop(p)) {
-		error(ERROR_SERIOUS, "End of '@loop' expected");
+		error(ERR_SERIOUS, "End of '@loop' expected");
 	    }
 	    break;
 	}
@@ -252,7 +252,7 @@ read_template(COMMAND p)
 	    s3 = get_command(&s);
 	    if (!strcmp(s1, "if")) {
 		if (s2 == NULL) {
-		    error(ERROR_SERIOUS, "Incomplete '@%s' command", s1);
+		    error(ERR_SERIOUS, "Incomplete '@%s' command", s1);
 		    s2 = "true";
 		}
 		MAKE_cmd_cond(ln2, s2, NULL_cmd, NULL_cmd, r);
@@ -260,7 +260,7 @@ read_template(COMMAND p)
 		if (IS_cmd_cond(p)) {
 		    COMMAND v = DEREF_cmd(cmd_cond_true_code(p));
 		    if (!IS_NULL_cmd(v)) {
-			error(ERROR_SERIOUS, "Duplicate '@%s' command", s1);
+			error(ERR_SERIOUS, "Duplicate '@%s' command", s1);
 		    }
 		    q = REVERSE_list(q);
 		    MAKE_cmd_compound(ln1, q, v);
@@ -268,19 +268,19 @@ read_template(COMMAND p)
 		    q = NULL_list(COMMAND);
 		    ln1 = ln2;
 		} else {
-		    error(ERROR_SERIOUS, "Misplaced '@%s' command", s1);
+		    error(ERR_SERIOUS, "Misplaced '@%s' command", s1);
 		}
 		s3 = s2;
 	    } else if (!strcmp(s1, "endif")) {
 		if (IS_cmd_cond(p)) {
 		    go = 0;
 		} else {
-		    error(ERROR_SERIOUS, "Misplaced '@%s' command", s1);
+		    error(ERR_SERIOUS, "Misplaced '@%s' command", s1);
 		}
 		s3 = s2;
 	    } else if (!strcmp(s1, "loop")) {
 		if (s2 == NULL) {
-		    error(ERROR_SERIOUS, "Incomplete '@%s' command", s1);
+		    error(ERR_SERIOUS, "Incomplete '@%s' command", s1);
 		    s2 = "false";
 		}
 		MAKE_cmd_loop(ln2, s2, NULL_cmd, r);
@@ -288,12 +288,12 @@ read_template(COMMAND p)
 		if (IS_cmd_loop(p)) {
 		    go = 0;
 		} else {
-		    error(ERROR_SERIOUS, "Misplaced '@%s' command", s1);
+		    error(ERR_SERIOUS, "Misplaced '@%s' command", s1);
 		}
 		s3 = s2;
 	    } else if (!strcmp(s1, "use")) {
 		if (s2 == NULL) {
-		    error(ERROR_SERIOUS, "Incomplete '@%s' command", s1);
+		    error(ERR_SERIOUS, "Incomplete '@%s' command", s1);
 		    s2 = "all";
 		}
 		MAKE_cmd_use(ln2, s2, s3, r);
@@ -301,7 +301,7 @@ read_template(COMMAND p)
 		complex = 0;
 	    } else if (!strcmp(s1, "special")) {
 		if (s2 == NULL) {
-		    error(ERROR_SERIOUS, "Incomplete '@%s' command", s1);
+		    error(ERR_SERIOUS, "Incomplete '@%s' command", s1);
 		    s2 = "<none>";
 		}
 		MAKE_cmd_special(ln2, s2, s3, r);
@@ -310,11 +310,11 @@ read_template(COMMAND p)
 	    } else if (!strcmp(s1, "comment")) {
 		s3 = NULL;
 	    } else {
-		error(ERROR_SERIOUS, "Unknown command, '@%s'", s1);
+		error(ERR_SERIOUS, "Unknown command, '@%s'", s1);
 		s3 = NULL;
 	    }
 	    if (s3) {
-		error(ERROR_SERIOUS, "End of '@%s' expected", s1);
+		error(ERR_SERIOUS, "End of '@%s' expected", s1);
 	    }
 	    crt_line_no = ln2 + 1;
 	    if (!IS_NULL_cmd(r)) {
@@ -372,7 +372,7 @@ open_file(char *nm)
 	crt_file_name = nm;
 	lex_input = fopen(nm, "r");
 	if (lex_input == NULL) {
-	    error(ERROR_SERIOUS, "Can't open input file, '%s'", nm);
+	    error(ERR_SERIOUS, "Can't open input file, '%s'", nm);
 	    return 0;
 	}
     }

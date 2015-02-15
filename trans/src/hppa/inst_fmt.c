@@ -1088,7 +1088,7 @@ cij_ins(const char *cond, long l, int r, int lab)
       /* use temp reg for large constant */
       if (r == GR1)
 	 /* should not happen */
-	 error(ERROR_SERIOUS, "ins: temp reg in use when needed for large constant");
+	 error(ERR_SERIOUS, "ins: temp reg in use when needed for large constant");
       else
       {
 	 imm_to_r(l,GR1);

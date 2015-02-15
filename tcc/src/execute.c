@@ -50,7 +50,7 @@ handler(int sig)
 
 	if (sig != SIGINT) {
 		const char *cmd = (last_command ? last_command : "unknown");
-		error(ERROR_SERIOUS, "Caught signal %d in '%s'", sig, cmd);
+		error(ERR_SERIOUS, "Caught signal %d in '%s'", sig, cmd);
 	}
 
 	exit_status = EXIT_FAILURE;
@@ -169,7 +169,7 @@ cmd_env(const char *name)
 			return;
 		}
 
-		error(ERROR_FATAL, "Undefined variable <%s>", name);
+		error(ERR_FATAL, "Undefined variable <%s>", name);
 	}
 
 	tmp = xstrdup(value);
@@ -349,15 +349,15 @@ execute(filename *input, filename *output)
 		} else if (streq(cmd, "undef")) {
 			int sev;
 			if (dry_run) {
-				sev = ERROR_WARNING;
+				sev = ERR_WARN;
 			} else {
-				sev = ERROR_FATAL;
+				sev = ERR_FATAL;
 				err = 1;
 			}
 			cmd = command[1];
 			error(sev, "The tool '%s' is not available", cmd);
 		} else {
-			error(ERROR_SERIOUS, "Built-in '%s' command not implemented", cmd);
+			error(ERR_SERIOUS, "Built-in '%s' command not implemented", cmd);
 			err = 1;
 		}
 
@@ -365,7 +365,7 @@ execute(filename *input, filename *output)
 		/* Call system commands */
 		pid_t pid = fork();
 		if (pid == (pid_t) -1) {
-			error(ERROR_SERIOUS, "Can't fork process");
+			error(ERR_SERIOUS, "Can't fork process");
 			err = 1;
 		} else {
 			if (pid) {
@@ -424,7 +424,7 @@ execute(filename *input, filename *output)
 			/* XXX The cast to void * is to const-ness. Perhaps copy first */
 			IGNORE execv(cmd, (void *) command);
 			running_pid = -1;
-			error(ERROR_SERIOUS, "Can't execute '%s'", cmd);
+			error(ERR_SERIOUS, "Can't execute '%s'", cmd);
 			exit(2);
 		}
 	}
@@ -450,7 +450,7 @@ execute_error:
 			if (!filled_buff) {
 				print_cmd(buff);
 			}
-			error(ERROR_SERIOUS, "Error in '%s'", buff + 1);
+			error(ERR_SERIOUS, "Error in '%s'", buff + 1);
 		}
 		remove_junk();
 		return NULL;

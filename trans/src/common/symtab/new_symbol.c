@@ -91,7 +91,7 @@ init_table_space(long noofiles, long noprocs)
     blockstack = xcalloc(noofiles, sizeof (BSTACK));
 
     if (noofiles == 0) {
-		error(ERROR_INTERNAL, "TDF capsule does not contain diagnostic information");
+		error(ERR_INTERNAL, "TDF capsule does not contain diagnostic information");
 	}
 
     densenos = xcalloc(1, sizeof (DENSETAB));

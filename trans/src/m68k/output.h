@@ -18,7 +18,7 @@ extern char *instr_names_simple[];
 #define glob_reg_names ((asm_percent_regs) ? (glob_reg_names_percent) : (glob_reg_names_simple))
 
 #ifndef NDEBUG
-#define debug_warning(X)        error(ERROR_WARNING, X)
+#define debug_warning(X)        error(ERR_WARN, X)
 #else
 #define debug_warning(X)
 #endif

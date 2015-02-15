@@ -99,7 +99,7 @@ symnoforext(dec * ex, int filen)
 			}
 
 			/* a defined procedure will be output later with this symbolno */
-			error(ERROR_INTERNAL, "Static procs should have bodies ");
+			error(ERR_INTERNAL, "Static procs should have bodies ");
 			symclass = scNil;
 		} else {
 			/* other statics */

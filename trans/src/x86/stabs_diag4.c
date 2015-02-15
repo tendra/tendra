@@ -604,7 +604,7 @@ out_dt_shape(dg_type dt)
 	break;
       }
       if (tg->key == DGK_NONE) {
-	error(ERROR_INTERNAL, "external type");
+	error(ERR_INTERNAL, "external type");
 	tg->done = 1;
 	tg->outref.k = LAB_D;
 	tg->outref.u.l = 0;
@@ -615,7 +615,7 @@ out_dt_shape(dg_type dt)
 	dg_type ref_t = tg->p.typ;
 	if (ref_t == dt) {
 	  if (ref_t->outref.k != LAB_STR)
-	    error(ERROR_INTERNAL, "uninitialised?");
+	    error(ERR_INTERNAL, "uninitialised?");
 	  ref_t->outref.k = LAB_D;
 	  ref_t->outref.u.l = find_basic_type(ref_t->outref.u.s);
 	}
@@ -634,7 +634,7 @@ out_dt_shape(dg_type dt)
 	  break;
 	}
       }
-      error(ERROR_INTERNAL, "unfinished convolution");
+      error(ERR_INTERNAL, "unfinished convolution");
       tg->done = 1;
       tg->outref.k = LAB_D;
       tg->outref.u.l = 0;
@@ -718,7 +718,7 @@ out_dt_shape(dg_type dt)
 	  break;
 	}
       }
-      error(ERROR_INTERNAL, "complex array");
+      error(ERR_INTERNAL, "complex array");
       break;
     }
 

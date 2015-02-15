@@ -44,7 +44,7 @@ main(int argc, char **argv)
 		}
 	    }
 	    if (!known) {
-		error(ERROR_WARNING, "Unknown option, '%s'", arg);
+		error(ERR_WARN, "Unknown option, '%s'", arg);
 	    }
 	} else {
 	    if (input == NULL) {
@@ -60,7 +60,7 @@ main(int argc, char **argv)
     }
 
     /* Check arguments */
-    if (too_many) error(ERROR_WARNING, "Too many arguments");
+    if (too_many) error(ERR_WARN, "Too many arguments");
 
     /* Process the input */
     builtin_sorts();

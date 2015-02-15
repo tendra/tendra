@@ -879,7 +879,7 @@ out_diagnose_prelude(void)
 {
 	dg_file = tmpfile();
 	if (dg_file == NULL) {
-		error(ERROR_INTERNAL, "Can't open temporary diagnostics file");
+		error(ERR_INTERNAL, "Can't open temporary diagnostics file");
 		exit(EXIT_FAILURE);
 	}
 	stab_types();

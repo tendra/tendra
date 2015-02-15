@@ -132,7 +132,7 @@ option(char c, const char *optarg)
 			break;
 
 		default:
-			error(ERROR_FATAL, "Incorrect inline option: %c", optarg[2]);
+			error(ERR_FATAL, "Incorrect inline option: %c", optarg[2]);
 		}
 		break;
 
@@ -213,12 +213,12 @@ unhas(void)
 		break;
 
 	default:
-		error(ERROR_SERIOUS, "unsupported ABI");
+		error(ERR_SERIOUS, "unsupported ABI");
 	}
 
 	/* check ABI conformance */
 	if ( abi == ABI_SYSV && ( g_reg_max > 4 ) ) {
-		error(ERROR_FATAL, "%s : -r%d conflicts with SYSV ABI",
+		error(ERR_FATAL, "%s : -r%d conflicts with SYSV ABI",
 			progname, g_reg_max ) ;
 	}
 

@@ -63,7 +63,7 @@ needreg ( int r, space sp )
 #if 0
     if ( !( optim & OPTIM_TEMPDEC && IS_TREG ( r ) ) &&
 	  ( sp.fixed & RMASK ( r ) ) != 0 ) {
-	error(ERROR_SERIOUS,  "needreg : fixed register already in use" ) ;
+	error(ERR_SERIOUS,  "needreg : fixed register already in use" ) ;
     }
 #endif
     return guardreg ( r, sp ) ;
@@ -82,7 +82,7 @@ needfreg ( int r, space sp )
 #if 0
     if ( !( optim & OPTIM_TEMPDEC && IS_FLT_TREG ( r ) ) &&
 	  ( sp.flt & RMASK ( r ) ) != 0 ) {
-	error(ERROR_SERIOUS,  "needfreg : float register already in use" ) ;
+	error(ERR_SERIOUS,  "needfreg : float register already in use" ) ;
     }
 #endif
     return guardfreg ( r, sp ) ;
@@ -119,7 +119,7 @@ guard ( where w, space sp ){
       /* fall through to fail */
     }	
   }
-  error(ERROR_SERIOUS,  "Bad guard register" ) ;
+  error(ERR_SERIOUS,  "Bad guard register" ) ;
   return sp;
 }	
 

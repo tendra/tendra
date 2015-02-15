@@ -30,7 +30,7 @@
 static void
 decode_error(char *s)
 {
-    error(ERROR_INTERNAL, s);
+    error(ERR_INTERNAL, s);
     exit(EXIT_FAILURE);
 }
 

@@ -1893,7 +1893,7 @@ ZRconstruct_Hitem(SORT ZIs, CONSTRUCT *ZOc)
 #line 199 "syntax.act"
 
     if ( !EQ_sort ( (ZIr), (ZIs) ) ) {
-	error ( ERROR_SERIOUS, "Wrong result sort for '%s'", (ZIn) ) ;
+	error ( ERR_SERIOUS, "Wrong result sort for '%s'", (ZIn) ) ;
     }
     (ZIc) = make_construct ( (ZIn), (ZIe), (ZIs), (ZIp) ) ;
 #line 1904 "syntax.c"
@@ -2514,7 +2514,7 @@ ZL1:;
 		{
 #line 300 "syntax.act"
 
-    error ( ERROR_SERIOUS, "Syntax error" ) ;
+    error ( ERR_SERIOUS, "Syntax error" ) ;
 #line 2523 "syntax.c"
 		}
 		/* END OF ACTION: syntax_error */

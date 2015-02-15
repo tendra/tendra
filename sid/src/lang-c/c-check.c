@@ -39,7 +39,7 @@ c_check_grammar_1(EntryT *entry, void *gclosure)
 
 			if (!types_equal_zero_tuple(basic_result(basic)) &&
 				basic_get_result_code(basic) == NULL) {
-				error(ERROR_SERIOUS, "result code not defined for basic '%K'",
+				error(ERR_SERIOUS, "result code not defined for basic '%K'",
 					(void *) entry_key(entry));
 			}
 		}
@@ -47,7 +47,7 @@ c_check_grammar_1(EntryT *entry, void *gclosure)
 
 	case ET_ACTION:
 		if (action_get_code(entry_get_action(entry)) == NULL) {
-			error(ERROR_SERIOUS, "definition code not defined for action '%K'",
+			error(ERR_SERIOUS, "definition code not defined for action '%K'",
 				(void *) entry_key(entry));
 		}
 		break;
@@ -60,7 +60,7 @@ c_check_grammar_1(EntryT *entry, void *gclosure)
 			&& (type_get_assign_code(type) == NULL
 				|| type_get_param_assign_code(type) == NULL
 				|| type_get_result_assign_code(type) == NULL)) {
-			error(ERROR_SERIOUS, "some but not all assignment operators defined for type '%K'",
+			error(ERR_SERIOUS, "some but not all assignment operators defined for type '%K'",
 				(void *) entry_key(entry));
 		}
 		break;

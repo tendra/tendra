@@ -14,11 +14,11 @@
 
 enum error_severity {
 	ERROR_NONE,	    /* Error reporting off */
-	ERROR_WARNING,  /* Warning */
-	ERROR_SERIOUS,  /* Error, does exit after N errors */
-	ERROR_USAGE,    /* Error in command line usage; exits immediately */
-	ERROR_INTERNAL, /* Internal error, does exit after N errors */
-	ERROR_FATAL     /* Fatal exits immediately */
+	ERR_WARN,  /* Warning */
+	ERR_SERIOUS,  /* Error, does exit after N errors */
+	ERR_USAGE,    /* Error in command line usage; exits immediately */
+	ERR_INTERNAL, /* Internal error, does exit after N errors */
+	ERR_FATAL     /* Fatal exits immediately */
 };
 
 void error(enum error_severity, const char *, ...);

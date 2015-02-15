@@ -1959,7 +1959,7 @@ cast_token(TYPE t, EXP a, ERROR *err, ERROR err2, unsigned cast)
 	if (!IS_NULL_err(err2)) {
 		sev = DEREF_int(err_severity(err2));
 	}
-	if (sev == ERROR_SERIOUS) {
+	if (sev == ERR_SERIOUS) {
 		/* Only check illegal conversions */
 		force_tokdef++;
 		if (cast == CAST_IMPLICIT || (cast & CAST_STATIC)) {

@@ -428,7 +428,7 @@ static int getspare(long s)
       return r;
     }
   }
-  error(ERROR_SERIOUS, "getspare failed");
+  error(ERR_SERIOUS, "getspare failed");
   return 100;
 }
 

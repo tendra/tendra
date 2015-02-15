@@ -357,7 +357,7 @@ process_args(int argc, char **argv)
 		    case 'C':
 			if (-1 == init_literal_map(arg)) {
 			    const char *err = "Can't open charset map file '%s'";
-			    error(ERROR_FATAL, err, arg);
+			    error(ERR_FATAL, err, arg);
 			}
 			break;
 
@@ -389,13 +389,13 @@ process_args(int argc, char **argv)
 			/* Open option file */
 			if (f != NULL) {
 			    const char *err = "Nested option files";
-			    error(ERROR_WARNING, err);
+			    error(ERR_WARN, err);
 			    break;
 			}
 			f = fopen(arg, "r");
 			if (f == NULL) {
 			    const char *err = "Can't open option file '%s'";
-			    error(ERROR_WARNING, err, arg);
+			    error(ERR_WARN, err, arg);
 			}
 			break;
 		    }
@@ -426,7 +426,7 @@ process_args(int argc, char **argv)
 			dir = ustrchr(uarg, ':');
 			if (dir == NULL) {
 			    const char *err = "Bad '-%c' option";
-			    error(ERROR_WARNING, err, opt);
+			    error(ERR_WARN, err, opt);
 			    add_directory(uarg, NULL_string);
 			} else {
 			    *dir = 0;
@@ -536,12 +536,12 @@ process_args(int argc, char **argv)
 			dump = ustrchr(uarg, '=');
 			if (dump == NULL) {
 			    const char *err = "Bad '-%c' option";
-			    error(ERROR_WARNING, err, opt);
+			    error(ERR_WARN, err, opt);
 			    break;
 			}
 			if (dump_name) {
 			    const char *err = "Multiple dump files";
-			    error(ERROR_WARNING, err);
+			    error(ERR_WARN, err);
 			}
 			dump_opt = uarg;
 			dump_name = dump + 1;
@@ -608,7 +608,7 @@ process_args(int argc, char **argv)
 			/* Portability table */
 			if (table_name) {
 			    const char *err = "Multiple portability tables";
-			    error(ERROR_WARNING, err);
+			    error(ERR_WARN, err);
 			}
 			table_name = xustrcpy(uarg);
 			break;
@@ -618,7 +618,7 @@ process_args(int argc, char **argv)
 			/* Output file */
 			if (output) {
 			    const char *err = "Multiple output files";
-			    error(ERROR_WARNING, err);
+			    error(ERR_WARN, err);
 			}
 			output = xustrcpy(uarg);
 			break;
@@ -640,7 +640,7 @@ process_args(int argc, char **argv)
 			/* Spec output file */
 			if (spec_name) {
 			    const char *err = "Multiple spec output files";
-			    error(ERROR_WARNING, err);
+			    error(ERR_WARN, err);
 			}
 			spec_name = xustrcpy(uarg);
 			break;
@@ -699,14 +699,14 @@ process_args(int argc, char **argv)
 	    /* Deal with unknown options */
 	    if (known == 0) {
 		const char *err = "Unknown option, '-%c%s'";
-		error(ERROR_WARNING, err, opt, arg);
+		error(ERR_WARN, err, opt, arg);
 	    }
 	    opt = next_opt;
 	}
     }
     if (opt) {
 	const char *err = "Incomplete option, '-%c'";
-	error(ERROR_WARNING, err, opt);
+	error(ERR_WARN, err, opt);
     }
 
     /* Examine list of files */
@@ -882,7 +882,7 @@ process_files(LIST(string)files)
     len = LENGTH_list(files);
     if (max_len && len > max_len) {
 	const char *err = "Too many arguments (should have %u)";
-	error(ERROR_WARNING, err, max_len);
+	error(ERR_WARN, err, max_len);
 	len = max_len;
     }
 

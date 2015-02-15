@@ -34,7 +34,7 @@ xmalloc(gen_size sz)
 	p = malloc((size_t)sz);
 	if (p == NULL) {
 		max_errors = ULONG_MAX;
-		error(ERROR_INTERNAL, "Memory allocation error");
+		error(ERR_INTERNAL, "Memory allocation error");
 		term_error(1);
 	}
 	return p;
@@ -60,7 +60,7 @@ xrealloc(gen_ptr p, gen_size sz)
 	}
 	if (q == NULL) {
 		max_errors = ULONG_MAX;
-		error(ERROR_INTERNAL, "Memory allocation error");
+		error(ERR_INTERNAL, "Memory allocation error");
 		term_error(1);
 	}
 	return q;

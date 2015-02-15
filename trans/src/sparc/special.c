@@ -91,7 +91,7 @@ special_call_name ( int i )
 	case 5: return sysV_assembler ? "alloca" : "_alloca";
 
 	default:
-	    error(ERROR_SERIOUS,  "Attempting external call to builtin" ) ;
+	    error(ERR_SERIOUS,  "Attempting external call to builtin" ) ;
 	    return "";
     }
     /* NOT REACHED */
@@ -161,7 +161,7 @@ specialneeds ( int i, exp application, exp pars )
 	case 5: return zeroneeds;	 /* alloca */
 
 	default : {
-	    error(ERROR_SERIOUS,  "Unimplemented builtin" ) ;
+	    error(ERR_SERIOUS,  "Unimplemented builtin" ) ;
 	    return zeroneeds;
 	}
     }
@@ -227,7 +227,7 @@ specialmake ( int i, exp par, space sp, where dest, int exitlab ){
       char *s ;
       e = son ( son ( par ) ) ;
       if ( name ( e ) != string_tag ) {
-	error(ERROR_SERIOUS,  "asm argument is not a string" ) ;
+	error(ERR_SERIOUS,  "asm argument is not a string" ) ;
 	return 0;
       }
       s = nostr ( e ) ;
@@ -310,7 +310,7 @@ specialmake ( int i, exp par, space sp, where dest, int exitlab ){
     }
     
     default : {
-      error(ERROR_SERIOUS,  "Unimplemented builtin" ) ;
+      error(ERR_SERIOUS,  "Unimplemented builtin" ) ;
       return 0;
     }
   }
@@ -449,7 +449,7 @@ output_special_routines (void)
 		    }
 
 		    default : {
-			error(ERROR_SERIOUS,  "Unimplemented special routine" ) ;
+			error(ERR_SERIOUS,  "Unimplemented special routine" ) ;
 			break ;
 		    }
 		}

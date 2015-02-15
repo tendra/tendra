@@ -255,7 +255,7 @@ void output_LNTT
       {
 	 if (EXTENSION_BIT(e.dgeneric.word[3]) ==0)
 	 {
-	    error(ERROR_SERIOUS, "error whilst compiling XDB diagnostics tables (extension bit not set)");
+	    error(ERR_SERIOUS, "error whilst compiling XDB diagnostics tables (extension bit not set)");
 	 }
 	 else
 	 {
@@ -270,7 +270,7 @@ void output_LNTT
       {
 	 if (EXTENSION_BIT(e.dgeneric.word[3]) ==0)
 	 {
-	    error(ERROR_SERIOUS, "error whilst compiling XDB diagnostics tables (extension bit not set)");
+	    error(ERR_SERIOUS, "error whilst compiling XDB diagnostics tables (extension bit not set)");
 	    break;
 	 }
 	 else
@@ -279,7 +279,7 @@ void output_LNTT
 	 }
 	 if (EXTENSION_BIT(e.dgeneric.word[6]) ==0)
 	 {
-	    error(ERROR_SERIOUS, "error whilst compiling XDB diagnostics tables (extension bit not set)");
+	    error(ERR_SERIOUS, "error whilst compiling XDB diagnostics tables (extension bit not set)");
 	 }
 	 else
 	 {
@@ -302,7 +302,7 @@ void output_GNTT
       fprintf(GNTT_,"\t.WORD\t%lu,%lu,%s",e.dgeneric.word[0], e.dgeneric.word[1],(char*)e.dgeneric.word[2]);
       if (EXTENSION_BIT(e.dgeneric.word[3]) ==0)
       {
-	 error(ERROR_SERIOUS, "error whilst compiling XDB diagnostics tables (extension bit not set)");
+	 error(ERR_SERIOUS, "error whilst compiling XDB diagnostics tables (extension bit not set)");
       }
       else
       {
@@ -1012,7 +1012,7 @@ void stabd
 	   break;
 
 	default:
-		error(ERROR_SERIOUS, "unsupported diagnostics format");
+		error(ERR_SERIOUS, "unsupported diagnostics format");
 	}
 	asm_fprintf(dg_file,"L$M%ld\n",i);
       }
@@ -1086,7 +1086,7 @@ void init_stab
 {
     dg_file = tmpfile();
     if (dg_file == NULL) {
-	error(ERROR_SERIOUS, "Can't open temporary diagnostics file");
+	error(ERR_SERIOUS, "Can't open temporary diagnostics file");
 	exit(EXIT_FAILURE);
     }
 #ifdef _SYMTAB_INCLUDED
@@ -1101,25 +1101,25 @@ void init_stab
        VT_ = tmpfile();
        if (VT_ == NULL)
        {
-	  error(ERROR_SERIOUS, "Can't open temporary diagnostics file");
+	  error(ERR_SERIOUS, "Can't open temporary diagnostics file");
 	  exit(EXIT_FAILURE);
        }
        SLT_ = tmpfile();
        if (SLT_ == NULL)
        {
-	  error(ERROR_SERIOUS, "Can't open temporary diagnostics file");
+	  error(ERR_SERIOUS, "Can't open temporary diagnostics file");
 	  exit(EXIT_FAILURE);
        }
        LNTT_ = tmpfile();
        if (LNTT_ == NULL)
        {
-	  error(ERROR_SERIOUS, "Can't open temporary diagnostics file");
+	  error(ERR_SERIOUS, "Can't open temporary diagnostics file");
 	  exit(EXIT_FAILURE);
        }
        GNTT_ = tmpfile();
        if (GNTT_ == NULL)
        {
-	  error(ERROR_SERIOUS, "Can't open temporary diagnostics file");
+	  error(ERR_SERIOUS, "Can't open temporary diagnostics file");
 	  exit(EXIT_FAILURE);
        }
        fprintf(VT_,"\t.SPACE\t$DEBUG$\n");
@@ -1228,7 +1228,7 @@ void stab_file
 	  break;
 
 	default:
-		error(ERROR_SERIOUS, "unsupported diagnostics format");
+		error(ERR_SERIOUS, "unsupported diagnostics format");
        }
        asm_fprintf(dg_file, "L$M%ld\n", i);
     }
@@ -1263,7 +1263,7 @@ static void stab_scope_open
       break;
 
 	default:
-		error(ERROR_SERIOUS, "unsupported diagnostics format");
+		error(ERR_SERIOUS, "unsupported diagnostics format");
    }
    bracket_level++;
 }
@@ -1300,7 +1300,7 @@ static void stab_scope_close
       break;
 
 	default:
-		error(ERROR_SERIOUS, "unsupported diagnostics format");
+		error(ERR_SERIOUS, "unsupported diagnostics format");
    }
 }
 
@@ -1742,7 +1742,7 @@ static DNTTPOINTER out_dt_shape
 
 	      if (lntt_next.word != p.word)
 	      {
-		 error(ERROR_SERIOUS, "error whilst compiling XDB diagnostics tables");
+		 error(ERR_SERIOUS, "error whilst compiling XDB diagnostics tables");
 	      }
 
  	      if (dt->key == DIAG_TYPE_STRUCT)

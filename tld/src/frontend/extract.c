@@ -40,10 +40,10 @@ extract_main(ArgDataT *arg_data)
     LibraryT * library;
 
     if (extract_all && (num_files > 1)) {
-	error(ERROR_FATAL,"cannot extract all capsules and named capsules");
+	error(ERR_FATAL,"cannot extract all capsules and named capsules");
 	UNREACHED;
     } else if ((!extract_all) && (num_files == 1)) {
-	error(ERROR_FATAL,"no capsules specified to extract");
+	error(ERR_FATAL,"no capsules specified to extract");
 	UNREACHED;
     }
     if ((library = library_create_stream_input(files[0])) !=
@@ -58,7 +58,7 @@ extract_main(ArgDataT *arg_data)
 	}
 	library_close(library);
     } else {
-	error(ERROR_SERIOUS, "cannot open input file '%s': %s", 
+	error(ERR_SERIOUS, "cannot open input file '%s': %s", 
 		files[0], strerror(errno));
     }
     if (error_max_reported_severity() >= ERROR_SEVERITY_ERROR) {

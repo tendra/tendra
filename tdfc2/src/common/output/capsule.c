@@ -765,7 +765,7 @@ write_capsule_body(BITSTREAM *bs)
 								use |= USAGE_DEFN;
 							} else {
 								msg = "'%s %lu' used but not defined";
-								error(ERROR_INTERNAL, msg, var->name, k);
+								error(ERR_INTERNAL, msg, var->name, k);
 								use |= USAGE_DECL;
 								names[k] = mangle_anon();
 								no_ext++;
@@ -777,10 +777,10 @@ write_capsule_body(BITSTREAM *bs)
 						/* Undeclared tag */
 						if (s) {
 							msg = "'%s' used but not declared";
-							error(ERROR_INTERNAL, msg, strlit(s));
+							error(ERR_INTERNAL, msg, strlit(s));
 						} else {
 							msg = "'%s %lu' used but not declared";
-							error(ERROR_INTERNAL, msg, var->name, k);
+							error(ERR_INTERNAL, msg, var->name, k);
 						}
 					}
 				} else {
@@ -1180,7 +1180,7 @@ output_option(string opt)
 		default: {
 			/* Unknown output options */
 			const char *err = "Unknown output option, '%c'";
-			error(ERROR_WARNING, err,(int)c);
+			error(ERR_WARN, err,(int)c);
 			break;
 		}
 		}

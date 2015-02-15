@@ -2199,10 +2199,10 @@ ptr is labelled exp
     	if (fal!=0) {
     		int oal = frame_al1_of_offset(sh(d));
 /*    		if( ((oal-1)&oal) != 0) {
-    			error(ERROR_INTERNAL, "can't cope with mixed frame offsets yet");
+    			error(ERR_INTERNAL, "can't cope with mixed frame offsets yet");
     		}
     		if ((oal & fal)==0) {
-    			error(ERROR_INTERNAL, "frame-ptr and offset incompatible");
+    			error(ERR_INTERNAL, "frame-ptr and offset incompatible");
     		}
 */
     		if ( includes_vcallees(fal) && l_or_cees(oal)) {

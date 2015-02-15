@@ -164,7 +164,7 @@ ZL1:;
 		{
 #line 705 "syntax.act"
 
-		error(ERROR_SERIOUS, "Syntax error: expected semicolon \';\'");
+		error(ERR_SERIOUS, "Syntax error: expected semicolon \';\'");
 	
 #line 170 "syntax.c"
 		}
@@ -276,9 +276,9 @@ ZRparam_Hlist_C_Cparam(zoneP ZIz, paramP *ZIa)
 
 		et = table_get_entry(&(ZIz)->ast->table, (ZItype));
 		if (et == NULL) {
-			 error(ERROR_SERIOUS, "Unknown type %s", (ZItype));
+			 error(ERR_SERIOUS, "Unknown type %s", (ZItype));
 		} else if (et->kind != ENTRY_TYPE) {
-			 error(ERROR_SERIOUS, "%s is not a type", (ZItype));
+			 error(ERR_SERIOUS, "%s is not a type", (ZItype));
 		} else {
 			param_append((ZIa), (ZIname), et, (ZIisref));
 		}
@@ -343,7 +343,7 @@ ZRzone_Hdefn(zoneP ZIz)
 #line 678 "syntax.act"
 
 		(ZIzid)="";
-		error(ERROR_SERIOUS, "Syntax error: expected identifier");
+		error(ERR_SERIOUS, "Syntax error: expected identifier");
 	
 #line 349 "syntax.c"
 				}
@@ -370,7 +370,7 @@ ZRzone_Hdefn(zoneP ZIz)
 				{
 #line 701 "syntax.act"
 
-		error(ERROR_SERIOUS, "Syntax error: expected colon \':\'");
+		error(ERR_SERIOUS, "Syntax error: expected colon \':\'");
 	
 #line 376 "syntax.c"
 				}
@@ -433,7 +433,7 @@ ZRzone_Hdefn(zoneP ZIz)
 				{
 #line 684 "syntax.act"
 
-		error(ERROR_SERIOUS, "Syntax error: expected range");
+		error(ERR_SERIOUS, "Syntax error: expected range");
 	
 #line 439 "syntax.c"
 				}
@@ -548,7 +548,7 @@ ZL1:;
 		{
 #line 688 "syntax.act"
 
-		error(ERROR_SERIOUS, "Syntax error: expected open \'(\'");
+		error(ERR_SERIOUS, "Syntax error: expected open \'(\'");
 	
 #line 554 "syntax.c"
 		}
@@ -578,7 +578,7 @@ ZL1:;
 		{
 #line 692 "syntax.act"
 
-		error(ERROR_SERIOUS, "Syntax error: expected close \')\'");
+		error(ERR_SERIOUS, "Syntax error: expected close \')\'");
 	
 #line 584 "syntax.c"
 		}
@@ -752,15 +752,15 @@ ZRtype_Hdefn(zoneP ZIz)
 		if (e != NULL) {
 			switch (e->kind) {
 			case ENTRY_TYPE:
-				error(ERROR_SERIOUS, "Type %s already exists", (ZIs));
+				error(ERR_SERIOUS, "Type %s already exists", (ZIs));
 				break;
 
 			case ENTRY_LOCAL:
-				error(ERROR_SERIOUS, "Can't create type %s, %s has been previously used as a local name. We do not allow retroactive hiding.", (ZIs), (ZIs));
+				error(ERR_SERIOUS, "Can't create type %s, %s has been previously used as a local name. We do not allow retroactive hiding.", (ZIs), (ZIs));
 				break;
 
 			case ENTRY_ACTION:
-				error(ERROR_SERIOUS, "Can't create type %s, %s has already been declared as an action", (ZIs), (ZIs));
+				error(ERR_SERIOUS, "Can't create type %s, %s has already been declared as an action", (ZIs), (ZIs));
 				break;
 
 			default:
@@ -781,7 +781,7 @@ ZRtype_Hdefn(zoneP ZIz)
 				{
 #line 674 "syntax.act"
 
-		error(ERROR_SERIOUS, "Syntax error: type %s should not be declared inside a zone",(ZIs));
+		error(ERR_SERIOUS, "Syntax error: type %s should not be declared inside a zone",(ZIs));
 	
 #line 787 "syntax.c"
 				}
@@ -934,7 +934,7 @@ ZRcmd_Hlist(zoneP ZI196, frameP *ZO201)
 			return_count = cmd_return_count((ZIf)->cmds);
 
 			if (return_count > 0 && (ZIc)->kind != CMD_DISCARD) {
-				error(ERROR_SERIOUS, "No cmd may follow an cmd that returns a terminal");
+				error(ERR_SERIOUS, "No cmd may follow an cmd that returns a terminal");
 			}
 
 			if ((ZIc)->kind == CMD_RETURN) {
@@ -950,7 +950,7 @@ ZRcmd_Hlist(zoneP ZI196, frameP *ZO201)
 
 				return_count += arg_return_count((ZIc)->u.act.lhs);
 				if (return_count > 1) {
-					error(ERROR_SERIOUS, "Only one terminal may be returned per token");
+					error(ERR_SERIOUS, "Only one terminal may be returned per token");
 				}
 
 				ea  = (ZIc)->u.act.ea;
@@ -968,22 +968,22 @@ ZRcmd_Hlist(zoneP ZI196, frameP *ZO201)
 						if (et == NULL) {
 							struct entry *e = table_get_entry(&(ZI196)->ast->table, p->u.literal);
 							if (!e) {
-								error(ERROR_SERIOUS, "local name %s has not been defined yet", p->u.literal);
+								error(ERR_SERIOUS, "local name %s has not been defined yet", p->u.literal);
 								et = NULL;
 							} else {
 								switch (e->kind) {
 								case ENTRY_LOCAL:
-									error(ERROR_SERIOUS, "local name %s has been defined but not in this scope", p->u.literal);
+									error(ERR_SERIOUS, "local name %s has been defined but not in this scope", p->u.literal);
 									et = NULL;
 									break;
 
 								case ENTRY_ACTION:
-									error(ERROR_SERIOUS, "%s is not a local name but an action which is not allowed", p->u.literal);
+									error(ERR_SERIOUS, "%s is not a local name but an action which is not allowed", p->u.literal);
 									et = NULL;
 									break;
 
 								case ENTRY_TYPE:
-									error(ERROR_SERIOUS, "%s is not a local name but a type which is not allowed", p->u.literal);
+									error(ERR_SERIOUS, "%s is not a local name but a type which is not allowed", p->u.literal);
 									et = NULL;
 									break;
 
@@ -1056,18 +1056,18 @@ ZRcmd_Hlist(zoneP ZI196, frameP *ZO201)
 								break;
 							}
 
-							error(ERROR_SERIOUS, "In call to action %s, argument \'%s%s\' has type \'%s%s\' when it should have type %s",
+							error(ERR_SERIOUS, "In call to action %s, argument \'%s%s\' has type \'%s%s\' when it should have type %s",
 								ea->key, s6, s7, et->key, s3, s4, s5);
 						}
 					}
 				}
 
 				if (p != NULL) {
-					error(ERROR_SERIOUS, "In call to action %s, too many arguments", ea->key);
+					error(ERR_SERIOUS, "In call to action %s, too many arguments", ea->key);
 				}
 
 				if (q != NULL) {
-					error(ERROR_SERIOUS, "In call to action %s, not enough arguments", ea->key);
+					error(ERR_SERIOUS, "In call to action %s, not enough arguments", ea->key);
 				}
 
 				for (p = lhs, q = act->out; p != NULL && q != NULL; p = p->next, q = q->next) {
@@ -1083,25 +1083,25 @@ ZRcmd_Hlist(zoneP ZI196, frameP *ZO201)
 							if (e) {
 								switch (e->kind) {
 								case ENTRY_ACTION:
-									error(ERROR_SERIOUS, "In action lhs. Name %s is an action. Hiding globals by local names is not allowed", p->u.literal);
+									error(ERR_SERIOUS, "In action lhs. Name %s is an action. Hiding globals by local names is not allowed", p->u.literal);
 									break;
 
 								case ENTRY_TYPE:
-									error(ERROR_SERIOUS, "In action lhs. Name %s is a type. Hiding globals by local names is not allowed", p->u.literal);
+									error(ERR_SERIOUS, "In action lhs. Name %s is a type. Hiding globals by local names is not allowed", p->u.literal);
 									break;
 								}
 							} else {
 								table_add_local_name(&(ZI196)->ast->table, p->u.literal);
 							}
 							if (p->is_ref) {
-								error(ERROR_SERIOUS, "In action call %s, you can only use references %s for preexisting variables",
+								error(ERR_SERIOUS, "In action call %s, you can only use references %s for preexisting variables",
 									ea->key, p->u.literal);
 							}
 						} else {
 							if (!p->is_ref) {
 								char *s;
 
-								error(ERROR_SERIOUS, "In action call %s, name %s already declared. Use references to change the value of an already existing variable",
+								error(ERR_SERIOUS, "In action call %s, name %s already declared. Use references to change the value of an already existing variable",
 									ea->key, p->u.literal);
 
 								et = q->et; /* To avoid outputting that error more than once */
@@ -1134,19 +1134,19 @@ ZRcmd_Hlist(zoneP ZI196, frameP *ZO201)
 					if (p->is_ref != q->is_ref) {
 						/* XXX: state which action */
 						if (p->is_ref) {
-							error(ERROR_SERIOUS, "In call to action, %s should not be a reference", p->u.literal);
+							error(ERR_SERIOUS, "In call to action, %s should not be a reference", p->u.literal);
 						} else {
-							error(ERROR_SERIOUS, "In call to action, %s should not be a reference", p->u.literal);
+							error(ERR_SERIOUS, "In call to action, %s should not be a reference", p->u.literal);
 						}
 					}
 				}
 
 				if (p != NULL) {
-					error(ERROR_SERIOUS, "In call to action %s, too many results", ea->key);
+					error(ERR_SERIOUS, "In call to action %s, too many results", ea->key);
 				}
 
 				if (q != NULL) {
-					error(ERROR_SERIOUS, "In call to action %s, not enough results", ea->key);
+					error(ERR_SERIOUS, "In call to action %s, not enough results", ea->key);
 				}
 			}
 
@@ -1282,7 +1282,7 @@ ZL1:;
 #line 695 "syntax.act"
 
 			(ZIe) = NULL;
-		error(ERROR_SERIOUS, "Syntax error: expected characters");
+		error(ERR_SERIOUS, "Syntax error: expected characters");
 	
 #line 1288 "syntax.c"
 		}
@@ -1396,7 +1396,7 @@ read_lex(zoneP ZIz)
 				{
 #line 725 "syntax.act"
 
-		error(ERROR_SERIOUS, "Syntax error");
+		error(ERR_SERIOUS, "Syntax error");
 	
 #line 1402 "syntax.c"
 				}
@@ -1442,7 +1442,7 @@ ZL2_202:;
 			return_count = cmd_return_count((ZIf)->cmds);
 
 			if (return_count > 0 && (ZIc)->kind != CMD_DISCARD) {
-				error(ERROR_SERIOUS, "No cmd may follow an cmd that returns a terminal");
+				error(ERR_SERIOUS, "No cmd may follow an cmd that returns a terminal");
 			}
 
 			if ((ZIc)->kind == CMD_RETURN) {
@@ -1458,7 +1458,7 @@ ZL2_202:;
 
 				return_count += arg_return_count((ZIc)->u.act.lhs);
 				if (return_count > 1) {
-					error(ERROR_SERIOUS, "Only one terminal may be returned per token");
+					error(ERR_SERIOUS, "Only one terminal may be returned per token");
 				}
 
 				ea  = (ZIc)->u.act.ea;
@@ -1476,22 +1476,22 @@ ZL2_202:;
 						if (et == NULL) {
 							struct entry *e = table_get_entry(&(ZI196)->ast->table, p->u.literal);
 							if (!e) {
-								error(ERROR_SERIOUS, "local name %s has not been defined yet", p->u.literal);
+								error(ERR_SERIOUS, "local name %s has not been defined yet", p->u.literal);
 								et = NULL;
 							} else {
 								switch (e->kind) {
 								case ENTRY_LOCAL:
-									error(ERROR_SERIOUS, "local name %s has been defined but not in this scope", p->u.literal);
+									error(ERR_SERIOUS, "local name %s has been defined but not in this scope", p->u.literal);
 									et = NULL;
 									break;
 
 								case ENTRY_ACTION:
-									error(ERROR_SERIOUS, "%s is not a local name but an action which is not allowed", p->u.literal);
+									error(ERR_SERIOUS, "%s is not a local name but an action which is not allowed", p->u.literal);
 									et = NULL;
 									break;
 
 								case ENTRY_TYPE:
-									error(ERROR_SERIOUS, "%s is not a local name but a type which is not allowed", p->u.literal);
+									error(ERR_SERIOUS, "%s is not a local name but a type which is not allowed", p->u.literal);
 									et = NULL;
 									break;
 
@@ -1564,18 +1564,18 @@ ZL2_202:;
 								break;
 							}
 
-							error(ERROR_SERIOUS, "In call to action %s, argument \'%s%s\' has type \'%s%s\' when it should have type %s",
+							error(ERR_SERIOUS, "In call to action %s, argument \'%s%s\' has type \'%s%s\' when it should have type %s",
 								ea->key, s6, s7, et->key, s3, s4, s5);
 						}
 					}
 				}
 
 				if (p != NULL) {
-					error(ERROR_SERIOUS, "In call to action %s, too many arguments", ea->key);
+					error(ERR_SERIOUS, "In call to action %s, too many arguments", ea->key);
 				}
 
 				if (q != NULL) {
-					error(ERROR_SERIOUS, "In call to action %s, not enough arguments", ea->key);
+					error(ERR_SERIOUS, "In call to action %s, not enough arguments", ea->key);
 				}
 
 				for (p = lhs, q = act->out; p != NULL && q != NULL; p = p->next, q = q->next) {
@@ -1591,25 +1591,25 @@ ZL2_202:;
 							if (e) {
 								switch (e->kind) {
 								case ENTRY_ACTION:
-									error(ERROR_SERIOUS, "In action lhs. Name %s is an action. Hiding globals by local names is not allowed", p->u.literal);
+									error(ERR_SERIOUS, "In action lhs. Name %s is an action. Hiding globals by local names is not allowed", p->u.literal);
 									break;
 
 								case ENTRY_TYPE:
-									error(ERROR_SERIOUS, "In action lhs. Name %s is a type. Hiding globals by local names is not allowed", p->u.literal);
+									error(ERR_SERIOUS, "In action lhs. Name %s is a type. Hiding globals by local names is not allowed", p->u.literal);
 									break;
 								}
 							} else {
 								table_add_local_name(&(ZI196)->ast->table, p->u.literal);
 							}
 							if (p->is_ref) {
-								error(ERROR_SERIOUS, "In action call %s, you can only use references %s for preexisting variables",
+								error(ERR_SERIOUS, "In action call %s, you can only use references %s for preexisting variables",
 									ea->key, p->u.literal);
 							}
 						} else {
 							if (!p->is_ref) {
 								char *s;
 
-								error(ERROR_SERIOUS, "In action call %s, name %s already declared. Use references to change the value of an already existing variable",
+								error(ERR_SERIOUS, "In action call %s, name %s already declared. Use references to change the value of an already existing variable",
 									ea->key, p->u.literal);
 
 								et = q->et; /* To avoid outputting that error more than once */
@@ -1642,19 +1642,19 @@ ZL2_202:;
 					if (p->is_ref != q->is_ref) {
 						/* XXX: state which action */
 						if (p->is_ref) {
-							error(ERROR_SERIOUS, "In call to action, %s should not be a reference", p->u.literal);
+							error(ERR_SERIOUS, "In call to action, %s should not be a reference", p->u.literal);
 						} else {
-							error(ERROR_SERIOUS, "In call to action, %s should not be a reference", p->u.literal);
+							error(ERR_SERIOUS, "In call to action, %s should not be a reference", p->u.literal);
 						}
 					}
 				}
 
 				if (p != NULL) {
-					error(ERROR_SERIOUS, "In call to action %s, too many results", ea->key);
+					error(ERR_SERIOUS, "In call to action %s, too many results", ea->key);
 				}
 
 				if (q != NULL) {
-					error(ERROR_SERIOUS, "In call to action %s, not enough results", ea->key);
+					error(ERR_SERIOUS, "In call to action %s, not enough results", ea->key);
 				}
 			}
 
@@ -1734,7 +1734,7 @@ ZRaction_Hdecl(zoneP ZIz)
 				{
 #line 717 "syntax.act"
 
-		error(ERROR_SERIOUS, "Syntax error: expected begin action \'<\'");
+		error(ERR_SERIOUS, "Syntax error: expected begin action \'<\'");
 	
 #line 1740 "syntax.c"
 				}
@@ -1777,7 +1777,7 @@ ZRaction_Hdecl(zoneP ZIz)
 				{
 #line 721 "syntax.act"
 
-		error(ERROR_SERIOUS, "Syntax error: expected end action \'>\'");
+		error(ERR_SERIOUS, "Syntax error: expected end action \'>\'");
 	
 #line 1783 "syntax.c"
 				}
@@ -1840,15 +1840,15 @@ ZRaction_Hdecl(zoneP ZIz)
 		if (e != NULL) {
 			switch (e->kind) {
 			case ENTRY_ACTION:
-				error(ERROR_SERIOUS, "Action %s already exists", (ZIi));
+				error(ERR_SERIOUS, "Action %s already exists", (ZIi));
 				break;
 
 			case ENTRY_LOCAL:
-				error(ERROR_SERIOUS, "Can't create type %s, %s has been previously used as a local name. We do not allow retroactive hiding.", (ZIi), (ZIi));
+				error(ERR_SERIOUS, "Can't create type %s, %s has been previously used as a local name. We do not allow retroactive hiding.", (ZIi), (ZIi));
 				break;
 
 			case ENTRY_TYPE:
-				error(ERROR_SERIOUS, "Can't create action %s, %s has already been declared as a type", (ZIi), (ZIi));
+				error(ERR_SERIOUS, "Can't create action %s, %s has already been declared as a type", (ZIi), (ZIi));
 				break;
 
 			default:
@@ -1925,7 +1925,7 @@ ZR204(zoneP *ZIz)
 #line 170 "syntax.act"
 
 		if ((*ZIz)->white) {
-			error(ERROR_SERIOUS, "White space group already defined");
+			error(ERR_SERIOUS, "White space group already defined");
 		}
 
 		(*ZIz)->white = make_group((*ZIz), "white", (ZIs));
@@ -2028,7 +2028,7 @@ ZR205(zoneP *ZIz)
 #line 498 "syntax.act"
 
 		if (cmd_return_count((ZIc)) > 1) {
-			error(ERROR_SERIOUS, "At most one return terminal may be specified per command list");
+			error(ERR_SERIOUS, "At most one return terminal may be specified per command list");
 		}
 	
 #line 2035 "syntax.c"
@@ -2100,7 +2100,7 @@ ZR206(zoneP *ZIz, argP *ZIl, cmdP *ZOc)
 			{
 #line 729 "syntax.act"
 
-		error(ERROR_SERIOUS, "Argument of style # are rvalues and should not appear on a left handside");
+		error(ERR_SERIOUS, "Argument of style # are rvalues and should not appear on a left handside");
 	
 #line 2106 "syntax.c"
 			}
@@ -2156,7 +2156,7 @@ ZR206(zoneP *ZIz, argP *ZIl, cmdP *ZOc)
 #line 246 "syntax.act"
 
 		if (arg_return_count((*ZIl)) > 1) {
-			error(ERROR_SERIOUS, "There can only be one return terminal argument per action lhs");
+			error(ERR_SERIOUS, "There can only be one return terminal argument per action lhs");
 		}
 	
 #line 2163 "syntax.c"
@@ -2186,16 +2186,16 @@ ZR206(zoneP *ZIz, argP *ZIl, cmdP *ZOc)
 		ea = table_get_entry(&(*ZIz)->ast->table, key);
 		if (ea == NULL) {
 			(ZIc) = NULL;
-			error(ERROR_SERIOUS, "Unknown action %s", (ZIi));
+			error(ERR_SERIOUS, "Unknown action %s", (ZIi));
 		} else if (ea->kind != ENTRY_ACTION) {
 			(ZIc) = NULL;
-			error(ERROR_SERIOUS, "Name %s is not an action", (ZIi));
+			error(ERR_SERIOUS, "Name %s is not an action", (ZIi));
 		} else {
 			char *dup;
 
 			dup = arg_first_duplicate_ident((*ZIl));
 			if (dup != NULL) {
-				error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",
+				error(ERR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",
 					ea->key, dup);
 			}
 
@@ -2239,7 +2239,7 @@ ZR206(zoneP *ZIz, argP *ZIl, cmdP *ZOc)
 			{
 #line 729 "syntax.act"
 
-		error(ERROR_SERIOUS, "Argument of style # are rvalues and should not appear on a left handside");
+		error(ERR_SERIOUS, "Argument of style # are rvalues and should not appear on a left handside");
 	
 #line 2245 "syntax.c"
 			}
@@ -2295,7 +2295,7 @@ ZR206(zoneP *ZIz, argP *ZIl, cmdP *ZOc)
 #line 246 "syntax.act"
 
 		if (arg_return_count((*ZIl)) > 1) {
-			error(ERROR_SERIOUS, "There can only be one return terminal argument per action lhs");
+			error(ERR_SERIOUS, "There can only be one return terminal argument per action lhs");
 		}
 	
 #line 2302 "syntax.c"
@@ -2325,16 +2325,16 @@ ZR206(zoneP *ZIz, argP *ZIl, cmdP *ZOc)
 		ea = table_get_entry(&(*ZIz)->ast->table, key);
 		if (ea == NULL) {
 			(ZIc) = NULL;
-			error(ERROR_SERIOUS, "Unknown action %s", (ZIi));
+			error(ERR_SERIOUS, "Unknown action %s", (ZIi));
 		} else if (ea->kind != ENTRY_ACTION) {
 			(ZIc) = NULL;
-			error(ERROR_SERIOUS, "Name %s is not an action", (ZIi));
+			error(ERR_SERIOUS, "Name %s is not an action", (ZIi));
 		} else {
 			char *dup;
 
 			dup = arg_first_duplicate_ident((*ZIl));
 			if (dup != NULL) {
-				error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",
+				error(ERR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",
 					ea->key, dup);
 			}
 
@@ -2378,7 +2378,7 @@ ZR206(zoneP *ZIz, argP *ZIl, cmdP *ZOc)
 			{
 #line 729 "syntax.act"
 
-		error(ERROR_SERIOUS, "Argument of style # are rvalues and should not appear on a left handside");
+		error(ERR_SERIOUS, "Argument of style # are rvalues and should not appear on a left handside");
 	
 #line 2384 "syntax.c"
 			}
@@ -2434,7 +2434,7 @@ ZR206(zoneP *ZIz, argP *ZIl, cmdP *ZOc)
 #line 246 "syntax.act"
 
 		if (arg_return_count((*ZIl)) > 1) {
-			error(ERROR_SERIOUS, "There can only be one return terminal argument per action lhs");
+			error(ERR_SERIOUS, "There can only be one return terminal argument per action lhs");
 		}
 	
 #line 2441 "syntax.c"
@@ -2464,16 +2464,16 @@ ZR206(zoneP *ZIz, argP *ZIl, cmdP *ZOc)
 		ea = table_get_entry(&(*ZIz)->ast->table, key);
 		if (ea == NULL) {
 			(ZIc) = NULL;
-			error(ERROR_SERIOUS, "Unknown action %s", (ZIi));
+			error(ERR_SERIOUS, "Unknown action %s", (ZIi));
 		} else if (ea->kind != ENTRY_ACTION) {
 			(ZIc) = NULL;
-			error(ERROR_SERIOUS, "Name %s is not an action", (ZIi));
+			error(ERR_SERIOUS, "Name %s is not an action", (ZIi));
 		} else {
 			char *dup;
 
 			dup = arg_first_duplicate_ident((*ZIl));
 			if (dup != NULL) {
-				error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",
+				error(ERR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",
 					ea->key, dup);
 			}
 
@@ -2554,7 +2554,7 @@ ZR206(zoneP *ZIz, argP *ZIl, cmdP *ZOc)
 #line 246 "syntax.act"
 
 		if (arg_return_count((*ZIl)) > 1) {
-			error(ERROR_SERIOUS, "There can only be one return terminal argument per action lhs");
+			error(ERR_SERIOUS, "There can only be one return terminal argument per action lhs");
 		}
 	
 #line 2561 "syntax.c"
@@ -2584,16 +2584,16 @@ ZR206(zoneP *ZIz, argP *ZIl, cmdP *ZOc)
 		ea = table_get_entry(&(*ZIz)->ast->table, key);
 		if (ea == NULL) {
 			(ZIc) = NULL;
-			error(ERROR_SERIOUS, "Unknown action %s", (ZIi));
+			error(ERR_SERIOUS, "Unknown action %s", (ZIi));
 		} else if (ea->kind != ENTRY_ACTION) {
 			(ZIc) = NULL;
-			error(ERROR_SERIOUS, "Name %s is not an action", (ZIi));
+			error(ERR_SERIOUS, "Name %s is not an action", (ZIi));
 		} else {
 			char *dup;
 
 			dup = arg_first_duplicate_ident((*ZIl));
 			if (dup != NULL) {
-				error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",
+				error(ERR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",
 					ea->key, dup);
 			}
 
@@ -2674,7 +2674,7 @@ ZR206(zoneP *ZIz, argP *ZIl, cmdP *ZOc)
 #line 246 "syntax.act"
 
 		if (arg_return_count((*ZIl)) > 1) {
-			error(ERROR_SERIOUS, "There can only be one return terminal argument per action lhs");
+			error(ERR_SERIOUS, "There can only be one return terminal argument per action lhs");
 		}
 	
 #line 2681 "syntax.c"
@@ -2704,16 +2704,16 @@ ZR206(zoneP *ZIz, argP *ZIl, cmdP *ZOc)
 		ea = table_get_entry(&(*ZIz)->ast->table, key);
 		if (ea == NULL) {
 			(ZIc) = NULL;
-			error(ERROR_SERIOUS, "Unknown action %s", (ZIi));
+			error(ERR_SERIOUS, "Unknown action %s", (ZIi));
 		} else if (ea->kind != ENTRY_ACTION) {
 			(ZIc) = NULL;
-			error(ERROR_SERIOUS, "Name %s is not an action", (ZIi));
+			error(ERR_SERIOUS, "Name %s is not an action", (ZIi));
 		} else {
 			char *dup;
 
 			dup = arg_first_duplicate_ident((*ZIl));
 			if (dup != NULL) {
-				error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",
+				error(ERR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",
 					ea->key, dup);
 			}
 
@@ -2754,7 +2754,7 @@ ZR206(zoneP *ZIz, argP *ZIl, cmdP *ZOc)
 #line 246 "syntax.act"
 
 		if (arg_return_count((*ZIl)) > 1) {
-			error(ERROR_SERIOUS, "There can only be one return terminal argument per action lhs");
+			error(ERR_SERIOUS, "There can only be one return terminal argument per action lhs");
 		}
 	
 #line 2761 "syntax.c"
@@ -2784,16 +2784,16 @@ ZR206(zoneP *ZIz, argP *ZIl, cmdP *ZOc)
 		ea = table_get_entry(&(*ZIz)->ast->table, key);
 		if (ea == NULL) {
 			(ZIc) = NULL;
-			error(ERROR_SERIOUS, "Unknown action %s", (ZIi));
+			error(ERR_SERIOUS, "Unknown action %s", (ZIi));
 		} else if (ea->kind != ENTRY_ACTION) {
 			(ZIc) = NULL;
-			error(ERROR_SERIOUS, "Name %s is not an action", (ZIi));
+			error(ERR_SERIOUS, "Name %s is not an action", (ZIi));
 		} else {
 			char *dup;
 
 			dup = arg_first_duplicate_ident((*ZIl));
 			if (dup != NULL) {
-				error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",
+				error(ERR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",
 					ea->key, dup);
 			}
 
@@ -2898,7 +2898,7 @@ ZR206(zoneP *ZIz, argP *ZIl, cmdP *ZOc)
 #line 246 "syntax.act"
 
 		if (arg_return_count((*ZIl)) > 1) {
-			error(ERROR_SERIOUS, "There can only be one return terminal argument per action lhs");
+			error(ERR_SERIOUS, "There can only be one return terminal argument per action lhs");
 		}
 	
 #line 2905 "syntax.c"
@@ -2928,16 +2928,16 @@ ZR206(zoneP *ZIz, argP *ZIl, cmdP *ZOc)
 		ea = table_get_entry(&(*ZIz)->ast->table, key);
 		if (ea == NULL) {
 			(ZIc) = NULL;
-			error(ERROR_SERIOUS, "Unknown action %s", (ZIi));
+			error(ERR_SERIOUS, "Unknown action %s", (ZIi));
 		} else if (ea->kind != ENTRY_ACTION) {
 			(ZIc) = NULL;
-			error(ERROR_SERIOUS, "Name %s is not an action", (ZIi));
+			error(ERR_SERIOUS, "Name %s is not an action", (ZIi));
 		} else {
 			char *dup;
 
 			dup = arg_first_duplicate_ident((*ZIl));
 			if (dup != NULL) {
-				error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",
+				error(ERR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",
 					ea->key, dup);
 			}
 
@@ -3003,7 +3003,7 @@ ZR206(zoneP *ZIz, argP *ZIl, cmdP *ZOc)
 #line 246 "syntax.act"
 
 		if (arg_return_count((*ZIl)) > 1) {
-			error(ERROR_SERIOUS, "There can only be one return terminal argument per action lhs");
+			error(ERR_SERIOUS, "There can only be one return terminal argument per action lhs");
 		}
 	
 #line 3010 "syntax.c"
@@ -3033,16 +3033,16 @@ ZR206(zoneP *ZIz, argP *ZIl, cmdP *ZOc)
 		ea = table_get_entry(&(*ZIz)->ast->table, key);
 		if (ea == NULL) {
 			(ZIc) = NULL;
-			error(ERROR_SERIOUS, "Unknown action %s", (ZIi));
+			error(ERR_SERIOUS, "Unknown action %s", (ZIi));
 		} else if (ea->kind != ENTRY_ACTION) {
 			(ZIc) = NULL;
-			error(ERROR_SERIOUS, "Name %s is not an action", (ZIi));
+			error(ERR_SERIOUS, "Name %s is not an action", (ZIi));
 		} else {
 			char *dup;
 
 			dup = arg_first_duplicate_ident((*ZIl));
 			if (dup != NULL) {
-				error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",
+				error(ERR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",
 					ea->key, dup);
 			}
 
@@ -3140,7 +3140,7 @@ ZR206(zoneP *ZIz, argP *ZIl, cmdP *ZOc)
 #line 246 "syntax.act"
 
 		if (arg_return_count((*ZIl)) > 1) {
-			error(ERROR_SERIOUS, "There can only be one return terminal argument per action lhs");
+			error(ERR_SERIOUS, "There can only be one return terminal argument per action lhs");
 		}
 	
 #line 3147 "syntax.c"
@@ -3170,16 +3170,16 @@ ZR206(zoneP *ZIz, argP *ZIl, cmdP *ZOc)
 		ea = table_get_entry(&(*ZIz)->ast->table, key);
 		if (ea == NULL) {
 			(ZIc) = NULL;
-			error(ERROR_SERIOUS, "Unknown action %s", (ZIi));
+			error(ERR_SERIOUS, "Unknown action %s", (ZIi));
 		} else if (ea->kind != ENTRY_ACTION) {
 			(ZIc) = NULL;
-			error(ERROR_SERIOUS, "Name %s is not an action", (ZIi));
+			error(ERR_SERIOUS, "Name %s is not an action", (ZIi));
 		} else {
 			char *dup;
 
 			dup = arg_first_duplicate_ident((*ZIl));
 			if (dup != NULL) {
-				error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",
+				error(ERR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",
 					ea->key, dup);
 			}
 
@@ -3217,7 +3217,7 @@ ZR206(zoneP *ZIz, argP *ZIl, cmdP *ZOc)
 				buf[n++] = *s;
 			}
 			if (n >= 900) {
-				error (ERROR_SERIOUS, "Identifier too long");
+				error (ERR_SERIOUS, "Identifier too long");
 				break;
 			}
 		}
@@ -3265,7 +3265,7 @@ ZR206(zoneP *ZIz, argP *ZIl, cmdP *ZOc)
 			{
 #line 733 "syntax.act"
 
-		error(ERROR_SERIOUS, "Argument of type "" are rvalues and should not appear on a left handside");
+		error(ERR_SERIOUS, "Argument of type "" are rvalues and should not appear on a left handside");
 	
 #line 3271 "syntax.c"
 			}
@@ -3321,7 +3321,7 @@ ZR206(zoneP *ZIz, argP *ZIl, cmdP *ZOc)
 #line 246 "syntax.act"
 
 		if (arg_return_count((*ZIl)) > 1) {
-			error(ERROR_SERIOUS, "There can only be one return terminal argument per action lhs");
+			error(ERR_SERIOUS, "There can only be one return terminal argument per action lhs");
 		}
 	
 #line 3328 "syntax.c"
@@ -3351,16 +3351,16 @@ ZR206(zoneP *ZIz, argP *ZIl, cmdP *ZOc)
 		ea = table_get_entry(&(*ZIz)->ast->table, key);
 		if (ea == NULL) {
 			(ZIc) = NULL;
-			error(ERROR_SERIOUS, "Unknown action %s", (ZIi));
+			error(ERR_SERIOUS, "Unknown action %s", (ZIi));
 		} else if (ea->kind != ENTRY_ACTION) {
 			(ZIc) = NULL;
-			error(ERROR_SERIOUS, "Name %s is not an action", (ZIi));
+			error(ERR_SERIOUS, "Name %s is not an action", (ZIi));
 		} else {
 			char *dup;
 
 			dup = arg_first_duplicate_ident((*ZIl));
 			if (dup != NULL) {
-				error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",
+				error(ERR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",
 					ea->key, dup);
 			}
 
@@ -3419,7 +3419,7 @@ ZL1:;
 		{
 #line 725 "syntax.act"
 
-		error(ERROR_SERIOUS, "Syntax error");
+		error(ERR_SERIOUS, "Syntax error");
 	
 #line 3425 "syntax.c"
 		}
@@ -3465,7 +3465,7 @@ ZR210(zoneP *ZIz, argP *ZIl, SID_STRING *ZI209, cmdP *ZOc)
 			{
 #line 750 "syntax.act"
 
-		error(ERROR_SERIOUS, "Terminal argument in left handside");
+		error(ERR_SERIOUS, "Terminal argument in left handside");
 	
 #line 3471 "syntax.c"
 			}
@@ -3515,7 +3515,7 @@ ZR210(zoneP *ZIz, argP *ZIl, SID_STRING *ZI209, cmdP *ZOc)
 #line 246 "syntax.act"
 
 		if (arg_return_count((*ZIl)) > 1) {
-			error(ERROR_SERIOUS, "There can only be one return terminal argument per action lhs");
+			error(ERR_SERIOUS, "There can only be one return terminal argument per action lhs");
 		}
 	
 #line 3522 "syntax.c"
@@ -3545,16 +3545,16 @@ ZR210(zoneP *ZIz, argP *ZIl, SID_STRING *ZI209, cmdP *ZOc)
 		ea = table_get_entry(&(*ZIz)->ast->table, key);
 		if (ea == NULL) {
 			(ZIc) = NULL;
-			error(ERROR_SERIOUS, "Unknown action %s", (ZIi));
+			error(ERR_SERIOUS, "Unknown action %s", (ZIi));
 		} else if (ea->kind != ENTRY_ACTION) {
 			(ZIc) = NULL;
-			error(ERROR_SERIOUS, "Name %s is not an action", (ZIi));
+			error(ERR_SERIOUS, "Name %s is not an action", (ZIi));
 		} else {
 			char *dup;
 
 			dup = arg_first_duplicate_ident((*ZIl));
 			if (dup != NULL) {
-				error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",
+				error(ERR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",
 					ea->key, dup);
 			}
 
@@ -3719,7 +3719,7 @@ ZRkeyword_Hdefn(zoneP ZIz)
 			break;
 
 		default:
-		  error(ERROR_SERIOUS, "Syntax error: only a function or a token might be returned for a keyword");
+		  error(ERR_SERIOUS, "Syntax error: only a function or a token might be returned for a keyword");
 		}
 	
 #line 3726 "syntax.c"
@@ -3733,7 +3733,7 @@ ZRkeyword_Hdefn(zoneP ZIz)
 				{
 #line 671 "syntax.act"
 
-		error(ERROR_SERIOUS, "Keywords not yet implemented in a non global zone ");
+		error(ERR_SERIOUS, "Keywords not yet implemented in a non global zone ");
 	
 #line 3739 "syntax.c"
 				}
@@ -3952,7 +3952,7 @@ ZRnon_Hempty_Hchars(SID_STRING *ZOs)
 				{
 #line 520 "syntax.act"
 
-		error(ERROR_SERIOUS, "Empty character string is not allowed here, try using DEFAULT instead");
+		error(ERR_SERIOUS, "Empty character string is not allowed here, try using DEFAULT instead");
 	
 #line 3958 "syntax.c"
 				}
@@ -3992,7 +3992,7 @@ ZL1:;
 		{
 #line 713 "syntax.act"
 
-		error(ERROR_SERIOUS, "Syntax error: expected equal \'=\'");
+		error(ERR_SERIOUS, "Syntax error: expected equal \'=\'");
 	
 #line 3998 "syntax.c"
 		}
@@ -4022,7 +4022,7 @@ ZL1:;
 		{
 #line 709 "syntax.act"
 
-		error(ERROR_SERIOUS, "Syntax error: expected arrow \'->\'");
+		error(ERR_SERIOUS, "Syntax error: expected arrow \'->\'");
 	
 #line 4028 "syntax.c"
 		}
@@ -4069,7 +4069,7 @@ ZRaction_Hcall_C_Clhs_Harg(argP *ZIl)
 					{
 #line 729 "syntax.act"
 
-		error(ERROR_SERIOUS, "Argument of style # are rvalues and should not appear on a left handside");
+		error(ERR_SERIOUS, "Argument of style # are rvalues and should not appear on a left handside");
 	
 #line 4075 "syntax.c"
 					}
@@ -4103,7 +4103,7 @@ ZRaction_Hcall_C_Clhs_Harg(argP *ZIl)
 					{
 #line 729 "syntax.act"
 
-		error(ERROR_SERIOUS, "Argument of style # are rvalues and should not appear on a left handside");
+		error(ERR_SERIOUS, "Argument of style # are rvalues and should not appear on a left handside");
 	
 #line 4109 "syntax.c"
 					}
@@ -4137,7 +4137,7 @@ ZRaction_Hcall_C_Clhs_Harg(argP *ZIl)
 					{
 #line 729 "syntax.act"
 
-		error(ERROR_SERIOUS, "Argument of style # are rvalues and should not appear on a left handside");
+		error(ERR_SERIOUS, "Argument of style # are rvalues and should not appear on a left handside");
 	
 #line 4143 "syntax.c"
 					}
@@ -4253,7 +4253,7 @@ ZRaction_Hcall_C_Clhs_Harg(argP *ZIl)
 				buf[n++] = *s;
 			}
 			if (n >= 900) {
-				error (ERROR_SERIOUS, "Identifier too long");
+				error (ERR_SERIOUS, "Identifier too long");
 				break;
 			}
 		}
@@ -4277,7 +4277,7 @@ ZRaction_Hcall_C_Clhs_Harg(argP *ZIl)
 					{
 #line 750 "syntax.act"
 
-		error(ERROR_SERIOUS, "Terminal argument in left handside");
+		error(ERR_SERIOUS, "Terminal argument in left handside");
 	
 #line 4283 "syntax.c"
 					}
@@ -4311,7 +4311,7 @@ ZRaction_Hcall_C_Clhs_Harg(argP *ZIl)
 					{
 #line 733 "syntax.act"
 
-		error(ERROR_SERIOUS, "Argument of type "" are rvalues and should not appear on a left handside");
+		error(ERR_SERIOUS, "Argument of type "" are rvalues and should not appear on a left handside");
 	
 #line 4317 "syntax.c"
 					}
@@ -4421,7 +4421,7 @@ ZRaction_Hcall_C_Crhs_Harg(argP *ZOa)
 			{
 #line 746 "syntax.act"
 
-		error(ERROR_SERIOUS, "Ignore argument in right handside");
+		error(ERR_SERIOUS, "Ignore argument in right handside");
 	
 #line 4427 "syntax.c"
 			}
@@ -4455,7 +4455,7 @@ ZRaction_Hcall_C_Crhs_Harg(argP *ZOa)
 			{
 #line 737 "syntax.act"
 
-		error(ERROR_SERIOUS, "Return terminal argument in right handside");
+		error(ERR_SERIOUS, "Return terminal argument in right handside");
 	
 #line 4461 "syntax.c"
 			}
@@ -4543,7 +4543,7 @@ ZRaction_Hcall_C_Crhs_Harg(argP *ZOa)
 				buf[n++] = *s;
 			}
 			if (n >= 900) {
-				error (ERROR_SERIOUS, "Identifier too long");
+				error (ERR_SERIOUS, "Identifier too long");
 				break;
 			}
 		}
@@ -4592,7 +4592,7 @@ ZRaction_Hcall_C_Crhs_Harg(argP *ZOa)
 			{
 #line 742 "syntax.act"
 
-		error(ERROR_SERIOUS, "String argument in right handside of action call: purposefuly not implemented to avoid confusion."
+		error(ERR_SERIOUS, "String argument in right handside of action call: purposefuly not implemented to avoid confusion."
 			" Will be implemented with an alternate meaning once direct function calls are removed from lexi");
 	
 #line 4599 "syntax.c"

@@ -199,7 +199,7 @@ regalloc ( exp e, int freefixed, int freefloat, long stack ){
       } 
       else if ( ( props ( e ) & infreg_bits ) == 0 &&
 		floatregable ( e ) && no ( e ) < ffloat ) {
-	error(ERROR_SERIOUS,  "regalloc : no float point s regs on SPARC" ) ;
+	error(ERR_SERIOUS,  "regalloc : no float point s regs on SPARC" ) ;
       } 
       else if ( ( props ( e ) & inanyreg ) == 0 ) {
 	if ( name ( son ( e ) ) == val_tag && !isvar ( e )

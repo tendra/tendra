@@ -103,7 +103,7 @@ lexi_read_token_bracketed_comment(struct lexi_state *state)
 				/* ACTION <eof_in_comment> */
 				{
 
-	error_posn(ERROR_FATAL, istream_name(&lexer_stream->istream), (int) istream_line(&lexer_stream->istream),
+	error_posn(ERR_FATAL, istream_name(&lexer_stream->istream), (int) istream_line(&lexer_stream->istream),
 		"end of file in comment");
 				}
 				/* END ACTION <eof_in_comment> */
@@ -137,7 +137,7 @@ lexi_read_token_singleline_comment(struct lexi_state *state)
 				/* ACTION <eof_in_comment> */
 				{
 
-	error_posn(ERROR_FATAL, istream_name(&lexer_stream->istream), (int) istream_line(&lexer_stream->istream),
+	error_posn(ERR_FATAL, istream_name(&lexer_stream->istream), (int) istream_line(&lexer_stream->istream),
 		"end of file in comment");
 				}
 				/* END ACTION <eof_in_comment> */

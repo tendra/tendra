@@ -65,7 +65,7 @@ special_token ( tokval *tkv, token t, bitstream pars, int sortcode )
 			set_place(old_place);
 
 			if (name(arg1) != name_tag) {
-				error(ERROR_INTERNAL, "Not a tag in va_start");
+				error(ERR_INTERNAL, "Not a tag in va_start");
 			}
 
 			id = son(arg1);
@@ -198,7 +198,7 @@ special_token ( tokval *tkv, token t, bitstream pars, int sortcode )
 			if(no(arg) == 0) {
 				tkv->tk_exp = getexp(f_bottom, NULL, 0, NULL, NULL, 0, 0, special_tag);
 			} else {
-				error(ERROR_INTERNAL, "Unsupported argument to token __sparc_special");
+				error(ERR_INTERNAL, "Unsupported argument to token __sparc_special");
 				tkv->tk_exp = getexp(f_top, NULL, 0, NULL, NULL, 0, 0, null_tag);
 			}
 

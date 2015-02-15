@@ -106,7 +106,7 @@ int getreg(long fixed)
 
     if (choosefix == start)
     {
-      error(ERROR_SERIOUS, "getreg: too many regs required");
+      error(ERR_SERIOUS, "getreg: too many regs required");
       return R_0;
     }
   }
@@ -160,7 +160,7 @@ int getfreg(long fl)
 
     if (choosefloat == start)
     {
-      error(ERROR_SERIOUS, "getfreg: too many float regs required");
+      error(ERR_SERIOUS, "getfreg: too many float regs required");
       return 0;
     }
   }

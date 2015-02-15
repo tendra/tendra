@@ -137,7 +137,7 @@ define_sort(SORT s, SORT_INFO info, int code)
     SORT_INFO old = DEREF_info(sort_info(s));
     if (!IS_NULL_info(old)) {
 	string nm = DEREF_string(sort_name(s));
-	error(ERROR_SERIOUS, "Sort '%s' already defined", nm);
+	error(ERR_SERIOUS, "Sort '%s' already defined", nm);
     }
     COPY_info(sort_info(s), info);
     if (code == 0) code = next_code++;
@@ -173,7 +173,7 @@ find_sort(string nm, int create)
     cnm = to_capitals(nm);
     MAKE_sort_basic(nm, cnm, NULL, NULL, 0, 0, 0, 0, info, s);
     if (!create) {
-	error(ERROR_SERIOUS, "Sort '%s' not defined", nm);
+	error(ERR_SERIOUS, "Sort '%s' not defined", nm);
 	MAKE_info_builtin(nm, info);
 	define_sort(s, info, 0);
     }
@@ -376,7 +376,7 @@ compound_sort(SORT s, string suff, unsigned tag, int code)
 	MAKE_info_clist_etc(tag, nm, t, info);
 	define_sort(s, info, code);
     } else {
-	error(ERROR_SERIOUS, "Sort '%s' doesn't end in '%s'", nm, suff);
+	error(ERR_SERIOUS, "Sort '%s' doesn't end in '%s'", nm, suff);
     }
     return;
 }
@@ -415,7 +415,7 @@ set_special(SORT s, string c, unsigned kind)
 	COPY_unsigned(cons_kind(a), kind);
     } else {
 	string nm = DEREF_string(sort_name(s));
-	error(ERROR_SERIOUS, "Can't find construct '%s' for sort '%s'",
+	error(ERR_SERIOUS, "Can't find construct '%s' for sort '%s'",
 		c, nm);
     }
     return;
@@ -476,7 +476,7 @@ check_sorts(void)
 	SORT_INFO info = DEREF_info(sort_info(s));
 	if (IS_NULL_info(info)) {
 	    string nm = DEREF_string(sort_name(s));
-	    error(ERROR_SERIOUS, "Sort '%s' not defined", nm);
+	    error(ERR_SERIOUS, "Sort '%s' not defined", nm);
 	    MAKE_info_builtin(nm, info);
 	    define_sort(s, info, 0);
 	}
@@ -563,7 +563,7 @@ find_param(CONSTRUCT c, unsigned n)
     while (n) {
 	if (IS_NULL_list(p)) {
 	    string nm = DEREF_string(cons_name(c));
-	    error(ERROR_SERIOUS, "Bad parameter number for '%s'", nm);
+	    error(ERR_SERIOUS, "Bad parameter number for '%s'", nm);
 	    return NULL_par;
 	}
 	p = TAIL_list(p);

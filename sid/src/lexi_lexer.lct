@@ -40,7 +40,7 @@ TRAILERS = @{
 
 
 ACTION eof_in_comment = @{
-	error_posn(ERROR_FATAL, istream_name(&lexer_stream->istream), (int) istream_line(&lexer_stream->istream),
+	error_posn(ERR_FATAL, istream_name(&lexer_stream->istream), (int) istream_line(&lexer_stream->istream),
 		"end of file in comment");
 @};
 

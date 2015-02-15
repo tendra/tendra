@@ -857,7 +857,7 @@ check_asm_seq ( exp e, int ext )
   }
   else
   if (name(e) != top_tag)
-    error(ERROR_SERIOUS, "illegal ~asm");
+    error(ERR_SERIOUS, "illegal ~asm");
 }
 
 
@@ -2213,7 +2213,7 @@ scan ( exp * e, exp ** at ){
 	int offalign = frame_al1_of_offset(sh(offset_arg));
 #if 0
 	if(((offalign-1)&offalign)!=0){
-	  error(ERROR_SERIOUS, "Mixed frame offsets not supported");
+	  error(ERR_SERIOUS, "Mixed frame offsets not supported");
 	}
 #endif
 	if(cees(offalign) && name(son(*e)) == current_env_tag) {
@@ -2474,7 +2474,7 @@ scan ( exp * e, exp ** at ){
       needs nds;
       nds = zeroneeds;
       if (props(*e) != 0)
-	  error(ERROR_SERIOUS, "~asm not in ~asm_sequence");
+	  error(ERR_SERIOUS, "~asm not in ~asm_sequence");
       check_asm_seq (son(*e), 0);
       /* clobber %o0..%o5,%o7 */
       nds.fixneeds = MAX_OF ( nds.fixneeds, 8 ) ;
@@ -2482,7 +2482,7 @@ scan ( exp * e, exp ** at ){
       return nds;
     };
     default : {
-      error(ERROR_SERIOUS,  "Case not covered in needs scan" ) ;
+      error(ERR_SERIOUS,  "Case not covered in needs scan" ) ;
       return zeroneeds;
     }
   }

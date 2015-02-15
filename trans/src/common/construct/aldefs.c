@@ -79,13 +79,13 @@ process_aldefs(void)
 				break;
 			}
 			default:
-				error(ERROR_INTERNAL, ILLEGAL_ALIGNMENT);
+				error(ERR_INTERNAL, ILLEGAL_ALIGNMENT);
 			}
 			my_aldef = my_aldef->next_aldef;
 		}
 	} while (changed);
 
 	if (!complete) {
-		error(ERROR_INTERNAL, INCOMPLETE_ALIGNMENT_EQS);
+		error(ERR_INTERNAL, INCOMPLETE_ALIGNMENT_EQS);
 	}
 }

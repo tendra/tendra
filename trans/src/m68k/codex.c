@@ -74,7 +74,7 @@ int ins
     if (sz <= 8) return opb;
     if (sz <= 16) return opw;
     if (sz <= 32) return opl;
-    error(ERROR_SERIOUS, "Illegal instruction size");
+    error(ERR_SERIOUS, "Illegal instruction size");
     return opl;
 }
 
@@ -89,7 +89,7 @@ int insf
 {
     if (sz == 32) return ops;
     if (sz == 64) return opd;
-    error(ERROR_SERIOUS, "Illegal instruction size");
+    error(ERR_SERIOUS, "Illegal instruction size");
     return opx;
 }
 
@@ -677,7 +677,7 @@ void out_profile
 	break;
 
     default:
-        error(ERROR_SERIOUS, "unsupported ABI");
+        error(ERR_SERIOUS, "unsupported ABI");
     }
 
     if (save_a1) {
@@ -696,7 +696,7 @@ void out_profile
 	case ABI_SUNOS: libcall("mcount"); break; /* probably wrong */
 
     default:
-        error(ERROR_SERIOUS, "unsupported ABI");
+        error(ERR_SERIOUS, "unsupported ABI");
 	}
     }
 
@@ -728,7 +728,7 @@ void profile_hack
     case ABI_SUNOS: op1 = make_extern_data("mcount", 0); break;
 
     default:
-        error(ERROR_SERIOUS, "unsupported ABI");
+        error(ERR_SERIOUS, "unsupported ABI");
     }
     make_instr(m_jmp, op1, NULL, 0);
     area(pdata);

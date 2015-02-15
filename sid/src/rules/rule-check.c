@@ -63,7 +63,7 @@ rule_check_first_set_1(RuleT *rule, GrammarT *grammar)
 			case ET_PREDICATE:
 				assert(item == initial);
 				if (entry_list_contains(&predicate_list, entry)) {
-					error(ERROR_SERIOUS, "collision of predicate '%K', in rule '%N'",
+					error(ERR_SERIOUS, "collision of predicate '%K', in rule '%N'",
 						(void *) rule, (void *) entry_key(entry));
 				} else {
 					entry_list_add(&predicate_list, entry);
@@ -89,7 +89,7 @@ rule_check_first_set_1(RuleT *rule, GrammarT *grammar)
 					bitvec_set(&tmp, terminal);
 					bitvec_and(&tmp, &test);
 					closure.bitvec = &tmp;
-					error(ERROR_SERIOUS, "collision of terminal(s) %B in rule '%N'",
+					error(ERR_SERIOUS, "collision of terminal(s) %B in rule '%N'",
 						(void *) &closure, (void *) rule);
 					bitvec_destroy(&tmp);
 				}
@@ -106,7 +106,7 @@ rule_check_first_set_1(RuleT *rule, GrammarT *grammar)
 					item_preds);
 
 					if (!entry_list_is_empty(&tmp_list)) {
-						error(ERROR_SERIOUS, "collision of predicates %L in rule '%N'",
+						error(ERR_SERIOUS, "collision of predicates %L in rule '%N'",
 							(void *) &tmp_list, (void *) rule);
 					}
 
@@ -123,7 +123,7 @@ rule_check_first_set_1(RuleT *rule, GrammarT *grammar)
 					bitvec_copy(&tmp, bitvec);
 					bitvec_and(&tmp, &test);
 					closure.bitvec = &tmp;
-					error(ERROR_SERIOUS, "collision of terminal(s) %B in rule '%N'",
+					error(ERR_SERIOUS, "collision of terminal(s) %B in rule '%N'",
 						(void *) &closure, (void *) rule);
 					bitvec_destroy(&tmp);
 				}
@@ -143,7 +143,7 @@ rule_check_first_set_1(RuleT *rule, GrammarT *grammar)
 
 		if (is_empty) {
 			if (!is_empty_mesg_shown) {
-				error(ERROR_SERIOUS, "the rule '%N' contains more than one see through alternative",
+				error(ERR_SERIOUS, "the rule '%N' contains more than one see through alternative",
 					(void *) rule);
 				is_empty_mesg_shown = TRUE;
 			}
@@ -275,7 +275,7 @@ rule_compute_follow_set_1(RuleT *rule, GrammarT *grammar, BitVecT *context,
 			bitvec_copy(&test, follow);
 			bitvec_and(&test, first);
 			closure.bitvec = &test;
-			error(ERROR_SERIOUS, "the terminal(s) %B can start rule '%N' which "
+			error(ERR_SERIOUS, "the terminal(s) %B can start rule '%N' which "
 				"is see through, and the same terminal(s) may appear in the "
 				"following situations:\n%A",
 				(void *) &closure, (void *) rule, (void *) clashes);
@@ -286,7 +286,7 @@ rule_compute_follow_set_1(RuleT *rule, GrammarT *grammar, BitVecT *context,
 
 		entry_list_intersection(&tmp_list, pred_follow, pred_first);
 		if (!entry_list_is_empty(&tmp_list)) {
-			error(ERROR_SERIOUS, "the predicate(s) %L can start rule '%N' which "
+			error(ERR_SERIOUS, "the predicate(s) %L can start rule '%N' which "
 				"is see through, and the same predicate(s) may appear in the "
 				"following situations:\n%A",
 				(void *) &tmp_list, (void *) rule, (void *) clashes);

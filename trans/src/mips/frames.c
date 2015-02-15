@@ -155,6 +155,6 @@ long frame_offset
 	   if (isparam(id) && name(son(id)) ==formal_callee_tag) {
            	return (Has_vcallees)? n:(cs-n);
            }
-           else { error(ERROR_INTERNAL, "Wrong env_offset"); return 0; }
+           else { error(ERR_INTERNAL, "Wrong env_offset"); return 0; }
        }
 }

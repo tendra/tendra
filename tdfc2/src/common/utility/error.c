@@ -218,7 +218,7 @@ error_option(string opt)
 			/* Unknown output options */
 			const char *err =
 			    "Unknown error formatting option, '%c'";
-			error(ERROR_WARNING, err,(int)c);
+			error(ERR_WARN, err,(int)c);
 			break;
 		}
 		}
@@ -302,7 +302,7 @@ term_error(int fatal)
 		/* Report errors in dump file */
 		unsigned long e = number_errors;
 		unsigned long w = number_warnings;
-		int sev = (e ? ERROR_SERIOUS : ERROR_WARNING);
+		int sev = (e ? ERR_SERIOUS : ERR_WARN);
 		do_error = 0;
 		error(sev, "%lu error(s), %lu warning(s)", e, w);
 	}
@@ -341,16 +341,16 @@ error_header(int sev)
 {
 	const char *msg;
 	switch (sev) {
-	case ERROR_FATAL: {
+	case ERR_FATAL: {
 		msg = HEADER_FATAL;
 		exit_status = EXIT_FAILURE;
 		output_capsule = 0;
 		number_errors++;
 		break;
 	}
-	case ERROR_INTERNAL: {
+	case ERR_INTERNAL: {
 		msg = HEADER_INTERNAL;
-		if (error_severity[OPTION_ON] == ERROR_SERIOUS) {
+		if (error_severity[OPTION_ON] == ERR_SERIOUS) {
 			exit_status = EXIT_FAILURE;
 			output_capsule = 0;
 		}
@@ -359,14 +359,14 @@ error_header(int sev)
 	}
 	default : {
 		msg = HEADER_SERIOUS;
-		if (error_severity[OPTION_ON] == ERROR_SERIOUS) {
+		if (error_severity[OPTION_ON] == ERR_SERIOUS) {
 			exit_status = EXIT_FAILURE;
 			output_capsule = 0;
 		}
 		number_errors++;
 		break;
 	}
-	case ERROR_WARNING: {
+	case ERR_WARN: {
 		msg = HEADER_WARNING;
 		number_warnings++;
 		break;
@@ -489,14 +489,14 @@ static void
 print_error_end(FILE *f, int sev)
 {
 	unsigned long n = number_errors;
-	if (n >= max_errors && sev != ERROR_FATAL) {
+	if (n >= max_errors && sev != ERR_FATAL) {
 		ERROR err = ERR_fail_too_many(n);
 		print_error_msg(err, &crt_loc, f);
-		sev = ERROR_FATAL;
+		sev = ERR_FATAL;
 	}
 	fputs_v(MESSAGE_TERM, f);
 	error_break();
-	if (sev == ERROR_FATAL) {
+	if (sev == ERR_FATAL) {
 		term_error(0);
 	}
 	return;
@@ -510,15 +510,15 @@ print_error_end(FILE *f, int sev)
 
 int error_severity[] = {
 	ERROR_NONE,			/* OPTION_OFF */
-	ERROR_WARNING,			/* OPTION_WARN */
-	ERROR_SERIOUS,			/* OPTION_ON */
+	ERR_WARN,			/* OPTION_WARN */
+	ERR_SERIOUS,			/* OPTION_ON */
 	ERROR_WHATEVER			/* OPTION_WHATEVER */
 };
 
 int default_severity[] = {
 	ERROR_NONE,			/* OPTION_OFF */
-	ERROR_WARNING,			/* OPTION_WARN */
-	ERROR_SERIOUS,			/* OPTION_ON */
+	ERR_WARN,			/* OPTION_WARN */
+	ERR_SERIOUS,			/* OPTION_ON */
 	ERROR_WHATEVER			/* OPTION_WHATEVER */
 };
 
@@ -1029,7 +1029,7 @@ concat_warning(ERROR e1, ERROR e2)
 		return e1;
 	}
 	s1 = DEREF_int(err_severity(e1));
-	if (s1 > ERROR_WARNING) {
+	if (s1 > ERR_WARN) {
 		s2 = DEREF_int(err_severity(e2));
 		if (s2 > s1) {
 			s1 = s2;
@@ -1132,7 +1132,7 @@ print_error(LOCATION *loc, ERROR e)
 				IGNORE error_header(sev);
 				n = number_errors;
 				error_break();
-				if (sev == ERROR_FATAL)term_error(0);
+				if (sev == ERR_FATAL)term_error(0);
 				if (n >= max_errors)term_error(0);
 			} else {
 				/* Print error to standard error */
@@ -1159,7 +1159,7 @@ install_error(LOCATION *loc, ERROR e)
 	EXP a = NULL_exp;
 	if (!IS_NULL_err(e)) {
 		int sev = DEREF_int(err_severity(e));
-		if (sev > ERROR_WARNING) {
+		if (sev > ERR_WARN) {
 			string s;
 			BUFFER *bf = clear_buffer(&print_buff, NIL(FILE));
 			if (loc) {

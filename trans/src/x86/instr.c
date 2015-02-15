@@ -251,7 +251,7 @@ void regn
       return;
     };
     if (fstack_pos > 16) {
-      error(ERROR_INTERNAL, BAD_FSTACK);
+      error(ERR_INTERNAL, BAD_FSTACK);
       exit(EXIT_FAILURE);
     };
     asm_printf("%s", fl_reg_name[fstack_pos - z]);
@@ -573,7 +573,7 @@ void jump
   int  good_fs = fstack_pos;
   int  good_sd = stack_dec;
   if (fs_dest < first_fl_reg)
-    error(ERROR_INTERNAL, FSTACK_UNSET);
+    error(ERR_INTERNAL, FSTACK_UNSET);
   if (with_fl_reg) {		/* jumping with a floating value */
     /* clear off any unwanted stack registers */
     while (fstack_pos > (fs_dest + 1))
@@ -656,7 +656,7 @@ static char *out_branch
 	return je;
 
       default:
-	error(ERROR_INTERNAL, BAD_TESTNO);
+	error(ERR_INTERNAL, BAD_TESTNO);
     };
   };
 
@@ -680,7 +680,7 @@ static char *out_branch
 	return je;
 
       default:
-	error(ERROR_INTERNAL, BAD_TESTNO);
+	error(ERR_INTERNAL, BAD_TESTNO);
     };
   }
   else {
@@ -704,7 +704,7 @@ static char *out_branch
 	return je;
 
       default:
-	error(ERROR_INTERNAL, BAD_TESTNO);
+	error(ERR_INTERNAL, BAD_TESTNO);
     };
   };
   return NULL;
@@ -729,7 +729,7 @@ void branch
   int  good_fs = fstack_pos;
   int  good_fpucon = fpucon;
   if (fs_dest < first_fl_reg)
-    error(ERROR_INTERNAL, FSTACK_UNSET);
+    error(ERR_INTERNAL, FSTACK_UNSET);
   if (fstack_pos > fs_dest || sonno(jr)!= stack_dec || fpucon != normal_fpucon
 	|| cmp_64hilab >= 0) {
 	/* floating point stack or call stack need attention */
@@ -758,7 +758,7 @@ void branch
     if (cmp_64hilab >= 0) {
       int nl2 = ptno(jr);
       if (shnm != s64hd)
-	error(ERROR_INTERNAL, "uncompleted 64-bit comparison");
+	error(ERR_INTERNAL, "uncompleted 64-bit comparison");
       if (fstack_pos > fs_dest || sonno(jr)!= stack_dec || fpucon != normal_fpucon) {
 	nl2 = next_lab();
 	simplest_set_lab(nl2);
@@ -804,7 +804,7 @@ void setcc
     int chl = cmp_64hilab;
     int nl = next_lab();
     if (shnm != s64hd)
-      error(ERROR_INTERNAL, "uncompleted 64-bit comparison");
+      error(ERR_INTERNAL, "uncompleted 64-bit comparison");
     cmp_64hilab = -1;
     setcc(test_no, 0, ulonghd);
     simple_branch(jmp, nl);
@@ -815,7 +815,7 @@ void setcc
 
   b = out_branch(sg, test_no, shnm);
   if (*b != 'j')
-    error(ERROR_INTERNAL, NO_SETCC);
+    error(ERR_INTERNAL, NO_SETCC);
   asm_printf("\tset%s %s\n", &b[1], reg_name_byte[0]);
 }
 
@@ -830,7 +830,7 @@ void jmp_overflow
   int  good_fs = fstack_pos;
   int  good_fpucon = fpucon;
   if (fs_dest < first_fl_reg)
-    error(ERROR_INTERNAL, FSTACK_UNSET);
+    error(ERR_INTERNAL, FSTACK_UNSET);
   if (fstack_pos > fs_dest || sonno(jr)!= stack_dec || fpucon != normal_fpucon) {
 	/* floating point stack or call stack need attention */
     int  nl = next_lab();

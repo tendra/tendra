@@ -626,7 +626,7 @@ void check_asm_seq
   }
   else
   if (name(e)!= top_tag)
-    error(ERROR_INTERNAL, "illegal ~asm");
+    error(ERR_INTERNAL, "illegal ~asm");
 }
 
 /* Main scan routine */
@@ -1002,7 +1002,7 @@ int scan
     case asm_tag:
       {
 	if (props(e)!= 0)
-	  error(ERROR_INTERNAL, "~asm not in ~asm_sequence");
+	  error(ERR_INTERNAL, "~asm not in ~asm_sequence");
 	check_asm_seq(son(e), 0);
 	proc_has_asm = 1;
 	return 0;

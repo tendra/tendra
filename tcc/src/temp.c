@@ -51,12 +51,12 @@ temp_retry(int *limit, char *buf, size_t sz, const char *dir, const char *prefix
 	/* TODO: stat() on dir */
 
 	if (*limit == RETRY_LIMIT) {
-		error(ERROR_FATAL, "%s: Random temporary retry limit reached", dir);
+		error(ERR_FATAL, "%s: Random temporary retry limit reached", dir);
 		return 0;
 	}
 
 	if (*limit == 10) {
-		error(ERROR_WARNING, "%s: Random temporary space overcrowded", dir);
+		error(ERR_WARN, "%s: Random temporary space overcrowded", dir);
 	}
 
 	{
@@ -65,7 +65,7 @@ temp_retry(int *limit, char *buf, size_t sz, const char *dir, const char *prefix
 		temp_generateid(rnd, sizeof rnd);
 
 		if (strlen(dir) + 1 + strlen(prefix) + 1 + sizeof rnd + 1 > FILENAME_MAX) {
-			error(ERROR_FATAL, "%s: Random temporary directory too long", dir);
+			error(ERR_FATAL, "%s: Random temporary directory too long", dir);
 			return 0;
 		}
 
@@ -97,7 +97,7 @@ temp_mkdir(const char *dir, const char *prefix)
 		}
 	}
 
-	error(ERROR_FATAL, "Can't create temporary directory: %s", buf);
+	error(ERR_FATAL, "Can't create temporary directory: %s", buf);
 
 	return NULL;
 }
@@ -120,7 +120,7 @@ temp_fopen(char *buf, size_t bufsz, const char *dir, const char *name, const cha
 	}
 
 	if (strlen(tempdir) + 1 + strlen(name) + 1 > bufsz) {
-		error(ERROR_FATAL, "Temporary filename too long");
+		error(ERR_FATAL, "Temporary filename too long");
 	}
 
 	if (dry_run) {
@@ -131,7 +131,7 @@ temp_fopen(char *buf, size_t bufsz, const char *dir, const char *name, const cha
 
 	f = fopen(buf, mode);
 	if (f == NULL) {
-		error(ERROR_FATAL, "%s: %s", buf, strerror(errno));
+		error(ERR_FATAL, "%s: %s", buf, strerror(errno));
 	}
 
 	return f;

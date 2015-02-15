@@ -44,7 +44,7 @@ find_escape(char c)
 	case 'e':  return EOF;
 
 	default:
-		error(ERROR_SERIOUS, "Unknown escape sequence, '\\%c'", c);
+		error(ERR_SERIOUS, "Unknown escape sequence, '\\%c'", c);
 		return c;
 	}
 }
@@ -209,14 +209,14 @@ add_string(struct zone *z, struct trie **n, const char *s)
 
 			e = strchr(p, ']');
 			if (e == NULL || *p == '\0') {
-				error(ERROR_SERIOUS, "Unterminated group");
+				error(ERR_SERIOUS, "Unterminated group");
 				return NULL;
 			}
 
 			*e = '\0';
 			v.g.gn = find_group(z, p);
 			if (v.g.gn == NULL) {
-				error(ERROR_SERIOUS, "Unknown group '%s'", p);
+				error(ERR_SERIOUS, "Unknown group '%s'", p);
 			}
 
 			leaf = find_or_add(n, TRIE_GROUP, &v);
@@ -226,7 +226,7 @@ add_string(struct zone *z, struct trie **n, const char *s)
 		case '\\':	/* escaped character */
 			p++;
 			if (*p == '\0') {
-				error(ERROR_SERIOUS, "Missing escape");
+				error(ERR_SERIOUS, "Missing escape");
 				break;
 			}
 

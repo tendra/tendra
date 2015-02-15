@@ -385,7 +385,7 @@ close_input(void)
 	if (fin && !input_special) {
 		if (ferror(fin) || fclose(fin)) {
 			char *nm = strlit(input_name);
-			error(ERROR_INTERNAL, "Reading error in '%s'", nm);
+			error(ERR_INTERNAL, "Reading error in '%s'", nm);
 		}
 	}
 	input_file = NULL;
@@ -404,7 +404,7 @@ close_output(int n)
 	if (fout && fout != stdout && fout != stderr) {
 		if (ferror(fout) || fclose(fout)) {
 			char *nm = strlit(output_name[n]);
-			error(ERROR_INTERNAL, "Writing error in '%s'", nm);
+			error(ERR_INTERNAL, "Writing error in '%s'", nm);
 		}
 	}
 	output_file[n] = NULL;
@@ -545,7 +545,7 @@ seek_buffer(unsigned long i, long n, int started)
 			if (p == NULL) {
 				char *nm = strlit(input_name);
 				const char *msg = "Internal seek error in '%s'";
-				error(ERROR_INTERNAL, msg, nm);
+				error(ERR_INTERNAL, msg, nm);
 				return;
 			}
 			p = fill_buffer();
@@ -556,7 +556,7 @@ seek_buffer(unsigned long i, long n, int started)
 		if (s == -1) {
 			char *nm = strlit(input_name);
 			const char *msg = "Internal seek error in '%s'";
-			error(ERROR_INTERNAL, msg, nm);
+			error(ERR_INTERNAL, msg, nm);
 		}
 		input_start = input_buff[i].buff + PENDING_SZ;
 		input_bytes = n;
@@ -662,7 +662,7 @@ add_directory(string dir, string nm)
 	INCL_DIR *q = xmalloc_one(INCL_DIR);
 	if (nm && find_directory(nm)) {
 		char *s = strlit(nm);
-		error(ERROR_WARNING, "Directory '%s' already defined", s);
+		error(ERR_WARN, "Directory '%s' already defined", s);
 		nm = NULL;
 	}
 	q->path = make_pathname(dir);
@@ -1156,7 +1156,7 @@ start_include(string nm, int q, int st, int next)
 		position[c].offset = tell_buffer(m);
 		if (ferror(g) || fclose(g)) {
 			char *gnm = strlit(input_name);
-			error(ERROR_INTERNAL, "Reading error in '%s'", gnm);
+			error(ERR_INTERNAL, "Reading error in '%s'", gnm);
 		}
 	}
 	crt_found_path = found;
@@ -1195,7 +1195,7 @@ start_include(string nm, int q, int st, int next)
 	if (mode) {
 		/* Begin new checking scope if necessary */
 		begin_option(NULL_id);
-		use_mode(mode, ERROR_SERIOUS);
+		use_mode(mode, ERR_SERIOUS);
 	}
 	crt_file_changed = 2;
 	crt_line_changed = 1;
@@ -1235,7 +1235,7 @@ end_include(int prev)
 		} else {
 			if (ferror(f) || fclose(f)) {
 				char *fnm = strlit(nm);
-				error(ERROR_INTERNAL, "Reading error in '%s'",
+				error(ERR_INTERNAL, "Reading error in '%s'",
 				      fnm);
 			}
 		}
@@ -1289,7 +1289,7 @@ end_include(int prev)
 			input_file = fopen(str, "r");
 			if (input_file == NULL) {
 				const char *msg = "Internal file error in '%s'";
-				error(ERROR_INTERNAL, msg, str);
+				error(ERR_INTERNAL, msg, str);
 				crt_loc.line++;
 				crt_loc.column = 0;
 				input_crt = input_posn;

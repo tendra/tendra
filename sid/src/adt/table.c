@@ -32,7 +32,7 @@ table_next_generated_key(void)
 	static unsigned sequence = 0;
 
 	if (sequence == UINT_MAX) {
-		error(ERROR_FATAL, "too many automatically generated identifiers required");
+		error(ERR_FATAL, "too many automatically generated identifiers required");
 		UNREACHED;
 	}
 

@@ -257,7 +257,7 @@ string : () -> ( s : STRING ) = @{
     string id = DEREF_string ( param_name ( @a ) ) ;
     PARAM b = find_param ( @q, id ) ;
     if ( !IS_NULL_param ( b ) ) {
-	error ( ERROR_SERIOUS, "Parameter '%s' defined twice", id ) ;
+	error ( ERR_SERIOUS, "Parameter '%s' defined twice", id ) ;
     }
     CONS_param ( @a, @q, @p ) ;
 @} ;
@@ -278,7 +278,7 @@ string : () -> ( s : STRING ) = @{
     string id = DEREF_string ( name_id ( @a ) ) ;
     NAME b = find_name ( @q, id ) ;
     if ( !IS_NULL_name ( b ) ) {
-	error ( ERROR_SERIOUS, "Name '%s' given twice in list", id ) ;
+	error ( ERR_SERIOUS, "Name '%s' given twice in list", id ) ;
     }
     CONS_name ( @a, @q, @p ) ;
 @} ;
@@ -299,7 +299,7 @@ string : () -> ( s : STRING ) = @{
 <find_key> : ( id : ID ) -> ( k : KEY ) = @{
     NAME n = find_name ( all_keys, @id ) ;
     if ( IS_NULL_name ( n ) ) {
-	error ( ERROR_SERIOUS, "Key '%s' not defined", @id ) ;
+	error ( ERR_SERIOUS, "Key '%s' not defined", @id ) ;
     }
     @k = n ;
 @} ;
@@ -307,7 +307,7 @@ string : () -> ( s : STRING ) = @{
 <find_props> : ( id : ID ) -> ( p : PROP ) = @{
     NAME n = find_name ( all_props, @id ) ;
     if ( IS_NULL_name ( n ) ) {
-	error ( ERROR_SERIOUS, "Property '%s' not defined", @id ) ;
+	error ( ERR_SERIOUS, "Property '%s' not defined", @id ) ;
 	MAKE_name_basic ( @id, 0, n ) ;
     }
     @p = n ;
@@ -316,7 +316,7 @@ string : () -> ( s : STRING ) = @{
 <find_type> : ( id : ID ) -> ( t : TYPE ) = @{
     NAME n = find_name ( all_types, @id ) ;
     if ( IS_NULL_name ( n ) ) {
-	error ( ERROR_SERIOUS, "Type '%s' not defined", @id ) ;
+	error ( ERR_SERIOUS, "Type '%s' not defined", @id ) ;
 	MAKE_name_basic ( @id, 0, n ) ;
     }
     @t = n ;
@@ -325,7 +325,7 @@ string : () -> ( s : STRING ) = @{
 <find_usage> : ( id : ID ) -> ( u : USAGE ) = @{
     NAME n = find_name ( all_usages, @id ) ;
     if ( IS_NULL_name ( n ) ) {
-	error ( ERROR_SERIOUS, "Usage '%s' not defined", @id ) ;
+	error ( ERR_SERIOUS, "Usage '%s' not defined", @id ) ;
 	MAKE_name_basic ( @id, 0, n ) ;
     }
     @u = n ;
@@ -334,7 +334,7 @@ string : () -> ( s : STRING ) = @{
 <find_param> : ( id : ID, s : LIST-PARAM ) -> ( p : PARAM ) = @{
     PARAM a = find_param ( @s, @id ) ;
     if ( IS_NULL_param ( a ) ) {
-	error ( ERROR_SERIOUS, "Parameter '%s' not defined", @id ) ;
+	error ( ERR_SERIOUS, "Parameter '%s' not defined", @id ) ;
     }
     @p = a ;
 @} ;
@@ -451,7 +451,7 @@ string : () -> ( s : STRING ) = @{
 */
 
 <syntax_error> : () -> () = @{
-    error ( ERROR_SERIOUS, "Syntax error" ) ;
+    error ( ERR_SERIOUS, "Syntax error" ) ;
 @} ;
 
 

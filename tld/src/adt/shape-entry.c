@@ -67,7 +67,7 @@ unsigned
 shape_entry_next_id(ShapeEntryT *entry)
 {
     if (entry->id_count == UINT_MAX) {
-	error(ERROR_FATAL,"too many identifiers for this implementation");
+	error(ERR_FATAL,"too many identifiers for this implementation");
     }
     return entry->id_count++;
 }

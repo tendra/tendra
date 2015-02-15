@@ -56,7 +56,7 @@ reconcile_envopts(const struct hash *h)
 	 */
 	/* TODO: this needs reworking, now; it cannot happen
 	if (environ_hashtable == NULL)
-		error(ERROR_FATAL, "failed to load any environment files");
+		error(ERR_FATAL, "failed to load any environment files");
 	*/
 
 	if (!verbose) {
@@ -72,12 +72,12 @@ reconcile_envopts(const struct hash *h)
 			struct stat sb;
 
 			if (stat(n->value, &sb) == -1) {
-				error(ERROR_SERIOUS, "%s: %s", n->value, strerror(errno));
+				error(ERR_SERIOUS, "%s: %s", n->value, strerror(errno));
 				return;
 			}
 
 			if (!S_ISDIR(sb.st_mode)) {
-				error(ERROR_SERIOUS, "%s expected to be a directory");
+				error(ERR_SERIOUS, "%s expected to be a directory");
 				return;
 			}
 		}
@@ -164,7 +164,7 @@ envvar_set(struct hash **h, const char *name, const char *value,
 		break;
 
 	default:
-		error(ERROR_FATAL, "Attempt to update hash with invalid order %d\n",
+		error(ERR_FATAL, "Attempt to update hash with invalid order %d\n",
 			(int) order);
 	}
 }

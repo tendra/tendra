@@ -56,7 +56,7 @@ ACTION support_read_id_act : (c:CHARACTER, t1:TERMINAL) -> (t2:TERMINAL) = @{
 @};
 
 ACTION eof_in_comment = @{
-	error_posn(ERROR_FATAL, istream_name(&c_lexer_stream->istream), (int) istream_line(&c_lexer_stream->istream),
+	error_posn(ERR_FATAL, istream_name(&c_lexer_stream->istream), (int) istream_line(&c_lexer_stream->istream),
 		"end of file in comment");
 @};
 

@@ -223,7 +223,7 @@ out_action(struct ast *ast,
 		}
 	} else {
 		/* TODO: We should catch this error before beginning output */
-		error(ERROR_SERIOUS, "Action %s is used but undefined", ea->key);
+		error(ERR_SERIOUS, "Action %s is used but undefined", ea->key);
 	}
 
 	d--;
@@ -407,7 +407,7 @@ out_mapping(const char *map, unsigned int d)
 	}
 
 	if (m != '\0') {
-		error(ERROR_SERIOUS, "Bad mapping string, '%s'", map);
+		error(ERR_SERIOUS, "Bad mapping string, '%s'", map);
 	}
 
 	indent(d);
@@ -961,7 +961,7 @@ c_out_all(struct options *opt, struct ast *ast)
 		t = count_nonempty_groups(ast);
 
 		if (t >= 32) {
-			error(ERROR_FATAL, "Too many non-empty groups defined (%u)", t);
+			error(ERR_FATAL, "Too many non-empty groups defined (%u)", t);
 		} else if (t > 16) {
 			groupc90type = "unsigned long";
 			groupc99type = "uint32_t";

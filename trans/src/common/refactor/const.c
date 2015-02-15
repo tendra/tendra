@@ -879,7 +879,7 @@ safe_arg(exp e, exp esc)
     break;
   default:
       SET(konst);
-      error(ERROR_INTERNAL, BAD_SHAPE);
+      error(ERR_INTERNAL, BAD_SHAPE);
   }
 
   v1 = getexp(sh(e), NULL, 0, decl, pt(decl), 0,  0, name_tag);
@@ -953,7 +953,7 @@ safe_eval(exp e, exp escape_route)
   case rep_tag:
   case solve_tag:
   case case_tag:
-      error(ERROR_INTERNAL, CONSTC_ERROR);
+      error(ERR_INTERNAL, CONSTC_ERROR);
       return NULL;
   case name_tag:
   case env_offset_tag:

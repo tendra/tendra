@@ -37,7 +37,7 @@ main_init_bnf(OutputInfoT *out_info, CStringListT *options)
 
 	for (entry = cstring_list_head(options); entry;
 		entry = cstring_list_entry_deallocate(entry)) {
-		error(ERROR_FATAL, "language '%s' doesn't understand option '%s'"
+		error(ERR_FATAL, "language '%s' doesn't understand option '%s'"
 			"bnf", cstring_list_entry_string(entry));
 	}
 

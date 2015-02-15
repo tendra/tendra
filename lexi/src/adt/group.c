@@ -48,14 +48,14 @@ unescape_string(struct zone *z, int *o, char *s)
 
 			e = strchr(p, ']');
 			if (e == NULL || *p == '\0') {
-				error(ERROR_SERIOUS, "Unterminated group");
+				error(ERR_SERIOUS, "Unterminated group");
 				break;
 			}
 
 			*e = '\0';
 			gn = find_group(z, p);
 			if (gn == NULL) {
-				error(ERROR_SERIOUS, "Unknown group '%s'", p);
+				error(ERR_SERIOUS, "Unknown group '%s'", p);
 				break;
 			}
 
@@ -70,13 +70,13 @@ unescape_string(struct zone *z, int *o, char *s)
 		case '\\':
 			p++;
 			if (*p == '\0') {
-				error(ERROR_SERIOUS, "Missing escape");
+				error(ERR_SERIOUS, "Missing escape");
 				break;
 			}
 
 			c = find_escape(*p);
 			if (c == EOF) {
-				error(ERROR_SERIOUS, "Groups may not contain EOF");
+				error(ERR_SERIOUS, "Groups may not contain EOF");
 				break;
 			}
 
@@ -118,7 +118,7 @@ make_group(struct zone *z, char *name, char *defn)
 
 		gn = find_group(z, name);
 		if (gn != NULL && gn->z == z) {
-			error(ERROR_SERIOUS, "Group '%s' already defined for this zone", name);
+			error(ERR_SERIOUS, "Group '%s' already defined for this zone", name);
 			return NULL;
 		}
 	}

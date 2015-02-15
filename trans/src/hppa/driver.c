@@ -118,7 +118,7 @@ unhas(void)
 	}
 
 	if (do_profile && PIC_code) {
-		error(ERROR_WARNING, "\"-P\" and \"-D\" are mutually exclusive; \"-P\" ignored.");
+		error(ERR_WARN, "\"-P\" and \"-D\" are mutually exclusive; \"-P\" ignored.");
 		do_profile = 0;
 	}
 }

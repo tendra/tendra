@@ -109,7 +109,7 @@ getreg(long fixed)
     }
     if (choosefix == start)
     {
-       error(ERROR_SERIOUS, "getreg: too many regs required");
+       error(ERR_SERIOUS, "getreg: too many regs required");
        return GR0;
     }
   }
@@ -164,7 +164,7 @@ getfreg(long fl) /* get a free temporary floating reg */
 
     if (choosefloat == start)
     {
-      error(ERROR_SERIOUS, "getfreg: too many floating point regs required");
+      error(ERR_SERIOUS, "getfreg: too many floating point regs required");
       return 0;
     }
   }

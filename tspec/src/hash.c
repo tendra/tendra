@@ -138,9 +138,9 @@ add_hash(hash_table *t, object *p, int v)
 	if (q != NULL) {
 		if (q->filename != NULL) {
 			char *err = "%s '%s' already defined (%s, line %d)";
-			error(ERROR_SERIOUS, err, t->name, nm, q->filename, q->line_no);
+			error(ERR_SERIOUS, err, t->name, nm, q->filename, q->line_no);
 		} else {
-			error(ERROR_SERIOUS, "%s '%s' already defined", t->name, nm);
+			error(ERR_SERIOUS, "%s '%s' already defined", t->name, nm);
 		}
 
 		return q;

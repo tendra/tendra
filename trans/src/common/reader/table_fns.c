@@ -181,7 +181,7 @@ apply_tok(token td, bitstream pars, int sortcode, tokval * actual_pars)
 	if (td->defined == 0) {
 		/* detect various errors and give helpful information */
 		if (td->defined == 0) {
-			error(ERROR_INTERNAL, UNDEFINED_TOK);
+			error(ERR_INTERNAL, UNDEFINED_TOK);
 		}
 
 		if (td->is_capsule_token &&

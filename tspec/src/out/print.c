@@ -179,7 +179,7 @@ print_head(FILE *output, type *t, int sp, int tok)
 
 	default:
 		/* Unknown types */
-		error(ERROR_INTERNAL, "Unknown type identifier, '%d'", t->id);
+		error(ERR_INTERNAL, "Unknown type identifier, '%d'", t->id);
 		break;
 	}
 
@@ -537,7 +537,7 @@ generic_lab:
 
 	default:
 		/* Other types */
-		error(ERROR_INTERNAL, "Unknown type identifier, '%d'", i);
+		error(ERR_INTERNAL, "Unknown type identifier, '%d'", i);
 		break;
 	}
 }
@@ -725,7 +725,7 @@ print_token(FILE *output, object *p, char *tnm)
 
 	default:
 		/* Unknown objects */
-		error(ERROR_INTERNAL, "Unknown object type, '%d'", p->objtype);
+		error(ERR_INTERNAL, "Unknown object type, '%d'", p->objtype);
 		break;
 	}
 }
@@ -938,7 +938,7 @@ type_struct_lab:
 
 	default:
 		/* Unknown objects */
-		error(ERROR_INTERNAL, "Unknown object type, '%d'", p->objtype);
+		error(ERR_INTERNAL, "Unknown object type, '%d'", p->objtype);
 		nm = NULL;
 		break;
 	}
@@ -1169,7 +1169,7 @@ print_object(FILE *output, object *input, int pass)
 
 		default:
 			/* Unknown objects */
-			error(ERROR_INTERNAL, "Unknown object type, '%d'", p->objtype);
+			error(ERR_INTERNAL, "Unknown object type, '%d'", p->objtype);
 			break;
 		}
 	}
@@ -1249,7 +1249,7 @@ print_object2(FILE *output, object *input)
 
 		default:
 			/* Unknown objects */
-			error(ERROR_INTERNAL, "Unknown object type, '%d'", p->objtype);
+			error(ERR_INTERNAL, "Unknown object type, '%d'", p->objtype);
 			break;
 		}
 	}
@@ -1386,7 +1386,7 @@ print_set(object *input, int pass)
 		q->u.u_file = output;
 
 		if (output == NULL) {
-			error(ERROR_SERIOUS, "Can't open output file, %s", nm);
+			error(ERR_SERIOUS, "Can't open output file, %s", nm);
 			return;
 		}
 	}

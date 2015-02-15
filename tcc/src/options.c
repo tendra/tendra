@@ -257,7 +257,7 @@ special_option(void)
 		return;
 	};
 
-	error(ERROR_USAGE, "Unknown special option, '%s'", s);
+	error(ERR_USAGE, "Unknown special option, '%s'", s);
 }
 
 
@@ -328,7 +328,7 @@ lookup_bool(const char *s)
 		}
 	}
 
-	error(ERROR_USAGE, "Unknown boolean identifier, '%.2s'", s);
+	error(ERR_USAGE, "Unknown boolean identifier, '%.2s'", s);
 	return NULL;
 }
 
@@ -499,7 +499,7 @@ lookup_env(const char *s)
 	case 'E':
 	case 'Q':
 	case 'O':
-		error(ERROR_USAGE, "Unknown%s compilation stage, '%c'",
+		error(ERR_USAGE, "Unknown%s compilation stage, '%c'",
 			checker ? "/non-checker" : "", s[1]);
 		return NULL;
 
@@ -507,7 +507,7 @@ lookup_env(const char *s)
 		break;
 	}
 
-	error(ERROR_USAGE, "Unknown list identifier, '%.2s'", s);
+	error(ERR_USAGE, "Unknown list identifier, '%.2s'", s);
 	return NULL;
 }
 
@@ -549,7 +549,7 @@ lookup_string(const char *s)
 		case PRETTY_TDF:   return &name_p_file;
 
 		default:
-			error(ERROR_USAGE, "Unknown output file specifier, '%c'", s[1]);
+			error(ERR_USAGE, "Unknown output file specifier, '%c'", s[1]);
 			return NULL;
 		}
 	}
@@ -578,7 +578,7 @@ lookup_string(const char *s)
 		}
 	}
 
-	error(ERROR_USAGE, "Unknown string identifier, '%.2s'", s);
+	error(ERR_USAGE, "Unknown string identifier, '%.2s'", s);
 	return NULL;
 }
 
@@ -642,7 +642,7 @@ lookup_proc(const char *s)
 		}
 	}
 
-	error(ERROR_USAGE, "Unknown procedure identifier, '%.2s'", s);
+	error(ERR_USAGE, "Unknown procedure identifier, '%.2s'", s);
 	return NULL;
 }
 
@@ -931,7 +931,7 @@ interpret_cmd(const char *cmd, enum hash_precedence precedence)
 
 	/* Debugging */
 	if (debug_options) {
-		error(ERROR_WARNING, "Interpreting '%s'", cmd);
+		error(ERR_WARN, "Interpreting '%s'", cmd);
 	}
 
 	/* Deal with at-hack */
@@ -1088,7 +1088,7 @@ interpret_cmd(const char *cmd, enum hash_precedence precedence)
 			 * Only the value is user supplied and needs bounds checking.
 			 */
 			if (++count >= MAX_LINE) {
-				error(ERROR_FATAL, "Exceeded maximum buffer length in -y argument\n");
+				error(ERR_FATAL, "Exceeded maximum buffer length in -y argument\n");
 			}
 		}
 		*r++ ='\0';
@@ -1224,11 +1224,11 @@ interpret_cmd(const char *cmd, enum hash_precedence precedence)
 
 	/* Error */
 	case 'X':
-		error(ERROR_USAGE, "%s", cmd + 1);
+		error(ERR_USAGE, "%s", cmd + 1);
 		return;
 	}
 
-	error(ERROR_USAGE, "Syntax error, '%s'", cmd);
+	error(ERR_USAGE, "Syntax error, '%s'", cmd);
 }
 
 
@@ -1280,32 +1280,32 @@ process_options(list *opt, struct optmap *tab, enum hash_precedence precedence)
 
 			case MATCH_IN_ERR:
 				/* Error in optmap input */
-				error(ERROR_USAGE, "Illegal input '%s'", t->in);
+				error(ERR_USAGE, "Illegal input '%s'", t->in);
 				status = MATCH_FAILED;
 				break;
 
 			case MATCH_OUT_ERR:
 				/* Error in optmap output */
-				error(ERROR_USAGE, "Illegal option '%s'", t->out);
+				error(ERR_USAGE, "Illegal option '%s'", t->out);
 				status = MATCH_FAILED;
 				break;
 
 			case MATCH_OPT_ERR:
 				/* Ran out of space for result */
-				error(ERROR_USAGE, "Too many components, '%s'", arg);
+				error(ERR_USAGE, "Too many components, '%s'", arg);
 				status = MATCH_FAILED;
 				break;
 			}
 		}
 
-		error(ERROR_USAGE, "Can't interpret '%s'", arg);
+		error(ERR_USAGE, "Can't interpret '%s'", arg);
 end_search:
 		;
 	}
 
 	/* Check for incomplete options */
 	if (status == MATCH_MORE) {
-		error(ERROR_USAGE, "Option '%s' is incomplete", arg);
+		error(ERR_USAGE, "Option '%s' is incomplete", arg);
 	}
 }
 

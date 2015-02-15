@@ -103,7 +103,7 @@ find_fullname(const char *s)
 		if (getcwd(buffer, buffer_size)) {
 			pwd = xstrcat(buffer, "/");
 		} else {
-			error(ERROR_WARNING,
+			error(ERR_WARN,
 			      "Can't determine current working directory");
 			pwd = "";
 		}
@@ -195,7 +195,7 @@ find_type_suffix(char s)
 
 	t = table_findbykey(s);
 	if (t == UNKNOWN_TYPE) {
-		error(ERROR_SERIOUS, "Unknown file type, '%c'", s);
+		error(ERR_SERIOUS, "Unknown file type, '%c'", s);
 		return UNKNOWN_TYPE;
 	}
 
@@ -232,12 +232,12 @@ find_type_stage(char s)
 	t = table_findbykey(s);
 
 	if (checker && !table_checker(t)) {
-		error(ERROR_SERIOUS, "File type '%c' non-applicable for the checker", s);
+		error(ERR_SERIOUS, "File type '%c' non-applicable for the checker", s);
 		return UNKNOWN_TYPE;
 	}
 
 	if (t == UNKNOWN_TYPE) {
-		error(ERROR_SERIOUS, "Unknown file type, '%c'", s);
+		error(ERR_SERIOUS, "Unknown file type, '%c'", s);
 		return UNKNOWN_TYPE;
 	}
 
@@ -326,7 +326,7 @@ file_suffix(int t)
 		}
 		return suff;
 	}
-	error(ERROR_SERIOUS, "Illegal file type");
+	error(ERR_SERIOUS, "Illegal file type");
 	return file_suffix(DEFAULT_TYPE);
 }
 
@@ -513,7 +513,7 @@ make_filename(filename *p, enum filetype t, enum file_storage s)
 		if (final_name) {
 			static boolean used_final_name = 0;
 			if (used_final_name) {
-				error(ERROR_WARNING,
+				error(ERR_WARN,
 				      "Can only name one file with '-o'");
 			} else {
 				nm = final_name;

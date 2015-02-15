@@ -45,7 +45,7 @@ rule_compute_first_set_1(RuleT *rule)
 	if (rule_has_computed_first_set(rule)) {
 		return;
 	} else if (rule_is_computing_first_set(rule)) {
-		error(ERROR_SERIOUS, "cannot compute first set for production\n%R",
+		error(ERR_SERIOUS, "cannot compute first set for production\n%R",
 			(void *) rule);
 		return;
 	}
@@ -61,7 +61,7 @@ rule_compute_first_set_1(RuleT *rule)
 			switch (item_type(item)) EXHAUSTIVE {
 			case ET_PREDICATE:
 				if (item != initial) {
-					error(ERROR_FATAL, "can see through to predicate '%K' in production\n%R",
+					error(ERR_FATAL, "can see through to predicate '%K' in production\n%R",
 						(void *) entry_key(item_entry(item)), (void *) rule);
 					UNREACHED;
 				}
@@ -83,7 +83,7 @@ rule_compute_first_set_1(RuleT *rule)
 
 					rule_compute_first_set_1(item_rule);
 					if (item != initial && !entry_list_is_empty(pred_first)) {
-						error(ERROR_FATAL, "can see through to predicates in rule '%N' in production\n%R",
+						error(ERR_FATAL, "can see through to predicates in rule '%N' in production\n%R",
 							(void *) item_rule, (void *) rule);
 						UNREACHED;
 					}
@@ -125,7 +125,7 @@ rule_compute_first_set_1(RuleT *rule)
 
     rule_set_priority(rule, priority + 1);
     if (rule_is_see_through(rule) && bitvec_is_full(rule_first_set(rule))) {
-		error(ERROR_FATAL, "the rule '%N' has all terminals in its first set and has a redundant see through alternative",
+		error(ERR_FATAL, "the rule '%N' has all terminals in its first set and has a redundant see through alternative",
 			(void *) rule);
 		UNREACHED;
     }

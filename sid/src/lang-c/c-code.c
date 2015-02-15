@@ -85,7 +85,7 @@ code_undefined_result(void *gclosure, EntryT *name)
 {
 	CCodeT *code = gclosure;
 
-	error_posn(ERROR_FATAL, c_code_file(code), (int) c_code_line(code),
+	error_posn(ERR_FATAL, c_code_file(code), (int) c_code_line(code),
 		"code result '%K' is not defined", (void *) entry_key(name));
 }
 
@@ -229,7 +229,7 @@ c_code_check(CCodeT *code, BoolT exceptions, BoolT cct_exceptions,
 			item->u.ident = entry;
 			if ((param == NULL || !types_contains(param, entry))
 				&& (result == NULL || !types_contains(result, entry))) {
-				error_posn(ERROR_FATAL, c_code_file(code), (int) c_code_line(code),
+				error_posn(ERR_FATAL, c_code_file(code), (int) c_code_line(code),
 					"substituted identifier '%K' is not a parameter or result",
 					(void *) entry_key(entry));
 			} else if (result) {
@@ -242,12 +242,12 @@ c_code_check(CCodeT *code, BoolT exceptions, BoolT cct_exceptions,
 			item->u.ident = entry;
 			if (exceptions) {
 				if (param == NULL || !types_mutated(param, entry)) {
-					error_posn(ERROR_FATAL, c_code_file(code), (int) c_code_line(code),
+					error_posn(ERR_FATAL, c_code_file(code), (int) c_code_line(code),
 						"substituted mutable identifier '%K' is not a parameter",
 						(void *) entry_key(entry));
 				}
 			} else {
-				error_posn(ERROR_FATAL, c_code_file(code), (int) c_code_line(code),
+				error_posn(ERR_FATAL, c_code_file(code), (int) c_code_line(code),
 					"substituted mutable identifier '%K' in assignment operator definition",
 					(void *) entry_key(entry));
 			}
@@ -258,12 +258,12 @@ c_code_check(CCodeT *code, BoolT exceptions, BoolT cct_exceptions,
 			item->u.ident = entry;
 			if (!param_op) {
 				if (param == NULL || !types_contains(param, entry)) {
-					error_posn(ERROR_FATAL, c_code_file(code), (int) c_code_line(code),
+					error_posn(ERR_FATAL, c_code_file(code), (int) c_code_line(code),
 						"substituted reference identifier '%K' is not a parameter",
 						(void *) entry_key(entry));
 				}
 			} else {
-				error_posn(ERROR_FATAL, c_code_file(code), (int) c_code_line(code),
+				error_posn(ERR_FATAL, c_code_file(code), (int) c_code_line(code),
 					"substituted address of identifier '%K' in parameter assignment operator definition",
 					(void *) entry_key(entry));
 			}
@@ -276,7 +276,7 @@ c_code_check(CCodeT *code, BoolT exceptions, BoolT cct_exceptions,
 			 * grammar_check_complete() for details.
 			 */
 			if (!entry) {
-				error_posn(ERROR_FATAL, c_code_file(code), (int) c_code_line(code),
+				error_posn(ERR_FATAL, c_code_file(code), (int) c_code_line(code),
 					"substituted terminal '%s' hasn't been declared or defined",
 						nstring_contents(&item->u.string));
 			} else {
@@ -288,7 +288,7 @@ c_code_check(CCodeT *code, BoolT exceptions, BoolT cct_exceptions,
 			entry = table_add_name(table, &item->u.string);
 			item->u.ident = entry;
 			if (param == NULL && result == NULL) {
-				error_posn(ERROR_FATAL, c_code_file(code), (int) c_code_line(code),
+				error_posn(ERR_FATAL, c_code_file(code), (int) c_code_line(code),
 					"substituted label '%K' in unparameterised block",
 					(void *) entry_key(entry));
 			}
@@ -296,21 +296,21 @@ c_code_check(CCodeT *code, BoolT exceptions, BoolT cct_exceptions,
 
 		case CCT_EXCEPTION:
 			if (!cct_exceptions) {
-				error_posn(ERROR_SERIOUS, c_code_file(code), (int) c_code_line(code),
+				error_posn(ERR_SERIOUS, c_code_file(code), (int) c_code_line(code),
 					"substituted exception call in unsuitable code block");
 			}
 			break;
 
 		case CCT_ADVANCE:
 			if (!exceptions) {
-				error_posn(ERROR_SERIOUS, c_code_file(code), (int) c_code_line(code),
+				error_posn(ERR_SERIOUS, c_code_file(code), (int) c_code_line(code),
 					"substituted lexer advance call in unsuitable code block");
 			}
 			break;
 
 		case CCT_TERMINAL:
 			if (!exceptions) {
-				error_posn(ERROR_SERIOUS, c_code_file(code), (int) c_code_line(code),
+				error_posn(ERR_SERIOUS, c_code_file(code), (int) c_code_line(code),
 					"substituted current terminal call in unsuitable code block");
 			}
 			break;

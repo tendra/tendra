@@ -128,12 +128,12 @@ fill_gap(FILE *file, long fp, posn_t t)
 {
 	long fp_old = ftell(file);
 	if (fseek(file, fp, SEEK_SET) == -1) {
-		error(ERROR_SERIOUS, "Internal file seek error");
+		error(ERR_SERIOUS, "Internal file seek error");
 		return;
 	}
 	asm_fprintf(file, "0x%x", (unsigned int)t);
 	if (fseek(file, fp_old, SEEK_SET) == -1) {
-		error(ERROR_SERIOUS, "Internal file seek error");
+		error(ERR_SERIOUS, "Internal file seek error");
 	}
 }
 

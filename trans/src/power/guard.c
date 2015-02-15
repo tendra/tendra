@@ -66,7 +66,7 @@ space needreg(int r, space sp)
   if (!(optim & OPTIM_TEMPDEC && IS_TREG(r)) && (sp.fixed&RMASK(r))!=0)
   {
     asm_comment("needreg: %d", r);
-    error(ERROR_SERIOUS, "needreg: fixed reg already in use");
+    error(ERR_SERIOUS, "needreg: fixed reg already in use");
   }
   return guardreg(r, sp);
 }
@@ -77,7 +77,7 @@ space needfreg(int r, space sp)
   if (!(optim & OPTIM_TEMPDEC && IS_FLT_TREG(r)) && (sp.flt&RMASK(r))!=0)
   {
     asm_comment("needfreg: %d", r);
-    error(ERROR_SERIOUS, "needfreg: float reg already in use");
+    error(ERR_SERIOUS, "needfreg: float reg already in use");
   }
   return guardreg(r, sp);
 }
@@ -129,12 +129,12 @@ space guard(where w, space sp)
   case insomereg:
   case insomefreg:
     {
-      error(ERROR_SERIOUS, "guard: Guard ? reg");
+      error(ERR_SERIOUS, "guard: Guard ? reg");
       return sp;
     }
   default:
     {
-      error(ERROR_SERIOUS, "guard: not in switch");
+      error(ERR_SERIOUS, "guard: not in switch");
       return sp;
     }
   }

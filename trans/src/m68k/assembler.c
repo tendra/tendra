@@ -57,7 +57,7 @@ void asm_nprefix(void) {
 		break;
 
 	default:
-		error(ERROR_SERIOUS, "unsupported assembler dialect");
+		error(ERR_SERIOUS, "unsupported assembler dialect");
 	}
 }
 
@@ -72,7 +72,7 @@ void asm_fprefix(void) {
 		break;
 
 	default:
-		error(ERROR_SERIOUS, "unsupported assembler dialect");
+		error(ERR_SERIOUS, "unsupported assembler dialect");
 	}
 }
 
@@ -86,7 +86,7 @@ void asm_ind_before(void) {
 		break;
 
 	default:
-		error(ERROR_SERIOUS, "unsupported assembler dialect");
+		error(ERR_SERIOUS, "unsupported assembler dialect");
 	}
 }
 
@@ -100,7 +100,7 @@ void asm_ind_middle(void) {
 		break;
 
 	default:
-		error(ERROR_SERIOUS, "unsupported assembler dialect");
+		error(ERR_SERIOUS, "unsupported assembler dialect");
 	}
 }
 
@@ -114,7 +114,7 @@ void asm_ind_after(void) {
 		break;
 
 	default:
-		error(ERROR_SERIOUS, "unsupported assembler dialect");
+		error(ERR_SERIOUS, "unsupported assembler dialect");
 	}
 }
 
@@ -125,7 +125,7 @@ void asm_predec_before(void) {
 		break;
 
 	default:
-		error(ERROR_SERIOUS, "unsupported assembler dialect");
+		error(ERR_SERIOUS, "unsupported assembler dialect");
 	}
 }
 
@@ -140,7 +140,7 @@ void asm_predec_after(void) {
 		break;
 
 	default:
-		error(ERROR_SERIOUS, "unsupported assembler dialect");
+		error(ERR_SERIOUS, "unsupported assembler dialect");
 	}
 }
 
@@ -154,7 +154,7 @@ void asm_postinc_before(void) {
 		break;
 
 	default:
-		error(ERROR_SERIOUS, "unsupported assembler dialect");
+		error(ERR_SERIOUS, "unsupported assembler dialect");
 	}
 }
 
@@ -169,7 +169,7 @@ void asm_postinc_after(void) {
 		break;
 
 	default:
-		error(ERROR_SERIOUS, "unsupported assembler dialect");
+		error(ERR_SERIOUS, "unsupported assembler dialect");
 	}
 }
 
@@ -183,7 +183,7 @@ void asm_scale_before(void) {
 		break;
 
 	default:
-		error(ERROR_SERIOUS, "unsupported assembler dialect");
+		error(ERR_SERIOUS, "unsupported assembler dialect");
 	}
 }
 
@@ -198,7 +198,7 @@ void asm_scale(void) {
 		break;
 
 	default:
-		error(ERROR_SERIOUS, "unsupported assembler dialect");
+		error(ERR_SERIOUS, "unsupported assembler dialect");
 	}
 }
 
@@ -213,7 +213,7 @@ void asm_scale_1(void) {
 		break;
 
 	default:
-		error(ERROR_SERIOUS, "unsupported assembler dialect");
+		error(ERR_SERIOUS, "unsupported assembler dialect");
 	}
 }
 
@@ -227,7 +227,7 @@ void asm_mem_before(void) {
 		break;
 
 	default:
-		error(ERROR_SERIOUS, "unsupported assembler dialect");
+		error(ERR_SERIOUS, "unsupported assembler dialect");
 	}
 }
 
@@ -241,7 +241,7 @@ void asm_mem_second(void) {
 		break;
 
 	default:
-		error(ERROR_SERIOUS, "unsupported assembler dialect");
+		error(ERR_SERIOUS, "unsupported assembler dialect");
 	}
 }
 
@@ -256,7 +256,7 @@ void asm_mem_third(void) {
 		break;
 
 	default:
-		error(ERROR_SERIOUS, "unsupported assembler dialect");
+		error(ERR_SERIOUS, "unsupported assembler dialect");
 	}
 }
 
@@ -270,7 +270,7 @@ void asm_mem_after(void) {
 		break;
 
 	default:
-		error(ERROR_SERIOUS, "unsupported assembler dialect");
+		error(ERR_SERIOUS, "unsupported assembler dialect");
 	}
 }
 

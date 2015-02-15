@@ -44,7 +44,7 @@
 static void fail_unimplemented
     ( long a1 , long a2 )
 {
-  error(ERROR_INTERNAL, "unimplemented attribute: %lx %lx",
+  error(ERR_INTERNAL, "unimplemented attribute: %lx %lx",
 		(unsigned long) a1, (unsigned long) a2);
 }
 
@@ -259,7 +259,7 @@ static void out_class_data
 	exp a, b, c;
 	if (!vtable_exp || !cm->d.cm_fn.slot ||
 		name(sh(son(cm->d.cm_fn.slot))) != offsethd)
-	  error(ERROR_INTERNAL, "wrong virtual function data");
+	  error(ERR_INTERNAL, "wrong virtual function data");
 	a = copy (son(vtable_exp));
 	b = copy (son(cm->d.cm_fn.slot));
 	c = f_add_to_ptr (a, b);
@@ -433,7 +433,7 @@ void dw_out_type
     case DGT_TAGGED: {
       dg_tag tg = t->data.t_tag;
       if (tg->done || tg->key != DGK_NAME || tg->p.nam->key != DGN_TYPE) {
-	error(ERROR_INTERNAL, "unexpected out_type");
+	error(ERR_INTERNAL, "unexpected out_type");
 	asm_error();
 	break;
       }
@@ -856,7 +856,7 @@ void dw_out_type
     }
 
     case DGT_BITF: {
-      error(ERROR_INTERNAL, "bitfields shouldn't occur here");
+      error(ERR_INTERNAL, "bitfields shouldn't occur here");
       break;
     }
 
@@ -912,7 +912,7 @@ void dw_out_type
     }
 
     default:
-      error(ERROR_INTERNAL, "illegal type");
+      error(ERR_INTERNAL, "illegal type");
   }
 }
 

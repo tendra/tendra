@@ -120,7 +120,7 @@
 				buf[n++] = *s;
 			}
 			if (n >= 900) {
-				error (ERROR_SERIOUS, "Identifier too long");
+				error (ERR_SERIOUS, "Identifier too long");
 				break;
 			}
 		}
@@ -168,7 +168,7 @@
 
 	<make-white>: (z :ZONE, s :STRING) -> () = @{
 		if (@z->white) {
-			error(ERROR_SERIOUS, "White space group already defined");
+			error(ERR_SERIOUS, "White space group already defined");
 		}
 
 		@z->white = make_group(@z, "white", @s);
@@ -203,16 +203,16 @@
 		ea = table_get_entry(&@z->ast->table, key);
 		if (ea == NULL) {
 			@c = NULL;
-			error(ERROR_SERIOUS, "Unknown action %s", @i);
+			error(ERR_SERIOUS, "Unknown action %s", @i);
 		} else if (ea->kind != ENTRY_ACTION) {
 			@c = NULL;
-			error(ERROR_SERIOUS, "Name %s is not an action", @i);
+			error(ERR_SERIOUS, "Name %s is not an action", @i);
 		} else {
 			char *dup;
 
 			dup = arg_first_duplicate_ident(@l);
 			if (dup != NULL) {
-				error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",
+				error(ERR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",
 					ea->key, dup);
 			}
 
@@ -244,7 +244,7 @@
 
 	<check-args-list>: (l :ARG) -> () = @{
 		if (arg_return_count(@l) > 1) {
-			error(ERROR_SERIOUS, "There can only be one return terminal argument per action lhs");
+			error(ERR_SERIOUS, "There can only be one return terminal argument per action lhs");
 		}
 	@};
 
@@ -259,7 +259,7 @@
 			return_count = cmd_return_count(@l->cmds);
 
 			if (return_count > 0 && @c->kind != CMD_DISCARD) {
-				error(ERROR_SERIOUS, "No cmd may follow an cmd that returns a terminal");
+				error(ERR_SERIOUS, "No cmd may follow an cmd that returns a terminal");
 			}
 
 			if (@c->kind == CMD_RETURN) {
@@ -275,7 +275,7 @@
 
 				return_count += arg_return_count(@c->u.act.lhs);
 				if (return_count > 1) {
-					error(ERROR_SERIOUS, "Only one terminal may be returned per token");
+					error(ERR_SERIOUS, "Only one terminal may be returned per token");
 				}
 
 				ea  = @c->u.act.ea;
@@ -293,22 +293,22 @@
 						if (et == NULL) {
 							struct entry *e = table_get_entry(&@z->ast->table, p->u.literal);
 							if (!e) {
-								error(ERROR_SERIOUS, "local name %s has not been defined yet", p->u.literal);
+								error(ERR_SERIOUS, "local name %s has not been defined yet", p->u.literal);
 								et = NULL;
 							} else {
 								switch (e->kind) {
 								case ENTRY_LOCAL:
-									error(ERROR_SERIOUS, "local name %s has been defined but not in this scope", p->u.literal);
+									error(ERR_SERIOUS, "local name %s has been defined but not in this scope", p->u.literal);
 									et = NULL;
 									break;
 
 								case ENTRY_ACTION:
-									error(ERROR_SERIOUS, "%s is not a local name but an action which is not allowed", p->u.literal);
+									error(ERR_SERIOUS, "%s is not a local name but an action which is not allowed", p->u.literal);
 									et = NULL;
 									break;
 
 								case ENTRY_TYPE:
-									error(ERROR_SERIOUS, "%s is not a local name but a type which is not allowed", p->u.literal);
+									error(ERR_SERIOUS, "%s is not a local name but a type which is not allowed", p->u.literal);
 									et = NULL;
 									break;
 
@@ -381,18 +381,18 @@
 								break;
 							}
 
-							error(ERROR_SERIOUS, "In call to action %s, argument \'%s%s\' has type \'%s%s\' when it should have type %s",
+							error(ERR_SERIOUS, "In call to action %s, argument \'%s%s\' has type \'%s%s\' when it should have type %s",
 								ea->key, s6, s7, et->key, s3, s4, s5);
 						}
 					}
 				}
 
 				if (p != NULL) {
-					error(ERROR_SERIOUS, "In call to action %s, too many arguments", ea->key);
+					error(ERR_SERIOUS, "In call to action %s, too many arguments", ea->key);
 				}
 
 				if (q != NULL) {
-					error(ERROR_SERIOUS, "In call to action %s, not enough arguments", ea->key);
+					error(ERR_SERIOUS, "In call to action %s, not enough arguments", ea->key);
 				}
 
 				for (p = lhs, q = act->out; p != NULL && q != NULL; p = p->next, q = q->next) {
@@ -408,25 +408,25 @@
 							if (e) {
 								switch (e->kind) {
 								case ENTRY_ACTION:
-									error(ERROR_SERIOUS, "In action lhs. Name %s is an action. Hiding globals by local names is not allowed", p->u.literal);
+									error(ERR_SERIOUS, "In action lhs. Name %s is an action. Hiding globals by local names is not allowed", p->u.literal);
 									break;
 
 								case ENTRY_TYPE:
-									error(ERROR_SERIOUS, "In action lhs. Name %s is a type. Hiding globals by local names is not allowed", p->u.literal);
+									error(ERR_SERIOUS, "In action lhs. Name %s is a type. Hiding globals by local names is not allowed", p->u.literal);
 									break;
 								}
 							} else {
 								table_add_local_name(&@z->ast->table, p->u.literal);
 							}
 							if (p->is_ref) {
-								error(ERROR_SERIOUS, "In action call %s, you can only use references %s for preexisting variables",
+								error(ERR_SERIOUS, "In action call %s, you can only use references %s for preexisting variables",
 									ea->key, p->u.literal);
 							}
 						} else {
 							if (!p->is_ref) {
 								char *s;
 
-								error(ERROR_SERIOUS, "In action call %s, name %s already declared. Use references to change the value of an already existing variable",
+								error(ERR_SERIOUS, "In action call %s, name %s already declared. Use references to change the value of an already existing variable",
 									ea->key, p->u.literal);
 
 								et = q->et; /* To avoid outputting that error more than once */
@@ -459,19 +459,19 @@
 					if (p->is_ref != q->is_ref) {
 						/* XXX: state which action */
 						if (p->is_ref) {
-							error(ERROR_SERIOUS, "In call to action, %s should not be a reference", p->u.literal);
+							error(ERR_SERIOUS, "In call to action, %s should not be a reference", p->u.literal);
 						} else {
-							error(ERROR_SERIOUS, "In call to action, %s should not be a reference", p->u.literal);
+							error(ERR_SERIOUS, "In call to action, %s should not be a reference", p->u.literal);
 						}
 					}
 				}
 
 				if (p != NULL) {
-					error(ERROR_SERIOUS, "In call to action %s, too many results", ea->key);
+					error(ERR_SERIOUS, "In call to action %s, too many results", ea->key);
 				}
 
 				if (q != NULL) {
-					error(ERROR_SERIOUS, "In call to action %s, not enough results", ea->key);
+					error(ERR_SERIOUS, "In call to action %s, not enough results", ea->key);
 				}
 			}
 
@@ -496,7 +496,7 @@
 
 	<check-cmds>: (l :CMD) -> () = @{
 		if (cmd_return_count(@l) > 1) {
-			error(ERROR_SERIOUS, "At most one return terminal may be specified per command list");
+			error(ERR_SERIOUS, "At most one return terminal may be specified per command list");
 		}
 	@};
 
@@ -516,7 +516,7 @@
 	@};
 
 	<E_empty_character_string>: () -> () = @{
-		error(ERROR_SERIOUS, "Empty character string is not allowed here, try using DEFAULT instead");
+		error(ERR_SERIOUS, "Empty character string is not allowed here, try using DEFAULT instead");
 	@};
 
 	<make-default>: (z :ZONE, f :FRAME) -> () = @{
@@ -534,7 +534,7 @@
 			break;
 
 		default:
-		  error(ERROR_SERIOUS, "Syntax error: only a function or a token might be returned for a keyword");
+		  error(ERR_SERIOUS, "Syntax error: only a function or a token might be returned for a keyword");
 		}
 	@};
 
@@ -604,15 +604,15 @@
 		if (e != NULL) {
 			switch (e->kind) {
 			case ENTRY_TYPE:
-				error(ERROR_SERIOUS, "Type %s already exists", @i);
+				error(ERR_SERIOUS, "Type %s already exists", @i);
 				break;
 
 			case ENTRY_LOCAL:
-				error(ERROR_SERIOUS, "Can't create type %s, %s has been previously used as a local name. We do not allow retroactive hiding.", @i, @i);
+				error(ERR_SERIOUS, "Can't create type %s, %s has been previously used as a local name. We do not allow retroactive hiding.", @i, @i);
 				break;
 
 			case ENTRY_ACTION:
-				error(ERROR_SERIOUS, "Can't create type %s, %s has already been declared as an action", @i, @i);
+				error(ERR_SERIOUS, "Can't create type %s, %s has already been declared as an action", @i, @i);
 				break;
 
 			default:
@@ -630,15 +630,15 @@
 		if (e != NULL) {
 			switch (e->kind) {
 			case ENTRY_ACTION:
-				error(ERROR_SERIOUS, "Action %s already exists", @i);
+				error(ERR_SERIOUS, "Action %s already exists", @i);
 				break;
 
 			case ENTRY_LOCAL:
-				error(ERROR_SERIOUS, "Can't create type %s, %s has been previously used as a local name. We do not allow retroactive hiding.", @i, @i);
+				error(ERR_SERIOUS, "Can't create type %s, %s has been previously used as a local name. We do not allow retroactive hiding.", @i, @i);
 				break;
 
 			case ENTRY_TYPE:
-				error(ERROR_SERIOUS, "Can't create action %s, %s has already been declared as a type", @i, @i);
+				error(ERR_SERIOUS, "Can't create action %s, %s has already been declared as a type", @i, @i);
 				break;
 
 			default:
@@ -658,95 +658,95 @@
 
 		et = table_get_entry(&@z->ast->table, @type);
 		if (et == NULL) {
-			 error(ERROR_SERIOUS, "Unknown type %s", @type);
+			 error(ERR_SERIOUS, "Unknown type %s", @type);
 		} else if (et->kind != ENTRY_TYPE) {
-			 error(ERROR_SERIOUS, "%s is not a type", @type);
+			 error(ERR_SERIOUS, "%s is not a type", @type);
 		} else {
 			param_append(@&a, @id, et, @isref);
 		}
 	@};
 
 	<E_nonglobalzonekeyword>: () -> () = @{
-		error(ERROR_SERIOUS, "Keywords not yet implemented in a non global zone ");
+		error(ERR_SERIOUS, "Keywords not yet implemented in a non global zone ");
 	@};
 
 	<E_nonglobalzonetype>: (i :IDENT) -> () = @{
-		error(ERROR_SERIOUS, "Syntax error: type %s should not be declared inside a zone",@i);
+		error(ERR_SERIOUS, "Syntax error: type %s should not be declared inside a zone",@i);
 	@};
 
 	<E_expected_ident>: () -> (i :IDENT) = @{
 		@i="";
-		error(ERROR_SERIOUS, "Syntax error: expected identifier");
+		error(ERR_SERIOUS, "Syntax error: expected identifier");
 	@};
 
 	<E_expected_range>: () -> () = @{
-		error(ERROR_SERIOUS, "Syntax error: expected range");
+		error(ERR_SERIOUS, "Syntax error: expected range");
 	@};
 
 	<E_expected_open>: () -> () = @{
-		error(ERROR_SERIOUS, "Syntax error: expected open \'(\'");
+		error(ERR_SERIOUS, "Syntax error: expected open \'(\'");
 	@};
 
 	<E_expected_close>: () -> () = @{
-		error(ERROR_SERIOUS, "Syntax error: expected close \')\'");
+		error(ERR_SERIOUS, "Syntax error: expected close \')\'");
 	@};
 
 	<E_expected_chars>: () -> (s :STRING) = @{
 			@s = NULL;
-		error(ERROR_SERIOUS, "Syntax error: expected characters");
+		error(ERR_SERIOUS, "Syntax error: expected characters");
 	@};
 
 	<E_expected_colon>: () -> () = @{
-		error(ERROR_SERIOUS, "Syntax error: expected colon \':\'");
+		error(ERR_SERIOUS, "Syntax error: expected colon \':\'");
 	@};
 
 	<E_expected_semicolon>: () -> () = @{
-		error(ERROR_SERIOUS, "Syntax error: expected semicolon \';\'");
+		error(ERR_SERIOUS, "Syntax error: expected semicolon \';\'");
 	@};
 
 	<E_expected_arrow>: () -> () = @{
-		error(ERROR_SERIOUS, "Syntax error: expected arrow \'->\'");
+		error(ERR_SERIOUS, "Syntax error: expected arrow \'->\'");
 	@};
 
 	<E_expected_equal>: () -> () = @{
-		error(ERROR_SERIOUS, "Syntax error: expected equal \'=\'");
+		error(ERR_SERIOUS, "Syntax error: expected equal \'=\'");
 	@};
 
 	<E_expected_begin_action>: () -> () = @{
-		error(ERROR_SERIOUS, "Syntax error: expected begin action \'<\'");
+		error(ERR_SERIOUS, "Syntax error: expected begin action \'<\'");
 	@};
 
 	<E_expected_end_action>: () -> () = @{
-		error(ERROR_SERIOUS, "Syntax error: expected end action \'>\'");
+		error(ERR_SERIOUS, "Syntax error: expected end action \'>\'");
 	@};
 
 	<syntax-error>: () -> () = @{
-		error(ERROR_SERIOUS, "Syntax error");
+		error(ERR_SERIOUS, "Syntax error");
 	@};
 
 	<E_sharp_arg_in_lhs>: () -> () = @{
-		error(ERROR_SERIOUS, "Argument of style # are rvalues and should not appear on a left handside");
+		error(ERR_SERIOUS, "Argument of style # are rvalues and should not appear on a left handside");
 	@};
 
 	<E_string_arg_in_lhs>: () -> () = @{
-		error(ERROR_SERIOUS, "Argument of type "" are rvalues and should not appear on a left handside");
+		error(ERR_SERIOUS, "Argument of type "" are rvalues and should not appear on a left handside");
 	@};
 
 	<E_return_in_rhs>: () -> () = @{
-		error(ERROR_SERIOUS, "Return terminal argument in right handside");
+		error(ERR_SERIOUS, "Return terminal argument in right handside");
 	@};
 
 	<E_string_in_action_rhs>: () -> () = @{
-		error(ERROR_SERIOUS, "String argument in right handside of action call: purposefuly not implemented to avoid confusion."
+		error(ERR_SERIOUS, "String argument in right handside of action call: purposefuly not implemented to avoid confusion."
 			" Will be implemented with an alternate meaning once direct function calls are removed from lexi");
 	@};
 
 	<E_ignore_in_rhs>: () -> () = @{
-		error(ERROR_SERIOUS, "Ignore argument in right handside");
+		error(ERR_SERIOUS, "Ignore argument in right handside");
 	@};
 
 	<E_terminal_in_lhs>: () -> () = @{
-		error(ERROR_SERIOUS, "Terminal argument in left handside");
+		error(ERR_SERIOUS, "Terminal argument in left handside");
 	@};
 
 %trailer% @{

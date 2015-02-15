@@ -59,47 +59,47 @@
 
 
 	static void err_expected(const char *item) {
-		error_posn(ERROR_SERIOUS, c_lexer_stream_name(c_current_stream), (int) c_lexer_stream_line(c_current_stream),
+		error_posn(ERR_SERIOUS, c_lexer_stream_name(c_current_stream), (int) c_lexer_stream_line(c_current_stream),
 			"expected %s", item);
 	}
 
 	static void err_unknown(const char *item, NStringT *name) {
-		error_posn(ERROR_SERIOUS, c_lexer_stream_name(c_current_stream), (int) c_lexer_stream_line(c_current_stream),
+		error_posn(ERR_SERIOUS, c_lexer_stream_name(c_current_stream), (int) c_lexer_stream_line(c_current_stream),
 			"unknown %s '%S'", item, (void *) name);
 	}
 
 	static void err_mult(const char *verb, const char *item, NStringT *name) {
-		error_posn(ERROR_SERIOUS, c_lexer_stream_name(c_current_stream), (int) c_lexer_stream_line(c_current_stream),
+		error_posn(ERR_SERIOUS, c_lexer_stream_name(c_current_stream), (int) c_lexer_stream_line(c_current_stream),
 			"multiple %s operations defined for %s '%S'", verb, item, (void *) name);
 	}
 
 	static void err_formal_clash(const char *verb, const char *item, KeyT *key, TypeTupleT *a, TypeTupleT *b) {
-		error_posn(ERROR_SERIOUS, c_lexer_stream_name(c_current_stream), (int) c_lexer_stream_line(c_current_stream),
+		error_posn(ERR_SERIOUS, c_lexer_stream_name(c_current_stream), (int) c_lexer_stream_line(c_current_stream),
 			"%s operation formal clash for %s '%K' [parameter = %Y, result = %Y]",
 			verb, item, (void *) key, (void *) a, (void *) b);
 
 	}
 
 	static void err_clash(const char *verb, const char *field, const char *item, KeyT *key, TypeTupleT *a) {
-		error_posn(ERROR_SERIOUS, c_lexer_stream_name(c_current_stream), (int) c_lexer_stream_line(c_current_stream),
+		error_posn(ERR_SERIOUS, c_lexer_stream_name(c_current_stream), (int) c_lexer_stream_line(c_current_stream),
 			"%s operation %s clash (or missing name) for %s '%K' [%s = %Y]",
 			verb, field, item, (void *) key, field, (void *) a);
 	}
 
 	static void err_field_clash(const char *field, const char *item, KeyT *key, TypeTupleT *a) {
-		error_posn(ERROR_SERIOUS, c_lexer_stream_name(c_current_stream), (int) c_lexer_stream_line(c_current_stream),
+		error_posn(ERR_SERIOUS, c_lexer_stream_name(c_current_stream), (int) c_lexer_stream_line(c_current_stream),
 			"%s clash (or missing name) for %s '%K' [%s = %Y]",
 			field, item, (void *) key, field, (void *) a);
 	}
 
 	static void err_mismatch(const char *field, const char *verb, const char *item, KeyT *key, TypeTupleT *a, TypeTupleT *b) {
-		error_posn(ERROR_SERIOUS, c_lexer_stream_name(c_current_stream), (int) c_lexer_stream_line(c_current_stream),
+		error_posn(ERR_SERIOUS, c_lexer_stream_name(c_current_stream), (int) c_lexer_stream_line(c_current_stream),
 			"%s type mismatch for %s operation on %s '%K' [%Y should be %Y]",
 			field, verb, item, (void *) key, (void *) a, (void *) b);
 	}
 
 	static void err_field_mismatch(const char *field, KeyT *key, TypeTupleT *a, TypeTupleT *b) {
-		error_posn(ERROR_SERIOUS, c_lexer_stream_name(c_current_stream), (int) c_lexer_stream_line(c_current_stream),
+		error_posn(ERR_SERIOUS, c_lexer_stream_name(c_current_stream), (int) c_lexer_stream_line(c_current_stream),
 			"%s type mismatch for action '%K' [%Y should be %Y]",
 			field, (void *) key, (void *) a, (void *) b);
 	}
@@ -414,7 +414,7 @@ ZR130(void)
 		if (c_current_entry == NULL) {
 			err_unknown("identifier", (&ZI132));
 		} else if (entry_get_mapping(c_current_entry)) {
-			error_posn(ERROR_SERIOUS, c_lexer_stream_name(c_current_stream), (int) c_lexer_stream_line(c_current_stream),
+			error_posn(ERR_SERIOUS, c_lexer_stream_name(c_current_stream), (int) c_lexer_stream_line(c_current_stream),
 				"attempt to remap identifier '%S'", (void *) (&ZI132));
 			c_current_entry = NULL;
 		} else {
@@ -422,7 +422,7 @@ ZR130(void)
 			case ET_NAME:
 			case ET_ACTION:
 			case ET_NON_LOCAL:
-				error_posn(ERROR_SERIOUS, c_lexer_stream_name(c_current_stream), (int) c_lexer_stream_line(c_current_stream),
+				error_posn(ERR_SERIOUS, c_lexer_stream_name(c_current_stream), (int) c_lexer_stream_line(c_current_stream),
 					"cannot map identifier '%S' [it must be a rule, a basic or a type]", (void *) (&ZI132));
 				c_current_entry = NULL;
 				break;
@@ -595,7 +595,7 @@ ZR164(void)
 
 		c_current_entry = table_get_type(c_current_table, (&ZI108));
 		if (c_current_entry == NULL) {
-			error_posn(ERROR_SERIOUS, c_lexer_stream_name(c_current_stream), (int) c_lexer_stream_line(c_current_stream),
+			error_posn(ERR_SERIOUS, c_lexer_stream_name(c_current_stream), (int) c_lexer_stream_line(c_current_stream),
 				"assignment operation defined for unknown type '%S'", (void *) (&ZI108));
 		} else if (type_get_assign_code(entry_get_type(c_current_entry))) {
 			err_mult("assignment", "type", (&ZI108));
@@ -805,14 +805,14 @@ ZR193(void)
 
 		c_current_entry = table_get_action(c_current_table, (&ZI108));
 		if (c_current_entry == NULL) {
-			error_posn(ERROR_SERIOUS, c_lexer_stream_name(c_current_stream), (int) c_lexer_stream_line(c_current_stream),
+			error_posn(ERR_SERIOUS, c_lexer_stream_name(c_current_stream), (int) c_lexer_stream_line(c_current_stream),
 				"definition for unknown action '%S'", (void *) (&ZI108));
 		} else {
 			ActionT *action;
 
 			action = entry_get_action(c_current_entry);
 			if (action_get_code(action)) {
-				error_posn(ERROR_SERIOUS, istream_name(&c_lexer_stream->istream), (int) istream_line(&c_lexer_stream->istream),
+				error_posn(ERR_SERIOUS, istream_name(&c_lexer_stream->istream), (int) istream_line(&c_lexer_stream->istream),
 					"multiple definitions for action '%S'", (void *) (&ZI108));
 				c_current_entry = NULL;
 			}
@@ -899,7 +899,7 @@ ZR193(void)
 			}
 
 			if (types_intersect(&c_saved_type, &c_current_type)) {
-				error_posn(ERROR_SERIOUS, istream_name(&c_lexer_stream->istream), (int) istream_line(&c_lexer_stream->istream),
+				error_posn(ERR_SERIOUS, istream_name(&c_lexer_stream->istream), (int) istream_line(&c_lexer_stream->istream),
 					"formal clash for action '%K' [parameter = %Y, result = %Y]",
 					(void *) key, (void *) &c_saved_type, (void *) &c_current_type);
 				errored = TRUE;
@@ -1194,7 +1194,7 @@ ZR172(void)
 
 		c_current_entry = table_get_type(c_current_table, (&ZI108));
 		if (c_current_entry == NULL) {
-			error_posn(ERROR_SERIOUS, c_lexer_stream_name(c_current_stream), (int) c_lexer_stream_line(c_current_stream),
+			error_posn(ERR_SERIOUS, c_lexer_stream_name(c_current_stream), (int) c_lexer_stream_line(c_current_stream),
 				"parameter assignment operation defined for unknown type '%S'", (void *) (&ZI108));
 		} else if (type_get_param_assign_code(entry_get_type(c_current_entry))) {
 			err_mult("parameter assignment", "type", (&ZI108));
@@ -1471,7 +1471,7 @@ ZR114(CCodeP ZI111)
 			{
 #line 785 "c-parser.act"
 
-		error_posn(ERROR_SERIOUS, istream_name(&c_lexer_stream->istream), (int) istream_line(&c_lexer_stream->istream),
+		error_posn(ERR_SERIOUS, istream_name(&c_lexer_stream->istream), (int) istream_line(&c_lexer_stream->istream),
 			"end of file in C code block");
 	
 #line 1478 "c-parser.c"
@@ -2574,7 +2574,7 @@ ZR179(void)
 
 		c_current_entry = table_get_type(c_current_table, (&ZI108));
 		if (c_current_entry == NULL) {
-			error_posn(ERROR_SERIOUS, c_lexer_stream_name(c_current_stream), (int) c_lexer_stream_line(c_current_stream),
+			error_posn(ERR_SERIOUS, c_lexer_stream_name(c_current_stream), (int) c_lexer_stream_line(c_current_stream),
 				"result assignment operation defined for unknown type '%S'", (void *) (&ZI108));
 		} else if (type_get_result_assign_code(entry_get_type(c_current_entry))) {
 			err_mult("result assignment", "type", (&ZI108));
@@ -2836,7 +2836,7 @@ ZR147(void)
 
 		if (!types_add_typed_name(&c_current_type, c_current_table, &(ZI126),
 			(&ZI143), TRUE)) {
-			error_posn(ERROR_SERIOUS, c_lexer_stream_name(c_current_stream), (int) c_lexer_stream_line(c_current_stream),
+			error_posn(ERR_SERIOUS, c_lexer_stream_name(c_current_stream), (int) c_lexer_stream_line(c_current_stream),
 				"type '%S' hasn't been declared", (void *) (&ZI143));
 		}
 		nstring_destroy(&(ZI143));
@@ -2854,7 +2854,7 @@ ZR147(void)
 
 		if (!types_add_typed_name(&c_current_type, c_current_table, &(ZI126),
 			(&ZI143), FALSE)) {
-			error_posn(ERROR_SERIOUS, c_lexer_stream_name(c_current_stream), (int) c_lexer_stream_line(c_current_stream),
+			error_posn(ERR_SERIOUS, c_lexer_stream_name(c_current_stream), (int) c_lexer_stream_line(c_current_stream),
 				"type '%S' hasn't been declared", (void *) (&ZI143));
 		}
 		nstring_destroy(&(ZI143));
@@ -3082,7 +3082,7 @@ ZR186(void)
 
 		c_current_entry = table_get_basic(c_current_table, (&ZI108));
 		if (c_current_entry == NULL) {
-			error_posn(ERROR_SERIOUS, c_lexer_stream_name(c_current_stream), (int) c_lexer_stream_line(c_current_stream),
+			error_posn(ERR_SERIOUS, c_lexer_stream_name(c_current_stream), (int) c_lexer_stream_line(c_current_stream),
 				"extraction operation defined for unknown terminal '%S'", (void *) (&ZI108));
 		} else {
 			BasicT * basic = entry_get_basic(c_current_entry);
@@ -3091,7 +3091,7 @@ ZR186(void)
 				err_mult("extraction", "terminal", (&ZI108));
 				c_current_entry = NULL;
 			} else if (types_equal_zero_tuple(basic_result (basic))) {
-				error_posn(ERROR_SERIOUS, c_lexer_stream_name(c_current_stream), (int) c_lexer_stream_line(c_current_stream),
+				error_posn(ERR_SERIOUS, c_lexer_stream_name(c_current_stream), (int) c_lexer_stream_line(c_current_stream),
 					"extraction operation defined for terminal '%S' that returns nothing", (void *) (&ZI108));
 				c_current_entry = NULL;
 			}
@@ -3133,7 +3133,7 @@ ZR186(void)
 			}
 
 			if (!types_equal_zero_tuple(&c_saved_type)) {
-				error_posn(ERROR_SERIOUS, istream_name(&c_lexer_stream->istream), (int) istream_line(&c_lexer_stream->istream),
+				error_posn(ERR_SERIOUS, istream_name(&c_lexer_stream->istream), (int) istream_line(&c_lexer_stream->istream),
 					"parameter type mismatch for extraction operation on "
 					"terminal '%K' [%Y should be ()]",
 					(void *) key, (void *) &c_saved_type);

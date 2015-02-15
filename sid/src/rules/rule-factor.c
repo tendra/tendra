@@ -231,7 +231,7 @@ next_alt:
 
 		/* This error occurs for p: () -> () = { x(); || $; }; where p is an entry point. */
 		if (item == NULL) {
-			error(ERROR_FATAL, "the rule '%N' cannot be grouped by initial items as an alt is empty",
+			error(ERR_FATAL, "the rule '%N' cannot be grouped by initial items as an alt is empty",
 				(void *) rule);
 		}
 
@@ -286,12 +286,12 @@ rule_expand(RuleT *rule, FactorClosureT *closure, AltGroupT *group,
 
 	rule_factor_1(item_rule, closure);
 	if (handler && !alt_equal(handler, rule_get_handler(rule))) {
-		error(ERROR_SERIOUS, "the rule '%N' cannot be expanded into '%N' as the exception handlers don't match",
+		error(ERR_SERIOUS, "the rule '%N' cannot be expanded into '%N' as the exception handlers don't match",
 			(void *) item_rule, (void *) rule);
 	}
 
 	if (!non_local_list_is_empty(rule_non_locals(item_rule))) {
-		error(ERROR_SERIOUS, "the rule '%N' cannot be expanded into '%N' as it contains non local name definitions",
+		error(ERR_SERIOUS, "the rule '%N' cannot be expanded into '%N' as it contains non local name definitions",
 			(void *) item_rule, (void *) rule);
 	}
 
@@ -430,7 +430,7 @@ rule_create_factored(TypeTupleT *params, TypeTupleT *result, AltT *alt,
 	RuleT  *new_rule;
 
 	if (factorised_rules == rule_factor_limit) {
-		error(ERROR_FATAL, "too many productions (%u) created during factorisation",
+		error(ERR_FATAL, "too many productions (%u) created during factorisation",
 			rule_factor_limit);
 		UNREACHED;
 	}

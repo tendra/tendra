@@ -137,7 +137,7 @@ set_string(char *v, char *s)
 	} else if (0 == strcmp(v, "$VERSION")) {
 		if (crt_object)crt_object->u.u_info->version = s;
 	} else {
-		error(ERROR_SERIOUS, "Unknown string variable, '%s'", v);
+		error(ERR_SERIOUS, "Unknown string variable, '%s'", v);
 	}
 }
 
@@ -160,7 +160,7 @@ set_integer(char *v, int n)
 	} else if (0 == strcmp(v, "$VERBOSE")) {
 		verbose = n;
 	} else {
-		error(ERROR_SERIOUS, "Unknown integer variable, '%s'", v);
+		error(ERR_SERIOUS, "Unknown integer variable, '%s'", v);
 	}
 }
 

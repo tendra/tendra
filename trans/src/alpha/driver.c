@@ -83,7 +83,7 @@ option(char c, const char *optarg)
 		switch (atoi(optarg)) {
 		case 0:
 			/* replace denormal const with 0.0 (don't do this) */
-			error(ERROR_WARNING, "Unsupported denormal switch");
+			error(ERR_WARN, "Unsupported denormal switch");
 			fail_with_denormal_constant = false;
 			break;
 
@@ -128,7 +128,7 @@ unhas(void)
 	optim &= ~OPTIM_CASE;
 
 	if (PIC_code) {
-		error(ERROR_FATAL, "no PIC code available");
+		error(ERR_FATAL, "no PIC code available");
 	}
 }
 

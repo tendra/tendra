@@ -737,7 +737,7 @@ main_init(int    argc,		   char **argv)
 	    main_print_version();
 	    goto retry;
 	  default:
-		error(ERROR_FATAL, "illegal mode character '%c'; should be "
+		error(ERR_FATAL, "illegal mode character '%c'; should be "
 			"one of 'c', 'l', 't' or 'x'", 
 		argv[0][2]);
 	    UNREACHED;
@@ -754,7 +754,7 @@ main_init(int    argc,		   char **argv)
 	exit(EXIT_SUCCESS);
 	UNREACHED;
     } else if (argc == 0) {
-	error(ERROR_FATAL, "no files specified for processing");
+	error(ERR_FATAL, "no files specified for processing");
 	UNREACHED;
     }
     arg_data_set_files(&main_arg_data, argc, argv);
@@ -790,20 +790,20 @@ main(int    argc,	      char **argv)
 	ExceptionT *exception = EXCEPTION_EXCEPTION();
 
 	if (exception == XX_dalloc_no_memory) {
-		error(ERROR_FATAL, "cannot allocate memory");
+		error(ERR_FATAL, "cannot allocate memory");
 	    UNREACHED;
 	} else if ((exception == XX_istream_read_error) ||
 		  (exception == XX_bistream_read_error)) {
 	    char * file = (char *)EXCEPTION_VALUE();
 
-		error(ERROR_FATAL, "error reading from file '%s': %s", 
+		error(ERR_FATAL, "error reading from file '%s': %s", 
 			file, strerror(errno));
 	    UNREACHED;
 	} else if ((exception == XX_ostream_write_error) ||
 		  (exception == XX_bostream_write_error)) {
 	    char * file = (char *)EXCEPTION_VALUE();
 
-		error(ERROR_FATAL, "error writing to file '%s': %s", 
+		error(ERR_FATAL, "error writing to file '%s': %s", 
 			file, strerror(errno));
 	    UNREACHED;
 	} else {

@@ -56,7 +56,7 @@ main_init_c(OutputInfoT *out_info, CStringListT *options, BoolT ansi)
 		} else if (cstring_starts(option, "split=")) {
 			unsigned limit;
 			if (!cstring_to_unsigned(option + 6, &limit)) {
-				error(ERROR_FATAL, "bad split size '%s'", option + 6);
+				error(ERR_FATAL, "bad split size '%s'", option + 6);
 				UNREACHED;
 			}
 			c_out_info_set_split(c_out_info, limit);
@@ -99,7 +99,7 @@ main_init_c(OutputInfoT *out_info, CStringListT *options, BoolT ansi)
 			|| !strcmp(option, "no-terminal")) {
 			c_out_info_set_terminals(c_out_info, FALSE);
 		} else {
-			error(ERROR_FATAL, "language '%s' doesn't understand option '%s'",
+			error(ERR_FATAL, "language '%s' doesn't understand option '%s'",
 				ansi ? "ansi-c" : "pre-ansi-c", option);
 		}
 	}

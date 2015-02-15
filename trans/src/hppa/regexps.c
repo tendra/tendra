@@ -249,7 +249,7 @@ void keepexp
   case insomereg:
   case insomefreg:
     {
-      error(ERROR_SERIOUS, "keep ? reg");
+      error(ERR_SERIOUS, "keep ? reg");
     }
 #if USE_BITAD
   case bitad:

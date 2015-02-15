@@ -628,7 +628,7 @@ error_lab:
 			/* Allow for interface declarations */
 			err = set_severity(err, OPT_interf_incompat, -1);
 		}
-		if (overload_error(id, err, reason) == ERROR_SERIOUS) {
+		if (overload_error(id, err, reason) == ERR_SERIOUS) {
 			return NULL_id;
 		}
 	}

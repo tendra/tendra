@@ -282,7 +282,7 @@ find_calculus_alias(unsigned n)
 	}
 	p = TAIL_list(p);
     }
-    error(ERROR_FATAL, "Can't find alias %u", n);
+    error(ERR_FATAL, "Can't find alias %u", n);
     return NULL;
 }
 

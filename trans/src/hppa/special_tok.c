@@ -58,7 +58,7 @@ special_token(tokval *tkv, token t, bitstream pars, int sortcode)
 			set_place(old_place);
 
 			if (name(arg1) != name_tag) {
-				error(ERROR_INTERNAL, "Not a tag in va_start");
+				error(ERR_INTERNAL, "Not a tag in va_start");
 			}
 
 			id = son(arg1);

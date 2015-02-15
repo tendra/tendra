@@ -84,7 +84,7 @@ make_name(int n, char *a, char *b, char *c)
     if (p) {
 	char buffer[1000];
 	sprintf(buffer, name_error[n], a, b, c);
-	error(ERROR_SERIOUS, "%s already defined (at %s, line %d)",
+	error(ERR_SERIOUS, "%s already defined (at %s, line %d)",
 		buffer, p->file, p->line);
 	return;
     }

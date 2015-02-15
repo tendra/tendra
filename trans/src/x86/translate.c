@@ -102,7 +102,7 @@ static void eval_if_ready
 	}
 	else {
 	  if (do_prom)
-	    error(ERROR_INTERNAL, "prom data");
+	    error(ERR_INTERNAL, "prom data");
 	  asm_printf(".data\n");
 #ifdef DWARF2
 	  if (diag == DIAG_DWARF2)
@@ -128,7 +128,7 @@ static void eval_if_ready
 	   }
 	else {
 	     if (do_prom)
-	       error(ERROR_INTERNAL, "prom data");
+	       error(ERR_INTERNAL, "prom data");
 	     asm_printf(".data\n");
 	   };
 	evaluate(son(t), no(t), NULL, (name(son(t))!= res_tag), 0, NULL);
@@ -154,7 +154,7 @@ static void code_def
     ash stack;
     stack.ashsize = stack.ashalign = 0;
     if (props(son(tg))!= 0)
-      error(ERROR_INTERNAL, "~asm not in ~asm_sequence");
+      error(ERR_INTERNAL, "~asm not in ~asm_sequence");
     check_asm_seq(son(son(tg)), 1);
     asm_printf(".text\n");
     make_code(zero, stack, son(tg));
@@ -363,7 +363,7 @@ void translate_capsule
 	while (p != NULL) {
 	  exp np = pt(p);
 	  if (son(p)!= crt_exp)
-	    error(ERROR_INTERNAL, "not simple name");
+	    error(ERR_INTERNAL, "not simple name");
 	  son(p) = tg;
 	  pt(p) = pt(tg);
 	  pt(tg) = p;

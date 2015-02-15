@@ -84,7 +84,7 @@ long  evalexp
       {
 	long  w = evalexp(son(e));
 	if (shape_align(sh(e))!= 1) {
-	  error(ERROR_INTERNAL, "should be align 1");
+	  error(ERR_INTERNAL, "should be align 1");
 	}
 	if (shape_size(sh(e))!= 32) {
 	  w &= ((1 << shape_size(sh(e))) - 1);
@@ -189,7 +189,7 @@ long  evalexp
 	break;
       }
   }
-  error(ERROR_INTERNAL, BAD_VAL);
+  error(ERR_INTERNAL, BAD_VAL);
   return 0;
 }
 
@@ -341,7 +341,7 @@ static void evalaux
          };
 
        if (off < crt_off)
-              error(ERROR_INTERNAL, CPD_ORDER);
+              error(ERR_INTERNAL, CPD_ORDER);
        if (off >= (crt_off + 8))
            {
               clear_out((off-crt_off) /8, isconst, al);

@@ -97,7 +97,7 @@ ACTION init_tokbuf = @{
 
 ACTION push_tokbuf: (c :CHARACTER) -> () = @{
 	if (token_current == token_end - 1) {
-		error(ERROR_FATAL, "Buffer overflow");
+		error(ERR_FATAL, "Buffer overflow");
 	} else {
 		*token_current++ = @c;
 	}
@@ -105,7 +105,7 @@ ACTION push_tokbuf: (c :CHARACTER) -> () = @{
 
 ACTION fini_tokbuf = @{
 	if (token_current == token_end) {
-		error(ERROR_FATAL, "Buffer overflow: trailing 0");
+		error(ERR_FATAL, "Buffer overflow: trailing 0");
 		*(token_end-1) = 0;
 	} else {
 		*token_current++ = 0;
@@ -117,11 +117,11 @@ ACTION keyword: (ti :TERMINAL) -> (to :TERMINAL) = @{
 @};
 
 ACTION E_eof_in_string = @{
-	error(ERROR_SERIOUS, "Unexpected eof in string");
+	error(ERR_SERIOUS, "Unexpected eof in string");
 @};
 
 ACTION E_newline_in_string = @{
-	error(ERROR_SERIOUS, "Unexpected newline in string");
+	error(ERR_SERIOUS, "Unexpected newline in string");
 @};
 
 ACTION numbuf_init: () -> () = @{

@@ -32,7 +32,7 @@ add_type_q(diag_type t)
 	t_q_ptr new = (t_q_ptr)xcalloc(1, sizeof(t_q_elem));
 
 	if (t->key == DIAG_TYPE_UNINIT) {
-		error(ERROR_INTERNAL, "bad queue add");
+		error(ERR_INTERNAL, "bad queue add");
 	}
 
 	new->val = t;
