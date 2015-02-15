@@ -8,7 +8,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/*
+#include <shared/check.h>
 
 /* from float.h */
 #define FP_RND_RZ		0
@@ -44,7 +44,7 @@ __TDFrnd_unsgned(double f, fprnd_t rnd_mode)
     unsigned int ret_value;
     swap = fp_swap_rnd(rnd_mode);
     ret_value = uitrunc(rint(f));
-   (void)fp_swap_rnd(swap);
+    IGNORE fp_swap_rnd(swap);
     return ret_value;
 }
 
@@ -55,7 +55,7 @@ __TDFrnd_sgned(double f, fprnd_t rnd_mode)
     int ret_value;
     swap = fp_swap_rnd(rnd_mode);
     ret_value = itrunc(rint(f));
-   (void)fp_swap_rnd(swap);
+    IGNORE fp_swap_rnd(swap);
     return ret_value;
 }
 

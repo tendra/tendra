@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include <shared/check.h>
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
@@ -108,7 +109,7 @@ static void
 output_msg(FILE *f, LIST(MESSAGE) p)
 {
 	int sp = 0;
-	(void) fputc('"', f);
+	IGNORE fputc('"', f);
 	while (!IS_NULL_list(p)) {
 		MESSAGE m = DEREF_msg(HEAD_list(p));
 		if (!IS_NULL_msg(m)) {
@@ -117,10 +118,10 @@ output_msg(FILE *f, LIST(MESSAGE) p)
 				int an = DEREF_int(param_number(a));
 				an = code_letter(an);
 				if (sp) {
-					(void) fputc(' ', f);
+					IGNORE fputc(' ', f);
 					sp = 0;
 				}
-				(void) fprintf(f, "%%%c", an);
+				IGNORE fprintf(f, "%%%c", an);
 			} else {
 				char c;
 				string s = DEREF_string(msg_text_arg(m));
@@ -130,17 +131,17 @@ output_msg(FILE *f, LIST(MESSAGE) p)
 						sp = 1;
 					} else {
 						if (sp) {
-							(void) fputc(' ', f);
+							IGNORE fputc(' ', f);
 							sp = 0;
 						}
-						(void) fputc(c, f);
+						IGNORE fputc(c, f);
 					}
 				}
 			}
 		}
 		p = TAIL_list(p);
 	}
-	(void) fputc('"', f);
+	IGNORE fputc('"', f);
 	return;
 }
 
@@ -161,17 +162,17 @@ output_defn(FILE *f)
 	LIST(ENTRY) q = all_entries;
 
 	/* Print each catalogue entry */
-	(void) fprintf ( f, "/* Error catalogue */\n\n" ) ;
+	IGNORE fprintf(f, "/* Error catalogue */\n\n");
 	if (!strcmp(d1, d2)) {
-		(void) fprintf(f, "const char *%sNAME = \"%s\" ;\n", pre, d1);
+		IGNORE fprintf(f, "const char *%sNAME = \"%s\" ;\n", pre, d1);
 	} else {
-		(void) fprintf(f, "#ifndef %sALTERNATE\n", pre);
-		(void) fprintf(f, "const char *%sNAME = \"%s\" ;\n", pre, d1);
-		(void) fprintf(f, "#else\n");
-		(void) fprintf(f, "const char *%sNAME = \"%s\" ;\n", pre, d2);
-		(void) fprintf(f, "#endif\n");
+		IGNORE fprintf(f, "#ifndef %sALTERNATE\n", pre);
+		IGNORE fprintf(f, "const char *%sNAME = \"%s\" ;\n", pre, d1);
+		IGNORE fprintf(f, "#else\n");
+		IGNORE fprintf(f, "const char *%sNAME = \"%s\" ;\n", pre, d2);
+		IGNORE fprintf(f, "#endif\n");
 	}
-	(void) fprintf(f, "\n%sDATA %sCATALOG [] = {\n", pre, pre);
+	IGNORE fprintf(f, "\n%sDATA %sCATALOG [] = {\n", pre, pre);
 	while (!IS_NULL_list(q)) {
 		unsigned u = 0;
 		char *suff = ",\n";
@@ -184,43 +185,43 @@ output_defn(FILE *f)
 		LIST(PARAM) ep = DEREF_list(entry_signature(e));
 
 		/* Print error name */
-		(void) fprintf(f, "    {\n\t\"%s\",\n", en);
+		IGNORE fprintf(f, "    {\n\t\"%s\",\n", en);
 
 		/* Print error signature */
 		if (IS_NULL_list(ep)) {
-			(void) fprintf(f, "\tNULL,\n");
+			IGNORE fprintf(f, "\tNULL,\n");
 		} else {
-			(void) fprintf(f, "\t\"");
+			IGNORE fprintf(f, "\t\"");
 			while (!IS_NULL_list(ep)) {
 				PARAM a = DEREF_param(HEAD_list(ep));
 				TYPE at = DEREF_name(param_type(a));
 				int an = DEREF_int(name_number(at));
 				an = code_letter(an);
-				(void) fputc(an, f);
+				IGNORE fputc(an, f);
 				ep = TAIL_list(ep);
 			}
-			(void) fprintf(f, "\",\n");
+			IGNORE fprintf(f, "\",\n");
 		}
 
 		/* Print error usage */
 		if (!EQ_name(eu, ev)) {
-			(void) fprintf(f, "#ifndef %sALTERNATE\n", pre);
+			IGNORE fprintf(f, "#ifndef %sALTERNATE\n", pre);
 		}
 		if (IS_NULL_name(eu)) {
-			(void) fprintf(f, "\t0,\n");
+			IGNORE fprintf(f, "\t0,\n");
 		} else {
 			string un = DEREF_string(name_id(eu));
-			(void) fprintf(f, "\t%s%s,\n", pre_comp, un);
+			IGNORE fprintf(f, "\t%s%s,\n", pre_comp, un);
 		}
 		if (!EQ_name(eu, ev)) {
-			(void) fprintf(f, "#else\n");
+			IGNORE fprintf(f, "#else\n");
 			if (IS_NULL_name(ev)) {
-				(void) fprintf(f, "\t0,\n");
+				IGNORE fprintf(f, "\t0,\n");
 			} else {
 				string vn = DEREF_string(name_id(ev));
-				(void) fprintf(f, "\t%s%s,\n", pre_comp, vn);
+				IGNORE fprintf(f, "\t%s%s,\n", pre_comp, vn);
 			}
-			(void) fprintf(f, "#endif\n");
+			IGNORE fprintf(f, "#endif\n");
 		}
 
 		/* Print error properties */
@@ -234,7 +235,7 @@ output_defn(FILE *f)
 			u |= (((unsigned)1) << n);
 			eq = TAIL_list(eq);
 		}
-		(void) fprintf(f, "\t%u%s", u, suff);
+		IGNORE fprintf(f, "\t%u%s", u, suff);
 
 		/* Print error keys */
 		while (!IS_NULL_list(p)) {
@@ -246,41 +247,41 @@ output_defn(FILE *f)
 				suff = "\n";
 			}
 			if (IS_NULL_map(pm)) {
-				(void) fprintf(f, "\tNULL%s", suff);
+				IGNORE fprintf(f, "\tNULL%s", suff);
 			} else {
 				LIST(MESSAGE)m1 = DEREF_list(map_msg(pm));
 				LIST(MESSAGE)m2 = DEREF_list(map_alt_msg(pm));
 				if (!EQ_list(m1, m2)) {
-					(void) fprintf(f, "#ifndef %sALTERNATE\n",
+					IGNORE fprintf(f, "#ifndef %sALTERNATE\n",
 						  pre);
 				}
-				(void) fprintf(f, "\t");
+				IGNORE fprintf(f, "\t");
 				output_msg(f, m1);
-				(void) fprintf(f, "%s", suff);
+				IGNORE fprintf(f, "%s", suff);
 				if (!EQ_list(m1, m2)) {
-					(void) fprintf(f, "#else\n\t");
+					IGNORE fprintf(f, "#else\n\t");
 					output_msg(f, m2);
-					(void) fprintf(f, "%s#endif\n", suff);
+					IGNORE fprintf(f, "%s#endif\n", suff);
 				}
 			}
 		}
-		(void) fprintf(f, "    },\n");
+		IGNORE fprintf(f, "    },\n");
 		q = TAIL_list(q);
 	}
 
 	/* Print dummy end marker */
-	(void) fprintf(f, "    {\n");
-	(void) fprintf(f, "\tNULL,\n");
-	(void) fprintf(f, "\tNULL,\n");
-	(void) fprintf(f, "\t0,\n");
-	(void) fprintf(f, "\t0");
+	IGNORE fprintf(f, "    {\n");
+	IGNORE fprintf(f, "\tNULL,\n");
+	IGNORE fprintf(f, "\tNULL,\n");
+	IGNORE fprintf(f, "\t0,\n");
+	IGNORE fprintf(f, "\t0");
 	p = all_keys;
 	while (!IS_NULL_list(p)) {
-		(void) fprintf(f, ",\n\tNULL");
+		IGNORE fprintf(f, ",\n\tNULL");
 		p = TAIL_list(p);
 	}
-	(void) fprintf(f, "\n    }\n");
-	(void) fprintf(f, "} ;\n");
+	IGNORE fprintf(f, "\n    }\n");
+	IGNORE fprintf(f, "} ;\n");
 	return;
 }
 
@@ -299,117 +300,117 @@ output_decl(FILE *f)
 	char *pre = rig_comp_output;
 	char *pre_comp = rig_from_comp;
 	LIST(NAME) p = all_keys;
-	(void) fprintf(f, "#ifndef %sINCLUDED\n", pre);
-	(void) fprintf(f, "#define %sINCLUDED\n\n\n", pre);
+	IGNORE fprintf(f, "#ifndef %sINCLUDED\n", pre);
+	IGNORE fprintf(f, "#define %sINCLUDED\n\n\n", pre);
 	if (LENGTH_list(all_props) < 16) {
-		(void) fprintf(f, "typedef unsigned %sPROPS ;\n\n", pre);
+		IGNORE fprintf(f, "typedef unsigned %sPROPS ;\n\n", pre);
 	} else {
-		(void) fprintf(f, "typedef unsigned long %sPROPS ;\n\n", pre);
+		IGNORE fprintf(f, "typedef unsigned long %sPROPS ;\n\n", pre);
 	}
-	(void) fprintf(f, "typedef struct {\n");
-	(void) fprintf(f, "    const char *name ;\n");
-	(void) fprintf(f, "    const char *signature ;\n");
-	(void) fprintf(f, "    int usage ;\n");
-	(void) fprintf(f, "    %sPROPS props ;\n", pre);
+	IGNORE fprintf(f, "typedef struct {\n");
+	IGNORE fprintf(f, "    const char *name ;\n");
+	IGNORE fprintf(f, "    const char *signature ;\n");
+	IGNORE fprintf(f, "    int usage ;\n");
+	IGNORE fprintf(f, "    %sPROPS props ;\n", pre);
 	while (!IS_NULL_list(p)) {
 		NAME t = DEREF_name(HEAD_list(p));
 		string tn = DEREF_string(name_id(t));
-		(void) fprintf(f, "    const char *key_%s ;\n", tn);
+		IGNORE fprintf(f, "    const char *key_%s ;\n", tn);
 		p = TAIL_list(p);
 	}
-	(void) fprintf(f, "} %sDATA ;\n\n", pre);
-	(void) fprintf(f, "extern %sDATA %sCATALOG [] ;\n", pre, pre);
-	(void) fprintf(f, "extern const char *%sNAME ;\n\n\n", pre);
+	IGNORE fprintf(f, "} %sDATA ;\n\n", pre);
+	IGNORE fprintf(f, "extern %sDATA %sCATALOG [] ;\n", pre, pre);
+	IGNORE fprintf(f, "extern const char *%sNAME ;\n\n\n", pre);
 
 	/* Print type keys */
 	p = all_types;
-	(void) fprintf(f, "/* Error type keys */\n\n");
+	IGNORE fprintf(f, "/* Error type keys */\n\n");
 	while (!IS_NULL_list(p)) {
 		NAME t = DEREF_name(HEAD_list(p));
 		string tn = DEREF_string(name_id(t));
 		int n = DEREF_int(name_number(t));
 		n = code_letter(n);
-		(void) fprintf(f, "#define %sKEY_%s '%c'\n", pre, tn, n);
+		IGNORE fprintf(f, "#define %sKEY_%s '%c'\n", pre, tn, n);
 		p = TAIL_list(p);
 	}
-	(void) fprintf(f, "\n\n");
+	IGNORE fprintf(f, "\n\n");
 
 	/* Print usage keys */
 	p = all_usages;
-	(void) fprintf(f, "/* Error usage keys */\n\n");
-	(void) fprintf(f, "#ifndef %sUSE\n", pre);
+	IGNORE fprintf(f, "/* Error usage keys */\n\n");
+	IGNORE fprintf(f, "#ifndef %sUSE\n", pre);
 	while (!IS_NULL_list(p)) {
 		NAME t = DEREF_name(HEAD_list(p));
 		string tn = DEREF_string(name_id(t));
 		int n = DEREF_int(name_number(t));
-		(void) fprintf(f, "#define %s%s %d\n", pre_comp, tn, n);
+		IGNORE fprintf(f, "#define %s%s %d\n", pre_comp, tn, n);
 		p = TAIL_list(p);
 	}
-	(void) fprintf(f, "#endif\n\n\n");
+	IGNORE fprintf(f, "#endif\n\n\n");
 
 	/* Print property keys */
 	p = all_props;
-	(void) fprintf(f, "/* Error property keys */\n\n");
-	(void) fprintf(f, "#ifndef %sPROP\n", pre);
+	IGNORE fprintf(f, "/* Error property keys */\n\n");
+	IGNORE fprintf(f, "#ifndef %sPROP\n", pre);
 	while (!IS_NULL_list(p)) {
 		NAME t = DEREF_name(HEAD_list(p));
 		string tn = DEREF_string(name_id(t));
 		unsigned n = (unsigned)DEREF_int(name_number(t));
 		unsigned u = (((unsigned)1) << n);
-		(void) fprintf(f, "#define %sPROP_%s ( ( %sPROPS ) 0x%x )\n",
+		IGNORE fprintf(f, "#define %sPROP_%s ( ( %sPROPS ) 0x%x )\n",
 			  pre, tn, pre, u);
 		p = TAIL_list(p);
 	}
-	(void) fprintf(f, "#endif\n\n\n");
+	IGNORE fprintf(f, "#endif\n\n\n");
 
 	/* Print type checking macros */
 	p = all_types;
-	(void) fprintf(f, "/* Error type checking */\n\n");
-	(void) fprintf(f, "#if defined ( %sCHECK ) && defined ( __STDC__ )\n", pre);
+	IGNORE fprintf(f, "/* Error type checking */\n\n");
+	IGNORE fprintf(f, "#if defined ( %sCHECK ) && defined ( __STDC__ )\n", pre);
 	while (!IS_NULL_list(p)) {
 		NAME t = DEREF_name(HEAD_list(p));
 		string tn = DEREF_string(name_id(t));
 		int n = DEREF_int(name_number(t));
 		n = code_letter(n);
-		(void) fprintf(f, "extern %s chk_%c ( %s ) ;\n", tn, n, tn);
+		IGNORE fprintf(f, "extern %s chk_%c ( %s ) ;\n", tn, n, tn);
 		p = TAIL_list(p);
 	}
-	(void) fprintf(f, "#else\n");
+	IGNORE fprintf(f, "#else\n");
 	p = all_types;
 	while (!IS_NULL_list(p)) {
 		NAME t = DEREF_name(HEAD_list(p));
 		int n = DEREF_int(name_number(t));
 		n = code_letter(n);
-		(void) fprintf(f, "#define chk_%c( A ) ( A )\n", n);
+		IGNORE fprintf(f, "#define chk_%c( A ) ( A )\n", n);
 		p = TAIL_list(p);
 	}
-	(void) fprintf(f, "#endif\n\n\n");
+	IGNORE fprintf(f, "#endif\n\n\n");
 
 	/* Print error macros */
-	(void) fprintf ( f, "/* Error message macros */\n\n" ) ;
-	(void) fprintf(f, "#ifdef %sGEN\n\n", pre);
+	IGNORE fprintf ( f, "/* Error message macros */\n\n" ) ;
+	IGNORE fprintf(f, "#ifdef %sGEN\n\n", pre);
 	while (!IS_NULL_list(q)) {
 		ENTRY e = DEREF_entry(HEAD_list(q));
 		string en = DEREF_string(entry_name(e));
 		LIST(PARAM) ep = DEREF_list(entry_signature(e));
 		size_t np = LENGTH_list(ep);
-		(void) fprintf(f, "#define %s%s(", pre, en);
+		IGNORE fprintf(f, "#define %s%s(", pre, en);
 		if (!IS_NULL_list(ep)) {
 			/* Print parameter list */
 			int arg = 0;
 			LIST(PARAM)eq = ep;
 			while (!IS_NULL_list(eq)) {
 				if (arg) {
-					(void) fputc(',', f);
+					IGNORE fputc(',', f);
 				}
-				(void) fprintf(f, " %c", 'A' + arg);
+				IGNORE fprintf(f, " %c", 'A' + arg);
 				eq = TAIL_list(eq);
 				arg++;
 			}
-			(void) fputc(' ', f);
+			IGNORE fputc(' ', f);
 		}
-		(void) fprintf(f, ")\\\n");
-		(void) fprintf(f, "\t%sGEN ( %d", pre, qn);
+		IGNORE fprintf(f, ")\\\n");
+		IGNORE fprintf(f, "\t%sGEN ( %d", pre, qn);
 		if (np) {
 			/* Print error definition */
 			int arg = 0;
@@ -419,16 +420,16 @@ output_decl(FILE *f)
 				TYPE at = DEREF_name(param_type(a));
 				int an = DEREF_int(name_number(at));
 				an = code_letter(an);
-				(void) fprintf(f, ", chk_%c ( %c )", an, 'A' + arg);
+				IGNORE fprintf(f, ", chk_%c ( %c )", an, 'A' + arg);
 				eq = TAIL_list(eq);
 				arg++;
 			}
 		}
-		(void) fprintf(f, " )\n\n");
+		IGNORE fprintf(f, " )\n\n");
 		q = TAIL_list(q);
 		qn++;
 	}
-	(void) fprintf(f, "\n#endif\n#endif\n");
+	IGNORE fprintf(f, "\n#endif\n#endif\n");
 	return;
 }
 
@@ -444,17 +445,17 @@ output_number(FILE *f)
 	LIST(ENTRY) q = all_entries;
 	char *pre = rig_comp_output;
 	char *pre_db = rig_from_db;
-	(void) fprintf(f, "#ifndef %sNO_INCLUDED\n", pre);
-	(void) fprintf(f, "#define %sNO_INCLUDED\n\n\n", pre);
-	(void) fprintf(f, "/* Error message macros */\n\n");
+	IGNORE fprintf(f, "#ifndef %sNO_INCLUDED\n", pre);
+	IGNORE fprintf(f, "#define %sNO_INCLUDED\n\n\n", pre);
+	IGNORE fprintf(f, "/* Error message macros */\n\n");
 	while (!IS_NULL_list(q)) {
 		ENTRY e = DEREF_entry(HEAD_list(q));
 		string en = DEREF_string(entry_name(e));
-		(void) fprintf(f, "#define %s%s %d\n", pre_db, en, qn);
+		IGNORE fprintf(f, "#define %s%s %d\n", pre_db, en, qn);
 		q = TAIL_list(q);
 		qn++;
 	}
-	(void) fprintf(f, "\n#endif\n");
+	IGNORE fprintf(f, "\n#endif\n");
 	return;
 }
 
@@ -478,15 +479,15 @@ output_usage(FILE *f)
 		string s = DEREF_string(name_id(u));
 		string t = DEREF_string(name_id(v));
 		if (!EQ_name(v, w)) {
-			(void) fprintf(f, "#ifndef %sALTERNATE\n", pre);
+			IGNORE fprintf(f, "#ifndef %sALTERNATE\n", pre);
 		}
-		(void) fprintf(f, "{ \"%s\", %sVALUE_%s },\n", s, pre_comp, t);
+		IGNORE fprintf(f, "{ \"%s\", %sVALUE_%s },\n", s, pre_comp, t);
 		if (!EQ_name(v, w)) {
 			t = DEREF_string(name_id(w));
-			(void) fprintf(f, "#else\n");
-			(void) fprintf(f, "{ \"%s\", %sVALUE_%s },\n", s, pre_comp,
+			IGNORE fprintf(f, "#else\n");
+			IGNORE fprintf(f, "{ \"%s\", %sVALUE_%s },\n", s, pre_comp,
 				  t);
-			(void) fprintf(f, "#endif\n");
+			IGNORE fprintf(f, "#endif\n");
 		}
 		r = TAIL_list(r);
 		q = TAIL_list(q);
@@ -521,9 +522,9 @@ output_all(char *nm, int act)
 
 	/* Print header comment */
 	if (first_comment) {
-		(void) fprintf(f, "%s\n\n", first_comment);
+		IGNORE fprintf(f, "%s\n\n", first_comment);
 	}
-	(void) fprintf ( f, "/* AUTOMATICALLY GENERATED BY %s FROM %s */\n\n\n",
+	IGNORE fprintf ( f, "/* AUTOMATICALLY GENERATED BY %s FROM %s */\n\n\n",
 		    progname, db_name);
 
 	/* Print appropriate information */

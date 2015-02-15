@@ -9,6 +9,8 @@
 
 #include <assert.h>
 
+#include <shared/check.h>
+
 #include <local/ash.h>
 
 #include <construct/installtypes.h>
@@ -103,7 +105,7 @@ code_here(exp e, space sp, where dest)
   makeans mka;
   mka = make_code (e, sp, dest, 0);
   if (mka.lab != 0) {
-    (void)set_label (mka.lab);
+    IGNORE set_label(mka.lab);
   }
   return mka.regmove;
 }
@@ -143,7 +145,7 @@ reg_operand(exp e, space sp)
       setregalt (aa, RESULT_REG);
       w.answhere = aa;
       w.ashwhere = ash0;
-      (void)make_code (e, sp, w, 0);
+      IGNORE make_code(e, sp, w, 0);
       return RESULT_REG;	/* simple proc calls give result in reg 0
 				*/
     }
@@ -170,7 +172,7 @@ reg_operand(exp e, space sp)
     /* allow code_here to evaluate e into reg of its choice */
     w.answhere = aa;
     w.ashwhere = ashof (sh (e));
-    (void)code_here (e, sp, w);	
+    IGNORE code_here(e, sp, w);	
     assert(reg!=-1);
     keepreg (e, reg);
     return reg;
@@ -209,7 +211,7 @@ freg_operand(exp e, space sp)
       }
       w.answhere = aa;
       w.ashwhere = ash0;
-      (void)make_code (e, sp, w, 0);
+      IGNORE make_code(e, sp, w, 0);
       return 0;
     }
 
@@ -229,7 +231,7 @@ freg_operand(exp e, space sp)
    setsomefregalt (aa, sfr);
    w.answhere = aa;
   /* evaluate e into reg ... */
-  (void)code_here (e, sp, w);
+  IGNORE code_here(e, sp, w);
    fr.fr = reg;
    setfregalt(aa, fr);
    keepexp (e, aa);

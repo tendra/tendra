@@ -7,6 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <shared/check.h>
 
 
 /*
@@ -124,12 +125,12 @@ process_flag(char *option)
   switch (option[1]) {
     case 'V':
     case 'v': {
-     (void)fprintf(stderr, "Dynamic initialisation linker V%d.%d\n",
+     IGNORE fprintf(stderr, "Dynamic initialisation linker V%d.%d\n",
 		    MAJOR_VERSION, MINOR_VERSION);
       break;
     }
     default: {
-     (void)fprintf(stderr, "Error: unknown option %s\n", option);
+     IGNORE fprintf(stderr, "Error: unknown option %s\n", option);
     }
   }
   return;

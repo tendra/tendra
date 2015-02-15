@@ -13,6 +13,8 @@
  * This file implements the name table routines used by the TDF linker.
  */
 
+#include <shared/check.h>
+
 #include "name-table.h"
 #include "shape-entry.h"
 #include "solve-cycles.h"
@@ -70,7 +72,7 @@ name_table_resolve_renames(NameTableT *table,				    NStringT *  shape,
 	NameEntryT *entry = (table->contents[i]);
 
 	while (entry) {
-	   (void)name_entry_resolve_renames(entry, shape, report);
+	    IGNORE name_entry_resolve_renames(entry, shape, report);
 	    entry = name_entry_next(entry);
 	}
     }

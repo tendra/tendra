@@ -2902,7 +2902,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
       w.ashwhere = ashof(sh(bro(bro(son(e)))));
       szr = getreg(nsp.fixed);
       setregalt(w.answhere, szr);
-     (void)make_code(szarg, nsp, w, 0);
+      IGNORE make_code(szarg, nsp, w, 0);
       nsp = guardreg(szr, nsp);
       bytemove = (al2(sh(szarg)) >>3);
 #if 0

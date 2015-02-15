@@ -65,6 +65,7 @@
 
 #include <assert.h>
 
+#include <shared/check.h>
 #include <shared/error.h>
 
 #include <exds/dstring.h>
@@ -273,12 +274,12 @@ rule_left_cycle_special_case_2(RuleT *rule, TableT *table, AltT *non_rec_alt,
 	rule_add_alt(rule, non_rec_alt);
 	types_copy(rule_param(new_rule), item_result(rec_item));
 	types_copy(rule_result(new_rule), &result);
-	(void) item_deallocate(rec_item);
+	IGNORE item_deallocate(rec_item);
 
 	while (item = alt_item_head(rec_alt), item != rec_suffix) {
 		alt_add_item(new_alt, alt_unlink_item_head(rec_alt));
 	}
-	(void) alt_deallocate(rec_alt);
+	IGNORE alt_deallocate(rec_alt);
 
 	new_item = item_create(rule_entry(rule));
 	if (param) {
@@ -568,7 +569,7 @@ rule_check_cycle_types(RuleT *rule_list, EntryT *predicate_id,
 
 		alt = rule_get_handler(rule);
 		if (alt != NULL) {
-			(void) rule_check_alt_cycle_types(rule, rule_list, alt, FALSE,
+			IGNORE rule_check_alt_cycle_types(rule, rule_list, alt, FALSE,
 				&translator1, &translator2, table, &generate);
 		}
 
@@ -695,7 +696,7 @@ rule_left_cycle_general_case_1(RuleT *rule_list, unsigned size,
 						generate_param = FALSE;
 					}
 
-					(void)item_deallocate(alt_unlink_item_head(tmp_alt));
+					IGNORE item_deallocate(alt_unlink_item_head(tmp_alt));
 					alt_set_next(tmp_alt, matrix[matrix_index].alt);
 					matrix[matrix_index].alt = tmp_alt;
 					continue;

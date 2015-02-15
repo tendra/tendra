@@ -11,6 +11,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include <shared/check.h>
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
@@ -187,7 +188,7 @@ code_it(dec *my_def)
       }
       else {			/* global values */
 	exp c = son (tg);
-	(void)evaluated (c,(isvar (tg))?(-symdef - 1):symdef+1);
+	IGNORE evaluated (c,(isvar (tg))?(-symdef - 1):symdef+1);
       }
     }
     else {	/* global declarations but no definitions or is_comm */
@@ -359,7 +360,7 @@ translate_capsule(void)
     init_table_space(1,noprocs);
     add_dense_no(0,0);
     add_dense_no(0,0);
-    (void)new_lsym_d ("NOFILE.c",0,stFile,scText,0,0);
+    IGNORE new_lsym_d ("NOFILE.c",0,stFile,scText,0,0);
   }
   for (my_def = top_def; my_def != NULL; my_def = my_def -> def_next) {
     exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
@@ -398,7 +399,7 @@ translate_capsule(void)
       /*      if(Has_vcallees || proc_has_gen_call(son(crt_exp))) freefixed--;*/
       if(Has_vcallees) freefixed--;
       freefixed += (Has_fp==0);
-      if (!No_S) (void)weightsv (1.0, bro (son (son (crt_exp))));
+      if (!No_S) IGNORE weightsv (1.0, bro (son (son (crt_exp))));
       /* estimate usage of tags in body of proc */
       forrest = regalloc (bro (son (son (crt_exp))), freefixed, freefloat, 0);
       /* reg and stack allocation for tags */

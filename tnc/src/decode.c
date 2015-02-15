@@ -8,6 +8,7 @@
  */
 
 
+#include <shared/check.h>
 #include <shared/xalloc.h>
 
 #include "config.h"
@@ -83,7 +84,7 @@ de_token(node *p, sortname s)
 		char *nm;
 		t = make_construct(SORT_token);
 		nm = xmalloc_nof(char, 32);
-		(void) sprintf(nm, "~~token_%ld", t->encoding);
+		IGNORE sprintf(nm, "~~token_%ld", t->encoding);
 		t->name = nm;
 		if (add_to_var_hash(t, SORT_token))
 			input_error("%s has already been defined", nm);
@@ -396,7 +397,7 @@ de_node(char *str)
 			{
 				node dummy;
 				str = find_sortname(str, NULL);
-				(void) de_token(&dummy, SORT_unknown);
+				IGNORE de_token(&dummy, SORT_unknown);
 				p = dummy.son;
 				break;
 			}

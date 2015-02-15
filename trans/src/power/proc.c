@@ -463,7 +463,7 @@ makeans make_apply_tag_code(exp e, space sp, where dest, int exitlab)
   if (!last(fn)) {nsp = do_callers(PROC_PARAM_REGS,par,nsp);}
 
   /* Function call */
- (void) do_function_call(fn,nsp);
+  IGNORE do_function_call(fn,nsp);
 
   /* Clear all treg associations */
   clear_all();
@@ -487,10 +487,10 @@ makeans make_apply_general_tag_code(exp e, space sp, where dest, int exitlab)
   if (no(cers)!=0) { nsp = do_callers(GENERAL_PROC_PARAM_REGS,son(cers),sp);}
 
   /* Callees */
- (void)make_code(cees,nsp,nowhere,0);
+  IGNORE make_code(cees,nsp,nowhere,0);
 
   /* Function */
- (void) do_general_function_call(fn,nsp);
+  IGNORE do_general_function_call(fn,nsp);
 
 
   /*
@@ -544,7 +544,7 @@ makeans make_apply_general_tag_code(exp e, space sp, where dest, int exitlab)
     old_pls = &p;
 
     rir_ins(i_a,R_SP,-p_args_and_link_size,R_SP);
-   (void)make_code(pl,sp,nowhere,0);
+    IGNORE make_code(pl,sp,nowhere,0);
     rir_ins(i_a,R_SP,p_args_and_link_size,R_SP);
 
     old_pls = p.outer;
@@ -553,7 +553,7 @@ makeans make_apply_general_tag_code(exp e, space sp, where dest, int exitlab)
   }
   else
   {
-   (void)make_code(pl,sp,nowhere,0);
+    IGNORE make_code(pl,sp,nowhere,0);
   }
   return mka;
 }

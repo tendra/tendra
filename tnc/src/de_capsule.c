@@ -9,6 +9,7 @@
 
 #include <limits.h>
 
+#include <shared/check.h>
 #include <shared/xalloc.h>
 
 #include "config.h"
@@ -142,7 +143,7 @@ complete_binding(binding *b)
 					long n = p->encoding;
 					char *nm = xmalloc_nof(char, 32);
 
-					(void) sprintf(nm, "~~%s_%ld", vars[v].name, n);
+					IGNORE sprintf(nm, "~~%s_%ld", vars[v].name, n);
 					p->name = nm;
 
 					if (add_to_var_hash(p, s))
@@ -410,7 +411,7 @@ de_capsule(void)
 					} else {
 						/* Make up internal name */
 						p->name = xmalloc_nof(char, 32);
-						(void) sprintf(p->name, "~~extern_%d", un++);
+						IGNORE sprintf(p->name, "~~extern_%d", un++);
 
 						if (!is_local_name(nm)) {
 							p->ename = new_node();
@@ -428,7 +429,7 @@ de_capsule(void)
 				else {
 					/* Make up internal name */
 					p->name = xmalloc_nof(char, 32);
-					(void) sprintf(p->name, "~~extern_%d", un++);
+					IGNORE sprintf(p->name, "~~extern_%d", un++);
 					p->ename = new_node();
 					p->ename->cons = &true_cons;
 					p->ename->son = nu;
@@ -442,7 +443,7 @@ de_capsule(void)
 				else {
 					/* Make up internal name */
 					p->name = xmalloc_nof(char, 32);
-					(void) sprintf(p->name, "~~extern_%d", un++);
+					IGNORE sprintf(p->name, "~~extern_%d", un++);
 					p->ename = new_node();
 					p->ename->cons = &true_cons;
 					p->ename->son = nc;
@@ -550,7 +551,7 @@ de_library(void)
 	boolean old_extract = extract_tokdecs;
 
 	de_magic(MAGIC_LINK_NUMBER);
-	(void) tdf_int();
+	IGNORE tdf_int();
 	no_cap = tdf_int();
 	old_posn = tell_posn();
 

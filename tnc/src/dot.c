@@ -163,44 +163,44 @@ node_label(const node *p, const char *fmt, ...)
 
 	argcount = node_argcount(p->son);
 
-	(void) fprintf(output, "\t\t\t\"%p\" [ shape = Mrecord, ", (void *) p);
+	IGNORE fprintf(output, "\t\t\t\"%p\" [ shape = Mrecord, ", (void *) p);
 
 	if (s < 0) {
 		/* tnc-manifested sorts */
-		(void) fprintf(output, "style = filled, fillcolor = \"#EEEEEE\", ");
+		IGNORE fprintf(output, "style = filled, fillcolor = \"#EEEEEE\", ");
 	}
 
-	(void) fprintf(output, "label = \"");
+	IGNORE fprintf(output, "label = \"");
 
 	/* TODO: rankdir=TB only */
-	(void) fprintf(output, "{");
+	IGNORE fprintf(output, "{");
 
 	{
-		(void) fprintf(output, "{");
+		IGNORE fprintf(output, "{");
 
-		(void) fprintf(output, "%s", sort_string(s));
+		IGNORE fprintf(output, "%s", sort_string(s));
 
 		if (fmt != NULL) {
-			(void) fprintf(output, "|");
+			IGNORE fprintf(output, "|");
 
 			va_start(ap, fmt);
 			vfprintf(output, fmt, ap);
 			va_end(ap);
 		}
 
-		(void) fprintf(output, "}");
+		IGNORE fprintf(output, "}");
 	}
 
 	if (argcount != 0) {
 		unsigned int i;
 		node *arg;
 
-		(void) fprintf(output, "|{args:|");
+		IGNORE fprintf(output, "|{args:|");
 
 		for (i = 0, arg = p->son; i < argcount - 1; i++, arg = arg->bro) {
 			assert(arg != NULL);
 
-			(void) fprintf(output, "<%u> ", i);
+			IGNORE fprintf(output, "<%u> ", i);
 
 			/* fold in tnc-manifested sorts suitable for writing inline */
 			if (fold_tncsorts) {
@@ -224,7 +224,7 @@ node_label(const node *p, const char *fmt, ...)
 				case SORT_tdfstring: {
 					int i, n = (int) arg->cons->encoding;
 					if (n == -1) {
-						(void) fprintf(output, "%s", MAKE_STRING);
+						IGNORE fprintf(output, "%s", MAKE_STRING);
 					} else {
 						(void) escputc('"', output);
 
@@ -245,7 +245,7 @@ node_label(const node *p, const char *fmt, ...)
 								} else {
 									unsigned co = (unsigned)c;
 									(void) escputc('\\', output);
-									(void) fprintf(output, "%03o", co);
+									IGNORE fprintf(output, "%03o", co);
 								}
 							}
 						}
@@ -261,17 +261,17 @@ node_label(const node *p, const char *fmt, ...)
 			}
 
 			if (i + 1 < argcount - 1) {
-				(void) fprintf(output, "|");
+				IGNORE fprintf(output, "|");
 			}
 		}
 
-		(void) fprintf(output, "}");
+		IGNORE fprintf(output, "}");
 	}
 
 	/* TODO: rankdir=TB only */
-	(void) fprintf(output, "}");
+	IGNORE fprintf(output, "}");
 
-	(void) fprintf(output, "\" ];\n");
+	IGNORE fprintf(output, "\" ];\n");
 }
 
 static void
@@ -303,14 +303,14 @@ print_node(const char *prefix, void *root, const char *port, node *p)
 		}
 
 		if (port != NULL) {
-			(void) fprintf(output, "\t\t\t\"%s%p\":%s",
+			IGNORE fprintf(output, "\t\t\t\"%s%p\":%s",
 				prefix, root, port);
 		} else {
-			(void) fprintf(output, "\t\t\t\"%s%p\":%u",
+			IGNORE fprintf(output, "\t\t\t\"%s%p\":%u",
 				prefix, root, arg);
 		}
 
-		(void) fprintf(output, " -> \"%p\" [ dir = none ];\n",
+		IGNORE fprintf(output, " -> \"%p\" [ dir = none ];\n",
 			(void *) p);
 
 		switch (s) {
@@ -385,7 +385,7 @@ print_node(const char *prefix, void *root, const char *port, node *p)
 				} else {
 					node_label(p, "%s", "TODO");
 /* TODO:
-					(void) fprintf(output, "\t\t\"%p\" [ shape = Mrecord, label = \"{%s|",
+					IGNORE fprintf(output, "\t\t\"%p\" [ shape = Mrecord, label = \"{%s|",
 						(void *) p, sort_string(s));
 
 					(void) escputc('"', output);
@@ -407,13 +407,13 @@ print_node(const char *prefix, void *root, const char *port, node *p)
 							} else {
 								unsigned co = (unsigned)c;
 								(void) escputc('\\', output);
-								(void) fprintf(output, "%03o", co);
+								IGNORE fprintf(output, "%03o", co);
 							}
 						}
 					}
 
 					(void) escputc('"', output);
-					(void) fprintf(output, "}\" ];\n");
+					IGNORE fprintf(output, "}\" ];\n");
 */
 				}
 			}
@@ -536,10 +536,10 @@ print_title(char *title, construct *p, int dec)
 	UNUSED(dec);
 
 	if (p->ename == NULL) {
-		(void) fprintf(output, "%s ", LOCAL_DECL);
+		IGNORE fprintf(output, "%s ", LOCAL_DECL);
 	}
 
-	(void) fprintf(output, "%s", title);
+	IGNORE fprintf(output, "%s", title);
 }
 
 static void
@@ -551,12 +551,12 @@ print_name(char *title, construct *p, int dec)
 		char *f = "\n  %s (\n";
 		if (p->ename->son->cons->sortnum == SORT_tdfstring) {
 			if (p->ename->son->bro == NULL) {
-				(void) fprintf(output, f, MAKE_STRING_EXTERN);
+				IGNORE fprintf(output, f, MAKE_STRING_EXTERN);
 			} else {
-				(void) fprintf(output, f, MAKE_CHAIN_EXTERN);
+				IGNORE fprintf(output, f, MAKE_CHAIN_EXTERN);
 			}
 		} else {
-			(void) fprintf(output, f, MAKE_UNIQUE_EXTERN);
+			IGNORE fprintf(output, f, MAKE_UNIQUE_EXTERN);
 		}
 
 		print_node("", NULL, NULL, p->ename->son);
@@ -567,7 +567,7 @@ print_name(char *title, construct *p, int dec)
 		(void) fputc(' ', output);
 	}
 
-	(void) fprintf(output, "%s", p->name);
+	IGNORE fprintf(output, "%s", p->name);
 }
 
 
@@ -578,8 +578,8 @@ print_aldec(construct *p)
 		return;
 	}
 
-	(void) fprintf(output, "\t\t\"aldec_%p\" [ label=<", (void *) p);
-	(void) fprintf(output, "<table cellborder=\"1\" cellspacing=\"0\" border=\"0\">");
+	IGNORE fprintf(output, "\t\t\"aldec_%p\" [ label=<", (void *) p);
+	IGNORE fprintf(output, "<table cellborder=\"1\" cellspacing=\"0\" border=\"0\">");
 
 	(void) fputs("<tr>", output);
 
@@ -610,8 +610,8 @@ print_aldef(construct *p)
 		return;
 	}
 
-	(void) fprintf(output, "\t\t\"aldef_%p\" [ label=<", (void *) p);
-	(void) fprintf(output, "<table cellborder=\"1\" cellspacing=\"0\" border=\"0\">");
+	IGNORE fprintf(output, "\t\t\"aldef_%p\" [ label=<", (void *) p);
+	IGNORE fprintf(output, "<table cellborder=\"1\" cellspacing=\"0\" border=\"0\">");
 
 	(void) fputs("<tr>", output);
 
@@ -653,8 +653,8 @@ print_tagdec(construct *p)
 		return;
 	}
 
-	(void) fprintf(output, "\t\t\"%p\" [ label=<", (void *) p);
-	(void) fprintf(output, "<table cellborder=\"1\" cellspacing=\"0\" border=\"0\">");
+	IGNORE fprintf(output, "\t\t\"%p\" [ label=<", (void *) p);
+	IGNORE fprintf(output, "<table cellborder=\"1\" cellspacing=\"0\" border=\"0\">");
 
 	(void) fputs("<tr>", output);
 	(void) fputs("<td bgcolor=\"#EEEEEE\">", output);
@@ -708,8 +708,8 @@ print_tagdef(construct *p)
 		return;
 	}
 
-	(void) fprintf(output, "\t\t\"tagdef_%p\" [ label=<", (void *) p);
-	(void) fprintf(output, "<table cellborder=\"1\" cellspacing=\"0\" border=\"0\">");
+	IGNORE fprintf(output, "\t\t\"tagdef_%p\" [ label=<", (void *) p);
+	IGNORE fprintf(output, "<table cellborder=\"1\" cellspacing=\"0\" border=\"0\">");
 
 	switch (info->var) {
 	case 0: instr = MAKE_ID_TAGDEF;  break;
@@ -735,7 +735,7 @@ print_tagdef(construct *p)
 		(void) fputs("<tr>", output);
 
 		(void) fputs("<td>def</td>", output);
-		(void) fprintf(output, "<td port=\"def_%p\"></td>", (void *) d);
+		IGNORE fprintf(output, "<td port=\"def_%p\"></td>", (void *) d);
 
 		(void) fputs("</tr>", output);
 	}
@@ -768,8 +768,8 @@ print_tokdec(construct *p)
 		return;
 	}
 
-	(void) fprintf(output, "\t\t\"tokdec_%p\" [ label=<", (void *) p);
-	(void) fprintf(output, "<table cellborder=\"1\" cellspacing=\"0\" border=\"0\">");
+	IGNORE fprintf(output, "\t\t\"tokdec_%p\" [ label=<", (void *) p);
+	IGNORE fprintf(output, "<table cellborder=\"1\" cellspacing=\"0\" border=\"0\">");
 
 	(void) fputs("<tr>", output);
 	(void) fputs("<td bgcolor=\"#EEEEEE\">", output);
@@ -782,7 +782,7 @@ print_tokdec(construct *p)
 
 	(void) fputs("<tr>", output);
 	(void) fputs("<td>sig</td>", output);
-	(void) fprintf(output, "<td port=\"sig\">%s</td>", info->sig ? "" : "-");
+	IGNORE fprintf(output, "<td port=\"sig\">%s</td>", info->sig ? "" : "-");
 	(void) fputs("</tr>", output);
 
 	(void) fputs("<tr>", output);
@@ -806,7 +806,7 @@ print_tokdec(construct *p)
 			}
 		}
 
-		(void) fprintf(output, "<td rowspan=\"%u\" valign=\"middle\">args</td>", count);
+		IGNORE fprintf(output, "<td rowspan=\"%u\" valign=\"middle\">args</td>", count);
 
 	}
 
@@ -821,7 +821,7 @@ print_tokdec(construct *p)
 			q = find_sortname(q, &s);
 			q++;
 
-			(void) fprintf(output, "<td>%s</td>", sort_name(s));
+			IGNORE fprintf(output, "<td>%s</td>", sort_name(s));
 
 			if (*q) {
 				(void) fputs("</tr>", output);
@@ -869,8 +869,8 @@ print_tokdef(construct *p)
 		return;
 	}
 
-	(void) fprintf(output, "\t\t\"tokdef_%p\" [ label=<", (void *) p);
-	(void) fprintf(output, "<table cellborder=\"1\" cellspacing=\"0\" border=\"0\">");
+	IGNORE fprintf(output, "\t\t\"tokdef_%p\" [ label=<", (void *) p);
+	IGNORE fprintf(output, "<table cellborder=\"1\" cellspacing=\"0\" border=\"0\">");
 
 	(void) fputs("<tr>", output);
 	(void) fputs("<td bgcolor=\"#EEEEEE\">", output);
@@ -883,7 +883,7 @@ print_tokdef(construct *p)
 
 	(void) fputs("<tr>", output);
 	(void) fputs("<td>sig</td>", output);
-	(void) fprintf(output, "<td colspan=\"2\" port=\"sig\">%s</td>", info->sig ? "" : "-");
+	IGNORE fprintf(output, "<td colspan=\"2\" port=\"sig\">%s</td>", info->sig ? "" : "-");
 	(void) fputs("</tr>", output);
 
 	(void) fputs("<tr>", output);
@@ -899,9 +899,9 @@ print_tokdef(construct *p)
 				q++;
 		}
 
-		(void) fprintf(output, "<td rowspan=\"%u\" valign=\"middle\">pars</td>", count);
+		IGNORE fprintf(output, "<td rowspan=\"%u\" valign=\"middle\">pars</td>", count);
 	} else {
-		(void) fprintf(output, "<td rowspan=\"%u\" valign=\"middle\">pars</td>", 1);
+		IGNORE fprintf(output, "<td rowspan=\"%u\" valign=\"middle\">pars</td>", 1);
 	}
 
 	if (info->pars == NULL) {
@@ -912,7 +912,7 @@ print_tokdef(construct *p)
 		while (*q) {
 			tok_info *qinfo = get_tok_info(*q);
 
-			(void) fprintf(output, "<td>%s</td><td>%s</td>",
+			IGNORE fprintf(output, "<td>%s</td><td>%s</td>",
 				sort_name(qinfo->res), (*q)->name);
 			q++;
 
@@ -968,7 +968,7 @@ print_high_sort(high_sort *h)
 		return;
 	}
 
-	(void) fprintf(output, "%s ( %s, ", MAKE_SORT, h->name);
+	IGNORE fprintf(output, "%s ( %s, ", MAKE_SORT, h->name);
 
 	n = h->no_args;
 

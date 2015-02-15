@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include <shared/check.h>
 #include <shared/string.h>
 #include <shared/xalloc.h>
 
@@ -25,7 +26,7 @@ xstrdup(const char *s1)
 
 	len = strlen(s1) + 1;
 	s2 = xmalloc(len);
-	(void) strcpy(s2, s1);
+	IGNORE strcpy(s2, s1);
 
 	return s2;
 }
@@ -44,8 +45,8 @@ xstrcat(const char *s, const char *t)
 	m = n + strlen(t) + 1;
 	r = xmalloc(m);
 
-	(void) strcpy(r, s);
-	(void) strcpy(r + n, t);
+	IGNORE strcpy(r, s);
+	IGNORE strcpy(r + n, t);
 
 	return r;
 }

@@ -7,7 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
+#include <shared/check.h>
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
@@ -58,7 +58,7 @@ open_input(char *nm, int search)
 		while (input == NULL && d) {
 			/* XXX: unsafe sprintf */
 			char buff[1000];
-			(void) sprintf(buff, "%s/%s", d->dirname, nm);
+			IGNORE sprintf(buff, "%s/%s", d->dirname, nm);
 			input = fopen(buff, "r");
 			d = d->next;
 		}

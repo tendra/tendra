@@ -9,6 +9,7 @@
 
 #include <limits.h>
 
+#include <shared/check.h>
 #include <shared/xalloc.h>
 
 #include "config.h"
@@ -92,10 +93,10 @@ print_bitstream(bitstream *p)
 		for (i = 0; i < p->bytes; i++) {
 			byte b = p->source[i];
 			if (r == 0) {
-				(void) fputc((int)b, output);
+				IGNORE fputc((int)b, output);
 			} else {
 				buff = (buff << CHAR_BIT) | ((unsigned long)b);
-				(void) fputc((int)((buff >> r) & 0xff), output);
+				IGNORE fputc((int)((buff >> r) & 0xff), output);
 				buff &= mask[r];
 			}
 		}
@@ -106,7 +107,7 @@ print_bitstream(bitstream *p)
 			r += p->bits;
 			if (r >= CHAR_BIT) {
 				r -= CHAR_BIT;
-				(void) fputc((int)((buff >> r) & 0xff), output);
+				IGNORE fputc((int)((buff >> r) & 0xff), output);
 				buff &= mask[r];
 			}
 		}
@@ -114,7 +115,7 @@ print_bitstream(bitstream *p)
 
 	if (r) {
 		buff <<= (CHAR_BIT - r);
-		(void) fputc((int)buff, output);
+		IGNORE fputc((int)buff, output);
 	}
 }
 

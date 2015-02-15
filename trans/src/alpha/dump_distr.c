@@ -481,9 +481,9 @@ dump_opt(exp rscope, space *tobd, space *pars)
   notregs = 10;
   notfregs = 8;			/* no of t-regs != par regs */
   if (~optim & OPTIM_DUMP || No_S || sameregs (tobd, &dmpd)) {
-    (void)placedump ( arg, &dmpd, tobd, tobd);
+    IGNORE placedump( arg, &dmpd, tobd, tobd);
   }
   else {
-    (void)pushdumps ( arg, &dmpd, tobd, pars);
+    IGNORE pushdumps( arg, &dmpd, tobd, pars);
   }
 }

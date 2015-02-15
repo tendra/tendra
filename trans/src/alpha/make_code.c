@@ -214,7 +214,7 @@ static void fix_unsigned
   newfr.fr = ftmp;
   newfr.type = fr.type;
   setfregalt(dest.answhere,newfr);
- (void)move(aa,dest,nsp,0);
+  IGNORE move(aa,dest,nsp,0);
   float_op((fr.type == IEEE_single)?i_adds:i_addt,fr.fr,ftmp,ftmp);
   float_op(i_fcmovlt,fr.fr,ftmp,fr.fr);
   asm_comment("END fix_unsigned");
@@ -1663,7 +1663,7 @@ tailrecurse:
 
 	  is.adval = 0;
 	  setinsalt(a, is);
-	 (void)move(a,placew, sp, name(sh(se)) & 1);
+	  IGNORE move(a,placew, sp, name(sh(se)) & 1);
 	}
 	else if (props(se)!=0 && (props(d) & inanyreg) ==0) {
 	  /* originally in reg and required in store */
@@ -1921,7 +1921,7 @@ tailrecurse:
 	operate_fmt(i_cmoveq,rtmp,a2,d);
       }
       setregalt(aa,d);
-     (void)move(aa,dest,guardreg(d,sp),0);
+      IGNORE move(aa,dest,guardreg(d,sp),0);
       mka.regmove=d;
       return mka;
     }
@@ -2009,7 +2009,7 @@ tailrecurse:
 	  }
       }
 
-     (void)compares(&compare_ins,shl,n);
+      IGNORE compares(&compare_ins,shl,n);
       d = regfrmdest(&dest, sp);
 
       /* reg d will contain result of compare */
@@ -2819,7 +2819,7 @@ tailrecurse:
 	sizecallers = 6 * REG_SIZE;
       }
 
-     (void)make_code(cllees,nsp,nowhere,0);
+      IGNORE make_code(cllees,nsp,nowhere,0);
       if (name(fn) == name_tag && name(son(fn)) == ident_tag &&
 	(son(son(fn)) == NULL || name(son(son(fn))) == proc_tag ||
 	  name(son(son(fn))) == general_proc_tag)) {
@@ -2887,13 +2887,13 @@ tailrecurse:
 	p.outer = old_postludes;
 	old_postludes = &p;
 	operate_fmt_immediate(i_subq,SP,postlude_arg_space>>3,SP);
-	(void)make_code(postlude,sp,nowhere,0);
+	IGNORE make_code(postlude,sp,nowhere,0);
 	operate_fmt_immediate(i_addq,SP,postlude_arg_space>>3,SP);
 	old_postludes = p.outer;
 	update_plc(old_postludes,-postlude_arg_space);
       }
       else {
-	(void)make_code(postlude,sp,nowhere,0);
+	 IGNORE make_code(postlude,sp,nowhere,0);
       }
       in_vcallers_apply = 0;
       return mka;
@@ -3838,7 +3838,7 @@ tailrecurse:
   out: 			/* d is destination register - do
 			   appropriate ands etc */
       if (d==NO_REG) return mka;
-/*       (void)convert_shapes(nsh,name(sh(son(e))),a,d);*/
+/*       IGNORE convert_shapes(nsh,name(sh(son(e))),a,d);*/
       switch (nsh) {
 	case ucharhd:{
 	  if (is_signed(sh(son(e))) && !optop(e)) {
@@ -4639,16 +4639,16 @@ tailrecurse:
       sr = getreg(sp.fixed);
       setregalt(w.answhere, sr);
       w.ashwhere = ashof(sh(son(e)));
-     (void)make_code(son(e), sp, w , 0);
+      IGNORE make_code(son(e), sp, w , 0);
       nsp = guardreg(sr, sp);
       dr = getreg(nsp.fixed);
       setregalt(w.answhere, dr);
-     (void)make_code(bro(son(e)), nsp, w, 0);
+      IGNORE make_code(bro(son(e)), nsp, w, 0);
       nsp = guardreg(dr, nsp);
       w.ashwhere = ashof(sh(bro(bro(son(e)))));
       szr = getreg(nsp.fixed);
       setregalt(w.answhere, szr);
-     (void)make_code(szarg, nsp, w, 0);
+      IGNORE make_code(szarg, nsp, w, 0);
       nsp = guardreg(szr, nsp);
       mr = getreg(nsp.fixed);
       bytemove = al2(sh(szarg)) >>3;
@@ -6224,8 +6224,8 @@ null_tag_case : {
 	 }
 	 setregalt(aa,aarg1);
        }
-      (void)move(aa,assdest,sp,1);
-      (void)move(aa,dest,sp,1);
+       IGNORE move(aa,assdest,sp,1);
+       IGNORE move(aa,dest,sp,1);
        clear_dep_reg(son(cass));
        return mka;
      }

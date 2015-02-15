@@ -7,6 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <shared/check.h>
 #include <shared/xalloc.h>
 
 #include "config.h"
@@ -49,7 +50,7 @@ set_up_labels(long n)
 	for (i = 0; i < n; i++) {
 		char *nm = xmalloc_nof(char, 32);
 
-		(void) sprintf(nm, "~~label_%ld", lno);
+		IGNORE sprintf(nm, "~~label_%ld", lno);
 		labels[i].sortnum = SORT_label;
 		labels[i].encoding = lno++;
 		labels[i].name = nm;
@@ -90,7 +91,7 @@ de_sortname(boolean expand)
 		h.no_args = (int)m;
 		h.args = xmalloc_nof(sortname, m);
 		h.name = xmalloc_nof(char, 32);
-		(void) sprintf(h.name, "~~sort_%d", made_up_sorts++);
+		IGNORE sprintf(h.name, "~~sort_%d", made_up_sorts++);
 
 		for (i = 0; i < m; i++)
 			h.args[i] = de_sortname(1);
@@ -103,7 +104,7 @@ de_sortname(boolean expand)
 
 	if (n == SORT_foreign) {
 		warning("Foreign sorts not supported");
-		(void) de_node("X");
+		IGNORE de_node("X");
 
 		return SORT_unknown;
 	}
@@ -127,7 +128,7 @@ de_aldef(void)
 		al_tag_info *info;
 
 		/* Find the definition type */
-		(void) de_al_tagdef_bits();
+		IGNORE de_al_tagdef_bits();
 
 		/* Find the alignment tag */
 		t = tdf_int();
@@ -287,7 +288,7 @@ de_tokdec(void)
 		tok_info *info;
 
 		/* Find the declaration type */
-		(void) de_tokdec_bits();
+		IGNORE de_tokdec_bits();
 
 		/* Find the token */
 		t = tdf_int();
@@ -354,7 +355,7 @@ de_token_defn(construct *p, node *sig)
 	end_posn += tell_posn();
 
 	/* Find the definition type */
-	(void) de_token_defn_bits();
+	IGNORE de_token_defn_bits();
 
 	/* Decode the token sort */
 	rs = de_sortname(1);
@@ -460,7 +461,7 @@ de_tokdef(void)
 		construct *p;
 
 		/* Find the definition type */
-		(void) de_tokdef_bits();
+		IGNORE de_tokdef_bits();
 
 		/* Find the token */
 		t = tdf_int();
@@ -499,7 +500,7 @@ de_version(void)
 		if (m == ENC_make_version)
 			de_version_number();
 		else if (m == ENC_user_info)
-			(void) de_node("X");
+			IGNORE de_node("X");
 	}
 }
 

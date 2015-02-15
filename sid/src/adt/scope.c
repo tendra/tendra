@@ -15,6 +15,7 @@
 
 #include <assert.h>
 
+#include <shared/check.h>
 #include <shared/error.h>
 
 #include "scope.h"
@@ -107,7 +108,7 @@ scope_stack_add_rule(ScopeStackT *stack, TableT *table, NStringT *key,
 	from = table_add_name(table, key);
 	map  = ALLOCATE(ScopeMapEntryT);
 
-	(void) scope_stack_check_shadowing(stack, from, rule);
+	IGNORE scope_stack_check_shadowing(stack, from, rule);
 	map->next          = NULL;
 	map->from          = from;
 	map->to            = entry;
@@ -158,7 +159,7 @@ scope_stack_add_action(ScopeStackT *stack, TableT *table, NStringT *key,
 	from = table_add_name(table, key);
 	map  = ALLOCATE(ScopeMapEntryT);
 
-	(void) scope_stack_check_shadowing(stack, from, rule);
+	IGNORE scope_stack_check_shadowing(stack, from, rule);
 	map->next          = NULL;
 	map->from          = from;
 	map->to            = entry;
@@ -195,7 +196,7 @@ scope_stack_add_non_local(ScopeStackT *stack, TableT *table, NStringT *key,
 	from = table_add_name(table, key);
 	map  = ALLOCATE(ScopeMapEntryT);
 
-	(void) scope_stack_check_shadowing(stack, from, rule);
+	IGNORE scope_stack_check_shadowing(stack, from, rule);
 	map->next          = NULL;
 	map->from          = from;
 	map->to            = entry;

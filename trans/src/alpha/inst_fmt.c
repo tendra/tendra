@@ -524,6 +524,6 @@ no_parameter_instructions(instruction ins)
   if(as_file){
     asm_printop("%s",ins_symbolic_name(ins));
   }
-  (void)out_rinst(0,ins_binid(ins),xnoreg,xnoreg,xnoreg,xnoreg);
+  IGNORE out_rinst(0,ins_binid(ins),xnoreg,xnoreg,xnoreg,xnoreg);
 }
 

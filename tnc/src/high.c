@@ -7,7 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
+#include <shared/check.h>
 #include <shared/xalloc.h>
 
 #include "config.h"
@@ -78,7 +78,7 @@ set_high_sort(char *nm, tok_info *info)
 		h.no_args = i;
 	}
 
-	(void) new_high_sort(&h);
+	IGNORE new_high_sort(&h);
 }
 
 

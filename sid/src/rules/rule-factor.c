@@ -310,7 +310,7 @@ rule_expand(RuleT *rule, FactorClosureT *closure, AltGroupT *group,
 		rule->alt_tail        = group->alt_ref;
 	}
 
-	(void) group_deallocate(group);
+	IGNORE group_deallocate(group);
 
 	tail = rule->alt_tail;
 	while (alt) {
@@ -388,7 +388,7 @@ rule_expand_item_clashes(RuleT *rule, FactorClosureT *closure,
 			do {
 				bitvec_empty(bitvec2);
 				entry_list_init(&predicate_first);
-				(void) rule_overlaps(item_next(alt_item_head(alt)),
+				IGNORE rule_overlaps(item_next(alt_item_head(alt)),
 					bitvec2, &predicate_first);
 
 				if (bitvec_intersects(bitvec1, bitvec2)
@@ -450,7 +450,7 @@ rule_create_factored(TypeTupleT *params, TypeTupleT *result, AltT *alt,
 			rule_add_alt(new_rule, tmp_alt);
 		} else {
 			rule_add_empty_alt(new_rule);
-			(void) alt_deallocate(tmp_alt);
+			IGNORE alt_deallocate(tmp_alt);
 		}
 	}
 
@@ -530,7 +530,7 @@ rule_factor_4(RuleT *rule, AltT *old_alt, AltT *new_alt, TableT *table,
 			types_add_new_names(params, item_result(item), predicate_id);
 			alt_add_item(new_alt, item);
 		} else {
-			(void) item_deallocate(item);
+			IGNORE item_deallocate(item);
 		}
 	}
 
@@ -572,7 +572,7 @@ rule_factor_3(RuleT *rule, TableT *table, EntryT *predicate_id, AltT *old_alt,
 
 		old_alt = alt_next(old_alt);
 		assert(alt_item_head(tmp_alt) == NULL);
-		(void) alt_deallocate(tmp_alt);
+		IGNORE alt_deallocate(tmp_alt);
 	}
 }
 

@@ -22,6 +22,8 @@
 #include <string.h>
 #include <errno.h>
 
+#include <shared/check.h>
+
 #include <exds/common.h>
 #include <exds/exception.h>
 #include <exds/dalloc.h>
@@ -78,7 +80,7 @@ ostream_open(OStreamT *ostream, const char *name)
 
 	if (pname != NULL) {
 		char *s = ALLOCATE_VECTOR(char, strlen(name) + 10);
-		(void) sprintf(s, "%.*s%d%s", (int) (pname - name), name,
+		IGNORE sprintf(s, "%.*s%d%s", (int) (pname - name), name,
 			++ostream->no, pname + 1);
 		oname = s;
 	}
@@ -88,7 +90,7 @@ ostream_open(OStreamT *ostream, const char *name)
 	ostream->name = oname;
 	ostream->gen_name = name;
 	ostream->line = 1;
-	(void) setvbuf(ostream->file, NULL, _IOFBF, (size_t) BUFSIZ);
+	IGNORE setvbuf(ostream->file, NULL, _IOFBF, (size_t) BUFSIZ);
 	return TRUE;
 }
 
@@ -101,13 +103,13 @@ ostream_is_open(OStreamT *ostream)
 void
 ostream_buffer(OStreamT *ostream)
 {
-	(void) setvbuf(ostream->file, NULL, _IOFBF, (size_t) BUFSIZ);
+	IGNORE setvbuf(ostream->file, NULL, _IOFBF, (size_t) BUFSIZ);
 }
 
 void
 ostream_unbuffer(OStreamT *ostream)
 {
-	(void) setvbuf(ostream->file, NULL, _IONBF, (size_t) 0);
+	IGNORE setvbuf(ostream->file, NULL, _IONBF, (size_t) 0);
 }
 
 void
@@ -153,14 +155,14 @@ void
 write_newline(OStreamT *ostream)
 {
 	ostream->line++;
-	(void) putc('\n', ostream->file);
+	IGNORE putc('\n', ostream->file);
 	OSTREAM_WRITE_ERROR_CHECK(ostream);
 }
 
 void
 write_tab(OStreamT *ostream)
 {
-	(void) putc('\t', ostream->file);
+	IGNORE putc('\t', ostream->file);
 	OSTREAM_WRITE_ERROR_CHECK(ostream);
 }
 
@@ -171,7 +173,7 @@ write_char(OStreamT *ostream, char c)
 		ostream->line++;
 	}
 
-	(void) putc((int) c, ostream->file);
+	IGNORE putc((int) c, ostream->file);
 	OSTREAM_WRITE_ERROR_CHECK(ostream);
 }
 
@@ -180,35 +182,35 @@ write_escaped_char(OStreamT *ostream, char c)
 {
 	switch (c) {
 	case '\0':
-		(void) fputs("\\0", ostream->file);
+		IGNORE fputs("\\0", ostream->file);
 		break;
 
 	case '\f':
-		(void) fputs("\\f", ostream->file);
+		IGNORE fputs("\\f", ostream->file);
 		break;
 
 	case '\n':
 		ostream->line++;
-		(void) fputc('\n', ostream->file);
+		IGNORE fputc('\n', ostream->file);
 		break;
 
 	case '\r':
-		(void) fputs("\\r", ostream->file);
+		IGNORE fputs("\\r", ostream->file);
 		break;
 
 	case '\t':
-		(void) fputc('\t', ostream->file);
+		IGNORE fputc('\t', ostream->file);
 		break;
 
 	case '\\':
-		(void) fputs("\\\\", ostream->file);
+		IGNORE fputs("\\\\", ostream->file);
 		break;
 
 	default:
 		if (isprint((unsigned char) c)) {
-			(void) fputc((int) c, ostream->file);
+			IGNORE fputc((int) c, ostream->file);
 		} else {
-			(void) fprintf(ostream->file, "\\x%02x",
+			IGNORE fprintf(ostream->file, "\\x%02x",
 				(unsigned) (unsigned char) c);
 		}
 	}
@@ -218,14 +220,14 @@ write_escaped_char(OStreamT *ostream, char c)
 void
 write_int(OStreamT *ostream, int i)
 {
-	(void) fprintf(ostream->file, "%d", i);
+	IGNORE fprintf(ostream->file, "%d", i);
 	OSTREAM_WRITE_ERROR_CHECK(ostream);
 }
 
 void
 write_unsigned(OStreamT *ostream, unsigned i)
 {
-	(void) fprintf(ostream->file, "%u", i);
+	IGNORE fprintf(ostream->file, "%u", i);
 	OSTREAM_WRITE_ERROR_CHECK(ostream);
 }
 
@@ -241,7 +243,7 @@ write_cstring(OStreamT *ostream, const char *cstring)
 		}
 	}
 
-	(void) fputs(cstring, ostream->file);
+	IGNORE fputs(cstring, ostream->file);
 	OSTREAM_WRITE_ERROR_CHECK(ostream);
 }
 
@@ -271,6 +273,6 @@ write_system_error(OStreamT *ostream)
 void
 write_pointer(OStreamT *ostream, const void *pointer)
 {
-	(void) fprintf(ostream->file, "%p", pointer);
+	IGNORE fprintf(ostream->file, "%p", pointer);
 	OSTREAM_WRITE_ERROR_CHECK(ostream);
 }

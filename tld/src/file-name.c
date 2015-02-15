@@ -18,6 +18,8 @@
 #include <stddef.h>
 #include <string.h>
 
+#include <shared/check.h>
+
 #include <exds/common.h>
 #include <exds/cstring.h>
 
@@ -69,19 +71,19 @@ file_name_expand(const char * dir,			  const char * name,
     path   = ALLOCATE_VECTOR(char, length);
     tmp    = path;
     if (dir_length > 0) {
-	(void)memcpy((void *)tmp,(void *)dir,(size_t)dir_length);
+	IGNORE memcpy((void *)tmp,(void *)dir,(size_t)dir_length);
 	tmp += dir_length;
 	if (dir[dir_length - 1]!= '/') {
 	    tmp[0] = '/';
 	    tmp++;
 	}
     }
-   (void)memcpy((void *)tmp,(void *)name,(size_t)name_length);
+   IGNORE memcpy((void *)tmp,(void *)name,(size_t)name_length);
     tmp += name_length;
     if (suffix) {
 	tmp[0] = '.';
 	tmp++;
-	(void)memcpy((void *)tmp,(void *)suffix,(size_t)suf_length);
+	IGNORE memcpy((void *)tmp,(void *)suffix,(size_t)suf_length);
 	tmp += suf_length;
     }
     tmp[0] = '\0';
@@ -109,7 +111,7 @@ file_name_populate(char * path)
     if (tmp) {
 	do {
 	    *tmp = '\0';
-	   (void)mkdir(new_path, 0755);
+	    IGNORE mkdir(new_path, 0755);
 	    *tmp = '/';
 	} while ((tmp = strchr(tmp + 1, '/')) != NULL);
     }

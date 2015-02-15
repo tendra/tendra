@@ -1933,7 +1933,7 @@ needs scan
 
       rscope_level++;
 #if 0 /* only needed when OPTIM_TAIL is set */
-      (void) last_statement(son(*e), &lst);	/* always true */
+      IGNORE last_statement(son(*e), &lst);	/* always true */
       if (name(lst) == res_tag)
       {
 	/* can remove res */

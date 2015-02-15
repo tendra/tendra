@@ -398,10 +398,10 @@ evalone(exp e, int rep)
       else{
 	for (j=0; j< strsize; ) {
 	  switch(char_size) {
-	  case  8: (void) asm_printf( "\t.byte "); break;
-	  case 16: (void) asm_printf( "\t.word "); break;
-	  case 32: (void) asm_printf( "\t.long "); break;
-	  case 64: (void) asm_printf( "\t.quad "); break;
+	  case  8: IGNORE asm_printf( "\t.byte "); break;
+	  case 16: IGNORE asm_printf( "\t.word "); break;
+	  case 32: IGNORE asm_printf( "\t.long "); break;
+	  case 64: IGNORE asm_printf( "\t.quad "); break;
 	  }
 	  for (i = j; i < strsize && i-j < 8; i++) {
 	    switch (char_size) { 
@@ -739,7 +739,7 @@ evaluated(exp e, int l)
     out_common(0,idata);
   }
   if (as_file) {
-    (void)outlab (lab);
+    IGNORE outlab(lab);
     asm_printf( ":\n");
   }
   out_common((lab>0)?tempsnos[lab-32]:symnos[-lab-1],ilabel);

@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include <shared/check.h>
 #include <shared/error.h>
 #include <shared/xalloc.h>
 #include <shared/string.h>
@@ -388,6 +389,6 @@ void
 close_file(void)
 {
     FILE *f = lex_input;
-    if (f != stdin) (void) fclose(f);
+    if (f != stdin) IGNORE fclose(f);
     return;
 }

@@ -19,6 +19,8 @@
 #include <limits.h>
 #include <ctype.h>
 
+#include <shared/check.h>
+
 #include <exds/common.h>
 #include <exds/exception.h>
 #include <exds/dalloc.h>
@@ -32,7 +34,7 @@ cstring_duplicate(const char *cstring)
 	size_t length = strlen(cstring);
 	char *tmp    = ALLOCATE_VECTOR(char, length + 1);
 
-	(void) strcpy(tmp, cstring);
+	IGNORE strcpy(tmp, cstring);
 	return tmp;
 }
 
@@ -44,12 +46,12 @@ cstring_duplicate_prefix(const char *cstring, unsigned prefix)
 	if (length <= prefix) {
 		char *tmp = ALLOCATE_VECTOR(char, length + 1);
 
-		(void) strcpy(tmp, cstring);
+		IGNORE strcpy(tmp, cstring);
 		return tmp;
 	} else {
 		char *tmp = ALLOCATE_VECTOR(char, prefix + 1);
 
-		(void) memcpy(tmp, cstring, (size_t) prefix);
+		IGNORE memcpy(tmp, cstring, (size_t) prefix);
 		tmp[prefix] = '\0';
 		return tmp;
 	}

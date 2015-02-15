@@ -1019,7 +1019,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
 	    r = getreg ( sp.fixed ) ;
 	    lr_ins ( lab, r ) ;
 	    setregalt ( aa, r ) ;
-	    (void)move ( aa, dest, guardreg ( r, sp ).fixed, 1 ) ;
+	    IGNORE move ( aa, dest, guardreg ( r, sp ).fixed, 1 ) ;
 	  }
 	}
 	mka.regmove = r ;
@@ -1552,7 +1552,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
       int rt = getreg(sp.fixed);
       ir_ins(i_mov,constval,rt);
       setregalt(aa,rt);
-      (void)move(aa,dest,guardreg(rt,sp).fixed,1);
+      IGNORE move(aa,dest,guardreg(rt,sp).fixed,1);
       mka.regmove = rt;
       return mka;
     }
@@ -2577,10 +2577,10 @@ make_code ( exp e, space sp, where dest, int exitlab )
       ir_ins(i_mov,bval.small,rt);
       setregalt(aa,rt);
       newdest.ashwhere.ashsize = newdest.ashwhere.ashalign = 32;
-      (void)move(aa,newdest,nsp.fixed,1);
+      IGNORE move(aa,newdest,nsp.fixed,1);
       newdest.answhere.val.instoreans.b.offset += 4;
       ir_ins(i_mov,bval.big,rt);
-      (void)move(aa,newdest,nsp.fixed,1);
+      IGNORE move(aa,newdest,nsp.fixed,1);
       return mka;
     }
     else{
@@ -3163,7 +3163,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
 	  newis.b.offset += disp ;
 	  setinsalt ( newdest.answhere, newis ) ;
 	  newdest.ashwhere = ashof ( sh ( t ) ) ;
-	  (void)code_here ( t, nsp, newdest ) ;
+	  IGNORE code_here ( t, nsp, newdest ) ;
 	  disp += ( rounder ( shape_size ( sh ( t ) ),
 			      shape_align ( sh ( t ) ) ) >> 3 ) ;
 	}
@@ -3429,7 +3429,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
 	is.b.offset = (no(e)-callee_size)>>3;
 	is.adval = 0;
 	setinsalt(a,is);
-	(void)move(a,placew,sp.fixed,is_signed(sh(se)));
+	IGNORE move(a,placew,sp.fixed,is_signed(sh(se)));
       }
     }
     else

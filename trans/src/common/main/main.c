@@ -10,6 +10,7 @@
 #include <string.h>
 #include <stdlib.h>
 
+#include <shared/check.h>
 #include <shared/getopt.h>
 #include <shared/error.h>
 
@@ -115,7 +116,7 @@ translate(FILE *f, const char *name)
 	/*
 	 * Start the TDF decoder, which calls back to translate_capsule()
 	 */
-	(void) d_capsule();
+	IGNORE d_capsule();
 
 	if (exit_status != 0) {
 		exit(EXIT_FAILURE);

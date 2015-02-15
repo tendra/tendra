@@ -118,7 +118,7 @@ read_file(const char *nm, const char *w, size_t n, FILE *f)
 
 out:
 	if (g)
-		(void) fclose(g);
+		IGNORE fclose(g);
 
 	return ret;
 }
@@ -148,12 +148,12 @@ write_file(const char *nm, const char *rd, FILE *f)
 	while ((n = fread(p, sizeof(char), buffer_size, g)) != 0) {
 		if (fwrite(p, sizeof(char), n, f) != n) {
 			error(ERR_SERIOUS, "Writing error when copying '%s'", nm);
-			(void) fclose(g);
+			IGNORE fclose(g);
 			return 1;
 		}
 	}
 
-	(void) fclose(g);
+	IGNORE fclose(g);
 
 	return 0;
 }
@@ -205,7 +205,7 @@ move_file(const char *from, const char *to)
 	}
 
 	e = write_file(from, "r", f);
-	(void) fclose(f);
+	IGNORE fclose(f);
 
 	if (e)
 		return e;
@@ -280,7 +280,7 @@ is_archive(const char *nm)
 		if (strcmp(buf, ARCHIVE_HEADER) == 0)
 			archive = 1;
 
-	(void) fclose(f);
+	IGNORE fclose(f);
 	return archive;
 }
 

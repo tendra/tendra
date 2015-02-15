@@ -19,6 +19,8 @@
 #include <ctype.h>
 #include <string.h>
 
+#include <shared/check.h>
+
 #include <exds/common.h>
 #include <exds/exception.h>
 #include <exds/ostream.h>
@@ -60,7 +62,7 @@ nstring_copy_cstring(NStringT *nstring, const char *cstring)
 	if (length > 0) {
 		nstring->length   = length;
 		nstring->contents = ALLOCATE_VECTOR(char, length);
-		(void) memcpy(nstring->contents, cstring, (size_t) length);
+		IGNORE memcpy(nstring->contents, cstring, (size_t) length);
 	} else {
 		nstring->length   = 0;
 		nstring->contents = NULL;
@@ -73,7 +75,7 @@ nstring_insert_cstring(NStringT *nstring, const char *cstring)
 	unsigned length = nstring_length(nstring);
 
 	if (length > 0) {
-		(void) memcpy(nstring->contents, cstring, (size_t) length);
+		IGNORE memcpy(nstring->contents, cstring, (size_t) length);
 	}
 }
 
@@ -85,7 +87,7 @@ nstring_copy(NStringT *to, NStringT *from)
 	if (length > 0) {
 		to->length   = length;
 		to->contents = ALLOCATE_VECTOR(char, length);
-		(void) memcpy(to->contents, from->contents, (size_t) length);
+		IGNORE memcpy(to->contents, from->contents, (size_t) length);
 	} else {
 		to->length   = 0;
 		to->contents = NULL;
@@ -99,7 +101,7 @@ nstring_to_cstring(NStringT *nstring)
 	char *tmp       = ALLOCATE_VECTOR(char, length + 1);
 
 	if (length > 0) {
-		(void) memcpy(tmp, nstring->contents, (size_t) length);
+		IGNORE memcpy(tmp, nstring->contents, (size_t) length);
 	}
 	tmp[length] = '\0';
 	return tmp;
@@ -259,7 +261,7 @@ dstring_append_char(DStringT *dstring, char c)
 		dstring->max_length += DSTRING_CHUNK_SIZE;
 		tmp                  = ALLOCATE_VECTOR(char, dstring->max_length);
 
-		(void) memcpy(tmp, dstring->contents, (size_t) dstring->length);
+		IGNORE memcpy(tmp, dstring->contents, (size_t) dstring->length);
 		DEALLOCATE(dstring->contents);
 		dstring->contents = tmp;
 	}
@@ -281,12 +283,12 @@ dstring_append_cstring(DStringT *dstring, const char *cstring)
 		}
 
 		tmp = ALLOCATE_VECTOR(char, dstring->max_length);
-		(void) memcpy(tmp, dstring->contents, (size_t) dstring->length);
+		IGNORE memcpy(tmp, dstring->contents, (size_t) dstring->length);
 		DEALLOCATE(dstring->contents);
 		dstring->contents = tmp;
 	}
 
-	(void) memcpy(&dstring->contents[dstring->length], cstring,
+	IGNORE memcpy(&dstring->contents[dstring->length], cstring,
 		(size_t) clength);
 	dstring->length = length;
 }
@@ -304,12 +306,12 @@ dstring_append_nstring(DStringT *dstring, NStringT *nstring)
 			dstring->max_length += DSTRING_CHUNK_SIZE;
 		}
 		tmp = ALLOCATE_VECTOR(char, dstring->max_length);
-		(void) memcpy(tmp, dstring->contents, (size_t) dstring->length);
+		IGNORE memcpy(tmp, dstring->contents, (size_t) dstring->length);
 		DEALLOCATE(dstring->contents);
 		dstring->contents = tmp;
 	}
 
-	(void) memcpy(&dstring->contents[dstring->length], nstring_contents(nstring),
+	IGNORE memcpy(&dstring->contents[dstring->length], nstring_contents(nstring),
 		(size_t) nlength);
 	dstring->length = length;
 }
@@ -326,7 +328,7 @@ dstring_to_nstring(DStringT *dstring, NStringT *nstring)
 	if (dstring->length > 0) {
 		nstring->length   = dstring->length;
 		nstring->contents = ALLOCATE_VECTOR(char, dstring->length);
-		(void) memcpy(nstring->contents, dstring->contents,
+		IGNORE memcpy(nstring->contents, dstring->contents,
 			(size_t) dstring->length);
 	} else {
 		nstring->length   = 0;
@@ -340,7 +342,7 @@ dstring_to_cstring(DStringT *dstring)
 	char *tmp = ALLOCATE_VECTOR(char, dstring->length + 1);
 
 	if (dstring->length > 0) {
-		(void) memcpy(tmp, (dstring->contents),
+		IGNORE memcpy(tmp, (dstring->contents),
 		(size_t) dstring->length);
 	}
 
@@ -355,7 +357,7 @@ dstring_destroy_to_cstring(DStringT *dstring)
 
 	if (dstring->length >= dstring->max_length) {
 		tmp = ALLOCATE_VECTOR(char, dstring->length + 1);
-		(void) memcpy(tmp, dstring->contents, (size_t) dstring->length);
+		IGNORE memcpy(tmp, dstring->contents, (size_t) dstring->length);
 		DEALLOCATE(dstring->contents);
 	} else {
 		tmp = dstring->contents;

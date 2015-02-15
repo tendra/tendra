@@ -262,7 +262,7 @@ analyse_diag_type(FILE *file, diag_type dt, int loc)
 
 		/* Round off enumeration definition */
 		if (*nm) {
-			(void)out_dd(file, xdb_tagdef, loc);
+			IGNORE out_dd(file, xdb_tagdef, loc);
 			asm_fprintf(file, "0,");
 			if (diag == DIAG_XDB_NEW) {
 				asm_fprintf(file, "1,");

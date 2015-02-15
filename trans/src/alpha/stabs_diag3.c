@@ -207,7 +207,7 @@ again:
 	  v, v + fs));*/
 
       }
-      (void)new_lsym_d (nm,v,/*(isparam(id))?stParam :*/stLocal,sc,dt,findex);
+      IGNORE new_lsym_d (nm,v,/*(isparam(id))?stParam :*/stLocal,sc,dt,findex);
     }
     else {
       exp sn = son(id);
@@ -462,14 +462,14 @@ void stab_types
 
   for (i = 0; i < nexttsym; i++) {/* output accumulated type info */
     tsym * t = &ats[i];
-   (void)new_lsym(t -> n, t -> v, t -> st, t -> sc, t->s, mainfile);
+   IGNORE new_lsym(t -> n, t -> v, t -> st, t -> sc, t->s, mainfile);
   }
 
   for (i = 0; i < unit_diagvar_tab.lastused; ++i) {
   /* associated names of types */
     diag_descriptor * dd = unit_diagvar_tab.array+i;
     if (dd->key == DIAG_TYPEDEF_KEY) {
-     (void)new_lsym_d(dd->data.typ.nme.ints.chars, 0, stTypedef, scInfo,
+     IGNORE new_lsym_d(dd->data.typ.nme.ints.chars, 0, stTypedef, scInfo,
 		       dd->data.typ.new_type, mainfile);
     }
   }

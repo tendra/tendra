@@ -9,6 +9,8 @@
 
 #include <limits.h>
 
+#include <shared/check.h>
+
 #include "config.h"
 #include "file.h"
 #include "types.h"
@@ -96,7 +98,7 @@ seek_posn(long n)
 	}
 
 	if (b)
-		(void) fetch(b);
+		IGNORE fetch(b);
 }
 
 
@@ -104,7 +106,7 @@ void
 input_skip(long n)
 {
 	if (n <= 4 * CHAR_BIT)
-		(void) fetch((int)n);
+		IGNORE fetch((int)n);
 	else
 		seek_posn(tell_posn() + n);
 }

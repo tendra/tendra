@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include <shared/check.h>
 #include <shared/error.h>
 #include <shared/xalloc.h>
 #include <shared/string.h>
@@ -233,7 +234,7 @@ process_file(char *nm)
 	ADVANCE_LEXER;
 	read_errors();
 	if (nm != NULL) {
-		(void) fclose(lex_input);
+		IGNORE fclose(lex_input);
 	}
 	return;
 }

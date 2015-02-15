@@ -7,6 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <shared/check.h>
 
 #include <construct/shape.h>
 
@@ -123,7 +124,7 @@ static page *
 sprint_number(page *p, long n)
 {
 	char buff[100];
-	(void)sprintf(buff, "%ld", n);
+	IGNORE sprintf(buff, "%ld", n);
 	return sprint_string(p, buff);
 }
 

@@ -639,7 +639,7 @@ translate_capsule (void){
 	error(ERR_INTERNAL, "~asm not in ~asm_sequence");
       check_asm_seq (son(stg), 1);
       insection ( text_section ) ;
-      (void)code_here ( stg, tempregs, nowhere ) ;
+      IGNORE code_here ( stg, tempregs, nowhere ) ;
       asm_printf("\n");
     }
 
@@ -718,7 +718,7 @@ translate_capsule (void){
 	/* generate code for this proc */
 
 	proc_name = id;
-	(void)code_here ( stg, tempregs, nowhere ) ;
+	IGNORE code_here ( stg, tempregs, nowhere ) ;
 	if ( sysV_assembler ) {
 	  asm_printop( ".type %s,#function", id ) ;
 	  asm_printop( ".size %s,.-%s", id, id ) ;

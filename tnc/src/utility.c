@@ -11,6 +11,7 @@
 #include <limits.h>
 #include <stdarg.h>
 
+#include <shared/check.h>
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
@@ -58,10 +59,10 @@ fatal_error(char *s, ...)
 	va_start(args, s);
 
 	if (progname)
-		(void) fprintf(stderr, "%s: ", progname);
-	(void) fprintf(stderr, "Error: ");
-	(void) vfprintf(stderr, s, args);
-	(void) fprintf(stderr, ".\n");
+		IGNORE fprintf(stderr, "%s: ", progname);
+	IGNORE fprintf(stderr, "Error: ");
+	IGNORE vfprintf(stderr, s, args);
+	IGNORE fprintf(stderr, ".\n");
 
 	va_end(args);
 
@@ -81,45 +82,45 @@ input_error(char *s, ...)
 	va_start(args, s);
 
 	if (progname)
-		(void) fprintf(stderr, "%s: ", progname);
-	(void) fprintf(stderr, "Error: ");
-	(void) vfprintf(stderr, s, args);
+		IGNORE fprintf(stderr, "%s: ", progname);
+	IGNORE fprintf(stderr, "Error: ");
+	IGNORE vfprintf(stderr, s, args);
 
 	if (input_file) {
-		(void) fprintf(stderr, ", %s", input_file);
+		IGNORE fprintf(stderr, ", %s", input_file);
 
 		if (text_input)
-			(void) fprintf(stderr, ", line %ld", line_no);
+			IGNORE fprintf(stderr, ", line %ld", line_no);
 		else {
 			long b = tell_posn();
 
 			if (capname) {
-				(void) fprintf(stderr, ", capsule %s", capname);
+				IGNORE fprintf(stderr, ", capsule %s", capname);
 			}
 
 			switch (decode_status) {
 			case 0:
-				(void) fprintf(stderr, " (at outermost level)");
+				IGNORE fprintf(stderr, " (at outermost level)");
 				break;
 			case 1:
-				(void) fprintf(stderr, " (in linking information)");
+				IGNORE fprintf(stderr, " (in linking information)");
 				break;
 			case 2:
-				(void) fprintf(stderr, " (in unit body)");
+				IGNORE fprintf(stderr, " (in unit body)");
 				break;
 			}
 
-			(void) fprintf(stderr, ", byte %ld, bit %ld", b / 8, b % 8);
+			IGNORE fprintf(stderr, ", byte %ld, bit %ld", b / 8, b % 8);
 
 			if (decode_status == 0)
-				(void) fprintf(stderr, " (Illegal TDF capsule?)");
+				IGNORE fprintf(stderr, " (Illegal TDF capsule?)");
 
 			if (decode_status >= 1 && !have_version)
-				(void) fprintf(stderr, " (TDF version error?)");
+				IGNORE fprintf(stderr, " (TDF version error?)");
 		}
 	}
 
-	(void) fprintf(stderr, ".\n");
+	IGNORE fprintf(stderr, ".\n");
 
 	va_end(args);
 
@@ -127,7 +128,7 @@ input_error(char *s, ...)
 		if (text_output) {
 			sort_all();
 			print_capsule();
-			(void) fputs("# TERMINATED ON INPUT ERROR\n", output);
+			IGNORE fputs("# TERMINATED ON INPUT ERROR\n", output);
 		}
 
 		exit(EXIT_FAILURE);
@@ -150,10 +151,10 @@ warning(char *s, ...)
 	va_start(args, s);
 
 	if (progname)
-		(void) fprintf(stderr, "%s: ", progname);
-	(void) fprintf(stderr, "Warning: ");
-	(void) vfprintf(stderr, s, args);
-	(void) fprintf(stderr, ".\n");
+		IGNORE fprintf(stderr, "%s: ", progname);
+	IGNORE fprintf(stderr, "Warning: ");
+	IGNORE vfprintf(stderr, s, args);
+	IGNORE fprintf(stderr, ".\n");
 
 	va_end(args);
 }
@@ -166,7 +167,7 @@ string_copy(char *s, int n)
 
 	p = xmalloc(n+1);
 
-	(void) strncpy(p, s, n);
+	IGNORE strncpy(p, s, n);
 	p[n] = '\0';
 
 	return p;
@@ -189,7 +190,7 @@ temp_copy(char *s)
 		buff = xrealloc(buff, bufflen);
 	}
 
-	(void) strcpy(buff, s);
+	IGNORE strcpy(buff, s);
 
 	return buff;
 }

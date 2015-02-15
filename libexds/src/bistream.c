@@ -133,6 +133,6 @@ bistream_rewind(BIStreamT *bistream)
 void
 bistream_close(BIStreamT *bistream)
 {
-	(void) fclose(bistream->file);
+	IGNORE fclose(bistream->file);
 	bistream_init(bistream);
 }

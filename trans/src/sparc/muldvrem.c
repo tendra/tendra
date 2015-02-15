@@ -768,7 +768,7 @@ static int find_reg_and_apply
   assert(dest_reg != R_NO_REG);
   setregalt(a, dest_reg);
   sp = guardreg(dest_reg, sp);
- (void)move(a, dest, sp.fixed, sgned);
+  IGNORE move(a, dest, sp.fixed, sgned);
   return dest_reg;
 }
 

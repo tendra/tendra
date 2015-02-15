@@ -821,7 +821,7 @@ rule_renumber(RuleT *rule, BoolT do_result, EntryT *predicate_id)
 	AltT        *alt;
 
 	ntrans_init(&translator);
-	(void) ntrans_get_translation(&translator, predicate_id);
+	IGNORE ntrans_get_translation(&translator, predicate_id);
 	types_renumber(rule_param(rule), &translator);
 	if (do_result) {
 		types_renumber(rule_result(rule), &translator);
@@ -895,7 +895,7 @@ rule_deallocate(RuleT *rule)
 
 	alt = rule_get_handler(rule);
 	if (alt != NULL) {
-		(void) alt_deallocate(alt);
+		IGNORE alt_deallocate(alt);
 	}
 
 	for (alt = rule_alt_head(rule); alt; alt = alt_deallocate(alt)) {

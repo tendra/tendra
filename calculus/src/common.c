@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <shared/check.h>
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
@@ -254,7 +255,7 @@ compound_type(unsigned tag, TYPE_P r, int depth)
     MAKE_type_ptr_etc(tag, 0, r, s0);
     COPY_type(s, s0);
     CONS_ptr(s, algebra->types, algebra->types);
-    (void)compound_identity(s, depth);
+    IGNORE compound_identity(s, depth);
     return s;
 }
 
@@ -437,7 +438,7 @@ import_type_list(LIST(TYPE_P)t)
 	    }
 	    default : {
 		TYPE_P p = DEREF_ptr(type_ptr_etc_sub(s0));
-		(void)compound_type(tag, p, 0);
+		IGNORE compound_type(tag, p, 0);
 		break;
 	    }
 	}

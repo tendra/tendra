@@ -102,6 +102,6 @@ write_basics(OStreamT *ostream, BasicClosureT *closure)
 		}
 
 		num_bits--;
-		(void) bitvec_next_bit(bitvec, &terminal);
+		IGNORE bitvec_next_bit(bitvec, &terminal);
 	}
 }

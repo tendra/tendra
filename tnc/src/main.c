@@ -7,7 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
+#include <shared/check.h>
 #include <shared/error.h>
 
 #include "config.h"
@@ -258,7 +258,7 @@ main(int argc, char **argv)
 					int v2 = VERSION_minor;
 
 					report_version(stderr);
-					(void) fprintf(stderr,
+					IGNORE fprintf(stderr,
 					    " (TDF %d.%d)\n", v1, v2);
 					known = 1;
 				}

@@ -262,7 +262,7 @@ istream_name(IStreamT *istream)
 void
 istream_close(IStreamT *istream)
 {
-	(void) fclose(istream->file);
+	IGNORE fclose(istream->file);
 
 	if (istream != istream_input) {
 		DEALLOCATE(istream->buffer);

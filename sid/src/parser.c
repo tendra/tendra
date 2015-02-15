@@ -272,7 +272,7 @@ ZR250(GrammarP sid_current_grammar)
 				types_destroy(&used);
 				rule_set_handler(sid_current_rule, sid_current_alt);
 			} else {
-				(void) alt_deallocate(sid_current_alt);
+				IGNORE alt_deallocate(sid_current_alt);
 				error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 					"result formals are not defined in exception handler alternative of production '%K'",
 					(void *) entry_key(sid_external_rule));
@@ -823,7 +823,7 @@ ZR252(GrammarP sid_current_grammar)
 				types_destroy(&used);
 				rule_add_alt(sid_current_rule, sid_current_alt);
 			} else {
-				(void) alt_deallocate(sid_current_alt);
+				IGNORE alt_deallocate(sid_current_alt);
 				error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 					"result formals are not defined in alternative %u of production '%K'",
 					sid_alternative, (void *) entry_key(sid_external_rule));
@@ -3124,16 +3124,16 @@ ZR219(GrammarP sid_current_grammar, TypeTupleT *ZI214)
 			}
 
 			if (errored) {
-				(void) item_deallocate(sid_current_item);
+				IGNORE item_deallocate(sid_current_item);
 				sid_current_item = NULL;
-				(void) alt_deallocate(sid_current_alt);
+				IGNORE alt_deallocate(sid_current_alt);
 				sid_current_alt  = NULL;
 			} else {
 				alt_add_item(sid_current_alt, sid_current_item);
 			}
 		} else {
 			if (sid_current_alt) {
-				(void) alt_deallocate (sid_current_alt);
+				IGNORE alt_deallocate (sid_current_alt);
 				sid_current_alt = NULL;
 			}
 			types_destroy((ZI214));
@@ -3300,9 +3300,9 @@ ZR219(GrammarP sid_current_grammar, TypeTupleT *ZI214)
 			}
 
 			if (errored) {
-				(void) item_deallocate(sid_current_item);
+				IGNORE item_deallocate(sid_current_item);
 				sid_current_item = NULL;
-				(void) alt_deallocate(sid_current_alt);
+				IGNORE alt_deallocate(sid_current_alt);
 				sid_current_alt  = NULL;
 			} else {
 				alt_add_item(sid_current_alt, sid_current_item);
@@ -3347,14 +3347,14 @@ ZR219(GrammarP sid_current_grammar, TypeTupleT *ZI214)
 								"type mismatch for identity [%Y should be %Y]",
 								(void *) (ZI214), (void *) item_param(sid_current_item));
 							types_destroy((ZI214));
-							(void) item_deallocate(sid_current_item);
+							IGNORE item_deallocate(sid_current_item);
 							sid_current_item = NULL;
 						}
 					}
 				} else {
 					types_destroy((ZI214));
 					if (sid_current_item) {
-						(void) item_deallocate(sid_current_item);
+						IGNORE item_deallocate(sid_current_item);
 						sid_current_item = NULL;
 					}
 				}
@@ -3364,18 +3364,18 @@ ZR219(GrammarP sid_current_grammar, TypeTupleT *ZI214)
 					(void *) (ZI214));
 				types_destroy((ZI214));
 				if (sid_current_item) {
-					(void) item_deallocate(sid_current_item);
+					IGNORE item_deallocate(sid_current_item);
 					sid_current_item = NULL;
 				}
 			}
 
 			if (sid_current_item == NULL) {
-				(void) alt_deallocate(sid_current_alt);
+				IGNORE alt_deallocate(sid_current_alt);
 				sid_current_alt = NULL;
 			}
 		} else {
 			if (sid_current_alt) {
-				(void) alt_deallocate(sid_current_alt);
+				IGNORE alt_deallocate(sid_current_alt);
 				sid_current_alt = NULL;
 			}
 			types_destroy((ZI214));
@@ -3508,14 +3508,14 @@ ZR219(GrammarP sid_current_grammar, TypeTupleT *ZI214)
 								"type mismatch for identity [%Y should be %Y]",
 								(void *) (ZI214), (void *) item_param(sid_current_item));
 							types_destroy((ZI214));
-							(void) item_deallocate(sid_current_item);
+							IGNORE item_deallocate(sid_current_item);
 							sid_current_item = NULL;
 						}
 					}
 				} else {
 					types_destroy((ZI214));
 					if (sid_current_item) {
-						(void) item_deallocate(sid_current_item);
+						IGNORE item_deallocate(sid_current_item);
 						sid_current_item = NULL;
 					}
 				}
@@ -3525,13 +3525,13 @@ ZR219(GrammarP sid_current_grammar, TypeTupleT *ZI214)
 					(void *) (ZI214));
 				types_destroy((ZI214));
 				if (sid_current_item) {
-					(void) item_deallocate(sid_current_item);
+					IGNORE item_deallocate(sid_current_item);
 					sid_current_item = NULL;
 				}
 			}
 
 			if (sid_current_item == NULL) {
-				(void) alt_deallocate(sid_current_alt);
+				IGNORE alt_deallocate(sid_current_alt);
 				sid_current_alt = NULL;
 			}
 		} else {
@@ -3671,14 +3671,14 @@ ZR219(GrammarP sid_current_grammar, TypeTupleT *ZI214)
 								"type mismatch for identity [%Y should be %Y]",
 								(void *) (ZI214), (void *) item_param(sid_current_item));
 							types_destroy((ZI214));
-							(void) item_deallocate(sid_current_item);
+							IGNORE item_deallocate(sid_current_item);
 							sid_current_item = NULL;
 						}
 					}
 				} else {
 					types_destroy((ZI214));
 					if (sid_current_item) {
-						(void) item_deallocate(sid_current_item);
+						IGNORE item_deallocate(sid_current_item);
 						sid_current_item = NULL;
 					}
 				}
@@ -3688,13 +3688,13 @@ ZR219(GrammarP sid_current_grammar, TypeTupleT *ZI214)
 					(void *) (ZI214));
 				types_destroy((ZI214));
 				if (sid_current_item) {
-					(void) item_deallocate(sid_current_item);
+					IGNORE item_deallocate(sid_current_item);
 					sid_current_item = NULL;
 				}
 			}
 
 			if (sid_current_item == NULL) {
-				(void) alt_deallocate(sid_current_alt);
+				IGNORE alt_deallocate(sid_current_alt);
 				sid_current_alt = NULL;
 			}
 		} else {
@@ -4107,16 +4107,16 @@ ZR310(GrammarP sid_current_grammar, NStringT *ZI163)
 			}
 
 			if (errored) {
-				(void) item_deallocate(sid_current_item);
+				IGNORE item_deallocate(sid_current_item);
 				sid_current_item = NULL;
-				(void) alt_deallocate(sid_current_alt);
+				IGNORE alt_deallocate(sid_current_alt);
 				sid_current_alt  = NULL;
 			} else {
 				alt_add_item(sid_current_alt, sid_current_item);
 			}
 		} else {
 			if (sid_current_alt) {
-				(void) alt_deallocate (sid_current_alt);
+				IGNORE alt_deallocate (sid_current_alt);
 				sid_current_alt = NULL;
 			}
 			types_destroy((&ZI214));
@@ -4258,16 +4258,16 @@ ZR310(GrammarP sid_current_grammar, NStringT *ZI163)
 			}
 
 			if (errored) {
-				(void) item_deallocate(sid_current_item);
+				IGNORE item_deallocate(sid_current_item);
 				sid_current_item = NULL;
-				(void) alt_deallocate(sid_current_alt);
+				IGNORE alt_deallocate(sid_current_alt);
 				sid_current_alt  = NULL;
 			} else {
 				alt_add_item(sid_current_alt, sid_current_item);
 			}
 		} else {
 			if (sid_current_alt) {
-				(void) alt_deallocate (sid_current_alt);
+				IGNORE alt_deallocate (sid_current_alt);
 				sid_current_alt = NULL;
 			}
 			types_destroy((&ZI214));
@@ -4426,9 +4426,9 @@ ZR215(GrammarP sid_current_grammar, TypeTupleT *ZI214)
 			}
 
 			if (errored) {
-				(void) item_deallocate(sid_current_item);
+				IGNORE item_deallocate(sid_current_item);
 				sid_current_item = NULL;
-				(void) alt_deallocate(sid_current_alt);
+				IGNORE alt_deallocate(sid_current_alt);
 				sid_current_alt  = NULL;
 			} else {
 				alt_add_item(sid_current_alt, sid_current_item);
@@ -4544,9 +4544,9 @@ ZR215(GrammarP sid_current_grammar, TypeTupleT *ZI214)
 			}
 
 			if (errored) {
-				(void) item_deallocate(sid_current_item);
+				IGNORE item_deallocate(sid_current_item);
 				sid_current_item = NULL;
-				(void) alt_deallocate(sid_current_alt);
+				IGNORE alt_deallocate(sid_current_alt);
 				sid_current_alt  = NULL;
 			} else {
 				alt_add_item(sid_current_alt, sid_current_item);
@@ -6529,7 +6529,7 @@ ZR237(GrammarP sid_current_grammar, TypeTupleT *ZI214)
 			} else {
 				err_unknown("action", (&ZI163));
 				sid_current_item = NULL;
-				(void) alt_deallocate(sid_current_alt);
+				IGNORE alt_deallocate(sid_current_alt);
 				sid_current_alt  = NULL;
 			}
 		} else {

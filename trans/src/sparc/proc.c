@@ -527,7 +527,7 @@ makeans make_proc_tag_code
       call_tdf_main();
     }
 #endif
-   (void)code_here(son(e), sp, nowhere);
+    IGNORE code_here(son(e), sp, nowhere);
     clear_all();
     if (stackerr_lab) {
       set_label(stackerr_lab);
@@ -580,7 +580,7 @@ makeans make_res_tag_code
 
   w.answhere = proc_state.procans;
   w.ashwhere = ashof(sh(son(e)));
- (void)code_here(son(e), sp, w);
+  IGNORE code_here(son(e), sp, w);
   assert(proc_state.rscope_level == 0);
 				/* procedure return */
   switch (discrim(w.answhere)) {
@@ -812,7 +812,7 @@ makeans make_apply_tag_code
 	is.adval = 1;
 
 	setinsalt(w.answhere, is);
-	(void)code_here(list, nsp, w);
+	IGNORE code_here(list, nsp, w);
 	ld_ro_ins(i_ld, is.b, param_reg);
 	nsp = guardreg(param_reg, nsp);
 	param_reg++;
@@ -859,11 +859,11 @@ makeans make_apply_tag_code
 	  ap.ashsize = ap.ashalign = 32;
 	  w.ashwhere = ap;
 	  setinsalt(w.answhere, is);
-	 (void)move(op, w, guardreg(r, nsp).fixed, 1);
+	  IGNORE move(op, w, guardreg(r, nsp).fixed, 1);
 	}
 	else {
 	  setinsalt(w.answhere, is);
-	 (void)code_here(list, nsp, w);
+	  IGNORE code_here(list, nsp, w);
 	}
 	param_offset = (int)(param_offset + ap.ashsize);
       }
@@ -954,7 +954,7 @@ makeans make_apply_tag_code
       frg.dble = (bool)(hda != shrealhd);
       setfregalt(aa, frg);
       /* move floating point result of application to destination */
-     (void)move(aa, dest, sp.fixed, 1);
+      IGNORE move(aa, dest, sp.fixed, 1);
     }
     else {
       setregalt(aa, R_O0);
@@ -965,7 +965,7 @@ makeans make_apply_tag_code
 	}
 	else if (r != R_O0) {
 	  /* move result from %o0 */
-	 (void)move(aa, dest, sp.fixed, 1);
+	  IGNORE move(aa, dest, sp.fixed, 1);
 	}
 	else {
 	  /* no move required */
@@ -973,7 +973,7 @@ makeans make_apply_tag_code
 	mka.regmove = R_O0;
       }
       else {
-	(void)move(aa, dest, sp.fixed, 1);
+	 IGNORE move(aa, dest, sp.fixed, 1);
       }
     }
   }
@@ -1018,7 +1018,7 @@ static space do_callers
       is.b.offset = param_offset>>3;
       is.adval = 1;
       setinsalt(w.answhere,is);
-     (void)code_here(par, sp, w);
+      IGNORE code_here(par, sp, w);
       if (hd == doublehd) {
 	rir_ins(i_add,is.b.base,is.b.offset,*param_reg);
       }
@@ -1069,11 +1069,11 @@ static space do_callers
 	ap.ashsize = ap.ashalign = 32;
 	w.ashwhere = ap;
 	setinsalt(w.answhere, is);
-	(void)move(op, w, guardreg(r, sp).fixed, 1);
+	IGNORE move(op, w, guardreg(r, sp).fixed, 1);
       }
       else{
 	setinsalt(w.answhere, is);
-	(void)code_here(par, sp, w);
+	IGNORE code_here(par, sp, w);
       }
       if (*param_reg <= last_reg) {
 	/* Copy back into the correct param regs */
@@ -1248,7 +1248,7 @@ makeans make_apply_general_tag_code
   }
 
   if (!trad_call)
-   (void)make_code(cllees,nsp,nowhere,0);
+   IGNORE make_code(cllees,nsp,nowhere,0);
 
   if (!reg_res && !void_result) {
     /* structure result */
@@ -1438,7 +1438,7 @@ makeans make_apply_general_tag_code
       frg.dble = (bool)(hda != shrealhd);
       setfregalt(aa, frg);
       /* move floating point result of application to destination */
-     (void)move(aa, dest, sp.fixed, 1);
+     IGNORE move(aa, dest, sp.fixed, 1);
     } else {
       setregalt(aa, R_O0);
       if (discrim(dest.answhere) == inreg) {
@@ -1448,7 +1448,7 @@ makeans make_apply_general_tag_code
 	}
 	else if (r != R_O0) {
 	  /* move result from %o0 */
-	 (void)move(aa, dest, sp.fixed, 1);
+	 IGNORE move(aa, dest, sp.fixed, 1);
 	}
 	else {
 	  /* no move required */
@@ -1457,7 +1457,7 @@ makeans make_apply_general_tag_code
 	mka.regmove = R_O0;
       }
       else {
-	(void)move(aa, dest, sp.fixed, 1);
+	IGNORE move(aa, dest, sp.fixed, 1);
       }
     }
   }
@@ -1503,14 +1503,14 @@ makeans make_apply_general_tag_code
     rir_ins(i_sub,R_SP,proc_state.maxargs>>3,R_SP);
 
     in_postlude = 1;
-   (void)make_code(postlude,sp,nowhere,0);
+   IGNORE make_code(postlude,sp,nowhere,0);
     in_postlude = 0;
     rir_ins(i_add,R_SP,proc_state.maxargs>>3,R_SP);
     old_postludes = p.outer;
     update_plc(old_postludes,-proc_state.maxargs);
   }
   else {
-   (void)make_code(postlude,sp,nowhere,0);
+   IGNORE make_code(postlude,sp,nowhere,0);
   }
 
   return mka;

@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include <shared/check.h>
 #include <shared/error.h>
 
 #include "obj_c/tdf.h"
@@ -72,7 +73,7 @@ output_char(int c)
     output_buff[i] = (char)c;
     if (++i >= 500 || c == '\n') {
 	output_buff[i] = 0;
-	(void) fputs(output_buff, output_file);
+	IGNORE fputs(output_buff, output_file);
 	i = 0;
     }
     if (c == '\n') {
@@ -128,7 +129,7 @@ output_cons(CONSTRUCT cons, int intro)
 	    /* Conditional construct */
 	    output_char('[');
 	    sort = DEREF_sort(cons_res(cons));
-	    (void) output_sort(sort, intro);
+	    IGNORE output_sort(sort, intro);
 	    output_char(']');
 	}
 	brks += brk;
@@ -158,7 +159,7 @@ output_sort(SORT sort, int intro)
 	    case info_basic_tag: {
 		if (c < 32) {
 		    char buff[10];
-		    (void) sprintf(buff, "\\%03o",(unsigned)c);
+		    IGNORE sprintf(buff, "\\%03o",(unsigned)c);
 		    output_string(buff);
 		} else {
 		    output_char(c);
@@ -180,7 +181,7 @@ output_sort(SORT sort, int intro)
 		sort = DEREF_sort(info_clist_etc_arg(info));
 		output_char(c);
 		output_char('[');
-		(void) output_sort(sort, intro);
+		IGNORE output_sort(sort, intro);
 		output_char(']');
 		break;
 	    }
@@ -228,7 +229,7 @@ output(string s)
 			case 'N': {
 			    /* '%CN' -> construct name */
 			    string nm = DEREF_string(cons_name(cc));
-			    (void) sprintf(buff, "%.*s", prec, nm);
+			    IGNORE sprintf(buff, "%.*s", prec, nm);
 			    output_string(buff);
 			    break;
 			}
@@ -236,7 +237,7 @@ output(string s)
 			    /* '%CE' -> construct encoding */
 			    unsigned e;
 			    e = DEREF_unsigned(cons_encode(cc));
-			    (void) sprintf(buff, "%u", e);
+			    IGNORE sprintf(buff, "%u", e);
 			    output_string(buff);
 			    break;
 			}
@@ -263,7 +264,7 @@ output(string s)
 		    if (c == 'N') {
 			/* '%PN' -> parameter name */
 			string nm = DEREF_string(par_name(cp));
-			(void) sprintf(buff, "%.*s", prec, nm);
+			IGNORE sprintf(buff, "%.*s", prec, nm);
 			output_string(buff);
 		    } else if (c == 'S') {
 			/* '%PS' -> parameter sort */
@@ -272,7 +273,7 @@ output(string s)
 			goto sort_format;
 		    } else if (c == 'E') {
 			/* '%PE' -> parameter number */
-			(void) sprintf(buff, "%d", crt_param_no);
+			IGNORE sprintf(buff, "%d", crt_param_no);
 			output_string(buff);
 		    } else {
 			goto bad_format;
@@ -289,14 +290,14 @@ output(string s)
 			case 'N': {
 			    /* '%SN' -> sort name */
 			    string nm = DEREF_string(sort_name(cs));
-			    (void) sprintf(buff, "%.*s", prec, nm);
+			    IGNORE sprintf(buff, "%.*s", prec, nm);
 			    output_string(buff);
 			    break;
 			}
 			case 'T': {
 			    /* '%ST' -> sort name in capitals */
 			    string nm = DEREF_string(sort_caps(cs));
-			    (void) sprintf(buff, "%.*s", prec, nm);
+			    IGNORE sprintf(buff, "%.*s", prec, nm);
 			    output_string(buff);
 			    break;
 			}
@@ -304,7 +305,7 @@ output(string s)
 			    /* '%SL' -> sort unit name */
 			    string nm = DEREF_string(sort_link(cs));
 			    if (nm) {
-				(void) sprintf(buff, "%.*s", prec, nm);
+				IGNORE sprintf(buff, "%.*s", prec, nm);
 				output_string(buff);
 			    }
 			    break;
@@ -313,7 +314,7 @@ output(string s)
 			    /* '%SU' -> sort unit name */
 			    string nm = DEREF_string(sort_unit(cs));
 			    if (nm) {
-				(void) sprintf(buff, "%.*s", prec, nm);
+				IGNORE sprintf(buff, "%.*s", prec, nm);
 				output_string(buff);
 			    }
 			    break;
@@ -324,7 +325,7 @@ output(string s)
 			    if (IS_info_basic(ci)) {
 				b = DEREF_unsigned(info_basic_bits(ci));
 			    }
-			    (void) sprintf(buff, "%u", b);
+			    IGNORE sprintf(buff, "%u", b);
 			    output_string(buff);
 			    break;
 			}
@@ -334,7 +335,7 @@ output(string s)
 			    if (IS_info_basic(ci)) {
 				e = DEREF_unsigned(info_basic_extend(ci));
 			    }
-			    (void) sprintf(buff, "%u", e);
+			    IGNORE sprintf(buff, "%u", e);
 			    output_string(buff);
 			    break;
 			}
@@ -345,7 +346,7 @@ output(string s)
 				m = DEREF_unsigned(info_basic_max(ci));
 			    }
 			    if (have_prec) m += (unsigned)prec;
-			    (void) sprintf(buff, "%u", m);
+			    IGNORE sprintf(buff, "%u", m);
 			    output_string(buff);
 			    break;
 			}
@@ -367,7 +368,7 @@ output(string s)
 			}
 			case 'X': {
 			    /* '%SX' -> construct encoding string */
-			    (void) output_sort(cs, 0);
+			    IGNORE output_sort(cs, 0);
 			    break;
 			}
 			default : {
@@ -381,11 +382,11 @@ output(string s)
 		    c = *(s++);
 		    if (c == 'A') {
 			/* '%VA' -> major version number */
-			(void) sprintf(buff, "%u", crt_major);
+			IGNORE sprintf(buff, "%u", crt_major);
 			output_string(buff);
 		    } else if (c == 'B') {
 			/* '%VB' -> minor version number */
-			(void) sprintf(buff, "%u", crt_minor);
+			IGNORE sprintf(buff, "%u", crt_minor);
 			output_string(buff);
 		    } else {
 			goto bad_format;
@@ -397,11 +398,11 @@ output(string s)
 		    c = *(s++);
 		    if (c == 'V') {
 			/* %ZV -> program version */
-			(void) sprintf(buff, "%.*s", prec, progvers);
+			IGNORE sprintf(buff, "%.*s", prec, progvers);
 			output_string(buff);
 		    } else if (c == 'X') {
 			/* %ZX -> program name */
-			(void) sprintf(buff, "%.*s", prec, progname);
+			IGNORE sprintf(buff, "%.*s", prec, progname);
 			output_string(buff);
 		    } else {
 			goto bad_format;
@@ -433,7 +434,7 @@ output(string s)
 			crt_unique = prec;
 		    } else {
 			prec = crt_unique++;
-			(void) sprintf(buff, "%d", prec);
+			IGNORE sprintf(buff, "%d", prec);
 			output_string(buff);
 		    }
 		    break;
@@ -895,7 +896,7 @@ output_spec(char *nm, SPECIFICATION spec, COMMAND cmd)
     output_template(spec, cmd);
     if (output_posn) output_char('\n');
     if (nm) {
-	(void) fclose(output_file);
+	IGNORE fclose(output_file);
     }
     return;
 }

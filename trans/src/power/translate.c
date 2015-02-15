@@ -86,6 +86,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include <shared/check.h>
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
@@ -328,7 +329,7 @@ void translate_capsule(void)
   }
 
   if (do_dynamic_init) {
-    (void)do__main_extern();
+    IGNORE do__main_extern();
   }
 
   if (do_profile)
@@ -489,7 +490,7 @@ void translate_capsule(void)
        */
       if (!(pr->save_all_sregs))
       {
-	(void) weightsv(UNITWEIGHT, bro(son(son(tg))));      
+	IGNORE weightsv(UNITWEIGHT, bro(son(son(tg))));      
       }
       /* Check to see if we need a frame pointer */
       if (pr->has_fp)

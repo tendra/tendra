@@ -12,11 +12,13 @@
 #include <stdio.h>
 #include <string.h>
 
+#include <shared/check.h>
 #include <shared/error.h>
 #include <shared/fmt.h>
 
 const char *progname = NULL;
 const char *progvers = NULL;
+
 int exit_status = EXIT_SUCCESS;
 int maximum_errors = 20;
 int number_errors = 0;
@@ -65,7 +67,7 @@ report_version(FILE *f)
 		tver = " " RELEASE;
 	}
 
-	(void) fprintf(f, "%s: Version %s%s (tendra.org)\n", nm, vers, tver);
+	IGNORE fprintf(f, "%s: Version %s%s (tendra.org)\n", nm, vers, tver);
 }
 
 /*
@@ -78,50 +80,50 @@ static void
 error_msg(enum error_severity e, const char *fn, int ln, const char *s, va_list args)
 {
 	if (progname != NULL) {
-		(void) fprintf(stderr, "%s: ", progname);
+		IGNORE fprintf(stderr, "%s: ", progname);
 	}
 
 	switch (e) {
 	case ERR_WARN:
-		(void) fprintf(stderr, "Warning: ");
+		IGNORE fprintf(stderr, "Warning: ");
 		break;
 
 	case ERR_FATAL:
-		(void) fprintf(stderr, "Fatal: ");
+		IGNORE fprintf(stderr, "Fatal: ");
 		exit_status = EXIT_FAILURE;
 		break;
 
 	case ERR_USAGE:
-		(void) fprintf(stderr, "Usage: ");
+		IGNORE fprintf(stderr, "Usage: ");
 		exit_status = EXIT_FAILURE;
 		break;
 
 	case ERR_INTERNAL:
-		(void) fprintf(stderr, "Internal Error: ");
+		IGNORE fprintf(stderr, "Internal Error: ");
 		exit_status = EXIT_FAILURE;
 		number_errors++;
 		break;
 
 	case ERR_SERIOUS:
-		(void) fprintf(stderr, "Error: ");
+		IGNORE fprintf(stderr, "Error: ");
 		exit_status = EXIT_FAILURE;
 		number_errors++;
 		break;
 
 	default:
-		(void) fprintf(stderr, "Unknown error level");
+		IGNORE fprintf(stderr, "Unknown error level");
 		abort();
 	}
 
 	if (fn != NULL) {
-		(void) fprintf(stderr, "%s: ", fn);
+		IGNORE fprintf(stderr, "%s: ", fn);
 		if (ln != -1) {
-			(void) fprintf(stderr, "line %d: ", ln);
+			IGNORE fprintf(stderr, "line %d: ", ln);
 		}
 	}
 
-	(void) vefprintf(stderr, s, args);
-	(void) fprintf(stderr, "\n");
+	IGNORE vefprintf(stderr, s, args);
+	IGNORE fprintf(stderr, "\n");
 
 	if (e == ERR_FATAL || e == ERR_USAGE) {
 		exit(exit_status);

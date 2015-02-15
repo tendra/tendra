@@ -313,11 +313,11 @@ lib_capsule_full_name(LibCapsuleT *capsule)
     char * full_name  = ALLOCATE_VECTOR(char, lib_length + length + 3);
     char * tmp        = full_name;
 
-   (void)memcpy((void *)tmp,(void *)lib_name,(size_t)lib_length);
+    IGNORE memcpy((void *)tmp,(void *)lib_name,(size_t)lib_length);
     tmp += lib_length;
     *tmp = '(';
     tmp++;
-   (void)memcpy((void *)tmp,(void *)name,(size_t)length);
+    IGNORE memcpy((void *)tmp,(void *)name,(size_t)length);
     tmp += length;
     *tmp = ')';
     tmp++;

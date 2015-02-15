@@ -166,7 +166,7 @@ check_shape_fn(node *p)
 {
 	if (do_check && p && p->cons->encoding == ENC_compound) {
 		checking = p->cons->name;
-		(void) check1(ENC_offset, p->son);
+		IGNORE check1(ENC_offset, p->son);
 	}
 }
 
@@ -181,7 +181,7 @@ check_nat_fn(node *p)
 {
 	if (do_check && p && p->cons->encoding == ENC_computed_nat) {
 		checking = p->cons->name;
-		(void) check1(ENC_integer, p->son);
+		IGNORE check1(ENC_integer, p->son);
 	}
 }
 
@@ -196,7 +196,7 @@ check_snat_fn(node *p)
 {
 	if (do_check && p && p->cons->encoding == ENC_computed_signed_nat) {
 		checking = p->cons->name;
-		(void) check1(ENC_integer, p->son);
+		IGNORE check1(ENC_integer, p->son);
 	}
 }
 
@@ -295,6 +295,6 @@ check_tagdef(construct *p)
 		/* Declaration = ?[u]?[X]S (from 4.0) */
 		dc = dc->bro->bro;
 		checking = nm;
-		(void) check_shapes(dc, df->shape, 1);
+		IGNORE check_shapes(dc, df->shape, 1);
 	}
 }

@@ -323,7 +323,7 @@ move(ans src, where dest, space freeregs, bool sgned)
 	setregalt(newdest.answhere,tmploc.base);
 	newdest.ashwhere.ashsize=64;
 	newdest.ashwhere.ashalign=64;
-	(void)move(newsrc,newdest,guardreg(tmploc.base,freeregs),sgned);
+	IGNORE move(newsrc,newdest,guardreg(tmploc.base,freeregs),sgned);
 	/* now src is evaluated into tmploc */
 	iss.adval=1;
 	iss.b = tmploc;
@@ -331,7 +331,7 @@ move(ans src, where dest, space freeregs, bool sgned)
 	newdest.ashwhere.ashalign=al;
 	setinsalt(newdest.answhere,iss);
 	setregalt(newsrc,rsrc);
-	(void)move(newsrc,newdest,guardreg(tmploc.base,freeregs),sgned);
+	IGNORE move(newsrc,newdest,guardreg(tmploc.base,freeregs),sgned);
 	return rsrc;
       }
       return NOREG;
@@ -809,12 +809,12 @@ move(ans src, where dest, space freeregs, bool sgned)
 	      setregalt(newdest.answhere,r);
 	      newdest.ashwhere.ashsize=size;
 	      newdest.ashwhere.ashalign=al;
-	      (void)move(newsrc,newdest,freeregs,sgned);
+	      IGNORE move(newsrc,newdest,freeregs,sgned);
 	      setregalt(newsrc,r);
 	      setinsalt(newdest.answhere,isdest);
 	      newdest.ashwhere.ashsize=size;
 	      newdest.ashwhere.ashalign=al;
-	      (void)move(newsrc,newdest,freeregs,sgned);
+	      IGNORE move(newsrc,newdest,freeregs,sgned);
 	      return (unalign)?NOREG:r;
 	    }
 	    else{
@@ -829,10 +829,10 @@ move(ans src, where dest, space freeregs, bool sgned)
 		  newdest.ashwhere.ashsize=sunit;	/* in 64 byte chunks */
 		  newdest.ashwhere.ashalign=sunit;
 		  /* put value into register r */
-		  (void)move(newsrc,newdest,freeregs,sgned); 
+		  IGNORE move(newsrc,newdest,freeregs,sgned); 
 		  setregalt(newsrc,r);
 		  setinsalt(newdest.answhere,isdest);
-		  (void)move(newsrc,newdest,freeregs,sgned);
+		  IGNORE move(newsrc,newdest,freeregs,sgned);
 		  /*load_store(load,nr,iss.b);
 		    load_store(store,nr,isdest.b);*/
 		  iss.b.offset += step;

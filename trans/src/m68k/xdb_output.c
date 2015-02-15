@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include <shared/check.h>
 #include <shared/error.h>
 
 #include <reader/exp.h>
@@ -578,7 +579,7 @@ void diag_globl_variable
 	    file = diagfp2;
 	}
 	x = analyse_diag_type(file, dt, loc);
-	(void)out_dd(file, xdb_svar, loc);
+	IGNORE out_dd(file, xdb_svar, loc);
 	if (diag == DIAG_XDB_NEW) {
 	    asm_fprintf(file, "%d,0,0,0,0,", is_glob);
 	} else {
@@ -609,7 +610,7 @@ void diag_local_variable
 	make_stabs(st, 128, crt_line_num, op);
     } else {
 	table_posn *x = analyse_diag_type(diagfp2, dt, 1);
-	(void)out_dd(diagfp2, xdb_dvar, 1);
+	IGNORE out_dd(diagfp2, xdb_dvar, 1);
 	if (diag == DIAG_XDB_NEW) {
 	    asm_fprintf(diagfp2, "0,0,0,0,");
 	} else {
@@ -650,7 +651,7 @@ void diag_type_defn
 		int loc = (diag == DIAG_XDB_NEW ? 0 : 1);
 		FILE *file = (loc ? diagfp2 : diagfp3);
 		table_posn *p = analyse_diag_type(file, dt, loc);
-		(void)out_dd(file, xdb_typedef, loc);
+		IGNORE out_dd(file, xdb_typedef, loc);
 		asm_fprintf(file, "0,");
 		diag_string(file, nm);
 		asm_fprintf(file, ",");

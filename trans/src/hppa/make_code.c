@@ -1103,7 +1103,7 @@ makeans make_code
       else
 	 nsp = sp;
 
-     (void)make_code(cees,nsp,nowhere,0);
+     IGNORE make_code(cees,nsp,nowhere,0);
 
       if (!reg_result(sh(e)) && name(sh(e))!=tophd && shape_size(sh(e)) >64)
       {
@@ -1215,13 +1215,13 @@ makeans make_code
 	 p.outer = old_pls;
 	 old_pls = &p;
 	 ld_ir_ins(i_ldo,cmplt_,fs_,empty_ltrl,ma>>3,SP,SP);
-	(void)make_code(pl, sp, nowhere, 0);
+	IGNORE make_code(pl, sp, nowhere, 0);
 	 ld_ir_ins(i_ldo,cmplt_,fs_,empty_ltrl,- (ma>>3),SP,SP);
 	 old_pls = p.outer;
 	 update_plc(old_pls,-ma);
       }
       else
-	(void)make_code(pl, sp, nowhere, 0);
+	IGNORE make_code(pl, sp, nowhere, 0);
       return mka;
   }
 
@@ -1439,7 +1439,7 @@ makeans make_code
 	   {
 	      /* use result reg optimisation */
  	      assert(!(props(e) & notparreg));
-	      (void) needreg(RET0, sp);	/* just as an error check */
+	      IGNORE needreg(RET0, sp);	/* just as an error check */
 	   }
 	   else
 	   {
@@ -2248,7 +2248,7 @@ makeans make_code
 		 nnsp = nsp;
 		 setfregalt(aa, frg);
 	      }
-	     (void)move(aa, dest, nnsp.fixed, 1);
+	     IGNORE move(aa, dest, nnsp.fixed, 1);
 	      /* forget register dependencies on destination */
 	      clear_dep_reg(lhs);
 	      /* remember that dest contains source, provided that it is not
@@ -3218,7 +3218,7 @@ makeans make_code
  	 /* going to smaller sized memory, store will truncate */
 	 ans aa;
 	 setregalt(aa, sreg);
-	(void)move(aa, dest, nsp.fixed, 1);
+	IGNORE move(aa, dest, nsp.fixed, 1);
       }
       else
       {
@@ -3998,7 +3998,7 @@ makeans make_code
 	 frg.fr = 4;
 	 frg.dble = dto;
 	 setfregalt(aa,frg);
-       	(void)move(aa,dest,sp.fixed,1);
+       	IGNORE move(aa,dest,sp.fixed,1);
 	 return mka;
       }
      }

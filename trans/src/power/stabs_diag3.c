@@ -1944,11 +1944,11 @@ static void stab_basicshape
 static void stab_types(void)
 {
   /* Numbering and outputing of basicshapes,structs,unions and typedefs */
- (void)number_and_stab_basicshapes();
- (void)number_structs_and_unions();
- (void)number_typedefs();
- (void)stab_structs_and_unions();
- (void)stab_typedefs();
+ IGNORE number_and_stab_basicshapes();
+ IGNORE number_structs_and_unions();
+ IGNORE number_typedefs();
+ IGNORE stab_structs_and_unions();
+ IGNORE stab_typedefs();
 }
 
 static diag_descriptor *

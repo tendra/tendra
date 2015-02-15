@@ -140,7 +140,7 @@ X__dalloc_allocate(size_t size, size_t length, const char *file, unsigned line)
 		UNREACHED;
 	}
 
-	(void) memset(tmp, 0, real_size);
+	IGNORE memset(tmp, 0, real_size);
 	data        = tmp;
 	base        = tmp;
 	data->file  = file;

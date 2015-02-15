@@ -125,7 +125,7 @@ out_groupname(struct group_name *gn)
 static void
 out_keyword(struct keyword *kw, void *opaque)
 {
-	(void) opaque;
+	IGNORE opaque;
 
 	printf("\tif (0 == strcmp(identifier, \"%s\")) return ", kw->name);
 

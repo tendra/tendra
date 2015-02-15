@@ -1887,7 +1887,7 @@ make_code(where dest, ash stack, exp e)
 		D1_is_special = old_D1_sp;
 
 		/* Output the case statement */
-		(void)caser(arg1, 0L);
+		IGNORE caser(arg1, 0L);
 
 		retcell(d1);
 		return;

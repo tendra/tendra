@@ -1019,7 +1019,7 @@
 				types_destroy(&used);
 				rule_add_alt(sid_current_rule, sid_current_alt);
 			} else {
-				(void) alt_deallocate(sid_current_alt);
+				IGNORE alt_deallocate(sid_current_alt);
 				error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 					"result formals are not defined in alternative %u of production '%K'",
 					sid_alternative, (void *) entry_key(sid_external_rule));
@@ -1045,7 +1045,7 @@
 				types_destroy(&used);
 				rule_set_handler(sid_current_rule, sid_current_alt);
 			} else {
-				(void) alt_deallocate(sid_current_alt);
+				IGNORE alt_deallocate(sid_current_alt);
 				error_posn(ERR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
 					"result formals are not defined in exception handler alternative of production '%K'",
 					(void *) entry_key(sid_external_rule));
@@ -1103,7 +1103,7 @@
 			} else {
 				err_unknown("action", @&string);
 				sid_current_item = NULL;
-				(void) alt_deallocate(sid_current_alt);
+				IGNORE alt_deallocate(sid_current_alt);
 				sid_current_alt  = NULL;
 			}
 		} else {
@@ -1183,9 +1183,9 @@
 			}
 
 			if (errored) {
-				(void) item_deallocate(sid_current_item);
+				IGNORE item_deallocate(sid_current_item);
 				sid_current_item = NULL;
-				(void) alt_deallocate(sid_current_alt);
+				IGNORE alt_deallocate(sid_current_alt);
 				sid_current_alt  = NULL;
 			} else {
 				alt_add_item(sid_current_alt, sid_current_item);
@@ -1237,14 +1237,14 @@
 								"type mismatch for identity [%Y should be %Y]",
 								(void *) @&lhs, (void *) item_param(sid_current_item));
 							types_destroy(@&lhs);
-							(void) item_deallocate(sid_current_item);
+							IGNORE item_deallocate(sid_current_item);
 							sid_current_item = NULL;
 						}
 					}
 				} else {
 					types_destroy(@&lhs);
 					if (sid_current_item) {
-						(void) item_deallocate(sid_current_item);
+						IGNORE item_deallocate(sid_current_item);
 						sid_current_item = NULL;
 					}
 				}
@@ -1254,13 +1254,13 @@
 					(void *) @&lhs);
 				types_destroy(@&lhs);
 				if (sid_current_item) {
-					(void) item_deallocate(sid_current_item);
+					IGNORE item_deallocate(sid_current_item);
 					sid_current_item = NULL;
 				}
 			}
 
 			if (sid_current_item == NULL) {
-				(void) alt_deallocate(sid_current_alt);
+				IGNORE alt_deallocate(sid_current_alt);
 				sid_current_alt = NULL;
 			}
 		} else {
@@ -1376,16 +1376,16 @@
 			}
 
 			if (errored) {
-				(void) item_deallocate(sid_current_item);
+				IGNORE item_deallocate(sid_current_item);
 				sid_current_item = NULL;
-				(void) alt_deallocate(sid_current_alt);
+				IGNORE alt_deallocate(sid_current_alt);
 				sid_current_alt  = NULL;
 			} else {
 				alt_add_item(sid_current_alt, sid_current_item);
 			}
 		} else {
 			if (sid_current_alt) {
-				(void) alt_deallocate (sid_current_alt);
+				IGNORE alt_deallocate (sid_current_alt);
 				sid_current_alt = NULL;
 			}
 			types_destroy(@&lhs);
@@ -1529,9 +1529,9 @@
 			}
 
 			if (errored) {
-				(void) item_deallocate(sid_current_item);
+				IGNORE item_deallocate(sid_current_item);
 				sid_current_item = NULL;
-				(void) alt_deallocate(sid_current_alt);
+				IGNORE alt_deallocate(sid_current_alt);
 				sid_current_alt  = NULL;
 			} else {
 				alt_add_item(sid_current_alt, sid_current_item);
@@ -1576,14 +1576,14 @@
 								"type mismatch for identity [%Y should be %Y]",
 								(void *) @&lhs, (void *) item_param(sid_current_item));
 							types_destroy(@&lhs);
-							(void) item_deallocate(sid_current_item);
+							IGNORE item_deallocate(sid_current_item);
 							sid_current_item = NULL;
 						}
 					}
 				} else {
 					types_destroy(@&lhs);
 					if (sid_current_item) {
-						(void) item_deallocate(sid_current_item);
+						IGNORE item_deallocate(sid_current_item);
 						sid_current_item = NULL;
 					}
 				}
@@ -1593,18 +1593,18 @@
 					(void *) @&lhs);
 				types_destroy(@&lhs);
 				if (sid_current_item) {
-					(void) item_deallocate(sid_current_item);
+					IGNORE item_deallocate(sid_current_item);
 					sid_current_item = NULL;
 				}
 			}
 
 			if (sid_current_item == NULL) {
-				(void) alt_deallocate(sid_current_alt);
+				IGNORE alt_deallocate(sid_current_alt);
 				sid_current_alt = NULL;
 			}
 		} else {
 			if (sid_current_alt) {
-				(void) alt_deallocate(sid_current_alt);
+				IGNORE alt_deallocate(sid_current_alt);
 				sid_current_alt = NULL;
 			}
 			types_destroy(@&lhs);

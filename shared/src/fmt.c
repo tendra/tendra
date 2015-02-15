@@ -29,6 +29,7 @@
 #include <stdio.h>
 #include <errno.h>
 
+#include <shared/check.h>
 #include <shared/fmt.h>
 
 /*
@@ -133,42 +134,42 @@ vefprintf(FILE *fp, const char *fmt, va_list ap)
 			/* defaults */
 			switch (*p) {
 			case '%':
-				(void) fputc('%', fp);
+				IGNORE fputc('%', fp);
 				continue;
 
 			case 's':
 				if (precision == -1) {
-					(void) fputs(va_arg(ap, char *), fp);
+					IGNORE fputs(va_arg(ap, char *), fp);
 				} else {
-					(void) fprintf(fp, "%.*s", precision, va_arg(ap, char *));
+					IGNORE fprintf(fp, "%.*s", precision, va_arg(ap, char *));
 				}
 				continue;
 
 			case 'c':
-				(void) fputc(va_arg(ap, int), fp);	/* promoted */
+				IGNORE fputc(va_arg(ap, int), fp);	/* promoted */
 				continue;
 
 			case 'd':
 				if (mlong) {
-					(void) fprintf(fp, "%ld", va_arg(ap, long));
+					IGNORE fprintf(fp, "%ld", va_arg(ap, long));
 				} else {
-					(void) fprintf(fp, "%d", va_arg(ap, int));
+					IGNORE fprintf(fp, "%d", va_arg(ap, int));
 				}
 				continue;
 
 			case 'u':
 				if (mlong) {
-					(void) fprintf(fp, "%lu", va_arg(ap, unsigned long));
+					IGNORE fprintf(fp, "%lu", va_arg(ap, unsigned long));
 				} else {
-					(void) fprintf(fp, "%u", va_arg(ap, unsigned));
+					IGNORE fprintf(fp, "%u", va_arg(ap, unsigned));
 				}
 				continue;
 
 			case 'x':
 				if (mlong) {
-					(void) fprintf(fp, "%lx", va_arg(ap, long));
+					IGNORE fprintf(fp, "%lx", va_arg(ap, long));
 				} else {
-					(void) fprintf(fp, "%d", va_arg(ap, int));
+					IGNORE fprintf(fp, "%d", va_arg(ap, int));
 				}
 				continue;
 
@@ -184,7 +185,7 @@ vefprintf(FILE *fp, const char *fmt, va_list ap)
 			break;
 
 		default:
-			(void) putc((unsigned char) *p, fp);
+			IGNORE putc((unsigned char) *p, fp);
 			break;
 		}
 	}

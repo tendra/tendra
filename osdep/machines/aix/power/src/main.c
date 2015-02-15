@@ -8,11 +8,12 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/*
 #include <stdio.h>
 #include <stdlib.h>
 #include <filehdr.h>
 #include <syms.h>
+
+#include <shared/check.h>
 
 #define IS_BAD_MAGIC_NUMBER(x)	((x != 0x1df) ? 1 : 0)
 void output_assembler_file(void);

@@ -7,6 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <shared/check.h>
 
 #include "config.h"
 #include <ctype.h>
@@ -32,7 +33,7 @@ print_spaces(int d)
 {
 	d *= 2;
 	while (d--)
-		(void) fputc(' ', output);
+		IGNORE fputc(' ', output);
 }
 
 
@@ -71,7 +72,7 @@ print_node(node *p, int d)
 				if (negate)
 					n = -n;
 
-				(void) fprintf(output, "%ld", n);
+				IGNORE fprintf(output, "%ld", n);
 				negate = 0;
 				newline = 1;
 			}
@@ -87,14 +88,14 @@ print_node(node *p, int d)
 					unsigned long n = octal_to_ulong(num);
 
 					if (negate && n)
-						(void) fputc('-', output);
+						IGNORE fputc('-', output);
 
-					(void) fprintf(output, "%lu", n);
+					IGNORE fprintf(output, "%lu", n);
 				} else {
 					if (negate)
-						(void) fputc('-', output);
+						IGNORE fputc('-', output);
 
-					(void) fprintf(output, "0%s", num);
+					IGNORE fprintf(output, "0%s", num);
 				}
 
 				negate = 0;
@@ -108,7 +109,7 @@ print_node(node *p, int d)
 					newline = print_node(p->son, d);
 				else {
 					print_spaces(d);
-					(void) fputc('-', output);
+					IGNORE fputc('-', output);
 					newline = 1;
 				}
 			}
@@ -118,15 +119,15 @@ print_node(node *p, int d)
 			{
 				if (m == 0) {
 					print_spaces(d);
-					(void) fputc('|', output);
+					IGNORE fputc('|', output);
 					newline = 1;
 				} else {
 					newline = print_node(p->son, d);
 
 					if (func_output)
-						(void) fputc(',', output);
+						IGNORE fputc(',', output);
 
-					(void) fputs(" |", output);
+					IGNORE fputs(" |", output);
 				}
 			}
 			break;
@@ -140,34 +141,34 @@ print_node(node *p, int d)
 				if (n == -1) {
 					char *f = (func_output ? "%s (\n" : "( %s\n");
 
-					(void) fprintf(output, f, MAKE_STRING);
+					IGNORE fprintf(output, f, MAKE_STRING);
 					newline = print_node(p->son, d + 1);
-					(void) fputs(" )", output);
+					IGNORE fputs(" )", output);
 				} else {
-					(void) fputc('"', output);
+					IGNORE fputc('"', output);
 
 					for (i = 0; i < n; i++) {
 						int c = ((q->name[i]) & 0xff);
 
 						if (isprint(c)) {
 							if (c == '\\' || c == '"') {
-								(void) fputc('\\', output);
+								IGNORE fputc('\\', output);
 							}
 
-							(void) fputc(c, output);
+							IGNORE fputc(c, output);
 						} else {
 							if (c == '\n') {
-								(void) fputs("\\n", output);
+								IGNORE fputs("\\n", output);
 							} else if (c == '\t') {
-								(void) fputs("\\t", output);
+								IGNORE fputs("\\t", output);
 							} else {
 								unsigned co = (unsigned)c;
-								(void) fprintf(output, "\\%03o", co);
+								IGNORE fprintf(output, "\\%03o", co);
 							}
 						}
 					}
 
-					(void) fputc('"', output);
+					IGNORE fputc('"', output);
 					newline = 1;
 				}
 			}
@@ -251,11 +252,11 @@ default_label:
 
 				if (p->son) {
 					char *f = (func_output ? "%s (\n" : "( %s\n");
-					(void) fprintf(output, f, q->name);
+					IGNORE fprintf(output, f, q->name);
 					newline = print_node(p->son, d + 1);
-					(void) fputs(" )", output);
+					IGNORE fputs(" )", output);
 				} else {
-					(void) fprintf(output, "%s", q->name);
+					IGNORE fprintf(output, "%s", q->name);
 					newline = 1;
 				}
 			}
@@ -265,9 +266,9 @@ default_label:
 		p = p->bro;
 		if (newline && p) {
 			if (func_output)
-				(void) fputc(',', output);
+				IGNORE fputc(',', output);
 
-			(void) fputc('\n', output);
+			IGNORE fputc('\n', output);
 			newline = 0;
 		}
 	}
@@ -280,38 +281,38 @@ static void
 print_name(char *title, construct *p, int dec)
 {
 	if (!func_output)
-		(void) fputs("( ", output);
+		IGNORE fputs("( ", output);
 
 	if (p->ename == NULL)
-		(void) fprintf(output, "%s ", LOCAL_DECL);
+		IGNORE fprintf(output, "%s ", LOCAL_DECL);
 
-	(void) fprintf(output, "%s", title);
+	IGNORE fprintf(output, "%s", title);
 
 	if (func_output)
-		(void) fputs(" (", output);
+		IGNORE fputs(" (", output);
 
 	if (p->ename && p->ename->cons->encoding && dec) {
 		char *f = (func_output ? "\n  %s (\n" : "\n  ( %s\n");
 		if (p->ename->son->cons->sortnum == SORT_tdfstring) {
 			if (p->ename->son->bro == NULL)
-				(void) fprintf(output, f, MAKE_STRING_EXTERN);
+				IGNORE fprintf(output, f, MAKE_STRING_EXTERN);
 			else
-				(void) fprintf(output, f, MAKE_CHAIN_EXTERN);
+				IGNORE fprintf(output, f, MAKE_CHAIN_EXTERN);
 
 		} else
-			(void) fprintf(output, f, MAKE_UNIQUE_EXTERN);
+			IGNORE fprintf(output, f, MAKE_UNIQUE_EXTERN);
 
-		(void) print_node(p->ename->son, 2);
+		IGNORE print_node(p->ename->son, 2);
 
 		if (func_output)
-			(void) fputs(" ),\n  ", output);
+			IGNORE fputs(" ),\n  ", output);
 		else
-			(void) fputs(" )\n  ", output);
+			IGNORE fputs(" )\n  ", output);
 
 	} else
-		(void) fputc(' ', output);
+		IGNORE fputc(' ', output);
 
-	(void) fprintf(output, "%s", p->name);
+	IGNORE fprintf(output, "%s", p->name);
 }
 
 
@@ -322,7 +323,7 @@ print_aldec(construct *p)
 		return;
 
 	print_name(MAKE_ALDEC, p, 1);
-	(void) fputs((func_output ? " ) ;\n\n" : " )\n\n"), output);
+	IGNORE fputs((func_output ? " ) ;\n\n" : " )\n\n"), output);
 }
 
 
@@ -340,11 +341,11 @@ print_aldef(construct *p)
 	print_name(MAKE_ALDEF, p, !show_aldecs);
 
 	if (func_output)
-		(void) fputc(',', output);
+		IGNORE fputc(',', output);
 
-	(void) fputc('\n', output);
-	(void) print_node(info->def, 1);
-	(void) fputs((func_output ? " ) ;\n\n" : " )\n\n"), output);
+	IGNORE fputc('\n', output);
+	IGNORE print_node(info->def, 1);
+	IGNORE fputs((func_output ? " ) ;\n\n" : " )\n\n"), output);
 }
 
 
@@ -363,11 +364,11 @@ print_tagdec(construct *p)
 	}
 
 	if (func_output)
-		(void) fputc(',', output);
+		IGNORE fputc(',', output);
 
-	(void) fputc('\n', output);
-	(void) print_node(info->dec, 1);
-	(void) fputs((func_output ? " ) ;\n\n" : " )\n\n"), output);
+	IGNORE fputc('\n', output);
+	IGNORE print_node(info->dec, 1);
+	IGNORE fputs((func_output ? " ) ;\n\n" : " )\n\n"), output);
 }
 
 
@@ -392,11 +393,11 @@ print_tagdef(construct *p)
 		print_name(instr, p, !show_tagdecs);
 
 		if (func_output)
-			(void) fputc(',', output);
+			IGNORE fputc(',', output);
 
-		(void) fputc('\n', output);
-		(void) print_node(d->son, 1);
-		(void) fputs((func_output ? " ) ;\n\n" : " )\n\n"), output);
+		IGNORE fputc('\n', output);
+		IGNORE print_node(d->son, 1);
+		IGNORE fputs((func_output ? " ) ;\n\n" : " )\n\n"), output);
 		d = d->bro;
 	}
 }
@@ -416,27 +417,27 @@ print_tokdec(construct *p)
 	print_name(MAKE_TOKDEC, p, 1);
 
 	if (func_output)
-		(void) fputc(',', output);
+		IGNORE fputc(',', output);
 
-	(void) fputc('\n', output);
+	IGNORE fputc('\n', output);
 
 	if (info->sig)
-		(void) print_node(info->sig, 1);
+		IGNORE print_node(info->sig, 1);
 	else {
 		print_spaces(1);
-		(void) fputc('-', output);
+		IGNORE fputc('-', output);
 	}
 
 	if (func_output)
-		(void) fputc(',', output);
+		IGNORE fputc(',', output);
 
-	(void) fputs("\n  ", output);
+	IGNORE fputs("\n  ", output);
 
 	if (info->args) {
 		int n = 0;
 		char *q = info->args;
 
-		(void) fputs("( ", output);
+		IGNORE fputs("( ", output);
 
 		while (*q) {
 			sortname s;
@@ -445,26 +446,26 @@ print_tokdec(construct *p)
 			q++;
 
 			if (n++ == 8) {
-				(void) fputs("\n  ", output);
+				IGNORE fputs("\n  ", output);
 				n = 1;
 			}
 
-			(void) fputs(sort_name(s), output);
+			IGNORE fputs(sort_name(s), output);
 
 			if (func_output && *q)
-				(void) fputc(',', output);
+				IGNORE fputc(',', output);
 
-			(void) fputc(' ', output);
+			IGNORE fputc(' ', output);
 		}
 
-		(void) fputs(") ", output);
+		IGNORE fputs(") ", output);
 
 		if (func_output)
-			(void) fputs("-> ", output);
+			IGNORE fputs("-> ", output);
 	}
 
-	(void) fputs(sort_name(info->res), output);
-	(void) fputs((func_output ? " ) ;\n\n" : " )\n\n"), output);
+	IGNORE fputs(sort_name(info->res), output);
+	IGNORE fputs((func_output ? " ) ;\n\n" : " )\n\n"), output);
 }
 
 
@@ -485,60 +486,60 @@ print_tokdef(construct *p)
 	print_name(MAKE_TOKDEF, p, !show_tagdefs);
 
 	if (func_output)
-		(void) fputc(',', output);
+		IGNORE fputc(',', output);
 
-	(void) fputc('\n', output);
+	IGNORE fputc('\n', output);
 
 	if (info->sig) {
-		(void) print_node(info->sig, 1);
+		IGNORE print_node(info->sig, 1);
 	} else {
 		print_spaces(1);
-		(void) fputc('-', output);
+		IGNORE fputc('-', output);
 	}
 
 	if (func_output)
-		(void) fputc(',', output);
+		IGNORE fputc(',', output);
 
-	(void) fputs("\n  ", output);
+	IGNORE fputs("\n  ", output);
 
 	if (info->args) {
 		int n = 0;
 		construct **q = info->pars;
 
-		(void) fputs("( ", output);
+		IGNORE fputs("( ", output);
 
 		while (*q) {
 			tok_info *qinfo = get_tok_info(*q);
 
 			if (n++ == 4) {
-				(void) fputs("\n    ", output);
+				IGNORE fputs("\n    ", output);
 				n = 1;
 			}
 
-			(void) fprintf(output, "%s %s", sort_name(qinfo->res),
+			IGNORE fprintf(output, "%s %s", sort_name(qinfo->res),
 			    (*q) ->name);
 			q++;
 
 			if (func_output && *q)
-				(void) fputc(',', output);
+				IGNORE fputc(',', output);
 
-			(void) fputc(' ', output);
+			IGNORE fputc(' ', output);
 		}
 
-		(void) fputs(") ", output);
+		IGNORE fputs(") ", output);
 
 		if (func_output)
-			(void) fputs("-> ", output);
+			IGNORE fputs("-> ", output);
 	}
 
-	(void) fputs(sort_name(info->res), output);
+	IGNORE fputs(sort_name(info->res), output);
 
 	if (func_output)
-		(void) fputc(',', output);
+		IGNORE fputc(',', output);
 
-	(void) fputc('\n', output);
-	(void) print_node(info->def, 1);
-	(void) fputs((func_output ? " ) ;\n\n" : " )\n\n"), output);
+	IGNORE fputc('\n', output);
+	IGNORE print_node(info->def, 1);
+	IGNORE fputs((func_output ? " ) ;\n\n" : " )\n\n"), output);
 }
 
 
@@ -551,39 +552,39 @@ print_high_sort(high_sort *h)
 		return;
 
 	if (func_output)
-		(void) fprintf(output, "%s ( %s, ", MAKE_SORT, h->name);
+		IGNORE fprintf(output, "%s ( %s, ", MAKE_SORT, h->name);
 	else
-		(void) fprintf(output, "( %s %s ", MAKE_SORT, h->name);
+		IGNORE fprintf(output, "( %s %s ", MAKE_SORT, h->name);
 
 	n = h->no_args;
 
 	if (n) {
 		int m = 0;
 
-		(void) fputs("( ", output);
+		IGNORE fputs("( ", output);
 
 		for (i = 0; i < n; i++) {
 			if (m++ == 8) {
-				(void) fputs("\n  ", output);
+				IGNORE fputs("\n  ", output);
 				m = 1;
 			}
 
-			(void) fputs(sort_name(h->args[i]), output);
+			IGNORE fputs(sort_name(h->args[i]), output);
 
 			if (func_output && i < n - 1)
-				(void) fputc(',', output);
+				IGNORE fputc(',', output);
 
-			(void) fputc(' ', output);
+			IGNORE fputc(' ', output);
 		}
 
-		(void) fputs(") ", output);
+		IGNORE fputs(") ", output);
 
 		if (func_output)
-			(void) fputs("-> ", output);
+			IGNORE fputs("-> ", output);
 	}
 
-	(void) fputs(sort_name(h->res), output);
-	(void) fputs((func_output ? " ) ;\n\n" : " )\n\n"), output);
+	IGNORE fputs(sort_name(h->res), output);
+	IGNORE fputs((func_output ? " ) ;\n\n" : " )\n\n"), output);
 }
 
 
@@ -593,47 +594,47 @@ print_capsule(void)
 	if (high_sorts) {
 		int i;
 
-		(void) fputs("# HIGH-LEVEL SORTS\n\n", output);
+		IGNORE fputs("# HIGH-LEVEL SORTS\n\n", output);
 
 		for (i = 0; i < crt_high_sort; i++)
 			print_high_sort(high_sorts + i);
 
-		(void) fputc('\n', output);
+		IGNORE fputc('\n', output);
 	}
 
 	if (show_tokdecs) {
-		(void) fputs("# TOKEN DECLARATIONS\n\n", output);
+		IGNORE fputs("# TOKEN DECLARATIONS\n\n", output);
 		apply_to_all(print_tokdec, SORT_token);
-		(void) fputc('\n', output);
+		IGNORE fputc('\n', output);
 	}
 
 	if (show_aldecs) {
-		(void) fputs("# ALIGNMENT TAG DECLARATIONS\n\n", output);
+		IGNORE fputs("# ALIGNMENT TAG DECLARATIONS\n\n", output);
 		apply_to_all(print_aldec, SORT_al_tag);
-		(void) fputc('\n', output);
+		IGNORE fputc('\n', output);
 	}
 
 	if (show_tagdecs) {
-		(void) fputs("# TAG DECLARATIONS\n\n", output);
+		IGNORE fputs("# TAG DECLARATIONS\n\n", output);
 		apply_to_all(print_tagdec, SORT_tag);
-		(void) fputc('\n', output);
+		IGNORE fputc('\n', output);
 	}
 
 	if (show_tokdefs) {
-		(void) fputs("# TOKEN DEFINITIONS\n\n", output);
+		IGNORE fputs("# TOKEN DEFINITIONS\n\n", output);
 		apply_to_all(print_tokdef, SORT_token);
-		(void) fputc('\n', output);
+		IGNORE fputc('\n', output);
 	}
 
 	if (show_aldefs) {
-		(void) fputs("# ALIGNMENT TAG DEFINITIONS\n\n", output);
+		IGNORE fputs("# ALIGNMENT TAG DEFINITIONS\n\n", output);
 		apply_to_all(print_aldef, SORT_al_tag);
-		(void) fputc('\n', output);
+		IGNORE fputc('\n', output);
 	}
 
 	if (show_tagdefs) {
-		(void) fputs("# TAG DEFINITIONS\n\n", output);
+		IGNORE fputs("# TAG DEFINITIONS\n\n", output);
 		apply_to_all(print_tagdef, SORT_tag);
-		(void) fputc('\n', output);
+		IGNORE fputc('\n', output);
 	}
 }
