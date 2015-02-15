@@ -11,6 +11,7 @@
 #include <assert.h>
 #include <stdio.h>
 
+#include <shared/check.h>
 #include <shared/error.h>
 
 #include <main/driver.h>
@@ -35,7 +36,7 @@ void seed_label(void)
 
   last_label = ((last_label + 100) / 100) * 100;
 
-  (void) old_last_label;
+  UNUSED(old_last_label);
   assert(last_label >= old_last_label);
 }
 

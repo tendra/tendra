@@ -1710,8 +1710,6 @@ make_code(where dest, ash stack, exp e)
 				off *= 8;
 			}
 			off = rounder(off, stack_align) / 8;
-			size_w = mw(zeroe, off);
-			(void) size_w; /* XXX: suspicious; should this value be used? */
 			add(sh(offset),A0,zw(offset),SP);
 		} else {
 			exp s_d0 = sim_exp(sh(offset),D0);

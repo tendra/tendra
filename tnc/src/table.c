@@ -7,7 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
+#include <shared/check.h>
 #include <shared/xalloc.h>
 
 #include "config.h"
@@ -120,7 +120,7 @@ de_dummy(void)
 static node *
 read_dummy(long n)
 {
-	(void) n;
+	UNUSED(n);
 
 	fatal_error("Invalid read function");
 	return NULL;

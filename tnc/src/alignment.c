@@ -7,6 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <shared/check.h>
 
 #include "config.h"
 #include "types.h"
@@ -144,8 +145,8 @@ offset_to(node *p)
 void
 al_equals(node *p, node *q)
 {
-	(void) p;
-	(void) q;
+	UNUSED(p);
+	UNUSED(q);
 }
 
 
@@ -156,8 +157,8 @@ al_equals(node *p, node *q)
 void
 al_includes(node *p, node *q)
 {
-	(void) p;
-	(void) q;
+	UNUSED(p);
+	UNUSED(q);
 }
 
 
