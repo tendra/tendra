@@ -12,17 +12,6 @@
 #define CONFIG_INCLUDED
 
 
-/*
-    INCLUDE BASIC CONFIGURATION FILES
-
-    The basic compiler configuration macros are defined in the standard
-    header ossg.h.  The basic API headers are included from ossg_api.h.
-    Other API headers are included by individual modules.  The basic
-    compiler configuration (i.e. C or C++) header is also included.
-*/
-
-#include "ossg_api.h"
-#include "ossg.h"
 #include "language.h"
 
 

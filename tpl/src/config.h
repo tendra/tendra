@@ -15,8 +15,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "ossg.h"
-
 #ifndef EXIT_SUCCESS
 #define EXIT_SUCCESS		0
 #define EXIT_FAILURE		1
