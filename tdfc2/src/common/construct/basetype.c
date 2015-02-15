@@ -226,7 +226,7 @@ qualify_type(TYPE t, CV_SPEC cv, int force)
 		break;
 	}
 	default : {
-		FAIL(Invalid type);
+		error(ERR_INTERNAL, "Invalid type");
 		tid = NULL_id;
 		r = t;
 		break;
@@ -1050,7 +1050,7 @@ make_base_type(BASE_TYPE bt)
 			t = type_ptrdiff_t;
 			bm = btype_ptrdiff_t;
 		} else {
-			FAIL(Unknown type specifier);
+			error(ERR_INTERNAL, "Unknown type specifier");
 			bm = btype_sint;
 			t = type_sint;
 		}

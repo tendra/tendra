@@ -672,7 +672,7 @@ make_error(int n, ...) /* VARARGS */
 				break;
 			}
 			default : {
-				FAIL(Bad signature);
+				error(ERR_INTERNAL, "Bad signature");
 				break;
 			}
 			}

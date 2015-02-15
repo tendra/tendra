@@ -2172,7 +2172,7 @@ bind_template(IDENTIFIER tid, IDENTIFIER id, IDENTIFIER sid, EXP e, int bound)
 		    force_template++;
 		    s = DEREF_type(type_templ_defn(s));
 		    if (!eq_type(s, p)) {
-			FAIL(bind_template failed);
+			error(ERR_INTERNAL, "bind_template failed");
 			bound = 0;
 		    }
 		    force_template--;

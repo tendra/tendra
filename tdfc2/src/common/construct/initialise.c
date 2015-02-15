@@ -729,7 +729,7 @@ make_unit_exp(TYPE t)
 		break;
 	}
 	default:
-		FAIL(Invalid unit type);
+		error(ERR_INTERNAL, "Invalid unit type");
 		MAKE_exp_null(t, e);
 		break;
 	}

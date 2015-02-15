@@ -230,7 +230,7 @@ bfprintf(BUFFER *bf, const char *s, ...) /* VARARGS */
 			}
 			default : {
 				/* Other characters */
-				FAIL(Unknown format character);
+				error(ERR_INTERNAL, "Unknown format character");
 				s = "<ERROR>";
 				break;
 			}

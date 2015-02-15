@@ -441,7 +441,7 @@ make_sort(const char *s, int proc)
 			break;
 		}
 		default : {
-			FAIL(Unknown sort);
+			error(ERR_INTERNAL, "Unknown sort");
 			tok = NULL_tok;
 			break;
 		}
@@ -705,7 +705,7 @@ enc_sort(BITSTREAM *bs, int s)
 	}
 #endif
 	default: {
-		FAIL(Unknown sort);
+		error(ERR_INTERNAL, "Unknown sort");
 		break;
 	}
 	}
@@ -767,7 +767,7 @@ enc_apply_token(BITSTREAM *bs, int s)
 		break;
 #endif
 	default:
-		FAIL(Unknown sort);
+		error(ERR_INTERNAL, "Unknown sort");
 		break;
 	}
 	return bs;
@@ -1077,7 +1077,7 @@ define_special(int t)
 		break;
 	}
 	default: {
-		FAIL(Unknown special token);
+		error(ERR_INTERNAL, "Unknown special token");
 		break;
 	}
 	}
@@ -1186,7 +1186,7 @@ undefined_token: {
 			 break;
 		 }
 		default: {
-			FAIL(Bad token sort);
+			error(ERR_INTERNAL, "Bad token sort");
 			break;
 		}
 		}

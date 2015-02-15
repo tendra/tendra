@@ -358,7 +358,7 @@ apply_unary(int op, EXP a, TYPE t1, TYPE t2, int cpy)
 #endif
 	default:
 		/* Illegal operations */
-		FAIL(Unexpected unary operation);
+		error(ERR_INTERNAL, "Unexpected unary operation");
 		e = make_error_exp(0);
 		break;
 	}
@@ -490,7 +490,7 @@ apply_binary(int op, EXP a, EXP b, TYPE t1, TYPE t2, int cpy)
 #endif
 	default:
 		/* Illegal operations */
-		FAIL(Unexpected binary operation);
+		error(ERR_INTERNAL, "Unexpected binary operation");
 		e = make_error_exp(0);
 		break;
 	}
@@ -604,7 +604,7 @@ apply_nary(int op, LIST(EXP)p, TYPE t1, TYPE t2, int cpy)
 #endif
 	default:
 		/* Illegal operations */
-		FAIL(Unexpected nary operation);
+		error(ERR_INTERNAL, "Unexpected nary operation");
 		e = make_error_exp(0);
 		break;
 	}
