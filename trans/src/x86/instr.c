@@ -1046,7 +1046,7 @@ void outbp
 void set_stack_from_bp
 (void)
 {
-  asm_printf("\t%s %d-%sdisp%d(%s)%s%s\n", leal, stack_dec / 8, local_prefix, crt_proc_id, "%ebp", "%esp");
+  asm_printop("%s %d-%sdisp%d(%s) %s", leal, stack_dec / 8, local_prefix, crt_proc_id, "%ebp", "%esp");
 }
 
 void testah
