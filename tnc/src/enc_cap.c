@@ -9,6 +9,8 @@
 
 #include <limits.h>
 
+#include <shared/check.h>
+
 #include "config.h"
 
 #include "types.h"
