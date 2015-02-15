@@ -1219,22 +1219,3 @@ commentary(IDENTIFIER id)
 	return;
 }
 
-
-/*
-    The routine assertion prints the assertion s which occurred at the
-    location given by file and line.
-*/
-
-#ifdef ASSERTS
-
-void
-assertion(const char *s, const char *file, int line)
-{
-	FILE *f = error_file;
-	PRINT_HEADER(HEADER_ASSERT, &crt_loc, f);
-	fprintf_v(f, "  %s, %s: line %d.\n\n", s, file, line);
-	error_break();
-	abort();
-}
-
-#endif
