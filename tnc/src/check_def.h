@@ -15,12 +15,6 @@
     generated in check_exp.h.
 */
 
-#if FS_TENDRA
-#define UNUSED_ARG(A)			UNUSED(A)
-#else
-#define UNUSED_ARG(A)			((void)(A))
-#endif
-
 #define CHECK_exp_apply_token		chk_token(exp);
 
 #define CHECK_exp_cond\
@@ -41,13 +35,13 @@
 #define CHECK_apply_proc\
 	exp->shape = normalize(result_shape);\
 	IGNORE check1(ENC_proc, p);\
-	UNUSED_ARG(params);\
-	UNUSED_ARG(var_param);
+	UNUSED(params);\
+	UNUSED(var_param);
 
 #define CHECK_apply_general_proc\
 	exp->shape = normalize(result_shape);\
 	IGNORE check1(ENC_proc, p);\
-	UNUSED_ARG(postlude);
+	UNUSED(postlude);
 
 #define CHECK_assign\
 	node *sh1 = check1(ENC_pointer, arg1);\
@@ -140,7 +134,7 @@
 
 #define CHECK_fail_installer\
 	exp->shape = sh_bottom ;\
-	UNUSED_ARG(message);
+	UNUSED(message);
 
 #define CHECK_float_int\
 	exp->shape = sh_floating(f);\
@@ -182,14 +176,14 @@
 #define CHECK_identify\
 	exp->shape = normalize(body->shape);\
 	chk_tag(exp, name_intro, 1);\
-	UNUSED_ARG(definition);
+	UNUSED(definition);
 
 #define CHECK_ignorable\
 	exp->shape = normalize(arg1->shape);
 
 #define CHECK_imaginary_part\
 	exp->shape = NULL ;\
-	UNUSED_ARG(arg1);
+	UNUSED(arg1);
 
 #define CHECK_initial_value\
 	exp->shape = normalize(init->shape);
@@ -237,18 +231,18 @@
 #define CHECK_make_compound\
 	exp->shape = sh_compound(arg1);\
 	IGNORE check1(ENC_offset, arg1);\
-	UNUSED_ARG(arg2);
+	UNUSED(arg2);
 
 #define CHECK_make_floating\
 	exp->shape = sh_floating(f);\
-	UNUSED_ARG(base);\
-	UNUSED_ARG(mantissa);\
-	UNUSED_ARG(negative);
+	UNUSED(base);\
+	UNUSED(mantissa);\
+	UNUSED(negative);
 
 #define CHECK_make_general_proc\
 	exp->shape = sh_proc ;\
 	IGNORE check1(ENC_bottom, body);\
-	UNUSED_ARG(result_shape);
+	UNUSED(result_shape);
 
 #define CHECK_make_int			exp->shape = sh_integer(v);
 
@@ -272,13 +266,13 @@
 #define CHECK_make_proc\
 	exp->shape = sh_proc ;\
 	IGNORE check1(ENC_bottom, body);\
-	UNUSED_ARG(result_shape);
+	UNUSED(result_shape);
 
 #define CHECK_make_stack_limit\
 	exp->shape = NULL ;\
-	UNUSED_ARG(stack_base);\
-	UNUSED_ARG(frame_size);\
-	UNUSED_ARG(alloc_size);
+	UNUSED(stack_base);\
+	UNUSED(frame_size);\
+	UNUSED(alloc_size);
 
 #define CHECK_make_top			exp->shape = sh_top;
 
@@ -379,11 +373,11 @@
 
 #define CHECK_profile\
 	exp->shape = sh_top ;\
-	UNUSED_ARG(uses);
+	UNUSED(uses);
 
 #define CHECK_real_part\
 	exp->shape = NULL ;\
-	UNUSED_ARG(arg1);
+	UNUSED(arg1);
 
 #define CHECK_rem0			CHECK_and
 
@@ -397,11 +391,11 @@
 
 #define CHECK_return\
 	exp->shape = sh_bottom ;\
-	UNUSED_ARG(arg1);
+	UNUSED(arg1);
 
 #define CHECK_return_to_label\
 	exp->shape = sh_bottom ;\
-	UNUSED_ARG(lab_val);
+	UNUSED(lab_val);
 
 #define CHECK_round_with_mode\
 	exp->shape = sh_integer(r);\
@@ -413,11 +407,11 @@
 
 #define CHECK_sequence\
 	exp->shape = normalize(result->shape);\
-	UNUSED_ARG(statements);
+	UNUSED(statements);
 
 #define CHECK_set_stack_limit\
 	exp->shape = sh_top ;\
-	UNUSED_ARG(lim);
+	UNUSED(lim);
 
 #define CHECK_shape_offset\
 	exp->shape = sh_offset(al_shape(s), al_top);
@@ -439,11 +433,11 @@
 
 #define CHECK_untidy_return\
 	exp->shape = sh_bottom ;\
-	UNUSED_ARG(arg1);
+	UNUSED(arg1);
 
 #define CHECK_variable\
 	exp->shape = normalize(body->shape);\
 	chk_tag(exp, name_intro, 1);\
-	UNUSED_ARG(init);
+	UNUSED(init);
 
 #define CHECK_xor			CHECK_and
