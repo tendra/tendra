@@ -63,8 +63,6 @@
     depending on the value of __STDC__.
 */
 
-#include "ossg.h"
-
 
 /*
     USEFUL MACROS
