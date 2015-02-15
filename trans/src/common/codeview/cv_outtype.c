@@ -113,7 +113,7 @@ out_type(diag_type t, int in_struct)
          res.type = 011;
          res.size = shape_size(t->data.t_union.tdf_shape) / 8;
          if (t->been_outed == 1) {
-           asm_printf(".tag %s; .size %d; ", t->data.t_union.nme.ints.chars);
+           asm_printf(".tag %s; .size %d; ", t->data.t_union.nme.ints.chars, res.size);
          }
          break;
        }
