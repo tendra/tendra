@@ -60,7 +60,7 @@ gen_calculus(unsigned sz)
 {
     calculus *p;
     unsigned n = sz;
-    assert(array_size(free_calculus_array) == calculus_GEN_MAX);
+    assert(sizeof free_calculus_array / sizeof *free_calculus_array == calculus_GEN_MAX);
     assert(n != 0);
 
     if (n < calculus_GEN_MAX) {
