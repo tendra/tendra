@@ -408,6 +408,9 @@ void translate_capsule
         diag3_driver->out_diagnose_prelude();
 #endif
         break;
+
+	default:
+		break;
     }
 
 #ifdef DWARF2

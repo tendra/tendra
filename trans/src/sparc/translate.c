@@ -301,6 +301,9 @@ init_translator (void)
     init_stab () ;
 #endif
     break;
+
+  default:
+    break;
   }
     /* start in text section */
   insection ( text_section ) ;
