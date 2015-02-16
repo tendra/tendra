@@ -84,6 +84,7 @@ storage_class(int size)
     case 8: return s_quad;
     default:
     error(ERR_FATAL, "illegal size for global");
+    UNREACHED;
   }
 }
 
@@ -256,6 +257,7 @@ find_tag(char *name)
   }
   printf("%s\n: ",name);
   error(ERR_FATAL, "tag not declared");
+  UNREACHED:
 }
 
 
