@@ -457,7 +457,7 @@ c_output_unreachable(COutputInfoT *info, unsigned indent)
 	if (c_out_info_get_unreachable(info)) {
 		write_cstring(ostream, "UNREACHED;");
 	} else {
-		write_cstring (ostream, "/*UNREACHED*/");
+		write_cstring (ostream, "/* UNREACHED */");
 	}
 	write_newline(ostream);
 }

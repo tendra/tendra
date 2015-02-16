@@ -603,7 +603,7 @@
 				<listitem>
 					<para>These choose whether unreachable code is marked by
 						a macro or a comment.  The default is to mark
-						unreachable code with a comment, <code>/*UNREACHED*/</code>,
+						unreachable code with a comment, <code>/* UNREACHED */</code>,
 						however a macro <code>UNREACHED;</code> may be used
 						instead, if desired.</para>
 				</listitem>
