@@ -15,7 +15,6 @@
 #include <local/szs_als.h>
 #include <local/codermacs.h>
 
-#ifdef DWARF2
 #include <local/dw2_config.h>
 
 #include <reader/basicread.h>
@@ -1340,8 +1339,3 @@ void dw_close_regassn
   a->start = 0;
 }
 
-#else
-
-int dw2_dummy; /* to avoid an empty translation unit */
-
-#endif

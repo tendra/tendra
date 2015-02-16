@@ -13,8 +13,6 @@
 #ifndef dw2_extra_key
 #define dw2_extra_key 1
 
-#ifdef DWARF2
-
 extern void dw2_start_fde(exp e);
 extern void dw2_fde_save(void);
 extern void dw2_fde_restore(void);
@@ -26,5 +24,4 @@ extern void dw_used_regassn(int reg);
 extern void dw_close_regassn(int reg);
 
 
-#endif
 #endif

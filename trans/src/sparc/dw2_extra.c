@@ -7,8 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifdef DWARF2
-
 #include <assert.h>
 #include <stdio.h>
 
@@ -1115,5 +1113,3 @@ void dw_close_regassn(int reg)
   regassns[reg].start = 0;
 }
 
-
-#endif
