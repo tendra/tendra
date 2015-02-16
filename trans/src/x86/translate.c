@@ -60,7 +60,7 @@
 #endif
 
 
-#define ptg(x) ((x)->ptf.glob)		/* addition to expmacs */
+#define ptg(x) ((x)->pt.glob)		/* addition to expmacs */
 
 
 static exp delayed_const_list = NULL;

@@ -169,9 +169,9 @@ getshape(int l, alignment sn, alignment px, alignment pr, int n,
   } else {
    clearlast(res);
   }
-  res->sonf.ald = sn;
-  res->ptf.ald = px;
-  res->brof.ald = pr;
+  res->son.ald = sn;
+  res->pt.ald = px;
+  res->bro.ald = pr;
   no(res) = n;
   name(res) = tg;
   return res;

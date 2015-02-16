@@ -16,11 +16,11 @@
 
 
 /* properties of constructions with EXCEPTIONS */
-#define istrap(x) (((x)->propsf & 0x3) == 0x3)
+#define istrap(x) ((props(x) & 0x3) == 0x3)
 
 
-#define frame_al_of_ptr(x) (x)->sonf.ald->al.al_val.al_frame
-#define frame_al1_of_offset(x) (x)->sonf.ald->al.al_val.al_frame
+#define frame_al_of_ptr(x) (x)->son.ald->al.al_val.al_frame
+#define frame_al1_of_offset(x) (x)->son.ald->al.al_val.al_frame
 #define al_includes_vcallees 16
 #define al_includes_caller_args 6
 

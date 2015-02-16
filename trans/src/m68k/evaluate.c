@@ -612,7 +612,7 @@ void evalaux
             val = bro(offe);
             if (! last(val)) {
                offe = bro(val);
-               if (offe->shf->sonf.ald->al.al_val.al == 32) {
+               if (sh(offe)->son.ald->al.al_val.al == 32) {
                   param_aligned = 1;
                }
             }

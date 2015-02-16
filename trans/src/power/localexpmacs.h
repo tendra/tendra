@@ -67,8 +67,8 @@
 
 #define IS_A_PROC( x )         ( name(x)==proc_tag || name(x)==general_proc_tag)
 /* These are used in TDF 3.1 for general_env_offset */
-#define frame_al_of_ptr(x) (x)->sonf.ald->al.al_val.al_frame
-#define frame_al1_of_offset(x) (x)->sonf.ald->al.al_val.al_frame
+#define frame_al_of_ptr(x) (x)->son.ald->al.al_val.al_frame
+#define frame_al1_of_offset(x) (x)->son.ald->al.al_val.al_frame
 #define includes_vcallees(x) (((x) & 16) != 0)
 #define l_or_cees(x) (((x) &25) !=0)
 #define i_reckon_its_a_general_proc(x) ( ((x)&24 )!=0)

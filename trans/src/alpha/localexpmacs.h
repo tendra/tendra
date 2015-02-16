@@ -40,8 +40,8 @@
 #define has_float(x)	(props(x)&0x1000)
 #define set_has_float(x) props(x)|=0x1000
 
-#define frame_al_of_ptr(x) (x)->sonf.ald->al.al_val.al_frame
-#define frame_al1_of_offset(x) (x)->sonf.ald->al.al_val.al_frame
+#define frame_al_of_ptr(x) (x)->son.ald->al.al_val.al_frame
+#define frame_al1_of_offset(x) (x)->son.ald->al.al_val.al_frame
 #define includes_vcallees(x) ((x & 16) != 0)
 #define l_or_cees(x) ((x &25) !=0)
 

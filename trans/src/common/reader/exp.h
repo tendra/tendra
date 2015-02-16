@@ -67,28 +67,26 @@ typedef union {
 /*
  * STRUCTURE REPRESENTING EXPRESSIONS
  *
- * An expression has a number of constituents given by the sonf, brof,
- * ptrf and numf fields, a shape (which is another expression),
+ * An expression has a number of constituents given by the son, bro,
+ * ptr and num fields, a shape (which is another expression),
  * a name representing the expression type and a properties field.
  *
- * .lastf serves as an end marker.
+ * .last serves as an end marker.
  */
 struct exp_t {
-	/* TODO: rename all fields sans-f */
+	expno son;
+	expno bro;
+	expno pt;
+	expno num;
 
-	expno sonf;
-	expno brof;
-	expno ptf;
-	expno numf;
+	struct exp_t *sh;
 
-	struct exp_t *shf;
+	prop props;
 
-	prop propsf;
+	unsigned char name;
 
-	unsigned char namef;
-
-	unsigned int lastf:1;
-	unsigned int park :1;
+	unsigned int last:1;
+	unsigned int park:1;
 
 #ifdef TRANS_HPPA
 	unsigned int commuted:1;
@@ -99,7 +97,7 @@ struct exp_t {
 #endif
 
 #ifdef TDF_DIAG4
-	diag_info *diagf;
+	diag_info *diag;
 #endif
 };
 
@@ -118,18 +116,18 @@ typedef struct exp_t *exp;
  * MAIN COMPONENTS OF AN EXPRESSION
  */
 
-#define son(x)            ((x)->sonf.e)
-#define bro(x)            ((x)->brof.e)
-#define last(x)           ((x)->lastf)
-#define name(x)           ((x)->namef)
-#define sh(x)             ((x)->shf)
-#define pt(x)             ((x)->ptf.e)
-#define props(x)          ((x)->propsf)
-#define no(x)             ((x)->numf.l)
+#define son(x)            ((x)->son.e)
+#define bro(x)            ((x)->bro.e)
+#define last(x)           ((x)->last)
+#define name(x)           ((x)->name)
+#define sh(x)             ((x)->sh)
+#define pt(x)             ((x)->pt.e)
+#define props(x)          ((x)->props)
+#define no(x)             ((x)->num.l)
 #define parked(x)         ((x)->park)
 
 #ifdef TDF_DIAG4
-#define dgf(x)            ((x)->diagf)
+#define dgf(x)            ((x)->diag)
 #endif
 
 
@@ -137,15 +135,15 @@ typedef struct exp_t *exp;
  * ALTERNATIVE COMPONENTS OF AN EXPRESSION
  */
 
-#define brog(x)           ((x)->brof.glob)
-#define nostr(x)          ((x)->numf.str)
-#define ptno(x)           ((x)->ptf.l)
-#define sonno(x)          ((x)->sonf.l)
-#define fno(x)            ((x)->numf.f)
-#define uno(x)            ((x)->numf.ui)
+#define brog(x)           ((x)->bro.glob)
+#define nostr(x)          ((x)->num.str)
+#define ptno(x)           ((x)->pt.l)
+#define sonno(x)          ((x)->son.l)
+#define fno(x)            ((x)->num.f)
+#define uno(x)            ((x)->num.ui)
 
 #ifndef TDF_DIAG4
-#define dno(x)            ((x)->numf.d)
+#define dno(x)            ((x)->num.d)
 #endif
 
 
@@ -185,15 +183,15 @@ typedef struct exp_t *exp;
  * COMPONENTS OF SHAPES
  */
 
-#define shape_size(x)     ((x)->numf.l)
+#define shape_size(x)     ((x)->num.l)
 #define al2ul(x)          ((unsigned long) ((x)->al.al_val.al))
-#define align_of(x)       ((x)->brof.ald)
+#define align_of(x)       ((x)->bro.ald)
 #define shape_align(x)    al2ul(align_of (x))
-#define al1_of(x)         ((x)->sonf.ald)
+#define al1_of(x)         ((x)->son.ald)
 #define al1(x)            al2ul(al1_of (x))
-#define al2_of(x)         ((x)->ptf.ald)
+#define al2_of(x)         ((x)->pt.ald)
 #define al2(x)            al2ul(al2_of (x))
-#define is_signed(x)      ((x)->lastf)
+#define is_signed(x)      ((x)->last)
 
 
 /*
@@ -298,8 +296,8 @@ typedef struct exp_t *exp;
 #define settest_number(X, Y)       props(X) = (Y)
 #define setntest(X, Y)             props(X) = (Y)
 #elif defined(TRANS_X86) || defined(TRANS_ALPHA)
-#define test_number(x)            (ntest) ((x)->propsf & 0x1f)
-#define settest_number(x, t)      (x)->propsf = (prop)(((x)->propsf & ~0x1f) | (int) (t))
+#define test_number(x)            (ntest) ((x)->props & 0x1f)
+#define settest_number(x, t)      (x)->props = (prop)(((x)->props & ~0x1f) | (int) (t))
 #elif defined(TRANS_HPPA)
 #define test_number(x)            (props(x) & 127)
 #define settest_number(x, t)       props(x) = (t)

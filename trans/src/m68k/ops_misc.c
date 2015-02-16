@@ -61,10 +61,7 @@ set_overflow(exp e)
 	if (! optop(e)) {
 		if (pt(e)) {
 			/* error jump on overflow */
-			overflow_jump = no(son(pt(e)));
 			overflow_jump = ptno(pt(son(pt(e))));
-			overflow_jump = e->ptf.e->sonf.e->ptf.e->ptf.l;
-
 		} else {
 			overflow_jump = -1 ; /* trap on overflow */
 		}
