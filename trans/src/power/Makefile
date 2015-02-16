@@ -59,7 +59,6 @@ SRCS+=	error.c
 SRCS+=	eval.c
 SRCS+=	frames.c
 SRCS+=	getregs.c
-SRCS+=	global_opt.c
 SRCS+=	guard.c
 SRCS+=	inlinechoice.c
 SRCS+=	inst_fmt.c

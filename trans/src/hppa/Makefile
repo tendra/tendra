@@ -57,7 +57,6 @@ SRCS+=	code_here.c
 SRCS+=	eval.c
 SRCS+=	frames.c
 SRCS+=	getregs.c
-SRCS+=	global_opt.c
 SRCS+=	guard.c
 SRCS+=	hppains.c
 SRCS+=	inlinechoice.c

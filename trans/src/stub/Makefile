@@ -55,7 +55,6 @@ SRCS+=	special_fn.c
 SRCS+=	special_tok.c
 SRCS+=	inlinechoice.c
 SRCS+=	machine_toks.c
-SRCS+=	global_opt.c
 
 .include <tendra.obj.mk>
 

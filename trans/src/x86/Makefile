@@ -82,7 +82,6 @@ SRCS+=	codec.c
 SRCS+=	make_code.c
 SRCS+=	cproc.c
 SRCS+=	evaluate.c
-SRCS+=	global_opt.c
 SRCS+=	inlinechoice.c
 SRCS+=	instr.c
 SRCS+=	instr386.c

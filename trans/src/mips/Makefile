@@ -60,7 +60,6 @@ SRCS+=	eval.c
 SRCS+=	extern_adds.c
 SRCS+=	frames.c
 SRCS+=	getregs.c
-SRCS+=	global_opt.c
 SRCS+=	guard.c
 SRCS+=	handle_sregs.c
 SRCS+=	inlinechoice.c

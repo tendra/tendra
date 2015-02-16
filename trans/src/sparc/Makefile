@@ -77,7 +77,6 @@ SRCS+=	dw2_config.c
 SRCS+=	dw2_extra.c
 SRCS+=	eval.c
 SRCS+=	getregs.c
-SRCS+=	global_opt.c
 SRCS+=	guard.c
 SRCS+=	inlinechoice.c
 SRCS+=	inst_fmt.c

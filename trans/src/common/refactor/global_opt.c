@@ -26,7 +26,6 @@
 #include <refactor/const.h>
 #include <refactor/optimise.h>
 #include <refactor/refactor_ext.h>
-#include <refactor/global_opt.h>
 
 void
 rec_inl(exp p)
@@ -43,7 +42,7 @@ rec_inl(exp p)
  * with a direct mem -> mem copy.
  */
 static void
-common_opt(dec *dp)
+global_opt(dec *dp)
 {
 	if (!writable_strings && 0 == strcmp(dp->dec_u.dec_val.dec_id, "strcpy")) {
 		exp i = dp->dec_u.dec_val.dec_exp;
@@ -172,7 +171,6 @@ opt_all_exps(void)
 	for (d = top_def; d != NULL; d = d->def_next) {
 		exp crt_exp = d->dec_u.dec_val.dec_exp;
 		refactor_ext(crt_exp);
-		common_opt(d);
 		global_opt(d);
 	}
 

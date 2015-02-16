@@ -62,7 +62,6 @@ SRCS+=	make_code.c
 SRCS+=	codex.c
 SRCS+=	evaluate.c
 SRCS+=	general_proc.c
-SRCS+=	global_opt.c
 SRCS+=	inlinechoice.c
 SRCS+=	instr.c
 SRCS+=	reg_result.c
