@@ -1335,8 +1335,6 @@ void general_epilogue
 
    int tmp_d1 = -1, tmp_a0 = -1, tmp_a1 = -1;
 
-   UNUSED(has_checkstack);
-
    bitpattern rmsk = regs(regsinproc & save_msk);
    bitpattern smsk = rmsk;
    bitpattern cmsk = 0;
@@ -1344,6 +1342,8 @@ void general_epilogue
    bitpattern fsmsk = fregs(regsinproc & save_msk);
    bool d1_free;
    bool uses_link = 0;
+
+   UNUSED(has_checkstack);
 
    asm_comment("Epilogue");
 
