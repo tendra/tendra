@@ -90,7 +90,7 @@ void out_dwf_label(long l, int set)
 
 void out_code_label(long l)
 {
-  asm_printf("%s%d", lab_prefix, l);
+  asm_printf("%s%ld", lab_prefix, l);
 }
 
 void out_dwf_dist_to_label(long l)

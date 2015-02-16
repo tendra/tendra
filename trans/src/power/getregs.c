@@ -127,7 +127,7 @@ int getfreg(long fl)
   int reg = -1;
   long start = choosefloat;
 
-  asm_comment("getfreg: from %#lx, choosefloat=%#lx currentfloat=%d", fl, (unsigned long) choosefloat, (unsigned long) currentfloat);
+  asm_comment("getfreg: from %#lx, choosefloat=%#lx currentfloat=%d", fl, (unsigned long) choosefloat, currentfloat);
 
   /*
    * currentfloat and choosefloat are in step, one the reg number, one the

@@ -631,7 +631,7 @@ stab_global(diag_descriptor * dd, exp global, char * id, bool ext)
 	asm_fprintf(dg_file, "\t.stabs \"%s:%c", dd->data.id.nme.ints.chars,
 			(ext ? 'G' : 'S'));
 	OUT_DT_SHAPE(dd->data.id.new_type);
-	asm_fprintf(dg_file, "\",%#x,0,%ld,%s\n",
+	asm_fprintf(dg_file, "\",%#x,0,%d,%s\n",
 		(ext ? 0x24 : ((no(global) != 0)?0x26:0x28)),
 	/* solaris puts line no,0 rather than 0, varname,
 	 * so suppress the stabd above, and do here. */
@@ -659,7 +659,7 @@ stab_proc(diag_descriptor * dd, exp proc, char * id, bool ext)
 	asm_fprintf(dg_file, "\t.stabs \"%s:%c",
 			 dd->data.id.nme.ints.chars,(ext ? 'F' : 'f'));
 	OUT_DT_SHAPE(dd->data.id.new_type->data.proc.result_type);
-	asm_fprintf(dg_file, "\",0x24,0,%ld,%s\n",
+	asm_fprintf(dg_file, "\",0x24,0,%d,%s\n",
 			 dd->data.id.whence.line_no.nat_val.small_nat, id);
 }
 

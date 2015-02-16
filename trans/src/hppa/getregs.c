@@ -76,7 +76,7 @@ getreg(long fixed)
   long start = choosefix;
 
 
-  asm_comment("getreg: from %#x, choosefix=%#x currentfix=%d", fixed, choosefix, currentfix);
+  asm_comment("getreg: from %#lx, choosefix=%#lx currentfix=%d", (unsigned long) fixed, (unsigned long) choosefix, currentfix);
 
   /* currentfix and choosefix are in step, one the reg number, one the mask */
   assert(choosefix == RMASK(currentfix));

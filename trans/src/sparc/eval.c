@@ -546,7 +546,7 @@ set_align ( long al ){
   assert ( al >= 8 && al <= 64 ) ;
 #endif
   if ( al > 8 ) {
-    asm_printop(".align %d", al / 8);
+    asm_printop(".align %ld", al / 8);
   }
 }
 
@@ -715,7 +715,7 @@ evalone ( exp e, int bitposn, bool ro ){
 	  assert ( sz >= databits ) ;
 	  /* pad out trailing uninitialised space, eg union */
 	  if ( sz > databits && trailing_bytes > 0 ) {
-	    asm_printop(".skip %d\n", trailing_bytes);
+	    asm_printop(".skip %ld\n", trailing_bytes);
 	  }
 	  return ;
 	}
@@ -759,7 +759,7 @@ evalone ( exp e, int bitposn, bool ro ){
 #endif
       if ( is_zero ( e ) ) {
 	set_align ( al ) ;
-	asm_printop(".skip %d", (sz + 7) >> 3);
+	asm_printop(".skip %ld", (sz + 7) >> 3);
       }
       else
         for ( i = 0 ; i < n ; i++ ) evalone ( e, bitposn, ro ) ;
@@ -791,7 +791,7 @@ evalone ( exp e, int bitposn, bool ro ){
 	evalconcbit ( e, bitposn, ro ) ;
 	return ;
       }
-      asm_printop(".skip %d\n", (sz + 7) >> 3);
+      asm_printop(".skip %ld\n", (sz + 7) >> 3);
       return ;
     }
     case not_tag :
@@ -807,7 +807,7 @@ evalone ( exp e, int bitposn, bool ro ){
     case offset_pad_tag : case offset_mult_tag : case offset_div_tag :
     case offset_div_by_int_tag : case offset_subtract_tag : 
     case offset_negate_tag : {
-      asm_printop(".word %d", evalexp(e));
+      asm_printop(".word %ld", evalexp(e));
       return ;
     }
     
@@ -831,10 +831,10 @@ evalone ( exp e, int bitposn, bool ro ){
 	char *n2 = brog ( son ( p2 ) )->dec_u.dec_val.dec_id ;
 	asm_printf("\t.word %d-%d", n1, n2);
 	if ( n < 0 ) {
-	  asm_printf("%d", n ) ;
+	  asm_printf("%ld", n ) ;
 	} 
         else if ( n > 0 ) {
-	  asm_printf("+%d", n);
+	  asm_printf("+%ld", n);
 	}
 	asm_printf("\n") ;
 	return ;

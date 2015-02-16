@@ -498,8 +498,8 @@ fconst ( int f, long hi, long lo )
   asm_printf(":\n" ) ;
   asm_printf("\t.word\t" ) ;
   switch (endian) {
-  case ENDIAN_LITTLE: asm_printf("%d, %d", lo, hi); break;
-  case ENDIAN_BIG:    asm_printf("%d, %d", hi, lo); break;
+  case ENDIAN_LITTLE: asm_printf("%ld, %ld", lo, hi); break;
+  case ENDIAN_BIG:    asm_printf("%ld, %ld", hi, lo); break;
   }
   asm_printf("\n" ) ;
   asm_printop(".align 8" ) ;
