@@ -45,6 +45,9 @@ TRANS_CFLAGS+= -D DWARF2
 PARTS+= src/common/diag4
 PARTS+= src/common/dwarf2
 
+SRCS+= dw2_config.c
+SRCS+= dw2_extra.c
+
 .else
 
 .BEGIN:
@@ -73,8 +76,6 @@ CCOPTS+=	${TRANS_CFLAGS}
 
 SRCS+=	ashof.c
 SRCS+=	code_here.c
-SRCS+=	dw2_config.c
-SRCS+=	dw2_extra.c
 SRCS+=	eval.c
 SRCS+=	getregs.c
 SRCS+=	guard.c
