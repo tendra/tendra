@@ -9,7 +9,7 @@
 
 /* BEGINNING OF HEADER */
 
-#line 165 "syntax.act"
+#line 166 "syntax.act"
 
 
 /* $Id$ */
@@ -61,7 +61,7 @@ extern void read_errors(void);
 
 /* BEGINNING OF TRAILER */
 
-#line 451 "syntax.act"
+#line 452 "syntax.act"
 
 #endif
 #line 68 "syntax.h"

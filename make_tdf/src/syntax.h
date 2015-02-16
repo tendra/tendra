@@ -9,7 +9,7 @@
 
 /* BEGINNING OF HEADER */
 
-#line 112 "syntax.act"
+#line 113 "syntax.act"
 
 
 /* $Id$ */
@@ -67,7 +67,7 @@ extern void read_spec(SPECIFICATION *);
 
 /* BEGINNING OF TRAILER */
 
-#line 302 "syntax.act"
+#line 303 "syntax.act"
 
 #endif
 #line 74 "syntax.h"

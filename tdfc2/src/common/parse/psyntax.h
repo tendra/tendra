@@ -9,7 +9,7 @@
 
 /* BEGINNING OF HEADER */
 
-#line 189 "psyntax.act"
+#line 191 "psyntax.act"
 
 
 /* $Id$ */
@@ -509,7 +509,7 @@ extern int XI0;
 
 /* BEGINNING OF TRAILER */
 
-#line 1242 "psyntax.act"
+#line 1244 "psyntax.act"
 
 
 

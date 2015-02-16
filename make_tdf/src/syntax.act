@@ -53,6 +53,7 @@ PARAM-LIST -> SID_PARAM_LIST ;
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <shared/check.h>
 #include <shared/error.h>
 #include <shared/xalloc.h>
 #include <shared/string.h>
