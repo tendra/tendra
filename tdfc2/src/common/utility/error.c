@@ -7,8 +7,9 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include <stdarg.h>
 #include <limits.h>
+#include <stdarg.h>
+#include <string.h>
 #include <stdio.h>
 
 #include <shared/check.h>

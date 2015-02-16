@@ -10,6 +10,7 @@
 
 #define _POSIX_SOURCE
 
+#include <string.h>
 #include <stdio.h>
 
 #include <sys/types.h>

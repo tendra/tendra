@@ -13,7 +13,7 @@ For trivial 'peephole' optimisations
 
 */
 
-#include <stddef.h>
+#include <stdlib.h>
 
 #include <shared/error.h>
 

@@ -9,6 +9,7 @@
 
 #include <assert.h>
 #include <limits.h>
+#include <string.h>
 #include <stdarg.h>
 #include <stdio.h>
 

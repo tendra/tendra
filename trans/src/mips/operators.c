@@ -11,10 +11,11 @@
 	produces code for common operations
 */
 
+#include <stdlib.h>
+
 #include <shared/xalloc.h>
 
 #include <local/ash.h>
-
 
 #include <construct/tags.h>
 #include <construct/shape.h>
