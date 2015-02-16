@@ -4,7 +4,7 @@
  * and
  *	parser.act
  * by:
- *	/Users/kate/svn/tendra20/obj-regen/bin/sid
+ *	sid
  */
 
 /* BEGINNING OF HEADER */

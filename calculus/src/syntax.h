@@ -4,12 +4,12 @@
  * and
  *	syntax.act
  * by:
- *	/Users/kate/svn/tendra20/obj-regen/bin/sid
+ *	sid
  */
 
 /* BEGINNING OF HEADER */
 
-#line 154 "syntax.act"
+#line 148 "syntax.act"
 
 
 /* $Id$ */
@@ -78,7 +78,7 @@ extern void read_calculus(void);
 
 /* BEGINNING OF TRAILER */
 
-#line 1123 "syntax.act"
+#line 1111 "syntax.act"
 
 #endif
 #line 85 "syntax.h"

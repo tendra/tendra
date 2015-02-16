@@ -1,3 +1,17 @@
+/*
+ * Automatically generated from the files:
+ *	psyntax.sid
+ * and
+ *	psyntax.act
+ * by:
+ *	sid
+ */
+
+/* BEGINNING OF HEADER */
+
+#line 189 "psyntax.act"
+
+
 /* $Id$ */
 
 /*
@@ -7,24 +21,10 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/*
- * Automatically generated from the files:
- *	psyntax.sid
- * and
- *	psyntax.act
- * by:
- *	sid
- */
-/* BEGINNING OF HEADER */
-
-#line 227 "psyntax.act"
-
-
-
 #ifndef PSYNTAX_INCLUDED
 #define PSYNTAX_INCLUDED
 
-#line 48 "psyntax.h"
+#line 28 "psyntax.h"
 
 /* BEGINNING OF FUNCTION DECLARATIONS */
 
@@ -509,7 +509,7 @@ extern int XI0;
 
 /* BEGINNING OF TRAILER */
 
-#line 1280 "psyntax.act"
+#line 1242 "psyntax.act"
 
 
 
@@ -526,6 +526,6 @@ extern int XI0;
 
 
 #endif
-#line 550 "psyntax.h"
+#line 530 "psyntax.h"
 
 /* END OF FILE */

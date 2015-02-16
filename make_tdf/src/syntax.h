@@ -4,12 +4,12 @@
  * and
  *	syntax.act
  * by:
- *	/Users/kate/svn/tendra20/obj-regen/bin/sid
+ *	sid
  */
 
 /* BEGINNING OF HEADER */
 
-#line 116 "syntax.act"
+#line 112 "syntax.act"
 
 
 /* $Id$ */
@@ -67,7 +67,7 @@ extern void read_spec(SPECIFICATION *);
 
 /* BEGINNING OF TRAILER */
 
-#line 306 "syntax.act"
+#line 302 "syntax.act"
 
 #endif
 #line 74 "syntax.h"

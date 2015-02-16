@@ -1,3 +1,17 @@
+/*
+ * Automatically generated from the files:
+ *	syntax.sid
+ * and
+ *	syntax.act
+ * by:
+ *	sid
+ */
+
+/* BEGINNING OF HEADER */
+
+#line 202 "syntax.act"
+
+
 /* $Id$ */
 
 /*
@@ -7,24 +21,10 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/*
- * Automatically generated from the files:
- *	syntax.sid
- * and
- *	syntax.act
- * by:
- *	sid
- */
-/* BEGINNING OF HEADER */
-
-#line 240 "syntax.act"
-
-
-
 #ifndef SYNTAX_INCLUDED
 #define SYNTAX_INCLUDED
 
-#line 48 "syntax.h"
+#line 28 "syntax.h"
 
 /* BEGINNING OF FUNCTION DECLARATIONS */
 
@@ -671,7 +671,7 @@ extern int ZI0;
 
 /* BEGINNING OF TRAILER */
 
-#line 2231 "syntax.act"
+#line 2193 "syntax.act"
 
 
 
@@ -688,6 +688,6 @@ extern int ZI0;
 
 
 #endif
-#line 712 "syntax.h"
+#line 692 "syntax.h"
 
 /* END OF FILE */
