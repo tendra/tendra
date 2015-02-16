@@ -257,7 +257,7 @@ find_tag(char *name)
   }
   printf("%s\n: ",name);
   error(ERR_FATAL, "tag not declared");
-  UNREACHED:
+  UNREACHED;
 }
 
 
