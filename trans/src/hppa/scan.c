@@ -949,7 +949,7 @@ needs scan
   }
 #endif
 
-  asm_comment("scan: %s", nstare);
+  asm_comment("scan: %d", nstare);
 
   switch (nstare)
   {
@@ -1338,7 +1338,7 @@ needs scan
 	   * Put tag in result reg if definition is call of proc,
 	   * or body ends with return tag, provided result is not used other wise.
 	   */
-	  asm_comment("scan: ident_tag(%d): use result reg", stare);
+	  asm_comment("scan: ident_tag(%p): use result reg", (void *) stare);
 	  props(stare) |= (fxregble)? inreg_bits : infreg_bits;
 	  if (fxregble)
 	  {
@@ -1377,14 +1377,14 @@ needs scan
 		 )
 	 )
 	{
-	  asm_comment("scan: ident_tag(%d): dont take space for this dec", stare);
+	  asm_comment("scan: ident_tag(%p): dont take space for this dec", (void *) stare);
 	  props(stare) |= defer_bit;
 	  /* dont take space for this dec */	}
 	else if (!isvar(stare) &&
 		 ((props(stare) & 0x10 /* forced in const */ ) == 0)
 		 && (name(t) == name_tag || name(t) == val_tag))
 	{
-	  asm_comment("scan: ident_tag(%d): dont take space for this dec (#2)", stare);
+	  asm_comment("scan: ident_tag(%p): dont take space for this dec (#2)", (void *) stare);
 	  props(stare) |= defer_bit;
 	  /* dont take space for this dec */
 	}
@@ -1398,7 +1398,7 @@ needs scan
 	   * put this tag in some  fixpt t-reg - which will be decided in
 	   * make_code
 	   */
-	  asm_comment("scan: ident_tag(%d): use fixpt t-reg", stare);
+	  asm_comment("scan: ident_tag(%p): use fixpt t-reg", (void *) stare);
 	  asm_comment("	bdy.fixneeds=%d def.fixneeds=%d",
 		       bdy.fixneeds, def.fixneeds);
 	  props(stare) |= inreg_bits;
@@ -1416,14 +1416,14 @@ needs scan
 	   * put this tag in some  float t-reg - which will be decided in
 	   * make_code
 	   */
-	  asm_comment("scan: ident_tag(%d): use float t-reg", stare);
+	  asm_comment("scan: ident_tag(%p): use float t-reg", (void *) stare);
 	  props(stare) |= infreg_bits;
 	  no(stare) = 0;
 	  bdy.floatneeds += 1;
 	}
 	else
 	{
-	  asm_comment("scan: ident_tag(%d): use stack or saved reg", stare);
+	  asm_comment("scan: ident_tag(%p): use stack or saved reg", (void *) stare);
 	  no(stare) = R_NO_REG;
 
 	  /*
@@ -1893,7 +1893,7 @@ needs scan
 	/* express disps in bytes */
 	no(*e) = no(*e) >> 3;
       }
-      asm_comment("val_tag %s no=%d", name(s), no(*e));
+      asm_comment("val_tag %d no=%d", name(s), no(*e));
       /* ... and continue */
     }
 

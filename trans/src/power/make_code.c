@@ -49,6 +49,7 @@
 #include "frames.h"
 #include "stack.h"
 #include "instruct.h"
+#include "inst_fmt.h"
 #include "tempdecs.h"
 #include "oprators.h"
 #include "record_bit.h"
@@ -300,7 +301,7 @@ static void queue_bc_ins(Instruction_P ins, int creg, int lab)
 {
   int i;
 
-  asm_comment("queue_bc_ins(%s,%d,lab)", ins, creg);
+  asm_comment("queue_bc_ins(%s,%d,lab)", get_instruction(ins), creg);
 
 #ifndef NDEBUG
   /* check there is not a queued instruction using same creg (now corrupted) */

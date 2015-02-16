@@ -111,8 +111,8 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
     spacereq body;
     ash a;
 
-    asm_comment("regalloc ident_tag(%d):	freefixed,freefloat,stack = %d %d %ld",
-		 e, freefixed, freefloat, stack);
+    asm_comment("regalloc ident_tag(%p):	freefixed,freefloat,stack = %d %d %ld",
+		 (void *) e, freefixed, freefloat, stack);
 
     assert(freefixed >= 0);
     assert(freefloat >= 0);

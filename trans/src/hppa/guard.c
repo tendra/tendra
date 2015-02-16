@@ -142,13 +142,13 @@ guard(where w, space sp)
   case insomereg:
   case insomefreg:
     {
-      asm_comment("guard: BAD discrim %d", discrim ( w.answhere ) );
+      asm_comment("guard: BAD discrim %d", (int) discrim ( w.answhere ) );
       error(ERR_SERIOUS, "guard: Guard ? reg");
       return sp;
     }
   default:
     {
-      asm_comment("guard: BAD discrim %d", discrim ( w.answhere ) );
+      asm_comment("guard: BAD discrim %d", (int) discrim ( w.answhere ) );
       error(ERR_SERIOUS, "guard: not in switch");
       return sp;
     }

@@ -641,7 +641,7 @@ evalone ( exp e, int bitposn, bool ro ){
       /* Global name */
       dec *globdec = brog ( son ( e ) ) ;
       char *nm = globdec->dec_u.dec_val.dec_id ;
-      asm_printf("\t.word %d", nm ) ;
+      asm_printf("\t.word %s", nm ) ;
       if ( no ( e ) ) {
 	asm_printf("+%d",  no ( e ) / 8 ) ;
       }
@@ -829,7 +829,7 @@ evalone ( exp e, int bitposn, bool ro ){
 	long n = no ( p1 ) - no ( p2 ) ;
 	char *n1 = brog ( son ( p1 ) )->dec_u.dec_val.dec_id ;
 	char *n2 = brog ( son ( p2 ) )->dec_u.dec_val.dec_id ;
-	asm_printf("\t.word %d-%d", n1, n2);
+	asm_printf("\t.word %s-%s", n1, n2);
 	if ( n < 0 ) {
 	  asm_printf("%ld", n ) ;
 	} 

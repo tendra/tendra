@@ -1170,7 +1170,7 @@ evaluated(exp e, long l)
   bool extnamed = (l == 0) ? 0 : main_globals[-lab - 1]->dec_u.dec_val.extnamed;
   a = ashof(sh(e));
 
-  asm_comment("evaluated: %s %ld", name(e), l);
+  asm_comment("evaluated: %d %ld", name(e), l);
 
   isa.adval = 0;
   isa.b.offset = 0;

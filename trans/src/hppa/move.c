@@ -115,7 +115,7 @@ move(ans a, where dest, long regs, bool sgned)
   if ( dest.ashwhere.ashsize == 0 )
      return NOREG ;
 
-  asm_comment("move: %s -> %s, dest ashsize,ashalign = %ld,%ld",
+  asm_comment("move: %d -> %d, dest ashsize,ashalign = %ld,%ld",
 	       discrim ( a ),
 	       discrim ( dest.answhere ),
 	       dest.ashwhere.ashsize, dest.ashwhere.ashalign);

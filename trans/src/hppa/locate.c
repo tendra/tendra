@@ -551,7 +551,7 @@ where locate1
        * answer is going to be the contents of address represented by fc
        */
 
-      asm_comment("locate1: cont[vol]_tag: %s", discrim(ason));
+      asm_comment("locate1: cont[vol]_tag: %d", (int) discrim(ason));
 
       switch (discrim(ason))
       {
