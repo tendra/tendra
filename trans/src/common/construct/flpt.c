@@ -1274,7 +1274,7 @@ flpt_scale(int expt, flt *res, int base)
       if (expt > MAX_USEFUL_DECEXP) {
 	error(ERR_INTERNAL, BIG_FLPT);
 	exit(EXIT_FAILURE);
-	/* UNREACHED */
+	   UNREACHED;
       }
       while (expt > 16) {
 	IGNORE flt_mul(*res, powers[15], &ft); /* cannot fail */

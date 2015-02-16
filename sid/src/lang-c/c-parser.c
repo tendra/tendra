@@ -428,7 +428,7 @@ ZR130(void)
 				break;
 			case ET_RENAME:
 			case ET_PREDICATE:
-				/* UNREACHED */
+				UNREACHED;
 				break;
 			case ET_TYPE:
 			case ET_RULE:

@@ -635,7 +635,7 @@ refactor_seq(exp e, exp scope)
 			t = bro(t);
 		}
 	}
-	/* UNREACHED */
+	UNREACHED;
 }
 
 
