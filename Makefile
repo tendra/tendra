@@ -59,7 +59,7 @@ build-allarch:
 	cd ${.CURDIR}/trans && ${MAKE} -DALLARCH \
 	    OBJ_DIR=${OBJ_APREFIX}/${project}
 . for project in lexi libexds make_err make_tdf \
-	tdfc2 sid tcc doc tld tnc tpl tspec
+	tdfc2 sid tcc tld tnc tpl tspec
 	cd ${.CURDIR}/${project} && ${MAKE} \
 	    OBJ_DIR=${OBJ_APREFIX}/${project}
 . endfor
