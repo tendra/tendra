@@ -192,10 +192,10 @@ needs shapeneeds
   else{
     ash as;
     as = ashof(s);
-    if((as.ashalign==8) /*&& (name(s)==ptrhd)*/){
+    if(as.ashalign==8 /*&& name(s)==ptrhd*/){
       return fourfix;
     }
-    if ((as.ashalign==16)) {
+    if (as.ashalign==16) {
       return fivefix;		/* If not aligned on 4 byte boundary */
     }
     if (valregable(s)) {
