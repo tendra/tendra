@@ -87,7 +87,7 @@ void
 dummy_destroy_errors(errors *p, unsigned sz)
 {
 	UNUSED(p);
-	UNSUED(sz);
+	UNUSED(sz);
 
     return;
 }
