@@ -285,7 +285,7 @@ ZL2_862:;
 			goto ZL2_862;
 			/* END OF INLINE: 862 */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	default:
 		{
 			ZI861 = ZI860;
@@ -408,7 +408,7 @@ ZL2_870:;
 			goto ZL2_870;
 			/* END OF INLINE: 870 */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	default:
 		{
 			ZI868 = ZI866;
@@ -762,7 +762,7 @@ ZL2_parameter_Hdeclaration_Hlist:;
 						goto ZL2_parameter_Hdeclaration_Hlist;
 						/* END OF INLINE: parameter-declaration-list */
 					}
-					/*UNREACHED*/
+					UNREACHED;
 				default:
 					{
 						/* BEGINNING OF ACTION: bool_false */
@@ -845,7 +845,7 @@ ZL2_876:;
 			}
 			/* END OF INLINE: 876 */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	default:
 		{
 			ZI875 = ZI874;
@@ -1313,7 +1313,7 @@ ZL2_880:;
 			goto ZL2_880;
 			/* END OF INLINE: 880 */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	default:
 		{
 			ZI879 = ZI878;
@@ -1552,7 +1552,7 @@ ZL2_884:;
 			goto ZL2_884;
 			/* END OF INLINE: 884 */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	default:
 		{
 			ZI883 = ZI882;
@@ -1668,7 +1668,7 @@ ZL2_init_Hdeclarator_Hlist:;
 					goto ZL2_init_Hdeclarator_Hlist;
 					/* END OF INLINE: init-declarator-list */
 				}
-				/*UNREACHED*/
+				UNREACHED;
 			case 355:
 				RESTORE_LEXER;
 				goto ZL1;
@@ -1939,7 +1939,7 @@ ZL2_888:;
 			goto ZL2_888;
 			/* END OF INLINE: 888 */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	default:
 		{
 			ZI887 = ZI886;

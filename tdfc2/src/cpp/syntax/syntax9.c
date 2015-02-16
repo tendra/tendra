@@ -140,7 +140,7 @@ ZL2_1141:;
 			goto ZL2_1141;
 			/* END OF INLINE: 1141 */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	default:
 		{
 			ZI1140 = ZI1139;
@@ -241,7 +241,7 @@ ZR887(BASE_TYPE *ZIb1, TYPE *ZIt1, CV_SPEC *ZIcv1, BASE_TYPE *ZObt, TYPE *ZOt, C
 		/* END OF ACTION: cv_join */
 		goto ZL0;
 	}
-	/*UNREACHED*/
+	UNREACHED;
 ZL2:;
 	switch (CURRENT_TERMINAL) {
 	default:

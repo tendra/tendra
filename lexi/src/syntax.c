@@ -816,7 +816,7 @@ ZL2_action_Hcall_C_Clhs_Htuple1:;
 					goto ZL2_action_Hcall_C_Clhs_Htuple1;
 					/* END OF INLINE: action-call::lhs-tuple1 */
 				}
-				/*UNREACHED*/
+				UNREACHED;
 			case 39:
 				RESTORE_LEXER;
 				goto ZL1;
@@ -1199,7 +1199,7 @@ ZL2_param_Hlist_C_Cparam_Hlist1:;
 					goto ZL2_param_Hlist_C_Cparam_Hlist1;
 					/* END OF INLINE: param-list::param-list1 */
 				}
-				/*UNREACHED*/
+				UNREACHED;
 			case 39:
 				RESTORE_LEXER;
 				goto ZL1;
@@ -1679,7 +1679,7 @@ ZL2_202:;
 			goto ZL2_202;
 			/* END OF INLINE: 202 */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	default:
 		{
 			ZI200 = ZI196;
@@ -3406,7 +3406,7 @@ ZL2_command_Hlist:;
 			}
 			/* END OF INLINE: command-list */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	case 39:
 		return;
 	default:

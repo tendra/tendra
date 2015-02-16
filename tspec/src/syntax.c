@@ -1304,7 +1304,7 @@ ZL2_308:;
 			goto ZL2_308;
 			/* END OF INLINE: 308 */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	default:
 		{
 			ZI306 = ZI304;
@@ -1821,7 +1821,7 @@ ZL2_318:;
 						goto ZL2_318;
 						/* END OF INLINE: 318 */
 					}
-					/*UNREACHED*/
+					UNREACHED;
 				case 56:
 					{
 						SID_TYPE ZIs;
@@ -1847,14 +1847,14 @@ ZL2_318:;
 						goto ZL2_318;
 						/* END OF INLINE: 318 */
 					}
-					/*UNREACHED*/
+					UNREACHED;
 				default:
 					goto ZL1;
 				}
 			}
 			/* END OF INLINE: 334 */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	default:
 		{
 			ZI316 = ZI312;
@@ -3654,7 +3654,7 @@ ZL2_command_Hlist:;
 			goto ZL2_command_Hlist;
 			/* END OF INLINE: command-list */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	default:
 		{
 			/* BEGINNING OF ACTION: command_none */

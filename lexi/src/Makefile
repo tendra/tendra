@@ -28,6 +28,8 @@ PROG=	lexi
 .include <tendra.prog.mk>
 
 
+SIDOPTS+=	-s unreachable-macro
+
 SYNTAX+=	syntax.sid
 SYNTAX+=	lctsyntax.sid
 

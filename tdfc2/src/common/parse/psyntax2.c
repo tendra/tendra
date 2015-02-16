@@ -2222,7 +2222,7 @@ XL2_conversion_Hlist:;
 			goto XL2_conversion_Hlist;
 			/* END OF INLINE: conversion-list */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	case 355:
 		return;
 	default:
@@ -2469,7 +2469,7 @@ XL2_literal_Hitem_Hlist:;
 			goto XL2_literal_Hitem_Hlist;
 			/* END OF INLINE: literal-item-list */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	case 78:
 		{
 			ADVANCE_LEXER;
@@ -2543,7 +2543,7 @@ XL2_literal_Hitem_Hlist:;
 			goto XL2_literal_Hitem_Hlist;
 			/* END OF INLINE: literal-item-list */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	case 355:
 		return;
 	default:
@@ -4886,7 +4886,7 @@ XL2_preserve_Hlist:;
 			goto XL2_preserve_Hlist;
 			/* END OF INLINE: preserve-list */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	case 355:
 		return;
 	default:
@@ -5020,7 +5020,7 @@ XL2_479:;
 		goto XL2_479;
 		/* END OF INLINE: 479 */
 	}
-	/*UNREACHED*/
+	UNREACHED;
 XL3:;
 	switch (CURRENT_TERMINAL) {
 	case 308:
@@ -5139,7 +5139,7 @@ XL3:;
 			goto XL2_479;
 			/* END OF INLINE: 479 */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	case 1: case 2: case 3: case 4:
 		{
 			IDENTIFIER XInm;
@@ -5244,7 +5244,7 @@ XL3:;
 			goto XL2_479;
 			/* END OF INLINE: 479 */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	case 51:
 		{
 			IDENTIFIER XInm;
@@ -5373,7 +5373,7 @@ XL3:;
 			goto XL2_479;
 			/* END OF INLINE: 479 */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	default:
 		break;
 	}

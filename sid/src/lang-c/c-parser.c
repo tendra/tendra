@@ -166,7 +166,7 @@ ZL2_137:;
 			}
 			/* END OF INLINE: c-parse-grammar::persistent-list */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	case (ERROR_TERMINAL):
 		return;
 	default:
@@ -203,7 +203,7 @@ ZL2_177:;
 			goto ZL2_177;
 			/* END OF INLINE: c-parse-grammar::result-assign-list */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	case (ERROR_TERMINAL):
 		return;
 	default:
@@ -234,7 +234,7 @@ ZL2_118:;
 			}
 			/* END OF INLINE: c-parse-grammar::code-block::code-body */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	case (ERROR_TERMINAL):
 		return;
 	default:
@@ -271,7 +271,7 @@ ZL2_184:;
 			goto ZL2_184;
 			/* END OF INLINE: c-parse-grammar::terminal-list */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	case (ERROR_TERMINAL):
 		return;
 	default:
@@ -1063,7 +1063,7 @@ ZL2_152:;
 					goto ZL5;
 				goto ZL3;
 			}
-			/*UNREACHED*/
+			UNREACHED;
 		ZL5:;
 			switch (CURRENT_TERMINAL) {
 			case (C_TOK_SEPARATOR):
@@ -1073,11 +1073,11 @@ ZL2_152:;
 					goto ZL2_152;
 					/* END OF INLINE: c-parse-grammar::function-type-defn::tuple-defn-list-1 */
 				}
-				/*UNREACHED*/
+				UNREACHED;
 			default:
 				goto ZL4;
 			}
-			/*UNREACHED*/
+			UNREACHED;
 		ZL4:;
 			{
 				/* BEGINNING OF ACTION: expected-separator */
@@ -1095,7 +1095,7 @@ ZL2_152:;
 				goto ZL2_152;
 				/* END OF INLINE: c-parse-grammar::function-type-defn::tuple-defn-list-1 */
 			}
-			/*UNREACHED*/
+			UNREACHED;
 		ZL3:;
 		}
 		/* END OF INLINE: 154 */
@@ -1131,7 +1131,7 @@ ZL2_191:;
 			goto ZL2_191;
 			/* END OF INLINE: c-parse-grammar::action-list */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	case (ERROR_TERMINAL):
 		return;
 	default:
@@ -1367,7 +1367,7 @@ ZL2_120:;
 			goto ZL2_120;
 			/* END OF INLINE: c-parse-grammar::prefix-list */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	case (ERROR_TERMINAL):
 		return;
 	default:
@@ -3259,7 +3259,7 @@ ZL2_128:;
 			goto ZL2_128;
 			/* END OF INLINE: c-parse-grammar::map-list */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	case (ERROR_TERMINAL):
 		return;
 	default:
@@ -3348,7 +3348,7 @@ ZL2_162:;
 			goto ZL2_162;
 			/* END OF INLINE: c-parse-grammar::assignment-list */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	case (ERROR_TERMINAL):
 		return;
 	default:
@@ -3385,7 +3385,7 @@ ZL2_170:;
 			goto ZL2_170;
 			/* END OF INLINE: c-parse-grammar::param-assign-list */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	case (ERROR_TERMINAL):
 		return;
 	default:

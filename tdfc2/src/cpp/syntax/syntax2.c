@@ -366,7 +366,7 @@ ZRdeclaration(TYPE ZIt, DECL_SPEC ZIds, EXP *ZOe)
 		/* END OF ACTION: exp_none */
 		goto ZL0;
 	}
-	/*UNREACHED*/
+	UNREACHED;
 ZL2:;
 	switch (CURRENT_TERMINAL) {
 	case 105:
@@ -698,7 +698,7 @@ ZR1288(EXP *ZOe)
 		/* END OF ACTION: exp_cast */
 		goto ZL0;
 	}
-	/*UNREACHED*/
+	UNREACHED;
 ZL2:;
 	switch (CURRENT_TERMINAL) {
 	case 1: case 2: case 3: case 5:
@@ -1126,7 +1126,7 @@ ZRexception_Hdeclaration(int ZIn1, IDENTIFIER *ZOd)
 		/* END OF ACTION: declare_except */
 		goto ZL0;
 	}
-	/*UNREACHED*/
+	UNREACHED;
 ZL2:;
 	switch (CURRENT_TERMINAL) {
 	case 47: case 210:
@@ -1350,7 +1350,7 @@ ZL2_1163:;
 			goto ZL2_1163;
 			/* END OF INLINE: 1163 */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	default:
 		{
 			ZI1161 = ZI1159;
@@ -2265,7 +2265,7 @@ ZL2_member_Hspecification_Hopt:;
 		}
 		/* END OF INLINE: member-specification-opt */
 	}
-	/*UNREACHED*/
+	UNREACHED;
 ZL3:;
 	switch (CURRENT_TERMINAL) {
 	case 142: case 143: case 144:
@@ -2294,7 +2294,7 @@ ZL3:;
 			goto ZL2_member_Hspecification_Hopt;
 			/* END OF INLINE: member-specification-opt */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	case 134: case 147:
 		{
 			ZRtemplate_Hmember_Hdecl (ZIt, ZIds);
@@ -2307,7 +2307,7 @@ ZL3:;
 			}
 			/* END OF INLINE: member-specification-opt */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	case 1: case 2: case 3: case 4:
 	case 5: case 6: case 7: case 8:
 	case 9: case 10: case 11: case 33:
@@ -2419,7 +2419,7 @@ ZL3:;
 			}
 			/* END OF INLINE: member-specification-opt */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	case 26: case 154:
 		{
 			/* BEGINNING OF ACTION: template_check */
@@ -2441,7 +2441,7 @@ ZL3:;
 			}
 			/* END OF INLINE: member-specification-opt */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	case 77:
 		{
 			TYPE ZIt1;
@@ -2486,7 +2486,7 @@ ZL3:;
 			goto ZL2_member_Hspecification_Hopt;
 			/* END OF INLINE: member-specification-opt */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	default:
 		break;
 	}
@@ -2546,7 +2546,7 @@ ZL2_1169:;
 			}
 			/* END OF INLINE: 1169 */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	default:
 		{
 			ZI1168 = ZI1167;
@@ -2685,7 +2685,7 @@ ZRtypeid_Hexpression(int ZIop, EXP *ZOe)
 				/* END OF ACTION: exp_typeid_type */
 				goto ZL2;
 			}
-			/*UNREACHED*/
+			UNREACHED;
 		ZL3:;
 			switch (CURRENT_TERMINAL) {
 			case 1: case 2: case 3: case 5:
@@ -4756,7 +4756,7 @@ ZR919(TYPE *ZIs, BASE_TYPE *ZIb1, TYPE *ZIt1, CV_SPEC *ZIcv1, DECL_SPEC *ZIds1, 
 		/* END OF ACTION: dspec_join */
 		goto ZL0;
 	}
-	/*UNREACHED*/
+	UNREACHED;
 ZL2:;
 	switch (CURRENT_TERMINAL) {
 	default:
@@ -4998,7 +4998,7 @@ ZRparameter_Hdeclarator_Haux_Hopt(TYPE *ZOt, IDENTIFIER *ZOid)
 		}
 		goto ZL0;
 	}
-	/*UNREACHED*/
+	UNREACHED;
 ZL2:;
 	switch (CURRENT_TERMINAL) {
 	case 65:

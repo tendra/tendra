@@ -141,7 +141,7 @@ ZL2_1234:;
 			goto ZL2_1234;
 			/* END OF INLINE: 1234 */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	case 73:
 		{
 			EXP ZIb;
@@ -166,7 +166,7 @@ ZL2_1234:;
 			goto ZL2_1234;
 			/* END OF INLINE: 1234 */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	case 78:
 		{
 			EXP ZIb;
@@ -191,7 +191,7 @@ ZL2_1234:;
 			goto ZL2_1234;
 			/* END OF INLINE: 1234 */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	default:
 		{
 			ZI1233 = ZI1232;
@@ -340,7 +340,7 @@ ZRstatement(EXP *ZOe)
 		/* END OF ACTION: stmt_label_clear */
 		goto ZL0;
 	}
-	/*UNREACHED*/
+	UNREACHED;
 ZL2:;
 	switch (CURRENT_TERMINAL) {
 	case 170:
@@ -3718,7 +3718,7 @@ ZL2_1238:;
 			goto ZL2_1238;
 			/* END OF INLINE: 1238 */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	case 84:
 		{
 			EXP ZIb;
@@ -3752,7 +3752,7 @@ ZL2_1238:;
 			goto ZL2_1238;
 			/* END OF INLINE: 1238 */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	default:
 		{
 			ZI1237 = ZI1236;
@@ -3786,7 +3786,7 @@ ZL2_handler_Hseq_Hopt:;
 			}
 			/* END OF INLINE: handler-seq-opt */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	case 355:
 		return;
 	default:
@@ -4881,7 +4881,7 @@ ZL2_1242:;
 			goto ZL2_1242;
 			/* END OF INLINE: 1242 */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	case 65:
 		{
 			SID_LIST_EXP ZIp;
@@ -4912,7 +4912,7 @@ ZL2_1242:;
 			goto ZL2_1242;
 			/* END OF INLINE: 1242 */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	case 71:
 		{
 			EXP ZIe;
@@ -4931,7 +4931,7 @@ ZL2_1242:;
 			goto ZL2_1242;
 			/* END OF INLINE: 1242 */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	case 66:
 		{
 			EXP ZIb;
@@ -4981,7 +4981,7 @@ ZL2_1242:;
 			goto ZL2_1242;
 			/* END OF INLINE: 1242 */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	case 35:
 		{
 			EXP ZIb;
@@ -5027,7 +5027,7 @@ ZL2_1242:;
 			goto ZL2_1242;
 			/* END OF INLINE: 1242 */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	case 46:
 		{
 			EXP ZIb;
@@ -5073,7 +5073,7 @@ ZL2_1242:;
 			goto ZL2_1242;
 			/* END OF INLINE: 1242 */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	default:
 		{
 			ZI1241 = ZI1240;

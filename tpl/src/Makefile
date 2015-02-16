@@ -33,6 +33,8 @@ PROG=	tpl
 .include <tendra.prog.mk>
 
 
+SIDOPTS+=	-s unreachable-macro
+
 SYNTAX+=	syntax.sid
 
 .include <tendra.sid.mk>

@@ -17,6 +17,7 @@ SRCS!=	ls -1 syntax*.c
 .include <tendra.partial.mk>
 
 
+SIDOPTS+=	-s unreachable-macro
 SIDOPTS+=	-s split=5000
 
 SYNTAX+=	syntax.sid

@@ -105,7 +105,7 @@ ZL2_action_Hdefinition_C_Cparam_Hlist_C_Cparam_Hlist1:;
 					goto ZL2_action_Hdefinition_C_Cparam_Hlist_C_Cparam_Hlist1;
 					/* END OF INLINE: action-definition::param-list::param-list1 */
 				}
-				/*UNREACHED*/
+				UNREACHED;
 			case 23:
 				RESTORE_LEXER;
 				goto ZL1;
@@ -430,7 +430,7 @@ ZL2_statement_Hlist:;
 			}
 			/* END OF INLINE: statement-list */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	case 23:
 		return;
 	default:
@@ -460,7 +460,7 @@ ZL2_code_Hblock_C_Ccode_Hbody:;
 			}
 			/* END OF INLINE: code-block::code-body */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	case 23:
 		return;
 	default:

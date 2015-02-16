@@ -37,6 +37,7 @@ SRCS+=	table.c
 .include <tendra.partial.mk>
 
 
+SIDOPTS+=	-s unreachable-macro
 SIDOPTS+=	-s split=5000
 
 SYNTAX+=	psyntax.sid

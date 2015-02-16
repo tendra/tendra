@@ -239,7 +239,7 @@ ZR821(BASE_TYPE *ZIbt, TYPE *ZIt, DECL_SPEC *ZIds, TYPE *ZIs, IDENTIFIER *ZIid)
 		/* END OF ACTION: rescan_token */
 		goto ZL0;
 	}
-	/*UNREACHED*/
+	UNREACHED;
 ZL2:;
 	switch (CURRENT_TERMINAL) {
 	case 36: case 42: case 77:
@@ -698,7 +698,7 @@ ZL2_member_Hdeclarator_Hlist:;
 					goto ZL2_member_Hdeclarator_Hlist;
 					/* END OF INLINE: member-declarator-list */
 				}
-				/*UNREACHED*/
+				UNREACHED;
 			case 355:
 				RESTORE_LEXER;
 				goto ZL1;
@@ -1073,7 +1073,7 @@ ZR701(BASE_TYPE *ZIb1, TYPE *ZIt1, CV_SPEC *ZIcv1, BASE_TYPE *ZObt, TYPE *ZOt, C
 		/* END OF ACTION: cv_join */
 		goto ZL0;
 	}
-	/*UNREACHED*/
+	UNREACHED;
 ZL2:;
 	switch (CURRENT_TERMINAL) {
 	default:
@@ -2417,7 +2417,7 @@ ZR965(EXP *ZOe)
 		/* END OF ACTION: exp_cast */
 		goto ZL0;
 	}
-	/*UNREACHED*/
+	UNREACHED;
 ZL2:;
 	switch (CURRENT_TERMINAL) {
 	case 1: case 17: case 18: case 19:
@@ -3745,7 +3745,7 @@ ZL2_statement_Hseq_Hopt:;
 		goto ZL2_statement_Hseq_Hopt;
 		/* END OF INLINE: statement-seq-opt */
 	}
-	/*UNREACHED*/
+	UNREACHED;
 ZL3:;
 	switch (CURRENT_TERMINAL) {
 	case 1: case 2: case 4: case 17:
@@ -3791,7 +3791,7 @@ ZL3:;
 			goto ZL2_statement_Hseq_Hopt;
 			/* END OF INLINE: statement-seq-opt */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	default:
 		{
 			ZIe = ZIc;
@@ -4005,7 +4005,7 @@ ZR726(BASE_TYPE *ZIb1, TYPE *ZIt1, CV_SPEC *ZIcv1, DECL_SPEC *ZIds1, BASE_TYPE *
 		/* END OF ACTION: dspec_join */
 		goto ZL0;
 	}
-	/*UNREACHED*/
+	UNREACHED;
 ZL2:;
 	switch (CURRENT_TERMINAL) {
 	default:
@@ -4306,7 +4306,7 @@ ZR985(EXP *ZOe)
 		}
 		goto ZL0;
 	}
-	/*UNREACHED*/
+	UNREACHED;
 ZL2:;
 	switch (CURRENT_TERMINAL) {
 	case 1: case 17: case 18: case 19:
@@ -4403,7 +4403,7 @@ ZL2_858:;
 			goto ZL2_858;
 			/* END OF INLINE: 858 */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	default:
 		{
 			ZI856 = ZI854;

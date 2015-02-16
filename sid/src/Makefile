@@ -31,6 +31,7 @@ PROG=	sid
 .include <tendra.prog.mk>
 
 
+SIDOPTS+=	-s unreachable-macro
 SIDOPTS+=	-s numeric
 SIDOPTS+=	-s no-terminals
 SIDOPTS+=	-s no-numeric-terminals

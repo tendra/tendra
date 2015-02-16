@@ -21,6 +21,7 @@ SRCS+=	persistent.c
 .include <tendra.partial.mk>
 
 
+SIDOPTS+=	-s unreachable-macro
 SIDOPTS+=	-s numeric
 SIDOPTS+=	-s no-terminals
 SIDOPTS+=	-s no-numeric-terminals

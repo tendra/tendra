@@ -302,7 +302,7 @@ ZL2_extra_Hlist:;
 			goto ZL2_extra_Hlist;
 			/* END OF INLINE: extra-list */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	case 42:
 		return;
 	default:
@@ -559,7 +559,7 @@ ZL2_new_Hitem_Hlist:;
 			goto ZL2_new_Hitem_Hlist;
 			/* END OF INLINE: new-item-list */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	case 42:
 		return;
 	default:
@@ -2214,7 +2214,7 @@ ZL2_224:;
 			goto ZL2_224;
 			/* END OF INLINE: 224 */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	default:
 		{
 			ZI223 = ZI222;
@@ -2313,7 +2313,7 @@ ZL2_228:;
 			goto ZL2_228;
 			/* END OF INLINE: 228 */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	default:
 		{
 			ZI227 = ZI226;
@@ -2361,7 +2361,7 @@ ZL2_232:;
 			goto ZL2_232;
 			/* END OF INLINE: 232 */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	default:
 		{
 			ZI231 = ZI230;
@@ -2600,7 +2600,7 @@ ZL2_236:;
 			goto ZL2_236;
 			/* END OF INLINE: 236 */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	case 37:
 		{
 			number ZIp;
@@ -2625,7 +2625,7 @@ ZL2_236:;
 			goto ZL2_236;
 			/* END OF INLINE: 236 */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	default:
 		{
 			ZI235 = ZI234;
@@ -2765,7 +2765,7 @@ ZL2_240:;
 			goto ZL2_240;
 			/* END OF INLINE: 240 */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	case 34:
 		{
 			number ZIp;
@@ -2790,7 +2790,7 @@ ZL2_240:;
 			goto ZL2_240;
 			/* END OF INLINE: 240 */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	default:
 		{
 			ZI239 = ZI238;
@@ -3190,7 +3190,7 @@ ZL2_244:;
 			goto ZL2_244;
 			/* END OF INLINE: 244 */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	case 36:
 		{
 			number ZIp;
@@ -3220,7 +3220,7 @@ ZL2_244:;
 			goto ZL2_244;
 			/* END OF INLINE: 244 */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	case 39:
 		{
 			number ZIp;
@@ -3245,7 +3245,7 @@ ZL2_244:;
 			goto ZL2_244;
 			/* END OF INLINE: 244 */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	default:
 		{
 			ZI243 = ZI242;

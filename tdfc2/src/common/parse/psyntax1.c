@@ -424,7 +424,7 @@ XRtoken_Hrule(void)
 				/* END OF ACTION: bool_false */
 				goto XL2;
 			}
-			/*UNREACHED*/
+			UNREACHED;
 		XL3:;
 			switch (CURRENT_TERMINAL) {
 			case 1: case 2: case 3: case 4:
@@ -741,7 +741,7 @@ XL2_781:;
 			goto XL2_781;
 			/* END OF INLINE: 781 */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	default:
 		{
 			XI780 = XI779;

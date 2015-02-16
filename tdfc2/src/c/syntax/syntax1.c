@@ -331,7 +331,7 @@ ZL2_892:;
 			goto ZL2_892;
 			/* END OF INLINE: 892 */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	default:
 		{
 			ZI891 = ZI890;
@@ -803,7 +803,7 @@ ZL2_896:;
 			goto ZL2_896;
 			/* END OF INLINE: 896 */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	default:
 		{
 			ZI895 = ZI894;
@@ -1593,7 +1593,7 @@ ZL2_900:;
 			goto ZL2_900;
 			/* END OF INLINE: 900 */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	default:
 		{
 			ZI899 = ZI898;
@@ -1673,7 +1673,7 @@ ZL2_declaration_Hseq_Hopt:;
 		goto ZL2_declaration_Hseq_Hopt;
 		/* END OF INLINE: declaration-seq-opt */
 	}
-	/*UNREACHED*/
+	UNREACHED;
 ZL3:;
 	switch (CURRENT_TERMINAL) {
 	case 77:
@@ -1691,7 +1691,7 @@ ZL3:;
 			goto ZL2_declaration_Hseq_Hopt;
 			/* END OF INLINE: declaration-seq-opt */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	case 126:
 		{
 			EXP ZIe;
@@ -1713,7 +1713,7 @@ ZL3:;
 			goto ZL2_declaration_Hseq_Hopt;
 			/* END OF INLINE: declaration-seq-opt */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	case 26: case 30:
 		{
 			ZRdeclaration_Hcond ();
@@ -1726,7 +1726,7 @@ ZL3:;
 			}
 			/* END OF INLINE: declaration-seq-opt */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	case 1: case 2: case 4: case 65:
 	case 78:
 		{
@@ -1806,7 +1806,7 @@ ZL3:;
 			goto ZL2_declaration_Hseq_Hopt;
 			/* END OF INLINE: declaration-seq-opt */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	default:
 		break;
 	}
@@ -2359,7 +2359,7 @@ ZL2_904:;
 			goto ZL2_904;
 			/* END OF INLINE: 904 */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	default:
 		{
 			ZI903 = ZI902;
@@ -2695,7 +2695,7 @@ ZL2_908:;
 			goto ZL2_908;
 			/* END OF INLINE: 908 */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	default:
 		{
 			ZI907 = ZI906;
@@ -2992,7 +2992,7 @@ ZL2_912:;
 			goto ZL2_912;
 			/* END OF INLINE: 912 */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	case 75:
 		{
 			EXP ZIb;
@@ -3017,7 +3017,7 @@ ZL2_912:;
 			goto ZL2_912;
 			/* END OF INLINE: 912 */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	default:
 		{
 			ZI911 = ZI910;
@@ -4522,7 +4522,7 @@ ZL2_member_Hspecification_Hopt:;
 		}
 		/* END OF INLINE: member-specification-opt */
 	}
-	/*UNREACHED*/
+	UNREACHED;
 ZL3:;
 	return;
 ZL1:;
@@ -4561,7 +4561,7 @@ ZL2_916:;
 			goto ZL2_916;
 			/* END OF INLINE: 916 */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	case 69:
 		{
 			EXP ZIb;
@@ -4586,7 +4586,7 @@ ZL2_916:;
 			goto ZL2_916;
 			/* END OF INLINE: 916 */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	default:
 		{
 			ZI915 = ZI914;

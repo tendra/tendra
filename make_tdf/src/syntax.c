@@ -344,7 +344,7 @@ ZL2_edge_Hlist:;
 					goto ZL2_edge_Hlist;
 					/* END OF INLINE: edge-list */
 				}
-				/*UNREACHED*/
+				UNREACHED;
 			default:
 				break;
 			}
@@ -477,7 +477,7 @@ ZL2_option_Hlist:;
 					goto ZL2_option_Hlist;
 					/* END OF INLINE: option-list */
 				}
-				/*UNREACHED*/
+				UNREACHED;
 			case 32:
 				RESTORE_LEXER;
 				goto ZL1;
@@ -708,7 +708,7 @@ ZL2_clist_Hlist:;
 					goto ZL2_clist_Hlist;
 					/* END OF INLINE: clist-list */
 				}
-				/*UNREACHED*/
+				UNREACHED;
 			case 32:
 				RESTORE_LEXER;
 				goto ZL1;
@@ -1294,7 +1294,7 @@ ZL2_slist_Hlist:;
 					goto ZL2_slist_Hlist;
 					/* END OF INLINE: slist-list */
 				}
-				/*UNREACHED*/
+				UNREACHED;
 			case 32:
 				RESTORE_LEXER;
 				goto ZL1;
@@ -1544,7 +1544,7 @@ ZL2_sort_Hlist:;
 					goto ZL2_sort_Hlist;
 					/* END OF INLINE: sort-list */
 				}
-				/*UNREACHED*/
+				UNREACHED;
 			default:
 				break;
 			}
@@ -2896,7 +2896,7 @@ ZL2_number_Hlist:;
 					goto ZL2_number_Hlist;
 					/* END OF INLINE: number-list */
 				}
-				/*UNREACHED*/
+				UNREACHED;
 			default:
 				break;
 			}

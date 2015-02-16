@@ -2794,7 +2794,7 @@ XL2_postpone_Hlist:;
 			goto XL2_postpone_Hlist;
 			/* END OF INLINE: postpone-list */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	case 355:
 		return;
 	default:
@@ -3131,7 +3131,7 @@ XL2_suspend_Hlist:;
 			goto XL2_suspend_Hlist;
 			/* END OF INLINE: suspend-list */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	case 355:
 		return;
 	default:

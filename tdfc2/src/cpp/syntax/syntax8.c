@@ -970,7 +970,7 @@ ZR1373(TYPE *ZO1161, IDENTIFIER *ZO1162)
 		}
 		goto ZL0;
 	}
-	/*UNREACHED*/
+	UNREACHED;
 ZL2:;
 	switch (CURRENT_TERMINAL) {
 	case 65:
@@ -1636,7 +1636,7 @@ parse_operator(IDENTIFIER *ZOid)
 				/* END OF ACTION: conversion_func */
 				goto ZL2;
 			}
-			/*UNREACHED*/
+			UNREACHED;
 		ZL3:;
 			switch (CURRENT_TERMINAL) {
 			case 33: case 34: case 35: case 36:
@@ -2500,7 +2500,7 @@ ZL2_parameter_Hdeclaration_Hlist:;
 						goto ZL2_parameter_Hdeclaration_Hlist;
 						/* END OF INLINE: parameter-declaration-list */
 					}
-					/*UNREACHED*/
+					UNREACHED;
 				case 47:
 					{
 						ADVANCE_LEXER;
@@ -2993,7 +2993,7 @@ parse_decl(TYPE ZIt, DECL_SPEC ZIds)
 		}
 		goto ZL0;
 	}
-	/*UNREACHED*/
+	UNREACHED;
 ZL2:;
 	switch (CURRENT_TERMINAL) {
 	case 1: case 2: case 3: case 4:
@@ -4288,7 +4288,7 @@ ZL2_base_Hspecifier_Hlist:;
 					goto ZL2_base_Hspecifier_Hlist;
 					/* END OF INLINE: base-specifier-list */
 				}
-				/*UNREACHED*/
+				UNREACHED;
 			case 355:
 				RESTORE_LEXER;
 				goto ZL1;
@@ -4462,7 +4462,7 @@ ZRlinkage_Hspecification(TYPE ZIt, DECL_SPEC ZIds, EXP *ZOe)
 				/* END OF ACTION: linkage_end */
 				goto ZL3;
 			}
-			/*UNREACHED*/
+			UNREACHED;
 		ZL4:;
 			switch (CURRENT_TERMINAL) {
 			case 105:
@@ -4724,7 +4724,7 @@ ZL2_init_Hdeclarator_Hlist:;
 					goto ZL2_init_Hdeclarator_Hlist;
 					/* END OF INLINE: init-declarator-list */
 				}
-				/*UNREACHED*/
+				UNREACHED;
 			case 355:
 				RESTORE_LEXER;
 				goto ZL1;

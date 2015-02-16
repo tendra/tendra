@@ -218,7 +218,7 @@ ZL2_255:;
 					goto ZL2_255;
 					/* END OF INLINE: sid-parse-grammar::production-defn-list::production-defn-alternatives */
 				}
-				/*UNREACHED*/
+				UNREACHED;
 			case (ERROR_TERMINAL):
 				RESTORE_LEXER;
 				goto ZL1;
@@ -320,7 +320,7 @@ ZL2_148:;
 					goto ZL5;
 				goto ZL3;
 			}
-			/*UNREACHED*/
+			UNREACHED;
 		ZL5:;
 			switch (CURRENT_TERMINAL) {
 			case (LEXER_TOK_SEPARATOR):
@@ -330,11 +330,11 @@ ZL2_148:;
 					goto ZL2_148;
 					/* END OF INLINE: sid-parse-grammar::function-type-defn::tuple-defn-list-1 */
 				}
-				/*UNREACHED*/
+				UNREACHED;
 			default:
 				goto ZL4;
 			}
-			/*UNREACHED*/
+			UNREACHED;
 		ZL4:;
 			{
 				/* BEGINNING OF ACTION: expected-separator */
@@ -352,7 +352,7 @@ ZL2_148:;
 				goto ZL2_148;
 				/* END OF INLINE: sid-parse-grammar::function-type-defn::tuple-defn-list-1 */
 			}
-			/*UNREACHED*/
+			UNREACHED;
 		ZL3:;
 		}
 		/* END OF INLINE: 150 */
@@ -1161,7 +1161,7 @@ ZL2_158:;
 			}
 			/* END OF INLINE: sid-parse-grammar::type-decl-list */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	case (ERROR_TERMINAL):
 		return;
 	default:
@@ -1880,7 +1880,7 @@ ZL2_177:;
 					goto ZL4;
 				goto ZL3;
 			}
-			/*UNREACHED*/
+			UNREACHED;
 		ZL4:;
 			switch (CURRENT_TERMINAL) {
 			case (LEXER_TOK_IDENTIFIER): case (LEXER_TOK_BEGIN_HACTION): case (LEXER_TOK_IGNORE): case (LEXER_TOK_SCOPEMARK):
@@ -1889,7 +1889,7 @@ ZL2_177:;
 					goto ZL2_177;
 					/* END OF INLINE: sid-parse-grammar::production-defn-list */
 				}
-				/*UNREACHED*/
+				UNREACHED;
 			default:
 				goto ZL1;
 			}
@@ -1973,7 +1973,7 @@ ZL1:;
 				goto ZL2_177;
 				/* END OF INLINE: sid-parse-grammar::production-defn-list */
 			}
-			/*UNREACHED*/
+			UNREACHED;
 		ZL6:;
 		}
 		/* END OF INLINE: 279 */
@@ -4326,7 +4326,7 @@ ZL2_168:;
 					goto ZL2_168;
 					/* END OF INLINE: sid-parse-grammar::terminal-decn-list */
 				}
-				/*UNREACHED*/
+				UNREACHED;
 			default:
 				break;
 			}
@@ -5123,7 +5123,7 @@ ZL2_280:;
 					goto ZL5;
 				goto ZL3;
 			}
-			/*UNREACHED*/
+			UNREACHED;
 		ZL5:;
 			switch (CURRENT_TERMINAL) {
 			case (LEXER_TOK_SEPARATOR):
@@ -5133,11 +5133,11 @@ ZL2_280:;
 					goto ZL2_280;
 					/* END OF INLINE: sid-parse-grammar::entry-list */
 				}
-				/*UNREACHED*/
+				UNREACHED;
 			default:
 				goto ZL4;
 			}
-			/*UNREACHED*/
+			UNREACHED;
 		ZL4:;
 			{
 				/* BEGINNING OF ACTION: expected-separator */
@@ -5208,7 +5208,7 @@ ZL2_280:;
 						goto ZL2_280;
 						/* END OF INLINE: sid-parse-grammar::entry-list */
 					}
-					/*UNREACHED*/
+					UNREACHED;
 				ZL6:;
 				}
 				/* END OF INLINE: 284 */
@@ -6355,7 +6355,7 @@ ZL2_248:;
 					goto ZL2_248;
 					/* END OF INLINE: sid-parse-grammar::production-defn-list::production-defn-non-empty-alternative */
 				}
-				/*UNREACHED*/
+				UNREACHED;
 			case (ERROR_TERMINAL):
 				RESTORE_LEXER;
 				goto ZL1;
@@ -6659,7 +6659,7 @@ ZL2_184:;
 					goto ZL5;
 				goto ZL3;
 			}
-			/*UNREACHED*/
+			UNREACHED;
 		ZL5:;
 			switch (CURRENT_TERMINAL) {
 			case (LEXER_TOK_SEPARATOR):
@@ -6669,11 +6669,11 @@ ZL2_184:;
 					goto ZL2_184;
 					/* END OF INLINE: sid-parse-grammar::production-defn-list::lhs-name-tuple::lhs-name-list-1 */
 				}
-				/*UNREACHED*/
+				UNREACHED;
 			default:
 				goto ZL4;
 			}
-			/*UNREACHED*/
+			UNREACHED;
 		ZL4:;
 			{
 				/* BEGINNING OF ACTION: expected-separator */
@@ -6691,7 +6691,7 @@ ZL2_184:;
 				goto ZL2_184;
 				/* END OF INLINE: sid-parse-grammar::production-defn-list::lhs-name-tuple::lhs-name-list-1 */
 			}
-			/*UNREACHED*/
+			UNREACHED;
 		ZL3:;
 		}
 		/* END OF INLINE: 186 */
@@ -6797,7 +6797,7 @@ ZL2_196:;
 					goto ZL5;
 				goto ZL3;
 			}
-			/*UNREACHED*/
+			UNREACHED;
 		ZL5:;
 			switch (CURRENT_TERMINAL) {
 			case (LEXER_TOK_SEPARATOR):
@@ -6807,11 +6807,11 @@ ZL2_196:;
 					goto ZL2_196;
 					/* END OF INLINE: sid-parse-grammar::production-defn-list::rhs-name-tuple::rhs-name-list-1 */
 				}
-				/*UNREACHED*/
+				UNREACHED;
 			default:
 				goto ZL4;
 			}
-			/*UNREACHED*/
+			UNREACHED;
 		ZL4:;
 			{
 				/* BEGINNING OF ACTION: expected-separator */
@@ -6829,7 +6829,7 @@ ZL2_196:;
 				goto ZL2_196;
 				/* END OF INLINE: sid-parse-grammar::production-defn-list::rhs-name-tuple::rhs-name-list-1 */
 			}
-			/*UNREACHED*/
+			UNREACHED;
 		ZL3:;
 		}
 		/* END OF INLINE: 198 */

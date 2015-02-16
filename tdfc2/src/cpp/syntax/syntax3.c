@@ -164,7 +164,7 @@ ZR1431(int *ZIop, int *ZIn1, int *ZIm1, EXP *ZOc)
 		ADVANCE_LEXER;
 		goto ZL0;
 	}
-	/*UNREACHED*/
+	UNREACHED;
 ZL2:;
 	switch (CURRENT_TERMINAL) {
 	case 1: case 2: case 3: case 5:
@@ -332,7 +332,7 @@ ZRparameter_Hdeclarator_Hopt(TYPE ZIp, TYPE *ZOt, IDENTIFIER *ZOid)
 		/* END OF ACTION: type_inject */
 		goto ZL0;
 	}
-	/*UNREACHED*/
+	UNREACHED;
 ZL2:;
 	switch (CURRENT_TERMINAL) {
 	case 65:
@@ -1067,7 +1067,7 @@ ZL2_1179:;
 			goto ZL2_1179;
 			/* END OF INLINE: 1179 */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	default:
 		{
 			ZI1176 = ZI1173;
@@ -1525,7 +1525,7 @@ ZL2_designator_Hlist:;
 					goto ZL2_designator_Hlist;
 					/* END OF INLINE: designator-list */
 				}
-				/*UNREACHED*/
+				UNREACHED;
 			default:
 				{
 					ZI1154 = ZIa;
@@ -1801,7 +1801,7 @@ ZRnew_Hdeclarator_Hopt(TYPE *ZOt)
 		/* END OF ACTION: type_build */
 		goto ZL0;
 	}
-	/*UNREACHED*/
+	UNREACHED;
 ZL2:;
 	switch (CURRENT_TERMINAL) {
 	case 66:
@@ -2097,7 +2097,7 @@ ZRfor_Hcond_Hstatement(EXP *ZOa, EXP *ZOe)
 		ADVANCE_LEXER;
 		goto ZL0;
 	}
-	/*UNREACHED*/
+	UNREACHED;
 ZL2:;
 	switch (CURRENT_TERMINAL) {
 	case 77:
@@ -2221,7 +2221,7 @@ ZRconversion_Hdeclarator_Hopt(TYPE *ZOt)
 		/* END OF ACTION: type_build */
 		goto ZL0;
 	}
-	/*UNREACHED*/
+	UNREACHED;
 ZL2:;
 	switch (CURRENT_TERMINAL) {
 	default:
@@ -2521,7 +2521,7 @@ ZRinitialiser_Hopt(int ZIc, IDENTIFIER ZId, EXP *ZOe)
 		ADVANCE_LEXER;
 		goto ZL0;
 	}
-	/*UNREACHED*/
+	UNREACHED;
 ZL2:;
 	switch (CURRENT_TERMINAL) {
 	case 36:
@@ -2635,7 +2635,7 @@ parse_file(TYPE ZIt, DECL_SPEC ZIds)
 		ADVANCE_LEXER;
 		goto ZL0;
 	}
-	/*UNREACHED*/
+	UNREACHED;
 ZL2:;
 	switch (CURRENT_TERMINAL) {
 	case 32:
@@ -4071,7 +4071,7 @@ ZL2_1190:;
 			goto ZL2_1190;
 			/* END OF INLINE: 1190 */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	default:
 		{
 			ZI1187 = ZI1184;

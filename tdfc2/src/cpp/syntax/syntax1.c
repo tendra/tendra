@@ -525,7 +525,7 @@ ZL2_mem_Hinitialiser_Hlist:;
 					goto ZL2_mem_Hinitialiser_Hlist;
 					/* END OF INLINE: mem-initialiser-list */
 				}
-				/*UNREACHED*/
+				UNREACHED;
 			case 355:
 				RESTORE_LEXER;
 				goto ZL1;
@@ -818,7 +818,7 @@ ZL2_1147:;
 			}
 			/* END OF INLINE: 1147 */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	default:
 		{
 			ZI1146 = ZI1145;
@@ -1026,7 +1026,7 @@ ZRdeclarator_Htail(IDENTIFIER ZIid, TYPE *ZOt, int *ZOc)
 					/* END OF ACTION: type_none */
 					goto ZL2;
 				}
-				/*UNREACHED*/
+				UNREACHED;
 			ZL3:;
 				switch (CURRENT_TERMINAL) {
 				case 2: case 7: case 8: case 9:
@@ -1310,7 +1310,7 @@ ZRparameter_Hdeclaration(TYPE ZIs, int ZIp, IDENTIFIER *ZOd)
 							/* END OF ACTION: default_arg_skip */
 							goto ZL3;
 						}
-						/*UNREACHED*/
+						UNREACHED;
 					ZL4:;
 						switch (CURRENT_TERMINAL) {
 						case 1: case 2: case 3: case 5:
@@ -1592,7 +1592,7 @@ ZL2_1151:;
 			goto ZL2_1151;
 			/* END OF INLINE: 1151 */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	default:
 		{
 			ZI1150 = ZI1149;
@@ -2387,7 +2387,7 @@ ZL2_declaration_Hseq_Hopt:;
 		goto ZL2_declaration_Hseq_Hopt;
 		/* END OF INLINE: declaration-seq-opt */
 	}
-	/*UNREACHED*/
+	UNREACHED;
 ZL3:;
 	switch (CURRENT_TERMINAL) {
 	case 105:
@@ -2411,7 +2411,7 @@ ZL3:;
 			goto ZL2_declaration_Hseq_Hopt;
 			/* END OF INLINE: declaration-seq-opt */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	case 134: case 147:
 		{
 			EXP ZIe;
@@ -2433,7 +2433,7 @@ ZL3:;
 			goto ZL2_declaration_Hseq_Hopt;
 			/* END OF INLINE: declaration-seq-opt */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	case 1: case 2: case 3: case 4:
 	case 5: case 6: case 7: case 8:
 	case 9: case 10: case 11: case 33:
@@ -2484,7 +2484,7 @@ ZL3:;
 			goto ZL2_declaration_Hseq_Hopt;
 			/* END OF INLINE: declaration-seq-opt */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	case 26: case 30: case 126: case 139:
 	case 154:
 		{
@@ -2507,7 +2507,7 @@ ZL3:;
 			}
 			/* END OF INLINE: declaration-seq-opt */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	default:
 		break;
 	}
@@ -2782,7 +2782,7 @@ ZRscoped_Hstatement(EXP ZIc, EXP *ZOe)
 		/* END OF ACTION: rescan_token */
 		goto ZL0;
 	}
-	/*UNREACHED*/
+	UNREACHED;
 ZL2:;
 	switch (CURRENT_TERMINAL) {
 	case 170:

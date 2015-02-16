@@ -289,7 +289,7 @@ ZL2_label:;
 			goto ZL2_label;
 			/* END OF INLINE: label */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	case 60:
 		{
 			PTR_Tokdec ZIa;
@@ -860,7 +860,7 @@ ZL2_variety:;
 						goto ZL2_variety;
 						/* END OF INLINE: variety */
 					}
-					/*UNREACHED*/
+					UNREACHED;
 				case 86:
 					{
 						TDF ZIa;
@@ -2555,7 +2555,7 @@ ZL2_string:;
 						goto ZL2_string;
 						/* END OF INLINE: string */
 					}
-					/*UNREACHED*/
+					UNREACHED;
 				case 86:
 					{
 						TDF ZIa;
@@ -3265,7 +3265,7 @@ ZL2_token:;
 			goto ZL2_token;
 			/* END OF INLINE: token */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	case 123:
 		{
 			TDF ZIa;
@@ -4032,7 +4032,7 @@ ZL2_field__list:;
 					goto ZL2_field__list;
 					/* END OF INLINE: field_list */
 				}
-				/*UNREACHED*/
+				UNREACHED;
 			default:
 				break;
 			}
@@ -5255,7 +5255,7 @@ ZL2_bool:;
 						goto ZL2_bool;
 						/* END OF INLINE: bool */
 					}
-					/*UNREACHED*/
+					UNREACHED;
 				case 86:
 					{
 						TDF ZIa;
@@ -5471,7 +5471,7 @@ ZL2_ntest:;
 						goto ZL2_ntest;
 						/* END OF INLINE: ntest */
 					}
-					/*UNREACHED*/
+					UNREACHED;
 				case 86:
 					{
 						TDF ZIa;
@@ -5656,7 +5656,7 @@ ZL2_bitfield__variety:;
 						goto ZL2_bitfield__variety;
 						/* END OF INLINE: bitfield_variety */
 					}
-					/*UNREACHED*/
+					UNREACHED;
 				case 86:
 					{
 						TDF ZIa;
@@ -5893,7 +5893,7 @@ ZL2_signed__nat__body:;
 						goto ZL2_signed__nat__body;
 						/* END OF INLINE: signed_nat_body */
 					}
-					/*UNREACHED*/
+					UNREACHED;
 				case 86:
 					{
 						TDF ZIa;
@@ -6530,7 +6530,7 @@ ZL2_tag:;
 			goto ZL2_tag;
 			/* END OF INLINE: tag */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	case 109:
 		{
 			int ZIa;
@@ -6799,7 +6799,7 @@ ZL2_floating__variety:;
 						goto ZL2_floating__variety;
 						/* END OF INLINE: floating_variety */
 					}
-					/*UNREACHED*/
+					UNREACHED;
 				case 86:
 					{
 						TDF ZIa;
@@ -7073,7 +7073,7 @@ ZL2_element__list__opt:;
 			goto ZL2_element__list__opt;
 			/* END OF INLINE: element_list_opt */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	case 130:
 		return;
 	default:
@@ -7153,7 +7153,7 @@ ZL2_alignment:;
 						goto ZL2_alignment;
 						/* END OF INLINE: alignment */
 					}
-					/*UNREACHED*/
+					UNREACHED;
 				case 86:
 					{
 						TDF ZIa;
@@ -7422,7 +7422,7 @@ ZL2_keep__list:;
 					goto ZL2_keep__list;
 					/* END OF INLINE: keep_list */
 				}
-				/*UNREACHED*/
+				UNREACHED;
 			case 130:
 				RESTORE_LEXER;
 				goto ZL1;
@@ -9091,7 +9091,7 @@ ZL2_exp__comma__list:;
 					goto ZL2_exp__comma__list;
 					/* END OF INLINE: exp_comma_list */
 				}
-				/*UNREACHED*/
+				UNREACHED;
 			default:
 				break;
 			}
@@ -9368,7 +9368,7 @@ ZL2_unary__exp:;
 						goto ZL2_unary__exp;
 						/* END OF INLINE: unary_exp */
 					}
-					/*UNREACHED*/
+					UNREACHED;
 				case 86:
 					{
 						TDF ZIa;
@@ -10812,7 +10812,7 @@ ZL2_tagshacc__list:;
 					goto ZL2_tagshacc__list;
 					/* END OF INLINE: tagshacc_list */
 				}
-				/*UNREACHED*/
+				UNREACHED;
 			default:
 				break;
 			}
@@ -10954,7 +10954,7 @@ ZL2_error__treatment:;
 						goto ZL2_error__treatment;
 						/* END OF INLINE: error_treatment */
 					}
-					/*UNREACHED*/
+					UNREACHED;
 				case 86:
 					{
 						TDF ZIa;
@@ -11323,7 +11323,7 @@ ZL2_al__tag:;
 			goto ZL2_al__tag;
 			/* END OF INLINE: al_tag */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	case 54:
 		{
 			/* BEGINNING OF ACTION: al_tag1 */
@@ -11545,7 +11545,7 @@ ZL2_622:;
 			goto ZL2_622;
 			/* END OF INLINE: 622 */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	case 130:
 		return;
 	default:
@@ -11713,7 +11713,7 @@ ZL2_transfer__mode:;
 						goto ZL2_transfer__mode;
 						/* END OF INLINE: transfer_mode */
 					}
-					/*UNREACHED*/
+					UNREACHED;
 				case 86:
 					{
 						TDF ZIa;
@@ -11895,7 +11895,7 @@ ZL2_rounding__mode:;
 						goto ZL2_rounding__mode;
 						/* END OF INLINE: rounding_mode */
 					}
-					/*UNREACHED*/
+					UNREACHED;
 				case 86:
 					{
 						TDF ZIa;
@@ -12082,7 +12082,7 @@ ZL2_625:;
 			goto ZL2_625;
 			/* END OF INLINE: 625 */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	case 130:
 		return;
 	default:
@@ -12120,7 +12120,7 @@ ZL2_626:;
 			}
 			/* END OF INLINE: 626 */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	case 130:
 		return;
 	default:
@@ -12150,7 +12150,7 @@ ZL2_access:;
 						goto ZL2_access;
 						/* END OF INLINE: access */
 					}
-					/*UNREACHED*/
+					UNREACHED;
 				case 86:
 					{
 						TDF ZIa;
@@ -12364,7 +12364,7 @@ ZL2_627:;
 			goto ZL2_627;
 			/* END OF INLINE: 627 */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	case 130:
 		return;
 	default:
@@ -12438,7 +12438,7 @@ ZL2_628:;
 						goto ZL2_628;
 						/* END OF INLINE: 628 */
 					}
-					/*UNREACHED*/
+					UNREACHED;
 				default:
 					{
 						/* BEGINNING OF ACTION: exp_sls5 */
@@ -12473,12 +12473,12 @@ ZL2_628:;
 						goto ZL2_628;
 						/* END OF INLINE: 628 */
 					}
-					/*UNREACHED*/
+					UNREACHED;
 				}
 			}
 			/* END OF INLINE: 667 */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	case 130:
 		return;
 	default:
@@ -12547,7 +12547,7 @@ ZL2_629:;
 			goto ZL2_629;
 			/* END OF INLINE: 629 */
 		}
-		/*UNREACHED*/
+		UNREACHED;
 	case 130:
 		return;
 	default:
