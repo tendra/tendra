@@ -64,6 +64,7 @@
 #include "proc.h"
 #include "sparctrans.h"
 #include "localexpmacs.h"
+#include "special.h"
 
 #ifdef TDF_DIAG4
 #include <diag4/dg_globs.h>
