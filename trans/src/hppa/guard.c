@@ -32,7 +32,6 @@
 #include "procrec.h"
 #include "addrtypes.h"
 #include "tempdecs.h"
-#include "comment.h"
 #include "guard.h"
 
 /*

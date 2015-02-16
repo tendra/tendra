@@ -41,7 +41,6 @@
 #include "maxminmacs.h"
 #include "regable.h"
 #include "regmacs.h"
-#include "comment.h"
 #include "frames.h"
 #include "regalloc.h"
 

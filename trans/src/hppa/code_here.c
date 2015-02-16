@@ -53,7 +53,6 @@
 #include "regable.h"
 #include "guard.h"
 #include "move.h"
-#include "comment.h"
 #include "code_here.h"
 
 /*

@@ -56,7 +56,6 @@
 #include "bitsmacs.h"
 #include "maxminmacs.h"
 #include "regable.h"
-#include "comment.h"
 #include "special.h"
 #include "weights.h"
 

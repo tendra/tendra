@@ -50,7 +50,6 @@
 #include "procrec.h"
 #include "bitsmacs.h"
 #include "locate.h"
-#include "comment.h"
 #include "translate.h"
 #include "stabs_diag3.h"
 
