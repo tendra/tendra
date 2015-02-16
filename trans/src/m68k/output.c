@@ -79,7 +79,7 @@ char *reg_names[NO_OF_REGS];
     register number.
 */
 
-#define  out_reg_name(X)	asm_printf(reg_names[(X)])
+#define  out_reg_name(X)	asm_printf("%s", reg_names[(X)])
 
 
 /*
