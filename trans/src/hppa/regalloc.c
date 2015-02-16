@@ -113,7 +113,7 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
     ash a;
 
     asm_comment("regalloc ident_tag(%d):	freefixed,freefloat,stack = %d %d %ld",
-		 EXP_NUM(e), freefixed, freefloat, stack);
+		 e, freefixed, freefloat, stack);
 
     assert(freefixed >= 0);
     assert(freefloat >= 0);

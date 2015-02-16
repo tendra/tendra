@@ -16,11 +16,4 @@
 
 #include <construct/installtypes.h>
 
-/* TDF printing routines */
-#define EXP_NUM(x)			(int)(x)
-#define SH_NAME(x)			0 /* XXX: sh_name(x) */
-#define TAG_NAME(x)			0 /* XXX: tag_name(x) */
-#define ANSDISCRIM_NAME(x)	0 /* XXX: ansdiscrim_name(x) */
-#define PRTDF(s, e)			prtdf(s, e)
-
 #endif /* COMMENT_INCLUDED */

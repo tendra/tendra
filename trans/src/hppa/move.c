@@ -117,8 +117,8 @@ move(ans a, where dest, long regs, bool sgned)
      return NOREG ;
 
   asm_comment("move: %s -> %s, dest ashsize,ashalign = %ld,%ld",
-	       ANSDISCRIM_NAME(discrim ( a )),
-	       ANSDISCRIM_NAME(discrim ( dest.answhere )),
+	       discrim ( a ),
+	       discrim ( dest.answhere ),
 	       dest.ashwhere.ashsize, dest.ashwhere.ashalign);
   assert((discrim ( dest.answhere ) == inreg && dest.answhere.val.regans == GR0)	/* nowhere */
 	 || dest.ashwhere.ashsize > 0);	/* unitialised dest.ashwhere */

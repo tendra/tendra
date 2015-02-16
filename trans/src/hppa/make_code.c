@@ -653,8 +653,8 @@ makeans make_code
   long constval=0;
   makeans mka;
   asm_comment("make_code: %s,\t%s,\tprops=%#x",
-	      SH_NAME(name(sh(e))), TAG_NAME(name(e)), props(e));
-  asm_comment("           space= (%ld,%ld) (%s)", sp.fixed, sp.flt, ANSDISCRIM_NAME(discrim(dest.answhere)));
+	      name(sh(e)), name(e), props(e));
+  asm_comment("           space= (%ld,%ld) (%s)", sp.fixed, sp.flt, discrim(dest.answhere));
 
  tailrecurse:
   mka.lab = exitlab;
