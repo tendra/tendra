@@ -20,6 +20,8 @@
 
 #include <symtab/symconst.h>
 #include <symtab/syms.h>
+#include <symtab/symtab.h>
+#include <symtab/new_symbol.h>
 
 #include <construct/installglob.h>
 #include <construct/tags.h>

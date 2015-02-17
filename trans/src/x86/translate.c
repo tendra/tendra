@@ -57,6 +57,8 @@
 
 #ifdef DWARF2
 #include <dwarf2/dw2_iface.h>
+#include <dwarf2/dw2_abbrev.h>
+#include <dwarf2/dw2_common.h>
 #endif
 
 

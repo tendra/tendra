@@ -23,6 +23,8 @@ For trivial 'peephole' optimisations
 #include <construct/tags.h>
 #include <construct/shape.h>
 
+#include <refactor/refactor.h>
+
 #include <main/print.h>
 
 #include "addrtypes.h"

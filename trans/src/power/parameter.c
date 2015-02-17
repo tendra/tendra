@@ -19,6 +19,7 @@
 #include <reader/exp.h>
 
 #include <main/flags.h>
+#include <main/print.h>
 
 #include "memtdf.h"
 #include "codegen.h"

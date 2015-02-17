@@ -27,6 +27,7 @@
 
 #include <main/driver.h>
 #include <main/flags.h>
+#include <main/print.h>
 
 #ifdef TDF_DIAG4
 #include <diag4/dg_aux.h>

@@ -23,6 +23,8 @@
 #include <construct/tags.h>
 #include <construct/shape.h>
 
+#include <refactor/refactor.h>
+
 #include "comp_eq_exp.h"
 #include "oddtest.h"
 

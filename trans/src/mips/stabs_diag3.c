@@ -26,6 +26,8 @@
 #include <reader/exp.h>
 
 #include <symtab/symconst.h>
+#include <symtab/symtab.h>
+#include <symtab/new_symbol.h>
 
 #include <reader/code.h>
 #include <reader/basicread.h>
@@ -49,6 +51,7 @@
 #include "ibinasm.h"
 #include "out_ba.h"
 #include "locate.h"
+#include "make_code.h"
 #include "stabs_diag3.h"
 
 extern long currentfile;

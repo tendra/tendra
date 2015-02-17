@@ -37,6 +37,8 @@
 #include <diag3/diag_reform.h>
 
 #include <symtab/symconst.h>
+#include <symtab/symtab.h>
+#include <symtab/new_symbol.h>
 
 #include <main/driver.h>
 #include <main/print.h>

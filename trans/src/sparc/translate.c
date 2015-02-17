@@ -133,6 +133,7 @@
 #include "translate.h"
 #include "proc.h"
 #include "locate.h"
+#include "special.h"
 #include "sparctrans.h"
 #include "localexpmacs.h"
 
@@ -148,6 +149,9 @@
 
 #ifdef DWARF2
 #include <dwarf2/dw2_iface.h>
+#include <dwarf2/dw2_abbrev.h>
+#include <dwarf2/dw2_common.h>
+#include <dwarf2/dw2_info.h>
 #endif
 
 extern bool know_size ;

@@ -29,6 +29,7 @@
 
 #include <symtab/symconst.h>
 #include <symtab/symtab.h>
+#include <symtab/new_symbol.h>
 #include <symtab/type_to_aux.h>
 
 #include <diag3/diagtypes.h>

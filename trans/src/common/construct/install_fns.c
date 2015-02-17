@@ -53,6 +53,7 @@
 #include <construct/special_fn.h>
 #include <construct/messages_c.h>
 #include <construct/f64.h>
+#include <construct/reg_result.h>
 #include <construct/install_fns.h>
 
 #include <main/flags.h>

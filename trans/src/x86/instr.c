@@ -59,6 +59,7 @@
 
 #ifdef DWARF2
 #include "dw2_extra.h"
+#include <dwarf2/dw2_lines.h>
 #endif
 
 typedef union eu_u {int i; exp e;} punner;

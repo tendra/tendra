@@ -39,6 +39,7 @@
 
 #include <refactor/const.h>
 #include <refactor/optimise.h>
+#include <refactor/refactor.h>
 
 #include <main/flags.h>
 
@@ -54,6 +55,7 @@
 #include "muldvrem.h"
 #include "translate.h"
 #include "scan.h"
+#include "special.h"
 #include "reg_defs.h"
 #include "make_code.h"
 #include "localexpmacs.h"

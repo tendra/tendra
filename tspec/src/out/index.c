@@ -16,6 +16,7 @@
 #include <shared/xalloc.h>
 
 #include <out/index.h>
+#include <out/print.h>
 
 #include "object.h"
 #include "hash.h"

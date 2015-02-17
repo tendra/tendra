@@ -33,6 +33,7 @@
 #include "make_code.h"		/* for nowhere */
 #include "stabs_diag3.h"
 #include "frames.h"
+#include "translate.h"
 
 #define VERSION_STR "7.8"
 

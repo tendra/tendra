@@ -28,6 +28,8 @@
 
 #include <symtab/symconst.h>
 #include <symtab/syms.h>
+#include <symtab/symtab.h>
+#include <symtab/new_symbol.h>
 
 #include <main/driver.h>
 #include <main/flags.h>

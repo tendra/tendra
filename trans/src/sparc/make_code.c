@@ -18,6 +18,7 @@
 
 #ifdef DWARF2
 #include <local/dw2_config.h>
+#include <dwarf2/dw2_lines.h>
 #endif
 
 #include <reader/basicread.h>

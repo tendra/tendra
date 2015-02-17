@@ -15,6 +15,11 @@
  * file "file-name.h".  See that file for more details.
  */
 
+#include <sys/types.h>
+#include <sys/stat.h>
+
+#include <fcntl.h>
+
 #include <stddef.h>
 #include <string.h>
 

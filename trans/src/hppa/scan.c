@@ -42,6 +42,7 @@
 #include <refactor/const.h>
 #include <reader/externs.h>
 #include <refactor/optimise.h>
+#include <refactor/refactor.h>
 
 #include "new_tags.h"
 #include "proctypes.h"

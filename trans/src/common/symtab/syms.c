@@ -19,6 +19,8 @@
 #include "cross_config.h"
 
 #include <symtab/symconst.h>
+#include <symtab/symtab.h>
+#include <symtab/new_symbol.h>
 
 #include <reader/basicread.h>
 

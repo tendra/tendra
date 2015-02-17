@@ -79,6 +79,7 @@
 #ifdef DWARF2
 #include <dwarf2/dw2_info.h>
 #include <dwarf2/dw2_basic.h>
+#include <dwarf2/dw2_lines.h>
 #include "dw2_extra.h"
 #endif
 

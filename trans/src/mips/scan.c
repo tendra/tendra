@@ -42,6 +42,7 @@
 
 #include <refactor/const.h>
 #include <refactor/optimise.h>
+#include <refactor/refactor.h>
 
 #include "procrectypes.h"
 #include "bitsmacs.h"
