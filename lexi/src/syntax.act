@@ -69,16 +69,6 @@
 	 */
 	char *token_prefix = "lxi_";
 
-	/*
-	 * COMPILATION MODE
-	 *
-	 * We allow unreached code in the automatically generated sections.
-	 */
-	#ifdef __TenDRA__
-	#pragma TenDRA begin
-	#pragma TenDRA unreachable code allow
-	#endif
-
 @}, @{
 
 	#ifndef SYNTAX_H

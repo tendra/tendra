@@ -115,18 +115,6 @@
 		"const volatile"
 	};
 
-	/*
-	 * COMPILATION MODE
-	 *
-	 * We allow unreached code in the automatically generated sections.
-	 */
-
-	#if FS_TENDRA
-	#pragma TenDRA begin
-	#pragma TenDRA unreachable code allow
-	#pragma TenDRA variable analysis off
-	#endif
-
 @}, @{
 
 	/* $Id$ */

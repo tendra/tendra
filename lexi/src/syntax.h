@@ -9,7 +9,7 @@
 
 /* BEGINNING OF HEADER */
 
-#line 92 "syntax.act"
+#line 82 "syntax.act"
 
 
 	#ifndef SYNTAX_H
@@ -70,7 +70,7 @@ extern void read_lex(zoneP);
 
 /* BEGINNING OF TRAILER */
 
-#line 757 "syntax.act"
+#line 747 "syntax.act"
 
 
 	#endif
