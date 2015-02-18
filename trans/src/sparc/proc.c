@@ -1728,12 +1728,13 @@ makeans make_make_dynamic_callee_tag
   int copy_start_lab = new_label();
   int copy_end_lab = new_label();
 
-  UNUSED(dest);
-  UNUSED(exitlab);
-
   space nsp;
   baseoff b;
   makeans mka;
+
+  UNUSED(dest);
+  UNUSED(exitlab);
+
   mka.regmove = R_G0;
   mka.lab = exitlab;
   nsp = guardreg(R_O5,sp);
