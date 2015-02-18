@@ -6434,7 +6434,6 @@ tidy_initial_values(void)
 	if (do_prom && prom_as.number != 0) {
 		/* ie there are some prom initialisations */
 		exp prc;
-		dec *extra_dec;
 		tagshacc_list tsl;
 
 		exp ret = f_return(f_make_top());
