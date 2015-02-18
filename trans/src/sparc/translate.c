@@ -134,7 +134,6 @@
 #include "proc.h"
 #include "locate.h"
 #include "special.h"
-#include "sparctrans.h"
 #include "localexpmacs.h"
 
 #ifndef TDF_DIAG4

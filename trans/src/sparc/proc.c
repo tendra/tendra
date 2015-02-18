@@ -63,7 +63,6 @@
 #include "translate.h"
 #include "make_code.h"
 #include "proc.h"
-#include "sparctrans.h"
 #include "localexpmacs.h"
 #include "special.h"
 
@@ -90,6 +89,7 @@ struct proc_state proc_state;
 static exp current_proc;
 
 int gencompat;
+int do_dynamic_init;
 bool Has_vcallees = 0;
 bool Has_no_vcallers = 0;
 bool in_general_proc = 0;

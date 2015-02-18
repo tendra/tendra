@@ -38,6 +38,7 @@ extern bool Has_no_vcallers;
 extern bool in_general_proc;
 extern int callee_size;
 extern bool May_have_callees;
+extern int do_dynamic_init;
 
 extern struct proc_state proc_state;
 

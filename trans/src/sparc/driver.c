@@ -35,6 +35,7 @@
 #include "make_code.h"
 #include "special.h"
 #include "labels.h"
+#include "proc.h"
 
 #ifdef DWARF2
 #include <dwarf2/dw2_iface.h>
@@ -53,9 +54,6 @@ extern int crit_inline;
 extern int crit_decs;
 extern int crit_decsatapp;
 extern int show_inlining;
-
-int gencompat = 1;
-int do_dynamic_init = 0;
 
 static void
 init(void)
@@ -107,6 +105,7 @@ init(void)
 	strict_fl_div    = 0; /* don't mult by 1/constant */
 	round_after_flop = 0; /* don't round every time */
 	do_dynamic_init  = 0;
+	gencompat        = 1;
 }
 
 static int
