@@ -30,7 +30,7 @@
 #include "capsule.h"
 #include "char.h"
 #include "compile.h"
-#include "diag2.h"
+#include "diag4.h"
 #include "encode.h"
 #include "file.h"
 #include "hash.h"

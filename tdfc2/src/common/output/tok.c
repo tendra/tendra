@@ -29,7 +29,7 @@
 #include "basetype.h"
 #include "capsule.h"
 #include "compile.h"
-#include "diag.h"
+#include "diag3.h"
 #include "encode.h"
 #include "exp.h"
 #include "hash.h"

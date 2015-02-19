@@ -24,7 +24,7 @@
 #include "check.h"
 #include "compile.h"
 #include "destroy.h"
-#include "diag.h"
+#include "diag3.h"
 #include "encode.h"
 #include "exp.h"
 #include "init.h"

@@ -38,7 +38,7 @@
 #include "convert.h"
 #include "derive.h"
 #include "destroy.h"
-#include "diag.h"
+#include "diag3.h"
 #include "encode.h"
 #include "exp.h"
 #include "expression.h"
