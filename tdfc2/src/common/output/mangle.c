@@ -8,14 +8,15 @@
  */
 
 #include <assert.h>
+#include <limits.h>
 #include <string.h>
 #include <stdio.h>
 
 #include <shared/check.h>
 
 #include "config.h"
-#include <limits.h>
 #include "version.h"
+
 #include "system.h"
 #include "c_types.h"
 #include "ctype_ops.h"

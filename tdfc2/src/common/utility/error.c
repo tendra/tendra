@@ -15,6 +15,7 @@
 #include <shared/check.h>
 
 #include "config.h"
+#include "version.h"
 
 #include "system.h"
 #include "version.h"

@@ -14,8 +14,9 @@
 #include <shared/check.h>
 
 #include "config.h"
-#include "system.h"
 #include "version.h"
+
+#include "system.h"
 #include "c_types.h"
 #include "hashid_ops.h"
 #include "id_ops.h"
