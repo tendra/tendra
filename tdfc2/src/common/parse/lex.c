@@ -8,15 +8,13 @@
  */
 
 #include <assert.h>
+#include <limits.h>
+#include <locale.h>
 #include <stdio.h>
 
 #include <shared/check.h>
 
 #include "config.h"
-#include <limits.h>
-#if FS_MULTIBYTE
-#include <locale.h>
-#endif
 #include "c_types.h"
 #include "exp_ops.h"
 #include "hashid_ops.h"
@@ -2029,11 +2027,9 @@ init_char(void)
 	unsigned char *p, *q;
 
 	/* Set native locale for multibyte characters */
-#if FS_MULTIBYTE
 	if (allow_multibyte) {
 		IGNORE setlocale(LC_CTYPE, "");
 	}
-#endif
 
 	/* Allow for non-ASCII codesets */
 	init_ascii();

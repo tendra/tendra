@@ -31,10 +31,6 @@
 #define FS_EXTENDED_CHAR	0
 #endif
 
-#ifndef FS_MULTIBYTE
-#define FS_MULTIBYTE		0
-#endif
-
 #ifndef FS_POSIX
 #define FS_POSIX		1
 #endif

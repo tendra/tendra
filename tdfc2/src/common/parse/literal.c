@@ -1343,8 +1343,6 @@ make_multi_string(string s, string t, unsigned long n, unsigned k)
     that single byte.
 */
 
-#if FS_MULTIBYTE
-
 static string
 get_multibyte(string s, string se, unsigned long *pc)
 {
@@ -1366,8 +1364,6 @@ get_multibyte(string s, string se, unsigned long *pc)
 	return s;
 }
 
-#endif
-
 
 /*
     This routine analyses the string or character literal given by the
@@ -1387,9 +1383,7 @@ new_string_lit(string s, string se, int lex)
 	int overflow = 0;
 	unsigned long len = 0;
 	unsigned kind = STRING_NONE;
-#if FS_MULTIBYTE
 	int multibyte = allow_multibyte;
-#endif
 	gen_size sz = (gen_size)(se - s) + 1;
 	string str = xustr(sz);
 
@@ -1420,29 +1414,21 @@ new_string_lit(string s, string se, int lex)
 	while (s != se) {
 		unsigned long c;
 		int ch = CHAR_SIMPLE;
-#if FS_MULTIBYTE
 		if (multibyte) {
 			s = get_multibyte(s, se, &c);
 		} else {
 			c = (unsigned long)*(s++);
 		}
-#else
-		c = (unsigned long)*(s++);
-#endif
 		if (c == char_backslash) {
 			if (s != se) {
 				/* Unterminated string literals already
 				 * reported */
 				character e = NONE;
-#if FS_MULTIBYTE
 				if (multibyte) {
 					s = get_multibyte(s, se, &c);
 				} else {
 					c = (unsigned long)*(s++);
 				}
-#else
-				c = (unsigned long)*(s++);
-#endif
 				if (c < NO_CHAR) {
 					e = escape_sequences[c];
 				}
