@@ -39,21 +39,6 @@
 #define FS_UTSNAME		FS_POSIX
 #endif
 
-#ifndef EXIT_SUCCESS
-#define EXIT_SUCCESS		0
-#define EXIT_FAILURE		1
-#endif
-
-#ifndef SEEK_SET
-#define SEEK_SET		0
-#define SEEK_CUR		1
-#define SEEK_END		2
-#endif
-
-#ifndef BUFSIZ
-#define BUFSIZ			1024
-#endif
-
 #ifdef index
 #undef index
 #endif
