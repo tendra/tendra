@@ -27,10 +27,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-#ifndef FS_EXTENDED_CHAR
-#define FS_EXTENDED_CHAR	0
-#endif
-
 #ifndef FS_POSIX
 #define FS_POSIX		1
 #endif

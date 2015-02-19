@@ -142,11 +142,9 @@ check_digits(string s, unsigned base)
 	unsigned b;
 	character c;
 	while (c = *s, c != 0) {
-#if FS_EXTENDED_CHAR
 		if (IS_EXTENDED(c)) {
 			break;
 		}
-#endif
 		b = (unsigned)digit_values[c];;
 		if (b >= base) {
 			break;

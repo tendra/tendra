@@ -1054,11 +1054,9 @@ skip_white(int nl)
 			break;
 		} else {
 			int t;
-#if FS_EXTENDED_CHAR
 			if (IS_EXTENDED(c)) {
 				break;
 			}
-#endif
 			t = lookup_char(c);
 			if (is_white(t)) {
 				/* Deal with other white space characters */
@@ -1258,12 +1256,10 @@ read_unicode(int c, int *pc)
 		if (d == char_eof) {
 			break;
 		}
-#if FS_EXTENDED_CHAR
 		if (IS_EXTENDED(d)) {
 			unread_char(d);
 			break;
 		}
-#endif
 		t = lookup_char(d);
 		if (!is_alphanum(t)) {
 			unread_char(d);
@@ -1304,11 +1300,9 @@ read_extended_id(unsigned long u, int ch)
 		print_char(u, ch, 0, bf);
 		for (;;) {
 			c = read_char();
-#if FS_EXTENDED_CHAR
 			if (IS_EXTENDED(c)) {
 				break;
 			}
-#endif
 			t = lookup_char(c);
 			if (!is_alphanum(t)) {
 				break;
@@ -1364,11 +1358,9 @@ start_label:
 	c = next_char();
 	if (c == char_end)c = refill_char();
 restart_label:
-#if FS_EXTENDED_CHAR
 	if (IS_EXTENDED(c)) {
 		goto unknown_label;
 	}
-#endif
 	t = lookup_char(c);
 	if (is_white(t)) {
 		crt_spaces++;
@@ -1576,12 +1568,10 @@ preproc_label:	{
 				return lex_dot_Hstar;
 			}
 #endif
-#if FS_EXTENDED_CHAR
 			if (IS_EXTENDED(c)) {
 				unread_char(c);
 				return lex_dot;
 			}
-#endif
 			t = lookup_char(c);
 			if (is_digit(t)) {
 				/* Indicate a number with first digit '.' */
@@ -1785,11 +1775,7 @@ preproc_label:	{
 		update_column();
 		loc = crt_loc;
 		c = read_char();
-#if FS_EXTENDED_CHAR
 		t = (IS_EXTENDED(c)? ILLEG : lookup_char(c));
-#else
-		t = lookup_char(c);
-#endif
 		if (is_alphanum(t)) {
 			/* Scan the third and subsequent characters */
 			do {
@@ -1800,11 +1786,9 @@ preproc_label:	{
 					se = bf->end;
 				}
 				c = read_char();
-#if FS_EXTENDED_CHAR
 				if (IS_EXTENDED(c)) {
 					break;
 				}
-#endif
 				t = lookup_char(c);
 			} while (is_alphanum(t));
 		} else {
@@ -1905,12 +1889,10 @@ start_line_label:
 				crt_spaces = tab *(crt_spaces / tab + 1);
 				column = 1;
 			} else {
-#if FS_EXTENDED_CHAR
 				if (IS_EXTENDED(c)) {
 					t = ILLEG;
 					break;
 				}
-#endif
 				t = lookup_char(c);
 				if (is_white(t)) {
 					if (!is_newline(t)) {
@@ -1949,11 +1931,9 @@ digit_label:
 next_digit_label:
 				lastc = c;
 				c = read_char();
-#if FS_EXTENDED_CHAR
 				if (IS_EXTENDED(c)) {
 					break;
 				}
-#endif
 				t = lookup_char(c);
 			} while (is_ppdigit(t));
 			if (c == char_plus || c == char_minus) {
