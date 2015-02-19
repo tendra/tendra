@@ -154,6 +154,7 @@ asm_vfcomment(FILE *f, const char *m, const char *fmt, va_list ap)
 
 	default:
 		error(ERR_SERIOUS, "unsupported assembler dialect");
+		return;
 	}
 
 #if defined(TRANS_alpha) || defined(TRANS_mips)
