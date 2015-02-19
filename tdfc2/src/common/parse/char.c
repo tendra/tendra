@@ -57,6 +57,10 @@ static character from_ascii_tab[NO_CHAR + 1] = {
 int
 is_extended(int c)
 {
+	if (c == char_eof) {
+		return 0;
+	}
+
 	return (unsigned) c >= NO_CHAR;
 }
 
