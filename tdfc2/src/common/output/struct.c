@@ -57,7 +57,6 @@
 #include "tok.h"
 #include "token.h"
 #include "virtual.h"
-#if TDF_OUTPUT
 
 
 /*
@@ -2495,4 +2494,3 @@ enc_ctor_init(BITSTREAM *bs, EXP e)
 
 
 #endif /* LANGUAGE_CPP */
-#endif /* TDF_OUTPUT */

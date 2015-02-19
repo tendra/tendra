@@ -45,8 +45,6 @@ extern int output_tokdec;
 extern int output_unused;
 extern int output_virtual;
 
-#if TDF_OUTPUT
-
 extern int capsule_id(IDENTIFIER, int);
 extern ulong capsule_no(string, int);
 extern ulong capsule_name(ulong, string *, int);
@@ -71,8 +69,6 @@ extern ulong init_no, term_no;
 extern CLASS_TYPE last_class;
 extern ulong last_params[];
 extern int last_conts[];
-
-#endif
 
 
 /*

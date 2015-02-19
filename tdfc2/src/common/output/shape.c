@@ -52,7 +52,6 @@
 #include "struct.h"
 #include "tok.h"
 #include "ustring.h"
-#if TDF_OUTPUT
 
 
 /*
@@ -1896,5 +1895,3 @@ eq_type_rep(TYPE s, TYPE t, int ptr)
 	return 0;
 }
 
-
-#endif /* TDF_OUTPUT */

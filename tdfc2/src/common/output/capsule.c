@@ -43,15 +43,6 @@
 
 
 /*
-    The compiler can optionally be compiled with the TDF output routines
-    disabled by defining the TDF_OUTPUT macro to be zero on the
-    command-line.  The following routines are concerned with TDF output.
-*/
-
-#if TDF_OUTPUT
-
-
-/*
     This table gives the various TDF unit types (token definitions, tag
     declarations etc.).  These are called equations in the TDF linking
     routines.  Each entry consists of an equation name, a couple of
@@ -1020,60 +1011,6 @@ init_diag(void)
 #endif
 	return;
 }
-
-
-/*
-    The following routines are dummies which are used if TDF output is
-    disabled.  The output is still a valid TDF capsule, it just contains
-    no information.
-*/
-
-#else /* TDF_OUTPUT */
-
-
-/*
-    This routine writes the main body of a dummy TDF capsule to the
-    bitstream bs.
-*/
-
-static BITSTREAM *
-write_capsule_body(BITSTREAM *bs)
-{
-	return bs;
-}
-
-
-/*
-    This is the dummy initialisation routine for when the TDF output
-    routines are disabled.
-*/
-
-void
-init_capsule(void)
-{
-	output_capsule = 0;
-	return;
-}
-
-
-/*
-    This is the dummy diagnostic initialisation routine for when the TDF
-    output routines are disabled.
-*/
-
-void
-init_diag(void)
-{
-	return;
-}
-
-
-/*
-    The remaining routines in this module are common whether TDF output
-    is disabled or not.
-*/
-
-#endif /* TDF_OUTPUT */
 
 
 /*

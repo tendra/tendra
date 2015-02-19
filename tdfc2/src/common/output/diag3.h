@@ -19,7 +19,6 @@
     diagnostic information.
 */
 
-#if TDF_OUTPUT
 extern void enc_diag_id(IDENTIFIER, int);
 extern void enc_diag_init(const char *, ulong, TYPE);
 extern void enc_diag_token(IDENTIFIER, TYPE);
@@ -36,7 +35,6 @@ extern BITSTREAM *enc_diag_ctype(BITSTREAM *, CLASS_TYPE);
 extern BITSTREAM *enc_diag_type(BITSTREAM *, TYPE, int);
 extern int enc_diag_pending(void);
 extern int is_diag_stmt(EXP);
-#endif
 
 
 #endif

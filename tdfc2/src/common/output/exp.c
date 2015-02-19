@@ -57,7 +57,6 @@
 #include "throw.h"
 #include "ustring.h"
 #include "virtual.h"
-#if TDF_OUTPUT
 
 
 /*
@@ -2921,5 +2920,3 @@ binary_label: {
 	return bs;
 }
 
-
-#endif /* TDF_OUTPUT */

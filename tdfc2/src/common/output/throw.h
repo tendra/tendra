@@ -19,7 +19,6 @@
     exception handling as TDF expressions.
 */
 
-#if TDF_OUTPUT
 extern BITSTREAM *enc_try(BITSTREAM *, EXP);
 extern BITSTREAM *enc_throw(BITSTREAM *, EXP, EXP, EXP);
 extern BITSTREAM *enc_rethrow(BITSTREAM *);
@@ -30,7 +29,6 @@ extern BITSTREAM *enc_destr_func(BITSTREAM *, EXP);
 extern BITSTREAM *enc_try_start(BITSTREAM *, ulong *, unsigned);
 extern BITSTREAM *enc_try_end(BITSTREAM *, ulong);
 extern int in_exception_spec;
-#endif
 
 
 #endif

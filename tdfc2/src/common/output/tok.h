@@ -29,7 +29,6 @@ extern int builtin_token(IDENTIFIER);
 extern void define_special(int);
 extern void init_tok(int);
 
-#if TDF_OUTPUT
 extern ulong special_no(int);
 extern BITSTREAM *enc_special(BITSTREAM *, int);
 extern BITSTREAM *enc_diag_special(BITSTREAM *, int, int);
@@ -37,7 +36,6 @@ extern BITSTREAM *enc_sort(BITSTREAM *, int);
 extern BITSTREAM *enc_token(BITSTREAM *, IDENTIFIER, LIST(TOKEN));
 extern BITSTREAM *enc_tokdef_body(BITSTREAM *, IDENTIFIER, TOKEN);
 extern BITSTREAM *enc_asm(BITSTREAM *, EXP);
-#endif
 
 
 /*

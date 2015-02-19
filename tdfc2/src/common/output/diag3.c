@@ -51,7 +51,6 @@
 #include "struct.h"
 #include "tok.h"
 #include "ustring.h"
-#if TDF_OUTPUT
 
 
 /*
@@ -1001,5 +1000,3 @@ enc_diag_end(BITSTREAM *bs, BITSTREAM *ts, EXP e, int stmt)
 	return ts;
 }
 
-
-#endif /* TDF_OUTPUT */

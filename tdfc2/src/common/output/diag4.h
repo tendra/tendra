@@ -19,7 +19,7 @@
     new format diagnostic information.
 */
 
-#if (TDF_OUTPUT && TDF_DIAG4)
+#if TDF_DIAG4
 extern void enc_dg_id(IDENTIFIER, int);
 extern void enc_dg_token(IDENTIFIER, TYPE);
 extern BITSTREAM *enc_dg_local(BITSTREAM *, IDENTIFIER, BITSTREAM *);

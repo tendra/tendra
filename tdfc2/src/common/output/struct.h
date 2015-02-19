@@ -19,7 +19,6 @@
     to TDF SHAPEs.
 */
 
-#if TDF_OUTPUT
 extern ulong compile_class(CLASS_TYPE);
 extern BITSTREAM *enc_null_class(BITSTREAM *, CLASS_TYPE);
 extern BITSTREAM *enc_ctor_init(BITSTREAM *, EXP);
@@ -45,7 +44,6 @@ extern TYPE dummy_class;
 extern TYPE dummy_count;
 extern TYPE dummy_vtab;
 extern TYPE dummy_func;
-#endif
 
 
 #endif

@@ -32,7 +32,6 @@ extern void compile_weak(IDENTIFIER, IDENTIFIER);
 extern void update_tag(IDENTIFIER, int);
 extern LIST(IDENTIFIER)pending_funcs;
 
-#if TDF_OUTPUT
 extern void enc_tagdec(IDENTIFIER, ulong, TYPE, int);
 extern BITSTREAM *enc_tagdec_start(IDENTIFIER, ulong, TYPE, int);
 extern void enc_tagdec_end(BITSTREAM *);
@@ -47,7 +46,5 @@ extern void enc_tokdec(ulong, const char *);
 extern int enc_tokdef(IDENTIFIER, int);
 extern void enc_dynamic_init(void);
 extern DECL_SPEC crt_func_access;
-#endif
-
 
 #endif

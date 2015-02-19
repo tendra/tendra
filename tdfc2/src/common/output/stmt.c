@@ -50,13 +50,6 @@ unsigned long no_destructors = 0;
 
 
 /*
-    The remaining routines are only included if TDF output is enabled.
-*/
-
-#if TDF_OUTPUT
-
-
-/*
     This routine finds the number of components in the statement e,
     ignoring trivial statements and expanding compound statements
     recursively.  The result equals the number of statements added to
@@ -1377,5 +1370,3 @@ default_lab: {
 	return bs;
 }
 
-
-#endif /* TDF_OUTPUT */

@@ -634,14 +634,6 @@ builtin_token(IDENTIFIER id)
 
 
 /*
-    The remaining routines in this module are only included if TDF output
-    is enabled.
-*/
-
-#if TDF_OUTPUT
-
-
-/*
     This routine adds the foreign sort named s to the bitstream bs.
 */
 
@@ -1253,21 +1245,3 @@ enc_asm(BITSTREAM *bs, EXP e)
 	return bs;
 }
 
-
-#else /* TDF_OUTPUT */
-
-
-/*
-    This routine is a dummy version of define_special used when TDF
-    output is disabled.
-*/
-
-void
-define_special(int t)
-{
-	UNUSED(t);
-	return;
-}
-
-
-#endif /* TDF_OUTPUT */

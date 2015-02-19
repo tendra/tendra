@@ -19,7 +19,6 @@
     EXPs and related sorts.
 */
 
-#if TDF_OUTPUT
 extern BITSTREAM *enc_exp(BITSTREAM *, EXP);
 extern BITSTREAM *enc_addr_exp(BITSTREAM *, TYPE, EXP);
 extern BITSTREAM *enc_cont_exp(BITSTREAM *, TYPE, EXP);
@@ -35,7 +34,6 @@ extern BITSTREAM *enc_dummy_exp(BITSTREAM *, TYPE, ulong, OFFSET, int, int);
 extern BITSTREAM *enc_compare(BITSTREAM *, EXP, EXP, NTEST, ulong, ulong);
 extern BITSTREAM *enc_error_treatment(BITSTREAM *, TYPE);
 extern EXP simplify_cond(EXP, int *);
-#endif
 
 
 #endif

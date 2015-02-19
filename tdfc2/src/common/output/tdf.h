@@ -20,15 +20,10 @@
     one is included depends on the value of TDF_VERSION.
 */
 
-#if TDF_OUTPUT
 #if (TDF_VERSION == 401)
 #include "tdf1.h"
 #else
 FAIL_COMPILER Unknown TDF version number!
-#endif
-#else
-#define TDF_major		(TDF_VERSION / 100)
-#define TDF_minor		(TDF_VERSION % 100)
 #endif
 
 

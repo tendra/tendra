@@ -19,13 +19,11 @@
     statements as TDF expressions.
 */
 
-#if TDF_OUTPUT
 extern BITSTREAM *enc_stmt(BITSTREAM *, EXP);
 extern BITSTREAM *enc_compound_stmt(BITSTREAM *, EXP);
 extern BITSTREAM *enc_stmt_exp(BITSTREAM *, EXP, TYPE, int);
 extern unsigned stmt_length(EXP);
 extern PTR(LOCATION)crt_enc_loc;
-#endif
 
 extern unsigned long no_destructors;
 

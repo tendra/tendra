@@ -19,7 +19,6 @@
     SHAPEs and related sorts.
 */
 
-#if TDF_OUTPUT
 extern BITSTREAM *enc_add_ptr(BITSTREAM *, EXP, ulong, OFFSET, int);
 extern BITSTREAM *enc_alignment(BITSTREAM *, TYPE);
 extern BITSTREAM *enc_arith(BITSTREAM *, TYPE, int);
@@ -41,7 +40,6 @@ extern BITSTREAM *enc_strlit(BITSTREAM *, STRING);
 extern BITSTREAM *enc_variety(BITSTREAM *, TYPE);
 extern int eq_type_rep(TYPE, TYPE, int);
 extern int is_tokenised_class(TYPE);
-#endif
 
 
 #endif

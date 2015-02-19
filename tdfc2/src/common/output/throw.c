@@ -40,7 +40,6 @@
 #include "tok.h"
 #include "typeid.h"
 #include "ustring.h"
-#if TDF_OUTPUT
 
 
 /*
@@ -479,4 +478,3 @@ enc_catch_func(BITSTREAM *bs, LIST(TYPE)p, EXP a)
 
 
 #endif /* LANGUAGE_CPP */
-#endif /* TDF_OUTPUT */

@@ -62,7 +62,7 @@
 #include "typeid.h"
 #include "ustring.h"
 #include "virtual.h"
-#if (TDF_OUTPUT && TDF_DIAG4)
+#if TDF_DIAG4
 
 
 /*
@@ -2042,4 +2042,4 @@ enc_dg_stmt(BITSTREAM *bs, EXP e, int stmt)
 }
 
 
-#endif /* TDF_OUTPUT && TDF_DIAG4 */
+#endif /* TDF_DIAG4 */

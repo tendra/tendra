@@ -45,10 +45,6 @@
 #define TDF_VERSION		401
 #endif
 
-#ifndef TDF_OUTPUT
-#define TDF_OUTPUT		1
-#endif
-
 #ifndef DIAG_VERSION
 #define DIAG_VERSION		2
 #endif

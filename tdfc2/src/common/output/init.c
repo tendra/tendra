@@ -48,7 +48,6 @@
 #include "syntax.h"
 #include "throw.h"
 #include "tok.h"
-#if TDF_OUTPUT
 
 
 /*
@@ -1702,4 +1701,3 @@ enc_dealloc(BITSTREAM *bs, EXP e, ulong n)
 
 
 #endif /* LANGUAGE_CPP */
-#endif /* TDF_OUTPUT */

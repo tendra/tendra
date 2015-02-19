@@ -19,7 +19,6 @@
     initialisation expressions.
 */
 
-#if TDF_OUTPUT
 extern BITSTREAM *enc_init_tag(BITSTREAM *, ulong, OFFSET, int, TYPE, EXP, EXP,
 			       int);
 extern BITSTREAM *enc_init_global(BITSTREAM *, EXP, EXP, ulong, TYPE);
@@ -41,7 +40,6 @@ extern EXP make_dummy_init(TYPE);
 extern int is_init_complex(EXP);
 extern int in_dynamic_init;
 extern int in_static_init;
-#endif
 
 
 #endif
