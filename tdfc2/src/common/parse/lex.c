@@ -1054,7 +1054,7 @@ skip_white(int nl)
 			break;
 		} else {
 			int t;
-			if (IS_EXTENDED(c)) {
+			if (is_extended(c)) {
 				break;
 			}
 			t = lookup_char(c);
@@ -1256,7 +1256,7 @@ read_unicode(int c, int *pc)
 		if (d == char_eof) {
 			break;
 		}
-		if (IS_EXTENDED(d)) {
+		if (is_extended(d)) {
 			unread_char(d);
 			break;
 		}
@@ -1300,7 +1300,7 @@ read_extended_id(unsigned long u, int ch)
 		print_char(u, ch, 0, bf);
 		for (;;) {
 			c = read_char();
-			if (IS_EXTENDED(c)) {
+			if (is_extended(c)) {
 				break;
 			}
 			t = lookup_char(c);
@@ -1358,7 +1358,7 @@ start_label:
 	c = next_char();
 	if (c == char_end)c = refill_char();
 restart_label:
-	if (IS_EXTENDED(c)) {
+	if (is_extended(c)) {
 		goto unknown_label;
 	}
 	t = lookup_char(c);
@@ -1568,7 +1568,7 @@ preproc_label:	{
 				return lex_dot_Hstar;
 			}
 #endif
-			if (IS_EXTENDED(c)) {
+			if (is_extended(c)) {
 				unread_char(c);
 				return lex_dot;
 			}
@@ -1775,7 +1775,7 @@ preproc_label:	{
 		update_column();
 		loc = crt_loc;
 		c = read_char();
-		t = (IS_EXTENDED(c)? ILLEG : lookup_char(c));
+		t = (is_extended(c)? ILLEG : lookup_char(c));
 		if (is_alphanum(t)) {
 			/* Scan the third and subsequent characters */
 			do {
@@ -1786,7 +1786,7 @@ preproc_label:	{
 					se = bf->end;
 				}
 				c = read_char();
-				if (IS_EXTENDED(c)) {
+				if (is_extended(c)) {
 					break;
 				}
 				t = lookup_char(c);
@@ -1889,7 +1889,7 @@ start_line_label:
 				crt_spaces = tab *(crt_spaces / tab + 1);
 				column = 1;
 			} else {
-				if (IS_EXTENDED(c)) {
+				if (is_extended(c)) {
 					t = ILLEG;
 					break;
 				}
@@ -1931,7 +1931,7 @@ digit_label:
 next_digit_label:
 				lastc = c;
 				c = read_char();
-				if (IS_EXTENDED(c)) {
+				if (is_extended(c)) {
 					break;
 				}
 				t = lookup_char(c);

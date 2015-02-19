@@ -8,7 +8,6 @@
  */
 
 #include <assert.h>
-#include <limits.h>
 #include <stdio.h>
 
 #include <shared/check.h>
@@ -45,6 +44,21 @@ static character from_ascii_tab[NO_CHAR + 1] = {
 #undef CHAR_DATA
 	NONE			/* dummy last element */
 };
+
+
+
+/*
+    DOES HOST MACHINE HAVE EXTENDED CHARACTERS?
+
+    The function is_extended() returns true if a character value is considered
+    an extended value.
+*/
+
+int
+is_extended(int c)
+{
+	return (unsigned) c >= NO_CHAR;
+}
 
 
 /*

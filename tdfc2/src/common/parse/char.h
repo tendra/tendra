@@ -25,30 +25,15 @@ extern unsigned long to_ascii(unsigned long, int *);
 extern unsigned long from_ascii(unsigned long, int *);
 extern int unicode_alpha(unsigned long);
 extern int is_ascii;
+extern int is_extended(int);
 
 
 /*
-    DOES HOST MACHINE HAVE EXTENDED CHARACTERS?
-
     Most of the parser assumes that all characters lie in the range [0, 255].
-    The macro IS_EXTENDED() is true if a character value is greater than 255.
-
-    Note that limits.h needs to be included for UCHAR_MAX, which is used here
-    to avoid making the comparison in situations where it would always be true
-    due to the range of characters, as some compilers will complain about that.
+    This macro gives the number of characters in that range.
 */
 
-#ifdef UCHAR_MAX
-
 #define NO_CHAR			256
-
-#if UCHAR_MAX >= NO_CHAR
-#define IS_EXTENDED(C)		((unsigned)(C) >= NO_CHAR)
-#else
-#define IS_EXTENDED(C)		0
-#endif
-
-#endif
 
 
 /*

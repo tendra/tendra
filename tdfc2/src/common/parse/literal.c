@@ -142,7 +142,7 @@ check_digits(string s, unsigned base)
 	unsigned b;
 	character c;
 	while (c = *s, c != 0) {
-		if (IS_EXTENDED(c)) {
+		if (is_extended(c)) {
 			break;
 		}
 		b = (unsigned)digit_values[c];;
