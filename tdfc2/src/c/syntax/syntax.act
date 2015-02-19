@@ -165,21 +165,6 @@ typedef LIST ( EXP ) SID_LIST_EXP ;
 #include "syntax.h"
 
 
-/*
-    The output of sid is automatically generated.  Hence it is not
-    necessarily appropriate to apply the same level of checking to this
-    as to the rest of the program.  These pragmas describe the relaxations
-    allowed for the sid output.
-*/
-
-#if FS_TENDRA
-#pragma TenDRA begin
-#pragma TenDRA const conditional allow
-#pragma TenDRA unreachable code allow
-#pragma TenDRA variable analysis off
-#endif
-
-
 @}, @{
 
 /* $Id$ */
