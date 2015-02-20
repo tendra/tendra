@@ -16,9 +16,9 @@
 
 #include "config.h"
 #include "version.h"
+#include "c_types.h"
 
 #include "system.h"
-#include "c_types.h"
 #include "error.h"
 #include "catalog.h"
 #include "basetype.h"

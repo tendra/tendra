@@ -8,13 +8,14 @@
  */
 
 #include <assert.h>
+#include <limits.h>
 #include <stdio.h>
 
 #include <shared/check.h>
 
 #include "config.h"
-#include <limits.h>
 #include "c_types.h"
+
 #include "ctype_ops.h"
 #include "etype_ops.h"
 #include "exp_ops.h"

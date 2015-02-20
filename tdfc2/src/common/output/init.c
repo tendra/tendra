@@ -14,8 +14,8 @@
 
 #include "config.h"
 #include "version.h"
-
 #include "c_types.h"
+
 #include "ctype_ops.h"
 #include "exp_ops.h"
 #include "id_ops.h"

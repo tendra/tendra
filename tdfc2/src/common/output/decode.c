@@ -13,6 +13,7 @@
 
 #include "config.h"
 #include "c_types.h"
+
 #include "error.h"
 #include "buffer.h"
 #include "char.h"

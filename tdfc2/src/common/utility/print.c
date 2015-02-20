@@ -15,10 +15,10 @@
 #include <shared/check.h>
 
 #include "config.h"
+#include "c_types.h"
 
 #include "ustring.h"
 #include "system.h"
-#include "c_types.h"
 #include "ctype_ops.h"
 #include "etype_ops.h"
 #include "exp_ops.h"

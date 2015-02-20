@@ -7,14 +7,15 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include <stdio.h>
 #include <string.h>
+#include <stdarg.h>
+#include <stdio.h>
 
 #include <shared/check.h>
 
 #include "config.h"
-#include <stdarg.h>
 #include "c_types.h"
+
 #include "error.h"
 #include "buffer.h"
 #include "ustring.h"

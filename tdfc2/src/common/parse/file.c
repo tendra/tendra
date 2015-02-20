@@ -19,10 +19,10 @@
 #include <shared/check.h>
 
 #include "config.h"
+#include "c_types.h"
 
 #include "ustring.h"
 #include "system.h"
-#include "c_types.h"
 #include "loc_ext.h"
 #include "error.h"
 #include "catalog.h"

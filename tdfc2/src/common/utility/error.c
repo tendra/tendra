@@ -17,11 +17,11 @@
 
 #include "config.h"
 #include "version.h"
+#include "c_types.h"
 
 #include "ustring.h"
 #include "system.h"
 #include "version.h"
-#include "c_types.h"
 #include "err_ext.h"
 #include "exp_ops.h"
 #include "loc_ext.h"

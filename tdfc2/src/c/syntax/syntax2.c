@@ -10,7 +10,7 @@
 /* BEGINNING OF HEADER */
 
 #define __SID_SPLIT
-#line 168 "syntax.act"
+#line 169 "syntax.act"
 
 
 /* $Id$ */
@@ -28,6 +28,7 @@
 
 #include "config.h"
 #include "c_types.h"
+
 #include "exp_ops.h"
 #include "hashid_ops.h"
 #include "id_ops.h"
@@ -90,7 +91,7 @@ typedef LIST ( EXP ) SID_LIST_EXP ;
 #include "syntax.h"
 
 
-#line 94 "syntax2.c"
+#line 95 "syntax2.c"
 
 void
 ZR1044(TYPE *ZO856, IDENTIFIER *ZO857)
@@ -109,11 +110,11 @@ ZR1044(TYPE *ZO856, IDENTIFIER *ZO857)
 
 		/* BEGINNING OF ACTION: is_parameter */
 		{
-#line 1452 "syntax.act"
+#line 1453 "syntax.act"
 
     /* Resolve parameter declarators from type names */
     (ZI0) = predict_param () ;
-#line 117 "syntax2.c"
+#line 118 "syntax2.c"
 		}
 		/* END OF ACTION: is_parameter */
 		if (!ZI0)
@@ -125,10 +126,10 @@ ZR1044(TYPE *ZO856, IDENTIFIER *ZO857)
 				{
 					/* BEGINNING OF EXTRACT: identifier */
 					{
-#line 197 "syntax.act"
+#line 198 "syntax.act"
 
     ZI1045 = crt_token->pp_data.id.use ;
-#line 132 "syntax2.c"
+#line 133 "syntax2.c"
 					}
 					/* END OF EXTRACT: identifier */
 					ADVANCE_LEXER;
@@ -138,10 +139,10 @@ ZR1044(TYPE *ZO856, IDENTIFIER *ZO857)
 				{
 					/* BEGINNING OF EXTRACT: statement-name */
 					{
-#line 209 "syntax.act"
+#line 210 "syntax.act"
 
     ZI1045 = crt_token->pp_data.id.use ;
-#line 145 "syntax2.c"
+#line 146 "syntax2.c"
 					}
 					/* END OF EXTRACT: statement-name */
 					ADVANCE_LEXER;
@@ -151,10 +152,10 @@ ZR1044(TYPE *ZO856, IDENTIFIER *ZO857)
 				{
 					/* BEGINNING OF EXTRACT: type-name */
 					{
-#line 201 "syntax.act"
+#line 202 "syntax.act"
 
     ZI1045 = crt_token->pp_data.id.use ;
-#line 158 "syntax2.c"
+#line 159 "syntax2.c"
 					}
 					/* END OF EXTRACT: type-name */
 					ADVANCE_LEXER;
@@ -167,19 +168,19 @@ ZR1044(TYPE *ZO856, IDENTIFIER *ZO857)
 		/* END OF INLINE: any-identifier */
 		/* BEGINNING OF ACTION: type_none */
 		{
-#line 951 "syntax.act"
+#line 952 "syntax.act"
 
     (ZI1046) = NULL_type ;
-#line 174 "syntax2.c"
+#line 175 "syntax2.c"
 		}
 		/* END OF ACTION: type_none */
 		/* BEGINNING OF ACTION: declarator_begin */
 		{
-#line 1222 "syntax.act"
+#line 1223 "syntax.act"
 
     IDENTIFIER pid = underlying_id ( (ZI1045) ) ;
     DEREF_loc ( id_loc ( pid ), decl_loc ) ;
-#line 183 "syntax2.c"
+#line 184 "syntax2.c"
 		}
 		/* END OF ACTION: declarator_begin */
 		ZR858 (ZI1046, ZI1045, &ZIt, &ZIid);
@@ -189,12 +190,12 @@ ZR1044(TYPE *ZO856, IDENTIFIER *ZO857)
 		}
 		/* BEGINNING OF ACTION: declarator_bad */
 		{
-#line 1227 "syntax.act"
+#line 1228 "syntax.act"
 
     if ( IS_NULL_type ( (ZIt) ) ) {
 	report ( crt_loc, ERR_dcl_meaning_paren () ) ;
     }
-#line 198 "syntax2.c"
+#line 199 "syntax2.c"
 		}
 		/* END OF ACTION: declarator_bad */
 		switch (CURRENT_TERMINAL) {
@@ -227,12 +228,12 @@ ZL2:;
 			}
 			/* BEGINNING OF ACTION: declarator_bad */
 			{
-#line 1227 "syntax.act"
+#line 1228 "syntax.act"
 
     if ( IS_NULL_type ( (ZIt) ) ) {
 	report ( crt_loc, ERR_dcl_meaning_paren () ) ;
     }
-#line 236 "syntax2.c"
+#line 237 "syntax2.c"
 			}
 			/* END OF ACTION: declarator_bad */
 			switch (CURRENT_TERMINAL) {
@@ -268,21 +269,21 @@ ZL2:;
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: id_none */
 			{
-#line 384 "syntax.act"
+#line 385 "syntax.act"
 
     (ZI1043) = NULL_id ;
-#line 275 "syntax2.c"
+#line 276 "syntax2.c"
 			}
 			/* END OF ACTION: id_none */
 			/* BEGINNING OF ACTION: param_begin */
 			{
-#line 875 "syntax.act"
+#line 876 "syntax.act"
 
     func_type_defn ( 0 ) ;
     begin_param ( (ZI1043) ) ;
     have_type_declaration = TYPE_DECL_NONE ;
     have_func_declarator = 0 ;
-#line 286 "syntax2.c"
+#line 287 "syntax2.c"
 			}
 			/* END OF ACTION: param_begin */
 			ZR760 (&ZIell);
@@ -292,10 +293,10 @@ ZL2:;
 			}
 			/* BEGINNING OF ACTION: type_func_weak */
 			{
-#line 1019 "syntax.act"
+#line 1020 "syntax.act"
 
     (ZI1049) = make_func_type ( NULL_type, ( (ZIell) | FUNC_WEAK ), cv_c, empty_type_set ) ;
-#line 299 "syntax2.c"
+#line 300 "syntax2.c"
 			}
 			/* END OF ACTION: type_func_weak */
 			switch (CURRENT_TERMINAL) {
@@ -307,30 +308,30 @@ ZL2:;
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: param_end */
 			{
-#line 884 "syntax.act"
+#line 885 "syntax.act"
 
     end_param () ;
     have_type_declaration = TYPE_DECL_NONE ;
     have_func_declarator = 1 ;
-#line 316 "syntax2.c"
+#line 317 "syntax2.c"
 			}
 			/* END OF ACTION: param_end */
 			/* BEGINNING OF ACTION: id_anon */
 			{
-#line 389 "syntax.act"
+#line 390 "syntax.act"
 
     HASHID nm = lookup_anon () ;
     (ZI1050) = DEREF_id ( hashid_id ( nm ) ) ;
-#line 325 "syntax2.c"
+#line 326 "syntax2.c"
 			}
 			/* END OF ACTION: id_anon */
 			/* BEGINNING OF ACTION: declarator_begin */
 			{
-#line 1222 "syntax.act"
+#line 1223 "syntax.act"
 
     IDENTIFIER pid = underlying_id ( (ZI1050) ) ;
     DEREF_loc ( id_loc ( pid ), decl_loc ) ;
-#line 334 "syntax2.c"
+#line 335 "syntax2.c"
 			}
 			/* END OF ACTION: declarator_begin */
 			ZR858 (ZI1049, ZI1050, &ZIt, &ZIid);
@@ -340,12 +341,12 @@ ZL2:;
 			}
 			/* BEGINNING OF ACTION: declarator_bad */
 			{
-#line 1227 "syntax.act"
+#line 1228 "syntax.act"
 
     if ( IS_NULL_type ( (ZIt) ) ) {
 	report ( crt_loc, ERR_dcl_meaning_paren () ) ;
     }
-#line 349 "syntax2.c"
+#line 350 "syntax2.c"
 			}
 			/* END OF ACTION: declarator_bad */
 			switch (CURRENT_TERMINAL) {
@@ -390,11 +391,11 @@ ZL2:;
 			}
 			/* BEGINNING OF ACTION: type_array */
 			{
-#line 1031 "syntax.act"
+#line 1032 "syntax.act"
 
     NAT n = make_array_dim ( (ZIe) ) ;
     MAKE_type_array ( cv_none, NULL_type, n, (ZI1047) ) ;
-#line 398 "syntax2.c"
+#line 399 "syntax2.c"
 			}
 			/* END OF ACTION: type_array */
 			/* BEGINNING OF INLINE: close-square */
@@ -412,20 +413,20 @@ ZL2:;
 			/* END OF INLINE: close-square */
 			/* BEGINNING OF ACTION: id_anon */
 			{
-#line 389 "syntax.act"
+#line 390 "syntax.act"
 
     HASHID nm = lookup_anon () ;
     (ZI1048) = DEREF_id ( hashid_id ( nm ) ) ;
-#line 420 "syntax2.c"
+#line 421 "syntax2.c"
 			}
 			/* END OF ACTION: id_anon */
 			/* BEGINNING OF ACTION: declarator_begin */
 			{
-#line 1222 "syntax.act"
+#line 1223 "syntax.act"
 
     IDENTIFIER pid = underlying_id ( (ZI1048) ) ;
     DEREF_loc ( id_loc ( pid ), decl_loc ) ;
-#line 429 "syntax2.c"
+#line 430 "syntax2.c"
 			}
 			/* END OF ACTION: declarator_begin */
 			ZR858 (ZI1047, ZI1048, &ZIt, &ZIid);
@@ -435,12 +436,12 @@ ZL2:;
 			}
 			/* BEGINNING OF ACTION: declarator_bad */
 			{
-#line 1227 "syntax.act"
+#line 1228 "syntax.act"
 
     if ( IS_NULL_type ( (ZIt) ) ) {
 	report ( crt_loc, ERR_dcl_meaning_paren () ) ;
     }
-#line 444 "syntax2.c"
+#line 445 "syntax2.c"
 			}
 			/* END OF ACTION: declarator_bad */
 			switch (CURRENT_TERMINAL) {
@@ -472,20 +473,20 @@ ZL2:;
 			}
 			/* BEGINNING OF ACTION: type_build */
 			{
-#line 1051 "syntax.act"
+#line 1052 "syntax.act"
 
     (ZIt) = ( IS_NULL_type ( (ZIq) ) ? (ZIp) : inject_pre_type ( (ZIq), (ZIp), 0 ) ) ;
-#line 479 "syntax2.c"
+#line 480 "syntax2.c"
 			}
 			/* END OF ACTION: type_build */
 			/* BEGINNING OF ACTION: declarator_bad */
 			{
-#line 1227 "syntax.act"
+#line 1228 "syntax.act"
 
     if ( IS_NULL_type ( (ZIt) ) ) {
 	report ( crt_loc, ERR_dcl_meaning_paren () ) ;
     }
-#line 489 "syntax2.c"
+#line 490 "syntax2.c"
 			}
 			/* END OF ACTION: declarator_bad */
 			switch (CURRENT_TERMINAL) {
@@ -517,21 +518,21 @@ ZL2:;
 
 			/* BEGINNING OF ACTION: id_none */
 			{
-#line 384 "syntax.act"
+#line 385 "syntax.act"
 
     (ZI1042) = NULL_id ;
-#line 524 "syntax2.c"
+#line 525 "syntax2.c"
 			}
 			/* END OF ACTION: id_none */
 			/* BEGINNING OF ACTION: param_begin */
 			{
-#line 875 "syntax.act"
+#line 876 "syntax.act"
 
     func_type_defn ( 0 ) ;
     begin_param ( (ZI1042) ) ;
     have_type_declaration = TYPE_DECL_NONE ;
     have_func_declarator = 0 ;
-#line 535 "syntax2.c"
+#line 536 "syntax2.c"
 			}
 			/* END OF ACTION: param_begin */
 			ZR757 (&ZIs);
@@ -548,30 +549,30 @@ ZL2:;
 			ZIt = ZIs;
 			/* BEGINNING OF ACTION: param_end */
 			{
-#line 884 "syntax.act"
+#line 885 "syntax.act"
 
     end_param () ;
     have_type_declaration = TYPE_DECL_NONE ;
     have_func_declarator = 1 ;
-#line 557 "syntax2.c"
+#line 558 "syntax2.c"
 			}
 			/* END OF ACTION: param_end */
 			/* BEGINNING OF ACTION: id_anon */
 			{
-#line 389 "syntax.act"
+#line 390 "syntax.act"
 
     HASHID nm = lookup_anon () ;
     (ZIid) = DEREF_id ( hashid_id ( nm ) ) ;
-#line 566 "syntax2.c"
+#line 567 "syntax2.c"
 			}
 			/* END OF ACTION: id_anon */
 			/* BEGINNING OF ACTION: declarator_begin */
 			{
-#line 1222 "syntax.act"
+#line 1223 "syntax.act"
 
     IDENTIFIER pid = underlying_id ( (ZIid) ) ;
     DEREF_loc ( id_loc ( pid ), decl_loc ) ;
-#line 575 "syntax2.c"
+#line 576 "syntax2.c"
 			}
 			/* END OF ACTION: declarator_begin */
 			ZR858 (ZIt, ZIid, &ZI856, &ZI857);
@@ -613,10 +614,10 @@ ZL2_920:;
 			}
 			/* BEGINNING OF ACTION: exp_div */
 			{
-#line 476 "syntax.act"
+#line 477 "syntax.act"
 
     (ZIe) = make_mult_exp ( lex_div, (ZI918), (ZIb) ) ;
-#line 620 "syntax2.c"
+#line 621 "syntax2.c"
 			}
 			/* END OF ACTION: exp_div */
 			/* BEGINNING OF INLINE: 920 */
@@ -638,10 +639,10 @@ ZL2_920:;
 			}
 			/* BEGINNING OF ACTION: exp_rem */
 			{
-#line 600 "syntax.act"
+#line 601 "syntax.act"
 
     (ZIe) = make_rem_exp ( (ZI918), (ZIb) ) ;
-#line 645 "syntax2.c"
+#line 646 "syntax2.c"
 			}
 			/* END OF ACTION: exp_rem */
 			/* BEGINNING OF INLINE: 920 */
@@ -663,10 +664,10 @@ ZL2_920:;
 			}
 			/* BEGINNING OF ACTION: exp_mult */
 			{
-#line 550 "syntax.act"
+#line 551 "syntax.act"
 
     (ZIe) = make_mult_exp ( lex_star, (ZI918), (ZIb) ) ;
-#line 670 "syntax2.c"
+#line 671 "syntax2.c"
 			}
 			/* END OF ACTION: exp_mult */
 			/* BEGINNING OF INLINE: 920 */
@@ -708,21 +709,21 @@ ZL2_parameter_Hid_Htail:;
 			}
 			/* BEGINNING OF ACTION: declarator_begin */
 			{
-#line 1222 "syntax.act"
+#line 1223 "syntax.act"
 
     IDENTIFIER pid = underlying_id ( (ZIid) ) ;
     DEREF_loc ( id_loc ( pid ), decl_loc ) ;
-#line 716 "syntax2.c"
+#line 717 "syntax2.c"
 			}
 			/* END OF ACTION: declarator_begin */
 			/* BEGINNING OF ACTION: declare_weak_param */
 			{
-#line 1191 "syntax.act"
+#line 1192 "syntax.act"
 
     IGNORE weak_param_decl ( (ZIid) ) ;
     have_type_declaration = TYPE_DECL_NONE ;
     have_func_declarator = 0 ;
-#line 726 "syntax2.c"
+#line 727 "syntax2.c"
 			}
 			/* END OF ACTION: declare_weak_param */
 			/* BEGINNING OF INLINE: parameter-id-tail */
@@ -756,11 +757,11 @@ ZRparameter_Hdeclarator_Haux_Hopt(TYPE *ZOt, IDENTIFIER *ZOid)
 
 		/* BEGINNING OF ACTION: is_parameter */
 		{
-#line 1452 "syntax.act"
+#line 1453 "syntax.act"
 
     /* Resolve parameter declarators from type names */
     (ZI0) = predict_param () ;
-#line 764 "syntax2.c"
+#line 765 "syntax2.c"
 		}
 		/* END OF ACTION: is_parameter */
 		if (!ZI0)
@@ -772,10 +773,10 @@ ZRparameter_Hdeclarator_Haux_Hopt(TYPE *ZOt, IDENTIFIER *ZOid)
 				{
 					/* BEGINNING OF EXTRACT: identifier */
 					{
-#line 197 "syntax.act"
+#line 198 "syntax.act"
 
     ZI1045 = crt_token->pp_data.id.use ;
-#line 779 "syntax2.c"
+#line 780 "syntax2.c"
 					}
 					/* END OF EXTRACT: identifier */
 					ADVANCE_LEXER;
@@ -785,10 +786,10 @@ ZRparameter_Hdeclarator_Haux_Hopt(TYPE *ZOt, IDENTIFIER *ZOid)
 				{
 					/* BEGINNING OF EXTRACT: statement-name */
 					{
-#line 209 "syntax.act"
+#line 210 "syntax.act"
 
     ZI1045 = crt_token->pp_data.id.use ;
-#line 792 "syntax2.c"
+#line 793 "syntax2.c"
 					}
 					/* END OF EXTRACT: statement-name */
 					ADVANCE_LEXER;
@@ -798,10 +799,10 @@ ZRparameter_Hdeclarator_Haux_Hopt(TYPE *ZOt, IDENTIFIER *ZOid)
 				{
 					/* BEGINNING OF EXTRACT: type-name */
 					{
-#line 201 "syntax.act"
+#line 202 "syntax.act"
 
     ZI1045 = crt_token->pp_data.id.use ;
-#line 805 "syntax2.c"
+#line 806 "syntax2.c"
 					}
 					/* END OF EXTRACT: type-name */
 					ADVANCE_LEXER;
@@ -814,19 +815,19 @@ ZRparameter_Hdeclarator_Haux_Hopt(TYPE *ZOt, IDENTIFIER *ZOid)
 		/* END OF INLINE: any-identifier */
 		/* BEGINNING OF ACTION: type_none */
 		{
-#line 951 "syntax.act"
+#line 952 "syntax.act"
 
     (ZI1046) = NULL_type ;
-#line 821 "syntax2.c"
+#line 822 "syntax2.c"
 		}
 		/* END OF ACTION: type_none */
 		/* BEGINNING OF ACTION: declarator_begin */
 		{
-#line 1222 "syntax.act"
+#line 1223 "syntax.act"
 
     IDENTIFIER pid = underlying_id ( (ZI1045) ) ;
     DEREF_loc ( id_loc ( pid ), decl_loc ) ;
-#line 830 "syntax2.c"
+#line 831 "syntax2.c"
 		}
 		/* END OF ACTION: declarator_begin */
 		ZR858 (ZI1046, ZI1045, &ZIt, &ZIid);
@@ -866,21 +867,21 @@ ZL2:;
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: id_none */
 			{
-#line 384 "syntax.act"
+#line 385 "syntax.act"
 
     (ZI1043) = NULL_id ;
-#line 873 "syntax2.c"
+#line 874 "syntax2.c"
 			}
 			/* END OF ACTION: id_none */
 			/* BEGINNING OF ACTION: param_begin */
 			{
-#line 875 "syntax.act"
+#line 876 "syntax.act"
 
     func_type_defn ( 0 ) ;
     begin_param ( (ZI1043) ) ;
     have_type_declaration = TYPE_DECL_NONE ;
     have_func_declarator = 0 ;
-#line 884 "syntax2.c"
+#line 885 "syntax2.c"
 			}
 			/* END OF ACTION: param_begin */
 			ZR760 (&ZIell);
@@ -890,10 +891,10 @@ ZL2:;
 			}
 			/* BEGINNING OF ACTION: type_func_weak */
 			{
-#line 1019 "syntax.act"
+#line 1020 "syntax.act"
 
     (ZI1049) = make_func_type ( NULL_type, ( (ZIell) | FUNC_WEAK ), cv_c, empty_type_set ) ;
-#line 897 "syntax2.c"
+#line 898 "syntax2.c"
 			}
 			/* END OF ACTION: type_func_weak */
 			switch (CURRENT_TERMINAL) {
@@ -905,30 +906,30 @@ ZL2:;
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: param_end */
 			{
-#line 884 "syntax.act"
+#line 885 "syntax.act"
 
     end_param () ;
     have_type_declaration = TYPE_DECL_NONE ;
     have_func_declarator = 1 ;
-#line 914 "syntax2.c"
+#line 915 "syntax2.c"
 			}
 			/* END OF ACTION: param_end */
 			/* BEGINNING OF ACTION: id_anon */
 			{
-#line 389 "syntax.act"
+#line 390 "syntax.act"
 
     HASHID nm = lookup_anon () ;
     (ZI1050) = DEREF_id ( hashid_id ( nm ) ) ;
-#line 923 "syntax2.c"
+#line 924 "syntax2.c"
 			}
 			/* END OF ACTION: id_anon */
 			/* BEGINNING OF ACTION: declarator_begin */
 			{
-#line 1222 "syntax.act"
+#line 1223 "syntax.act"
 
     IDENTIFIER pid = underlying_id ( (ZI1050) ) ;
     DEREF_loc ( id_loc ( pid ), decl_loc ) ;
-#line 932 "syntax2.c"
+#line 933 "syntax2.c"
 			}
 			/* END OF ACTION: declarator_begin */
 			ZR858 (ZI1049, ZI1050, &ZIt, &ZIid);
@@ -964,11 +965,11 @@ ZL2:;
 			}
 			/* BEGINNING OF ACTION: type_array */
 			{
-#line 1031 "syntax.act"
+#line 1032 "syntax.act"
 
     NAT n = make_array_dim ( (ZIe) ) ;
     MAKE_type_array ( cv_none, NULL_type, n, (ZI1047) ) ;
-#line 972 "syntax2.c"
+#line 973 "syntax2.c"
 			}
 			/* END OF ACTION: type_array */
 			/* BEGINNING OF INLINE: close-square */
@@ -986,20 +987,20 @@ ZL2:;
 			/* END OF INLINE: close-square */
 			/* BEGINNING OF ACTION: id_anon */
 			{
-#line 389 "syntax.act"
+#line 390 "syntax.act"
 
     HASHID nm = lookup_anon () ;
     (ZI1048) = DEREF_id ( hashid_id ( nm ) ) ;
-#line 994 "syntax2.c"
+#line 995 "syntax2.c"
 			}
 			/* END OF ACTION: id_anon */
 			/* BEGINNING OF ACTION: declarator_begin */
 			{
-#line 1222 "syntax.act"
+#line 1223 "syntax.act"
 
     IDENTIFIER pid = underlying_id ( (ZI1048) ) ;
     DEREF_loc ( id_loc ( pid ), decl_loc ) ;
-#line 1003 "syntax2.c"
+#line 1004 "syntax2.c"
 			}
 			/* END OF ACTION: declarator_begin */
 			ZR858 (ZI1047, ZI1048, &ZIt, &ZIid);
@@ -1022,10 +1023,10 @@ ZL2:;
 			}
 			/* BEGINNING OF ACTION: type_build */
 			{
-#line 1051 "syntax.act"
+#line 1052 "syntax.act"
 
     (ZIt) = ( IS_NULL_type ( (ZIq) ) ? (ZIp) : inject_pre_type ( (ZIq), (ZIp), 0 ) ) ;
-#line 1029 "syntax2.c"
+#line 1030 "syntax2.c"
 			}
 			/* END OF ACTION: type_build */
 		}
@@ -1034,28 +1035,28 @@ ZL2:;
 		{
 			/* BEGINNING OF ACTION: type_none */
 			{
-#line 951 "syntax.act"
+#line 952 "syntax.act"
 
     (ZIt) = NULL_type ;
-#line 1041 "syntax2.c"
+#line 1042 "syntax2.c"
 			}
 			/* END OF ACTION: type_none */
 			/* BEGINNING OF ACTION: id_anon */
 			{
-#line 389 "syntax.act"
+#line 390 "syntax.act"
 
     HASHID nm = lookup_anon () ;
     (ZIid) = DEREF_id ( hashid_id ( nm ) ) ;
-#line 1050 "syntax2.c"
+#line 1051 "syntax2.c"
 			}
 			/* END OF ACTION: id_anon */
 			/* BEGINNING OF ACTION: declarator_begin */
 			{
-#line 1222 "syntax.act"
+#line 1223 "syntax.act"
 
     IDENTIFIER pid = underlying_id ( (ZIid) ) ;
     DEREF_loc ( id_loc ( pid ), decl_loc ) ;
-#line 1059 "syntax2.c"
+#line 1060 "syntax2.c"
 			}
 			/* END OF ACTION: declarator_begin */
 		}
@@ -1103,10 +1104,10 @@ ZRasm_Hdefinition(EXP *ZOe)
 				{
 					/* BEGINNING OF EXTRACT: string-exp */
 					{
-#line 299 "syntax.act"
+#line 300 "syntax.act"
 
     ZIa = crt_token->pp_data.exp ;
-#line 1110 "syntax2.c"
+#line 1111 "syntax2.c"
 					}
 					/* END OF EXTRACT: string-exp */
 					ADVANCE_LEXER;
@@ -1116,10 +1117,10 @@ ZRasm_Hdefinition(EXP *ZOe)
 				{
 					/* BEGINNING OF EXTRACT: wstring-exp */
 					{
-#line 303 "syntax.act"
+#line 304 "syntax.act"
 
     ZIa = crt_token->pp_data.exp ;
-#line 1123 "syntax2.c"
+#line 1124 "syntax2.c"
 					}
 					/* END OF EXTRACT: wstring-exp */
 					ADVANCE_LEXER;
@@ -1137,10 +1138,10 @@ ZRasm_Hdefinition(EXP *ZOe)
 		}
 		/* BEGINNING OF ACTION: declare_asm */
 		{
-#line 1288 "syntax.act"
+#line 1289 "syntax.act"
 
     (ZIe) = make_asm ( (ZIa), (ZIp) ) ;
-#line 1144 "syntax2.c"
+#line 1145 "syntax2.c"
 		}
 		/* END OF ACTION: declare_asm */
 		switch (CURRENT_TERMINAL) {
@@ -1180,11 +1181,11 @@ ZRparameter_Hdeclarator_Hopt(TYPE ZIp, TYPE *ZOt, IDENTIFIER *ZOid)
 
 		/* BEGINNING OF ACTION: is_parameter */
 		{
-#line 1452 "syntax.act"
+#line 1453 "syntax.act"
 
     /* Resolve parameter declarators from type names */
     (ZI0) = predict_param () ;
-#line 1188 "syntax2.c"
+#line 1189 "syntax2.c"
 		}
 		/* END OF ACTION: is_parameter */
 		if (!ZI0)
@@ -1196,10 +1197,10 @@ ZRparameter_Hdeclarator_Hopt(TYPE ZIp, TYPE *ZOt, IDENTIFIER *ZOid)
 				{
 					/* BEGINNING OF EXTRACT: identifier */
 					{
-#line 197 "syntax.act"
+#line 198 "syntax.act"
 
     ZI1045 = crt_token->pp_data.id.use ;
-#line 1203 "syntax2.c"
+#line 1204 "syntax2.c"
 					}
 					/* END OF EXTRACT: identifier */
 					ADVANCE_LEXER;
@@ -1209,10 +1210,10 @@ ZRparameter_Hdeclarator_Hopt(TYPE ZIp, TYPE *ZOt, IDENTIFIER *ZOid)
 				{
 					/* BEGINNING OF EXTRACT: statement-name */
 					{
-#line 209 "syntax.act"
+#line 210 "syntax.act"
 
     ZI1045 = crt_token->pp_data.id.use ;
-#line 1216 "syntax2.c"
+#line 1217 "syntax2.c"
 					}
 					/* END OF EXTRACT: statement-name */
 					ADVANCE_LEXER;
@@ -1222,10 +1223,10 @@ ZRparameter_Hdeclarator_Hopt(TYPE ZIp, TYPE *ZOt, IDENTIFIER *ZOid)
 				{
 					/* BEGINNING OF EXTRACT: type-name */
 					{
-#line 201 "syntax.act"
+#line 202 "syntax.act"
 
     ZI1045 = crt_token->pp_data.id.use ;
-#line 1229 "syntax2.c"
+#line 1230 "syntax2.c"
 					}
 					/* END OF EXTRACT: type-name */
 					ADVANCE_LEXER;
@@ -1238,19 +1239,19 @@ ZRparameter_Hdeclarator_Hopt(TYPE ZIp, TYPE *ZOt, IDENTIFIER *ZOid)
 		/* END OF INLINE: any-identifier */
 		/* BEGINNING OF ACTION: type_none */
 		{
-#line 951 "syntax.act"
+#line 952 "syntax.act"
 
     (ZI1046) = NULL_type ;
-#line 1245 "syntax2.c"
+#line 1246 "syntax2.c"
 		}
 		/* END OF ACTION: type_none */
 		/* BEGINNING OF ACTION: declarator_begin */
 		{
-#line 1222 "syntax.act"
+#line 1223 "syntax.act"
 
     IDENTIFIER pid = underlying_id ( (ZI1045) ) ;
     DEREF_loc ( id_loc ( pid ), decl_loc ) ;
-#line 1254 "syntax2.c"
+#line 1255 "syntax2.c"
 		}
 		/* END OF ACTION: declarator_begin */
 		ZR858 (ZI1046, ZI1045, &ZIq, &ZIid);
@@ -1260,10 +1261,10 @@ ZRparameter_Hdeclarator_Hopt(TYPE ZIp, TYPE *ZOt, IDENTIFIER *ZOid)
 		}
 		/* BEGINNING OF ACTION: type_inject */
 		{
-#line 1047 "syntax.act"
+#line 1048 "syntax.act"
 
     (ZIt) = ( IS_NULL_type ( (ZIq) ) ? (ZIp) : inject_pre_type ( (ZIq), (ZIp), 1 ) ) ;
-#line 1267 "syntax2.c"
+#line 1268 "syntax2.c"
 		}
 		/* END OF ACTION: type_inject */
 		goto ZL0;
@@ -1283,10 +1284,10 @@ ZL2:;
 			}
 			/* BEGINNING OF ACTION: type_inject */
 			{
-#line 1047 "syntax.act"
+#line 1048 "syntax.act"
 
     (ZIt) = ( IS_NULL_type ( (ZIq) ) ? (ZIp) : inject_pre_type ( (ZIq), (ZIp), 1 ) ) ;
-#line 1290 "syntax2.c"
+#line 1291 "syntax2.c"
 			}
 			/* END OF ACTION: type_inject */
 		}
@@ -1309,21 +1310,21 @@ ZL2:;
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: id_none */
 			{
-#line 384 "syntax.act"
+#line 385 "syntax.act"
 
     (ZI1043) = NULL_id ;
-#line 1316 "syntax2.c"
+#line 1317 "syntax2.c"
 			}
 			/* END OF ACTION: id_none */
 			/* BEGINNING OF ACTION: param_begin */
 			{
-#line 875 "syntax.act"
+#line 876 "syntax.act"
 
     func_type_defn ( 0 ) ;
     begin_param ( (ZI1043) ) ;
     have_type_declaration = TYPE_DECL_NONE ;
     have_func_declarator = 0 ;
-#line 1327 "syntax2.c"
+#line 1328 "syntax2.c"
 			}
 			/* END OF ACTION: param_begin */
 			ZR760 (&ZIell);
@@ -1333,10 +1334,10 @@ ZL2:;
 			}
 			/* BEGINNING OF ACTION: type_func_weak */
 			{
-#line 1019 "syntax.act"
+#line 1020 "syntax.act"
 
     (ZI1049) = make_func_type ( NULL_type, ( (ZIell) | FUNC_WEAK ), cv_c, empty_type_set ) ;
-#line 1340 "syntax2.c"
+#line 1341 "syntax2.c"
 			}
 			/* END OF ACTION: type_func_weak */
 			switch (CURRENT_TERMINAL) {
@@ -1348,30 +1349,30 @@ ZL2:;
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: param_end */
 			{
-#line 884 "syntax.act"
+#line 885 "syntax.act"
 
     end_param () ;
     have_type_declaration = TYPE_DECL_NONE ;
     have_func_declarator = 1 ;
-#line 1357 "syntax2.c"
+#line 1358 "syntax2.c"
 			}
 			/* END OF ACTION: param_end */
 			/* BEGINNING OF ACTION: id_anon */
 			{
-#line 389 "syntax.act"
+#line 390 "syntax.act"
 
     HASHID nm = lookup_anon () ;
     (ZI1050) = DEREF_id ( hashid_id ( nm ) ) ;
-#line 1366 "syntax2.c"
+#line 1367 "syntax2.c"
 			}
 			/* END OF ACTION: id_anon */
 			/* BEGINNING OF ACTION: declarator_begin */
 			{
-#line 1222 "syntax.act"
+#line 1223 "syntax.act"
 
     IDENTIFIER pid = underlying_id ( (ZI1050) ) ;
     DEREF_loc ( id_loc ( pid ), decl_loc ) ;
-#line 1375 "syntax2.c"
+#line 1376 "syntax2.c"
 			}
 			/* END OF ACTION: declarator_begin */
 			ZR858 (ZI1049, ZI1050, &ZIq, &ZIid);
@@ -1381,10 +1382,10 @@ ZL2:;
 			}
 			/* BEGINNING OF ACTION: type_inject */
 			{
-#line 1047 "syntax.act"
+#line 1048 "syntax.act"
 
     (ZIt) = ( IS_NULL_type ( (ZIq) ) ? (ZIp) : inject_pre_type ( (ZIq), (ZIp), 1 ) ) ;
-#line 1388 "syntax2.c"
+#line 1389 "syntax2.c"
 			}
 			/* END OF ACTION: type_inject */
 		}
@@ -1416,11 +1417,11 @@ ZL2:;
 			}
 			/* BEGINNING OF ACTION: type_array */
 			{
-#line 1031 "syntax.act"
+#line 1032 "syntax.act"
 
     NAT n = make_array_dim ( (ZIe) ) ;
     MAKE_type_array ( cv_none, NULL_type, n, (ZI1047) ) ;
-#line 1424 "syntax2.c"
+#line 1425 "syntax2.c"
 			}
 			/* END OF ACTION: type_array */
 			/* BEGINNING OF INLINE: close-square */
@@ -1438,20 +1439,20 @@ ZL2:;
 			/* END OF INLINE: close-square */
 			/* BEGINNING OF ACTION: id_anon */
 			{
-#line 389 "syntax.act"
+#line 390 "syntax.act"
 
     HASHID nm = lookup_anon () ;
     (ZI1048) = DEREF_id ( hashid_id ( nm ) ) ;
-#line 1446 "syntax2.c"
+#line 1447 "syntax2.c"
 			}
 			/* END OF ACTION: id_anon */
 			/* BEGINNING OF ACTION: declarator_begin */
 			{
-#line 1222 "syntax.act"
+#line 1223 "syntax.act"
 
     IDENTIFIER pid = underlying_id ( (ZI1048) ) ;
     DEREF_loc ( id_loc ( pid ), decl_loc ) ;
-#line 1455 "syntax2.c"
+#line 1456 "syntax2.c"
 			}
 			/* END OF ACTION: declarator_begin */
 			ZR858 (ZI1047, ZI1048, &ZIq, &ZIid);
@@ -1461,10 +1462,10 @@ ZL2:;
 			}
 			/* BEGINNING OF ACTION: type_inject */
 			{
-#line 1047 "syntax.act"
+#line 1048 "syntax.act"
 
     (ZIt) = ( IS_NULL_type ( (ZIq) ) ? (ZIp) : inject_pre_type ( (ZIq), (ZIp), 1 ) ) ;
-#line 1468 "syntax2.c"
+#line 1469 "syntax2.c"
 			}
 			/* END OF ACTION: type_inject */
 		}
@@ -1483,18 +1484,18 @@ ZL2:;
 			}
 			/* BEGINNING OF ACTION: type_build */
 			{
-#line 1051 "syntax.act"
+#line 1052 "syntax.act"
 
     (ZIq) = ( IS_NULL_type ( (ZI1052) ) ? (ZI1051) : inject_pre_type ( (ZI1052), (ZI1051), 0 ) ) ;
-#line 1490 "syntax2.c"
+#line 1491 "syntax2.c"
 			}
 			/* END OF ACTION: type_build */
 			/* BEGINNING OF ACTION: type_inject */
 			{
-#line 1047 "syntax.act"
+#line 1048 "syntax.act"
 
     (ZIt) = ( IS_NULL_type ( (ZIq) ) ? (ZIp) : inject_pre_type ( (ZIq), (ZIp), 1 ) ) ;
-#line 1498 "syntax2.c"
+#line 1499 "syntax2.c"
 			}
 			/* END OF ACTION: type_inject */
 		}
@@ -1505,36 +1506,36 @@ ZL2:;
 
 			/* BEGINNING OF ACTION: type_none */
 			{
-#line 951 "syntax.act"
+#line 952 "syntax.act"
 
     (ZIq) = NULL_type ;
-#line 1512 "syntax2.c"
+#line 1513 "syntax2.c"
 			}
 			/* END OF ACTION: type_none */
 			/* BEGINNING OF ACTION: id_anon */
 			{
-#line 389 "syntax.act"
+#line 390 "syntax.act"
 
     HASHID nm = lookup_anon () ;
     (ZIid) = DEREF_id ( hashid_id ( nm ) ) ;
-#line 1521 "syntax2.c"
+#line 1522 "syntax2.c"
 			}
 			/* END OF ACTION: id_anon */
 			/* BEGINNING OF ACTION: declarator_begin */
 			{
-#line 1222 "syntax.act"
+#line 1223 "syntax.act"
 
     IDENTIFIER pid = underlying_id ( (ZIid) ) ;
     DEREF_loc ( id_loc ( pid ), decl_loc ) ;
-#line 1530 "syntax2.c"
+#line 1531 "syntax2.c"
 			}
 			/* END OF ACTION: declarator_begin */
 			/* BEGINNING OF ACTION: type_inject */
 			{
-#line 1047 "syntax.act"
+#line 1048 "syntax.act"
 
     (ZIt) = ( IS_NULL_type ( (ZIq) ) ? (ZIp) : inject_pre_type ( (ZIq), (ZIp), 1 ) ) ;
-#line 1538 "syntax2.c"
+#line 1539 "syntax2.c"
 			}
 			/* END OF ACTION: type_inject */
 		}
@@ -1563,10 +1564,10 @@ ZL2_924:;
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: exp_postdec */
 			{
-#line 575 "syntax.act"
+#line 576 "syntax.act"
 
     (ZIe) = make_postfix_exp ( lex_minus_Hminus, (ZI922) ) ;
-#line 1570 "syntax2.c"
+#line 1571 "syntax2.c"
 			}
 			/* END OF ACTION: exp_postdec */
 			/* BEGINNING OF INLINE: 924 */
@@ -1588,10 +1589,10 @@ ZL2_924:;
 			}
 			/* BEGINNING OF ACTION: exp_func */
 			{
-#line 502 "syntax.act"
+#line 503 "syntax.act"
 
     (ZIe) = make_func_exp ( (ZI922), (ZIp), 0 ) ;
-#line 1595 "syntax2.c"
+#line 1596 "syntax2.c"
 			}
 			/* END OF ACTION: exp_func */
 			switch (CURRENT_TERMINAL) {
@@ -1614,10 +1615,10 @@ ZL2_924:;
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: exp_postinc */
 			{
-#line 579 "syntax.act"
+#line 580 "syntax.act"
 
     (ZIe) = make_postfix_exp ( lex_plus_Hplus, (ZI922) ) ;
-#line 1621 "syntax2.c"
+#line 1622 "syntax2.c"
 			}
 			/* END OF ACTION: exp_postinc */
 			/* BEGINNING OF INLINE: 924 */
@@ -1664,10 +1665,10 @@ ZL2_924:;
 			/* END OF INLINE: close-square */
 			/* BEGINNING OF ACTION: exp_index */
 			{
-#line 514 "syntax.act"
+#line 515 "syntax.act"
 
     (ZIe) = make_index_exp ( (ZI922), (ZIb) ) ;
-#line 1671 "syntax2.c"
+#line 1672 "syntax2.c"
 			}
 			/* END OF ACTION: exp_index */
 			/* BEGINNING OF INLINE: 924 */
@@ -1686,10 +1687,10 @@ ZL2_924:;
 
 			/* BEGINNING OF ACTION: exp_arrow_begin */
 			{
-#line 446 "syntax.act"
+#line 447 "syntax.act"
 
     (ZIb) = begin_field_exp ( lex_arrow, (ZI922), &(ZIt), &(ZIns) ) ;
-#line 1693 "syntax2.c"
+#line 1694 "syntax2.c"
 			}
 			/* END OF ACTION: exp_arrow_begin */
 			ADVANCE_LEXER;
@@ -1700,18 +1701,18 @@ ZL2_924:;
 			}
 			/* BEGINNING OF ACTION: exp_arrow_end */
 			{
-#line 450 "syntax.act"
+#line 451 "syntax.act"
 
     (ZIe) = end_field_exp ( lex_arrow, (ZIb), (ZIt), (ZIns), (ZIid), 0 ) ;
-#line 1707 "syntax2.c"
+#line 1708 "syntax2.c"
 			}
 			/* END OF ACTION: exp_arrow_end */
 			/* BEGINNING OF ACTION: rescan_token */
 			{
-#line 1466 "syntax.act"
+#line 1467 "syntax.act"
 
     RESCAN_LEXER ;
-#line 1715 "syntax2.c"
+#line 1716 "syntax2.c"
 			}
 			/* END OF ACTION: rescan_token */
 			/* BEGINNING OF INLINE: 924 */
@@ -1730,10 +1731,10 @@ ZL2_924:;
 
 			/* BEGINNING OF ACTION: exp_dot_begin */
 			{
-#line 480 "syntax.act"
+#line 481 "syntax.act"
 
     (ZIb) = begin_field_exp ( lex_dot, (ZI922), &(ZIt), &(ZIns) ) ;
-#line 1737 "syntax2.c"
+#line 1738 "syntax2.c"
 			}
 			/* END OF ACTION: exp_dot_begin */
 			ADVANCE_LEXER;
@@ -1744,18 +1745,18 @@ ZL2_924:;
 			}
 			/* BEGINNING OF ACTION: exp_dot_end */
 			{
-#line 484 "syntax.act"
+#line 485 "syntax.act"
 
     (ZIe) = end_field_exp ( lex_dot, (ZIb), (ZIt), (ZIns), (ZIid), 0 ) ;
-#line 1751 "syntax2.c"
+#line 1752 "syntax2.c"
 			}
 			/* END OF ACTION: exp_dot_end */
 			/* BEGINNING OF ACTION: rescan_token */
 			{
-#line 1466 "syntax.act"
+#line 1467 "syntax.act"
 
     RESCAN_LEXER ;
-#line 1759 "syntax2.c"
+#line 1760 "syntax2.c"
 			}
 			/* END OF ACTION: rescan_token */
 			/* BEGINNING OF INLINE: 924 */
@@ -1818,14 +1819,14 @@ ZR1053(IDENTIFIER *ZIid, TYPE *ZOt)
 
 			/* BEGINNING OF ACTION: key_enum */
 			{
-#line 1065 "syntax.act"
+#line 1066 "syntax.act"
  (ZIkey) = btype_enum ; 
-#line 1824 "syntax2.c"
+#line 1825 "syntax2.c"
 			}
 			/* END OF ACTION: key_enum */
 			/* BEGINNING OF ACTION: type_elaborate */
 			{
-#line 966 "syntax.act"
+#line 967 "syntax.act"
 
     MAKE_type_pre ( cv_none, (ZIkey), qual_none, (ZIt) ) ;
     COPY_id ( type_name ( (ZIt) ), (*ZIid) ) ;
@@ -1833,7 +1834,7 @@ ZR1053(IDENTIFIER *ZIid, TYPE *ZOt)
 	have_type_declaration = TYPE_DECL_ELABORATE ;
     }
     have_type_specifier = 1 ;
-#line 1837 "syntax2.c"
+#line 1838 "syntax2.c"
 			}
 			/* END OF ACTION: type_elaborate */
 		}
@@ -1845,11 +1846,11 @@ ZR1053(IDENTIFIER *ZIid, TYPE *ZOt)
 
 			/* BEGINNING OF ACTION: type_enum_begin */
 			{
-#line 1094 "syntax.act"
+#line 1095 "syntax.act"
 
     (ZIp) = begin_enum_defn ( (*ZIid), NULL_type ) ;
     no_type_defns++ ;
-#line 1853 "syntax2.c"
+#line 1854 "syntax2.c"
 			}
 			/* END OF ACTION: type_enum_begin */
 			/* BEGINNING OF INLINE: open-brace */
@@ -1885,20 +1886,20 @@ ZR1053(IDENTIFIER *ZIid, TYPE *ZOt)
 			/* END OF INLINE: close-brace */
 			/* BEGINNING OF ACTION: type_enum_end */
 			{
-#line 1099 "syntax.act"
+#line 1100 "syntax.act"
 
     (ZItid) = end_enum_defn ( (ZIp) ) ;
-#line 1892 "syntax2.c"
+#line 1893 "syntax2.c"
 			}
 			/* END OF ACTION: type_enum_end */
 			/* BEGINNING OF ACTION: type_name */
 			{
-#line 960 "syntax.act"
+#line 961 "syntax.act"
 
     MAKE_type_pre ( cv_none, btype_alias, qual_none, (ZIt) ) ;
     COPY_id ( type_name ( (ZIt) ), (ZItid) ) ;
     have_type_specifier = 1 ;
-#line 1902 "syntax2.c"
+#line 1903 "syntax2.c"
 			}
 			/* END OF ACTION: type_name */
 		}
@@ -1930,10 +1931,10 @@ parse_type(TYPE *ZOt)
 		}
 		/* BEGINNING OF ACTION: type_check */
 		{
-#line 996 "syntax.act"
+#line 997 "syntax.act"
 
     object_type ( (ZIt), null_tag ) ;
-#line 1937 "syntax2.c"
+#line 1938 "syntax2.c"
 		}
 		/* END OF ACTION: type_check */
 	}
@@ -1942,21 +1943,21 @@ ZL1:;
 	{
 		/* BEGINNING OF ACTION: error_syntax */
 		{
-#line 1348 "syntax.act"
+#line 1349 "syntax.act"
 
     /* Syntax errors */
     ERROR err = ERR_lex_parse ( crt_token ) ;
     report ( crt_loc, err ) ;
     have_syntax_error = 1 ;
-#line 1952 "syntax2.c"
+#line 1953 "syntax2.c"
 		}
 		/* END OF ACTION: error_syntax */
 		/* BEGINNING OF ACTION: type_none */
 		{
-#line 951 "syntax.act"
+#line 952 "syntax.act"
 
     (ZIt) = NULL_type ;
-#line 1960 "syntax2.c"
+#line 1961 "syntax2.c"
 		}
 		/* END OF ACTION: type_none */
 	}
@@ -2029,10 +2030,10 @@ ZRdeclaration_Hcond_Hhead(EXP *ZO875)
 		case 26:
 			/* BEGINNING OF EXTRACT: hash-if */
 			{
-#line 315 "syntax.act"
+#line 316 "syntax.act"
 
     ZIc = crt_token->pp_data.exp ;
-#line 2036 "syntax2.c"
+#line 2037 "syntax2.c"
 			}
 			/* END OF EXTRACT: hash-if */
 			break;
@@ -2042,20 +2043,20 @@ ZRdeclaration_Hcond_Hhead(EXP *ZO875)
 		ADVANCE_LEXER;
 		/* BEGINNING OF ACTION: cond_hash_if */
 		{
-#line 1309 "syntax.act"
+#line 1310 "syntax.act"
 
     EXP c = crt_hash_cond ;
     crt_hash_cond = make_if_cond ( (ZIc), c ) ;
     (ZIp) = c ;
-#line 2051 "syntax2.c"
+#line 2052 "syntax2.c"
 		}
 		/* END OF ACTION: cond_hash_if */
 		/* BEGINNING OF ACTION: decl_hash_if */
 		{
-#line 1292 "syntax.act"
+#line 1293 "syntax.act"
 
     target_decl ( lex_if, (ZIc) ) ;
-#line 2059 "syntax2.c"
+#line 2060 "syntax2.c"
 		}
 		/* END OF ACTION: decl_hash_if */
 		ZRdeclaration_Hcond_Hbody ();
@@ -2103,10 +2104,10 @@ ZRenum_Hspecifier(TYPE *ZOt)
 							{
 								/* BEGINNING OF EXTRACT: identifier */
 								{
-#line 197 "syntax.act"
+#line 198 "syntax.act"
 
     ZIid = crt_token->pp_data.id.use ;
-#line 2110 "syntax2.c"
+#line 2111 "syntax2.c"
 								}
 								/* END OF EXTRACT: identifier */
 								ADVANCE_LEXER;
@@ -2116,10 +2117,10 @@ ZRenum_Hspecifier(TYPE *ZOt)
 							{
 								/* BEGINNING OF EXTRACT: statement-name */
 								{
-#line 209 "syntax.act"
+#line 210 "syntax.act"
 
     ZIid = crt_token->pp_data.id.use ;
-#line 2123 "syntax2.c"
+#line 2124 "syntax2.c"
 								}
 								/* END OF EXTRACT: statement-name */
 								ADVANCE_LEXER;
@@ -2129,10 +2130,10 @@ ZRenum_Hspecifier(TYPE *ZOt)
 							{
 								/* BEGINNING OF EXTRACT: type-name */
 								{
-#line 201 "syntax.act"
+#line 202 "syntax.act"
 
     ZIid = crt_token->pp_data.id.use ;
-#line 2136 "syntax2.c"
+#line 2137 "syntax2.c"
 								}
 								/* END OF EXTRACT: type-name */
 								ADVANCE_LEXER;
@@ -2158,20 +2159,20 @@ ZRenum_Hspecifier(TYPE *ZOt)
 
 					/* BEGINNING OF ACTION: id_anon */
 					{
-#line 389 "syntax.act"
+#line 390 "syntax.act"
 
     HASHID nm = lookup_anon () ;
     (ZIid) = DEREF_id ( hashid_id ( nm ) ) ;
-#line 2166 "syntax2.c"
+#line 2167 "syntax2.c"
 					}
 					/* END OF ACTION: id_anon */
 					/* BEGINNING OF ACTION: type_enum_begin */
 					{
-#line 1094 "syntax.act"
+#line 1095 "syntax.act"
 
     (ZIp) = begin_enum_defn ( (ZIid), NULL_type ) ;
     no_type_defns++ ;
-#line 2175 "syntax2.c"
+#line 2176 "syntax2.c"
 					}
 					/* END OF ACTION: type_enum_begin */
 					/* BEGINNING OF INLINE: open-brace */
@@ -2207,20 +2208,20 @@ ZRenum_Hspecifier(TYPE *ZOt)
 					/* END OF INLINE: close-brace */
 					/* BEGINNING OF ACTION: type_enum_end */
 					{
-#line 1099 "syntax.act"
+#line 1100 "syntax.act"
 
     (ZItid) = end_enum_defn ( (ZIp) ) ;
-#line 2214 "syntax2.c"
+#line 2215 "syntax2.c"
 					}
 					/* END OF ACTION: type_enum_end */
 					/* BEGINNING OF ACTION: type_name */
 					{
-#line 960 "syntax.act"
+#line 961 "syntax.act"
 
     MAKE_type_pre ( cv_none, btype_alias, qual_none, (ZIt) ) ;
     COPY_id ( type_name ( (ZIt) ), (ZItid) ) ;
     have_type_specifier = 1 ;
-#line 2224 "syntax2.c"
+#line 2225 "syntax2.c"
 					}
 					/* END OF ACTION: type_name */
 				}
@@ -2268,10 +2269,10 @@ ZRdeclarator_Haux(TYPE *ZOt, IDENTIFIER *ZOid)
 			}
 			/* BEGINNING OF ACTION: type_build */
 			{
-#line 1051 "syntax.act"
+#line 1052 "syntax.act"
 
     (ZIt) = ( IS_NULL_type ( (ZIq) ) ? (ZIp) : inject_pre_type ( (ZIq), (ZIp), 0 ) ) ;
-#line 2275 "syntax2.c"
+#line 2276 "syntax2.c"
 			}
 			/* END OF ACTION: type_build */
 		}
@@ -2335,18 +2336,18 @@ ZRfor_Hcond_Hstatement(EXP *ZOe)
 		}
 		/* BEGINNING OF ACTION: bind_temporary */
 		{
-#line 819 "syntax.act"
+#line 820 "syntax.act"
 
     (ZIb) = bind_temporary ( (ZIa) ) ;
-#line 2342 "syntax2.c"
+#line 2343 "syntax2.c"
 		}
 		/* END OF ACTION: bind_temporary */
 		/* BEGINNING OF ACTION: exp_location */
 		{
-#line 526 "syntax.act"
+#line 527 "syntax.act"
 
     MAKE_exp_location ( type_void, crt_loc, (ZIb), (ZIe) ) ;
-#line 2350 "syntax2.c"
+#line 2351 "syntax2.c"
 		}
 		/* END OF ACTION: exp_location */
 		switch (CURRENT_TERMINAL) {
@@ -2382,10 +2383,10 @@ ZR1057(TYPE *ZI1055, TYPE *ZOt)
 			}
 			/* BEGINNING OF ACTION: type_build */
 			{
-#line 1051 "syntax.act"
+#line 1052 "syntax.act"
 
     (ZIt) = ( IS_NULL_type ( (ZIq) ) ? (*ZI1055) : inject_pre_type ( (ZIq), (*ZI1055), 0 ) ) ;
-#line 2389 "syntax2.c"
+#line 2390 "syntax2.c"
 			}
 			/* END OF ACTION: type_build */
 		}
@@ -2423,10 +2424,10 @@ ZRenumerator_Hdefinition(IDENTIFIER ZIe)
 				{
 					/* BEGINNING OF EXTRACT: identifier */
 					{
-#line 197 "syntax.act"
+#line 198 "syntax.act"
 
     ZIid = crt_token->pp_data.id.use ;
-#line 2430 "syntax2.c"
+#line 2431 "syntax2.c"
 					}
 					/* END OF EXTRACT: identifier */
 					ADVANCE_LEXER;
@@ -2436,10 +2437,10 @@ ZRenumerator_Hdefinition(IDENTIFIER ZIe)
 				{
 					/* BEGINNING OF EXTRACT: statement-name */
 					{
-#line 209 "syntax.act"
+#line 210 "syntax.act"
 
     ZIid = crt_token->pp_data.id.use ;
-#line 2443 "syntax2.c"
+#line 2444 "syntax2.c"
 					}
 					/* END OF EXTRACT: statement-name */
 					ADVANCE_LEXER;
@@ -2449,10 +2450,10 @@ ZRenumerator_Hdefinition(IDENTIFIER ZIe)
 				{
 					/* BEGINNING OF EXTRACT: type-name */
 					{
-#line 201 "syntax.act"
+#line 202 "syntax.act"
 
     ZIid = crt_token->pp_data.id.use ;
-#line 2456 "syntax2.c"
+#line 2457 "syntax2.c"
 					}
 					/* END OF EXTRACT: type-name */
 					ADVANCE_LEXER;
@@ -2465,11 +2466,11 @@ ZRenumerator_Hdefinition(IDENTIFIER ZIe)
 		/* END OF INLINE: any-identifier */
 		/* BEGINNING OF ACTION: declarator_begin */
 		{
-#line 1222 "syntax.act"
+#line 1223 "syntax.act"
 
     IDENTIFIER pid = underlying_id ( (ZIid) ) ;
     DEREF_loc ( id_loc ( pid ), decl_loc ) ;
-#line 2473 "syntax2.c"
+#line 2474 "syntax2.c"
 		}
 		/* END OF ACTION: declarator_begin */
 		/* BEGINNING OF INLINE: 681 */
@@ -2489,10 +2490,10 @@ ZRenumerator_Hdefinition(IDENTIFIER ZIe)
 				{
 					/* BEGINNING OF ACTION: exp_none */
 					{
-#line 433 "syntax.act"
+#line 434 "syntax.act"
 
     (ZIc) = NULL_exp ;
-#line 2496 "syntax2.c"
+#line 2497 "syntax2.c"
 					}
 					/* END OF ACTION: exp_none */
 				}
@@ -2502,10 +2503,10 @@ ZRenumerator_Hdefinition(IDENTIFIER ZIe)
 		/* END OF INLINE: 681 */
 		/* BEGINNING OF ACTION: declare_enum */
 		{
-#line 1218 "syntax.act"
+#line 1219 "syntax.act"
 
     IGNORE make_enumerator ( (ZIe), (ZIid), (ZIc) ) ;
-#line 2509 "syntax2.c"
+#line 2510 "syntax2.c"
 		}
 		/* END OF ACTION: declare_enum */
 	}
@@ -2534,10 +2535,10 @@ ZRdeclarator(TYPE ZIp, TYPE *ZOt, IDENTIFIER *ZOid)
 		}
 		/* BEGINNING OF ACTION: type_inject */
 		{
-#line 1047 "syntax.act"
+#line 1048 "syntax.act"
 
     (ZIt) = ( IS_NULL_type ( (ZIq) ) ? (ZIp) : inject_pre_type ( (ZIq), (ZIp), 1 ) ) ;
-#line 2541 "syntax2.c"
+#line 2542 "syntax2.c"
 		}
 		/* END OF ACTION: type_inject */
 	}
@@ -2570,10 +2571,10 @@ ZRinitialiser_Hopt(IDENTIFIER ZId, EXP *ZOe)
 		{
 			/* BEGINNING OF ACTION: exp_none */
 			{
-#line 433 "syntax.act"
+#line 434 "syntax.act"
 
     (ZIe) = NULL_exp ;
-#line 2577 "syntax2.c"
+#line 2578 "syntax2.c"
 			}
 			/* END OF ACTION: exp_none */
 		}
@@ -2608,11 +2609,11 @@ parse_file(TYPE ZIt, DECL_SPEC ZIds)
 
 		/* BEGINNING OF ACTION: is_decl_specifier */
 		{
-#line 1422 "syntax.act"
+#line 1423 "syntax.act"
 
     /* Resolve declaration-specifiers from other declarators */
     (ZI0) = predict_dspec ( 0 ) ;
-#line 2616 "syntax2.c"
+#line 2617 "syntax2.c"
 		}
 		/* END OF ACTION: is_decl_specifier */
 		if (!ZI0)
@@ -2624,13 +2625,13 @@ parse_file(TYPE ZIt, DECL_SPEC ZIds)
 		}
 		/* BEGINNING OF ACTION: check_decl_specifier */
 		{
-#line 1473 "syntax.act"
+#line 1474 "syntax.act"
 
     /* A type-name can be a declarator-id */
     if ( have_type_specifier && crt_lex_token == lex_type_Hname ) {
 	crt_lex_token = lex_identifier ;
     }
-#line 2634 "syntax2.c"
+#line 2635 "syntax2.c"
 		}
 		/* END OF ACTION: check_decl_specifier */
 		ZR726 (&ZI939, &ZI940, &ZI941, &ZI942, &ZI943, &ZI944, &ZI945, &ZI946);
@@ -2641,10 +2642,10 @@ parse_file(TYPE ZIt, DECL_SPEC ZIds)
 		}
 		/* BEGINNING OF ACTION: declare_extern */
 		{
-#line 1237 "syntax.act"
+#line 1238 "syntax.act"
 
     external_declaration ( (ZIe), 1 ) ;
-#line 2648 "syntax2.c"
+#line 2649 "syntax2.c"
 		}
 		/* END OF ACTION: declare_extern */
 		ZRdeclaration_Hseq_Hopt ();
@@ -2673,10 +2674,10 @@ ZL2:;
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: declare_empty */
 			{
-#line 1182 "syntax.act"
+#line 1183 "syntax.act"
 
     report ( crt_loc, ERR_dcl_dcl_semicolon () ) ;
-#line 2680 "syntax2.c"
+#line 2681 "syntax2.c"
 			}
 			/* END OF ACTION: declare_empty */
 			ZRdeclaration_Hseq_Hopt ();
@@ -2703,10 +2704,10 @@ ZL2:;
 			}
 			/* BEGINNING OF ACTION: declare_extern */
 			{
-#line 1237 "syntax.act"
+#line 1238 "syntax.act"
 
     external_declaration ( (ZIe), 1 ) ;
-#line 2710 "syntax2.c"
+#line 2711 "syntax2.c"
 			}
 			/* END OF ACTION: declare_extern */
 			ZRdeclaration_Hseq_Hopt ();
@@ -2753,42 +2754,42 @@ ZL2:;
 
 			/* BEGINNING OF ACTION: btype_none */
 			{
-#line 927 "syntax.act"
+#line 928 "syntax.act"
  (ZIbt) = btype_none ; 
-#line 2759 "syntax2.c"
+#line 2760 "syntax2.c"
 			}
 			/* END OF ACTION: btype_none */
 			/* BEGINNING OF ACTION: type_none */
 			{
-#line 951 "syntax.act"
+#line 952 "syntax.act"
 
     (ZIt1) = NULL_type ;
-#line 2767 "syntax2.c"
+#line 2768 "syntax2.c"
 			}
 			/* END OF ACTION: type_none */
 			/* BEGINNING OF ACTION: cv_none */
 			{
-#line 896 "syntax.act"
+#line 897 "syntax.act"
  (ZIcv) = cv_none ; 
-#line 2774 "syntax2.c"
+#line 2775 "syntax2.c"
 			}
 			/* END OF ACTION: cv_none */
 			/* BEGINNING OF ACTION: dspec_none */
 			{
-#line 1115 "syntax.act"
+#line 1116 "syntax.act"
  (ZIds1) = dspec_none ; 
-#line 2781 "syntax2.c"
+#line 2782 "syntax2.c"
 			}
 			/* END OF ACTION: dspec_none */
 			/* BEGINNING OF ACTION: dspec_complete */
 			{
-#line 1136 "syntax.act"
+#line 1137 "syntax.act"
 
     /* Complete a declaration specifier and a type */
     (ZI949) = complete_dspec ( (ZIds1), (ZIbt), (ZIt1), (ZIcv) ) ;
     (ZI948) = complete_pre_type ( (ZIbt), (ZIt1), (ZIcv), 0 ) ;
     have_type_specifier = 0 ;
-#line 2792 "syntax2.c"
+#line 2793 "syntax2.c"
 			}
 			/* END OF ACTION: dspec_complete */
 			ZRdeclarator (ZI948, &ZIs, &ZIid);
@@ -2799,18 +2800,18 @@ ZL2:;
 			}
 			/* BEGINNING OF ACTION: exp_none */
 			{
-#line 433 "syntax.act"
+#line 434 "syntax.act"
 
     (ZIe) = NULL_exp ;
-#line 2806 "syntax2.c"
+#line 2807 "syntax2.c"
 			}
 			/* END OF ACTION: exp_none */
 			/* BEGINNING OF ACTION: declare_extern */
 			{
-#line 1237 "syntax.act"
+#line 1238 "syntax.act"
 
     external_declaration ( (ZIe), 1 ) ;
-#line 2814 "syntax2.c"
+#line 2815 "syntax2.c"
 			}
 			/* END OF ACTION: declare_extern */
 			ZRdeclaration_Hseq_Hopt ();
@@ -2834,14 +2835,14 @@ ZL1:;
 	{
 		/* BEGINNING OF ACTION: error_fatal */
 		{
-#line 1341 "syntax.act"
+#line 1342 "syntax.act"
 
     /* Unrecoverable syntax errors */
     ERROR err = ERR_lex_parse ( crt_token ) ;
     err = concat_error ( err, ERR_lex_abort () ) ;
     report ( crt_loc, err ) ;
     have_syntax_error = 1 ;
-#line 2845 "syntax2.c"
+#line 2846 "syntax2.c"
 		}
 		/* END OF ACTION: error_fatal */
 	}
@@ -2865,12 +2866,12 @@ ZR1058(TYPE *ZO861)
 			}
 			/* BEGINNING OF ACTION: declarator_bad */
 			{
-#line 1227 "syntax.act"
+#line 1228 "syntax.act"
 
     if ( IS_NULL_type ( (ZIt) ) ) {
 	report ( crt_loc, ERR_dcl_meaning_paren () ) ;
     }
-#line 2874 "syntax2.c"
+#line 2875 "syntax2.c"
 			}
 			/* END OF ACTION: declarator_bad */
 			switch (CURRENT_TERMINAL) {
@@ -2901,21 +2902,21 @@ ZR1058(TYPE *ZO861)
 
 			/* BEGINNING OF ACTION: id_none */
 			{
-#line 384 "syntax.act"
+#line 385 "syntax.act"
 
     (ZIid) = NULL_id ;
-#line 2908 "syntax2.c"
+#line 2909 "syntax2.c"
 			}
 			/* END OF ACTION: id_none */
 			/* BEGINNING OF ACTION: param_begin */
 			{
-#line 875 "syntax.act"
+#line 876 "syntax.act"
 
     func_type_defn ( 0 ) ;
     begin_param ( (ZIid) ) ;
     have_type_declaration = TYPE_DECL_NONE ;
     have_func_declarator = 0 ;
-#line 2919 "syntax2.c"
+#line 2920 "syntax2.c"
 			}
 			/* END OF ACTION: param_begin */
 			ZR757 (&ZIs);
@@ -2932,12 +2933,12 @@ ZR1058(TYPE *ZO861)
 			ZIt = ZIs;
 			/* BEGINNING OF ACTION: param_end */
 			{
-#line 884 "syntax.act"
+#line 885 "syntax.act"
 
     end_param () ;
     have_type_declaration = TYPE_DECL_NONE ;
     have_func_declarator = 1 ;
-#line 2941 "syntax2.c"
+#line 2942 "syntax2.c"
 			}
 			/* END OF ACTION: param_end */
 			ZR862 (ZIt, &ZI861);
@@ -3004,13 +3005,13 @@ ZL1:;
 	{
 		/* BEGINNING OF ACTION: error_syntax */
 		{
-#line 1348 "syntax.act"
+#line 1349 "syntax.act"
 
     /* Syntax errors */
     ERROR err = ERR_lex_parse ( crt_token ) ;
     report ( crt_loc, err ) ;
     have_syntax_error = 1 ;
-#line 3014 "syntax2.c"
+#line 3015 "syntax2.c"
 		}
 		/* END OF ACTION: error_syntax */
 		ZIa = ZIb;
@@ -3041,21 +3042,21 @@ ZL1:;
 	{
 		/* BEGINNING OF ACTION: error_syntax */
 		{
-#line 1348 "syntax.act"
+#line 1349 "syntax.act"
 
     /* Syntax errors */
     ERROR err = ERR_lex_parse ( crt_token ) ;
     report ( crt_loc, err ) ;
     have_syntax_error = 1 ;
-#line 3051 "syntax2.c"
+#line 3052 "syntax2.c"
 		}
 		/* END OF ACTION: error_syntax */
 		/* BEGINNING OF ACTION: exp_none */
 		{
-#line 433 "syntax.act"
+#line 434 "syntax.act"
 
     (ZIe) = NULL_exp ;
-#line 3059 "syntax2.c"
+#line 3060 "syntax2.c"
 		}
 		/* END OF ACTION: exp_none */
 	}
@@ -3106,21 +3107,21 @@ ZL1:;
 	{
 		/* BEGINNING OF ACTION: error_syntax */
 		{
-#line 1348 "syntax.act"
+#line 1349 "syntax.act"
 
     /* Syntax errors */
     ERROR err = ERR_lex_parse ( crt_token ) ;
     report ( crt_loc, err ) ;
     have_syntax_error = 1 ;
-#line 3116 "syntax2.c"
+#line 3117 "syntax2.c"
 		}
 		/* END OF ACTION: error_syntax */
 		/* BEGINNING OF ACTION: decl_none */
 		{
-#line 1241 "syntax.act"
+#line 1242 "syntax.act"
 
     (ZId) = NULL_id ;
-#line 3124 "syntax2.c"
+#line 3125 "syntax2.c"
 		}
 		/* END OF ACTION: decl_none */
 	}
@@ -3164,19 +3165,19 @@ ZRtype_Hspecifier_Hseq(BASE_TYPE *ZObt, TYPE *ZOt, CV_SPEC *ZOcv)
 					}
 					/* BEGINNING OF ACTION: btype_join */
 					{
-#line 930 "syntax.act"
+#line 931 "syntax.act"
 
     if ( (ZIb1) & (ZIb2) ) {
 	(ZIbt) = join_pre_types ( (ZIb1), (ZIb2) ) ;
     } else {
 	(ZIbt) = ( (ZIb1) | (ZIb2) ) ;
     }
-#line 3175 "syntax2.c"
+#line 3176 "syntax2.c"
 					}
 					/* END OF ACTION: btype_join */
 					/* BEGINNING OF ACTION: type_join */
 					{
-#line 976 "syntax.act"
+#line 977 "syntax.act"
 
     /* Join two partial types */
     if ( IS_NULL_type ( (ZIt1) ) ) {
@@ -3187,17 +3188,17 @@ ZRtype_Hspecifier_Hseq(BASE_TYPE *ZObt, TYPE *ZOt, CV_SPEC *ZOcv)
 	report ( crt_loc, ERR_dcl_type_simple_many ( (ZIt1), (ZIt2) ) ) ;
 	(ZIt) = (ZIt2) ;
     }
-#line 3191 "syntax2.c"
+#line 3192 "syntax2.c"
 					}
 					/* END OF ACTION: type_join */
 					/* BEGINNING OF ACTION: cv_join */
 					{
-#line 901 "syntax.act"
+#line 902 "syntax.act"
 
     CV_SPEC c = ( (ZIcv1) & (ZIcv2) ) ;
     if ( c ) report ( crt_loc, ERR_dcl_type_cv_dup ( c ) ) ;
     (ZIcv) = ( (ZIcv1) | (ZIcv2) ) ;
-#line 3201 "syntax2.c"
+#line 3202 "syntax2.c"
 					}
 					/* END OF ACTION: cv_join */
 				}
@@ -3248,25 +3249,25 @@ ZL2_935:;
 			ZIr = ZI931;
 			/* BEGINNING OF EXTRACT: hash-elif */
 			{
-#line 319 "syntax.act"
+#line 320 "syntax.act"
 
     ZIc = crt_token->pp_data.exp ;
-#line 3255 "syntax2.c"
+#line 3256 "syntax2.c"
 			}
 			/* END OF EXTRACT: hash-elif */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: cond_hash_elif */
 			{
-#line 1315 "syntax.act"
+#line 1316 "syntax.act"
 
     EXP c = make_else_cond ( crt_hash_cond ) ;
     crt_hash_cond = make_if_cond ( (ZIc), c ) ;
-#line 3265 "syntax2.c"
+#line 3266 "syntax2.c"
 			}
 			/* END OF ACTION: cond_hash_elif */
 			/* BEGINNING OF ACTION: reach_check */
 			{
-#line 830 "syntax.act"
+#line 831 "syntax.act"
 
     (ZIs) = unreached_code ;
     if ( (ZIs) ) {
@@ -3277,7 +3278,7 @@ ZL2_935:;
     } else {
 	unreached_last = 0 ;
     }
-#line 3281 "syntax2.c"
+#line 3282 "syntax2.c"
 			}
 			/* END OF ACTION: reach_check */
 			ZRcompound_Hstatement (&ZIb);
@@ -3287,17 +3288,17 @@ ZL2_935:;
 			}
 			/* BEGINNING OF ACTION: reach_prev */
 			{
-#line 841 "syntax.act"
+#line 842 "syntax.act"
  unreached_prev = (ZIr) ; 
-#line 3293 "syntax2.c"
+#line 3294 "syntax2.c"
 			}
 			/* END OF ACTION: reach_prev */
 			/* BEGINNING OF ACTION: stmt_hash_elif */
 			{
-#line 803 "syntax.act"
+#line 804 "syntax.act"
 
     (ZIe) = cont_hash_if_stmt ( (ZI929), (ZIc), (ZIb) ) ;
-#line 3301 "syntax2.c"
+#line 3302 "syntax2.c"
 			}
 			/* END OF ACTION: stmt_hash_elif */
 			/* BEGINNING OF INLINE: 935 */
@@ -3348,21 +3349,21 @@ ZL1:;
 	{
 		/* BEGINNING OF ACTION: error_syntax */
 		{
-#line 1348 "syntax.act"
+#line 1349 "syntax.act"
 
     /* Syntax errors */
     ERROR err = ERR_lex_parse ( crt_token ) ;
     report ( crt_loc, err ) ;
     have_syntax_error = 1 ;
-#line 3358 "syntax2.c"
+#line 3359 "syntax2.c"
 		}
 		/* END OF ACTION: error_syntax */
 		/* BEGINNING OF ACTION: exp_none */
 		{
-#line 433 "syntax.act"
+#line 434 "syntax.act"
 
     (ZIe) = NULL_exp ;
-#line 3366 "syntax2.c"
+#line 3367 "syntax2.c"
 		}
 		/* END OF ACTION: exp_none */
 	}
@@ -3421,9 +3422,9 @@ ZRstorage_Hclass_Hspecifier(DECL_SPEC *ZOds)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: dspec_auto */
 			{
-#line 1116 "syntax.act"
+#line 1117 "syntax.act"
  (ZIds) = dspec_auto ; 
-#line 3427 "syntax2.c"
+#line 3428 "syntax2.c"
 			}
 			/* END OF ACTION: dspec_auto */
 		}
@@ -3433,9 +3434,9 @@ ZRstorage_Hclass_Hspecifier(DECL_SPEC *ZOds)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: dspec_extern */
 			{
-#line 1119 "syntax.act"
+#line 1120 "syntax.act"
  (ZIds) = dspec_extern ; 
-#line 3439 "syntax2.c"
+#line 3440 "syntax2.c"
 			}
 			/* END OF ACTION: dspec_extern */
 		}
@@ -3445,9 +3446,9 @@ ZRstorage_Hclass_Hspecifier(DECL_SPEC *ZOds)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: dspec_inline */
 			{
-#line 1121 "syntax.act"
+#line 1122 "syntax.act"
  (ZIds) = dspec_inline ; 
-#line 3451 "syntax2.c"
+#line 3452 "syntax2.c"
 			}
 			/* END OF ACTION: dspec_inline */
 		}
@@ -3457,9 +3458,9 @@ ZRstorage_Hclass_Hspecifier(DECL_SPEC *ZOds)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: dspec_register */
 			{
-#line 1117 "syntax.act"
+#line 1118 "syntax.act"
  (ZIds) = dspec_register ; 
-#line 3463 "syntax2.c"
+#line 3464 "syntax2.c"
 			}
 			/* END OF ACTION: dspec_register */
 		}
@@ -3469,9 +3470,9 @@ ZRstorage_Hclass_Hspecifier(DECL_SPEC *ZOds)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: dspec_static */
 			{
-#line 1118 "syntax.act"
+#line 1119 "syntax.act"
  (ZIds) = dspec_static ; 
-#line 3475 "syntax2.c"
+#line 3476 "syntax2.c"
 			}
 			/* END OF ACTION: dspec_static */
 		}
@@ -3481,9 +3482,9 @@ ZRstorage_Hclass_Hspecifier(DECL_SPEC *ZOds)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: dspec_typedef */
 			{
-#line 1120 "syntax.act"
+#line 1121 "syntax.act"
  (ZIds) = dspec_typedef ; 
-#line 3487 "syntax2.c"
+#line 3488 "syntax2.c"
 			}
 			/* END OF ACTION: dspec_typedef */
 		}
@@ -3517,10 +3518,10 @@ ZRparameter_Hid_Hlist(void)
 				{
 					/* BEGINNING OF EXTRACT: identifier */
 					{
-#line 197 "syntax.act"
+#line 198 "syntax.act"
 
     ZIid = crt_token->pp_data.id.use ;
-#line 3524 "syntax2.c"
+#line 3525 "syntax2.c"
 					}
 					/* END OF EXTRACT: identifier */
 					ADVANCE_LEXER;
@@ -3530,10 +3531,10 @@ ZRparameter_Hid_Hlist(void)
 				{
 					/* BEGINNING OF EXTRACT: statement-name */
 					{
-#line 209 "syntax.act"
+#line 210 "syntax.act"
 
     ZIid = crt_token->pp_data.id.use ;
-#line 3537 "syntax2.c"
+#line 3538 "syntax2.c"
 					}
 					/* END OF EXTRACT: statement-name */
 					ADVANCE_LEXER;
@@ -3546,21 +3547,21 @@ ZRparameter_Hid_Hlist(void)
 		/* END OF INLINE: first-parameter-id */
 		/* BEGINNING OF ACTION: declarator_begin */
 		{
-#line 1222 "syntax.act"
+#line 1223 "syntax.act"
 
     IDENTIFIER pid = underlying_id ( (ZIid) ) ;
     DEREF_loc ( id_loc ( pid ), decl_loc ) ;
-#line 3554 "syntax2.c"
+#line 3555 "syntax2.c"
 		}
 		/* END OF ACTION: declarator_begin */
 		/* BEGINNING OF ACTION: declare_weak_param */
 		{
-#line 1191 "syntax.act"
+#line 1192 "syntax.act"
 
     IGNORE weak_param_decl ( (ZIid) ) ;
     have_type_declaration = TYPE_DECL_NONE ;
     have_func_declarator = 0 ;
-#line 3564 "syntax2.c"
+#line 3565 "syntax2.c"
 		}
 		/* END OF ACTION: declare_weak_param */
 		ZRparameter_Hid_Htail ();
@@ -3615,10 +3616,10 @@ parse_id(IDENTIFIER *ZOid)
 				{
 					/* BEGINNING OF EXTRACT: identifier */
 					{
-#line 197 "syntax.act"
+#line 198 "syntax.act"
 
     ZIid = crt_token->pp_data.id.use ;
-#line 3622 "syntax2.c"
+#line 3623 "syntax2.c"
 					}
 					/* END OF EXTRACT: identifier */
 					ADVANCE_LEXER;
@@ -3628,10 +3629,10 @@ parse_id(IDENTIFIER *ZOid)
 				{
 					/* BEGINNING OF EXTRACT: statement-name */
 					{
-#line 209 "syntax.act"
+#line 210 "syntax.act"
 
     ZIid = crt_token->pp_data.id.use ;
-#line 3635 "syntax2.c"
+#line 3636 "syntax2.c"
 					}
 					/* END OF EXTRACT: statement-name */
 					ADVANCE_LEXER;
@@ -3641,10 +3642,10 @@ parse_id(IDENTIFIER *ZOid)
 				{
 					/* BEGINNING OF EXTRACT: type-name */
 					{
-#line 201 "syntax.act"
+#line 202 "syntax.act"
 
     ZIid = crt_token->pp_data.id.use ;
-#line 3648 "syntax2.c"
+#line 3649 "syntax2.c"
 					}
 					/* END OF EXTRACT: type-name */
 					ADVANCE_LEXER;
@@ -3661,21 +3662,21 @@ ZL1:;
 	{
 		/* BEGINNING OF ACTION: error_syntax */
 		{
-#line 1348 "syntax.act"
+#line 1349 "syntax.act"
 
     /* Syntax errors */
     ERROR err = ERR_lex_parse ( crt_token ) ;
     report ( crt_loc, err ) ;
     have_syntax_error = 1 ;
-#line 3671 "syntax2.c"
+#line 3672 "syntax2.c"
 		}
 		/* END OF ACTION: error_syntax */
 		/* BEGINNING OF ACTION: id_none */
 		{
-#line 384 "syntax.act"
+#line 385 "syntax.act"
 
     (ZIid) = NULL_id ;
-#line 3679 "syntax2.c"
+#line 3680 "syntax2.c"
 		}
 		/* END OF ACTION: id_none */
 	}
@@ -3696,9 +3697,9 @@ ZRcast_Hexpression(EXP *ZOe)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: lex_alignof */
 			{
-#line 370 "syntax.act"
+#line 371 "syntax.act"
  (ZIop) = lex_alignof ; 
-#line 3702 "syntax2.c"
+#line 3703 "syntax2.c"
 			}
 			/* END OF ACTION: lex_alignof */
 			ZRsizeof_Hexpression (ZIop, &ZIe);
@@ -3714,13 +3715,13 @@ ZRcast_Hexpression(EXP *ZOe)
 
 			/* BEGINNING OF EXTRACT: complex-exp */
 			{
-#line 333 "syntax.act"
+#line 334 "syntax.act"
 
     IDENTIFIER id = crt_token->pp_data.tok.id ;
     PPTOKEN *args = crt_token->pp_data.tok.args ;
     ZI964 = parse_exp_token ( id, args ) ;
     RESCAN_LEXER ;
-#line 3724 "syntax2.c"
+#line 3725 "syntax2.c"
 			}
 			/* END OF EXTRACT: complex-exp */
 			ADVANCE_LEXER;
@@ -3743,10 +3744,10 @@ ZRcast_Hexpression(EXP *ZOe)
 			}
 			/* BEGINNING OF ACTION: exp_ignore */
 			{
-#line 510 "syntax.act"
+#line 511 "syntax.act"
 
     (ZIe) = make_cast_exp ( type_void, (ZIa), 0 ) ;
-#line 3750 "syntax2.c"
+#line 3751 "syntax2.c"
 			}
 			/* END OF ACTION: exp_ignore */
 		}
@@ -3758,10 +3759,10 @@ ZRcast_Hexpression(EXP *ZOe)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: exp_ellipsis */
 			{
-#line 488 "syntax.act"
+#line 489 "syntax.act"
 
     (ZI964) = make_ellipsis_exp () ;
-#line 3765 "syntax2.c"
+#line 3766 "syntax2.c"
 			}
 			/* END OF ACTION: exp_ellipsis */
 			ZR924 (ZI964, &ZIe);
@@ -3778,19 +3779,19 @@ ZRcast_Hexpression(EXP *ZOe)
 
 			/* BEGINNING OF EXTRACT: identifier */
 			{
-#line 197 "syntax.act"
+#line 198 "syntax.act"
 
     ZIid = crt_token->pp_data.id.use ;
-#line 3785 "syntax2.c"
+#line 3786 "syntax2.c"
 			}
 			/* END OF EXTRACT: identifier */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: exp_identifier */
 			{
-#line 506 "syntax.act"
+#line 507 "syntax.act"
 
     (ZI964) = make_id_exp ( (ZIid) ) ;
-#line 3794 "syntax2.c"
+#line 3795 "syntax2.c"
 			}
 			/* END OF ACTION: exp_identifier */
 			ZR924 (ZI964, &ZIe);
@@ -3812,10 +3813,10 @@ ZRcast_Hexpression(EXP *ZOe)
 			}
 			/* BEGINNING OF ACTION: exp_lit */
 			{
-#line 522 "syntax.act"
+#line 523 "syntax.act"
 
     (ZIe) = make_lit_exp ( (ZIa) ) ;
-#line 3819 "syntax2.c"
+#line 3820 "syntax2.c"
 			}
 			/* END OF ACTION: exp_lit */
 		}
@@ -3832,10 +3833,10 @@ ZRcast_Hexpression(EXP *ZOe)
 			}
 			/* BEGINNING OF ACTION: exp_predec */
 			{
-#line 583 "syntax.act"
+#line 584 "syntax.act"
 
     (ZIe) = make_prefix_exp ( lex_minus_Hminus, (ZIa) ) ;
-#line 3839 "syntax2.c"
+#line 3840 "syntax2.c"
 			}
 			/* END OF ACTION: exp_predec */
 		}
@@ -3862,10 +3863,10 @@ ZRcast_Hexpression(EXP *ZOe)
 			}
 			/* BEGINNING OF ACTION: exp_preinc */
 			{
-#line 587 "syntax.act"
+#line 588 "syntax.act"
 
     (ZIe) = make_prefix_exp ( lex_plus_Hplus, (ZIa) ) ;
-#line 3869 "syntax2.c"
+#line 3870 "syntax2.c"
 			}
 			/* END OF ACTION: exp_preinc */
 		}
@@ -3877,9 +3878,9 @@ ZRcast_Hexpression(EXP *ZOe)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: lex_sizeof */
 			{
-#line 371 "syntax.act"
+#line 372 "syntax.act"
  (ZIop) = lex_sizeof ; 
-#line 3883 "syntax2.c"
+#line 3884 "syntax2.c"
 			}
 			/* END OF ACTION: lex_sizeof */
 			ZRsizeof_Hexpression (ZIop, &ZIe);
@@ -3901,10 +3902,10 @@ ZRcast_Hexpression(EXP *ZOe)
 			}
 			/* BEGINNING OF ACTION: exp_indir */
 			{
-#line 518 "syntax.act"
+#line 519 "syntax.act"
 
     (ZIe) = make_indir_exp ( (ZIa) ) ;
-#line 3908 "syntax2.c"
+#line 3909 "syntax2.c"
 			}
 			/* END OF ACTION: exp_indir */
 		}
@@ -3933,10 +3934,10 @@ ZRcast_Hexpression(EXP *ZOe)
 			}
 			/* BEGINNING OF ACTION: exp_ref */
 			{
-#line 591 "syntax.act"
+#line 592 "syntax.act"
 
     (ZIe) = make_ref_exp ( (ZIa), 0 ) ;
-#line 3940 "syntax2.c"
+#line 3941 "syntax2.c"
 			}
 			/* END OF ACTION: exp_ref */
 		}
@@ -3978,10 +3979,10 @@ ZRcast_Hexpression(EXP *ZOe)
 			}
 			/* BEGINNING OF ACTION: exp_not */
 			{
-#line 554 "syntax.act"
+#line 555 "syntax.act"
 
     (ZIe) = make_not_exp ( (ZIa) ) ;
-#line 3985 "syntax2.c"
+#line 3986 "syntax2.c"
 			}
 			/* END OF ACTION: exp_not */
 		}
@@ -3993,9 +3994,9 @@ ZRcast_Hexpression(EXP *ZOe)
 
 			/* BEGINNING OF ACTION: lex_crt */
 			{
-#line 367 "syntax.act"
+#line 368 "syntax.act"
  (ZIop) = crt_lex_token ; 
-#line 3999 "syntax2.c"
+#line 4000 "syntax2.c"
 			}
 			/* END OF ACTION: lex_crt */
 			ZRunary_Hoperator ();
@@ -4006,10 +4007,10 @@ ZRcast_Hexpression(EXP *ZOe)
 			}
 			/* BEGINNING OF ACTION: exp_unary */
 			{
-#line 616 "syntax.act"
+#line 617 "syntax.act"
 
     (ZIe) = make_uminus_exp ( (ZIop), (ZIa) ) ;
-#line 4013 "syntax2.c"
+#line 4014 "syntax2.c"
 			}
 			/* END OF ACTION: exp_unary */
 		}
@@ -4038,7 +4039,7 @@ ZRtype_Hspecifier(BASE_TYPE *ZObt, TYPE *ZOt)
 		{
 			/* BEGINNING OF EXTRACT: complex-type */
 			{
-#line 347 "syntax.act"
+#line 348 "syntax.act"
 
     IDENTIFIER id = crt_token->pp_data.tok.id ;
     PPTOKEN *args = crt_token->pp_data.tok.args ;
@@ -4046,15 +4047,15 @@ ZRtype_Hspecifier(BASE_TYPE *ZObt, TYPE *ZOt)
     have_type_declaration = TYPE_DECL_NONE ;
     have_type_specifier = 1 ;
     RESCAN_LEXER ;
-#line 4050 "syntax2.c"
+#line 4051 "syntax2.c"
 			}
 			/* END OF EXTRACT: complex-type */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: btype_none */
 			{
-#line 927 "syntax.act"
+#line 928 "syntax.act"
  (ZIbt) = btype_none ; 
-#line 4058 "syntax2.c"
+#line 4059 "syntax2.c"
 			}
 			/* END OF ACTION: btype_none */
 		}
@@ -4065,28 +4066,28 @@ ZRtype_Hspecifier(BASE_TYPE *ZObt, TYPE *ZOt)
 
 			/* BEGINNING OF EXTRACT: type-name */
 			{
-#line 201 "syntax.act"
+#line 202 "syntax.act"
 
     ZIid = crt_token->pp_data.id.use ;
-#line 4072 "syntax2.c"
+#line 4073 "syntax2.c"
 			}
 			/* END OF EXTRACT: type-name */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: type_name */
 			{
-#line 960 "syntax.act"
+#line 961 "syntax.act"
 
     MAKE_type_pre ( cv_none, btype_alias, qual_none, (ZIt) ) ;
     COPY_id ( type_name ( (ZIt) ), (ZIid) ) ;
     have_type_specifier = 1 ;
-#line 4083 "syntax2.c"
+#line 4084 "syntax2.c"
 			}
 			/* END OF ACTION: type_name */
 			/* BEGINNING OF ACTION: btype_none */
 			{
-#line 927 "syntax.act"
+#line 928 "syntax.act"
  (ZIbt) = btype_none ; 
-#line 4090 "syntax2.c"
+#line 4091 "syntax2.c"
 			}
 			/* END OF ACTION: btype_none */
 		}
@@ -4103,11 +4104,11 @@ ZRtype_Hspecifier(BASE_TYPE *ZObt, TYPE *ZOt)
 			}
 			/* BEGINNING OF ACTION: type_pre */
 			{
-#line 955 "syntax.act"
+#line 956 "syntax.act"
 
     (ZIt) = NULL_type ;
     have_type_specifier = 1 ;
-#line 4111 "syntax2.c"
+#line 4112 "syntax2.c"
 			}
 			/* END OF ACTION: type_pre */
 		}
@@ -4121,9 +4122,9 @@ ZRtype_Hspecifier(BASE_TYPE *ZObt, TYPE *ZOt)
 			}
 			/* BEGINNING OF ACTION: btype_none */
 			{
-#line 927 "syntax.act"
+#line 928 "syntax.act"
  (ZIbt) = btype_none ; 
-#line 4127 "syntax2.c"
+#line 4128 "syntax2.c"
 			}
 			/* END OF ACTION: btype_none */
 		}
@@ -4137,9 +4138,9 @@ ZRtype_Hspecifier(BASE_TYPE *ZObt, TYPE *ZOt)
 			}
 			/* BEGINNING OF ACTION: btype_none */
 			{
-#line 927 "syntax.act"
+#line 928 "syntax.act"
  (ZIbt) = btype_none ; 
-#line 4143 "syntax2.c"
+#line 4144 "syntax2.c"
 			}
 			/* END OF ACTION: btype_none */
 		}
@@ -4175,10 +4176,10 @@ ZRabstract_Hdeclarator_Hopt(TYPE ZIp, TYPE *ZOt)
 			}
 			/* BEGINNING OF ACTION: type_inject */
 			{
-#line 1047 "syntax.act"
+#line 1048 "syntax.act"
 
     (ZIt) = ( IS_NULL_type ( (ZIq) ) ? (ZIp) : inject_pre_type ( (ZIq), (ZIp), 1 ) ) ;
-#line 4182 "syntax2.c"
+#line 4183 "syntax2.c"
 			}
 			/* END OF ACTION: type_inject */
 		}
@@ -4214,11 +4215,11 @@ ZR1069(int *ZIop, int *ZIn1, int *ZIm1, EXP *ZOc)
 
 		/* BEGINNING OF ACTION: is_type_id_true */
 		{
-#line 1442 "syntax.act"
+#line 1443 "syntax.act"
 
     /* Resolve type-ids from expressions */
     (ZI0) = predict_typeid ( 1 ) ;
-#line 4222 "syntax2.c"
+#line 4223 "syntax2.c"
 		}
 		/* END OF ACTION: is_type_id_true */
 		if (!ZI0)
@@ -4230,18 +4231,18 @@ ZR1069(int *ZIop, int *ZIn1, int *ZIm1, EXP *ZOc)
 		}
 		/* BEGINNING OF ACTION: exp_none */
 		{
-#line 433 "syntax.act"
+#line 434 "syntax.act"
 
     (ZIa) = NULL_exp ;
-#line 4237 "syntax2.c"
+#line 4238 "syntax2.c"
 		}
 		/* END OF ACTION: exp_none */
 		/* BEGINNING OF ACTION: exp_sizeof */
 		{
-#line 612 "syntax.act"
+#line 613 "syntax.act"
 
     (ZIc) = make_sizeof_exp ( (ZIt), (ZIa), (ZIm2), (*ZIop) ) ;
-#line 4245 "syntax2.c"
+#line 4246 "syntax2.c"
 		}
 		/* END OF ACTION: exp_sizeof */
 		switch (CURRENT_TERMINAL) {
@@ -4273,10 +4274,10 @@ ZL2:;
 
 			/* BEGINNING OF ACTION: exp_paren_begin */
 			{
-#line 563 "syntax.act"
+#line 564 "syntax.act"
 
     IGNORE incr_value ( OPT_VAL_paren_depth ) ;
-#line 4280 "syntax2.c"
+#line 4281 "syntax2.c"
 			}
 			/* END OF ACTION: exp_paren_begin */
 			ZRexpression (&ZI1068);
@@ -4286,11 +4287,11 @@ ZL2:;
 			}
 			/* BEGINNING OF ACTION: exp_paren_end */
 			{
-#line 566 "syntax.act"
+#line 567 "syntax.act"
 
     (ZIe) = make_paren_exp ( (ZI1068) ) ;
     decr_value ( OPT_VAL_paren_depth ) ;
-#line 4294 "syntax2.c"
+#line 4295 "syntax2.c"
 			}
 			/* END OF ACTION: exp_paren_end */
 			switch (CURRENT_TERMINAL) {
@@ -4307,34 +4308,34 @@ ZL2:;
 			}
 			/* BEGINNING OF ACTION: diff_side_effects */
 			{
-#line 1381 "syntax.act"
+#line 1382 "syntax.act"
 
     (ZIn2) = no_side_effects - (*ZIn1) ;
-#line 4314 "syntax2.c"
+#line 4315 "syntax2.c"
 			}
 			/* END OF ACTION: diff_side_effects */
 			/* BEGINNING OF ACTION: diff_type_defns */
 			{
-#line 1385 "syntax.act"
+#line 1386 "syntax.act"
 
     (ZIm2) = no_type_defns - (*ZIm1) ;
-#line 4322 "syntax2.c"
+#line 4323 "syntax2.c"
 			}
 			/* END OF ACTION: diff_type_defns */
 			/* BEGINNING OF ACTION: type_of */
 			{
-#line 992 "syntax.act"
+#line 993 "syntax.act"
 
     (ZIt) = typeof_exp ( &(ZIa), (ZIn2), (*ZIop) ) ;
-#line 4330 "syntax2.c"
+#line 4331 "syntax2.c"
 			}
 			/* END OF ACTION: type_of */
 			/* BEGINNING OF ACTION: exp_sizeof */
 			{
-#line 612 "syntax.act"
+#line 613 "syntax.act"
 
     (ZIc) = make_sizeof_exp ( (ZIt), (ZIa), (ZIm2), (*ZIop) ) ;
-#line 4338 "syntax2.c"
+#line 4339 "syntax2.c"
 			}
 			/* END OF ACTION: exp_sizeof */
 		}
@@ -4358,13 +4359,13 @@ ZR815(BASE_TYPE *ZIbt, TYPE *ZIt1, CV_SPEC *ZIcv, DECL_SPEC *ZIds1)
 		{
 			/* BEGINNING OF ACTION: declare_id_empty */
 			{
-#line 1174 "syntax.act"
+#line 1175 "syntax.act"
 
     IGNORE empty_decl ( (*ZIds1), NULL_type, (*ZIbt), (*ZIt1), (*ZIcv), last_lex_token, 0 ) ;
     have_type_declaration = TYPE_DECL_NONE ;
     have_func_declarator = 0 ;
     have_type_specifier = 0 ;
-#line 4368 "syntax2.c"
+#line 4369 "syntax2.c"
 			}
 			/* END OF ACTION: declare_id_empty */
 		}
@@ -4377,13 +4378,13 @@ ZR815(BASE_TYPE *ZIbt, TYPE *ZIt1, CV_SPEC *ZIcv, DECL_SPEC *ZIds1)
 
 			/* BEGINNING OF ACTION: dspec_complete */
 			{
-#line 1136 "syntax.act"
+#line 1137 "syntax.act"
 
     /* Complete a declaration specifier and a type */
     (ZIds) = complete_dspec ( (*ZIds1), (*ZIbt), (*ZIt1), (*ZIcv) ) ;
     (ZIt) = complete_pre_type ( (*ZIbt), (*ZIt1), (*ZIcv), 0 ) ;
     have_type_specifier = 0 ;
-#line 4387 "syntax2.c"
+#line 4388 "syntax2.c"
 			}
 			/* END OF ACTION: dspec_complete */
 			ZRinit_Hdeclarator_Hlist (ZIds, *ZIbt, ZIt);
@@ -4424,19 +4425,19 @@ ZL1:;
 
 		/* BEGINNING OF ACTION: lex_open_round */
 		{
-#line 368 "syntax.act"
+#line 369 "syntax.act"
  (ZIt) = lex_open_Hround ; 
-#line 4430 "syntax2.c"
+#line 4431 "syntax2.c"
 		}
 		/* END OF ACTION: lex_open_round */
 		/* BEGINNING OF ACTION: expected */
 		{
-#line 1358 "syntax.act"
+#line 1359 "syntax.act"
 
     /* Expected symbol */
     int p = primary_form ( crt_lex_token ) ;
     if ( p != (ZIt) ) report ( crt_loc, ERR_lex_expect ( (ZIt) ) ) ;
-#line 4440 "syntax2.c"
+#line 4441 "syntax2.c"
 		}
 		/* END OF ACTION: expected */
 	}
@@ -4465,11 +4466,11 @@ ZL2_enumerator_Hlist:;
 								ADVANCE_LEXER;
 								/* BEGINNING OF ACTION: error_comma */
 								{
-#line 1353 "syntax.act"
+#line 1354 "syntax.act"
 
     /* Extra comma at the end of a list */
     report ( crt_loc, ERR_lex_extra_comma () ) ;
-#line 4473 "syntax2.c"
+#line 4474 "syntax2.c"
 								}
 								/* END OF ACTION: error_comma */
 								/* BEGINNING OF INLINE: enumerator-list */
@@ -4488,11 +4489,11 @@ ZL2_enumerator_Hlist:;
 							{
 								/* BEGINNING OF ACTION: error_comma */
 								{
-#line 1353 "syntax.act"
+#line 1354 "syntax.act"
 
     /* Extra comma at the end of a list */
     report ( crt_loc, ERR_lex_extra_comma () ) ;
-#line 4496 "syntax2.c"
+#line 4497 "syntax2.c"
 								}
 								/* END OF ACTION: error_comma */
 							}
@@ -4581,11 +4582,11 @@ ZRdesignator(OFFSET ZIb, TYPE ZIs, OFFSET *ZOa, TYPE *ZOt)
 			}
 			/* BEGINNING OF ACTION: offset_index */
 			{
-#line 1276 "syntax.act"
+#line 1277 "syntax.act"
 
     OFFSET off = offset_index ( (ZIs), (ZIe), &(ZIt) ) ;
     (ZIa) = offset_add ( (ZIb), off ) ;
-#line 4589 "syntax2.c"
+#line 4590 "syntax2.c"
 			}
 			/* END OF ACTION: offset_index */
 			/* BEGINNING OF INLINE: close-square */
@@ -4630,9 +4631,9 @@ ZRunary_Hexpression(EXP *ZOe)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: lex_alignof */
 			{
-#line 370 "syntax.act"
+#line 371 "syntax.act"
  (ZIop) = lex_alignof ; 
-#line 4636 "syntax2.c"
+#line 4637 "syntax2.c"
 			}
 			/* END OF ACTION: lex_alignof */
 			ZRsizeof_Hexpression (ZIop, &ZIe);
@@ -4654,10 +4655,10 @@ ZRunary_Hexpression(EXP *ZOe)
 			}
 			/* BEGINNING OF ACTION: exp_predec */
 			{
-#line 583 "syntax.act"
+#line 584 "syntax.act"
 
     (ZIe) = make_prefix_exp ( lex_minus_Hminus, (ZIa) ) ;
-#line 4661 "syntax2.c"
+#line 4662 "syntax2.c"
 			}
 			/* END OF ACTION: exp_predec */
 		}
@@ -4674,10 +4675,10 @@ ZRunary_Hexpression(EXP *ZOe)
 			}
 			/* BEGINNING OF ACTION: exp_preinc */
 			{
-#line 587 "syntax.act"
+#line 588 "syntax.act"
 
     (ZIe) = make_prefix_exp ( lex_plus_Hplus, (ZIa) ) ;
-#line 4681 "syntax2.c"
+#line 4682 "syntax2.c"
 			}
 			/* END OF ACTION: exp_preinc */
 		}
@@ -4689,9 +4690,9 @@ ZRunary_Hexpression(EXP *ZOe)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: lex_sizeof */
 			{
-#line 371 "syntax.act"
+#line 372 "syntax.act"
  (ZIop) = lex_sizeof ; 
-#line 4695 "syntax2.c"
+#line 4696 "syntax2.c"
 			}
 			/* END OF ACTION: lex_sizeof */
 			ZRsizeof_Hexpression (ZIop, &ZIe);
@@ -4713,10 +4714,10 @@ ZRunary_Hexpression(EXP *ZOe)
 			}
 			/* BEGINNING OF ACTION: exp_indir */
 			{
-#line 518 "syntax.act"
+#line 519 "syntax.act"
 
     (ZIe) = make_indir_exp ( (ZIa) ) ;
-#line 4720 "syntax2.c"
+#line 4721 "syntax2.c"
 			}
 			/* END OF ACTION: exp_indir */
 		}
@@ -4745,10 +4746,10 @@ ZRunary_Hexpression(EXP *ZOe)
 			}
 			/* BEGINNING OF ACTION: exp_ref */
 			{
-#line 591 "syntax.act"
+#line 592 "syntax.act"
 
     (ZIe) = make_ref_exp ( (ZIa), 0 ) ;
-#line 4752 "syntax2.c"
+#line 4753 "syntax2.c"
 			}
 			/* END OF ACTION: exp_ref */
 		}
@@ -4777,10 +4778,10 @@ ZRunary_Hexpression(EXP *ZOe)
 			}
 			/* BEGINNING OF ACTION: exp_not */
 			{
-#line 554 "syntax.act"
+#line 555 "syntax.act"
 
     (ZIe) = make_not_exp ( (ZIa) ) ;
-#line 4784 "syntax2.c"
+#line 4785 "syntax2.c"
 			}
 			/* END OF ACTION: exp_not */
 		}
@@ -4803,9 +4804,9 @@ ZRunary_Hexpression(EXP *ZOe)
 
 			/* BEGINNING OF ACTION: lex_crt */
 			{
-#line 367 "syntax.act"
+#line 368 "syntax.act"
  (ZIop) = crt_lex_token ; 
-#line 4809 "syntax2.c"
+#line 4810 "syntax2.c"
 			}
 			/* END OF ACTION: lex_crt */
 			ZRunary_Hoperator ();
@@ -4816,10 +4817,10 @@ ZRunary_Hexpression(EXP *ZOe)
 			}
 			/* BEGINNING OF ACTION: exp_unary */
 			{
-#line 616 "syntax.act"
+#line 617 "syntax.act"
 
     (ZIe) = make_uminus_exp ( (ZIop), (ZIa) ) ;
-#line 4823 "syntax2.c"
+#line 4824 "syntax2.c"
 			}
 			/* END OF ACTION: exp_unary */
 		}
@@ -4887,10 +4888,10 @@ ZR1074(IDENTIFIER *ZId, SID_LIST_EXP *ZOq)
 		{
 			/* BEGINNING OF ACTION: list_exp_null */
 			{
-#line 414 "syntax.act"
+#line 415 "syntax.act"
 
     (ZIq) = NULL_list ( EXP ) ;
-#line 4894 "syntax2.c"
+#line 4895 "syntax2.c"
 			}
 			/* END OF ACTION: list_exp_null */
 		}
@@ -4916,22 +4917,22 @@ ZR947(BASE_TYPE *ZI943, TYPE *ZI944, CV_SPEC *ZI945, DECL_SPEC *ZI946, EXP *ZOe)
 		{
 			/* BEGINNING OF ACTION: declare_id_empty */
 			{
-#line 1174 "syntax.act"
+#line 1175 "syntax.act"
 
     IGNORE empty_decl ( (*ZI946), NULL_type, (*ZI943), (*ZI944), (*ZI945), last_lex_token, 0 ) ;
     have_type_declaration = TYPE_DECL_NONE ;
     have_func_declarator = 0 ;
     have_type_specifier = 0 ;
-#line 4926 "syntax2.c"
+#line 4927 "syntax2.c"
 			}
 			/* END OF ACTION: declare_id_empty */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: exp_none */
 			{
-#line 433 "syntax.act"
+#line 434 "syntax.act"
 
     (ZIe) = NULL_exp ;
-#line 4935 "syntax2.c"
+#line 4936 "syntax2.c"
 			}
 			/* END OF ACTION: exp_none */
 		}
@@ -4946,13 +4947,13 @@ ZR947(BASE_TYPE *ZI943, TYPE *ZI944, CV_SPEC *ZI945, DECL_SPEC *ZI946, EXP *ZOe)
 
 			/* BEGINNING OF ACTION: dspec_complete */
 			{
-#line 1136 "syntax.act"
+#line 1137 "syntax.act"
 
     /* Complete a declaration specifier and a type */
     (ZIds) = complete_dspec ( (*ZI946), (*ZI943), (*ZI944), (*ZI945) ) ;
     (ZIt) = complete_pre_type ( (*ZI943), (*ZI944), (*ZI945), 0 ) ;
     have_type_specifier = 0 ;
-#line 4956 "syntax2.c"
+#line 4957 "syntax2.c"
 			}
 			/* END OF ACTION: dspec_complete */
 			ZRdeclarator (ZIt, &ZIs, &ZIid);
@@ -4963,10 +4964,10 @@ ZR947(BASE_TYPE *ZI943, TYPE *ZI944, CV_SPEC *ZI945, DECL_SPEC *ZI946, EXP *ZOe)
 			}
 			/* BEGINNING OF ACTION: exp_none */
 			{
-#line 433 "syntax.act"
+#line 434 "syntax.act"
 
     (ZIe) = NULL_exp ;
-#line 4970 "syntax2.c"
+#line 4971 "syntax2.c"
 			}
 			/* END OF ACTION: exp_none */
 		}
@@ -5008,18 +5009,18 @@ ZRfor_Hend_Hstatement(EXP *ZOe)
 			}
 			/* BEGINNING OF ACTION: stmt_exp */
 			{
-#line 700 "syntax.act"
+#line 701 "syntax.act"
 
     (ZIb) = make_exp_stmt ( (ZIa) ) ;
-#line 5015 "syntax2.c"
+#line 5016 "syntax2.c"
 			}
 			/* END OF ACTION: stmt_exp */
 			/* BEGINNING OF ACTION: bind_temporary */
 			{
-#line 819 "syntax.act"
+#line 820 "syntax.act"
 
     (ZIe) = bind_temporary ( (ZIb) ) ;
-#line 5023 "syntax2.c"
+#line 5024 "syntax2.c"
 			}
 			/* END OF ACTION: bind_temporary */
 		}
@@ -5028,10 +5029,10 @@ ZRfor_Hend_Hstatement(EXP *ZOe)
 		{
 			/* BEGINNING OF ACTION: exp_none */
 			{
-#line 433 "syntax.act"
+#line 434 "syntax.act"
 
     (ZIe) = NULL_exp ;
-#line 5035 "syntax2.c"
+#line 5036 "syntax2.c"
 			}
 			/* END OF ACTION: exp_none */
 		}

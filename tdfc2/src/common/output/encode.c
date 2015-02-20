@@ -8,13 +8,14 @@
  */
 
 #include <string.h>
+#include <limits.h>
 #include <stdio.h>
 
 #include <shared/check.h>
 
 #include "config.h"
-#include <limits.h>
 #include "c_types.h"
+
 #include "error.h"
 #include "char.h"
 #include "encode.h"

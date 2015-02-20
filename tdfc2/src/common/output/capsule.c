@@ -16,10 +16,10 @@
 
 #include "config.h"
 #include "version.h"
+#include "c_types.h"
 
 #include "ustring.h"
 #include "system.h"
-#include "c_types.h"
 #include "hashid_ops.h"
 #include "id_ops.h"
 #include "off_ops.h"

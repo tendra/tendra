@@ -18,8 +18,9 @@
 #include <shared/check.h>
 
 #include "config.h"
-#include "system.h"
 #include "c_types.h"
+
+#include "system.h"
 #include "error.h"
 #include "file.h"
 #include "ustring.h"

@@ -13,10 +13,11 @@
 
 #include <shared/check.h>
 
-#include "ustring.h"
 #include "config.h"
-#include "system.h"
 #include "c_types.h"
+
+#include "ustring.h"
+#include "system.h"
 #include "hashid_ops.h"
 #include "error.h"
 #include "catalog.h"

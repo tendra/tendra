@@ -14,8 +14,8 @@
 #include <shared/check.h>
 
 #include "config.h"
-
 #include "c_types.h"
+
 #include "error.h"
 #include "char.h"
 #include "ustring.h"

@@ -13,8 +13,8 @@
 
 #include "config.h"
 #include "version.h"
-
 #include "c_types.h"
+
 #include "exp_ops.h"
 #include "type_ops.h"
 #include "error.h"

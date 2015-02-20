@@ -9,7 +9,7 @@
 
 /* BEGINNING OF HEADER */
 
-#line 191 "syntax.act"
+#line 192 "syntax.act"
 
 
 /* $Id$ */
@@ -671,7 +671,7 @@ extern int ZI0;
 
 /* BEGINNING OF TRAILER */
 
-#line 2182 "syntax.act"
+#line 2183 "syntax.act"
 
 
 

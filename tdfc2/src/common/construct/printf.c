@@ -8,12 +8,13 @@
  */
 
 #include <stdio.h>
+#include <limits.h>
 
 #include <shared/check.h>
 
 #include "config.h"
-#include <limits.h>
 #include "c_types.h"
+
 #include "id_ops.h"
 #include "str_ops.h"
 #include "type_ops.h"

@@ -12,8 +12,8 @@
 #include <stdio.h>
 
 #include "config.h"
-
 #include "c_types.h"
+
 #include "exp_ops.h"
 #include "str_ops.h"
 #include "error.h"
