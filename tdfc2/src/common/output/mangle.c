@@ -64,28 +64,28 @@
 */
 
 char mangle_ntype[ORDER_ntype][3] = {
-	{ MANGLE_error, 0, 0 },			/* ntype_none */
-	{ MANGLE_char, 0, 0 },			/* ntype_char */
-	{ MANGLE_signed, MANGLE_char, 0 },	/* ntype_schar */
-	{ MANGLE_unsigned, MANGLE_char, 0 },	/* ntype_uchar */
-	{ MANGLE_short, 0, 0 },			/* ntype_sshort */
-	{ MANGLE_unsigned, MANGLE_short, 0 },	/* ntype_ushort */
-	{ MANGLE_int, 0, 0 },			/* ntype_sint */
-	{ MANGLE_unsigned, MANGLE_int, 0 },	/* ntype_uint */
-	{ MANGLE_long, 0, 0 },			/* ntype_slong */
-	{ MANGLE_unsigned, MANGLE_long, 0 },	/* ntype_ulong */
-	{ MANGLE_llong, 0, 0 },			/* ntype_sllong */
-	{ MANGLE_unsigned, MANGLE_llong, 0 },	/* ntype_ullong */
-	{ MANGLE_float, 0, 0 },			/* ntype_float */
-	{ MANGLE_double, 0, 0 },		/* ntype_double */
-	{ MANGLE_ldouble, 0, 0 },		/* ntype_ldouble */
-	{ MANGLE_void, 0, 0 },			/* ntype_void */
-	{ MANGLE_bottom, 0, 0 },		/* ntype_bottom */
-	{ MANGLE_bool, 0, 0 },			/* ntype_bool */
-	{ MANGLE_ptrdiff_t, 0, 0 },		/* ntype_ptrdiff_t */
-	{ MANGLE_size_t, 0, 0 },		/* ntype_size_t */
-	{ MANGLE_wchar_t, 0, 0 },		/* ntype_wchar_t */
-	{ MANGLE_ellipsis, 0, 0 }		/* ntype_ellipsis */
+	{ MANGLE_error,     0,            0 },	/* ntype_none */
+	{ MANGLE_char,      0,            0 },	/* ntype_char */
+	{ MANGLE_signed,    MANGLE_char,  0 },	/* ntype_schar */
+	{ MANGLE_unsigned,  MANGLE_char,  0 },	/* ntype_uchar */
+	{ MANGLE_short,     0,            0 },	/* ntype_sshort */
+	{ MANGLE_unsigned,  MANGLE_short, 0 },	/* ntype_ushort */
+	{ MANGLE_int,       0,            0 },	/* ntype_sint */
+	{ MANGLE_unsigned,  MANGLE_int,   0 },	/* ntype_uint */
+	{ MANGLE_long,      0,            0 },	/* ntype_slong */
+	{ MANGLE_unsigned,  MANGLE_long,  0 },	/* ntype_ulong */
+	{ MANGLE_llong,     0,            0 },	/* ntype_sllong */
+	{ MANGLE_unsigned,  MANGLE_llong, 0 },	/* ntype_ullong */
+	{ MANGLE_float,     0,            0 },	/* ntype_float */
+	{ MANGLE_double,    0,            0 },	/* ntype_double */
+	{ MANGLE_ldouble,   0,            0 },	/* ntype_ldouble */
+	{ MANGLE_void,      0,            0 },	/* ntype_void */
+	{ MANGLE_bottom,    0,            0 },	/* ntype_bottom */
+	{ MANGLE_bool,      0,            0 },	/* ntype_bool */
+	{ MANGLE_ptrdiff_t, 0,            0 },	/* ntype_ptrdiff_t */
+	{ MANGLE_size_t,    0,            0 },	/* ntype_size_t */
+	{ MANGLE_wchar_t,   0,            0 },	/* ntype_wchar_t */
+	{ MANGLE_ellipsis,  0,            0 }	/* ntype_ellipsis */
 };
 
 
@@ -1179,168 +1179,64 @@ mangle_op(int op)
 {
 	const char *s;
 	switch (op) {
-		/* Standard operator names */
-	case lex_abs:
-		s = "__ab";
-		break;
-	case lex_and_H1:
-		s = "__ad";
-		break;
-	case lex_and_Heq_H1:
-		s = "__aad";
-		break;
-	case lex_array_Hop:
-		s = "__vc";
-		break;
-	case lex_arrow:
-		s = "__rf";
-		break;
-	case lex_arrow_Hstar:
-		s = "__rm";
-		break;
-	case lex_assign:
-		s = "__as";
-		break;
-	case lex_comma:
-		s = "__cm";
-		break;
-	case lex_compl_H1:
-		s = "__co";
-		break;
-	case lex_delete:
-		s = "__dl";
-		break;
-	case lex_delete_Harray:
-		s = "__vd";
-		break;
-	case lex_div:
-		s = "__dv";
-		break;
-	case lex_div_Heq:
-		s = "__adv";
-		break;
-	case lex_eq:
-		s = "__eq";
-		break;
-	case lex_func_Hop:
-		s = "__cl";
-		break;
-	case lex_greater:
-		s = "__gt";
-		break;
-	case lex_greater_Heq:
-		s = "__ge";
-		break;
-	case lex_less:
-		s = "__lt";
-		break;
-	case lex_less_Heq:
-		s = "__le";
-		break;
-	case lex_logical_Hand_H1:
-		s = "__aa";
-		break;
-	case lex_logical_Hor_H1:
-		s = "__oo";
-		break;
-	case lex_lshift:
-		s = "__ls";
-		break;
-	case lex_lshift_Heq:
-		s = "__als";
-		break;
-	case lex_max:
-		s = "__mx";
-		break;
-	case lex_min:
-		s = "__mn";
-		break;
-	case lex_minus:
-		s = "__mi";
-		break;
-	case lex_minus_Heq:
-		s = "__ami";
-		break;
-	case lex_minus_Hminus:
-		s = "__mm";
-		break;
-	case lex_new:
-		s = "__nw";
-		break;
-	case lex_new_Harray:
-		s = "__vn";
-		break;
-	case lex_not_H1:
-		s = "__nt";
-		break;
-	case lex_not_Heq_H1:
-		s = "__ne";
-		break;
-	case lex_or_H1:
-		s = "__or";
-		break;
-	case lex_or_Heq_H1:
-		s = "__aor";
-		break;
-	case lex_plus:
-		s = "__pl";
-		break;
-	case lex_plus_Heq:
-		s = "__apl";
-		break;
-	case lex_plus_Hplus:
-		s = "__pp";
-		break;
-	case lex_rem:
-		s = "__md";
-		break;
-	case lex_rem_Heq:
-		s = "__amd";
-		break;
-	case lex_rshift:
-		s = "__rs";
-		break;
-	case lex_rshift_Heq:
-		s = "__ars";
-		break;
-	case lex_star:
-		s = "__ml";
-		break;
-	case lex_star_Heq:
-		s = "__aml";
-		break;
-	case lex_xor_H1:
-		s = "__er";
-		break;
-	case lex_xor_Heq_H1:
-		s = "__aer";
-		break;
+
+	/* Standard operator names */
+	case lex_abs:             s = "__ab";  break;
+	case lex_and_H1:          s = "__ad";  break;
+	case lex_and_Heq_H1:      s = "__aad"; break;
+	case lex_array_Hop:       s = "__vc";  break;
+	case lex_arrow:           s = "__rf";  break;
+	case lex_arrow_Hstar:     s = "__rm";  break;
+	case lex_assign:          s = "__as";  break;
+	case lex_comma:           s = "__cm";  break;
+	case lex_compl_H1:        s = "__co";  break;
+	case lex_delete:          s = "__dl";  break;
+	case lex_delete_Harray:   s = "__vd";  break;
+	case lex_div:             s = "__dv";  break;
+	case lex_div_Heq:         s = "__adv"; break;
+	case lex_eq:              s = "__eq";  break;
+	case lex_func_Hop:        s = "__cl";  break;
+	case lex_greater:         s = "__gt";  break;
+	case lex_greater_Heq:     s = "__ge";  break;
+	case lex_less:            s = "__lt";  break;
+	case lex_less_Heq:        s = "__le";  break;
+	case lex_logical_Hand_H1: s = "__aa";  break;
+	case lex_logical_Hor_H1:  s = "__oo";  break;
+	case lex_lshift:          s = "__ls";  break;
+	case lex_lshift_Heq:      s = "__als"; break;
+	case lex_max:             s = "__mx";  break;
+	case lex_min:             s = "__mn";  break;
+	case lex_minus:           s = "__mi";  break;
+	case lex_minus_Heq:       s = "__ami"; break;
+	case lex_minus_Hminus:    s = "__mm";  break;
+	case lex_new:             s = "__nw";  break;
+	case lex_new_Harray:      s = "__vn";  break;
+	case lex_not_H1:          s = "__nt";  break;
+	case lex_not_Heq_H1:      s = "__ne";  break;
+	case lex_or_H1:           s = "__or";  break;
+	case lex_or_Heq_H1:       s = "__aor"; break;
+	case lex_plus:            s = "__pl";  break;
+	case lex_plus_Heq:        s = "__apl"; break;
+	case lex_plus_Hplus:      s = "__pp";  break;
+	case lex_rem:             s = "__md";  break;
+	case lex_rem_Heq:         s = "__amd"; break;
+	case lex_rshift:          s = "__rs";  break;
+	case lex_rshift_Heq:      s = "__ars"; break;
+	case lex_star:            s = "__ml";  break;
+	case lex_star_Heq:        s = "__aml"; break;
+	case lex_xor_H1:          s = "__er";  break;
+	case lex_xor_Heq_H1:      s = "__aer"; break;
 
 	/* Invalid operator names */
-	case lex_cond_Hop:
-		s = "__cn";
-		break;
-	case lex_colon:
-		s = "__cs";
-		break;
-	case lex_colon_Hcolon:
-		s = "__cc";
-		break;
-	case lex_dot:
-		s = "__df";
-		break;
-	case lex_dot_Hstar:
-		s = "__dm";
-		break;
-	case lex_sizeof:
-		s = "__sz";
-		break;
-	case lex_typeid:
-		s = "__td";
-		break;
-	case lex_vtable:
-		s = "__tb";
-		break;
+	case lex_cond_Hop:        s = "__cn";  break;
+	case lex_colon:           s = "__cs";  break;
+	case lex_colon_Hcolon:    s = "__cc";  break;
+	case lex_dot:             s = "__df";  break;
+	case lex_dot_Hstar:       s = "__dm";  break;
+	case lex_sizeof:          s = "__sz";  break;
+	case lex_typeid:          s = "__td";  break;
+	case lex_vtable:          s = "__tb";  break;
+
 	default:
 		s = mangle_ntype[0];
 		break;

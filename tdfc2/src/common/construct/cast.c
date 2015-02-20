@@ -514,21 +514,11 @@ cast_templ_type(TYPE t, EXP a, unsigned cast)
 	EXP e;
 	int op;
 	switch (cast) {
-	case CAST_IMPLICIT:
-		op = lex_implicit;
-		break;
-	case CAST_STATIC:
-		op = lex_static_Hcast;
-		break;
-	case CAST_REINTERP:
-		op = lex_reinterpret_Hcast;
-		break;
-	case CAST_CONST:
-		op = lex_const_Hcast;
-		break;
-	default:
-		op = lex_cast;
-		break;
+	case CAST_IMPLICIT: op = lex_implicit;          break;
+	case CAST_STATIC:   op = lex_static_Hcast;      break;
+	case CAST_REINTERP: op = lex_reinterpret_Hcast; break;
+	case CAST_CONST:    op = lex_const_Hcast;       break;
+	default:            op = lex_cast;              break;
 	}
 	t = rvalue_type(t);
 	MAKE_exp_op(t, op, a, NULL_exp, e);
@@ -1813,26 +1803,11 @@ make_new_cast_exp(int op, TYPE t, EXP a, int n)
 {
 	EXP e;
 	switch (op) {
-	case lex_static_Hcast: {
-		e = make_static_cast_exp(t, a, n);
-		break;
-	}
-	case lex_reinterpret_Hcast: {
-		e = make_reinterp_cast_exp(t, a, n);
-		break;
-	}
-	case lex_const_Hcast: {
-		e = make_const_cast_exp(t, a, n);
-		break;
-	}
-	case lex_dynamic_Hcast: {
-		e = make_dynamic_cast_exp(t, a, n);
-		break;
-	}
-	default: {
-		e = make_cast_exp(t, a, n);
-		break;
-	}
+	case lex_static_Hcast:      e = make_static_cast_exp  (t, a, n); break;
+	case lex_reinterpret_Hcast: e = make_reinterp_cast_exp(t, a, n); break;
+	case lex_const_Hcast:       e = make_const_cast_exp   (t, a, n); break;
+	case lex_dynamic_Hcast:     e = make_dynamic_cast_exp (t, a, n); break;
+	default:                    e = make_cast_exp         (t, a, n); break;
 	}
 	return e;
 }

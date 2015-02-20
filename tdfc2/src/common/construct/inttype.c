@@ -48,28 +48,28 @@
 */
 
 BASE_INFO basetype_info[ORDER_ntype] = {
-	{ btype_sint, 16, UINT_MAX, btype_signed, 1, NULL_type },
-	{ btype_char, 8, UINT_MAX, btype_none, 1, NULL_type },
-	{ btype_schar, 8, UINT_MAX, btype_signed, 1, NULL_type },
-	{ btype_uchar, 8, UINT_MAX, btype_unsigned, 1, NULL_type },
-	{ btype_sshort, 16, UINT_MAX, btype_signed, 1, NULL_type },
-	{ btype_ushort, 16, UINT_MAX, btype_unsigned, 1, NULL_type },
-	{ btype_sint, 16, UINT_MAX, btype_signed, 1, NULL_type },
-	{ btype_uint, 16, UINT_MAX, btype_unsigned, 1, NULL_type },
-	{ btype_slong, 32, UINT_MAX, btype_signed, 1, NULL_type },
-	{ btype_ulong, 32, UINT_MAX, btype_unsigned, 1, NULL_type },
-	{ btype_sllong, 32, UINT_MAX, btype_signed, 0, NULL_type },
-	{ btype_ullong, 32, UINT_MAX, btype_unsigned, 0, NULL_type },
-	{ btype_float, 0, 0, btype_none, 1, NULL_type },
-	{ btype_double, 0, 0, btype_none, 1, NULL_type },
-	{ btype_ldouble, 0, 0, btype_none, 1, NULL_type },
-	{ btype_void, 0, 0, btype_none, 1, NULL_type },
-	{ btype_bottom, 0, 0, btype_none, 1, NULL_type },
-	{ btype_bool, 1, 1, btype_unsigned, LANGUAGE_CPP, NULL_type },
-	{ btype_ptrdiff_t, 16, UINT_MAX, btype_signed, 0, NULL_type },
-	{ btype_size_t, 16, UINT_MAX, btype_unsigned, 0, NULL_type },
-	{ btype_wchar_t, 8, UINT_MAX, btype_none, LANGUAGE_CPP, NULL_type },
-	{ btype_ellipsis, 0, UINT_MAX, btype_none, 0, NULL_type }
+	{ btype_sint,      16, UINT_MAX, btype_signed,   1,            NULL_type },
+	{ btype_char,      8,  UINT_MAX, btype_none,     1,            NULL_type },
+	{ btype_schar,     8,  UINT_MAX, btype_signed,   1,            NULL_type },
+	{ btype_uchar,     8,  UINT_MAX, btype_unsigned, 1,            NULL_type },
+	{ btype_sshort,    16, UINT_MAX, btype_signed,   1,            NULL_type },
+	{ btype_ushort,    16, UINT_MAX, btype_unsigned, 1,            NULL_type },
+	{ btype_sint,      16, UINT_MAX, btype_signed,   1,            NULL_type },
+	{ btype_uint,      16, UINT_MAX, btype_unsigned, 1,            NULL_type },
+	{ btype_slong,     32, UINT_MAX, btype_signed,   1,            NULL_type },
+	{ btype_ulong,     32, UINT_MAX, btype_unsigned, 1,            NULL_type },
+	{ btype_sllong,    32, UINT_MAX, btype_signed,   0,            NULL_type },
+	{ btype_ullong,    32, UINT_MAX, btype_unsigned, 0,            NULL_type },
+	{ btype_float,     0,  0,        btype_none,     1,            NULL_type },
+	{ btype_double,    0,  0,        btype_none,     1,            NULL_type },
+	{ btype_ldouble,   0,  0,        btype_none,     1,            NULL_type },
+	{ btype_void,      0,  0,        btype_none,     1,            NULL_type },
+	{ btype_bottom,    0,  0,        btype_none,     1,            NULL_type },
+	{ btype_bool,      1,  1,        btype_unsigned, LANGUAGE_CPP, NULL_type },
+	{ btype_ptrdiff_t, 16, UINT_MAX, btype_signed,   0,            NULL_type },
+	{ btype_size_t,    16, UINT_MAX, btype_unsigned, 0,            NULL_type },
+	{ btype_wchar_t,   8,  UINT_MAX, btype_none,     LANGUAGE_CPP, NULL_type },
+	{ btype_ellipsis,  0,  UINT_MAX, btype_none,     0,            NULL_type }
 };
 
 
@@ -888,18 +888,10 @@ key_type(int tok)
 {
 	BASE_TYPE bs = btype_none;
 	switch (tok) {
-	case lex_bool:
-		bs = btype_bool;
-		break;
-	case lex_ptrdiff_Ht:
-		bs = btype_ptrdiff_t;
-		break;
-	case lex_size_Ht:
-		bs = btype_size_t;
-		break;
-	case lex_wchar_Ht:
-		bs = btype_wchar_t;
-		break;
+	case lex_bool:       bs = btype_bool;      break;
+	case lex_ptrdiff_Ht: bs = btype_ptrdiff_t; break;
+	case lex_size_Ht:    bs = btype_size_t;    break;
+	case lex_wchar_Ht:   bs = btype_wchar_t;   break;
 	}
 	return bs;
 }

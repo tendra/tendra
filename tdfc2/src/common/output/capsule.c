@@ -62,17 +62,17 @@ typedef struct {
 #define NO_EQNS		NULL_list(BITSTREAM_P)
 
 static EQN_INFO eqns[EQN_no] = {
-    { LINK_tld_props, 0, 0, NO_EQNS, NO_EQNS },		/* EQN_tld */
-    { LINK_version_props, 0, 1, NO_EQNS, NO_EQNS },	/* EQN_versions */
-    { LINK_tokdec_props, 0, 1, NO_EQNS, NO_EQNS },	/* EQN_tokdec */
-    { LINK_tokdef_props, 1, 1, NO_EQNS, NO_EQNS },	/* EQN_tokdef */
+    { LINK_tld_props,       0, 0, NO_EQNS, NO_EQNS },	/* EQN_tld */
+    { LINK_version_props,   0, 1, NO_EQNS, NO_EQNS },	/* EQN_versions */
+    { LINK_tokdec_props,    0, 1, NO_EQNS, NO_EQNS },	/* EQN_tokdec */
+    { LINK_tokdef_props,    1, 1, NO_EQNS, NO_EQNS },	/* EQN_tokdef */
     { LINK_al_tagdef_props, 1, 1, NO_EQNS, NO_EQNS },	/* EQN_aldef */
-    { LINK_diag_type_unit, 1, 1, NO_EQNS, NO_EQNS },	/* EQN_diagtype */
-    { LINK_tagdec_props, 1, 1, NO_EQNS, NO_EQNS },	/* EQN_tagdec */
-    { LINK_diag_unit, 1, 1, NO_EQNS, NO_EQNS },		/* EQN_diagdef */
-    { LINK_dg_comp_props, 1, 1, NO_EQNS, NO_EQNS },	/* EQN_dgcomp */
-    { LINK_tagdef_props, 1, 1, NO_EQNS, NO_EQNS },	/* EQN_tagdef */
-    { LINK_linkinfo_props, 1, 1, NO_EQNS, NO_EQNS }	/* EQN_linkinfo */
+    { LINK_diag_type_unit,  1, 1, NO_EQNS, NO_EQNS },	/* EQN_diagtype */
+    { LINK_tagdec_props,    1, 1, NO_EQNS, NO_EQNS },	/* EQN_tagdec */
+    { LINK_diag_unit,       1, 1, NO_EQNS, NO_EQNS },	/* EQN_diagdef */
+    { LINK_dg_comp_props,   1, 1, NO_EQNS, NO_EQNS },	/* EQN_dgcomp */
+    { LINK_tagdef_props,    1, 1, NO_EQNS, NO_EQNS },	/* EQN_tagdef */
+    { LINK_linkinfo_props,  1, 1, NO_EQNS, NO_EQNS }	/* EQN_linkinfo */
 };
 
 
@@ -95,12 +95,12 @@ typedef struct {
 } VAR_INFO;
 
 static VAR_INFO vars[VAR_total] = {
-	{ LINK_tag, 0, 0, 0, NULL, NULL, NULL },	/* VAR_tag */
-	{ LINK_token, 0, 0, 0, NULL, NULL, NULL },	/* VAR_token */
-	{ LINK_al_tag, 0, 0, 0, NULL, NULL, NULL },	/* VAR_alignment */
+	{ LINK_tag,      0, 0, 0, NULL, NULL, NULL },	/* VAR_tag */
+	{ LINK_token,    0, 0, 0, NULL, NULL, NULL },	/* VAR_token */
+	{ LINK_al_tag,   0, 0, 0, NULL, NULL, NULL },	/* VAR_alignment */
 	{ LINK_diag_tag, 0, 0, 0, NULL, NULL, NULL },	/* VAR_diagtag */
-	{ LINK_dg_tag, 0, 0, 0, NULL, NULL, NULL },	/* VAR_dgtag */
-	{ LINK_label, 0, 0, 0, NULL, NULL, NULL }	/* VAR_label */
+	{ LINK_dg_tag,   0, 0, 0, NULL, NULL, NULL },	/* VAR_dgtag */
+	{ LINK_label,    0, 0, 0, NULL, NULL, NULL }	/* VAR_label */
 };
 
 
@@ -1018,26 +1018,26 @@ init_diag(void)
     The other flags inhibit the output of other optional features.
 */
 
-int output_tdf = 1;
-int output_capsule = 1;
-int output_all = 0;
-int output_bugs = 0;
-int output_builtin = 0;
-int output_date = 1;
-int output_diag = 0;
-int output_except = 1;
-int output_init = 0;
-int output_inline = 0;
+int output_tdf      = 1;
+int output_capsule  = 1;
+int output_all      = 0;
+int output_bugs     = 0;
+int output_builtin  = 0;
+int output_date     = 1;
+int output_diag     = 0;
+int output_except   = 1;
+int output_init     = 0;
+int output_inline   = 0;
 int output_new_diag = 0;
-int output_order = 0;
-int output_partial = 1;
-int output_rtti = 1;
-int output_shared = 1;
-int output_std = 0;
-int output_term = 0;
-int output_tokdec = 0;
-int output_unused = 1;
-int output_virtual = 0;
+int output_order    = 0;
+int output_partial  = 1;
+int output_rtti     = 1;
+int output_shared   = 1;
+int output_std      = 0;
+int output_term     = 0;
+int output_tokdec   = 0;
+int output_unused   = 1;
+int output_virtual  = 0;
 
 
 /*
@@ -1052,78 +1052,35 @@ output_option(string opt)
 	character c;
 	while (c = *(opt++), c != 0) {
 		switch (c) {
-		case 'a':
-			output_all = out;
-			break;
-		case 'b':
-			output_bugs = out;
-			break;
-		case 'c':
-			output_capsule = out;
-			break;
-		case 'd':
-			output_term = out;
-			break;
-		case 'e':
-			output_except = out;
-			break;
-		case 'f':
-			mangle_signature = out;
-			break;
-		case 'g':
-			output_diag = (DIAG_VERSION * out);
-			break;
-		case 'h':
-			output_builtin = out;
-			break;
-		case 'i':
-			output_init = out;
-			break;
-		case 'j':
-			output_inline = out;
-			break;
-		case 'l':
-			output_std = out;
-			break;
-		case 'm':
-			output_date = out;
-			break;
-		case 'n':
-			mangle_objects = out;
-			break;
-		case 'o':
-			output_order = out;
-			break;
-		case 'p':
-			output_partial = out;
-			break;
-		case 'r':
-			output_rtti = out;
-			break;
-		case 's':
-			output_shared = out;
-			break;
-		case 't':
-			output_tokdec = out;
-			break;
-		case 'u':
-			output_unused = out;
-			break;
-		case 'v':
-			output_virtual = out;
-			break;
-		case '+':
-			out = 1;
-			break;
-		case '-':
-			out = 0;
-			break;
-		default: {
+		case 'a': output_all       = out; break;
+		case 'b': output_bugs      = out; break;
+		case 'c': output_capsule   = out; break;
+		case 'd': output_term      = out; break;
+		case 'e': output_except    = out; break;
+		case 'f': mangle_signature = out; break;
+		case 'h': output_builtin   = out; break;
+		case 'i': output_init      = out; break;
+		case 'j': output_inline    = out; break;
+		case 'l': output_std       = out; break;
+		case 'm': output_date      = out; break;
+		case 'n': mangle_objects   = out; break;
+		case 'o': output_order     = out; break;
+		case 'p': output_partial   = out; break;
+		case 'r': output_rtti      = out; break;
+		case 's': output_shared    = out; break;
+		case 't': output_tokdec    = out; break;
+		case 'u': output_unused    = out; break;
+		case 'v': output_virtual   = out; break;
+
+		case 'g': output_diag = (DIAG_VERSION * out); break;
+
+		case '+': out = 1; break;
+		case '-': out = 0; break;
+
+		default:
 			/* Unknown output options */
-			const char *err = "Unknown output option, '%c'";
-			error(ERR_WARN, err,(int)c);
+			error(ERR_WARN, "Unknown output option, '%c'", (int)c);
 			break;
-		}
 		}
 	}
 	return;

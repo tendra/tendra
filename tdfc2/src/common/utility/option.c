@@ -49,14 +49,14 @@
     generated from the error database.
 */
 
-#define OPT_VALUE_off		1, { OPTION_OFF, OPTION_OFF }
-#define OPT_VALUE_on		1, { OPTION_ON, OPTION_ON }
-#define OPT_VALUE_none		1, { OPTION_ALLOW, OPTION_ALLOW }
-#define OPT_VALUE_warning	1, { OPTION_WARN, OPTION_WARN }
+#define OPT_VALUE_off		1, { OPTION_OFF,      OPTION_OFF      }
+#define OPT_VALUE_on		1, { OPTION_ON,       OPTION_ON       }
+#define OPT_VALUE_none		1, { OPTION_ALLOW,    OPTION_ALLOW    }
+#define OPT_VALUE_warning	1, { OPTION_WARN,     OPTION_WARN     }
 #define OPT_VALUE_error		1, { OPTION_DISALLOW, OPTION_DISALLOW }
 #define OPT_VALUE_whatever	1, { OPTION_WHATEVER, OPTION_WHATEVER }
-#define OPT_VALUE_new		1, { OPTION_WARN, OPTION_DISALLOW }
-#define OPT_VALUE_wall		1, { OPTION_ALLOW, OPTION_WARN }
+#define OPT_VALUE_new		1, { OPTION_WARN,     OPTION_DISALLOW }
+#define OPT_VALUE_wall		1, { OPTION_ALLOW,    OPTION_WARN     }
 
 OPT_DATA OPT_CATALOG[] = {
 #include "opts.h"
@@ -86,49 +86,49 @@ OPT_DATA OPT_CATALOG[] = {
 
 OPT_VALUE_DATA OPT_VALUE_CATALOG[] = {
 	/* Implementation quantities (from Annex B) */
-	{ "statement_depth", &crt_loc, NO_LIMIT, LIMIT(256, 15), 0, 1 },
-	{ "hash_if_depth", &preproc_loc, NO_LIMIT, LIMIT(256, 8), 0, 1 },
-	{ "declarator_max", &crt_loc, NO_LIMIT, LIMIT(256, 12), 0, 0 },
-	{ "paren_depth", &crt_loc, NO_LIMIT, LIMIT(256, 32), 0, 1 },
-	{ "name_limit", &crt_loc, NO_LIMIT, LIMIT(1024, 31), 0, 0 },
-	{ "extern_name_limit", &crt_loc, NO_LIMIT, LIMIT(1024, 6), 0, 0 },
-	{ "external_ids", &crt_loc, NO_LIMIT, LIMIT(65536, 511), 0, 0 },
-	{ "block_ids", &crt_loc, NO_LIMIT, LIMIT(1024, 127), 0, 0 },
-	{ "macro_ids", &preproc_loc, NO_LIMIT, LIMIT(65536, 1024), 0, 1 },
-	{ "func_pars", &crt_loc, NO_LIMIT, LIMIT(256, 31), 0, 0 },
-	{ "func_args", &crt_loc, NO_LIMIT, LIMIT(256, 31), 0, 0 },
-	{ "macro_pars", &preproc_loc, NO_LIMIT, LIMIT(256, 31), 0, 0 },
-	{ "macro_args", &crt_loc, NO_LIMIT, LIMIT(256, 31), 0, 0 },
-	{ "line_length", &crt_loc, NO_LIMIT, LIMIT(65536, 509), 0, 0 },
-	{ "string_length", &crt_loc, STR_LIMIT, LIMIT(65536, 509), 0, 0 },
-	{ "sizeof_object", &crt_loc, NO_LIMIT, LIMIT(262144, 32767), 0, 0 },
-	{ "include_depth", &preproc_loc, 256, LIMIT(256, 8), 0, 1 },
-	{ "switch_cases", &crt_loc, NO_LIMIT, LIMIT(16384, 257), 0, 0 },
-	{ "data_members", &crt_loc, NO_LIMIT, LIMIT(16384, 127), 0, 0 },
-	{ "enum_consts", &crt_loc, NO_LIMIT, LIMIT(4096, 127), 0, 0 },
-	{ "nested_class", &crt_loc, NO_LIMIT, LIMIT(256, 15), 0, 1 },
-	{ "atexit_funcs", &crt_loc, NO_LIMIT, LIMIT(32, 32), 0, 0 },
-	{ "base_classes", &crt_loc, NO_LIMIT, LIMIT(16384, 0), 0, 0 },
-	{ "direct_bases", &crt_loc, NO_LIMIT, LIMIT(1024, 0), 0, 0 },
-	{ "class_members", &crt_loc, NO_LIMIT, LIMIT(4096, 0), 0, 0 },
-	{ "virtual_funcs", &crt_loc, NO_LIMIT, LIMIT(16384, 0), 0, 0 },
-	{ "virtual_bases", &crt_loc, NO_LIMIT, LIMIT(1024, 0), 0, 0 },
-	{ "static_members", &crt_loc, NO_LIMIT, LIMIT(1024, 0), 0, 0 },
-	{ "friends", &crt_loc, NO_LIMIT, LIMIT(4096, 0), 0, 0 },
-	{ "access_declarations", &crt_loc, NO_LIMIT, LIMIT(4096, 0), 0, 0 },
-	{ "ctor_initializers", &crt_loc, NO_LIMIT, LIMIT(6144, 0), 0, 0 },
-	{ "scope_qualifiers", &crt_loc, NO_LIMIT, LIMIT(256, 0), 0, 0 },
-	{ "external_specs", &crt_loc, NO_LIMIT, LIMIT(1024, 0), 0, 1 },
-	{ "template_pars", &crt_loc, NO_LIMIT, LIMIT(1024, 0), 0, 0 },
-	{ "instance_depth", &crt_loc, 17, LIMIT(17, 0), 0, 1 },
-	{ "exception_handlers", &crt_loc, NO_LIMIT, LIMIT(256, 0), 0, 0 },
-	{ "exception_specs", &crt_loc, NO_LIMIT, LIMIT(256, 0), 0, 0 },
+	{ "statement_depth",     &crt_loc,     NO_LIMIT,      LIMIT(256, 15),       0, 1 },
+	{ "hash_if_depth",       &preproc_loc, NO_LIMIT,      LIMIT(256, 8),        0, 1 },
+	{ "declarator_max",      &crt_loc,     NO_LIMIT,      LIMIT(256, 12),       0, 0 },
+	{ "paren_depth",         &crt_loc,     NO_LIMIT,      LIMIT(256, 32),       0, 1 },
+	{ "name_limit",          &crt_loc,     NO_LIMIT,      LIMIT(1024, 31),      0, 0 },
+	{ "extern_name_limit",   &crt_loc,     NO_LIMIT,      LIMIT(1024, 6),       0, 0 },
+	{ "external_ids",        &crt_loc,     NO_LIMIT,      LIMIT(65536, 511),    0, 0 },
+	{ "block_ids",           &crt_loc,     NO_LIMIT,      LIMIT(1024, 127),     0, 0 },
+	{ "macro_ids",           &preproc_loc, NO_LIMIT,      LIMIT(65536, 1024),   0, 1 },
+	{ "func_pars",           &crt_loc,     NO_LIMIT,      LIMIT(256, 31),       0, 0 },
+	{ "func_args",           &crt_loc,     NO_LIMIT,      LIMIT(256, 31),       0, 0 },
+	{ "macro_pars",          &preproc_loc, NO_LIMIT,      LIMIT(256, 31),       0, 0 },
+	{ "macro_args",          &crt_loc,     NO_LIMIT,      LIMIT(256, 31),       0, 0 },
+	{ "line_length",         &crt_loc,     NO_LIMIT,      LIMIT(65536, 509),    0, 0 },
+	{ "string_length",       &crt_loc,     STR_LIMIT,     LIMIT(65536, 509),    0, 0 },
+	{ "sizeof_object",       &crt_loc,     NO_LIMIT,      LIMIT(262144, 32767), 0, 0 },
+	{ "include_depth",       &preproc_loc, 256,           LIMIT(256, 8),        0, 1 },
+	{ "switch_cases",        &crt_loc,     NO_LIMIT,      LIMIT(16384, 257),    0, 0 },
+	{ "data_members",        &crt_loc,     NO_LIMIT,      LIMIT(16384, 127),    0, 0 },
+	{ "enum_consts",         &crt_loc,     NO_LIMIT,      LIMIT(4096, 127),     0, 0 },
+	{ "nested_class",        &crt_loc,     NO_LIMIT,      LIMIT(256, 15),       0, 1 },
+	{ "atexit_funcs",        &crt_loc,     NO_LIMIT,      LIMIT(32, 32),        0, 0 },
+	{ "base_classes",        &crt_loc,     NO_LIMIT,      LIMIT(16384, 0),      0, 0 },
+	{ "direct_bases",        &crt_loc,     NO_LIMIT,      LIMIT(1024, 0),       0, 0 },
+	{ "class_members",       &crt_loc,     NO_LIMIT,      LIMIT(4096, 0),       0, 0 },
+	{ "virtual_funcs",       &crt_loc,     NO_LIMIT,      LIMIT(16384, 0),      0, 0 },
+	{ "virtual_bases",       &crt_loc,     NO_LIMIT,      LIMIT(1024, 0),       0, 0 },
+	{ "static_members",      &crt_loc,     NO_LIMIT,      LIMIT(1024, 0),       0, 0 },
+	{ "friends",             &crt_loc,     NO_LIMIT,      LIMIT(4096, 0),       0, 0 },
+	{ "access_declarations", &crt_loc,     NO_LIMIT,      LIMIT(4096, 0),       0, 0 },
+	{ "ctor_initializers",   &crt_loc,     NO_LIMIT,      LIMIT(6144, 0),       0, 0 },
+	{ "scope_qualifiers",    &crt_loc,     NO_LIMIT,      LIMIT(256, 0),        0, 0 },
+	{ "external_specs",      &crt_loc,     NO_LIMIT,      LIMIT(1024, 0),       0, 1 },
+	{ "template_pars",       &crt_loc,     NO_LIMIT,      LIMIT(1024, 0),       0, 0 },
+	{ "instance_depth",      &crt_loc,     17,            LIMIT(17, 0),         0, 1 },
+	{ "exception_handlers",  &crt_loc,     NO_LIMIT,      LIMIT(256, 0),        0, 0 },
+	{ "exception_specs",     &crt_loc,     NO_LIMIT,      LIMIT(256, 0),        0, 0 },
 
 	/* Other quantities */
-	{ "cast_explicit", &crt_loc, CAST_EXPLICIT, 0, 0, 0 },
-	{ "maximum_error", &crt_loc, 32, 1, 0, 0 },
-	{ "tab_width", &crt_loc, 8, 1, 0, 0 },
-	{ NULL, NULL, 0, 0, 0, 0 }
+	{ "cast_explicit",       &crt_loc,     CAST_EXPLICIT, 0,                    0, 0 },
+	{ "maximum_error",       &crt_loc,     32,            1,                    0, 0 },
+	{ "tab_width",           &crt_loc,     8,             1,                    0, 0 },
+	{ NULL,                  NULL,         0,             0,                    0, 0 }
 };
 
 #define VALUE_CAT_SIZE		array_size(OPT_VALUE_CATALOG)
@@ -145,30 +145,30 @@ typedef struct {
 } OPT_TYPE_DATA;
 
 static OPT_TYPE_DATA OPT_TYPE_CATALOG[] = {
-	{ "ACCESS", ERR_KEY_ACCESS },
-	{ "BASE_TYPE", ERR_KEY_BASE_TYPE },
+	{ "ACCESS",     ERR_KEY_ACCESS     },
+	{ "BASE_TYPE",  ERR_KEY_BASE_TYPE  },
 	{ "CLASS_TYPE", ERR_KEY_CLASS_TYPE },
-	{ "CV_SPEC", ERR_KEY_CV_SPEC },
-	{ "DECL_SPEC", ERR_KEY_DECL_SPEC },
-	{ "FLOAT", ERR_KEY_FLOAT },
-	{ "HASHID", ERR_KEY_HASHID },
+	{ "CV_SPEC",    ERR_KEY_CV_SPEC    },
+	{ "DECL_SPEC",  ERR_KEY_DECL_SPEC  },
+	{ "FLOAT",      ERR_KEY_FLOAT      },
+	{ "HASHID",     ERR_KEY_HASHID     },
 	{ "IDENTIFIER", ERR_KEY_IDENTIFIER },
-	{ "LEX", ERR_KEY_LEX },
-	{ "LONG_ID", ERR_KEY_LONG_ID },
-	{ "NAMESPACE", ERR_KEY_NAMESPACE },
-	{ "NAT", ERR_KEY_NAT },
-	{ "PPTOKEN_P", ERR_KEY_PPTOKEN_P },
-	{ "PTR_LOC", ERR_KEY_PTR_LOC },
-	{ "QUALIFIER", ERR_KEY_QUALIFIER },
-	{ "STRING", ERR_KEY_STRING },
-	{ "TYPE", ERR_KEY_TYPE },
-	{ "cint", ERR_KEY_cint },
-	{ "cstring", ERR_KEY_cstring },
-	{ "string", ERR_KEY_string },
-	{ "ucint", ERR_KEY_ucint },
-	{ "ulong", ERR_KEY_ulong },
-	{ "unsigned", ERR_KEY_unsigned },
-	{ "plural", ERR_KEY_plural }
+	{ "LEX",        ERR_KEY_LEX        },
+	{ "LONG_ID",    ERR_KEY_LONG_ID    },
+	{ "NAMESPACE",  ERR_KEY_NAMESPACE  },
+	{ "NAT",        ERR_KEY_NAT        },
+	{ "PPTOKEN_P",  ERR_KEY_PPTOKEN_P  },
+	{ "PTR_LOC",    ERR_KEY_PTR_LOC    },
+	{ "QUALIFIER",  ERR_KEY_QUALIFIER  },
+	{ "STRING",     ERR_KEY_STRING     },
+	{ "TYPE",       ERR_KEY_TYPE       },
+	{ "cint",       ERR_KEY_cint       },
+	{ "cstring",    ERR_KEY_cstring    },
+	{ "string",     ERR_KEY_string     },
+	{ "ucint",      ERR_KEY_ucint      },
+	{ "ulong",      ERR_KEY_ulong      },
+	{ "unsigned",   ERR_KEY_unsigned   },
+	{ "plural",     ERR_KEY_plural     }
 };
 
 #define TYPE_CAT_SIZE		array_size(OPT_TYPE_CATALOG)

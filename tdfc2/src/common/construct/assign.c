@@ -585,36 +585,17 @@ make_become_exp(int op, EXP a, EXP b)
 
 	/* Find the operation type */
 	switch (op) {
-	case lex_and_Heq_H1:
-		tag = exp_and_tag;
-		goto integral_lab;
-	case lex_div_Heq:
-		tag = exp_div_tag;
-		goto arithmetic_lab;
-	case lex_lshift_Heq:
-		tag = exp_lshift_tag;
-		goto shift_lab;
-	case lex_minus_Heq:
-		tag = exp_minus_tag;
-		goto pointer_lab;
-	case lex_or_Heq_H1:
-		tag = exp_or_tag;
-		goto integral_lab;
-	case lex_plus_Heq:
-		tag = exp_plus_tag;
-		goto pointer_lab;
-	case lex_rem_Heq:
-		tag = exp_rem_tag;
-		goto integral_lab;
-	case lex_rshift_Heq:
-		tag = exp_rshift_tag;
-		goto shift_lab;
-	case lex_star_Heq:
-		tag = exp_mult_tag;
-		goto arithmetic_lab;
-	case lex_xor_Heq_H1:
-		tag = exp_xor_tag;
-		goto integral_lab;
+	case lex_and_Heq_H1: tag = exp_and_tag;    goto integral_lab;
+	case lex_div_Heq:    tag = exp_div_tag;    goto arithmetic_lab;
+	case lex_lshift_Heq: tag = exp_lshift_tag; goto shift_lab;
+	case lex_minus_Heq:  tag = exp_minus_tag;  goto pointer_lab;
+	case lex_or_Heq_H1:  tag = exp_or_tag;     goto integral_lab;
+	case lex_plus_Heq:   tag = exp_plus_tag;   goto pointer_lab;
+	case lex_rem_Heq:    tag = exp_rem_tag;    goto integral_lab;
+	case lex_rshift_Heq: tag = exp_rshift_tag; goto shift_lab;
+	case lex_star_Heq:   tag = exp_mult_tag;   goto arithmetic_lab;
+	case lex_xor_Heq_H1: tag = exp_xor_tag;    goto integral_lab;
+
 	default:
 		goto error_lab;
 	}

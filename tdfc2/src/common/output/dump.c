@@ -1471,18 +1471,10 @@ dump_error(ERROR e, LOCATION *loc, int sev, int cnt)
 			/* First error component */
 			const char *err;
 			switch (sev) {
-			case ERR_FATAL:
-				err = "EF";
-				break;
-			case ERR_INTERNAL:
-				err = "EI";
-				break;
-			case ERR_WARN:
-				err = "EW";
-				break;
-			default:
-				err = "ES";
-				break;
+			case ERR_FATAL:    err = "EF"; break;
+			case ERR_INTERNAL: err = "EI"; break;
+			case ERR_WARN:     err = "EW"; break;
+			default:           err = "ES"; break;
 			}
 			fprintf_v(f, "%s\t", err);
 			dump_loc(loc);
@@ -1761,12 +1753,8 @@ dump_declare(IDENTIFIER id, LOCATION *loc, int def)
 			fputc_v('I', f);
 		}
 		switch (def) {
-		case 1:
-			d = 'D';
-			break;
-		case 2:
-			d = 'T';
-			break;
+		case 1: d = 'D'; break;
+		case 2: d = 'T'; break;
 		}
 
 		/* Dump location and identifier information */
@@ -2289,35 +2277,17 @@ init_dump(string nm, string opt)
 		do_dump = 1;
 		while (c = *(opt++), (c && c != '=')) {
 			switch (c) {
-			case 'a':
-				do_all = 1;
-				break;
-			case 'c':
-				do_string = 1;
-				break;
-			case 'e':
-				do_error = 1;
-				break;
-			case 'h':
-				do_header = 1;
-				break;
-			case 'k':
-				do_keyword = 1;
-				break;
-			case 'l':
-				do_local = 1;
-				break;
-			case 'm':
-				do_macro = 1;
-				break;
-			case 'p':
-				break;
-			case 's':
-				do_scope = 1;
-				break;
-			case 'u':
-				do_usage = 1;
-				break;
+			case 'a': do_all     = 1; break;
+			case 'c': do_string  = 1; break;
+			case 'e': do_error   = 1; break;
+			case 'h': do_header  = 1; break;
+			case 'k': do_keyword = 1; break;
+			case 'l': do_local   = 1; break;
+			case 'm': do_macro   = 1; break;
+			case 'p':                 break;
+			case 's': do_scope   = 1; break;
+			case 'u': do_usage   = 1; break;
+
 			default: {
 				/* Unknown dump options */
 				const char *err = "Unknown dump option, '%c'";

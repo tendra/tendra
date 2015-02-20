@@ -110,54 +110,23 @@ parent_stmt(EXP e)
 	PTR(EXP) ptr = NULL_ptr(EXP);
 	if (!IS_NULL_exp(e)) {
 		switch (TAG_exp(e)) {
-		case exp_reach_tag:
-			ptr = exp_reach_parent(e);
-			break;
-		case exp_unreach_tag:
-			ptr = exp_unreach_parent(e);
-			break;
-		case exp_sequence_tag:
-			ptr = exp_sequence_parent(e);
-			break;
-		case exp_solve_stmt_tag:
-			ptr = exp_solve_stmt_parent(e);
-			break;
-		case exp_decl_stmt_tag:
-			ptr = exp_decl_stmt_parent(e);
-			break;
-		case exp_if_stmt_tag:
-			ptr = exp_if_stmt_parent(e);
-			break;
-		case exp_while_stmt_tag:
-			ptr = exp_while_stmt_parent(e);
-			break;
-		case exp_do_stmt_tag:
-			ptr = exp_do_stmt_parent(e);
-			break;
-		case exp_switch_stmt_tag:
-			ptr = exp_switch_stmt_parent(e);
-			break;
-		case exp_hash_if_tag:
-			ptr = exp_hash_if_parent(e);
-			break;
-		case exp_return_stmt_tag:
-			ptr = exp_return_stmt_parent(e);
-			break;
-		case exp_goto_stmt_tag:
-			ptr = exp_goto_stmt_parent(e);
-			break;
-		case exp_label_stmt_tag:
-			ptr = exp_label_stmt_parent(e);
-			break;
-		case exp_try_block_tag:
-			ptr = exp_try_block_parent(e);
-			break;
-		case exp_handler_tag:
-			ptr = exp_handler_parent(e);
-			break;
-		case exp_token_tag:
-			ptr = exp_token_parent(e);
-			break;
+		case exp_reach_tag:       ptr = exp_reach_parent(e);       break;
+		case exp_unreach_tag:     ptr = exp_unreach_parent(e);     break;
+		case exp_sequence_tag:    ptr = exp_sequence_parent(e);    break;
+		case exp_solve_stmt_tag:  ptr = exp_solve_stmt_parent(e);  break;
+		case exp_decl_stmt_tag:   ptr = exp_decl_stmt_parent(e);   break;
+		case exp_if_stmt_tag:     ptr = exp_if_stmt_parent(e);     break;
+		case exp_while_stmt_tag:  ptr = exp_while_stmt_parent(e);  break;
+		case exp_do_stmt_tag:     ptr = exp_do_stmt_parent(e);     break;
+		case exp_switch_stmt_tag: ptr = exp_switch_stmt_parent(e); break;
+		case exp_hash_if_tag:     ptr = exp_hash_if_parent(e);     break;
+		case exp_return_stmt_tag: ptr = exp_return_stmt_parent(e); break;
+		case exp_goto_stmt_tag:   ptr = exp_goto_stmt_parent(e);   break;
+		case exp_label_stmt_tag:  ptr = exp_label_stmt_parent(e);  break;
+		case exp_try_block_tag:   ptr = exp_try_block_parent(e);   break;
+		case exp_handler_tag:     ptr = exp_handler_parent(e);     break;
+		case exp_token_tag:       ptr = exp_token_parent(e);       break;
+
 		case exp_location_tag: {
 			EXP a = DEREF_exp(exp_location_arg(e));
 			ptr = parent_stmt(a);
@@ -1085,21 +1054,12 @@ check_cond(EXP cond, EXP *pd, int op)
 	if (!IS_NULL_err(err)) {
 		ERROR err2;
 		switch (op) {
-		case lex_if:
-			err2 = ERR_stmt_if_cond();
-			break;
-		case lex_do:
-			err2 = ERR_stmt_do_cond();
-			break;
-		case lex_for:
-			err2 = ERR_stmt_for_cond();
-			break;
-		case lex_while:
-			err2 = ERR_stmt_while_cond();
-			break;
-		case lex_cond_Hop:
-			err2 = ERR_expr_cond_bool();
-			break;
+		case lex_if:       err2 = ERR_stmt_if_cond();    break;
+		case lex_do:       err2 = ERR_stmt_do_cond();    break;
+		case lex_for:      err2 = ERR_stmt_for_cond();   break;
+		case lex_while:    err2 = ERR_stmt_while_cond(); break;
+		case lex_cond_Hop: err2 = ERR_expr_cond_bool();  break;
+
 		default:
 			err2 = NULL_err;
 			break;
@@ -1130,15 +1090,10 @@ check_cond(EXP cond, EXP *pd, int op)
 			if (!is_literal(a)) {
 				ERROR err2;
 				switch (op) {
-				case lex_do:
-					err2 = ERR_stmt_do_const();
-					break;
-				case lex_for:
-					err2 = ERR_stmt_for_const();
-					break;
-				case lex_while:
-					err2 = ERR_stmt_while_const();
-					break;
+				case lex_do:    err2 = ERR_stmt_do_const();    break;
+				case lex_for:   err2 = ERR_stmt_for_const();   break;
+				case lex_while: err2 = ERR_stmt_while_const(); break;
+
 				default:
 					err2 = NULL_err;
 					break;

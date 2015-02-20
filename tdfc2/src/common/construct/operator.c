@@ -63,24 +63,12 @@ int
 ntest_token(NTEST ntst, int lex)
 {
 	switch (ntst) {
-	case ntest_eq:
-		lex = lex_eq;
-		break;
-	case ntest_not_eq:
-		lex = lex_not_Heq_H1;
-		break;
-	case ntest_less:
-		lex = lex_less;
-		break;
-	case ntest_less_eq:
-		lex = lex_less_Heq;
-		break;
-	case ntest_greater:
-		lex = lex_greater;
-		break;
-	case ntest_greater_eq:
-		lex = lex_greater_Heq;
-		break;
+	case ntest_eq:         lex = lex_eq;          break;
+	case ntest_not_eq:     lex = lex_not_Heq_H1;  break;
+	case ntest_less:       lex = lex_less;        break;
+	case ntest_less_eq:    lex = lex_less_Heq;    break;
+	case ntest_greater:    lex = lex_greater;     break;
+	case ntest_greater_eq: lex = lex_greater_Heq; break;
 	}
 	return lex;
 }
@@ -96,60 +84,25 @@ op_token(EXP e, int lex)
 {
 	if (!IS_NULL_exp(e)) {
 		switch (TAG_exp(e)) {
-		case exp_negate_tag:
-			lex = lex_minus;
-			break;
-		case exp_compl_tag:
-			lex = lex_compl_H1;
-			break;
-		case exp_not_tag:
-			lex = lex_not_H1;
-			break;
-		case exp_abs_tag:
-			lex = lex_abs;
-			break;
-		case exp_plus_tag:
-			lex = lex_plus;
-			break;
-		case exp_minus_tag:
-			lex = lex_minus;
-			break;
-		case exp_mult_tag:
-			lex = lex_star;
-			break;
-		case exp_div_tag:
-			lex = lex_div;
-			break;
-		case exp_rem_tag:
-			lex = lex_rem;
-			break;
-		case exp_and_tag:
-			lex = lex_and_H1;
-			break;
-		case exp_or_tag:
-			lex = lex_or_H1;
-			break;
-		case exp_xor_tag:
-			lex = lex_xor_H1;
-			break;
-		case exp_log_and_tag:
-			lex = lex_logical_Hand_H1;
-			break;
-		case exp_log_or_tag:
-			lex = lex_logical_Hor_H1;
-			break;
-		case exp_lshift_tag:
-			lex = lex_lshift;
-			break;
-		case exp_rshift_tag:
-			lex = lex_rshift;
-			break;
-		case exp_max_tag:
-			lex = lex_max;
-			break;
-		case exp_min_tag:
-			lex = lex_min;
-			break;
+		case exp_negate_tag:  lex = lex_minus;           break;
+		case exp_compl_tag:   lex = lex_compl_H1;        break;
+		case exp_not_tag:     lex = lex_not_H1;          break;
+		case exp_abs_tag:     lex = lex_abs;             break;
+		case exp_plus_tag:    lex = lex_plus;            break;
+		case exp_minus_tag:   lex = lex_minus;           break;
+		case exp_mult_tag:    lex = lex_star;            break;
+		case exp_div_tag:     lex = lex_div;             break;
+		case exp_rem_tag:     lex = lex_rem;             break;
+		case exp_and_tag:     lex = lex_and_H1;          break;
+		case exp_or_tag:      lex = lex_or_H1;           break;
+		case exp_xor_tag:     lex = lex_xor_H1;          break;
+		case exp_log_and_tag: lex = lex_logical_Hand_H1; break;
+		case exp_log_or_tag:  lex = lex_logical_Hor_H1;  break;
+		case exp_lshift_tag:  lex = lex_lshift;          break;
+		case exp_rshift_tag:  lex = lex_rshift;          break;
+		case exp_max_tag:     lex = lex_max;             break;
+		case exp_min_tag:     lex = lex_min;             break;
+
 		case exp_test_tag: {
 			NTEST ntst = DEREF_ntest(exp_test_tst(e));
 			lex = ntest_token(ntst, lex);

@@ -52,21 +52,21 @@ pragma-preproc -> parse_preproc ;
     of the restrictions imposed by sid.
 */
 
-ACCESS -> DECL_SPEC ;
-BOOL -> int ;
-BTYPE -> BASE_TYPE ;
-CV -> CV_SPEC ;
-EXP -> EXP ;
+ACCESS     -> DECL_SPEC ;
+BOOL       -> int ;
+BTYPE      -> BASE_TYPE ;
+CV         -> CV_SPEC ;
+EXP        -> EXP ;
 IDENTIFIER -> IDENTIFIER ;
-LEX -> int ;
-LINKAGE -> DECL_SPEC ;
-LIST-ID -> SID_LIST_ID ;
-NAMESPACE -> NAMESPACE ;
-NUMBER -> int ;
-STATE -> unsigned ;
-TOKEN -> TOKEN ;
-TYPE -> TYPE ;
-VALUE -> unsigned ;
+LEX        -> int ;
+LINKAGE    -> DECL_SPEC ;
+LIST-ID    -> SID_LIST_ID ;
+NAMESPACE  -> NAMESPACE ;
+NUMBER     -> int ;
+STATE      -> unsigned ;
+TOKEN      -> TOKEN ;
+TYPE       -> TYPE ;
+VALUE      -> unsigned ;
 
 
 /*

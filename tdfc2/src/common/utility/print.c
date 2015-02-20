@@ -188,21 +188,11 @@ print_btype(BASE_TYPE n, BUFFER *bf, int sp)
 	BASE_TYPE key = (n & btype_named);
 	if (key) {
 		switch (key) {
-		case btype_class:
-			sp = print_lex(lex_class, bf, sp);
-			break;
-		case btype_struct:
-			sp = print_lex(lex_struct, bf, sp);
-			break;
-		case btype_union:
-			sp = print_lex(lex_union, bf, sp);
-			break;
-		case btype_enum:
-			sp = print_lex(lex_enum, bf, sp);
-			break;
-		case btype_any:
-			sp = print_lex(lex_tag_Hcap, bf, sp);
-			break;
+		case btype_class:  sp = print_lex(lex_class, bf, sp);    break;
+		case btype_struct: sp = print_lex(lex_struct, bf, sp);   break;
+		case btype_union:  sp = print_lex(lex_union, bf, sp);    break;
+		case btype_enum:   sp = print_lex(lex_enum, bf, sp);     break;
+		case btype_any:    sp = print_lex(lex_tag_Hcap, bf, sp); break;
 		}
 	} else {
 		if (n & btype_signed) {
@@ -1225,27 +1215,13 @@ print_char(unsigned long c, int ch, int q, BUFFER *bf)
 	char buff[20];
 	if (ch == CHAR_SIMPLE) {
 		switch (c) {
-		case char_alert:
-			bfprintf(bf, "\\a");
-			break;
-		case char_backspace:
-			bfprintf(bf, "\\b");
-			break;
-		case char_form_feed:
-			bfprintf(bf, "\\f");
-			break;
-		case char_newline:
-			bfprintf(bf, "\\n");
-			break;
-		case char_return:
-			bfprintf(bf, "\\r");
-			break;
-		case char_tab:
-			bfprintf(bf, "\\t");
-			break;
-		case char_vert_tab:
-			bfprintf(bf, "\\v");
-			break;
+		case char_alert:     bfprintf(bf, "\\a"); break;
+		case char_backspace: bfprintf(bf, "\\b"); break;
+		case char_form_feed: bfprintf(bf, "\\f"); break;
+		case char_newline:   bfprintf(bf, "\\n"); break;
+		case char_return:    bfprintf(bf, "\\r"); break;
+		case char_tab:       bfprintf(bf, "\\t"); break;
+		case char_vert_tab:  bfprintf(bf, "\\v"); break;
 
 		case char_backslash:
 		case char_question: {
@@ -1280,18 +1256,10 @@ print_char(unsigned long c, int ch, int q, BUFFER *bf)
 	} else {
 		const char *fmt;
 		switch (ch) {
-		case CHAR_OCTAL:
-			fmt = "\\%03lo";
-			break;
-		case CHAR_UNI4:
-			fmt = "\\u%04lx";
-			break;
-		case CHAR_UNI8:
-			fmt = "\\U%08lx";
-			break;
-		default:
-			fmt = "\\x%lx";
-			break;
+		case CHAR_OCTAL: fmt = "\\%03lo";  break;
+		case CHAR_UNI4:  fmt = "\\u%04lx"; break;
+		case CHAR_UNI8:  fmt = "\\U%08lx"; break;
+		default:         fmt = "\\x%lx";   break;
 		}
 		sprintf_v(buff, fmt, c);
 		bfputs(bf, ustrlit(buff));

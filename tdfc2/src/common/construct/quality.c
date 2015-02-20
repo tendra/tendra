@@ -40,13 +40,13 @@ static struct {
 	unsigned tag;
 	int op;
 } paren_ops[] = {
-	{ exp_or_tag, lex_or_H1 },	/* PAREN_OR */
-	{ exp_xor_tag, lex_xor_H1 },	/* PAREN_XOR */
-	{ exp_and_tag, lex_and_H1 },	/* PAREN_AND */
-	{ exp_compare_tag, lex_eq },	/* PAREN_EQUALITY */
-	{ exp_test_tag, lex_eq },	/* PAREN_RELATION */
-	{ exp_plus_tag, lex_plus },	/* PAREN_PLUS */
-	{ exp_minus_tag, lex_minus }	/* PAREN_MINUS */
+	{ exp_or_tag,      lex_or_H1  },	/* PAREN_OR */
+	{ exp_xor_tag,     lex_xor_H1 },	/* PAREN_XOR */
+	{ exp_and_tag,     lex_and_H1 },	/* PAREN_AND */
+	{ exp_compare_tag, lex_eq     },	/* PAREN_EQUALITY */
+	{ exp_test_tag,    lex_eq     },	/* PAREN_RELATION */
+	{ exp_plus_tag,    lex_plus   },	/* PAREN_PLUS */
+	{ exp_minus_tag,   lex_minus  } 	/* PAREN_MINUS */
 };
 
 

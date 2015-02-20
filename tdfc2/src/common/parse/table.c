@@ -39,19 +39,19 @@
 */
 
 PORT_ENTRY port_entry[] = {
-	{ "char_bits", 0, 0, btype_none },		/* 0 */
-	{ "short_bits", 0, 0, btype_none },		/* 1 */
-	{ "int_bits", 0, 0, btype_none },		/* 2 */
-	{ "long_bits", 0, 0, btype_none },		/* 3 */
-	{ "longlong_bits", 1, 0, btype_none },		/* 4 */
-	{ "max_bits", 1, UINT_MAX, btype_none },	/* 5 */
-	{ "signed_range", 0, 0, btype_none },		/* 6 */
-	{ "char_type", 0, 0, btype_none },		/* 7 */
-	{ "exact_range", 1, 0, btype_none },		/* 8 */
-	{ "ptr_int", 1, 0, btype_none },		/* 9 */
-	{ "ptr_fn", 1, 0, btype_none },			/* 10 */
-	{ "non_prototype_checks", 1, 0, btype_none },	/* 11 */
-	{ "multibyte", 1, 0, btype_none }		/* 12 */
+	{ "char_bits",            0, 0,        btype_none },	/* 0 */
+	{ "short_bits",           0, 0,        btype_none },	/* 1 */
+	{ "int_bits",             0, 0,        btype_none },	/* 2 */
+	{ "long_bits",            0, 0,        btype_none },	/* 3 */
+	{ "longlong_bits",        1, 0,        btype_none },	/* 4 */
+	{ "max_bits",             1, UINT_MAX, btype_none },	/* 5 */
+	{ "signed_range",         0, 0,        btype_none },	/* 6 */
+	{ "char_type",            0, 0,        btype_none },	/* 7 */
+	{ "exact_range",          1, 0,        btype_none },	/* 8 */
+	{ "ptr_int",              1, 0,        btype_none },	/* 9 */
+	{ "ptr_fn",               1, 0,        btype_none },	/* 10 */
+	{ "non_prototype_checks", 1, 0,        btype_none },	/* 11 */
+	{ "multibyte",            1, 0,        btype_none }	/* 12 */
 };
 
 

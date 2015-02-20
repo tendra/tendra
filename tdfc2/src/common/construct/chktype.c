@@ -79,36 +79,17 @@ type_category(TYPE *pt)
 	if (!IS_NULL_type(t)) {
 		CV_SPEC qual = DEREF_cv(type_qual(t));
 		switch (TAG_type(t)) {
-		case type_integer_tag:
-			res = CTYPE_INTEGER;
-			break;
-		case type_floating_tag:
-			res = CTYPE_FLOAT;
-			break;
-		case type_top_tag:
-			res = CTYPE_VOID;
-			break;
-		case type_bottom_tag:
-			res = CTYPE_VOID;
-			break;
-		case type_ptr_tag:
-			res = CTYPE_PTR;
-			break;
-		case type_ptr_mem_tag:
-			res = CTYPE_PTR_MEM;
-			break;
-		case type_bitfield_tag:
-			res = CTYPE_BITF;
-			break;
-		case type_compound_tag:
-			res = CTYPE_CLASS;
-			break;
-		case type_enumerate_tag:
-			res = CTYPE_ENUM;
-			break;
-		case type_error_tag:
-			res = CTYPE_ERROR;
-			break;
+		case type_integer_tag:   res = CTYPE_INTEGER; break;
+		case type_floating_tag:  res = CTYPE_FLOAT;   break;
+		case type_top_tag:       res = CTYPE_VOID;    break;
+		case type_bottom_tag:    res = CTYPE_VOID;    break;
+		case type_ptr_tag:       res = CTYPE_PTR;     break;
+		case type_ptr_mem_tag:   res = CTYPE_PTR_MEM; break;
+		case type_bitfield_tag:  res = CTYPE_BITF;    break;
+		case type_compound_tag:  res = CTYPE_CLASS;   break;
+		case type_enumerate_tag: res = CTYPE_ENUM;    break;
+		case type_error_tag:     res = CTYPE_ERROR;   break;
+
 		case type_func_tag:
 		case type_array_tag: {
 			/* Allow for lvalue conversions */

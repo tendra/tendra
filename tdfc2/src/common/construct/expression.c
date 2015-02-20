@@ -1374,18 +1374,12 @@ static NTEST
 make_ntest(int op)
 {
 	switch (op) {
-	case lex_eq:
-		return ntest_eq;
-	case lex_not_Heq_H1:
-		return ntest_not_eq;
-	case lex_less:
-		return ntest_less;
-	case lex_less_Heq:
-		return ntest_less_eq;
-	case lex_greater:
-		return ntest_greater;
-	case lex_greater_Heq:
-		return ntest_greater_eq;
+	case lex_eq:          return ntest_eq;
+	case lex_not_Heq_H1:  return ntest_not_eq;
+	case lex_less:        return ntest_less;
+	case lex_less_Heq:    return ntest_less_eq;
+	case lex_greater:     return ntest_greater;
+	case lex_greater_Heq: return ntest_greater_eq;
 	}
 	return ntest_none;
 }

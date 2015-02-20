@@ -64,178 +64,178 @@ static struct {
 	int builtin;
 } special_token[TOK_no] = {
 	/* Built-in integral types */
-	{ "~char", "V", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~signed_char", "V", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~unsigned_char", "V", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~signed_short", "V", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~unsigned_short", "V", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~signed_int", "V", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~unsigned_int", "V", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~signed_long", "V", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~unsigned_long", "V", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~signed_longlong", "V", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~unsigned_longlong", "V", LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~char",               "V",      LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~signed_char",        "V",      LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~unsigned_char",      "V",      LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~signed_short",       "V",      LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~unsigned_short",     "V",      LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~signed_int",         "V",      LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~unsigned_int",       "V",      LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~signed_long",        "V",      LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~unsigned_long",      "V",      LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~signed_longlong",    "V",      LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~unsigned_longlong",  "V",      LINK_NONE, LINK_NONE, NULL_id, 0 },
 
 	/* Built-in floating-point types */
-	{ "~float", "F", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~double", "F", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~long_double", "F", LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~float",              "F",      LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~double",             "F",      LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~long_double",        "F",      LINK_NONE, LINK_NONE, NULL_id, 0 },
 
 	/* Standard integral types */
-	{ "~cpp.bool", "Z", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "ptrdiff_t", "Z", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "size_t", "Z", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "__size_t", "Z", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "wchar_t", "Z", LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~cpp.bool",           "Z",      LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "ptrdiff_t",           "Z",      LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "size_t",              "Z",      LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "__size_t",            "Z",      LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "wchar_t",             "Z",      LINK_NONE, LINK_NONE, NULL_id, 0 },
 
 	/* Integral type conversions */
-	{ "~convert", "VZ", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~arith_type", "ZZZ", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~promote", "ZZ", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~sign_promote", "ZZ", LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~convert",            "VZ",     LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~arith_type",         "ZZZ",    LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~promote",            "ZZ",     LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~sign_promote",       "ZZ",     LINK_NONE, LINK_NONE, NULL_id, 0 },
 
 	/* Integer literal types */
-	{ "~lit_int", "ZZ", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~lit_hex", "ZZ", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~lit_unsigned", "ZZ", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~lit_long", "ZZ", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~lit_ulong", "ZZ", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~lit_longlong", "ZZ", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~lit_ulonglong", "ZZ", LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~lit_int",            "ZZ",     LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~lit_hex",            "ZZ",     LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~lit_unsigned",       "ZZ",     LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~lit_long",           "ZZ",     LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~lit_ulong",          "ZZ",     LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~lit_longlong",       "ZZ",     LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~lit_ulonglong",      "ZZ",     LINK_NONE, LINK_NONE, NULL_id, 0 },
 
 	/* Bitfield types */
-	{ "~cpp.bitf_sign", "BZ", LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~cpp.bitf_sign",      "BZ",     LINK_NONE, LINK_NONE, NULL_id, 0 },
 
 	/* Generic pointers */
-	{ "~ptr_void", "S", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~null_pv", "E", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~to_ptr_void", "EAE", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~from_ptr_void", "EAE", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~pv_test", "EELT", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~cpp.pv_compare", "EEELT", LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~ptr_void",           "S",      LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~null_pv",            "E",      LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~to_ptr_void",        "EAE",    LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~from_ptr_void",      "EAE",    LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~pv_test",            "EELT",   LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~cpp.pv_compare",     "EEELT",  LINK_NONE, LINK_NONE, NULL_id, 0 },
 
 	/* Undefined conversions */
-	{ "~ptr_to_ptr", "EAAE", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~f_to_pv", "EE", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~pv_to_f", "EE", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~i_to_p", "EVAE", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~p_to_i", "EAVE", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~i_to_pv", "EVE", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~pv_to_i", "EVE", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~cpp.ptr_rep", "Z", LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~ptr_to_ptr",         "EAAE",   LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~f_to_pv",            "EE",     LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~pv_to_f",            "EE",     LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~i_to_p",             "EVAE",   LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~p_to_i",             "EAVE",   LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~i_to_pv",            "EVE",    LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~pv_to_i",            "EVE",    LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~cpp.ptr_rep",        "Z",      LINK_NONE, LINK_NONE, NULL_id, 0 },
 
 	/* Integer division */
-	{ "~div", "EEE", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~rem", "EEE", LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~div",                "EEE",    LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~rem",                "EEE",    LINK_NONE, LINK_NONE, NULL_id, 0 },
 
 	/* Ellipsis functions */
-	{ "~__va_t", "S", LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~__va_t",             "S",      LINK_NONE, LINK_NONE, NULL_id, 0 },
 
 	/* Pointers to data members */
-	{ "~cpp.pm.type", "S", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~cpp.pm.make", "EE", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~cpp.pm.null", "E", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~cpp.pm.offset", "EEA", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~cpp.pm.cast", "EEE", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~cpp.pm.uncast", "EEE", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~cpp.pm.test", "EELT", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~cpp.pm.compare", "EEELT", LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~cpp.pm.type",        "S",      LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~cpp.pm.make",        "EE",     LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~cpp.pm.null",        "E",      LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~cpp.pm.offset",      "EEA",    LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~cpp.pm.cast",        "EEE",    LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~cpp.pm.uncast",      "EEE",    LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~cpp.pm.test",        "EELT",   LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~cpp.pm.compare",     "EEELT",  LINK_NONE, LINK_NONE, NULL_id, 0 },
 
 	/* Pointers to function members */
-	{ "~cpp.pmf.type", "S", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~cpp.pmf.make", "EEEE", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~cpp.pmf.vmake", "EZEEE", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~cpp.pmf.null", "E", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~cpp.pmf.null2", "E", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~cpp.pmf.delta", "EAE", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~cpp.pmf.func", "EE", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~cpp.pmf.virt", "EEEA", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~cpp.pmf.cast", "EEEEE", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~cpp.pmf.uncast", "EEEEE", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~cpp.pmf.test", "EELT", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~cpp.pmf.compare", "EEELT", LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~cpp.pmf.type",       "S",      LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~cpp.pmf.make",       "EEEE",   LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~cpp.pmf.vmake",      "EZEEE",  LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~cpp.pmf.null",       "E",      LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~cpp.pmf.null2",      "E",      LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~cpp.pmf.delta",      "EAE",    LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~cpp.pmf.func",       "EE",     LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~cpp.pmf.virt",       "EEEA",   LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~cpp.pmf.cast",       "EEEEE",  LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~cpp.pmf.uncast",     "EEEEE",  LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~cpp.pmf.test",       "EELT",   LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~cpp.pmf.compare",    "EEELT",  LINK_NONE, LINK_NONE, NULL_id, 0 },
 
 	/* Class layout */
-	{ "~comp_off", "EE", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~pad", "EESS", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~cpp.empty.align", "A", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~cpp.empty.shape", "S", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~cpp.empty.offset", "E", LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~comp_off",           "EE",     LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~pad", "EESS",   LINK_NONE,                LINK_NONE, NULL_id, 0 },
+	{ "~cpp.empty.align",    "A",      LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~cpp.empty.shape",    "S",      LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~cpp.empty.offset",   "E",      LINK_NONE, LINK_NONE, NULL_id, 0 },
 
 	/* Virtual function tables */
-	{ "~cpp.vtab.type", "SN", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~cpp.vtab.diag", "S", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~cpp.vtab.make", "EEENE", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~cpp.vtab.pure", "E", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~cpp.vtab.func", "EEZ", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~cpp.vtab.off", "EZ", LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~cpp.vtab.type",      "SN",     LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~cpp.vtab.diag",      "S",      LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~cpp.vtab.make",      "EEENE",  LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~cpp.vtab.pure",      "E",      LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~cpp.vtab.func",      "EEZ",    LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~cpp.vtab.off",       "EZ",     LINK_NONE, LINK_NONE, NULL_id, 0 },
 
 	/* Run-time type information */
-	{ "~cpp.typeid.type", "S", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~cpp.typeid.make", "EZEE", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~cpp.typeid.basic", "EZ", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~cpp.typeid.ref", "EE", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~cpp.baseid.type", "S", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~cpp.baseid.make", "EEEEZZ", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~cpp.dynam.cast", "EEE", LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~cpp.typeid.type",    "S",      LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~cpp.typeid.make",    "EZEE",   LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~cpp.typeid.basic",   "EZ",     LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~cpp.typeid.ref",     "EE",     LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~cpp.baseid.type",    "S",      LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~cpp.baseid.make",    "EEEEZZ", LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~cpp.dynam.cast",     "EEE",    LINK_NONE, LINK_NONE, NULL_id, 0 },
 
 	/* Dynamic initialisation */
-	{ "~cpp.destr.type", "S", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~cpp.destr.global", "EEEE", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~cpp.destr.local", "EEEE", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~cpp.destr.end", "EE", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~cpp.destr.init", "E", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~cpp.destr.null", "E", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~cpp.destr.ptr", "EE", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~cpp.start", "E", LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~cpp.destr.type",     "S",      LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~cpp.destr.global",   "EEEE",   LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~cpp.destr.local",    "EEEE",   LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~cpp.destr.end",      "EE",     LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~cpp.destr.init",     "E",      LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~cpp.destr.null",     "E",      LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~cpp.destr.ptr",      "EE",     LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~cpp.start",          "E",      LINK_NONE, LINK_NONE, NULL_id, 0 },
 
 	/* Exception handling */
-	{ "~cpp.try.type", "S", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~cpp.try.begin", "EEEE", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~cpp.try.end", "EE", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~cpp.except.alloc", "EE", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~cpp.except.throw", "EEEE", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~cpp.except.rethrow", "E", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~cpp.except.catch", "EE", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~cpp.except.value", "E", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~cpp.except.caught", "E", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~cpp.except.end", "E", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~cpp.except.bad", "EZ", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~cpp.except.jump", "EEE", LINK_NONE, LINK_NONE, NULL_id, 1 },
-	{ "~cpp.ptr.code", "S", LINK_NONE, LINK_NONE, NULL_id, 1 },
-	{ "~cpp.ptr.frame", "S", LINK_NONE, LINK_NONE, NULL_id, 1 },
+	{ "~cpp.try.type",       "S",      LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~cpp.try.begin",      "EEEE",   LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~cpp.try.end",        "EE",     LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~cpp.except.alloc",   "EE",     LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~cpp.except.throw",   "EEEE",   LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~cpp.except.rethrow", "E",      LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~cpp.except.catch",   "EE",     LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~cpp.except.value",   "E",      LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~cpp.except.caught",  "E",      LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~cpp.except.end",     "E",      LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~cpp.except.bad",     "EZ",     LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~cpp.except.jump",    "EEE",    LINK_NONE, LINK_NONE, NULL_id, 1 },
+	{ "~cpp.ptr.code",       "S",      LINK_NONE, LINK_NONE, NULL_id, 1 },
+	{ "~cpp.ptr.frame",      "S",      LINK_NONE, LINK_NONE, NULL_id, 1 },
 
 	/* Assembler inserts */
-	{ "~asm_sequence", "EE", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~asm", "EC", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~asm_exp_input", "EE", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~asm_exp_output", "EE", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	{ "~asm_exp_address", "EE", LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~asm_sequence",       "EE",     LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~asm",                "EC",     LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~asm_exp_input",      "EE",     LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~asm_exp_output",     "EE",     LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~asm_exp_address",    "EE",     LINK_NONE, LINK_NONE, NULL_id, 0 },
 
 	/* Built-in shorthands */
-	{ "~cpp.char_offset", "E", LINK_NONE, LINK_NONE, NULL_id, 2 },
-	{ "~cpp.shape_offset", "ES", LINK_NONE, LINK_NONE, NULL_id, 2 },
-	{ "~cpp.extra_offset", "EAE", LINK_NONE, LINK_NONE, NULL_id, 2 },
-	{ "~cpp.down_cast", "EAEE", LINK_NONE, LINK_NONE, NULL_id, 2 },
-	{ "~cpp.destr_cast", "EAE", LINK_NONE, LINK_NONE, NULL_id, 2 },
-	{ "~cpp.destr_test", "EEL", LINK_NONE, LINK_NONE, NULL_id, 2 }
+	{ "~cpp.char_offset",    "E",      LINK_NONE, LINK_NONE, NULL_id, 2 },
+	{ "~cpp.shape_offset",   "ES",     LINK_NONE, LINK_NONE, NULL_id, 2 },
+	{ "~cpp.extra_offset",   "EAE",    LINK_NONE, LINK_NONE, NULL_id, 2 },
+	{ "~cpp.down_cast",      "EAEE",   LINK_NONE, LINK_NONE, NULL_id, 2 },
+	{ "~cpp.destr_cast",     "EAE",    LINK_NONE, LINK_NONE, NULL_id, 2 },
+	{ "~cpp.destr_test",     "EEL",    LINK_NONE, LINK_NONE, NULL_id, 2 }
 
 #if 0
 	/* Unused standard C tokens */
-	{ "~assign", "EEES", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	    { "~assign_vol", "EEES", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	    { "~char_lit", "EEZV", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	    { "~checked_plus", "EEE", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	    { "~debug_exp", "ENE", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	    { "~debug_scope", "ENNE", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	    { "~fn_scope", "EENN", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	    { "~int_promot", "Z", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	    { "~little_endian", "E", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	    { "~ptr_add", "EEES", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	    { "~ptr_sub", "EEES", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	    { "~sizeof", "ES", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	    { "~string_lit", "EEZV", LINK_NONE, LINK_NONE, NULL_id, 0 },
-	    { "~wchar_lit", "EEZV", LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~assign",             "EEES",   LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~assign_vol",         "EEES",   LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~char_lit",           "EEZV",   LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~checked_plus",       "EEE",    LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~debug_exp",          "ENE",    LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~debug_scope",        "ENNE",   LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~fn_scope",           "EENN",   LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~int_promot",         "Z",      LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~little_endian",      "E",      LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~ptr_add",            "EEES",   LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~ptr_sub",            "EEES",   LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~sizeof",             "ES",     LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~string_lit",         "EEZV",   LINK_NONE, LINK_NONE, NULL_id, 0 },
+	{ "~wchar_lit",          "EEZV",   LINK_NONE, LINK_NONE, NULL_id, 0 },
 #endif
 };
 
@@ -246,28 +246,28 @@ static struct {
 */
 
 BASE_TOKEN base_token[ORDER_ntype] = {
-    { 0, ARITH_error, ARITH_error },			/* ntype_none */
-    { TOK_char, ARITH_char, ARITH_char },		/* ntype_char */
-    { TOK_signed_char, ARITH_schar, ARITH_schar },	/* ntype_schar */
-    { TOK_unsigned_char, ARITH_uchar, ARITH_uchar },	/* ntype_uchar */
-    { TOK_signed_short, ARITH_sshort, ARITH_sshort },	/* ntype_sshort */
-    { TOK_unsigned_short, ARITH_ushort, ARITH_ushort },	/* ntype_ushort */
-    { TOK_signed_int, ARITH_sint, ARITH_sint },		/* ntype_sint */
-    { TOK_unsigned_int, ARITH_uint, ARITH_uint },	/* ntype_uint */
-    { TOK_signed_long, ARITH_slong, ARITH_slong },	/* ntype_slong */
-    { TOK_unsigned_long, ARITH_ulong, ARITH_ulong },	/* ntype_ulong */
-    { TOK_signed_llong, ARITH_sllong, ARITH_sllong },	/* ntype_sllong */
-    { TOK_unsigned_llong, ARITH_ullong, ARITH_ullong },	/* ntype_ullong */
-    { TOK_float, ARITH_float, ARITH_float },		/* ntype_float */
-    { TOK_double, ARITH_double, ARITH_double },		/* ntype_double */
-    { TOK_long_double, ARITH_ldouble, ARITH_ldouble },	/* ntype_ldouble */
-    { 0, ARITH_void, ARITH_void },			/* ntype_void */
-    { 0, ARITH_bottom, ARITH_void },			/* ntype_bottom */
-    { TOK_bool, ARITH_none, ARITH_bool },		/* ntype_bool */
-    { TOK_ptrdiff_t, ARITH_none, ARITH_ptrdiff_t },	/* ntype_ptrdiff_t */
-    { TOK_size_t, ARITH_none, ARITH_size_t },		/* ntype_size_t */
-    { TOK_wchar_t, ARITH_none, ARITH_wchar_t },		/* ntype_wchar_t */
-    { 0, ARITH_ellipsis, ARITH_ellipsis }		/* ntype_ellipsis */
+    { 0,                  ARITH_error,    ARITH_error     },	/* ntype_none */
+    { TOK_char,           ARITH_char,     ARITH_char      },	/* ntype_char */
+    { TOK_signed_char,    ARITH_schar,    ARITH_schar     },	/* ntype_schar */
+    { TOK_unsigned_char,  ARITH_uchar,    ARITH_uchar     },	/* ntype_uchar */
+    { TOK_signed_short,   ARITH_sshort,   ARITH_sshort    },	/* ntype_sshort */
+    { TOK_unsigned_short, ARITH_ushort,   ARITH_ushort    },	/* ntype_ushort */
+    { TOK_signed_int,     ARITH_sint,     ARITH_sint      },	/* ntype_sint */
+    { TOK_unsigned_int,   ARITH_uint,     ARITH_uint      },	/* ntype_uint */
+    { TOK_signed_long,    ARITH_slong,    ARITH_slong     },	/* ntype_slong */
+    { TOK_unsigned_long,  ARITH_ulong,    ARITH_ulong     },	/* ntype_ulong */
+    { TOK_signed_llong,   ARITH_sllong,   ARITH_sllong    },	/* ntype_sllong */
+    { TOK_unsigned_llong, ARITH_ullong,   ARITH_ullong    },	/* ntype_ullong */
+    { TOK_float,          ARITH_float,    ARITH_float     },	/* ntype_float */
+    { TOK_double,         ARITH_double,   ARITH_double    },	/* ntype_double */
+    { TOK_long_double,    ARITH_ldouble,  ARITH_ldouble   },	/* ntype_ldouble */
+    { 0,                  ARITH_void,     ARITH_void      },	/* ntype_void */
+    { 0,                  ARITH_bottom,   ARITH_void      },	/* ntype_bottom */
+    { TOK_bool,           ARITH_none,     ARITH_bool      },	/* ntype_bool */
+    { TOK_ptrdiff_t,      ARITH_none,     ARITH_ptrdiff_t },	/* ntype_ptrdiff_t */
+    { TOK_size_t,         ARITH_none,     ARITH_size_t    },	/* ntype_size_t */
+    { TOK_wchar_t,        ARITH_none,     ARITH_wchar_t   },	/* ntype_wchar_t */
+    { 0,                  ARITH_ellipsis, ARITH_ellipsis  }	/* ntype_ellipsis */
 };
 
 
@@ -430,22 +430,11 @@ make_sort(const char *s, int proc)
 		tok = end_proc_token(tok, ptok);
 	} else {
 		switch (*s) {
-		case 'E': {
-			tok = make_exp_token(type_error, 0, 0);
-			break;
-		}
-		case 'N': {
-			MAKE_tok_nat(NULL_nat, tok);
-			break;
-		}
-		case 'S': {
-			tok = make_type_token(btype_none);
-			break;
-		}
-		case 'Z': {
-			tok = make_type_token(btype_int);
-			break;
-		}
+		case 'E': tok = make_exp_token(type_error, 0, 0); break;
+		case 'N': MAKE_tok_nat(NULL_nat, tok);            break;
+		case 'S': tok = make_type_token(btype_none);      break;
+		case 'Z': tok = make_type_token(btype_int);       break;
+
 		default : {
 			error(ERR_INTERNAL, "Unknown sort");
 			tok = NULL_tok;
@@ -584,18 +573,11 @@ builtin_token(IDENTIFIER id)
 	if (s[0]!= '~') {
 		/* Only built-in types don't begin with '~' */
 		switch (find_hashid(nm)) {
-		case lex_ptrdiff_Ht:
-			t = TOK_ptrdiff_t;
-			break;
-		case lex_size_Ht:
-			t = TOK_size_t;
-			break;
-		case lex_size_Ht_H2:
-			t = TOK_size_t_2;
-			break;
-		case lex_wchar_Ht:
-			t = TOK_wchar_t;
-			break;
+		case lex_ptrdiff_Ht: t = TOK_ptrdiff_t; break;
+		case lex_size_Ht:    t = TOK_size_t;    break;
+		case lex_size_Ht_H2: t = TOK_size_t_2;  break;
+		case lex_wchar_Ht:   t = TOK_wchar_t;   break;
+
 		default:
 			return -1;
 		}
@@ -656,42 +638,19 @@ BITSTREAM *
 enc_sort(BITSTREAM *bs, int s)
 {
 	switch (s) {
-	case 'A':
-		ENC_alignment_sort(bs);
-		break;
-	case 'B':
-		ENC_bool(bs);
-		break;
-	case 'C':
-		ENC_string(bs);
-		break;
-	case 'E':
-		ENC_exp(bs);
-		break;
-	case 'F':
-		ENC_floating_variety(bs);
-		break;
-	case 'L':
-		ENC_label(bs);
-		break;
-	case 'N':
-		ENC_nat(bs);
-		break;
-	case 'S':
-		ENC_shape(bs);
-		break;
-	case 'T':
-		ENC_ntest(bs);
-		break;
-	case 'U':
-		ENC_bitfield_variety(bs);
-		break;
-	case 'V':
-		ENC_variety(bs);
-		break;
-	case 'Z':
-		ENC_signed_nat(bs);
-		break;
+	case 'A': ENC_alignment_sort(bs);   break;
+	case 'B': ENC_bool(bs);             break;
+	case 'C': ENC_string(bs);           break;
+	case 'E': ENC_exp(bs);              break;
+	case 'F': ENC_floating_variety(bs); break;
+	case 'L': ENC_label(bs);            break;
+	case 'N': ENC_nat(bs);              break;
+	case 'S': ENC_shape(bs);            break;
+	case 'T': ENC_ntest(bs);            break;
+	case 'U': ENC_bitfield_variety(bs); break;
+	case 'V': ENC_variety(bs);          break;
+	case 'Z': ENC_signed_nat(bs);       break;
+
 	case 'P': {
 		bs = enc_foreign_sort(bs, LINK_filename);
 		break;
@@ -720,50 +679,23 @@ static BITSTREAM *
 enc_apply_token(BITSTREAM *bs, int s)
 {
 	switch (s) {
-	case 'A':
-		ENC_alignment_apply_token(bs);
-		break;
-	case 'B':
-		ENC_bool_apply_token(bs);
-		break;
-	case 'C':
-		ENC_string_apply_token(bs);
-		break;
-	case 'E':
-		ENC_exp_apply_token(bs);
-		break;
-	case 'F':
-		ENC_flvar_apply_token(bs);
-		break;
-	case 'L':
-		ENC_label_apply_token(bs);
-		break;
-	case 'N':
-		ENC_nat_apply_token(bs);
-		break;
-	case 'S':
-		ENC_shape_apply_token(bs);
-		break;
-	case 'T':
-		ENC_ntest_apply_token(bs);
-		break;
-	case 'U':
-		ENC_bfvar_apply_token(bs);
-		break;
-	case 'V':
-		ENC_var_apply_token(bs);
-		break;
-	case 'Z':
-		ENC_signed_nat_apply_token(bs);
-		break;
-	case 'P':
-		ENC_filename_apply_token(bs);
-		break;
+	case 'A': ENC_alignment_apply_token(bs);   break;
+	case 'B': ENC_bool_apply_token(bs);        break;
+	case 'C': ENC_string_apply_token(bs);      break;
+	case 'E': ENC_exp_apply_token(bs);         break;
+	case 'F': ENC_flvar_apply_token(bs);       break;
+	case 'L': ENC_label_apply_token(bs);       break;
+	case 'N': ENC_nat_apply_token(bs);         break;
+	case 'S': ENC_shape_apply_token(bs);       break;
+	case 'T': ENC_ntest_apply_token(bs);       break;
+	case 'U': ENC_bfvar_apply_token(bs);       break;
+	case 'V': ENC_var_apply_token(bs);         break;
+	case 'Z': ENC_signed_nat_apply_token(bs);  break;
+	case 'P': ENC_filename_apply_token(bs);    break;
 #ifdef ENC_dg_filename_apply_token
-	case 'Q':
-		ENC_dg_filename_apply_token(bs);
-		break;
+	case 'Q': ENC_dg_filename_apply_token(bs); break;
 #endif
+
 	default:
 		error(ERR_INTERNAL, "Unknown sort");
 		break;

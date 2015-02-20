@@ -31,21 +31,21 @@ terminal = lex_ ;
     #if preprocessing directives.
 */
 
-translation-unit -> parse_file ;
-expression-entry -> parse_exp ;
-id-entry -> parse_id ;
-operator-id -> parse_operator ;
-declaration-entry -> parse_decl ;
+translation-unit          -> parse_file ;
+expression-entry          -> parse_exp ;
+id-entry                  -> parse_id ;
+operator-id               -> parse_operator ;
+declaration-entry         -> parse_decl ;
 function-definition-entry -> parse_func ;
-type-id-entry -> parse_type ;
-token-type-id -> parse_tok_type ;
-member-type-id -> parse_mem_type ;
-parameter-entry -> parse_param ;
-statement-entry -> parse_stmt ;
-initialiser-entry -> parse_init ;
-hash-if-expression -> parse_nat ;
-template-type-param -> parse_type_param ;
-constant-offset -> parse_offset ;
+type-id-entry             -> parse_type ;
+token-type-id             -> parse_tok_type ;
+member-type-id            -> parse_mem_type ;
+parameter-entry           -> parse_param ;
+statement-entry           -> parse_stmt ;
+initialiser-entry         -> parse_init ;
+hash-if-expression        -> parse_nat ;
+template-type-param       -> parse_type_param ;
+constant-offset           -> parse_offset ;
 
 
 /*
@@ -60,28 +60,28 @@ constant-offset -> parse_offset ;
     of the restrictions imposed by sid.
 */
 
-ACCESS -> DECL_SPEC ;
-ACCESSES -> ACCESS_LIST ;
-BOOL -> int ;
-BTYPE -> BASE_TYPE ;
-CONDITION -> unsigned ;
-COUNT -> int ;
-CV -> CV_SPEC ;
-DECL -> IDENTIFIER ;
-DSPEC -> DECL_SPEC ;
-EXP -> EXP ;
+ACCESS     -> DECL_SPEC ;
+ACCESSES   -> ACCESS_LIST ;
+BOOL       -> int ;
+BTYPE      -> BASE_TYPE ;
+CONDITION  -> unsigned ;
+COUNT      -> int ;
+CV         -> CV_SPEC ;
+DECL       -> IDENTIFIER ;
+DSPEC      -> DECL_SPEC ;
+EXP        -> EXP ;
 IDENTIFIER -> IDENTIFIER ;
-KEY -> BASE_TYPE ;
-LEX -> int ;
-LINKAGE -> DECL_SPEC ;
-LIST-EXP -> SID_LIST_EXP ;
-LIST-TYPE -> SID_LIST_TYPE ;
-NAMESPACE -> NAMESPACE ;
-NUMBER -> int ;
-OFFSET -> OFFSET ;
-QUALIFIER -> QUALIFIER ;
-TEMPLATE -> TOKEN ;
-TYPE -> TYPE ;
+KEY        -> BASE_TYPE ;
+LEX        -> int ;
+LINKAGE    -> DECL_SPEC ;
+LIST-EXP   -> SID_LIST_EXP ;
+LIST-TYPE  -> SID_LIST_TYPE ;
+NAMESPACE  -> NAMESPACE ;
+NUMBER     -> int ;
+OFFSET     -> OFFSET ;
+QUALIFIER  -> QUALIFIER ;
+TEMPLATE   -> TOKEN ;
+TYPE       -> TYPE ;
 
 
 /*

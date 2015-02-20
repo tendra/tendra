@@ -147,57 +147,25 @@ error_option(string opt)
 	character c;
 	while (c = *(opt++), c != 0) {
 		switch (c) {
-		case 'a':
-			print_ansi_ref = out;
-			break;
-		case 'c':
-			print_error_source = out;
-			break;
-		case 'e':
-			print_error_name = out;
-			break;
-		case 'f':
-			good_fseek = out;
-			break;
-		case 'g':
-			record_location = out;
-			break;
-		case 'i':
-			good_stat = out;
-			break;
-		case 'k':
-			output_spec = out;
-			break;
-		case 'l':
-			print_error_loc = out;
-			break;
-		case 'm':
-			allow_multibyte = out;
-			break;
-		case 'p':
-			preproc_space = out;
-			break;
-		case 'q':
-			print_short = out;
-			break;
-		case 'r':
-			allow_dos_newline = out;
-			break;
-		case 's':
-			print_iso_ref = out;
-			break;
-		case 't':
-			print_type_alias = out;
-			break;
-		case 'x':
-			print_c_style = out;
-			break;
-		case '+':
-			out = 1;
-			break;
-		case '-':
-			out = 0;
-			break;
+		case 'a': print_ansi_ref     = out; break;
+		case 'c': print_error_source = out; break;
+		case 'e': print_error_name   = out; break;
+		case 'f': good_fseek         = out; break;
+		case 'g': record_location    = out; break;
+		case 'i': good_stat          = out; break;
+		case 'k': output_spec        = out; break;
+		case 'l': print_error_loc    = out; break;
+		case 'm': allow_multibyte    = out; break;
+		case 'p': preproc_space      = out; break;
+		case 'q': print_short        = out; break;
+		case 'r': allow_dos_newline  = out; break;
+		case 's': print_iso_ref      = out; break;
+		case 't': print_type_alias   = out; break;
+		case 'x': print_c_style      = out; break;
+
+		case '+': out = 1; break;
+		case '-': out = 0; break;
+
 		case 'o': {
 			error_file = (out ? stdout : stderr);
 			break;
@@ -419,18 +387,11 @@ iso_to_ansi(BUFFER *bf, const char *s)
 		bfprintf(bf, "%x", s);
 	} else {
 		switch (n) {
-		case 1:
-			n = 2;
-			break;
-		case 2:
-			n = 3;
-			break;
-		case 3:
-			n = 6;
-			break;
-		case 4:
-			n = 7;
-			break;
+		case 1: n = 2; break;
+		case 2: n = 3; break;
+		case 3: n = 6; break;
+		case 4: n = 7; break;
+
 		default:
 			p = "";
 			n -= 3;

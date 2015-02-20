@@ -129,12 +129,9 @@ check_format(string s, BUILTIN_TYPE n, BUILTIN_TYPE m, unsigned flags)
 	case ntype_sshort:
 		/* 'h' modifier */
 		switch (n) {
-		case ntype_sint:
-			n = ntype_sshort;
-			break;
-		case ntype_uint:
-			n = ntype_ushort;
-			break;
+		case ntype_sint: n = ntype_sshort; break;
+		case ntype_uint: n = ntype_ushort; break;
+
 		default:
 			flags |= PRINTF_ERROR;
 			break;
@@ -143,21 +140,12 @@ check_format(string s, BUILTIN_TYPE n, BUILTIN_TYPE m, unsigned flags)
 	case ntype_slong:
 		/* 'l' modifier */
 		switch (n) {
-		case ntype_char:
-			n = ntype_wchar_t;
-			break;
-		case ntype_uchar:
-			n = ntype_none;
-			break;
-		case ntype_sint:
-			n = ntype_slong;
-			break;
-		case ntype_uint:
-			n = ntype_ulong;
-			break;
-		case ntype_float:
-			n = ntype_double;
-			break;
+		case ntype_char:  n = ntype_wchar_t; break;
+		case ntype_uchar: n = ntype_none;    break;
+		case ntype_sint:  n = ntype_slong;   break;
+		case ntype_uint:  n = ntype_ulong;   break;
+		case ntype_float: n = ntype_double;  break;
+
 		default:
 			flags |= PRINTF_ERROR;
 			break;
@@ -166,12 +154,9 @@ check_format(string s, BUILTIN_TYPE n, BUILTIN_TYPE m, unsigned flags)
 	case ntype_ldouble:
 		/* 'L' modifier */
 		switch (n) {
-		case ntype_float:
-			n = ntype_ldouble;
-			break;
-		case ntype_double:
-			n = ntype_ldouble;
-			break;
+		case ntype_float:  n = ntype_ldouble; break;
+		case ntype_double: n = ntype_ldouble; break;
+
 		default:
 			flags |= PRINTF_ERROR;
 			break;
@@ -323,27 +308,13 @@ add_printf_arg(STRING str, LIST(TYPE) p, unsigned margs, int *state)
 				return p;
 			}
 			switch (c) {
-			case char_single_quote:
-				flag = PRINTF_THOUSAND;
-				break;
-			case char_minus:
-				flag = PRINTF_LEFT;
-				break;
-			case char_plus:
-				flag = PRINTF_SIGN;
-				break;
-			case char_space:
-				flag = PRINTF_SPACE;
-				break;
-			case char_hash:
-				flag = PRINTF_ALT;
-				break;
-			case char_zero:
-				flag = PRINTF_ZERO;
-				break;
-			default:
-				flag = PRINTF_NONE;
-				break;
+			case char_single_quote: flag = PRINTF_THOUSAND; break;
+			case char_minus:        flag = PRINTF_LEFT;     break;
+			case char_plus:         flag = PRINTF_SIGN;     break;
+			case char_space:        flag = PRINTF_SPACE;    break;
+			case char_hash:         flag = PRINTF_ALT;      break;
+			case char_zero:         flag = PRINTF_ZERO;     break;
+			default:                flag = PRINTF_NONE;     break;
 			}
 			flags |= flag;
 		} else {

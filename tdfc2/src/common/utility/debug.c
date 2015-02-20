@@ -1467,63 +1467,26 @@ DEBUG_c_class(c_class *p, int indent)
 		default : {
 			print_indent(indent, "", f);
 			switch (n) {
-			case TYPEID_ctype:
-				DEBUG_ctype(p);
-				break;
-			case TYPEID_err:
-				report(crt_loc, p);
-				break;
-			case TYPEID_etype:
-				DEBUG_etype(p);
-				break;
-			case TYPEID_flt:
-				DEBUG_flt(p);
-				break;
-			case TYPEID_ftype:
-				DEBUG_ftype(p);
-				break;
-			case TYPEID_graph:
-				DEBUG_graph(p);
-				break;
-			case TYPEID_hashid:
-				DEBUG_hashid(p);
-				break;
-			case TYPEID_id:
-				DEBUG_id_long(p);
-				break;
-			case TYPEID_inst:
-				DEBUG_inst(p);
-				break;
-			case TYPEID_itype:
-				DEBUG_itype(p);
-				break;
-			case TYPEID_member:
-				DEBUG_member(p);
-				break;
-			case TYPEID_nat:
-				DEBUG_nat(p);
-				break;
-			case TYPEID_nspace:
-				DEBUG_nspace(p);
-				break;
-			case TYPEID_off:
-				DEBUG_offset(p);
-				break;
-			case TYPEID_str:
-				DEBUG_str(p);
-				break;
-			case TYPEID_tok:
-				DEBUG_sort(p);
-				break;
-			case TYPEID_type:
-				DEBUG_type(p);
-				break;
-			case TYPEID_virt:
-				DEBUG_virt(p);
-				break;
-			case TYPEID_free:
-				fputs_v("FREE\n", f);
-				break;
+			case TYPEID_ctype:  DEBUG_ctype(p);       break;
+			case TYPEID_err:    report(crt_loc, p);   break;
+			case TYPEID_etype:  DEBUG_etype(p);       break;
+			case TYPEID_flt:    DEBUG_flt(p);         break;
+			case TYPEID_ftype:  DEBUG_ftype(p);       break;
+			case TYPEID_graph:  DEBUG_graph(p);       break;
+			case TYPEID_hashid: DEBUG_hashid(p);      break;
+			case TYPEID_id:     DEBUG_id_long(p);     break;
+			case TYPEID_inst:   DEBUG_inst(p);        break;
+			case TYPEID_itype:  DEBUG_itype(p);       break;
+			case TYPEID_member: DEBUG_member(p);      break;
+			case TYPEID_nat:    DEBUG_nat(p);         break;
+			case TYPEID_nspace: DEBUG_nspace(p);      break;
+			case TYPEID_off:    DEBUG_offset(p);      break;
+			case TYPEID_str:    DEBUG_str(p);         break;
+			case TYPEID_tok:    DEBUG_sort(p);        break;
+			case TYPEID_type:   DEBUG_type(p);        break;
+			case TYPEID_virt:   DEBUG_virt(p);        break;
+			case TYPEID_free:   fputs_v("FREE\n", f); break;
+
 			default:
 				fputs_v("UNKNOWN\n", f);
 				break;

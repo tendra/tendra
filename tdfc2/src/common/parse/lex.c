@@ -84,57 +84,23 @@ primary_form(int t)
 {
 	int u = t;
 	switch (u) {
-	case lex_and_H2:
-		u = lex_and_H1;
-		break;
-	case lex_and_Heq_H2:
-		u = lex_and_Heq_H1;
-		break;
-	case lex_close_Hbrace_H2:
-		u = lex_close_Hbrace_H1;
-		break;
-	case lex_close_Hsquare_H2:
-		u = lex_close_Hsquare_H1;
-		break;
-	case lex_compl_H2:
-		u = lex_compl_H1;
-		break;
-	case lex_hash_H2:
-		u = lex_hash_H1;
-		break;
-	case lex_hash_Hhash_H2:
-		u = lex_hash_Hhash_H1;
-		break;
-	case lex_logical_Hand_H2:
-		u = lex_logical_Hand_H1;
-		break;
-	case lex_logical_Hor_H2:
-		u = lex_logical_Hor_H1;
-		break;
-	case lex_not_H2:
-		u = lex_not_H1;
-		break;
-	case lex_not_Heq_H2:
-		u = lex_not_Heq_H1;
-		break;
-	case lex_open_Hbrace_H2:
-		u = lex_open_Hbrace_H1;
-		break;
-	case lex_open_Hsquare_H2:
-		u = lex_open_Hsquare_H1;
-		break;
-	case lex_or_H2:
-		u = lex_or_H1;
-		break;
-	case lex_or_Heq_H2:
-		u = lex_or_Heq_H1;
-		break;
-	case lex_xor_H2:
-		u = lex_xor_H1;
-		break;
-	case lex_xor_Heq_H2:
-		u = lex_xor_Heq_H1;
-		break;
+	case lex_and_H2:           u = lex_and_H1;           break;
+	case lex_and_Heq_H2:       u = lex_and_Heq_H1;       break;
+	case lex_close_Hbrace_H2:  u = lex_close_Hbrace_H1;  break;
+	case lex_close_Hsquare_H2: u = lex_close_Hsquare_H1; break;
+	case lex_compl_H2:         u = lex_compl_H1;         break;
+	case lex_hash_H2:          u = lex_hash_H1;          break;
+	case lex_hash_Hhash_H2:    u = lex_hash_Hhash_H1;    break;
+	case lex_logical_Hand_H2:  u = lex_logical_Hand_H1;  break;
+	case lex_logical_Hor_H2:   u = lex_logical_Hor_H1;   break;
+	case lex_not_H2:           u = lex_not_H1;           break;
+	case lex_not_Heq_H2:       u = lex_not_Heq_H1;       break;
+	case lex_open_Hbrace_H2:   u = lex_open_Hbrace_H1;   break;
+	case lex_open_Hsquare_H2:  u = lex_open_Hsquare_H1;  break;
+	case lex_or_H2:            u = lex_or_H1;            break;
+	case lex_or_Heq_H2:        u = lex_or_Heq_H1;        break;
+	case lex_xor_H2:           u = lex_xor_H1;           break;
+	case lex_xor_Heq_H2:       u = lex_xor_Heq_H1;       break;
 	}
 	return u;
 }
@@ -281,42 +247,16 @@ adjust_trigraph(void)
 				c = refill_char();
 			}
 			switch (c) {
-			case char_close_round:
-				/* Map '\?\?)' to ']' */
-				d = char_close_square;
-				break;
-			case char_equal:
-				/* Map '\?\?=' to '#' */
-				d = char_hash;
-				break;
-			case char_exclaim:
-				/* Map '\?\?!' to '|' */
-				d = char_bar;
-				break;
-			case char_greater:
-				/* Map '\?\?>' to '}' */
-				d = char_close_brace;
-				break;
-			case char_less:
-				/* Map '\?\?<' to '{' */
-				d = char_open_brace;
-				break;
-			case char_minus:
-				/* Map '\?\?-' to '~' */
-				d = char_tilde;
-				break;
-			case char_open_round:
-				/* Map '\?\?(' to '[' */
-				d = char_open_square;
-				break;
-			case char_single_quote:
-				/* Map '\?\?\'' to '^' */
-				d = char_circum;
-				break;
-			case char_slash:
-				/* Map '\?\?/' to '\\' */
-				d = char_backslash;
-				break;
+			case char_close_round:  d = char_close_square; break; /* Map '\?\?)' to ']' */
+			case char_equal:        d = char_hash;         break; /* Map '\?\?=' to '#' */
+			case char_exclaim:      d = char_bar;          break; /* Map '\?\?!' to '|' */
+			case char_greater:      d = char_close_brace;  break; /* Map '\?\?>' to '}' */
+			case char_less:         d = char_open_brace;   break; /* Map '\?\?<' to '{' */
+			case char_minus:        d = char_tilde;        break; /* Map '\?\?-' to '~' */
+			case char_open_round:   d = char_open_square;  break; /* Map '\?\?(' to '[' */
+			case char_single_quote: d = char_circum;       break; /* Map '\?\?\'' to '^' */
+			case char_slash:        d = char_backslash;    break; /* Map '\?\?/' to '\\' */
+
 			default:
 				/* Not a trigraph */
 				unread_char(c);
@@ -1719,41 +1659,15 @@ preproc_label:	{
 			unread_char(c);
 			return lex_or_H1;
 
-		case char_open_round:
-			/* Deal with '(' */
-			return lex_open_Hround;
-
-		case char_close_round:
-			/* Deal with ')' */
-			return lex_close_Hround;
-
-		case char_comma:
-			/* Deal with ',' */
-			return lex_comma;
-
-		case char_semicolon:
-			/* Deal with ';' */
-			return lex_semicolon;
-
-		case char_open_square:
-			/* Deal with '[' */
-			return lex_open_Hsquare_H1;
-
-		case char_close_square:
-			/* Deal with ']' */
-			return lex_close_Hsquare_H1;
-
-		case char_open_brace:
-			/* Deal with '{' */
-			return lex_open_Hbrace_H1;
-
-		case char_close_brace:
-			/* Deal with '}' */
-			return lex_close_Hbrace_H1;
-
-		case char_tilde:
-			/* Deal with '~' */
-			return lex_compl_H1;
+		case char_open_round:   return lex_open_Hround;      /* Deal with '(' */
+		case char_close_round:  return lex_close_Hround;     /* Deal with ')' */
+		case char_comma:        return lex_comma;            /* Deal with ',' */
+		case char_semicolon:    return lex_semicolon;        /* Deal with ';' */
+		case char_open_square:  return lex_open_Hsquare_H1;  /* Deal with '[' */
+		case char_close_square: return lex_close_Hsquare_H1; /* Deal with ']' */
+		case char_open_brace:   return lex_open_Hbrace_H1;   /* Deal with '{' */
+		case char_close_brace:  return lex_close_Hbrace_H1;  /* Deal with '}' */
+		case char_tilde:        return lex_compl_H1;         /* Deal with '~' */
 
 		default:
 			/* Anything else is an unknown character */

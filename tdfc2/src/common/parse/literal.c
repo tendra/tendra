@@ -323,28 +323,28 @@ static struct {
 	LIST(TYPE)cases;
 } int_lit_tok[BASE_NO][SUFFIX_NO] = {
 	{
-		{ { 2, 0, 2, 2, 1, 1 }, TOK_lit_int, NULL_list(TYPE)},
-		{ { 0, 2, 0, 2, 0, 1 }, TOK_lit_unsigned, NULL_list(TYPE)},
-		{ { 0, 0, 2, 2, 1, 1 }, TOK_lit_long, NULL_list(TYPE)},
-		{ { 0, 0, 0, 2, 0, 1 }, TOK_lit_ulong, NULL_list(TYPE)},
-		{ { 0, 0, 0, 0, 2, 2 }, TOK_lit_llong, NULL_list(TYPE)},
-		{ { 0, 0, 0, 0, 0, 2 }, TOK_lit_ullong, NULL_list(TYPE)}
-	},
+		{ { 2, 0, 2, 2, 1, 1 }, TOK_lit_int, NULL_list(TYPE)      },
+		{ { 0, 2, 0, 2, 0, 1 }, TOK_lit_unsigned, NULL_list(TYPE) },
+		{ { 0, 0, 2, 2, 1, 1 }, TOK_lit_long, NULL_list(TYPE)     },
+		{ { 0, 0, 0, 2, 0, 1 }, TOK_lit_ulong, NULL_list(TYPE)    },
+		{ { 0, 0, 0, 0, 2, 2 }, TOK_lit_llong, NULL_list(TYPE)    },
+		{ { 0, 0, 0, 0, 0, 2 }, TOK_lit_ullong, NULL_list(TYPE)   }
+	     },
 	{
-		{ { 2, 2, 2, 2, 1, 1 }, TOK_lit_hex, NULL_list(TYPE)},
-		{ { 0, 2, 0, 2, 0, 1 }, TOK_lit_unsigned, NULL_list(TYPE)},
-		{ { 0, 0, 2, 2, 1, 1 }, TOK_lit_long, NULL_list(TYPE)},
-		{ { 0, 0, 0, 2, 0, 1 }, TOK_lit_ulong, NULL_list(TYPE)},
-		{ { 0, 0, 0, 0, 2, 2 }, TOK_lit_llong, NULL_list(TYPE)},
-		{ { 0, 0, 0, 0, 0, 2 }, TOK_lit_ullong, NULL_list(TYPE)}
-	},
+		{ { 2, 2, 2, 2, 1, 1 }, TOK_lit_hex, NULL_list(TYPE)      },
+		{ { 0, 2, 0, 2, 0, 1 }, TOK_lit_unsigned, NULL_list(TYPE) },
+		{ { 0, 0, 2, 2, 1, 1 }, TOK_lit_long, NULL_list(TYPE)     },
+		{ { 0, 0, 0, 2, 0, 1 }, TOK_lit_ulong, NULL_list(TYPE)    },
+		{ { 0, 0, 0, 0, 2, 2 }, TOK_lit_llong, NULL_list(TYPE)    },
+		{ { 0, 0, 0, 0, 0, 2 }, TOK_lit_ullong, NULL_list(TYPE)   }
+	     },
 	{
-		{ { 2, 2, 2, 2, 1, 1 }, TOK_lit_hex, NULL_list(TYPE)},
-		{ { 0, 2, 0, 2, 0, 1 }, TOK_lit_unsigned, NULL_list(TYPE)},
-		{ { 0, 0, 2, 2, 1, 1 }, TOK_lit_long, NULL_list(TYPE)},
-		{ { 0, 0, 0, 2, 0, 1 }, TOK_lit_ulong, NULL_list(TYPE)},
-		{ { 0, 0, 0, 0, 2, 2 }, TOK_lit_llong, NULL_list(TYPE)},
-		{ { 0, 0, 0, 0, 0, 2 }, TOK_lit_ullong, NULL_list(TYPE)}
+		{ { 2, 2, 2, 2, 1, 1 }, TOK_lit_hex, NULL_list(TYPE)      },
+		{ { 0, 2, 0, 2, 0, 1 }, TOK_lit_unsigned, NULL_list(TYPE) },
+		{ { 0, 0, 2, 2, 1, 1 }, TOK_lit_long, NULL_list(TYPE)     },
+		{ { 0, 0, 0, 2, 0, 1 }, TOK_lit_ulong, NULL_list(TYPE)    },
+		{ { 0, 0, 0, 0, 2, 2 }, TOK_lit_llong, NULL_list(TYPE)    },
+		{ { 0, 0, 0, 0, 0, 2 }, TOK_lit_ullong, NULL_list(TYPE)   }
 	}
 };
 

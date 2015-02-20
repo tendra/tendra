@@ -144,15 +144,9 @@ unmangle_op(string *ps)
 		case 'm': {
 			c = *(s++);
 			switch (c) {
-			case 'd':
-				t = lex_rem_Heq;
-				break;
-			case 'i':
-				t = lex_minus_Heq;
-				break;
-			case 'l':
-				t = lex_star_Heq;
-				break;
+			case 'd': t = lex_rem_Heq;   break;
+			case 'i': t = lex_minus_Heq; break;
+			case 'l': t = lex_star_Heq;  break;
 			}
 			break;
 		}
@@ -187,60 +181,32 @@ unmangle_op(string *ps)
 	case 'c': {
 		c = *(s++);
 		switch (c) {
-		case 'c':
-			t = lex_colon_Hcolon;
-			break;
-		case 'l':
-			t = lex_func_Hop;
-			break;
-		case 'm':
-			t = lex_comma;
-			break;
-		case 'n':
-			t = lex_cond_Hop;
-			break;
-		case 'o':
-			t = lex_compl_H1;
-			break;
-		case 's':
-			t = lex_colon;
-			break;
-		case 't':
-			t = lex_type_Hname;
-			break;
+		case 'c': t = lex_colon_Hcolon; break;
+		case 'l': t = lex_func_Hop;     break;
+		case 'm': t = lex_comma;        break;
+		case 'n': t = lex_cond_Hop;     break;
+		case 'o': t = lex_compl_H1;     break;
+		case 's': t = lex_colon;        break;
+		case 't': t = lex_type_Hname;   break;
 		}
 		break;
 	}
 	case 'd': {
 		c = *(s++);
 		switch (c) {
-		case 'f':
-			t = lex_dot;
-			break;
-		case 'l':
-			t = lex_delete;
-			break;
-		case 'm':
-			t = lex_dot_Hstar;
-			break;
-		case 't':
-			t = lex_destructor_Hname;
-			break;
-		case 'v':
-			t = lex_div;
-			break;
+		case 'f': t = lex_dot;              break;
+		case 'l': t = lex_delete;           break;
+		case 'm': t = lex_dot_Hstar;        break;
+		case 't': t = lex_destructor_Hname; break;
+		case 'v': t = lex_div;              break;
 		}
 		break;
 	}
 	case 'e': {
 		c = *(s++);
 		switch (c) {
-		case 'q':
-			t = lex_eq;
-			break;
-		case 'r':
-			t = lex_xor_H1;
-			break;
+		case 'q': t = lex_eq;     break;
+		case 'r': t = lex_xor_H1; break;
 		}
 		break;
 	}
@@ -251,108 +217,64 @@ unmangle_op(string *ps)
 	case 'g': {
 		c = *(s++);
 		switch (c) {
-		case 'e':
-			t = lex_greater_Heq;
-			break;
-		case 't':
-			t = lex_greater;
-			break;
+		case 'e': t = lex_greater_Heq; break;
+		case 't': t = lex_greater;     break;
 		}
 		break;
 	}
 	case 'l': {
 		c = *(s++);
 		switch (c) {
-		case 'e':
-			t = lex_less_Heq;
-			break;
-		case 's':
-			t = lex_lshift;
-			break;
-		case 't':
-			t = lex_less;
-			break;
+		case 'e': t = lex_less_Heq; break;
+		case 's': t = lex_lshift;   break;
+		case 't': t = lex_less;     break;
 		}
 		break;
 	}
 	case 'm': {
 		c = *(s++);
 		switch (c) {
-		case 'd':
-			t = lex_rem;
-			break;
-		case 'i':
-			t = lex_minus;
-			break;
-		case 'l':
-			t = lex_star;
-			break;
-		case 'm':
-			t = lex_minus_Hminus;
-			break;
-		case 'n':
-			t = lex_min;
-			break;
-		case 'x':
-			t = lex_max;
-			break;
+		case 'd': t = lex_rem;          break;
+		case 'i': t = lex_minus;        break;
+		case 'l': t = lex_star;         break;
+		case 'm': t = lex_minus_Hminus; break;
+		case 'n': t = lex_min;          break;
+		case 'x': t = lex_max;          break;
 		}
 		break;
 	}
 	case 'n': {
 		c = *(s++);
 		switch (c) {
-		case 'e':
-			t = lex_not_Heq_H1;
-			break;
-		case 't':
-			t = lex_not_H1;
-			break;
-		case 'w':
-			t = lex_new;
-			break;
+		case 'e': t = lex_not_Heq_H1; break;
+		case 't': t = lex_not_H1;     break;
+		case 'w': t = lex_new;        break;
 		}
 		break;
 	}
 	case 'o': {
 		c = *(s++);
 		switch (c) {
-		case 'o':
-			t = lex_logical_Hor_H1;
-			break;
-		case 'p':
-			t = lex_operator;
-			break;
-		case 'r':
-			t = lex_or_H1;
-			break;
+		case 'o': t = lex_logical_Hor_H1; break;
+		case 'p': t = lex_operator;       break;
+		case 'r': t = lex_or_H1;          break;
 		}
 		break;
 	}
 	case 'p': {
 		c = *(s++);
 		switch (c) {
-		case 'l':
-			t = lex_plus;
-			break;
-		case 'p':
-			t = lex_plus_Hplus;
-			break;
+		case 'l': t = lex_plus;       break;
+		case 'p': t = lex_plus_Hplus; break;
 		}
 		break;
 	}
 	case 'r': {
 		c = *(s++);
 		switch (c) {
-		case 'f':
-			t = lex_arrow;
-			break;
-		case 'm':
-			t = lex_arrow_Hstar;
-			break;
-		case 's':
-			t = lex_rshift;
-			break;
+		case 'f': t = lex_arrow;       break;
+		case 'm': t = lex_arrow_Hstar; break;
+		case 's': t = lex_rshift;      break;
 		}
 		break;
 	}
@@ -366,12 +288,9 @@ unmangle_op(string *ps)
 	case 't': {
 		c = *(s++);
 		switch (c) {
-		case 'b':
-			t = lex_vtable;
-			break;
-		case 'd':
-			t = lex_typeid;
-			break;
+		case 'b': t = lex_vtable; break;
+		case 'd': t = lex_typeid; break;
+
 		case 'i': {
 			if (s[0] == '_' && s[1] == '_') {
 				t = lex_typeof;
@@ -385,18 +304,11 @@ unmangle_op(string *ps)
 	case 'v': {
 		c = *(s++);
 		switch (c) {
-		case 'c':
-			t = lex_array_Hop;
-			break;
-		case 'd':
-			t = lex_delete_Harray;
-			break;
-		case 'n':
-			t = lex_new_Harray;
-			break;
-		case '_':
-			t = lex_static;
-			break;
+		case 'c': t = lex_array_Hop;     break;
+		case 'd': t = lex_delete_Harray; break;
+		case 'n': t = lex_new_Harray;    break;
+		case '_': t = lex_static;        break;
+
 		case 't': {
 			if (s[0] == '_' && s[1] == '_') {
 				t = lex_virtual;
@@ -950,48 +862,22 @@ unmangle_type(string *ps, CV_SPEC cv, BASE_TYPE bt, int ret)
 	character c = *(s++);
 	switch (c) {
 
-	case MANGLE_char:
-		t = make_base_type(bt | btype_char);
-		break;
-	case MANGLE_short:
-		t = make_base_type(bt | btype_short);
-		break;
-	case MANGLE_int:
-		t = make_base_type(bt | btype_int);
-		break;
-	case MANGLE_long:
-		t = make_base_type(bt | btype_long);
-		break;
-	case MANGLE_llong:
-		t = make_base_type(bt | btype_llong);
-		break;
-	case MANGLE_float:
-		t = type_float;
-		break;
-	case MANGLE_double:
-		t = type_double;
-		break;
-	case MANGLE_ldouble:
-		t = type_ldouble;
-		break;
-	case MANGLE_void:
-		t = type_void;
-		break;
-	case MANGLE_bottom:
-		t = type_bottom;
-		break;
-	case MANGLE_bool:
-		t = type_bool;
-		break;
-	case MANGLE_ptrdiff_t:
-		t = type_ptrdiff_t;
-		break;
-	case MANGLE_size_t:
-		t = type_size_t;
-		break;
-	case MANGLE_wchar_t:
-		t = type_wchar_t;
-		break;
+	case MANGLE_char:  t = make_base_type(bt | btype_char);  break;
+	case MANGLE_short: t = make_base_type(bt | btype_short); break;
+	case MANGLE_int:   t = make_base_type(bt | btype_int);   break;
+	case MANGLE_long:  t = make_base_type(bt | btype_long);  break;
+	case MANGLE_llong: t = make_base_type(bt | btype_llong); break;
+
+	case MANGLE_float:     t = type_float;     break;
+	case MANGLE_double:    t = type_double;    break;
+	case MANGLE_ldouble:   t = type_ldouble;   break;
+	case MANGLE_void:      t = type_void;      break;
+	case MANGLE_bottom:    t = type_bottom;    break;
+	case MANGLE_bool:      t = type_bool;      break;
+	case MANGLE_ptrdiff_t: t = type_ptrdiff_t; break;
+	case MANGLE_size_t:    t = type_size_t;    break;
+	case MANGLE_wchar_t:   t = type_wchar_t;   break;
+
 	case MANGLE_signed: {
 		/* Signed types */
 		bt |= btype_signed;
