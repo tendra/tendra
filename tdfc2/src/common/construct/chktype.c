@@ -10,8 +10,12 @@
 #include <assert.h>
 #include <stdio.h>
 
-#include "config.h"
+#include <utility/config.h>
 #include "c_types.h"
+
+#include <utility/error.h>
+#include <utility/catalog.h>
+#include <utility/option.h>
 
 #include "ctype_ops.h"
 #include "etype_ops.h"
@@ -22,9 +26,6 @@
 #include "itype_ops.h"
 #include "tok_ops.h"
 #include "type_ops.h"
-#include "error.h"
-#include "catalog.h"
-#include "option.h"
 #include "basetype.h"
 #include "check.h"
 #include "chktype.h"

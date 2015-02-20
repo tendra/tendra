@@ -7,7 +7,6 @@ CCOPTS+=	-I ../../common/construct
 CCOPTS+=	-I ../../common/obj_c
 CCOPTS+=	-I ../../common/output
 CCOPTS+=	-I ../../common/parse
-CCOPTS+=	-I ../../common/utility
 CCOPTS+=	-I ../../common
 
 SRCS!=	ls -1 syntax*.c

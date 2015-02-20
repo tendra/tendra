@@ -12,11 +12,11 @@
 
 #include <shared/check.h>
 
-#include "config.h"
+#include <utility/config.h>
 #include "c_types.h"
 
-#include "error.h"
-#include "xalloc.h"
+#include <utility/error.h>
+#include <utility/xalloc.h>
 
 
 /*

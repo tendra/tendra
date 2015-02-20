@@ -13,9 +13,12 @@
 
 #include <shared/check.h>
 
-#include "config.h"
-#include "version.h"
+#include <utility/config.h>
+#include <utility/version.h>
 #include "c_types.h"
+
+#include <utility/error.h>
+#include <utility/ustring.h>
 
 #include "ctype_ops.h"
 #include "etype_ops.h"
@@ -29,7 +32,6 @@
 #include "off_ops.h"
 #include "str_ops.h"
 #include "type_ops.h"
-#include "error.h"
 #include "tdf.h"
 #include "basetype.h"
 #include "capsule.h"
@@ -51,7 +53,6 @@
 #include "shape.h"
 #include "struct.h"
 #include "tok.h"
-#include "ustring.h"
 
 
 /*

@@ -18,7 +18,6 @@
 
 
 CCOPTS+=	-I ../../common
-CCOPTS+=	-I ../utility
 CCOPTS+=	-I .
 
 SRCS+=	c_class.c

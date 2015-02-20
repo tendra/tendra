@@ -11,11 +11,12 @@
 
 #include <shared/check.h>
 
-#include "config.h"
+#include <utility/config.h>
 #include "c_types.h"
 
-#include "error.h"
-#include "buffer.h"
+#include <utility/error.h>
+#include <utility/buffer.h>
+
 #include "char.h"
 #include "decode.h"
 #include "encode.h"

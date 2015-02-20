@@ -12,15 +12,17 @@
 
 #include <shared/check.h>
 
-#include "config.h"
+#include <utility/config.h>
 #include "c_types.h"
+
+#include <utility/error.h>
+#include <utility/catalog.h>
+#include <utility/option.h>
+#include <utility/ustring.h>
 
 #include "hashid_ops.h"
 #include "id_ops.h"
 #include "tok_ops.h"
-#include "error.h"
-#include "catalog.h"
-#include "option.h"
 #include "char.h"
 #include "declare.h"
 #include "dump.h"
@@ -38,7 +40,6 @@
 #include "symbols.h"
 #include "tok.h"
 #include "token.h"
-#include "ustring.h"
 #include "variable.h"
 
 

@@ -12,12 +12,16 @@
 
 #include <shared/check.h>
 
-#include "config.h"
-#include "version.h"
+#include <utility/config.h>
+#include <utility/version.h>
 #include "c_types.h"
 
-#include "ustring.h"
-#include "system.h"
+#include <utility/ustring.h>
+#include <utility/system.h>
+#include <utility/error.h>
+#include <utility/buffer.h>
+#include <utility/print.h>
+
 #include "ctype_ops.h"
 #include "etype_ops.h"
 #include "exp_ops.h"
@@ -31,10 +35,8 @@
 #include "tok_ops.h"
 #include "type_ops.h"
 #include "virt_ops.h"
-#include "error.h"
 #include "tdf.h"
 #include "basetype.h"
-#include "buffer.h"
 #include "capsule.h"
 #include "compile.h"
 #include "constant.h"
@@ -46,7 +48,6 @@
 #include "function.h"
 #include "initialise.h"
 #include "mangle.h"
-#include "print.h"
 #include "shape.h"
 #include "stmt.h"
 #include "struct.h"

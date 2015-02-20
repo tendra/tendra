@@ -11,13 +11,15 @@
 
 #include <shared/check.h>
 
-#include "config.h"
-#include "version.h"
+#include <utility/config.h>
+#include <utility/version.h>
 #include "c_types.h"
+
+#include <utility/error.h>
+#include <utility/ustring.h>
 
 #include "exp_ops.h"
 #include "type_ops.h"
-#include "error.h"
 #include "tdf.h"
 #include "allocate.h"
 #include "basetype.h"
@@ -39,7 +41,6 @@
 #include "throw.h"
 #include "tok.h"
 #include "typeid.h"
-#include "ustring.h"
 
 
 /*

@@ -11,20 +11,21 @@
 #include <string.h>
 #include <stdio.h>
 
-#include "config.h"
+#include <utility/config.h>
 #include "c_types.h"
+
+#include <utility/error.h>
+#include <utility/catalog.h>
+#include <utility/option.h>
+#include <utility/ustring.h>
+#include <utility/xalloc.h>
 
 #include "exp_ops.h"
 #include "str_ops.h"
-#include "error.h"
-#include "catalog.h"
-#include "option.h"
 #include "hash.h"
 #include "lex.h"
 #include "literal.h"
 #include "syntax.h"
-#include "ustring.h"
-#include "xalloc.h"
 
 
 /*
@@ -32,7 +33,7 @@
     of an array of ERR_DATA structures, ERR_CATALOG.
 */
 
-#include "errors3.h"
+#include <utility/errors3.h>
 
 
 /*

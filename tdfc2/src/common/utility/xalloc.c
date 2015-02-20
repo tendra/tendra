@@ -13,13 +13,14 @@
 
 #include <shared/check.h>
 
-#include "config.h"
+#include <utility/config.h>
 #include "c_types.h"
 
-#include "error.h"
+#include <utility/error.h>
+#include <utility/ustring.h>
+#include <utility/xalloc.h>
+
 #include "char.h"
-#include "ustring.h"
-#include "xalloc.h"
 
 
 /*

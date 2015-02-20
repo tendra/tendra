@@ -9,8 +9,11 @@
 
 #include <stdio.h>
 
-#include "config.h"
+#include <utility/config.h>
 #include "c_types.h"
+
+#include <utility/error.h>
+#include <utility/catalog.h>
 
 #include "ctype_ops.h"
 #include "graph_ops.h"
@@ -18,8 +21,6 @@
 #include "member_ops.h"
 #include "nspace_ops.h"
 #include "type_ops.h"
-#include "error.h"
-#include "catalog.h"
 #include "access.h"
 #include "chktype.h"
 #include "class.h"

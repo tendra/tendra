@@ -12,8 +12,12 @@
 
 #include <shared/check.h>
 
-#include "config.h"
+#include <utility/config.h>
 #include "c_types.h"
+
+#include <utility/error.h>
+#include <utility/catalog.h>
+#include <utility/print.h>
 
 #include "exp_ops.h"
 #include "etype_ops.h"
@@ -22,8 +26,6 @@
 #include "itype_ops.h"
 #include "tok_ops.h"
 #include "type_ops.h"
-#include "error.h"
-#include "catalog.h"
 #include "basetype.h"
 #include "constant.h"
 #include "convert.h"
@@ -34,7 +36,6 @@
 #include "interface.h"
 #include "inttype.h"
 #include "mangle.h"
-#include "print.h"
 #include "syntax.h"
 #include "tok.h"
 #include "tokdef.h"

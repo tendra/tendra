@@ -12,8 +12,12 @@
 
 #include <shared/check.h>
 
-#include "config.h"
+#include <utility/config.h>
 #include "c_types.h"
+
+#include <utility/error.h>
+#include <utility/catalog.h>
+#include <utility/option.h>
 
 #include "ctype_ops.h"
 #include "hashid_ops.h"
@@ -22,8 +26,6 @@
 #include "nspace_ops.h"
 #include "tok_ops.h"
 #include "type_ops.h"
-#include "error.h"
-#include "catalog.h"
 #include "access.h"
 #include "char.h"
 #include "class.h"
@@ -35,7 +37,6 @@
 #include "literal.h"
 #include "macro.h"
 #include "namespace.h"
-#include "option.h"
 #include "parse.h"
 #include "predict.h"
 #include "preproc.h"

@@ -13,9 +13,15 @@
 
 #include <shared/check.h>
 
-#include "config.h"
-#include "version.h"
+#include <utility/config.h>
+#include <utility/version.h>
 #include "c_types.h"
+
+#include <utility/error.h>
+#include <utility/catalog.h>
+#include <utility/buffer.h>
+#include <utility/ustring.h>
+#include <utility/xalloc.h>
 
 #include "ctype_ops.h"
 #include "exp_ops.h"
@@ -25,11 +31,8 @@
 #include "tok_ops.h"
 #include "type_ops.h"
 #include "virt_ops.h"
-#include "error.h"
-#include "catalog.h"
 #include "tdf.h"
 #include "basetype.h"
-#include "buffer.h"
 #include "capsule.h"
 #include "check.h"
 #include "class.h"
@@ -58,9 +61,7 @@
 #include "tok.h"
 #include "token.h"
 #include "throw.h"
-#include "ustring.h"
 #include "variable.h"
-#include "xalloc.h"
 
 
 /*

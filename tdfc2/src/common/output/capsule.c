@@ -14,18 +14,20 @@
 
 #include <shared/check.h>
 
-#include "config.h"
-#include "version.h"
+#include <utility/config.h>
+#include <utility/version.h>
 #include "c_types.h"
 
-#include "ustring.h"
-#include "system.h"
+#include <utility/ustring.h>
+#include <utility/system.h>
+#include <utility/error.h>
+#include <utility/catalog.h>
+#include <utility/xalloc.h>
+
 #include "hashid_ops.h"
 #include "id_ops.h"
 #include "off_ops.h"
 #include "type_ops.h"
-#include "error.h"
-#include "catalog.h"
 #include "tdf.h"
 #include "basetype.h"
 #include "capsule.h"
@@ -39,7 +41,6 @@
 #include "struct.h"
 #include "throw.h"
 #include "tok.h"
-#include "xalloc.h"
 
 
 /*

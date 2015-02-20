@@ -12,8 +12,10 @@
 
 #include <shared/check.h>
 
-#include "config.h"
+#include <utility/config.h>
 #include "c_types.h"
+
+#include <utility/error.h>
 
 #include "exp_ops.h"
 #include "id_ops.h"
@@ -21,7 +23,6 @@
 #include "nspace_ops.h"
 #include "off_ops.h"
 #include "type_ops.h"
-#include "error.h"
 #include "destroy.h"
 #include "exception.h"
 #include "macro.h"

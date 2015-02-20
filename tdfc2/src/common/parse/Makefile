@@ -14,7 +14,6 @@ CCOPTS+=	-I ../../common/construct
 CCOPTS+=	-I ../../common/obj_c
 CCOPTS+=	-I ../../common/output
 CCOPTS+=	-I ../../common
-CCOPTS+=	-I ../utility
 
 SRCS!=	ls -1 psyntax*.c
 

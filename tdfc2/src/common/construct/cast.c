@@ -11,8 +11,12 @@
 
 #include <shared/check.h>
 
-#include "config.h"
+#include <utility/config.h>
 #include "c_types.h"
+
+#include <utility/error.h>
+#include <utility/catalog.h>
+#include <utility/option.h>
 
 #include "ctype_ops.h"
 #include "err_ops.h"
@@ -24,9 +28,6 @@
 #include "nat_ops.h"
 #include "tok_ops.h"
 #include "type_ops.h"
-#include "error.h"
-#include "catalog.h"
-#include "option.h"
 #include "access.h"
 #include "basetype.h"
 #include "cast.h"

@@ -11,9 +11,16 @@
 
 #include <shared/check.h>
 
-#include "config.h"
-#include "version.h"
+#include <utility/config.h>
+#include <utility/version.h>
 #include "c_types.h"
+
+#include <utility/error.h>
+#include <utility/catalog.h>
+#include <utility/option.h>
+#include <utility/buffer.h>
+#include <utility/print.h>
+#include <utility/ustring.h>
 
 #include "ctype_ops.h"
 #include "etype_ops.h"
@@ -27,14 +34,10 @@
 #include "nspace_ops.h"
 #include "str_ops.h"
 #include "type_ops.h"
-#include "error.h"
-#include "catalog.h"
-#include "option.h"
 #include "tdf.h"
 #include "access.h"
 #include "assign.h"
 #include "basetype.h"
-#include "buffer.h"
 #include "cast.h"
 #include "check.h"
 #include "chktype.h"
@@ -61,14 +64,12 @@
 #include "overload.h"
 #include "parse.h"
 #include "predict.h"
-#include "print.h"
 #include "statement.h"
 #include "syntax.h"
 #include "template.h"
 #include "tok.h"
 #include "tokdef.h"
 #include "token.h"
-#include "ustring.h"
 
 
 /*

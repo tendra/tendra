@@ -11,8 +11,13 @@
 
 #include <shared/check.h>
 
-#include "config.h"
+#include <utility/config.h>
 #include "c_types.h"
+
+#include <utility/error.h>
+#include <utility/catalog.h>
+#include <utility/ustring.h>
+#include <utility/xalloc.h>
 
 #include "etype_ops.h"
 #include "exp_ops.h"
@@ -22,8 +27,6 @@
 #include "nat_ops.h"
 #include "str_ops.h"
 #include "type_ops.h"
-#include "error.h"
-#include "catalog.h"
 #include "basetype.h"
 #include "cast.h"
 #include "char.h"
@@ -37,8 +40,6 @@
 #include "syntax.h"
 #include "template.h"
 #include "tokdef.h"
-#include "ustring.h"
-#include "xalloc.h"
 
 
 /*

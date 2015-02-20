@@ -13,8 +13,13 @@
 
 #include <shared/check.h>
 
-#include "config.h"
+#include <utility/config.h>
 #include "c_types.h"
+
+#include <utility/error.h>
+#include <utility/option.h>
+#include <utility/ustring.h>
+#include <utility/xalloc.h>
 
 #include "ctype_ops.h"
 #include "etype_ops.h"
@@ -24,8 +29,6 @@
 #include "itype_ops.h"
 #include "member_ops.h"
 #include "type_ops.h"
-#include "error.h"
-#include "option.h"
 #include "basetype.h"
 #include "char.h"
 #include "chktype.h"
@@ -35,8 +38,6 @@
 #include "symbols.h"
 #include "syntax.h"
 #include "token.h"
-#include "ustring.h"
-#include "xalloc.h"
 
 
 /*

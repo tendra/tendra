@@ -17,14 +17,15 @@
 
 #include <shared/check.h>
 
-#include "config.h"
+#include <utility/config.h>
 #include "c_types.h"
 
-#include "system.h"
-#include "error.h"
+#include <utility/system.h>
+#include <utility/error.h>
+#include <utility/ustring.h>
+#include <utility/xalloc.h>
+
 #include "file.h"
-#include "ustring.h"
-#include "xalloc.h"
 
 
 /*

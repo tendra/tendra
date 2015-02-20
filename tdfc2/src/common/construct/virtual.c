@@ -11,8 +11,12 @@
 
 #include <shared/check.h>
 
-#include "config.h"
+#include <utility/config.h>
 #include "c_types.h"
+
+#include <utility/error.h>
+#include <utility/catalog.h>
+#include <utility/option.h>
 
 #include "ctype_ops.h"
 #include "graph_ops.h"
@@ -20,9 +24,6 @@
 #include "id_ops.h"
 #include "type_ops.h"
 #include "virt_ops.h"
-#include "error.h"
-#include "catalog.h"
-#include "option.h"
 #include "access.h"
 #include "capsule.h"
 #include "check.h"

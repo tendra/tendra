@@ -9,12 +9,13 @@
 
 #include <stdio.h>
 
-#include "config.h"
+#include <utility/config.h>
 #include "c_types.h"
 
+#include <utility/error.h>
+#include <utility/catalog.h>
+
 #include "exp_ops.h"
-#include "error.h"
-#include "catalog.h"
 #include "operator.h"
 #include "quality.h"
 #include "syntax.h"

@@ -11,7 +11,6 @@ CCOPTS+=	-I ../../common/construct
 CCOPTS+=	-I ../../common/obj_c
 CCOPTS+=	-I ../../common/parse
 CCOPTS+=	-I ../../common
-CCOPTS+=	-I ../utility
 
 SRCS+=	capsule.c
 SRCS+=	compile.c

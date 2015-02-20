@@ -13,19 +13,22 @@
 
 #include <shared/check.h>
 
-#include "config.h"
-#include "version.h"
+#include <utility/config.h>
+#include <utility/version.h>
 #include "c_types.h"
 
-#include "ustring.h"
-#include "system.h"
+#include <utility/ustring.h>
+#include <utility/system.h>
+#include <utility/error.h>
+#include <utility/catalog.h>
+#include <utility/option.h>
+#include <utility/buffer.h>
+#include <utility/print.h>
+#include <utility/xalloc.h>
+
 #include "hashid_ops.h"
 #include "id_ops.h"
 #include "nspace_ops.h"
-#include "error.h"
-#include "catalog.h"
-#include "option.h"
-#include "buffer.h"
 #include "char.h"
 #include "dump.h"
 #include "file.h"
@@ -36,10 +39,8 @@
 #include "namespace.h"
 #include "predict.h"
 #include "preproc.h"
-#include "print.h"
 #include "symbols.h"
 #include "syntax.h"
-#include "xalloc.h"
 
 
 /*

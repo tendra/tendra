@@ -11,14 +11,15 @@
 
 #include <shared/check.h>
 
-#include "config.h"
-#include "version.h"
+#include <utility/config.h>
+#include <utility/version.h>
 #include "c_types.h"
+
+#include <utility/error.h>
 
 #include "exp_ops.h"
 #include "hashid_ops.h"
 #include "id_ops.h"
-#include "error.h"
 #include "tdf.h"
 #include "basetype.h"
 #include "capsule.h"

@@ -11,16 +11,17 @@
 
 #include <shared/check.h>
 
-#include "config.h"
+#include <utility/config.h>
 #include "c_types.h"
+
+#include <utility/error.h>
+#include <utility/catalog.h>
 
 #include "exp_ops.h"
 #include "hashid_ops.h"
 #include "id_ops.h"
 #include "member_ops.h"
 #include "nspace_ops.h"
-#include "error.h"
-#include "catalog.h"
 #include "basetype.h"
 #include "dump.h"
 #include "function.h"

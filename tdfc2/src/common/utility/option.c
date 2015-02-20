@@ -13,16 +13,20 @@
 #include <stdarg.h>
 #include <stdio.h>
 
-#include "config.h"
+#include <utility/config.h>
 #include "c_types.h"
+
+#include <utility/error.h>
+#include <utility/catalog.h>
+#include <utility/option.h>
+#include <utility/ustring.h>
+#include <utility/xalloc.h>
 
 #include "err_ops.h"
 #include "exp_ops.h"
 #include "hashid_ops.h"
 #include "id_ops.h"
 #include "str_ops.h"
-#include "error.h"
-#include "catalog.h"
 #include "cast.h"
 #include "char.h"
 #include "constant.h"
@@ -34,13 +38,10 @@
 #include "lex.h"
 #include "literal.h"
 #include "namespace.h"
-#include "option.h"
 #include "predict.h"
 #include "preproc.h"
 #include "redeclare.h"
 #include "syntax.h"
-#include "ustring.h"
-#include "xalloc.h"
 
 
 /*
@@ -60,7 +61,7 @@
 #define OPT_VALUE_wall		1, { OPTION_ALLOW,    OPTION_WARN     }
 
 OPT_DATA OPT_CATALOG[] = {
-#include "opts.h"
+#include <utility/opts.h>
 	{ NULL, OPT_VALUE_off }
 };
 

@@ -13,15 +13,16 @@
 
 #include <shared/check.h>
 
-#include "config.h"
+#include <utility/config.h>
 #include "c_types.h"
 
-#include "ustring.h"
-#include "system.h"
+#include <utility/ustring.h>
+#include <utility/system.h>
+#include <utility/error.h>
+#include <utility/catalog.h>
+#include <utility/option.h>
+
 #include "hashid_ops.h"
-#include "error.h"
-#include "catalog.h"
-#include "option.h"
 #include "char.h"
 #include "file.h"
 #include "inttype.h"

@@ -11,7 +11,7 @@
 
 #include <shared/check.h>
 
-#include "config.h"
+#include <utility/config.h>
 #include "c_types.h"
 
 #include "id_ops.h"

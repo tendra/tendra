@@ -7,7 +7,6 @@ CCOPTS+=	-I ../../common/obj_c
 CCOPTS+=	-I ../../common/output
 CCOPTS+=	-I ../../common/parse
 CCOPTS+=	-I ../../common
-CCOPTS+=	-I ../utility
 
 SRCS+=	access.c
 SRCS+=	allocate.c

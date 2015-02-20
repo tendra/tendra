@@ -13,8 +13,16 @@
 
 #include <shared/check.h>
 
-#include "config.h"
+#include <utility/config.h>
 #include "c_types.h"
+
+#include <utility/error.h>
+#include <utility/catalog.h>
+#include <utility/buffer.h>
+#include <utility/debug.h>
+#include <utility/option.h>
+#include <utility/print.h>
+#include <utility/ustring.h>
 
 #include "exp_ops.h"
 #include "hashid_ops.h"
@@ -25,12 +33,8 @@
 #include "off_ops.h"
 #include "type_ops.h"
 #include "virt_ops.h"
-#include "error.h"
-#include "catalog.h"
-#include "buffer.h"
 #include "capsule.h"
 #include "char.h"
-#include "debug.h"
 #include "encode.h"
 #include "file.h"
 #include "hash.h"
@@ -38,11 +42,8 @@
 #include "lex.h"
 #include "mangle.h"
 #include "operator.h"
-#include "option.h"
-#include "print.h"
 #include "syntax.h"
 #include "unmangle.h"
-#include "ustring.h"
 #ifndef NDEBUG
 
 

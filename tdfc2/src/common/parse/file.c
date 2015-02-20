@@ -18,24 +18,25 @@
 
 #include <shared/check.h>
 
-#include "config.h"
+#include <utility/config.h>
 #include "c_types.h"
 
-#include "ustring.h"
-#include "system.h"
+#include <utility/ustring.h>
+#include <utility/system.h>
+#include <utility/error.h>
+#include <utility/catalog.h>
+#include <utility/option.h>
+#include <utility/buffer.h>
+#include <utility/xalloc.h>
+
 #include "loc_ext.h"
-#include "error.h"
-#include "catalog.h"
-#include "option.h"
 #include "file.h"
-#include "buffer.h"
 #include "char.h"
 #include "dump.h"
 #include "lex.h"
 #include "preproc.h"
 #include "syntax.h"
 #include "token.h"
-#include "xalloc.h"
 
 
 /*

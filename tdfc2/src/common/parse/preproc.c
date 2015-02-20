@@ -13,11 +13,18 @@
 
 #include <shared/check.h>
 
-#include "config.h"
+#include <utility/config.h>
 #include "c_types.h"
 
-#include "ustring.h"
-#include "system.h"
+#include <utility/ustring.h>
+#include <utility/system.h>
+#include <utility/error.h>
+#include <utility/catalog.h>
+#include <utility/option.h>
+#include <utility/buffer.h>
+#include <utility/print.h>
+#include <utility/xalloc.h>
+
 #include "exp_ops.h"
 #include "hashid_ops.h"
 #include "id_ops.h"
@@ -27,10 +34,6 @@
 #include "str_ops.h"
 #include "tok_ops.h"
 #include "type_ops.h"
-#include "error.h"
-#include "catalog.h"
-#include "option.h"
-#include "buffer.h"
 #include "char.h"
 #include "compile.h"
 #include "constant.h"
@@ -47,13 +50,11 @@
 #include "pragma.h"
 #include "predict.h"
 #include "preproc.h"
-#include "print.h"
 #include "statement.h"
 #include "symbols.h"
 #include "syntax.h"
 #include "tokdef.h"
 #include "token.h"
-#include "xalloc.h"
 
 
 /*

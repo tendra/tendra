@@ -14,19 +14,23 @@
 
 #include <shared/check.h>
 
-#include "config.h"
-#include "version.h"
+#include <utility/config.h>
+#include <utility/version.h>
 #include "c_types.h"
 
-#include "system.h"
-#include "error.h"
-#include "catalog.h"
+#include <utility/system.h>
+#include <utility/error.h>
+#include <utility/catalog.h>
+#include <utility/buffer.h>
+#include <utility/debug.h>
+#include <utility/option.h>
+#include <utility/ustring.h>
+#include <utility/xalloc.h>
+
 #include "basetype.h"
-#include "buffer.h"
 #include "capsule.h"
 #include "compile.h"
 #include "constant.h"
-#include "debug.h"
 #include "declare.h"
 #include "exception.h"
 #include "file.h"
@@ -41,7 +45,6 @@
 #include "macro.h"
 #include "namespace.h"
 #include "operator.h"
-#include "option.h"
 #include "overload.h"
 #include "parse.h"
 #include "predict.h"
@@ -56,9 +59,7 @@
 #include "tokdef.h"
 #include "typeid.h"
 #include "unmangle.h"
-#include "ustring.h"
 #include "variable.h"
-#include "xalloc.h"
 
 
 /**

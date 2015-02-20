@@ -12,9 +12,11 @@
 
 #include <shared/check.h>
 
-#include "config.h"
-#include "version.h"
+#include <utility/config.h>
+#include <utility/version.h>
 #include "c_types.h"
+
+#include <utility/error.h>
 
 #include "ctype_ops.h"
 #include "exp_ops.h"
@@ -24,7 +26,6 @@
 #include "nspace_ops.h"
 #include "off_ops.h"
 #include "type_ops.h"
-#include "error.h"
 #include "tdf.h"
 #include "allocate.h"
 #include "basetype.h"

@@ -11,9 +11,16 @@
 
 #include <shared/check.h>
 
-#include "config.h"
-#include "version.h"
+#include <utility/config.h>
+#include <utility/version.h>
 #include "c_types.h"
+
+#include <utility/error.h>
+#include <utility/catalog.h>
+#include <utility/buffer.h>
+#include <utility/print.h>
+#include <utility/ustring.h>
+#include <utility/xalloc.h>
 
 #include "ctype_ops.h"
 #include "exp_ops.h"
@@ -24,12 +31,9 @@
 #include "nspace_ops.h"
 #include "tok_ops.h"
 #include "type_ops.h"
-#include "error.h"
-#include "catalog.h"
 #include "tdf.h"
 #include "allocate.h"
 #include "basetype.h"
-#include "buffer.h"
 #include "char.h"
 #include "class.h"
 #include "constant.h"
@@ -44,11 +48,8 @@
 #include "literal.h"
 #include "mangle.h"
 #include "namespace.h"
-#include "print.h"
 #include "syntax.h"
 #include "unmangle.h"
-#include "ustring.h"
-#include "xalloc.h"
 
 
 /*

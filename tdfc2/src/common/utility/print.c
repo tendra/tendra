@@ -14,11 +14,16 @@
 
 #include <shared/check.h>
 
-#include "config.h"
+#include <utility/config.h>
 #include "c_types.h"
 
-#include "ustring.h"
-#include "system.h"
+#include <utility/ustring.h>
+#include <utility/system.h>
+#include <utility/error.h>
+#include <utility/buffer.h>
+#include <utility/debug.h>
+#include <utility/print.h>
+
 #include "ctype_ops.h"
 #include "etype_ops.h"
 #include "exp_ops.h"
@@ -35,14 +40,11 @@
 #include "str_ops.h"
 #include "tok_ops.h"
 #include "type_ops.h"
-#include "error.h"
 #include "basetype.h"
-#include "buffer.h"
 #include "char.h"
 #include "class.h"
 #include "constant.h"
 #include "convert.h"
-#include "debug.h"
 #include "exception.h"
 #include "file.h"
 #include "function.h"
@@ -50,7 +52,6 @@
 #include "label.h"
 #include "lex.h"
 #include "literal.h"
-#include "print.h"
 #include "redeclare.h"
 #include "symbols.h"
 #include "syntax.h"
