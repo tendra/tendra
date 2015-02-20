@@ -10,7 +10,7 @@ ${OBJ_SDIR}:
 	${MKDIR} -p ${.TARGET}
 
 
-PART_CFLAGS+=	-I ${BASE_DIR}/src/c/syntax
+PART_CFLAGS+=	-I ${BASE_DIR}/src/c
 
 PARTS+=	src/common/construct
 PARTS+=	src/common/utility

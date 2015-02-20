@@ -24,6 +24,8 @@
 #include <utility/print.h>
 #include <utility/ustring.h>
 
+#include <syntax/syntax.h>
+
 #include <parse/char.h>
 #include <parse/file.h>
 #include <parse/hash.h>
@@ -46,7 +48,7 @@
 #include "off_ops.h"
 #include "type_ops.h"
 #include "virt_ops.h"
-#include "syntax.h"
+
 #ifndef NDEBUG
 
 

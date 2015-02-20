@@ -12,7 +12,7 @@
 #define CONFIG_INCLUDED
 
 
-#include "language.h"
+#include <syntax/language.h>
 
 
 /*

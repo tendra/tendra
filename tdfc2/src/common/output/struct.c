@@ -19,6 +19,8 @@
 #include <utility/buffer.h>
 #include <utility/print.h>
 
+#include <syntax/syntax.h>
+
 #include <parse/constant.h>
 #include <parse/hash.h>
 
@@ -60,7 +62,6 @@
 #include "off_ops.h"
 #include "type_ops.h"
 #include "virt_ops.h"
-#include "syntax.h"
 
 
 /*

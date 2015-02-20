@@ -14,6 +14,8 @@
 #include <utility/config.h>
 #include "c_types.h"
 
+#include <syntax/syntax.h>
+
 #include <parse/parse.h>
 #include <parse/predict.h>
 
@@ -21,7 +23,6 @@
 
 #include "id_ops.h"
 #include "type_ops.h"
-#include "syntax.h"
 
 
 /*

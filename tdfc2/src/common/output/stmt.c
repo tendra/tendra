@@ -17,6 +17,8 @@
 
 #include <utility/error.h>
 
+#include <syntax/syntax.h>
+
 #include <construct/basetype.h>
 #include <construct/check.h>
 #include <construct/destroy.h>
@@ -39,7 +41,6 @@
 #include "exp_ops.h"
 #include "hashid_ops.h"
 #include "id_ops.h"
-#include "syntax.h"
 
 
 /*

@@ -29,6 +29,8 @@
 #include <utility/buffer.h>
 #include <utility/xalloc.h>
 
+#include <syntax/syntax.h>
+
 #include <parse/file.h>
 #include <parse/char.h>
 #include <parse/lex.h>
@@ -39,7 +41,6 @@
 #include <output/dump.h>
 
 #include "loc_ext.h"
-#include "syntax.h"
 
 
 /*

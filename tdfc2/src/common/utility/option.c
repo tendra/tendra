@@ -22,6 +22,8 @@
 #include <utility/ustring.h>
 #include <utility/xalloc.h>
 
+#include <syntax/syntax.h>
+
 #include <parse/char.h>
 #include <parse/constant.h>
 #include <parse/file.h>
@@ -43,7 +45,6 @@
 #include "hashid_ops.h"
 #include "id_ops.h"
 #include "str_ops.h"
-#include "syntax.h"
 
 
 /*

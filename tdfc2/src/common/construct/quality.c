@@ -15,11 +15,12 @@
 #include <utility/error.h>
 #include <utility/catalog.h>
 
+#include <syntax/syntax.h>
+
 #include <construct/operator.h>
 #include <construct/quality.h>
 
 #include "exp_ops.h"
-#include "syntax.h"
 
 
 /*

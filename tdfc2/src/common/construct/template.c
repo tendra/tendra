@@ -20,6 +20,8 @@
 #include <utility/option.h>
 #include <utility/ustring.h>
 
+#include <syntax/syntax.h>
+
 #include <parse/hash.h>
 #include <parse/macro.h>
 #include <parse/parse.h>
@@ -60,7 +62,6 @@
 #include "off_ops.h"
 #include "tok_ops.h"
 #include "type_ops.h"
-#include "syntax.h"
 
 
 /*

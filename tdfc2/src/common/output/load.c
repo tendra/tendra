@@ -28,6 +28,8 @@
 #include <utility/buffer.h>
 #include <utility/xalloc.h>
 
+#include <syntax/syntax.h>
+
 #include <parse/char.h>
 #include <parse/constant.h>
 #include <parse/file.h>
@@ -70,7 +72,6 @@
 #include "tok_ops.h"
 #include "type_ops.h"
 #include "bits.h"
-#include "syntax.h"
 
 
 /*

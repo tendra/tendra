@@ -17,6 +17,8 @@
 #include <utility/error.h>
 #include <utility/catalog.h>
 
+#include <syntax/syntax.h>
+
 #include <parse/constant.h>
 #include <parse/hash.h>
 #include <parse/parse.h>
@@ -52,7 +54,6 @@
 #include "nspace_ops.h"
 #include "off_ops.h"
 #include "type_ops.h"
-#include "syntax.h"
 
 
 /*

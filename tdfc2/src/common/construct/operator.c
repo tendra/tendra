@@ -17,6 +17,8 @@
 #include <utility/error.h>
 #include <utility/catalog.h>
 
+#include <syntax/syntax.h>
+
 #include <parse/constant.h>
 #include <parse/hash.h>
 
@@ -56,7 +58,6 @@
 #include "member_ops.h"
 #include "nat_ops.h"
 #include "type_ops.h"
-#include "syntax.h"
 
 
 /*

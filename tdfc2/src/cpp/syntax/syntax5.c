@@ -91,7 +91,7 @@ typedef LIST ( TYPE ) SID_LIST_TYPE ;
     type definitions are in scope.
 */
 
-#include "syntax.h"
+#include <syntax/syntax.h>
 
 
 #line 98 "syntax5.c"

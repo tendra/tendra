@@ -25,6 +25,8 @@
 #include <utility/print.h>
 #include <utility/xalloc.h>
 
+#include <syntax/syntax.h>
+
 #include <parse/char.h>
 #include <parse/constant.h>
 #include <parse/file.h>
@@ -57,7 +59,6 @@
 #include "str_ops.h"
 #include "tok_ops.h"
 #include "type_ops.h"
-#include "syntax.h"
 
 
 /*

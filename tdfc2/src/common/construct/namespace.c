@@ -20,6 +20,8 @@
 #include <utility/print.h>
 #include <utility/ustring.h>
 
+#include <syntax/syntax.h>
+
 #include <parse/hash.h>
 #include <parse/parse.h>
 #include <parse/predict.h>
@@ -45,7 +47,6 @@
 #include "member_ops.h"
 #include "nspace_ops.h"
 #include "type_ops.h"
-#include "syntax.h"
 
 
 /*

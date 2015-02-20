@@ -17,6 +17,8 @@
 #include <utility/error.h>
 #include <utility/catalog.h>
 
+#include <syntax/syntax.h>
+
 #include <parse/hash.h>
 
 #include <construct/basetype.h>
@@ -32,7 +34,6 @@
 #include "id_ops.h"
 #include "member_ops.h"
 #include "nspace_ops.h"
-#include "syntax.h"
 
 
 /*

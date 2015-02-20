@@ -19,6 +19,8 @@
 #include <utility/error.h>
 #include <utility/ustring.h>
 
+#include <syntax/syntax.h>
+
 #include <parse/constant.h>
 #include <parse/literal.h>
 
@@ -60,7 +62,6 @@
 #include "str_ops.h"
 #include "type_ops.h"
 #include "virt_ops.h"
-#include "syntax.h"
 
 
 /*

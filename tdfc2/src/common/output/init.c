@@ -18,6 +18,8 @@
 
 #include <utility/error.h>
 
+#include <syntax/syntax.h>
+
 #include <parse/constant.h>
 
 #include <construct/allocate.h>
@@ -51,7 +53,6 @@
 #include "nspace_ops.h"
 #include "off_ops.h"
 #include "type_ops.h"
-#include "syntax.h"
 
 
 /*

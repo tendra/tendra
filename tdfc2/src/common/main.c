@@ -27,6 +27,8 @@
 #include <utility/ustring.h>
 #include <utility/xalloc.h>
 
+#include <syntax/syntax.h>
+
 #include <parse/constant.h>
 #include <parse/file.h>
 #include <parse/hash.h>
@@ -61,8 +63,6 @@
 #include <output/load.h>
 #include <output/tok.h>
 #include <output/unmangle.h>
-
-#include "syntax.h"
 
 
 /**

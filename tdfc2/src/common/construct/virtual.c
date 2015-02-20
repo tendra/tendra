@@ -18,6 +18,8 @@
 #include <utility/catalog.h>
 #include <utility/option.h>
 
+#include <syntax/syntax.h>
+
 #include <output/capsule.h>
 #include <output/dump.h>
 
@@ -38,7 +40,6 @@
 #include "id_ops.h"
 #include "type_ops.h"
 #include "virt_ops.h"
-#include "syntax.h"
 
 
 /*

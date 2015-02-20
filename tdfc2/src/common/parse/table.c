@@ -22,6 +22,8 @@
 #include <utility/catalog.h>
 #include <utility/option.h>
 
+#include <syntax/syntax.h>
+
 #include <parse/char.h>
 #include <parse/file.h>
 #include <parse/lex.h>
@@ -33,7 +35,6 @@
 #include <construct/inttype.h>
 
 #include "hashid_ops.h"
-#include "syntax.h"
 
 
 /*

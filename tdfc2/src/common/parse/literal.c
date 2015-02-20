@@ -23,6 +23,8 @@
 #include <utility/ustring.h>
 #include <utility/xalloc.h>
 
+#include <syntax/syntax.h>
+
 #include <parse/charset.h>
 #include <parse/char.h>
 #include <parse/constant.h>
@@ -50,7 +52,6 @@
 #include "nat_ops.h"
 #include "str_ops.h"
 #include "type_ops.h"
-#include "syntax.h"
 
 
 /*

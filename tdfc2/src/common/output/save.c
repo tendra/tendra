@@ -22,6 +22,8 @@
 #include <utility/error.h>
 #include <utility/catalog.h>
 
+#include <syntax/syntax.h>
+
 #include <parse/char.h>
 #include <parse/file.h>
 
@@ -49,7 +51,6 @@
 #include "tok_ops.h"
 #include "type_ops.h"
 #include "bits.h"
-#include "syntax.h"
 
 
 /*

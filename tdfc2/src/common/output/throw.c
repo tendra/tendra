@@ -18,6 +18,8 @@
 #include <utility/error.h>
 #include <utility/ustring.h>
 
+#include <syntax/syntax.h>
+
 #include <construct/allocate.h>
 #include <construct/basetype.h>
 #include <construct/chktype.h>
@@ -42,7 +44,6 @@
 
 #include "exp_ops.h"
 #include "type_ops.h"
-#include "syntax.h"
 
 
 /*

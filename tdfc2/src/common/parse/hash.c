@@ -21,6 +21,8 @@
 #include <utility/ustring.h>
 #include <utility/xalloc.h>
 
+#include <syntax/syntax.h>
+
 #include <parse/char.h>
 #include <parse/hash.h>
 #include <parse/lex.h>
@@ -39,7 +41,6 @@
 #include "itype_ops.h"
 #include "member_ops.h"
 #include "type_ops.h"
-#include "syntax.h"
 
 
 /*

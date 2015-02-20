@@ -88,7 +88,7 @@ typedef LIST ( EXP ) SID_LIST_EXP ;
     type definitions are in scope.
 */
 
-#include "syntax.h"
+#include <syntax/syntax.h>
 
 
 #line 95 "syntax2.c"

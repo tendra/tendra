@@ -26,6 +26,8 @@
 #include <utility/print.h>
 #include <utility/xalloc.h>
 
+#include <syntax/syntax.h>
+
 #include <parse/char.h>
 #include <parse/file.h>
 #include <parse/hash.h>
@@ -43,7 +45,6 @@
 #include "hashid_ops.h"
 #include "id_ops.h"
 #include "nspace_ops.h"
-#include "syntax.h"
 
 
 /*

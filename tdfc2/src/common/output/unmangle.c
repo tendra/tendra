@@ -22,6 +22,8 @@
 #include <utility/ustring.h>
 #include <utility/xalloc.h>
 
+#include <syntax/syntax.h>
+
 #include <parse/char.h>
 #include <parse/constant.h>
 #include <parse/hash.h>
@@ -52,7 +54,6 @@
 #include "nspace_ops.h"
 #include "tok_ops.h"
 #include "type_ops.h"
-#include "syntax.h"
 
 
 /*

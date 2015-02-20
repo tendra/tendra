@@ -55,7 +55,7 @@
 */
 
 #ifndef NDEBUG
-#include "syntax.h"
+#include <syntax/syntax.h>
 #endif
 
 

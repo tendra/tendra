@@ -18,6 +18,8 @@
 #include <utility/catalog.h>
 #include <utility/option.h>
 
+#include <syntax/syntax.h>
+
 #include <parse/constant.h>
 #include <parse/file.h>
 #include <parse/hash.h>
@@ -53,7 +55,6 @@
 #include "nspace_ops.h"
 #include "tok_ops.h"
 #include "type_ops.h"
-#include "syntax.h"
 
 
 /*

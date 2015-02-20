@@ -22,6 +22,8 @@
 #include <utility/buffer.h>
 #include <utility/print.h>
 
+#include <syntax/syntax.h>
+
 #include <parse/constant.h>
 #include <parse/file.h>
 #include <parse/hash.h>
@@ -65,7 +67,7 @@
 #include "tok_ops.h"
 #include "type_ops.h"
 #include "virt_ops.h"
-#include "syntax.h"
+
 #if TDF_DIAG4
 
 

@@ -18,6 +18,8 @@
 #include <utility/catalog.h>
 #include <utility/ustring.h>
 
+#include <syntax/syntax.h>
+
 #include <parse/literal.h>
 #include <parse/predict.h>
 
@@ -37,7 +39,6 @@
 #include "id_ops.h"
 #include "off_ops.h"
 #include "type_ops.h"
-#include "syntax.h"
 
 
 /*
