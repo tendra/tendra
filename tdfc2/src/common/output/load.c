@@ -36,6 +36,19 @@
 #include <parse/literal.h>
 #include <parse/symbols.h>
 
+#include <construct/basetype.h>
+#include <construct/chktype.h>
+#include <construct/class.h>
+#include <construct/convert.h>
+#include <construct/derive.h>
+#include <construct/exception.h>
+#include <construct/function.h>
+#include <construct/inttype.h>
+#include <construct/merge.h>
+#include <construct/namespace.h>
+#include <construct/redeclare.h>
+#include <construct/token.h>
+
 #include <output/decode.h>
 #include <output/dump.h>
 #include <output/encode.h>
@@ -56,20 +69,8 @@
 #include "off_ops.h"
 #include "tok_ops.h"
 #include "type_ops.h"
-#include "basetype.h"
 #include "bits.h"
-#include "chktype.h"
-#include "class.h"
-#include "convert.h"
-#include "derive.h"
-#include "exception.h"
-#include "function.h"
-#include "inttype.h"
-#include "merge.h"
-#include "namespace.h"
-#include "redeclare.h"
 #include "syntax.h"
-#include "token.h"
 
 
 /*

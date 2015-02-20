@@ -17,9 +17,10 @@
 #include <parse/parse.h>
 #include <parse/predict.h>
 
+#include <construct/namespace.h>
+
 #include "id_ops.h"
 #include "type_ops.h"
-#include "namespace.h"
 #include "syntax.h"
 
 

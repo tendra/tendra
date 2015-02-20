@@ -24,6 +24,17 @@
 #include <parse/predict.h>
 #include <parse/preproc.h>
 
+#include <construct/basetype.h>
+#include <construct/class.h>
+#include <construct/convert.h>
+#include <construct/chktype.h>
+#include <construct/function.h>
+#include <construct/identifier.h>
+#include <construct/inttype.h>
+#include <construct/redeclare.h>
+#include <construct/template.h>
+#include <construct/token.h>
+
 #include "exp_ops.h"
 #include "ftype_ops.h"
 #include "id_ops.h"
@@ -31,17 +42,7 @@
 #include "nat_ops.h"
 #include "tok_ops.h"
 #include "type_ops.h"
-#include "basetype.h"
-#include "class.h"
-#include "convert.h"
-#include "chktype.h"
-#include "function.h"
-#include "identifier.h"
-#include "inttype.h"
-#include "redeclare.h"
 #include "syntax.h"
-#include "template.h"
-#include "token.h"
 
 
 /*

@@ -20,6 +20,16 @@
 
 #include <parse/constant.h>
 
+#include <construct/allocate.h>
+#include <construct/basetype.h>
+#include <construct/check.h>
+#include <construct/chktype.h>
+#include <construct/copy.h>
+#include <construct/destroy.h>
+#include <construct/initialise.h>
+#include <construct/member.h>
+#include <construct/statement.h>
+
 #include <output/tdf.h>
 #include <output/capsule.h>
 #include <output/compile.h>
@@ -41,15 +51,6 @@
 #include "nspace_ops.h"
 #include "off_ops.h"
 #include "type_ops.h"
-#include "allocate.h"
-#include "basetype.h"
-#include "check.h"
-#include "chktype.h"
-#include "copy.h"
-#include "destroy.h"
-#include "initialise.h"
-#include "member.h"
-#include "statement.h"
 #include "syntax.h"
 
 

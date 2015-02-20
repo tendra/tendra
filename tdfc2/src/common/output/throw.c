@@ -18,6 +18,15 @@
 #include <utility/error.h>
 #include <utility/ustring.h>
 
+#include <construct/allocate.h>
+#include <construct/basetype.h>
+#include <construct/chktype.h>
+#include <construct/destroy.h>
+#include <construct/exception.h>
+#include <construct/inttype.h>
+#include <construct/statement.h>
+#include <construct/typeid.h>
+
 #include <output/tdf.h>
 #include <output/capsule.h>
 #include <output/compile.h>
@@ -33,15 +42,7 @@
 
 #include "exp_ops.h"
 #include "type_ops.h"
-#include "allocate.h"
-#include "basetype.h"
-#include "chktype.h"
-#include "destroy.h"
-#include "exception.h"
-#include "inttype.h"
-#include "statement.h"
 #include "syntax.h"
-#include "typeid.h"
 
 
 /*

@@ -30,6 +30,15 @@
 #include <parse/preproc.h>
 #include <parse/symbols.h>
 
+#include <construct/access.h>
+#include <construct/class.h>
+#include <construct/derive.h>
+#include <construct/identifier.h>
+#include <construct/namespace.h>
+#include <construct/redeclare.h>
+#include <construct/template.h>
+#include <construct/tokdef.h>
+
 #include "ctype_ops.h"
 #include "hashid_ops.h"
 #include "id_ops.h"
@@ -37,15 +46,7 @@
 #include "nspace_ops.h"
 #include "tok_ops.h"
 #include "type_ops.h"
-#include "access.h"
-#include "class.h"
-#include "derive.h"
-#include "identifier.h"
-#include "namespace.h"
-#include "redeclare.h"
 #include "syntax.h"
-#include "template.h"
-#include "tokdef.h"
 
 
 /*

@@ -31,17 +31,18 @@
 #include <parse/predict.h>
 #include <parse/preproc.h>
 
+#include <construct/cast.h>
+#include <construct/declare.h>
+#include <construct/instance.h>
+#include <construct/inttype.h>
+#include <construct/namespace.h>
+#include <construct/redeclare.h>
+
 #include "err_ops.h"
 #include "exp_ops.h"
 #include "hashid_ops.h"
 #include "id_ops.h"
 #include "str_ops.h"
-#include "cast.h"
-#include "declare.h"
-#include "instance.h"
-#include "inttype.h"
-#include "namespace.h"
-#include "redeclare.h"
 #include "syntax.h"
 
 

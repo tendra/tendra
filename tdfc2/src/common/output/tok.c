@@ -24,6 +24,11 @@
 #include <parse/hash.h>
 #include <parse/preproc.h>
 
+#include <construct/basetype.h>
+#include <construct/namespace.h>
+#include <construct/statement.h>
+#include <construct/token.h>
+
 #include <output/tdf.h>
 #include <output/capsule.h>
 #include <output/compile.h>
@@ -43,11 +48,7 @@
 #include "str_ops.h"
 #include "tok_ops.h"
 #include "type_ops.h"
-#include "basetype.h"
-#include "namespace.h"
-#include "statement.h"
 #include "syntax.h"
-#include "token.h"
 
 
 /*

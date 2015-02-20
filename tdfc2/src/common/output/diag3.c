@@ -24,6 +24,11 @@
 
 #include <parse/constant.h>
 
+#include <construct/basetype.h>
+#include <construct/expression.h>
+#include <construct/function.h>
+#include <construct/initialise.h>
+
 #include <output/tdf.h>
 #include <output/capsule.h>
 #include <output/compile.h>
@@ -50,10 +55,6 @@
 #include "tok_ops.h"
 #include "type_ops.h"
 #include "virt_ops.h"
-#include "basetype.h"
-#include "expression.h"
-#include "function.h"
-#include "initialise.h"
 
 
 /*

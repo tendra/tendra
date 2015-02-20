@@ -17,6 +17,12 @@
 
 #include <utility/error.h>
 
+#include <construct/basetype.h>
+#include <construct/check.h>
+#include <construct/destroy.h>
+#include <construct/redeclare.h>
+#include <construct/statement.h>
+
 #include <output/tdf.h>
 #include <output/capsule.h>
 #include <output/compile.h>
@@ -33,11 +39,6 @@
 #include "exp_ops.h"
 #include "hashid_ops.h"
 #include "id_ops.h"
-#include "basetype.h"
-#include "check.h"
-#include "destroy.h"
-#include "redeclare.h"
-#include "statement.h"
 #include "syntax.h"
 
 

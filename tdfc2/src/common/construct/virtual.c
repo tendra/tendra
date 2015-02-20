@@ -21,23 +21,24 @@
 #include <output/capsule.h>
 #include <output/dump.h>
 
+#include <construct/access.h>
+#include <construct/check.h>
+#include <construct/chktype.h>
+#include <construct/derive.h>
+#include <construct/exception.h>
+#include <construct/function.h>
+#include <construct/namespace.h>
+#include <construct/overload.h>
+#include <construct/template.h>
+#include <construct/virtual.h>
+
 #include "ctype_ops.h"
 #include "graph_ops.h"
 #include "hashid_ops.h"
 #include "id_ops.h"
 #include "type_ops.h"
 #include "virt_ops.h"
-#include "access.h"
-#include "check.h"
-#include "chktype.h"
-#include "derive.h"
-#include "exception.h"
-#include "function.h"
-#include "namespace.h"
-#include "overload.h"
 #include "syntax.h"
-#include "template.h"
-#include "virtual.h"
 
 
 /*

@@ -31,6 +31,15 @@
 #include <parse/literal.h>
 #include <parse/preproc.h>
 
+#include <construct/basetype.h>
+#include <construct/cast.h>
+#include <construct/chktype.h>
+#include <construct/convert.h>
+#include <construct/exception.h>
+#include <construct/expression.h>
+#include <construct/inttype.h>
+#include <construct/token.h>
+
 #include <output/dump.h>
 #include <output/tok.h>
 
@@ -41,15 +50,7 @@
 #include "nat_ops.h"
 #include "str_ops.h"
 #include "type_ops.h"
-#include "basetype.h"
-#include "cast.h"
-#include "chktype.h"
-#include "convert.h"
-#include "exception.h"
-#include "expression.h"
-#include "inttype.h"
 #include "syntax.h"
-#include "token.h"
 
 
 /*

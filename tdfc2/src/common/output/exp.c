@@ -22,6 +22,21 @@
 #include <parse/constant.h>
 #include <parse/literal.h>
 
+#include <construct/assign.h>
+#include <construct/basetype.h>
+#include <construct/check.h>
+#include <construct/class.h>
+#include <construct/convert.h>
+#include <construct/derive.h>
+#include <construct/destroy.h>
+#include <construct/expression.h>
+#include <construct/function.h>
+#include <construct/identifier.h>
+#include <construct/member.h>
+#include <construct/redeclare.h>
+#include <construct/statement.h>
+#include <construct/virtual.h>
+
 #include <output/tdf.h>
 #include <output/capsule.h>
 #include <output/compile.h>
@@ -45,21 +60,7 @@
 #include "str_ops.h"
 #include "type_ops.h"
 #include "virt_ops.h"
-#include "assign.h"
-#include "basetype.h"
-#include "check.h"
-#include "class.h"
-#include "convert.h"
-#include "derive.h"
-#include "destroy.h"
-#include "expression.h"
-#include "function.h"
-#include "identifier.h"
-#include "member.h"
-#include "redeclare.h"
-#include "statement.h"
 #include "syntax.h"
-#include "virtual.h"
 
 
 /*

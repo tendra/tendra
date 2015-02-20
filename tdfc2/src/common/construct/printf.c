@@ -23,14 +23,15 @@
 #include <parse/char.h>
 #include <parse/literal.h>
 
+#include <construct/basetype.h>
+#include <construct/chktype.h>
+#include <construct/convert.h>
+#include <construct/printf.h>
+#include <construct/typeid.h>
+
 #include "id_ops.h"
 #include "str_ops.h"
 #include "type_ops.h"
-#include "basetype.h"
-#include "chktype.h"
-#include "convert.h"
-#include "printf.h"
-#include "typeid.h"
 
 
 /*

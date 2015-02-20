@@ -32,6 +32,15 @@
 #include <parse/literal.h>
 #include <parse/symbols.h>
 
+#include <construct/basetype.h>
+#include <construct/class.h>
+#include <construct/convert.h>
+#include <construct/exception.h>
+#include <construct/function.h>
+#include <construct/label.h>
+#include <construct/redeclare.h>
+#include <construct/token.h>
+
 #include <output/tok.h>
 
 #include "ctype_ops.h"
@@ -50,15 +59,7 @@
 #include "str_ops.h"
 #include "tok_ops.h"
 #include "type_ops.h"
-#include "basetype.h"
-#include "class.h"
-#include "convert.h"
-#include "exception.h"
-#include "function.h"
-#include "label.h"
-#include "redeclare.h"
 #include "syntax.h"
-#include "token.h"
 
 
 /*

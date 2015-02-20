@@ -26,6 +26,23 @@
 #include <parse/constant.h>
 #include <parse/file.h>
 
+#include <construct/basetype.h>
+#include <construct/check.h>
+#include <construct/class.h>
+#include <construct/construct.h>
+#include <construct/convert.h>
+#include <construct/copy.h>
+#include <construct/destroy.h>
+#include <construct/exception.h>
+#include <construct/function.h>
+#include <construct/identifier.h>
+#include <construct/initialise.h>
+#include <construct/namespace.h>
+#include <construct/redeclare.h>
+#include <construct/statement.h>
+#include <construct/token.h>
+#include <construct/variable.h>
+
 #include <output/tdf.h>
 #include <output/capsule.h>
 #include <output/compile.h>
@@ -48,22 +65,6 @@
 #include "tok_ops.h"
 #include "type_ops.h"
 #include "virt_ops.h"
-#include "basetype.h"
-#include "check.h"
-#include "class.h"
-#include "construct.h"
-#include "convert.h"
-#include "copy.h"
-#include "destroy.h"
-#include "exception.h"
-#include "function.h"
-#include "identifier.h"
-#include "initialise.h"
-#include "namespace.h"
-#include "redeclare.h"
-#include "statement.h"
-#include "token.h"
-#include "variable.h"
 
 
 /*

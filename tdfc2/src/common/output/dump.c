@@ -33,6 +33,13 @@
 #include <parse/literal.h>
 #include <parse/macro.h>
 
+#include <construct/basetype.h>
+#include <construct/convert.h>
+#include <construct/exception.h>
+#include <construct/function.h>
+#include <construct/statement.h>
+#include <construct/token.h>
+
 #include <output/dump.h>
 #include <output/mangle.h>
 
@@ -49,12 +56,6 @@
 #include "nspace_ops.h"
 #include "tok_ops.h"
 #include "type_ops.h"
-#include "basetype.h"
-#include "convert.h"
-#include "exception.h"
-#include "function.h"
-#include "statement.h"
-#include "token.h"
 
 
 /*

@@ -34,11 +34,12 @@
 #include <parse/lex.h>
 #include <parse/preproc.h>
 
+#include <construct/token.h>
+
 #include <output/dump.h>
 
 #include "loc_ext.h"
 #include "syntax.h"
-#include "token.h"
 
 
 /*

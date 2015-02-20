@@ -24,6 +24,14 @@
 #include <parse/constant.h>
 #include <parse/literal.h>
 
+#include <construct/basetype.h>
+#include <construct/check.h>
+#include <construct/chktype.h>
+#include <construct/convert.h>
+#include <construct/copy.h>
+#include <construct/derive.h>
+#include <construct/inttype.h>
+
 #include <output/tdf.h>
 #include <output/capsule.h>
 #include <output/compile.h>
@@ -48,13 +56,6 @@
 #include "off_ops.h"
 #include "str_ops.h"
 #include "type_ops.h"
-#include "basetype.h"
-#include "check.h"
-#include "chktype.h"
-#include "convert.h"
-#include "copy.h"
-#include "derive.h"
-#include "inttype.h"
 
 
 /*

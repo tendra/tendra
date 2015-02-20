@@ -15,9 +15,10 @@
 #include <utility/error.h>
 #include <utility/catalog.h>
 
+#include <construct/operator.h>
+#include <construct/quality.h>
+
 #include "exp_ops.h"
-#include "operator.h"
-#include "quality.h"
 #include "syntax.h"
 
 

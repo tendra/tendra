@@ -28,6 +28,8 @@
 #include <parse/file.h>
 #include <parse/hash.h>
 
+#include <construct/basetype.h>
+
 #include <output/tdf.h>
 #include <output/capsule.h>
 #include <output/compile.h>
@@ -42,7 +44,6 @@
 #include "id_ops.h"
 #include "off_ops.h"
 #include "type_ops.h"
-#include "basetype.h"
 
 
 /*

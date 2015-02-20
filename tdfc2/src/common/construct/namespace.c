@@ -24,6 +24,18 @@
 #include <parse/parse.h>
 #include <parse/predict.h>
 
+#include <construct/access.h>
+#include <construct/class.h>
+#include <construct/declare.h>
+#include <construct/derive.h>
+#include <construct/identifier.h>
+#include <construct/instance.h>
+#include <construct/label.h>
+#include <construct/namespace.h>
+#include <construct/redeclare.h>
+#include <construct/tokdef.h>
+#include <construct/variable.h>
+
 #include <output/dump.h>
 
 #include "ctype_ops.h"
@@ -33,18 +45,7 @@
 #include "member_ops.h"
 #include "nspace_ops.h"
 #include "type_ops.h"
-#include "access.h"
-#include "class.h"
-#include "declare.h"
-#include "derive.h"
-#include "identifier.h"
-#include "instance.h"
-#include "label.h"
-#include "namespace.h"
-#include "redeclare.h"
 #include "syntax.h"
-#include "tokdef.h"
-#include "variable.h"
 
 
 /*

@@ -19,6 +19,19 @@
 #include <utility/catalog.h>
 #include <utility/option.h>
 
+#include <construct/access.h>
+#include <construct/check.h>
+#include <construct/chktype.h>
+#include <construct/class.h>
+#include <construct/derive.h>
+#include <construct/identifier.h>
+#include <construct/instance.h>
+#include <construct/namespace.h>
+#include <construct/redeclare.h>
+#include <construct/template.h>
+#include <construct/token.h>
+#include <construct/virtual.h>
+
 #include <output/dump.h>
 
 #include "ctype_ops.h"
@@ -32,19 +45,7 @@
 #include "off_ops.h"
 #include "tok_ops.h"
 #include "type_ops.h"
-#include "access.h"
-#include "check.h"
-#include "chktype.h"
-#include "class.h"
-#include "derive.h"
-#include "identifier.h"
-#include "instance.h"
-#include "namespace.h"
-#include "redeclare.h"
 #include "syntax.h"
-#include "template.h"
-#include "token.h"
-#include "virtual.h"
 
 
 /*

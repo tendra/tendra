@@ -24,6 +24,29 @@
 #include <parse/predict.h>
 #include <parse/preproc.h>
 
+#include <construct/access.h>
+#include <construct/allocate.h>
+#include <construct/basetype.h>
+#include <construct/chktype.h>
+#include <construct/class.h>
+#include <construct/construct.h>
+#include <construct/declare.h>
+#include <construct/derive.h>
+#include <construct/exception.h>
+#include <construct/function.h>
+#include <construct/identifier.h>
+#include <construct/initialise.h>
+#include <construct/instance.h>
+#include <construct/inttype.h>
+#include <construct/namespace.h>
+#include <construct/operator.h>
+#include <construct/overload.h>
+#include <construct/redeclare.h>
+#include <construct/template.h>
+#include <construct/tokdef.h>
+#include <construct/token.h>
+#include <construct/virtual.h>
+
 #include <output/capsule.h>
 #include <output/compile.h>
 #include <output/dump.h>
@@ -36,29 +59,7 @@
 #include "nspace_ops.h"
 #include "off_ops.h"
 #include "type_ops.h"
-#include "access.h"
-#include "allocate.h"
-#include "basetype.h"
-#include "chktype.h"
-#include "class.h"
-#include "construct.h"
-#include "declare.h"
-#include "derive.h"
-#include "exception.h"
-#include "function.h"
-#include "identifier.h"
-#include "initialise.h"
-#include "instance.h"
-#include "inttype.h"
-#include "namespace.h"
-#include "operator.h"
-#include "overload.h"
-#include "redeclare.h"
 #include "syntax.h"
-#include "template.h"
-#include "tokdef.h"
-#include "token.h"
-#include "virtual.h"
 
 
 /*

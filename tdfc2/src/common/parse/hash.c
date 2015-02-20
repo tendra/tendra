@@ -26,6 +26,11 @@
 #include <parse/lex.h>
 #include <parse/symbols.h>
 
+#include <construct/basetype.h>
+#include <construct/chktype.h>
+#include <construct/namespace.h>
+#include <construct/token.h>
+
 #include "ctype_ops.h"
 #include "etype_ops.h"
 #include "ftype_ops.h"
@@ -34,11 +39,7 @@
 #include "itype_ops.h"
 #include "member_ops.h"
 #include "type_ops.h"
-#include "basetype.h"
-#include "chktype.h"
-#include "namespace.h"
 #include "syntax.h"
-#include "token.h"
 
 
 /*

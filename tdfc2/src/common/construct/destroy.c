@@ -19,14 +19,15 @@
 
 #include <parse/macro.h>
 
+#include <construct/destroy.h>
+#include <construct/exception.h>
+
 #include "exp_ops.h"
 #include "id_ops.h"
 #include "member_ops.h"
 #include "nspace_ops.h"
 #include "off_ops.h"
 #include "type_ops.h"
-#include "destroy.h"
-#include "exception.h"
 
 
 /*

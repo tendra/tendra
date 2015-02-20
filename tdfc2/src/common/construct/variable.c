@@ -31,6 +31,21 @@
 #include <output/stmt.h>
 #include <output/tok.h>
 
+#include <construct/basetype.h>
+#include <construct/check.h>
+#include <construct/chktype.h>
+#include <construct/class.h>
+#include <construct/construct.h>
+#include <construct/convert.h>
+#include <construct/declare.h>
+#include <construct/function.h>
+#include <construct/identifier.h>
+#include <construct/initialise.h>
+#include <construct/instance.h>
+#include <construct/namespace.h>
+#include <construct/statement.h>
+#include <construct/variable.h>
+
 #include "ctype_ops.h"
 #include "exp_ops.h"
 #include "hashid_ops.h"
@@ -41,21 +56,7 @@
 #include "off_ops.h"
 #include "tok_ops.h"
 #include "type_ops.h"
-#include "basetype.h"
-#include "check.h"
-#include "chktype.h"
-#include "class.h"
-#include "construct.h"
-#include "convert.h"
-#include "declare.h"
-#include "function.h"
-#include "identifier.h"
-#include "initialise.h"
-#include "instance.h"
-#include "namespace.h"
-#include "statement.h"
 #include "syntax.h"
-#include "variable.h"
 
 
 /*

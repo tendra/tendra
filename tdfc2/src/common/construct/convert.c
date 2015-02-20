@@ -22,6 +22,27 @@
 #include <parse/literal.h>
 #include <parse/predict.h>
 
+#include <construct/basetype.h>
+#include <construct/cast.h>
+#include <construct/check.h>
+#include <construct/chktype.h>
+#include <construct/construct.h>
+#include <construct/convert.h>
+#include <construct/derive.h>
+#include <construct/expression.h>
+#include <construct/function.h>
+#include <construct/identifier.h>
+#include <construct/initialise.h>
+#include <construct/instance.h>
+#include <construct/inttype.h>
+#include <construct/member.h>
+#include <construct/namespace.h>
+#include <construct/overload.h>
+#include <construct/quality.h>
+#include <construct/template.h>
+#include <construct/tokdef.h>
+#include <construct/token.h>
+
 #include "ctype_ops.h"
 #include "etype_ops.h"
 #include "exp_ops.h"
@@ -32,27 +53,7 @@
 #include "itype_ops.h"
 #include "nat_ops.h"
 #include "type_ops.h"
-#include "basetype.h"
-#include "cast.h"
-#include "check.h"
-#include "chktype.h"
-#include "construct.h"
-#include "convert.h"
-#include "derive.h"
-#include "expression.h"
-#include "function.h"
-#include "identifier.h"
-#include "initialise.h"
-#include "instance.h"
-#include "inttype.h"
-#include "member.h"
-#include "namespace.h"
-#include "overload.h"
-#include "quality.h"
 #include "syntax.h"
-#include "template.h"
-#include "tokdef.h"
-#include "token.h"
 
 
 /*

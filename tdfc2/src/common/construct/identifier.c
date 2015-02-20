@@ -24,6 +24,24 @@
 #include <parse/parse.h>
 #include <parse/predict.h>
 
+#include <construct/access.h>
+#include <construct/basetype.h>
+#include <construct/class.h>
+#include <construct/construct.h>
+#include <construct/convert.h>
+#include <construct/declare.h>
+#include <construct/derive.h>
+#include <construct/exception.h>
+#include <construct/expression.h>
+#include <construct/function.h>
+#include <construct/identifier.h>
+#include <construct/initialise.h>
+#include <construct/instance.h>
+#include <construct/namespace.h>
+#include <construct/redeclare.h>
+#include <construct/template.h>
+#include <construct/token.h>
+
 #include <output/dump.h>
 #include <output/tok.h>
 
@@ -35,24 +53,7 @@
 #include "nspace_ops.h"
 #include "tok_ops.h"
 #include "type_ops.h"
-#include "access.h"
-#include "basetype.h"
-#include "class.h"
-#include "construct.h"
-#include "convert.h"
-#include "declare.h"
-#include "derive.h"
-#include "exception.h"
-#include "expression.h"
-#include "function.h"
-#include "identifier.h"
-#include "initialise.h"
-#include "instance.h"
-#include "namespace.h"
-#include "redeclare.h"
 #include "syntax.h"
-#include "template.h"
-#include "token.h"
 
 
 /*

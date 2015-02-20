@@ -21,6 +21,21 @@
 #include <parse/literal.h>
 #include <parse/predict.h>
 
+#include <construct/basetype.h>
+#include <construct/check.h>
+#include <construct/chktype.h>
+#include <construct/class.h>
+#include <construct/convert.h>
+#include <construct/function.h>
+#include <construct/instance.h>
+#include <construct/inttype.h>
+#include <construct/merge.h>
+#include <construct/namespace.h>
+#include <construct/printf.h>
+#include <construct/template.h>
+#include <construct/tokdef.h>
+#include <construct/token.h>
+
 #include <output/tok.h>
 
 #include "ctype_ops.h"
@@ -32,20 +47,6 @@
 #include "itype_ops.h"
 #include "tok_ops.h"
 #include "type_ops.h"
-#include "basetype.h"
-#include "check.h"
-#include "chktype.h"
-#include "class.h"
-#include "convert.h"
-#include "function.h"
-#include "instance.h"
-#include "inttype.h"
-#include "merge.h"
-#include "namespace.h"
-#include "printf.h"
-#include "template.h"
-#include "tokdef.h"
-#include "token.h"
 
 
 /*

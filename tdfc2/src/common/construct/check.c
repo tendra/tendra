@@ -23,6 +23,16 @@
 #include <parse/hash.h>
 #include <parse/literal.h>
 
+#include <construct/basetype.h>
+#include <construct/check.h>
+#include <construct/chktype.h>
+#include <construct/convert.h>
+#include <construct/derive.h>
+#include <construct/function.h>
+#include <construct/merge.h>
+#include <construct/namespace.h>
+#include <construct/tokdef.h>
+
 #include "exp_ops.h"
 #include "graph_ops.h"
 #include "hashid_ops.h"
@@ -32,16 +42,7 @@
 #include "off_ops.h"
 #include "tok_ops.h"
 #include "type_ops.h"
-#include "basetype.h"
-#include "check.h"
-#include "chktype.h"
-#include "convert.h"
-#include "derive.h"
-#include "function.h"
-#include "merge.h"
-#include "namespace.h"
 #include "syntax.h"
-#include "tokdef.h"
 
 
 /*

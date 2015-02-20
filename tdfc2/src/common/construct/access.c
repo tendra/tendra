@@ -19,20 +19,21 @@
 
 #include <parse/predict.h>
 
+#include <construct/access.h>
+#include <construct/chktype.h>
+#include <construct/class.h>
+#include <construct/derive.h>
+#include <construct/function.h>
+#include <construct/instance.h>
+#include <construct/namespace.h>
+#include <construct/redeclare.h>
+#include <construct/token.h>
+
 #include "ctype_ops.h"
 #include "graph_ops.h"
 #include "id_ops.h"
 #include "nspace_ops.h"
 #include "type_ops.h"
-#include "access.h"
-#include "chktype.h"
-#include "class.h"
-#include "derive.h"
-#include "function.h"
-#include "instance.h"
-#include "namespace.h"
-#include "redeclare.h"
-#include "token.h"
 
 
 /*

@@ -25,6 +25,25 @@
 #include <output/interface.h>
 #include <output/tok.h>
 
+#include <construct/access.h>
+#include <construct/basetype.h>
+#include <construct/cast.h>
+#include <construct/check.h>
+#include <construct/chktype.h>
+#include <construct/class.h>
+#include <construct/convert.h>
+#include <construct/derive.h>
+#include <construct/destroy.h>
+#include <construct/exception.h>
+#include <construct/expression.h>
+#include <construct/identifier.h>
+#include <construct/initialise.h>
+#include <construct/namespace.h>
+#include <construct/overload.h>
+#include <construct/template.h>
+#include <construct/token.h>
+#include <construct/typeid.h>
+
 #include "ctype_ops.h"
 #include "exp_ops.h"
 #include "graph_ops.h"
@@ -32,25 +51,7 @@
 #include "id_ops.h"
 #include "type_ops.h"
 #include "virt_ops.h"
-#include "access.h"
-#include "basetype.h"
-#include "cast.h"
-#include "check.h"
-#include "chktype.h"
-#include "class.h"
-#include "convert.h"
-#include "derive.h"
-#include "destroy.h"
-#include "exception.h"
-#include "expression.h"
-#include "identifier.h"
-#include "initialise.h"
-#include "namespace.h"
-#include "overload.h"
 #include "syntax.h"
-#include "template.h"
-#include "token.h"
-#include "typeid.h"
 
 
 /*

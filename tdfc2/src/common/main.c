@@ -38,6 +38,23 @@
 #include <parse/preproc.h>
 #include <parse/table.h>
 
+#include <construct/basetype.h>
+#include <construct/declare.h>
+#include <construct/exception.h>
+#include <construct/initialise.h>
+#include <construct/instance.h>
+#include <construct/inttype.h>
+#include <construct/namespace.h>
+#include <construct/operator.h>
+#include <construct/overload.h>
+#include <construct/printf.h>
+#include <construct/redeclare.h>
+#include <construct/statement.h>
+#include <construct/template.h>
+#include <construct/tokdef.h>
+#include <construct/typeid.h>
+#include <construct/variable.h>
+
 #include <output/capsule.h>
 #include <output/compile.h>
 #include <output/dump.h>
@@ -45,23 +62,7 @@
 #include <output/tok.h>
 #include <output/unmangle.h>
 
-#include "basetype.h"
-#include "declare.h"
-#include "exception.h"
-#include "initialise.h"
-#include "instance.h"
-#include "inttype.h"
-#include "namespace.h"
-#include "operator.h"
-#include "overload.h"
-#include "printf.h"
-#include "redeclare.h"
-#include "statement.h"
 #include "syntax.h"
-#include "template.h"
-#include "tokdef.h"
-#include "typeid.h"
-#include "variable.h"
 
 
 /**

@@ -19,6 +19,12 @@
 
 #include <parse/hash.h>
 
+#include <construct/basetype.h>
+#include <construct/function.h>
+#include <construct/label.h>
+#include <construct/namespace.h>
+#include <construct/statement.h>
+
 #include <output/dump.h>
 
 #include "exp_ops.h"
@@ -26,11 +32,6 @@
 #include "id_ops.h"
 #include "member_ops.h"
 #include "nspace_ops.h"
-#include "basetype.h"
-#include "function.h"
-#include "label.h"
-#include "namespace.h"
-#include "statement.h"
 #include "syntax.h"
 
 

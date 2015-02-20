@@ -24,6 +24,27 @@
 
 #include <output/tok.h>
 
+#include <construct/access.h>
+#include <construct/basetype.h>
+#include <construct/cast.h>
+#include <construct/check.h>
+#include <construct/chktype.h>
+#include <construct/construct.h>
+#include <construct/convert.h>
+#include <construct/derive.h>
+#include <construct/exception.h>
+#include <construct/expression.h>
+#include <construct/function.h>
+#include <construct/identifier.h>
+#include <construct/initialise.h>
+#include <construct/inttype.h>
+#include <construct/overload.h>
+#include <construct/statement.h>
+#include <construct/template.h>
+#include <construct/tokdef.h>
+#include <construct/token.h>
+#include <construct/typeid.h>
+
 #include "ctype_ops.h"
 #include "err_ops.h"
 #include "exp_ops.h"
@@ -34,27 +55,7 @@
 #include "nat_ops.h"
 #include "tok_ops.h"
 #include "type_ops.h"
-#include "access.h"
-#include "basetype.h"
-#include "cast.h"
-#include "check.h"
-#include "chktype.h"
-#include "construct.h"
-#include "convert.h"
-#include "derive.h"
-#include "exception.h"
-#include "expression.h"
-#include "function.h"
-#include "identifier.h"
-#include "initialise.h"
-#include "inttype.h"
-#include "overload.h"
-#include "statement.h"
 #include "syntax.h"
-#include "template.h"
-#include "tokdef.h"
-#include "token.h"
-#include "typeid.h"
 
 
 /*

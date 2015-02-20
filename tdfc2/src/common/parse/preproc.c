@@ -38,6 +38,13 @@
 #include <parse/preproc.h>
 #include <parse/symbols.h>
 
+#include <construct/convert.h>
+#include <construct/identifier.h>
+#include <construct/namespace.h>
+#include <construct/statement.h>
+#include <construct/tokdef.h>
+#include <construct/token.h>
+
 #include <output/compile.h>
 #include <output/dump.h>
 
@@ -50,13 +57,7 @@
 #include "str_ops.h"
 #include "tok_ops.h"
 #include "type_ops.h"
-#include "convert.h"
-#include "identifier.h"
-#include "namespace.h"
-#include "statement.h"
 #include "syntax.h"
-#include "tokdef.h"
-#include "token.h"
 
 
 /*

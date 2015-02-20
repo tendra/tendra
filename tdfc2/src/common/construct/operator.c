@@ -20,6 +20,32 @@
 #include <parse/constant.h>
 #include <parse/hash.h>
 
+#include <construct/allocate.h>
+#include <construct/assign.h>
+#include <construct/basetype.h>
+#include <construct/cast.h>
+#include <construct/chktype.h>
+#include <construct/class.h>
+#include <construct/construct.h>
+#include <construct/convert.h>
+#include <construct/copy.h>
+#include <construct/derive.h>
+#include <construct/exception.h>
+#include <construct/expression.h>
+#include <construct/function.h>
+#include <construct/identifier.h>
+#include <construct/initialise.h>
+#include <construct/instance.h>
+#include <construct/inttype.h>
+#include <construct/member.h>
+#include <construct/namespace.h>
+#include <construct/operator.h>
+#include <construct/overload.h>
+#include <construct/quality.h>
+#include <construct/statement.h>
+#include <construct/template.h>
+#include <construct/typeid.h>
+
 #include <output/dump.h>
 
 #include "ctype_ops.h"
@@ -30,32 +56,7 @@
 #include "member_ops.h"
 #include "nat_ops.h"
 #include "type_ops.h"
-#include "allocate.h"
-#include "assign.h"
-#include "basetype.h"
-#include "cast.h"
-#include "chktype.h"
-#include "class.h"
-#include "construct.h"
-#include "convert.h"
-#include "copy.h"
-#include "derive.h"
-#include "exception.h"
-#include "expression.h"
-#include "function.h"
-#include "identifier.h"
-#include "initialise.h"
-#include "instance.h"
-#include "inttype.h"
-#include "member.h"
-#include "namespace.h"
-#include "operator.h"
-#include "overload.h"
-#include "quality.h"
-#include "statement.h"
 #include "syntax.h"
-#include "template.h"
-#include "typeid.h"
 
 
 /*

@@ -24,6 +24,15 @@
 #include <parse/file.h>
 #include <parse/literal.h>
 
+#include <construct/basetype.h>
+#include <construct/cast.h>
+#include <construct/check.h>
+#include <construct/convert.h>
+#include <construct/expression.h>
+#include <construct/inttype.h>
+#include <construct/template.h>
+#include <construct/tokdef.h>
+
 #include "etype_ops.h"
 #include "exp_ops.h"
 #include "flt_ops.h"
@@ -32,15 +41,7 @@
 #include "nat_ops.h"
 #include "str_ops.h"
 #include "type_ops.h"
-#include "basetype.h"
-#include "cast.h"
-#include "check.h"
-#include "convert.h"
-#include "expression.h"
-#include "inttype.h"
 #include "syntax.h"
-#include "template.h"
-#include "tokdef.h"
 
 
 /*

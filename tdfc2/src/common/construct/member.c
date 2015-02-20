@@ -22,6 +22,27 @@
 #include <parse/parse.h>
 #include <parse/predict.h>
 
+#include <construct/access.h>
+#include <construct/basetype.h>
+#include <construct/cast.h>
+#include <construct/check.h>
+#include <construct/chktype.h>
+#include <construct/class.h>
+#include <construct/convert.h>
+#include <construct/copy.h>
+#include <construct/derive.h>
+#include <construct/expression.h>
+#include <construct/function.h>
+#include <construct/identifier.h>
+#include <construct/initialise.h>
+#include <construct/instance.h>
+#include <construct/member.h>
+#include <construct/namespace.h>
+#include <construct/operator.h>
+#include <construct/statement.h>
+#include <construct/template.h>
+#include <construct/token.h>
+
 #include "ctype_ops.h"
 #include "exp_ops.h"
 #include "hashid_ops.h"
@@ -31,27 +52,7 @@
 #include "nspace_ops.h"
 #include "off_ops.h"
 #include "type_ops.h"
-#include "access.h"
-#include "basetype.h"
-#include "cast.h"
-#include "check.h"
-#include "chktype.h"
-#include "class.h"
-#include "convert.h"
-#include "copy.h"
-#include "derive.h"
-#include "expression.h"
-#include "function.h"
-#include "identifier.h"
-#include "initialise.h"
-#include "instance.h"
-#include "member.h"
-#include "namespace.h"
-#include "operator.h"
-#include "statement.h"
 #include "syntax.h"
-#include "template.h"
-#include "token.h"
 
 
 /*

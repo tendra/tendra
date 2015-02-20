@@ -29,6 +29,9 @@
 #include <parse/hash.h>
 #include <parse/lex.h>
 
+#include <construct/label.h>
+#include <construct/operator.h>
+
 #include <output/capsule.h>
 #include <output/encode.h>
 #include <output/mangle.h>
@@ -43,8 +46,6 @@
 #include "off_ops.h"
 #include "type_ops.h"
 #include "virt_ops.h"
-#include "label.h"
-#include "operator.h"
 #include "syntax.h"
 #ifndef NDEBUG
 

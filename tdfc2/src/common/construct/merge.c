@@ -15,21 +15,22 @@
 #include <utility/error.h>
 #include <utility/catalog.h>
 
+#include <construct/access.h>
+#include <construct/chktype.h>
+#include <construct/class.h>
+#include <construct/declare.h>
+#include <construct/initialise.h>
+#include <construct/merge.h>
+#include <construct/namespace.h>
+#include <construct/redeclare.h>
+#include <construct/token.h>
+
 #include "ctype_ops.h"
 #include "graph_ops.h"
 #include "id_ops.h"
 #include "member_ops.h"
 #include "nspace_ops.h"
 #include "type_ops.h"
-#include "access.h"
-#include "chktype.h"
-#include "class.h"
-#include "declare.h"
-#include "initialise.h"
-#include "merge.h"
-#include "namespace.h"
-#include "redeclare.h"
-#include "token.h"
 
 
 /*

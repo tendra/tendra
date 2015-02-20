@@ -30,8 +30,9 @@
 #include <parse/preproc.h>
 #include <parse/table.h>
 
+#include <construct/inttype.h>
+
 #include "hashid_ops.h"
-#include "inttype.h"
 #include "syntax.h"
 
 

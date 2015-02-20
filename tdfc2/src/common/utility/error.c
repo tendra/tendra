@@ -34,6 +34,9 @@
 #include <parse/literal.h>
 #include <parse/preproc.h>
 
+#include <construct/basetype.h>
+#include <construct/statement.h>
+
 #include <output/tdf.h>
 #include <output/capsule.h>
 #include <output/dump.h>
@@ -42,8 +45,6 @@
 #include "err_ext.h"
 #include "exp_ops.h"
 #include "loc_ext.h"
-#include "basetype.h"
-#include "statement.h"
 
 
 /*

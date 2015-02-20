@@ -32,6 +32,14 @@
 #include <parse/lex.h>
 #include <parse/literal.h>
 
+#include <construct/basetype.h>
+#include <construct/chktype.h>
+#include <construct/class.h>
+#include <construct/copy.h>
+#include <construct/operator.h>
+#include <construct/template.h>
+#include <construct/variable.h>
+
 #include <output/tdf.h>
 #include <output/capsule.h>
 #include <output/mangle.h>
@@ -52,14 +60,7 @@
 #include "off_ops.h"
 #include "tok_ops.h"
 #include "type_ops.h"
-#include "basetype.h"
-#include "chktype.h"
-#include "class.h"
-#include "copy.h"
-#include "operator.h"
 #include "syntax.h"
-#include "template.h"
-#include "variable.h"
 
 
 /*
