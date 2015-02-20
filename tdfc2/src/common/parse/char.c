@@ -273,7 +273,7 @@ static struct {
 	/* Katakana */
 	{ 0x30a1, 0x30fe },
 
-	/* Bopmofo */
+	/* Bopomofo */
 	{ 0x3105, 0x312c },
 
 	/* CJK Unified Ideographs */
