@@ -20,6 +20,12 @@
 #include <utility/option.h>
 #include <utility/ustring.h>
 
+#include <parse/char.h>
+#include <parse/constant.h>
+#include <parse/file.h>
+#include <parse/literal.h>
+#include <parse/predict.h>
+
 #include "ctype_ops.h"
 #include "err_ops.h"
 #include "exp_ops.h"
@@ -34,24 +40,19 @@
 #include "type_ops.h"
 #include "access.h"
 #include "basetype.h"
-#include "char.h"
 #include "check.h"
 #include "chktype.h"
 #include "class.h"
 #include "compile.h"
-#include "constant.h"
 #include "copy.h"
 #include "declare.h"
 #include "derive.h"
 #include "dump.h"
-#include "file.h"
 #include "function.h"
 #include "identifier.h"
 #include "instance.h"
-#include "literal.h"
 #include "namespace.h"
 #include "overload.h"
-#include "predict.h"
 #include "redeclare.h"
 #include "syntax.h"
 #include "template.h"

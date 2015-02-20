@@ -25,22 +25,23 @@
 #include <utility/ustring.h>
 #include <utility/xalloc.h>
 
+#include <parse/char.h>
+#include <parse/constant.h>
+#include <parse/file.h>
+#include <parse/hash.h>
+#include <parse/lex.h>
+#include <parse/literal.h>
+#include <parse/macro.h>
+#include <parse/parse.h>
+#include <parse/pragma.h>
+#include <parse/preproc.h>
+
 #include "exp_ops.h"
 #include "hashid_ops.h"
 #include "id_ops.h"
 #include "member_ops.h"
 #include "str_ops.h"
-#include "char.h"
-#include "constant.h"
-#include "file.h"
 #include "dump.h"
-#include "hash.h"
-#include "lex.h"
-#include "literal.h"
-#include "macro.h"
-#include "parse.h"
-#include "pragma.h"
-#include "preproc.h"
 #include "syntax.h"
 
 
@@ -70,7 +71,7 @@ unsigned long max_id_length = 1024;
 
 const char *token_names[] = {
 #define LEX_TOKEN(A, B, C)		(B),
-#include "symbols.h"
+#include <parse/symbols.h>
 #undef LEX_TOKEN
 	NULL
 };
@@ -402,7 +403,7 @@ read_char(void)
 static unsigned char characters[NO_CHAR + 2] = {
 	LEGAL,			/* EOF */
 #define CHAR_DATA(A, B, C, D)	(A),
-#include "char.h"
+#include <parse/char.h>
 #undef CHAR_DATA
 	ILLEG			/* dummy */
 };

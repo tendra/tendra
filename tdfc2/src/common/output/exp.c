@@ -19,6 +19,9 @@
 #include <utility/error.h>
 #include <utility/ustring.h>
 
+#include <parse/constant.h>
+#include <parse/literal.h>
+
 #include "ctype_ops.h"
 #include "exp_ops.h"
 #include "etype_ops.h"
@@ -36,7 +39,6 @@
 #include "check.h"
 #include "class.h"
 #include "compile.h"
-#include "constant.h"
 #include "convert.h"
 #include "derive.h"
 #include "destroy.h"
@@ -47,7 +49,6 @@
 #include "function.h"
 #include "identifier.h"
 #include "init.h"
-#include "literal.h"
 #include "member.h"
 #include "redeclare.h"
 #include "shape.h"

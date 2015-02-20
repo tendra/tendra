@@ -17,6 +17,8 @@
 #include <utility/error.h>
 #include <utility/catalog.h>
 
+#include <parse/predict.h>
+
 #include "ctype_ops.h"
 #include "graph_ops.h"
 #include "id_ops.h"
@@ -29,7 +31,6 @@
 #include "function.h"
 #include "instance.h"
 #include "namespace.h"
-#include "predict.h"
 #include "redeclare.h"
 #include "token.h"
 

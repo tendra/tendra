@@ -18,6 +18,10 @@
 #include <utility/catalog.h>
 #include <utility/option.h>
 
+#include <parse/constant.h>
+#include <parse/literal.h>
+#include <parse/predict.h>
+
 #include "ctype_ops.h"
 #include "exp_ops.h"
 #include "id_ops.h"
@@ -30,18 +34,15 @@
 #include "chktype.h"
 #include "class.h"
 #include "compile.h"
-#include "constant.h"
 #include "construct.h"
 #include "convert.h"
 #include "derive.h"
 #include "expression.h"
 #include "identifier.h"
 #include "initialise.h"
-#include "literal.h"
 #include "member.h"
 #include "operator.h"
 #include "overload.h"
-#include "predict.h"
 #include "quality.h"
 #include "statement.h"
 #include "syntax.h"

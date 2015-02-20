@@ -21,6 +21,11 @@
 #include <utility/ustring.h>
 #include <utility/xalloc.h>
 
+#include <parse/char.h>
+#include <parse/hash.h>
+#include <parse/lex.h>
+#include <parse/symbols.h>
+
 #include "ctype_ops.h"
 #include "etype_ops.h"
 #include "ftype_ops.h"
@@ -30,12 +35,8 @@
 #include "member_ops.h"
 #include "type_ops.h"
 #include "basetype.h"
-#include "char.h"
 #include "chktype.h"
-#include "hash.h"
-#include "lex.h"
 #include "namespace.h"
-#include "symbols.h"
 #include "syntax.h"
 #include "token.h"
 

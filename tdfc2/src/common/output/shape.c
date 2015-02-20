@@ -20,6 +20,10 @@
 #include <utility/error.h>
 #include <utility/ustring.h>
 
+#include <parse/char.h>
+#include <parse/constant.h>
+#include <parse/literal.h>
+
 #include "ctype_ops.h"
 #include "etype_ops.h"
 #include "exp_ops.h"
@@ -35,11 +39,9 @@
 #include "tdf.h"
 #include "basetype.h"
 #include "capsule.h"
-#include "char.h"
 #include "check.h"
 #include "chktype.h"
 #include "compile.h"
-#include "constant.h"
 #include "convert.h"
 #include "copy.h"
 #include "derive.h"
@@ -48,7 +50,6 @@
 #include "init.h"
 #include "interface.h"
 #include "inttype.h"
-#include "literal.h"
 #include "mangle.h"
 #include "shape.h"
 #include "struct.h"

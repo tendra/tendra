@@ -22,6 +22,10 @@
 #include <utility/buffer.h>
 #include <utility/print.h>
 
+#include <parse/constant.h>
+#include <parse/file.h>
+#include <parse/hash.h>
+
 #include "ctype_ops.h"
 #include "etype_ops.h"
 #include "exp_ops.h"
@@ -42,7 +46,6 @@
 #include "check.h"
 #include "class.h"
 #include "compile.h"
-#include "constant.h"
 #include "convert.h"
 #include "destroy.h"
 #include "diag3.h"
@@ -50,9 +53,7 @@
 #include "encode.h"
 #include "exception.h"
 #include "exp.h"
-#include "file.h"
 #include "function.h"
-#include "hash.h"
 #include "mangle.h"
 #include "namespace.h"
 #include "shape.h"

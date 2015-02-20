@@ -20,7 +20,7 @@
 #include <utility/ustring.h>
 #include <utility/xalloc.h>
 
-#include "char.h"
+#include <parse/char.h>
 
 
 /*

@@ -25,7 +25,7 @@
 #include <utility/ustring.h>
 #include <utility/xalloc.h>
 
-#include "file.h"
+#include <parse/file.h>
 
 
 /*

@@ -19,6 +19,10 @@
 #include <utility/catalog.h>
 #include <utility/option.h>
 
+#include <parse/file.h>
+#include <parse/hash.h>
+#include <parse/predict.h>
+
 #include "exp_ops.h"
 #include "hashid_ops.h"
 #include "id_ops.h"
@@ -36,14 +40,11 @@
 #include "destroy.h"
 #include "exception.h"
 #include "expression.h"
-#include "file.h"
 #include "function.h"
-#include "hash.h"
 #include "identifier.h"
 #include "initialise.h"
 #include "label.h"
 #include "namespace.h"
-#include "predict.h"
 #include "redeclare.h"
 #include "statement.h"
 #include "syntax.h"

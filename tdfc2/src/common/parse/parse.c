@@ -19,6 +19,17 @@
 #include <utility/catalog.h>
 #include <utility/option.h>
 
+#include <parse/char.h>
+#include <parse/file.h>
+#include <parse/hash.h>
+#include <parse/lex.h>
+#include <parse/literal.h>
+#include <parse/macro.h>
+#include <parse/parse.h>
+#include <parse/predict.h>
+#include <parse/preproc.h>
+#include <parse/symbols.h>
+
 #include "ctype_ops.h"
 #include "hashid_ops.h"
 #include "id_ops.h"
@@ -27,21 +38,11 @@
 #include "tok_ops.h"
 #include "type_ops.h"
 #include "access.h"
-#include "char.h"
 #include "class.h"
 #include "derive.h"
-#include "file.h"
-#include "hash.h"
 #include "identifier.h"
-#include "lex.h"
-#include "literal.h"
-#include "macro.h"
 #include "namespace.h"
-#include "parse.h"
-#include "predict.h"
-#include "preproc.h"
 #include "redeclare.h"
-#include "symbols.h"
 #include "syntax.h"
 #include "template.h"
 #include "tokdef.h"

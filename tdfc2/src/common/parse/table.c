@@ -22,16 +22,17 @@
 #include <utility/catalog.h>
 #include <utility/option.h>
 
+#include <parse/char.h>
+#include <parse/file.h>
+#include <parse/lex.h>
+#include <parse/literal.h>
+#include <parse/macro.h>
+#include <parse/preproc.h>
+#include <parse/table.h>
+
 #include "hashid_ops.h"
-#include "char.h"
-#include "file.h"
 #include "inttype.h"
-#include "lex.h"
-#include "literal.h"
-#include "macro.h"
-#include "preproc.h"
 #include "syntax.h"
-#include "table.h"
 
 
 /*

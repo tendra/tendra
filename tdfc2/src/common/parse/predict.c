@@ -14,11 +14,12 @@
 #include <utility/config.h>
 #include "c_types.h"
 
+#include <parse/parse.h>
+#include <parse/predict.h>
+
 #include "id_ops.h"
 #include "type_ops.h"
 #include "namespace.h"
-#include "parse.h"
-#include "predict.h"
 #include "syntax.h"
 
 
@@ -72,7 +73,7 @@
 
 static unsigned char tokens[] = {
 #define LEX_TOKEN(A, B, C)		(C),
-#include "symbols.h"
+#include <parse/symbols.h>
 #undef LEX_TOKEN
 	TOK_NONE
 };

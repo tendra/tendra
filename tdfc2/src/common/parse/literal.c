@@ -23,7 +23,14 @@
 #include <utility/ustring.h>
 #include <utility/xalloc.h>
 
-#include "charset.h"
+#include <parse/charset.h>
+#include <parse/char.h>
+#include <parse/constant.h>
+#include <parse/hash.h>
+#include <parse/lex.h>
+#include <parse/literal.h>
+#include <parse/preproc.h>
+
 #include "exp_ops.h"
 #include "flt_ops.h"
 #include "id_ops.h"
@@ -33,18 +40,12 @@
 #include "type_ops.h"
 #include "basetype.h"
 #include "cast.h"
-#include "char.h"
 #include "chktype.h"
-#include "constant.h"
 #include "convert.h"
 #include "dump.h"
 #include "exception.h"
 #include "expression.h"
-#include "hash.h"
 #include "inttype.h"
-#include "lex.h"
-#include "literal.h"
-#include "preproc.h"
 #include "syntax.h"
 #include "tok.h"
 #include "token.h"
@@ -84,7 +85,7 @@ char map[256] = { 1 };
 
 unsigned char digit_values[NO_CHAR + 1] = {
 #define CHAR_DATA(A, B, C, D)	(B),
-#include "char.h"
+#include <parse/char.h>
 #undef CHAR_DATA
 	NONE		/* dummy */
 };
@@ -102,7 +103,7 @@ unsigned char digit_values[NO_CHAR + 1] = {
 
 unsigned char escape_sequences[NO_CHAR + 1] = {
 #define CHAR_DATA(A, B, C, D)	(C),
-#include "char.h"
+#include <parse/char.h>
 #undef CHAR_DATA
 	NONE		/* dummy */
 };

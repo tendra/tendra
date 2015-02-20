@@ -26,6 +26,12 @@
 #include <utility/print.h>
 #include <utility/xalloc.h>
 
+#include <parse/char.h>
+#include <parse/constant.h>
+#include <parse/hash.h>
+#include <parse/lex.h>
+#include <parse/literal.h>
+
 #include "ctype_ops.h"
 #include "etype_ops.h"
 #include "exp_ops.h"
@@ -43,14 +49,9 @@
 #include "tdf.h"
 #include "basetype.h"
 #include "capsule.h"
-#include "char.h"
 #include "chktype.h"
 #include "class.h"
-#include "constant.h"
 #include "copy.h"
-#include "hash.h"
-#include "lex.h"
-#include "literal.h"
 #include "mangle.h"
 #include "operator.h"
 #include "shape.h"

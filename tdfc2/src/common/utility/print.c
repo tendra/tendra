@@ -24,6 +24,14 @@
 #include <utility/debug.h>
 #include <utility/print.h>
 
+#include <parse/char.h>
+#include <parse/constant.h>
+#include <parse/file.h>
+#include <parse/hash.h>
+#include <parse/lex.h>
+#include <parse/literal.h>
+#include <parse/symbols.h>
+
 #include "ctype_ops.h"
 #include "etype_ops.h"
 #include "exp_ops.h"
@@ -41,19 +49,12 @@
 #include "tok_ops.h"
 #include "type_ops.h"
 #include "basetype.h"
-#include "char.h"
 #include "class.h"
-#include "constant.h"
 #include "convert.h"
 #include "exception.h"
-#include "file.h"
 #include "function.h"
-#include "hash.h"
 #include "label.h"
-#include "lex.h"
-#include "literal.h"
 #include "redeclare.h"
-#include "symbols.h"
 #include "syntax.h"
 #include "tok.h"
 #include "token.h"

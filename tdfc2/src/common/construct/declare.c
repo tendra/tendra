@@ -19,6 +19,11 @@
 #include <utility/catalog.h>
 #include <utility/option.h>
 
+#include <parse/file.h>
+#include <parse/hash.h>
+#include <parse/predict.h>
+#include <parse/preproc.h>
+
 #include "ctype_ops.h"
 #include "hashid_ops.h"
 #include "id_ops.h"
@@ -39,9 +44,7 @@
 #include "derive.h"
 #include "dump.h"
 #include "exception.h"
-#include "file.h"
 #include "function.h"
-#include "hash.h"
 #include "identifier.h"
 #include "initialise.h"
 #include "instance.h"
@@ -49,8 +52,6 @@
 #include "namespace.h"
 #include "operator.h"
 #include "overload.h"
-#include "predict.h"
-#include "preproc.h"
 #include "redeclare.h"
 #include "syntax.h"
 #include "template.h"

@@ -15,8 +15,8 @@
 #include <utility/config.h>
 #include "c_types.h"
 
-#include "char.h"
-#include "literal.h"
+#include <parse/char.h>
+#include <parse/literal.h>
 
 
 /*
@@ -40,7 +40,7 @@ static character to_ascii_tab[NO_CHAR + 1];
 static character from_ascii_tab[NO_CHAR + 1] = {
 #define NONE			char_illegal
 #define CHAR_DATA(A, B, C, D)	(D),
-#include "char.h"
+#include <parse/char.h>
 #undef CHAR_DATA
 	NONE			/* dummy last element */
 };

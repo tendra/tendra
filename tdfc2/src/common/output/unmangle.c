@@ -22,6 +22,12 @@
 #include <utility/ustring.h>
 #include <utility/xalloc.h>
 
+#include <parse/char.h>
+#include <parse/constant.h>
+#include <parse/hash.h>
+#include <parse/lex.h>
+#include <parse/literal.h>
+
 #include "ctype_ops.h"
 #include "exp_ops.h"
 #include "hashid_ops.h"
@@ -34,18 +40,13 @@
 #include "tdf.h"
 #include "allocate.h"
 #include "basetype.h"
-#include "char.h"
 #include "class.h"
-#include "constant.h"
 #include "convert.h"
 #include "declare.h"
 #include "exception.h"
 #include "function.h"
-#include "hash.h"
 #include "identifier.h"
 #include "initialise.h"
-#include "lex.h"
-#include "literal.h"
 #include "mangle.h"
 #include "namespace.h"
 #include "syntax.h"

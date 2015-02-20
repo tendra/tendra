@@ -22,6 +22,8 @@
 #include <utility/buffer.h>
 #include <utility/print.h>
 
+#include <parse/constant.h>
+
 #include "ctype_ops.h"
 #include "etype_ops.h"
 #include "exp_ops.h"
@@ -39,7 +41,6 @@
 #include "basetype.h"
 #include "capsule.h"
 #include "compile.h"
-#include "constant.h"
 #include "diag3.h"
 #include "diag4.h"
 #include "encode.h"

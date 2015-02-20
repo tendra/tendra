@@ -17,6 +17,11 @@
 #include <utility/error.h>
 #include <utility/catalog.h>
 
+#include <parse/constant.h>
+#include <parse/hash.h>
+#include <parse/parse.h>
+#include <parse/predict.h>
+
 #include "ctype_ops.h"
 #include "exp_ops.h"
 #include "hashid_ops.h"
@@ -32,21 +37,17 @@
 #include "check.h"
 #include "chktype.h"
 #include "class.h"
-#include "constant.h"
 #include "convert.h"
 #include "copy.h"
 #include "derive.h"
 #include "expression.h"
 #include "function.h"
-#include "hash.h"
 #include "identifier.h"
 #include "initialise.h"
 #include "instance.h"
 #include "member.h"
 #include "namespace.h"
 #include "operator.h"
-#include "parse.h"
-#include "predict.h"
 #include "statement.h"
 #include "syntax.h"
 #include "template.h"

@@ -28,6 +28,14 @@
 #include <utility/buffer.h>
 #include <utility/xalloc.h>
 
+#include <parse/char.h>
+#include <parse/constant.h>
+#include <parse/file.h>
+#include <parse/hash.h>
+#include <parse/lex.h>
+#include <parse/literal.h>
+#include <parse/symbols.h>
+
 #include "ctype_ops.h"
 #include "etype_ops.h"
 #include "exp_ops.h"
@@ -44,28 +52,21 @@
 #include "type_ops.h"
 #include "basetype.h"
 #include "bits.h"
-#include "char.h"
 #include "chktype.h"
 #include "class.h"
-#include "constant.h"
 #include "convert.h"
 #include "decode.h"
 #include "derive.h"
 #include "dump.h"
 #include "encode.h"
 #include "exception.h"
-#include "file.h"
 #include "function.h"
-#include "hash.h"
 #include "inttype.h"
-#include "lex.h"
-#include "literal.h"
 #include "load.h"
 #include "merge.h"
 #include "namespace.h"
 #include "redeclare.h"
 #include "save.h"
-#include "symbols.h"
 #include "syntax.h"
 #include "token.h"
 

@@ -19,6 +19,9 @@
 #include <utility/buffer.h>
 #include <utility/print.h>
 
+#include <parse/constant.h>
+#include <parse/hash.h>
+
 #include "ctype_ops.h"
 #include "exp_ops.h"
 #include "graph_ops.h"
@@ -38,14 +41,12 @@
 #include "chktype.h"
 #include "class.h"
 #include "compile.h"
-#include "constant.h"
 #include "construct.h"
 #include "derive.h"
 #include "destroy.h"
 #include "encode.h"
 #include "exp.h"
 #include "function.h"
-#include "hash.h"
 #include "init.h"
 #include "initialise.h"
 #include "interface.h"

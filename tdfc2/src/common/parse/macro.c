@@ -26,20 +26,21 @@
 #include <utility/print.h>
 #include <utility/xalloc.h>
 
+#include <parse/char.h>
+#include <parse/file.h>
+#include <parse/hash.h>
+#include <parse/lex.h>
+#include <parse/literal.h>
+#include <parse/macro.h>
+#include <parse/predict.h>
+#include <parse/preproc.h>
+#include <parse/symbols.h>
+
 #include "hashid_ops.h"
 #include "id_ops.h"
 #include "nspace_ops.h"
-#include "char.h"
 #include "dump.h"
-#include "file.h"
-#include "hash.h"
-#include "lex.h"
-#include "literal.h"
-#include "macro.h"
 #include "namespace.h"
-#include "predict.h"
-#include "preproc.h"
-#include "symbols.h"
 #include "syntax.h"
 
 

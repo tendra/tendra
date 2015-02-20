@@ -20,14 +20,15 @@
 #include <utility/option.h>
 #include <utility/ustring.h>
 
+#include <parse/char.h>
+#include <parse/literal.h>
+
 #include "id_ops.h"
 #include "str_ops.h"
 #include "type_ops.h"
 #include "basetype.h"
-#include "char.h"
 #include "chktype.h"
 #include "convert.h"
-#include "literal.h"
 #include "printf.h"
 #include "typeid.h"
 

@@ -23,6 +23,9 @@
 #include <utility/ustring.h>
 #include <utility/xalloc.h>
 
+#include <parse/constant.h>
+#include <parse/file.h>
+
 #include "ctype_ops.h"
 #include "exp_ops.h"
 #include "hashid_ops.h"
@@ -37,7 +40,6 @@
 #include "check.h"
 #include "class.h"
 #include "compile.h"
-#include "constant.h"
 #include "construct.h"
 #include "convert.h"
 #include "copy.h"
@@ -46,7 +48,6 @@
 #include "encode.h"
 #include "exception.h"
 #include "exp.h"
-#include "file.h"
 #include "function.h"
 #include "identifier.h"
 #include "init.h"

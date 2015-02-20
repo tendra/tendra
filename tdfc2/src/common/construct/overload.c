@@ -21,6 +21,9 @@
 #include <utility/ustring.h>
 #include <utility/xalloc.h>
 
+#include <parse/hash.h>
+#include <parse/predict.h>
+
 #include "ctype_ops.h"
 #include "etype_ops.h"
 #include "exp_ops.h"
@@ -47,14 +50,12 @@
 #include "exception.h"
 #include "expression.h"
 #include "function.h"
-#include "hash.h"
 #include "identifier.h"
 #include "initialise.h"
 #include "instance.h"
 #include "namespace.h"
 #include "operator.h"
 #include "overload.h"
-#include "predict.h"
 #include "syntax.h"
 #include "template.h"
 #include "tokdef.h"

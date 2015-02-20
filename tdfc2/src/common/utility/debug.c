@@ -24,6 +24,11 @@
 #include <utility/print.h>
 #include <utility/ustring.h>
 
+#include <parse/char.h>
+#include <parse/file.h>
+#include <parse/hash.h>
+#include <parse/lex.h>
+
 #include "exp_ops.h"
 #include "hashid_ops.h"
 #include "id_ops.h"
@@ -34,12 +39,8 @@
 #include "type_ops.h"
 #include "virt_ops.h"
 #include "capsule.h"
-#include "char.h"
 #include "encode.h"
-#include "file.h"
-#include "hash.h"
 #include "label.h"
-#include "lex.h"
 #include "mangle.h"
 #include "operator.h"
 #include "syntax.h"
@@ -1590,7 +1591,7 @@ sid_terminals(int m)
 	FILE *f = DEBUG_file;
 	terminal_no = 0;
 	fprintf_v ( f, "/* Automatically generated list of terminals */\n" ) ;
-#include "symbols.h"
+#include <parse/symbols.h>
 #undef LEX_TOKEN
 	return;
 }

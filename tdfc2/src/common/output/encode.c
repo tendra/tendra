@@ -20,10 +20,10 @@
 #include <utility/ustring.h>
 #include <utility/xalloc.h>
 
-#include "char.h"
-#include "encode.h"
-#include "literal.h"
+#include <parse/char.h>
+#include <parse/literal.h>
 
+#include "encode.h"
 
 /*
     This routine dumps the contents of the bitstream bs to its associated

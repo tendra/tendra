@@ -29,6 +29,11 @@
 #include <utility/print.h>
 #include <utility/xalloc.h>
 
+#include <parse/file.h>
+#include <parse/lex.h>
+#include <parse/literal.h>
+#include <parse/preproc.h>
+
 #include "err_ext.h"
 #include "exp_ops.h"
 #include "loc_ext.h"
@@ -36,10 +41,6 @@
 #include "basetype.h"
 #include "capsule.h"
 #include "dump.h"
-#include "file.h"
-#include "lex.h"
-#include "literal.h"
-#include "preproc.h"
 #include "save.h"
 #include "statement.h"
 

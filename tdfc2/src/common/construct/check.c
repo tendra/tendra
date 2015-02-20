@@ -19,6 +19,10 @@
 #include <utility/catalog.h>
 #include <utility/option.h>
 
+#include <parse/constant.h>
+#include <parse/hash.h>
+#include <parse/literal.h>
+
 #include "exp_ops.h"
 #include "graph_ops.h"
 #include "hashid_ops.h"
@@ -31,12 +35,9 @@
 #include "basetype.h"
 #include "check.h"
 #include "chktype.h"
-#include "constant.h"
 #include "convert.h"
 #include "derive.h"
 #include "function.h"
-#include "hash.h"
-#include "literal.h"
 #include "merge.h"
 #include "namespace.h"
 #include "syntax.h"

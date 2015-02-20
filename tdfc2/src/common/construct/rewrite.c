@@ -17,6 +17,11 @@
 #include <utility/error.h>
 #include <utility/catalog.h>
 
+#include <parse/file.h>
+#include <parse/macro.h>
+#include <parse/parse.h>
+#include <parse/predict.h>
+
 #include "ctype_ops.h"
 #include "exp_ops.h"
 #include "id_ops.h"
@@ -27,13 +32,9 @@
 #include "basetype.h"
 #include "class.h"
 #include "declare.h"
-#include "file.h"
 #include "function.h"
 #include "initialise.h"
-#include "macro.h"
 #include "namespace.h"
-#include "parse.h"
-#include "predict.h"
 #include "rewrite.h"
 #include "statement.h"
 #include "syntax.h"

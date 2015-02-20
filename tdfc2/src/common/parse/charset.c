@@ -13,7 +13,7 @@
 #include <stdlib.h>
 #include <limits.h>
 
-#include "charset.h"
+#include <parse/charset.h>
 
 static void
 swap(char *a, char *b)

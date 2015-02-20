@@ -18,6 +18,10 @@
 #include <utility/catalog.h>
 #include <utility/option.h>
 
+#include <parse/file.h>
+#include <parse/hash.h>
+#include <parse/predict.h>
+
 #include "ctype_ops.h"
 #include "exp_ops.h"
 #include "graph_ops.h"
@@ -40,15 +44,12 @@
 #include "derive.h"
 #include "destroy.h"
 #include "dump.h"
-#include "file.h"
 #include "function.h"
-#include "hash.h"
 #include "identifier.h"
 #include "instance.h"
 #include "namespace.h"
 #include "operator.h"
 #include "overload.h"
-#include "predict.h"
 #include "redeclare.h"
 #include "template.h"
 #include "tokdef.h"

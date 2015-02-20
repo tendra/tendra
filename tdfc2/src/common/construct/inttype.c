@@ -19,6 +19,9 @@
 #include <utility/catalog.h>
 #include <utility/print.h>
 
+#include <parse/constant.h>
+#include <parse/hash.h>
+
 #include "exp_ops.h"
 #include "etype_ops.h"
 #include "ftype_ops.h"
@@ -27,12 +30,10 @@
 #include "tok_ops.h"
 #include "type_ops.h"
 #include "basetype.h"
-#include "constant.h"
 #include "convert.h"
 #include "chktype.h"
 #include "dump.h"
 #include "exception.h"
-#include "hash.h"
 #include "interface.h"
 #include "inttype.h"
 #include "mangle.h"

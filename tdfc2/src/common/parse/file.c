@@ -29,12 +29,13 @@
 #include <utility/buffer.h>
 #include <utility/xalloc.h>
 
+#include <parse/file.h>
+#include <parse/char.h>
+#include <parse/lex.h>
+#include <parse/preproc.h>
+
 #include "loc_ext.h"
-#include "file.h"
-#include "char.h"
 #include "dump.h"
-#include "lex.h"
-#include "preproc.h"
 #include "syntax.h"
 #include "token.h"
 

@@ -19,6 +19,11 @@
 #include <utility/ustring.h>
 #include <utility/xalloc.h>
 
+#include <parse/char.h>
+#include <parse/constant.h>
+#include <parse/file.h>
+#include <parse/literal.h>
+
 #include "etype_ops.h"
 #include "exp_ops.h"
 #include "flt_ops.h"
@@ -29,14 +34,10 @@
 #include "type_ops.h"
 #include "basetype.h"
 #include "cast.h"
-#include "char.h"
 #include "check.h"
-#include "constant.h"
 #include "convert.h"
 #include "expression.h"
-#include "file.h"
 #include "inttype.h"
-#include "literal.h"
 #include "syntax.h"
 #include "template.h"
 #include "tokdef.h"

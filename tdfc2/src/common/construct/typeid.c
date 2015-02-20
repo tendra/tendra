@@ -18,6 +18,10 @@
 #include <utility/catalog.h>
 #include <utility/ustring.h>
 
+#include <parse/constant.h>
+#include <parse/hash.h>
+#include <parse/literal.h>
+
 #include "ctype_ops.h"
 #include "exp_ops.h"
 #include "graph_ops.h"
@@ -31,17 +35,14 @@
 #include "check.h"
 #include "chktype.h"
 #include "class.h"
-#include "constant.h"
 #include "convert.h"
 #include "derive.h"
 #include "destroy.h"
 #include "exception.h"
 #include "expression.h"
-#include "hash.h"
 #include "identifier.h"
 #include "initialise.h"
 #include "interface.h"
-#include "literal.h"
 #include "namespace.h"
 #include "overload.h"
 #include "syntax.h"

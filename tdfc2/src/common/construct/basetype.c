@@ -19,6 +19,11 @@
 #include <utility/catalog.h>
 #include <utility/option.h>
 
+#include <parse/constant.h>
+#include <parse/lex.h>
+#include <parse/predict.h>
+#include <parse/preproc.h>
+
 #include "exp_ops.h"
 #include "ftype_ops.h"
 #include "id_ops.h"
@@ -28,15 +33,11 @@
 #include "type_ops.h"
 #include "basetype.h"
 #include "class.h"
-#include "constant.h"
 #include "convert.h"
 #include "chktype.h"
 #include "function.h"
 #include "identifier.h"
 #include "inttype.h"
-#include "lex.h"
-#include "predict.h"
-#include "preproc.h"
 #include "redeclare.h"
 #include "syntax.h"
 #include "template.h"

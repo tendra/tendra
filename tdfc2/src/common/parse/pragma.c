@@ -20,24 +20,25 @@
 #include <utility/option.h>
 #include <utility/ustring.h>
 
+#include <parse/char.h>
+#include <parse/file.h>
+#include <parse/lex.h>
+#include <parse/hash.h>
+#include <parse/macro.h>
+#include <parse/parse.h>
+#include <parse/pragma.h>
+#include <parse/predict.h>
+#include <parse/preproc.h>
+#include <parse/psyntax.h>
+#include <parse/symbols.h>
+
 #include "hashid_ops.h"
 #include "id_ops.h"
 #include "tok_ops.h"
-#include "char.h"
 #include "declare.h"
 #include "dump.h"
-#include "file.h"
-#include "lex.h"
-#include "hash.h"
-#include "macro.h"
-#include "parse.h"
-#include "pragma.h"
-#include "predict.h"
-#include "preproc.h"
-#include "psyntax.h"
 #include "redeclare.h"
 #include "statement.h"
-#include "symbols.h"
 #include "tok.h"
 #include "token.h"
 #include "variable.h"

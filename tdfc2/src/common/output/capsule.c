@@ -24,6 +24,10 @@
 #include <utility/catalog.h>
 #include <utility/xalloc.h>
 
+#include <parse/char.h>
+#include <parse/file.h>
+#include <parse/hash.h>
+
 #include "hashid_ops.h"
 #include "id_ops.h"
 #include "off_ops.h"
@@ -31,12 +35,9 @@
 #include "tdf.h"
 #include "basetype.h"
 #include "capsule.h"
-#include "char.h"
 #include "compile.h"
 #include "diag4.h"
 #include "encode.h"
-#include "file.h"
-#include "hash.h"
 #include "mangle.h"
 #include "struct.h"
 #include "throw.h"

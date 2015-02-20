@@ -22,24 +22,25 @@
 #include <utility/ustring.h>
 #include <utility/xalloc.h>
 
+#include <parse/char.h>
+#include <parse/constant.h>
+#include <parse/file.h>
+#include <parse/hash.h>
+#include <parse/lex.h>
+#include <parse/literal.h>
+#include <parse/predict.h>
+#include <parse/preproc.h>
+
 #include "err_ops.h"
 #include "exp_ops.h"
 #include "hashid_ops.h"
 #include "id_ops.h"
 #include "str_ops.h"
 #include "cast.h"
-#include "char.h"
-#include "constant.h"
 #include "declare.h"
-#include "file.h"
-#include "hash.h"
 #include "instance.h"
 #include "inttype.h"
-#include "lex.h"
-#include "literal.h"
 #include "namespace.h"
-#include "predict.h"
-#include "preproc.h"
 #include "redeclare.h"
 #include "syntax.h"
 

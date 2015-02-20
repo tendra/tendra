@@ -26,6 +26,13 @@
 #include <utility/print.h>
 #include <utility/xalloc.h>
 
+#include <parse/char.h>
+#include <parse/constant.h>
+#include <parse/file.h>
+#include <parse/lex.h>
+#include <parse/literal.h>
+#include <parse/macro.h>
+
 #include "err_ext.h"
 #include "ctype_ops.h"
 #include "etype_ops.h"
@@ -40,16 +47,10 @@
 #include "tok_ops.h"
 #include "type_ops.h"
 #include "basetype.h"
-#include "char.h"
-#include "constant.h"
 #include "convert.h"
 #include "dump.h"
 #include "exception.h"
-#include "file.h"
 #include "function.h"
-#include "lex.h"
-#include "literal.h"
-#include "macro.h"
 #include "mangle.h"
 #include "statement.h"
 #include "token.h"

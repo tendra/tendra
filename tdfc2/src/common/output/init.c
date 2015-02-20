@@ -18,6 +18,8 @@
 
 #include <utility/error.h>
 
+#include <parse/constant.h>
+
 #include "ctype_ops.h"
 #include "exp_ops.h"
 #include "id_ops.h"
@@ -33,7 +35,6 @@
 #include "check.h"
 #include "chktype.h"
 #include "compile.h"
-#include "constant.h"
 #include "copy.h"
 #include "destroy.h"
 #include "diag3.h"

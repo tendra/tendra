@@ -17,6 +17,10 @@
 #include <utility/catalog.h>
 #include <utility/option.h>
 
+#include <parse/constant.h>
+#include <parse/literal.h>
+#include <parse/predict.h>
+
 #include "ctype_ops.h"
 #include "etype_ops.h"
 #include "ftype_ops.h"
@@ -30,15 +34,12 @@
 #include "check.h"
 #include "chktype.h"
 #include "class.h"
-#include "constant.h"
 #include "convert.h"
 #include "function.h"
 #include "instance.h"
 #include "inttype.h"
-#include "literal.h"
 #include "merge.h"
 #include "namespace.h"
-#include "predict.h"
 #include "printf.h"
 #include "template.h"
 #include "tok.h"

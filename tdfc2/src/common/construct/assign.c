@@ -18,6 +18,9 @@
 #include <utility/catalog.h>
 #include <utility/ustring.h>
 
+#include <parse/literal.h>
+#include <parse/predict.h>
+
 #include "exp_ops.h"
 #include "id_ops.h"
 #include "off_ops.h"
@@ -31,10 +34,8 @@
 #include "expression.h"
 #include "identifier.h"
 #include "initialise.h"
-#include "literal.h"
 #include "member.h"
 #include "operator.h"
-#include "predict.h"
 #include "syntax.h"
 
 

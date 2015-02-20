@@ -17,6 +17,8 @@
 #include <utility/error.h>
 #include <utility/catalog.h>
 
+#include <parse/hash.h>
+
 #include "exp_ops.h"
 #include "hashid_ops.h"
 #include "id_ops.h"
@@ -25,7 +27,6 @@
 #include "basetype.h"
 #include "dump.h"
 #include "function.h"
-#include "hash.h"
 #include "label.h"
 #include "namespace.h"
 #include "statement.h"

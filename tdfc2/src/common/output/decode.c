@@ -17,11 +17,12 @@
 #include <utility/error.h>
 #include <utility/buffer.h>
 
-#include "char.h"
+#include <parse/char.h>
+#include <parse/file.h>
+#include <parse/literal.h>
+
 #include "decode.h"
 #include "encode.h"
-#include "file.h"
-#include "literal.h"
 
 
 /*

@@ -20,11 +20,12 @@
 #include <utility/ustring.h>
 #include <utility/xalloc.h>
 
+#include <parse/hash.h>
+#include <parse/lex.h>
+#include <parse/literal.h>
+
 #include "exp_ops.h"
 #include "str_ops.h"
-#include "hash.h"
-#include "lex.h"
-#include "literal.h"
 #include "syntax.h"
 
 

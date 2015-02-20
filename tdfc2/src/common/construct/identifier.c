@@ -18,6 +18,12 @@
 #include <utility/catalog.h>
 #include <utility/option.h>
 
+#include <parse/constant.h>
+#include <parse/file.h>
+#include <parse/hash.h>
+#include <parse/parse.h>
+#include <parse/predict.h>
+
 #include "ctype_ops.h"
 #include "exp_ops.h"
 #include "id_ops.h"
@@ -29,7 +35,6 @@
 #include "access.h"
 #include "basetype.h"
 #include "class.h"
-#include "constant.h"
 #include "construct.h"
 #include "convert.h"
 #include "declare.h"
@@ -37,15 +42,11 @@
 #include "dump.h"
 #include "exception.h"
 #include "expression.h"
-#include "file.h"
 #include "function.h"
-#include "hash.h"
 #include "identifier.h"
 #include "initialise.h"
 #include "instance.h"
 #include "namespace.h"
-#include "parse.h"
-#include "predict.h"
 #include "redeclare.h"
 #include "syntax.h"
 #include "template.h"

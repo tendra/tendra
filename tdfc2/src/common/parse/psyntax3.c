@@ -44,7 +44,7 @@
 #include "cast.h"
 #include "chktype.h"
 #include "class.h"
-#include "constant.h"
+#include <parse/constant.h>
 #include "construct.h"
 #include "convert.h"
 #include "declare.h"
@@ -52,24 +52,24 @@
 #include "exception.h"
 #include "expression.h"
 #include "function.h"
-#include "hash.h"
+#include <parse/hash.h>
 #include "identifier.h"
 #include "initialise.h"
 #include "inttype.h"
 #include "label.h"
-#include "lex.h"
-#include "literal.h"
+#include <parse/lex.h>
+#include <parse/literal.h>
 #include "member.h"
 #include "namespace.h"
-#include "parse.h"
-#include "pragma.h"
-#include "predict.h"
-#include "preproc.h"
+#include <parse/parse.h>
+#include <parse/pragma.h>
+#include <parse/predict.h>
+#include <parse/preproc.h>
 #include "printf.h"
 #include "redeclare.h"
 #include "rewrite.h"
 #include "statement.h"
-#include "symbols.h"
+#include <parse/symbols.h>
 #include "template.h"
 #include "tokdef.h"
 #include "token.h"
@@ -89,7 +89,7 @@ typedef LIST(IDENTIFIER) SID_LIST_ID;
      type definitions are in scope.
 */
 
-#include "psyntax.h"
+#include <parse/psyntax.h>
 extern void parse_tok_type(TYPE *);
 extern void parse_mem_type(TYPE *);
 extern void parse_operator(IDENTIFIER *);

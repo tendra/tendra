@@ -21,6 +21,9 @@
 #include <utility/option.h>
 #include <utility/ustring.h>
 
+#include <parse/hash.h>
+#include <parse/preproc.h>
+
 #include "exp_ops.h"
 #include "hashid_ops.h"
 #include "id_ops.h"
@@ -35,10 +38,8 @@
 #include "diag3.h"
 #include "encode.h"
 #include "exp.h"
-#include "hash.h"
 #include "interface.h"
 #include "namespace.h"
-#include "preproc.h"
 #include "shape.h"
 #include "statement.h"
 #include "stmt.h"

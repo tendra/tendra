@@ -17,6 +17,8 @@
 
 #include <utility/error.h>
 
+#include <parse/macro.h>
+
 #include "exp_ops.h"
 #include "id_ops.h"
 #include "member_ops.h"
@@ -25,7 +27,6 @@
 #include "type_ops.h"
 #include "destroy.h"
 #include "exception.h"
-#include "macro.h"
 
 
 /*

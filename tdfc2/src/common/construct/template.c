@@ -20,6 +20,11 @@
 #include <utility/option.h>
 #include <utility/ustring.h>
 
+#include <parse/hash.h>
+#include <parse/macro.h>
+#include <parse/parse.h>
+#include <parse/predict.h>
+
 #include "ctype_ops.h"
 #include "etype_ops.h"
 #include "exp_ops.h"
@@ -44,15 +49,11 @@
 #include "derive.h"
 #include "dump.h"
 #include "expression.h"
-#include "hash.h"
 #include "identifier.h"
 #include "initialise.h"
 #include "instance.h"
-#include "macro.h"
 #include "namespace.h"
 #include "overload.h"
-#include "parse.h"
-#include "predict.h"
 #include "statement.h"
 #include "syntax.h"
 #include "template.h"

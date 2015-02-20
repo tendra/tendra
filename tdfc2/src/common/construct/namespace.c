@@ -20,6 +20,10 @@
 #include <utility/print.h>
 #include <utility/ustring.h>
 
+#include <parse/hash.h>
+#include <parse/parse.h>
+#include <parse/predict.h>
+
 #include "ctype_ops.h"
 #include "graph_ops.h"
 #include "hashid_ops.h"
@@ -32,13 +36,10 @@
 #include "declare.h"
 #include "derive.h"
 #include "dump.h"
-#include "hash.h"
 #include "identifier.h"
 #include "instance.h"
 #include "label.h"
 #include "namespace.h"
-#include "parse.h"
-#include "predict.h"
 #include "redeclare.h"
 #include "syntax.h"
 #include "tokdef.h"

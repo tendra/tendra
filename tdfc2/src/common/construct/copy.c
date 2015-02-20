@@ -18,6 +18,11 @@
 #include <utility/error.h>
 #include <utility/catalog.h>
 
+#include <parse/constant.h>
+#include <parse/hash.h>
+#include <parse/literal.h>
+#include <parse/predict.h>
+
 #include "ctype_ops.h"
 #include "exp_ops.h"
 #include "id_ops.h"
@@ -36,7 +41,6 @@
 #include "chktype.h"
 #include "class.h"
 #include "compile.h"
-#include "constant.h"
 #include "construct.h"
 #include "convert.h"
 #include "copy.h"
@@ -47,15 +51,12 @@
 #include "exception.h"
 #include "expression.h"
 #include "function.h"
-#include "hash.h"
 #include "identifier.h"
 #include "initialise.h"
 #include "instance.h"
 #include "label.h"
-#include "literal.h"
 #include "namespace.h"
 #include "operator.h"
-#include "predict.h"
 #include "redeclare.h"
 #include "rewrite.h"
 #include "statement.h"
