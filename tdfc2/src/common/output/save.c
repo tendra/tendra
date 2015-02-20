@@ -16,6 +16,7 @@
 #include "config.h"
 #include "version.h"
 
+#include "ustring.h"
 #include "system.h"
 #include "c_types.h"
 #include "ctype_ops.h"
@@ -45,7 +46,6 @@
 #include "inttype.h"
 #include "save.h"
 #include "syntax.h"
-#include "ustring.h"
 
 
 /*

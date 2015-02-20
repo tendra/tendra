@@ -10,11 +10,13 @@
 #include <assert.h>
 #include <string.h>
 #include <stdio.h>
+#include <ctype.h>
 
 #include <shared/check.h>
 
 #include "config.h"
-#include <ctype.h>
+
+#include "ustring.h"
 #include "system.h"
 #include "c_types.h"
 #include "ctype_ops.h"
@@ -54,7 +56,6 @@
 #include "syntax.h"
 #include "tok.h"
 #include "token.h"
-#include "ustring.h"
 
 
 /*

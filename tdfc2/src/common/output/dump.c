@@ -17,6 +17,7 @@
 #include "config.h"
 #include "version.h"
 
+#include "ustring.h"
 #include "system.h"
 #include "c_types.h"
 #include "err_ext.h"
@@ -50,7 +51,6 @@
 #include "print.h"
 #include "statement.h"
 #include "token.h"
-#include "ustring.h"
 #include "xalloc.h"
 
 

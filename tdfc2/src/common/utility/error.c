@@ -18,6 +18,7 @@
 #include "config.h"
 #include "version.h"
 
+#include "ustring.h"
 #include "system.h"
 #include "version.h"
 #include "c_types.h"
@@ -39,7 +40,6 @@
 #include "print.h"
 #include "save.h"
 #include "statement.h"
-#include "ustring.h"
 #include "xalloc.h"
 
 

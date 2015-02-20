@@ -15,6 +15,7 @@
 #include "config.h"
 #include "version.h"
 
+#include "ustring.h"
 #include "system.h"
 #include "c_types.h"
 #include "ctype_ops.h"
@@ -60,7 +61,6 @@
 #include "throw.h"
 #include "tok.h"
 #include "typeid.h"
-#include "ustring.h"
 #include "virtual.h"
 #if TDF_DIAG4
 

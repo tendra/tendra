@@ -14,6 +14,8 @@
 #include <shared/check.h>
 
 #include "config.h"
+
+#include "ustring.h"
 #include "system.h"
 #include "c_types.h"
 #include "exp_ops.h"
@@ -51,7 +53,6 @@
 #include "syntax.h"
 #include "tokdef.h"
 #include "token.h"
-#include "ustring.h"
 #include "xalloc.h"
 
 

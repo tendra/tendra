@@ -20,6 +20,7 @@
 #include "config.h"
 #include "version.h"
 
+#include "ustring.h"
 #include "system.h"
 #include "c_types.h"
 #include "ctype_ops.h"
@@ -65,7 +66,6 @@
 #include "symbols.h"
 #include "syntax.h"
 #include "token.h"
-#include "ustring.h"
 #include "xalloc.h"
 
 

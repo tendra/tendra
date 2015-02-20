@@ -17,6 +17,7 @@
 #include "config.h"
 #include "version.h"
 
+#include "ustring.h"
 #include "system.h"
 #include "c_types.h"
 #include "hashid_ops.h"
@@ -38,7 +39,6 @@
 #include "struct.h"
 #include "throw.h"
 #include "tok.h"
-#include "ustring.h"
 #include "xalloc.h"
 
 

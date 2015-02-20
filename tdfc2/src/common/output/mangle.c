@@ -17,6 +17,7 @@
 #include "config.h"
 #include "version.h"
 
+#include "ustring.h"
 #include "system.h"
 #include "c_types.h"
 #include "ctype_ops.h"
@@ -54,7 +55,6 @@
 #include "syntax.h"
 #include "template.h"
 #include "tok.h"
-#include "ustring.h"
 #include "variable.h"
 #include "xalloc.h"
 
