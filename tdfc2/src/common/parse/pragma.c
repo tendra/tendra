@@ -32,14 +32,15 @@
 #include <parse/psyntax.h>
 #include <parse/symbols.h>
 
+#include <output/dump.h>
+#include <output/tok.h>
+
 #include "hashid_ops.h"
 #include "id_ops.h"
 #include "tok_ops.h"
 #include "declare.h"
-#include "dump.h"
 #include "redeclare.h"
 #include "statement.h"
-#include "tok.h"
 #include "token.h"
 #include "variable.h"
 

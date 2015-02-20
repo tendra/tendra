@@ -24,6 +24,18 @@
 #include <parse/constant.h>
 #include <parse/literal.h>
 
+#include <output/tdf.h>
+#include <output/capsule.h>
+#include <output/compile.h>
+#include <output/encode.h>
+#include <output/exp.h>
+#include <output/init.h>
+#include <output/interface.h>
+#include <output/mangle.h>
+#include <output/shape.h>
+#include <output/struct.h>
+#include <output/tok.h>
+
 #include "ctype_ops.h"
 #include "etype_ops.h"
 #include "exp_ops.h"
@@ -36,24 +48,13 @@
 #include "off_ops.h"
 #include "str_ops.h"
 #include "type_ops.h"
-#include "tdf.h"
 #include "basetype.h"
-#include "capsule.h"
 #include "check.h"
 #include "chktype.h"
-#include "compile.h"
 #include "convert.h"
 #include "copy.h"
 #include "derive.h"
-#include "encode.h"
-#include "exp.h"
-#include "init.h"
-#include "interface.h"
 #include "inttype.h"
-#include "mangle.h"
-#include "shape.h"
-#include "struct.h"
-#include "tok.h"
 
 
 /*

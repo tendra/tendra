@@ -25,6 +25,10 @@
 #include <parse/char.h>
 #include <parse/file.h>
 
+#include <output/dump.h>
+#include <output/encode.h>
+#include <output/save.h>
+
 #include "ctype_ops.h"
 #include "etype_ops.h"
 #include "exp_ops.h"
@@ -42,11 +46,8 @@
 #include "basetype.h"
 #include "bits.h"
 #include "chktype.h"
-#include "dump.h"
-#include "encode.h"
 #include "exception.h"
 #include "inttype.h"
-#include "save.h"
 #include "syntax.h"
 
 

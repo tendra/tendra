@@ -29,6 +29,8 @@
 #include <parse/predict.h>
 #include <parse/symbols.h>
 
+#include <output/dump.h>
+
 #include "etype_ops.h"
 #include "exp_ops.h"
 #include "hashid_ops.h"
@@ -48,7 +50,6 @@
 #include "convert.h"
 #include "declare.h"
 #include "destroy.h"
-#include "dump.h"
 #include "exception.h"
 #include "expression.h"
 #include "function.h"

@@ -33,6 +33,9 @@
 #include <parse/literal.h>
 #include <parse/macro.h>
 
+#include <output/dump.h>
+#include <output/mangle.h>
+
 #include "err_ext.h"
 #include "ctype_ops.h"
 #include "etype_ops.h"
@@ -48,10 +51,8 @@
 #include "type_ops.h"
 #include "basetype.h"
 #include "convert.h"
-#include "dump.h"
 #include "exception.h"
 #include "function.h"
-#include "mangle.h"
 #include "statement.h"
 #include "token.h"
 

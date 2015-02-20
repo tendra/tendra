@@ -36,6 +36,12 @@
 #include <parse/literal.h>
 #include <parse/symbols.h>
 
+#include <output/decode.h>
+#include <output/dump.h>
+#include <output/encode.h>
+#include <output/load.h>
+#include <output/save.h>
+
 #include "ctype_ops.h"
 #include "etype_ops.h"
 #include "exp_ops.h"
@@ -55,18 +61,13 @@
 #include "chktype.h"
 #include "class.h"
 #include "convert.h"
-#include "decode.h"
 #include "derive.h"
-#include "dump.h"
-#include "encode.h"
 #include "exception.h"
 #include "function.h"
 #include "inttype.h"
-#include "load.h"
 #include "merge.h"
 #include "namespace.h"
 #include "redeclare.h"
-#include "save.h"
 #include "syntax.h"
 #include "token.h"
 

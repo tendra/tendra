@@ -36,10 +36,11 @@
 #include <parse/preproc.h>
 #include <parse/symbols.h>
 
+#include <output/dump.h>
+
 #include "hashid_ops.h"
 #include "id_ops.h"
 #include "nspace_ops.h"
-#include "dump.h"
 #include "namespace.h"
 #include "syntax.h"
 

@@ -20,6 +20,8 @@
 #include <parse/constant.h>
 #include <parse/hash.h>
 
+#include <output/dump.h>
+
 #include "ctype_ops.h"
 #include "etype_ops.h"
 #include "exp_ops.h"
@@ -38,7 +40,6 @@
 #include "convert.h"
 #include "copy.h"
 #include "derive.h"
-#include "dump.h"
 #include "exception.h"
 #include "expression.h"
 #include "function.h"

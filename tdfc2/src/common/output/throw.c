@@ -18,28 +18,29 @@
 #include <utility/error.h>
 #include <utility/ustring.h>
 
+#include <output/tdf.h>
+#include <output/capsule.h>
+#include <output/compile.h>
+#include <output/diag3.h>
+#include <output/encode.h>
+#include <output/exp.h>
+#include <output/init.h>
+#include <output/shape.h>
+#include <output/stmt.h>
+#include <output/struct.h>
+#include <output/throw.h>
+#include <output/tok.h>
+
 #include "exp_ops.h"
 #include "type_ops.h"
-#include "tdf.h"
 #include "allocate.h"
 #include "basetype.h"
-#include "capsule.h"
 #include "chktype.h"
-#include "compile.h"
 #include "destroy.h"
-#include "diag3.h"
-#include "encode.h"
 #include "exception.h"
-#include "exp.h"
-#include "init.h"
 #include "inttype.h"
-#include "shape.h"
 #include "statement.h"
-#include "stmt.h"
-#include "struct.h"
 #include "syntax.h"
-#include "throw.h"
-#include "tok.h"
 #include "typeid.h"
 
 

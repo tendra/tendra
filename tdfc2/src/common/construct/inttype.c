@@ -22,6 +22,11 @@
 #include <parse/constant.h>
 #include <parse/hash.h>
 
+#include <output/dump.h>
+#include <output/interface.h>
+#include <output/mangle.h>
+#include <output/tok.h>
+
 #include "exp_ops.h"
 #include "etype_ops.h"
 #include "ftype_ops.h"
@@ -32,13 +37,9 @@
 #include "basetype.h"
 #include "convert.h"
 #include "chktype.h"
-#include "dump.h"
 #include "exception.h"
-#include "interface.h"
 #include "inttype.h"
-#include "mangle.h"
 #include "syntax.h"
-#include "tok.h"
 #include "tokdef.h"
 #include "token.h"
 

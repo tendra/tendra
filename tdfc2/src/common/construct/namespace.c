@@ -24,6 +24,8 @@
 #include <parse/parse.h>
 #include <parse/predict.h>
 
+#include <output/dump.h>
+
 #include "ctype_ops.h"
 #include "graph_ops.h"
 #include "hashid_ops.h"
@@ -35,7 +37,6 @@
 #include "class.h"
 #include "declare.h"
 #include "derive.h"
-#include "dump.h"
 #include "identifier.h"
 #include "instance.h"
 #include "label.h"

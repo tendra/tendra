@@ -34,14 +34,15 @@
 #include <parse/literal.h>
 #include <parse/preproc.h>
 
+#include <output/tdf.h>
+#include <output/capsule.h>
+#include <output/dump.h>
+#include <output/save.h>
+
 #include "err_ext.h"
 #include "exp_ops.h"
 #include "loc_ext.h"
-#include "tdf.h"
 #include "basetype.h"
-#include "capsule.h"
-#include "dump.h"
-#include "save.h"
 #include "statement.h"
 
 

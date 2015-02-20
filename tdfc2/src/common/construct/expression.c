@@ -22,6 +22,8 @@
 #include <parse/literal.h>
 #include <parse/predict.h>
 
+#include <output/compile.h>
+
 #include "ctype_ops.h"
 #include "exp_ops.h"
 #include "id_ops.h"
@@ -33,7 +35,6 @@
 #include "check.h"
 #include "chktype.h"
 #include "class.h"
-#include "compile.h"
 #include "construct.h"
 #include "convert.h"
 #include "derive.h"

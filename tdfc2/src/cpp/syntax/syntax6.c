@@ -50,7 +50,7 @@
 #include "convert.h"
 #include "declare.h"
 #include "derive.h"
-#include "dump.h"
+#include <output/dump.h>
 #include "exception.h"
 #include "expression.h"
 #include "function.h"

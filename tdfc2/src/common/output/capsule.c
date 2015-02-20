@@ -28,20 +28,21 @@
 #include <parse/file.h>
 #include <parse/hash.h>
 
+#include <output/tdf.h>
+#include <output/capsule.h>
+#include <output/compile.h>
+#include <output/diag4.h>
+#include <output/encode.h>
+#include <output/mangle.h>
+#include <output/struct.h>
+#include <output/throw.h>
+#include <output/tok.h>
+
 #include "hashid_ops.h"
 #include "id_ops.h"
 #include "off_ops.h"
 #include "type_ops.h"
-#include "tdf.h"
 #include "basetype.h"
-#include "capsule.h"
-#include "compile.h"
-#include "diag4.h"
-#include "encode.h"
-#include "mangle.h"
-#include "struct.h"
-#include "throw.h"
-#include "tok.h"
 
 
 /*

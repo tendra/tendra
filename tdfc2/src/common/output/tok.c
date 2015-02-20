@@ -24,6 +24,18 @@
 #include <parse/hash.h>
 #include <parse/preproc.h>
 
+#include <output/tdf.h>
+#include <output/capsule.h>
+#include <output/compile.h>
+#include <output/diag3.h>
+#include <output/encode.h>
+#include <output/exp.h>
+#include <output/interface.h>
+#include <output/shape.h>
+#include <output/stmt.h>
+#include <output/struct.h>
+#include <output/tok.h>
+
 #include "exp_ops.h"
 #include "hashid_ops.h"
 #include "id_ops.h"
@@ -31,21 +43,10 @@
 #include "str_ops.h"
 #include "tok_ops.h"
 #include "type_ops.h"
-#include "tdf.h"
 #include "basetype.h"
-#include "capsule.h"
-#include "compile.h"
-#include "diag3.h"
-#include "encode.h"
-#include "exp.h"
-#include "interface.h"
 #include "namespace.h"
-#include "shape.h"
 #include "statement.h"
-#include "stmt.h"
-#include "struct.h"
 #include "syntax.h"
-#include "tok.h"
 #include "token.h"
 
 

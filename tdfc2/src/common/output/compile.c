@@ -26,6 +26,20 @@
 #include <parse/constant.h>
 #include <parse/file.h>
 
+#include <output/tdf.h>
+#include <output/capsule.h>
+#include <output/compile.h>
+#include <output/diag3.h>
+#include <output/encode.h>
+#include <output/exp.h>
+#include <output/init.h>
+#include <output/mangle.h>
+#include <output/shape.h>
+#include <output/stmt.h>
+#include <output/struct.h>
+#include <output/tok.h>
+#include <output/throw.h>
+
 #include "ctype_ops.h"
 #include "exp_ops.h"
 #include "hashid_ops.h"
@@ -34,34 +48,21 @@
 #include "tok_ops.h"
 #include "type_ops.h"
 #include "virt_ops.h"
-#include "tdf.h"
 #include "basetype.h"
-#include "capsule.h"
 #include "check.h"
 #include "class.h"
-#include "compile.h"
 #include "construct.h"
 #include "convert.h"
 #include "copy.h"
 #include "destroy.h"
-#include "diag3.h"
-#include "encode.h"
 #include "exception.h"
-#include "exp.h"
 #include "function.h"
 #include "identifier.h"
-#include "init.h"
 #include "initialise.h"
-#include "mangle.h"
 #include "namespace.h"
 #include "redeclare.h"
-#include "shape.h"
 #include "statement.h"
-#include "stmt.h"
-#include "struct.h"
-#include "tok.h"
 #include "token.h"
-#include "throw.h"
 #include "variable.h"
 
 

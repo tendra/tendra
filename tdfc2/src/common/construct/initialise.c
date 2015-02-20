@@ -29,6 +29,11 @@
 #include <parse/parse.h>
 #include <parse/predict.h>
 
+#include <output/tdf.h>
+#include <output/compile.h>
+#include <output/dump.h>
+#include <output/tok.h>
+
 #include "ctype_ops.h"
 #include "etype_ops.h"
 #include "exp_ops.h"
@@ -41,7 +46,6 @@
 #include "nspace_ops.h"
 #include "str_ops.h"
 #include "type_ops.h"
-#include "tdf.h"
 #include "access.h"
 #include "assign.h"
 #include "basetype.h"
@@ -49,13 +53,11 @@
 #include "check.h"
 #include "chktype.h"
 #include "class.h"
-#include "compile.h"
 #include "construct.h"
 #include "convert.h"
 #include "declare.h"
 #include "derive.h"
 #include "destroy.h"
-#include "dump.h"
 #include "exception.h"
 #include "expression.h"
 #include "function.h"
@@ -68,7 +70,6 @@
 #include "statement.h"
 #include "syntax.h"
 #include "template.h"
-#include "tok.h"
 #include "tokdef.h"
 #include "token.h"
 

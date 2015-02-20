@@ -23,7 +23,7 @@
 #include <parse/char.h>
 #include <parse/literal.h>
 
-#include "encode.h"
+#include <output/encode.h>
 
 /*
     This routine dumps the contents of the bitstream bs to its associated

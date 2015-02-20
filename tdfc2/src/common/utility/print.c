@@ -32,6 +32,8 @@
 #include <parse/literal.h>
 #include <parse/symbols.h>
 
+#include <output/tok.h>
+
 #include "ctype_ops.h"
 #include "etype_ops.h"
 #include "exp_ops.h"
@@ -56,7 +58,6 @@
 #include "label.h"
 #include "redeclare.h"
 #include "syntax.h"
-#include "tok.h"
 #include "token.h"
 
 

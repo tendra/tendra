@@ -28,6 +28,10 @@
 #include <parse/lex.h>
 #include <parse/literal.h>
 
+#include <output/tdf.h>
+#include <output/mangle.h>
+#include <output/unmangle.h>
+
 #include "ctype_ops.h"
 #include "exp_ops.h"
 #include "hashid_ops.h"
@@ -37,7 +41,6 @@
 #include "nspace_ops.h"
 #include "tok_ops.h"
 #include "type_ops.h"
-#include "tdf.h"
 #include "allocate.h"
 #include "basetype.h"
 #include "class.h"
@@ -47,10 +50,8 @@
 #include "function.h"
 #include "identifier.h"
 #include "initialise.h"
-#include "mangle.h"
 #include "namespace.h"
 #include "syntax.h"
-#include "unmangle.h"
 
 
 /*

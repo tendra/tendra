@@ -25,6 +25,12 @@
 #include <parse/literal.h>
 #include <parse/preproc.h>
 
+#include <output/compile.h>
+#include <output/dump.h>
+#include <output/save.h>
+#include <output/stmt.h>
+#include <output/tok.h>
+
 #include "ctype_ops.h"
 #include "exp_ops.h"
 #include "hashid_ops.h"
@@ -39,21 +45,16 @@
 #include "check.h"
 #include "chktype.h"
 #include "class.h"
-#include "compile.h"
 #include "construct.h"
 #include "convert.h"
 #include "declare.h"
-#include "dump.h"
 #include "function.h"
 #include "identifier.h"
 #include "initialise.h"
 #include "instance.h"
 #include "namespace.h"
-#include "save.h"
 #include "statement.h"
-#include "stmt.h"
 #include "syntax.h"
-#include "tok.h"
 #include "variable.h"
 
 

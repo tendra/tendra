@@ -31,6 +31,9 @@
 #include <parse/literal.h>
 #include <parse/preproc.h>
 
+#include <output/dump.h>
+#include <output/tok.h>
+
 #include "exp_ops.h"
 #include "flt_ops.h"
 #include "id_ops.h"
@@ -42,12 +45,10 @@
 #include "cast.h"
 #include "chktype.h"
 #include "convert.h"
-#include "dump.h"
 #include "exception.h"
 #include "expression.h"
 #include "inttype.h"
 #include "syntax.h"
-#include "tok.h"
 #include "token.h"
 
 

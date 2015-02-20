@@ -19,13 +19,14 @@
 
 #include <parse/hash.h>
 
+#include <output/dump.h>
+
 #include "exp_ops.h"
 #include "hashid_ops.h"
 #include "id_ops.h"
 #include "member_ops.h"
 #include "nspace_ops.h"
 #include "basetype.h"
-#include "dump.h"
 #include "function.h"
 #include "label.h"
 #include "namespace.h"

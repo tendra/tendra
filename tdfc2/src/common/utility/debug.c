@@ -29,6 +29,11 @@
 #include <parse/hash.h>
 #include <parse/lex.h>
 
+#include <output/capsule.h>
+#include <output/encode.h>
+#include <output/mangle.h>
+#include <output/unmangle.h>
+
 #include "exp_ops.h"
 #include "hashid_ops.h"
 #include "id_ops.h"
@@ -38,13 +43,9 @@
 #include "off_ops.h"
 #include "type_ops.h"
 #include "virt_ops.h"
-#include "capsule.h"
-#include "encode.h"
 #include "label.h"
-#include "mangle.h"
 #include "operator.h"
 #include "syntax.h"
-#include "unmangle.h"
 #ifndef NDEBUG
 
 

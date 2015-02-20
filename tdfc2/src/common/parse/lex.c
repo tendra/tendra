@@ -36,12 +36,13 @@
 #include <parse/pragma.h>
 #include <parse/preproc.h>
 
+#include <output/dump.h>
+
 #include "exp_ops.h"
 #include "hashid_ops.h"
 #include "id_ops.h"
 #include "member_ops.h"
 #include "str_ops.h"
-#include "dump.h"
 #include "syntax.h"
 
 

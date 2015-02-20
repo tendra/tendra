@@ -22,6 +22,9 @@
 #include <parse/hash.h>
 #include <parse/literal.h>
 
+#include <output/interface.h>
+#include <output/tok.h>
+
 #include "ctype_ops.h"
 #include "exp_ops.h"
 #include "graph_ops.h"
@@ -42,12 +45,10 @@
 #include "expression.h"
 #include "identifier.h"
 #include "initialise.h"
-#include "interface.h"
 #include "namespace.h"
 #include "overload.h"
 #include "syntax.h"
 #include "template.h"
-#include "tok.h"
 #include "token.h"
 #include "typeid.h"
 

@@ -38,6 +38,9 @@
 #include <parse/preproc.h>
 #include <parse/symbols.h>
 
+#include <output/compile.h>
+#include <output/dump.h>
+
 #include "exp_ops.h"
 #include "hashid_ops.h"
 #include "id_ops.h"
@@ -47,9 +50,7 @@
 #include "str_ops.h"
 #include "tok_ops.h"
 #include "type_ops.h"
-#include "compile.h"
 #include "convert.h"
-#include "dump.h"
 #include "identifier.h"
 #include "namespace.h"
 #include "statement.h"

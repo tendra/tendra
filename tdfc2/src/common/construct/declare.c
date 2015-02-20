@@ -24,6 +24,10 @@
 #include <parse/predict.h>
 #include <parse/preproc.h>
 
+#include <output/capsule.h>
+#include <output/compile.h>
+#include <output/dump.h>
+
 #include "ctype_ops.h"
 #include "hashid_ops.h"
 #include "id_ops.h"
@@ -35,14 +39,11 @@
 #include "access.h"
 #include "allocate.h"
 #include "basetype.h"
-#include "capsule.h"
 #include "chktype.h"
 #include "class.h"
-#include "compile.h"
 #include "construct.h"
 #include "declare.h"
 #include "derive.h"
-#include "dump.h"
 #include "exception.h"
 #include "function.h"
 #include "identifier.h"

@@ -24,6 +24,9 @@
 #include <parse/parse.h>
 #include <parse/predict.h>
 
+#include <output/dump.h>
+#include <output/tok.h>
+
 #include "ctype_ops.h"
 #include "exp_ops.h"
 #include "id_ops.h"
@@ -39,7 +42,6 @@
 #include "convert.h"
 #include "declare.h"
 #include "derive.h"
-#include "dump.h"
 #include "exception.h"
 #include "expression.h"
 #include "function.h"
@@ -50,7 +52,6 @@
 #include "redeclare.h"
 #include "syntax.h"
 #include "template.h"
-#include "tok.h"
 #include "token.h"
 
 

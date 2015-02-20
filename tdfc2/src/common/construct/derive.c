@@ -19,6 +19,8 @@
 #include <utility/catalog.h>
 #include <utility/option.h>
 
+#include <output/dump.h>
+
 #include "ctype_ops.h"
 #include "etype_ops.h"
 #include "exp_ops.h"
@@ -35,7 +37,6 @@
 #include "chktype.h"
 #include "class.h"
 #include "derive.h"
-#include "dump.h"
 #include "identifier.h"
 #include "instance.h"
 #include "namespace.h"

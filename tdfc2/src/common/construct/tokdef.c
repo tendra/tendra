@@ -28,6 +28,8 @@
 #include <parse/predict.h>
 #include <parse/preproc.h>
 
+#include <output/dump.h>
+
 #include "ctype_ops.h"
 #include "exp_ops.h"
 #include "hashid_ops.h"
@@ -45,7 +47,6 @@
 #include "class.h"
 #include "convert.h"
 #include "derive.h"
-#include "dump.h"
 #include "exception.h"
 #include "expression.h"
 #include "function.h"

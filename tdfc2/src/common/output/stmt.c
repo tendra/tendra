@@ -17,27 +17,28 @@
 
 #include <utility/error.h>
 
+#include <output/tdf.h>
+#include <output/capsule.h>
+#include <output/compile.h>
+#include <output/diag3.h>
+#include <output/encode.h>
+#include <output/exp.h>
+#include <output/init.h>
+#include <output/shape.h>
+#include <output/struct.h>
+#include <output/stmt.h>
+#include <output/throw.h>
+#include <output/tok.h>
+
 #include "exp_ops.h"
 #include "hashid_ops.h"
 #include "id_ops.h"
-#include "tdf.h"
 #include "basetype.h"
-#include "capsule.h"
 #include "check.h"
-#include "compile.h"
 #include "destroy.h"
-#include "diag3.h"
-#include "encode.h"
-#include "exp.h"
-#include "init.h"
 #include "redeclare.h"
-#include "shape.h"
 #include "statement.h"
-#include "struct.h"
-#include "stmt.h"
 #include "syntax.h"
-#include "throw.h"
-#include "tok.h"
 
 
 /*

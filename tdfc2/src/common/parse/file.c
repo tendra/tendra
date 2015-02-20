@@ -34,8 +34,9 @@
 #include <parse/lex.h>
 #include <parse/preproc.h>
 
+#include <output/dump.h>
+
 #include "loc_ext.h"
-#include "dump.h"
 #include "syntax.h"
 #include "token.h"
 

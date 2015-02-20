@@ -21,6 +21,8 @@
 #include <parse/literal.h>
 #include <parse/predict.h>
 
+#include <output/tok.h>
+
 #include "ctype_ops.h"
 #include "etype_ops.h"
 #include "ftype_ops.h"
@@ -42,7 +44,6 @@
 #include "namespace.h"
 #include "printf.h"
 #include "template.h"
-#include "tok.h"
 #include "tokdef.h"
 #include "token.h"
 

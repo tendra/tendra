@@ -22,6 +22,10 @@
 #include <parse/hash.h>
 #include <parse/predict.h>
 
+#include <output/capsule.h>
+#include <output/compile.h>
+#include <output/dump.h>
+
 #include "ctype_ops.h"
 #include "exp_ops.h"
 #include "graph_ops.h"
@@ -35,12 +39,10 @@
 #include "allocate.h"
 #include "assign.h"
 #include "basetype.h"
-#include "capsule.h"
 #include "cast.h"
 #include "check.h"
 #include "chktype.h"
 #include "class.h"
-#include "compile.h"
 #include "construct.h"
 #include "convert.h"
 #include "copy.h"
@@ -48,7 +50,6 @@
 #include "declare.h"
 #include "derive.h"
 #include "destroy.h"
-#include "dump.h"
 #include "exception.h"
 #include "expression.h"
 #include "function.h"

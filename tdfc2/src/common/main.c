@@ -38,16 +38,19 @@
 #include <parse/preproc.h>
 #include <parse/table.h>
 
+#include <output/capsule.h>
+#include <output/compile.h>
+#include <output/dump.h>
+#include <output/load.h>
+#include <output/tok.h>
+#include <output/unmangle.h>
+
 #include "basetype.h"
-#include "capsule.h"
-#include "compile.h"
 #include "declare.h"
 #include "exception.h"
-#include "dump.h"
 #include "initialise.h"
 #include "instance.h"
 #include "inttype.h"
-#include "load.h"
 #include "namespace.h"
 #include "operator.h"
 #include "overload.h"
@@ -56,10 +59,8 @@
 #include "statement.h"
 #include "syntax.h"
 #include "template.h"
-#include "tok.h"
 #include "tokdef.h"
 #include "typeid.h"
-#include "unmangle.h"
 #include "variable.h"
 
 

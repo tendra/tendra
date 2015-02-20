@@ -24,6 +24,8 @@
 #include <parse/hash.h>
 #include <parse/predict.h>
 
+#include <output/dump.h>
+
 #include "ctype_ops.h"
 #include "etype_ops.h"
 #include "exp_ops.h"
@@ -46,7 +48,6 @@
 #include "declare.h"
 #include "derive.h"
 #include "destroy.h"
-#include "dump.h"
 #include "exception.h"
 #include "expression.h"
 #include "function.h"

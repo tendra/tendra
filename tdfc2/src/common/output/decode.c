@@ -21,8 +21,8 @@
 #include <parse/file.h>
 #include <parse/literal.h>
 
-#include "decode.h"
-#include "encode.h"
+#include <output/decode.h>
+#include <output/encode.h>
 
 
 /*
