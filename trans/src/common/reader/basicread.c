@@ -44,7 +44,6 @@ static union pun_u
     struct pun_s {char a; char b; char c; char d;} chars;
   } crt_bits;		/* set before use */
 
-static const char *crt_dot_t;		/* initialised by init_reader */
 int crt_lno;			/* initialised to -1 by init_reader */
 int crt_charno;			/* only used if crt_lno != -1. No init needed */
 char *crt_flnm;			/* only used if crt_lno != -1. No init needed */
@@ -93,7 +92,6 @@ void check_magic_no(void);
 void
 initreader(FILE *f, const char *n)
 {
-  crt_dot_t = n;
   crt_lno = -1;
 
   fpin = f;
