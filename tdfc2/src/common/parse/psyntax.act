@@ -161,22 +161,6 @@ extern void parse_mem_type(TYPE *);
 extern void parse_operator(IDENTIFIER *);
 
 
-/*
-    The output of sid is automatically generated.  Hence it is not
-    necessarily appropriate to apply the same level of checking to this
-    as to the rest of the program.  These pragmas describe the relaxations
-    allowed for the sid output.
-*/
-
-#if FS_TENDRA
-#pragma TenDRA begin
-#pragma TenDRA variable analysis off
-#ifndef OLD_PRODUCER
-#pragma TenDRA unreachable code allow
-#endif
-#endif
-
-
 @}, @{
 
 /* $Id$ */
