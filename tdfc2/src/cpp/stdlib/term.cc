@@ -7,27 +7,9 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <stdlib.h>
 
 #include "implement.h"
-
-
-/*
-    SYSTEM ATEXIT FUNCTION
-
-    The macro sys_atexit calls the system atexit function.  The macro
-    FS_ATEXIT may be defined on machines where atexit is not defined.
-*/
-
-#ifndef FS_ATEXIT
-#define FS_ATEXIT	0
-#endif
-
-#if ( FS_ATEXIT == 1 )
-extern "C" int on_exit ( EXITER, char * ) ;
-#define sys_atexit( X )	( on_exit ) ( X, NULL )
-#else
-#define sys_atexit( X )	( atexit ) ( X )
-#endif
 
 
 /*
@@ -77,7 +59,7 @@ void __TCPPLUS_init ()
 {
     static int started = 0 ;
     if ( !started ) {
-	sys_atexit ( __TCPPLUS_term ) ;
+	atexit ( __TCPPLUS_term ) ;
 	started = 1 ;
     }
     return ;
