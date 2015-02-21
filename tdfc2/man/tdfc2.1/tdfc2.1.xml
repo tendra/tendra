@@ -24,6 +24,7 @@
 	<!ENTITY f.opt "<option>-f</option>&nbsp;&file.arg;">
 	<!ENTITY g.opt "<option>-g</option>">
 	<!ENTITY h.opt "<option>-h</option>">
+	<!ENTITY i.opt "<option>-i</option>&nbsp;&name.arg;">
 	<!ENTITY j.opt "<option>-j</option>&nbsp;&opt.arg;">
 	<!ENTITY m.opt "<option>-m</option>&nbsp;&opt.arg;">
 	<!ENTITY n.opt "<option>-n</option>&nbsp;&port-table.arg;">
@@ -203,6 +204,7 @@
 			<arg choice="opt">&e.opt;</arg>
 			<arg choice="opt">&f.opt;</arg>
 			<arg choice="opt">&g.opt;</arg>
+			<arg choice="opt">&i.opt;</arg>
 			<arg choice="opt">&j.opt;</arg>
 			<arg choice="opt">&m.opt;</arg>
 
@@ -618,6 +620,21 @@
 						unlikely to prove useful to the normal user.</para>
 				</listitem>
 				<!-- TODO document them! -->
+			</varlistentry>
+
+			<varlistentry>
+				<term>&i.opt;</term>
+
+				<listitem>
+					<para>Specifies the machine name for use in diagnostics.
+						This is the hostname of the machine where the
+						source files are to be found, given from the
+						perspective of a debugger inspecting objects
+						produced from those files.</para>
+
+					<para>The machine name defaults to the empty string,
+						meaning the same machine as the debugger.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>

@@ -29,10 +29,6 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-#if FS_UTSNAME
-#include <sys/utsname.h>
-#endif
-
 typedef struct stat STAT_TYPE;
 
 #else /* FS_POSIX */
@@ -62,7 +58,6 @@ extern unsigned long stat_date(STAT_TYPE *);
 extern int stat_equal(STAT_TYPE *, STAT_TYPE *);
 extern int file_seek(FILE *, long);
 extern const char *find_cwd(void);
-extern const char *find_machine(void);
 
 extern unsigned long crt_time;
 extern char uniq_string[];
@@ -72,6 +67,7 @@ extern int good_fseek;
 extern int good_stat;
 extern int drive_sep;
 extern int file_sep;
+extern const char *machine_name;
 
 
 #endif

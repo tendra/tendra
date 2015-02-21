@@ -45,6 +45,19 @@ int binary_mode = 0;
 int file_sep = '/';
 int drive_sep = 0;
 
+/*
+    The machine's name, for use in diagnostics. This is supposed to be
+    the hostname of the machine where the source file is to be found,
+    from the perspective of a debugger. DWARF-2 says:
+
+    	If no hostname is available, the suggested form is ":pathname".
+
+    Which means if no hostname is available, then we default to the
+    empty string here.
+*/
+
+const char *machine_name = "";
+
 
 /*
     This routine seeks a position n bytes from the start of the file f.
@@ -252,27 +265,3 @@ find_cwd(void)
 	return crt_directory;
 }
 
-
-/*
-    This routine finds the name of the machine on which the program is
-    running, returning the empty string if this cannot be found.
-*/
-
-const char *
-find_machine(void)
-{
-	static const char *machine_name = NULL;
-	if (machine_name == NULL) {
-#if FS_UTSNAME
-		struct utsname un;
-		if (uname(&un) != -1) {
-			string s = ustrlit(un.nodename);
-			s = xustrcpy(s);
-			machine_name = strlit(s);
-			return machine_name;
-		}
-#endif
-		machine_name = "";
-	}
-	return machine_name;
-}

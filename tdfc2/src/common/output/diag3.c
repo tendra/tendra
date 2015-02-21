@@ -78,7 +78,7 @@ enc_diag_file(BITSTREAM *bs, PTR(POSITION)posn)
 	if (n == LINK_NONE) {
 		BITSTREAM *ts;
 		string bn = DEREF_string(posn_base(posn));
-		string mn = ustrlit(find_machine());
+		string mn = ustrlit(machine_name);
 		ulong date = DEREF_ulong(posn_datestamp(posn));
 		n = capsule_no(NULL_string, VAR_token);
 		COPY_ulong(posn_tok(posn), n);

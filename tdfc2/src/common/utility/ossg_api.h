@@ -31,10 +31,6 @@
 #define FS_POSIX		1
 #endif
 
-#ifndef FS_UTSNAME
-#define FS_UTSNAME		FS_POSIX
-#endif
-
 #ifdef index
 #undef index
 #endif

@@ -144,6 +144,7 @@ static PROGRAM_ARG prog_args[] = {
     { 'f', 1, "<file>",       "add a start-up file"               },
     { 'g', 0, "<level>",      "enable diagnostics mode"           },
     { 'h', 0, NULL,           "print this help page"              },
+    { 'i', 1, "<name>",       "specify machine for diagnostics"   },
     { 'j', 1, "<opts>",       "set TDF output options"            },
     { 'm', 1, "<opts>",       "set error printing options"        },
     { 'n', 1, "<file>",       "specify portability table"         },
@@ -596,6 +597,12 @@ process_args(int argc, char **argv)
 		    case '?': {
 			/* Help option */
 			report_usage(error_file);
+			break;
+		    }
+
+		    case 'i': {
+			/* Machine name */
+			machine_name = strlit(xustrcpy(uarg));
 			break;
 		    }
 
