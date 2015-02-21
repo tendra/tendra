@@ -7,6 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <shared/bool.h>
 #include <shared/check.h>
 
 #include <construct/exp.h>
@@ -229,7 +230,7 @@ check_anyway(exp e)
     IS IT WORTH EXTRACTING A CONSTANT?
 */
 
-int
+bool
 is_worth(exp c)
 {
 	unsigned char cnam = name(c);
