@@ -328,11 +328,11 @@ void extn
   if (PIC_code)
    {
      char * got;
-     if (et -> dec_u.dec_val.extnamed)
+     if (et -> extnamed)
         got = "GOT";
      else
         got = "GOTOFF";
-     asm_printf("%s@%s", et -> dec_u.dec_val.dec_id, got);
+     asm_printf("%s@%s", et -> dec_id, got);
      if (off != 0)
       {
         asm_printf("+%d", off / 8);
@@ -344,9 +344,9 @@ void extn
    };
 
   if (off == 0)
-    asm_printf("%s", et -> dec_u.dec_val.dec_id);
+    asm_printf("%s", et -> dec_id);
   else {
-    asm_printf("%s+%d", et -> dec_u.dec_val.dec_id, off / 8);
+    asm_printf("%s+%d", et -> dec_id, off / 8);
   };
   if (!b)
     asm_printf("(");
@@ -388,11 +388,11 @@ void proc_extn
      dec * et;
      et = brog(id);
      if (off == 0)
-       asm_printf("%s", et -> dec_u.dec_val.dec_id);
+       asm_printf("%s", et -> dec_id);
      else {
-        asm_printf("%d+%s", off / 8, et->dec_u.dec_val.dec_id);
+        asm_printf("%d+%s", off / 8, et->dec_id);
      };
-     if (et -> dec_u.dec_val.extnamed)
+     if (et -> extnamed)
         asm_printf("@PLT");
    }
   else
@@ -457,7 +457,7 @@ void envsize_operand
 (exp e)
 {
   dec * et = brog(e);
-  asm_printf("%sESZ%s", local_prefix, et->dec_u.dec_val.dec_id);
+  asm_printf("%sESZ%s", local_prefix, et->dec_id);
 }
 
 /* 80386 instruction with no operands */
@@ -1085,9 +1085,9 @@ exp make_extn
     newn[nl+prefix_length] = 0;
     n = newn;
   }
-  g -> dec_u.dec_val.dec_exp = id;
-  g -> dec_u.dec_val.dec_id = n;
-  g -> dec_u.dec_val.extnamed = 1;
+  g -> dec_exp = id;
+  g -> dec_id = n;
+  g -> extnamed = 1;
   return nme;
 }
 

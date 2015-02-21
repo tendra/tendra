@@ -36,7 +36,7 @@ void transform_var_callees
   dec * my_def;
 
   for (my_def = top_def; my_def != NULL; my_def = my_def -> def_next) {
-    exp tg = my_def -> dec_u.dec_val.dec_exp;
+    exp tg = my_def -> dec_exp;
     if (son(tg)!= NULL && name(son(tg)) == general_proc_tag
 		&& proc_has_vcallees(son(tg))) {
       shape pc_sh = f_pointer(f_callers_alignment(0));

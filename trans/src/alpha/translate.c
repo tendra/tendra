@@ -126,17 +126,17 @@ static int current_symno;
 void
 code_it(dec *my_def)
 {
-  exp tg = my_def -> dec_u.dec_val.dec_exp;
-  char *id = my_def -> dec_u.dec_val.dec_id;
-  int symdef = my_def ->dec_u.dec_val.sym_number;
-  bool extnamed =  my_def -> dec_u.dec_val.extnamed;
+  exp tg = my_def -> dec_exp;
+  char *id = my_def -> dec_id;
+  int symdef = my_def ->sym_number;
+  bool extnamed =  my_def -> extnamed;
   static  space tempspace = {
     0, 0
     };
   if (symnos[symdef] >=0){
     if (son (tg) != NULL && (!extnamed || !is_comm(son(tg)))) {
       if (name (son (tg)) == proc_tag || name(son(tg)) == general_proc_tag) {
-	diag_descriptor * dd =  my_def -> dec_u.dec_val.diag_info;
+	diag_descriptor * dd =  my_def -> diag_info;
 	/* compile code for proc */
 	set_text_section();
 	if(dyn_init && !strncmp("__I.TDF",id,7)) {
@@ -148,7 +148,7 @@ code_it(dec *my_def)
 	  strcat(new_id,id);
 	  xfree(id);
 	  id = new_id;
-	  my_def -> dec_u.dec_val.dec_id = id;
+	  my_def -> dec_id = id;
 	}
 	if (diag != DIAG_NONE && dd != (diag_descriptor*)NULL) {
 	  sourcemark *sm = &dd -> data.id.whence;
@@ -196,7 +196,7 @@ code_it(dec *my_def)
     }
     else {	/* global declarations but no definitions or is_comm */
       long  size;
-      shape s = my_def -> dec_u.dec_val.dec_shape;
+      shape s = my_def -> dec_shape;
       bool vs = son(tg)!=NULL /* ie is_comm */;
       size = (shape_size(s) + 7) >> 3;
       if ((isvar(tg) || name(s) != prokhd) && not_reserved (id)) {
@@ -227,7 +227,7 @@ code_it(dec *my_def)
   }
 /*end:*/
   /*son(tg) = NULL;*/
-  my_def -> dec_u.dec_val.processed = 1;
+  my_def -> processed = 1;
 }
 
 static void
@@ -253,8 +253,8 @@ find_tag(char *name)
 {
   int i;
   for(i=0; i<main_globals_index; i++){
-    exp tag = main_globals[i]->dec_u.dec_val.dec_exp;
-    char * id = main_globals[i]->dec_u.dec_val.dec_id;
+    exp tag = main_globals[i]->dec_exp;
+    char * id = main_globals[i]->dec_id;
     if(!strcmp(id,name)) return boff(tag);
   }
   printf("%s\n: ",name);
@@ -276,8 +276,8 @@ translate_capsule(void)
   opt_all_exps ();
     /* mark static unaliased */
   for (my_def = top_def; my_def != NULL; my_def = my_def -> def_next) {
-    exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
-    if (son (crt_exp) != NULL && !my_def -> dec_u.dec_val.extnamed &&
+    exp crt_exp = my_def -> dec_exp;
+    if (son (crt_exp) != NULL && !my_def -> extnamed &&
 	isvar (crt_exp)) {
       mark_unaliased (crt_exp);
     }
@@ -287,11 +287,11 @@ translate_capsule(void)
     /* remove static functions with no uses if compiling with diagnostics */
     dec **ptr_def = &top_def;
     while(*ptr_def) {
-      exp crt_exp = (*ptr_def)->dec_u.dec_val.dec_exp;
+      exp crt_exp = (*ptr_def)->dec_exp;
       if(son(crt_exp) != NULL) {
 	if(((name(son(crt_exp)) == general_proc_tag) || 
 	   (name(son(crt_exp)) == proc_tag)) &&
-	   ((no(crt_exp) == 0) && (diag != DIAG_NONE) && !(*ptr_def)->dec_u.dec_val.extnamed)) {
+	   ((no(crt_exp) == 0) && (diag != DIAG_NONE) && !(*ptr_def)->extnamed)) {
 	  dec *old_ptr = *ptr_def;
 	  *ptr_def = (*ptr_def)->def_next;
 	  free(old_ptr);
@@ -308,7 +308,7 @@ translate_capsule(void)
 
   noprocs = 0;
   for (my_def = top_def; my_def != NULL; my_def = my_def -> def_next) {
-    exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
+    exp crt_exp = my_def -> dec_exp;
     if (son (crt_exp) != NULL && (name (son (crt_exp)) == proc_tag ||
 	name(son(crt_exp))==general_proc_tag)) {
       noprocs++;
@@ -320,7 +320,7 @@ translate_capsule(void)
   noprocs = 0;
 
   for (my_def = top_def; my_def != NULL; my_def = my_def -> def_next) {
-    exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
+    exp crt_exp = my_def -> dec_exp;
     if (son (crt_exp) != NULL && (name (son (crt_exp)) == proc_tag
 				    || name(son(crt_exp))==general_proc_tag)) {
       no (son (crt_exp)) = noprocs++;
@@ -330,7 +330,7 @@ translate_capsule(void)
   if(do_extern_adds) {
     usages = (exp*)xcalloc(noprocs, sizeof(exp));
     for (my_def = top_def; my_def != NULL; my_def = my_def -> def_next) {
-      exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
+      exp crt_exp = my_def -> dec_exp;
       if (son(crt_exp) == NULL && isvar(crt_exp) ) {
 	global_usages(crt_exp, noprocs);
 	/* try to identify globals ptrs in procs */
@@ -367,7 +367,7 @@ translate_capsule(void)
     IGNORE new_lsym_d ("NOFILE.c",0,stFile,scText,0,0);
   }
   for (my_def = top_def; my_def != NULL; my_def = my_def -> def_next) {
-    exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
+    exp crt_exp = my_def -> dec_exp;
     if (son (crt_exp) != NULL && (name (son (crt_exp)) == proc_tag
 				    || name(son(crt_exp))==general_proc_tag)) {
       procrec * pr = &procrecs[no (son (crt_exp))];
@@ -389,7 +389,7 @@ translate_capsule(void)
 
   /* calculate the break points for register allocation and do it */
   for (my_def = top_def; my_def != NULL; my_def = my_def -> def_next) {
-    exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
+    exp crt_exp = my_def -> dec_exp;
     if (son (crt_exp) != NULL && (name (son (crt_exp)) == proc_tag
 				    || name(son(crt_exp))==general_proc_tag)){
       procrec * pr = &procrecs[no (son (crt_exp))];
@@ -429,10 +429,10 @@ translate_capsule(void)
   	
   /* ... and set in the position and "addresses" of the externals */
   for (i = 0; i < main_globals_index; i++) {
-    exp tg = main_globals[i] -> dec_u.dec_val.dec_exp;
-    char *id = main_globals[i] -> dec_u.dec_val.dec_id;
-    bool extnamed = main_globals[i] -> dec_u.dec_val.extnamed;
-    main_globals[i] ->dec_u.dec_val.sym_number = i;	    
+    exp tg = main_globals[i] -> dec_exp;
+    char *id = main_globals[i] -> dec_id;
+    bool extnamed = main_globals[i] -> extnamed;
+    main_globals[i] ->sym_number = i;	    
     /* if not NULL */
     if ( no (tg) != 0 || (extnamed && son(tg) != NULL) 
 	 || !strcmp(id,"__alpha_errhandler") || !strcmp(id,"__alpha_stack_limit")) {
@@ -483,9 +483,9 @@ translate_capsule(void)
   */
 
   for (my_def = top_def; my_def != NULL; my_def = my_def -> def_next) {
-    exp tg = my_def -> dec_u.dec_val.dec_exp;
-    char *id = my_def -> dec_u.dec_val.dec_id;
-    bool extnamed = my_def -> dec_u.dec_val.extnamed;
+    exp tg = my_def -> dec_exp;
+    char *id = my_def -> dec_id;
+    bool extnamed = my_def -> extnamed;
     if (son (tg) != NULL && (extnamed || no (tg) != 0 || 
 			       !strcmp (id, "main"))) {
       if (extnamed) {
@@ -497,19 +497,19 @@ translate_capsule(void)
 	  strcat(new_id,id);
 	  xfree(id);
 	  id = new_id;
-	  my_def->dec_u.dec_val.dec_id = new_id;
+	  my_def->dec_id = new_id;
 	}
 	
 	if (as_file){
 	  asm_printop(".globl %s", id);
 	}
-	out_common(symnos[my_def->dec_u.dec_val.sym_number] ,iglobal);
+	out_common(symnos[my_def->sym_number] ,iglobal);
       }
     }
   }
      
   for (my_def = top_def; my_def != NULL; my_def = my_def -> def_next) {
-    if (!my_def -> dec_u.dec_val.processed){
+    if (!my_def -> processed){
       code_it (my_def);
     }
   }

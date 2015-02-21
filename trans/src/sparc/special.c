@@ -181,7 +181,7 @@ specialfn ( exp fn )
 {
     if ( name ( fn ) == name_tag && name ( son ( fn ) ) == ident_tag &&
 	 isglob ( son ( fn ) ) && son ( son ( fn ) ) == NULL ) {
-	char *extname = brog ( son ( fn ) )->dec_u.dec_val.dec_id ;
+	char *extname = brog ( son ( fn ) )->dec_id ;
 	return specno ( extname ) ;
     }
     return 0;
@@ -199,7 +199,7 @@ specialopt ( exp fn )
 {
     if ( name ( fn ) == name_tag && name ( son ( fn ) ) == ident_tag &&
 	 isglob ( son ( fn ) ) && son ( son ( fn ) ) == NULL ) {
-	char *extname = brog ( son ( fn ) )->dec_u.dec_val.dec_id ;
+	char *extname = brog ( son ( fn ) )->dec_id ;
 	if ( extname == NULL ) return 0;
 	extname += strlen ( name_prefix ) ;	/* get rid of any prefix */
 

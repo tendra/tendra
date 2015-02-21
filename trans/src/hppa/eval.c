@@ -872,13 +872,13 @@ evalone(exp e, int bitposn)
 
     case name_tag : {
 	dec *globdec = brog(son(e)) ;	/* must be global name */
-	char *nm = globdec->dec_u.dec_val.dec_id ;
+	char *nm = globdec->dec_id ;
 
 	assert(isglob(son(e)));
 
-	if ( son(globdec->dec_u.dec_val.dec_exp)!=NULL &&
-	     ( name(son(globdec->dec_u.dec_val.dec_exp))==proc_tag ||
-	       name(son(globdec->dec_u.dec_val.dec_exp))==general_proc_tag ) )
+	if ( son(globdec->dec_exp)!=NULL &&
+	     ( name(son(globdec->dec_exp))==proc_tag ||
+	       name(son(globdec->dec_exp))==general_proc_tag ) )
 	{
 	   /* It's a plabel */
 	   outs( "\t.WORD\tP%" ) ;
@@ -1167,7 +1167,7 @@ evaluated(exp e, long l)
   instore isa;
   exp z = e;
   ash a ;
-  bool extnamed = (l == 0) ? 0 : main_globals[-lab - 1]->dec_u.dec_val.extnamed;
+  bool extnamed = (l == 0) ? 0 : main_globals[-lab - 1]->extnamed;
   a = ashof(sh(e));
 
   asm_comment("evaluated: %d %ld", name(e), l);

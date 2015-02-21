@@ -139,8 +139,8 @@ long  evalexp
     case env_size_tag:
       {
 	dec * et = brog(son(son(e)));
-	if (et -> dec_u.dec_val.processed)
-	  return et -> dec_u.dec_val.index;
+	if (et -> processed)
+	  return et -> index;
 	break;
       }
     case offset_add_tag:
@@ -184,7 +184,7 @@ long  evalexp
       {
 	if (PIC_code && name(son(e)) == name_tag && isglob(son(son(e)))
 		&& son(son(son(e)))!= NULL
-		&& !(brog(son(son(e))) -> dec_u.dec_val.dec_var))
+		&& !(brog(son(son(e))) -> dec_var))
 	   return evalexp(son(son(son(e))));
 	break;
       }
@@ -245,7 +245,7 @@ static void evalval
 
   if (n == reff_tag && name(son(e)) == name_tag && isglob(son(son(e)))) {
     outopenbr();
-    asm_printf("%s + %d", brog(son(son(e))) -> dec_u.dec_val.dec_id, (no(e) + no(son(e))) / 8);
+    asm_printf("%s + %d", brog(son(son(e))) -> dec_id, (no(e) + no(son(e))) / 8);
     outclosebr();
     return;
   };
@@ -253,11 +253,11 @@ static void evalval
   if (n == name_tag) {
     if (no(e)!= 0) {
       outopenbr();
-      asm_printf("%s + %d", brog(son(e)) -> dec_u.dec_val.dec_id, no(e) / 8);
+      asm_printf("%s + %d", brog(son(e)) -> dec_id, no(e) / 8);
       outclosebr();
     }
     else
-      asm_printf("%s", brog(son(e)) -> dec_u.dec_val.dec_id);
+      asm_printf("%s", brog(son(e)) -> dec_id);
     return;
   };
 

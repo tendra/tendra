@@ -1436,9 +1436,9 @@ make_code(where dest, ash stack, exp e)
 		 * Not a normal procedure call, but a way to specify a debuger
 		 * break point.
 		 */
-		if ((brog(son(proc)) ->dec_u.dec_val.processed) &&
-		    (brog(son(proc)) ->dec_u.dec_val.extnamed) &&
-		    (!strcmp(brog(son(proc))->dec_u.dec_val.dec_id,
+		if ((brog(son(proc)) ->processed) &&
+		    (brog(son(proc)) ->extnamed) &&
+		    (!strcmp(brog(son(proc))->dec_id,
 			     "_TESTPOINT"))) {
 			TESTPOINT();
 			return;

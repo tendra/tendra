@@ -215,8 +215,8 @@ long  evalexp
    case env_size_tag:
     {
        dec * et = brog(son(son(e)));
-       if (et -> dec_u.dec_val.processed)
-       return et -> dec_u.dec_val.index;
+       if (et -> processed)
+       return et -> index;
        break;
     }
    case offset_add_tag:
@@ -265,7 +265,7 @@ long  evalexp
     {
        if (PIC_code && name(son(e)) == name_tag && isglob(son(son(e)))
            && son(son(son(e)))!= NULL
-           && !(brog(son(son(e))) -> dec_u.dec_val.dec_var))
+           && !(brog(son(son(e))) -> dec_var))
        return evalexp(son(son(son(e))));
        break;
     }
@@ -714,7 +714,7 @@ void evalaux
 	    mach_op *op;
 	    long n = no(e);
 	    long sz = shape_size(sh(e));
-	    char *nm = brog(son(e)) ->dec_u.dec_val.dec_id;
+	    char *nm = brog(son(e)) ->dec_id;
 	    op = make_extern_data(nm, n / 8);
 	    eval_op(sz, op);
 	    return;
@@ -878,8 +878,8 @@ void evalaux
 	    if (name(p1) == name_tag && name(p2) == name_tag) {
 		long n = no(p1) - no(p2);
 		long sz = shape_size(sh(e));
-		char *n1 = brog(son(p1)) ->dec_u.dec_val.dec_id;
-		char *n2 = brog(son(p2)) ->dec_u.dec_val.dec_id;
+		char *n1 = brog(son(p1)) ->dec_id;
+		char *n2 = brog(son(p2)) ->dec_id;
 		mach_op *op1 = new_mach_op();
 		mach_op *op2 = new_mach_op();
 		mach_op *op3 = new_mach_op();

@@ -281,8 +281,8 @@ cmp_dec(dec *x, dec *y)
 	int c;
 	long lx, ly;
 	sourcemark *sx, *sy;
-	diag_descriptor *dx = x->dec_u.dec_val.diag_info;
-	diag_descriptor *dy = y->dec_u.dec_val.diag_info;
+	diag_descriptor *dx = x->diag_info;
+	diag_descriptor *dy = y->diag_info;
 	if (dy == NULL || dy->key != DIAG_ID_KEY) {
 		return 0;
 	}

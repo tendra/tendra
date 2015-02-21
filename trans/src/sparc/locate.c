@@ -54,7 +54,7 @@ boff ( exp e ){
   if ( isglob ( e ) ) {
     /* bro is index in main_globals */
     dec *gl = brog ( e ) ;
-    long sno = gl->dec_u.dec_val.sym_number ;
+    long sno = gl->sym_number ;
     an.base = ( int ) ( -( sno + 1 ) ) ;
     an.offset = 0 ;
   } 

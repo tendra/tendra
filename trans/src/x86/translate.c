@@ -72,7 +72,7 @@ static int const_ready
 {
   unsigned char  n = name(e);
   if (n == env_size_tag)
-    return brog(son(son(e))) -> dec_u.dec_val.processed;
+    return brog(son(son(e))) -> processed;
   if (n == env_offset_tag)
     return name(son(e)) == 0;
   if (n == name_tag || son(e) == NULL)
@@ -93,13 +93,13 @@ static void eval_if_ready
     if (isglob(t)) {
 	dec * d = ptg(t);
 	if (!writable_strings &&
-	   (!isvar(t) || (d -> dec_u.dec_val.acc & f_constant)) &&
+	   (!isvar(t) || (d -> acc & f_constant)) &&
 	    !PIC_code) {
           out_readonly_section();
 	  asm_printf("\n");
 #ifdef DWARF2
 	  if (diag == DIAG_DWARF2)
-	    note_ro(d -> dec_u.dec_val.dec_id);
+	    note_ro(d -> dec_id);
 #endif
 	}
 	else {
@@ -108,18 +108,18 @@ static void eval_if_ready
 	  asm_printf(".data\n");
 #ifdef DWARF2
 	  if (diag == DIAG_DWARF2)
-	    note_data(d -> dec_u.dec_val.dec_id);
+	    note_data(d -> dec_id);
 #endif
 	};
 	evaluate(son(t),
                  (-1),
-                  d -> dec_u.dec_val.dec_id,
+                  d -> dec_id,
 		 (!isvar(t)),
-                 (int)(d -> dec_u.dec_val.extnamed),
+                 (int)(d -> extnamed),
 #ifdef TDF_DIAG4
-                  d -> dec_u.dec_val.dg_name
+                  d -> dg_name
 #else
-                  d -> dec_u.dec_val.diag_info
+                  d -> diag_info
 #endif
 		);
     }
@@ -149,8 +149,8 @@ static void eval_if_ready
 static void code_def
 (dec * my_def)
 {
-  exp tg = my_def -> dec_u.dec_val.dec_exp;
-  char *id = my_def -> dec_u.dec_val.dec_id;
+  exp tg = my_def -> dec_exp;
+  char *id = my_def -> dec_id;
 
   if (son(tg)!= NULL && shape_size(sh(son(tg))) == 0 && name(son(tg)) == asm_tag) {
     ash stack;
@@ -163,7 +163,7 @@ static void code_def
     asm_printf("\n");
   }
 
-  if (son(tg)!= NULL && (my_def -> dec_u.dec_val.extnamed || no(tg)!= 0)) {
+  if (son(tg)!= NULL && (my_def -> extnamed || no(tg)!= 0)) {
     if (name(son(tg)) == proc_tag || name(son(tg)) == general_proc_tag) {
       if (dyn_init && strncmp("__I.TDF", id + strlen(name_prefix), 7) ==0) {
 	out_initialiser(id);
@@ -172,22 +172,22 @@ static void code_def
       asm_printf(".text\n");
       if (isvar(tg)) {
         char * newid = make_local_name();
-	if (my_def -> dec_u.dec_val.extnamed) {
-	  my_def -> dec_u.dec_val.extnamed = 0;
+	if (my_def -> extnamed) {
+	  my_def -> extnamed = 0;
 	  asm_printf(".globl %s\n", id);
 	}
 	dot_align(4);
         asm_label("%s", id);
 	asm_printf(".long %s\n", newid);
 	id = newid;
-	my_def -> dec_u.dec_val.extnamed = 0;
+	my_def -> extnamed = 0;
       }
-      my_def -> dec_u.dec_val.index =	/* for use in constant evaluation */
-	cproc(son(tg), id,(-1), (int)(my_def -> dec_u.dec_val.extnamed),
+      my_def -> index =	/* for use in constant evaluation */
+	cproc(son(tg), id,(-1), (int)(my_def -> extnamed),
 #ifdef TDF_DIAG4
-                my_def -> dec_u.dec_val.dg_name
+                my_def -> dg_name
 #else
-                my_def -> dec_u.dec_val.diag_info
+                my_def -> diag_info
 #endif
 		);
       while (const_list != NULL) {
@@ -199,13 +199,13 @@ static void code_def
     }
     else {			/* global values */
 #ifdef TDF_DIAG4
-     struct dg_name_t * diag_props = my_def -> dec_u.dec_val.dg_name;
+     struct dg_name_t * diag_props = my_def -> dg_name;
 #else
-     diag_descriptor * diag_props = my_def -> dec_u.dec_val.diag_info;
+     diag_descriptor * diag_props = my_def -> diag_info;
 #endif
 
       if (shape_size(sh(son(tg))) == 0) {;
-	if (my_def -> dec_u.dec_val.extnamed) {
+	if (my_def -> extnamed) {
 	  asm_printf(".globl %s\n", id);
 	}
 	else
@@ -221,7 +221,7 @@ static void code_def
       else
       if (!PIC_code && !isvar(tg) && name(son(tg)) == null_tag &&
 	  name(sh(son(tg))) == prokhd) {
-	if (my_def -> dec_u.dec_val.extnamed) {
+	if (my_def -> extnamed) {
 	  asm_printf(".globl %s\n", id);
 	} else if (assembler == ASM_SUN) {
 	  asm_printf(".local %s\n", id);
@@ -229,10 +229,10 @@ static void code_def
 	asm_printf(".set %s, %ld\n", id, (long) no(son(tg)));
       }
       else {
-      if (!my_def -> dec_u.dec_val.isweak &&
+      if (!my_def -> isweak &&
           is_comm(son(tg)))
        {
-	 int is_ext = (my_def -> dec_u.dec_val.extnamed);
+	 int is_ext = (my_def -> extnamed);
          if (diag_props) {
 		if (diag != DIAG_DWARF2) {
 #ifndef DWARF2
@@ -283,7 +283,7 @@ static void code_def
   };
 
   if (son(tg)!= NULL) {
-     my_def -> dec_u.dec_val.processed = 1;
+     my_def -> processed = 1;
   };
 }
 
@@ -324,10 +324,10 @@ void translate_capsule
 
 
   for (my_def = top_def; my_def != NULL; my_def = my_def -> def_next) {
-    exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
+    exp crt_exp = my_def -> dec_exp;
     if (PIC_code) {
       exp idval = son(crt_exp);
-      if (!(my_def -> dec_u.dec_val.dec_var) &&
+      if (!(my_def -> dec_var) &&
 	  (idval == NULL || (name(idval)!= val_tag && name(idval)!= real_tag &&
 		name(idval) != null_tag )	/* optimised out in opt_all_exps/refactor_ext */
 	  ) &&
@@ -338,7 +338,7 @@ void translate_capsule
       {
 		/* make variable, and change all uses to contents */
 	exp p = pt(crt_exp);
-	if (my_def -> dec_u.dec_val.extnamed)
+	if (my_def -> extnamed)
 	  sh(crt_exp) = f_pointer(f_alignment(sh(crt_exp)));
 	else
 	  setvar(crt_exp);
@@ -386,9 +386,9 @@ void translate_capsule
 
       /* mark static unaliased */
     for (my_def = top_def; my_def != NULL; my_def = my_def -> def_next) {
-      exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
+      exp crt_exp = my_def -> dec_exp;
       if (son(crt_exp)!= NULL &&
-	  !my_def -> dec_u.dec_val.extnamed &&
+	  !my_def -> extnamed &&
    	  isvar(crt_exp))
         mark_unaliased(crt_exp);
     }
@@ -434,7 +434,7 @@ void translate_capsule
      undefined objects */
 
   for (my_def = top_def; my_def != NULL; my_def = my_def -> def_next) {
-    if (!my_def -> dec_u.dec_val.processed)
+    if (!my_def -> processed)
        code_def(my_def);
   }
 

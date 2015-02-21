@@ -46,7 +46,7 @@ char *ext_name(long id)
 {
   if (id < 0)
   {
-    char *ext = main_globals[(-id) - 1] ->dec_u.dec_val.dec_id;
+    char *ext = main_globals[(-id) - 1] ->dec_id;
 
     return ext;
   }
@@ -588,7 +588,7 @@ void extj_ins(Instruction_P ins, baseoff b)
   asm_comment("extj_ins: global proc no=%d",(-b.base) - 1);
   assert(((-b.base) -1) >=0);
 
-  ext = main_globals[(-b.base) - 1] ->dec_u.dec_val.dec_id;
+  ext = main_globals[(-b.base) - 1] ->dec_id;
 
   asm_printop("%s .%s", get_instruction(ins), ext);
 
@@ -599,7 +599,7 @@ void extj_ins(Instruction_P ins, baseoff b)
    *
    * We optimise by omitting the no-op where we know the call is intra-module.
    */
-  if (diag != DIAG_NONE || !main_globals[(-b.base) -1] ->dec_u.dec_val.have_def)
+  if (diag != DIAG_NONE || !main_globals[(-b.base) -1] ->have_def)
   {
     asm_printop("%s %d,%d,%d", get_instruction(i_cror), 15, 15, 15);	/* conventional nop */
   }

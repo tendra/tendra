@@ -249,8 +249,8 @@ baseoff find_tg
    int i;
    for (i=0;i<main_globals_index;i++)
    {
-      exp tg = main_globals[i] -> dec_u.dec_val.dec_exp;
-      char *id = main_globals[i] -> dec_u.dec_val.dec_id;
+      exp tg = main_globals[i] -> dec_exp;
+      char *id = main_globals[i] -> dec_id;
       if (strcmp(id,n) ==0)
       {
 	 return boff(tg);
@@ -332,17 +332,17 @@ translate_capsule(void)
   noprocs = 0;
   for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next)
   {
-    exp crt_exp = crt_def->dec_u.dec_val.dec_exp;
+    exp crt_exp = crt_def->dec_exp;
     exp scexp = son(crt_exp);
     if (scexp != NULL)
     {
       if (diag == DIAG_NONE && !separate_units &&
-	  !crt_def->dec_u.dec_val.extnamed && isvar(crt_exp))
+	  !crt_def->extnamed && isvar(crt_exp))
 	mark_unaliased(crt_exp);
       if (name(scexp) == proc_tag || name(scexp) == general_proc_tag)
       {
 	noprocs++;
-	if (dyn_init && !strncmp("__I.TDF",crt_def->dec_u.dec_val.dec_id,7))
+	if (dyn_init && !strncmp("__I.TDF",crt_def->dec_id,7))
 	{
 	   char *s;
 	   static char dyn = 0;
@@ -355,8 +355,8 @@ translate_capsule(void)
 	   }
 	   s = (char*)xcalloc(64,sizeof(char));
 	   sprintf(s,"_GLOBAL_$I%d",capn);
-	   strcat(s,crt_def->dec_u.dec_val.dec_id+7);
-	   crt_def->dec_u.dec_val.dec_id = s;
+	   strcat(s,crt_def->dec_id+7);
+	   crt_def->dec_id = s;
 	   if (assembler == ASM_HP)
 	      asm_printop(".WORD %s",s);
 	}
@@ -384,7 +384,7 @@ translate_capsule(void)
   procno = 0;
   for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next)
   {
-    exp crt_exp = crt_def->dec_u.dec_val.dec_exp;
+    exp crt_exp = crt_def->dec_exp;
 
     if (son(crt_exp)!= NULL && (name(son(crt_exp)) == proc_tag ||
 				    name(son(crt_exp)) == general_proc_tag))
@@ -395,7 +395,7 @@ translate_capsule(void)
       {
 	 /* Retrieve diagnostic info neccessary to comply with xdb's
 	    requirement that procedures be compiled in source file order. */
-	 diag_descriptor * dd =  crt_def -> dec_u.dec_val.diag_info;
+	 diag_descriptor * dd =  crt_def -> diag_info;
 	 if (dd != NULL)
 	 {
 	    sourcemark *sm = &dd -> data.id.whence;
@@ -451,7 +451,7 @@ translate_capsule(void)
   nexps = 0;
   for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next)
   {
-    exp crt_exp = crt_def->dec_u.dec_val.dec_exp;
+    exp crt_exp = crt_def->dec_exp;
     if (son(crt_exp)!= NULL && (name(son(crt_exp)) == proc_tag ||
 				    name(son(crt_exp)) == general_proc_tag))
     {
@@ -470,7 +470,7 @@ translate_capsule(void)
   /* calculate the break points for register allocation */
   for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next)
   {
-    exp crt_exp = crt_def->dec_u.dec_val.dec_exp;
+    exp crt_exp = crt_def->dec_exp;
 
     if (son(crt_exp)!= NULL && (name(son(crt_exp)) == proc_tag ||
 				    name(son(crt_exp)) == general_proc_tag))
@@ -481,7 +481,7 @@ translate_capsule(void)
       bool leaf = (pprops & anyproccall) == 0;
       spacereq forrest;
       int freefixed, freefloat;
-      proc_name = crt_def->dec_u.dec_val.dec_id;
+      proc_name = crt_def->dec_id;
 
       setframe_flags(son(crt_exp),leaf);
 
@@ -562,15 +562,15 @@ translate_capsule(void)
   for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next)
   {
      main_globals[i] = crt_def;
-     main_globals[i] ->dec_u.dec_val.sym_number = i;
+     main_globals[i] ->sym_number = i;
      i++;
   }
 
   for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next)
   {
-     exp tg = crt_def->dec_u.dec_val.dec_exp;
-     char *id = crt_def->dec_u.dec_val.dec_id;
-     bool extnamed = (bool)crt_def->dec_u.dec_val.extnamed;
+     exp tg = crt_def->dec_exp;
+     char *id = crt_def->dec_id;
+     bool extnamed = (bool)crt_def->extnamed;
      if (son(tg) ==NULL && no(tg)!=0 && extnamed)
      {
 	outs("\t.IMPORT\t");
@@ -584,7 +584,7 @@ translate_capsule(void)
 	{
 	   /* evaluate all outer level constants */
 	   instore is;
-	   long symdef = crt_def->dec_u.dec_val.sym_number + 1;
+	   long symdef = crt_def->sym_number + 1;
 	   if (isvar(tg))
 	      symdef = -symdef;
 	   if (extnamed && !(is_zero(son(tg))))
@@ -613,12 +613,12 @@ translate_capsule(void)
 
   for (crt_def=top_def; crt_def != NULL; crt_def=crt_def->def_next)
   {
-     exp tg = crt_def->dec_u.dec_val.dec_exp;
-     char *id = crt_def->dec_u.dec_val.dec_id;
-     bool extnamed = (bool)crt_def->dec_u.dec_val.extnamed;
+     exp tg = crt_def->dec_exp;
+     char *id = crt_def->dec_id;
+     bool extnamed = (bool)crt_def->extnamed;
      if (son(tg) == NULL && no(tg)!=0 && !extnamed)
      {
-	shape s = crt_def->dec_u.dec_val.dec_shape;
+	shape s = crt_def->dec_shape;
 	ash a;
 	long size;
 	int align;
@@ -667,9 +667,9 @@ translate_capsule(void)
       int fstat = 0, lglob = noprocs-1;
       while (fstat<lglob)
       {
-	 while (fstat<noprocs && proc_def_trans_order[fstat] ->dec_u.dec_val.extnamed)
+	 while (fstat<noprocs && proc_def_trans_order[fstat] ->extnamed)
 	    fstat++;
-	 while (lglob>0 && !proc_def_trans_order[lglob] ->dec_u.dec_val.extnamed)
+	 while (lglob>0 && !proc_def_trans_order[lglob] ->extnamed)
 	    lglob--;
 	 if (fstat<lglob)
 	 {
@@ -690,9 +690,9 @@ translate_capsule(void)
      char *id;
      bool extnamed;
      crt_def = proc_def_trans_order[next_proc_def];
-     tg = crt_def->dec_u.dec_val.dec_exp;
-     id = crt_def->dec_u.dec_val.dec_id;
-     extnamed = (bool)crt_def->dec_u.dec_val.extnamed;
+     tg = crt_def->dec_exp;
+     id = crt_def->dec_id;
+     extnamed = (bool)crt_def->extnamed;
 
      if (no(tg)!=0 || extnamed)
      {

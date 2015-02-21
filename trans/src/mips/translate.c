@@ -109,21 +109,21 @@ int current_symno;
 void globalise_name
 (dec * my_def)
 {
-	char *id = my_def -> dec_u.dec_val.dec_id;
-        if (!my_def -> dec_u.dec_val.extnamed) return;
+	char *id = my_def -> dec_id;
+        if (!my_def -> extnamed) return;
 	if (as_file)
 	  asm_printop(".globl %s", id);
-	out_common(symnos[my_def->dec_u.dec_val.sym_number], iglobal);
+	out_common(symnos[my_def->sym_number], iglobal);
 
 }
 
 void code_it
 (dec * my_def)
 {
-  exp tg = my_def -> dec_u.dec_val.dec_exp;
-  char *id = my_def -> dec_u.dec_val.dec_id;
-  long symdef = my_def ->dec_u.dec_val.sym_number;
-  bool extnamed =  my_def -> dec_u.dec_val.extnamed;
+  exp tg = my_def -> dec_exp;
+  char *id = my_def -> dec_id;
+  long symdef = my_def ->sym_number;
+  bool extnamed =  my_def -> extnamed;
 
   static  space tempspace = {
       0, 0
@@ -133,7 +133,7 @@ void code_it
   if (son(tg)!= NULL && (!extnamed || !is_comm(son(tg)))) {
     if (name(son(tg)) == proc_tag
 		|| name(son(tg)) == general_proc_tag) {
-        diag_descriptor * dd =  my_def -> dec_u.dec_val.diag_info;
+        diag_descriptor * dd =  my_def -> diag_info;
 	/* compile code for proc */
 	if (as_file) {
 	  asm_printop(".text\n .align 3");
@@ -184,7 +184,7 @@ void code_it
   }
   else {	/* global declarations but no definitions or is_comm */
       long  size;
-      shape s = (son(tg) ==NULL)?my_def -> dec_u.dec_val.dec_shape :
+      shape s = (son(tg) ==NULL)?my_def -> dec_shape :
 				sh(son(tg));
       size = (shape_size(s) + 7) >> 3;
 
@@ -218,7 +218,7 @@ void code_it
 
 
 end:
-  my_def -> dec_u.dec_val.processed = 1;
+  my_def -> processed = 1;
 }
 
 void mark_unaliased
@@ -241,8 +241,8 @@ void remove_unused
 (void)
 { dec ** sdef = &top_def;
   while (*sdef != NULL) {
-    exp crt_exp = (*sdef) -> dec_u.dec_val.dec_exp;
-    bool extnamed = (*sdef) -> dec_u.dec_val.extnamed;
+    exp crt_exp = (*sdef) -> dec_exp;
+    bool extnamed = (*sdef) -> extnamed;
     if (no(crt_exp) == 0 && !extnamed) {
 	*sdef = (*sdef) ->def_next;
     }
@@ -264,8 +264,8 @@ void translate_capsule
 
   if (dyn_init) {
     for (my_def = top_def; my_def != NULL; my_def = my_def -> def_next) {
-        exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
-	char * id = my_def -> dec_u.dec_val.dec_id;
+        exp crt_exp = my_def -> dec_exp;
+	char * id = my_def -> dec_id;
 	if (strcmp(id, "main") ==0 && son(crt_exp)!= NULL &&
 		name(son(crt_exp)) == proc_tag) {
 	   exp fn = me_obtain(find_named_tg("__DO_I_TDF", f_proc));
@@ -287,16 +287,16 @@ void translate_capsule
 
     /* mark static unaliased */
   for (my_def = top_def; my_def != NULL; my_def = my_def -> def_next) {
-    exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
+    exp crt_exp = my_def -> dec_exp;
     if (son(crt_exp)!= NULL &&
-	!my_def -> dec_u.dec_val.extnamed &&
+	!my_def -> extnamed &&
 	isvar(crt_exp))
       mark_unaliased(crt_exp);
   };
 
   noprocs = 0;
   for (my_def = top_def; my_def != NULL; my_def = my_def -> def_next) {
-    exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
+    exp crt_exp = my_def -> dec_exp;
     if (son(crt_exp)!= NULL
         && (name(son(crt_exp)) == proc_tag ||
 		name(son(crt_exp)) == general_proc_tag)) {
@@ -313,7 +313,7 @@ void translate_capsule
   }
 
   for (my_def = top_def; my_def != NULL; my_def = my_def -> def_next) {
-    exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
+    exp crt_exp = my_def -> dec_exp;
     if (son(crt_exp)!= NULL &&
 	(name(son(crt_exp)) == proc_tag || name(son(crt_exp)) == general_proc_tag)) {
       no(son(crt_exp)) = noprocs++;
@@ -324,7 +324,7 @@ void translate_capsule
   if (do_extern_adds) {
 	usages = (exp*)xcalloc(noprocs, sizeof(exp));
   	for (my_def = top_def; my_def != NULL; my_def = my_def -> def_next) {
-		exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
+		exp crt_exp = my_def -> dec_exp;
 		if (son(crt_exp) == NULL && isvar(crt_exp)) {
 			global_usages(crt_exp, noprocs);
 			/* try to identify globals ptrs in procs */
@@ -349,7 +349,7 @@ void translate_capsule
   /* scan to put everything in MIPS form */
 
   for (my_def = top_def; my_def != NULL; my_def = my_def -> def_next) {
-    exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
+    exp crt_exp = my_def -> dec_exp;
     if (son(crt_exp)!= NULL
 	&& (name(son(crt_exp)) == proc_tag ||
 		name(son(crt_exp)) == general_proc_tag)) {
@@ -363,7 +363,7 @@ void translate_capsule
 
   /* calculate the break points for register allocation and do it */
   for (my_def = top_def; my_def != NULL; my_def = my_def -> def_next) {
-    exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
+    exp crt_exp = my_def -> dec_exp;
     if (son(crt_exp)!= NULL
         && (name(son(crt_exp)) == proc_tag ||
 		name(son(crt_exp)) == general_proc_tag)) {
@@ -412,11 +412,11 @@ void translate_capsule
 
     /* ... and set in the position and "addresses" of the externals */
   for (i = 0; i < main_globals_index; i++) {
-    exp tg = main_globals[i] -> dec_u.dec_val.dec_exp;
-    char *id = main_globals[i] -> dec_u.dec_val.dec_id;
-    bool extnamed = main_globals[i] -> dec_u.dec_val.extnamed;
-    diag_descriptor * dinf = main_globals[i] -> dec_u.dec_val.diag_info;
-    main_globals[i] ->dec_u.dec_val.sym_number = i;
+    exp tg = main_globals[i] -> dec_exp;
+    char *id = main_globals[i] -> dec_id;
+    bool extnamed = main_globals[i] -> extnamed;
+    diag_descriptor * dinf = main_globals[i] -> diag_info;
+    main_globals[i] ->sym_number = i;
     if (no(tg)!= 0 || (extnamed && son(tg)!= NULL)
 		|| strcmp(id,"__TDFhandler") == 0
 		|| strcmp(id,"__TDFstacklim") ==0
@@ -473,21 +473,21 @@ void translate_capsule
 
 /*
   for (my_def = top_def; my_def != NULL; my_def = my_def -> def_next) {
-    exp tg = my_def -> dec_u.dec_val.dec_exp;
-    char *id = my_def -> dec_u.dec_val.dec_id;
-    bool extnamed = my_def -> dec_u.dec_val.extnamed;
+    exp tg = my_def -> dec_exp;
+    char *id = my_def -> dec_id;
+    bool extnamed = my_def -> extnamed;
     if (son (tg) != NULL && (extnamed || no (tg) != 0 || !strcmp (id, "main"))) {
       if (extnamed) {
 	if (as_file)
 	  asm_printop(".globl %s", id);
-	out_common (symnos[my_def->dec_u.dec_val.sym_number], iglobal);
+	out_common (symnos[my_def->sym_number], iglobal);
       }
     }
   }
 */
 
   for (my_def = top_def; my_def != NULL; my_def = my_def -> def_next) {
-    if (!my_def -> dec_u.dec_val.processed)
+    if (!my_def -> processed)
        code_it(my_def);
   }
 

@@ -569,18 +569,18 @@ start_make_capsule
   for (i = 0; i < capsule_no_of_tags; ++i) {
     /* initialise the table of tags */
     dec *dp = &capsule_tagtab[i];
-    dp->dec_u.dec_val.dec_outermost = 0;
-    dp->dec_u.dec_val.dec_id = NULL;
-    dp->dec_u.dec_val.extnamed = 0;
+    dp->dec_outermost = 0;
+    dp->dec_id = NULL;
+    dp->extnamed = 0;
 #ifdef TDF_DIAG4
-    dp->dec_u.dec_val.dg_name = NULL;
+    dp->dg_name = NULL;
 #else
-    dp->dec_u.dec_val.diag_info = NULL;
+    dp->diag_info = NULL;
 #endif
-    dp->dec_u.dec_val.have_def = 0;
-    dp->dec_u.dec_val.dec_shape = NULL;
-    dp->dec_u.dec_val.processed = 0;
-    dp->dec_u.dec_val.isweak = 0;
+    dp->have_def = 0;
+    dp->dec_shape = NULL;
+    dp->processed = 0;
+    dp->isweak = 0;
   }
 
   for (i = 0; i < capsule_no_of_als; ++i) {
@@ -1076,8 +1076,8 @@ check_sig(tag tg, string sig)
 {
 	char *sid = sig.ints.chars;
 	int s = (sig.size * sig.number) / 8;
-	if (tg->dec_u.dec_val.has_signature) {
-		char *id = tg->dec_u.dec_val.dec_id;
+	if (tg->has_signature) {
+		char *id = tg->dec_id;
 	    	int i;
 		for (i = 0; i < s; i++) {
 			if (id[i] != sid[i]) {
@@ -1088,8 +1088,8 @@ check_sig(tag tg, string sig)
 			   error(ERR_INTERNAL, "Signatures should be equal. %s != %s", id, sid);
 		}
 	} else {
-		tg->dec_u.dec_val.dec_id = sid;
-		tg->dec_u.dec_val.has_signature = 1;
+		tg->dec_id = sid;
+		tg->has_signature = 1;
 	}
 }
 
@@ -1106,7 +1106,7 @@ f_make_id_tagdec(tdfint t_intro, access_option acc, string_option sig, shape x)
   res.acc = acc;
   res.is_variable = 0;
   res.is_common = 0;
-  res.tg->dec_u.dec_val.is_common = 0;
+  res.tg->is_common = 0;
   if (sig.present) {
     check_sig(res.tg, sig.val);
   }
@@ -1122,7 +1122,7 @@ f_make_var_tagdec(tdfint t_intro, access_option acc, string_option sig, shape x)
   res.acc = acc;
   res.is_variable = 1;
   res.is_common = 0;
-  res.tg->dec_u.dec_val.is_common = 0;
+  res.tg->is_common = 0;
   if (sig.present) {
     check_sig(res.tg, sig.val);
   }
@@ -1138,7 +1138,7 @@ f_common_tagdec(tdfint t_intro, access_option acc, string_option sig, shape x)
   res.acc = acc;
   res.is_variable = 1;
   res.is_common = 1;
-  res.tg->dec_u.dec_val.is_common = 0;
+  res.tg->is_common = 0;
   if (sig.present) {
     check_sig(res.tg, sig.val);
   }
@@ -1166,8 +1166,8 @@ f_make_id_tagdef(tdfint t, string_option sig, exp e)
   dec *dp = get_dec(natint(t));
   tagdef res;
   res.tg = dp;
-  if (dp->dec_u.dec_val.processed ||
-      son(dp->dec_u.dec_val.dec_exp) != NULL) {
+  if (dp->processed ||
+      son(dp->dec_exp) != NULL) {
     res.def = NULL; /* set to NULL if already output */
   } else {
     res.def = e;
@@ -1194,8 +1194,8 @@ f_make_var_tagdef(tdfint t, access_option opt_access, string_option sig, exp e)
   tagdef res;
   UNUSED(opt_access);
   res.tg = dp;
-  if (dp->dec_u.dec_val.processed ||
-      son(dp->dec_u.dec_val.dec_exp) != NULL) {
+  if (dp->processed ||
+      son(dp->dec_exp) != NULL) {
     res.def = NULL; /* set to NULL if already output */
   } else {
     res.def = e;
@@ -1249,9 +1249,9 @@ f_make_tagextern(tdfint internal, external ext)
   dec *dp = &capsule_tagtab[natint(internal)];
   char *nm = external_to_string(ext);
   char *id = add_prefix(name_prefix, nm);
-  dp->dec_u.dec_val.dec_id = id;
-  dp->dec_u.dec_val.dec_outermost = 1;
-  dp->dec_u.dec_val.extnamed = 1;
+  dp->dec_id = id;
+  dp->dec_outermost = 1;
+  dp->extnamed = 1;
 
   return 0;
 }
@@ -2328,7 +2328,7 @@ add_tagdec_list(tagdec_list list, tagdec elem, int index)
     if (elem.is_variable) {
 	if (keep_PIC_vars) {
           setvar(e);
-	} else if (PIC_code && dp -> dec_u.dec_val.extnamed) {
+	} else if (PIC_code && dp -> extnamed) {
           sh(e) = f_pointer(f_alignment(s));
 	} else {
           setvar(e);
@@ -2342,31 +2342,31 @@ add_tagdec_list(tagdec_list list, tagdec elem, int index)
       setcaonly(e);
     }
 
-    dp->dec_u.dec_val.acc = elem.acc;
+    dp->acc = elem.acc;
 
-    dp->dec_u.dec_val.dec_exp = e;
+    dp->dec_exp = e;
 
-    if (dp->dec_u.dec_val.dec_shape != NULL) {
-      if (shape_size(s) > shape_size(dp->dec_u.dec_val.dec_shape)) {
-        dp->dec_u.dec_val.dec_shape = s;
+    if (dp->dec_shape != NULL) {
+      if (shape_size(s) > shape_size(dp->dec_shape)) {
+        dp->dec_shape = s;
       }
     }
 
-    if (dp->dec_u.dec_val.dec_shape == NULL) {
-      dp->dec_u.dec_val.dec_shape = s;
+    if (dp->dec_shape == NULL) {
+      dp->dec_shape = s;
       dp->def_next = NULL;
       *deflist_end = dp;
       deflist_end = & ((*deflist_end)->def_next);
     }
 
-    dp->dec_u.dec_val.dec_var = (unsigned int)(isvar(e) || elem.is_variable);
-    if (!dp->dec_u.dec_val.have_def) {
+    dp->dec_var = (unsigned int)(isvar(e) || elem.is_variable);
+    if (!dp->have_def) {
       setglob(e);
     }
     /* the defining exp */
-    brog(dp->dec_u.dec_val.dec_exp) = dp;
-    if (dp->dec_u.dec_val.dec_id == NULL) {
-      dp->dec_u.dec_val.dec_id = make_local_name();
+    brog(dp->dec_exp) = dp;
+    if (dp->dec_id == NULL) {
+      dp->dec_id = make_local_name();
     }
 
   return 0;
@@ -2383,19 +2383,19 @@ tagdef_list
 add_tagdef_list(tagdef_list list, tagdef elem, int index)
 {
   dec *dp = elem.tg;
-  exp old_def = son(dp->dec_u.dec_val.dec_exp);
+  exp old_def = son(dp->dec_exp);
   exp new_def = elem.def;
   UNUSED(list);
   UNUSED(index);
-  if (dp->dec_u.dec_val.processed || new_def == NULL) {
+  if (dp->processed || new_def == NULL) {
     return 0;
   }
 
   if (old_def == NULL ||
       shape_size(sh(new_def)) > shape_size(sh(old_def)) ||
       (name(new_def) != clear_tag && name(old_def) == clear_tag)) {
-    son(dp->dec_u.dec_val.dec_exp) = new_def;
-    setfather(dp->dec_u.dec_val.dec_exp, elem.def);
+    son(dp->dec_exp) = new_def;
+    setfather(dp->dec_exp, elem.def);
   }
 
   return 0;
@@ -2553,19 +2553,19 @@ new_link_list(int n)
        unit_tagtab = (dec *)rf_xcalloc(unit_no_of_tags - n, sizeof(dec));
        for (i = 0; i < unit_no_of_tags - n; ++i) {
          dec *dp = &unit_tagtab[i];
-         dp->dec_u.dec_val.dec_outermost = 0;
-         dp->dec_u.dec_val.dec_id = NULL;
-         dp->dec_u.dec_val.extnamed = 0;
+         dp->dec_outermost = 0;
+         dp->dec_id = NULL;
+         dp->extnamed = 0;
 #ifdef TDF_DIAG4
-         dp->dec_u.dec_val.dg_name = NULL;
+         dp->dg_name = NULL;
 #else
-         dp->dec_u.dec_val.diag_info = NULL;
+         dp->diag_info = NULL;
 #endif
-         dp->dec_u.dec_val.have_def = 0;
-         dp->dec_u.dec_val.dec_shape = NULL;
-         dp->dec_u.dec_val.processed = 0;
-         dp->dec_u.dec_val.isweak = 0;
-         dp->dec_u.dec_val.dec_exp = NULL;
+         dp->have_def = 0;
+         dp->dec_shape = NULL;
+         dp->processed = 0;
+         dp->isweak = 0;
+         dp->dec_exp = NULL;
        }
        return 0;
      case AL_TYPE:

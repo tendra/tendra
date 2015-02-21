@@ -164,9 +164,9 @@ set_locdata(obj_list this_obl)
 			if (x && (id = dw_has_location(son(x)), id)) {
 				if (isglob(id)) {
 					dg_name master =
-					    brog(id)->dec_u.dec_val.dg_name;
+					    brog(id)->dg_name;
 					if (!master) {
-						master = brog(id)->dec_u.dec_val.dg_name = this_nm;
+						master = brog(id)->dg_name = this_nm;
 					}
 					if (master == this_nm) {
 						setlast(x);

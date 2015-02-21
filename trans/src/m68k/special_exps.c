@@ -35,9 +35,9 @@ make_extn(char* n, shape s, int v)
 		setvar(id);
 	}
 	brog(id) = g;
-	g -> dec_u.dec_val.dec_exp = id;
-	g -> dec_u.dec_val.dec_id = n;
-	g -> dec_u.dec_val.extnamed = 1;
+	g -> dec_exp = id;
+	g -> dec_id = n;
+	g -> extnamed = 1;
 	return nme;
 }
 

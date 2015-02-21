@@ -215,22 +215,22 @@ make_extra_dec(char *nme, int v, int g, exp init, shape s)
 	extra_dec->def_next = NULL;
 	*deflist_end = extra_dec;
 	deflist_end = &((*deflist_end)->def_next);
-	extra_dec->dec_u.dec_val.dec_id = nme;
-	extra_dec->dec_u.dec_val.dec_shape = s;
-	extra_dec->dec_u.dec_val.dec_exp = e;
-	extra_dec->dec_u.dec_val.unit_number = crt_tagdef_unit_no;
+	extra_dec->dec_id = nme;
+	extra_dec->dec_shape = s;
+	extra_dec->dec_exp = e;
+	extra_dec->unit_number = crt_tagdef_unit_no;
 #ifdef TDF_DIAG4
-	extra_dec->dec_u.dec_val.dg_name = NULL;
+	extra_dec->dg_name = NULL;
 #else
-	extra_dec->dec_u.dec_val.diag_info = NULL;
+	extra_dec->diag_info = NULL;
 #endif
-	extra_dec->dec_u.dec_val.extnamed = (unsigned int)g;
-	extra_dec->dec_u.dec_val.dec_var = (unsigned int)v;
-	extra_dec->dec_u.dec_val.dec_outermost = 0;
-	extra_dec->dec_u.dec_val.have_def = init != NULL;
-	extra_dec->dec_u.dec_val.processed = 0;
-	extra_dec->dec_u.dec_val.isweak = 0;
-	extra_dec->dec_u.dec_val.is_common = 0;
+	extra_dec->extnamed = (unsigned int)g;
+	extra_dec->dec_var = (unsigned int)v;
+	extra_dec->dec_outermost = 0;
+	extra_dec->have_def = init != NULL;
+	extra_dec->processed = 0;
+	extra_dec->isweak = 0;
+	extra_dec->is_common = 0;
 	if (init != NULL) {
 		setfather(e, init);
 	}
@@ -245,7 +245,7 @@ find_named_dec(char *n)
 	dec *my_def;
 
 	for (my_def = top_def; my_def != NULL; my_def = my_def->def_next) {
-		char *id = my_def->dec_u.dec_val.dec_id;
+		char *id = my_def->dec_id;
 		if (strcmp(id + strlen(name_prefix), n) == 0) {
 			return my_def;
 		}
@@ -260,10 +260,10 @@ find_named_tg(char *n, shape s)
 	/* find a global with name n */
 	dec *my_def = find_named_dec(n);
 	if (my_def != NULL) {
-		return my_def->dec_u.dec_val.dec_exp;
+		return my_def->dec_exp;
 	}
 	my_def = make_extra_dec(add_prefix(name_prefix, n), 0, 1, NULL, s);
-	return my_def->dec_u.dec_val.dec_exp;
+	return my_def->dec_exp;
 }
 
 
@@ -342,7 +342,7 @@ TDFwithet(error_treatment ov_err, exp e)
 		return e;
 	}
 	Te = find_named_tg("__TDFerror", slongsh);
-	brog(Te)->dec_u.dec_val.dec_var = 1;
+	brog(Te)->dec_var = 1;
 	if (keep_PIC_vars) {
 		setvar(Te);
 	} else if (PIC_code) {
@@ -3307,7 +3307,7 @@ f_make_proc(shape result_shape, tagshacc_list params_intro,
 	if (old_proc_props != NULL || rep_make_proc) {
 		dec *extra_dec = make_extra_dec(make_local_name(), 0, 0, res,
 						f_proc);
-		exp e = extra_dec->dec_u.dec_val.dec_exp;
+		exp e = extra_dec->dec_exp;
 		res = getexp(f_proc, NULL, 0, e, NULL, 0, 0, name_tag);
 		pt(e) = res;
 		no(e) = 1;
@@ -3562,7 +3562,7 @@ f_make_general_proc(shape result_shape, procprops prcprops,
 	if (old_proc_props != NULL || rep_make_proc) {
 		dec *extra_dec = make_extra_dec(make_local_name(), 0, 0, res,
 						f_proc);
-		exp e = extra_dec->dec_u.dec_val.dec_exp;
+		exp e = extra_dec->dec_exp;
 		res = getexp(f_proc, NULL, 0, e, NULL, 0, 0, name_tag);
 		pt(e) = res;
 		no(e) = 1;
@@ -4163,7 +4163,7 @@ f_obtain_tag(tag t)
 	}
 
 	if (isglob(tg)) {
-		s = sh(t->dec_u.dec_val.dec_exp);
+		s = sh(t->dec_exp);
 #ifdef TDF_DIAG4
 		if (!within_diags) {
 			proc_externs = 1;
@@ -6293,7 +6293,7 @@ f_initial_value(exp e)
 		/* init was in a proc - must make new variable */
 		dec *my_def = make_extra_dec(make_local_name(), 1, 0, me_u2(e,
 					     initial_value_tag), sh(e));
-		exp crt_exp = my_def->dec_u.dec_val.dec_exp;
+		exp crt_exp = my_def->dec_exp;
 		pop_proc_props();
 		return f_contents(sh(e), me_obtain(crt_exp));
 	}
@@ -6314,19 +6314,19 @@ tidy_initial_values(void)
 	dynamic_init_proc = NULL;
 
 	for (my_def = top_def; my_def != NULL; my_def = my_def->def_next) {
-		exp crt_exp = my_def->dec_u.dec_val.dec_exp;
-		if (son(crt_exp) != NULL && my_def->dec_u.dec_val.extnamed) {
-			good_name = my_def->dec_u.dec_val.dec_id;
+		exp crt_exp = my_def->dec_exp;
+		if (son(crt_exp) != NULL && my_def->extnamed) {
+			good_name = my_def->dec_id;
 		}
 		if (son(crt_exp) != NULL &&
 		    name(son(crt_exp)) == initial_value_tag) {
 			/* accumulate assignments of initial values in one
 			   explist */
-			if (!(my_def->dec_u.dec_val.dec_var)) {
+			if (!(my_def->dec_var)) {
 				/* make sure its a variable */
 				exp p = pt(crt_exp);
 				setvar(crt_exp);
-				my_def->dec_u.dec_val.dec_var = 1;
+				my_def->dec_var = 1;
 				while (p != NULL) {
 					exp np = pt(p);
 					exp c = hold_refactor(f_contents(sh(p),
@@ -6340,7 +6340,7 @@ tidy_initial_values(void)
 				exp new_init = f_make_value(sh(init));
 				if (good_name == NULL) {
 					good_name =
-					    my_def->dec_u.dec_val.dec_id;
+					    my_def->dec_id;
 				}
 				retcell(son(crt_exp));
 				son(crt_exp) = new_init;
@@ -6351,13 +6351,13 @@ tidy_initial_values(void)
 			}
 		}
 		if (do_prom && son(crt_exp) != NULL &&
-		    my_def->dec_u.dec_val.dec_var && !is_comm(son(crt_exp))) {
+		    my_def->dec_var && !is_comm(son(crt_exp))) {
 			/* accumulate assignments of non-zero initialisations
 			   in one explist */
 			exp init = son(crt_exp);
 			exp new_init = f_make_value(sh(init));
 			if (good_name == NULL) {
-				good_name = my_def->dec_u.dec_val.dec_id;
+				good_name = my_def->dec_id;
 			}
 			if (name(init) == compound_tag ||
 			    name(init) == nof_tag ||
@@ -6367,7 +6367,7 @@ tidy_initial_values(void)
 				dec *id_dec = make_extra_dec(make_local_name(),
 							     0, 0, init,
 							     sh(init));
-				init = me_obtain(id_dec->dec_u.dec_val.dec_exp);
+				init = me_obtain(id_dec->dec_exp);
 			}
 			son(crt_exp) = new_init;
 			no(new_init) = -1; /* we may need to distinguish for
@@ -6410,12 +6410,12 @@ tidy_initial_values(void)
 						      str_sh);
 			dec *prc_dec = make_extra_dec(make_local_name(), 0, 0,
 						      prc, f_proc);
-			exp prc_exp = prc_dec->dec_u.dec_val.dec_exp;
-			exp str_exp = str_dec->dec_u.dec_val.dec_exp;
+			exp prc_exp = prc_dec->dec_exp;
+			exp str_exp = str_dec->dec_exp;
 			exp list_exp = find_named_tg("__PROM_init_list",
 						     f_pointer(f_alignment(
 						     str_sh)));
-			brog(list_exp)->dec_u.dec_val.dec_var = 1;
+			brog(list_exp)->dec_var = 1;
 			setvar(list_exp);
 			prom_as = add_exp_list(prom_as, hold_refactor(f_assign(
 					       f_add_to_ptr(me_obtain(str_exp),

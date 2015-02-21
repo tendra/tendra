@@ -195,7 +195,7 @@ f_diag_desc_id(tdfstring n, sourcemark whence, exp acc, diag_type new_type)
 	new.data.id.access = acc;
 	new.data.id.new_type = new_type;
 
-	brog(son(acc))->dec_u.dec_val.diag_info =
+	brog(son(acc))->diag_info =
 	    diag3_driver->NEW_DIAG_GLOBAL(last_diag_desc);
 
 	return new;

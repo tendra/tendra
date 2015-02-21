@@ -1687,7 +1687,7 @@ void make_code
 
 	if (builtinproc(e)) {
 	  dec* dp = brog(son(proc));
-	  char *id = dp -> dec_u.dec_val.dec_id;
+	  char *id = dp -> dec_id;
 	  special_ins(id + strlen(name_prefix), arg, dest);
 	  return;
 	}
@@ -2327,7 +2327,7 @@ static dg_where dg_where_dest
     error(ERR_INTERNAL, "bad dg_where");
   if (isglob(e)) {
     w.k = WH_STR;
-    w.u.s = (brog(e)) ->dec_u.dec_val.dec_id;
+    w.u.s = (brog(e)) ->dec_id;
     w.o = 0;
     return w;
   }

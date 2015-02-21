@@ -36,7 +36,7 @@ special_fn(exp a1, exp a2, shape s, exp *e)
 {
 	/* look for special functions */
 	dec* dp = brog(son(a1));
-	char *id = dp -> dec_u.dec_val.dec_id;
+	char *id = dp -> dec_id;
 
 	if (id == NULL) {
 		return 0;

@@ -221,7 +221,7 @@ static int is_opnd
 	return isglob(son(e)) && !PIC_code;
     return son(son(e))!= NULL &&
 	(!isglob(son(e)) || !PIC_code || name(sh(son(e)))!= prokhd ||
-				(brog(son(e)) -> dec_u.dec_val.extnamed)) &&
+				(brog(son(e)) -> extnamed)) &&
 	(name(son(son(e)))!= ident_tag || !isparam(son(son(e))));
   }
   return 

@@ -871,7 +871,7 @@ static void stab_local
   if (name(id) == cont_tag && name(son(id)) == name_tag && isvar(son(son(id))))
 	  id = son(id);
   if (name(id)!= name_tag || isdiscarded(id) || (isglob(son(id)) &&
-	no(son(id)) == 0 && !(brog(son(id)) ->dec_u.dec_val.extnamed)))
+	no(son(id)) == 0 && !(brog(son(id)) ->extnamed)))
     return;
   disp = no(id);
   id = son(id);

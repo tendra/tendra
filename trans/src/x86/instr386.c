@@ -1926,7 +1926,7 @@ void move
 	(PIC_code && name(fe) == name_tag &&
 	  isglob(son(fe)) &&
 	 (name(sha) == offsethd) &&
-	  !brog(son(fe)) ->  dec_u.dec_val.extnamed))
+	  !brog(son(fe)) ->  extnamed))
     {
       mova(from, to);
       return;
@@ -2851,7 +2851,7 @@ void callins
     if (current_dg_info) {
       current_dg_info->data.i_call.brk = set_dw_text_label();
       current_dg_info->data.i_call.p.k = WH_STR;
-      current_dg_info->data.i_call.p.u.s = (brog(son(fn))) ->dec_u.dec_val.dec_id;
+      current_dg_info->data.i_call.p.u.s = (brog(son(fn))) ->dec_id;
       current_dg_info->data.i_call.p.o = no(fn) /8;
     }
 #endif
@@ -3090,7 +3090,7 @@ int cmp
            (PIC_code &&
               isglob(son(from.where_exp)) &&
 	     (name(sha) == prokhd || name(sha) == ptrhd) &&
-              !brog(son(from.where_exp)) ->  dec_u.dec_val.extnamed))) ||
+              !brog(son(from.where_exp)) ->  extnamed))) ||
 	      name(from.where_exp) == reff_tag)
 	  mova(from, reg0);
 	else
@@ -3129,7 +3129,7 @@ int cmp
 	     ptno(son(me)) <= par_pl) ||
          (PIC_code && name(me) == name_tag && isglob(son(me)) &&
            (name(sha) == prokhd || name(sha) == ptrhd) &&
-             !brog(son(me)) ->  dec_u.dec_val.extnamed) ||
+             !brog(son(me)) ->  extnamed) ||
 	  (name(me) == reff_tag && name(son(me)) == name_tag &&
 	    !isvar(son(son(me))))) {
 	if (eq_where(from, reg0)) {

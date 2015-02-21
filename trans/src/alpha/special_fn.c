@@ -43,7 +43,7 @@ special_fn(exp a1, exp a2, shape s, exp *e)
 	char *id;
 
 	dp = brog(son (a1));
-	id = dp->dec_u.dec_val.dec_id;
+	id = dp->dec_id;
 
 	if (id == NULL) {
 		return 0;

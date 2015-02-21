@@ -49,7 +49,7 @@ int proc_is_main(exp e)
   baseoff b;
   char *ext;
   b = boff(father(e));
-  ext = main_globals[(-b.base)-1]->dec_u.dec_val.dec_id;
+  ext = main_globals[(-b.base)-1]->dec_id;
   if (strcmp(ext,"main")==0)
   {
     return 1;

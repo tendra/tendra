@@ -48,16 +48,16 @@ int no_temps   = 0;
 int
 symnoforext(dec * ex, int filen)
 {
-	exp tg = ex->dec_u.dec_val.dec_exp;
-	shape s = ex->dec_u.dec_val.dec_shape;
+	exp tg = ex->dec_exp;
+	shape s = ex->dec_shape;
 	diag_type dt = (diag_type) 0;
 	short symtype;
 	short symclass;
 	long v = 0;
-	char *id = ex->dec_u.dec_val.dec_id;
+	char *id = ex->dec_id;
 
 	if (diag != DIAG_NONE) {
-		diag_descriptor *t = ex->dec_u.dec_val.diag_info;
+		diag_descriptor *t = ex->diag_info;
 		if (t != NULL) {
 			id = t->data.id.nme.ints.chars;
 			dt = t->data.id.new_type;
@@ -65,7 +65,7 @@ symnoforext(dec * ex, int filen)
 		}
 	}
 
-	if (ex->dec_u.dec_val.extnamed) {
+	if (ex->extnamed) {
 		/* it is global */
 		if (name(s) == prokhd && !isvar(tg)
 			&& (son(tg) == NULL || name(son(tg)) == proc_tag || name(son(tg)) == general_proc_tag)) {
@@ -121,12 +121,12 @@ int
 symnoforstart(int i, int filen)
 {
 	dec *ex = main_globals[i];
-	short symtype = (ex->dec_u.dec_val.extnamed) ? stProc : stStaticProc;
-	char *id = ex->dec_u.dec_val.dec_id;
+	short symtype = (ex->extnamed) ? stProc : stStaticProc;
+	char *id = ex->dec_id;
 	diag_type dt = (diag_type) 0;
 
 	if (diag != DIAG_NONE) {
-		diag_descriptor *t = ex->dec_u.dec_val.diag_info;
+		diag_descriptor *t = ex->diag_info;
 		if (t != NULL) {
 			id = t->data.id.nme.ints.chars;
 			dt = t->data.id.new_type;
@@ -143,11 +143,11 @@ symnoforstart(int i, int filen)
 int
 symnoforend(dec * ex, int filen)
 {
-	char *id = ex->dec_u.dec_val.dec_id;
+	char *id = ex->dec_id;
 	diag_type dt = (diag_type) 0;
 
 	if (diag != DIAG_NONE) {
-		diag_descriptor *t = ex->dec_u.dec_val.diag_info;
+		diag_descriptor *t = ex->diag_info;
 		if (t != NULL) {
 			id = t->data.id.nme.ints.chars;
 			dt = t->data.id.new_type;

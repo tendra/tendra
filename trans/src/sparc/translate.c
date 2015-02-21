@@ -320,8 +320,8 @@ baseoff
 find_tag ( char * tag_name ){
   int i;
   for (i=0; i<main_globals_index; ++i){
-    exp newtag = main_globals[i]->dec_u.dec_val.dec_exp;
-    char * id = main_globals[i]->dec_u.dec_val.dec_id;
+    exp newtag = main_globals[i]->dec_exp;
+    char * id = main_globals[i]->dec_id;
     if(!strcmp(id,tag_name)) return boff(newtag);
   }
   printf("%s\n: ",tag_name);
@@ -388,12 +388,12 @@ translate_capsule (void){
   /* mark all statics as unaliased and count procedures */
   noprocs = 0 ;
   for ( d = top_def ; d != NULL ; d = d->def_next ) {
-    exp c = d->dec_u.dec_val.dec_exp ;
+    exp c = d->dec_exp ;
     if ( son ( c ) != NULL ) {
 #ifdef TDF_DIAG4
-      if ( !diag_visible && !separate_units && !d->dec_u.dec_val.extnamed
+      if ( !diag_visible && !separate_units && !d->extnamed
 #else
-      if ( diag == DIAG_NONE && !separate_units && !d->dec_u.dec_val.extnamed
+      if ( diag == DIAG_NONE && !separate_units && !d->extnamed
 #endif
 	   && isvar ( c ) ) {
 	mark_unaliased ( c ) ;
@@ -437,7 +437,7 @@ translate_capsule (void){
   /* number procedure definitions */
   procno = 0 ;
   for ( d = top_def ; d != NULL ; d = d->def_next ) {
-    exp c = d->dec_u.dec_val.dec_exp ;
+    exp c = d->dec_exp ;
     exp s = son ( c ) ;
     if ( s != NULL && (name ( s ) == proc_tag || 
 			 name(s) == general_proc_tag)) {
@@ -469,14 +469,14 @@ translate_capsule (void){
 
   /* scan all the procedures, to put everything in SPARC operand form */
   for ( d = top_def ; d != NULL ; d = d->def_next ) {
-    exp c = d->dec_u.dec_val.dec_exp ;
+    exp c = d->dec_exp ;
     exp s = son ( c ) ;
     if ( s != NULL && (name ( s ) == proc_tag ||
 			 name(s) == general_proc_tag)) {
       exp *st = &s ;
       procrec *pr = &procrecs [ no ( s ) ] ;
 
-      if (dyn_init && d->dec_u.dec_val.extnamed && isINITproc(d->dec_u.dec_val.dec_id))
+      if (dyn_init && d->extnamed && isINITproc(d->dec_id))
 	set_proc_uses_external (s);    /* for PIC_code, should be done in install_fns? */
 
       Has_vcallees = (name(s) == general_proc_tag) && 
@@ -519,7 +519,7 @@ translate_capsule (void){
     init_dead () ;
     dead_flag = 0 ;
     for ( d = top_def ; d != NULL ; d = d->def_next ) {
-      exp c = d->dec_u.dec_val.dec_exp ;
+      exp c = d->dec_exp ;
       exp s = son ( c ) ;
       if ( s != NULL && (name ( s ) == proc_tag || 
 			   name(s) == general_proc_tag)){
@@ -532,7 +532,7 @@ translate_capsule (void){
 
   /* calculate the break points for register allocation */
   for ( d = top_def ; d != NULL ; d = d->def_next ) {
-    exp c = d->dec_u.dec_val.dec_exp ;
+    exp c = d->dec_exp ;
     exp s = son ( c ) ;
     if ( s != NULL && (name ( s ) == proc_tag || 
 			 name(s) == general_proc_tag)) {
@@ -571,21 +571,21 @@ translate_capsule (void){
   i = 0 ;
   for ( d = top_def ; d != NULL ; d = d->def_next ) {
     main_globals [i] = d ;
-    main_globals [i]->dec_u.dec_val.sym_number = i ;
+    main_globals [i]->sym_number = i ;
     i++ ;
   }
   /* output global definitions */
   for ( d = top_def ; d != NULL ; d = d->def_next ) {
-    exp tg = d->dec_u.dec_val.dec_exp ;
+    exp tg = d->dec_exp ;
     exp stg = son ( tg ) ;
-    char *id = d->dec_u.dec_val.dec_id ;
-    bool extnamed = ( bool ) d->dec_u.dec_val.extnamed ;
+    char *id = d->dec_id ;
+    bool extnamed = ( bool ) d->extnamed ;
     if ( stg != NULL && (extnamed || no(tg)!= 0 ||
 	 !strcmp(id,TDF_HANDLER) || !strcmp(id,TDF_STACKLIM))) {
       if ( extnamed ) {
 	assert ( id [ 0 ] != '$' ) ;
 	if ( name ( stg ) != proc_tag && name(stg)!=general_proc_tag) {
-	  if (!isvar (tg) || (d -> dec_u.dec_val.acc & f_constant) || do_prom) 
+	  if (!isvar (tg) || (d -> acc & f_constant) || do_prom) 
 	    insection ( rodata_section ) ;
 	  else
 	    insection ( data_section ) ;
@@ -606,11 +606,11 @@ translate_capsule (void){
       if ( name ( stg ) != proc_tag && name(stg)!=general_proc_tag) {
 	  /* evaluate all outer level constants */
 	instore is ;
-	long symdef = d->dec_u.dec_val.sym_number + 1 ;
+	long symdef = d->sym_number + 1 ;
 #ifdef TDF_DIAG4
-	struct dg_name_t *diag_props = d->dec_u.dec_val.dg_name ;
+	struct dg_name_t *diag_props = d->dg_name ;
 #else
-	diag_descriptor *diag_props = d->dec_u.dec_val.diag_info ;
+	diag_descriptor *diag_props = d->diag_info ;
 #endif
 	if ( isvar ( tg ) ) symdef = -symdef ;
 	if ( diag_props ) {
@@ -621,7 +621,7 @@ translate_capsule (void){
 		}
 	}
 	is = evaluated ( stg, symdef, 
-		(!isvar (tg) || (d -> dec_u.dec_val.acc & f_constant)) ) ;
+		(!isvar (tg) || (d -> acc & f_constant)) ) ;
 	if ( is.adval ) setvar ( tg ) ;
 	if ( sysV_assembler ) {
 	  asm_printop ( ".type %s,#object", id ) ;
@@ -635,10 +635,10 @@ translate_capsule (void){
 
     /* translate procedures */
   for ( d = top_def ; d != NULL ; d = d->def_next ) {
-    exp tg = d->dec_u.dec_val.dec_exp ;
+    exp tg = d->dec_exp ;
     exp stg = son ( tg ) ;
-    char *id = d->dec_u.dec_val.dec_id ;
-    bool extnamed = ( bool ) d->dec_u.dec_val.extnamed ;
+    char *id = d->dec_id ;
+    bool extnamed = ( bool ) d->extnamed ;
 
     if ( stg != NULL && shape_size (sh(stg)) == 0 && name(stg) == asm_tag) {
       if (props(stg) != 0)
@@ -654,12 +654,12 @@ translate_capsule (void){
       if ( name ( stg ) == proc_tag || name(stg)==general_proc_tag) {
 	/* translate code for procedure */
 	int proc_directive ;
-	exp c = d->dec_u.dec_val.dec_exp ;
+	exp c = d->dec_exp ;
 	prop p = procrecs [ no ( son ( c ) ) ].needsproc.prps ;
 #ifdef TDF_DIAG4
-	struct dg_name_t *diag_props = d->dec_u.dec_val.dg_name ;
+	struct dg_name_t *diag_props = d->dg_name ;
 #else
-	diag_descriptor *diag_props = d->dec_u.dec_val.diag_info ;
+	diag_descriptor *diag_props = d->diag_info ;
 #endif
 	insection ( text_section ) ;
 

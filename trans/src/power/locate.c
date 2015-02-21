@@ -89,7 +89,7 @@ baseoff boff(exp e)
   if (isglob(e))
   {
     dec *gl = brog(e);
-    long sno = gl->dec_u.dec_val.sym_number;
+    long sno = gl->sym_number;
 
     /* an.base is negated global sym number, positive used for base reg number */
     an.base = - (sno + 1);

@@ -49,13 +49,13 @@
 #define prokhd 24
 
 #define plabel( X ) ( (X)<0 ?\
-    ( son(main_globals[((-X))-1]->dec_u.dec_val.dec_exp)==NULL ?\
-    name(sh(main_globals[((-X))-1]->dec_u.dec_val.dec_exp))==prokhd :\
-    ( IS_A_PROC(son(main_globals[((-X))-1]->dec_u.dec_val.dec_exp)) ) ) : 0 )
+    ( son(main_globals[((-X))-1]->dec_exp)==NULL ?\
+    name(sh(main_globals[((-X))-1]->dec_exp))==prokhd :\
+    ( IS_A_PROC(son(main_globals[((-X))-1]->dec_exp)) ) ) : 0 )
 
 #define globaldata(X) ( (X)<0 ?\
-    ( (name(sh(main_globals[((-X))-1]->dec_u.dec_val.dec_exp))==proc_tag ||\
-    name(sh(main_globals[((-X))-1]->dec_u.dec_val.dec_exp))==general_proc_tag)\
+    ( (name(sh(main_globals[((-X))-1]->dec_exp))==proc_tag ||\
+    name(sh(main_globals[((-X))-1]->dec_exp))==general_proc_tag)\
     ? 0 : 1 ) : 0 )
 
 
@@ -363,7 +363,7 @@ ext_name(long id)
 
   if (id < 0)
   {
-    char *ext = main_globals[(-id) - 1]->dec_u.dec_val.dec_id;
+    char *ext = main_globals[(-id) - 1]->dec_id;
 
     int len_needed = 1 + strlen(ext) + 1;	/* _NAME\0 */
 

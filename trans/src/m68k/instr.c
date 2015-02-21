@@ -46,12 +46,12 @@ extname(exp e)
 {
 	dec *d = brog(e);
 #if 0
-	if (d->dec_u.dec_val.external_register) {
+	if (d->external_register) {
 		error(ERR_SERIOUS, "External registers not yet implemented");
 		return "????";
 	}
 #endif
-	return d->dec_u.dec_val.dec_id;
+	return d->dec_id;
 }
 
 

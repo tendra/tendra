@@ -1749,7 +1749,7 @@ void make_transformations
    dec *d;
 
    for (d = top_def; d != NULL; d = d->def_next) {
-      exp e = son(d->dec_u.dec_val.dec_exp);
+      exp e = son(d->dec_exp);
       if (e)transform(e);
       d = d->def_next;
    }

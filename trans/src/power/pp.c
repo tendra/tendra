@@ -785,7 +785,7 @@ static void exp_show(exp e, int depth, int depth_of_recursion, int flag)
       {
 	baseoff b = boff(father(e));
 	char *ext;
-	ext = main_globals[(-b.base) - 1] ->dec_u.dec_val.dec_id;
+	ext = main_globals[(-b.base) - 1] ->dec_id;
 	printf("%s:\"%s\"\n",tagname,ext);
       }
       else
@@ -807,7 +807,7 @@ static void exp_show(exp e, int depth, int depth_of_recursion, int flag)
       {
 	baseoff b = boff(son(e));
 	char *ext;
-	ext = main_globals[(-b.base) - 1] ->dec_u.dec_val.dec_id;
+	ext = main_globals[(-b.base) - 1] ->dec_id;
 	printf("%s:<%s> function \"%s\"(0x%x)\n",tagname,shape_name(name(sh(e))),ext,(int)(son(e)));
       }
 #endif

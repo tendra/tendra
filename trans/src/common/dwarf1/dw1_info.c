@@ -142,7 +142,7 @@ code_diag_info(diag_info *d, int proc_no, void(*mcode)(void *), void *args)
 				break;
 			}
 			if (name(x) == name_tag && isglob(son(x))) {
-				if (brog(son(x)) ->dec_u.dec_val.extnamed) {
+				if (brog(son(x)) ->extnamed) {
 					break;
 				} else {
 					/* static; goes out as local */
@@ -237,7 +237,7 @@ dw1_output_diag(diag_info *d, int proc_no, exp e)
 				break;
 			}
 			if (isglob(son(x))) {
-				if (brog(son(x)) ->dec_u.dec_val.extnamed) {
+				if (brog(son(x)) ->extnamed) {
 					break;
 				} else {
 					/* static; goes out as local */

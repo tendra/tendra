@@ -25,15 +25,15 @@ something(dec *d)
 
 	assert(d != NULL);
 
-	id = d->dec_u.dec_val.dec_id;
+	id = d->dec_id;
 
-	c = d->dec_u.dec_val.dec_exp;
+	c = d->dec_exp;
 	s = son(c);
 
 	if (s == NULL) {
 		shape sha;
 
-		sha = d->dec_u.dec_val.dec_shape;
+		sha = d->dec_shape;
 
 		fprintf(stderr, "shape %u: %s\n", name(sha), id);
 	} else {
@@ -53,7 +53,7 @@ something(dec *d)
 		}
 	}
 
-	d->dec_u.dec_val.processed = true;
+	d->processed = true;
 }
 
 void 
@@ -66,7 +66,7 @@ translate_capsule(void)
 	}
 
 	for (d = top_def; d != NULL; d = d->def_next) {
-		if (d->dec_u.dec_val.processed) {
+		if (d->processed) {
 			continue;
 		}
 

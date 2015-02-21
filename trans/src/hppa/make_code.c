@@ -95,7 +95,7 @@ extern baseoff find_tg(char* s);
 			  regalt((d).answhere):\
 			  getfreg((s).flt))
 
-#define TARGET(f)(main_globals[(-boff(son(f)).base) -1] ->dec_u.dec_val.dec_id)
+#define TARGET(f)(main_globals[(-boff(son(f)).base) -1] ->dec_id)
 
 baseoff zero_exception_register
 (space sp)

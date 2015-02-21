@@ -1173,7 +1173,7 @@ void init_stab_aux
 	UNUSED(e);
 
     if (diag_def == NULL) return NULL;
-    return diag_def->dec_u.dec_val.diag_info;
+    return diag_def->diag_info;
 }
 
 /*

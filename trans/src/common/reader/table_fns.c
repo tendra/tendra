@@ -93,7 +93,7 @@ get_dec(int tg)
 {
 	/* find the tag declaration indexed by tg */
 	dec *res = unit_ind_tags[tg];
-	res->dec_u.dec_val.index = tg;
+	res->index = tg;
 	return res;
 }
 
@@ -148,7 +148,7 @@ get_tag(tag tg)
 		}
 		con = con->outer;
 	}
-	return tg->dec_u.dec_val.dec_exp;
+	return tg->dec_exp;
 }
 
 
@@ -157,7 +157,7 @@ set_tag(tag tg, exp e)
 {
 	/* set the exp known as tg */
 	if (crt_context == NULL || crt_context->recursive == 0) {
-		tg->dec_u.dec_val.dec_exp = e;
+		tg->dec_exp = e;
 	} else {
 		tag_con *tc = (tag_con *)xmalloc(sizeof(tag_con));
 		tc->namet = tg; tc->e = e; tc->rest = crt_context->tags;

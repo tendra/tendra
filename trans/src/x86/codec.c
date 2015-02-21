@@ -57,7 +57,7 @@ int is_crc
     /* else */
       return son(son(e)) == NULL ||
 	(isglob(son(e)) && PIC_code && name(sh(son(e))) == prokhd &&
-			!(brog(son(e)) -> dec_u.dec_val.extnamed)) ||
+			!(brog(son(e)) -> extnamed)) ||
 	(name(son(son(e))) == ident_tag && isparam(son(son(e))));
   }
 
@@ -888,7 +888,7 @@ void codec
 	    name(e) == reff_tag ||
            (PIC_code && name(e) == name_tag && isglob(son(e)) &&
                name(sh(son(e))) == prokhd &&
-               !brog(son(e)) ->  dec_u.dec_val.extnamed)) {
+               !brog(son(e)) ->  extnamed)) {
           if (ptno(son(e))!= nowhere_pl)
 	    mova(mw(e, 0), dest);
 	  return;

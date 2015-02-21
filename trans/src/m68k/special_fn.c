@@ -35,7 +35,7 @@ bool
 special_fn(exp a1, exp a2, shape s, exp *e)
 {
 	dec *d = brog(son(a1));
-	char *id = d->dec_u.dec_val.dec_id;
+	char *id = d->dec_id;
 
 	if (id == NULL) {
 		return 0;

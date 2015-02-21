@@ -640,7 +640,7 @@ evalone ( exp e, int bitposn, bool ro ){
     case name_tag : {
       /* Global name */
       dec *globdec = brog ( son ( e ) ) ;
-      char *nm = globdec->dec_u.dec_val.dec_id ;
+      char *nm = globdec->dec_id ;
       asm_printf("\t.word %s", nm ) ;
       if ( no ( e ) ) {
 	asm_printf("+%d",  no ( e ) / 8 ) ;
@@ -827,8 +827,8 @@ evalone ( exp e, int bitposn, bool ro ){
       exp p2 = bro ( p1 ) ;
       if ( name ( p1 ) == name_tag && name ( p2 ) == name_tag ) {
 	long n = no ( p1 ) - no ( p2 ) ;
-	char *n1 = brog ( son ( p1 ) )->dec_u.dec_val.dec_id ;
-	char *n2 = brog ( son ( p2 ) )->dec_u.dec_val.dec_id ;
+	char *n1 = brog ( son ( p1 ) )->dec_id ;
+	char *n2 = brog ( son ( p2 ) )->dec_id ;
 	asm_printf("\t.word %s-%s", n1, n2);
 	if ( n < 0 ) {
 	  asm_printf("%ld", n ) ;
@@ -871,11 +871,11 @@ evaluated ( exp e, long ll, bool ro ){
   } 
   else if ( ll < 0 ) {
     lab = ( int ) ll ;
-    extnamed = ( bool ) main_globals [ -lab - 1 ]->dec_u.dec_val.extnamed ;
+    extnamed = ( bool ) main_globals [ -lab - 1 ]->extnamed ;
   } 
   else /* if ( ll > 0 ) */ {
     lab = ( int ) ( -ll ) ;
-    extnamed = ( bool ) main_globals [ -lab - 1 ]->dec_u.dec_val.extnamed ;
+    extnamed = ( bool ) main_globals [ -lab - 1 ]->extnamed ;
   }
   a = ashof ( sh ( e ) ) ;
   
@@ -888,7 +888,7 @@ evaluated ( exp e, long ll, bool ro ){
     if ( !extnamed || (name(e) == clear_tag && no(e) == -1) ||
 		/* SUNOS simplifies extraction of .common from library modules */
 	 (!sysV_assembler && dynamic_init_proc != NULL &&
-		!(main_globals [ -lab - 1 ]->dec_u.dec_val.is_common))
+		!(main_globals [ -lab - 1 ]->is_common))
 	) {
       asm_printf("\t.reserve ");
       outlab ( lab ) ;

@@ -51,7 +51,7 @@ baseoff boff
   baseoff an;
   if (isglob (id)) {		/* globals */
     dec * gl = brog(id);
-    long sno = gl->dec_u.dec_val.sym_number;
+    long sno = gl->sym_number;
     an.base = - (sno + 1);
     an.offset = 0;
   }

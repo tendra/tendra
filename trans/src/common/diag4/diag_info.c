@@ -38,8 +38,8 @@ diag_locate(exp e)
 	/* need contents for var locations, TDF_DIAG3 */
 	exp id = son(e);
 	if (isglob(id)) {
-		if (brog(id)->dec_u.dec_val.dec_var) {
-			e = f_contents(brog(id)->dec_u.dec_val.dec_shape, e);
+		if (brog(id)->dec_var) {
+			e = f_contents(brog(id)->dec_shape, e);
 		}
 	} else {
 		if (isvar(id)) {

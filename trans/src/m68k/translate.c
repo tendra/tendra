@@ -97,15 +97,15 @@ translate_capsule(void)
 #if 0
     /* Fix procedure handling (copied from trans386) */
     for (d = top_def; d != NULL; d = d->def_next) {
-    exp crt_exp = d -> dec_u.dec_val.dec_exp;
+    exp crt_exp = d -> dec_exp;
     exp idval;
-      if (!(d -> dec_u.dec_val.dec_var) && (name(sh(crt_exp))!= prokhd ||
+      if (!(d -> dec_var) && (name(sh(crt_exp))!= prokhd ||
           (idval = son(crt_exp),
              idval != NULL && name(idval)!= null_tag &&
                name(idval)!= proc_tag && name(idval)!= general_proc_tag))) {
 	/* make variable, and change all uses to contents */
         exp p = pt(crt_exp);
-        if (d -> dec_u.dec_val.extnamed)
+        if (d -> extnamed)
           sh(crt_exp) = f_pointer(f_alignment(sh(crt_exp)));
 	else
           setvar(crt_exp);
@@ -137,9 +137,9 @@ translate_capsule(void)
     /* Mark static unaliases declarations */
     if (!separate_units) {
 	for (d = top_def; d != NULL; d = d->def_next) {
-	    exp c = d->dec_u.dec_val.dec_exp;
+	    exp c = d->dec_exp;
 	    if (son(c)!= NULL &&
-		 !(d->dec_u.dec_val.extnamed) && isvar(c)) {
+		 !(d->extnamed) && isvar(c)) {
 		mark_unaliased(c);
 	    }
 	}
@@ -147,11 +147,11 @@ translate_capsule(void)
 
     /* Mark locations for all globals */
     for (d = top_def; d != NULL; d = d->def_next) {
-	if (d->dec_u.dec_val.processed) {
-	    exp c = d->dec_u.dec_val.dec_exp;
+	if (d->processed) {
+	    exp c = d->dec_exp;
 	    ptno(c) = crt_ext_pt++;
 	    no(c) = crt_ext_off;
-	    crt_ext_off += shape_size(d->dec_u.dec_val.dec_shape);
+	    crt_ext_off += shape_size(d->dec_shape);
 	}
     }
 
@@ -198,9 +198,9 @@ static void code_proc
 
 	UNUSED(c);
 
-    di = d->dec_u.dec_val.diag_info;
+    di = d->diag_info;
     reg_res = (has_struct_res(s)? 0 : 1);
-    is_ext = (d->dec_u.dec_val.extnamed ? 1 : 0);
+    is_ext = (d->extnamed ? 1 : 0);
 
     area(ptext);
 
@@ -217,7 +217,7 @@ static void code_proc
     gcproc(s, id, -1, is_ext, reg_res, di);
 
 
-    d -> dec_u.dec_val.index = cur_proc_env_size ; /* for use in constant evaluation */
+    d -> index = cur_proc_env_size ; /* for use in constant evaluation */
 
     output_env_size(d, cur_proc_env_size);
 }
@@ -231,11 +231,11 @@ static void code_proc
 static void code_const
 (dec *d)
 {
-   exp c = d->dec_u.dec_val.dec_exp;
+   exp c = d->dec_exp;
    exp s = son(c);
-   char *id = d->dec_u.dec_val.dec_id;
+   char *id = d->dec_id;
 
-   diag_descriptor *di = d->dec_u.dec_val.diag_info;
+   diag_descriptor *di = d->diag_info;
    area(isvar(c)? pdata : ptext);
    if (!no_align_directives) {
      make_instr(m_as_align4, NULL, NULL, 0);
@@ -281,7 +281,7 @@ static int const_ready
 {
   unsigned char  n = name(e);
   if (n == env_size_tag)
-    return brog(son(son(e))) -> dec_u.dec_val.processed;
+    return brog(son(son(e))) -> processed;
   if (n == env_offset_tag)
     return ismarked(son(e));
   if (n == name_tag || son(e) == NULL)
@@ -305,7 +305,7 @@ static delayed_const* delayed_const_list = 0;
 static void eval_if_ready
 (dec *d)
 {
-   exp c = d->dec_u.dec_val.dec_exp;
+   exp c = d->dec_exp;
    if (const_ready(c)) {
       code_const(d);
    }
@@ -326,11 +326,11 @@ void eval_delayed_const_list
       done = 1;
       for (p = delayed_const_list; p; p = p->next) {
          dec* d = p->This;
-         if (!d->dec_u.dec_val.processed) {
-            exp c = d->dec_u.dec_val.dec_exp;
+         if (!d->processed) {
+            exp c = d->dec_exp;
             if (const_ready(c)) {
                code_const(d);
-               d->dec_u.dec_val.processed = 1;
+               d->processed = 1;
             }
             done = 0;
          }
@@ -359,10 +359,10 @@ static void output_all_exps
     /* Scan through the declarations */
     for (d = top_def; d != NULL; d = d->def_next) {
 
-	if (!d->dec_u.dec_val.processed) {
-	    exp c = d->dec_u.dec_val.dec_exp;
+	if (!d->processed) {
+	    exp c = d->dec_exp;
 	    exp s = son(c);
-	    char *id = d->dec_u.dec_val.dec_id;
+	    char *id = d->dec_id;
 
 	    init_output();
 
@@ -371,13 +371,13 @@ static void output_all_exps
                     name(s) == general_proc_tag) {
 		    code_proc(d, id, c, s);
 		    code_const_list();
-                    d->dec_u.dec_val.processed = 1;
+                    d->processed = 1;
 		} else {
 		    eval_if_ready(d);
 		    code_const_list();
 		}
 	    } else {
-		shape sha = d->dec_u.dec_val.dec_shape;
+		shape sha = d->dec_shape;
 		long sz = round(shape_size(sha) / 8, 4);
 		area(ptext);
 		if (!is_local(id) && isvar(c) &&
@@ -394,7 +394,7 @@ static void output_all_exps
 			make_instr(m_as_local, op1, op2, 0);
 		    }
 		}
-                d->dec_u.dec_val.processed = 1;
+                d->processed = 1;
 	    }
 
 	    output_all();

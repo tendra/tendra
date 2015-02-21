@@ -177,9 +177,9 @@ void translate_capsule(void)
 
   for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next)
   {
-    exp tg = crt_def->dec_u.dec_val.dec_exp;
-    shape s = crt_def->dec_u.dec_val.dec_shape;
-    bool extnamed = crt_def->dec_u.dec_val.extnamed;
+    exp tg = crt_def->dec_exp;
+    shape s = crt_def->dec_shape;
+    bool extnamed = crt_def->extnamed;
     char *id;
 
     noglobals++;
@@ -196,15 +196,15 @@ void translate_capsule(void)
       fixup_name(son(tg), top_def, crt_def);
     }
 
-    id = crt_def->dec_u.dec_val.dec_id;		/* might be changed by fixup_name() */
+    id = crt_def->dec_id;		/* might be changed by fixup_name() */
 
     asm_comment("%s: extnamed=%d no(tg)=%d isvar(tg)=%d", id, extnamed, no(tg), isvar(tg));
     asm_comment("\tname(tg)=%d dec_outermost=%d have_def=%d son(tg)!=NULL=%d",
-		name(tg), crt_def->dec_u.dec_val.dec_outermost, crt_def->dec_u.dec_val.have_def, son(tg) != NULL);
+		name(tg), crt_def->dec_outermost, crt_def->have_def, son(tg) != NULL);
     if (son(tg) != NULL)
       asm_comment("\tdec_shape, sh(tg), sh(son(tg))=%d,%d,%d", name(s), name(sh(tg)), name(sh(son(tg))));
 
-    crt_def->dec_u.dec_val.have_def = (son(tg)!=NULL);
+    crt_def->have_def = (son(tg)!=NULL);
 
     assert(name(tg) == ident_tag);
     assert(son(tg) == NULL || name(sh(tg)) == name(s));
@@ -316,7 +316,7 @@ void translate_capsule(void)
       assert((align&63)==0 || align < 64);
 
       /* mark the defininition as processed */
-      crt_def->dec_u.dec_val.processed = 1;
+      crt_def->processed = 1;
     }
     else
     {
@@ -367,8 +367,8 @@ void translate_capsule(void)
 
   for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next)
   {
-    exp tg = crt_def->dec_u.dec_val.dec_exp;
-    char *id = crt_def->dec_u.dec_val.dec_id;
+    exp tg = crt_def->dec_exp;
+    char *id = crt_def->dec_id;
     /* 
      * no(tg) is number of uses 
      * If tg is used in this module, 
@@ -378,13 +378,13 @@ void translate_capsule(void)
     if (no(tg) > 0 || strcmp(id,"__TDFhandler")==0 
 	|| strcmp(id,"__TDFstacklim")==0)
     {
-      bool extnamed = crt_def->dec_u.dec_val.extnamed;
+      bool extnamed = crt_def->extnamed;
       char *storage_class;
 
       if (extnamed && son(tg) == NULL)
       {
 	/* extern from another module */
-	if (name(crt_def->dec_u.dec_val.dec_shape) == prokhd)
+	if (name(crt_def->dec_shape) == prokhd)
 	  storage_class = "";	/* proc descriptor */
 	else
 	  storage_class = "";	/* unknown data */
@@ -412,10 +412,10 @@ void translate_capsule(void)
   globalno = 0;
   for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next)
   {
-    exp tg = crt_def->dec_u.dec_val.dec_exp;
+    exp tg = crt_def->dec_exp;
 
     main_globals[globalno] = crt_def;
-    crt_def->dec_u.dec_val.sym_number = globalno;
+    crt_def->sym_number = globalno;
     globalno++;
 
     if (son(tg) != NULL && IS_A_PROC(son(tg)))
@@ -467,7 +467,7 @@ void translate_capsule(void)
    */
   for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next)
   {
-    exp tg = crt_def->dec_u.dec_val.dec_exp;
+    exp tg = crt_def->dec_exp;
 
     if (son(tg) != NULL && IS_A_PROC(son(tg)))
     {
@@ -529,9 +529,9 @@ void translate_capsule(void)
   anydone = 0;
   for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next)
   {
-    exp tg = crt_def->dec_u.dec_val.dec_exp;
-    char *id = crt_def->dec_u.dec_val.dec_id;
-    bool extnamed = crt_def->dec_u.dec_val.extnamed;
+    exp tg = crt_def->dec_exp;
+    char *id = crt_def->dec_id;
+    bool extnamed = crt_def->extnamed;
     diag_def=crt_def;/* just in case find_dd is called */
     asm_comment("no(tg)=%d isvar(tg)=%d extnamed=%d son(tg)==NULL=%d",
 		 no(tg), isvar(tg), extnamed, son(tg)==NULL);
@@ -540,7 +540,7 @@ void translate_capsule(void)
       /*
        * Skip if already processed, eg identified as is_comm() 
        */
-      if (crt_def->dec_u.dec_val.processed)
+      if (crt_def->processed)
 	continue;
       /*
        * Skip if zero uses and internal to module 
@@ -555,7 +555,7 @@ void translate_capsule(void)
 	/* 
 	 * Non proc, which is isvar() [variable] for [RW] section 
 	 */
-	long symdef = crt_def->dec_u.dec_val.sym_number;
+	long symdef = crt_def->sym_number;
 	
 	/* Check to see if we have made any entries yet */
 	if (!anydone)
@@ -577,7 +577,7 @@ void translate_capsule(void)
 	asm_printf( "#\t.enddata\t%s\n\n", id);
 
 	/* mark the defininition as processed */
-	crt_def->dec_u.dec_val.processed = 1;
+	crt_def->processed = 1;
       }
     }
   }
@@ -595,14 +595,14 @@ void translate_capsule(void)
 
   for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next)
   {
-    exp tg = crt_def->dec_u.dec_val.dec_exp;
-    char *id = crt_def->dec_u.dec_val.dec_id;
-    bool extnamed = crt_def->dec_u.dec_val.extnamed;
+    exp tg = crt_def->dec_exp;
+    char *id = crt_def->dec_id;
+    bool extnamed = crt_def->extnamed;
     diag_def=crt_def;/* just in case find_dd is called */
     if (son(tg) != NULL)
     {
       /* skip if already processed, eg identified as is_comm() */
-      if (crt_def->dec_u.dec_val.processed)
+      if (crt_def->processed)
 	continue;
 
       /* 
@@ -615,7 +615,7 @@ void translate_capsule(void)
       if (!IS_A_PROC(son(tg)))
       {
 	/* non proc, which is not isvar() [variable] for [RO] section */
-	long symdef = crt_def->dec_u.dec_val.sym_number;
+	long symdef = crt_def->sym_number;
 
 	if (!anydone)
 	{
@@ -636,7 +636,7 @@ void translate_capsule(void)
 	asm_printf( "#\t.enddata\t%s\n\n", id);
 
 	/* mark the defininition as processed */
-	crt_def->dec_u.dec_val.processed = 1;
+	crt_def->processed = 1;
       }
     }
   }
@@ -652,14 +652,14 @@ void translate_capsule(void)
    */
   for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next)
   {
-    exp tg = crt_def->dec_u.dec_val.dec_exp;
-    char *id = crt_def->dec_u.dec_val.dec_id;
-    bool extnamed = crt_def->dec_u.dec_val.extnamed;
+    exp tg = crt_def->dec_exp;
+    char *id = crt_def->dec_id;
+    bool extnamed = crt_def->extnamed;
     
     if (son(tg) != NULL)
     {
       /* skip if already processed */
-      if (crt_def->dec_u.dec_val.processed)
+      if (crt_def->processed)
 	continue;
 
       /* skip if zero uses and internal to module unless generating diagnostics */
@@ -672,7 +672,7 @@ void translate_capsule(void)
 	asm_printf( "\n");		/* make proc more visable to reader */
 	diag_def=crt_def;
 	/* switch to correct file */
-	if (diag != DIAG_NONE && diag_def->dec_u.dec_val.diag_info!=NULL )
+	if (diag != DIAG_NONE && diag_def->diag_info!=NULL )
 	{
 	  anydone=1;
 	  stab_proc1(son(tg), id, extnamed);
@@ -691,7 +691,7 @@ void translate_capsule(void)
 	asm_label( ".%s", id);
 
 	/* stab proc details */
-	if (diag != DIAG_NONE && diag_def->dec_u.dec_val.diag_info!=NULL)
+	if (diag != DIAG_NONE && diag_def->diag_info!=NULL)
 	{
 	  stab_proc2(son(tg), id, extnamed);
 	}
@@ -701,7 +701,7 @@ void translate_capsule(void)
 
 	code_here(son(tg), tempregs, nowhere);
 
-	if (diag != DIAG_NONE && diag_def->dec_u.dec_val.diag_info!=NULL)
+	if (diag != DIAG_NONE && diag_def->diag_info!=NULL)
 	{
 	  stab_endproc(son(tg), id, extnamed);
 	}
@@ -709,7 +709,7 @@ void translate_capsule(void)
 	asm_printf( "#\t.end\t%s\n", id);
 
 	/* mark the defininition as processed */
-	crt_def->dec_u.dec_val.processed = 1;
+	crt_def->processed = 1;
       }
     }
   }
@@ -726,12 +726,12 @@ baseoff find_tg(char *n)
   int i;
   exp tg;
   for (i = 0; i < total_no_of_globals; i++) {
-    char *id = main_globals[i] -> dec_u.dec_val.dec_id;
-    tg = main_globals[i] -> dec_u.dec_val.dec_exp;
+    char *id = main_globals[i] -> dec_id;
+    tg = main_globals[i] -> dec_exp;
     if (strcmp(id, n) == 0) return boff(tg);
   }
   printf("%s\n", n);
   error(ERR_SERIOUS, "Extension name not declared ");
-  tg = main_globals[0] -> dec_u.dec_val.dec_exp;
+  tg = main_globals[0] -> dec_exp;
   return boff(tg);
 }

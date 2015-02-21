@@ -937,7 +937,7 @@ stab_local(dg_name di, int param)
 	  id = son(id);
     }
     if (name(id)!= name_tag || isdiscarded(id) || (isglob(son(id)) &&
-	no(son(id)) == 0 && !(brog(son(id))->dec_u.dec_val.extnamed))) {
+	no(son(id)) == 0 && !(brog(son(id))->extnamed))) {
       return;
     }
     disp = no(id);

@@ -502,14 +502,14 @@ void fixup_name(exp global, dec * top_def, dec * crt_def)
 {
   diag_descriptor *dd;
   dec *d;
-  char *id = crt_def->dec_u.dec_val.dec_id;	/* assembler label */
+  char *id = crt_def->dec_id;	/* assembler label */
   char *nm;			/* real name, or uniqued real name */
 
   /*
    * Externs have correct name currently.
    * Any name not starting with local_prefix is special, leave it.
    */
-  if (crt_def->dec_u.dec_val.extnamed ||
+  if (crt_def->extnamed ||
       id[0]!= local_prefix[0] || id[1]!= local_prefix[1])
   {
     return;			/* externs have correct name currently */
@@ -529,7 +529,7 @@ void fixup_name(exp global, dec * top_def, dec * crt_def)
   /* search def chain to see if name is already used as assembler label */
   for (d = top_def; d != crt_def && d != NULL; d = d->def_next)
   {
-    if (strcmp(nm, d->dec_u.dec_val.dec_id) == 0)
+    if (strcmp(nm, d->dec_id) == 0)
     {
 
       /*
@@ -549,7 +549,7 @@ void fixup_name(exp global, dec * top_def, dec * crt_def)
     }
   }
 
-  crt_def->dec_u.dec_val.dec_id = nm;	/* change label to real identifier
+  crt_def->dec_id = nm;	/* change label to real identifier
 					 * name */
 }
 
@@ -655,7 +655,7 @@ static diag_descriptor *find_dd(exp e)
   {
     return NULL;
   }
-  return diag_def->dec_u.dec_val.diag_info;
+  return diag_def->diag_info;
 }
 
 

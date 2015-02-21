@@ -44,8 +44,8 @@ rec_inl(exp p)
 static void
 global_opt(dec *dp)
 {
-	if (!writable_strings && 0 == strcmp(dp->dec_u.dec_val.dec_id, "strcpy")) {
-		exp i = dp->dec_u.dec_val.dec_exp;
+	if (!writable_strings && 0 == strcmp(dp->dec_id, "strcpy")) {
+		exp i = dp->dec_exp;
 		exp t;
 
 		for (t = pt(i); t != NULL; t = pt(t)) {
@@ -61,8 +61,8 @@ global_opt(dec *dp)
 				{
 					dec *src_dec = brog(son(src));
 
-					if (!src_dec->dec_u.dec_val.extnamed &&
-					    son(src_dec->dec_u.dec_val.dec_exp) != NULL)
+					if (!src_dec->extnamed &&
+					    son(src_dec->dec_exp) != NULL)
 					{
 						exp src_def = son(son(src));
 						shape sha = sh(src_def);
@@ -107,8 +107,8 @@ global_opt(dec *dp)
 		}
 	}
 
-	if (!writable_strings && 0 == strcmp(dp->dec_u.dec_val.dec_id, "strlen")) {
-		exp i = dp->dec_u.dec_val.dec_exp;
+	if (!writable_strings && 0 == strcmp(dp->dec_id, "strlen")) {
+		exp i = dp->dec_exp;
 		exp t;
 
 		for (t = pt(i); t != NULL; t = pt(t)) {
@@ -122,8 +122,8 @@ global_opt(dec *dp)
 				    isvar(son(st)) && no(son(st)) == 1)
 				{
 					dec *src_dec = brog(son(st));
-					if (!src_dec->dec_u.dec_val.extnamed &&
-					    son(src_dec->dec_u.dec_val.dec_exp) != NULL)
+					if (!src_dec->extnamed &&
+					    son(src_dec->dec_exp) != NULL)
 					{
 						exp st_def = son(son(st));
 						shape sha = sh(st_def);
@@ -169,7 +169,7 @@ opt_all_exps(void)
 	}
 
 	for (d = top_def; d != NULL; d = d->def_next) {
-		exp crt_exp = d->dec_u.dec_val.dec_exp;
+		exp crt_exp = d->dec_exp;
 		refactor_ext(crt_exp);
 		global_opt(d);
 	}

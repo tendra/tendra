@@ -91,7 +91,7 @@ normalised_inlining(void)
 
   /* count the defined procedures */
   for (my_def = top_def; my_def != NULL; my_def = my_def->def_next) {
-    exp crt_exp = my_def -> dec_u.dec_val.dec_exp;
+    exp crt_exp = my_def -> dec_exp;
 
     def = son(crt_exp);
     if (def != NULL && !isvar(crt_exp) && name(def) == proc_tag &&
@@ -130,14 +130,14 @@ normalised_inlining(void)
 
   i = 0;
   for (my_def = top_def; my_def != NULL; my_def = my_def->def_next) {
-    exp crt_exp = my_def->dec_u.dec_val.dec_exp;
+    exp crt_exp = my_def->dec_exp;
 
     def = son(crt_exp);
     if (def != NULL && !isvar(crt_exp) && name(def) == proc_tag &&
         !isrecursive(def) && apply_only(crt_exp) && !proc_has_setjmp(def) &&
         !proc_uses_crt_env(def) && !proc_has_alloca(def) && !proc_has_lv(def)) {
       to_dec[i] = my_def;
-      my_def -> dec_u.dec_val.index = i;
+      my_def -> index = i;
       consider[i] = 1;
       i++;
     }
@@ -146,7 +146,7 @@ normalised_inlining(void)
   /* Form uses matrix: uses[i, j] implies i calls j */
 
   for (i = 0; i < proc_count; i++) {
-    exp crt_exp = to_dec[i]->dec_u.dec_val.dec_exp;
+    exp crt_exp = to_dec[i]->dec_exp;
 
     if (no(crt_exp) == 0 || son(crt_exp) == NULL) {
       consider[i] = 0;
@@ -166,7 +166,7 @@ normalised_inlining(void)
 	  k = bro(k);
 	}
 	if (k != NULL && name(k) == proc_tag) {
-	  int up = brog(bro(k))->dec_u.dec_val.index;
+	  int up = brog(bro(k))->index;
 	  if (up >=0 && up< proc_count) {
 	  	uses[proc_count *up + i] = 1;
 	  }
@@ -234,12 +234,12 @@ normalised_inlining(void)
       int crt_uses;
       int this_changed = 1;
       my_def = to_dec[order[i] - 1];
-      crt_exp = my_def->dec_u.dec_val.dec_exp;
+      crt_exp = my_def->dec_exp;
       def = son(crt_exp);
       total_uses = no(crt_exp);
 #ifdef TDF_DIAG4
       if (diag != DIAG_NONE) {
-	start_diag_inlining(def, my_def->dec_u.dec_val.dg_name);
+	start_diag_inlining(def, my_def->dg_name);
       }
 #endif
 
@@ -266,8 +266,8 @@ normalised_inlining(void)
 	    }
 	    if (print_inlines) {
 	      IGNORE fprintf(stderr, "%s inlined in %s\n",
-			     my_def->dec_u.dec_val.dec_id,
-			     brog(bro(k))->dec_u.dec_val.dec_id);
+			     my_def->dec_id,
+			     brog(bro(k))->dec_id);
 	    }
 
 	    this_changed = 1;
@@ -290,8 +290,8 @@ normalised_inlining(void)
 	      }
 	      if (print_inlines) {
 	        IGNORE fprintf(stderr, "%s inlined in %s\n",
-			       my_def->dec_u.dec_val.dec_id,
-			       brog(bro(k))->dec_u.dec_val.dec_id);
+			       my_def->dec_id,
+			       brog(bro(k))->dec_id);
 	      }
 
 	      this_changed = 1;
@@ -306,7 +306,7 @@ normalised_inlining(void)
       }
 #ifdef TDF_DIAG4
       if (diag != DIAG_NONE) {
-	end_diag_inlining(def, my_def->dec_u.dec_val.dg_name);
+	end_diag_inlining(def, my_def->dg_name);
       }
 #endif
     }
