@@ -233,7 +233,7 @@ static void code_def
           is_comm(son(tg)))
        {
 	 int is_ext = (my_def -> dec_u.dec_val.extnamed);
-         if (diag_props)
+         if (diag_props) {
 		if (diag != DIAG_DWARF2) {
 #ifndef DWARF2
 #ifdef TDF_DIAG4
@@ -244,6 +244,8 @@ static void code_def
 #ifndef TDF_DIAG4
            diag3_driver->diag_val_begin(diag_props, is_ext, -1, id);
 #endif
+	}
+
 	 if (name(son(tg)) == clear_tag && no(son(tg)) == -1) {
 				/* prom global data */
 	   if (is_ext) {

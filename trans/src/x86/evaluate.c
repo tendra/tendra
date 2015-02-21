@@ -571,7 +571,7 @@ void evaluate
   else
     dot_align(al/8);
 
-  if (diag_props)
+  if (diag_props) {
     if (diag != DIAG_DWARF2) {
 #if defined(STABS) && defined(TDF_DIAG4)
 		out_diag_global(diag_props, global, cname, s);
@@ -580,6 +580,7 @@ void evaluate
 #ifndef TDF_DIAG4
     diag3_driver->diag_val_begin(diag_props, global, cname, s);
 #endif
+  }
 
   if (cname == -1) {
     asm_label("%s", s);
