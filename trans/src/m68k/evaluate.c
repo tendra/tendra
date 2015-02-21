@@ -8,18 +8,12 @@
  */
 
 #include <assert.h>
+#include <float.h>
 
 #include <shared/check.h>
 #include <shared/error.h>
 
 #include <local/fbase.h>
-
-
-#if FS_NO_ANSI_ENVIRON
-#include <floatingpoint.h>
-#else
-#include <float.h>
-#endif
 
 #include <reader/basicread.h>
 
