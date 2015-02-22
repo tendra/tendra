@@ -23,7 +23,7 @@
 #if (TDF_VERSION == 401)
 #include <output/tdf1.h>
 #else
-FAIL_COMPILER Unknown TDF version number!
+#error Unknown TDF version number!
 #endif
 
 

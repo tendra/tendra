@@ -58,7 +58,4 @@ extern LOCATION builtin_loc;
 extern FILE *error_file;
 
 
-#define FAIL_COMPILER	ERROR[!]
-
-
 #endif

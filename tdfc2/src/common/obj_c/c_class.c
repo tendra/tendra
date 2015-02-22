@@ -27,7 +27,7 @@
 */
 
 #if c_class_SPECIFICATION
-FAIL_COMPILER(Implementation functions compiled with token specifications)
+#error Implementation functions compiled with token specifications
 #endif
 
 
@@ -40,7 +40,7 @@ FAIL_COMPILER(Implementation functions compiled with token specifications)
 #define ALLOC_BLOCK		2048
 
 #if (c_class_GEN_MAX > SMALL_BLOCK)
-FAIL_COMPILER(Free block array is too small)
+#error Free block array is too small
 #endif
 
 static c_class *free_c_classes = NULL;
