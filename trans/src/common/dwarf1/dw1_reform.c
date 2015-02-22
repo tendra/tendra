@@ -2,6 +2,8 @@
 
 /* TODO: interface for diag/ to call common/dwarf */
 
+#include <stddef.h>
+
 #include <reader/exp.h>
 
 #include <diag3/diaginfo.h>
