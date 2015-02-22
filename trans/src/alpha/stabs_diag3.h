@@ -15,8 +15,6 @@ extern int nofds;
 extern int *file_dnos;		/* dense nos for files */
 extern int current_file;		/* dense no of current source file */
 extern void stab_file(int i);	/* symtab entry for file source file i */
-extern void diagbr_open(int findex);/* .. entry for open scope */
-extern void diagbr_close(int findex);/* entry for close scope */
 extern void stab_local(char *nm, diag_type dt, exp id, int disp, int findex);
  /* entry for local */
 extern void stab_types(void); /* aux entries for types */

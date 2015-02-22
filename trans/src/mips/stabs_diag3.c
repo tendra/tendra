@@ -129,7 +129,7 @@ long  findex,
 
 static char lexlev[] = "0";	/* historic !!! */
 
-void
+static void
 diagbr_open(long findex)
 {/* block begin directive */
   int   symno;
@@ -141,7 +141,7 @@ diagbr_open(long findex)
   out_ent (symno, ibgnb, 0);
 }
 
-void
+static void
 diagbr_close(long findex)
 {/* block end directive */
   int   symno;

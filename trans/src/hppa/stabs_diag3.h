@@ -23,8 +23,6 @@ extern void init_stab_aux(void);
 extern void init_diag(void);
 extern void stab_file(long, bool);
 extern void stabn(long, long);
-extern long diagbr_open(long);
-extern void diagbr_close(long);
 extern void stab_types(void);
 extern void stab_global(shape, char *, bool);
 extern void stab_proc(exp, char *, bool);

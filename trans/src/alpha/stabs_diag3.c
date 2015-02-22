@@ -137,8 +137,8 @@ stabd(int findex, int lno)
 static char lexlev[] = "0";	/* historic !!! */
 
 
-void diagbr_open
-(int findex)
+static void
+diagbr_open(int findex)
 {
   int symno;
   stab_file(findex);
@@ -151,8 +151,8 @@ void diagbr_open
   out_ent(symno, ibgnb, 0);
 }
 
-void diagbr_close
-(int findex)
+static void
+diagbr_close(int findex)
 {
   int symno;
   stab_file(findex);
