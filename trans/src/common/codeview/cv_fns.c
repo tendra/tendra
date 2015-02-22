@@ -332,6 +332,7 @@ const struct diag3_driver diag3_driver_cv = {
 	out_diagnose_prelude,
 	out_diagnose_postlude,
 
+	NULL,
 	NEW_DIAG_GLOBAL,
 	OUTPUT_GLOBALS_TAB,
 	OUTPUT_DIAG_TAGS,

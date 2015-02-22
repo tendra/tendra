@@ -24,6 +24,7 @@ const struct diag3_driver diag3_driver_dw1 = {
 	dw1_out_diagnose_prelude,
 	dw1_out_diagnose_postlude,
 
+	NULL,
 	new_dwarf_global,
 	out_dwarf_global_list,
 	out_dwarf_diag_tags,
