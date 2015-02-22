@@ -1961,10 +1961,12 @@ const struct diag3_driver diag3_driver_stabs = {
 	NULL,
 	NULL,
 
+	NULL,
 	NEW_DIAG_GLOBAL,
 	OUTPUT_GLOBALS_TAB,
 	OUTPUT_DIAG_TAGS,
 	INSPECT_FILENAME,
+	stab_file,
 
 	output_diag,
 	output_end_scope,

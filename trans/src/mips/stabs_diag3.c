@@ -97,7 +97,7 @@ symnosforfiles(void)
 
 }
 
-void
+static void
 stab_file(int i)
 {	/* output .file directive for file i */
   int   l;
@@ -477,6 +477,7 @@ const struct diag3_driver diag3_driver_stabs = {
 	OUTPUT_GLOBALS_TAB,
 	OUTPUT_DIAG_TAGS,
 	collect_files,
+	stab_file,
 
 	output_diag,
 	output_end_scope,

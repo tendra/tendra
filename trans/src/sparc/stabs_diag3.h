@@ -19,7 +19,6 @@
 
 extern void init_stab(void);
 extern void init_stab_aux(void);
-extern void stab_file(long, bool);
 extern void stab_global(diag_descriptor *, exp, char *, bool);
 extern void stab_local(char *, diag_type, exp, long, long);
 extern void stab_proc(diag_descriptor *, exp, char *, bool);

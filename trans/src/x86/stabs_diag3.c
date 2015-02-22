@@ -945,6 +945,7 @@ const struct diag3_driver diag3_driver_stabs = {
 	stab_typedefs,
 	stab_tagdefs,
 	stab_collect_files,
+	stab_file,
 
 	output_diag,
 	output_end_scope,

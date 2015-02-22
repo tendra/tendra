@@ -52,6 +52,7 @@
 
 extern bool last_param(exp);
 
+static void stab_file(long findex, bool internal);
 static void stab_scope_open(long);
 static void stab_scope_close(long);
 
@@ -308,7 +309,7 @@ out_sh_type(shape s)
 /*
  * Output diagnostics directive for a file
  */
-void
+static void
 stab_file(long findex, bool internal)
 {
 	static long i = 0;
@@ -955,6 +956,7 @@ const struct diag3_driver diag3_driver_stabs = {
 	stab_typedefs,
 	stab_tagdefs,
 	stab_collect_files,
+	stab_file,
 
 	stab_begin,
 	stab_end,

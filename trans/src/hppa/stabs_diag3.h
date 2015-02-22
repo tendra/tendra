@@ -21,7 +21,6 @@ extern void stab_begin(diag_info *, int, exp);
 
 extern void init_stab_aux(void);
 extern void init_diag(void);
-extern void stab_file(long, bool);
 extern void stabn(long, long);
 extern void stab_types(void);
 extern void stab_global(shape, char *, bool);
