@@ -123,8 +123,8 @@ void stab_file
 
 int currentlno = -1;		/* the last line number output */
 
-void stabd
-(int findex, int lno)
+static void
+stabd(int findex, int lno)
 {
   if (findex==currentfile && lno==currentlno) return;
   stab_file(findex);
@@ -493,6 +493,7 @@ const struct diag3_driver diag3_driver_stabs = {
 	NULL,
 	NULL,
 
+	stabd,
 	NEW_DIAG_GLOBAL,
 	OUTPUT_GLOBALS_TAB,
 	OUTPUT_DIAG_TAGS,

@@ -114,7 +114,8 @@ stab_file(int i)
 
 long  currentlno = -1;		/* the last line number output */
 
-void stabd (findex, lno)	/* output .loc directive */
+static void
+stabd (findex, lno)	/* output .loc directive */
 long  findex,
       lno;
 {
@@ -471,6 +472,7 @@ const struct diag3_driver diag3_driver_stabs = {
 	NULL,
 	NULL,
 
+	stabd,
 	NEW_DIAG_GLOBAL,
 	OUTPUT_GLOBALS_TAB,
 	OUTPUT_DIAG_TAGS,

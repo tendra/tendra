@@ -22,6 +22,7 @@ struct diag3_driver {
 	void (*out_diagnose_prelude )(void);
 	void (*out_diagnose_postlude)(void);
 
+	void (*stabd)(long findex, long lno, int seg);
 	diag_descriptor * (*NEW_DIAG_GLOBAL)(diag_descriptor *);
 	void (*OUTPUT_GLOBALS_TAB)(void);
 	void (*OUTPUT_DIAG_TAGS)(void);

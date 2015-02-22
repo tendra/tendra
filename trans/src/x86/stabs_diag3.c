@@ -940,6 +940,7 @@ const struct diag3_driver diag3_driver_stabs = {
 	out_diagnose_prelude,
 	out_diagnose_postlude,
 
+	stabd,
 	NEW_DIAG_GLOBAL,
 	stab_typedefs,
 	stab_tagdefs,

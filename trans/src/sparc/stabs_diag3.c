@@ -195,7 +195,7 @@ static char *last_proc_lab = "<<No Proc>>";
 #define N_LBRAC  0xc0
 #define N_RBRAC  0xe0
 
-void
+static void
 stabd(long findex, long lno, int seg)
 {
 	long i;
@@ -950,6 +950,7 @@ const struct diag3_driver diag3_driver_stabs = {
 	NULL,
 	NULL,
 
+	stabd,
 	NEW_DIAG_GLOBAL,
 	stab_typedefs,
 	stab_tagdefs,

@@ -35,6 +35,8 @@
 #include <main/flags.h>
 #include <main/print.h>
 
+#include <diag3/diag_reform.h>
+
 #include "tempdecs.h"
 #include "weights.h"
 #include "procrectypes.h"
@@ -153,7 +155,7 @@ code_it(dec *my_def)
 	if (diag != DIAG_NONE && dd != (diag_descriptor*)NULL) {
 	  sourcemark *sm = &dd -> data.id.whence;
 	  set_file(sm->file->file.ints.chars,2);
-	  stabd(fscopefile = find_file(sm->file->file.ints.chars),
+	  diag3_driver->stabd(fscopefile = find_file(sm->file->file.ints.chars),
 		sm->line_no.nat_val.small_nat);
 	}
 	else if (diag != DIAG_NONE){
@@ -168,7 +170,7 @@ code_it(dec *my_def)
 	    symnosforfiles();
 	    nofds = 0;
 	  }
-	  stabd(0,1);
+	  diag3_driver->stabd(0,1);
 #endif
 	}
 	
@@ -182,7 +184,7 @@ code_it(dec *my_def)
 	settempregs (son(tg));
 	code_here (son (tg), tempspace, nowhere);
 	if(diag != DIAG_NONE && dd != (diag_descriptor*)NULL){
-	  stabd(fscopefile,currentlno+1);
+	  diag3_driver->stabd(fscopefile,currentlno+1);
 	}
 	if (as_file){
 	  asm_printop(".end %s", id);
