@@ -675,7 +675,7 @@ void translate_capsule(void)
 	if (diag != DIAG_NONE && diag_def->diag_info!=NULL )
 	{
 	  anydone=1;
-	  stab_proc1(son(tg), id, extnamed);
+	  stab_proc_file(son(tg), id, extnamed);
 	}
 	
 
@@ -693,7 +693,7 @@ void translate_capsule(void)
 	/* stab proc details */
 	if (diag != DIAG_NONE && diag_def->diag_info!=NULL)
 	{
-	  stab_proc2(son(tg), id, extnamed);
+	  stab_proc(son(tg), id, extnamed);
 	}
 	
 	seed_label();		/* reset label sequence */

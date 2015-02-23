@@ -1545,7 +1545,7 @@ stab_global(diag_descriptor *dd, exp global, char *id, bool ext)
 /*
  * switch to correct file prior to proc prelude
  */
-void stab_proc1(exp proc, char *id, bool ext)
+void stab_proc_file(exp proc, char *id, bool ext)
 {
   diag_descriptor *dd = find_dd(proc);
 
@@ -1556,7 +1556,7 @@ void stab_proc1(exp proc, char *id, bool ext)
 
   if (dd == NULL)
   {
-    asm_comment("stab_proc1: no descriptor");	/* should never happen */
+    asm_comment("stab_proc_file: no descriptor");	/* should never happen */
     current_procstart_lineno = NOT_IN_PROC;
     current_lineno = NOT_IN_PROC;
     return;
@@ -1573,7 +1573,7 @@ void stab_proc1(exp proc, char *id, bool ext)
 /*
  * stap proc, after label defined
  */
-void stab_proc2(exp proc, char *id, bool ext)
+void stab_proc(exp proc, char *id, bool ext)
 {
   diag_descriptor *dd = find_dd(proc);
   char *nm;
@@ -1581,7 +1581,7 @@ void stab_proc2(exp proc, char *id, bool ext)
 
   if (dd == NULL)
   {
-    asm_comment("stab_proc2: no descriptor");	/* should never happen */
+    asm_comment("stab_proc: no descriptor");	/* should never happen */
     return;
   }
 
@@ -1620,7 +1620,7 @@ void stab_proc2(exp proc, char *id, bool ext)
   default:
     {
       /* should never happen, but if it does ... */
-      error(ERR_SERIOUS, "stab_proc2: Should never happen");
+      error(ERR_SERIOUS, "stab_proc: Should never happen");
       out_dt_TypeId(dt);
       break;
     }
