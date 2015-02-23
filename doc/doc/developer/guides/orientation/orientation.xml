@@ -251,17 +251,13 @@ TODO: consider showing as three large graphs; build, runtime and regeneration - 
 		<para>Finally, as is typical with compilers, some of the tools are
 			written using themselves; these have generated code which
 			occasionally needs to be rebuilt by developers. The dependencies
-			for rebuilding are:</para>
-
-		<figure>
-			<title>Developer regeneration dependencies</title>
-
-			<graphic fileref="images/dep-regen.svg"/>
-		</figure>
-
-		<para>These dependencies are not relevant to package managers or
+			for rebuilding are not documented here, as they are not
+			particularly important.
+			These dependencies are not relevant to package managers or
 			system adminstrators building TenDRA; they are of interest to
-			TenDRA's developers only.</para>
+			TenDRA's developers only.
+			Typically a developer working on a
+			particular area would regenerate just that part as required.</para>
 	</section>
 
 	<section>
