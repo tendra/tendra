@@ -1,0 +1,287 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
+
+<chapter id="organisation">
+	<title>Project Organisation</title>
+
+	<!--
+		TODO: update diagrams for new $PREFIX variables; give <replaceable>$PREFIX_LIB</replaceable> etc instead of actual paths
+	-->
+
+	<section>
+		<title>A tour of <code>$PREFIX</code></title>
+
+		<para>The <code>tendra.base.mk</code> makefile provides several related
+			<code>$PREFIX_*</code> variables which are used to specify various
+			locations on the filesystem for installation. Each of these
+			corresponds to different uses:</para>
+
+		<!-- TODO: link to appropiate manpages or dev guides for each item -->
+		<table>
+			<col align="left"/>
+			<col align="left"/>
+			<col align="left"/>
+
+			<thead>
+				<tr>
+					<th>Variable</th>
+					<th>Default</th>
+					<th>Filetypes</th>
+					<th>Description</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr>
+					<td><code>PREFIX</code></td>
+					<td><filename>/usr/local</filename></td>
+					<td role="na" align="center">&ndash;</td>
+					<td>A convenience to specify the base for everything.</td>
+				</tr>
+
+				<tr>
+					<td><code>PREFIX_BIN</code></td>
+					<td><filename><replaceable>${PREFIX}</replaceable>/bin</filename></td>
+					<td>Executables</td>
+					<td>User-facing binaries</td>
+				</tr>
+
+				<!-- TODO: maybe put PREFIX_INCLUDE in the same table cell -->
+				<tr>
+					<td><code>PREFIX_LIB</code></td>
+					<td><filename><replaceable>${PREFIX}</replaceable>/lib</filename></td>
+					<td><filename>.so</filename>, <filename>.a</filename></td>
+					<td rowspan="2">User-facing libraries and their
+						corresponding headers.
+						These are used by users in their own code.</td>
+				</tr>
+
+				<tr>
+					<td><code>PREFIX_INCLUDE</code></td>
+					<td><filename><replaceable>${PREFIX}</replaceable>/include</filename></td>
+					<td><filename>.h</filename></td>
+				</tr>
+
+				<tr>
+					<td><code>PREFIX_LIBEXEC</code></td>
+					<td><filename><replaceable>${PREFIX}</replaceable>/libexec</filename></td>
+					<td>Executables</td>
+					<td>Internal binaries, used by &tcc;.
+						This should not be in <code>$PATH</code>.</td>
+				</tr>
+
+				<tr>
+					<td><code>PREFIX_SHARE</code></td>
+					<td><filename><replaceable>${PREFIX}</replaceable>/share</filename></td>
+					<td>Plaintext</td>
+					<td>A convenience to specify the base for
+						platform-independent resources.</td>
+				</tr>
+
+				<tr>
+					<td><code>PREFIX_MAN</code></td>
+					<td><filename><replaceable>${PREFIX}</replaceable>/man</filename></td>
+					<td><command>roff</command></td>
+					<td>User-facing manpages, consumed by &man;.</td>
+				</tr>
+
+				<tr>
+					<td><code>PREFIX_TSPEC</code></td>
+					<td><filename><replaceable>${PREFIX_SHARE}</replaceable>/tspec</filename></td>
+					<td><filename>.c</filename>, <filename>.h</filename></td>
+					<td>&tspec;-generated abstract &api; implementations.
+						These get combined with the system headers and compiled
+						to produce concrete &api; implementations, output to
+						<code>PREFIX_API</code>.</td>
+				</tr>
+
+				<tr>
+					<td><code>PREFIX_STARTUP</code></td>
+					<td><filename><replaceable>${PREFIX_LIB}</replaceable>/tcc/startup</filename></td>
+					<td><filename>.pf</filename>, <filename>.h</filename>, environments</td> <!-- TODO: due to become .env -->
+					<td>&tcc; portability tables and strictness profiles.
+						These are platform-independent.</td>
+				</tr>
+
+				<tr>
+					<td><code>PREFIX_ENV</code></td>
+					<td><filename><replaceable>${PREFIX_LIB}</replaceable>/tcc/env</filename></td>
+					<td>environments</td> <!-- TODO: due to become .env -->
+					<td>&tcc; environments.
+						These are platform-specific.</td>
+				</tr>
+
+				<tr>
+					<td><code>PREFIX_LPI</code></td>
+					<td><filename><replaceable>${PREFIX_LIB}</replaceable>/tcc/lpi</filename></td>
+					<td><filename>.tl</filename></td>
+					<td>&tdf; implementations of &lpi; tokens
+						(e.g. <filename>c.tl</filename>, the C language types, etc).
+						These are platform-specific.</td>
+				</tr>
+
+				<tr>
+					<td><code>PREFIX_API</code></td>
+					<td><filename><replaceable>${PREFIX_LIB}</replaceable>/tcc/api</filename></td>
+					<td><filename>.tl</filename></td>
+					<td>&tdf; implementations of &api; tokens
+						(e.g. <filename>c89.tl</filename>, the &ansi; C89 &api;).
+						These are platform-specific.</td>
+				</tr>
+
+				<tr>
+					<td><code>PREFIX_SYS</code></td>
+					<td><filename><replaceable>${PREFIX_LIB}</replaceable>/tcc/sys</filename></td>
+					<td><filename>.a</filename>, <filename>.o</filename>, etc</td>
+					<td>System interface miscellany (e.g. <filename>crt*.o</filename>).
+						These are platform-specific.</td>
+				</tr>
+
+				<tr>
+					<td><code>PREFIX_TMP</code></td>
+					<td><filename>/tmp</filename></td>
+					<td><filename>tcc-<replaceable>XXXXXX</replaceable>/</filename></td>
+					<td>Temporary workspace for &tcc;.</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<para>During a build these may be overridden individually, but they
+			default to values based on <code>$PREFIX</code>, and so overriding
+			just that suffices for most situations.
+			The best choices for these paths depends on the filesystem layout
+			for each particular system.</para>
+
+<!--
+TODO: "here's a fairly typical layout" example
+-->
+	</section>
+
+	<section>
+		<title>Dependencies</title>
+
+<!-- TODO:
+bootstrap build
+bootstrap execution
+bootstrap-rebuild build
+bootstrap-rebuild execution (i.e. normal execution)
+developer-regeneration
+
+TODO: explain goal of each stage (e.g. goal for bootstrap: to produce just enough to compile the rest of the system - required because parts are written in tcc-specific languages)
+
+Several things to show here:
+	- build dependencies; what needs to be present in order to compile something
+	- runtime dependncies; what needs to be present in order to run something, after it is built
+	- developer regeneration dependencies; 
+
+TODO: consider showing as three large graphs; build, runtime and regeneration - for the entire system
+ -->
+
+		<para>TenDRA is comprised of a suite of related tools, each packaged
+			separately.
+			The dependencies required for building these are:</para>
+
+		<figure>
+			<title>Build dependencies</title>
+
+			<graphic fileref="images/dep-build.svg"/>
+		</figure>
+
+		<para>Note that <quote><code>cc</code></quote> here represents the
+			system compiler, which may or may not itself be an installation
+			of TenDRA.</para>
+
+		<para>The runtime dependencies are:</para>
+
+		<figure>
+			<title>Runtime dependencies</title>
+
+			<graphic fileref="images/dep-run.svg"/>
+		</figure>
+
+		<para>These runtime dependencies require the respective tools to be
+			installed under <code>$PREFIX</code> in order to be used. However,
+			once installed, they know where to find their own resources, and
+			so need not be deployed into the system's <code>$PATH</code>,
+			or set up using &ldconfig;, etc. In other words, TenDRA may be
+			installed to some temporary <code>$PREFIX</code> and run from
+			there. The installation does not require root.</para>
+
+		<para>Finally, as is typical with compilers, some of the tools are
+			written using themselves; these have generated code which
+			occasionally needs to be rebuilt by developers. The dependencies
+			for rebuilding are not documented here, as they are not
+			particularly important.
+			These dependencies are not relevant to package managers or
+			system adminstrators building TenDRA; they are of interest to
+			TenDRA's developers only.
+			Typically a developer working on a
+			particular area would regenerate just that part as required.</para>
+	</section>
+
+	<section>
+		<title>Bootstrap</title>
+
+		<para>The goal of bootstrapping is to produce the bare minimum required
+			for the system to be able to build itself. This is neccessary
+			because the system compiler alone is unable to build the whole of
+			TenDRA, as many parts are written using TenDRA-specific mechanisms.
+			For example, the &api; implementations which &tspec; produces are
+			encoded using the <code>#pragma</code> token definition
+			syntax<!-- TODO: link --> which is only meaningful to the &tdfc2;
+			producer.</para>
+
+		<para>The phases of bootstrapping TenDRA are simply:</para>
+
+		<orderedlist>
+			<listitem>Use the system compiler to build just the TenDRA tools
+				required to be able to recompile itself, and the rest of the
+				TenDRA system. This stage may be omitted if the system
+				compiler is itself TenDRA (when upgrading, for
+				example).</listitem>
+
+			<listitem>Use the bootstrapped minimal TenDRA compiler to build
+				everything required for final use.</listitem>
+		</orderedlist>
+
+		<para>This is simpler than for many older systems, which often take
+			into account system compilers that only implement a subset of
+			standard C. Such a situation is unlikely to occur now, and so the
+			bootstrap process is simplified by being able to rely on code
+			which is written in standard C.</para>
+
+		<section>
+			<title>Building the bootstrap compiler</title>
+
+			<para>The dependencies which must be satisfied using the system
+				compiler are as illustrated below. Note that relatively few
+				projects are required; many tools are omitted (&disp;, for
+				example) because they are not required for the next stage
+				of rebuilding.</para>
+
+			<figure>
+				<title>Build dependencies for bootstrap</title>
+
+				<graphic fileref="images/dep-bootstrap-build.svg"/>
+			</figure>
+
+			<para>Bootstrapping is of course traditional for compilers; it is
+				a natural step for any general purpose compiler to make
+				minimal use of the system compiler, and then proceed to
+				rebuild using itself.</para>
+
+			<para>The runtime dependencies for using this minimal bootstrap
+				compiler are the same as the dependencies for those same tools
+				in general use, as illustrated in <!-- TODO: link to dep-run.svg-->
+				.</para>
+		</section>
+
+		<section>
+			<title>Rebuilding using the bootstrap compiler</title>
+
+			<para>TODO</para>
+		</section>
+	</section>
+
+</chapter>
+

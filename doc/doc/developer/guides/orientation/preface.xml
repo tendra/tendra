@@ -1,0 +1,18 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE article SYSTEM "minidocbook.dtd">
+
+<preface id="introduction">
+	<title>Introduction</title>
+
+	<para>TenDRA is a relatively complex system. This document attempts
+		to orientate the reader amongst the maze of file types, and to
+		help show how it all fits together. The focus here is primarily
+		on what files live where, and how they are involved; the details
+		of each stage are not discussed at length.</para>
+
+	<para>A few examples are given, and it is recommended that you follow
+		along and experiment with various alterations whilst reading.
+		This is not a comprehensive guide; it only covers the areas which
+		seemed to be most relevant.</para>
+</preface>
+
