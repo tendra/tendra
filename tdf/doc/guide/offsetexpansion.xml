@@ -8,102 +8,106 @@
 <chapter id="tdf-expansions-of-offsets">
 	<title>TDF expansions of offsets</title>
 
-	<para>Consider the C structure defined by:</para>
+	<section id="compound-offsets">
+		<title>Offsets within compound types</title>
 
-	<programlisting language="tdf">typedef struct{ int i; double d; char c;} mystruct;</programlisting>
+		<para>Consider the C structure defined by:</para>
 
-	<para>Given that sh_int, sh_char and sh_double are the SHAPEs for int, char
-		and double, the SHAPE of <code>mystruct</code> is constructed by:</para>
+		<programlisting language="tdf">typedef struct{ int i; double d; char c;} mystruct;</programlisting>
 
-	<programlisting language="tdf">SH_mystruct = compound(S_c)</programlisting>
+		<para>Given that sh_int, sh_char and sh_double are the SHAPEs for int, char
+			and double, the SHAPE of <code>mystruct</code> is constructed by:</para>
 
-	<para>where:</para>
+		<programlisting language="tdf">SH_mystruct = compound(S_c)</programlisting>
 
-	<programlisting language="tdf">S_c = offset_add(O_c, shape_offset(sh_char))</programlisting>
+		<para>where:</para>
 
-	<para>where:</para>
+		<programlisting language="tdf">S_c = offset_add(O_c, shape_offset(sh_char))</programlisting>
 
-	<programlisting language="tdf">O_c = offset_pad(alignment(sh_char), S_d)</programlisting>
+		<para>where:</para>
 
-	<para>where:</para>
+		<programlisting language="tdf">O_c = offset_pad(alignment(sh_char), S_d)</programlisting>
 
-	<programlisting language="tdf">S_d = offset_add(O_d, shape_offset(sh_double))</programlisting>
+		<para>where:</para>
 
-	<para>where:</para>
+		<programlisting language="tdf">S_d = offset_add(O_d, shape_offset(sh_double))</programlisting>
 
-	<programlisting language="tdf">O_d = offset_pad(alignment(sh_double), S_i)</programlisting>
+		<para>where:</para>
 
-	<para>where: <footnote>
-		<para>I could equally have given simply shape_offset(sh_int) for
-			S_i, but the above formulation is more uniform with respect to
-			selection OFFSETs.</para>
-		</footnote></para>
+		<programlisting language="tdf">O_d = offset_pad(alignment(sh_double), S_i)</programlisting>
 
-	<programlisting language="tdf">S_i = offset_add(O_i, shape_offset(sh_int))</programlisting>
+		<para>where: <footnote>
+			<para>I could equally have given simply shape_offset(sh_int) for
+				S_i, but the above formulation is more uniform with respect to
+				selection OFFSETs.</para>
+			</footnote></para>
 
-	<para>and:</para>
+		<programlisting language="tdf">S_i = offset_add(O_i, shape_offset(sh_int))</programlisting>
 
-	<programlisting language="tdf">O_i = offset_zero(alignment(sh_int))</programlisting>
+		<para>and:</para>
 
-	<para>Each of S_c, S_d and S_i gives the minimum "size" of the space
-		required to upto and including the field c, d and i respectively. Each
-		of O_c, O_d and O_i gives the OFFSET "displacement" from a pointer to
-		a <code>mystruct</code> required to select the fields c, d and i
-		respectively. The C program fragment:</para>
+		<programlisting language="tdf">O_i = offset_zero(alignment(sh_int))</programlisting>
 
-		<programlisting language="c">mystruct s;
+		<para>Each of S_c, S_d and S_i gives the minimum "size" of the space
+			required to upto and including the field c, d and i respectively. Each
+			of O_c, O_d and O_i gives the OFFSET "displacement" from a pointer to
+			a <code>mystruct</code> required to select the fields c, d and i
+			respectively. The C program fragment:</para>
+
+			<programlisting language="c">mystruct s;
 .... s.d = 1.0; ...</programlisting>
         
-	<para>would translate to something like:</para>
+		<para>would translate to something like:</para>
 
-	<programlisting language="tdf">variable(empty, tag_s, make_value(compound(S_c)),
+		<programlisting language="tdf">variable(empty, tag_s, make_value(compound(S_c)),
          sequence(...,
          assign(add_to_ptr(obtain_tag(tag_s), O_d), 1.0),
          ...
          )
         )</programlisting>
         
-	<para>Each of the OFFSET expressions above are ideal candidates for
-		tokenisation; a producer would probably define tokens for each of them
-		and use exp_apply_token to expand them at each of their uses.</para>
+		<para>Each of the OFFSET expressions above are ideal candidates for
+			tokenisation; a producer would probably define tokens for each of them
+			and use exp_apply_token to expand them at each of their uses.</para>
 
-	<para>From the definition, we find that:</para>
+		<para>From the definition, we find that:</para>
 
-	<programlisting language="tdf">S_c = shape_offset(SH_mystruct)
-		i.e. an OFFSET(alignment(sh_int) xc8  alignment(sh_char) xc8  alignment(sh_double), {})</programlisting>
+		<programlisting language="tdf">S_c = shape_offset(SH_mystruct)
+			i.e. an OFFSET(alignment(sh_int) xc8  alignment(sh_char) xc8  alignment(sh_double), {})</programlisting>
 
-	<para>This would not be the OFFSET required to describe
-		<code>sizeof(mystruct)</code> in C, since this is defined to be the
-		difference between successive elements an array of
-		<code>mystruct</code>s. The <code>sizeof</code> OFFSET would have to
-		pad S_c to the alignment of SH_mystruct:</para>
+		<para>This would not be the OFFSET required to describe
+			<code>sizeof(mystruct)</code> in C, since this is defined to be the
+			difference between successive elements an array of
+			<code>mystruct</code>s. The <code>sizeof</code> OFFSET would have to
+			pad S_c to the alignment of SH_mystruct:</para>
 
-	<programlisting language="tdf">offset_pad(alignment(SH_mystruct), S_c)</programlisting>
+		<programlisting language="tdf">offset_pad(alignment(SH_mystruct), S_c)</programlisting>
 
-	<para>This is the OFFSET that one would use to compute the displacement of
-		an element of an array of <code>mystruct</code>s using offset_mult
-		with the index.</para>
+		<para>This is the OFFSET that one would use to compute the displacement of
+			an element of an array of <code>mystruct</code>s using offset_mult
+			with the index.</para>
 
-	<para>The most common use of OFFSETs is in add_to_ptr to compute the
-		address of a structure or array element. Looking again at its
-		signature in a slightly different form:</para>
+		<para>The most common use of OFFSETs is in add_to_ptr to compute the
+			address of a structure or array element. Looking again at its
+			signature in a slightly different form:</para>
 
-	<programlisting language="tdf">arg1: EXP POINTER(y xc8 A)
+		<programlisting language="tdf">arg1: EXP POINTER(y xc8 A)
 arg2: EXP OFFSET(y, z)
       -&gt; EXP POINTER(z)
       ... for any ALIGNMENT A</programlisting>
 
-	<para>one sees that <code>arg2</code> can measure an OFFSET from a value of
-		a "smaller" alignment than the value pointed at by <code>arg1</code>.
-		If <code>arg2</code> were O_d, for example, then <code>arg1</code>
-		could be a pointer to any structure of the form struct {int i, double
-		d,...} not just <code>mystruct</code>. The general principle is that
-		an OFFSET to a field constructed in this manner is independent of any
-		fields after it, corresponding to normal usage in both languages and
-		machines. A producer for a language which conflicts with this would
-		have to produce less obvious TDF, perhaps by re-ordering the fields,
-		padding the offsets by later alignments or taking maxima of the sizes
-		of the fields.</para>
+		<para>one sees that <code>arg2</code> can measure an OFFSET from a value of
+			a "smaller" alignment than the value pointed at by <code>arg1</code>.
+			If <code>arg2</code> were O_d, for example, then <code>arg1</code>
+			could be a pointer to any structure of the form struct {int i, double
+			d,...} not just <code>mystruct</code>. The general principle is that
+			an OFFSET to a field constructed in this manner is independent of any
+			fields after it, corresponding to normal usage in both languages and
+			machines. A producer for a language which conflicts with this would
+			have to produce less obvious TDF, perhaps by re-ordering the fields,
+			padding the offsets by later alignments or taking maxima of the sizes
+			of the fields.</para>
+	</section>
 
 	<section id="bitfield-offsets">
 		<title>Bitfield offsets</title>
