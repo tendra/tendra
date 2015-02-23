@@ -485,6 +485,7 @@ const struct diag3_driver diag3_driver_stabs = {
 	OUTPUT_DIAG_TAGS,
 	collect_files,
 	stab_file,
+	NULL,
 
 	output_diag,
 	output_end_scope,

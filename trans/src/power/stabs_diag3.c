@@ -1509,15 +1509,14 @@ void stab_es(char *sectname)
  * Produce diagnostic for ident_tag variable "id" defined by "global";
  * called from translat().  "ext" tells whether "id" is "static".
  */
-void stab_global(exp global, char *id, bool ext)
+static void
+stab_global(diag_descriptor *dd, exp global, char *id, bool ext)
 {
   UNUSED(global);
   UNUSED(id);
   UNUSED(ext);
 
 #if defined(__AIX) || defined(CROSS_INCLUDE)
-  diag_descriptor *dd = find_dd(global);
-
   if (dd == NULL)
     return;
 
@@ -1973,6 +1972,7 @@ const struct diag3_driver diag3_driver_stabs = {
 	OUTPUT_DIAG_TAGS,
 	INSPECT_FILENAME,
 	stab_file,
+	stab_global,
 
 	output_diag,
 	output_end_scope,

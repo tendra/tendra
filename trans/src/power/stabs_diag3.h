@@ -19,7 +19,6 @@ extern void init_diag(void);
 extern void fixup_name(exp , dec * , dec *);
 extern void stab_bs(char *);
 extern void stab_es(char *);
-extern void stab_global(exp , char *, bool);
 extern void stab_proc1(exp , char *, bool);
 extern void stab_proc2(exp , char *, bool);
 extern void stab_endproc(exp , char *, bool);

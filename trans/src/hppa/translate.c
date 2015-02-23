@@ -596,8 +596,7 @@ translate_capsule(void)
 	   is = evaluated(son(tg),symdef);
 	   if (diag != DIAG_NONE)
 	   {
-	      diag_def = crt_def;
-	      stab_global(son(tg), id, extnamed);
+	      diag3_driver->stab_global(crt_def->diag_info, son(tg), id, extnamed);
 	   }
 
 	   if (is.adval)

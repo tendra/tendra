@@ -339,6 +339,7 @@ const struct diag3_driver diag3_driver_cv = {
 	OUTPUT_DIAG_TAGS,
 	INSPECT_FILENAME,
 	NULL,
+	NULL,
 
 	output_diag,
 	output_end_scope,

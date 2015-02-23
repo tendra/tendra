@@ -1963,11 +1963,10 @@ static DNTTPOINTER out_dt_shape
 /*
  * Output diagnostics for a global variable
  */
-void stab_global
-(exp global, char * id, bool ext)
+static void
+stab_global(diag_descriptor *dd, exp global, char * id, bool ext)
 {
   char *nm;
-  diag_descriptor *dd = find_dd(global);
 
   if (dd==NULL)
      return;
@@ -2341,6 +2340,7 @@ const struct diag3_driver diag3_driver_stabs = {
 	stab_tagdefs,
 	stab_collect_files,
 	stab_file,
+	stab_global,
 
 	NULL,
 	NULL,

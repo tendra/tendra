@@ -617,6 +617,8 @@ translate_capsule (void){
 	if ( diag_props ) {
 		if (diag == DIAG_STABS) {
 #ifdef DIAG3_STABS
+			diag3_driver->stab_global(diag_props, stg, id, extnamed);
+#else
 			stab_global(diag_props, stg, id, extnamed);
 #endif
 		}

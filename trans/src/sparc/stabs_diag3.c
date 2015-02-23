@@ -620,7 +620,7 @@ out_dt_shape(diag_type dt)
 /*
  * Output diagnostics for a global variable
  */
-void
+static void
 stab_global(diag_descriptor * dd, exp global, char * id, bool ext)
 {
 	if (dd == NULL) {
@@ -959,6 +959,7 @@ const struct diag3_driver diag3_driver_stabs = {
 	stab_tagdefs,
 	stab_collect_files,
 	stab_file,
+	stab_global,
 
 	stab_begin,
 	stab_end,

@@ -289,7 +289,7 @@ void translate_capsule(void)
       {
 	asm_printop(".comm %s,%ld,%d", id, byte_size, aligncode);
 	if (diag != DIAG_NONE)
-	  stab_global(son(tg), id, extnamed);
+	  diag3_driver->stab_global(diag_def->diag_info, son(tg), id, extnamed);
       }
       else
       {
@@ -304,7 +304,7 @@ void translate_capsule(void)
 	  asm_printop(".csect [PR]");
 	  asm_printop(".lcomm %s,%ld,%s", id, byte_size, csect_name);
 	  stab_bs(csect_name);
-	  stab_global(son(tg), id, extnamed);
+	  diag3_driver->stab_global(diag_def->diag_info, son(tg), id, extnamed);
 	  stab_es(csect_name);
 	}
 	else if (no(tg) > 0)			/* used */
@@ -572,7 +572,7 @@ void translate_capsule(void)
 
 	if (diag != DIAG_NONE)
 	{
-	  stab_global(son(tg), id, extnamed);
+	  diag3_driver->stab_global(diag_def->diag_info, son(tg), id, extnamed);
 	}
 	asm_printf( "#\t.enddata\t%s\n\n", id);
 
@@ -631,7 +631,7 @@ void translate_capsule(void)
 
 	if (diag != DIAG_NONE)
 	{
-	  stab_global(son(tg), id, extnamed);
+	  diag3_driver->stab_global(diag_def->diag_info, son(tg), id, extnamed);
 	}
 	asm_printf( "#\t.enddata\t%s\n\n", id);
 
