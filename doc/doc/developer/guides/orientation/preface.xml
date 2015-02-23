@@ -5,8 +5,8 @@
 	<title>Introduction</title>
 
 	<para>TenDRA is a relatively complex system. This document attempts
-		to orientate the reader amongst the maze of file types, and to
-		help show how it all fits together. The focus here is primarily
+		to orientate the reader amongst the maze of file types and tools,
+		and to help show how it all fits together. The focus here is primarily
 		on what files live where, and how they are involved; the details
 		of each stage are not discussed at length.</para>
 

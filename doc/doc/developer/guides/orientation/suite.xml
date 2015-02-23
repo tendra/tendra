@@ -3,63 +3,9 @@
 
 <!-- $Id$ -->
 
-<article>
+<chapter id="Suite Overview">
 
-	<articleinfo>
-		<title>TenDRA Suite Purpose Overview</title>
-
-		<authorgroup>
-			<author>
-				<firstname>Rob</firstname>
-				<surname>Andrews</surname>
-			</author>
-
-			<othercredit class="copyeditor">
-				<firstname>Katherine</firstname>
-				<surname>Flavel</surname>
-				<affiliation><orgname>The TenDRA Project</orgname></affiliation>
-			</othercredit>
-		</authorgroup>
-
-		<pubdate>1998</pubdate>
-
-		<copyright>
-			<year>2011</year>
-			<year>2006</year>
-			<holder>The TenDRA Project</holder>
-		</copyright>
-
-		<copyright>
-			<!--
-				I'm assuming this is copyright to Rob personally, as he
-				says his TenDRA homepage (from which this text is taken)
-				is unofficial.
-			-->
-			<!-- Crown Copyright (c) 1998 -->
-			<year>1998</year>
-			<holder>Rob Andrews</holder>
-		</copyright>
-
-		<revhistory>
-			<revision role="docs">
-				<date>2006-09-12</date>
-				<authorinitials>kate</authorinitials>
-				<revdescription>
-					<para>Added suite purpose overview verbatim from Rob
-						Andrews's unofficial TenDRA homepage.</para>
-				</revdescription>
-			</revision>
-
-			<revision role="version">
-				<!-- TODO: date? -->
-				<date>1998</date>
-				<authorinitials>ra</authorinitials>
-				<revdescription>
-					<para>Initial revision.</para>
-				</revdescription>
-			</revision>
-		</revhistory>
-	</articleinfo>
+	<title>Suite Overview</title>
 
 	<section id="what-is-tdf">
 		<title>What is TDF?</title>
@@ -368,5 +314,6 @@
 		</variablelist>
 		-->
 	</section>
-</article>
+
+</chapter>
 

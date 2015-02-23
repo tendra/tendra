@@ -8,20 +8,60 @@
 	<bookinfo>
 		<title>Orientation Guide</title>
 
-		<author>
-			<firstname>Katherine</firstname>
-			<surname>Flavel</surname>
-			<affiliation><orgname>The TenDRA Project</orgname></affiliation>
-		</author>
+		<authorgroup>
+			<author>
+				<firstname>Katherine</firstname>
+				<surname>Flavel</surname>
+				<affiliation><orgname>The TenDRA Project</orgname></affiliation>
+			</author>
+
+			<author>
+				<firstname>Rob</firstname>
+				<surname>Andrews</surname>
+			</author>
+		</authorgroup>
+
+		<pubdate>1998</pubdate>
 
 		<copyright>
+			<year>2015</year>
 			<year>2012</year>
+			<year>2011</year>
 			<year>2008</year>
+			<year>2006</year>
+			<year>1998</year>
 
 			<holder>The TenDRA Project</holder>
 		</copyright>
 
+		<copyright>
+			<!--
+				I'm assuming this is copyright to Rob personally, as he
+				says his TenDRA homepage (from which this text is taken)
+				is unofficial.
+			-->
+			<!-- Crown Copyright (c) 1998 -->
+			<year>1998</year>
+			<holder>Rob Andrews</holder>
+		</copyright>
+
 		<revhistory>
+			<revision role="docs">
+				<date>2015-02-23</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Merged suite purpose overview into the Orientation Guide.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="version">
+				<date>2008-04-27</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Initial revision of the Orientation Guide.</para>
+				</revdescription>
+			</revision>
+
 			<revision role="dev">
 				<date>2012-04-13</date>
 				<authorinitials>kate</authorinitials>
@@ -30,11 +70,30 @@
 						between documents.</para>
 				</revdescription>
 			</revision>
+
+			<revision role="docs">
+				<date>2006-09-12</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Added suite purpose overview verbatim from Rob
+						Andrews's unofficial TenDRA homepage.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="version">
+				<!-- TODO: date? -->
+				<date>1998</date>
+				<authorinitials>ra</authorinitials>
+				<revdescription>
+					<para>Initial revision of the Suite Purpose Overview.</para>
+				</revdescription>
+			</revision>
 		</revhistory>
 	</bookinfo>
 
 	<xi:include href="preface.xml"/>
 
+	<xi:include href="suite.xml"/>
 	<xi:include href="organisation.xml"/>
 	<xi:include href="building.xml"/>
 
