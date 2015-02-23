@@ -3,7 +3,7 @@
 
 <!-- $Id$ -->
 
-<book>
+<book xmlns:xi="http://www.w3.org/2001/XInclude">
 
 	<bookinfo>
 		<title>A Guide to the TDF Specification</title>
