@@ -706,7 +706,7 @@ translate_capsule (void){
 
 	case DIAG_STABS:
 #ifdef DIAG3_STABS
-		stab_proc(diag_props, stg, id, extnamed);
+		diag3_driver->stab_proc(diag_props, stg, id, extnamed);
 #endif
 		break;
 	}
@@ -744,7 +744,7 @@ translate_capsule (void){
 
 	case DIAG_STABS:
 #ifdef DIAG3_STABS
-		stab_proc_end();
+		diag3_driver->stab_proc_end();
 #endif
 		break;
 	}

@@ -19,8 +19,6 @@ extern void init_diag(void);
 extern void fixup_name(exp , dec * , dec *);
 extern void stab_bs(char *);
 extern void stab_es(char *);
-extern void stab_proc_file(exp , char *, bool);
-extern void stab_proc(exp , char *, bool);
 extern void stab_endproc(exp , char *, bool);
 extern void output_diag_tags(void);
 extern void stab_end_file(void);

@@ -35,6 +35,9 @@ const struct diag3_driver diag3_driver_dw1 = {
 	dwarf_inspect_filename,
 	NULL,
 	NULL,
+	NULL,
+	NULL,
+	NULL,
 
 	dw1_output_diag,
 	dw1_output_end_scope,

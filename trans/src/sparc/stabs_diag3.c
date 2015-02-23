@@ -644,7 +644,7 @@ stab_global(diag_descriptor * dd, exp global, char * id, bool ext)
 /*
  * Output diagnostics for a procedure
  */
-void
+static void
 stab_proc(diag_descriptor * dd, exp proc, char * id, bool ext)
 {
 	/* id is passed from translate_capsule, so stays in scope while needed */
@@ -666,7 +666,7 @@ stab_proc(diag_descriptor * dd, exp proc, char * id, bool ext)
 			 dd->data.id.whence.line_no.nat_val.small_nat, id);
 }
 
-void
+static void
 stab_proc_end(void)
 {
 	if (del_stab_start != NULL) {
@@ -960,6 +960,9 @@ const struct diag3_driver diag3_driver_stabs = {
 	stab_collect_files,
 	stab_file,
 	stab_global,
+	NULL,
+	stab_proc,
+	stab_proc_end,
 
 	stab_begin,
 	stab_end,

@@ -19,8 +19,6 @@
 
 extern void init_stab(void);
 extern void init_stab_aux(void);
-extern void stab_proc(diag_descriptor *, exp, char *, bool);
-extern void stab_proc_end(void);
 extern void stab_types(void);
 extern void stabd(long, long, int);
 extern long currentfile;

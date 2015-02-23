@@ -1168,18 +1168,6 @@ void init_stab_aux
 }
 
 /*
- * Find the diagnostics corresponding to the current declaration
- */
-/* ARGSUSED */ static diag_descriptor *find_dd
-(exp e)
-{
-	UNUSED(e);
-
-    if (diag_def == NULL) return NULL;
-    return diag_def->diag_info;
-}
-
-/*
  * Output diagnostics directive for a file
  */
 static void
@@ -1998,11 +1986,10 @@ stab_global(diag_descriptor *dd, exp global, char * id, bool ext)
 /*
  * Output diagnostics for a procedure
  */
-void stab_proc
-(exp proc, char * id, bool public)
+static void
+stab_proc(diag_descriptor *dd, exp proc, char * id, bool public)
 {
    char *nm;
-   diag_descriptor *dd = find_dd(proc);
    if (dd == NULL)
       return;
    stabd(find_file(dd->data.id.whence.file->file.ints.chars)	,
@@ -2341,6 +2328,10 @@ const struct diag3_driver diag3_driver_stabs = {
 	stab_collect_files,
 	stab_file,
 	stab_global,
+	NULL,
+	stab_proc,
+	NULL,
+	NULL,
 
 	NULL,
 	NULL,

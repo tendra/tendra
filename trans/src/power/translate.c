@@ -672,10 +672,10 @@ void translate_capsule(void)
 	asm_printf( "\n");		/* make proc more visable to reader */
 	diag_def=crt_def;
 	/* switch to correct file */
-	if (diag != DIAG_NONE && diag_def->diag_info!=NULL )
+	if (diag != DIAG_NONE && crt_def->diag_info!=NULL )
 	{
 	  anydone=1;
-	  stab_proc_file(son(tg), id, extnamed);
+	  diag3_driver->stab_proc_file(crt_def->diag_info, son(tg), id, extnamed);
 	}
 	
 
@@ -691,9 +691,9 @@ void translate_capsule(void)
 	asm_label( ".%s", id);
 
 	/* stab proc details */
-	if (diag != DIAG_NONE && diag_def->diag_info!=NULL)
+	if (diag != DIAG_NONE && crt_def->diag_info!=NULL)
 	{
-	  stab_proc(son(tg), id, extnamed);
+	  diag3_driver->stab_proc(crt_def->diag_info, son(tg), id, extnamed);
 	}
 	
 	seed_label();		/* reset label sequence */

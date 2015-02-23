@@ -23,7 +23,6 @@ extern void init_stab_aux(void);
 extern void init_diag(void);
 extern void stabn(long, long);
 extern void stab_types(void);
-extern void stab_proc(exp, char *, bool);
 extern void close_function_scope(int);
 extern long currentfile;
 extern void stab_end(diag_info*, exp);

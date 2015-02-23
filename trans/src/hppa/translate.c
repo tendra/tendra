@@ -700,8 +700,7 @@ translate_capsule(void)
 	outnl();
 	if (diag != DIAG_NONE)
 	{
-	   diag_def = crt_def;
-	   stab_proc(son(tg), id, extnamed);
+	   diag3_driver->stab_proc(crt_def->diag_info, son(tg), id, extnamed);
 	}
 	seed_label();		/* reset label sequence */
 	settempregs(son(tg));	/* reset getreg sequence */

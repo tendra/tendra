@@ -1545,10 +1545,9 @@ stab_global(diag_descriptor *dd, exp global, char *id, bool ext)
 /*
  * switch to correct file prior to proc prelude
  */
-void stab_proc_file(exp proc, char *id, bool ext)
+static void
+stab_proc_file(diag_descriptor *dd, exp proc, char *id, bool ext)
 {
-  diag_descriptor *dd = find_dd(proc);
-
   UNUSED(id);
   UNUSED(ext);
 
@@ -1573,9 +1572,9 @@ void stab_proc_file(exp proc, char *id, bool ext)
 /*
  * stap proc, after label defined
  */
-void stab_proc(exp proc, char *id, bool ext)
+static void
+stab_proc(diag_descriptor *dd, exp proc, char *id, bool ext)
 {
-  diag_descriptor *dd = find_dd(proc);
   char *nm;
   diag_type dt;
 
@@ -1942,7 +1941,7 @@ static void stab_basicshape
 /*
  * Output diagnostic stabs for built in types, and for structs and unions.
  * Information about procedures is ignored for present;
- * it is output by stab_procN().
+ * it is output by stab_proc().
  *
  * Must be called before any ".stabx" directive attempted.
  */
@@ -1973,6 +1972,10 @@ const struct diag3_driver diag3_driver_stabs = {
 	INSPECT_FILENAME,
 	stab_file,
 	stab_global,
+	stab_proc_file,
+	stab_proc,
+	NULL,
+	NULL,
 
 	output_diag,
 	output_end_scope,
