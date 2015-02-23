@@ -220,49 +220,50 @@ make_compound(S, ((E1, D1), ..., (En, Dn))) xde variable(empty, nt, make_value(C
     sequence((assign(add_to_ptr(obtain_tag(nt), D1), E1), ...,
               assign(add_to_ptr(obtain_tag(nt), Dn), En)),
              contents(S, obtain_tag(nt))))</programlisting>
+	</section>
 
-		<section id="examples-of-transformations">
-			<title>Examples of transformations</title>
+	<section id="examples-of-transformations">
+		<title>Examples of transformations</title>
 
-			<para>Any of these transformations may be performed by the TDF
-				translators. The most important is probably {A} which allows one
-				to reduce all of the EXP operands of suitable constructors to
-				obtain_tags. The expansion rules for identification, {G}, {H} and
-				{I}, gives definition to complicated operands as well as strangely
-				formed ones, e.g. return(...  return(X)...). Rule {A} also
-				illustrates neatly the lack of ordering constraints on the
-				evaluation of operands. For example, mult(et, exp1, exp2) could be
-				expanded by applications of {A} to either:</para>
+		<para>Any of these transformations may be performed by the TDF
+			translators. The most important is probably {A} which allows one
+			to reduce all of the EXP operands of suitable constructors to
+			obtain_tags. The expansion rules for identification, {G}, {H} and
+			{I}, gives definition to complicated operands as well as strangely
+			formed ones, e.g. return(...  return(X)...). Rule {A} also
+			illustrates neatly the lack of ordering constraints on the
+			evaluation of operands. For example, mult(et, exp1, exp2) could be
+			expanded by applications of {A} to either:</para>
 
-			<programlisting language="tdf">identify(empty, t1, exp1, identify(empty, t2, exp2, mult(et, obtain_tag(t1), obtain_tag(t2))))</programlisting>
+		<programlisting language="tdf">identify(empty, t1, exp1, identify(empty, t2, exp2, mult(et, obtain_tag(t1), obtain_tag(t2))))</programlisting>
 
-			<para>or:</para>
+		<para>or:</para>
 
-			<programlisting language="tdf">identify(empty, t2, exp2, identify(empty, t1, exp1, mult(et, obtain_tag(t1), obtain_tag(t2))))</programlisting>
+		<programlisting language="tdf">identify(empty, t2, exp2, identify(empty, t1, exp1, mult(et, obtain_tag(t1), obtain_tag(t2))))</programlisting>
 
-			<para>Both orderings of the evaluations of exp1 and exp2 are acceptable,
-				regardless of any side-effects in them. There is no requirement
-				that both expansions should produce the same answer for the
-				multiplications; the only person who can say whether either result
-				is "wrong" is the person who specified the program.</para>
+		<para>Both orderings of the evaluations of exp1 and exp2 are acceptable,
+			regardless of any side-effects in them. There is no requirement
+			that both expansions should produce the same answer for the
+			multiplications; the only person who can say whether either result
+			is "wrong" is the person who specified the program.</para>
 
-			<para>Many of these transformations often only come into play when
-				some previous transformation reveals some otherwise hidden
-				information. For example, after procedure in-lining given by {U}
-				or loop un-rolling given by {S}, a translator can often deduce the
-				behaviour of a _test constructor, replacing it by either a
-				make_top or a goto. This may allow one to apply either {J} or {H}
-				to eliminate dead code in sequences and in turn {N} or {P} to
-				eliminate entire conditions and so on.</para>
+		<para>Many of these transformations often only come into play when
+			some previous transformation reveals some otherwise hidden
+			information. For example, after procedure in-lining given by {U}
+			or loop un-rolling given by {S}, a translator can often deduce the
+			behaviour of a _test constructor, replacing it by either a
+			make_top or a goto. This may allow one to apply either {J} or {H}
+			to eliminate dead code in sequences and in turn {N} or {P} to
+			eliminate entire conditions and so on.</para>
 
-			<para>Application of transformations can also give expansions which
-				are rather pathological in the sense that a producer is very
-				unlikely to form them. For example, a procedure which returns no
-				result would have result statements of the form
-				return(make_top()). In-lining such a procedure by {U} would have a
-				form like:</para>
+		<para>Application of transformations can also give expansions which
+			are rather pathological in the sense that a producer is very
+			unlikely to form them. For example, a procedure which returns no
+			result would have result statements of the form
+			return(make_top()). In-lining such a procedure by {U} would have a
+			form like:</para>
 
-			<programlisting language="tdf">variable(empty, nt, make_shape(TOP),
+		<programlisting language="tdf">variable(empty, nt, make_shape(TOP),
          labelled((L),
          ... sequence((assign(obtain_tag(nt), make_top())),
 goto(L)) ...
@@ -279,35 +280,34 @@ goto(L)) ...
          )
 )</programlisting>
   
-			<para>The obtain_tags can be eliminated by rule {M} and then the
-				sequences by {F}. Sucessive applications of {C} and {B} then give:</para>
+		<para>The obtain_tags can be eliminated by rule {M} and then the
+			sequences by {F}. Sucessive applications of {C} and {B} then give:</para>
 
-			<programlisting language="tdf">labelled((L),
+		<programlisting language="tdf">labelled((L),
          ... goto(L) ...
          make_top()
         )</programlisting>
-		</section>
+	</section>
 	
-		<section id="S86">
-			<title>Programs with undefined values</title>
+	<section id="S86">
+		<title>Programs with undefined values</title>
 	
-			<para>The definitions of most of the constructors in the TDF
-				specification are predicated by some conditions; if these
-				conditions are not met the effect and result of the constructor is
-				not defined for all possible platforms.  <footnote>
-					<para>However, we may find that the mapping of a constraint
-						allows extra relationships for a class of architectures which
-						do not hold in all generality; this may mean that some
-						constructions are defined on this class while still being
-						undefined in others (see
-						<link linkend="models-of-the-tdf-algebra">section 13</link>).</para>
-				</footnote>
-				Any value which is dependent on the effect or result of an
-				undefined construction is also undefined. This is not the same as
-				saying that a program is undefined if it can construct an
-				undefined value - the dynamics of the program might be such that
-				the offending construction is never obeyed.</para>
-		</section>
+		<para>The definitions of most of the constructors in the TDF
+			specification are predicated by some conditions; if these
+			conditions are not met the effect and result of the constructor is
+			not defined for all possible platforms.  <footnote>
+				<para>However, we may find that the mapping of a constraint
+					allows extra relationships for a class of architectures which
+					do not hold in all generality; this may mean that some
+					constructions are defined on this class while still being
+					undefined in others (see
+					<link linkend="models-of-the-tdf-algebra">section 13</link>).</para>
+			</footnote>
+			Any value which is dependent on the effect or result of an
+			undefined construction is also undefined. This is not the same as
+			saying that a program is undefined if it can construct an
+			undefined value - the dynamics of the program might be such that
+			the offending construction is never obeyed.</para>
 	</section>
 </chapter>
 

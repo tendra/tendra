@@ -95,50 +95,50 @@
 			which defines the TOKEN T_FILE as the SHAPE for FILE, together with
 			definitions for the TOKENs for putc, stdin, etc., in terms of
 			identifiers which will be found in the library libc.a.</para>
+	</section>
 
-		<section id="S81">
-			<title>Target independent headers, unique_extern</title>
+	<section id="S81">
+		<title>Target independent headers, unique_extern</title>
 
-			<para>Any producer which uses an API will use system independent
-				information to give the common interface TOKENs for this API. In
-				the C producer, this is provided by header files using pragmas,
-				which tell the producer which TOKENs to use for the particular
-				constructs of the API . In any target-independent CAPSULE which
-				uses the API, these TOKENs would be introduced as TOKDECs and made
-				globally accessible by using make_linkextern. For a world-wide
-				standard API, the EXTERNAL "name" for a TOKEN used by
-				make_linkextern should be provided by an application of
-				unique_extern on a UNIQUE drawn from a central repository of names
-				for entities in standard APIs; this repository would form a kind
-				of super-standard for naming conventions in all possible APIs. The
-				mechanism for controlling this super-standard has yet to be set
-				up, so at the moment all EXTERN names are created by
-				string_extern.</para>
+		<para>Any producer which uses an API will use system independent
+			information to give the common interface TOKENs for this API. In
+			the C producer, this is provided by header files using pragmas,
+			which tell the producer which TOKENs to use for the particular
+			constructs of the API . In any target-independent CAPSULE which
+			uses the API, these TOKENs would be introduced as TOKDECs and made
+			globally accessible by using make_linkextern. For a world-wide
+			standard API, the EXTERNAL "name" for a TOKEN used by
+			make_linkextern should be provided by an application of
+			unique_extern on a UNIQUE drawn from a central repository of names
+			for entities in standard APIs; this repository would form a kind
+			of super-standard for naming conventions in all possible APIs. The
+			mechanism for controlling this super-standard has yet to be set
+			up, so at the moment all EXTERN names are created by
+			string_extern.</para>
 
-			<para>An interesting example in the use of TOKENs comes in
-				abstracting field names. Often, an API will say something like
-				"the type Widget is a structure with fields alpha, beta ..."
-				without specifying the order of the fields or whether the list of
-				fields is complete. The field selection operations for Widget
-				should then be expressed using EXP OFFSET TOKENs; each field would
-				have its own TOKEN giving its offset which will be filled in when
-				the target is known. This gives implementors on a particular
-				platform the opportunity to reorder fields or add to them as they
-				like; it also allows for extension of the standard in the same
-				way.</para>
+		<para>An interesting example in the use of TOKENs comes in
+			abstracting field names. Often, an API will say something like
+			"the type Widget is a structure with fields alpha, beta ..."
+			without specifying the order of the fields or whether the list of
+			fields is complete. The field selection operations for Widget
+			should then be expressed using EXP OFFSET TOKENs; each field would
+			have its own TOKEN giving its offset which will be filled in when
+			the target is known. This gives implementors on a particular
+			platform the opportunity to reorder fields or add to them as they
+			like; it also allows for extension of the standard in the same
+			way.</para>
 
-			<para>The most common SORTs of TOKENs used for APIs are SHAPEs to
-				represent types, and EXPs to represent values, including
-				procedures and constants. NATs and VARIETYs are also sometimes
-				used where the API does not specify the types of integers
-				involved. The other SORTs are rarely used in APIs; indeed it is
-				difficult to imagine <emphasis>any</emphasis> realistic use of
-				TOKENs of SORT BOOL. However, the criterion for choosing which
-				SORTs are available for TOKENisation is not their immediate
-				utility, but that the structural integrity and simplicity of TDF
-				is maintained. It is fairly obvious that having BOOL TOKENs will
-				cause no problems, so we may as well allow them.</para>
-		</section>
+		<para>The most common SORTs of TOKENs used for APIs are SHAPEs to
+			represent types, and EXPs to represent values, including
+			procedures and constants. NATs and VARIETYs are also sometimes
+			used where the API does not specify the types of integers
+			involved. The other SORTs are rarely used in APIs; indeed it is
+			difficult to imagine <emphasis>any</emphasis> realistic use of
+			TOKENs of SORT BOOL. However, the criterion for choosing which
+			SORTs are available for TOKENisation is not their immediate
+			utility, but that the structural integrity and simplicity of TDF
+			is maintained. It is fairly obvious that having BOOL TOKENs will
+			cause no problems, so we may as well allow them.</para>
 	</section>
 
 	<section id="S82">

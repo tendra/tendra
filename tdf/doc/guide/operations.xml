@@ -58,47 +58,47 @@
 				arithmetic operations, so facilities are provided to either to
 				ignore it, to allow one to jump to a label, or to obey a TDF
 				exception handler if it happens.</para>
+		</section>
 
-			<section id="error_treatment">
-				<title>ERROR_TREATMENT</title>
+		<section id="error_treatment">
+			<title>ERROR_TREATMENT</title>
 
-				<para>Taking integer addition as an example, plus has signature:</para>
+			<para>Taking integer addition as an example, plus has signature:</para>
 
-				<programlisting language="tdf">ov_err: ERROR_TREATMENT
+			<programlisting language="tdf">ov_err: ERROR_TREATMENT
 arg1:   EXP INTEGER(v)
 arg2:   EXP INTEGER(v)
         -&gt; EXP INTEGER(v)</programlisting>
 
-			<para>The result of the addition has the same integer VARIETY as its
-				parameters.  If the representational bounds of
-				<code>v</code> are exceeded, then the action taken
-				depends on the ERROR_TREATMENT <code>ov_err</code>.</para>
+		<para>The result of the addition has the same integer VARIETY as its
+			parameters.  If the representational bounds of
+			<code>v</code> are exceeded, then the action taken
+			depends on the ERROR_TREATMENT <code>ov_err</code>.</para>
 
-			<para>The ERROR_TREATMENT, impossible, is an assertion by the
-				producer that overflow will not occur; on its head be it if it
-				does.</para>
+		<para>The ERROR_TREATMENT, impossible, is an assertion by the
+			producer that overflow will not occur; on its head be it if it
+			does.</para>
 
-			<para>The ERROR_TREATMENTS continue and wrap give "fixup" values for
-				the result. For continue the fixup value is undefined. For wrap,
-				the the answer will be modulo 2 to the power of the number of bits
-				in the representational variety.Thus, integer arithmetic with byte
-				representational variety is done modulo 256. This just corresponds
-				to what happens in most processors and, incidentally, the
-				definition of C.</para>
+		<para>The ERROR_TREATMENTS continue and wrap give "fixup" values for
+			the result. For continue the fixup value is undefined. For wrap,
+			the the answer will be modulo 2 to the power of the number of bits
+			in the representational variety.Thus, integer arithmetic with byte
+			representational variety is done modulo 256. This just corresponds
+			to what happens in most processors and, incidentally, the
+			definition of C.</para>
 
-			<para>The ERROR_TREATMENT that one would use if one wished to jump
-				to a label is error_jump:</para>
+		<para>The ERROR_TREATMENT that one would use if one wished to jump
+			to a label is error_jump:</para>
 
-			<programlisting language="tdf">lab: LABEL
+		<programlisting language="tdf">lab: LABEL
      -&gt; ERROR_TREATMENT</programlisting>
 
-			<para>A branch to <code>lab</code> will occur if the result
-				overflows.</para>
+		<para>A branch to <code>lab</code> will occur if the result
+			overflows.</para>
 
-			<para>The ERROR_TREATMENT, trap(overflow) will raise a TDF
-				exception(see <link linkend="exceptional-flow">section 6.3</link>)
-				with ERROR_CODE overflow if overflow occurs.</para>
-		</section>
+		<para>The ERROR_TREATMENT, trap(overflow) will raise a TDF
+			exception(see <link linkend="exceptional-flow">section 6.3</link>)
+			with ERROR_CODE overflow if overflow occurs.</para>
 	</section>
 
 	<section id="S69">
