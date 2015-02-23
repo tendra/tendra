@@ -4,6 +4,8 @@
 
 #include <stddef.h>
 
+#include <shared/bool.h>
+
 #include <reader/exp.h>
 
 #include <diag3/diaginfo.h>

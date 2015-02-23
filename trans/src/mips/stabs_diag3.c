@@ -16,9 +16,11 @@
  * modules provided in the system library.
  */
 
+#include <assert.h>
 #include <stdio.h>
 #include <string.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
 #include <shared/xalloc.h>
@@ -98,9 +100,14 @@ symnosforfiles(void)
 }
 
 static void
-stab_file(int i)
+stab_file(int i, bool internal)
 {	/* output .file directive for file i */
   int   l;
+
+  assert(internal == false);
+
+  UNUSED(internal);
+
   if (currentfile == i)
     return;
   l = strlen (fds[i]->file.ints.chars);
@@ -120,7 +127,7 @@ long  findex,
       lno;
 {
   if (findex==currentfile && lno==currentlno) return;
-  stab_file (findex);
+  stab_file (findex, false);
   if (as_file)
     asm_printop(".loc %d %ld", file_dnos[findex], lno);
   out_loc (file_dnos[findex], lno);
@@ -133,7 +140,7 @@ static void
 diagbr_open(long findex)
 {/* block begin directive */
   int   symno;
-  stab_file (findex);
+  stab_file (findex, false);
   symno = new_lsym_d(NULL, 0, stBlock, scText, (diag_type)0, currentfile);
   lexlev[0]++;
   if (as_file)
@@ -145,7 +152,7 @@ static void
 diagbr_close(long findex)
 {/* block end directive */
   int   symno;
-  stab_file (findex);
+  stab_file (findex, false);
   symno = new_lsym_d(NULL, 0, stEnd, scText, (diag_type)0, currentfile);
   lexlev[0]--;
   if (as_file)

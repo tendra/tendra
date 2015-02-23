@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
 #include <shared/xalloc.h>
@@ -205,7 +206,7 @@ stabd(long findex, long lno, int seg)
 		return;
 	}
 
-	stab_file(findex, 1);
+	stab_file(findex, true);
 
 	if (seg != 0) {
 		/* 0 suppresses always */
@@ -401,7 +402,7 @@ static void
 stab_scope_open(long findex)
 {
 	long i;
-	stab_file(findex, 1);
+	stab_file(findex, true);
 	if (open_label != 0) {
 		struct delay_stab *t = next_del_stab();
 		t->del_t = D_BRACKET;
@@ -933,7 +934,7 @@ init_stab_aux(void)
 	}
 	assert(dg_file == NULL);
 	dg_file = as_file;
-	stab_file((long)j, 0);
+	stab_file((long)j, false);
 	rewind(dg_file);
 	while (c = fgetc(dg_file), c != EOF) {
 		asm_printf("%c", c);

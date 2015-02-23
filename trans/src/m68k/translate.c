@@ -9,6 +9,7 @@
 
 #include <stdio.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 
 #include <local/szs_als.h>

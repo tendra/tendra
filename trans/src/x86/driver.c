@@ -11,6 +11,7 @@
 #include <string.h>
 #include <stddef.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/getopt.h>
 #include <shared/error.h>

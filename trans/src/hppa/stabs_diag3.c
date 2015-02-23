@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
 #include <shared/xalloc.h>
@@ -990,7 +991,7 @@ stabd(long findex, long lno, int seg)
 {
    long i;
    if (findex == currentfile && lno == currentlno) return;
-   stab_file(findex, 1);
+   stab_file(findex, true);
    if (seg != 0)		/* 0 suppresses always */
    {
       if (seg > 0)		/* -ve line nos are put out in the stabs */
@@ -1156,7 +1157,7 @@ void init_stab_aux
     }
     tmp = dg_file;
     dg_file = as_file;
-    stab_file((long)j, 0);
+    stab_file((long)j, false);
     if (diag == DIAG_GDB)
     {
        stab_types();
@@ -1245,7 +1246,7 @@ stab_file(long findex, bool internal)
 static void stab_scope_open
 (long findex)
 {
-   stab_file(findex,1);
+   stab_file(findex, true);
    /* nb. don't need to output bracket level */
    switch (diag) {
    case DIAG_XDB:

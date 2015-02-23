@@ -11,6 +11,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
 #include <shared/xalloc.h>
@@ -473,7 +474,7 @@ translate_capsule(void)
   out_option(1,diag != DIAG_NONE?1:2);
 
   if (diag != DIAG_NONE && nofds!=0) {
-    diag3_driver->stab_file (0);
+    diag3_driver->stab_file (0, false);
   }
   else{
     currentfile = 0;

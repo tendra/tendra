@@ -13,10 +13,12 @@
   'stabs_diag3.c').
 */
 
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
 #include <shared/xalloc.h>
@@ -102,9 +104,14 @@ void symnosforfiles
 
 /* output .file directive for file i */
 static void
-stab_file(int i)
+stab_file(int i, bool internal)
 {
   int l;
+
+  assert(internal == false);
+
+  UNUSED(internal);
+
   if (currentfile == i)
     return;
 
@@ -127,7 +134,7 @@ static void
 stabd(int findex, int lno)
 {
   if (findex==currentfile && lno==currentlno) return;
-  stab_file(findex);
+  stab_file(findex, false);
   if (as_file)
     asm_printop(".loc %d %d", file_dnos[findex], lno);
   out_loc(file_dnos[findex],(unsigned)lno);
@@ -141,7 +148,7 @@ static void
 diagbr_open(int findex)
 {
   int symno;
-  stab_file(findex);
+  stab_file(findex, false);
   symno = new_lsym_d(NULL, 0, stBlock, scText,(diag_type)0,
       currentfile);
   lexlev[0] ++;
@@ -155,7 +162,7 @@ static void
 diagbr_close(int findex)
 {
   int symno;
-  stab_file(findex);
+  stab_file(findex, false);
   symno = new_lsym_d(NULL, 0, stEnd, scText,(diag_type)0,
       currentfile);
   lexlev[0] --;

@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <time.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
 #include <shared/xalloc.h>
@@ -174,7 +175,7 @@ static void stab_relativeline(const char *);
 static void stab_begin_block(void);
 static void stab_end_block(void);
 static void stabn(int, int);
-static void stab_file(int);
+static void stab_file(int, bool);
 static void diagbr_open(int);
 static void diagbr_close(int);
 static int next_typen(void);
@@ -483,7 +484,7 @@ void init_diag(void)
   current_lineno = NOT_IN_PROC;
   files_stabbed = 0;
   first_fileno = -100;
-  stab_file(mainfile_fd);
+  stab_file(mainfile_fd, false);
   voidsh = getshape(0, 0, 0, TOP_ALIGN, TOP_SZ, tophd);/* very dubious */
   tokensh = getshape(0, 0, 0, TOP_ALIGN, TOP_SZ, bothd);/* very dubious */
   stab_types();
@@ -751,7 +752,7 @@ static void stabn(int findex, int lno)
   }
   if (findex != current_fileno)
   {
-    stab_file(findex);
+    stab_file(findex, false);
   }
   if (current_procstart_lineno == NOT_IN_PROC)
   {
@@ -777,9 +778,13 @@ void stab_end_file(void)
 /*
  * output file name if changed
  */
-static void stab_file(int findex)
+static void stab_file(int findex, bool internal)
 {
   bool stabbed = 0;
+
+  assert(internal == false);
+
+  UNUSED(internal);
 
   if ((findex == current_fileno) || (findex < 0) || (findex >= szfds))
   {
@@ -851,7 +856,7 @@ static void stab_file(int findex)
  */
 static void diagbr_open(int findex)
 {
-  stab_file(findex);
+  stab_file(findex, false);
   stab_begin_block();
 }
 
@@ -860,7 +865,7 @@ static void diagbr_open(int findex)
  */
 static void diagbr_close(int findex)
 {
-  stab_file(findex);
+  stab_file(findex, false);
   stab_end_block();
 }
 
@@ -1517,7 +1522,7 @@ void stab_global(exp global, char *id, bool ext)
     return;
 
   /* +++ inefficient */
-  stab_file(find_file(CSTRING(dd->data.id.whence.file->file)));
+  stab_file(find_file(CSTRING(dd->data.id.whence.file->file)), false);
 
   /*
    * Stabstring:	NAME : Class	"Name of object followed by object classification"
@@ -1562,7 +1567,7 @@ void stab_proc1(exp proc, char *id, bool ext)
   current_lineno = current_procstart_lineno;
 
   /* +++ inefficient */
-  stab_file(find_file(CSTRING(dd->data.id.whence.file->file)));
+  stab_file(find_file(CSTRING(dd->data.id.whence.file->file)), false);
 }
 
 
