@@ -5,8 +5,8 @@
   $Id$
 -->
 
-<chapter>
-	<title>&tdf;</title>
+<chapter id="intro-to-tdf">
+	<title>Introduction to &tdf;</title>
 
 	<para>Having discussed many of the problems involved
 		with writing portable programs, we now eventually turn to &tdf;.

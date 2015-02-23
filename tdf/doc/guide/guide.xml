@@ -32,6 +32,7 @@
 			<year>2010</year>
 			<year>2007</year>
 			<year>2005</year>
+			<year>2004</year>
 			<holder>The TenDRA Project</holder>
 		</copyright>
 
@@ -41,6 +42,14 @@
 		</copyright>
 
 		<revhistory>
+			<revision role="docs">
+				<date>2015-02-23</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Merged &tdf; and Portability paper into the &tdf; Guide.</para>
+				</revdescription>
+			</revision>
+
 			<revision role="dev">
 				<date>2012-04-13</date>
 				<authorinitials>kate</authorinitials>
@@ -105,6 +114,8 @@
 
 	<xi:include href="preface.xml"/>
 
+	<xi:include href="portability.xml"/>
+	<xi:include href="tdf.xml"/>
 	<xi:include href="sortstokens.xml"/>
 	<xi:include href="capsulesunits.xml"/>
 	<xi:include href="shapesalignmentsoffsets.xml"/>
@@ -119,5 +130,6 @@
 	<xi:include href="models.xml"/>
 
 	<xi:include href="conclusion.xml"/>
+	<xi:include href="bibliography.xml"/>
 
 </book>

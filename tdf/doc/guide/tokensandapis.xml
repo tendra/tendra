@@ -196,5 +196,98 @@
 			useful test-bed for TOKEN constructions which may in future become
 			new constructors of core TDF.</para>
 	</section>
+
+	<section id="namespaces-and-apis">
+		<title>Namespaces and &api;s</title>
+
+		<para>Namespace problems are
+			amongst the most difficult faced by standard defining bodies (for
+			example, the &ansi; and &posix; committees) and they often go to
+			great lengths to specify which names should, and should not,
+			appear when certain headers are included. (The position is set
+			out in D. F. Prosser, <citetitle>Header and name space rules for
+			&unix; systems</citetitle> (private communication),
+			USL, 1993.)</para>
+
+		<para>For example, the intention, certainly in &ansi;, is that each
+			header should operate as an independent sub-&api;. Thus
+			<code>va_list</code> is prohibited from appearing in the
+			namespace when <code>stdio.h</code> is included (it is defined
+			only in <code>stdarg.h</code>) despite the fact that it appears
+			in the prototype:</para>
+
+		<programlisting language="c">int vprintf ( char *, va_list ) ;</programlisting>
+
+		<para>This seeming contradiction is worked round on most
+			implementations by defining a type <code>__va_list</code> in <code>
+			stdio.h</code> which has exactly the same definition as
+			<code>va_list</code>, and declaring <code>vprintf</code> as:</para>
+
+		<programlisting language="c">int vprintf ( char *, __va_list ) ;</programlisting>
+
+		<para>This is only legal because <code>__va_list</code> is deemed
+			not to corrupt the namespace because of the convention that names
+			beginning with <code>__</code> are reserved for implementation use.</para>
+
+		<para>This particular namespace convention is well-known, but there
+			are others defined in these standards which are not generally
+			known (and since no compiler I know tests them, not widely
+			adhered to). For example, the &ansi; header <code>errno.h</code>
+			reserves all names given by the regular expression:</para>
+
+		<literallayout>E[0-9A-Z][0-9a-z_A-Z]+</literallayout>
+
+		<para>against macros (i.e. in all namespaces). By prohibiting the
+			user from using names of this form, the intention is to protect
+			against namespace clashes with extensions of the &ansi; &api; which
+			introduce new error numbers. It also protects against a particular
+			implementation of these extensions - namely that new error numbers
+			will be defined as macros.</para>
+
+		<para>A better example of protecting against particular
+			implementations comes from &posix;. If <code>sys/stat.h</code> is
+			included names of the form:</para>
+
+		<literallayout>st_[0-9a-z_A-Z]+</literallayout>
+
+		<para>are reserved against macros (as member names). The intention
+			here is not only to reserve field selector names for future
+			extensions to <code>struct stat</code> (which would only affect &api;
+			implementors, not ordinary users), but also to reserve against the
+			possibility that these field selectors might be implemented by
+			macros. So our <code>st_atime</code> example in section 2.2.3 is
+			strictly illegal because the procedure name <code>st_atime</code>
+			lies in a restricted namespace. Indeed the namespace is restricted
+			precisely to disallow this program.</para>
+
+		<para>As an exercise to the reader, how many of your programs use
+			names from the following restricted namespaces (all drawn from
+			&ansi;, all applying to all namespaces)?</para>
+
+		<literallayout>is[a-z][0-9a-z_A-Z]+                            (ctype.h)
+to[a-z][0-9a-z_A-Z]+                            (ctype.h)
+str[a-z][0-9a-z_A-Z]+                           (stdlib.h)</literallayout>
+
+		<para>With the &tdf; approach of describing &api;s in abstract terms
+			using the <code>#pragma token</code> syntax most of these namespace
+			restrictions are seen to be superfluous. When a target independent
+			header is included precisely the objects defined in that header in
+			that version of the &api; appear in the namespace. There are no
+			worries about what else might happen to be in the header, because
+			there is nothing else. Also implementation details are separated
+			off to the &tdf; library building, so possible namespace pollution
+			through particular implementations does not arise.</para>
+
+		<para>Currently &tdf; does not have a neat way of solving the
+			<code>va_list</code> problem. The present target independent
+			headers use a similar workaround to that described above
+			(exploiting a reserved namespace). (See the footnote in section
+			3.4.1.1.<!-- TODO: link -->)</para>
+
+		<para>None of this is intended as criticism of the &ansi; or &posix;
+			standards. It merely shows some of the problems that can arise
+			from the insufficient separation of code.</para>
+	</section>
+
 </chapter>
 

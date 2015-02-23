@@ -12,8 +12,7 @@
 	<para>We start by examining some of the problems
 		involved in the writing of portable programs. Although the
 		discussion is very general, and makes no mention of &tdf;, many of
-		the ideas introduced are of importance in the second half of the
-		paper, which deals with &tdf;.</para>
+		the ideas introduced are of importance in the <xref linkend="intro-to-tdf"/>.</para>
 
 	<section id="S3">
 		<title>Portable Programs</title>

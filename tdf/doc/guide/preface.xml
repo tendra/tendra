@@ -8,6 +8,19 @@
 <preface id="introduction">
 	<title>Introduction</title>
 
+	<para>&tdf; is the name of the technology developed at DRA which has been
+		adopted by the Open Software Foundation (&osf;), Unix System Laboratories
+		(USL), the European Community's Esprit Programme and others as their
+		Architecture Neutral Distribution Format (&andf;). To date much of the
+		discussion surrounding it has centred on the question, "How do you
+		distribute portable software?". This paper concentrates on the more
+		difficult question, "How do you write portable software in the first
+		place?" and shows how &tdf; can be a valuable tool to aid the writing of
+		portable software. Most of the discussion centres on programs written in
+		C and is Unix specific. This is because most of the experience of &tdf; to
+		date has been in connection with C in a Unix environment, and not
+		because of any inbuilt bias in &tdf;.</para>
+
 	<para>This memo is intended to be a fairly detailed commentary on the
 		specification of TDF, a kind of Talmud to the Torah. If it conflicts
 		with the specification document, it is wrong. The aim is elucidate the
@@ -28,5 +41,13 @@
 	<para>I use the first person where I am expressing my own opinions or
 		preferences; these should not be taken as official opinions of DRA or
 		the TenDRA team.</para>
+
+	<para>The discussion of portability is divided into two sections. Firstly some of the
+		problems involved in writing portable programs are considered. The
+		intention is not only to catalogue what these problems are, but to
+		introduce ways of looking at them which will be important in the second
+		section, where &tdf; is introduced.
+		This deals with the &tdf; approach to portability.</para>
+
 </preface>
 

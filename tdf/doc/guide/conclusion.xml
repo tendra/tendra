@@ -12,5 +12,62 @@
 		considerable detail into aspects which I consider might be unfamiliar
 		and skip over others which occur in most compiling systems.</para>
 
+	<para>The philosophy underlying the whole &tdf;
+		approach to portability is that of separation or isolation. This
+		separation of the various components of the compilation system
+		means that to a large extent they can be considered
+		independently. The separation is only possible because the
+		definition of &tdf; has mechanisms which facilitate it - primarily
+		the token mechanism, but also the capsule linkage scheme.</para>
+
+	<para>The most important separation is that of the abstract
+		description of the syntactic aspects of the &api;, in the form of
+		the target independent headers, from the &api; implementation. It
+		is this which enables the separation of target independent from
+		target dependent code which is necessary for any Architecture
+		Neutral Distribution Format. It also means that programs can be
+		checked against the abstract &api; description, instead of against
+		a particular implementation, allowing for effective &api;
+		conformance testing of applications. Furthermore, it isolates the
+		actual program from the &api; implementation, thereby allowing the
+		programmer to work in the idealised world envisaged by the &api;
+		description, rather than the real world of &api; implementations
+		and all their faults.</para>
+
+	<para>This isolation also means that these &api; implementation
+		problems are seen to be genuinely separate from the main program
+		development. They are isolated into a single process, &tdf; library
+		building, which needs to be done only once per &api;
+		implementation. Because of the separation of the &api; description
+		from the implementation, this library building process also
+		serves as a conformance check for the syntactic aspects of the
+		&api; implementation. However the approach is evolutionary in that
+		it can handle the current situation while pointing the way
+		forward. Absolute &api; conformance is not necessary; the &tdf;
+		libraries can be used as a medium for workarounds for minor
+		implementation errors.</para>
+
+	<para>The same mechanism which is used to separate the &api;
+		description and implementation can also be used within an
+		application to separate the target dependent code from the main
+		body of target independent code. This use of user-defined &api;s
+		also enables a separation of the portability requirements of the
+		program from the particular ways these requirements are
+		implemented on the various target machines. Again, the approach
+		is evolutionary, and not prescriptive. Programs can be made more
+		portable in incremental steps, with the degree of portability to
+		be used being made a conscious decision.</para>
+
+	<para>In a sense the most important contribution &tdf; has to portability is
+		in enabling the various tasks of &api; description, &api; implementation and
+		program writing to be considered independently, while showing up the
+		relationships between them.  It is often said that well specified &api;s
+		are the solution to the world's portability and interoperability
+		problems; but by themselves they can never be. Without methods of
+		checking the conformance of programs which use the &api; and of &api;
+		implementations, the &api;s themselves will remain toothless. &tdf;, by
+		providing syntactic &api; checking for both programs and implementations,
+		is a significant first step towards solving this problem.</para>
+
 </preface>
 
