@@ -857,8 +857,8 @@ void stab_proc_end
   OUTPUT DIAGNOSTICS FOR A LOCAL VARIABLE
 */
 
-static void stab_local
-(dg_name di, int param)
+static void
+stab_local(dg_name di, int param)
 {
   exp id = di->data.n_obj.obtain_val;
   struct delay_stab * t;

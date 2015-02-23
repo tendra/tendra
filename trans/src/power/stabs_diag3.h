@@ -23,7 +23,6 @@ extern void stab_global(exp , char *, bool);
 extern void stab_proc1(exp , char *, bool);
 extern void stab_proc2(exp , char *, bool);
 extern void stab_endproc(exp , char *, bool);
-extern void stab_local(char *, diag_type , exp , int , int);
 extern void output_diag_tags(void);
 extern void stab_end_file(void);
 

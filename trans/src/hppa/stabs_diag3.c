@@ -64,6 +64,7 @@ extern bool last_param(exp);
 static void stab_file(long findex, bool internal);
 static void stab_scope_open(long);
 static void stab_scope_close(long);
+static void stab_local(char *nm, diag_type dt, exp ldid, long disp, long findex);
 
 #ifdef _SYMTAB_INCLUDED
 static int last_lno = 0;
@@ -2081,8 +2082,9 @@ void close_function_scope
 /*
  * Output diagnostics for a local variable
  */
-/* ARGSUSED */ void stab_local
-(char *nm, diag_type dt, exp ldid, long disp, long findex)
+/* ARGSUSED */
+static void
+stab_local(char *nm, diag_type dt, exp ldid, long disp, long findex)
 {
     exp id;
 

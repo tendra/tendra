@@ -14,8 +14,6 @@
 extern int nofds;
 extern int *file_dnos;		/* dense nos for files */
 extern int current_file;		/* dense no of current source file */
-extern void stab_local(char *nm, diag_type dt, exp id, int disp, int findex);
- /* entry for local */
 extern void stab_types(void); /* aux entries for types */
 extern int currentlno;
 extern int find_file(const char *);

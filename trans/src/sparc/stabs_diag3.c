@@ -56,6 +56,7 @@ extern bool last_param(exp);
 static void stab_file(long findex, bool internal);
 static void stab_scope_open(long);
 static void stab_scope_close(long);
+static void stab_local(char *nm, diag_type dt, exp ldid, long disp, long findex);
 
 static FILE *dg_file;
 
@@ -717,7 +718,7 @@ stab_proc_end(void)
 /*
  * Output diagnostics for a local variable
  */
-void
+static void
 stab_local(char *nm, diag_type dt, exp ldid, long disp, long findex)
 {
 	exp id = son(ldid);

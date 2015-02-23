@@ -1759,7 +1759,8 @@ void stab_endproc(exp proc, char *id, bool ext)
  * current translator, none are used by stab_local. I don't even know
  * whether dbx can actually use them.
  */
-void stab_local(char *nm, diag_type dt, exp id, int disp, int findex)
+static void
+stab_local(char *nm, diag_type dt, exp id, int disp, int findex)
 {
   UNUSED(nm);
   UNUSED(dt);

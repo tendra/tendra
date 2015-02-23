@@ -169,7 +169,7 @@ diagbr_close(long findex)
  * with current translator, none are used by stab_local. I don't even know
  * whether the MIPS dbx can actually use them.
  */
-void
+static void
 stab_local(char *nm, diag_type dt, exp ldid, long disp, long findex)
 {
   long  fs = frame_size >> 3;

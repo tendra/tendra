@@ -25,7 +25,6 @@ extern void stabn(long, long);
 extern void stab_types(void);
 extern void stab_global(shape, char *, bool);
 extern void stab_proc(exp, char *, bool);
-extern void stab_local(char *, diag_type, exp, long, long);
 extern void close_function_scope(int);
 extern long currentfile;
 extern void stab_end(diag_info*, exp);
