@@ -237,5 +237,73 @@
 		<para>where <emphasis>permit</emphasis> has the usual <code>allow</code>,
 			<code>disallow</code> and <code>warning</code> options.</para>
 	</section>
+
+	<section>
+		<title>Conditional Compilation</title>
+
+		<para>Tchk generally treats conditional compilation in the same way as
+			other compilers and checkers. For example, consider:</para>
+
+		<programlisting language="c">#if expr
+.... /* First branch */
+#else
+.... /* Second branch */
+#endif</programlisting>
+
+		<para>the expression, <code>expr</code>, is evaluated: if it is
+			non-zero the first branch of the conditional is processed; if it is
+			zero the second branch is processed instead.</para>
+
+		<para>Sometimes, however, tchk may be unable to evaluate the
+			expression statically because of the abstract types and expressions
+			which arise from the minimum integer range assumptions or the
+			abstract standard headers used by the tool (see target-dependent
+			types in section 4.5). For example, consider the following ISO
+			compliant program:</para>
+
+		<programlisting language="c">#include &lt;stdio.h&gt;
+#include &lt;limits.h&gt;
+int main ()
+{
+#if ( CHAR_MIN == 0 )
+	puts ("char is unsigned");
+#else
+	puts ("char is signed");
+#endif
+	return ( 0 );
+}</programlisting>
+
+			<para>The TenDRA representation of the ISO API merely states that
+				<code>CHAR_MIN</code> - the least value which fits into a char -
+				is a target dependent integral constant. Hence, whether or not it
+				equals zero is again target dependent, so the checker needs to
+				maintain both branches. By contrast, any conventional compiler is
+				compiling to a particular target machine on which
+				<code>CHAR_MIN</code> is a specific integral constant. It can
+				therefore always determine which branch of the conditional it
+				should compile.</para>
+
+			<para>In order to allow both branches to be maintained in these cases,
+				it has been necessary for tchk to impose certain restrictions on
+				the form of the conditional branches and the positions in which
+				such target-dependent conditionals may occur. These may be
+				summarised as:</para>
+
+			<itemizedlist>
+				<listitem>
+					<para>Target-dependent conditionals may not appear at the outer
+						level. If the checker encounters a target-dependent conditional at
+						the outer level an error is produced. In order to continue checking
+						in the rest of the file an arbitrary assumption must be made about
+						which branch of the conditional to process; tchk assumes that the
+						conditional is true and the first branch is used;</para>
+				</listitem>
+				<listitem>
+					<para>The branches of allowable target-dependent conditionals may not
+						contain declarations or definitions.</para>
+				</listitem>
+			</itemizedlist>
+	</section>
+
 </chapter>
 
