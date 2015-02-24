@@ -1,12 +1,27 @@
 /* $Id$ */
 
+html {
+	background-color: #134;
+}
+
 body {
-	margin: 2em 4em;
+	margin: 0 auto;
 	max-width: 60em;
+
+	padding: 2em 5em;
+	border-right: solid 1px #ddd;
+	border-left: solid 1px #ddd;
+
+	/* TODO: with -moz-etc for other browsers, too */
+	box-shadow: 0px 0px 300px 0px rgba(0, 0, 0, 0.4);
 }
 
 h1#banner {
 	text-align: right;
+}
+
+span.edition {
+	font-size: 75%;
 }
 
 div.footer {
@@ -99,11 +114,13 @@ div.table ol.footnotes {
 	margin-top: 2em;
 }
 
-pre.screen div.lines {
+pre.screen div.lines,
+pre.programlisting.tdf div.lines {
 	display: none;
 }
 
-pre.screen {
+pre.screen,
+pre.programlisting.tdf {
 	padding: 1ex 1em;
 }
 
@@ -122,6 +139,10 @@ p.cmdsynopsis div.args {
 	display: inline-block;
 }
 
+dl dd {
+	margin-bottom: 1em;
+}
+
 div.warning:before {
 	content: "Warning";
 	font-weight: bold;
@@ -129,17 +150,21 @@ div.warning:before {
 	margin-bottom: 1ex;
 }
 
-div.warning {
-	margin: 2em 1em;
-	padding: 0;
-	padding-left: 1em;
-	border-left: solid .5ex #d44;
+/* TODO: hacks: move to tccplus devguide-specific CSS */
+table td.breakdown {
+	border-right: none ! important;
+	padding-right: 0 ! important;
 }
 
-dl dd {
-	margin-bottom: 1em;
+table td.equals {
+	border-left: none ! important;
+	border-right: none ! important;
+	padding-right: 0 ! important;
 }
 
+table td.result {
+	border-left: none ! important;
+}
 
 
 /* TODO: hacks: move to tcc userguide-specific CSS */
@@ -161,6 +186,44 @@ table td.norow {
 	padding-bottom: 0;
 }
 
+table.revhistory tr td.date,
+table.revhistory tr td.revnumber {
+	white-space: nowrap;
+}
+
+table.revhistory tr td.revremark p {
+	text-align: justify;
+	margin-top: 0;
+	margin-bottom: 0.5ex;
+}
+
+ul.authorgroup {
+	margin: 2em 0;
+	padding: 0;
+}
+
+ul.authorgroup li {
+	list-style-type: none;
+	margin: 0;
+}
+
+p.copyright {
+	margin-bottom: 0;
+}
+
+p.firstpub {
+	margin-top: 1em;
+}
+
+/* TODO: i dislike this. maybe better would be js to break up long tables, and fold them to multiple <table>s, floated left */
+table td.gap,
+table th.gap {
+	border-bottom: none ! important;
+	border-top: none ! important;
+	background-color: transparent ! important;
+}
+
+/* TODO: centralise */
 table td.na {
 	color: #bbb;
 }
@@ -191,7 +254,6 @@ p.cmdsynopsis div.args a:hover {
 p.cmdsynopsis div.args {
 	color: #444;
 }
-
 
 /*
  * SVG figures
