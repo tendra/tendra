@@ -150,6 +150,13 @@ div.warning:before {
 	margin-bottom: 1ex;
 }
 
+div.warning {
+	margin: 2em 1em;
+	padding: 0;
+	padding-left: 1em;
+	border-left: solid .5ex #d44;
+}
+
 /* TODO: hacks: move to tccplus devguide-specific CSS */
 table td.breakdown {
 	border-right: none ! important;
