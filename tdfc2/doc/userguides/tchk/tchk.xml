@@ -37,6 +37,15 @@
 		</copyright>
 
 		<revhistory>
+			<revision role="docs">
+				<date>2015-02-24</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Split off &tcc.1; Compilation Modes to
+						create a &tccmodes.5; manpage.</para>
+				</revdescription>
+			</revision>
+
 			<revision role="version">
 				<date>2010-02-21</date>
 				<authorinitials>kate</authorinitials>
@@ -115,7 +124,6 @@
 	<xi:include href="errors.xml"/>
 	<xi:include href="conditional.xml"/>
 
-	<xi:include href="appendix/modes.xml"/>
 	<xi:include href="appendix/options.xml"/>
 	<xi:include href="appendix/integral.xml"/>
 	<xi:include href="appendix/conversions.xml"/>

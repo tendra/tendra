@@ -1,10 +1,18 @@
 <?xml version="1.0"?>
-<!DOCTYPE appendix SYSTEM "minidocbook.dtd">
+<!DOCTYPE refentry SYSTEM "minidocbook.dtd">
 
-<appendix>
-	<title>Compilation Modes</title>
+<refentry>
+	<refmeta>
+		<refentrytitle>tccmodes</refentrytitle>
+		<manvolnum>5</manvolnum>
+	</refmeta>
 
-	<section>
+	<refnamediv>
+		<refname>tccmodes</refname>
+		<refpurpose>TCC Compilation Modes</refpurpose>
+	</refnamediv>
+
+	<refsection>
 		<title>Base modes</title>
 
 		<para>The <code>Xs</code>, <code>Xp</code>, <code>Xw</code>,
@@ -966,9 +974,9 @@
 				</tr>
 			</tbody>
 		</table>
-	</section>
+	</refsection>
 
-	<section>
+	<refsection>
 		<title><code>nepc</code> and <code>not_ansi</code> modes</title>
 
 		<para>These modes modify the base environment.</para>
@@ -1027,6 +1035,6 @@
 #pragma TenDRA no ident after # allow
 #pragma TenDRA block function static allow
 #pragma TenDRA unknown struct/union allow</programlisting>
-	</section>
-</appendix>
+	</refsection>
+</refentry>
 

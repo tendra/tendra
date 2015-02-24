@@ -63,6 +63,7 @@
 <!ENTITY tdfcdump.5   "<citerefentry><refentrytitle>tdfcdump</refentrytitle>  %vol.5;</citerefentry>">
 <!ENTITY tdfcpragma.5 "<citerefentry><refentrytitle>tdfcpragma</refentrytitle>%vol.5;</citerefentry>">
 <!ENTITY tccenv.5     "<citerefentry><refentrytitle>tccenv</refentrytitle>    %vol.5;</citerefentry>">
+<!ENTITY tccmodes.5   "<citerefentry><refentrytitle>tccmodes</refentrytitle>  %vol.5;</citerefentry>">
 <!ENTITY tld.5        "<citerefentry><refentrytitle>tld</refentrytitle>       %vol.5;</citerefentry>">
 <!ENTITY make_err.5   "<citerefentry><refentrytitle>make_err</refentrytitle>  %vol.5;</citerefentry>">
 

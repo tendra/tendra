@@ -1691,7 +1691,7 @@
 		<title>See Also</title>
 
 		<para>&as;, &cc;, &ld;, &prof;, &disp;, &tchk;, &tdfc2;, &tcpplus;,
-			&tld;, &trans-all; &tccenv.5;.</para>
+			&tld;, &trans-all;, &tccenv.5;, &tccmodes.5;.</para>
 
 		<para>&tcc-userguide.doc;.</para>
 	</refsection>
