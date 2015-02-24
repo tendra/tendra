@@ -45,8 +45,9 @@
 					<para>Split off &tcc.1; Compilation Modes
 						to create a &tccmodes.5; manpage.
 						Moved out <code>#pragma</code> token syntax
-						type conversions to &pragmatoken.doc;
-						and Integral Type Specification
+						type conversions to &pragmatoken.doc;,
+						Integral Type Specification
+						and Dialect Features
 						to &tcpplus-userguide.doc;.</para>
 
 					<para>Merged appendix of &cli; portability
@@ -128,7 +129,6 @@
 	<xi:include href="integers.xml"/>
 	<xi:include href="analysis.xml"/>
 	<xi:include href="preprocessor.xml"/>
-	<xi:include href="dialect.xml"/>
 	<xi:include href="errors.xml"/>
 	<xi:include href="conditional.xml"/>
 
