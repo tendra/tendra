@@ -7,6 +7,17 @@
 	<section>
 		<title>Specifying integer literal types</title>
 
+		<!-- TODO: really by default? isn't the built-in to have nothing? -->
+		<para>By default &tdfc2; assumes that all integer ranges conform to
+			the minimum ranges prescribed by the ISO C standard, i.e. char
+			contains at least 8 bits, short and int contain at least 16 bits
+			and long contains at least 32 bits. If the -Y32bit flag is passed
+			to the checker it assumes that integers conform to the minimum
+			ranges commonly found on most 32 bit machines, i.e. int contains at
+			least 32 bits and int is strictly larger than short so that the
+			integral promotion of unsigned short is int under the ISO C
+			standard integer promotion rules.</para>
+
 		<para>The integer literal pragmas are used to define the method of
 			computing the type of an integer literal. Integer literals cannot be
 			used in a program unless the class to which they belong has been

@@ -20,36 +20,6 @@
 		they may be combined in any way.</para>
 
 	<section>
-		<title>2.1.2 Minimum integer ranges</title>
-
-		<para>By default the checker assumes that all integer ranges conform to
-			the minimum ranges prescribed by the ISO C standard, i.e. char
-			contains at least 8 bits, short and int contain at least 16 bits
-			and long contains at least 32 bits. If the -Y32bit flag is passed
-			to the checker it assumes that integers conform to the minimum
-			ranges commonly found on most 32 bit machines, i.e. int contains at
-			least 32 bits and int is strictly larger than short so that the
-			integral promotion of unsigned short is int under the ISO C
-			standard integer promotion rules.</para>
-	</section>
-
-	<section>
-		<title>API selection</title>
-
-		<para>By default, programs are checked against the standard ISO C API
-			as specified in the ISO C standard Chapter 7. Other APIs are
-			specified by passing the -Yapi-name flag to the tchk, where api-name
-			is one of the API designators listed below. APIs fall into two
-			categories: base APIs and extension APIs. If more than one base API
-			is specified to tchk, only the last one is used for checking; the
-			others are ignored. Additional extension APIs, however, may be used
-			in addition to any suitable base API.</para>
-
-		<!-- TODO explain where you can find a list of APIs, and how to query
-			tspec about it -->
-	</section>
-
-	<section>
 		<title>Individual command line checking options</title>
 
 		<para>Some of the checks available can be controlled using a command

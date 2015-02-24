@@ -289,6 +289,18 @@
 			information can be canned into a single command-line
 			option.</para>
 
+		<para>By default, programs are checked against the standard ISO C API
+			as specified in the ISO C standard Chapter 7. Other APIs are
+			specified by passing the -Yapi-name flag to the tchk, where api-name
+			is one of the API designators listed below. APIs fall into two
+			categories: base APIs and extension APIs. If more than one base API
+			is specified to tchk, only the last one is used for checking; the
+			others are ignored. Additional extension APIs, however, may be used
+			in addition to any suitable base API.</para>
+
+		<!-- TODO explain where you can find a list of APIs, and how to query
+			tspec about it -->
+
 		<para>A number of standard &api;s have been described as target
 			independent headers and are provided with the &tdf; system.
 			A &tcc; environment is provided for each of these &api;s
