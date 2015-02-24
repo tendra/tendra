@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
-<!DOCTYPE appendix SYSTEM "minidocbook.dtd">
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
 
-<appendix>
+<chapter>
 	<title>Integral Type Specification</title>
 
 	<section>
@@ -294,5 +294,5 @@
 			</listitem>
 		</itemizedlist>
 	</section>
-</appendix>
+</chapter>
 

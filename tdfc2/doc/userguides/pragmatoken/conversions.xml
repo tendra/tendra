@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
-<!DOCTYPE appendix SYSTEM "minidocbook.dtd">
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
 
-<appendix>
+<chapter>
 	<title>Specifying conversions using the token syntax</title>
 
 	<para>The token syntax described in Annex F can be used to fine-tune the
@@ -105,5 +105,5 @@ void f(void)
 			</varlistentry>
 		</variablelist>
 	</section>
-</appendix>
+</chapter>
 

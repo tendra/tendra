@@ -21,6 +21,7 @@
 		<pubdate>1998</pubdate>
 
 		<copyright>
+			<year>2015</year>
 			<year>2011</year>
 			<year>2010</year>
 			<year>2008</year>
@@ -41,8 +42,12 @@
 				<date>2015-02-24</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
-					<para>Split off &tcc.1; Compilation Modes to
-						create a &tccmodes.5; manpage.</para>
+					<para>Split off &tcc.1; Compilation Modes
+						to create a &tccmodes.5; manpage.
+						Moved out <code>#pragma</code> token syntax
+						type conversions to &pragmatoken.doc;
+						and Integral Type Specification
+						to &tcpplus-userguide.doc;.</para>
 				</revdescription>
 			</revision>
 
@@ -125,8 +130,6 @@
 	<xi:include href="conditional.xml"/>
 
 	<xi:include href="appendix/options.xml"/>
-	<xi:include href="appendix/integral.xml"/>
-	<xi:include href="appendix/conversions.xml"/>
 
 	<xi:include href="bibliography.xml"/>
 

@@ -21,6 +21,7 @@
 		<pubdate>1998</pubdate>
 
 		<copyright>
+			<year>2015</year>
 			<year>2011</year>
 			<year>2010</year>
 			<holder>The TenDRA Project</holder>
@@ -32,6 +33,15 @@
 		</copyright>
 
 		<revhistory>
+			<revision role="docs">
+				<date>2015-02-24</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Merged in token syntax type conversion
+						from &tchk.doc;.</para>
+				</revdescription>
+			</revision>
+
 			<revision role="version">
 				<date>2010-02-21</date>
 				<authorinitials>kate</authorinitials>
@@ -70,6 +80,7 @@
 	<xi:include href="expressions.xml"/>
 	<xi:include href="statements.xml"/>
 	<xi:include href="types.xml"/>
+	<xi:include href="conversions.xml"/>
 	<xi:include href="selectors.xml"/>
 	<xi:include href="procedures.xml"/>
 	<xi:include href="apis.xml"/>
