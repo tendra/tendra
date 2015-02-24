@@ -22,21 +22,21 @@
 		because of any inbuilt bias in &tdf;.</para>
 
 	<para>This memo is intended to be a fairly detailed commentary on the
-		specification of TDF, a kind of Talmud to the Torah. If it conflicts
+		specification of &tdf;, a kind of Talmud to the Torah. If it conflicts
 		with the specification document, it is wrong. The aim is elucidate the
-		various constructions of TDF, giving examples of usages both from the
-		point of view of a producer of TDF and how it is used to construct
+		various constructions of &tdf;, giving examples of usages both from the
+		point of view of a producer of &tdf; and how it is used to construct
 		programs on particular platforms using various installers or
 		translators. In addition, some attempt is made to give the reasons why
 		the particular constructions have been chosen. Most of the commentary is
 		a distillation of questions and answers raised by people trying to learn
-		TDF from the specification document.</para>
+		&tdf; from the specification document.</para>
 
 	<para>Throughout this document, references like (S5.1) are headings in the
 		&tdf-spec.doc;.
-		I use the term "compiling" or "producing" to mean the production of TDF
+		I use the term "compiling" or "producing" to mean the production of &tdf;
 		from some source language and "translating" to mean making a program for
-		some specific platform from TDF.</para>
+		some specific platform from &tdf;.</para>
 
 	<para>I use the first person where I am expressing my own opinions or
 		preferences; these should not be taken as official opinions of DRA or

@@ -16,12 +16,12 @@
 		a constant of any particular run of a program, may have different
 		values on different machines. Further, this constant is in general the
 		result of some computation involving the sizes of its components which
-		are not known until the platform is chosen. In TDF, sizes are always
+		are not known until the platform is chosen. In &tdf;, sizes are always
 		derived from some EXP OFFSET constructed using the various OFFSET
 		arithmetic operations on primitives like shape_offset and offset_zero.
 		Most such EXP OFFSETs produced are in fact constants of the platform;
 		they include field displacements of structure as well as their sizes.
-		TDF assumes that, if these EXPs can be evaluated at translate-time
+		&tdf; assumes that, if these EXPs can be evaluated at translate-time
 		(i.e. when the sizes and alignments of primitive objects are known),
 		then they must be evaluated there. An example of why this is so arises
 		in make_compound; the SHAPE of its result EXP depends on its
@@ -38,8 +38,8 @@
 		make_proc or make_general_proc. . The limitation on an initialisation
 		EXP to ensure this is basically that one cannot take the contents of a
 		variable declared outside the EXP after all tokens and conditional
-		evaluation is taken into account. In other words, each TDF translator
-		effectively has an TDF interpreter which can do evaluation of
+		evaluation is taken into account. In other words, each &tdf; translator
+		effectively has an &tdf; interpreter which can do evaluation of
 		expressions (including conditionals etc.) involving only constants
 		such as numbers, sizes and addresses of globals. This corresponds very
 		roughly to the kind of initialisations of globals that are permissible
@@ -63,7 +63,7 @@ e2:      BITSTREAM EXP y
 			If it is not zero the entire construction is replaced by the EXP in
 			<code>e1</code>; otherwise it is replaced by the one in
 			<code>e2</code>. In either case, the other BITSTREAM is totally
-			ignored; it even does not need to be sensible TDF. This kind of
+			ignored; it even does not need to be sensible &tdf;. This kind of
 			construction is use extensively in C pre-processing directives e.g.:</para>
 
 		<programlisting language="c">#if (sizeof(int) == sizeof(long)) ...</programlisting>

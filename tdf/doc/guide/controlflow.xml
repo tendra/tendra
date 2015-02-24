@@ -14,7 +14,7 @@
 		<section id="sequence">
 			<title>sequence</title>
 
-			<para>To perform a sequential set of operations in TDF, one uses the
+			<para>To perform a sequential set of operations in &tdf;, one uses the
 				constructor sequence:</para>
 
 			<programlisting language="tdf">statements: LIST(EXP)
@@ -44,7 +44,7 @@ result:     EXP x
 		<section id="labelled">
 			<title>labelled, make_label</title>
 
-			<para>All simple changes of flow of control within a TDF procedure
+			<para>All simple changes of flow of control within a &tdf; procedure
 				are done by jumps or branches to LABELs, mirroring what actually
 				happens in most computers. There are three constructors which
 				introduce LABELs; the most general is labelled which allows
@@ -201,7 +201,7 @@ alt:             EXP y
 				<code>alt_label_intro</code>) forming the boolean expression
 				followed by the else-part. This formulation means that HLL
 				constructions like "andif" and "orelse" do not require special
-				constructions in TDF.</para>
+				constructions in &tdf;.</para>
 
 			<para>A simple loop can be expressed using repeat:</para>
 
@@ -233,8 +233,8 @@ body:               EXP y
 	<section id="exceptional-flow">
 		<title>Exceptional flow</title>
 
-		<para>A further way of changing the flow of control in a TDF program
-			is by means of exceptions. TDF exceptions currently arise from three
+		<para>A further way of changing the flow of control in a &tdf; program
+			is by means of exceptions. &tdf; exceptions currently arise from three
 			sources - overflow in arithmetic operations with trap
 			ERROR_TREATMENT(see
 			<link linkend="error_treatment">section 8.1.1</link>), an attempt to
@@ -261,7 +261,7 @@ body:               EXP y
 			language-specific representation.</para>
 
 		<para>The expansion of ~Throw forms part of the language specific
-			environment required for the translation of TDF derived from the
+			environment required for the translation of &tdf; derived from the
 			language, just as the exact shape of FILE must be given for the
 			translation of C.</para>
 	</section>

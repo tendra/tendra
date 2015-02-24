@@ -6,10 +6,10 @@
 -->
 
 <chapter id="tdf-transformations">
-	<title>TDF transformations</title>
+	<title>&tdf; transformations</title>
 
-	<para>TDF to TDF transformations form the basis of most of the tools of
-		TDF, including translators. TDF has a rich set of easily performed
+	<para>&tdf; to &tdf; transformations form the basis of most of the tools of
+		&tdf;, including translators. &tdf; has a rich set of easily performed
 		transformations; this is mainly due to its algebraic nature, the
 		liberality of its sequencing rules, and the ease with which one can
 		introduce new names over limited scopes. For example, a translator is
@@ -40,7 +40,7 @@
 		the new tag value into the stack; some other more global criteria
 		might lead one to allocate it into a register disjoint from the
 		evaluation registers. In general, this kind of transformation is used
-		to modify the operands of TDF constructions so that the
+		to modify the operands of &tdf; constructions so that the
 		code-production phase of the translator can just "churn the handle"
 		knowing that the operands are already in the correct form for the
 		machine idioms.</para>
@@ -66,20 +66,20 @@
 		and so on. Target independent transformations include things like
 		procedure inlining and loop unrolling. Often these target independent
 		transformations can be profitably done in terms of the TOKENs of an
-		LPI; loop unrolling is an obvious example.</para>
+		&lpi;; loop unrolling is an obvious example.</para>
 
 	<section id="transformations-as-definitions">
 		<title>Transformations as definitions</title>
 
-		<para>As well being a vehicle for expressing optimisation, TDF
-			transformations can be used as the basis for defining TDF. In
+		<para>As well being a vehicle for expressing optimisation, &tdf;
+			transformations can be used as the basis for defining &tdf;. In
 			principle, if we were to define all of the allowable transformations
-			of the TDF constructions, we would have a complete definition of TDF
-			as the initial model of the TDF algebra. This would be a fairly
+			of the &tdf; constructions, we would have a complete definition of &tdf;
+			as the initial model of the &tdf; algebra. This would be a fairly
 			impracticable project, since the totality of the rules including all
 			the simple constructs would be very unwieldy, difficult to check for
 			inconsistencies and would not add much illumination to the
-			definition. However, knowledge of allowable transformations of TDF
+			definition. However, knowledge of allowable transformations of &tdf;
 			can often answer questions of the meaning of diverse constructs by
 			relating them to a single construct. What follows is an alphabet of
 			generic transformations which can often help to answer knotty
@@ -225,7 +225,7 @@ make_compound(S, ((E1, D1), ..., (En, Dn))) xde variable(empty, nt, make_value(C
 	<section id="examples-of-transformations">
 		<title>Examples of transformations</title>
 
-		<para>Any of these transformations may be performed by the TDF
+		<para>Any of these transformations may be performed by the &tdf;
 			translators. The most important is probably {A} which allows one
 			to reduce all of the EXP operands of suitable constructors to
 			obtain_tags. The expansion rules for identification, {G}, {H} and
@@ -292,7 +292,7 @@ goto(L)) ...
 	<section id="S86">
 		<title>Programs with undefined values</title>
 	
-		<para>The definitions of most of the constructors in the TDF
+		<para>The definitions of most of the constructors in the &tdf;
 			specification are predicated by some conditions; if these
 			conditions are not met the effect and result of the constructor is
 			not defined for all possible platforms.  <footnote>

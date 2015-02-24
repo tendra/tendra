@@ -9,7 +9,7 @@
 	<title>CAPSULEs and UNITs</title>
 
 	<para>A CAPSULE is typically the result of a single compilation - one
-		could regard it as being the TDF analogue of a Unix .o file. Just as
+		could regard it as being the &tdf; analogue of a Unix .o file. Just as
 		with .o files, a set of CAPSULEs can be linked together to form
 		another. Similarly, a CAPSULE may be translated to make program for
 		some platform, provided certain conditions are met. One of these
@@ -40,10 +40,10 @@
 		<para>Each CAPSULE has its own name-space, distinct from all other
 			CAPSULEs' name-spaces and also from the name-spaces of its component
 			UNITs (see <!-- TODO: <link linkened="#11">section 3.1.2</link> -->).  There are
-			several different kinds of names in TDF and each name-space is
+			several different kinds of names in &tdf; and each name-space is
 			further subdivided into one for each kind of name.  The number of
 			different kinds of names is potentially unlimited but only three are
-			used in core-TDF, namely "tag", "token" and "al_tag". Those names in
+			used in core-&tdf;, namely "tag", "token" and "al_tag". Those names in
 			a "tag" name-space generally correspond to identifiers in normal
 			programs and I shall use these as the paradigm for the properties of
 			them all.</para>
@@ -57,7 +57,7 @@
 
 		<programlisting language="tdf">capsule_linking: SLIST(CAPSULE_LINK)</programlisting>
 
-		<para>In the most general case in core-TDF, there would be three
+		<para>In the most general case in core-&tdf;, there would be three
 			entries in the list introducing limits using make_capsule_link for
 			each of the "tag", "token" and "al_tag" name-spaces for the CAPSULE.
 			Thus if:</para>
@@ -116,7 +116,7 @@
 
 			<para>Each GROUP in the <code>groups</code> SLIST will be formed by
 				sets of UNITs of the same kind. Once again, there are a
-				potentially unlimited number of kinds of UNITs but core-TDF only
+				potentially unlimited number of kinds of UNITs but core-&tdf; only
 				uses those named "tld","al_tagdefs", "tagdecs", "tagdefs",
 				"tokdecs" and "tokdefs".<footnote>
 					<para>The "tld" UNITs gives usage information for names
@@ -203,7 +203,7 @@
 
 		<para>The encoding in the <code>properties</code>:BYTESTREAM parameter
 			of a UNIT is a PROPS, for which there are five constructors
-			corresponding to the kinds of UNITs in core-TDF, make_al_tagdefs,
+			corresponding to the kinds of UNITs in core-&tdf;, make_al_tagdefs,
 			make_tagdecs, make_tagdefs, make_tokdefs and make_tokdecs. Each of
 			these will declare or define names in the appropriate UNIT
 			name-space which can be used by make_link in the UNIT's
@@ -249,7 +249,7 @@ e:         EXP x
 			the value of obtain_tag(<code>t</code>) will be invariant. The
 			<code>signature</code> parameter gives a STRING (see
 			<link linkend="sort-string">section 3.2.3</link>) which may be used
-			as an name for the tag, external to TDF and also as a check
+			as an name for the tag, external to &tdf; and also as a check
 			introduced by the producer that a tagdef and its corresponding
 			tagdec have the same notion of the language-specific type of the
 			tag.</para>
@@ -331,7 +331,7 @@ x:         SHAPE
 				turn will include local definitions of tags for the locals of the
 				procedures.</para>
 
-			<para>The standard TDF linker allows one to link CAPSULEs together
+			<para>The standard &tdf; linker allows one to link CAPSULEs together
 				using the name identifications given in the LINKEXTERNs, perhaps
 				hiding some of them in the final CAPSULE. It does this just by
 				generating a new CAPSULE name-space, grouping together component
@@ -350,10 +350,10 @@ x:         SHAPE
 				suitably defined "main" procedure; this is usually enforced by
 				requiring the system ld utility to bind the name "main" along with
 				the definitions of any library values required.  Otherwise, the C
-				conventions are met by standard TDF linking.  Other languages have
+				conventions are met by standard &tdf; linking.  Other languages have
 				more stringent requirements. For example, C++ requires dynamic
 				initialisation of globals, using initial_value. As the only runnable
-				code in TDF is in procedures, C++ would probably require an
+				code in &tdf; is in procedures, C++ would probably require an
 				additional linking phase to construct a "main" procedure which calls
 				the initialisation procedures of each CAPSULE involved if the system
 				linker did not provide suitable C++ linking.</para>

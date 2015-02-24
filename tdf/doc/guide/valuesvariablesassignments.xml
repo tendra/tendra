@@ -8,7 +8,7 @@
 <chapter>
 	<title>Values, variables and assignments.</title>
 
-	<para>TAGs in TDF fulfil the role played by identifiers in most
+	<para>TAGs in &tdf; fulfil the role played by identifiers in most
 		programming languages. One can apply obtain_tag to find the value
 		bound to the TAG. This value is always a constant over the scope of a
 		particular definition of the TAG. This may sound rather strange to
@@ -46,7 +46,7 @@ arg1: EXP POINTER(x)
 	<section id="S63">
 		<title>assign</title>
 
-		<para>A simple assignment in TDF is done using assign:</para>
+		<para>A simple assignment in &tdf; is done using assign:</para>
 
 		<programlisting language="tdf">arg1: EXP POINTER(x)
 arg2: EXP y
@@ -81,7 +81,7 @@ arg2: EXP y
 
 		<programlisting language="tdf">assign(obtain_tag(v), lhs).</programlisting>
 
-		<para>Equivalences like this are widely used for transforming TDF in
+		<para>Equivalences like this are widely used for transforming &tdf; in
 			translators and other tools (see
 			<link linkend= "tdf-transformations">section 11</link>).</para>
 	</section>
@@ -117,7 +117,7 @@ arg3: EXP OFFSET(z, t)
 			indicates that it does not matter.</para>
 
 		<para>If the TRANSFER_MODE trap_on_nil is present and
-			<code>arg1</code> is a nil pointer, a TDF exception with ERROR_CODE
+			<code>arg1</code> is a nil pointer, a &tdf; exception with ERROR_CODE
 			nil_access is raised.</para>
 
 		<para>There are variants of both the contents and assign constructors.
@@ -178,7 +178,7 @@ arg2: EXP OFFSET(y,z)
 			each of the subdivisions (except the last) is exactly equal to 32
 			and the last is less than or equal to 32.  This could be relaxed to
 			64 bits if the translator deals with 64 bit integer varieties, but
-			would require that conditional TDF is produced to maintain
+			would require that conditional &tdf; is produced to maintain
 			portability to 32 bit platforms - and on these platforms the
 			assurance of close packing would be lost.</para>
 

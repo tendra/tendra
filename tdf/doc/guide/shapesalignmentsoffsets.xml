@@ -11,7 +11,7 @@
 	<para>In most languages there is some notion of the type of a value.
 		This is often an uncomfortable mix of a definition of a representation
 		for the value and a means of choosing which operators are applicable
-		to the value. The TDF analogue of the type of value is its SHAPE
+		to the value. The &tdf; analogue of the type of value is its SHAPE
 		(S3.20). A SHAPE is only concerned with the representation of a value,
 		being an abstraction of its size and alignment properties.  Clearly an
 		architecture-independent representation of a program cannot say, for
@@ -124,16 +124,16 @@
 			</tbody>
 		</table>
 
-		<para>In the TDF specification of EXPs, you will observe that all EXPs
+		<para>In the &tdf; specification of EXPs, you will observe that all EXPs
 			in constructor signatures are all qualified by the SHAPE name; for
 			example, a parameter might be EXP INTEGER(v). This merely means that
 			for the construct to be meaningful the parameter must be derived
 			from a constructor defined to be an EXP INTEGER(v). You might be
-			forgiven for assuming that TDF is hence strongly-typed by its
+			forgiven for assuming that &tdf; is hence strongly-typed by its
 			SHAPEs. This is not true; the producer must get it right. There are
 			some checks in translators, but these are not exhaustive and are
 			more for the benefit of translator writers than for the user. A tool
-			for testing the SHAPE correctness of a TDF program would be useful
+			for testing the SHAPE correctness of a &tdf; program would be useful
 			but has yet to be written.</para>
 
 		<section id="S20">
@@ -160,7 +160,7 @@
 		<section id="S21">
 			<title>INTEGER</title>
 
-			<para>Integer values in TDF have shape INTEGER(v) where v is of SORT
+			<para>Integer values in &tdf; have shape INTEGER(v) where v is of SORT
 				VARIETY. The constructor for this SHAPE is integer with a VARIETY
 				parameter.  The basic constructor for VARIETY is var_limits which
 				has a pair of signed natural numbers as parameters giving the
@@ -269,7 +269,7 @@ maximum_exponent:: NAT
 			similar restrictions for efficient access and these restrictions
 			could vary from platform to platform. Hence, the notion of alignment
 			has to be abstracted to form part of the architecture independent
-			TDF - we cannot assume that any particular alignment regime will
+			&tdf; - we cannot assume that any particular alignment regime will
 			hold universally.</para>
 
 		<para>The abstraction of alignments clearly has to cover compound
@@ -297,7 +297,7 @@ maximum_exponent:: NAT
 		<section id="alignement-constructors">
 			<title>ALIGNMENT constructors</title>
 
-			<para>The TDF abstraction of an alignment has SORT ALIGNMENT. The
+			<para>The &tdf; abstraction of an alignment has SORT ALIGNMENT. The
 				constructor, unite_alignments, gives the set-union of its
 				ALIGNMENT parameters; this would correspond to taking a maximum of
 				two real alignments in the translator.</para>
@@ -381,7 +381,7 @@ maximum_exponent:: NAT
 
 		<para>A pointer value must have a form which reflects the alignment of
 			the object that it points to; for example, in the MIPs processor,
-			the bottom two bits of a pointer to an integer must be zero. The TDF
+			the bottom two bits of a pointer to an integer must be zero. The &tdf;
 			SHAPE for a pointer is POINTER qualified by the ALIGNMENT of the
 			object pointed to.  The constructor pointer uses this alignment to
 			make a POINTER SHAPE.</para>
@@ -389,7 +389,7 @@ maximum_exponent:: NAT
 		<section id="offset">
 			<title>OFFSET</title>
 
-			<para>Expressions which give sizes or offsets in TDF have an OFFSET
+			<para>Expressions which give sizes or offsets in &tdf; have an OFFSET
 				SHAPE. These are always described as the difference between two
 				pointers.  Since the alignments of the objects pointed to could be
 				different, an OFFSET is qualified by these two ALIGNMENTs. Thus an
@@ -458,7 +458,7 @@ s: SHAPE
 				reached. The value of the field required could then be extracted
 				using component or add_to_ptr. Most producers would define a TOKEN
 				for the EXP OFFSET of each field of a structure or union used in
-				the program simply to reduce the size of the TDF.</para>
+				the program simply to reduce the size of the &tdf;.</para>
 
 			<para>The SHAPE of a C structure consisting of an char followed by
 				an int would require <varname>x</varname> to be the set consisting
@@ -520,13 +520,13 @@ offset_add(A, B) xb3  A         where B xb3  offset_zero(some compatible alignme
 				values with the OFFSET ordering corresponding to simple integer
 				ordering. The offset_add constructor just translates to simple
 				addition with offset_zero as 0 with similar correspondences for
-				the other offset constructors. You might well ask why TDF does not
+				the other offset constructors. You might well ask why &tdf; does not
 				simply use integers for offsets, instead of introducing the rather
 				complex OFFSET SHAPE. The reasons are two-fold. First, following
 				the OFFSET arithmetic rules concerned with the ALIGNMENT
 				qualifiers will ensure that one never extracts a value from a
 				pointer with the wrong alignment by, for example, applying
-				contents to an add_to_pointer. This frees TDF from having to
+				contents to an add_to_pointer. This frees &tdf; from having to
 				define the effect of strange operations like forming a float by
 				taking the contents of a pointer to a character which may be
 				mis-aligned with respect to floats - a heavy operation on most
@@ -582,7 +582,7 @@ offset_add(A, B) xb3  A         where B xb3  offset_zero(some compatible alignme
 					the size of the bitfield and its relation with the natural
 					alignments. This is a fruitful source of errors in data exchange
 					between different C ABIs For more on similar limitations of
-					bitfields in TDF (see
+					bitfields in &tdf; (see
 					<link linkend="assigning-and-extracting-bitfields">Assigning and
 					extracting bitfields</link>).</para>
 			</footnote>
@@ -593,7 +593,7 @@ offset_add(A, B) xb3  A         where B xb3  offset_zero(some compatible alignme
 			representational statements in this way; certainly the most commonly
 			used ones.</para>
 
-		<para>TDF Version 3.0 does not allow one to construct a pointer of
+		<para>&tdf; Version 3.0 does not allow one to construct a pointer of
 			SHAPE POINTER(b) where b consists entirely of bitfield alignments;
 			this relieves the translators of the burden of doing general
 			bit-addressing. Of course, this simply shifts the burden to the

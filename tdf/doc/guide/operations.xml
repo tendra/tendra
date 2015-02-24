@@ -8,10 +8,10 @@
 <chapter>
 	<title>Operations</title>
 
-	<para>Most of the arithmetic operations of TDF have familiar analogues
+	<para>Most of the arithmetic operations of &tdf; have familiar analogues
 		in standard languages and processors.  They differ principally in how
 		error conditions (e.g. numeric overflow) are handled. There is a wide
-		diversity in error handling in both languages and processors, so TDF
+		diversity in error handling in both languages and processors, so &tdf;
 		tries to reduce it to the simplest primitive level compatible with
 		their desired operation in languages and their implementation on
 		processors.  Before delving into the details of error handling, it is
@@ -31,7 +31,7 @@
 			<para>The question then arises of what is meant by overflow in an
 				operation which is meant to deliver an integer of this VARIETY - is
 				it when the integer result is outside the range (1..10) or outside
-				the range (0..255)? For purely pragmatic reasons, TDF chooses the
+				the range (0..255)? For purely pragmatic reasons, &tdf; chooses the
 				latter - the result is overflowed when it is outside its
 				representational range (0..255). If the program insists that it must
 				be within (1..10), then it can always test for it. If the program
@@ -47,7 +47,7 @@
 
 			<para>The limits in a VARIETY are there to provide a guide to its
 				representation, and not to give hard limits to its possible values.
-				This choice is consistent with the general TDF philosophy of how
+				This choice is consistent with the general &tdf; philosophy of how
 				exceptions are to be treated. If, for example, one wishes to do
 				array-bound checking, then it must be done by explicit tests on the
 				indices and jumping to some exception action if they fail.
@@ -56,7 +56,7 @@
 				translator could produce any more efficient code, in general, if the
 				tests were implicit. The representational limits can be exceeded in
 				arithmetic operations, so facilities are provided to either to
-				ignore it, to allow one to jump to a label, or to obey a TDF
+				ignore it, to allow one to jump to a label, or to obey a &tdf;
 				exception handler if it happens.</para>
 		</section>
 
@@ -96,7 +96,7 @@ arg2:   EXP INTEGER(v)
 		<para>A branch to <code>lab</code> will occur if the result
 			overflows.</para>
 
-		<para>The ERROR_TREATMENT, trap(overflow) will raise a TDF
+		<para>The ERROR_TREATMENT, trap(overflow) will raise a &tdf;
 			exception(see <link linkend="exceptional-flow">section 6.3</link>)
 			with ERROR_CODE overflow if overflow occurs.</para>
 	</section>

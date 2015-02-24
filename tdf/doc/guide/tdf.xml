@@ -327,7 +327,7 @@
 				<xref linkend="eg_scheme"/>
 				shows a simple example superimposed on the &tdf; compilation
 				diagram.
-				Selected relevant contents of TDF capsules are notated using
+				Selected relevant contents of &tdf; capsules are notated using
 				<code>tnc -p</code> syntax.
 				Specifics of the <code>libc</code> implementation are omitted
 				for brevity and are indicated by an ellipsis.</para>

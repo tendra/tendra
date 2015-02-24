@@ -6,7 +6,7 @@
 -->
 
 <chapter id="tdf-expansions-of-offsets">
-	<title>TDF expansions of offsets</title>
+	<title>&tdf; expansions of offsets</title>
 
 	<section id="compound-offsets">
 		<title>Offsets within compound types</title>
@@ -104,7 +104,7 @@ arg2: EXP OFFSET(y, z)
 			an OFFSET to a field constructed in this manner is independent of any
 			fields after it, corresponding to normal usage in both languages and
 			machines. A producer for a language which conflicts with this would
-			have to produce less obvious TDF, perhaps by re-ordering the fields,
+			have to produce less obvious &tdf;, perhaps by re-ordering the fields,
 			padding the offsets by later alignments or taking maxima of the sizes
 			of the fields.</para>
 	</section>
@@ -199,7 +199,7 @@ ind:      EXP INTEGER(v)
 			<code>ind</code> * <code>n</code> &lt;= length of the maximum
 			integer variety.</para>
 
-		<para>These tokens can be expressed in TDF if the lengths of the
+		<para>These tokens can be expressed in &tdf; if the lengths of the
 			available varieties are known, i.e., they are installer defined.<footnote>
 				<para>For most architectures, these definition are dependent only
 					on a few constants such as the maximum length of bitfield.,

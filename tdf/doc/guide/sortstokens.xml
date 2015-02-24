@@ -10,45 +10,45 @@
 
 	<para>In the syntax of language like C or Pascal, we find various
 		syntactic units like &lt;Expression&gt;, &lt;Identifier&gt; etc. A
-		SORT bears the same relation to TDF as these syntactic units bear to
+		SORT bears the same relation to &tdf; as these syntactic units bear to
 		the language; roughly speaking, the syntactic unit &lt;Expression&gt;
 		corresponds to the SORT EXP and &lt;Identifier&gt; to TAG. However,
-		instead of using BNF to compose syntactic units from others, TDF uses
+		instead of using BNF to compose syntactic units from others, &tdf; uses
 		explicit constructors to compose its SORTs; each constructor uses
-		other pieces of TDF of specified SORTs to make a piece of its result
+		other pieces of &tdf; of specified SORTs to make a piece of its result
 		SORT. For example, the constructor plus uses an ERROR_TREATMENT and
 		two EXPs to make another EXP.</para>
 
 	<para>At the moment, there are 58 different SORTS, from ACCESS to
 		VARIETY given in tables 1 and 2. Some of these have familiar analogues
 		in standard language construction as with EXP and TAG above. Others
-		will be less familiar since TDF must concern itself with issues not
+		will be less familiar since &tdf; must concern itself with issues not
 		normally addressed in language definitions. For example, the process
-		of linking together TDF programs is at the root of the architecture
-		neutrality of TDF and so must form an integral part of its definition.
-		On the other hand, TDF is not meant to be a language readily
+		of linking together &tdf; programs is at the root of the architecture
+		neutrality of &tdf; and so must form an integral part of its definition.
+		On the other hand, &tdf; is not meant to be a language readily
 		accessible to the human reader or writer; computers handle it much
 		more easily. Thus a great many choices have been made in the
 		definition which would be intolerable in a standard language
 		definition for the human programmer but which, paradoxically enough,
-		make it much simpler for a computer to produce and analyse TDF</para>
+		make it much simpler for a computer to produce and analyse &tdf;.</para>
 
 	<para>The SORTs and constructors in effect form a multi-sorted algebra.
 		There were two principal reasons for choosing this algebraic form of
 		definition. First, it is easy to extend - a new operation on existing
 		constructs simply requires a new constructor.  Secondly, the algebraic
 		form is highly amenable to the automatic construction of programs.
-		Large parts of both TDF producers and TDF translators have been
+		Large parts of both &tdf; producers and &tdf; translators have been
 		created by automatic transformation of the text of the specification
 		document itself, by extracting the algebraic signature and
-		constructing C program which can read or produce TDF. To this extent,
+		constructing C program which can read or produce &tdf;. To this extent,
 		one can regard the specification document as a formal description of
-		the free algebra of TDF SORTs and constructors. Of course, most of the
-		interesting parts of the definition of TDF lies in the equivalences of
-		parts of TDF, so this formality only covers the easy bit.</para>
+		the free algebra of &tdf; SORTs and constructors. Of course, most of the
+		interesting parts of the definition of &tdf; lies in the equivalences of
+		parts of &tdf;, so this formality only covers the easy bit.</para>
 
-	<para>Another distinction between the TDF definition and language
-		syntactic description is that TDF is to some extent conscious of its
+	<para>Another distinction between the &tdf; definition and language
+		syntactic description is that &tdf; is to some extent conscious of its
 		own SORTs so that it can specify a new construction of a given SORT.
 		The analogy in normal languages would be that one could define a new
 		construction with new syntax and say this is an example of an
@@ -64,9 +64,9 @@
 
 		<para>A new construction is introduced by the SORT TOKEN; the
 			constructors involving TOKENs allow one to give an expansion for the
-			TOKEN in terms of other pieces of TDF, possibly including
+			TOKEN in terms of other pieces of &tdf;, possibly including
 			parameters. We can encapsulate a (possibly parameterised) fragment
-			of TDF of a suitable SORT by giving it a TOKEN as identification.
+			of &tdf; of a suitable SORT by giving it a TOKEN as identification.
 			Not all of the SORTs are available for this kind of encapsulation
 			- only those which have a SORTNAME constructor (from access to
 			variety).  These are the "first-class" SORTs given in table 1.  Each
@@ -196,7 +196,7 @@ token_args:  BITSTREAM param_sorts(token_value)
 			expect to find the actual parameters of the TOKEN.</para>
 
 		<para>To explain BITSTREAMs requires a diversion into the bit-encoding
-			of TDF. Constructors for a particular SORT are represented in a
+			of &tdf;. Constructors for a particular SORT are represented in a
 			number of bits depending on the number of constructors for that
 			SORT; the context will determine the SORT required, so no more bits
 			are required. Thus since there is only one constructor for UNITs, no
@@ -211,11 +211,11 @@ token_args:  BITSTREAM param_sorts(token_value)
 			</footnote>
 			While this is a very compact representation, it suffers from the
 			defect that one must decode it even just to skip over it. This is
-			very irksome is some applications, notably the TDF linker which is
+			very irksome is some applications, notably the &tdf; linker which is
 			not interested detailed expansions.  Similarly, in translators there
 			are places where one wishes to skip over a token application without
 			knowledge of the SORTs of its parameters. Thus a BITSTREAM is just
-			an encoding of some TDF, preceded by the number of bits it occupies.
+			an encoding of some &tdf;, preceded by the number of bits it occupies.
 			Applications can then skip over BITSTREAMs trivially.  Similar
 			considerations apply to BYTESTREAMs used elsewhere; here the
 			encoding is preceded by the number of bytes in the encoding and is
@@ -309,10 +309,10 @@ s:         SORTNAME
 	<section>
 		<title>A simple use of a TOKEN</title>
 
-		<para>The crucial use of TOKENs in TDF is to provide abstractions of
-			APIs (see <link linkend="tokens-and-apis">section 10</link>) but
+		<para>The crucial use of TOKENs in &tdf; is to provide abstractions of
+			&api;s (see <link linkend="tokens-and-apis">section 10</link>) but
 			they are also used as shorthand for commonly occurring
-			constructions. For example, given the TDF constructor plus,
+			constructions. For example, given the &tdf; constructor plus,
 			mentioned above, we could define a plus with only two EXP parameters
 			more suitable to C by using the wrap constructor as the
 			ERROR_TREATMENT:</para>
@@ -326,15 +326,15 @@ s:         SORTNAME
 		<title>Second class SORTs</title>
 
 		<para>Second class SORTs (given in table 2<!-- TODO: link -->) cannot be
-			TOKENised. These are the "syntactic units" of TDF which the user
+			TOKENised. These are the "syntactic units" of &tdf; which the user
 			cannot extend; he can only produce them using the constructors
-			defined in core-TDF.</para>
+			defined in core-&tdf;.</para>
 
 		<para>Some of these constructors are implicit. For example, there are
 			no explicit constructors for LIST or SLIST which are both used to
 			form lists of SORTs; their construction is simply part of the
-			encoding of TDF. However, it is forseen that LIST constructors would
-			be highly desireable and there will probably extensions to TDF to
+			encoding of &tdf;. However, it is forseen that LIST constructors would
+			be highly desireable and there will probably extensions to &tdf; to
 			promote LIST from a second-class SORT to a first-class one. This
 			will not apply to SLIST or to the other SORTs which have implicit
 			constructions. These include BITSTREAM, BYTESTREAM, TDFINT, TDFIDENT

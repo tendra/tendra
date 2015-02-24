@@ -6,14 +6,14 @@
 -->
 
 <chapter id="models-of-the-tdf-algebra">
-	<title>Models of the TDF algebra</title>
+	<title>Models of the &tdf; algebra</title>
 
-	<para>TDF is a multi-sorted abstract algebra. Any implementation of TDF
+	<para>&tdf; is a multi-sorted abstract algebra. Any implementation of &tdf;
 		is a model of this algebra, formed by a mapping of the algebra into a
 		concrete machine. An algebraic mapping gives a concrete representation
 		to each of the SORTs in such a way that the representation of any
-		construction of TDF is independent of context; it is a homomorphism.
-		In other words if we define the mapping of a TDF constructor, C, as
+		construction of &tdf; is independent of context; it is a homomorphism.
+		In other words if we define the mapping of a &tdf; constructor, C, as
 		MAP[C] and the representation of a SORT, S, as REPR[S] then:</para>
 
 	<programlisting language="tdf">REPR[C(P1, ..., Pn)] = MAP[C](REPR(P1), ..., REPR(Pn))</programlisting>
@@ -28,7 +28,7 @@
 	<para>In common with most homomorphisms, the mappings of constructions
 		can exhibit more equivalences than are given by the abstract algebra.
 		The use of these extra equivalences is the basis of most of the
-		target-dependent optimisations in a TDF translator; it can make use of
+		target-dependent optimisations in a &tdf; translator; it can make use of
 		"idioms" of the target architecture to produce equivalent
 		constructions which may work faster than the "obvious" translation. In
 		addition, we may find that may find that more predicates are satisfied
@@ -53,7 +53,7 @@
 		<para>Almost all current architectures use a "flat-store" model of
 			memory. There is no enforced segregation of one kind of data from
 			another - in general, one can access one unit of memory as a linear
-			offset from any other. Here, TDF ALIGNMENTs are a reflection of
+			offset from any other. Here, &tdf; ALIGNMENTs are a reflection of
 			constraints for the efficient access of different kinds of data
 			objects - usually one finds that 32-bit integers are most
 			efficiently accessed if they start at 32 bit boundaries and so

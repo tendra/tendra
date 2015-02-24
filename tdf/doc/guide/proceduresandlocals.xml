@@ -8,13 +8,13 @@
 <chapter>
 	<title>Procedures and Locals</title>
 
-	<para>All procedures in TDF are essentially global; the only values
+	<para>All procedures in &tdf; are essentially global; the only values
 		which are accessible from the body of a procedure are those which are
 		derived from global TAGs (introduced by TAGDEFs or TAGDECs), local
 		TAGs defined within the procedure and parameter TAGs of the
 		procedure.</para>
 
-	<para>All executable code in TDF will arise from an EXP PROC made by
+	<para>All executable code in &tdf; will arise from an EXP PROC made by
 		either make_proc or make_general_proc. They differ in their treatment
 		of how space for the actual parameters of a call is managed; in
 		particular, is it the caller or the callee which deallocates the
@@ -105,7 +105,7 @@ tg_intro:   TAG POINTER(alignment(sha))
 			will be the same. Some languages allow different types to be returned
 			depending on the particular call.  The producer must resolve this
 			issue. For example, C allows one to deliver void if the resulting
-			value is not used.  In TDF a dummy value must be provided at the
+			value is not used.  In &tdf; a dummy value must be provided at the
 			return; for example make_value(<code>result_shape</code>).</para>
 
 		<para>Note that the <code>body</code> has SHAPE bottom since all
@@ -334,7 +334,7 @@ callee_params: CALLEES
 			<para>The presence of check_stack means that the static stack
 				requirements of the procedure will be checked on entry to see that
 				they do not exceed the limits imposed by set_stack_limit; if they
-				are exceeded a TDF exception with ERROR_CODE stack_overflow (see
+				are exceeded a &tdf; exception with ERROR_CODE stack_overflow (see
 				<link linkend="exceptional-flow">section 6.3</link>) will be
 				raised.</para>
 		</section>
@@ -353,7 +353,7 @@ callee_params: CALLEES
 				declaration is usually embedded in a larger construct which
 				defines the scope of the name; here the scope is explicit in the
 				definition. The reason for this will become more obvious in the
-				discussion of TDF transformations. The simpler constructor is
+				discussion of &tdf; transformations. The simpler constructor is
 				identify:</para>
 
 			<programlisting language="tdf">opt_access: OPTION(ACCESS)
@@ -420,7 +420,7 @@ body:       EXP y
 					allows for the possibility of the value to be accessed in some
 					way other than by using obtain_tag which is the standard way of
 					recovering the value bound to the TAG. The principal way that
-					this could happen within TDF is by the combined use of
+					this could happen within &tdf; is by the combined use of
 					env_offset to give the offset and current_env to give a pointer
 					to the current frame (see
 					<link linkend="current_env">section 5.3.3</link>).</para>
@@ -543,7 +543,7 @@ t:  TAG x
 
 			<para>The size of stack frame produced by variable and identify
 				definitions is a translate-time constant since the frame is
-				composed of values whose SHAPEs are known. TDF also allows one to
+				composed of values whose SHAPEs are known. &tdf; also allows one to
 				produce dynamically sized local objects which are conceptually
 				part of the frame. These are produced by local_alloc:</para>
 
@@ -599,9 +599,9 @@ p: EXP POINTER(alloca_alignment)
 		<title>Heap storage</title>
 
 		<para>At the moment, there are no explicit constructors of creating
-			dynamic off-stack storage in TDF. Any off-stack storage requirements
-			must be met by the API in which the system is embedded, using the
-			standard procedural interface.  For example, the ANSI C API allows
+			dynamic off-stack storage in &tdf;. Any off-stack storage requirements
+			must be met by the &api; in which the system is embedded, using the
+			standard procedural interface.  For example, the ANSI C &api; allows
 			the creation of heap space using standard library procedures like
 			malloc.</para>
 	</section>
