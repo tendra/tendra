@@ -1,64 +1,8 @@
 <?xml version="1.0"?>
-<!DOCTYPE article SYSTEM "minidocbook.dtd">
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
 
-<article>
-
-	<articleinfo>
-		<title>API checking</title>
-
-		<!-- TODO: lots of things here... -->
-
-		<authorgroup>
-			<othercredit class="copyeditor">
-				<firstname>Katherine</firstname>
-				<surname>Flavel</surname>
-				<affiliation><orgname>The TenDRA Project</orgname></affiliation>
-			</othercredit>
-
-			<corpauthor>DERA</corpauthor>
-		</authorgroup>
-
-		<copyright>
-			<year>2011</year>
-			<year>2008</year>
-			<holder>The TenDRA Project</holder>
-		</copyright>
-
-		<copyright>
-			<year>1998</year>
-			<holder>DERA</holder>
-		</copyright>
-
-		<revhistory>
-			<revision role="docs">
-				<date>2008-03-24</date>
-				<authorinitials>kate</authorinitials>
-				<revdescription>
-					<para>Moved out content from &tchk.doc;.</para>
-				</revdescription>
-			</revision>
-
-			<revision role="dev">
-				<date>2008-03-24</date>
-				<authorinitials>kate</authorinitials>
-				<revdescription>
-					<para>Converted to DocBook.</para>
-				</revdescription>
-			</revision>
-
-			<revision role="version">
-				<date>1998-07-30</date>
-				<revnumber>tdfc2 1.8.2</revnumber>
-				<authorinitials>DERA</authorinitials>
-				<revdescription>
-					<para>TenDRA 4.1.2 release.</para>
-				</revdescription>
-			</revision>
-		</revhistory>
-	</articleinfo>
-
-	<!-- TODO this document can become a guide to using the API checking mechanisms
-		in general, drawing from various other documents -->
+<chapter>
+	<title>&api; checking</title>
 
 	<section>
 		<title>Including headers</title>
@@ -553,6 +497,5 @@ SEH		 position				ref_no</programlisting>
 			headers, to determine the applications API usage.</para>
 	</section>
 
-	<!-- TODO bibliography: see tspec, pragmatoken, tcc user guide, tdfc -->
-</article>
+</chapter>
 

@@ -131,6 +131,7 @@
 	<xi:include href="preprocessor.xml"/>
 	<xi:include href="errors.xml"/>
 	<xi:include href="conditional.xml"/>
+	<xi:include href="apichecking.xml"/>
 
 	<xi:include href="bibliography.xml"/>
 
