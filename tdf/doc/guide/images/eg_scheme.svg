@@ -21,7 +21,7 @@
 
 		<g id="eg_scheme:tokdec" text-anchor="start">
 			<text y="10" class="code">( make_tokdec</text>
-			<text y="20" class="code">&#xA0; ansi.stdio.FILE</text>
+			<text y="20" class="code">&#xA0; c89.stdio.FILE</text>
 			<text y="30" class="code">&#xA0; -</text>
 			<text y="40" class="code">&#xA0; shape )</text>
 
@@ -31,7 +31,7 @@
 
 		<g id="eg_scheme:tokdef" text-anchor="start">
 			<text y="10" class="code">( make_tokdef</text>
-			<text y="20" class="code"> &#xA0; ansi.stdio.FILE</text>
+			<text y="20" class="code"> &#xA0; c89.stdio.FILE</text>
 			<text y="30" class="code"> &#xA0; -</text>
 			<text y="40" class="code"> &#xA0; shape ... )</text>
 
@@ -43,7 +43,7 @@
 			<text y="10" class="code">( make_var_tagdef f</text>
 			<text y="20" class="code">&#xA0; - -</text>
 			<text y="30" class="code">&#xA0; ( make_value</text>
-			<text y="40" class="code">&#xA0; &#xA0; ansi.stdio.FILE</text>
+			<text y="40" class="code">&#xA0; &#xA0; c89.stdio.FILE</text>
 			<text y="50" class="code">&#xA0; &#xA0; ) )</text>
 
 			<text x="130" y="10">f tag</text>
@@ -232,13 +232,13 @@
 			<path d="M -65,0 l -205,0 q -10,0 -10,10"/>
 
 			<g transform="translate(0 -10)">
-				<text x="60" y="-10" text-anchor="end">ansi.tl</text>
+				<text x="60" y="-10" text-anchor="end">c89.tl</text>
 
 				<line x1="-65" x2="65" class="dashed"/>
 
 				<g transform="translate(-60 0)" text-anchor="start">
 					<text y="10" class="code">( make_tokdef</text>
-					<text y="20" class="code"> &#xA0; ansi.stdio.FILE</text>
+					<text y="20" class="code"> &#xA0; c89.stdio.FILE</text>
 					<text y="30" class="code"> &#xA0; -</text>
 					<text y="40" class="code"> &#xA0; shape ... )</text>
 

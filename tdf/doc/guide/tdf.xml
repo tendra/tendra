@@ -176,12 +176,12 @@
 				independent headers express to the producer what is actually in
 				the &api;, and which may therefore be assumed to be common to all
 				compliant target machines. For example, in the target independent
-				headers for the &ansi; standard, there will be a file
+				headers for the &ansi; C89 standard, there will be a file
 				<code>stdio.h</code> containing the lines:</para>
 
-			<programlisting language="c">#pragma token TYPE FILE # ansi.stdio.FILE
-#pragma token EXP rvalue : FILE * : stdout # ansi.stdio.stdout
-#pragma token FUNC int ( const char *, FILE * ) : fputs # ansi.stdio.fputs</programlisting>
+			<programlisting language="c">#pragma token TYPE FILE # c89.stdio.FILE
+#pragma token EXP rvalue : FILE * : stdout # c89.stdio.stdout
+#pragma token FUNC int ( const char *, FILE * ) : fputs # c89.stdio.fputs</programlisting>
 
 			<para>These <code>#pragma token</code> directives are extensions to
 				the C syntax which enable the expression of abstract syntax
@@ -197,9 +197,9 @@
 				tokens (for more details on the <code>#pragma token</code>
 				directive see [3]). Note how the information in the target
 				independent header precisely reflects the syntactic information in
-				the &ansi; &api;.</para>
+				the &ansi; C89 &api;.</para>
 
-			<para>The names <code>ansi.stdio.FILE</code> etc. give the external
+			<para>The names <code>c89.stdio.FILE</code> etc. give the external
 				names for these tokens, those which will be visible at the
 				outermost layer of the capsule; they are intended to be unique
 				(this is discussed below). It is worth making the distinction
@@ -256,15 +256,15 @@
 
 			<para>For example, in the example implementation of
 				<code>stdio.h</code> given in section 2.1.2, the token
-				<code>ansi.stdio.FILE</code> will be defined as the &tdf; compound
+				<code>c89.stdio.FILE</code> will be defined as the &tdf; compound
 				shape corresponding to the structure defining the type
 				<code>FILE</code> (recall the distinction between internal and
 				external names). <code>__iob</code> will be an undefined tag
 				whose shape is an array of 60 copies of the shape given by the
-				token <code>ansi.stdio.FILE</code>, and the token
-				<code>ansi.stdio.stdout</code> will be defined to be the &tdf;
+				token <code>c89.stdio.FILE</code>, and the token
+				<code>c89.stdio.stdout</code> will be defined to be the &tdf;
 				expression corresponding to a pointer to the second element of
-				this array. Finally the token <code>ansi.stdio.fputs</code> is
+				this array. Finally the token <code>c89.stdio.fputs</code> is
 				defined to be the effect of applying the procedure given by the
 				undefined tag <code>fputs</code>. (In fact, this picture has been
 				slightly simplified for the sake of clarity. See the section on
@@ -497,14 +497,14 @@ FILE f ;</programlisting>
 				languages other than C (and even other C dialects).</para>
 
 			<para>A number of issues arise when tokens are introduced. Consider
-				for example the type <code>size_t</code> from the &ansi; standard.
+				for example the type <code>size_t</code> from the &ansi; C89 standard.
 				This is a target dependent integer type, so bearing in mind what
 				was said above it is natural for the producer to use a tokenised
 				variety (the &tdf; representation of integer types) to stand for
 				<code>size_t</code>. This is done by a <code>#pragma token</code>
 				statement of the form:</para>
 
-			<programlisting language="c">#pragma token VARIETY size_t # ansi.stddef.size_t</programlisting>
+			<programlisting language="c">#pragma token VARIETY size_t # c89.stddef.size_t</programlisting>
 
 			<para>But if we want to do arithmetic on <code>size_t</code>'s we
 				need to know the integer type corresponding to the integral
@@ -577,7 +577,7 @@ FILE f ;</programlisting>
 				use of the target independent headers. Potential namespace
 				problems are virtually eliminated by the use of unique external
 				names for the tokens in these headers (such as
-				<code>ansi.stdio.FILE</code> in the example above). This means
+				<code>c89.stdio.FILE</code> in the example above). This means
 				that there is a genuine one to one correspondence between tokens
 				and token names. Of course this relies on the external token
 				names given in the headers being genuinely unique. In fact, as is
@@ -721,7 +721,7 @@ FILE f ;</programlisting>
 				actually use the procedure name to spot this optimisation. In
 				code compiled from the target independent headers all calls to
 				the library routine <code>strlen</code> will be implemented by
-				means of a uniquely named token, <code>ansi.string.strlen</code>
+				means of a uniquely named token, <code>c89.string.strlen</code>
 				say. It is by recognising this token name as the token is
 				expanded that the translators are able to ensure that this is
 				really the library routine <code>strlen</code>.</para>
@@ -793,7 +793,7 @@ FILE f ;</programlisting>
 					express these directly in the <code>#pragma token</code> syntax.
 					However this is only rarely required : the constructs
 					<code>offsetof</code>, <code>va_start</code> and
-					<code>va_arg</code> from &ansi; are the only examples so far
+					<code>va_arg</code> from &ansi; C89 are the only examples so far
 					encountered during the &api; description programme at DRA. For
 					example, <code>va_arg</code> takes an assignable expression of
 					type <code>va_list</code> and a type <code>t</code> and returns
@@ -802,7 +802,7 @@ FILE f ;</programlisting>
 					token</code> description:</para>
 
 				<programlisting language="c">#pragma token PROC ( EXP lvalue : va_list : e, TYPE t )\
-	EXP rvalue : t : va_arg # ansi.stdarg.va_arg</programlisting>
+	EXP rvalue : t : va_arg # c89.stdarg.va_arg</programlisting>
 
 				<para>must be used instead.</para>
 
@@ -820,7 +820,7 @@ FILE f ;</programlisting>
 					particular way of implementing it.</para>
 
 				<para>There is a continuing &api; description programme at DRA. The
-					current status (October 1993) is that &ansi; (X3.159), &posix;
+					current status (October 1993) is that &ansi; C89 (X3.159), &posix;
 					(1003.1), XPG3 (X/Open Portability Guide 3) and SVID (System V
 					Interface Definition, 3rd Edition) have been described and
 					extensively tested. &posix;2 (1003.2), XPG4, AES (Revision A), X11
@@ -845,8 +845,8 @@ FILE f ;</programlisting>
 
 				<para>Another consideration during the description
 					process is to try to integrate the various &api; descriptions. For
-					example, &posix; extends &ansi;, so it makes sense to have the target
-					independent &posix; headers include the corresponding &ansi; headers
+					example, &posix; extends &ansi; C89, so it makes sense to have the target
+					independent &posix; headers include the corresponding &ansi; C89 headers
 					and just add the new objects introduced by &posix;. This does
 					present problems with &api;s which are basically compatible but
 					have a small number of incompatibilities, whether deliberate or
@@ -961,7 +961,7 @@ size_t s;</programlisting>
 					example is straightforward; <code>SIGKILL</code> will appear in
 					the &posix; version of <code>signal.h</code> but not the &ansi;
 					version, so if the program is compiled with the target
-					independent &ansi; headers it will be reported as being undefined.
+					independent &ansi; C89 headers it will be reported as being undefined.
 					In a sense this is nothing to do with the <code>#pragma
 					token</code> syntax, but with the organisation of the target
 					independent headers. The other examples do however rely on the
@@ -1099,7 +1099,7 @@ size_t s;</programlisting>
 					errors, whereas the library building process is only checking
 					syntax. The only realistic ways of detecting semantic problems is
 					by means of test suites, such as the Plum-Hall or CVSA library
-					tests for &ansi; and VSX for XPG3, or by detailed knowledge of
+					tests for &ansi; C89 and VSX for XPG3, or by detailed knowledge of
 					particular &api; implementations born of personal experience.
 					However it may be possible to build workarounds for problems
 					identified in these tests into the &tdf; libraries.</para>
@@ -1284,7 +1284,7 @@ int main ()
 			<para>As an example of how to define a simple token
 				consider the following example. We have a simple program which
 				prints <quote>hello</quote> in some language, the language being target
-				dependent. Our first task is choose an &api;. We choose &ansi; C
+				dependent. Our first task is choose an &api;. We choose &ansi; C89
 				extended by a tokenised object <code>hello</code> of type
 				<code>char *</code> which gives the message to be printed. This
 				object will be an rvalue (i.e. it cannot be assigned to). For
@@ -1328,7 +1328,7 @@ hello.j : hello.c tokens.h
 	tcc -Fj hello.c</programlisting>
 
 			<para>The production is run by typing <code>make produce</code>.
-				The &ansi; &api; is the default, and so does not need to be specified
+				The &ansi; C89 &api; is the default, and so does not need to be specified
 				to <code>tcc</code>. The program <code>hello.c</code> is compiled
 				to a target independent capsule, <code>hello.j</code>. This will
 				use a token to represent <code>hello</code>, but it will be left
@@ -1336,7 +1336,7 @@ hello.j : hello.c tokens.h
 
 			<para>On each target machine we need to create a token library
 				giving the local definitions of the objects in the &api;. We shall
-				assume that the library corresponding to the &ansi; C &api; has
+				assume that the library corresponding to the &ansi; C89 &api; has
 				already been constructed, so that we only need to define the
 				token representing <code>hello</code>. This is done by means of a
 				short C program, <code>tokens.c</code>, which implements the
@@ -1384,7 +1384,7 @@ tokens.j : tokens.c tokens.h
 
 			<para>The final step is installation. The target independent &tdf;,
 				<code>hello.j</code>, is linked with the &tdf; libraries
-				<code>tokens.tl</code> and <code>ansi.tl</code> (which is built
+				<code>tokens.tl</code> and <code>c89.tl</code> (which is built
 				into <code>tcc</code> as default) to form a target dependent &tdf;
 				capsule with all the necessary token definitions, which is then
 				translated to a binary object file and linked with the system
