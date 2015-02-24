@@ -122,6 +122,20 @@ p.cmdsynopsis div.args {
 	display: inline-block;
 }
 
+div.warning:before {
+	content: "Warning";
+	font-weight: bold;
+	display: inline-block;
+	margin-bottom: 1ex;
+}
+
+div.warning {
+	margin: 2em 1em;
+	padding: 0;
+	padding-left: 1em;
+	border-left: solid .5ex #d44;
+}
+
 dl dd {
 	margin-bottom: 1em;
 }
