@@ -15,6 +15,8 @@
 <!ENTITY rdquo  "&#x201D;">
 <!ENTITY times  "&#215;">
 <!ENTITY reg    "&#174;">
+<!ENTITY le     "&#8804;">
+<!ENTITY ge     "&#8805;">
 
 <!ENTITY ccedil "&#231;">
 <!ENTITY egrave "&#232;">
