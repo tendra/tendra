@@ -4,82 +4,76 @@
 <preface id="intro">
 	<title>Introduction</title>
 
-	<section>
-		<title>Background</title>
+	<para>The C program static checker was originally developed as a
+		programming tool to aid the construction of portable programs using
+		the Application Programming Interface (&api;) model of software
+		portability; the principle underlying this approach being:</para>
 
-		<para>The C program static checker was originally developed as a
-			programming tool to aid the construction of portable programs using
-			the Application Programming Interface (&api;) model of software
-			portability; the principle underlying this approach being:</para>
+	<blockquote>If a program is written to conform to an abstract
+			&api; specification, then that program will be portable to any
+			machine which implements the &api; specification
+			correctly.</blockquote>
 
-		<blockquote>If a program is written to conform to an abstract
-				&api; specification, then that program will be portable to any
-				machine which implements the &api; specification
-				correctly.</blockquote>
+	<para>This approach gave the tool an unusually powerful basis for
+		static checking of C programs and a large amount of development
+		work has resulted in the production of the TenDRA C static checker
+		(tchk). The terms, TenDRA C checker and tchk are used
+		interchangably in this document.</para>
 
-		<para>This approach gave the tool an unusually powerful basis for
-			static checking of C programs and a large amount of development
-			work has resulted in the production of the TenDRA C static checker
-			(tchk). The terms, TenDRA C checker and tchk are used
-			interchangably in this document.</para>
-	</section>
+	<para>Responsibilities of the C static checker are:</para>
 
-	<section>
-		<title>The C static checker</title>
+	<itemizedlist>
+		<listitem>
+			<para>strict interface checking. In particular, the checker can
+				analyse programs against abstract &api;s to check their conformance
+				to the specification. Abstract versions of most standard APIs are
+				provided with the tool; alternatively users can define their own
+				abstract APIs using the syntax described in Annex G;</para>
+		</listitem>
 
-		<itemizedlist>
-			<listitem>
-				<para>strict interface checking. In particular, the checker can
-					analyse programs against abstract &api;s to check their conformance
-					to the specification. Abstract versions of most standard APIs are
-					provided with the tool; alternatively users can define their own
-					abstract APIs using the syntax described in Annex G;</para>
-			</listitem>
+		<listitem>
+			<para>checking of integer sizes, overflows and implicit integer
+				conversions including potential 64-bit problems, against a 16 bit
+				or 32 bit architecture profile;</para>
+		</listitem>
 
-			<listitem>
-				<para>checking of integer sizes, overflows and implicit integer
-					conversions including potential 64-bit problems, against a 16 bit
-					or 32 bit architecture profile;</para>
-			</listitem>
+		<listitem>
+			<para>strict ISO C90 standard checking, plus configurable support for
+				many non-ISO dialect features;</para>
+		</listitem>
 
-			<listitem>
-				<para>strict ISO C90 standard checking, plus configurable support for
-					many non-ISO dialect features;</para>
-			</listitem>
+		<listitem>
+			<para>extensive type checking, including prototype-style checking for
+				traditionally defined functions, conversion checking, type checking
+				on printf and scanf style argument strings and type checking
+				between translation units;</para>
+		</listitem>
 
-			<listitem>
-				<para>extensive type checking, including prototype-style checking for
-					traditionally defined functions, conversion checking, type checking
-					on printf and scanf style argument strings and type checking
-					between translation units;</para>
-			</listitem>
+		<listitem>
+			<para>variable analysis, including detection of unused variables, use
+				of uninitialised variables, dependencies on order of evaluation in
+				expressions and detection of unused function returns, computed
+				values and static variables;</para>
+		</listitem>
 
-			<listitem>
-				<para>variable analysis, including detection of unused variables, use
-					of uninitialised variables, dependencies on order of evaluation in
-					expressions and detection of unused function returns, computed
-					values and static variables;</para>
-			</listitem>
+		<listitem>
+			<para>detection of unused header files;</para>
+		</listitem>
 
-			<listitem>
-				<para>detection of unused header files;</para>
-			</listitem>
+		<listitem>
+			<para>configurable tests for detecting many other common programming
+				errors;</para>
+		</listitem>
 
-			<listitem>
-				<para>configurable tests for detecting many other common programming
-					errors;</para>
-			</listitem>
+		<listitem>
+			<para>complete standard API usage analysis;</para>
+		</listitem>
 
-			<listitem>
-				<para>complete standard API usage analysis;</para>
-			</listitem>
-
-			<listitem>
-				<para>several built-in checking environments plus support for
-					user-defined checking profiles.</para>
-			</listitem>
-		</itemizedlist>
-	</section>
+		<listitem>
+			<para>several built-in checking environments plus support for
+				user-defined checking profiles.</para>
+		</listitem>
+	</itemizedlist>
 
 </preface>
 
