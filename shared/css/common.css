@@ -11,10 +11,12 @@
 
 h1#banner a {
 	text-decoration: none;
+	border-bottom: solid 1px transparent;
 }
 
 h1#banner a:hover {
-	text-decoration: underline;
+	text-decoration: none;
+	border-color: black;
 	color: #000;
 }
 
