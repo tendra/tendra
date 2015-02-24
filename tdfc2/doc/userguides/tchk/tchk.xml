@@ -48,6 +48,9 @@
 						type conversions to &pragmatoken.doc;
 						and Integral Type Specification
 						to &tcpplus-userguide.doc;.</para>
+
+					<para>Merged appendix of &cli; portability
+						options into body text.</para>
 				</revdescription>
 			</revision>
 
@@ -128,8 +131,6 @@
 	<xi:include href="dialect.xml"/>
 	<xi:include href="errors.xml"/>
 	<xi:include href="conditional.xml"/>
-
-	<xi:include href="appendix/options.xml"/>
 
 	<xi:include href="bibliography.xml"/>
 

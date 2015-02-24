@@ -62,6 +62,135 @@
 			descriptions in Chapters 3 - 8; for example the check for implicit
 			function declarations described in 3.4.1 may be switched on using
 			<code>-X:implicit_func=check</code>.</para>
+
+		<para>The command line options for portability checking are:</para>
+
+		<table>
+			<title>Command Line Options</title>
+
+			<col align="left"/>
+			<col align="center"/>
+			<col align="left"/>
+
+			<thead>
+				<tr>
+					<th>Check</th>
+					<th>Reference</th>	<!-- TODO make link -->
+					<th>Command Line Option</th>
+				</tr>
+			</thead>
+
+			<!-- TODO normalise title case with other tables -->
+			<!-- TODO check harr and not rarr -->
+			<tbody>
+				<tr>
+					<td>Weak Prototype Analysis</td>
+					<td>3.3.1</td>
+					<td><code>-X:weak_proto=<emphasis>status</emphasis></code></td>
+				</tr>
+
+				<tr>
+					<td>Implicit Function Declaration</td>
+					<td>3.4</td>
+					<td><code>-X:implicit_func=<emphasis>status</emphasis></code></td>
+				</tr>
+
+				<tr>
+					<td>Printf String Checking</td>
+					<td>3.2.2</td>
+					<td><code>-X:printf=<emphasis>status</emphasis></code></td>
+				</tr>
+
+				<tr>
+					<td>Incompatible Void Returns</td>
+					<td>3.2.2</td>
+					<td><code>-X:void_ret=<emphasis>status</emphasis></code></td>
+				</tr>
+
+				<tr>
+					<td>Unreachable Code</td>
+					<td>5.2</td>
+					<td><code>-X:unreached=<emphasis>status</emphasis></code></td>
+				</tr>
+
+				<tr>
+					<td>Case Fall Through</td>
+					<td>5.3</td>
+					<td><code>-X:fall_thru=<emphasis>status</emphasis></code></td>
+				</tr>
+
+				<tr>
+					<td>Conversion Analysis</td>
+					<td>3.2</td>
+					<td><code>-X:convert_all=<emphasis>status</emphasis></code></td>
+				</tr>
+
+				<tr>
+					<td rowspan="3">Integer &harr; Integer Conversion</td>
+					<td rowspan="3">3.2.1</td>
+					<td><code>-X:convert_int=<emphasis>status</emphasis></code></td>
+				</tr>
+
+				<tr>
+					<td><code>-X:convert_int_implicit=<emphasis>status</emphasis></code></td>
+				</tr>
+
+				<tr>
+					<td><code>-X:convert_int_explicit=<emphasis>status</emphasis></code></td>
+				</tr>
+
+				<tr>
+					<td>Integer &harr; Pointer Conversion</td>
+					<td>3.2.2</td>
+					<td><code>-X:convert_int_ptr=<emphasis>status</emphasis></code></td>
+				</tr>
+
+				<tr>
+					<td>Integer &harr; Pointer Conversion</td>
+					<td>3.2.3</td>
+					<td><code>-X:convert_ptr=<emphasis>status</emphasis></code></td>
+				</tr>
+
+				<tr>
+					<td>Complete&nbsp;<code>struct</code>/<code>union</code>&nbsp;Analysis</td>
+					<td>8.3</td>
+					<td><code>-X:complete_struct=<emphasis>status</emphasis></code></td>
+				</tr>
+
+				<tr>
+					<td>Variable Analysis</td>
+					<td>5.6</td>
+					<td><code>-X:variable=<emphasis>status</emphasis></code></td>
+				</tr>
+
+				<tr>
+					<td>Discard Analysis</td>
+					<td>5.8</td>
+					<td><code>-X:discard_all=<emphasis>status</emphasis></code></td>
+				</tr>
+
+				<tr>
+					<td>Discarded Function Returns</td>
+					<td>5.8.1</td>
+					<td><code>-X:discard_func_ret=<emphasis>status</emphasis></code></td>
+				</tr>
+
+				<tr>
+					<td>Discarded Values</td>
+					<td>5.8.2</td>
+					<td><code>-X:discard_value=<emphasis>status</emphasis></code></td>
+				</tr>
+
+				<tr>
+					<td>Unused Statics</td>
+					<td>5.8.3</td>
+					<td><code>-X:unused_static=<emphasis>status</emphasis></code></td>
+				</tr>
+			</tbody>
+		</table>
+
+		<para>where <emphasis>status</emphasis> can be <code>check</code>,
+			<code>warn</code> or <code>dont</code>.</para>
 	</section>
 
 	<section>
