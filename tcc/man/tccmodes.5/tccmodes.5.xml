@@ -13,6 +13,62 @@
 	</refnamediv>
 
 	<refsection>
+		<title>Compilation Modes</title>
+
+		<para>The built-in compilation modes are as follows:</para>
+
+		<table>
+			<col align="center"/>
+			<col align="left"/>
+			<col align="left"/>
+
+			<thead>
+				<tr>
+					<th>Mode</th>
+					<th>Summary</th>
+					<th>Description</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr>
+					<td><option>Xs</option></td>
+					<td><quote>Strict checks</quote></td>
+					<td>Strict ISO/ANSI C with most extra checks
+						enabled as warnings</td>
+				</tr>
+				<tr>
+					<td><option>Xp</option></td>
+					<td><quote>Partial checks</quote></td>
+					<td>Strict ISO/ANSI C with some extra checks
+						enabled</td>
+				</tr>
+				<tr>
+					<td><option>Xc</option></td>
+					<td><quote>Conformance</quote></td>
+					<td>Strict ISO/ANSI C with no extra checks
+						enabled (this is default)</td>
+				</tr>
+				<tr>
+					<td><option>Xa</option></td>
+					<td><quote>ANSI-ish</quote></td>
+					<td>ISO/ANSI C with syntactic relaxations
+						and no extra checks</td>
+				</tr>
+				<tr>
+					<td><option>Xt</option></td>
+					<td><quote>Traditional</quote></td>
+					<td>Traditional C with no extra checks</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<para>The mode <option>Xs</option> is specified by passing the
+			<option>-Xs</option> command-line option to &tcc;, and so
+			on.</para>
+	</refsection>
+
+	<refsection>
 		<title>Base modes</title>
 
 		<para>The <code>Xs</code>, <code>Xp</code>, <code>Xw</code>,

@@ -40,6 +40,16 @@
 		</copyright>
 
 		<revhistory>
+			<revision role="docs">
+				<date>2015-02-24</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Moved out appendix reference material
+						to &tccenv.5;, &tccmodes.5;
+						and command line options to &tcc.1; manpages.</para>
+				</revdescription>
+			</revision>
+
 			<revision role="dev">
 				<date>2012-04-13</date>
 				<authorinitials>kate</authorinitials>
@@ -85,8 +95,6 @@
 	<xi:include href="environments.xml"/>
 	<xi:include href="components.xml"/>
 	<xi:include href="miscellaneous.xml"/>
-
-	<xi:include href="appendix-reference.xml"/>
 
 </book>
 

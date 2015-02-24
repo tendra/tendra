@@ -129,6 +129,183 @@
 	</refsection>
 
 	<refsection>
+		<title>Supported &api;s</title>
+
+		<para>The following standard &api;s are supported in the form of
+			TenDRA headers:</para>
+
+		<table>
+			<title>Supported &api;s</title>
+
+			<col align="left"/>
+			<col align="left"/>
+			<col align="left"/>
+
+			<thead>
+				<tr>
+					<th>&api;&nbsp;Name</th>
+					<th>Type</th>
+					<th>Description</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr>
+					<td><code>ansi</code></td>
+					<td>base&nbsp;(default)</td>
+					<td>ANSI X3.159</td>
+				</tr>
+				<tr>
+					<td><code>iso</code></td>
+					<td>base</td>
+					<td>ISO MSE 9899:1990 (Ammendment 1:1993 (E))</td>
+				</tr>
+				<tr>
+					<td><code>posix</code></td>
+					<td>base</td>
+					<td>POSIX 1003.1</td>
+				</tr>
+				<tr>
+					<td><code>posix2</code></td>
+					<td>base</td>
+					<td>POSIX 1003.2</td>
+				</tr>
+				<tr>
+					<td><code>xpg3</code></td>
+					<td>base</td>
+					<td>X/Open Portability Guide 3</td>
+				</tr>
+				<tr>
+					<td><code>xpg4</code></td>
+					<td>base</td>
+					<td>X/Open Portability Guide 4</td>
+				</tr>
+				<tr>
+					<td><code>cose</code>
+						<footnote>
+							<para>This &api; description is based on an
+								early version of the COSE 1170
+								specification and may be subject to
+								revision.</para>
+						</footnote></td>
+					<td>base</td>
+					<td>COSE 1170</td>
+				</tr>
+				<tr>
+					<td><code>svid3</code></td>
+					<td>base</td>
+					<td>System V Interface Definition 3rd Edition</td>
+				</tr>
+				<tr>
+					<td><code>aes</code></td>
+					<td>base</td>
+					<td>AES Revision A</td>
+				</tr>
+			</tbody>
+
+			<tbody>
+				<tr>
+					<td><code>bsd_extn</code>
+						<footnote>
+							<para>The BSD extension &api; consists of a
+								pragmatic collection of BSD types and
+								functions which are commonly found on
+								non-BSD machines. It roughly corresponds
+								to the BSD component of COSE (it contains
+								sockets, <function>select</function>,
+								etc.).</para>
+						</footnote></td>
+					<td>extension</td>
+					<td>BSD-like extension for use with POSIX etc.</td>
+				</tr>
+				<tr>
+					<td><code>x5_lib</code></td>
+					<td>extension</td>
+					<td>X11 (Release 5) X Library</td>
+				</tr>
+				<tr>
+					<td><code>x5_t</code>
+						<footnote>
+							<para>The X11 private headers are further protected.
+								If the private headers are required the option
+								<option>-Yx5_private</option> should also be
+								given.</para>
+						</footnote></td>
+					<td>extension</td>
+					<td>X11 (Release 5) Intrinsics Toolkit</td>
+				</tr>
+				<tr>
+					<td><code>x5_mu</code></td>
+					<td>extension</td>
+					<td>X11 (Release 5) Miscellaneous Utilities</td>
+				</tr>
+				<tr>
+					<td><code>x5_aw</code></td>
+					<td>extension</td>
+					<td>X11 (Release 5) Athena Widgets</td>
+				</tr>
+				<tr>
+					<td><code>x5_mit</code>
+						<footnote>
+							<para>This &api; is designed to cover some
+								of the commonly used features from
+								MIT-based X11 implementations which are
+								not actually part of the X11
+								specification.</para>
+						</footnote></td>
+					<td>extension</td>
+					<td>X11 (Release 5) MIT implementation</td>
+				</tr>
+				<tr>
+					<td><code>x5_proto</code></td>
+					<td>extension</td>
+					<td>X11 (Release 5) Protocol Extension</td>
+				</tr>
+				<tr>
+					<td><code>x5_ext</code></td>
+					<td>extension</td>
+					<td>X11 (Release 5) Extensions</td>
+				</tr>
+				<tr>
+					<td><code>motif</code></td>
+					<td>extension</td>
+					<td>Motif 1.1</td>	<!-- TODO: now 1.2? -->
+				</tr>
+			</tbody>
+
+			<tbody>
+				<tr>
+					<td><code>system</code></td>
+					<td role="na">&ndash;</td>
+					<td>System headers as main &api;</td>
+				</tr>
+				<tr>
+					<td><code>system+</code></td>
+					<td role="na">&ndash;</td>
+					<td>System headers as last resort extension &api;</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<para>Each &api; is specified to &tcc; by means of an environment
+			with the same name as the &api;.
+			Thus, for example, <option>-Yposix</option> specifies
+			POSIX 1003.1.
+			&api;s are divided into two types, base &api;s, such as
+			POSIX 1003.1, and extension &api;s, such as the
+			X11 (Release 5) Toolkit.
+			A program &api; consists of a base &api; plus an number of
+			extension &api;s, for example, POSIX plus the X11 Toolkit.
+			This example would be specified by means of the options
+			<option>-Yposix&nbsp;-Yx5_t</option>, in that order
+			(base &api;s override the previous &api;, extension &api;s
+			add to it).</para>
+
+		<para>Information on the current &api; may be printed by passing
+			the <option>-info</option> option to &tcc;.</para>
+	</refsection>
+
+	<refsection>
 		<title>Full Environment List</title>
 
 		<para>The majority of the standard environments can be divided into two
@@ -753,6 +930,337 @@
 				<tr>
 					<td>&star.arg;<code>TRANS</code></td>
 					<td>modifies the &tdf; translator executable</td>
+				</tr>
+			</tbody>
+		</table>
+	</refsection>
+
+	<refsection>
+		<title>Environment Identifiers</title>
+
+		<para>The following &tcc; environment identifiers are
+			recognised:</para>
+
+		<table>
+			<col align="left"/>
+			<col align="left"/>
+
+			<thead>
+				<tr>
+					<th>Identifier</th>
+					<th>Description</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr>
+					<td><code>*AS</code></td>
+					<td>Modifies the system assembler executable</td>
+				</tr>
+				<tr>
+					<td><code>*AS1</code></td>
+					<td>Modifies the auxilliary system assembler
+						executable (Mips only)</td>
+				</tr>
+				<tr>
+					<td><code>*CC</code></td>
+					<td>Modifies the system compiler executable</td>
+				</tr>
+				<tr>
+					<td><code>*CRT0</code></td>
+					<td>Modifies the first list of initial default
+						<filename>.o</filename> files</td>
+				</tr>
+				<tr>
+					<td><code>*CRT1</code></td>
+					<td>Modifies the second list of initial default
+						<filename>.o</filename> files</td>
+				</tr>
+				<tr>
+					<td><code>*CRTN</code></td>
+					<td>Modifies the list of final default
+						<filename>.o</filename> files</td>
+				</tr>
+				<tr>
+					<td><code>*DISP</code></td>
+					<td>Modifies the &tdf; pretty printer
+						executable</td>
+				</tr>
+				<tr>
+					<td><code>+ENVDIR</code></td>
+					<td>Sets the main environment directory</td>
+				</tr>
+				<tr>
+					<td><code>+FLAG</code></td>
+					<td>Passes a flag to &tcc;</td>
+				</tr>
+				<tr>
+					<td><code>+FLAG_AS</code></td>
+					<td>Passes a flag to the assembler</td>
+				</tr>
+				<tr>
+					<td><code>+FLAG_CC</code></td>
+					<td>Passes a flag to the system compiler</td>
+				</tr>
+				<tr>
+					<td><code>+FLAG_DISP</code></td>
+					<td>Passes a flag to the &tdf; pretty printer</td>
+				</tr>
+				<tr>
+					<td><code>+FLAG_INSTALL</code></td>
+					<td>Passes a flag to the &tdf; archive builder</td>
+				</tr>
+				<tr>
+					<td><code>+FLAG_LD</code></td>
+					<td>Passes a flag to the system linker</td>
+				</tr>
+				<tr>
+					<td><code>+FLAG_SPEC_LINK</code></td>
+					<td>Passes a flag to the C spec linker</td>
+				</tr>
+				<tr>
+					<td><code>+FLAG_TDFC</code></td>
+					<td>Passes a flag to the producer</td>
+				</tr>
+				<tr>
+					<td><code>+FLAG_TDFCPP</code></td>
+					<td>Passes a flag to the preprocessor</td>
+				</tr>
+				<tr>
+					<td><code>+FLAG_TLD</code></td>
+					<td>Passes a flag to the &tdf; linker</td>
+				</tr>
+				<tr>
+					<td><code>+FLAG_TNC</code></td>
+					<td>Passes a flag to the &tdf; notation compiler</td>
+				</tr>
+				<tr>
+					<td><code>+FLAG_TRANS</code></td>
+					<td>Passes a flag to the &tdf; translator</td>
+				</tr>
+				<tr>
+					<td><code>*INCL</code></td>
+					<td>Modifies the list of default include
+						file directories</td>
+				</tr>
+				<tr>
+					<td><code>*INFO</code></td>
+					<td>Modifies the list of &api; information</td>
+				</tr>
+				<tr>
+					<td><code>*LD</code></td>
+					<td>Modifies the system linker executable</td>
+				</tr>
+				<tr>
+					<td><code>*LIB</code></td>
+					<td>Modifies the list of default &tdf;
+						libraries</td>
+				</tr>
+				<tr>
+					<td><code>+LINE_START</code></td>
+					<td>Inserts a line in the &tcc; built-in
+						start-up file</td>
+				</tr>
+				<tr>
+					<td><code>+LINE_END</code></td>
+					<td>Inserts a line in the &tcc; built-in
+						end-up file</td>
+				</tr>
+				<tr>
+					<td><code>*LINK</code></td>
+					<td>Modifies the list of default &tdf; library
+						directories</td>
+				</tr>
+				<tr>
+					<td><code>+PORTABILITY</code></td>
+					<td>Sets the producer portability table</td>
+				</tr>
+				<tr>
+					<td><code>*SPEC_LINK</code></td>
+					<td>Modifies the C spec linker executable</td>
+				</tr>
+				<tr>
+					<td><code>*STARTUP</code></td>
+					<td>Modifies the list of default producer
+						start-up files</td>
+				</tr>
+				<tr>
+					<td><code>*STARTUP_DIR</code></td>
+					<td>Modifies the list of default start-up
+						directories</td>
+				</tr>
+				<tr>
+					<td><code>*SYS_LIB</code></td>
+					<td>Modifies the list of default system
+						libraries</td>
+				</tr>
+				<tr>
+					<td><code>*SYS_LIBC</code></td>
+					<td>Modifies the list of standard system
+						libraries</td>
+				</tr>
+				<tr>
+					<td><code>*SYS_LINK</code></td>
+					<td>Modifies the list of default system library
+						directories</td>
+				</tr>
+				<tr>
+					<td><code>*TDFC</code></td>
+					<td>Modifies the producer executable</td>
+				</tr>
+				<tr>
+					<td><code>*TDFCPP</code></td>
+					<td>Modifies the preprocessor executable</td>
+				</tr>
+				<tr>
+					<td><code>+TEMP</code></td>
+					<td>Sets the temporary directory
+						<footnote>
+							<para>The temporary directory can also be
+								set using the <varname>TMPDIR</varname>
+								system variable on those machines which
+								implement the XPG3
+								<function>tempnam</function> system
+								routine.</para>
+						</footnote></td>
+				</tr>
+				<tr>
+					<td><code>*TLD</code></td>
+					<td>Modifies the &tdf; linker executable</td>
+				</tr>
+				<tr>
+					<td><code>*TNC</code></td>
+					<td>Modifies the &tdf; notation compiler
+						executable</td>
+				</tr>
+				<tr>
+					<td><code>*TRANS</code></td>
+					<td>Modifies the &tdf; translator executable</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<para><code>*</code> stands for any of the allowed environment
+			modifiers <code>+</code>, <code>&lt;</code> or
+			<code>&gt;</code>.</para>
+	</refsection>
+
+	<refsection>
+		<title>Standard Environments</title>
+
+		<para>In addition to the environments implementing the supported
+			&api;s (see section 7.5. on page 31<!-- TODO: link -->), the
+			following environments are standard; those which alter the
+			compilation phases:</para>
+
+		<table>
+			<col align="left"/>
+			<col align="left"/>
+
+			<thead>
+				<tr>
+					<th>Environment</th>
+					<th>Description</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr>
+					<td><code>default</code></td>
+					<td>Default settings (built into &tcc;)</td>
+				</tr>
+				<tr>
+					<td><code>16bit</code></td>
+					<td>Specifies the minimal integer
+						sizes allowed by ANSI</td>
+				</tr>
+				<tr>
+					<td><code>32bit</code></td>
+					<td>Specifies the integer sizes found on most
+						32-bit machines</td>
+				</tr>
+				<tr>
+					<td><code>common</code></td>
+					<td>Equivalent to <code>32bit</code></td>
+				</tr>
+				<tr>
+					<td><code>makelib</code></td>
+					<td>Used to construct &tdf; libraries</td>
+				</tr>
+				<tr>
+					<td><code>pl_tdf</code></td>
+					<td>Used to specify the use of the PL_TDF compiler</td>
+				</tr>
+				<tr>
+					<td><code>status</code></td>
+					<td>Causes the environment status to be reported</td>
+				</tr>
+				<tr>
+					<td><code>tdp</code></td>
+					<td>Used in &tdf; library building</td>
+				</tr>
+				<tr>
+					<td><code>tnc</code></td>
+					<td>Used to specify the use of the &tdf;
+						notation compiler</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<para>and those which form part of the implementation for
+			command-line options:</para>
+
+		<table>
+			<col align="left"/>
+			<col align="left"/>
+
+			<thead>
+				<tr>
+					<th>Environment</th>
+					<th>Option&nbsp;Implemented</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr>
+					<td><code>tcc_diag</code></td>
+					<td><option>-g</option></td>
+				</tr>
+				<tr>
+					<td><code>tcc_pp</code></td>
+					<td><option>-E</option> and <option>-P</option></td>
+				</tr>
+				<tr>
+					<td><code>tcc_prof</code></td>
+					<td><option>-p</option></td>
+				</tr>
+				<tr>
+					<td><code>tcc_time</code></td>
+					<td><option>-time</option></td>
+				</tr>
+				<tr>
+					<td><code>wsl</code></td>
+					<td><option>-wsl</option></td>
+				</tr>
+				<tr>
+					<td><code>Goption</code></td>
+					<td><option>-G</option></td>
+				</tr>
+				<tr>
+					<td><code>K-<replaceable>item</replaceable></code></td>
+					<td><option>-K&nbsp;<replaceable>item</replaceable></option></td>
+				</tr>
+				<tr>
+					<td><code>Versions</code></td>
+					<td><option>-V</option></td>
+				</tr>
+				<tr>
+					<td><code>X<replaceable>mode</replaceable></code></td>
+					<td><option>-X&nbsp;<replaceable>mode</replaceable></option></td>
+				</tr>
+				<tr>
+					<td><code>Z-<replaceable>str</replaceable></code></td>
+					<td><option>-Z&nbsp;<replaceable>str</replaceable></option></td>
 				</tr>
 			</tbody>
 		</table>
