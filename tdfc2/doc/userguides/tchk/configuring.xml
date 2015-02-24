@@ -4,6 +4,9 @@
 <chapter>
 	<title>Configuring the Checker</title>
 
+	<para>This section describes the built-in checking modes and the design
+		of customised environments.</para>
+
 	<para>There are several methods available for configuring the checker
 		most of which are selected by using the relevant command line
 		option. More detailed customisation may require special
