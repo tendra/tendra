@@ -13,6 +13,71 @@
 	</refnamediv>
 
 	<refsection>
+		<title>Built-in checking profiles</title>
+
+		<para>Six standard checking profiles are provided with the tool and are
+			held as a set of startup files which are automatically included in
+			each C source file.</para>
+
+		<itemizedlist>
+			<listitem>
+				<para><code>-Xs</code> (strict checks) denotes strict ISO standard
+					C with most extra checks enabled as warnings;</para>
+			</listitem>
+
+			<listitem>
+				<para><code>-Xp</code> (partial checks) denotes strict ISO standard
+					C with some extra checks enabled;</para>
+			</listitem>
+
+			<listitem>
+				<para><code>-Xc</code> (conformance) denotes strict ISO standard C
+					with no extra checks enabled;</para>
+			</listitem>
+
+			<listitem>
+				<para><code>-Xw</code> (warning mode) represents a <quote>warning</quote>
+					oriented compilation mode. Many non-ISO standard C features are
+					permitted with a warning. Extra checks are performed to produce
+					warnings.</para>
+			</listitem>
+
+			<listitem>
+				<para><code>-Xa</code> (<quote>standard-ish</quote> C) denotes ISO
+					standard C with syntatic relaxation and no extra checks;</para>
+			</listitem>
+
+			<listitem>
+				<para><code>-Xt</code> (traditional C) denotes traditional (Kernighan and
+					Ritchie) C with no extra checks.</para>
+			</listitem>
+		</itemizedlist>
+
+		<para>(The modes Xc, Xa, and Xt are meant to roughly correspond to the
+			modes found on some System V compilers.)</para>
+
+		<para>The default checking environment is Xc, other environments are
+			specified by passing the name of the environment to the checker as
+			a command line flag, e.g. the -Xs flag specifies that the Xs
+			environment is to be used. These environments are the base checking
+			modes and may not be combined: if more than one base mode is
+			specified, only the final base mode is actually used - the earlier
+			ones are ignored.</para>
+
+		<para>There are also two <quote>add-on</quote> checking profiles, called
+			<code>nepc</code> (<code>n</code>o <code>e</code>xtra
+			<code>p</code>ortability <code>c</code>hecks) and
+			<code>not_ansi</code>, which may be used to complement any base
+			mode. The "add-on" modes may alter the status of checks set in the
+			base mode. The <code>nepc</code> mode switches off many of the
+			checks relating to portability issues and may be specified by
+			passing the <code>-nepc</code> command line option to tchk. The
+			<code>not_ansi</code> mode supports a raft of non-ISO features and
+			is specified using the <code>-not_ansi</code> command line
+			flag.</para>
+	</refsection>
+
+	<refsection>
 		<title>Compilation Modes</title>
 
 		<para>The built-in compilation modes are as follows:</para>
