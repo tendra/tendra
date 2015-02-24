@@ -1,12 +1,7 @@
 <?xml version="1.0"?>
-<!DOCTYPE appendix SYSTEM "minidocbook.dtd">
+<!DOCTYPE bibliography SYSTEM "minidocbook.dtd">
 
-<!-- TODO: <bibliography> -->
-<appendix>
-	<title>References</title>
-
-	<para>TODO</para>
-
+<bibliography>
 <!-- TODO:
 	<biblioentry>
 		<para>Tdfc: The C to TDF Producer Issue 1.0 (DRA/CIS3/OSSG/TR/95/102/1.0)</para>
@@ -27,5 +22,5 @@
 		<para>tspec - An API Specification Tool (DRA/CIS/CSE2/94/48/2.1, September 1994)</para>
 	</biblioentry>
 -->
-</appendix>
+</bibliography>
 

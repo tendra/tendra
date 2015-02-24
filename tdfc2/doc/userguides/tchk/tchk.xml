@@ -120,7 +120,7 @@
 	<xi:include href="appendix/integral.xml"/>
 	<xi:include href="appendix/conversions.xml"/>
 
-	<xi:include href="references.xml"/>
+	<xi:include href="bibliography.xml"/>
 
 </book>
 
