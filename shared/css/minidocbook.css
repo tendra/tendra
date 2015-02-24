@@ -150,11 +150,19 @@ div.warning:before {
 	margin-bottom: 1ex;
 }
 
-div.warning {
+blockquote, div.warning {
 	margin: 2em 1em;
 	padding: 0;
 	padding-left: 1em;
-	border-left: solid .5ex #d44;
+	border-left: solid .5ex;
+}
+
+div.warning {
+	border-color: #d44;
+}
+
+blockquote {
+	border-color: #ddd;
 }
 
 /* TODO: hacks: move to tccplus devguide-specific CSS */
