@@ -66,12 +66,17 @@
 		</listitem>
 
 		<listitem>
-			<para>complete standard API usage analysis;</para>
+			<para>Complete standard &api; usage analysis. No &api; definitions are
+				built in to the checker; these are provided externally.
+				A complete list of &api; definitions available to &tcc; is
+				documented by &tccenv.5;.</para>
 		</listitem>
 
 		<listitem>
-			<para>several built-in checking environments plus support for
-				user-defined checking profiles.</para>
+			<para>Support for user-defined checking profiles. No checking profiles
+				are built-in to the checker; these are provided externally.
+				A complete list of profiles exposed as <code>-X</code> modes
+				to &tcc; as startup files is documented by &tccmodes.5;.</para>
 		</listitem>
 	</itemizedlist>
 
