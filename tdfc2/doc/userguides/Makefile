@@ -6,7 +6,7 @@
 SUBDIR+=	pragmatoken
 SUBDIR+=	symboltable
 SUBDIR+=	tcpplus
-SUBDIR+=	tdfc
+SUBDIR+=	tchk
 
 .include <tendra.subdir.mk>
 
