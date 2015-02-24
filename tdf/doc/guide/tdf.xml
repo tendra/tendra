@@ -141,9 +141,9 @@
 
 		<para>The first thing to note is that, whereas previously all the
 			compilation took place on the target machines, here the
-			compilation has been split into a target independent (C -&gt;
-			&tdf;) part, called <code>production</code>, and a target dependent
-			(&tdf; -&gt; target) part, called <code>installation</code> . One
+			compilation has been split into a target independent (C to &tdf;)
+			part, called <code>production</code>, and a target dependent
+			(&tdf; to target) part, called <code>installation</code> . One
 			of the synonyms for &tdf; is &andf;, Architecture Neutral
 			Distribution Format, and we require that the production is
 			precisely that - architecture neutral - so that precisely the
@@ -267,11 +267,11 @@
 				this array. Finally the token <code>ansi.stdio.fputs</code> is
 				defined to be the effect of applying the procedure given by the
 				undefined tag <code>fputs</code>. (In fact, this picture has been
-				slightly simplified for the sake of clarity. See the section on C
-				-&gt; &tdf; mappings in section 3.3.2.)</para>
+				slightly simplified for the sake of clarity. See the section on
+				C to &tdf; mappings in section 3.3.2.)</para>
 
-			<para>These token definitions are created using exactly the same C
-				-&gt; &tdf; translation program as is used in the producer phase.
+			<para>These token definitions are created using exactly the same
+				C to &tdf; translation program as is used in the producer phase.
 				This program knows nothing about the distinction between target
 				independent and target dependent &tdf;, it merely translates the C
 				it is given (whether from a program or a system header) into &tdf;.
@@ -315,7 +315,7 @@
 				&tdf; libraries. It is a natural matter to link these to form a
 				complete, target dependent, &tdf; capsule. The rest of the
 				installation consists of a straightforward translation phase (&tdf;
-				-&gt; target) to produce a binary object file, and linking with
+				to target) to produce a binary object file, and linking with
 				the system libraries to form a final executable. Linking with the
 				system libraries will resolve any tags left undefined in the &tdf;.</para>
 		</section>
@@ -372,7 +372,7 @@ FILE f ;</programlisting>
 			<para>Above it was emphasised how the design of the
 				compilation strategy aids the representation of program in a
 				target independent manner, but this is not enough in itself. The
-				C -&gt; &tdf; producer must represent everything symbolically; it
+				C to &tdf; producer must represent everything symbolically; it
 				cannot make assumptions about the target machine. For example,
 				the line of C containing the initialisation:</para>
 
@@ -405,7 +405,7 @@ FILE f ;</programlisting>
 				field from the start of the structure rather than using the
 				calculated (known) value. Similarly, when it comes to defining this
 				token in the library building phase (recall that this is done by
-				the same C -&gt; &tdf; translation program as the production) it is a
+				the same C to &tdf; translation program as the production) it is a
 				simple matter to define the token to be the calculated value.</para>
 
 			<para>Furthermore, because all the producer's operations are
@@ -471,7 +471,7 @@ FILE f ;</programlisting>
 		<section id="S34">
 			<title>C to &tdf; Mappings</title>
 
-			<para>The nature of the C -&gt; &tdf; transformation implemented by the
+			<para>The nature of the C to &tdf; transformation implemented by the
 				producer is worth considering, although not all the features
 				described in this section are fully implemented in the current
 				(October 1993) producer. Although it is only indirectly related
@@ -481,7 +481,7 @@ FILE f ;</programlisting>
 
 			<para>Once the initial difficulty of overcoming the syntactic and
 				semantic differences between the various C dialects is overcome,
-				the C -&gt; &tdf; mapping is quite straightforward. In a hierarchy
+				the C to &tdf; mapping is quite straightforward. In a hierarchy
 				from high level to low level languages C and &tdf; are not that
 				dissimilar - both come towards the bottom of what may
 				legitimately be regarded as high level languages. Thus the
@@ -681,13 +681,13 @@ FILE f ;</programlisting>
 				transformation. They represent the &tdf; they read in as a syntax
 				tree, virtually identical to the syntax tree comprising the &tdf;.
 				The translation process then consists of continually applying
-				transformations to this tree - in effect &tdf; -&gt; &tdf;
+				transformations to this tree - in effect &tdf; to &tdf;
 				transformations - gradually optimising it and changing it to a
 				form where the translation into assembly source code is a simple
 				transcription process (see [7]).</para>
 
 			<para>Even such operations as constant evaluation - replacing 1 + 1
-				by 2 in the example above - may be regarded as &tdf; -&gt; &tdf;
+				by 2 in the example above - may be regarded as &tdf; to &tdf;
 				transformations. But so may more complex optimisations such as
 				taking constants out of a loop, common sub-expression
 				elimination, strength reduction and so on. Some of these
@@ -1414,8 +1414,8 @@ tokens.j : tokens.c tokens.h
 				argument are not expanded, so it does not matter if they are
 				undefined.</para>
 
-			<para>These conditional compilation constructs are used by the C
-				-&gt; &tdf; producer to translate certain statements
+			<para>These conditional compilation constructs are used by the
+				C to &tdf; producer to translate certain statements
 				containing:</para>
 
 			<programlisting language="c">#if condition</programlisting>

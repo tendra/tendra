@@ -117,7 +117,7 @@ arg1: EXP INTEGER(v)
 arg2: EXP INTEGER(v)
       -&gt; EXP TOP</programlisting>
 
-			<para>The NTEST <code>nt</code> chooses a dyadic test (e.g. =, &gt;=,
+			<para>The NTEST <code>nt</code> chooses a dyadic test (e.g. =, &ge;,
 				&lt;, etc.) that is to be applied to the results of evaluating
 				<code>arg1</code> and <code>arg2</code>. If <code>arg1</code>
 				<code>nt</code> <code>arg2</code> then the result is TOP;

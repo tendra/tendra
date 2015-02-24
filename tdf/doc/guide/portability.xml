@@ -328,8 +328,8 @@ extern int fputs(const char *, FILE *);</programlisting>
 
 			<para>Many of these problems may be reduced by using the "same"
 				compiler on all the target machines. For example, <code>gcc</code>
-				has a single front end (C -&gt; RTL) which may be combined with an
-				appropriate back end (RTL -&gt; target) to form a suitable
+				has a single C front end (C to RTL) which may be combined with an
+				appropriate back end (RTL to target) to form a suitable
 				compiler for a wide range of target machines. The existence of a
 				single front end virtually eliminates the problems of differing
 				interpretation of code and compiler quirks. It also reduces the
