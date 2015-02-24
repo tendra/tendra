@@ -25,14 +25,5 @@
 		the standard tokens are sufficiently generic to allow a variety of
 		implementations to hook into the producer output in the manner they
 		require.</para>
-
-	<para>The warning sign:</para>
-
-	<warning>
-		<para>May contain nuts.</para>
-	</warning>
-
-	<para>is used within the document to indicate areas where the implementation
- 		 is currently incomplete or incorrect.</para>
 </preface>
 
