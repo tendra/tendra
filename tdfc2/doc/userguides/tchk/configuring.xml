@@ -164,7 +164,7 @@
 	</section>
 
 	<section>
-		<title>2.1.5 Construct a customised checking environment</title>
+		<title>Customising checking profiles</title>
 
 		<para>The individual checks performed by the C static checker are
 			generally controlled by <code>#pragma</code> directives. The reason
