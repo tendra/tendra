@@ -57,42 +57,6 @@
 		<para>respectively.</para>
 	</section>
 
-	<section id="target-if">
-		<title>Target dependent conditional inclusion</title>
-
-		<para>One of the effects of trying to compile code in a target independent
-			manner is that it is not always possible to completely evaluate the
-			condition in a <code>#if</code> directive.	Thus the conditional inclusion
-			needs to be preserved until the installer phase.	This can only be
-			done if the target dependent <code>#if</code> is more structured than
-			is normally required for preprocessing directives. There are two cases;
-			in the first, where the <code>#if</code> appears in a statement, it
-			is treated as if it were a <code>if</code> statement with braces including
-			its branches; that is:</para>
-
-		<programlisting language="c">#if cond
-	true_statements
-#else
-	false_statements
-#endif</programlisting>
-
-		<para>maps to:</para>
-
-		<programlisting language="c">if ( cond ) {
-	true_statements
-} else {
-	false_statements
-}</programlisting>
-
-		<para>In the second case, where the <code>#if</code> appears in a list of
-			declarations, normally gives an error.	The can however be overridden
-			by the directive:</para>
-
-		<programlisting language="cpp">#pragma TenDRA++ conditional declaration <emphasis>allow</emphasis></programlisting>
-
-		<para>which causes both branches of the <code>#if</code> to be analysed.</para>
-	</section>
-
 	<section id="include">
 		<title>File inclusion directives</title>
 

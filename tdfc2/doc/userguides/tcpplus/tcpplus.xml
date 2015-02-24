@@ -50,7 +50,9 @@
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>Merged in Integral Type Specification
-						and Dialect Features from &tchk.doc;.</para>
+						and Dialect Features from &tchk.doc;,
+						and moved out sections relevant to checking
+						to &tchk.doc;.</para>
 				</revdescription>
 			</revision>
 

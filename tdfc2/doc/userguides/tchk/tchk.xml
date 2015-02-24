@@ -48,7 +48,9 @@
 						type conversions to &pragmatoken.doc;,
 						Integral Type Specification
 						and Dialect Features
-						to &tcpplus-userguide.doc;.</para>
+						to &tcpplus-userguide.doc;,
+						and moved in sections relevant to checking
+						from &tcpplus-userguide.doc;.</para>
 
 					<para>Merged appendix of &cli; portability
 						options into body text.</para>
