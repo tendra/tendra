@@ -1,8 +1,8 @@
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE preface SYSTEM "minidocbook.dtd">
 
-<preface>
-	<title>Compiler configuration</title>
+<chapter>
+	<title>Configuring the Compiler</title>
 
 	<para>This majority of this document describes how the C++ producer can
 		be configured to apply extra static checks or to support various
@@ -195,5 +195,5 @@ multibyte			1</programlisting>
 			respect to checking scopes.</para>
 	</section>
 
-</preface>
+</chapter>
 
