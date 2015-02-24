@@ -86,15 +86,6 @@
 
 		<!-- TODO: remove this section -->
 
-		<warning>
-			<para>Much of the specifics of this document have been extended by
-				<code>tcpplus</code>. Whilst everything discussed here is still
-				relevant, the new C producer, <emphasis>tdfc2</emphasis>, also
-				incorporates features from <code>tcpplus</code>.</para>
-			<!-- TODO centralise; split off standalone bits -->
-			<!-- TODO merge out OT things to their relevant areas -->
-		</warning>
-
 		<itemizedlist>
 			<listitem>
 				<para>Chapter 2: Configuring the Checker describes the built-in
