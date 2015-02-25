@@ -4,7 +4,6 @@
 <chapter>
 	<title>Configuring the Compiler</title>
 
-	<!-- TODO: merged in content -->
 	<para>This document describes the capabilities of the TenDRA C checker for
 		enforcing the ISO C standard as well as features for detecting areas
 		left undefined by the standard. It also lists the non-ISO dialect
@@ -18,45 +17,57 @@
 		In all cases the default behaviour is precisely that specified in
 		the ISO C++ standard with no extra checks.</para>
 
-	<para>Certain very basic configuration information is specified using a
-		<link linkend="portabilitytable">portability table</link>, however the primary
-		method of configuration is by means of <code>#pragma</code>
-		directives.
-		These directives may be placed within the program itself, however
-		it is generally more convenient to group them into a
-		start-up file in order to create a
-		user-defined compilation profile (see the <option>-X</option>
-		option for &tcc;).
-		The <code>#pragma</code> directives recognised by the C++ producer
-		have one of the equivalent forms:</para>
+	<section>
+		<title>Configuration files</title>
 
-	<programlisting language="cpp">#pragma TenDRA ....
-#pragma TenDRA++ ....</programlisting>
+		<para>Certain very basic configuration information is specified using a
+			<link linkend="portabilitytable">portability table</link>, which
+			may be specified to the producer using a <code>-n</code> option.
+			The syntax for this file is documented by &portability.5;</para>
 
-	<para>Some of these are common to the C and C++ producers (although
-		often with differing default behaviour).
-		The C producer will ignore any <code>TenDRA++</code> directives, so
-		these may be used in compilation profiles which are to be used by
-		both producers.
-		In the descriptions below, the presence of a <code>++</code> is
-		used to indicate a directive which is C++ specific; the other
-		directives are common to both producers.</para>
+		<!-- TODO: mention charset.5 here -->
 
-	<para>Within the description of the <code>#pragma</code> syntax,
-		<emphasis>on</emphasis> stands for <code>on</code>,
-		<code>off</code> or <code>warning</code>, <emphasis>allow</emphasis>
-		stands for <code>allow</code>, <code>disallow</code> or <code>warning</code>,
-		<emphasis>string-literal</emphasis> is any string literal,
-		<emphasis>integer-literal</emphasis> is any integer literal,
-		<emphasis>identifier</emphasis> is any simple, unqualified identifier name,
-		and <emphasis>type-id</emphasis> is any type identifier.
-		Other syntactic items are described in the text.
-		A complete grammar for the <code>#pragma</code>
-		directives accepted by the C++ producer is given in &pragmatoken.doc;.</para>
+		<!-- TODO: mention that &tcc; is typically responsible for providing these -->
+	</section>
 
 	<section id="low">
 		<title>Low level configuration</title>
 
+		<para>The primary method of configuration is by means of <code>#pragma</code>
+			directives.
+			These directives may be placed within the program itself, however
+			it is generally more convenient to group them into a
+			start-up file in order to create a
+			user-defined compilation profile (see the <option>-X</option>
+			option for &tcc;).
+			The <code>#pragma</code> directives recognised by the C++ producer
+			have one of the equivalent forms:</para>
+
+		<programlisting language="cpp">#pragma TenDRA ....
+#pragma TenDRA++ ....</programlisting>
+
+		<para>Some of these are common to the C and C++ producers (although
+			often with differing default behaviour).
+			The C producer will ignore any <code>TenDRA++</code> directives, so
+			these may be used in compilation profiles which are to be used by
+			both producers.
+			In the descriptions below, the presence of a <code>++</code> is
+			used to indicate a directive which is C++ specific; the other
+			directives are common to both producers.</para>
+
+		<para>Within the description of the <code>#pragma</code> syntax,
+			<emphasis>on</emphasis> stands for <code>on</code>,
+			<code>off</code> or <code>warning</code>, <emphasis>allow</emphasis>
+			stands for <code>allow</code>, <code>disallow</code> or <code>warning</code>,
+			<emphasis>string-literal</emphasis> is any string literal,
+			<emphasis>integer-literal</emphasis> is any integer literal,
+			<emphasis>identifier</emphasis> is any simple, unqualified identifier name,
+			and <emphasis>type-id</emphasis> is any type identifier.
+			Other syntactic items are described in the text.
+			A complete grammar for the <code>#pragma</code>
+			directives accepted by the C++ producer is given in &pragmatoken.doc;.</para>
+
+	<!-- TODO: merged in content -->
 		<para>The simplest level of configuration is to reset the severity level
 			of a particular error message using:</para>
 

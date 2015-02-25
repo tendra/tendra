@@ -29,6 +29,7 @@
 		<pubdate>January 1998</pubdate>
 
 		<copyright>
+			<year>2015</year>
 			<year>2012</year>
 			<year>2010</year>
 			<holder>The TenDRA Project</holder>
@@ -47,6 +48,9 @@
 					<para>Moved out appendix reference material
 						to &tccenv.5;, &tccmodes.5;
 						and command line options to &tcc.1; manpages.</para>
+
+					<para>Merged in documentation for the supplied
+						portability tables from the &tcpplus.doc;.</para>
 				</revdescription>
 			</revision>
 

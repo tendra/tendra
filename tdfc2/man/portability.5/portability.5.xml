@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE refentry SYSTEM "minidocbook.dtd">
+
+<refentry>
+<!--
+        Copyright (c) 2002-2007 The TenDRA Project <http://www.tendra.org/>.
+        All rights reserved.
+
+        Redistribution and use in source and binary forms, with or without
+        modification, are permitted provided that the following conditions are met:
+
+        1. Redistributions of source code must retain the above copyright notice,
+           this list of conditions and the following disclaimer.
+        2. Redistributions in binary form must reproduce the above copyright notice,
+           this list of conditions and the following disclaimer in the documentation
+           and/or other materials provided with the distribution.
+        3. Neither the name of The TenDRA Project nor the names of its contributors
+           may be used to endorse or promote products derived from this software
+           without specific, prior written permission.
+
+        THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+        IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+        THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+        PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+        CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+        EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+        PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+        OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+        WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+        OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+        ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+
+	<refmeta>
+		<refentrytitle>portability</refentrytitle>
+		<manvolnum>5</manvolnum>
+	</refmeta>
+
+	<refnamediv>
+		<refname>portability</refname>
+		<refpurpose>tdfc2 portability table syntax</refpurpose>
+	</refnamediv>
+
+	<refsection>
+		<title>Syntax</title>
+
+		<para>The default portability table values, which are built into the producer,
+			can be expressed in the form:</para>
+
+		<programlisting>char_bits            8
+short_bits           16
+int_bits             16
+long_bits            32
+signed_range         symmetric
+char_type            either
+ptr_int              none
+ptr_fn               no
+non_prototype_checks yes
+multibyte            1</programlisting>
+
+		<para>This illustrates the syntax for the portability table; note that all
+			ten entries are required, even though the last four are ignored.</para>
+
+		<para>The decimal integer associated with each of
+			<emphasis>char_bits</emphasis>, <emphasis>short_bits</emphasis>,
+			<emphasis>int_bits</emphasis> and <emphasis>long_bits</emphasis>
+			gives the minimum number of bits in the representation of each
+			integer type on all target machines. For example, if
+			<emphasis>int_bits</emphasis> is set to <code>32</code> the
+			compiler will perform its checks in the knowledge that the
+			program will not be used on a machine whose <code>int</code>
+			types are represented by 16 bits although they might be
+			represented by 32 or 64 bits.</para>
+	</refsection>
+</refentry>
+

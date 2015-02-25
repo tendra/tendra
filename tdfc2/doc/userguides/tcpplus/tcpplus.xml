@@ -53,6 +53,11 @@
 						and Dialect Features from &tchk.doc;,
 						and moved out sections relevant to checking
 						to &tchk.doc;.</para>
+
+					<para>Moved out documentation for the supplied
+						portability tables from the &tcpplus.doc;.
+						Moved out portability table syntax
+						to create a &portability.5; manpage.</para>
 				</revdescription>
 			</revision>
 

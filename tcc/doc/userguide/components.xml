@@ -238,6 +238,121 @@
 				constant overflow checks in the &tdf; translators).
 				All these options are implemented by start-up files.</para>
 
+			<para>Two built-in portability tables are provided by &tcc;. The default
+				reflects the minimal requirements laid down in the ISO C89 standard.
+				The 32-bit portability table (specified by the passing the <code>-Y32bit</code>
+				option to tchk) reflects the implementation on most modern 32 bit
+				machines. These tables are shown below.</para>
+
+			<!-- XXX: check these... -->
+			<table>
+				<title>&iso;/&ansi; Minimum Requirements Portability Table</title>
+
+				<col align="left"/>
+				<col align="center"/>
+				<col align="center"/>
+				<col align="left"/>
+				<col align="center"/>
+
+				<thead>
+					<tr>
+						<th colspan="2" align="center">&iso;/&ansi; (default)</th>
+						<th role="gap"/>
+						<th colspan="2" align="center"><code>-Y32bit</code></th>
+					</tr>
+				</thead>
+
+				<tbody>
+					<tr>
+						<td><replaceable>char_bits</replaceable></td>
+						<td><code>8</code></td>
+						<td role="gap"/>
+						<td><replaceable>char_bits</replaceable></td>
+						<td><code>8</code></td>
+					</tr>
+
+					<tr>
+						<td><replaceable>short_bits</replaceable></td>
+						<td><code>16</code></td>
+						<td role="gap"/>
+						<td><replaceable>short_bits</replaceable></td>
+						<td><code>16</code></td>
+					</tr>
+		
+					<tr>
+						<td><replaceable>int_bits</replaceable></td>
+						<td><code>16</code></td>
+						<td role="gap"/>
+						<td><replaceable>int_bits</replaceable></td>
+						<td><code>32</code></td>
+					</tr>
+		
+					<tr>
+						<td><replaceable>long_bits</replaceable></td>
+						<td><code>32</code></td>
+						<td role="gap"/>
+						<td><replaceable>long_bits</replaceable></td>
+						<td><code>32</code></td>
+					</tr>
+		
+					<tr>
+						<td><replaceable>longlong_bits</replaceable></td>
+						<td><code>64</code></td>
+						<td role="gap"/>
+						<td><replaceable>longlong_bits</replaceable></td>
+						<td><code>64</code></td>
+					</tr>
+		
+					<tr>
+						<td><code>signed_range</code></td>
+						<td>symmetric</td>
+						<td role="gap"/>
+						<td><code>signed_range</code></td>
+						<td>maximum</td>
+					</tr>
+		
+					<tr>
+						<td><code>char_type</code></td>
+						<td>either</td>
+						<td role="gap"/>
+						<td><code>char_type</code></td>
+						<td>either</td>
+					</tr>
+		
+					<tr>
+						<td><code>ptr_int</code></td>
+						<td>none</td>
+						<td role="gap"/>
+						<td><code>ptr_int</code></td>
+						<td>int</td>
+					</tr>
+		
+					<tr>
+						<td><code>ptr_fn</code></td>
+						<td>no</td>
+						<td role="gap"/>
+						<td><code>ptr_fn</code></td>
+						<td>yes</td>
+					</tr>
+		
+					<tr>
+						<td><code>non_prototype_checks</code></td>
+						<td>yes</td>
+						<td role="gap"/>
+						<td><code>non_prototype_checks</code></td>
+						<td>yes</td>
+					</tr>
+		
+					<tr>
+						<td><code>multitbyte</code></td>
+						<td><code>1</code></td>	<!-- TODO bool? -->
+						<td role="gap"/>
+						<td><code>multitbyte</code></td>
+						<td><code>1</code></td>	<!-- TODO bool? -->
+					</tr>
+				</tbody>
+			</table>
+
 			<para>The portability table to be used is specified
 				separately by means of an environment.
 				The default is the ISO/ANSI portability table, but
