@@ -75,14 +75,14 @@ TODO: maybe -dg and -ug for dev/user guides? maybe just -dev -->
 <!ENTITY pragmatoken.doc       "<ulink url='%docs;/pragmatoken/'><citetitle>The Pragma Token Syntax</citetitle></ulink>">
 <!ENTITY symboltable.doc       "<ulink url='%docs;/symboltable/'><citetitle>The C/C++ Symbol Table Dump</citetitle></ulink>">
 <!ENTITY cppporting.doc   "<ulink url='%docs;/cppporting/'><citetitle>C++ and Portability</citetitle></ulink>">
-<!ENTITY tcpplus-userguide.doc "<ulink url='%docs;/tcpplus-userguide/'><citetitle>C/C++ Producer Configuration Guide</citetitle></ulink>">
-<!ENTITY tcpplus-devguide.doc "<ulink url='%docs;/tcpplus-devguide/'><citetitle>C/C++ Producer Implementation</citetitle></ulink>">
+<!ENTITY tdfc2-userguide.doc "<ulink url='%docs;/tdfc2-userguide/'><citetitle>C/C++ Producer Configuration Guide</citetitle></ulink>">
+<!ENTITY tdfc2-devguide.doc "<ulink url='%docs;/tdfc2-devguide/'><citetitle>C/C++ Producer Implementation</citetitle></ulink>">
 <!ENTITY tcc-userguide.doc  "<ulink url='%docs;/tcc-userguide/'><citetitle><acronym>TCC</acronym> Users' Guide</citetitle></ulink>">
 <!ENTITY sid-userguide.doc  "<ulink url='%docs;/sid-userguide/'><citetitle><acronym>SID</acronym> Users' Guide</citetitle></ulink>">
 <!ENTITY tnc-userguide.doc  "<ulink url='%docs;/tnc-userguide/'><citetitle>The &tdf; Notation Compiler</citetitle></ulink>">
 <!ENTITY lexi-userguide.doc "<ulink url='%docs;/lexi-userguide/'><citetitle>Lexi Users' Guide</citetitle></ulink>">
 <!ENTITY calculus-userguide.doc "<ulink url='%docs;/calculus-userguide/'><citetitle>Calculus Users' Guide</citetitle></ulink>">
-<!ENTITY tchk.doc           "<ulink url='%docs;/tchk/'><citetitle>TCheck - The TenDRA Static Checker</citetitle></ulink>">
+<!ENTITY tchk.doc           "<ulink url='%docs;/tchk/'><citetitle>C/C++ Checker Reference Manual</citetitle></ulink>">
 <!ENTITY pl_tdf.doc         "<ulink url='%docs;/pl_tdf/'><citetitle>&pl_tdf; Definition</citetitle></ulink>">
 <!ENTITY tspec.doc          "<ulink url='%docs;/tspec/'><citetitle>tspec - An &api; Specification Tool</citetitle></ulink>">
 <!ENTITY newapis.doc        "<ulink url='%docs;/newapis/'><citetitle>Adding new &api;s with tspec</citetitle></ulink>">

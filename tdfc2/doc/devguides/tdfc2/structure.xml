@@ -80,7 +80,7 @@
 					<para>Routines for outputting
 						the internal representation in various formats including as a
 						&tdf; capsule (see &tdf-spec.doc;),
-						a C++ spec file (see &tcpplus-devguide.doc;),
+						a C++ spec file (see &tdfc2-devguide.doc;),
 						or a &tdfcdump.5; symbol table dump file.</para>
 				</listitem>
 			</varlistentry>

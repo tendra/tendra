@@ -189,7 +189,7 @@
 		<para>Almost all the available checks are scoped (exceptions will be
 			mentioned in the description of the check). Scopes may be controlled
 			by the same <code>#pragma TenDRA begin</code>
-			directive described by the &tcpplus-userguide.doc;.</para>
+			directive described by the &tdfc2-userguide.doc;.</para>
 	</section>
 
 	<section id="spec">

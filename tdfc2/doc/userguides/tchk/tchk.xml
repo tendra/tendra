@@ -48,9 +48,9 @@
 						type conversions to &pragmatoken.doc;,
 						Integral Type Specification
 						and Dialect Features
-						to &tcpplus-userguide.doc;,
+						to &tdfc2-userguide.doc;,
 						and moved in sections relevant to checking
-						from &tcpplus-userguide.doc;.</para>
+						from &tdfc2-userguide.doc;.</para>
 
 					<para>Merged appendix of &cli; portability
 						options into body text.</para>
@@ -84,7 +84,7 @@
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>Split off various sections to the
-						&tcpplus-devguide.doc;, &cppporting.doc;
+						&tdfc2-devguide.doc;, &cppporting.doc;
 						and &style.doc; documents.</para>
 				</revdescription>
 			</revision>

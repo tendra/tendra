@@ -3,7 +3,7 @@
 .include "Makefile.inc"
 
 
-SUBDIR+=	tcpplus
+SUBDIR+=	tdfc2
 
 .include <tendra.subdir.mk>
 

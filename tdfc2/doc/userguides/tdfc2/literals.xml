@@ -44,7 +44,7 @@
 			this form. This list gives a mapping from the value of the literal
 			to the type to be used to represent the literal.	There are three
 			cases for the literal type; it may be a given integral type, it may
-			be calculated using a given literal type token (see &tcpplus-devguide.doc;),
+			be calculated using a given literal type token (see &tdfc2-devguide.doc;),
 			or it may cause an error to be raised.	There are also
 			three cases for describing a literal range; it may be given by values
 			less than or equal to a given integer literal, it may be given by

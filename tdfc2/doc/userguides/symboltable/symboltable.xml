@@ -46,7 +46,7 @@
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>Moved out a description of the symbol table semantics
-						from &tcpplus-userguide.doc; into a
+						from &tdfc2-userguide.doc; into a
 						seperate document.</para>
 				</revdescription>
 			</revision>

@@ -10,7 +10,7 @@
 		<code>&lt;typeinfo&gt;</code> - which are an integral part of the
 		language specification.  These headers are also those which require
 		the most cooperation between the producer and the library implementation,
-		as described in &tcpplus-devguide.doc;.</para>
+		as described in &tdfc2-devguide.doc;.</para>
 
 	<para>It is suggested that if further library components are required then
 		they be acquired from third parties.  It should be noted however that

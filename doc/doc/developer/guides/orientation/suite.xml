@@ -90,7 +90,7 @@
 		<para>How to configure the C compiler checks is described in more detail
 			in the &tchk.doc;.
 			The extra checks available in C++ are described in the
-			&tcpplus-userguide.doc;.</para>
+			&tdfc2-userguide.doc;.</para>
 	</section>
 
 	<section id="tdf-producers">
@@ -151,7 +151,7 @@
 			<code>&lt;exception&gt;</code>) have been implemented.
 			If a complete implementation of the standard C++ library is required,
 			it must be obtained from elsewhere.
-			See the &tcpplus-userguide.doc; for more details.</para>
+			See the &tdfc2-userguide.doc; for more details.</para>
 	</section>
 
 	<section id="tdf-installers">

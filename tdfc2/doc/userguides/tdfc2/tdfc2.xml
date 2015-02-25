@@ -55,7 +55,7 @@
 						to &tchk.doc;.</para>
 
 					<para>Moved out documentation for the supplied
-						portability tables from the &tcpplus.doc;.
+						portability tables from the &tdfc2-userguide.doc;.
 						Moved out portability table syntax
 						to create a &portability.5; manpage.</para>
 				</revdescription>
@@ -87,7 +87,7 @@
 				<date>2011-01-10</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
-					<para>Restructured &tcpplus-userguide.doc;.</para>
+					<para>Restructured &tdfc2-userguide.doc;.</para>
 				</revdescription>
 			</revision>
 
@@ -148,7 +148,7 @@
 				<date>2007-10-01</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
-					<para>Moved out the &tcpplus-devguide.doc; into a
+					<para>Moved out the &tdfc2-devguide.doc; into a
 						seperate document.</para>
 				</revdescription>
 			</revision>
