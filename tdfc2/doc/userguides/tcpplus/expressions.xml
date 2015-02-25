@@ -41,86 +41,6 @@
 			also cause a warning to be issued for every explicit cast expression.</para>
 	</section>
 
-	<section id="expressions">
-		<title>Expressions</title>
-
-		<para>The directive:</para>
-
-		<programlisting language="cpp">#pragma TenDRA operator precedence analysis <emphasis>on</emphasis></programlisting>
-
-		<para>can be used to enable a check for expressions where the operator precedence
-			is not necessarily what might be expected.	The intended precedence
-			can be clarified by means of explicit parentheses.	The precedence
-			levels checked are as follows:</para>
-
-		<itemizedlist>
-			<listitem>
-				<para><code>&amp;&amp;</code> versus <code>||</code>.</para>
-			</listitem>
-
-			<listitem>
-				<para><code>&lt;&lt;</code> and <code>&gt;&gt;</code> versus binary
-					<code>+</code> and <code>-</code>.</para>
-			</listitem>
-
-			<listitem>
-				<para>Binary <code>&amp;</code> versus binary <code>+</code>,		 <code>-</code>,
-					<code>==</code>, <code>!=</code>, <code>&gt;</code>,		 <code>&gt;=</code>,
-					<code>&lt;</code> and <code>&lt;=</code>.</para>
-			</listitem>
-
-			<listitem>
-				<para><code>^</code> versus binary <code>&amp;</code>, <code>+</code>,
-					<code>-</code>, <code>==</code>, <code>!=</code>, <code>&gt;</code>,
-					<code>&gt;=</code>, <code>&lt;</code> and <code>&lt;=</code>.</para>
-			</listitem>
-
-			<listitem>
-				<para><code>|</code> versus binary <code>^</code>, <code>&amp;</code>,
-					<code>+</code>, <code>-</code>, <code>==</code>, <code>!=</code>,
-					<code>&gt;</code>, <code>&gt;=</code>, <code>&lt;</code> and
-					<code>&lt;=</code>.</para>
-			</listitem>
-		</itemizedlist>
-
-		<para>Also checked are expressions such as <code>a &lt; b &lt; c</code>
-			which do not have their normal mathematical meaning.	For example,
-			in:</para>
-
-		<programlisting language="cpp">d = a &lt;&lt; b + c ;	// precedence is a &lt;&lt; ( b + c )</programlisting>
-
-		<para>the precedence is counter-intuitive, although strangely enough, it
-			isn't in:</para>
-
-		<programlisting language="cpp">cout &lt;&lt; b + c ;		// precedence is cout &lt;&lt; ( b + c )</programlisting>
-
-		<para>Other dubious arithmetic operations can be checked for using the directive:</para>
-
-		<programlisting language="cpp">#pragma TenDRA integer operator analysis <emphasis>on</emphasis></programlisting>
-
-		<para>This includes checks for operations, such as division by a negative
-			value, which are implementation dependent, and those such as testing
-			whether an unsigned value is less than zero, which serve no purpose.
-			Similarly the directive:</para>
-
-		<programlisting language="cpp">#pragma TenDRA++ pointer operator analysis <emphasis>on</emphasis></programlisting>
-
-		<para>checks for dubious pointer operations.	This includes very simple
-			bounds checking for arrays and checking that only the simple literal
-			<code>0</code>
-			is used in null pointer constants:</para>
-
-		<programlisting language="cpp">char *p = 1 - 1 ;	// valid, but weird</programlisting>
-
-		<para>The directive:</para>
-
-		<programlisting language="cpp">#pragma TenDRA integer overflow analysis <emphasis>on</emphasis></programlisting>
-
-		<para>is used to control the treatment of overflows in the evaluation of
-			integer constant expressions.	This includes the detection of division
-			by zero.</para>
-	</section>
-
 	<section id="initialiser-expressions">
 		<title>Initialiser expressions</title>
 
@@ -166,46 +86,6 @@
 
 		<para>however it is recommended that programs using this feature should
 			be modified.</para>
-	</section>
-
-	<section id="discard">
-		<title>Discarded expressions</title>
-
-		<para>The directive:</para>
-
-		<programlisting language="cpp">#pragma TenDRA discard analysis <emphasis>on</emphasis></programlisting>
-
-		<para>can be used to enable a check for values which are calculated but
-			not used.	There are three checks controlled by this directive, each
-			of which can be controlled independently.	The directive:</para>
-
-		<programlisting language="cpp">#pragma TenDRA discard analysis (function return) <emphasis>on</emphasis></programlisting>
-
-		<para>checks for functions which return a value which is not used.	The
-			check needs to be enabled for both the declaration and the call of
-			the function in order for a discarded function return to be reported.
-			Discarded returns for overloaded operator functions are never reported.
-			The directive:</para>
-
-		<programlisting language="cpp">#pragma TenDRA discard analysis (value) <emphasis>on</emphasis></programlisting>
-
-		<para>checks for other expressions which are not used.	Finally, the directive:</para>
-
-		<programlisting language="cpp">#pragma TenDRA discard analysis (static) <emphasis>on</emphasis></programlisting>
-
-		<para>checks for variables with internal linkage which are defined but not
-			used.</para>
-
-		<para>An unused function return or other expression can be asserted to be
-			deliberately discarded by explicitly casting it to <code>void</code>
-			or, equivalently, preceding it by a keyword introduced using the directive:</para>
-
-		<programlisting language="cpp">#pragma TenDRA keyword <emphasis>identifier</emphasis> for discard value</programlisting>
-
-		<para>A static variable can be asserted to be deliberately unused by including
-			it in list of identifiers in a directive of the form:</para>
-
-		<programlisting language="cpp">#pragma TenDRA suspend static <emphasis>identifier-list</emphasis></programlisting>
 	</section>
 
 </chapter>

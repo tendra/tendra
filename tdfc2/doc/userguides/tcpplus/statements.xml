@@ -4,108 +4,6 @@
 <chapter>
 	<title>Configuration for statements</title>
 
-	<section id="if">
-		<title>Conditional and iteration statements</title>
-
-		<para>The directive:</para>
-
-		<programlisting language="cpp">#pragma TenDRA const conditional <emphasis>allow</emphasis></programlisting>
-
-		<para>can be used to enable a check for constant expressions used in conditional
-			contexts.	A literal constant is allowed in the condition of a <code>while
-			</code>, <code>for</code> or <code>do</code> statement to allow for
-			such common constructs as:</para>
-
-		<programlisting language="cpp">while ( true ) {
-	// while statement body
-}</programlisting>
-
-		<para>and target dependent constant expressions are allowed in the condition
-			of an <code>if</code> statement, but otherwise constant conditions
-			are reported according to the status of this check.</para>
-
-		<para>The common error of writing <code>=</code> rather than <code>==</code>
-			in conditions can be detected using the directive:</para>
-
-		<programlisting language="cpp">#pragma TenDRA assignment as bool <emphasis>allow</emphasis></programlisting>
-
-		<para>which can be used to disallow such assignment expressions in contexts
-			where a boolean is expected.	The error message can be suppressed
-			by enclosing the assignment within parentheses.</para>
-
-		<para>Another common error associated with iteration statements, particularly
-			with certain brace styles, is the
-			accidental insertion of an extra semicolon as in:</para>
-
-		<programlisting language="cpp">for ( init ; cond ; step ) ;
-{
-	// for statement body
-}</programlisting>
-
-		<para>The directive:</para>
-
-		<programlisting language="cpp">#pragma TenDRA extra ; after conditional <emphasis>allow</emphasis></programlisting>
-
-		<para>can be used to enable a check for such suspicious empty iteration
-			statement bodies (it actually checks for <code>;{</code>).</para>
-	</section>
-
-	<section id="switch">
-		<title>Switch statements</title>
-
-		<para>A <code>switch</code> statement is said to be exhaustive if its control
-			statement is guaranteed to take one of the values of its
-			<code>case</code> labels, or if it has a <code>default</code> label.
-			The TenDRA C and C++ producers allow a <code>switch</code> statement
-			to be asserted to be exhaustive using the syntax:</para>
-
-		<programlisting language="cpp">switch ( cond ) EXHAUSTIVE {
-	// switch statement body
-}</programlisting>
-
-		<para>where <code>EXHAUSTIVE</code> is either the directive:</para>
-
-		<programlisting language="cpp">#pragma TenDRA exhaustive</programlisting>
-
-		<para>or a keyword introduced using:</para>
-
-		<programlisting language="cpp">#pragma TenDRA keyword <emphasis>identifier</emphasis> for exhaustive</programlisting>
-
-		<para>Knowing whether a <code>switch</code> statement is exhaustive or not
-			means that checks relying on flow analysis (including variable usage
-			checks) can be applied more precisely.</para>
-
-		<para>In certain circumstances it is possible to deduce whether a
-			<code>switch</code> statement is exhaustive or not.	For example,
-			the directive:</para>
-
-		<programlisting language="cpp">#pragma TenDRA enum switch analysis <emphasis>on</emphasis></programlisting>
-
-		<para>enables a check on <code>switch</code> statements on values of enumeration
-			type.	Such statements should be exhaustive, either explicitly by
-			using the <code>EXHAUSTIVE</code> keyword or declaring a
-			<code>default</code> label, or implicitly by having a <code>case</code>
-			label for each enumerator.	Conversely, the value of each <code>case</code>
-			label should equal the value of an enumerator.	For the purposes of
-			this check, boolean values are treated as if they were declared using
-			an enumeration type of the form:</para>
-
-		<programlisting language="cpp">enum bool { false = 0, true = 1 } ;</programlisting>
-
-		<para>A common source of errors in <code>switch</code> statements is the
-			fall-through from one <code>case</code> or <code>default</code>
-			statement to the next.	A check for this can be enabled using:</para>
-
-		<programlisting language="cpp">#pragma TenDRA fall into case <emphasis>allow</emphasis></programlisting>
-
-		<para><code>case</code> or <code>default</code> labels where fall-through
-			from the previous statement is intentional can be marked by preceding
-			them by a keyword, <code>FALL_THRU</code> say, introduced using the
-			directive:</para>
-
-		<programlisting language="cpp">#pragma TenDRA keyword <emphasis>identifier</emphasis> for fall into case</programlisting>
-	</section>
-
 	<section id="for">
 		<title>For statements</title>
 
@@ -129,23 +27,6 @@ return i ;	// OK in older dialects, error in ISO C++</programlisting>
 			the corresponding <code>for</code> statement body.	A program which
 			does not give such warnings should compile correctly under either
 			set of rules.</para>
-	</section>
-
-	<section id="return">
-		<title>Return statements</title>
-
-		<para>In C, but not in C++, it is possible to have a <code>return</code>
-			statement without an expression in a function which does not return
-			<code>void</code>.	It is possible to enable this behaviour using
-			the directive:</para>
-
-		<programlisting language="cpp">#pragma TenDRA incompatible void return <emphasis>allow</emphasis></programlisting>
-
-		<para>Note that this check includes the implicit <code>return</code> caused
-			by falling off the end of a function.	The effect of such a
-			<code>return</code> statement is undefined.	The C++ rule that falling
-			off the end of <code>main</code> is equivalent to returning a value
-			of 0 overrides this check.</para>
 	</section>
 
 </chapter>

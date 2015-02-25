@@ -226,6 +226,52 @@
 		</section>
 	</section>
 
+	<section id="if">
+		<title>Conditional and iteration statements</title>
+
+		<para>The directive:</para>
+
+		<programlisting language="cpp">#pragma TenDRA const conditional <emphasis>allow</emphasis></programlisting>
+
+		<para>can be used to enable a check for constant expressions used in conditional
+			contexts.	A literal constant is allowed in the condition of a <code>while
+			</code>, <code>for</code> or <code>do</code> statement to allow for
+			such common constructs as:</para>
+
+		<programlisting language="cpp">while ( true ) {
+	// while statement body
+}</programlisting>
+
+		<para>and target dependent constant expressions are allowed in the condition
+			of an <code>if</code> statement, but otherwise constant conditions
+			are reported according to the status of this check.</para>
+
+		<para>The common error of writing <code>=</code> rather than <code>==</code>
+			in conditions can be detected using the directive:</para>
+
+		<programlisting language="cpp">#pragma TenDRA assignment as bool <emphasis>allow</emphasis></programlisting>
+
+		<para>which can be used to disallow such assignment expressions in contexts
+			where a boolean is expected.	The error message can be suppressed
+			by enclosing the assignment within parentheses.</para>
+
+		<para>Another common error associated with iteration statements, particularly
+			with certain brace styles, is the
+			accidental insertion of an extra semicolon as in:</para>
+
+		<programlisting language="cpp">for ( init ; cond ; step ) ;
+{
+	// for statement body
+}</programlisting>
+
+		<para>The directive:</para>
+
+		<programlisting language="cpp">#pragma TenDRA extra ; after conditional <emphasis>allow</emphasis></programlisting>
+
+		<para>can be used to enable a check for such suspicious empty iteration
+			statement bodies (it actually checks for <code>;{</code>).</para>
+	</section>
+
 	<section>
 		<title>Operator precedence</title>
 
@@ -412,12 +458,81 @@ else { ...
 			</listitem>
 		</itemizedlist>
 
-		<para>The check is switched off by default and is controlled using:</para>
+		<para>The check is switched off by default. The the directive:</para>
 
-		<programlisting language="c">#pragma TenDRA operator precedence <emphasis>status</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA operator precedence analysis <emphasis>on</emphasis></programlisting>
 
-		<para>where <emphasis>status</emphasis> is <code>on</code>, <code>warning</code>
-			or <code>off</code>.</para>
+		<para>can be used to enable a check for expressions where the operator precedence
+			is not necessarily what might be expected.	The intended precedence
+			can be clarified by means of explicit parentheses.	The precedence
+			levels checked are as follows:</para>
+
+		<itemizedlist>
+			<listitem>
+				<para><code>&amp;&amp;</code> versus <code>||</code>.</para>
+			</listitem>
+
+			<listitem>
+				<para><code>&lt;&lt;</code> and <code>&gt;&gt;</code> versus binary
+					<code>+</code> and <code>-</code>.</para>
+			</listitem>
+
+			<listitem>
+				<para>Binary <code>&amp;</code> versus binary <code>+</code>,		 <code>-</code>,
+					<code>==</code>, <code>!=</code>, <code>&gt;</code>,		 <code>&gt;=</code>,
+					<code>&lt;</code> and <code>&lt;=</code>.</para>
+			</listitem>
+
+			<listitem>
+				<para><code>^</code> versus binary <code>&amp;</code>, <code>+</code>,
+					<code>-</code>, <code>==</code>, <code>!=</code>, <code>&gt;</code>,
+					<code>&gt;=</code>, <code>&lt;</code> and <code>&lt;=</code>.</para>
+			</listitem>
+
+			<listitem>
+				<para><code>|</code> versus binary <code>^</code>, <code>&amp;</code>,
+					<code>+</code>, <code>-</code>, <code>==</code>, <code>!=</code>,
+					<code>&gt;</code>, <code>&gt;=</code>, <code>&lt;</code> and
+					<code>&lt;=</code>.</para>
+			</listitem>
+		</itemizedlist>
+
+		<para>Also checked are expressions such as <code>a &lt; b &lt; c</code>
+			which do not have their normal mathematical meaning.	For example,
+			in:</para>
+
+		<programlisting language="cpp">d = a &lt;&lt; b + c ;	// precedence is a &lt;&lt; ( b + c )</programlisting>
+
+		<para>the precedence is counter-intuitive, although strangely enough, it
+			isn't in:</para>
+
+		<programlisting language="cpp">cout &lt;&lt; b + c ;		// precedence is cout &lt;&lt; ( b + c )</programlisting>
+
+		<para>Other dubious arithmetic operations can be checked for using the directive:</para>
+
+		<programlisting language="cpp">#pragma TenDRA integer operator analysis <emphasis>on</emphasis></programlisting>
+
+		<para>This includes checks for operations, such as division by a negative
+			value, which are implementation dependent, and those such as testing
+			whether an unsigned value is less than zero, which serve no purpose.
+			Similarly the directive:</para>
+
+		<programlisting language="cpp">#pragma TenDRA++ pointer operator analysis <emphasis>on</emphasis></programlisting>
+
+		<para>checks for dubious pointer operations.	This includes very simple
+			bounds checking for arrays and checking that only the simple literal
+			<code>0</code>
+			is used in null pointer constants:</para>
+
+		<programlisting language="cpp">char *p = 1 - 1 ;	// valid, but weird</programlisting>
+
+		<para>The directive:</para>
+
+		<programlisting language="cpp">#pragma TenDRA integer overflow analysis <emphasis>on</emphasis></programlisting>
+
+		<para>is used to control the treatment of overflows in the evaluation of
+			integer constant expressions.	This includes the detection of division
+			by zero.</para>
 	</section>
 
 	<section>
@@ -825,6 +940,62 @@ switch ( n )
 #endif</programlisting>
 		</section>
 
+	<section id="switch">
+		<title>Switch statements</title>
+
+		<para>A <code>switch</code> statement is said to be exhaustive if its control
+			statement is guaranteed to take one of the values of its
+			<code>case</code> labels, or if it has a <code>default</code> label.
+			The TenDRA C and C++ producers allow a <code>switch</code> statement
+			to be asserted to be exhaustive using the syntax:</para>
+
+		<programlisting language="cpp">switch ( cond ) EXHAUSTIVE {
+	// switch statement body
+}</programlisting>
+
+		<para>where <code>EXHAUSTIVE</code> is either the directive:</para>
+
+		<programlisting language="cpp">#pragma TenDRA exhaustive</programlisting>
+
+		<para>or a keyword introduced using:</para>
+
+		<programlisting language="cpp">#pragma TenDRA keyword <emphasis>identifier</emphasis> for exhaustive</programlisting>
+
+		<para>Knowing whether a <code>switch</code> statement is exhaustive or not
+			means that checks relying on flow analysis (including variable usage
+			checks) can be applied more precisely.</para>
+
+		<para>In certain circumstances it is possible to deduce whether a
+			<code>switch</code> statement is exhaustive or not.	For example,
+			the directive:</para>
+
+		<programlisting language="cpp">#pragma TenDRA enum switch analysis <emphasis>on</emphasis></programlisting>
+
+		<para>enables a check on <code>switch</code> statements on values of enumeration
+			type.	Such statements should be exhaustive, either explicitly by
+			using the <code>EXHAUSTIVE</code> keyword or declaring a
+			<code>default</code> label, or implicitly by having a <code>case</code>
+			label for each enumerator.	Conversely, the value of each <code>case</code>
+			label should equal the value of an enumerator.	For the purposes of
+			this check, boolean values are treated as if they were declared using
+			an enumeration type of the form:</para>
+
+		<programlisting language="cpp">enum bool { false = 0, true = 1 } ;</programlisting>
+
+		<para>A common source of errors in <code>switch</code> statements is the
+			fall-through from one <code>case</code> or <code>default</code>
+			statement to the next.	A check for this can be enabled using:</para>
+
+		<programlisting language="cpp">#pragma TenDRA fall into case <emphasis>allow</emphasis></programlisting>
+
+		<para><code>case</code> or <code>default</code> labels where fall-through
+			from the previous statement is intentional can be marked by preceding
+			them by a keyword, <code>FALL_THRU</code> say, introduced using the
+			directive:</para>
+
+		<programlisting language="cpp">#pragma TenDRA keyword <emphasis>identifier</emphasis> for fall into case</programlisting>
+	</section>
+
 		<section>
 			<title>Non-returning functions</title>
 
@@ -912,6 +1083,23 @@ int f ( int n )
 			<para><code>n</code> is unused because the <code>return</code>
 				statement is not reached (a fact that can also be determined by
 				the unreachable code analysis in section 5.2).</para>
+		</section>
+
+		<section id="return">
+			<title>Return statements</title>
+
+			<para>In C, but not in C++, it is possible to have a <code>return</code>
+				statement without an expression in a function which does not return
+				<code>void</code>.  It is possible to enable this behaviour using
+				the directive:</para>
+
+			<programlisting language="cpp">#pragma TenDRA incompatible void return <emphasis>allow</emphasis></programlisting>
+
+			<para>Note that this check includes the implicit <code>return</code> caused
+				by falling off the end of a function.   The effect of such a
+				<code>return</code> statement is undefined. The C++ rule that falling
+				off the end of <code>main</code> is equivalent to returning a value
+				of 0 overrides this check.</para>
 		</section>
 	</section>
 
@@ -1002,6 +1190,46 @@ int main ()
 		</section>
 	</section>
 
+	<section id="discard">
+		<title>Discarded expressions</title>
+
+		<para>The directive:</para>
+
+		<programlisting language="cpp">#pragma TenDRA discard analysis <emphasis>on</emphasis></programlisting>
+
+		<para>can be used to enable a check for values which are calculated but
+			not used.	There are three checks controlled by this directive, each
+			of which can be controlled independently.	The directive:</para>
+
+		<programlisting language="cpp">#pragma TenDRA discard analysis (function return) <emphasis>on</emphasis></programlisting>
+
+		<para>checks for functions which return a value which is not used.	The
+			check needs to be enabled for both the declaration and the call of
+			the function in order for a discarded function return to be reported.
+			Discarded returns for overloaded operator functions are never reported.
+			The directive:</para>
+
+		<programlisting language="cpp">#pragma TenDRA discard analysis (value) <emphasis>on</emphasis></programlisting>
+
+		<para>checks for other expressions which are not used.	Finally, the directive:</para>
+
+		<programlisting language="cpp">#pragma TenDRA discard analysis (static) <emphasis>on</emphasis></programlisting>
+
+		<para>checks for variables with internal linkage which are defined but not
+			used.</para>
+
+		<para>An unused function return or other expression can be asserted to be
+			deliberately discarded by explicitly casting it to <code>void</code>
+			or, equivalently, preceding it by a keyword introduced using the directive:</para>
+
+		<programlisting language="cpp">#pragma TenDRA keyword <emphasis>identifier</emphasis> for discard value</programlisting>
+
+		<para>A static variable can be asserted to be deliberately unused by including
+			it in list of identifiers in a directive of the form:</para>
+
+		<programlisting language="cpp">#pragma TenDRA suspend static <emphasis>identifier-list</emphasis></programlisting>
+	</section>
+
 	<section>
 		<title>Overriding the discard analysis</title>
 
@@ -1058,5 +1286,165 @@ int main ()
 			<!-- TODO examples, please. rcsid, providing symbols for dlsym -->
 		</section>
 	</section>
+
+	<section id="reach">
+		<title>Unreached code analysis</title>
+
+		<para>The directive:</para>
+
+		<programlisting language="cpp">#pragma TenDRA unreachable code <emphasis>allow</emphasis></programlisting>
+
+		<para>enables a flow analysis check to detect unreachable code.	It is possible
+			to assert that a statement is reached or not reached by preceding
+			it by a keyword introduced by one of the directives:</para>
+
+		<programlisting language="cpp">#pragma TenDRA keyword <emphasis>identifier</emphasis> for set reachable
+#pragma TenDRA keyword <emphasis>identifier</emphasis> for set unreachable</programlisting>
+
+		<para>The fact that certain functions, such as <code>exit</code>, do not
+			return a value can be exploited in the flow analysis routines.	The
+			equivalent directives:</para>
+
+		<programlisting language="cpp">#pragma TenDRA bottom <emphasis>identifier</emphasis>
+#pragma TenDRA++ type <emphasis>identifier</emphasis> for bottom</programlisting>
+
+		<para>can be used to introduce a <code>typedef</code> declaration for the
+			type, bottom, returned by such functions.	The TenDRA API headers
+			declare
+			<code>exit</code> and similar functions in this way, for example:</para>
+
+		<programlisting language="cpp">#pragma TenDRA bottom __bottom
+__bottom exit ( int ) ;
+__bottom abort ( void ) ;</programlisting>
+
+		<para>The bottom type is compatible with <code>void</code> in function declarations
+			to allow such functions to be redeclared in their conventional form.</para>
+	</section>
+
+	<section id="variable">
+		<title>Variable flow analysis</title>
+
+		<para>The directive:</para>
+
+		<programlisting language="cpp">#pragma TenDRA variable analysis <emphasis>on</emphasis></programlisting>
+
+		<para>enables checks on the uses of automatic variables and function parameters.
+			These checks detect:</para>
+
+		<itemizedlist>
+			<listitem>
+				<para>If a variable is not used in its scope.</para>
+			</listitem>
+
+			<listitem>
+				<para>If the value of a variable is used before it has been assigned to.</para>
+			</listitem>
+
+			<listitem>
+				<para>If a variable is assigned to twice without an intervening use.</para>
+			</listitem>
+
+			<listitem>
+				<para>If a variable is assigned to twice without an intervening sequence point.</para>
+			</listitem>
+		</itemizedlist>
+
+		<para>as illustrated by the variables <code>a</code>, <code>b</code>,
+			<code>c</code> and <code>d</code> respectively in:</para>
+
+		<programlisting language="cpp">void f ()
+{
+	int a ;        // a never used
+	int b ;
+	int c = b ;    // b not initialised
+	c = 0 ;        // c assigned to twice
+	int d = 0 ;
+	d = ++d ;      // d assigned to twice
+}</programlisting>
+
+		<para>The second, and more particularly the third, of these checks requires
+			some fairly sophisticated flow analysis, so any hints which can be
+			picked up from <link linkend="switch">exhaustive <code>switch</code>
+			statements</link> etc. is likely to increase the accuracy of the errors
+			detected.</para>
+
+		<para>In a non-static member function the various non-static data members
+			are analysed as if they were automatic variables.	It is checked that
+			each member is initialised in a constructor.	A common source of initialisation
+			problems in a constructor is that the base classes and members are
+			initialised in the canonical order of virtual bases, non-virtual direct
+			bases and members in the order of their declaration, rather than in
+			the order in which their initialisers appear in the constructor definition.
+			Therefore a check that the initialisers appear in the canonical order
+			is also applied.</para>
+
+		<para>It is possible to change the state of a variable during the variable
+			analysis using the directives:</para>
+
+		<programlisting language="cpp">#pragma TenDRA set <emphasis>expression</emphasis>
+#pragma TenDRA discard <emphasis>expression</emphasis></programlisting>
+
+		<para>The first asserts that the variable given by the <emphasis>expression</emphasis>
+			has been assigned to; the second asserts that the variable is not
+			used.	An alternative way of expressing this is by means of keywords:</para>
+
+		<programlisting language="cpp">SET ( <emphasis>expression</emphasis> )
+DISCARD ( <emphasis>expression</emphasis> )</programlisting>
+
+		<para>introduced using the directives.</para>
+
+		<programlisting language="cpp">#pragma TenDRA keyword <emphasis>identifier</emphasis> for set
+#pragma TenDRA keyword <emphasis>identifier</emphasis> for discard variable</programlisting>
+
+		<para>respectively.	These expressions can appear in expression statements
+			and as the first argument of a comma expression.</para>
+
+		<warning>
+			<para>The variable flow analysis checks have not yet been completely implemented.
+				They may not detect errors in certain circumstances and for extremely
+				convoluted code may occasionally give incorrect errors.</para>
+		</warning>
+	</section>
+
+	<section id="hide">
+		<title>Variable hiding</title>
+
+		<para>The directive:</para>
+
+		<programlisting language="cpp">#pragma TenDRA variable hiding analysis <emphasis>on</emphasis></programlisting>
+
+		<para>can be used to enable a check for hiding of other variables and, in
+			member functions, data members, by local variable declarations.</para>
+	</section>
+
+	<section id="exception">
+		<title>Exception analysis</title>
+
+		<para>The ISO C++ rules do not require exception specifications to be checked
+			statically.	This is to facilitate the integration of large systems
+			where a single change in an exception specification could have ramifications
+			throughout the system.	However it is often useful to apply such checks,
+			which can be enabled using the directive:</para>
+
+		<programlisting language="cpp">#pragma TenDRA++ throw analysis <emphasis>on</emphasis></programlisting>
+
+		<para>This detects any potentially uncaught exceptions and other exception
+			problems.	In the error messages arising from this check, an uncaught
+			exception of type <code>...</code> means that an uncaught exception
+			of an unknown type (arising, for example, from a function without
+			an exception specification) may be thrown.	For example:</para>
+
+		<programlisting language="cpp">void f ( int ) throw ( int ) ;
+void g ( int ) throw ( long ) ;
+void h ( int ) ;
+
+void e () throw ( int )
+{
+	f ( 1 ) ;	// OK
+	g ( 2 ) ;	// uncaught 'long' exception
+	h ( 3 ) ;	// uncaught '...' exception
+}</programlisting>
+	</section>
+
 </chapter>
 

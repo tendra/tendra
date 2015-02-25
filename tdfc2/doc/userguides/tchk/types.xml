@@ -570,6 +570,86 @@ void g () {
 			</section>
 		</section>
 
+	<section id="weak">
+		<title>Weak function prototypes</title>
+
+		<para>The C producer supports a concept, weak prototypes, whereby type checking
+			can be applied to the arguments of a non-prototype function.	This
+			checking can be enabled using the directive:</para>
+
+		<programlisting language="cpp">#pragma TenDRA weak prototype analysis <emphasis>on</emphasis></programlisting>
+
+		<para>The concept of weak prototypes is not applicable to C++, where all
+			functions are prototyped.	The C++ producer does allow the syntax
+			for explicit weak prototype declarations, but treats them as if they
+			were normal prototypes.	These declarations are denoted by means of
+			a keyword,
+			<code>WEAK</code> say, introduced by the directive:</para>
+
+		<programlisting language="cpp">#pragma TenDRA keyword <emphasis>identifier</emphasis> for weak</programlisting>
+
+		<para>preceding the <code>(</code> of the function declarator.	The directives:</para>
+
+		<programlisting language="cpp">#pragma TenDRA prototype <emphasis>allow</emphasis>
+#pragma TenDRA prototype (weak) <emphasis>allow</emphasis></programlisting>
+
+		<para>which can be used in the C producer to warn of prototype or weak prototype
+			declarations, are similarly ignored by the C++ producer.</para>
+
+		<para>The C producer also allows the directives:</para>
+
+		<programlisting language="cpp">#pragma TenDRA argument <emphasis>type-id</emphasis> as <emphasis>type-id</emphasis>
+#pragma TenDRA argument <emphasis>type-id</emphasis> as ...
+#pragma TenDRA extra ... <emphasis>allow</emphasis>
+#pragma TenDRA incompatible promoted function argument <emphasis>allow</emphasis></programlisting>
+
+		<para>which control the compatibility of function types.	These directives
+			are ignored by the C++ producer (some of them would make sense in
+			the context of C++ but would over-complicate function overloading).</para>
+	</section>
+
+	<section id="printf">
+		<title><code>printf</code> and <code>scanf</code>
+			argument checking</title>
+
+		<para>The C producer includes a number of checks that the arguments in a
+			call to a function in the <code>printf</code> or <code>scanf</code>
+			families match the given format string.	The check is implemented
+			by using the directives:</para>
+
+		<programlisting language="cpp">#pragma TenDRA type <emphasis>identifier</emphasis> for ... printf
+#pragma TenDRA type <emphasis>identifier</emphasis> for ... scanf</programlisting>
+
+		<para>to introduce a type representing a <code>printf</code> or <code>scanf</code>
+			format string.	For most purposes this type is treated as <code>const
+			char *</code>, but when it appears in a function declaration it alerts
+			the producer that any extra arguments passed to that function should
+			match the format string passed as the corresponding argument.	The
+			TenDRA API headers conditionally declare <code>printf</code>,
+			<code>scanf</code> and similar functions in something like the form:</para>
+
+		<programlisting language="cpp">#ifdef __NO_PRINTF_CHECKS
+		typedef const char *__printf_string ;
+		#else
+#pragma TenDRA type __printf_string for ... printf
+		#endif
+
+		int printf ( __printf_string, ... ) ;
+		int fprintf ( FILE *, __printf_string, ... ) ;
+		int sprintf ( char *, __printf_string, ... ) ;</programlisting>
+
+		<para>These declarations can be skipped, effectively disabling this check,
+			by defining the <code>__NO_PRINTF_CHECKS</code> macro.</para>
+
+		<warning>
+			<para>These <code>printf</code> and <code>scanf</code> format string checks
+				have not yet been implemented in the C++ producer due to presence
+				of an alternative, type checked, I/O package - namely
+				<code>&lt;iostream&gt;</code>.	The format string types are simply
+				treated as <code>const char *</code>.</para>
+		</warning>
+	</section>
+
 		<section>
 			<title>Checking printf strings</title>
 
@@ -905,5 +985,243 @@ int a ;</programlisting>
 				<code>allow</code>, <code>disallow</code> or <code>warning</code>.</para>
 		</section>
 	</section>
+
+	<section id="overload">
+		<title>Overloaded functions</title>
+
+		<para>Older dialects of C++ did not report ambiguous overloaded function
+			resolutions, but instead resolved the call to the first of the most
+			viable candidates to be declared.	This behaviour can be controlled
+			using the directive:</para>
+
+		<programlisting language="cpp">#pragma TenDRA++ ambiguous overload resolution <emphasis>allow</emphasis></programlisting>
+
+		<para>There are occasions when the resolution of an overloaded function
+			call is not clear.	The directive:</para>
+
+		<programlisting language="cpp">#pragma TenDRA++ overload resolution <emphasis>allow</emphasis></programlisting>
+
+		<para>can be used to report the resolution of any such call (whether explicit
+			or implicit) where there is more than one viable candidate.</para>
+
+		<para>An interesting consequence of compiling C++ in a target independent
+			manner is that certain overload resolutions can only be determined
+			at install-time. For example, in:</para>
+
+		<programlisting language="cpp">int f ( int ) ;
+		int f ( unsigned int ) ;
+		int f ( long ) ;
+		int f ( unsigned long ) ;
+
+		int a = f ( sizeof ( int ) ) ;	// which f?</programlisting>
+
+		<para>the type of the <code>sizeof</code> operator, <code>size_t</code>,
+			is target dependent, but its promotion must be one of the types
+			<code>int</code>, <code>unsigned int</code>, <code>long</code> or
+			<code>unsigned long</code>.	Thus the call to <code>f</code> always
+			has a unique resolution, but what it is is target dependent.	The
+			equivalent directives:</para>
+
+		<programlisting language="cpp">#pragma TenDRA++ conditional overload resolution <emphasis>allow</emphasis>
+#pragma TenDRA++ conditional overload resolution (complete) <emphasis>allow</emphasis></programlisting>
+
+		<para>can be used to warn about such target dependent overload resolutions.
+			By default, such resolutions are only allowed if there is a unique
+			resolution for each possible implementation of the argument types
+			(note that, for simplicity, the possibility of <code>long long</code>
+			implementation types is ignored).	The directive:</para>
+
+		<programlisting language="cpp">#pragma TenDRA++ conditional overload resolution (incomplete) <emphasis>allow</emphasis></programlisting>
+
+		<para>can be used to allow target dependent overload resolutions which only
+			have resolutions for some of the possible implementation types (if
+			one of the <code>f</code> declarations above was removed, for example).
+			If the implementation does not match one of these types then an install-time
+			error is given.</para>
+
+		<para>There are restrictions on the set of candidate functions involved
+			in a target dependent overload resolution.	Most importantly, it should
+			be possible to bring their return types to a common type, as if by
+			a series of <code>?:</code> operations.	This common type is the type
+			of the target dependent call.	By this means, target dependent types
+			are prevented from propagating further out into the program.	Note
+			that since sets of overloaded functions usually have the same semantics,
+			this does not usually present a problem.</para>
+	</section>
+
+	<section id="elab">
+		<title>Elaborated type specifiers</title>
+
+		<para>In elaborated type specifiers, the class key (<code>class</code>,
+			<code>struct</code>, <code>union</code> or <code>enum</code>) should
+			agree with any previous declaration of the type (except that <code>class</code>
+			and <code>struct</code> are interchangeable).	This requirement can
+			be relaxed using the directive:</para>
+
+		<programlisting language="cpp">#pragma TenDRA ignore struct/union/enum tag <emphasis>on</emphasis></programlisting>
+
+		<para>In ISO C and C++ it is not possible to give a forward declaration
+			of an enumeration type.	This constraint can be relaxed using the
+			directive:</para>
+
+		<programlisting language="cpp">#pragma TenDRA forward enum declaration <emphasis>allow</emphasis></programlisting>
+
+		<para>Until the end of its definition, an enumeration type is treated as
+			an incomplete type (as with class types).	In enumeration definitions,
+			and a couple of other contexts where comma-separated lists are required,
+			the directive:</para>
+
+		<programlisting language="cpp">#pragma TenDRA extra , <emphasis>allow</emphasis></programlisting>
+
+			<para>can be used to allow a trailing comma at the end of the list.</para>
+
+		<para>The directive:</para>
+
+		<programlisting language="cpp">#pragma TenDRA complete struct/union analysis <emphasis>on</emphasis></programlisting>
+
+			<para>can be used to enable a check that every class or union has been completed
+			within each translation unit in which it is declared.</para>
+	</section>
+
+	<section id="type-conversions">
+		<title>Type conversions</title>
+
+		<para>There are a number of directives which allow various classes of type
+			conversion to be checked.	The directives:</para>
+
+		<programlisting language="cpp">#pragma TenDRA conversion analysis (int-int explicit) <emphasis>on</emphasis>
+#pragma TenDRA conversion analysis (int-int implicit) <emphasis>on</emphasis></programlisting>
+
+		<para>will check for unsafe explicit or implicit conversions between arithmetic
+			types.	Similarly conversions between pointers and arithmetic types
+			can be checked using:</para>
+
+		<programlisting language="cpp">#pragma TenDRA conversion analysis (int-pointer explicit) <emphasis>on</emphasis>
+#pragma TenDRA conversion analysis (int-pointer implicit) <emphasis>on</emphasis></programlisting>
+
+		<para>or equivalently:</para>
+
+		<programlisting language="cpp">#pragma TenDRA conversion analysis (pointer-int explicit) <emphasis>on</emphasis>
+#pragma TenDRA conversion analysis (pointer-int implicit) <emphasis>on</emphasis></programlisting>
+
+		<para>Conversions between pointer types can be checked using:</para>
+
+		<programlisting language="cpp">#pragma TenDRA conversion analysis (pointer-pointer explicit) <emphasis>on</emphasis>
+#pragma TenDRA conversion analysis (pointer-pointer implicit) <emphasis>on</emphasis></programlisting>
+
+		<para>There are some further variants which can be used to enable useful
+			sets of conversion checks.	For example:</para>
+
+		<programlisting language="cpp">#pragma TenDRA conversion analysis (int-int) <emphasis>on</emphasis></programlisting>
+
+		<para>enables both implicit and explicit arithmetic conversion checks.
+			The directives:</para>
+
+		<programlisting language="cpp">#pragma TenDRA conversion analysis (int-pointer) <emphasis>on</emphasis>
+#pragma TenDRA conversion analysis (pointer-int) <emphasis>on</emphasis>
+#pragma TenDRA conversion analysis (pointer-pointer) <emphasis>on</emphasis></programlisting>
+
+		<para>are equivalent to their corresponding explicit forms (because the
+			implicit forms are illegal by default).	The directive:</para>
+
+		<programlisting language="cpp">#pragma TenDRA conversion analysis <emphasis>on</emphasis></programlisting>
+
+		<para>is equivalent to the four directives just given.	It enables checks
+			on implicit and explicit arithmetic conversions, explicit arithmetic
+			to pointer conversions and explicit pointer conversions.</para>
+
+		<para>The default settings for these checks are determined by the implicit
+			and explicit conversions allowed in C++.	Note that there are differences
+			between the conversions allowed in C and C++.	For example, an arithmetic
+			type can be converted implicitly to an enumeration type in C, but
+			not in C++.	The directive:</para>
+
+		<programlisting language="cpp">#pragma TenDRA conversion analysis (int-enum implicit) <emphasis>on</emphasis></programlisting>
+
+		<para>can be used to control the status of this conversion.	The level of
+			severity for an error message arising from such a conversion is the
+			maximum of the severity set by this directive and that set by the
+			<code>int-int implicit</code> directive above.</para>
+
+		<para>The implicit pointer conversions described above do not include conversions
+			to and from the generic pointer <code>void *</code>, which have their
+			own controlling directives.	A pointer of type <code>void *</code>
+			can be converted implicitly to another pointer type in C but not in
+			C++; this is controlled by the directive:</para>
+
+		<programlisting language="cpp">#pragma TenDRA++ conversion analysis (void*-pointer implicit) <emphasis>on</emphasis></programlisting>
+
+		<para>The reverse conversion, from a pointer type to <code>void *</code>
+			is allowed in both C and C++, and has a controlling directive:</para>
+
+		<programlisting language="cpp">#pragma TenDRA++ conversion analysis (pointer-void* implicit) <emphasis>on</emphasis></programlisting>
+
+		<para>In ISO C and C++, a function pointer can only be cast to other function
+			pointers, not to object pointers or <code>void *</code>.	Many dialects
+			however allow function pointers to be cast to and from other pointers.
+			This behaviour can be controlled using the directive:</para>
+
+		<programlisting language="cpp">#pragma TenDRA function pointer as pointer <emphasis>allow</emphasis></programlisting>
+
+			<para>which causes function pointers to be treated in the same way as all
+			other pointers.</para>
+
+		<para>The integer conversion checks described above only apply to unsafe
+			conversions.	A simple-minded check for shortening conversions is
+			not adequate, as is shown by the following example:</para>
+
+		<programlisting language="cpp">char a = 1, b = 2 ;
+		char c = a + b ;</programlisting>
+
+		<para>the sum <code>a + b</code> is evaluated as an <code>int</code> which
+			is then shortened to a <code>char</code>.	Any check which does not
+			distinguish this sort of &quot;safe&quot; shortening conversion from
+			unsafe shortening conversions such as:</para>
+
+		<programlisting language="cpp">int a = 1, b = 2 ;
+		char c = a + b ;</programlisting>
+
+		<para>is not likely to be very useful.	The producer therefore associates
+			two types with each integral expression; the first is the normal,
+			representation type and the second is the underlying, semantic type.
+			Thus in the first example, the representation type of <code>a + b</code>
+			is <code>int</code>, but semantically it is still a <code>char</code>.
+			The conversion analysis is based on the semantic types.</para>
+
+		<warning>
+			<para>The C producer supports a directive:</para>
+
+			<programlisting language="cpp">#pragma TenDRA keyword <emphasis>identifier</emphasis> for type representation</programlisting>
+
+			<para>whereby a keyword can be introduced which can be used to explicitly
+				declare a type with given representation and semantic components.
+				Unfortunately this makes the C++ grammar
+				ambiguous, so it has not yet been implemented in the C++ producer.</para>
+		</warning>
+
+		<para>It is possible to allow individual conversions by means of conversion
+			tokens.	A procedure token which takes one
+			rvalue expression program parameter and returns an rvalue expression,
+			such as:</para>
+
+		<programlisting language="cpp">#pragma token PROC ( EXP : t : ) EXP : s : conv #</programlisting>
+
+			<para>can be regarded as mapping expressions of type <code>t</code> to expressions
+			of type <code>s</code>.	The directive:</para>
+
+		<programlisting language="cpp">#pragma TenDRA conversion <emphasis>identifier-list</emphasis> allow</programlisting>
+
+		<para>can be used to nominate such a token as a conversion token.	That
+			is to say, if the conversion, whether explicit or implicit, from <code>t</code>
+			to <code>s</code> cannot be done by other means, it is done by applying
+			the token <code>conv</code>, so:</para>
+
+		<programlisting language="cpp">t a ;
+		s b = a ;		// maps to conv ( a )</programlisting>
+
+		<para>Note that, unlike conversion functions, conversion tokens can be applied
+			to any types.</para>
+	</section>
+
 </chapter>
 

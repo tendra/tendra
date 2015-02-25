@@ -309,7 +309,6 @@ int main(void) {}</programlisting>
 	<xi:include href="expressions.xml"/>
 	<xi:include href="statements.xml"/>
 	<xi:include href="functions.xml"/>
-	<xi:include href="analysis.xml"/>
 	<xi:include href="dialect.xml"/>
 	<xi:include href="miscellaneous.xml"/>
 
