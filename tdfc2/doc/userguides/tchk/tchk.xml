@@ -127,8 +127,8 @@
 	<xi:include href="introduction.xml"/>
 
 	<xi:include href="configuring.xml"/>
-	<xi:include href="types.xml"/>
 	<xi:include href="integers.xml"/>
+	<xi:include href="types.xml"/>
 	<xi:include href="flow.xml"/>
 	<xi:include href="operator.xml"/>
 	<xi:include href="variable.xml"/>
