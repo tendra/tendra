@@ -41,15 +41,6 @@
 		program analysis and interface checking which underlie the whole TenDRA
 		compilation system.</para>
 
-    <para>The warning sign:</para>
-
-	<warning>
-		<para>May contain nuts.</para>
-	</warning>
-
-	<para>is used within the document to indicate areas where the implementation
-		is currently incomplete or incorrect.</para>
-
 	<para>Since this document was originally written, the old C producer,
 		<emphasis>tdfc</emphasis>, has been replaced by a new C producer, <emphasis>tdfc2</emphasis>,
 		which is just a modified version of the C++ producer, <emphasis>tcpplus</emphasis>.
